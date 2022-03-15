@@ -7,7 +7,7 @@ location: https://istio.io/docs/reference/config/istio.operator.v1alpha1.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
 weight: 20
-number_of_entries: 63
+number_of_entries: 61
 ---
 <p>Configuration affecting Istio control plane installation version and shape.</p>
 
@@ -90,7 +90,7 @@ No
 </tr>
 <tr id="IstioOperatorSpec-tag">
 <td><code>tag</code></td>
-<td><code><a href="#TypeInterface">TypeInterface</a></code></td>
+<td><code><a href="#google-protobuf-Value">Value</a></code></td>
 <td>
 <p>Version tag for docker images e.g. <code>1.7.2</code></p>
 
@@ -139,7 +139,7 @@ No
 </tr>
 <tr id="IstioOperatorSpec-mesh_config">
 <td><code>meshConfig</code></td>
-<td><code><a href="#TypeMapStringInterface">TypeMapStringInterface</a></code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct">Struct</a></code></td>
 <td>
 <p>Config used by control plane components internally.</p>
 
@@ -162,7 +162,7 @@ No
 </tr>
 <tr id="IstioOperatorSpec-values">
 <td><code>values</code></td>
-<td><code><a href="#TypeMapStringInterface">TypeMapStringInterface</a></code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct">Struct</a></code></td>
 <td>
 <p>Overrides for default <code>values.yaml</code>. This is a validated pass-through to Helm templates.
 See the <a href="https://istio.io/v1.5/docs/reference/config/installation-options/">Helm installation options</a> for schema details.
@@ -176,7 +176,7 @@ No
 </tr>
 <tr id="IstioOperatorSpec-unvalidated_values">
 <td><code>unvalidatedValues</code></td>
-<td><code><a href="#TypeMapStringInterface">TypeMapStringInterface</a></code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct">Struct</a></code></td>
 <td>
 <p>Unvalidated overrides for default <code>values.yaml</code>. Used for custom templates where new parameters are added.</p>
 
@@ -350,7 +350,7 @@ No
 <tbody>
 <tr id="BaseComponentSpec-enabled">
 <td><code>enabled</code></td>
-<td><code><a href="#TypeBoolValueForPB">TypeBoolValueForPB</a></code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></code></td>
 <td>
 <p>Selects whether this component is installed.</p>
 
@@ -389,7 +389,7 @@ No
 <tbody>
 <tr id="ComponentSpec-enabled">
 <td><code>enabled</code></td>
-<td><code><a href="#TypeBoolValueForPB">TypeBoolValueForPB</a></code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></code></td>
 <td>
 <p>Selects whether this component is installed.</p>
 
@@ -422,7 +422,7 @@ No
 </tr>
 <tr id="ComponentSpec-tag">
 <td><code>tag</code></td>
-<td><code><a href="#TypeInterface">TypeInterface</a></code></td>
+<td><code><a href="#google-protobuf-Value">Value</a></code></td>
 <td>
 <p>Tag for the component (overrides top level tag setting).</p>
 
@@ -433,7 +433,7 @@ No
 </tr>
 <tr id="ComponentSpec-spec">
 <td><code>spec</code></td>
-<td><code><a href="#TypeInterface">TypeInterface</a></code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct">Struct</a></code></td>
 <td>
 <p>Arbitrary install time configuration for the component.</p>
 
@@ -472,7 +472,7 @@ No
 <tbody>
 <tr id="ExternalComponentSpec-enabled">
 <td><code>enabled</code></td>
-<td><code><a href="#TypeBoolValueForPB">TypeBoolValueForPB</a></code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></code></td>
 <td>
 <p>Selects whether this component is installed.</p>
 
@@ -494,7 +494,7 @@ No
 </tr>
 <tr id="ExternalComponentSpec-spec">
 <td><code>spec</code></td>
-<td><code><a href="#TypeInterface">TypeInterface</a></code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct">Struct</a></code></td>
 <td>
 <p>Arbitrary install time configuration for the component.</p>
 
@@ -555,7 +555,7 @@ No
 <tbody>
 <tr id="GatewaySpec-enabled">
 <td><code>enabled</code></td>
-<td><code><a href="#TypeBoolValueForPB">TypeBoolValueForPB</a></code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></code></td>
 <td>
 <p>Selects whether this gateway is installed.</p>
 
@@ -610,7 +610,7 @@ No
 </tr>
 <tr id="GatewaySpec-tag">
 <td><code>tag</code></td>
-<td><code><a href="#TypeInterface">TypeInterface</a></code></td>
+<td><code><a href="#google-protobuf-Value">Value</a></code></td>
 <td>
 <p>Tag for the component (overrides top level tag setting).</p>
 
@@ -1291,7 +1291,7 @@ No
 </tr>
 <tr id="ExternalMetricSource-targetValue">
 <td><code>targetValue</code></td>
-<td><code><a href="#TypeIntOrStringForPB">TypeIntOrStringForPB</a></code></td>
+<td><code><a href="#IntOrString">IntOrString</a></code></td>
 <td>
 </td>
 <td>
@@ -1300,7 +1300,7 @@ No
 </tr>
 <tr id="ExternalMetricSource-targetAverageValue">
 <td><code>targetAverageValue</code></td>
-<td><code><a href="#TypeIntOrStringForPB">TypeIntOrStringForPB</a></code></td>
+<td><code><a href="#IntOrString">IntOrString</a></code></td>
 <td>
 </td>
 <td>
@@ -1335,7 +1335,7 @@ No
 </tr>
 <tr id="HTTPGetAction-port">
 <td><code>port</code></td>
-<td><code><a href="#TypeIntOrStringForPB">TypeIntOrStringForPB</a></code></td>
+<td><code><a href="#IntOrString">IntOrString</a></code></td>
 <td>
 </td>
 <td>
@@ -1792,7 +1792,7 @@ No
 </tr>
 <tr id="ObjectMetricSource-targetValue">
 <td><code>targetValue</code></td>
-<td><code><a href="#TypeIntOrStringForPB">TypeIntOrStringForPB</a></code></td>
+<td><code><a href="#IntOrString">IntOrString</a></code></td>
 <td>
 </td>
 <td>
@@ -1810,7 +1810,7 @@ No
 </tr>
 <tr id="ObjectMetricSource-averageValue">
 <td><code>averageValue</code></td>
-<td><code><a href="#TypeIntOrStringForPB">TypeIntOrStringForPB</a></code></td>
+<td><code><a href="#IntOrString">IntOrString</a></code></td>
 <td>
 </td>
 <td>
@@ -1950,7 +1950,7 @@ No
 <tbody>
 <tr id="PodDisruptionBudgetSpec-minAvailable">
 <td><code>minAvailable</code></td>
-<td><code><a href="#TypeIntOrStringForPB">TypeIntOrStringForPB</a></code></td>
+<td><code><a href="#IntOrString">IntOrString</a></code></td>
 <td>
 </td>
 <td>
@@ -1968,7 +1968,7 @@ No
 </tr>
 <tr id="PodDisruptionBudgetSpec-maxUnavailable">
 <td><code>maxUnavailable</code></td>
-<td><code><a href="#TypeIntOrStringForPB">TypeIntOrStringForPB</a></code></td>
+<td><code><a href="#IntOrString">IntOrString</a></code></td>
 <td>
 </td>
 <td>
@@ -2003,7 +2003,7 @@ No
 </tr>
 <tr id="PodsMetricSource-targetAverageValue">
 <td><code>targetAverageValue</code></td>
-<td><code><a href="#TypeIntOrStringForPB">TypeIntOrStringForPB</a></code></td>
+<td><code><a href="#IntOrString">IntOrString</a></code></td>
 <td>
 </td>
 <td>
@@ -2180,7 +2180,7 @@ No
 </tr>
 <tr id="ResourceFieldSelector-divisor">
 <td><code>divisor</code></td>
-<td><code><a href="#TypeIntOrStringForPB">TypeIntOrStringForPB</a></code></td>
+<td><code><a href="#IntOrString">IntOrString</a></code></td>
 <td>
 </td>
 <td>
@@ -2224,7 +2224,7 @@ No
 </tr>
 <tr id="ResourceMetricSource-targetAverageValue">
 <td><code>targetAverageValue</code></td>
-<td><code><a href="#TypeIntOrStringForPB">TypeIntOrStringForPB</a></code></td>
+<td><code><a href="#IntOrString">IntOrString</a></code></td>
 <td>
 </td>
 <td>
@@ -2285,7 +2285,7 @@ No
 <tbody>
 <tr id="RollingUpdateDeployment-maxUnavailable">
 <td><code>maxUnavailable</code></td>
-<td><code><a href="#TypeIntOrStringForPB">TypeIntOrStringForPB</a></code></td>
+<td><code><a href="#IntOrString">IntOrString</a></code></td>
 <td>
 </td>
 <td>
@@ -2294,7 +2294,7 @@ No
 </tr>
 <tr id="RollingUpdateDeployment-maxSurge">
 <td><code>maxSurge</code></td>
-<td><code><a href="#TypeIntOrStringForPB">TypeIntOrStringForPB</a></code></td>
+<td><code><a href="#IntOrString">IntOrString</a></code></td>
 <td>
 </td>
 <td>
@@ -2525,7 +2525,7 @@ No
 </tr>
 <tr id="ServicePort-targetPort">
 <td><code>targetPort</code></td>
-<td><code><a href="#TypeIntOrStringForPB">TypeIntOrStringForPB</a></code></td>
+<td><code><a href="#IntOrString">IntOrString</a></code></td>
 <td>
 </td>
 <td>
@@ -2586,7 +2586,7 @@ No
 <tbody>
 <tr id="TCPSocketAction-port">
 <td><code>port</code></td>
-<td><code><a href="#TypeIntOrStringForPB">TypeIntOrStringForPB</a></code></td>
+<td><code><a href="#IntOrString">IntOrString</a></code></td>
 <td>
 </td>
 <td>
@@ -2976,29 +2976,52 @@ No
 </tbody>
 </table>
 </section>
-<h2 id="TypeInterface">TypeInterface</h2>
+<h2 id="IntOrString">IntOrString</h2>
 <section>
-<p>Synthetic type for generating Go structs.
-GOTYPE: interface{}</p>
+<p>IntOrString is a type that can hold an int32 or a string.  When used in
+JSON or YAML marshalling and unmarshalling, it produces or consumes the
+inner type.  This allows you to have, for example, a JSON field that can
+accept a name or number.</p>
 
-</section>
-<h2 id="TypeMapStringInterface">TypeMapStringInterface</h2>
-<section>
-<p>Synthetic type for generating Go structs.
-GOTYPE: map[string]interface{}</p>
-
-</section>
-<h2 id="TypeIntOrStringForPB">TypeIntOrStringForPB</h2>
-<section>
-<p>Synthetic type for generating Go structs.
-GOTYPE: *IntOrStringForPB</p>
-
-</section>
-<h2 id="TypeBoolValueForPB">TypeBoolValueForPB</h2>
-<section>
-<p>Synthetic type for generating Go structs.
-GOTYPE: *BoolValueForPB</p>
-
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="IntOrString-type">
+<td><code>type</code></td>
+<td><code>int64</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IntOrString-intVal">
+<td><code>intVal</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#int32value">Int32Value</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IntOrString-strVal">
+<td><code>strVal</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#stringvalue">StringValue</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
 </section>
 <h2 id="InstallStatus-VersionStatus">InstallStatus.VersionStatus</h2>
 <section>
@@ -3072,13 +3095,101 @@ No
 </tr>
 <tr id="K8sObjectOverlay-PathValue-value">
 <td><code>value</code></td>
-<td><code><a href="#TypeInterface">TypeInterface</a></code></td>
+<td><code><a href="#google-protobuf-Value">Value</a></code></td>
 <td>
 <p>Value to add, delete or replace.
 For add, the path should be a new leaf.
 For delete, value should be unset.
 For replace, path should reference an existing node.
 All values are strings but are converted into appropriate type based on schema.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="google-protobuf-Value">google.protobuf.Value</h2>
+<section>
+<p><code>Value</code> represents a dynamically typed value which can be either
+null, a number, a string, a boolean, a recursive struct value, or a
+list of values. A producer of value is expected to set one of that
+variants, absence of any variant indicates an error.</p>
+
+<p>The JSON representation for <code>Value</code> is JSON value.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="google-protobuf-Value-null_value" class="oneof oneof-start">
+<td><code>nullValue</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#nullvalue">NullValue (oneof)</a></code></td>
+<td>
+<p>Represents a null value.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="google-protobuf-Value-number_value" class="oneof">
+<td><code>numberValue</code></td>
+<td><code>double (oneof)</code></td>
+<td>
+<p>Represents a double value.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="google-protobuf-Value-string_value" class="oneof">
+<td><code>stringValue</code></td>
+<td><code>string (oneof)</code></td>
+<td>
+<p>Represents a string value.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="google-protobuf-Value-bool_value" class="oneof">
+<td><code>boolValue</code></td>
+<td><code>bool (oneof)</code></td>
+<td>
+<p>Represents a boolean value.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="google-protobuf-Value-struct_value" class="oneof">
+<td><code>structValue</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct">Struct (oneof)</a></code></td>
+<td>
+<p>Represents a structured value.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="google-protobuf-Value-list_value" class="oneof">
+<td><code>listValue</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#listvalue">ListValue (oneof)</a></code></td>
+<td>
+<p>Represents a repeated <code>Value</code>.</p>
 
 </td>
 <td>
