@@ -222,7 +222,7 @@ $ istioctl kube-inject --filename @samples/security/spire/sleep-spire.yaml | kub
 {{< /text >}}
 
 Note that the workload will need the SPIFFE CSI Driver volume to access the SPIRE Agent socket. To accomplish this,
-you can leverage the spire template pod annotation from [Install Istio](#install-istio) section or add the csi volume to
+you can leverage the `spire` pod annotation template from [Install Istio](#install-istio) section or add the CSI volume to
 the deployment spec of your workload. Both of these alternatives are highlighted on the example snippet below:
 
 {{< text yaml >}}
