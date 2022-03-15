@@ -11,7 +11,7 @@ test: no
 
 [SPIRE](https://spiffe.io/docs/latest/spire-about/spire-concepts/) is a production-ready implementation of the SPIFFE specification that performs node and workload attestation in order to securely
 issue cryptographic identities to workloads running in heterogeneous environments. SPIRE can be configured as a source of cryptographic identities for Istio workloads through an integration with
-[Envoy's SDS API](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret). Istio can detect the existence of a UNIX domain socket that implements the Envoy SDS API on a defined
+[Envoy's SDS API](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret). Istio can detect the existence of a UNIX Domain Socket that implements the Envoy SDS API on a defined
 socket path, allowing Envoy to communicate and fetch identities directly from it.
 
 This integration with SPIRE provides flexible attestation options not available with the default Istio identity management while harnessing Istio's powerful service management.
@@ -30,7 +30,7 @@ Istio provides a basic sample installation to quickly get SPIRE up and running:
 $ kubectl apply -f @samples/security/spire/spire-quickstart.yaml
 {{< /text >}}
 
-This will deploy SPIRE into your cluster, along with two additional components: the [SPIFFE CSI Driver](https://github.com/spiffe/spiffe-csi) — used to share the SPIRE Agent's UNIX domain socket with the other
+This will deploy SPIRE into your cluster, along with two additional components: the [SPIFFE CSI Driver](https://github.com/spiffe/spiffe-csi) — used to share the SPIRE Agent's UNIX Domain Socket with the other
 pods throughout the node — and the [SPIRE Kubernetes Workload Registrar](https://github.com/spiffe/spire/tree/main/support/k8s/k8s-workload-registrar), a facilitator that performs automatic workload registration
 within Kubernetes. See [Install Istio](#install-istio) to configure Istio and integrate with the SPIFFE CSI Driver.
 
@@ -359,7 +359,7 @@ $ openssl x509 -in chain.pem -text | grep SPIRE
 SPIRE Servers are able to authenticate SPIFFE identities originated from different trust domains. This is known as SPIFFE federation.
 
 SPIRE Agent can be configured to push federated bundles to Envoy through the Envoy SDS API, allowing Envoy to use [validation context](https://spiffe.io/docs/latest/microservices/envoy/#validation-context)
-to verify peer certificates and trust a workload from another trust domain.   
+to verify peer certificates and trust a workload from another trust domain.
 To enable Istio to federate SPIFFE identities through SPIRE integration, consult [SPIRE Agent SDS configuration](https://github.com/spiffe/spire/blob/main/doc/spire_agent.md#sds-configuration) and set the following
 SDS configuration values for your SPIRE Agent configuration file.
 
