@@ -16,7 +16,7 @@ This functionality is also available for services running outside of Kubernetes.
 
 ## Getting started
 
-This feature is not currently enabled by default. To enable it, install Istio with the following settings:
+This feature is not currently enabled by default. To enable it mesh-wide, install Istio with the following settings:
 
 {{< text bash >}}
 $ cat <<EOF | istioctl install -y -f -
@@ -31,6 +31,20 @@ spec:
         # Enable automatic address allocation, optional
         ISTIO_META_DNS_AUTO_ALLOCATE: "true"
 EOF
+{{< /text >}}
+
+To enable on a specific namespace, add a [`ProxyConfig` resource](/docs/reference/config/networking/proxy-config/):
+
+{{< text yaml >}}
+apiVersion: networking.istio.io/v1beta1
+kind: ProxyConfig
+metadata:
+  name: proxy-dns
+  namespace: my-app-namespace
+spec:
+  environmentVariables:
+    ISTIO_META_DNS_CAPTURE: "true"
+    ISTIO_META_DNS_AUTO_ALLOCATE: "true"
 {{< /text >}}
 
 This can also be enabled on a per-pod basis with the [`proxy.istio.io/config` annotation](/docs/reference/config/annotations/).
