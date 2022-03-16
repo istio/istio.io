@@ -120,7 +120,7 @@ Istio will use the following default access log format if `accessLogFormat` is n
 
 The following table shows an example using the default access log format for a request sent from `sleep` to `httpbin`:
 
-{{<fixed-table "command-flags">}}
+{{<fixed-table "fixed-table">}}
 | Log operator | access log in sleep | access log in httpbin |
 |--------------|---------------------|-----------------------|
 | `[%START_TIME%]` | `[2020-11-25T21:26:18.409Z]` | `[2020-11-25T21:26:18.409Z]`
