@@ -2044,8 +2044,8 @@ No
 <td><code><a href="#HTTPRedirect-RedirectPortSelection">RedirectPortSelection (oneof)</a></code></td>
 <td>
 <p>On a redirect, dynamically set the port:
-* FROM<em>PROTOCOL</em>DEFAULT: automatically set to 80 for HTTP and 443 for HTTPS.
-* FROM<em>REQUEST</em>PORT: automatically use the port of the request.</p>
+* FROM_PROTOCOL_DEFAULT: automatically set to 80 for HTTP and 443 for HTTPS.
+* FROM_REQUEST_PORT: automatically use the port of the request.</p>
 
 </td>
 <td>
@@ -2324,7 +2324,7 @@ No
 <td>
 <p>Specifies the conditions under which retry takes place.
 One or more policies can be specified using a ‘,’ delimited list.
-If <code>retry_on</code> specifies a valid HTTP status, it will be added to retriable<em>status</em>codes retry policy.
+If <code>retry_on</code> specifies a valid HTTP status, it will be added to retriable_status_codes retry policy.
 See the <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/router_filter#x-envoy-retry-on">retry policies</a>
 and <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/router_filter#x-envoy-retry-grpc-on">gRPC retry policies</a> for more details.</p>
 
