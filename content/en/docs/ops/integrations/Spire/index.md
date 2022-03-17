@@ -187,7 +187,7 @@ To improve workload attestation security robustness, SPIRE is able to verify aga
     Selector         : k8s_psat:agent_ns:spire
     Selector         : k8s_psat:agent_sa:spire-agent
     Selector         : k8s_psat:cluster:demo-cluster
-    {{</ text >}}
+    {{< /text >}}
 
 1. Register an entry for the Ingress-gateway pod:
 
@@ -213,7 +213,7 @@ To improve workload attestation security robustness, SPIRE is able to verify aga
     Selector         : k8s:sa:`istio-ingressgateway-service-account`
     DNS name         : `istio-ingressgateway`.istio-system.svc
     DNS name         : `istio-ingressgateway-c48554dd6-cff5z`
-    {{</ text >}}
+    {{< /text >}}
 
 1. Deploy an example workload:
 
