@@ -181,6 +181,10 @@ tr td:last-child {
     word-break: break-word;
 }
 
+tr td:last-child code {
+    word-break: break-word;
+}
+
 thead+tbody tr:first-child td:first-child {
     border-radius: 0;
 }
