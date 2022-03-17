@@ -819,9 +819,9 @@ No
 <td><code>string (oneof)</code></td>
 <td>
 <p>The SPIFFE bundle endpoint URL that complies to:
-https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE<em>Trust</em>Domain<em>and</em>Bundle.md#the-spiffe-trust-domain-and-bundle
+https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE_Trust_Domain_and_Bundle.md#the-spiffe-trust-domain-and-bundle
 The endpoint should support authentication based on Web PKI:
-https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE<em>Trust</em>Domain<em>and</em>Bundle.md#521-web-pki
+https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE_Trust_Domain_and_Bundle.md#521-web-pki
 The certificate is retrieved from the endpoint.</p>
 
 </td>
@@ -849,12 +849,12 @@ No
 <p>Optional. Specify the list of trust domains to which this trustAnchor data belongs.
 If set, they are used for these trust domains. Otherwise, this trustAnchor is used for default trust domain
 and its aliases.
-Note that we can have multiple trustAnchor data for a same trust<em>domain.
+Note that we can have multiple trustAnchor data for a same trust_domain.
 In that case, trustAnchors with a same trust domain will be merged and used together to verify peer certificates.
-If neither cert</em>signers nor trust<em>domains is set, this trustAnchor is used for all trust domains and all signers.
-If only trust</em>domains is set, this trustAnchor is used for these trust<em>domains and all signers.
-If only cert</em>signers is set, this trustAnchor is used for these cert<em>signers and all trust domains.
-If both cert</em>signers and trust_domains is set, this trustAnchor is only used for these signers and trust domains.</p>
+If neither cert_signers nor trust_domains is set, this trustAnchor is used for all trust domains and all signers.
+If only trust_domains is set, this trustAnchor is used for these trust_domains and all signers.
+If only cert_signers is set, this trustAnchor is used for these cert_signers and all trust domains.
+If both cert_signers and trust_domains is set, this trustAnchor is only used for these signers and trust domains.</p>
 
 </td>
 <td>
@@ -932,8 +932,8 @@ No
 <td><code>tlsSettings</code></td>
 <td><code><a href="/docs/reference/config/networking/destination-rule/#ClientTLSSettings">ClientTLSSettings</a></code></td>
 <td>
-<p>Use the tls<em>settings to specify the tls mode to use.
-Regarding tls</em>settings:
+<p>Use the tls_settings to specify the tls mode to use.
+Regarding tls_settings:
 - DISABLE MODE is legitimate for the case Istiod is making the request via an Envoy sidecar.
 DISABLE MODE can also be used for testing
 - TLS MUTUAL MODE be on by default. If the CA certificates
@@ -1282,10 +1282,10 @@ No
 <td><code>uint32</code></td>
 <td>
 <p>Sets the maximum size of a message body that the ext-authz filter will hold in memory.
-If max<em>request</em>bytes is reached, and allow<em>partial</em>message is false, Envoy will return a 413 (Payload Too Large).
+If max_request_bytes is reached, and allow_partial_message is false, Envoy will return a 413 (Payload Too Large).
 Otherwise the request will be sent to the provider with a partial message.
-Note that this setting will have precedence over the fail<em>open field, the 413 will be returned even when the
-fail</em>open is set to true.</p>
+Note that this setting will have precedence over the fail_open field, the 413 will be returned even when the
+fail_open is set to true.</p>
 
 </td>
 <td>
@@ -1296,7 +1296,7 @@ No
 <td><code>allowPartialMessage</code></td>
 <td><code>bool</code></td>
 <td>
-<p>When this field is true, ext-authz filter will buffer the message until max<em>request</em>bytes is reached.
+<p>When this field is true, ext-authz filter will buffer the message until max_request_bytes is reached.
 The authorization request will be dispatched and no 413 HTTP error will be returned by the filter.
 A &ldquo;x-envoy-auth-partial-body: false|true&rdquo; metadata header will be added to the authorization request message
 indicating if the body data is partial.</p>
@@ -1311,9 +1311,9 @@ No
 <td><code>bool</code></td>
 <td>
 <p>If true, the body sent to the external authorization service in the gRPC authorization request is set with raw bytes
-in the raw<em>body field (https://github.com/envoyproxy/envoy/blame/cffb095d59d7935abda12b9509bcd136808367bb/api/envoy/service/auth/v3/attribute</em>context.proto#L153).
-Otherwise, it will be filled with UTF-8 string in the body field (https://github.com/envoyproxy/envoy/blame/cffb095d59d7935abda12b9509bcd136808367bb/api/envoy/service/auth/v3/attribute<em>context.proto#L147).
-This field only works with the envoy</em>ext<em>authz</em>grpc provider and has no effect for the envoy<em>ext</em>authz_http provider.</p>
+in the raw_body field (https://github.com/envoyproxy/envoy/blame/cffb095d59d7935abda12b9509bcd136808367bb/api/envoy/service/auth/v3/attribute_context.proto#L153).
+Otherwise, it will be filled with UTF-8 string in the body field (https://github.com/envoyproxy/envoy/blame/cffb095d59d7935abda12b9509bcd136808367bb/api/envoy/service/auth/v3/attribute_context.proto#L147).
+This field only works with the envoy_ext_authz_grpc provider and has no effect for the envoy_ext_authz_http provider.</p>
 
 </td>
 <td>
@@ -1417,7 +1417,7 @@ No
 <td><code>includeHeadersInCheck</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>DEPRECATED. Use include<em>request</em>headers<em>in</em>check instead.</p>
+<p>DEPRECATED. Use include_request_headers_in_check instead.</p>
 
 </td>
 <td>
@@ -1432,14 +1432,14 @@ No
 Note that in addition to the headers specified here following headers are included by default:
 1. <em>Host</em>, <em>Method</em>, <em>Path</em> and <em>Content-Length</em> are automatically sent.
 2. <em>Content-Length</em> will be set to 0 and the request will not have a message body. However, the authorization
-request can include the buffered client request body (controlled by include<em>request</em>body<em>in</em>check setting),
+request can include the buffered client request body (controlled by include_request_body_in_check setting),
 consequently the value of Content-Length of the authorization request reflects the size of its payload size.</p>
 
 <p>Exact, prefix and suffix matches are supported (similar to the authorization policy rule syntax except the presence match
 https://istio.io/latest/docs/reference/config/security/authorization-policy/#Rule):
 - Exact match: &ldquo;abc&rdquo; will match on value &ldquo;abc&rdquo;.
-- Prefix match: &ldquo;abc<em>&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;abcd&rdquo;.
-- Suffix match: &ldquo;</em>abc&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;xabc&rdquo;.</p>
+- Prefix match: &ldquo;abc*&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;abcd&rdquo;.
+- Suffix match: &ldquo;*abc&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;xabc&rdquo;.</p>
 
 </td>
 <td>
@@ -1452,7 +1452,7 @@ No
 <td>
 <p>Set of additional fixed headers that should be included in the authorization request sent to the authorization service.
 Key is the header name and value is the header value.
-Note that client request of the same key or headers specified in include<em>request</em>headers<em>in</em>check will be overridden.</p>
+Note that client request of the same key or headers specified in include_request_headers_in_check will be overridden.</p>
 
 </td>
 <td>
@@ -1482,8 +1482,8 @@ Note, any existing headers will be overridden.</p>
 <p>Exact, prefix and suffix matches are supported (similar to the authorization policy rule syntax except the presence match
 https://istio.io/latest/docs/reference/config/security/authorization-policy/#Rule):
 - Exact match: &ldquo;abc&rdquo; will match on value &ldquo;abc&rdquo;.
-- Prefix match: &ldquo;abc<em>&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;abcd&rdquo;.
-- Suffix match: &ldquo;</em>abc&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;xabc&rdquo;.</p>
+- Prefix match: &ldquo;abc*&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;abcd&rdquo;.
+- Suffix match: &ldquo;*abc&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;xabc&rdquo;.</p>
 
 </td>
 <td>
@@ -1505,8 +1505,8 @@ Note, the body from the authorization service is always included in the response
 <p>Exact, prefix and suffix matches are supported (similar to the authorization policy rule syntax except the presence match
 https://istio.io/latest/docs/reference/config/security/authorization-policy/#Rule):
 - Exact match: &ldquo;abc&rdquo; will match on value &ldquo;abc&rdquo;.
-- Prefix match: &ldquo;abc<em>&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;abcd&rdquo;.
-- Suffix match: &ldquo;</em>abc&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;xabc&rdquo;.</p>
+- Prefix match: &ldquo;abc*&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;abcd&rdquo;.
+- Suffix match: &ldquo;*abc&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;xabc&rdquo;.</p>
 
 </td>
 <td>
@@ -1525,8 +1525,8 @@ Note, any existing headers will be overridden.</p>
 <p>Exact, prefix and suffix matches are supported (similar to the authorization policy rule syntax except the presence match
 https://istio.io/latest/docs/reference/config/security/authorization-policy/#Rule):
 - Exact match: &ldquo;abc&rdquo; will match on value &ldquo;abc&rdquo;.
-- Prefix match: &ldquo;abc<em>&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;abcd&rdquo;.
-- Suffix match: &ldquo;</em>abc&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;xabc&rdquo;.</p>
+- Prefix match: &ldquo;abc*&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;abcd&rdquo;.
+- Suffix match: &ldquo;*abc&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;xabc&rdquo;.</p>
 
 </td>
 <td>
@@ -2064,8 +2064,8 @@ No
 <td>
 <p>Optional. The friendly name of the access log.
 Defaults:
--  &ldquo;http<em>envoy</em>accesslog&rdquo;
--  &ldquo;listener<em>envoy</em>accesslog&rdquo;</p>
+-  &ldquo;http_envoy_accesslog&rdquo;
+-  &ldquo;listener_envoy_accesslog&rdquo;</p>
 
 </td>
 <td>
@@ -2167,8 +2167,8 @@ No
 <td>
 <p>Optional. The friendly name of the access log.
 Defaults:
-- &ldquo;tcp<em>envoy</em>accesslog&rdquo;
-- &ldquo;listener<em>envoy</em>accesslog&rdquo;</p>
+- &ldquo;tcp_envoy_accesslog&rdquo;
+- &ldquo;listener_envoy_accesslog&rdquo;</p>
 
 </td>
 <td>
@@ -2236,7 +2236,7 @@ No
 <td>
 <p>Optional. The friendly name of the access log.
 Defaults:
-- &ldquo;otel<em>envoy</em>accesslog&rdquo;</p>
+- &ldquo;otel_envoy_accesslog&rdquo;</p>
 
 </td>
 <td>
@@ -2328,7 +2328,7 @@ No
 can be used as values for fields within the Struct. Values are rendered
 as strings, numbers, or boolean values, as appropriate
 (see: <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#config-access-log-format-dictionaries">format dictionaries</a>). Nested JSON is
-supported for some command operators (e.g. FILTER<em>STATE or DYNAMIC</em>METADATA).</p>
+supported for some command operators (e.g. FILTER_STATE or DYNAMIC_METADATA).</p>
 
 <p>Example:</p>
 
@@ -2381,7 +2381,7 @@ Structured format for the envoy access logs. Envoy <a href="https://www.envoypro
 can be used as values for fields within the Struct. Values are rendered
 as strings, numbers, or boolean values, as appropriate
 (see: <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#config-access-log-format-dictionaries">format dictionaries</a>). Nested JSON is
-supported for some command operators (e.g. FILTER<em>STATE or DYNAMIC</em>METADATA).
+supported for some command operators (e.g. FILTER_STATE or DYNAMIC_METADATA).
 Alias to <code>attributes</code> filed in <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/access_loggers/open_telemetry/v3/logs_service.proto">Open Telemetry</a></p>
 
 <p>Example:</p>
