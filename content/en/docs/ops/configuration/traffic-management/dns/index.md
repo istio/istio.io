@@ -34,8 +34,9 @@ At this point, Istio will see both the hostname (from a `Host: example.com` head
 Istio uses this information to determine the intended destination.
 [Understanding Traffic Routing](/docs/ops/configuration/traffic-management/traffic-routing/) gives a deep dive into how this behavior works.
 
-If the client was unable to resolve the DNS request, the request would terminate before Istio recieves it.
+If the client was unable to resolve the DNS request, the request would terminate before Istio receives it.
 This means that if a request is sent to a hostname which is known to Istio (for example, by a `VirtualService`), but not to the DNS server, the request will fail.
+Istio [DNS proxying](#dns-proxying) can change this behavior.
 
 Once Istio has identified the intended destination, it must choose which address to send to.
 Because of Istio's advanced [load balancing capabilities](/docs/concepts/traffic-management/#load-balancing-options), this is often not the original IP address the client sent.
