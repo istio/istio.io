@@ -37,7 +37,7 @@ Istio uses this information to determine the intended destination.
 If the client was unable to resolve the DNS request, the request would terminate before Istio recieves it.
 This means that if a request is sent to a hostname which is known to Istio (for example, by a `VirtualService`), but not to the DNS server, the request will fail.
 
-Once Istio has identified the intended destination, Istio must chose which address to send to.
+Once Istio has identified the intended destination, it must choose which address to send to.
 Because of Istio's advanced [load balancing capabilities](/docs/concepts/traffic-management/#load-balancing-options), this is often not the original IP address the client sent.
 Depending on the service configuration, there are a few different ways Istio does this.
 
