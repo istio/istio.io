@@ -233,7 +233,7 @@ spec:
       annotations:
         sidecar.istio.io/proxyCPU: "200m"
         sidecar.istio.io/proxyMemoryLimit: "5Gi"
-{{< /text>}}
+{{< /text >}}
 
 {{< text yaml >}}
 spec:
