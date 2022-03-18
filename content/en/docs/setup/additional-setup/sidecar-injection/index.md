@@ -221,8 +221,8 @@ In general, any field in a pod can be set. However, care must be taken for certa
 
 Additionally, certain fields are configurable by [annotations](/docs/reference/config/annotations/) on the pod, although it is recommended to use the above approach to customizing settings. Additional care must be taken for certain annotations:
 
-* If `sidecar.istio.io/proxyCPU` is set, make sure to explicitly set `sidecar.istio.io/proxyCPULimit`. Otherwise the missing resource will be set as unlimited.
-* If `sidecar.istio.io/proxyMemory` is set, make sure to explicitly set `sidecar.istio.io/proxyMemoryLimit`. Otherwise the missing resource will be set as unlimited.
+* If `sidecar.istio.io/proxyCPU` is set, make sure to explicitly set `sidecar.istio.io/proxyCPULimit`. Otherwise the resource's cpu limit will be set as unlimited.
+* If `sidecar.istio.io/proxyMemory` is set, make sure to explicitly set `sidecar.istio.io/proxyMemoryLimit`. Otherwise the resources's memory limit will be set as unlimited.
 
 For example, see the below incomplete resources annotation configuration and the corresponding injected resource settings:
 
