@@ -2,17 +2,17 @@
 title: Understanding DNS
 linktitle: DNS
 description: How DNS interacts with Istio.
-weight: 30
+weight: 31
 keywords: [traffic-management,proxy]
 owner: istio/wg-networking-maintainers
 test: n/a
 ---
 
-Istio interacts with DNS in various different ways that can be confusing to understand.
+Istio interacts with DNS in different ways that can be confusing to understand.
 This document provides a deep dive into how Istio and DNS work together.
 
 {{< warning >}}
-This document describes low level implementation details. For a higher level overview, check out the traffic management [Concepts](/docs/concepts/traffic-management/) or [Tasks](/docs/tasks/traffic-management/).
+This document describes low level implementation details. For a higher level overview, check out the traffic management [Concepts](/docs/concepts/traffic-management/) or [Tasks](/docs/tasks/traffic-management/) pages.
 {{< /warning >}}
 
 ## Life of a request
@@ -31,10 +31,10 @@ $ curl example.com -v
 
 Next, the request will be intercepted by Istio.
 At this point, Istio will see both the hostname (from a `Host: example.com` header), and the destination address (`192.0.2.0:80`).
-Istio uses this information to determine what the intended destination is.
+Istio uses this information to determine the intended destination.
 [Understanding Traffic Routing](/docs/ops/configuration/traffic-management/traffic-routing/) gives a deep dive into how this behavior works.
 
-Once we have identified the intended destination, Istio much chose which address to send to.
+Once Istio has identified the intended destination, Istio must chose which address to send to.
 Because of Istio's advanced [load balancing capabilities](/docs/concepts/traffic-management/#load-balancing-options), this is often not the original IP address the client sent.
 Depending on the service configuration, there are a few different ways Istio does this.
 
@@ -53,14 +53,14 @@ a static list of IPs or by doing its own DNS resolution (potentially of the same
 
 Unlike most clients, which will do DNS requests on demand at the time of requests (and then typically cache the results),
 the Istio proxy never does synchronous DNS requests.
-When a `resolution: DNS` type `ServiceEntry` is configured, the proxy will periodically resolve the configured hostnames and used those for all requests.
+When a `resolution: DNS` type `ServiceEntry` is configured, the proxy will periodically resolve the configured hostnames and use those for all requests.
 This interval is determined by the [TTL](https://en.wikipedia.org/wiki/Time_to_live#DNS_records) of the DNS response.
 This happens even if the proxy never sends any requests to these applications.
 
-For meshes with many proxies or many `resolution: DNS` type `ServiceEntries`, especially when low `TTL`s are used, this may cause high load on DNS servers.
+For meshes with many proxies or many `resolution: DNS` type `ServiceEntries`, especially when low `TTL`s are used, this may cause a high load on DNS servers.
 In these cases, the following can help reduce the load:
 
-* Switch to `resolution: NONE`, to avoid proxy DNS lookups entirely. This is suitable for many use cases.
+* Switch to `resolution: NONE` to avoid proxy DNS lookups entirely. This is suitable for many use cases.
 * If you control the domains being resolved, increase their TTL.
 * If your `ServiceEntry` is only needed by a few workloads, limit its scope with `exportTo` or a [`Sidecar`](/docs/reference/config/networking/sidecar/).
 
