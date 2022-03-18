@@ -35,7 +35,7 @@ Istio uses this information to determine the intended destination.
 [Understanding Traffic Routing](/docs/ops/configuration/traffic-management/traffic-routing/) gives a deep dive into how this behavior works.
 
 If the client was unable to resolve the DNS request, the request would terminate before Istio receives it.
-This means that if a request is sent to a hostname which is known to Istio (for example, by a `VirtualService`), but not to the DNS server, the request will fail.
+This means that if a request is sent to a hostname which is known to Istio (for example, by a `VirtualService`) but not to the DNS server, the request will fail.
 Istio [DNS proxying](#dns-proxying) can change this behavior.
 
 Once Istio has identified the intended destination, it must choose which address to send to.
@@ -72,7 +72,7 @@ In these cases, the following can help reduce the load:
 
 Istio offers a feature to [proxy DNS requests](/docs/ops/configuration/traffic-management/dns-proxy/).
 This allows Istio to capture DNS requests sent by the client and return a response directly.
-This can improve DNS latency, reduce load, and allow `ServiceEntry`s, which otherwise would not be known to `kube-dns`, to be resolved.
+This can improve DNS latency, reduce load, and allow `ServiceEntries`, which otherwise would not be known to `kube-dns`, to be resolved.
 
 Note this proxying only applies to DNS requests sent by user applications; when `resolution: DNS` type `ServiceEntries` are used,
 the proxy has no impact on the DNS resolution of the Istio proxy.
