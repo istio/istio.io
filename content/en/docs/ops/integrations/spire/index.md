@@ -1,7 +1,7 @@
 ---
 title: SPIRE
 description: Describes how to configure Istio to integrate with SPIRE to get cryptographic identities through Envoy's SDS API.
-weight: 40
+weight: 31
 keywords: [kubernetes,spiffe,spire]
 aliases:
 owner: istio/wg-networking-maintainers
@@ -134,18 +134,18 @@ Note that you must deploy SPIRE before installing Istio into your environment so
     istiod-989f54d9c-sg7sn                  1/1     Running   0          23s
     {{< /text >}}
 
-Data plane containers will only reach the `Ready` if a corresponding registration entry is created for them on the SPIRE Server. Then,
+Data plane containers will only reach `Ready` if a corresponding registration entry is created for them on the SPIRE Server. Then,
 Envoy will be able to fetch cryptographic identities from SPIRE.
 See [Register workloads](#register-workloads) to register entries for services in your mesh.
 
 ## Register workloads
 
-This section describes the options available for registering workloads in SPIRE Server.
+This section describes the options available for registering workloads in a SPIRE Server.
 
 ### Option 1: Automatic registration using the SPIRE workload registrar
 
 By deploying [SPIRE Kubernetes Workload Registrar](https://github.com/spiffe/spire/tree/main/support/k8s/k8s-workload-registrar)
-along with SPIRE Server, new entries are automatically registered for each new pod that is created.
+along with a SPIRE Server, new entries are automatically registered for each new pod that is created.
 
 See [Verifying that identities were created for workloads](#verifying-that-identities-were-created-for-workloads)
 to check issued identities.
@@ -212,7 +212,7 @@ To improve workload attestation security robustness, SPIRE is able to verify aga
     Selector         : k8s:pod-uid:63c2bbf5-a8b1-4b1f-ad64-f62ad2a69807
     Selector         : k8s:sa:istio-ingressgateway-service-account
     DNS name         : istio-ingressgateway.istio-system.svc
-    DNS name         : istio-ingressgateway-c48554dd6-cff5z
+    DNS name         : istio-ingressgateway-5b45864fd4-lgrxs
     {{< /text >}}
 
 1. Deploy an example workload:
@@ -222,7 +222,7 @@ To improve workload attestation security robustness, SPIRE is able to verify aga
     {{< /text >}}
 
     Note that the workload will need the SPIFFE CSI Driver volume to access the SPIRE Agent socket. To accomplish this,
-    you can leverage the `spire` pod annotation template from [Install Istio](#install-istio) section or add the CSI volume to
+    you can leverage the `spire` pod annotation template from the [Install Istio](#install-istio) section or add the CSI volume to
     the deployment spec of your workload. Both of these alternatives are highlighted on the example snippet below:
 
     {{< text yaml >}}
@@ -305,7 +305,7 @@ TTL              : default
 Selector         : k8s:ns:istio-system
 Selector         : k8s:pod-uid:88b71387-4641-4d9c-9a89-989c88f7509d
 Selector         : k8s:sa:istio-ingressgateway-service-account
-DNS name         : istio-ingressgateway-c48554dd6-cff5z
+DNS name         : istio-ingressgateway-5b45864fd4-lgrxs
 
 Entry ID         : af7b53dc-4cc9-40d3-aaeb-08abbddd8e54
 SPIFFE ID        : spiffe://example.org/ns/default/sa/sleep
@@ -342,7 +342,7 @@ After registering an entry for the Ingress-gateway pod, Envoy receives the ident
 1. Retrieve sleep's SVID identity document using the istioctl proxy-config secret command:
 
     {{< text bash >}}
-    $ istioctl pc secret $SLEEP_POD -o json | jq -r \
+    $ istioctl proxy-config secret $SLEEP_POD -o json | jq -r \
     '.dynamicActiveSecrets[0].secret.tlsCertificate.certificateChain.inlineBytes' | base64 --decode > chain.pem
     {{< /text >}}
 
@@ -350,12 +350,12 @@ After registering an entry for the Ingress-gateway pod, Envoy receives the ident
 
     {{< text bash >}}
     $ openssl x509 -in chain.pem -text | grep SPIRE
-        Subject: C = US, O = SPIRE, CN = sleep-5d6df95bbf-kt2tt
+        Subject: C = US, O = SPIRE, CN = sleep-5f4d47c948-njvpk
     {{< /text >}}
 
 ## SPIFFE Federation
 
-SPIRE Servers are able to authenticate SPIFFE identities originated from different trust domains. This is known as SPIFFE federation.
+SPIRE Servers are able to authenticate SPIFFE identities originating from different trust domains. This is known as SPIFFE federation.
 
 SPIRE Agent can be configured to push federated bundles to Envoy through the Envoy SDS API, allowing Envoy to use [validation context](https://spiffe.io/docs/latest/microservices/envoy/#validation-context)
 to verify peer certificates and trust a workload from another trust domain.
