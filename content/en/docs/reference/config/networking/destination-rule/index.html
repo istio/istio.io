@@ -152,6 +152,56 @@ spec:
         simple: ROUND_ROBIN
 </code></pre>
 
+<p>{{</tab>}}</p>
+
+<p>Destination Rules can be customized to specific workloads as well.
+The following example shows how a destination rule can be applied to a
+specific workload using the workloadSelector configuration.</p>
+
+<p>{{<tabset category-name="selector-example">}}
+{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
+
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: configure-client-mtls-dr-with-workloadselector
+  workloadSelector:
+    labels:
+      app: ratings
+  spec:
+    trafficPolicy:
+      loadBalancer:
+        simple: ROUND_ROBIN
+      portLevelSettings:
+        - port:
+            number: 31443
+          tls:
+            credentialName: client-credential
+            mode: MUTUAL
+</code></pre>
+
+<p>{{</tab>}}
+{{<tab name="v1beta1" category-value="v1beta1">}}</p>
+
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: configure-client-mtls-dr-with-workloadselector
+  workloadSelector:
+    labels:
+      app: ratings
+  spec:
+    trafficPolicy:
+      loadBalancer:
+        simple: ROUND_ROBIN
+      portLevelSettings:
+        - port:
+            number: 31443
+          tls:
+            credentialName: client-credential
+            mode: MUTUAL
+</code></pre>
+
 <p>{{</tab>}}
 {{</tabset>}}</p>
 
@@ -238,6 +288,24 @@ namespaces by default.</p>
 <p>The value &ldquo;.&rdquo; is reserved and defines an export to the same namespace that
 the destination rule is declared in. Similarly, the value &ldquo;*&rdquo; is reserved and
 defines an export to all namespaces.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="DestinationRule-workload_selector">
+<td><code>workloadSelector</code></td>
+<td><code><a href="/docs/reference/config/type/workload-selector/#WorkloadSelector">WorkloadSelector</a></code></td>
+<td>
+<p>Criteria used to select the specific set of pods/VMs on which this
+ <code>DestinationRule</code> configuration should be applied. If specified, the <code>DestinationRule</code>
+ configuration will be applied only to the workload instances matching the workload selector
+ label in the same namespace. Workload selectors do not apply across namespace boundaries.
+ If omitted, the <code>DestinationRule</code> falls back to its default behavior.
+ For example, if specific sidecars need to have egress TLS settings for services outside
+ of the mesh, instead of every sidecar in the mesh needing to have the
+ configuration (which is the default behaviour), a workload selector can be specified.</p>
 
 </td>
 <td>
