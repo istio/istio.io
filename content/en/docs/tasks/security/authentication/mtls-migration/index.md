@@ -13,7 +13,7 @@ This task shows how to ensure your workloads only communicate using mutual TLS a
 Istio.
 
 Istio automatically configures workload sidecars to use [mutual TLS](/docs/tasks/security/authentication/authn-policy/#auto-mutual-tls) when calling other workloads. By default, Istio configures the destination workloads using `PERMISSIVE` mode.
-When `PERMISSIVE` mode is enabled, a service can accept both plain text and mutual TLS traffic. In order to only allow
+When `PERMISSIVE` mode is enabled, a service can accept both plaintext and mutual TLS traffic. In order to only allow
 mutual TLS traffic, the configuration needs to be changed to `STRICT` mode.
 
 You can use the [Grafana dashboard](/docs/tasks/observability/metrics/using-istio-dashboard/) to
