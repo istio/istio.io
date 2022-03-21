@@ -1,6 +1,6 @@
 ---
 title: "Register now for IstioCon 2022!"
-description: The conference will take place at the end of April, and the first 400 participants are eligible to receive a conference t-shirt!
+description: The conference will take place at the end of April, and the first 400 participants will receive a conference t-shirt.
 publishdate: 2022-03-21
 attribution: "IstioCon Organizers Committee"
 keywords: [IstioCon,Istio,conference]
@@ -14,7 +14,6 @@ IstioCon is the annual user-centered event for Istio, the industry’s most popu
     >}}
 
 In 2021, more than 4,000 people from across 84 countries joined the event online, to hear from 27 end-user companies how they are using Istio in production. Participants were able to learn how Airbnb navigated scalability issues to finally [find a solution in Istio](https://www.youtube.com/watch?v=6kDiDQW5YXQ&list=PL7wB27eZmdffS-g_xh7X-b0echc_XZMKV&index=39), how [HP set up a secure and wise platform with Istio](https://www.youtube.com/watch?v=K-UTbDU36q8&list=PL7wB27eZmdffS-g_xh7X-b0echc_XZMKV&index=10), and [how eBay used Istio to create federated access points](https://www.youtube.com/watch?v=ckeUh4xNBdo&list=PL7wB27eZmdffS-g_xh7X-b0echc_XZMKV&index=34), [among many more examples of using Istio in production](https://www.youtube.com/playlist?list=PL7wB27eZmdffS-g_xh7X-b0echc_XZMKV).
-
 
 IstioCon 2022 will be an industry-focused event, a platform to connect contributors and users to discuss uses of Istio in different architectural setups, what are some limitations, and where to take the project next. The main focus will be in end-user companies, as we look forward to sharing a diversity of case studies showing how to use Istio in production. The content will be categorized according to expertise level. 
 
