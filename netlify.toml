@@ -3,7 +3,7 @@
 
 [build.environment]
     HUGO_VERSION = "0.95.0"
-    NODE_VERSION = "12.8.0"
+    NODE_VERSION = "12.22.11"
     BUILD_WITH_CONTAINER = "0"
 
 [[headers]]
