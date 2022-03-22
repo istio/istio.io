@@ -30,7 +30,7 @@ If you have already invested a lot of effort in migrating to a service mesh, of 
 
 ## Aeraki's approach
 
-To address these problems, we create an open-source project, [Aeraki](https://github.com/aeraki-mesh), to provide a non-intrusive, extendable way to manage any layer-7 traffic in an Istio service mesh.
+To address these problems, we create an open-source project, [Aeraki Mesh](https://aeraki.net), to provide a non-intrusive, extendable way to manage any layer-7 traffic in an Istio service mesh.
 
 {{< image link="./aeraki-architecture.png" caption="Aeraki Architecture" >}}
 
@@ -125,7 +125,8 @@ Hope this helps if you need to manage protocols other than HTTP in a service mes
 
 ## Reference
 
-* [Aeraki GitHub](https://github.com/aeraki-mesh)
+* [Aeraki Mesh Website](https://aeraki.net)
+* [Aeraki Mesh GitHub](https://github.com/aeraki-mesh)
 * [Live Demo: Kiali Dashboard](http://aeraki.zhaohuabing.com:20001/)
 * [Live Demo: Service Metrics: Grafana](http://aeraki.zhaohuabing.com:3000/d/pgz7wp-Gz/aeraki-demo?orgId=1&refresh=10s&kiosk)
 * [Live Demo: Service Metrics: Prometheus](http://aeraki.zhaohuabing.com:9090/new/graph?g0.expr=envoy_dubbo_inbound_20880___response_success&g0.tab=0&g0.stacked=1&g0.range_input=1h&g1.expr=envoy_dubbo_outbound_20880__org_apache_dubbo_samples_basic_api_demoservice_request&g1.tab=0&g1.stacked=1&g1.range_input=1h&g2.expr=envoy_thrift_inbound_9090___response&g2.tab=0&g2.stacked=1&g2.range_input=1h&g3.expr=envoy_thrift_outbound_9090__thrift_sample_server_thrift_svc_cluster_local_response_success&g3.tab=0&g3.stacked=1&g3.range_input=1h&g4.expr=envoy_thrift_outbound_9090__thrift_sample_server_thrift_svc_cluster_local_request&g4.tab=0&g4.stacked=1&g4.range_input=1h)
