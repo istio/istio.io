@@ -1168,6 +1168,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Limits the number of incoming XDS requests per second. On larger machines this can be increased to handle more proxies concurrently.</td>
 </tr>
 <tr>
+<td><code>PILOT_PARTIAL_FULL_PUSHES</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, pilot will send partial pushes in for child resources (RDS, EDS, etc) when possible. This occurs for EDS in many cases regardless of this setting.</td>
+</tr>
+<tr>
 <td><code>PILOT_PUSH_THROTTLE</code></td>
 <td>Integer</td>
 <td><code>100</code></td>
@@ -1388,6 +1394,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If this is set to true, dangerous admin endpoints will be exposed on the debug interface. Not recommended for production.</td>
+</tr>
+<tr>
+<td><code>UNSAFE_PILOT_ENABLE_DELTA_TEST</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, addition runtime tests for Delta XDS efficiency are added. These checks are extremely expensive, so this should be used only for testing, not production.</td>
 </tr>
 <tr>
 <td><code>UNSAFE_PILOT_ENABLE_RUNTIME_ASSERTIONS</code></td>

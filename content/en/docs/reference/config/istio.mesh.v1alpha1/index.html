@@ -7,7 +7,7 @@ location: https://istio.io/docs/reference/config/istio.mesh.v1alpha1.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
 weight: 20
-number_of_entries: 56
+number_of_entries: 58
 ---
 <p>Configuration affecting the service mesh as a whole.</p>
 
@@ -648,6 +648,17 @@ configured globally via this field.</p>
 No
 </td>
 </tr>
+<tr id="MeshConfig-mesh_mTLS">
+<td><code>meshMTLS</code></td>
+<td><code><a href="#MeshConfig-TLSConfig">TLSConfig</a></code></td>
+<td>
+<p>Configuration of mTLS for traffic between workloads within the mesh.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -1211,6 +1222,37 @@ No
 <td><code>normalization</code></td>
 <td><code><a href="#MeshConfig-ProxyPathNormalization-NormalizationType">NormalizationType</a></code></td>
 <td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="MeshConfig-TLSConfig">MeshConfig.TLSConfig</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MeshConfig-TLSConfig-min_protocol_version">
+<td><code>minProtocolVersion</code></td>
+<td><code><a href="#MeshConfig-TLSConfig-TLSProtocol">TLSProtocol</a></code></td>
+<td>
+<p>Optional: the minimum TLS protocol version. The default minimum
+TLS version will be TLS 1.2. As servers may not be Envoy and be
+set to TLS 1.2 (e.g., workloads using mTLS without sidecars), the
+minimum TLS version for clients may also be TLS 1.2.
+In the current Istio implementation, the maximum TLS protocol version
+is TLS 1.3.</p>
+
 </td>
 <td>
 No
@@ -3730,6 +3772,42 @@ For example, <code>/a//b</code> normalizes to <code>a/b</code>.</p>
 <p>In addition to normalization in <code>MERGE_SLASHES</code>, slash characters are UTF-8 decoded (case insensitive) prior to merging.
 This means <code>%2F</code>, <code>%2f</code>, <code>%5C</code>, and <code>%5c</code> sequences in the request path will be rewritten to <code>/</code> or <code>\</code>.
 For example, <code>/a%2f/b</code> normalizes to <code>a/b</code>.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="MeshConfig-TLSConfig-TLSProtocol">MeshConfig.TLSConfig.TLSProtocol</h2>
+<section>
+<p>TLS protocol versions.</p>
+
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MeshConfig-TLSConfig-TLSProtocol-TLS_AUTO">
+<td><code>TLS_AUTO</code></td>
+<td>
+<p>Automatically choose the optimal TLS version.</p>
+
+</td>
+</tr>
+<tr id="MeshConfig-TLSConfig-TLSProtocol-TLSV1_2">
+<td><code>TLSV1_2</code></td>
+<td>
+<p>TLS version 1.2</p>
+
+</td>
+</tr>
+<tr id="MeshConfig-TLSConfig-TLSProtocol-TLSV1_3">
+<td><code>TLSV1_3</code></td>
+<td>
+<p>TLS version 1.3</p>
 
 </td>
 </tr>
