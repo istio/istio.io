@@ -58,7 +58,7 @@ configured as a remote cluster using a control plane installed in the other clus
 ## Install Istio with a remote cluster topology
 
 To demonstrate `istioctl` working on a remote cluster, we'll start by using the
-[external control plane install instructions](https://istio.io/latest/docs/setup/install/external-controlplane/)
+[external control plane install instructions](/docs/setup/install/external-controlplane/)
 to set up a single remote cluster mesh with an external control plane running in a separate external cluster.
 
 Once installed you should have set two environment variables, `CTX_REMOTE_CLUSTER`, and `CTX_EXTERNAL_CLUSTER` containing
@@ -162,8 +162,8 @@ mesh user. It's only available on the external cluster, for the mesh operator to
 
 ## Summary
 
-In this article, we used a [sample proxy server]({{< github_tree >}}/samples/istioctl-proxy) to configure `istioctl` to work
-with an [external control plane installation](https://istio.io/latest/docs/setup/install/external-controlplane/).
+In this article, we used a [sample proxy server]({{< github_tree >}}/samples/istioctl-proxy) to configure `istioctl` to
+work with an [external control plane installation](/docs/setup/install/external-controlplane/).
 We've seen how some of the `istioctl` CLI commands don't work out of the box on a remote cluster managed
 by an external control plane. Commands such as `istioctl proxy-status`, among others, need access to the `istiod` service
 instances managing the mesh, which are unavailable when the control plane is running outside of the mesh cluster.
