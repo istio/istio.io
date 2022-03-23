@@ -1,5 +1,5 @@
 ---
-title: Configuring the istioctl CLI for a remote mesh cluster
+title: Configuring istioctl for a remote cluster
 description: Using a proxy server to support istioctl commands in a mesh with an external control plane.
 publishdate: 2022-03-23
 attribution: Frank Budinsky (IBM)
@@ -33,12 +33,12 @@ In an ordinary Istio installation where the `istiod` service is running locally 
     >}}
 
 When using a remote cluster, on the other hand, this is not possible since the `istiod` instances are running outside
-of the mesh cluster and not accessable to the mesh user. The instances may not even be deployed using pods on a Kubernetes
+of the mesh cluster and not accessible to the mesh user. The instances may not even be deployed using pods on a Kubernetes
 cluster.
 
 Fortunately, `istioctl` provides a configuration option to address this issue.
 You can configure `istioctl` with the address of an external proxy service that will have access to the
-`istiod` instances. Unlike an ordinary loadbalancer service, which would delegate incoming requests to one of the
+`istiod` instances. Unlike an ordinary load-balancer service, which would delegate incoming requests to one of the
 instances, this proxy service must instead delegate to all of the `istiod` instances, aggregate the responses,
 and then return the combined result.
 
