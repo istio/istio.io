@@ -952,12 +952,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>If enabled, for headless service in Kubernetes, pilot will send endpoints over EDS, allowing the sidecar to load balance among pods in the headless service. This feature should be enabled if applications access all services explicitly via a HTTP proxy port in the sidecar.</td>
 </tr>
 <tr>
-<td><code>PILOT_ENABLE_FLOW_CONTROL</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If enabled, pilot will wait for the completion of a receive operation beforeexecuting a push operation. This is a form of flow control and is useful inenvironments with high rates of push requests to each gateway. By default,this is false.</td>
-</tr>
-<tr>
 <td><code>PILOT_ENABLE_GATEWAY_API</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
