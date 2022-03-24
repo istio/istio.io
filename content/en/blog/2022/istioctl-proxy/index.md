@@ -1,7 +1,7 @@
 ---
 title: Configuring istioctl for a remote cluster
 description: Using a proxy server to support istioctl commands in a mesh with an external control plane.
-publishdate: 2022-03-23
+publishdate: 2022-03-25
 attribution: Frank Budinsky (IBM)
 keywords: [istioctl, cli, external, remote, multicluster]
 ---
@@ -51,7 +51,7 @@ running `istiod` pods, call each one in turn, and then aggregate the result.
     caption="CLI without local access to istiod pods"
     >}}
 
-The Istio project includes a sample implementation of such an `istioctl` proxy server which can be found
+An Istio Ecosystem project that includes an implementation of such an `istioctl` proxy server can be found
 [here](https://github.com/istio-ecosystem/istioctl-proxy-sample). To try it out, you'll need two clusters, one of which is
 configured as a remote cluster using a control plane installed in the other cluster.
 
@@ -61,10 +61,10 @@ To demonstrate `istioctl` working on a remote cluster, we'll start by using the
 [external control plane install instructions](/docs/setup/install/external-controlplane/)
 to set up a single remote cluster mesh with an external control plane running in a separate external cluster.
 
-Once installed you should have set two environment variables, `CTX_REMOTE_CLUSTER`, and `CTX_EXTERNAL_CLUSTER` containing
-the context names of the remote (mesh) and external (control plane) clusters, respectively.
+After completing the installation, we should have two environment variables, `CTX_REMOTE_CLUSTER` and `CTX_EXTERNAL_CLUSTER`,
+containing the context names of the remote (mesh) and external (control plane) clusters, respectively.
 
-You should also have the `helloworld` and `sleep` samples running in the mesh, i.e., on the remote cluster:
+We should also have the `helloworld` and `sleep` samples running in the mesh, i.e., on the remote cluster:
 
 {{< text bash >}}
 $ kubectl get pod -n sample --context="${CTX_REMOTE_CLUSTER}"
@@ -84,7 +84,7 @@ Error: unable to find any Istiod instances
 ## Configure istioctl to use the sample proxy service
 
 To configure `istioctl`, we first need to deploy  the proxy service next to the running `istiod` pods.
-In our installation, you've deployed the control plane in the `external-istiod` namespace, so we start the proxy
+In our installation, we've deployed the control plane in the `external-istiod` namespace, so we start the proxy
 service on the external cluster using the following command:
 
 {{< text bash >}}
@@ -168,5 +168,5 @@ work with an [external control plane installation](/docs/setup/install/external-
 We've seen how some of the `istioctl` CLI commands don't work out of the box on a remote cluster managed
 by an external control plane. Commands such as `istioctl proxy-status`, among others, need access to the `istiod` service
 instances managing the mesh, which are unavailable when the control plane is running outside of the mesh cluster.
-To address this issue, `istioctl` can be configured to delegate to a proxy server running along side the external control
-plane, which will access the `istiod` instances on its behalf.
+To address this issue, `istioctl` was configured to delegate to a proxy server, running along side the external control
+plane, which accesses the `istiod` instances on its behalf.
