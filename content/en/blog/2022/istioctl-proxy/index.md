@@ -52,7 +52,7 @@ running `istiod` pods, call each one in turn, and then aggregate the result.
     >}}
 
 The Istio project includes a sample implementation of such an `istioctl` proxy server which can be found
-[here]({{< github_tree >}}/samples/istioctl-proxy). To try it out, you'll need two clusters, one of which is
+[here](https://github.com/istio-ecosystem/istioctl-proxy-sample). To try it out, you'll need two clusters, one of which is
 configured as a remote cluster using a control plane installed in the other cluster.
 
 ## Install Istio with a remote cluster topology
@@ -88,7 +88,8 @@ In our installation, you've deployed the control plane in the `external-istiod` 
 service on the external cluster using the following command:
 
 {{< text bash >}}
-$ kubectl apply -n external-istiod -f @samples/istioctl-proxy/istioctl-proxy.yaml@ --context="${CTX_EXTERNAL_CLUSTER}"
+$ kubectl apply -n external-istiod --context="${CTX_EXTERNAL_CLUSTER}" \
+    -f https://raw.githubusercontent.com/istio-ecosystem/istioctl-proxy-sample/main/istioctl-proxy.yaml
 service/istioctl-proxy created
 serviceaccount/istioctl-proxy created
 secret/jwt-cert-key-secret created
@@ -162,7 +163,7 @@ mesh user. It's only available on the external cluster, for the mesh operator to
 
 ## Summary
 
-In this article, we used a [sample proxy server]({{< github_tree >}}/samples/istioctl-proxy) to configure `istioctl` to
+In this article, we used a [sample proxy server](https://github.com/istio-ecosystem/istioctl-proxy-sample) to configure `istioctl` to
 work with an [external control plane installation](/docs/setup/install/external-controlplane/).
 We've seen how some of the `istioctl` CLI commands don't work out of the box on a remote cluster managed
 by an external control plane. Commands such as `istioctl proxy-status`, among others, need access to the `istiod` service
