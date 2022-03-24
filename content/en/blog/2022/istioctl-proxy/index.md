@@ -116,7 +116,7 @@ istioctl-proxy   ClusterIP   172.21.127.192   <none>        9090/TCP   11m
 {{< /text >}}
 
 Before we can use it, however, we need to expose it outside of the external cluster.
-There are many ways to do that, depending on the the deployment environment. In our setup, we have an ingress gateway
+There are many ways to do that, depending on the deployment environment. In our setup, we have an ingress gateway
 running on the external cluster, so we could update it to also expose port 9090, update the associated virtual service
 to direct port 9090 requests to the proxy service, and then configure `istioctl` to use the gateway address for the proxy
 service. This would be a "proper" approach.
@@ -140,8 +140,8 @@ $ export ISTIOCTL_PREFER_EXPERIMENTAL=true
 Because our control plane is running in the `external-istiod` namespace, instead of the default `istio-system`, we also
 need to set the `ISTIOCTL_ISTIONAMESPACE` environment variable.
 
-Setting the `ISTIOCTL_PREFER_EXPERIMENTAL` is optional. It instructs `istioctl` to convert calls to `istioctl command` to
-`istioctl x command`, for any `command` that has both a stable and experimental implementation.
+Setting the `ISTIOCTL_PREFER_EXPERIMENTAL` is optional. It instructs `istioctl` to redirect `istioctl command` calls to
+an experimental equivalent, `istioctl x command`, for any `command` that has both a stable and experimental implementation.
 In our case we need to use `istioctl x proxy-status`, the version that implements the proxy delegation feature.
 
 ## Run the istioctl proxy-status command
