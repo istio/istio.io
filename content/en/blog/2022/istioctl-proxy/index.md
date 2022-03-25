@@ -157,7 +157,7 @@ sleep-557747455f-v627d.sample                             SYNCED     SYNCED     
 {{< /text >}}
 
 As you can see, this time it correctly displays the sync status of all the services running in the mesh. Notice that the
-`ISTIOD` column returns the generic value `<external>`, instead of the the instance name (e.g., `istiod-666fb6694d-jklkt`)
+`ISTIOD` column returns the generic value `<external>`, instead of the instance name (e.g., `istiod-666fb6694d-jklkt`)
 that would be displayed if the pod was running locally. In this case, this detail is not available, or needed, by the
 mesh user. It's only available on the external cluster for the mesh operator to see.
 
