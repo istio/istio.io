@@ -25,7 +25,7 @@ The `istioctl` command needs to return the status for the entire mesh, not just 
 
 In an ordinary Istio installation where the `istiod` service is running locally on the cluster
 (i.e., a {{< gloss >}}primary cluster{{< /gloss >}}), the command is implemented by simply finding all of the running
-`istiod` pods, calling each one in turn, and then aggregating the result before returning to the user.
+`istiod` pods, calling each one in turn, and then aggregating the result before returning it to the user.
 
 {{< image width="75%"
     link="istioctl-primary-cluster.svg"
