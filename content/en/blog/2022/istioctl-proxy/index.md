@@ -140,7 +140,7 @@ $ export ISTIOCTL_PREFER_EXPERIMENTAL=true
 Because our control plane is running in the `external-istiod` namespace, instead of the default `istio-system`, we also
 need to set the `ISTIOCTL_ISTIONAMESPACE` environment variable.
 
-Setting the `ISTIOCTL_PREFER_EXPERIMENTAL` is optional. It instructs `istioctl` to redirect `istioctl command` calls to
+Setting `ISTIOCTL_PREFER_EXPERIMENTAL` is optional. It instructs `istioctl` to redirect `istioctl command` calls to
 an experimental equivalent, `istioctl x command`, for any `command` that has both a stable and experimental implementation.
 In our case we need to use `istioctl x proxy-status`, the version that implements the proxy delegation feature.
 
