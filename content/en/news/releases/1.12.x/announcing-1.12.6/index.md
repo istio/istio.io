@@ -20,5 +20,5 @@ This release contains bug fixes to improve robustness. This release note describ
 
 - **Fixed** an issue that caused TCP calls to still be logged after disabling the access logging through the Telemetry API.
 
-- **Fixed** an issue causing some cross-namespace VirtualServices to be incorrectly ignored after upgrading to Istio 1.12+.
+- **Fixed** an issue causing some cross-namespace `VirtualServices` to be incorrectly ignored after upgrading to Istio 1.12+.
   ([Issue #37691](https://github.com/istio/istio/issues/37691))
