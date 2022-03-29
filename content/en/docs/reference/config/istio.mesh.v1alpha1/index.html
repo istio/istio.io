@@ -7,7 +7,7 @@ location: https://istio.io/docs/reference/config/istio.mesh.v1alpha1.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
 weight: 20
-number_of_entries: 58
+number_of_entries: 57
 ---
 <p>Configuration affecting the service mesh as a whole.</p>
 
@@ -2584,47 +2584,6 @@ No
 </tbody>
 </table>
 </section>
-<h2 id="SDS">SDS</h2>
-<section>
-<p>SDS defines secret discovery service(SDS) configuration to be used by the proxy.
-For workload, its values are set in sidecar injector(passed as arguments to istio-proxy container).
-For pilot/mixer, it&rsquo;s passed as arguments to istio-proxy container in pilot/mixer deployment yaml files directly.</p>
-
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="SDS-enabled">
-<td><code>enabled</code></td>
-<td><code>bool</code></td>
-<td>
-<p>True if SDS is enabled.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="SDS-k8s_sa_jwt_path">
-<td><code>k8sSaJwtPath</code></td>
-<td><code>string</code></td>
-<td>
-<p>Path of k8s service account JWT path.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
 <h2 id="PrivateKeyProvider">PrivateKeyProvider</h2>
 <section>
 <p>PrivateKeyProvider defines private key configuration for gateways and sidecars. This can be configured
@@ -2887,17 +2846,6 @@ No
 <td><code><a href="#Tracing">Tracing</a></code></td>
 <td>
 <p>Tracing configuration to be used by the proxy.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ProxyConfig-sds">
-<td><code>sds</code></td>
-<td><code><a href="#SDS">SDS</a></code></td>
-<td>
-<p>Secret Discovery Service(SDS) configuration to be used by the proxy.</p>
 
 </td>
 <td>
