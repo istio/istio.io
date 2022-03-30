@@ -183,19 +183,19 @@ into the HTTP connection manager filter chain. The local rate limit filter's [to
 is configured to allow 10 requests/min. The filter is also configured to add an `x-local-rate-limit`
 response header to requests that are blocked.
 
-    {{< tip >}}
-    The statistics mentioned [here](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/local_rate_limit_filter#statistics) are disabled by default, you can enabled those with following annotations in deployment:
+{{< tip >}}
+The statistics mentioned [here](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/local_rate_limit_filter#statistics) are disabled by default, you can enabled those with following annotations in deployment:
 
-    {{< text yaml >}}
-    template:
-      metadata:
-        annotations:
-          proxy.istio.io/config: |-
-            proxyStatsMatcher:
-              inclusionRegexps:
-              - ".*http_local_rate_limit.*"
-    {{< /text >}}
-    {{< /tip >}}
+{{< text yaml >}}
+template:
+  metadata:
+    annotations:
+      proxy.istio.io/config: |-
+        proxyStatsMatcher:
+          inclusionRegexps:
+          - ".*http_local_rate_limit.*"
+{{< /text >}}
+{{< /tip >}}
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
