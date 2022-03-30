@@ -184,7 +184,7 @@ is configured to allow 10 requests/min. The filter is also configured to add an 
 response header to requests that are blocked.
 
 {{< tip >}}
-The statistics mentioned [here](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/local_rate_limit_filter#statistics) are disabled by default, you can enabled those with following annotations in deployment:
+The statistics mentioned [here](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/local_rate_limit_filter#statistics) are disabled by default. You can enabled them with the following annotations during deployment:
 
 {{< text yaml >}}
 template:
