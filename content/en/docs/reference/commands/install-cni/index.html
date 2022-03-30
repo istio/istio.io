@@ -28,6 +28,10 @@ remove_toc_prefix: 'install-cni '
 <td>Name of the CNI configuration file  (default ``)</td>
 </tr>
 <tr>
+<td><code>--cni-enable-install</code></td>
+<td>Whether to install CNI configuration and binary files </td>
+</tr>
+<tr>
 <td><code>--cni-enable-reinstall</code></td>
 <td>Whether to reinstall CNI configuration and binary files </td>
 </tr>
@@ -640,6 +644,12 @@ These environment variables affect the behavior of the <code>install-cni</code> 
 <td>String</td>
 <td><code></code></td>
 <td>Name of the CNI configuration file</td>
+</tr>
+<tr>
+<td><code>CNI_ENABLE_INSTALL</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>Whether to install CNI configuration and binary files</td>
 </tr>
 <tr>
 <td><code>CNI_ENABLE_REINSTALL</code></td>
