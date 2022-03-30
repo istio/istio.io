@@ -194,7 +194,9 @@ template:
         proxyStatsMatcher:
           inclusionRegexps:
           - ".*http_local_rate_limit.*"
+
 {{< /text >}}
+
 {{< /tip >}}
 
 {{< text bash >}}
