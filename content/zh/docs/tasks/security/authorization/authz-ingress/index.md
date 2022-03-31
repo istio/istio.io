@@ -46,7 +46,7 @@ test: yes
 如果您没有看到预期的输出，请在几秒钟后重试。 缓存和传播开销可能会导致延迟。
 {{< /warning >}}
 
-## 将流量引入 Kubernetes 和 Istio {#Getting traffic into Kubernetes and Istio}
+## 将流量引入 Kubernetes 和 Istio {#getting-traffic-into-kubernetes-and-istio}
 
 所有将流量引入 Kubernetes 的方法都涉及在所有工作节点上打开一个端口，实现这一点的主要功能是`NodePort`服务和`LoadBalancer`服务，甚至 Kubernetes 的`Ingress`资源也必须由 Ingress 控制器支持，该控制器将创建`NodePort`或`LoadBalancer`服务。
 
@@ -56,7 +56,7 @@ test: yes
 
 如果处理来自 `NodePort` 或 `LoadBalancer` 的流量的 Pod 没有在接收流量的工作节点上运行怎么办？ Kubernetes 有自己的内部代理，称为 kube-proxy，它接收数据包并将它们转发到正确的节点。
 
-## 原始客户端的源IP地址 {#Source IP address of the original client}
+## 原始客户端的源IP地址 {#source-ip-address-of-the-original-client}
 
 如果数据包通过外部代理负载均衡器和/或 kube-proxy，则客户端的原始源 IP 地址会丢失。 以下是一些保留原始客户端 IP 以用于日志记录或安全目的的策略。
 
@@ -192,7 +192,7 @@ spec:
 
 {{< /tip >}}
 
-## IP-based allow list and deny list
+## 基于 IP 的允许列表和拒绝列表{#IP-based-allow-list-and-deny-list}
 
 **何时使用 `ipBlocks` 与 `remoteIpBlocks`：** 如果您使用 X-Forwarded-For HTTP 标头或代理协议来确定原始客户端 IP 地址，那么您应该在您的 `AuthorizationPolicy` 中使用 `remoteIpBlocks` . 如果您使用的是 `externalTrafficPolicy: Local`，那么您应该在 `AuthorizationPolicy` 中使用 `ipBlocks`。
 
@@ -405,7 +405,7 @@ EOF
     $ kubectl get pods -n istio-system -o name -l istio=ingressgateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n istio-system; done
     {{< /text >}}
 
-## 清理 {#Clean up}
+## 清理 {#clean-up}
 
 * 删除命名空间`foo`：
 
