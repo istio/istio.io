@@ -84,8 +84,8 @@ spec:
         max_path_tag_length: 256
         custom_tags:
           clusterID:
-          environment:
-            name: ISTIO_META_CLUSTER_ID
+            environment:
+              name: ISTIO_META_CLUSTER_ID
 EOF
 $ istioctl install -f ./tracing.yaml
 {{< /text >}}
