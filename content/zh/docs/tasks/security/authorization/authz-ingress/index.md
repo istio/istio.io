@@ -46,7 +46,7 @@ test: yes
 如果您没有看到预期的输出，请在几秒钟后重试。 缓存和传播开销可能会导致延迟。
 {{< /warning >}}
 
-## 将流量引入 Kubernetes 和 Istio {#getting-traffic-into-kubernetes-and-istio}
+## 将流量引入 Kubernetes 和 Istio {#getting-traffic-into-Kubernetes-and-Istio}
 
 所有将流量引入 Kubernetes 的方法都涉及在所有工作节点上打开一个端口，实现这一点的主要功能是`NodePort`服务和`LoadBalancer`服务，甚至 Kubernetes 的`Ingress`资源也必须由 Ingress 控制器支持，该控制器将创建`NodePort`或`LoadBalancer`服务。
 
@@ -192,7 +192,7 @@ spec:
 
 {{< /tip >}}
 
-## 基于 IP 的允许列表和拒绝列表{#IP-based-allow-list-and-deny-list}
+## 基于 IP 的允许列表和拒绝列表{#ip-based-allow-list-and-deny-list}
 
 **何时使用 `ipBlocks` 与 `remoteIpBlocks`：** 如果您使用 X-Forwarded-For HTTP 标头或代理协议来确定原始客户端 IP 地址，那么您应该在您的 `AuthorizationPolicy` 中使用 `remoteIpBlocks` . 如果您使用的是 `externalTrafficPolicy: Local`，那么您应该在 `AuthorizationPolicy` 中使用 `ipBlocks`。
 
