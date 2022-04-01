@@ -457,6 +457,7 @@ IPs
 iptables
 IPv4
 IPv6
+istio
 Istio
 istio-agent
 istio-control
@@ -536,6 +537,7 @@ kubeconfig
 kubectl
 Kubelet
 kubelet
+kubernetes
 Kubernetes
 kubernetes.default
 kube-proxy
