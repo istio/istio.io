@@ -174,7 +174,7 @@ integrations:
     url: "https://fission.io/docs/usage/ingress/ingress-istio/"
     description: "Fission is a framework for serverless functions on Kubernetes. "
     details:
-      - "Fission allows users to deploy an Istio Gateway to route traffic to fission functions. Users can also authenticate requests to fission functions using Istio's authentication capabilities."    
+      - "Fission allows users to deploy an Istio Gateway to route traffic to Fission functions. Users can also authenticate requests to Fission functions using Istio's authentication capabilities."    
   - name: "Gloo Edge"
     logo: "/logos/gloo.png"
     url: "https://www.solo.io/products/gloo-edge/"
