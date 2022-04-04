@@ -19,6 +19,12 @@ SPIRE's node attestation extends attestation to the physical or virtual hardware
 
 For a quick demo of how this SPIRE integration with Istio works, see [Integrating SPIRE as a CA through Envoy's SDS API]({{< github_tree >}}/samples/security/spire).
 
+{{< warning >}}
+Note that this integration requires version 1.14 for both `istioctl` and data plane.
+{{< /warning >}}
+
+The integration is compatible with Istio upgrades.
+
 ## Install SPIRE
 
 ### Option 1: Quick start
@@ -61,7 +67,7 @@ Note that you must deploy SPIRE before installing Istio into your environment so
 
 ## Install Istio
 
-1. [Download the latest Istio release](/docs/setup/getting-started/#download).
+1. [Download Istio release 1.14+](/docs/setup/getting-started/#download).
 
 1. After [deploying SPIRE](#install-spire) into your environment, and verifying that all deployments are in Ready state,
     install Istio with custom patches for the Ingress-gateway as well as for istio-proxy.
