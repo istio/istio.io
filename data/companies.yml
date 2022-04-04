@@ -169,6 +169,12 @@ integrations:
     description: "Flagger is a Progressive Delivery Operator for Kubernetes."
     details:
       - "Flagger can run automated application analysis, testing, promotion and rollback for Canary (progressive traffic shifting), A/B Testing (HTTP headers and cookies traffic routing) and Blue/Green (traffic switching and mirroring) using Istio."
+  - name: "Fission"
+    logo: "/logos/fissionio.svg"
+    url: "https://fission.io/docs/usage/ingress/ingress-istio/"
+    description: "Fission is a framework for serverless functions on Kubernetes. "
+    details:
+      - "Fission allows users to deploy an Istio Gateway to route traffic to fission functions. Users can also authenticate requests to fission functions using Istio's authentication capabilities."    
   - name: "Gloo Edge"
     logo: "/logos/gloo.png"
     url: "https://www.solo.io/products/gloo-edge/"
