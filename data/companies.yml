@@ -45,7 +45,7 @@ providers:
     url: "https://rancher.com/docs/rancher/v2.6/en/istio/"
   - name: "Mulesoft Anypoint Service Mesh"
     logo: "/logos/mulesoft.svg"
-    url: "https://docs.mulesoft.com/service-mesh/1.2/"
+    url: "https://docs.mulesoft.com/service-mesh/latest/"
   - name: "Alibaba Cloud Service Mesh"
     logo: "/logos/alibaba-cloud.png"
     url: "https://www.alibabacloud.com/blog/what-is-alibaba-cloud-service-mesh-asm_596277"
