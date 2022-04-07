@@ -32,16 +32,6 @@ traffic.
     caption="Primary and remote clusters on the same network"
     >}}
 
-{{< tip >}}
-Today, the remote profile will install an istiod server in the remote
-cluster which will be used for CA and webhook injection for workloads
-in that cluster. Service discovery, however, will be directed to the
-control plane in the primary cluster.
-
-Future releases will remove the need for having an istiod in the
-remote cluster altogether. Stay tuned!
-{{< /tip >}}
-
 ## Configure `cluster1` as a primary
 
 Create the Istio configuration for `cluster1`:
@@ -143,12 +133,11 @@ $ cat <<EOF > cluster2.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
+  profile: external
   values:
+    istiodRemote:
+      injectionPath: /inject/cluster/cluster2/net/network2
     global:
-      meshID: mesh1
-      multiCluster:
-        clusterName: cluster2
-      network: network1
       remotePilotAddress: ${DISCOVERY_ADDRESS}
 EOF
 {{< /text >}}

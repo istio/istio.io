@@ -16,6 +16,8 @@ between pods across cluster boundaries.
 Before proceeding, be sure to complete the steps under
 [before you begin](/docs/setup/install/multicluster/before-you-begin).
 
+{{< boilerplate multi-cluster-with-metallb >}}
+
 In this configuration, cluster `cluster1` will observe the API Servers in
 both clusters for endpoints. In this way, the control plane will be able to
 provide service discovery for workloads in both clusters.
@@ -31,16 +33,6 @@ same east-west gateway.
     link="arch.svg"
     caption="Primary and remote clusters on separate networks"
     >}}
-
-{{< tip >}}
-Today, the remote profile will install an istiod server in the remote
-cluster which will be used for CA and webhook injection for workloads
-in that cluster. Service discovery, however, will be directed to the
-control plane in the primary cluster.
-
-Future releases will remove the need for having an istiod in the
-remote cluster altogether. Stay tuned!
-{{< /tip >}}
 
 ## Set the default network for `cluster1`
 
@@ -173,12 +165,11 @@ $ cat <<EOF > cluster2.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
+  profile: external
   values:
+    istiodRemote:
+      injectionPath: /inject/cluster/cluster2/net/network2
     global:
-      meshID: mesh1
-      multiCluster:
-        clusterName: cluster2
-      network: network2
       remotePilotAddress: ${DISCOVERY_ADDRESS}
 EOF
 {{< /text >}}
