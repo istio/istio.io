@@ -77,12 +77,11 @@ cat <<EOF > cluster2.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
+  profile: external
   values:
+    istiodRemote:
+      injectionPath: /inject/cluster/cluster2/net/network2
     global:
-      meshID: mesh1
-      multiCluster:
-        clusterName: cluster2
-      network: network1
       remotePilotAddress: ${DISCOVERY_ADDRESS}
 EOF
 }
