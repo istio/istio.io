@@ -59,6 +59,9 @@ check_content() {
     # elide link="*"
     find "${TMP}" -type f -name \*.md -exec sed -E -i "s/link=\".*\"/LINK/g" {} ";"
 
+    # remove any heading anchors
+    find "${TMP}" -type f -name \*.md -exec sed -E -i "s/(^#.*\S) *\{#.*\} */\1/g" {} ";"
+
     # switch to the temp dir
     pushd "${TMP}" >/dev/null
 
