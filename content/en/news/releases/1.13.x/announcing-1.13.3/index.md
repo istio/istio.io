@@ -14,7 +14,7 @@ This release note describes what's different between Istio 1.13.1 and 1.13.3.
 
 {{< relnote >}}
 
-# Changes
+## Changes
 
 - **Added** support for skipping the intial installation of CNI entirely.
 
