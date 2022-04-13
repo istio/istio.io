@@ -3,7 +3,7 @@ title: Announcing Istio 1.13.3
 linktitle: 1.13.3
 subtitle: Patch Release
 description: Istio 1.13.3 patch release.
-publishdate: 2022-03-09
+publishdate: 2022-04-18
 release: 1.13.3
 aliases:
     - /news/announcing-1.13.3
