@@ -27,7 +27,7 @@ function rewrite-repo() {
   cmd="$(echo "${cmd}" | sed 's|istio/base|manifests/charts/base|')"
   cmd="$(echo "${cmd}" | sed 's|istio/istiod|manifests/charts/istio-control/istio-discovery|')"
   cmd="$(echo "${cmd}" | sed 's|istio/gateway|manifests/charts/gateway|')"
-  eval "${cmd}"
+  eval "${cmd} --set global.tag=${ISTIO_IMAGE_VERSION=SHOULD_BE_SET}.${ISTIO_LONG_SHA=latest}" --version=1.12.6
 }
 
 # @setup profile=none
