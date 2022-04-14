@@ -180,14 +180,14 @@
                 </div>
             {{ else }}
                 <div id="edit-this-page-container" aria-hidden="true">
-                    <a tabindex="-1" id="edit-this-page" data-skipendnotes="true" href="https://github.com/istio/istio.io/edit/{{ .Site.Data.args.doc_branch_name }}/content/{{ .Lang }}/{{ .Path }}" title='{{ i18n "edit_on_github"}}'>
+                    <a tabindex="-1" id="edit-this-page" data-skipendnotes="true" href="https://github.com/istio/istio.io/edit/{{ .Site.Data.args.doc_branch_name }}/content/{{ .Lang }}/{{ .File }}" title='{{ i18n "edit_on_github"}}'>
                         {{ partial "icon.html" "pencil" }}
                     </a>
                 </div>
             {{ end }}
 
             <div id="report-site-bugs-container" aria-hidden="true">
-                <a tabindex="-1" id="report-site-bugs" data-skipendnotes="true" href="https://github.com/istio/istio.io/issues/new?title=Issue%20with%20{{ .Path}}" aria-hidden="true" title='{{ i18n "report_site_bugs"}}'>
+                <a tabindex="-1" id="report-site-bugs" data-skipendnotes="true" href="https://github.com/istio/istio.io/issues/new?title=Issue%20with%20{{ .File}}" aria-hidden="true" title='{{ i18n "report_site_bugs"}}'>
                     {{ partial "icon.html" "bugs" }}
                 </a>
             </div>
