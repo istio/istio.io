@@ -165,10 +165,10 @@ specific workload using the workloadSelector configuration.</p>
 kind: DestinationRule
 metadata:
   name: configure-client-mtls-dr-with-workloadselector
-  workloadSelector:
-    labels:
-      app: ratings
   spec:
+    workloadSelector:
+      matchLabels:
+        app: ratings
     trafficPolicy:
       loadBalancer:
         simple: ROUND_ROBIN
@@ -187,10 +187,10 @@ metadata:
 kind: DestinationRule
 metadata:
   name: configure-client-mtls-dr-with-workloadselector
-  workloadSelector:
-    labels:
-      app: ratings
   spec:
+    workloadSelector:
+      matchLabels:
+        app: ratings
     trafficPolicy:
       loadBalancer:
         simple: ROUND_ROBIN
@@ -1145,8 +1145,10 @@ ca.crt key for CA certificates is also supported.
 Only one of client certificates and CA certificate
 or credentialName can be specified.</p>
 
-<p><strong>NOTE:</strong> This field is currently applicable only at gateways.
-Sidecars will continue to use the certificate paths.</p>
+<p><strong>NOTE:</strong> This field is applicable at sidecars only if
+<code>DestinationRule</code> has a <code>workloadSelector</code> specified.
+Otherwise the field will be applicable only at gateways, and
+sidecars will continue to use the certificate paths.</p>
 
 </td>
 <td>
