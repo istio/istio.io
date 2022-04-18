@@ -18,13 +18,13 @@ This release note describes what's different between Istio 1.13.2 and 1.13.3.
 
 - **Added** support for skipping the initial installation of CNI entirely.
 
-- **Added** values to the Istio Pilot Helm charts for configuring affinity rules and toleration on the Deployment.
-  Can be used for better placement of Istio pilot workloads.
+- **Added** values to the istiod Helm charts for configuring affinity rules and toleration on the Deployment.
+  This can be used for better placement of istiod instances.
 
-- **Fixed** an issue where platform detection is taking 5 seconds on Minikube.
+- **Fixed** an issue where platform detection took 5 seconds on Minikube.
   ([Issue #37832](https://github.com/istio/istio/issues/37832))
 
-- **Fixed** an issue where removing a HTTP filter is not working properly.
+- **Fixed** an issue where removing a HTTP filter did not work properly.
 
 - **Fixed** an issue causing some cross-namespace VirtualService to be incorrectly ignored after upgrading to Istio 1.12+.
   ([Issue #37691](https://github.com/istio/istio/issues/37691))
