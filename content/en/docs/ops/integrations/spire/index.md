@@ -156,9 +156,11 @@ along with a SPIRE Server, new entries are automatically registered for each new
 See [Verifying that identities were created for workloads](#verifying-that-identities-were-created-for-workloads)
 to check issued identities.
 
+Note that `SPIRE workload registrar` is used on [quick start](#option-1:-quick-start) section.
+
 ### Option 2: Manual Registration
 
-To improve workload attestation security robustness, SPIRE is able to verify against a group of selector values based on different parameters.
+To improve workload attestation security robustness, SPIRE is able to verify against a group of selector values based on different parameters. Skip these steps if you installed `SPIRE` by following the [quick start](#option-1:-quick-start) since it uses automatic registration.
 
 1. To generate an entry for an Ingress Gateway with a set of selectors such as the
     pod name and pod UID:
