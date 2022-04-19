@@ -29,8 +29,8 @@ $ istioctl x precheck
 
 {{< idea >}}
 
-When using revision-based upgrades jumping across two patch versions is supported (e.g. upgrading directly from
-version `1.8` to `1.10`). This is in contrast to in-place upgrades where it is required to upgrade to each intermediate patch
+When using revision-based upgrades jumping across two minor versions is supported (e.g. upgrading directly from
+version `1.8` to `1.10`). This is in contrast to in-place upgrades where it is required to upgrade to each intermediate minor
 release.
 
 {{< /idea >}}
