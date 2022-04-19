@@ -1,3 +1,6 @@
+# hugo artifacts
+.hugo_build.lock
+
 # Eclipse artifacts
 .project
 .pydevproject

@@ -113,7 +113,7 @@ disableAliases = true
     name = "About"
     title = "About section"
     weight = 1
-    
+
     [[menu.main]]
       identifier = "service-mesh"
       name = "Service mesh"
@@ -196,7 +196,7 @@ disableAliases = true
     name = "关于"
     title = "关于部分"
     weight = 1
-    
+
     [[languages.zh.menu.main]]
       identifier = "service-mesh"
       name = "服务网格"
@@ -275,3 +275,7 @@ disableAliases = true
 
 [permalinks]
   case-studies = "/:slug"
+
+[security]
+  [security.funcs]
+    getenv = ['^HUGO_','URL']

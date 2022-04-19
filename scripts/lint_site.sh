@@ -107,7 +107,7 @@ SKIP_LANGS=( en zh pt-br )
 for lang in $LANGS; do
     for i in "${!SKIP_LANGS[@]}"; do
        if [[ "${SKIP_LANGS[$i]}" = "${lang}" ]]; then
-           unset SKIP_LANGS["${i}"]
+            unset 'SKIP_LANGS[${i}]'
        fi
     done
     SKIP_LANGS=( "${SKIP_LANGS[@]}" )
