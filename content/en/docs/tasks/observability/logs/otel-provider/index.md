@@ -8,7 +8,7 @@ test: yes
 ---
 
 {{< warning >}}
-Use of the OpenTelemetry provider is avialiable in v1.13.3 or later.
+The OpenTelemetry provider is available in Istio `v1.13.3` or later.
 {{< /warning >}}
 
 The Envoy proxies can be configured to export their [access logs](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage) in [OpenTelemetry format](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/access_loggers/open_telemetry/v3/logs_service.proto).
