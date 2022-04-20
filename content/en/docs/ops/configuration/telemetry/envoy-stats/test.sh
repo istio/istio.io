@@ -65,7 +65,13 @@ kubectl label namespace default istio-injection=enabled --overwrite
 export IFS=
 echo "${snip_proxyIstioConfig}" > proxyConfig.yaml
 unset IFS
-yq m -d2 samples/sleep/sleep.yaml proxyConfig.yaml > sleep_istioconfig.yaml
+# yq m -d2 samples/sleep/sleep.yaml proxyConfig.yaml > sleep_istioconfig.yaml
+yq 'select(document_index != 2)' samples/sleep/sleep.yaml > tmp1.yaml
+yq 'select(document_index == 2)' samples/sleep/sleep.yaml > tmp2.yaml
+# shellcheck disable=SC2016
+yq eval-all '. as $item ireduce ({}; . *+ $item)' tmp2.yaml proxyConfig.yaml > new2.yaml
+yq . tmp1.yaml new2.yaml  > sleep_istioconfig.yaml
+
 kubectl apply -f sleep_istioconfig.yaml
 _wait_for_deployment default sleep
 POD="$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')"

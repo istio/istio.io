@@ -30,7 +30,7 @@ _wait_for_deployment foo httpbin
 _wait_for_deployment foo sleep
 
 # Pull the Istio branch from the docs configuration file.
-ISTIO_BRANCH=$(yq r "${REPO_ROOT}"/data/args.yml 'source_branch_name')
+ISTIO_BRANCH=$(yq 'source_branch_name' "${REPO_ROOT}"/data/args.yml)
 
 TOKEN_URL="https://raw.githubusercontent.com/istio/istio/${ISTIO_BRANCH}/security/tools/jwt/samples/demo.jwt"
 TOKEN_GROUP_URL="https://raw.githubusercontent.com/istio/istio/${ISTIO_BRANCH}/security/tools/jwt/samples/groups-scope.jwt"
