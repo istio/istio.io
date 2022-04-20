@@ -41,7 +41,7 @@ _verify_elided snip_validating_ingress_routing_based_on_jwt_claims_1 "$snip_vali
 _verify_elided snip_validating_ingress_routing_based_on_jwt_claims_2 "$snip_validating_ingress_routing_based_on_jwt_claims_2_out"
 
 # Pull the Istio branch from the docs configuration file.
-ISTIO_BRANCH=$(yq 'source_branch_name' "${REPO_ROOT}"/data/args.yml)
+ISTIO_BRANCH=$(yq '.source_branch_name' "${REPO_ROOT}"/data/args.yml)
 
 TOKEN_GROUP_URL="https://raw.githubusercontent.com/istio/istio/${ISTIO_BRANCH}/security/tools/jwt/samples/groups-scope.jwt"
 export TOKEN_GROUP
