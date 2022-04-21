@@ -7,6 +7,10 @@ owner: istio/wg-policies-and-telemetry-maintainers
 test: yes
 ---
 
+{{< warning >}}
+The OpenTelemetry provider is available in Istio `v1.13.3` or later.
+{{< /warning >}}
+
 The Envoy proxies can be configured to export their [access logs](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage) in [OpenTelemetry format](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/access_loggers/open_telemetry/v3/logs_service.proto).
 In this example, the proxies send access logs to an [OpenTelemetry collector](https://github.com/open-telemetry/opentelemetry-collector), which is configured to print the logs to standard output.
 The standard output of the OpenTelemetry collector can then be accessed via the `kubectl logs` command.
