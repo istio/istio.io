@@ -21,7 +21,6 @@ The maximum TLS version for Istio workloads is 1.3.
   among Istio workloads. In the following example,
   the minimum TLS version for Istio workloads is configured to be 1.3.
 
-
     {{< text bash >}}
     $ cat <<EOF > ./istio.yaml
     apiVersion: install.istio.io/v1alpha1
