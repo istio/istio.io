@@ -1,7 +1,7 @@
 ---
 title: ISTIO-SECURITY-2022-004
 subtitle: 安全公告
-description: 由于堆栈耗尽，控制平面不能拒绝未经身份验证的服务攻击.
+description: 由于堆栈耗尽，控制平面不能拒绝未经身份验证的服务攻击。
 cves: [CVE-2022-24726, CVE-2022-24921]
 cvss: "7.5"
 vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
@@ -18,7 +18,7 @@ skip_seealso: true
 ### CVE-2022-24726{#cve-2022-24726}
 
 - __[CVE-2022-24726](https://github.com/istio/istio/security/advisories/GHSA-8w5h-qr4r-2h6g)__:
-  (CVSS Score 7.5, High): Unauthenticated control plane denial of service attack due to stack exhaustion.
+  (CVSS Score 7.5, High): 由于堆栈耗尽导致未经身份验证的控制平面拒绝服务攻击。
 
 Istio 控制平面 istiod 容易受到请求处理错误的影响，允许恶意攻击者发送特制消息， 允许恶意攻击者发送特制或者过大的消息
  从而导致控制平面进程崩溃。 当Kubernetes验证或突变webhook服务被公开暴露时，这可能被利用。 此端点通过 TLS 15017 端口提供服务， 但不需要攻击者的任何身份验证。
@@ -32,16 +32,16 @@ Istio 控制平面 istiod 容易受到请求处理错误的影响，允许恶意
 Envoy 的以下 Envoy CVE 也针对 Istio 1.11.8、1.12.5 和 Istio 1.13.2 进行了修补。 它们已在 https://github.com/envoyproxy/envoy 中公开修复，用于先前 Istio 版本中使用的 Envoy 版本。 如 ISTIO-SECURITY-2022-003 中所述，Istio 不易受到攻击。
 
 - __[CVE-2022-21657](https://github.com/envoyproxy/envoy/security/advisories/GHSA-837m-wjrv-vm5g)__
-  (CVSS Score 3.1, Low): X.509 Extended Key Usage 和 Trust Purposes 旁路
+  (CVSS Score 3.1, Low): X.509 Extended Key Usage 和 Trust Purposes 旁路。
 
 在Istio 1.12.5和Istio 1.13.2中也修复了以下问题。
 
 - __[CVE-2022-21656](https://github.com/envoyproxy/envoy/security/advisories/GHSA-c9g7-xwcv-pjx2)__
-  (CVSS Score 3.1, Low):X.509 subjectAltName 匹配（和 nameConstraints） 旁路。
+  (CVSS Score 3.1, Low):X.509 subjectAltName 匹配（和 nameConstraints）旁路。
 
 ## 我受到影响了吗？{#am-i-impacted}
 
-如果你在外部istiod环境中运行Istio，或者你将你的istiod暴露在外部，那么你的风险最大。
+如果您在外部istiod环境中运行Istio，或者您将您的istiod暴露在外部，那么您的风险最大。
 
 ## 赞扬{#credit}
 
