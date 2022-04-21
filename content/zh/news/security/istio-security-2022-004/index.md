@@ -37,7 +37,7 @@ Envoy 的以下 Envoy CVE 也针对 Istio 1.11.8、1.12.5 和 Istio 1.13.2 进�
 在Istio 1.12.5和Istio 1.13.2中也修复了以下问题。
 
 - __[CVE-2022-21656](https://github.com/envoyproxy/envoy/security/advisories/GHSA-c9g7-xwcv-pjx2)__
-  (CVSS Score 3.1, Low):X.509 subjectAltName 匹配（和 nameConstraints）旁路。
+  (CVSS Score 3.1, Low):X.509 subjectAltName（和 nameConstraints）匹配旁路。
 
 ## 我受到影响了吗？{#am-i-impacted}
 
