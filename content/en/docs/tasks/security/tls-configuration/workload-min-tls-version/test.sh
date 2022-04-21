@@ -25,19 +25,19 @@ set -o pipefail
 
 export VERIFY_TIMEOUT=300
 
-echo y | snip_before_you_begin_1
+echo y | snip_configuration_of_minimum_tls_version_for_istio_workloads_1
 _wait_for_deployment istio-system istiod
 
-snip_before_you_begin_2
+snip_check_the_tls_configuration_of_istio_workloads_1
 _wait_for_deployment foo httpbin
 _wait_for_deployment foo sleep
 
 # Send request from sleep to httpbin
-_verify_contains snip_before_you_begin_3 "$snip_before_you_begin_3_out"
-
-_verify_contains snip_check_the_tls_configuration_of_istio_workloads_1 "$snip_check_the_tls_configuration_of_istio_workloads_2"
+_verify_contains snip_check_the_tls_configuration_of_istio_workloads_2 "$snip_check_the_tls_configuration_of_istio_workloads_2_out"
 
 _verify_contains snip_check_the_tls_configuration_of_istio_workloads_3 "$snip_check_the_tls_configuration_of_istio_workloads_4"
+
+_verify_contains snip_check_the_tls_configuration_of_istio_workloads_5 "$snip_check_the_tls_configuration_of_istio_workloads_6"
 
 # @cleanup
 snip_cleanup_1

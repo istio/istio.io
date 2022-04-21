@@ -20,7 +20,7 @@
 #          docs/tasks/security/tls-configuration/workload-min-tls-version/index.md
 ####################################################################################################
 
-snip_before_you_begin_1() {
+snip_configuration_of_minimum_tls_version_for_istio_workloads_1() {
 cat <<EOF > ./istio.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
@@ -32,33 +32,33 @@ EOF
 istioctl install -f ./istio.yaml
 }
 
-snip_before_you_begin_2() {
+snip_check_the_tls_configuration_of_istio_workloads_1() {
 kubectl create ns foo
 kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml) -n foo
 kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml) -n foo
 }
 
-snip_before_you_begin_3() {
+snip_check_the_tls_configuration_of_istio_workloads_2() {
 kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl http://httpbin.foo:8000/ip -sS -o /dev/null -w "%{http_code}\n"
 }
 
-! read -r -d '' snip_before_you_begin_3_out <<\ENDSNIP
+! read -r -d '' snip_check_the_tls_configuration_of_istio_workloads_2_out <<\ENDSNIP
 200
 ENDSNIP
 
-snip_check_the_tls_configuration_of_istio_workloads_1() {
+snip_check_the_tls_configuration_of_istio_workloads_3() {
 kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c istio-proxy -n foo -- openssl s_client -alpn istio -tls1_3 -connect httpbin.foo:8000 | grep "TLSv1.3"
 }
 
-! read -r -d '' snip_check_the_tls_configuration_of_istio_workloads_2 <<\ENDSNIP
+! read -r -d '' snip_check_the_tls_configuration_of_istio_workloads_4 <<\ENDSNIP
 TLSv1.3
 ENDSNIP
 
-snip_check_the_tls_configuration_of_istio_workloads_3() {
+snip_check_the_tls_configuration_of_istio_workloads_5() {
 kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c istio-proxy -n foo -- openssl s_client -alpn istio -tls1_2 -connect httpbin.foo:8000 | grep "Cipher is (NONE)"
 }
 
-! read -r -d '' snip_check_the_tls_configuration_of_istio_workloads_4 <<\ENDSNIP
+! read -r -d '' snip_check_the_tls_configuration_of_istio_workloads_6 <<\ENDSNIP
 Cipher is (NONE)
 ENDSNIP
 
