@@ -42,18 +42,18 @@ you can verify that the minimum TLS version was configured and work as expected.
 * Deploy two workloads: `httpbin` and `sleep`. Deploy these into a single namespace,
   for example `foo`. Both workloads run with an Envoy proxy in front of each.
 
-  {{< text bash >}}
-  $ kubectl create ns foo
-  $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@) -n foo
-  $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@) -n foo
-  {{< /text >}}
+    {{< text bash >}}
+    $ kubectl create ns foo
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@) -n foo
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@) -n foo
+    {{< /text >}}
 
 * Verify that `sleep` successfully communicates with `httpbin` using this command:
 
-  {{< text bash >}}
-  $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl http://httpbin.foo:8000/ip -sS -o /dev/null -w "%{http_code}\n"
-  200
-  {{< /text >}}
+    {{< text bash >}}
+    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl http://httpbin.foo:8000/ip -sS -o /dev/null -w "%{http_code}\n"
+    200
+    {{< /text >}}
 
 {{< warning >}}
 If you don’t see the expected output, retry after a few seconds.
