@@ -39,7 +39,7 @@ Envoy 的以下 Envoy CVE 也针对 Istio 1.11.8、1.12.5 和 Istio 1.13.2 进�
 - __[CVE-2022-21656](https://github.com/envoyproxy/envoy/security/advisories/GHSA-c9g7-xwcv-pjx2)__
  (CVSS Score 3.1, Low)：X.509 主题替代名称（和名称约束）匹配旁路。
 
-## 我受到影响了吗？{#am-i-impacted}
+## 我受到影响了吗？{#am-i-impacted?}
 
 如果您在外部istiod环境中运行Istio，或者您将您的istiod暴露在外部，那么您的风险最大。
 
