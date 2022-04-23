@@ -7,9 +7,23 @@ owner: istio/wg-environments-maintainers
 test: no
 ---
 
-通过先运行一个金丝雀部署的新控制平面来完成 Istio 的升级，从而允许您在将所有流量迁移到新版本之前以一小部分工作负载监视升级的效果，这比 [就地升级](/zh/docs/setup/upgrade/in-place/) 要安全的多，这也是推荐的升级方法。
+通过先运行一个金丝雀部署的新控制平面来完成 Istio 的升级，从而允许您在将所有流量迁移到新版本之前以一小部分工作负载监视升级的效果，这比 [直接升级](/zh/docs/setup/upgrade/in-place/) 要安全的多，这也是推荐的升级方法。
 
 安装 Istio 时，`revision` 安装设置可用于同时部署多个独立的控制平面。升级的金丝雀版本可以通过使用不同的 `revision`，在旧版本的旁边安装启动新版本的 Istio 控制平面。每个修订都是一个完整的 Istio 控制平面实现，具有自己的 `Deployment`、`Service` 等。
+
+## 升级须知 {#before-you-upgrade}
+
+在升级 Istio 之前，建议运行 `istioctl x precheck` 命令以确保升级与您的环境兼容。
+
+{{< text bash >}} 
+$ istioctl x precheck 
+✔ 检查集群时没有发现问题。 Istio 可以安全安装或升级！
+  要开始使用，请查看 https://istio.io/latest/zh/docs/setup/getting-started/
+{{< /text >}}
+
+{{< idea >}}
+当使用基于版本的升级时，支持跨两个小版本（例如，直接从版本 1.8 升级到 1.10）。这与直接升级形成对比，直接升级需要升级到每个中间的次要版本。
+{{< /idea >}}
 
 ## 控制平面 {#control-plane}
 
