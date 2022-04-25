@@ -27,7 +27,7 @@ providers:
     url: "https://aspenmesh.io/"
   - name: "Cisco Service Mesh Manager"
     logo: "/logos/cisco.svg"
-    url: "https://www.cisco.com/c/en/us/products/collateral/cloud-systems-management/intersight/nb-06-service-mesh-mgr-aag-cte-en.html"
+    url: "https://eti.cisco.com/appnet/smm"
   - name: "SAP Business Technology Platform, Kyma Runtime"
     logo: "/logos/sap.svg"
     url: "https://discovery-center.cloud.sap/serviceCatalog/kyma-runtime"
