@@ -34,4 +34,4 @@ Finally, we want to thank Google for their stewardship of the Istio community to
 
 ## See also
 
-For more perspectives on today's news, please read blog posts from [Google](https://cloud.google.com/blog/products/open-source/submitting-istio-project-to-the-cncf), [IBM](https://developer.ibm.com/blogs/welcoming-istios-submission-to-the-cncf/), [Tetrate](https://www.tetrate.io/blog/istio-has-applied-to-join-the-cncf/), [VMware](https://tanzu.vmware.com/content/blog/istio-mode-tanzu-service-mesh) and [Solo.io](https://solo.io/blog/istio-past-present-future).
+For more perspectives on today's news, please read blog posts from [Google](https://cloud.google.com/blog/products/open-source/submitting-istio-project-to-the-cncf), [IBM](https://developer.ibm.com/blogs/welcoming-istios-submission-to-the-cncf/), [Tetrate](https://www.tetrate.io/blog/istio-has-applied-to-join-the-cncf/), [VMware](https://tanzu.vmware.com/content/blog/istio-mode-tanzu-service-mesh), [Solo.io](https://solo.io/blog/istio-past-present-future) and [Aspen Mesh](https://aspenmesh.io/aspen-mesh-supports-istio-joining-cncf-as-open-source-technology/).
