@@ -5,7 +5,7 @@ attribution: "Istio Steering Committee"
 keywords: [Istio,CNCF]
 ---
 
-The Istio project is pleased to announce its intention to join the [Cloud Native Computing Foundation](https://cncf.io/) (CNCF). With the support of the Istio Steering Committee, [Google has submitted an application proposal for Istio to join the CNCF](https://github.com/cncf/toc/pulls?q=is%3Apr+is%3Aopen+Istio), the home of its companion projects Kubernetes and Envoy.
+The Istio project is pleased to announce its intention to join the [Cloud Native Computing Foundation](https://cncf.io/) (CNCF). With the support of the Istio Steering Committee, [Google has submitted an application proposal for Istio to join the CNCF](https://github.com/cncf/toc/pull/827), the home of its companion projects Kubernetes and Envoy.
 
 It is almost 5 years since [Google, IBM and Lyft launched Istio 0.1 in May 2017](/news/releases/0.x/announcing-0.1/). That first version set the standard for what a service mesh should be: traffic management, policy enforcement, and observability, powered by sidecars next to workloads. We're proud to be the [most popular service mesh](https://www.cncf.io/reports/cncf-annual-survey-2021/) according to a recent CNCF survey, and look forward to working closer with the CNCF communities around networking and service mesh.
 
@@ -34,4 +34,4 @@ Finally, we want to thank Google for their stewardship of the Istio community to
 
 ## See also
 
-For more perspectives on today's news, please read blog posts from [Google](https://cloud.google.com/blog/products/open-source/submitting-istio-project-to-the-cncf), [Tetrate](https://www.tetrate.io/blog/istio-has-applied-to-join-the-cncf/), [VMware](https://tanzu.vmware.com/content/blog/istio-mode-tanzu-service-mesh) and [Solo.io](https://solo.io/blog/istio-past-present-future).
+For more perspectives on today's news, please read blog posts from [Google](https://cloud.google.com/blog/products/open-source/submitting-istio-project-to-the-cncf), [IBM](https://developer.ibm.com/blogs/welcoming-istios-submission-to-the-cncf/), [Tetrate](https://www.tetrate.io/blog/istio-has-applied-to-join-the-cncf/), [VMware](https://tanzu.vmware.com/content/blog/istio-mode-tanzu-service-mesh) and [Solo.io](https://solo.io/blog/istio-past-present-future).
