@@ -13,7 +13,7 @@ Distributed tracing enables users to track a request through mesh that is distri
 This allows a deeper understanding about request latency, serialization and parallelism via visualization.
 
 Istio leverages [Envoy's distributed tracing](https://www.envoyproxy.io/docs/envoy/v1.12.0/intro/arch_overview/observability/tracing) feature
-to provide tracing integration out of the box. Specifically, Istio provides options to install various tracing backend and configure proxies to send trace spans to them automatically. See [Zipkin](../zipkin/), [Jaeger](../jaeger/), [Lightstep](../lightstep/), and [OpenCensusAgent](../opencensusagent) task docs about how Istio works with those tracing systems.
+to provide tracing integration out of the box. Specifically, Istio provides options to install various tracing backend and configure proxies to send trace spans to them automatically. See [Zipkin](../zipkin/), [Jaeger](../jaeger/), [Lightstep](../lightstep/), and [OpenCensus Agent](../opencensusagent) task docs about how Istio works with those tracing systems.
 
 ## Trace context propagation
 
@@ -25,7 +25,7 @@ All applications should forward the following header:
 
 * `x-request-id`: this is an envoy-specific header that is used to consistently sample logs and traces.
 
-For Zipkin, Jaeger, Stackdriver, and OpenCensusAgent the B3 multi-header format should be forwarded:
+For Zipkin, Jaeger, Stackdriver, and OpenCensus Agent the B3 multi-header format should be forwarded:
 
 * `x-b3-traceid`
 * `x-b3-spanid`
@@ -44,7 +44,7 @@ For Lightstep, the OpenTracing span context header should be forwarded:
 
 * `x-ot-span-context`
 
-For Stackdriver and OpenCensusAgent, you can choose to use any one of the following headers instead of the B3 multi-header format.
+For Stackdriver and OpenCensus Agent, you can choose to use any one of the following headers instead of the B3 multi-header format.
 
 * `grpc-trace-bin`: Standard grpc trace header.
 * `traceparent`: W3C Trace Context standard for tracing. Supported by all OpenCensus, OpenTelemetry, and an increasing number of Jaeger client libraries.

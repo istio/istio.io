@@ -9,7 +9,7 @@ owner: istio/wg-policies-and-telemetry-maintainers
 test: yes
 ---
 
-After completing this task, you will understand how to have your application participate in tracing with the OpenCensusAgent tracer, export those traces to the OpenTelemetry collector, and have the OpenTelemetry collector export those spans to Jaeger.
+After completing this task, you will understand how to have your application participate in tracing with the OpenCensus Agent, export those traces to the OpenTelemetry collector, and have the OpenTelemetry collector export those spans to Jaeger.
 
 To learn how Istio handles tracing, visit this task's [overview](../overview).
 
@@ -44,7 +44,7 @@ To install Istio on a new cluster run:
 $ istioctl install -f tracing.yaml
 {{< /text >}}
 
-With this configuration Istio is installed with OpenCensusAgent a the default tracer. Trace data will be sent to a OpenTelemetry backend.
+With this configuration Istio is installed with OpenCensus Agent as the default tracer. Trace data will be sent to a OpenTelemetry backend.
 
 By default, Istio's OpenCensus Agent tracing will attempt to read and write 4 types of trace headers:
 
