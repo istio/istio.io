@@ -12,8 +12,8 @@ test: n/a
 Distributed tracing enables users to track a request through mesh that is distributed across multiple services.
 This allows a deeper understanding about request latency, serialization and parallelism via visualization.
 
-Istio leverages [Envoy's distributed tracing](https://www.envoyproxy.io/docs/envoy/v1.12.0/intro/arch_overview/observability/tracing) feature
-to provide tracing integration out of the box. Specifically, Istio provides options to install various tracing backend and configure proxies to send trace spans to them automatically. See [Zipkin](../zipkin/), [Jaeger](../jaeger/), [Lightstep](../lightstep/), and [OpenCensus Agent](../opencensusagent) task docs about how Istio works with those tracing systems.
+Istio leverages [Envoy's distributed tracing](https://www.envoyproxy.io/docs/envoy/v1.12.0/intro/arch_overview/observability/tracing) feature to provide tracing integration out of the box.
+Specifically, Istio provides options to install various tracing backends and configure proxies to send trace spans to them automatically. See [Zipkin](/docs/tasks/observability/distributed-tracing/zipkin/), [Jaeger](/docs/tasks/observability/distributed-tracing/jaeger/), [Lightstep](/docs/tasks/observability/distributed-tracing/lightstep/), and [OpenCensus Agent](/docs/tasks/observability/distributed-tracing/opencensusagent/) task docs about how Istio works with those tracing systems.
 
 ## Trace context propagation
 

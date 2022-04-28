@@ -40,6 +40,7 @@ spec:
 {{< /text >}}
 
 To install Istio on a new cluster run:
+
 {{< text bash >}}
 $ istioctl install -f tracing.yaml
 {{< /text >}}
@@ -56,6 +57,7 @@ By default, Istio's OpenCensus Agent tracing will attempt to read and write 4 ty
 If you supply multiple values, the proxy will attempt to read trace headers in the specified order, using the first one that successfully parsed and writing all headers. This permits interoperability between services that use different headers, e.g. one service that propagates B3 headers and one that propagates W3C Trace Context headers can participate in the same trace. In this example we only use W3C Trace Context.
 
 In the default profile the sampling rate is 1% configure it using the Telemetry API to 100%:
+
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
 apiVersion: telemetry.istio.io/v1alpha1
@@ -209,10 +211,10 @@ $ kubectl apply -f {{< github_file >}}/samples/bookinfo/networking/bookinfo-gate
 When the Bookinfo application is up and running generate some traces, you can either access `http://$GATEWAY_URL/productpage` from a browser or call it from inside the cluster:
 
 {{< text bash >}}
-$ SERVICE_IP=$(kubectl get svc -n istio-system istio-ingressgateway -ojsonpath={.spec.clusterIP})
+$ SERVICE_IP=$(kubectl get svc -n istio-system istio-ingressgateway -ojsonpath="{.spec.clusterIP})
 $ kubectl create ns curl
 $ for i in {1..3}; do
-$   kubectl run -n curl --rm=true -it --restart=Never --image=curlimages/curl -- curl http://${SERVICE_IP}/productpage
+$   kubectl run -n curl --rm=true -it --restart=Never --image=curlimages/curl -- curl "http://${SERVICE_IP}/productpage"
 $ done
 $ kubectl delete ns curl
 {{< /text >}}
