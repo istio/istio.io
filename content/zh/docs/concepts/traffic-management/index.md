@@ -471,6 +471,10 @@ spec:
 
 在配置了网络，包括故障恢复策略之后，可以使用 Istio 的故障注入机制来为整个应用程序测试故障恢复能力。故障注入是一种将错误引入系统以确保系统能够承受并从错误条件中恢复的测试方法。使用故障注入特别有用，能确保故障恢复策略不至于不兼容或者太严格，这会导致关键服务不可用。
 
+{{< warning >}}
+目前，故障注入配置不能与同一个虚拟服务上的重试或超时配置相结合，请参见[流量管理问题](/zh/docs/ops/common-problems/network-issues/#virtual-service-with-fault-injection-and-retry-timeout-policies-not-working-as-expected)。
+{{< /warning >}}
+
 与其他错误注入机制（如延迟数据包或在网络层杀掉 Pod）不同，Istio 允许在应用层注入错误。这使您可以注入更多相关的故障，例如 HTTP 错误码，以获得更多相关的结果。
 
 您可以注入两种故障，它们都使用[虚拟服务](#virtual-services)配置：
