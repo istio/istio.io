@@ -179,7 +179,7 @@ kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.14/samp
 }
 
 snip_generate_and_visualize_trace_data_1() {
-SERVICE_IP=$(kubectl get svc -n istio-system istio-ingressgateway -ojsonpath="{.spec.clusterIP})
+SERVICE_IP=$(kubectl get svc -n istio-system istio-ingressgateway -ojsonpath="{.spec.clusterIP}")
 kubectl create ns curl
 for i in {1..3}; do
   kubectl run -n curl --rm=true -it --restart=Never --image=curlimages/curl -- curl "http://${SERVICE_IP}/productpage"

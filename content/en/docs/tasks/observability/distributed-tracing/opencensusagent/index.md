@@ -211,7 +211,7 @@ $ kubectl apply -f {{< github_file >}}/samples/bookinfo/networking/bookinfo-gate
 When the Bookinfo application is up and running generate some traces, you can either access `http://$GATEWAY_URL/productpage` from a browser or call it from inside the cluster:
 
 {{< text bash >}}
-$ SERVICE_IP=$(kubectl get svc -n istio-system istio-ingressgateway -ojsonpath="{.spec.clusterIP})
+$ SERVICE_IP=$(kubectl get svc -n istio-system istio-ingressgateway -ojsonpath="{.spec.clusterIP}")
 $ kubectl create ns curl
 $ for i in {1..3}; do
 $   kubectl run -n curl --rm=true -it --restart=Never --image=curlimages/curl -- curl "http://${SERVICE_IP}/productpage"
