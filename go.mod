@@ -11,8 +11,8 @@ replace github.com/imdario/mergo => github.com/imdario/mergo v0.3.5
 require (
 	github.com/golang/sync v0.0.0-20180314180146-1d60e4601c6f
 	github.com/pmezard/go-difflib v1.0.0
-	istio.io/istio v0.0.0-20220422184250-d315965155f4
-	istio.io/pkg v0.0.0-20220422005710-7533399e2655
+	istio.io/istio v0.0.0-20220429194846-53aa699f7ad9
+	istio.io/pkg v0.0.0-20220426123005-aba87f29dab6
 	k8s.io/apimachinery v0.23.5
 	k8s.io/client-go v0.23.5
 )
@@ -55,7 +55,7 @@ require (
 	github.com/docker/distribution v2.8.1+incompatible // indirect
 	github.com/docker/docker v20.10.12+incompatible // indirect
 	github.com/docker/docker-credential-helpers v0.6.4 // indirect
-	github.com/envoyproxy/go-control-plane v0.10.2-0.20220420171917-689c2bccf0ec // indirect
+	github.com/envoyproxy/go-control-plane v0.10.2-0.20220428052930-ec95b9f870a8 // indirect
 	github.com/envoyproxy/protoc-gen-validate v0.6.7 // indirect
 	github.com/evanphx/json-patch v4.12.0+incompatible // indirect
 	github.com/evanphx/json-patch/v5 v5.6.0 // indirect
@@ -204,8 +204,8 @@ require (
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
 	helm.sh/helm/v3 v3.8.2 // indirect
-	istio.io/api v0.0.0-20220422171451-c26918059821 // indirect
-	istio.io/client-go v1.12.0-alpha.5.0.20220422172151-983ac5efbd0b // indirect
+	istio.io/api v0.0.0-20220426122505-56c53d9fe8c5 // indirect
+	istio.io/client-go v1.12.0-alpha.5.0.20220426123505-18c671f36061 // indirect
 	k8s.io/api v0.23.5 // indirect
 	k8s.io/apiextensions-apiserver v0.23.5 // indirect
 	k8s.io/cli-runtime v0.23.5 // indirect
@@ -215,7 +215,7 @@ require (
 	k8s.io/kubectl v0.23.5 // indirect
 	k8s.io/utils v0.0.0-20220210201930-3a6ce19ff2f9 // indirect
 	sigs.k8s.io/controller-runtime v0.11.2 // indirect
-	sigs.k8s.io/gateway-api v0.4.1-0.20220411164207-d6bbc338d351 // indirect
+	sigs.k8s.io/gateway-api v0.4.1-0.20220419214231-03f50b47814e // indirect
 	sigs.k8s.io/json v0.0.0-20211020170558-c049b76a60c6 // indirect
 	sigs.k8s.io/kustomize/api v0.10.1 // indirect
 	sigs.k8s.io/kustomize/kyaml v0.13.0 // indirect
