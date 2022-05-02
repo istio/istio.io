@@ -8,7 +8,7 @@ owner: istio/wg-environments-maintainers
 test: n/a
 ---
 
-This page describes how to use [Cosign](https://github.com/sigstore/cosign) to
+This page describes how to use [cosign](https://github.com/sigstore/cosign) to
 validate the provenance of Istio image artifacts.
 
 Cosign is a tool developed as part of the
