@@ -34,7 +34,7 @@ Before you begin, please do the following:
 
    {{< text bash >}}
 $ openssl dgst -sha256 \
-    -verify <(curl -ssL https://raw.githubusercontent.com/sigstore/cosign/main/release/release-cosign.pup) \
+    -verify <(curl -ssL https://raw.githubusercontent.com/sigstore/cosign/main/release/release-cosign.pub) \
     -signature /path/to/cosign.sig \
     /path/to/cosign-binary
     {{< /text >}}
