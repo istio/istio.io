@@ -156,7 +156,7 @@ in the client namespace.
 
 If you now send the request from a different namespace, for example `ns2`,
 the client is no longer in the same namespace as the destination rule, `ns1`.
-Because the corresponding service, `myservice.default.svc.cluster.local`, is also not in `ns1`,
+Because the corresponding service, `myservice.default.svc.cluster.local`, is also not in `ns2`,
 but rather in the `default` namespace, the destination rule will also not be found in
 the second namespace of the lookup path, the service namespace.
 
