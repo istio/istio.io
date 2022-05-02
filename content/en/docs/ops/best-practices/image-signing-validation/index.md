@@ -43,7 +43,7 @@ $ openssl dgst -sha256 \
 
 ## Validating Image
 
-To validate a docker image, do the following:
+To validate a container image, do the following:
 
 {{< text bash >}}
 $ ./cosign-binary verify --key "https://istio.io/misc/istio-key.pub" {{< istio_docker_image "pilot" >}}
