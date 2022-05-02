@@ -15,7 +15,7 @@ The maximum TLS version for Istio workloads is 1.3.
 ## Configuration of minimum TLS version for Istio workloads
 
 * Install Istio through `istioctl` with the minimum TLS version configured.
-  The `IstioOperator` custom resource used to configure Istio in the `istioctl install` command,
+  The `IstioOperator` custom resource used to configure Istio in the `istioctl install` command
   contains a field for the minimum TLS version for Istio workloads.
   The `minProtocolVersion` field specifies the minimum TLS version for the TLS connections
   among Istio workloads. In the following example,
