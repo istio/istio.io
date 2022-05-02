@@ -39,7 +39,7 @@ $ openssl dgst -sha256 \
     /path/to/cosign-binary
     {{< /text >}}
 
-1. Run `chmod +x` to make the Cosign binary executable
+1. Make the binary executable (`chmod +x`) and move to a location on the `PATH`
 
 ## Validating Image
 
