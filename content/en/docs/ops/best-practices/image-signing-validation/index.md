@@ -12,9 +12,9 @@ This page describes how to use [cosign](https://github.com/sigstore/cosign) to
 validate the provenance of Istio image artifacts.
 
 Cosign is a tool developed as part of the
-[sigstore](https://www.sigstore.dev) project which
+[sigstore](https://www.sigstore.dev) project, which
 simplifies signing and validation of signed Open Container Initiative (OCI) artifacts,
-such as docker images.
+such as container images.
 
 In Istio, we sign all officially published docker images as part of our release
 process using our own private key starting with Istio 1.12. End users can then verify these images using
