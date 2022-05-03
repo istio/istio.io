@@ -2,7 +2,7 @@
 title: OpenCensus Agent
 description: Learn how to configure the proxies to send OpenCensus-formatted spans to OpenTelemetry Collector.
 weight: 10
-keywords: [telemetry,tracing,opencensus,opentelemetry,span,port-forwarding]
+keywords: [telemetry,tracing,opencensus,opentelemetry,span]
 aliases:
     - /docs/tasks/opencensusagent-tracing.html
 owner: istio/wg-policies-and-telemetry-maintainers
@@ -13,16 +13,19 @@ After completing this task, you will understand how to have your application par
 
 To learn how Istio handles tracing, visit this task's [overview](../overview).
 
-## Setup Istio and Tracing
+{{< boilerplate before-you-begin-egress >}}
 
-Save to following configuration to `tracing.yaml`:
+* Install [Jaeger](/docs/ops/integrations/jaeger/#installation) into your cluster.
+
+* Deploy the [Bookinfo](/docs/examples/bookinfo/#deploying-the-application) sample application.
+
+## Configure tracing
+
+If you used an `IstioOperator` CR to install Istio, add the following field to your configuration:
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
-metadata:
-    namespace: istio-system
-    name: config-istiocontrolplane
 spec:
     meshConfig:
         defaultProviders:
@@ -31,32 +34,31 @@ spec:
         enableTracing: true
         extensionProviders:
         - name: "opencensus"
-            opencensus:
-                service: "opentelemetry-collector.istio-system.svc.cluster.local"
-                port: 55678
-                context:
-                - B3
-                - W3C_TRACE_CONTEXT
+          opencensus:
+              service: "opentelemetry-collector.istio-system.svc.cluster.local"
+              port: 55678
+              context:
+              - W3C_TRACE_CONTEXT
 {{< /text >}}
 
-To install Istio on a new cluster run:
+Otherwise, add the equivalent setting to your original `istioctl install` command, for example:
 
-{{< text bash >}}
-$ istioctl install -f tracing.yaml
+{{< text syntax=bash snip_id=none >}}
+$ istioctl install -f <your-istio-operator-config-file>
 {{< /text >}}
 
 With this configuration Istio is installed with OpenCensus Agent as the default tracer. Trace data will be sent to a OpenTelemetry backend.
 
 By default, Istio's OpenCensus Agent tracing will attempt to read and write 4 types of trace headers:
 
-- B3,
-- gRPC's binary trace header,
-- [W3C Trace Context](https://www.w3.org/TR/trace-context/),
-- and Cloud Trace Context.
+* B3,
+* gRPC's binary trace header,
+* [W3C Trace Context](https://www.w3.org/TR/trace-context/),
+* and Cloud Trace Context.
 
 If you supply multiple values, the proxy will attempt to read trace headers in the specified order, using the first one that successfully parsed and writing all headers. This permits interoperability between services that use different headers, e.g. one service that propagates B3 headers and one that propagates W3C Trace Context headers can participate in the same trace. In this example we only use W3C Trace Context.
 
-In the default profile the sampling rate is 1% configure it using the Telemetry API to 100%:
+In the default profile the sampling rate is 1% increase it to 100% using the [Telemetry API](/docs/tasks/observability/telemetry/):
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -71,19 +73,11 @@ spec:
 EOF
 {{< /text >}}
 
-### Install the backend
+### Deploy OpenTelemetry Collector
 
-For this example, we will use Jaeger as the backend. OpenTelemetry collector supports exporting traces to a [several backends by default](https://github.com/open-telemetry/opentelemetry-collector/blob/master/exporter/README.md#general-information), with extensions that [support more](https://github.com/open-telemetry/opentelemetry-collector-contrib#exporters).
+OpenTelemetry collector supports exporting traces to a [several backends by default](https://github.com/open-telemetry/opentelemetry-collector/blob/master/exporter/README.md#general-information), with extensions that [support more](https://github.com/open-telemetry/opentelemetry-collector-contrib#exporters).
 
-Follow the [Jaeger installation](/docs/ops/integrations/jaeger/#installation) documentation to deploy Jaeger into your cluster or run:
-
-{{< text bash >}}
-$ kubectl apply -f {{< github_file >}}/samples/addons/jaeger.yaml
-{{< /text >}}
-
-### Install OpenTelemetry Collector
-
-[OpenTelemetry Collector](https://github.com/open-telemetry/opentelemetry-collector) can be used to receive spans and export them to a set of backends. Configure the collector to export spans to the Jaeger instance.
+Deploy and configure the collector to receive and export spans to the Jaeger instance:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -110,11 +104,9 @@ data:
         endpoint: http://zipkin.istio-system.svc:9411/api/v2/spans
       logging:
         loglevel: debug
-
     extensions:
       health_check:
         port: 13133
-
     service:
       extensions:
       - health_check
@@ -194,46 +186,42 @@ spec:
 EOF
 {{< /text >}}
 
-## Deploy the Bookinfo app
+## Access the dashboard
 
-The Bookinfo sample application propagates headers from incoming requests to outgoing requests for each service. Follow the directions to deploy Bookinfo to your cluster. The Istio sidecar should be injected.
+[Remotely Accessing Telemetry Addons](/docs/tasks/observability/gateways) details how to configure access to the Istio addons through a gateway.
 
-See the full instructions for [setting up Bookinfo](/docs/examples/bookinfo/#deploying-the-application). If you are using the default profile, you can install bookinfo with the following commands:
-
-{{< text bash >}}
-$ kubectl label namespace default istio-injection=enabled
-$ kubectl apply -f {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml
-$ kubectl apply -f {{< github_file >}}/samples/bookinfo/networking/bookinfo-gateway.yaml
-{{< /text >}}
-
-## Generate and visualize trace data
-
-When the Bookinfo application is up and running generate some traces, you can either access `http://$GATEWAY_URL/productpage` from a browser or call it from inside the cluster:
-
-{{< text bash >}}
-$ SERVICE_IP=$(kubectl get svc -n istio-system istio-ingressgateway -ojsonpath="{.spec.clusterIP}")
-$ kubectl create ns curl
-$ for i in {1..3}; do
-$   kubectl run -n curl --rm=true -it --restart=Never --image=curlimages/curl -- curl "http://${SERVICE_IP}/productpage"
-$ done
-$ kubectl delete ns curl
-{{< /text >}}
-
-After we created some trace data we can see it in the dashboard
+For testing (and temporary access), you may also use port-forwarding. Use the following, assuming you've deployed Jaeger to the `istio-system` namespace:
 
 {{< text bash >}}
 $ istioctl dashboard jaeger
 {{< /text >}}
 
-From the left-hand pane of the dashboard, select `productpage.default` from the **Service** drop-down list and click **Find Traces**:
+## Generating traces using the Bookinfo sample
 
-{{< image link="./istio-tracing-details-jaeger.png" caption="Tracing Dashboard" >}}
+1.  When the Bookinfo application is up and running, access `http://$GATEWAY_URL/productpage` one or more times
+    to generate trace information.
 
-1.  Click on the most recent trace at the top of the list to see the details corresponding to the latest request to the `/productpage`:
+    {{< boilerplate trace-generation >}}
 
-    {{< image link="./istio-tracing-details-jaeger.png" caption="Detailed Trace View" >}}
+1.  From the left-hand pane of the dashboard, select `productpage.default` from the **Service** drop-down list and click
+    **Find Traces**:
 
-1.  The trace is composed of a set of spans, where each span corresponds to a request into or out of a Bookinfo service or internal Istio component (for example `istio-ingressgateway`) during the execution of a `/productpage` request.
+    {{< image link="./istio-tracing-list.png" caption="Tracing Dashboard" >}}
+
+1.  Click on the most recent trace at the top to see the details corresponding to the
+    latest request to the `/productpage`:
+
+    {{< image link="./istio-tracing-details.png" caption="Detailed Trace View" >}}
+
+1.  The trace is comprised of a set of spans,
+    where each span corresponds to a Bookinfo service, invoked during the execution of a `/productpage` request, or
+    internal Istio component, for example: `istio-ingressgateway`.
+
+As you also configured logging exporter in OpenTelemetry Collector, you can see traces in the logs as well:
+
+{{< text bash >}}
+$ kubectl -n istio-system logs deploy/opentelemetry-collector
+{{< /text >}}
 
 ## Cleanup
 
@@ -259,4 +247,12 @@ From the left-hand pane of the dashboard, select `productpage.default` from the 
     $ kubectl delete -n istio-system cm opentelemetry-collector
     $ kubectl delete -n istio-system svc opentelemetry-collector
     $ kubectl delete -n istio-system deploy opentelemetry-collector
+    {{< /text >}}
+
+1.  Remove, or set to `""`, the `meshConfig.extensionProviders` and `meshConfig.defaultProviders` setting in your Istio install configuration.
+
+1.  Remove the telemetry resource:
+
+    {{< text bash >}}
+    $ kubectl delete telemetries.telemetry.istio.io -n istio-system mesh-default
     {{< /text >}}
