@@ -33,14 +33,13 @@ For more information, check out the [documentation](/docs/ops/integrations/spire
 
 ## Add the auto-sni support
 
-Some servers require SNI be included in a request. This new feature configures SNI
-automatically.
+Some servers require SNI be included in a request. This new feature configures SNI automatically.
+For more information, check out the [documentation](/docs/reference/config/networking/destination-rule/).
 
 ## Add the support of configuring the TLS version for Istio workloads
 
 TLS version is important for security. This new feature adds
-the support of configuring the minimum TLS version for Istio workloads. 
-
+the support of configuring the minimum TLS version for Istio workloads.
 For more information, check out the [documentation](/docs/tasks/security/tls-configuration/workload-min-tls-version/).
 
 ## Upgrading to 1.14
