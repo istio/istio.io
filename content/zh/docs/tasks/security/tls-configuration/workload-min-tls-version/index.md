@@ -84,7 +84,7 @@ Istio 工作负载当前支持的最高 TLS 版本为 1.3。
     Cipher is (NONE)
     {{< /text >}}
 
-## 善后{#cleanup}
+## 清理{#cleanup}
 
 *   移除 `foo` 和 `istio-system` 这两个命名空间：
 
