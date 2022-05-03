@@ -37,6 +37,7 @@ test: n/a
 - 您需要帮助调整 Istio 组件的安全性。
 - 您需要使用安全更新相关的帮助。
 - 您的问题与安全性无关。
+- 您的问题与基本映像依赖关系有关（查看 [基础镜像](#base-images)）
 
 ## 评估{#evaluation}
 
@@ -72,3 +73,9 @@ Istio 项目维护了一个邮件列表，用于在私下及早的公开安全�
     - Slack 上的 [#announcements](https://istio.slack.com/messages/CFXS256EQ/) 频道
 
 该公告将尽可能包含客户在升级到固定版本之前能够采取的任何缓解措施，这些公告的建议发布时间是 UTC 时间星期一至四的 16:00。这意味着该公告将在太平洋时间的早上、欧洲傍晚和亚洲傍晚发布。
+
+## 基础镜像{#base-images}
+
+Istio 提供了两组基于 `ubuntu` 和基于 `distroless` 的默认 docker 镜像，更多详情请查阅（[Harden Docker Container Images](/zh/docs/ops/configuration/security/harden-docker-images/)）。
+这些镜像中偶尔会存在一些新发现的 CVE 安全漏洞。
+Istio 安全团队会对这些镜像进行自动扫描，以确保基础镜像中没有已知的 CVE 安全漏洞。
