@@ -74,7 +74,7 @@ Istio 项目维护了一个邮件列表，用于在私下及早的公开安全�
 
 该公告将尽可能包含客户在升级到固定版本之前能够采取的任何缓解措施，这些公告的建议发布时间是 UTC 时间星期一至四的 16:00。这意味着该公告将在太平洋时间的早上、欧洲傍晚和亚洲傍晚发布。
 
-## 基础镜像{base-images}
+## 基础镜像{#base-images}
 
 Istio 提供了两组基于 `ubuntu` 和基于 `distroless` 的默认 docker 镜像，更多详情请查阅（[Harden Docker Container Images](/zh/docs/ops/configuration/security/harden-docker-images/)）。
 这些镜像中偶尔会存在一些新发现的 CVE 安全漏洞。
