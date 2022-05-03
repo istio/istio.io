@@ -11,7 +11,7 @@ test: n/a
 This page describes how to use [cosign](https://github.com/sigstore/cosign) to
 validate the provenance of Istio image artifacts.
 
-cosign is a tool developed as part of the
+Cosign is a tool developed as part of the
 [sigstore](https://www.sigstore.dev) project which
 simplifies signing and validation of signed Open Container Initiative (OCI) artifacts,
 such as docker images.
