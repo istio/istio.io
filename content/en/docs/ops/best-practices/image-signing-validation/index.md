@@ -30,7 +30,7 @@ Before you begin, please do the following:
 1. Download the latest
    [Cosign](https://github.com/sigstore/cosign/releases/latest) build for your
    architecture, as well as its signature.
-1. Validate the cosign binary signature:
+1. Validate the `cosign` binary signature:
 
    {{< text bash >}}
 $ openssl dgst -sha256 \
