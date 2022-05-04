@@ -23,13 +23,13 @@ necessary.
 
 ## Invalid configuration is accepted
 
-Verify the `istiod-istio-system` `validationwebhookconfiguration` exists and
+Verify the `istiod-default-validator` `validationwebhookconfiguration` exists and
 is correct. The `apiVersion`, `apiGroup`, and `resource` of the
 invalid configuration should be listed in one of the two `webhooks`
 entries.
 
 {{< text bash yaml >}}
-$ kubectl get validatingwebhookconfiguration istiod-istio-system -o yaml
+$ kubectl get validatingwebhookconfiguration istiod-default-validator -o yaml
 apiVersion: admissionregistration.k8s.io/v1
 kind: ValidatingWebhookConfiguration
 metadata:
@@ -39,7 +39,7 @@ metadata:
     app: istiod
     istio: istiod
     release: istio
-  name: istiod-istio-system
+  name: istiod-default-validator
   ownerReferences:
   - apiVersion: rbac.authorization.k8s.io/v1
     blockOwnerDeletion: true
