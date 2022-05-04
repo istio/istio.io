@@ -4,7 +4,7 @@ description: Install and customize Istio Gateways.
 weight: 40
 keywords: [install,gateway,kubernetes]
 owner: istio/wg-environments-maintainers
-test: no
+test: yes
 ---
 
 Along with creating a service mesh, Istio allows you to manage [gateways](/docs/concepts/traffic-management/#gateways),
