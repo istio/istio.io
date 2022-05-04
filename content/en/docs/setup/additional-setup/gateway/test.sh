@@ -62,4 +62,6 @@ _wait_for_deployment istio-ingress istio-ingressgateway
 
 # @cleanup
 
+istioctl x uninstall --purge --skip-confirmation
+kubectl delete namespace istio-system
 kubectl delete namespace istio-ingress
