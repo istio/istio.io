@@ -15,7 +15,7 @@ This release contains bug fixes to improve robustness. This release note describ
 
 ## Changes
 
-- **Added** support for skipping the intial installation of CNI entirely.
+- **Added** support for skipping the initial installation of CNI entirely.
   ([Pull Request #38158](https://github.com/istio/istio/pull/38158))
 
 - **Fixed** the in-cluster operator can't prune resources when the Istio control plane have active proxies connected.
