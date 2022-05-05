@@ -18,9 +18,9 @@ This release contains bug fixes to improve robustness. This release note describ
 - **Added** support for skipping the initial installation of CNI entirely.
   ([Pull Request #38158](https://github.com/istio/istio/pull/38158))
 
-- **Fixed** the in-cluster operator can't prune resources when the Istio control plane have active proxies connected.
+- **Fixed** the in-cluster operator unable to prune resources when the Istio control plane has active proxies connected.
   ([Issue #35657](https://github.com/istio/istio/issues/35657))
 
-- **Fixed** an issue in webhook analysis which would make helm reconciler complain about overlapping webhooks
+- **Fixed** an issue in webhook analysis which would make helm reconciler complain about overlapping webhooks.
   ([Issue #36114](https://github.com/istio/istio/issues/36114))
 
