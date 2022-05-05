@@ -40,7 +40,7 @@ spec:
               - W3C_TRACE_CONTEXT
 ENDSNIP
 
-snip_configure_tracing_3() {
+snip_configure_tracing_2() {
 kubectl apply -f - <<EOF
 apiVersion: telemetry.istio.io/v1alpha1
 kind: Telemetry

@@ -17,7 +17,7 @@ Specifically, Istio provides options to install various tracing backends and con
 
 ## Trace context propagation
 
-Although Istio proxies can automatically send spans, they need need extra information for those spans to be joined into single trace. Applications must propagate this information in HTTP headers so that when proxies spans, the trace backend can join them together into a single trace.
+Although Istio proxies can automatically send spans, extra information is needed to join those spans into a single trace. Applications must propagate this information in HTTP headers, so that when proxies send spans, the backend can join them together into a single trace.
 
 To do this, each application must collect headers from each incoming request and forward the headers to all outgoing requests triggered by that incoming request. The choice of headers to forward depends on the configured trace backend. The set of headers to forward are described in each trace backend-specific task page. The following is a summary:
 

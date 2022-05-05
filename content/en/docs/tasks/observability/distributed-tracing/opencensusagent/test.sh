@@ -25,7 +25,7 @@ source "tests/util/addons.sh"
 
 # @setup profile=none
 echo "$snip_configure_tracing_1" | istioctl install -y -f -
-snip_configure_tracing_3
+snip_configure_tracing_2
 
 
 # NOTE: This test is very similar to the one for zipkin.
@@ -39,20 +39,9 @@ _set_ingress_environment_variables
 GATEWAY_URL="$INGRESS_HOST:$INGRESS_PORT"
 bpsnip_trace_generation__1
 
-snip_access_the_dashboard_1 &
-
-# Although test says, take a look at traces, we don't have to do that in this task
-# as it is covered by an integration test in istio/istio.
-function access_jaeger_by_port_forward() {
-  curl -s -o /dev/null -w '%{http_code}' "http://localhost:16686/jaeger/api/traces?service=productpage.default"
-}
-
-_verify_same access_jaeger_by_port_forward "200"
-
 _verify_contains snip_generating_traces_using_the_bookinfo_sample_1 "outbound|9080||productpage.default.svc.cluster.local"
 
 # @cleanup
-pgrep istioctl | xargs kill
 cleanup_bookinfo_sample
 _undeploy_addons jaeger
 snip_cleanup_3

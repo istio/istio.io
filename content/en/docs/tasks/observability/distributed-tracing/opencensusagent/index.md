@@ -41,13 +41,7 @@ spec:
               - W3C_TRACE_CONTEXT
 {{< /text >}}
 
-Otherwise, add the equivalent setting to your original `istioctl install` command, for example:
-
-{{< text syntax=bash snip_id=none >}}
-$ istioctl install -f <your-istio-operator-config-file>
-{{< /text >}}
-
-With this configuration Istio is installed with OpenCensus Agent as the default tracer. Trace data will be sent to a OpenTelemetry backend.
+With this configuration Istio is installed with OpenCensus Agent as the default tracer. Trace data will be sent to an OpenTelemetry backend.
 
 By default, Istio's OpenCensus Agent tracing will attempt to read and write 4 types of trace headers:
 
@@ -58,7 +52,7 @@ By default, Istio's OpenCensus Agent tracing will attempt to read and write 4 ty
 
 If you supply multiple values, the proxy will attempt to read trace headers in the specified order, using the first one that successfully parsed and writing all headers. This permits interoperability between services that use different headers, e.g. one service that propagates B3 headers and one that propagates W3C Trace Context headers can participate in the same trace. In this example we only use W3C Trace Context.
 
-In the default profile the sampling rate is 1% increase it to 100% using the [Telemetry API](/docs/tasks/observability/telemetry/):
+In the default profile the sampling rate is 1%. Increase it to 100% using the [Telemetry API](/docs/tasks/observability/telemetry/):
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -75,7 +69,7 @@ EOF
 
 ### Deploy OpenTelemetry Collector
 
-OpenTelemetry collector supports exporting traces to a [several backends by default](https://github.com/open-telemetry/opentelemetry-collector/blob/master/exporter/README.md#general-information), with extensions that [support more](https://github.com/open-telemetry/opentelemetry-collector-contrib#exporters).
+OpenTelemetry collector supports exporting traces to [several backends by default](https://github.com/open-telemetry/opentelemetry-collector/blob/master/exporter/README.md#general-information) in the core distribution. Other backends are available in the [contrib distribution](https://github.com/open-telemetry/opentelemetry-collector-contrib) of OpenTelemetry collector.
 
 Deploy and configure the collector to receive and export spans to the Jaeger instance:
 
@@ -209,7 +203,7 @@ $ istioctl dashboard jaeger
     {{< image link="./istio-tracing-list.png" caption="Tracing Dashboard" >}}
 
 1.  Click on the most recent trace at the top to see the details corresponding to the
-    latest request to the `/productpage`:
+    latest request to `/productpage`:
 
     {{< image link="./istio-tracing-details.png" caption="Detailed Trace View" >}}
 
