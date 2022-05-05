@@ -60,6 +60,18 @@ EOF
 snip_deploying_a_gateway_5
 _wait_for_deployment istio-ingress istio-ingressgateway
 
+istioctl install --skip-confirmation --set profile=minimal --set revision=canary
+_wait_for_deployment istio-system istiod-canary
+
+# shellcheck disable=SC2154
+cat <<EOF | kubectl apply -f -
+$snip_canary_upgrade_advanced_1
+EOF
+_wait_for_deployment istio-ingress istio-ingressgateway-canary
+
+# shellcheck disable=SC2154
+_verify_like snip_canary_upgrade_advanced_2 "${snip_canary_upgrade_advanced_2_out}"
+
 # @cleanup
 
 istioctl x uninstall --purge --skip-confirmation
