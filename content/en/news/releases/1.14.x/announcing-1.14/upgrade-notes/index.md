@@ -8,7 +8,7 @@ weight: 20
 When you upgrade from Istio 1.13.x to Istio 1.14.0, you need to consider the changes on this page.
 These notes detail the changes which purposefully break backwards compatibility with Istio 1.14.0.
 The notes also mention changes which preserve backwards compatibility while introducing new behavior.
-Changes are only included if the new behavior would be unexpected to a user of Istio 1.13.x.
+Changes are only included if the new behavior would be unexpected to a user of Istio 1.13.x or Istio 1.12.x.
 
 ## gogo/protobuf library migration
 The `istio.io/api` and `istio.io/client-go` libraries have switched from using the [gogo/protobuf](https://github.com/gogo/protobuf)
