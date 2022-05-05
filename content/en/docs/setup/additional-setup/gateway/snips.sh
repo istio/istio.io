@@ -158,10 +158,10 @@ spec:
 ENDSNIP
 
 snip_canary_upgrade_advanced_2() {
-kubectl get endpoints -o "custom-columns=NAME:.metadata.name,PODS:.subsets[*].addresses[*].targetRef.name"
+kubectl get endpoints -n istio-ingress -o "custom-columns=NAME:.metadata.name,PODS:.subsets[*].addresses[*].targetRef.name"
 }
 
 ! read -r -d '' snip_canary_upgrade_advanced_2_out <<\ENDSNIP
 NAME                   PODS
-istio-ingressgateway   istio-ingressgateway-788854c955-8gv96,istio-ingressgateway-canary-b78944cbd-mq2qf
+istio-ingressgateway   istio-ingressgateway-...,istio-ingressgateway-canary-...
 ENDSNIP

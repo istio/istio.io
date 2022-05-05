@@ -291,9 +291,9 @@ spec:
 When this deployment is created, you will then have two versions of the gateway, both selected by the same Service:
 
 {{< text bash >}}
-$ kubectl get endpoints -o "custom-columns=NAME:.metadata.name,PODS:.subsets[*].addresses[*].targetRef.name"
+$ kubectl get endpoints -n istio-ingress -o "custom-columns=NAME:.metadata.name,PODS:.subsets[*].addresses[*].targetRef.name"
 NAME                   PODS
-istio-ingressgateway   istio-ingressgateway-788854c955-8gv96,istio-ingressgateway-canary-b78944cbd-mq2qf
+istio-ingressgateway   istio-ingressgateway-...,istio-ingressgateway-canary-...
 {{< /text >}}
 
 {{< image width="50%" link="canary-upgrade.svg" caption="Canary upgrade in progress" >}}
