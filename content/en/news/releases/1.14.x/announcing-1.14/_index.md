@@ -21,7 +21,7 @@ Special thanks are due to the release managers Lei Tang (Google) and Greg Hanson
 and to Test & Release WG lead Eric Van Norman (IBM) for his help and guidance.
 
 {{< tip >}}
-Istio 1.14.0 is officially supported on Kubernetes versions `1.20` to `1.23`.
+Istio 1.14.0 is officially supported on Kubernetes versions `1.21` to `1.24`.
 {{< /tip >}}
 
 Here are some of the highlights of the release:
@@ -35,12 +35,12 @@ support for SPIRE. Thanks to the team at HP Enterprise for contributing this wor
 
 For more information, check out the [documentation](/docs/ops/integrations/spire/).
 
-## Add the auto-sni support
+## Add auto-sni support
 
 Some servers require SNI be included in a request. This new feature configures SNI automatically.
 For more information, check out the [documentation](/docs/reference/config/networking/destination-rule/).
 
-## Add the support of configuring the TLS version for Istio workloads
+## Add support for configuring the TLS version for Istio workloads
 
 TLS version is important for security. This new feature adds
 the support of configuring the minimum TLS version for Istio workloads.
