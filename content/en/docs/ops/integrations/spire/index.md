@@ -1,6 +1,6 @@
 ---
 title: SPIRE
-description: Describes how to configure Istio to integrate with SPIRE to get cryptographic identities through Envoy's SDS API.
+description: How to configure Istio to integrate with SPIRE to get cryptographic identities through Envoy's SDS API.
 weight: 31
 keywords: [kubernetes,spiffe,spire]
 aliases:
@@ -20,7 +20,7 @@ SPIRE's node attestation extends attestation to the physical or virtual hardware
 For a quick demo of how this SPIRE integration with Istio works, see [Integrating SPIRE as a CA through Envoy's SDS API]({{< github_tree >}}/samples/security/spire).
 
 {{< warning >}}
-Note that this integration requires version 1.14 for both `istioctl` and data plane.
+Note that this integration requires version 1.14 for both `istioctl` and the data plane.
 {{< /warning >}}
 
 The integration is compatible with Istio upgrades.
@@ -49,7 +49,7 @@ for more information on configuring SPIRE to integrate with Istio deployments.
 
 To integrate your SPIRE deployment with Istio, configure SPIRE:
 
-1. Access [SPIRE Agent reference](https://spiffe.io/docs/latest/deploying/spire_agent/#agent-configuration-file) and
+1. Access the [SPIRE Agent reference](https://spiffe.io/docs/latest/deploying/spire_agent/#agent-configuration-file) and
     configure the SPIRE Agent socket path to match the Envoy SDS defined socket path.
 
     {{< text plain >}}
@@ -69,7 +69,7 @@ Note that you must deploy SPIRE before installing Istio into your environment so
 
 1. [Download Istio release 1.14+](/docs/setup/getting-started/#download).
 
-1. After [deploying SPIRE](#install-spire) into your environment, and verifying that all deployments are in Ready state,
+1. After [deploying SPIRE](#install-spire) into your environment, and verifying that all deployments are in `Ready` state,
     install Istio with custom patches for the Ingress-gateway as well as for istio-proxy.
 
     {{< text bash >}}
@@ -156,13 +156,13 @@ along with a SPIRE Server, new entries are automatically registered for each new
 See [Verifying that identities were created for workloads](#verifying-that-identities-were-created-for-workloads)
 to check issued identities.
 
-Note that `SPIRE workload registrar` is used on [quick start](#option-1:-quick-start) section.
+Note that `SPIRE workload registrar` used on [quick start](#option-1:-quick-start) section.
 
 ### Option 2: Manual Registration
 
 To improve workload attestation security robustness, SPIRE is able to verify against a group of selector values based on different parameters. Skip these steps if you installed `SPIRE` by following the [quick start](#option-1:-quick-start) since it uses automatic registration.
 
-1. To generate an entry for an Ingress Gateway with a set of selectors such as the
+1. Generate an entry for an Ingress Gateway with a set of selectors such as the
     pod name and pod UID:
 
     {{< text bash >}}
