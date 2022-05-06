@@ -156,7 +156,7 @@ along with a SPIRE Server, new entries are automatically registered for each new
 See [Verifying that identities were created for workloads](#verifying-that-identities-were-created-for-workloads)
 to check issued identities.
 
-Note that `SPIRE workload registrar` used on [quick start](#option-1:-quick-start) section.
+Note that `SPIRE workload registrar` is used in the [quick start](#option-1:-quick-start) section.
 
 ### Option 2: Manual Registration
 
