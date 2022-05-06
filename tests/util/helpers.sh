@@ -112,3 +112,16 @@ _wait_for_istio() {
 _urlencode() {
     python3 -c "import urllib.parse; print(urllib.parse.quote('''$1'''))"
 }
+
+# Invokes bash make to rewrite a snippet to avoid installing from a real helm repository, and instead uses
+# local files
+# usage: _rewrite_helm_repo <commands>
+# shellcheck disable=SC2001
+_rewrite_helm_repo() {
+  # get function definition: https://stackoverflow.com/a/6916952/374797
+  cmd="$(type "${1:?snip}" | sed '1,3d;$d')"
+  cmd="$(echo "${cmd}" | sed 's|istio/base|manifests/charts/base|')"
+  cmd="$(echo "${cmd}" | sed 's|istio/istiod|manifests/charts/istio-control/istio-discovery|')"
+  cmd="$(echo "${cmd}" | sed 's|istio/gateway|manifests/charts/gateway|')"
+  eval "${cmd} --set global.tag=${ISTIO_IMAGE_VERSION=SHOULD_BE_SET}.${ISTIO_LONG_SHA=latest}"
+}
