@@ -25,18 +25,6 @@ function rebuild() {
     istioctl install --skip-confirmation --set profile=minimal
 }
 
-# rewrite-repo invokes bash make to rewrite a snippet to avoid installing from a real helm repository, and instead uses
-# local files
-# shellcheck disable=SC2001
-function rewrite-repo() {
-  # get function definition: https://stackoverflow.com/a/6916952/374797
-  cmd="$(type "${1:?snip}" | sed '1,3d;$d')"
-  cmd="$(echo "${cmd}" | sed 's|istio/base|manifests/charts/base|')"
-  cmd="$(echo "${cmd}" | sed 's|istio/istiod|manifests/charts/istio-control/istio-discovery|')"
-  cmd="$(echo "${cmd}" | sed 's|istio/gateway|manifests/charts/gateway|')"
-  eval "${cmd} --set global.tag=${ISTIO_IMAGE_VERSION=SHOULD_BE_SET}.${ISTIO_LONG_SHA=latest} --wait"
-}
-
 istioctl install --skip-confirmation --set profile=minimal
 _wait_for_deployment istio-system istiod
 
@@ -49,7 +37,7 @@ echo y | snip_deploying_a_gateway_2
 _wait_for_deployment istio-ingress ingressgateway
 
 rebuild
-rewrite-repo snip_deploying_a_gateway_3
+_rewrite_helm_repo snip_deploying_a_gateway_3
 _wait_for_deployment istio-ingress istio-ingress
 
 rebuild
