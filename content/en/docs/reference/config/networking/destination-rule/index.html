@@ -1187,7 +1187,10 @@ No
 <td><code>sni</code></td>
 <td><code>string</code></td>
 <td>
-<p>SNI string to present to the server during TLS handshake.</p>
+<p>SNI string to present to the server during TLS handshake.
+If unspecified, SNI will be automatically set based on downstream HTTP
+host/authority header for SIMPLE and MUTUAL TLS modes, provided <code>ENABLE_AUTO_SNI</code>
+environmental variable is set to <code>true</code>.</p>
 
 </td>
 <td>
