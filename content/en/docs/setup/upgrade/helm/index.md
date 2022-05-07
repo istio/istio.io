@@ -5,7 +5,7 @@ description: Upgrade and configure Istio for in-depth evaluation.
 weight: 27
 keywords: [kubernetes,helm]
 owner: istio/wg-environments-maintainers
-test: no
+test: yes
 ---
 
 Follow this guide to upgrade and configure an Istio mesh using
@@ -23,7 +23,7 @@ Before upgrading Istio, it is recommended to run the `istioctl x precheck` comma
 {{< text bash >}}
 $ istioctl x precheck
 ✔ No issues found when checking the cluster. Istio is safe to install or upgrade!
-To get started, check out https://istio.io/latest/docs/setup/getting-started/
+  To get started, check out <https://istio.io/latest/docs/setup/getting-started/>
 {{< /text >}}
 
 {{< warning >}}
@@ -62,8 +62,8 @@ primary and canary installations.
     {{< text bash >}}
     $ kubectl get pods -l app=istiod -L istio.io/rev -n istio-system
       NAME                            READY   STATUS    RESTARTS   AGE   REV
-      istiod-5649c48ddc-dlkh8         1/1     Running   0          71m   default
-      istiod-canary-9cc9fd96f-jpc7n   1/1     Running   0          34m   canary
+      istiod-...                      1/1     Running   0          71m   default
+      istiod-canary-...               1/1     Running   0          34m   canary
     {{< /text >}}
 
 1. Follow the steps [here](/docs/setup/upgrade/canary/) to test or migrate
@@ -79,7 +79,7 @@ primary and canary installations.
 1. Upgrade the Istio base chart, making the new revision the default.
 
     {{< text bash >}}
-    $ helm upgrade istio-base istio/base --defaultRevision canary -n istio-system --skip-crds
+    $ helm upgrade istio-base istio/base --set defaultRevision=canary -n istio-system --skip-crds
     {{< /text >}}
 
 ### Stable revision labels (experimental)
@@ -91,8 +91,10 @@ primary and canary installations.
 {{< boilerplate revision-tags-usage >}}
 
 {{< text bash >}}
-$ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags={prod-stable} --set revision=1-9-5 -n istio-system | kubectl apply -f -
-$ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags={prod-canary} --set revision=1-10-0 -n istio-system | kubectl apply -f -
+$ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags={prod-stable} --set revision=1-9-5 -n istio-system > prod-stable.yaml
+$ kubectl apply -f prod-stable.yaml
+$ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags={prod-canary} --set revision=1-10-0 -n istio-system > prod-canary.yaml
+$ kubectl apply -f prod-canary.yaml
 {{< /text >}}
 
 {{< warning >}}
@@ -103,7 +105,8 @@ below to uninstall revision tags.
 {{< boilerplate revision-tags-middle >}}
 
 {{< text bash >}}
-$ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags={prod-stable} --set revision=1-10-0 -n istio-system | kubectl apply -f -
+$ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags={prod-stable} --set revision=1-10-0 -n istio-system > prod-stable.yaml
+$ kubectl apply -f prod-stable.yaml
 {{< /text >}}
 
 {{< boilerplate revision-tags-prologue >}}
@@ -113,7 +116,8 @@ $ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisi
 {{< boilerplate revision-tags-default-intro >}}
 
 {{< text bash >}}
-$ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags={default} --set revision=1-10-0 -n istio-system | kubectl apply -f -
+$ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags={default} --set revision=1-10-0 -n istio-system > default.yaml
+$ kubectl apply -f default.yaml
 {{< /text >}}
 
 {{< boilerplate revision-tags-default-outro >}}
