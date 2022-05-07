@@ -91,9 +91,9 @@ primary and canary installations.
 {{< boilerplate revision-tags-usage >}}
 
 {{< text bash >}}
-$ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags={prod-stable} --set revision=1-9-5 -n istio-system > prod-stable.yaml
+$ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{prod-stable}" --set revision=1-9-5 -n istio-system > prod-stable.yaml
 $ kubectl apply -f prod-stable.yaml
-$ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags={prod-canary} --set revision=1-10-0 -n istio-system > prod-canary.yaml
+$ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{prod-canary}" --set revision=1-10-0 -n istio-system > prod-canary.yaml
 $ kubectl apply -f prod-canary.yaml
 {{< /text >}}
 
@@ -105,7 +105,7 @@ below to uninstall revision tags.
 {{< boilerplate revision-tags-middle >}}
 
 {{< text bash >}}
-$ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags={prod-stable} --set revision=1-10-0 -n istio-system > prod-stable.yaml
+$ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{prod-stable}" --set revision=1-10-0 -n istio-system > prod-stable.yaml
 $ kubectl apply -f prod-stable.yaml
 {{< /text >}}
 
@@ -116,7 +116,7 @@ $ kubectl apply -f prod-stable.yaml
 {{< boilerplate revision-tags-default-intro >}}
 
 {{< text bash >}}
-$ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags={default} --set revision=1-10-0 -n istio-system > default.yaml
+$ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{default}" --set revision=1-10-0 -n istio-system > default.yaml
 $ kubectl apply -f default.yaml
 {{< /text >}}
 
