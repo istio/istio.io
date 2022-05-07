@@ -33,8 +33,8 @@ _verify_like snip_canary_upgrade_recommended_3 "${snip_canary_upgrade_recommende
 snip_canary_upgrade_recommended_4
 _rewrite_helm_repo snip_canary_upgrade_recommended_5
 
-_rewrite_helm_repo helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags={prod-stable} --set revision=1-9-5 -n istio-system | kubectl delete -f -
-_rewrite_helm_repo helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags={prod-canary} --set revision=1-10-0 -n istio-system | kubectl delete -f -
+_rewrite_helm_repo helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{prod-stable}" --set revision=1-9-5 -n istio-system | kubectl delete -f -
+_rewrite_helm_repo helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{prod-canary}" --set revision=1-10-0 -n istio-system | kubectl delete -f -
 helm uninstall istiod-canary -n istio-system
 _remove_istio_helm
 
