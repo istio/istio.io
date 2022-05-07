@@ -24,9 +24,6 @@ _install_istio_helm
 
 _rewrite_helm_repo snip_usage_1
 
-# shellcheck disable=SC2154
-_verify_like bpsnip_revision_tags_middle__1 "${bpsnip_revision_tags_middle__1_out}"
-
 _rewrite_helm_repo snip_usage_2
 _rewrite_helm_repo snip_default_tag_1
 
