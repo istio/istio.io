@@ -432,7 +432,7 @@ EOF
 }
 
 snip_configure_traffic_through_egress_gateway_with_sni_proxy_4() {
-kubectl exec "$SOURCE_POD" -c sleep -- sh -c 'curl -v -s https://en.wikipedia.org/wiki/Main_Page'
+kubectl exec "$SOURCE_POD" -c sleep -- sh -c 'curl -s https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"; curl -s https://de.wikipedia.org/wiki/Wikipedia:Hauptseite | grep -o "<title>.*</title>"'
 }
 
 ! read -r -d '' snip_configure_traffic_through_egress_gateway_with_sni_proxy_4_out <<\ENDSNIP
