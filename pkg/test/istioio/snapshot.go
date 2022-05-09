@@ -253,11 +253,12 @@ func newClusterSnapshot(client kube.Client, contextName string) (ClusterSnapshot
 		if validatingWebhookConfigurationsonSets, err := client.AdmissionregistrationV1().ValidatingWebhookConfigurations().List(context.TODO(), metav1.ListOptions{}); err != nil {
 			scopes.Framework.Debugf("failed listing validatingWebhookConfigurationsonSets for context %s: %v", contextName, err)
 		} else {
-			for _, mwh := range validatingWebhookConfigurationsonSets.Items {
-				clusterSN.ValidatingWebhookConfigurations = append(clusterSN.ValidatingWebhookConfigurations, mwh.Name)
+			for _, vwh := range validatingWebhookConfigurationsonSets.Items {
+				clusterSN.ValidatingWebhookConfigurations = append(clusterSN.ValidatingWebhookConfigurations, vwh.Name)
 			}
 			sort.Strings(clusterSN.ValidatingWebhookConfigurations)
 		}
+		return nil
 	})
 
 	if err := wg.Wait(); err != nil {
