@@ -53,7 +53,7 @@ including support for OpenTelemetry access logging, filtering based on WorkloadM
 
 ## Upgrading to 1.14
 
-When you upgrade, we would like to hear from you! Please take a few minutes to respond to a brief [survey](https://forms.gle/pzWZpAvMVBecaQ9h9) to let us know how we’re doing.
+When you upgrade, we would like to hear from you! Please take a few minutes to respond to a brief [survey](https://forms.gle/yEtCbt45FZ3VoDT5A) to let us know how we’re doing.
 
 You can also join the conversation at [Discuss Istio](https://discuss.istio.io/), or join our [Slack workspace](https://slack.istio.io/).
 Would you like to contribute directly to Istio? Find and join one of our [Working Groups](https://github.com/istio/community/blob/master/WORKING-GROUPS.md) and help us improve.
