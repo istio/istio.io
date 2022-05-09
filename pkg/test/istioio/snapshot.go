@@ -238,6 +238,28 @@ func newClusterSnapshot(client kube.Client, contextName string) (ClusterSnapshot
 		})
 	}
 
+	wg.Go(func() error {
+		// MutatingWebhookConfigurations
+		if mutatingWebhookConfigurationsonSets, err := client.AdmissionregistrationV1().MutatingWebhookConfigurations().List(context.TODO(), metav1.ListOptions{}); err != nil {
+			scopes.Framework.Debugf("failed listing mutatingWebhookConfigurationsonSets for context %s: %v", contextName, err)
+		} else {
+			for _, mwh := range mutatingWebhookConfigurationsonSets.Items {
+				clusterSN.MutatingWebhookConfigurations = append(clusterSN.MutatingWebhookConfigurations, mwh.Name)
+			}
+			sort.Strings(clusterSN.MutatingWebhookConfigurations)
+		}
+
+		// ValidatingWebhookConfigurations
+		if validatingWebhookConfigurationsonSets, err := client.AdmissionregistrationV1().ValidatingWebhookConfigurations().List(context.TODO(), metav1.ListOptions{}); err != nil {
+			scopes.Framework.Debugf("failed listing validatingWebhookConfigurationsonSets for context %s: %v", contextName, err)
+		} else {
+			for _, mwh := range validatingWebhookConfigurationsonSets.Items {
+				clusterSN.ValidatingWebhookConfigurations = append(clusterSN.ValidatingWebhookConfigurations, mwh.Name)
+			}
+			sort.Strings(clusterSN.ValidatingWebhookConfigurations)
+		}
+	})
+
 	if err := wg.Wait(); err != nil {
 		return nilVal, err
 	}
@@ -282,9 +304,11 @@ func (s MeshSnapshot) ToJSON() (string, error) {
 }
 
 type ClusterSnapshot struct {
-	Context            string              `json:"context"`
-	Namespaces         []string            `json:"namespaces"`
-	NamespaceSnapshots []NamespaceSnapshot `json:"namespaceSnapshots"`
+	Context                         string              `json:"context"`
+	Namespaces                      []string            `json:"namespaces"`
+	NamespaceSnapshots              []NamespaceSnapshot `json:"namespaceSnapshots"`
+	MutatingWebhookConfigurations   []string            `json:mutatingWebhookConfigurations`
+	ValidatingWebhookConfigurations []string            `json:validatingWebhookConfigurations`
 }
 
 type NamespaceSnapshot struct {
