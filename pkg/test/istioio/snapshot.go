@@ -240,7 +240,8 @@ func newClusterSnapshot(client kube.Client, contextName string) (ClusterSnapshot
 
 	wg.Go(func() error {
 		// MutatingWebhookConfigurations
-		if mutatingWebhookConfigurationsonSets, err := client.AdmissionregistrationV1().MutatingWebhookConfigurations().List(context.TODO(), metav1.ListOptions{}); err != nil {
+		if mutatingWebhookConfigurationsonSets,
+			err := client.AdmissionregistrationV1().MutatingWebhookConfigurations().List(context.TODO(), metav1.ListOptions{}); err != nil {
 			scopes.Framework.Debugf("failed listing mutatingWebhookConfigurationsonSets for context %s: %v", contextName, err)
 		} else {
 			for _, mwh := range mutatingWebhookConfigurationsonSets.Items {
@@ -250,7 +251,8 @@ func newClusterSnapshot(client kube.Client, contextName string) (ClusterSnapshot
 		}
 
 		// ValidatingWebhookConfigurations
-		if validatingWebhookConfigurationsonSets, err := client.AdmissionregistrationV1().ValidatingWebhookConfigurations().List(context.TODO(), metav1.ListOptions{}); err != nil {
+		if validatingWebhookConfigurationsonSets,
+			err := client.AdmissionregistrationV1().ValidatingWebhookConfigurations().List(context.TODO(), metav1.ListOptions{}); err != nil {
 			scopes.Framework.Debugf("failed listing validatingWebhookConfigurationsonSets for context %s: %v", contextName, err)
 		} else {
 			for _, vwh := range validatingWebhookConfigurationsonSets.Items {
@@ -308,8 +310,8 @@ type ClusterSnapshot struct {
 	Context                         string              `json:"context"`
 	Namespaces                      []string            `json:"namespaces"`
 	NamespaceSnapshots              []NamespaceSnapshot `json:"namespaceSnapshots"`
-	MutatingWebhookConfigurations   []string            `json:mutatingWebhookConfigurations`
-	ValidatingWebhookConfigurations []string            `json:validatingWebhookConfigurations`
+	MutatingWebhookConfigurations   []string            `json:"mutatingWebhookConfigurations"`
+	ValidatingWebhookConfigurations []string            `json:"validatingWebhookConfigurations"`
 }
 
 type NamespaceSnapshot struct {
