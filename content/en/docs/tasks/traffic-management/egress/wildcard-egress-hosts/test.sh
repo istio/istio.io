@@ -29,6 +29,7 @@ kubectl label namespace default istio-injection=enabled --overwrite
 snip_before_you_begin_2
 _wait_for_deployment default sleep
 snip_before_you_begin_4
+echo "SOURCE_POD: $SOURCE_POD"
 
 confirm_blocking() {
 kubectl exec "$SOURCE_POD" -c sleep -- curl -sS -I https://www.google.com | grep  "HTTP/"; kubectl exec "$SOURCE_POD" -c sleep -- curl -sS -I https://edition.cnn.com | grep "HTTP/"
@@ -82,6 +83,9 @@ _wait_for_istio envoyfilter default forward-downstream-sni
 
 snip_configure_traffic_through_egress_gateway_with_sni_proxy_3
 _wait_for_istio envoyfilter istio-system egress-gateway-sni-verifier
+
+snip_before_you_begin_4
+echo "SOURCE_POD: $SOURCE_POD"
 
 _verify_same snip_configure_traffic_through_egress_gateway_with_sni_proxy_4 "$snip_configure_traffic_through_egress_gateway_with_sni_proxy_4_out"
 
