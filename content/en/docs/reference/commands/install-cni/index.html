@@ -854,6 +854,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>CA file for kubeconfig. Defaults to the same as install-cni pod</td>
 </tr>
 <tr>
+<td><code>LABEL_CANONICAL_SERVICES_FOR_MESH_EXTERNAL_SERVICE_ENTRIES</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, metadata representing canonical services for ServiceEntry resources with a location of mesh_external will be populatedin the cluster metadata for those endpoints.</td>
+</tr>
+<tr>
 <td><code>LOG_LEVEL</code></td>
 <td>String</td>
 <td><code>warn</code></td>
