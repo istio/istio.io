@@ -519,6 +519,12 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>KNative revision, set if running in knative</td>
 </tr>
 <tr>
+<td><code>LABEL_CANONICAL_SERVICES_FOR_MESH_EXTERNAL_SERVICE_ENTRIES</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, metadata representing canonical services for ServiceEntry resources with a location of mesh_external will be populatedin the cluster metadata for those endpoints.</td>
+</tr>
+<tr>
 <td><code>MCS_API_GROUP</code></td>
 <td>String</td>
 <td><code>multicluster.x-k8s.io</code></td>
