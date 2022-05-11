@@ -56,54 +56,10 @@ _verify_contains snip_wildcard_configuration_for_a_single_hosting_server_4 "outb
 
 snip_cleanup_wildcard_configuration_for_a_single_hosting_server_1
 
-snip_setup_egress_gateway_with_sni_proxy_1
-
-snip_setup_egress_gateway_with_sni_proxy_2
-
-snip_setup_egress_gateway_with_sni_proxy_3
-
-snip_setup_egress_gateway_with_sni_proxy_4
-_wait_for_deployment istio-system istio-egressgateway-with-sni-proxy
-
-_verify_like snip_setup_egress_gateway_with_sni_proxy_5 "$snip_setup_egress_gateway_with_sni_proxy_5_out"
-
-snip_setup_egress_gateway_with_sni_proxy_6
-_wait_for_istio serviceentry default sni-proxy
-_wait_for_istio destinationrule default disable-mtls-for-sni-proxy
-
-snip_configure_traffic_through_egress_gateway_with_sni_proxy_1
-_wait_for_istio serviceentry default wikipedia
-
-snip_configure_traffic_through_egress_gateway_with_sni_proxy_2
-_wait_for_istio gateway default istio-egressgateway-with-sni-proxy
-_wait_for_istio destinationrule default egressgateway-for-wikipedia
-_wait_for_istio virtualservice default direct-wikipedia-through-egress-gateway
-_wait_for_istio envoyfilter default forward-downstream-sni
-
-snip_configure_traffic_through_egress_gateway_with_sni_proxy_3
-_wait_for_istio envoyfilter istio-system egress-gateway-sni-verifier
-
-_verify_same snip_configure_traffic_through_egress_gateway_with_sni_proxy_4 "$snip_configure_traffic_through_egress_gateway_with_sni_proxy_4_out"
-
-_verify_lines snip_configure_traffic_through_egress_gateway_with_sni_proxy_5 "
-+ outbound|18443||sni-proxy.local
-+ en.wikipedia.org
-+ de.wikipedia.org
-"
-
-_verify_lines snip_configure_traffic_through_egress_gateway_with_sni_proxy_7 "
-+ TCP [en.wikipedia.org]200
-+ TCP [de.wikipedia.org]200
-"
-
 # @cleanup
 snip_cleanup_direct_traffic_to_a_wildcard_host_1
 
 snip_cleanup_wildcard_configuration_for_a_single_hosting_server_1
-
-snip_cleanup_wildcard_configuration_for_arbitrary_domains_1
-snip_cleanup_wildcard_configuration_for_arbitrary_domains_2
-snip_cleanup_wildcard_configuration_for_arbitrary_domains_3
 
 snip_cleanup_1
 echo y | snip_cleanup_2
