@@ -38,6 +38,6 @@ startup_sleep_sample
 _verify_contains get_productpage "glyphicon glyphicon-star"
 
 # @cleanup
-kubectl delete ns istio-system
+echo y | istioctl x uninstall --revision=default
 cleanup_bookinfo_sample
 cleanup_sleep_sample
