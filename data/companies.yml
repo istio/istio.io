@@ -82,9 +82,9 @@ providers:
   - name: "Deckhouse Kubernetes Platform"
     logo: "/logos/flant-deckhouse-platform.svg"
     url: "https://deckhouse.io/en/documentation/v1/modules/110-istio/"
-  - name: "Meshery by Layer5"
+  - name: "Layer5"
     logo: "/logos/layer5.svg"
-    url: "https://layer5.io/service-mesh-management/meshery"
+    url: "https://layer5.io/"
 
 integrations:
   - name: "Aeraki"
