@@ -104,6 +104,7 @@ allowlist
 alt
 analytics
 Anantheswaran
+AntiAffinity
 ANDed
 Ansari
 Ant
@@ -141,6 +142,7 @@ autoscaling
 auto-sni
 AutoTrader
 Avelar
+AVX-512
 az
 backend
 backends
@@ -163,6 +165,7 @@ bol.com
 Bookinfo
 bookinfo
 boolean
+BoringSSL
 bring-your-own-CA
 bring-your-own-identity
 Brooks
@@ -215,6 +218,7 @@ ControlZ
 CoreDNS
 coreos
 Costin
+cpuset
 CPU
 CPUs
 CR
@@ -222,6 +226,8 @@ CRD
 CRs
 CRDs
 crypto
+CryptoMB
+CryptoMbPrivateKeyMethodConfig
 CSPs
 CSRs
 Ctrl
@@ -527,6 +533,7 @@ jwt.io
 JWTs
 JWT_RULE
 JWKS-URI
+k6
 k8s
 Kafka
 katacoda
@@ -574,6 +581,7 @@ linters
 list_by_publishdate
 Liu
 liveness
+loadimpact
 localhost
 lookups
 loopback
@@ -716,6 +724,8 @@ Plevyak
 pluggability
 pluggable
 png
+poll_delay
+pollDelay
 Poddar
 Posta
 PostgreSQL
@@ -732,6 +742,7 @@ preload
 prepend
 prepending
 prepends
+PrivateKeyProvider
 prober
 programmatically
 PromQL
@@ -745,6 +756,7 @@ Proxy-wasm
 proxying
 proxyless
 Proxyless
+ProxyConfig
 Pub/Sub
 PubNub
 pwd
@@ -786,6 +798,10 @@ reusability
 Reviewer1
 Reviewer2
 revisioned
+resources.request.cpu
+resources.request.memory
+resources.limits.cpu
+resources.limits.memory
 roadmap
 roadmaps
 RocketChat
@@ -847,6 +863,7 @@ SPIFFE
 SPIFFE-compliant
 SREs
 Stackdriver
+Standard_D4ds_v5
 stateful
 Statsd
 stdout
@@ -940,6 +957,7 @@ v1
 v1.7.4
 v1.7.6_coreos.0
 v1.9
+v1.21
 v1.29
 v1alpha1
 v1alpha3
@@ -1005,6 +1023,7 @@ Xia
 Xining
 xRoute
 Xu
+Xeon
 Yahya
 yaml
 yamls
