@@ -184,16 +184,16 @@ kubectl delete -f external-istiod-gw.yaml --context="${CTX_EXTERNAL_CLUSTER}"
 
 istioctl manifest generate -f remote-config-cluster.yaml | kubectl delete --context="${CTX_REMOTE_CLUSTER}" -f -
 istioctl manifest generate -f second-config-cluster.yaml | kubectl delete --context="${CTX_SECOND_CLUSTER}" -f -
+istioctl manifest generate -f eastwest-gateway-1.yaml | kubectl delete --context="${CTX_REMOTE_CLUSTER}" -f -
+istioctl manifest generate -f eastwest-gateway-2.yaml | kubectl delete --context="${CTX_SECOND_CLUSTER}" -f -
 istioctl manifest generate -f external-istiod.yaml | kubectl delete --context="${CTX_EXTERNAL_CLUSTER}" -f -
 istioctl manifest generate -f controlplane-gateway.yaml | kubectl delete --context="${CTX_EXTERNAL_CLUSTER}" -f -
-istioctl manifest generate -f eastwest-gateway-1.yaml | kubectl delete --context="${CTX_REMOTE_CLUSTER}" -f - 
-istioctl manifest generate -f eastwest-gateway-2.yaml | kubectl delete --context="${CTX_SECOND_CLUSTER}" -f - 
 
 #TODO remove the following lines when https://github.com/istio/istio/issues/38599 is fixed
 kubectl delete validatingwebhookconfigurations istiod-default-validator --context="${CTX_REMOTE_CLUSTER}"
-kubectl delete validatingwebhookconfigurations istiod-default-validator --context="${CTX_SECOND_CLUSTER}"
+kubectl delete validatingwebhookconfigurations istiod-default-validator --context="${CTX_EXTERNAL_CLUSTER}"
 kubectl delete mutatingwebhookconfigurations istio-revision-tag-default-external-istiod --context="${CTX_REMOTE_CLUSTER}"
-kubectl delete mutatingwebhookconfigurations istio-revision-tag-default-external-istiod --context="${CTX_SECOND_CLUSTER}"
+kubectl delete mutatingwebhookconfigurations istio-revision-tag-default-external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
 
 kubectl delete ns istio-system external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
 kubectl delete ns external-istiod --context="${CTX_REMOTE_CLUSTER}"
