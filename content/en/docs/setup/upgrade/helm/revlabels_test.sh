@@ -33,3 +33,4 @@ _remove_istio_helm
 
 # TODO: Remove when https://github.com/istio/istio/issues/38599 is fixed
 kubectl get validatingwebhookconfigurations -o custom-columns=NAME:.metadata.name --no-headers | xargs kubectl delete validatingwebhookconfigurations
+kubectl get mutatingwebhookconfigurations -o custom-columns=NAME:.metadata.name --no-headers | xargs kubectl delete mutatingwebhookconfigurations
