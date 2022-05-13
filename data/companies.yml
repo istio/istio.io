@@ -295,10 +295,10 @@ pro_services:
   - name: "Cloud Scale® Inc"
     logo: "/logos/cloudscaleinc.svg"
     url: "https://cloudscaleinc.com/"
-    description: "Cloud Scale experts assess your current applications and use-cases, find the right mix of cloud platforms for your workloads, Identify gaps in technology and skills, and prepare a migration plan – The ones that will help you accomplish your business objectives"
+    description: "Cloud Scale® Inc experts assess your current applications, service maps and use-cases, find the right mix of cloud platforms for your workloads, Identify gaps in technology and skills, and prepare a success plan – The ones that will help you accomplish your business objectives"
     details:
-      - "Cloud Scale® Inc platform and services puts distribution and management in the palm of your hands. From productivity to continuity, from security to remote monitoring & management – our growing portfolio of services has got you covered. "
-      - "Cloud consulting and expert services by Cloud Scale helps in solving all of the needs by selecting the right platforms, cloud solutions and platform needs that integrate smoothly with legacy & next-generation technology’s and deliver optimal return on technology investment (TCO)"      
+      - "Cloud Scale® Inc platform and service mesh experts puts distribution and management in the palm of your hands. From productivity to continuity, from security to remote monitoring & management – our growing portfolio of services has got you covered. "
+      - "Cloud consulting and Istio service mesh experts by Cloud Scale® Inc helps in solving all of the needs by selecting the right platforms, cloud solutions and platform needs that integrate smoothly with legacy & next-generation technology’s and deliver optimal return on technology investment (TCO)"      
   - name: "Your Name Here"
     logo: "/logos/istio.svg"
     url: "https://istio.io/"
