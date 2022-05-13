@@ -194,7 +194,7 @@ are being sent by inspecting [Server Name Indication (SNI)](https://en.wikipedia
 The _SNI_ field is sent unencrypted during the TLS handshake. Using HTTPS prevents the attackers from knowing specific
 topics and articles but does not prevent an attackers from learning that `edition.cnn.com` is accessed.
 
-## Cleanup
+### Cleanup the TLS origination example
 
 1.  Remove the Istio configuration items you created:
 
@@ -203,8 +203,284 @@ topics and articles but does not prevent an attackers from learning that `editio
     $ kubectl delete destinationrule edition-cnn-com
     {{< /text >}}
 
-1.  Shutdown the [sleep]({{< github_tree >}}/samples/sleep) service:
+## Mutual TLS origination for egress traffic
+
+Similar to the previous section, this section describes how to configure a sidecar to perform
+TLS origination for an external service, only this time using a service that requires mutual TLS.
+
+This example is considerably more involved because you need to first:
+
+1. generate client and server certificates
+2. deploy an external service that supports the mutual TLS protocol
+3. Configure client(sleep pod) to use the credentials created in Step 1
+
+Only then can you configure the external traffic to go through the sidecar which will now perform
+TLS origination.
+
+### Generate client and server certificates and keys
+
+For this task you can use your favorite tool to generate certificates and keys. The commands below use
+[openssl](https://man.openbsd.org/openssl.1)
+
+1.  Create a root certificate and private key to sign the certificate for your services:
 
     {{< text bash >}}
-    $ kubectl delete -f @samples/sleep/sleep.yaml@
+    $ openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=example Inc./CN=example.com' -keyout example.com.key -out example.com.crt
     {{< /text >}}
+
+2.  Create a certificate and a private key for `my-nginx.mesh-external.svc.cluster.local`:
+
+    {{< text bash >}}
+    $ openssl req -out my-nginx.mesh-external.svc.cluster.local.csr -newkey rsa:2048 -nodes -keyout my-nginx.mesh-external.svc.cluster.local.key -subj "/CN=my-nginx.mesh-external.svc.cluster.local/O=some organization"
+    $ openssl x509 -req -sha256 -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 0 -in my-nginx.mesh-external.svc.cluster.local.csr -out my-nginx.mesh-external.svc.cluster.local.crt
+    {{< /text >}}
+
+3.  Generate client certificate and private key:
+
+    {{< text bash >}}
+    $ openssl req -out client.example.com.csr -newkey rsa:2048 -nodes -keyout client.example.com.key -subj "/CN=client.example.com/O=client organization"
+    $ openssl x509 -req -sha256 -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 1 -in client.example.com.csr -out client.example.com.crt
+    {{< /text >}}
+
+### Deploy a mutual TLS server
+
+To simulate an actual external service that supports the mutual TLS protocol,
+deploy an [NGINX](https://www.nginx.com) server in your Kubernetes cluster, but running outside of
+the Istio service mesh, i.e., in a namespace without Istio sidecar proxy injection enabled.
+
+1.  Create a namespace to represent services outside the Istio mesh, namely `mesh-external`. Note that the sidecar proxy will
+    not be automatically injected into the pods in this namespace since the automatic sidecar injection was not
+    [enabled](/docs/setup/additional-setup/sidecar-injection/#deploying-an-app) on it.
+
+    {{< text bash >}}
+    $ kubectl create namespace mesh-external
+    {{< /text >}}
+
+2. Create Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) to hold the server's and CA
+   certificates.
+
+    {{< text bash >}}
+    $ kubectl create -n mesh-external secret tls nginx-server-certs --key my-nginx.mesh-external.svc.cluster.local.key --cert my-nginx.mesh-external.svc.cluster.local.crt
+    $ kubectl create -n mesh-external secret generic nginx-ca-certs --from-file=example.com.crt
+    {{< /text >}}
+
+3.  Create a configuration file for the NGINX server:
+
+    {{< text bash >}}
+    $ cat <<\EOF > ./nginx.conf
+    events {
+    }
+
+    http {
+      log_format main '$remote_addr - $remote_user [$time_local]  $status '
+      '"$request" $body_bytes_sent "$http_referer" '
+      '"$http_user_agent" "$http_x_forwarded_for"';
+      access_log /var/log/nginx/access.log main;
+      error_log  /var/log/nginx/error.log;
+
+      server {
+        listen 443 ssl;
+
+        root /usr/share/nginx/html;
+        index index.html;
+
+        server_name my-nginx.mesh-external.svc.cluster.local;
+        ssl_certificate /etc/nginx-server-certs/tls.crt;
+        ssl_certificate_key /etc/nginx-server-certs/tls.key;
+        ssl_client_certificate /etc/nginx-ca-certs/example.com.crt;
+        ssl_verify_client on;
+      }
+    }
+    EOF
+    {{< /text >}}
+
+4.  Create a Kubernetes [ConfigMap](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/)
+to hold the configuration of the NGINX server:
+
+    {{< text bash >}}
+    $ kubectl create configmap nginx-configmap -n mesh-external --from-file=nginx.conf=./nginx.conf
+    {{< /text >}}
+
+5.  Deploy the NGINX server:
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: my-nginx
+      namespace: mesh-external
+      labels:
+        run: my-nginx
+    spec:
+      ports:
+      - port: 443
+        protocol: TCP
+      selector:
+        run: my-nginx
+    ---
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: my-nginx
+      namespace: mesh-external
+    spec:
+      selector:
+        matchLabels:
+          run: my-nginx
+      replicas: 1
+      template:
+        metadata:
+          labels:
+            run: my-nginx
+        spec:
+          containers:
+          - name: my-nginx
+            image: nginx
+            ports:
+            - containerPort: 443
+            volumeMounts:
+            - name: nginx-config
+              mountPath: /etc/nginx
+              readOnly: true
+            - name: nginx-server-certs
+              mountPath: /etc/nginx-server-certs
+              readOnly: true
+            - name: nginx-ca-certs
+              mountPath: /etc/nginx-ca-certs
+              readOnly: true
+          volumes:
+          - name: nginx-config
+            configMap:
+              name: nginx-configmap
+          - name: nginx-server-certs
+            secret:
+              secretName: nginx-server-certs
+          - name: nginx-ca-certs
+            secret:
+              secretName: nginx-ca-certs
+    EOF
+    {{< /text >}}
+
+### Configure mutual TLS origination for egress traffic
+
+1.  Create Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) to hold the client's certificates:
+
+    {{< text bash >}}
+    $ kubectl create secret generic client-credential --from-file=tls.key=client.example.com.key \
+      --from-file=tls.crt=client.example.com.crt --from-file=ca.crt=example.com.crt
+    {{< /text >}}
+
+    The secret **must** be created in the same namespace as the client pod is deployed in, `default` in this case.
+
+    To support integration with various tools, Istio supports a few different Secret formats.
+
+    In this example. a single generic Secret with keys `tls.key`, `tls.crt`, and `ca.crt` is used.
+
+2. Deploy the client application, if not already done.
+
+    {{< text bash >}}
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
+    {{< /text >}}
+
+3. Create required `RBAC` to make sure the secret created in the above step is accessible to the sleep pod.
+
+    {{< text bash >}}
+    $ kubectl create role client-credential-role --resource=secret --verb=get,list,watch
+    $ kubectl create rolebinding client-credential-role-binding --role=client-credential-role --serviceaccount=default:sleep
+    {{< /text >}}
+
+4.  Create a `ServiceEntry` to enable access to `my-nginx.mesh-external.svc.cluster.local`:
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: networking.istio.io/v1beta1
+    kind: ServiceEntry
+    metadata:
+      name: originate-mtls-for-nginx
+    spec:
+      exportTo:
+      - .
+      hosts:
+      - my-nginx.mesh-external.svc.cluster.local
+      location: MESH_EXTERNAL
+      ports:
+      - name: http-port-for-tls-origination
+        number: 31443
+        protocol: HTTP
+      resolution: NONE
+    EOF
+    {{< /text >}}
+
+5.  Add a `DestinationRule` to perform mutual TLS origination
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: originate-mtls-for-nginx
+    spec:
+      workloadSelector:
+        matchLabels:
+          app: sleep
+      host: my-nginx.mesh-external.svc.cluster.local
+      trafficPolicy:
+        loadBalancer:
+          simple: ROUND_ROBIN
+        portLevelSettings:
+        - port:
+            number: 31443
+          tls:
+            mode: MUTUAL
+            credentialName: client-credential # this must match the secret created earlier to hold client certs, and works only when DR has a workloadSelector
+            sni: my-nginx.mesh-external.svc.cluster.local
+    EOF
+    {{< /text >}}
+
+6.  Send an HTTP request to `http://my-nginx.mesh-external.svc.cluster.local`:
+
+    {{< text bash >}}
+    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -sS http://my-nginx.mesh-external.svc.cluster.local:31443
+    <!DOCTYPE html>
+    <html>
+    <head>
+    <title>Welcome to nginx!</title>
+    ...
+    {{< /text >}}
+
+### Cleanup the mutual TLS origination example
+
+1.  Remove created Kubernetes resources:
+
+    {{< text bash >}}
+    $ kubectl delete secret nginx-server-certs nginx-ca-certs -n mesh-external
+    $ kubectl delete secret client-credential
+    $ kubectl delete configmap nginx-configmap -n mesh-external
+    $ kubectl delete service my-nginx -n mesh-external
+    $ kubectl delete deployment my-nginx -n mesh-external
+    $ kubectl delete namespace mesh-external
+    $ kubectl delete serviceentry originate-mtls-for-nginx
+    $ kubectl delete destinationrule originate-mtls-for-nginx
+    {{< /text >}}
+
+2.  Delete the certificates and private keys:
+
+    {{< text bash >}}
+    $ rm example.com.crt example.com.key my-nginx.mesh-external.svc.cluster.local.crt my-nginx.mesh-external.svc.cluster.local.key my-nginx.mesh-external.svc.cluster.local.csr client.example.com.crt client.example.com.csr client.example.com.key
+    {{< /text >}}
+
+3.  Delete the generated configuration files used in this example:
+
+    {{< text bash >}}
+    $ rm ./nginx.conf
+    {{< /text >}}
+
+## Cleanup
+
+Delete the `sleep` service and deployment:
+
+{{< text bash >}}
+$ kubectl delete -f @samples/sleep/sleep.yaml@
+{{< /text >}}
+
