@@ -21,9 +21,6 @@ set -o pipefail
 
 # @setup profile=none
 
-# Delete a vailidatingwebhookconfiguration that seems to have been left around from a prior test.
-kubectl delete validatingwebhookconfigurations.admissionregistration.k8s.io istiod-default-validator  --ignore-not-found
-
 _install_istio_helm
 
 snip_canary_upgrade_recommended_1
