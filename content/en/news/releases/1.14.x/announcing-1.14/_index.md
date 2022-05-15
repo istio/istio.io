@@ -33,6 +33,16 @@ pluggable multi-factor attestation and SPIFFE federation. We've made changes in 
 we integrate with external Certificate Authorities, using the Envoy SDS API, to enable
 support for SPIRE. Thanks to the team at HP Enterprise for contributing this work!
 
+SPIRE enables the introduction of strongly attested identities through the use of a combination
+of different attestation mechanisms. SPIRE provides a variety of node and workload attestors out
+of the box for workloads running in Kubernetes, AWS, GCP, Azure, Docker, and, through a plugin
+oriented architecture, it also enables the use of custom attestors.
+SPIRE provides a pluggable integration with custom Key Management Systems, e.g. AWS KMS, for
+storing the CA private keys.
+SPIRE enables the integration with existing PKIs through the Upstream Certificate Authority plugin.
+SPIRE implements SPIFFE Federation, enabling workloads to trust peers in a different trust domain, in
+a configurable and flexible way through the Federation API.
+
 For more information, check out the [documentation](/docs/ops/integrations/spire/).
 
 ## Add auto-sni support
@@ -57,6 +67,13 @@ When you upgrade, we would like to hear from you! Please take a few minutes to r
 
 You can also join the conversation at [Discuss Istio](https://discuss.istio.io/), or join our [Slack workspace](https://slack.istio.io/).
 Would you like to contribute directly to Istio? Find and join one of our [Working Groups](https://github.com/istio/community/blob/master/WORKING-GROUPS.md) and help us improve.
+
+## IstioCon wrap up
+
+IstioCon 2022, the second edition of the project’s conference, took place Apr 25-29. We had almost 4,000 registered
+participants, with a 4.5/5 satisfaction score. The conference was held in English and Chinese, with people
+joining from 120 countries all over the world. During April 2022, the month of the conference, 81% of users
+on istio.io were first time users. We will be sharing a more detailed report of the event on events.istio.io.
 
 ## CNCF wrap up
 
