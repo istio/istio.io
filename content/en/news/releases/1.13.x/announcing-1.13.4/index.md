@@ -16,7 +16,7 @@ This release note describes what's different between Istio 1.13.3 and 1.13.4.
 
 ## Changes
 
-- **Fixed** some ServiceEntry hostnames causing non-deterministic Envoy routes.
+- **Fixed** some `ServiceEntry` hostnames causing non-deterministic Envoy routes.
   ([Issue #38678](https://github.com/istio/istio/issues/38678))
 
 - **Fixed** `istioctl x describe pod` error: `failed to fetch mesh config`.
