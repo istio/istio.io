@@ -196,7 +196,7 @@ topics and articles but does not prevent an attackers from learning that `editio
 
 ### Cleanup the TLS origination example
 
-1.  Remove the Istio configuration items you created:
+Remove the Istio configuration items you created:
 
     {{< text bash >}}
     $ kubectl delete serviceentry edition-cnn-com
@@ -333,6 +333,7 @@ Follow the same steps as [Egress Gateway TLS Origination](/docs/tasks/traffic-ma
 Delete the `sleep` service and deployment:
 
 {{< text bash >}}
-$ kubectl delete -f @samples/sleep/sleep.yaml@
+$ kubectl delete service sleep
+$ kubectl delete deployment sleep
 {{< /text >}}
 
