@@ -13,7 +13,7 @@ aliases:
 ## Traffic Management
 
 - **Improved** XDS generation to send less resource when possible, sometimes omitting a response entirely.
-  This can be disabled by the `PILOT_PARTIAL_FULL_PUSHES=false` environment variable, if neccesary.
+  This can be disabled by the `PILOT_PARTIAL_FULL_PUSHES=false` environment variable, if necessary.
   ([Issue #37989](https://github.com/istio/istio/issues/37989)),([Issue #37974](https://github.com/istio/istio/issues/37974))
 
 - **Updated** Istio's default load balancing algorithm from `ROUND_ROBIN` to `LEAST_REQUEST`.
@@ -29,7 +29,7 @@ aliases:
 `ENABLE_LEGACY_LB_ALGORITHM_DEFAULT=true`.
 
 - **Added** support for sending unready endpoints also to Envoy. This will be useful when slow start mode in Envoy is enabled.
-  This can be disabled by setting PILOT_SEND_UNHEALTHY_ENDPOINTS to false.
+  This can be disabled by setting `PILOT_SEND_UNHEALTHY_ENDPOINTS` to false.
 
 - **Added** new configuration options to `istio-iptables` and `istio-clean-iptables`
   for including/excluding certain user groups from interception of the outgoing traffic
@@ -60,12 +60,9 @@ Only applies when traffic from all groups (i.e. `*`) is being redirected to Envo
 `ISTIO_OUTBOUND_OWNER_GROUPS` and `ISTIO_OUTBOUND_OWNER_GROUPS_EXCLUDE` are mutually
 exclusive, use only one of them.
 
-E.g.,
-
-* `ISTIO_OUTBOUND_OWNER_GROUPS=101,java` instructs to intercept outgoing traffic only from
+For example, `ISTIO_OUTBOUND_OWNER_GROUPS=101,java` instructs to intercept outgoing traffic only from
   those processes that run under one of the user groups `101` (by `GID`) or `java` (by name).
-
-* `ISTIO_OUTBOUND_OWNER_GROUPS_EXCLUDE=root,202` instructs to intercept outgoing traffic
+`ISTIO_OUTBOUND_OWNER_GROUPS_EXCLUDE=root,202` instructs to intercept outgoing traffic
   from all processes except for those that under one of the user groups `202` (by `GID`)
   or `root` (by name).
   ([Issue #37057](https://github.com/istio/istio/issues/37057))
@@ -73,27 +70,27 @@ E.g.,
 - **Added** the ability to automatically set SNI when `DestinationRules`
   do not specify it and `ENABLE_AUTO_SNI` is enabled.
 
-- **Added** the ability to set credentialName based secret configuration
-  at sidecars for egress TLS traffic when WorkloadSelector is specified in `DestinationRule`,
+- **Added** the ability to set `credentialName` based secret configuration
+  at sidecars for egress TLS traffic when `WorkloadSelector` is specified in `DestinationRule`,
   provided the sidecar has permission to list secrets in the namespace where it resides.
 
-- **Added** support for WorkloadSelector in DestinationRule.
+- **Added** support for `WorkloadSelector` in `DestinationRule`.
 
-- **Added** warning messages for users attempting to use IP addresses as SNI values in VirtualService.TLSRoute.Match.SniHosts
+- **Added** warning messages for users attempting to use IP addresses as SNI values in `VirtualService.TLSRoute.Match.SniHosts`
   ([Issue #33401](https://github.com/istio/istio/issues/33401))
 
 - **Added** support REPLACE for virtual host in envoy filter.
 
-- **Added** an API, `runtimeValues`, to [Proxy Config](https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1/#ProxyConfig) to configure Envoy runtime configuration using.  ([Issue #37202](https://github.com/istio/istio/issues/37202))
+- **Added** an API, `runtimeValues`, to [Proxy Config](/docs/reference/config/istio.mesh.v1alpha1/#ProxyConfig) to configure Envoy runtime configuration using.  ([Issue #37202](https://github.com/istio/istio/issues/37202))
 
-- **Added** setting upstream tls maximum protocol to TLS 1.3.  ([Issue #36271](https://github.com/istio/istio/issues/36271))
+- **Added** setting upstream TLS maximum version to TLS 1.3.  ([Issue #36271](https://github.com/istio/istio/issues/36271))
 
-- **Fixed** the problem that xDS may not be updated multiple destinationRules for a service are merged.
-  In this case the merged rule only records one name/namespace pair of all the destinationRules.
+- **Fixed** the problem that xDS may not be updated multiple `destinationRules` for a service are merged.
+  In this case the merged rule only records one name/namespace pair of all the `destinationRules`.
   However, this meta is used to record config dependencies of a sidecar.
 
-In this fix, we introduce a new struct `consolidatedDestRule` and record all the destinationrules' meta
-to avoid missing any destinationRule dependencies.  ([Issue #38082](https://github.com/istio/istio/issues/38082))
+In this fix, we introduce a new struct `consolidatedDestRule` and record all the `destinationrules`' meta
+to avoid missing any `destinationRule` dependencies.  ([Issue #38082](https://github.com/istio/istio/issues/38082))
 
 - **Fixed** an issue causing traffic from a gateway to a service with an [undeclared protocol](/docs/ops/configuration/traffic-management/protocol-selection/#automatic-protocol-selection) being treated as TCP traffic rather than HTTP.
   ([Issue #37196](https://github.com/istio/istio/issues/37196))
@@ -112,7 +109,7 @@ to avoid missing any destinationRule dependencies.  ([Issue #38082](https://gith
 - **Added** a new approach for CA integration through the Envoy SDS API.
   ([usage]( https://istio.io/latest/docs/ops/integrations/spire/))([design]( https://docs.google.com/document/d/1zJP6QJukLzckTbdY42ZMLkulGXz4gWzH9SwOh4xoe0A)) ([Issue #37183](https://github.com/istio/istio/issues/37183))
 
-- **Added** support for using PrivateKeyProvider in SDS. See [#35809](https://github.com/istio/istio/issues/35809)
+- **Added** support for using `PrivateKeyProvider` in SDS. See [#35809](https://github.com/istio/istio/issues/35809)
 
 - **Added** support for TLS configuration API for workloads.  ([Issue #2285](https://github.com/istio/api/issues/2285))
 
@@ -125,27 +122,27 @@ to avoid missing any destinationRule dependencies.  ([Issue #38082](https://gith
 
 - **Added** environment variable support at Wasm extension via VM configuration in WasmPlugin API.
 
-- **Added** WorkloadMode selection to Logging.
+- **Added** `WorkloadMode` selection to Logging.
 
 ## Extensibility
 
-- **Added** support for WasmPlugin pulling image from private repo with `imagePullSecret`.
+- **Added** support for WasmPlugin pulling image from private repository with `imagePullSecret`.
 
 ## Installation
 
-- **Added** support of installing gateway helm chart as daemonset.
+- **Added** support of installing gateway helm chart as `daemonset`.
   ([Issue #37610](https://github.com/istio/istio/issues/37610))
 
 - **Fixed** an issue of Envoy losing connection after `istio-ca-root-cert` is changed.
   ([Issue #36723](https://github.com/istio/istio/issues/36723))
 
 - **Fixed** an issue that was preventing the operator from updating deployments when `.autoscaleEnabled` is `true` and `.k8s.replicaCount` is nonzero.
-  When both autoscale is enabled and replicaCount is nonzero, warning messages will be generated during validation.
+  When both `autoscale` is enabled and `replicaCount` is nonzero, warning messages will be generated during validation.
 
-- **Fixed** an unknown field "customService" in v1alpha1.EgressGatewayConfig.
+- **Fixed** an unknown field `customService` in `v1alpha1.EgressGatewayConfig`.
   ([Issue #37260](https://github.com/istio/istio/issues/37260))
 
-- **Fixed** removing caBundle default value from Chart to allow a GitOps approach.
+- **Fixed** removing `caBundle` default value from Chart to allow a GitOps approach.
   ([Issue #33052](https://github.com/istio/istio/issues/33052))
 
 - **Fixed** the default container annotation when there are multiple containers.
@@ -154,7 +151,7 @@ to avoid missing any destinationRule dependencies.  ([Issue #38082](https://gith
 - **Fixed** that istioctl should add kubernetes resource in all revisions when running analyze.
   ([Issue #38148](https://github.com/istio/istio/issues/38148))
 
-- **Fixed** the in-cluster operator can't create resources on recreation of the same IstioOperator resource.
+- **Fixed** the in-cluster operator can't create resources on recreation of the same `IstioOperator` resource.
   ([Issue #35657](https://github.com/istio/istio/issues/35657))
 
 ## istioctl
@@ -175,4 +172,5 @@ to avoid missing any destinationRule dependencies.  ([Issue #38082](https://gith
 - **Fixed** unexpected warning logs for `istioctl install --dry-run`.
   ([Issue #37084](https://github.com/istio/istio/issues/37084))
 
-- **Fixed** nil pointer dereference panic when using `kube-inject` when not passing a needed revision but also passing injectConfigMapName.  ([Issue #38083](https://github.com/istio/istio/issues/38083))
+- **Fixed** nil pointer dereference panic when using `kube-inject` when
+not passing a needed revision but also passing `injectConfigMapName`.  ([Issue #38083](https://github.com/istio/istio/issues/38083))

@@ -17,7 +17,7 @@ We are pleased to announce the release of Istio 1.14!
 
 This is the second Istio release of 2022. We would like to thank the entire Istio community
 for helping to get Istio 1.14.0 published.
-Special thanks are due to the release managers Lei Tang (Google) and Greg Hanson (solo.io),
+Special thanks are due to the release managers Lei Tang (Google) and Greg Hanson (Solo.io),
 and to Test & Release WG lead Eric Van Norman (IBM) for his help and guidance.
 
 {{< tip >}}
@@ -59,7 +59,7 @@ For more information, check out the [documentation](/docs/tasks/security/tls-con
 ## Telemetry improvements
 
 The [Telemetry API](/docs/tasks/observability/telemetry/) has undergone a number of improvements,
-including support for OpenTelemetry access logging, filtering based on WorkloadMode, and more.
+including support for OpenTelemetry access logging, filtering based on `WorkloadMode`, and more.
 
 ## Upgrading to 1.14
 
