@@ -148,7 +148,7 @@ to avoid missing any `destinationRule` dependencies.  ([Issue #38082](https://gi
 - **Fixed** the default container annotation when there are multiple containers.
   ([Issue #38060](https://github.com/istio/istio/pull/38060))
 
-- **Fixed** that istioctl should add kubernetes resource in all revisions when running analyze.
+- **Fixed** that `istioctl` should add Kubernetes resource in all revisions when running analyze.
   ([Issue #38148](https://github.com/istio/istio/issues/38148))
 
 - **Fixed** the in-cluster operator can't create resources on recreation of the same `IstioOperator` resource.

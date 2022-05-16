@@ -73,7 +73,7 @@ Would you like to contribute directly to Istio? Find and join one of our [Workin
 IstioCon 2022, the second edition of the project’s conference, took place Apr 25-29. We had almost 4,000 registered
 participants, with a 4.5/5 satisfaction score. The conference was held in English and Chinese, with people
 joining from 120 countries all over the world. During April 2022, the month of the conference, 81% of users
-on istio.io were first time users. We will be sharing a more detailed report of the event on events.istio.io.
+on istio.io were first time users. We will be sharing a more detailed report of the event on [events.istio.io](events.istio.io).
 
 ## CNCF wrap up
 

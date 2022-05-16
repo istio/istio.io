@@ -12,8 +12,8 @@ Changes are only included if the new behavior would be unexpected to a user of I
 
 ## `gogo/protobuf` library migration
 
-The `istio.io/api` and `istio.io/client-go` libraries have switched from using the [gogo/protobuf](https://github.com/gogo/protobuf)
-to using the [golang/protobuf](https://github.com/golang/protobuf) library for API types.
+The `istio.io/api` and `istio.io/client-go` libraries have switched from using the [`gogo/protobuf`](https://github.com/gogo/protobuf)
+to using the [`golang/protobuf`](https://github.com/golang/protobuf) library for API types.
 
 This change does not have any impact on typical Istio users, but rather impacts users importing Istio as a Go library.
 
