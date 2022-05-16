@@ -702,9 +702,9 @@
                     <h2 id=testing-scenarios>Testing scenarios</h2>
                     <figure style=width:80%>
                         <div class=wrapper-with-intrinsic-ratio style=padding-bottom:75%><a class=not-for-endnotes
-                                href="https://raw.githubusercontent.com/istio/istio/master/tools/perf_setup.svg?sanitize=true"><img
+                                href="https://raw.githubusercontent.com/istio/istio/release-1.0/tools/perf_setup.svg?sanitize=true"><img
                                     class=element-to-stretch
-                                    src="https://raw.githubusercontent.com/istio/istio/master/tools/perf_setup.svg?sanitize=true"
+                                    src="https://raw.githubusercontent.com/istio/istio/release-1.0/tools/perf_setup.svg?sanitize=true"
                                     alt="Performance scenarios diagram" title="Performance scenarios diagram"></a></div>
                         <figcaption>Performance scenarios diagram</figcaption>
                     </figure>
@@ -729,9 +729,12 @@
                     <p>Here is an example of scenario (one out of the 8 scenarios we run for every build) result
                         graphing the latency distribution for istio-0.7.1 at 400 Query-Per-Second (qps) between 2
                         services inside the mesh (with mutual TLS, Mixer policy checks and telemetry collection):</p>
+<iframe src="https://fortio.istio.io/browse?url=qps_400-s1_to_s2-0.7.1-2018-04-05-22-06.json&xMax=105&yLog=true" width="100%" height="1024" scrolling="no" frameborder="0"></iframe>
                     <p>Comparing 0.6.0 and 0.7.1 histograms/response time distribution for the same scenario, clearly
                         showing 0.7 improvements:</p>
+<iframe src="https://fortio.istio.io/?xMin=2&xMax=110&xLog=true&sel=qps_400-s1_to_s2-0.7.1-2018-04-05-22-06&sel=qps_400-s1_to_s2-0.6.0-2018-04-05-22-33" width="100%" height="1024" scrolling="no" frameborder="0"></iframe>
                     <p>And tracking the progress across all the tested releases for that scenario:</p>
+<iframe src="https://fortio.istio.io/?s=qps_400-s1_to_s2" width="100%" height="1024" scrolling="no" frameborder="0"></iframe>
                     <p>You can learn more about <a
                             href=https://github.com/fortio/fortio/blob/master/README.md#fortio>Fortio</a> on GitHub and
                         see results on <a href=https://fortio.istio.io>https://fortio.istio.io</a>.</p>
