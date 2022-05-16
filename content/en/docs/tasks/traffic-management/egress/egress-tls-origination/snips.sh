@@ -209,5 +209,6 @@ rm ./nginx.conf
 }
 
 snip_cleanup_1() {
-kubectl delete -f samples/sleep/sleep.yaml
+kubectl delete service sleep
+kubectl delete deployment sleep
 }
