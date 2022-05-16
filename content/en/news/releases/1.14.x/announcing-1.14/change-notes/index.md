@@ -3,7 +3,7 @@ title: Istio 1.14 Change Notes
 linktitle: 1.14.0
 subtitle: Minor Release
 description: Istio 1.14.0 change notes.
-publishdate: 2022-05-11
+publishdate: 2022-05-24
 release: 1.14.0
 weight: 10
 aliases:

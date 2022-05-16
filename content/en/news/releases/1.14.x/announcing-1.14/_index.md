@@ -3,7 +3,7 @@ title: Announcing Istio 1.14
 linktitle: 1.14
 subtitle: Major Update
 description: Istio 1.14 release announcement.
-publishdate: 2022-05-11
+publishdate: 2022-05-24
 release: 1.14.0
 skip_list: true
 aliases:
