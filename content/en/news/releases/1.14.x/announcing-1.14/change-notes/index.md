@@ -175,4 +175,4 @@ to avoid missing any destinationRule dependencies.  ([Issue #38082](https://gith
 - **Fixed** unexpected warning logs for `istioctl install --dry-run`.
   ([Issue #37084](https://github.com/istio/istio/issues/37084))
 
-- **Fixed** nil pointer dereference panic when using kube-inject when not passing a needed revision but also passing injectConfigMapName.  ([Issue #38083](https://github.com/istio/istio/issues/38083))
+- **Fixed** nil pointer dereference panic when using `kube-inject` when not passing a needed revision but also passing injectConfigMapName.  ([Issue #38083](https://github.com/istio/istio/issues/38083))
