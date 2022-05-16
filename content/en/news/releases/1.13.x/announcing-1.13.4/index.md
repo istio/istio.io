@@ -21,6 +21,3 @@ This release note describes what's different between Istio 1.13.3 and 1.13.4.
 
 - **Fixed** `istioctl experimental describe pod` error: `failed to fetch mesh config`.
   ([Issue #38636](https://github.com/istio/istio/issues/38636))
-
-- **Fixed** `istioctl tag` not being able to find the specified control-plane.
-  ([Issue #38453](https://github.com/istio/istio/issues/38453))
