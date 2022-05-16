@@ -16,13 +16,9 @@ replace github.com/docker/docker => github.com/moby/moby v17.12.0-ce-rc1.0.20200
 replace github.com/imdario/mergo => github.com/imdario/mergo v0.3.5
 
 require (
-	github.com/envoyproxy/go-control-plane v0.10.2-0.20220119144013-5ce31a86d483
 	github.com/golang/sync v0.0.0-20180314180146-1d60e4601c6f
 	github.com/pmezard/go-difflib v1.0.0
-	golang.org/x/net v0.0.0-20220127200216-cd36cc0744dd
-	google.golang.org/genproto v0.0.0-20220202230416-2a053f022f0d
-	google.golang.org/grpc v1.44.0
-	istio.io/istio v0.0.0-20220421185914-725b3e3c2e9a
+	istio.io/istio v0.0.0-20220422010110-7e06c102b611
 	istio.io/pkg v0.0.0-20220304033656-f98ba9ebf791
 	k8s.io/apimachinery v0.23.3
 	k8s.io/client-go v0.23.3
