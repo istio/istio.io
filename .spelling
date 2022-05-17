@@ -715,8 +715,6 @@ Plevyak
 pluggability
 pluggable
 png
-poll_delay
-pollDelay
 Poddar
 Posta
 PostgreSQL
@@ -733,7 +731,6 @@ preload
 prepend
 prepending
 prepends
-PrivateKeyProvider
 prober
 programmatically
 PromQL
@@ -747,7 +744,6 @@ Proxy-wasm
 proxying
 proxyless
 Proxyless
-ProxyConfig
 Pub/Sub
 PubNub
 pwd

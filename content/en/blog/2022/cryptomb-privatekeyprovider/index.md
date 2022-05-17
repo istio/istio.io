@@ -8,7 +8,7 @@ keywords: [Istio, CryptoMB, gateways, sidecar]
 
 Cryptographic operations are among the most compute-intensive and critical operations when it comes to secured connections. Istio uses Envoy as the "gateways/sidecar" to handle secure connections and intercept the traffic.
 
-Depending upon use cases, when an ingress gateway must handle a lot of incoming TLS connections and secured connections between service-to-service through sidecar proxies, the load on Envoy increases. The potential performance depends on many factors, such as size of the cpuset on which Envoy is running, incoming traffic patterns, and key size. These factors can impact Envoy serving many new incoming TLS requests. To achieve performance improvements and accelerated handshakes, a new feature was introduced in Envoy 1.20 and Istio 1.14. It can be achieved with 3rd Gen Intel® Xeon® Scalable processors, the Intel® Integrated Performance Primitives (Intel® IPP) [crypto library], CryptoMB Private Key Provider Method support in Envoy, and Private Key Provider configuration in Istio using ProxyConfig.
+Depending upon use cases, when an ingress gateway must handle a large number of incoming TLS and secured service-to-service connections through sidecar proxies, the load on Envoy increases. The potential performance depends on many factors, such as size of the cpuset on which Envoy is running, incoming traffic patterns, and key size. These factors can impact Envoy serving many new incoming TLS requests. To achieve performance improvements and accelerated handshakes, a new feature was introduced in Envoy 1.20 and Istio 1.14. It can be achieved with 3rd Gen Intel® Xeon® Scalable processors, the Intel® Integrated Performance Primitives (Intel® IPP) crypto library, CryptoMB Private Key Provider Method support in Envoy, and Private Key Provider configuration in Istio using `ProxyConfig`.
 
 ## CryptoMB
 
@@ -24,17 +24,17 @@ CryptoMB private key provider is an Envoy extension which handles BoringSSL TLS 
 
 {{< image link="./envoy-boringssl-pkp-flow.png" caption="Envoy <-> BoringSSL <-> PrivateKeyProvider" >}}
 
-The Envoy worker thread has a buffer size for eight RSA requests. When the first RSA request is stored in the buffer, a timer will be initiated (timer duration is set by the poll_delay field in the CryptoMB configuration).
+The Envoy worker thread has a buffer size for eight RSA requests. When the first RSA request is stored in the buffer, a timer will be initiated (timer duration is set by the `poll_delay` field in the CryptoMB configuration).
 
 {{< image link="./timer-started.png" caption="Buffer timer started" >}}
 
-When the buffer is full or when the timer expires, perform the crypto operations for all RSA requests simultaneously. The SIMD (single instruction, multiple data) processing gives the potential performance benefit compared to the non-accelerated case.
+When the buffer is full or when the timer expires, the crypto operations are performed for all RSA requests simultaneously. The SIMD (single instruction, multiple data) processing gives the potential performance benefit compared to the non-accelerated case.
 
 {{< image link="./timer-expired.png" caption="Buffer timer expired" >}}
 
 ## Envoy CryptoMB Private Key Provider configuration
 
-A regular TLS configuration uses just a private key. When a private key provider is used, the private key field is replaced with a private key provider field. It again contains two fields, provider name and typed config. Typed config is CryptoMbPrivateKeyMethodConfig, and it specifies the private key and the poll delay.
+A regular TLS configuration only uses a private key. When a private key provider is used, the private key field is replaced with a private key provider field. It contains two fields, provider name and typed config. Typed config is CryptoMbPrivateKeyMethodConfig, and it specifies the private key and the poll delay.
 
 TLS configuration with just a private key.
 
@@ -59,7 +59,7 @@ tls_certificates:
 
 ## Istio CryptoMB Private Key Provider configuration
 
-In Istio, CryptoMB private key provider configuration can be applied to mesh wide, gateways specific or pod specific configurations using pod annotations. The User will provide the PrivateKeyProvider in the ProxyConfig with the pollDelay value. This configuration will be applied to mesh wide (gateways and all sidecars).
+In Istio, CryptoMB private key provider configuration can be applied mesh wide, gateways specific or pod specific configurations using pod annotations. The User will provide the `PrivateKeyProvider` in the `ProxyConfig` with the `pollDelay` value. This configuration will be applied to mesh wide (gateways and all sidecars).
 
 {{< image link="./istio-mesh-wide-config.png" caption="Sample mesh wide configuration" >}}
 
@@ -171,13 +171,13 @@ spec:
 
 ### Performance
 
-The potential performance benefit depends on many factors. For example, the size of the cpuset Envoy is running on, incoming traffic pattern, encryption type (RSA or ECDSA), and key size. There is a white paper with [performance](https://www.intel.com/content/www/us/en/architecture-and-technology/crypto-acceleration-in-xeon-scalable-processors-wp.html) numbers.
+The potential performance benefit depends on many factors. For example, the size of the cpuset Envoy is running on, incoming traffic pattern, encryption type (RSA or ECDSA), and key size. Here is a white paper with [performance](https://www.intel.com/content/www/us/en/architecture-and-technology/crypto-acceleration-in-xeon-scalable-processors-wp.html) numbers.
 
-Istio ingress gateway TLS handshake performance comparison on 1.14-dev on May10th 2022.
+Istio ingress gateway TLS handshake performance comparison on 1.14-dev on May 10th 2022.
 
 {{< image link="./istio-ingress-gateway-tls-handshake-perf-num.png" caption="Istio ingress gateway TLS handshake performance comparison" >}}
 
-Configuration used in above experiment.
+Configuration used in above comparison.
 
 * Azure AKS Kubernetes cluster
     * v1.21
