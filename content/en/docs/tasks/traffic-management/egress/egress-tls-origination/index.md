@@ -194,7 +194,7 @@ are being sent by inspecting [Server Name Indication (SNI)](https://en.wikipedia
 The _SNI_ field is sent unencrypted during the TLS handshake. Using HTTPS prevents the attackers from knowing specific
 topics and articles but does not prevent an attackers from learning that `edition.cnn.com` is accessed.
 
-### Cleanup the TLS origination example
+### Cleanup the TLS origination configuration
 
 Remove the Istio configuration items you created:
 
@@ -206,25 +206,25 @@ Remove the Istio configuration items you created:
 ## Mutual TLS origination for egress traffic
 
 This section describes how to configure a sidecar to perform TLS origination for an external service, this time using a
-service that requires mutual TLS. This needs the following steps, some of them are similar to the steps mentioned in
-[Egress Gateway TLS Origination](/docs/tasks/traffic-management/egress/egress-gateway-tls-origination)
+service that requires mutual TLS. This example is considerably more involved because it requires the following setup:
 
 1. Generate client and server certificates
 1. Deploy an external service that supports the mutual TLS protocol
-1. Configure client(sleep pod) to use the credentials created in Step 1
+1. Configure the client (sleep pod) to use the credentials created in Step 1
 
-Only then can you configure the external traffic to go through the sidecar which will now perform
+Once this setup is complete, you can then configure the external traffic to go through the sidecar which will perform
 TLS origination.
 
 ### Generate client and server certificates and keys
 
-Follow the same steps as [Egress Gateway TLS Origination](/docs/tasks/traffic-management/egress/egress-gateway-tls-origination#generate-client-and-server-certificates-and-keys)
+Follow [these steps](/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/#generate-client-and-server-certificates-and-keys)
+in the Egress Gateway TLS Origination task.
 
 ### Deploy a mutual TLS server
 
-Follow the same steps as [Egress Gateway TLS Origination](/docs/tasks/traffic-management/egress/egress-gateway-tls-origination#deploy-a-mutual-TLS-server)
+Follow [these steps](/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/#deploy-a-mutual-tls-server) in the Egress Gateway TLS Origination task.
 
-### Configure mutual TLS origination for egress traffic
+### Configure the client (sleep pod)
 
 1.  Create Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) to hold the client's certificates:
 
@@ -242,27 +242,7 @@ Follow the same steps as [Egress Gateway TLS Origination](/docs/tasks/traffic-ma
     $ kubectl create rolebinding client-credential-role-binding --role=client-credential-role --serviceaccount=default:sleep
     {{< /text >}}
 
-1.  Create a `ServiceEntry` to enable access to `my-nginx.mesh-external.svc.cluster.local`:
-
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1beta1
-    kind: ServiceEntry
-    metadata:
-      name: originate-mtls-for-nginx
-    spec:
-      exportTo:
-      - .
-      hosts:
-      - my-nginx.mesh-external.svc.cluster.local
-      location: MESH_EXTERNAL
-      ports:
-      - name: http-port-for-tls-origination
-        number: 31443
-        protocol: HTTP
-      resolution: NONE
-    EOF
-    {{< /text >}}
+### Configure mutual TLS origination for egress traffic at sidecar
 
 1.  Add a `DestinationRule` to perform mutual TLS origination
 
@@ -282,7 +262,7 @@ Follow the same steps as [Egress Gateway TLS Origination](/docs/tasks/traffic-ma
           simple: ROUND_ROBIN
         portLevelSettings:
         - port:
-            number: 31443
+            number: 443
           tls:
             mode: MUTUAL
             credentialName: client-credential # this must match the secret created earlier to hold client certs, and works only when DR has a workloadSelector
@@ -293,7 +273,7 @@ Follow the same steps as [Egress Gateway TLS Origination](/docs/tasks/traffic-ma
 1.  Send an HTTP request to `http://my-nginx.mesh-external.svc.cluster.local`:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -sS http://my-nginx.mesh-external.svc.cluster.local:31443
+    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -sS http://my-nginx.mesh-external.svc.cluster.local:443
     <!DOCTYPE html>
     <html>
     <head>
@@ -301,7 +281,19 @@ Follow the same steps as [Egress Gateway TLS Origination](/docs/tasks/traffic-ma
     ...
     {{< /text >}}
 
-### Cleanup the mutual TLS origination example
+1.  Check the log of the `sleep` pod for a line corresponding to our request.
+
+    {{< text bash >}}
+    $ kubectl logs -l app=sleep -c istio-proxy | grep 'my-nginx.mesh-external.svc.cluster.local'
+    {{< /text >}}
+
+    You should see a line similar to the following:
+
+    {{< text plain>}}
+    [2022-05-19T10:01:06.795Z] "GET / HTTP/1.1" 200 - via_upstream - "-" 0 615 1 0 "-" "curl/7.83.1-DEV" "96e8d8a7-92ce-9939-aa47-9f5f530a69fb" "my-nginx.mesh-external.svc.cluster.local:443" "10.107.176.65:443"
+    {{< /text >}}
+
+### Cleanup the mutual TLS origination configuration
 
 1.  Remove created Kubernetes resources:
 
@@ -328,7 +320,7 @@ Follow the same steps as [Egress Gateway TLS Origination](/docs/tasks/traffic-ma
     $ rm ./nginx.conf
     {{< /text >}}
 
-## Cleanup
+## Cleanup common configuration
 
 Delete the `sleep` service and deployment:
 
