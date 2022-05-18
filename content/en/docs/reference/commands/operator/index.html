@@ -333,6 +333,12 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>Enable the auto mTLS EDS output to consult the PeerAuthentication Policy, only set the {tlsMode: istio}  when server side policy enables mTLS PERMISSIVE or STRICT.</td>
 </tr>
 <tr>
+<td><code>ENABLE_AUTO_SNI</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, automatically set SNI when `DestinationRules` do not specify the same</td>
+</tr>
+<tr>
 <td><code>ENABLE_CA_SERVER</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -438,7 +444,7 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td><code>ISTIOD_CUSTOM_HOST</code></td>
 <td>String</td>
 <td><code></code></td>
-<td>Custom host name of istiod that istiod signs the server cert.</td>
+<td>Custom host name of istiod that istiod signs the server cert. Multiple custom host names are supported, and multiple values are separated by commas.</td>
 </tr>
 <tr>
 <td><code>ISTIO_AGENT_ENABLE_WASM_REMOTE_LOAD_CONVERSION</code></td>
@@ -511,6 +517,12 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>String</td>
 <td><code></code></td>
 <td>KNative revision, set if running in knative</td>
+</tr>
+<tr>
+<td><code>LABEL_CANONICAL_SERVICES_FOR_MESH_EXTERNAL_SERVICE_ENTRIES</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, metadata representing canonical services for ServiceEntry resources with a location of mesh_external will be populatedin the cluster metadata for those endpoints.</td>
 </tr>
 <tr>
 <td><code>MCS_API_GROUP</code></td>
@@ -762,7 +774,7 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td><code>PILOT_FILTER_GATEWAY_CLUSTER_CONFIG</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
-<td></td>
+<td>If enabled, Pilot will send only clusters that referenced in gateway virtual services attached to gateway</td>
 </tr>
 <tr>
 <td><code>PILOT_FLOW_CONTROL_TIMEOUT</code></td>

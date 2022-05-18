@@ -23,7 +23,7 @@ Webhook 设置过程需要了解 Kubernetes 动态准入 Webhook 相关的知识
 
 请参阅[平台设置说明](/zh/docs/setup/platform-setup/)了解 Kubernetes 提供的详细的设置说明。如果集群配置错误，Webhook 将无法正常工作。集群配置后，当动态 Webhook 和相关特性不能正常工作时，您可以通过以下步骤进行检查。
 
-1. 验证当前使用正确的 [`kubectl`](https://kubernetes.io/docs/tasks/tools/install-kubectl/) 和 Kubernetes 服务的版本({{< supported_kubernetes_versions >}})：
+1. 验证当前使用正确的 [`kubectl`](https://kubernetes.io/docs/tasks/tools/install-kubectl/) 和 Kubernetes 服务 [支持的版本](/zh/docs/releases/supported-releases#support-status-of-istio-releases)({{< supported_kubernetes_versions >}})：
 
     {{< text bash >}}
     $ kubectl version --short

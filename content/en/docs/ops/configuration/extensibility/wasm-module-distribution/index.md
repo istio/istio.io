@@ -32,7 +32,7 @@ spec:
   selector:
     matchLabels:
       istio: ingressgateway
-  url: oci://ghcr.io/istio-ecosystem/wasm-extensions/basic_auth:{{< istio_version >}}.0
+  url: oci://ghcr.io/istio-ecosystem/wasm-extensions/basic_auth:1.12.0
   phase: AUTHN
   pluginConfig:
     basic_auth_rules:

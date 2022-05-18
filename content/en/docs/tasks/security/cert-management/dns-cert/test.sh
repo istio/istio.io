@@ -43,4 +43,5 @@ snip_regenerating_a_dns_certificate_1
 _verify_contains regen_dns_certs "$snip_regenerating_a_dns_certificate_3"
 
 # @cleanup
+echo y | istioctl x uninstall --revision=default
 snip_cleanup_1

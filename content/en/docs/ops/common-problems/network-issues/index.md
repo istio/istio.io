@@ -657,3 +657,76 @@ To avoid this issue, you can either change the operation to one that does not de
 another filter (e.g., `INSERT_FIRST`), or set an explicit priority in the `EnvoyFilter` to override the
 default creation time-based ordering. For example, adding `priority: 10` to the above filter will ensure
 that it is processed after the `istio.stats` filter which has a default priority of 0.
+
+## Virtual service with fault injection and retry/timeout policies not working as expected
+
+Currently, Istio does not support configuring fault injections and retry or timeout policies on the
+same `VirtualService`. Consider the following configuration:
+
+{{< text yaml >}}
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: helloworld
+spec:
+  hosts:
+    - "*"
+  gateways:
+  - helloworld-gateway
+  http:
+  - match:
+    - uri:
+        exact: /hello
+    fault:
+      abort:
+        httpStatus: 500
+        percentage:
+          value: 50
+    retries:
+      attempts: 5
+      retryOn: 5xx
+    route:
+    - destination:
+        host: helloworld
+        port:
+          number: 5000
+{{< /text >}}
+
+You would expect that given the configured five retry attempts, the user would almost never see any
+errors when calling the `helloworld` service. However since both fault and retries are configured on
+the same `VirtualService`, the retry configuration does not take effect, resulting in a 50% failure
+rate. To work around this issue, you may remove the fault config from your `VirtualService` and
+inject the fault to the upstream Envoy proxy using `EnvoyFilter` instead:
+
+{{< text yaml >}}
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: hello-world-filter
+spec:
+  workloadSelector:
+    labels:
+      app: helloworld
+  configPatches:
+  - applyTo: HTTP_FILTER
+    match:
+      context: SIDECAR_INBOUND # will match outbound listeners in all sidecars
+      listener:
+        filterChain:
+          filter:
+            name: "envoy.filters.network.http_connection_manager"
+    patch:
+      operation: INSERT_BEFORE
+      value:
+        name: envoy.fault
+        typed_config:
+          "@type": "type.googleapis.com/envoy.extensions.filters.http.fault.v3.HTTPFault"
+          abort:
+            http_status: 500
+            percentage:
+              numerator: 50
+              denominator: HUNDRED
+{{< /text >}}
+
+This works because this way the retry policy is configured for the client proxy while the fault
+injection is configured for the upstream proxy.

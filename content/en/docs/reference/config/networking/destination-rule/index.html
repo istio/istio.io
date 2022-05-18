@@ -8,7 +8,7 @@ layout: protoc-gen-docs
 generator: protoc-gen-docs
 schema: istio.networking.v1alpha3.DestinationRule
 aliases: [/docs/reference/config/networking/v1alpha3/destination-rule]
-number_of_entries: 20
+number_of_entries: 21
 ---
 <p><code>DestinationRule</code> defines policies that apply to traffic intended for a
 service after routing has occurred. These rules specify configuration
@@ -165,10 +165,10 @@ specific workload using the workloadSelector configuration.</p>
 kind: DestinationRule
 metadata:
   name: configure-client-mtls-dr-with-workloadselector
-  workloadSelector:
-    labels:
-      app: ratings
   spec:
+    workloadSelector:
+      matchLabels:
+        app: ratings
     trafficPolicy:
       loadBalancer:
         simple: ROUND_ROBIN
@@ -187,10 +187,10 @@ metadata:
 kind: DestinationRule
 metadata:
   name: configure-client-mtls-dr-with-workloadselector
-  workloadSelector:
-    labels:
-      app: ratings
   spec:
+    workloadSelector:
+      matchLabels:
+        app: ratings
     trafficPolicy:
       loadBalancer:
         simple: ROUND_ROBIN
@@ -383,6 +383,19 @@ settings will override the destination-level settings. Traffic
 settings specified at the destination-level will not be inherited when
 overridden by port-level settings, i.e. default values will be applied
 to fields omitted in port-level traffic policies.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="TrafficPolicy-tunnel">
+<td><code>tunnel</code></td>
+<td><code><a href="#TrafficPolicy-TunnelSettings">TunnelSettings</a></code></td>
+<td>
+<p>Configuration of tunneling TCP over other transport or application layers
+for the host configured in the DestinationRule.
+Tunnel settings can be applied to TCP or TLS routes and can&rsquo;t be applied to HTTP routes.</p>
 
 </td>
 <td>
@@ -1145,8 +1158,10 @@ ca.crt key for CA certificates is also supported.
 Only one of client certificates and CA certificate
 or credentialName can be specified.</p>
 
-<p><strong>NOTE:</strong> This field is currently applicable only at gateways.
-Sidecars will continue to use the certificate paths.</p>
+<p><strong>NOTE:</strong> This field is applicable at sidecars only if
+<code>DestinationRule</code> has a <code>workloadSelector</code> specified.
+Otherwise the field will be applicable only at gateways, and
+sidecars will continue to use the certificate paths.</p>
 
 </td>
 <td>
@@ -1172,7 +1187,10 @@ No
 <td><code>sni</code></td>
 <td><code>string</code></td>
 <td>
-<p>SNI string to present to the server during TLS handshake.</p>
+<p>SNI string to present to the server during TLS handshake.
+If unspecified, SNI will be automatically set based on downstream HTTP
+host/authority header for SIMPLE and MUTUAL TLS modes, provided <code>ENABLE_AUTO_SNI</code>
+environmental variable is set to <code>true</code>.</p>
 
 </td>
 <td>
@@ -1427,6 +1445,59 @@ No
 </td>
 <td>
 No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="TrafficPolicy-TunnelSettings">TrafficPolicy.TunnelSettings</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="TrafficPolicy-TunnelSettings-protocol">
+<td><code>protocol</code></td>
+<td><code>string</code></td>
+<td>
+<p>Specifies which protocol to use for tunneling the downstream connection.
+Supported protocols are:
+  connect - uses HTTP CONNECT;
+  post - uses HTTP POST.
+HTTP version for upstream requests is determined by the service protocol defined for the proxy.</p>
+
+</td>
+<td>
+Yes
+</td>
+</tr>
+<tr id="TrafficPolicy-TunnelSettings-target_host">
+<td><code>targetHost</code></td>
+<td><code>string</code></td>
+<td>
+<p>Specifies a host to which the downstream connection is tunneled.
+Target host must be an FQDN or IP address.</p>
+
+</td>
+<td>
+Yes
+</td>
+</tr>
+<tr id="TrafficPolicy-TunnelSettings-target_port">
+<td><code>targetPort</code></td>
+<td><code>uint32</code></td>
+<td>
+<p>Specifies a port to which the downstream connection is tunneled.</p>
+
+</td>
+<td>
+Yes
 </td>
 </tr>
 </tbody>
