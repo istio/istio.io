@@ -34,7 +34,7 @@ The following sections provide a brief overview of each of Istio's core componen
 ### Envoy
 
 Istio uses an extended version of the
-[Envoy](https://envoyproxy.github.io/envoy/) proxy. Envoy is a high-performance
+[Envoy](https://www.envoyproxy.io/) proxy. Envoy is a high-performance
 proxy developed in C++ to mediate all inbound and outbound traffic for all
 services in the service mesh.
 Envoy proxies are the only Istio components that interact with data plane
