@@ -104,10 +104,14 @@ snip_set_up_the_control_plane_in_the_external_cluster_2
 snip_get_external_istiod_iop_modified
 echo y | istioctl install -f external-istiod.yaml --context="${CTX_EXTERNAL_CLUSTER}" --set values.pilot.env.ISTIOD_CUSTOM_HOST="${EXTERNAL_ISTIOD_ADDR}"
 
-_verify_like snip_set_up_the_control_plane_in_the_external_cluster_5 "$snip_set_up_the_control_plane_in_the_external_cluster_5_out"
+_verify_like snip_set_up_the_control_plane_in_the_external_cluster_6 "$snip_set_up_the_control_plane_in_the_external_cluster_6_out"
+
+snip_set_up_the_control_plane_in_the_external_cluster_6
+
+snip_set_up_the_control_plane_in_the_external_cluster_5
 
 snip_get_external_istiod_gateway_config_modified
-snip_set_up_the_control_plane_in_the_external_cluster_7
+snip_set_up_the_control_plane_in_the_external_cluster_8
 
 # Validate the installation.
 
@@ -188,6 +192,11 @@ istioctl manifest generate -f external-istiod.yaml | kubectl delete --context="$
 istioctl manifest generate -f controlplane-gateway.yaml | kubectl delete --context="${CTX_EXTERNAL_CLUSTER}" -f -
 istioctl manifest generate -f eastwest-gateway-1.yaml | kubectl delete --context="${CTX_REMOTE_CLUSTER}" -f - 
 istioctl manifest generate -f eastwest-gateway-2.yaml | kubectl delete --context="${CTX_SECOND_CLUSTER}" -f - 
+
+# clean webhook
+istioctl x uninstall --purge -y --context="${CTX_EXTERNAL_CLUSTER}"
+istioctl x uninstall --purge -y --context="${CTX_REMOTE_CLUSTER}"
+istioctl x uninstall --purge -y --context="${CTX_SECOND_CLUSTER}"
 
 kubectl delete ns istio-system external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
 kubectl delete ns external-istiod --context="${CTX_REMOTE_CLUSTER}"
