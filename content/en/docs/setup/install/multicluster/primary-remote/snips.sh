@@ -87,5 +87,6 @@ EOF
 }
 
 snip_configure_cluster2_as_a_remote_3() {
-istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
+kubectl create namespace istio-system --context="${CTX_CLUSTER2}"
+istioctl manifest generate -f cluster2.yaml | kubectl apply --context="${CTX_CLUSTER2}" -f -
 }
