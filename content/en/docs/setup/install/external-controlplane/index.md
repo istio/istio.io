@@ -121,7 +121,7 @@ and installing the sidecar injector webhook configuration on the remote cluster 
     $ istioctl install -f controlplane-gateway.yaml --context="${CTX_EXTERNAL_CLUSTER}"
     {{< /text >}}
 
-2. Run the following command to confirm that the ingress gateway is up and running:
+1. Run the following command to confirm that the ingress gateway is up and running:
 
     {{< text bash >}}
     $ kubectl get po -n istio-system --context="${CTX_EXTERNAL_CLUSTER}"
@@ -138,7 +138,7 @@ and installing the sidecar injector webhook configuration on the remote cluster 
     although in this example you will only deploy a single external istiod in the `external-istiod` namespace.
     {{< /tip >}}
 
-3. Configure your environment to expose the Istio ingress gateway service using a public hostname with TLS. Set the `EXTERNAL_ISTIOD_ADDR` environment variable to the hostname and `SSL_SECRET_NAME` environment variable to the secret that holds the TLS certs:
+1. Configure your environment to expose the Istio ingress gateway service using a public hostname with TLS. Set the `EXTERNAL_ISTIOD_ADDR` environment variable to the hostname and `SSL_SECRET_NAME` environment variable to the secret that holds the TLS certs:
 
     {{< text syntax=bash snip_id=none >}}
     $ export EXTERNAL_ISTIOD_ADDR=<your external istiod host>
