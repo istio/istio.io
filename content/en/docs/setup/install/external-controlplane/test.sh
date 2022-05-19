@@ -106,8 +106,6 @@ echo y | istioctl install -f external-istiod.yaml --context="${CTX_EXTERNAL_CLUS
 
 _verify_like snip_set_up_the_control_plane_in_the_external_cluster_6 "$snip_set_up_the_control_plane_in_the_external_cluster_6_out"
 
-snip_set_up_the_control_plane_in_the_external_cluster_6
-
 snip_set_up_the_control_plane_in_the_external_cluster_5
 
 snip_get_external_istiod_gateway_config_modified
