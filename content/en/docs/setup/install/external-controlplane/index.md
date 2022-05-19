@@ -285,6 +285,12 @@ and installing the sidecar injector webhook configuration on the remote cluster 
     $ istioctl manifest generate -f external-istiod.yaml | kubectl apply --context="${CTX_EXTERNAL_CLUSTER}" -f -
     {{< /text >}}
 
+    At last, clean `istiod-default-validator` webhook:
+
+    {{< text bash >}}
+    $ kubectl delete validatingwebhookconfiguration istiod-default-validator --context="${CTX_EXTERNAL_CLUSTER}"
+    {{< /text >}}
+
 1. Confirm that the external istiod has been successfully deployed:
 
     {{< text bash >}}

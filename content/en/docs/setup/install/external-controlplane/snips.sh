@@ -177,10 +177,14 @@ istioctl manifest generate -f external-istiod.yaml | kubectl apply --context="${
 }
 
 snip_set_up_the_control_plane_in_the_external_cluster_5() {
+kubectl delete validatingwebhookconfiguration istiod-default-validator --context="${CTX_EXTERNAL_CLUSTER}"
+}
+
+snip_set_up_the_control_plane_in_the_external_cluster_6() {
 kubectl get po -n external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
 }
 
-! read -r -d '' snip_set_up_the_control_plane_in_the_external_cluster_5_out <<\ENDSNIP
+! read -r -d '' snip_set_up_the_control_plane_in_the_external_cluster_6_out <<\ENDSNIP
 NAME                      READY   STATUS    RESTARTS   AGE
 istiod-779bd6fdcf-bd6rg   1/1     Running   0          70s
 ENDSNIP
@@ -264,7 +268,7 @@ spec:
 EOF
 }
 
-snip_set_up_the_control_plane_in_the_external_cluster_7() {
+snip_set_up_the_control_plane_in_the_external_cluster_8() {
 kubectl apply -f external-istiod-gw.yaml --context="${CTX_EXTERNAL_CLUSTER}"
 }
 
