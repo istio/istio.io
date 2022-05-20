@@ -192,7 +192,7 @@ example would not be sufficient.
 Also note that even with HTTPS originated by the application, an attacker could know that requests to `edition.cnn.com`
 are being sent by inspecting [Server Name Indication (SNI)](https://en.wikipedia.org/wiki/Server_Name_Indication).
 The _SNI_ field is sent unencrypted during the TLS handshake. Using HTTPS prevents the attackers from knowing specific
-topics and articles but does not prevent an attackers from learning that `edition.cnn.com` is accessed.
+topics and articles but does not prevent attackers from learning that `edition.cnn.com` is accessed.
 
 ### Cleanup the TLS origination configuration
 
@@ -266,7 +266,7 @@ Follow [these steps](/docs/tasks/traffic-management/egress/egress-gateway-tls-or
           tls:
             mode: MUTUAL
             credentialName: client-credential # this must match the secret created earlier to hold client certs, and works only when DR has a workloadSelector
-            sni: my-nginx.mesh-external.svc.cluster.local
+            sni: my-nginx.mesh-external.svc.cluster.local # this is optional
     EOF
     {{< /text >}}
 
