@@ -16,17 +16,17 @@ Follow these instructions to prepare a GKE cluster for Istio.
 1. Create a new cluster.
 
     {{< text bash >}}
-    $ export PROJECT_ID=`gcloud config get-value project` && \
+    $ export PROJECT_ID=$(gcloud config get-value project) && \
       export M_TYPE=n1-standard-2 && \
       export ZONE=us-west2-a && \
       export CLUSTER_NAME=${PROJECT_ID}-${RANDOM} && \
       gcloud services enable container.googleapis.com && \
-      gcloud container clusters create $CLUSTER_NAME \
+      gcloud container clusters create ${CLUSTER_NAME} \
       --cluster-version latest \
-      --machine-type=$M_TYPE \
+      --machine-type=${M_TYPE} \
       --num-nodes 4 \
-      --zone $ZONE \
-      --project $PROJECT_ID
+      --zone ${ZONE} \
+      --project ${PROJECT_ID}
     {{< /text >}}
 
     {{< tip >}}
@@ -63,9 +63,9 @@ Follow these instructions to prepare a GKE cluster for Istio.
 1. Retrieve your credentials for `kubectl`.
 
     {{< text bash >}}
-    $ gcloud container clusters get-credentials $CLUSTER_NAME \
-        --zone $ZONE \
-        --project $PROJECT_ID
+    $ gcloud container clusters get-credentials ${CLUSTER_NAME} \
+        --zone ${ZONE} \
+        --project ${PROJECT_ID}
     {{< /text >}}
 
 1. Grant cluster administrator (admin) permissions to the current user. To
@@ -90,9 +90,9 @@ The following instructions will allow communication between *all* clusters in yo
 
     {{< text bash >}}
     $ function join_by { local IFS="$1"; shift; echo "$*"; }
-    $ ALL_CLUSTER_CIDRS=$(gcloud --project $PROJECT_ID container clusters list --format='value(clusterIpv4Cidr)' | sort | uniq)
+    $ ALL_CLUSTER_CIDRS=$(gcloud --project ${PROJECT_ID} container clusters list --format='value(clusterIpv4Cidr)' | sort | uniq)
     $ ALL_CLUSTER_CIDRS=$(join_by , $(echo "${ALL_CLUSTER_CIDRS}"))
-    $ ALL_CLUSTER_NETTAGS=$(gcloud --project $PROJECT_ID compute instances list --format='value(tags.items.[0])' | sort | uniq)
+    $ ALL_CLUSTER_NETTAGS=$(gcloud --project ${PROJECT_ID} compute instances list --format='value(tags.items.[0])' | sort | uniq)
     $ ALL_CLUSTER_NETTAGS=$(join_by , $(echo "${ALL_CLUSTER_NETTAGS}"))
     {{< /text >}}
 
