@@ -53,7 +53,7 @@ For more information, check out the [documentation](/docs/reference/config/netwo
 ## Add support for configuring the TLS version for Istio workloads
 
 TLS version is important for security. This new feature adds
-the support of configuring the minimum TLS version for Istio workloads.
+support for configuring the minimum TLS version for Istio workloads.
 For more information, check out the [documentation](/docs/tasks/security/tls-configuration/workload-min-tls-version/).
 
 ## Telemetry improvements
@@ -78,4 +78,4 @@ on istio.io were first time users. We will be sharing a more detailed report of 
 ## CNCF wrap up
 
 We're so pleased at the response to our announcement that [Istio has been proposed to the CNCF](/blog/2022/istio-has-applied-to-join-the-cncf/).
-We're hard at work at our application, and hope to have more to share in the coming months!
+We're hard at work on our application, and hope to have more to share in the coming months!
