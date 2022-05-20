@@ -57,8 +57,6 @@ test: no
     deployment "productpage-v1" scaled
     deployment "ratings-v1" scaled
     deployment "reviews-v1" scaled
-    deployment "reviews-v2" scaled
-    deployment "reviews-v3" scaled
     {{< /text >}}
 
 1. 检查 pods 的状态。可以看到每个微服务都有三个 pods：
