@@ -27,7 +27,7 @@ see the Istio [contribution guidelines](https://github.com/istio/community/blob/
 
 ## Editing and building
 
-To learn how to edit and build this repo's content, please refer to
+To learn how to edit and build this repo's content, please refer to a
 [Creating and Editing Pages](https://preliminary.istio.io/about/contribute/creating-and-editing-pages/).
 
 ## Versions and releases
