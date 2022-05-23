@@ -45,10 +45,10 @@ linters-settings:
     # it's a comma-separated list of prefixes
     local-prefixes: istio.io/
   gci:
-     sections:
-       - standard
-       - default
-       - prefix(istio.io/)
+    sections:
+      - standard
+      - default
+      - prefix(istio.io/)
 
 issues:
 
