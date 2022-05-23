@@ -110,7 +110,7 @@ aliases:
 - **Added** a new approach for CA integration through the Envoy SDS API.
   ([usage]( https://istio.io/latest/docs/ops/integrations/spire/))([design]( https://docs.google.com/document/d/1zJP6QJukLzckTbdY42ZMLkulGXz4gWzH9SwOh4xoe0A)) ([Issue #37183](https://github.com/istio/istio/issues/37183))
 
-- **Added** support for using `PrivateKeyProvider` in SDS. See [#35809](https://github.com/istio/istio/issues/35809)
+- **Added** support for using `PrivateKeyProvider` in SDS. ([Issue #35809](https://github.com/istio/istio/issues/35809))
 
 - **Added** support for TLS configuration API for workloads.  ([Issue #2285](https://github.com/istio/api/issues/2285))
 
