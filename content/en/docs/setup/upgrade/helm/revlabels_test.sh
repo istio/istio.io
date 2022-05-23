@@ -29,4 +29,8 @@ _rewrite_helm_repo snip_default_tag_1
 
 _remove_istio_helm
 
+kubectl delete mutatingwebhookconfiguration istio-revision-tag-default
+kubectl delete mutatingwebhookconfiguration istio-revision-tag-prod-canary
+kubectl delete mutatingwebhookconfiguration istio-revision-tag-prod-stable
+
 # @cleanup
