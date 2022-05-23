@@ -166,7 +166,7 @@ aliases:
 - **Added** a new analyzer for envoy filter patch operations.
   ([Issue #37415](https://github.com/istio/istio/issues/37415))
 
-- **Added** pod full name to the IST0103 analysis message.
+- **Added** the pod full name to the IST0103 analysis message.
 
 - **Added** `istioctl ps` support for ECDS.
 
