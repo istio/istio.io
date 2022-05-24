@@ -42,7 +42,7 @@ storing the CA private keys, and enables integration with existing PKIs through 
 SPIRE implements SPIFFE Federation, enabling workloads to trust peers in a different trust domain, in
 a configurable and flexible way through the Federation API.
 
-For more information, check out the [documentation](/docs/ops/integrations/spire/).
+For more information, check out the [documentation](/docs/ops/integrations/spire/) and this [livestream](https://www.youtube.com/watch?v=WOPoNqfrhb4). 
 
 ## Add auto-sni support
 
