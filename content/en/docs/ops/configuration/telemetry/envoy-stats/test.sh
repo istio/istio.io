@@ -82,5 +82,5 @@ _verify_contains snip_get_stats "circuit_breakers"
 set +e
 cleanup_httpbin_sample
 cleanup_sleep_sample
-istioctl manifest generate --set profile=default | kubectl delete --ignore-not-found=true -f -
+echo y | istioctl x uninstall --revision=default
 kubectl delete ns istio-system

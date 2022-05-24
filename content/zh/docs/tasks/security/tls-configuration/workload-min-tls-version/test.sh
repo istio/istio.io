@@ -25,23 +25,19 @@ set -o pipefail
 
 export VERIFY_TIMEOUT=300
 
-echo y | snip_before_you_begin_1
+echo y | snip_configuration_of_minimum_tls_version_for_istio_workloads_1
 _wait_for_deployment istio-system istiod
 
-# helper functions
-check_dns_certs() {
-    snip_check_the_provisioning_of_dns_certificates_1 | sed 's/[ ]*$//' # Remove trailing spaces
-}
-regen_dns_certs() {
-    snip_regenerating_a_dns_certificate_2 | sed 's/[ ]*$//' # Remove trailing spaces
-}
+snip_check_the_tls_configuration_of_istio_workloads_1
+_wait_for_deployment foo httpbin
+_wait_for_deployment foo sleep
 
-_verify_contains check_dns_certs "$snip_check_the_provisioning_of_dns_certificates_2"
+# Send request from sleep to httpbin
+_verify_contains snip_check_the_tls_configuration_of_istio_workloads_2 "$snip_check_the_tls_configuration_of_istio_workloads_2_out"
 
-snip_regenerating_a_dns_certificate_1
+_verify_contains snip_check_the_tls_configuration_of_istio_workloads_3 "$snip_check_the_tls_configuration_of_istio_workloads_4"
 
-_verify_contains regen_dns_certs "$snip_regenerating_a_dns_certificate_3"
+_verify_contains snip_check_the_tls_configuration_of_istio_workloads_5 "$snip_check_the_tls_configuration_of_istio_workloads_6"
 
 # @cleanup
-echo y | istioctl x uninstall --revision=default
 snip_cleanup_1

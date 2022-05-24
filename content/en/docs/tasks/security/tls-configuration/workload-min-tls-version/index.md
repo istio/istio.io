@@ -62,32 +62,32 @@ Caching and propagation can cause a delay.
 In the example, the minimum TLS version was configured to be 1.3.
 To check that TLS 1.3 is allowed, you can run the following command:
 
-    {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c istio-proxy -n foo -- openssl s_client -alpn istio -tls1_3 -connect httpbin.foo:8000 | grep "TLSv1.3"
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c istio-proxy -n foo -- openssl s_client -alpn istio -tls1_3 -connect httpbin.foo:8000 | grep "TLSv1.3"
+{{< /text >}}
 
 The text output should include:
 
-    {{< text plain >}}
-    TLSv1.3
-    {{< /text >}}
+{{< text plain >}}
+TLSv1.3
+{{< /text >}}
 
 To check that TLS 1.2 is not allowed, you can run the following command:
 
-    {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c istio-proxy -n foo -- openssl s_client -alpn istio -tls1_2 -connect httpbin.foo:8000 | grep "Cipher is (NONE)"
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c istio-proxy -n foo -- openssl s_client -alpn istio -tls1_2 -connect httpbin.foo:8000 | grep "Cipher is (NONE)"
+{{< /text >}}
 
 The text output should include:
 
-    {{< text plain >}}
-    Cipher is (NONE)
-    {{< /text >}}
+{{< text plain >}}
+Cipher is (NONE)
+{{< /text >}}
 
 ## Cleanup
 
-*   To remove the `foo` and `istio-system` namespaces:
+To remove the `foo` and `istio-system` namespaces:
 
-    {{< text bash >}}
-    $ kubectl delete ns foo istio-system
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl delete ns foo istio-system
+{{< /text >}}

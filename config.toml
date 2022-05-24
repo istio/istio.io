@@ -17,6 +17,23 @@ staticDir = ["static", "generated"]
 disableAliases = true
 
 [markup]
+  defaultMarkdownHandler = "blackfriday"
+  [markup.blackfriday]
+    angledQuotes = false
+    footnoteAnchorPrefix = ""
+    footnoteReturnLinkContents = ""
+    fractions = true
+    hrefTargetBlank = false
+    latexDashes = true
+    nofollowLinks = false
+    noreferrerLinks = false
+    plainIDAnchors = true
+    skipHTML = false
+    smartDashes = true
+    smartypants = true
+    smartypantsQuotesNBSP = false
+    taskLists = true
+    extensions = [""]
   [markup.goldmark]
     [markup.goldmark.extensions]
       definitionList = true
@@ -96,7 +113,7 @@ disableAliases = true
     name = "About"
     title = "About section"
     weight = 1
-    
+
     [[menu.main]]
       identifier = "service-mesh"
       name = "Service mesh"
@@ -179,7 +196,7 @@ disableAliases = true
     name = "关于"
     title = "关于部分"
     weight = 1
-    
+
     [[languages.zh.menu.main]]
       identifier = "service-mesh"
       name = "服务网格"

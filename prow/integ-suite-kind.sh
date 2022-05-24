@@ -86,7 +86,7 @@ while (( "$#" )); do
 done
 
 export IP_FAMILY="${IP_FAMILY:-ipv4}"
-export NODE_IMAGE="gcr.io/istio-testing/kind-node:v1.20.5"
+export NODE_IMAGE="gcr.io/istio-testing/kind-node:v1.21.1"
 
 if [[ -z "${SKIP_SETUP:-}" ]]; then
   export ARTIFACTS="${ARTIFACTS:-$(mktemp -d)}"
