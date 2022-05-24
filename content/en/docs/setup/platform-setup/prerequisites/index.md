@@ -12,7 +12,7 @@ test: no
 ## Kernel Module Requirements on Cluster Nodes
 
 The cluster node running application pods with Istio proxy sidecar container, when using iptables interception mode,
-requires certain kernel modules to be loaded. Istio can also work in 'whitebox mode' where iptables interception is not done
+requires certain kernel modules to be loaded. Istio can also work in `whitebox` mode where iptables interception is not done
 and in such cases this section can be skipped as there is no need of any special kernel module.
 
 The modules are needed specifically by the `istio-init` container or `istio-cni` daemon which sets up iptables rules in the pod to
