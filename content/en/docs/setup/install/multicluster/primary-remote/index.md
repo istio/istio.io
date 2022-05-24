@@ -136,7 +136,7 @@ spec:
   profile: external
   values:
     istiodRemote:
-      injectionPath: /inject/cluster/cluster2/net/network2
+      injectionPath: /inject/cluster/cluster2/net/network1
     global:
       remotePilotAddress: ${DISCOVERY_ADDRESS}
 EOF
