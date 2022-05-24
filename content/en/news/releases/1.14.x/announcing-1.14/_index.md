@@ -42,12 +42,12 @@ storing the CA private keys, and enables integration with existing PKIs through 
 SPIRE implements SPIFFE Federation, enabling workloads to trust peers in a different trust domain, in
 a configurable and flexible way through the Federation API.
 
-For more information, check out the [documentation](/docs/ops/integrations/spire/) and this [livestream](https://www.youtube.com/watch?v=WOPoNqfrhb4).
+For more information, check out the [documentation](/docs/ops/integrations/spire/) and this [`livestream`](https://www.youtube.com/watch?v=WOPoNqfrhb4).
 
 ## Add auto-sni support
 
 Some servers require SNI be included in a request. This new feature configures SNI automatically
-without users manually configuring it or using an EnvoyFilter resource.
+without users manually configuring it or using an `EnvoyFilter` resource.
 For more information, check out the [documentation](/docs/reference/config/networking/destination-rule/).
 
 ## Add support for configuring the TLS version for Istio workloads
