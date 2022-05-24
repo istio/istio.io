@@ -145,8 +145,7 @@ EOF
 Apply the configuration to `cluster2`:
 
 {{< text bash >}}
-$ kubectl create namespace istio-system --context="${CTX_CLUSTER2}"
-$ istioctl manifest generate -f cluster2.yaml | kubectl apply --context="${CTX_CLUSTER2}" -f -
+$ istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
 {{< /text >}}
 
 **Congratulations!** You successfully installed an Istio mesh across primary
