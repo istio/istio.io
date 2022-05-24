@@ -18,11 +18,13 @@ The following kernel modules must be loaded on the cluster node running applicat
 The modules are needed specifically by the `istio-init` container which sets up iptables rules in the pod to redirect any incoming or
 outgoing traffic towards the sidecar proxy in the istio-proxy container. While in many platforms, these seem to be automatically
 loaded, it is always good to make sure the prerequisites are met, as there were incidents reported where some of the specific
-modules listed down below were not loaded.
+modules listed down below were not available on the host or could not be automatically loaded by the iptables. For example,
+[`selinux issue`](https://www.suse.com/support/kb/doc/?id=000020241) talks about selinux in RHEL sometimes preventing
+the automatic loading of some of the below mentioned kernel modules.
 
 | Module | Remark |
 | --- | --- |
-| `br_netfilter` | selinux in RHEL sometimes prevent the loading of this module. Refer [`selinux issue`](https://www.suse.com/support/kb/doc/?id=000020241) |
+| `br_netfilter` |  |
 | `ip6table_mangle` | Only needed for IPv6 or Dual-stack clusters |
 | `ip6table_nat` | Only needed for IPv6 or Dual-stack clusters |
 | `ip6table_raw` | Only needed for IPv6 or Dual-stack clusters |
@@ -30,9 +32,9 @@ modules listed down below were not loaded.
 | `iptable_nat` |  |
 | `iptable_raw` |  |
 | `xt_REDIRECT` |  |
-| `xt_connmark` |  |
+| `xt_connmark` | Only needed for `TPROXY` interception mode |
 | `xt_conntrack` |  |
-| `xt_mark` |  |
+| `xt_mark` | Only needed for `TPROXY` interception mode |
 | `xt_owner` |  |
 | `xt_tcpudp` |  |
 
@@ -40,7 +42,7 @@ The following additional modules are used by the above listed modules and should
 
 | Module | Remark |
 | --- | --- |
-| `bridge` | selinux in RHEL sometimes prevent the loading of this module. Refer [`selinux issue`](https://www.suse.com/support/kb/doc/?id=000020241) |
+| `bridge` |  |
 | `ip6_tables` | Only needed for IPv6 or Dual-stack clusters |
 | `ip_tables` |  |
 | `nf_conntrack` |  |
