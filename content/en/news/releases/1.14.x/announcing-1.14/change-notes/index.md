@@ -65,7 +65,7 @@ aliases:
 
 - **Added** support of replacing virtual host in envoy filter.
 
-- **Added** an API, `runtimeValues`, to [Proxy Config](/docs/reference/config/istio.mesh.v1alpha1/#ProxyConfig) for
+- **Added** the API `runtimeValues` to [Proxy Config](/docs/reference/config/istio.mesh.v1alpha1/#ProxyConfig) for
   configuring Envoy runtime configuration.  ([Issue #37202](https://github.com/istio/istio/issues/37202))
 
 - **Added** setting upstream TLS maximum version to TLS 1.3.  ([Issue #36271](https://github.com/istio/istio/issues/36271))

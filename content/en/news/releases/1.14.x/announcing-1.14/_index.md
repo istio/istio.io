@@ -35,7 +35,7 @@ support for SPIRE. Thanks to the team at HP Enterprise for contributing this wor
 
 SPIRE enables the introduction of strongly attested identities through the use of a combination
 of different attestation mechanisms. It provides a variety of node and workload attestors out
-of the box for workloads running in Kubernetes, AWS, GCP, Azure, Docker, and, through a plugin
+of the box for workloads running in Kubernetes, AWS, GCP, Azure, Docker and through a plugin
 oriented architecture, it also enables the use of custom attestors.
 The project has a pluggable integration with custom Key Management Systems for
 storing the CA private keys, and enables integration with existing PKIs through the Upstream Certificate Authority plugin.
