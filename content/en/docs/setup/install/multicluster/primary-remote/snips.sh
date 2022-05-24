@@ -80,13 +80,12 @@ spec:
   profile: external
   values:
     istiodRemote:
-      injectionPath: /inject/cluster/cluster2/net/network2
+      injectionPath: /inject/cluster/cluster2/net/network1
     global:
       remotePilotAddress: ${DISCOVERY_ADDRESS}
 EOF
 }
 
 snip_configure_cluster2_as_a_remote_3() {
-kubectl create namespace istio-system --context="${CTX_CLUSTER2}"
-istioctl manifest generate -f cluster2.yaml | kubectl apply --context="${CTX_CLUSTER2}" -f -
+istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
 }
