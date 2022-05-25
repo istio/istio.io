@@ -48,7 +48,7 @@ For more information, check out the [documentation](/docs/ops/integrations/spire
 
 Some servers require SNI be included in a request. This new feature configures SNI automatically
 without users manually configuring it or using an `EnvoyFilter` resource.
-For more information, check out the [documentation](/docs/reference/config/networking/destination-rule/).
+For more information, check out the pull requests: https://github.com/istio/istio/pull/38604 and https://github.com/istio/istio/pull/38238.
 
 ## Add support for configuring the TLS version for Istio workloads
 
