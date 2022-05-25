@@ -102,7 +102,7 @@ snip_set_up_the_control_plane_in_the_external_cluster_1
 snip_set_up_the_control_plane_in_the_external_cluster_2
 
 snip_get_external_istiod_iop_modified
-echo y | istioctl install -f external-istiod.yaml --context="${CTX_EXTERNAL_CLUSTER}" --set values.pilot.env.ISTIOD_CUSTOM_HOST="${EXTERNAL_ISTIOD_ADDR}"
+echo y | istioctl manifest generate -f external-istiod.yaml --set values.pilot.env.ISTIOD_CUSTOM_HOST="${EXTERNAL_ISTIOD_ADDR}" | kubectl apply --context="${CTX_EXTERNAL_CLUSTER}" -f -
 
 _verify_like snip_set_up_the_control_plane_in_the_external_cluster_5 "$snip_set_up_the_control_plane_in_the_external_cluster_5_out"
 
@@ -186,8 +186,13 @@ istioctl manifest generate -f remote-config-cluster.yaml | kubectl delete --cont
 istioctl manifest generate -f second-config-cluster.yaml | kubectl delete --context="${CTX_SECOND_CLUSTER}" -f -
 istioctl manifest generate -f external-istiod.yaml | kubectl delete --context="${CTX_EXTERNAL_CLUSTER}" -f -
 istioctl manifest generate -f controlplane-gateway.yaml | kubectl delete --context="${CTX_EXTERNAL_CLUSTER}" -f -
-istioctl manifest generate -f eastwest-gateway-1.yaml | kubectl delete --context="${CTX_REMOTE_CLUSTER}" -f - 
-istioctl manifest generate -f eastwest-gateway-2.yaml | kubectl delete --context="${CTX_SECOND_CLUSTER}" -f - 
+
+#TODO remove the following lines when https://github.com/istio/istio/issues/38599 is fixed
+kubectl delete validatingwebhookconfigurations istiod-default-validator --context="${CTX_REMOTE_CLUSTER}"
+kubectl delete validatingwebhookconfigurations istiod-default-validator --context="${CTX_EXTERNAL_CLUSTER}"
+kubectl delete mutatingwebhookconfigurations istio-revision-tag-default-external-istiod --context="${CTX_REMOTE_CLUSTER}"
+kubectl delete mutatingwebhookconfigurations istio-revision-tag-default-external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
+kubectl delete mutatingwebhookconfigurations istio-revision-tag-default --context="${CTX_EXTERNAL_CLUSTER}"
 
 kubectl delete ns istio-system external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
 kubectl delete ns external-istiod --context="${CTX_REMOTE_CLUSTER}"
