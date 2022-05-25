@@ -102,7 +102,7 @@ snip_set_up_the_control_plane_in_the_external_cluster_1
 snip_set_up_the_control_plane_in_the_external_cluster_2
 
 snip_get_external_istiod_iop_modified
-echo y | istioctl install -f external-istiod.yaml --context="${CTX_EXTERNAL_CLUSTER}" --set values.pilot.env.ISTIOD_CUSTOM_HOST="${EXTERNAL_ISTIOD_ADDR}"
+echo y | istioctl manifest generate -f external-istiod.yaml --set values.pilot.env.ISTIOD_CUSTOM_HOST="${EXTERNAL_ISTIOD_ADDR}" | kubectl apply --context="${CTX_EXTERNAL_CLUSTER}" -f -
 
 _verify_like snip_set_up_the_control_plane_in_the_external_cluster_5 "$snip_set_up_the_control_plane_in_the_external_cluster_5_out"
 
@@ -194,6 +194,7 @@ kubectl delete validatingwebhookconfigurations istiod-default-validator --contex
 kubectl delete validatingwebhookconfigurations istiod-default-validator --context="${CTX_EXTERNAL_CLUSTER}"
 kubectl delete mutatingwebhookconfigurations istio-revision-tag-default-external-istiod --context="${CTX_REMOTE_CLUSTER}"
 kubectl delete mutatingwebhookconfigurations istio-revision-tag-default-external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
+kubectl delete mutatingwebhookconfigurations istio-revision-tag-default --context="${CTX_EXTERNAL_CLUSTER}"
 
 kubectl delete ns istio-system external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
 kubectl delete ns external-istiod --context="${CTX_REMOTE_CLUSTER}"
