@@ -31,6 +31,7 @@
 1.11.x
 1.12.x
 1.13.x
+1.14.x
 1.x
 10ms
 10s
@@ -122,6 +123,8 @@ Arielli
 arm64
 ArtifactHub
 AssemblyScript
+attestor
+attestors
 Atlassian
 AttributeGen
 Auth0
@@ -135,6 +138,7 @@ autoscaler
 Autoscalers
 autoscalers
 autoscaling
+auto-sni
 AutoTrader
 Avelar
 az
@@ -347,6 +351,7 @@ endUser-to-Service
 env
 envoyproxy
 etcd
+events.istio.io
 example.com
 ExecAction
 executables
@@ -399,6 +404,8 @@ GKE-Workloads
 GlueCon
 Gloo
 Gmail
+gogo/protobuf
+golang/protobuf
 GoLang
 Golang
 googleapis.com

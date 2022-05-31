@@ -51,17 +51,18 @@ current `<minor>` release. A patch is usually a small change relative to the `<m
 
 ## Support status of Istio releases
 
-| Version         | Currently Supported  | Release Date      | End of Life              | Supported Kubernetes Versions | Tested, but not supported |
-|-----------------|----------------------|-------------------|--------------------------|-------------------------------|---------------------------|
-| master          | No, development only |                   |                          |                               |                           |
-| 1.13            | Yes                  | February 11, 2022 | ~October 2022 (Expected) | 1.20, 1.21, 1.22, 1.23        | 1.16, 1.17, 1.18, 1.19    |
-| 1.12            | Yes                  | November 18, 2021 | ~June 2022 (Expected)    | 1.19, 1.20, 1.21, 1.22        | 1.16, 1.17, 1.18          |
-| 1.11            | Yes                  | August 12, 2021   | ~Mar 2022 (Expected)     | 1.18, 1.19, 1.20, 1.21, 1.22  | 1.16, 1.17                |
-| 1.10            | No                   | May 18, 2021      | Jan 7, 2022              | 1.18, 1.19, 1.20, 1.21        | 1.16, 1.17, 1.22          |
-| 1.9             | No                   | February 9, 2021  | Oct 8, 2021              | 1.17, 1.18, 1.19, 1.20        | 1.15, 1.16                |
-| 1.8             | No                   | November 10, 2020 | May 12, 2021             | 1.16, 1.17, 1.18, 1.19        | 1.15                      |
-| 1.7             | No                   | August 21, 2020   | Feb 25, 2021             | 1.16, 1.17, 1.18              | 1.15                      |
-| 1.6 and earlier | No                   |                   |                          |                               |                           |
+| Version         | Currently Supported  | Release Date      | End of Life              | Supported Kubernetes Versions  | Tested, but not supported    |
+|-----------------|----------------------|-------------------|--------------------------|--------------------------------|------------------------------|
+| master          | No, development only |                   |                          |                                |                              |
+| 1.14            | Yes                  | May 24, 2022      | ~January 2023 (Expected) | 1.21, 1.22, 1.23, 1.24         | 1.16, 1.17, 1.18, 1.19, 1.20 |
+| 1.13            | Yes                  | February 11, 2022 | ~October 2022 (Expected) | 1.20, 1.21, 1.22, 1.23         | 1.16, 1.17, 1.18, 1.19       |
+| 1.12            | Yes                  | November 18, 2021 | ~June 2022 (Expected)    | 1.19, 1.20, 1.21, 1.22         | 1.16, 1.17, 1.18             |
+| 1.11            | Yes                  | August 12, 2021   | Mar 25, 2022             | 1.18, 1.19, 1.20, 1.21, 1.22   | 1.16, 1.17                   |
+| 1.10            | No                   | May 18, 2021      | Jan 7, 2022              | 1.18, 1.19, 1.20, 1.21         | 1.16, 1.17, 1.22             |
+| 1.9             | No                   | February 9, 2021  | Oct 8, 2021              | 1.17, 1.18, 1.19, 1.20         | 1.15, 1.16                   |
+| 1.8             | No                   | November 10, 2020 | May 12, 2021             | 1.16, 1.17, 1.18, 1.19         | 1.15                         |
+| 1.7             | No                   | August 21, 2020   | Feb 25, 2021             | 1.16, 1.17, 1.18               | 1.15                         |
+| 1.6 and earlier | No                   |                   |                          |                                |                              |
 
 {{< warning >}}
 [Kubernetes 1.22 removed some deprecated APIs](https://kubernetes.io/blog/2021/07/14/upcoming-changes-in-kubernetes-1-22/) and as a result versions of Istio prior to 1.10.0 will no longer work. If you are upgrading your Kubernetes version, make sure that your Istio version is still supported.
@@ -76,6 +77,7 @@ Please keep up-to-date and use a supported version.
 
 | Minor Releases   | Patched versions with no known CVEs           |
 |------------------|-----------------------------------------------|
+| 1.14.x           | 1.14.0+                                       |
 | 1.13.x           | 1.13.2+                                       |
 | 1.12.x           | 1.12.5+                                       |
 | 1.11.x           | 1.11.8+                                       |
