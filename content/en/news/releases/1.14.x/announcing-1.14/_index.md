@@ -3,7 +3,7 @@ title: Announcing Istio 1.14
 linktitle: 1.14
 subtitle: Major Update
 description: Istio 1.14 release announcement.
-publishdate: 2022-05-24
+publishdate: 2022-06-01
 release: 1.14.0
 skip_list: true
 aliases:
@@ -18,7 +18,7 @@ We are pleased to announce the release of Istio 1.14!
 This is the second Istio release of 2022. We would like to thank the entire Istio community
 for helping to get Istio 1.14.0 published.
 Special thanks are due to the release managers Lei Tang (Google) and Greg Hanson (Solo.io),
-and to Test & Release WG lead Eric Van Norman (IBM) for his help and guidance.
+and to Test & Release WG lead Eric Van Norman (IBM) for his continued help and guidance.
 
 {{< tip >}}
 Istio 1.14.0 is officially supported on Kubernetes versions `1.21` to `1.24`.
@@ -42,7 +42,7 @@ storing the CA private keys, and enables integration with existing PKIs through 
 SPIRE implements SPIFFE Federation, enabling workloads to trust peers in a different trust domain, in
 a configurable and flexible way through the Federation API.
 
-For more information, check out the [documentation](/docs/ops/integrations/spire/) and this [video](https://www.youtube.com/watch?v=WOPoNqfrhb4) from the HPE and Solo teams.
+For more information, check out the [documentation](/docs/ops/integrations/spire/) and this [video](https://www.youtube.com/watch?v=WOPoNqfrhb4) from the HP Enterprise and Solo.io teams.
 
 ## Add auto-sni support
 
@@ -76,7 +76,7 @@ participants, with a 4.5/5 satisfaction score. The conference was held in Englis
 joining from 120 countries all over the world. During April 2022, the month of the conference, 81% of users
 on istio.io were first time users. We will be sharing a more detailed report of the event on [events.istio.io](https://events.istio.io).
 
-## CNCF wrap up
+## CNCF news
 
 We're so pleased at the response to our announcement that [Istio has been proposed to the CNCF](/blog/2022/istio-has-applied-to-join-the-cncf/).
 We're hard at work on our application, and hope to have more to share in the coming months!
