@@ -35,7 +35,7 @@ if [[ -z "${IGNORE_DIRTY_TREE}" ]] && ! git diff-index --quiet HEAD --; then
   tree_status="Modified"
 fi
 
-GIT_DESCRIBE_TAG=$(git describe --tags --always)
+GIT_DESCRIBE_TAG=$(git describe --tags)
 HUB=${HUB:-"docker.io/istio"}
 
 # used by common/scripts/gobuild.sh
