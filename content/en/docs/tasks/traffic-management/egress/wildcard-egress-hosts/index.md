@@ -118,6 +118,131 @@ the default) is used in the service entry below.
 $ kubectl delete serviceentry wikipedia
 {{< /text >}}
 
+### Wildcard configuration for a single hosting server
+
+When all wildcard hosts are served by a single server, the configuration for
+egress gateway-based access to a wildcard host is very similar to that of any host, with one exception:
+the configured route destination will not be the same as the configured host,
+i.e., the wildcard. It will instead be configured with the host of the single server for
+the set of domains.
+
+1.  Create an egress `Gateway` for _*.wikipedia.org_, a destination rule and a virtual service
+    to direct the traffic through the egress gateway and from the egress gateway to the external service.
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: Gateway
+    metadata:
+      name: istio-egressgateway
+    spec:
+      selector:
+        istio: egressgateway
+      servers:
+      - port:
+          number: 443
+          name: https
+          protocol: HTTPS
+        hosts:
+        - "*.wikipedia.org"
+        tls:
+          mode: PASSTHROUGH
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: egressgateway-for-wikipedia
+    spec:
+      host: istio-egressgateway.istio-system.svc.cluster.local
+      subsets:
+        - name: wikipedia
+    ---
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: direct-wikipedia-through-egress-gateway
+    spec:
+      hosts:
+      - "*.wikipedia.org"
+      gateways:
+      - mesh
+      - istio-egressgateway
+      tls:
+      - match:
+        - gateways:
+          - mesh
+          port: 443
+          sniHosts:
+          - "*.wikipedia.org"
+        route:
+        - destination:
+            host: istio-egressgateway.istio-system.svc.cluster.local
+            subset: wikipedia
+            port:
+              number: 443
+          weight: 100
+      - match:
+        - gateways:
+          - istio-egressgateway
+          port: 443
+          sniHosts:
+          - "*.wikipedia.org"
+        route:
+        - destination:
+            host: www.wikipedia.org
+            port:
+              number: 443
+          weight: 100
+    EOF
+    {{< /text >}}
+
+1.  Create a `ServiceEntry` for the destination server, _www.wikipedia.org_.
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: ServiceEntry
+    metadata:
+      name: www-wikipedia
+    spec:
+      hosts:
+      - www.wikipedia.org
+      ports:
+      - number: 443
+        name: https
+        protocol: HTTPS
+      resolution: DNS
+    EOF
+    {{< /text >}}
+
+1.  Send HTTPS requests to
+    [https://en.wikipedia.org](https://en.wikipedia.org) and [https://de.wikipedia.org](https://de.wikipedia.org):
+
+    {{< text bash >}}
+    $ kubectl exec "$SOURCE_POD" -c sleep -- sh -c 'curl -s https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"; curl -s https://de.wikipedia.org/wiki/Wikipedia:Hauptseite | grep -o "<title>.*</title>"'
+    <title>Wikipedia, the free encyclopedia</title>
+    <title>Wikipedia – Die freie Enzyklopädie</title>
+    {{< /text >}}
+
+1.  Check the statistics of the egress gateway's proxy for the counter that corresponds to your
+    requests to _*.wikipedia.org_. If Istio is deployed in the `istio-system` namespace, the command to print the
+    counter is:
+
+    {{< text bash >}}
+    $ kubectl exec "$(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}')" -c istio-proxy -n istio-system -- pilot-agent request GET clusters | grep '^outbound|443||www.wikipedia.org.*cx_total:'
+    outbound|443||www.wikipedia.org::208.80.154.224:443::cx_total::2
+    {{< /text >}}
+
+#### Cleanup wildcard configuration for a single hosting server
+
+{{< text bash >}}
+$ kubectl delete serviceentry www-wikipedia
+$ kubectl delete gateway istio-egressgateway
+$ kubectl delete virtualservice direct-wikipedia-through-egress-gateway
+$ kubectl delete destinationrule egressgateway-for-wikipedia
+{{< /text >}}
+
+
 ## Cleanup
 
 * Shutdown the [sleep]({{< github_tree >}}/samples/sleep) service:
