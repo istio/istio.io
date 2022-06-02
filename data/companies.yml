@@ -86,7 +86,7 @@ providers:
 integrations:
   - name: "Aeraki"
     logo: "/logos/aeraki.png"
-    url: "https://github.com/aeraki-framework/"
+    url: "https://github.com/aeraki-mesh/"
     description: "Aeraki extends Istio to manage traffic for any layer-7 protocols."
     details:
       - "Aeraki [Air-rah-ki] is the Greek word for ‘breeze’. While Istio connects microservices in a service mesh, Aeraki provides a framework to allow Istio to support more layer-7 protocols other than HTTP and gRPC. We hope this breeze can help Istio sail a little further."
