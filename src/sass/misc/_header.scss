@@ -195,6 +195,9 @@
         width: 100%;
         padding: 0 4.85rem 4.85rem;
         transition: right .5s;
+        @media (max-width: $bp-sm) {
+            padding: 0 1.75rem 1.75rem;
+        }
     }
 
     &-links {
