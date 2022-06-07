@@ -1,8 +1,8 @@
 ---
 title: Extensibility
-description: Helps you manage extensions to the service mesh.
+description: Demonstrates how to configure a Wasm Module.
 weight: 45
-keywords: [ops,extensibility,WebAssembly,Wasm]
+keywords: [extensibility,WebAssembly,Wasm]
 aliases:
     - /help/ops/extensibility
 test: n/a
