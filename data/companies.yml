@@ -15,7 +15,7 @@ providers:
     url: "https://tanzu.vmware.com/service-mesh"
   - name: "Huawei Cloud Application Service Mesh"
     logo: "/logos/huawei.png"
-    url: "https://support.huaweicloud.com/istio/"
+    url: "https://support.huaweicloud.com/asm/index.html"
   - name: "Tetrate Service Bridge"
     logo: "/logos/tetrate.png"
     url: "https://www.tetrate.io/tetrate-service-bridge/"
