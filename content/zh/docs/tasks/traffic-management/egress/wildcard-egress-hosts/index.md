@@ -215,7 +215,6 @@ $ kubectl delete virtualservice direct-wikipedia-through-egress-gateway
 $ kubectl delete destinationrule egressgateway-for-wikipedia
 {{< /text >}}
 
-
 ## 清除{#cleanup}
 
 * 关闭服务 [sleep]({{< github_tree >}}/samples/sleep)：
