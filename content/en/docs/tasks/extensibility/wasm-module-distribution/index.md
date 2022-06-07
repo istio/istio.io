@@ -77,7 +77,7 @@ For more example usage of the `WasmPlugin` API, please take a look at the [API r
 ## Cleanup Wasm Modules
 
 {{< text bash >}}
-$ kubectl delete -f istio-system basic-auth
+$ kubectl delete wasmplugins.extensions.istio.io -n istio-system basic-auth
 {{< /text >}}
 
 ## Monitor Wasm Module Distribution

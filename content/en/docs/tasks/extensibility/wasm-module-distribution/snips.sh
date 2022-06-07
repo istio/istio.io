@@ -62,5 +62,5 @@ curl -s -o /dev/null -w "%{http_code}" -H "Authorization: Basic YWRtaW4zOmFkbWlu
 ENDSNIP
 
 snip_cleanup_wasm_modules_1() {
-kubectl delete -f istio-system basic-auth
+kubectl delete wasmplugins.extensions.istio.io -n istio-system basic-auth
 }
