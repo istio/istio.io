@@ -226,7 +226,7 @@ To improve workload attestation security robustness, SPIRE is able to verify aga
 1. Deploy an example workload:
 
     {{< text bash >}}
-    $ istioctl kube-inject --filename @samples/security/spire/sleep-spire.yaml | kubectl apply -f -
+    $ istioctl kube-inject --filename samples/security/spire/sleep-spire.yaml | kubectl apply -f -
     {{< /text >}}
 
     Note that the workload will need the SPIFFE CSI Driver volume to access the SPIRE Agent socket. To accomplish this,
