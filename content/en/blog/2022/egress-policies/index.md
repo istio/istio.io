@@ -13,7 +13,7 @@ An Istio Egress gateway is just another envoy similar to the Ingress instance bu
 This task describes how to enforce outbound authorization policies using Istio's Egress gateway in a similar matter when enforcing inbound policies. For this we use the `sleep` service in two separate namespaces within the mesh to access external services at Google and Yahoo.
 
 ***
-NOTE: One important consideration to be aware of is that Istio cannot securely enforce that all egress traffic actually flows through the egress gateways. Istio only enables such flow through its sidecar proxies. If attackers bypass the sidecar proxy, they could directly access external services without traversing the egress gateway. Kubernetes network policies can be used to prevent outbound traffic at the cluster level, for more read [here](https://istio.io/latest/docs/tasks/traffic-management/egress/egress-gateway/#additional-security-considerations).
+NOTE: One important consideration to be aware of is that Istio cannot securely enforce that all egress traffic actually flows through the egress gateways. Istio only enables such flow through its sidecar proxies. If attackers bypass the sidecar proxy, they could directly access external services without traversing the egress gateway. Kubernetes network policies can be used to prevent outbound traffic at the cluster level, for more read [here](/docs/tasks/traffic-management/egress/egress-gateway/#additional-security-considerations).
 
 ***
 
@@ -41,9 +41,9 @@ Label the namespace for sidecar injection:
 ```bash
 kubectl label ns default istio-injection=enabled
 ```
-```bash
+{{< text bash >}}
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/master/samples/sleep/sleep.yaml
-```
+{{< /text >}}
 
 ### Install the sleep service in the otherns namespace
 
@@ -56,9 +56,9 @@ Label the namespace for sidecar injection:
 kubectl label ns otherns istio-injection=enabled
 ```
 Apply the service resources:
-```bash
+{{< text bash >}}
 kubectl apply -n otherns -f https://raw.githubusercontent.com/istio/istio/master/samples/sleep/sleep.yaml
-```
+{{< /text >}}
 
 ### Export `sleep` pods name into variables
 
@@ -289,7 +289,7 @@ These `DestinationRule`s are bound to a `VirtualService` that matches traffic to
 ![Egress traffic](egress-external.png)
 
 ***
-NOTE: Is important to note that for this example relies on Istio's automatic mutual TLS, this means services within the mesh send TLS traffic and we are only sending `SIMPLE` TLS traffic at the egress when requests leave the mesh to the actual external host. For `mTLS` origination for egress traffic the `DestinationRule` needs to define the secret name that holds the client credentials certificate and be on `MUTUAL` mode. See more details [here](https://istio.io/latest/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/#configure-mutual-tls-origination-for-egress-traffic).
+NOTE: Is important to note that for this example relies on Istio's automatic mutual TLS, this means services within the mesh send TLS traffic and we are only sending `SIMPLE` TLS traffic at the egress when requests leave the mesh to the actual external host. For `mTLS` origination for egress traffic the `DestinationRule` needs to define the secret name that holds the client credentials certificate and be on `MUTUAL` mode. See more details [here](/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/#configure-mutual-tls-origination-for-egress-traffic).
 
 ***
 
