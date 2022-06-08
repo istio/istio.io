@@ -79,7 +79,7 @@ $ kubectl exec $SLEEP_POD1 -it -- curl -I https://developers.google.com
 {{< /text >}}
 
 You should expect a similar response like:
-```
+{{< text plain >}}
 HTTP/2 200 
 last-modified: Mon, 18 Apr 2022 19:50:38 GMT
 content-type: text/html; charset=utf-8
@@ -96,7 +96,7 @@ x-cloud-trace-context: 3943a8b1bdf28d721eae4f82696ba2c4
 content-length: 142275
 date: Thu, 05 May 2022 18:57:58 GMT
 server: Google Frontend
-```
+{{< /text >}}
 
 Now the other service:
 {{< text bash >}}
@@ -104,7 +104,7 @@ $ kubectl exec $SLEEP_POD2 -n otherns -it -- curl -I https://developer.yahoo.com
 {{< /text >}}
 
 You should expect a similar response like:
-```
+{{< text plain >}}
 HTTP/2 200 
 referrer-policy: no-referrer-when-downgrade
 strict-transport-security: max-age=15552000
@@ -123,7 +123,7 @@ age: 3
 expect-ct: max-age=31536000, report-uri="http://csp.yahoo.com/beacon/csp?src=yahoocom-expect-ct-report-only"
 x-xss-protection: 1; mode=block
 x-content-type-options: nosniff
-```
+{{< /text >}}
 
 If you want you can test the other other address on the other `sleep` pod. We can confirm the pods have outbound access to Google and Yahoo.
 
@@ -145,10 +145,10 @@ $ kubectl exec $SLEEP_POD1 -it -- curl -I https://developers.google.com
 
 You should expect a similar response like:
 
-```
+{{< text plain >}}
 curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to developers.google.com:443 
 command terminated with exit code 35
-```
+{{< /text >}}
 
 Now the other service:
 
@@ -158,10 +158,10 @@ $ kubectl exec $SLEEP_POD2 -n otherns -it -- curl -I https://developer.yahoo.com
 
 You should expect a similar response like:
 
-```
+{{< text plain >}}
 curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to developer.yahoo.com:443 
 command terminated with exit code 35
-```
+{{< /text >}}
 
 The error is due to the new policy enforcing only services part of the registry are allowed for outbound traffic.
 
@@ -174,7 +174,7 @@ There could be a slight delay on the configuration being propagated to the sidec
 ### Add the Google and Yahoo services to the mesh service registry
 
 Our Google `ServiceEntry` looks like this:
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1beta1
 kind: ServiceEntry
 metadata:
@@ -193,7 +193,7 @@ spec:
   - number: 80
     name: http
     protocol: HTTP
-```
+{{< /text >}}
 
 Apply the resource:
 
@@ -217,10 +217,10 @@ $ kubectl exec $SLEEP_POD1 -it -- curl -I https://developer.yahoo.com
 
 You should expect an error along the lines:
 
-```
+{{< text plain >}}
 curl: (35) OpenSSL SSL_connect: Connection reset by peer in connection to developer.yahoo.com:443 
 command terminated with exit code 35
-```
+{{< /text >}}
 
 This is because we only allowed outbound traffic to Google from the default namespace where the `SLEEP_POD1` lives. Any outbound traffic from `SLEEP_POD2` should still be blocked, lets enabled traffic to Google:
 
@@ -236,7 +236,7 @@ $ kubectl exec $SLEEP_POD1 -it -- curl -I https://developers.google.com
 {{< /text >}}
 
 Notice how Yahoo is still blocked on both services. Take a look at the Yahoo `ServiceEntry`:
-```yaml
+{{< text plain >}}
 apiVersion: networking.istio.io/v1beta1
 kind: ServiceEntry
 metadata:
@@ -255,7 +255,7 @@ spec:
   - number: 80
     name: http
     protocol: HTTP
-```
+{{< /text >}}
 
 Enable traffic on the default namespace and test it:
 
@@ -325,15 +325,15 @@ $ kubectl exec $SLEEP_POD2 -n otherns -it -- curl -I https://developer.yahoo.com
 
 For all requests expect an error along the lines:
 
-```
+{{< text plain >}}
 curl: (35) OpenSSL SSL_connect: Connection reset by peer in connection to developer.yahoo.com:443 
 command terminated with exit code 35
-```
+{{< /text >}}
 
 Analyze the following resources `external-google.yaml` and `external-yahoo.yaml`:
 
 Google:
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:
@@ -432,10 +432,10 @@ spec:
         number: 443
       tls:
         mode: SIMPLE # initiates HTTPS for connections to developers.google.com
-```
+{{< /text >}}
 
 Yahoo:
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:
@@ -534,7 +534,7 @@ spec:
         number: 443
       tls:
         mode: SIMPLE # initiates HTTPS for connections to developer.yahoo.com
-```
+{{< /text >}}
 
 In the previous resources you can find:
 - `ServiceEntry`s to enable external access to these hosts
@@ -562,7 +562,7 @@ $ kubectl exec $SLEEP_POD1 -it -- curl -I http://developers.google.com
 
 Expect a 200 response along the lines:
 
-```
+{{< text plain >}}
 HTTP/1.1 200 OK
 last-modified: Mon, 18 Apr 2022 19:50:38 GMT
 content-type: text/html; charset=utf-8
@@ -580,7 +580,7 @@ content-length: 142287
 date: Tue, 10 May 2022 20:36:17 GMT
 server: envoy
 x-envoy-upstream-service-time: 420
-```
+{{< /text >}}
 
 Tail the logs of the `istio-proxy` sidecar:
 
@@ -590,9 +590,9 @@ $ kubectl logs $SLEEP_POD1 -f -c istio-proxy
 
 Expect and entry from the sidecar to the egress:
 
-```
+{{< text plain >}}
 [2022-05-10T20:36:16.973Z] "HEAD / HTTP/1.1" 200 - via_upstream - "-" 0 0 421 420 "-" "curl/7.83.0-DEV" "5ab0ed38-2e77-92a8-bb44-0a07573cd530" "developers.google.com" "10.100.2.6:8080" outbound|80|google|istio-egressgateway.istio-system.svc.cluster.local 10.100.0.5:48236 173.194.217.101:80 10.100.0.5:48764 - -
-```
+{{< /text >}}
 
 Tail the logs of the `egressgateway`:
 
@@ -602,9 +602,9 @@ $ kubectl logs istio-egressgateway-66fdd867f4-kbrh4 -f -n istio-system
 
 Expect and entry from the egress to the external host:
 
-```
+{{< text plain >}}
 [2022-05-10T20:36:16.981Z] "HEAD / HTTP/2" 200 - via_upstream - "-" 0 0 395 394 "10.100.0.5" "curl/7.83.0-DEV" "5ab0ed38-2e77-92a8-bb44-0a07573cd530" "developers.google.com" "173.194.217.101:443" outbound|443||developers.google.com 10.100.2.6:51492 10.100.2.6:8080 10.100.0.5:48236 developers.google.com -
-```
+{{< /text >}}
 
 {{< tip >}}
 Notice how the internal outbound traffic is intentionally originated using `http` in order to rely on Istio's automatic mTLS within the mesh and then using the `DestinationRule` tls mode `SIMPLE`, the egress instance does a secure request to the external host.
@@ -620,15 +620,15 @@ $ kubectl exec $SLEEP_POD2 -n otherns -it -- curl -I http://developer.yahoo.com
 
 Expect an entry like the following on the sidecar logs:
 
-```
+{{< text plain >}}
 [2022-05-10T20:51:37.091Z] "HEAD / HTTP/1.1" 200 - via_upstream - "-" 0 0 2389 2389 "-" "curl/7.83.0-DEV" "b2e32c17-2db4-925f-bbd7-c201b549f7ef" "developer.yahoo.com" "10.100.2.6:8080" outbound|80|yahoo|istio-egressgateway.istio-system.svc.cluster.local 10.100.1.6:38682 69.147.92.11:80 10.100.1.6:47940 - -
-```
+{{< /text >}}
 
 And on the egress:
 
-```
+{{< text plain >}}
 [2022-05-10T20:51:37.099Z] "HEAD / HTTP/2" 200 - via_upstream - "-" 0 0 2364 2363 "10.100.1.6" "curl/7.83.0-DEV" "b2e32c17-2db4-925f-bbd7-c201b549f7ef" "developer.yahoo.com" "69.147.92.11:443" outbound|443||developer.yahoo.com 10.100.2.6:40486 10.100.2.6:8080 10.100.1.6:38682 developer.yahoo.com -
-```
+{{< /text >}}
 
 At this time you can test the other external host on the opposite `sleep` service and notice is still accessible:
 
@@ -644,7 +644,7 @@ Expect 200 responses from either `sleep` service.
 Although we can enforce denying external access by removing `ServiceEntry` resources while the `REGISTRY_ONLY` mode is active, we can also do it with a more fine-grained control using `AuthorizationPolicy`s after the correct configuration is in place.
 
 Take a look at this policy that allows no traffic out:
-```yaml
+{{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
@@ -652,7 +652,7 @@ metadata:
  namespace: istio-system
 spec:
   {}
-```
+{{< /text >}}
 
 Apply the `authz-policy-allow-nothing.yaml` file that enforces this purpose:
 
@@ -677,14 +677,14 @@ Keep in mind some requests could be allowed while the configuration takes place
 
 Expect a response along the lines:
 
-```
+{{< text plain >}}
 HTTP/1.1 403 Forbidden
 content-length: 19
 content-type: text/plain
 date: Tue, 10 May 2022 21:08:13 GMT
 server: envoy
 x-envoy-upstream-service-time: 13
-```
+{{< /text >}}
 
 Notice that even when applying the `authz-policy-allow-google.yaml` allowing the `default` ns to do requests to `developers.google.com` it still gets forbidden. This is because `AuthorizationPolicy`s the `DENY` action is evaluated before the `ALLOW` one.
 
@@ -699,7 +699,7 @@ $ kubectl delete authorizationpolicies.security.istio.io -n istio-system allow-n
 For this use case we allow the `sleep` service on the `default` namespace to access `google` but not `yahoo` and the for the `sleep` service on the `otherns` namespace it allows `yahoo` but not `google`.
 
 Analyze the following policies:
-```yaml
+{{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
@@ -716,8 +716,8 @@ spec:
     - key: connection.sni
       values: 
       - developers.google.com
-```
-```yaml
+{{< /text >}}
+{{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
@@ -734,7 +734,7 @@ spec:
     - key: connection.sni
       values: 
       - developer.yahoo.com
-```
+{{< /text >}}
 
 Apply the following policies:
 
@@ -756,9 +756,9 @@ For the first couple requests expect a 403 Forbidden response and for the last c
 
 Tail the logs for the egress gateway and expect an entry describing the policy matched:
 
-```
+{{< text plain >}}
 [2022-05-10T21:51:49.396Z] "HEAD / HTTP/2" 403 - rbac_access_denied_matched_policy[ns[istio-system]-policy[external-deny-developer-yahoo-com]-rule[0]] - "-" 0 0 0 - "10.100.0.6" "curl/7.83.0-DEV" "a503ba03-f09a-914d-85a4-995a0c1d5b16" "developer.yahoo.com" "-" outbound|443||developer.yahoo.com - 10.100.2.6:8080 10.100.0.6:58370 developer.yahoo.com -
-```
+{{< /text >}}
 
 Delete the resources:
 
@@ -784,7 +784,7 @@ $ export SLEEP_POD_Y=$(kubectl get pod -n otherns -l app=sleep-yahoo -ojsonpath=
 {{< /text >}}
 
 Apply the following policies that block the `sleep-google` service to access Yahoo and `sleep-yahoo` service to access Google within the `otherns` namespace, still leaving access to both hosts from the `sleep` service:
-```yaml
+{{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
@@ -802,8 +802,8 @@ spec:
       values: 
       - developers.google.com
 
-```
-```yaml
+{{< /text >}}
+{{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
@@ -820,7 +820,7 @@ spec:
     - key: connection.sni
       values: 
       - developer.yahoo.com
-```
+{{< /text >}}
 
 {{< text bash >}}
 $ kubectl apply -f authz-policy-deny-google-custom.yaml -n istio-system 
@@ -849,7 +849,7 @@ You successfully used `AuthorizationPolicy`s to enforce internal outbound traffi
 This is really similar to the use case described above, the difference is on the way the policies are matched and the configuration of the resources to be able to rely on istio's mTLS between the sidecar and egress:
 
 For google:
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:
@@ -936,10 +936,10 @@ spec:
           number: 443
       weight: 100
 ---
-```
+{{< /text >}}
 
 for yahoo:
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:
@@ -1026,13 +1026,13 @@ spec:
           number: 443
       weight: 100
 ---
-```
+{{< /text >}}
 
 And the policies:
 
 For the `sleep-yahoo` svc SA principal on the `otherns` ns to block outbound traffic to google matching the sni host:
 
-```yaml
+{{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
@@ -1049,11 +1049,11 @@ spec:
     - key: connection.sni
       values: 
       - developers.google.com
-```
+{{< /text >}}
 
 For the `sleep-google` svc SA principal on the `otherns` ns to block outbound traffic to yahoo matching the sni host:
 
-```yaml
+{{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
@@ -1070,7 +1070,7 @@ spec:
     - key: connection.sni
       values: 
       - developer.yahoo.com
-```
+{{< /text >}}
 
 The `connection.sni` key is the main takeaway when doing TLS origination as the sni key prevents SSL errors mismatching the SAN.
 
