@@ -8,7 +8,7 @@ keywords: [egress, policy, external, traffic, authorization policy]
 
 An Istio Egress gateway is just another envoy similar to the Ingress instance but with the purpose to control outbound traffic. Istio uses ingress and egress gateways to configure load balancers executing at the edge of a service mesh. An ingress gateway allows you to define entry points into the mesh that all incoming traffic flows through. Egress gateway is a symmetrical concept; it defines exit points from the mesh. Egress gateways allow you to apply Istio features, for example, monitoring and route rules, to traffic exiting the mesh.
 
-![](ingress-egress.png)
+![Istio Architecture](ingress-egress.png)
 
 This task describes how to enforce outbound authorization policies using Istio's Egress gateway in a similar matter when enforcing inbound policies. For this we use the `sleep` service in two separate namespaces within the mesh to access external services at Google and Yahoo.
 
@@ -124,7 +124,7 @@ x-content-type-options: nosniff
 
 If you want you can test the other other address on the other `sleep` pod. We can confirm the pods have outbound access to Google and Yahoo.
 
-![](proxy-external.png)
+![Egress traffic](proxy-external.png)
 
 ## Block outbound access 
 
@@ -286,7 +286,7 @@ In a similar manner when dealing with inbound traffic routing, we can create `De
 
 These `DestinationRule`s are bound to a `VirtualService` that matches traffic to the whole `mesh` `Gateway` and the `Gateway` defined for the external host. By doing this setup, we can rely on the `ServiceEntry` and `AuthorizationPolicy` resources to ensure that only allowed/denied outbound traffic defined for namespaces or principals (k8s ServiceAccount) can reach the external hosts. 
 
-![](egress-external.png)
+![Egress traffic](egress-external.png)
 
 ***
 NOTE: Is important to note that for this example relies on Istio's automatic mutual TLS, this means services within the mesh send TLS traffic and we are only sending `SIMPLE` TLS traffic at the egress when requests leave the mesh to the actual external host. For `mTLS` origination for egress traffic the `DestinationRule` needs to define the secret name that holds the client credentials certificate and be on `MUTUAL` mode. See more details [here](https://istio.io/latest/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/#configure-mutual-tls-origination-for-egress-traffic).
