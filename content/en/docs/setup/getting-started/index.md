@@ -209,7 +209,7 @@ Set the ingress host and ports:
 
 {{< text bash >}}
 $ export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-$ export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].port}')
+$ export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http")].port}')
 $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].port}')
 {{< /text >}}
 
@@ -237,7 +237,7 @@ $ echo "$SECURE_INGRESS_PORT"
 Execute the following command to determine if your Kubernetes cluster is running in an environment that supports external load balancers:
 
 {{< text bash >}}
-$ kubectl get svc istio-ingressgateway -n istio-system
+$ kubectl get svc istio-ingressgateway -n istio-ingress
 NAME                   TYPE           CLUSTER-IP       EXTERNAL-IP     PORT(S)                                      AGE
 istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121  80:31380/TCP,443:31390/TCP,31400:31400/TCP   17h
 {{< /text >}}
@@ -253,9 +253,9 @@ Choose the instructions corresponding to your environment:
 Set the ingress IP and ports:
 
 {{< text bash >}}
-$ export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-$ export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].port}')
-$ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].port}')
+$ export INGRESS_HOST=$(kubectl -n istio-ingress get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+$ export INGRESS_PORT=$(kubectl -n istio-ingress get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http")].port}')
+$ export SECURE_INGRESS_PORT=$(kubectl -n istio-ingress get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].port}')
 {{< /text >}}
 
 {{< warning >}}
@@ -265,7 +265,7 @@ but rather a host name, and the above command will have failed to set the `INGRE
 Use the following command to correct the `INGRESS_HOST` value:
 
 {{< text bash >}}
-$ export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
+$ export INGRESS_HOST=$(kubectl -n istio-ingress get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
 {{< /text >}}
 
 {{< /warning >}}
@@ -275,8 +275,8 @@ $ export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway
 Set the ingress ports:
 
 {{< text bash >}}
-$ export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}')
-$ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].nodePort}')
+$ export INGRESS_PORT=$(kubectl -n istio-ingress get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http")].nodePort}')
+$ export SECURE_INGRESS_PORT=$(kubectl -n istio-ingress get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].nodePort}')
 {{< /text >}}
 
 _GKE:_
