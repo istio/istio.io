@@ -46,7 +46,7 @@ $ kubectl label ns default istio-injection=enabled
 {{< /text >}}
 
 {{< text bash >}}
-$ kubectl apply -f https://raw.githubusercontent.com/istio/istio/master/samples/sleep/sleep.yaml
+$ kubectl apply -f {{< text_import url="https://raw.githubusercontent.com/istio/istio/master/samples/sleep/sleep.yaml" syntax="plain" >}}
 {{< /text >}}
 
 ### Install the sleep service in the otherns namespace
@@ -61,9 +61,8 @@ $ kubectl label ns otherns istio-injection=enabled
 {{< /text >}}
 Apply the service resources:
 {{< text bash >}}
-$ kubectl apply -n otherns -f https://raw.githubusercontent.com/istio/istio/master/samples/sleep/sleep.yaml
+$ kubectl apply -n otherns -f {{< text_import url="https://raw.githubusercontent.com/istio/istio/master/samples/sleep/sleep.yaml" syntax="plain" >}}
 {{< /text >}}
-
 ### Export `sleep` pods name into variables
 
 {{< text bash >}}
