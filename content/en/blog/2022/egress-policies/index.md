@@ -32,7 +32,7 @@ Before starting you'll need:
 Install istio:
 
 {{< text bash >}}
-istioctl install -y --set profile=demo --set meshConfig.outboundTrafficPolicy.mode=ALLOW_ANY
+$ istioctl install -y --set profile=demo --set meshConfig.outboundTrafficPolicy.mode=ALLOW_ANY
 {{< /text >}}
 
 Notice the demo profile installs an instance of an Egress gateway and the set flag configures the handling of external services by using the `outboundTrafficPolicy` option. `ALLOW_ANY` is the default option enabling access to outbound services and `REGISTRY_ONLY` gets the sidecar proxies to block access if the host is not defined in the service registry using the `ServiceEntry` resource. 
@@ -42,45 +42,45 @@ Notice the demo profile installs an instance of an Egress gateway and the set fl
 Label the namespace for sidecar injection:
 
 {{< text bash >}}
-kubectl label ns default istio-injection=enabled
+$ kubectl label ns default istio-injection=enabled
 {{< /text >}}
 
 {{< text bash >}}
-kubectl apply -f https://raw.githubusercontent.com/istio/istio/master/samples/sleep/sleep.yaml
+$ kubectl apply -f https://raw.githubusercontent.com/istio/istio/master/samples/sleep/sleep.yaml
 {{< /text >}}
 
 ### Install the sleep service in the otherns namespace
 
 {{< text bash >}}
-kubectl create ns otherns
+$ kubectl create ns otherns
 {{< /text >}}
 
 Label the namespace for sidecar injection:
 {{< text bash >}}
-kubectl label ns otherns istio-injection=enabled
+$ kubectl label ns otherns istio-injection=enabled
 {{< /text >}}
 Apply the service resources:
 {{< text bash >}}
-kubectl apply -n otherns -f https://raw.githubusercontent.com/istio/istio/master/samples/sleep/sleep.yaml
+$ kubectl apply -n otherns -f https://raw.githubusercontent.com/istio/istio/master/samples/sleep/sleep.yaml
 {{< /text >}}
 
 ### Export `sleep` pods name into variables
 
 {{< text bash >}}
-export SLEEP_POD1=$(kubectl get pod -l app=sleep -ojsonpath='{.items[0].metadata.name}')
+$ export SLEEP_POD1=$(kubectl get pod -l app=sleep -ojsonpath='{.items[0].metadata.name}')
 {{< /text >}}
 {{< text bash >}}
-export SLEEP_POD2=$(kubectl get pod -n otherns -l app=sleep -ojsonpath='{.items[0].metadata.name}')
+$ export SLEEP_POD2=$(kubectl get pod -n otherns -l app=sleep -ojsonpath='{.items[0].metadata.name}')
 {{< /text >}}
 
 ### Test `sleep` accessing Google and Yahoo
 
 {{< text bash >}}
-kubectl exec $SLEEP_POD1 -it -- curl -I https://developers.google.com
+$ kubectl exec $SLEEP_POD1 -it -- curl -I https://developers.google.com
 {{< /text >}}
 
 You should expect a similar response like:
-{{< text bash >}}
+{{< text >}}
 HTTP/2 200 
 last-modified: Mon, 18 Apr 2022 19:50:38 GMT
 content-type: text/html; charset=utf-8
@@ -101,11 +101,11 @@ server: Google Frontend
 
 Now the other service:
 {{< text bash >}}
-kubectl exec $SLEEP_POD2 -n otherns -it -- curl -I https://developer.yahoo.com
+$ kubectl exec $SLEEP_POD2 -n otherns -it -- curl -I https://developer.yahoo.com
 {{< /text >}}
 
 You should expect a similar response like:
-{{< text bash >}}
+{{< text >}}
 HTTP/2 200 
 referrer-policy: no-referrer-when-downgrade
 strict-transport-security: max-age=15552000
@@ -135,18 +135,18 @@ If you want you can test the other other address on the other `sleep` pod. We ca
 Using `istioctl` we modify the istio installation to change the outbound traffic policy from `ALLOW_ANY` to `REGISTRY_ONLY` which enforces that only hosts defined with `ServiceEntry` resources are part of the mesh service registry; could be accessed to by sidecars of the mesh:
 
 {{< text bash >}}
-istioctl install -y --set profile=demo --set meshConfig.outboundTrafficPolicy.mode=REGISTRY_ONLY
+$ istioctl install -y --set profile=demo --set meshConfig.outboundTrafficPolicy.mode=REGISTRY_ONLY
 {{< /text >}}
 
 ### Test `sleep` access again
 
 {{< text bash >}}
-kubectl exec $SLEEP_POD1 -it -- curl -I https://developers.google.com
+$ kubectl exec $SLEEP_POD1 -it -- curl -I https://developers.google.com
 {{< /text >}}
 
 You should expect a similar response like:
 
-{{< text bash >}}
+{{< text >}}
 curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to developers.google.com:443 
 command terminated with exit code 35
 {{< /text >}}
@@ -154,12 +154,12 @@ command terminated with exit code 35
 Now the other service:
 
 {{< text bash >}}
-kubectl exec $SLEEP_POD2 -n otherns -it -- curl -I https://developer.yahoo.com
+$ kubectl exec $SLEEP_POD2 -n otherns -it -- curl -I https://developer.yahoo.com
 {{< /text >}}
 
 You should expect a similar response like:
 
-{{< text bash >}}
+{{< text >}}
 curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to developer.yahoo.com:443 
 command terminated with exit code 35
 {{< /text >}}
@@ -199,7 +199,7 @@ spec:
 Apply the resource:
 
 {{< text bash >}}
-kubectl apply -f google-serviceentry.yaml
+$ kubectl apply -f google-serviceentry.yaml
 {{< /text >}}
 
 Notice the `exportTo: - "."` section of the service entry resource specifying that is only applicable to the current namespace where applied. You can also change this to `"*"` for all namespaces in the mesh.
@@ -207,13 +207,13 @@ Notice the `exportTo: - "."` section of the service entry resource specifying th
 Test access to the service:
 
 {{< text bash >}}
-kubectl exec $SLEEP_POD1 -it -- curl -I https://developers.google.com
+$ kubectl exec $SLEEP_POD1 -it -- curl -I https://developers.google.com
 {{< /text >}}
 
 You should expect a 200 response code now. But what if we test this `sleep` service to Yahoo?
 
 {{< text bash >}}
-kubectl exec $SLEEP_POD1 -it -- curl -I https://developer.yahoo.com
+$ kubectl exec $SLEEP_POD1 -it -- curl -I https://developer.yahoo.com
 {{< /text >}}
 
 You should expect an error along the lines:
@@ -226,14 +226,14 @@ command terminated with exit code 35
 This is because we only allowed outbound traffic to Google from the default namespace where the `SLEEP_POD1` lives. Any outbound traffic from `SLEEP_POD2` should still be blocked, lets enabled traffic to Google:
 
 {{< text bash >}}
-kubectl apply -n otherns -f google-serviceentry.yaml
+$ kubectl apply -n otherns -f google-serviceentry.yaml
 {{< /text >}}
 
 You should expect a 200 response code from both pods:
 
 {{< text bash >}}
-kubectl exec $SLEEP_POD2 -n otherns -it -- curl -I https://developers.google.com
-kubectl exec $SLEEP_POD1 -it -- curl -I https://developers.google.com
+$ kubectl exec $SLEEP_POD2 -n otherns -it -- curl -I https://developers.google.com
+$ kubectl exec $SLEEP_POD1 -it -- curl -I https://developers.google.com
 {{< /text >}}
 
 Notice how Yahoo is still blocked on both services. Take a look at the Yahoo `ServiceEntry`:
@@ -261,21 +261,21 @@ spec:
 Enable traffic on the default namespace and test it:
 
 {{< text bash >}}
-kubectl apply -f yahoo-serviceentry.yaml
+$ kubectl apply -f yahoo-serviceentry.yaml
 {{< /text >}}
 
 {{< text bash >}}
-kubectl exec $SLEEP_POD1 -it -- curl -I https://developer.yahoo.com
+$ kubectl exec $SLEEP_POD1 -it -- curl -I https://developer.yahoo.com
 {{< /text >}}
 
 Now Yahoo on the `otherns` namespace:
 
 {{< text bash >}}
-kubectl apply -n otherns -f yahoo-serviceentry.yaml
+$ kubectl apply -n otherns -f yahoo-serviceentry.yaml
 {{< /text >}}
 
 {{< text bash >}}
-kubectl exec $SLEEP_POD2 -n otherns -it -- curl -I https://developer.yahoo.com
+$ kubectl exec $SLEEP_POD2 -n otherns -it -- curl -I https://developer.yahoo.com
 {{< /text >}}
 
 You should expect a 200 response code from both pods. Any other request to other external hosts that are not Yahoo or Google should be blocked and only allowed if in the service registry from the default and otherns namespaces.
@@ -285,10 +285,10 @@ Notice how when the `ServiceEntry` resource is created in the target namespace, 
 ### Cleanup
 
 {{< text bash >}}
-kubectl delete -f google-serviceentry.yaml
-kubectl delete -n otherns -f google-serviceentry.yaml
-kubectl delete -f yahoo-serviceentry.yaml
-kubectl delete -n otherns -f yahoo-serviceentry.yaml
+$ kubectl delete -f google-serviceentry.yaml
+$ kubectl delete -n otherns -f google-serviceentry.yaml
+$ kubectl delete -f yahoo-serviceentry.yaml
+$ kubectl delete -n otherns -f yahoo-serviceentry.yaml
 {{< /text >}}
 
 ***
@@ -318,10 +318,10 @@ Is important to note that for this example relies on Istio's automatic mutual TL
 After deleting the `ServiceEntry`s used on the previous section, make sure your mesh is still blocking outbound access, and that there are no other resources that can conflict with the configuration like other `DestinationRule`s, `VirtualService`s, `Gateway`s and `AuthorizationPolicy`:
 
 {{< text bash >}}
-kubectl exec $SLEEP_POD1 -it -- curl -I https://developers.google.com
-kubectl exec $SLEEP_POD2 -n otherns -it -- curl -I https://developers.google.com
-kubectl exec $SLEEP_POD1 -it -- curl -I https://developer.yahoo.com
-kubectl exec $SLEEP_POD2 -n otherns -it -- curl -I https://developer.yahoo.com
+$ kubectl exec $SLEEP_POD1 -it -- curl -I https://developers.google.com
+$ kubectl exec $SLEEP_POD2 -n otherns -it -- curl -I https://developers.google.com
+$ kubectl exec $SLEEP_POD1 -it -- curl -I https://developer.yahoo.com
+$ kubectl exec $SLEEP_POD2 -n otherns -it -- curl -I https://developer.yahoo.com
 {{< /text >}}
 
 For all requests expect an error along the lines:
@@ -546,8 +546,8 @@ In the previous resources you can find:
 Apply these resources and test accessing the services:
 
 {{< text bash >}}
-kubectl apply -f external-google.yaml -n istio-system
-kubectl apply -f external-yahoo.yaml -n istio-system
+$ kubectl apply -f external-google.yaml -n istio-system
+$ kubectl apply -f external-yahoo.yaml -n istio-system
 {{< /text >}}
 
 {{< tip >}}
@@ -558,7 +558,7 @@ This time we are applying all these resources on the `istio-system` namespace wh
 
 Access `developers.google.com`:
 {{< text bash >}}
-kubectl exec $SLEEP_POD1 -it -- curl -I http://developers.google.com
+$ kubectl exec $SLEEP_POD1 -it -- curl -I http://developers.google.com
 {{< /text >}}
 
 Expect a 200 response along the lines:
@@ -586,7 +586,7 @@ x-envoy-upstream-service-time: 420
 Tail the logs of the `istio-proxy` sidecar:
 
 {{< text bash >}}
-kubectl logs $SLEEP_POD1 -f -c istio-proxy
+$ kubectl logs $SLEEP_POD1 -f -c istio-proxy
 {{< /text >}}
 
 Expect and entry from the sidecar to the egress:
@@ -598,7 +598,7 @@ Expect and entry from the sidecar to the egress:
 Tail the logs of the `egressgateway`:
 
 {{< text bash >}}
-kubectl logs istio-egressgateway-66fdd867f4-kbrh4 -f -n istio-system
+$ kubectl logs istio-egressgateway-66fdd867f4-kbrh4 -f -n istio-system
 {{< /text >}}
 
 Expect and entry from the egress to the external host:
@@ -616,7 +616,7 @@ Notice how the internal outbound traffic is intentionally originated using `http
 Repeat the same steps using the `sleep` service on the `otherns` for the Yahoo host:
 
 {{< text bash >}}
-kubectl exec $SLEEP_POD2 -n otherns -it -- curl -I http://developer.yahoo.com
+$ kubectl exec $SLEEP_POD2 -n otherns -it -- curl -I http://developer.yahoo.com
 {{< /text >}}
 
 Expect an entry like the following on the sidecar logs:
@@ -634,8 +634,8 @@ And on the egress:
 At this time you can test the other external host on the opposite `sleep` service and notice is still accessible:
 
 {{< text bash >}}
-kubectl exec $SLEEP_POD2 -n otherns -it -- curl -I http://developers.google.com
-kubectl exec $SLEEP_POD1 -it -- curl -I http://developer.yahoo.com
+$ kubectl exec $SLEEP_POD2 -n otherns -it -- curl -I http://developers.google.com
+$ kubectl exec $SLEEP_POD1 -it -- curl -I http://developer.yahoo.com
 {{< /text >}}
 
 Expect 200 responses from either `sleep` service.
@@ -658,16 +658,16 @@ spec:
 Apply the `authz-policy-allow-nothing.yaml` file that enforces this purpose:
 
 {{< text bash >}}
-kubectl apply -f authz-policy-allow-nothing.yaml
+$ kubectl apply -f authz-policy-allow-nothing.yaml
 {{< /text >}}
 
 Try to access the services again:
 
 {{< text bash >}}
-kubectl exec $SLEEP_POD1 -it -- curl -I http://developer.yahoo.com
-kubectl exec $SLEEP_POD2 -n otherns -it -- curl -I http://developers.google.com
-kubectl exec $SLEEP_POD1 -it -- curl -I http://developers.google.com
-kubectl exec $SLEEP_POD2 -n otherns -it -- curl -I http://developer.yahoo.com
+$ kubectl exec $SLEEP_POD1 -it -- curl -I http://developer.yahoo.com
+$ kubectl exec $SLEEP_POD2 -n otherns -it -- curl -I http://developers.google.com
+$ kubectl exec $SLEEP_POD1 -it -- curl -I http://developers.google.com
+$ kubectl exec $SLEEP_POD2 -n otherns -it -- curl -I http://developer.yahoo.com
 {{< /text >}}
 
 {{< tip >}}
@@ -692,7 +692,7 @@ Notice that even when applying the `authz-policy-allow-google.yaml` allowing the
 Delete the resources:
 
 {{< text bash >}} 
-kubectl delete authorizationpolicies.security.istio.io -n istio-system allow-nothing external-allow-developers-google-com 
+$ kubectl delete authorizationpolicies.security.istio.io -n istio-system allow-nothing external-allow-developers-google-com 
 {{< /text >}}
 
 ### Enforce policies per namespace
@@ -740,17 +740,17 @@ spec:
 Apply the following policies:
 
 {{< text bash >}}
-kubectl apply -f authz-policy-deny-google.yaml -n istio-system
-kubectl apply -f authz-policy-deny-yahoo.yaml -n istio-system 
+$ kubectl apply -f authz-policy-deny-google.yaml -n istio-system
+$ kubectl apply -f authz-policy-deny-yahoo.yaml -n istio-system 
 {{< /text >}}
 
 Try to access the services again:
 
 {{< text bash >}}
-kubectl exec $SLEEP_POD1 -it -- curl -I http://developer.yahoo.com
-kubectl exec $SLEEP_POD2 -n otherns -it -- curl -I http://developers.google.com
-kubectl exec $SLEEP_POD1 -it -- curl -I http://developers.google.com
-kubectl exec $SLEEP_POD2 -n otherns -it -- curl -I http://developer.yahoo.com
+$ kubectl exec $SLEEP_POD1 -it -- curl -I http://developer.yahoo.com
+$ kubectl exec $SLEEP_POD2 -n otherns -it -- curl -I http://developers.google.com
+$ kubectl exec $SLEEP_POD1 -it -- curl -I http://developers.google.com
+$ kubectl exec $SLEEP_POD2 -n otherns -it -- curl -I http://developer.yahoo.com
 {{< /text >}}
 
 For the first couple requests expect a 403 Forbidden response and for the last couple expect a 200 response.
@@ -764,7 +764,7 @@ Tail the logs for the egress gateway and expect an entry describing the policy m
 Delete the resources:
 
 {{< text bash >}} 
-kubectl delete authorizationpolicies.security.istio.io -n istio-system external-deny-developer-yahoo-com external-deny-developers-google-com 
+$ kubectl delete authorizationpolicies.security.istio.io -n istio-system external-deny-developer-yahoo-com external-deny-developers-google-com 
 {{< /text >}}
 
 ### Enforce policies per workload using service account principals
@@ -772,7 +772,7 @@ kubectl delete authorizationpolicies.security.istio.io -n istio-system external-
 Using account principals provides the fine-grained control we need per workload within a namespace. For this use case deploy another set of `sleep` services on the `otherns` namespace:
 
 {{< text bash >}}
-kubectl apply -f sleep-custom.yaml -n otherns
+$ kubectl apply -f sleep-custom.yaml -n otherns
 {{< /text >}} 
 
 The yaml file above is the traditional `sleep` service with custom names, see [here](https://github.com/nauticalmike/egress-security/blob/main/sleep-custom.yaml).
@@ -780,8 +780,8 @@ The yaml file above is the traditional `sleep` service with custom names, see [h
 This would create two new `sleep-google` and `sleep-yahoo` services besides the existing one. Save the pods names:
 
 {{< text bash >}}
-export SLEEP_POD_G=$(kubectl get pod -n otherns -l app=sleep-google -ojsonpath='{.items[0].metadata.name}')
-export SLEEP_POD_Y=$(kubectl get pod -n otherns -l app=sleep-yahoo -ojsonpath='{.items[0].metadata.name}')
+$ export SLEEP_POD_G=$(kubectl get pod -n otherns -l app=sleep-google -ojsonpath='{.items[0].metadata.name}')
+$ export SLEEP_POD_Y=$(kubectl get pod -n otherns -l app=sleep-yahoo -ojsonpath='{.items[0].metadata.name}')
 {{< /text >}}
 
 Apply the following policies that block the `sleep-google` service to access Yahoo and `sleep-yahoo` service to access Google within the `otherns` namespace, still leaving access to both hosts from the `sleep` service:
@@ -824,19 +824,19 @@ spec:
 ```
 
 {{< text bash >}}
-kubectl apply -f authz-policy-deny-google-custom.yaml -n istio-system 
-kubectl apply -f authz-policy-deny-yahoo-custom.yaml -n istio-system
+$ kubectl apply -f authz-policy-deny-google-custom.yaml -n istio-system 
+$ kubectl apply -f authz-policy-deny-yahoo-custom.yaml -n istio-system
 {{< /text >}}
 
 Test the policies:
 
 {{< text bash >}}
-kubectl exec $SLEEP_POD_G -n otherns -it -- curl -I http://developers.google.com
-kubectl exec $SLEEP_POD_G -n otherns -it -- curl -I http://developer.yahoo.com
-kubectl exec $SLEEP_POD_Y -n otherns -it -- curl -I http://developers.google.com
-kubectl exec $SLEEP_POD_Y -n otherns -it -- curl -I http://developer.yahoo.com
-kubectl exec $SLEEP_POD2 -n otherns -it -- curl -I http://developers.google.com
-kubectl exec $SLEEP_POD2 -n otherns -it -- curl -I http://developer.yahoo.com
+$ kubectl exec $SLEEP_POD_G -n otherns -it -- curl -I http://developers.google.com
+$ kubectl exec $SLEEP_POD_G -n otherns -it -- curl -I http://developer.yahoo.com
+$ kubectl exec $SLEEP_POD_Y -n otherns -it -- curl -I http://developers.google.com
+$ kubectl exec $SLEEP_POD_Y -n otherns -it -- curl -I http://developer.yahoo.com
+$ kubectl exec $SLEEP_POD2 -n otherns -it -- curl -I http://developers.google.com
+$ kubectl exec $SLEEP_POD2 -n otherns -it -- curl -I http://developer.yahoo.com
 {{< /text >}}
 
 The second and third responses should be 403 forbidden as they are from `sleep-google` to Yahoo and the third from `sleep-yahoo` to Google while the rest should be 200.
@@ -1078,26 +1078,26 @@ The `connection.sni` key is the main takeaway when doing TLS origination as the 
 Now testing you should get the following results (make sure only the two previous policies are in place):
 
 {{< text bash >}}
-kubectl exec $SLEEP_POD1 -it -- curl -I https://developer.yahoo.com
-kubectl exec $SLEEP_POD1 -it -- curl -I https://developers.google.com
+$ kubectl exec $SLEEP_POD1 -it -- curl -I https://developer.yahoo.com
+$ kubectl exec $SLEEP_POD1 -it -- curl -I https://developers.google.com
 {{< /text >}}
 For both should be 200.
 
 {{< text bash >}}
-kubectl exec $SLEEP_POD2 -n otherns -it -- curl -I https://developers.google.com
-kubectl exec $SLEEP_POD2 -n otherns -it -- curl -I https://developer.yahoo.com
+$ kubectl exec $SLEEP_POD2 -n otherns -it -- curl -I https://developers.google.com
+$ kubectl exec $SLEEP_POD2 -n otherns -it -- curl -I https://developer.yahoo.com
 {{< /text >}}
 For both should be 200.
 
 {{< text bash >}}
-kubectl exec $SLEEP_POD_G -n otherns -it -- curl -I https://developers.google.com
-kubectl exec $SLEEP_POD_G -n otherns -it -- curl -I https://developer.yahoo.com
+$ kubectl exec $SLEEP_POD_G -n otherns -it -- curl -I https://developers.google.com
+$ kubectl exec $SLEEP_POD_G -n otherns -it -- curl -I https://developer.yahoo.com
 {{< /text >}}
 The first one being the google pod should be able to access and get a 200, the second one should be blocked.
 
 {{< text bash >}}
-kubectl exec $SLEEP_POD_Y -n otherns -it -- curl -I https://developers.google.com
-kubectl exec $SLEEP_POD_Y -n otherns -it -- curl -I https://developer.yahoo.com
+$ kubectl exec $SLEEP_POD_Y -n otherns -it -- curl -I https://developers.google.com
+$ kubectl exec $SLEEP_POD_Y -n otherns -it -- curl -I https://developer.yahoo.com
 {{< /text >}}
 The first one being the yahoo pod should be blocked because is trying to access google, the second one should be 200.
 
