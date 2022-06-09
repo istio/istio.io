@@ -21,7 +21,7 @@ One important consideration to be aware of is that Istio cannot securely enforce
 ## Before starting
 
 Before starting you'll need:
-- a kubernetes cluster
+- A kubernetes cluster
 - kubectl cli tool
 - Istio v1.11 or greater installed
 - istioctl cli tool
@@ -29,7 +29,7 @@ Before starting you'll need:
 
 ## Prep-work
 
-Install istio:
+Install Istio:
 
 {{< text bash >}}
 $ istioctl install -y --set profile=demo --set meshConfig.outboundTrafficPolicy.mode=ALLOW_ANY
@@ -49,7 +49,7 @@ $ kubectl label ns default istio-injection=enabled
 $ kubectl apply -f {{< text_import url="https://raw.githubusercontent.com/istio/istio/master/samples/sleep/sleep.yaml" syntax="plain" >}}
 {{< /text >}}
 
-### Install the sleep service in the otherns namespace
+### Install the sleep service in the `otherns` namespace
 
 {{< text bash >}}
 $ kubectl create ns otherns
@@ -287,7 +287,7 @@ $ kubectl apply -n otherns -f yahoo-serviceentry.yaml
 $ kubectl exec $SLEEP_POD2 -n otherns -it -- curl -I https://developer.yahoo.com
 {{< /text >}}
 
-You should expect a 200 response code from both pods. Any other request to other external hosts that are not Yahoo or Google should be blocked and only allowed if in the service registry from the default and otherns namespaces.
+You should expect a 200 response code from both pods. Any other request to other external hosts that are not Yahoo or Google should be blocked and only allowed if in the service registry from the `default` and `otherns` namespaces.
 
 Notice how when the `ServiceEntry` resource is created in the target namespace, external communication to the defined host is allowed only from the `sidecar` proxies on that namespace.
 
@@ -614,7 +614,7 @@ Expect and entry from the egress to the external host:
 {{< /text >}}
 
 {{< tip >}}
-Notice how the internal outbound traffic is intentionally originated using `http` in order to rely on Istio's automatic mTLS within the mesh and then using the `DestinationRule` tls mode `SIMPLE`, the egress instance does a secure request to the external host.
+Notice how the internal outbound traffic is intentionally originated using `http` in order to rely on Istio's automatic mTLS within the mesh and then using the `DestinationRule` TLS mode `SIMPLE`, the egress instance does a secure request to the external host.
 {{< /tip >}}
 
 ***
@@ -849,7 +849,7 @@ You successfully used `AuthorizationPolicy`s to enforce internal outbound traffi
 
 ### Enforce policies per workload using service account principals and TLS originated traffic
 
-This is really similar to the use case described above, the difference is on the way the policies are matched and the configuration of the resources to be able to rely on istio's mTLS between the sidecar and egress:
+This is really similar to the use case described above, the difference is on the way the policies are matched and the configuration of the resources to be able to rely on Istio's mTLS between the sidecar and egress:
 
 For google:
 
@@ -1029,7 +1029,7 @@ spec:
 
 And the policies:
 
-For the `sleep-yahoo` svc SA principal on the `otherns` ns to block outbound traffic to google matching the sni host:
+For the `sleep-yahoo` svc SA principal on the `otherns` ns to block outbound traffic to google matching the SNI host:
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
@@ -1048,7 +1048,7 @@ spec:
       - developers.google.com
 {{< /text >}}
 
-For the `sleep-google` svc SA principal on the `otherns` ns to block outbound traffic to yahoo matching the sni host:
+For the `sleep-google` svc SA principal on the `otherns` namespace to block outbound traffic to yahoo matching the SNI host:
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
@@ -1067,7 +1067,7 @@ spec:
       - developer.yahoo.com
 {{< /text >}}
 
-The `connection.sni` key is the main takeaway when doing TLS origination as the sni key prevents SSL errors mismatching the SAN.
+The `connection.sni` key is the main takeaway when doing TLS origination as the SNI key prevents SSL errors mismatching the SAN.
 
 Now testing you should get the following results (make sure only the two previous policies are in place):
 
