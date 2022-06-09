@@ -17,7 +17,7 @@ skip_seealso: true
 
 ### CVE-2022-31045
 
-- [CVE-2022-31045](https://github.com/istio/istio/security/advisories/GHSA-xwx5-5c9g-x68x) (CVSS Score 7.1, High): Memory access violation
+- [CVE-2022-31045](https://github.com/istio/istio/security/advisories/GHSA-xwx5-5c9g-x68x) (CVSS score 5.9, Medium): Memory access violation
 Ill-formed headers sent to Envoy in certain configurations can lead to unexpected memory access, resulting in undefined behavior or crashing.
 
 ### Envoy CVEs
