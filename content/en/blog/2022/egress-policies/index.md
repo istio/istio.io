@@ -154,7 +154,7 @@ $ kubectl exec $SLEEP_POD1 -it -- curl -I https://developers.google.com
 You should expect a similar response like:
 
 {{< text plain >}}
-curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to developers.google.com:443 
+curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to developers.google.com:443
 command terminated with exit code 35
 {{< /text >}}
 
@@ -227,7 +227,7 @@ $ kubectl exec $SLEEP_POD1 -it -- curl -I https://developer.yahoo.com
 You should expect an error along the lines:
 
 {{< text plain >}}
-curl: (35) OpenSSL SSL_connect: Connection reset by peer in connection to developer.yahoo.com:443 
+curl: (35) OpenSSL SSL_connect: Connection reset by peer in connection to developer.yahoo.com:443
 command terminated with exit code 35
 {{< /text >}}
 
