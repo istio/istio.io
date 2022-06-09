@@ -5,6 +5,7 @@ weight: 10
 aliases:
   - /help/ops/extensibility/distribute-remote-wasm-module
   - /docs/ops/extensibility/distribute-remote-wasm-module
+  - /ops/configuration/extensibility/wasm-module-distribution
 keywords: [extensibility,Wasm,WebAssembly]
 owner: istio/wg-policies-and-telemetry-maintainers
 test: yes
