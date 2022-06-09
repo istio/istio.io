@@ -35,7 +35,7 @@ Install istio:
 $ istioctl install -y --set profile=demo --set meshConfig.outboundTrafficPolicy.mode=ALLOW_ANY
 {{< /text >}}
 
-Notice the demo profile installs an instance of an Egress gateway and the set flag configures the handling of external services by using the `outboundTrafficPolicy` option. `ALLOW_ANY` is the default option enabling access to outbound services and `REGISTRY_ONLY` gets the sidecar proxies to block access if the host is not defined in the service registry using the `ServiceEntry` resource. 
+Notice the demo profile installs an instance of an Egress gateway and the set flag configures the handling of external services by using the `outboundTrafficPolicy` option. `ALLOW_ANY` is the default option enabling access to outbound services and `REGISTRY_ONLY` gets the sidecar proxies to block access if the host is not defined in the service registry using the `ServiceEntry` resource.
 
 ### Install the sleep service in the default namespace
 
@@ -86,7 +86,7 @@ $ kubectl exec $SLEEP_POD1 -it -- curl -I https://developers.google.com
 You should expect a similar response like:
 
 {{< text plain >}}
-HTTP/2 200 
+HTTP/2 200
 last-modified: Mon, 18 Apr 2022 19:50:38 GMT
 content-type: text/html; charset=utf-8
 set-cookie: _ga_devsite=GA1.3.17352200.1651777078; Expires=Sat, 04-May-2024 18:57:58 GMT; Max-Age=63072000; Path=/
@@ -113,7 +113,7 @@ $ kubectl exec $SLEEP_POD2 -n otherns -it -- curl -I https://developer.yahoo.com
 You should expect a similar response like:
 
 {{< text plain >}}
-HTTP/2 200 
+HTTP/2 200
 referrer-policy: no-referrer-when-downgrade
 strict-transport-security: max-age=15552000
 x-frame-options: SAMEORIGIN
@@ -137,7 +137,7 @@ If you want you can test the other other address on the other `sleep` pod. We ca
 
 ![Egress traffic](proxy-external.png)
 
-## Block outbound access 
+## Block outbound access
 
 Using `istioctl` we modify the istio installation to change the outbound traffic policy from `ALLOW_ANY` to `REGISTRY_ONLY` which enforces that only hosts defined with `ServiceEntry` resources are part of the mesh service registry; could be accessed to by sidecars of the mesh:
 
@@ -167,7 +167,7 @@ $ kubectl exec $SLEEP_POD2 -n otherns -it -- curl -I https://developer.yahoo.com
 You should expect a similar response like:
 
 {{< text plain >}}
-curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to developer.yahoo.com:443 
+curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to developer.yahoo.com:443
 command terminated with exit code 35
 {{< /text >}}
 
@@ -308,11 +308,11 @@ So far by changing the outbound traffic policy to `REGISTRY_ONLY` we can enforce
 
 Using the service entries is more like a opening/closing a "faucet" in the namespace and having to create resources per namespace will create a maintenance burden. You can change the resource to be scoped for all namespaces ("*") and not just the target namespace but just with the `ServiceEntry` resource you can't control which workload within the namespace can or cannot access an external host.
 
-We can accomplish this fine-grained control with an `AuthorizationPolicy` after we flow internally originated outbound traffic to the Egress gateway making act as a proxy with the help of `VirtualService`, `Gateway`, `DestinationRule` resources along with `ServiceEntry`s on how outbound traffic should flow. 
+We can accomplish this fine-grained control with an `AuthorizationPolicy` after we flow internally originated outbound traffic to the Egress gateway making act as a proxy with the help of `VirtualService`, `Gateway`, `DestinationRule` resources along with `ServiceEntry`s on how outbound traffic should flow.
 
-In a similar manner when dealing with inbound traffic routing, we can create `DestinationRule`s that flow internal traffic from the sidecars to the egress and then a second `DestinationRule` that flows the traffic to actual external host. 
+In a similar manner when dealing with inbound traffic routing, we can create `DestinationRule`s that flow internal traffic from the sidecars to the egress and then a second `DestinationRule` that flows the traffic to actual external host.
 
-These `DestinationRule`s are bound to a `VirtualService` that matches traffic to the whole `mesh` `Gateway` and the `Gateway` defined for the external host. By doing this setup, we can rely on the `ServiceEntry` and `AuthorizationPolicy` resources to ensure that only allowed/denied outbound traffic defined for namespaces or principals (k8s ServiceAccount) can reach the external hosts. 
+These `DestinationRule`s are bound to a `VirtualService` that matches traffic to the whole `mesh` `Gateway` and the `Gateway` defined for the external host. By doing this setup, we can rely on the `ServiceEntry` and `AuthorizationPolicy` resources to ensure that only allowed/denied outbound traffic defined for namespaces or principals (k8s ServiceAccount) can reach the external hosts.
 
 ![Egress traffic](egress-external.png)
 
@@ -336,7 +336,7 @@ $ kubectl exec $SLEEP_POD2 -n otherns -it -- curl -I https://developer.yahoo.com
 For all requests expect an error along the lines:
 
 {{< text plain >}}
-curl: (35) OpenSSL SSL_connect: Connection reset by peer in connection to developer.yahoo.com:443 
+curl: (35) OpenSSL SSL_connect: Connection reset by peer in connection to developer.yahoo.com:443
 command terminated with exit code 35
 {{< /text >}}
 
@@ -546,7 +546,7 @@ In the previous resources you can find:
 - `ServiceEntry`s to enable external access to these hosts
 - `Gateway`s resources for each host configuring the egress gateway instance for originating traffic to the external host
 - `VirtualService`s for each host bound for the entire mesh and the created `Gateway` resource configuration in order to match traffic from within the mesh (sidecars) to the egress and from the egress outbound to the actual external host
-- and a couple `DestinationRule`s applied to the traffic after being routed by the `VirtualService` where the first defines internal traffic using the `sni` and relying on Istio's automatic mTLS `ISTIO_MUTUAL`. The second `DestinationRule` defines how to initiate https connections to the actual external host. 
+- and a couple `DestinationRule`s applied to the traffic after being routed by the `VirtualService` where the first defines internal traffic using the `sni` and relying on Istio's automatic mTLS `ISTIO_MUTUAL`. The second `DestinationRule` defines how to initiate https connections to the actual external host.
 
 Apply these resources and test accessing the services:
 
@@ -556,7 +556,7 @@ $ kubectl apply -f external-yahoo.yaml -n istio-system
 {{< /text >}}
 
 {{< tip >}}
-This time we are applying all these resources on the `istio-system` namespace where the egress gateway instance resides. This is with the intention to easily manage egress traffic where the egress gateway instance resides, facilitating the management of the `AuthorizationPolicy`s.  
+This time we are applying all these resources on the `istio-system` namespace where the egress gateway instance resides. This is with the intention to easily manage egress traffic where the egress gateway instance resides, facilitating the management of the `AuthorizationPolicy`s.
 {{< /tip >}}
 
 ***
@@ -698,8 +698,8 @@ Notice that even when applying the `authz-policy-allow-google.yaml` allowing the
 
 Delete the resources:
 
-{{< text bash >}} 
-$ kubectl delete authorizationpolicies.security.istio.io -n istio-system allow-nothing external-allow-developers-google-com 
+{{< text bash >}}
+$ kubectl delete authorizationpolicies.security.istio.io -n istio-system allow-nothing external-allow-developers-google-com
 {{< /text >}}
 
 ### Enforce policies per namespace
@@ -721,7 +721,7 @@ spec:
         namespaces: ["otherns"]
     when:
     - key: connection.sni
-      values: 
+      values:
       - developers.google.com
 {{< /text >}}
 
@@ -738,7 +738,7 @@ spec:
         namespaces: ["default"]
     when:
     - key: connection.sni
-      values: 
+      values:
       - developer.yahoo.com
 {{< /text >}}
 
@@ -746,7 +746,7 @@ Apply the following policies:
 
 {{< text bash >}}
 $ kubectl apply -f authz-policy-deny-google.yaml -n istio-system
-$ kubectl apply -f authz-policy-deny-yahoo.yaml -n istio-system 
+$ kubectl apply -f authz-policy-deny-yahoo.yaml -n istio-system
 {{< /text >}}
 
 Try to access the services again:
@@ -768,8 +768,8 @@ Tail the logs for the egress gateway and expect an entry describing the policy m
 
 Delete the resources:
 
-{{< text bash >}} 
-$ kubectl delete authorizationpolicies.security.istio.io -n istio-system external-deny-developer-yahoo-com external-deny-developers-google-com 
+{{< text bash >}}
+$ kubectl delete authorizationpolicies.security.istio.io -n istio-system external-deny-developer-yahoo-com external-deny-developers-google-com
 {{< /text >}}
 
 ### Enforce policies per workload using service account principals
@@ -778,7 +778,7 @@ Using account principals provides the fine-grained control we need per workload 
 
 {{< text bash >}}
 $ kubectl apply -f sleep-custom.yaml -n otherns
-{{< /text >}} 
+{{< /text >}}
 
 The yaml file above is the traditional `sleep` service with custom names, see [here](https://github.com/nauticalmike/egress-security/blob/main/sleep-custom.yaml).
 
@@ -804,7 +804,7 @@ spec:
         principals: ["cluster.local/ns/otherns/sa/sleep-yahoo"]
     when:
     - key: connection.sni
-      values: 
+      values:
       - developers.google.com
 {{< /text >}}
 
@@ -821,12 +821,12 @@ spec:
         principals: ["cluster.local/ns/otherns/sa/sleep-google"]
     when:
     - key: connection.sni
-      values: 
+      values:
       - developer.yahoo.com
 {{< /text >}}
 
 {{< text bash >}}
-$ kubectl apply -f authz-policy-deny-google-custom.yaml -n istio-system 
+$ kubectl apply -f authz-policy-deny-google-custom.yaml -n istio-system
 $ kubectl apply -f authz-policy-deny-yahoo-custom.yaml -n istio-system
 {{< /text >}}
 
@@ -923,7 +923,7 @@ spec:
         host: istio-egressgateway.istio-system.svc.cluster.local
         subset: google
         port:
-          number: 443 
+          number: 443
       weight: 100
   tcp:
   - match:
@@ -1044,7 +1044,7 @@ spec:
         principals: ["cluster.local/ns/otherns/sa/sleep-yahoo"]
     when:
     - key: connection.sni
-      values: 
+      values:
       - developers.google.com
 {{< /text >}}
 
@@ -1063,7 +1063,7 @@ spec:
         principals: ["cluster.local/ns/otherns/sa/sleep-google"]
     when:
     - key: connection.sni
-      values: 
+      values:
       - developer.yahoo.com
 {{< /text >}}
 
