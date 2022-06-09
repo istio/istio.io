@@ -74,7 +74,7 @@ $ curl -s -o /dev/null -w "%{http_code}" -H "Authorization: Basic YWRtaW4zOmFkbW
 
 For more example usage of the `WasmPlugin` API, please take a look at the [API reference](/docs/reference/config/proxy_extensions/wasm-plugin/).
 
-## Cleanup Wasm Modules
+## Clean up Wasm modules
 
 {{< text bash >}}
 $ kubectl delete wasmplugins.extensions.istio.io -n istio-system basic-auth
