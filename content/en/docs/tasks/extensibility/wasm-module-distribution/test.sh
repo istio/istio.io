@@ -34,5 +34,5 @@ _verify_same snip_check_the_configured_wasm_module_1 "$snip_check_the_configured
 _verify_same snip_check_the_configured_wasm_module_2 "$snip_check_the_configured_wasm_module_2_out"
 
 # @cleanup
-snip_cleanup_wasm_modules_1
+snip_clean_up_wasm_modules_1
 cleanup_bookinfo_sample
