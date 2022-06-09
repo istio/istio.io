@@ -56,18 +56,23 @@ $ kubectl create ns otherns
 {{< /text >}}
 
 Label the namespace for sidecar injection:
+
 {{< text bash >}}
 $ kubectl label ns otherns istio-injection=enabled
 {{< /text >}}
+
 Apply the service resources:
+
 {{< text bash >}}
 $ kubectl apply -n otherns -f {{< text_import url="https://raw.githubusercontent.com/istio/istio/master/samples/sleep/sleep.yaml" syntax="plain" >}}
 {{< /text >}}
+
 ### Export `sleep` pods name into variables
 
 {{< text bash >}}
 $ export SLEEP_POD1=$(kubectl get pod -l app=sleep -ojsonpath='{.items[0].metadata.name}')
 {{< /text >}}
+
 {{< text bash >}}
 $ export SLEEP_POD2=$(kubectl get pod -n otherns -l app=sleep -ojsonpath='{.items[0].metadata.name}')
 {{< /text >}}
@@ -79,6 +84,7 @@ $ kubectl exec $SLEEP_POD1 -it -- curl -I https://developers.google.com
 {{< /text >}}
 
 You should expect a similar response like:
+
 {{< text plain >}}
 HTTP/2 200 
 last-modified: Mon, 18 Apr 2022 19:50:38 GMT
@@ -99,11 +105,13 @@ server: Google Frontend
 {{< /text >}}
 
 Now the other service:
+
 {{< text bash >}}
 $ kubectl exec $SLEEP_POD2 -n otherns -it -- curl -I https://developer.yahoo.com
 {{< /text >}}
 
 You should expect a similar response like:
+
 {{< text plain >}}
 HTTP/2 200 
 referrer-policy: no-referrer-when-downgrade
@@ -174,6 +182,7 @@ There could be a slight delay on the configuration being propagated to the sidec
 ### Add the Google and Yahoo services to the mesh service registry
 
 Our Google `ServiceEntry` looks like this:
+
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1beta1
 kind: ServiceEntry
@@ -236,6 +245,7 @@ $ kubectl exec $SLEEP_POD1 -it -- curl -I https://developers.google.com
 {{< /text >}}
 
 Notice how Yahoo is still blocked on both services. Take a look at the Yahoo `ServiceEntry`:
+
 {{< text plain >}}
 apiVersion: networking.istio.io/v1beta1
 kind: ServiceEntry
@@ -333,6 +343,7 @@ command terminated with exit code 35
 Analyze the following resources `external-google.yaml` and `external-yahoo.yaml`:
 
 Google:
+
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
@@ -367,7 +378,6 @@ spec:
     tls:
       mode: ISTIO_MUTUAL
 ---
-# Routes internal outbound traffic to the egress gateway using Istio's mTLS
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -394,7 +404,6 @@ spec:
   gateways:
   - istio-google-egressgateway
   - mesh
-  # route HTTP traffic to developers.google.com through the egress gateway for the entire mesh
   http:
   - match:
     - gateways:
@@ -406,7 +415,6 @@ spec:
         subset: google
         port:
           number: 80
-  # at the egress gateway, route developers.google.com to the real destination outside the mesh
   - match:
     - gateways:
       - istio-google-egressgateway
@@ -435,6 +443,7 @@ spec:
 {{< /text >}}
 
 Yahoo:
+
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
@@ -469,7 +478,6 @@ spec:
     tls:
       mode: ISTIO_MUTUAL
 ---
-# Routes internal outbound traffic to the egress gateway using Istio's mTLS
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -496,7 +504,6 @@ spec:
   gateways:
   - istio-yahoo-egressgateway
   - mesh
-  # route HTTP traffic to developers.google.com through the egress gateway for the entire mesh
   http:
   - match:
     - gateways:
@@ -508,7 +515,6 @@ spec:
         subset: yahoo
         port:
           number: 80
-  # at the egress gateway, route developer.yahoo.com to the real destination outside the mesh
   - match:
     - gateways:
       - istio-yahoo-egressgateway
@@ -556,6 +562,7 @@ This time we are applying all these resources on the `istio-system` namespace wh
 ***
 
 Access `developers.google.com`:
+
 {{< text bash >}}
 $ kubectl exec $SLEEP_POD1 -it -- curl -I http://developers.google.com
 {{< /text >}}
@@ -644,6 +651,7 @@ Expect 200 responses from either `sleep` service.
 Although we can enforce denying external access by removing `ServiceEntry` resources while the `REGISTRY_ONLY` mode is active, we can also do it with a more fine-grained control using `AuthorizationPolicy`s after the correct configuration is in place.
 
 Take a look at this policy that allows no traffic out:
+
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
@@ -699,14 +707,13 @@ $ kubectl delete authorizationpolicies.security.istio.io -n istio-system allow-n
 For this use case we allow the `sleep` service on the `default` namespace to access `google` but not `yahoo` and the for the `sleep` service on the `otherns` namespace it allows `yahoo` but not `google`.
 
 Analyze the following policies:
+
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
   name: external-deny-developers-google-com
-  # No ns means that applies to all ns in a mesh
 spec:
-  # allow-list for the identities that can call the host
   action: DENY
   rules:
   - from:
@@ -717,14 +724,13 @@ spec:
       values: 
       - developers.google.com
 {{< /text >}}
+
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
   name: external-deny-developer-yahoo-com
-  # No ns means that applies to all ns in a mesh
 spec:
-  # allow-list for the identities that can call the host
   action: DENY
   rules:
   - from:
@@ -784,14 +790,13 @@ $ export SLEEP_POD_Y=$(kubectl get pod -n otherns -l app=sleep-yahoo -ojsonpath=
 {{< /text >}}
 
 Apply the following policies that block the `sleep-google` service to access Yahoo and `sleep-yahoo` service to access Google within the `otherns` namespace, still leaving access to both hosts from the `sleep` service:
+
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
   name: external-deny-developers-google-com
-  # No ns means that applies to all ns in a mesh
 spec:
-  # allow-list for the identities that can call the host
   action: DENY
   rules:
   - from:
@@ -801,16 +806,14 @@ spec:
     - key: connection.sni
       values: 
       - developers.google.com
-
 {{< /text >}}
+
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
   name: external-deny-developer-yahoo-com
-  # No ns means that applies to all ns in a mesh
 spec:
-  # allow-list for the identities that can call the host
   action: DENY
   rules:
   - from:
@@ -849,6 +852,7 @@ You successfully used `AuthorizationPolicy`s to enforce internal outbound traffi
 This is really similar to the use case described above, the difference is on the way the policies are matched and the configuration of the resources to be able to rely on istio's mTLS between the sidecar and egress:
 
 For google:
+
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
@@ -881,7 +885,6 @@ spec:
     tls:
       mode: ISTIO_MUTUAL
 ---
-# Routes internal outbound traffic to the egress gateway using Istio's mTLS
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -908,7 +911,6 @@ spec:
   gateways:
   - istio-google-egressgateway
   - mesh
-  # route HTTP traffic to developers.google.com through the egress gateway for the entire mesh
   tls:
   - match:
     - gateways:
@@ -923,7 +925,6 @@ spec:
         port:
           number: 443 
       weight: 100
-  # at the egress gateway, route developers.google.com to the real destination outside the mesh
   tcp:
   - match:
     - gateways:
@@ -939,6 +940,7 @@ spec:
 {{< /text >}}
 
 for yahoo:
+
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
@@ -971,7 +973,6 @@ spec:
     tls:
       mode: ISTIO_MUTUAL
 ---
-# Routes internal outbound traffic to the egress gateway using Istio's mTLS
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -998,7 +999,6 @@ spec:
   gateways:
   - istio-yahoo-egressgateway
   - mesh
-  # route HTTP traffic to developers.google.com through the egress gateway for the entire mesh
   tls:
   - match:
     - gateways:
@@ -1013,7 +1013,6 @@ spec:
         port:
           number: 443
       weight: 100
-  # at the egress gateway, route developer.yahoo.com to the real destination outside the mesh
   tcp:
   - match:
     - gateways:
@@ -1037,9 +1036,7 @@ apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
   name: external-deny-developers-google-com
-  # No ns means that applies to all ns in a mesh
 spec:
-  # allow-list for the identities that can call the host
   action: DENY
   rules:
   - from:
@@ -1058,9 +1055,7 @@ apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
   name: external-deny-developer-yahoo-com
-  # No ns means that applies to all ns in a mesh
 spec:
-  # allow-list for the identities that can call the host
   action: DENY
   rules:
   - from:
@@ -1080,24 +1075,28 @@ Now testing you should get the following results (make sure only the two previou
 $ kubectl exec $SLEEP_POD1 -it -- curl -I https://developer.yahoo.com
 $ kubectl exec $SLEEP_POD1 -it -- curl -I https://developers.google.com
 {{< /text >}}
+
 For both should be 200.
 
 {{< text bash >}}
 $ kubectl exec $SLEEP_POD2 -n otherns -it -- curl -I https://developers.google.com
 $ kubectl exec $SLEEP_POD2 -n otherns -it -- curl -I https://developer.yahoo.com
 {{< /text >}}
+
 For both should be 200.
 
 {{< text bash >}}
 $ kubectl exec $SLEEP_POD_G -n otherns -it -- curl -I https://developers.google.com
 $ kubectl exec $SLEEP_POD_G -n otherns -it -- curl -I https://developer.yahoo.com
 {{< /text >}}
+
 The first one being the google pod should be able to access and get a 200, the second one should be blocked.
 
 {{< text bash >}}
 $ kubectl exec $SLEEP_POD_Y -n otherns -it -- curl -I https://developers.google.com
 $ kubectl exec $SLEEP_POD_Y -n otherns -it -- curl -I https://developer.yahoo.com
 {{< /text >}}
+
 The first one being the yahoo pod should be blocked because is trying to access google, the second one should be 200.
 
 ***
