@@ -22,7 +22,7 @@ Ill-formed headers sent to Envoy in certain configurations can lead to unexpecte
 
 ### Envoy CVEs
 
-These Envoy CVEs do not directly impact Istio features, but we will still include them in the patch releases for 1.12.8, 1.13.4 and 1.14.1.
+These Envoy CVEs do not directly impact Istio features, but we will still include them in the patch releases for 1.12.8, 1.13.5 and 1.14.1.
 
 - [CVE-2022-29225](https://github.com/envoyproxy/envoy/security/advisories/GHSA-75hv-2jjj-89hh) (CVSS score 7.5, High): Decompressors can be zip bombed
 Decompressors accumulate decompressed data into an intermediate buffer before overwriting the body in the `decode/encodeBody`. This may allow an attacker to zip bomb the decompressor by sending a small highly compressed payload.
