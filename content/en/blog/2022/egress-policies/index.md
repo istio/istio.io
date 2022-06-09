@@ -21,9 +21,9 @@ One important consideration to be aware of is that Istio cannot securely enforce
 ## Before starting
 
 Before starting you'll need:
-- A kubernetes cluster
+- A Kubernetes cluster
 - kubectl cli tool
-- Istio v1.11 or greater installed
+- Istio `v1.11` or greater installed
 - istioctl cli tool
 - sleep service
 
@@ -139,7 +139,7 @@ If you want you can test the other other address on the other `sleep` pod. We ca
 
 ## Block outbound access
 
-Using `istioctl` we modify the istio installation to change the outbound traffic policy from `ALLOW_ANY` to `REGISTRY_ONLY` which enforces that only hosts defined with `ServiceEntry` resources are part of the mesh service registry; could be accessed to by sidecars of the mesh:
+Using `istioctl` we modify the Istio installation to change the outbound traffic policy from `ALLOW_ANY` to `REGISTRY_ONLY` which enforces that only hosts defined with `ServiceEntry` resources are part of the mesh service registry; could be accessed to by sidecars of the mesh:
 
 {{< text bash >}}
 $ istioctl install -y --set profile=demo --set meshConfig.outboundTrafficPolicy.mode=REGISTRY_ONLY
