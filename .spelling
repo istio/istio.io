@@ -716,6 +716,8 @@ pluggability
 pluggable
 png
 Poddar
+PodMonitor
+PodMonitors
 Posta
 PostgreSQL
 pprof
@@ -820,6 +822,8 @@ servicegraph-example
 ServiceEntry
 ServiceMeshCon
 ServiceMesher
+ServiceMonitor
+ServiceMonitors
 sha256
 Shamsher
 sharded
