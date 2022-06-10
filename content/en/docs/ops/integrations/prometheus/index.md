@@ -146,7 +146,7 @@ tls_config:
   ca_file: /etc/prom-certs/root-cert.pem
   cert_file: /etc/prom-certs/cert-chain.pem
   key_file: /etc/prom-certs/key.pem
-  insecure_skip_verify: true  # Prometheus does not support Istio security naming, thus skip verifying target pod ceritifcate
+  insecure_skip_verify: true  # Prometheus does not support Istio security naming, thus skip verifying target pod certificate
 {{< /text >}}
 
 ## Best practices
