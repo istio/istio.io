@@ -261,5 +261,5 @@ test: yes
 
     {{< text bash >}}
     $ kubectl delete deploy httpbin fortio-deploy
-    $ kubectl delete svc httpbin
+    $ kubectl delete svc httpbin fortio
     {{< /text >}}
