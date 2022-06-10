@@ -19,7 +19,7 @@ You can deploy a Kubernetes cluster to Huawei Cloud quickly and easily in the
 {{< tip >}}
 Huawei offers a {{< gloss >}}managed control plane{{< /gloss >}} add-on for the Huawei Cloud Container Engine,
 which you can use instead of installing Istio manually.
-Refer to [Huawei Application Service Mesh](https://support.huaweicloud.com/istio/)
+Refer to [Huawei Application Service Mesh](https://support.huaweicloud.com/asm/index.html)
 for details and instructions.
 {{< /tip >}}
 
