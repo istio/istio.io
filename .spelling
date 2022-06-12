@@ -295,6 +295,12 @@ CVE-2022-23606
 CVE-2022-23635
 CVE-2022-24726
 CVE-2022-24921
+CVE-2022-29224
+CVE-2022-29225
+CVE-2022-29226
+CVE-2022-29227
+CVE-2022-29228
+CVE-2022-31045
 CVEs
 cves
 cvss
@@ -312,6 +318,7 @@ debuggability
 decapsulated
 declaratively
 decompressor
+decompressors
 Delayering
 Delucca
 Demailly
@@ -499,6 +506,7 @@ ISTIO-SECURITY-2022-001
 ISTIO-SECURITY-2022-002
 ISTIO-SECURITY-2022-003
 ISTIO-SECURITY-2022-004
+ISTIO-SECURITY-2022-005
 istio-system
 istio.io
 istio.io.
@@ -656,6 +664,7 @@ ns
 NUL
 NULs
 Nurmamat
+OAuth
 OAuth2
 oc
 OCI-compliant
@@ -804,6 +813,7 @@ Salesforce
 sandboxed
 sandboxing
 sayin
+Schaaf
 schedulable
 schemas
 SDKs
