@@ -24,4 +24,4 @@ target_release: 1.4
     caption="在 Istio 中配置和管理 DNS 证书的架构"
     >}}
 
-要尝试此新功能，请参阅 [DNS 证书管理内容](/zh/docs/tasks/security/cert-management/dns-cert)。
+要尝试此新功能，请参阅 [DNS 证书管理内容](https://archive.istio.io/v1.13/docs/tasks/security/cert-management/dns-cert/)。
