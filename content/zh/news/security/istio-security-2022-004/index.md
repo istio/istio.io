@@ -36,7 +36,7 @@ Istio 控制平面 istiod 容易受到请求处理错误的影响，允许恶意
 以下问题也在 Istio 1.12.5 和 Istio 1.13.2 中得到修复。
 
 - __[CVE-2022-21656](https://github.com/envoyproxy/envoy/security/advisories/GHSA-c9g7-xwcv-pjx2)__
-  (CVSS Score 3.1, Low): X.509 subjectAltName 匹配（和 nameConstraints） 旁路。
+  (CVSS Score 3.1, Low): X.509 `subjectAltName` 匹配（和 `nameConstraints`） 旁路。
 
 ## 我受到影响了吗？{#am-i-impacted?}
 
