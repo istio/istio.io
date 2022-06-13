@@ -33,7 +33,7 @@ skip_seealso: true
 
 - [CVE-2022-29227](https://github.com/envoyproxy/envoy/security/advisories/GHSA-rm2p-qvf6-pvr6) (CVSS score 7.5, High): 如果重定向提示 Envoy-generated 的本地回复，则 Envoy 内部重定向带有正文或关键片段的请求是不安全的，攻击者利用该漏洞可以使服务崩溃。
 
-## 我受到影响了吗？{#am-i-impacted}
+## 我受到影响了吗？{#am-i-impacted?}
 
 如果您有一个暴露于外部流量的 Istio 入口网关，那么您面临的风险最大。
 
