@@ -21,18 +21,6 @@ set -e
 set -u
 set -o pipefail
 
-# rewrite-repo invokes bash make to rewrite a snippet to avoid installing from a real helm repository, and instead uses
-# local files
-# shellcheck disable=SC2001
-function rewrite-repo() {
-  # get function definition: https://stackoverflow.com/a/6916952/374797
-  cmd="$(type "${1:?snip}" | sed '1,3d;$d')"
-  cmd="$(echo "${cmd}" | sed 's|istio/base|manifests/charts/base|')"
-  cmd="$(echo "${cmd}" | sed 's|istio/istiod|manifests/charts/istio-control/istio-discovery|')"
-  cmd="$(echo "${cmd}" | sed 's|istio/gateway|manifests/charts/gateway|')"
-  eval "${cmd}"
-}
-
 kubectl_get_egress_gateway_for_remote_cluster() {
   response=$(kubectl get pod -l app=istio-egressgateway -n external-istiod --context="${CTX_REMOTE_CLUSTER}" -o jsonpath="{.items[*].status.phase}")
   echo "$response"
@@ -122,7 +110,7 @@ _verify_contains snip_deploy_a_sample_application_4 "Hello version: v1"
 echo y | snip_enable_gateways_1
 
 # And egress with helm
-rewrite-repo snip_enable_gateways_4
+_rewrite_helm_repo snip_enable_gateways_4
 
 _verify_same kubectl_get_egress_gateway_for_remote_cluster "Running" 
 
