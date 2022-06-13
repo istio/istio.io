@@ -2,7 +2,7 @@
 title: Istio 1.12.8 发布说明
 linktitle: 1.12.8
 subtitle: Patch Release
-description: Istio 1.12.8 补丁发布
+description: Istio 1.12.8 补丁发布。
 publishdate: 2022-06-09
 release: 1.12.8
 aliases:
