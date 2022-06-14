@@ -17,6 +17,7 @@ kind 主要是为了测试 Kubernetes 自身而设计的，但它也可用于本
 - 请使用最新的 Go 版本，最好是 Go 1.13 或更新版本。
 - 为了使用 kind，还需要[安装 docker](https://docs.docker.com/install/)。
 - 安装最新版本的 [kind](https://kind.sigs.k8s.io/docs/user/quick-start/)。
+- 增加 Docker 的[内存限制](/zh/docs/setup/platform-setup/docker/)
 
 ## 安装步骤{#installation-steps}
 
@@ -84,7 +85,7 @@ kind 不像 minikube 一样内置了操作界面。但仍然可以设置一个�
 1. 运行以下命令以部署操作界面：
 
     {{< text bash >}}
-    $ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta8/aio/deploy/recommended.yaml
+    $ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.1.0/aio/deploy/recommended.yaml
     {{< /text >}}
 
 1. 验证操作界面已经部署并且正在运行。
