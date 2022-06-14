@@ -15,7 +15,7 @@ aliases:
 
 ## 变化{#changes}
 
-- **修复** 修复了在 `DestinationRule` 设置 TLS 时，East-West Gateway 对端点的不正确过滤问题。
+- **修复** 修复了 TLS 设置 `DestinationRule` 时，East-West Gateway 对端点的不正确过滤问题。
   ([Issue #38704](https://github.com/istio/istio/issues/38704))
 
 - **修复** 修复了在运行 `istioctl verify-install` 命令时，使用 `demo` 配置文件会执行失败的问题。
