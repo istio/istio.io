@@ -1,8 +1,8 @@
 ---
-title: Istio 1.12.3 版本发布
+title: Announcing Istio 1.12.3
 linktitle: 1.12.3
-subtitle: 补丁发布
-description: Istio 1.12.3 补丁发布。
+subtitle: Patch Release
+description: Istio 1.12.3 patch release.
 publishdate: 2022-02-10
 release: 1.12.3
 aliases:
