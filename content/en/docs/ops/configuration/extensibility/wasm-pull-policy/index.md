@@ -18,11 +18,12 @@ Since each proxy should pull Wasm modules from remote registry or HTTP server, u
 
 Inspired from `ImagePullPolicy` of Kubernetes, [WasmPlugin](/docs/reference/config/proxy_extensions/wasm-plugin/#WasmPlugin) also has the notion of `IfNotPresent` and `Always`, which means "use the cached module" and "always pull the module regardless of the cache", respectively.
 
-By using `ImagePullPolicy` field, the user can configure the policy explicitly except following cases:
+Users explicitly configure the behavior for Wasm module retrieval with the `ImagePullPolicy` field. However, user-provided behavior can be overridden by Istio in the following scenarios:
 
 1. If the user sets `sha256` in [WasmPlugin](/docs/reference/config/proxy_extensions/wasm-plugin/#WasmPlugin), regardless of `ImagePullPolicy`, `IfNotPresent` policy is used.
-1. If `url` field is pointing an OCI image and it has a digest suffix (e.g., `gcr.io/foo/bar@sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef`), `IfNotPresent` policy is used.
-1. Similar with Kubernetes, when `ImagePullPolicy` is not specified, `IfNotPresent` is assumed basically. But, in case that `url` field specifies an OCI image having `latest` tag, `Always` policy is used.
+1. If the `url` field points to an OCI image and it has a digest suffix (e.g., `gcr.io/foo/bar@sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef`), `IfNotPresent` policy is used.
+
+When `ImagePullPolicy` is not specified for a resource, Istio defaults to `IfNotPresent` behavior. However, if the provided `url` field specifies an OCI image that has a tag value of `latest`, Istio will use `Always` behavior.
 
 ## Life of cached modules
 
@@ -33,8 +34,8 @@ The expiration can be configured via the environment variables `WASM_MODULE_EXPI
 
 ## Meaning of Always
 
-In Kubernetes, meaning of `Always` is "every time for spawning new pod".
-So, each time of spawning new pod, Kubernetes newly pulls the image.
+In Kubernetes, `ImagePullPolicy: Always` means that an image is pulled directly from its source each time a pod is created.
+Every time of a new pod is spanned, Kubernetes pulls the image anew.
 
-In case of `WasmPlugin`, the meaning of `Always` is "every time for creating/changing the corresponding `WasmPlugin` resource".
-Please note that a change not only in `spec` but also `metadata` triggers pulling of Wasm module when `Always` policy is used.
+In case of `WasmPlugin`, `ImagePullPolicy: Always` means that Istio will pull an image directly from its source each time the corresponding `WasmPlugin` Kubernetes resource is created or changed.
+Please note that a change not only in `spec` but also `metadata` triggers pulling of Wasm module when `Always` policy is used. This can mean that an image is pulled from source several times over the lifetime of a pod and over the lifetime of an individual proxy.
