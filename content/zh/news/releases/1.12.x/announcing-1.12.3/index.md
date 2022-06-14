@@ -31,6 +31,4 @@ aliases:
 - **修复** 修复了为虚拟机创建配置文件时，json 编组处理后的生成错误格式的问题。
   ([问题 #36358](https://github.com/istio/istio/issues/36358))
 
-- **修复** 修复了在 Gateway 中使用 `ISTIO_MUTUAL` TLS 模式的同时设置 `credentialName` 导致无法配置双向 TLS 的问题。
-此配置现在已被拒绝，因为 `ISTIO_MUTUAL` 本就是计划在未设置 `credentialName` 的情况下使用的。
-可以通过在 Istiod 中配置 `PILOT_ENABLE_LEGACY_ISTIO_MUTUAL_CREDENTIAL_NAME=true` 环境变量来保留旧的行为。
+- **修复** 修复了在 Gateway 中使用 `ISTIO_MUTUAL` TLS 模式的同时设置 `credentialName` 导致无法配置双向 TLS 的问题。此配置现在已被拒绝，因为 `ISTIO_MUTUAL` 本就是计划在未设置 `credentialName` 的情况下使用的。可以通过在 Istiod 中配置 `PILOT_ENABLE_LEGACY_ISTIO_MUTUAL_CREDENTIAL_NAME=true` 环境变量来保留旧的行为。
