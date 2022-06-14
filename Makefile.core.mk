@@ -42,10 +42,11 @@ export ISTIO_LONG_SHA
 # In the case that the images are build as part of a the normal public istio/istio pipeline,
 # we only need to export the pipeline HUB value.
 # If the images were built as part of the private pipeline (as for security releases),
-# we export the HUB and TAG for the images once they are published.
-# HUB ?= gcr.io/istio-testing
-export HUB := gcr.io/istio-release
-export TAG ?= 1.13.5
+# we export the HUB and TAG for the images once they are published. This seems to no longer work
+# as some tests want to use normally built reseources which don't exist for private builds
+HUB ?= gcr.io/istio-testing
+# export HUB := gcr.io/istio-release
+# export TAG ?= 1.13.5
 
 ifeq ($(HUB),)
   $(error "HUB cannot be empty")
