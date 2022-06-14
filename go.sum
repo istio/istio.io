@@ -2001,8 +2001,8 @@ istio.io/client-go v1.13.4-0.20220512212836-a717f1acbd1f/go.mod h1:kM3WH/HCojq7B
 istio.io/gogo-genproto v0.0.0-20211208193508-5ab4acc9eb1e/go.mod h1:vJDAniIqryf/z///fgZqVPKJ7N2lBk7Gg8DCTB7oCfU=
 istio.io/gogo-genproto v0.0.0-20220413184606-e76735307e2d h1:LKw4itd6/TfoEckwp/XExqi3R/qVpfDmKZmm+npQXwI=
 istio.io/gogo-genproto v0.0.0-20220413184606-e76735307e2d/go.mod h1:vJDAniIqryf/z///fgZqVPKJ7N2lBk7Gg8DCTB7oCfU=
-istio.io/istio v0.0.0-20220516185659-202e88863858 h1:kgOMeON9ytJh4WYQRAmO5KyLL8C8LBNxdfYl6rOSXt8=
-istio.io/istio v0.0.0-20220516185659-202e88863858/go.mod h1:uKae4uT/greztSX5UnsZyzWBEpxIHaU0W7klEK/LbXA=
+istio.io/istio v0.0.0-20220606160615-c6abaf5e5fd6 h1:+JvgvoPueykjpZK0wNT18Bo6RQsgXmJZ3haeV+bac/8=
+istio.io/istio v0.0.0-20220606160615-c6abaf5e5fd6/go.mod h1:uKae4uT/greztSX5UnsZyzWBEpxIHaU0W7klEK/LbXA=
 istio.io/pkg v0.0.0-20220413180906-765b7512325f h1:Z6noDBI4SFCfBmYoeFSSmUR6TZv6DZ8h+bZTJxep+tM=
 istio.io/pkg v0.0.0-20220413180906-765b7512325f/go.mod h1:i95AmfHLCp5JThoiCGCyzZ6bOHJk5fD+BicBvGDr9Xg=
 k8s.io/api v0.18.2/go.mod h1:SJCWI7OLzhZSvbY7U8zwNl9UA4o1fizoug34OV/2r78=
