@@ -561,7 +561,7 @@ adjusts the TCP connection timeout for requests to the `ext-svc.example.com`
 external service that we configured using the service entry:
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
   name: ext-res-dr
