@@ -1,7 +1,7 @@
 ---
 title: "CryptoMB - TLS handshake acceleration for Istio"
 description: "Accelerate TLS handshake using CryptoMB Private Key Provider configuration in Istio gateways and sidecars."
-publishdate: 2022-05-13
+publishdate: 2022-06-15
 attribution: "Ravi kumar Veeramally (Intel), Ismo Puustinen (Intel), Sakari Poussa (Intel)"
 keywords: [Istio, CryptoMB, gateways, sidecar]
 ---
