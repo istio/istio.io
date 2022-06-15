@@ -2851,6 +2851,20 @@ aborted.</p>
 Yes
 </td>
 </tr>
+<tr id="HTTPFaultInjection-Abort-grpc_status" class="oneof">
+<td><code>grpcStatus</code></td>
+<td><code>string (oneof)</code></td>
+<td>
+<p>GRPC status code to use to abort the request. The supported
+codes are documented in https://github.com/grpc/grpc/blob/master/doc/statuscodes.md
+Note: If you want to return the status &ldquo;Unavailable&rdquo;, then you should
+specify the code as <code>UNAVAILABLE</code>(all caps), but not <code>14</code>.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 <tr id="HTTPFaultInjection-Abort-percentage">
 <td><code>percentage</code></td>
 <td><code><a href="#Percent">Percent</a></code></td>

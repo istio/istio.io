@@ -87,6 +87,31 @@ spec:
       value: &quot;cluster.local&quot;
 </code></pre>
 
+<p>This is also the same as the last example, but the Wasm module is pulled via https and updated for each time when this plugin resource is changed.</p>
+
+<pre><code class="language-yaml">apiVersion: extensions.istio.io/v1alpha1
+kind: WasmPlugin
+metadata:
+  name: openid-connect
+  namespace: istio-ingress
+spec:
+  selector:
+    matchLabels:
+      istio: ingressgateway
+  url: https://private-bucket/filters/openid.wasm
+  imagePullPolicy: Always
+  phase: AUTHN
+  pluginConfig:
+    openid_server: authn
+    openid_realm: ingress
+  vmConfig:
+    env:
+    - name: POD_NAME
+      valueFrom: HOST
+    - name: TRUST_DOMAIN
+      value: &quot;cluster.local&quot;
+</code></pre>
+
 <p>And a more complex example that deploys three WasmPlugins and orders them
 using <code>phase</code> and <code>priority</code>. The (hypothetical) setup is that the
 <code>openid-connect</code> filter performs an OpenID Connect flow to authenticate the
@@ -224,13 +249,12 @@ No
 <td><code>imagePullPolicy</code></td>
 <td><code><a href="#PullPolicy">PullPolicy</a></code></td>
 <td>
-<p>The pull behaviour to be applied when fetching an OCI image. Only
-relevant when images are referenced by tag instead of SHA. Defaults
-to IfNotPresent, except when an OCI image is referenced in the <code>url</code>
+<p>The pull behaviour to be applied when fetching Wasm module by either
+OCI image or http/https. Only relevant when referencing Wasm module without
+any digest, including the digest in OCI image URL or sha256 field in <code>vm_config</code>.
+Defaults to IfNotPresent, except when an OCI image is referenced in the <code>url</code>
 and the <code>latest</code> tag is used, in which case <code>Always</code> is the default,
-mirroring K8s behaviour.
-Setting is ignored if <code>url</code> field is referencing a Wasm module directly
-using <code>file://</code> or <code>http[s]://</code></p>
+mirroring K8s behaviour.</p>
 
 </td>
 <td>
@@ -446,7 +470,7 @@ Do not specify <code>PluginPhase</code> if the plugin is independent of others.<
 </section>
 <h2 id="PullPolicy">PullPolicy</h2>
 <section>
-<p>The pull behaviour to be applied when fetching an OCI image,
+<p>The pull behaviour to be applied when fetching a Wam module,
 mirroring K8s behaviour.</p>
 
 <table class="enum-values">
@@ -477,8 +501,8 @@ will pull the latest version.</p>
 <tr id="PullPolicy-Always">
 <td><code>Always</code></td>
 <td>
-<p>We will always pull the latest version of an image when applying
-this plugin.</p>
+<p>We will always pull the latest version of an image when changing
+this plugin. Note that the change includes <code>metadata</code> field as well.</p>
 
 </td>
 </tr>
