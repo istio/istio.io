@@ -347,7 +347,7 @@ spec:
 
 您指定的外部资源使用 `hosts` 字段。可以使用完全限定名或通配符作为前缀域名。
 
-您可以配置虚拟服务和目标规则，以更细粒度的方式控制到服务入口的流量，这与网格中的任何其他服务配置流量的方式相同。例如，下面的目标规则配置流量路由以使用双向 TLS 来保护到 `ext-svc.example.com` 外部服务的连接，我们使用服务入口配置了该外部服务：
+您可以配置虚拟服务和目标规则，以更细粒度的方式控制到服务入口的流量，这与网格中的任何其他服务配置流量的方式相同。例如，下面的目标规则调整了使用服务入口配置的 `ext-svc.example.com` 外部服务的连接超时：
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -357,11 +357,9 @@ metadata:
 spec:
   host: ext-svc.example.com
   trafficPolicy:
-    tls:
-      mode: MUTUAL
-      clientCertificate: /etc/certs/myclientcert.pem
-      privateKey: /etc/certs/client_private_key.pem
-      caCertificates: /etc/certs/rootcacerts.pem
+    connectionPool:
+      tcp:
+        connectTimeout: 1s
 {{< /text >}}
 
 查看[服务入口参考](/zh/docs/reference/config/networking/service-entry)获取更多可能的配置项。
