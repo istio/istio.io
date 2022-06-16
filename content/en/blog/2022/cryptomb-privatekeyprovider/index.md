@@ -177,6 +177,8 @@ Istio ingress gateway TLS handshake performance comparison on 1.14-dev on May 10
 
 {{< image link="./istio-ingress-gateway-tls-handshake-perf-num.png" caption="Istio ingress gateway TLS handshake performance comparison" >}}
 
+Note that the performance numbers here are based on the total latency between k6, gateway and fortio server. It does not represent upstream way of Istio latency numbers due to different client tools (k6 and fortio), different setup (client, gateway and server running on separate nodes) and each HTTP request creates new TLS Handshake. Thus, you can't compare the latency numbers here against the Istio benchmarking numbers.
+
 Configuration used in above comparison.
 
 * Azure AKS Kubernetes cluster
