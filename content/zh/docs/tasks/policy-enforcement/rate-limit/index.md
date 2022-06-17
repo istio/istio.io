@@ -239,9 +239,9 @@ EOF
 上述配置对所有vhosts/routes都进行本地速率限制。或者，您可以将其限制为特定的路由。
 
 下面的`EnvoyFilter`为`productpage`服务的80端口的任何流量启用了本地速率限制。与前面的配置不同，`HTTP_FILTER`patch中不包含`token_bucket`。
-`token_bucket`被定义在第二个(`HTTP_ROUTE``)patch中，其中包含`envoy.filters.http.local_ratelimit`的`typed_per_filter_config`。
+`token_bucket`被定义在第二个(`HTTP_ROUTE`)patch中，其中包含`envoy.filters.http.local_ratelimit`的`typed_per_filter_config`。
 
-本地Envoy过滤器，用于路由到虚拟主机' inbound|http|9080 '。
+本地Envoy过滤器，用于路由到虚拟主机`inbound|http|9080`。
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
