@@ -543,7 +543,7 @@ external service.
     sleep istio-proxy
     {{< /text >}}
 
-1.  Create the same destination rule as for the `sleep` pod in the `default` namespace to direct the traffic through the egress gateway:
+1.  Create the same destination rule as for the `sleep` pod above, just now in the `test-egress` namespace, to direct the traffic through the egress gateway:
 
     {{< text bash >}}
     $ kubectl apply -n test-egress -f - <<EOF
