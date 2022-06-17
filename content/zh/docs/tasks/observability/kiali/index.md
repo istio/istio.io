@@ -49,7 +49,7 @@ $ KIALI_USERNAME=$(read -p 'Kiali Username: ' uval && echo -n $uval | base64)
 $ KIALI_PASSPHRASE=$(read -sp 'Kiali Passphrase: ' pval && echo -n $pval | base64)
 {{< /text >}}
 
-如果使用的是 Z Shell `zsh`，请使用以下内容定义凭据：
+如果使用的是 Z Shell(Zsh)，请使用以下内容定义凭据：
 
 {{< text bash >}}
 $ KIALI_USERNAME=$(read '?Kiali Username: ' uval && echo -n $uval | base64)
