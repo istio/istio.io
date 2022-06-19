@@ -177,7 +177,7 @@ Below, we show performance based on the total latency between k6, gateway and Fo
 
 We have [published a white paper](https://www.intel.com/content/www/us/en/architecture-and-technology/crypto-acceleration-in-xeon-scalable-processors-wp.html) with general cryptographic performance numbers.
 
-{{< image link="./istio-ingress-gateway-tls-handshake-perf-num.png" caption="Istio ingress gateway TLS handshake performance comparison; tested using 1.14-dev on May 10th 2022." >}}
+{{< image link="./istio-ingress-gateway-tls-handshake-perf-num.png" caption="Istio ingress gateway TLS handshake performance comparison. Tested using 1.14-dev on May 10th 2022." >}}
 
 Configuration used in above comparison.
 
