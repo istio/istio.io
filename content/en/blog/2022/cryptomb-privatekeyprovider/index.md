@@ -171,11 +171,13 @@ spec:
 
 ### Performance
 
-The potential performance benefit depends on many factors. For example, the size of the cpuset Envoy is running on, incoming traffic pattern, encryption type (RSA or ECDSA), and key size. Here is a white paper with [performance](https://www.intel.com/content/www/us/en/architecture-and-technology/crypto-acceleration-in-xeon-scalable-processors-wp.html) numbers.
+The potential performance benefit depends on many factors. For example, the size of the cpuset Envoy is running on, incoming traffic pattern, encryption type (RSA or ECDSA), and key size.
 
-Istio ingress gateway TLS handshake performance comparison on 1.14-dev on May 10th 2022.
+Below, we show performance based on the total latency between k6, gateway and Fortio server. These show relative performance improvement using the CryptoMB provider, and are in no way representative of Istio's [general performance or benchmark results](/docs/ops/deployment/performance-and-scalability/).  Our measurements use different client tools (k6 and fortio), different setup (client, gateway and server running on separate nodes) and we create a new TLS handshake with every HTTP request.
 
-{{< image link="./istio-ingress-gateway-tls-handshake-perf-num.png" caption="Istio ingress gateway TLS handshake performance comparison" >}}
+We have [published a white paper](https://www.intel.com/content/www/us/en/architecture-and-technology/crypto-acceleration-in-xeon-scalable-processors-wp.html) with general cryptographic performance numbers.
+
+{{< image link="./istio-ingress-gateway-tls-handshake-perf-num.png" caption="Istio ingress gateway TLS handshake performance comparison. Tested using 1.14-dev on May 10th 2022" >}}
 
 Configuration used in above comparison.
 
