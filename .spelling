@@ -393,14 +393,9 @@ git
 GitHub
 GitOps
 GKE
-GKE-IAM
-GKE-Istio
-GKE-Workloads
 GlueCon
 Gloo
 Gmail
-GoLang
-Golang
 googleapis.com
 googlegroups.com
 Grafana
@@ -545,7 +540,6 @@ Kumar
 kyzy
 L3-4
 L4-L6
-Landlow
 Landow
 learnings
 LibreSSL
@@ -737,7 +731,6 @@ qps
 quay.io
 quo
 RabbitMQ
-radis
 Rahul
 Rajagopalan
 Rappi
@@ -754,7 +747,6 @@ rebalances
 recomposition
 redeployments
 relabeling
-RedHat
 Redis
 redis
 Redis-based
@@ -981,8 +973,6 @@ workload
 www.google.com
 x-envoy-upstream-rq-timeout-ms
 X.509
-x.509
-X.509.
 x509
 x86
 xDS
@@ -997,8 +987,6 @@ Yangmin
 Yessenov
 Yizhou
 Yoichi
-yournamespace
-Youtube
 Zack
 Zehuan
 Zhang

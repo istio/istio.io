@@ -32,7 +32,7 @@ Thank you to our users who participated in user experience surveys and empathy s
 our most stable release to date.
 
 This is the first Istio release for 2021.  We would like to thank the entire Istio community, and especially the release
-managers [Shamsher Ansari](https://github.com/shamsher31) (Red Hat), [Steven Landlow](https://github.com/stevenctl)
+managers [Shamsher Ansari](https://github.com/shamsher31) (Red Hat), [Steven Landow](https://github.com/stevenctl)
 (Google) and [Jacob Delgado](https://github.com/jacob-delgado) (Aspen Mesh) for helping to get Istio 1.9.0
 published.
 
