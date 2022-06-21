@@ -4,10 +4,10 @@ linkTitle: "Splunk"
 quote: “我们从 1.3 开始就使用 Istio，并且我们可以很清晰的看到每个版本都在变得越来越好。我们已经看到它变得更易于使用、占用更少的资源并且更易于安装。”
 author:
     name: "Bernard Van De Walle"
-    image: "/zh/img/authors/bernard-van-de-walle.jpg"
+    image: "/img/authors/bernard-van-de-walle.jpg"
 companyName: "Splunk"
 companyURL: "https://www.splunk.com/"
-logo: "/zh/logos/splunk.svg"
+logo: "/logos/splunk.svg"
 skip_toc: true
 skip_byline: true
 skip_pagenav: true
