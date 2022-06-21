@@ -325,11 +325,6 @@ to enable it.  You can execute the following once:</p>
 <td>File name for Istio mesh networks configuration. If not specified, a default mesh networks will be used.  (default `./etc/istio/config/meshNetworks`)</td>
 </tr>
 <tr>
-<td><code>--plugins &lt;stringSlice&gt;</code></td>
-<td></td>
-<td>comma separated list of networking plugins to enable  (default `[ext_authz,authn,authz]`)</td>
-</tr>
-<tr>
 <td><code>--profile</code></td>
 <td></td>
 <td>Enable profiling via web interface host:port/debug/pprof </td>
@@ -506,6 +501,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>Enable the auto mTLS EDS output to consult the PeerAuthentication Policy, only set the {tlsMode: istio}  when server side policy enables mTLS PERMISSIVE or STRICT.</td>
 </tr>
 <tr>
+<td><code>ENABLE_AUTO_SNI</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, automatically set SNI when `DestinationRules` do not specify the same</td>
+</tr>
+<tr>
 <td><code>ENABLE_CA_SERVER</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -518,9 +519,15 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>If this is set to false, the debug interface will not be enabled, recommended for production</td>
 </tr>
 <tr>
+<td><code>ENABLE_HCM_INTERNAL_NETWORKS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enable, endpoints defined in mesh networks will be configured as internal addresses in Http Connection Manager</td>
+</tr>
+<tr>
 <td><code>ENABLE_LEGACY_FSGROUP_INJECTION</code></td>
 <td>Boolean</td>
-<td><code>true</code></td>
+<td><code>false</code></td>
 <td>If true, Istiod will set the pod fsGroup to 1337 on injection. This is required for Kubernetes 1.18 and older (see https://github.com/kubernetes/kubernetes/issues/57923 for details) unless JWT_POLICY is &#34;first-party-jwt&#34;.</td>
 </tr>
 <tr>
@@ -586,7 +593,7 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <tr>
 <td><code>EXTERNAL_ISTIOD</code></td>
 <td>Boolean</td>
-<td><code>false</code></td>
+<td><code>true</code></td>
 <td>If this is set to true, one Istiod will control remote clusters including CA.</td>
 </tr>
 <tr>
@@ -714,6 +721,18 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>String</td>
 <td><code></code></td>
 <td>KNative revision, set if running in knative</td>
+</tr>
+<tr>
+<td><code>LABEL_CANONICAL_SERVICES_FOR_MESH_EXTERNAL_SERVICE_ENTRIES</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, metadata representing canonical services for ServiceEntry resources with a location of mesh_external will be populatedin the cluster metadata for those endpoints.</td>
+</tr>
+<tr>
+<td><code>LOCAL_CLUSTER_SECERT_WATCHER</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, the cluster secret watcher will watch the namespace of the external cluster instead of config cluster</td>
 </tr>
 <tr>
 <td><code>MAX_WORKLOAD_CERT_TTL</code></td>
@@ -974,12 +993,6 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>If enabled, Pilot will send only clusters that referenced in gateway virtual services attached to gateway</td>
 </tr>
 <tr>
-<td><code>PILOT_FLOW_CONTROL_TIMEOUT</code></td>
-<td>Time Duration</td>
-<td><code>15s</code></td>
-<td>If set, the max amount of time to delay a push by. Depends on PILOT_ENABLE_FLOW_CONTROL.</td>
-</tr>
-<tr>
 <td><code>PILOT_HTTP10</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -1223,7 +1236,7 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td><code>USE_REMOTE_CERTS</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
-<td>Whether to try to load CA certs from a remote Kubernetes cluster. Used for external Istiod.</td>
+<td>Whether to try to load CA certs from config Kubernetes cluster. Used for external Istiod.</td>
 </tr>
 <tr>
 <td><code>VALIDATION_WEBHOOK_CONFIG_NAME</code></td>

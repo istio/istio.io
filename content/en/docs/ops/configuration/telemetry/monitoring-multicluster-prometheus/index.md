@@ -81,8 +81,7 @@ scrape_configs:
 
   params:
     'match[]':
-      - '{job="pilot"}'
-      - '{job="envoy-stats"}'
+      - '{job="kubernetes-pods"}'
 
   static_configs:
     - targets:
@@ -136,8 +135,7 @@ scrape_configs:
 
   params:
     'match[]':
-      - '{job="pilot"}'
-      - '{job="envoy-stats"}'
+      - '{job="kubernetes-pods"}'
 
   static_configs:
     - targets:

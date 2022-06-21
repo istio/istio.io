@@ -62,14 +62,10 @@ export INGRESS_HOST=public-IP-of-one-of-the-worker-nodes
 }
 
 snip_determining_the_ingress_ip_and_ports_8() {
-export INGRESS_HOST=$(minikube ip)
-}
-
-snip_determining_the_ingress_ip_and_ports_9() {
 export INGRESS_HOST=127.0.0.1
 }
 
-snip_determining_the_ingress_ip_and_ports_10() {
+snip_determining_the_ingress_ip_and_ports_9() {
 export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].status.hostIP}')
 }
 

@@ -20,6 +20,10 @@ $ kubectl apply -f {{< github_file >}}/samples/addons/kiali.yaml
 
 这将会在您的集群中部署 Kiali。这仅用于演示，并且不会针对性能或安全性进行调整。
 
+{{< idea >}}
+如果您使用这个样例 YAML 并计划公开暴露 Kiali 安装，请确保在使用除 `anonymous` 之外的身份验证策略时更改 Kiali 的 ConfigMap 中的 `signing_key`。
+{{< /idea >}}
+
 ### 方法2：自定义安装{#option-2-customizable-install}
 
 Kiali 项目提供了自己的[快速入门指南](https://kiali.io/docs/installation/quick-start)和[自定义安装方法](https://kiali.io/docs/installation/installation-guide)。我们建议生产用户遵循这些说明，确保了解最新版本和最佳方式。
