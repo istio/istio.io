@@ -108,7 +108,7 @@ func HelloWorld() {
 
 You can set the language of the code in the block to highlight its syntax. The
 previous example set the syntax to `plain`, and the rendered code block doesn't
-have any syntax highlighting. However, you can set the syntax to GoLang, for
+have any syntax highlighting. However, you can set the syntax to Go, for
 example:
 
 {{< text markdown >}}

@@ -189,7 +189,7 @@ if [[ "${FOR_BUILD_CONTAINER:-0}" -eq "1" ]]; then
 fi
 
 go_os_arch=${LOCAL_OUT##*/}
-# Golang OS/Arch format
+# Go OS/Arch format
 LOCAL_GO_OS=${go_os_arch%_*}
 LOCAL_GO_ARCH=${go_os_arch##*_}
 

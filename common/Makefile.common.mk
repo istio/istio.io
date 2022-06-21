@@ -73,7 +73,7 @@ tidy-go:
 
 mod-download-go:
 	@-GOFLAGS="-mod=readonly" find -name go.mod -execdir go mod download \;
-# go mod tidy is needed with Golang 1.16+ as go mod download affects go.sum
+# go mod tidy is needed with Go 1.16+ as go mod download affects go.sum
 # https://github.com/golang/go/issues/43994
 	@find -name go.mod -execdir go mod tidy \;
 

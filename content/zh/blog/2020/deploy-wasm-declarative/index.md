@@ -148,4 +148,4 @@ $ wasme init ./filter --language cpp --platform istio --platform-version 1.5.x
 
 -   [教程](https://docs.solo.io/web-assembly-hub/latest/tutorial_code/)
 
--   [Solo.io 的 Youtube 频道](https://www.youtube.com/channel/UCuketWAG3WqYjjxtQ9Q8ApQ)里的视频
+-   [Solo.io 的 YouTube 频道](https://www.youtube.com/channel/UCuketWAG3WqYjjxtQ9Q8ApQ)里的视频

@@ -7,7 +7,7 @@ attribution: "Wang Fakang (mosn.io)"
 keywords: [mosn,sidecar,proxy]
 ---
 
-[MOSN](https://github.com/mosn/mosn) (Modular Open Smart Network) is a network proxy server written in GoLang. It was built at [Ant Group](https://www.antfin.com) as a sidecar/API Gateway/cloud-native Ingress/Layer 4 or Layer 7 load balancer etc. Over time, we've added extra features, like a multi-protocol framework, multi-process plug-in mechanism, a DSL, and support for the [xDS APIs](https://www.envoyproxy.io/docs/envoy/latest/api-docs/xds_protocol). Supporting xDS means we are now able to use MOSN as the network proxy for Istio. This configuration is not supported by the Istio project; for help, please see [Learn More](#learn-more) below.
+[MOSN](https://github.com/mosn/mosn) (Modular Open Smart Network) is a network proxy server written in Go. It was built at [Ant Group](https://www.antfin.com) as a sidecar/API Gateway/cloud-native Ingress/Layer 4 or Layer 7 load balancer etc. Over time, we've added extra features, like a multi-protocol framework, multi-process plug-in mechanism, a DSL, and support for the [xDS APIs](https://www.envoyproxy.io/docs/envoy/latest/api-docs/xds_protocol). Supporting xDS means we are now able to use MOSN as the network proxy for Istio. This configuration is not supported by the Istio project; for help, please see [Learn More](#learn-more) below.
 
 ## Background
 
@@ -35,7 +35,7 @@ MOSN has a layered architecture with four layers, NET/IO, Protocol, Stream, and 
 
 Before the service mesh transformation, we have expected that as the next generation of Ant Group's infrastructure, service mesh will inevitably bring revolutionary changes and evolution costs. We have a very ambitious blueprint: ready to integrate the original network and middleware various capabilities have been re-precipitated and polished to create a low-level platform for the next-generation architecture of the future, which will carry the responsibility of various service communications.
 
-This is a long-term planning project that takes many years to build and meets the needs of the next five or even ten years, and cooperates to build a team that spans business, SRE, middleware, and infrastructure departments. We must have a network proxy forwarding plane with flexible expansion, high performance, and long-term evolution. Nginx and Envoy have a very long-term capacity accumulation and active community in the field of network agents. We have also borrowed from other excellent open source network agents such as Nginx and Envoy. At the same time, we have enhanced research and development efficiency and flexible expansion. Mesh transformation involves a large number of departments and R & D personnel. We must consider the landing cost of cross-team cooperation. Therefore, we have developed a new network proxy MOSN based on GoLang in the cloud-native scenario. For GoLang's performance, we also did a full investigation and test in the early stage to meet the performance requirements of Ant Group's services.
+This is a long-term planning project that takes many years to build and meets the needs of the next five or even ten years, and cooperates to build a team that spans business, SRE, middleware, and infrastructure departments. We must have a network proxy forwarding plane with flexible expansion, high performance, and long-term evolution. Nginx and Envoy have a very long-term capacity accumulation and active community in the field of network agents. We have also borrowed from other excellent open source network agents such as Nginx and Envoy. At the same time, we have enhanced research and development efficiency and flexible expansion. Mesh transformation involves a large number of departments and R & D personnel. We must consider the landing cost of cross-team cooperation. Therefore, we have developed a new network proxy MOSN based on Go in the cloud-native scenario. For Go's performance, we also did a full investigation and test in the early stage to meet the performance requirements of Ant Group's services.
 
 At the same time, we received a lot of feedback and needs from the end user community. Everyone has the same needs and thoughts. So we combined the actual situation of the community and ourselves to conduct the research and development of MOSN from the perspective of satisfying the community and users. We believe that the open source competition is mainly competition between standards and specifications. We need to make the most suitable implementation choice based on open source standards.
 
@@ -43,7 +43,7 @@ At the same time, we received a lot of feedback and needs from the end user comm
 
 ### Differences in language stacks
 
-MOSN is written in GoLang. GoLang has strong guarantees in terms of production efficiency and memory security. At the same time, GoLang has an extensive library ecosystem in the cloud-native era. The performance is acceptable and usable in the service mesh scenario. Therefore, MOSN has a lower intellectual cost for companies and individuals using languages such as GoLang and Java.
+MOSN is written in Go. Go has strong guarantees in terms of production efficiency and memory security. At the same time, Go has an extensive library ecosystem in the cloud-native era. The performance is acceptable and usable in the service mesh scenario. Therefore, MOSN has a lower intellectual cost for companies and individuals using languages such as Go and Java.
 
 ### Differentiation of core competence
 
@@ -53,7 +53,7 @@ MOSN is written in GoLang. GoLang has strong guarantees in terms of production e
 
 ### What are the drawbacks of MOSN
 
-- Because MOSN is written in GoLang, it doesn't have as good performance as Istio default proxy, but the performance is acceptable and usable in the service mesh scenario.
+- Because MOSN is written in Go, it doesn't have as good performance as Istio default proxy, but the performance is acceptable and usable in the service mesh scenario.
 - Compared with Istio default proxy, some features are not fully supported, such as WASM, HTTP3, Lua, etc.  However, these are all in the [roadmap](https://docs.google.com/document/d/12lgyCW-GmlErr_ihvAO7tMmRe87i70bv2xqe4h2LUz4/edit?usp=sharing) of MOSN, and the goal is to be fully compatible with Istio.
 
 ## MOSN with Istio
