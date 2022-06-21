@@ -684,6 +684,7 @@ openssl
 OpenTelemetry
 OpenTracing
 operationalize
+operationalizes
 optname
 OS-level
 Ostrowski
@@ -976,6 +977,7 @@ VMs
 VMware
 VPN
 VPNs
+Walle
 Warman
 Wasm
 wasme
@@ -1003,6 +1005,7 @@ workload
 www.google.com
 x-envoy-upstream-rq-timeout-ms
 X.509
+X.509.
 x509
 x86
 xDS
