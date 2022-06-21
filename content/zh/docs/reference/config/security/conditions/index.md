@@ -22,6 +22,7 @@ test: n/a
 |------|-------------|--------------------|---------|
 | `request.headers` | `HTTP` 请求头，需要用 `[]` 括起来 | HTTP only | `key: request.headers[User-Agent]`<br/>`values: ["Mozilla/*"]` |
 | `source.ip`  | 源 `IP` 地址，支持单个 `IP` 或 `CIDR` | HTTP and TCP | `key: source.ip`<br/>`values: ["10.1.2.3"]` |
+| `remote.ip`  | 由 `X-Forwarded-For` 请求头或代理协议确定的原始客户端 IP 地址，支持单个 IP 或 CIDR | HTTP and TCP | `key: remote.ip`<br />`values: ["10.1.2.3", "10.2.0.0/16"]` |
 | `source.namespace`  | 源负载实例命名空间，需启用双向 TLS | HTTP and TCP | `key: source.namespace`<br/>`values: ["default"]` |
 | `source.principal` | 源负载的标识，需启用双向 TLS | HTTP and TCP | `key: source.principal`<br/>`values: ["cluster.local/ns/default/sa/productpage"]` |
 | `request.auth.principal` | 已认证过 `principal` 的请求。 | HTTP only | `key: request.auth.principal`<br/>`values: ["accounts.my-svc.com/104958560606"]` |
