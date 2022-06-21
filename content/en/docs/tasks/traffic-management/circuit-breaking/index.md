@@ -279,6 +279,6 @@ one connection and request concurrently, you should see some failures when the
 1.  Shutdown the [httpbin]({{< github_tree >}}/samples/httpbin) service and client:
 
     {{< text bash >}}
-    $ kubectl delete deploy httpbin fortio-deploy
-    $ kubectl delete svc httpbin fortio
+    $ kubectl delete -f @samples/httpbin/sample-client/fortio-deploy.yaml@
+    $ kubectl delete -f @samples/httpbin/httpbin.yaml@
     {{< /text >}}
