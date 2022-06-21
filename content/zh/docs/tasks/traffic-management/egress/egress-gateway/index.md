@@ -483,6 +483,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
     {{< /text >}}
 
 1. 在 `default` 命名空间中创建一个与 `sleep` pod 类似的目标规则，用来引导 `test-egress` 命名空间内的流量经过 egress 网关：
+
     {{< text bash >}}
     $ kubectl apply -n test-egress -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
