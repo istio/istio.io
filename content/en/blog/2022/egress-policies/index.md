@@ -10,7 +10,7 @@ An Istio Egress gateway is just another envoy similar to the Ingress instance bu
 
 ![Istio Architecture](ingress-egress.png)
 
-This task describes how to enforce outbound authorization policies using Istio's Egress gateway in a similar matter when enforcing inbound policies. For this we use the `sleep` service in two separate namespaces within the mesh to access external services at Google and Yahoo.
+This blog describes how to enforce outbound authorization policies using Istio's Egress gateway in a similar matter when enforcing inbound policies. For this we use the `sleep` service in two separate namespaces within the mesh to access external services at Google and Yahoo.
 
 {{< tip >}}
 One important consideration to be aware of is that Istio cannot securely enforce that all egress traffic actually flows through the egress gateways. Istio only enables such flow through its sidecar proxies. If attackers bypass the sidecar proxy, they could directly access external services without traversing the egress gateway. Kubernetes network policies can be used to prevent outbound traffic at the cluster level, for more read [here](/docs/tasks/traffic-management/egress/egress-gateway/#additional-security-considerations).
@@ -35,7 +35,7 @@ Install Istio:
 $ istioctl install -y --set profile=demo --set meshConfig.outboundTrafficPolicy.mode=ALLOW_ANY
 {{< /text >}}
 
-Notice the demo profile installs an instance of an Egress gateway and the set flag configures the handling of external services by using the `outboundTrafficPolicy` option. `ALLOW_ANY` is the default option enabling access to outbound services and `REGISTRY_ONLY` gets the sidecar proxies to block access if the host is not defined in the service registry using the `ServiceEntry` resource.
+Notice the demo profile installs an instance of an Egress gateway and the set flag configures the handling of external services by using the `outboundTrafficPolicy` option. `ALLOW_ANY` is the default option enabling access to outbound services and `REGISTRY_ONLY` gets the sidecar proxies to restrict access if the host is not defined in the service registry using the `ServiceEntry` resource.
 
 ### Install the sleep service in the default namespace
 
@@ -137,9 +137,15 @@ If you want you can test the other other address on the other `sleep` pod. We ca
 
 ![Egress traffic](proxy-external.png)
 
-## Block outbound access
+## Restrict outbound access
 
-Using `istioctl` we modify the Istio installation to change the outbound traffic policy from `ALLOW_ANY` to `REGISTRY_ONLY` which enforces that only hosts defined with `ServiceEntry` resources are part of the mesh service registry; could be accessed to by sidecars of the mesh:
+Using `istioctl` we modify the Istio installation to change the outbound traffic policy from `ALLOW_ANY` to `REGISTRY_ONLY` which enforces that only hosts defined with `ServiceEntry` resources are part of the mesh service registry; could be accessed to by sidecars of the mesh.
+
+{{< tip >}}
+Changing the outbound traffic policy to `REGISTRY_ONLY` should be considered a best-effort security boundary and not as a strong security policy, for more read [here](/docs/ops/best-practices/security/#securing-egress-traffic).
+{{< /tip >}}
+
+Modify the outboundTrafficPolicy:
 
 {{< text bash >}}
 $ istioctl install -y --set profile=demo --set meshConfig.outboundTrafficPolicy.mode=REGISTRY_ONLY
@@ -231,7 +237,7 @@ curl: (35) OpenSSL SSL_connect: Connection reset by peer in connection to develo
 command terminated with exit code 35
 {{< /text >}}
 
-This is because we only allowed outbound traffic to Google from the default namespace where the `SLEEP_POD1` lives. Any outbound traffic from `SLEEP_POD2` should still be blocked, lets enabled traffic to Google:
+This is because we only allowed outbound traffic to Google from the default namespace where the `SLEEP_POD1` lives. Any outbound traffic from `SLEEP_POD2` should still be restricted, lets enabled traffic to Google:
 
 {{< text bash >}}
 $ kubectl apply -n otherns -f google-serviceentry.yaml
@@ -244,7 +250,7 @@ $ kubectl exec $SLEEP_POD2 -n otherns -it -- curl -I https://developers.google.c
 $ kubectl exec $SLEEP_POD1 -it -- curl -I https://developers.google.com
 {{< /text >}}
 
-Notice how Yahoo is still blocked on both services. Take a look at the Yahoo `ServiceEntry`:
+Notice how Yahoo is still restricted on both services. Take a look at the Yahoo `ServiceEntry`:
 
 {{< text plain >}}
 apiVersion: networking.istio.io/v1beta1
@@ -287,7 +293,7 @@ $ kubectl apply -n otherns -f yahoo-serviceentry.yaml
 $ kubectl exec $SLEEP_POD2 -n otherns -it -- curl -I https://developer.yahoo.com
 {{< /text >}}
 
-You should expect a 200 response code from both pods. Any other request to other external hosts that are not Yahoo or Google should be blocked and only allowed if in the service registry from the `default` and `otherns` namespaces.
+You should expect a 200 response code from both pods. Any other request to other external hosts that are not Yahoo or Google should be restricted and only allowed if in the service registry from the `default` and `otherns` namespaces.
 
 Notice how when the `ServiceEntry` resource is created in the target namespace, external communication to the defined host is allowed only from the `sidecar` proxies on that namespace.
 
@@ -324,7 +330,7 @@ Is important to note that for this example relies on Istio's automatic mutual TL
 
 ### Route internal outbound traffic to the egress gateway
 
-After deleting the `ServiceEntry`s used on the previous section, make sure your mesh is still blocking outbound access, and that there are no other resources that can conflict with the configuration like other `DestinationRule`s, `VirtualService`s, `Gateway`s and `AuthorizationPolicy`:
+After deleting the `ServiceEntry`s used on the previous section, make sure your mesh is still restricting outbound access, and that there are no other resources that can conflict with the configuration like other `DestinationRule`s, `VirtualService`s, `Gateway`s and `AuthorizationPolicy`:
 
 {{< text bash >}}
 $ kubectl exec $SLEEP_POD1 -it -- curl -I https://developers.google.com
