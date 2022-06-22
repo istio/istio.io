@@ -145,7 +145,7 @@ Using `istioctl` we modify the Istio installation to change the outbound traffic
 Changing the outbound traffic policy to `REGISTRY_ONLY` should be considered a best-effort security boundary and not as a strong security policy, for more read [here](/docs/ops/best-practices/security/#securing-egress-traffic).
 {{< /tip >}}
 
-Modify the outboundTrafficPolicy:
+Modify the `outboundTrafficPolicy`:
 
 {{< text bash >}}
 $ istioctl install -y --set profile=demo --set meshConfig.outboundTrafficPolicy.mode=REGISTRY_ONLY
