@@ -166,19 +166,19 @@ specific workload using the workloadSelector configuration.</p>
 kind: DestinationRule
 metadata:
   name: configure-client-mtls-dr-with-workloadselector
-  spec:
-    workloadSelector:
-      matchLabels:
-        app: ratings
-    trafficPolicy:
-      loadBalancer:
-        simple: ROUND_ROBIN
-      portLevelSettings:
-        - port:
-            number: 31443
-          tls:
-            credentialName: client-credential
-            mode: MUTUAL
+spec:
+  workloadSelector:
+    matchLabels:
+      app: ratings
+  trafficPolicy:
+    loadBalancer:
+      simple: ROUND_ROBIN
+    portLevelSettings:
+    - port:
+        number: 31443
+      tls:
+        credentialName: client-credential
+        mode: MUTUAL
 </code></pre>
 
 <p>{{</tab>}}
@@ -188,19 +188,19 @@ metadata:
 kind: DestinationRule
 metadata:
   name: configure-client-mtls-dr-with-workloadselector
-  spec:
-    workloadSelector:
-      matchLabels:
-        app: ratings
-    trafficPolicy:
-      loadBalancer:
-        simple: ROUND_ROBIN
-      portLevelSettings:
-        - port:
-            number: 31443
-          tls:
-            credentialName: client-credential
-            mode: MUTUAL
+spec:
+  workloadSelector:
+    matchLabels:
+      app: ratings
+  trafficPolicy:
+    loadBalancer:
+      simple: ROUND_ROBIN
+    portLevelSettings:
+    - port:
+        number: 31443
+      tls:
+        credentialName: client-credential
+        mode: MUTUAL
 </code></pre>
 
 <p>{{</tab>}}
