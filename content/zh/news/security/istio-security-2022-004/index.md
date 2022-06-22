@@ -24,7 +24,7 @@ Istio 控制平面 istiod 容易受到请求处理错误的影响，允许恶意
 
 对于简单的安装，istiod 通常只能从集群内访问，从而限制了受影响的半径。但是，对于某些 Deployment，尤其是那些控制平面在不同集群中运行的 Deployment，此端口会在公共网络上公开。
 
-由于 Golang 团队发布了 [CVE-2022-24921](https://github.com/advisories/GHSA-6685-ffxp-xm6f)，所以 Istio 认为这是一个零日漏洞。
+由于 Go 团队发布了 [CVE-2022-24921](https://github.com/advisories/GHSA-6685-ffxp-xm6f)，所以 Istio 认为这是一个零日漏洞。
 
 ### Envoy CVEs{#envoy-cves}
 
