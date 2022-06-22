@@ -55,18 +55,20 @@ EOF
 An HTTP filter will be injected into ingress gateway proxies as an authentication filter.
 The Istio agent will interpret the `WasmPlugin` configuration, download remote Wasm modules from the OCI image registry to a local file, and inject the HTTP filter into Envoy by referencing that file.
 
-Please note that if a `WasmPlugin` is created in a specific namespace besides `istio-system`, the pods in the namespace will be configured. In case of `istio-system` namespace, all the namespace will be affected.
+{{< idea >}}
+If a `WasmPlugin` is created in a specific namespace besides `istio-system`, the pods in that namespace will be configured. If the resource is created in the `istio-system` namespace, all namespaces will be affected.
+{{< /idea >}}
 
 ## Check the configured Wasm module
 
-1. Test `/productpage` without credential
+1. Test `/productpage` without credentials
 
 {{< text bash >}}
 $ curl -s -o /dev/null -w "%{http_code}" "http://$INGRESS_HOST:$INGRESS_PORT/productpage"
 401
 {{< /text >}}
 
-1. Test `/productpage` with credential
+1. Test `/productpage` with credentials
 
 {{< text bash >}}
 $ curl -s -o /dev/null -w "%{http_code}" -H "Authorization: Basic YWRtaW4zOmFkbWluMw==" "http://$INGRESS_HOST:$INGRESS_PORT/productpage"
