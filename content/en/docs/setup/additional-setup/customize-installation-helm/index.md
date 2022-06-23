@@ -137,9 +137,8 @@ spec:
           value: "10"
 {{< /text >}}
 
-## References
+## See Also
 
-1. [Gloo Edge - Last Mile Helm Chart Customization](https://docs.solo.io/gloo-edge/latest/installation/gateway/kubernetes/helm_advanced/)
 1. [IstioOperator - Customize Installation](/docs/setup/additional-setup/customize-installation)
 1. [Advanced Helm Techniques](https://helm.sh/docs/topics/advanced/)
 1. [Kustomize](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/kustomization/)
