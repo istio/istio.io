@@ -115,7 +115,7 @@ of injected sidecar when it was.
     to force the sidecar to be injected:
 
     {{< text bash yaml >}}
-    $ kubectl get deployment sleep -o yaml | grep "sidecar.istio.io/inject:" -C3
+    $ kubectl get deployment sleep -o yaml | grep "sidecar.istio.io/inject:" -B4
     template:
       metadata:
         labels:
