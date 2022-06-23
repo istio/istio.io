@@ -2306,6 +2306,9 @@ the configuration objects that affect that service.</p>
   # Retrieve Envoy server metrics in prometheus format
   istioctl experimental envoy-stats &lt;pod-name[.namespace]&gt; --output prom
 
+  # Retrieve Envoy server metrics in prometheus format with merged application metrics
+  istioctl experimental envoy-stats &lt;pod-name[.namespace]&gt; --output prom-merged
+
   # Retrieve Envoy cluster metrics
   istioctl experimental envoy-stats &lt;pod-name[.namespace]&gt; --type clusters
 
