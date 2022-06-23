@@ -554,11 +554,13 @@ kubeconfig
 kubectl
 Kubelet
 kubelet
+kustomize
 Kubernetes
 kubernetes.default
 kube-proxy
 KubeSphere
 Kumar
+Kustomize
 kyzy
 L3-4
 L4-L6
