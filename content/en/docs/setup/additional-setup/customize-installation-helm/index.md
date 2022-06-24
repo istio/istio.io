@@ -14,7 +14,7 @@ Before you begin, check the following prerequisites:
 1. [Download the Istio release](/docs/setup/getting-started/#download).
 1. Perform any necessary [platform-specific setup](/docs/setup/platform-setup/).
 1. Check the [Requirements for Pods and Services](/docs/ops/deployment/requirements/).
-1. [Usage of helm for Istio installation](/docs/setup/install/helm)
+1. [Usage of helm for Istio installation](/docs/setup/install/helm).
 1. Helm version that supports post rendering. (>= 3.1)
 1. kubectl or kustomize.
 
@@ -28,13 +28,13 @@ Post rendering gives the flexibility to manipulate, configure, and/or validate r
 This enables users with advanced configuration needs to use tools like Kustomize to apply configuration changes without the need
 for any additional support from the original chart maintainers.
 
-In this example, we will add a `sysctl` value to the Istio’s `ingress-gateway` deployment. We are going to:
+In this example, we will add a `sysctl` value to Istio’s `ingress-gateway` deployment. We are going to:
 
 1. Create a `sysctl` deployment customization patch template.
 1. Apply the patch using Helm post rendering.
 1. Verify that the `sysctl` patch was correctly applied to the pods.
 
-### Create Deployment Customization
+## Create the Kustomization
 
 First, we create a `sysctl` patch file, adding a `securityContext` to the `ingress-gateway` pod with the additional attribute:
 
@@ -78,9 +78,9 @@ patchesStrategicMerge:
 EOF
 {{< /text >}}
 
-## Apply and Verify the Customization
+## Apply the Kustomization
 
-Now that the customization file is ready, let us use Helm to make sure this gets applied properly.
+Now that the Kustomization file is ready, let us use Helm to make sure this gets applied properly.
 
 ### Add the Helm repository for Istio
 
@@ -94,7 +94,7 @@ $ helm repo update
 We can use Helm `post-renderer` to validate rendered manifests before they are installed by Helm
 
 {{< text bash >}}
-$ helm template istio/gateway --post-renderer ./kustomize.sh
+$ helm template istio/gateway --post-renderer ./kustomize.sh | grep -B 4 -A 1 netfilter.nf_conntrack_tcp_timeout_close_wait
 {{< /text >}}
 
 In the output, check for the newly added `sysctl` attribute for `ingress-gateway` pod:
@@ -117,7 +117,13 @@ $ kubectl create ns istio-ingress
 $ helm upgrade -i istio-ingress istio/gateway --namespace istio-ingress --wait --post-renderer ./kustomize.sh
 {{< /text >}}
 
+## Verify the Kustomization
+
 Examine the ingress-gateway deployment, you will see the newly manipulated `sysctl` value:
+
+{{< text bash >}}
+$ kubectl -n istio-ingress get deployment istio-ingress -o yaml
+{{< /text >}}
 
 {{< text yaml >}}
 apiVersion: apps/v1
