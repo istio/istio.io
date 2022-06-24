@@ -137,7 +137,9 @@ spec:
           value: "10"
 {{< /text >}}
 
-## See Also
+## Additional Information
+
+For further detailed information about the concepts and techniques described in this document, please refer to:
 
 1. [IstioOperator - Customize Installation](/docs/setup/additional-setup/customize-installation)
 1. [Advanced Helm Techniques](https://helm.sh/docs/topics/advanced/)
