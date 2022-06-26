@@ -251,7 +251,7 @@ ENDPOINT             STATUS      OUTLIER CHECK     CLUSTER
 10.32.0.9:5000       HEALTHY     OK                outbound|5000||helloworld.sample.svc.cluster.local
 192.168.1.246:443    HEALTHY     OK                outbound|5000||helloworld.sample.svc.cluster.local
 </code></pre><p>In the remote cluster, the endpoints are the gateway IP of the main cluster (<code>192.168.1.246:443</code>) and
-the pod IP in the main cluster (<code>10.32.0.9:5000</code>).</p><p><strong>Congratulations!</strong></p><p>You have configured a multi-cluster Istio mesh, installed samples and verified cross cluster traffic routing.</p><h2 id=additional-considerations>Additional considerations</h2><h3 id=automatic-injection>Automatic injection</h3><p>The Istiod service in each cluster provides automatic sidecar injection for proxies in its own cluster.
+the helloworld pod IP in the remote cluster (<code>10.32.0.9:5000</code>).</p><p><strong>Congratulations!</strong></p><p>You have configured a multi-cluster Istio mesh, installed samples and verified cross cluster traffic routing.</p><h2 id=additional-considerations>Additional considerations</h2><h3 id=automatic-injection>Automatic injection</h3><p>The Istiod service in each cluster provides automatic sidecar injection for proxies in its own cluster.
 Namespaces must be labeled in each cluster following the
 <a href=/v1.5/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection>automatic sidecar injection</a> guide</p><h3 id=access-services-from-different-clusters>Access services from different clusters</h3><p>Kubernetes resolves DNS on a cluster basis. Because the DNS resolution is tied
 to the cluster, you must define the service object in every cluster where a
