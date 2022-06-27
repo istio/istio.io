@@ -390,15 +390,12 @@ EOF
 
 snip_register_the_new_cluster_2() {
 kubectl create namespace external-istiod --context="${CTX_SECOND_CLUSTER}"
-kubectl label namespace external-istiod "topology.istio.io/controlPlaneClusters=${REMOTE_CLUSTER_NAME}"
+kubectl annotate namespace external-istiod "topology.istio.io/controlPlaneClusters=${REMOTE_CLUSTER_NAME}"
 }
 
 snip_register_the_new_cluster_3() {
+istioctl manifest generate -f second-config-cluster.yaml | kubectl apply --context="${CTX_SECOND_CLUSTER}" -f -
 }
-
-! read -r -d '' snip_register_the_new_cluster_3_out <<\ENDSNIP
- $ istioctl manifest generate -f second-config-cluster.yaml | kubectl apply --context="${CTX_SECOND_CLUSTER}" -f -
-ENDSNIP
 
 snip_register_the_new_cluster_4() {
 kubectl get mutatingwebhookconfiguration --context="${CTX_SECOND_CLUSTER}"
