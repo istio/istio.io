@@ -32,7 +32,7 @@ The integration is compatible with Istio upgrades.
 Istio provides a basic sample installation to quickly get SPIRE up and running:
 
 {{< text bash >}}
-$ kubectl apply -f @samples/security/spire/spire-quickstart.yaml
+$ kubectl apply -f @samples/security/spire/spire-quickstart.yaml@
 {{< /text >}}
 
 This will deploy SPIRE into your cluster, along with two additional components: the [SPIFFE CSI Driver](https://github.com/spiffe/spiffe-csi) — used to share the SPIRE Agent's UNIX Domain Socket with the other
@@ -226,7 +226,7 @@ To improve workload attestation security robustness, SPIRE is able to verify aga
 1. Deploy an example workload:
 
     {{< text bash >}}
-    $ istioctl kube-inject --filename @samples/security/spire/sleep-spire.yaml | kubectl apply -f -
+    $ istioctl kube-inject --filename @samples/security/spire/sleep-spire.yaml@ | kubectl apply -f -
     {{< /text >}}
 
     Note that the workload will need the SPIFFE CSI Driver volume to access the SPIRE Agent socket. To accomplish this,

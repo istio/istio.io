@@ -557,8 +557,8 @@ fully or use a wildcard prefixed domain name.
 You can configure virtual services and destination rules to control traffic to a
 service entry in a more granular way, in the same way you configure traffic for
 any other service in the mesh. For example, the following destination rule
-configures the traffic route to use mutual TLS to secure the connection to the
-`ext-svc.example.com` external service that we configured using the service entry:
+adjusts the TCP connection timeout for requests to the `ext-svc.example.com`
+external service that we configured using the service entry:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -568,11 +568,9 @@ metadata:
 spec:
   host: ext-svc.example.com
   trafficPolicy:
-    tls:
-      mode: MUTUAL
-      clientCertificate: /etc/certs/myclientcert.pem
-      privateKey: /etc/certs/client_private_key.pem
-      caCertificates: /etc/certs/rootcacerts.pem
+    connectionPool:
+      tcp:
+        connectTimeout: 1s
 {{< /text >}}
 
 See the

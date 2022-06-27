@@ -1,5 +1,5 @@
 ---
-title: Istio Workload Mininum TLS Version Configuration
+title: Istio Workload Minimum TLS Version Configuration
 description: Shows how to configure the minimum TLS version for Istio workloads.
 weight: 90
 keywords: [security,TLS]

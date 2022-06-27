@@ -65,9 +65,9 @@ _verify_contains snip_open_the_application_to_outside_traffic_ip_2 "$snip_open_t
 # Get GATEWAY_URL
 # export the INGRESS_ environment variables
 # TODO make this work more generally. Currently using snips for Kind.
-snip_determining_the_ingress_ip_and_ports_10
+snip_determining_the_ingress_ip_and_ports_9
+snip_determining_the_ingress_ip_and_ports_14
 snip_determining_the_ingress_ip_and_ports_15
-snip_determining_the_ingress_ip_and_ports_16
 
 # Verify external access
 get_bookinfo_productpage() {

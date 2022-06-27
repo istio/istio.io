@@ -173,7 +173,7 @@ affect your security posture before it is enforced.
 
 Istio tunnels service-to-service communication through the client- and
 server-side PEPs, which are implemented as [Envoy
-proxies](https://envoyproxy.github.io/envoy/). When a workload sends a request
+proxies](https://www.envoyproxy.io/). When a workload sends a request
 to another workload using mutual TLS authentication, the request is handled as
 follows:
 

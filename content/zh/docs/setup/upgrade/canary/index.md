@@ -11,6 +11,20 @@ test: no
 
 安装 Istio 时，`revision` 安装设置可用于同时部署多个独立的控制平面。升级的金丝雀版本可以通过使用不同的 `revision`，在旧版本的旁边安装启动新版本的 Istio 控制平面。每个修订都是一个完整的 Istio 控制平面实现，具有自己的 `Deployment`、`Service` 等。
 
+## 升级之前 {#before-you-upgrade}
+
+在升级 Istio 之前，建议执行 `istioctl x precheck` 命令，以确保升级与您的环境兼容。
+
+{{< text bash >}}
+$ istioctl x precheck
+✔ No issues found when checking the cluster. Istio is safe to install or upgrade!
+  To get started, check out https://istio.io/latest/docs/setup/getting-started/
+{{< /text >}}
+
+{{< idea >}}
+当使用基于版本的升级时，支持跨越两个小版本(例如，直接从版本 `1.8` 到 `1.10`)。这与就地升级相反，就地升级需要升级到每个中间次要版本释放。
+{{< /idea >}}
+
 ## 控制平面 {#control-plane}
 
 要安装名为 `canary` 的新修订版本，您可以按照如下所示设置 `revision` 字段：

@@ -51,7 +51,7 @@ If it is not installed already, you can install it via your OS&#39;s package man
 <p>#### Linux:</p>
 <p>	pilot-discovery completion bash &gt; /etc/bash_completion.d/pilot-discovery</p>
 <p>#### macOS:</p>
-<p>	pilot-discovery completion bash &gt; /usr/local/etc/bash_completion.d/pilot-discovery</p>
+<p>	pilot-discovery completion bash &gt; $(brew --prefix)/etc/bash_completion.d/pilot-discovery</p>
 <p>You will need to start a new shell for this setup to take effect.
 </p>
 <pre class="language-bash"><code>pilot-discovery completion bash
@@ -134,11 +134,13 @@ to your powershell profile.
 <p>If shell completion is not already enabled in your environment you will need
 to enable it.  You can execute the following once:</p>
 <p>	echo &#34;autoload -U compinit; compinit&#34; &gt;&gt; ~/.zshrc</p>
+<p>To load completions in your current shell session:</p>
+<p>	source &lt;(pilot-discovery completion zsh); compdef _pilot-discovery pilot-discovery</p>
 <p>To load completions for every new session, execute once:</p>
 <p>#### Linux:</p>
 <p>	pilot-discovery completion zsh &gt; &#34;${fpath[1]}/_pilot-discovery&#34;</p>
 <p>#### macOS:</p>
-<p>	pilot-discovery completion zsh &gt; /usr/local/share/zsh/site-functions/_pilot-discovery</p>
+<p>	pilot-discovery completion zsh &gt; $(brew --prefix)/share/zsh/site-functions/_pilot-discovery</p>
 <p>You will need to start a new shell for this setup to take effect.
 </p>
 <pre class="language-bash"><code>pilot-discovery completion zsh [flags]
@@ -519,9 +521,15 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>If this is set to false, the debug interface will not be enabled, recommended for production</td>
 </tr>
 <tr>
+<td><code>ENABLE_HCM_INTERNAL_NETWORKS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enable, endpoints defined in mesh networks will be configured as internal addresses in Http Connection Manager</td>
+</tr>
+<tr>
 <td><code>ENABLE_LEGACY_FSGROUP_INJECTION</code></td>
 <td>Boolean</td>
-<td><code>true</code></td>
+<td><code>false</code></td>
 <td>If true, Istiod will set the pod fsGroup to 1337 on injection. This is required for Kubernetes 1.18 and older (see https://github.com/kubernetes/kubernetes/issues/57923 for details) unless JWT_POLICY is &#34;first-party-jwt&#34;.</td>
 </tr>
 <tr>
@@ -587,7 +595,7 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <tr>
 <td><code>EXTERNAL_ISTIOD</code></td>
 <td>Boolean</td>
-<td><code>false</code></td>
+<td><code>true</code></td>
 <td>If this is set to true, one Istiod will control remote clusters including CA.</td>
 </tr>
 <tr>
@@ -721,6 +729,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, metadata representing canonical services for ServiceEntry resources with a location of mesh_external will be populatedin the cluster metadata for those endpoints.</td>
+</tr>
+<tr>
+<td><code>LOCAL_CLUSTER_SECERT_WATCHER</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, the cluster secret watcher will watch the namespace of the external cluster instead of config cluster</td>
 </tr>
 <tr>
 <td><code>MAX_WORKLOAD_CERT_TTL</code></td>
@@ -981,12 +995,6 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>If enabled, Pilot will send only clusters that referenced in gateway virtual services attached to gateway</td>
 </tr>
 <tr>
-<td><code>PILOT_FLOW_CONTROL_TIMEOUT</code></td>
-<td>Time Duration</td>
-<td><code>15s</code></td>
-<td>If set, the max amount of time to delay a push by. Depends on PILOT_ENABLE_FLOW_CONTROL.</td>
-</tr>
-<tr>
 <td><code>PILOT_HTTP10</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -1230,7 +1238,7 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td><code>USE_REMOTE_CERTS</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
-<td>Whether to try to load CA certs from a remote Kubernetes cluster. Used for external Istiod.</td>
+<td>Whether to try to load CA certs from config Kubernetes cluster. Used for external Istiod.</td>
 </tr>
 <tr>
 <td><code>VALIDATION_WEBHOOK_CONFIG_NAME</code></td>
