@@ -94,8 +94,6 @@ function cleanup_cluster1
 function cleanup_cluster2
 {
   echo y | istioctl x uninstall --revision=default --context="${CTX_CLUSTER2}"
-  kubectl delete mutatingwebhookconfiguration istio-sidecar-injector --context="${CTX_CLUSTER2}"
-  #TODO remove ^^^^ when https://github.com/istio/istio/issues/39007 is fixed
   kubectl delete ns istio-system sample --context="${CTX_CLUSTER2}" --ignore-not-found
 }
 
