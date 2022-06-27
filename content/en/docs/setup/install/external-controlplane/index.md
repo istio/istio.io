@@ -574,10 +574,20 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
     EOF
     {{< /text >}}
 
-    Then, install the configuration on the remote cluster:
+1. Create and annotate the system namespace on the remote cluster:
 
     {{< text bash >}}
     $ kubectl create namespace external-istiod --context="${CTX_SECOND_CLUSTER}"
+    $ kubectl annotate namespace external-istiod "topology.istio.io/controlPlaneClusters=${REMOTE_CLUSTER_NAME}"
+    {{< /text >}}
+
+    The `topology.istio.io/controlPlaneClusters` annotation specifies the cluster ID of the external control plane that
+    should manage this remote cluster. Notice that this is the name of the first remote (config) cluster, which was used
+    to set the cluster ID of the external control plane when it was installed in the external cluster earlier.
+
+1. Install the configuration on the remote cluster:
+
+    {{< text bash >}}
     $ istioctl manifest generate -f second-config-cluster.yaml | kubectl apply --context="${CTX_SECOND_CLUSTER}" -f -
     {{< /text >}}
 

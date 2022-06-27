@@ -131,13 +131,14 @@ export CTX_SECOND_CLUSTER="${KUBE_CONTEXTS[1]}"
 export SECOND_CLUSTER_NAME="${CTX_SECOND_CLUSTER}"
 
 snip_get_second_config_cluster_iop
-echo y | snip_register_the_new_cluster_2
+snip_register_the_new_cluster_2
+echo y | snip_register_the_new_cluster_3
 
 # Confirm remote cluster’s webhook configuration has been installed
-_verify_like snip_register_the_new_cluster_3 "$snip_register_the_new_cluster_3_out"
+_verify_like snip_register_the_new_cluster_4 "$snip_register_the_new_cluster_4_out"
 
 # Create a secret with credentials to allow the control plane to access the endpoints on the second remote cluster and install it
-snip_register_the_new_cluster_4
+snip_register_the_new_cluster_5
 
 # Setup east-west gateways
 snip_setup_eastwest_gateways_1
