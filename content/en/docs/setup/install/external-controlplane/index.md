@@ -585,10 +585,10 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
     should manage this remote cluster. Notice that this is the name of the first remote (config) cluster, which was used
     to set the cluster ID of the external control plane when it was installed in the external cluster earlier.
 
-    Then, install the configuration on the remote cluster:
+1. Install the configuration on the remote cluster:
 
     {{< text bash >}}
-     $ istioctl manifest generate -f second-config-cluster.yaml | kubectl apply --context="${CTX_SECOND_CLUSTER}" -f -
+    $ istioctl manifest generate -f second-config-cluster.yaml | kubectl apply --context="${CTX_SECOND_CLUSTER}" -f -
     {{< /text >}}
 
 1. Confirm that the remote cluster's webhook configuration has been installed:
