@@ -27,8 +27,8 @@ modify Istio's helm chart.
 
 ### Using Helm with kustomize to post-render Istio charts
 
-Using Helm post rendering capability, you can tweak the installation manifests to meet your requirements easily.
-Post rendering gives the flexibility to manipulate, configure, and/or validate rendered manifests before they are installed by Helm.
+Using the Helm `post-renderer` capability, you can tweak the installation manifests to meet your requirements easily.
+`Post-rendering` gives the flexibility to manipulate, configure, and/or validate rendered manifests before they are installed by Helm.
 This enables users with advanced configuration needs to use tools like Kustomize to apply configuration changes without the need
 for any additional support from the original chart maintainers.
 
@@ -37,7 +37,7 @@ for any additional support from the original chart maintainers.
 In this example, we will add a `sysctl` value to Istio’s `ingress-gateway` deployment. We are going to:
 
 1. Create a `sysctl` deployment customization patch template.
-1. Apply the patch using Helm post rendering.
+1. Apply the patch using Helm `post-rendering`.
 1. Verify that the `sysctl` patch was correctly applied to the pods.
 
 ## Create the Kustomization
@@ -49,7 +49,7 @@ $ cat > sysctl-ingress-gw-customization.yaml <<EOF
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ingress-gateway
+  name: istio-ingressgateway
 spec:
   template:
     spec:
@@ -60,8 +60,8 @@ spec:
 EOF
 {{< /text >}}
 
-The below shell script helps to bridge the gap between Helm post renderer and Kustomize, as the former works with `stdin/stdout`
-and latter works with files.
+The below shell script helps to bridge the gap between Helm `post-renderer` and Kustomize, as the former works with `stdin/stdout`
+and the latter works with files.
 
 {{< text bash >}}
 $ cat > kustomize.sh <<EOF
@@ -114,7 +114,7 @@ In the output, check for the newly added `sysctl` attribute for `ingress-gateway
           value: "10"
 {{< /text >}}
 
-### Apply the patch using Helm Post Renderer
+### Apply the patch using Helm `Post-Renderer`
 
 Use the below command to install an Istio ingress-gateway, applying our customization using Helm `post-renderer`:
 
