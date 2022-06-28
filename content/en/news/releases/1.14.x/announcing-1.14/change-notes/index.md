@@ -133,21 +133,21 @@ aliases:
 
 - **Added** `WorkloadMode` selection to Logging.
 
-- **Added** support for tracing WorkloadMode in Telemetry API. This will allow customization of tracing behavior based on traffic direction.
+- **Added** support for tracing `WorkloadMode` in Telemetry API. This will allow customization of tracing behavior based on traffic direction.
 
-- **Added** initial flag-protected support for exporting canonical service labels for ServiceEntry resources with a location of MESH_EXTERNAL.
+- **Added** initial flag-protected support for exporting canonical service labels for ServiceEntry resources with a location of `MESH_EXTERNAL`.
 
 ## Extensibility
 
-- **Added** allow all insecure servers when one of the host name in the environment variable WASM_INSECURE_REGISTRIES is *.
+- **Added** allow all insecure servers when one of the host name in the environment variable `WASM_INSECURE_REGISTRIES` is *.
 
-- **Added** Support for ImagePullPolicy of WasmPlugin API.
+- **Added** Support for `ImagePullPolicy` of `WasmPlugin` API.
 
-- **Added** support for WasmPlugin pulling image from private repository with `imagePullSecret`.
+- **Added** support for `WasmPlugin` pulling image from private repository with `imagePullSecret`.
 
-- **Improved** Use tag-stripped URL + checksum as a Wasm module cachekey, and the tagged URL is separately cached.
+- **Improved** Use tag-stripped URL + checksum as a Wasm module cache key, and the tagged URL is separately cached.
   This may increase the chance of cache hit (e.g., trying to find the same image with both of the tagged and digest URLs.)
-  In addition, this will be a base to implement ImagePullPolicy.
+  In addition, this will be a base to implement `ImagePullPolicy`.
 
 ## Installation
 
