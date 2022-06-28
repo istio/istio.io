@@ -51,6 +51,9 @@ aliases:
     or `root` (by name).
     ([Issue #37057](https://github.com/istio/istio/issues/37057))
 
+- **Added** the ability to perform automatic SAN validation based on the downstream HTTP host/authority header
+  when `ENABLE_AUTO_SNI` and `VERIFY_CERTIFICATE_AT_CLIENT` feature flags are enabled.
+
 - **Added** the ability to automatically set SNI when `DestinationRules`
   do not specify it and `ENABLE_AUTO_SNI` is enabled.
 
@@ -76,6 +79,8 @@ aliases:
 
   In this fix, we introduce a new struct `consolidatedDestRule` and record all the `destinationrules`' meta
   to avoid missing any `destinationRule` dependencies.  ([Issue #38082](https://github.com/istio/istio/issues/38082))
+
+- **Fixed** an issue where removing inline Network and HTTP filters was not working properly.
 
 - **Fixed** an issue causing traffic from a gateway to a service with an [undeclared protocol](/docs/ops/configuration/traffic-management/protocol-selection/#automatic-protocol-selection) being treated as TCP traffic rather than HTTP.
   ([Issue #37196](https://github.com/istio/istio/issues/37196))
@@ -110,6 +115,9 @@ aliases:
 - **Added** a new approach for CA integration through the Envoy SDS API.
   ([usage]( https://istio.io/latest/docs/ops/integrations/spire/))([design]( https://docs.google.com/document/d/1zJP6QJukLzckTbdY42ZMLkulGXz4gWzH9SwOh4xoe0A)) ([Issue #37183](https://github.com/istio/istio/issues/37183))
 
+- **Added** `allowed_client_headers_on_success` feature for Istio external authorization.
+  ([Issue #36950](https://github.com/istio/istio/issues/36950))
+
 - **Added** support for using `PrivateKeyProvider` in SDS. ([Issue #35809](https://github.com/istio/istio/issues/35809))
 
 - **Added** support for TLS configuration API for workloads.  ([Issue #2285](https://github.com/istio/api/issues/2285))
@@ -125,14 +133,28 @@ aliases:
 
 - **Added** `WorkloadMode` selection to Logging.
 
+- **Added** support for tracing WorkloadMode in Telemetry API. This will allow customization of tracing behavior based on traffic direction.
+
+- **Added** initial flag-protected support for exporting canonical service labels for ServiceEntry resources with a location of MESH_EXTERNAL.
+
 ## Extensibility
 
+- **Added** allow all insecure servers when one of the host name in the environment variable WASM_INSECURE_REGISTRIES is *.
+
+- **Added** Support for ImagePullPolicy of WasmPlugin API.
+
 - **Added** support for WasmPlugin pulling image from private repository with `imagePullSecret`.
+
+- **Improved** Use tag-stripped URL + checksum as a Wasm module cachekey, and the tagged URL is separately cached.
+  This may increase the chance of cache hit (e.g., trying to find the same image with both of the tagged and digest URLs.)
+  In addition, this will be a base to implement ImagePullPolicy.
 
 ## Installation
 
 - **Added** support of installing gateway helm chart as `daemonset`.
   ([Issue #37610](https://github.com/istio/istio/issues/37610))
+
+- **Added** support for policy/v1 PDB.  ([Issue #32005](https://github.com/istio/istio/issues/32005))
 
 - **Fixed** an issue of Envoy losing connection after `istio-ca-root-cert` is changed.
   ([Issue #36723](https://github.com/istio/istio/issues/36723))
