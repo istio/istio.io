@@ -23,10 +23,16 @@ Before you begin, check the following prerequisites:
 Istio's helm chart tries to incorporate most of the attributes needed by users for their specific requirements. However, it does not
 contain every possible Kubernetes value you may want to tweak. While it is not practical to have such a mechanism in place, in this
 document we will demonstrate a method which would allow you to do some advanced helm chart customization without the need to directly
-modify Istio's helm chart. Using Helm post rendering capability, you can tweak the installation manifests to meet your requirements easily.
+modify Istio's helm chart.
+
+### Using Helm with kustomize to post-render Istio charts
+
+Using Helm post rendering capability, you can tweak the installation manifests to meet your requirements easily.
 Post rendering gives the flexibility to manipulate, configure, and/or validate rendered manifests before they are installed by Helm.
 This enables users with advanced configuration needs to use tools like Kustomize to apply configuration changes without the need
 for any additional support from the original chart maintainers.
+
+### Adding a value to an already existing chart
 
 In this example, we will add a `sysctl` value to Istio’s `ingress-gateway` deployment. We are going to:
 
@@ -63,7 +69,7 @@ $ cat > kustomize.sh <<EOF
 cat > base.yaml
 exec kubectl kustomize # you can also use "kustomize build ." if you have it installed.
 EOF
-chmod +x ./kustomize.sh
+$ chmod +x ./kustomize.sh
 {{< /text >}}
 
 Finally, let us create the `kustomization` yaml file, which is the input for `kustomize`
