@@ -171,6 +171,9 @@ aliases:
 - **Fixed** `istioctl` should add Kubernetes resource in all revisions when running analyze.
   ([Issue #38148](https://github.com/istio/istio/issues/38148))
 
+- **Fixed** change to add priority of -1 to `EnvoyFilters` deployed by default by Istio to remove warnings from `istioctl` `EnvoyFilter` analyzer on first install
+  ([Issue #38676](https://github.com/istio/istio/issues/38676))
+
 - **Fixed** the in-cluster operator can't create resources on recreation of the same `IstioOperator` resource.
   ([Issue #35657](https://github.com/istio/istio/issues/35657))
 
@@ -197,3 +200,7 @@ aliases:
 
 - **Fixed** nil pointer dereference panic when using `kube-inject` when
 not passing a needed revision but also passing `injectConfigMapName`.  ([Issue #38083](https://github.com/istio/istio/issues/38083))
+
+- **Fixed** behavior for `istioctl create-remote-secret` on Kubernetes 1.24+. In these versions,
+  a Secret containing a `ServiceAccount` API token is no longer automatically created, so `istioctl`
+  will [create one](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#manually-create-a-service-account-api-token).
