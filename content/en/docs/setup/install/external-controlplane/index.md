@@ -611,7 +611,7 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
       --type=remote \
       --namespace=external-istiod \
       --create-service-account=false | \
-      kubectl apply -f - --context="{CTX_EXTERNAL_CLUSTER}"
+      kubectl apply -f - --context="${CTX_EXTERNAL_CLUSTER}"
     {{< /text >}}
 
     Note that unlike the first remote cluster of the mesh, which also serves as the config cluster, the `--type` argument
