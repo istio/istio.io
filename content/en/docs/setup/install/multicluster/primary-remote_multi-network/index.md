@@ -69,7 +69,7 @@ $ istioctl install --set values.pilot.env.EXTERNAL_ISTIOD=true --context="${CTX_
 
 Notice that `values.pilot.env.EXTERNAL_ISTIOD` is set to `true`. This enables the control plane
 installed on `cluster1` to also serve as an external control plane for other remote clusters.
-When this feature is enabled, `istiod` will attempt to aquire the leadership lock, and consequently manage,
+When this feature is enabled, `istiod` will attempt to acquire the leadership lock, and consequently manage,
 [appropriately annotated](#set-the-control-plane-cluster-for-cluster2) remote clusters that will be
 attached to it (`cluster2` in this case).
 

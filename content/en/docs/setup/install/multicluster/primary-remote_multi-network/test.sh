@@ -67,8 +67,8 @@ function install_istio_on_cluster2 {
 
 time install_istio_on_cluster1
 time install_istio_on_cluster2
-time verify_load_balancing
 time enable_api_server_access
+time verify_load_balancing
 
 # @cleanup
 source content/en/docs/setup/install/multicluster/common.sh
