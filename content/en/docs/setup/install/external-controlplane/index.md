@@ -265,6 +265,8 @@ and installing the sidecar injector webhook configuration on the remote cluster 
               value: ""
             - name: EXTERNAL_ISTIOD
               value: "true"
+            - name: LOCAL_CLUSTER_SECRET_WATCHER
+              value: "true"
             - name: CLUSTER_ID
               value: ${REMOTE_CLUSTER_NAME}
             - name: SHARED_MESH_CONFIG
@@ -609,7 +611,7 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
       --type=remote \
       --namespace=external-istiod \
       --create-service-account=false | \
-      kubectl apply -f - --context="${CTX_REMOTE_CLUSTER}" #TODO use --context="{CTX_EXTERNAL_CLUSTER}" when #31946 is fixed.
+      kubectl apply -f - --context="{CTX_EXTERNAL_CLUSTER}"
     {{< /text >}}
 
     Note that unlike the first remote cluster of the mesh, which also serves as the config cluster, the `--type` argument
