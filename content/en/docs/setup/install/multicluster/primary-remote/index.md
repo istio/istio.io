@@ -53,8 +53,14 @@ EOF
 Apply the configuration to `cluster1`:
 
 {{< text bash >}}
-$ istioctl install --context="${CTX_CLUSTER1}" -f cluster1.yaml
+$ istioctl install --set values.pilot.env.EXTERNAL_ISTIOD=true --context="${CTX_CLUSTER1}" -f cluster1.yaml
 {{< /text >}}
+
+Notice that `values.pilot.env.EXTERNAL_ISTIOD` is set to `true`. This enables the control plane
+installed on `cluster1` to also serve as an external control plane for other remote clusters.
+When this feature is enabled, `istiod` will attempt to aquire the leadership lock, and consequently manage,
+[appropriately annotated](#set-the-control-plane-cluster-for-cluster2) remote clusters that will be
+attached to it (`cluster2` in this case).
 
 ## Install the east-west gateway in `cluster1`
 
@@ -93,27 +99,19 @@ $ kubectl apply --context="${CTX_CLUSTER1}" -n istio-system -f \
     @samples/multicluster/expose-istiod.yaml@
 {{< /text >}}
 
-## Enable API Server Access to `cluster2`
+## Set the control plane cluster for `cluster2`
 
-Before we can configure the remote cluster, we first have to give the control
-plane in `cluster1` access to the API Server in `cluster2`. This will do the
-following:
-
-- Enables the control plane to authenticate connection requests from
-  workloads running in `cluster2`. Without API Server access, the control
-  plane will reject the requests.
-
-- Enables discovery of service endpoints running in `cluster2`.
-
-To provide API Server access to `cluster2`, we generate a remote secret and
-apply it to `cluster1`:
+We need identify the external control plane cluster that should manage `cluster2` by annotating the
+istio-system namespace:
 
 {{< text bash >}}
-$ istioctl x create-remote-secret \
-    --context="${CTX_CLUSTER2}" \
-    --name=cluster2 | \
-    kubectl apply -f - --context="${CTX_CLUSTER1}"
+$ kubectl --context="${CTX_CLUSTER2}" create namespace istio-system
+$ kubectl --context="${CTX_CLUSTER2}" annotate namespace istio-system topology.istio.io/controlPlaneCluster=cluster1
 {{< /text >}}
+
+Setting the `topology.istio.io/controlPlaneCluster` namespace annotation to `cluster1` instructs the `istiod`
+running in the same namespace (istio-system in this case) on `cluster1` to manage `cluster2` when it
+is [attached as a remote cluster](#attach-cluster2-as-a-remote-cluster-of-cluster1).
 
 ## Configure `cluster2` as a remote
 
@@ -146,6 +144,28 @@ Apply the configuration to `cluster2`:
 
 {{< text bash >}}
 $ istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
+{{< /text >}}
+
+## Attach `cluster2` as a remote cluster of `cluster1`
+
+To attach the remote cluster to its control plane, we give the control
+plane in `cluster1` access to the API Server in `cluster2`. This will do the
+following:
+
+- Enables the control plane to authenticate connection requests from
+  workloads running in `cluster2`. Without API Server access, the control
+  plane will reject the requests.
+
+- Enables discovery of service endpoints running in `cluster2`.
+
+To provide API Server access to `cluster2`, we generate a remote secret and
+apply it to `cluster1`:
+
+{{< text bash >}}
+$ istioctl x create-remote-secret \
+    --context="${CTX_CLUSTER2}" \
+    --name=cluster2 | \
+    kubectl apply -f - --context="${CTX_CLUSTER1}"
 {{< /text >}}
 
 **Congratulations!** You successfully installed an Istio mesh across primary
