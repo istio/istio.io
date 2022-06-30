@@ -158,6 +158,8 @@ spec:
           value: ""
         - name: EXTERNAL_ISTIOD
           value: "true"
+        - name: LOCAL_CLUSTER_SECRET_WATCHER
+          value: "true"
         - name: CLUSTER_ID
           value: ${REMOTE_CLUSTER_NAME}
         - name: SHARED_MESH_CONFIG
@@ -390,7 +392,7 @@ EOF
 
 snip_register_the_new_cluster_2() {
 kubectl create namespace external-istiod --context="${CTX_SECOND_CLUSTER}"
-kubectl annotate namespace external-istiod "topology.istio.io/controlPlaneClusters=${REMOTE_CLUSTER_NAME}"
+kubectl annotate namespace external-istiod "topology.istio.io/controlPlaneClusters=${REMOTE_CLUSTER_NAME}" --context="${CTX_SECOND_CLUSTER}"
 }
 
 snip_register_the_new_cluster_3() {
@@ -413,7 +415,7 @@ istioctl x create-remote-secret \
   --type=remote \
   --namespace=external-istiod \
   --create-service-account=false | \
-  kubectl apply -f - --context="${CTX_REMOTE_CLUSTER}" #TODO use --context="{CTX_EXTERNAL_CLUSTER}" when #31946 is fixed.
+  kubectl apply -f - --context="${CTX_EXTERNAL_CLUSTER}"
 }
 
 snip_setup_eastwest_gateways_1() {
