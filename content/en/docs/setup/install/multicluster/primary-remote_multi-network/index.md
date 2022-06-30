@@ -129,7 +129,7 @@ istio-system namespace:
 
 {{< text bash >}}
 $ kubectl --context="${CTX_CLUSTER2}" create namespace istio-system
-$ kubectl --context="${CTX_CLUSTER2}" annotate namespace istio-system topology.istio.io/controlPlaneCluster=cluster1
+$ kubectl --context="${CTX_CLUSTER2}" annotate namespace istio-system topology.istio.io/controlPlaneClusters=cluster1
 {{< /text >}}
 
 Setting the `topology.istio.io/controlPlaneCluster` namespace annotation to `cluster1` instructs the `istiod`

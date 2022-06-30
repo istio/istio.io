@@ -70,7 +70,7 @@ kubectl --context="${CTX_CLUSTER1}" apply -n istio-system -f \
 
 snip_set_the_control_plane_cluster_for_cluster2_1() {
 kubectl --context="${CTX_CLUSTER2}" create namespace istio-system
-kubectl --context="${CTX_CLUSTER2}" annotate namespace istio-system topology.istio.io/controlPlaneCluster=cluster1
+kubectl --context="${CTX_CLUSTER2}" annotate namespace istio-system topology.istio.io/controlPlaneClusters=cluster1
 }
 
 snip_set_the_default_network_for_cluster2_1() {
