@@ -20,19 +20,19 @@ using a custom certificate authority that integrates with the
 This feature leverages [Chiron](/blog/2019/dns-cert/), a lightweight component linked with Istiod that signs certificates using the Kubernetes CSR API.
 
 For this example, we use [open-source cert-manager](https://cert-manager.io).
-Cert-manager has added [experimental Support for Kubernetes CertificateSigningRequests](https://cert-manager.io/docs/usage/kube-csr/) starting from v1.4.
+Cert-manager has added [experimental Support for Kubernetes `CertificateSigningRequests`](https://cert-manager.io/docs/usage/kube-csr/) starting from version 1.4
 
-### Deploy Custom CA controller in the Kubernetes cluster.
+## Deploy Custom CA controller in the Kubernetes cluster
 
-1. Deploy cert-manager according to the [installation doc].(https://cert-manager.io/docs/installation/)
+1. Deploy cert-manager according to the [installation doc](https://cert-manager.io/docs/installation/).
    {{< warning >}}
-   Note: Make sure to enable featureGate: --feature-gates=ExperimentalCertificateSigningRequestControllers=true
+   Note: Make sure to enable feature gate: `--feature-gates=ExperimentalCertificateSigningRequestControllers=true`
    {{< /warning >}}
 
 1. Create three self signed cluster issuers `istio-system`, `foo` and `bar` for cert-manager.
    Note: Namespace issuers and other types of issuers can also be used.
 
-### Export root certificate for cluster issuer.
+## Export root certificate for cluster issuer
 
     {{< text bash >}}
     $ export istioca=$(kubectl get clusterissuers istio-system -o jsonpath='{.spec.ca.secretName}' | xargs kubectl get secret -n cert-manager -o jsonpath='{.data.ca\.crt}' |base64 -d)
@@ -42,7 +42,7 @@ Cert-manager has added [experimental Support for Kubernetes CertificateSigningRe
     $ export barca=$(kubectl get clusterissuers bar -o jsonpath='{.spec.ca.secretName}' | xargs kubectl get secret -n cert-manager -o jsonpath='{.data.ca\.crt}' |base64 -d)
     {{< /text >}}
 
-### Deploy Istio with default cert-signer info.
+## Deploy Istio with default cert-signer info
 
 1. Deploy Istio on the cluster using `istioctl` with the following configuration. The `ISTIO_META_CERT_SIGNER` is the default cert-signer for workloads.
 
@@ -141,9 +141,9 @@ Cert-manager has added [experimental Support for Kubernetes CertificateSigningRe
     $ kubectl apply -f samples/sleep/sleep.yaml -n bar
     {{< /text >}}
 
-### Verify the network connectivity between `httpbin` and `sleep` within the same namespace.
+## Verify the network connectivity between `httpbin` and `sleep` within the same namespace
 
-When the workloads are deployed, above, they send CSR Requests with related signer info. Istiod forwards the CSR request to the custome CA for signing. The custom CA will use the correct cluster issuer or issuer to sign the cert back. Workloads under `foo` namespace will use  `foo` clusterIssuers while workloads under `bar` namespace will use the `bar` clusterIssuers. To verify that they have indeed been signed by correct clusterIssuers, We can verify workloads under the same namespace can communicate will while workloads under the different namespace should not work.
+When the workloads are deployed, above, they send CSR Requests with related signer info. Istiod forwards the CSR request to the custom CA for signing. The custom CA will use the correct cluster issuer or issuer to sign the cert back. Workloads under `foo` namespace will use  `foo` cluster issuers while workloads under `bar` namespace will use the `bar` cluster issuers. To verify that they have indeed been signed by correct cluster issuers, We can verify workloads under the same namespace can communicate will while workloads under the different namespace should not work.
 
 1. Check network connectivity between service `sleep` and `httpbin` under `foo` namespace.
 
@@ -173,7 +173,7 @@ When the workloads are deployed, above, they send CSR Requests with related sign
     upstream connect error or disconnect/reset before headers. reset reason: connection failure, transport failure reason: TLS error: 268435581:SSL routines:OPENSSL_internal:CERTIFICATE_VERIFY_FAILED
    {{< /text >}}
 
-### Cleanup Part 3
+## Cleanup
 
 * Remove the `istio-system`, `foo` and `bar` namespaces:
 
