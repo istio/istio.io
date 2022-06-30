@@ -617,11 +617,6 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
     Note that unlike the first remote cluster of the mesh, which also serves as the config cluster, the `--type` argument
     is set to `remote` this time, instead of `config`.
 
-    {{< tip >}}
-    Note that the new secret can be applied in either the remote (config) cluster or in the external cluster,
-    because the external istiod is watching for additions in both clusters.
-    {{< /tip >}}
-
 ### Setup east-west gateways
 
 1. Deploy east-west gateways on both remote clusters:
