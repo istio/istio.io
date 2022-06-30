@@ -578,7 +578,7 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
 
     {{< text bash >}}
     $ kubectl create namespace external-istiod --context="${CTX_SECOND_CLUSTER}"
-    $ kubectl annotate namespace external-istiod "topology.istio.io/controlPlaneClusters=${REMOTE_CLUSTER_NAME}"
+    $ kubectl annotate namespace external-istiod "topology.istio.io/controlPlaneClusters=${REMOTE_CLUSTER_NAME}" --context="${CTX_SECOND_CLUSTER}"
     {{< /text >}}
 
     The `topology.istio.io/controlPlaneClusters` annotation specifies the cluster ID of the external control plane that

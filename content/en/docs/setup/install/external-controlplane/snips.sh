@@ -390,7 +390,7 @@ EOF
 
 snip_register_the_new_cluster_2() {
 kubectl create namespace external-istiod --context="${CTX_SECOND_CLUSTER}"
-kubectl annotate namespace external-istiod "topology.istio.io/controlPlaneClusters=${REMOTE_CLUSTER_NAME}"
+kubectl annotate namespace external-istiod "topology.istio.io/controlPlaneClusters=${REMOTE_CLUSTER_NAME}" --context="${CTX_SECOND_CLUSTER}"
 }
 
 snip_register_the_new_cluster_3() {
