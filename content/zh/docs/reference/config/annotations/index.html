@@ -536,6 +536,19 @@ Istio supports to control its behavior.
 				
 					<tr>
 				
+					<td><code>topology.istio.io/controlPlaneClusters</code></td>
+				
+					<td>Alpha</td>
+				
+					<td>[Namespace]</td>
+					<td>A comma-separated list of clusters (or * for any) running istiod that should attempt leader election for a remote cluster thats system namespace includes this annotation. Istiod will not attempt to lead unannotated remote clusters.</td>
+				</tr>
+			
+		
+			
+				
+					<tr>
+				
 					<td><code>traffic.istio.io/nodeSelector</code></td>
 				
 					<td>Stable</td>
