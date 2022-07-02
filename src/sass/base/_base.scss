@@ -91,7 +91,8 @@ table {
     border-collapse: separate;
     border-spacing: 0;
     width: 100%;
-    display: table;
+    display: block;
+    overflow-x: auto;
     @media (max-width: $bp-sm) {
         display: block;
         overflow-x: auto;
@@ -178,11 +179,6 @@ tr th:last-child {
 
 tr td:last-child {
     border-right: 1px solid $boxBorderColor;
-}
-
-tr td:last-child code,
-tr td:last-child a {
-    word-break: break-word;
 }
 
 thead+tbody tr:first-child td:first-child {
