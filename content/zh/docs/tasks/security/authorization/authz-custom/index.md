@@ -7,9 +7,7 @@ owner: istio/wg-security-maintainers
 test: yes
 ---
 
-此任务介绍如何使用新的[action field](/docs/reference/config/security/authorization-policy/#AuthorizationPolicy-Action) - `CUSTOM`, 设置Istio授权策略将访问控制委派给外部授权系统。 
-这可以用来与 [OPA authorization](https://www.openpolicyagent.org/docs/latest/envoy-introduction/),
-[`oauth2-proxy`](https://github.com/oauth2-proxy/oauth2-proxy) 或您自己的定制外部授权服务器集成.
+此任务介绍如何使用新的 [action](/zh/docs/reference/config/security/authorization-policy/#AuthorizationPolicy-Action) 字段 - `CUSTOM`, 设置Istio授权策略将访问控制委派给外部授权系统。这可以用来与 [OPA authorization](https://www.openpolicyagent.org/docs/latest/envoy-introduction/), [`oauth2-proxy`](https://github.com/oauth2-proxy/oauth2-proxy) 或您自己的定制外部授权服务器集成。
 
 ## 开始之前{#before-you-begin}
 
