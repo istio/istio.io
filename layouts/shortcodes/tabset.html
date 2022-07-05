@@ -26,7 +26,7 @@
                     <p class="tab-description">{{- . -}}</p>
                 {{ end }}
                 {{- $text := partial "strip_indent.html" (dict "content" .content "pos" .Position) -}}
-                {{- $text -}}
+                {{- $text | markdownify -}}
             </div>
         {{- end -}}
     </div>
