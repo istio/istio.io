@@ -5,7 +5,7 @@
         </div>
         <div class="content">
             {{- $text := partial "strip_indent.html" (dict "content" .Inner "pos" .Position) -}}
-            {{- $text -}}
+            {{- $text | markdownify -}}
         </div>
     </aside>
 </div>
