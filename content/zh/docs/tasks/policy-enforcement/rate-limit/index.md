@@ -54,7 +54,7 @@ Envoy中的全局速率限制使用gRPC API从速率限制服务请求配额。�
               requests_per_unit: 100
     {{< /text >}}
 
-1. 创建一个全局速率限制服务，它实现Envoy的[速率限制服务协议](https://www.envoyproxy.io/docs/envoy/latest/api-v3/service/ratelimit/v3/rls.proto)。作为参考，可以在[这里]找到一个演示配置({{< github_blob >}}/samples/ratelimit/rate-limit-service.yaml)，它是基于Envoy提供的[参考实现](https://github.com/envoyproxy/ratelimit)。
+1. 创建一个全局速率限制服务，它实现Envoy的[速率限制服务协议](https://www.envoyproxy.io/docs/envoy/latest/api-v3/service/ratelimit/v3/rls.proto)。作为参考，可以在[这里]({{< github_blob >}}/samples/ratelimit/rate-limit-service.yaml)找到一个演示配置，它是基于Envoy提供的[参考实现](https://github.com/envoyproxy/ratelimit)。
 
 1. 对`ingressgateway`应用`EnvoyFilter`以使Envoy的全球速率限制过滤器启用全球速率限制
 
