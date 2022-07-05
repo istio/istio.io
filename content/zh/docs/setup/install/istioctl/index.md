@@ -20,7 +20,7 @@ test: no
 
 `istioctl` 命令通过命令行的选项支持完整的
 [`IstioOperator` API](/zh/docs/reference/config/istio.operator.v1alpha1/)，
-这些选项用于单独设置、以及接收包含 IstioOperator {{<gloss CRDs>}}定制资源（CR）{{</gloss>}}的 yaml 文件。
+这些选项用于单独设置、以及接收包含 IstioOperator {{<gloss CRD>}}定制资源（CR）{{</gloss>}}的 yaml 文件。
 
 ## 先决条件 {#prerequisites}
 
