@@ -158,6 +158,8 @@ spec:
           value: ""
         - name: EXTERNAL_ISTIOD
           value: "true"
+        - name: LOCAL_CLUSTER_SECRET_WATCHER
+          value: "true"
         - name: CLUSTER_ID
           value: ${REMOTE_CLUSTER_NAME}
         - name: SHARED_MESH_CONFIG
@@ -390,26 +392,30 @@ EOF
 
 snip_register_the_new_cluster_2() {
 kubectl create namespace external-istiod --context="${CTX_SECOND_CLUSTER}"
-istioctl manifest generate -f second-config-cluster.yaml | kubectl apply --context="${CTX_SECOND_CLUSTER}" -f -
+kubectl annotate namespace external-istiod "topology.istio.io/controlPlaneClusters=${REMOTE_CLUSTER_NAME}" --context="${CTX_SECOND_CLUSTER}"
 }
 
 snip_register_the_new_cluster_3() {
+istioctl manifest generate -f second-config-cluster.yaml | kubectl apply --context="${CTX_SECOND_CLUSTER}" -f -
+}
+
+snip_register_the_new_cluster_4() {
 kubectl get mutatingwebhookconfiguration --context="${CTX_SECOND_CLUSTER}"
 }
 
-! read -r -d '' snip_register_the_new_cluster_3_out <<\ENDSNIP
+! read -r -d '' snip_register_the_new_cluster_4_out <<\ENDSNIP
 NAME                                     WEBHOOKS   AGE
 istio-sidecar-injector-external-istiod   4          4m13s
 ENDSNIP
 
-snip_register_the_new_cluster_4() {
+snip_register_the_new_cluster_5() {
 istioctl x create-remote-secret \
   --context="${CTX_SECOND_CLUSTER}" \
   --name="${SECOND_CLUSTER_NAME}" \
   --type=remote \
   --namespace=external-istiod \
   --create-service-account=false | \
-  kubectl apply -f - --context="${CTX_REMOTE_CLUSTER}" #TODO use --context="{CTX_EXTERNAL_CLUSTER}" when #31946 is fixed.
+  kubectl apply -f - --context="${CTX_EXTERNAL_CLUSTER}"
 }
 
 snip_setup_eastwest_gateways_1() {

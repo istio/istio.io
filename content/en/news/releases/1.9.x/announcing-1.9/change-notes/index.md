@@ -62,7 +62,7 @@ this option was tied to `DNS_CAPTURE`. Now, `DNS_CAPTURE` can be enabled without
 
 ## Extensibility
 
-- **Added** [Reliable Wasm module remote load](/docs/ops/configuration/extensibility/wasm-module-distribution) with Istio agent. ([Issue #29989](https://github.com/istio/istio/issues/29989))
+- **Added** [Reliable Wasm module remote load](/docs/tasks/extensibility/wasm-module-distribution) with Istio agent. ([Issue #29989](https://github.com/istio/istio/issues/29989))
 
 ## Networking
 
