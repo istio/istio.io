@@ -38,6 +38,10 @@ It is a good practice to manage the root CA on an offline machine with strong
 security protection.
 {{< /warning >}}
 
+{{< warning >}}
+Support for SHA-1 signatures is [disabled by default in Go 1.18](https://github.com/golang/go/issues/41682). If you are generating the certificate on macOS make sure you are using OpenSSL [as described in GitHub issue 38049](https://github.com/istio/istio/issues/38049).
+{{< /warning >}}
+
 1.  In the top-level directory of the Istio installation package, create a directory to hold certificates and keys:
 
     {{< text bash >}}
