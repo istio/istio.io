@@ -18,7 +18,7 @@ test: no
 1. 在Kubernetes集群中安装Istio
    [Installation Guide](/zh/docs/setup/getting-started/)。
 
-1. 部署[Bookinfo](/docs/examples/bookinfo/)示例应用程序。
+1. 部署[Bookinfo](/zh/docs/examples/bookinfo/)示例应用程序。
 
 ## 限制速率{#rate-limits}
 
@@ -126,8 +126,8 @@ Envoy中的全局速率限制使用gRPC API从速率限制服务请求配额。�
     EOF
     {{< /text >}}
 
-1. 对定义限速路由配置的`ingressgateway`应用另一个`EnvoyFilter`。这增加了[速率限制动作](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/route/v3/route_components.proto#envoy-v3-api-msg-config-route-v3-ratelimit)对于来自名为`*.80`的虚拟主机的任何路由。 
-   
+1. 对定义限速路由配置的`ingressgateway`应用另一个`EnvoyFilter`。这增加了[速率限制动作](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/route/v3/route_components.proto#envoy-v3-api-msg-config-route-v3-ratelimit)对于来自名为`*.80`的虚拟主机的任何路由。
+
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
@@ -321,7 +321,7 @@ $ curl "http://$GATEWAY_URL/productpage"
 {{< /text >}}
 
 {{< tip >}}
-`$GATEWAY_URL` is the value set in the [Bookinfo](/docs/examples/bookinfo/) example.
+`$GATEWAY_URL` is the value set in the [Bookinfo](/zh/docs/examples/bookinfo/) example.
 {{< /tip >}}
 
 您将看到第一个请求通过，但随后的每个请求在一分钟内将得到429响应。
@@ -338,4 +338,3 @@ $ kubectl exec "$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadat
 {{< /text >}}
 
 你应该看到每个`productpage`实例的请求次数不超过10 req/min。
-
