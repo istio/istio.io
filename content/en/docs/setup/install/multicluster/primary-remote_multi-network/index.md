@@ -132,7 +132,7 @@ $ kubectl --context="${CTX_CLUSTER2}" create namespace istio-system
 $ kubectl --context="${CTX_CLUSTER2}" annotate namespace istio-system topology.istio.io/controlPlaneClusters=cluster1
 {{< /text >}}
 
-Setting the `topology.istio.io/controlPlaneCluster` namespace annotation to `cluster1` instructs the `istiod`
+Setting the `topology.istio.io/controlPlaneClusters` namespace annotation to `cluster1` instructs the `istiod`
 running in the same namespace (istio-system in this case) on `cluster1` to manage `cluster2` when it
 is [attached as a remote cluster](#attach-cluster2-as-a-remote-cluster-of-cluster1).
 
@@ -170,6 +170,14 @@ spec:
       remotePilotAddress: ${DISCOVERY_ADDRESS}
 EOF
 {{< /text >}}
+
+{{< tip >}}
+Here we're configuring the location of the control plane using the `injectionPath` and
+`remotePilotAddress` parameters. Although convenient for demonstration, in a production
+environment it is recommended to instead configure the `injectionURL` parameter using
+properly signed DNS certs similar to the configuration shown in the
+[external control plane instructions](/docs/setup/install/external-controlplane/#register-the-new-cluster).
+{{< /tip >}}
 
 Apply the configuration to `cluster2`:
 
@@ -216,6 +224,13 @@ following:
   plane will reject the requests.
 
 - Enables discovery of service endpoints running in `cluster2`.
+
+Because it has been included in the `topology.istio.io/controlPlaneClusters` namespace
+annotation, the control plane on `cluster1` will also:
+
+- Patch certs in the webhooks in `cluster2`.
+
+- Start the namespace controller which writes configmaps in namespaces in `cluster2`.
 
 To provide API Server access to `cluster2`, we generate a remote secret and
 apply it to `cluster1`:
