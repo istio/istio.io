@@ -224,7 +224,8 @@ test: yes
         mirror:
           host: httpbin
           subset: v2
-        mirrorPercent: 100
+        mirrorPercentage:
+          value: 100.0
     EOF
     {{< /text >}}
 
@@ -232,7 +233,7 @@ test: yes
 
     此外，重点注意这些被镜像的流量是『 即发即弃』的，就是说镜像请求的响应会被丢弃。
 
-    您可以使用 `mirror_percent` 属性来设置镜像流量的百分比，而不是镜像全部请求。为了兼容老版本，如果这个属性不存在，将镜像所有流量。
+    您可以使用 `mirrorPercentage` 属性下的 `value` 字段来设置镜像流量的百分比，而不是镜像所有请求。如果没有这个属性，将镜像所有流量。
 
 1. 发送流量：
 
