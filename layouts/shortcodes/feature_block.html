@@ -16,11 +16,11 @@
 
             <div class="feature-block-text">
                 {{ if in (string .Inner) "\n\n" }}
-                    {{ .Inner | markdownify }}
+                    {{ .Inner }}
                 {{ else }}
-                    <p>{{ .Inner | markdownify }}</p>
+                    <p>{{ .Inner }}</p>
                 {{ end }}
-        
+
                 {{ with .Get "url" }}
                     <div class="feature-block-text-btn">
                         <a href="{{.}}" class="btn">{{ i18n "learn_more" }}</a>

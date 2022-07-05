@@ -12,9 +12,9 @@
     </div>
     <div class="faq-block-answer">
         {{ if in (string $answer) "\n\n" }}
-            {{ $answer | markdownify }}
+            {{ $answer }}
         {{ else }}
-            <p>{{ $answer | markdownify }}</p>
+            <p>{{ $answer }}</p>
         {{ end }}
     </div>
 </div>
