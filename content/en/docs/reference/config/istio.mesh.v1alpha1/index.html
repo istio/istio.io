@@ -7,7 +7,7 @@ location: https://istio.io/docs/reference/config/istio.mesh.v1alpha1.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
 weight: 20
-number_of_entries: 57
+number_of_entries: 56
 ---
 <p>Configuration affecting the service mesh as a whole.</p>
 
@@ -522,6 +522,8 @@ No
 <td>
 <p>Configure the provision of certificates.</p>
 
+<p>Note: Deprecated, please refer to Cert-Manager or other cert provisioning solutions to sign DNS certificates.</p>
+
 </td>
 <td>
 No
@@ -709,66 +711,6 @@ No
 <td><code><a href="#Resource">Resource[]</a></code></td>
 <td>
 <p>Describes the source of configuration, if nothing is specified default is MCP</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="Certificate">Certificate</h2>
-<section>
-<p>Certificate configures the provision of a certificate and its key.
-Example 1: key and cert stored in a secret</p>
-
-<pre><code>{ secretName: galley-cert
-  secretNamespace: istio-system
-  dnsNames:
-    - galley.istio-system.svc
-    - galley.mydomain.com
-}
-</code></pre>
-
-<p>Example 2: key and cert stored in a directory</p>
-
-<pre><code>{ dnsNames:
-    - pilot.istio-system
-    - pilot.istio-system.svc
-    - pilot.mydomain.com
-}
-</code></pre>
-
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="Certificate-secret_name">
-<td><code>secretName</code></td>
-<td><code>string</code></td>
-<td>
-<p>Name of the secret the certificate and its key will be stored into.
-If it is empty, it will not be stored into a secret.
-Instead, the certificate and its key will be stored into a hard-coded directory.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="Certificate-dns_names">
-<td><code>dnsNames</code></td>
-<td><code>string[]</code></td>
-<td>
-<p>The DNS names for the certificate. A certificate may contain
-multiple DNS names.</p>
 
 </td>
 <td>
