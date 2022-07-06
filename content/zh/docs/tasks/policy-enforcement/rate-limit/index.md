@@ -168,7 +168,7 @@ Envoy支持L4连接和HTTP请求的[本地速率限制](https://www.envoyproxy.i
 
 下面的`EnvoyFilter`为通过`productpage`服务的任何流量启用了本地速率限制。
 `HTTP_FILTER`patch会插入`envoy.filters.http`。`Local_ratelimit`[本地Envoy过滤器](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/local_rate_limit_filter#config-http-filters-local-rate-limit)
-进入HTTP连接管理器过滤器链。本地速率限制过滤器的[令牌桶](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/http/local_ratelimit/v3/local_rate_limit.proto#envoy-v3-api-field-extensions-filters-http-local-ratelimit-v3-localratelimit-token-bucket)配置为允许10个req/min。该过滤器还配置为添加`x-local-rate-limit`。对被阻塞的请求的响应头。
+进入HTTP连接管理器过滤器链。本地速率限制过滤器的[令牌桶](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/http/local_ratelimit/v3/local_rate_limit.proto#envoy-v3-api-field-extensions-filters-http-local-ratelimit-v3-localratelimit-token-bucket)配置为允许10请求每分。该过滤器还配置为添加`x-local-rate-limit`。对被阻塞的请求的响应头。
 
 {{< tip >}}
 在[Envoy速率限制页面](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/local_rate_limit_filter#statistics)中提到的统计数据默认是禁用的。您可以在部署期间使用以下注释启用它们:
@@ -328,7 +328,7 @@ $ curl "http://$GATEWAY_URL/productpage"
 
 ### 验证本地速率{#verify-local-rate-limit}
 
-虽然入口网关的全局速率限制将对`productpage`服务的请求限制在1 req/min，`productpage`实例的本地速率限制允许10 req/min。
+虽然入口网关的全局速率限制将对`productpage`服务的请求限制在1请求每分，`productpage`实例的本地速率限制允许10请求每分。
 
 为了确认这一点，从`ratings`pod发送内部`productpage`请求，使用下面的`curl`命令:
 
@@ -337,4 +337,4 @@ $ kubectl exec "$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadat
 <title>Simple Bookstore App</title>
 {{< /text >}}
 
-你应该看到每个`productpage`实例的请求次数不超过10 req/min。
+您应该看到每个`productpage`实例的请求次数不超过10请求每分。
