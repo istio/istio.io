@@ -16,7 +16,7 @@ test: yes
 
 ## 开始之前{#before-you-begin}
 
-* 在自身集群中[安装 Istio](/zh/docs/setup/) 并部署一个应用。
+* 在自身集群中[安装 Istio](/zh/docs/setup/) 。
 * 安装 [Prometheus Addon](/zh/docs/ops/integrations/prometheus/#option-1-quick-start)。
 * 部署 [Bookinfo](/zh/docs/examples/bookinfo/) 应用。
 
@@ -28,8 +28,8 @@ test: yes
 
     {{< text bash >}}
     $ kubectl -n istio-system get svc prometheus
-    NAME         CLUSTER-IP     EXTERNAL-IP   PORT(S)    AGE
-    prometheus   10.59.241.54   <none>        9090/TCP   2m
+    NAME         TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+    prometheus   ClusterIP   10.109.160.254   <none>        9090/TCP   4m
     {{< /text >}}
 
 1. 向网格发送流量。
@@ -37,7 +37,7 @@ test: yes
     以 Bookinfo 为例，在 web 浏览器中访问 `http://$GATEWAY_URL/productpage` 或执行如下命令：
 
     {{< text bash >}}
-    $ curl http://$GATEWAY_URL/productpage
+    $ curl "http://$GATEWAY_URL/productpage"
     {{< /text >}}
 
     {{< tip >}}
@@ -68,7 +68,7 @@ test: yes
 
 {{< image link="./prometheus_query_result.png" caption="Prometheus 查询结果" >}}
 
-您还可以通过选择 **Execute** 按钮下方的“图形”选项卡以图形方式查看查询结果。
+您还可以通过选择 **Execute** 按钮下方的 “图形” 选项卡以图形方式查看查询结果。
 
 {{< image link="./prometheus_query_result_graphical.png" caption="Prometheus 查询结果 - Graphical" >}}
 
@@ -80,7 +80,7 @@ test: yes
     istio_requests_total{destination_service="productpage.default.svc.cluster.local"}
     {{< /text >}}
 
-*   请求 `reviews` 服务 V3 版本的总次数：
+*   请求 `reviews` 服务 `v3` 版本的总次数：
 
     {{< text plain >}}
     istio_requests_total{destination_service="reviews.default.svc.cluster.local", destination_version="v3"}
@@ -98,11 +98,11 @@ test: yes
 
 Prometheus 插件是预先配置抓取 Istio 端点收集指标的 Prometheus 服务器。它提供了一种持久存储和查询 Istio 指标的机制。
 
-有关查询Prometheus的更多信息，请阅读他们的[查询文档](https://prometheus.io/docs/querying/basics/)
+有关查询Prometheus的更多信息，请阅读他们的[查询文档](https://prometheus.io/docs/querying/basics/) 。
 
 ## 清除{#cleanup}
 
-*   使用 control-C 或以下命令删除可能仍在运行的所有 `stioctl` 进程：
+*   使用 control-C 或以下命令删除可能仍在运行的所有 `istioctl` 进程：
 
     {{< text bash >}}
     $ killall istioctl
