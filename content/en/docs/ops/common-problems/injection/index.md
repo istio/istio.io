@@ -106,22 +106,21 @@ of injected sidecar when it was.
 1. Check the per-pod override annotation
 
     The default policy can be overridden with the
-    `sidecar.istio.io/inject` annotation in the _pod template spec’s metadata_.
-    The deployment’s metadata is ignored. Annotation value
+    `sidecar.istio.io/inject` label in the _pod template spec’s metadata_.
+    The deployment’s metadata is ignored. Label value
     of `true` forces the sidecar to be injected while a value of
     `false` forces the sidecar to _not_ be injected.
 
-    The following annotation overrides whatever the default `policy` was
+    The following label overrides whatever the default `policy` was
     to force the sidecar to be injected:
 
     {{< text bash yaml >}}
-    $ kubectl get deployment sleep -o yaml | grep "sidecar.istio.io/inject:" -C3
+    $ kubectl get deployment sleep -o yaml | grep "sidecar.istio.io/inject:" -B4
     template:
       metadata:
-        annotations:
-          sidecar.istio.io/inject: "true"
         labels:
           app: sleep
+          sidecar.istio.io/inject: "true"
     {{< /text >}}
 
 ## Pods cannot be created at all
