@@ -428,7 +428,7 @@ communicating.
 To enable communication between two meshes with different CAs, you must
 exchange the trust bundles of the meshes. Istio does not provide any tooling
 to exchange trust bundles across meshes. You can exchange the trust bundles
-either manually or automatically using a protocol such as [SPIFFE Trust Domain Federation](https://docs.google.com/document/d/1OC9nI2W04oghhbEDJpKdIUIw-G23YzWeHZxwGLIkB8k/edit).
+either manually or automatically using a protocol such as [SPIFFE Trust Domain Federation](https://github.com/spiffe/spiffe/blob/main/standards/SPIFFE_Federation.md).
 Once you import a trust bundle to a mesh, you can configure local policies for
 those identities.
 
