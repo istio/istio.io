@@ -221,7 +221,7 @@ Istio 网格使用{{< gloss "control plane">}}控制平面{{< /gloss >}}来配�
 ### 网格之间的信任{#trust-between-meshes}
 
 如果网格中的服务需要另一个网格中的服务，则必须在两个网格之间联合身份和信任。要在不同网格之间联合身份和信任，必须交换网格的 **trust bundle**。
-您可以使用像 [SPIFFE 信任域联邦](https://docs.google.com/document/d/1OC9nI2W04oghhbEDJpKdIUIw-G23YzWeHZxwGLIkB8k/edit)
+您可以使用像 [SPIFFE 信任域联邦](https://github.com/spiffe/spiffe/blob/main/standards/SPIFFE_Federation.md)
 之类的协议手动或自动交换 **trust bundle**，将 **trust bundle** 导入网格后，即可为这些身份配置本地策略。
 
 {{< image width="50%"
