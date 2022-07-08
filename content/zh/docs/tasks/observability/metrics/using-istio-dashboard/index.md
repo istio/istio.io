@@ -16,29 +16,31 @@ test: yes
 
 ## 在开始之前{#before-you-begin}
 
-* 在集群中[安装 Istio](/zh/docs/setup)。如果在您选择的配置文件中未启用 Grafana 附加组件，您可以通过 `--set values.grafana.enabled=true` [选项](/zh/docs/reference/config/installation-options/)启用。
+* 在自身集群中[安装 Istio](/zh/docs/setup/) 。
+* 安装 [Grafana 附加组件](/zh/docs/ops/integrations/grafana/#option-1-quick-start) 。
+* 安装 [Prometheus 附加组件](/zh//docs/ops/integrations/prometheus/#option-1-quick-start) 。
 * 部署 [Bookinfo](/zh/docs/examples/bookinfo/) 应用。
 
 ## 查看 Istio Dashboard{#viewing-the-Istio-dashboard}
 
-1. 验证 `prometheus` 服务正在集群中运行。
+1. 验证 `prometheus` 服务正在自身集群中运行。
 
     在 Kubernetes 环境中，执行以下命令：
 
     {{< text bash >}}
     $ kubectl -n istio-system get svc prometheus
-    NAME         CLUSTER-IP     EXTERNAL-IP   PORT(S)    AGE
-    prometheus   10.59.241.54   <none>        9090/TCP   2m
+    NAME         TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+    prometheus   ClusterIP   10.100.250.202   <none>        9090/TCP   103s
     {{< /text >}}
 
-1. 验证 Grafana 服务正在集群中运行。
+1. 验证 Grafana 服务正在自身集群中运行。
 
     在 Kubernetes 环境中，执行以下命令：
 
     {{< text bash >}}
     $ kubectl -n istio-system get svc grafana
-    NAME      CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
-    grafana   10.59.247.103   <none>        3000/TCP   2m
+    NAME      TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+    grafana   ClusterIP   10.103.244.103   <none>        3000/TCP   2m25s
     {{< /text >}}
 
 1. 通过 Grafana UI 打开 Istio Dashboard。
@@ -46,10 +48,10 @@ test: yes
     在 Kubernetes 环境中，执行以下命令：
 
     {{< text bash >}}
-    $ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000 &
+    $ istioctl dashboard grafana
     {{< /text >}}
 
-    在浏览器中访问 [http://localhost:3000/dashboard/db/istio-mesh-dashboard](http://localhost:3000/dashboard/db/istio-mesh-dashboard)。
+    在浏览器中访问 [http://localhost:3000/d/G8wLrJIZk/istio-mesh-dashboard](http://localhost:3000/d/G8wLrJIZk/istio-mesh-dashboard)。
 
     Istio Dashboard 看上去类似于：
 
@@ -59,9 +61,7 @@ test: yes
 
     对于 Bookinfo 示例，在浏览器中访问 `http://$GATEWAY_URL/productpage` 或者发出以下命令：
 
-    {{< text bash >}}
-    $ curl http://$GATEWAY_URL/productpage
-    {{< /text >}}
+    {{< boilerplate trace-generation >}}
 
     {{< tip >}}
     `$GATEWAY_URL` 是在 [Bookinfo](/zh/docs/examples/bookinfo/) 示例中设置的值。
@@ -78,7 +78,11 @@ test: yes
 1. 可视化服务仪表盘。
 
     从 Grafana 仪表盘左上角的导航菜单中，可以导航到 Istio Service Dashboard 或者在浏览器中访问
-    [http://localhost:3000/dashboard/db/istio-service-dashboard](http://localhost:3000/dashboard/db/istio-service-dashboard)。
+    [http://localhost:3000/d/LJ_uJAvmk/istio-service-dashboard](http://localhost:3000/d/LJ_uJAvmk/istio-service-dashboard)。
+
+    {{< tip >}}
+    您可能需要在服务下拉列表中选择一项服务
+    {{< /tip >}}
 
     Istio Service Dashboard 看上去类似于：
 
@@ -89,7 +93,7 @@ test: yes
 1. 可视化工作负载仪表盘。
 
     从 Grafana 仪表盘左上角的导航菜单中，可以导航到 Istio Workload Dashboard 或者在浏览器中访问
-    [http://localhost:3000/dashboard/db/istio-workload-dashboard](http://localhost:3000/dashboard/db/istio-workload-dashboard)。
+    [http://localhost:3000/d/UbsSZTDik/istio-workload-dashboard](http://localhost:3000/d/UbsSZTDik/istio-workload-dashboard)。
 
     Istio Workload Dashboard 看上去类似于：
 
@@ -97,9 +101,7 @@ test: yes
 
     这里给出了每一个工作负载，以及更进一步的该工作负载的入站工作负载（将请求发送到该工作负载的工作负载）和出站服务（此工作负载向其发送请求的服务）的详细指标。
 
-### 关于 Grafana 插件{#about-the-Grafana-add-on}
-
-Grafana 插件其实是一个 Grafana 的预配置实例。基础镜像 ([`grafana/grafana:5.2.3`](https://hub.docker.com/r/grafana/grafana/)) 已被修改为同时启动已安装的 Prometheus 数据源和 Istio Dashboard。Istio（特别是 Mixer）的基本安装文件附带了全局（用于每个服务的）指标的默认配置。Istio Dashboard 旨在与默认的 Istio 指标配置和 Prometheus 后端结合使用。
+### 关于 Grafana Dashboard{#about-the-Grafana-dashboards}
 
 Istio Dashboard 包括三个主要部分：
 
