@@ -24,7 +24,7 @@ source "tests/util/samples.sh"
 source "tests/util/addons.sh"
 
 # @setup profile=none
-echo "$snip_configure_tracing_1" | istioctl install -y -f -
+echo "$snip_configure_tracing_1" | istioctl install -y -r opencensusagent -f -
 snip_configure_tracing_2
 
 
@@ -44,5 +44,8 @@ _verify_contains snip_generating_traces_using_the_bookinfo_sample_1 "outbound|90
 # @cleanup
 cleanup_bookinfo_sample
 _undeploy_addons jaeger
+kubectl delete telemetries.telemetry.istio.io -n istio-system mesh-default
 snip_cleanup_3
-kubectl delete ns istio-system
+istioctl x uninstall -r opencensusagent --skip-confirmation
+kubectl label namespace default istio-injection-
+#kubectl delete ns istio-system
