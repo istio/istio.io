@@ -77,23 +77,23 @@ function cleanup
   # Remove temp files.
   rm -f cluster1.yaml cluster2.yaml certs
 
-  # Delete the namespaces on both clusters concurrently
-  delete_namespaces_cluster1 &
-  delete_namespaces_cluster2 &
+  # Cleanup both clusters concurrently
+  cleanup_cluster1 &
+  cleanup_cluster2 &
   wait
 }
 
-# _delete_namespaces_cluster1 removes the istio-system and sample namespaces on both
-# CLUSTER1.
-function delete_namespaces_cluster1
+# cleanup_cluster1 removes the istio-system and sample namespaces on CLUSTER1.
+function cleanup_cluster1
 {
+  echo y | istioctl x uninstall --revision=default --context="${CTX_CLUSTER1}"
   kubectl delete ns istio-system sample --context="${CTX_CLUSTER1}" --ignore-not-found
 }
 
-# _delete_namespaces_cluster2 removes the istio-system and sample namespaces on both
-# CLUSTER2.
-function delete_namespaces_cluster2
+# cleanup_cluster2 removes the istio-system and sample namespaces on CLUSTER2.
+function cleanup_cluster2
 {
+  echo y | istioctl x uninstall --revision=default --context="${CTX_CLUSTER2}"
   kubectl delete ns istio-system sample --context="${CTX_CLUSTER2}" --ignore-not-found
 }
 

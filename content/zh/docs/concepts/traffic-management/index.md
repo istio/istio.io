@@ -24,13 +24,13 @@ Istio 的流量管理模型源于和服务一起部署的 {{< gloss >}}Envoy{{</
 
 ## Istio 流量管理介绍 {#introducing-Istio-traffic-management}
 
-为了在网格中导流，Istio 需要知道所有的 endpoint 在哪和属于哪个服务。为了定位到{{< gloss >}}service registry{{</ gloss >}}(服务注册中心)，Istio 会连接到一个服务发现系统。例如，如果您在 Kubernetes 集群上安装了 Istio，那么它将自动检测该集群中的服务和 endpoint。
+为了在网格中导流，Istio 需要知道所有的 endpoint 在哪和属于哪个服务。为了定位到 {{< gloss >}}service registry{{</ gloss >}}(服务注册中心)，Istio 会连接到一个服务发现系统。例如，如果您在 Kubernetes 集群上安装了 Istio，那么它将自动检测该集群中的服务和 endpoint。
 
 使用此服务注册中心，Envoy 代理可以将流量定向到相关服务。大多数基于微服务的应用程序，每个服务的工作负载都有多个实例来处理流量，称为负载均衡池。默认情况下，Envoy 代理基于轮询调度模型在服务的负载均衡池内分发流量，按顺序将请求发送给池中每个成员，一旦所有服务实例均接收过一次请求后，重新回到第一个池成员。
 
 Istio 基本的服务发现和负载均衡能力为您提供了一个可用的服务网格，但它能做到的远比这多的多。在许多情况下，您可能希望对网格的流量情况进行更细粒度的控制。作为 A/B 测试的一部分，您可能想将特定百分比的流量定向到新版本的服务，或者为特定的服务实例子集应用不同的负载均衡策略。您可能还想对进出网格的流量应用特殊的规则，或者将网格的外部依赖项添加到服务注册中心。通过使用 Istio 的流量管理 API 将流量配置添加到 Istio，就可以完成所有这些甚至更多的工作。
 
-和其他 Istio 配置一样，这些 API 也使用 Kubernetes 的自定义资源定义（{{< gloss >}}CRDs{{</ gloss >}}）来声明，您可以像示例中看到的那样使用 YAML 进行配置。
+和其他 Istio 配置一样，这些 API 也使用 Kubernetes 的自定义资源定义（{{< gloss >}}CRD{{</ gloss >}}）来声明，您可以像示例中看到的那样使用 YAML 进行配置。
 
 本章节的其余部分将分别介绍每个流量管理 API 以及如何使用它们。这些资源包括：
 
@@ -58,7 +58,7 @@ Istio 基本的服务发现和负载均衡能力为您提供了一个可用的�
 
 虚拟服务可以让您：
 
--   通过单个虚拟服务处理多个应用程序服务。如果您的网格使用 Kubernetes，可以配置一个虚拟服务处理特定命名空间中的所有服务。映射单一的虚拟服务到多个“真实”服务特别有用，可以在不需要客户适应转换的情况下，将单体应用转换为微服务构建的复合应用系统。您的路由规则可以指定为“对这些 `monolith.com` 的 URI 调用转到`microservice A`”等等。您可以在[下面的一个示例](#more-about-routing-rules)看到它是如何工作的。
+-   通过单个虚拟服务处理多个应用程序服务。如果您的网格使用 Kubernetes，可以配置一个虚拟服务处理特定命名空间中的所有服务。映射单一的虚拟服务到多个“真实”服务特别有用，可以在不需要客户适应转换的情况下，将单体应用转换为微服务构建的复合应用系统。您的路由规则可以指定为“对 `monolith.com` 的 URI 调用转到 `microservice A`”等等。您可以在[下面的一个示例](#more-about-routing-rules)看到它是如何工作的。
 -   和[网关](/zh/docs/concepts/traffic-management/#gateways)整合并配置流量规则来控制出入流量。
 
 在某些情况下，您还需要配置目标规则来使用这些特性，因为这是指定服务子集的地方。在一个单独的对象中指定服务子集和其它特定目标策略，有利于在虚拟服务之间更简洁地重用这些规则。在下一章节您可以找到更多关于目标规则的内容。
@@ -347,7 +347,7 @@ spec:
 
 您指定的外部资源使用 `hosts` 字段。可以使用完全限定名或通配符作为前缀域名。
 
-您可以配置虚拟服务和目标规则，以更细粒度的方式控制到服务入口的流量，这与网格中的任何其他服务配置流量的方式相同。例如，下面的目标规则配置流量路由以使用双向 TLS 来保护到 `ext-svc.example.com` 外部服务的连接，我们使用服务入口配置了该外部服务：
+您可以配置虚拟服务和目标规则，以更细粒度的方式控制到服务入口的流量，这与网格中的任何其他服务配置流量的方式相同。例如，下面的目标规则调整了使用服务入口配置的 `ext-svc.example.com` 外部服务的连接超时：
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -357,11 +357,9 @@ metadata:
 spec:
   host: ext-svc.example.com
   trafficPolicy:
-    tls:
-      mode: MUTUAL
-      clientCertificate: /etc/certs/myclientcert.pem
-      privateKey: /etc/certs/client_private_key.pem
-      caCertificates: /etc/certs/rootcacerts.pem
+    connectionPool:
+      tcp:
+        connectTimeout: 1s
 {{< /text >}}
 
 查看[服务入口参考](/zh/docs/reference/config/networking/service-entry)获取更多可能的配置项。
@@ -470,6 +468,10 @@ spec:
 ### 故障注入 {#fault-injection}
 
 在配置了网络，包括故障恢复策略之后，可以使用 Istio 的故障注入机制来为整个应用程序测试故障恢复能力。故障注入是一种将错误引入系统以确保系统能够承受并从错误条件中恢复的测试方法。使用故障注入特别有用，能确保故障恢复策略不至于不兼容或者太严格，这会导致关键服务不可用。
+
+{{< warning >}}
+目前，故障注入配置不能与同一个虚拟服务上的重试或超时配置相结合，请参见[流量管理问题](/zh/docs/ops/common-problems/network-issues/#virtual-service-with-fault-injection-and-retry-timeout-policies-not-working-as-expected)。
+{{< /warning >}}
 
 与其他错误注入机制（如延迟数据包或在网络层杀掉 Pod）不同，Istio 允许在应用层注入错误。这使您可以注入更多相关的故障，例如 HTTP 错误码，以获得更多相关的结果。
 

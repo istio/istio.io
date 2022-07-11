@@ -265,6 +265,8 @@ and installing the sidecar injector webhook configuration on the remote cluster 
               value: ""
             - name: EXTERNAL_ISTIOD
               value: "true"
+            - name: LOCAL_CLUSTER_SECRET_WATCHER
+              value: "true"
             - name: CLUSTER_ID
               value: ${REMOTE_CLUSTER_NAME}
             - name: SHARED_MESH_CONFIG
@@ -574,10 +576,20 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
     EOF
     {{< /text >}}
 
-    Then, install the configuration on the remote cluster:
+1. Create and annotate the system namespace on the remote cluster:
 
     {{< text bash >}}
     $ kubectl create namespace external-istiod --context="${CTX_SECOND_CLUSTER}"
+    $ kubectl annotate namespace external-istiod "topology.istio.io/controlPlaneClusters=${REMOTE_CLUSTER_NAME}" --context="${CTX_SECOND_CLUSTER}"
+    {{< /text >}}
+
+    The `topology.istio.io/controlPlaneClusters` annotation specifies the cluster ID of the external control plane that
+    should manage this remote cluster. Notice that this is the name of the first remote (config) cluster, which was used
+    to set the cluster ID of the external control plane when it was installed in the external cluster earlier.
+
+1. Install the configuration on the remote cluster:
+
+    {{< text bash >}}
     $ istioctl manifest generate -f second-config-cluster.yaml | kubectl apply --context="${CTX_SECOND_CLUSTER}" -f -
     {{< /text >}}
 
@@ -599,16 +611,11 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
       --type=remote \
       --namespace=external-istiod \
       --create-service-account=false | \
-      kubectl apply -f - --context="${CTX_REMOTE_CLUSTER}" #TODO use --context="{CTX_EXTERNAL_CLUSTER}" when #31946 is fixed.
+      kubectl apply -f - --context="${CTX_EXTERNAL_CLUSTER}"
     {{< /text >}}
 
     Note that unlike the first remote cluster of the mesh, which also serves as the config cluster, the `--type` argument
     is set to `remote` this time, instead of `config`.
-
-    {{< tip >}}
-    Note that the new secret can be applied in either the remote (config) cluster or in the external cluster,
-    because the external istiod is watching for additions in both clusters.
-    {{< /tip >}}
 
 ### Setup east-west gateways
 

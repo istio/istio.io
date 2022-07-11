@@ -43,11 +43,13 @@ function install_istio_on_cluster1 {
 }
 
 function enable_api_server_access {
-  snip_enable_api_server_access_to_cluster2_1
+    snip_attach_cluster2_as_a_remote_cluster_of_cluster1_1
 }
 
 function install_istio_on_cluster2 {
     echo "Installing Istio on Remote cluster: ${CTX_CLUSTER2}"
+    snip_set_the_control_plane_cluster_for_cluster2_1
+    snip_set_the_default_network_for_cluster2_1
     snip_configure_cluster2_as_a_remote_1
     snip_configure_cluster2_as_a_remote_2
     echo y | snip_configure_cluster2_as_a_remote_3
@@ -62,10 +64,9 @@ function install_istio_on_cluster2 {
     snip_expose_services_in_cluster2_1
 }
 
-time configure_trust
 time install_istio_on_cluster1
-time enable_api_server_access
 time install_istio_on_cluster2
+time enable_api_server_access
 time verify_load_balancing
 
 # @cleanup

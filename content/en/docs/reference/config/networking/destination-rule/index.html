@@ -152,7 +152,8 @@ spec:
         simple: ROUND_ROBIN
 </code></pre>
 
-<p>{{</tab>}}</p>
+<p>{{</tab>}}
+{{</tabset>}}</p>
 
 <p>Destination Rules can be customized to specific workloads as well.
 The following example shows how a destination rule can be applied to a
@@ -165,19 +166,19 @@ specific workload using the workloadSelector configuration.</p>
 kind: DestinationRule
 metadata:
   name: configure-client-mtls-dr-with-workloadselector
-  spec:
-    workloadSelector:
-      matchLabels:
-        app: ratings
-    trafficPolicy:
-      loadBalancer:
-        simple: ROUND_ROBIN
-      portLevelSettings:
-        - port:
-            number: 31443
-          tls:
-            credentialName: client-credential
-            mode: MUTUAL
+spec:
+  workloadSelector:
+    matchLabels:
+      app: ratings
+  trafficPolicy:
+    loadBalancer:
+      simple: ROUND_ROBIN
+    portLevelSettings:
+    - port:
+        number: 31443
+      tls:
+        credentialName: client-credential
+        mode: MUTUAL
 </code></pre>
 
 <p>{{</tab>}}
@@ -187,19 +188,19 @@ metadata:
 kind: DestinationRule
 metadata:
   name: configure-client-mtls-dr-with-workloadselector
-  spec:
-    workloadSelector:
-      matchLabels:
-        app: ratings
-    trafficPolicy:
-      loadBalancer:
-        simple: ROUND_ROBIN
-      portLevelSettings:
-        - port:
-            number: 31443
-          tls:
-            credentialName: client-credential
-            mode: MUTUAL
+spec:
+  workloadSelector:
+    matchLabels:
+      app: ratings
+  trafficPolicy:
+    loadBalancer:
+      simple: ROUND_ROBIN
+    portLevelSettings:
+    - port:
+        number: 31443
+      tls:
+        credentialName: client-credential
+        mode: MUTUAL
 </code></pre>
 
 <p>{{</tab>}}
@@ -654,7 +655,7 @@ No
 remains in warmup mode starting from its creation time for the duration of this window and
 Istio progressively increases amount of traffic for that endpoint instead of sending proportional amount of traffic.
 This should be enabled for services that require warm up time to serve full production load with reasonable latency.
-Currently this is only supported for ROUND_ROBIN and LEAST_CONN load balancers.</p>
+Currently this is only supported for ROUND_ROBIN and LEAST_REQUEST load balancers.</p>
 
 </td>
 <td>
@@ -1187,7 +1188,10 @@ No
 <td><code>sni</code></td>
 <td><code>string</code></td>
 <td>
-<p>SNI string to present to the server during TLS handshake.</p>
+<p>SNI string to present to the server during TLS handshake.
+If unspecified, SNI will be automatically set based on downstream HTTP
+host/authority header for SIMPLE and MUTUAL TLS modes, provided <code>ENABLE_AUTO_SNI</code>
+environmental variable is set to <code>true</code>.</p>
 
 </td>
 <td>
@@ -1465,13 +1469,14 @@ No
 <td>
 <p>Specifies which protocol to use for tunneling the downstream connection.
 Supported protocols are:
-  connect - uses HTTP CONNECT;
-  post - uses HTTP POST.
+  CONNECT - uses HTTP CONNECT;
+  POST - uses HTTP POST.
+CONNECT is used by default if not specified.
 HTTP version for upstream requests is determined by the service protocol defined for the proxy.</p>
 
 </td>
 <td>
-Yes
+No
 </td>
 </tr>
 <tr id="TrafficPolicy-TunnelSettings-target_host">
@@ -1675,6 +1680,19 @@ No
 <td><code><a href="#ConnectionPoolSettings-TCPSettings-TcpKeepalive">TcpKeepalive</a></code></td>
 <td>
 <p>If set then set SO_KEEPALIVE on the socket to enable TCP Keepalives.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ConnectionPoolSettings-TCPSettings-max_connection_duration">
+<td><code>maxConnectionDuration</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
+<td>
+<p>The maximum duration of a connection. The duration is defined as the period since a connection
+was established. If not set, there is no max duration. When max_connection_duration
+is reached the connection will be closed. Duration must be at least 1ms.</p>
 
 </td>
 <td>

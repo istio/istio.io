@@ -29,7 +29,7 @@ For simple installations, Istiod is typically only reachable from within the clu
 for some deployments, especially those where the control plane runs in a different cluster, this port is exposed over the public internet.
 
 Istio considers this a 0-day vulnerability due to the publication of
-[CVE-2022-24921](https://github.com/advisories/GHSA-6685-ffxp-xm6f) by the Golang team.
+[CVE-2022-24921](https://github.com/advisories/GHSA-6685-ffxp-xm6f) by the Go team.
 
 ### Envoy CVEs
 

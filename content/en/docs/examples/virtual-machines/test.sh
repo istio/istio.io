@@ -63,9 +63,9 @@ run_in_vm "
 "
 
 # We do not have systemd, need to start mysql manually
-docker exec --privileged -d vm mysqld --skip-grant-tables
+docker exec --privileged -d vm mysqld --user=root --skip-grant-tables
 # Wait for mysql to become ready
-run_in_vm "while ! sudo mysql 2> /dev/null; do echo retrying mysql...; sleep 5; done"
+run_in_vm "while ! sudo mysql --user=root 2> /dev/null; do echo retrying mysql...; sleep 5; done"
 
 run_in_vm snip_running_mysql_on_the_vm_3
 
@@ -104,6 +104,6 @@ _verify_elided run_curl "${snip_reaching_kubernetes_services_from_the_virtual_ma
 # @cleanup
 docker stop vm
 kubectl delete -f samples/multicluster/expose-istiod.yaml -n istio-system --ignore-not-found=true
-istioctl manifest generate | kubectl delete -f - --ignore-not-found=true
+echo y | istioctl x uninstall --revision=default
 cleanup_sleep_sample
 kubectl delete namespace istio-system vm bookinfo  --ignore-not-found=true

@@ -10,7 +10,7 @@ status: Beta
 
 除了手动安装、升级、和卸载 Istio，您还可以用 Istio [Operator](https://kubernetes.io/zh/docs/concepts/extend-kubernetes/operator/) 管理安装。
 这样做还能缓解管理不同 Istio 版本的负担。
-您只需简单的更新 Operator {{<gloss CRDs>}}自定义资源（CR）{{</gloss>}}即可， Operator 控制器将为您应用更改的相应配置。
+您只需简单的更新 Operator {{<gloss CRD>}}自定义资源（CR）{{</gloss>}}即可， Operator 控制器将为您应用更改的相应配置。
 
 当您用[使用 Istioctl 安装](/zh/docs/setup/install/istioctl)安装 Istio 时，底层使用的是和 Operator 安装相同的[`IstioOperator` API](/zh/docs/reference/config/istio.operator.v1alpha1/)。在这两种场景下，都会以架构验证配置，并执行同样的正确性检查。
 

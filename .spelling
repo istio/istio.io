@@ -31,6 +31,7 @@
 1.11.x
 1.12.x
 1.13.x
+1.14.x
 1.x
 10ms
 10s
@@ -103,6 +104,7 @@ allowlist
 alt
 analytics
 Anantheswaran
+AntiAffinity
 ANDed
 Ansari
 Ant
@@ -122,6 +124,8 @@ Arielli
 arm64
 ArtifactHub
 AssemblyScript
+attestor
+attestors
 Atlassian
 AttributeGen
 Auth0
@@ -135,8 +139,10 @@ autoscaler
 Autoscalers
 autoscalers
 autoscaling
+auto-sni
 AutoTrader
 Avelar
+AVX-512
 az
 backend
 backends
@@ -159,6 +165,7 @@ bol.com
 Bookinfo
 bookinfo
 boolean
+BoringSSL
 bring-your-own-CA
 bring-your-own-identity
 Brooks
@@ -211,6 +218,7 @@ ControlZ
 CoreDNS
 coreos
 Costin
+cpuset
 CPU
 CPUs
 CR
@@ -218,6 +226,8 @@ CRD
 CRs
 CRDs
 crypto
+CryptoMB
+CryptoMbPrivateKeyMethodConfig
 CSPs
 CSRs
 Ctrl
@@ -285,6 +295,12 @@ CVE-2022-23606
 CVE-2022-23635
 CVE-2022-24726
 CVE-2022-24921
+CVE-2022-29224
+CVE-2022-29225
+CVE-2022-29226
+CVE-2022-29227
+CVE-2022-29228
+CVE-2022-31045
 CVEs
 cves
 cvss
@@ -302,6 +318,7 @@ debuggability
 decapsulated
 declaratively
 decompressor
+decompressors
 Delayering
 Delucca
 Demailly
@@ -315,6 +332,7 @@ Deutsche
 devirtualization
 Devirtualization
 devops
+Dhir
 discoverability
 discuss.istio.io
 distro
@@ -329,6 +347,7 @@ docker-compose's
 docker.io
 dogfood
 double-tls
+dual-stack
 Drucker
 Dubbo
 Duggirala
@@ -346,6 +365,7 @@ endUser-to-Service
 env
 envoyproxy
 etcd
+events.istio.io
 example.com
 ExecAction
 executables
@@ -392,14 +412,9 @@ git
 GitHub
 GitOps
 GKE
-GKE-IAM
-GKE-Istio
-GKE-Workloads
 GlueCon
 Gloo
 Gmail
-GoLang
-Golang
 googleapis.com
 googlegroups.com
 Grafana
@@ -485,6 +500,7 @@ ISTIO-SECURITY-2022-001
 ISTIO-SECURITY-2022-002
 ISTIO-SECURITY-2022-003
 ISTIO-SECURITY-2022-004
+ISTIO-SECURITY-2022-005
 istio-system
 istio.io
 istio.io.
@@ -501,6 +517,7 @@ iter8
 jason
 Jeet
 Jog
+Jonh
 jQuery
 json
 JSON-formatted
@@ -511,6 +528,7 @@ jwt.io
 JWTs
 JWT_RULE
 JWKS-URI
+k6
 k8s
 Kafka
 katacoda
@@ -544,7 +562,6 @@ Kumar
 kyzy
 L3-4
 L4-L6
-Landlow
 Landow
 learnings
 LibreSSL
@@ -558,6 +575,7 @@ linters
 list_by_publishdate
 Liu
 liveness
+loadimpact
 localhost
 lookups
 loopback
@@ -640,6 +658,7 @@ ns
 NUL
 NULs
 Nurmamat
+OAuth
 OAuth2
 oc
 OCI-compliant
@@ -665,6 +684,7 @@ openssl
 OpenTelemetry
 OpenTracing
 operationalize
+operationalizes
 optname
 OS-level
 Ostrowski
@@ -736,7 +756,7 @@ qps
 quay.io
 quo
 RabbitMQ
-radis
+Rahul
 Rajagopalan
 Rappi
 ratelimit-handler
@@ -752,7 +772,6 @@ rebalances
 recomposition
 redeployments
 relabeling
-RedHat
 Redis
 redis
 Redis-based
@@ -769,6 +788,10 @@ reusability
 Reviewer1
 Reviewer2
 revisioned
+resources.request.cpu
+resources.request.memory
+resources.limits.cpu
+resources.limits.memory
 roadmap
 roadmaps
 RocketChat
@@ -784,6 +807,7 @@ Salesforce
 sandboxed
 sandboxing
 sayin
+Schaaf
 schedulable
 schemas
 SDKs
@@ -829,6 +853,7 @@ SPIFFE
 SPIFFE-compliant
 SREs
 Stackdriver
+Standard_D4ds_v5
 stateful
 Statsd
 stdout
@@ -922,6 +947,7 @@ v1
 v1.7.4
 v1.7.6_coreos.0
 v1.9
+v1.21
 v1.29
 v1alpha1
 v1alpha3
@@ -951,6 +977,7 @@ VMs
 VMware
 VPN
 VPNs
+Walle
 Warman
 Wasm
 wasme
@@ -978,7 +1005,6 @@ workload
 www.google.com
 x-envoy-upstream-rq-timeout-ms
 X.509
-x.509
 X.509.
 x509
 x86
@@ -987,14 +1013,14 @@ Xia
 Xining
 xRoute
 Xu
+Xeon
 Yahya
 yaml
 yamls
 Yangmin
 Yessenov
 Yizhou
-yournamespace
-Youtube
+Yoichi
 Zack
 Zehuan
 Zhang

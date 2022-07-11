@@ -118,11 +118,81 @@ HTTP/2 200
 ...
 ENDSNIP
 
-snip_cleanup_1() {
+snip_cleanup_the_tls_origination_configuration_1() {
 kubectl delete serviceentry edition-cnn-com
 kubectl delete destinationrule edition-cnn-com
 }
 
-snip_cleanup_2() {
-kubectl delete -f samples/sleep/sleep.yaml
+snip_configure_the_client_sleep_pod_1() {
+kubectl create secret generic client-credential --from-file=tls.key=client.example.com.key \
+  --from-file=tls.crt=client.example.com.crt --from-file=ca.crt=example.com.crt
+}
+
+snip_configure_the_client_sleep_pod_2() {
+kubectl create role client-credential-role --resource=secret --verb=get,list,watch
+kubectl create rolebinding client-credential-role-binding --role=client-credential-role --serviceaccount=default:sleep
+}
+
+snip_configure_mutual_tls_origination_for_egress_traffic_at_sidecar_1() {
+kubectl apply -f - <<EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: originate-mtls-for-nginx
+spec:
+  workloadSelector:
+    matchLabels:
+      app: sleep
+  host: my-nginx.mesh-external.svc.cluster.local
+  trafficPolicy:
+    loadBalancer:
+      simple: ROUND_ROBIN
+    portLevelSettings:
+    - port:
+        number: 443
+      tls:
+        mode: MUTUAL
+        credentialName: client-credential # this must match the secret created earlier to hold client certs, and works only when DR has a workloadSelector
+        sni: my-nginx.mesh-external.svc.cluster.local # this is optional
+EOF
+}
+
+snip_configure_mutual_tls_origination_for_egress_traffic_at_sidecar_2() {
+kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -sS http://my-nginx.mesh-external.svc.cluster.local:443
+}
+
+! read -r -d '' snip_configure_mutual_tls_origination_for_egress_traffic_at_sidecar_2_out <<\ENDSNIP
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+...
+ENDSNIP
+
+snip_configure_mutual_tls_origination_for_egress_traffic_at_sidecar_3() {
+kubectl logs -l app=sleep -c istio-proxy | grep 'my-nginx.mesh-external.svc.cluster.local'
+}
+
+snip_cleanup_the_mutual_tls_origination_configuration_1() {
+kubectl delete secret nginx-server-certs nginx-ca-certs -n mesh-external
+kubectl delete secret client-credential
+kubectl delete configmap nginx-configmap -n mesh-external
+kubectl delete service my-nginx -n mesh-external
+kubectl delete deployment my-nginx -n mesh-external
+kubectl delete namespace mesh-external
+kubectl delete serviceentry originate-mtls-for-nginx
+kubectl delete destinationrule originate-mtls-for-nginx
+}
+
+snip_cleanup_the_mutual_tls_origination_configuration_2() {
+rm example.com.crt example.com.key my-nginx.mesh-external.svc.cluster.local.crt my-nginx.mesh-external.svc.cluster.local.key my-nginx.mesh-external.svc.cluster.local.csr client.example.com.crt client.example.com.csr client.example.com.key
+}
+
+snip_cleanup_the_mutual_tls_origination_configuration_3() {
+rm ./nginx.conf
+}
+
+snip_cleanup_common_configuration_1() {
+kubectl delete service sleep
+kubectl delete deployment sleep
 }

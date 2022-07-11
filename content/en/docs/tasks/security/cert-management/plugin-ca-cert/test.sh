@@ -60,3 +60,6 @@ _verify_same snip_verifying_the_certificates_5 "$snip_verifying_the_certificates
 # @cleanup
 snip_cleanup_1
 snip_cleanup_2
+#TODO fix cleanup instructions in doc and then remove the following 2 lines
+kubectl get validatingwebhookconfigurations -o custom-columns=NAME:.metadata.name --no-headers | xargs kubectl delete validatingwebhookconfigurations
+kubectl get mutatingwebhookconfigurations -o custom-columns=NAME:.metadata.name --no-headers | xargs kubectl delete mutatingwebhookconfigurations

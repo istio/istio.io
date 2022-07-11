@@ -32,7 +32,7 @@ Thank you to our users who participated in user experience surveys and empathy s
 our most stable release to date.
 
 This is the first Istio release for 2021.  We would like to thank the entire Istio community, and especially the release
-managers [Shamsher Ansari](https://github.com/shamsher31) (Red Hat), [Steven Landlow](https://github.com/stevenctl)
+managers [Shamsher Ansari](https://github.com/shamsher31) (Red Hat), [Steven Landow](https://github.com/stevenctl)
 (Google) and [Jacob Delgado](https://github.com/jacob-delgado) (Aspen Mesh) for helping to get Istio 1.9.0
 published.
 
@@ -78,7 +78,7 @@ to integrate with an external authorization system, we recommend you try this fe
 
 ## Remote fetch and load of WebAssembly (Wasm) HTTP filters (Experimental)
 
-Now Istio supports an experimental feature to [fetch WebAssembly modules](/docs/ops/configuration/extensibility/wasm-module-distribution) from remote repositories and dynamically (re)load them without restarting the proxies in your mesh.  With this you can inject [custom C++ code](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/write-a-wasm-extension-with-cpp.md) into your mesh to handle uses cases that go well beyond the Istio APIs.
+Now Istio supports an experimental feature to [fetch WebAssembly modules](/docs/tasks/extensibility/wasm-module-distribution) from remote repositories and dynamically (re)load them without restarting the proxies in your mesh.  With this you can inject [custom C++ code](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/write-a-wasm-extension-with-cpp.md) into your mesh to handle uses cases that go well beyond the Istio APIs.
 
 Please try it and tell us how it worked for you.  Also, stay tuned for more blogs, support for more languages, and integration with more repositories.
 

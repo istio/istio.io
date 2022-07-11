@@ -16,7 +16,7 @@ owner: istio/wg-environments-maintainers
 
 ### 集群 {#cluster}
 
-本指南需要你具备两个 Kubernetes 集群，且版本需为： {{< supported_kubernetes_versions >}}。
+本指南需要你具备两个 Kubernetes 集群，且版本需为[Kubernetes 支持的版本：](/zh/docs/releases/supported-releases#support-status-of-istio-releases){{< supported_kubernetes_versions >}}。
 
 ### API Server Access
 
