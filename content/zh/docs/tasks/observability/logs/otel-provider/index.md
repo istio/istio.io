@@ -1,6 +1,6 @@
 ---
 title: OpenTelemetry
-description: 这个任务告诉你如何配置 Envoy 代理，以便使用 OpenTelemetry 收集器发送访问日志。
+description: 本任务告诉你如何配置 Envoy 代理发送访问日志到 OpenTelemetry 收集器。
 weight: 10
 keywords: [telemetry,logs]
 owner: istio/wg-policies-and-telemetry-maintainers
