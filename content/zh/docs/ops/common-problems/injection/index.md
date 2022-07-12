@@ -93,20 +93,19 @@ test: no
 
     策略允许的值为 `disabled` 或者 `enabled`。仅当 webhook 的 `namespaceSelector` 与目标命名空间匹配时，默认策略才会生效。无法识别的策略值默认为 `disabled`。
 
-1. 检查每个 pod 的注解
+1. 检查每个 pod 的标签
 
-    可以使用 pod template spec metadata 中的注解 `sidecar.istio.io/inject` 来覆盖默认策略，如果这样的话 deployment 相应的 metadata 将被忽略。注释值为 `true` 会被强制注入 sidecar，为 `false` 则会强制不注入 sidecar。
+    可以使用 pod template spec metadata 中的标签 `sidecar.istio.io/inject` 来覆盖默认策略，如果这样的话 deployment 相应的 metadata 将被忽略。标签值为 `true` 会被强制注入 sidecar，为 `false` 则会强制不注入 sidecar。
 
-    以下注解会覆盖默认策略并强制注入 sidecar：
+    以下标签会覆盖默认策略并强制注入 sidecar：
 
     {{< text bash yaml >}}
     $ kubectl get deployment sleep -o yaml | grep "sidecar.istio.io/inject:" -C3
     template:
       metadata:
-        annotations:
-          sidecar.istio.io/inject: "true"
         labels:
           app: sleep
+          sidecar.istio.io/inject: "true"
     {{< /text >}}
 
 ## pods 不能创建{#pods-cannot-be-created-at-all}
