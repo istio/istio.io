@@ -196,6 +196,111 @@ server {
 }
 {{< /text >}}
 
+## 访问无头服务时 503 错误{#503-error-while-accessing-headless-services}
+
+假设安装的 Istio 具有以下配置：
+
+- 在网格内 `mTLS mode` 设置为 `STRICT`
+- `meshConfig.outboundTrafficPolicy.mode` 设置为 `ALLOW_ANY`
+
+考虑 `nginx` 在 default 命名空间中作为 `StatefulSet` 部署，对应的 `Headless Service` 定义如下:
+
+{{< text yaml >}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+spec:
+  ports:
+  - port: 80
+    name: http-web  # 显式定义一个 http 端口
+  clusterIP: None   # 创建一个无头服务
+  selector:
+    app: nginx
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: web
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  serviceName: "nginx"
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: k8s.gcr.io/nginx-slim:0.8
+        ports:
+        - containerPort: 80
+          name: web
+{{< /text >}}
+
+上述 Service 定义中的服务定义中的 `http-web` 显式指定该端口的 http 协议。
+
+假设我们在 default 命名空间中也有一个 [sleep]({{< github_tree >}}/samples/sleep) Pod `Deployment`。
+当使用其 Pod IP 从这个 `sleep` Pod 访问 `nginx` 时（这是访问无头服务的常用方法之一），请求通过 `PassthroughCluster` 到达服务器端，但 sidecar 代理打开服务器端无法找到 `nginx` 的路由条目，并且显示 `HTTP 503 UC` 失败。
+
+{{< text bash >}}
+$ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items..metadata.name}')
+$ kubectl exec -it $SOURCE_POD -c sleep -- curl 10.1.1.171 -s -o /dev/null -w "%{http_code}"
+  503
+{{< /text >}}
+
+`10.1.1.171` 是 `nginx` 的一个副本的 Pod IP，该服务在 `containerPort` 的 80 上访问。
+
+下面是一些避免 503 错误的方法:
+
+1. 指定正确的 Host 头:
+
+    默认情况下，上面 curl 请求中的 Host 标头将是 Pod IP。在我们对 `nginx` 的请求中将 Host 标头指定为 `nginx.default` 成功返回 `HTTP 200 OK`。
+
+    {{< text bash >}}
+    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items..metadata.name}')
+    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -H "Host: nginx.default" 10.1.1.171 -s -o /dev/null -w "%{http_code}"
+      200
+    {{< /text >}}
+
+1. 将端口名称设置为 `tcp` 或 `tcp-web` 或 `tcp-<custom_name>`：
+
+    这里协议被明确指定为 `tcp`。在这种情况下，客户端和服务器端都只使用 sidecar 代理上的 `TCP 代理`网络过滤器。根本不使用 HTTP 连接管理器，因此请求中不需要任何类型的标头。
+
+    无论是否明确设置 Host 标头，对 `nginx` 的请求都会成功返回 `HTTP 200 OK`。
+
+    这在客户端可能无法在请求中包含标头信息的某些情况下很有用。
+
+    {{< text bash >}}
+    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items..metadata.name}')
+    $ kubectl exec -it $SOURCE_POD -c sleep -- curl 10.1.1.171 -s -o /dev/null -w "%{http_code}"
+      200
+    {{< /text >}}
+
+    {{< text bash >}}
+    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -H "Host: nginx.default" 10.1.1.171 -s -o /dev/null -w "%{http_code}"
+      200
+    {{< /text >}}
+
+1. 使用域名代替 Pod IP：
+
+    也可以仅使用域名访问无头服务的特定实例。
+
+    {{< text bash >}}
+    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items..metadata.name}')
+    $ kubectl exec -it $SOURCE_POD -c sleep -- curl web-0.nginx.default -s -o /dev/null -w "%{http_code}"
+      200
+    {{< /text >}}
+
+    这里的 `web-0` 是 `nginx` 的 3 个副本之一的 pod 名称。
+
+    有关不同协议的无头服务和流量路由行为的更多信息，请参阅此[流量路由](/zh/docs/ops/configuration/traffic-management/traffic-routing/)页面。
+
 ## TLS 配置错误{#TLS-configuration-mistakes}
 
 许多流量管理问题是由于错误的 [TLS 配置](/zh/docs/ops/configuration/traffic-management/tls-configuration/) 而导致的。
