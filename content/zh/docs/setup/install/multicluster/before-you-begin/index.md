@@ -61,7 +61,7 @@ and simply use the default self-signed CA for the installation.
 
 This guide will assume that you use a common root to generate intermediate
 certificates for each primary cluster.
-Follow the [instructions](/docs/tasks/security/cert-management/plugin-ca-cert/)
+Follow the [instructions](/zh/docs/tasks/security/cert-management/plugin-ca-cert/)
 to generate and push a CA certificate secret to both the `cluster1` and `cluster2`
 clusters. -->
 
