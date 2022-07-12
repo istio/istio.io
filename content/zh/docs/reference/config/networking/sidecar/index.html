@@ -628,6 +628,19 @@ connections. Arbitrary IPs are not supported. Format should be one of <code>127.
 Yes
 </td>
 </tr>
+<tr id="IstioIngressListener-tls">
+<td><code>tls</code></td>
+<td><code><a href="/zh/docs/reference/config/networking/gateway/#ServerTLSSettings">ServerTLSSettings</a></code></td>
+<td>
+<p>Set of TLS related options that will enable TLS termination on the
+sidecar for requests originating from outside the mesh.
+Currently supports only SIMPLE and MUTUAL TLS modes.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 </tbody>
 </table>
 </section>
