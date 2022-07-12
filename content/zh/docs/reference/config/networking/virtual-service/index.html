@@ -8,7 +8,7 @@ layout: protoc-gen-docs
 generator: protoc-gen-docs
 schema: istio.networking.v1alpha3.VirtualService
 aliases: [/zh/docs/reference/config/networking/v1alpha3/virtual-service]
-number_of_entries: 25
+number_of_entries: 27
 ---
 <p>Configuration affecting traffic routing. Here are a few terms useful to define
 in the context of traffic routing.</p>
@@ -669,8 +669,8 @@ No
 <td><code>route</code></td>
 <td><code><a href="#HTTPRouteDestination">HTTPRouteDestination[]</a></code></td>
 <td>
-<p>A HTTP rule can either redirect or forward (default) traffic. The
-forwarding target can be one of several versions of a service (see
+<p>A HTTP rule can either return a direct_response, redirect or forward (default) traffic.
+The forwarding target can be one of several versions of a service (see
 glossary in beginning of document). Weights associated with the
 service version determine the proportion of traffic it receives.</p>
 
@@ -683,10 +683,25 @@ No
 <td><code>redirect</code></td>
 <td><code><a href="#HTTPRedirect">HTTPRedirect</a></code></td>
 <td>
-<p>A HTTP rule can either redirect or forward (default) traffic. If
-traffic passthrough option is specified in the rule,
+<p>A HTTP rule can either return a direct_response, redirect or forward (default) traffic.
+If traffic passthrough option is specified in the rule,
 route/redirect will be ignored. The redirect primitive can be used to
 send a HTTP 301 redirect to a different URI or Authority.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="HTTPRoute-direct_response">
+<td><code>directResponse</code></td>
+<td><code><a href="#HTTPDirectResponse">HTTPDirectResponse</a></code></td>
+<td>
+<p>A HTTP rule can either return a direct_response, redirect or forward (default) traffic.
+Direct Response is used to specify a fixed response that should
+be sent to clients.</p>
+
+<p>It can be set only when <code>Route</code> and <code>Redirect</code> are empty.</p>
 
 </td>
 <td>
@@ -1520,6 +1535,22 @@ it must include the reserved gateway <code>mesh</code> for this field to be appl
 No
 </td>
 </tr>
+<tr id="HTTPMatchRequest-stat_prefix">
+<td><code>statPrefix</code></td>
+<td><code>string</code></td>
+<td>
+<p>The human readable prefix to use when emitting statistics for this route.
+The statistics are generated with prefix route.<stat_prefix>.
+This should be set for highly critical routes that one wishes to get &ldquo;per-route&rdquo; statistics on.
+This prefix is only for proxy-level statistics (envoy<em>*) and not service-level (istio</em>*) statistics.
+Refer to https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/route/v3/route_components.proto#envoy-v3-api-field-config-route-v3-route-stat-prefix
+for statistics that are generated when this is configured.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -2072,6 +2103,238 @@ No
 <td>
 <p>On a redirect, Specifies the HTTP status code to use in the redirect
 response. The default response code is MOVED_PERMANENTLY (301).</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="HTTPDirectResponse">HTTPDirectResponse</h2>
+<section>
+<p>HTTPDirectResponse can be used to send a fixed response to clients.
+For example, the following rule returns a fixed 503 status with a body
+to requests for /v1/getProductRatings API.</p>
+
+<p>{{<tabset category-name="example">}}
+{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
+
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ratings-route
+spec:
+  hosts:
+  - ratings.prod.svc.cluster.local
+  http:
+  - match:
+    - uri:
+        exact: /v1/getProductRatings
+    directResponse:
+      status: 503
+      body:
+        string: &quot;unknown error&quot;
+  ...
+</code></pre>
+
+<p>{{</tab>}}</p>
+
+<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
+
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: ratings-route
+spec:
+  hosts:
+  - ratings.prod.svc.cluster.local
+  http:
+  - match:
+    - uri:
+        exact: /v1/getProductRatings
+    directResponse:
+      status: 503
+      body:
+        string: &quot;unknown error&quot;
+  ...
+</code></pre>
+
+<p>{{</tab>}}
+{{</tabset>}}</p>
+
+<p>It is also possible to specify a binary response body.
+This is mostly useful for non text-based protocols such as gRPC.</p>
+
+<p>{{<tabset category-name="example">}}
+{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
+
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ratings-route
+spec:
+  hosts:
+  - ratings.prod.svc.cluster.local
+  http:
+  - match:
+    - uri:
+        exact: /v1/getProductRatings
+    directResponse:
+      status: 503
+      body:
+        bytes: &quot;dW5rbm93biBlcnJvcg==&quot; # &quot;unknown error&quot; in base64
+  ...
+</code></pre>
+
+<p>{{</tab>}}</p>
+
+<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
+
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: ratings-route
+spec:
+  hosts:
+  - ratings.prod.svc.cluster.local
+  http:
+  - match:
+    - uri:
+        exact: /v1/getProductRatings
+    directResponse:
+      status: 503
+      body:
+        bytes: &quot;dW5rbm93biBlcnJvcg==&quot; # &quot;unknown error&quot; in base64
+  ...
+</code></pre>
+
+<p>{{</tab>}}
+{{</tabset>}}</p>
+
+<p>It is good practice to add headers in the HTTPRoute
+as well as the direct_response, for example to specify
+the returned Content-Type.</p>
+
+<p>{{<tabset category-name="example">}}
+{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
+
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ratings-route
+spec:
+  hosts:
+  - ratings.prod.svc.cluster.local
+  http:
+  - match:
+    - uri:
+        exact: /v1/getProductRatings
+    directResponse:
+      status: 503
+      body:
+        string: &quot;{\&quot;error\&quot;: \&quot;unknown error\&quot;}&quot;
+    headers:
+      response:
+        set:
+          content-type: &quot;appliation/json&quot;
+  ...
+</code></pre>
+
+<p>{{</tab>}}</p>
+
+<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
+
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: ratings-route
+spec:
+  hosts:
+  - ratings.prod.svc.cluster.local
+  http:
+  - match:
+    - uri:
+        exact: /v1/getProductRatings
+    directResponse:
+      status: 503
+      body:
+        string: &quot;{\&quot;error\&quot;: \&quot;unknown error\&quot;}&quot;
+    headers:
+      response:
+        set:
+          content-type: &quot;text/plain&quot;
+  ...
+</code></pre>
+
+<p>{{</tab>}}
+{{</tabset>}}</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="HTTPDirectResponse-status">
+<td><code>status</code></td>
+<td><code>uint32</code></td>
+<td>
+<p>Specifies the HTTP response status to be returned.</p>
+
+</td>
+<td>
+Yes
+</td>
+</tr>
+<tr id="HTTPDirectResponse-body">
+<td><code>body</code></td>
+<td><code><a href="#HTTPBody">HTTPBody</a></code></td>
+<td>
+<p>Specifies the content of the response body. If this setting is omitted,
+no body is included in the generated response.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="HTTPBody">HTTPBody</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="HTTPBody-string" class="oneof oneof-start">
+<td><code>string</code></td>
+<td><code>string (oneof)</code></td>
+<td>
+<p>response body as a string</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="HTTPBody-bytes" class="oneof">
+<td><code>bytes</code></td>
+<td><code>bytes (oneof)</code></td>
+<td>
+<p>response body as base64 encoded bytes.</p>
 
 </td>
 <td>
