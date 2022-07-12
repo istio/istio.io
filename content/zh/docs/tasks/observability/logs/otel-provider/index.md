@@ -7,7 +7,7 @@ owner: istio/wg-policies-and-telemetry-maintainers
 test: yes
 ---
 
-代理可以被配置为以 [OpenTelemetry 格式](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/access_loggers/open_telemetry/v3/logs_service.proto)导出[访问日志](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage)。
+Envoy 代理可以被配置为以 [OpenTelemetry 格式](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/access_loggers/open_telemetry/v3/logs_service.proto)导出[访问日志](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage)。
 在这个例子中，Envoy 代理将访问日志发送到一个 [OpenTelemetry 收集器](https://github.com/open-telemetry/opentelemetry-collector)，
 该收集器被配置为将日志打印到标准输出。然后可以通过 `kubectl logs` 命令访问 OpenTelemetry 收集器的标准输出。。
 
