@@ -1,5 +1,6 @@
 ---
 title: "Extending Gateway API support in Istio"
+description: "A standard API for service mesh, in Istio and in the broader community."
 publishdate: 2022-07-13
 attribution: "Craig Box (Google)"
 keywords: [traffic-management,gateway,gateway-api,api,gamma,sig-network]
@@ -11,7 +12,7 @@ Today we want to [congratulate the Kubernetes SIG Network community on the beta 
 
 API design is more of an art than a science, and Istio is often used as an API to configure the serving of other APIs! In the case of traffic routing alone, we must consider producer vs consumer, routing vs. post-routing, and how to express a complex feature set with the correct number of objects — factoring in that these must be owned by different teams.
 
-When we launched Istio in 2017, we brought many years of experience from Google's production API serving infrastructure and IBM's amalgam8 project, and mapped it onto Kubernetes. We soon came up against the limitations of Kubernetes' Ingress API. A desire to support all proxy implementations meant that Ingress only supported the most basic of HTTP routing features, with other features often implemented as vendor-specific annotations. The Ingress API was shared between infrastructure admins ("create and configure a load balancer"), cluster operators ("manage a TLS certificate for my entire domain") and application users ("use it to route /foo to the foo service").
+When we launched Istio in 2017, we brought many years of experience from Google's production API serving infrastructure and IBM's Amalgam8 project, and mapped it onto Kubernetes. We soon came up against the limitations of Kubernetes' Ingress API. A desire to support all proxy implementations meant that Ingress only supported the most basic of HTTP routing features, with other features often implemented as vendor-specific annotations. The Ingress API was shared between infrastructure admins ("create and configure a load balancer"), cluster operators ("manage a TLS certificate for my entire domain") and application users ("use it to route /foo to the foo service").
 
 We [rewrote our traffic APIs in early 2018](/blog/2018/v1alpha3-routing/) to address user feedback, and to more adequately address these concerns.
 

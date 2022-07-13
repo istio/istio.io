@@ -102,7 +102,7 @@ Alibaba
 allow_missing
 allowlist
 alt
-amalgam8
+Amalgam8
 analytics
 Anantheswaran
 AntiAffinity
@@ -811,7 +811,6 @@ RocketChat
 rollout
 rollouts
 routable
-RouteRule
 RPC
 RPCs
 runtime
