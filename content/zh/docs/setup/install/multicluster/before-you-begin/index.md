@@ -51,20 +51,6 @@ $ export CTX_CLUSTER2=<your cluster2 context>
 参阅[证书管理](/zh/docs/tasks/security/cert-management/)，以了解所有可用选项的详细描述和说明。
 根据你选择的方式，Istio 的安装说明可能略有变化。
 
-<!-- {{< tip >}}
-If you are planning to deploy only one primary cluster (i.e., one of the
-Primary-Remote installations, below), you will only have a single CA
-(i.e., `istiod` on `cluster1`) issuing certificates for both clusters.
-In that case, you can skip the following CA certificate generation step
-and simply use the default self-signed CA for the installation.
-{{< /tip >}}
-
-This guide will assume that you use a common root to generate intermediate
-certificates for each primary cluster.
-Follow the [instructions](/zh/docs/tasks/security/cert-management/plugin-ca-cert/)
-to generate and push a CA certificate secret to both the `cluster1` and `cluster2`
-clusters. -->
-
 {{< tip >}}
 如果您计划仅部署一个主集群（即采用本地——远程部署的方式），您将只有一个 CA
 （即使用 `cluster1` 上的 `istiod` ）为两个集群颁发证书。
