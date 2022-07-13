@@ -6,7 +6,7 @@ attribution: "Craig Box (Google)"
 keywords: [traffic-management,gateway,gateway-api,api,gamma,sig-network]
 ---
 
-Today we want to [congratulate the Kubernetes SIG Network community on the beta release of the Gateway API specification](https://kubernetes.io/blog/2022/07/12/gateway-api-first-beta/). Alongside this milestone, we are pleased to announce that support for using the Gateway API in Istio ingress is being promoted to Beta, and our intention for the Gateway API to become the default API for all Istio traffic management in the future. We are also excited to welcome our friends from the Service Mesh Interface (SMI) community, who are joining us in a new effort to standardize service mesh use cases using the Gateway API.
+Today we want to [congratulate the Kubernetes SIG Network community on the beta release of the Gateway API specification](https://kubernetes.io/blog/2022/07/13/gateway-api-graduates-to-beta/). Alongside this milestone, we are pleased to announce that support for using the Gateway API in Istio ingress is being promoted to Beta, and our intention for the Gateway API to become the default API for all Istio traffic management in the future. We are also excited to welcome our friends from the Service Mesh Interface (SMI) community, who are joining us in a new effort to standardize service mesh use cases using the Gateway API.
 
 ## The history of Istio's traffic management APIs
 
