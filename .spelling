@@ -102,6 +102,7 @@ Alibaba
 allow_missing
 allowlist
 alt
+amalgam8
 analytics
 Anantheswaran
 AntiAffinity
@@ -327,6 +328,7 @@ dereference
 dereferenced
 deserialize
 deserializing
+DestinationRule
 dev
 Deutsche
 devirtualization
@@ -441,6 +443,7 @@ http2
 httpbin
 httpbin.foo.svc.cluster.local
 httpbin.org
+HTTPRoute
 https
 Hu
 Huabing
@@ -798,6 +801,7 @@ RocketChat
 rollout
 rollouts
 routable
+RouteRule
 RPC
 RPCs
 runtime
@@ -1002,6 +1006,7 @@ wildcarded
 wildcards
 workgroup
 workload
+workstream
 www.google.com
 x-envoy-upstream-rq-timeout-ms
 X.509

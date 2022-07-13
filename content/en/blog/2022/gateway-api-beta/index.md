@@ -23,7 +23,7 @@ The Gateway API was built to be able to model many more use cases, with extensio
 
 ## Support for the Gateway API in Istio
 
-Istio added support for the Gateway API in November 2020, with support marked Alpha along with the API implementation. With the Beta release of the API spec we are pleased to announce support for ingress use in Istio is being promoted to Beta. We also encourage early adopters to start experimenting with the Gateway API for mesh (service-to-service) use, and we will move that support to Beta when SIG Network has standardised the required semantics.
+Istio added support for the Gateway API in November 2020, with support marked Alpha along with the API implementation. With the Beta release of the API spec we are pleased to announce support for ingress use in Istio is being promoted to Beta. We also encourage early adopters to start experimenting with the Gateway API for mesh (service-to-service) use, and we will move that support to Beta when SIG Network has standardized the required semantics.
 
 Around the time of the v1 release of the API, we intend to make the Gateway API the default method for configuring all traffic routing in Istio - for ingress (north-south) and service-to-service (east-west). At that time, we will change our documentation and examples to reflect the recommendation.
 
