@@ -27,7 +27,7 @@ Istio added [support for the Gateway API](/docs/tasks/traffic-management/ingress
 
 Around the time of the v1 release of the API, we intend to make the Gateway API the default method for configuring all traffic routing in Istio - for ingress (north-south) and service-to-service (east-west). At that time, we will change our documentation and examples to reflect the recommendation.
 
-Just like Kubernetes intends to support the Ingress API for many years after the Gateway API goes stable, the Istio APIs (Gateway, VirtualService and RouteRule) will remain supported for the foreseeable future.
+Just like Kubernetes intends to support the Ingress API for many years after the Gateway API goes stable, the Istio APIs (Gateway, VirtualService and DestinationRule) will remain supported for the foreseeable future.
 
 Not only that, but you can continue to use the existing Istio traffic APIs alongside the Gateway API, for example, using an [HTTPRoute](https://gateway-api.sigs.k8s.io/v1beta1/api-types/httproute/) with an Istio [VirtualService](/docs/reference/config/networking/virtual-service/).
 
