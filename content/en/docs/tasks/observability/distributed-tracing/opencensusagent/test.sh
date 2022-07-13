@@ -48,4 +48,4 @@ kubectl delete telemetries.telemetry.istio.io -n istio-system mesh-default
 snip_cleanup_3
 istioctl x uninstall -r opencensusagent --skip-confirmation
 kubectl label namespace default istio-injection-
-#kubectl delete ns istio-system
+kubectl delete ns istio-system
