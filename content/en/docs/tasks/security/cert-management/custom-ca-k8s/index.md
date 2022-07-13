@@ -16,11 +16,11 @@ This feature requires Kubernetes version >= 1.18.
 
 This task shows how to provision Workload Certificates
 using a custom certificate authority that integrates with the
-[Kubernetes CSR API](https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/). Different workload can get their certificate signed from different cert-signer. Each cert-signer is effectively a different CA. It is expected that workloads whose certificates are issued from the same cert-signer can talk MTLS to each other while workloads signed by different signers cannot.
+[Kubernetes CSR API](https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/). Different workloads can get their certificates signed from different cert-signers. Each cert-signer is effectively a different CA. It is expected that workloads whose certificates are issued from the same cert-signer can talk MTLS to each other while workloads signed by different signers cannot.
 This feature leverages [Chiron](/blog/2019/dns-cert/), a lightweight component linked with Istiod that signs certificates using the Kubernetes CSR API.
 
 For this example, we use [open-source cert-manager](https://cert-manager.io).
-Cert-manager has added [experimental Support for Kubernetes `CertificateSigningRequests`](https://cert-manager.io/docs/usage/kube-csr/) starting from version 1.4
+Cert-manager has added [experimental Support for Kubernetes `CertificateSigningRequests`](https://cert-manager.io/docs/usage/kube-csr/) starting with version 1.4.
 
 ## Deploy Custom CA controller in the Kubernetes cluster
 
@@ -32,14 +32,106 @@ Cert-manager has added [experimental Support for Kubernetes `CertificateSigningR
 1. Create three self signed cluster issuers `istio-system`, `foo` and `bar` for cert-manager.
    Note: Namespace issuers and other types of issuers can also be used.
 
-## Export root certificate for cluster issuer
+       {{< text bash >}}
+    $ cat <<EOF > ./selfsigned-issuer.yaml
+    apiVersion: cert-manager.io/v1
+    kind: ClusterIssuer
+    metadata:
+      name: selfsigned-bar-issuer
+    spec:
+      selfSigned: {}
+    ---
+    apiVersion: cert-manager.io/v1
+    kind: Certificate
+    metadata:
+      name: bar-ca
+      namespace: cert-manager
+    spec:
+      isCA: true
+      commonName: bar
+      secretName: bar-ca-selfsigned
+      issuerRef:
+        name: selfsigned-bar-issuer
+        kind: ClusterIssuer
+        group: cert-manager.io
+    ---
+    apiVersion: cert-manager.io/v1
+    kind: ClusterIssuer
+    metadata:
+      name: bar
+    spec:
+      ca:
+        secretName: bar-ca-selfsigned
+    ---
+    apiVersion: cert-manager.io/v1
+    kind: ClusterIssuer
+    metadata:
+      name: selfsigned-foo-issuer
+    spec:
+      selfSigned: {}
+    ---
+    apiVersion: cert-manager.io/v1
+    kind: Certificate
+    metadata:
+      name: foo-ca
+      namespace: cert-manager
+    spec:
+      isCA: true
+      commonName: foo
+      secretName: foo-ca-selfsigned
+      issuerRef:
+        name: selfsigned-foo-issuer
+        kind: ClusterIssuer
+        group: cert-manager.io
+    ---
+    apiVersion: cert-manager.io/v1
+    kind: ClusterIssuer
+    metadata:
+      name: foo
+    spec:
+      ca:
+        secretName: foo-ca-selfsigned
+    ---
+    apiVersion: cert-manager.io/v1
+    kind: ClusterIssuer
+    metadata:
+      name: selfsigned-istio-issuer
+    spec:
+      selfSigned: {}
+    ---
+    apiVersion: cert-manager.io/v1
+    kind: Certificate
+    metadata:
+      name: istio-ca
+      namespace: cert-manager
+    spec:
+      isCA: true
+      commonName: istio-system
+      secretName: istio-ca-selfsigned
+      issuerRef:
+        name: selfsigned-istio-issuer
+        kind: ClusterIssuer
+        group: cert-manager.io
+    ---
+    apiVersion: cert-manager.io/v1
+    kind: ClusterIssuer
+    metadata:
+      name: istio-system
+    spec:
+      ca:
+        secretName: istio-ca-selfsigned
+    EOF
+    $ kubectl apply -f ./selfsigned-issuer.yaml
+    {{< /text >}}
+
+## Export root certificates for each cluster issuer
 
     {{< text bash >}}
-    $ export istioca=$(kubectl get clusterissuers istio-system -o jsonpath='{.spec.ca.secretName}' | xargs kubectl get secret -n cert-manager -o jsonpath='{.data.ca\.crt}' |base64 -d)
+    $ export istioca=$(kubectl get clusterissuers istio-system -o jsonpath='{.spec.ca.secretName}' | xargs kubectl get secret -n cert-manager -o jsonpath='{.data.ca\.crt}' | base64 -d)
 
-    $ export fooca=$(kubectl get clusterissuers foo -o jsonpath='{.spec.ca.secretName}' | xargs kubectl get secret -n cert-manager -o jsonpath='{.data.ca\.crt}' |base64 -d)
+    $ export fooca=$(kubectl get clusterissuers foo -o jsonpath='{.spec.ca.secretName}' | xargs kubectl get secret -n cert-manager -o jsonpath='{.data.ca\.crt}' | base64 -d)
 
-    $ export barca=$(kubectl get clusterissuers bar -o jsonpath='{.spec.ca.secretName}' | xargs kubectl get secret -n cert-manager -o jsonpath='{.data.ca\.crt}' |base64 -d)
+    $ export barca=$(kubectl get clusterissuers bar -o jsonpath='{.spec.ca.secretName}' | xargs kubectl get secret -n cert-manager -o jsonpath='{.data.ca\.crt}' | base64 -d)
     {{< /text >}}
 
 ## Deploy Istio with default cert-signer info
@@ -98,7 +190,7 @@ Cert-manager has added [experimental Support for Kubernetes `CertificateSigningR
     $ istioctl install -f ./istio.yaml
     {{< /text >}}
 
-1. Deploy the `proxyconfig-bar.yaml` in the `bar` namespace to define cert-signer for workloads under `bar` namespace.
+1. Deploy the `proxyconfig-bar.yaml` in the `bar` namespace to define cert-signer for workloads in the `bar` namespace.
 
     {{< text bash >}}
     $ cat <<EOF > ./proxyconfig-bar.yaml
@@ -114,7 +206,7 @@ Cert-manager has added [experimental Support for Kubernetes `CertificateSigningR
     $ kubectl apply  -f ./proxyconfig-bar.yaml
     {{< /text >}}
 
-1. Deploy the `proxyconfig-foo.yaml` in the foo namespace to define cert-signer for workloads under `foo` namespace.
+1. Deploy the `proxyconfig-foo.yaml` in the foo namespace to define cert-signer for workloads in the `foo` namespace.
 
     {{< text bash >}}
     $ cat <<EOF > ./proxyconfig-bar.yaml
@@ -143,9 +235,9 @@ Cert-manager has added [experimental Support for Kubernetes `CertificateSigningR
 
 ## Verify the network connectivity between `httpbin` and `sleep` within the same namespace
 
-When the workloads are deployed, above, they send CSR Requests with related signer info. Istiod forwards the CSR request to the custom CA for signing. The custom CA will use the correct cluster issuer or issuer to sign the cert back. Workloads under `foo` namespace will use  `foo` cluster issuers while workloads under `bar` namespace will use the `bar` cluster issuers. To verify that they have indeed been signed by correct cluster issuers, We can verify workloads under the same namespace can communicate will while workloads under the different namespace should not work.
+When the workloads are deployed, they send CSR Requests with related signer info. Istiod forwards the CSR request to the custom CA for signing. The custom CA will use the correct cluster issuer or issuer to sign the cert back. Workloads under `foo` namespace will use  `foo` cluster issuers while workloads under `bar` namespace will use the `bar` cluster issuers. To verify that they have indeed been signed by correct cluster issuers, We can verify workloads under the same namespace can communicate will while workloads under the different namespace cannot communicate.
 
-1. Check network connectivity between service `sleep` and `httpbin` under `foo` namespace.
+1. Check network connectivity between service `sleep` and `httpbin` in the `foo` namespace.
 
     {{< text bash >}}
     $ export SLEEP_POD_FOO=$(kubectl get pod -n foo -l app=sleep -o jsonpath={.items..metadata.name})
@@ -165,7 +257,7 @@ When the workloads are deployed, above, they send CSR Requests with related sign
       </body>
      {{< /text >}}
 
-1. Check network connectivity between service `sleep`  under `foo` namespace and `httpbin` under `bar` namespace.
+1. Check network connectivity between service `sleep` in the `foo` namespace and `httpbin` in the `bar` namespace.
 
     {{< text bash >}}
     $ export SLEEP_POD_FOO=$(kubectl get pod -n foo -l app=sleep -o jsonpath={    .items..metadata.name})
@@ -187,4 +279,4 @@ When the workloads are deployed, above, they send CSR Requests with related sign
 
 * Custom CA Integration - By specifying a Signer name in the Kubernetes CSR Request, this feature allows Istio to integrate with custom Certificate Authorities using the Kubernetes CSR API interface. This does require the custom CA to implement a Kubernetes controller to watch the `CertificateSigningRequest` Resources and act on them.
 
-* Better multi-tenancy - By specifying different cert-signer for different workload, certificate for different tenant's workloads can be signed by different CA.
+* Better multi-tenancy - By specifying a different cert-signer for different workloads, certificates for different tenant's workloads can be signed by different CAs.
