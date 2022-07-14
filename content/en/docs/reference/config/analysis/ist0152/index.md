@@ -7,7 +7,6 @@ test: n/a
 
 This message occurs when an EnvoyFilter uses the `REPLACE` operation but where applyTo is set to `HTTP_FILTER` or `NETWORK_FILTER`.  This will cause the `REPLACE` operation to be ignored as `HTTP_FILTER` and `NETWORK_FILTER` are not valid for `REPLACE`
 
-
 ## An example
 
 Consider an `EnvoyFilter` with the patch operation of `REPLACE` where this `EnvoyFilter` will just be ignored:

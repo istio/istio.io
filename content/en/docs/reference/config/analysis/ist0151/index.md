@@ -7,7 +7,6 @@ test: n/a
 
 This message occurs when an EnvoyFilter does not have a priority and uses a relative patch operation (INVALID, MERGE, REMOVE, INSERT_BEFORE, INSERT_AFTER, REPLACE).  Using a relative patch operation means that the operation depends on another filter being there when the current envoyFilter filter is evaluated.  To ensure that the envoyFilters are applied in the order that the users want then a priority should be given or an non-relative operation (ADD or INSERT_FIRST) should be used.
 
-
 ## An example
 
 Consider an `EnvoyFilter` with the patch operation of `INSERT_BEFORE`:
