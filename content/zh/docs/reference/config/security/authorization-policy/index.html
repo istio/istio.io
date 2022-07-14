@@ -793,19 +793,19 @@ the authorization decision to it.</p>
 <pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
- name: ext-authz
- namespace: istio-system
+  name: ext-authz
+  namespace: istio-system
 spec:
- selector:
-   matchLabels:
-     app: istio-ingressgateway
- action: CUSTOM
- provider:
-   name: &quot;my-custom-authz&quot;
- rules:
- - to:
-   - operation:
-       paths: [&quot;/admin/*&quot;]
+  selector:
+    matchLabels:
+      app: istio-ingressgateway
+  action: CUSTOM
+  provider:
+    name: &quot;my-custom-authz&quot;
+  rules:
+  - to:
+    - operation:
+        paths: [&quot;/admin/*&quot;]
 </code></pre>
 
 </td>

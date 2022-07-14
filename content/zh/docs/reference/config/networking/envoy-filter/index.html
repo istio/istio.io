@@ -68,9 +68,10 @@ spec:
       operation: INSERT_BEFORE
       value:
         # This is the full filter config including the name and typed_config section.
-        name: &quot;envoy.config.filter.network.custom_protocol&quot;
+        name: &quot;envoy.extensions.filters.network.mongo_proxy&quot;
         typed_config:
-         ...
+          &quot;@type&quot;: &quot;type.googleapis.com/envoy.extensions.filters.network.mongo_proxy.v3.MongoProxy&quot;
+          ...
   - applyTo: NETWORK_FILTER # http connection manager is a filter in Envoy
     match:
       # context omitted so that this applies to both sidecars and gateways
