@@ -5,7 +5,7 @@ owner: istio/wg-user-experience-maintainers
 test: n/a
 ---
 
-This message occurs when an `EnvoyFilter` uses the `REMOVE` operation but where applyTo is set to `ROUTE_CONFIGURATION` or `HTTP_ROUTE`.  This will cause the `REMOVE` operation to be ignored.  At the moment only the `MERGE` operation can be used for `ROUTE_CONFIGURATION`. 
+This message occurs when an `EnvoyFilter` uses the `REMOVE` operation but where applyTo is set to `ROUTE_CONFIGURATION` or `HTTP_ROUTE`.  This will cause the `REMOVE` operation to be ignored.  At the moment only the `MERGE` operation can be used for `ROUTE_CONFIGURATION`.
 
 ## An example
 
