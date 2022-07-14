@@ -111,6 +111,18 @@ Setting the ingress IP depends on the cluster provider:
     $ export INGRESS_HOST=127.0.0.1
     {{< /text >}}
 
+1.  _minikube:_
+
+    {{< text bash >}}
+    minikube tunnel
+    {{< /text >}}
+    
+    and then open a new tab with
+    
+    {{< text bash >}}
+    $ export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+    {{< /text >}}
+
 1.  _Other environments:_
 
     {{< text bash >}}
