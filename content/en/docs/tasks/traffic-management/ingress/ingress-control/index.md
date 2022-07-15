@@ -38,6 +38,15 @@ If the `EXTERNAL-IP` value is set, your environment has an external load balance
 If the `EXTERNAL-IP` value is `<none>` (or perpetually `<pending>`), your environment does not provide an external load balancer for the ingress gateway.
 In this case, you can access the gateway using the service's [node port](https://kubernetes.io/docs/concepts/services-networking/service/#nodeport).
 
+{{< tip >}}
+If you are using minikube, you can easily start an external load balancer (recommended) by running the following command in a different terminal:
+
+{{< text bash >}}
+$ minikube tunnel
+{{< /text >}}
+
+{{< /tip >}}
+
 Choose the instructions corresponding to your environment:
 
 {{< tabset category-name="gateway-ip" >}}
@@ -109,18 +118,6 @@ Setting the ingress IP depends on the cluster provider:
 
     {{< text bash >}}
     $ export INGRESS_HOST=127.0.0.1
-    {{< /text >}}
-
-1.  _minikube:_
-
-    {{< text bash >}}
-    minikube tunnel
-    {{< /text >}}
-    
-    and then open a new tab with
-    
-    {{< text bash >}}
-    $ export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
     {{< /text >}}
 
 1.  _Other environments:_
