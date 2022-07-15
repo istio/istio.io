@@ -154,8 +154,8 @@ This can also be achieved with Istio `ServiceEntry`, rather than Kubernetes
 `Service`. However, a `ServiceEntry` does not configure the Kubernetes DNS server.
 This means that DNS will need to be configured either manually or
 with automated tooling such as the
-[Address auto allocation](https://istio.io/latest/docs/ops/configuration/traffic-management/dns-proxy/#address-auto-allocation)
-feature of [Istio DNS Proxying](https://istio.io/latest/docs/ops/configuration/traffic-management/dns-proxy/).
+[Address auto allocation](/docs/ops/configuration/traffic-management/dns-proxy/#address-auto-allocation)
+feature of [Istio DNS Proxying](/docs/ops/configuration/traffic-management/dns-proxy/).
 
 {{< tip >}}
 There are a few efforts in progress that will help simplify the DNS story:
