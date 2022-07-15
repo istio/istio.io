@@ -56,7 +56,7 @@ spec:
 
 ## How to resolve
 
-Because the relative operation of `INSERT_BEFORE` was used changing it to absolute operation of `INSERT_FIRST` would resolve the issue:
+Because the relative operation of `INSERT_BEFORE` was used, changing it to absolute operation of `INSERT_FIRST` would resolve the issue:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3

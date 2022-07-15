@@ -5,7 +5,7 @@ owner: istio/wg-user-experience-maintainers
 test: n/a
 ---
 
-This message occurs when an `EnvoyFilter` does not have a priority and uses a relative patch operation (`INSERT_BEFORE/AFTER`, `REPLACE`, `MERGE`, `DELETE`) and `proxyVersion` set which can cause the `EnvoyFilter` not to be applied during an upgrade. Using the `INSERT_FIRST` or `ADD` option or setting the priority may help in ensuring the `EnvoyFilter` is applied correctly."  The reason for concern with the `proxyVersion` is that after an upgrade the `proxyVersion` would most likely need to change and the order its applied would now be different than before
+This message occurs when an `EnvoyFilter` does not have a priority and uses a relative patch operation (`INSERT_BEFORE/AFTER`, `REPLACE`, `MERGE`, `DELETE`) and `proxyVersion` set which can cause the `EnvoyFilter` not to be applied during an upgrade. Using the `INSERT_FIRST` or `ADD` option or setting the priority may help in ensuring the `EnvoyFilter` is applied correctly."  The reason for concern with the `proxyVersion` is that after an upgrade the `proxyVersion` would likely have changed and the order it is applied would now be different than before
 
 ## An example
 
@@ -91,7 +91,7 @@ spec:
 
 ## How to resolve
 
-Because the relative operation of `REPLACE` was used along with the `proxyVersion` changing it by adding a `priority` would resolve the issue:
+Because the relative operation of `REPLACE` was used along with the `proxyVersion`, adding a `priority` would resolve the issue:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
