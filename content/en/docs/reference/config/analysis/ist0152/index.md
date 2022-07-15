@@ -5,7 +5,7 @@ owner: istio/wg-user-experience-maintainers
 test: n/a
 ---
 
-This message occurs when an `EnvoyFilter` uses the `REPLACE` operation and `ApplyTo` is set to `HTTP_FILTER` or `NETWORK_FILTER`.  This will cause the `REPLACE` operation to be ignored as `HTTP_FILTER` and `NETWORK_FILTER` are not valid for `REPLACE`
+This message occurs when an `EnvoyFilter` uses the `REPLACE` operation and `ApplyTo` is set to `HTTP_FILTER` or `NETWORK_FILTER`.  This will cause the `REPLACE` operation to be ignored as `HTTP_FILTER` and `NETWORK_FILTER` are not valid for `REPLACE`.
 
 ## An example
 
