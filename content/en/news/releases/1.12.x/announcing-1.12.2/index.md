@@ -64,5 +64,5 @@ Introduced a flag `meshConfig.defaultConfig.proxyMetadata.INVALID_DROP` to contr
 - **Fixed** changes in delegate virtual service not taking effect when RDS cache enabled.
   ([Issue #36525](https://github.com/istio/istio/issues/36525))
 
-- **Fixed** an issue when using Envoy [`v3alpha`](https://www.envoyproxy.io/docs/envoy/latest/version_history/v1.20.0#incompatible-behavior-changes) APIs in `EnvoyFilter`.
+- **Fixed** an issue when using Envoy [`v3alpha`](https://www.envoyproxy.io/docs/envoy/latest/version_history/v1.20.0#incompatible-behavior-changes) APIs in `EnvoyFilters`.
   ([Issue #36537](https://github.com/istio/istio/issues/36537))
