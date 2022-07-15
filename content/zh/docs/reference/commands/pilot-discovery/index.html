@@ -269,12 +269,12 @@ to enable it.  You can execute the following once:</p>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, delta, file, gateway, grpcgen, installer, klog, kube, model, monitor, pkica, pkira, processing, proxyconfig, retry, rootcertrotator, secretcontroller, serverca, serviceentry, spiffe, status, telemetry, tpath, trustBundle, util, validation, validationController, validationServer, wasm, wle]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, delta, file, gateway, grpcgen, installer, klog, kube, model, monitor, pkica, pkira, processing, proxyconfig, retry, rootcertrotator, secretcontroller, security, serverca, serviceentry, spiffe, status, telemetry, tpath, trustBundle, util, validation, validationController, validationServer, wasm, wle]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, delta, file, gateway, grpcgen, installer, klog, kube, model, monitor, pkica, pkira, processing, proxyconfig, retry, rootcertrotator, secretcontroller, serverca, serviceentry, spiffe, status, telemetry, tpath, trustBundle, util, validation, validationController, validationServer, wasm, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, delta, file, gateway, grpcgen, installer, klog, kube, model, monitor, pkica, pkira, processing, proxyconfig, retry, rootcertrotator, secretcontroller, security, serverca, serviceentry, spiffe, status, telemetry, tpath, trustBundle, util, validation, validationController, validationServer, wasm, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -299,7 +299,7 @@ to enable it.  You can execute the following once:</p>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, delta, file, gateway, grpcgen, installer, klog, kube, model, monitor, pkica, pkira, processing, proxyconfig, retry, rootcertrotator, secretcontroller, serverca, serviceentry, spiffe, status, telemetry, tpath, trustBundle, util, validation, validationController, validationServer, wasm, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, delta, file, gateway, grpcgen, installer, klog, kube, model, monitor, pkica, pkira, processing, proxyconfig, retry, rootcertrotator, secretcontroller, security, serverca, serviceentry, spiffe, status, telemetry, tpath, trustBundle, util, validation, validationController, validationServer, wasm, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -1223,6 +1223,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>OIDC token issuer. If set, will be used to check the tokens.</td>
 </tr>
 <tr>
+<td><code>TRUSTED_GATEWAY_CIDR</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>If set, any connections from gateway to Istiod with this CIDR range are treated as trusted for using authenication mechanisms like XFCC. This can only be used when the network where Istiod and the authenticating gateways are running in a trusted/secure network</td>
+</tr>
+<tr>
 <td><code>UNSAFE_ENABLE_ADMIN_ENDPOINTS</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -1274,7 +1280,7 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td><code>XDS_AUTH_PLAINTEXT</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
-<td>Authenticate plain text requests - used if Istiod is behind a gateway handling TLS</td>
+<td>Authenticate plain text requests - used if Istiod is running on a secure/trusted network</td>
 </tr>
 </tbody>
 </table>
