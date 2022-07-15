@@ -7722,6 +7722,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>A list of comma separated audiences to check in the JWT token before issuing a certificate. The token is accepted if it matches with one of the audiences</td>
 </tr>
 <tr>
+<td><code>TRUSTED_GATEWAY_CIDR</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>If set, any connections from gateway to Istiod with this CIDR range are treated as trusted for using authenication mechanisms like XFCC. This can only be used when the network where Istiod and the authenticating gateways are running in a trusted/secure network</td>
+</tr>
+<tr>
 <td><code>UNSAFE_ENABLE_ADMIN_ENDPOINTS</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -7767,7 +7773,7 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td><code>XDS_AUTH_PLAINTEXT</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
-<td>Authenticate plain text requests - used if Istiod is behind a gateway handling TLS</td>
+<td>Authenticate plain text requests - used if Istiod is running on a secure/trusted network</td>
 </tr>
 </tbody>
 </table>
