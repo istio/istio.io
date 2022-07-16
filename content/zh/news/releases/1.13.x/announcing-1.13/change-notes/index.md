@@ -154,7 +154,7 @@ aliases:
 
 - **新增** stats 命令中新增了 `istioctl experimental envoy-stats` 用于检索 istio-proxy envoy 指标。
 
-- **修复** 修复了`--duration`标志永远不会在` istioctl bug-report`命令中使用。
+- **修复** 修复了 `--duration` 标志永远不会在 `istioctl bug-report` 命令中使用。
 
 - **修复** 修复了在 `istioctl bug-report` 中使用标志会导致错误结果。
   ([Issue #36103](https://github.com/istio/istio/issues/36103))
