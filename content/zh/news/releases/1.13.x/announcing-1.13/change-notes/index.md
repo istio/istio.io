@@ -19,7 +19,7 @@ aliases:
 
 - **新增** 新增了对 gRPC 探针重写的支持。
 
-- **新增** 新增了一个功能标志 `PILOT_LEGACY_INGRESS_BEHAVIOR`，默认为 false。如果设置为 true，Istio ingress 将执行不符合[ Kubernetes 规范](https://kubernetes.io/docs/concepts/services-networking/ingress/#multiple-matches)。
+- **新增** 新增了一个功能标志 `PILOT_LEGACY_INGRESS_BEHAVIOR`，默认为 false。如果设置为 true，Istio ingress 将执行不符合[Kubernetes 规范](https://kubernetes.io/docs/concepts/services-networking/ingress/#multiple-matches)。
   ([Issue #35033](https://github.com/istio/istio/issues/35033))
 
 - **新增** 新增了通过 `proxyMetadata` 在 Envoy 工作线程之间取得平衡监听器的支持。
@@ -80,10 +80,10 @@ aliases:
 - **新增** 新增了边车 API 的 TLS 设置，以便在边车代理上对来自网格外部的请求启用 TLS/mTLS 终止。
   ([Issue #35111](https://github.com/istio/istio/issues/35111))
 
-- **提升** 将[授权策略试运行模式](/docs/tasks/security/authorization/authz-dry-run/) 提升到 Alpha。
+- **提升** 将[授权策略试运行模式](/docs/tasks/security/authorization/authz-dry-run/)提升到 Alpha。
   ([Issue #112](https://github.com/istio/enhancements/pull/112))
 
-- **修复** 修复了 ext-authz 过滤器中影响 gRPC 检查响应 API 行为的几个问题。有关更多信息，请参阅 [ Envoy 发布说明](https://www.envoyproxy.io/docs/envoy/latest/version_history/v1.20.0#bug-fixes) 如果您将授权策略与 Istio 中的 ext-authz gRPC 扩展提供程序一起使用，则可以查看错误修复的详细信息。
+- **修复** 修复了 ext-authz 过滤器中影响 gRPC 检查响应 API 行为的几个问题。有关更多信息，请参阅 [Envoy 发布说明](https://www.envoyproxy.io/docs/envoy/latest/version_history/v1.20.0#bug-fixes) 如果您将授权策略与 Istio 中的 ext-authz gRPC 扩展提供程序一起使用，则可以查看错误修复的详细信息。
   ([Issue #35480](https://github.com/istio/istio/issues/35480))
 
 ## 遥测{#telemetry}
@@ -94,9 +94,9 @@ aliases:
 - **新增** 新增了通用表达式语言 (CEL) 过滤器支持访问日志。
   ([Issue #36514](https://github.com/istio/istio/issues/36514))
 
-- **新增** 新增了访问日志提供程序和访问日志过滤控件遥测 API。 
+- **新增** 新增了访问日志提供程序和访问日志过滤控件遥测 API。
 
-- **新增** 新增了一个用于设置在确定跟踪的采样策略时是否应使用边车生成的请求 ID 的选项，
+- **新增** 新增了一个用于设置在确定跟踪的采样策略时是否应使用边车生成的请求 ID 的选项。
 
 - **新增** 新增了可配置的服务集群命名方案支持。
   ([Issue #36162](https://github.com/istio/istio/issues/36162))
@@ -110,7 +110,7 @@ aliases:
 - **新增** 新增了一个 Istio-CNI Helm 图表用以设置 `securityContext` 标志的特权标志。
   ([Issue #34211](https://github.com/istio/istio/issues/34211))
 
-- **移除** 移除了在使用多集群机密时支持许多非标准的 `kubeconfig` 身份验证方法。 
+- **移除** 移除了在使用多集群机密时支持许多非标准的 `kubeconfig` 身份验证方法。
 
 - **更新** 更新了 istiod 部署以维护 `values.pilot.nodeSelector`。
   ([Issue #36110](https://github.com/istio/istio/issues/36110))
