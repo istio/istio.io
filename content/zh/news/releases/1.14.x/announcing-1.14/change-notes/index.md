@@ -76,7 +76,7 @@ aliases:
 
 - **修复** 删除内联网络和 HTTP 过滤器无法正常工作的问题。
 
-- **修复** 导致从网关到服务的流量 [undeclared protocol](/docs/ops/configuration/traffic-management/protocol-selection/#automatic-protocol-selection) 被视为TCP流量而不是HTTP流量的问题。
+- **修复** 导致从网关到服务的流量 [undeclared protocol](/zh/docs/ops/configuration/traffic-management/protocol-selection/#automatic-protocol-selection) 被视为TCP流量而不是HTTP流量的问题。
   ([Issue #37196](https://github.com/istio/istio/issues/37196))
 
 - **修复** 当 DNS 查找失败时， `DNS` 类型 `ServiceEntry` 会导致过多的 DNS 请求。
