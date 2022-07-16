@@ -93,12 +93,11 @@ aliases:
   ([Issue #37989](https://github.com/istio/istio/issues/37989)),([Issue #37974](https://github.com/istio/istio/issues/37974))
 
 - **更新** Istio 的默认负载均衡算法从 `ROUND_ROBIN` 到 `LEAST_REQUEST`。
-  `ROUND_ROBIN` 算法可能会导致端点负载过重，尤其是当权重时被使用。`LEAST_REQUEST` 算法更均匀地分配负载并且更少
-可能会使端点负担过重。大量实验（Istio 和
+  `ROUND_ROBIN` 算法可能会导致端点负载过重，尤其是当权重时被使用。`LEAST_REQUEST` 算法更均匀地分配负载并且更少可能会使端点负担过重。大量实验（Istio 和
   Envoy 团队）已经表明，`LEAST_REQUEST` 在几乎所有方面都优于  `ROUND_ROBIN` ，很少/没有缺点。它通常被认为是替代 
   `ROUND_ROBIN`。
   如果明确指定，将继续支持 `ROUND_ROBIN`。恢复
-  `ROUND_ROBIN` 作为默认值，设置 istiod 环境变量 
+  `ROUND_ROBIN` 作为默认值，设置 istiod 环境变量
   `ENABLE_LEGACY_LB_ALGORITHM_DEFAULT=true`。
 
 ## 安全{#security}
@@ -192,5 +191,5 @@ aliases:
 - **修复** 使用 `kube-inject` 时出现 nil 指针，取消引用恐慌，没有通过所需的修订，但也传递了 `injectConfigMapName`。  ([Issue #38083](https://github.com/istio/istio/issues/38083))
 
 - **修复** Kubernetes 1.24+ 上 `istioctl create-remote-secret` 的行为。在这些版本中，
-  不再自动创建包含 `ServiceAccount` API 令牌的 Secret，因此  `istioctl` 
+  不再自动创建包含 `ServiceAccount` API 令牌的 Secret，因此  `istioctl`
   将要[创建一个服务账号令牌](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#manually-create-a-service-account-api-token)。
