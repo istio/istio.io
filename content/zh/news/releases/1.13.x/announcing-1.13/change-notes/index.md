@@ -22,7 +22,7 @@ aliases:
 - **新增** 新增了一个功能标志`PILOT_LEGACY_INGRESS_BEHAVIOR`，默认为 false。如果设置为 true，Istio ingress 将执行不符合 [Kubernetes 规范](https://kubernetes.io/docs/concepts/services-networking/ingress/#multiple-matches)。
   ([Issue #35033](https://github.com/istio/istio/issues/35033))
 
-- **新增** 新增了通过`proxyMetadata`在 Envoy 工作线程之间取得平衡监听器的支持。([Issue #18152](https://github.com/istio/istio/issues/18152))
+- **新增** 新增了通过 `proxyMetadata` 在 Envoy 工作线程之间取得均衡监听器的支持。([Issue #18152](https://github.com/istio/istio/issues/18152))
 
 - **提升** `WorkloadGroup`到 v1beta1。
   ([Issue #25652](https://github.com/istio/istio/issues/25652))
