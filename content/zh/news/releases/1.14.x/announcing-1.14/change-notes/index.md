@@ -7,7 +7,7 @@ publishdate: 2022-05-24
 release: 1.14.0
 weight: 10
 aliases:
-- /news/announcing-1.14.0
+- /zh/news/announcing-1.14.0
 ---
 
 ## 流量管理{#traffic-management}
