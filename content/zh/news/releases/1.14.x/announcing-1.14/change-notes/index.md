@@ -62,7 +62,7 @@ aliases:
 
 - **新增** 支持在 Envoy 过滤器中替换虚拟主机。
 
-- **新增** 在 [Proxy Config](/docs/reference/config/istio.mesh.v1alpha1/#ProxyConfig) 中新增了 API `runtimeValues` 来
+- **新增** 在 [Proxy Config](/zh/docs/reference/config/istio.mesh.v1alpha1/#ProxyConfig) 中新增了 API `runtimeValues` 来
   配置 Envoy 运行时。  ([Issue #37202](https://github.com/istio/istio/issues/37202))
 
 - **新增** 设置上游 TLS 最高版本为 TLS 1.3。  ([Issue #36271](https://github.com/istio/istio/issues/36271))
