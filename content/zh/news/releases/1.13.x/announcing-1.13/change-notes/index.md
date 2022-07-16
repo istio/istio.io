@@ -80,7 +80,7 @@ aliases:
 - **新增** 新增了边车 API 的 TLS 设置，以便在边车代理上对来自网格外部的请求启用 TLS/mTLS 终止。
   ([Issue #35111](https://github.com/istio/istio/issues/35111))
 
-- **提升** 将[授权策略试运行模式](/docs/tasks/security/authorization/authz-dry-run/)提升到 Alpha。
+- **提升** 将 [授权策略试运行模式](/docs/tasks/security/authorization/authz-dry-run/) 提升到 Alpha。
   ([Issue #112](https://github.com/istio/enhancements/pull/112))
 
 - **修复** 修复了 ext-authz 过滤器中影响 gRPC 检查响应 API 行为的几个问题。有关更多信息，请参阅 [Envoy 发布说明](https://www.envoyproxy.io/docs/envoy/latest/version_history/v1.20.0#bug-fixes) 如果您将授权策略与 Istio 中的 ext-authz gRPC 扩展提供程序一起使用，则可以查看错误修复的详细信息。
@@ -105,7 +105,6 @@ aliases:
   ([Issue #35663](https://github.com/istio/istio/issues/35663))
 
 ## 安装{#installation}
-
 
 - **新增** 新增了一个 Istio-CNI Helm 图表用以设置 `securityContext` 标志的特权标志。
   ([Issue #34211](https://github.com/istio/istio/issues/34211))
