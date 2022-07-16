@@ -13,7 +13,7 @@ aliases:
 ## 流量管理{#traffic-management}
 
 - **新增** 支持将未准备好的端点发送到 Envoy，当 Envoy 启用慢启动模式时，这将非常有用。
-  这可以通过将`PILOT_SEND_UNHEALTHY_ENDPOINTS` 设置为 false 来禁用。
+  这可以通过将 `PILOT_SEND_UNHEALTHY_ENDPOINTS` 设置为 false 来禁用。
 
 - **新增** 新的配置选项 `istio-iptables` 和 `istio-clean-iptables`
   用于包括/排除某些用户组不拦截流出的流量生成。
