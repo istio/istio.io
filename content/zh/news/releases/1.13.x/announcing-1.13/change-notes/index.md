@@ -152,7 +152,7 @@ aliases:
 - **新增** 新增了`istioctl analyze`现在支持`--ignore-unknown`，用以抑制在文件或目录中发现非 k8s yaml 文件时出错。
   ([Issue #36471](https://github.com/istio/istio/issues/36471))
 
-- **新增** stats 命令中新增了 `istioctl experimental envoy-stats`用于检索 istio-proxy envoy 指标。
+- **新增** stats 命令中新增了 `istioctl experimental envoy-stats` 用于检索 istio-proxy envoy 指标。
 
 - **修复** 修复了`--duration`标志永远不会在` istioctl bug-report`命令中使用。
 
