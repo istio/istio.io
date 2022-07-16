@@ -159,7 +159,7 @@ aliases:
 - **修复** 修复了在 `istioctl bug-report` 中使用标志会导致错误结果。
   ([Issue #36103](https://github.com/istio/istio/issues/36103))
 
-- **修复** 修复了`operator init --dry-run`创建不期望的命名空间。
+- **修复** 修复了 `operator init --dry-run` 创建不期望的命名空间。
 
 - **修复** 修复了虚拟机配置中 json 编组后的错误格式。
   ([Issue #36358](https://github.com/istio/istio/issues/36358))
