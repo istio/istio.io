@@ -97,7 +97,7 @@ aliases:
 可能会使端点负担过重。大量实验（Istio 和
   Envoy 团队）已经表明，`LEAST_REQUEST` 在几乎所有方面都优于  `ROUND_ROBIN` ，很少/没有缺点。它通常被认为是替代 
   `ROUND_ROBIN`。
-  如果明确指定，将继续支持 `ROUND_ROBIN`。恢复 
+  如果明确指定，将继续支持 `ROUND_ROBIN`。恢复
   `ROUND_ROBIN` 作为默认值，设置 istiod 环境变量 
   `ENABLE_LEGACY_LB_ALGORITHM_DEFAULT=true`。
 
