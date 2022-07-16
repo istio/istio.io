@@ -26,7 +26,7 @@ aliases:
   为了改变这种行为，系统管理员现在可以使用两个新的环境变量 `istio-iptables` 和 `istio-clean-iptables` 支持: `ISTIO_OUTBOUND_OWNER_GROUPS`
   和 `ISTIO_OUTBOUND_OWNER_GROUPS_EXCLUDE`。
 
-  `ISTIO_OUTBOUND_OWNER_GROUPS` 是一个以逗号分隔的组列表，其输出流量
+`ISTIO_OUTBOUND_OWNER_GROUPS` 是一个以逗号分隔的组列表，其输出流量
   应该重定向到 Envoy (sidecar)。
   可以通过名称或数字 GID 指定组。
   通配符 `*` 可用于配置来自所有组的流量重定向。
