@@ -193,4 +193,4 @@ aliases:
 
 - **修复** Kubernetes 1.24+ 上 `istioctl create-remote-secret` 的行为。在这些版本中，
   不再自动创建包含 `ServiceAccount` API 令牌的 Secret，因此  `istioctl` 
-  将要 [create one](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#manually-create-a-service-account-api-token).
+  将要[创建一个服务账号令牌](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#manually-create-a-service-account-api-token)。
