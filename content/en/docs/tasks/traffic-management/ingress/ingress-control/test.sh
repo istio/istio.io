@@ -36,11 +36,11 @@ unset CMP_MATCH_IP_PENDING
 # set INGRESS_HOST, INGRESS_PORT, SECURE_INGRESS_PORT, and TCP_INGRESS_PORT environment variables
 if [[ "$out" != *"<none>"* && "$out" != *"<pending>"* ]]; then
     # external load balancer
-    snip_determining_the_ingress_ip_and_ports_2
+    snip_determining_the_ingress_ip_and_ports_3
 else
     # node port
-    snip_determining_the_ingress_ip_and_ports_4
-    snip_determining_the_ingress_ip_and_ports_10
+    snip_determining_the_ingress_ip_and_ports_5
+    snip_determining_the_ingress_ip_and_ports_11
 fi
 
 # create the gateway and routes
