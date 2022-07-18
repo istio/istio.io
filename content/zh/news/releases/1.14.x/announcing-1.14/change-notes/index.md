@@ -55,7 +55,7 @@ aliases:
   当在 `WorkloadSelector` 中指定 `DestinationRule` 时，
   前提是 sidecar 有权在其所在的命名空间中列出机密。
 
-- **新增** 在 `WorkloadSelector` 中支持 `DestinationRule`。
+- **新增** `DestinationRule` 支持 `WorkloadSelector`。
 
 - **新增** 在 `VirtualService.TLSRoute.Match.SniHosts` 中尝试使用IP地址作为SNI值的用户警告消息。
   ([Issue #33401](https://github.com/istio/istio/issues/33401))
