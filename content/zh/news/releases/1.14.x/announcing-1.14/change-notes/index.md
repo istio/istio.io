@@ -92,7 +92,7 @@ aliases:
   这可以通过  `PILOT_PARTIAL_FULL_PUSHES=false` 环境变量禁用。
   ([Issue #37989](https://github.com/istio/istio/issues/37989)),([Issue #37974](https://github.com/istio/istio/issues/37974))
 
-- **更新** Istio 的默认负载均衡算法从 `ROUND_ROBIN` 到 `LEAST_REQUEST`。
+- **更新** Istio 的默认负载均衡算法从 `ROUND_ROBIN` 改为 `LEAST_REQUEST`。
   `ROUND_ROBIN` 算法可能会导致端点负载过重，尤其是当权重时被使用。`LEAST_REQUEST` 算法更均匀地分配负载并且更少可能会使端点负担过重。大量实验（Istio 和
   Envoy 团队）已经表明，`LEAST_REQUEST` 在几乎所有方面都优于  `ROUND_ROBIN` ，很少/没有缺点。它通常被认为是替代
   `ROUND_ROBIN`。
