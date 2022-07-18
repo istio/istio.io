@@ -164,6 +164,6 @@ aliases:
 - **修复** 修复了虚拟机配置中 json 编组后的错误格式。
   ([Issue #36358](https://github.com/istio/istio/issues/36358))
 
-## 文档变更{#Documentationchanges}
+## 文档变更{#documentation-changes}
 
 - **修复** 修复了遥测配置参考页面的格式。
