@@ -33,7 +33,7 @@ aliases:
 
 - **改进** 默认的 `PILOT_MAX_REQUESTS_PER_SECOND` 为 25（之前为 100），它限制了每秒**创建** XDS 连接的数量。这已被证明可以提高高负载下的性能。
 
-- **更新** 更新了控制平面读取 `EndpointSlice` 而不是 `Endpoints` 用于 Kubernetes 1.21 或更高版本的服务发现。切换回旧的 istiod 中基于 `Endpoints` 的行为设置 `PILOT_USE_ENDPOINT_SLICE= false`。
+- **更新** 更新了控制平面读取 `EndpointSlice` 而不是 `Endpoints` 用于 Kubernetes 1.21 或更高版本的服务发现。切换回旧的 istiod 中基于 `Endpoints` 的行为设置 `PILOT_USE_ENDPOINT_SLICE=false`。
 
 - **修复** 修复了为服务目标端口指定冲突协议的问题，将导致该端口的协议选择不稳定。
   ([Issue #36462](https://github.com/istio/istio/issues/36462))
