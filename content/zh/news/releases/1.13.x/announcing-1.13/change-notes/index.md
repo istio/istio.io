@@ -53,7 +53,7 @@ aliases:
 - **修复** 修复了边车 iptables 会由于窗口外数据包导致间歇性连接重置的问题。引入了一个标志 `meshConfig.defaultConfig.proxyMetadata.INVALID_DROP` 来控制此设置。
   ([Issue #36566](https://github.com/istio/istio/pull/36566))
 
-- **修复** 修复了就地升级将导致 <1.12 代理和 1.12 代理之间的 TCP 连接失败的问题。
+- **修复** 修复了原地升级 1.12 之前版本代理到 1.12 版本代理导致 TCP 连接失败的问题。
   ([Issue #36797](https://github.com/istio/istio/pull/36797))
 
 - **修复** 修复了带有任何补丁上下文的 `EnvoyFilter` 将跳过在网关添加新集群和监听器的问题。
