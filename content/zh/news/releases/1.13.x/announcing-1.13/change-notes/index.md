@@ -140,7 +140,7 @@ aliases:
 - **新增** 新增了 `istioctl install` 中日志选项，以防止出现意外消息。
   ([Issue #35770](https://github.com/istio/istio/issues/35770))
 
-- **新增**  新增了 `istioctl ps` 命令的输出中 `CLUSTER` 列。
+- **新增** 新增了 `istioctl ps` 命令的输出中 `CLUSTER` 列。
 
 - **新增** 新增了错误报告的全局通配符模式匹配 `--include` 和 `--exclude` 标志。
 
