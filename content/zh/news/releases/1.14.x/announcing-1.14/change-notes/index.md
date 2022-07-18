@@ -133,7 +133,7 @@ aliases:
 
 - **新增** 支持 `ImagePullPolicy` API 的 `WasmPlugin`。
 
-- **新增** 支持使用 `imagePullSecret` 从私有存储库中提取图像的  `WasmPlugin`。
+- **新增** 支持使用 `imagePullSecret` 从私有存储库中提取镜像的 `WasmPlugin`。
 
 - **改进** 使用标签剥离的 URL + 校验和作为 Wasm 模块缓存键，标签 URL 单独缓存。
   这可能会增加缓存命中的机会（例如，尝试使用标记 URL 和摘要 URL 查找相同的图像。）
