@@ -1,8 +1,8 @@
 ---
-title: 指标度量
-description: 演示 Istio 网格指标度量的配置、收集和处理。
+title: 指标
+description: 演示 Istio 中指标的收集和查询。
 weight: 1
 aliases:
-    - /zh/docs/tasks/telemetry/metrics/
+ - /zh/docs/tasks/telemetry/metrics/
 test: n/a
 ---
