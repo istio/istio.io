@@ -26,7 +26,7 @@ aliases:
   ([Issue #18152](https://github.com/istio/istio/issues/18152))
 
 - **提升** `WorkloadGroup` 到 v1beta1。
-  ([Issue #25652](https://github.com/istio/istio/i ssues/25652))
+  ([Issue #25652](https://github.com/istio/istio/issues/25652))
 
 - **改进** 改进了 istio-agent 健康探测重写为不重用连接，反映 Kubernetes 的探测行为。
   ([Issue #36390](https://github.com/istio/istio/issues/36390))
