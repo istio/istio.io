@@ -63,7 +63,7 @@ aliases:
 
 - **修复** 修复了在网关中使用 `ISTIO_MUTUAL` TLS 模式同时设置 `credentialName` 导致无法配置双向 TLS 的问题。此配置现在被拒绝，因为 `ISTIO_MUTUAL` 旨在在未设置 `credentialName` 的情况下使用。通过在 Istiod 中配置 `PILOT_ENABLE_LEGACY_ISTIO_MUTUAL_CREDENTIAL_NAME=true` 环境变量，可以保留旧行为。
 
-- ** 修复** 修复了启用 RDS 缓存时委托 VirtualService 中的更改不生效的问题。
+- **修复** 修复了启用 RDS 缓存时委托 VirtualService 中的更改不生效的问题。
   ([Issue #36525](https://github.com/istio/istio/issues/36525))
 
 - **修复** 修复了导致端口 22 上的流量出现 mTLS 错误的问题，默认情况下将端口 22 包含在 iptables 中。
