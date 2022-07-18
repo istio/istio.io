@@ -23,8 +23,7 @@ aliases:
   默认情况下，Istio Sidecar 将拦截来自所有进程的输出流量，
   不管它们在什么用户组下运行。
 
-  为了改变这种行为，系统管理员现在可以使用两个新的环境变量 `istio-iptables` 和 `istio-clean-iptables` 支持: `ISTIO_OUTBOUND_OWNER_GROUPS`
-  和 `ISTIO_OUTBOUND_OWNER_GROUPS_EXCLUDE`。
+  为了改变这种行为，系统管理员现在可以使用两个新的环境变量 `istio-iptables` 和 `istio-clean-iptables` 支持: `ISTIO_OUTBOUND_OWNER_GROUPS` 和 `ISTIO_OUTBOUND_OWNER_GROUPS_EXCLUDE`。
 
 `ISTIO_OUTBOUND_OWNER_GROUPS` 是一个以逗号分隔的组列表，其输出流量
   应该重定向到 Envoy (sidecar)。
@@ -85,7 +84,7 @@ aliases:
 - **修复** 使用 CNI 时的 IP 系列检测与不使用 CNI 时的行为方式相同。
   ([Issue #36871](https://github.com/istio/istio/issues/36871))
 
-- **修复** IPv6 detection on clusters with IPv4 NAT implementation, such as Amazon EKS, by excluding link-local addresses from detection.
+- **修复** 在具有 IPv4 NAT 实施的集群上进行 IPv6 检测，例如 Amazon EKS，通过从检测中排除链接本地地址。
   ([Issue #36961](https://github.com/istio/istio/issues/36961))
 
 - **改进** XDS 生成尽可能发送更少的资源，有时完全忽略响应。
