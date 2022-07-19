@@ -100,7 +100,7 @@ $ helm repo update
 We can use Helm `post-renderer` to validate rendered manifests before they are installed by Helm
 
 {{< text bash >}}
-$ helm template istio/gateway --post-renderer ./kustomize.sh | grep -B 4 -A 1 netfilter.nf_conntrack_tcp_timeout_close_wait
+$ helm template istio-ingressgateway istio/gateway --post-renderer ./kustomize.sh | grep -B 4 -A 1 netfilter.nf_conntrack_tcp_timeout_close_wait
 {{< /text >}}
 
 In the output, check for the newly added `sysctl` attribute for `ingress-gateway` pod:
