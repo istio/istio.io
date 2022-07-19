@@ -26,34 +26,6 @@ kubectl_get_egress_gateway_for_remote_cluster() {
   echo "$response"
 }
 
-# Override some snip functions to configure the istiod gateway using TLS passthrough in the test environemnt.
-
-snip_get_external_istiod_iop_modified() {
-    snip_get_external_istiod_iop
-
-    # Update config file: delete CA certificates and meshID, and update pilot vars
-    # TODO(https://github.com/istio/istio/issues/31690) remove 'env' replace
-    sed -i \
-        -e '/proxyMetadata:/,+2d' \
-        -e '/INJECTION_WEBHOOK_CONFIG_NAME/,+1d' \
-        -e "/VALIDATION_WEBHOOK_CONFIG_NAME/,+1d" \
-        external-istiod.yaml
-}
-
-snip_get_external_istiod_gateway_config_modified() {
-    TMP="$EXTERNAL_ISTIOD_ADDR"
-    EXTERNAL_ISTIOD_ADDR='"*"'
-    snip_get_external_istiod_gateway_config
-
-    # Update config file: delete the DestinationRule, don't terminate TLS in the Gateway, and use TLS routing in the VirtualService
-    sed -i \
-        -e '55,$d' \
-        -e 's/mode: SIMPLE/mode: PASSTHROUGH/' -e '/credentialName:/d' \
-        -e 's/http:/tls:/' -e 's/https/tls/' -e "/route:/i\        sniHosts:\n        - ${EXTERNAL_ISTIOD_ADDR}" \
-        external-istiod-gw.yaml
-    EXTERNAL_ISTIOD_ADDR="$TMP"
-}
-
 # Set the CTX_EXTERNAL_CLUSTER, CTX_REMOTE_CLUSTER, and REMOTE_CLUSTER_NAME env variables.
 
 _set_kube_vars # helper function to initialize KUBECONFIG_FILES and KUBE_CONTEXTS
@@ -68,34 +40,35 @@ echo y | snip_set_up_a_gateway_in_the_external_cluster_2
 
 _verify_like snip_set_up_a_gateway_in_the_external_cluster_3 "$snip_set_up_a_gateway_in_the_external_cluster_3_out"
 
-export SSL_SECRET_NAME="UNUSED"
-export EXTERNAL_ISTIOD_ADDR=$(kubectl \
-    --context="${CTX_EXTERNAL_CLUSTER}" \
-    -n istio-system get svc istio-ingressgateway \
-    -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+snip_set_up_a_gateway_in_the_external_cluster_6
 
 # Set up the remote cluster.
 
 snip_get_remote_config_cluster_iop
+snip_set_up_the_remote_config_cluster_2
 
 #set +e #ignore failures here
-echo y | snip_set_up_the_remote_config_cluster_2
+echo y | snip_set_up_the_remote_config_cluster_3
 #set -e
 
-_verify_like snip_set_up_the_remote_config_cluster_3 "$snip_set_up_the_remote_config_cluster_3_out"
+_verify_like snip_set_up_the_remote_config_cluster_4 "$snip_set_up_the_remote_config_cluster_4_out"
 
 # Install istiod on the external cluster.
 
 snip_set_up_the_control_plane_in_the_external_cluster_1
 snip_set_up_the_control_plane_in_the_external_cluster_2
 
-snip_get_external_istiod_iop_modified
-echo y | istioctl manifest generate -f external-istiod.yaml --set values.pilot.env.ISTIOD_CUSTOM_HOST="${EXTERNAL_ISTIOD_ADDR}" | kubectl apply --context="${CTX_EXTERNAL_CLUSTER}" -f -
+snip_get_external_istiod_iop
+snip_set_up_the_control_plane_in_the_external_cluster_4
 
-_verify_like snip_set_up_the_control_plane_in_the_external_cluster_5 "$snip_set_up_the_control_plane_in_the_external_cluster_5_out"
+echo y | snip_set_up_the_control_plane_in_the_external_cluster_5
 
-snip_get_external_istiod_gateway_config_modified
-snip_set_up_the_control_plane_in_the_external_cluster_7
+_verify_like snip_set_up_the_control_plane_in_the_external_cluster_6 "$snip_set_up_the_control_plane_in_the_external_cluster_6_out"
+
+snip_get_external_istiod_gateway_config
+snip_set_up_the_control_plane_in_the_external_cluster_8
+
+snip_set_up_the_control_plane_in_the_external_cluster_9
 
 # Validate the installation.
 
@@ -132,13 +105,15 @@ export SECOND_CLUSTER_NAME="${CTX_SECOND_CLUSTER}"
 
 snip_get_second_config_cluster_iop
 snip_register_the_new_cluster_2
-echo y | snip_register_the_new_cluster_3
+
+snip_register_the_new_cluster_3
+echo y | snip_register_the_new_cluster_4
 
 # Confirm remote cluster’s webhook configuration has been installed
-_verify_like snip_register_the_new_cluster_4 "$snip_register_the_new_cluster_4_out"
+_verify_like snip_register_the_new_cluster_5 "$snip_register_the_new_cluster_5_out"
 
 # Create a secret with credentials to allow the control plane to access the endpoints on the second remote cluster and install it
-snip_register_the_new_cluster_5
+snip_register_the_new_cluster_6
 
 # Setup east-west gateways
 snip_setup_eastwest_gateways_1
