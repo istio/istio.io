@@ -165,6 +165,7 @@ and installing the sidecar injector webhook configuration on the remote cluster 
 
     {{< text bash >}}
     $ export EXTERNAL_ISTIOD_ADDR=$(kubectl -n istio-system --context="${CTX_EXTERNAL_CLUSTER}" get svc istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+    $ export SSL_SECRET_NAME=NONE
     {{< /text >}}
 
     Doing this will also require a few other changes in the configuration. Make sure to follow all of the related tips

@@ -70,6 +70,7 @@ ENDSNIP
 
 snip_set_up_a_gateway_in_the_external_cluster_6() {
 export EXTERNAL_ISTIOD_ADDR=$(kubectl -n istio-system --context="${CTX_EXTERNAL_CLUSTER}" get svc istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+export SSL_SECRET_NAME=NONE
 }
 
 snip_get_remote_config_cluster_iop() {
