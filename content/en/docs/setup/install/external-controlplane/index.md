@@ -155,7 +155,7 @@ and installing the sidecar injector webhook configuration on the remote cluster 
     Your environment variables should look something like this:
 
     {{< text bash >}}
-    $ echo $EXTERNAL_ISTIOD_ADDR $SSL_SECRET_NAME
+    $ echo "$EXTERNAL_ISTIOD_ADDR" "$SSL_SECRET_NAME"
     myhost.example.com myhost-example-credential
     {{< /text >}}
 

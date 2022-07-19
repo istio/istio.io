@@ -61,7 +61,7 @@ istiod-68488cd797-mq8dn                1/1     Running   0          38s
 ENDSNIP
 
 snip_set_up_a_gateway_in_the_external_cluster_5() {
-echo $EXTERNAL_ISTIOD_ADDR $SSL_SECRET_NAME
+echo "$EXTERNAL_ISTIOD_ADDR" "$SSL_SECRET_NAME"
 }
 
 ! read -r -d '' snip_set_up_a_gateway_in_the_external_cluster_5_out <<\ENDSNIP
