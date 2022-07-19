@@ -103,7 +103,7 @@ _verify_contains snip_test_the_ingress_gateway_4 "Hello version: v1"
 export CTX_SECOND_CLUSTER="${KUBE_CONTEXTS[1]}"
 export SECOND_CLUSTER_NAME="${CTX_SECOND_CLUSTER}"
 
-snip_get_second_config_cluster_iop
+snip_get_second_remote_cluster_iop
 snip_register_the_new_cluster_2
 
 snip_register_the_new_cluster_3
