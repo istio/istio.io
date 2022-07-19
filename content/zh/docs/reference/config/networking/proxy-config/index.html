@@ -56,7 +56,7 @@ metadata:
   namespace: example
 spec:
   selector:
-    labels:
+    matchLabels:
       app: ratings
   concurrency: 0
   image:
@@ -135,8 +135,8 @@ No
 <h2 id="ProxyImage">ProxyImage</h2>
 <section>
 <p>The following values are used to construct proxy image url.
-$hub/$image_name/$tag-$image_type
-example: docker.io/istio/proxyv2:1.11.1 or docker.io/istio/proxyv2:1.11.1-distroless
+format: <code>${hub}/${image_name}/${tag}-${image_type}</code>,
+example: <code>docker.io/istio/proxyv2:1.11.1</code> or <code>docker.io/istio/proxyv2:1.11.1-distroless</code>.
 This information was previously part of the Values API.</p>
 
 <table class="message-fields">
