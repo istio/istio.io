@@ -97,7 +97,7 @@ snip_set_up_the_remote_config_cluster_2() {
 sed  -i'.bk' \
   -e "s|injectionURL: https://${EXTERNAL_ISTIOD_ADDR}:15017|injectionPath: |" \
   -e "/istioNamespace:/a\\
-          remotePilotAddress: ${EXTERNAL_ISTIOD_ADDR}" \
+      remotePilotAddress: ${EXTERNAL_ISTIOD_ADDR}" \
   -e '/base/,+1d' \
  remote-config-cluster.yaml; rm remote-config-cluster.yaml.bk
 }
@@ -300,8 +300,8 @@ sed  -i'.bk' \
   -e '55,$d' \
   -e 's/mode: SIMPLE/mode: PASSTHROUGH/' -e '/credentialName:/d' -e "s/${EXTERNAL_ISTIOD_ADDR}/\"*\"/" \
   -e 's/http:/tls:/' -e 's/https/tls/' -e '/route:/i\
-            sniHosts:\
-            - "*"' \
+        sniHosts:\
+        - "*"' \
   external-istiod-gw.yaml; rm external-istiod-gw.yaml.bk
 }
 
@@ -433,7 +433,7 @@ snip_register_the_new_cluster_2() {
 sed  -i'.bk' \
   -e "s|injectionURL: https://${EXTERNAL_ISTIOD_ADDR}:15017|injectionPath: |" \
   -e "/istioNamespace:/a\\
-          remotePilotAddress: ${EXTERNAL_ISTIOD_ADDR}" \
+      remotePilotAddress: ${EXTERNAL_ISTIOD_ADDR}" \
  second-remote-cluster.yaml; rm second-remote-cluster.yaml.bk
 }
 
