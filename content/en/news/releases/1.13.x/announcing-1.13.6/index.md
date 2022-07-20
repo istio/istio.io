@@ -24,4 +24,3 @@ which includes 9 security fixes. We recommend you to upgrade to this newer Go ve
 - **Fixed** a bug when sending access logging to injected `OTel-collector` pod throws a `http2.invalid.header.field` error.  ([Issue #39196](https://github.com/istio/istio/issues/39196))
 
 - **Fixed** an issue causing Service merging to only take into account the first and last Service, rather than all of them.
- 
