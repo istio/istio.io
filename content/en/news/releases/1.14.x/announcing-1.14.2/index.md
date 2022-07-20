@@ -15,7 +15,7 @@ which includes 9 security fixes. We recommend you to upgrade to this newer Go ve
 
 {{< relnote >}}
 
-# Changes
+## Changes
 
 - **Added** `istioctl experimental envoy-stats -o prom-merged` for retrieving `istio-proxy` merged metrics from Prometheus.
   ([Issue #39454](https://github.com/istio/istio/issues/39454))
