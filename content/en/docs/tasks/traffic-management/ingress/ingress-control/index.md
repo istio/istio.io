@@ -41,7 +41,7 @@ In this case, you can access the gateway using the service's [node port](https:/
 {{< tip >}}
 If you are using minikube, you can easily start an external load balancer (recommended) by running the following command in a different terminal:
 
-{{< text syntax=bash snip_id=none >}}
+{{< text syntax=bash snip_id=minikube_tunnel >}}
 $ minikube tunnel
 {{< /text >}}
 
