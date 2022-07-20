@@ -25,7 +25,7 @@ which includes 9 security fixes. We recommend you to upgrade to this newer Go ve
 - **Added** the ability to read `kubernetes.io/tls` type `cacerts` secrets.
   ([Issue #38528](https://github.com/istio/istio/issues/38528))
 
-- **Fixed** a bug when updating a multi-cluster secret, the previous cluster is not stopped. Even deleting the secret will not stop the previous cluster  ([Issue #39366](https://github.com/istio/istio/issues/39366)).
+- **Fixed** a bug when updating a multi-cluster secret, the previous cluster is not stopped. Even deleting the secret will not stop the previous cluster.  ([Issue #39366](https://github.com/istio/istio/issues/39366))
 
 - **Fixed** a bug where specifying `warmupDuration` without `Lb` policy is not configuring the warmup duration.  ([Issue #39430](https://github.com/istio/istio/issues/39430))
 
