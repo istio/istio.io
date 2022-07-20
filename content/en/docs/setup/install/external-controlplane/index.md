@@ -664,7 +664,7 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
       -e "s|injectionURL: https://${EXTERNAL_ISTIOD_ADDR}:15017|injectionPath: |" \
       -e "/istioNamespace:/a\\
           remotePilotAddress: ${EXTERNAL_ISTIOD_ADDR}" \
-     second-remote-cluster.yaml; rm second-remote-cluster.yaml.bk
+      second-remote-cluster.yaml; rm second-remote-cluster.yaml.bk
     {{< /text >}}
 
 1. Create and annotate the system namespace on the remote cluster:
