@@ -30,42 +30,46 @@ NAME                   TYPE           CLUSTER-IP       EXTERNAL-IP      PORT(S) 
 istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121   ...       17h
 ENDSNIP
 
-snip_determining_the_ingress_ip_and_ports_2() {
+snip_minikube_tunnel() {
+minikube tunnel
+}
+
+snip_determining_the_ingress_ip_and_ports_3() {
 export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].port}')
 export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].port}')
 export TCP_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="tcp")].port}')
 }
 
-snip_determining_the_ingress_ip_and_ports_3() {
+snip_determining_the_ingress_ip_and_ports_4() {
 export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
 }
 
-snip_determining_the_ingress_ip_and_ports_4() {
+snip_determining_the_ingress_ip_and_ports_5() {
 export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}')
 export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].nodePort}')
 export TCP_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="tcp")].nodePort}')
 }
 
-snip_determining_the_ingress_ip_and_ports_5() {
+snip_determining_the_ingress_ip_and_ports_6() {
 export INGRESS_HOST=worker-node-address
 }
 
-snip_determining_the_ingress_ip_and_ports_6() {
+snip_determining_the_ingress_ip_and_ports_7() {
 gcloud compute firewall-rules create allow-gateway-http --allow "tcp:$INGRESS_PORT"
 gcloud compute firewall-rules create allow-gateway-https --allow "tcp:$SECURE_INGRESS_PORT"
 }
 
-snip_determining_the_ingress_ip_and_ports_7() {
+snip_determining_the_ingress_ip_and_ports_8() {
 ibmcloud ks workers --cluster cluster-name-or-id
 export INGRESS_HOST=public-IP-of-one-of-the-worker-nodes
 }
 
-snip_determining_the_ingress_ip_and_ports_8() {
+snip_determining_the_ingress_ip_and_ports_9() {
 export INGRESS_HOST=127.0.0.1
 }
 
-snip_determining_the_ingress_ip_and_ports_9() {
+snip_determining_the_ingress_ip_and_ports_10() {
 export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].status.hostIP}')
 }
 
