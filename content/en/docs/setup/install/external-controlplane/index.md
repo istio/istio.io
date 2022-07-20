@@ -168,7 +168,7 @@ and installing the sidecar injector webhook configuration on the remote cluster 
     $ export SSL_SECRET_NAME=NONE
     {{< /text >}}
 
-    Doing this will also require a few other changes in the configuration. Make sure to follow all of the related tips
+    Doing this will also require a few other changes in the configuration. Make sure to follow all of the related steps
     in the instructions below.
     {{< /tip >}}
 
@@ -200,9 +200,12 @@ and installing the sidecar injector webhook configuration on the remote cluster 
     EOF
     {{< /text >}}
 
-    {{< tip >}}
-    If you are using an IP address for the `EXTERNAL_ISTIOD_ADDR`, instead of a proper DNS hostname,
+1.  If you are using an IP address for the `EXTERNAL_ISTIOD_ADDR`, instead of a proper DNS hostname,
     modify the configuration to specify the discovery address and paths, instead of URLs:
+
+    {{< warning >}}
+    This is not recommended in a production environment.
+    {{< /warning >}}
 
     {{< text bash >}}
     $ sed  -i'.bk' \
@@ -210,12 +213,10 @@ and installing the sidecar injector webhook configuration on the remote cluster 
       -e "/istioNamespace:/a\\
           remotePilotAddress: ${EXTERNAL_ISTIOD_ADDR}" \
       -e '/base/,+1d' \
-     remote-config-cluster.yaml; rm remote-config-cluster.yaml.bk
+      remote-config-cluster.yaml; rm remote-config-cluster.yaml.bk
     {{< /text >}}
 
-    {{< /tip >}}
-
-    Then, install the configuration on the remote cluster:
+1.  Install the configuration on the remote cluster:
 
     {{< text bash >}}
     $ kubectl create namespace external-istiod --context="${CTX_REMOTE_CLUSTER}"
@@ -323,9 +324,12 @@ and installing the sidecar injector webhook configuration on the remote cluster 
     EOF
     {{< /text >}}
 
-    {{< tip >}}
-    If you are using an IP address for the `EXTERNAL_ISTIOD_ADDR`, instead of a proper DNS hostname,
+1.  If you are using an IP address for the `EXTERNAL_ISTIOD_ADDR`, instead of a proper DNS hostname,
     delete the proxy metadata and webhook config environment variables from the configuration:
+
+    {{< warning >}}
+    This is not recommended in a production environment.
+    {{< /warning >}}
 
     {{< text bash >}}
     $ sed  -i'.bk' \
@@ -335,9 +339,7 @@ and installing the sidecar injector webhook configuration on the remote cluster 
       external-istiod.yaml ; rm external-istiod.yaml.bk
     {{< /text >}}
 
-    {{< /tip >}}
-
-    Then, apply the Istio configuration on the external cluster:
+1.  Apply the Istio configuration on the external cluster:
 
     {{< text bash >}}
     $ istioctl manifest generate -f external-istiod.yaml | kubectl apply --context="${CTX_EXTERNAL_CLUSTER}" -f -
@@ -433,10 +435,13 @@ and installing the sidecar injector webhook configuration on the remote cluster 
     EOF
     {{< /text >}}
 
-    {{< tip >}}
-    If you are using an IP address for the `EXTERNAL_ISTIOD_ADDR`, instead of a proper DNS hostname,
+1.  If you are using an IP address for the `EXTERNAL_ISTIOD_ADDR`, instead of a proper DNS hostname,
     modify the configuration.
     Delete the `DestinationRule`, don't terminate TLS in the `Gateway`, and use TLS routing in the `VirtualService`:
+
+    {{< warning >}}
+    This is not recommended in a production environment.
+    {{< /warning >}}
 
     {{< text bash >}}
     $ sed  -i'.bk' \
@@ -448,9 +453,7 @@ and installing the sidecar injector webhook configuration on the remote cluster 
       external-istiod-gw.yaml; rm external-istiod-gw.yaml.bk
     {{< /text >}}
 
-    {{< /tip >}}
-
-    Then, apply the configuration on the external cluster:
+1.  Apply the configuration on the external cluster:
 
     {{< text bash >}}
     $ kubectl apply -f external-istiod-gw.yaml --context="${CTX_EXTERNAL_CLUSTER}"
@@ -649,9 +652,12 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
     EOF
     {{< /text >}}
 
-    {{< tip >}}
-    If you are using an IP address for the `EXTERNAL_ISTIOD_ADDR`, instead of a proper DNS hostname,
+1.  If you are using an IP address for the `EXTERNAL_ISTIOD_ADDR`, instead of a proper DNS hostname,
     modify the configuration to specify the discovery address and path, instead of an injection URL:
+
+    {{< warning >}}
+    This is not recommended in a production environment.
+    {{< /warning >}}
 
     {{< text bash >}}
     $ sed  -i'.bk' \
@@ -660,8 +666,6 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
           remotePilotAddress: ${EXTERNAL_ISTIOD_ADDR}" \
      second-remote-cluster.yaml; rm second-remote-cluster.yaml.bk
     {{< /text >}}
-
-    {{< /tip >}}
 
 1. Create and annotate the system namespace on the remote cluster:
 
