@@ -49,7 +49,8 @@ $ cat > sysctl-ingress-gw-customization.yaml <<EOF
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: istio-ingressgateway
+  name: istio-ingress
+  namespace: istio-ingress
 spec:
   template:
     spec:
@@ -100,7 +101,7 @@ $ helm repo update
 We can use Helm `post-renderer` to validate rendered manifests before they are installed by Helm
 
 {{< text bash >}}
-$ helm template istio-ingressgateway istio/gateway --post-renderer ./kustomize.sh | grep -B 4 -A 1 netfilter.nf_conntrack_tcp_timeout_close_wait
+$ helm template istio-ingress istio/gateway --namespace istio-ingress --post-renderer ./kustomize.sh | grep -B 4 -A 1 netfilter.nf_conntrack_tcp_timeout_close_wait
 {{< /text >}}
 
 In the output, check for the newly added `sysctl` attribute for `ingress-gateway` pod:
