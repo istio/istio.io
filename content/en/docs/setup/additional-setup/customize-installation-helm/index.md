@@ -107,10 +107,10 @@ $ helm template istio-ingress istio/gateway --namespace istio-ingress --post-ren
 In the output, check for the newly added `sysctl` attribute for `ingress-gateway` pod:
 
 {{< text yaml >}}
-      securityContext:
-        sysctls:
-        - name: net.netfilter.nf_conntrack_tcp_timeout_close_wait
-          value: "10"
+    securityContext:
+      sysctls:
+      - name: net.netfilter.nf_conntrack_tcp_timeout_close_wait
+        value: "10"
 {{< /text >}}
 
 ### Apply the patch using Helm `Post-Renderer`
