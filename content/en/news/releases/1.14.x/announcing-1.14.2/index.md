@@ -36,5 +36,5 @@ which includes 9 security fixes. We recommend you to upgrade to this newer Go ve
 
 - **Fixed** an issue causing Service merging to only take into account the first and last Service, rather than all of them.
 
-- **Fixed** an issue where the `ProxyConfig` image type is not taking effect
+- **Fixed** an issue where the `ProxyConfig` image type is not taking effect.
   ([Issue #38959](https://github.com/istio/istio/issues/38959))
