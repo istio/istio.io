@@ -27,7 +27,7 @@ weight: 20
 时，现在对配置中允许的身份验证方法进行了限制，以提高安全性。
 
 两种身份验证方法输出但 `istioctl create-remote-secret` (`oidc` 和 `token`)不受影响。
-因此，只有创建自定义 kubecconfig 文件的用户才会受到影响。
+因此，只有创建自定义 kubeconfig 文件的用户才会受到影响。
 
 一个新的环境变量 `PILOT_INSECURE_MULTICLUSTER_KUBECONFIG_OPTIONS`，被添加到 Istiod 来启用已删除的方法。
 例如，如果使用 `exec` 认证，则设置 `PILOT_INSECURE_MULTICLUSTER_KUBECONFIG_OPTIONS=exec`。
