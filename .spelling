@@ -562,6 +562,9 @@ kubernetes.default
 kube-proxy
 KubeSphere
 Kumar
+Kustomization
+Kustomize
+kustomize
 kyzy
 L3-4
 L4-L6
