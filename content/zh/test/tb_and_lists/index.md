@@ -1,61 +1,60 @@
 ---
-title: Text Blocks and Lists
-description: Composing text blocks and lists.
+title: 文本块和列表
+description: 编写文本块和列表。
 skip_sitemap: true
 ---
 
-1. A bullet
+1. 一个项目编号
 
     {{< text plain >}}
-    A text block nested in a bullet
-    with a second line
+    嵌套在一个项目编号中的文本块
+    有第二行
 
-    and a third line
+    和第三行
     {{< /text >}}
 
-1. Another bullet
+1. 另一个项目编号
 
     {{< warning >}}
-    A nested warning
+    一条嵌套的警告
     {{< /warning >}}
 
     {{< text plain >}}
-    Another nested text block
-    with a second line
+    另一个嵌套的文本块
+    有第二行
 
-    and a third line
+    和第三行
     {{< /text >}}
 
-1. Yet another bullet
+1. 又一个项目编号
 
-    Second paragraph
+    第二段
 
-1. Still another bullet
+1. 还是一个项目编号
 
     {{< warning >}}
-    This is a warning in a bullet.
+    这是带项目编号的一条警告。
 
     {{< text plain >}}
-    This is a text block in a warning in a bullet
-    with a second line
+    这是带项目编号的警告中的一个文本块
+    有第二行
 
-    and a third line
+    和第三行
     {{< /text >}}
 
     {{< /warning >}}
 
-1.  Deploy your application using the `kubectl` command:
+1.  使用 `kubectl` 命令部署您的应用程序：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
     {{< /text >}}
 
     {{< warning >}}
-    If you disabled automatic sidecar injection during installation and rely on [manual sidecar injection]
-    (/zh/docs/setup/additional-setup/sidecar-injection/#manual-sidecar-injection),
-    use the `istioctl kube-inject` command to modify the `bookinfo.yaml`
-    file before deploying your application. For more information please
-    visit the `istioctl` [reference documentation](/zh/docs/reference/commands/istioctl/#istioctl-kube-inject).
+    如果您在安装期间禁用了自动 Sidecar 注入且采用
+    [手动 Sidecar 注入](/zh/docs/setup/additional-setup/sidecar-injection/#manual-sidecar-injection)，
+    请先用 `istioctl kube-inject` 命令修改 `bookinfo.yaml` 文件，然后再部署您的应用程序。
+    有关更多信息，请查阅 `istioctl` [参考文档](/zh/docs/reference/commands/istioctl/#istioctl-kube-inject)。
 
     {{< text bash >}}
     $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo.yaml@)
@@ -63,10 +62,9 @@ skip_sitemap: true
 
     {{< /warning >}}
 
-    The command launches all four services shown in the `bookinfo` application architecture diagram.
-    All 3 versions of the reviews service, v1, v2, and v3, are started.
+    这条命令将启动 `bookinfo` 应用程序架构图中显示的全部四个服务。
+    审阅服务的 3 个版本（v1、v2 和 v3）都会被启动。
 
     {{< tip >}}
-    In a realistic deployment, new versions of a microservice are deployed
-    over time instead of deploying all versions simultaneously.
+    在实际的部署过程中，会随着时间部署新版本的微服务，并不会同时部署所有版本。
     {{< /tip >}}
