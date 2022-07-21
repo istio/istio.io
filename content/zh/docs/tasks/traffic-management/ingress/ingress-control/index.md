@@ -36,6 +36,15 @@ istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121   ...     
 
 如果 `EXTERNAL-IP` 值已设置，说明环境正在使用外部负载均衡，可以用其为 Ingress Gateway 提供服务。如果 `EXTERNAL-IP` 值为 `<none>` （或持续显示 `<pending>`），说明环境没有为 Ingress Gateway 提供外部负载均衡，无法使用 Ingress Gateway。在这种情况下，您可以使用服务的 [Node Port](https://kubernetes.io/docs/concepts/services-networking/service/#nodeport) 访问网关。
 
+{{< tip >}}
+如果您正使用 minikube，您可以在另一个终端中运行以下命令，轻松启动一个外部负载均衡（推荐）：
+
+{{< text syntax=bash snip_id=minikube_tunnel >}}
+$ minikube tunnel
+{{< /text >}}
+
+{{< /tip >}}
+
 选择符合自身环境的指令执行：
 
 {{< tabset category-name="gateway-ip" >}}
