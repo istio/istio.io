@@ -325,7 +325,7 @@ and installing the sidecar injector webhook configuration on the remote cluster 
     {{< /text >}}
 
 1.  If you are using an IP address for the `EXTERNAL_ISTIOD_ADDR`, instead of a proper DNS hostname,
-    delete the proxy metadata and webhook config environment variables from the configuration:
+    delete the proxy metadata and update the webhook config environment variables in the configuration:
 
     {{< warning >}}
     This is not recommended in a production environment.
@@ -334,8 +334,8 @@ and installing the sidecar injector webhook configuration on the remote cluster 
     {{< text bash >}}
     $ sed  -i'.bk' \
       -e '/proxyMetadata:/,+2d' \
-      -e '/INJECTION_WEBHOOK_CONFIG_NAME/,+1d' \
-      -e '/VALIDATION_WEBHOOK_CONFIG_NAME/,+1d' \
+      -e '/INJECTION_WEBHOOK_CONFIG_NAME/{n;s/value: ""/value: istio-sidecar-injector-external-istiod/;}' \
+      -e '/VALIDATION_WEBHOOK_CONFIG_NAME/{n;s/value: ""/value: istio-validator-external-istiod/;}' \
       external-istiod.yaml ; rm external-istiod.yaml.bk
     {{< /text >}}
 

@@ -199,8 +199,8 @@ EOF
 snip_set_up_the_control_plane_in_the_external_cluster_4() {
 sed  -i'.bk' \
   -e '/proxyMetadata:/,+2d' \
-  -e '/INJECTION_WEBHOOK_CONFIG_NAME/,+1d' \
-  -e '/VALIDATION_WEBHOOK_CONFIG_NAME/,+1d' \
+  -e '/INJECTION_WEBHOOK_CONFIG_NAME/{n;s/value: ""/value: istio-sidecar-injector-external-istiod/;}' \
+  -e '/VALIDATION_WEBHOOK_CONFIG_NAME/{n;s/value: ""/value: istio-validator-external-istiod/;}' \
   external-istiod.yaml ; rm external-istiod.yaml.bk
 }
 

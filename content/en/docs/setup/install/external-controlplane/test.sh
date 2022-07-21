@@ -51,7 +51,7 @@ snip_set_up_the_remote_config_cluster_2
 echo y | snip_set_up_the_remote_config_cluster_3
 #set -e
 
-_verify_like snip_set_up_the_remote_config_cluster_4 "$snip_set_up_the_remote_config_cluster_4_out"
+_verify_contains snip_set_up_the_remote_config_cluster_4 "istio-sidecar-injector-external-istiod"
 
 # Install istiod on the external cluster.
 
@@ -110,7 +110,7 @@ snip_register_the_new_cluster_3
 echo y | snip_register_the_new_cluster_4
 
 # Confirm remote cluster’s webhook configuration has been installed
-_verify_like snip_register_the_new_cluster_5 "$snip_register_the_new_cluster_5_out"
+_verify_contains snip_register_the_new_cluster_5 "istio-sidecar-injector-external-istiod"
 
 # Create a secret with credentials to allow the control plane to access the endpoints on the second remote cluster and install it
 snip_register_the_new_cluster_6
