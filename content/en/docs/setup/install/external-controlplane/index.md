@@ -227,8 +227,8 @@ and installing the sidecar injector webhook configuration on the remote cluster 
 
     {{< text bash >}}
     $ kubectl get mutatingwebhookconfiguration --context="${CTX_REMOTE_CLUSTER}"
-    NAME                                     WEBHOOKS   AGE
-    istio-sidecar-injector-external-istiod   4          6m24s
+    NAME                     WEBHOOKS   AGE
+    istio-sidecar-injector   4          6m24s
     {{< /text >}}
 
 #### Set up the control plane in the external cluster
@@ -325,7 +325,7 @@ and installing the sidecar injector webhook configuration on the remote cluster 
     {{< /text >}}
 
 1.  If you are using an IP address for the `EXTERNAL_ISTIOD_ADDR`, instead of a proper DNS hostname,
-    delete the proxy metadata and webhook config environment variables from the configuration:
+    delete the proxy metadata and update the webhook config environment variables in the configuration:
 
     {{< warning >}}
     This is not recommended in a production environment.
@@ -334,8 +334,8 @@ and installing the sidecar injector webhook configuration on the remote cluster 
     {{< text bash >}}
     $ sed  -i'.bk' \
       -e '/proxyMetadata:/,+2d' \
-      -e '/INJECTION_WEBHOOK_CONFIG_NAME/,+1d' \
-      -e '/VALIDATION_WEBHOOK_CONFIG_NAME/,+1d' \
+      -e '/INJECTION_WEBHOOK_CONFIG_NAME/{n;s/value: ""/value: istio-sidecar-injector/;}' \
+      -e '/VALIDATION_WEBHOOK_CONFIG_NAME/{n;s/value: ""/value: istio-validator-external-istiod/;}' \
       external-istiod.yaml ; rm external-istiod.yaml.bk
     {{< /text >}}
 
@@ -688,8 +688,8 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
 
     {{< text bash >}}
     $ kubectl get mutatingwebhookconfiguration --context="${CTX_SECOND_CLUSTER}"
-    NAME                                     WEBHOOKS   AGE
-    istio-sidecar-injector-external-istiod   4          4m13s
+    NAME                     WEBHOOKS   AGE
+    istio-sidecar-injector   4          4m13s
     {{< /text >}}
 
 1. Create a secret with credentials to allow the control plane to access the endpoints on the second remote cluster

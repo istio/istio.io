@@ -113,8 +113,8 @@ kubectl get mutatingwebhookconfiguration --context="${CTX_REMOTE_CLUSTER}"
 }
 
 ! read -r -d '' snip_set_up_the_remote_config_cluster_4_out <<\ENDSNIP
-NAME                                     WEBHOOKS   AGE
-istio-sidecar-injector-external-istiod   4          6m24s
+NAME                     WEBHOOKS   AGE
+istio-sidecar-injector   4          6m24s
 ENDSNIP
 
 snip_set_up_the_control_plane_in_the_external_cluster_1() {
@@ -199,8 +199,8 @@ EOF
 snip_set_up_the_control_plane_in_the_external_cluster_4() {
 sed  -i'.bk' \
   -e '/proxyMetadata:/,+2d' \
-  -e '/INJECTION_WEBHOOK_CONFIG_NAME/,+1d' \
-  -e '/VALIDATION_WEBHOOK_CONFIG_NAME/,+1d' \
+  -e '/INJECTION_WEBHOOK_CONFIG_NAME/{n;s/value: ""/value: istio-sidecar-injector/;}' \
+  -e '/VALIDATION_WEBHOOK_CONFIG_NAME/{n;s/value: ""/value: istio-validator-external-istiod/;}' \
   external-istiod.yaml ; rm external-istiod.yaml.bk
 }
 
@@ -452,8 +452,8 @@ kubectl get mutatingwebhookconfiguration --context="${CTX_SECOND_CLUSTER}"
 }
 
 ! read -r -d '' snip_register_the_new_cluster_5_out <<\ENDSNIP
-NAME                                     WEBHOOKS   AGE
-istio-sidecar-injector-external-istiod   4          4m13s
+NAME                     WEBHOOKS   AGE
+istio-sidecar-injector   4          4m13s
 ENDSNIP
 
 snip_register_the_new_cluster_6() {
