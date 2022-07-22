@@ -1094,6 +1094,7 @@ These environment variables affect the behavior of the <code>operator</code> com
 <tr><td><code>pilot_proxy_convergence_time</code></td><td><code>Distribution</code></td><td>Delay in seconds between config change and a proxy receiving all required configuration.</td></tr>
 <tr><td><code>pilot_proxy_queue_time</code></td><td><code>Distribution</code></td><td>Time in seconds, a proxy is in the push queue before being dequeued.</td></tr>
 <tr><td><code>pilot_push_triggers</code></td><td><code>Sum</code></td><td>Total number of times a push was triggered, labeled by reason for the push.</td></tr>
+<tr><td><code>pilot_pushcontext_init_seconds</code></td><td><code>Distribution</code></td><td>Total time in seconds Pilot takes to init pushContext.</td></tr>
 <tr><td><code>pilot_sds_certificate_errors_total</code></td><td><code>Sum</code></td><td>Total number of failures to fetch SDS key and certificate.</td></tr>
 <tr><td><code>pilot_services</code></td><td><code>LastValue</code></td><td>Total services known to pilot.</td></tr>
 <tr><td><code>pilot_total_rejected_configs</code></td><td><code>Sum</code></td><td>Total number of configs that Pilot had to reject or ignore.</td></tr>
