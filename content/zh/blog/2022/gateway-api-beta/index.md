@@ -40,7 +40,7 @@ Istio 功能的其他部分，包括策略和遥测，将继续使用 Istio 特�
 
 在整个设计和实施过程中，Istio 团队的成员一直在与 SIG Network 的成员合作构建网关 API，以确保该 API 适用于网格用例。
 
-我们很高兴服务网格接口 (SMI) 社区的成员[正式加入这项工作](https://smi-spec.io/blog/announcing-smi-gateway-api-gamma)，包括来自 Linkerd、Consul 和 Open Service Mesh 的领导者，他们共同决定在 Gateway API 上标准化他们的 API 工作。为此，我们已经在 Gateway API 项目中建立了[Gateway API Mesh Management and Administration (GAMMA) 工作流](https://gateway-api.sigs.k8s.io/contributing/gamma/)。John Howard 是 Istio 技术监督委员会的成员，也是我们网络工作组的负责人，他将成为这个小组的负责人。
+我们很高兴服务网格接口（SMI）社区的成员[正式加入这项工作](https://smi-spec.io/blog/announcing-smi-gateway-api-gamma)，包括来自 Linkerd、Consul 和 Open Service Mesh 的领导者，他们共同决定在 Gateway API 上标准化他们的 API 工作。为此，我们已经在 Gateway API 项目中建立了 [Gateway API Mesh Management and Administration (GAMMA) 工作流](https://gateway-api.sigs.k8s.io/contributing/gamma/)。John Howard 是 Istio 技术监督委员会的成员，也是我们网络工作组的负责人，他将成为这个小组的负责人。
 
 我们接下来的联合步骤是为网关 API 项目提供[增强建议](https://gateway-api.sigs.k8s.io/v1alpha2/contributing/gep/)，以确保该 API 适用于网格用例。我们已经[开始关注 API 语义](https://docs.google.com/document/d/1T_DtMQoq2tccLAtJTpo3c0ohjm25vRS35MsestSL9QU/edit)用于网格流量管理的问题，并将与在其项目中实施 Gateway API 的供应商和社区合作，以建立一个标准实施。之后，我们打算为授权和身份验证策略构建一个表示。
 
