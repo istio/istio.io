@@ -16,7 +16,7 @@ API 设计与其说是一门科学，不如说是一门艺术，Istio 经常被�
 
 我们[在 2018 年初重写了流量 API](/zh/blog/2018/v1alpha3-routing/) 以解决用户反馈问题，并更充分地解决这些问题。
 
-Istio 新模式的一个主要特性是具有单独的 API 来描述基础设施(负载均衡器，由 [Gateway](/zh/docs/concepts/traffic-management/#gateways) 表示），和应用程序（路由和被路由，由 [VirtualService](/zh/docs/concepts/traffic-management/#virtual-services) 和 [DestinationRule](/zh/docs/concepts/traffic-management/#destination-rules) 表示）。
+Istio 新模式的一个主要特性是具有单独的 API 来描述基础设施(负载均衡器，由 [Gateway](/zh/docs/concepts/traffic-management/#gateways) 表示）和应用程序（路由和被路由，由 [VirtualService](/zh/docs/concepts/traffic-management/#virtual-services) 和 [DestinationRule](/zh/docs/concepts/traffic-management/#destination-rules) 表示）。
 
 Ingress 实施方案之间的最低共同标准运作良好，但它的缺点导致 SIG Network 研究了“第 2 版本”的设计。在[2018 年的一次用户调查](https://github.com/bowei/k8s-ingress-survey-2018/blob/master/survey.pdf)之后，[在 2019 年提出了一个新的 API 建议](https://www.youtube.com/watch?v=Ne9UJL6irXY)，在很大程度上是基于 Istio 的流量 API。这种设计后来被称为“网关 API”。
 
