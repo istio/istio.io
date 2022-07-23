@@ -38,7 +38,7 @@ Istio 功能的其他部分，包括策略和遥测，将继续使用 Istio 特�
 
 ## 欢迎 SMI 社区加入 Gateway API 项目{#welcoming-the-smi-community-to-the-gateway-api-project}
 
-在整个设计和实施过程中，Istio 团队的成员一直在与 SIG Network 的成员合作实施网关 API，以确保该 API 适用于网格用例。
+在整个设计和实施过程中，Istio 团队的成员一直在与 SIG Network 的成员合作构建网关 API，以确保该 API 适用于网格用例。
 
 我们很高兴服务网格接口 (SMI) 社区的成员[正式加入这项工作](https://smi-spec.io/blog/announcing-smi-gateway-api-gamma)，包括来自 Linkerd、Consul 和 Open Service Mesh 的领导者，他们共同决定在 Gateway API 上标准化他们的 API 工作。为此，我们已经在 Gateway API 项目中建立了[Gateway API Mesh Management and Administration (GAMMA) 工作流](https://gateway-api.sigs.k8s.io/contributing/gamma/)。John Howard 是 Istio 技术监督委员会的成员，也是我们网络工作组的负责人，他将成为这个小组的负责人。
 
