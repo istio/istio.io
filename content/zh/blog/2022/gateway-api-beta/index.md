@@ -30,7 +30,7 @@ Istio 在 2020 年 11 月增加了[对 Gateway API 的支持](/zh/docs/tasks/tra
 
 就像 Kubernetes 打算在 Gateway API 稳定后支持 Ingress API 很多年一样，Istio API (Gateway, VirtualService 和 DestinationRule)在可预见的未来仍将保持支持。
 
-不仅如此，您还可以继续使用现有的 Istio 流量 API 和 Gateway API，例如，使用带有[HTTPRoute](https://gateway-api.sigs.k8s.io/v1beta1/api-types/httproute/) 和 Istio [VirtualService](/docs/reference/config/networking/virtual-service/).
+不仅如此，您还可以继续使用现有的 Istio 流量 API 和 Gateway API，例如，使用带有 [HTTPRoute](https://gateway-api.sigs.k8s.io/v1beta1/api-types/httproute/) 和 Istio [VirtualService](/zh/docs/reference/config/networking/virtual-service/).
 
 API 之间的相似性意味着我们将能够提供一个工具来轻松地将 Istio API 对象转换为 Gateway API 对象，我们将与 API 的 v1 版本一起发布。
 
