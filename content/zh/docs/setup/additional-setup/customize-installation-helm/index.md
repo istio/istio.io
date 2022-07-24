@@ -152,7 +152,7 @@ spec:
 
 有关本文档中描述的概念和技术的更多详细信息，请参阅：
 
-1. [IstioOperator - 自定义安装](/docs/setup/additional-setup/customize-installation)
+1. [IstioOperator - 自定义安装](/zh/docs/setup/additional-setup/customize-installation)
 1. [高级 Helm 技术](https://helm.sh/docs/topics/advanced/)
 1. [自定义](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/kustomization/)
 
