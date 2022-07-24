@@ -19,7 +19,7 @@ Istio 通过允许代理动态下载 Wasm 模块来实现这一点。
 
 ## 安装测试应用程序{#setup-the-test-application}
 
-在你开始这项任务之前，请部署[Bookinfo](/docs/examples/bookinfo/#deploying-the-application)示例应用程序。
+在你开始这项任务之前，请部署[Bookinfo](/zh/docs/examples/bookinfo/#deploying-the-application)示例应用程序。
 
 ## 配置 Wasm 模块{#configure-wasm-modules}
 
