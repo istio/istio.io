@@ -148,7 +148,7 @@ spec:
           value: "10"
 {{< /text >}}
 
-## 附加信息{additional-information}
+## 附加信息{#additional-information}
 
 有关本文档中描述的概念和技术的更多详细信息，请参阅：
 
