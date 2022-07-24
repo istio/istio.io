@@ -75,7 +75,7 @@ $ curl -s -o /dev/null -w "%{http_code}" -H "Authorization: Basic YWRtaW4zOmFkbW
 200
 {{< /text >}}
 
-关于 `WasmPlugin` API 的更多使用示例，请查看 [API 参考](/docs/reference/config/proxy_extensions/wasm-plugin/)。
+关于 `WasmPlugin` API 的更多使用示例，请查看 [API 参考](/zh/docs/reference/config/proxy_extensions/wasm-plugin/)。
 
 ## 清理 Wasm 模块{#clean-up-wasm-modules}
 
