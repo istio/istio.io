@@ -11,7 +11,7 @@ test: n/a
 
 在开始之前，请检查以下先决条件：
 
-1. [下载 Istio 版本](/docs/setup/getting-started/#download).
+1. [下载 Istio 版本](/zh/docs/setup/getting-started/#download).
 1. 执行任何必要的[特定于平台的设置](/docs/setup/platform-setup/).
 1. 检查 [Pod 和服务的请求](/docs/ops/deployment/requirements/).
 1. [使用 helm 进行 Istio 安装](/docs/setup/install/helm).
