@@ -11,7 +11,7 @@ This release contains bug fixes to improve robustness and some additional suppor
 This release note describes what’s different between Istio 1.14.1 and Istio 1.14.2.
 
 FYI, [Go 1.18.4 has been released](https://groups.google.com/g/golang-announce/c/nqrv9fbR0zE),
-which includes 9 security fixes. We recommend you to upgrade to this newer Go version.
+which includes 9 security fixes. We recommend you to upgrade to this newer Go version if you are using Go locally.
 
 {{< relnote >}}
 
