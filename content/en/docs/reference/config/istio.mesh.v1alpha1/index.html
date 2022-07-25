@@ -2366,11 +2366,12 @@ No
 <td><code>labels</code></td>
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct">Struct (oneof)</a></code></td>
 <td>
-<p>Structured format for the envoy access logs. Envoy <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#command-operators">command operators</a>
+<p>JSON structured format for the envoy access logs. Envoy <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#command-operators">command operators</a>
 can be used as values for fields within the Struct. Values are rendered
 as strings, numbers, or boolean values, as appropriate
 (see: <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#config-access-log-format-dictionaries">format dictionaries</a>). Nested JSON is
-supported for some command operators (e.g. FILTER_STATE or DYNAMIC_METADATA).</p>
+supported for some command operators (e.g. <code>FILTER_STATE</code> or <code>DYNAMIC_METADATA</code>).
+Use <code>labels: {}</code> for default envoy JSON log format.</p>
 
 <p>Example:</p>
 
