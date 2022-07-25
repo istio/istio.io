@@ -56,6 +56,11 @@ Follow this guide to install and configure an Istio mesh using
     See [Controlling the injection policy](/docs/setup/additional-setup/sidecar-injection/#controlling-the-injection-policy) for more info.
     {{< /warning >}}
 
+{{< tip >}}
+See [Advanced Helm Chart Customization](/docs/setup/additional-setup/customize-installation-helm/) for in-depth documentation on how to use
+Helm post-renderer to customize the Helm charts.
+{{< /tip >}}
+
 ## Verifying the installation
 
 Status of the installation can be verified using Helm:
