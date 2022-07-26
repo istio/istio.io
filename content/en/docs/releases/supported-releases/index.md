@@ -77,7 +77,7 @@ Please keep up-to-date and use a supported version.
 
 | Minor Releases   | Patched versions with no known CVEs           |
 |------------------|-----------------------------------------------|
-| 1.14.x           | 1.14.1+                                       |
-| 1.13.x           | 1.13.5+                                       |
+| 1.14.x           | 1.14.1 (not 1.14.2)                           |
+| 1.13.x           | 1.13.5 (not 1.13.5)                           |
 | 1.12.x           | 1.12.8+                                       |
 | 1.11 and earlier | None, all versions have known vulnerabilities |
