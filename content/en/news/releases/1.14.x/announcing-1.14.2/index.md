@@ -7,6 +7,11 @@ publishdate: 2022-07-25
 release: 1.14.2
 ---
 
+{{< warning >}}
+Istio 1.14.2 does not contain a fix for [CVE-2022-31045](news/security/istio-security-2022-005/#cve-2022-31045). We recommend users do not install Istio 1.14.2
+and use Istio 1.14.1 for now. Istio 1.14.3 will be released later this week.
+{{< /warning >}}
+
 This release contains bug fixes to improve robustness and some additional support.
 This release note describes what’s different between Istio 1.14.1 and Istio 1.14.2.
 
