@@ -21,7 +21,7 @@ which includes 9 security fixes. We recommend you to upgrade to this newer Go ve
 
 - **Fixed** an issue causing `outboundTrafficPolicy` changes in `Sidecar` to not always take effect.  ([Issue #39794](https://github.com/istio/istio/issues/39794))
 
-- **Removed** `archs` from istio-ingress/egress helm value templates and conditionally populate `nodeAffinity`.
+- **Removed** `archs` from `istio-ingress/egress` helm value templates and conditionally populate `nodeAffinity`.
 
 # Security update
 
