@@ -83,7 +83,7 @@ EOF
 
 snip_set_up_the_remote_config_cluster_2() {
 kubectl create namespace external-istiod --context="${CTX_REMOTE_CLUSTER}"
-istioctl manifest generate -f remote-config-cluster.yaml --set values.defaultRevision=default | kubectl apply --context="${CTX_REMOTE_CLUSTER}" -f -
+istioctl manifest generate -f remote-config-cluster.yaml | kubectl apply --context="${CTX_REMOTE_CLUSTER}" -f -
 }
 
 snip_set_up_the_remote_config_cluster_3() {
