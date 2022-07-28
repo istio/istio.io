@@ -105,7 +105,7 @@ sed  -i'.bk' \
 
 snip_set_up_the_remote_config_cluster_3() {
 kubectl create namespace external-istiod --context="${CTX_REMOTE_CLUSTER}"
-istioctl manifest generate -f remote-config-cluster.yaml | kubectl apply --context="${CTX_REMOTE_CLUSTER}" -f -
+istioctl manifest generate -f remote-config-cluster.yaml --set values.defaultRevision=default | kubectl apply --context="${CTX_REMOTE_CLUSTER}" -f -
 }
 
 snip_set_up_the_remote_config_cluster_4() {
@@ -115,6 +115,16 @@ kubectl get mutatingwebhookconfiguration --context="${CTX_REMOTE_CLUSTER}"
 ! read -r -d '' snip_set_up_the_remote_config_cluster_4_out <<\ENDSNIP
 NAME                                     WEBHOOKS   AGE
 istio-sidecar-injector-external-istiod   4          6m24s
+ENDSNIP
+
+snip_set_up_the_remote_config_cluster_5() {
+kubectl get validatingwebhookconfiguration --context="${CTX_REMOTE_CLUSTER}"
+}
+
+! read -r -d '' snip_set_up_the_remote_config_cluster_5_out <<\ENDSNIP
+NAME                              WEBHOOKS   AGE
+istio-validator-external-istiod   1          6m53s
+istiod-default-validator          1          6m53s
 ENDSNIP
 
 snip_set_up_the_control_plane_in_the_external_cluster_1() {

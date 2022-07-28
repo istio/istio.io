@@ -53,6 +53,8 @@ echo y | snip_set_up_the_remote_config_cluster_3
 
 _verify_contains snip_set_up_the_remote_config_cluster_4 "istio-sidecar-injector-external-istiod"
 
+_verify_like snip_set_up_the_remote_config_cluster_5 "$snip_set_up_the_remote_config_cluster_5_out"
+
 # Install istiod on the external cluster.
 
 snip_set_up_the_control_plane_in_the_external_cluster_1
