@@ -54,9 +54,8 @@ snip_local_rate_limit_2
 # wait a while for envoyfilter
 sleep 1s
 
-for i in `seq 1 10`; 
-do
-    echo $i
+for i in {1..10}; do
+    echo "$i"
     snip_verify_local_rate_limit_1
 done
 

@@ -65,7 +65,7 @@ backend, is used below.
     {{< /text >}}
 
 1. Create a global rate limit service which implements Envoy's [rate limit service protocol](https://www.envoyproxy.io/docs/envoy/latest/api-v3/service/ratelimit/v3/rls.proto). As a reference, a demo configuration can be found [here]({{< github_blob >}}/samples/ratelimit/rate-limit-service.yaml), which is based on a [reference implementation](https://github.com/envoyproxy/ratelimit) provided by Envoy.
-     
+
     {{< text bash >}}
     $ kubectl apply -f @samples/ratelimit/rate-limit-service.yaml@
     {{< /text >}}
@@ -121,7 +121,7 @@ backend, is used below.
     EOF
     {{< /text >}}
 
-3. Apply another `EnvoyFilter` to the `ingressgateway` that defines the route configuration on which to rate limit.
+1. Apply another `EnvoyFilter` to the `ingressgateway` that defines the route configuration on which to rate limit.
     This adds [rate limit actions](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/route/v3/route_components.proto#envoy-v3-api-msg-config-route-v3-ratelimit)
     for any route from a virtual host named `*.80`.
 
@@ -338,7 +338,6 @@ $ kubectl exec "$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadat
 {{< /text >}}
 
 You should see no more than 10 req/min go through per `productpage` instance.
-
 
 ## Cleanup
 
