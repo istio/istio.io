@@ -231,6 +231,13 @@ If attempting to install and manage Istio using `istioctl manifest generate`, pl
 
 1. The Istio namespace (`istio-system` by default) must be created manually.
 
+1. Istio validation will not be enabled by default. Unlike `istioctl install`, the `manifest generate` command will
+not create the `istiod-default-validator` validating webhook configuration unless `values.defaultRevision` is set:
+
+    {{< text bash >}}
+    $ istioctl manifest generate --set values.defaultRevision=default
+    {{< /text >}}
+
 1. While `istioctl install` will automatically detect environment specific settings from your Kubernetes context,
 `manifest generate` cannot as it runs offline, which may lead to unexpected results. In particular, you must ensure
 that you follow [these steps](/docs/ops/best-practices/security/#configure-third-party-service-account-tokens) if your
