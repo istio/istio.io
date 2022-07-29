@@ -230,6 +230,13 @@ $ istioctl manifest generate > $HOME/generated-manifest.yaml
 
 1. Istio 的命名空间（默认为`istio-system`）必须手工创建。
 
+1. 默认情况下，Istio 验证将不会被启用。
+与 `istioctl install` 不同，`manifest generate` 命令不会创建 `istiod-default-validator` 验证 webhook 配置，除非 `values.defaultRevision` 被设置：
+
+    {{< text bash >}}
+    $ istioctl manifest generate --set values.defaultRevision=default
+    {{< /text >}}
+
 1. `istioctl install` 会在 Kubernetes 上下文中自动探测环境特定的设置，
 但以离线运行的 `manifest generate` 不行，而且可能导致意外结果。
 特别是，如果 Kubernetes 环境不支持第三方服务帐户令牌，则必须确保遵循[这些步骤](/zh/docs/ops/best-practices/security/#configure-third-party-service-account-tokens)。
