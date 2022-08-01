@@ -97,6 +97,7 @@ dmitri.shuralyov.com/state v0.0.0-20180228185332-28bcc343414c/go.mod h1:0PRwlb0D
 git.apache.org/thrift.git v0.0.0-20180902110319-2566ecd5d999/go.mod h1:fPE2ZNJGynbRyZ4dJvy6G277gSllfV2HJqblrnkyeyg=
 git.apache.org/thrift.git v0.12.0/go.mod h1:fPE2ZNJGynbRyZ4dJvy6G277gSllfV2HJqblrnkyeyg=
 github.com/AdaLogics/go-fuzz-headers v0.0.0-20210715213245-6c3934b029d8/go.mod h1:CzsSbkDixRphAF5hS6wbMKq0eI6ccJRb7/A0M6JBnwg=
+github.com/AdaLogics/go-fuzz-headers v0.0.0-20220511133513-5ae53b7a8154 h1:ViTMpdEExpSytnBPtayZRTXdCrRm3wbwb8vlAxexssc=
 github.com/AdaLogics/go-fuzz-headers v0.0.0-20220511133513-5ae53b7a8154/go.mod h1:2023ngygB6vtxtIp3yGbG37EbdS89lPxVCi4xMnwucE=
 github.com/AkihiroSuda/containerd-fuse-overlayfs v1.0.0/go.mod h1:0mMDvQFeLbbn1Wy8P2j3hwFhqBq+FKn8OZPno8WLmp8=
 github.com/Antonboom/errname v0.1.5/go.mod h1:DugbBstvPFQbv/5uLcRRzfrNqKE9tVdVCqWCLp6Cifo=
@@ -2349,6 +2350,7 @@ golang.org/x/exp v0.0.0-20200119233911-0405dc783f0a/go.mod h1:2RIsYlXP63K8oxa1u0
 golang.org/x/exp v0.0.0-20200207192155-f17229e696bd/go.mod h1:J/WKrq2StrnmMY6+EHIKF9dgMWnmCNThgcyBT1FY9mM=
 golang.org/x/exp v0.0.0-20200224162631-6cc2880d07d6/go.mod h1:3jZMyOhIsHpP37uCMkUooju7aAi5cS1Q23tOzKc+0MU=
 golang.org/x/exp v0.0.0-20200331195152-e8c3332aa8e5/go.mod h1:4M0jN8W1tt0AVLNr8HDosyJCDCDuyL9N9+3m7wDWgKw=
+golang.org/x/exp v0.0.0-20220407100705-7b9b53b0aca4 h1:K3x+yU+fbot38x5bQbU2QqUAVyYLEktdNH2GxZLnM3U=
 golang.org/x/exp v0.0.0-20220407100705-7b9b53b0aca4/go.mod h1:lgLbSvA5ygNOMpwM/9anMpWVlVJ7Z+cHWq/eFuinpGE=
 golang.org/x/image v0.0.0-20190227222117-0694c2d4d067/go.mod h1:kZ7UVZpmo3dzQBMxlp+ypCbDeSB+sBbTgSJuh5dn5js=
 golang.org/x/image v0.0.0-20190802002840-cff245a6509b/go.mod h1:FeLwcggjj3mMvU+oOTbSwawSJRM1uh48EjtB4UJZlP0=
@@ -3199,13 +3201,13 @@ honnef.co/go/tools v0.0.1-2020.1.4/go.mod h1:X/FiERA/W4tHapMX5mGpAtMSVEeEUOyHaw9
 honnef.co/go/tools v0.0.1-2020.1.5/go.mod h1:X/FiERA/W4tHapMX5mGpAtMSVEeEUOyHaw9vFzvIQ3k=
 honnef.co/go/tools v0.2.1/go.mod h1:lPVVZ2BS5TfnjLyizF7o7hv7j9/L+8cZY2hLyjP9cGY=
 istio.io/api v0.0.0-20220602172134-34645c49f9d9/go.mod h1:00myJeQGWma4Y5pboJ+MM4P2uqEWulKA1duC8kYN5Wo=
-istio.io/api v0.0.0-20220721211444-f06fcca0ad6c h1:+kyqHdgaLiRgkV64I3jjItemrzfZVN5TtcKwxDkZq/s=
-istio.io/api v0.0.0-20220721211444-f06fcca0ad6c/go.mod h1:hQkF0Q19MCmfOTre/Sg4KvrwwETq45oaFplnBm2p4j8=
-istio.io/client-go v1.12.0-alpha.5.0.20220721212243-1cf4ac0e26f6/go.mod h1:NcO5URTuUjllnNLxwEs4cAczVMBIoiXL2pUp2gcjdt8=
+istio.io/api v0.0.0-20220729203404-bb854084362a h1:KoYAJtQOmTY+c/1qJR84A736iMAGKVQxFNcecwd0S4w=
+istio.io/api v0.0.0-20220729203404-bb854084362a/go.mod h1:hQkF0Q19MCmfOTre/Sg4KvrwwETq45oaFplnBm2p4j8=
+istio.io/client-go v1.12.0-alpha.5.0.20220729204305-7de80783d011/go.mod h1:XkLj2U0r7wayXBTIdHbOo4gWm1sJJQ89CIPjxwQ08qY=
 istio.io/client-go v1.14.1-0.20220602172534-ddf778a85cf0 h1:oacwU6u+XeVkbvvGrR7fxJJ7Tq39TvLq3ntGgVw30m8=
 istio.io/client-go v1.14.1-0.20220602172534-ddf778a85cf0/go.mod h1:BRA/al5jGAhCi2Wkst9TzcfbKemsOavlPqGTPVY2HjQ=
-istio.io/istio v0.0.0-20220723171044-5f90e4b9ae19 h1:NyWZgLSLxiI0IP+Q+xyhBo0f8+28tNQJELgiesaOdkc=
-istio.io/istio v0.0.0-20220723171044-5f90e4b9ae19/go.mod h1:uS4CUdtkPv5MHcxPQGO3m14Sze5VJHRS0HToFJq/8J0=
+istio.io/istio v0.0.0-20220730112704-37790d75443b h1:PwkYhH0RMQMK3DhpO7qoMmvDbFLFwVyjNH0D3sRbF8E=
+istio.io/istio v0.0.0-20220730112704-37790d75443b/go.mod h1:o95n4BTjbQN/NYkayUWAA7im74dtKUQaAOXO4z2tHi0=
 istio.io/pkg v0.0.0-20220624133336-1397c6e07673 h1:iQhmf5jj+0mJAHSi9O2aV38z9X6ZdgXA8XMeTuZs0Qc=
 istio.io/pkg v0.0.0-20220624133336-1397c6e07673/go.mod h1:kcBYN5TiyGFM2bs4b7K81j+YeDZ4JrINP+brV9ehZe0=
 k8s.io/api v0.0.0-20180904230853-4e7be11eab3f/go.mod h1:iuAfoD4hCxJ8Onx9kaTIt30j7jUFS00AXQi6QMi99vA=
