@@ -344,8 +344,8 @@ its clients, and we must use the name `cacert` to hold the CA certificate.
 
 {{< text bash >}}
 $ kubectl -n istio-system delete secret httpbin-credential
-$ kubectl create -n istio-system secret generic httpbin-credential --from-file=tls.key=httpbin.example.com.key \
---from-file=tls.crt=httpbin.example.com.crt --from-file=ca.crt=example.com.crt
+$ kubectl create -n istio-system secret generic httpbin-credential --from-file=key=httpbin.example.com.key \
+--from-file=cert=httpbin.example.com.crt --from-file=cacert=example.com.crt
 {{< /text >}}
 
 1. Change the gateway's definition to set the TLS mode to `MUTUAL`.
