@@ -1,8 +1,8 @@
+// Copyright 2020 Istio Authors
+//
 // Package istioio includes the framework for doc testing. This package will
 // first scan through all the docs to collect their information, and then
 // setup istio as appropriate to run each test.
-//
-// # Copyright 2020 Istio Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
