@@ -7,3 +7,5 @@ Within a multicluster mesh, [namespace sameness](https://github.com/kubernetes/c
 applies and all namespaces with a given name are considered to be the same namespace. If multiple clusters contain a
 `Service` with the same namespaced name, they will be recognized as a single combined service. By default, traffic is
 load-balanced across all clusters in the mesh for a given service.
+
+For one or many ports within the combined service, same port value should also have same port name.
