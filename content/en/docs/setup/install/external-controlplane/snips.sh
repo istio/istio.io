@@ -215,7 +215,7 @@ sed  -i'.bk' \
 }
 
 snip_set_up_the_control_plane_in_the_external_cluster_5() {
-istioctl manifest generate -f external-istiod.yaml | kubectl apply --context="${CTX_EXTERNAL_CLUSTER}" -f -
+istioctl install -f external-istiod.yaml --context="${CTX_EXTERNAL_CLUSTER}"
 }
 
 snip_set_up_the_control_plane_in_the_external_cluster_6() {

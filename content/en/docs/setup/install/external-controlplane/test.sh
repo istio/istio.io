@@ -22,8 +22,11 @@ set -u
 set -o pipefail
 
 kubectl_get_egress_gateway_for_remote_cluster() {
-  response=$(kubectl get pod -l app=istio-egressgateway -n external-istiod --context="${CTX_REMOTE_CLUSTER}" -o jsonpath="{.items[*].status.phase}")
-  echo "$response"
+  kubectl get pod -l app=istio-egressgateway -n external-istiod --context="${CTX_REMOTE_CLUSTER}" -o jsonpath="{.items[*].status.phase}"
+}
+
+kubectl_get_external_cluster_webhooks() {
+  kubectl get mutatingwebhookconfiguration --context="${CTX_EXTERNAL_CLUSTER}"
 }
 
 # Set the CTX_EXTERNAL_CLUSTER, CTX_REMOTE_CLUSTER, and REMOTE_CLUSTER_NAME env variables.
@@ -64,6 +67,8 @@ snip_get_external_istiod_iop
 snip_set_up_the_control_plane_in_the_external_cluster_4
 
 echo y | snip_set_up_the_control_plane_in_the_external_cluster_5
+
+_verify_not_contains kubectl_get_external_cluster_webhooks "external-istiod" # external istiod install should not affect local webhooks
 
 _verify_like snip_set_up_the_control_plane_in_the_external_cluster_6 "$snip_set_up_the_control_plane_in_the_external_cluster_6_out"
 
