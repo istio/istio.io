@@ -209,15 +209,14 @@ __cmp_like() {
 
                 local comm=""
                 for ((k=0; k < ${#otok}; k++)) do
-                    if [ "${otok:$k:1}" = "${etok:$k:1}" ]; then
-                        comm="${comm}${otok:$k:1}"
-                    else
-                        if [[ "$comm" =~ ^([a-zA-Z0-9_]+-)+ ]]; then
-                            break
-                        fi
-                        return 1
+                    if [ "${otok:$k:1}" != "${etok:$k:1}" ]; then
+                        break
                     fi
+                    comm="${comm}${otok:$k:1}"
                 done
+                if ! [[ "$comm" =~ ^([a-zA-Z0-9_]+-)+ ]]; then
+                    return 1
+                fi
             done
         done
     fi
