@@ -1,14 +1,14 @@
+// Copyright 2020 Istio Authors
+//
 // Package istioio includes the framework for doc testing. This package will
 // first scan through all the docs to collect their information, and then
 // setup istio as appropriate to run each test.
-//
-// Copyright 2020 Istio Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//	http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,7 +19,6 @@ package istioio
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -123,7 +122,7 @@ func checkFile(path string) (*TestCase, error) {
 	testCase := &TestCase{path: shortPath}
 
 	// read the script file
-	script, err := ioutil.ReadFile(path)
+	script, err := os.ReadFile(path)
 	if err != nil {
 		return testCase, err
 	}

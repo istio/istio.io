@@ -7,6 +7,11 @@ publishdate: 2022-07-25
 release: 1.13.6
 ---
 
+{{< warning >}}
+Istio 1.13.6 does not contain a fix for [CVE-2022-31045](/news/security/istio-security-2022-005/#cve-2022-31045). We recommend users to not install Istio 1.13.6
+and use Istio 1.13.5 for now. Istio 1.13.7 will be released later this week.
+{{< /warning >}}
+
 This release contains bug fixes to improve robustness.
 This release note describes what's different between Istio 1.13.5 and 1.13.6.
 

@@ -846,6 +846,7 @@ sidebar_none
 sidecar
 sidecar.env
 SignalFX
+sigstore
 sinkInfo
 SkyWalking
 SLOs
