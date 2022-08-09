@@ -1301,6 +1301,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>If enabled, pilot will only send the delta configs as opposed to the state of the world on a Resource Request. This feature uses the delta xds api, but does not currently send the actual deltas.</td>
 </tr>
 <tr>
+<td><code>ISTIO_ENABLE_HTTP2_PROBING</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, HTTP2 probes will be enabled for HTTPS probes, following Kubernetes</td>
+</tr>
+<tr>
 <td><code>ISTIO_GATEWAY_STRIP_HOST_PORT</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
