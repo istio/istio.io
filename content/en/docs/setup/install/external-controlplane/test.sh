@@ -51,7 +51,7 @@ snip_set_up_the_remote_config_cluster_2
 echo y | snip_set_up_the_remote_config_cluster_3
 #set -e
 
-_verify_contains snip_set_up_the_remote_config_cluster_4 "istio-sidecar-injector-external-istiod"
+_verify_like snip_set_up_the_remote_config_cluster_4 "$snip_set_up_the_remote_config_cluster_4_out"
 
 _verify_like snip_set_up_the_remote_config_cluster_5 "$snip_set_up_the_remote_config_cluster_5_out"
 
