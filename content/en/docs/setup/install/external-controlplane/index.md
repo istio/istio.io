@@ -351,7 +351,7 @@ and installing the sidecar injector webhook configuration on the remote cluster 
 1.  Apply the Istio configuration on the external cluster:
 
     {{< text bash >}}
-    $ istioctl manifest generate -f external-istiod.yaml | kubectl apply --context="${CTX_EXTERNAL_CLUSTER}" -f -
+    $ istioctl install -f external-istiod.yaml --context="${CTX_EXTERNAL_CLUSTER}"
     {{< /text >}}
 
 1. Confirm that the external istiod has been successfully deployed:
