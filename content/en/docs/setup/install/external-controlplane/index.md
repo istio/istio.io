@@ -202,7 +202,7 @@ and installing the sidecar injector webhook configuration on the remote cluster 
 
     {{< tip >}}
     If your cluster name contains `/` (slash) characters, replace them with `--slash--` in the `injectionURL`,
-    e.g., `injectionURL: https://1.2.3.4:15017/inject/cluster/cluster--slash--1/net/network1`.
+    e.g., `injectionURL: https://1.2.3.4:15017/inject/cluster/`<mark>`cluster--slash--1`</mark>`/net/network1`.
     {{< /tip >}}
 
 1.  If you are using an IP address for the `EXTERNAL_ISTIOD_ADDR`, instead of a proper DNS hostname,
