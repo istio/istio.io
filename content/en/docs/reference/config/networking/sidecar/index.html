@@ -588,8 +588,8 @@ Yes
 <td><code>bind</code></td>
 <td><code>string</code></td>
 <td>
-<p>The IP to which the listener should be bound. Must be in the
-format <code>x.x.x.x</code>. Unix domain socket addresses are not allowed in
+<p>The IP(IPv4 or IPv6) to which the listener should be bound.
+Unix domain socket addresses are not allowed in
 the bind field for ingress listeners. If omitted, Istio will
 automatically configure the defaults based on imported services
 and the workload instances to which this configuration is applied
@@ -684,8 +684,8 @@ No
 <td><code>bind</code></td>
 <td><code>string</code></td>
 <td>
-<p>The IP or the Unix domain socket to which the listener should be bound
-to. Port MUST be specified if bind is not empty. Format: <code>x.x.x.x</code> or
+<p>The IP(IPv4 or IPv6) or the Unix domain socket to which the listener should be bound
+to. Port MUST be specified if bind is not empty. Format: IPv4 or IPv6 address formats or
 <code>unix:///path/to/uds</code> or <code>unix://@foobar</code> (Linux abstract namespace). If
 omitted, Istio will automatically configure the defaults based on imported
 services, the workload instances to which this configuration is applied to and
