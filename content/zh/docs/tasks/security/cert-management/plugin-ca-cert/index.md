@@ -28,6 +28,10 @@ test: yes
 以下内容仅用于演示。对于生产型集群的设置，强烈建议使用生产型 CA，如 [Hashicorp Vault](https://www.hashicorp.com/products/vault)。在具有强大安全保护功能的离线机器上管理根 CA 是一个很好的做法。
 {{< /warning >}}
 
+{{< warning >}}
+[Go 1.18 默认禁用](https://github.com/golang/go/issues/41682)对 SHA-1 签名的支持。如果您正在 macOS 上生成证书，请确保您使用的是 OpenSSL。详情请参阅 [GitHub issue 38049](https://github.com/istio/istio/issues/38049)。
+{{< /warning >}}
+
 1. 在 Istio 安装包的顶层目录下，创建一个目录来存放证书和密钥：
 
     {{< text bash >}}
