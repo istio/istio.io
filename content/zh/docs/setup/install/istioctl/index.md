@@ -231,7 +231,7 @@ $ istioctl manifest generate > $HOME/generated-manifest.yaml
 1. Istio 的命名空间（默认为`istio-system`）必须手工创建。
 
 1. 默认情况下，Istio 验证将不会被启用。
-与 `istioctl install` 不同，`manifest generate` 命令不会创建 `istiod-default-validator` 验证 webhook 配置，除非 `values.defaultRevision` 被设置：
+与 `istioctl install` 不同，`manifest generate` 命令不会创建 `istiod-default-validator` 验证 webhook 配置，除非设置 `values.defaultRevision`：
 
     {{< text bash >}}
     $ istioctl manifest generate --set values.defaultRevision=default
