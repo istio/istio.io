@@ -9,7 +9,7 @@ release: 1.14.2
 
 {{< warning >}}
 Istio 1.14.2 不包含对 [CVE-2022-31045](/zh/news/security/istio-security-2022-005/#cve-2022-31045) 的修复。
-我们建议用户暂时不要安装 Istio 1.14.2 并使用 Istio 1.14.1。
+我们建议用户暂时不要安装 Istio 1.14.2，而是使用 Istio 1.14.1。
 Istio 1.14.3 将于本周晚些时候发布。
 {{< /warning >}}
 
