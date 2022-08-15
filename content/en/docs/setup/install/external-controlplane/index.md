@@ -478,6 +478,12 @@ and installing the sidecar injector webhook configuration on the remote cluster 
 Now that Istio is up and running, a mesh administrator only needs to deploy and configure services in the mesh,
 including gateways, if needed.
 
+{{< tip >}}
+Some of the `istioctl` CLI commands won't work by default on a remote cluster,
+although you can easily configure `istioctl` to make it fully functional.
+See the [Istioctl-proxy Ecosystem project](https://github.com/istio-ecosystem/istioctl-proxy-sample) for details.
+{{< /tip >}}
+
 #### Deploy a sample application
 
 1. Create, and label for injection, the `sample` namespace on the remote cluster:
