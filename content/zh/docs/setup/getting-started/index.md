@@ -281,8 +281,8 @@ _GKE:_
 $ export INGRESS_HOST=workerNodeAddress
 {{< /text >}}
 
-你需要创建一个防火墙规则，放行发往 `ingressgateway` 的 TCP 流量。
-运行下面的命令，单独放行发往 HTTP 端口或 HTTPS 端口的流量，或者都放行。
+你需要创建一个防火墙规则，以允许 TCP 流量发送到 `ingressgateway` 的服务端口。
+运行下面的命令，以允许 HTTP 端口或 HTTPS 端口的流量，或都两者的流量都允许。
 
 {{< text bash >}}
 $ gcloud compute firewall-rules create allow-gateway-http --allow "tcp:$INGRESS_PORT"
