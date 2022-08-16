@@ -11,7 +11,7 @@ replace github.com/imdario/mergo => github.com/imdario/mergo v0.3.5
 require (
 	github.com/golang/sync v0.0.0-20180314180146-1d60e4601c6f
 	github.com/pmezard/go-difflib v1.0.0
-	istio.io/istio v0.0.0-20220809193439-895f3c2ce0be
+	istio.io/istio v0.0.0-20220816064437-8f02bd1fc571
 	istio.io/pkg v0.0.0-20220804202146-4787664020d6
 	k8s.io/apimachinery v0.24.2
 	k8s.io/client-go v0.24.2
@@ -210,8 +210,8 @@ require (
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	helm.sh/helm/v3 v3.9.0 // indirect
-	istio.io/api v0.0.0-20220809172138-96f063e71515 // indirect
-	istio.io/client-go v1.14.1-0.20220602172534-ddf778a85cf0 // indirect
+	istio.io/api v0.0.0-20220815202418-f02078d1ed7d // indirect
+	istio.io/client-go v1.15.0-beta.0.0.20220815203017-44c6a759f531 // indirect
 	k8s.io/api v0.24.2 // indirect
 	k8s.io/apiextensions-apiserver v0.24.2 // indirect
 	k8s.io/apiserver v0.24.2 // indirect
@@ -222,7 +222,7 @@ require (
 	k8s.io/kubectl v0.24.2 // indirect
 	k8s.io/utils v0.0.0-20220210201930-3a6ce19ff2f9 // indirect
 	sigs.k8s.io/controller-runtime v0.12.2 // indirect
-	sigs.k8s.io/gateway-api v0.5.0 // indirect
+	sigs.k8s.io/gateway-api v0.5.1-0.20220815164014-854e2bfc5276 // indirect
 	sigs.k8s.io/json v0.0.0-20211208200746-9f7c6b3444d2 // indirect
 	sigs.k8s.io/kustomize/api v0.11.4 // indirect
 	sigs.k8s.io/kustomize/kyaml v0.13.6 // indirect
