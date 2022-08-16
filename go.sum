@@ -3204,8 +3204,8 @@ istio.io/api v0.0.0-20220815202418-f02078d1ed7d h1:UNmy9Tmvbgpsugu993EStXPOIybRW
 istio.io/api v0.0.0-20220815202418-f02078d1ed7d/go.mod h1:hQkF0Q19MCmfOTre/Sg4KvrwwETq45oaFplnBm2p4j8=
 istio.io/client-go v1.15.0-beta.0.0.20220815203017-44c6a759f531 h1:WsK2tQ7D2anbZbF2VGn1JCsVruG+AjccEVB6VKqwq7s=
 istio.io/client-go v1.15.0-beta.0.0.20220815203017-44c6a759f531/go.mod h1:DB3kGRjhe7Lx4Zw9kTXhaFJtMlTKM7o0Rrlnl3CaIqg=
-istio.io/istio v0.0.0-20220816001337-c32b5fd3fa03 h1:bBT7Y83DDCsPQ4LB3gepiePhv/fGRm7gYx7PBlZiTK8=
-istio.io/istio v0.0.0-20220816001337-c32b5fd3fa03/go.mod h1:Pb4vhl3OQ3KLqjQ8SxPpk/y7W6faAXH7RdX+/dCF5vY=
+istio.io/istio v0.0.0-20220816064437-8f02bd1fc571 h1:iHvjSJJ3VgPUqzM5w0wgzWpLQGy1jzmqFsPB/StCE1U=
+istio.io/istio v0.0.0-20220816064437-8f02bd1fc571/go.mod h1:XWAoLGo4pTioC4CzHfUw9xUwCPPw7onAac+ftPr99CU=
 istio.io/pkg v0.0.0-20220804191248-6831f10c727d/go.mod h1:kcBYN5TiyGFM2bs4b7K81j+YeDZ4JrINP+brV9ehZe0=
 istio.io/pkg v0.0.0-20220804202146-4787664020d6 h1:ah77khK9ID4J/oRQ0HSdK659HSsjbpB76VggLXJtYnE=
 istio.io/pkg v0.0.0-20220804202146-4787664020d6/go.mod h1:kcBYN5TiyGFM2bs4b7K81j+YeDZ4JrINP+brV9ehZe0=
@@ -3393,8 +3393,8 @@ sigs.k8s.io/controller-runtime v0.12.2 h1:nqV02cvhbAj7tbt21bpPpTByrXGn2INHRsi39l
 sigs.k8s.io/controller-runtime v0.12.2/go.mod h1:qKsk4WE6zW2Hfj0G4v10EnNB2jMG1C+NTb8h+DwCoU0=
 sigs.k8s.io/controller-tools v0.3.0/go.mod h1:enhtKGfxZD1GFEoMgP8Fdbu+uKQ/cq1/WGJhdVChfvI=
 sigs.k8s.io/controller-tools v0.7.0/go.mod h1:bpBAo0VcSDDLuWt47evLhMLPxRPxMDInTEH/YbdeMK0=
-sigs.k8s.io/gateway-api v0.5.0 h1:ze+k9fJqvmL8s1t3e4q1ST8RnN+f09dEv+gfacahlAE=
-sigs.k8s.io/gateway-api v0.5.0/go.mod h1:x0AP6gugkFV8fC/oTlnOMU0pnmuzIR8LfIPRVUjxSqA=
+sigs.k8s.io/gateway-api v0.5.1-0.20220815164014-854e2bfc5276 h1:7L9X/IkG9/Ww8Glcbtf8KTZde8kReC3m2e1RGRytANQ=
+sigs.k8s.io/gateway-api v0.5.1-0.20220815164014-854e2bfc5276/go.mod h1:x0AP6gugkFV8fC/oTlnOMU0pnmuzIR8LfIPRVUjxSqA=
 sigs.k8s.io/json v0.0.0-20211020170558-c049b76a60c6/go.mod h1:p4QtZmO4uMYipTQNzagwnNoseA6OxSUutVw05NhYDRs=
 sigs.k8s.io/json v0.0.0-20211208200746-9f7c6b3444d2 h1:kDi4JBNAsJWfz1aEXhO8Jg87JJaPNLh5tIzYHgStQ9Y=
 sigs.k8s.io/json v0.0.0-20211208200746-9f7c6b3444d2/go.mod h1:B+TnT182UBxE84DiCz4CVE26eOSDAeYCpfDnC2kdKMY=
