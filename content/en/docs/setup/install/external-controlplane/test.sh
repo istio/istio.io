@@ -147,28 +147,6 @@ export CTX_EXTERNAL_CLUSTER="${KUBE_CONTEXTS[0]}"
 export CTX_REMOTE_CLUSTER="${KUBE_CONTEXTS[2]}"
 export CTX_SECOND_CLUSTER="${KUBE_CONTEXTS[1]}"
 
-# TODO put the cleanup instructions in the doc and then call the snips.
-kubectl delete ns sample --context="${CTX_REMOTE_CLUSTER}"
-kubectl delete ns sample --context="${CTX_SECOND_CLUSTER}"
-
-kubectl delete -f external-istiod-gw.yaml --context="${CTX_EXTERNAL_CLUSTER}"
-
-istioctl manifest generate -f remote-config-cluster.yaml | kubectl delete --context="${CTX_REMOTE_CLUSTER}" -f -
-istioctl manifest generate -f second-remote-cluster.yaml | kubectl delete --context="${CTX_SECOND_CLUSTER}" -f -
-istioctl manifest generate -f eastwest-gateway-1.yaml | kubectl delete --context="${CTX_REMOTE_CLUSTER}" -f -
-istioctl manifest generate -f eastwest-gateway-2.yaml | kubectl delete --context="${CTX_SECOND_CLUSTER}" -f -
-istioctl manifest generate -f external-istiod.yaml | kubectl delete --context="${CTX_EXTERNAL_CLUSTER}" -f -
-istioctl manifest generate -f controlplane-gateway.yaml | kubectl delete --context="${CTX_EXTERNAL_CLUSTER}" -f -
-
-#TODO remove the following lines when https://github.com/istio/istio/issues/38599 is fixed
-kubectl delete validatingwebhookconfigurations istiod-default-validator --context="${CTX_REMOTE_CLUSTER}"
-kubectl delete validatingwebhookconfigurations istiod-default-validator --context="${CTX_EXTERNAL_CLUSTER}"
-kubectl delete mutatingwebhookconfigurations istio-revision-tag-default-external-istiod --context="${CTX_REMOTE_CLUSTER}"
-kubectl delete mutatingwebhookconfigurations istio-revision-tag-default-external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
-kubectl delete mutatingwebhookconfigurations istio-revision-tag-default --context="${CTX_EXTERNAL_CLUSTER}"
-
-kubectl delete ns istio-system external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
-kubectl delete ns external-istiod --context="${CTX_REMOTE_CLUSTER}"
-kubectl delete ns external-istiod --context="${CTX_SECOND_CLUSTER}"
-
-rm external-istiod-gw.yaml remote-config-cluster.yaml external-istiod.yaml controlplane-gateway.yaml eastwest-gateway-1.yaml eastwest-gateway-2.yaml second-remote-cluster.yaml
+snip_cleanup_1
+snip_cleanup_2
+snip_cleanup_3
