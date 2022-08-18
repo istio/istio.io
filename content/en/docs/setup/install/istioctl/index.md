@@ -309,7 +309,7 @@ See [Customizing the installation configuration](/docs/setup/additional-setup/cu
 To completely uninstall Istio from a cluster, run the following command:
 
 {{< text bash >}}
-$ istioctl x uninstall --purge
+$ istioctl uninstall --purge
 {{< /text >}}
 
 {{< warning >}}
@@ -319,7 +319,7 @@ The optional `--purge` flag will remove all Istio resources, including cluster-s
 Alternatively, to remove only a specific Istio control plane, run the following command:
 
 {{< text bash >}}
-$ istioctl x uninstall <your original installation options>
+$ istioctl uninstall <your original installation options>
 {{< /text >}}
 
 or

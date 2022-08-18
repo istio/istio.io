@@ -326,6 +326,6 @@ Note that deleting the operator before the `IstioOperator` CR and corresponding 
 To clean up anything not removed by the operator:
 
 {{< text syntax=bash snip_id=cleanup >}}
-$ istioctl manifest generate | kubectl delete -f -
+$ istioctl uninstall -y --purge
 $ kubectl delete ns istio-system --grace-period=0 --force
  {{< /text >}}
