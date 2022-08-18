@@ -62,8 +62,8 @@ primary and canary installations.
     {{< text bash >}}
     $ kubectl get pods -l app=istiod -L istio.io/rev -n istio-system
       NAME                            READY   STATUS    RESTARTS   AGE   REV
-      istiod-5649c48ddc-dlkh8         1/1     Running   0          71m   ...
-      istiod-canary-9cc9fd96f-jpc7n   1/1     Running   0          34m   ...
+      istiod-5649c48ddc-dlkh8         1/1     Running   0          71m   default
+      istiod-canary-9cc9fd96f-jpc7n   1/1     Running   0          34m   canary
     {{< /text >}}
 
 1. Follow the steps [here](/docs/setup/upgrade/canary/) to test or migrate
