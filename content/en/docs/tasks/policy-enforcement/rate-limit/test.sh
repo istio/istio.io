@@ -44,21 +44,13 @@ snip_global_rate_limit_3
 snip_global_rate_limit_4
 
 # verify global ratelimit
-snip_verify_global_rate_limit_1
 _verify_same snip_verify_global_rate_limit_1 "$snip_verify_global_rate_limit_1_out"
 
 
 # apply local ratelimit envoyfilter
 snip_local_rate_limit_2
 
-# wait a while for envoyfilter
-sleep 1s
-
-for i in {1..10}; do
-    echo "$i"
-    snip_verify_local_rate_limit_1
-done
-
+# verify local ratelimit
 _verify_same snip_verify_local_rate_limit_1 "$snip_verify_global_rate_limit_1_out"
 
 # @cleanup
