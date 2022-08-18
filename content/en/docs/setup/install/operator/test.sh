@@ -39,6 +39,6 @@ _verify_contains snip_kubectl_get_svc "egressgateway"
 
 # @cleanup
 istioctl operator remove
-istioctl x uninstall -y --purge
+istioctl uninstall -y --purge
 kubectl delete ns istio-system --grace-period=0 --force
 kubectl delete ns istio-operator --grace-period=0 --force
