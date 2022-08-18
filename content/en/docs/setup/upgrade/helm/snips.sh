@@ -48,8 +48,8 @@ kubectl get pods -l app=istiod -L istio.io/rev -n istio-system
 
 ! read -r -d '' snip_canary_upgrade_recommended_3_out <<\ENDSNIP
   NAME                            READY   STATUS    RESTARTS   AGE   REV
-  istiod-canary-9cc9fd96f-jpc7n   1/1     Running   0          34m   canary
-  istiod-5649c48ddc-dlkh8         1/1     Running   0          71m   default
+  istiod-5649c48ddc-dlkh8         1/1     Running   0          71m   ...
+  istiod-canary-9cc9fd96f-jpc7n   1/1     Running   0          34m   ...
 ENDSNIP
 
 snip_canary_upgrade_recommended_4() {
