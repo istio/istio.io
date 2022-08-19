@@ -16,9 +16,9 @@
 
             <div class="feature-block-text">
                 {{ if in (string .Inner) "\n\n" }}
-                    {{ .Inner }}
+                    {{ .Inner | markdownify }}
                 {{ else }}
-                    <p>{{ .Inner }}</p>
+                    <p>{{ .Inner | markdownify }}</p>
                 {{ end }}
 
                 {{ with .Get "url" }}
