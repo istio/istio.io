@@ -1,9 +1,9 @@
 {{ $items := index .Site.Data.companies (.Get "items") }}
 
 {{ with $items }}
-<div class="panels panels--grid">
-    {{ range sort $items "name" }}
-        {{ partial "interactive_panel" . }}
-    {{ end }}
-</div>
+    <div class="panels panels--grid">
+        {{ range sort $items "name" }}
+            {{ partial "interactive_panel" . }}
+        {{ end }}
+    </div>
 {{ end }}
