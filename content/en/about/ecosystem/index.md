@@ -22,7 +22,7 @@ doc_type: about
     description="Many companies build platforms and services that install, manage, and implement Istio for you. In fact, Istio implementations are built in to many providers’ Kubernetes services."
 >}}
 
-    {{< companies items="providers">}}
+{{< companies items="providers">}}
 
 {{< /tab >}}
 
@@ -32,7 +32,7 @@ doc_type: about
     description="There are many people who can help you set up your Istio configuration. Here are some experts who can implement Istio for you, matching its capabilities to your requirements."
 >}}
 
-    {{< interactive_panels items="pro_services" >}}
+{{< interactive_panels items="pro_services" >}}
 
 {{< /tab >}}
 
@@ -42,7 +42,7 @@ doc_type: about
     description="Istio is a vibrant part of the cloud native stack. These are some of the projects and software that integrate with Istio to enable added functionality."
 >}}
 
-    {{< interactive_panels items="integrations" >}}
+{{< interactive_panels items="integrations" >}}
 
 {{< /tab >}}
 
