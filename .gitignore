@@ -20,6 +20,9 @@ generated
 # install generated files
 install/**
 
+# vendor dependency files
+vendor
+
 # contains samples to demo Istio
 samples/**
 
