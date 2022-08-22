@@ -20,7 +20,7 @@ set -o pipefail
 
 # @setup profile=none
 function rebuild() {
-    istioctl x uninstall --purge --skip-confirmation
+    echo y | istioctl uninstall --purge --skip-confirmation
     kubectl delete namespace istio-ingress
     istioctl install --skip-confirmation --set profile=minimal
 }
@@ -62,6 +62,6 @@ _verify_like snip_canary_upgrade_advanced_2 "${snip_canary_upgrade_advanced_2_ou
 
 # @cleanup
 
-istioctl x uninstall --purge --skip-confirmation
+echo y | istioctl uninstall --purge --skip-confirmation
 kubectl delete namespace istio-system
 kubectl delete namespace istio-ingress

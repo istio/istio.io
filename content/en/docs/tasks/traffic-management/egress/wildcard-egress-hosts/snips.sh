@@ -178,5 +178,5 @@ kubectl delete -f samples/sleep/sleep.yaml
 }
 
 snip_cleanup_2() {
-istioctl x uninstall --purge
+echo y | istioctl uninstall --purge
 }
