@@ -82,6 +82,9 @@ providers:
   - name: "Deckhouse Kubernetes Platform"
     logo: "/logos/flant-deckhouse-platform.svg"
     url: "https://deckhouse.io/en/documentation/v1/modules/110-istio/"
+  - name: "Layer5"
+    logo: "/logos/layer5.svg"
+    url: "https://layer5.io/cloud-native-management/meshery"
 
 integrations:
   - name: "Aeraki"
@@ -174,7 +177,7 @@ integrations:
     url: "https://fission.io/docs/usage/ingress/ingress-istio/"
     description: "Fission is a framework for serverless functions on Kubernetes. "
     details:
-      - "Fission allows users to deploy an Istio Gateway to route traffic to Fission functions. Users can also authenticate requests to Fission functions using Istio's authentication capabilities."    
+      - "Fission allows users to deploy an Istio Gateway to route traffic to Fission functions. Users can also authenticate requests to Fission functions using Istio's authentication capabilities."
   - name: "Gloo Edge"
     logo: "/logos/gloo.png"
     url: "https://www.solo.io/products/gloo-edge/"
@@ -298,7 +301,7 @@ pro_services:
     description: "Cloud Scale® Inc experts assess your current applications, runtime deployments, service maps and use-cases, find the right mix of cloud platforms for your workloads, identify gaps in technology & skills, and prepare a success plan."
     details:
       - "Cloud Scale platform and service mesh experts puts distribution & management in the palm of your hand. From productivity to continuity, from security to remote monitoring & management – our growing portfolio of services has got you covered. "
-      - "Cloud consulting and Istio service mesh experts by Cloud Scale helps in solving all of the needs by selecting the right platforms, cloud solutions and platform needs that integrate smoothly with legacy & next-generation technologies and deliver optimal return on technology investments."      
+      - "Cloud consulting and Istio service mesh experts by Cloud Scale helps in solving all of the needs by selecting the right platforms, cloud solutions and platform needs that integrate smoothly with legacy & next-generation technologies and deliver optimal return on technology investments."
   - name: "Your Name Here"
     logo: "/logos/istio.svg"
     url: "https://istio.io/"
