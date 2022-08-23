@@ -186,7 +186,7 @@ In this example, we will deploy a simple application and expose it externally us
     $ kubectl delete ns istio-ingress
     {{< /text >}}
 
-2. Remove the Gateway API CRDs if they are no longer needed:
+1. Remove the Gateway API CRDs if they are no longer needed:
 
     {{< text bash >}}
     $ kubectl kustomize "github.com/kubernetes-sigs/service-apis/config/crd?ref=v0.5.0" | kubectl delete -f -
