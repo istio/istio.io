@@ -27,7 +27,7 @@ Edit `MeshConfig` to add an OpenTelemetry provider, named `otel`.  This involves
 extensionProviders:
 - name: otel
   envoyOtelAls:
-    service: otel-collector.istio-system.svc.cluster.local
+    service: opentelemetry-collector.istio-system.svc.cluster.local
     port: 4317
 {{< /text >}}
 
@@ -52,7 +52,7 @@ data:
     extensionProviders:
     - name: otel
       envoyOtelAls:
-        service: otel-collector.istio-system.svc.cluster.local
+        service: opentelemetry-collector.istio-system.svc.cluster.local
         port: 4317
     rootNamespace: istio-system
     trustDomain: cluster.local
@@ -94,7 +94,7 @@ spec:
     extensionProviders:
     - name: otel
       envoyOtelAls:
-        service: otel-collector.istio-system.svc.cluster.local
+        service: opentelemetry-collector.istio-system.svc.cluster.local
         port: 4317
     defaultProviders:
       accessLogging:

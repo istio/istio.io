@@ -55,12 +55,12 @@ cleanup_httpbin_sample() {
 }
 
 startup_otel_sample() {
-    kubectl apply -f samples/open-telemetry/otel.yaml
+    kubectl apply -f samples/open-telemetry/otel.yaml -n istio-system
     _wait_for_deployment istio-system otel-collector
 }
 
 cleanup_otel_sample() {
-    kubectl delete -f samples/open-telemetry/otel.yaml || true
+    kubectl delete -f samples/open-telemetry/otel.yaml -n istio-system || true
 }
 
 # Use curl to send an http request to a sample service via ingressgateway.

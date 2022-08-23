@@ -27,7 +27,7 @@ source "content/en/boilerplates/snips/start-otel-collector-service.sh"
 extensionProviders:
 - name: otel
   envoyOtelAls:
-    service: otel-collector.istio-system.svc.cluster.local
+    service: opentelemetry-collector.istio-system.svc.cluster.local
     port: 4317
 ENDSNIP
 
@@ -50,7 +50,7 @@ data:
     extensionProviders:
     - name: otel
       envoyOtelAls:
-        service: otel-collector.istio-system.svc.cluster.local
+        service: opentelemetry-collector.istio-system.svc.cluster.local
         port: 4317
     rootNamespace: istio-system
     trustDomain: cluster.local
@@ -80,7 +80,7 @@ spec:
     extensionProviders:
     - name: otel
       envoyOtelAls:
-        service: otel-collector.istio-system.svc.cluster.local
+        service: opentelemetry-collector.istio-system.svc.cluster.local
         port: 4317
     defaultProviders:
       accessLogging:
