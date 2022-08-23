@@ -158,7 +158,7 @@ $ istioctl tag set default --revision 1-10-0
 After upgrading both the control plane and data plane, you can uninstall the old control plane. For example, the following command uninstalls a control plane of revision `1-6-5`:
 
 {{< text bash >}}
-$ echo y | istioctl uninstall --revision 1-6-5
+$ istioctl uninstall --revision 1-6-5 -y
 {{< /text >}}
 
 If the old control plane does not have a revision label, uninstall it using its original installation options, for example:
