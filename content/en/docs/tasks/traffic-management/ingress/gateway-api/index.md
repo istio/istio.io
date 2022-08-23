@@ -177,7 +177,7 @@ In this example, we will deploy a simple application and expose it externally us
 
 ## Cleanup
 
-1. Uninstall Istio and the `helloworld` sample:
+1. Uninstall Istio and the `httpbin` sample:
 
     {{< text bash >}}
     $ kubectl delete -f @samples/httpbin/httpbin.yaml@
