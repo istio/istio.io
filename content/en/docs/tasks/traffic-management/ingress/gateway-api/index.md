@@ -14,17 +14,19 @@ This task describes how to configure Istio to expose a service outside the servi
 These APIs are an actively developed evolution of the Kubernetes [Service](https://kubernetes.io/docs/concepts/services-networking/service/)
 and [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) APIs.
 
-{{< warning >}}
-This feature is currently considered [alpha](/docs/releases/feature-stages/).
-Both the API (owned by Kubernetes SIG-NETWORK) and the Istio implementation are likely to change before being promoted further.
-{{< /warning >}}
-
 ## Setup
 
 1. The Gateway APIs do not come installed by default on most Kubernetes clusters. Install the Gateway API CRDs if they are not present:
 
     {{< text bash >}}
-    $ kubectl get crd gateways.gateway.networking.k8s.io || { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.4.0" | kubectl apply -f -; }
+    $ kubectl get crd gateways.gateway.networking.k8s.io || \
+      { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.5.0" | kubectl apply -f -; }
+    {{< /text >}}
+
+1. Install Istio using the `minimal` profile:
+
+    {{< text bash >}}
+    $ istioctl install --set profile=minimal -y
     {{< /text >}}
 
 ## Differences from Istio APIs
@@ -131,6 +133,23 @@ In this example, we will deploy a simple application and expose it externally us
     $ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST/headers"
     HTTP/1.1 404 Not Found
     ...
+    {{< /text >}}
+
+## Cleanup
+
+1. Uninstall Istio and the `helloworld` sample:
+
+    {{< text bash >}}
+    $ kubectl delete -f @samples/httpbin/httpbin.yaml@
+    $ istioctl uninstall -y --purge
+    $ kubectl delete ns istio-system
+    $ kubectl delete ns istio-ingress
+    {{< /text >}}
+
+2. Remove the Gateway API CRDs if they are no longer needed:
+
+    {{< text bash >}}
+    $ kubectl kustomize "github.com/kubernetes-sigs/service-apis/config/crd?ref=v0.5.0" | kubectl delete -f -
     {{< /text >}}
 
 ## Deployment methods

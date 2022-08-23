@@ -27,7 +27,7 @@ source "tests/util/samples.sh"
 snip_setup_1
 
 # install Istio with PILOT_ENABLED_SERVICE_APIS flag enabled
-istioctl install --set profile=minimal -y
+snip_setup_2
 _wait_for_deployment istio-system istiod
 
 startup_httpbin_sample
@@ -47,7 +47,5 @@ _verify_elided snip_configuring_a_gateway_5 "$snip_configuring_a_gateway_5_out"
 
 # @cleanup
 cleanup_httpbin_sample
-kubectl kustomize "github.com/kubernetes-sigs/service-apis/config/crd?ref=v0.4.0" | kubectl delete -f -
-echo y | istioctl x uninstall --revision=default
-kubectl delete ns istio-system
-kubectl delete ns istio-ingress
+snip_cleanup_1
+snip_cleanup_2

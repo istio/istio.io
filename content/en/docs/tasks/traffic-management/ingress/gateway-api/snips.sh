@@ -21,7 +21,12 @@
 ####################################################################################################
 
 snip_setup_1() {
-kubectl get crd gateways.gateway.networking.k8s.io || { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.4.0" | kubectl apply -f -; }
+kubectl get crd gateways.gateway.networking.k8s.io || \
+  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.5.0" | kubectl apply -f -; }
+}
+
+snip_setup_2() {
+istioctl install --set profile=minimal -y
 }
 
 snip_configuring_a_gateway_1() {
@@ -97,6 +102,17 @@ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST/headers"
 HTTP/1.1 404 Not Found
 ...
 ENDSNIP
+
+snip_cleanup_1() {
+kubectl delete -f samples/httpbin/httpbin.yaml
+istioctl uninstall -y --purge
+kubectl delete ns istio-system
+kubectl delete ns istio-ingress
+}
+
+snip_cleanup_2() {
+kubectl kustomize "github.com/kubernetes-sigs/service-apis/config/crd?ref=v0.5.0" | kubectl delete -f -
+}
 
 ! read -r -d '' snip_automated_deployment_1 <<\ENDSNIP
 apiVersion: gateway.networking.k8s.io/v1alpha2
