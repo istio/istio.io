@@ -41,9 +41,14 @@ snip_configuring_a_gateway_3
 # send CURL traffic to http://$INGRESS_HOST/get (expected 200)
 _verify_elided snip_configuring_a_gateway_4 "$snip_configuring_a_gateway_4_out"
 
-# send CURL traffic to http://$INGRESS_HOST/get (expected 404)
+# send CURL traffic to http://$INGRESS_HOST/headers (expected 404)
 _verify_elided snip_configuring_a_gateway_5 "$snip_configuring_a_gateway_5_out"
 
+# configure add a header to the request
+snip_configuring_a_gateway_6
+
+# send CURL traffic to http://$INGRESS_HOST/headers (expect added header)
+_verify_elided snip_configuring_a_gateway_7 "$snip_configuring_a_gateway_7_out"
 
 # @cleanup
 cleanup_httpbin_sample

@@ -67,12 +67,6 @@ spec:
     - path:
         type: PathPrefix
         value: /get
-    filters:
-    - type: RequestHeaderModifier
-      requestHeaderModifier:
-        add:
-        - name: my-added-header
-          value: added-value
     backendRefs:
     - name: httpbin
       port: 8000
@@ -100,6 +94,51 @@ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST/headers"
 
 ! read -r -d '' snip_configuring_a_gateway_5_out <<\ENDSNIP
 HTTP/1.1 404 Not Found
+...
+ENDSNIP
+
+snip_configuring_a_gateway_6() {
+kubectl apply -f - <<EOF
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: HTTPRoute
+metadata:
+  name: http
+  namespace: default
+spec:
+  parentRefs:
+  - name: gateway
+    namespace: istio-ingress
+  hostnames: ["httpbin.example.com"]
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /get
+    - path:
+        type: PathPrefix
+        value: /headers
+    filters:
+    - type: RequestHeaderModifier
+      requestHeaderModifier:
+        add:
+        - name: my-added-header
+          value: added-value
+    backendRefs:
+    - name: httpbin
+      port: 8000
+EOF
+}
+
+snip_configuring_a_gateway_7() {
+curl -s -HHost:httpbin.example.com "http://$INGRESS_HOST/headers"
+}
+
+! read -r -d '' snip_configuring_a_gateway_7_out <<\ENDSNIP
+{
+  "headers": {
+    "Accept": "*/*",
+    "Host": "httpbin.example.com",
+    "My-Added-Header": "added-value",
 ...
 ENDSNIP
 
