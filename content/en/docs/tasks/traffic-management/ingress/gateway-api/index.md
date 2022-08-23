@@ -53,7 +53,7 @@ See the [Gateway API](https://gateway-api.sigs.k8s.io/) documentation for inform
 
 In this example, we will deploy a simple application and expose it externally using a `Gateway`.
 
-1. First, deploy a `httpbin` test application:
+1. First, deploy the `httpbin` test application:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/httpbin/httpbin.yaml@
