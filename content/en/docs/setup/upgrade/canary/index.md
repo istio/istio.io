@@ -164,7 +164,7 @@ $ istioctl uninstall --revision 1-6-5 -y
 If the old control plane does not have a revision label, uninstall it using its original installation options, for example:
 
 {{< text bash >}}
-$ echo y | istioctl uninstall -f manifests/profiles/default.yaml
+$ istioctl uninstall -f manifests/profiles/default.yaml -y
 {{< /text >}}
 
 Confirm that the old control plane has been removed and only the new one still exists in the cluster:
