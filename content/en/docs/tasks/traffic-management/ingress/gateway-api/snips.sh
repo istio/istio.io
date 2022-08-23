@@ -21,7 +21,12 @@
 ####################################################################################################
 
 snip_setup_1() {
-kubectl get crd gateways.gateway.networking.k8s.io || { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.4.0" | kubectl apply -f -; }
+kubectl get crd gateways.gateway.networking.k8s.io || \
+  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.5.0" | kubectl apply -f -; }
+}
+
+snip_setup_2() {
+istioctl install --set profile=minimal -y
 }
 
 snip_configuring_a_gateway_1() {
@@ -62,12 +67,6 @@ spec:
     - path:
         type: PathPrefix
         value: /get
-    filters:
-    - type: RequestHeaderModifier
-      requestHeaderModifier:
-        add:
-        - name: my-added-header
-          value: added-value
     backendRefs:
     - name: httpbin
       port: 8000
@@ -97,6 +96,62 @@ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST/headers"
 HTTP/1.1 404 Not Found
 ...
 ENDSNIP
+
+snip_configuring_a_gateway_6() {
+kubectl apply -f - <<EOF
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: HTTPRoute
+metadata:
+  name: http
+  namespace: default
+spec:
+  parentRefs:
+  - name: gateway
+    namespace: istio-ingress
+  hostnames: ["httpbin.example.com"]
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /get
+    - path:
+        type: PathPrefix
+        value: /headers
+    filters:
+    - type: RequestHeaderModifier
+      requestHeaderModifier:
+        add:
+        - name: my-added-header
+          value: added-value
+    backendRefs:
+    - name: httpbin
+      port: 8000
+EOF
+}
+
+snip_configuring_a_gateway_7() {
+curl -s -HHost:httpbin.example.com "http://$INGRESS_HOST/headers"
+}
+
+! read -r -d '' snip_configuring_a_gateway_7_out <<\ENDSNIP
+{
+  "headers": {
+    "Accept": "*/*",
+    "Host": "httpbin.example.com",
+    "My-Added-Header": "added-value",
+...
+ENDSNIP
+
+snip_cleanup_1() {
+kubectl delete -f samples/httpbin/httpbin.yaml
+istioctl uninstall -y --purge
+kubectl delete ns istio-system
+kubectl delete ns istio-ingress
+}
+
+snip_cleanup_2() {
+kubectl kustomize "github.com/kubernetes-sigs/service-apis/config/crd?ref=v0.5.0" | kubectl delete -f -
+}
 
 ! read -r -d '' snip_automated_deployment_1 <<\ENDSNIP
 apiVersion: gateway.networking.k8s.io/v1alpha2

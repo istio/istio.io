@@ -14,17 +14,19 @@ This task describes how to configure Istio to expose a service outside the servi
 These APIs are an actively developed evolution of the Kubernetes [Service](https://kubernetes.io/docs/concepts/services-networking/service/)
 and [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) APIs.
 
-{{< warning >}}
-This feature is currently considered [alpha](/docs/releases/feature-stages/).
-Both the API (owned by Kubernetes SIG-NETWORK) and the Istio implementation are likely to change before being promoted further.
-{{< /warning >}}
-
 ## Setup
 
 1. The Gateway APIs do not come installed by default on most Kubernetes clusters. Install the Gateway API CRDs if they are not present:
 
     {{< text bash >}}
-    $ kubectl get crd gateways.gateway.networking.k8s.io || { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.4.0" | kubectl apply -f -; }
+    $ kubectl get crd gateways.gateway.networking.k8s.io || \
+      { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.5.0" | kubectl apply -f -; }
+    {{< /text >}}
+
+1. Install Istio using the `minimal` profile:
+
+    {{< text bash >}}
+    $ istioctl install --set profile=minimal -y
     {{< /text >}}
 
 ## Differences from Istio APIs
@@ -51,13 +53,13 @@ See the [Gateway API](https://gateway-api.sigs.k8s.io/) documentation for inform
 
 In this example, we will deploy a simple application and expose it externally using a `Gateway`.
 
-1. First, deploy a test application:
+1. First, deploy the `httpbin` test application:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/httpbin/httpbin.yaml@
     {{< /text >}}
 
-1. Deploy the Gateway API configuration:
+1. Deploy the Gateway API configuration including a single exposed route (i.e., `/get`):
 
     {{< text bash >}}
     $ kubectl create namespace istio-ingress
@@ -93,26 +95,20 @@ In this example, we will deploy a simple application and expose it externally us
         - path:
             type: PathPrefix
             value: /get
-        filters:
-        - type: RequestHeaderModifier
-          requestHeaderModifier:
-            add:
-            - name: my-added-header
-              value: added-value
         backendRefs:
         - name: httpbin
           port: 8000
     EOF
     {{< /text >}}
 
-1.  Set the Ingress Host
+1.  Set the Ingress Host environment variable:
 
     {{< text bash >}}
     $ kubectl wait -n istio-ingress --for=condition=ready gateways.gateway.networking.k8s.io gateway
     $ export INGRESS_HOST=$(kubectl get gateways.gateway.networking.k8s.io gateway -n istio-ingress -ojsonpath='{.status.addresses[*].value}')
     {{< /text >}}
 
-1.  Access the _httpbin_ service using _curl_:
+1.  Access the `httpbin` service using _curl_:
 
     {{< text bash >}}
     $ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST/get"
@@ -131,6 +127,69 @@ In this example, we will deploy a simple application and expose it externally us
     $ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST/headers"
     HTTP/1.1 404 Not Found
     ...
+    {{< /text >}}
+
+1.  Update the route rule to also expose `/headers` and to add a header to the request:
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: gateway.networking.k8s.io/v1alpha2
+    kind: HTTPRoute
+    metadata:
+      name: http
+      namespace: default
+    spec:
+      parentRefs:
+      - name: gateway
+        namespace: istio-ingress
+      hostnames: ["httpbin.example.com"]
+      rules:
+      - matches:
+        - path:
+            type: PathPrefix
+            value: /get
+        - path:
+            type: PathPrefix
+            value: /headers
+        filters:
+        - type: RequestHeaderModifier
+          requestHeaderModifier:
+            add:
+            - name: my-added-header
+              value: added-value
+        backendRefs:
+        - name: httpbin
+          port: 8000
+    EOF
+    {{< /text >}}
+
+1.  Access `/headers` again and notice header `My-Added-Header` has been added to the request:
+
+    {{< text bash >}}
+    $ curl -s -HHost:httpbin.example.com "http://$INGRESS_HOST/headers"
+    {
+      "headers": {
+        "Accept": "*/*",
+        "Host": "httpbin.example.com",
+        "My-Added-Header": "added-value",
+    ...
+    {{< /text >}}
+
+## Cleanup
+
+1. Uninstall Istio and the `httpbin` sample:
+
+    {{< text bash >}}
+    $ kubectl delete -f @samples/httpbin/httpbin.yaml@
+    $ istioctl uninstall -y --purge
+    $ kubectl delete ns istio-system
+    $ kubectl delete ns istio-ingress
+    {{< /text >}}
+
+1. Remove the Gateway API CRDs if they are no longer needed:
+
+    {{< text bash >}}
+    $ kubectl kustomize "github.com/kubernetes-sigs/service-apis/config/crd?ref=v0.5.0" | kubectl delete -f -
     {{< /text >}}
 
 ## Deployment methods
@@ -193,6 +252,10 @@ spec:
 {{< /text >}}
 
 ## Mesh Traffic
+
+{{< warning >}}
+This feature is under development and pending [upstream agreement](https://gateway-api.sigs.k8s.io/contributing/gamma/).
+{{< /warning >}}
 
 The Gateway API can also be used to configure mesh traffic.
 This is done by configuring the `parentRef`, to point to the `istio` `Mesh`.
