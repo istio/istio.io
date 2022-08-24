@@ -253,5 +253,5 @@ $ kubectl delete destinationrule egressgateway-for-wikipedia
 * Uninstall Istio from your cluster:
 
     {{< text bash >}}
-    $ echo y | istioctl uninstall --purge
+    $ istioctl uninstall --purge -y
     {{< /text >}}
