@@ -45,7 +45,11 @@ test: no
     $ helm install istio-ingress istio/gateway -n istio-ingress --wait
     {{< /text >}}
 
-    请参阅[安装网关](/zh/docs/setup/additional-setup/gateway/)以获得关于网关安装的深入文档。
+请参阅[安装网关](/zh/docs/setup/additional-setup/gateway/)以获得关于网关安装的详细文档。
+{{< tip >}}
+有关如何使用 Helm 后期渲染器自定义 Helm chart 的深入文档，
+请参见[高级 Helm Chart 自定义](/zh/docs/setup/additional-setup/customize-installation-helm/)。
+{{< /tip >}}
 
 ## 验证安装 {#verifying-the-installation}
 
