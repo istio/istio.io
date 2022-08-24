@@ -52,12 +52,5 @@ _verify_elided snip_configuring_a_gateway_7 "$snip_configuring_a_gateway_7_out"
 
 # @cleanup
 cleanup_httpbin_sample
-<<<<<<< HEAD
 snip_cleanup_1
 snip_cleanup_2
-=======
-kubectl kustomize "github.com/kubernetes-sigs/service-apis/config/crd?ref=v0.4.0" | kubectl delete -f -
-echo y | istioctl uninstall --purge
-kubectl delete ns istio-system
-kubectl delete ns istio-ingress
->>>>>>> a9393ec0f (Replace experimental uninstall command with uninstall command)
