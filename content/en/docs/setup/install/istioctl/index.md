@@ -325,7 +325,7 @@ $ istioctl uninstall <your original installation options>
 or
 
 {{< text bash >}}
-$ istioctl manifest generate <your original installation options> | kubectl delete -f -
+$ istioctl manifest generate <your original installation options> | kubectl delete --ignore-not-found=true -f -
 {{< /text >}}
 
 The control plane namespace (e.g., `istio-system`) is not removed by default.
