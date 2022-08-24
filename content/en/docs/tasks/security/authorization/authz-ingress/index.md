@@ -66,14 +66,6 @@ If a packet goes through an external proxy load balancer and/or kube-proxy, then
 
 {{< tab name="TCP/UDP Proxy Load Balancer" category-value="proxy" >}}
 
-{{< warning >}}
-A critical [bug](https://groups.google.com/g/envoy-security-announce/c/aqtBt5VUor0) has been identified in Envoy that the proxy protocol downstream address is restored incorrectly for non-HTTP connections.
-
-Please DO NOT USE the `remoteIpBlocks` field and `remote_ip` attribute with proxy protocol on non-HTTP connections until a newer version of Istio is released with a proper fix.
-
-Note that Istio doesn't support the proxy protocol and it can be enabled only with the `EnvoyFilter` API and should be used at your own risk.
-{{< /warning >}}
-
 If you are using a TCP/UDP Proxy external load balancer (AWS Classic ELB), it can use the [Proxy Protocol](https://www.haproxy.com/blog/haproxy/proxy-protocol/) to embed the original client IP address in the packet data.  Both the external load balancer and the Istio ingress gateway must support the proxy protocol for it to work.  In Istio, you can enable it with an `EnvoyFilter` like below:
 
 {{< text yaml >}}
