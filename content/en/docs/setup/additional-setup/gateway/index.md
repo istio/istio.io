@@ -92,7 +92,7 @@ Install using standard `helm` commands:
 
 {{< text bash >}}
 $ kubectl create namespace istio-ingress
-$ helm install istio-ingress istio/gateway -n istio-ingress
+$ helm install istio-ingressgateway istio/gateway -n istio-ingress
 {{< /text >}}
 
 To see possible supported configuration values, run `helm show values istio/gateway`.
