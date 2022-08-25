@@ -50,7 +50,7 @@ istioctl install -f ingress.yaml
 
 snip_deploying_a_gateway_3() {
 kubectl create namespace istio-ingress
-helm install istio-ingress istio/gateway -n istio-ingress
+helm install istio-ingressgateway istio/gateway -n istio-ingress
 }
 
 ! read -r -d '' snip_deploying_a_gateway_4 <<\ENDSNIP
