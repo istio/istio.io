@@ -64,7 +64,7 @@ spec:
   profile: empty # Do not install CRDs or the control plane
   components:
     ingressGateways:
-    - name: ingressgateway
+    - name: istio-ingressgateway
       namespace: istio-ingress
       enabled: true
       label:

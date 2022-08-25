@@ -34,11 +34,11 @@ $snip_deploying_a_gateway_1
 EOF
 
 echo y | snip_deploying_a_gateway_2
-_wait_for_deployment istio-ingress ingressgateway
+_wait_for_deployment istio-ingress istio-ingressgateway
 
 rebuild
 _rewrite_helm_repo snip_deploying_a_gateway_3
-_wait_for_deployment istio-ingress istio-ingress
+_wait_for_deployment istio-ingress istio-ingressgateway
 
 rebuild
 # shellcheck disable=SC2154
