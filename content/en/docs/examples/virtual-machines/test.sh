@@ -104,6 +104,6 @@ _verify_elided run_curl "${snip_reaching_kubernetes_services_from_the_virtual_ma
 # @cleanup
 docker stop vm
 kubectl delete -f samples/multicluster/expose-istiod.yaml -n istio-system --ignore-not-found=true
-echo y | istioctl x uninstall --revision=default
+echo y | istioctl uninstall --revision=default
 cleanup_sleep_sample
 kubectl delete namespace istio-system vm bookinfo  --ignore-not-found=true

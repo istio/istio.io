@@ -81,6 +81,6 @@ kubectl exec "$SOURCE_POD" -c sleep -- curl -sS -v http://httpbin.org/headers
 # @cleanup
 snip_cleanup_the_controlled_access_to_external_services_1
 snip_cleanup_1
-echo y | istioctl x uninstall --revision=default
+echo y | istioctl uninstall --revision=default
 kubectl delete ns istio-system
 kubectl label namespace default istio-injection-

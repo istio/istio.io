@@ -69,5 +69,5 @@ cleanup_bookinfo_sample
 # Clean up Istio. NOTE: Don't wipe out CRDs as doing
 # so would take a lot of time for the test to finish
 # TODO: find out why?
-echo y | istioctl x uninstall --revision=default
+echo y | istioctl uninstall --revision=default
 kubectl delete ns istio-system

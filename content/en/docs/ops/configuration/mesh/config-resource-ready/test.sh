@@ -35,5 +35,5 @@ _verify_contains snip_apply_and_wait_for_httpbin_vs "$snip_apply_and_wait_for_ht
 kubectl delete -f samples/httpbin/httpbin.yaml
 kubectl delete -f samples/httpbin/httpbin-gateway.yaml
 # Delete the Istio this test installed
-echo y | istioctl x uninstall --revision "default"
+echo y | istioctl uninstall --revision "default"
 kubectl delete ns istio-system

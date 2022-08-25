@@ -46,6 +46,6 @@ cleanup_bookinfo_sample
 _undeploy_addons jaeger
 kubectl delete telemetries.telemetry.istio.io -n istio-system mesh-default
 snip_cleanup_3
-istioctl x uninstall -r opencensusagent --skip-confirmation
+istioctl uninstall -r opencensusagent --skip-confirmation
 kubectl label namespace default istio-injection-
 kubectl delete ns istio-system
