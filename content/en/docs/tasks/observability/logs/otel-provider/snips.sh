@@ -115,7 +115,7 @@ kubectl exec "$SOURCE_POD" -c sleep -- curl -sS -v httpbin:8000/status/418
 ENDSNIP
 
 snip_test_the_access_log_2() {
-kubectl logs -l app=otel-collector -n istio-system
+kubectl logs -l app=opentelemetry-collector -n istio-system
 }
 
 ! read -r -d '' snip_test_the_access_log_2_out <<\ENDSNIP
