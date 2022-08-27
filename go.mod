@@ -5,8 +5,6 @@ go 1.17
 // https://github.com/containerd/containerd/issues/5781
 exclude k8s.io/kubernetes v1.13.0
 
-replace istio.io/istio => github.com/zirain/istio v0.0.0-20220823030042-d264cbdad52d
-
 // Client-go does not handle different versions of mergo due to some breaking changes - use the matching version
 replace github.com/imdario/mergo => github.com/imdario/mergo v0.3.5
 
@@ -17,7 +15,7 @@ require (
 	golang.org/x/net v0.0.0-20220812174116-3211cb980234
 	google.golang.org/genproto v0.0.0-20220822174746-9e6da59bd2fc
 	google.golang.org/grpc v1.50.0-dev.0.20220818173707-97cb7b1653d7
-	istio.io/istio v0.0.0-20220819144046-eda724aef4c7
+	istio.io/istio v0.0.0-20220826204218-8f0fc3e2d673
 	istio.io/pkg v0.0.0-20220817213312-f8c82a98f06c
 	k8s.io/apimachinery v0.24.4
 	k8s.io/client-go v0.24.4
@@ -211,8 +209,8 @@ require (
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	helm.sh/helm/v3 v3.9.3 // indirect
-	istio.io/api v0.0.0-20220817131511-59047e057639 // indirect
-	istio.io/client-go v1.15.0-beta.0.0.20220815203017-44c6a759f531 // indirect
+	istio.io/api v0.0.0-20220826132550-04f2b20dc284 // indirect
+	istio.io/client-go v1.15.0-beta.1.0.20220826132951-9dfd19c7a2a0 // indirect
 	k8s.io/api v0.24.4 // indirect
 	k8s.io/apiextensions-apiserver v0.24.2 // indirect
 	k8s.io/apiserver v0.24.4 // indirect
