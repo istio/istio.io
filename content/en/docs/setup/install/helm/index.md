@@ -112,13 +112,13 @@ installed above.
     $ helm delete istio-ingressgateway -n istio-system
     {{< /text >}}
 
-2. Delete Istio discovery chart:
+1. Delete Istio discovery chart:
 
     {{< text syntax=bash snip_id=helm_delete_discovery_chart >}}
     $ helm delete istiod -n istio-system
     {{< /text >}}
 
-3. Delete Istio base chart:
+1. Delete Istio base chart:
 
     {{< tip >}}
     By design, deleting a chart via Helm doesn't delete the installed Custom
@@ -129,7 +129,7 @@ installed above.
     $ helm delete istio-base -n istio-system
     {{< /text >}}
 
-4. Delete the `istio-system` namespace:
+1. Delete the `istio-system` namespace:
 
     {{< text syntax=bash snip_id=delete_istio_system_namespace >}}
     $ kubectl delete namespace istio-system
