@@ -44,9 +44,7 @@ Follow this guide to install and configure an Istio mesh using
 1. (Optional) Install an ingress gateway:
 
     {{< text syntax=bash snip_id=install_ingressgateway >}}
-    $ kubectl create namespace istio-ingress
-    $ kubectl label namespace istio-ingress istio-injection=enabled
-    $ helm install istio-ingress istio/gateway -n istio-ingress --wait
+    $ helm install istio-ingressgateway istio/gateway -n istio-system --wait
     {{< /text >}}
 
     See [Installing Gateways](/docs/setup/additional-setup/gateway/) for in-depth documentation on gateway installation.
@@ -111,17 +109,16 @@ installed above.
 1. (Optional) Delete any Istio gateway chart installations:
 
     {{< text syntax=bash snip_id=delete_delete_gateway_charts >}}
-    $ helm delete istio-ingress -n istio-ingress
-    $ kubectl delete namespace istio-ingress
+    $ helm delete istio-ingressgateway -n istio-system
     {{< /text >}}
 
-1. Delete Istio discovery chart:
+2. Delete Istio discovery chart:
 
     {{< text syntax=bash snip_id=helm_delete_discovery_chart >}}
     $ helm delete istiod -n istio-system
     {{< /text >}}
 
-1. Delete Istio base chart:
+3. Delete Istio base chart:
 
     {{< tip >}}
     By design, deleting a chart via Helm doesn't delete the installed Custom
@@ -132,7 +129,7 @@ installed above.
     $ helm delete istio-base -n istio-system
     {{< /text >}}
 
-1. Delete the `istio-system` namespace:
+4. Delete the `istio-system` namespace:
 
     {{< text syntax=bash snip_id=delete_istio_system_namespace >}}
     $ kubectl delete namespace istio-system

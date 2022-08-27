@@ -34,9 +34,7 @@ helm install istiod istio/istiod -n istio-system --wait
 }
 
 snip_install_ingressgateway() {
-kubectl create namespace istio-ingress
-kubectl label namespace istio-ingress istio-injection=enabled
-helm install istio-ingress istio/gateway -n istio-ingress --wait
+helm install istio-ingressgateway istio/gateway -n istio-system --wait
 }
 
 snip_helm_ls() {
@@ -50,8 +48,7 @@ istiod     istio-system 1        ... ... ... ... deployed istiod-1.0.0 1.0.0
 ENDSNIP
 
 snip_delete_delete_gateway_charts() {
-helm delete istio-ingress -n istio-ingress
-kubectl delete namespace istio-ingress
+helm delete istio-ingressgateway -n istio-system
 }
 
 snip_helm_delete_discovery_chart() {
