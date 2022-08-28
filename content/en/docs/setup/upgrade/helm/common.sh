@@ -20,7 +20,7 @@ _install_istio_helm() {
     _rewrite_helm_repo snip_install_discovery
     _rewrite_helm_repo snip_install_ingressgateway
     _wait_for_deployment istio-system istiod
-    _wait_for_deployment istio-ingress istio-ingress
+    _wait_for_deployment istio-system istio-ingressgateway
 }
 
 _remove_istio_helm() {
