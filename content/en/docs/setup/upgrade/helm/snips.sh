@@ -86,5 +86,5 @@ helm upgrade istiod istio/istiod -n istio-system
 }
 
 snip_in_place_upgrade_4() {
-helm upgrade istio-ingress istio/gateway -n istio-ingress
+helm upgrade istio-ingressgateway istio/gateway -n istio-system
 }

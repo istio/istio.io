@@ -149,7 +149,7 @@ preserve your custom configuration during Helm upgrades.
 1. (Optional) Upgrade and gateway charts  installed in your cluster:
 
     {{< text bash >}}
-    $ helm upgrade istio-ingress istio/gateway -n istio-ingress
+    $ helm upgrade istio-ingressgateway istio/gateway -n istio-system
     {{< /text >}}
 
 ## Uninstall
