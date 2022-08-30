@@ -102,17 +102,17 @@ and reinstall istio-cni plugin with a new kubeconfig.
 
 - **Added** `--log_output_level` and `--log_as_json` to the `istio-init` container (as they are in `istio-proxy`).
 
+- **Added** values to the Istio Gateway Helm chart for configuring [topologySpreadConstraints](https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/) on the gateway deployment.
+
+- **Added** support for watching local secret resource updates for external istiod.
+  ([Issue #31946](https://github.com/istio/istio/issues/31946))
+
 - **Updated** the default value of the feature flag `ENABLE_LEGACY_FSGROUP_INJECTION` to false.
 This may cause issues with sidecars when installing on Helm on Kubernetes versions prior to 1.19.
 
 - **Updated** the Kiali addon to the latest version (v1.55).
 
-- **Added** support for watching local secret resource updates for external istiod.
-  ([Issue #31946](https://github.com/istio/istio/issues/31946))
-
 - **Improved** [external control plane setup instructions](/docs/setup/install/external-controlplane/), including tips for simpler control plane ingress setup, making it easier to experiment with the external control plane deployment model in a test environment.
-
-- **Added** values to the Istio Gateway Helm chart for configuring [topologySpreadConstraints](https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/) on the gateway deployment.
 
 - **Removed** the deprecated `remote.yaml` profile which is equivalent to the default profile.
   ([Issue #38832](https://github.com/istio/istio/issues/38832))
