@@ -21,5 +21,5 @@
 ####################################################################################################
 
 bpsnip_start_otel_collector_service__1() {
-kubectl apply -f samples/open-telemetry/otel.yaml
+kubectl apply -f samples/open-telemetry/otel.yaml -n istio-system
 }
