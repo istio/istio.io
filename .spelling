@@ -426,6 +426,7 @@ gRPC
 grpc
 Haidian
 Harvey
+Hawton
 helloworld
 Hashicorp
 Herness
@@ -477,6 +478,7 @@ IPv4
 IPv6
 Istio
 istio-agent
+istio-cni
 istio-control
 istio-discovery
 istio-ecosystem
@@ -594,6 +596,7 @@ maintainership
 Mandar
 Manolache
 Marshalers
+Mattix
 MB
 Meetup
 meetup
@@ -638,6 +641,7 @@ MySQL
 mysql
 mysqldb
 Nambiar
+nameservers
 namespace
 namespaced
 namespaces
@@ -661,6 +665,7 @@ non-sandboxed
 non-mTLS
 normalization
 ns
+nsenter
 NUL
 NULs
 Nurmamat
@@ -855,6 +860,7 @@ Snell-Feikema
 SNI
 SolarWinds
 Solo.io
+Solo.io.
 Splunk
 SPIFFE
 SPIFFE-compliant
@@ -914,6 +920,7 @@ TLS-secured
 ToC
 toolbelt
 toolchain
+topologySpreadConstraints
 touchpoints
 tradeoff
 tradeoffs
@@ -936,6 +943,7 @@ Unmarshalers
 Unmarshaling
 unnormalized
 unsampled
+untar
 untrusted
 upgradeability
 Upgradeability
@@ -951,6 +959,7 @@ user1
 UTF-8
 v0.14.0
 v1
+v1.55
 v1.7.4
 v1.7.6_coreos.0
 v1.9
@@ -1018,6 +1027,7 @@ x509
 x86
 xDS
 Xia
+Xiao
 Xining
 xRoute
 Xu
@@ -1039,3 +1049,4 @@ Zhong
 Zhonghu
 Zhu
 Zipkin
+Ziyang
