@@ -53,9 +53,9 @@ require (
 	github.com/decred/dcrd/dcrec/secp256k1/v4 v4.0.0-20210816181553-5444fa50b93d // indirect
 	github.com/docker/cli v20.10.17+incompatible // indirect
 	github.com/docker/distribution v2.8.1+incompatible // indirect
-	github.com/docker/docker v20.10.16+incompatible // indirect
+	github.com/docker/docker v20.10.17+incompatible // indirect
 	github.com/docker/docker-credential-helpers v0.6.4 // indirect
-	github.com/emicklei/go-restful v2.9.5+incompatible // indirect
+	github.com/emicklei/go-restful/v3 v3.8.0 // indirect
 	github.com/envoyproxy/go-control-plane v0.10.3-0.20220719090109-b024c36d9935 // indirect
 	github.com/envoyproxy/protoc-gen-validate v0.6.7 // indirect
 	github.com/evanphx/json-patch v4.12.0+incompatible // indirect
@@ -170,7 +170,7 @@ require (
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/spf13/viper v1.12.0 // indirect
 	github.com/stoewer/go-strcase v1.2.0 // indirect
-	github.com/stretchr/testify v1.7.1 // indirect
+	github.com/stretchr/testify v1.7.2 // indirect
 	github.com/subosito/gotenv v1.3.0 // indirect
 	github.com/xeipuuv/gojsonpointer v0.0.0-20190905194746-02993c407bfb // indirect
 	github.com/xeipuuv/gojsonreference v0.0.0-20180127040603-bd5ef7bd5415 // indirect
@@ -183,7 +183,7 @@ require (
 	go.uber.org/atomic v1.9.0 // indirect
 	go.uber.org/multierr v1.8.0 // indirect
 	go.uber.org/zap v1.21.0 // indirect
-	golang.org/x/crypto v0.0.0-20220427172511-eb4f295cb31f // indirect
+	golang.org/x/crypto v0.0.0-20220525230936-793ad666bf5e // indirect
 	golang.org/x/exp v0.0.0-20220407100705-7b9b53b0aca4 // indirect
 	golang.org/x/mod v0.6.0-dev.0.20220106191415-9b9b3d81d5e3 // indirect
 	golang.org/x/net v0.0.0-20220624214902-1bab6f366d9e // indirect
@@ -209,7 +209,7 @@ require (
 	gopkg.in/tomb.v1 v1.0.0-20141024135613-dd632973f1e7 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
-	helm.sh/helm/v3 v3.9.0 // indirect
+	helm.sh/helm/v3 v3.9.4 // indirect
 	istio.io/api v0.0.0-20220826132550-04f2b20dc284 // indirect
 	istio.io/client-go v1.15.0-beta.1.0.20220826132951-9dfd19c7a2a0 // indirect
 	k8s.io/api v0.24.2 // indirect
@@ -218,7 +218,7 @@ require (
 	k8s.io/cli-runtime v0.24.2 // indirect
 	k8s.io/component-base v0.24.2 // indirect
 	k8s.io/klog/v2 v2.70.0 // indirect
-	k8s.io/kube-openapi v0.0.0-20220413171646-5e7f5fdc6da6 // indirect
+	k8s.io/kube-openapi v0.0.0-20220627174259-011e075b9cb8 // indirect
 	k8s.io/kubectl v0.24.2 // indirect
 	k8s.io/utils v0.0.0-20220210201930-3a6ce19ff2f9 // indirect
 	sigs.k8s.io/controller-runtime v0.12.2 // indirect
