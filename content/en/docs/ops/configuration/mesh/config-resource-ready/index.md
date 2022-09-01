@@ -31,7 +31,7 @@ This feature is off by default. Enable the `status` field as part of Istio
 installation using the following command.
 
 {{< text syntax=bash snip_id=install_with_enable_status >}}
-$ istioctl install --set values.pilot.env.PILOT_ENABLE_STATUS=true --set values.global.istiod.enableAnalysis=true
+$ istioctl install --set values.pilot.env.PILOT_ENABLE_STATUS=true --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --set values.global.istiod.enableAnalysis=true
 {{< /text >}}
 
 ## Wait for resource readiness
