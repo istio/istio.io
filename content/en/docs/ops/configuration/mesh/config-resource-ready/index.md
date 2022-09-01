@@ -28,7 +28,7 @@ status, which Istio updates as it propagates configuration changes.
 ## Before you begin
 
 This feature is off by default. Enable the `status` field as part of Istio
-installation using the following command.
+installation using the following command. You must also enable `config_distribution_tracking`.
 
 {{< text syntax=bash snip_id=install_with_enable_status >}}
 $ istioctl install --set values.pilot.env.PILOT_ENABLE_STATUS=true --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --set values.global.istiod.enableAnalysis=true
