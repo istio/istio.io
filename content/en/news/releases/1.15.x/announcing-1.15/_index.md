@@ -28,7 +28,7 @@ Here are some of the highlights of the release:
 
 ### arm64 support
 
-We now build Istio for arm64, so you can run it on your Raspberry Pi, or your Tau T2A VMs.
+We now build Istio for arm64, so you can run it on your Raspberry Pi, or your [Tau T2A](https://cloud.google.com/blog/products/compute/tau-t2a-is-first-compute-engine-vm-on-an-arm-chip) VMs.
 
 ### istioctl uninstall
 
@@ -43,8 +43,8 @@ Would you like to contribute directly to Istio? Find and join one of our [Workin
 
 ## Istio at KubeCon NA
 
-Istio will be at KubeCon NA this October in Detroit.  Don't miss the talk from TOC member John Howard, with Keith Mattix from Microsoft, where you will learn about the new GAMMA initiative for common service mesh APIs.   There are also talks on dynamically testing releases in production and decentralized routing for a sharded application.  And, if that's not enough, there's a whole co-located event dedicated to service mesh - ServiceMeshCon NA. Join program chairs Craig Box (from Google) and Lin Sun (from Solo.io) for a day discussing the ins and outs of service mesh technology.
+Istio will be at [KubeCon NA](https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america/) this October in Detroit.  Don't miss [the talk from TOC member John Howard, with Keith Mattix from Microsoft](https://sched.co/182KL), where you will learn about [the new GAMMA initiative for common service mesh APIs](https://gateway-api.sigs.k8s.io/contributing/gamma/). There are also talks on [dynamically testing releases in production](https://sched.co/182Ep) and [decentralized routing for a sharded application](https://sched.co/182KO). And, if that's not enough, there's a whole co-located event dedicated to service mesh - [ServiceMeshCon NA](https://events.linuxfoundation.org/servicemeshcon-north-america/). Join program chairs Craig Box (from Google) and Lin Sun (from Solo.io) for a day discussing the ins and outs of service mesh technology.
 
 ## CNCF progress update
 
-In April, we announced that Istio has been proposed to become a CNCF incubation process. Our team has been hard at work preparing our application, and the TOC is currently in the public request for comments phase.  Please see this thread if you want to participate!
+In April, [we announced that Istio has been proposed to become a CNCF incubation project](/blog/2022/istio-has-applied-to-join-the-cncf/). Our team has been hard at work preparing our application, and the project is currently in the public request for comments phase.  Please see [this thread](https://lists.cncf.io/g/cncf-toc/message/7367) if you want to participate!
