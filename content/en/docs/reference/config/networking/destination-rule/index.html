@@ -8,7 +8,7 @@ layout: protoc-gen-docs
 generator: protoc-gen-docs
 schema: istio.networking.v1alpha3.DestinationRule
 aliases: [/docs/reference/config/networking/v1alpha3/destination-rule]
-number_of_entries: 21
+number_of_entries: 23
 ---
 <p><code>DestinationRule</code> defines policies that apply to traffic intended for a
 service after routing has occurred. These rules specify configuration
@@ -1514,7 +1514,7 @@ Yes
 <section>
 <p>Consistent Hash-based load balancing can be used to provide soft
 session affinity based on HTTP headers, cookies or other
-properties. The affinity to a particular destination host will be
+properties. The affinity to a particular destination host may be
 lost when one or more hosts are added/removed from the destination
 service.</p>
 
@@ -1573,7 +1573,55 @@ No
 No
 </td>
 </tr>
-<tr id="LoadBalancerSettings-ConsistentHashLB-minimum_ring_size">
+<tr id="LoadBalancerSettings-ConsistentHashLB-ring_hash" class="oneof oneof-start">
+<td><code>ringHash</code></td>
+<td><code><a href="#LoadBalancerSettings-ConsistentHashLB-RingHash">RingHash (oneof)</a></code></td>
+<td>
+<p>The ring/modulo hash load balancer implements consistent hashing to backend hosts.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="LoadBalancerSettings-ConsistentHashLB-maglev" class="oneof">
+<td><code>maglev</code></td>
+<td><code><a href="#LoadBalancerSettings-ConsistentHashLB-MagLev">MagLev (oneof)</a></code></td>
+<td>
+<p>The Maglev load balancer implements consistent hashing to backend hosts.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="LoadBalancerSettings-ConsistentHashLB-minimum_ring_size" class="deprecated ">
+<td><code>minimumRingSize</code></td>
+<td><code>uint64</code></td>
+<td>
+<p>Deprecated. Use RingHash instead.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="LoadBalancerSettings-ConsistentHashLB-RingHash">LoadBalancerSettings.ConsistentHashLB.RingHash</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="LoadBalancerSettings-ConsistentHashLB-RingHash-minimum_ring_size">
 <td><code>minimumRingSize</code></td>
 <td><code>uint64</code></td>
 <td>
@@ -1582,6 +1630,34 @@ ring. Defaults to 1024. Larger ring sizes result in more granular
 load distributions. If the number of hosts in the load balancing
 pool is larger than the ring size, each host will be assigned a
 single virtual node.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="LoadBalancerSettings-ConsistentHashLB-MagLev">LoadBalancerSettings.ConsistentHashLB.MagLev</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="LoadBalancerSettings-ConsistentHashLB-MagLev-table_size">
+<td><code>tableSize</code></td>
+<td><code>uint64</code></td>
+<td>
+<p>The table size for Maglev hashing. This helps in controlling the
+disruption when the backend hosts change.
+Increasing the table size reduces the amount of disruption.</p>
 
 </td>
 <td>

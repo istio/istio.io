@@ -7,7 +7,7 @@ location: https://istio.io/docs/reference/config/istio.mesh.v1alpha1.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
 weight: 20
-number_of_entries: 56
+number_of_entries: 55
 ---
 <p>Configuration affecting the service mesh as a whole.</p>
 
@@ -516,19 +516,6 @@ For example <code>outbound|8080|v2|reviews.prod.svc.cluster.local</code>. This c
 No
 </td>
 </tr>
-<tr id="MeshConfig-certificates">
-<td><code>certificates</code></td>
-<td><code><a href="#Certificate">Certificate[]</a></code></td>
-<td>
-<p>Configure the provision of certificates.</p>
-
-<p>Note: Deprecated, please refer to Cert-Manager or other cert provisioning solutions to sign DNS certificates.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
 <tr id="MeshConfig-thrift_config">
 <td><code>thriftConfig</code></td>
 <td><code><a href="#MeshConfig-ThriftConfig">ThriftConfig</a></code></td>
@@ -985,7 +972,10 @@ No
 <td><code>lightstep</code></td>
 <td><code><a href="#MeshConfig-ExtensionProvider-LightstepTracingProvider">LightstepTracingProvider (oneof)</a></code></td>
 <td>
-<p>Configures a Lightstep tracing provider.</p>
+<p>Configures a Lightstep tracing provider.
+Note: For Istio 1.15+, configuring this provider will result in
+using an OpenTelemetryTracingProvider configured specially for
+Lightstep. This is part of the Lightstep transition to OpenTelemetry.</p>
 
 </td>
 <td>
@@ -1030,6 +1020,17 @@ No
 <td><code><a href="#MeshConfig-ExtensionProvider-SkyWalkingTracingProvider">SkyWalkingTracingProvider (oneof)</a></code></td>
 <td>
 <p>Configures a Apache SkyWalking provider.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-opentelemetry" class="oneof">
+<td><code>opentelemetry</code></td>
+<td><code><a href="#MeshConfig-ExtensionProvider-OpenTelemetryTracingProvider">OpenTelemetryTracingProvider (oneof)</a></code></td>
+<td>
+<p>Configures an OpenTelemetry tracing provider.</p>
 
 </td>
 <td>
@@ -1669,7 +1670,9 @@ No
 </section>
 <h2 id="MeshConfig-ExtensionProvider-LightstepTracingProvider">MeshConfig.ExtensionProvider.LightstepTracingProvider</h2>
 <section>
-<p>Defines configuration for a Lightstep tracer.</p>
+<p>Defines configuration for a Lightstep tracer.
+Note: Lightstep has moved to OpenTelemetry-based integrations. Istio 1.15+
+will generate OpenTelemetry-compatible configuration when using this option.</p>
 
 <table class="message-fields">
 <thead>
@@ -2459,7 +2462,9 @@ No
 <td><code>lightstep</code></td>
 <td><code><a href="#Tracing-Lightstep">Lightstep (oneof)</a></code></td>
 <td>
-<p>Use a Lightstep tracer.</p>
+<p>Use a Lightstep tracer.
+NOTE: For Istio 1.15+, this configuration option will result
+in using OpenTelemetry-based Lightstep integration.</p>
 
 </td>
 <td>
@@ -3082,45 +3087,6 @@ No
 <td><code>string</code></td>
 <td>
 <p>Address of the Zipkin service (e.g. <em>zipkin:9411</em>).</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="Tracing-Lightstep">Tracing.Lightstep</h2>
-<section>
-<p>Defines configuration for a Lightstep tracer.</p>
-
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="Tracing-Lightstep-address">
-<td><code>address</code></td>
-<td><code>string</code></td>
-<td>
-<p>Address of the Lightstep Satellite pool.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="Tracing-Lightstep-access_token">
-<td><code>accessToken</code></td>
-<td><code>string</code></td>
-<td>
-<p>The Lightstep access token.</p>
 
 </td>
 <td>
