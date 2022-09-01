@@ -142,17 +142,6 @@ curl -s -HHost:httpbin.example.com "http://$INGRESS_HOST/headers"
 ...
 ENDSNIP
 
-snip_cleanup_1() {
-kubectl delete -f samples/httpbin/httpbin.yaml
-istioctl uninstall -y --purge
-kubectl delete ns istio-system
-kubectl delete ns istio-ingress
-}
-
-snip_cleanup_2() {
-kubectl kustomize "github.com/kubernetes-sigs/service-apis/config/crd?ref=v0.5.0" | kubectl delete -f -
-}
-
 ! read -r -d '' snip_automated_deployment_1 <<\ENDSNIP
 apiVersion: gateway.networking.k8s.io/v1alpha2
 kind: Gateway
@@ -192,3 +181,16 @@ spec:
     - name: example
       port: 80
 ENDSNIP
+
+snip_cleanup_1() {
+kubectl delete -f samples/httpbin/httpbin.yaml
+kubectl delete httproute http
+kubectl delete gateways.gateway.networking.k8s.io gateway -n istio-ingress
+istioctl uninstall -y --purge
+kubectl delete ns istio-system
+kubectl delete ns istio-ingress
+}
+
+snip_cleanup_2() {
+kubectl kustomize "github.com/kubernetes-sigs/service-apis/config/crd?ref=v0.5.0" | kubectl delete -f -
+}
