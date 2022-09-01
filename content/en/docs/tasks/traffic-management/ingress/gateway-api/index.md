@@ -175,23 +175,6 @@ In this example, we will deploy a simple application and expose it externally us
     ...
     {{< /text >}}
 
-## Cleanup
-
-1. Uninstall Istio and the `httpbin` sample:
-
-    {{< text bash >}}
-    $ kubectl delete -f @samples/httpbin/httpbin.yaml@
-    $ istioctl uninstall -y --purge
-    $ kubectl delete ns istio-system
-    $ kubectl delete ns istio-ingress
-    {{< /text >}}
-
-1. Remove the Gateway API CRDs if they are no longer needed:
-
-    {{< text bash >}}
-    $ kubectl kustomize "github.com/kubernetes-sigs/service-apis/config/crd?ref=v0.5.0" | kubectl delete -f -
-    {{< /text >}}
-
 ## Deployment methods
 
 In the example above, you did not need to install an ingress gateway `Deployment` prior to configuring a Gateway.
@@ -278,3 +261,22 @@ spec:
     - name: example
       port: 80
 {{< /text >}}
+
+## Cleanup
+
+1. Uninstall Istio and the `httpbin` sample:
+
+    {{< text bash >}}
+    $ kubectl delete -f @samples/httpbin/httpbin.yaml@
+    $ kubectl delete httproute http
+    $ kubectl delete gateways.gateway.networking.k8s.io gateway -n istio-ingress
+    $ istioctl uninstall -y --purge
+    $ kubectl delete ns istio-system
+    $ kubectl delete ns istio-ingress
+    {{< /text >}}
+
+1. Remove the Gateway API CRDs if they are no longer needed:
+
+    {{< text bash >}}
+    $ kubectl kustomize "github.com/kubernetes-sigs/service-apis/config/crd?ref=v0.5.0" | kubectl delete -f -
+    {{< /text >}}
