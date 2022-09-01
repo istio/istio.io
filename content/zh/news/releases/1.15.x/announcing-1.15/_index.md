@@ -15,8 +15,8 @@ aliases:
 
 {{< relnote >}}
 
-这是 2022 年的第三个 Istio 版本。我们要感谢整个 Istio 社区帮助发布 Istio 1.15.0。
-特别感谢来自 Google 的发布经理 Sam Naser 和 Aryan Gupta、来自 Intel 的 Ziyang Xiao 和来自 Solo.io 的 Daniel Hawton。
+这是 2022 年发布的第三个 Istio 版本，我们要感谢整个 Istio 社区帮助发布 Istio 1.15.0。
+我们特别感谢来自 Google 的发布经理 Sam Naser 和 Aryan Gupta、来自 Intel 的 Ziyang Xiao 和来自 Solo.io 的 Daniel Hawton。
 同样，我们还要感谢测试和发布工作组负责人 Eric Van Norman（IBM）的帮助和指导。
 
 {{< tip >}}
