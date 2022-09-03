@@ -13,7 +13,7 @@ Istio 1.6及更高版本使用资源的 `status` 字段提供有关配置更改�
 默认情况下，状态为禁用，可以在安装过程中使用以下命令启用状态：
 
 {{< text bash >}}
-$ istioctl install --set values.pilot.env.PILOT_ENABLE_STATUS=true --set values.global.istiod.enableAnalysis=true
+$ istioctl install --set values.pilot.env.PILOT_ENABLE_STATUS=true --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --set values.global.istiod.enableAnalysis=true
 {{< /text >}}
 
 `status` 字段包含资源配置的状态，其中包含各种信息性消息，包括：
