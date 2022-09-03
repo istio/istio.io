@@ -97,12 +97,7 @@ istio_requests_total{
 
 每一个 Istio 的组件（Pilot、Galley、Mixer）都提供了对自身监控指标的集合。这些指标容许监控 Istio 自己的行为（这与网格内的服务有所不同）。
 
-有关这些被维护指标的更多信息，请查看每个组件的参考文档：
-
-- [Pilot](/zh/docs/reference/commands/pilot-discovery/#metrics)
-- [Galley](/zh/docs/reference/commands/galley/#metrics)
-- [Mixer](/zh/docs/reference/commands/mixs/#metrics)
-- [Citadel](/zh/docs/reference/commands/istio_ca/#metrics)
+有关这些被维护指标的更多信息，请查看[参考文档](/zh/docs/reference/commands/pilot-discovery/#metrics)：
 
 ## 分布式追踪 {#distributed-traces}
 
