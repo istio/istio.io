@@ -2,7 +2,7 @@
 title: Istio 1.15.0 变更说明
 linktitle: 1.15.0
 subtitle: 次要版本
-description: Istio 1.15.0 更新说明
+description: Istio 1.15.0 更新说明。
 publishdate: 2022-08-31
 release: 1.15.0
 weight: 10
