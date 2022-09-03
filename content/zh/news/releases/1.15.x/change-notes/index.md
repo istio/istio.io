@@ -137,5 +137,5 @@ weight: 10
 
 - **修复** 修复了当对特定命名空间使用 `exportTo` 时，`istioctl analyze` 会出现 `ConflictingMeshGatewayVirtualServiceHosts（IST0109）` 信息。
 
-- **修复** an issue causing `ConflictingMeshGatewayVirtualServiceHosts (IST0109)` message to appear with `istioctl analyze` when using `exportTo` for a specific namespace.修复了当对特定命名空间使用 `exportTo` 时，`istioctl analyze` 会出现 `ConflictingMeshGatewayVirtualServiceHosts（IST0109）` 信息。
+- **修复** 修复了当对特定命名空间使用 `exportTo` 时，`istioctl analyze` 会出现 `ConflictingMeshGatewayVirtualServiceHosts（IST0109）` 信息。
   ([Issue #39634](https://github.com/istio/istio/issues/39634))
