@@ -1,5 +1,5 @@
  ---
-title: Istio 1.15.0 变更说明
+title: Istio 1.15.0 更新说明
 linktitle: 1.15.0
 subtitle: 次要版本
 description: Istio 1.15.0 更新说明。
