@@ -16,10 +16,10 @@ Istio 的网格配置是声明式的，意味着您声明或修改一个配置�
 
 ## 开始之前 {#before-you-begin}
 
-该功能在默认情况下是关闭的。在安装的过程中使用以下命令设置 `status` 的相关配置参数开启该功能。
+该功能在默认情况下是关闭的。在安装的过程中使用以下命令设置 `status` 的相关配置参数开启该功能，此外您还必须启用 `config_distribution_tracking` 参数。
 
 {{< text syntax=bash snip_id=install_with_enable_status >}}
-$ istioctl install --set values.pilot.env.PILOT_ENABLE_STATUS=true --set values.global.istiod.enableAnalysis=true
+$ istioctl install --set values.pilot.env.PILOT_ENABLE_STATUS=true --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --set values.global.istiod.enableAnalysis=true
 {{< /text >}}
 
 ## 等待资源就绪 {#wait-for-resource-readiness}
