@@ -214,3 +214,22 @@ spec:
     - name: example
       port: 80
 {{< /text >}}
+
+## 清理 {#cleanup}
+
+1. 卸载 Istio 和 `httpbin` 示例：
+
+    {{< text bash >}}
+    $ kubectl delete -f @samples/httpbin/httpbin.yaml@
+    $ kubectl delete httproute http
+    $ kubectl delete gateways.gateway.networking.k8s.io gateway -n istio-ingress
+    $ istioctl uninstall -y --purge
+    $ kubectl delete ns istio-system
+    $ kubectl delete ns istio-ingress
+    {{< /text >}}
+
+1. 如果不再需要这些 Gateway API CRD 资源，请移除：
+
+    {{< text bash >}}
+    $ kubectl kustomize "github.com/kubernetes-sigs/service-apis/config/crd?ref=v0.5.0" | kubectl delete -f -
+    {{< /text >}}
