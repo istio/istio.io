@@ -226,6 +226,6 @@ $ kubectl delete -f @samples/sleep/sleep.yaml@
 * 从您的集群中卸载 Istio:
 
     {{< text bash >}}
-    $ istioctl x uninstall --purge
+    $ istioctl uninstall --purge -y
     {{< /text >}}
 
