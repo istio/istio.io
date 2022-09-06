@@ -49,3 +49,5 @@ is incorrectly setting the timeouts.  ([Issue #40299](https://github.com/istio/i
   ([Issue #40445](https://github.com/istio/istio/issues/40445))
 
 - **Fixed** an issue causing TLS `ServiceEntries` to sometimes not work when created after TCP ones.
+
+- **Fixed** potential memory leak when updating hostname of service entries.
