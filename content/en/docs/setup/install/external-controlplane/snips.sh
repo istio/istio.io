@@ -80,7 +80,7 @@ kind: IstioOperator
 metadata:
   namespace: external-istiod
 spec:
-  profile: external
+  profile: remote
   values:
     global:
       istioNamespace: external-istiod
@@ -99,7 +99,7 @@ sed  -i'.bk' \
   -e "s|injectionURL: https://${EXTERNAL_ISTIOD_ADDR}:15017|injectionPath: |" \
   -e "/istioNamespace:/a\\
       remotePilotAddress: ${EXTERNAL_ISTIOD_ADDR}" \
-  -e '/base/,+1d' \
+  -e '/base:/,+1d' \
   remote-config-cluster.yaml; rm remote-config-cluster.yaml.bk
 }
 
@@ -431,7 +431,7 @@ kind: IstioOperator
 metadata:
   namespace: external-istiod
 spec:
-  profile: external
+  profile: remote
   values:
     global:
       istioNamespace: external-istiod
