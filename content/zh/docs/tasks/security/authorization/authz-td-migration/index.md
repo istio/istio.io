@@ -172,7 +172,7 @@ test: yes
 $ kubectl delete authorizationpolicy service-httpbin.default.svc.cluster.local
 $ kubectl delete deploy httpbin; kubectl delete service httpbin; kubectl delete serviceaccount httpbin
 $ kubectl delete deploy sleep; kubectl delete service sleep; kubectl delete serviceaccount sleep
-$ istioctl x uninstall --purge
+$ istioctl uninstall --purge -y
 $ kubectl delete namespace sleep-allow istio-system
 $ rm ./td-installation.yaml
 {{< /text >}}
