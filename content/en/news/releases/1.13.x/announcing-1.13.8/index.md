@@ -27,4 +27,4 @@ This release note describes what’s different between Istio 1.13.7 and Istio 1.
 
 - **Fixed** an issue where `istioctl analyze` started showing invalid warning messages.
 
-- **Fixed** potential memory leak when updating hostname of service entries. 
+- **Fixed** potential memory leak when updating hostname of service entries.
