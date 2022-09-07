@@ -119,13 +119,13 @@ istiod-canary-6956db645c-vwhsk
 升级控制平面和数据平面之后，您可以卸载旧的控制平面。例如，以下命令卸载修订版本的控制平面 `1-6-5`：
 
 {{< text bash >}}
-$ istioctl x uninstall --revision 1-6-5
+$ istioctl uninstall --revision 1-6-5 -y
 {{< /text >}}
 
 如果旧的控制平面没有修订版本标签，请使用其原始安装选项将其卸载，例如：
 
 {{< text bash >}}
-$ istioctl x uninstall -f manifests/profiles/default.yaml
+$ istioctl uninstall -f manifests/profiles/default.yaml -y
 {{< /text >}}
 
 确认旧的控制平面已被移除，并且集群中仅存在新的控制平面：
@@ -140,7 +140,7 @@ istiod-canary-55887f699c-t8bh8   1/1     Running   0          27m
 
 ## 卸载金丝雀控制平面 {#uninstall-canary-control-plane}
 
-如果您决定回滚到旧的控制平面，而不是完成 Canary 升级，则可以使用 `istioctl x uninstall --revision=canary` 卸载 Canary 修订版。
+如果您决定回滚到旧的控制平面，而不是完成 Canary 升级，则可以使用 `istioctl uninstall --revision=canary` 卸载 Canary 修订版。
 
 但是，在这种情况下，您必须首先手动重新安装先前版本的网关，因为卸载命令不会自动还原先前就地升级的网关。
 
