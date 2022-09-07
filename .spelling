@@ -663,6 +663,7 @@ no-brainer
 non-revisioned
 non-sandboxed
 non-mTLS
+non-conformant
 normalization
 ns
 nsenter
@@ -792,6 +793,7 @@ registrator
 reimplement
 reimplemented
 reinject
+repo
 repurposed
 requires_any
 rethink
@@ -937,6 +939,8 @@ unconfigured
 Undeploy
 undeploy
 undeployed
+Underutilization
+underutilization
 unencrypted
 unmanaged
 Unmarshalers
@@ -999,6 +1003,7 @@ Warman
 Wasm
 wasme
 WasmPlugin
+waypoint
 WeaveWorks
 Weems
 WebAssembly
@@ -1051,3 +1056,5 @@ Zhonghu
 Zhu
 Zipkin
 Ziyang
+ztunnel
+ztunnels
