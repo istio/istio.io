@@ -1,7 +1,7 @@
 ---
 title: "Ambient Mesh Security Deep Dive"
 description: "Digging into the security implications of the recently announced Istio ambient mesh, a sidecar-less data plane for Istio."
-publishdate: 2022-09-07T09:00:00:00+00:00
+publishdate: 2022-09-07T09:00:00-06:00
 attribution: "Ethan Jackson (Google), Yuval Kohavi (Solo.io), Justin Pettit (Google), Christian Posta (Solo.io)"
 keywords: [ambient]
 ---

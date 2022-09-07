@@ -1,7 +1,7 @@
 ---
 title: "Introducing Ambient Mesh"
 description: "A new dataplane mode for Istio without sidecars."
-publishdate: 2022-09-07T07:00:00:00+00:00
+publishdate: 2022-09-07T07:00:00-06:00
 attribution: "John Howard (Google), Ethan J. Jackson (Google), Yuval Kohavi (Solo.io), Idit Levine (Solo.io), Justin Pettit (Google), Lin Sun (Solo.io)"
 keywords: [ambient]
 ---

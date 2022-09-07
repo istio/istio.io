@@ -1,7 +1,7 @@
 ---
 title: "Get Started with Istio Ambient Mesh"
 description: "Step by step guide to get started with Istio ambient mesh."
-publishdate: 2022-09-07T08:00:00:00+00:00
+publishdate: 2022-09-07T08:00:00-06:00
 attribution: "Lin Sun (Solo.io), John Howard (Google)"
 keywords: [ambient,demo,guide]
 ---
