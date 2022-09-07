@@ -18,7 +18,6 @@ Cosign 是作为 [sigstore](https://www.sigstore.dev) 项目的一部分开发�
 
 此过程适用于手动执行或与构建或部署管道集成以自动验证镜像制品。
 
-
 ## 先决条件{#prerequisites}
 
 在开始之前，请执行以下操作：
