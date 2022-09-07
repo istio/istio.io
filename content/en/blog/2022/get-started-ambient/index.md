@@ -11,7 +11,7 @@ Ambient mesh is [a new data plane mode for Istio introduced today](/blog/2022/in
 ## Install Istio with Ambient Mode
 
 1. [Download the preview version](https://gcsweb.istio.io/gcs/istio-build/dev/0.0.0-ambient.191fe680b52c1754ee72a06b3e0d3f9d116f2e82) of Istio with support for ambient mesh.
-1. Check out [supported environments]({{< github_tree >}}/experimental-ambient#supported-environments). We recommend using a Kubernetes cluster that is version 1.21 or newer that has two nodes or more. If you don’t have a Kubernetes cluster, you can set up using locally (e.g. using kind as below) or deploy one in Google or AWS Cloud:
+1. Check out [supported environments]({{< github_raw >}}/tree/experimental-ambient#supported-environments). We recommend using a Kubernetes cluster that is version 1.21 or newer that has two nodes or more. If you don’t have a Kubernetes cluster, you can set up using locally (e.g. using kind as below) or deploy one in Google or AWS Cloud:
 
 {{< text bash >}}
 $ kind create cluster --config=- <<EOF
