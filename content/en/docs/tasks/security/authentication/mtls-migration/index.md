@@ -155,6 +155,7 @@ $ for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$
 1. Remove the mesh-wide authentication policy.
 
 {{< text bash >}}
+$ kubectl delete peerauthentication -n foo default
 $ kubectl delete peerauthentication -n istio-system default
 {{< /text >}}
 
