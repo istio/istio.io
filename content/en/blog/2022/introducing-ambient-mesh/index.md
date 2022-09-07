@@ -123,6 +123,12 @@ While we believe ambient mesh will be the best option for many mesh users going 
 Istio will continue to support sidecars, and importantly, allow them to interoperate seamlessly with ambient mesh.
 In fact, the ambient mesh code we’re releasing today already supports interoperation with sidecar-based Istio.
 
+### Learn more
+
+Take a look at the short video to watch Christian run through the Istio ambient mesh components and demo some capabilities:
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/nupRBh9Iypo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 ### Get involved
 
 What we have released today is an early version of ambient mesh in Istio, and it is very much still under active development. We are excited to share it with the broader community and look forward to getting more people involved in shaping it as we move to production readiness in 2023.
