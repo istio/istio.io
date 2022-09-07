@@ -128,6 +128,6 @@ In fact, the ambient mesh code we’re releasing today already supports interope
 What we have released today is an early version of ambient mesh in Istio, and it is very much still under active development. We are excited to share it with the broader community and look forward to getting more people involved in shaping it as we move to production readiness in 2023.
 
 We would love your feedback to help shape the solution.
-A build of Istio which supports ambient mesh is available to [download and try](/blog/2022/get-started-ambient/) in the [Istio Experimental repo]({{< github_tree >}}/tree/experimental-ambient).
-A list of missing features and work items is available in the [README]({{< github_blob >}}/experimental-ambient/README.md).
+A build of Istio which supports ambient mesh is available to [download and try](/blog/2022/get-started-ambient/) in the [Istio Experimental repo]({{< github_raw >}}/tree/experimental-ambient).
+A list of missing features and work items is available in the [README]({{< github_raw >}}/blob/experimental-ambient/README.md).
 Please try it out and let us know what you think!
