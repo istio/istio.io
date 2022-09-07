@@ -28,7 +28,7 @@ red='\e[0;31m'
 clr='\e[0m'
 
 error() {
-  echo -e "${red}$@${clr}"
+  echo -e "${red}$*${clr}"
 }
 
 # This performs spell checking and style checking over markdown files in a content
