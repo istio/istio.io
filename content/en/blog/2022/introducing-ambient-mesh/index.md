@@ -138,6 +138,6 @@ A build of Istio which supports ambient mesh is available to [download and try](
 A list of missing features and work items is available in the [README]({{< github_raw >}}/blob/experimental-ambient/README.md).
 Please try it out and let us know what you think!
 
-Thank you to the team that contributed to the launch of ambient mesh! 
+Thank you to the team that contributed to the launch of ambient mesh!
 * Google: Craig Box, John Howard, Ethan J. Jackson, Abhi Joglekar, Steven Landow, Oliver Liu, Justin Pettit, Doug Reid, Louis Ryan, Kuat Yessenov, Francis Zhou
 * Solo.io: Aaron Birkland, Greg Hanson, Daniel Hawton, Denis Jannot, Yuval Kohavi, Idit Levine, Yossi Mesika, Neeraj Poddar, Nina Polshakova, Christian Posta, Lin Sun, Eitan Yarmush
