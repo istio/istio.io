@@ -74,15 +74,15 @@ Mixing sidecars and ambient in a single mesh does not introduce limitations on t
 
 ### Why no L7 processing on the local node?
 
-The ambient mesh uses a shared ztunnel agent on the node, which handles the zero trust aspects of the mesh, while L7 processing happens in the waypoint proxy in separately scheduled pods.  Why bother with the indirection, and not just use a shared full L7 proxy on the node?  There are several reasons for this:
+The ambient mesh uses a shared ztunnel agent on the node, which handles the zero trust aspects of the mesh, while L7 processing happens in the waypoint proxy in separately scheduled pods. Why bother with the indirection, and not just use a shared full L7 proxy on the node?  There are several reasons for this:
 
-* Envoy is not inherently multi-tenant. As a result, we have security concerns with commingling complex processing rules for L7 traffic from multiple unconstrained tenants in a shared instance.  By strictly limiting to L4 processing, we reduce the vulnerability surface area significantly.
-* The mTLS and L4 features provided by the ztunnel need a much smaller CPU and memory footprint when compared to the L7 processing required in the waypoint proxy.   By running waypoint proxies as a shared namespace resource, we can scale them independently based on the needs of that namespace, and its costs are not unfairly distributed across unrelated tenants.
+* Envoy is not inherently multi-tenant. As a result, we have security concerns with commingling complex processing rules for L7 traffic from multiple unconstrained tenants in a shared instance. By strictly limiting to L4 processing, we reduce the vulnerability surface area significantly.
+* The mTLS and L4 features provided by the ztunnel need a much smaller CPU and memory footprint when compared to the L7 processing required in the waypoint proxy. By running waypoint proxies as a shared namespace resource, we can scale them independently based on the needs of that namespace, and its costs are not unfairly distributed across unrelated tenants.
 * By reducing ztunnel’s scope we allow for it to be replaced by other secure tunnel implementations that can meet a well-defined interoperability contract.
 
 ### But what about those extra hops?
 
-With ambient mesh, a waypoint isn’t necessarily guaranteed to be on the same node as the workloads it serves.  While at first glance this may appear to be a performance concern, we’re confident that latency will ultimately be in-line with Istio’s current sidecar implementation. We’ll discuss more in a dedicated performance blog post, but for now we’ll summarize with two points:
+With ambient mesh, a waypoint isn’t necessarily guaranteed to be on the same node as the workloads it serves. While at first glance this may appear to be a performance concern, we’re confident that latency will ultimately be in-line with Istio’s current sidecar implementation. We’ll discuss more in a dedicated performance blog post, but for now we’ll summarize with two points:
 
 * The majority of Istio’s network latency does not, in fact, come from the network ([modern cloud providers have extremely fast networks)](https://www.clockwork.io/there-is-no-upside-to-vm-colocation/).  Instead the biggest culprit is the intensive L7 processing Istio needs to implement its sophisticated feature set.  Unlike sidecars, which implement two L7 processing steps for each connection (one for each sidecar), ambient mesh collapses these two steps into one.  In most cases, we expect this reduced processing cost to compensate for an additional network hop.
 * Users often deploy a mesh to enable a zero-trust security posture as a first-step and then selectively enable L7 capabilities as needed.  Ambient mesh allows those users to bypass the cost of L7 processing entirely when it’s not needed.
