@@ -26,6 +26,7 @@
 1.8.x
 1.8.x.
 1.9.x
+1.10.x
 1.9.x.
 1.10.x
 1.11.x
@@ -88,6 +89,7 @@ abc
 abcde12345
 accounts.my
 ack-istio
+Abhi
 ACLs
 Acmeair
 addon
@@ -154,6 +156,7 @@ Bazel
 Berben
 Bian
 BigQuery
+Birkland
 Bitnami
 bitpipe
 BlackHole
@@ -275,6 +278,7 @@ CVE-2021-29258
 CVE-2021-29492
 CVE-2021-31920
 CVE-2021-31921
+CVE-2021-34824
 CVE-2021-32777
 CVE-2021-32778
 CVE-2021-32779
@@ -359,6 +363,7 @@ e2e
 eBPF
 ECR
 edition.cnn.com
+Eitan
 Elasticsearch
 embeddable
 emojis
@@ -415,6 +420,9 @@ git
 GitHub
 GitOps
 GKE
+GKE-IAM
+GKE-Istio
+GKE-Workloads
 GlueCon
 Gloo
 Gmail
@@ -487,6 +495,7 @@ istio-identity
 istio-mixer
 istio-operator
 istio-proxy
+Idit
 ISTIO-SECURITY-2019-003
 ISTIO-SECURITY-2019-004
 ISTIO-SECURITY-2019-005
@@ -529,6 +538,7 @@ json
 JSON-formatted
 json-transcoder
 jwcrypto
+Jannot
 JWT
 jwt.io
 JWTs
@@ -547,6 +557,7 @@ Khaliq
 Kiali
 Kibana
 Knative
+Kohavi
 Kool
 Kops
 Korczynski
@@ -605,6 +616,7 @@ meetups
 memcached
 memcached-2's
 Mengxue
+Mesika
 Merbridge
 merbridge
 MetalLB
@@ -719,6 +731,7 @@ Pengyuan
 pem
 PeerAuthentication
 performant
+Pettit
 pipelined
 Piotr
 Pratima
@@ -733,6 +746,7 @@ pluggability
 pluggable
 png
 Poddar
+Polshakova
 Posta
 PostgreSQL
 pprof
@@ -1034,6 +1048,7 @@ x509
 x86
 xDS
 Xia
+Xining
 Xiao
 Xining
 xRoute
@@ -1042,6 +1057,11 @@ Xeon
 Yahya
 yaml
 yamls
+Yarmush
+Yessenov
+yournamespace
+Youtube
+Yuval
 Yangmin
 Yessenov
 Yizhou
@@ -1050,6 +1070,10 @@ Zack
 Zehuan
 Zhang
 Zhao
+Zhihan
+Zhong
+Zhonghu
+Zhou
 zhaohuabing
 Zhihan
 Zhong

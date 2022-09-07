@@ -137,3 +137,5 @@ We would love your feedback to help shape the solution.
 A build of Istio which supports ambient mesh is available to [download and try](/blog/2022/get-started-ambient/) in the [Istio Experimental repo]({{< github_raw >}}/tree/experimental-ambient).
 A list of missing features and work items is available in the [README]({{< github_raw >}}/blob/experimental-ambient/README.md).
 Please try it out and let us know what you think!
+
+*Contributors: Aaron Birkland (Solo.io), Craig Box (Google), Greg Hanson (Solo.io), Daniel Hawton (Solo.io), John Howard (Google), Ethan J. Jackson (Google), Denis Jannot (Solo.io), Abhi Joglekar (Google), Yuval Kohavi (Solo.io), Steven Landow (Google), Idit Levine (Solo.io), Oliver Liu (Google), Yossi Mesika (Solo.io), Justin Pettit (Google), Neeraj Poddar (Solo.io), Nina Polshakova (Solo.io), Christian Posta (Solo.io), Doug Reid (Google), Louis Ryan (Google), Lin Sun (Solo.io), Eitan Yarmush (Solo.io), Kuat Yessenov (Google), Francis Zhou (Google)*
