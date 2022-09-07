@@ -7,7 +7,8 @@
 
             {{ $.Scratch.Set "years" (slice ) }}
             {{ $.Scratch.Set "noYears" 0 }}
-            {{ $pages := (where .Site.RegularPages "Section" "blog").ByPublishDate.Reverse }}
+            {{ $pages := (where .Site.RegularPages "Section" "blog") }}
+            {{ $pages = sort $pages ".Params.publishdate.Reverse" "title" }}
             {{ range $pages }}
                 {{ with .Params.publishdate }}
                     {{ if eq ( printf "%T" (substr . 0 4) ) "string"  }}
@@ -35,10 +36,10 @@
                         <div>
                             <h4 class="post-title">{{ .Title }}</h4>
                             <p class="post-summary">
-                                {{ .Params.description }}    
+                                {{ .Params.description }}
                             </p>
                             <p class="post-author">By {{ replace (replace .Params.attribution "(" "- ") ")" "" }}</p>
-                        </div>    
+                        </div>
                     </a>
                 {{ end }}
             </div>
@@ -71,5 +72,5 @@
         htf.checkFilter(category[1],'year-');
     }
 </script>
-    
+
 {{ end }}
