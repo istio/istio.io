@@ -6,11 +6,9 @@ attribution: "John Howard (Google), Ethan J. Jackson (Google), Yuval Kohavi (Sol
 keywords: [ambient]
 ---
 
-## A new data plane mode for Istio
+Today, we are excited to introduce "ambient mesh", a new Istio data plane mode that’s designed for simplified operations, broader application compatibility, and reduced infrastructure cost. Ambient mesh gives users the option to forgo sidecar proxies in favor of a mesh data plane that’s integrated into their infrastructure, all while maintaining Istio’s core features of zero-trust security, telemetry, and traffic management.  We are sharing a preview of ambient mesh with the Istio community that we are working to bring to production readiness in the coming months.
 
-Today, we are excited to introduce "ambient mesh", a new Istio data plane mode that’s designed for simplified operations, broader application compatibility, and reduced infrastructure cost. Ambient mesh gives users the option to forgo sidecar proxies in favor of a mesh data plane that’s integrated into their infrastructure, all while maintaining Istio’s core features of zero-trust security, telemetry, and traffic management.  Today, we are sharing a preview of ambient mesh with the Istio community that we are working to bring to production readiness in the coming months.
-
-### Istio and Sidecars
+### Istio and sidecars
 
 Since its inception, a defining feature of Istio’s architecture has been the use of _sidecars_ – programmable proxies deployed alongside application containers.  Sidecars allow operators to reap Istio’s benefits, without requiring applications to undergo major surgery and its associated costs.
 
@@ -21,9 +19,9 @@ Since its inception, a defining feature of Istio’s architecture has been the u
 
 Although sidecars have significant advantages over refactoring applications, they do not provide a perfect separation between applications and the Istio data plane. This results in a few limitations:
 
-*   **Invasive** - Sidecars must be "injected" into applications by modifying their Kubernetes Pod spec and redirecting traffic within the pod.   As a result, installing or upgrading sidecars requires restarting the application pod, which can be disruptive for workloads.
-*   **Underutilization of Resources** - Since the sidecar proxy is dedicated to its associated workload, the CPU and memory resources must be provisioned for worst case usage of each individual pod. This adds up to large reservations that can lead to underutilization of resources across the cluster.
-*   **Traffic Breaking** - Traffic capture and HTTP processing, as typically done by Istio’s sidecars, is computationally expensive and can break some applications with non-conformant HTTP implementations.
+* **Invasiveness** - Sidecars must be "injected" into applications by modifying their Kubernetes pod spec and redirecting traffic within the pod.   As a result, installing or upgrading sidecars requires restarting the application pod, which can be disruptive for workloads.
+* **Underutilization of resources** - Since the sidecar proxy is dedicated to its associated workload, the CPU and memory resources must be provisioned for worst case usage of each individual pod. This adds up to large reservations that can lead to underutilization of resources across the cluster.
+* **Traffic breaking** - Traffic capture and HTTP processing, as typically done by Istio’s sidecars, is computationally expensive and can break some applications with non-conformant HTTP implementations.
 
 While sidecars have their place — more on that later — we think there is a need for a less invasive and easier option that will be a better fit for many service mesh users.
 
@@ -70,26 +68,26 @@ We expect this to yield significant resource savings for users, as the waypoint 
     caption="When additional features are needed, ambient mesh deploys waypoint proxies, which ztunnels connect through for policy enforcement"
     >}}
 
-Ambient mesh uses HTTP CONNECT over mTLS to implement its secure tunnels and insert waypoint proxies in the path, a pattern we call HBONE (HTTP-Based Overlay Network Environment). HBONE provides for a cleaner encapsulation of traffic than TLS on its own while enabling interoperability with common load-balancer infrastructure. FIPS builds are used by default to meet compliance needs. More details on HBONE, its standards-based approach, and plans for UDP and other non-TCP protocols will be described in a future blog.
+Ambient mesh uses HTTP CONNECT over mTLS to implement its secure tunnels and insert waypoint proxies in the path, a pattern we call HBONE (HTTP-Based Overlay Network Environment). HBONE provides for a cleaner encapsulation of traffic than TLS on its own while enabling interoperability with common load-balancer infrastructure. FIPS builds are used by default to meet compliance needs. More details on HBONE, its standards-based approach, and plans for UDP and other non-TCP protocols will be provided in a future blog.
 
-Mixing sidecars and ambient in a single mesh does not introduce limitations on the capabilities or security properties of the system. The Istio control plane ensures that policies are properly enforced regardless of the deployment model chosen. Ambient simply introduces an option that has better ergonomics and more flexibility
+Mixing sidecars and ambient in a single mesh does not introduce limitations on the capabilities or security properties of the system. The Istio control plane ensures that policies are properly enforced regardless of the deployment model chosen. Ambient simply introduces an option that has better ergonomics and more flexibility.
 
-### Why no L7 processing in the local node?
+### Why no L7 processing on the local node?
 
-The ambient mesh uses a shared ztunnel agent on the node, which handles the zero trust aspects of the mesh, while L7 processing happens in the waypoint proxy in separately scheduled pods.  Why bother with the indirection and not just use a shared full L7 proxy on the node?  There are several reasons for this:
+The ambient mesh uses a shared ztunnel agent on the node, which handles the zero trust aspects of the mesh, while L7 processing happens in the waypoint proxy in separately scheduled pods.  Why bother with the indirection, and not just use a shared full L7 proxy on the node?  There are several reasons for this:
 
-*   Envoy is not inherently multi-tenant. As a result, we have security concerns with commingling complex processing rules for L7 traffic from multiple unconstrained tenants in a shared instance.  By strictly limiting to L4 processing, we reduce the vulnerability surface area significantly.
-*   The mTLS and L4 features provided by the ztunnel need a much smaller CPU and memory footprint when compared to the L7 processing required in the waypoint proxy.   By running waypoint proxies as a shared namespace resource, we can scale them independently based on the needs of that namespace, and its costs are not unfairly distributed across unrelated tenants.
-*   By reducing ztunnel’s scope we allow for it to be replaced by other secure tunnel implementations that can meet a well-defined interoperability contract.
+* Envoy is not inherently multi-tenant. As a result, we have security concerns with commingling complex processing rules for L7 traffic from multiple unconstrained tenants in a shared instance.  By strictly limiting to L4 processing, we reduce the vulnerability surface area significantly.
+* The mTLS and L4 features provided by the ztunnel need a much smaller CPU and memory footprint when compared to the L7 processing required in the waypoint proxy.   By running waypoint proxies as a shared namespace resource, we can scale them independently based on the needs of that namespace, and its costs are not unfairly distributed across unrelated tenants.
+* By reducing ztunnel’s scope we allow for it to be replaced by other secure tunnel implementations that can meet a well-defined interoperability contract.
 
 ### But what about those extra hops?
 
-With ambient mesh, a waypoint isn’t necessarily guaranteed to be on the same node as the workloads it serves.  While at first glance this may appear to be a performance concern, we’re confident that latency will ultimately be in-line with Istio’s current sidecar implementation.  We’ll discuss more in a dedicated performance blog post, but for now we’ll summarize with two points:
+With ambient mesh, a waypoint isn’t necessarily guaranteed to be on the same node as the workloads it serves.  While at first glance this may appear to be a performance concern, we’re confident that latency will ultimately be in-line with Istio’s current sidecar implementation. We’ll discuss more in a dedicated performance blog post, but for now we’ll summarize with two points:
 
-*   The majority of Istio’s network latency does not, in fact, come from the network ([modern cloud providers have extremely fast networks)](https://www.clockwork.io/there-is-no-upside-to-vm-colocation/).  Instead the biggest culprit is the intensive L7 processing Istio needs to implement its sophisticated feature set.  Unlike sidecars, which implement two L7 processing steps for each connection (one for each sidecar), ambient mesh collapses these two steps into one.  In most cases, we expect this reduced processing cost to compensate for an additional network hop.
-*   Users often deploy a mesh to enable a zero-trust security posture as a first-step and then selectively enable L7 capabilities as needed.  Ambient mesh allows those users to bypass the cost of L7 processing entirely when it’s not needed.
+* The majority of Istio’s network latency does not, in fact, come from the network ([modern cloud providers have extremely fast networks)](https://www.clockwork.io/there-is-no-upside-to-vm-colocation/).  Instead the biggest culprit is the intensive L7 processing Istio needs to implement its sophisticated feature set.  Unlike sidecars, which implement two L7 processing steps for each connection (one for each sidecar), ambient mesh collapses these two steps into one.  In most cases, we expect this reduced processing cost to compensate for an additional network hop.
+* Users often deploy a mesh to enable a zero-trust security posture as a first-step and then selectively enable L7 capabilities as needed.  Ambient mesh allows those users to bypass the cost of L7 processing entirely when it’s not needed.
 
-### Resource Overhead
+### Resource overhead
 
 Overall we expect ambient mesh to have fewer and more predictable resource requirements for most users.
 The ztunnel’s limited responsibilities allows it to be deployed as a shared resource on the node.
@@ -125,7 +123,7 @@ In fact, the ambient mesh code we’re releasing today already supports interope
 
 ### Learn more
 
-Take a look at the short video to watch Christian run through the Istio ambient mesh components and demo some capabilities:
+Take a look at a short video to watch Christian run through the Istio ambient mesh components and demo some capabilities:
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/nupRBh9Iypo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
@@ -136,4 +134,4 @@ What we have released today is an early version of ambient mesh in Istio, and it
 We would love your feedback to help shape the solution.
 A build of Istio which supports ambient mesh is available to [download and try](/blog/2022/get-started-ambient/) in the [Istio Experimental repo]({{< github_raw >}}/tree/experimental-ambient).
 A list of missing features and work items is available in the [README]({{< github_raw >}}/blob/experimental-ambient/README.md).
-Please try it out and let us know what you think!
+Please try it out and [let us know what you think!](https://slack.istio.io/)
