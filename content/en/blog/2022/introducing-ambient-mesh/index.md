@@ -1,7 +1,7 @@
 ---
 title: "Introducing Ambient Mesh"
 description: "A new dataplane mode for Istio without sidecars."
-publishdate: 2022-09-07
+publishdate: 2022-09-07T07:00:00:00+00:00
 attribution: "John Howard (Google), Ethan J. Jackson (Google), Yuval Kohavi (Solo.io), Idit Levine (Solo.io), Justin Pettit (Google), Lin Sun (Solo.io)"
 keywords: [ambient]
 ---
@@ -39,6 +39,11 @@ It splits Istio’s functionality into two distinct layers.
 At the base, there’s a secure overlay that handles routing and zero trust security for traffic.
 Above that, when needed, users can enable L7 processing to get access to the full range of Istio features.
 The L7 processing mode, while heavier than the secure overlay, still runs as an ambient component of the infrastructure, requiring no modifications to application pods.
+
+{{< image width="100%"
+    link="ambient-layers.png"
+    caption="Layers of the ambient mesh"
+    >}}
 
 This layered approach allows users to adopt Istio in a more incremental fashion, smoothly transitioning from no mesh, to the secure overlay, to full L7 processing — on a per-namespace basis, as needed.   Furthermore, workloads running in different ambient modes, or with sidecars, interoperate seamlessly, allowing users to mix and match capabilities based on the particular needs as they change over time.
 
