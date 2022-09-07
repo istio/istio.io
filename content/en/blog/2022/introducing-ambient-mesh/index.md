@@ -19,7 +19,7 @@ Since its inception, a defining feature of Istio’s architecture has been the u
 
 Although sidecars have significant advantages over refactoring applications, they do not provide a perfect separation between applications and the Istio data plane. This results in a few limitations:
 
-* **Invasiveness** - Sidecars must be "injected" into applications by modifying their Kubernetes pod spec and redirecting traffic within the pod.   As a result, installing or upgrading sidecars requires restarting the application pod, which can be disruptive for workloads.
+* **Invasivity** - Sidecars must be "injected" into applications by modifying their Kubernetes pod spec and redirecting traffic within the pod.   As a result, installing or upgrading sidecars requires restarting the application pod, which can be disruptive for workloads.
 * **Underutilization of resources** - Since the sidecar proxy is dedicated to its associated workload, the CPU and memory resources must be provisioned for worst case usage of each individual pod. This adds up to large reservations that can lead to underutilization of resources across the cluster.
 * **Traffic breaking** - Traffic capture and HTTP processing, as typically done by Istio’s sidecars, is computationally expensive and can break some applications with non-conformant HTTP implementations.
 
