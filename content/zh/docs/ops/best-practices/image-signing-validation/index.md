@@ -32,7 +32,7 @@ $ openssl dgst -sha256 \
     /path/to/cosign-binary
     {{< /text >}}
 
-1. 使二进制文件可执行（'chmod + x'），并移动到 'PATH' 上的一个位置。
+1. 使二进制文件可执行（chmod + x），并移动到 'PATH' 上的一个位置。
 
 ## 验证镜像{#validating-image}
 
