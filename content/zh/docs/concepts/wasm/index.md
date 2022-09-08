@@ -7,7 +7,7 @@ owner: istio/wg-policies-and-telemetry-maintainers
 test: n/a
 ---
 
-WebAssembly 是一种沙盒技术，可以用于扩展 Istio 代理（Envoy）的能力。Proxy-Wasm 沙盒 API 取代了 Mixer 作为 Istio 主要的扩展机制。在 Istio 1.6 中将会为 Proxy-Wasm 插件提供一种统一的配置 API。
+WebAssembly 是一种沙盒技术，可以用于扩展 Istio 代理（Envoy）的能力。Proxy-Wasm 沙盒 API 取代了 Mixer 作为 Istio 主要的扩展机制。
 
 WebAssembly 沙盒的目标：
 
