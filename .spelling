@@ -276,7 +276,6 @@ CVE-2021-29258
 CVE-2021-29492
 CVE-2021-31920
 CVE-2021-31921
-CVE-2021-34824
 CVE-2021-32777
 CVE-2021-32778
 CVE-2021-32779
@@ -458,6 +457,7 @@ hyperkube
 hypervisor
 Hystrix
 i.e.
+Idit
 ILBs
 incentivized
 Incrementality
@@ -491,7 +491,6 @@ istio-identity
 istio-mixer
 istio-operator
 istio-proxy
-Idit
 ISTIO-SECURITY-2019-003
 ISTIO-SECURITY-2019-004
 ISTIO-SECURITY-2019-005
@@ -525,6 +524,7 @@ IstioMesh
 IstioOperator
 IstioTurns4
 iter8
+Jannot
 jason
 Jeet
 Jog
@@ -535,7 +535,6 @@ json
 JSON-formatted
 json-transcoder
 jwcrypto
-Jannot
 JWT
 jwt.io
 JWTs
@@ -613,9 +612,9 @@ meetups
 memcached
 memcached-2's
 Mengxue
-Mesika
 Merbridge
 merbridge
+Mesika
 MetalLB
 metaprotocol
 MetaProtocol
@@ -1045,7 +1044,6 @@ x509
 x86
 xDS
 Xia
-Xining
 Xiao
 Xining
 xRoute
@@ -1054,13 +1052,10 @@ Xeon
 Yahya
 yaml
 yamls
+Yangmin
 Yarmush
 Yessenov
-yournamespace
-Youtube
 Yuval
-Yangmin
-Yessenov
 Yizhou
 Yoichi
 Yossi
