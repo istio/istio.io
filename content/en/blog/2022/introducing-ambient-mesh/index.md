@@ -138,4 +138,4 @@ Please try it out and [let us know what you think!](https://slack.istio.io/)
 
 _Thank you to the team that contributed to the launch of ambient mesh!_
 * _Google: Craig Box, John Howard, Ethan J. Jackson, Abhi Joglekar, Steven Landow, Oliver Liu, Justin Pettit, Doug Reid, Louis Ryan, Kuat Yessenov, Francis Zhou_
-* _Solo.io: Aaron Birkland, Greg Hanson, Daniel Hawton, Denis Jannot, Yuval Kohavi, Idit Levine, Yossi Mesika, Neeraj Poddar, Nina Polshakova, Christian Posta, Lin Sun, Eitan Yarmush_
+* _Solo.io: Aaron Birkland, Kevin Dorosh, Greg Hanson, Daniel Hawton, Denis Jannot, Yuval Kohavi, Idit Levine, Yossi Mesika, Neeraj Poddar, Nina Polshakova, Christian Posta, Lin Sun, Eitan Yarmush_
