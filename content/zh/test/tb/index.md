@@ -1,10 +1,10 @@
 ---
-title: Text Blocks
-description: Basic text blocks.
+title: 文本块
+description: 基础文本块。
 skip_sitemap: true
 ---
 
-Plain text block with html tag
+带 html 标记的普通文本块
 
 {{< text plain >}}
 $ kubectl get svc -n istio-system
@@ -13,7 +13,7 @@ grafana                  ClusterIP      172.21.211.123   <none>          3000/TC
 ...
 {{< /text >}}
 
-Bash text block with plain output
+带普通输出的 Bash 文本块
 
 {{< text bash >}}
 $ this is a text block
@@ -22,7 +22,7 @@ Bar
 Foo Bar
 {{< /text >}}
 
-Bash text block with redirection
+带重定向的 Bash 文本块
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -30,7 +30,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 {{< /text >}}
 
-Bash text block with html tag
+带 html 标记的 Bash 文本块
 
 {{< text bash >}}
 $ kubectl get svc -n istio-system
@@ -39,7 +39,7 @@ grafana                  ClusterIP      172.21.211.123   <none>          3000/TC
 ...
 {{< /text >}}
 
-Bash text block with yaml output and download name
+带 yaml 输出和下载名称的 Bash 文本块
 
 {{< text syntax="bash" outputis="yaml" downloadas="foo.yaml" >}}
 $ kubectl -n istio-system get configmap istio-galley-configuration -o jsonpath='{.data}'
@@ -66,7 +66,7 @@ webhooks:
       (... snip ...)
 {{< /text >}}
 
-Bash text block with json output and download name
+带 json 输出和下载名称的 Bash 文本块
 
 {{< text syntax="bash" outputis="json" downloadas="foo.txt" >}}
 $ kubectl logs -n istio-system -l istio-mixer-type=telemetry -c mixer | grep \"instance\":\"newlog.logentry.istio-system\" | grep -v '"destination":"telemetry"' | grep -v '"destination":"pilot"' | grep -v '"destination":"policy"' | grep -v '"destination":"unknown"'
@@ -75,88 +75,88 @@ $ kubectl logs -n istio-system -l istio-mixer-type=telemetry -c mixer | grep \"i
 {"level":"warn","time":"2018-09-15T20:46:35.982761Z","instance":"newlog.logentry.istio-system","destination":"productpage","latency":"968.030256ms","responseCode":200,"responseSize":4415,"source":"istio-ingressgateway","user":"unknown"}
 {{< /text >}}
 
-File-based text block
+基于文件的文本块
 
 {{< text_import file="test/snippet_example.txt" syntax="plain" >}}
 
-File-based text block with snippet extraction and download name
+带代码片段和下载名称且基于文件的文本块
 
 {{< text_import file="test/snippet_example.txt" syntax="plain" snippet="SNIP2" downloadas="foo.txt" >}}
 
-File-based bash text block with download name
+带下载名称且基于文件的 bash 文本块
 
 {{< text_import file="test/command_example.txt" syntax="bash" downloadas="foo.sh" >}}
 
-URL-based text block
+基于 URL 的文本块
 
 {{< text_import url="https://raw.githubusercontent.com/istio/istio.io/master/test/snippet_example.txt" syntax="plain" >}}
 
-URL-based text block with snippet extraction
+带代码片段且基于 URL 的文本块
 
 {{< text_import url="https://raw.githubusercontent.com/istio/istio.io/master/test/snippet_example.txt" syntax="plain" snippet="SNIP1" >}}
 
-URL-based text block with redirects
+带重定向且基于 URL 的文本块
 
 {{< text_import url="https://raw.githubusercontent.com/istio/istio.io/master/test/command_example.txt" syntax="bash" outputis="yaml" >}}
 
-URL-based text block with @@ content
+带 @@ 内容且基于 URL 文本块
 
 {{< text_import url="https://raw.githubusercontent.com/istio/istio.io/release-1.1/test/command_example_atat.txt" syntax="bash" >}}
 
-Very wide text block
+很宽的文本块
 
 {{< text plain >}}
-Reeeeeaaaaaalllllllllly lllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllong
+真得很宽很宽很宽很宽很宽很宽很宽很宽很宽很宽很宽很宽很宽很宽很宽很宽很宽很宽很宽很宽很宽很宽很宽
 {{< /text >}}
 
-Very tall text block
+很高的文本块
 
 {{< text plain >}}
-Really tall
-Really tall
-Really tall
-Really tall
-Really tall
-Really tall
-Really tall
-Really tall
-Really tall
-Really tall
-Really tall
-Really tall
-Really tall
-Really tall
-Really tall
-Really tall
-Really tall
-Really tall
-Really tall
-Really tall
-Really tall
-Really tall
-Really tall
-Really tall
-Really tall
-Really tall
-Really tall
-Really tall
-Really tall
-Really tall
-Really tall
-Really tall
-Really tall
-Really tall
-Really tall
-Really tall
-Really tall
-Really tall
-Really tall
-Really tall
-Really tall
-Really tall
-Really tall
-Really tall
-Really tall
-Really tall
-Really tall
+真得很高
+真得很高
+真得很高
+真得很高
+真得很高
+真得很高
+真得很高
+真得很高
+真得很高
+真得很高
+真得很高
+真得很高
+真得很高
+真得很高
+真得很高
+真得很高
+真得很高
+真得很高
+真得很高
+真得很高
+真得很高
+真得很高
+真得很高
+真得很高
+真得很高
+真得很高
+真得很高
+真得很高
+真得很高
+真得很高
+真得很高
+真得很高
+真得很高
+真得很高
+真得很高
+真得很高
+真得很高
+真得很高
+真得很高
+真得很高
+真得很高
+真得很高
+真得很高
+真得很高
+真得很高
+真得很高
+真得很高
 {{< /text >}}
