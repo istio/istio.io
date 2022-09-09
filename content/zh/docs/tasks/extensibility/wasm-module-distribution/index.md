@@ -85,7 +85,7 @@ $ kubectl delete wasmplugins.extensions.istio.io -n istio-system basic-auth
 
 ## 监控 Wasm 模块分发{#monitor-wasm-module-distribution}
 
-有几个统计数据可以跟踪远程 Wasm 模块的分布状态。
+有几个统计数据可以跟踪远程 Wasm 模块的分发状态。
 
 Istio 代理收集以下统计信息：
 
