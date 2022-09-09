@@ -13,10 +13,10 @@ This page lists the status, timeline and policy for currently supported releases
 releases that are in the active maintenance window and are patched for security and bug fixes. Subsequent patch releases
 on a minor release do not contain backward incompatible changes.
 
-* [Support Policy](#support-policy)
-* [Naming scheme](#naming-scheme)
-* [Support status of Istio releases](#support-status-of-istio-releases)
-* [Releases without known Common Vulnerabilities and Exposures (CVEs)](#releases-without-known-Common-Vulnerabilities-and Exposures)
+- [Support policy](#support-policy)
+- [Naming scheme](#naming-scheme)
+- [Support status of Istio releases](#support-status-of-istio-releases)
+- [Supported releases without known Common Vulnerabilities and Exposures (CVEs)](#supported-releases-without-known-common-vulnerabilities-and-exposures-cves)
 
 ## Support policy
 
