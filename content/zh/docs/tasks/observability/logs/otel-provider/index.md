@@ -177,7 +177,7 @@ $ istioctl install -f <your-istio-operator-config-file>
 
 ## 清理{#cleanup}
 
-关闭 [sleep]({{< github_tree >}}/samples/sleep) 和 [httpbin]({{< github_tree >}}/samples/httpbin)服务：
+关闭 [sleep]({{< github_tree >}}/samples/sleep) 和 [httpbin]({{< github_tree >}}/samples/httpbin) 服务：
 
 {{< text bash >}}
 $ kubectl delete telemetry sleep-logging
