@@ -83,7 +83,7 @@ $ curl -s -o /dev/null -w "%{http_code}" -H "Authorization: Basic YWRtaW4zOmFkbW
 $ kubectl delete wasmplugins.extensions.istio.io -n istio-system basic-auth
 {{< /text >}}
 
-## 监控 Wasm 模块分布{#monitor-wasm-module-distribution}
+## 监控 Wasm 模块分发{#monitor-wasm-module-distribution}
 
 有几个统计数据可以跟踪远程 Wasm 模块的分布状态。
 
