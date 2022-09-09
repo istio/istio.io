@@ -66,7 +66,7 @@ Istio 代理将解释 `WasmPlugin` 配置，从 OCI 镜像仓库中下载远程 
     {{< text bash >}}
     $ curl -s -o /dev/null -w "%{http_code}" "http://$INGRESS_HOST:$INGRESS_PORT/productpage"
     401
-{{< /text >}}
+    {{< /text >}}
 
 1. 带凭据测试 `/productpage`
 
