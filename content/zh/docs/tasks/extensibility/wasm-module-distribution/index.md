@@ -1,6 +1,6 @@
 ---
 title: WebAssembly 模块分发
-description: 描述如何使远程 WebAssembly 模块在网格中可用。
+description: 描述如何在网格中使用远程 WebAssembly 模块。
 weight: 10
 aliases:
   - /zh/help/ops/extensibility/distribute-remote-wasm-module
