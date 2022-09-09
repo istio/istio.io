@@ -1,5 +1,5 @@
 ---
-title: 图像签名和验证
+title: 镜像签名和验证
 description: 描述如何使用镜像签名来验证 Istio 镜像的出处。
 weight: 35
 aliases: []
@@ -16,7 +16,7 @@ Cosign 是作为 [sigstore](https://www.sigstore.dev) 项目的一部分开发�
 从 Istio 1.12 开始，我们签署所有正式发布的容器镜像作为我们发布过程的一部分。
 然后，最终用户可以使用下面描述的过程来验证这些镜像。
 
-此过程适用于手动执行或与构建或部署管道集成以自动验证镜像制品。
+此过程适用于手动执行或与构建/部署管道集成，以自动验证镜像制品。
 
 ## 先决条件{#prerequisites}
 
@@ -42,7 +42,7 @@ $ openssl dgst -sha256 \
 $ ./cosign-binary verify --key "https://istio.io/misc/istio-key.pub" {{< istio_docker_image "pilot" >}}
 {{< /text >}}
 
-此过程适用于使用 Istio 构建基础架构构建的任何已发布镜像或发布补丁版本。
+此过程适用于使用 Istio 构建基础设施构建的任何已发布镜像或待发布镜像。
 
 输出示例：
 
