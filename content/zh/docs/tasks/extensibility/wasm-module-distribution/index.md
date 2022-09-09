@@ -73,7 +73,7 @@ Istio 代理将解释 `WasmPlugin` 配置，从 OCI 镜像仓库中下载远程 
      {{< text bash >}}
 $ curl -s -o /dev/null -w "%{http_code}" -H "Authorization: Basic YWRtaW4zOmFkbWluMw==" "http://$INGRESS_HOST:$INGRESS_PORT/productpage"
     200
-{{< /text >}}
+    {{< /text >}}
 
 关于 `WasmPlugin` API 的更多使用示例，请查看 [API 参考](/zh/docs/reference/config/proxy_extensions/wasm-plugin/)。
 
