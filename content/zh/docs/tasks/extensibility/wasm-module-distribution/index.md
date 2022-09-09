@@ -23,7 +23,7 @@ Istio 通过允许代理动态下载 Wasm 模块来实现这一点。
 
 ## 配置 Wasm 模块{#configure-wasm-modules}
 
-在这个例子中，你将在你的网格中添加一个 HTTP Basic 身份验证扩展。您将配置 Istio 从远程映像注册表中提取[基本身份验证模块](https://github.com/istio-ecosystem/wasm-extensions/tree/master/extensions/basic_auth)并加载它。它将被配置为在对 `/productpage` 调用中运行。
+在这个例子中，您将在您的网格中添加一个 HTTP Basic 身份验证扩展。您将配置 Istio 从远程镜像仓库中提取并加载[基本身份验证模块](https://github.com/istio-ecosystem/wasm-extensions/tree/master/extensions/basic_auth)。该模块将被配置为在调用到 `/productpage` 时运行。
 
 为了配置一个具有远程 Wasm 模块的 WebAssembly 过滤器，创建一个 `WasmPlugin` 资源：
 
