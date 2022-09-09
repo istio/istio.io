@@ -53,7 +53,7 @@ EOF
 {{< /text >}}
 
 HTTP 过滤器将作为身份验证过滤器注入到入口网关代理中。
-Istio 代理将解释 `WasmPlugin` 配置，从 OCI 图像注册表中下载远程 Wasm 模块到本地文件，并通过引用该文件将 HTTP 过滤器注入 Envoy 中。
+Istio 代理将解释 `WasmPlugin` 配置，从 OCI 镜像仓库中下载远程 Wasm 模块到本地文件，并通过引用该文件将 HTTP 过滤器注入 Envoy 中。
 
 {{< idea >}}
 如果在 `istio-system` 之外的特定命名空间中创建了 `WasmPlugin`，则该命名空间中的 pods 将被配置。如果在 `istio-system` 命名空间中创建资源，所有命名空间都会受到影响。
