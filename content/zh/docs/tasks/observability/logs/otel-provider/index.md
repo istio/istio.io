@@ -15,7 +15,7 @@ Envoy 代理可以被配置为以 [OpenTelemetry 格式](https://www.envoyproxy.
 
 {{< boilerplate start-httpbin-service >}}
 
-{{< boilerplate start-otel-collector-service.md >}}
+{{< boilerplate start-otel-collector-service >}}
 
 ## 启用 Envoy 的访问日志{#enable-envoy-access-logging}
 
