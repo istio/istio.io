@@ -120,7 +120,7 @@ $ istioctl install -f <your-istio-operator-config-file>
 
 下表显示了一个使用默认访问日志格式的例子，即从 `sleep` 发送到 `httpbin` 的请求：
 
-| Log operator | access log in sleep | access log in httpbin |
+|   日志运算符   |       访问登录睡眠    |    httpbin 访问登录    |
 |--------------|---------------------|-----------------------|
 | `[%START_TIME%]` | `[2020-11-25T21:26:18.409Z]` | `[2020-11-25T21:26:18.409Z]`
 | `\"%REQ(:METHOD)% %REQ(X-ENVOY-ORIGINAL-PATH?:PATH)% %PROTOCOL%\"` | `"GET /status/418 HTTP/1.1"` | `"GET /status/418 HTTP/1.1"`
