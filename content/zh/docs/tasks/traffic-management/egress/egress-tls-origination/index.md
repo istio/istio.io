@@ -190,15 +190,15 @@ _SNI_ 字段在 TLS 握手过程中以未加密的形式发送。
 ## 出口流量的双向 TLS 发起{#mutual-tls-origination-for-egress-traffic}
 
 本节介绍如何配置 sidecar 为外部服务执行 TLS 发起，这次使用需要双向 TLS 的服务。
-此示例涉及更多，因为它需要以下设置：
+此示例涉及许多内容，需要先执行以下前置操作：
 
 1. 生成客户端和服务器证书
 1. 部署支持双向 TLS 协议的外部服务
-1. 将客户端（睡眠 Pod）配置为使用在步骤 1 中创建的凭据
+1. 将客户端（sleep Pod）配置为使用在步骤 1 中创建的凭据
 
-完成此设置后，您可以将外部流量配置为通过将执行 TLS 发起的边车。
+完成上述前置操作后，您可以将外部流量配置为经由该 sidecar，执行 TLS 发起。
 
-### 生成客户端和服务器证书和密钥{#generate-client-and-server-certificates-and-keys}
+### 生成客户端证书、服务器证书、客户端密钥和服务器密钥{#generate-client-and-server-certificates-and-keys}
 
 按照 Egress Gateway TLS 发起任务中的[这些步骤](/zh/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/#generate-client-and-server-certificates-and-keys)进行操作。
 
@@ -206,7 +206,7 @@ _SNI_ 字段在 TLS 握手过程中以未加密的形式发送。
 
 按照 Egress Gateway TLS 发起任务中的[这些步骤](/zh/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/#deploy-a-mutual-tls-server)进行操作。
 
-### 配置客户端——睡眠 Pod{#configure-the-client-sleep-pod}
+### 配置客户端——sleep Pod{#configure-the-client-sleep-pod}
 
 1.  创建 Kubernetes [密钥](https://kubernetes.io/docs/concepts/configuration/secret/)来保存客户端的证书：
 
@@ -224,7 +224,7 @@ _SNI_ 字段在 TLS 握手过程中以未加密的形式发送。
     $ kubectl create rolebinding client-credential-role-binding --role=client-credential-role --serviceaccount=default:sleep
     {{< /text >}}
 
-### 为边车上的出口流量配置双向 TLS 发起{#configure-mutual-tls-origination-for-egress-traffic-at-sidecar}
+### 为 Sidecar 上的出口流量配置双向 TLS 发起{#configure-mutual-tls-origination-for-egress-traffic-at-sidecar}
 
 1.  添加一个 `DestinationRule` 以执行双向 TLS 发起
 
@@ -296,7 +296,7 @@ _SNI_ 字段在 TLS 握手过程中以未加密的形式发送。
     $ rm example.com.crt example.com.key my-nginx.mesh-external.svc.cluster.local.crt my-nginx.mesh-external.svc.cluster.local.key my-nginx.mesh-external.svc.cluster.local.csr client.example.com.crt client.example.com.csr client.example.com.key
     {{< /text >}}
 
-1.  删除本示例中使用的生成的配置文件：
+1. 删除本示例中用过的和生成的那些配置文件：
 
     {{< text bash >}}
     $ rm ./nginx.conf
