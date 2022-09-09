@@ -11,10 +11,10 @@ test: n/a
 
 此页面列出了当前支持的版本的状态，时间表和策略。受支持的 Istio 版本包括处于维护窗口期以及为安全问题和错误提供了补丁的版本。Minor 版本中的补丁版本不包含向后的兼容性。
 
-* [支持策略](#support-policy)
-* [命名方案](#naming-scheme)
-* [Istio 版本的支持状态](#support-status-of-istio-releases)
-* [没有已知常见漏洞（CVEs）的版本](#releases-without-known-Common-Vulnerabilities-and-Exposures)
+- [支持策略](#support-policy)
+- [命名方案](#naming-scheme)
+- [Istio 版本的支持状态](#support-status-of-istio-releases)
+- [没有已知常见漏洞（CVEs）的受支持版本](#supported-releases-without-known-common-vulnerabilities-and-exposures-cves)
 
 ## 支持策略{#support-policy}
 
