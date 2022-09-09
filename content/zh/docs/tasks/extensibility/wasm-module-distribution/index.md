@@ -99,7 +99,7 @@ Istio 代理收集以下统计信息：
 ## 开发 Wasm 扩展{#develop-a-wasm-extension}
 
 要了解关于 Wasm 模块开发的更多信息，请参阅 [`istio-ecosystem/wasm-extensions` 存储库](https://github.com/istio-ecosystem/wasm-extensions)中提供的那些指南，
-由 Istio 社区维护，用于开发 Istio 的 Telemetry Wasm 扩展：
+这个存储库由 Istio 社区维护，用于开发 Istio 的 Telemetry Wasm 扩展：
 
 - [使用 C++ 编写、测试、部署和维护 Wasm 扩展](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/write-a-wasm-extension-with-cpp.md)
 - [构建与 Istio Wasm 插件兼容的 OCI 镜像](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/how-to-build-oci-images.md)
