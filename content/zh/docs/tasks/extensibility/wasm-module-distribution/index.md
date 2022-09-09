@@ -1,5 +1,5 @@
 ---
-title: 分发 WebAssembly 模块
+title: WebAssembly 模块分发
 description: 描述如何使远程 WebAssembly 模块在网格中可用。
 weight: 10
 aliases:
