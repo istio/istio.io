@@ -191,7 +191,7 @@ $ kubectl delete -f @samples/open-telemetry/otel.yaml@
 移除 Istio 安装配置中的 `meshConfig.extensionProviders` 和 `meshConfig.defaultProviders` 设置，或将其设为 `""`。
 
 {{< tip >}}
-在下面的例子中，用你安装 Istio 时使用的配置文件的名称替换 `default` 。
+在下面的例子中，用您安装 Istio 时使用的配置文件的名称替换 `default`。
 {{< /tip >}}
 
 {{< text bash >}}
