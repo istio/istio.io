@@ -173,7 +173,7 @@ $ istioctl install -f <your-istio-operator-config-file>
     [2020-11-25T21:26:18.409Z] "GET /status/418 HTTP/1.1" 418 - via_upstream - "-" 0 135 3 1 "-" "curl/7.73.0-DEV" "84961386-6d84-929d-98bd-c5aee93b5c88" "httpbin:8000" "127.0.0.1:80" inbound|8000|| 127.0.0.1:41854 10.44.1.27:80 10.44.1.23:37652 outbound_.8000_._.httpbin.foo.svc.cluster.local default
     {{< /text >}}
 
-注意，与请求相对应的信息会出现在源和目标的 Istio `sleep` 和 `httpbin`。
+注意，与请求相对应的信息会出现在源和目标的 Istio 代理 `sleep` 和 `httpbin` 的日志中。
 你可以在日志中看到 HTTP 动作（`GET`）、HTTP 路径（`/status/418`）、响应代码（`418`）和其他与[请求相关的信息](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#format-rules）。
 
 ## 清理{#cleanup}
