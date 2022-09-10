@@ -11,7 +11,6 @@ test: yes
 
 本任务阐述如何将 Istio 服务的请求从明文模式平滑过渡至双向 TLS 模式，并确保在整个迁移过程中不干扰在线流量的正常通信。
 
-
 在调用其他工作负载时，Istio 会自动配置工作负载 sidecar 以使用[双向 TLS](/zh/docs/tasks/security/authentication/authn-policy/#auto-mutual-tls)。
 默认情况下，Istio 使用 `PERMISSIVE` 模式配置目标工作负载。
 当启用 `PERMISSIVE` 模式时，服务可以接受明文和双向 TLS 流量。
@@ -34,7 +33,6 @@ test: yes
 
 * 创建两个命名空间，`foo` 和 `bar`，并它们上部署 [httpbin]({{< github_tree >}}/samples/httpbin)、[sleep]({{< github_tree >}}/samples/sleep) 和 sidecar。
 
-
     {{< text bash >}}
     $ kubectl create ns foo
     $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@) -n foo
@@ -45,12 +43,13 @@ test: yes
     {{< /text >}}
 
 * 创建另一个命名空间 `legacy`，并在没有 sidecar 的情况下部署 [sleep]({{< github_tree >}}/samples/sleep)：
+
     {{< text bash >}}
     $ kubectl create ns legacy
     $ kubectl apply -f @samples/sleep/sleep.yaml@ -n legacy
     {{< /text >}}
 
-* （使用 curl 命令）从每个 sleep pod （命名空间为 `foo`，`bar` 或 `legacy`）分别向 `httpbin.foo` 发送 http 请求。所有请求都应成功响应，返回 HTTP code 200。
+* （使用 Curl 命令）从每个 sleep pod （命名空间为 `foo`，`bar` 或 `legacy`）分别向 `httpbin.foo` 发送 http 请求。所有请求都应成功响应，返回 HTTP code 200。
 
     {{< text bash >}}
     $ for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
@@ -61,8 +60,9 @@ test: yes
     sleep.legacy to httpbin.foo: 200
     sleep.legacy to httpbin.bar: 200
     {{< /text >}}
+
     {{< tip >}}
-    如果任何 curl 命令失败，请确保可能干扰 httpbin 服务请求的现有身份验证策略或目标规则。
+如果任何 Curl 命令失败，请确保可能干扰 httpbin 服务请求的现有身份验证策略或目标规则。
     
     {{< text bash >}}
     $ kubectl get peerauthentication --all-namespaces
@@ -143,6 +143,7 @@ $ for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$
 ## 清除{#clean-up-the-example}
 
 1. 删除网格范围的身份验证策略。
+
 {{< text bash >}}
 $ kubectl delete peerauthentication -n istio-system default
 {{< /text >}}
