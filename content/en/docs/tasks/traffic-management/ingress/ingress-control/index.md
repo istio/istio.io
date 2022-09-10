@@ -47,6 +47,10 @@ $ minikube tunnel
 
 {{< /tip >}}
 
+{{< tip >}}
+If you are running Istio on Kind, follow the [guide for setting up MetalLB](https://kind.sigs.k8s.io/docs/user/loadbalancer/) to get `LoadBalancer` service type to work.
+{{< /tip >}}
+
 Choose the instructions corresponding to your environment:
 
 {{< tabset category-name="gateway-ip" >}}
