@@ -178,18 +178,140 @@ test: yes
 _SNI_ 字段在 TLS 握手过程中以未加密的形式发送。
 使用 HTTPS 可以防止攻击者知道客户端访问了哪些特点的内容，但并不能阻止攻击者得知客户端访问了 `edition.cnn.com` 站点。
 
-## 清除{#cleanup}
+### 清理 TLS 发起配置{#cleanup-the-tls-origination-configuration}
 
 1. 移除您创建的 Istio 配置项:
 
     {{< text bash >}}
     $ kubectl delete serviceentry edition-cnn-com
-    $ kubectl delete virtualservice edition-cnn-com
     $ kubectl delete destinationrule edition-cnn-com
     {{< /text >}}
 
-1. 关闭 [sleep]({{< github_tree >}}/samples/sleep) 服务:
+## 出口流量的双向 TLS 发起{#mutual-tls-origination-for-egress-traffic}
+
+本节介绍如何配置 sidecar 为外部服务执行 TLS 发起，这次使用需要双向 TLS 的服务。
+此示例涉及许多内容，需要先执行以下前置操作：
+
+1. 生成客户端和服务器证书
+1. 部署支持双向 TLS 协议的外部服务
+1. 将客户端（sleep Pod）配置为使用在步骤 1 中创建的凭据
+
+完成上述前置操作后，您可以将外部流量配置为经由该 sidecar，执行 TLS 发起。
+
+### 生成客户端证书、服务器证书、客户端密钥和服务器密钥{#generate-client-and-server-certificates-and-keys}
+
+按照 Egress Gateway TLS 发起任务中的[这些步骤](/zh/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/#generate-client-and-server-certificates-and-keys)进行操作。
+
+### 部署双向 TLS 服务器{#deploy-a-mutual-tls-server}
+
+按照 Egress Gateway TLS 发起任务中的[这些步骤](/zh/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/#deploy-a-mutual-tls-server)进行操作。
+
+### 配置客户端——sleep Pod{#configure-the-client-sleep-pod}
+
+1.  创建 Kubernetes [密钥](https://kubernetes.io/docs/concepts/configuration/secret/)来保存客户端的证书：
 
     {{< text bash >}}
-    $ kubectl delete -f @samples/sleep/sleep.yaml@
+    $ kubectl create secret generic client-credential --from-file=tls.key=client.example.com.key \
+      --from-file=tls.crt=client.example.com.crt --from-file=ca.crt=example.com.crt
     {{< /text >}}
+
+    **必须**在部署客户端 Pod 的统一命名空间中创建密钥，本例为 `default`。
+
+1. 创建必需的 `RBAC` 以确保在上述步骤中创建的密钥对客户端 Pod 是可访问的，在本例中是 `sleep`。
+
+    {{< text bash >}}
+    $ kubectl create role client-credential-role --resource=secret --verb=list
+    $ kubectl create rolebinding client-credential-role-binding --role=client-credential-role --serviceaccount=default:sleep
+    {{< /text >}}
+
+### 为 Sidecar 上的出口流量配置双向 TLS 发起{#configure-mutual-tls-origination-for-egress-traffic-at-sidecar}
+
+1.  添加一个 `DestinationRule` 以执行双向 TLS 发起
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: originate-mtls-for-nginx
+    spec:
+      workloadSelector:
+        matchLabels:
+          app: sleep
+      host: my-nginx.mesh-external.svc.cluster.local
+      trafficPolicy:
+        loadBalancer:
+          simple: ROUND_ROBIN
+        portLevelSettings:
+        - port:
+            number: 443
+          tls:
+            mode: MUTUAL
+            credentialName: client-credential # this must match the secret created earlier to hold client certs, and works only when DR has a workloadSelector
+            sni: my-nginx.mesh-external.svc.cluster.local # this is optional
+    EOF
+    {{< /text >}}
+
+1.  发送一个 HTTP 请求到 `http://my-nginx.mesh-external.svc.cluster.local`：
+
+    {{< text bash >}}
+    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -sS http://my-nginx.mesh-external.svc.cluster.local:443
+    <!DOCTYPE html>
+    <html>
+    <head>
+    <title>Welcome to nginx!</title>
+    ...
+    {{< /text >}}
+
+1.  检查 `sleep` Pod 的日志中是否有与我们的请求相对应的行。
+
+    {{< text bash >}}
+    $ kubectl logs -l app=sleep -c istio-proxy | grep 'my-nginx.mesh-external.svc.cluster.local'
+    {{< /text >}}
+
+    You should see a line similar to the following:
+
+    {{< text plain>}}
+    [2022-05-19T10:01:06.795Z] "GET / HTTP/1.1" 200 - via_upstream - "-" 0 615 1 0 "-" "curl/7.83.1-DEV" "96e8d8a7-92ce-9939-aa47-9f5f530a69fb" "my-nginx.mesh-external.svc.cluster.local:443" "10.107.176.65:443"
+    {{< /text >}}
+
+### 清理双向 TLS 发起配置{#cleanup-the-mutual-tls-origination-configuration}
+
+1.  移除创建的 Kubernetes 资源：
+
+    {{< text bash >}}
+    $ kubectl delete secret nginx-server-certs nginx-ca-certs -n mesh-external
+    $ kubectl delete secret client-credential
+    $ kubectl delete configmap nginx-configmap -n mesh-external
+    $ kubectl delete service my-nginx -n mesh-external
+    $ kubectl delete deployment my-nginx -n mesh-external
+    $ kubectl delete namespace mesh-external
+    $ kubectl delete serviceentry originate-mtls-for-nginx
+    $ kubectl delete destinationrule originate-mtls-for-nginx
+    {{< /text >}}
+
+1.  删除证书和私钥：
+
+    {{< text bash >}}
+    $ rm example.com.crt example.com.key my-nginx.mesh-external.svc.cluster.local.crt my-nginx.mesh-external.svc.cluster.local.key my-nginx.mesh-external.svc.cluster.local.csr client.example.com.crt client.example.com.csr client.example.com.key
+    {{< /text >}}
+
+1. 删除本示例中用过的和生成的那些配置文件：
+
+    {{< text bash >}}
+    $ rm ./nginx.conf
+    {{< /text >}}
+
+## 清理常用配置{#cleanup-common-configuration}
+
+删除 `sleep` 服务和部署：
+
+{{< text bash >}}
+$ kubectl delete service sleep
+$ kubectl delete deployment sleep
+{{< /text >}}
+
+{{< text bash >}}
+$ kubectl delete service sleep
+$ kubectl delete deployment sleep
+{{< /text >}}
