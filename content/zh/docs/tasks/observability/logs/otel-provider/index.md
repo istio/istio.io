@@ -6,10 +6,9 @@ keywords: [telemetry,logs]
 owner: istio/wg-policies-and-telemetry-maintainers
 test: yes
 ---
-
 Envoy 代理可以被配置为以 [OpenTelemetry 格式](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/access_loggers/open_telemetry/v3/logs_service.proto)导出[访问日志](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage）。
 在这个任务中，Envoy 代理将访问日志发送到一个 [OpenTelemetry 收集器](https://github.com/open-telemetry/opentelemetry-collector)，
-该收集器被配置为将日志打印到标准输出。然后可以通过 `kubectl logs` 命令访问器 OpenTelemetry 收集的标准输出。。
+该收集器被配置为将日志打印到标准输出。然后通过 `kubectl logs` 命令可以访问 OpenTelemetry 收集器的标准输出。
 
 {{< boilerplate before-you-begin-egress >}}
 
@@ -102,7 +101,7 @@ spec:
       - otel
 {{< /text >}}
 
-否则，在你原来的 `istioctl install` 命令中加入相应的设置，例如：
+否则，在原本的 `istioctl install` 命令中增加同等的设置，例如：
 
 {{< text syntax=bash snip_id=none >}}
 $ istioctl install -f <your-istio-operator-config-file>
@@ -172,7 +171,6 @@ $ istioctl install -f <your-istio-operator-config-file>
     $ kubectl logs -l app=opentelemetry-collector -n istio-system
     [2020-11-25T21:26:18.409Z] "GET /status/418 HTTP/1.1" 418 - via_upstream - "-" 0 135 3 1 "-" "curl/7.73.0-DEV" "84961386-6d84-929d-98bd-c5aee93b5c88" "httpbin:8000" "127.0.0.1:80" inbound|8000|| 127.0.0.1:41854 10.44.1.27:80 10.44.1.23:37652 outbound_.8000_._.httpbin.foo.svc.cluster.local default
     {{< /text >}}
-
 注意，与请求相对应的信息会出现在源和目标的 Istio 代理 `sleep` 和 `httpbin` 的日志中。
 你可以在日志中看到 HTTP 动作（`GET`）、HTTP 路径（`/status/418`）、响应代码（`418`）和其他与[请求相关的信息](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#format-rules）。
 
