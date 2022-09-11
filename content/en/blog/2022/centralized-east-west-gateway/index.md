@@ -82,13 +82,14 @@ Prerequisite:
 2.  The VirtualService managed by InternalGateway must be attached to the Gateway mention in 1.
 3. CoreDNS is required.
 
-Use centralized east-west traffic gateway to handle east-west traffic
+###Use centralized east-west traffic gateway to handle east-west traffic
 Step 1: Deploy InternalGateway service
+
 Step 2: Create HelloWorld service. Note that the port opened must be consistent with the port
 opened on the gateway.
 
 
-```json
+```yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -104,7 +105,7 @@ spec:
 ```
 
 Step 3: Create Gateway, and attach it to InternalGateway.
-```json
+```yaml
 kind: Gateway
 metadata:
   name: internalGateway
@@ -122,7 +123,7 @@ spec:
 ```
 
 Step 4: Create VirtualService.
-```json
+```yaml
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -145,12 +146,140 @@ Step 5: Execute the following command. You should find the IP address of the Hel
 ```shell
 dig helloworld.default.svc.cluster.local
 ```
+###Move existing traffic to centralized east-west traffic gateway
+####Approach 1: move only the traffic, and keep the service
+Step 1: Deploy InternelGateway
+
+Step 2: Create Gateway
+
+```yaml
+kind: Gateway
+metadata:
+  name: internalGateway
+  namespace: istio-system
+spec:
+  selector:
+    app: internalGateway
+  servers:
+  - port:
+      number: 5000
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"
+```
+
+Step 3: Create VirtualService
+
+```yaml
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: helloworld-internal-gateway
+  namespace: istio-system
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - internalGateway
+  http:
+  - match:
+    - uri:
+        exact: /hello
+    route:
+    - destination:
+        host: helloworld.default.svc.cluster.local
+```
+
+Step 4: Un-inject sidecars by removing the injection command.
 
 
+```shell
+kubectl label namespace your-namespace istio-injection=disabled
+```
+
+Step 5：Rolling update Services if needed to get rid of the sidecars.
+
+####Approach 2: replace the existing service
+
+Note that we can also create a new replacement service, and attach the new service with InternalGateway, and remove the old service.
+
+Step 1: Create a new service and attach it to the internal gateway as instructed before.
 
 
+```yaml
+kind: Gateway
+metadata:
+  name: internalGateway
+  namespace: istio-system
+spec:
+  selector:
+    app: internalGateway
+  servers:
+  - port:
+      number: 5000
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"
+```
 
-| Syntax      | Description |
-| ----------- | ----------- |
-| Header      | Title       |
-| Paragraph   | Text        |
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: helloworld-on-internalGateway
+  labels:
+    app: helloworld
+spec:
+  ports:
+  - port: 5000
+    name: http
+  selector:
+    app: helloworld
+---
+
+```
+
+```yaml
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: helloworld-internal-gateway
+  namespace: istio-system
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - internalGateway
+  http:
+  - match:
+    - uri:
+        exact: /hello
+    route:
+    - destination:
+        host: helloworld-on-internalGateway.default.svc.cluster.local
+```
+
+Step 2: remove the old service.
+
+
+##Experiments result
+On average, the delay with centralized east-west traffic gateway is improved by 20-40% compared to the pure sidecar mode. The statement stays true as the load of the network increases.
+
+##Comparison among similar sidecar solutions.
+
+We compare different sidecar implementations, and summarize them in the following table.
+| Syntax      | Sidecar Per-Pod | Sidecar Per-Node  |  Ambient mesh  | Centralized east-west traffic Gateway|
+| ----------- | ----------- |-----------|-----------|-----------|
+| resource occupation | sidecar resource is reserved in each pod | sidecar resource is reserved in each node | agent is installed in each node	|  Independed of node/pod, centrolized deployed. Can scale according to traffic       |
+|delay|	goes through two sidecars|goes through two sidecars|goes through agents and sidecars|goes through one sidecar|
+|Upgrade|upgrade together with application|independent with applications but associate with node|independent with applications. agent upgrade associates with node|Independent with applications and nodes.|
+|resource competition|compete with application within the same pod. isolated between pods. |compete with applications within the same node. Could affect all the application on the same node|independent from application and their nodes. Agent may compete resources with applications|Independent from application and their nodes|
+|blast redius|with in a pod|within a node|the whole cluster|the whole cluster|
+|security|provide mtls|provide mtls|provide mtls|no mtls|
+|tracing	|end-to-end tracing|end-to-end tracing|end-to-end tracing|gateway tracing|
+
+
+[1]https://isovalent.com/blog/post/2021-12-08-ebpf-servicemesh/
+[2]https://istio.io/latest/blog/2022/introducing-ambient-mesh/
