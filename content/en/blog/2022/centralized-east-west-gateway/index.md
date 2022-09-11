@@ -282,4 +282,5 @@ We compare different sidecar implementations, and summarize them in the followin
 
 
 [1]https://isovalent.com/blog/post/2021-12-08-ebpf-servicemesh/
+
 [2]https://istio.io/latest/blog/2022/introducing-ambient-mesh/
