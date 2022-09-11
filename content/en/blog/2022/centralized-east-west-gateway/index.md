@@ -2,7 +2,8 @@
 title: "Introducing centralized east-west traffic gateway"
 description: "A light-weighted way to achieve layer 7 load balancing functions without per-pod sidecars."
 publishdate: 2022-09-11T07:00:00-06:00
-attribution: "Shaokai Zhang (Alibaba Cloud), Chengyun Lu(Alibaba Cloud), Yang Song(Alibaba Cloud)"
+attribution: "Shaokai Zhang (Alibaba Cloud), Chengyun Lu(Alibaba Cloud), Yang Song(Alibaba Cloud),
+Jiangu Zhao (Alibaba Cloud)"
 keywords: [centralized sidecars]
 ---
 
