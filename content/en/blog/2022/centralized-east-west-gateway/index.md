@@ -6,6 +6,8 @@ attribution: "Shaokai Zhang (Alibaba Cloud), Chengyun Lu(Alibaba Cloud), Yang So
 keywords: [centralized sidecars]
 ---
 
+This document introduces a way to use advanced L7 load balancing features of sidecars without installing one with each pod.
+
 ## Background & introduction
 
 The east-west traffic in Istio is carried by envoy sidecars, which are deployed in every pod
@@ -35,30 +37,120 @@ because we move the sidecars out of the nodes of applications, we at the same ti
 security and tracing abilities provided by the original sidecars. Our observation is that the
 majority of our applications do not require those features.
 
-## Istio and sidecars
-
-Since its inception, a defining feature of Istio’s architecture has been the use of _sidecars_
-– programmable proxies deployed alongside application containers.  Sidecars allow operators to
-reap Istio’s benefits, without requiring applications to undergo major surgery and its
-associated costs.
+## Detailed Proposal
+The basic idea of a centralized east-west traffic gateway is shown below. 
 
 {{< image width="100%"
-    link="traditional-istio.png"
-    caption="Istio’s traditional model deploys Envoy proxies as sidecars within the
-workloads’ pods"
+    link="centralized_gw.png"
+    caption="Centralized east-west traffic gateway"
     >}}
 
-Although sidecars have significant advantages over refactoring applications, they do not provide a
-perfect separation between applications and the Istio data plane. This results in a few
-limitations:
+Because we move the sidecars out of the nodes running applications, we give up a few service mesh features in exchange for simple deployment, fewer resources, better delay, decoupling management, and zero resource competition. The main tradeoff is application may get involved in handling SSL key management if mTLS is needed. The centralized gateway can provide server authentication and authorization, but cannot provide the same security scrutiny for the clients by default. The second feature that is missing is the end-to-end tracing. Since the gateway sits in the middle, it can only trace the traffic after it arrives at the gateway, and miss the tracing on the application nodes. We figure the gateway side's tracing is enough for most our use cases, but for applications need additional node tracing information, it can be inconvenient.
 
-* **Invasiveness** - Sidecars must be "injected" into applications by modifying their Kubernetes
-* pod spec and redirecting traffic within the pod.   As a result, installing or upgrading sidecars
-* requires restarting the application pod, which can be disruptive for workloads.
-* **Underutilization of resources** - Since the sidecar proxy is dedicated to its associated
-* workload, the CPU and memory resources must be provisioned for worst case usage of each
-* individual pod. This adds up to large reservations that can lead to underutilization of resources
-* across the cluster.
-* **Traffic breaking** - Traffic capture and HTTP processing, as typically done by Istio’s
-* sidecars, is computationally expensive and can break some applications with non-conformant HTTP
-* implementations.
+The centralized east-west traffic gateway can still provide comparable features to the original sidecar mode in:
+
+1. automatic load balancing for HTTP, gRPC, WebSocket, and TCP traffic
+2. Fine-grained control of traffic behavior with rich routing rules, retries, failovers, and fault injection
+3. A pluggable policy layer and configuration API supporting access controls, rate limits and quotas
+The features below are provided, but with limitations compared to the original sidecar:
+1. Secure communication in a cluster with server-side TLS encryption, strong identity-based server-side authentication and authorization.
+2. Automatic metrics, logs, and traces for all traffic going through the gateway.
+
+
+The gateway can be implemented by envoy、nginx、or commercial load balancers provided by cloud providers.  To save the resources further, the sidecar can be deployed together with ingress
+gateway.
+
+In this document, we demonstrate how to create a centralized east-west traffic gateway with Envoy:
+1. First, create an InternalGateway service, which deploys envoys using router mode.
+2. Create a Gateway target: Associate  the InternalGateway with the selector. The listening port can be configured through Service target.
+3. Create a VirtualService target: associate the Gateway and Service created in the last step.
+4. Configure DNS: for all the traffic targeting a service, redirect the traffic to the InternalGateway service. 
+Examples are demonstrated in the next section.
+
+##Related works
+
+There are a few proposals in the istio community to address those problems mentioned above. For example, sidecars can be installed on each node instead of each pod, [1]. This way, the number of sidecars used can be reduced dramatically, and the delay is also reduced because the requests only need to go through one sidecar. However, this approach needs modifications on the node, and it can also cause resource competition between application and sidecars. Moreover, the upgrading and maintenance for the sidecars can be as demanding as the per-pod sidecar mode. 
+
+A recently released document from istio proposes a similar centralized sidecar idea[2]. Since the sidecars are moved out of the nodes, it faces the similar problems we mentioned above: how to accomplish mtls and tracing features that are covered by the local sidecars. The solution used is to install an agent on the node. By this way, it provides comparable features to the original sidecars. However, because an agent is involved, complexity is introduced when the agent is installed or upgraded. It's a great solution for applications where those features are needed. For the HTTP applications that do not require mtls and end-to-end tracing, we still recommend our solution, where no modification on node is required.
+
+##Configuration examples
+
+
+Next, we introduce how to deploy centralized east-west traffic gateway.
+Prerequisite:
+1. Only one Gateway can be attached to InternalGateway.
+2.  The VirtualService managed by InternalGateway must be attached to the Gateway mention in 1.
+3. CoreDNS is required.
+
+Use centralized east-west traffic gateway to handle east-west traffic
+Step 1: Deploy InternalGateway service
+Step 2: Create HelloWorld service. Note that the port opened must be consistent with the port
+opened on the gateway.
+
+
+```json
+apiVersion: v1
+kind: Service
+metadata:
+  name: helloworld
+  labels:
+    app: helloworld
+spec:
+  ports:
+  - port: 5000
+    name: http
+  selector:
+    app: helloworld
+```
+
+Step 3: Create Gateway, and attach it to InternalGateway.
+```json
+kind: Gateway
+metadata:
+  name: internalGateway
+  namespace: istio-system
+spec:
+  selector:
+    app: internalGateway
+  servers:
+  - port:
+      number: 5000
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"
+```
+
+Step 4: Create VirtualService.
+```json
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: helloworld
+  namespace: istio-system
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - internalGateway
+  http:
+  - match:
+    - uri:
+        exact: /hello
+    route:
+    - destination:
+        host: helloworld.default.svc.cluster.local
+```
+Step 5: Execute the following command. You should find the IP address of the HelloWorld service changed to the gateway's IP.
+```shell
+dig helloworld.default.svc.cluster.local
+```
+
+
+
+
+
+| Syntax      | Description |
+| ----------- | ----------- |
+| Header      | Title       |
+| Paragraph   | Text        |
