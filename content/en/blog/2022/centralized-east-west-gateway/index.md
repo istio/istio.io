@@ -53,6 +53,8 @@ The centralized east-west traffic gateway can still provide comparable features 
 1. automatic load balancing for HTTP, gRPC, WebSocket, and TCP traffic
 2. Fine-grained control of traffic behavior with rich routing rules, retries, failovers, and fault injection
 3. A pluggable policy layer and configuration API supporting access controls, rate limits and quotas
+
+
 The features below are provided, but with limitations compared to the original sidecar:
 1. Secure communication in a cluster with server-side TLS encryption, strong identity-based server-side authentication and authorization.
 2. Automatic metrics, logs, and traces for all traffic going through the gateway.
@@ -62,10 +64,12 @@ The gateway can be implemented by envoy、nginx、or commercial load balancers p
 gateway.
 
 In this document, we demonstrate how to create a centralized east-west traffic gateway with Envoy:
+
 1. First, create an InternalGateway service, which deploys envoys using router mode.
 2. Create a Gateway target: Associate  the InternalGateway with the selector. The listening port can be configured through Service target.
 3. Create a VirtualService target: associate the Gateway and Service created in the last step.
 4. Configure DNS: for all the traffic targeting a service, redirect the traffic to the InternalGateway service. 
+
 Examples are demonstrated in the next section.
 
 ## Related works
@@ -78,7 +82,9 @@ A recently released document from istio proposes a similar centralized sidecar i
 
 
 Next, we introduce how to deploy centralized east-west traffic gateway.
+
 Prerequisite:
+
 1. Only one Gateway can be attached to InternalGateway.
 2.  The VirtualService managed by InternalGateway must be attached to the Gateway mention in 1.
 3. CoreDNS is required.
