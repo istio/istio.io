@@ -67,13 +67,13 @@ In this document, we demonstrate how to create a centralized east-west traffic g
 4. Configure DNS: for all the traffic targeting a service, redirect the traffic to the InternalGateway service. 
 Examples are demonstrated in the next section.
 
-##Related works
+## Related works
 
 There are a few proposals in the istio community to address those problems mentioned above. For example, sidecars can be installed on each node instead of each pod, [1]. This way, the number of sidecars used can be reduced dramatically, and the delay is also reduced because the requests only need to go through one sidecar. However, this approach needs modifications on the node, and it can also cause resource competition between application and sidecars. Moreover, the upgrading and maintenance for the sidecars can be as demanding as the per-pod sidecar mode. 
 
 A recently released document from istio proposes a similar centralized sidecar idea[2]. Since the sidecars are moved out of the nodes, it faces the similar problems we mentioned above: how to accomplish mtls and tracing features that are covered by the local sidecars. The solution used is to install an agent on the node. By this way, it provides comparable features to the original sidecars. However, because an agent is involved, complexity is introduced when the agent is installed or upgraded. It's a great solution for applications where those features are needed. For the HTTP applications that do not require mtls and end-to-end tracing, we still recommend our solution, where no modification on node is required.
 
-##Configuration examples
+## Configuration examples
 
 
 Next, we introduce how to deploy centralized east-west traffic gateway.
@@ -82,7 +82,7 @@ Prerequisite:
 2.  The VirtualService managed by InternalGateway must be attached to the Gateway mention in 1.
 3. CoreDNS is required.
 
-###Use centralized east-west traffic gateway to handle east-west traffic
+### Use centralized east-west traffic gateway to handle east-west traffic
 Step 1: Deploy InternalGateway service
 
 Step 2: Create HelloWorld service. Note that the port opened must be consistent with the port
@@ -146,8 +146,8 @@ Step 5: Execute the following command. You should find the IP address of the Hel
 ```shell
 dig helloworld.default.svc.cluster.local
 ```
-###Move existing traffic to centralized east-west traffic gateway
-####Approach 1: move only the traffic, and keep the service
+### Move existing traffic to centralized east-west traffic gateway
+#### Approach 1: move only the traffic, and keep the service
 Step 1: Deploy InternelGateway
 
 Step 2: Create Gateway
@@ -200,7 +200,7 @@ kubectl label namespace your-namespace istio-injection=disabled
 
 Step 5：Rolling update Services if needed to get rid of the sidecars.
 
-####Approach 2: replace the existing service
+#### Approach 2: replace the existing service
 
 Note that we can also create a new replacement service, and attach the new service with InternalGateway, and remove the old service.
 
@@ -264,10 +264,10 @@ spec:
 Step 2: remove the old service.
 
 
-##Experiments result
+## Experiments result
 On average, the delay with centralized east-west traffic gateway is improved by 20-40% compared to the pure sidecar mode. The statement stays true as the load of the network increases.
 
-##Comparison among similar sidecar solutions.
+## Comparison among similar sidecar solutions.
 
 We compare different sidecar implementations, and summarize them in the following table.
 | Syntax      | Sidecar Per-Pod | Sidecar Per-Node  |  Ambient mesh  | Centralized east-west traffic Gateway|
