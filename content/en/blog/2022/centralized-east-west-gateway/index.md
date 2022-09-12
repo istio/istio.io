@@ -153,7 +153,7 @@ spec:
 Step 5: Execute the following command. You should find the IP address of the HelloWorld service changed to the gateway's IP.
 
 {{< text bash >}}
-dig helloworld.default.svc.cluster.local
+$ dig helloworld.default.svc.cluster.local
 {{< /text >}}
 
 ### Move existing traffic to centralized east-west traffic gateway
@@ -205,7 +205,7 @@ Step 4: Un-inject sidecars by removing the injection command.
 
 
 {{< text bash >}}
-kubectl label namespace your-namespace istio-injection=disabled
+$ kubectl label namespace your-namespace istio-injection=disabled
 {{< /text >}}
 
 Step 5：Rolling update Services if needed to get rid of the sidecars.
