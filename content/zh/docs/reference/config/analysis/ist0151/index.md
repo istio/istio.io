@@ -83,7 +83,7 @@ spec:
             subFilter:
               name: "envoy.filters.http.router"
     patch:
-      operation: INSERT_BEFORE
+      operation: INSERT_FIRST
       value: # Lua 过滤器规范
        name: envoy.lua
        typed_config:
