@@ -174,7 +174,7 @@ and installing the sidecar injector webhook configuration on the remote cluster 
 
 #### Set up the remote config cluster
 
-1. Use the `external` profile to configure the remote cluster's Istio installation. This installs an injection
+1. Use the `remote` profile to configure the remote cluster's Istio installation. This installs an injection
     webhook that uses the external control plane's injector, instead of a locally deployed one. Because this cluster
     will also serve as the config cluster, the Istio CRDs and other resources that will be needed on the remote cluster
     are also installed by setting `global.configCluster` and `pilot.configMap` to `true`:
@@ -186,7 +186,7 @@ and installing the sidecar injector webhook configuration on the remote cluster 
     metadata:
       namespace: external-istiod
     spec:
-      profile: external
+      profile: remote
       values:
         global:
           istioNamespace: external-istiod
@@ -217,7 +217,7 @@ and installing the sidecar injector webhook configuration on the remote cluster 
       -e "s|injectionURL: https://${EXTERNAL_ISTIOD_ADDR}:15017|injectionPath: |" \
       -e "/istioNamespace:/a\\
           remotePilotAddress: ${EXTERNAL_ISTIOD_ADDR}" \
-      -e '/base/,+1d' \
+      -e '/base:/,+1d' \
       remote-config-cluster.yaml; rm remote-config-cluster.yaml.bk
     {{< /text >}}
 
@@ -663,7 +663,7 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
     metadata:
       namespace: external-istiod
     spec:
-      profile: external
+      profile: remote
       values:
         global:
           istioNamespace: external-istiod
