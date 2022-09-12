@@ -28,7 +28,10 @@ _rewrite_helm_repo snip_canary_upgrade_recommended_2
 _wait_for_deployment istio-system istiod-canary
 
 # shellcheck disable=SC2154
-_verify_like snip_canary_upgrade_recommended_3 "${snip_canary_upgrade_recommended_3_out}"
+_verify_lines snip_canary_upgrade_recommended_3 "
++ default
++ canary
+"
 
 snip_canary_upgrade_recommended_4
 _rewrite_helm_repo snip_canary_upgrade_recommended_5
