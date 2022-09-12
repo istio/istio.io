@@ -74,9 +74,9 @@ Examples are demonstrated in the next section.
 
 ## Related works
 
-There are a few proposals in the istio community to address those problems mentioned above. For example, sidecars can be installed on each node instead of each pod, [1]. This way, the number of sidecars used can be reduced dramatically, and the delay is also reduced because the requests only need to go through one sidecar. However, this approach needs modifications on the node, and it can also cause resource competition between application and sidecars. Moreover, the upgrading and maintenance for the sidecars can be as demanding as the per-pod sidecar mode. 
+There are a few proposals in the istio community to address those problems mentioned above. For example, (sidecars can be installed on each node instead of each pod)[1]. This way, the number of sidecars used can be reduced dramatically, and the delay is also reduced because the requests only need to go through one sidecar. However, this approach needs modifications on the node, and it can also cause resource competition between application and sidecars. Moreover, the upgrading and maintenance for the sidecars can be as demanding as the per-pod sidecar mode. 
 
-A recently released document from istio proposes a similar centralized sidecar idea[2]. Since the sidecars are moved out of the nodes, it faces the similar problems we mentioned above: how to accomplish mtls and tracing features that are covered by the local sidecars. The solution used is to install an agent on the node. By this way, it provides comparable features to the original sidecars. However, because an agent is involved, complexity is introduced when the agent is installed or upgraded. It's a great solution for applications where those features are needed. For the HTTP applications that do not require mtls and end-to-end tracing, we still recommend our solution, where no modification on node is required.
+A recently released document from Istio (proposes a similar centralized sidecar idea)[2]. Since the sidecars are moved out of the nodes, it faces the similar problems we mentioned above: how to accomplish mtls and tracing features that are covered by the local sidecars. The solution used is to install an agent on the node. By this way, it provides comparable features to the original sidecars. However, because an agent is involved, complexity is introduced when the agent is installed or upgraded. It's a great solution for applications where those features are needed. For the HTTP applications that do not require mtls and end-to-end tracing, we still recommend our solution, where no modification on node is required.
 
 ## Configuration examples
 
@@ -96,7 +96,7 @@ Step 2: Create HelloWorld service. Note that the port opened must be consistent 
 opened on the gateway.
 
 
-```yaml
+{{< text yaml >}}
 apiVersion: v1
 kind: Service
 metadata:
@@ -109,10 +109,10 @@ spec:
     name: http
   selector:
     app: helloworld
-```
+{{< /text >}}
 
 Step 3: Create Gateway, and attach it to InternalGateway.
-```yaml
+{{< text yaml >}}
 kind: Gateway
 metadata:
   name: internalGateway
@@ -127,10 +127,10 @@ spec:
       protocol: HTTP
     hosts:
     - "*"
-```
+{{< /text >}}
 
 Step 4: Create VirtualService.
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -148,18 +148,21 @@ spec:
     route:
     - destination:
         host: helloworld.default.svc.cluster.local
-```
+{{< /text >}}
+
 Step 5: Execute the following command. You should find the IP address of the HelloWorld service changed to the gateway's IP.
-```shell
+
+{{< text bash >}}
 dig helloworld.default.svc.cluster.local
-```
+{{< /text >}}
+
 ### Move existing traffic to centralized east-west traffic gateway
 #### Approach 1: move only the traffic, and keep the service
-Step 1: Deploy InternelGateway
+Step 1: Deploy InternalGateway
 
 Step 2: Create Gateway
 
-```yaml
+{{< text yaml >}}
 kind: Gateway
 metadata:
   name: internalGateway
@@ -174,11 +177,11 @@ spec:
       protocol: HTTP
     hosts:
     - "*"
-```
+{{< /text >}}
 
 Step 3: Create VirtualService
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -196,14 +199,14 @@ spec:
     route:
     - destination:
         host: helloworld.default.svc.cluster.local
-```
+{{< /text >}}
 
 Step 4: Un-inject sidecars by removing the injection command.
 
 
-```shell
+{{< text bash >}}
 kubectl label namespace your-namespace istio-injection=disabled
-```
+{{< /text >}}
 
 Step 5：Rolling update Services if needed to get rid of the sidecars.
 
@@ -214,7 +217,7 @@ Note that we can also create a new replacement service, and attach the new servi
 Step 1: Create a new service and attach it to the internal gateway as instructed before.
 
 
-```yaml
+{{< text yaml >}}
 kind: Gateway
 metadata:
   name: internalGateway
@@ -229,9 +232,9 @@ spec:
       protocol: HTTP
     hosts:
     - "*"
-```
+{{< /text >}}
 
-```yaml
+{{< text yaml >}}
 apiVersion: v1
 kind: Service
 metadata:
@@ -246,9 +249,9 @@ spec:
     app: helloworld
 ---
 
-```
+{{< /text >}}
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -266,7 +269,7 @@ spec:
     route:
     - destination:
         host: helloworld-on-internalGateway.default.svc.cluster.local
-```
+{{< /text >}}
 
 Step 2: remove the old service.
 
@@ -288,6 +291,5 @@ We compare different sidecar implementations, and summarize them in the followin
 |tracing	|end-to-end tracing|end-to-end tracing|end-to-end tracing|gateway tracing|
 
 
-[1]https://isovalent.com/blog/post/2021-12-08-ebpf-servicemesh/
-
-[2]https://istio.io/latest/blog/2022/introducing-ambient-mesh/
+[1] https://isovalent.com/blog/post/2021-12-08-ebpf-servicemesh/
+[2] https://istio.io/latest/blog/2022/introducing-ambient-mesh/
