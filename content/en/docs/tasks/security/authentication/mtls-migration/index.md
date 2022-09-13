@@ -154,13 +154,13 @@ $ for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$
 
 1. Remove the mesh-wide authentication policy.
 
-{{< text bash >}}
-$ kubectl delete peerauthentication -n istio-system default
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl delete peerauthentication -n istio-system default
+    {{< /text >}}
 
 1. Remove the test namespaces.
 
-{{< text bash >}}
-$ kubectl delete ns foo bar legacy
-Namespaces foo bar legacy deleted.
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl delete ns foo bar legacy
+    Namespaces foo bar legacy deleted.
+    {{< /text >}}
