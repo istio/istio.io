@@ -1852,6 +1852,10 @@ No
 <section>
 <p>Defines configuration for Stackdriver.</p>
 
+<p>WARNING: Stackdriver tracing uses OpenCensus configuration under the hood and, as a result, cannot be used
+alongside any OpenCensus provider configuration. This is due to a limitation in the implementation of OpenCensus
+driver in Envoy.</p>
+
 <table class="message-fields">
 <thead>
 <tr>
@@ -1891,6 +1895,15 @@ No
 <h2 id="MeshConfig-ExtensionProvider-OpenCensusAgentTracingProvider">MeshConfig.ExtensionProvider.OpenCensusAgentTracingProvider</h2>
 <section>
 <p>Defines configuration for an OpenCensus tracer writing to an OpenCensus backend.</p>
+
+<p>WARNING: OpenCensusAgentTracingProviders should be used with extreme care. Configuration of
+OpenCensus providers CANNOT be changed during the course of proxy&rsquo;s lifetime due to a limitation
+in the implementation of OpenCensus driver in Envoy. This means only a single provider configuration
+may be used for OpenCensus at any given time for a proxy or group of proxies AND that any change to the provider
+configuration MUST be accompanied by a restart of all proxies that will use that configuration.</p>
+
+<p>NOTE: Stackdriver tracing uses OpenCensus configuraiton under the hood and, as a result, cannot be used
+alongside OpenCensus provider configuration.</p>
 
 <table class="message-fields">
 <thead>
