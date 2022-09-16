@@ -18,7 +18,7 @@ owner: istio/wg-environments-maintainers
 
 完成下面步骤需要你有一个 {{< gloss >}}cluster{{< /gloss >}}，
 且运行着兼容版本的 Kubernetes ({{< supported_kubernetes_versions >}})。
-你可以使用任何受支持的平台，例如：
+你可以使用任何支持的平台，例如：
 [Minikube](https://kubernetes.io/zh/docs/tasks/tools/install-minikube/)
 或[特定平台安装说明](/zh/docs/setup/platform-setup/)
 章节中指定的其他平台。
@@ -142,11 +142,11 @@ owner: istio/wg-environments-maintainers
     {{< /text >}}
 
     {{< tip >}}
-    重新运行前面的命令，在执行下面步骤之前，要等待并确保所有的 Pod 达到此状态： 就绪状态（READY）的值为 `2/2` 、状态（STATUS）的值为 `Running` 。
+    在执行下面步骤之前，重新运行上面的命令直到所有的 Pod 达到此状态： 就绪状态（READY）的值为 `2/2` 、状态（STATUS）的值为 `Running` 。
     基于你平台的不同，这个操作过程可能会花费几分钟的时间。
     {{< /tip >}}
 
-1.  验证方方面面均工作无误。运行下面命令，通过检查返回的页面标题，来验证应用是否已在集群中运行，并已提供网页服务：
+1.  确认上面的操作都正确之后，运行下面命令，通过检查返回的页面标题，来验证应用是否已在集群中运行，并已提供网页服务：
 
     {{< text bash >}}
     $ kubectl exec "$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')" -c ratings -- curl -s productpage:9080/productpage | grep -o "<title>.*</title>"
@@ -282,7 +282,7 @@ $ export INGRESS_HOST=workerNodeAddress
 {{< /text >}}
 
 你需要创建一个防火墙规则，以允许 TCP 流量发送到 `ingressgateway` 的服务端口。
-运行下面的命令，以允许 HTTP 端口或 HTTPS 端口的流量，或都两者的流量都允许。
+运行下面的命令，以允许 HTTP 端口或 HTTPS 端口的流量，或两者的流量都允许。
 
 {{< text bash >}}
 $ gcloud compute firewall-rules create allow-gateway-http --allow "tcp:$INGRESS_PORT"
