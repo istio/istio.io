@@ -63,7 +63,7 @@ test: yes
 
     {{< tip >}}
 
-如果任何 Curl 命令失败，请确保可能干扰 httpbin 服务请求的现有身份验证策略或目标规则。
+如果任何 curl 命令失败，请确保可能干扰 httpbin 服务请求的现有身份验证策略或目标规则。
 
     {{< text bash >}}
     $ kubectl get peerauthentication --all-namespaces
