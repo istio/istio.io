@@ -45,6 +45,10 @@ $ minikube tunnel
 
 {{< /tip >}}
 
+{{< tip >}}
+如果您正在 Linux 系统上使用 Kind 集群运行 Istio，请、遵循[设置  MetalLB 指南]来获得类型为 `LoadBalancer` 的服务。
+{{< /tip >}}
+
 选择符合自身环境的指令执行：
 
 {{< tabset category-name="gateway-ip" >}}
@@ -107,13 +111,7 @@ $ export TCP_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgat
     $ export INGRESS_HOST=public-IP-of-one-of-the-worker-nodes
     {{< /text >}}
 
-1.  _Minikube：_
-
-    {{< text bash >}}
-    $ export INGRESS_HOST=$(minikube ip)
-    {{< /text >}}
-
-1.  _Docker For Desktop：_
+1.  _Docker For Desktop:_
 
     {{< text bash >}}
     $ export INGRESS_HOST=127.0.0.1
