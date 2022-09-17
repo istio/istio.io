@@ -31,7 +31,7 @@ test: yes
 
 ## 设置集群{#set-up-the-cluster}
 
-* 创建两个命名空间，`foo` 和 `bar`，并它们上部署 [httpbin]({{< github_tree >}}/samples/httpbin)、[sleep]({{< github_tree >}}/samples/sleep) 和 sidecar。
+* 创建两个命名空间：`foo` 和 `bar`，并在这两个命名空间上部署 [httpbin]({{< github_tree >}}/samples/httpbin)、[sleep]({{< github_tree >}}/samples/sleep) 和 Sidecar。
 
     {{< text bash >}}
     $ kubectl create ns foo
@@ -42,14 +42,14 @@ test: yes
     $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@) -n bar
     {{< /text >}}
 
-* 创建另一个命名空间 `legacy`，并在没有 sidecar 的情况下部署 [sleep]({{< github_tree >}}/samples/sleep)：
+* 创建另一个命名空间 `legacy`，并在没有 Sidecar 的情况下部署 [sleep]({{< github_tree >}}/samples/sleep)：
 
     {{< text bash >}}
     $ kubectl create ns legacy
     $ kubectl apply -f @samples/sleep/sleep.yaml@ -n legacy
     {{< /text >}}
 
-* （使用 Curl 命令）从每个 sleep pod （命名空间为 `foo`，`bar` 或 `legacy`）分别向 `httpbin.foo` 发送 http 请求。所有请求都应成功响应，返回 HTTP code 200。
+* （使用 curl 命令）从每个 Sleep Pod （命名空间为 `foo`、`bar` 或 `legacy`）分别向 `httpbin.foo` 发送 http 请求。所有请求都应成功响应，返回 HTTP code 200。
 
     {{< text bash >}}
     $ for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
@@ -145,13 +145,13 @@ $ for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$
 
 1. 删除网格范围的身份验证策略。
 
-{{< text bash >}}
-$ kubectl delete peerauthentication -n istio-system default
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl delete peerauthentication -n istio-system default
+    {{< /text >}}
 
 1. 删除用于测试的命名空间。
 
-{{< text bash >}}
-$ kubectl delete ns foo bar legacy
-Namespaces foo bar legacy deleted.
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl delete ns foo bar legacy
+    Namespaces foo bar legacy deleted.
+    {{< /text >}}
