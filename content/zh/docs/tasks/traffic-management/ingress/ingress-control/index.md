@@ -46,7 +46,7 @@ $ minikube tunnel
 {{< /tip >}}
 
 {{< tip >}}
-如果您正在 Linux 系统上使用 Kind 集群运行 Istio，请、遵循[设置  MetalLB 指南]来获得类型为 `LoadBalancer` 的服务。
+如果您正在 Linux 系统上使用 Kind 集群运行 Istio，请遵循[设置 MetalLB 指南]来获得类型为 `LoadBalancer` 的服务。
 {{< /tip >}}
 
 选择符合自身环境的指令执行：
