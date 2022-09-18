@@ -63,6 +63,8 @@ function _undeploy_addons() {
                   ;;
     prometheus)  kubectl delete -f samples/addons/prometheus.yaml
                   ;;
+    skywalking)  kubectl delete -f samples/addons/extras/skywalking.yaml
+                  ;;
     *)            echo "unknown parameter $arg"
                   exit 1
     esac
