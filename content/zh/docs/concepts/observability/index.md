@@ -60,8 +60,6 @@ envoy_cluster_internal_upstream_rq{response_code="503",cluster_name="xds-grpc"} 
 
 默认情况下，[标准 Istio 指标]((/zh/docs/reference/config/metrics/))会导出到 [Prometheus](/zh/docs/ops/integrations/prometheus/)。
 
-[收集指标](/zh/docs/tasks/observability/metrics/collecting-metrics/)任务为定制 Istio 指标生成提供了更详细的信息。
-
 服务级别指标的使用完全是可选的。运维人员可以选择关闭指标的生成和收集来满足自身需要。
 
 服务级别指标的例子：
@@ -117,13 +115,9 @@ Istio 为单个请求生成的分布式追踪示例：
 
 访问日志提供了一种从单个工作负载实例的角度监控和理解行为的方法。
 
-Istio 可以以一组可配置的格式集生成服务流量的访问日志，为运维人员提供日志记录的方式、内容、时间和位置的完全控制。Istio 向访问日志机制暴露了完整的源和目标元数据，允许对网络通信进行详细的审查。
-
-访问日志可以在本地生成，或者导出到自定义的后端基础设施，包括 [Fluentd](/zh/docs/tasks/observability/logs/fluentd/)。
-
 Istio 能够以一组可配置的格式为服务流量生成访问日志，使操作员可以完全控制日志记录的方式、内容、时间和地点。有关更多信息，请参阅[获取 Envoy 的访问日志](/zh/docs/tasks/observability/logs/access-log/)。
 
-Istio 访问日志例子（JSON 格式）：
+Istio 访问日志示例：
 
 {{< text plain >}}
 [2019-03-06T09:31:27.360Z] "GET /status/418 HTTP/1.1" 418 - "-" 0 135 5 2 "-" "curl/7.60.0" "d209e46f-9ed5-9b61-bbdd-43e22662702a" "httpbin:8000" "127.0.0.1:80" inbound|8000|http|httpbin.default.svc.cluster.local - 172.30.146.73:80 172.30.146.82:38618 outbound_.8000_._.httpbin.default.svc.cluster.local
