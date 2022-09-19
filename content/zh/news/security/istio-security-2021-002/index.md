@@ -83,4 +83,4 @@ skip_seealso: true
 
 我们要感谢 [Neeraj Poddar](https://twitter.com/nrjpoddar) 报告此问题。
 
-{{< boilerplate "安全漏洞" >}}
+{{< boilerplate "security-vulnerability" >}}
