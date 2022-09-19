@@ -3,7 +3,7 @@
 
 [build.environment]
     HUGO_VERSION = "0.103.1"
-    NODE_VERSION = "18.2.0"
+    NODE_VERSION = "18.9.0"
     BUILD_WITH_CONTAINER = "0"
     GO_VERSION = "1.19.1"
     PYTHON_VERSION = "3.8"

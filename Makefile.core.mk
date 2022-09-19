@@ -133,7 +133,7 @@ netlify_install:
 		@babel/cli@v7.18.10 \
 		@babel/preset-env@v7.19.1
 	@npm install --production --save-dev \
-		babel-preset-minify@v0.5.1
+		babel-preset-minify@v0.5.2
 
 netlify: netlify_install
 	@scripts/gen_site.sh
