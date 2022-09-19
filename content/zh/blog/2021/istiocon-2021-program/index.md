@@ -19,6 +19,6 @@ keywords: [IstioCon,Istio,conference]
     alt="IstioCon logo"
     >}}
 
-通过参加会议，您将与来自全球的社区成员建立联系。每天您都会看到由代表 Istio 社区的不同演讲者主持的主题演讲、技术演讲、闪电演讲、小组讨论、研讨会和路线图会议。您还可以通过社交时间增强与其他 Istio 和开源生态系统社区成员联系，这些活动包括社交平台 [Gather.town](https://events.istio.io/istiocon-2021/networking/) 上的活动、现场漫画家、虚拟购物袋、抽奖、现场音乐和游戏。
+通过参加会议，您将与来自全球的社区成员建立联系。每天您都会看到由代表 Istio 社区的不同演讲者主持的主题演讲、技术演讲、闪电演讲、小组讨论、研讨会和路线图会议。您还可以通过社交时间增强与其他 Istio 和开源生态系统社区成员联系，这些活动包括社交平台 [Gather.town](https://events.istio.io/istiocon-2021/networking/) 上的活动、动漫大师直播、虚拟购物袋、抽奖、音乐直播和游戏直播。
 
 不要错过免费[注册](https://events.istio.io/istiocon-2021/)。我们期待在第一届 IstioCon 与您相见！
