@@ -1,5 +1,5 @@
 ---
-title: "使用修订版本和标签安全地升级Istio控制平面"
+title: "使用修订版本和标签安全地升级 Istio 控制平面"
 description: 了解如何对网格控制平面执行金丝雀升级。
 publishdate: 2021-05-26
 attribution: "Christian Posta (Solo.io), Lin Sun (Solo.io), Sam Naser (Google)"
@@ -20,11 +20,11 @@ keywords: [upgrades,revisions,operations,canary]
 
 [在 Istio 1.10 中](/zh/news/releases/1.10.x/announcing-1.10/)，我们改进了基于修订版本的升级，新增了一个名为 _[修订标签](/zh/docs/setup/upgrade/canary/#stable-revision-labels-experimental)_ 的功能。修订标签减少了 Operator 为使用修订而必须进行的更改次数，并安全地升级 Istio 控制平面。您将标签用作命名空间的标签，并为该标签分配修订。这意味着您不必在升级时更改命名空间上的标签，并最大限度地减少手动步骤和配置更改的数量。
 
-例如，您可以定义一个名为 `prod-stable` 的标签，并将其指向控制平面的 `1-9-5` 修订版。您还可以定义另一个名为 `prod-canary` 的标签，指向 `1-10-0` 版本。您的集群中可能有很多重要的命名空间，您可以使用 `istio.io/rev=prod-stable` 来标记这些命名空间。在其他命名空间中，您可能愿意测试新版本的 Istio，您可以给这些命名空间添加 `istio.io/rev=prod-canary` 标签。该标签将间接地把这些命名空间与 `prod-stable` 的 `1-9-5` 修订版和 `prod-canary` 的 `1-10-0` 修订版分别联系起来。
+例如，您可以定义一个名为 `prod-stable` 的标签，并将其指向控制平面的 `1-9-5` 修订版。您还可以定义另一个名为 `prod-canary` 的标签，指向 `1-10-0` 版本。您的集群中可能有很多重要的命名空间，您可以使用 `istio.io/rev=prod-stable` 来标记这些命名空间。在其他命名空间中，您可能想要测试新版本的 Istio，这时可以给这些命名空间添加 `istio.io/rev=prod-canary` 标签。该标签将间接地把这些命名空间与 `prod-stable` 的 `1-9-5` 修订版和 `prod-canary` 的 `1-10-0` 修订版分别关联起来。
 
 {{< image link="./tags.png" caption="Stable revision tags" >}}
 
-一旦您确定新的控制平面适用于其余的 `prod-stable` 命名空间，您就可以更改标签以指向新的修订版。这使您能够更新所有标记为 `prod-stable` 的命名空间更新为新的 `1-10-0` 版本，而无需对命名空间上的标签进行任何更改。将标记更改为指向不同的修订版后，您将需要重新启动命名空间中的工作负载。
+一旦您确定新的控制平面适用于其余的 `prod-stable` 命名空间，您就可以更改标签以指向新的修订版。这使您能够更新所有标记为 `prod-stable` 的命名空间为新的 `1-10-0` 版本，而无需对命名空间上的标签进行任何更改。将标记更改为指向不同的修订版后，您将需要重新启动命名空间中的工作负载。
 
 {{< image link="./tags-updated.png" caption="Updated revision tags" >}}
 
@@ -106,6 +106,6 @@ $ istioctl x revision tag set prod-stable --revision 1-10-0 --overwrite
 $ istioctl x uninstall --revision 1-9-5
 {{< /text >}}
 
-## Wrapping up
+## 结束语{#wrapping-up}
 
 使用修订版可以更安全地对 Istio 控制平面进行金丝雀更改。在具有大量命名空间的大型环境中，您可能更喜欢使用稳定标签，正如我们在本博客中介绍的那样，以删除移动部件的数量并简化您可能围绕更新 Istio 控制平面构建的任何自动化。请查看 [1.10 版本](/zh/news/releases/1.10.x/announcing-1.10/)和[新标签功能](/zh/docs/setup/upgrade/canary/#stable-revision-labels-experimental) 并向我们提供反馈！
