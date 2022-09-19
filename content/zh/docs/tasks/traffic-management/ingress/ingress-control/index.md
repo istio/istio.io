@@ -46,14 +46,14 @@ $ minikube tunnel
 {{< /tip >}}
 
 {{< tip >}}
-如果您正在 Linux 系统上使用 Kind 集群运行 Istio，请遵循[设置 MetalLB 指南](https://kind.sigs.k8s.io/docs/user/loadbalancer/)来获得类型为 `LoadBalancer` 的服务。
+如果您正在 Linux 系统上使用 Kind 集群运行 Istio，请遵循 [MetalLB 设置指南](https://kind.sigs.k8s.io/docs/user/loadbalancer/)获取类型为 `LoadBalancer` 的服务并使其发挥作用。
 {{< /tip >}}
 
 选择符合自身环境的指令执行：
 
 {{< tabset category-name="gateway-ip" >}}
 
-{{< tab name="external load balancer" category-value="external-lb" >}}
+{{< tab name="外部负载均衡器" category-value="external-lb" >}}
 
 若已确定您的环境使用了外部负载均衡器，执行如下指令。
 
@@ -77,7 +77,7 @@ $ export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway
 
 {{< /tab >}}
 
-{{< tab name="node port" category-value="node-port" >}}
+{{< tab name="节点端口" category-value="node-port" >}}
 
 若您的环境未使用外部负载均衡器，需要通过 Node Port 访问。执行如下命令。
 
@@ -91,7 +91,7 @@ $ export TCP_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgat
 
 基于集群供应商，设置 Ingress IP：
 
-1.  _GKE：_
+1.  _GKE_：
 
     {{< text bash >}}
     $ export INGRESS_HOST=worker-node-address
@@ -104,20 +104,20 @@ $ export TCP_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgat
     $ gcloud compute firewall-rules create allow-gateway-https --allow "tcp:$SECURE_INGRESS_PORT"
     {{< /text >}}
 
-1.  _IBM Cloud Kubernetes Service:_
+1.  _IBM Cloud Kubernetes Service_：
 
     {{< text bash >}}
     $ ibmcloud ks workers --cluster cluster-name-or-id
     $ export INGRESS_HOST=public-IP-of-one-of-the-worker-nodes
     {{< /text >}}
 
-1.  _Docker For Desktop:_
+1.  _Docker For Desktop_：
 
     {{< text bash >}}
     $ export INGRESS_HOST=127.0.0.1
     {{< /text >}}
 
-1. _其他环境（如：IBM Cloud Private 等）：_
+1. _其他环境（如：IBM Cloud Private 等）_
 
     {{< text bash >}}
     $ export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].status.hostIP}')
