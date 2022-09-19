@@ -117,7 +117,7 @@ $ export TCP_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgat
     $ export INGRESS_HOST=127.0.0.1
     {{< /text >}}
 
-1. _其他环境（如：IBM Cloud Private 等）_
+1. _其他环境（如：IBM Cloud Private 等）_：
 
     {{< text bash >}}
     $ export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].status.hostIP}')
