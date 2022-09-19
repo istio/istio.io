@@ -10,7 +10,7 @@ test: n/a
 
 ## 例如{#example}
 
-以下示例中，如果一个 `EnvoyFilter` 附带有 `ADD` 补丁操作 ，该 `EnvoyFilter` 将被忽略：
+以下示例中，如果一个 `EnvoyFilter` 附带有 `ADD` 补丁操作，该 `EnvoyFilter` 将被忽略：
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
