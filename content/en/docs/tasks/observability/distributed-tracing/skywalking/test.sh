@@ -83,3 +83,8 @@ cleanup_bookinfo_sample
 # TODO: Fix issue with using killall. Also why do we need to do this in setup and cleanup?
 pgrep istioctl | xargs kill
 _undeploy_addons skywalking
+
+kubectl delete telemetries.telemetry.istio.io -n istio-system mesh-default
+istioctl uninstall -r skywalkingagent --skip-confirmation
+kubectl label namespace default istio-injection-
+kubectl delete ns istio-system

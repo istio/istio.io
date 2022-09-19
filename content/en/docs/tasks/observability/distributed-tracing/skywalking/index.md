@@ -10,7 +10,7 @@ test: yes
 ---
 
 After completing this task, you understand how to have your application participate in tracing with [Apache SkyWalking](https://skywalking.apache.org),
-regardless of the language, framework, or platform you use to build your application.
+regardless of the language, framework, or platform you use to build it.
 
 This task uses the [Bookinfo](/docs/examples/bookinfo/) sample as the example application.
 

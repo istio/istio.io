@@ -7,7 +7,7 @@ owner: istio/wg-environments-maintainers
 test: no
 ---
 
-[Apache SkyWalking](http://skywalking.apache.org) is an application performance monitor (APM) system, especially designed for
+[Apache SkyWalking](http://skywalking.apache.org) is an application performance monitoring (APM) system, especially designed for
 microservices, cloud native and container-based architectures.
 
 ## Installation
@@ -22,7 +22,7 @@ $ kubectl apply -f @samples/addons/extras/skywalking.yaml@
 
 This will deploy SkyWalking into your cluster. This is intended for demonstration only, and is not tuned for performance or security.
 
-Istio proxies by default don't send traces to SkyWalking, you will also need to enable the SkyWalking tracing extension provider with
+Istio proxies by default don't send traces to SkyWalking. You will also need to enable the SkyWalking tracing extension provider by adding
 the following fields to your configuration:
 
 {{< text yaml >}}
@@ -44,7 +44,7 @@ spec:
 
 Consult the [SkyWalking documentation](http://skywalking.apache.org) to get started. No special changes are needed for SkyWalking to work with Istio.
 
-Once SkyWalking is installed, remember to modify the option `--set meshConfig.extensionProviders[0].skywalking.service` to point to the oap deployment.
+Once SkyWalking is installed, remember to modify the option `--set meshConfig.extensionProviders[0].skywalking.service` to point to the `skywalking-oap` deployment.
 See the [`ProxyConfig.Tracing`](/docs/reference/config/istio.mesh.v1alpha1/#Tracing) for advanced configuration such as TLS settings.
 
 ## Usage
