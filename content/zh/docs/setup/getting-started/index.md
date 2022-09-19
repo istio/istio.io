@@ -184,42 +184,36 @@ owner: istio/wg-environments-maintainers
 
 {{< tab name="Minikube" category-value="external-lb" >}}
 
-设置入站端口：
+在新的终端窗口中运行此命令以启动将流量发送到 Istio Ingress Gateway 的 Minikube 隧道。
+这将为 `service/istio-ingressgateway` 提供一个外部负载均衡器 `EXTERNAL-IP`。
 
 {{< text bash >}}
-$ export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}')
-$ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].nodePort}')
+$ minikube tunnel
 {{< /text >}}
 
 确认端口被成功的赋值给了每一个环境变量：
 
 {{< text bash >}}
+$ export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+$ export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].port}')
+$ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].port}')
+{{< /text >}}
+
+确保每个环境变量都成功分配了 IP 地址和端口：
+
+{{< text bash >}}
+$ echo "$INGRESS_HOST"
+127.0.0.1
+{{< /text >}}
+
+{{< text bash >}}
 $ echo "$INGRESS_PORT"
-32194
+80
 {{< /text >}}
 
 {{< text bash >}}
 $ echo "$SECURE_INGRESS_PORT"
-31632
-{{< /text >}}
-
-设置入站 IP：
-
-{{< text bash >}}
-$ export INGRESS_HOST=$(minikube ip)
-{{< /text >}}
-
-确认 IP 地址被成功的赋值给了环境变量：
-
-{{< text bash >}}
-$ echo "$INGRESS_HOST"
-192.168.4.102
-{{< /text >}}
-
-在一个新的终端窗口中执行此命令，启动一个 Minikube 隧道，它将把流量发送到你的 Istio 入站网关：
-
-{{< text bash >}}
-$ minikube tunnel
+443
 {{< /text >}}
 
 {{< /tab >}}
