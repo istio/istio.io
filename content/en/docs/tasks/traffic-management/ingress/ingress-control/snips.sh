@@ -52,7 +52,7 @@ export TCP_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgatew
 }
 
 snip_determining_the_ingress_ip_and_ports_6() {
-export INGRESS_HOST=workerNodeAddress
+export INGRESS_HOST=worker-node-address
 }
 
 snip_determining_the_ingress_ip_and_ports_7() {

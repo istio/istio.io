@@ -97,7 +97,7 @@ $ export TCP_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgat
 _GKE:_
 
 {{< text bash >}}
-$ export INGRESS_HOST=workerNodeAddress
+$ export INGRESS_HOST=worker-node-address
 {{< /text >}}
 
 You need to create firewall rules to allow the TCP traffic to the `ingressgateway` service's ports.
