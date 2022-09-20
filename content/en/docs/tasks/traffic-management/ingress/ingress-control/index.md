@@ -57,7 +57,7 @@ Choose the instructions corresponding to your environment:
 
 {{< tab name="external load balancer" category-value="external-lb" >}}
 
-Follow these instructions if you have determined that your environment has an external load balancer.
+**Follow these instructions if you have determined that your environment has an external load balancer.**
 
 Set the ingress IP and ports:
 
@@ -84,8 +84,7 @@ $ export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway
 
 {{< tab name="node port" category-value="node-port" >}}
 
-Follow these instructions if you have determined that your environment does not have an external load balancer,
-so you need to use a node port instead.
+**Follow these instructions if your environment does not have an external load balancer and choose a node port instead.**
 
 Set the ingress ports:
 
@@ -95,40 +94,38 @@ $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingress
 $ export TCP_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="tcp")].nodePort}')
 {{< /text >}}
 
-Setting the ingress IP depends on the cluster provider:
+_GKE:_
 
-1.  _GKE:_
+{{< text bash >}}
+$ export INGRESS_HOST=worker-node-address
+{{< /text >}}
 
-    {{< text bash >}}
-    $ export INGRESS_HOST=worker-node-address
-    {{< /text >}}
+You need to create firewall rules to allow the TCP traffic to the `ingressgateway` service's ports.
+Run the following commands to allow the traffic for the HTTP port, the secure port (HTTPS) or both:
 
-    You need to create firewall rules to allow the TCP traffic to the _ingressgateway_ service's ports.
-    Run the following commands to allow the traffic for the HTTP port, the secure port (HTTPS) or both:
+{{< text bash >}}
+$ gcloud compute firewall-rules create allow-gateway-http --allow "tcp:$INGRESS_PORT"
+$ gcloud compute firewall-rules create allow-gateway-https --allow "tcp:$SECURE_INGRESS_PORT"
+{{< /text >}}
 
-    {{< text bash >}}
-    $ gcloud compute firewall-rules create allow-gateway-http --allow "tcp:$INGRESS_PORT"
-    $ gcloud compute firewall-rules create allow-gateway-https --allow "tcp:$SECURE_INGRESS_PORT"
-    {{< /text >}}
+_IBM Cloud Kubernetes Service:_
 
-1.  _IBM Cloud Kubernetes Service:_
+{{< text bash >}}
+$ ibmcloud ks workers --cluster cluster-name-or-id
+$ export INGRESS_HOST=public-IP-of-one-of-the-worker-nodes
+{{< /text >}}
 
-    {{< text bash >}}
-    $ ibmcloud ks workers --cluster cluster-name-or-id
-    $ export INGRESS_HOST=public-IP-of-one-of-the-worker-nodes
-    {{< /text >}}
+_Docker For Desktop:_
 
-1.  _Docker For Desktop:_
+{{< text bash >}}
+$ export INGRESS_HOST=127.0.0.1
+{{< /text >}}
 
-    {{< text bash >}}
-    $ export INGRESS_HOST=127.0.0.1
-    {{< /text >}}
+_Other environments:_
 
-1.  _Other environments:_
-
-    {{< text bash >}}
-    $ export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].status.hostIP}')
-    {{< /text >}}
+{{< text bash >}}
+$ export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].status.hostIP}')
+{{< /text >}}
 
 {{< /tab >}}
 
