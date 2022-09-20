@@ -72,11 +72,9 @@ backend, is used below.
 
 1. Apply an `EnvoyFilter` to the `ingressgateway` to enable global rate limiting using Envoy's global rate limit filter.
 
-    The first patch inserts the
+    The patch inserts the
     `envoy.filters.http.ratelimit` [global envoy filter](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/http/ratelimit/v3/rate_limit.proto#envoy-v3-api-msg-extensions-filters-http-ratelimit-v3-ratelimit) filter into the `HTTP_FILTER` chain.
-    The `rate_limit_service` field specifies the external rate limit service, `rate_limit_cluster` in this case.
-
-    The second patch defines the `rate_limit_cluster`, which provides the endpoint location of the external rate limit service.
+    The `rate_limit_service` field specifies the external rate limit service, `outbound|8081||ratelimit.default.svc.cluster.local` in this case.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
