@@ -185,7 +185,7 @@ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressga
 }
 
 snip_determining_the_ingress_ip_and_ports_10() {
-export INGRESS_HOST=workerNodeAddress
+export INGRESS_HOST=worker-node-address
 }
 
 snip_determining_the_ingress_ip_and_ports_11() {
