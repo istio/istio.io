@@ -59,9 +59,7 @@ Envoy 中的全局速率限制使用 gRPC API 从速率限制服务请求配额�
 
 1. 对 `ingressgateway` 应用 `EnvoyFilter`，以使用 Envoy 的全局速率限制过滤器来启用全局速率限制。
 
-    第一个 patch 插入 `envoy.filters.http.ratelimit` [Envoy 全局限流过滤器](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/http/ratelimit/v3/rate_limit.proto#envoy-v3-api-msg-extensions-filters-http-ratelimit-v3-ratelimit)到 `HTTP_FILTER` 链中。`rate_limit_service` 字段指定外部速率限制服务，在本例中为 `rate_limit_cluster`。
-
-    第二个 patch 定义了 `rate_limit_cluster`，它提供了外部速率限制服务的端点位置。
+    此 patch 将 `envoy.filters.http.ratelimit` [Envoy 全局限流过滤器](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/http/ratelimit/v3/rate_limit.proto#envoy-v3-api-msg-extensions-filters-http-ratelimit-v3-ratelimit)插入到 `HTTP_FILTER` 链中。`rate_limit_service` 字段指定外部速率限制服务，在本例中为 `outbound|8081||ratelimit.default.svc.cluster.local`。
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
