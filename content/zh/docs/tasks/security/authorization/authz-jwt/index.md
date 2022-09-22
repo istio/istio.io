@@ -1,6 +1,6 @@
 ---
-title: 基于 JWT 授权
-description: 有关如何在 Istio 中通过 JWT 实现访问控制的教程。
+title: JWT 令牌
+description: 演示如何为 JWT 令牌设置访问控制。
 weight: 30
 keywords: [security,authorization,jwt,claim]
 aliases:
@@ -17,9 +17,11 @@ Istio 授权策略同时支持字符串类型和列表类型的 JWT 声明。
 
 在开始这个任务之前，请先完成以下操作：
 
-* 阅读[授权](/zh/docs/concepts/security/#authorization)和[身份验证](/zh/docs/concepts/security/#authentication)的相关内容。
+* 完成 [Istio 最终用户身份验证任务](/zh/docs/tasks/security/authentication/authn-policy/#end-user-authentication)。
 
-* 参照 [Istio 安装向导](/zh/docs/setup/install/istioctl/) 安装 Istio。
+* 阅读 [Istio 授权概念](/zh/docs/concepts/security/#authorization)。
+
+* 参照 [Istio 安装指南](/zh/docs/setup/install/istioctl/)安装 Istio。
 
 * 部署两个工作负载（workload）：`httpbin` 和 `sleep`。将它们部署在同一个命名空间中，例如 `foo`。每个工作负载都在前面运行一个 Envoy 代理。 你可以使用以下命令来部署它们：
 
@@ -46,8 +48,8 @@ Istio 授权策略同时支持字符串类型和列表类型的 JWT 声明。
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: "security.istio.io/v1beta1"
-    kind: "RequestAuthentication"
+    apiVersion: security.istio.io/v1beta1
+    kind: RequestAuthentication
     metadata:
       name: "jwt-example"
       namespace: foo
