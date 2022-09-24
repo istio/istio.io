@@ -453,6 +453,11 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
+<td><code>--rps-limit &lt;int&gt;</code></td>
+<td></td>
+<td>Requests per second limit to the Kubernetes API server, defaults to 10.A higher limit can make bug report collection much faster.  (default `0`)</td>
+</tr>
+<tr>
 <td><code>--start-time &lt;string&gt;</code></td>
 <td></td>
 <td>Start time for the range of log entries to include in the archive. Default is the infinite past. If set, --duration must be unset.  (default ``)</td>
@@ -561,6 +566,11 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
 <td>One of &#39;yaml&#39; or &#39;json&#39;.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--rps-limit &lt;int&gt;</code></td>
+<td></td>
+<td>Requests per second limit to the Kubernetes API server, defaults to 10.A higher limit can make bug report collection much faster.  (default `0`)</td>
 </tr>
 <tr>
 <td><code>--short</code></td>
