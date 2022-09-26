@@ -87,7 +87,10 @@ snips:
 
 gen: snips tidy-go format-go
 
-gen-check: gen check-clean-repo
+gen-check: gen check-clean-repo check-localization
+
+check-localization:
+	@scripts/check_localization.sh
 
 build: site
 	@scripts/build_site.sh ""
