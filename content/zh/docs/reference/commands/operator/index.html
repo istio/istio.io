@@ -359,6 +359,12 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>If enable, endpoints defined in mesh networks will be configured as internal addresses in Http Connection Manager</td>
 </tr>
 <tr>
+<td><code>ENABLE_LEADER_ELECTION</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled (default), starts a leader election client and gains leadership before executing controllers. If false, it assumes that only one instance of istiod is running and skips leader election.</td>
+</tr>
+<tr>
 <td><code>ENABLE_LEGACY_FSGROUP_INJECTION</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
