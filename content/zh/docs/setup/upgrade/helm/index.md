@@ -74,7 +74,7 @@ $ istioctl x precheck
     $ helm upgrade istio-base istio/base --set defaultRevision=canary -n istio-system --skip-crds
     {{< /text >}}
 
-### 稳定修订标签（实验特性/预览特性）{#stable-revision-labels}
+### 稳定修订标签（实验特性）{#stable-revision-labels}
 
 {{< boilerplate revision-tags-preamble >}}
 
