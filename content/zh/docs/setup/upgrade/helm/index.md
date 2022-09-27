@@ -68,13 +68,13 @@ $ istioctl x precheck
     $ helm delete istiod -n istio-system
     {{< /text >}}
 
-1. 升级 Istio 基础 Chart，将新的修订版作为默认值。
+1. 升级 Istio base chart，将新的修订版作为默认值。
 
     {{< text bash >}}
     $ helm upgrade istio-base istio/base --set defaultRevision=canary -n istio-system --skip-crds
     {{< /text >}}
 
-### 稳定修订标签（实验）{#stable-revision-labels}
+### 稳定修订标签（实验特性/预览特性）{#stable-revision-labels}
 
 {{< boilerplate revision-tags-preamble >}}
 
@@ -88,7 +88,8 @@ $ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisi
 {{< /text >}}
 
 {{< warning >}}
-这些命令将在您的集群中创建新的 `MutatingWebhookConfiguration` 资源，但是由于 `kubectl` 手动应用这些模板，所以这些资源不属于任何 Helm Chart。参见以下指示说明来卸载修订标记。
+这些命令将在您的集群中创建新的 `MutatingWebhookConfiguration` 资源，由于是通过 `kubectl` 手动应用这些模板，
+所以这些资源不属于任何 Helm Chart。参见以下指示说明来卸载修订标记。
 {{< /warning >}}
 
 {{< boilerplate revision-tags-middle >}}
@@ -109,9 +110,9 @@ $ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisi
 
 {{< boilerplate revision-tags-default-outro >}}
 
-### 热升级{#in-place-upgrade}
+### 原地升级{#in-place-upgrade}
 
-您可以使用 Helm 升级工作流在您的集群中对 Istio 执行热升级。
+您可以使用 Helm 升级工作流在您的集群中对 Istio 执行原地升级。
 
 {{< warning >}}
 将您的重载值文件或自定义选项添加到以下命令，以在 Helm 升级期间保留您的自定义配置。
@@ -123,19 +124,19 @@ $ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisi
     $ kubectl apply -f manifests/charts/base/crds
     {{< /text >}}
 
-1. 升级 Istio 基础 Chart：
+1. 升级 Istio base chart：
 
     {{< text bash >}}
     $ helm upgrade istio-base manifests/charts/base -n istio-system --skip-crds
     {{< /text >}}
 
-1. 升级 Istio 发现 Chart：
+1. 升级 Istio discovery chart：
 
     {{< text bash >}}
     $ helm upgrade istiod istio/istiod -n istio-system
     {{< /text >}}
 
-1. （可选）升级集群中安装的网关 Chart：
+1. （可选）升级集群中安装的 gateway chart：
 
     {{< text bash >}}
     $ helm upgrade istio-ingress istio/gateway -n istio-ingress
