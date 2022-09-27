@@ -1,6 +1,6 @@
 ---
-title: 热升级
-description: 热升级和回退。
+title: 原地升级
+description: 原地升级和回退。
 weight: 20
 keywords: [kubernetes,upgrading,in-place]
 owner: istio/wg-environments-maintainers
@@ -10,7 +10,7 @@ test: no
 通过 `istioctl upgrade` 命令对 Istio 进行升级。在开始升级之前，该命令会自动检查 Istio 的安装是否满足升级需求。同时，如果该命令检测到 Istio 与当前版本的配置文件默认值存在变动时，会警告用户。
 
 {{< tip >}}
-[金丝雀升级](/zh/docs/setup/upgrade/canary/)比热升级更安全，是推荐的升级方法。
+[金丝雀升级](/zh/docs/setup/upgrade/canary/)比原地升级更安全，是推荐的升级方法。
 {{< /tip >}}
 
 Istio 的升级指令同样可以执行回退操作。
@@ -18,7 +18,7 @@ Istio 的升级指令同样可以执行回退操作。
 阅读 [`istioctl` 升级参考](/zh/docs/reference/commands/istioctl/#istioctl-upgrade)来了解 `istoictl upgrade` 指令提供的全部参数。
 
 {{< warning >}}
-`istioctl upgrade` 用于热升级，并且与使用 `--revision` 参数进行的安装不兼容。此类安装的升级将失败，并显示错误。
+`istioctl upgrade` 用于原地升级，并且与使用 `--revision` 参数进行的安装不兼容。此类安装的升级将失败，并显示错误。
 {{< /warning >}}
 
 ## 升级的前置条件{#upgrade-prerequisites}
