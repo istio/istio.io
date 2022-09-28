@@ -65,7 +65,8 @@ spec:
           - "upstream_cx"
 {{< /text >}}
 
-您也可以通过使用 `proxy.istio.io/config` 注解覆盖全局的数据统计匹配配置。例如，为了配置生成与上面相同的统计数据，您可以在一个 Gateway 代理或者一个工作负载上添加下面的注解：
+通过使用每个代理的 `proxy.istio.io/config` 注解，您也可以重载全局数据统计对应的配置。
+例如，为了生成上述相同的统计数据，您可以在一个 Gateway 代理或者工作负载上添加以下注解：
 
 {{< text syntax=yaml snip_id=proxyIstioConfig >}}
 metadata:
