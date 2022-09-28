@@ -18,3 +18,7 @@
 # shellcheck disable=SC2034 # Unused GATEWAY_API used by included test.sh
 GATEWAY_API="true"
 source "./test.sh"
+
+# TODO fix cleanup approach and remove this temporary hack
+# @cleanup
+snip_cleanup_1

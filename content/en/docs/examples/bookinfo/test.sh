@@ -76,4 +76,6 @@ else
 fi
 
 # @cleanup
-snip_cleanup_1
+if [ "$GATEWAY_API" != "true" ]; then
+    snip_cleanup_1
+fi

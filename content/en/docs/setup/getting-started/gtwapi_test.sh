@@ -18,3 +18,9 @@
 # shellcheck disable=SC2034 # Unused GATEWAY_API used by included test.sh
 GATEWAY_API="true"
 source "./test.sh"
+
+# TODO fix cleanup approach and remove this temporary hack
+# @cleanup
+cleanup_bookinfo_sample
+snip_uninstall_1
+kubectl delete ns istio-system --ignore-not-found=true

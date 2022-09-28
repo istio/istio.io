@@ -138,6 +138,14 @@ namespaces where routes should be created, instead of, as in this example, expec
 as the `Gateway`.
 {{< /tip >}}
 
+Because creating a Kubernetes `Gateway` resource will also
+[deploy an associated controller](https://istio.io/latest/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment),
+run the following command to wait for the gateway to be ready:
+
+{{< text bash >}}
+$ kubectl wait --for=condition=ready gtw http-gateway
+{{< /text >}}
+
 Configure routes for traffic entering via the `Gateway`:
 
 {{< text bash >}}
@@ -167,14 +175,6 @@ EOF
 You have now created an [HTTP Route](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io%2fv1beta1.HTTPRoute)
 configuration for the `httpbin` service containing two route rules that allow traffic for paths `/status` and
 `/delay`.
-
-Because creating a Kubernetes `Gateway` resource will also
-[deploy an associated controller](https://istio.io/latest/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment),
-run the following command to wait for the gateway to be ready:
-
-{{< text bash >}}
-$ kubectl wait --for=condition=ready gtw http-gateway
-{{< /text >}}
 
 {{< /tab >}}
 

@@ -95,6 +95,8 @@ _verify_contains snip_view_the_dashboard_dashboard_1 'deployment "kiali" success
 # TODO Verify the browser output
 
 # @cleanup
-cleanup_bookinfo_sample
-snip_uninstall_1
-kubectl delete ns istio-system --ignore-not-found=true
+if [ "$GATEWAY_API" != "true" ]; then
+    cleanup_bookinfo_sample
+    snip_uninstall_1
+    kubectl delete ns istio-system --ignore-not-found=true
+fi
