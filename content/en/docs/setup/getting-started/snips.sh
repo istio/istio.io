@@ -19,6 +19,7 @@
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
 #          docs/setup/getting-started/index.md
 ####################################################################################################
+source "content/en/boilerplates/snips/gateway-api-support.sh"
 source "content/en/boilerplates/snips/trace-generation.sh"
 
 snip_download_istio_download_1() {
@@ -46,10 +47,20 @@ istioctl install --set profile=demo -y
 ENDSNIP
 
 snip_install_istio_install_2() {
-kubectl label namespace default istio-injection=enabled
+istioctl install -f samples/bookinfo/demo-profile-no-gateways.yaml -y
 }
 
 ! read -r -d '' snip_install_istio_install_2_out <<\ENDSNIP
+✔ Istio core installed
+✔ Istiod installed
+✔ Installation complete
+ENDSNIP
+
+snip_install_istio_install_3() {
+kubectl label namespace default istio-injection=enabled
+}
+
+! read -r -d '' snip_install_istio_install_3_out <<\ENDSNIP
 namespace/default labeled
 ENDSNIP
 
@@ -119,10 +130,23 @@ virtualservice.networking.istio.io/bookinfo created
 ENDSNIP
 
 snip_open_the_application_to_outside_traffic_ip_2() {
-istioctl analyze
+kubectl apply -f samples/bookinfo/gateway-api/bookinfo-gateway.yaml
 }
 
 ! read -r -d '' snip_open_the_application_to_outside_traffic_ip_2_out <<\ENDSNIP
+gateway.gateway.networking.k8s.io/bookinfo-gateway created
+httproute.gateway.networking.k8s.io/bookinfo created
+ENDSNIP
+
+snip_open_the_application_to_outside_traffic_ip_3() {
+kubectl wait --for=condition=ready gtw bookinfo-gateway
+}
+
+snip_open_the_application_to_outside_traffic_ip_4() {
+istioctl analyze
+}
+
+! read -r -d '' snip_open_the_application_to_outside_traffic_ip_4_out <<\ENDSNIP
 ✔ No validation issues found when analyzing namespace: default.
 ENDSNIP
 
@@ -161,61 +185,20 @@ echo "$SECURE_INGRESS_PORT"
 ENDSNIP
 
 snip_determining_the_ingress_ip_and_ports_6() {
-kubectl get svc istio-ingressgateway -n istio-system
+export INGRESS_HOST=$(kubectl get gtw bookinfo-gateway -o jsonpath='{.status.addresses[*].value}')
+export INGRESS_PORT=$(kubectl get gtw bookinfo-gateway -o jsonpath='{.spec.listeners[?(@.name=="http")].port}')
 }
-
-! read -r -d '' snip_determining_the_ingress_ip_and_ports_6_out <<\ENDSNIP
-NAME                   TYPE           CLUSTER-IP       EXTERNAL-IP     PORT(S)                                      AGE
-istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121  80:31380/TCP,443:31390/TCP,31400:31400/TCP   17h
-ENDSNIP
 
 snip_determining_the_ingress_ip_and_ports_7() {
-export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].port}')
-export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].port}')
-}
-
-snip_determining_the_ingress_ip_and_ports_8() {
-export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
-}
-
-snip_determining_the_ingress_ip_and_ports_9() {
-export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}')
-export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].nodePort}')
-}
-
-snip_determining_the_ingress_ip_and_ports_10() {
-export INGRESS_HOST=workerNodeAddress
-}
-
-snip_determining_the_ingress_ip_and_ports_11() {
-gcloud compute firewall-rules create allow-gateway-http --allow "tcp:$INGRESS_PORT"
-gcloud compute firewall-rules create allow-gateway-https --allow "tcp:$SECURE_INGRESS_PORT"
-}
-
-snip_determining_the_ingress_ip_and_ports_12() {
-ibmcloud ks workers --cluster cluster-name-or-id
-export INGRESS_HOST=public-IP-of-one-of-the-worker-nodes
-}
-
-snip_determining_the_ingress_ip_and_ports_13() {
-export INGRESS_HOST=127.0.0.1
-}
-
-snip_determining_the_ingress_ip_and_ports_14() {
-export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].status.hostIP}')
-}
-
-snip_determining_the_ingress_ip_and_ports_15() {
 export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
 }
 
-snip_determining_the_ingress_ip_and_ports_16() {
+snip_determining_the_ingress_ip_and_ports_8() {
 echo "$GATEWAY_URL"
 }
 
-! read -r -d '' snip_determining_the_ingress_ip_and_ports_16_out <<\ENDSNIP
-192.168.99.100:32194
+! read -r -d '' snip_determining_the_ingress_ip_and_ports_8_out <<\ENDSNIP
+169.48.8.37:80
 ENDSNIP
 
 snip_verify_external_access_confirm_1() {

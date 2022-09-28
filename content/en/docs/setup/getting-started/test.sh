@@ -21,18 +21,24 @@ set -o pipefail
 
 source "tests/util/samples.sh"
 
+GATEWAY_API="${GATEWAY_API:-false}"
+
 # Download Istio
 # Skipping this as we use the istioctl built from istio/istio reference
 
 # Install Istio
 # @setup profile=none
-snip_install_istio_install_1
+if [ $GATEWAY_API == "true" ]; then
+    snip_install_istio_install_2
+else
+    snip_install_istio_install_1
+fi
 _wait_for_deployment istio-system istiod
 
 # Label the namespace
 # remove the injection label to prevent the following command from failing
 kubectl label namespace default istio-injection-
-snip_install_istio_install_2
+snip_install_istio_install_3
 
 # TODO: how to make sure previous tests cleaned up everything?
 # Cleanup sleep
@@ -56,18 +62,25 @@ _verify_like snip_deploy_the_sample_application_bookinfo_3 "$snip_deploy_the_sam
 _verify_like snip_deploy_the_sample_application_bookinfo_4 "$snip_deploy_the_sample_application_bookinfo_4_out"
 
 # Open to outside traffic
-_verify_contains snip_open_the_application_to_outside_traffic_ip_1 "$snip_open_the_application_to_outside_traffic_ip_1_out"
-_wait_for_istio gateway default bookinfo-gateway
+if [ $GATEWAY_API == "true" ]; then
+    _verify_contains snip_open_the_application_to_outside_traffic_ip_2 "$snip_open_the_application_to_outside_traffic_ip_2_out"
+    snip_open_the_application_to_outside_traffic_ip_3
+else
+    _verify_contains snip_open_the_application_to_outside_traffic_ip_1 "$snip_open_the_application_to_outside_traffic_ip_1_out"
+    _wait_for_istio gateway default bookinfo-gateway
+fi
 
 # Ensure no issues with configuration - istioctl analyze
-_verify_contains snip_open_the_application_to_outside_traffic_ip_2 "$snip_open_the_application_to_outside_traffic_ip_2_out"
+_verify_contains snip_open_the_application_to_outside_traffic_ip_4 "$snip_open_the_application_to_outside_traffic_ip_4_out"
 
 # Get GATEWAY_URL
 # export the INGRESS_ environment variables
-# TODO make this work more generally. Currently using snips for Kind.
-snip_determining_the_ingress_ip_and_ports_9
-snip_determining_the_ingress_ip_and_ports_14
-snip_determining_the_ingress_ip_and_ports_15
+if [ $GATEWAY_API == "true" ]; then
+    snip_determining_the_ingress_ip_and_ports_6
+else
+    snip_determining_the_ingress_ip_and_ports_2
+fi
+snip_determining_the_ingress_ip_and_ports_7
 
 # Verify external access
 get_bookinfo_productpage() {
