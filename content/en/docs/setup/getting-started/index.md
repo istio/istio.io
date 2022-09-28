@@ -106,7 +106,7 @@ Follow these steps to get started with Istio:
 
     Unlike [Istio Gateways](/docs/concepts/traffic-management/#gateways), creating
     [Kubernetes Gateways](https://gateway-api.sigs.k8s.io/api-types/gateway/) will, by default, also
-    [deploy their associated controllers](https://istio.io/latest/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment).
+    [deploy their associated controllers](/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment).
     Therefore, because they won't be used, we disable the deployment of the Istio gateway controllers that are normally installed
     as part of the `demo` profile.
 
@@ -225,7 +225,7 @@ route at the edge of your mesh.
     {{< /text >}}
 
     Because creating a Kubernetes `Gateway` resource will also
-    [deploy an associated controller](https://istio.io/latest/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment),
+    [deploy an associated controller](/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment),
     run the following command to wait for the gateway to be ready:
 
     {{< text bash >}}

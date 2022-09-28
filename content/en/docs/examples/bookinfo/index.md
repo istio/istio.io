@@ -189,7 +189,7 @@ Kubernetes cluster, e.g., from a browser. A gateway is used for this purpose.
     {{< /text >}}
 
     Because creating a Kubernetes `Gateway` resource will also
-    [deploy an associated controller](https://istio.io/latest/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment),
+    [deploy an associated controller](/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment),
     run the following command to wait for the gateway to be ready:
 
     {{< text bash >}}

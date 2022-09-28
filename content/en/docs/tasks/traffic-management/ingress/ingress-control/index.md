@@ -139,7 +139,7 @@ as the `Gateway`.
 {{< /tip >}}
 
 Because creating a Kubernetes `Gateway` resource will also
-[deploy an associated controller](https://istio.io/latest/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment),
+[deploy an associated controller](/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment),
 run the following command to wait for the gateway to be ready:
 
 {{< text bash >}}
@@ -294,7 +294,7 @@ to a browser like you did with `curl`. In a real world situation, this is not a 
 because you configure the requested host properly and DNS resolvable. Thus, you use the host's domain name
 in the URL, for example, `https://httpbin.example.com/status/200`.
 
-You work around this problem for simple tests and demos as follows:
+You can work around this problem for simple tests and demos as follows:
 
 {{< tabset category-name="config-api" >}}
 
