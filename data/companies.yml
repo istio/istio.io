@@ -302,6 +302,13 @@ pro_services:
     details:
       - "Cloud Scale platform and service mesh experts puts distribution & management in the palm of your hand. From productivity to continuity, from security to remote monitoring & management – our growing portfolio of services has got you covered. "
       - "Cloud consulting and Istio service mesh experts by Cloud Scale helps in solving all of the needs by selecting the right platforms, cloud solutions and platform needs that integrate smoothly with legacy & next-generation technologies and deliver optimal return on technology investments."      
+  - name: "inovex"
+    logo: "/logos/inovex.svg"
+    url: "https://www.inovex.de/"
+    description: "At inovex we provide entd-to-end services to our clients, leveraging our extensive experience in cloud infrastructures and Kubernetes projects."
+    details:
+      - "inovex is an IT project center driven by innovation and quality, focusing its services on ‘Digital Transformation’. Building production-ready cloud infrastructure since 2010 have been employing Kubernetes since its inception."
+      - "We rely on Istio to heighten the security and resilience in the applications we build for our clients, meeting their needs even in multicluster setups."
   - name: "Your Name Here"
     logo: "/logos/istio.svg"
     url: "https://istio.io/"

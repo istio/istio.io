@@ -56,7 +56,7 @@ current `<minor>` release. A patch is usually a small change relative to the `<m
 | master          | No, development only |                   |                          |                               |                                    |
 | 1.15            | Yes                  | August 31, 2022   | ~March 2023 (Expected)   | 1.22, 1.23, 1.24, 1.25        | 1.16, 1.17, 1.18, 1.19, 1.20, 1.21 |
 | 1.14            | Yes                  | May 24, 2022      | ~January 2023 (Expected) | 1.21, 1.22, 1.23, 1.24        | 1.16, 1.17, 1.18, 1.19, 1.20       |
-| 1.13            | Yes                  | February 11, 2022 | ~October 2022 (Expected) | 1.20, 1.21, 1.22, 1.23        | 1.16, 1.17, 1.18, 1.19             |
+| 1.13            | Yes                  | February 11, 2022 | Oct 12, 2022             | 1.20, 1.21, 1.22, 1.23        | 1.16, 1.17, 1.18, 1.19             |
 | 1.12            | No                   | November 18, 2021 | Jul 12, 2022             | 1.19, 1.20, 1.21, 1.22        | 1.16, 1.17, 1.18                   |
 | 1.11            | No                   | August 12, 2021   | Mar 25, 2022             | 1.18, 1.19, 1.20, 1.21, 1.22  | 1.16, 1.17                         |
 | 1.10            | No                   | May 18, 2021      | Jan 7, 2022              | 1.18, 1.19, 1.20, 1.21        | 1.16, 1.17, 1.22                   |
@@ -78,7 +78,7 @@ Please keep up-to-date and use a supported version.
 
 | Minor Releases   | Patched versions with no known CVEs           |
 |------------------|-----------------------------------------------|
-| 1.14.x           | 1.14.1 (not 1.14.2)                           |
-| 1.13.x           | 1.13.5 (not 1.13.6)                           |
+| 1.14.x           | 1.14.3+                                       |
+| 1.13.x           | 1.13.7+                                       |
 | 1.12.x           | 1.12.8+                                       |
 | 1.11 and earlier | None, all versions have known vulnerabilities |

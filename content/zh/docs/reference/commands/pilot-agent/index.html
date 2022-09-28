@@ -1103,6 +1103,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>If enable, endpoints defined in mesh networks will be configured as internal addresses in Http Connection Manager</td>
 </tr>
 <tr>
+<td><code>ENABLE_LEADER_ELECTION</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled (default), starts a leader election client and gains leadership before executing controllers. If false, it assumes that only one instance of istiod is running and skips leader election.</td>
+</tr>
+<tr>
 <td><code>ENABLE_LEGACY_FSGROUP_INJECTION</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -2138,5 +2144,7 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <tr><td><code>webhook_patch_attempts_total</code></td><td><code>Sum</code></td><td>Webhook patching attempts</td></tr>
 <tr><td><code>webhook_patch_failures_total</code></td><td><code>Sum</code></td><td>Webhook patching total failures</td></tr>
 <tr><td><code>webhook_patch_retries_total</code></td><td><code>Sum</code></td><td>Webhook patching retries</td></tr>
+<tr><td><code>xds_proxy_requests</code></td><td><code>Sum</code></td><td>The total number of Xds Proxy Requests</td></tr>
+<tr><td><code>xds_proxy_responses</code></td><td><code>Sum</code></td><td>The total number of Xds Proxy Responses</td></tr>
 </tbody>
 </table>
