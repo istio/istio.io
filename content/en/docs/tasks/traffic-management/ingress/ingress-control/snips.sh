@@ -86,6 +86,10 @@ EOF
 }
 
 snip_configuring_ingress_using_a_gateway_4() {
+kubectl wait --for=condition=ready gtw http-gateway
+}
+
+snip_configuring_ingress_using_a_gateway_5() {
 kubectl apply -f - <<EOF
 apiVersion: gateway.networking.k8s.io/v1alpha2
 kind: HTTPRoute
@@ -107,10 +111,6 @@ spec:
     - name: httpbin
       port: 8000
 EOF
-}
-
-snip_configuring_ingress_using_a_gateway_5() {
-kubectl wait --for=condition=ready gtw http-gateway
 }
 
 snip_minikube_tunnel() {
