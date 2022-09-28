@@ -15,5 +15,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# shellcheck disable=SC2034 # Unused GATEWAY_API used by included test.sh
 GATEWAY_API="true"
 source "./test.sh"

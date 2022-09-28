@@ -30,7 +30,7 @@ kubectl label namespace default istio-injection=enabled --overwrite
 # start the httpbin sample
 startup_httpbin_sample
 
-if [ $GATEWAY_API == "true" ]; then
+if [ "$GATEWAY_API" == "true" ]; then
     # create the gateway and routes
     snip_configuring_ingress_using_an_istio_gateway_3
     snip_configuring_ingress_using_an_istio_gateway_4
@@ -60,7 +60,7 @@ _verify_elided snip_accessing_ingress_services_1 "$snip_accessing_ingress_servic
 # access the httpbin service
 _verify_elided snip_accessing_ingress_services_2 "$snip_accessing_ingress_services_2_out"
 
-if [ $GATEWAY_API == "true" ]; then
+if [ "$GATEWAY_API" == "true" ]; then
     # configure for web browser
     snip_accessing_ingress_services_using_a_browser_2
 else
@@ -81,7 +81,7 @@ curl_httpbin_headers() {
 _verify_contains curl_httpbin_headers "HTTP/1.1 200 OK"
 
 # @cleanup
-if [ $GATEWAY_API == "true" ]; then
+if [ "$GATEWAY_API" == "true" ]; then
     snip_cleanup_2
 else
     snip_cleanup_1

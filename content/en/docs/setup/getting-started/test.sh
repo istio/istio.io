@@ -28,7 +28,7 @@ GATEWAY_API="${GATEWAY_API:-false}"
 
 # Install Istio
 # @setup profile=none
-if [ $GATEWAY_API == "true" ]; then
+if [ "$GATEWAY_API" == "true" ]; then
     snip_install_istio_install_2
 else
     snip_install_istio_install_1
@@ -62,7 +62,7 @@ _verify_like snip_deploy_the_sample_application_bookinfo_3 "$snip_deploy_the_sam
 _verify_like snip_deploy_the_sample_application_bookinfo_4 "$snip_deploy_the_sample_application_bookinfo_4_out"
 
 # Open to outside traffic
-if [ $GATEWAY_API == "true" ]; then
+if [ "$GATEWAY_API" == "true" ]; then
     _verify_contains snip_open_the_application_to_outside_traffic_ip_2 "$snip_open_the_application_to_outside_traffic_ip_2_out"
     snip_open_the_application_to_outside_traffic_ip_3
 else
@@ -75,7 +75,7 @@ _verify_contains snip_open_the_application_to_outside_traffic_ip_4 "$snip_open_t
 
 # Get GATEWAY_URL
 # export the INGRESS_ environment variables
-if [ $GATEWAY_API == "true" ]; then
+if [ "$GATEWAY_API" == "true" ]; then
     snip_determining_the_ingress_ip_and_ports_6
 else
     snip_determining_the_ingress_ip_and_ports_2

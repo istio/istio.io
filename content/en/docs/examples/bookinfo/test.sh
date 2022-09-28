@@ -42,7 +42,7 @@ _verify_like snip_start_the_application_services_5 "$snip_start_the_application_
 
 _verify_contains snip_start_the_application_services_6 "$snip_start_the_application_services_6_out"
 
-if [ $GATEWAY_API == "true" ]; then
+if [ "$GATEWAY_API" == "true" ]; then
     _verify_like snip_determine_the_ingress_ip_and_port_3 "$snip_determine_the_ingress_ip_and_port_3_out"
     snip_determine_the_ingress_ip_and_port_4
     snip_determine_the_ingress_ip_and_port_5
@@ -63,7 +63,7 @@ snip_determine_the_ingress_ip_and_port_6
 
 _verify_contains snip_confirm_the_app_is_accessible_from_outside_the_cluster_1 "$snip_confirm_the_app_is_accessible_from_outside_the_cluster_1_out"
 
-if [ $GATEWAY_API == "true" ]; then
+if [ "$GATEWAY_API" == "true" ]; then
     snip_define_the_service_versions_3
 else
     snip_define_the_service_versions_1
