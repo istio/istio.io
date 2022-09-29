@@ -18,7 +18,7 @@
 # shellcheck disable=SC2034 # Unused GATEWAY_API used by included test.sh
 GATEWAY_API="true"
 # @setup profile=default
-source "./test.sh"
+source "content/en/docs/tasks/traffic-management/ingress/ingress-control/test.sh"
 
 # TODO fix cleanup approach and remove this temporary hack
 # @cleanup
