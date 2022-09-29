@@ -68,7 +68,7 @@ EOF
 
 snip_configuring_ingress_using_a_gateway_3() {
 kubectl apply -f - <<EOF
-apiVersion: gateway.networking.k8s.io/v1alpha2
+apiVersion: gateway.networking.k8s.io/v1beta1
 kind: Gateway
 metadata:
   name: httpbin-gateway
@@ -91,7 +91,7 @@ kubectl wait --for=condition=ready gtw http-gateway
 
 snip_configuring_ingress_using_a_gateway_5() {
 kubectl apply -f - <<EOF
-apiVersion: gateway.networking.k8s.io/v1alpha2
+apiVersion: gateway.networking.k8s.io/v1beta1
 kind: HTTPRoute
 metadata:
   name: httpbin
@@ -206,7 +206,7 @@ EOF
 
 snip_accessing_ingress_services_using_a_browser_2() {
 kubectl apply -f - <<EOF
-apiVersion: gateway.networking.k8s.io/v1alpha2
+apiVersion: gateway.networking.k8s.io/v1beta1
 kind: Gateway
 metadata:
   name: httpbin-gateway
@@ -220,7 +220,7 @@ spec:
       namespaces:
         from: Same
 ---
-apiVersion: gateway.networking.k8s.io/v1alpha2
+apiVersion: gateway.networking.k8s.io/v1beta1
 kind: HTTPRoute
 metadata:
   name: httpbin
