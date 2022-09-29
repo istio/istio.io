@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# shellcheck disable=SC1090,SC2154
+# shellcheck disable=SC2034
 
 # Copyright Istio Authors
 #
@@ -15,13 +15,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# @setup profile=default
-source "tests/util/gateway-api.sh"
-install_gateway_api_crds
-source "content/en/docs/tasks/traffic-management/ingress/ingress-control/test.sh"
+K8S_GATEWAY_API_CRDS="github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.5.0"
+GATEWAY_API="true"
 
-# TODO fix cleanup approach and remove this temporary hack
-# @cleanup
-source "tests/util/gateway-api.sh"
-snip_cleanup_2
-remove_gateway_api_crds
+function install_gateway_api_crds() {
+    kubectl kustomize "${K8S_GATEWAY_API_CRDS}" | kubectl apply -f -
+
+function remove_gateway_api_crds() {
+    kubectl kustomize "${K8S_GATEWAY_API_CRDS}" | kubectl delete -f -
+}

@@ -15,13 +15,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# shellcheck disable=SC2034 # Unused GATEWAY_API used by included test.sh
-GATEWAY_API="true"
 # @setup profile=none
+source "tests/util/gateway-api.sh"
+install_gateway_api_crds
 source "content/en/docs/setup/getting-started/test.sh"
 
 # TODO fix cleanup approach and remove this temporary hack
 # @cleanup
+source "tests/util/gateway-api.sh"
 cleanup_bookinfo_sample
 snip_uninstall_1
 kubectl delete ns istio-system --ignore-not-found=true
+remove_gateway_api_crds
