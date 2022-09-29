@@ -144,7 +144,7 @@ func checkFile(path string) (*TestCase, error) {
 	cleanupScript = strings.Join(sources, "\n") + cleanupScriptPrefix + cleanupScript
 
 	// find setup configuration
-	re = regexp.MustCompile(fmt.Sprintf("(?m)^%v (.*)$", setupSpec))
+	re := regexp.MustCompile(fmt.Sprintf("(?m)^%v (.*)$", setupSpec))
 	setups := re.FindAllStringSubmatch(testScript, -1)
 
 	if numSetups := len(setups); numSetups != 1 {
@@ -269,7 +269,7 @@ func getTemplateScript(template, testPath string) string {
 	return fmt.Sprintf(template, defaultPath, snipsPath)
 }
 
-// getNonTestSources get source statements that are not test files.
+// getNonTestSources returns source statements that are not test files.
 func getNonTestSources(testScript string, testPath string) []string {
 	re := regexp.MustCompile("(?m)^source \".*\\.sh\"$")
 	sources := re.FindAllString(testScript, -1)
