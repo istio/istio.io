@@ -252,7 +252,8 @@ spec:
 此功能为试验特性功能，可随时更改或删除。
 {{< /warning >}}
 
-可以在安装时定义一个完全自定义的模板，例如，将 `GREETING` 环境变量注入到 `istio-proxy` 容器中：
+可以在安装时定义一个完全自定义的模板。
+例如，定义一个自定义模板，将 `GREETING` 环境变量注入到 `istio-proxy` 容器中：
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha1
