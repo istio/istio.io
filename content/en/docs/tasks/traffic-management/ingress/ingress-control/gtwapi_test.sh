@@ -15,13 +15,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# @setup profile=default
 source "tests/util/gateway-api.sh"
 install_gateway_api_crds
+
+# @setup profile=default
 source "content/en/docs/tasks/traffic-management/ingress/ingress-control/test.sh"
 
 # TODO fix cleanup approach and remove this temporary hack
 # @cleanup
-source "tests/util/gateway-api.sh"
 snip_cleanup_2
 remove_gateway_api_crds

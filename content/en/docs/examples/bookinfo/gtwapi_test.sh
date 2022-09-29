@@ -15,13 +15,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# @setup profile=demo
 source "tests/util/gateway-api.sh"
 install_gateway_api_crds
+
+# @setup profile=demo
 source "content/en/docs/examples/bookinfo/test.sh"
 
 # TODO fix cleanup approach and remove this temporary hack
 # @cleanup
-source "tests/util/gateway-api.sh"
 snip_cleanup_1
 remove_gateway_api_crds

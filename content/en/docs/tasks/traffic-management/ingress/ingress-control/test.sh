@@ -32,16 +32,16 @@ startup_httpbin_sample
 
 if [ "$GATEWAY_API" == "true" ]; then
     # create the gateway and routes
-    snip_configuring_ingress_using_an_istio_gateway_3
-    snip_configuring_ingress_using_an_istio_gateway_4
-    snip_configuring_ingress_using_an_istio_gateway_5
+    snip_configuring_ingress_using_a_gateway_3
+    snip_configuring_ingress_using_a_gateway_4
+    snip_configuring_ingress_using_a_gateway_5
 
     # set INGRESS_HOST and INGRESS_PORT environment variables
     snip_determining_the_ingress_ip_and_ports_5
 else
     # create the gateway and routes
-    snip_configuring_ingress_using_an_istio_gateway_1
-    snip_configuring_ingress_using_an_istio_gateway_2
+    snip_configuring_ingress_using_a_gateway_1
+    snip_configuring_ingress_using_a_gateway_2
 
     # wait for rules to propagate
     _wait_for_istio gateway default httpbin-gateway
