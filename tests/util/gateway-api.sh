@@ -20,6 +20,7 @@ GATEWAY_API="true"
 
 function install_gateway_api_crds() {
     kubectl kustomize "${K8S_GATEWAY_API_CRDS}" | kubectl apply -f -
+}
 
 function remove_gateway_api_crds() {
     kubectl kustomize "${K8S_GATEWAY_API_CRDS}" | kubectl delete -f -
