@@ -252,6 +252,10 @@ to enable it.  You can execute the following once:</p>
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
 </tr>
 <tr>
+<td><code>--max-concurrent-reconciles &lt;int&gt;</code></td>
+<td>Defines the concurrency limit for operator to reconcile IstioOperatorSpec in parallel. Default value is 1.  (default `1`)</td>
+</tr>
+<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
