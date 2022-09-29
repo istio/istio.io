@@ -7,13 +7,13 @@ owner: istio/wg-security-maintainers
 test: yes
 ---
 
-此任务向您展示如何使用鉴权策略在 Istio 入口网关上实施基于 IP 的访问控制。
+此任务向您展示如何使用授权策略在 Istio 入口网关上实施基于 IP 的访问控制。
 
 ## 开始之前 {#before-you-begin}
 
 在开始此任务之前，请执行以下操作：
 
-* 阅读 [Istio 鉴权概念](/zh/docs/concepts/security/#authorization)。
+* 阅读 [Istio 授权概念](/zh/docs/concepts/security/#authorization)。
 
 * 使用 [Istio 安装指南](/zh/docs/setup/install/istioctl/)安装 Istio。
 
@@ -156,10 +156,10 @@ spec:
 
 |云提供商 | 负载均衡器名称            | 负载均衡器类型
 ----------------|-------------------------------|-------------------
-|AWS EKS        | Classic 弹性负载均衡器 | TCP 代理
-|GCP GKE        | TCP/UDP 网络负载均衡器 | 网络
-|Azure AKS      | Azure 负载均衡器           | 网络
-|DO DOKS        | 负载均衡器                 | 网络
+|AWS EKS        | Classic Elastic Load Balancer | TCP Proxy
+|GCP GKE        | TCP/UDP Network Load Balancer | Network
+|Azure AKS      | Azure Load Balancer           | Network
+|DO DOKS        | Load Balancer                 | Network
 
 {{< tip >}}
 您可以在安装 Istio 时使用如下所示的 `serviceAnnotation` 指示 AWS EKS 创建网络负载均衡器：
@@ -195,13 +195,13 @@ spec:
 | 网络          | 数据包源地址| `ipBlocks`
 | HTTP/HTTPS        | X-Forwarded-For      | `remoteIpBlocks`
 
-* 以下命令为 Istio 入口网关创建鉴权策略 `ingress-policy`。以下策略将 `action` 字段设置为 `ALLOW`，以允 `ipBlocks` 中指定的 IP 地址访问入口网关。不在列表中的 IP 地址将被拒绝。`ipBlocks` 支持单个 IP 地址和 CIDR 表示法。
+* 以下命令为 Istio 入口网关创建授权策略 `ingress-policy`。以下策略将 `action` 字段设置为 `ALLOW`，以允 `ipBlocks` 中指定的 IP 地址访问入口网关。不在列表中的 IP 地址将被拒绝。`ipBlocks` 支持单个 IP 地址和 CIDR 表示法。
 
 {{< tabset category-name="source" >}}
 
 {{< tab name="ipBlocks" category-value="ipBlocks" >}}
 
-创建 AuthorizationPolicy：
+创建授权策略：
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -299,7 +299,7 @@ $ CLIENT_IP=$(kubectl get pods -n istio-system -o name -l istio=ingressgateway |
 192.168.10.15
 {{< /text >}}
 
-创建 AuthorizationPolicy：
+创建授权策略：
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -331,7 +331,7 @@ EOF
     200
     {{< /text >}}
 
-* 更新 `ingress-policy` 鉴权策略，将 `action` 键设置为 `DENY`，从而不允许 `ipBlocks` 中指定的 IP 地址访问入口网关：
+* 更新 `ingress-policy` 授权策略，将 `action` 键设置为 `DENY`，从而不允许 `ipBlocks` 中指定的 IP 地址访问入口网关：
 
 {{< tabset category-name="source" >}}
 
@@ -406,7 +406,7 @@ EOF
     $ kubectl delete namespace foo
     {{< /text >}}
 
-* 移除鉴权策略：
+* 移除授权策略：
 
     {{< text bash >}}
     $ kubectl delete authorizationpolicy ingress-policy -n istio-system
