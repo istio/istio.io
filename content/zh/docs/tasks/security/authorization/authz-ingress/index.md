@@ -120,7 +120,7 @@ spec:
 
 {{< /tab >}}
 
-{{< tab name="网络负载均衡器" category-value="network" >}}
+{{< tab name="Network Load Balancer" category-value="network" >}}
 
 如果您使用的是保留客户端 IP 地址的 TCP/UDP 网络负载均衡器（AWS 网络负载均衡器、GCP 外部网络负载均衡器、Azure 负载均衡器），或者您使用的是轮询模式的 DNS，那么您还可以保留客户端 IP 在 Kubernetes 内部绕过 kube-proxy 并阻止它向其他节点发送流量。**但是，您必须在每个节点上运行一个入口网关 Pod。**
 如果不这样做，那么任何接收流量但没有入口网关的节点都会丢弃流量。有关更多信息，请参阅[使用 `Type=NodePort` 的服务的源 IP](https://kubernetes.io/zh-cn/docs/tutorials/services/source-ip/#source-ip-for-services-with-type-nodeport)。
@@ -132,7 +132,7 @@ $ kubectl patch svc istio-ingressgateway -n istio-system -p '{"spec":{"externalT
 
 {{< /tab >}}
 
-{{< tab name="HTTP/HTTPS 负载均衡器" category-value="http" >}}
+{{< tab name="HTTP/HTTPS Load Balancer" category-value="http" >}}
 
 如果您使用的是 HTTP/HTTPS 外部负载均衡器（AWS ALB、GCP），它可以将原始客户端 IP 地址放在 X-Forwarded-For 标头中。Istio 可以通过一些配置从此标头中提取客户端 IP 地址。请参阅[配置网关网络拓扑](/zh/docs/ops/configuration/traffic-management/network-topologies/)。如果在 Kubernetes 前面使用单个负载均衡器，请参考以下快速示例：
 
@@ -191,8 +191,8 @@ spec:
 
 | 负载均衡器类型 | 客户端源 IP   | `ipBlocks` 与 `remoteIpBlocks`
 --------------------|----------------------|---------------------------
-| TCP 代理         | 代理协议       | `remoteIpBlocks`
-| 网络          | 数据包源地址| `ipBlocks`
+| TCP Proxy         | Proxy Protocol       | `remoteIpBlocks`
+| Network           | packet source address| `ipBlocks`
 | HTTP/HTTPS        | X-Forwarded-For      | `remoteIpBlocks`
 
 * 以下命令为 Istio 入口网关创建授权策略 `ingress-policy`。以下策略将 `action` 字段设置为 `ALLOW`，以允 `ipBlocks` 中指定的 IP 地址访问入口网关。不在列表中的 IP 地址将被拒绝。`ipBlocks` 支持单个 IP 地址和 CIDR 表示法。
