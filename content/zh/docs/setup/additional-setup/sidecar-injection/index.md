@@ -273,6 +273,8 @@ spec:
                 value: hello-world
 {{< /text >}}
 
-默认情况下，Pod 会使用 `sidecar` 注入模板，自动创建模板。这可通过 `inject.istio.io/templates` 注解来替换。例如要应用默认模板和自定义模板，您可以设置 `inject.istio.io/templates=sidecar,custom`。
+默认情况下，`istio` 会使用自动创建的 `sidecar` 模板对 Pod 进行注入。
+这可通过 `inject.istio.io/templates` 注解来替换。
+例如要应用默认模板和自定义模板，您可以设置 `inject.istio.io/templates=sidecar,custom`。
 
 除了 `sidecar` 之外，默认还会提供 `gateway` 模板以支持将代理注入到 Gateway Deployment 中。
