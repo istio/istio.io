@@ -702,6 +702,12 @@ These environment variables affect the behavior of the <code>install-cni</code> 
 <td>If this is set to false, the debug interface will not be enabled, recommended for production</td>
 </tr>
 <tr>
+<td><code>ENABLE_ENHANCED_RESOURCE_SCOPING</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, meshConfig.discoverySelectors will also limit the configurations(like Gateway,VirtualService,DestinationRule,Ingress, etc)that can be processed by pilot.</td>
+</tr>
+<tr>
 <td><code>ENABLE_HCM_INTERNAL_NETWORKS</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
