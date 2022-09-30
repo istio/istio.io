@@ -19,8 +19,6 @@ set -e
 set -u
 set -o pipefail
 
-source "tests/util/samples.sh"
-
 GATEWAY_API="${GATEWAY_API:-false}"
 
 # Download Istio
@@ -39,10 +37,6 @@ _wait_for_deployment istio-system istiod
 # remove the injection label to prevent the following command from failing
 kubectl label namespace default istio-injection-
 snip_install_istio_install_3
-
-# TODO: how to make sure previous tests cleaned up everything?
-# Cleanup sleep
-cleanup_sleep_sample
 
 # Deploy the sample Application
 snip_deploy_the_sample_application_bookinfo_1
@@ -71,7 +65,8 @@ else
 fi
 
 # Ensure no issues with configuration - istioctl analyze
-_verify_contains snip_open_the_application_to_outside_traffic_ip_4 "$snip_open_the_application_to_outside_traffic_ip_4_out"
+# TODO _verify_contains snip_open_the_application_to_outside_traffic_ip_4 "$snip_open_the_application_to_outside_traffic_ip_4_out"
+# TODO ^^^ uncomment this when https://github.com/istio/istio/pull/41184 is available
 
 # Get GATEWAY_URL
 # export the INGRESS_ environment variables
@@ -96,7 +91,7 @@ _verify_contains snip_view_the_dashboard_dashboard_1 'deployment "kiali" success
 
 # @cleanup
 if [ "$GATEWAY_API" != "true" ]; then
-    cleanup_bookinfo_sample
+    samples/bookinfo/platform/kube/cleanup.sh
     snip_uninstall_1
     kubectl delete ns istio-system --ignore-not-found=true
 fi

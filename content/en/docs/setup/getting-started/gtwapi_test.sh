@@ -23,7 +23,8 @@ source "content/en/docs/setup/getting-started/test.sh"
 
 # TODO fix cleanup approach and remove this temporary hack
 # @cleanup
-cleanup_bookinfo_sample
+samples/bookinfo/platform/kube/cleanup.sh
 snip_uninstall_1
 kubectl delete ns istio-system --ignore-not-found=true
+
 remove_gateway_api_crds

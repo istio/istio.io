@@ -24,4 +24,7 @@ function install_gateway_api_crds() {
 
 function remove_gateway_api_crds() {
     kubectl kustomize "${K8S_GATEWAY_API_CRDS}" | kubectl delete -f -
+
+    k get gateways.gateway.networking.k8s.io
+    # TODO ^^^ remove this kludge which forces the name "gateway" to not stay bound to the deleted crd
 }
