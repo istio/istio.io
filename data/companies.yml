@@ -305,7 +305,7 @@ pro_services:
   - name: "inovex"
     logo: "/logos/inovex.svg"
     url: "https://www.inovex.de/"
-    description: "At inovex we provide entd-to-end services to our clients, leveraging our extensive experience in cloud infrastructures and Kubernetes projects."
+    description: "At inovex we provide end-to-end services to our clients, leveraging our extensive experience in cloud infrastructures and Kubernetes projects."
     details:
       - "inovex is an IT project center driven by innovation and quality, focusing its services on ‘Digital Transformation’. Building production-ready cloud infrastructure since 2010 have been employing Kubernetes since its inception."
       - "We rely on Istio to heighten the security and resilience in the applications we build for our clients, meeting their needs even in multicluster setups."
