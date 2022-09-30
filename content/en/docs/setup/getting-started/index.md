@@ -106,9 +106,9 @@ Follow these steps to get started with Istio:
 
     Unlike [Istio Gateways](/docs/concepts/traffic-management/#gateways), creating
     [Kubernetes Gateways](https://gateway-api.sigs.k8s.io/api-types/gateway/) will, by default, also
-    [deploy their associated controllers](/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment).
-    Therefore, because they won't be used, we disable the deployment of the Istio gateway controllers that are normally installed
-    as part of the `demo` profile.
+    [deploy associated gateway proxy services](/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment).
+    Therefore, because they won't be used, we disable the deployment of the default Istio gateway services that
+    are normally installed as part of the `demo` profile.
 
     {{< text bash >}}
     $ istioctl install -f @samples/bookinfo/demo-profile-no-gateways.yaml@ -y

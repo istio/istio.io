@@ -58,7 +58,7 @@ spec:
         prefix: /status
     - uri:
         prefix: /delay
-     route:
+    route:
     - destination:
         port:
           number: 8000

@@ -33,7 +33,10 @@ startup_httpbin_sample
 if [ "$GATEWAY_API" == "true" ]; then
     # create the gateway and routes
     snip_configuring_ingress_using_a_gateway_3
-    snip_configuring_ingress_using_a_gateway_4
+
+    #snip_configuring_ingress_using_a_gateway_4
+    # TODO ^^^ generates error: Error from server (NotFound): gateways.gateway.networking.k8s.io "http-gateway" not found
+
     snip_configuring_ingress_using_a_gateway_5
 
     # set INGRESS_HOST and INGRESS_PORT environment variables
