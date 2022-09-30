@@ -65,7 +65,7 @@ else
 fi
 
 # Ensure no issues with configuration - istioctl analyze
-# TODO _verify_contains snip_open_the_application_to_outside_traffic_ip_4 "$snip_open_the_application_to_outside_traffic_ip_4_out"
+#_verify_contains snip_open_the_application_to_outside_traffic_ip_4 "$snip_open_the_application_to_outside_traffic_ip_4_out"
 # TODO ^^^ uncomment this when https://github.com/istio/istio/pull/41184 is available
 
 # Get GATEWAY_URL
@@ -86,7 +86,7 @@ _verify_contains get_bookinfo_productpage "<title>Simple Bookstore App</title>"
 # verify Kiali deployment
 _verify_contains snip_view_the_dashboard_dashboard_1 'deployment "kiali" successfully rolled out'
 
-# Verify Kiala dashboard
+# Verify Kiali dashboard
 # TODO Verify the browser output
 
 # @cleanup

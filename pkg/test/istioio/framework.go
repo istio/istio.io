@@ -269,14 +269,14 @@ func getTemplateScript(template, testPath string) string {
 	return fmt.Sprintf(template, defaultPath, snipsPath)
 }
 
-// getNonTestSources returns source statements that are not test files.
+// getNonTestSources returns test source commands that are not test files.
 func getNonTestSources(testScript string, testPath string) []string {
 	re := regexp.MustCompile("(?m)^source \".*\\.sh\"$")
 	sources := re.FindAllString(testScript, -1)
-	splitPath := strings.Split(testPath, "/")
-	pattern := fmt.Sprintf("source \"%s/%s/.*test\\.sh\"", defaultPath, strings.Join(splitPath[:len(splitPath)-1], "/"))
+	testDir := testPath[:strings.LastIndex(testPath, "/")]
+	re = regexp.MustCompile(fmt.Sprintf("source \"%s/%s/.*test\\.sh\"", defaultPath, testDir))
 	for i := 0; i < len(sources); i++ {
-		if match, _ := regexp.MatchString(pattern, sources[i]); match {
+		if re.MatchString(sources[i]) {
 			sources = append(sources[:i], sources[i+1:]...)
 			i--
 		}
