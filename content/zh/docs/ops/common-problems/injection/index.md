@@ -102,7 +102,7 @@ test: no
     以下标签会覆盖默认策略并强制注入 Sidecar：
 
     {{< text bash yaml >}}
-    $ kubectl get deployment sleep -o yaml | grep "sidecar.istio.io/inject:" -C3
+    $ kubectl get deployment sleep -o yaml | grep "sidecar.istio.io/inject:" -B4
     template:
       metadata:
         labels:
