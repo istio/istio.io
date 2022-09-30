@@ -26,7 +26,7 @@ test: yes
 
 本指南要求您有任意两个受支持版本的 Kubernetes 集群：{{< supported_kubernetes_versions >}}。
 
-第一个集群将托管安装在 `external-istiod` 名称空间中的 {{< gloss "external control plane">}}外部控制平面{{< /gloss >}}。 Ingress 网关也安装在 `istio-system` 名称空间中，以提供对外部控制平面的跨集群访问。
+第一个集群将托管安装在 `external-istiod` 命名空间中的 {{< gloss "external control plane">}}外部控制平面{{< /gloss >}}。 Ingress 网关也安装在 `istio-system` 命名空间中，以提供对外部控制平面的跨集群访问。
 
 第二个集群是将运行网格应用程序工作负载的 {{< gloss "remote cluster">}}远程集群{{< /gloss >}}。 它的 Kubernetes API Server 还提供了外部控制平面（Istiod）用来配置工作负载代理的网状配置。
 
@@ -105,10 +105,10 @@ $ export REMOTE_CLUSTER_NAME=<your remote cluster name>
     istiod-68488cd797-mq8dn                1/1     Running   0          38s
     {{< /text >}}
 
-    您会注意到在 `istio-system` 名称空间中也创建了一个 Istiod 部署。 这用于配置 Ingress 网关，而不是远程集群使用的控制平面。
+    您会注意到在 `istio-system` 命名空间中也创建了一个 Istiod 部署。 这用于配置 Ingress 网关，而不是远程集群使用的控制平面。
 
     {{< tip >}}
-    可以将 Ingress 网关配置为在外部集群上的不同名称空间中承载多个外部控制平面，尽管在本示例中，您将仅在 `external-istiod` 名称空间中部署一个外部 Istiod。
+    可以将 Ingress 网关配置为在外部集群上的不同命名空间中承载多个外部控制平面，尽管在本示例中，您将仅在 `external-istiod` 命名空间中部署一个外部 Istiod。
     {{< /tip >}}
 
 1. 使用带有 TLS 的公共主机名配置您的环境来暴露 Istio Ingress 网关服务。 将 `EXTERNAL_ISTIOD_ADDR` 环境变量设置为主机名，将 `SSL_SECRET_NAME` 环境变量设置为包含 TLS 证书的密钥：
@@ -362,7 +362,7 @@ $ export REMOTE_CLUSTER_NAME=<your remote cluster name>
 
 #### 部署一个简单应用{#deploy-a-sample-application}
 
-1. 在远程集群上创建 `sample` 名称空间并启用标签注入：
+1. 在远程集群上创建 `sample` 命名空间并启用标签注入：
 
     {{< text bash >}}
     $ kubectl create --context="${CTX_REMOTE_CLUSTER}" namespace sample
