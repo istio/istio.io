@@ -8,8 +8,7 @@ owner: istio/wg-environments-maintainers
 test: no
 ---
 
-请跟随本指南一起，使用
- [Helm](https://helm.sh/docs/) 安装、配置、并深入评估 Istio 网格系统。
+请跟随本指南一起，使用 [Helm](https://helm.sh/docs/) 安装、配置、并深入评估 Istio 网格系统。
 本指南用到的 Helm chart、以及使用 [Istioctl](/zh/docs/setup/install/istioctl/)、[Operator](/zh/docs/setup/install/operator/) 安装 Istio 时用到的 chart，它们都是相同的底层 chart。
 
 ## 安装步骤 {#installation-steps}
@@ -53,7 +52,7 @@ test: no
 
 ## 验证安装 {#verifying-the-installation}
 
-安装状态可以通过Helm进行验证:
+安装状态可以通过 Helm 进行验证:
 
 {{< text syntax=bash snip_id=none >}}
 $ helm status istiod -n istio-system
@@ -122,9 +121,9 @@ $ helm status istiod -n istio-system
     $ kubectl delete namespace istio-system
     {{< /text >}}
 
-## 卸载稳定的版本标签资源{#uninstall-stable-revision-label-resources}
+## 卸载稳定的版本标签资源 {#uninstall-stable-revision-label-resources}
 
-如果你决定继续使用旧的控制平面不更新，您可以通过第一次发布来卸载较新的版本及其标记 `helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags={prod-canary} --set revision=canary -n istio-system | kubectl delete -f -`。你必须按照上面的卸载程序卸载Istio 的修订版。
+如果你决定继续使用旧的控制平面不更新，您可以通过第一次发布来卸载较新的版本及其标记 `helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags={prod-canary} --set revision=canary -n istio-system | kubectl delete -f -`。你必须按照上面的卸载程序卸载 Istio 的修订版。
 
 如果您使用就地升级安装了此版本的网关，则还必须手动重新安装上一个版本的网关，删除以前的版本及其标记不会自动恢复以前已升级的网关。
 
