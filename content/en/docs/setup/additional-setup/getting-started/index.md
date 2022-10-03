@@ -14,8 +14,8 @@ test: yes
 {{< tip >}}
 Istio intends to make the Kubernetes [Gateway API](https://gateway-api.sigs.k8s.io/) the default API for traffic management
 [in the future](/blog/2022/gateway-api-beta/).
-The following instructions allow you get started with Istio using the Gateway API, which is currently a beta feture in Istio.
-If you perfer to use the tried-and-proven Istio classic API for traffic management, you should use
+The following instructions allow you get started with Istio using the Gateway API, which is currently a beta feature in Istio.
+If you prefer to use the tried-and-proven Istio classic API for traffic management, you should use
 [these instructions](/docs/setup/getting-started/) instead.
 {{< /tip >}}
 
@@ -236,7 +236,7 @@ route at the edge of your mesh.
     $ export INGRESS_PORT=$(kubectl get gtw bookinfo-gateway -o jsonpath='{.spec.listeners[?(@.name=="http")].port}')
     {{< /text >}}
 
- 1. Set `GATEWAY_URL`:
+1. Set `GATEWAY_URL`:
 
     {{< text bash >}}
     $ export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
