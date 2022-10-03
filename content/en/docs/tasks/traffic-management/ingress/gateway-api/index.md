@@ -64,7 +64,7 @@ In this example, we will deploy a simple application and expose it externally us
     {{< text bash >}}
     $ kubectl create namespace istio-ingress
     $ kubectl apply -f - <<EOF
-    apiVersion: gateway.networking.k8s.io/v1alpha2
+    apiVersion: gateway.networking.k8s.io/v1beta1
     kind: Gateway
     metadata:
       name: gateway
@@ -80,7 +80,7 @@ In this example, we will deploy a simple application and expose it externally us
           namespaces:
             from: All
     ---
-    apiVersion: gateway.networking.k8s.io/v1alpha2
+    apiVersion: gateway.networking.k8s.io/v1beta1
     kind: HTTPRoute
     metadata:
       name: http
@@ -133,7 +133,7 @@ In this example, we will deploy a simple application and expose it externally us
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: gateway.networking.k8s.io/v1alpha2
+    apiVersion: gateway.networking.k8s.io/v1beta1
     kind: HTTPRoute
     metadata:
       name: http
@@ -199,7 +199,7 @@ These resources can be customized in a few ways:
 * The `Service.spec.loadBalancerIP` field can be explicit set by configuring the `addresses` field:
 
     {{< text yaml >}}
-    apiVersion: gateway.networking.k8s.io/v1alpha2
+    apiVersion: gateway.networking.k8s.io/v1beta1
     kind: Gateway
     metadata:
       name: gateway
@@ -223,7 +223,7 @@ When this option is done, you will need to manually link the `Gateway` to the `S
 To link a `Gateway` to a `Service`, configure the `addresses` field to point to a **single** `Hostname`.
 
 {{< text yaml >}}
-apiVersion: gateway.networking.k8s.io/v1alpha2
+apiVersion: gateway.networking.k8s.io/v1beta1
 kind: Gateway
 metadata:
   name: gateway
@@ -247,7 +247,7 @@ This resource does not actually exist in the cluster and is only used to signal 
 For example, to redirect calls to `example.com` to an in-cluster `Service` named `example`:
 
 {{< text yaml >}}
-apiVersion: gateway.networking.k8s.io/v1alpha2
+apiVersion: gateway.networking.k8s.io/v1beta1
 kind: HTTPRoute
 metadata:
   name: mesh
