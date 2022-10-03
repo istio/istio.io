@@ -89,6 +89,8 @@ try:
     source_branch_name = docs_config['source_branch_name']
     istio_version = docs_config['version']
     istio_full_version = docs_config['full_version']
+    k8s_gateway_api_version = docs_config['k8s_gateway_api_version']
+    k8s_gateway_api_type = docs_config['k8s_gateway_api_type']
 except:
     sys.stderr.write('failed to retrieve data from "data/args.yml"\n')
     sys.exit(1)
@@ -176,6 +178,8 @@ with open(markdown, 'rt', encoding='utf-8') as mdfile:
                         multiline_cmd = True
                 line = line.replace("{{< istio_version >}}", istio_version)
                 line = line.replace("{{< istio_full_version >}}", istio_full_version)
+                line = line.replace("{{< k8s_gateway_api_version >}}", k8s_gateway_api_version)
+                line = line.replace("{{< k8s_gateway_api_type >}}", k8s_gateway_api_type)
                 current_snip["script"].append(line)
 
 if len(boilerplates) > 0:

@@ -20,7 +20,7 @@ and [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) 
 
     {{< text bash >}}
     $ kubectl get crd gateways.gateway.networking.k8s.io || \
-      { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.5.0" | kubectl apply -f -; }
+      { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref={{< k8s_gateway_api_version >}}" | kubectl apply -f -; }
     {{< /text >}}
 
 1. Install Istio using the `minimal` profile:
@@ -64,7 +64,7 @@ In this example, we will deploy a simple application and expose it externally us
     {{< text bash >}}
     $ kubectl create namespace istio-ingress
     $ kubectl apply -f - <<EOF
-    apiVersion: gateway.networking.k8s.io/v1beta1
+    apiVersion: gateway.networking.k8s.io/{{< k8s_gateway_api_type >}}
     kind: Gateway
     metadata:
       name: gateway
@@ -80,7 +80,7 @@ In this example, we will deploy a simple application and expose it externally us
           namespaces:
             from: All
     ---
-    apiVersion: gateway.networking.k8s.io/v1beta1
+    apiVersion: gateway.networking.k8s.io/{{< k8s_gateway_api_type >}}
     kind: HTTPRoute
     metadata:
       name: http
@@ -133,7 +133,7 @@ In this example, we will deploy a simple application and expose it externally us
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: gateway.networking.k8s.io/v1beta1
+    apiVersion: gateway.networking.k8s.io/{{< k8s_gateway_api_type >}}
     kind: HTTPRoute
     metadata:
       name: http
@@ -199,7 +199,7 @@ These resources can be customized in a few ways:
 * The `Service.spec.loadBalancerIP` field can be explicit set by configuring the `addresses` field:
 
     {{< text yaml >}}
-    apiVersion: gateway.networking.k8s.io/v1beta1
+    apiVersion: gateway.networking.k8s.io/{{< k8s_gateway_api_type >}}
     kind: Gateway
     metadata:
       name: gateway
@@ -223,7 +223,7 @@ When this option is done, you will need to manually link the `Gateway` to the `S
 To link a `Gateway` to a `Service`, configure the `addresses` field to point to a **single** `Hostname`.
 
 {{< text yaml >}}
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/{{< k8s_gateway_api_type >}}
 kind: Gateway
 metadata:
   name: gateway
@@ -247,7 +247,7 @@ This resource does not actually exist in the cluster and is only used to signal 
 For example, to redirect calls to `example.com` to an in-cluster `Service` named `example`:
 
 {{< text yaml >}}
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/{{< k8s_gateway_api_type >}}
 kind: HTTPRoute
 metadata:
   name: mesh
@@ -278,5 +278,5 @@ spec:
 1. Remove the Gateway API CRDs if they are no longer needed:
 
     {{< text bash >}}
-    $ kubectl kustomize "github.com/kubernetes-sigs/service-apis/config/crd?ref=v0.5.0" | kubectl delete -f -
+    $ kubectl kustomize "github.com/kubernetes-sigs/service-apis/config/crd?ref={{< k8s_gateway_api_version >}}" | kubectl delete -f -
     {{< /text >}}
