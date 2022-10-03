@@ -191,14 +191,6 @@ Follow these steps to get started with Istio:
 ## Open the application to outside traffic {#ip}
 
 The Bookinfo application is deployed but not accessible from the outside. To make it accessible,
-you need to create an
-[Istio Ingress Gateway](/docs/concepts/traffic-management/#gateways), which maps a path to a
-route at the edge of your mesh.
-
-1.  Associate this application with the Istio gateway:
-## Open the application to outside traffic {#ip}
-
-The Bookinfo application is deployed but not accessible from the outside. To make it accessible,
 you need to create an ingress gateway, which maps a path to a
 route at the edge of your mesh.
 
