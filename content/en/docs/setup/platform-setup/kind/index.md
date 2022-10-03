@@ -76,7 +76,7 @@ Follow these instructions to setup Dashboard for kind.
 1.  To deploy Dashboard, run the following command:
 
     {{< text bash >}}
-    $ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.1.0/aio/deploy/recommended.yaml
+    $ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml
     {{< /text >}}
 
 1.  Verify that Dashboard is deployed and running.
@@ -88,16 +88,17 @@ Follow these instructions to setup Dashboard for kind.
     kubernetes-dashboard-b7ffbc8cb-zl8zg         1/1     Running   0          39s
     {{< /text >}}
 
-1.  Create a `ClusterRoleBinding` to provide admin access to the newly created cluster.
+1.  Create a `ServiceAccount` and `ClusterRoleBinding` to provide admin access to the newly created cluster.
 
     {{< text bash >}}
-    $ kubectl create clusterrolebinding default-admin --clusterrole cluster-admin --serviceaccount=default:default
+    $ kubectl create serviceaccount -n kubernetes-dashboard admin-user
+    $ kubectl create clusterrolebinding -n kubernetes-dashboard admin-user --clusterrole cluster-admin --serviceaccount=kubernetes-dashboard:admin-user
     {{< /text >}}
 
 1.  To login to Dashboard, you need a Bearer Token. Use the following command to store the token in a variable.
 
     {{< text bash >}}
-    $ token=$(kubectl get secrets -o jsonpath="{.items[?(@.metadata.annotations['kubernetes\.io/service-account\.name']=='default')].data.token}"|base64 --decode)
+    $ token=$(kubectl -n kubernetes-dashboard create token admin-user)
     {{< /text >}}
 
     Display the token using the `echo` command and copy it to use for logging into Dashboard.
