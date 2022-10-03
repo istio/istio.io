@@ -591,6 +591,7 @@ linters
 list_by_publishdate
 Liu
 liveness
+LoadBalancer
 loadimpact
 localhost
 log_output_level

@@ -16,7 +16,7 @@ to demonstrate various Istio features.
 {{< tip >}}
 If you installed Istio using the [Getting Started](/docs/setup/getting-started/)
 instructions, you already have Bookinfo installed and you can skip most of these steps
-and go directly to [Apply Default Destination Rules](/docs/examples/bookinfo/#apply-default-destination-rules).
+and go directly to [Define the service versions](/docs/examples/bookinfo/#define-the-service-versions).
 {{< /tip >}}
 
 The application displays information about a
@@ -50,6 +50,8 @@ for the `reviews` service.
 
 If you haven't already done so, setup Istio by following the instructions
 in the [installation guide](/docs/setup/).
+
+{{< boilerplate gateway-api-support >}}
 
 ## Deploying the application
 
@@ -146,16 +148,23 @@ If you use GKE, please ensure your cluster has at least 4 standard GKE nodes. If
 ### Determine the ingress IP and port
 
 Now that the Bookinfo services are up and running, you need to make the application accessible from outside of your
-Kubernetes cluster, e.g., from a browser. An [Istio Gateway](/docs/concepts/traffic-management/#gateways)
-is used for this purpose.
+Kubernetes cluster, e.g., from a browser. A gateway is used for this purpose.
 
-1.  Define the ingress gateway for the application:
+1. Create a gateway for the Bookinfo application:
+
+    {{< tabset category-name="config-api" >}}
+
+    {{< tab name="Istio classic" category-value="istio-classic" >}}
+
+    Create an [Istio Gateway](/docs/concepts/traffic-management/#gateways) using the following command:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/networking/bookinfo-gateway.yaml@
+    gateway.networking.istio.io/bookinfo-gateway created
+    virtualservice.networking.istio.io/bookinfo created
     {{< /text >}}
 
-1.  Confirm the gateway has been created:
+    Confirm the gateway has been created:
 
     {{< text bash >}}
     $ kubectl get gateway
@@ -163,7 +172,40 @@ is used for this purpose.
     bookinfo-gateway   32s
     {{< /text >}}
 
-1.  Follow [these instructions](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports) to set the `INGRESS_HOST` and `INGRESS_PORT` variables for accessing the gateway. Return here, when they are set.
+    Follow [these instructions](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports) to set the `INGRESS_HOST` and `INGRESS_PORT` variables for accessing the gateway. Return here, when they are set.
+
+    {{< /tab >}}
+
+    {{< tab name="Gateway API" category-value="gateway-api" >}}
+
+    {{< boilerplate external-loadbalancer-support >}}
+
+    Create a [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/api-types/gateway/) using the following command:
+
+    {{< text bash >}}
+    $ kubectl apply -f @samples/bookinfo/gateway-api/bookinfo-gateway.yaml@
+    gateway.gateway.networking.k8s.io/bookinfo-gateway created
+    httproute.gateway.networking.k8s.io/bookinfo created
+    {{< /text >}}
+
+    Because creating a Kubernetes `Gateway` resource will also
+    [deploy an associated proxy service](/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment),
+    run the following command to wait for the gateway to be ready:
+
+    {{< text bash >}}
+    $ kubectl wait --for=condition=ready gtw bookinfo-gateway
+    {{< /text >}}
+
+    Get the gateway address and port from the bookinfo gateway resource:
+
+    {{< text bash >}}
+    $ export INGRESS_HOST=$(kubectl get gtw bookinfo-gateway -o jsonpath='{.status.addresses[*].value}')
+    $ export INGRESS_PORT=$(kubectl get gtw bookinfo-gateway -o jsonpath='{.spec.listeners[?(@.name=="http")].port}')
+    {{< /text >}}
+
+    {{< /tab >}}
+
+    {{< /tabset >}}
 
 1.  Set `GATEWAY_URL`:
 
@@ -186,11 +228,17 @@ see different versions of reviews shown in `productpage`, presented in a round r
 stars, black stars, no stars), since we haven't yet used Istio to control the
 version routing.
 
-## Apply default destination rules
+## Define the service versions
 
 Before you can use Istio to control the Bookinfo version routing, you need to define the available
-versions, called *subsets*, in [destination rules](/docs/concepts/traffic-management/#destination-rules).
+versions.
 
+{{< tabset category-name="config-api" >}}
+
+{{< tab name="Istio classic" category-value="istio-classic" >}}
+
+Istio uses *subsets*, in [destination rules](/docs/concepts/traffic-management/#destination-rules),
+to define versions of a service.
 Run the following command to create default destination rules for the Bookinfo services:
 
 {{< text bash >}}
@@ -210,6 +258,23 @@ You can display the destination rules with the following command:
 $ kubectl get destinationrules -o yaml
 {{< /text >}}
 
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+Unlike the Istio API, which uses `DestinationRule` subsets to define the versions of a service,
+the Kubernetes Gateway API uses backend service definitions for this purpose.
+
+Run the following command to create backend service definitions for the three versions of the `reviews` service:
+
+{{< text bash >}}
+$ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-versions.yaml@
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
 ## What's next
 
 You can now use this sample to experiment with Istio's features for
@@ -221,19 +286,8 @@ is a good place to start for beginners.
 ## Cleanup
 
 When you're finished experimenting with the Bookinfo sample, uninstall and clean
-it up using the following instructions:
+it up using the following command:
 
-1.  Delete the routing rules and terminate the application pods
-
-    {{< text bash >}}
-    $ @samples/bookinfo/platform/kube/cleanup.sh@
-    {{< /text >}}
-
-1.  Confirm shutdown
-
-    {{< text bash >}}
-    $ kubectl get virtualservices   #-- there should be no virtual services
-    $ kubectl get destinationrules  #-- there should be no destination rules
-    $ kubectl get gateway           #-- there should be no gateway
-    $ kubectl get pods              #-- the Bookinfo pods should be deleted
-    {{< /text >}}
+{{< text bash >}}
+$ @samples/bookinfo/platform/kube/cleanup.sh@
+{{< /text >}}
