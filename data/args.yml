@@ -53,4 +53,3 @@ supported_languages:
 
 # Kubernetes Gateway API
 k8s_gateway_api_version: "v0.5.1"
-k8s_gateway_api_type: "v1beta1"
