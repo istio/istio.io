@@ -1,5 +1,5 @@
 ---
-title: Getting Started
+title: Getting Started with Istio and Kubernetes Gateway API
 description: Try Istio’s features quickly and easily.
 weight: 5
 aliases:
@@ -14,10 +14,21 @@ test: yes
 {{< tip >}}
 Istio intends to make the Kubernetes [Gateway API](https://gateway-api.sigs.k8s.io/) the default API for traffic management
 [in the future](/blog/2022/gateway-api-beta/).
-Although the Gateway API is currently a beta feture in Istio you can still get started with Istio using the
-future API if you prefer.
-Refer to the [future getting started instructions](/docs/setup/additional-setup/getting-started/) instead of the following.
+The following instructions allow you get started with Istio using the Gateway API, which is currently a beta feture in Istio.
+If you perfer to use the tried-and-proven Istio classic API for traffic management, you should use
+[these instructions](/docs/setup/getting-started/) instead.
 {{< /tip >}}
+
+{{< warning >}}
+The Kubernetes Gateway API CRDs do not come installed by default on most Kubernetes clusters, so make sure they are
+installed before using the Gateway API:
+
+{{< text bash >}}
+$ kubectl get crd gateways.gateway.networking.k8s.io || \
+  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.5.0" | kubectl apply -f -; }
+{{< /text >}}
+
+{{< /warning >}}
 
 This guide lets you quickly evaluate Istio. If you are already familiar with
 Istio or interested in installing other configuration profiles or
@@ -93,12 +104,16 @@ Follow these steps to get started with Istio:
     [platform instructions](/docs/setup/platform-setup/) for details.
     {{< /warning >}}
 
+    Unlike [Istio Gateways](/docs/concepts/traffic-management/#gateways), creating
+    [Kubernetes Gateways](https://gateway-api.sigs.k8s.io/api-types/gateway/) will, by default, also
+    [deploy associated gateway proxy services](/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment).
+    Therefore, because they won't be used, we disable the deployment of the default Istio gateway services that
+    are normally installed as part of the `demo` profile.
+
     {{< text bash >}}
-    $ istioctl install --set profile=demo -y
+    $ istioctl install -f @samples/bookinfo/demo-profile-no-gateways.yaml@ -y
     ✔ Istio core installed
     ✔ Istiod installed
-    ✔ Egress gateways installed
-    ✔ Ingress gateways installed
     ✔ Installation complete
     {{< /text >}}
 
@@ -181,11 +196,26 @@ you need to create an
 route at the edge of your mesh.
 
 1.  Associate this application with the Istio gateway:
+## Open the application to outside traffic {#ip}
+
+The Bookinfo application is deployed but not accessible from the outside. To make it accessible,
+you need to create an ingress gateway, which maps a path to a
+route at the edge of your mesh.
+
+1.  Create a [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/api-types/gateway/) for the Bookinfo application:
 
     {{< text bash >}}
-    $ kubectl apply -f @samples/bookinfo/networking/bookinfo-gateway.yaml@
-    gateway.networking.istio.io/bookinfo-gateway created
-    virtualservice.networking.istio.io/bookinfo created
+    $ kubectl apply -f @samples/bookinfo/gateway-api/bookinfo-gateway.yaml@
+    gateway.gateway.networking.k8s.io/bookinfo-gateway created
+    httproute.gateway.networking.k8s.io/bookinfo created
+    {{< /text >}}
+
+    Because creating a Kubernetes `Gateway` resource will also
+    [deploy an associated proxy service](/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment),
+    run the following command to wait for the gateway to be ready:
+
+    {{< text bash >}}
+    $ kubectl wait --for=condition=ready gtw bookinfo-gateway
     {{< /text >}}
 
 1.  Ensure that there are no issues with the configuration:
@@ -197,149 +227,31 @@ route at the edge of your mesh.
 
 ### Determining the ingress IP and ports
 
-Follow these instructions to set the `INGRESS_HOST` and `INGRESS_PORT` variables
-for accessing the gateway. Use the tabs to choose the instructions for your
-chosen platform:
+1. Set the `INGRESS_HOST` and `INGRESS_PORT` variables for accessing the gateway:
 
-{{< tabset category-name="gateway-ip" >}}
+    {{< boilerplate external-loadbalancer-support >}}
 
-{{< tab name="Minikube" category-value="external-lb" >}}
+    {{< text bash >}}
+    $ export INGRESS_HOST=$(kubectl get gtw bookinfo-gateway -o jsonpath='{.status.addresses[*].value}')
+    $ export INGRESS_PORT=$(kubectl get gtw bookinfo-gateway -o jsonpath='{.spec.listeners[?(@.name=="http")].port}')
+    {{< /text >}}
 
-Run this command in a new terminal window to start a Minikube tunnel that
-sends traffic to your Istio Ingress Gateway. This will provide an external
-load balancer, `EXTERNAL-IP`, for `service/istio-ingressgateway`.
-
-{{< text bash >}}
-$ minikube tunnel
-{{< /text >}}
-
-Set the ingress host and ports:
-
-{{< text bash >}}
-$ export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-$ export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].port}')
-$ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].port}')
-{{< /text >}}
-
-Ensure an IP address and ports were successfully assigned to each environment variable:
-
-{{< text bash >}}
-$ echo "$INGRESS_HOST"
-127.0.0.1
-{{< /text >}}
-
-{{< text bash >}}
-$ echo "$INGRESS_PORT"
-80
-{{< /text >}}
-
-{{< text bash >}}
-$ echo "$SECURE_INGRESS_PORT"
-443
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< tab name="Other platforms" category-value="node-port" >}}
-
-Execute the following command to determine if your Kubernetes cluster is running in an environment that supports external load balancers:
-
-{{< text bash >}}
-$ kubectl get svc istio-ingressgateway -n istio-system
-NAME                   TYPE           CLUSTER-IP       EXTERNAL-IP     PORT(S)                                      AGE
-istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121  80:31380/TCP,443:31390/TCP,31400:31400/TCP   17h
-{{< /text >}}
-
-If the `EXTERNAL-IP` value is set, your environment has an external load balancer that you can use for the ingress gateway.
-If the `EXTERNAL-IP` value is `<none>` (or perpetually `<pending>`), your environment does not provide an external load balancer for the ingress gateway.
-In this case, you can access the gateway using the service's [node port](https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport).
-
-Choose the instructions corresponding to your environment:
-
-**Follow these instructions if you have determined that your environment has an external load balancer.**
-
-Set the ingress IP and ports:
-
-{{< text bash >}}
-$ export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-$ export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].port}')
-$ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].port}')
-{{< /text >}}
-
-{{< warning >}}
-In certain environments, the load balancer may be exposed using a host name, instead of an IP address.
-In this case, the ingress gateway's `EXTERNAL-IP` value will not be an IP address,
-but rather a host name, and the above command will have failed to set the `INGRESS_HOST` environment variable.
-Use the following command to correct the `INGRESS_HOST` value:
-
-{{< text bash >}}
-$ export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
-{{< /text >}}
-
-{{< /warning >}}
-
-**Follow these instructions if your environment does not have an external load balancer and choose a node port instead.**
-
-Set the ingress ports:
-
-{{< text bash >}}
-$ export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}')
-$ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].nodePort}')
-{{< /text >}}
-
-_GKE:_
-
-{{< text bash >}}
-$ export INGRESS_HOST=worker-node-address
-{{< /text >}}
-
-You need to create firewall rules to allow the TCP traffic to the `ingressgateway` service's ports.
-Run the following commands to allow the traffic for the HTTP port, the secure port (HTTPS) or both:
-
-{{< text bash >}}
-$ gcloud compute firewall-rules create allow-gateway-http --allow "tcp:$INGRESS_PORT"
-$ gcloud compute firewall-rules create allow-gateway-https --allow "tcp:$SECURE_INGRESS_PORT"
-{{< /text >}}
-
-_IBM Cloud Kubernetes Service:_
-
-{{< text bash >}}
-$ ibmcloud ks workers --cluster cluster-name-or-id
-$ export INGRESS_HOST=public-IP-of-one-of-the-worker-nodes
-{{< /text >}}
-
-_Docker For Desktop:_
-
-{{< text bash >}}
-$ export INGRESS_HOST=127.0.0.1
-{{< /text >}}
-
-_Other environments:_
-
-{{< text bash >}}
-$ export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].status.hostIP}')
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< /tabset >}}
-
-1.  Set `GATEWAY_URL`:
+ 1. Set `GATEWAY_URL`:
 
     {{< text bash >}}
     $ export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
     {{< /text >}}
 
-1.  Ensure an IP address and port were successfully assigned to the environment variable:
+1. Ensure an IP address and port were successfully assigned to the environment variable:
 
     {{< text bash >}}
     $ echo "$GATEWAY_URL"
-    192.168.99.100:32194
+    169.48.8.37:80
     {{< /text >}}
 
 ### Verify external access {#confirm}
 
-Confirm that the Bookinfo application is accessible from outside
+Confirm that the Bookinfo application is accessible from outside the cluster
 by viewing the Bookinfo product page using a browser.
 
 1.  Run the following command to retrieve the external address of the Bookinfo application.
