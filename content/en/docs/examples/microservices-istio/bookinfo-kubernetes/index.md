@@ -4,7 +4,7 @@ overview: Deploy the Bookinfo application that uses the ratings microservice in 
 weight: 30
 
 owner: istio/wg-docs-maintainers
-test: no
+test: yes
 ---
 
 {{< boilerplate work-in-progress >}}
@@ -30,7 +30,7 @@ microservice.
 1.  Deploy the application to your Kubernetes cluster:
 
     {{< text bash >}}
-    $ kubectl apply -l version!=v2,version!=v3 -f {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml
+    $ kubectl apply -n "$NAMESPACE" -l version!=v2,version!=v3 -f {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml
     service/details created
     serviceaccount/bookinfo-details created
     deployment.apps/details-v1 created
@@ -48,7 +48,7 @@ microservice.
 1.  Check the status of the pods:
 
     {{< text bash >}}
-    $ kubectl get pods
+    $ kubectl get pods -n "$NAMESPACE"
     NAME                            READY   STATUS    RESTARTS   AGE
     details-v1-6d86fd9949-q8rrf     1/1     Running   0          10s
     productpage-v1-c9965499-tjdjx   1/1     Running   0          8s
@@ -59,7 +59,7 @@ microservice.
 1.  After the four pods achieve the `Running` status, you can scale the deployment. To let each version of each microservice run in three pods, execute the following command:
 
     {{< text bash >}}
-    $ kubectl scale deployments --all --replicas 3
+    $ kubectl scale deployments --all --replicas 3 -n "$NAMESPACE"
     deployment.apps/details-v1 scaled
     deployment.apps/productpage-v1 scaled
     deployment.apps/ratings-v1 scaled
@@ -69,7 +69,7 @@ microservice.
 1.  Check the pods status. Notice that each microservice has three pods:
 
     {{< text bash >}}
-    $ kubectl get pods
+    $ kubectl get pods -n "$NAMESPACE"
     NAME                            READY   STATUS    RESTARTS   AGE
     details-v1-6d86fd9949-fr59p     1/1     Running   0          50s
     details-v1-6d86fd9949-mksv7     1/1     Running   0          50s
@@ -90,14 +90,14 @@ microservice.
     to your microservices:
 
     {{< text bash >}}
-    $ kubectl apply -f {{< github_file >}}/samples/sleep/sleep.yaml
+    $ kubectl apply -f {{< github_file >}}/samples/sleep/sleep.yaml -n "$NAMESPACE"
     {{< /text >}}
 
 1.  To confirm that the Bookinfo application is running, send a request to it
     with a curl command from your testing pod:
 
     {{< text bash >}}
-    $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -c sleep -- curl -sS productpage:9080/productpage | grep -o "<title>.*</title>"
+    $ kubectl exec -n "$NAMESPACE" "$(kubectl get pod -n "$NAMESPACE" -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -c sleep -- curl -sS productpage:9080/productpage | grep -o "<title>.*</title>"
     <title>Simple Bookstore App</title>
     {{< /text >}}
 
@@ -111,7 +111,7 @@ below successfully, you can access the application from your laptop's browser.
 If your cluster runs on GKE, change the `productpage` service type to `LoadBalancer`:
 
 {{< text bash >}}
-$ kubectl patch svc productpage -p '{"spec": {"type": "LoadBalancer"}}'
+$ kubectl patch svc productpage -p '{"spec": {"type": "LoadBalancer"}}' -n "$NAMESPACE"
 service/productpage patched
 {{< /text >}}
 
@@ -122,7 +122,7 @@ service/productpage patched
 1.  Create a Kubernetes Ingress resource:
 
     {{< text bash >}}
-    $ kubectl apply -f - <<EOF
+    $ kubectl apply -n "$NAMESPACE" -f - <<EOF
     apiVersion: networking.k8s.io/v1beta1
     kind: Ingress
     metadata:
@@ -159,7 +159,7 @@ service/productpage patched
 1.  Get the IP address for the Kubernetes ingress named `bookinfo`:
 
     {{< text bash >}}
-    $ kubectl get ingress bookinfo
+    $ kubectl get ingress bookinfo -n "$NAMESPACE"
     {{< /text >}}
 
 1.  In your `/etc/hosts` file, add the previous IP address to the host entries
@@ -168,7 +168,7 @@ service/productpage patched
     use [`sudo`](https://en.wikipedia.org/wiki/Sudo) to edit `/etc/hosts`.
 
     {{< text bash >}}
-    $ echo $(kubectl get ingress istio-system -n istio-system -o jsonpath='{..ip} {..host}') $(kubectl get ingress bookinfo -o jsonpath='{..host}')
+    $ echo "$(kubectl get ingress istio-system -n istio-system -o jsonpath='{..ip} {..host}')" "$(kubectl get ingress -n "$NAMESPACE" bookinfo -o jsonpath='{..host}')"
     {{< /text >}}
 
 ### Access your application
@@ -176,14 +176,14 @@ service/productpage patched
 1.  Access the application's home page from the command line:
 
     {{< text bash >}}
-    $ curl -s $MYHOST/productpage | grep -o "<title>.*</title>"
+    $ curl -s "$MYHOST"/productpage | grep -o "<title>.*</title>"
     <title>Simple Bookstore App</title>
     {{< /text >}}
 
 1.  Paste the output of the following command in your browser address bar:
 
     {{< text bash >}}
-    $ echo http://$MYHOST/productpage
+    $ echo http://"$MYHOST"/productpage
     {{< /text >}}
 
     You should see the following webpage:
@@ -205,7 +205,7 @@ service/productpage patched
     constant user traffic in the real world:
 
     {{< text bash >}}
-    $ while :; do curl -s $MYHOST/productpage | grep -o "<title>.*</title>"; sleep 1; done
+    $ while :; do curl -s "$MYHOST"/productpage | grep -o "<title>.*</title>"; sleep 1; done
     <title>Simple Bookstore App</title>
     <title>Simple Bookstore App</title>
     <title>Simple Bookstore App</title>

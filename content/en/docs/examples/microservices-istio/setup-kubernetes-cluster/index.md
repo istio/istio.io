@@ -3,7 +3,7 @@ title: Setup a Kubernetes Cluster
 overview: Set up your Kubernetes cluster for the tutorial.
 weight: 2
 owner: istio/wg-docs-maintainers
-test: no
+test: yes
 ---
 
 {{< boilerplate work-in-progress >}}
@@ -34,7 +34,7 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
 1.  Create the namespace:
 
     {{< text bash >}}
-    $ kubectl create namespace $NAMESPACE
+    $ kubectl create namespace "$NAMESPACE"
     {{< /text >}}
 
     {{< tip >}}
@@ -123,12 +123,26 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
     kind: Role
     apiVersion: rbac.authorization.k8s.io/v1beta1
     metadata:
-      name: istio-system-access
+      name: istio-system-read-access
       namespace: istio-system
     rules:
     - apiGroups: ["", "extensions", "apps"]
       resources: ["*"]
       verbs: ["get", "list"]
+    EOF
+    {{< /text >}}
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    kind: Role
+    apiVersion: rbac.authorization.k8s.io/v1beta1
+    metadata:
+      name: istio-system-write-access
+      namespace: istio-system
+    rules:
+    - apiGroups: [""]
+      resources: ["pods/portforward"]
+      verbs: ["create"]
     EOF
     {{< /text >}}
 
@@ -159,18 +173,27 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
     kind: Role
     apiVersion: rbac.authorization.k8s.io/v1beta1
     metadata:
-      name: ${NAMESPACE}-access
+      name: ${NAMESPACE}-read-access
       namespace: $NAMESPACE
     rules:
-    - apiGroups: ["", "extensions", "apps", "networking.k8s.io", "networking.istio.io", "authentication.istio.io",
-                  "rbac.istio.io", "config.istio.io", "security.istio.io"]
+    - apiGroups: ["", "extensions", "apps", "networking.k8s.io", "networking.istio.io"]
       resources: ["*"]
-      verbs: ["*"]
+      verbs: ["get", "list"]
+    ---
+    kind: Role
+    apiVersion: rbac.authorization.k8s.io/v1beta1
+    metadata:
+      name: ${NAMESPACE}-write-access
+      namespace: $NAMESPACE
+    rules:
+    - apiGroups: ["", "extensions", "apps", "networking.k8s.io", "networking.istio.io"]
+      resources: ["services", "serviceaccounts", "pods/exec", "deployments", "deployments/scale", "destinationrules", "ingresses"]
+      verbs: ["create", "patch"]
     ---
     kind: RoleBinding
     apiVersion: rbac.authorization.k8s.io/v1beta1
     metadata:
-      name: ${NAMESPACE}-access
+      name: ${NAMESPACE}-read-access
       namespace: $NAMESPACE
     subjects:
     - kind: ServiceAccount
@@ -179,12 +202,26 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
     roleRef:
       apiGroup: rbac.authorization.k8s.io
       kind: Role
-      name: ${NAMESPACE}-access
+      name: ${NAMESPACE}-read-access
     ---
     kind: RoleBinding
     apiVersion: rbac.authorization.k8s.io/v1beta1
     metadata:
-      name: ${NAMESPACE}-istio-system-access
+      name: ${NAMESPACE}-write-access
+      namespace: $NAMESPACE
+    subjects:
+    - kind: ServiceAccount
+      name: ${NAMESPACE}-user
+      namespace: $NAMESPACE
+    roleRef:
+      apiGroup: rbac.authorization.k8s.io
+      kind: Role
+      name: ${NAMESPACE}-write-access
+    ---
+    kind: RoleBinding
+    apiVersion: rbac.authorization.k8s.io/v1beta1
+    metadata:
+      name: ${NAMESPACE}-istio-system-read-access
       namespace: istio-system
     subjects:
     - kind: ServiceAccount
@@ -193,7 +230,49 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
     roleRef:
       apiGroup: rbac.authorization.k8s.io
       kind: Role
-      name: istio-system-access
+      name: istio-system-read-access
+    ---
+    kind: RoleBinding
+    apiVersion: rbac.authorization.k8s.io/v1beta1
+    metadata:
+      name: ${NAMESPACE}-istio-system-write-access
+      namespace: istio-system
+    subjects:
+    - kind: ServiceAccount
+      name: ${NAMESPACE}-user
+      namespace: $NAMESPACE
+    roleRef:
+      apiGroup: rbac.authorization.k8s.io
+      kind: Role
+      name: istio-system-write-access
+    EOF
+    {{< /text >}}
+
+1.  Create a `ClusterRole` and `ClusterRoleBinding` to enable manual sidecar injection in later parts of this tutorial:
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    kind: ClusterRole
+    apiVersion: rbac.authorization.k8s.io/v1beta1
+    metadata:
+      name: ${NAMESPACE}-clusterrole
+    rules:
+    - apiGroups: ["admissionregistration.k8s.io"]
+      resources: ["mutatingwebhookconfigurations"]
+      verbs: ["get", "list"]
+    ---
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRoleBinding
+    metadata:
+      name: ${NAMESPACE}-clusterrole-binding
+    roleRef:
+      apiGroup: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: ${NAMESPACE}-clusterrole
+    subjects:
+    - kind: ServiceAccount
+      name: ${NAMESPACE}-user
+      namespace: ${NAMESPACE}
     EOF
     {{< /text >}}
 
@@ -204,7 +283,7 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
     Generate a Kubernetes configuration file for each participant:
 
     {{< tip >}}
-    This command assumes your cluster is named `tutorial-cluster`. If your cluster is named differently, replace all references with the name of your cluster.
+    This command assumes your cluster is named `tutorial-cluster`. If your cluster is named differently, replace all references CLUSTERNAME with the name of your cluster.
     {{</ tip >}}
 
     {{< text bash >}}
@@ -215,20 +294,20 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
 
     clusters:
     - cluster:
-        certificate-authority-data: $(kubectl get secret $(kubectl get sa ${NAMESPACE}-user -n $NAMESPACE -o jsonpath={.secrets..name}) -n $NAMESPACE -o jsonpath='{.data.ca\.crt}')
+        certificate-authority-data: $(kubectl get secret "$(kubectl get sa ${NAMESPACE}-user -n $NAMESPACE -o jsonpath={.secrets..name})" -n $NAMESPACE -o jsonpath='{.data.ca\.crt}')
         server: $(kubectl config view -o jsonpath="{.clusters[?(.name==\"$(kubectl config view -o jsonpath="{.contexts[?(.name==\"$(kubectl config current-context)\")].context.cluster}")\")].cluster.server}")
-      name: ${NAMESPACE}-cluster
+      name: ${CLUSTERNAME}
 
     users:
     - name: ${NAMESPACE}-user
       user:
         as-user-extra: {}
-        client-key-data: $(kubectl get secret $(kubectl get sa ${NAMESPACE}-user -n $NAMESPACE -o jsonpath={.secrets..name}) -n $NAMESPACE -o jsonpath='{.data.ca\.crt}')
-        token: $(kubectl get secret $(kubectl get sa ${NAMESPACE}-user -n $NAMESPACE -o jsonpath={.secrets..name}) -n $NAMESPACE -o jsonpath={.data.token} | base64 --decode)
+        client-key-data: $(kubectl get secret "$(kubectl get sa ${NAMESPACE}-user -n $NAMESPACE -o jsonpath={.secrets..name})" -n ${NAMESPACE} -o jsonpath='{.data.ca\.crt}')
+        token: $(kubectl get secret "$(kubectl get sa ${NAMESPACE}-user -n $NAMESPACE -o jsonpath={.secrets..name})" -n ${NAMESPACE} -o jsonpath='{.data.token}' | base64 --decode)
 
     contexts:
     - context:
-        cluster: ${NAMESPACE}-cluster
+        cluster: ${CLUSTERNAME}
         namespace: ${NAMESPACE}
         user: ${NAMESPACE}-user
       name: ${NAMESPACE}

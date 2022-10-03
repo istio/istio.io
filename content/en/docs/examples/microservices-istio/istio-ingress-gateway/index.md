@@ -4,7 +4,7 @@ overview: Control traffic starting from Ingress.
 weight: 71
 
 owner: istio/wg-docs-maintainers
-test: no
+test: yes
 ---
 
 Until now, you used a Kubernetes Ingress to access your application from the
@@ -16,7 +16,7 @@ ingress gateway, in order to apply Istio control on traffic to your microservice
 
     {{< text bash >}}
     $ export NAMESPACE=$(kubectl config view -o jsonpath="{.contexts[?(@.name == \"$(kubectl config current-context)\")].context.namespace}")
-    $ echo $NAMESPACE
+    $ echo "$NAMESPACE"
     tutorial
     {{< /text >}}
 
@@ -24,14 +24,14 @@ ingress gateway, in order to apply Istio control on traffic to your microservice
 
     {{< text bash >}}
     $ export MY_INGRESS_GATEWAY_HOST=istio.$NAMESPACE.bookinfo.com
-    $ echo $MY_INGRESS_GATEWAY_HOST
+    $ echo "$MY_INGRESS_GATEWAY_HOST"
     istio.tutorial.bookinfo.com
     {{< /text >}}
 
 1.  Configure an Istio ingress gateway:
 
     {{< text bash >}}
-    $ kubectl apply -f - <<EOF
+    $ kubectl apply -n "$NAMESPACE" -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: Gateway
     metadata:
@@ -80,27 +80,27 @@ ingress gateway, in order to apply Istio control on traffic to your microservice
 1.  Add the output of this command to your `/etc/hosts` file:
 
     {{< text bash >}}
-    $ echo $INGRESS_HOST $MY_INGRESS_GATEWAY_HOST
+    $ echo "$INGRESS_HOST" "$MY_INGRESS_GATEWAY_HOST"
     {{< /text >}}
 
 1.  Access the application's home page from the command line:
 
     {{< text bash >}}
-    $ curl -s $MY_INGRESS_GATEWAY_HOST:$INGRESS_PORT/productpage | grep -o "<title>.*</title>"
+    $ curl -s "$MY_INGRESS_GATEWAY_HOST":"$INGRESS_PORT"/productpage | grep -o "<title>.*</title>"
     <title>Simple Bookstore App</title>
     {{< /text >}}
 
 1.  Paste the output of the following command in your browser address bar:
 
     {{< text bash >}}
-    $ echo http://$MY_INGRESS_GATEWAY_HOST:$INGRESS_PORT/productpage
+    $ echo http://"$MY_INGRESS_GATEWAY_HOST":"$INGRESS_PORT"/productpage
     {{< /text >}}
 
 1.  Simulate real-world user traffic to your application by setting an infinite
     loop in a new terminal window:
 
     {{< text bash >}}
-    $ while :; do curl -s <output of the previous command> | grep -o "<title>.*</title>"; sleep 1; done
+    $ while :; do curl -s \<output of the previous command\> | grep -o "<title>.*</title>"; sleep 1; done
     <title>Simple Bookstore App</title>
     <title>Simple Bookstore App</title>
     <title>Simple Bookstore App</title>
@@ -132,7 +132,7 @@ ingress gateway, in order to apply Istio control on traffic to your microservice
 1.  Delete the Kubernetes Ingress resource:
 
     {{< text bash >}}
-    $ kubectl delete ingress bookinfo
+    $ kubectl delete ingress bookinfo -n "$NAMESPACE"
     ingress.extensions "bookinfo" deleted
     {{< /text >}}
 

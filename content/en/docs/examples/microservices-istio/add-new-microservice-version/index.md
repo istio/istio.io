@@ -5,7 +5,7 @@ overview: Deploy a new version of a microservice.
 weight: 50
 
 owner: istio/wg-docs-maintainers
-test: no
+test: yes
 ---
 
 In this module, you deploy a new version of the `reviews` service, `_v2_`,
@@ -21,7 +21,7 @@ tests, end-to-end tests and tests in a staging environment.
     `app=reviews_test`:
 
     {{< text bash >}}
-    $ curl -s {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml | sed 's/app: reviews/app: reviews_test/' | kubectl apply -l app=reviews_test,version=v2 -f -
+    $ curl -s {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml | sed 's/app: reviews/app: reviews_test/' | kubectl apply -n "$NAMESPACE" -l app=reviews_test,version=v2 -f -
     deployment.apps/reviews-v2 created
     {{< /text >}}
 
@@ -37,21 +37,21 @@ tests, end-to-end tests and tests in a staging environment.
     1.  Get the IP of the pod:
 
         {{< text bash >}}
-        $ REVIEWS_V2_POD_IP=$(kubectl get pod -l app=reviews_test,version=v2 -o jsonpath='{.items[0].status.podIP}')
-        $ echo $REVIEWS_V2_POD_IP
+        $ REVIEWS_V2_POD_IP=$(kubectl get pod -n "$NAMESPACE" -l app=reviews_test,version=v2 -o jsonpath='{.items[0].status.podIP}')
+        $ echo "$REVIEWS_V2_POD_IP"
         {{< /text >}}
 
     1.  Send a request to the pod and see that it returns the correct result:
 
         {{< text bash >}}
-        $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -- curl -sS "$REVIEWS_V2_POD_IP:9080/reviews/7"
+        $ kubectl exec -n "$NAMESPACE" "$(kubectl get pod -n "$NAMESPACE" -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- curl -sS "$REVIEWS_V2_POD_IP:9080/reviews/7"
         {"id": "7","reviews": [{  "reviewer": "Reviewer1",  "text": "An extremely entertaining play by Shakespeare. The slapstick humour is refreshing!", "rating": {"stars": 5, "color": "black"}},{  "reviewer": "Reviewer2",  "text": "Absolutely fun and entertaining. The play lacks thematic depth when compared to other plays by Shakespeare.", "rating": {"stars": 4, "color": "black"}}]}
         {{< /text >}}
 
     1.  Perform primitive load testing by sending a request 10 times in a row:
 
         {{< text bash >}}
-        $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -- sh -c "for i in 1 2 3 4 5 6 7 8 9 10; do curl -o /dev/null -s -w '%{http_code}\n' $REVIEWS_V2_POD_IP:9080/reviews/7; done"
+        $ kubectl exec -n "$NAMESPACE" "$(kubectl get pod -n "$NAMESPACE" -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "for i in 1 2 3 4 5 6 7 8 9 10; do curl -o /dev/null -s -w '%{http_code}\n' '$REVIEWS_V2_POD_IP':9080/reviews/7; done"
         200
         200
         ...
@@ -68,7 +68,7 @@ tests, end-to-end tests and tests in a staging environment.
     label, so it will become addressable by the `reviews` service.
 
     {{< text bash >}}
-    $ kubectl label pods -l version=v2 app=reviews --overwrite
+    $ kubectl label pods -n "$NAMESPACE" -l version=v2 app=reviews --overwrite
     pod "reviews-v2-79c8c8c7c5-4p4mn" labeled
     {{< /text >}}
 
@@ -87,8 +87,8 @@ tests, end-to-end tests and tests in a staging environment.
     used:
 
     {{< text bash >}}
-    $ kubectl delete deployment reviews-v2
-    $ kubectl delete pod -l app=reviews,version=v2
+    $ kubectl delete deployment reviews-v2 -n "$NAMESPACE"
+    $ kubectl delete pod -l app=reviews,version=v2 -n "$NAMESPACE"
     deployment.apps "reviews-v2" deleted
     pod "reviews-v2-79c8c8c7c5-4p4mn" deleted
     {{< /text >}}
@@ -100,7 +100,7 @@ tests, end-to-end tests and tests in a staging environment.
     To restore the new version:
 
     {{< text bash >}}
-    $ kubectl apply -l app=reviews,version=v2 -f {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml
+    $ kubectl apply -n "$NAMESPACE" -l app=reviews,version=v2 -f {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml
     deployment.apps/reviews-v2 created
     {{< /text >}}
 
@@ -111,7 +111,7 @@ tests, end-to-end tests and tests in a staging environment.
     carefully checking that the number of errors does not increase:
 
     {{< text bash >}}
-    $ kubectl scale deployment reviews-v2 --replicas=3
+    $ kubectl scale deployment -n "$NAMESPACE" reviews-v2 --replicas=3
     deployment.apps/reviews-v2 scaled
     {{< /text >}}
 
@@ -121,7 +121,7 @@ tests, end-to-end tests and tests in a staging environment.
 1.  Now, you can decommission the old version:
 
     {{< text bash >}}
-    $ kubectl delete deployment reviews-v1
+    $ kubectl delete deployment reviews-v1 -n "$NAMESPACE"
     deployment.apps "reviews-v1" deleted
     {{< /text >}}
 

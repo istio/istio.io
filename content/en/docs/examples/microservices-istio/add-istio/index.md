@@ -5,7 +5,7 @@ overview: Deploy the Istio control plane and enable Istio on a single microservi
 weight: 60
 
 owner: istio/wg-docs-maintainers
-test: no
+test: yes
 ---
 
 As you saw in the previous module, Istio enhances Kubernetes by giving you the
@@ -20,7 +20,7 @@ disrupt your application, it continues to run and serve user requests.
 1.  Apply the default destination rules:
 
     {{< text bash >}}
-    $ kubectl apply -f {{< github_file >}}/samples/bookinfo/networking/destination-rule-all.yaml
+    $ kubectl apply -n "$NAMESPACE" -f {{< github_file >}}/samples/bookinfo/networking/destination-rule-all.yaml
     {{< /text >}}
 
 1.  Redeploy the `productpage` microservice, Istio-enabled:
@@ -31,7 +31,7 @@ disrupt your application, it continues to run and serve user requests.
     {{< /tip >}}
 
     {{< text bash >}}
-    $ curl -s {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml | istioctl kube-inject -f - | sed 's/replicas: 1/replicas: 3/g' | kubectl apply -l app=productpage,version=v1 -f -
+    $ curl -s {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml | istioctl kube-inject -f - | sed 's/replicas: 1/replicas: 3/g' | kubectl apply -l app=productpage,version=v1 -n "$NAMESPACE" -f -
     deployment.apps/productpage-v1 configured
     {{< /text >}}
 
@@ -44,7 +44,7 @@ disrupt your application, it continues to run and serve user requests.
     is the sidecar proxy attached to it:
 
     {{< text bash >}}
-    $ kubectl get pods
+    $ kubectl get pods -n "$NAMESPACE"
     details-v1-68868454f5-8nbjv       1/1       Running   0          7h
     details-v1-68868454f5-nmngq       1/1       Running   0          7h
     details-v1-68868454f5-zmj7j       1/1       Running   0          7h
@@ -71,7 +71,7 @@ disrupt your application, it continues to run and serve user requests.
 1.  Check the logs of the Istio sidecar of `productpage`:
 
     {{< text bash >}}
-    $ kubectl logs -l app=productpage -c istio-proxy | grep GET
+    $ kubectl logs -n "$NAMESPACE" -l app=productpage -c istio-proxy | grep GET
     ...
     [2019-02-15T09:06:04.079Z] "GET /details/0 HTTP/1.1" 200 - 0 178 5 3 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Safari/605.1.15" "18710783-58a1-9e5f-992c-9ceff05b74c5" "details:9080" "172.30.230.51:9080" outbound|9080||details.tutorial.svc.cluster.local - 172.21.109.216:9080 172.30.146.104:58698 -
     [2019-02-15T09:06:04.088Z] "GET /reviews/0 HTTP/1.1" 200 - 0 379 22 22 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Safari/605.1.15" "18710783-58a1-9e5f-992c-9ceff05b74c5" "reviews:9080" "172.30.230.27:9080" outbound|9080||reviews.tutorial.svc.cluster.local - 172.21.185.48:9080 172.30.146.104:41442 -
@@ -82,7 +82,7 @@ disrupt your application, it continues to run and serve user requests.
     microservices in the Istio dashboard:
 
     {{< text bash >}}
-    $ echo $(kubectl config view -o jsonpath="{.contexts[?(@.name == \"$(kubectl config current-context)\")].context.namespace}")
+    $ kubectl config view -o jsonpath="{.contexts[?(@.name == \"$(kubectl config current-context)\")].context.namespace}"
     tutorial
     {{< /text >}}
 

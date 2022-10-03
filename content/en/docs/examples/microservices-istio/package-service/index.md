@@ -5,7 +5,7 @@ overview: Run a single microservice in a Docker container.
 weight: 20
 
 owner: istio/wg-docs-maintainers
-test: no
+test: yes
 ---
 
 {{< boilerplate work-in-progress >}}
@@ -58,7 +58,7 @@ This module shows how you create a [Docker](https://www.docker.com) image and ru
 1.  Access [http://localhost:9081/ratings/7](http://localhost:9081/ratings/7) in your browser or use the following `curl` command:
 
     {{< text bash >}}
-    $ curl localhost:9081/ratings/7
+    $ curl -s localhost:9081/ratings/7
     {"id":7,"ratings":{"Reviewer1":5,"Reviewer2":4}}
     {{< /text >}}
 
