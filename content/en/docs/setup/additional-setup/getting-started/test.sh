@@ -33,7 +33,7 @@ _wait_for_deployment istio-system istiod
 # Label the namespace
 # remove the injection label to prevent the following command from failing
 kubectl label namespace default istio-injection-
-_varify_same snip_install_istio_install_2 "$snip_install_istio_install_2_out"
+_verify_same snip_install_istio_install_2 "$snip_install_istio_install_2_out"
 
 # Deploy the sample Application
 snip_deploy_the_sample_application_bookinfo_1
