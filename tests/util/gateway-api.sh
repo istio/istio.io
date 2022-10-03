@@ -19,11 +19,11 @@ source "content/en/boilerplates/snips/gateway-api-support.sh"
 GATEWAY_API="true"
 
 function install_gateway_api_crds() {
-    install_crds
+    bpsnip_gateway_api_support_install_crds
 }
 
 function remove_gateway_api_crds() {
-    install_crds
+    bpsnip_gateway_api_support_install_crds
 
     kubectl get gateways.gateway.networking.k8s.io >/dev/null 2>&1 || true
     # TODO ^^^ remove this kludge which forces the name "gateway" to not stay bound to the deleted crd
