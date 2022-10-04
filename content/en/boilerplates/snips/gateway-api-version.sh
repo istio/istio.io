@@ -20,6 +20,6 @@
 #          boilerplates/gateway-api-version.md
 ####################################################################################################
 
-! read -r -d '' bpsnip_gateway_api_version_gateway_api_version <<\ENDSNIP
+! read -r -d '' bpsnip_gateway_api_version_value <<\ENDSNIP
 v0.5.1
 ENDSNIP
