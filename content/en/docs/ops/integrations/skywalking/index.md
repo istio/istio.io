@@ -8,7 +8,10 @@ test: no
 ---
 
 [Apache SkyWalking](http://skywalking.apache.org) is an application performance monitoring (APM) system, especially designed for
-microservices, cloud native and container-based architectures.
+microservices, cloud native and container-based architectures. SkyWalking is a one-stop solution for observability that not only
+provides distributed tracing ability like Jaeger and Zipkin, metrics ability like Prometheus and Grafana, logging ability like Kiali,
+it also extends the observability to many other scenarios, such as associating the logs with traces, collecting system events and
+associating the events with metrics, service performance profiling based on eBPF, etc.
 
 ## Installation
 
