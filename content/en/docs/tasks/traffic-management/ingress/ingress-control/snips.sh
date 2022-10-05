@@ -20,7 +20,10 @@
 #          docs/tasks/traffic-management/ingress/ingress-control/index.md
 ####################################################################################################
 source "content/en/boilerplates/snips/gateway-api-support.sh"
-source "content/en/boilerplates/snips/start-httpbin-service.sh"
+
+snip_before_you_begin_1() {
+kubectl apply -f samples/httpbin/httpbin.yaml
+}
 
 snip_configuring_ingress_using_a_gateway_1() {
 kubectl apply -f - <<EOF
@@ -238,31 +241,31 @@ spec:
 EOF
 }
 
-snip_accessing_the_ingress_gateway_using_node_ports_1() {
+snip_using_node_ports_of_the_ingress_gateway_service_1() {
 export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}')
 export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].nodePort}')
 export TCP_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="tcp")].nodePort}')
 }
 
-snip_accessing_the_ingress_gateway_using_node_ports_2() {
+snip_using_node_ports_of_the_ingress_gateway_service_2() {
 export INGRESS_HOST=worker-node-address
 }
 
-snip_accessing_the_ingress_gateway_using_node_ports_3() {
+snip_using_node_ports_of_the_ingress_gateway_service_3() {
 gcloud compute firewall-rules create allow-gateway-http --allow "tcp:$INGRESS_PORT"
 gcloud compute firewall-rules create allow-gateway-https --allow "tcp:$SECURE_INGRESS_PORT"
 }
 
-snip_accessing_the_ingress_gateway_using_node_ports_4() {
+snip_using_node_ports_of_the_ingress_gateway_service_4() {
 ibmcloud ks workers --cluster cluster-name-or-id
 export INGRESS_HOST=public-IP-of-one-of-the-worker-nodes
 }
 
-snip_accessing_the_ingress_gateway_using_node_ports_5() {
+snip_using_node_ports_of_the_ingress_gateway_service_5() {
 export INGRESS_HOST=127.0.0.1
 }
 
-snip_accessing_the_ingress_gateway_using_node_ports_6() {
+snip_using_node_ports_of_the_ingress_gateway_service_6() {
 export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].status.hostIP}')
 }
 

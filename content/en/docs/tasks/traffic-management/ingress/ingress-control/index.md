@@ -24,7 +24,11 @@ This task describes how to configure Istio to expose a service outside of the se
 
 *   Make sure your current directory is the `istio` directory.
 
-{{< boilerplate start-httpbin-service >}}
+*   Start the [httpbin]({{< github_tree >}}/samples/httpbin) sample:
+
+    {{< text bash >}}
+    $ kubectl apply -f @samples/httpbin/httpbin.yaml@
+    {{< /text >}}
 
 ## Configuring ingress using a gateway
 
@@ -398,7 +402,7 @@ available for edge services.
 In the preceding steps, you created a service inside the service mesh
 and exposed an HTTP endpoint of the service to external traffic.
 
-## Accessing the ingress gateway using node ports
+## Using node ports of the ingress gateway service
 
 {{< warning >}}
 You should not use these instructions if your Kubernetes environment has an external load balancer supporting
