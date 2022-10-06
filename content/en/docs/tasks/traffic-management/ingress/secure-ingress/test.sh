@@ -94,7 +94,7 @@ else
     #_wait_for_istio virtualservice default helloworld-v1
 fi
 
-_verify_contains snip_configure_a_tls_ingress_gateway_for_multiple_hosts_8 "$snip_configure_a_tls_ingress_gateway_for_multiple_hosts_8_out"
+_verify_elided snip_configure_a_tls_ingress_gateway_for_multiple_hosts_8 "$snip_configure_a_tls_ingress_gateway_for_multiple_hosts_8_out"
 
 _verify_elided snip_configure_a_tls_ingress_gateway_for_multiple_hosts_9 "$snip_configure_a_tls_ingress_gateway_for_multiple_hosts_9_out"
 

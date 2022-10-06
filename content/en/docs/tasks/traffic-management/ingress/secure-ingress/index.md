@@ -540,7 +540,7 @@ EOF
 
 A [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io%2fv1beta1.Gateway)
 performing mutual TLS termination is configured no differently from one using simple TLS. The only difference
-is that the secret referenced by the `certifcateRefs` field now includes a client certificate with which
+is that the secret referenced by the `certifcateRefs` field now includes a CA certificate with which
 the gateway will authenticate the client request.
 
 {{< text bash >}}
