@@ -261,7 +261,7 @@ subset named v2. You’ll see how you define a service subset in the section on
 Routing rules are **evaluated in sequential order from top to bottom**, with the
 first rule in the virtual service definition being given highest priority. In
 this case you want anything that doesn't match the first routing rule to go to a
-default destination, specified in the second rule. Because of this, the second
+default destination, specified in the second rule. But, in the second
 rule has no match conditions and just directs traffic to the v3 subset.
 
 {{< text yaml >}}
