@@ -444,6 +444,8 @@ spec:
       mode: Terminate
       certificateRefs:
       - name: httpbin-credential
+      options:
+        networking.istio.io/tls.mode: MUTUAL
     allowedRoutes:
       namespaces:
         from: Selector
@@ -455,7 +457,7 @@ EOF
 
 snip_configure_a_mutual_tls_ingress_gateway_4() {
 curl -v -HHost:httpbin.example.com --resolve "httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST" \
---cacert example.com.crt "https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418"
+--cacert example_certs1/example.com.crt "https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418"
 }
 
 ! read -r -d '' snip_configure_a_mutual_tls_ingress_gateway_4_out <<\ENDSNIP

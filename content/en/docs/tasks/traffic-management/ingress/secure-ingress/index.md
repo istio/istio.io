@@ -538,10 +538,12 @@ EOF
 
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
-A [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io%2fv1beta1.Gateway)
-performing mutual TLS termination is configured no differently from one using simple TLS. The only difference
-is that the secret referenced by the `certifcateRefs` field now includes a CA certificate with which
-the gateway will authenticate the client request.
+WARNING: THIS DOES CURRENTLY WORK!
+
+Because the Kubernetes Gateway API does not currently support mutual TLS termination in a
+[Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io%2fv1beta1.Gateway),
+we use an Istio-specific option, `networking.istio.io/tls.mode: MUTUAL`,
+to configure it:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -561,6 +563,8 @@ spec:
       mode: Terminate
       certificateRefs:
       - name: httpbin-credential
+      options:
+        networking.istio.io/tls.mode: MUTUAL
     allowedRoutes:
       namespaces:
         from: Selector
@@ -578,7 +582,7 @@ EOF
 
     {{< text bash >}}
     $ curl -v -HHost:httpbin.example.com --resolve "httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST" \
-    --cacert example.com.crt "https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418"
+    --cacert example_certs1/example.com.crt "https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418"
     * TLSv1.3 (OUT), TLS handshake, Client hello (1):
     * TLSv1.3 (IN), TLS handshake, Server hello (2):
     * TLSv1.3 (IN), TLS handshake, Encrypted Extensions (8):

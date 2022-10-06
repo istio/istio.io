@@ -109,7 +109,10 @@ else
     #_wait_for_istio gateway default mygateway
 fi
 
-_verify_failure snip_configure_a_mutual_tls_ingress_gateway_4
+if [ "$GATEWAY_API" != "true" ]; then
+    _verify_failure snip_configure_a_mutual_tls_ingress_gateway_4
+fi
+# TODO: ^^^ remove the if statement once we have mode: MUTUAL support in k8s Gateway.
 
 _verify_elided snip_configure_a_mutual_tls_ingress_gateway_5 "$snip_configure_a_mutual_tls_ingress_gateway_5_out"
 
