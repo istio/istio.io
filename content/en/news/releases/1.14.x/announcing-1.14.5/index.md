@@ -32,5 +32,4 @@ This release note describes what is different between Istio 1.14.4 and Istio 1.1
 
 - **Fixed** an issue where a root namespace `Sidecar` config would be ignored.
 
-- **Upgraded** the gateway-api integration to read `v1beta1` resources for `HTTPRoute`, `Gateway`, and `GatewayClass`. Users of the gateway-api must be on `v0.5.0+` before upgrading Istio.
-
+- **Fixed** the gateway API integration to not fail when the `v1alpha2` version is removed.
