@@ -21,5 +21,5 @@ This release contains a patch for [CVE-2022-41715](https://github.com/golang/go/
 
 # Security update
 
-- Patch for [CVE-2022-41715](https://github.com/golang/go/issues/55949). Replaces all uses of stdlib "regexp" with the golang 1.19.2 stdlib implementation. This will guard against DOS via malformed regular expressions.
+- Patch for [CVE-2022-41715](https://github.com/golang/go/issues/55949). Replaces all uses of stdlib `regexp` with the golang 1.19.2 `stdlib` implementation. This will guard against DOS via malformed regular expressions.
 
