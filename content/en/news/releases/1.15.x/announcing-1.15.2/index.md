@@ -19,6 +19,6 @@ This release note describes what is different between Istio 1.15.1 and Istio 1.1
 
 - **Fixed** an issue that default `idleTimeout` for passthrough cluster has been changed to `0s` since 1.14.0 and timeout is disabled. Previous behavior is using envoy's default value. ([Issue #41114](https://github.com/istio/istio/issues/41114))
 
-- **Fixed** the gateway-api integration to read `v1beta1` resources for `HTTPRoute`, `Gateway`, and `GatewayClass`. Users of the gateway-api must be on v0.5.0+ before upgrading Istio.
+- **Fixed** the gateway-api integration to read `v1beta1` resources for `HTTPRoute`, `Gateway`, and `GatewayClass`. Users of the `gateway-api` must be on version 0.5.0 or higher before upgrading Istio.
 
 - **Fixed** handling of deprecated autoscaling settings. ([Issue #41011](https://github.com/istio/istio/issues/41011))
