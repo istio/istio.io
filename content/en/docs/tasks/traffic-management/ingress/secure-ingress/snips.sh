@@ -445,7 +445,7 @@ spec:
       certificateRefs:
       - name: httpbin-credential
       options:
-        networking.istio.io/tls.mode: MUTUAL
+        gateway.istio.io/tls-terminate-mode: MUTUAL
     allowedRoutes:
       namespaces:
         from: Selector
