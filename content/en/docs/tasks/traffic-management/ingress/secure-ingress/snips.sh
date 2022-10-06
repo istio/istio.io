@@ -368,11 +368,12 @@ EOF
 }
 
 snip_configure_a_tls_ingress_gateway_for_multiple_hosts_8() {
-curl -I -HHost:helloworld.example.com --resolve "helloworld.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST" \
+curl -v -HHost:helloworld.example.com --resolve "helloworld.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST" \
   --cacert example_certs1/example.com.crt "https://helloworld.example.com:$SECURE_INGRESS_PORT/hello"
 }
 
 ! read -r -d '' snip_configure_a_tls_ingress_gateway_for_multiple_hosts_8_out <<\ENDSNIP
+...
 HTTP/2 200
 ...
 ENDSNIP

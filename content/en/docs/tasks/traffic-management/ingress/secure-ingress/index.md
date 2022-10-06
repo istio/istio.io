@@ -151,7 +151,7 @@ EOF
 {{< /text >}}
 
 Finally, follow [these instructions](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)
-to set the `INGRESS_HOST` and `SECURE_INGRESS_PORT` variables for accessing the gateway. 
+to set the `INGRESS_HOST` and `SECURE_INGRESS_PORT` variables for accessing the gateway.
 
 {{< /tab >}}
 
@@ -465,8 +465,9 @@ EOF
 5) Send an HTTPS request to `helloworld.example.com`:
 
     {{< text bash >}}
-    $ curl -I -HHost:helloworld.example.com --resolve "helloworld.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST" \
+    $ curl -v -HHost:helloworld.example.com --resolve "helloworld.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST" \
       --cacert example_certs1/example.com.crt "https://helloworld.example.com:$SECURE_INGRESS_PORT/hello"
+    ...
     HTTP/2 200
     ...
     {{< /text >}}
@@ -540,7 +541,7 @@ EOF
 A [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io%2fv1beta1.Gateway)
 performing mutual TLS termination is configured no differently from one using simple TLS. The only difference
 is that the secret referenced by the `certifcateRefs` field now includes a client certificate with which
-the gateway will autheticate the client request.
+the gateway will authenticate the client request.
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
