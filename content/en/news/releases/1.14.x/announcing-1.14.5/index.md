@@ -7,9 +7,9 @@ publishdate: 2022-10-07
 release: 1.14.5
 ---
 
-This release includes security fixes in go 1.18.7 (released 2022-10-04) for the `archive/tar`, `net/http/httputil`, and `regexp` packages.
+This release includes security fixes in Go 1.18.7 (released 2022-10-04) for the `archive/tar`, `net/http/httputil`, and `regexp` packages.
 This release also includes fixes to improve robustness.
-This release note describes what’s different between Istio 1.14.4 and Istio 1.14.5.
+This release note describes what is different between Istio 1.14.4 and Istio 1.14.5.
 
 {{< relnote >}}
 
@@ -20,7 +20,7 @@ This release note describes what’s different between Istio 1.14.4 and Istio 1.
 
 - **Fixed** `kube-inject` crashes when the pod annotation `proxy.istio.io/config` is set.
 
-- **Fixed** an issue where user can not delete `iop` resource with revision if istiod is not running.  ([Issue #40796](https://github.com/istio/istio/issues/40796))
+- **Fixed** an issue where user can not delete the Istio Operator resource with revision if istiod is not running.  ([Issue #40796](https://github.com/istio/istio/issues/40796))
 
 - **Fixed** an issue that default `idleTimeout` for passthrough cluster has been changed to `0s` since 1.14.0 and timeout is disabled. Previous behavior is using Envoy's default value.
   ([Issue #41114](https://github.com/istio/istio/issues/41114))
