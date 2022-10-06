@@ -15,6 +15,9 @@ This release note describes what’s different between Istio 1.14.4 and Istio 1.
 
 ## Changes
 
+- **Fixed** some `ServiceEntry` host names can cause non-deterministic Envoy routes.
+  ([Issue #38678](https://github.com/istio/istio/issues/38678))
+
 - **Fixed** `kube-inject` crashes when the pod annotation `proxy.istio.io/config` is set.
 
 - **Fixed** an issue where user can not delete `iop` resource with revision if istiod is not running.  ([Issue #40796](https://github.com/istio/istio/issues/40796))
@@ -28,4 +31,6 @@ This release note describes what’s different between Istio 1.14.4 and Istio 1.
   ([Issue #40166](https://github.com/istio/istio/issues/40166))
 
 - **Fixed** an issue where a root namespace `Sidecar` config would be ignored.
+
+- **Upgraded** the gateway-api integration to read `v1beta1` resources for `HTTPRoute`, `Gateway`, and `GatewayClass`. Users of the gateway-api must be on `v0.5.0+` before upgrading Istio.
 
