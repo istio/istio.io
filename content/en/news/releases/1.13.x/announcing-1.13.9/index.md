@@ -7,7 +7,7 @@ publishdate: 2022-10-07
 release: 1.13.9
 ---
 
-This release contains a patch for [CVE-2022-41715](https://github.com/golang/go/issues/55949) and bug fixes to improve robustness. This release note describes what’s different between Istio 1.13.8 and Istio 1.13.9.
+This release contains a patch for [CVE-2022-41715](https://github.com/golang/go/issues/55949) and bug fixes to improve robustness. This release note describes what is different between Istio 1.13.8 and Istio 1.13.9.
 
 {{< relnote >}}
 
