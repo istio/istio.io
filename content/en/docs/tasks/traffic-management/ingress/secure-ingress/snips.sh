@@ -60,6 +60,22 @@ openssl req -out example_certs1/client.example.com.csr -newkey rsa:2048 -nodes -
 openssl x509 -req -sha256 -days 365 -CA example_certs1/example.com.crt -CAkey example_certs1/example.com.key -set_serial 1 -in example_certs1/client.example.com.csr -out example_certs1/client.example.com.crt
 }
 
+snip_generate_client_and_server_certificates_and_keys_6() {
+ls example_cert*
+}
+
+! read -r -d '' snip_generate_client_and_server_certificates_and_keys_6_out <<\ENDSNIP
+example_certs1:
+client.example.com.crt          example.com.key                 httpbin.example.com.crt
+client.example.com.csr          helloworld.example.com.crt      httpbin.example.com.csr
+client.example.com.key          helloworld.example.com.csr      httpbin.example.com.key
+example.com.crt                 helloworld.example.com.key
+
+example_certs2:
+example.com.crt         httpbin.example.com.crt httpbin.example.com.key
+example.com.key         httpbin.example.com.csr
+ENDSNIP
+
 snip_configure_a_tls_ingress_gateway_for_a_single_host_1() {
 kubectl create -n istio-system secret tls httpbin-credential \
   --key=example_certs1/httpbin.example.com.key \
@@ -114,7 +130,7 @@ EOF
 }
 
 snip_configure_a_tls_ingress_gateway_for_a_single_host_4() {
-kubectl apply -f - <<EOF
+cat <<EOF | kubectl apply -f -
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: Gateway
 metadata:
@@ -141,7 +157,7 @@ EOF
 }
 
 snip_configure_a_tls_ingress_gateway_for_a_single_host_5() {
-kubectl apply -f - <<EOF
+cat <<EOF | kubectl apply -f -
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: HTTPRoute
 metadata:
@@ -305,7 +321,7 @@ EOF
 }
 
 snip_configure_a_tls_ingress_gateway_for_multiple_hosts_6() {
-kubectl apply -f - <<EOF
+cat <<EOF | kubectl apply -f -
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: Gateway
 metadata:
@@ -346,7 +362,7 @@ EOF
 }
 
 snip_configure_a_tls_ingress_gateway_for_multiple_hosts_7() {
-kubectl apply -f - <<EOF
+cat <<EOF | kubectl apply -f -
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: HTTPRoute
 metadata:
@@ -427,7 +443,7 @@ EOF
 }
 
 snip_configure_a_mutual_tls_ingress_gateway_3() {
-kubectl apply -f - <<EOF
+cat <<EOF | kubectl apply -f -
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: Gateway
 metadata:

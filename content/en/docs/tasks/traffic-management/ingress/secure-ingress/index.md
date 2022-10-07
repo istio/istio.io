@@ -80,6 +80,21 @@ You can use your favorite tool to create them or use the commands below to gener
     $ openssl x509 -req -sha256 -days 365 -CA example_certs1/example.com.crt -CAkey example_certs1/example.com.key -set_serial 1 -in example_certs1/client.example.com.csr -out example_certs1/client.example.com.crt
     {{< /text >}}
 
+You can confirm that you have all of the needed files by running the following command:
+
+{{< text bash >}}
+$ ls example_cert*
+example_certs1:
+client.example.com.crt          example.com.key                 httpbin.example.com.crt
+client.example.com.csr          helloworld.example.com.crt      httpbin.example.com.csr
+client.example.com.key          helloworld.example.com.csr      httpbin.example.com.key
+example.com.crt                 helloworld.example.com.key
+
+example_certs2:
+example.com.crt         httpbin.example.com.crt httpbin.example.com.key
+example.com.key         httpbin.example.com.csr
+{{< /text >}}
+
 ### Configure a TLS ingress gateway for a single host
 
 1.  Create a secret for the ingress gateway:
@@ -160,7 +175,7 @@ to set the `INGRESS_HOST` and `SECURE_INGRESS_PORT` variables for accessing the 
 First, create a [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io%2fv1beta1.Gateway):
 
 {{< text bash >}}
-$ kubectl apply -f - <<EOF
+$ cat <<EOF | kubectl apply -f -
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: Gateway
 metadata:
@@ -189,7 +204,7 @@ EOF
 Next, configure the gateway's ingress traffic routes by defining a corresponding `HTTPRoute`:
 
 {{< text bash >}}
-$ kubectl apply -f - <<EOF
+$ cat <<EOF | kubectl apply -f -
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: HTTPRoute
 metadata:
@@ -394,7 +409,7 @@ Configure a `Gateway` with two listeners for port 443. Set the value of
 respectively.
 
 {{< text bash >}}
-$ kubectl apply -f - <<EOF
+$ cat <<EOF | kubectl apply -f -
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: Gateway
 metadata:
@@ -437,7 +452,7 @@ EOF
 Configure the gateway's traffic routes for the `helloworld` service:
 
 {{< text bash >}}
-$ kubectl apply -f - <<EOF
+$ cat <<EOF | kubectl apply -f -
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: HTTPRoute
 metadata:
@@ -544,7 +559,7 @@ we use an Istio-specific option, `gateway.istio.io/tls-terminate-mode: MUTUAL`,
 to configure it:
 
 {{< text bash >}}
-$ kubectl apply -f - <<EOF
+$ cat <<EOF | kubectl apply -f -
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: Gateway
 metadata:
