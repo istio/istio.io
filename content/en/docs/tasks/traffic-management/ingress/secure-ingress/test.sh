@@ -42,7 +42,13 @@ snip_configure_a_tls_ingress_gateway_for_a_single_host_1
 if [ "$GATEWAY_API" == "true" ]; then
     snip_configure_a_tls_ingress_gateway_for_a_single_host_4
     snip_configure_a_tls_ingress_gateway_for_a_single_host_5
-    snip_configure_a_tls_ingress_gateway_for_a_single_host_6
+
+    #snip_configure_a_tls_ingress_gateway_for_a_single_host_6
+    # TODO ^^^ default timeout is 30s ... too short?
+    kubectl wait --for=condition=ready --timeout=2m gtw mygateway -n istio-system
+    export INGRESS_HOST=$(kubectl get gtw mygateway -n istio-system -o jsonpath='{.status.addresses[*].value}')
+    export SECURE_INGRESS_PORT=$(kubectl get gtw mygateway -n istio-system -o jsonpath='{.spec.listeners[?(@.name=="https")].port}')
+    # TODO ^^^ better way to change the timeout while still calling snips?
 else
     # deploying httpbin gateway
     snip_configure_a_tls_ingress_gateway_for_a_single_host_2
