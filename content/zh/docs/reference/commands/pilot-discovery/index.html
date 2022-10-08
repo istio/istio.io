@@ -803,6 +803,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>If enabled, Pilot will keep track of old versions of distributed config for this duration.</td>
 </tr>
 <tr>
+<td><code>PILOT_DRAINING_LABEL</code></td>
+<td>String</td>
+<td><code>istio.io/draining</code></td>
+<td>If not empty, endpoints with the label value present will be sent with status DRAINING.</td>
+</tr>
+<tr>
 <td><code>PILOT_ENABLE_ALPN_FILTER</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -1065,6 +1071,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, pilot will send partial pushes in for child resources (RDS, EDS, etc) when possible. This occurs for EDS in many cases regardless of this setting.</td>
+</tr>
+<tr>
+<td><code>PILOT_PERSISTENT_SESSION_LABEL</code></td>
+<td>String</td>
+<td><code>istio.io/persistent-session</code></td>
+<td>If not empty, services with this label will use persistent sessions</td>
 </tr>
 <tr>
 <td><code>PILOT_PUSH_THROTTLE</code></td>
