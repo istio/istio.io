@@ -4,7 +4,7 @@ source_repo: https://github.com/istio/istio
 title: istioctl
 description: Istio control interface.
 generator: pkg-collateral-docs
-number_of_entries: 101
+number_of_entries: 102
 max_toc_level: 2
 remove_toc_prefix: 'istioctl '
 ---
@@ -1920,6 +1920,66 @@ from multiple sources (mesh-level, namespace-level and workload-level).</p>
 
   # Check AuthorizationPolicy from Envoy config dump file:
   istioctl x authz check -f httpbin_config_dump.json
+</code></pre>
+<h2 id="istioctl-experimental-check-inject">istioctl experimental check-inject</h2>
+<p>
+Checks associated resources of the given resource, and running webhooks to examine whether the pod can be or will be injected or not.</p>
+<pre class="language-bash"><code>istioctl experimental check-inject [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--labels &lt;string&gt;</code></td>
+<td><code>-l</code></td>
+<td>Check namespace and label pairs injection status, split multiple labels by commas  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-experimental-check-inject Examples">Examples</h3>
+<pre class="language-bash"><code>	# Check the injection status of a pod
+	istioctl experimental check-inject details-v1-fcff6c49c-kqnfk.test
+	
+	# Check the injection status of a pod under a deployment
+	istioctl x check-inject deployment/details-v1
+
+	# Check the injection status of a pod under a deployment in namespace test
+	istioctl x check-inject deployment/details-v1 -n test
+
+   # Check the injection status of label pairs in a specific namespace before actual injection 
+	istioctl x check-inject -n test -l app=helloworld,version=v1
+
 </code></pre>
 <h2 id="istioctl-experimental-config">istioctl experimental config</h2>
 <p>Configure istioctl defaults</p>
