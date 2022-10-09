@@ -10,10 +10,10 @@ keywords: [Istio,CNCF]
 今年 4 月，[Istio 申请成为 CNCF 项目](/zh/blog/2022/istio-has-applied-to-join-the-cncf/)。
 今天，CNCF 技术监督委员会（Technical Oversight Committee，TOC）宣布已投票接受我们的申请。
 
-这段旅程始于 Istio 项目于 2016 年成立之时。衷心感谢过去六年来在 Istio 的设计、开发和部署等方面协作过的所有人员。
+这段旅程始于 2016 年 Istio 项目成立之初。衷心感谢过去六年来在 Istio 的设计、开发和部署等方面参与协作的所有人员。
 
-我们特别感谢 TOC 发起者 [Dave Zolotusky](https://www.cncf.io/people/technical-oversight-committee/?p=dave-zolotusky-3)、[TAG Network](https://github.com/cncf/tag-network) 做出的努力，
-非常感谢 [Airbnb](/zh/about/case-studies/airbnb/)、[Intuit](https://www.youtube.com/watch?v=bAl_y6sdFbY)、[Splunk](/zh/about/case-studies/splunk/) 和 [WP Engine](/zh/about/case-studies/wp-engine/) 的工程设计团队作为最终用户分享反馈他们的真实感受。
+我们特别感谢 TOC 项目辅导 [Dave Zolotusky](https://www.cncf.io/people/technical-oversight-committee/?p=dave-zolotusky-3)、[TAG Network](https://github.com/cncf/tag-network) 做出的努力，
+以及 [Airbnb](/zh/about/case-studies/airbnb/)、[Intuit](https://www.youtube.com/watch?v=bAl_y6sdFbY)、[Splunk](/zh/about/case-studies/splunk/) 和 [WP Engine](/zh/about/case-studies/wp-engine/) 的工程设计团队作为最终用户分享反馈他们的真实想法。
 
 本次移交不会影响 Istio 项目的本身运作，我们现在将开始处理商标转让和构建基础设施移交至 CNCF 的工作。
 我们正在为即将到来的 [1.16 版本](https://github.com/istio/istio/wiki/Istio-Release-1.16)努力工作，
