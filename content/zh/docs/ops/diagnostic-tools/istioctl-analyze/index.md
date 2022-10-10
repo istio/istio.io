@@ -178,7 +178,7 @@ $ kubectl annotate deployment my-deployment galley.istio.io/analyze-suppress=IST
 
 - **现在支持哪些分析器？**
 
-      我们仍在努力编写分析器文档。目前，您可以在 [Istio 源代码]({{<github_blob>}}/galley/pkg/config/analysis/analyzers)中看到所有分析器。
+      我们仍在努力编写分析器文档。目前，您可以在 [Istio 源代码]({{< github_tree >}}/pkg/config/analysis/analyzers)中看到所有分析器。
 
       你还可以了解一下目前支持哪些[配置分析消息](/zh/docs/reference/config/analysis/)。
 
