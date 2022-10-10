@@ -184,7 +184,7 @@ kind of information you should provide.
 
 - **What analyzers are supported today?**
 
-      We're still working to documenting the analyzers. In the meantime, you can see all the analyzers in the [Istio source]({{<github_blob>}}/galley/pkg/config/analysis/analyzers).
+      We're still working to documenting the analyzers. In the meantime, you can see all the analyzers in the [Istio source]({{< github_tree >}}/pkg/config/analysis/analyzers).
 
       You can also see what [configuration analysis messages](/docs/reference/config/analysis/)
       are supported to get an idea of what is currently covered.
