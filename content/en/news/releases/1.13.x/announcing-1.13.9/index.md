@@ -3,7 +3,7 @@ title: Announcing Istio 1.13.9
 linktitle: 1.13.9
 subtitle: Patch Release
 description: Istio 1.13.9 patch release.
-publishdate: 2022-10-07
+publishdate: 2022-10-11
 release: 1.13.9
 ---
 
