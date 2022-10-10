@@ -240,7 +240,7 @@ features:
     link: "/docs/tasks/security/authorization/authz-custom"
     level:
       checklist: ""
-      maturity: Alpha
+      maturity: Beta
       nextExpectedPromotion: ""
     area: Security and policy enforcement
   - name: "Authorization Dry Run"
