@@ -9,7 +9,7 @@ release: 1.15.2
 
 This release includes security fixes in Go 1.19.2 (released 2022-10-04) for the `archive/tar`, `net/http/httputil`, and `regexp` packages.
 This release contains bug fixes to improve robustness.
-This release note describes what is different between Istio 1.15.2 and Istio 1.15.2.
+This release note describes what is different between Istio 1.15.1 and Istio 1.15.2.
 
 {{< relnote >}}
 
