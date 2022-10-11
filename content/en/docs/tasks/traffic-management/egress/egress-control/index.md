@@ -365,7 +365,7 @@ Set the value of `values.global.proxy.includeIPRanges` according to your cluster
 
 Use `--set values.global.proxy.includeIPRanges="172.30.0.0/16\,172.21.0.0/16\,10.10.10.0/24"`
 
-#### Google Container Engine (GKE)
+#### Google Kubernetes Engine (GKE)
 
 The ranges are not fixed, so you will need to run the `gcloud container clusters describe` command to determine the
 ranges to use. For example:

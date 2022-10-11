@@ -1,7 +1,7 @@
 # Testing istio.io Content
 
 This folder contains framework utilies and instructions for testing the content on
-[istio.io](http://istio.io). More specifically, these tests confirm that the example, task, and
+[istio.io](https://istio.io). More specifically, these tests confirm that the example, task, and
 other documents, which contain instructions in the form of bash commands and expected output,
 are working as documented.
 
@@ -316,6 +316,8 @@ error as the Istio control plane is being started. Adding a config when creating
    ```sh
    TEST_ENV=kind ADDITIONAL_CONTAINER_OPTIONS="--network host" make doc.test
    ```
+
+   If you encounter `couldn't get current server API group list: Get "...": dial tcp ... connect: connection refused`, the option above also works.
 
 1. Set the HUB and TAG environment variables to use a particular Istio build when running tests.
    If unset, their default values will match those used by the prow tests.

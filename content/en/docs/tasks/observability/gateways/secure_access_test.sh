@@ -70,4 +70,5 @@ _verify_same snip_cleanup_2 "$snip_cleanup_2_out"
 _verify_same snip_cleanup_3 "$snip_cleanup_3_out"
 
 _undeploy_addons kiali prometheus grafana zipkin
+echo y | istioctl x uninstall --revision=default
 kubectl delete ns istio-system

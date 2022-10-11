@@ -8,7 +8,7 @@ layout: protoc-gen-docs
 generator: protoc-gen-docs
 schema: istio.networking.v1alpha3.DestinationRule
 aliases: [/docs/reference/config/networking/v1alpha3/destination-rule]
-number_of_entries: 20
+number_of_entries: 21
 ---
 <p><code>DestinationRule</code> defines policies that apply to traffic intended for a
 service after routing has occurred. These rules specify configuration
@@ -28,7 +28,7 @@ spec:
   host: ratings.prod.svc.cluster.local
   trafficPolicy:
     loadBalancer:
-      simple: LEAST_CONN
+      simple: LEAST_REQUEST
 </code></pre>
 
 <p>{{</tab>}}</p>
@@ -43,7 +43,7 @@ spec:
   host: ratings.prod.svc.cluster.local
   trafficPolicy:
     loadBalancer:
-      simple: LEAST_CONN
+      simple: LEAST_REQUEST
 </code></pre>
 
 <p>{{</tab>}}
@@ -66,7 +66,7 @@ spec:
   host: ratings.prod.svc.cluster.local
   trafficPolicy:
     loadBalancer:
-      simple: LEAST_CONN
+      simple: LEAST_REQUEST
   subsets:
   - name: testversion
     labels:
@@ -88,7 +88,7 @@ spec:
   host: ratings.prod.svc.cluster.local
   trafficPolicy:
     loadBalancer:
-      simple: LEAST_CONN
+      simple: LEAST_REQUEST
   subsets:
   - name: testversion
     labels:
@@ -123,7 +123,7 @@ spec:
     - port:
         number: 80
       loadBalancer:
-        simple: LEAST_CONN
+        simple: LEAST_REQUEST
     - port:
         number: 9080
       loadBalancer:
@@ -145,11 +145,64 @@ spec:
     - port:
         number: 80
       loadBalancer:
-        simple: LEAST_CONN
+        simple: LEAST_REQUEST
     - port:
         number: 9080
       loadBalancer:
         simple: ROUND_ROBIN
+</code></pre>
+
+<p>{{</tab>}}
+{{</tabset>}}</p>
+
+<p>Destination Rules can be customized to specific workloads as well.
+The following example shows how a destination rule can be applied to a
+specific workload using the workloadSelector configuration.</p>
+
+<p>{{<tabset category-name="selector-example">}}
+{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
+
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: configure-client-mtls-dr-with-workloadselector
+spec:
+  host: example.com
+  workloadSelector:
+    matchLabels:
+      app: ratings
+  trafficPolicy:
+    loadBalancer:
+      simple: ROUND_ROBIN
+    portLevelSettings:
+    - port:
+        number: 31443
+      tls:
+        credentialName: client-credential
+        mode: MUTUAL
+</code></pre>
+
+<p>{{</tab>}}
+{{<tab name="v1beta1" category-value="v1beta1">}}</p>
+
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: configure-client-mtls-dr-with-workloadselector
+spec:
+  host: example.com
+  workloadSelector:
+    matchLabels:
+      app: ratings
+  trafficPolicy:
+    loadBalancer:
+      simple: ROUND_ROBIN
+    portLevelSettings:
+    - port:
+        number: 31443
+      tls:
+        credentialName: client-credential
+        mode: MUTUAL
 </code></pre>
 
 <p>{{</tab>}}
@@ -244,6 +297,24 @@ defines an export to all namespaces.</p>
 No
 </td>
 </tr>
+<tr id="DestinationRule-workload_selector">
+<td><code>workloadSelector</code></td>
+<td><code><a href="/docs/reference/config/type/workload-selector/#WorkloadSelector">WorkloadSelector</a></code></td>
+<td>
+<p>Criteria used to select the specific set of pods/VMs on which this
+ <code>DestinationRule</code> configuration should be applied. If specified, the <code>DestinationRule</code>
+ configuration will be applied only to the workload instances matching the workload selector
+ label in the same namespace. Workload selectors do not apply across namespace boundaries.
+ If omitted, the <code>DestinationRule</code> falls back to its default behavior.
+ For example, if specific sidecars need to have egress TLS settings for services outside
+ of the mesh, instead of every sidecar in the mesh needing to have the
+ configuration (which is the default behaviour), a workload selector can be specified.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -321,6 +392,19 @@ to fields omitted in port-level traffic policies.</p>
 No
 </td>
 </tr>
+<tr id="TrafficPolicy-tunnel">
+<td><code>tunnel</code></td>
+<td><code><a href="#TrafficPolicy-TunnelSettings">TunnelSettings</a></code></td>
+<td>
+<p>Configuration of tunneling TCP over other transport or application layers
+for the host configured in the DestinationRule.
+Tunnel settings can be applied to TCP or TLS routes and can&rsquo;t be applied to HTTP routes.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -346,7 +430,7 @@ spec:
   host: ratings.prod.svc.cluster.local
   trafficPolicy:
     loadBalancer:
-      simple: LEAST_CONN
+      simple: LEAST_REQUEST
   subsets:
   - name: testversion
     labels:
@@ -368,7 +452,7 @@ spec:
   host: ratings.prod.svc.cluster.local
   trafficPolicy:
     loadBalancer:
-      simple: LEAST_CONN
+      simple: LEAST_REQUEST
   subsets:
   - name: testversion
     labels:
@@ -565,6 +649,21 @@ between this object and the object one in MeshConfig</p>
 No
 </td>
 </tr>
+<tr id="LoadBalancerSettings-warmup_duration_secs">
+<td><code>warmupDurationSecs</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
+<td>
+<p>Represents the warmup duration of Service. If set, the newly created endpoint of service
+remains in warmup mode starting from its creation time for the duration of this window and
+Istio progressively increases amount of traffic for that endpoint instead of sending proportional amount of traffic.
+This should be enabled for services that require warm up time to serve full production load with reasonable latency.
+Currently this is only supported for ROUND_ROBIN and LEAST_REQUEST load balancers.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -737,7 +836,7 @@ spec:
 <td><code>bool</code></td>
 <td>
 <p>Determines whether to distinguish local origin failures from external errors. If set to true
-consecutive<em>local</em>origin_failure is taken into account for outlier detection calculations.
+consecutive_local_origin_failure is taken into account for outlier detection calculations.
 This should be used when you want to derive the outlier detection status based on the errors
 seen locally such as failure to connect, timeout while connecting etc. rather than the status code
 retuned by upstream service. This is especially useful when the upstream service explicitly returns
@@ -755,7 +854,7 @@ No
 <td><code><a href="#google-protobuf-UInt32Value">UInt32Value</a></code></td>
 <td>
 <p>The number of consecutive locally originated failures before ejection
-occurs. Defaults to 5. Parameter takes effect only when split<em>external</em>local<em>origin</em>errors
+occurs. Defaults to 5. Parameter takes effect only when split_external_local_origin_errors
 is set to true.</p>
 
 </td>
@@ -774,11 +873,11 @@ an opaque TCP connection, connect timeouts and connection error/failure
 events qualify as a gateway error.
 This feature is disabled by default or when set to the value 0.</p>
 
-<p>Note that consecutive<em>gateway</em>errors and consecutive<em>5xx</em>errors can be
+<p>Note that consecutive_gateway_errors and consecutive_5xx_errors can be
 used separately or together. Because the errors counted by
-consecutive<em>gateway</em>errors are also included in consecutive<em>5xx</em>errors,
-if the value of consecutive<em>gateway</em>errors is greater than or equal to
-the value of consecutive<em>5xx</em>errors, consecutive<em>gateway</em>errors will have
+consecutive_gateway_errors are also included in consecutive_5xx_errors,
+if the value of consecutive_gateway_errors is greater than or equal to
+the value of consecutive_5xx_errors, consecutive_gateway_errors will have
 no effect.</p>
 
 </td>
@@ -796,11 +895,11 @@ timeouts, connection error/failure and request failure events qualify as a
 5xx error.
 This feature defaults to 5 but can be disabled by setting the value to 0.</p>
 
-<p>Note that consecutive<em>gateway</em>errors and consecutive<em>5xx</em>errors can be
+<p>Note that consecutive_gateway_errors and consecutive_5xx_errors can be
 used separately or together. Because the errors counted by
-consecutive<em>gateway</em>errors are also included in consecutive<em>5xx</em>errors,
-if the value of consecutive<em>gateway</em>errors is greater than or equal to
-the value of consecutive<em>5xx</em>errors, consecutive<em>gateway</em>errors will have
+consecutive_gateway_errors are also included in consecutive_5xx_errors,
+if the value of consecutive_gateway_errors is greater than or equal to
+the value of consecutive_5xx_errors, consecutive_gateway_errors will have
 no effect.</p>
 
 </td>
@@ -852,7 +951,7 @@ No
 <td><code>int32</code></td>
 <td>
 <p>Outlier detection will be enabled as long as the associated load balancing
-pool has at least min<em>health</em>percent hosts in healthy mode. When the
+pool has at least min_health_percent hosts in healthy mode. When the
 percentage of healthy hosts in the load balancing pool drops below this
 threshold, outlier detection will be disabled and the proxy will load balance
 across all hosts in the pool (healthy and unhealthy). The threshold can be
@@ -1062,8 +1161,10 @@ ca.crt key for CA certificates is also supported.
 Only one of client certificates and CA certificate
 or credentialName can be specified.</p>
 
-<p><strong>NOTE:</strong> This field is currently applicable only at gateways.
-Sidecars will continue to use the certificate paths.</p>
+<p><strong>NOTE:</strong> This field is applicable at sidecars only if
+<code>DestinationRule</code> has a <code>workloadSelector</code> specified.
+Otherwise the field will be applicable only at gateways, and
+sidecars will continue to use the certificate paths.</p>
 
 </td>
 <td>
@@ -1077,8 +1178,11 @@ No
 <p>A list of alternate names to verify the subject identity in the
 certificate. If specified, the proxy will verify that the server
 certificate&rsquo;s subject alt name matches one of the specified values.
-If specified, this list overrides the value of subject<em>alt</em>names
-from the ServiceEntry.</p>
+If specified, this list overrides the value of subject_alt_names
+from the ServiceEntry. If unspecified, automatic validation of upstream
+presented certificate for new upstream connections will be done based on the
+downstream HTTP host/authority header, provided <code>VERIFY_CERT_AT_CLIENT</code>
+and <code>ENABLE_AUTO_SNI</code> environmental variables are set to <code>true</code>.</p>
 
 </td>
 <td>
@@ -1089,7 +1193,10 @@ No
 <td><code>sni</code></td>
 <td><code>string</code></td>
 <td>
-<p>SNI string to present to the server during TLS handshake.</p>
+<p>SNI string to present to the server during TLS handshake.
+If unspecified, SNI will be automatically set based on downstream HTTP
+host/authority header for SIMPLE and MUTUAL TLS modes, provided <code>ENABLE_AUTO_SNI</code>
+environmental variable is set to <code>true</code>.</p>
 
 </td>
 <td>
@@ -1349,6 +1456,60 @@ No
 </tbody>
 </table>
 </section>
+<h2 id="TrafficPolicy-TunnelSettings">TrafficPolicy.TunnelSettings</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="TrafficPolicy-TunnelSettings-protocol">
+<td><code>protocol</code></td>
+<td><code>string</code></td>
+<td>
+<p>Specifies which protocol to use for tunneling the downstream connection.
+Supported protocols are:
+  CONNECT - uses HTTP CONNECT;
+  POST - uses HTTP POST.
+CONNECT is used by default if not specified.
+HTTP version for upstream requests is determined by the service protocol defined for the proxy.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="TrafficPolicy-TunnelSettings-target_host">
+<td><code>targetHost</code></td>
+<td><code>string</code></td>
+<td>
+<p>Specifies a host to which the downstream connection is tunneled.
+Target host must be an FQDN or IP address.</p>
+
+</td>
+<td>
+Yes
+</td>
+</tr>
+<tr id="TrafficPolicy-TunnelSettings-target_port">
+<td><code>targetPort</code></td>
+<td><code>uint32</code></td>
+<td>
+<p>Specifies a port to which the downstream connection is tunneled.</p>
+
+</td>
+<td>
+Yes
+</td>
+</tr>
+</tbody>
+</table>
+</section>
 <h2 id="LoadBalancerSettings-ConsistentHashLB">LoadBalancerSettings.ConsistentHashLB</h2>
 <section>
 <p>Consistent Hash-based load balancing can be used to provide soft
@@ -1530,6 +1691,19 @@ No
 No
 </td>
 </tr>
+<tr id="ConnectionPoolSettings-TCPSettings-max_connection_duration">
+<td><code>maxConnectionDuration</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
+<td>
+<p>The maximum duration of a connection. The duration is defined as the period since a connection
+was established. If not set, there is no max duration. When max_connection_duration
+is reached the connection will be closed. Duration must be at least 1ms.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -1627,7 +1801,7 @@ No
 <td><code>bool</code></td>
 <td>
 <p>If set to true, client protocol will be preserved while initiating connection to backend.
-Note that when this is set to true, h2<em>upgrade</em>policy will be ineffective i.e. the client
+Note that when this is set to true, h2_upgrade_policy will be ineffective i.e. the client
 connections will not be upgraded to http2.</p>
 
 </td>
@@ -1832,19 +2006,11 @@ No
 </tr>
 </thead>
 <tbody>
-<tr id="LoadBalancerSettings-SimpleLB-ROUND_ROBIN">
-<td><code>ROUND_ROBIN</code></td>
+<tr id="LoadBalancerSettings-SimpleLB-UNSPECIFIED">
+<td><code>UNSPECIFIED</code></td>
 <td>
-<p>Round Robin policy. Default</p>
-
-</td>
-</tr>
-<tr id="LoadBalancerSettings-SimpleLB-LEAST_CONN">
-<td><code>LEAST_CONN</code></td>
-<td>
-<p>The least request load balancer uses an O(1) algorithm which selects
-two random healthy hosts and picks the host which has fewer active
-requests.</p>
+<p>No load balancing algorithm has been specified by the user. Istio
+will select an appropriate default.</p>
 
 </td>
 </tr>
@@ -1865,6 +2031,33 @@ requested by the caller without doing any form of load
 balancing. This option must be used with care. It is meant for
 advanced use cases. Refer to Original Destination load balancer in
 Envoy for further details.</p>
+
+</td>
+</tr>
+<tr id="LoadBalancerSettings-SimpleLB-ROUND_ROBIN">
+<td><code>ROUND_ROBIN</code></td>
+<td>
+<p>A basic round robin load balancing policy. This is generally unsafe
+for many scenarios (e.g. when enpoint weighting is used) as it can
+overburden endpoints. In general, prefer to use LEAST_REQUEST as a
+drop-in replacement for ROUND_ROBIN.</p>
+
+</td>
+</tr>
+<tr id="LoadBalancerSettings-SimpleLB-LEAST_REQUEST">
+<td><code>LEAST_REQUEST</code></td>
+<td>
+<p>The least request load balancer spreads load across endpoints, favoring
+endpoints with the least outstanding requests. This is generally safer
+and outperforms ROUND_ROBIN in nearly all cases. Prefer to use
+LEAST_REQUEST as a drop-in replacement for ROUND_ROBIN.</p>
+
+</td>
+</tr>
+<tr id="LoadBalancerSettings-SimpleLB-LEAST_CONN" class="deprecated ">
+<td><code>LEAST_CONN</code></td>
+<td>
+<p>Deprecated. Use LEAST_REQUEST instead.</p>
 
 </td>
 </tr>

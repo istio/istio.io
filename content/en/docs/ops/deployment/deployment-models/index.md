@@ -154,7 +154,8 @@ This can also be achieved with Istio `ServiceEntry`, rather than Kubernetes
 `Service`. However, a `ServiceEntry` does not configure the Kubernetes DNS server.
 This means that DNS will need to be configured either manually or
 with automated tooling such as the
-[Istio CoreDNS Plugin](https://github.com/istio-ecosystem/istio-coredns-plugin).
+[Address auto allocation](/docs/ops/configuration/traffic-management/dns-proxy/#address-auto-allocation)
+feature of [Istio DNS Proxying](/docs/ops/configuration/traffic-management/dns-proxy/).
 
 {{< tip >}}
 There are a few efforts in progress that will help simplify the DNS story:
@@ -428,7 +429,7 @@ communicating.
 To enable communication between two meshes with different CAs, you must
 exchange the trust bundles of the meshes. Istio does not provide any tooling
 to exchange trust bundles across meshes. You can exchange the trust bundles
-either manually or automatically using a protocol such as [SPIFFE Trust Domain Federation](https://docs.google.com/document/d/1OC9nI2W04oghhbEDJpKdIUIw-G23YzWeHZxwGLIkB8k/edit).
+either manually or automatically using a protocol such as [SPIFFE Trust Domain Federation](https://github.com/spiffe/spiffe/blob/main/standards/SPIFFE_Federation.md).
 Once you import a trust bundle to a mesh, you can configure local policies for
 those identities.
 

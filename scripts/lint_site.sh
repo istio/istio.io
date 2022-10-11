@@ -59,6 +59,9 @@ check_content() {
     # elide link="*"
     find "${TMP}" -type f -name \*.md -exec sed -E -i "s/link=\".*\"/LINK/g" {} ";"
 
+    # remove any heading anchors
+    find "${TMP}" -type f -name \*.md -exec sed -E -i "s/(^#.*\S) *\{#.*\} */\1/g" {} ";"
+
     # switch to the temp dir
     pushd "${TMP}" >/dev/null
 
@@ -107,7 +110,7 @@ SKIP_LANGS=( en zh pt-br )
 for lang in $LANGS; do
     for i in "${!SKIP_LANGS[@]}"; do
        if [[ "${SKIP_LANGS[$i]}" = "${lang}" ]]; then
-           unset SKIP_LANGS["${i}"]
+           unset 'SKIP_LANGS[${i}]'
        fi
     done
     SKIP_LANGS=( "${SKIP_LANGS[@]}" )

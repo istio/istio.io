@@ -5,9 +5,9 @@ weight: 70
 aliases:
     - /zh/docs/setup/kubernetes/install/cni
     - /zh/docs/setup/kubernetes/additional-setup/cni
-keywords: [kubernetes,cni,sidecar,proxy,network,helm]
-owner: istio/wg-environments-maintainers
-test: no
+keywords: [cni]
+owner: istio/wg-networking-maintainers
+test: yes
 ---
 
 按照此流程利用 Istio 容器网络接口（[CNI](https://github.com/containernetworking/cni#cni---the-container-network-interface)）来安装、配置和使用 Istio 网格。
@@ -22,11 +22,23 @@ Istio CNI 插件就是一个能够替代 `istio-init` 容器来实现相同的�
 Istio CNI 插件会在 Kubernetes pod 生命周期的网络设置阶段完成 Istio 网格的 pod 流量转发设置工作，因此用户在部署 pods 到 Istio 网格中时，不再需要配置 [`NET_ADMIN` 功能需求](/zh/docs/ops/deployment/requirements/)了。
 Istio CNI 插件代替了 `istio-init` 容器所实现的功能。
 
-## 前提条件{#prerequisites}
+{{< tip >}}
+注意: Istio CNI 插件作为一个链接的 CNI 插件运行，它被设计为与另一个 CNI 插件一起使用，如 [PTP](https://www.cni.dev/plugins/current/main/ptp/) 或 [Calico](https://docs.projectcalico.org)。
+详情请参见 [与其他CNI插件的兼容性](#compatibility-with-other-cni-plugins)。
+{{< /tip >}}
+
+## 安装 CNI{#install-cni}
+
+### 前提条件{#prerequisites}
 
 1. 安装支持 CNI 的 Kubernetes 集群，并且 `kubelet` 使用 `--network-plugin=cni` 参数启用 [CNI](https://github.com/containernetworking/cni) 插件。
     * AWS EKS、Azure AKS 和 IBM Cloud IKS 集群具备这一功能。
-    * Google Cloud GKE 集群需要启用[网络策略](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy)功能，以让 Kubernetes 配置为 `network-plugin=cni`。
+    * Google Cloud GKE 集群在启用以下特性时启用 CNI:
+    [network policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy)，
+    [intranode visibility](https://cloud.google.com/kubernetes-engine/docs/how-to/intranode-visibility)，
+    [workload identity](https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity)，
+    [pod security policy](https://cloud.google.com/kubernetes-engine/docs/how-to/pod-security-policies#overview)，
+    [dataplane v2](https://cloud.google.com/kubernetes-engine/docs/concepts/dataplane-v2)。
     * OpenShift 默认启用了 CNI。
 
 1. Kubernetes 需要启用 [ServiceAccount 准入控制器](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#serviceaccount)。

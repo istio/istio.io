@@ -7,7 +7,7 @@ location: https://istio.io/docs/reference/config/istio.mesh.v1alpha1.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
 weight: 20
-number_of_entries: 52
+number_of_entries: 56
 ---
 <p>Configuration affecting the service mesh as a whole.</p>
 
@@ -196,7 +196,7 @@ No
 <td><code>bool</code></td>
 <td>
 <p>This flag enables Envoy&rsquo;s gRPC Access Log Service.
-See <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/accesslog/v2/als.proto">Access Log Service</a>
+See <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/access_loggers/grpc/v3/als.proto">Access Log Service</a>
 for details about Envoy&rsquo;s gRPC Access Log Service API.
 Default value is <code>false</code>.</p>
 
@@ -522,6 +522,8 @@ No
 <td>
 <p>Configure the provision of certificates.</p>
 
+<p>Note: Deprecated, please refer to Cert-Manager or other cert provisioning solutions to sign DNS certificates.</p>
+
 </td>
 <td>
 No
@@ -648,6 +650,17 @@ configured globally via this field.</p>
 No
 </td>
 </tr>
+<tr id="MeshConfig-mesh_mTLS">
+<td><code>meshMTLS</code></td>
+<td><code><a href="#MeshConfig-TLSConfig">TLSConfig</a></code></td>
+<td>
+<p>Configuration of mTLS for traffic between workloads within the mesh.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -698,66 +711,6 @@ No
 <td><code><a href="#Resource">Resource[]</a></code></td>
 <td>
 <p>Describes the source of configuration, if nothing is specified default is MCP</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="Certificate">Certificate</h2>
-<section>
-<p>Certificate configures the provision of a certificate and its key.
-Example 1: key and cert stored in a secret</p>
-
-<pre><code>{ secretName: galley-cert
-  secretNamespace: istio-system
-  dnsNames:
-    - galley.istio-system.svc
-    - galley.mydomain.com
-}
-</code></pre>
-
-<p>Example 2: key and cert stored in a directory</p>
-
-<pre><code>{ dnsNames:
-    - pilot.istio-system
-    - pilot.istio-system.svc
-    - pilot.mydomain.com
-}
-</code></pre>
-
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="Certificate-secret_name">
-<td><code>secretName</code></td>
-<td><code>string</code></td>
-<td>
-<p>Name of the secret the certificate and its key will be stored into.
-If it is empty, it will not be stored into a secret.
-Instead, the certificate and its key will be stored into a hard-coded directory.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="Certificate-dns_names">
-<td><code>dnsNames</code></td>
-<td><code>string[]</code></td>
-<td>
-<p>The DNS names for the certificate. A certificate may contain
-multiple DNS names.</p>
 
 </td>
 <td>
@@ -819,9 +772,9 @@ No
 <td><code>string (oneof)</code></td>
 <td>
 <p>The SPIFFE bundle endpoint URL that complies to:
-https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE<em>Trust</em>Domain<em>and</em>Bundle.md#the-spiffe-trust-domain-and-bundle
+https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE_Trust_Domain_and_Bundle.md#the-spiffe-trust-domain-and-bundle
 The endpoint should support authentication based on Web PKI:
-https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE<em>Trust</em>Domain<em>and</em>Bundle.md#521-web-pki
+https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE_Trust_Domain_and_Bundle.md#521-web-pki
 The certificate is retrieved from the endpoint.</p>
 
 </td>
@@ -849,12 +802,12 @@ No
 <p>Optional. Specify the list of trust domains to which this trustAnchor data belongs.
 If set, they are used for these trust domains. Otherwise, this trustAnchor is used for default trust domain
 and its aliases.
-Note that we can have multiple trustAnchor data for a same trust<em>domain.
+Note that we can have multiple trustAnchor data for a same trust_domain.
 In that case, trustAnchors with a same trust domain will be merged and used together to verify peer certificates.
-If neither cert</em>signers nor trust<em>domains is set, this trustAnchor is used for all trust domains and all signers.
-If only trust</em>domains is set, this trustAnchor is used for these trust<em>domains and all signers.
-If only cert</em>signers is set, this trustAnchor is used for these cert<em>signers and all trust domains.
-If both cert</em>signers and trust_domains is set, this trustAnchor is only used for these signers and trust domains.</p>
+If neither cert_signers nor trust_domains is set, this trustAnchor is used for all trust domains and all signers.
+If only trust_domains is set, this trustAnchor is used for these trust_domains and all signers.
+If only cert_signers is set, this trustAnchor is used for these cert_signers and all trust domains.
+If both cert_signers and trust_domains is set, this trustAnchor is only used for these signers and trust domains.</p>
 
 </td>
 <td>
@@ -932,8 +885,8 @@ No
 <td><code>tlsSettings</code></td>
 <td><code><a href="/docs/reference/config/networking/destination-rule/#ClientTLSSettings">ClientTLSSettings</a></code></td>
 <td>
-<p>Use the tls<em>settings to specify the tls mode to use.
-Regarding tls</em>settings:
+<p>Use the tls_settings to specify the tls mode to use.
+Regarding tls_settings:
 - DISABLE MODE is legitimate for the case Istiod is making the request via an Envoy sidecar.
 DISABLE MODE can also be used for testing
 - TLS MUTUAL MODE be on by default. If the CA certificates
@@ -1127,6 +1080,17 @@ No
 No
 </td>
 </tr>
+<tr id="MeshConfig-ExtensionProvider-envoy_otel_als" class="oneof">
+<td><code>envoyOtelAls</code></td>
+<td><code><a href="#MeshConfig-ExtensionProvider-EnvoyOpenTelemetryLogProvider">EnvoyOpenTelemetryLogProvider (oneof)</a></code></td>
+<td>
+<p>Configures an Envoy Open Telemetry Access Logging Service provider.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -1208,6 +1172,37 @@ No
 </tbody>
 </table>
 </section>
+<h2 id="MeshConfig-TLSConfig">MeshConfig.TLSConfig</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MeshConfig-TLSConfig-min_protocol_version">
+<td><code>minProtocolVersion</code></td>
+<td><code><a href="#MeshConfig-TLSConfig-TLSProtocol">TLSProtocol</a></code></td>
+<td>
+<p>Optional: the minimum TLS protocol version. The default minimum
+TLS version will be TLS 1.2. As servers may not be Envoy and be
+set to TLS 1.2 (e.g., workloads using mTLS without sidecars), the
+minimum TLS version for clients may also be TLS 1.2.
+In the current Istio implementation, the maximum TLS protocol version
+is TLS 1.3.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
 <h2 id="MeshConfig-ServiceSettings-Settings">MeshConfig.ServiceSettings.Settings</h2>
 <section>
 <p>Settings for the selected services.</p>
@@ -1271,10 +1266,10 @@ No
 <td><code>uint32</code></td>
 <td>
 <p>Sets the maximum size of a message body that the ext-authz filter will hold in memory.
-If max<em>request</em>bytes is reached, and allow<em>partial</em>message is false, Envoy will return a 413 (Payload Too Large).
+If max_request_bytes is reached, and allow_partial_message is false, Envoy will return a 413 (Payload Too Large).
 Otherwise the request will be sent to the provider with a partial message.
-Note that this setting will have precedence over the fail<em>open field, the 413 will be returned even when the
-fail</em>open is set to true.</p>
+Note that this setting will have precedence over the fail_open field, the 413 will be returned even when the
+fail_open is set to true.</p>
 
 </td>
 <td>
@@ -1285,7 +1280,7 @@ No
 <td><code>allowPartialMessage</code></td>
 <td><code>bool</code></td>
 <td>
-<p>When this field is true, ext-authz filter will buffer the message until max<em>request</em>bytes is reached.
+<p>When this field is true, ext-authz filter will buffer the message until max_request_bytes is reached.
 The authorization request will be dispatched and no 413 HTTP error will be returned by the filter.
 A &ldquo;x-envoy-auth-partial-body: false|true&rdquo; metadata header will be added to the authorization request message
 indicating if the body data is partial.</p>
@@ -1300,9 +1295,9 @@ No
 <td><code>bool</code></td>
 <td>
 <p>If true, the body sent to the external authorization service in the gRPC authorization request is set with raw bytes
-in the raw<em>body field (https://github.com/envoyproxy/envoy/blame/cffb095d59d7935abda12b9509bcd136808367bb/api/envoy/service/auth/v3/attribute</em>context.proto#L153).
-Otherwise, it will be filled with UTF-8 string in the body field (https://github.com/envoyproxy/envoy/blame/cffb095d59d7935abda12b9509bcd136808367bb/api/envoy/service/auth/v3/attribute<em>context.proto#L147).
-This field only works with the envoy</em>ext<em>authz</em>grpc provider and has no effect for the envoy<em>ext</em>authz_http provider.</p>
+in the raw_body field (https://github.com/envoyproxy/envoy/blame/cffb095d59d7935abda12b9509bcd136808367bb/api/envoy/service/auth/v3/attribute_context.proto#L153).
+Otherwise, it will be filled with UTF-8 string in the body field (https://github.com/envoyproxy/envoy/blame/cffb095d59d7935abda12b9509bcd136808367bb/api/envoy/service/auth/v3/attribute_context.proto#L147).
+This field only works with the envoy_ext_authz_grpc provider and has no effect for the envoy_ext_authz_http provider.</p>
 
 </td>
 <td>
@@ -1406,7 +1401,7 @@ No
 <td><code>includeHeadersInCheck</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>DEPRECATED. Use include<em>request</em>headers<em>in</em>check instead.</p>
+<p>DEPRECATED. Use include_request_headers_in_check instead.</p>
 
 </td>
 <td>
@@ -1421,14 +1416,14 @@ No
 Note that in addition to the headers specified here following headers are included by default:
 1. <em>Host</em>, <em>Method</em>, <em>Path</em> and <em>Content-Length</em> are automatically sent.
 2. <em>Content-Length</em> will be set to 0 and the request will not have a message body. However, the authorization
-request can include the buffered client request body (controlled by include<em>request</em>body<em>in</em>check setting),
+request can include the buffered client request body (controlled by include_request_body_in_check setting),
 consequently the value of Content-Length of the authorization request reflects the size of its payload size.</p>
 
 <p>Exact, prefix and suffix matches are supported (similar to the authorization policy rule syntax except the presence match
 https://istio.io/latest/docs/reference/config/security/authorization-policy/#Rule):
 - Exact match: &ldquo;abc&rdquo; will match on value &ldquo;abc&rdquo;.
-- Prefix match: &ldquo;abc<em>&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;abcd&rdquo;.
-- Suffix match: &ldquo;</em>abc&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;xabc&rdquo;.</p>
+- Prefix match: &ldquo;abc*&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;abcd&rdquo;.
+- Suffix match: &ldquo;*abc&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;xabc&rdquo;.</p>
 
 </td>
 <td>
@@ -1441,7 +1436,7 @@ No
 <td>
 <p>Set of additional fixed headers that should be included in the authorization request sent to the authorization service.
 Key is the header name and value is the header value.
-Note that client request of the same key or headers specified in include<em>request</em>headers<em>in</em>check will be overridden.</p>
+Note that client request of the same key or headers specified in include_request_headers_in_check will be overridden.</p>
 
 </td>
 <td>
@@ -1471,8 +1466,8 @@ Note, any existing headers will be overridden.</p>
 <p>Exact, prefix and suffix matches are supported (similar to the authorization policy rule syntax except the presence match
 https://istio.io/latest/docs/reference/config/security/authorization-policy/#Rule):
 - Exact match: &ldquo;abc&rdquo; will match on value &ldquo;abc&rdquo;.
-- Prefix match: &ldquo;abc<em>&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;abcd&rdquo;.
-- Suffix match: &ldquo;</em>abc&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;xabc&rdquo;.</p>
+- Prefix match: &ldquo;abc*&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;abcd&rdquo;.
+- Suffix match: &ldquo;*abc&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;xabc&rdquo;.</p>
 
 </td>
 <td>
@@ -1494,8 +1489,28 @@ Note, the body from the authorization service is always included in the response
 <p>Exact, prefix and suffix matches are supported (similar to the authorization policy rule syntax except the presence match
 https://istio.io/latest/docs/reference/config/security/authorization-policy/#Rule):
 - Exact match: &ldquo;abc&rdquo; will match on value &ldquo;abc&rdquo;.
-- Prefix match: &ldquo;abc<em>&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;abcd&rdquo;.
-- Suffix match: &ldquo;</em>abc&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;xabc&rdquo;.</p>
+- Prefix match: &ldquo;abc*&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;abcd&rdquo;.
+- Suffix match: &ldquo;*abc&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;xabc&rdquo;.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-EnvoyExternalAuthorizationHttpProvider-headers_to_downstream_on_allow">
+<td><code>headersToDownstreamOnAllow</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>List of headers from the authorization service that should be forwarded to downstream when the authorization
+check result is allowed (HTTP code 200).
+If not specified, the original response will not be modified and forwarded to downstream as-is.
+Note, any existing headers will be overridden.</p>
+
+<p>Exact, prefix and suffix matches are supported (similar to the authorization policy rule syntax except the presence match
+https://istio.io/latest/docs/reference/config/security/authorization-policy/#Rule):
+- Exact match: &ldquo;abc&rdquo; will match on value &ldquo;abc&rdquo;.
+- Prefix match: &ldquo;abc*&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;abcd&rdquo;.
+- Suffix match: &ldquo;*abc&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;xabc&rdquo;.</p>
 
 </td>
 <td>
@@ -2033,8 +2048,8 @@ No
 <td>
 <p>Optional. The friendly name of the access log.
 Defaults:
--  &ldquo;http<em>envoy</em>accesslog&rdquo;
--  &ldquo;listener<em>envoy</em>accesslog&rdquo;</p>
+-  &ldquo;http_envoy_accesslog&rdquo;
+-  &ldquo;listener_envoy_accesslog&rdquo;</p>
 
 </td>
 <td>
@@ -2136,8 +2151,8 @@ No
 <td>
 <p>Optional. The friendly name of the access log.
 Defaults:
-- &ldquo;tcp<em>envoy</em>accesslog&rdquo;
-- &ldquo;listener<em>envoy</em>accesslog&rdquo;</p>
+- &ldquo;tcp_envoy_accesslog&rdquo;
+- &ldquo;listener_envoy_accesslog&rdquo;</p>
 
 </td>
 <td>
@@ -2149,6 +2164,75 @@ No
 <td><code>string[]</code></td>
 <td>
 <p>Optional. Additional filter state objects to log.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="MeshConfig-ExtensionProvider-EnvoyOpenTelemetryLogProvider">MeshConfig.ExtensionProvider.EnvoyOpenTelemetryLogProvider</h2>
+<section>
+<p>Defines configuration for an Envoy <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/access_loggers/open_telemetry/v3/logs_service.proto">OpenTelemetry (gRPC) Access Log</a></p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MeshConfig-ExtensionProvider-EnvoyOpenTelemetryLogProvider-service">
+<td><code>service</code></td>
+<td><code>string</code></td>
+<td>
+<p>REQUIRED. Specifies the service that implements the Envoy ALS gRPC authorization service.
+The format is <code>[&lt;Namespace&gt;/]&lt;Hostname&gt;</code>. The specification of <code>&lt;Namespace&gt;</code> is required only when it is insufficient
+to unambiguously resolve a service in the service registry. The <code>&lt;Hostname&gt;</code> is a fully qualified host name of a
+service defined by the Kubernetes service or ServiceEntry.</p>
+
+<p>Example: &ldquo;envoy-als.foo.svc.cluster.local&rdquo; or &ldquo;bar/envoy-als.example.com&rdquo;.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-EnvoyOpenTelemetryLogProvider-port">
+<td><code>port</code></td>
+<td><code>uint32</code></td>
+<td>
+<p>REQUIRED. Specifies the port of the service.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-EnvoyOpenTelemetryLogProvider-log_name">
+<td><code>logName</code></td>
+<td><code>string</code></td>
+<td>
+<p>Optional. The friendly name of the access log.
+Defaults:
+- &ldquo;otel_envoy_accesslog&rdquo;</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-EnvoyOpenTelemetryLogProvider-log_format">
+<td><code>logFormat</code></td>
+<td><code><a href="#MeshConfig-ExtensionProvider-EnvoyOpenTelemetryLogProvider-LogFormat">LogFormat</a></code></td>
+<td>
+<p>Optional. Format for the proxy access log
+Empty value results in proxy&rsquo;s default access log format, following Envoy access logging formatting.</p>
 
 </td>
 <td>
@@ -2224,11 +2308,66 @@ No
 <td><code>labels</code></td>
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct">Struct (oneof)</a></code></td>
 <td>
-<p>Structured format for the envoy access logs. Envoy <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#command-operators">command operators</a>
+<p>JSON structured format for the envoy access logs. Envoy <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#command-operators">command operators</a>
 can be used as values for fields within the Struct. Values are rendered
 as strings, numbers, or boolean values, as appropriate
 (see: <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#config-access-log-format-dictionaries">format dictionaries</a>). Nested JSON is
-supported for some command operators (e.g. FILTER<em>STATE or DYNAMIC</em>METADATA).</p>
+supported for some command operators (e.g. <code>FILTER_STATE</code> or <code>DYNAMIC_METADATA</code>).
+Use <code>labels: {}</code> for default envoy JSON log format.</p>
+
+<p>Example:</p>
+
+<pre><code>labels:
+  status: &quot;%RESPONSE_CODE%&quot;
+  message: &quot;%LOCAL_REPLY_BODY%&quot;
+</code></pre>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="MeshConfig-ExtensionProvider-EnvoyOpenTelemetryLogProvider-LogFormat">MeshConfig.ExtensionProvider.EnvoyOpenTelemetryLogProvider.LogFormat</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MeshConfig-ExtensionProvider-EnvoyOpenTelemetryLogProvider-LogFormat-text">
+<td><code>text</code></td>
+<td><code>string</code></td>
+<td>
+<p>Textual format for the envoy access logs. Envoy <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#command-operators">command operators</a> may be
+used in the format. The <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#config-access-log-format-strings">format string documentation</a>
+provides more information.
+Alias to <code>body</code> filed in <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/access_loggers/open_telemetry/v3/logs_service.proto">Open Telemetry</a>
+Example: <code>text: &quot;%LOCAL_REPLY_BODY%:%RESPONSE_CODE%:path=%REQ(:path)%&quot;</code></p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-EnvoyOpenTelemetryLogProvider-LogFormat-labels">
+<td><code>labels</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct">Struct</a></code></td>
+<td>
+<p>Optional. Additional attributes that describe the specific event occurrence.
+Structured format for the envoy access logs. Envoy <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#command-operators">command operators</a>
+can be used as values for fields within the Struct. Values are rendered
+as strings, numbers, or boolean values, as appropriate
+(see: <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#config-access-log-format-dictionaries">format dictionaries</a>). Nested JSON is
+supported for some command operators (e.g. FILTER_STATE or DYNAMIC_METADATA).
+Alias to <code>attributes</code> filed in <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/access_loggers/open_telemetry/v3/logs_service.proto">Open Telemetry</a></p>
 
 <p>Example:</p>
 
@@ -2249,7 +2388,8 @@ No
 <section>
 <p>A label selector is a label query over a set of resources. The result of matchLabels and
 matchExpressions are ANDed. An empty label selector matches all objects. A null
-label selector matches no objects.</p>
+label selector matches no objects.
++structType=atomic</p>
 
 <table class="message-fields">
 <thead>
@@ -2387,11 +2527,10 @@ No
 </tbody>
 </table>
 </section>
-<h2 id="SDS">SDS</h2>
+<h2 id="PrivateKeyProvider">PrivateKeyProvider</h2>
 <section>
-<p>SDS defines secret discovery service(SDS) configuration to be used by the proxy.
-For workload, its values are set in sidecar injector(passed as arguments to istio-proxy container).
-For pilot/mixer, it&rsquo;s passed as arguments to istio-proxy container in pilot/mixer deployment yaml files directly.</p>
+<p>PrivateKeyProvider defines private key configuration for gateways and sidecars. This can be configured
+mesh wide or individual per-workload basis.</p>
 
 <table class="message-fields">
 <thead>
@@ -2403,23 +2542,10 @@ For pilot/mixer, it&rsquo;s passed as arguments to istio-proxy container in pilo
 </tr>
 </thead>
 <tbody>
-<tr id="SDS-enabled">
-<td><code>enabled</code></td>
-<td><code>bool</code></td>
+<tr id="PrivateKeyProvider-cryptomb" class="oneof oneof-start">
+<td><code>cryptomb</code></td>
+<td><code><a href="#PrivateKeyProvider-CryptoMb">CryptoMb (oneof)</a></code></td>
 <td>
-<p>True if SDS is enabled.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="SDS-k8s_sa_jwt_path">
-<td><code>k8sSaJwtPath</code></td>
-<td><code>string</code></td>
-<td>
-<p>Path of k8s service account JWT path.</p>
-
 </td>
 <td>
 No
@@ -2669,17 +2795,6 @@ No
 No
 </td>
 </tr>
-<tr id="ProxyConfig-sds">
-<td><code>sds</code></td>
-<td><code><a href="#SDS">SDS</a></code></td>
-<td>
-<p>Secret Discovery Service(SDS) configuration to be used by the proxy.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
 <tr id="ProxyConfig-envoy_access_log_service">
 <td><code>envoyAccessLogService</code></td>
 <td><code><a href="#RemoteService">RemoteService</a></code></td>
@@ -2713,6 +2828,18 @@ No
 <td>
 <p>Additional environment variables for the proxy.
 Names starting with <code>ISTIO_META_</code> will be included in the generated bootstrap and sent to the XDS server.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-runtime_values">
+<td><code>runtimeValues</code></td>
+<td><code>map&lt;string,&nbsp;string&gt;</code></td>
+<td>
+<p>Envoy <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/operations/runtime">runtime configuration</a> to set during bootstrapping.
+This enables setting experimental, unsafe, unsupported, and deprecated features that should be used with extreme caution.</p>
 
 </td>
 <td>
@@ -2852,6 +2979,17 @@ No
 <td><code><a href="/docs/reference/config/networking/proxy-config/#ProxyImage">ProxyImage</a></code></td>
 <td>
 <p>Specifies the details of the proxy image.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-private_key_provider">
+<td><code>privateKeyProvider</code></td>
+<td><code><a href="#PrivateKeyProvider">PrivateKeyProvider</a></code></td>
+<td>
+<p>Specifies the details of the Private Key Provider configuration for gateway and sidecar proxies.</p>
 
 </td>
 <td>
@@ -3081,6 +3219,39 @@ No
 tracing. Default is <code>[&quot;W3C_TRACE_CONTEXT&quot;]</code>. If multiple values are specified,
 the proxy will attempt to read each header for each request and will
 write all headers.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="PrivateKeyProvider-CryptoMb">PrivateKeyProvider.CryptoMb</h2>
+<section>
+<p>CryptoMb PrivateKeyProvider configuration</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="PrivateKeyProvider-CryptoMb-poll_delay">
+<td><code>pollDelay</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
+<td>
+<p>How long to wait until the per-thread processing queue should be processed. If the processing queue
+gets full (eight sign or decrypt requests are received) it is processed immediately.
+However, if the queue is not filled before the delay has expired, the requests already in the queue
+are processed, even if the queue is not full.
+In effect, this value controls the balance between latency and throughput.
+The duration needs to be set to a non-zero value.</p>
 
 </td>
 <td>
@@ -3498,6 +3669,42 @@ For example, <code>/a%2f/b</code> normalizes to <code>a/b</code>.</p>
 </tbody>
 </table>
 </section>
+<h2 id="MeshConfig-TLSConfig-TLSProtocol">MeshConfig.TLSConfig.TLSProtocol</h2>
+<section>
+<p>TLS protocol versions.</p>
+
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MeshConfig-TLSConfig-TLSProtocol-TLS_AUTO">
+<td><code>TLS_AUTO</code></td>
+<td>
+<p>Automatically choose the optimal TLS version.</p>
+
+</td>
+</tr>
+<tr id="MeshConfig-TLSConfig-TLSProtocol-TLSV1_2">
+<td><code>TLSV1_2</code></td>
+<td>
+<p>TLS version 1.2</p>
+
+</td>
+</tr>
+<tr id="MeshConfig-TLSConfig-TLSProtocol-TLSV1_3">
+<td><code>TLSV1_3</code></td>
+<td>
+<p>TLS version 1.3</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
 <h2 id="MeshConfig-IngressControllerMode">MeshConfig.IngressControllerMode</h2>
 <section>
 <table class="enum-values">
@@ -3745,6 +3952,14 @@ source IP addresses during redirection.</p>
 source and destination IP addresses and ports, so that they can be used for advanced
 filtering and manipulation. This mode also configures the sidecar to run with the
 <code>CAP_NET_ADMIN</code> capability, which is required to use <code>TPROXY</code>.</p>
+
+</td>
+</tr>
+<tr id="ProxyConfig-InboundInterceptionMode-NONE">
+<td><code>NONE</code></td>
+<td>
+<p>The <code>NONE</code> mode does not configure redirect to Envoy at all. This is an advanced
+configuration that typically requires changes to user applications.</p>
 
 </td>
 </tr>

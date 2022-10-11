@@ -46,8 +46,8 @@ The following protocols are supported:
 | `https`                               | TLS Encrypted data. Because the Sidecar does not decrypt TLS traffic, this is the same as `tls`                                                                         | TLS Encrypted HTTP (1.1 or 2) traffic                                                                                                                                   |
 | `tcp`                                 | Opaque TCP data stream                                                                                                                                                  | Opaque TCP data stream                                                                                                                                                  |
 | `tls`                                 | TLS Encrypted data                                                                                                                                                      | TLS Encrypted data                                                                                                                                                      |
-| `grpc`                                | Same as `http2`                                                                                                                                                         | Same as `http2`                                                                                                                                                         |  |
-| `grpc-web`, `mongo`, `mysql`, `redis` | Experimental application protocol support. To enable them, configure the corresponding Pilot [environment variables](/docs/reference/commands/pilot-discovery/#envvars). If not enabled, treated as opaque TCP data stream | Experimental application protocol support. To enable them, configure the corresponding Pilot [environment variables](/docs/reference/commands/pilot-discovery/#envvars). If not enabled, treated as opaque TCP data stream |
+| `grpc`, `grpc-web`                                | Same as `http2`                                                                                                                                                         | Same as `http2`                                                                                                                                                         |  |
+| `mongo`, `mysql`, `redis` | Experimental application protocol support. To enable them, configure the corresponding Pilot [environment variables](/docs/reference/commands/pilot-discovery/#envvars). If not enabled, treated as opaque TCP data stream | Experimental application protocol support. To enable them, configure the corresponding Pilot [environment variables](/docs/reference/commands/pilot-discovery/#envvars). If not enabled, treated as opaque TCP data stream |
 
 Below is an example of a Service that defines a `https` port by `appProtocol` and an `http` port by name:
 
@@ -57,9 +57,15 @@ metadata:
   name: myservice
 spec:
   ports:
-  - number: 3306
+  - port: 3306
     name: database
     appProtocol: https
-  - number: 80
+  - port: 80
     name: http-web
 {{< /text >}}
+
+## HTTP gateway protocol selection
+
+Unlike sidecars, gateways are by default unable to automatically detect the specific HTTP protocol to use when forwarding requests to backend services. Therefore, unless explicit protocol selection is used to specify HTTP/1.1 (`http`) or HTTP/2 (`http2` or `grpc`), gateways will forward all incoming HTTP requests using HTTP/1.1.
+
+Instead of using explicit protocol selection, you can instruct gateways to forward requests using the same protocol as the incoming request by setting the [`useClientProtocol`](/docs/reference/config/networking/destination-rule/#ConnectionPoolSettings-HTTPSettings) option for a Service. Note, however, that using this option with services that do not support HTTP/2 can be risky because HTTPS gateways always [advertise](https://en.wikipedia.org/wiki/Application-Layer_Protocol_Negotiation) support for HTTP/1.1 and HTTP/2. So even when a backend service doesn't support HTTP/2, modern clients will think it does and often choose to use it.

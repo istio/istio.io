@@ -138,12 +138,39 @@ and installing the sidecar injector webhook configuration on the remote cluster 
     although in this example you will only deploy a single external istiod in the `external-istiod` namespace.
     {{< /tip >}}
 
-1. Configure your environment to expose the Istio ingress gateway service using a public hostname with TLS. Set the `EXTERNAL_ISTIOD_ADDR` environment variable to the hostname and `SSL_SECRET_NAME` environment variable to the secret that holds the TLS certs:
+1. Configure your environment to expose the Istio ingress gateway service using a public hostname with TLS.
+
+     Set the `EXTERNAL_ISTIOD_ADDR` environment variable to the hostname and `SSL_SECRET_NAME` environment variable to the secret that holds the TLS certs:
 
     {{< text syntax=bash snip_id=none >}}
     $ export EXTERNAL_ISTIOD_ADDR=<your external istiod host>
     $ export SSL_SECRET_NAME=<your external istiod secret>
     {{< /text >}}
+
+    These instructions assume that you are exposing the external cluster's gateway using a hostname with properly signed DNS certs
+    as this is the recommended approach in a production environment.
+    Refer to the [secure ingress task](/docs/tasks/traffic-management/ingress/secure-ingress/#configure-a-tls-ingress-gateway-for-a-single-host)
+    for more information on exposing a secure gateway.
+
+    Your environment variables should look something like this:
+
+    {{< text bash >}}
+    $ echo "$EXTERNAL_ISTIOD_ADDR" "$SSL_SECRET_NAME"
+    myhost.example.com myhost-example-credential
+    {{< /text >}}
+
+    {{< tip >}}
+    If you don't have a DNS hostname but want to experiment with an external control plane in a test environment,
+    you can access the gateway using its external load balancer IP address:
+
+    {{< text bash >}}
+    $ export EXTERNAL_ISTIOD_ADDR=$(kubectl -n istio-system --context="${CTX_EXTERNAL_CLUSTER}" get svc istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+    $ export SSL_SECRET_NAME=NONE
+    {{< /text >}}
+
+    Doing this will also require a few other changes in the configuration. Make sure to follow all of the related steps
+    in the instructions below.
+    {{< /tip >}}
 
 #### Set up the remote config cluster
 
@@ -167,13 +194,29 @@ and installing the sidecar injector webhook configuration on the remote cluster 
         pilot:
           configMap: true
         istiodRemote:
-          injectionURL: https://${EXTERNAL_ISTIOD_ADDR}:15017/inject/:ENV:cluster=${REMOTE_CLUSTER_NAME}:ENV:net=network1
+          injectionURL: https://${EXTERNAL_ISTIOD_ADDR}:15017/inject/cluster/${REMOTE_CLUSTER_NAME}/net/network1
         base:
           validationURL: https://${EXTERNAL_ISTIOD_ADDR}:15017/validate
     EOF
     {{< /text >}}
 
-    Then, install the configuration on the remote cluster:
+1.  If you are using an IP address for the `EXTERNAL_ISTIOD_ADDR`, instead of a proper DNS hostname,
+    modify the configuration to specify the discovery address and paths, instead of URLs:
+
+    {{< warning >}}
+    This is not recommended in a production environment.
+    {{< /warning >}}
+
+    {{< text bash >}}
+    $ sed  -i'.bk' \
+      -e "s|injectionURL: https://${EXTERNAL_ISTIOD_ADDR}:15017|injectionPath: |" \
+      -e "/istioNamespace:/a\\
+          remotePilotAddress: ${EXTERNAL_ISTIOD_ADDR}" \
+      -e '/base/,+1d' \
+      remote-config-cluster.yaml; rm remote-config-cluster.yaml.bk
+    {{< /text >}}
+
+1.  Install the configuration on the remote cluster:
 
     {{< text bash >}}
     $ kubectl create namespace external-istiod --context="${CTX_REMOTE_CLUSTER}"
@@ -265,6 +308,8 @@ and installing the sidecar injector webhook configuration on the remote cluster 
               value: ""
             - name: EXTERNAL_ISTIOD
               value: "true"
+            - name: LOCAL_CLUSTER_SECRET_WATCHER
+              value: "true"
             - name: CLUSTER_ID
               value: ${REMOTE_CLUSTER_NAME}
             - name: SHARED_MESH_CONFIG
@@ -274,14 +319,30 @@ and installing the sidecar injector webhook configuration on the remote cluster 
           caAddress: $EXTERNAL_ISTIOD_ADDR:15012
           istioNamespace: external-istiod
           operatorManageWebhooks: true
+          configValidation: false
           meshID: mesh1
     EOF
     {{< /text >}}
 
-    Then, apply the Istio configuration on the external cluster:
+1.  If you are using an IP address for the `EXTERNAL_ISTIOD_ADDR`, instead of a proper DNS hostname,
+    delete the proxy metadata and update the webhook config environment variables in the configuration:
+
+    {{< warning >}}
+    This is not recommended in a production environment.
+    {{< /warning >}}
 
     {{< text bash >}}
-    $ istioctl install -f external-istiod.yaml --context="${CTX_EXTERNAL_CLUSTER}"
+    $ sed  -i'.bk' \
+      -e '/proxyMetadata:/,+2d' \
+      -e '/INJECTION_WEBHOOK_CONFIG_NAME/{n;s/value: ""/value: istio-sidecar-injector-external-istiod/;}' \
+      -e '/VALIDATION_WEBHOOK_CONFIG_NAME/{n;s/value: ""/value: istio-validator-external-istiod/;}' \
+      external-istiod.yaml ; rm external-istiod.yaml.bk
+    {{< /text >}}
+
+1.  Apply the Istio configuration on the external cluster:
+
+    {{< text bash >}}
+    $ istioctl manifest generate -f external-istiod.yaml | kubectl apply --context="${CTX_EXTERNAL_CLUSTER}" -f -
     {{< /text >}}
 
 1. Confirm that the external istiod has been successfully deployed:
@@ -374,7 +435,25 @@ and installing the sidecar injector webhook configuration on the remote cluster 
     EOF
     {{< /text >}}
 
-    Then, apply the configuration on the external cluster:
+1.  If you are using an IP address for the `EXTERNAL_ISTIOD_ADDR`, instead of a proper DNS hostname,
+    modify the configuration.
+    Delete the `DestinationRule`, don't terminate TLS in the `Gateway`, and use TLS routing in the `VirtualService`:
+
+    {{< warning >}}
+    This is not recommended in a production environment.
+    {{< /warning >}}
+
+    {{< text bash >}}
+    $ sed  -i'.bk' \
+      -e '55,$d' \
+      -e 's/mode: SIMPLE/mode: PASSTHROUGH/' -e '/credentialName:/d' -e "s/${EXTERNAL_ISTIOD_ADDR}/\"*\"/" \
+      -e 's/http:/tls:/' -e 's/https/tls/' -e '/route:/i\
+            sniHosts:\
+            - "*"' \
+      external-istiod-gw.yaml; rm external-istiod-gw.yaml.bk
+    {{< /text >}}
+
+1.  Apply the configuration on the external cluster:
 
     {{< text bash >}}
     $ kubectl apply -f external-istiod-gw.yaml --context="${CTX_EXTERNAL_CLUSTER}"
@@ -557,8 +636,8 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
 1. Create the remote Istio install configuration, which installs the injection webhook that uses the
     external control plane's injector, instead of a locally deployed one:
 
-    {{< text syntax=bash snip_id=get_second_config_cluster_iop >}}
-    $ cat <<EOF > second-config-cluster.yaml
+    {{< text syntax=bash snip_id=get_second_remote_cluster_iop >}}
+    $ cat <<EOF > second-remote-cluster.yaml
     apiVersion: install.istio.io/v1alpha1
     kind: IstioOperator
     metadata:
@@ -569,15 +648,40 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
         global:
           istioNamespace: external-istiod
         istiodRemote:
-          injectionURL: https://${EXTERNAL_ISTIOD_ADDR}:15017/inject/:ENV:cluster=${SECOND_CLUSTER_NAME}:ENV:net=network2
+          injectionURL: https://${EXTERNAL_ISTIOD_ADDR}:15017/inject/cluster/${SECOND_CLUSTER_NAME}/net/network2
     EOF
     {{< /text >}}
 
-    Then, install the configuration on the remote cluster:
+1.  If you are using an IP address for the `EXTERNAL_ISTIOD_ADDR`, instead of a proper DNS hostname,
+    modify the configuration to specify the discovery address and path, instead of an injection URL:
+
+    {{< warning >}}
+    This is not recommended in a production environment.
+    {{< /warning >}}
+
+    {{< text bash >}}
+    $ sed  -i'.bk' \
+      -e "s|injectionURL: https://${EXTERNAL_ISTIOD_ADDR}:15017|injectionPath: |" \
+      -e "/istioNamespace:/a\\
+          remotePilotAddress: ${EXTERNAL_ISTIOD_ADDR}" \
+      second-remote-cluster.yaml; rm second-remote-cluster.yaml.bk
+    {{< /text >}}
+
+1. Create and annotate the system namespace on the remote cluster:
 
     {{< text bash >}}
     $ kubectl create namespace external-istiod --context="${CTX_SECOND_CLUSTER}"
-    $ istioctl manifest generate -f second-config-cluster.yaml | kubectl apply --context="${CTX_SECOND_CLUSTER}" -f -
+    $ kubectl annotate namespace external-istiod "topology.istio.io/controlPlaneClusters=${REMOTE_CLUSTER_NAME}" --context="${CTX_SECOND_CLUSTER}"
+    {{< /text >}}
+
+    The `topology.istio.io/controlPlaneClusters` annotation specifies the cluster ID of the external control plane that
+    should manage this remote cluster. Notice that this is the name of the first remote (config) cluster, which was used
+    to set the cluster ID of the external control plane when it was installed in the external cluster earlier.
+
+1. Install the configuration on the remote cluster:
+
+    {{< text bash >}}
+    $ istioctl manifest generate -f second-remote-cluster.yaml | kubectl apply --context="${CTX_SECOND_CLUSTER}" -f -
     {{< /text >}}
 
 1. Confirm that the remote cluster's webhook configuration has been installed:
@@ -598,16 +702,11 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
       --type=remote \
       --namespace=external-istiod \
       --create-service-account=false | \
-      kubectl apply -f - --context="${CTX_REMOTE_CLUSTER}" #TODO use --context="{CTX_EXTERNAL_CLUSTER}" when #31946 is fixed.
+      kubectl apply -f - --context="${CTX_EXTERNAL_CLUSTER}"
     {{< /text >}}
 
     Note that unlike the first remote cluster of the mesh, which also serves as the config cluster, the `--type` argument
     is set to `remote` this time, instead of `config`.
-
-    {{< tip >}}
-    Note that the new secret can be applied in either the remote (config) cluster or in the external cluster,
-    because the external istiod is watching for additions in both clusters.
-    {{< /tip >}}
 
 ### Setup east-west gateways
 

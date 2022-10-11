@@ -98,6 +98,9 @@ Kubernetes 在每个集群都默认配置此行为，这有助于限制由错误
 您可以根据[网络](#network-models)和云提供商所支持的选项来配置集群间通信。
 例如，若两个集群位于同一基础网络，则可以通过简单地配置防火墙规则来启用跨集群通信。
 
+在多集群网格中，所有的服务都是默认共享的，根据{{< gloss "namespace sameness" >}}命名空间一致性{{< /gloss >}} 的概念。
+[流量管理规则](/zh/docs/ops/configuration/traffic-management/multicluster)对多集群的流量提供了细粒度的控制。
+
 ## 网络模型{#network-models}
 
 许多生产系统需要多个网络或子网来实现隔离和高可用性。
@@ -218,7 +221,7 @@ Istio 网格使用{{< gloss "control plane">}}控制平面{{< /gloss >}}来配�
 ### 网格之间的信任{#trust-between-meshes}
 
 如果网格中的服务需要另一个网格中的服务，则必须在两个网格之间联合身份和信任。要在不同网格之间联合身份和信任，必须交换网格的 **trust bundle**。
-您可以使用像 [SPIFFE 信任域联邦](https://docs.google.com/document/d/1OC9nI2W04oghhbEDJpKdIUIw-G23YzWeHZxwGLIkB8k/edit)
+您可以使用像 [SPIFFE 信任域联邦](https://github.com/spiffe/spiffe/blob/main/standards/SPIFFE_Federation.md)
 之类的协议手动或自动交换 **trust bundle**，将 **trust bundle** 导入网格后，即可为这些身份配置本地策略。
 
 {{< image width="50%"

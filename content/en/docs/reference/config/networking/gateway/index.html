@@ -506,8 +506,7 @@ spec:
     - &quot;*&quot;
     tls:
       mode: SIMPLE
-      serverCertificate: /etc/certs/server.pem
-      privateKey: /etc/certs/privatekey.pem
+      credentialName: tls-cert
 </code></pre>
 
 <p>{{</tab>}}</p>
@@ -530,8 +529,7 @@ spec:
     - &quot;*&quot;
     tls:
       mode: SIMPLE
-      serverCertificate: /etc/certs/server.pem
-      privateKey: /etc/certs/privatekey.pem
+      credentialName: tls-cert
 </code></pre>
 
 <p>{{</tab>}}
@@ -823,7 +821,7 @@ No
 <td>
 <p>An optional list of base64-encoded SHA-256 hashes of the SKPIs of
 authorized client certificates.
-Note: When both verify<em>certificate</em>hash and verify<em>certificate</em>spki
+Note: When both verify_certificate_hash and verify_certificate_spki
 are specified, a hash matching either value will result in the
 certificate being accepted.</p>
 
@@ -839,7 +837,7 @@ No
 <p>An optional list of hex-encoded SHA-256 hashes of the
 authorized client certificates. Both simple and colon separated
 formats are acceptable.
-Note: When both verify<em>certificate</em>hash and verify<em>certificate</em>spki
+Note: When both verify_certificate_hash and verify_certificate_spki
 are specified, a hash matching either value will result in the
 certificate being accepted.</p>
 

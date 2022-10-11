@@ -8,18 +8,18 @@ layout: protoc-gen-docs
 generator: protoc-gen-docs
 schema: istio.telemetry.v1alpha1.Telemetry
 aliases: [/docs/reference/config/telemetry/v1alpha1/telemetry]
-number_of_entries: 16
+number_of_entries: 18
 ---
 <p>Telemetry defines how the telemetry is generated for workloads within a mesh.</p>
 
-<p>For mesh level configuration, put the resource in root configuration namespace for
-your Istio installation <em>without</em> a workload selector.</p>
+<p>For mesh level configuration, put the resource in root configuration
+namespace for your Istio installation <em>without</em> a workload selector.</p>
 
-<p>For any namespace, including the root configuration namespace, it is only valid
-to have a single workload selector-less Telemetry resource.</p>
+<p>For any namespace, including the root configuration namespace, it is only
+valid to have a single workload selector-less Telemetry resource.</p>
 
-<p>For resources with a workload selector, it is only valid to have one resource selecting
-any given workload.</p>
+<p>For resources with a workload selector, it is only valid to have one resource
+selecting any given workload.</p>
 
 <p>The hierarchy of Telemetry configuration is as follows:</p>
 
@@ -161,12 +161,12 @@ spec:
         response_code:
           operation: REMOVE
     - match:
-        metric: REQUEST_BYTES
+        metric: REQUEST_SIZE
       tagOverrides:
         response_code:
           operation: REMOVE
     - match:
-        metric: RESPONSE_BYTES
+        metric: RESPONSE_SIZE
       tagOverrides:
         response_code:
           operation: REMOVE
@@ -290,15 +290,26 @@ fully replace any values provided by parent configuration.</p>
 </tr>
 </thead>
 <tbody>
+<tr id="Tracing-match">
+<td><code>match</code></td>
+<td><code><a href="#Tracing-TracingSelector">TracingSelector</a></code></td>
+<td>
+<p>Allows tailoring of behavior to specific conditions.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 <tr id="Tracing-providers">
 <td><code>providers</code></td>
 <td><code><a href="#ProviderRef">ProviderRef[]</a></code></td>
 <td>
 <p>Optional. Name of provider(s) to use for span reporting. If a provider is
-not specified, the <em>default tracing provider</em>
-will be used.
-NOTE: At the moment, only a single provider can be specified in a given
-Tracing rule.</p>
+not specified, the [default tracing
+provider][istio.mesh.v1alpha1.MeshConfig.default_providers.tracing] will be
+used. NOTE: At the moment, only a single provider can be specified in a
+given Tracing rule.</p>
 
 </td>
 <td>
@@ -310,11 +321,11 @@ No
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#doublevalue">DoubleValue</a></code></td>
 <td>
 <p>Controls the rate at which traffic will be selected for tracing if no
-prior sampling decision has been made. If a prior sampling decision has been
-made, that decision will be respected. However, if no sampling decision
-has been made (example: no <code>x-b3-sampled</code> tracing header was present in the
-requests), the traffic will be selected for telemetry generation at the
-percentage specified.</p>
+prior sampling decision has been made. If a prior sampling decision has
+been made, that decision will be respected. However, if no sampling
+decision has been made (example: no <code>x-b3-sampled</code> tracing header was
+present in the requests), the traffic will be selected for telemetry
+generation at the percentage specified.</p>
 
 <p>Defaults to 0%. Valid values [0.00-100.00]. Can be specified in 0.01%
 increments.</p>
@@ -401,8 +412,9 @@ as to customize the dimensions of the generated metrics.</p>
 <td><code><a href="#ProviderRef">ProviderRef[]</a></code></td>
 <td>
 <p>Optional. Name of providers to which this configuration should apply.
-If a provider is not specified, the <em>default metrics provider</em>
-will be used.</p>
+If a provider is not specified, the [default metrics
+provider][istio.mesh.v1alpha1.MeshConfig.default_providers.metrics] will be
+used.</p>
 
 </td>
 <td>
@@ -465,8 +477,8 @@ No
 <td><code>customMetric</code></td>
 <td><code>string (oneof)</code></td>
 <td>
-<p>Allows free-form specification of a metric. No validation of custom metrics
-is provided.</p>
+<p>Allows free-form specification of a metric. No validation of custom
+metrics is provided.</p>
 
 </td>
 <td>
@@ -477,7 +489,8 @@ No
 <td><code>mode</code></td>
 <td><code><a href="#WorkloadMode">WorkloadMode</a></code></td>
 <td>
-<p>Controls which mode of metrics generation is selected: CLIENT and/or SERVER.</p>
+<p>Controls which mode of metrics generation is selected: CLIENT and/or
+SERVER.</p>
 
 </td>
 <td>
@@ -553,8 +566,9 @@ No
 </section>
 <h2 id="AccessLogging">AccessLogging</h2>
 <section>
-<p>Access logging defines the workload-level overrides for access log generation.
-It can be used to select provider or enable/disable access log generation for a workload.</p>
+<p>Access logging defines the workload-level overrides for access log
+generation. It can be used to select provider or enable/disable access log
+generation for a workload.</p>
 
 <table class="message-fields">
 <thead>
@@ -566,13 +580,24 @@ It can be used to select provider or enable/disable access log generation for a 
 </tr>
 </thead>
 <tbody>
+<tr id="AccessLogging-match">
+<td><code>match</code></td>
+<td><code><a href="#AccessLogging-LogSelector">LogSelector</a></code></td>
+<td>
+<p>Allows tailoring of logging behavior to specific conditions.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 <tr id="AccessLogging-providers">
 <td><code>providers</code></td>
 <td><code><a href="#ProviderRef">ProviderRef[]</a></code></td>
 <td>
 <p>Optional. Name of providers to which this configuration should apply.
-If a provider is not specified, the <em>default logging provider</em>
-will be used.</p>
+If a provider is not specified, the [default logging
+provider][istio.mesh.v1alpha1.MeshConfig.default_providers.] will be used.</p>
 
 </td>
 <td>
@@ -600,6 +625,36 @@ No
 <td>
 <p>Optional. If specified, this filter will be used to select specific
 requests/connections for logging.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="Tracing-TracingSelector">Tracing.TracingSelector</h2>
+<section>
+<p>TracingSelector provides a coarse-grained ability to configure tracing
+behavior based on certain traffic metadata (such as traffic direction).</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="Tracing-TracingSelector-mode">
+<td><code>mode</code></td>
+<td><code><a href="#WorkloadMode">WorkloadMode</a></code></td>
+<td>
+<p>This determines whether or not to apply the tracing configuration
+based on the direction of traffic relative to the proxied workload.</p>
 
 </td>
 <td>
@@ -655,7 +710,8 @@ No
 <td><code>header</code></td>
 <td><code><a href="#Tracing-RequestHeader">RequestHeader (oneof)</a></code></td>
 <td>
-<p>RequestHeader adds the value of an header from the request to each span.</p>
+<p>RequestHeader adds the value of an header from the request to each
+span.</p>
 
 </td>
 <td>
@@ -799,11 +855,47 @@ No
 <td><code>string</code></td>
 <td>
 <p>Value is only considered if the operation is <code>UPSERT</code>.
-Values are <a href="https://opensource.google/projects/cel">CEL expressions</a> over attributes.
-Examples include: &ldquo;string(destination.port)&rdquo; and &ldquo;request.host&rdquo;.
-Istio exposes all standard <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/advanced/attributes">Envoy attributes</a>.
+Values are <a href="https://opensource.google/projects/cel">CEL expressions</a> over
+attributes. Examples include: &ldquo;string(destination.port)&rdquo; and
+&ldquo;request.host&rdquo;. Istio exposes all standard <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/advanced/attributes">Envoy
+attributes</a>.
 Additionally, Istio exposes node metadata as attributes.
-More information is provided in the <a href="/docs/tasks/observability/metrics/customize-metrics/#use-expressions-for-values">customization docs</a>.</p>
+More information is provided in the <a href="/docs/tasks/observability/metrics/customize-metrics/#use-expressions-for-values">customization
+docs</a>.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="AccessLogging-LogSelector">AccessLogging.LogSelector</h2>
+<section>
+<p>LogSelector provides a coarse-grained ability to configure logging behavior
+based on certain traffic metadata (such as traffic direction). LogSelector
+applies to traffic metadata which is not represented in the attribute set
+currently supported by Filters. It allows control planes to limit the
+configuration sent to individual workloads. Finer-grained logging behavior
+can be further configured via <code>filter</code>.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="AccessLogging-LogSelector-mode">
+<td><code>mode</code></td>
+<td><code><a href="#WorkloadMode">WorkloadMode</a></code></td>
+<td>
+<p>This determines whether or not to apply the access logging configuration
+based on the direction of traffic relative to the proxied workload.</p>
 
 </td>
 <td>
@@ -850,8 +942,9 @@ No
 </section>
 <h2 id="MetricSelector-IstioMetric">MetricSelector.IstioMetric</h2>
 <section>
-<p>Curated list of known metric types that is supported by Istio metric providers.
-See also: https://istio.io/latest/docs/reference/config/metrics/#metrics</p>
+<p>Curated list of known metric types that is supported by Istio metric
+providers. See also:
+https://istio.io/latest/docs/reference/config/metrics/#metrics</p>
 
 <table class="enum-values">
 <thead>
@@ -864,14 +957,16 @@ See also: https://istio.io/latest/docs/reference/config/metrics/#metrics</p>
 <tr id="MetricSelector-IstioMetric-ALL_METRICS">
 <td><code>ALL_METRICS</code></td>
 <td>
-<p>Use of this enum indicates that the override should apply to all Istio default metrics.</p>
+<p>Use of this enum indicates that the override should apply to all Istio
+default metrics.</p>
 
 </td>
 </tr>
 <tr id="MetricSelector-IstioMetric-REQUEST_COUNT">
 <td><code>REQUEST_COUNT</code></td>
 <td>
-<p>Counter of requests to/from an application, generated for HTTP, HTTP/2, and GRPC traffic.</p>
+<p>Counter of requests to/from an application, generated for HTTP, HTTP/2,
+and GRPC traffic.</p>
 
 <p>The Prometheus provider exports this metric as: <code>istio_requests_total</code>.</p>
 
@@ -887,9 +982,11 @@ See also: https://istio.io/latest/docs/reference/config/metrics/#metrics</p>
 <tr id="MetricSelector-IstioMetric-REQUEST_DURATION">
 <td><code>REQUEST_DURATION</code></td>
 <td>
-<p>Histogram of request durations, generated for HTTP, HTTP/2, and GRPC traffic.</p>
+<p>Histogram of request durations, generated for HTTP, HTTP/2, and GRPC
+traffic.</p>
 
-<p>The Prometheus provider exports this metric as: <code>istio_request_duration_milliseconds</code>.</p>
+<p>The Prometheus provider exports this metric as:
+<code>istio_request_duration_milliseconds</code>.</p>
 
 <p>The Stackdriver provider exports this metric as:</p>
 
@@ -903,7 +1000,8 @@ See also: https://istio.io/latest/docs/reference/config/metrics/#metrics</p>
 <tr id="MetricSelector-IstioMetric-REQUEST_SIZE">
 <td><code>REQUEST_SIZE</code></td>
 <td>
-<p>Histogram of request body sizes, generated for HTTP, HTTP/2, and GRPC traffic.</p>
+<p>Histogram of request body sizes, generated for HTTP, HTTP/2, and GRPC
+traffic.</p>
 
 <p>The Prometheus provider exports this metric as: <code>istio_request_bytes</code>.</p>
 
@@ -919,7 +1017,8 @@ See also: https://istio.io/latest/docs/reference/config/metrics/#metrics</p>
 <tr id="MetricSelector-IstioMetric-RESPONSE_SIZE">
 <td><code>RESPONSE_SIZE</code></td>
 <td>
-<p>Histogram of response body sizes, generated for HTTP, HTTP/2, and GRPC traffic.</p>
+<p>Histogram of response body sizes, generated for HTTP, HTTP/2, and GRPC
+traffic.</p>
 
 <p>The Prometheus provider exports this metric as: <code>istio_response_bytes</code>.</p>
 
@@ -937,7 +1036,8 @@ See also: https://istio.io/latest/docs/reference/config/metrics/#metrics</p>
 <td>
 <p>Counter of TCP connections opened over lifetime of workload.</p>
 
-<p>The Prometheus provider exports this metric as: <code>istio_tcp_connections_opened_total</code>.</p>
+<p>The Prometheus provider exports this metric as:
+<code>istio_tcp_connections_opened_total</code>.</p>
 
 <p>The Stackdriver provider exports this metric as:</p>
 
@@ -953,7 +1053,8 @@ See also: https://istio.io/latest/docs/reference/config/metrics/#metrics</p>
 <td>
 <p>Counter of TCP connections closed over lifetime of workload.</p>
 
-<p>The Prometheus provider exports this metric as: <code>istio_tcp_connections_closed_total</code>.</p>
+<p>The Prometheus provider exports this metric as:
+<code>istio_tcp_connections_closed_total</code>.</p>
 
 <p>The Stackdriver provider exports this metric as:</p>
 
@@ -969,7 +1070,8 @@ See also: https://istio.io/latest/docs/reference/config/metrics/#metrics</p>
 <td>
 <p>Counter of bytes sent during a response over a TCP connection.</p>
 
-<p>The Prometheus provider exports this metric as: <code>istio_tcp_sent_bytes_total</code>.</p>
+<p>The Prometheus provider exports this metric as:
+<code>istio_tcp_sent_bytes_total</code>.</p>
 
 <p>The Stackdriver provider exports this metric as:</p>
 
@@ -985,7 +1087,8 @@ See also: https://istio.io/latest/docs/reference/config/metrics/#metrics</p>
 <td>
 <p>Counter of bytes received during a request over a TCP connection.</p>
 
-<p>The Prometheus provider exports this metric as: <code>istio_tcp_received_bytes_total</code>.</p>
+<p>The Prometheus provider exports this metric as:
+<code>istio_tcp_received_bytes_total</code>.</p>
 
 <p>The Stackdriver provider exports this metric as:</p>
 
@@ -1001,7 +1104,8 @@ See also: https://istio.io/latest/docs/reference/config/metrics/#metrics</p>
 <td>
 <p>Counter incremented for every gRPC messages sent from a client.</p>
 
-<p>The Prometheus provider exports this metric as: <code>istio_request_messages_total</code></p>
+<p>The Prometheus provider exports this metric as:
+<code>istio_request_messages_total</code></p>
 
 </td>
 </tr>
@@ -1010,7 +1114,8 @@ See also: https://istio.io/latest/docs/reference/config/metrics/#metrics</p>
 <td>
 <p>Counter incremented for every gRPC messages sent from a server.</p>
 
-<p>The Prometheus provider exports this metric as: <code>istio_response_messages_total</code></p>
+<p>The Prometheus provider exports this metric as:
+<code>istio_response_messages_total</code></p>
 
 </td>
 </tr>
@@ -1030,8 +1135,8 @@ See also: https://istio.io/latest/docs/reference/config/metrics/#metrics</p>
 <tr id="MetricsOverrides-TagOverride-Operation-UPSERT">
 <td><code>UPSERT</code></td>
 <td>
-<p>Insert or Update the tag with the provided value expression. The <code>value</code>
-field MUST be specified if UPSERT is used as the operation.</p>
+<p>Insert or Update the tag with the provided value expression. The
+<code>value</code> field MUST be specified if UPSERT is used as the operation.</p>
 
 </td>
 </tr>

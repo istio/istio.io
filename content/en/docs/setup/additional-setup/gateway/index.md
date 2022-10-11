@@ -4,7 +4,7 @@ description: Install and customize Istio Gateways.
 weight: 40
 keywords: [install,gateway,kubernetes]
 owner: istio/wg-environments-maintainers
-test: no
+test: yes
 ---
 
 Along with creating a service mesh, Istio allows you to manage [gateways](/docs/concepts/traffic-management/#gateways),
@@ -44,6 +44,10 @@ Choose the method you are most familiar with.
 {{< tip >}}
 As a security best practice, it is recommended to deploy the gateway in a different namespace from the control plane.
 {{< /tip >}}
+
+All methods listed below rely on [Injection](/docs/setup/additional-setup/sidecar-injection/) to populate additional pod settings at runtime.
+In order to support this, the namespace the gateway is deployed in must not have the `istio-injection=disabled` label.
+If it does, you will see pods failing to startup attempting to pull the `auto` image, which is a placeholder that is intended to be replaced when a pod is created.
 
 {{< tabset category-name="gateway-install-type" >}}
 
@@ -287,9 +291,9 @@ spec:
 When this deployment is created, you will then have two versions of the gateway, both selected by the same Service:
 
 {{< text bash >}}
-$ kubectl get endpoints -o "custom-columns=NAME:.metadata.name,PODS:.subsets[*].addresses[*].targetRef.name"
+$ kubectl get endpoints -n istio-ingress -o "custom-columns=NAME:.metadata.name,PODS:.subsets[*].addresses[*].targetRef.name"
 NAME                   PODS
-istio-ingressgateway   istio-ingressgateway-788854c955-8gv96,istio-ingressgateway-canary-b78944cbd-mq2qf
+istio-ingressgateway   istio-ingressgateway-...,istio-ingressgateway-canary-...
 {{< /text >}}
 
 {{< image width="50%" link="canary-upgrade.svg" caption="Canary upgrade in progress" >}}

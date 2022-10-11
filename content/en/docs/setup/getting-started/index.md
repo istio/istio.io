@@ -44,11 +44,11 @@ Follow these steps to get started with Istio:
     The command above downloads the latest release (numerically) of Istio.
     You can pass variables on the command line to download a specific version
     or to override the processor architecture.
-    For example, to download Istio 1.6.8 for the x86_64 architecture,
+    For example, to download Istio {{< istio_full_version >}} for the x86_64 architecture,
     run:
 
     {{< text bash >}}
-    $ curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.6.8 TARGET_ARCH=x86_64 sh -
+    $ curl -L https://istio.io/downloadIstio | ISTIO_VERSION={{< istio_full_version >}} TARGET_ARCH=x86_64 sh -
     {{< /text >}}
 
     {{< /tip >}}
@@ -197,43 +197,37 @@ chosen platform:
 
 {{< tab name="Minikube" category-value="external-lb" >}}
 
-Set the ingress ports:
+Run this command in a new terminal window to start a Minikube tunnel that
+sends traffic to your Istio Ingress Gateway. This will provide an external
+load balancer, `EXTERNAL-IP`, for `service/istio-ingressgateway`.
 
 {{< text bash >}}
-$ export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}')
-$ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].nodePort}')
+$ minikube tunnel
 {{< /text >}}
 
-Ensure a port was successfully assigned to each environment variable:
+Set the ingress host and ports:
+
+{{< text bash >}}
+$ export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+$ export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].port}')
+$ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].port}')
+{{< /text >}}
+
+Ensure an IP address and ports were successfully assigned to each environment variable:
+
+{{< text bash >}}
+$ echo "$INGRESS_HOST"
+127.0.0.1
+{{< /text >}}
 
 {{< text bash >}}
 $ echo "$INGRESS_PORT"
-32194
+80
 {{< /text >}}
 
 {{< text bash >}}
 $ echo "$SECURE_INGRESS_PORT"
-31632
-{{< /text >}}
-
-Set the ingress IP:
-
-{{< text bash >}}
-$ export INGRESS_HOST=$(minikube ip)
-{{< /text >}}
-
-Ensure an IP address was successfully assigned to the environment variable:
-
-{{< text bash >}}
-$ echo "$INGRESS_HOST"
-192.168.4.102
-{{< /text >}}
-
-Run this command in a new terminal window to start a Minikube tunnel that
-sends traffic to your Istio Ingress Gateway:
-
-{{< text bash >}}
-$ minikube tunnel
+443
 {{< /text >}}
 
 {{< /tab >}}

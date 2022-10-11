@@ -229,6 +229,6 @@ kubectl delete destinationrule httpbin
 }
 
 snip_cleaning_up_2() {
-kubectl delete deploy httpbin fortio-deploy
-kubectl delete svc httpbin fortio
+kubectl delete -f samples/httpbin/sample-client/fortio-deploy.yaml
+kubectl delete -f samples/httpbin/httpbin.yaml
 }

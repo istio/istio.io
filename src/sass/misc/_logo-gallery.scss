@@ -19,6 +19,10 @@
 
     & > img {
         max-width: 70%;
+
+        @media (max-width: $bp-md) {
+            max-width: 100%;
+        }
     }
 
     &::before,

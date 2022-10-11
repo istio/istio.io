@@ -186,14 +186,14 @@ spec:
 
 where `ENUM_VALUE` can be of the following type.
 
-| `ENUM_VALUE`          |                                                                                                                                |
-|-----------------------|--------------------------------------------------------------------------------------------------------------------------------|
-| `UNDEFINED`           | Field is not set.                                                                                                              |
-| `SANITIZE`            | Do not send the XFCC header to the next hop. This is the default value for a gateway.                                          |
-| `FORWARD_ONLY`        | When the client connection is mTLS (Mutual TLS), forward the XFCC header in the request.                                       |
-| `APPEND_FORWARD`      | When the client connection is mTLS, append the client certificate information to the request’s XFCC header and forward it.     |
-| `SANITIZE_SET`        | When the client connection is mTLS, reset the XFCC header with the client certificate information and send it to the next hop. |
-| `ALWAYS_FORWARD_ONLY` | Always forward the XFCC header in the request, regardless of whether the client connection is mTLS.                            |
+| `ENUM_VALUE`          |                                                                                                                                                                         |
+|-----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `UNDEFINED`           | Field is not set.                                                                                                                                                       |
+| `SANITIZE`            | Do not send the XFCC header to the next hop.                                                                                                                            |
+| `FORWARD_ONLY`        | When the client connection is mTLS (Mutual TLS), forward the XFCC header in the request.                                                                                |
+| `APPEND_FORWARD`      | When the client connection is mTLS, append the client certificate information to the request’s XFCC header and forward it.                                              |
+| `SANITIZE_SET`        | When the client connection is mTLS, reset the XFCC header with the client certificate information and send it to the next hop. This is the default value for a gateway. |
+| `ALWAYS_FORWARD_ONLY` | Always forward the XFCC header in the request, regardless of whether the client connection is mTLS.                                                                     |
 
 See the [Envoy documentation](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#x-forwarded-client-cert)
 for examples of using this capability.

@@ -81,6 +81,7 @@ else
   make "${ISTIO_OUT}/release/istioctl-linux-amd64"
   cp -a "${ISTIO_OUT}/release/istioctl-linux-amd64" /gobin/istioctl
 fi
+
 popd > /dev/null
 
 # Copy install, samples, and tool files over from Istio. These are needed by the tests.
@@ -90,6 +91,7 @@ mkdir "${ISTIOIO_GO}/tools"
 cp -a "${ISTIO_GO}/tools/certs" "${ISTIOIO_GO}/tools/certs"
 mkdir "${ISTIOIO_GO}/tests/integration/"
 cp -a "${ISTIO_GO}/tests/integration/iop-integration-test-defaults.yaml" "${ISTIOIO_GO}/tests/integration/"
+cp -a "${ISTIO_GO}/tests/integration/base.yaml" "${ISTIOIO_GO}/tests/integration/"
 cp -a "${ISTIO_GO}/manifests" "${ISTIOIO_GO}/manifests"
 
 # For generating junit.xml files
