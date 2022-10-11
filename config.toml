@@ -1,0 +1,274 @@
+defaultContentLanguage = "en"
+languageCode = "en-us"
+metaDataFormat = "yaml"
+title = "Istio"
+uglyURLs = false
+enableRobotsTXT = true
+pluralizeListTitles = false
+canonifyURLs = true
+disableKinds = ["taxonomy", "taxonomyTerm"]
+anchor = "smart"
+enableGitInfo = true
+enableEmoji = false
+buildFuture = true
+staticDir = ["static", "generated"]
+
+# we use Netlify server-side redirects instead of generated aliases
+disableAliases = true
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.extensions]
+      definitionList = true
+      footnote = true
+      linkify = true
+      linkifyProtocol = 'https'
+      strikethrough = true
+      table = true
+      taskList = true
+      typographer = true
+    [markup.goldmark.parser]
+      autoHeadingID = true
+      autoHeadingIDType = 'github'
+      [markup.goldmark.parser.attribute]
+        block = false
+        title = true
+    [markup.goldmark.renderer]
+      hardWraps = false
+      unsafe = true
+      xhtml = false
+  [markup.highlight]
+    anchorLineNos = false
+    codeFences = true
+    guessSyntax = false
+    hl_Lines = ''
+    hl_inline = false
+    lineAnchors = ''
+    lineNoStart = 1
+    lineNos = false
+    lineNumbersInTable = true
+    noClasses = true
+    noHl = false
+    style = 'monokai'
+    tabWidth = 4
+  [markup.tableOfContents]
+    endLevel = 3
+    ordered = false
+    startLevel = 2
+
+[mediaTypes]
+    [mediaTypes."text/netlify"]
+        delimiter = ""
+
+[outputs]
+  home = ["HTML", "RSS", "REDIR"]
+  section = ["HTML"]
+
+[outputFormats]
+    [outputFormats.RSS]
+        baseName = "feed"
+    [outputFormats.REDIR]
+        mediatype = "text/netlify"
+        baseName = "_redirects"
+        isPlainText = true
+        notAlternative = true
+
+[related]
+    # Only include matches with rank >= threshold. This is a normalized rank between 0 and 100.
+    threshold = 80
+
+    # To get stable "See also" sections we, by default, exclude newer related pages.
+    includeNewer = true
+
+    # Will lower case keywords in both queries and in the indexes.
+    toLower = false
+
+    [[related.indices]]
+        name = "keywords"
+        weight = 150
+
+    [[related.indices]]
+        name  = "tags"
+        weight = 100
+
+# internationalization
+[languages]
+    [languages.zh]
+        contentDir = "content/zh"
+    [languages.en]
+        contentDir = "content/en"
+    [languages.pt-br]
+        contentDir = "content/pt-br"
+
+[menu]
+  [[menu.main]]
+    identifier = "about"
+    name = "About"
+    title = "About section"
+    weight = 1
+
+    [[menu.main]]
+      identifier = "service-mesh"
+      name = "Service mesh"
+      title = "Service mesh"
+      url = "/about/service-mesh"
+      parent = "about"
+      weight = 1
+
+    [[menu.main]]
+      identifier = "solutions"
+      name = "Solutions"
+      title = "Solutions"
+      url = "/about/solutions"
+      parent = "about"
+      weight = 2
+
+    [[menu.main]]
+      identifier = "case-studies"
+      name = "Case studies"
+      title = "Case studies"
+      url = "/about/case-studies"
+      parent = "about"
+      weight = 3
+
+    [[menu.main]]
+      identifier = "ecosystem"
+      name = "Ecosystem"
+      title = "Ecosystem"
+      url = "/about/ecosystem"
+      parent = "about"
+      weight = 4
+
+    [[menu.main]]
+      identifier = "deployment"
+      name = "Deployment"
+      title = "Deployment"
+      url = "/about/deployment"
+      parent = "about"
+      weight = 5
+
+    [[menu.main]]
+      identifier = "faq"
+      name = "FAQ"
+      title = "FAQ"
+      url = "/about/faq"
+      parent = "about"
+      weight = 6
+
+  [[menu.main]]
+    identifier = "blog"
+    name = "Blog"
+    title = "Istio Blog"
+    url = "/blog/"
+    weight = 2
+
+  [[menu.main]]
+    identifier = "news"
+    name = "News"
+    title = "News"
+    url = "/news/"
+    weight = 3
+
+  [[menu.main]]
+    identifier = "get-involved"
+    name = "Get involved"
+    title = "Get involved"
+    url = "/get-involved/"
+    weight = 4
+
+  [[menu.main]]
+    identifier = "docs"
+    name = "Documentation"
+    title = "Documentation"
+    url = "/docs/"
+    weight = 5
+
+  # i18n for Chinese
+  [[languages.zh.menu.main]]
+    identifier = "about"
+    name = "关于"
+    title = "关于部分"
+    weight = 1
+
+    [[languages.zh.menu.main]]
+      identifier = "service-mesh"
+      name = "服务网格"
+      title = "服务网格"
+      url = "/zh/about/service-mesh"
+      parent = "about"
+      weight = 1
+
+    [[languages.zh.menu.main]]
+      identifier = "solutions"
+      name = "解决方案"
+      title = "解决方案"
+      url = "/zh/about/solutions"
+      parent = "about"
+      weight = 2
+
+    [[languages.zh.menu.main]]
+      identifier = "case-studies"
+      name = "案例学习"
+      title = "案例学习"
+      url = "/zh/about/case-studies"
+      parent = "about"
+      weight = 3
+
+    [[languages.zh.menu.main]]
+      identifier = "ecosystem"
+      name = "生态系统"
+      title = "生态系统"
+      url = "/zh/about/ecosystem"
+      parent = "about"
+      weight = 4
+
+    [[languages.zh.menu.main]]
+      identifier = "deployment"
+      name = "部署"
+      title = "部署"
+      url = "/zh/about/deployment"
+      parent = "about"
+      weight = 5
+
+    [[languages.zh.menu.main]]
+      identifier = "faq"
+      name = "FAQ"
+      title = "FAQ"
+      url = "/zh/about/faq"
+      parent = "about"
+      weight = 6
+
+  [[languages.zh.menu.main]]
+    identifier = "blog"
+    name = "博客"
+    title = "Istio 博客"
+    url = "/zh/blog/"
+    weight = 2
+
+  [[languages.zh.menu.main]]
+    identifier = "news"
+    name = "新闻"
+    title = "新闻"
+    url = "/zh/news/"
+    weight = 3
+
+  [[languages.zh.menu.main]]
+    identifier = "get-involved"
+    name = "加入我们"
+    title = "加入我们"
+    url = "/zh/get-involved/"
+    weight = 4
+
+  [[languages.zh.menu.main]]
+    identifier = "docs"
+    name = "文档"
+    title = "文档"
+    url = "/zh/docs/"
+    weight = 5
+
+[permalinks]
+  case-studies = "/:slug"
+
+[security]
+  [security.funcs]
+    getenv = ['^HUGO_','URL']

@@ -19,6 +19,7 @@
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
 #          docs/examples/bookinfo/index.md
 ####################################################################################################
+source "content/en/boilerplates/snips/gateway-api-support.sh"
 
 snip_start_the_application_services_1() {
 kubectl label namespace default istio-injection=enabled
@@ -71,6 +72,11 @@ snip_determine_the_ingress_ip_and_port_1() {
 kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml
 }
 
+! read -r -d '' snip_determine_the_ingress_ip_and_port_1_out <<\ENDSNIP
+gateway.networking.istio.io/bookinfo-gateway created
+virtualservice.networking.istio.io/bookinfo created
+ENDSNIP
+
 snip_determine_the_ingress_ip_and_port_2() {
 kubectl get gateway
 }
@@ -81,6 +87,24 @@ bookinfo-gateway   32s
 ENDSNIP
 
 snip_determine_the_ingress_ip_and_port_3() {
+kubectl apply -f samples/bookinfo/gateway-api/bookinfo-gateway.yaml
+}
+
+! read -r -d '' snip_determine_the_ingress_ip_and_port_3_out <<\ENDSNIP
+gateway.gateway.networking.k8s.io/bookinfo-gateway created
+httproute.gateway.networking.k8s.io/bookinfo created
+ENDSNIP
+
+snip_determine_the_ingress_ip_and_port_4() {
+kubectl wait --for=condition=ready gtw bookinfo-gateway
+}
+
+snip_determine_the_ingress_ip_and_port_5() {
+export INGRESS_HOST=$(kubectl get gtw bookinfo-gateway -o jsonpath='{.status.addresses[*].value}')
+export INGRESS_PORT=$(kubectl get gtw bookinfo-gateway -o jsonpath='{.spec.listeners[?(@.name=="http")].port}')
+}
+
+snip_determine_the_ingress_ip_and_port_6() {
 export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
 }
 
@@ -92,21 +116,18 @@ curl -s "http://${GATEWAY_URL}/productpage" | grep -o "<title>.*</title>"
 <title>Simple Bookstore App</title>
 ENDSNIP
 
-snip_apply_default_destination_rules_1() {
+snip_define_the_service_versions_1() {
 kubectl apply -f samples/bookinfo/networking/destination-rule-all.yaml
 }
 
-snip_apply_default_destination_rules_2() {
+snip_define_the_service_versions_2() {
 kubectl get destinationrules -o yaml
+}
+
+snip_define_the_service_versions_3() {
+kubectl apply -f samples/bookinfo/platform/kube/bookinfo-versions.yaml
 }
 
 snip_cleanup_1() {
 samples/bookinfo/platform/kube/cleanup.sh
-}
-
-snip_cleanup_2() {
-kubectl get virtualservices   #-- there should be no virtual services
-kubectl get destinationrules  #-- there should be no destination rules
-kubectl get gateway           #-- there should be no gateway
-kubectl get pods              #-- the Bookinfo pods should be deleted
 }

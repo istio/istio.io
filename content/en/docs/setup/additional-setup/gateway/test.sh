@@ -20,7 +20,7 @@ set -o pipefail
 
 # @setup profile=none
 function rebuild() {
-    istioctl x uninstall --purge --skip-confirmation
+    istioctl uninstall --purge --skip-confirmation
     kubectl delete namespace istio-ingress
     istioctl install --skip-confirmation --set profile=minimal
 }
@@ -34,11 +34,11 @@ $snip_deploying_a_gateway_1
 EOF
 
 echo y | snip_deploying_a_gateway_2
-_wait_for_deployment istio-ingress ingressgateway
+_wait_for_deployment istio-ingress istio-ingressgateway
 
 rebuild
 _rewrite_helm_repo snip_deploying_a_gateway_3
-_wait_for_deployment istio-ingress istio-ingress
+_wait_for_deployment istio-ingress istio-ingressgateway
 
 rebuild
 # shellcheck disable=SC2154
@@ -62,6 +62,6 @@ _verify_like snip_canary_upgrade_advanced_2 "${snip_canary_upgrade_advanced_2_ou
 
 # @cleanup
 
-istioctl x uninstall --purge --skip-confirmation
+istioctl uninstall --purge --skip-confirmation
 kubectl delete namespace istio-system
 kubectl delete namespace istio-ingress

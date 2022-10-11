@@ -158,13 +158,13 @@ $ istioctl tag set default --revision 1-10-0
 After upgrading both the control plane and data plane, you can uninstall the old control plane. For example, the following command uninstalls a control plane of revision `1-6-5`:
 
 {{< text bash >}}
-$ istioctl x uninstall --revision 1-6-5
+$ istioctl uninstall --revision 1-6-5 -y
 {{< /text >}}
 
 If the old control plane does not have a revision label, uninstall it using its original installation options, for example:
 
 {{< text bash >}}
-$ istioctl x uninstall -f manifests/profiles/default.yaml
+$ istioctl uninstall -f manifests/profiles/default.yaml -y
 {{< /text >}}
 
 Confirm that the old control plane has been removed and only the new one still exists in the cluster:
@@ -180,7 +180,7 @@ Note that the above instructions only removed the resources for the specified co
 ## Uninstall canary control plane
 
 If you decide to rollback to the old control plane, instead of completing the canary upgrade,
-you can uninstall the canary revision using `istioctl x uninstall --revision=canary`.
+you can uninstall the canary revision using `istioctl uninstall --revision=canary`.
 
 However, in this case you must first reinstall the gateway(s) for the previous revision manually,
 because the uninstall command will not automatically revert the previously in-place upgraded ones.

@@ -11,14 +11,13 @@ test: yes
 owner: istio/wg-environments-maintainers
 ---
 
-本指南帮你快速评估 Istio。
-如果你已经熟悉 Istio，或兴趣点在安装其他配置类型、
-高级[部署模型](/zh/docs/ops/deployment/deployment-models/)，
+本指南帮您快速评估 Istio。
+如果您已经熟悉 Istio，或对安装其他配置类型或高级[部署模型](/zh/docs/ops/deployment/deployment-models/)感兴趣，
 请参阅[我们应该采用哪种 Istio 安装方法？](/zh/about/faq/#install-method-selection) 的 FAQ 页面。
 
-完成下面步骤需要你有一个 {{< gloss >}}cluster{{< /gloss >}}，
+完成下面步骤需要您有一个 {{< gloss >}}cluster{{< /gloss >}}，
 且运行着兼容版本的 Kubernetes ({{< supported_kubernetes_versions >}})。
-你可以使用任何受支持的平台，例如：
+您可以使用任何支持的平台，例如：
 [Minikube](https://kubernetes.io/zh/docs/tasks/tools/install-minikube/)
 或[特定平台安装说明](/zh/docs/setup/platform-setup/)
 章节中指定的其他平台。
@@ -32,7 +31,7 @@ owner: istio/wg-environments-maintainers
 
 ## 下载 Istio {#download}
 
-1.  转到 [Istio 发布]({{< istio_release_url >}}) 页面，下载针对你操作系统的安装文件，
+1.  转到 [Istio 发布]({{< istio_release_url >}}) 页面，下载针对您操作系统的安装文件，
     或用自动化工具下载并提取最新版本（Linux 或 macOS）：
 
     {{< text bash >}}
@@ -41,7 +40,7 @@ owner: istio/wg-environments-maintainers
 
     {{< tip >}}
     上面的命令下载最新版本（用数值表示）的 Istio。
-    你可以给命令行传递变量，用来下载指定的、不同处理器体系的版本。
+    您可以给命令行传递变量，用来下载指定的、不同处理器体系的版本。
     例如，下载 x86_64 架构的、1.6.8 版本的 Istio ，运行：
 
     {{< text bash >}}
@@ -75,7 +74,7 @@ owner: istio/wg-environments-maintainers
     选择它是因为它包含了一组专为测试准备的功能集合，另外还有用于生产或性能测试的配置组合。
 
     {{< warning >}}
-    如果你的平台有供应商提供的配置组合，比如：Openshift，则在下面命令中替换掉 `demo` 配置项。更多细节请参阅你的 [平台说明](/zh/docs/setup/platform-setup/)
+    如果您的平台有供应商提供的配置组合，比如：Openshift，则在下面命令中替换掉 `demo` 配置项。更多细节请参阅[平台说明](/zh/docs/setup/platform-setup/)。
     {{< /warning >}}
 
     {{< text bash >}}
@@ -142,11 +141,11 @@ owner: istio/wg-environments-maintainers
     {{< /text >}}
 
     {{< tip >}}
-    重新运行前面的命令，在执行下面步骤之前，要等待并确保所有的 Pod 达到此状态： 就绪状态（READY）的值为 `2/2` 、状态（STATUS）的值为 `Running` 。
-    基于你平台的不同，这个操作过程可能会花费几分钟的时间。
+    在执行下面步骤之前，重新运行上面的命令直到所有的 Pod 达到此状态： 就绪状态（READY）的值为 `2/2` 、状态（STATUS）的值为 `Running`。
+    基于您平台的不同，这个操作过程可能会花费几分钟的时间。
     {{< /tip >}}
 
-1.  验证方方面面均工作无误。运行下面命令，通过检查返回的页面标题，来验证应用是否已在集群中运行，并已提供网页服务：
+1.  确认上面的操作都正确之后，运行下面命令，通过检查返回的页面标题，来验证应用是否已在集群中运行，并已提供网页服务：
 
     {{< text bash >}}
     $ kubectl exec "$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')" -c ratings -- curl -s productpage:9080/productpage | grep -o "<title>.*</title>"
@@ -156,7 +155,7 @@ owner: istio/wg-environments-maintainers
 ## 对外开放应用程序 {#ip}
 
 此时，BookInfo 应用已经部署，但还不能被外界访问。
-要开放访问，你需要创建
+要开放访问，您需要创建
 [Istio 入站网关（Ingress Gateway）](/zh/docs/concepts/traffic-management/#gateways),
 它会在网格边缘把一个路径映射到路由。
 
@@ -178,7 +177,7 @@ owner: istio/wg-environments-maintainers
 ### 确定入站 IP 和端口
 
 按照说明，为访问网关设置两个变量：`INGRESS_HOST` 和 `INGRESS_PORT`。
-使用标签页，切换到你选用平台的说明：
+使用标签页，切换到您选用平台的说明：
 
 {{< tabset category-name="gateway-ip" >}}
 
@@ -216,7 +215,7 @@ $ echo "$INGRESS_HOST"
 192.168.4.102
 {{< /text >}}
 
-在一个新的终端窗口中执行此命令，启动一个 Minikube 隧道，它将把流量发送到你的 Istio 入站网关：
+在一个新的终端窗口中执行此命令，启动一个 Minikube 隧道，它将把流量发送到您的 Istio 入站网关：
 
 {{< text bash >}}
 $ minikube tunnel
@@ -226,7 +225,7 @@ $ minikube tunnel
 
 {{< tab name="其他平台" category-value="node-port" >}}
 
-执行下面命令以判断你的 Kubernetes 集群环境是否支持外部负载均衡：
+执行下面命令以判断您的 Kubernetes 集群环境是否支持外部负载均衡：
 
 {{< text bash >}}
 $ kubectl get svc istio-ingressgateway -n istio-system
@@ -235,16 +234,14 @@ istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121  80:31380/
 {{< /text >}}
 
 设置 `EXTERNAL-IP` 的值之后，
-你的环境就有了一个外部的负载均衡，可以用它做入站网关。
+您的环境就有了一个外部的负载均衡，可以用它做入站网关。
 但如果 `EXTERNAL-IP` 的值为 `<none>` (或者一直是 `<pending>` 状态)，
-则你的环境则没有提供可作为入站流量网关的外部负载均衡。
-在这个情况下，你还可以用服务（Service）的
-[节点端口](https://kubernetes.io/zh/docs/concepts/services-networking/service/#nodeport)
-访问网关。
+则您的环境则没有提供可作为入站流量网关的外部负载均衡。
+在这个情况下，您还可以用服务（Service）的[节点端口](https://kubernetes.io/zh-cn/docs/concepts/services-networking/service/#type-nodeport)访问网关。
 
-依据你的环境，选择相应的说明：
+依据您的环境，选择相应的说明：
 
-**如果你确定你的环境中确实存在外部的负载均衡，请跟随下面的说明.**
+如果您确定您的环境中确实存在外部的负载均衡，请参照下面的说明。
 
 设置入站 IP 地址和端口
 
@@ -257,8 +254,8 @@ $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingress
 {{< warning >}}
 在某些环境中，负载均衡可能使用主机名访问，而不是 IP 地址。
 在这种情况下，入站流量网关的`EXTERNAL-IP` 值不是 IP 地址，而是一个主机名，
-那上面设置 `INGRESS_HOST`  环境变量的操作会失败。
-使用下面命令纠正  `INGRESS_HOST` 的值。
+那上面设置 `INGRESS_HOST` 环境变量的操作会失败。
+使用下面命令纠正 `INGRESS_HOST` 的值。
 
 {{< text bash >}}
 $ export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
@@ -266,7 +263,7 @@ $ export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway
 
 {{< /warning >}}
 
-**按照下面说明：如果你的环境中没有外部负载均衡，那就选择一个节点端口来代替.**
+按照下面说明：如果您的环境中没有外部负载均衡，那就选择一个节点端口来代替。
 
 设置入站的端口：
 
@@ -278,11 +275,11 @@ $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingress
 _GKE:_
 
 {{< text bash >}}
-$ export INGRESS_HOST=workerNodeAddress
+$ export INGRESS_HOST=worker-node-address
 {{< /text >}}
 
-你需要创建一个防火墙规则，放行发往 `ingressgateway` 的 TCP 流量。
-运行下面的命令，单独放行发往 HTTP 端口或 HTTPS 端口的流量，或者都放行。
+您需要创建一个防火墙规则，以允许 TCP 流量发送到 `ingressgateway` 的服务端口。
+运行下面的命令，以允许 HTTP 端口或 HTTPS 端口的流量，或两者的流量都允许。
 
 {{< text bash >}}
 $ gcloud compute firewall-rules create allow-gateway-http --allow "tcp:$INGRESS_PORT"
@@ -340,7 +337,7 @@ $ export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -
 ## 查看仪表板 {#dashboard}
 
 Istio 和[几个](/zh/docs/ops/integrations)遥测应用做了集成。
-遥测能帮你了解服务网格的结构、展示网络的拓扑结构、分析网格的健康状态。
+遥测能帮您了解服务网格的结构、展示网络的拓扑结构、分析网格的健康状态。
 
 使用下面说明部署 [Kiali](/zh/docs/ops/integrations/kiali/) 仪表板、
 以及 [Prometheus](/zh/docs/ops/integrations/prometheus/)、
@@ -376,7 +373,7 @@ Istio 和[几个](/zh/docs/ops/integrations)遥测应用做了集成。
 
 ## 后续步骤
 
-恭喜你完成了评估安装！
+恭喜您完成了评估安装！
 
 对于新手来说，这些任务是非常好的资源，可以借助 `demo` 安装更深入评估 Istio 的特性：
 
@@ -388,7 +385,7 @@ Istio 和[几个](/zh/docs/ops/integrations)遥测应用做了集成。
 - [访问外部服务](/zh/docs/tasks/traffic-management/egress/egress-control/)
 - [可视化网格](/zh/docs/tasks/observability/kiali/)
 
-在你为了生产系统定制Istio之前，参阅这些资源：
+在您为了生产系统定制 Istio 之前，参阅这些资源：
 
 - [部署模型](/zh/docs/ops/deployment/deployment-models/)
 - [部署的最佳实践](/zh/docs/ops/best-practices/deployment/)

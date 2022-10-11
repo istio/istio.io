@@ -186,6 +186,6 @@ istiod-1-8-1   ClusterIP   10.111.17.49     <none>        15010/TCP,15012/TCP,44
 ENDSNIP
 
 snip_cleanup() {
-istioctl manifest generate | kubectl delete -f -
+istioctl uninstall -y --purge
 kubectl delete ns istio-system --grace-period=0 --force
 }

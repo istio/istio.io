@@ -11,6 +11,14 @@ owner: istio/wg-environments-maintainers
 test: yes
 ---
 
+{{< tip >}}
+Istio intends to make the Kubernetes [Gateway API](https://gateway-api.sigs.k8s.io/) the default API for traffic management
+[in the future](/blog/2022/gateway-api-beta/).
+Although the Gateway API is currently a beta feature in Istio you can still get started with Istio using the
+future API if you prefer.
+Refer to the [future getting started instructions](/docs/setup/additional-setup/getting-started/) instead of the following.
+{{< /tip >}}
+
 This guide lets you quickly evaluate Istio. If you are already familiar with
 Istio or interested in installing other configuration profiles or
 advanced [deployment models](/docs/ops/deployment/deployment-models/), refer to our
@@ -244,7 +252,7 @@ istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121  80:31380/
 
 If the `EXTERNAL-IP` value is set, your environment has an external load balancer that you can use for the ingress gateway.
 If the `EXTERNAL-IP` value is `<none>` (or perpetually `<pending>`), your environment does not provide an external load balancer for the ingress gateway.
-In this case, you can access the gateway using the service's [node port](https://kubernetes.io/docs/concepts/services-networking/service/#nodeport).
+In this case, you can access the gateway using the service's [node port](https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport).
 
 Choose the instructions corresponding to your environment:
 
@@ -282,7 +290,7 @@ $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingress
 _GKE:_
 
 {{< text bash >}}
-$ export INGRESS_HOST=workerNodeAddress
+$ export INGRESS_HOST=worker-node-address
 {{< /text >}}
 
 You need to create firewall rules to allow the TCP traffic to the `ingressgateway` service's ports.
@@ -419,8 +427,7 @@ resources because they may have been deleted hierarchically.
 
 {{< text bash >}}
 $ kubectl delete -f @samples/addons@
-$ istioctl manifest generate --set profile=demo | kubectl delete --ignore-not-found=true -f -
-$ istioctl tag remove default
+$ istioctl uninstall -y --purge
 {{< /text >}}
 
 The `istio-system` namespace is not removed by default.

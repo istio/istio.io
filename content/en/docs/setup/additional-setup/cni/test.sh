@@ -40,5 +40,5 @@ _verify_contains get_productpage "glyphicon glyphicon-star"
 # @cleanup
 cleanup_bookinfo_sample
 cleanup_sleep_sample
-echo y | istioctl x uninstall --revision=default
+echo y | istioctl uninstall --revision=default
 kubectl delete ns istio-system

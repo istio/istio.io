@@ -52,5 +52,5 @@ kubectl delete -f samples/httpbin/httpbin.yaml
 kubectl delete ns httpbin
 
 # Delete the Istio this test installed
-echo y | istioctl x uninstall --revision "default"
+echo y | istioctl uninstall --revision "default"
 kubectl delete ns istio-system

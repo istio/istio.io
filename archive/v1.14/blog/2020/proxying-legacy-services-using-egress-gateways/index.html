@@ -1,0 +1,216 @@
+<!doctype html><html lang=en itemscope itemtype=https://schema.org/WebPage><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=theme-color content="#466BB0"><meta name=title content="Proxying legacy services using Istio egress gateways"><meta name=description content="Deploy multiple Istio egress gateways independently to have fine-grained control of egress communication from the mesh."><meta name=author content="Antonio Berben (Deutsche Telekom - PAN-NET)"><meta name=keywords content="microservices,services,mesh,configuration,egress,gateway,external,service"><meta property="og:title" content="Proxying legacy services using Istio egress gateways"><meta property="og:type" content="website"><meta property="og:description" content="Deploy multiple Istio egress gateways independently to have fine-grained control of egress communication from the mesh."><meta property="og:url" content="/v1.14/blog/2020/proxying-legacy-services-using-egress-gateways/"><meta property="og:image" content="https://raw.githubusercontent.com/istio/istio.io/master/static/img/istio-whitelogo-bluebackground-framed.svg"><meta property="og:image:alt" content="Istio Logo"><meta property="og:image:width" content="1024"><meta property="og:image:height" content="1024"><meta property="og:site_name" content="Istio"><meta name=twitter:card content="summary"><meta name=twitter:site content="@IstioMesh"><title>Istioldie 1.14 / Proxying legacy services using Istio egress gateways</title><script async src="https://www.googletagmanager.com/gtag/js?id=UA-98480406-2"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","UA-98480406-2")</script><link rel=alternate type=application/rss+xml title="Istio Blog" href=/v1.14/blog/feed.xml><link rel=alternate type=application/rss+xml title="Istio News" href=/v1.14/news/feed.xml><link rel=alternate type=application/rss+xml title="Istio Blog and News" href=/v1.14/feed.xml><link rel="shortcut icon" href=/v1.14/favicons/favicon.ico><link rel=apple-touch-icon href=/v1.14/favicons/apple-touch-icon-180x180.png sizes=180x180><link rel=icon type=image/png href=/v1.14/favicons/favicon-16x16.png sizes=16x16><link rel=icon type=image/png href=/v1.14/favicons/favicon-32x32.png sizes=32x32><link rel=icon type=image/png href=/v1.14/favicons/android-36x36.png sizes=36x36><link rel=icon type=image/png href=/v1.14/favicons/android-48x48.png sizes=48x48><link rel=icon type=image/png href=/v1.14/favicons/android-72x72.png sizes=72x72><link rel=icon type=image/png href=/v1.14/favicons/android-96x96.png sizes=96xW96><link rel=icon type=image/png href=/v1.14/favicons/android-144x144.png sizes=144x144><link rel=icon type=image/png href=/v1.14/favicons/android-192x192.png sizes=192x192><link rel=icon type=image/svg+xml href=/v1.14/favicons/favicon.svg><link rel=icon type=image/png href=/v1.14/favicons/favicon.png><link rel=mask-icon href=/v1.14/favicons/safari-pinned-tab.svg color=#466bb0><link rel=manifest href=/v1.14/manifest.json><meta name=apple-mobile-web-app-title content="Istio"><meta name=application-name content="Istio"><meta name=msapplication-config content="/browserconfig.xml"><meta name=msapplication-TileColor content="#466BB0"><meta name=theme-color content="#466BB0"><link rel=stylesheet href=/v1.14/css/all.css><link rel=preconnect href=https://fonts.gstatic.com><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap"><script src=/v1.14/js/themes_init.min.js></script></head><body class="language-unknown archive-site"><script>const branchName="release-1.14",docTitle="Proxying legacy services using Istio egress gateways",iconFile="/v1.14/img/icons.svg",buttonCopy="Copy to clipboard",buttonPrint="Print",buttonDownload="Download"</script><script src="https://www.google.com/cse/brand?form=search-form" defer></script>
+<script src=/v1.14/js/all.min.js data-manual defer></script><header class=main-navigation><nav class="main-navigation-wrapper container-l"><div class=main-navigation-header><a id=brand href=/v1.14/ aria-label=logotype><span class=logo><svg xmlns="http://www.w3.org/2000/svg" width="128" height="60" viewBox="0 0 128 60"><path d="M58.434 48.823A.441.441.0 0158.3 48.497V22.583a.444.444.0 01.134-.326.446.446.0 01.327-.134h3.527a.447.447.0 01.325.134.447.447.0 01.134.326v25.914a.443.443.0 01-.134.326.444.444.0 01-.325.134h-3.527a.444.444.0 01-.327-.134z"/><path d="m70.969 48.477a6.556 6.556.0 01-2.818-1.955 4.338 4.338.0 01-1-2.78v-.345a.443.443.0 01.134-.326.444.444.0 01.326-.135h3.374a.444.444.0 01.326.135.445.445.0 01.134.326v.077a2.014 2.014.0 001.054 1.667 4.672 4.672.0 002.664.709 4.446 4.446.0 002.492-.633 1.862 1.862.0 00.958-1.591 1.426 1.426.0 00-.786-1.322 12.7 12.7.0 00-2.549-.939l-1.457-.46a21.526 21.526.0 01-3.3-1.227 6.57 6.57.0 01-2.262-1.783 4.435 4.435.0 01-.92-2.894 5.081 5.081.0 012.109-4.275 8.993 8.993.0 015.558-1.591 10.445 10.445.0 014.1.748 6.3 6.3.0 012.722 2.07 5 5 0 01.958 3.009.441.441.0 01-.134.326.441.441.0 01-.325.134h-3.258a.441.441.0 01-.326-.134.443.443.0 01-.134-.326 1.974 1.974.0 00-.978-1.667 4.647 4.647.0 00-2.665-.671 4.741 4.741.0 00-2.435.556 1.724 1.724.0 00-.938 1.553 1.512 1.512.0 00.9 1.4 15.875 15.875.0 003.01 1.055l.843.229a27.368 27.368.0 013.412 1.246 6.67 6.67.0 012.338 1.763 4.387 4.387.0 01.958 2.933 4.988 4.988.0 01-2.146 4.275 9.543 9.543.0 01-5.712 1.552 11.626 11.626.0 01-4.227-.709z"/><path d="m97.039 32.837a.443.443.0 01-.326.135h-3.911a.169.169.0 00-.191.192v9.239a2.951 2.951.0 00.632 2.108 2.7 2.7.0 002.013.652h1.15a.444.444.0 01.325.134.441.441.0 01.134.326v2.875a.471.471.0 01-.459.5l-1.994.039a8 8 0 01-4.524-1.035q-1.495-1.035-1.533-3.91V33.166A.17.17.0 0088.164 32.974H85.978A.441.441.0 0185.652 32.839.441.441.0 0185.518 32.513V29.83a.441.441.0 01.134-.326.444.444.0 01.326-.135h2.186a.169.169.0 00.191-.192v-4.485a.438.438.0 01.134-.326.44.44.0 01.325-.134h3.336a.443.443.0 01.325.134.442.442.0 01.135.326v4.485a.169.169.0 00.191.192h3.911a.446.446.0 01.326.135.446.446.0 01.134.326v2.683a.446.446.0 01-.133.324z"/><path d="m101.694 25.917a2.645 2.645.0 01-.767-1.955 2.65 2.65.0 01.767-1.955 2.65 2.65.0 011.955-.767 2.65 2.65.0 011.955.767 2.652 2.652.0 01.767 1.955 2.647 2.647.0 01-.767 1.955 2.646 2.646.0 01-1.955.767 2.645 2.645.0 01-1.955-.767zm-.211 22.906a.441.441.0 01-.134-.326V29.79a.444.444.0 01.134-.326.446.446.0 01.326-.134h3.527a.446.446.0 01.326.134.445.445.0 01.134.326v18.707a.443.443.0 01-.134.326.443.443.0 01-.326.134h-3.527a.443.443.0 01-.326-.134z"/><path d="m114.019 47.734a8.1 8.1.0 01-3.047-4.255 14.439 14.439.0 01-.652-4.37 14.3 14.3.0 01.614-4.371A7.869 7.869.0 01114 30.56a9.072 9.072.0 015.252-1.5 8.543 8.543.0 015.041 1.5 7.985 7.985.0 013.009 4.14 12.439 12.439.0 01.69 4.37 13.793 13.793.0 01-.651 4.37 8.255 8.255.0 01-3.028 4.275 8.475 8.475.0 01-5.1 1.553 8.754 8.754.0 01-5.194-1.534zm7.629-3.1a4.536 4.536.0 001.476-2.262 11.335 11.335.0 00.383-3.221 10.618 10.618.0 00-.383-3.22 4.169 4.169.0 00-1.457-2.243 4.066 4.066.0 00-2.531-.785 3.942 3.942.0 00-2.453.785 4.376 4.376.0 00-1.5 2.243 11.839 11.839.0 00-.383 3.22 11.84 11.84.0 00.383 3.221 4.222 4.222.0 001.476 2.262 4.075 4.075.0 002.549.8 3.8 3.8.0 002.44-.809z"/><path d="m15.105 32.057v15.565a.059.059.0 01-.049.059L.069 50.25A.06.06.0 01.005 50.167l14.987-33.47a.06.06.0 01.114.025z"/><path d="m17.631 23.087v24.6a.06.06.0 00.053.059l22.449 2.507a.06.06.0 00.061-.084L17.745.032a.06.06.0 00-.114.024z"/><path d="m39.961 52.548-24.833 7.45a.062.062.0 01-.043.0L.079 52.548a.059.059.0 01.026-.113h39.839a.06.06.0 01.017.113z"/></svg></span></a><button id=hamburger class=main-navigation-toggle aria-label="Open navigation"><svg class="icon menu-hamburger"><use xlink:href="/v1.14/img/icons.svg#menu-hamburger"/></svg></button>
+<button id=menu-close class=main-navigation-toggle aria-label="Close navigation"><svg class="icon menu-close"><use xlink:href="/v1.14/img/icons.svg#menu-close"/></svg></button></div><div id=header-links class=main-navigation-links-wrapper><ul class=main-navigation-links><li class=main-navigation-links-item><a class="main-navigation-links-link has-dropdown"><span>About</span><svg class="icon dropdown-arrow"><use xlink:href="/v1.14/img/icons.svg#dropdown-arrow"/></svg></a><ul class=main-navigation-links-dropdown><li class=main-navigation-links-dropdown-item><a href=/v1.14/about/service-mesh class=main-navigation-links-link>Service mesh</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.14/about/solutions class=main-navigation-links-link>Solutions</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.14/about/case-studies class=main-navigation-links-link>Case studies</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.14/about/ecosystem class=main-navigation-links-link>Ecosystem</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.14/about/deployment class=main-navigation-links-link>Deployment</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.14/about/faq class=main-navigation-links-link>FAQ</a></li></ul></li><li class=main-navigation-links-item><a href=/v1.14/blog/ class=main-navigation-links-link><span>Blog</span></a></li><li class=main-navigation-links-item><a href=/v1.14/news/ class=main-navigation-links-link><span>News</span></a></li><li class=main-navigation-links-item><a href=/v1.14/get-involved/ class=main-navigation-links-link><span>Get involved</span></a></li><li class=main-navigation-links-item><a href=/v1.14/docs/ class=main-navigation-links-link><span>Documentation</span></a></li></ul><div class=main-navigation-footer><button id=search-show class=search-show title="Search this site" aria-label=Search><svg class="icon magnifier"><use xlink:href="/v1.14/img/icons.svg#magnifier"/></svg></button>
+<a href=/v1.14/docs/setup/getting-started class="btn btn--primary" id=try-istio>Try Istio</a></div></div><form id=search-form class=search name=cse role=search><input type=hidden name=cx value=002184991200833970123:iwwf17ikgf4>
+<input type=hidden name=ie value=utf-8>
+<input type=hidden name=hl value=en>
+<input type=hidden id=search-page-url value=/search>
+<input id=search-textbox class="search-textbox form-control" name=q type=search aria-label="Search this site" placeholder=Search>
+<button id=search-close title="Cancel search" type=reset aria-label="Cancel search"><svg class="icon menu-close"><use xlink:href="/v1.14/img/icons.svg#menu-close"/></svg></button></form></nav></header><div class=banner-container></div><article class=post itemscope itemtype=http://schema.org/BlogPosting><div class=header-content><h1>Proxying legacy services using Istio egress gateways</h1><p>Deploy multiple Istio egress gateways independently to have fine-grained control of egress communication from the mesh.</p></div><p class=post-author>Dec 16, 2020 <span>|</span> By Antonio Berben - Deutsche Telekom - PAN-NET</p><div><p>At <a href=https://pan-net.cloud/aboutus>Deutsche Telekom Pan-Net</a>, we have embraced Istio as the umbrella to cover our services. Unfortunately, there are services which have not yet been migrated to Kubernetes, or cannot be.</p><p>We can set Istio up as a proxy service for these upstream services. This allows us to benefit from capabilities like authorization/authentication, traceability and observability, even while legacy services stand as they are.</p><p>At the end of this article there is a hands-on exercise where you can simulate the scenario. In the exercise, an upstream service hosted at <a href=https://httpbin.org>https://httpbin.org</a> will be proxied by an Istio egress gateway.</p><p>If you are familiar with Istio, one of the methods offered to connect to upstream services is through an <a href=/v1.14/docs/tasks/traffic-management/egress/egress-gateway/>egress gateway</a>.</p><p>You can deploy one to control all the upstream traffic or you can deploy multiple in order to have fine-grained control and satisfy the <a href=https://en.wikipedia.org/wiki/Single-responsibility_principle>single-responsibility principle</a> as this picture shows:</p><figure style=width:75%><div class=wrapper-with-intrinsic-ratio style=padding-bottom:45.34%><a data-skipendnotes=true href=/v1.14/blog/2020/proxying-legacy-services-using-egress-gateways/proxying-legacy-services-using-egress-gateways-overview.svg title="Overview multiple Egress Gateways"><img class=element-to-stretch src=/v1.14/blog/2020/proxying-legacy-services-using-egress-gateways/proxying-legacy-services-using-egress-gateways-overview.svg alt="Overview multiple Egress Gateways"></a></div><figcaption>Overview multiple Egress Gateways</figcaption></figure><p>With this model, one egress gateway is in charge of exactly one upstream service.</p><p>Although the Operator spec allows you to deploy multiple egress gateways, the manifest can become unmanageable:</p><pre><code class=language-yaml data-expandlinks=true data-repo=istio>apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+[...]
+spec:
+    egressGateways:
+    - name: egressgateway-1
+      enabled: true
+    - name: egressgateway-2
+      enabled: true
+    [egressgateway-3, egressgateway-4, ...]
+    - name: egressgateway-N
+      enabled: true
+[...]
+</code></pre><p>As a benefit of decoupling egress getaways from the Operator manifest, you have enabled the possibility of setting up custom readiness probes to have both services (Gateway and upstream Service) aligned.</p><p>You can also inject OPA as a sidecar into the pod to perform authorization with complex rules (<a href=https://github.com/open-policy-agent/opa-envoy-plugin>OPA envoy plugin</a>).</p><figure style=width:75%><div class=wrapper-with-intrinsic-ratio style=padding-bottom:45.34%><a data-skipendnotes=true href=/v1.14/blog/2020/proxying-legacy-services-using-egress-gateways/proxying-legacy-services-using-egress-gateways-authz.svg title="Authorization with OPA and `healthcheck` to external"><img class=element-to-stretch src=/v1.14/blog/2020/proxying-legacy-services-using-egress-gateways/proxying-legacy-services-using-egress-gateways-authz.svg alt="Authorization with OPA and `healthcheck` to upstream service"></a></div><figcaption>Authorization with OPA and `healthcheck` to external</figcaption></figure><p>As you can see, your possibilities increase and Istio becomes very extensible.</p><p>Let&rsquo;s look at how you can implement this pattern.</p><h2 id=solution>Solution</h2><p>There are several ways to perform this task, but here you will find how to define multiple Operators and deploy the generated resources.</p><div><aside class="callout quote"><div class=type><svg class="large-icon"><use xlink:href="/v1.14/img/icons.svg#callout-quote"/></svg></div><div class=content>Yes! <code>Istio 1.8.0</code> introduced the possibility to have fine-grained control over the objects that Operator deploys. This gives you the opportunity to patch them as you wish. Exactly what you need to proxy legacy services using Istio egress gateways.</div></aside></div><p>In the following section you will deploy an egress gateway to connect to an upstream service: <code>httpbin</code> (<a href=https://httpbin.org/>https://httpbin.org/</a>)</p><p>At the end, you will have:</p><figure style=width:75%><div class=wrapper-with-intrinsic-ratio style=padding-bottom:45.34%><a data-skipendnotes=true href=/v1.14/blog/2020/proxying-legacy-services-using-egress-gateways/proxying-legacy-services-using-egress-gateways-communication.svg title=Communication><img class=element-to-stretch src=/v1.14/blog/2020/proxying-legacy-services-using-egress-gateways/proxying-legacy-services-using-egress-gateways-communication.svg alt=Communication></a></div><figcaption>Communication</figcaption></figure><h2 id=hands-on>Hands on</h2><h3 id=prerequisites>Prerequisites</h3><ul><li><a href=https://kind.sigs.k8s.io/docs/user/quick-start/>kind</a> (Kubernetes-in-Docker - perfect for local development)</li><li><a href=/v1.14/docs/setup/getting-started/#download>istioctl</a></li></ul><h4 id=kind>Kind</h4><div><aside class="callout warning"><div class=type><svg class="large-icon"><use xlink:href="/v1.14/img/icons.svg#callout-warning"/></svg></div><div class=content>If you use <code>kind</code>, do not forget to set up <code>service-account-issuer</code> and <code>service-account-signing-key-file</code> as described below. Otherwise, Istio may not install correctly.</div></aside></div><p>Save this as <code>config.yaml</code>.</p><pre><code class=language-yaml data-expandlinks=true data-repo=istio>kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+kubeadmConfigPatches:
+  - |
+    apiVersion: kubeadm.k8s.io/v1beta2
+    kind: ClusterConfiguration
+    metadata:
+      name: config
+    apiServer:
+      extraArgs:
+        &#34;service-account-issuer&#34;: &#34;kubernetes.default.svc&#34;
+        &#34;service-account-signing-key-file&#34;: &#34;/etc/kubernetes/pki/sa.key&#34;
+</code></pre><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kind create cluster --name &lt;my-cluster-name&gt; --config config.yaml
+</code></pre><p>Where <code>&lt;my-cluster-name></code> is the name for the cluster.</p><h4 id=istio-operator-with-istioctl>Istio Operator with Istioctl</h4><p>Install the Operator</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ istioctl operator init --watchedNamespaces=istio-operator
+</code></pre><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl create ns istio-system
+</code></pre><p>Save this as <code>operator.yaml</code>:</p><pre><code class=language-yaml data-expandlinks=true data-repo=istio>apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+metadata:
+  name: istio-operator
+  namespace: istio-operator
+spec:
+  profile: default
+  tag: 1.8.0
+  meshConfig:
+    accessLogFile: /dev/stdout
+    outboundTrafficPolicy:
+      mode: REGISTRY_ONLY
+</code></pre><div><aside class="callout tip"><div class=type><svg class="large-icon"><use xlink:href="/v1.14/img/icons.svg#callout-tip"/></svg></div><div class=content><code>outboundTrafficPolicy.mode: REGISTRY_ONLY</code> is used to block all external communications which are not specified by a <code>ServiceEntry</code> resource.</div></aside></div><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl apply -f operator.yaml
+</code></pre><h3 id=deploy-egress-gateway>Deploy Egress Gateway</h3><p>The steps for this task assume:</p><ul><li>The service is installed under the namespace: <code>httpbin</code>.</li><li>The service name is: <code>http-egress</code>.</li></ul><p>Istio 1.8 introduced the possibility to apply overlay configuration, to give fine-grain control over the created resources.</p><p>Save this as <code>egress.yaml</code>:</p><pre><code class=language-yaml data-expandlinks=true data-repo=istio>apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  profile: empty
+  tag: 1.8.0
+  namespace: httpbin
+  components:
+    egressGateways:
+    - name: httpbin-egress
+      enabled: true
+      label:
+        app: istio-egressgateway
+        istio: egressgateway
+        custom-egress: httpbin-egress
+      k8s:
+        overlays:
+        - kind: Deployment
+          name: httpbin-egress
+          patches:
+          - path: spec.template.spec.containers[0].readinessProbe
+            value:
+              failureThreshold: 30
+              exec:
+                command:
+                  - /bin/sh
+                  - -c
+                  - curl http://localhost:15021/healthz/ready &amp;&amp; curl https://httpbin.org/status/200
+              initialDelaySeconds: 1
+              periodSeconds: 2
+              successThreshold: 1
+              timeoutSeconds: 1
+  values:
+    gateways:
+      istio-egressgateway:
+        runAsRoot: true
+</code></pre><div><aside class="callout tip"><div class=type><svg class="large-icon"><use xlink:href="/v1.14/img/icons.svg#callout-tip"/></svg></div><div class=content>Notice the block under <code>overlays</code>. You are patching the default <code>egressgateway</code> to deploy only that component with the new <code>readinessProbe</code>.</div></aside></div><p>Create the namespace where you will install the egress gateway:</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl create ns httpbin
+</code></pre><p>As it is described in the <a href=/v1.14/docs/setup/install/istioctl/#customize-kubernetes-settings>documentation</a>, you can deploy several Operator resources. However, they have to be pre-parsed and then applied to the cluster.</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ istioctl manifest generate -f egress.yaml | kubectl apply -f -
+</code></pre><h3 id=istio-configuration>Istio configuration</h3><p>Now you will configure Istio to allow connections to the upstream service at <a href=https://httpbin.org>https://httpbin.org</a>.</p><h4 id=certificate-for-tls>Certificate for TLS</h4><p>You need a certificate to make a secure connection from outside the cluster to your egress service.</p><p>How to generate a certificate is explained in the <a href=/v1.14/docs/tasks/traffic-management/ingress/secure-ingress/#generate-client-and-server-certificates-and-keys>Istio ingress documentation</a>.</p><p>Create and apply one to be used at the end of this article to access the service from outside the cluster (<code>&lt;my-proxied-service-hostname></code>):</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl create -n istio-system secret tls &lt;my-secret-name&gt; --key=&lt;key&gt; --cert=&lt;cert&gt;
+</code></pre><p>Where <code>&lt;my-secret-name></code> is the name used later for the <code>Gateway</code> resource. <code>&lt;key></code> and <code>&lt;cert></code> are the files for the certificate. <code>&lt;cert></code>.</p><div><aside class="callout tip"><div class=type><svg class="large-icon"><use xlink:href="/v1.14/img/icons.svg#callout-tip"/></svg></div><div class=content>You need to remember <code>&lt;my-proxied-service-hostname></code>, <code>&lt;cert></code> and <code>&lt;my-secret-name></code> because you will use them later in the article.</div></aside></div><h4 id=ingress-gateway>Ingress Gateway</h4><p>Create a <code>Gateway</code> resource to operate ingress gateway to accept requests.</p><div><aside class="callout warning"><div class=type><svg class="large-icon"><use xlink:href="/v1.14/img/icons.svg#callout-warning"/></svg></div><div class=content>Make sure that only one Gateway spec matches the hostname. Istio gets confused when there are multiple Gateway definitions covering the same hostname.</div></aside></div><p>An example:</p><pre><code class=language-yaml data-expandlinks=true data-repo=istio>apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: my-ingressgateway
+  namespace: istio-system
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - hosts:
+    - &#34;&lt;my-proxied-service-hostname&gt;&#34;
+    port:
+      name: http
+      number: 80
+      protocol: HTTP
+    tls:
+     httpsRedirect: true
+  - port:
+      number: 443
+      name: https
+      protocol: https
+    hosts:
+    - &#34;&lt;my-proxied-service-hostname&gt;&#34;
+    tls:
+      mode: SIMPLE
+      credentialName: &lt;my-secret-name&gt;
+</code></pre><p>Where <code>&lt;my-proxied-service-hostname></code> is the hostname to access the service through the <code>my-ingressgateway</code> and <code>&lt;my-secret-name></code> is the secret which contains the certificate.</p><h4 id=egress-gateway>Egress Gateway</h4><p>Create another Gateway object, but this time to operate the egress gateway you have already installed:</p><pre><code class=language-yaml data-expandlinks=true data-repo=istio>apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: &#34;httpbin-egress&#34;
+  namespace: &#34;httpbin&#34;
+spec:
+  selector:
+    istio: egressgateway
+    service.istio.io/canonical-name: &#34;httpbin-egress&#34;
+  servers:
+  - hosts:
+    - &#34;&lt;my-proxied-service-hostname&gt;&#34;
+    port:
+      number: 80
+      name: http
+      protocol: HTTP
+</code></pre><p>Where <code>&lt;my-proxied-service-hostname></code> is the hostname to access through the <code>my-ingressgateway</code>.</p><h4 id=virtual-service>Virtual Service</h4><p>Create a <code>VirtualService</code> for three use cases:</p><ul><li><strong>Mesh</strong> gateway for service-to-service communications within the mesh</li><li><strong>Ingress Gateway</strong> for the communication from outside the mesh</li><li><strong>Egress Gateway</strong> for the communication to the upstream service</li></ul><div><aside class="callout tip"><div class=type><svg class="large-icon"><use xlink:href="/v1.14/img/icons.svg#callout-tip"/></svg></div><div class=content>Mesh and Ingress Gateway will share the same specification. It will redirect the traffic to your egress gateway service.</div></aside></div><pre><code class=language-yaml data-expandlinks=true data-repo=istio>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: &#34;httpbin-egress&#34;
+  namespace: &#34;httpbin&#34;
+spec:
+  hosts:
+  - &#34;&lt;my-proxied-service-hostname&gt;&#34;
+  gateways:
+  - mesh
+  - &#34;istio-system/my-ingressgateway&#34;
+  - &#34;httpbin/httpbin-egress&#34;
+  http:
+  - match:
+    - gateways:
+      - &#34;istio-system/my-ingressgateway&#34;
+      - mesh
+      uri:
+        prefix: &#34;/&#34;
+    route:
+    - destination:
+        host: &#34;httpbin-egress.httpbin.svc.cluster.local&#34;
+        port:
+          number: 80
+  - match:
+    - gateways:
+      - &#34;httpbin/httpbin-egress&#34;
+      uri:
+        prefix: &#34;/&#34;
+    route:
+    - destination:
+        host: &#34;httpbin.org&#34;
+        subset: &#34;http-egress-subset&#34;
+        port:
+          number: 443
+</code></pre><p>Where <code>&lt;my-proxied-service-hostname></code> is the hostname to access through the <code>my-ingressgateway</code>.</p><h4 id=service-entry>Service Entry</h4><p>Create a <code>ServiceEntry</code> to allow the communication to the upstream service:</p><div><aside class="callout tip"><div class=type><svg class="large-icon"><use xlink:href="/v1.14/img/icons.svg#callout-tip"/></svg></div><div class=content>Notice that the port is configured for TLS protocol</div></aside></div><pre><code class=language-yaml data-expandlinks=true data-repo=istio>apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: &#34;httpbin-egress&#34;
+  namespace: &#34;httpbin&#34;
+spec:
+  hosts:
+  - &#34;httpbin.org&#34;
+  location: MESH_EXTERNAL
+  ports:
+  - number: 443
+    name: https
+    protocol: TLS
+  resolution: DNS
+</code></pre><h4 id=destination-rule>Destination Rule</h4><p>Create a <code>DestinationRule</code> to allow TLS origination for egress traffic as explained in the <a href=/v1.14/docs/tasks/traffic-management/egress/egress-tls-origination/#tls-origination-for-egress-traffic>documentation</a></p><pre><code class=language-yaml data-expandlinks=true data-repo=istio>apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: &#34;httpbin-egress&#34;
+  namespace: &#34;httpbin&#34;
+spec:
+  host: &#34;httpbin.org&#34;
+  subsets:
+  - name: &#34;http-egress-subset&#34;
+    trafficPolicy:
+      loadBalancer:
+        simple: ROUND_ROBIN
+      portLevelSettings:
+      - port:
+          number: 443
+        tls:
+          mode: SIMPLE
+</code></pre><h4 id=peer-authentication>Peer Authentication</h4><p>To secure the service-to-service, you need to enforce mTLS:</p><pre><code class=language-yaml data-expandlinks=true data-repo=istio>apiVersion: &#34;security.istio.io/v1beta1&#34;
+kind: &#34;PeerAuthentication&#34;
+metadata:
+  name: &#34;httpbin-egress&#34;
+  namespace: &#34;httpbin&#34;
+spec:
+  mtls:
+    mode: STRICT
+</code></pre><h3 id=test>Test</h3><p>Verify that your objects were all specified correctly:</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ istioctl analyze --all-namespaces
+</code></pre><h4 id=external-access>External access</h4><p>Test the egress gateway from outside the cluster forwarding the <code>ingressgateway</code> service&rsquo;s port and calling the service</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl -n istio-system port-forward svc/istio-ingressgateway 15443:443
+</code></pre><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ curl -vvv -k -HHost:&lt;my-proxied-service-hostname&gt; --resolve &#34;&lt;my-proxied-service-hostname&gt;:15443:127.0.0.1&#34; --cacert &lt;cert&gt; &#34;https://&lt;my-proxied-service-hostname&gt;:15443/status/200&#34;
+</code></pre><p>Where <code>&lt;my-proxied-service-hostname></code> is the hostname to access through the <code>my-ingressgateway</code> and <code>&lt;cert></code> is the certificate defined for the <code>ingressgateway</code> object. This is due to <code>tls.mode: SIMPLE</code> which <a href=/v1.14/docs/tasks/traffic-management/ingress/secure-ingress/>does not terminate TLS</a></p><h4 id=service-to-service-access>Service-to-service access</h4><p>Test the egress gateway from inside the cluster deploying the sleep service. This is useful when you design failover.</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl label namespace httpbin istio-injection=enabled --overwrite
+</code></pre><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl apply -n httpbin -f  https://raw.githubusercontent.com/istio/istio/release-1.14/samples/sleep/sleep.yaml
+</code></pre><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl -n httpbin &#34;$(kubectl get pod -n httpbin -l app=sleep -o jsonpath={.items..metadata.name})&#34; -- curl -vvv http://&lt;my-proxied-service-hostname&gt;/status/200
+</code></pre><p>Where <code>&lt;my-proxied-service-hostname></code> is the hostname to access through the <code>my-ingressgateway</code>.</p><div><aside class="callout tip"><div class=type><svg class="large-icon"><use xlink:href="/v1.14/img/icons.svg#callout-tip"/></svg></div><div class=content>Notice that <code>http</code> (and not <code>https</code>) is the protocol used for service-to-service communication. This is due to Istio handling the <code>TLS</code> itself. Developers do not care anymore about certificates management. <strong>Fancy!</strong></div></aside></div><div><aside class="callout quote"><div class=type><svg class="large-icon"><use xlink:href="/v1.14/img/icons.svg#callout-quote"/></svg></div><div class=content>Eat, Sleep, Rave, <strong>REPEAT!</strong></div></aside></div><p>Now it is time to create a second, third and fourth egress gateway pointing to other upstream services.</p><h2 id=final-thoughts>Final thoughts</h2><div><aside class="callout quote"><div class=type><svg class="large-icon"><use xlink:href="/v1.14/img/icons.svg#callout-quote"/></svg></div><div class=content>Is the juice worth the squeeze?</div></aside></div><p>Istio might seem complex to configure. But it is definitely worthwhile, due to the huge set of benefits it brings to your services (with an extra <strong>Olé!</strong> for Kiali).</p><p>The way Istio is developed allows us, with minimal effort, to satisfy uncommon requirements like the one presented in this article.</p><p>To finish, I just wanted to point out that Istio, as a good cloud native technology, does not require a large team to maintain. For example, our current team is composed of 3 engineers.</p><p>To discuss more about Istio and its possibilities, please contact one of us:</p><ul><li><a href=https://twitter.com/antonio_berben>Antonio Berben</a></li><li><a href=https://www.linkedin.com/in/piotr-ciazynski>Piotr Ciążyński</a></li><li><a href=https://www.linkedin.com/in/patlevic>Kristián Patlevič</a></li></ul></div><nav class=pagenav><div class=left></div><div class=right><a title="How to enable proxy protocol on AWS NLB and Istio ingress gateway." href=/v1.14/blog/2020/show-source-ip/ class=next-link>Proxy protocol on AWS NLB and Istio ingress gateway<svg class="icon right-arrow"><use xlink:href="/v1.14/img/icons.svg#right-arrow"/></svg></a></div></nav></article><footer class=footer><div class="footer-wrapper container-l"><div class="user-links footer-links"><a class=channel title="GitHub is where development takes place on Istio code" href=https://github.com/istio/community aria-label=GitHub><svg class="icon github"><use xlink:href="/v1.14/img/icons.svg#github"/></svg></a><a class=channel title="Access our team drive if you'd like to take a look at the Istio technical design documents" href=https://groups.google.com/forum/#!forum/istio-team-drive-access aria-label="team drive"><svg class="icon drive"><use xlink:href="/v1.14/img/icons.svg#drive"/></svg></a><a class=channel title="Interactively discuss issues with the Istio community on Slack" href=https://slack.istio.io aria-label=slack><svg class="icon slack"><use xlink:href="/v1.14/img/icons.svg#slack"/></svg></a><a class=channel title="Stack Overflow is where you can ask questions and find curated answers on deploying, configuring, and using Istio" href=https://stackoverflow.com/questions/tagged/istio aria-label="Stack Overflow"><svg class="icon stackoverflow"><use xlink:href="/v1.14/img/icons.svg#stackoverflow"/></svg></a><a class=channel title="Follow us on Twitter to get the latest news" href=https://twitter.com/IstioMesh aria-label=Twitter><svg class="icon twitter"><use xlink:href="/v1.14/img/icons.svg#twitter"/></svg></a></div><hr class=footer-separator role=separator><div class="info footer-info"><a class=logo href=/v1.14/ aria-label=logotype><svg xmlns="http://www.w3.org/2000/svg" width="128" height="60" viewBox="0 0 128 60"><path d="M58.434 48.823A.441.441.0 0158.3 48.497V22.583a.444.444.0 01.134-.326.446.446.0 01.327-.134h3.527a.447.447.0 01.325.134.447.447.0 01.134.326v25.914a.443.443.0 01-.134.326.444.444.0 01-.325.134h-3.527a.444.444.0 01-.327-.134z"/><path d="m70.969 48.477a6.556 6.556.0 01-2.818-1.955 4.338 4.338.0 01-1-2.78v-.345a.443.443.0 01.134-.326.444.444.0 01.326-.135h3.374a.444.444.0 01.326.135.445.445.0 01.134.326v.077a2.014 2.014.0 001.054 1.667 4.672 4.672.0 002.664.709 4.446 4.446.0 002.492-.633 1.862 1.862.0 00.958-1.591 1.426 1.426.0 00-.786-1.322 12.7 12.7.0 00-2.549-.939l-1.457-.46a21.526 21.526.0 01-3.3-1.227 6.57 6.57.0 01-2.262-1.783 4.435 4.435.0 01-.92-2.894 5.081 5.081.0 012.109-4.275 8.993 8.993.0 015.558-1.591 10.445 10.445.0 014.1.748 6.3 6.3.0 012.722 2.07 5 5 0 01.958 3.009.441.441.0 01-.134.326.441.441.0 01-.325.134h-3.258a.441.441.0 01-.326-.134.443.443.0 01-.134-.326 1.974 1.974.0 00-.978-1.667 4.647 4.647.0 00-2.665-.671 4.741 4.741.0 00-2.435.556 1.724 1.724.0 00-.938 1.553 1.512 1.512.0 00.9 1.4 15.875 15.875.0 003.01 1.055l.843.229a27.368 27.368.0 013.412 1.246 6.67 6.67.0 012.338 1.763 4.387 4.387.0 01.958 2.933 4.988 4.988.0 01-2.146 4.275 9.543 9.543.0 01-5.712 1.552 11.626 11.626.0 01-4.227-.709z"/><path d="m97.039 32.837a.443.443.0 01-.326.135h-3.911a.169.169.0 00-.191.192v9.239a2.951 2.951.0 00.632 2.108 2.7 2.7.0 002.013.652h1.15a.444.444.0 01.325.134.441.441.0 01.134.326v2.875a.471.471.0 01-.459.5l-1.994.039a8 8 0 01-4.524-1.035q-1.495-1.035-1.533-3.91V33.166A.17.17.0 0088.164 32.974H85.978A.441.441.0 0185.652 32.839.441.441.0 0185.518 32.513V29.83a.441.441.0 01.134-.326.444.444.0 01.326-.135h2.186a.169.169.0 00.191-.192v-4.485a.438.438.0 01.134-.326.44.44.0 01.325-.134h3.336a.443.443.0 01.325.134.442.442.0 01.135.326v4.485a.169.169.0 00.191.192h3.911a.446.446.0 01.326.135.446.446.0 01.134.326v2.683a.446.446.0 01-.133.324z"/><path d="m101.694 25.917a2.645 2.645.0 01-.767-1.955 2.65 2.65.0 01.767-1.955 2.65 2.65.0 011.955-.767 2.65 2.65.0 011.955.767 2.652 2.652.0 01.767 1.955 2.647 2.647.0 01-.767 1.955 2.646 2.646.0 01-1.955.767 2.645 2.645.0 01-1.955-.767zm-.211 22.906a.441.441.0 01-.134-.326V29.79a.444.444.0 01.134-.326.446.446.0 01.326-.134h3.527a.446.446.0 01.326.134.445.445.0 01.134.326v18.707a.443.443.0 01-.134.326.443.443.0 01-.326.134h-3.527a.443.443.0 01-.326-.134z"/><path d="m114.019 47.734a8.1 8.1.0 01-3.047-4.255 14.439 14.439.0 01-.652-4.37 14.3 14.3.0 01.614-4.371A7.869 7.869.0 01114 30.56a9.072 9.072.0 015.252-1.5 8.543 8.543.0 015.041 1.5 7.985 7.985.0 013.009 4.14 12.439 12.439.0 01.69 4.37 13.793 13.793.0 01-.651 4.37 8.255 8.255.0 01-3.028 4.275 8.475 8.475.0 01-5.1 1.553 8.754 8.754.0 01-5.194-1.534zm7.629-3.1a4.536 4.536.0 001.476-2.262 11.335 11.335.0 00.383-3.221 10.618 10.618.0 00-.383-3.22 4.169 4.169.0 00-1.457-2.243 4.066 4.066.0 00-2.531-.785 3.942 3.942.0 00-2.453.785 4.376 4.376.0 00-1.5 2.243 11.839 11.839.0 00-.383 3.22 11.84 11.84.0 00.383 3.221 4.222 4.222.0 001.476 2.262 4.075 4.075.0 002.549.8 3.8 3.8.0 002.44-.809z"/><path d="m15.105 32.057v15.565a.059.059.0 01-.049.059L.069 50.25A.06.06.0 01.005 50.167l14.987-33.47a.06.06.0 01.114.025z"/><path d="m17.631 23.087v24.6a.06.06.0 00.053.059l22.449 2.507a.06.06.0 00.061-.084L17.745.032a.06.06.0 00-.114.024z"/><path d="m39.961 52.548-24.833 7.45a.062.062.0 01-.043.0L.079 52.548a.059.059.0 01.026-.113h39.839a.06.06.0 01.017.113z"/></svg></a><div class=footer-languages><a tabindex=-1 lang=en id=switch-lang-en class="footer-languages-item active"><svg class="icon tick"><use xlink:href="/v1.14/img/icons.svg#tick"/></svg>English</a>
+<a tabindex=-1 lang=zh id=switch-lang-zh class=footer-languages-item>中文</a></div></div><ul class=footer-policies><li class=footer-policies-item><a class=footer-policies-link href=https://policies.google.com/privacy>Privacy policy</a> |
+<a class=footer-policies-link href=https://github.com/istio/istio.io/edit/release-1.14/content/en/blog/2020/proxying-legacy-services-using-egress-gateways/index.md>Edit this Page on GitHub</a></li></ul><div class=footer-base><span class=footer-base-copyright>&copy; 2022 Istio Authors.</span>
+<span class=footer-base-version>Version
+Archive
+1.14.3</span><ul class=footer-base-releases><li class=footer-base-releases-item><a tabindex=-1 class=footer-base-releases-link onclick='return navigateToUrlOrRoot("https://istio.io/blog/2020/proxying-legacy-services-using-egress-gateways/"),!1'>current release</a></li><li class=footer-base-releases-item><a tabindex=-1 class=footer-base-releases-link onclick='return navigateToUrlOrRoot("https://preliminary.istio.io/blog/2020/proxying-legacy-services-using-egress-gateways/"),!1'>next release</a></li><li class=footer-base-releases-item><a tabindex=-1 class=footer-base-releases-link href=https://istio.io/archive>older releases</a></li></ul></div></div></footer><div id=scroll-to-top-container aria-hidden=true><button id=scroll-to-top title="Back to top" tabindex=-1><svg class="icon top"><use xlink:href="/v1.14/img/icons.svg#top"/></svg></button></div></body></html>

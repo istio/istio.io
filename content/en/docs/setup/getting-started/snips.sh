@@ -26,7 +26,7 @@ curl -L https://istio.io/downloadIstio | sh -
 }
 
 snip_download_istio_download_2() {
-curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.15.0 TARGET_ARCH=x86_64 sh -
+curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.16.0 TARGET_ARCH=x86_64 sh -
 }
 
 snip_download_istio_download_4() {
@@ -185,7 +185,7 @@ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressga
 }
 
 snip_determining_the_ingress_ip_and_ports_10() {
-export INGRESS_HOST=workerNodeAddress
+export INGRESS_HOST=worker-node-address
 }
 
 snip_determining_the_ingress_ip_and_ports_11() {
@@ -238,8 +238,7 @@ istioctl dashboard kiali
 
 snip_uninstall_1() {
 kubectl delete -f samples/addons
-istioctl manifest generate --set profile=demo | kubectl delete --ignore-not-found=true -f -
-istioctl tag remove default
+istioctl uninstall -y --purge
 }
 
 snip_uninstall_2() {

@@ -131,7 +131,7 @@ $ cat <<EOF > cluster2.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
-  profile: external
+  profile: remote
   values:
     istiodRemote:
       injectionPath: /inject/cluster/cluster2/net/network1

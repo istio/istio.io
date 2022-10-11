@@ -40,5 +40,5 @@ _verify_contains snip_check_the_tls_configuration_of_istio_workloads_3 "$snip_ch
 _verify_contains snip_check_the_tls_configuration_of_istio_workloads_5 "$snip_check_the_tls_configuration_of_istio_workloads_6"
 
 # @cleanup
-echo y | istioctl x uninstall --revision=default
+echo y | istioctl uninstall --revision=default
 snip_cleanup_1

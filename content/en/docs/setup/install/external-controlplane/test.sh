@@ -22,8 +22,11 @@ set -u
 set -o pipefail
 
 kubectl_get_egress_gateway_for_remote_cluster() {
-  response=$(kubectl get pod -l app=istio-egressgateway -n external-istiod --context="${CTX_REMOTE_CLUSTER}" -o jsonpath="{.items[*].status.phase}")
-  echo "$response"
+  kubectl get pod -l app=istio-egressgateway -n external-istiod --context="${CTX_REMOTE_CLUSTER}" -o jsonpath="{.items[*].status.phase}"
+}
+
+kubectl_get_external_cluster_webhooks() {
+  kubectl get mutatingwebhookconfiguration --context="${CTX_EXTERNAL_CLUSTER}"
 }
 
 # Set the CTX_EXTERNAL_CLUSTER, CTX_REMOTE_CLUSTER, and REMOTE_CLUSTER_NAME env variables.
@@ -51,7 +54,9 @@ snip_set_up_the_remote_config_cluster_2
 echo y | snip_set_up_the_remote_config_cluster_3
 #set -e
 
-_verify_contains snip_set_up_the_remote_config_cluster_4 "istio-sidecar-injector-external-istiod"
+_verify_like snip_set_up_the_remote_config_cluster_4 "$snip_set_up_the_remote_config_cluster_4_out"
+
+_verify_like snip_set_up_the_remote_config_cluster_5 "$snip_set_up_the_remote_config_cluster_5_out"
 
 # Install istiod on the external cluster.
 
@@ -62,6 +67,8 @@ snip_get_external_istiod_iop
 snip_set_up_the_control_plane_in_the_external_cluster_4
 
 echo y | snip_set_up_the_control_plane_in_the_external_cluster_5
+
+_verify_not_contains kubectl_get_external_cluster_webhooks "external-istiod" # external istiod install should not affect local webhooks
 
 _verify_like snip_set_up_the_control_plane_in_the_external_cluster_6 "$snip_set_up_the_control_plane_in_the_external_cluster_6_out"
 
@@ -140,28 +147,6 @@ export CTX_EXTERNAL_CLUSTER="${KUBE_CONTEXTS[0]}"
 export CTX_REMOTE_CLUSTER="${KUBE_CONTEXTS[2]}"
 export CTX_SECOND_CLUSTER="${KUBE_CONTEXTS[1]}"
 
-# TODO put the cleanup instructions in the doc and then call the snips.
-kubectl delete ns sample --context="${CTX_REMOTE_CLUSTER}"
-kubectl delete ns sample --context="${CTX_SECOND_CLUSTER}"
-
-kubectl delete -f external-istiod-gw.yaml --context="${CTX_EXTERNAL_CLUSTER}"
-
-istioctl manifest generate -f remote-config-cluster.yaml | kubectl delete --context="${CTX_REMOTE_CLUSTER}" -f -
-istioctl manifest generate -f second-remote-cluster.yaml | kubectl delete --context="${CTX_SECOND_CLUSTER}" -f -
-istioctl manifest generate -f eastwest-gateway-1.yaml | kubectl delete --context="${CTX_REMOTE_CLUSTER}" -f -
-istioctl manifest generate -f eastwest-gateway-2.yaml | kubectl delete --context="${CTX_SECOND_CLUSTER}" -f -
-istioctl manifest generate -f external-istiod.yaml | kubectl delete --context="${CTX_EXTERNAL_CLUSTER}" -f -
-istioctl manifest generate -f controlplane-gateway.yaml | kubectl delete --context="${CTX_EXTERNAL_CLUSTER}" -f -
-
-#TODO remove the following lines when https://github.com/istio/istio/issues/38599 is fixed
-kubectl delete validatingwebhookconfigurations istiod-default-validator --context="${CTX_REMOTE_CLUSTER}"
-kubectl delete validatingwebhookconfigurations istiod-default-validator --context="${CTX_EXTERNAL_CLUSTER}"
-kubectl delete mutatingwebhookconfigurations istio-revision-tag-default-external-istiod --context="${CTX_REMOTE_CLUSTER}"
-kubectl delete mutatingwebhookconfigurations istio-revision-tag-default-external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
-kubectl delete mutatingwebhookconfigurations istio-revision-tag-default --context="${CTX_EXTERNAL_CLUSTER}"
-
-kubectl delete ns istio-system external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
-kubectl delete ns external-istiod --context="${CTX_REMOTE_CLUSTER}"
-kubectl delete ns external-istiod --context="${CTX_SECOND_CLUSTER}"
-
-rm external-istiod-gw.yaml remote-config-cluster.yaml external-istiod.yaml controlplane-gateway.yaml eastwest-gateway-1.yaml eastwest-gateway-2.yaml second-remote-cluster.yaml
+snip_cleanup_1
+snip_cleanup_2
+snip_cleanup_3

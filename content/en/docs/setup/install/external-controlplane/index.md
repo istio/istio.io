@@ -174,7 +174,7 @@ and installing the sidecar injector webhook configuration on the remote cluster 
 
 #### Set up the remote config cluster
 
-1. Use the `external` profile to configure the remote cluster's Istio installation. This installs an injection
+1. Use the `remote` profile to configure the remote cluster's Istio installation. This installs an injection
     webhook that uses the external control plane's injector, instead of a locally deployed one. Because this cluster
     will also serve as the config cluster, the Istio CRDs and other resources that will be needed on the remote cluster
     are also installed by setting `global.configCluster` and `pilot.configMap` to `true`:
@@ -186,7 +186,7 @@ and installing the sidecar injector webhook configuration on the remote cluster 
     metadata:
       namespace: external-istiod
     spec:
-      profile: external
+      profile: remote
       values:
         global:
           istioNamespace: external-istiod
@@ -200,6 +200,11 @@ and installing the sidecar injector webhook configuration on the remote cluster 
     EOF
     {{< /text >}}
 
+    {{< tip >}}
+    If your cluster name contains `/` (slash) characters, replace them with `--slash--` in the `injectionURL`,
+    e.g., `injectionURL: https://1.2.3.4:15017/inject/cluster/`<mark>`cluster--slash--1`</mark>`/net/network1`.
+    {{< /tip >}}
+
 1.  If you are using an IP address for the `EXTERNAL_ISTIOD_ADDR`, instead of a proper DNS hostname,
     modify the configuration to specify the discovery address and paths, instead of URLs:
 
@@ -212,7 +217,7 @@ and installing the sidecar injector webhook configuration on the remote cluster 
       -e "s|injectionURL: https://${EXTERNAL_ISTIOD_ADDR}:15017|injectionPath: |" \
       -e "/istioNamespace:/a\\
           remotePilotAddress: ${EXTERNAL_ISTIOD_ADDR}" \
-      -e '/base/,+1d' \
+      -e '/base:/,+1d' \
       remote-config-cluster.yaml; rm remote-config-cluster.yaml.bk
     {{< /text >}}
 
@@ -220,15 +225,24 @@ and installing the sidecar injector webhook configuration on the remote cluster 
 
     {{< text bash >}}
     $ kubectl create namespace external-istiod --context="${CTX_REMOTE_CLUSTER}"
-    $ istioctl manifest generate -f remote-config-cluster.yaml | kubectl apply --context="${CTX_REMOTE_CLUSTER}" -f -
+    $ istioctl manifest generate -f remote-config-cluster.yaml --set values.defaultRevision=default | kubectl apply --context="${CTX_REMOTE_CLUSTER}" -f -
     {{< /text >}}
 
-1. Confirm that the remote cluster's webhook configuration has been installed:
+1. Confirm that the remote cluster's injection webhook configuration has been installed:
 
     {{< text bash >}}
     $ kubectl get mutatingwebhookconfiguration --context="${CTX_REMOTE_CLUSTER}"
     NAME                                     WEBHOOKS   AGE
     istio-sidecar-injector-external-istiod   4          6m24s
+    {{< /text >}}
+
+1. Confirm that the remote cluster's validation webhook configurations have been installed:
+
+    {{< text bash >}}
+    $ kubectl get validatingwebhookconfiguration --context="${CTX_REMOTE_CLUSTER}"
+    NAME                              WEBHOOKS   AGE
+    istio-validator-external-istiod   1          6m53s
+    istiod-default-validator          1          6m53s
     {{< /text >}}
 
 #### Set up the control plane in the external cluster
@@ -342,7 +356,7 @@ and installing the sidecar injector webhook configuration on the remote cluster 
 1.  Apply the Istio configuration on the external cluster:
 
     {{< text bash >}}
-    $ istioctl manifest generate -f external-istiod.yaml | kubectl apply --context="${CTX_EXTERNAL_CLUSTER}" -f -
+    $ istioctl install -f external-istiod.yaml --context="${CTX_EXTERNAL_CLUSTER}"
     {{< /text >}}
 
 1. Confirm that the external istiod has been successfully deployed:
@@ -463,6 +477,12 @@ and installing the sidecar injector webhook configuration on the remote cluster 
 
 Now that Istio is up and running, a mesh administrator only needs to deploy and configure services in the mesh,
 including gateways, if needed.
+
+{{< tip >}}
+Some of the `istioctl` CLI commands won't work by default on a remote cluster,
+although you can easily configure `istioctl` to make it fully functional.
+See the [Istioctl-proxy Ecosystem project](https://github.com/istio-ecosystem/istioctl-proxy-sample) for details.
+{{< /tip >}}
 
 #### Deploy a sample application
 
@@ -643,7 +663,7 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
     metadata:
       namespace: external-istiod
     spec:
-      profile: external
+      profile: remote
       values:
         global:
           istioNamespace: external-istiod
@@ -684,7 +704,7 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
     $ istioctl manifest generate -f second-remote-cluster.yaml | kubectl apply --context="${CTX_SECOND_CLUSTER}" -f -
     {{< /text >}}
 
-1. Confirm that the remote cluster's webhook configuration has been installed:
+1. Confirm that the remote cluster's injection webhook configuration has been installed:
 
     {{< text bash >}}
     $ kubectl get mutatingwebhookconfiguration --context="${CTX_SECOND_CLUSTER}"
@@ -795,3 +815,33 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
     Hello version: v2, instance: helloworld-v2-54df5f84b-9hxgw
     ...
     {{< /text >}}
+
+## Cleanup
+
+Clean up the external control plane cluster:
+
+{{< text bash >}}
+$ kubectl delete -f external-istiod-gw.yaml --context="${CTX_EXTERNAL_CLUSTER}"
+$ istioctl uninstall -y --purge --context="${CTX_EXTERNAL_CLUSTER}"
+$ kubectl delete ns istio-system external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
+$ rm controlplane-gateway.yaml external-istiod.yaml external-istiod-gw.yaml
+{{< /text >}}
+
+Clean up the remote config cluster:
+
+{{< text bash >}}
+$ kubectl delete ns sample --context="${CTX_REMOTE_CLUSTER}"
+$ istioctl manifest generate -f remote-config-cluster.yaml --set values.defaultRevision=default | kubectl delete --context="${CTX_REMOTE_CLUSTER}" -f -
+$ kubectl delete ns external-istiod --context="${CTX_REMOTE_CLUSTER}"
+$ rm remote-config-cluster.yaml istio-ingressgateway.yaml
+$ rm istio-egressgateway.yaml eastwest-gateway-1.yaml || true
+{{< /text >}}
+
+Clean up the optional second remote cluster if you installed it:
+
+{{< text bash >}}
+$ kubectl delete ns sample --context="${CTX_SECOND_CLUSTER}"
+$ istioctl manifest generate -f second-remote-cluster.yaml | kubectl delete --context="${CTX_SECOND_CLUSTER}" -f -
+$ kubectl delete ns external-istiod --context="${CTX_SECOND_CLUSTER}"
+$ rm second-remote-cluster.yaml eastwest-gateway-2.yaml
+{{< /text >}}

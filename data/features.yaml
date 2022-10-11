@@ -251,6 +251,14 @@ features:
       maturity: Alpha
       nextExpectedPromotion: "1.14"
     area: Security and policy enforcement
+  - name: "JWT Claim Based Routing"
+    id: "security.jwt_authentication"
+    link: "/docs/tasks/security/authentication/jwt-route"
+    level:
+      checklist: features/claim_based_routing.md
+      maturity: Alpha
+      nextExpectedPromotion: ""
+    area: Security and policy enforcement
   - name: "In-Cluster Operator"
     id: "core.in_cluster_operator"
     link: "/docs/setup/install/operator/"

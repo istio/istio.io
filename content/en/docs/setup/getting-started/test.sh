@@ -84,5 +84,4 @@ _verify_contains snip_view_the_dashboard_dashboard_1 'deployment "kiali" success
 # @cleanup
 cleanup_bookinfo_sample
 snip_uninstall_1
-kubectl delete validatingwebhookconfiguration istiod-default-validator #TODO remove when https://github.com/istio/istio/issues/38855 is fixed
 kubectl delete ns istio-system --ignore-not-found=true

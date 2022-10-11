@@ -80,7 +80,7 @@ kind: IstioOperator
 metadata:
   namespace: external-istiod
 spec:
-  profile: external
+  profile: remote
   values:
     global:
       istioNamespace: external-istiod
@@ -99,13 +99,13 @@ sed  -i'.bk' \
   -e "s|injectionURL: https://${EXTERNAL_ISTIOD_ADDR}:15017|injectionPath: |" \
   -e "/istioNamespace:/a\\
       remotePilotAddress: ${EXTERNAL_ISTIOD_ADDR}" \
-  -e '/base/,+1d' \
+  -e '/base:/,+1d' \
   remote-config-cluster.yaml; rm remote-config-cluster.yaml.bk
 }
 
 snip_set_up_the_remote_config_cluster_3() {
 kubectl create namespace external-istiod --context="${CTX_REMOTE_CLUSTER}"
-istioctl manifest generate -f remote-config-cluster.yaml | kubectl apply --context="${CTX_REMOTE_CLUSTER}" -f -
+istioctl manifest generate -f remote-config-cluster.yaml --set values.defaultRevision=default | kubectl apply --context="${CTX_REMOTE_CLUSTER}" -f -
 }
 
 snip_set_up_the_remote_config_cluster_4() {
@@ -115,6 +115,16 @@ kubectl get mutatingwebhookconfiguration --context="${CTX_REMOTE_CLUSTER}"
 ! read -r -d '' snip_set_up_the_remote_config_cluster_4_out <<\ENDSNIP
 NAME                                     WEBHOOKS   AGE
 istio-sidecar-injector-external-istiod   4          6m24s
+ENDSNIP
+
+snip_set_up_the_remote_config_cluster_5() {
+kubectl get validatingwebhookconfiguration --context="${CTX_REMOTE_CLUSTER}"
+}
+
+! read -r -d '' snip_set_up_the_remote_config_cluster_5_out <<\ENDSNIP
+NAME                              WEBHOOKS   AGE
+istio-validator-external-istiod   1          6m53s
+istiod-default-validator          1          6m53s
 ENDSNIP
 
 snip_set_up_the_control_plane_in_the_external_cluster_1() {
@@ -205,7 +215,7 @@ sed  -i'.bk' \
 }
 
 snip_set_up_the_control_plane_in_the_external_cluster_5() {
-istioctl manifest generate -f external-istiod.yaml | kubectl apply --context="${CTX_EXTERNAL_CLUSTER}" -f -
+istioctl install -f external-istiod.yaml --context="${CTX_EXTERNAL_CLUSTER}"
 }
 
 snip_set_up_the_control_plane_in_the_external_cluster_6() {
@@ -421,7 +431,7 @@ kind: IstioOperator
 metadata:
   namespace: external-istiod
 spec:
-  profile: external
+  profile: remote
   values:
     global:
       istioNamespace: external-istiod
@@ -547,3 +557,25 @@ Hello version: v1, instance: helloworld-v1-776f57d5f6-s7zfc
 Hello version: v2, instance: helloworld-v2-54df5f84b-9hxgw
 ...
 ENDSNIP
+
+snip_cleanup_1() {
+kubectl delete -f external-istiod-gw.yaml --context="${CTX_EXTERNAL_CLUSTER}"
+istioctl uninstall -y --purge --context="${CTX_EXTERNAL_CLUSTER}"
+kubectl delete ns istio-system external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
+rm controlplane-gateway.yaml external-istiod.yaml external-istiod-gw.yaml
+}
+
+snip_cleanup_2() {
+kubectl delete ns sample --context="${CTX_REMOTE_CLUSTER}"
+istioctl manifest generate -f remote-config-cluster.yaml --set values.defaultRevision=default | kubectl delete --context="${CTX_REMOTE_CLUSTER}" -f -
+kubectl delete ns external-istiod --context="${CTX_REMOTE_CLUSTER}"
+rm remote-config-cluster.yaml istio-ingressgateway.yaml
+rm istio-egressgateway.yaml eastwest-gateway-1.yaml || true
+}
+
+snip_cleanup_3() {
+kubectl delete ns sample --context="${CTX_SECOND_CLUSTER}"
+istioctl manifest generate -f second-remote-cluster.yaml | kubectl delete --context="${CTX_SECOND_CLUSTER}" -f -
+kubectl delete ns external-istiod --context="${CTX_SECOND_CLUSTER}"
+rm second-remote-cluster.yaml eastwest-gateway-2.yaml
+}
