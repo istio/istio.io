@@ -23,7 +23,7 @@ import (
 	"istio.io/istio/pkg/test/scopes"
 )
 
-// Builder builds a test of a documented workflow from http://istio.io.
+// Builder builds a test of a documented workflow from https://istio.io.
 type Builder struct {
 	steps        []Step
 	cleanupSteps []Step
