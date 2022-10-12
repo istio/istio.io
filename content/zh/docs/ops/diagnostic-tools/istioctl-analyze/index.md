@@ -170,26 +170,26 @@ $ kubectl annotate deployment my-deployment galley.istio.io/analyze-suppress=IST
 
 - **此工具针对的是哪个 Istio 版本？**
 
-      和其它 `istioctl` 工具一样，我们通常建议下载一个和您集群中部署版本相匹配的版本来使用。
+    和其它 `istioctl` 工具一样，我们通常建议下载一个和您集群中部署版本相匹配的版本来使用。
 
-      就目前而言，analysis 是向后兼容的，所以你可以在运行 Istio 1.1 的集群上使用 1.4 版本的 `istioctl analyze`，并且会得到有用的反馈。对老版本 Istio 没有意义的分析规则将被跳过。
+    就目前而言，analysis 是向后兼容的，所以你可以在运行 Istio 1.1 的集群上使用 1.4 版本的 `istioctl analyze`，并且会得到有用的反馈。对老版本 Istio 没有意义的分析规则将被跳过。
 
-      如果你决定使用最新的 `istioctl` 来对一个运行老版本 Istio 的集群进行分析，我们建议您将其保存在一个独立的目录中，和用于部署 Istio 的二进制文件分开。
+    如果你决定使用最新的 `istioctl` 来对一个运行老版本 Istio 的集群进行分析，我们建议您将其保存在一个独立的目录中，和用于部署 Istio 的二进制文件分开。
 
 - **现在支持哪些分析器？**
 
-      我们仍在努力编写分析器文档。目前，您可以在 [Istio 源代码]({{<github_blob>}}/galley/pkg/config/analysis/analyzers)中看到所有分析器。
+    我们仍在努力编写分析器文档。目前，您可以在 [Istio 源代码]({{< github_tree >}}/pkg/config/analysis/analyzers)中看到所有分析器。
 
-      你还可以了解一下目前支持哪些[配置分析消息](/zh/docs/reference/config/analysis/)。
+    你还可以了解一下目前支持哪些[配置分析消息](/zh/docs/reference/config/analysis/)。
 
 - **analysis 分析对我的集群有影响吗？**
 
-      分析永远不会更改配置状态。这是一个完全只读的操作，因此永远不会更改群集的状态。
+    分析永远不会更改配置状态。这是一个完全只读的操作，因此永远不会更改群集的状态。
 
 - **超出配置范围的又如何分析呢？**
 
-      今天，分析完全基于 Kubernetes 的配置，但是将来我们希望进一步扩展。例如，我们可以允许分析器查看日志以生成建议。
+    今天，分析完全基于 Kubernetes 的配置，但是将来我们希望进一步扩展。例如，我们可以允许分析器查看日志以生成建议。
 
 - **在哪里可以找到解决错误的方法？**
 
-      [配置分析消息](/zh/docs/reference/config/analysis/)集包含每个消息的描述以及建议的修复程序。
+    [配置分析消息](/zh/docs/reference/config/analysis/)集包含每个消息的描述以及建议的修复程序。
