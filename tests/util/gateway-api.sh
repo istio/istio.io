@@ -16,15 +16,15 @@
 # limitations under the License.
 source "content/en/boilerplates/snips/gateway-api-version.sh"
 
-K8S_GATEWAY_API_CRDS="github.com/kubernetes-sigs/gateway-api/config/crd?ref=${bpsnip_gateway_api_version_value}"
+K8S_GATEWAY_API_CRDS="https://github.com/kubernetes-sigs/gateway-api/releases/download/${bpsnip_gateway_api_version_value}/experimental-install.yaml"
 GATEWAY_API="true"
 
 function install_gateway_api_crds() {
-    kubectl kustomize "${K8S_GATEWAY_API_CRDS}" | kubectl apply -f -
+    kubectl apply -f "${K8S_GATEWAY_API_CRDS}"
 }
 
 function remove_gateway_api_crds() {
-    kubectl kustomize "${K8S_GATEWAY_API_CRDS}" | kubectl delete -f -
+    kubectl delete -f "${K8S_GATEWAY_API_CRDS}"
 
     kubectl get gateways.gateway.networking.k8s.io >/dev/null 2>&1 || true
     # TODO ^^^ remove this kludge which forces the name "gateway" to not stay bound to the deleted crd

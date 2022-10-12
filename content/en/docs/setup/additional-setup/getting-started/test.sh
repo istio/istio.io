@@ -54,6 +54,7 @@ _verify_like snip_deploy_the_sample_application_bookinfo_4 "$snip_deploy_the_sam
 
 # Open to outside traffic
 _verify_contains snip_open_the_application_to_outside_traffic_ip_1 "$snip_open_the_application_to_outside_traffic_ip_1_out"
+_wait_for_gateway default bookinfo-gateway
 snip_open_the_application_to_outside_traffic_ip_2
 
 # Ensure no issues with configuration - istioctl analyze

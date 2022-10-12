@@ -33,6 +33,7 @@ startup_httpbin_sample
 if [ "$GATEWAY_API" == "true" ]; then
     # create the gateway and routes
     snip_configuring_ingress_using_a_gateway_3
+    _wait_for_gateway default httpbin-gateway
     snip_configuring_ingress_using_a_gateway_4
     snip_configuring_ingress_using_a_gateway_5
 

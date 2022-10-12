@@ -20,7 +20,7 @@ and [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) 
 
     {{< text bash >}}
     $ kubectl get crd gateways.gateway.networking.k8s.io || \
-      { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref={{< k8s_gateway_api_version >}}" | kubectl apply -f -; }
+      kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/{{< k8s_gateway_api_version >}}/experimental-install.yaml
     {{< /text >}}
 
 1. Install Istio using the `minimal` profile:
@@ -278,5 +278,5 @@ spec:
 1. Remove the Gateway API CRDs if they are no longer needed:
 
     {{< text bash >}}
-    $ kubectl kustomize "github.com/kubernetes-sigs/service-apis/config/crd?ref={{< k8s_gateway_api_version >}}" | kubectl delete -f -
+    $ kubectl delete -f https://github.com/kubernetes-sigs/gateway-api/releases/download/{{< k8s_gateway_api_version >}}/experimental-install.yaml
     {{< /text >}}
