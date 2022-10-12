@@ -36,7 +36,7 @@ fi
 # The repos to mine for docs, just add new entries here to pull in more repos.
 REPOS=(
     https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"
-    https://github.com/istio/api.git@"${SOURCE_BRANCH_NAME}"
+    https://github.com/ericvn/api.git@testNewImage
     https://github.com/istio/proxy.git@"${SOURCE_BRANCH_NAME}"
 )
 

@@ -1,41 +1,37 @@
 ---
-WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL SOURCE IN THE 'https://github.com/istio/api' REPO
-source_repo: https://github.com/istio/api
+WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL SOURCE IN THE 'https://github.com/ericvn/api' REPO
+source_repo: https://github.com/ericvn/api
 title: Workload Entry
 description: Configuration affecting VMs onboarded into the mesh.
 location: https://istio.io/docs/reference/config/networking/workload-entry.html
-layout: protoc-gen-docs
+layout: partner-component
 generator: protoc-gen-docs
 schema: istio.networking.v1alpha3.WorkloadEntry
 aliases: [/docs/reference/config/networking/v1alpha3/workload-entry]
 number_of_entries: 1
 ---
-<p><code>WorkloadEntry</code> enables operators to describe the properties of a
-single non-Kubernetes workload such as a VM or a bare metal server
-as it is onboarded into the mesh. A <code>WorkloadEntry</code> must be
-accompanied by an Istio <code>ServiceEntry</code> that selects the workload
-through the appropriate labels and provides the service definition
-for a <code>MESH_INTERNAL</code> service (hostnames, port properties, etc.). A
-<code>ServiceEntry</code> object can select multiple workload entries as well
-as Kubernetes pods based on the label selector specified in the
+<p><code>WorkloadEntry</code> enables operators to describe the properties of a<br />
+single non-Kubernetes workload such as a VM or a bare metal server<br />
+as it is onboarded into the mesh. A <code>WorkloadEntry</code> must be<br />
+accompanied by an Istio <code>ServiceEntry</code> that selects the workload<br />
+through the appropriate labels and provides the service definition<br />
+for a <code>MESH_INTERNAL</code> service (hostnames, port properties, etc.). A<br />
+<code>ServiceEntry</code> object can select multiple workload entries as well<br />
+as Kubernetes pods based on the label selector specified in the<br />
 service entry.</p>
-
-<p>When a workload connects to <code>istiod</code>, the status field in the
-custom resource will be updated to indicate the health of the
-workload along with other details, similar to how Kubernetes
+<p>When a workload connects to <code>istiod</code>, the status field in the<br />
+custom resource will be updated to indicate the health of the<br />
+workload along with other details, similar to how Kubernetes<br />
 updates the status of a pod.</p>
-
-<p>The following example declares a workload entry representing a VM
-for the <code>details.bookinfo.com</code> service. This VM has sidecar
-installed and bootstrapped using the <code>details-legacy</code> service
-account. The service is exposed on port 80 to applications in the
-mesh. The HTTP traffic to this service is wrapped in Istio mutual
-TLS and sent to sidecars on VMs on target port 8080, that in turn
+<p>The following example declares a workload entry representing a VM<br />
+for the <code>details.bookinfo.com</code> service. This VM has sidecar<br />
+installed and bootstrapped using the <code>details-legacy</code> service<br />
+account. The service is exposed on port 80 to applications in the<br />
+mesh. The HTTP traffic to this service is wrapped in Istio mutual<br />
+TLS and sent to sidecars on VMs on target port 8080, that in turn<br />
 forward it to the application on localhost on the same port.</p>
-
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
 kind: WorkloadEntry
 metadata:
@@ -51,11 +47,8 @@ spec:
     app: details-legacy
     instance-id: vm1
 </code></pre>
-
-<p>{{</tab>}}</p>
-
-<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}</p>
+<p>{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: WorkloadEntry
 metadata:
@@ -71,15 +64,11 @@ spec:
     app: details-legacy
     instance-id: vm1
 </code></pre>
-
-<p>{{</tab>}}
-{{</tabset>}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
 <p>and the associated service entry</p>
-
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:
@@ -98,11 +87,8 @@ spec:
     labels:
       app: details-legacy
 </code></pre>
-
-<p>{{</tab>}}</p>
-
-<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}</p>
+<p>{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: ServiceEntry
 metadata:
@@ -121,19 +107,15 @@ spec:
     labels:
       app: details-legacy
 </code></pre>
-
-<p>{{</tab>}}
-{{</tabset>}}</p>
-
-<p>The following example declares the same VM workload using
-its fully qualified DNS name. The service entry&rsquo;s resolution
-mode should be changed to DNS to indicate that the client-side
-sidecars should dynamically resolve the DNS name at runtime before
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
+<p>The following example declares the same VM workload using<br />
+its fully qualified DNS name. The service entry's resolution<br />
+mode should be changed to DNS to indicate that the client-side<br />
+sidecars should dynamically resolve the DNS name at runtime before<br />
 forwarding the request.</p>
-
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
 kind: WorkloadEntry
 metadata:
@@ -149,11 +131,8 @@ spec:
     app: details-legacy
     instance-id: vm1
 </code></pre>
-
-<p>{{</tab>}}</p>
-
-<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}</p>
+<p>{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: WorkloadEntry
 metadata:
@@ -169,15 +148,11 @@ spec:
     app: details-legacy
     instance-id: vm1
 </code></pre>
-
-<p>{{</tab>}}
-{{</tabset>}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
 <p>and the associated service entry</p>
-
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:
@@ -196,11 +171,8 @@ spec:
     labels:
       app: details-legacy
 </code></pre>
-
-<p>{{</tab>}}</p>
-
-<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}</p>
+<p>{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: ServiceEntry
 metadata:
@@ -219,9 +191,8 @@ spec:
     labels:
       app: details-legacy
 </code></pre>
-
-<p>{{</tab>}}
-{{</tabset>}}</p>
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
 
 <h2 id="WorkloadEntry">WorkloadEntry</h2>
 <section>
@@ -241,9 +212,9 @@ spec:
 <td><code>address</code></td>
 <td><code>string</code></td>
 <td>
-<p>Address associated with the network endpoint without the
-port.  Domain names can be used if and only if the resolution is set
-to DNS, and must be fully-qualified without wildcards. Use the form
+<p>Address associated with the network endpoint without the<br />
+port.  Domain names can be used if and only if the resolution is set<br />
+to DNS, and must be fully-qualified without wildcards. Use the form<br />
 unix:///absolute/path/to/socket for Unix domain socket endpoints.</p>
 
 </td>
@@ -255,19 +226,17 @@ Yes
 <td><code>ports</code></td>
 <td><code>map&lt;string,&nbsp;uint32&gt;</code></td>
 <td>
-<p>Set of ports associated with the endpoint. If the port map is
-specified, it must be a map of servicePortName to this endpoint&rsquo;s
-port, such that traffic to the service port will be forwarded to
-the endpoint port that maps to the service&rsquo;s portName. If
-omitted, and the targetPort is specified as part of the service&rsquo;s
-port specification, traffic to the service port will be forwarded
-to one of the endpoints on the specified <code>targetPort</code>. If both
-the targetPort and endpoint&rsquo;s port map are not specified, traffic
-to a service port will be forwarded to one of the endpoints on
+<p>Set of ports associated with the endpoint. If the port map is<br />
+specified, it must be a map of servicePortName to this endpoint's<br />
+port, such that traffic to the service port will be forwarded to<br />
+the endpoint port that maps to the service's portName. If<br />
+omitted, and the targetPort is specified as part of the service's<br />
+port specification, traffic to the service port will be forwarded<br />
+to one of the endpoints on the specified <code>targetPort</code>. If both<br />
+the targetPort and endpoint's port map are not specified, traffic<br />
+to a service port will be forwarded to one of the endpoints on<br />
 the same port.</p>
-
 <p><strong>NOTE 1:</strong> Do not use for <code>unix://</code> addresses.</p>
-
 <p><strong>NOTE 2:</strong> endpoint port map takes precedence over targetPort.</p>
 
 </td>
@@ -290,13 +259,13 @@ No
 <td><code>network</code></td>
 <td><code>string</code></td>
 <td>
-<p>Network enables Istio to group endpoints resident in the same L3
-domain/network. All endpoints in the same network are assumed to be
-directly reachable from one another. When endpoints in different
-networks cannot reach each other directly, an Istio Gateway can be
-used to establish connectivity (usually using the
-<code>AUTO_PASSTHROUGH</code> mode in a Gateway Server). This is
-an advanced configuration used typically for spanning an Istio mesh
+<p>Network enables Istio to group endpoints resident in the same L3<br />
+domain/network. All endpoints in the same network are assumed to be<br />
+directly reachable from one another. When endpoints in different<br />
+networks cannot reach each other directly, an Istio Gateway can be<br />
+used to establish connectivity (usually using the<br />
+<code>AUTO_PASSTHROUGH</code> mode in a Gateway Server). This is<br />
+an advanced configuration used typically for spanning an Istio mesh<br />
 over multiple clusters.</p>
 
 </td>
@@ -308,22 +277,22 @@ No
 <td><code>locality</code></td>
 <td><code>string</code></td>
 <td>
-<p>The locality associated with the endpoint. A locality corresponds
-to a failure domain (e.g., country/region/zone). Arbitrary failure
-domain hierarchies can be represented by separating each
-encapsulating failure domain by /. For example, the locality of an
-an endpoint in US, in US-East-1 region, within availability zone
-az-1, in data center rack r11 can be represented as
-us/us-east-1/az-1/r11. Istio will configure the sidecar to route to
-endpoints within the same locality as the sidecar. If none of the
-endpoints in the locality are available, endpoints parent locality
-(but within the same network ID) will be chosen. For example, if
-there are two endpoints in same network (networkID &ldquo;n1&rdquo;), say e1
-with locality us/us-east-1/az-1/r11 and e2 with locality
-us/us-east-1/az-2/r12, a sidecar from us/us-east-1/az-1/r11 locality
-will prefer e1 from the same locality over e2 from a different
-locality. Endpoint e2 could be the IP associated with a gateway
-(that bridges networks n1 and n2), or the IP associated with a
+<p>The locality associated with the endpoint. A locality corresponds<br />
+to a failure domain (e.g., country/region/zone). Arbitrary failure<br />
+domain hierarchies can be represented by separating each<br />
+encapsulating failure domain by /. For example, the locality of an<br />
+an endpoint in US, in US-East-1 region, within availability zone<br />
+az-1, in data center rack r11 can be represented as<br />
+us/us-east-1/az-1/r11. Istio will configure the sidecar to route to<br />
+endpoints within the same locality as the sidecar. If none of the<br />
+endpoints in the locality are available, endpoints parent locality<br />
+(but within the same network ID) will be chosen. For example, if<br />
+there are two endpoints in same network (networkID &quot;n1&quot;), say e1<br />
+with locality us/us-east-1/az-1/r11 and e2 with locality<br />
+us/us-east-1/az-2/r12, a sidecar from us/us-east-1/az-1/r11 locality<br />
+will prefer e1 from the same locality over e2 from a different<br />
+locality. Endpoint e2 could be the IP associated with a gateway<br />
+(that bridges networks n1 and n2), or the IP associated with a<br />
 standard service endpoint.</p>
 
 </td>
@@ -335,7 +304,7 @@ No
 <td><code>weight</code></td>
 <td><code>uint32</code></td>
 <td>
-<p>The load balancing weight associated with the endpoint. Endpoints
+<p>The load balancing weight associated with the endpoint. Endpoints<br />
 with higher weights will receive proportionally higher traffic.</p>
 
 </td>
@@ -347,9 +316,9 @@ No
 <td><code>serviceAccount</code></td>
 <td><code>string</code></td>
 <td>
-<p>The service account associated with the workload if a sidecar
-is present in the workload. The service account must be present
-in the same namespace as the configuration ( WorkloadEntry or a
+<p>The service account associated with the workload if a sidecar<br />
+is present in the workload. The service account must be present<br />
+in the same namespace as the configuration ( WorkloadEntry or a<br />
 ServiceEntry)</p>
 
 </td>

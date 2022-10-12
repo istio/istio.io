@@ -1,32 +1,29 @@
 ---
-WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL SOURCE IN THE 'https://github.com/istio/api' REPO
-source_repo: https://github.com/istio/api
+WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL SOURCE IN THE 'https://github.com/ericvn/api' REPO
+source_repo: https://github.com/ericvn/api
 title: Workload Group
 description: Describes a collection of workload instances.
 location: https://istio.io/docs/reference/config/networking/workload-group.html
-layout: protoc-gen-docs
+layout: partner-component
 generator: protoc-gen-docs
 schema: istio.networking.v1alpha3.WorkloadGroup
 aliases: [/zh/docs/reference/config/networking/v1alpha3/workload-group]
 number_of_entries: 7
 ---
-<p><code>WorkloadGroup</code> describes a collection of workload instances.
-It provides a specification that the workload instances can use to bootstrap
-their proxies, including the metadata and identity. It is only intended to
-be used with non-k8s workloads like Virtual Machines, and is meant to mimic
-the existing sidecar injection and deployment specification model used for
+<p><code>WorkloadGroup</code> describes a collection of workload instances.<br />
+It provides a specification that the workload instances can use to bootstrap<br />
+their proxies, including the metadata and identity. It is only intended to<br />
+be used with non-k8s workloads like Virtual Machines, and is meant to mimic<br />
+the existing sidecar injection and deployment specification model used for<br />
 Kubernetes workloads to bootstrap Istio proxies.</p>
-
-<p>The following example declares a workload group representing a collection
-of workloads that will be registered under <code>reviews</code> in namespace
-<code>bookinfo</code>. The set of labels will be associated with each workload
-instance during the bootstrap process, and the ports 3550 and 8080
-will be associated with the workload group and use service account <code>default</code>.
+<p>The following example declares a workload group representing a collection<br />
+of workloads that will be registered under <code>reviews</code> in namespace<br />
+<code>bookinfo</code>. The set of labels will be associated with each workload<br />
+instance during the bootstrap process, and the ports 3550 and 8080<br />
+will be associated with the workload group and use service account <code>default</code>.<br />
 <code>app.kubernetes.io/version</code> is just an arbitrary example of a label.</p>
-
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
 kind: WorkloadGroup
 metadata:
@@ -57,17 +54,16 @@ spec:
      - name: Lit-Header
        value: Im-The-Best
 </code></pre>
-
-<p>{{</tab>}}
-{{</tabset>}}</p>
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
 
 <h2 id="WorkloadGroup">WorkloadGroup</h2>
 <section>
-<p><code>WorkloadGroup</code> enables specifying the properties of a single workload for bootstrap and
-provides a template for <code>WorkloadEntry</code>, similar to how <code>Deployment</code> specifies properties
-of workloads via <code>Pod</code> templates. A <code>WorkloadGroup</code> can have more than one <code>WorkloadEntry</code>.
-<code>WorkloadGroup</code> has no relationship to resources which control service registry like <code>ServiceEntry</code>
-and as such doesn&rsquo;t configure host name for these workloads.</p>
+<p><code>WorkloadGroup</code> enables specifying the properties of a single workload for bootstrap and<br />
+provides a template for <code>WorkloadEntry</code>, similar to how <code>Deployment</code> specifies properties<br />
+of workloads via <code>Pod</code> templates. A <code>WorkloadGroup</code> can have more than one <code>WorkloadEntry</code>.<br />
+<code>WorkloadGroup</code> has no relationship to resources which control service registry like <code>ServiceEntry</code><br />
+and as such doesn't configure host name for these workloads.</p>
 
 <table class="message-fields">
 <thead>
@@ -83,7 +79,7 @@ and as such doesn&rsquo;t configure host name for these workloads.</p>
 <td><code>metadata</code></td>
 <td><code><a href="#WorkloadGroup-ObjectMeta">ObjectMeta</a></code></td>
 <td>
-<p>Metadata that will be used for all corresponding <code>WorkloadEntries</code>.
+<p>Metadata that will be used for all corresponding <code>WorkloadEntries</code>.<br />
 User labels for a workload group should be set here in <code>metadata</code> rather than in <code>template</code>.</p>
 
 </td>
@@ -95,10 +91,10 @@ No
 <td><code>template</code></td>
 <td><code><a href="/zh/docs/reference/config/networking/workload-entry/#WorkloadEntry">WorkloadEntry</a></code></td>
 <td>
-<p>Template to be used for the generation of <code>WorkloadEntry</code> resources that belong to this <code>WorkloadGroup</code>.
-Please note that <code>address</code> and <code>labels</code> fields should not be set in the template, and an empty <code>serviceAccount</code>
-should default to <code>default</code>. The workload identities (mTLS certificates) will be bootstrapped using the
-specified service account&rsquo;s token. Workload entries in this group will be in the same namespace as the
+<p>Template to be used for the generation of <code>WorkloadEntry</code> resources that belong to this <code>WorkloadGroup</code>.<br />
+Please note that <code>address</code> and <code>labels</code> fields should not be set in the template, and an empty <code>serviceAccount</code><br />
+should default to <code>default</code>. The workload identities (mTLS certificates) will be bootstrapped using the<br />
+specified service account's token. Workload entries in this group will be in the same namespace as the<br />
 workload group, and inherit the labels and annotations from the above <code>metadata</code> field.</p>
 
 </td>
@@ -110,7 +106,7 @@ Yes
 <td><code>probe</code></td>
 <td><code><a href="#ReadinessProbe">ReadinessProbe</a></code></td>
 <td>
-<p><code>ReadinessProbe</code> describes the configuration the user must provide for healthchecking on their workload.
+<p><code>ReadinessProbe</code> describes the configuration the user must provide for healthchecking on their workload.<br />
 This configuration mirrors K8S in both syntax and logic for the most part.</p>
 
 </td>
@@ -148,7 +144,7 @@ No
 <td><code>timeoutSeconds</code></td>
 <td><code>int32</code></td>
 <td>
-<p>Number of seconds after which the probe times out.
+<p>Number of seconds after which the probe times out.<br />
 Defaults to 1 second. Minimum value is 1 second.</p>
 
 </td>
@@ -160,7 +156,7 @@ No
 <td><code>periodSeconds</code></td>
 <td><code>int32</code></td>
 <td>
-<p>How often (in seconds) to perform the probe.
+<p>How often (in seconds) to perform the probe.<br />
 Default to 10 seconds. Minimum value is 1 second.</p>
 
 </td>
@@ -172,7 +168,7 @@ No
 <td><code>successThreshold</code></td>
 <td><code>int32</code></td>
 <td>
-<p>Minimum consecutive successes for the probe to be considered successful after having failed.
+<p>Minimum consecutive successes for the probe to be considered successful after having failed.<br />
 Defaults to 1 second.</p>
 
 </td>
@@ -184,7 +180,7 @@ No
 <td><code>failureThreshold</code></td>
 <td><code>int32</code></td>
 <td>
-<p>Minimum consecutive failures for the probe to be considered failed after having succeeded.
+<p>Minimum consecutive failures for the probe to be considered failed after having succeeded.<br />
 Defaults to 3 seconds.</p>
 
 </td>
@@ -196,7 +192,7 @@ No
 <td><code>httpGet</code></td>
 <td><code><a href="#HTTPHealthCheckConfig">HTTPHealthCheckConfig (oneof)</a></code></td>
 <td>
-<p><code>httpGet</code> is performed to a given endpoint
+<p><code>httpGet</code> is performed to a given endpoint<br />
 and the status/able to connect determines health.</p>
 
 </td>
@@ -267,8 +263,8 @@ Yes
 <td><code>host</code></td>
 <td><code>string</code></td>
 <td>
-<p>Host name to connect to, defaults to the pod IP. You probably want to set
-&ldquo;Host&rdquo; in httpHeaders instead.</p>
+<p>Host name to connect to, defaults to the pod IP. You probably want to set<br />
+&quot;Host&quot; in httpHeaders instead.</p>
 
 </td>
 <td>
@@ -290,7 +286,7 @@ No
 <td><code>httpHeaders</code></td>
 <td><code><a href="#HTTPHeader">HTTPHeader[]</a></code></td>
 <td>
-<p>Headers the proxy will pass on to make the request.
+<p>Headers the proxy will pass on to make the request.<br />
 Allows repeated headers.</p>
 
 </td>
@@ -403,7 +399,7 @@ No
 </section>
 <h2 id="WorkloadGroup-ObjectMeta">WorkloadGroup.ObjectMeta</h2>
 <section>
-<p><code>ObjectMeta</code> describes metadata that will be attached to a <code>WorkloadEntry</code>.
+<p><code>ObjectMeta</code> describes metadata that will be attached to a <code>WorkloadEntry</code>.<br />
 It is a subset of the supported Kubernetes metadata.</p>
 
 <table class="message-fields">

@@ -1,38 +1,35 @@
 ---
-WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL SOURCE IN THE 'https://github.com/istio/api' REPO
-source_repo: https://github.com/istio/api
+WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL SOURCE IN THE 'https://github.com/ericvn/api' REPO
+source_repo: https://github.com/ericvn/api
 title: Service Entry
 description: Configuration affecting service registry.
 location: https://istio.io/docs/reference/config/networking/service-entry.html
-layout: protoc-gen-docs
+layout: partner-component
 generator: protoc-gen-docs
 schema: istio.networking.v1alpha3.ServiceEntry
 aliases: [/zh/docs/reference/config/networking/v1alpha3/service-entry]
 number_of_entries: 3
 ---
-<p><code>ServiceEntry</code> enables adding additional entries into Istio&rsquo;s
-internal service registry, so that auto-discovered services in the
-mesh can access/route to these manually specified services. A
-service entry describes the properties of a service (DNS name,
-VIPs, ports, protocols, endpoints). These services could be
-external to the mesh (e.g., web APIs) or mesh-internal services
-that are not part of the platform&rsquo;s service registry (e.g., a set
-of VMs talking to services in Kubernetes). In addition, the
-endpoints of a service entry can also be dynamically selected by
-using the <code>workloadSelector</code> field. These endpoints can be VM
-workloads declared using the <code>WorkloadEntry</code> object or Kubernetes
-pods. The ability to select both pods and VMs under a single
-service allows for migration of services from VMs to Kubernetes
-without having to change the existing DNS names associated with the
+<p><code>ServiceEntry</code> enables adding additional entries into Istio's<br />
+internal service registry, so that auto-discovered services in the<br />
+mesh can access/route to these manually specified services. A<br />
+service entry describes the properties of a service (DNS name,<br />
+VIPs, ports, protocols, endpoints). These services could be<br />
+external to the mesh (e.g., web APIs) or mesh-internal services<br />
+that are not part of the platform's service registry (e.g., a set<br />
+of VMs talking to services in Kubernetes). In addition, the<br />
+endpoints of a service entry can also be dynamically selected by<br />
+using the <code>workloadSelector</code> field. These endpoints can be VM<br />
+workloads declared using the <code>WorkloadEntry</code> object or Kubernetes<br />
+pods. The ability to select both pods and VMs under a single<br />
+service allows for migration of services from VMs to Kubernetes<br />
+without having to change the existing DNS names associated with the<br />
 services.</p>
-
-<p>The following example declares a few external APIs accessed by internal
-applications over HTTPS. The sidecar inspects the SNI value in the
+<p>The following example declares a few external APIs accessed by internal<br />
+applications over HTTPS. The sidecar inspects the SNI value in the<br />
 ClientHello message to route to the appropriate external service.</p>
-
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:
@@ -49,11 +46,8 @@ spec:
     protocol: TLS
   resolution: DNS
 </code></pre>
-
-<p>{{</tab>}}</p>
-
-<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}</p>
+<p>{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: ServiceEntry
 metadata:
@@ -70,18 +64,14 @@ spec:
     protocol: TLS
   resolution: DNS
 </code></pre>
-
-<p>{{</tab>}}
-{{</tabset>}}</p>
-
-<p>The following configuration adds a set of MongoDB instances running on
-unmanaged VMs to Istio&rsquo;s registry, so that these services can be treated
-as any other service in the mesh. The associated DestinationRule is used
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
+<p>The following configuration adds a set of MongoDB instances running on<br />
+unmanaged VMs to Istio's registry, so that these services can be treated<br />
+as any other service in the mesh. The associated DestinationRule is used<br />
 to initiate mTLS connections to the database instances.</p>
-
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:
@@ -101,11 +91,8 @@ spec:
   - address: 2.2.2.2
   - address: 3.3.3.3
 </code></pre>
-
-<p>{{</tab>}}</p>
-
-<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}</p>
+<p>{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: ServiceEntry
 metadata:
@@ -125,15 +112,11 @@ spec:
   - address: 2.2.2.2
   - address: 3.3.3.3
 </code></pre>
-
-<p>{{</tab>}}
-{{</tabset>}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
 <p>and the associated DestinationRule</p>
-
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -147,11 +130,8 @@ spec:
       privateKey: /etc/certs/client_private_key.pem
       caCertificates: /etc/certs/rootcacerts.pem
 </code></pre>
-
-<p>{{</tab>}}</p>
-
-<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}</p>
+<p>{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: DestinationRule
 metadata:
@@ -165,17 +145,13 @@ spec:
       privateKey: /etc/certs/client_private_key.pem
       caCertificates: /etc/certs/rootcacerts.pem
 </code></pre>
-
-<p>{{</tab>}}
-{{</tabset>}}</p>
-
-<p>The following example uses a combination of service entry and TLS
-routing in a virtual service to steer traffic based on the SNI value to
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
+<p>The following example uses a combination of service entry and TLS<br />
+routing in a virtual service to steer traffic based on the SNI value to<br />
 an internal egress firewall.</p>
-
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:
@@ -191,11 +167,8 @@ spec:
     protocol: TLS
   resolution: NONE
 </code></pre>
-
-<p>{{</tab>}}</p>
-
-<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}</p>
+<p>{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: ServiceEntry
 metadata:
@@ -211,15 +184,11 @@ spec:
     protocol: TLS
   resolution: NONE
 </code></pre>
-
-<p>{{</tab>}}
-{{</tabset>}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
 <p>And the associated VirtualService to route based on the SNI value.</p>
-
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -237,11 +206,8 @@ spec:
     - destination:
         host: internal-egress-firewall.ns1.svc.cluster.local
 </code></pre>
-
-<p>{{</tab>}}</p>
-
-<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}</p>
+<p>{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
@@ -259,25 +225,20 @@ spec:
     - destination:
         host: internal-egress-firewall.ns1.svc.cluster.local
 </code></pre>
-
-<p>{{</tab>}}
-{{</tabset>}}</p>
-
-<p>The virtual service with TLS match serves to override the default SNI
-match. In the absence of a virtual service, traffic will be forwarded to
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
+<p>The virtual service with TLS match serves to override the default SNI<br />
+match. In the absence of a virtual service, traffic will be forwarded to<br />
 the wikipedia domains.</p>
-
-<p>The following example demonstrates the use of a dedicated egress gateway
-through which all external service traffic is forwarded.
-The &lsquo;exportTo&rsquo; field allows for control over the visibility of a service
-declaration to other namespaces in the mesh. By default, a service is exported
-to all namespaces. The following example restricts the visibility to the
-current namespace, represented by &ldquo;.&rdquo;, so that it cannot be used by other
+<p>The following example demonstrates the use of a dedicated egress gateway<br />
+through which all external service traffic is forwarded.<br />
+The 'exportTo' field allows for control over the visibility of a service<br />
+declaration to other namespaces in the mesh. By default, a service is exported<br />
+to all namespaces. The following example restricts the visibility to the<br />
+current namespace, represented by &quot;.&quot;, so that it cannot be used by other<br />
 namespaces.</p>
-
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:
@@ -295,11 +256,8 @@ spec:
     protocol: HTTP
   resolution: DNS
 </code></pre>
-
-<p>{{</tab>}}</p>
-
-<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}</p>
+<p>{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: ServiceEntry
 metadata:
@@ -317,15 +275,11 @@ spec:
     protocol: HTTP
   resolution: DNS
 </code></pre>
-
-<p>{{</tab>}}
-{{</tabset>}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
 <p>Define a gateway to handle all egress traffic.</p>
-
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
@@ -342,11 +296,8 @@ spec:
    hosts:
    - &quot;*&quot;
 </code></pre>
-
-<p>{{</tab>}}</p>
-
-<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}</p>
+<p>{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: Gateway
 metadata:
@@ -363,20 +314,16 @@ spec:
    hosts:
    - &quot;*&quot;
 </code></pre>
-
-<p>{{</tab>}}
-{{</tabset>}}</p>
-
-<p>And the associated <code>VirtualService</code> to route from the sidecar to the
-gateway service (<code>istio-egressgateway.istio-system.svc.cluster.local</code>), as
-well as route from the gateway to the external service. Note that the
-virtual service is exported to all namespaces enabling them to route traffic
-through the gateway to the external service. Forcing traffic to go through
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
+<p>And the associated <code>VirtualService</code> to route from the sidecar to the<br />
+gateway service (<code>istio-egressgateway.istio-system.svc.cluster.local</code>), as<br />
+well as route from the gateway to the external service. Note that the<br />
+virtual service is exported to all namespaces enabling them to route traffic<br />
+through the gateway to the external service. Forcing traffic to go through<br />
 a managed middle proxy like this is a common practice.</p>
-
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -406,11 +353,8 @@ spec:
     - destination:
         host: example.com
 </code></pre>
-
-<p>{{</tab>}}</p>
-
-<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}</p>
+<p>{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
@@ -440,18 +384,14 @@ spec:
     - destination:
         host: example.com
 </code></pre>
-
-<p>{{</tab>}}
-{{</tabset>}}</p>
-
-<p>The following example demonstrates the use of wildcards in the hosts for
-external services. If the connection has to be routed to the IP address
-requested by the application (i.e. application resolves DNS and attempts
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
+<p>The following example demonstrates the use of wildcards in the hosts for<br />
+external services. If the connection has to be routed to the IP address<br />
+requested by the application (i.e. application resolves DNS and attempts<br />
 to connect to a specific IP), the discovery mode must be set to <code>NONE</code>.</p>
-
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:
@@ -466,11 +406,8 @@ spec:
     protocol: HTTP
   resolution: NONE
 </code></pre>
-
-<p>{{</tab>}}</p>
-
-<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}</p>
+<p>{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: ServiceEntry
 metadata:
@@ -485,17 +422,13 @@ spec:
     protocol: HTTP
   resolution: NONE
 </code></pre>
-
-<p>{{</tab>}}
-{{</tabset>}}</p>
-
-<p>The following example demonstrates a service that is available via a
-Unix Domain Socket on the host of the client. The resolution must be
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
+<p>The following example demonstrates a service that is available via a<br />
+Unix Domain Socket on the host of the client. The resolution must be<br />
 set to STATIC to use Unix address endpoints.</p>
-
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:
@@ -512,11 +445,8 @@ spec:
   endpoints:
   - address: unix:///var/run/example/socket
 </code></pre>
-
-<p>{{</tab>}}</p>
-
-<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}</p>
+<p>{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: ServiceEntry
 metadata:
@@ -533,21 +463,17 @@ spec:
   endpoints:
   - address: unix:///var/run/example/socket
 </code></pre>
-
-<p>{{</tab>}}
-{{</tabset>}}</p>
-
-<p>For HTTP-based services, it is possible to create a <code>VirtualService</code>
-backed by multiple DNS addressable endpoints. In such a scenario, the
-application can use the <code>HTTP_PROXY</code> environment variable to transparently
-reroute API calls for the <code>VirtualService</code> to a chosen backend. For
-example, the following configuration creates a non-existent external
-service called foo.bar.com backed by three domains: us.foo.bar.com:8080,
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
+<p>For HTTP-based services, it is possible to create a <code>VirtualService</code><br />
+backed by multiple DNS addressable endpoints. In such a scenario, the<br />
+application can use the <code>HTTP_PROXY</code> environment variable to transparently<br />
+reroute API calls for the <code>VirtualService</code> to a chosen backend. For<br />
+example, the following configuration creates a non-existent external<br />
+service called foo.bar.com backed by three domains: us.foo.bar.com:8080,<br />
 uk.foo.bar.com:9080, and in.foo.bar.com:7080</p>
-
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:
@@ -572,11 +498,8 @@ spec:
     ports:
       http: 7080
 </code></pre>
-
-<p>{{</tab>}}</p>
-
-<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}</p>
+<p>{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: ServiceEntry
 metadata:
@@ -601,22 +524,17 @@ spec:
     ports:
       http: 7080
 </code></pre>
-
-<p>{{</tab>}}
-{{</tabset>}}</p>
-
-<p>With <code>HTTP_PROXY=http://localhost/</code>, calls from the application to
-<code>http://foo.bar.com</code> will be load balanced across the three domains
-specified above. In other words, a call to <code>http://foo.bar.com/baz</code> would
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
+<p>With <code>HTTP_PROXY=http://localhost/</code>, calls from the application to<br />
+<code>http://foo.bar.com</code> will be load balanced across the three domains<br />
+specified above. In other words, a call to <code>http://foo.bar.com/baz</code> would<br />
 be translated to <code>http://uk.foo.bar.com/baz</code>.</p>
-
-<p>The following example illustrates the usage of a <code>ServiceEntry</code>
-containing a subject alternate name
+<p>The following example illustrates the usage of a <code>ServiceEntry</code><br />
+containing a subject alternate name<br />
 whose format conforms to the <a href="https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE-ID.md">SPIFFE standard</a>:</p>
-
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:
@@ -637,11 +555,8 @@ spec:
   subjectAltNames:
   - &quot;spiffe://cluster.local/ns/httpbin-ns/sa/httpbin-service-account&quot;
 </code></pre>
-
-<p>{{</tab>}}</p>
-
-<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}</p>
+<p>{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: ServiceEntry
 metadata:
@@ -662,25 +577,21 @@ spec:
   subjectAltNames:
   - &quot;spiffe://cluster.local/ns/httpbin-ns/sa/httpbin-service-account&quot;
 </code></pre>
-
-<p>{{</tab>}}
-{{</tabset>}}</p>
-
-<p>The following example demonstrates the use of <code>ServiceEntry</code> with a
-<code>workloadSelector</code> to handle the migration of a service
-<code>details.bookinfo.com</code> from VMs to Kubernetes. The service has two
-VM-based instances with sidecars as well as a set of Kubernetes
-pods managed by a standard deployment object. Consumers of this
-service in the mesh will be automatically load balanced across the
-VMs and Kubernetes.  VM for the <code>details.bookinfo.com</code>
-service. This VM has sidecar installed and bootstrapped using the
-<code>details-legacy</code> service account. The sidecar receives HTTP traffic
-on port 80 (wrapped in istio mutual TLS) and forwards it to the
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
+<p>The following example demonstrates the use of <code>ServiceEntry</code> with a<br />
+<code>workloadSelector</code> to handle the migration of a service<br />
+<code>details.bookinfo.com</code> from VMs to Kubernetes. The service has two<br />
+VM-based instances with sidecars as well as a set of Kubernetes<br />
+pods managed by a standard deployment object. Consumers of this<br />
+service in the mesh will be automatically load balanced across the<br />
+VMs and Kubernetes.  VM for the <code>details.bookinfo.com</code><br />
+service. This VM has sidecar installed and bootstrapped using the<br />
+<code>details-legacy</code> service account. The sidecar receives HTTP traffic<br />
+on port 80 (wrapped in istio mutual TLS) and forwards it to the<br />
 application on the localhost on the same port.</p>
-
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
 kind: WorkloadEntry
 metadata:
@@ -703,11 +614,8 @@ spec:
     app: details
     instance-id: vm2
 </code></pre>
-
-<p>{{</tab>}}</p>
-
-<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}</p>
+<p>{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: WorkloadEntry
 metadata:
@@ -730,18 +638,14 @@ spec:
     app: details
     instance-id: vm2
 </code></pre>
-
-<p>{{</tab>}}
-{{</tabset>}}</p>
-
-<p>Assuming there is also a Kubernetes deployment with pod labels
-<code>app: details</code> using the same service account <code>details</code>, the
-following service entry declares a service spanning both VMs and
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
+<p>Assuming there is also a Kubernetes deployment with pod labels<br />
+<code>app: details</code> using the same service account <code>details</code>, the<br />
+following service entry declares a service spanning both VMs and<br />
 Kubernetes:</p>
-
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:
@@ -759,11 +663,8 @@ spec:
     labels:
       app: details
 </code></pre>
-
-<p>{{</tab>}}</p>
-
-<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}</p>
+<p>{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: ServiceEntry
 metadata:
@@ -781,13 +682,12 @@ spec:
     labels:
       app: details
 </code></pre>
-
-<p>{{</tab>}}
-{{</tabset>}}</p>
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
 
 <h2 id="ServiceEntry">ServiceEntry</h2>
 <section>
-<p>ServiceEntry enables adding additional entries into Istio&rsquo;s internal
+<p>ServiceEntry enables adding additional entries into Istio's internal<br />
 service registry.</p>
 
 <table class="message-fields">
@@ -804,31 +704,27 @@ service registry.</p>
 <td><code>hosts</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>The hosts associated with the ServiceEntry. Could be a DNS
+<p>The hosts associated with the ServiceEntry. Could be a DNS<br />
 name with wildcard prefix.</p>
-
 <ol>
 <li>The hosts field is used to select matching hosts in VirtualServices and DestinationRules.</li>
 <li>For HTTP traffic the HTTP Host/Authority header will be matched against the hosts field.</li>
-<li>For HTTPs or TLS traffic containing Server Name Indication (SNI), the SNI value
+<li>For HTTPs or TLS traffic containing Server Name Indication (SNI), the SNI value<br />
 will be matched against the hosts field.</li>
 </ol>
-
-<p><strong>NOTE 1:</strong> When resolution is set to type DNS and no endpoints
-are specified, the host field will be used as the DNS name of the
+<p><strong>NOTE 1:</strong> When resolution is set to type DNS and no endpoints<br />
+are specified, the host field will be used as the DNS name of the<br />
 endpoint to route traffic to.</p>
-
-<p><strong>NOTE 2:</strong> If the hostname matches with the name of a service
-from another service registry such as Kubernetes that also
-supplies its own set of endpoints, the ServiceEntry will be
-treated as a decorator of the existing Kubernetes
-service. Properties in the service entry will be added to the
-Kubernetes service if applicable. Currently, the only the
+<p><strong>NOTE 2:</strong> If the hostname matches with the name of a service<br />
+from another service registry such as Kubernetes that also<br />
+supplies its own set of endpoints, the ServiceEntry will be<br />
+treated as a decorator of the existing Kubernetes<br />
+service. Properties in the service entry will be added to the<br />
+Kubernetes service if applicable. Currently, the only the<br />
 following additional properties will be considered by <code>istiod</code>:</p>
-
 <ol>
-<li>subjectAltNames: In addition to verifying the SANs of the
-service accounts associated with the pods of the service, the
+<li>subjectAltNames: In addition to verifying the SANs of the<br />
+service accounts associated with the pods of the service, the<br />
 SANs specified here will also be verified.</li>
 </ol>
 
@@ -841,19 +737,19 @@ Yes
 <td><code>addresses</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>The virtual IP addresses associated with the service. Could be CIDR
-prefix. For HTTP traffic, generated route configurations will include http route
-domains for both the <code>addresses</code> and <code>hosts</code> field values and the destination will
-be identified based on the HTTP Host/Authority header.
-If one or more IP addresses are specified,
-the incoming traffic will be identified as belonging to this service
-if the destination IP matches the IP/CIDRs specified in the addresses
-field. If the Addresses field is empty, traffic will be identified
-solely based on the destination port. In such scenarios, the port on
-which the service is being accessed must not be shared by any other
-service in the mesh. In other words, the sidecar will behave as a
-simple TCP proxy, forwarding incoming traffic on a specified port to
-the specified destination endpoint IP/host. Unix domain socket
+<p>The virtual IP addresses associated with the service. Could be CIDR<br />
+prefix. For HTTP traffic, generated route configurations will include http route<br />
+domains for both the <code>addresses</code> and <code>hosts</code> field values and the destination will<br />
+be identified based on the HTTP Host/Authority header.<br />
+If one or more IP addresses are specified,<br />
+the incoming traffic will be identified as belonging to this service<br />
+if the destination IP matches the IP/CIDRs specified in the addresses<br />
+field. If the Addresses field is empty, traffic will be identified<br />
+solely based on the destination port. In such scenarios, the port on<br />
+which the service is being accessed must not be shared by any other<br />
+service in the mesh. In other words, the sidecar will behave as a<br />
+simple TCP proxy, forwarding incoming traffic on a specified port to<br />
+the specified destination endpoint IP/host. Unix domain socket<br />
 addresses are not supported in this field.</p>
 
 </td>
@@ -865,8 +761,8 @@ No
 <td><code>ports</code></td>
 <td><code><a href="/zh/docs/reference/config/networking/gateway/#Port">Port[]</a></code></td>
 <td>
-<p>The ports associated with the external service. If the
-Endpoints are Unix domain socket addresses, there must be exactly one
+<p>The ports associated with the external service. If the<br />
+Endpoints are Unix domain socket addresses, there must be exactly one<br />
 port.</p>
 
 </td>
@@ -878,7 +774,7 @@ Yes
 <td><code>location</code></td>
 <td><code><a href="#ServiceEntry-Location">Location</a></code></td>
 <td>
-<p>Specify whether the service should be considered external to the mesh
+<p>Specify whether the service should be considered external to the mesh<br />
 or part of the mesh.</p>
 
 </td>
@@ -890,9 +786,9 @@ No
 <td><code>resolution</code></td>
 <td><code><a href="#ServiceEntry-Resolution">Resolution</a></code></td>
 <td>
-<p>Service discovery mode for the hosts. Care must be taken
-when setting the resolution mode to NONE for a TCP port without
-accompanying IP addresses. In such cases, traffic to any IP on
+<p>Service discovery mode for the hosts. Care must be taken<br />
+when setting the resolution mode to NONE for a TCP port without<br />
+accompanying IP addresses. In such cases, traffic to any IP on<br />
 said port will be allowed (i.e. <code>0.0.0.0:&lt;port&gt;</code>).</p>
 
 </td>
@@ -904,7 +800,7 @@ Yes
 <td><code>endpoints</code></td>
 <td><code><a href="/zh/docs/reference/config/networking/workload-entry/#WorkloadEntry">WorkloadEntry[]</a></code></td>
 <td>
-<p>One or more endpoints associated with the service. Only one of
+<p>One or more endpoints associated with the service. Only one of<br />
 <code>endpoints</code> or <code>workloadSelector</code> can be specified.</p>
 
 </td>
@@ -916,11 +812,11 @@ No
 <td><code>workloadSelector</code></td>
 <td><code><a href="/zh/docs/reference/config/networking/sidecar/#WorkloadSelector">WorkloadSelector</a></code></td>
 <td>
-<p>Applicable only for MESH_INTERNAL services. Only one of
-<code>endpoints</code> or <code>workloadSelector</code> can be specified. Selects one
-or more Kubernetes pods or VM workloads (specified using
-<code>WorkloadEntry</code>) based on their labels. The <code>WorkloadEntry</code> object
-representing the VMs should be defined in the same namespace as
+<p>Applicable only for MESH_INTERNAL services. Only one of<br />
+<code>endpoints</code> or <code>workloadSelector</code> can be specified. Selects one<br />
+or more Kubernetes pods or VM workloads (specified using<br />
+<code>WorkloadEntry</code>) based on their labels. The <code>WorkloadEntry</code> object<br />
+representing the VMs should be defined in the same namespace as<br />
 the ServiceEntry.</p>
 
 </td>
@@ -932,21 +828,18 @@ No
 <td><code>exportTo</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>A list of namespaces to which this service is exported. Exporting a service
-allows it to be used by sidecars, gateways and virtual services defined in
-other namespaces. This feature provides a mechanism for service owners
-and mesh administrators to control the visibility of services across
+<p>A list of namespaces to which this service is exported. Exporting a service<br />
+allows it to be used by sidecars, gateways and virtual services defined in<br />
+other namespaces. This feature provides a mechanism for service owners<br />
+and mesh administrators to control the visibility of services across<br />
 namespace boundaries.</p>
-
-<p>If no namespaces are specified then the service is exported to all
+<p>If no namespaces are specified then the service is exported to all<br />
 namespaces by default.</p>
-
-<p>The value &ldquo;.&rdquo; is reserved and defines an export to the same namespace that
-the service is declared in. Similarly the value &ldquo;*&rdquo; is reserved and
+<p>The value &quot;.&quot; is reserved and defines an export to the same namespace that<br />
+the service is declared in. Similarly the value &quot;*&quot; is reserved and<br />
 defines an export to all namespaces.</p>
-
-<p>For a Kubernetes Service, the equivalent effect can be achieved by setting
-the annotation &ldquo;networking.istio.io/exportTo&rdquo; to a comma-separated list
+<p>For a Kubernetes Service, the equivalent effect can be achieved by setting<br />
+the annotation &quot;networking.istio.io/exportTo&quot; to a comma-separated list<br />
 of namespace names.</p>
 
 </td>
@@ -958,12 +851,11 @@ No
 <td><code>subjectAltNames</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>If specified, the proxy will verify that the server certificate&rsquo;s
+<p>If specified, the proxy will verify that the server certificate's<br />
 subject alternate name matches one of the specified values.</p>
-
-<p>NOTE: When using the workloadEntry with workloadSelectors, the
-service account specified in the workloadEntry will also be used
-to derive the additional subject alternate names that should be
+<p>NOTE: When using the workloadEntry with workloadSelectors, the<br />
+service account specified in the workloadEntry will also be used<br />
+to derive the additional subject alternate names that should be<br />
 verified.</p>
 
 </td>
@@ -976,11 +868,11 @@ No
 </section>
 <h2 id="ServiceEntry-Location">ServiceEntry.Location</h2>
 <section>
-<p>Location specifies whether the service is part of Istio mesh or
-outside the mesh.  Location determines the behavior of several
-features, such as service-to-service mTLS authentication, policy
-enforcement, etc. When communicating with services outside the mesh,
-Istio&rsquo;s mTLS authentication is disabled, and policy enforcement is
+<p>Location specifies whether the service is part of Istio mesh or<br />
+outside the mesh.  Location determines the behavior of several<br />
+features, such as service-to-service mTLS authentication, policy<br />
+enforcement, etc. When communicating with services outside the mesh,<br />
+Istio's mTLS authentication is disabled, and policy enforcement is<br />
 performed on the client-side as opposed to server-side.</p>
 
 <table class="enum-values">
@@ -994,7 +886,7 @@ performed on the client-side as opposed to server-side.</p>
 <tr id="ServiceEntry-Location-MESH_EXTERNAL">
 <td><code>MESH_EXTERNAL</code></td>
 <td>
-<p>Signifies that the service is external to the mesh. Typically used
+<p>Signifies that the service is external to the mesh. Typically used<br />
 to indicate external services consumed through APIs.</p>
 
 </td>
@@ -1002,9 +894,9 @@ to indicate external services consumed through APIs.</p>
 <tr id="ServiceEntry-Location-MESH_INTERNAL">
 <td><code>MESH_INTERNAL</code></td>
 <td>
-<p>Signifies that the service is part of the mesh. Typically used to
-indicate services added explicitly as part of expanding the service
-mesh to include unmanaged infrastructure (e.g., VMs added to a
+<p>Signifies that the service is part of the mesh. Typically used to<br />
+indicate services added explicitly as part of expanding the service<br />
+mesh to include unmanaged infrastructure (e.g., VMs added to a<br />
 Kubernetes based service mesh).</p>
 
 </td>
@@ -1014,14 +906,14 @@ Kubernetes based service mesh).</p>
 </section>
 <h2 id="ServiceEntry-Resolution">ServiceEntry.Resolution</h2>
 <section>
-<p>Resolution determines how the proxy will resolve the IP addresses of
-the network endpoints associated with the service, so that it can
-route to one of them. The resolution mode specified here has no impact
-on how the application resolves the IP address associated with the
-service. The application may still have to use DNS to resolve the
-service to an IP so that the outbound traffic can be captured by the
-Proxy. Alternatively, for HTTP services, the application could
-directly communicate with the proxy (e.g., by setting HTTP_PROXY) to
+<p>Resolution determines how the proxy will resolve the IP addresses of<br />
+the network endpoints associated with the service, so that it can<br />
+route to one of them. The resolution mode specified here has no impact<br />
+on how the application resolves the IP address associated with the<br />
+service. The application may still have to use DNS to resolve the<br />
+service to an IP so that the outbound traffic can be captured by the<br />
+Proxy. Alternatively, for HTTP services, the application could<br />
+directly communicate with the proxy (e.g., by setting HTTP_PROXY) to<br />
 talk to these services.</p>
 
 <table class="enum-values">
@@ -1035,11 +927,11 @@ talk to these services.</p>
 <tr id="ServiceEntry-Resolution-NONE">
 <td><code>NONE</code></td>
 <td>
-<p>Assume that incoming connections have already been resolved (to a
-specific destination IP address). Such connections are typically
-routed via the proxy using mechanisms such as IP table REDIRECT/
-eBPF. After performing any routing related transformations, the
-proxy will forward the connection to the IP address to which the
+<p>Assume that incoming connections have already been resolved (to a<br />
+specific destination IP address). Such connections are typically<br />
+routed via the proxy using mechanisms such as IP table REDIRECT/<br />
+eBPF. After performing any routing related transformations, the<br />
+proxy will forward the connection to the IP address to which the<br />
 connection was bound.</p>
 
 </td>
@@ -1047,7 +939,7 @@ connection was bound.</p>
 <tr id="ServiceEntry-Resolution-STATIC">
 <td><code>STATIC</code></td>
 <td>
-<p>Use the static IP addresses specified in endpoints (see below) as the
+<p>Use the static IP addresses specified in endpoints (see below) as the<br />
 backing instances associated with the service.</p>
 
 </td>
@@ -1055,12 +947,12 @@ backing instances associated with the service.</p>
 <tr id="ServiceEntry-Resolution-DNS">
 <td><code>DNS</code></td>
 <td>
-<p>Attempt to resolve the IP address by querying the ambient DNS,
-asynchronously. If no endpoints are specified, the proxy
-will resolve the DNS address specified in the hosts field, if
-wildcards are not used. If endpoints are specified, the DNS
-addresses specified in the endpoints will be resolved to determine
-the destination IP address.  DNS resolution cannot be used with Unix
+<p>Attempt to resolve the IP address by querying the ambient DNS,<br />
+asynchronously. If no endpoints are specified, the proxy<br />
+will resolve the DNS address specified in the hosts field, if<br />
+wildcards are not used. If endpoints are specified, the DNS<br />
+addresses specified in the endpoints will be resolved to determine<br />
+the destination IP address.  DNS resolution cannot be used with Unix<br />
 domain socket endpoints.</p>
 
 </td>
@@ -1068,15 +960,15 @@ domain socket endpoints.</p>
 <tr id="ServiceEntry-Resolution-DNS_ROUND_ROBIN">
 <td><code>DNS_ROUND_ROBIN</code></td>
 <td>
-<p>Attempt to resolve the IP address by querying the ambient DNS,
-asynchronously. Unlike <code>DNS</code>, <code>DNS_ROUND_ROBIN</code> only uses the
-first IP address returned when a new connection needs to be initiated
-without relying on complete results of DNS resolution, and connections
-made to hosts will be retained even if DNS records change frequently
-eliminating draining connection pools and connection cycling.
-This is best suited for large web scale services that
-must be accessed via DNS. The proxy will resolve the DNS address
-specified in the hosts field, if wildcards are not used. DNS resolution
+<p>Attempt to resolve the IP address by querying the ambient DNS,<br />
+asynchronously. Unlike <code>DNS</code>, <code>DNS_ROUND_ROBIN</code> only uses the<br />
+first IP address returned when a new connection needs to be initiated<br />
+without relying on complete results of DNS resolution, and connections<br />
+made to hosts will be retained even if DNS records change frequently<br />
+eliminating draining connection pools and connection cycling.<br />
+This is best suited for large web scale services that<br />
+must be accessed via DNS. The proxy will resolve the DNS address<br />
+specified in the hosts field, if wildcards are not used. DNS resolution<br />
 cannot be used with Unix domain socket endpoints.</p>
 
 </td>

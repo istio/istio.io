@@ -1,25 +1,23 @@
 ---
-WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL SOURCE IN THE 'https://github.com/istio/api' REPO
-source_repo: https://github.com/istio/api
+WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL SOURCE IN THE 'https://github.com/ericvn/api' REPO
+source_repo: https://github.com/ericvn/api
 title: Destination Rule
 description: Configuration affecting load balancing, outlier detection, etc.
 location: https://istio.io/docs/reference/config/networking/destination-rule.html
-layout: protoc-gen-docs
+layout: partner-component
 generator: protoc-gen-docs
 schema: istio.networking.v1alpha3.DestinationRule
 aliases: [/docs/reference/config/networking/v1alpha3/destination-rule]
 number_of_entries: 23
 ---
-<p><code>DestinationRule</code> defines policies that apply to traffic intended for a
-service after routing has occurred. These rules specify configuration
-for load balancing, connection pool size from the sidecar, and outlier
-detection settings to detect and evict unhealthy hosts from the load
-balancing pool. For example, a simple load balancing policy for the
+<p><code>DestinationRule</code> defines policies that apply to traffic intended for a<br />
+service after routing has occurred. These rules specify configuration<br />
+for load balancing, connection pool size from the sidecar, and outlier<br />
+detection settings to detect and evict unhealthy hosts from the load<br />
+balancing pool. For example, a simple load balancing policy for the<br />
 ratings service would look as follows:</p>
-
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -30,11 +28,8 @@ spec:
     loadBalancer:
       simple: LEAST_REQUEST
 </code></pre>
-
-<p>{{</tab>}}</p>
-
-<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}</p>
+<p>{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: DestinationRule
 metadata:
@@ -45,19 +40,15 @@ spec:
     loadBalancer:
       simple: LEAST_REQUEST
 </code></pre>
-
-<p>{{</tab>}}
-{{</tabset>}}</p>
-
-<p>Version specific policies can be specified by defining a named
-<code>subset</code> and overriding the settings specified at the service level. The
-following rule uses a round robin load balancing policy for all traffic
-going to a subset named testversion that is composed of endpoints (e.g.,
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
+<p>Version specific policies can be specified by defining a named<br />
+<code>subset</code> and overriding the settings specified at the service level. The<br />
+following rule uses a round robin load balancing policy for all traffic<br />
+going to a subset named testversion that is composed of endpoints (e.g.,<br />
 pods) with labels (version:v3).</p>
-
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -75,11 +66,8 @@ spec:
       loadBalancer:
         simple: ROUND_ROBIN
 </code></pre>
-
-<p>{{</tab>}}</p>
-
-<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}</p>
+<p>{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: DestinationRule
 metadata:
@@ -97,21 +85,16 @@ spec:
       loadBalancer:
         simple: ROUND_ROBIN
 </code></pre>
-
-<p>{{</tab>}}
-{{</tabset>}}</p>
-
-<p><strong>Note:</strong> Policies specified for subsets will not take effect until
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
+<p><strong>Note:</strong> Policies specified for subsets will not take effect until<br />
 a route rule explicitly sends traffic to this subset.</p>
-
-<p>Traffic policies can be customized to specific ports as well. The
-following rule uses the least connection load balancing policy for all
-traffic to port 80, while uses a round robin load balancing setting for
+<p>Traffic policies can be customized to specific ports as well. The<br />
+following rule uses the least connection load balancing policy for all<br />
+traffic to port 80, while uses a round robin load balancing setting for<br />
 traffic to the port 9080.</p>
-
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -129,11 +112,8 @@ spec:
       loadBalancer:
         simple: ROUND_ROBIN
 </code></pre>
-
-<p>{{</tab>}}</p>
-
-<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}</p>
+<p>{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: DestinationRule
 metadata:
@@ -151,17 +131,13 @@ spec:
       loadBalancer:
         simple: ROUND_ROBIN
 </code></pre>
-
-<p>{{</tab>}}
-{{</tabset>}}</p>
-
-<p>Destination Rules can be customized to specific workloads as well.
-The following example shows how a destination rule can be applied to a
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
+<p>Destination Rules can be customized to specific workloads as well.<br />
+The following example shows how a destination rule can be applied to a<br />
 specific workload using the workloadSelector configuration.</p>
-
-<p>{{<tabset category-name="selector-example">}}
-{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -181,10 +157,8 @@ spec:
         credentialName: client-credential
         mode: MUTUAL
 </code></pre>
-
-<p>{{</tab>}}
-{{<tab name="v1beta1" category-value="v1beta1">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: DestinationRule
 metadata:
@@ -204,13 +178,12 @@ spec:
         credentialName: client-credential
         mode: MUTUAL
 </code></pre>
-
-<p>{{</tab>}}
-{{</tabset>}}</p>
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
 
 <h2 id="DestinationRule">DestinationRule</h2>
 <section>
-<p>DestinationRule defines policies that apply to traffic intended for a service
+<p>DestinationRule defines policies that apply to traffic intended for a service<br />
 after routing has occurred.</p>
 
 <table class="message-fields">
@@ -227,21 +200,19 @@ after routing has occurred.</p>
 <td><code>host</code></td>
 <td><code>string</code></td>
 <td>
-<p>The name of a service from the service registry. Service
-names are looked up from the platform&rsquo;s service registry (e.g.,
-Kubernetes services, Consul services, etc.) and from the hosts
-declared by <a href="/docs/reference/config/networking/service-entry/#ServiceEntry">ServiceEntries</a>. Rules defined for
+<p>The name of a service from the service registry. Service<br />
+names are looked up from the platform's service registry (e.g.,<br />
+Kubernetes services, Consul services, etc.) and from the hosts<br />
+declared by <a href="/docs/reference/config/networking/service-entry/#ServiceEntry">ServiceEntries</a>. Rules defined for<br />
 services that do not exist in the service registry will be ignored.</p>
-
-<p><em>Note for Kubernetes users</em>: When short names are used (e.g. &ldquo;reviews&rdquo;
-instead of &ldquo;reviews.default.svc.cluster.local&rdquo;), Istio will interpret
-the short name based on the namespace of the rule, not the service. A
-rule in the &ldquo;default&rdquo; namespace containing a host &ldquo;reviews&rdquo; will be
-interpreted as &ldquo;reviews.default.svc.cluster.local&rdquo;, irrespective of
-the actual namespace associated with the reviews service. <em>To avoid
-potential misconfigurations, it is recommended to always use fully
+<p><em>Note for Kubernetes users</em>: When short names are used (e.g. &quot;reviews&quot;<br />
+instead of &quot;reviews.default.svc.cluster.local&quot;), Istio will interpret<br />
+the short name based on the namespace of the rule, not the service. A<br />
+rule in the &quot;default&quot; namespace containing a host &quot;reviews&quot; will be<br />
+interpreted as &quot;reviews.default.svc.cluster.local&quot;, irrespective of<br />
+the actual namespace associated with the reviews service. <em>To avoid<br />
+potential misconfigurations, it is recommended to always use fully<br />
 qualified domain names over short names.</em></p>
-
 <p>Note that the host field applies to both HTTP and TCP services.</p>
 
 </td>
@@ -253,7 +224,7 @@ Yes
 <td><code>trafficPolicy</code></td>
 <td><code><a href="#TrafficPolicy">TrafficPolicy</a></code></td>
 <td>
-<p>Traffic policies to apply (load balancing policy, connection pool
+<p>Traffic policies to apply (load balancing policy, connection pool<br />
 sizes, outlier detection).</p>
 
 </td>
@@ -265,7 +236,7 @@ No
 <td><code>subsets</code></td>
 <td><code><a href="#Subset">Subset[]</a></code></td>
 <td>
-<p>One or more named sets that represent individual versions of a
+<p>One or more named sets that represent individual versions of a<br />
 service. Traffic policies can be overridden at subset level.</p>
 
 </td>
@@ -277,19 +248,17 @@ No
 <td><code>exportTo</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>A list of namespaces to which this destination rule is exported.
-The resolution of a destination rule to apply to a service occurs in the
-context of a hierarchy of namespaces. Exporting a destination rule allows
-it to be included in the resolution hierarchy for services in
-other namespaces. This feature provides a mechanism for service owners
-and mesh administrators to control the visibility of destination rules
+<p>A list of namespaces to which this destination rule is exported.<br />
+The resolution of a destination rule to apply to a service occurs in the<br />
+context of a hierarchy of namespaces. Exporting a destination rule allows<br />
+it to be included in the resolution hierarchy for services in<br />
+other namespaces. This feature provides a mechanism for service owners<br />
+and mesh administrators to control the visibility of destination rules<br />
 across namespace boundaries.</p>
-
-<p>If no namespaces are specified then the destination rule is exported to all
+<p>If no namespaces are specified then the destination rule is exported to all<br />
 namespaces by default.</p>
-
-<p>The value &ldquo;.&rdquo; is reserved and defines an export to the same namespace that
-the destination rule is declared in. Similarly, the value &ldquo;*&rdquo; is reserved and
+<p>The value &quot;.&quot; is reserved and defines an export to the same namespace that<br />
+the destination rule is declared in. Similarly, the value &quot;*&quot; is reserved and<br />
 defines an export to all namespaces.</p>
 
 </td>
@@ -301,14 +270,14 @@ No
 <td><code>workloadSelector</code></td>
 <td><code><a href="/docs/reference/config/type/workload-selector/#WorkloadSelector">WorkloadSelector</a></code></td>
 <td>
-<p>Criteria used to select the specific set of pods/VMs on which this
- <code>DestinationRule</code> configuration should be applied. If specified, the <code>DestinationRule</code>
- configuration will be applied only to the workload instances matching the workload selector
- label in the same namespace. Workload selectors do not apply across namespace boundaries.
- If omitted, the <code>DestinationRule</code> falls back to its default behavior.
- For example, if specific sidecars need to have egress TLS settings for services outside
- of the mesh, instead of every sidecar in the mesh needing to have the
- configuration (which is the default behaviour), a workload selector can be specified.</p>
+<p>Criteria used to select the specific set of pods/VMs on which this<br />
+<code>DestinationRule</code> configuration should be applied. If specified, the <code>DestinationRule</code><br />
+configuration will be applied only to the workload instances matching the workload selector<br />
+label in the same namespace. Workload selectors do not apply across namespace boundaries.<br />
+If omitted, the <code>DestinationRule</code> falls back to its default behavior.<br />
+For example, if specific sidecars need to have egress TLS settings for services outside<br />
+of the mesh, instead of every sidecar in the mesh needing to have the<br />
+configuration (which is the default behaviour), a workload selector can be specified.</p>
 
 </td>
 <td>
@@ -320,7 +289,7 @@ No
 </section>
 <h2 id="TrafficPolicy">TrafficPolicy</h2>
 <section>
-<p>Traffic policies to apply for a specific destination, across all
+<p>Traffic policies to apply for a specific destination, across all<br />
 destination ports. See DestinationRule for examples.</p>
 
 <table class="message-fields">
@@ -381,10 +350,10 @@ No
 <td><code>portLevelSettings</code></td>
 <td><code><a href="#TrafficPolicy-PortTrafficPolicy">PortTrafficPolicy[]</a></code></td>
 <td>
-<p>Traffic policies specific to individual ports. Note that port level
-settings will override the destination-level settings. Traffic
-settings specified at the destination-level will not be inherited when
-overridden by port-level settings, i.e. default values will be applied
+<p>Traffic policies specific to individual ports. Note that port level<br />
+settings will override the destination-level settings. Traffic<br />
+settings specified at the destination-level will not be inherited when<br />
+overridden by port-level settings, i.e. default values will be applied<br />
 to fields omitted in port-level traffic policies.</p>
 
 </td>
@@ -396,9 +365,9 @@ No
 <td><code>tunnel</code></td>
 <td><code><a href="#TrafficPolicy-TunnelSettings">TunnelSettings</a></code></td>
 <td>
-<p>Configuration of tunneling TCP over other transport or application layers
-for the host configured in the DestinationRule.
-Tunnel settings can be applied to TCP or TLS routes and can&rsquo;t be applied to HTTP routes.</p>
+<p>Configuration of tunneling TCP over other transport or application layers<br />
+for the host configured in the DestinationRule.<br />
+Tunnel settings can be applied to TCP or TLS routes and can't be applied to HTTP routes.</p>
 
 </td>
 <td>
@@ -410,18 +379,16 @@ No
 </section>
 <h2 id="Subset">Subset</h2>
 <section>
-<p>A subset of endpoints of a service. Subsets can be used for scenarios
-like A/B testing, or routing to a specific version of a service. Refer
-to <a href="/docs/reference/config/networking/virtual-service/#VirtualService">VirtualService</a> documentation for examples of using
-subsets in these scenarios. In addition, traffic policies defined at the
-service-level can be overridden at a subset-level. The following rule
-uses a round robin load balancing policy for all traffic going to a
-subset named testversion that is composed of endpoints (e.g., pods) with
+<p>A subset of endpoints of a service. Subsets can be used for scenarios<br />
+like A/B testing, or routing to a specific version of a service. Refer<br />
+to <a href="/docs/reference/config/networking/virtual-service/#VirtualService">VirtualService</a> documentation for examples of using<br />
+subsets in these scenarios. In addition, traffic policies defined at the<br />
+service-level can be overridden at a subset-level. The following rule<br />
+uses a round robin load balancing policy for all traffic going to a<br />
+subset named testversion that is composed of endpoints (e.g., pods) with<br />
 labels (version:v3).</p>
-
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -439,11 +406,8 @@ spec:
       loadBalancer:
         simple: ROUND_ROBIN
 </code></pre>
-
-<p>{{</tab>}}</p>
-
-<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}</p>
+<p>{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: DestinationRule
 metadata:
@@ -461,17 +425,14 @@ spec:
       loadBalancer:
         simple: ROUND_ROBIN
 </code></pre>
-
-<p>{{</tab>}}
-{{</tabset>}}</p>
-
-<p><strong>Note:</strong> Policies specified for subsets will not take effect until
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
+<p><strong>Note:</strong> Policies specified for subsets will not take effect until<br />
 a route rule explicitly sends traffic to this subset.</p>
-
-<p>One or more labels are typically required to identify the subset destination,
-however, when the corresponding DestinationRule represents a host that
-supports multiple SNI hosts (e.g., an egress gateway), a subset without labels
-may be meaningful. In this case a traffic policy with <a href="#ClientTLSSettings">ClientTLSSettings</a>
+<p>One or more labels are typically required to identify the subset destination,<br />
+however, when the corresponding DestinationRule represents a host that<br />
+supports multiple SNI hosts (e.g., an egress gateway), a subset without labels<br />
+may be meaningful. In this case a traffic policy with <a href="#ClientTLSSettings">ClientTLSSettings</a><br />
 can be used to identify a specific SNI host corresponding to the named subset.</p>
 
 <table class="message-fields">
@@ -488,7 +449,7 @@ can be used to identify a specific SNI host corresponding to the named subset.</
 <td><code>name</code></td>
 <td><code>string</code></td>
 <td>
-<p>Name of the subset. The service name and the subset name can
+<p>Name of the subset. The service name and the subset name can<br />
 be used for traffic splitting in a route rule.</p>
 
 </td>
@@ -500,7 +461,7 @@ Yes
 <td><code>labels</code></td>
 <td><code>map&lt;string,&nbsp;string&gt;</code></td>
 <td>
-<p>Labels apply a filter over the endpoints of a service in the
+<p>Labels apply a filter over the endpoints of a service in the<br />
 service registry. See route rules for examples of usage.</p>
 
 </td>
@@ -512,9 +473,9 @@ No
 <td><code>trafficPolicy</code></td>
 <td><code><a href="#TrafficPolicy">TrafficPolicy</a></code></td>
 <td>
-<p>Traffic policies that apply to this subset. Subsets inherit the
-traffic policies specified at the DestinationRule level. Settings
-specified at the subset level will override the corresponding settings
+<p>Traffic policies that apply to this subset. Subsets inherit the<br />
+traffic policies specified at the DestinationRule level. Settings<br />
+specified at the subset level will override the corresponding settings<br />
 specified at the DestinationRule level.</p>
 
 </td>
@@ -527,17 +488,14 @@ No
 </section>
 <h2 id="LoadBalancerSettings">LoadBalancerSettings</h2>
 <section>
-<p>Load balancing policies to apply for a specific destination. See Envoy&rsquo;s
-load balancing
-<a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/load_balancing">documentation</a>
+<p>Load balancing policies to apply for a specific destination. See Envoy's<br />
+load balancing<br />
+<a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/load_balancing">documentation</a><br />
 for more details.</p>
-
-<p>For example, the following rule uses a round robin load balancing policy
+<p>For example, the following rule uses a round robin load balancing policy<br />
 for all traffic going to the ratings service.</p>
-
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -548,11 +506,8 @@ spec:
     loadBalancer:
       simple: ROUND_ROBIN
 </code></pre>
-
-<p>{{</tab>}}</p>
-
-<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}</p>
+<p>{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: DestinationRule
 metadata:
@@ -563,17 +518,13 @@ spec:
     loadBalancer:
       simple: ROUND_ROBIN
 </code></pre>
-
-<p>{{</tab>}}
-{{</tabset>}}</p>
-
-<p>The following example sets up sticky sessions for the ratings service
-hashing-based load balancer for the same ratings service using the
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
+<p>The following example sets up sticky sessions for the ratings service<br />
+hashing-based load balancer for the same ratings service using the<br />
 the User cookie as the hash key.</p>
-
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -587,11 +538,8 @@ spec:
           name: user
           ttl: 0s
 </code></pre>
-
-<p>{{</tab>}}</p>
-
-<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}</p>
+<p>{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: DestinationRule
 metadata:
@@ -605,9 +553,8 @@ spec:
           name: user
           ttl: 0s
 </code></pre>
-
-<p>{{</tab>}}
-{{</tabset>}}</p>
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
 
 <table class="message-fields">
 <thead>
@@ -641,7 +588,7 @@ No
 <td><code>localityLbSetting</code></td>
 <td><code><a href="#LocalityLoadBalancerSetting">LocalityLoadBalancerSetting</a></code></td>
 <td>
-<p>Locality load balancer settings, this will override mesh wide settings in entirety, meaning no merging would be performed
+<p>Locality load balancer settings, this will override mesh wide settings in entirety, meaning no merging would be performed<br />
 between this object and the object one in MeshConfig</p>
 
 </td>
@@ -653,10 +600,10 @@ No
 <td><code>warmupDurationSecs</code></td>
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
 <td>
-<p>Represents the warmup duration of Service. If set, the newly created endpoint of service
-remains in warmup mode starting from its creation time for the duration of this window and
-Istio progressively increases amount of traffic for that endpoint instead of sending proportional amount of traffic.
-This should be enabled for services that require warm up time to serve full production load with reasonable latency.
+<p>Represents the warmup duration of Service. If set, the newly created endpoint of service<br />
+remains in warmup mode starting from its creation time for the duration of this window and<br />
+Istio progressively increases amount of traffic for that endpoint instead of sending proportional amount of traffic.<br />
+This should be enabled for services that require warm up time to serve full production load with reasonable latency.<br />
 Currently this is only supported for ROUND_ROBIN and LEAST_REQUEST load balancers.</p>
 
 </td>
@@ -669,18 +616,15 @@ No
 </section>
 <h2 id="ConnectionPoolSettings">ConnectionPoolSettings</h2>
 <section>
-<p>Connection pool settings for an upstream host. The settings apply to
-each individual host in the upstream service.  See Envoy&rsquo;s <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/circuit_breaking">circuit
-breaker</a>
-for more details. Connection pool settings can be applied at the TCP
+<p>Connection pool settings for an upstream host. The settings apply to<br />
+each individual host in the upstream service.  See Envoy's <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/circuit_breaking">circuit<br />
+breaker</a><br />
+for more details. Connection pool settings can be applied at the TCP<br />
 level as well as at HTTP level.</p>
-
-<p>For example, the following rule sets a limit of 100 connections to redis
+<p>For example, the following rule sets a limit of 100 connections to redis<br />
 service called myredissrv with a connect timeout of 30ms</p>
-
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -696,11 +640,8 @@ spec:
           time: 7200s
           interval: 75s
 </code></pre>
-
-<p>{{</tab>}}</p>
-
-<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}</p>
+<p>{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: DestinationRule
 metadata:
@@ -716,9 +657,8 @@ spec:
           time: 7200s
           interval: 75s
 </code></pre>
-
-<p>{{</tab>}}
-{{</tabset>}}</p>
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
 
 <table class="message-fields">
 <thead>
@@ -757,25 +697,22 @@ No
 </section>
 <h2 id="OutlierDetection">OutlierDetection</h2>
 <section>
-<p>A Circuit breaker implementation that tracks the status of each
-individual host in the upstream service.  Applicable to both HTTP and
-TCP services.  For HTTP services, hosts that continually return 5xx
-errors for API calls are ejected from the pool for a pre-defined period
-of time. For TCP services, connection timeouts or connection
-failures to a given host counts as an error when measuring the
-consecutive errors metric. See Envoy&rsquo;s <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/outlier">outlier
-detection</a>
+<p>A Circuit breaker implementation that tracks the status of each<br />
+individual host in the upstream service.  Applicable to both HTTP and<br />
+TCP services.  For HTTP services, hosts that continually return 5xx<br />
+errors for API calls are ejected from the pool for a pre-defined period<br />
+of time. For TCP services, connection timeouts or connection<br />
+failures to a given host counts as an error when measuring the<br />
+consecutive errors metric. See Envoy's <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/outlier">outlier<br />
+detection</a><br />
 for more details.</p>
-
-<p>The following rule sets a connection pool size of 100 HTTP1 connections
-with no more than 10 req/connection to the &ldquo;reviews&rdquo; service. In addition,
-it sets a limit of 1000 concurrent HTTP2 requests and configures upstream
-hosts to be scanned every 5 mins so that any host that fails 7 consecutive
+<p>The following rule sets a connection pool size of 100 HTTP1 connections<br />
+with no more than 10 req/connection to the &quot;reviews&quot; service. In addition,<br />
+it sets a limit of 1000 concurrent HTTP2 requests and configures upstream<br />
+hosts to be scanned every 5 mins so that any host that fails 7 consecutive<br />
 times with a 502, 503, or 504 error code will be ejected for 15 minutes.</p>
-
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -794,11 +731,8 @@ spec:
       interval: 5m
       baseEjectionTime: 15m
 </code></pre>
-
-<p>{{</tab>}}</p>
-
-<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}</p>
+<p>{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: DestinationRule
 metadata:
@@ -817,9 +751,8 @@ spec:
       interval: 5m
       baseEjectionTime: 15m
 </code></pre>
-
-<p>{{</tab>}}
-{{</tabset>}}</p>
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
 
 <table class="message-fields">
 <thead>
@@ -835,13 +768,13 @@ spec:
 <td><code>splitExternalLocalOriginErrors</code></td>
 <td><code>bool</code></td>
 <td>
-<p>Determines whether to distinguish local origin failures from external errors. If set to true
-consecutive_local_origin_failure is taken into account for outlier detection calculations.
-This should be used when you want to derive the outlier detection status based on the errors
-seen locally such as failure to connect, timeout while connecting etc. rather than the status code
-retuned by upstream service. This is especially useful when the upstream service explicitly returns
-a 5xx for some requests and you want to ignore those responses from upstream service while determining
-the outlier detection status of a host.
+<p>Determines whether to distinguish local origin failures from external errors. If set to true<br />
+consecutive_local_origin_failure is taken into account for outlier detection calculations.<br />
+This should be used when you want to derive the outlier detection status based on the errors<br />
+seen locally such as failure to connect, timeout while connecting etc. rather than the status code<br />
+retuned by upstream service. This is especially useful when the upstream service explicitly returns<br />
+a 5xx for some requests and you want to ignore those responses from upstream service while determining<br />
+the outlier detection status of a host.<br />
 Defaults to false.</p>
 
 </td>
@@ -853,8 +786,8 @@ No
 <td><code>consecutiveLocalOriginFailures</code></td>
 <td><code><a href="#google-protobuf-UInt32Value">UInt32Value</a></code></td>
 <td>
-<p>The number of consecutive locally originated failures before ejection
-occurs. Defaults to 5. Parameter takes effect only when split_external_local_origin_errors
+<p>The number of consecutive locally originated failures before ejection<br />
+occurs. Defaults to 5. Parameter takes effect only when split_external_local_origin_errors<br />
 is set to true.</p>
 
 </td>
@@ -866,18 +799,17 @@ No
 <td><code>consecutiveGatewayErrors</code></td>
 <td><code><a href="#google-protobuf-UInt32Value">UInt32Value</a></code></td>
 <td>
-<p>Number of gateway errors before a host is ejected from the connection pool.
-When the upstream host is accessed over HTTP, a 502, 503, or 504 return
-code qualifies as a gateway error. When the upstream host is accessed over
-an opaque TCP connection, connect timeouts and connection error/failure
-events qualify as a gateway error.
+<p>Number of gateway errors before a host is ejected from the connection pool.<br />
+When the upstream host is accessed over HTTP, a 502, 503, or 504 return<br />
+code qualifies as a gateway error. When the upstream host is accessed over<br />
+an opaque TCP connection, connect timeouts and connection error/failure<br />
+events qualify as a gateway error.<br />
 This feature is disabled by default or when set to the value 0.</p>
-
-<p>Note that consecutive_gateway_errors and consecutive_5xx_errors can be
-used separately or together. Because the errors counted by
-consecutive_gateway_errors are also included in consecutive_5xx_errors,
-if the value of consecutive_gateway_errors is greater than or equal to
-the value of consecutive_5xx_errors, consecutive_gateway_errors will have
+<p>Note that consecutive_gateway_errors and consecutive_5xx_errors can be<br />
+used separately or together. Because the errors counted by<br />
+consecutive_gateway_errors are also included in consecutive_5xx_errors,<br />
+if the value of consecutive_gateway_errors is greater than or equal to<br />
+the value of consecutive_5xx_errors, consecutive_gateway_errors will have<br />
 no effect.</p>
 
 </td>
@@ -889,17 +821,16 @@ No
 <td><code>consecutive5xxErrors</code></td>
 <td><code><a href="#google-protobuf-UInt32Value">UInt32Value</a></code></td>
 <td>
-<p>Number of 5xx errors before a host is ejected from the connection pool.
-When the upstream host is accessed over an opaque TCP connection, connect
-timeouts, connection error/failure and request failure events qualify as a
-5xx error.
+<p>Number of 5xx errors before a host is ejected from the connection pool.<br />
+When the upstream host is accessed over an opaque TCP connection, connect<br />
+timeouts, connection error/failure and request failure events qualify as a<br />
+5xx error.<br />
 This feature defaults to 5 but can be disabled by setting the value to 0.</p>
-
-<p>Note that consecutive_gateway_errors and consecutive_5xx_errors can be
-used separately or together. Because the errors counted by
-consecutive_gateway_errors are also included in consecutive_5xx_errors,
-if the value of consecutive_gateway_errors is greater than or equal to
-the value of consecutive_5xx_errors, consecutive_gateway_errors will have
+<p>Note that consecutive_gateway_errors and consecutive_5xx_errors can be<br />
+used separately or together. Because the errors counted by<br />
+consecutive_gateway_errors are also included in consecutive_5xx_errors,<br />
+if the value of consecutive_gateway_errors is greater than or equal to<br />
+the value of consecutive_5xx_errors, consecutive_gateway_errors will have<br />
 no effect.</p>
 
 </td>
@@ -911,7 +842,7 @@ No
 <td><code>interval</code></td>
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
 <td>
-<p>Time interval between ejection sweep analysis. format:
+<p>Time interval between ejection sweep analysis. format:<br />
 1h/1m/1s/1ms. MUST BE &gt;=1ms. Default is 10s.</p>
 
 </td>
@@ -923,10 +854,10 @@ No
 <td><code>baseEjectionTime</code></td>
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
 <td>
-<p>Minimum ejection duration. A host will remain ejected for a period
-equal to the product of minimum ejection duration and the number of
-times the host has been ejected. This technique allows the system to
-automatically increase the ejection period for unhealthy upstream
+<p>Minimum ejection duration. A host will remain ejected for a period<br />
+equal to the product of minimum ejection duration and the number of<br />
+times the host has been ejected. This technique allows the system to<br />
+automatically increase the ejection period for unhealthy upstream<br />
 servers. format: 1h/1m/1s/1ms. MUST BE &gt;=1ms. Default is 30s.</p>
 
 </td>
@@ -938,7 +869,7 @@ No
 <td><code>maxEjectionPercent</code></td>
 <td><code>int32</code></td>
 <td>
-<p>Maximum % of hosts in the load balancing pool for the upstream
+<p>Maximum % of hosts in the load balancing pool for the upstream<br />
 service that can be ejected. Defaults to 10%.</p>
 
 </td>
@@ -950,12 +881,12 @@ No
 <td><code>minHealthPercent</code></td>
 <td><code>int32</code></td>
 <td>
-<p>Outlier detection will be enabled as long as the associated load balancing
-pool has at least min_health_percent hosts in healthy mode. When the
-percentage of healthy hosts in the load balancing pool drops below this
-threshold, outlier detection will be disabled and the proxy will load balance
-across all hosts in the pool (healthy and unhealthy). The threshold can be
-disabled by setting it to 0%. The default is 0% as it&rsquo;s not typically
+<p>Outlier detection will be enabled as long as the associated load balancing<br />
+pool has at least min_health_percent hosts in healthy mode. When the<br />
+percentage of healthy hosts in the load balancing pool drops below this<br />
+threshold, outlier detection will be disabled and the proxy will load balance<br />
+across all hosts in the pool (healthy and unhealthy). The threshold can be<br />
+disabled by setting it to 0%. The default is 0% as it's not typically<br />
 applicable in k8s environments with few pods per service.</p>
 
 </td>
@@ -968,16 +899,13 @@ No
 </section>
 <h2 id="ClientTLSSettings">ClientTLSSettings</h2>
 <section>
-<p>SSL/TLS related settings for upstream connections. See Envoy&rsquo;s <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/transport_sockets/tls/v3/common.proto.html#common-tls-configuration">TLS
-context</a>
+<p>SSL/TLS related settings for upstream connections. See Envoy's <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/transport_sockets/tls/v3/common.proto.html#common-tls-configuration">TLS<br />
+context</a><br />
 for more details. These settings are common to both HTTP and TCP upstreams.</p>
-
-<p>For example, the following rule configures a client to use mutual TLS
+<p>For example, the following rule configures a client to use mutual TLS<br />
 for connections to upstream database cluster.</p>
-
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -991,11 +919,8 @@ spec:
       privateKey: /etc/certs/client_private_key.pem
       caCertificates: /etc/certs/rootcacerts.pem
 </code></pre>
-
-<p>{{</tab>}}</p>
-
-<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}</p>
+<p>{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: DestinationRule
 metadata:
@@ -1009,16 +934,12 @@ spec:
       privateKey: /etc/certs/client_private_key.pem
       caCertificates: /etc/certs/rootcacerts.pem
 </code></pre>
-
-<p>{{</tab>}}
-{{</tabset>}}</p>
-
-<p>The following rule configures a client to use TLS when talking to a
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
+<p>The following rule configures a client to use TLS when talking to a<br />
 foreign service whose domain matches *.foo.com.</p>
-
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -1029,11 +950,8 @@ spec:
     tls:
       mode: SIMPLE
 </code></pre>
-
-<p>{{</tab>}}</p>
-
-<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}</p>
+<p>{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: DestinationRule
 metadata:
@@ -1044,16 +962,12 @@ spec:
     tls:
       mode: SIMPLE
 </code></pre>
-
-<p>{{</tab>}}
-{{</tabset>}}</p>
-
-<p>The following rule configures a client to use Istio mutual TLS when talking
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
+<p>The following rule configures a client to use Istio mutual TLS when talking<br />
 to rating services.</p>
-
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -1064,11 +978,8 @@ spec:
     tls:
       mode: ISTIO_MUTUAL
 </code></pre>
-
-<p>{{</tab>}}</p>
-
-<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
-
+<p>{{<!-- raw HTML omitted -->}}</p>
+<p>{{<!-- raw HTML omitted -->}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: DestinationRule
 metadata:
@@ -1079,9 +990,8 @@ spec:
     tls:
       mode: ISTIO_MUTUAL
 </code></pre>
-
-<p>{{</tab>}}
-{{</tabset>}}</p>
+<p>{{<!-- raw HTML omitted -->}}<br />
+{{<!-- raw HTML omitted -->}}</p>
 
 <table class="message-fields">
 <thead>
@@ -1097,7 +1007,7 @@ spec:
 <td><code>mode</code></td>
 <td><code><a href="#ClientTLSSettings-TLSmode">TLSmode</a></code></td>
 <td>
-<p>Indicates whether connections to this port should be secured
+<p>Indicates whether connections to this port should be secured<br />
 using TLS. The value of this field determines how TLS is enforced.</p>
 
 </td>
@@ -1109,8 +1019,8 @@ Yes
 <td><code>clientCertificate</code></td>
 <td><code>string</code></td>
 <td>
-<p>REQUIRED if mode is <code>MUTUAL</code>. The path to the file holding the
-client-side TLS certificate to use.
+<p>REQUIRED if mode is <code>MUTUAL</code>. The path to the file holding the<br />
+client-side TLS certificate to use.<br />
 Should be empty if mode is <code>ISTIO_MUTUAL</code>.</p>
 
 </td>
@@ -1122,8 +1032,8 @@ No
 <td><code>privateKey</code></td>
 <td><code>string</code></td>
 <td>
-<p>REQUIRED if mode is <code>MUTUAL</code>. The path to the file holding the
-client&rsquo;s private key.
+<p>REQUIRED if mode is <code>MUTUAL</code>. The path to the file holding the<br />
+client's private key.<br />
 Should be empty if mode is <code>ISTIO_MUTUAL</code>.</p>
 
 </td>
@@ -1135,9 +1045,9 @@ No
 <td><code>caCertificates</code></td>
 <td><code>string</code></td>
 <td>
-<p>OPTIONAL: The path to the file containing certificate authority
-certificates to use in verifying a presented server certificate. If
-omitted, the proxy will not verify the server&rsquo;s certificate.
+<p>OPTIONAL: The path to the file containing certificate authority<br />
+certificates to use in verifying a presented server certificate. If<br />
+omitted, the proxy will not verify the server's certificate.<br />
 Should be empty if mode is <code>ISTIO_MUTUAL</code>.</p>
 
 </td>
@@ -1149,21 +1059,20 @@ No
 <td><code>credentialName</code></td>
 <td><code>string</code></td>
 <td>
-<p>The name of the secret that holds the TLS certs for the
-client including the CA certificates. Secret must exist in the
-same namespace with the proxy using the certificates.
-The secret (of type <code>generic</code>)should contain the
-following keys and values: <code>key: &lt;privateKey&gt;</code>,
-<code>cert: &lt;clientCert&gt;</code>, <code>cacert: &lt;CACertificate&gt;</code>.
-Here CACertificate is used to verify the server certificate.
-Secret of type tls for client certificates along with
-ca.crt key for CA certificates is also supported.
-Only one of client certificates and CA certificate
+<p>The name of the secret that holds the TLS certs for the<br />
+client including the CA certificates. Secret must exist in the<br />
+same namespace with the proxy using the certificates.<br />
+The secret (of type <code>generic</code>)should contain the<br />
+following keys and values: <code>key: &lt;privateKey&gt;</code>,<br />
+<code>cert: &lt;clientCert&gt;</code>, <code>cacert: &lt;CACertificate&gt;</code>.<br />
+Here CACertificate is used to verify the server certificate.<br />
+Secret of type tls for client certificates along with<br />
+ca.crt key for CA certificates is also supported.<br />
+Only one of client certificates and CA certificate<br />
 or credentialName can be specified.</p>
-
-<p><strong>NOTE:</strong> This field is applicable at sidecars only if
-<code>DestinationRule</code> has a <code>workloadSelector</code> specified.
-Otherwise the field will be applicable only at gateways, and
+<p><strong>NOTE:</strong> This field is applicable at sidecars only if<br />
+<code>DestinationRule</code> has a <code>workloadSelector</code> specified.<br />
+Otherwise the field will be applicable only at gateways, and<br />
 sidecars will continue to use the certificate paths.</p>
 
 </td>
@@ -1175,13 +1084,13 @@ No
 <td><code>subjectAltNames</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>A list of alternate names to verify the subject identity in the
-certificate. If specified, the proxy will verify that the server
-certificate&rsquo;s subject alt name matches one of the specified values.
-If specified, this list overrides the value of subject_alt_names
-from the ServiceEntry. If unspecified, automatic validation of upstream
-presented certificate for new upstream connections will be done based on the
-downstream HTTP host/authority header, provided <code>VERIFY_CERT_AT_CLIENT</code>
+<p>A list of alternate names to verify the subject identity in the<br />
+certificate. If specified, the proxy will verify that the server<br />
+certificate's subject alt name matches one of the specified values.<br />
+If specified, this list overrides the value of subject_alt_names<br />
+from the ServiceEntry. If unspecified, automatic validation of upstream<br />
+presented certificate for new upstream connections will be done based on the<br />
+downstream HTTP host/authority header, provided <code>VERIFY_CERT_AT_CLIENT</code><br />
 and <code>ENABLE_AUTO_SNI</code> environmental variables are set to <code>true</code>.</p>
 
 </td>
@@ -1193,9 +1102,9 @@ No
 <td><code>sni</code></td>
 <td><code>string</code></td>
 <td>
-<p>SNI string to present to the server during TLS handshake.
-If unspecified, SNI will be automatically set based on downstream HTTP
-host/authority header for SIMPLE and MUTUAL TLS modes, provided <code>ENABLE_AUTO_SNI</code>
+<p>SNI string to present to the server during TLS handshake.<br />
+If unspecified, SNI will be automatically set based on downstream HTTP<br />
+host/authority header for SIMPLE and MUTUAL TLS modes, provided <code>ENABLE_AUTO_SNI</code><br />
 environmental variable is set to <code>true</code>.</p>
 
 </td>
@@ -1207,17 +1116,16 @@ No
 <td><code>insecureSkipVerify</code></td>
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></code></td>
 <td>
-<p>InsecureSkipVerify specifies whether the proxy should skip verifying the
-CA signature and SAN for the server certificate corresponding to the host.
-This flag should only be set if global CA signature verifcation is
-enabled, <code>VerifyCertAtClient</code> environmental variable is set to <code>true</code>,
-but no verification is desired for a specific host. If enabled with or
-without <code>VerifyCertAtClient</code> enabled, verification of the CA signature and
+<p>InsecureSkipVerify specifies whether the proxy should skip verifying the<br />
+CA signature and SAN for the server certificate corresponding to the host.<br />
+This flag should only be set if global CA signature verifcation is<br />
+enabled, <code>VerifyCertAtClient</code> environmental variable is set to <code>true</code>,<br />
+but no verification is desired for a specific host. If enabled with or<br />
+without <code>VerifyCertAtClient</code> enabled, verification of the CA signature and<br />
 SAN will be skipped.</p>
-
-<p><code>InsecureSkipVerify</code> is <code>false</code> by default.
-<code>VerifyCertAtClient</code> is <code>false</code> by default in Istio version 1.9 but will
-be <code>true</code> by default in a later version where, going forward, it will be
+<p><code>InsecureSkipVerify</code> is <code>false</code> by default.<br />
+<code>VerifyCertAtClient</code> is <code>false</code> by default in Istio version 1.9 but will<br />
+be <code>true</code> by default in a later version where, going forward, it will be<br />
 enabled by default.</p>
 
 </td>
@@ -1230,22 +1138,20 @@ No
 </section>
 <h2 id="LocalityLoadBalancerSetting">LocalityLoadBalancerSetting</h2>
 <section>
-<p>Locality-weighted load balancing allows administrators to control the
-distribution of traffic to endpoints based on the localities of where the
-traffic originates and where it will terminate. These localities are
-specified using arbitrary labels that designate a hierarchy of localities in
-{region}/{zone}/{sub-zone} form. For additional detail refer to
-<a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/locality_weight">Locality Weight</a>
+<p>Locality-weighted load balancing allows administrators to control the<br />
+distribution of traffic to endpoints based on the localities of where the<br />
+traffic originates and where it will terminate. These localities are<br />
+specified using arbitrary labels that designate a hierarchy of localities in<br />
+{region}/{zone}/{sub-zone} form. For additional detail refer to<br />
+<a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/locality_weight">Locality Weight</a><br />
 The following example shows how to setup locality weights mesh-wide.</p>
-
-<p>Given a mesh with workloads and their service deployed to &ldquo;us-west/zone1/<em>&rdquo;
-and &ldquo;us-west/zone2/</em>&rdquo;. This example specifies that when traffic accessing a
-service originates from workloads in &ldquo;us-west/zone1/<em>&rdquo;, 80% of the traffic
-will be sent to endpoints in &ldquo;us-west/zone1/</em>&rdquo;, i.e the same zone, and the
-remaining 20% will go to endpoints in &ldquo;us-west/zone2/<em>&rdquo;. This setup is
-intended to favor routing traffic to endpoints in the same locality.
-A similar setting is specified for traffic originating in &ldquo;us-west/zone2/</em>&rdquo;.</p>
-
+<p>Given a mesh with workloads and their service deployed to &quot;us-west/zone1/<em>&quot;<br />
+and &quot;us-west/zone2/</em>&quot;. This example specifies that when traffic accessing a<br />
+service originates from workloads in &quot;us-west/zone1/<em>&quot;, 80% of the traffic<br />
+will be sent to endpoints in &quot;us-west/zone1/</em>&quot;, i.e the same zone, and the<br />
+remaining 20% will go to endpoints in &quot;us-west/zone2/<em>&quot;. This setup is<br />
+intended to favor routing traffic to endpoints in the same locality.<br />
+A similar setting is specified for traffic originating in &quot;us-west/zone2/</em>&quot;.</p>
 <pre><code class="language-yaml">  distribute:
     - from: us-west/zone1/*
       to:
@@ -1256,25 +1162,21 @@ A similar setting is specified for traffic originating in &ldquo;us-west/zone2/<
         &quot;us-west/zone1/*&quot;: 20
         &quot;us-west/zone2/*&quot;: 80
 </code></pre>
-
-<p>If the goal of the operator is not to distribute load across zones and
-regions but rather to restrict the regionality of failover to meet other
-operational requirements an operator can set a &lsquo;failover&rsquo; policy instead of
-a &lsquo;distribute&rsquo; policy.</p>
-
-<p>The following example sets up a locality failover policy for regions.
-Assume a service resides in zones within us-east, us-west &amp; eu-west
-this example specifies that when endpoints within us-east become unhealthy
-traffic should failover to endpoints in any zone or sub-zone within eu-west
+<p>If the goal of the operator is not to distribute load across zones and<br />
+regions but rather to restrict the regionality of failover to meet other<br />
+operational requirements an operator can set a 'failover' policy instead of<br />
+a 'distribute' policy.</p>
+<p>The following example sets up a locality failover policy for regions.<br />
+Assume a service resides in zones within us-east, us-west &amp; eu-west<br />
+this example specifies that when endpoints within us-east become unhealthy<br />
+traffic should failover to endpoints in any zone or sub-zone within eu-west<br />
 and similarly us-west should failover to us-east.</p>
-
 <pre><code class="language-yaml"> failover:
    - from: us-east
      to: eu-west
    - from: us-west
      to: us-east
 </code></pre>
-
 <p>Locality load balancing settings.</p>
 
 <table class="message-fields">
@@ -1291,9 +1193,9 @@ and similarly us-west should failover to us-east.</p>
 <td><code>distribute</code></td>
 <td><code><a href="#LocalityLoadBalancerSetting-Distribute">Distribute[]</a></code></td>
 <td>
-<p>Optional: only one of distribute, failover or failoverPriority can be set.
-Explicitly specify loadbalancing weight across different zones and geographical locations.
-Refer to <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/locality_weight">Locality weighted load balancing</a>
+<p>Optional: only one of distribute, failover or failoverPriority can be set.<br />
+Explicitly specify loadbalancing weight across different zones and geographical locations.<br />
+Refer to <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/locality_weight">Locality weighted load balancing</a><br />
 If empty, the locality weight is set according to the endpoints number within it.</p>
 
 </td>
@@ -1305,9 +1207,9 @@ No
 <td><code>failover</code></td>
 <td><code><a href="#LocalityLoadBalancerSetting-Failover">Failover[]</a></code></td>
 <td>
-<p>Optional: only one of distribute, failover or failoverPriority can be set.
-Explicitly specify the region traffic will land on when endpoints in local region becomes unhealthy.
-Should be used together with OutlierDetection to detect unhealthy endpoints.
+<p>Optional: only one of distribute, failover or failoverPriority can be set.<br />
+Explicitly specify the region traffic will land on when endpoints in local region becomes unhealthy.<br />
+Should be used together with OutlierDetection to detect unhealthy endpoints.<br />
 Note: if no OutlierDetection specified, this will not take effect.</p>
 
 </td>
@@ -1319,22 +1221,18 @@ No
 <td><code>failoverPriority</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>failoverPriority is an ordered list of labels used to sort endpoints to do priority based load balancing.
-This is to support traffic failover across different groups of endpoints.
+<p>failoverPriority is an ordered list of labels used to sort endpoints to do priority based load balancing.<br />
+This is to support traffic failover across different groups of endpoints.<br />
 Suppose there are total N labels specified:</p>
-
 <ol>
 <li>Endpoints matching all N labels with the client proxy have priority P(0) i.e. the highest priority.</li>
 <li>Endpoints matching the first N-1 labels with the client proxy have priority P(1) i.e. second highest priority.</li>
 <li>By extension of this logic, endpoints matching only the first label with the client proxy has priority P(N-1) i.e. second lowest priority.</li>
 <li>All the other endpoints have priority P(N) i.e. lowest priority.</li>
 </ol>
-
 <p>Note: For a label to be considered for match, the previous labels must match, i.e. nth label would be considered matched only if first n-1 labels match.</p>
-
-<p>It can be any label specified on both client and server workloads.
+<p>It can be any label specified on both client and server workloads.<br />
 The following labels which have special semantic meaning are also supported:</p>
-
 <ul>
 <li><code>topology.istio.io/network</code> is used to match the network metadata of an endpoint, which can be specified by pod/namespace label <code>topology.istio.io/network</code>, sidecar env <code>ISTIO_META_NETWORK</code> or MeshNetworks.</li>
 <li><code>topology.istio.io/cluster</code> is used to match the clusterID of an endpoint, which can be specified by pod label <code>topology.istio.io/cluster</code> or pod env <code>ISTIO_META_CLUSTER_ID</code>.</li>
@@ -1342,16 +1240,13 @@ The following labels which have special semantic meaning are also supported:</p>
 <li><code>topology.kubernetes.io/zone</code> is used to match the zone metadata of an endpoint, which maps to Kubernetes node label <code>topology.kubernetes.io/zone</code> or the deprecated label <code>failure-domain.beta.kubernetes.io/zone</code>.</li>
 <li><code>topology.istio.io/subzone</code> is used to match the subzone metadata of an endpoint, which maps to Istio node label <code>topology.istio.io/subzone</code>.</li>
 </ul>
-
 <p>The below topology config indicates the following priority levels:</p>
-
 <pre><code class="language-yaml">failoverPriority:
 - &quot;topology.istio.io/network&quot;
 - &quot;topology.kubernetes.io/region&quot;
 - &quot;topology.kubernetes.io/zone&quot;
 - &quot;topology.istio.io/subzone&quot;
 </code></pre>
-
 <ol>
 <li>endpoints match same [network, region, zone, subzone] label with the client proxy have the highest priority.</li>
 <li>endpoints have same [network, region, zone] label but different [subzone] label with the client proxy have the second highest priority.</li>
@@ -1359,8 +1254,7 @@ The following labels which have special semantic meaning are also supported:</p>
 <li>endpoints have same [network] but different [region] labels with the client proxy have the fourth highest priority.</li>
 <li>all the other endpoints have the same lowest priority.</li>
 </ol>
-
-<p>Optional: only one of distribute, failover or failoverPriority can be set.
+<p>Optional: only one of distribute, failover or failoverPriority can be set.<br />
 And it should be used together with <code>OutlierDetection</code> to detect unhealthy endpoints, otherwise has no effect.</p>
 
 </td>
@@ -1372,7 +1266,7 @@ No
 <td><code>enabled</code></td>
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></code></td>
 <td>
-<p>enable locality load balancing, this is DestinationRule-level and will override mesh wide settings in entirety.
+<p>enable locality load balancing, this is DestinationRule-level and will override mesh wide settings in entirety.<br />
 e.g. true means that turn on locality load balancing for this DestinationRule no matter what mesh wide settings is.</p>
 
 </td>
@@ -1401,7 +1295,7 @@ No
 <td><code>port</code></td>
 <td><code><a href="/docs/reference/config/networking/virtual-service/#PortSelector">PortSelector</a></code></td>
 <td>
-<p>Specifies the number of a port on the destination service
+<p>Specifies the number of a port on the destination service<br />
 on which this policy is being applied.</p>
 
 </td>
@@ -1472,11 +1366,11 @@ No
 <td><code>protocol</code></td>
 <td><code>string</code></td>
 <td>
-<p>Specifies which protocol to use for tunneling the downstream connection.
-Supported protocols are:
-  CONNECT - uses HTTP CONNECT;
-  POST - uses HTTP POST.
-CONNECT is used by default if not specified.
+<p>Specifies which protocol to use for tunneling the downstream connection.<br />
+Supported protocols are:<br />
+CONNECT - uses HTTP CONNECT;<br />
+POST - uses HTTP POST.<br />
+CONNECT is used by default if not specified.<br />
 HTTP version for upstream requests is determined by the service protocol defined for the proxy.</p>
 
 </td>
@@ -1488,7 +1382,7 @@ No
 <td><code>targetHost</code></td>
 <td><code>string</code></td>
 <td>
-<p>Specifies a host to which the downstream connection is tunneled.
+<p>Specifies a host to which the downstream connection is tunneled.<br />
 Target host must be an FQDN or IP address.</p>
 
 </td>
@@ -1512,10 +1406,10 @@ Yes
 </section>
 <h2 id="LoadBalancerSettings-ConsistentHashLB">LoadBalancerSettings.ConsistentHashLB</h2>
 <section>
-<p>Consistent Hash-based load balancing can be used to provide soft
-session affinity based on HTTP headers, cookies or other
-properties. The affinity to a particular destination host may be
-lost when one or more hosts are added/removed from the destination
+<p>Consistent Hash-based load balancing can be used to provide soft<br />
+session affinity based on HTTP headers, cookies or other<br />
+properties. The affinity to a particular destination host may be<br />
+lost when one or more hosts are added/removed from the destination<br />
 service.</p>
 
 <table class="message-fields">
@@ -1554,7 +1448,7 @@ No
 <td><code>useSourceIp</code></td>
 <td><code>bool (oneof)</code></td>
 <td>
-<p>Hash based on the source IP address.
+<p>Hash based on the source IP address.<br />
 This is applicable for both TCP and HTTP connections.</p>
 
 </td>
@@ -1625,10 +1519,10 @@ No
 <td><code>minimumRingSize</code></td>
 <td><code>uint64</code></td>
 <td>
-<p>The minimum number of virtual nodes to use for the hash
-ring. Defaults to 1024. Larger ring sizes result in more granular
-load distributions. If the number of hosts in the load balancing
-pool is larger than the ring size, each host will be assigned a
+<p>The minimum number of virtual nodes to use for the hash<br />
+ring. Defaults to 1024. Larger ring sizes result in more granular<br />
+load distributions. If the number of hosts in the load balancing<br />
+pool is larger than the ring size, each host will be assigned a<br />
 single virtual node.</p>
 
 </td>
@@ -1655,8 +1549,8 @@ No
 <td><code>tableSize</code></td>
 <td><code>uint64</code></td>
 <td>
-<p>The table size for Maglev hashing. This helps in controlling the
-disruption when the backend hosts change.
+<p>The table size for Maglev hashing. This helps in controlling the<br />
+disruption when the backend hosts change.<br />
 Increasing the table size reduces the amount of disruption.</p>
 
 </td>
@@ -1669,8 +1563,8 @@ No
 </section>
 <h2 id="LoadBalancerSettings-ConsistentHashLB-HTTPCookie">LoadBalancerSettings.ConsistentHashLB.HTTPCookie</h2>
 <section>
-<p>Describes a HTTP cookie that will be used as the hash key for the
-Consistent Hash load balancer. If the cookie is not present, it will
+<p>Describes a HTTP cookie that will be used as the hash key for the<br />
+Consistent Hash load balancer. If the cookie is not present, it will<br />
 be generated.</p>
 
 <table class="message-fields">
@@ -1748,7 +1642,7 @@ No
 <td><code>connectTimeout</code></td>
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
 <td>
-<p>TCP connection timeout. format:
+<p>TCP connection timeout. format:<br />
 1h/1m/1s/1ms. MUST BE &gt;=1ms. Default is 10s.</p>
 
 </td>
@@ -1771,8 +1665,8 @@ No
 <td><code>maxConnectionDuration</code></td>
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
 <td>
-<p>The maximum duration of a connection. The duration is defined as the period since a connection
-was established. If not set, there is no max duration. When max_connection_duration
+<p>The maximum duration of a connection. The duration is defined as the period since a connection<br />
+was established. If not set, there is no max duration. When max_connection_duration<br />
 is reached the connection will be closed. Duration must be at least 1ms.</p>
 
 </td>
@@ -1801,10 +1695,10 @@ No
 <td><code>http1MaxPendingRequests</code></td>
 <td><code>int32</code></td>
 <td>
-<p>Maximum number of requests that will be queued while waiting for
-a ready connection pool connection. Default 1024.
-Refer to https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/circuit_breaking
-under which conditions a new connection is created for HTTP2.
+<p>Maximum number of requests that will be queued while waiting for<br />
+a ready connection pool connection. Default 1024.<br />
+Refer to <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/circuit_breaking">https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/circuit_breaking</a><br />
+under which conditions a new connection is created for HTTP2.<br />
 Please note that this is applicable to both HTTP/1.1 and HTTP2.</p>
 
 </td>
@@ -1816,7 +1710,7 @@ No
 <td><code>http2MaxRequests</code></td>
 <td><code>int32</code></td>
 <td>
-<p>Maximum number of active requests to a destination. Default 1024.
+<p>Maximum number of active requests to a destination. Default 1024.<br />
 Please note that this is applicable to both HTTP/1.1 and HTTP2.</p>
 
 </td>
@@ -1828,8 +1722,8 @@ No
 <td><code>maxRequestsPerConnection</code></td>
 <td><code>int32</code></td>
 <td>
-<p>Maximum number of requests per connection to a backend. Setting this
-parameter to 1 disables keep alive. Default 0, meaning &ldquo;unlimited&rdquo;,
+<p>Maximum number of requests per connection to a backend. Setting this<br />
+parameter to 1 disables keep alive. Default 0, meaning &quot;unlimited&quot;,<br />
 up to 2^29.</p>
 
 </td>
@@ -1841,7 +1735,7 @@ No
 <td><code>maxRetries</code></td>
 <td><code>int32</code></td>
 <td>
-<p>Maximum number of retries that can be outstanding to all hosts in a
+<p>Maximum number of retries that can be outstanding to all hosts in a<br />
 cluster at a given time. Defaults to 2^32-1.</p>
 
 </td>
@@ -1853,12 +1747,12 @@ No
 <td><code>idleTimeout</code></td>
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
 <td>
-<p>The idle timeout for upstream connection pool connections. The idle timeout
-is defined as the period in which there are no active requests.
-If not set, the default is 1 hour. When the idle timeout is reached,
-the connection will be closed. If the connection is an HTTP/2
-connection a drain sequence will occur prior to closing the connection.
-Note that request based timeouts mean that HTTP/2 PINGs will not
+<p>The idle timeout for upstream connection pool connections. The idle timeout<br />
+is defined as the period in which there are no active requests.<br />
+If not set, the default is 1 hour. When the idle timeout is reached,<br />
+the connection will be closed. If the connection is an HTTP/2<br />
+connection a drain sequence will occur prior to closing the connection.<br />
+Note that request based timeouts mean that HTTP/2 PINGs will not<br />
 keep the connection alive. Applies to both HTTP1.1 and HTTP2 connections.</p>
 
 </td>
@@ -1881,8 +1775,8 @@ No
 <td><code>useClientProtocol</code></td>
 <td><code>bool</code></td>
 <td>
-<p>If set to true, client protocol will be preserved while initiating connection to backend.
-Note that when this is set to true, h2_upgrade_policy will be ineffective i.e. the client
+<p>If set to true, client protocol will be preserved while initiating connection to backend.<br />
+Note that when this is set to true, h2_upgrade_policy will be ineffective i.e. the client<br />
 connections will not be upgraded to http2.</p>
 
 </td>
@@ -1911,8 +1805,8 @@ No
 <td><code>probes</code></td>
 <td><code>uint32</code></td>
 <td>
-<p>Maximum number of keepalive probes to send without response before
-deciding the connection is dead. Default is to use the OS level configuration
+<p>Maximum number of keepalive probes to send without response before<br />
+deciding the connection is dead. Default is to use the OS level configuration<br />
 (unless overridden, Linux defaults to 9.)</p>
 
 </td>
@@ -1924,8 +1818,8 @@ No
 <td><code>time</code></td>
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
 <td>
-<p>The time duration a connection needs to be idle before keep-alive
-probes start being sent. Default is to use the OS level configuration
+<p>The time duration a connection needs to be idle before keep-alive<br />
+probes start being sent. Default is to use the OS level configuration<br />
 (unless overridden, Linux defaults to 7200s (ie 2 hours.)</p>
 
 </td>
@@ -1937,8 +1831,8 @@ No
 <td><code>interval</code></td>
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
 <td>
-<p>The time duration between keep-alive probes.
-Default is to use the OS level configuration
+<p>The time duration between keep-alive probes.<br />
+Default is to use the OS level configuration<br />
 (unless overridden, Linux defaults to 75s.)</p>
 
 </td>
@@ -1951,15 +1845,12 @@ No
 </section>
 <h2 id="LocalityLoadBalancerSetting-Distribute">LocalityLoadBalancerSetting.Distribute</h2>
 <section>
-<p>Describes how traffic originating in the &lsquo;from&rsquo; zone or sub-zone is
-distributed over a set of &lsquo;to&rsquo; zones. Syntax for specifying a zone is
-{region}/{zone}/{sub-zone} and terminal wildcards are allowed on any
+<p>Describes how traffic originating in the 'from' zone or sub-zone is<br />
+distributed over a set of 'to' zones. Syntax for specifying a zone is<br />
+{region}/{zone}/{sub-zone} and terminal wildcards are allowed on any<br />
 segment of the specification. Examples:</p>
-
 <p><code>*</code> - matches all localities</p>
-
 <p><code>us-west/*</code> - all zones and sub-zones within the us-west region</p>
-
 <p><code>us-west/zone-1/*</code> - all sub-zones within us-west/zone-1</p>
 
 <table class="message-fields">
@@ -1976,7 +1867,7 @@ segment of the specification. Examples:</p>
 <td><code>from</code></td>
 <td><code>string</code></td>
 <td>
-<p>Originating locality, &lsquo;/&rsquo; separated, e.g. &lsquo;region/zone/sub_zone&rsquo;.</p>
+<p>Originating locality, '/' separated, e.g. 'region/zone/sub_zone'.</p>
 
 </td>
 <td>
@@ -1987,8 +1878,8 @@ No
 <td><code>to</code></td>
 <td><code>map&lt;string,&nbsp;uint32&gt;</code></td>
 <td>
-<p>Map of upstream localities to traffic distribution weights. The sum of
-all weights should be 100. Any locality not present will
+<p>Map of upstream localities to traffic distribution weights. The sum of<br />
+all weights should be 100. Any locality not present will<br />
 receive no traffic.</p>
 
 </td>
@@ -2001,12 +1892,12 @@ No
 </section>
 <h2 id="LocalityLoadBalancerSetting-Failover">LocalityLoadBalancerSetting.Failover</h2>
 <section>
-<p>Specify the traffic failover policy across regions. Since zone and sub-zone
-failover is supported by default this only needs to be specified for
-regions when the operator needs to constrain traffic failover so that
-the default behavior of failing over to any endpoint globally does not
-apply. This is useful when failing over traffic across regions would not
-improve service health or may need to be restricted for other reasons
+<p>Specify the traffic failover policy across regions. Since zone and sub-zone<br />
+failover is supported by default this only needs to be specified for<br />
+regions when the operator needs to constrain traffic failover so that<br />
+the default behavior of failing over to any endpoint globally does not<br />
+apply. This is useful when failing over traffic across regions would not<br />
+improve service health or may need to be restricted for other reasons<br />
 like regulatory controls.</p>
 
 <table class="message-fields">
@@ -2034,8 +1925,8 @@ No
 <td><code>to</code></td>
 <td><code>string</code></td>
 <td>
-<p>Destination region the traffic will fail over to when endpoints in
-the &lsquo;from&rsquo; region becomes unhealthy.</p>
+<p>Destination region the traffic will fail over to when endpoints in<br />
+the 'from' region becomes unhealthy.</p>
 
 </td>
 <td>
@@ -2048,7 +1939,6 @@ No
 <h2 id="google-protobuf-UInt32Value">google.protobuf.UInt32Value</h2>
 <section>
 <p>Wrapper message for <code>uint32</code>.</p>
-
 <p>The JSON representation for <code>UInt32Value</code> is JSON number.</p>
 
 <table class="message-fields">
@@ -2090,7 +1980,7 @@ No
 <tr id="LoadBalancerSettings-SimpleLB-UNSPECIFIED">
 <td><code>UNSPECIFIED</code></td>
 <td>
-<p>No load balancing algorithm has been specified by the user. Istio
+<p>No load balancing algorithm has been specified by the user. Istio<br />
 will select an appropriate default.</p>
 
 </td>
@@ -2098,8 +1988,8 @@ will select an appropriate default.</p>
 <tr id="LoadBalancerSettings-SimpleLB-RANDOM">
 <td><code>RANDOM</code></td>
 <td>
-<p>The random load balancer selects a random healthy host. The random
-load balancer generally performs better than round robin if no health
+<p>The random load balancer selects a random healthy host. The random<br />
+load balancer generally performs better than round robin if no health<br />
 checking policy is configured.</p>
 
 </td>
@@ -2107,10 +1997,10 @@ checking policy is configured.</p>
 <tr id="LoadBalancerSettings-SimpleLB-PASSTHROUGH">
 <td><code>PASSTHROUGH</code></td>
 <td>
-<p>This option will forward the connection to the original IP address
-requested by the caller without doing any form of load
-balancing. This option must be used with care. It is meant for
-advanced use cases. Refer to Original Destination load balancer in
+<p>This option will forward the connection to the original IP address<br />
+requested by the caller without doing any form of load<br />
+balancing. This option must be used with care. It is meant for<br />
+advanced use cases. Refer to Original Destination load balancer in<br />
 Envoy for further details.</p>
 
 </td>
@@ -2118,9 +2008,9 @@ Envoy for further details.</p>
 <tr id="LoadBalancerSettings-SimpleLB-ROUND_ROBIN">
 <td><code>ROUND_ROBIN</code></td>
 <td>
-<p>A basic round robin load balancing policy. This is generally unsafe
-for many scenarios (e.g. when enpoint weighting is used) as it can
-overburden endpoints. In general, prefer to use LEAST_REQUEST as a
+<p>A basic round robin load balancing policy. This is generally unsafe<br />
+for many scenarios (e.g. when enpoint weighting is used) as it can<br />
+overburden endpoints. In general, prefer to use LEAST_REQUEST as a<br />
 drop-in replacement for ROUND_ROBIN.</p>
 
 </td>
@@ -2128,9 +2018,9 @@ drop-in replacement for ROUND_ROBIN.</p>
 <tr id="LoadBalancerSettings-SimpleLB-LEAST_REQUEST">
 <td><code>LEAST_REQUEST</code></td>
 <td>
-<p>The least request load balancer spreads load across endpoints, favoring
-endpoints with the least outstanding requests. This is generally safer
-and outperforms ROUND_ROBIN in nearly all cases. Prefer to use
+<p>The least request load balancer spreads load across endpoints, favoring<br />
+endpoints with the least outstanding requests. This is generally safer<br />
+and outperforms ROUND_ROBIN in nearly all cases. Prefer to use<br />
 LEAST_REQUEST as a drop-in replacement for ROUND_ROBIN.</p>
 
 </td>
@@ -2167,7 +2057,7 @@ LEAST_REQUEST as a drop-in replacement for ROUND_ROBIN.</p>
 <tr id="ConnectionPoolSettings-HTTPSettings-H2UpgradePolicy-DO_NOT_UPGRADE">
 <td><code>DO_NOT_UPGRADE</code></td>
 <td>
-<p>Do not upgrade the connection to http2.
+<p>Do not upgrade the connection to http2.<br />
 This opt-out option overrides the default.</p>
 
 </td>
@@ -2175,7 +2065,7 @@ This opt-out option overrides the default.</p>
 <tr id="ConnectionPoolSettings-HTTPSettings-H2UpgradePolicy-UPGRADE">
 <td><code>UPGRADE</code></td>
 <td>
-<p>Upgrade the connection to http2.
+<p>Upgrade the connection to http2.<br />
 This opt-in option overrides the default.</p>
 
 </td>
@@ -2212,7 +2102,7 @@ This opt-in option overrides the default.</p>
 <tr id="ClientTLSSettings-TLSmode-MUTUAL">
 <td><code>MUTUAL</code></td>
 <td>
-<p>Secure connections to the upstream using mutual TLS by presenting
+<p>Secure connections to the upstream using mutual TLS by presenting<br />
 client certificates for authentication.</p>
 
 </td>
@@ -2220,10 +2110,10 @@ client certificates for authentication.</p>
 <tr id="ClientTLSSettings-TLSmode-ISTIO_MUTUAL">
 <td><code>ISTIO_MUTUAL</code></td>
 <td>
-<p>Secure connections to the upstream using mutual TLS by presenting
-client certificates for authentication.
-Compared to Mutual mode, this mode uses certificates generated
-automatically by Istio for mTLS authentication. When this mode is
+<p>Secure connections to the upstream using mutual TLS by presenting<br />
+client certificates for authentication.<br />
+Compared to Mutual mode, this mode uses certificates generated<br />
+automatically by Istio for mTLS authentication. When this mode is<br />
 used, all other fields in <code>ClientTLSSettings</code> should be empty.</p>
 
 </td>
