@@ -47,9 +47,18 @@ _verify_contains snip_deploy_an_nginx_server_5 "subject: CN=nginx.example.com"
 # configure an ingress gateway
 if [ "$GATEWAY_API" == "true" ]; then
     snip_configure_an_ingress_gateway_2
-    snip_configure_an_ingress_gateway_4
     _wait_for_gateway default mygateway
+
+    snip_configure_an_ingress_gateway_4
+
+    echo ">>>> Gateway:"
+    kubectl get gtw mygateway -o yaml
+    echo ">>>> TLSRoute:"
+    kubectl get tlsroute nginx -o yaml
+
     snip_configure_an_ingress_gateway_5
+
+    echo "addr: ${INGRESS_HOST}:${SECURE_INGRESS_PORT}"
 else
     snip_configure_an_ingress_gateway_1
     snip_configure_an_ingress_gateway_3

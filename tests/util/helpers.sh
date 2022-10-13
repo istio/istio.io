@@ -114,8 +114,9 @@ _wait_for_gateway() {
     local namespace="$1"
     local name="$2"
     local context="${3:-}"
-    if ! kubectl --context="$context" -n "$namespace" wait --for=condition=ready gtw "$name" --timeout=5m; then
+    if ! kubectl --context="$context" -n "$namespace" wait --for=condition=ready gtw "$name" --timeout=2m; then
         echo "Failed to deploy gateway $name in namespace $namespace"
+        kubectl --context="$context" get -n "$namespace" gtw "$name" -o yaml
         exit 1
     fi
 }
