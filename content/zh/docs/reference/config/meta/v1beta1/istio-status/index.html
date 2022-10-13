@@ -24,10 +24,10 @@ number_of_entries: 2
 <td><code>conditions</code></td>
 <td><code><a href="#IstioCondition">IstioCondition[]</a></code></td>
 <td>
-<p>Current service state of pod.<br />
-More info: <a href="/zh/docs/reference/config/config-status/">https://istio.io/docs/reference/config/config-status/</a><br />
-+optional<br />
-+patchMergeKey=type<br />
+<p>Current service state of pod.
+More info: <a href="/zh/docs/reference/config/config-status/">https://istio.io/docs/reference/config/config-status/</a>
++optional
++patchMergeKey=type
 +patchStrategy=merge</p>
 
 </td>
@@ -39,9 +39,9 @@ No
 <td><code>validationMessages</code></td>
 <td><code><a href="/zh/docs/reference/config/istio.analysis.v1alpha1/#AnalysisMessageBase">AnalysisMessageBase[]</a></code></td>
 <td>
-<p>Includes any errors or warnings detected by Istio's analyzers.<br />
-+optional<br />
-+patchMergeKey=type<br />
+<p>Includes any errors or warnings detected by Istio's analyzers.
++optional
++patchMergeKey=type
 +patchStrategy=merge</p>
 
 </td>
@@ -53,9 +53,9 @@ No
 <td><code>observedGeneration</code></td>
 <td><code>int64</code></td>
 <td>
-<p>Resource Generation to which the Reconciled Condition refers.<br />
-When this value is not equal to the object's metadata generation, reconciled condition  calculation for the current<br />
-generation is still in progress.  See <a href="/latest/docs/reference/config/config-status/">https://istio.io/latest/docs/reference/config/config-status/</a> for more info.<br />
+<p>Resource Generation to which the Reconciled Condition refers.
+When this value is not equal to the object's metadata generation, reconciled condition  calculation for the current
+generation is still in progress.  See <a href="/latest/docs/reference/config/config-status/">https://istio.io/latest/docs/reference/config/config-status/</a> for more info.
 +optional</p>
 
 </td>
@@ -93,7 +93,7 @@ No
 <td><code>status</code></td>
 <td><code>string</code></td>
 <td>
-<p>Status is the status of the condition.<br />
+<p>Status is the status of the condition.
 Can be True, False, Unknown.</p>
 
 </td>
@@ -105,7 +105,7 @@ No
 <td><code>lastProbeTime</code></td>
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#timestamp">Timestamp</a></code></td>
 <td>
-<p>Last time we probed the condition.<br />
+<p>Last time we probed the condition.
 +optional</p>
 
 </td>
@@ -117,7 +117,7 @@ No
 <td><code>lastTransitionTime</code></td>
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#timestamp">Timestamp</a></code></td>
 <td>
-<p>Last time the condition transitioned from one status to another.<br />
+<p>Last time the condition transitioned from one status to another.
 +optional</p>
 
 </td>
@@ -129,7 +129,7 @@ No
 <td><code>reason</code></td>
 <td><code>string</code></td>
 <td>
-<p>Unique, one-word, CamelCase reason for the condition's last transition.<br />
+<p>Unique, one-word, CamelCase reason for the condition's last transition.
 +optional</p>
 
 </td>
@@ -141,7 +141,7 @@ No
 <td><code>message</code></td>
 <td><code>string</code></td>
 <td>
-<p>Human-readable message indicating details about last transition.<br />
+<p>Human-readable message indicating details about last transition.
 +optional</p>
 
 </td>

@@ -10,11 +10,11 @@ number_of_entries: 3
 ---
 <h2 id="WorkloadSelector">WorkloadSelector</h2>
 <section>
-<p>WorkloadSelector specifies the criteria used to determine if a policy can be applied<br />
-to a proxy. The matching criteria includes the metadata associated with a proxy,<br />
-workload instance info such as labels attached to the pod/VM, or any other info<br />
-that the proxy provides to Istio during the initial handshake. If multiple conditions are<br />
-specified, all conditions need to match in order for the workload instance to be<br />
+<p>WorkloadSelector specifies the criteria used to determine if a policy can be applied
+to a proxy. The matching criteria includes the metadata associated with a proxy,
+workload instance info such as labels attached to the pod/VM, or any other info
+that the proxy provides to Istio during the initial handshake. If multiple conditions are
+specified, all conditions need to match in order for the workload instance to be
 selected. Currently, only label based selection mechanism is supported.</p>
 
 <table class="message-fields">
@@ -31,8 +31,8 @@ selected. Currently, only label based selection mechanism is supported.</p>
 <td><code>matchLabels</code></td>
 <td><code>map&lt;string,&nbsp;string&gt;</code></td>
 <td>
-<p>One or more labels that indicate a specific set of pods/VMs<br />
-on which a policy should be applied. The scope of label search is restricted to<br />
+<p>One or more labels that indicate a specific set of pods/VMs
+on which a policy should be applied. The scope of label search is restricted to
 the configuration namespace in which the resource is present.</p>
 
 </td>
@@ -45,7 +45,7 @@ Yes
 </section>
 <h2 id="PortSelector">PortSelector</h2>
 <section>
-<p>PortSelector is the criteria for specifying if a policy can be applied to<br />
+<p>PortSelector is the criteria for specifying if a policy can be applied to
 a listener having a specific port.</p>
 
 <table class="message-fields">
@@ -74,11 +74,11 @@ No
 </section>
 <h2 id="WorkloadMode">WorkloadMode</h2>
 <section>
-<p>WorkloadMode allows selection of the role of the underlying workload in<br />
-network traffic. A workload is considered as acting as a SERVER if it is<br />
-the destination of the traffic (that is, traffic direction, from the<br />
-perspective of the workload is <em>inbound</em>). If the workload is the source of<br />
-the network traffic, it is considered to be in CLIENT mode (traffic is<br />
+<p>WorkloadMode allows selection of the role of the underlying workload in
+network traffic. A workload is considered as acting as a SERVER if it is
+the destination of the traffic (that is, traffic direction, from the
+perspective of the workload is <em>inbound</em>). If the workload is the source of
+the network traffic, it is considered to be in CLIENT mode (traffic is
 <em>outbound</em> from the workload).</p>
 
 <table class="enum-values">
@@ -99,8 +99,8 @@ the network traffic, it is considered to be in CLIENT mode (traffic is<br />
 <tr id="WorkloadMode-CLIENT">
 <td><code>CLIENT</code></td>
 <td>
-<p>Selects for scenarios when the workload is the<br />
-source of the network traffic. In addition,<br />
+<p>Selects for scenarios when the workload is the
+source of the network traffic. In addition,
 if the workload is a gateway, selects this.</p>
 
 </td>
@@ -108,7 +108,7 @@ if the workload is a gateway, selects this.</p>
 <tr id="WorkloadMode-SERVER">
 <td><code>SERVER</code></td>
 <td>
-<p>Selects for scenarios when the workload is the<br />
+<p>Selects for scenarios when the workload is the
 destination of the network traffic.</p>
 
 </td>
@@ -116,7 +116,7 @@ destination of the network traffic.</p>
 <tr id="WorkloadMode-CLIENT_AND_SERVER">
 <td><code>CLIENT_AND_SERVER</code></td>
 <td>
-<p>Selects for scenarios when the workload is either the<br />
+<p>Selects for scenarios when the workload is either the
 source or destination of the network traffic.</p>
 
 </td>

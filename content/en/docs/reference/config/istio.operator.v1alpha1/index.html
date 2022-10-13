@@ -9,17 +9,17 @@ generator: protoc-gen-docs
 weight: 20
 number_of_entries: 74
 ---
-<p>Configuration affecting Istio control plane installation version and shape.<br />
-Note: unlike other Istio protos, field names must use camelCase. This is asserted in tests.<br />
-Without camelCase, the <code>json</code> tag on the Go struct will not match the user's JSON representation.<br />
-This leads to Kubernetes merge libraries, which rely on this tag, to fail.<br />
+<p>Configuration affecting Istio control plane installation version and shape.
+Note: unlike other Istio protos, field names must use camelCase. This is asserted in tests.
+Without camelCase, the <code>json</code> tag on the Go struct will not match the user's JSON representation.
+This leads to Kubernetes merge libraries, which rely on this tag, to fail.
 All other usages use jsonpb which does not use the <code>json</code> tag.</p>
 
 <h2 id="IstioOperatorSpec">IstioOperatorSpec</h2>
 <section>
-<p>IstioOperatorSpec defines the desired installed state of Istio components.<br />
-The spec is a used to define a customization of the default profile values that are supplied with each Istio release.<br />
-Because the spec is a customization API, specifying an empty IstioOperatorSpec results in a default Istio<br />
+<p>IstioOperatorSpec defines the desired installed state of Istio components.
+The spec is a used to define a customization of the default profile values that are supplied with each Istio release.
+Because the spec is a customization API, specifying an empty IstioOperatorSpec results in a default Istio
 component values.</p>
 <pre><code class="language-yaml">apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
@@ -103,9 +103,9 @@ No
 <td><code>namespace</code></td>
 <td><code>string</code></td>
 <td>
-<p>Namespace to install control plane resources into. If unset, Istio will be installed into the same namespace<br />
-as the <code>IstioOperator</code> CR. You must also set <code>values.global.istioNamespace</code> if you wish to install Istio in<br />
-a custom namespace.<br />
+<p>Namespace to install control plane resources into. If unset, Istio will be installed into the same namespace
+as the <code>IstioOperator</code> CR. You must also set <code>values.global.istioNamespace</code> if you wish to install Istio in
+a custom namespace.
 If you have enabled CNI, you must  exclude this namespace by adding it to the list <code>values.cni.excludeNamespaces</code>.</p>
 
 </td>
@@ -117,7 +117,7 @@ No
 <td><code>revision</code></td>
 <td><code>string</code></td>
 <td>
-<p>Identify the revision this installation is associated with.<br />
+<p>Identify the revision this installation is associated with.
 This option is currently experimental.</p>
 
 </td>
@@ -129,7 +129,7 @@ No
 <td><code>defaultRevision</code></td>
 <td><code>bool</code></td>
 <td>
-<p>Identify whether this revision is the default revision for the cluster<br />
+<p>Identify whether this revision is the default revision for the cluster
 This option is currently experimental.</p>
 
 </td>
@@ -152,7 +152,7 @@ No
 <td><code>components</code></td>
 <td><code><a href="#IstioComponentSetSpec">IstioComponentSetSpec</a></code></td>
 <td>
-<p>Kubernetes resource settings, enablement and component-specific settings that are not internal to the<br />
+<p>Kubernetes resource settings, enablement and component-specific settings that are not internal to the
 component.</p>
 
 </td>
@@ -164,9 +164,9 @@ No
 <td><code>values</code></td>
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct">Struct</a></code></td>
 <td>
-<p>Overrides for default <code>values.yaml</code>. This is a validated pass-through to Helm templates.<br />
-See the <a href="https://istio.io/v1.5/docs/reference/config/installation-options/">Helm installation options</a> for schema details.<br />
-Anything that is available in <code>IstioOperatorSpec</code> should be set above rather than using the passthrough. This<br />
+<p>Overrides for default <code>values.yaml</code>. This is a validated pass-through to Helm templates.
+See the <a href="https://istio.io/v1.5/docs/reference/config/installation-options/">Helm installation options</a> for schema details.
+Anything that is available in <code>IstioOperatorSpec</code> should be set above rather than using the passthrough. This
 includes Kubernetes resource settings for components in <code>KubernetesResourcesSpec</code>.</p>
 
 </td>
@@ -189,8 +189,8 @@ No
 <td><code>addonComponents</code></td>
 <td><code>map&lt;string,&nbsp;<a href="#ExternalComponentSpec">ExternalComponentSpec</a>&gt;</code></td>
 <td>
-<p>Deprecated.<br />
-Users should manage the installation of addon components on their own.<br />
+<p>Deprecated.
+Users should manage the installation of addon components on their own.
 Refer to samples/addons for demo installation of addon components.</p>
 
 </td>
@@ -650,7 +650,7 @@ No
 <td><code>affinity</code></td>
 <td><code><a href="#Affinity">Affinity</a></code></td>
 <td>
-<p>k8s affinity.<br />
+<p>k8s affinity.
 <a href="https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity">https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity</a></p>
 
 </td>
@@ -662,7 +662,7 @@ No
 <td><code>env</code></td>
 <td><code><a href="#EnvVar">EnvVar[]</a></code></td>
 <td>
-<p>Deployment environment variables.<br />
+<p>Deployment environment variables.
 <a href="https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/">https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/</a></p>
 
 </td>
@@ -674,7 +674,7 @@ No
 <td><code>hpaSpec</code></td>
 <td><code><a href="#HorizontalPodAutoscalerSpec">HorizontalPodAutoscalerSpec</a></code></td>
 <td>
-<p>k8s HorizontalPodAutoscaler settings.<br />
+<p>k8s HorizontalPodAutoscaler settings.
 <a href="https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/">https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/</a></p>
 
 </td>
@@ -686,7 +686,7 @@ No
 <td><code>imagePullPolicy</code></td>
 <td><code>string</code></td>
 <td>
-<p>k8s imagePullPolicy.<br />
+<p>k8s imagePullPolicy.
 <a href="https://kubernetes.io/docs/concepts/containers/images/">https://kubernetes.io/docs/concepts/containers/images/</a></p>
 
 </td>
@@ -698,7 +698,7 @@ No
 <td><code>nodeSelector</code></td>
 <td><code>map&lt;string,&nbsp;string&gt;</code></td>
 <td>
-<p>k8s nodeSelector.<br />
+<p>k8s nodeSelector.
 <a href="https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector">https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector</a></p>
 
 </td>
@@ -710,7 +710,7 @@ No
 <td><code>podDisruptionBudget</code></td>
 <td><code><a href="#PodDisruptionBudgetSpec">PodDisruptionBudgetSpec</a></code></td>
 <td>
-<p>k8s PodDisruptionBudget settings.<br />
+<p>k8s PodDisruptionBudget settings.
 <a href="https://kubernetes.io/docs/concepts/workloads/pods/disruptions/#how-disruption-budgets-work">https://kubernetes.io/docs/concepts/workloads/pods/disruptions/#how-disruption-budgets-work</a></p>
 
 </td>
@@ -722,7 +722,7 @@ No
 <td><code>podAnnotations</code></td>
 <td><code>map&lt;string,&nbsp;string&gt;</code></td>
 <td>
-<p>k8s pod annotations.<br />
+<p>k8s pod annotations.
 <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/">https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/</a></p>
 
 </td>
@@ -734,7 +734,7 @@ No
 <td><code>priorityClassName</code></td>
 <td><code>string</code></td>
 <td>
-<p>k8s priority_class_name. Default for all resources unless overridden.<br />
+<p>k8s priority_class_name. Default for all resources unless overridden.
 <a href="https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass">https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass</a></p>
 
 </td>
@@ -746,8 +746,8 @@ No
 <td><code>readinessProbe</code></td>
 <td><code><a href="#ReadinessProbe">ReadinessProbe</a></code></td>
 <td>
-<p>k8s readinessProbe settings.<br />
-<a href="https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/">https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/</a><br />
+<p>k8s readinessProbe settings.
+<a href="https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/">https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/</a>
 k8s.io.api.core.v1.Probe readiness_probe = 9;</p>
 
 </td>
@@ -759,7 +759,7 @@ No
 <td><code>replicaCount</code></td>
 <td><code>uint32</code></td>
 <td>
-<p>k8s Deployment replicas setting.<br />
+<p>k8s Deployment replicas setting.
 <a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/">https://kubernetes.io/docs/concepts/workloads/controllers/deployment/</a></p>
 
 </td>
@@ -771,7 +771,7 @@ No
 <td><code>resources</code></td>
 <td><code><a href="#Resources">Resources</a></code></td>
 <td>
-<p>k8s resources settings.<br />
+<p>k8s resources settings.
 <a href="https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container">https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container</a></p>
 
 </td>
@@ -783,7 +783,7 @@ No
 <td><code>service</code></td>
 <td><code><a href="#ServiceSpec">ServiceSpec</a></code></td>
 <td>
-<p>k8s Service settings.<br />
+<p>k8s Service settings.
 <a href="https://kubernetes.io/docs/concepts/services-networking/service/">https://kubernetes.io/docs/concepts/services-networking/service/</a></p>
 
 </td>
@@ -795,7 +795,7 @@ No
 <td><code>strategy</code></td>
 <td><code><a href="#DeploymentStrategy">DeploymentStrategy</a></code></td>
 <td>
-<p>k8s deployment strategy.<br />
+<p>k8s deployment strategy.
 <a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/">https://kubernetes.io/docs/concepts/workloads/controllers/deployment/</a></p>
 
 </td>
@@ -807,7 +807,7 @@ No
 <td><code>tolerations</code></td>
 <td><code><a href="#Toleration">Toleration[]</a></code></td>
 <td>
-<p>k8s toleration<br />
+<p>k8s toleration
 <a href="https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/">https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/</a></p>
 
 </td>
@@ -819,7 +819,7 @@ No
 <td><code>serviceAnnotations</code></td>
 <td><code>map&lt;string,&nbsp;string&gt;</code></td>
 <td>
-<p>k8s service annotations.<br />
+<p>k8s service annotations.
 <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/">https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/</a></p>
 
 </td>
@@ -831,7 +831,7 @@ No
 <td><code>securityContext</code></td>
 <td><code><a href="#PodSecurityContext">PodSecurityContext</a></code></td>
 <td>
-<p>k8s pod security context<br />
+<p>k8s pod security context
 <a href="https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod">https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod</a></p>
 
 </td>
@@ -843,8 +843,8 @@ No
 <td><code>volumes</code></td>
 <td><code><a href="#k8s-io-api-core-v1-Volume">Volume[]</a></code></td>
 <td>
-<p>k8s volume<br />
-<a href="https://kubernetes.io/docs/concepts/storage/volumes/">https://kubernetes.io/docs/concepts/storage/volumes/</a><br />
+<p>k8s volume
+<a href="https://kubernetes.io/docs/concepts/storage/volumes/">https://kubernetes.io/docs/concepts/storage/volumes/</a>
 Volumes defines the collection of Volume to inject into the pod.</p>
 
 </td>
@@ -856,7 +856,7 @@ No
 <td><code>volumeMounts</code></td>
 <td><code><a href="#k8s-io-api-core-v1-VolumeMount">VolumeMount[]</a></code></td>
 <td>
-<p>k8s volumeMounts<br />
+<p>k8s volumeMounts
 VolumeMounts defines the collection of VolumeMount to inject into containers.</p>
 
 </td>
@@ -918,7 +918,7 @@ No
 <td><code>name</code></td>
 <td><code>string</code></td>
 <td>
-<p>Name of resource.<br />
+<p>Name of resource.
 Namespace is always the component namespace.</p>
 
 </td>
@@ -2260,7 +2260,7 @@ No
 <td><code>target</code></td>
 <td><code><a href="#google-protobuf-Value">Value</a></code></td>
 <td>
-<p>Type changes from CrossVersionObjectReference to ResourceMetricTarget in autoscaling v2beta2/v2 compared with v2beta1<br />
+<p>Type changes from CrossVersionObjectReference to ResourceMetricTarget in autoscaling v2beta2/v2 compared with v2beta1
 Change it to dynamic type to keep backward compatible</p>
 
 </td>
@@ -3626,9 +3626,9 @@ No
 </section>
 <h2 id="IntOrString">IntOrString</h2>
 <section>
-<p>IntOrString is a type that can hold an int32 or a string.  When used in<br />
-JSON or YAML marshalling and unmarshalling, it produces or consumes the<br />
-inner type.  This allows you to have, for example, a JSON field that can<br />
+<p>IntOrString is a type that can hold an int32 or a string.  When used in
+JSON or YAML marshalling and unmarshalling, it produces or consumes the
+inner type.  This allows you to have, for example, a JSON field that can
 accept a name or number.</p>
 
 <table class="message-fields">
@@ -3731,9 +3731,9 @@ No
 <td><code>path</code></td>
 <td><code>string</code></td>
 <td>
-<p>Path of the form a.[key1:value1].b.[:value2]<br />
-Where [key1:value1] is a selector for a key-value pair to identify a list element and [:value] is a value<br />
-selector to identify a list element in a leaf list.<br />
+<p>Path of the form a.[key1:value1].b.[:value2]
+Where [key1:value1] is a selector for a key-value pair to identify a list element and [:value] is a value
+selector to identify a list element in a leaf list.
 All path intermediate nodes must exist.</p>
 
 </td>
@@ -3745,10 +3745,10 @@ No
 <td><code>value</code></td>
 <td><code><a href="#google-protobuf-Value">Value</a></code></td>
 <td>
-<p>Value to add, delete or replace.<br />
-For add, the path should be a new leaf.<br />
-For delete, value should be unset.<br />
-For replace, path should reference an existing node.<br />
+<p>Value to add, delete or replace.
+For add, the path should be a new leaf.
+For delete, value should be unset.
+For replace, path should reference an existing node.
 All values are strings but are converted into appropriate type based on schema.</p>
 
 </td>
@@ -3761,9 +3761,9 @@ No
 </section>
 <h2 id="google-protobuf-Value">google.protobuf.Value</h2>
 <section>
-<p><code>Value</code> represents a dynamically typed value which can be either<br />
-null, a number, a string, a boolean, a recursive struct value, or a<br />
-list of values. A producer of value is expected to set one of that<br />
+<p><code>Value</code> represents a dynamically typed value which can be either
+null, a number, a string, a boolean, a recursive struct value, or a
+list of values. A producer of value is expected to set one of that
 variants, absence of any variant indicates an error.</p>
 <p>The JSON representation for <code>Value</code> is JSON value.</p>
 
@@ -3864,8 +3864,8 @@ No
 <td><code>name</code></td>
 <td><code>string</code></td>
 <td>
-<p>name of the volume.<br />
-Must be a DNS_LABEL and unique within the pod.<br />
+<p>name of the volume.
+Must be a DNS_LABEL and unique within the pod.
 More info: <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names">https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names</a></p>
 
 </td>
@@ -3877,8 +3877,8 @@ No
 <td><code>volumeSource</code></td>
 <td><code><a href="#k8s-io-api-core-v1-VolumeSource">VolumeSource</a></code></td>
 <td>
-<p>volumeSource represents the location and type of the mounted volume.<br />
-If not specified, the Volume is implied to be an EmptyDir.<br />
+<p>volumeSource represents the location and type of the mounted volume.
+If not specified, the Volume is implied to be an EmptyDir.
 This implied behavior is deprecated and will be removed in a future version.</p>
 
 </td>
@@ -3918,8 +3918,8 @@ No
 <td><code>readOnly</code></td>
 <td><code>bool</code></td>
 <td>
-<p>Mounted read-only if true, read-write otherwise (false or unspecified).<br />
-Defaults to false.<br />
+<p>Mounted read-only if true, read-write otherwise (false or unspecified).
+Defaults to false.
 +optional</p>
 
 </td>
@@ -3931,7 +3931,7 @@ No
 <td><code>mountPath</code></td>
 <td><code>string</code></td>
 <td>
-<p>Path within the container at which the volume should be mounted.  Must<br />
+<p>Path within the container at which the volume should be mounted.  Must
 not contain ':'.</p>
 
 </td>
@@ -3943,8 +3943,8 @@ No
 <td><code>subPath</code></td>
 <td><code>string</code></td>
 <td>
-<p>Path within the volume from which the container's volume should be mounted.<br />
-Defaults to &quot;&quot; (volume's root).<br />
+<p>Path within the volume from which the container's volume should be mounted.
+Defaults to &quot;&quot; (volume's root).
 +optional</p>
 
 </td>
@@ -3956,10 +3956,10 @@ No
 <td><code>mountPropagation</code></td>
 <td><code>string</code></td>
 <td>
-<p>mountPropagation determines how mounts are propagated from the host<br />
-to container and the other way around.<br />
-When not set, MountPropagationNone is used.<br />
-This field is beta in 1.10.<br />
+<p>mountPropagation determines how mounts are propagated from the host
+to container and the other way around.
+When not set, MountPropagationNone is used.
+This field is beta in 1.10.
 +optional</p>
 
 </td>
@@ -3971,10 +3971,10 @@ No
 <td><code>subPathExpr</code></td>
 <td><code>string</code></td>
 <td>
-<p>Expanded path within the volume from which the container's volume should be mounted.<br />
-Behaves similarly to SubPath but environment variable references $(VAR_NAME) are expanded using the container's environment.<br />
-Defaults to &quot;&quot; (volume's root).<br />
-SubPathExpr and SubPath are mutually exclusive.<br />
+<p>Expanded path within the volume from which the container's volume should be mounted.
+Behaves similarly to SubPath but environment variable references $(VAR_NAME) are expanded using the container's environment.
+Defaults to &quot;&quot; (volume's root).
+SubPathExpr and SubPath are mutually exclusive.
 +optional</p>
 
 </td>
@@ -3987,9 +3987,9 @@ No
 </section>
 <h2 id="k8s-io-apimachinery-pkg-apis-meta-v1-LabelSelector">k8s.io.apimachinery.pkg.apis.meta.v1.LabelSelector</h2>
 <section>
-<p>A label selector is a label query over a set of resources. The result of matchLabels and<br />
-matchExpressions are ANDed. An empty label selector matches all objects. A null<br />
-label selector matches no objects.<br />
+<p>A label selector is a label query over a set of resources. The result of matchLabels and
+matchExpressions are ANDed. An empty label selector matches all objects. A null
+label selector matches no objects.
 +structType=atomic</p>
 
 <table class="message-fields">
@@ -4006,9 +4006,9 @@ label selector matches no objects.<br />
 <td><code>matchLabels</code></td>
 <td><code>map&lt;string,&nbsp;string&gt;</code></td>
 <td>
-<p>matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels<br />
-map is equivalent to an element of matchExpressions, whose key field is &quot;key&quot;, the<br />
-operator is &quot;In&quot;, and the values array contains only &quot;value&quot;. The requirements are ANDed.<br />
+<p>matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+map is equivalent to an element of matchExpressions, whose key field is &quot;key&quot;, the
+operator is &quot;In&quot;, and the values array contains only &quot;value&quot;. The requirements are ANDed.
 +optional</p>
 
 </td>
@@ -4020,7 +4020,7 @@ No
 <td><code>matchExpressions</code></td>
 <td><code><a href="#k8s-io-apimachinery-pkg-apis-meta-v1-LabelSelectorRequirement">LabelSelectorRequirement[]</a></code></td>
 <td>
-<p>matchExpressions is a list of label selector requirements. The requirements are ANDed.<br />
+<p>matchExpressions is a list of label selector requirements. The requirements are ANDed.
 +optional</p>
 
 </td>
@@ -4081,8 +4081,8 @@ No
 <tr id="InstallStatus-Status-ACTION_REQUIRED">
 <td><code>ACTION_REQUIRED</code></td>
 <td>
-<p>Overall status only and would not be set as a component status.<br />
-Action is needed from the user for reconciliation to proceed<br />
+<p>Overall status only and would not be set as a component status.
+Action is needed from the user for reconciliation to proceed
 e.g. There are proxies still pointing to the control plane revision when try to remove an <code>IstioOperator</code> CR.</p>
 
 </td>

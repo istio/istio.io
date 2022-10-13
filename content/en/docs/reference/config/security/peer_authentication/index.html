@@ -25,7 +25,7 @@ spec:
     mode: STRICT
 </code></pre>
 <p>For mesh level, put the policy in root-namespace according to your Istio installation.</p>
-<p>Policies to allow both mTLS &amp; plaintext traffic for all workloads under namespace <code>foo</code>, but<br />
+<p>Policies to allow both mTLS &amp; plaintext traffic for all workloads under namespace <code>foo</code>, but
 require mTLS for workload <code>finance</code>.</p>
 <pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
 kind: PeerAuthentication
@@ -48,7 +48,7 @@ spec:
   mtls:
     mode: STRICT
 </code></pre>
-<p>Policy to allow mTLS strict for all workloads, but leave port 8080 to<br />
+<p>Policy to allow mTLS strict for all workloads, but leave port 8080 to
 plaintext:</p>
 <pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
 kind: PeerAuthentication
@@ -65,7 +65,7 @@ spec:
     8080:
       mode: DISABLE
 </code></pre>
-<p>Policy to inherit mTLS mode from namespace (or mesh) settings, and overwrite<br />
+<p>Policy to inherit mTLS mode from namespace (or mesh) settings, and overwrite
 settings for port 8080</p>
 <pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
 kind: PeerAuthentication
@@ -97,7 +97,7 @@ spec:
 <td><code>selector</code></td>
 <td><code><a href="/docs/reference/config/type/workload-selector/#WorkloadSelector">WorkloadSelector</a></code></td>
 <td>
-<p>The selector determines the workloads to apply the ChannelAuthentication on.<br />
+<p>The selector determines the workloads to apply the ChannelAuthentication on.
 If not set, the policy will be applied to all workloads in the same namespace as the policy.</p>
 
 </td>
@@ -120,7 +120,7 @@ No
 <td><code>portLevelMtls</code></td>
 <td><code>map&lt;uint32,&nbsp;<a href="#PeerAuthentication-MutualTLS">MutualTLS</a>&gt;</code></td>
 <td>
-<p>Port specific mutual TLS settings. These only apply when a workload selector<br />
+<p>Port specific mutual TLS settings. These only apply when a workload selector
 is specified.</p>
 
 </td>

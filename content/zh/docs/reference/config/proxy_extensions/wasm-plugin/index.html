@@ -10,15 +10,15 @@ schema: istio.extensions.v1alpha1.WasmPlugin
 aliases: [/zh/docs/reference/config/extensions/v1alpha1/wasm-plugin]
 number_of_entries: 6
 ---
-<p>WasmPlugins provides a mechanism to extend the functionality provided by<br />
+<p>WasmPlugins provides a mechanism to extend the functionality provided by
 the Istio proxy through WebAssembly filters.</p>
-<p>Order of execution (as part of Envoy's filter chain) is determined by<br />
-phase and priority settings, allowing the configuration of complex<br />
-interactions between user-supplied WasmPlugins and Istio's internal<br />
+<p>Order of execution (as part of Envoy's filter chain) is determined by
+phase and priority settings, allowing the configuration of complex
+interactions between user-supplied WasmPlugins and Istio's internal
 filters.</p>
 <p>Examples:</p>
-<p>AuthN Filter deployed to ingress-gateway that implements an OpenID flow<br />
-and populates the <code>Authorization</code> header with a JWT to be consumed by<br />
+<p>AuthN Filter deployed to ingress-gateway that implements an OpenID flow
+and populates the <code>Authorization</code> header with a JWT to be consumed by
 Istio AuthN.</p>
 <pre><code class="language-yaml">apiVersion: extensions.istio.io/v1alpha1
 kind: WasmPlugin
@@ -101,18 +101,18 @@ spec:
     - name: TRUST_DOMAIN
       value: &quot;cluster.local&quot;
 </code></pre>
-<p>And a more complex example that deploys three WasmPlugins and orders them<br />
-using <code>phase</code> and <code>priority</code>. The (hypothetical) setup is that the<br />
-<code>openid-connect</code> filter performs an OpenID Connect flow to authenticate the<br />
-user, writing a signed JWT into the Authorization header of the request,<br />
-which can be verified by the Istio authn plugin. Then, the <code>acl-check</code> plugin<br />
-kicks in, passing the JWT to a policy server, which in turn responds with a<br />
-signed token that contains information about which files and functions of the<br />
-system are available to the user that was previously authenticated. The<br />
-<code>acl-check</code> filter writes this token to a header. Finally, the <code>check-header</code><br />
-filter verifies the token in that header and makes sure that the token's<br />
+<p>And a more complex example that deploys three WasmPlugins and orders them
+using <code>phase</code> and <code>priority</code>. The (hypothetical) setup is that the
+<code>openid-connect</code> filter performs an OpenID Connect flow to authenticate the
+user, writing a signed JWT into the Authorization header of the request,
+which can be verified by the Istio authn plugin. Then, the <code>acl-check</code> plugin
+kicks in, passing the JWT to a policy server, which in turn responds with a
+signed token that contains information about which files and functions of the
+system are available to the user that was previously authenticated. The
+<code>acl-check</code> filter writes this token to a header. Finally, the <code>check-header</code>
+filter verifies the token in that header and makes sure that the token's
 contents (the permitted 'function') matches its plugin configuration.</p>
-<p>The resulting filter chain looks like this:<br />
+<p>The resulting filter chain looks like this:
 -&gt; openid-connect -&gt; istio.authn -&gt; acl-check -&gt; check-header -&gt; router</p>
 <pre><code class="language-yaml">apiVersion: extensions.istio.io/v1alpha1
 kind: WasmPlugin
@@ -171,7 +171,7 @@ spec:
 
 <h2 id="WasmPlugin">WasmPlugin</h2>
 <section>
-<p>WasmPlugins provides a mechanism to extend the functionality provided by<br />
+<p>WasmPlugins provides a mechanism to extend the functionality provided by
 the Istio proxy through WebAssembly filters.</p>
 
 <table class="message-fields">
@@ -188,11 +188,11 @@ the Istio proxy through WebAssembly filters.</p>
 <td><code>selector</code></td>
 <td><code><a href="/zh/docs/reference/config/type/workload-selector/#WorkloadSelector">WorkloadSelector</a></code></td>
 <td>
-<p>Criteria used to select the specific set of pods/VMs on which<br />
-this plugin configuration should be applied. If omitted, this<br />
-configuration will be applied to all workload instances in the same<br />
-namespace. If the <code>WasmPlugin</code> is present in the config root<br />
-namespace, it will be applied to all applicable workloads in any<br />
+<p>Criteria used to select the specific set of pods/VMs on which
+this plugin configuration should be applied. If omitted, this
+configuration will be applied to all workload instances in the same
+namespace. If the <code>WasmPlugin</code> is present in the config root
+namespace, it will be applied to all applicable workloads in any
 namespace.</p>
 
 </td>
@@ -204,10 +204,10 @@ No
 <td><code>url</code></td>
 <td><code>string</code></td>
 <td>
-<p>URL of a Wasm module or OCI container. If no scheme is present,<br />
-defaults to <code>oci://</code>, referencing an OCI image. Other valid schemes<br />
-are <code>file://</code> for referencing .wasm module files present locally<br />
-within the proxy container, and <code>http[s]://</code> for .wasm module files<br />
+<p>URL of a Wasm module or OCI container. If no scheme is present,
+defaults to <code>oci://</code>, referencing an OCI image. Other valid schemes
+are <code>file://</code> for referencing .wasm module files present locally
+within the proxy container, and <code>http[s]://</code> for .wasm module files
 hosted remotely.</p>
 
 </td>
@@ -219,10 +219,10 @@ No
 <td><code>sha256</code></td>
 <td><code>string</code></td>
 <td>
-<p>SHA256 checksum that will be used to verify Wasm module or OCI container.<br />
-If the <code>url</code> field already references a SHA256 (using the <code>@sha256:</code><br />
-notation), it must match the value of this field. If an OCI image is<br />
-referenced by tag and this field is set, its checksum will be verified<br />
+<p>SHA256 checksum that will be used to verify Wasm module or OCI container.
+If the <code>url</code> field already references a SHA256 (using the <code>@sha256:</code>
+notation), it must match the value of this field. If an OCI image is
+referenced by tag and this field is set, its checksum will be verified
 against the contents of this field after pulling.</p>
 
 </td>
@@ -234,11 +234,11 @@ No
 <td><code>imagePullPolicy</code></td>
 <td><code><a href="#PullPolicy">PullPolicy</a></code></td>
 <td>
-<p>The pull behaviour to be applied when fetching Wasm module by either<br />
-OCI image or http/https. Only relevant when referencing Wasm module without<br />
-any digest, including the digest in OCI image URL or sha256 field in <code>vm_config</code>.<br />
-Defaults to IfNotPresent, except when an OCI image is referenced in the <code>url</code><br />
-and the <code>latest</code> tag is used, in which case <code>Always</code> is the default,<br />
+<p>The pull behaviour to be applied when fetching Wasm module by either
+OCI image or http/https. Only relevant when referencing Wasm module without
+any digest, including the digest in OCI image URL or sha256 field in <code>vm_config</code>.
+Defaults to IfNotPresent, except when an OCI image is referenced in the <code>url</code>
+and the <code>latest</code> tag is used, in which case <code>Always</code> is the default,
 mirroring K8s behaviour.</p>
 
 </td>
@@ -250,9 +250,9 @@ No
 <td><code>imagePullSecret</code></td>
 <td><code>string</code></td>
 <td>
-<p>Credentials to use for OCI image pulling.<br />
-Name of a K8s Secret in the same namespace as the <code>WasmPlugin</code> that<br />
-contains a docker pull secret which is to be used to authenticate<br />
+<p>Credentials to use for OCI image pulling.
+Name of a K8s Secret in the same namespace as the <code>WasmPlugin</code> that
+contains a docker pull secret which is to be used to authenticate
 against the registry when pulling the image.</p>
 
 </td>
@@ -275,8 +275,8 @@ No
 <td><code>pluginName</code></td>
 <td><code>string</code></td>
 <td>
-<p>The plugin name to be used in the Envoy configuration (used to be called<br />
-<code>rootID</code>). Some .wasm modules might require this value to select the Wasm<br />
+<p>The plugin name to be used in the Envoy configuration (used to be called
+<code>rootID</code>). Some .wasm modules might require this value to select the Wasm
 plugin to execute.</p>
 
 </td>
@@ -299,11 +299,11 @@ No
 <td><code>priority</code></td>
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#int64value">Int64Value</a></code></td>
 <td>
-<p>Determines ordering of <code>WasmPlugins</code> in the same <code>phase</code>.<br />
-When multiple <code>WasmPlugins</code> are applied to the same workload in the<br />
-same <code>phase</code>, they will be applied by priority, in descending order.<br />
-If <code>priority</code> is not set, or two <code>WasmPlugins</code> exist with the same<br />
-value, the ordering will be deterministically derived from name and<br />
+<p>Determines ordering of <code>WasmPlugins</code> in the same <code>phase</code>.
+When multiple <code>WasmPlugins</code> are applied to the same workload in the
+same <code>phase</code>, they will be applied by priority, in descending order.
+If <code>priority</code> is not set, or two <code>WasmPlugins</code> exist with the same
+value, the ordering will be deterministically derived from name and
 namespace of the <code>WasmPlugins</code>. Defaults to <code>0</code>.</p>
 
 </td>
@@ -315,7 +315,7 @@ No
 <td><code>vmConfig</code></td>
 <td><code><a href="#VmConfig">VmConfig</a></code></td>
 <td>
-<p>Configuration for a Wasm VM.<br />
+<p>Configuration for a Wasm VM.
 more details can be found <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/wasm/v3/wasm.proto#extensions-wasm-v3-vmconfig">here</a>.</p>
 
 </td>
@@ -328,7 +328,7 @@ No
 </section>
 <h2 id="VmConfig">VmConfig</h2>
 <section>
-<p>Configuration for a Wasm VM.<br />
+<p>Configuration for a Wasm VM.
 more details can be found <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/wasm/v3/wasm.proto#extensions-wasm-v3-vmconfig">here</a>.</p>
 
 <table class="message-fields">
@@ -345,7 +345,7 @@ more details can be found <a href="https://www.envoyproxy.io/docs/envoy/latest/a
 <td><code>env</code></td>
 <td><code><a href="#EnvVar">EnvVar[]</a></code></td>
 <td>
-<p>Specifies environment variables to be injected to this VM.<br />
+<p>Specifies environment variables to be injected to this VM.
 Note that if a key does not exist, it will be ignored.</p>
 
 </td>
@@ -372,7 +372,7 @@ No
 <td><code>name</code></td>
 <td><code>string</code></td>
 <td>
-<p>Required<br />
+<p>Required
 Name of the environment variable. Must be a C_IDENTIFIER.</p>
 
 </td>
@@ -384,7 +384,7 @@ No
 <td><code>valueFrom</code></td>
 <td><code><a href="#EnvValueSource">EnvValueSource</a></code></td>
 <td>
-<p>Required<br />
+<p>Required
 Source for the environment variable's value.</p>
 
 </td>
@@ -396,8 +396,8 @@ No
 <td><code>value</code></td>
 <td><code>string</code></td>
 <td>
-<p>Value for the environment variable.<br />
-Note that if <code>value_from</code> is <code>HOST</code>, it will be ignored.<br />
+<p>Value for the environment variable.
+Note that if <code>value_from</code> is <code>HOST</code>, it will be ignored.
 Defaults to &quot;&quot;.</p>
 
 </td>
@@ -423,8 +423,8 @@ No
 <tr id="PluginPhase-UNSPECIFIED_PHASE">
 <td><code>UNSPECIFIED_PHASE</code></td>
 <td>
-<p>Control plane decides where to insert the plugin. This will generally<br />
-be at the end of the filter chain, right before the Router.<br />
+<p>Control plane decides where to insert the plugin. This will generally
+be at the end of the filter chain, right before the Router.
 Do not specify <code>PluginPhase</code> if the plugin is independent of others.</p>
 
 </td>
@@ -455,7 +455,7 @@ Do not specify <code>PluginPhase</code> if the plugin is independent of others.<
 </section>
 <h2 id="PullPolicy">PullPolicy</h2>
 <section>
-<p>The pull behaviour to be applied when fetching a Wam module,<br />
+<p>The pull behaviour to be applied when fetching a Wam module,
 mirroring K8s behaviour.</p>
 
 <table class="enum-values">
@@ -469,7 +469,7 @@ mirroring K8s behaviour.</p>
 <tr id="PullPolicy-UNSPECIFIED_POLICY">
 <td><code>UNSPECIFIED_POLICY</code></td>
 <td>
-<p>Defaults to IfNotPresent, except for OCI images with tag <code>latest</code>, for which<br />
+<p>Defaults to IfNotPresent, except for OCI images with tag <code>latest</code>, for which
 the default will be Always.</p>
 
 </td>
@@ -477,8 +477,8 @@ the default will be Always.</p>
 <tr id="PullPolicy-IfNotPresent">
 <td><code>IfNotPresent</code></td>
 <td>
-<p>If an existing version of the image has been pulled before, that<br />
-will be used. If no version of the image is present locally, we<br />
+<p>If an existing version of the image has been pulled before, that
+will be used. If no version of the image is present locally, we
 will pull the latest version.</p>
 
 </td>
@@ -486,7 +486,7 @@ will pull the latest version.</p>
 <tr id="PullPolicy-Always">
 <td><code>Always</code></td>
 <td>
-<p>We will always pull the latest version of an image when changing<br />
+<p>We will always pull the latest version of an image when changing
 this plugin. Note that the change includes <code>metadata</code> field as well.</p>
 
 </td>
