@@ -117,6 +117,10 @@ _wait_for_gateway() {
     if ! kubectl --context="$context" -n "$namespace" wait --for=condition=ready gtw "$name" --timeout=2m; then
         echo "Failed to deploy gateway $name in namespace $namespace"
         kubectl --context="$context" get -n "$namespace" gtw "$name" -o yaml
+        kubectl get svc
+        kubectl get po
+        kubectl get svc mygateway -o yaml
+        kubectl get po -l istio.io/gateway-name=mygateway -o yaml
         exit 1
     fi
 }
