@@ -50,9 +50,11 @@ if [ "$GATEWAY_API" == "true" ]; then
     _wait_for_gateway default mygateway
 
     snip_configure_an_ingress_gateway_4
+    sleep 30s
 
     echo ">>>> Gateway:"
     kubectl get gtw mygateway -o yaml
+
     echo ">>>> TLSRoute:"
     kubectl get tlsroute nginx -o yaml
 
