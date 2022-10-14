@@ -201,15 +201,15 @@ after routing has occurred.</p>
 <td><code>string</code></td>
 <td>
 <p>The name of a service from the service registry. Service
-names are looked up from the platform's service registry (e.g.,
+names are looked up from the platform&rsquo;s service registry (e.g.,
 Kubernetes services, Consul services, etc.) and from the hosts
 declared by <a href="/docs/reference/config/networking/service-entry/#ServiceEntry">ServiceEntries</a>. Rules defined for
 services that do not exist in the service registry will be ignored.</p>
-<p><em>Note for Kubernetes users</em>: When short names are used (e.g. &quot;reviews&quot;
-instead of &quot;reviews.default.svc.cluster.local&quot;), Istio will interpret
+<p><em>Note for Kubernetes users</em>: When short names are used (e.g. &ldquo;reviews&rdquo;
+instead of &ldquo;reviews.default.svc.cluster.local&rdquo;), Istio will interpret
 the short name based on the namespace of the rule, not the service. A
-rule in the &quot;default&quot; namespace containing a host &quot;reviews&quot; will be
-interpreted as &quot;reviews.default.svc.cluster.local&quot;, irrespective of
+rule in the &ldquo;default&rdquo; namespace containing a host &ldquo;reviews&rdquo; will be
+interpreted as &ldquo;reviews.default.svc.cluster.local&rdquo;, irrespective of
 the actual namespace associated with the reviews service. <em>To avoid
 potential misconfigurations, it is recommended to always use fully
 qualified domain names over short names.</em></p>
@@ -257,8 +257,8 @@ and mesh administrators to control the visibility of destination rules
 across namespace boundaries.</p>
 <p>If no namespaces are specified then the destination rule is exported to all
 namespaces by default.</p>
-<p>The value &quot;.&quot; is reserved and defines an export to the same namespace that
-the destination rule is declared in. Similarly, the value &quot;*&quot; is reserved and
+<p>The value &ldquo;.&rdquo; is reserved and defines an export to the same namespace that
+the destination rule is declared in. Similarly, the value &ldquo;*&rdquo; is reserved and
 defines an export to all namespaces.</p>
 
 </td>
@@ -367,7 +367,7 @@ No
 <td>
 <p>Configuration of tunneling TCP over other transport or application layers
 for the host configured in the DestinationRule.
-Tunnel settings can be applied to TCP or TLS routes and can't be applied to HTTP routes.</p>
+Tunnel settings can be applied to TCP or TLS routes and can&rsquo;t be applied to HTTP routes.</p>
 
 </td>
 <td>
@@ -488,7 +488,7 @@ No
 </section>
 <h2 id="LoadBalancerSettings">LoadBalancerSettings</h2>
 <section>
-<p>Load balancing policies to apply for a specific destination. See Envoy's
+<p>Load balancing policies to apply for a specific destination. See Envoy&rsquo;s
 load balancing
 <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/load_balancing">documentation</a>
 for more details.</p>
@@ -617,7 +617,7 @@ No
 <h2 id="ConnectionPoolSettings">ConnectionPoolSettings</h2>
 <section>
 <p>Connection pool settings for an upstream host. The settings apply to
-each individual host in the upstream service.  See Envoy's <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/circuit_breaking">circuit
+each individual host in the upstream service.  See Envoy&rsquo;s <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/circuit_breaking">circuit
 breaker</a>
 for more details. Connection pool settings can be applied at the TCP
 level as well as at HTTP level.</p>
@@ -703,11 +703,11 @@ TCP services.  For HTTP services, hosts that continually return 5xx
 errors for API calls are ejected from the pool for a pre-defined period
 of time. For TCP services, connection timeouts or connection
 failures to a given host counts as an error when measuring the
-consecutive errors metric. See Envoy's <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/outlier">outlier
+consecutive errors metric. See Envoy&rsquo;s <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/outlier">outlier
 detection</a>
 for more details.</p>
 <p>The following rule sets a connection pool size of 100 HTTP1 connections
-with no more than 10 req/connection to the &quot;reviews&quot; service. In addition,
+with no more than 10 req/connection to the &ldquo;reviews&rdquo; service. In addition,
 it sets a limit of 1000 concurrent HTTP2 requests and configures upstream
 hosts to be scanned every 5 mins so that any host that fails 7 consecutive
 times with a 502, 503, or 504 error code will be ejected for 15 minutes.</p>
@@ -886,7 +886,7 @@ pool has at least min_health_percent hosts in healthy mode. When the
 percentage of healthy hosts in the load balancing pool drops below this
 threshold, outlier detection will be disabled and the proxy will load balance
 across all hosts in the pool (healthy and unhealthy). The threshold can be
-disabled by setting it to 0%. The default is 0% as it's not typically
+disabled by setting it to 0%. The default is 0% as it&rsquo;s not typically
 applicable in k8s environments with few pods per service.</p>
 
 </td>
@@ -899,7 +899,7 @@ No
 </section>
 <h2 id="ClientTLSSettings">ClientTLSSettings</h2>
 <section>
-<p>SSL/TLS related settings for upstream connections. See Envoy's <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/transport_sockets/tls/v3/common.proto.html#common-tls-configuration">TLS
+<p>SSL/TLS related settings for upstream connections. See Envoy&rsquo;s <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/transport_sockets/tls/v3/common.proto.html#common-tls-configuration">TLS
 context</a>
 for more details. These settings are common to both HTTP and TCP upstreams.</p>
 <p>For example, the following rule configures a client to use mutual TLS
@@ -1033,7 +1033,7 @@ No
 <td><code>string</code></td>
 <td>
 <p>REQUIRED if mode is <code>MUTUAL</code>. The path to the file holding the
-client's private key.
+client&rsquo;s private key.
 Should be empty if mode is <code>ISTIO_MUTUAL</code>.</p>
 
 </td>
@@ -1047,7 +1047,7 @@ No
 <td>
 <p>OPTIONAL: The path to the file containing certificate authority
 certificates to use in verifying a presented server certificate. If
-omitted, the proxy will not verify the server's certificate.
+omitted, the proxy will not verify the server&rsquo;s certificate.
 Should be empty if mode is <code>ISTIO_MUTUAL</code>.</p>
 
 </td>
@@ -1086,7 +1086,7 @@ No
 <td>
 <p>A list of alternate names to verify the subject identity in the
 certificate. If specified, the proxy will verify that the server
-certificate's subject alt name matches one of the specified values.
+certificate&rsquo;s subject alt name matches one of the specified values.
 If specified, this list overrides the value of subject_alt_names
 from the ServiceEntry. If unspecified, automatic validation of upstream
 presented certificate for new upstream connections will be done based on the
@@ -1145,13 +1145,13 @@ specified using arbitrary labels that designate a hierarchy of localities in
 {region}/{zone}/{sub-zone} form. For additional detail refer to
 <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/locality_weight">Locality Weight</a>
 The following example shows how to setup locality weights mesh-wide.</p>
-<p>Given a mesh with workloads and their service deployed to &quot;us-west/zone1/<em>&quot;
-and &quot;us-west/zone2/</em>&quot;. This example specifies that when traffic accessing a
-service originates from workloads in &quot;us-west/zone1/<em>&quot;, 80% of the traffic
-will be sent to endpoints in &quot;us-west/zone1/</em>&quot;, i.e the same zone, and the
-remaining 20% will go to endpoints in &quot;us-west/zone2/<em>&quot;. This setup is
+<p>Given a mesh with workloads and their service deployed to &ldquo;us-west/zone1/<em>&rdquo;
+and &ldquo;us-west/zone2/</em>&rdquo;. This example specifies that when traffic accessing a
+service originates from workloads in &ldquo;us-west/zone1/<em>&rdquo;, 80% of the traffic
+will be sent to endpoints in &ldquo;us-west/zone1/</em>&rdquo;, i.e the same zone, and the
+remaining 20% will go to endpoints in &ldquo;us-west/zone2/<em>&rdquo;. This setup is
 intended to favor routing traffic to endpoints in the same locality.
-A similar setting is specified for traffic originating in &quot;us-west/zone2/</em>&quot;.</p>
+A similar setting is specified for traffic originating in &ldquo;us-west/zone2/</em>&rdquo;.</p>
 <pre><code class="language-yaml">  distribute:
     - from: us-west/zone1/*
       to:
@@ -1164,8 +1164,8 @@ A similar setting is specified for traffic originating in &quot;us-west/zone2/</
 </code></pre>
 <p>If the goal of the operator is not to distribute load across zones and
 regions but rather to restrict the regionality of failover to meet other
-operational requirements an operator can set a 'failover' policy instead of
-a 'distribute' policy.</p>
+operational requirements an operator can set a &lsquo;failover&rsquo; policy instead of
+a &lsquo;distribute&rsquo; policy.</p>
 <p>The following example sets up a locality failover policy for regions.
 Assume a service resides in zones within us-east, us-west &amp; eu-west
 this example specifies that when endpoints within us-east become unhealthy
@@ -1723,7 +1723,7 @@ No
 <td><code>int32</code></td>
 <td>
 <p>Maximum number of requests per connection to a backend. Setting this
-parameter to 1 disables keep alive. Default 0, meaning &quot;unlimited&quot;,
+parameter to 1 disables keep alive. Default 0, meaning &ldquo;unlimited&rdquo;,
 up to 2^29.</p>
 
 </td>
@@ -1845,8 +1845,8 @@ No
 </section>
 <h2 id="LocalityLoadBalancerSetting-Distribute">LocalityLoadBalancerSetting.Distribute</h2>
 <section>
-<p>Describes how traffic originating in the 'from' zone or sub-zone is
-distributed over a set of 'to' zones. Syntax for specifying a zone is
+<p>Describes how traffic originating in the &lsquo;from&rsquo; zone or sub-zone is
+distributed over a set of &rsquo;to&rsquo; zones. Syntax for specifying a zone is
 {region}/{zone}/{sub-zone} and terminal wildcards are allowed on any
 segment of the specification. Examples:</p>
 <p><code>*</code> - matches all localities</p>
@@ -1867,7 +1867,7 @@ segment of the specification. Examples:</p>
 <td><code>from</code></td>
 <td><code>string</code></td>
 <td>
-<p>Originating locality, '/' separated, e.g. 'region/zone/sub_zone'.</p>
+<p>Originating locality, &lsquo;/&rsquo; separated, e.g. &lsquo;region/zone/sub_zone&rsquo;.</p>
 
 </td>
 <td>
@@ -1926,7 +1926,7 @@ No
 <td><code>string</code></td>
 <td>
 <p>Destination region the traffic will fail over to when endpoints in
-the 'from' region becomes unhealthy.</p>
+the &lsquo;from&rsquo; region becomes unhealthy.</p>
 
 </td>
 <td>

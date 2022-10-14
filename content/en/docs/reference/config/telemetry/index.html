@@ -35,7 +35,7 @@ spec:
   tracing:
   - randomSamplingPercentage: 10.00
 </code></pre>
-<p>Policy to disable trace reporting for the &quot;foo&quot; workload (note: tracing
+<p>Policy to disable trace reporting for the &ldquo;foo&rdquo; workload (note: tracing
 context will still be propagated):</p>
 <pre><code class="language-yaml">apiVersion: telemetry.istio.io/v1alpha1
 kind: Telemetry
@@ -508,9 +508,9 @@ No
 <td><code>disabled</code></td>
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></code></td>
 <td>
-<p>Optional. Must explicitly set this to &quot;true&quot; to turn off metrics reporting
-for the listed metrics. If disabled has been set to &quot;true&quot; in a parent
-configuration, it must explicitly be set to &quot;false&quot; to turn metrics
+<p>Optional. Must explicitly set this to &ldquo;true&rdquo; to turn off metrics reporting
+for the listed metrics. If disabled has been set to &ldquo;true&rdquo; in a parent
+configuration, it must explicitly be set to &ldquo;false&rdquo; to turn metrics
 reporting on in the workloads selected by the Telemetry resource.</p>
 
 </td>
@@ -828,8 +828,8 @@ No
 <td>
 <p>Value is only considered if the operation is <code>UPSERT</code>.
 Values are <a href="https://opensource.google/projects/cel">CEL expressions</a> over
-attributes. Examples include: &quot;string(destination.port)&quot; and
-&quot;request.host&quot;. Istio exposes all standard <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/advanced/attributes">Envoy
+attributes. Examples include: &ldquo;string(destination.port)&rdquo; and
+&ldquo;request.host&rdquo;. Istio exposes all standard <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/advanced/attributes">Envoy
 attributes</a>.
 Additionally, Istio exposes node metadata as attributes.
 More information is provided in the <a href="/docs/tasks/observability/metrics/customize-metrics/#use-expressions-for-values">customization

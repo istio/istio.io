@@ -63,7 +63,7 @@ spec:
 provides a template for <code>WorkloadEntry</code>, similar to how <code>Deployment</code> specifies properties
 of workloads via <code>Pod</code> templates. A <code>WorkloadGroup</code> can have more than one <code>WorkloadEntry</code>.
 <code>WorkloadGroup</code> has no relationship to resources which control service registry like <code>ServiceEntry</code>
-and as such doesn't configure host name for these workloads.</p>
+and as such doesn&rsquo;t configure host name for these workloads.</p>
 
 <table class="message-fields">
 <thead>
@@ -94,7 +94,7 @@ No
 <p>Template to be used for the generation of <code>WorkloadEntry</code> resources that belong to this <code>WorkloadGroup</code>.
 Please note that <code>address</code> and <code>labels</code> fields should not be set in the template, and an empty <code>serviceAccount</code>
 should default to <code>default</code>. The workload identities (mTLS certificates) will be bootstrapped using the
-specified service account's token. Workload entries in this group will be in the same namespace as the
+specified service account&rsquo;s token. Workload entries in this group will be in the same namespace as the
 workload group, and inherit the labels and annotations from the above <code>metadata</code> field.</p>
 
 </td>
@@ -264,7 +264,7 @@ Yes
 <td><code>string</code></td>
 <td>
 <p>Host name to connect to, defaults to the pod IP. You probably want to set
-&quot;Host&quot; in httpHeaders instead.</p>
+&ldquo;Host&rdquo; in httpHeaders instead.</p>
 
 </td>
 <td>

@@ -172,7 +172,7 @@ No
 <td><code>string</code></td>
 <td>
 <p>Format for the proxy access log
-Empty value results in proxy's default access log format</p>
+Empty value results in proxy&rsquo;s default access log format</p>
 
 </td>
 <td>
@@ -195,9 +195,9 @@ No
 <td><code>enableEnvoyAccessLogService</code></td>
 <td><code>bool</code></td>
 <td>
-<p>This flag enables Envoy's gRPC Access Log Service.
+<p>This flag enables Envoy&rsquo;s gRPC Access Log Service.
 See <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/access_loggers/grpc/v3/als.proto">Access Log Service</a>
-for details about Envoy's gRPC Access Log Service API.
+for details about Envoy&rsquo;s gRPC Access Log Service API.
 Default value is <code>false</code>.</p>
 
 </td>
@@ -211,7 +211,7 @@ No
 <td>
 <p>This flag disables Envoy Listener logs.
 See <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/listener/v3/listener.proto#envoy-v3-api-field-config-listener-v3-listener-access-log">Listener Access Log</a>
-Istio Enables Envoy's listener access logs on &quot;NoRoute&quot; response flag.
+Istio Enables Envoy&rsquo;s listener access logs on &ldquo;NoRoute&rdquo; response flag.
 Default value is <code>false</code>.</p>
 
 </td>
@@ -324,7 +324,7 @@ No
 <td><code><a href="#MeshConfig-CertificateData">CertificateData[]</a></code></td>
 <td>
 <p>The extra root certificates for workload-to-workload communication.
-The plugin certificates (the 'cacerts' secret) or self-signed certificates (the 'istio-ca-secret' secret)
+The plugin certificates (the &lsquo;cacerts&rsquo; secret) or self-signed certificates (the &lsquo;istio-ca-secret&rsquo; secret)
 are automatically added by Istiod.
 The CA certificate that signs the workload certificates is automatically added by Istio Agent.</p>
 
@@ -345,9 +345,9 @@ reserved namespace aliases. The allowed namespace aliases are:</p>
 . - Current Namespace
 ~ - No Namespace
 </code></pre>
-<p>If not set the system will use &quot;*&quot; as the default value which implies that
+<p>If not set the system will use &ldquo;*&rdquo; as the default value which implies that
 services are exported to all namespaces.</p>
-<p><code>All namespaces</code> is a reasonable default for implementations that don't
+<p><code>All namespaces</code> is a reasonable default for implementations that don&rsquo;t
 need to restrict access or visibility of services across namespace
 boundaries. If that requirement is present it is generally good practice to
 make the default <code>Current namespace</code> so that services are only visible
@@ -370,7 +370,7 @@ No
 <td>
 <p>The default value for the VirtualService.export_to field. Has the same
 syntax as <code>default_service_export_to</code>.</p>
-<p>If not set the system will use &quot;*&quot; as the default value which implies that
+<p>If not set the system will use &ldquo;*&rdquo; as the default value which implies that
 virtual services are exported to all namespaces</p>
 
 </td>
@@ -384,7 +384,7 @@ No
 <td>
 <p>The default value for the <code>DestinationRule.export_to</code> field. Has the same
 syntax as <code>default_service_export_to</code>.</p>
-<p>If not set the system will use &quot;*&quot; as the default value which implies that
+<p>If not set the system will use &ldquo;*&rdquo; as the default value which implies that
 destination rules are exported to all namespaces</p>
 
 </td>
@@ -533,7 +533,7 @@ No
 <td><code>extensionProviders</code></td>
 <td><code><a href="#MeshConfig-ExtensionProvider">ExtensionProvider[]</a></code></td>
 <td>
-<p>Defines a list of extension providers that extend Istio's functionality. For example, the AuthorizationPolicy
+<p>Defines a list of extension providers that extend Istio&rsquo;s functionality. For example, the AuthorizationPolicy
 can be used with an extension provider to delegate the authorization decision to a custom authorization system.</p>
 
 </td>
@@ -557,7 +557,7 @@ No
 <td><code><a href="#k8s-io-apimachinery-pkg-apis-meta-v1-LabelSelector">LabelSelector[]</a></code></td>
 <td>
 <p>A list of Kubernetes selectors that specify the set of namespaces that Istio considers when
-computing configuration updates for sidecars. This can be used to reduce Istio's computational load
+computing configuration updates for sidecars. This can be used to reduce Istio&rsquo;s computational load
 by limiting the number of entities (including services, pods, and endpoints) that are watched and processed.
 If omitted, Istio will use the default behavior of processing all namespaces in the cluster.
 Elements in the list are disjunctive (OR semantics), i.e. a namespace will be included if it matches any selector.
@@ -591,7 +591,7 @@ No
 <td>
 <p>ProxyPathNormalization configures how URL paths in incoming and outgoing HTTP requests are
 normalized by the sidecars and gateways.
-The normalized paths will be used in all aspects through the requests' lifetime on the
+The normalized paths will be used in all aspects through the requests&rsquo; lifetime on the
 sidecars and gateways, which includes routing decisions in outbound direction (client proxy),
 authorization policy match and enforcement in inbound direction (server proxy), and the URL
 path proxied to the upstream service.
@@ -608,7 +608,7 @@ No
 <td>
 <p>Configure the default HTTP retry policy.
 The default number of retry attempts is set at 2 for these errors:
-&quot;connect-failure,refused-stream,unavailable,cancelled,retriable-status-codes&quot;.
+&ldquo;connect-failure,refused-stream,unavailable,cancelled,retriable-status-codes&rdquo;.
 Setting the number of attempts to 0 disables retry policy globally.
 This setting can be overriden on a per-host basis using the Virtual Service
 API.
@@ -862,8 +862,8 @@ Regarding tls_settings:</p>
 <li>DISABLE MODE is legitimate for the case Istiod is making the request via an Envoy sidecar.
 DISABLE MODE can also be used for testing</li>
 <li>TLS MUTUAL MODE be on by default. If the CA certificates
-(cert bundle to verify the CA server's certificate) is omitted, Istiod will
-use the system root certs to verify the CA server's certificate.</li>
+(cert bundle to verify the CA server&rsquo;s certificate) is omitted, Istiod will
+use the system root certs to verify the CA server&rsquo;s certificate.</li>
 </ul>
 
 </td>
@@ -1265,7 +1265,7 @@ No
 <td>
 <p>When this field is true, ext-authz filter will buffer the message until max_request_bytes is reached.
 The authorization request will be dispatched and no 413 HTTP error will be returned by the filter.
-A &quot;x-envoy-auth-partial-body: false|true&quot; metadata header will be added to the authorization request message
+A &ldquo;x-envoy-auth-partial-body: false|true&rdquo; metadata header will be added to the authorization request message
 indicating if the body data is partial.</p>
 
 </td>
@@ -1310,7 +1310,7 @@ No
 The format is <code>[&lt;Namespace&gt;/]&lt;Hostname&gt;</code>. The specification of <code>&lt;Namespace&gt;</code> is required only when it is insufficient
 to unambiguously resolve a service in the service registry. The <code>&lt;Hostname&gt;</code> is a fully qualified host name of a
 service defined by the Kubernetes service or ServiceEntry.</p>
-<p>Example: &quot;my-ext-authz.foo.svc.cluster.local&quot; or &quot;bar/my-ext-authz.example.com&quot;.</p>
+<p>Example: &ldquo;my-ext-authz.foo.svc.cluster.local&rdquo; or &ldquo;bar/my-ext-authz.example.com&rdquo;.</p>
 
 </td>
 <td>
@@ -1346,8 +1346,8 @@ No
 <td><code>string</code></td>
 <td>
 <p>Sets a prefix to the value of authorization request header <em>Path</em>.
-For example, setting this to &quot;/check&quot; for an original user request at path &quot;/admin&quot; will cause the
-authorization check request to be sent to the authorization service at the path &quot;/check/admin&quot; instead of &quot;/admin&quot;.</p>
+For example, setting this to &ldquo;/check&rdquo; for an original user request at path &ldquo;/admin&rdquo; will cause the
+authorization check request to be sent to the authorization service at the path &ldquo;/check/admin&rdquo; instead of &ldquo;/admin&rdquo;.</p>
 
 </td>
 <td>
@@ -1360,7 +1360,7 @@ No
 <td>
 <p>If true, the user request will be allowed even if the communication with the authorization service has failed,
 or if the authorization service has returned a HTTP 5xx error.
-Default is false and the request will be rejected with &quot;Forbidden&quot; response.</p>
+Default is false and the request will be rejected with &ldquo;Forbidden&rdquo; response.</p>
 
 </td>
 <td>
@@ -1372,7 +1372,7 @@ No
 <td><code>string</code></td>
 <td>
 <p>Sets the HTTP status that is returned to the client when there is a network error to the authorization service.
-The default status is &quot;403&quot; (HTTP Forbidden).</p>
+The default status is &ldquo;403&rdquo; (HTTP Forbidden).</p>
 
 </td>
 <td>
@@ -1405,9 +1405,9 @@ consequently the value of Content-Length of the authorization request reflects t
 <p>Exact, prefix and suffix matches are supported (similar to the authorization policy rule syntax except the presence match
 <a href="/latest/docs/reference/config/security/authorization-policy/#Rule)">https://istio.io/latest/docs/reference/config/security/authorization-policy/#Rule)</a>:</p>
 <ul>
-<li>Exact match: &quot;abc&quot; will match on value &quot;abc&quot;.</li>
-<li>Prefix match: &quot;abc*&quot; will match on value &quot;abc&quot; and &quot;abcd&quot;.</li>
-<li>Suffix match: &quot;*abc&quot; will match on value &quot;abc&quot; and &quot;xabc&quot;.</li>
+<li>Exact match: &ldquo;abc&rdquo; will match on value &ldquo;abc&rdquo;.</li>
+<li>Prefix match: &ldquo;abc*&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;abcd&rdquo;.</li>
+<li>Suffix match: &ldquo;*abc&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;xabc&rdquo;.</li>
 </ul>
 
 </td>
@@ -1450,9 +1450,9 @@ Note, any existing headers will be overridden.</p>
 <p>Exact, prefix and suffix matches are supported (similar to the authorization policy rule syntax except the presence match
 <a href="/latest/docs/reference/config/security/authorization-policy/#Rule)">https://istio.io/latest/docs/reference/config/security/authorization-policy/#Rule)</a>:</p>
 <ul>
-<li>Exact match: &quot;abc&quot; will match on value &quot;abc&quot;.</li>
-<li>Prefix match: &quot;abc*&quot; will match on value &quot;abc&quot; and &quot;abcd&quot;.</li>
-<li>Suffix match: &quot;*abc&quot; will match on value &quot;abc&quot; and &quot;xabc&quot;.</li>
+<li>Exact match: &ldquo;abc&rdquo; will match on value &ldquo;abc&rdquo;.</li>
+<li>Prefix match: &ldquo;abc*&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;abcd&rdquo;.</li>
+<li>Suffix match: &ldquo;*abc&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;xabc&rdquo;.</li>
 </ul>
 
 </td>
@@ -1474,9 +1474,9 @@ Note, the body from the authorization service is always included in the response
 <p>Exact, prefix and suffix matches are supported (similar to the authorization policy rule syntax except the presence match
 <a href="/latest/docs/reference/config/security/authorization-policy/#Rule)">https://istio.io/latest/docs/reference/config/security/authorization-policy/#Rule)</a>:</p>
 <ul>
-<li>Exact match: &quot;abc&quot; will match on value &quot;abc&quot;.</li>
-<li>Prefix match: &quot;abc*&quot; will match on value &quot;abc&quot; and &quot;abcd&quot;.</li>
-<li>Suffix match: &quot;*abc&quot; will match on value &quot;abc&quot; and &quot;xabc&quot;.</li>
+<li>Exact match: &ldquo;abc&rdquo; will match on value &ldquo;abc&rdquo;.</li>
+<li>Prefix match: &ldquo;abc*&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;abcd&rdquo;.</li>
+<li>Suffix match: &ldquo;*abc&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;xabc&rdquo;.</li>
 </ul>
 
 </td>
@@ -1495,9 +1495,9 @@ Note, any existing headers will be overridden.</p>
 <p>Exact, prefix and suffix matches are supported (similar to the authorization policy rule syntax except the presence match
 <a href="/latest/docs/reference/config/security/authorization-policy/#Rule)">https://istio.io/latest/docs/reference/config/security/authorization-policy/#Rule)</a>:</p>
 <ul>
-<li>Exact match: &quot;abc&quot; will match on value &quot;abc&quot;.</li>
-<li>Prefix match: &quot;abc*&quot; will match on value &quot;abc&quot; and &quot;abcd&quot;.</li>
-<li>Suffix match: &quot;*abc&quot; will match on value &quot;abc&quot; and &quot;xabc&quot;.</li>
+<li>Exact match: &ldquo;abc&rdquo; will match on value &ldquo;abc&rdquo;.</li>
+<li>Prefix match: &ldquo;abc*&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;abcd&rdquo;.</li>
+<li>Suffix match: &ldquo;*abc&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;xabc&rdquo;.</li>
 </ul>
 
 </td>
@@ -1528,7 +1528,7 @@ No
 The format is <code>[&lt;Namespace&gt;/]&lt;Hostname&gt;</code>. The specification of <code>&lt;Namespace&gt;</code> is required only when it is insufficient
 to unambiguously resolve a service in the service registry. The <code>&lt;Hostname&gt;</code> is a fully qualified host name of a
 service defined by the Kubernetes service or ServiceEntry.</p>
-<p>Example: &quot;my-ext-authz.foo.svc.cluster.local&quot; or &quot;bar/my-ext-authz.example.com&quot;.</p>
+<p>Example: &ldquo;my-ext-authz.foo.svc.cluster.local&rdquo; or &ldquo;bar/my-ext-authz.example.com&rdquo;.</p>
 
 </td>
 <td>
@@ -1577,7 +1577,7 @@ No
 <td><code>string</code></td>
 <td>
 <p>Sets the HTTP status that is returned to the client when there is a network error to the authorization service.
-The default status is &quot;403&quot; (HTTP Forbidden).</p>
+The default status is &ldquo;403&rdquo; (HTTP Forbidden).</p>
 
 </td>
 <td>
@@ -1620,7 +1620,7 @@ No
 The format is <code>[&lt;Namespace&gt;/]&lt;Hostname&gt;</code>. The specification of <code>&lt;Namespace&gt;</code> is required only when it is insufficient
 to unambiguously resolve a service in the service registry. The <code>&lt;Hostname&gt;</code> is a fully qualified host name of a
 service defined by the Kubernetes service or ServiceEntry.</p>
-<p>Example: &quot;zipkin.default.svc.cluster.local&quot; or &quot;bar/zipkin.example.com&quot;.</p>
+<p>Example: &ldquo;zipkin.default.svc.cluster.local&rdquo; or &ldquo;bar/zipkin.example.com&rdquo;.</p>
 
 </td>
 <td>
@@ -1677,7 +1677,7 @@ will generate OpenTelemetry-compatible configuration when using this option.</p>
 The format is <code>[&lt;Namespace&gt;/]&lt;Hostname&gt;</code>. The specification of <code>&lt;Namespace&gt;</code> is required only when it is insufficient
 to unambiguously resolve a service in the service registry. The <code>&lt;Hostname&gt;</code> is a fully qualified host name of a
 service defined by the Kubernetes service or ServiceEntry.</p>
-<p>Example: &quot;lightstep.default.svc.cluster.local&quot; or &quot;bar/lightstep.example.com&quot;.</p>
+<p>Example: &ldquo;lightstep.default.svc.cluster.local&rdquo; or &ldquo;bar/lightstep.example.com&rdquo;.</p>
 
 </td>
 <td>
@@ -1743,7 +1743,7 @@ No
 The format is <code>[&lt;Namespace&gt;/]&lt;Hostname&gt;</code>. The specification of <code>&lt;Namespace&gt;</code> is required only when it is insufficient
 to unambiguously resolve a service in the service registry. The <code>&lt;Hostname&gt;</code> is a fully qualified host name of a
 service defined by the Kubernetes service or ServiceEntry.</p>
-<p>Example: &quot;datadog.default.svc.cluster.local&quot; or &quot;bar/datadog.example.com&quot;.</p>
+<p>Example: &ldquo;datadog.default.svc.cluster.local&rdquo; or &ldquo;bar/datadog.example.com&rdquo;.</p>
 
 </td>
 <td>
@@ -1798,7 +1798,7 @@ No
 The format is <code>[&lt;Namespace&gt;/]&lt;Hostname&gt;</code>. The specification of <code>&lt;Namespace&gt;</code> is required only when it is insufficient
 to unambiguously resolve a service in the service registry. The <code>&lt;Hostname&gt;</code> is a fully qualified host name of a
 service defined by the Kubernetes service or ServiceEntry.</p>
-<p>Example: &quot;skywalking.default.svc.cluster.local&quot; or &quot;bar/skywalking.example.com&quot;.</p>
+<p>Example: &ldquo;skywalking.default.svc.cluster.local&rdquo; or &ldquo;bar/skywalking.example.com&rdquo;.</p>
 
 </td>
 <td>
@@ -1877,7 +1877,7 @@ No
 <section>
 <p>Defines configuration for an OpenCensus tracer writing to an OpenCensus backend.</p>
 <p>WARNING: OpenCensusAgentTracingProviders should be used with extreme care. Configuration of
-OpenCensus providers CANNOT be changed during the course of proxy's lifetime due to a limitation
+OpenCensus providers CANNOT be changed during the course of proxy&rsquo;s lifetime due to a limitation
 in the implementation of OpenCensus driver in Envoy. This means only a single provider configuration
 may be used for OpenCensus at any given time for a proxy or group of proxies AND that any change to the provider
 configuration MUST be accompanied by a restart of all proxies that will use that configuration.</p>
@@ -1902,7 +1902,7 @@ alongside OpenCensus provider configuration.</p>
 The format is <code>[&lt;Namespace&gt;/]&lt;Hostname&gt;</code>. The specification of <code>&lt;Namespace&gt;</code> is required only when it is insufficient
 to unambiguously resolve a service in the service registry. The <code>&lt;Hostname&gt;</code> is a fully qualified host name of a
 service defined by the Kubernetes service or ServiceEntry.</p>
-<p>Example: &quot;ocagent.default.svc.cluster.local&quot; or &quot;bar/ocagent.example.com&quot;.</p>
+<p>Example: &ldquo;ocagent.default.svc.cluster.local&rdquo; or &ldquo;bar/ocagent.example.com&rdquo;.</p>
 
 </td>
 <td>
@@ -2017,7 +2017,7 @@ integration for HTTP traffic.</p>
 The format is <code>[&lt;Namespace&gt;/]&lt;Hostname&gt;</code>. The specification of <code>&lt;Namespace&gt;</code> is required only when it is insufficient
 to unambiguously resolve a service in the service registry. The <code>&lt;Hostname&gt;</code> is a fully qualified host name of a
 service defined by the Kubernetes service or ServiceEntry.</p>
-<p>Example: &quot;envoy-als.foo.svc.cluster.local&quot; or &quot;bar/envoy-als.example.com&quot;.</p>
+<p>Example: &ldquo;envoy-als.foo.svc.cluster.local&rdquo; or &ldquo;bar/envoy-als.example.com&rdquo;.</p>
 
 </td>
 <td>
@@ -2042,8 +2042,8 @@ No
 <p>Optional. The friendly name of the access log.
 Defaults:</p>
 <ul>
-<li>&quot;http_envoy_accesslog&quot;</li>
-<li>&quot;listener_envoy_accesslog&quot;</li>
+<li>&ldquo;http_envoy_accesslog&rdquo;</li>
+<li>&ldquo;listener_envoy_accesslog&rdquo;</li>
 </ul>
 
 </td>
@@ -2121,7 +2121,7 @@ integration for TCP traffic.</p>
 The format is <code>[&lt;Namespace&gt;/]&lt;Hostname&gt;</code>. The specification of <code>&lt;Namespace&gt;</code> is required only when it is insufficient
 to unambiguously resolve a service in the service registry. The <code>&lt;Hostname&gt;</code> is a fully qualified host name of a
 service defined by the Kubernetes service or ServiceEntry.</p>
-<p>Example: &quot;envoy-als.foo.svc.cluster.local&quot; or &quot;bar/envoy-als.example.com&quot;.</p>
+<p>Example: &ldquo;envoy-als.foo.svc.cluster.local&rdquo; or &ldquo;bar/envoy-als.example.com&rdquo;.</p>
 
 </td>
 <td>
@@ -2146,8 +2146,8 @@ No
 <p>Optional. The friendly name of the access log.
 Defaults:</p>
 <ul>
-<li>&quot;tcp_envoy_accesslog&quot;</li>
-<li>&quot;listener_envoy_accesslog&quot;</li>
+<li>&ldquo;tcp_envoy_accesslog&rdquo;</li>
+<li>&ldquo;listener_envoy_accesslog&rdquo;</li>
 </ul>
 
 </td>
@@ -2191,7 +2191,7 @@ No
 The format is <code>[&lt;Namespace&gt;/]&lt;Hostname&gt;</code>. The specification of <code>&lt;Namespace&gt;</code> is required only when it is insufficient
 to unambiguously resolve a service in the service registry. The <code>&lt;Hostname&gt;</code> is a fully qualified host name of a
 service defined by the Kubernetes service or ServiceEntry.</p>
-<p>Example: &quot;envoy-als.foo.svc.cluster.local&quot; or &quot;bar/envoy-als.example.com&quot;.</p>
+<p>Example: &ldquo;envoy-als.foo.svc.cluster.local&rdquo; or &ldquo;bar/envoy-als.example.com&rdquo;.</p>
 
 </td>
 <td>
@@ -2216,7 +2216,7 @@ No
 <p>Optional. The friendly name of the access log.
 Defaults:</p>
 <ul>
-<li>&quot;otel_envoy_accesslog&quot;</li>
+<li>&ldquo;otel_envoy_accesslog&rdquo;</li>
 </ul>
 
 </td>
@@ -2229,7 +2229,7 @@ No
 <td><code><a href="#MeshConfig-ExtensionProvider-EnvoyOpenTelemetryLogProvider-LogFormat">LogFormat</a></code></td>
 <td>
 <p>Optional. Format for the proxy access log
-Empty value results in proxy's default access log format, following Envoy access logging formatting.</p>
+Empty value results in proxy&rsquo;s default access log format, following Envoy access logging formatting.</p>
 
 </td>
 <td>
@@ -2261,7 +2261,7 @@ supplied values.</p>
 <p>Example:
 labels:
 path: request.url_path
-foo: request.headers['x-foo']</p>
+foo: request.headers[&lsquo;x-foo&rsquo;]</p>
 
 </td>
 <td>
@@ -2290,7 +2290,7 @@ No
 <p>Textual format for the envoy access logs. Envoy <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#command-operators">command operators</a> may be
 used in the format. The <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#config-access-log-format-strings">format string documentation</a>
 provides more information.</p>
-<p>NOTE: Istio will insert a newline ('\n') on all formats (if missing).</p>
+<p>NOTE: Istio will insert a newline (&rsquo;\n&rsquo;) on all formats (if missing).</p>
 <p>Example: <code>text: &quot;%LOCAL_REPLY_BODY%:%RESPONSE_CODE%:path=%REQ(:path)%&quot;</code></p>
 
 </td>
@@ -2396,8 +2396,8 @@ label selector matches no objects.
 <td><code>map&lt;string,&nbsp;string&gt;</code></td>
 <td>
 <p>matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
-map is equivalent to an element of matchExpressions, whose key field is &quot;key&quot;, the
-operator is &quot;In&quot;, and the values array contains only &quot;value&quot;. The requirements are ANDed.
+map is equivalent to an element of matchExpressions, whose key field is &ldquo;key&rdquo;, the
+operator is &ldquo;In&rdquo;, and the values array contains only &ldquo;value&rdquo;. The requirements are ANDed.
 +optional</p>
 
 </td>
@@ -2610,7 +2610,7 @@ shared by all Envoy instances. This setting corresponds to
 source-based routing scenarios.</p>
 <p>Since Istio does not assign a local <code>service/service</code> version to each
 Envoy instance, the name is same for all of them.  However, the
-source/caller's identity (e.g., IP address) is encoded in the
+source/caller&rsquo;s identity (e.g., IP address) is encoded in the
 <code>--service-node</code> flag when launching Envoy.  When the RDS service
 receives API calls from Envoy, it uses the value of the <code>service-node</code>
 flag to compute routes that are relative to the service instances
@@ -2723,10 +2723,10 @@ No
 <td><code>statNameLength</code></td>
 <td><code>int32</code></td>
 <td>
-<p>Maximum length of name field in Envoy's metrics. The length of the name field
+<p>Maximum length of name field in Envoy&rsquo;s metrics. The length of the name field
 is determined by the length of a name field in a service and the set of labels that
 comprise a particular version of the service. The default value is set to 189 characters.
-Envoy's internal metrics take up 67 characters, for a total of 256 character name per metric.
+Envoy&rsquo;s internal metrics take up 67 characters, for a total of 256 character name per metric.
 Increase the value of this field if you find that the metrics from Envoys are truncated.</p>
 
 </td>
@@ -2788,7 +2788,7 @@ No
 <p>Address of the service to which access logs from Envoys should be
 sent. (e.g. <code>accesslog-service:15000</code>). See <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/accesslog/v2/als.proto">Access Log
 Service</a>
-for details about Envoy's gRPC Access Log Service API.</p>
+for details about Envoy&rsquo;s gRPC Access Log Service API.</p>
 
 </td>
 <td>
@@ -2801,7 +2801,7 @@ No
 <td>
 <p>Address of the Envoy Metrics Service implementation (e.g. <code>metrics-service:15000</code>).
 See <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/metrics/v2/metrics_service.proto">Metric Service</a>
-for details about Envoy's Metrics Service API.</p>
+for details about Envoy&rsquo;s Metrics Service API.</p>
 
 </td>
 <td>
@@ -2937,7 +2937,7 @@ No
 <p>Boolean flag for enabling/disabling the holdApplicationUntilProxyStarts behavior.
 This feature adds hooks to delay application startup until the pod proxy
 is ready to accept traffic, mitigating some startup race conditions.
-Default value is 'false'.</p>
+Default value is &lsquo;false&rsquo;.</p>
 
 </td>
 <td>
@@ -2950,7 +2950,7 @@ No
 <td>
 <p>The PEM data of the extra root certificates for workload-to-workload communication.
 This includes the certificates defined in MeshConfig and any other certificates that Istiod uses as CA.
-The plugin certificates (the 'cacerts' secret), self-signed certificates (the 'istio-ca-secret' secret)
+The plugin certificates (the &lsquo;cacerts&rsquo; secret), self-signed certificates (the &lsquo;istio-ca-secret&rsquo; secret)
 are added automatically by Istiod.</p>
 
 </td>
@@ -3106,7 +3106,7 @@ No
 <h2 id="Tracing-Stackdriver">Tracing.Stackdriver</h2>
 <section>
 <p>Stackdriver defines configuration for a Stackdriver tracer.
-See <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/trace/v3/opencensus.proto">Envoy's OpenCensus trace configuration</a>
+See <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/trace/v3/opencensus.proto">Envoy&rsquo;s OpenCensus trace configuration</a>
 and
 <a href="https://github.com/census-instrumentation/opencensus-proto/blob/master/src/opencensus/proto/trace/v1/trace_config.proto">OpenCensus trace config</a> for details.</p>
 
@@ -3127,7 +3127,7 @@ and
 <section>
 <p>OpenCensusAgent defines configuration for an OpenCensus tracer writing to
 an OpenCensus agent backend. See
-<a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/trace/v3/opencensus.proto">Envoy's OpenCensus trace configuration</a>
+<a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/trace/v3/opencensus.proto">Envoy&rsquo;s OpenCensus trace configuration</a>
 and
 <a href="https://github.com/census-instrumentation/opencensus-proto/blob/master/src/opencensus/proto/trace/v1/trace_config.proto">OpenCensus trace config</a>
 for details.</p>
@@ -3361,8 +3361,8 @@ adding the <code>ISTIO_META_NETWORK</code> environment variable to the sidecar.<
 </li>
 <li>
 <p>Explicitly:</p>
-<p>a. By matching the registry name with one of the &quot;fromRegistry&quot;
-in the mesh config. A &quot;from_registry&quot; can only be assigned to a
+<p>a. By matching the registry name with one of the &ldquo;fromRegistry&rdquo;
+in the mesh config. A &ldquo;from_registry&rdquo; can only be assigned to a
 single network.</p>
 <p>b. By matching the IP against one of the CIDR ranges in a mesh
 config network. The CIDR ranges must not overlap and be assigned to

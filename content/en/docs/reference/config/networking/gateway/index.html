@@ -136,9 +136,9 @@ the forwarding of traffic arriving at a particular host or gateway port.</p>
 <code>http://uk.bookinfo.com:9080/reviews</code>,
 <code>http://eu.bookinfo.com:9080/reviews</code> into two versions (prod and qa) of
 an internal reviews service on port 9080. In addition, requests
-containing the cookie &quot;user: dev-123&quot; will be sent to special port 7777
+containing the cookie &ldquo;user: dev-123&rdquo; will be sent to special port 7777
 in the qa version. The same rule is also applicable inside the mesh for
-requests to the &quot;reviews.prod.svc.cluster.local&quot; service. This rule is
+requests to the &ldquo;reviews.prod.svc.cluster.local&rdquo; service. This rule is
 applicable across ports 443, 9080. Note that <code>http://uk.bookinfo.com</code>
 gets redirected to <code>https://uk.bookinfo.com</code> (i.e. 80 redirects to 443).</p>
 <p>{{<tabset category-name="example">}}
@@ -346,8 +346,8 @@ Yes
 <p>One or more labels that indicate a specific set of pods/VMs
 on which this gateway configuration should be applied.
 By default workloads are searched across all namespaces based on label selectors.
-This implies that a gateway resource in the namespace &quot;foo&quot; can select pods in
-the namespace &quot;bar&quot; based on labels.
+This implies that a gateway resource in the namespace &ldquo;foo&rdquo; can select pods in
+the namespace &ldquo;bar&rdquo; based on labels.
 This behavior can be controlled via the <code>PILOT_SCOPE_GATEWAY_TO_NAMESPACE</code>
 environment variable in istiod. If this variable is set
 to true, the scope of label search is restricted to the configuration
@@ -545,12 +545,12 @@ is specified, is <code>*/</code>, that is, select services from any namespace.
 Any associated <code>DestinationRule</code> in the selected namespace will also be used.</p>
 <p>A <code>VirtualService</code> must be bound to the gateway and must have one or
 more hosts that match the hosts specified in a server. The match
-could be an exact match or a suffix match with the server's hosts. For
-example, if the server's hosts specifies <code>*.example.com</code>, a
+could be an exact match or a suffix match with the server&rsquo;s hosts. For
+example, if the server&rsquo;s hosts specifies <code>*.example.com</code>, a
 <code>VirtualService</code> with hosts <code>dev.example.com</code> or <code>prod.example.com</code> will
 match. However, a <code>VirtualService</code> with host <code>example.com</code> or
 <code>newexample.com</code> will not match.</p>
-<p>NOTE: Only virtual services exported to the gateway's namespace
+<p>NOTE: Only virtual services exported to the gateway&rsquo;s namespace
 (e.g., <code>exportTo</code> value of <code>*</code>) can be referenced.
 Private configurations (e.g., <code>exportTo</code> set to <code>.</code>) will not be
 available. Refer to the <code>exportTo</code> setting in <code>VirtualService</code>,
@@ -565,7 +565,7 @@ Yes
 <td><code>tls</code></td>
 <td><code><a href="#ServerTLSSettings">ServerTLSSettings</a></code></td>
 <td>
-<p>Set of TLS related options that govern the server's behavior. Use
+<p>Set of TLS related options that govern the server&rsquo;s behavior. Use
 these options to control if all http requests should be redirected to
 https, and the TLS modes to use.</p>
 
@@ -709,7 +709,7 @@ No
 <td><code>string</code></td>
 <td>
 <p>REQUIRED if mode is <code>SIMPLE</code> or <code>MUTUAL</code>. The path to the file
-holding the server's private key.</p>
+holding the server&rsquo;s private key.</p>
 
 </td>
 <td>

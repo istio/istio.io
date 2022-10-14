@@ -12,9 +12,9 @@ number_of_entries: 6
 ---
 <p>WasmPlugins provides a mechanism to extend the functionality provided by
 the Istio proxy through WebAssembly filters.</p>
-<p>Order of execution (as part of Envoy's filter chain) is determined by
+<p>Order of execution (as part of Envoy&rsquo;s filter chain) is determined by
 phase and priority settings, allowing the configuration of complex
-interactions between user-supplied WasmPlugins and Istio's internal
+interactions between user-supplied WasmPlugins and Istio&rsquo;s internal
 filters.</p>
 <p>Examples:</p>
 <p>AuthN Filter deployed to ingress-gateway that implements an OpenID flow
@@ -110,8 +110,8 @@ kicks in, passing the JWT to a policy server, which in turn responds with a
 signed token that contains information about which files and functions of the
 system are available to the user that was previously authenticated. The
 <code>acl-check</code> filter writes this token to a header. Finally, the <code>check-header</code>
-filter verifies the token in that header and makes sure that the token's
-contents (the permitted 'function') matches its plugin configuration.</p>
+filter verifies the token in that header and makes sure that the token&rsquo;s
+contents (the permitted &lsquo;function&rsquo;) matches its plugin configuration.</p>
 <p>The resulting filter chain looks like this:
 -&gt; openid-connect -&gt; istio.authn -&gt; acl-check -&gt; check-header -&gt; router</p>
 <pre><code class="language-yaml">apiVersion: extensions.istio.io/v1alpha1
@@ -385,7 +385,7 @@ No
 <td><code><a href="#EnvValueSource">EnvValueSource</a></code></td>
 <td>
 <p>Required
-Source for the environment variable's value.</p>
+Source for the environment variable&rsquo;s value.</p>
 
 </td>
 <td>
@@ -398,7 +398,7 @@ No
 <td>
 <p>Value for the environment variable.
 Note that if <code>value_from</code> is <code>HOST</code>, it will be ignored.
-Defaults to &quot;&quot;.</p>
+Defaults to &ldquo;&rdquo;.</p>
 
 </td>
 <td>
@@ -514,7 +514,7 @@ this plugin. Note that the change includes <code>metadata</code> field as well.<
 <tr id="EnvValueSource-HOST">
 <td><code>HOST</code></td>
 <td>
-<p><em>Istio-proxy's</em> environment variables exposed to this VM.</p>
+<p><em>Istio-proxy&rsquo;s</em> environment variables exposed to this VM.</p>
 
 </td>
 </tr>

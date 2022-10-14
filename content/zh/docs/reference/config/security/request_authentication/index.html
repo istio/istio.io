@@ -49,7 +49,7 @@ spec:
         requestPrincipals: [&quot;*&quot;]
 </code></pre>
 <ul>
-<li>A policy in the root namespace (&quot;istio-system&quot; by default) applies to workloads in all namespaces
+<li>A policy in the root namespace (&ldquo;istio-system&rdquo; by default) applies to workloads in all namespaces
 in a mesh. The following policy makes all workloads only accept requests that contain a
 valid JWT token.</li>
 </ul>
@@ -138,7 +138,7 @@ spec:
         paths: [&quot;/healthz&quot;]
 </code></pre>
 <p>[Experimental] Routing based on derived <a href="/latest/docs/reference/config/security/conditions/">metadata</a>
-is now supported. A prefix '@' is used to denote a match against internal metadata instead of the headers in the request.
+is now supported. A prefix &lsquo;@&rsquo; is used to denote a match against internal metadata instead of the headers in the request.
 Currently this feature is only supported for the following metadata:</p>
 <ul>
 <li><code>request.auth.claims.{claim-name}[.{sub-claim}]*</code> which are extracted from validated JWT tokens. The claim name
@@ -148,7 +148,7 @@ currently does not support the <code>.</code> character. Examples: <code>request
 <ul>
 <li>RequestAuthentication to decode and validate a JWT. This also makes the <code>@request.auth.claims</code> available for use in the VirtualService.</li>
 <li>AuthorizationPolicy to check for valid principals in the request. This makes the JWT required for the request.</li>
-<li>VirtualService to route the request based on the &quot;sub&quot; claim.</li>
+<li>VirtualService to route the request based on the &ldquo;sub&rdquo; claim.</li>
 </ul>
 <pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
 kind: RequestAuthentication
@@ -231,7 +231,7 @@ No
 <td><code>jwtRules</code></td>
 <td><code><a href="/zh/docs/reference/config/security/jwt/#JWTRule">JWTRule[]</a></code></td>
 <td>
-<p>Define the list of JWTs that can be validated at the selected workloads' proxy. A valid token
+<p>Define the list of JWTs that can be validated at the selected workloads&rsquo; proxy. A valid token
 will be used to extract the authenticated identity.
 Each rule will be activated only when a token is presented at the location recognized by the
 rule. The token will be validated based on the JWT rule config. If validation fails, the request will

@@ -65,10 +65,10 @@ No
 </section>
 <h2 id="AnalysisMessageWeakSchema">AnalysisMessageWeakSchema</h2>
 <section>
-<p>AnalysisMessageWeakSchema is the set of information that's needed to define a
+<p>AnalysisMessageWeakSchema is the set of information that&rsquo;s needed to define a
 weakly-typed schema. The purpose of this proto is to provide a mechanism for
 validating istio/istio/galley/pkg/config/analysis/msg/messages.yaml to make
-sure that we don't allow committing underspecified types.</p>
+sure that we don&rsquo;t allow committing underspecified types.</p>
 
 <table class="message-fields">
 <thead>
@@ -175,8 +175,8 @@ No
 <td><code>string[]</code></td>
 <td>
 <p>A list of strings specifying the resource identifiers that were the cause
-of message generation. A &quot;path&quot; here is a (NAMESPACE/)?RESOURCETYPE/NAME
-tuple that uniquely identifies a particular resource. There doesn't seem to
+of message generation. A &ldquo;path&rdquo; here is a (NAMESPACE/)?RESOURCETYPE/NAME
+tuple that uniquely identifies a particular resource. There doesn&rsquo;t seem to
 be a single concept for this, but this is intuitively taken from
 <a href="https://kubernetes.io/docs/reference/using-api/api-concepts/#standard-api-terminology">https://kubernetes.io/docs/reference/using-api/api-concepts/#standard-api-terminology</a>
 At least one is required.</p>
@@ -250,8 +250,8 @@ codes between message types.)</p>
 <td><code>name</code></td>
 <td><code>string</code></td>
 <td>
-<p>A human-readable name for the message type. e.g. &quot;InternalError&quot;,
-&quot;PodMissingProxy&quot;. This should be the same for all messages of the same type.
+<p>A human-readable name for the message type. e.g. &ldquo;InternalError&rdquo;,
+&ldquo;PodMissingProxy&rdquo;. This should be the same for all messages of the same type.
 Required.</p>
 
 </td>
@@ -264,7 +264,7 @@ No
 <td><code>string</code></td>
 <td>
 <p>A 7 character code matching <code>^IST[0-9]{4}$</code> intended to uniquely identify
-the message type. (e.g. &quot;IST0001&quot; is mapped to the &quot;InternalError&quot; message
+the message type. (e.g. &ldquo;IST0001&rdquo; is mapped to the &ldquo;InternalError&rdquo; message
 type.) 0000-0100 are reserved. Required.</p>
 
 </td>
@@ -304,7 +304,7 @@ No
 <td>
 <p>Required. Should be a golang type, used in code generation.
 Ideally this will change to a less language-pinned type before this gets
-out of alpha, but for compatibility with current istio/istio code it's
+out of alpha, but for compatibility with current istio/istio code it&rsquo;s
 go_type for now.</p>
 
 </td>

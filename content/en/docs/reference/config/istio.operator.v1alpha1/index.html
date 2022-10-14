@@ -11,7 +11,7 @@ number_of_entries: 74
 ---
 <p>Configuration affecting Istio control plane installation version and shape.
 Note: unlike other Istio protos, field names must use camelCase. This is asserted in tests.
-Without camelCase, the <code>json</code> tag on the Go struct will not match the user's JSON representation.
+Without camelCase, the <code>json</code> tag on the Go struct will not match the user&rsquo;s JSON representation.
 This leads to Kubernetes merge libraries, which rely on this tag, to fail.
 All other usages use jsonpb which does not use the <code>json</code> tag.</p>
 
@@ -3932,7 +3932,7 @@ No
 <td><code>string</code></td>
 <td>
 <p>Path within the container at which the volume should be mounted.  Must
-not contain ':'.</p>
+not contain &lsquo;:&rsquo;.</p>
 
 </td>
 <td>
@@ -3943,8 +3943,8 @@ No
 <td><code>subPath</code></td>
 <td><code>string</code></td>
 <td>
-<p>Path within the volume from which the container's volume should be mounted.
-Defaults to &quot;&quot; (volume's root).
+<p>Path within the volume from which the container&rsquo;s volume should be mounted.
+Defaults to &quot;&quot; (volume&rsquo;s root).
 +optional</p>
 
 </td>
@@ -3971,9 +3971,9 @@ No
 <td><code>subPathExpr</code></td>
 <td><code>string</code></td>
 <td>
-<p>Expanded path within the volume from which the container's volume should be mounted.
-Behaves similarly to SubPath but environment variable references $(VAR_NAME) are expanded using the container's environment.
-Defaults to &quot;&quot; (volume's root).
+<p>Expanded path within the volume from which the container&rsquo;s volume should be mounted.
+Behaves similarly to SubPath but environment variable references $(VAR_NAME) are expanded using the container&rsquo;s environment.
+Defaults to &quot;&quot; (volume&rsquo;s root).
 SubPathExpr and SubPath are mutually exclusive.
 +optional</p>
 
@@ -4007,8 +4007,8 @@ label selector matches no objects.
 <td><code>map&lt;string,&nbsp;string&gt;</code></td>
 <td>
 <p>matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
-map is equivalent to an element of matchExpressions, whose key field is &quot;key&quot;, the
-operator is &quot;In&quot;, and the values array contains only &quot;value&quot;. The requirements are ANDed.
+map is equivalent to an element of matchExpressions, whose key field is &ldquo;key&rdquo;, the
+operator is &ldquo;In&rdquo;, and the values array contains only &ldquo;value&rdquo;. The requirements are ANDed.
 +optional</p>
 
 </td>

@@ -40,9 +40,9 @@ protocol. If the traffic is matched, then it is sent to a named destination serv
 <p>The source of traffic can also be matched in a routing rule. This allows routing
 to be customized for specific client contexts.</p>
 <p>The following example on Kubernetes, routes all HTTP traffic by default to
-pods of the reviews service with label &quot;version: v1&quot;. In addition,
+pods of the reviews service with label &ldquo;version: v1&rdquo;. In addition,
 HTTP requests with path starting with /wpcatalog/ or /consumercatalog/ will
-be rewritten to /newcatalog and sent to pods with label &quot;version: v2&quot;.</p>
+be rewritten to /newcatalog and sent to pods with label &ldquo;version: v2&rdquo;.</p>
 <p>{{<tabset category-name="example">}}
 {{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
@@ -169,11 +169,11 @@ can be defined using more than one VirtualService, with certain
 caveats. Refer to the
 <a href="/docs/ops/best-practices/traffic-management/#split-virtual-services">Operations Guide</a>
 for details.</p>
-<p><em>Note for Kubernetes users</em>: When short names are used (e.g. &quot;reviews&quot;
-instead of &quot;reviews.default.svc.cluster.local&quot;), Istio will interpret
+<p><em>Note for Kubernetes users</em>: When short names are used (e.g. &ldquo;reviews&rdquo;
+instead of &ldquo;reviews.default.svc.cluster.local&rdquo;), Istio will interpret
 the short name based on the namespace of the rule, not the service. A
-rule in the &quot;default&quot; namespace containing a host &quot;reviews&quot; will be
-interpreted as &quot;reviews.default.svc.cluster.local&quot;, irrespective of
+rule in the &ldquo;default&rdquo; namespace containing a host &ldquo;reviews&rdquo; will be
+interpreted as &ldquo;reviews.default.svc.cluster.local&rdquo;, irrespective of
 the actual namespace associated with the reviews service. <em>To avoid
 potential misconfigurations, it is recommended to always use fully
 qualified domain names over short names.</em></p>
@@ -195,7 +195,7 @@ No
 <p>The names of gateways and sidecars that should apply these routes.
 Gateways in other namespaces may be referred to by
 <code>&lt;gateway namespace&gt;/&lt;gateway name&gt;</code>; specifying a gateway with no
-namespace qualifier is the same as specifying the VirtualService's
+namespace qualifier is the same as specifying the VirtualService&rsquo;s
 namespace. A single VirtualService is used for sidecars inside the mesh as
 well as for one or more gateways. The selection condition imposed by this
 field can be overridden using the source field in the match conditions
@@ -216,7 +216,7 @@ No
 <td><code><a href="#HTTPRoute">HTTPRoute[]</a></code></td>
 <td>
 <p>An ordered list of route rules for HTTP traffic. HTTP routes will be
-applied to platform service ports named 'http-<em>'/'http2-</em>'/'grpc-*', gateway
+applied to platform service ports named &lsquo;http-<em>&rsquo;/&lsquo;http2-</em>&rsquo;/&lsquo;grpc-*&rsquo;, gateway
 ports with protocol HTTP/HTTP2/GRPC/ TLS-terminated-HTTPS and service
 entry ports using HTTP/HTTP2/GRPC protocols.  The first rule matching
 an incoming request is used.</p>
@@ -233,10 +233,10 @@ No
 <p>An ordered list of route rule for non-terminated TLS &amp; HTTPS
 traffic. Routing is typically performed using the SNI value presented
 by the ClientHello message. TLS routes will be applied to platform
-service ports named 'https-<em>', 'tls-</em>', unterminated gateway ports using
-HTTPS/TLS protocols (i.e. with &quot;passthrough&quot; TLS mode) and service
+service ports named &lsquo;https-<em>&rsquo;, &rsquo;tls-</em>&rsquo;, unterminated gateway ports using
+HTTPS/TLS protocols (i.e. with &ldquo;passthrough&rdquo; TLS mode) and service
 entry ports using HTTPS/TLS protocols.  The first rule matching an
-incoming request is used.  NOTE: Traffic 'https-<em>' or 'tls-</em>' ports
+incoming request is used.  NOTE: Traffic &lsquo;https-<em>&rsquo; or &rsquo;tls-</em>&rsquo; ports
 without associated virtual service will be treated as opaque TCP
 traffic.</p>
 
@@ -269,8 +269,8 @@ and mesh administrators to control the visibility of virtual services
 across namespace boundaries.</p>
 <p>If no namespaces are specified then the virtual service is exported to all
 namespaces by default.</p>
-<p>The value &quot;.&quot; is reserved and defines an export to the same namespace that
-the virtual service is declared in. Similarly the value &quot;*&quot; is reserved and
+<p>The value &ldquo;.&rdquo; is reserved and defines an export to the same namespace that
+the virtual service is declared in. Similarly the value &ldquo;*&rdquo; is reserved and
 defines an export to all namespaces.</p>
 
 </td>
@@ -286,20 +286,20 @@ No
 <p>Destination indicates the network addressable service to which the
 request/connection will be sent after processing a routing rule. The
 destination.host should unambiguously refer to a service in the service
-registry. Istio's service registry is composed of all the services found
-in the platform's service registry (e.g., Kubernetes services, Consul
+registry. Istio&rsquo;s service registry is composed of all the services found
+in the platform&rsquo;s service registry (e.g., Kubernetes services, Consul
 services), as well as services declared through the
 <a href="/docs/reference/config/networking/service-entry/#ServiceEntry">ServiceEntry</a> resource.</p>
-<p><em>Note for Kubernetes users</em>: When short names are used (e.g. &quot;reviews&quot;
-instead of &quot;reviews.default.svc.cluster.local&quot;), Istio will interpret
+<p><em>Note for Kubernetes users</em>: When short names are used (e.g. &ldquo;reviews&rdquo;
+instead of &ldquo;reviews.default.svc.cluster.local&rdquo;), Istio will interpret
 the short name based on the namespace of the rule, not the service. A
-rule in the &quot;default&quot; namespace containing a host &quot;reviews will be
-interpreted as &quot;reviews.default.svc.cluster.local&quot;, irrespective of the
+rule in the &ldquo;default&rdquo; namespace containing a host &ldquo;reviews will be
+interpreted as &ldquo;reviews.default.svc.cluster.local&rdquo;, irrespective of the
 actual namespace associated with the reviews service. <em>To avoid potential
 misconfigurations, it is recommended to always use fully qualified
 domain names over short names.</em></p>
 <p>The following Kubernetes example routes all traffic by default to pods
-of the reviews service with label &quot;version: v1&quot; (i.e., subset v1), and
+of the reviews service with label &ldquo;version: v1&rdquo; (i.e., subset v1), and
 some to subset v2, in a Kubernetes environment.</p>
 <p>{{<tabset category-name="example">}}
 {{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
@@ -398,10 +398,10 @@ spec:
 productpage.prod.svc.cluster.local service in Kubernetes. Notice that
 there are no subsets defined in this rule. Istio will fetch all
 instances of productpage.prod.svc.cluster.local service from the service
-registry and populate the sidecar's load balancing pool. Also, notice
+registry and populate the sidecar&rsquo;s load balancing pool. Also, notice
 that this rule is set in the istio-system namespace but uses the fully
 qualified domain name of the productpage service,
-productpage.prod.svc.cluster.local. Therefore the rule's namespace does
+productpage.prod.svc.cluster.local. Therefore the rule&rsquo;s namespace does
 not have an impact in resolving the name of the productpage service.</p>
 <p>{{<tabset category-name="example">}}
 {{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
@@ -438,7 +438,7 @@ spec:
 <p>{{</tab>}}
 {{</tabset>}}</p>
 <p>To control routing for traffic bound to services outside the mesh, external
-services must first be added to Istio's internal service registry using the
+services must first be added to Istio&rsquo;s internal service registry using the
 ServiceEntry resource. VirtualServices can then be defined to control traffic
 bound to these external services. For example, the following rules define a
 Service for wikipedia.org and set a timeout of 5s for HTTP requests.</p>
@@ -518,15 +518,15 @@ spec:
 <td><code>string</code></td>
 <td>
 <p>The name of a service from the service registry. Service
-names are looked up from the platform's service registry (e.g.,
+names are looked up from the platform&rsquo;s service registry (e.g.,
 Kubernetes services, Consul services, etc.) and from the hosts
 declared by <a href="/docs/reference/config/networking/service-entry/#ServiceEntry">ServiceEntry</a>. Traffic forwarded to
 destinations that are not found in either of the two, will be dropped.</p>
-<p><em>Note for Kubernetes users</em>: When short names are used (e.g. &quot;reviews&quot;
-instead of &quot;reviews.default.svc.cluster.local&quot;), Istio will interpret
+<p><em>Note for Kubernetes users</em>: When short names are used (e.g. &ldquo;reviews&rdquo;
+instead of &ldquo;reviews.default.svc.cluster.local&rdquo;), Istio will interpret
 the short name based on the namespace of the rule, not the service. A
-rule in the &quot;default&quot; namespace containing a host &quot;reviews will be
-interpreted as &quot;reviews.default.svc.cluster.local&quot;, irrespective of
+rule in the &ldquo;default&rdquo; namespace containing a host &ldquo;reviews will be
+interpreted as &ldquo;reviews.default.svc.cluster.local&rdquo;, irrespective of
 the actual namespace associated with the reviews service. To avoid
 potential misconfiguration, it is recommended to always use fully
 qualified domain names over short names.</p>
@@ -585,7 +585,7 @@ gRPC traffic. See VirtualService for usage examples.</p>
 <td><code>string</code></td>
 <td>
 <p>The name assigned to the route for debugging purposes. The
-route's name will be concatenated with the match's name and will
+route&rsquo;s name will be concatenated with the match&rsquo;s name and will
 be logged in the access logs for requests matching this
 route/match.</p>
 
@@ -662,7 +662,7 @@ current one.</p>
 <p><strong>NOTE</strong>:</p>
 <ol>
 <li>Only one level delegation is supported.</li>
-<li>The delegate's HTTPMatchRequest must be a strict subset of the root's,
+<li>The delegate&rsquo;s HTTPMatchRequest must be a strict subset of the root&rsquo;s,
 otherwise there is a conflict and the HTTPRoute will not take effect.</li>
 </ol>
 
@@ -857,7 +857,7 @@ No
 <td><code>string</code></td>
 <td>
 <p>Namespace specifies the namespace where the delegate VirtualService resides.
-By default, it is same to the root's.</p>
+By default, it is same to the root&rsquo;s.</p>
 
 </td>
 <td>
@@ -976,7 +976,7 @@ No
 <section>
 <p>Describes match conditions and actions for routing unterminated TLS
 traffic (TLS/HTTPS) The following routing rule forwards unterminated TLS
-traffic arriving at port 443 of gateway called &quot;mygateway&quot; to internal
+traffic arriving at port 443 of gateway called &ldquo;mygateway&rdquo; to internal
 services in the mesh based on the SNI value.</p>
 <p>{{<tabset category-name="example">}}
 {{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
@@ -1223,8 +1223,8 @@ spec:
 <td><code>name</code></td>
 <td><code>string</code></td>
 <td>
-<p>The name assigned to a match. The match's name will be
-concatenated with the parent route's name and will be logged in
+<p>The name assigned to a match. The match&rsquo;s name will be
+concatenated with the parent route&rsquo;s name and will be logged in
 the access logs for requests matching this route.</p>
 
 </td>
@@ -1400,17 +1400,17 @@ No
 <p>Ex:</p>
 <ul>
 <li>
-<p>For a query parameter like &quot;?key=true&quot;, the map key would be &quot;key&quot; and
+<p>For a query parameter like &ldquo;?key=true&rdquo;, the map key would be &ldquo;key&rdquo; and
 the string match could be defined as <code>exact: &quot;true&quot;</code>.</p>
 </li>
 <li>
-<p>For a query parameter like &quot;?key&quot;, the map key would be &quot;key&quot; and the
+<p>For a query parameter like &ldquo;?key&rdquo;, the map key would be &ldquo;key&rdquo; and the
 string match could be defined as <code>exact: &quot;&quot;</code>.</p>
 </li>
 <li>
-<p>For a query parameter like &quot;?key=123&quot;, the map key would be &quot;key&quot; and the
+<p>For a query parameter like &ldquo;?key=123&rdquo;, the map key would be &ldquo;key&rdquo; and the
 string match could be defined as <code>regex: &quot;\d+$&quot;</code>. Note that this
-configuration will only match values like &quot;123&quot; but not &quot;a123&quot; or &quot;123a&quot;.</p>
+configuration will only match values like &ldquo;123&rdquo; but not &ldquo;a123&rdquo; or &ldquo;123a&rdquo;.</p>
 </li>
 </ul>
 <p><strong>Note:</strong> <code>prefix</code> matching is currently not supported.</p>
@@ -1464,7 +1464,7 @@ No
 <td>
 <p>The human readable prefix to use when emitting statistics for this route.
 The statistics are generated with prefix route.&lt;stat_prefix&gt;.
-This should be set for highly critical routes that one wishes to get &quot;per-route&quot; statistics on.
+This should be set for highly critical routes that one wishes to get &ldquo;per-route&rdquo; statistics on.
 This prefix is only for proxy-level statistics (envoy_<em>) and not service-level (istio_</em>) statistics.
 Refer to <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/route/v3/route_components.proto#envoy-v3-api-field-config-route-v3-route-stat-prefix">https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/route/v3/route_components.proto#envoy-v3-api-field-config-route-v3-route-stat-prefix</a>
 for statistics that are generated when this is configured.</p>
@@ -1482,9 +1482,9 @@ No
 <p>Each routing rule is associated with one or more service versions (see
 glossary in beginning of document). Weights associated with the version
 determine the proportion of traffic it receives. For example, the
-following rule will route 25% of traffic for the &quot;reviews&quot; service to
-instances with the &quot;v2&quot; tag and the remaining traffic (i.e., 75%) to
-&quot;v1&quot;.</p>
+following rule will route 25% of traffic for the &ldquo;reviews&rdquo; service to
+instances with the &ldquo;v2&rdquo; tag and the remaining traffic (i.e., 75%) to
+&ldquo;v1&rdquo;.</p>
 <p>{{<tabset category-name="example">}}
 {{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
@@ -1799,7 +1799,7 @@ No
 <p>SNI (server name indicator) to match on. Wildcard prefixes
 can be used in the SNI value, e.g., *.com will match foo.example.com
 as well as example.com. An SNI value must be a subset (i.e., fall
-within the domain) of the corresponding virtual serivce's hosts.</p>
+within the domain) of the corresponding virtual serivce&rsquo;s hosts.</p>
 
 </td>
 <td>
@@ -2784,7 +2784,7 @@ No
 <section>
 <p>Delay specification is used to inject latency into the request
 forwarding path. The following example will introduce a 5 second delay
-in 1 out of every 1000 requests to the &quot;v1&quot; version of the &quot;reviews&quot;
+in 1 out of every 1000 requests to the &ldquo;v1&rdquo; version of the &ldquo;reviews&rdquo;
 service from all pods with label env: prod</p>
 <p>{{<tabset category-name="example">}}
 {{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
@@ -2891,7 +2891,7 @@ No
 <section>
 <p>Abort specification is used to prematurely abort a request with a
 pre-specified error code. The following example will return an HTTP 400
-error code for 1 out of every 1000 requests to the &quot;ratings&quot; service &quot;v1&quot;.</p>
+error code for 1 out of every 1000 requests to the &ldquo;ratings&rdquo; service &ldquo;v1&rdquo;.</p>
 <p>{{<tabset category-name="example">}}
 {{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
@@ -2966,7 +2966,7 @@ Yes
 <td>
 <p>GRPC status code to use to abort the request. The supported
 codes are documented in <a href="https://github.com/grpc/grpc/blob/master/doc/statuscodes.md">https://github.com/grpc/grpc/blob/master/doc/statuscodes.md</a>
-Note: If you want to return the status &quot;Unavailable&quot;, then you should
+Note: If you want to return the status &ldquo;Unavailable&rdquo;, then you should
 specify the code as <code>UNAVAILABLE</code>(all caps), but not <code>14</code>.</p>
 
 </td>

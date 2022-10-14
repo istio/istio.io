@@ -83,7 +83,7 @@ No
 <td><code>jwksUri</code></td>
 <td><code>string</code></td>
 <td>
-<p>URL of the provider's public key set to validate signature of the
+<p>URL of the provider&rsquo;s public key set to validate signature of the
 JWT. See <a href="https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata">OpenID Discovery</a>.</p>
 <p>Optional if the key set document can either (a) be retrieved from
 <a href="https://openid.net/specs/openid-connect-discovery-1_0.html">OpenID
@@ -116,7 +116,7 @@ No
 <td><code><a href="#JWTHeader">JWTHeader[]</a></code></td>
 <td>
 <p>List of header locations from which JWT is expected. For example, below is the location spec
-if JWT is expected to be found in <code>x-jwt-assertion</code> header, and have &quot;Bearer &quot; prefix:</p>
+if JWT is expected to be found in <code>x-jwt-assertion</code> header, and have &ldquo;Bearer &quot; prefix:</p>
 <pre><code class="language-yaml">  fromHeaders:
   - name: x-jwt-assertion
     prefix: &quot;Bearer &quot;
@@ -203,8 +203,8 @@ Yes
 <td><code>string</code></td>
 <td>
 <p>The prefix that should be stripped before decoding the token.
-For example, for &quot;Authorization: Bearer <token>&quot;, prefix=&quot;Bearer &quot; with a space at the end.
-If the header doesn't have this exact prefix, it is considered invalid.</p>
+For example, for &ldquo;Authorization: Bearer <token>&rdquo;, prefix=&ldquo;Bearer &quot; with a space at the end.
+If the header doesn&rsquo;t have this exact prefix, it is considered invalid.</p>
 
 </td>
 <td>

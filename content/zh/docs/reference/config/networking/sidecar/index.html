@@ -289,7 +289,7 @@ proxy. For example, consider a setup where internal services are on the
 outbound traffic on <code>192.168.0.0/16</code> subnet. Assume that the VM has an
 additional network interface on <code>172.16.0.0/16</code> subnet for inbound
 traffic. The following <code>Sidecar</code> configuration allows the VM to expose a
-listener on <code>172.16.1.32:80</code> (the VM's IP) for traffic arriving from the
+listener on <code>172.16.1.32:80</code> (the VM&rsquo;s IP) for traffic arriving from the
 <code>172.16.0.0/16</code> subnet.</p>
 <p><strong>NOTE</strong>: The <code>ISTIO_META_INTERCEPTION_MODE</code> metadata on the
 proxy in the VM should contain <code>REDIRECT</code> or <code>TPROXY</code> as its value,
@@ -360,7 +360,7 @@ one way TLS using the given server certificates.
 The traffic is then forwarded to the attached workload instance
 listening on a Unix domain socket.
 It is expected that PeerAuthentication policy would be configured
-in order to set mTLS mode to &quot;DISABLE&quot; on specific
+in order to set mTLS mode to &ldquo;DISABLE&rdquo; on specific
 ports.
 In this example, the mTLS mode is disabled on PORT 80.
 This feature is currently experimental.</p>
@@ -674,10 +674,10 @@ or no namespace, respectively. For example, <code>*/foo.example.com</code> selec
 service from any available namespace while <code>./foo.example.com</code> only selects
 the service from the namespace of the sidecar. If a host is set to <code>*/*</code>,
 Istio will configure the sidecar to be able to reach every service in the
-mesh that is exported to the sidecar's namespace. The value <code>~/*</code> can be used
+mesh that is exported to the sidecar&rsquo;s namespace. The value <code>~/*</code> can be used
 to completely trim the configuration for sidecars that simply receive traffic
 and respond, but make no outbound connections of their own.</p>
-<p>NOTE: Only services and configuration artifacts exported to the sidecar's
+<p>NOTE: Only services and configuration artifacts exported to the sidecar&rsquo;s
 namespace (e.g., <code>exportTo</code> value of <code>*</code>) can be referenced.
 Private configurations (e.g., <code>exportTo</code> set to <code>.</code>) will
 not be available. Refer to the <code>exportTo</code> setting in <code>VirtualService</code>,
