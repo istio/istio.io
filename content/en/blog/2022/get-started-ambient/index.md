@@ -17,11 +17,11 @@ Ambient mesh is [a new data plane mode for Istio introduced today](/blog/2022/in
 $ kind create cluster --config=- <<EOF
 kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
-  name: ambient
-  nodes:
-    - role: control-plane
-    - role: worker
-    - role: worker
+name: ambient
+nodes:
+- role: control-plane
+- role: worker
+- role: worker
 EOF
 {{< /text >}}
 
