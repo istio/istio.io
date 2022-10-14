@@ -65,7 +65,7 @@ ztunnel-tm9zl                           1/1     Running   0          47s
 istio-cni 和 ztunnel 组件被部署为 [Kubernetes `DaemonSet`](https://kubernetes.io/zh-cn/docs/concepts/workloads/controllers/daemonset/) 运行在每个节点上。
 每个 Istio CNI Pod 都会检查相同节点上并置的所有 Pod，以查看这些 Pod 是否属于 Ambient Mesh。
 对于这些 Pod，CNI 插件将配置流量重定向，使得所有传入和传出 Pod 的流量均先重定向到并置的 ztunnel。
-当新的 Pod 部署到此节点上或被移除时，CNI 插件将相应继续监控并更新重定向逻辑。
+当新的 Pod 部署到此节点上或被移除时，CNI 插件会监控并更新重定向逻辑。
 
 ## 部署您的应用{#deploy-your-applications}
 
@@ -120,7 +120,7 @@ $ kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | head -n1
 $ kubectl exec deploy/notsleep -- curl -s http://productpage:9080/ | head -n1
 {{< /text >}}
 
-您将立即获得 Ambient Mesh 中应用之间的 mTLS 通信。
+您在 Ambient Mesh 中的应用之间会使用 mTLS 通信。
 
 {{< image width="75%"
     link="app-in-ambient-secure-overlay.png"
@@ -187,7 +187,7 @@ Certificate:
 
 ## 加固应用访问安全{#secure-application-access}
 
-您已经将应用添加到 Ambient Mesh 后，您可以使用 L4 鉴权策略加固应用访问的安全。
+当您将应用添加到 Ambient Mesh 后，就可以使用 L4 鉴权策略加固应用访问的安全。
 这允许您根据客户端工作负载身份来控制对某个服务的访问流量，但这不是 `GET` 和 `POST` 等 HTTP 方法的 L7 级别的控制。
 
 ### L4 鉴权策略{#l4-authorization-policies}
@@ -357,7 +357,7 @@ $ kubectl exec -it deploy/sleep -- sh -c 'for i in $(seq 1 100); do curl -s http
 
 现有的 Istio 资源继续工作，与您是选择使用 Sidecar 还是 Ambient 数据平面模式无关。
 
-观看一个短视频，看看琳如何在 5 分钟内完成 Istio Ambient Mesh 演示：
+观看一个短视频，看看 Lin Sun 如何在 5 分钟内完成 Istio Ambient Mesh 演示：
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/wTGF4S4ZmJ0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
