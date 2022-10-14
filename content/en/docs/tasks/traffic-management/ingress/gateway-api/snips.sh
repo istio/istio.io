@@ -192,5 +192,5 @@ kubectl delete ns istio-ingress
 }
 
 snip_cleanup_2() {
-kubectl delete -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v0.5.1/experimental-install.yaml
+kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.5.1" | kubectl delete -f -
 }

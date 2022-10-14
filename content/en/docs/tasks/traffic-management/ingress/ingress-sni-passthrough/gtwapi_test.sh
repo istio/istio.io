@@ -18,7 +18,8 @@
 source "tests/util/gateway-api.sh"
 install_gateway_api_crds
 
-# @setup profile=default
+# @setup profile=none
+istioctl install --set profile=minimal
 source "content/en/docs/tasks/traffic-management/ingress/ingress-sni-passthrough/test.sh"
 
 # @cleanup
