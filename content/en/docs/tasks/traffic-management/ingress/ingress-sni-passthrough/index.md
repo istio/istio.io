@@ -19,6 +19,8 @@ Then you configure a gateway to provide ingress access to the service via host `
 
 {{< boilerplate gateway-api-support >}}
 
+{{< boilerplate gateway-api-experimental >}}
+
 ## Before you begin
 
 Setup Istio by following the instructions in the [Installation guide](/docs/setup/).
