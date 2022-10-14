@@ -2,7 +2,7 @@
 title: 发布 Istio 1.15.2 版本
 linktitle: 1.15.2
 subtitle: 补丁发布
-description: Istio 1.15.2 补丁发布
+description: Istio 1.15.2 补丁发布。
 publishdate: 2022-10-11
 release: 1.15.2
 ---
@@ -19,4 +19,4 @@ release: 1.15.2
 
 -  **修复** 修复了移除 `v1alpha2` 版本时网关 API 集成不会失败的问题。
 
--  **修复** 修复了处理已弃用的自动缩放设置的问题。([问题 #41011](https://github.com/istio/istio/issues/41011))
+-  **修复** 修复了处理已弃用的自动缩放设置的问题。([Issue #41011](https://github.com/istio/istio/issues/41011))
