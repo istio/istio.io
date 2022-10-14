@@ -17,11 +17,11 @@ Ambient mesh is [a new data plane mode for Istio introduced today](/blog/2022/in
 $ kind create cluster --config=- <<EOF
 kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
-name: ambient
-nodes:
-- role: control-plane
-- role: worker
-- role: worker
+  name: ambient
+  nodes:
+    - role: control-plane
+    - role: worker
+    - role: worker
 EOF
 {{< /text >}}
 
@@ -193,17 +193,17 @@ $ kubectl apply -f - <<EOF
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
- name: productpage-viewer
- namespace: default
+  name: productpage-viewer
+  namespace: default
 spec:
- selector:
-   matchLabels:
-     app: productpage
- action: ALLOW
- rules:
- - from:
-   - source:
-       principals: ["cluster.local/ns/default/sa/sleep", "cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"]
+  selector:
+    matchLabels:
+      app: productpage
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+      principals: ["cluster.local/ns/default/sa/sleep", "cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"]
 EOF
 {{< /text >}}
 
@@ -227,11 +227,11 @@ $ kubectl apply -f - <<EOF
 apiVersion: gateway.networking.k8s.io/v1alpha2
 kind: Gateway
 metadata:
- name: productpage
- annotations:
-   istio.io/service-account: bookinfo-productpage
+  name: productpage
+  annotations:
+    istio.io/service-account: bookinfo-productpage
 spec:
- gatewayClassName: istio-mesh
+  gatewayClassName: istio-mesh
 EOF
 {{< /text >}}
 
@@ -245,8 +245,7 @@ $ kubectl get gateway productpage -o yaml
 status:
   conditions:
   - lastTransitionTime: "2022-09-06T20:24:41Z"
-    message: Deployed waypoint proxy to "default" namespace for "bookinfo-productpage"
-      service account
+    message: Deployed waypoint proxy to "default" namespace for "bookinfo-productpage" service account
     observedGeneration: 1
     reason: Ready
     status: "True"
@@ -260,20 +259,20 @@ $ kubectl apply -f - <<EOF
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
- name: productpage-viewer
- namespace: default
+  name: productpage-viewer
+  namespace: default
 spec:
- selector:
-   matchLabels:
-     app: productpage
- action: ALLOW
- rules:
- - from:
-   - source:
-       principals: ["cluster.local/ns/default/sa/sleep", "cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"]
-   to:
-   - operation:
-       methods: ["GET"]
+  selector:
+    matchLabels:
+      app: productpage
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+      principals: ["cluster.local/ns/default/sa/sleep", "cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"]
+    to:
+    - operation:
+      methods: ["GET"]
 EOF
 {{< /text >}}
 
@@ -325,11 +324,11 @@ $ kubectl apply -f - <<EOF
 apiVersion: gateway.networking.k8s.io/v1alpha2
 kind: Gateway
 metadata:
- name: reviews
- annotations:
-   istio.io/service-account: bookinfo-reviews
+  name: reviews
+  annotations:
+    istio.io/service-account: bookinfo-reviews
 spec:
- gatewayClassName: istio-mesh
+  gatewayClassName: istio-mesh
 EOF
 {{< /text >}}
 
