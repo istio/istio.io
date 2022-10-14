@@ -80,6 +80,8 @@ spec:
     istiodRemote:
       injectionPath: /inject/cluster/cluster2/net/network1
     global:
+      multiCluster:
+        clusterName: cluster2
       remotePilotAddress: ${DISCOVERY_ADDRESS}
 EOF
 }
