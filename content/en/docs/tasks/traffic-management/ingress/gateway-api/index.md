@@ -278,5 +278,5 @@ spec:
 1. Remove the Gateway API CRDs if they are no longer needed:
 
     {{< text bash >}}
-    $ kubectl kustomize "github.com/kubernetes-sigs/service-apis/config/crd?ref={{< k8s_gateway_api_version >}}" | kubectl delete -f -
+    $ kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref={{< k8s_gateway_api_version >}}" | kubectl delete -f -
     {{< /text >}}
