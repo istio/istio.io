@@ -93,7 +93,7 @@ to hold the configuration of the NGINX server:
 1.  Deploy the NGINX server:
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl kube-inject -f - | kubectl apply -f -
+    $ cat <<EOF | kubectl apply -f -
     apiVersion: v1
     kind: Service
     metadata:
