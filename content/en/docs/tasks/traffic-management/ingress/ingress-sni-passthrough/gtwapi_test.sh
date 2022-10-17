@@ -23,7 +23,6 @@ istioctl install --set profile=minimal -y
 source "content/en/docs/tasks/traffic-management/ingress/ingress-sni-passthrough/test.sh"
 
 # @cleanup
-exit 0
 snip_cleanup_2
 snip_cleanup_3
 snip_cleanup_4
