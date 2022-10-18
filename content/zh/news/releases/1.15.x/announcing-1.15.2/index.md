@@ -21,5 +21,5 @@ release: 1.15.2
 
 -  **修复** 修复了移除 `v1alpha2` 版本时 Gateway API 集成不失败的问题。
 
--  **修复** 修复了处理已弃用的自动缩放设置时的问题。
+-  **修复** 修复了处理已弃用的自动扩缩设置时的问题。
   ([Issue #41011](https://github.com/istio/istio/issues/41011))
