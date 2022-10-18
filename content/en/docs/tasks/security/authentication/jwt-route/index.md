@@ -14,8 +14,6 @@ and virtual service.
 Note: this feature only supports Istio ingress gateway and requires the use of both request authentication and virtual
 service to properly validate and route based on JWT claims.
 
-{{< boilerplate experimental-feature-warning >}}
-
 ## Before you begin
 
 * Understand Istio [authentication policy](/docs/concepts/security/#authentication-policies) and [virtual service](/docs/concepts/traffic-management/#virtual-services) concepts.

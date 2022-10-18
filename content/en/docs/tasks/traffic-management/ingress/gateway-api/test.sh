@@ -34,6 +34,7 @@ startup_httpbin_sample
 
 # setup the Gateway and GatewayClass
 snip_configuring_a_gateway_2
+_wait_for_gateway istio-ingress gateway
 
 # setup the Ingress IP
 snip_configuring_a_gateway_3

@@ -16,7 +16,7 @@
 # limitations under the License.
 source "content/en/boilerplates/snips/gateway-api-version.sh"
 
-K8S_GATEWAY_API_CRDS="github.com/kubernetes-sigs/gateway-api/config/crd?ref=${bpsnip_gateway_api_version_value}"
+K8S_GATEWAY_API_CRDS="github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=${bpsnip_gateway_api_version_value}"
 GATEWAY_API="true"
 
 function install_gateway_api_crds() {

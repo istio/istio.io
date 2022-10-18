@@ -108,6 +108,23 @@ _wait_for_istio() {
     echo "Duration: $(($(date +%s)-start)) seconds"
 }
 
+# Wait for named Gateway API gateway to be ready
+# usage: _wait_for_gateway <namespace> <gateway name> <optional: context>
+_wait_for_gateway() {
+    local namespace="$1"
+    local name="$2"
+    local context="${3:-}"
+    if ! kubectl --context="$context" -n "$namespace" wait --for=condition=ready gtw "$name" --timeout=2m; then
+        echo "Failed to deploy gateway $name in namespace $namespace"
+        kubectl --context="$context" get -n "$namespace" gtw "$name" -o yaml
+        kubectl get svc
+        kubectl get po
+        kubectl get svc mygateway -o yaml
+        kubectl get po -l istio.io/gateway-name=mygateway -o yaml
+        exit 1
+    fi
+}
+
 # Encode the string to a URL
 _urlencode() {
     python3 -c "import urllib.parse; print(urllib.parse.quote('''$1'''))"

@@ -192,5 +192,5 @@ kubectl delete ns istio-ingress
 }
 
 snip_cleanup_2() {
-kubectl kustomize "github.com/kubernetes-sigs/service-apis/config/crd?ref=v0.5.1" | kubectl delete -f -
+kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.5.1" | kubectl delete -f -
 }
