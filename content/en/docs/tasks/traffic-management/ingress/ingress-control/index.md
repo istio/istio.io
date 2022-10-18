@@ -10,7 +10,7 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-Along with support for Kubernetes [Ingress](/docs/tasks/traffic-management/ingress/kubernetes-ingress/), Istio also allows you to configure ingress traffic
+Along with support for Kubernetes [Ingress](/docs/tasks/traffic-management/ingress/kubernetes-ingress/) resources, Istio also allows you to configure ingress traffic
 using either an [Istio Gateway](/docs/concepts/traffic-management/#gateways) or [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/api-types/gateway/) resource.
 A `Gateway` provides more extensive customization and flexibility than `Ingress`, and allows Istio features such as monitoring and route rules to be applied to traffic entering the cluster.
 
@@ -22,13 +22,27 @@ This task describes how to configure Istio to expose a service outside of the se
 
 *   Setup Istio by following the instructions in the [Installation guide](/docs/setup/).
 
-*   Make sure your current directory is the `istio` directory.
+    {{< tip >}}
+    If you are going to use the `Gateway API` instructions, you can install Istio using the `minimal`
+    profile, because you will not need the `istio-ingressgateway`, which is otherwise installed
+    by default:
 
-*   Start the [httpbin]({{< github_tree >}}/samples/httpbin) sample:
+    {{< text bash >}}
+    $ istioctl install profile=minimal
+    {{< /text >}}
+
+    {{< /tip >}}
+
+*   Start the [httpbin]({{< github_tree >}}/samples/httpbin) sample, which will serve as the target service
+    for ingress traffic:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/httpbin/httpbin.yaml@
     {{< /text >}}
+
+    Note that for the purpose of this document, which shows how to use a gateway to control ingress traffic
+    into your "Kubernetes cluster", you can start the `httpbin` service with or without
+    sidecar injection enabled (i.e., the target service can be either inside or outside of the Istio mesh).
 
 ## Configuring ingress using a gateway
 
@@ -220,7 +234,7 @@ If the `EXTERNAL-IP` value is set, your environment has an external load balance
 If the `EXTERNAL-IP` value is `<none>` (or perpetually `<pending>`), your environment does not provide an external load balancer for the ingress gateway.
 
 If your environment does not support external load balancers, you can try
-[accessing the ingress gateway using node ports](#accessing-the-ingress-gateway-using-node-ports).
+[accessing the ingress gateway using node ports](#using-node-ports-of-the-ingress-gateway-service).
 Otherwise, set the ingress IP and ports using the following commands:
 
 {{< text bash >}}

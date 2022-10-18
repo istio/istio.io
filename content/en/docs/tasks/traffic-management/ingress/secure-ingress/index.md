@@ -80,6 +80,7 @@ You can use your favorite tool to create them or use the commands below to gener
     $ openssl x509 -req -sha256 -days 365 -CA example_certs1/example.com.crt -CAkey example_certs1/example.com.key -set_serial 1 -in example_certs1/client.example.com.csr -out example_certs1/client.example.com.crt
     {{< /text >}}
 
+{{< tip >}}
 You can confirm that you have all of the needed files by running the following command:
 
 {{< text bash >}}
@@ -94,6 +95,8 @@ example_certs2:
 example.com.crt         httpbin.example.com.crt httpbin.example.com.key
 example.com.key         httpbin.example.com.csr
 {{< /text >}}
+
+{{< /tip >}}
 
 ### Configure a TLS ingress gateway for a single host
 
