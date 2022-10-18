@@ -1,5 +1,5 @@
 ---
-title: 理解DNS
+title: 理解 DNS
 linktitle: DNS
 description: 理解 Istio 如何与 DNS 交互。
 weight: 31
