@@ -524,7 +524,7 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td><code>ENABLE_ENHANCED_RESOURCE_SCOPING</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
-<td>If enabled, meshConfig.discoverySelectors will also limit the configurations(like Gateway,VirtualService,DestinationRule,Ingress, etc)that can be processed by pilot.</td>
+<td>If enabled, meshConfig.discoverySelectors will limit the CustomResource configurations(like Gateway,VirtualService,DestinationRule,Ingress, etc)that can be processed by pilot. This will also restrict the root-ca certificate distribution.</td>
 </tr>
 <tr>
 <td><code>ENABLE_HCM_INTERNAL_NETWORKS</code></td>
@@ -771,6 +771,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>String</td>
 <td><code>v1alpha1</code></td>
 <td>The version to be used for the Kubernets Multi-Cluster Services (MCS) API.</td>
+</tr>
+<tr>
+<td><code>PILOT_ALLOW_SIDECAR_SERVICE_INBOUND_LISTENER_MERGE</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If set, it allows creating inbound listeners for service ports and sidecar ingress listeners </td>
 </tr>
 <tr>
 <td><code>PILOT_ANALYSIS_INTERVAL</code></td>

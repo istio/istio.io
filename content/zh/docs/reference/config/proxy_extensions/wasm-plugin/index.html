@@ -12,18 +12,14 @@ number_of_entries: 6
 ---
 <p>WasmPlugins provides a mechanism to extend the functionality provided by
 the Istio proxy through WebAssembly filters.</p>
-
 <p>Order of execution (as part of Envoy&rsquo;s filter chain) is determined by
 phase and priority settings, allowing the configuration of complex
 interactions between user-supplied WasmPlugins and Istio&rsquo;s internal
 filters.</p>
-
 <p>Examples:</p>
-
 <p>AuthN Filter deployed to ingress-gateway that implements an OpenID flow
 and populates the <code>Authorization</code> header with a JWT to be consumed by
 Istio AuthN.</p>
-
 <pre><code class="language-yaml">apiVersion: extensions.istio.io/v1alpha1
 kind: WasmPlugin
 metadata:
@@ -40,9 +36,7 @@ spec:
     openid_server: authn
     openid_realm: ingress
 </code></pre>
-
 <p>This is the same as the last example, but using an OCI image.</p>
-
 <pre><code class="language-yaml">apiVersion: extensions.istio.io/v1alpha1
 kind: WasmPlugin
 metadata:
@@ -60,9 +54,7 @@ spec:
     openid_server: authn
     openid_realm: ingress
 </code></pre>
-
 <p>This is the same as the last example, but using VmConfig to configure environment variables in the VM.</p>
-
 <pre><code class="language-yaml">apiVersion: extensions.istio.io/v1alpha1
 kind: WasmPlugin
 metadata:
@@ -86,9 +78,7 @@ spec:
     - name: TRUST_DOMAIN
       value: &quot;cluster.local&quot;
 </code></pre>
-
 <p>This is also the same as the last example, but the Wasm module is pulled via https and updated for each time when this plugin resource is changed.</p>
-
 <pre><code class="language-yaml">apiVersion: extensions.istio.io/v1alpha1
 kind: WasmPlugin
 metadata:
@@ -111,7 +101,6 @@ spec:
     - name: TRUST_DOMAIN
       value: &quot;cluster.local&quot;
 </code></pre>
-
 <p>And a more complex example that deploys three WasmPlugins and orders them
 using <code>phase</code> and <code>priority</code>. The (hypothetical) setup is that the
 <code>openid-connect</code> filter performs an OpenID Connect flow to authenticate the
@@ -123,10 +112,8 @@ system are available to the user that was previously authenticated. The
 <code>acl-check</code> filter writes this token to a header. Finally, the <code>check-header</code>
 filter verifies the token in that header and makes sure that the token&rsquo;s
 contents (the permitted &lsquo;function&rsquo;) matches its plugin configuration.</p>
-
 <p>The resulting filter chain looks like this:
 -&gt; openid-connect -&gt; istio.authn -&gt; acl-check -&gt; check-header -&gt; router</p>
-
 <pre><code class="language-yaml">apiVersion: extensions.istio.io/v1alpha1
 kind: WasmPlugin
 metadata:
@@ -144,7 +131,6 @@ spec:
     openid_server: authn
     openid_realm: ingress
 </code></pre>
-
 <pre><code class="language-yaml">apiVersion: extensions.istio.io/v1alpha1
 kind: WasmPlugin
 metadata:
@@ -163,7 +149,6 @@ spec:
     acl_server: some_server
     set_header: authz_complete
 </code></pre>
-
 <pre><code class="language-yaml">apiVersion: extensions.istio.io/v1alpha1
 kind: WasmPlugin
 metadata:
