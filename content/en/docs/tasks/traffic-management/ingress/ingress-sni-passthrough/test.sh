@@ -23,7 +23,7 @@ GATEWAY_API="${GATEWAY_API:-false}"
 
 # @setup profile=default
 
-kubectl label namespace default istio-injection= --overwrite
+kubectl label namespace default istio-injection- --overwrite
 
 # Generate client and server certificates and keys
 snip_generate_client_and_server_certificates_and_keys_1
@@ -50,14 +50,6 @@ if [ "$GATEWAY_API" == "true" ]; then
     _wait_for_gateway default mygateway
 
     snip_configure_an_ingress_gateway_4
-    sleep 30s
-
-    echo ">>>> Gateway:"
-    kubectl get gtw mygateway -o yaml
-
-    echo ">>>> TLSRoute:"
-    kubectl get tlsroute nginx -o yaml
-
     snip_configure_an_ingress_gateway_5
 
     echo "addr: ${INGRESS_HOST}:${SECURE_INGRESS_PORT}"

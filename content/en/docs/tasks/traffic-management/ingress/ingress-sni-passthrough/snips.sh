@@ -69,7 +69,7 @@ kubectl create configmap nginx-configmap --from-file=nginx.conf=./nginx.conf
 }
 
 snip_deploy_an_nginx_server_4() {
-cat <<EOF | istioctl kube-inject -f - | kubectl apply -f -
+cat <<EOF | kubectl apply -f -
 apiVersion: v1
 kind: Service
 metadata:
