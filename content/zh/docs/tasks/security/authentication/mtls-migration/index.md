@@ -16,14 +16,14 @@ test: yes
 当启用 `PERMISSIVE` 模式时，服务可以接受明文和双向 TLS 流量。
 为了只允许双向 TLS 流量，需要将配置更改为 `STRICT` 模式。
 
-你可以使用
+您可以使用
 [Grafana dashboard](/zh/docs/tasks/observability/metrics/using-istio-dashboard/) 检查哪些服务仍然向 `PERMISSIVE` 模式的服务发送明文请求，然后选择在这些服务迁移结束后，将其锁定为只接收双向 TLS 请求。
 
 ## 开始之前{#before-you-begin}
 
 * 理解 Istio [认证策略](/zh/docs/concepts/security/#authentication-policies)以及相关的[双向 TLS 认证](/zh/docs/concepts/security/#mutual-tls-authentication)概念。
 
-* * 阅读[认证策略任务](/zh/docs/tasks/security/authentication/authn-policy)，了解如何配置认证策略。
+* 阅读[认证策略任务](/zh/docs/tasks/security/authentication/authn-policy)，了解如何配置认证策略。
 
 * 有一个安装了 Istio 的 Kubernetes 集群，但没有启用全局双向 TLS（例如，使用[安装步骤](/zh/docs/setup/getting-started)中描述的 `default` 配置文件）。
 
@@ -63,7 +63,7 @@ test: yes
 
     {{< tip >}}
 
-如果任何 curl 命令失败，请确保可能干扰 httpbin 服务请求的现有身份验证策略或目标规则。
+    如果任何 curl 命令失败，请确保可能干扰 httpbin 服务请求的现有身份验证策略或目标规则。
 
     {{< text bash >}}
     $ kubectl get peerauthentication --all-namespaces
@@ -106,7 +106,7 @@ command terminated with exit code 56
 sleep.legacy to httpbin.bar: 200
 {{< /text >}}
 
-如果你安装 Istio 时带有参数 `values.global.proxy.privileged=true`，那么你可以使用 `tcpdump` 来验证流量是否被加密。
+如果您安装 Istio 时带有参数 `values.global.proxy.privileged=true`，那么您可以使用 `tcpdump` 来验证流量是否被加密。
 
 {{< text bash >}}
 $ kubectl exec -nfoo "$(kubectl get pod -nfoo -lapp=httpbin -ojsonpath={.items..metadata.name})" -c istio-proxy -- sudo tcpdump dst port 80  -A
@@ -134,8 +134,7 @@ spec:
 EOF
 {{< /text >}}
 
-现在，`foo` 和 `bar` 命名空间都强制执行仅双向 TLS 流量，因此您应该会看到来自 `sleep.legacy` 的请求
-访问两个命名空间的服务都失败了。
+现在，`foo` 和 `bar` 命名空间都强制执行仅双向 TLS 流量，因此您应该会看到来自 `sleep.legacy` 的请求访问两个命名空间的服务都失败了。
 
 {{< text bash >}}
 $ for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
@@ -146,6 +145,7 @@ $ for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$
 1. 删除网格范围的身份验证策略。
 
     {{< text bash >}}
+    $ kubectl delete peerauthentication -n foo default
     $ kubectl delete peerauthentication -n istio-system default
     {{< /text >}}
 
