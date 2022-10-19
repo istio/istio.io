@@ -53,4 +53,4 @@ $ curl example.com -v
 
 Istio 提供了[代理 DNS 请求](/zh/docs/ops/configuration/traffic-management/dns-proxy/)的功能。这允许 Istio 捕获客户端发送的 DNS 请求并直接返回响应。这可以改善 DNS 延迟，减少负载，并解决了 `ServiceEntry` 无法通过 `kube-dns` 解析的问题。
 
-请注意，此代理仅适用于用户应用程序发送的 DNS 请求；使用 `resolution: DNS` 类型的 `ServiceEntry`，DNS 代理对 Istio 代理的 DNS 解析没有影响。
+请注意，此代理仅适用于用户应用程序发送的 DNS 请求；当使用 `resolution: DNS` 类型的 `ServiceEntry` 时，DNS 代理对 Istio 代理的 DNS 解析没有影响。
