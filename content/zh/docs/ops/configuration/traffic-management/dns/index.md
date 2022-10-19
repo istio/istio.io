@@ -27,7 +27,7 @@ $ curl example.com -v
 *   Trying 192.0.2.0:80...
 {{< /text >}}
 
-接下来，该请求将被 Istio 拦截。这时，Istio 将看到主机名（来自 `Host: example.com` 头）和目标地址（`192.0.2.0:80`）。Istio 使用这些信息来确定预定目的地。理解流量路由对这种行为的工作原理进行了深入探讨。
+接下来，该请求将被 Istio 拦截。这时，Istio 将看到主机名（来自 `Host: example.com` 头）和目标地址（`192.0.2.0:80`）。Istio 使用这些信息来确定预定目的地。[理解流量路由](/zh/docs/ops/configuration/traffic-management/traffic-routing/)对这种行为的工作原理进行了深入探讨。
 
 如果客户端无法解析 DNS 请求，在 Istio 收到请求之前就会终止。这意味着，即使一个请求发送到一个 Istio 已知的主机名（例如，通过 `VirtualService` 配置），但是无法通过 DNS 解析，该请求也会失败。不过 Istio 的 [DNS 代理](#dns-proxing)可以改变这种行为。
 
