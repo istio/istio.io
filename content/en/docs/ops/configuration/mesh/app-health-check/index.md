@@ -61,7 +61,7 @@ spec:
 EOF
 {{< /text >}}
 
-Next, run the following command to deploy the sample service:
+Next, change directory to the root of the Istio installation and run the following command to deploy the sample service:
 
 {{< text bash >}}
 $ kubectl -n istio-io-health apply -f <(istioctl kube-inject -f @samples/health-check/liveness-command.yaml@)
