@@ -8,7 +8,7 @@ keywords: [traffic-management,gateway,gateway-api,api,gamma,sig-network]
 
 今天我们要[祝贺 Kubernetes SIG Network 社区发布了 Gateway API 规范的 beta 版本](https://kubernetes.io/blog/2022/07/13/gateway-api-graduates-to-beta/)。除了上述的这个里程碑，我们很高兴地宣布，对在 Istio ingress 中使用 Gateway API 的支持正在升级为 Beta版本，并且我们打算让 Gateway API 成为未来所有 Istio 流量管理的默认 API。我们也很高兴地欢迎来自服务网格接口（SMI）社区的朋友，他们将加入我们的行列，并使用网关 API 来标准化服务网格用例。
 
-## Istio 流量管理 API 的历史{#the-history-of-istio's-traffic-management-apis}
+## Istio 流量管理 API 的历史{#the-history-of-istios-traffic-management-apis}
 
 API 设计与其说是一门科学，不如说是一门艺术，Istio 经常被用作一个 API 来配置其他 API 的服务！仅在流量路由的情况下，我们必须考虑生产者与消费者、路由与被路由，以及如何使用正确数量的对象来表达复杂的特征集——考虑到这些对象必须由不同的团队拥有。
 
