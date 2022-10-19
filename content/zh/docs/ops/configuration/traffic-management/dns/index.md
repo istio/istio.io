@@ -47,7 +47,7 @@ $ curl example.com -v
 
 * 切换为 `resolution: NONE` 以完全避免代理 DNS 查找。这适用于许多用例。
 * 如果您可以控制正在解析的域，请适当增加它们的 TTL。
-* 如果您的 `ServiceEntry` 只有少数工作负载，请使用 `exportTo` 或 [`Sidecar`](/zh/docs/reference/config/networking/sidecar/) 或限制其范围。
+* 如果您的 `ServiceEntry` 只有少数工作负载，请使用 `exportTo` 或 [`Sidecar`](/zh/docs/reference/config/networking/sidecar/) 限制其范围。
 
 ## DNS 代理{#dns-proxing}
 
