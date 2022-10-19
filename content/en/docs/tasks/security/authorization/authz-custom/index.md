@@ -146,13 +146,6 @@ allows requests with the header `x-ext-authz: allow`.
             headersToDownstreamOnDeny: ["content-type", "set-cookie"] # headers sent back to the client when request is denied.
     {{< /text >}}
 
-1. Restart Istiod to allow the change to take effect with the following command:
-
-    {{< text bash >}}
-    $ kubectl rollout restart deployment/istiod -n istio-system
-    deployment.apps/istiod restarted
-    {{< /text >}}
-
 ## Enable with external authorization
 
 The external authorizer is now ready to be used by the authorization policy.
