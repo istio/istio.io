@@ -43,7 +43,7 @@ $ curl example.com -v
 
 与大多数客户端在请求时按需执行 DNS 请求（然后通常缓存结果）不同，Istio 代理从不执行同步 DNS 请求。配置 `resolution: DNS` 类型的 `ServiceEntry` 后，代理将定期解析配置的主机名并将其用于所有请求。此时间间隔由 DNS 响应的 [TTL](https://en.wikipedia.org/wiki/Time_to_live#DNS_records) 确定。即使代理从未向这些应用程序发送任何请求，该情况也会发生。
 
-对于具有许多代理或许多 `resolution: DNS`  类型 `ServiceEntry` 的网格而言，尤其是在使用较低 `TTL` 时，可能会导致 DNS 服务器的负载很高。在这些情况下，以下行为有助于减轻负载：
+对于具有许多代理或许多 `resolution: DNS` 类型 `ServiceEntry` 的网格而言，尤其是在使用较低 `TTL` 时，可能会导致 DNS 服务器的负载很高。在这些情况下，以下行为有助于减轻负载：
 
 * 切换为 `resolution: NONE` 以完全避免代理 DNS 查找。这适用于许多使用场景。
 * 如果您可以控制正在解析的域，请适当增加它们的 TTL。
