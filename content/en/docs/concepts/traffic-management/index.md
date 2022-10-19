@@ -110,7 +110,7 @@ traffic from your internal users to a particular set of instances.
 With a virtual service, you can specify traffic behavior for one or more hostnames.
 You use routing rules in the virtual service that tell Envoy how to send the
 virtual service’s traffic to appropriate destinations. Route destinations can
-be versions of the same service or entirely different services.
+be different versions of the same service or entirely different services.
 
 A typical use case is to send traffic to different versions of a service,
 specified as service subsets. Clients send requests to the virtual service host as if
