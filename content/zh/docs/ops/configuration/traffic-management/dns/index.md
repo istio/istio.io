@@ -45,7 +45,7 @@ $ curl example.com -v
 
 对于具有许多代理或许多 `resolution: DNS`  类型 `ServiceEntry` 的网格而言，尤其是在使用较低 `TTL` 时，可能会导致 DNS 服务器的负载很高。在这些情况下，以下行为有助于减轻负载：
 
-* 切换为 `resolution: NONE` 以完全避免代理 DNS 查找。这适用于许多用例。
+* 切换为 `resolution: NONE` 以完全避免代理 DNS 查找。这适用于许多使用场景。
 * 如果您可以控制正在解析的域，请适当增加它们的 TTL。
 * 如果您的 `ServiceEntry` 只有少数工作负载，请使用 `exportTo` 或 [`Sidecar`](/zh/docs/reference/config/networking/sidecar/) 限制其范围。
 
