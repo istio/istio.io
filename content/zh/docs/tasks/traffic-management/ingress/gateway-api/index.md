@@ -14,11 +14,6 @@ test: yes
 这些 API 是 Kubernetes [Service](https://kubernetes.io/zh/docs/concepts/services-networking/service/)
 和 [Ingress](https://kubernetes.io/zh/docs/concepts/services-networking/ingress/) API 的积极发展演进。
 
-{{< warning >}}
-该特性目前被认为是 alpha 版本。
-API （由 Kubernetes SIG-NETWORK 拥有）和 Istio 的实现方式都有可能在进一步升级之前发生改变。
-{{< /warning >}}。
-
 ## 设置 {#setup}
 
 1. 在大多数 Kubernetes 集群中，默认情况下不会安装 Gateway API。如果 Gateway API CRD 不存在，请安装：
@@ -27,7 +22,13 @@ API （由 Kubernetes SIG-NETWORK 拥有）和 Istio 的实现方式都有可能
     $ kubectl get crd gateways.gateway.networking.k8s.io || { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.4.0" | kubectl apply -f -; }
     {{< /text >}}
 
-## 与 Istio API 的区别{#differences-from-Istio-APIs }
+1. 使用 `minimal` 配置安装 Istio:
+
+    {{< text bash >}}
+    $ istioctl install --set profile=minimal -y
+    {{< /text >}}
+
+## 与 Istio API 的区别{#differences-from-istio-apis}
 
 Gateway API 与 Istio API （如 Gateway 和 VirtualService）有很多相似之处。
 主资源使用相同的`Gateway`名称，并且这些资源服务于相类似的目标。
