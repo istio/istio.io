@@ -50,7 +50,7 @@ test: yes
     $ openssl req -out example_certs1/httpbin.example.com.csr -newkey rsa:2048 -nodes -keyout example_certs1/httpbin.example.com.key -subj "/CN=httpbin.example.com/O=httpbin organization"
     $ openssl x509 -req -sha256 -days 365 -CA example_certs1/example.com.crt -CAkey example_certs1/example.com.key -set_serial 0 -in example_certs1/httpbin.example.com.csr -out example_certs1/httpbin.example.com.crt
     {{< /text >}}
-    
+
 1.  创建第二组相同类型的证书和密钥：
 
     {{< text bash >}}
@@ -593,14 +593,14 @@ spec:
     {{< /text >}}
 
 1) 将客户端证书和私钥传递给 `curl` 并重新发送请求。将带有  `--cert` 标志的客户证书和带有 `--key` 标志的私钥传递给 `curl`：
-   
+
     {{< text bash >}}
     $ curl -v -HHost:httpbin.example.com --resolve "httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST" \
       --cacert example_certs1/example.com.crt --cert example_certs1/client.example.com.crt --key example_certs1/client.example.com.key \
       "https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418"
     ...
         -=[ teapot ]=-
-   
+
            _...._
          .'  _ _ `.
         | ."` ^ `". _,
@@ -628,12 +628,12 @@ HTTPS `Gateway` 将在转发请求之前对其配置的主机执行 [SNI](https:
 ## 问题排查 {#troubleshooting}
 
 *   检查 `INGRESS_HOST` 和 `SECURE_INGRESS_PORT` 环境变量的值。根据以下命令的输出，确保它们具有有效值：
-    
+
     {{< text bash >}}
     $ kubectl get svc -n istio-system
     $ echo "INGRESS_HOST=$INGRESS_HOST, SECURE_INGRESS_PORT=$SECURE_INGRESS_PORT"
     {{< /text >}}
-    
+
 *   检查网关控制器的日志以获取错误消息：
 
     {{< text syntax=bash snip_id=none >}}
@@ -641,21 +641,21 @@ HTTPS `Gateway` 将在转发请求之前对其配置的主机执行 [SNI](https:
     {{< /text >}}
 
 *   如果使用 macOS，请验证您使用的是使用 [LibreSSL](http://www.libressl.org/) `curl` 库编译的，如[准备工作](#before-you-begin)部分中所述。
-    
+
 *   验证已在 `istio-system` 命名空间中成功创建 Secret：
-    
+
     {{< text bash >}}
     $ kubectl -n istio-system get secrets
     {{< /text >}}
-    
+
     `httpbin-credential` 和 `helloworld-credential`  应当显示在 Secret 列表中。
-    
+
 *   检查日志以验证入口网关代理已将密钥/证书对推送到入口网关：
-    
+
     {{< text syntax=bash snip_id=none >}}
     $ kubectl logs -n istio-system <gateway-service-pod>
     {{< /text >}}
-    
+
     日志应显示 `httpbin-credential`  Secret 已添加。如果使用双向  TLS，那么 `httpbin-credential-cacert`  Secret 也应该出现。验证日志显示网关代理接收到来自入口网关的 SDS 请求，资源的名称是 `httpbin-credential`，并且入口网关获得了密钥/证书对。如果使用双向 TLS，日志应显示密钥/证书已发送到入口网关，网关代理收到带有 `httpbin-credential-cacert` 资源名称的 SDS 请求，并且入口网关获得了根证书。
 
 ## 清理 {#cleanup}
