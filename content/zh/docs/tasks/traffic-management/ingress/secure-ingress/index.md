@@ -60,7 +60,7 @@ test: yes
     $ openssl x509 -req -sha256 -days 365 -CA example_certs2/example.com.crt -CAkey example_certs2/example.com.key -set_serial 0 -in example_certs2/httpbin.example.com.csr -out example_certs2/httpbin.example.com.crt
     {{< /text >}}
 
-1.  为 `helloworld.example.com` 生成证书和私钥 ：
+1.  为 `helloworld.example.com` 生成证书和私钥：
 
     {{< text bash >}}
     $ openssl req -out example_certs1/helloworld.example.com.csr -newkey rsa:2048 -nodes -keyout example_certs1/helloworld.example.com.key -subj "/CN=helloworld.example.com/O=helloworld organization"
