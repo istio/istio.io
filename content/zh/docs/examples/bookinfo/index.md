@@ -13,7 +13,8 @@ test: yes
 这个示例部署了一个用于演示多种 Istio 特性的应用，该应用由四个单独的微服务构成。
 
 {{< tip >}}
-如果您使用[入门](/zh/docs/setup/getting-started/)安装了 Istio，说明您已经安装了 Bookinfo，您可以跳过这些步骤。
+如果您使用[入门](/zh/docs/setup/getting-started/)安装了 Istio，说明您已经安装了 Bookinfo，
+您可以跳过以下大多数步骤，直接跳到[定义服务版本](/zh/docs/examples/bookinfo/#define-the-service-versions)。
 {{< /tip >}}
 
 这个应用模仿在线书店的一个分类，显示一本书的信息。
@@ -127,15 +128,23 @@ Bookinfo 应用中的几个微服务是由不同的语言编写的。
 
 ### 确定 Ingress 的 IP 和端口{#determine-the-ingress-IP-and-port}
 
-现在 Bookinfo 服务启动并运行中，您需要使应用程序可以从外部访问 Kubernetes 集群，例如使用浏览器。可以用 [Istio Gateway](/zh/docs/concepts/traffic-management/#gateways) 来实现这个目标。
+现在 Bookinfo 服务启动并运行中，您需要使应用程序可以从外部访问 Kubernetes 集群，例如使用浏览器。可以使用网关实现这个目标。
 
-1. 为应用程序定义 Ingress 网关：
+1. 为 Bookinfo 应用程序定义一个网关：
+
+    {{< tabset category-name="config-api" >}}
+
+    {{< tab name="Istio classic" category-value="istio-classic" >}}
+
+    使用以下命令创建 [Istio Gateway](/zh/docs/concepts/traffic-management/#gateways)：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/networking/bookinfo-gateway.yaml@
+    gateway.networking.istio.io/bookinfo-gateway created
+    virtualservice.networking.istio.io/bookinfo created
     {{< /text >}}
 
-1. 确认网关创建完成：
+    确认网关创建完成：
 
     {{< text bash >}}
     $ kubectl get gateway
@@ -143,9 +152,39 @@ Bookinfo 应用中的几个微服务是由不同的语言编写的。
     bookinfo-gateway   32s
     {{< /text >}}
 
-1. 根据[文档](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-i-p-and-ports)设置访问网关的 `INGRESS_HOST` 和 `INGRESS_PORT` 变量。确认并设置。
+    遵循[这些指示说明](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)设置 `INGRESS_HOST` 和 `INGRESS_PORT` 变量来访问网关。设置好变量后，返回此处。
 
-1. 设置 `GATEWAY_URL`：
+    {{< /tab >}}
+
+    {{< tab name="Gateway API" category-value="gateway-api" >}}
+
+    使用以下命令创建 [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/api-types/gateway/)：
+
+    {{< text bash >}}
+    $ kubectl apply -f @samples/bookinfo/gateway-api/bookinfo-gateway.yaml@
+    gateway.gateway.networking.k8s.io/bookinfo-gateway created
+    httproute.gateway.networking.k8s.io/bookinfo created
+    {{< /text >}}
+
+    因为创建 Kubernetes `Gateway` 资源也会
+    [部署关联的代理服务](/zh/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment)，所以运行以下命令等待网关就绪：
+
+    {{< text bash >}}
+    $ kubectl wait --for=condition=ready gtw bookinfo-gateway
+    {{< /text >}}
+
+    从 bookinfo 网关资源处获取网关地址和端口：
+
+    {{< text bash >}}
+    $ export INGRESS_HOST=$(kubectl get gtw bookinfo-gateway -o jsonpath='{.status.addresses[*].value}')
+    $ export INGRESS_PORT=$(kubectl get gtw bookinfo-gateway -o jsonpath='{.spec.listeners[?(@.name=="http")].port}')
+    {{< /text >}}
+
+    {{< /tab >}}
+
+    {{< /tabset >}}
+
+1.  设置 `GATEWAY_URL`：
 
     {{< text bash >}}
     $ export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
@@ -156,20 +195,25 @@ Bookinfo 应用中的几个微服务是由不同的语言编写的。
 可以用 `curl` 命令来确认是否能够从集群外部访问 Bookinfo 应用程序：
 
 {{< text bash >}}
-$ curl -s http://${GATEWAY_URL}/productpage | grep -o "<title>.*</title>"
+$ curl -s "http://${GATEWAY_URL}/productpage" | grep -o "<title>.*</title>"
 <title>Simple Bookstore App</title>
 {{< /text >}}
 
 还可以用浏览器打开网址 `http://$GATEWAY_URL/productpage`，来浏览应用的 Web 页面。如果刷新几次应用的页面，就会看到 `productpage` 页面中会随机展示 `reviews` 服务的不同版本的效果（红色、黑色的星形或者没有显示）。`reviews` 服务出现这种情况是因为我们还没有使用 Istio 来控制版本的路由。
 
-## 应用默认目标规则{#apply-default-destination-rules}
+## 定义服务版本{#define-the-service-versions}
 
-在使用 Istio 控制 Bookinfo 版本路由之前，您需要在[目标规则](/zh/docs/concepts/traffic-management/#destination-rules)中定义好可用的版本，命名为 *subsets* 。
+在可以使用 Istio 控制 Bookinfo 版本路由之前，您需要定义可用的版本。
 
-运行以下命令为 Bookinfo 服务创建的默认的目标规则：
+{{< tabset category-name="config-api" >}}
+
+{{< tab name="Istio classic" category-value="istio-classic" >}}
+
+Istio 在[目标规则](/zh/docs/concepts/traffic-management/#destination-rules)中使用 *subsets* 定义服务的版本。
+运行以下命令为 Bookinfo 服务创建默认的目标规则：
 
 {{< text bash >}}
-$ kubectl apply -f samples/bookinfo/networking/destination-rule-all.yaml
+$ kubectl apply -f @samples/bookinfo/networking/destination-rule-all.yaml@
 {{< /text >}}
 
 {{< tip >}}
@@ -184,6 +228,23 @@ $ kubectl apply -f samples/bookinfo/networking/destination-rule-all.yaml
 $ kubectl get destinationrules -o yaml
 {{< /text >}}
 
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+不同于 Istio API 使用 `DestinationRule` 子集来定义服务的版本，
+Kubernetes Gateway API 将为此使用后端服务定义。
+
+运行以下命令为三个版本的 `reviews` 服务创建后端服务定义：
+
+{{< text bash >}}
+$ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-versions.yaml@
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
 ## 下一步{#what-s-next}
 
 现在就可以使用这一应用来体验 Istio 的特性了，其中包括了流量的路由、错误注入、速率限制等。
@@ -193,17 +254,7 @@ $ kubectl get destinationrules -o yaml
 
 结束对 Bookinfo 示例应用的体验之后，就可以使用下面的命令来完成应用的删除和清理了：
 
-1. 删除路由规则，并销毁应用的 Pod
+{{< text bash >}}
+$ @samples/bookinfo/platform/kube/cleanup.sh@
+{{< /text >}}
 
-    {{< text bash >}}
-    $ @samples/bookinfo/platform/kube/cleanup.sh@
-    {{< /text >}}
-
-1. 确认应用已经关停
-
-    {{< text bash >}}
-    $ kubectl get virtualservices   #-- there should be no virtual services
-    $ kubectl get destinationrules  #-- there should be no destination rules
-    $ kubectl get gateway           #-- there should be no gateway
-    $ kubectl get pods              #-- the Bookinfo pods should be deleted
-    {{< /text >}}
