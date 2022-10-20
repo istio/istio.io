@@ -297,7 +297,7 @@ $ export SECURE_INGRESS_PORT=$(kubectl get gtw mygateway -n istio-system -o json
 
 ### 为多个主机配置 TLS 入口网关 {#configure-a-TLS-ingress-gateway-for-multiple-hosts}
 
-您可以为多个主机（例如 `httpbin.example.com` 和 `helloworld-v1.example.com` ）配置入口网关。入口网关配置有与每个主机相对应的唯一凭证。
+您可以为多个主机（例如 `httpbin.example.com` 和 `helloworld-v1.example.com`）配置入口网关。入口网关配置有与每个主机相对应的唯一凭据。
 
 1.  通过删除并使用原始证书和密钥重新创建 Secret 来恢复上一个示例中的 `httpbin` 凭据：
 
