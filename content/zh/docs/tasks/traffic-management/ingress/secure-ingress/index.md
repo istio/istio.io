@@ -24,7 +24,7 @@ test: yes
     $ kubectl apply -f @samples/httpbin/httpbin.yaml@
     {{< /text >}}
 
-* 对于 macOS 用户，请验证您是否使用通过 [LibreSSL](http://www.libressl.org)  库编译的 `curl`：
+* 对于 macOS 用户，请验证您是否使用通过 [LibreSSL](http://www.libressl.org) 库编译的 `curl`：
 
     {{< text bash >}}
     $ curl --version | grep LibreSSL
