@@ -44,4 +44,4 @@ Istio 功能的其他部分，包括策略和遥测，将继续使用 Istio 特�
 
 我们接下来的联合步骤是为网关 API 项目提供[增强建议](https://gateway-api.sigs.k8s.io/v1alpha2/contributing/gep/)，以确保该 API 适用于网格用例。我们已经[开始关注 API 语义](https://docs.google.com/document/d/1T_DtMQoq2tccLAtJTpo3c0ohjm25vRS35MsestSL9QU/edit)用于网格流量管理的问题，并将与在其项目中实施 Gateway API 的供应商和社区合作，以建立一个标准实施。之后，我们打算为授权和身份验证策略构建一个表示。
 
-SIG Network 作为供应商中立论坛，确保服务网格社区使用相同的语义来实现网关 API，我们期待有一个标准 API ，它适用于所有的项目，无论其技术堆栈或代理如何。
+SIG Network 作为供应商中立论坛，确保服务网格社区使用相同的语义来实现网关 API，我们期待有一个标准 API ，它适用于所有的项目，无论其使用任何技术栈或代理软件。
