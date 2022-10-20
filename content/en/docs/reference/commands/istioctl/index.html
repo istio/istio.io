@@ -1969,16 +1969,16 @@ Checks associated resources of the given resource, and running webhooks to exami
 </table>
 <h3 id="istioctl-experimental-check-inject Examples">Examples</h3>
 <pre class="language-bash"><code>	# Check the injection status of a pod
-	istioctl experimental check-inject details-v1-fcff6c49c-kqnfk.test
+  istioctl experimental check-inject details-v1-fcff6c49c-kqnfk.test
 	
-	# Check the injection status of a pod under a deployment
-	istioctl x check-inject deployment/details-v1
+  # Check the injection status of a pod under a deployment
+  istioctl x check-inject deployment/details-v1
 
-	# Check the injection status of a pod under a deployment in namespace test
-	istioctl x check-inject deployment/details-v1 -n test
+  # Check the injection status of a pod under a deployment in namespace test
+  istioctl x check-inject deployment/details-v1 -n test
 
-   # Check the injection status of label pairs in a specific namespace before actual injection 
-	istioctl x check-inject -n test -l app=helloworld,version=v1
+  # Check the injection status of label pairs in a specific namespace before actual injection 
+  istioctl x check-inject -n test -l app=helloworld,version=v1
 
 </code></pre>
 <h2 id="istioctl-experimental-config">istioctl experimental config</h2>
