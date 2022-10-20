@@ -16,7 +16,7 @@ test: yes
 
 ## 准备工作{#before-you-begin}
 
-* 参考[安装指南](/zh//docs/setup/)部署 Istio。
+* 参考[安装指南](/zh/docs/setup/)部署 Istio。
 
 * 部署  [httpbin]({{< github_tree >}}/samples/httpbin) 示例：
 
