@@ -151,7 +151,7 @@ spec:
           app: httpbin
       action: CUSTOM
       provider:
-        # 提供程序名称必须与 Mesh 配置中定义的扩展提供程序匹配.
+        # 提供程序名称必须与 MeshConfig 中定义的扩展提供程序匹配。
         # 您还可以将其替换为 sample-ext-authz-http 以测试另一个外部授权器定义。
         name: sample-ext-authz-grpc
       rules:
