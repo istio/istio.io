@@ -612,7 +612,7 @@ spec:
 
 ## 更多信息 {#more-info}
 
-### 秘钥格式 {#key-formats}
+### 密钥格式 {#key-formats}
 
 Istio 支持读取几种不同的 Secret 格式，以支持与各种工具的集成，例如 [cert-manager](/zh/docs/ops/integrations/certmanager/)：
 
