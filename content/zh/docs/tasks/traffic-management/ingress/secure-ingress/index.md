@@ -18,7 +18,7 @@ test: yes
 
 * 参考[安装指南](/zh/docs/setup/)部署 Istio。
 
-* 部署  [httpbin]({{< github_tree >}}/samples/httpbin) 示例：
+* 部署 [httpbin]({{< github_tree >}}/samples/httpbin) 示例：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/httpbin/httpbin.yaml@
