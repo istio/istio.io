@@ -48,7 +48,7 @@ Istio 为应用程序提供了大量的功能，而对应用程序代码本身�
     $ for psp in $(kubectl get psp -o jsonpath="{range .items[*]}{@.metadata.name}{'\n'}{end}"); do if [ $(kubectl auth can-i use psp/$psp --as=system:serviceaccount:default:default) = yes ]; then kubectl get psp/$psp --no-headers -o=custom-columns=NAME:.metadata.name,CAPS:.spec.allowedCapabilities; fi; done
     {{< /text >}}
 
-  如果你在服务账户的允许策略的功能列表中看到 `NET_ADMIN` 、 `NET_RAW` 或 `*` ，则你的 pod 有权限运行 Istio init 容器。否则，你将需要[提供权限](https://kubernetes.io/docs/concepts/security/pod-security-policy/#authorizing-policies)。
+  如果您在服务账户的允许策略的功能列表中看到 `NET_ADMIN`、`NET_RAW` 或 `*`，则您的 Pod 有权限运行 Istio init 容器。否则，您将需要[提供权限](https://kubernetes.io/zh-cn/docs/concepts/security/pod-security-policy)。
 
 - **带有 app 和 version 标签（label）的 pod**：我们建议显式地给 Deployment 加上 `app` 和 `version` 标签。给使用 Kubernetes
   `Deployment` 部署的 Pod 部署配置中增加这些标签，可以给 Istio 收集的指标和遥测信息中增加上下文信息。
