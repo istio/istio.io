@@ -228,7 +228,7 @@ kubectl cp example.com.crt default/"${EXTERNAL_CLIENT}":/tmp/ca.crt
 }
 
 snip_verify_external_to_internal_mesh_connectivity_on_port_8443_2() {
-kubectl exec $EXTERNAL_CLIENT -c sleep -- curl --cacert /tmp/ca.crt --key /tmp/client.test.svc.cluster.local.key --cert /tmp/client.test.svc.cluster.local.crt -v -HHost:httpbin.test.svc.cluster.local "https://httpbin.test.svc.cluster.local:8443/status/200"
+kubectl exec "${EXTERNAL_CLIENT}" -c sleep -- curl --cacert /tmp/ca.crt --key /tmp/client.test.svc.cluster.local.key --cert /tmp/client.test.svc.cluster.local.crt -v -HHost:httpbin.test.svc.cluster.local "https://httpbin.test.svc.cluster.local:8443/status/200"
 }
 
 ! read -r -d '' snip_verify_external_to_internal_mesh_connectivity_on_port_8443_2_out <<\ENDSNIP
@@ -285,7 +285,7 @@ kubectl exec $EXTERNAL_CLIENT -c sleep -- curl --cacert /tmp/ca.crt --key /tmp/c
 ENDSNIP
 
 snip_verify_external_to_internal_mesh_connectivity_on_port_8443_3() {
-kubectl exec $EXTERNAL_CLIENT -c sleep -- curl --cacert /tmp/ca.crt --key /tmp/client.test.svc.cluster.local.key --cert /tmp/client.test.svc.cluster.local.crt -v -HHost:httpbin.test.svc.cluster.local "http://httpbin.test.svc.cluster.local:8080/status/200"
+kubectl exec "${EXTERNAL_CLIENT}" -c sleep -- curl --cacert /tmp/ca.crt --key /tmp/client.test.svc.cluster.local.key --cert /tmp/client.test.svc.cluster.local.crt -v -HHost:httpbin.test.svc.cluster.local "http://httpbin.test.svc.cluster.local:8080/status/200"
 }
 
 ! read -r -d '' snip_verify_external_to_internal_mesh_connectivity_on_port_8443_3_out <<\ENDSNIP
@@ -309,6 +309,8 @@ kubectl delete deployment httpbin sleep -n test
 kubectl delete namespace test
 kubectl delete service sleep
 kubectl delete deployment sleep
+# disable the feature flag
+kubectl -n istio-system set env deployment istiod ENABLE_TLS_ON_SIDECAR_INGRESS=false
 }
 
 snip_cleanup_the_mutual_tls_termination_example_2() {

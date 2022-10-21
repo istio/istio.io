@@ -7,7 +7,8 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-In a regular Istio mesh deployment, the TLS termination for downstream requests is performed at the Ingress Gateway. Though this satisfies most of the use cases, for some use cases (like an API Gateway on the mesh) the Ingress Gateway resource is not necessarily needed. This example describes how to eliminate the additional hop introduced by the Istio Ingress Gateway and let the Envoy sidecar running alongside the application perform TLS termination for requests ingressing from outside the Istio service mesh.  
+In a regular Istio mesh deployment, the TLS termination for downstream requests is performed at the Ingress Gateway.
+Though this satisfies most of the use cases, for some use cases (like an API Gateway on the mesh) the Ingress Gateway resource is not necessarily needed. This example describes how to eliminate the additional hop introduced by the Istio Ingress Gateway and let the Envoy sidecar running alongside the application perform TLS termination for incoming requests from outside the Istio service mesh.
 
 The example HTTPS service used for this task is a simple [httpbin](https://httpbin.org) service.
 In the following steps you first deploy an httpbin service inside your Istio service mesh with required configuration
@@ -16,22 +17,26 @@ to perform TLS termination for downstream requests coming from outside the servi
 {{< boilerplate experimental-feature-warning >}}
 
 ## Before you begin
+
 *   Setup Istio by following the instructions in the [Installation guide](/docs/setup/), enabling the experimental
     feature `ENABLE_TLS_ON_SIDECAR_INGRESS`.
+
     {{< text bash >}}
     $ kubectl -n istio-system set env deployment istiod ENABLE_TLS_ON_SIDECAR_INGRESS=true
     {{< /text >}}
 
 *   Create the test namespace where the target `httpbin` service will be deployed. Make sure to enable sidecar injection
     for the namespace.
+
     {{< text bash >}}
     $ kubectl create ns test
     $ kubectl label namespace test istio-injection=enabled
     {{< /text >}}
 
-
 ## Enable global mTLS
+
 Peer Authentication Policy to allow mTLS traffic for all workloads has to be enabled.
+
 {{< text bash >}}
 $ kubectl -n test apply -f - <<EOF
 apiVersion: security.istio.io/v1beta1
@@ -45,7 +50,9 @@ EOF
 {{< /text >}}
 
 ## Disable PeerAuthentication for external mTLS Port
+
 The external mTLS Port that will be used at the sidecar for TLS Termination has to disable `PeerAuthentication`.
+
 {{< text bash >}}
 $ kubectl -n test apply -f - <<EOF
 apiVersion: security.istio.io/v1beta1
@@ -66,6 +73,7 @@ EOF
 {{< /text >}}
 
 ## Generate CA cert, Server cert/key and Client cert/key
+
 For this task you can use your favorite tool to generate certificates and keys. The commands below use
 [openssl](https://man.openbsd.org/openssl.1):
 
@@ -80,23 +88,24 @@ $ openssl req -out client.test.svc.cluster.local.csr -newkey rsa:2048 -nodes -ke
 $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 1 -in client.test.svc.cluster.local.csr -out client.test.svc.cluster.local.crt
 {{< /text >}}
 
-
 ## Generate k8s secret for the certificates and keys
+
 {{< text bash >}}
 $ kubectl -n test create secret generic httpbin-mtls-termination-cacert --from-file=ca.crt=./example.com.crt
 $ kubectl -n test create secret tls httpbin-mtls-termination --cert ./httpbin.test.svc.cluster.local.crt --key ./httpbin.test.svc.cluster.local.key
 {{< /text >}}
 
 ## Create httpbin deployment and services
-When the httpbin deployment is to be created, we need to use userVolumeMount annotations in the deployment to make sure the certificates are mounted to the istio-proxy sidecar.
-Note: This step is needed until istio supports credentialName for sidecar configuration.
+
+When the httpbin deployment is to be created, we need to use `userVolumeMount` annotations in the deployment to make sure the certificates are mounted to the istio-proxy sidecar.
+Note: This step is needed until Istio supports `credentialName` for sidecar configuration.
 
 {{< text yaml >}}
 sidecar.istio.io/userVolume: '{"tls-secret":{"secret":{"secretName":"httpbin-mtls-termination","optional":true}},"tls-ca-secret":{"secret":{"secretName":"httpbin-mtls-termination-cacert"}}}'
 sidecar.istio.io/userVolumeMount: '{"tls-secret":{"mountPath":"/etc/istio/tls-certs/","readOnly":true},"tls-ca-secret":{"mountPath":"/etc/istio/tls-ca-certs/","readOnly":true}}'
 {{< /text >}}
 
-The complete deployment yaml using userVolumeMount and service configuration for httpbin can be found below:
+The complete deployment yaml using `userVolumeMount` and service configuration for `httpbin` can be found below:
 
 {{< text bash >}}
 $ kubectl -n test apply -f - <<EOF
@@ -187,8 +196,8 @@ spec:
 EOF
 {{< /text >}}
 
-
 ## Verification
+
 On top of the above server configuration, bring up two clients as mentioned below for performing end to end connectivity tests:
 1. One client (sleep) in the same namespace (test) with sidecar injected
 1. One client (sleep) in default namespace as an external client (outside service mesh)
@@ -223,7 +232,9 @@ $
 {{< /text >}}
 
 Once all the resources are created, and above verification steps are completed, go ahead and execute the different connectivity tests as below.
+
 ### Verify internal mesh connectivity on port 8080
+
 {{< text bash >}}
 $ export EXTERNAL_CLIENT=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
 $ kubectl -n test exec "${EXTERNAL_CLIENT}" -c sleep -- curl -v "http://httpbin:8080/status/200"
@@ -245,7 +256,9 @@ $ kubectl -n test exec "${EXTERNAL_CLIENT}" -c sleep -- curl -v "http://httpbin:
 {{< /text >}}
 
 ### Verify external to internal mesh connectivity on port 8443
-Inorder to verify mTLS traffic from external client, firt copy the CA certificate and client certificate/key to the sleep client in default namespace which is outside the mesh.
+
+To verify mTLS traffic from external client, first copy the CA certificate and client certificate/key to the sleep client in default namespace which is outside the mesh.
+
 {{< text bash >}}
 $ kubectl cp client.test.svc.cluster.local.key default/"${EXTERNAL_CLIENT}":/tmp/
 $ kubectl cp client.test.svc.cluster.local.crt default/"${EXTERNAL_CLIENT}":/tmp/
@@ -253,8 +266,9 @@ $ kubectl cp example.com.crt default/"${EXTERNAL_CLIENT}":/tmp/ca.crt
 {{< /text >}}
 
 Once the certificates are available for the sleep client, you can verify the connectivity from this external sleep client to the internal httpbin service using the command below. The logs will help you understand and properly verify the TLS handshake in detail.
+
 {{< text bash >}}
-$ kubectl exec $EXTERNAL_CLIENT -c sleep -- curl --cacert /tmp/ca.crt --key /tmp/client.test.svc.cluster.local.key --cert /tmp/client.test.svc.cluster.local.crt -v -HHost:httpbin.test.svc.cluster.local "https://httpbin.test.svc.cluster.local:8443/status/200"
+$ kubectl exec "${EXTERNAL_CLIENT}" -c sleep -- curl --cacert /tmp/ca.crt --key /tmp/client.test.svc.cluster.local.key --cert /tmp/client.test.svc.cluster.local.crt -v -HHost:httpbin.test.svc.cluster.local "https://httpbin.test.svc.cluster.local:8443/status/200"
 *   Trying 10.100.78.113:8443...
 * Connected to httpbin.test.svc.cluster.local (10.100.78.113) port 8443 (#0)
 * ALPN, offering h2
@@ -310,7 +324,7 @@ $ kubectl exec $EXTERNAL_CLIENT -c sleep -- curl --cacert /tmp/ca.crt --key /tmp
 Apart from verifying the mTLS connectivity over external port 8443, it is also important to verify that port 8080 does not accept any external mTLS traffic.
 
 {{< text bash >}}
-$ kubectl exec $EXTERNAL_CLIENT -c sleep -- curl --cacert /tmp/ca.crt --key /tmp/client.test.svc.cluster.local.key --cert /tmp/client.test.svc.cluster.local.crt -v -HHost:httpbin.test.svc.cluster.local "http://httpbin.test.svc.cluster.local:8080/status/200"
+$ kubectl exec "${EXTERNAL_CLIENT}" -c sleep -- curl --cacert /tmp/ca.crt --key /tmp/client.test.svc.cluster.local.key --cert /tmp/client.test.svc.cluster.local.crt -v -HHost:httpbin.test.svc.cluster.local "http://httpbin.test.svc.cluster.local:8080/status/200"
 *   Trying 10.100.78.113:8080...
 * Connected to httpbin.test.svc.cluster.local (10.100.78.113) port 8080 (#0)
 > GET /status/200 HTTP/1.1

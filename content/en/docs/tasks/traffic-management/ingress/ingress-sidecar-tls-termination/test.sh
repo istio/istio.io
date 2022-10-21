@@ -15,7 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# @setup profile=demo
+# @setup profile=default
 
 set -e
 set -u
@@ -54,6 +54,6 @@ _verify_contains snip_verify_external_to_internal_mesh_connectivity_on_port_8443
 
 _verify_contains snip_verify_external_to_internal_mesh_connectivity_on_port_8443_3 "Connection reset by peer"
 
-# cleanup the resources
+# @cleanup
 snip_cleanup_the_mutual_tls_termination_example_1
 snip_cleanup_the_mutual_tls_termination_example_2
