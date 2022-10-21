@@ -32,7 +32,7 @@ Istio 为应用程序提供了大量的功能，而对应用程序代码本身�
 
 - **应用 UID**：确保您的 Pod 不会被 ID（UID）为 `1337` 的用户运行应用，因为 `1337` 是为 Sidecar 代理保留的。
 
-- **`NET_ADMIN` 和 `NET_RAW` 权限**：如果你的集群执行 [Pod 安全策略](https://kubernetes.io/docs/concepts/policy/pod-security-policy/)，必须给 Pod 配置 `NET_ADMIN` 和 `NET_RAW` 权限。如果你使用 [Istio CNI 插件](/zh/docs/setup/additional-setup/cni/)可以不配置。
+- **`NET_ADMIN` 和 `NET_RAW` 权限**：如果您的集群[强制执行](https://kubernetes.io/zh-cn/docs/concepts/policy/pod-security-policy/#enabling-pod-security-policies)了 [Pod 安全策略](https://kubernetes.io/zh-cn/docs/concepts/policy/pod-security-policy/)，必须给 Pod 配置 `NET_ADMIN` 和 `NET_RAW` 权限。如果您使用 [Istio CNI 插件](/zh/docs/setup/additional-setup/cni/)，可以不配置。
 
   要检查您的 Pod 是否有 `NET_ADMIN` 和 `NET_RAW` 权限，您需要检查这些 Pod 的[服务账户](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-service-account/)是否有 `NET_ADMIN` 和 `NET_RAW` 权限的 Pod 安全策略。如果您没有在 Pod 部署中指定服务账户，Pod 会使用其命名空间中的默认服务账户运行。
 
