@@ -796,7 +796,10 @@ No
 <td><code>minProtocolVersion</code></td>
 <td><code><a href="#ServerTLSSettings-TLSProtocol">TLSProtocol</a></code></td>
 <td>
-<p>Optional: Minimum TLS protocol version.</p>
+<p>Optional: Minimum TLS protocol version. By default, it is <code>TLSV1_2</code>.
+TLS protocol versions below TLSV1_2 require setting compatible ciphers with the
+<code>cipherSuites</code> setting as they no longer include compatible ciphers.</p>
+<p>Note: Using TLS protocol versions below TLSV1_2 has serious security considerations and risks.</p>
 
 </td>
 <td>
