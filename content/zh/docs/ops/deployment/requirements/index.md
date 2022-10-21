@@ -22,7 +22,7 @@ owner: istio/wg-environments-maintainers
 test: n/a
 ---
 
-Istio 为应用程序提供了大量的功能，而对应用程序代码本身几乎没有影响。许多 Kubernetes 应用程序可以部署在支持 Istio 的集群中，而不需要对应用程序做任何修改。然而，在部署支持 Istio 的应用程序时，需要特别注意 Istio sidecar 模型的影响。本文介绍了应用的注意事项和启用 Istio 的具体要求。
+Istio 为应用程序提供了大量的功能，而对应用程序代码本身几乎没有影响。许多 Kubernetes 应用程序可以部署在启用 Istio 的集群中，而不需要对应用程序做任何修改。然而，在部署启用 Istio 的应用程序时，需要特别注意 Istio Sidecar 模型造成的影响。本文介绍了针对这些应用程序的注意事项以及启用 Istio 的具体要求。
 
 ## Pod 要求 {#pod-requirements}
 
