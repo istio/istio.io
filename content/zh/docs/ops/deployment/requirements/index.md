@@ -30,7 +30,7 @@ Istio 为应用程序提供了大量的功能，而对应用程序代码本身�
 
 - **Service 关联**：每个 Pod 必须至少属于一个 [Kubernetes Service](https://kubernetes.io/docs/concepts/services-networking/service/)，不管这个 Pod 是否对外暴露端口。如果一个 Pod 同时属于多个 Kubernetes Service，那么这些 Service 不能同时在一个端口号上使用不同的协议（比如：HTTP 和 TCP）。
 
-- **应用 UID**：确保你的 Pod 不会以 ID（UID）为 `1337` 的用户运行应用，因为 `1337` 是为 Sidecar 代理保留的。
+- **应用 UID**：确保您的 Pod 不会被 ID（UID）为 `1337` 的用户运行应用，因为 `1337` 是为 Sidecar 代理保留的。
 
 - **`NET_ADMIN` 和 `NET_RAW` 权限**：如果你的集群执行 [Pod 安全策略](https://kubernetes.io/docs/concepts/policy/pod-security-policy/)，必须给 Pod 配置 `NET_ADMIN` 和 `NET_RAW` 权限。如果你使用 [Istio CNI 插件](/zh/docs/setup/additional-setup/cni/)可以不配置。
 
