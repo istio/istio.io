@@ -196,7 +196,7 @@ server {
 }
 {{< /text >}}
 
-## 访问无头服务时 503 错误{#503-error-while-accessing-headless-services}
+## 访问 Headless Service 时 503 错误{#503-error-while-accessing-headless-services}
 
 假设用以下配置安装 Istio：
 
@@ -216,7 +216,7 @@ spec:
   ports:
   - port: 80
     name: http-web  # 显式定义一个 http 端口
-  clusterIP: None   # 创建一个无头服务
+  clusterIP: None   # 创建一个 Headless Service
   selector:
     app: nginx
 ---
@@ -246,7 +246,7 @@ spec:
 Service 定义中的端口名称 `http-web` 为该端口显式指定 http 协议。
 
 假设在 default 命名空间中也有一个 [sleep]({{< github_tree >}}/samples/sleep) Pod `Deployment`。
-当使用 Pod IP（这是访问无头服务的一种常见方式）从这个`sleep` Pod 访问 `nginx` 时，请求经由 `PassthroughCluster` 到达服务器侧，但服务器侧的 Sidecar 代理找不到前往 `nginx` 的路由入口，且出现错误 `HTTP 503 UC`。
+当使用 Pod IP（这是访问 Headless Service 的一种常见方式）从这个`sleep` Pod 访问 `nginx` 时，请求经由 `PassthroughCluster` 到达服务器侧，但服务器侧的 Sidecar 代理找不到前往 `nginx` 的路由入口，且出现错误 `HTTP 503 UC`。
 
 {{< text bash >}}
 $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items..metadata.name}')
@@ -291,7 +291,7 @@ $ kubectl exec -it $SOURCE_POD -c sleep -- curl 10.1.1.171 -s -o /dev/null -w "%
 
 1. 使用域名代替 Pod IP：
 
-    无头服务的特定实例也可以仅使用域名进行访问。
+     Headless Service 的特定实例也可以仅使用域名进行访问。
 
     {{< text bash >}}
     $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items..metadata.name}')
@@ -301,7 +301,7 @@ $ kubectl exec -it $SOURCE_POD -c sleep -- curl 10.1.1.171 -s -o /dev/null -w "%
 
     此处 `web-0` 是 3 个 `nginx` 副本中其中一个的 Pod 名称。
 
-有关针对不同协议的无头服务和流量路由行为的更多信息，请参阅这个[流量路由](/zh/docs/ops/configuration/traffic-management/traffic-routing/)页面。
+有关针对不同协议的 Headless Service 和流量路由行为的更多信息，请参阅这个[流量路由](/zh/docs/ops/configuration/traffic-management/traffic-routing/)页面。
 
 ## TLS 配置错误{#TLS-configuration-mistakes}
 
