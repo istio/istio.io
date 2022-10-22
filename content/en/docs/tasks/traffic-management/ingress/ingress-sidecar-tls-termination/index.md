@@ -236,8 +236,8 @@ Once all the resources are created, and above verification steps are completed, 
 ### Verify internal mesh connectivity on port 8080
 
 {{< text bash >}}
-$ export EXTERNAL_CLIENT=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
-$ kubectl -n test exec "${EXTERNAL_CLIENT}" -c sleep -- curl -v "http://httpbin:8080/status/200"
+$ export INTERNAL_CLIENT=$(kubectl -n test get pod -l app=sleep -o jsonpath={.items..metadata.name})
+$ kubectl -n test exec "${INTERNAL_CLIENT}" -c sleep -- curl -v "http://httpbin:8080/status/200"
 * Connected to httpbin (10.96.159.202) port 8080 (#0)
 > GET /status/200 HTTP/1.1
 > Host: httpbin:8080
@@ -260,6 +260,7 @@ $ kubectl -n test exec "${EXTERNAL_CLIENT}" -c sleep -- curl -v "http://httpbin:
 To verify mTLS traffic from external client, first copy the CA certificate and client certificate/key to the sleep client in default namespace which is outside the mesh.
 
 {{< text bash >}}
+$ export EXTERNAL_CLIENT=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
 $ kubectl cp client.test.svc.cluster.local.key default/"${EXTERNAL_CLIENT}":/tmp/
 $ kubectl cp client.test.svc.cluster.local.crt default/"${EXTERNAL_CLIENT}":/tmp/
 $ kubectl cp example.com.crt default/"${EXTERNAL_CLIENT}":/tmp/ca.crt

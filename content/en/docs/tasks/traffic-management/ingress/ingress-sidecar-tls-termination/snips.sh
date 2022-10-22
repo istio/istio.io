@@ -199,8 +199,8 @@ $
 ENDSNIP
 
 snip_verify_internal_mesh_connectivity_on_port_8080_1() {
-export EXTERNAL_CLIENT=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
-kubectl -n test exec "${EXTERNAL_CLIENT}" -c sleep -- curl -v "http://httpbin:8080/status/200"
+export INTERNAL_CLIENT=$(kubectl -n test get pod -l app=sleep -o jsonpath={.items..metadata.name})
+kubectl -n test exec "${INTERNAL_CLIENT}" -c sleep -- curl -v "http://httpbin:8080/status/200"
 }
 
 ! read -r -d '' snip_verify_internal_mesh_connectivity_on_port_8080_1_out <<\ENDSNIP
@@ -222,6 +222,7 @@ kubectl -n test exec "${EXTERNAL_CLIENT}" -c sleep -- curl -v "http://httpbin:80
 ENDSNIP
 
 snip_verify_external_to_internal_mesh_connectivity_on_port_8443_1() {
+export EXTERNAL_CLIENT=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
 kubectl cp client.test.svc.cluster.local.key default/"${EXTERNAL_CLIENT}":/tmp/
 kubectl cp client.test.svc.cluster.local.crt default/"${EXTERNAL_CLIENT}":/tmp/
 kubectl cp example.com.crt default/"${EXTERNAL_CLIENT}":/tmp/ca.crt
