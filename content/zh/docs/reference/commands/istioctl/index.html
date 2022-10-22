@@ -380,7 +380,7 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
-<td>The name of the kubeconfig context to use  (default ``)</td>
+<td>Name of the kubeconfig Context to use.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--critical-errs &lt;stringSlice&gt;</code></td>
@@ -445,7 +445,7 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 <tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
+<td>Path to kube config.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -893,7 +893,7 @@ istioctl d [flags]
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
-<td>Config namespace  (default ``)</td>
+<td>Namespace where the addon is running, if not specified, istio-system would be used  (default `istio-system`)</td>
 </tr>
 <tr>
 <td><code>--port &lt;int&gt;</code></td>
@@ -1028,7 +1028,7 @@ istioctl d [flags]
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
-<td>Namespace where the addon is running, if not specified, istio-system would be used  (default `istio-system`)</td>
+<td>Namespace where the addon is running, if not specified, istio-system would be used  (default ``)</td>
 </tr>
 <tr>
 <td><code>--port &lt;int&gt;</code></td>
@@ -3798,7 +3798,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
-<td>The name of the kubeconfig context to use  (default ``)</td>
+<td>The name of the kubeconfig context to use.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--dry-run</code></td>
@@ -3817,13 +3817,13 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 </tr>
 <tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
+<td></td>
+<td>The namespace of Istio Control Plane.  (default `istio-system`)</td>
 </tr>
 <tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
+<td>Path to kube config.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--manifests &lt;string&gt;</code></td>
@@ -4238,7 +4238,7 @@ Configure requires either the WorkloadGroup artifact path or its location on the
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
-<td>Config namespace  (default ``)</td>
+<td>The namespace that the workload instances belongs to  (default ``)</td>
 </tr>
 <tr>
 <td><code>--output &lt;string&gt;</code></td>
@@ -4357,7 +4357,7 @@ The default output is serialized YAML, which can be piped into &#39;kubectl appl
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
-<td>Config namespace  (default ``)</td>
+<td>The namespace that the workload instances will belong to  (default ``)</td>
 </tr>
 <tr>
 <td><code>--ports &lt;stringSlice&gt;</code></td>
@@ -4403,7 +4403,7 @@ The default output is serialized YAML, which can be piped into &#39;kubectl appl
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
-<td>The name of the kubeconfig context to use  (default ``)</td>
+<td>The name of the kubeconfig context to use.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--dry-run</code></td>
@@ -4429,7 +4429,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
+<td>Path to kube config.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--manifests &lt;string&gt;</code></td>
@@ -4803,7 +4803,7 @@ e.g.
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
-<td>The name of the kubeconfig context to use  (default ``)</td>
+<td>The name of the kubeconfig context to use. Requires --cluster-specific.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--dry-run</code></td>
@@ -4829,7 +4829,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
+<td>Path to kube config. Requires --cluster-specific.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--manifests &lt;string&gt;</code></td>
@@ -4909,7 +4909,7 @@ settings (--set meshConfig.enableTracing=true). See documentation for more info:
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
-<td>The name of the kubeconfig context to use  (default ``)</td>
+<td>The name of the kubeconfig context to use.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--dry-run</code></td>
@@ -4935,7 +4935,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
+<td>Path to kube config.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--manifests &lt;string&gt;</code></td>
@@ -5155,7 +5155,7 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.17.0
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
-<td>The name of the kubeconfig context to use  (default ``)</td>
+<td>The name of the kubeconfig context to use.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--dry-run</code></td>
@@ -5187,7 +5187,7 @@ could be secret list separated by comma, eg. &#39;--imagePullSecrets imagePullSe
 <tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
+<td>Path to kube config.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--manifests &lt;string&gt;</code></td>
@@ -5245,7 +5245,7 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.17.0
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
-<td>The name of the kubeconfig context to use  (default ``)</td>
+<td>The name of the kubeconfig context to use.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--dry-run</code></td>
@@ -5265,7 +5265,7 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.17.0
 <tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
+<td>Path to kube config.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -5776,7 +5776,7 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.17.0
 <tr>
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
-<td>Output format: one of json|yaml|short  (default `short`)</td>
+<td>Output format: one of json|yaml|short  (default `json`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -6764,7 +6764,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
-<td>The name of the kubeconfig context to use  (default ``)</td>
+<td>The name of the kubeconfig context to use.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--dry-run</code></td>
@@ -6783,13 +6783,13 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 </tr>
 <tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
+<td></td>
+<td>The namespace of Istio Control Plane.  (default `istio-system`)</td>
 </tr>
 <tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
+<td>Path to kube config.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--manifests &lt;string&gt;</code></td>
@@ -6870,7 +6870,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
-<td>The name of the kubeconfig context to use  (default ``)</td>
+<td>The name of the kubeconfig context to use.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--dry-run</code></td>
@@ -6896,7 +6896,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
+<td>Path to kube config.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--manifests &lt;string&gt;</code></td>
@@ -7050,8 +7050,8 @@ istioctl experimental precheck.
 </tr>
 <tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
+<td></td>
+<td>Path to the kubeconfig file to use for CLI requests.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--manifests &lt;string&gt;</code></td>
@@ -7064,7 +7064,7 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.17.0
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
-<td>Config namespace  (default ``)</td>
+<td>If present, the namespace scope for this CLI request  (default ``)</td>
 </tr>
 <tr>
 <td><code>--revision &lt;string&gt;</code></td>
