@@ -53,7 +53,7 @@ _verify_contains snip_verify_internal_mesh_connectivity_on_port_8080_1 "200 OK"
 snip_verify_external_to_internal_mesh_connectivity_on_port_8443_1
 _verify_contains snip_verify_external_to_internal_mesh_connectivity_on_port_8443_2 "HTTP/2 200"
 
-_verify_contains snip_verify_external_to_internal_mesh_connectivity_on_port_8443_3 "Connection reset by peer"
+_verify_not_contains snip_verify_external_to_internal_mesh_connectivity_on_port_8443_3 "HTTP/2 200"
 
 # @cleanup
 snip_cleanup_the_mutual_tls_termination_example_1
