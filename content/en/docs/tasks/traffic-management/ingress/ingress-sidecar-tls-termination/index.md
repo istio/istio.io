@@ -22,7 +22,7 @@ to perform TLS termination for downstream requests coming from outside the servi
     feature `ENABLE_TLS_ON_SIDECAR_INGRESS`.
 
     {{< text bash >}}
-    $ kubectl -n istio-system set env deployment istiod ENABLE_TLS_ON_SIDECAR_INGRESS=true
+    $ istioctl install --set profile=demo --set meshConfig.outboundTrafficPolicy.mode=REGISTRY_ONLY --set values.pilot.env.ENABLE_TLS_ON_SIDECAR_INGRESS=true
     {{< /text >}}
 
 *   Create the test namespace where the target `httpbin` service will be deployed. Make sure to enable sidecar injection
@@ -350,12 +350,16 @@ $ kubectl delete deployment httpbin sleep -n test
 $ kubectl delete namespace test
 $ kubectl delete service sleep
 $ kubectl delete deployment sleep
-$ # disable the feature flag
-$ kubectl -n istio-system set env deployment istiod ENABLE_TLS_ON_SIDECAR_INGRESS=false
 {{< /text >}}
 
 1.  Delete the certificates and private keys:
 
 {{< text bash >}}
 $ rm example.com.crt example.com.key httpbin.test.svc.cluster.local.crt httpbin.test.svc.cluster.local.key httpbin.test.svc.cluster.local.csr client.test.svc.cluster.local.crt client.test.svc.cluster.local.key client.test.svc.cluster.local.csr
+{{< /text >}}
+
+1.  Uninstall Istio from your cluster:
+
+{{< text bash >}}
+$ istioctl uninstall --purge -y
 {{< /text >}}

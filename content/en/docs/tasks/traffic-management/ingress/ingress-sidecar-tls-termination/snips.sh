@@ -21,7 +21,7 @@
 ####################################################################################################
 
 snip_before_you_begin_1() {
-kubectl -n istio-system set env deployment istiod ENABLE_TLS_ON_SIDECAR_INGRESS=true
+istioctl install --set profile=demo --set meshConfig.outboundTrafficPolicy.mode=REGISTRY_ONLY --set values.pilot.env.ENABLE_TLS_ON_SIDECAR_INGRESS=true
 }
 
 snip_before_you_begin_2() {
@@ -310,10 +310,12 @@ kubectl delete deployment httpbin sleep -n test
 kubectl delete namespace test
 kubectl delete service sleep
 kubectl delete deployment sleep
-# disable the feature flag
-kubectl -n istio-system set env deployment istiod ENABLE_TLS_ON_SIDECAR_INGRESS=false
 }
 
 snip_cleanup_the_mutual_tls_termination_example_2() {
 rm example.com.crt example.com.key httpbin.test.svc.cluster.local.crt httpbin.test.svc.cluster.local.key httpbin.test.svc.cluster.local.csr client.test.svc.cluster.local.crt client.test.svc.cluster.local.key client.test.svc.cluster.local.csr
+}
+
+snip_cleanup_the_mutual_tls_termination_example_3() {
+istioctl uninstall --purge -y
 }

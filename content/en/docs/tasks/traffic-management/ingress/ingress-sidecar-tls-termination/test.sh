@@ -15,7 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# @setup profile=default
+# @setup profile=none
 
 set -e
 set -u
@@ -24,7 +24,8 @@ set -o pipefail
 source "tests/util/samples.sh"
 
 # set feature flag and create test namespace
-snip_before_you_begin_1
+echo y | snip_before_you_begin_1
+_wait_for_deployment istio-system istiod
 snip_before_you_begin_2
 
 # setup peer authentication
@@ -57,3 +58,4 @@ _verify_contains snip_verify_external_to_internal_mesh_connectivity_on_port_8443
 # @cleanup
 snip_cleanup_the_mutual_tls_termination_example_1
 snip_cleanup_the_mutual_tls_termination_example_2
+echo y | snip_cleanup_the_mutual_tls_termination_example_3
