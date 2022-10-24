@@ -48,7 +48,7 @@ _wait_for_deployment test sleep
 _wait_for_deployment default sleep
 
 # verification
-_verify_first_line snip_verify_internal_mesh_connectivity_on_port_8080_1 "200 OK"
+_verify_first_line snip_verify_internal_mesh_connectivity_on_port_8080_1 "HTTP/1.1 200 OK"
 snip_verify_external_to_internal_mesh_connectivity_on_port_8443_1
 _verify_first_line snip_verify_external_to_internal_mesh_connectivity_on_port_8443_2 "HTTP/2 200"
 
