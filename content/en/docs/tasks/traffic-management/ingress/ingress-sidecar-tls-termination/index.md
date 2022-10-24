@@ -237,22 +237,15 @@ Once all the resources are created, and above verification steps are completed, 
 
 {{< text bash >}}
 $ export INTERNAL_CLIENT=$(kubectl -n test get pod -l app=sleep -o jsonpath={.items..metadata.name})
-$ kubectl -n test exec "${INTERNAL_CLIENT}" -c sleep -- curl -v "http://httpbin:8080/status/200"
-* Connected to httpbin (10.96.159.202) port 8080 (#0)
-> GET /status/200 HTTP/1.1
-> Host: httpbin:8080
-> User-Agent: curl/7.85.0-DEV
-> Accept: */*
->
-* Mark bundle as not supporting multiuse
-< HTTP/1.1 200 OK
-< server: envoy
-< date: Fri, 21 Oct 2022 12:21:20 GMT
-< content-type: text/html; charset=utf-8
-< access-control-allow-origin: *
-< access-control-allow-credentials: true
-< content-length: 0
-< x-envoy-upstream-service-time: 3
+$ kubectl -n test exec "${INTERNAL_CLIENT}" -c sleep -- curl -IsS "http://httpbin:8080/status/200"
+HTTP/1.1 200 OK
+server: envoy
+date: Mon, 24 Oct 2022 09:04:52 GMT
+content-type: text/html; charset=utf-8
+access-control-allow-origin: *
+access-control-allow-credentials: true
+content-length: 0
+x-envoy-upstream-service-time: 5
 {{< /text >}}
 
 ### Verify external to internal mesh connectivity on port 8443
@@ -266,75 +259,24 @@ $ kubectl cp client.test.svc.cluster.local.crt default/"${EXTERNAL_CLIENT}":/tmp
 $ kubectl cp example.com.crt default/"${EXTERNAL_CLIENT}":/tmp/ca.crt
 {{< /text >}}
 
-Once the certificates are available for the sleep client, you can verify the connectivity from this external sleep client to the internal httpbin service using the command below. The logs will help you understand and properly verify the TLS handshake in detail.
+Once the certificates are available for the sleep client, you can verify the connectivity from this external sleep client to the internal httpbin service using the command below.
 
 {{< text bash >}}
-$ kubectl exec "${EXTERNAL_CLIENT}" -c sleep -- curl --cacert /tmp/ca.crt --key /tmp/client.test.svc.cluster.local.key --cert /tmp/client.test.svc.cluster.local.crt -v -HHost:httpbin.test.svc.cluster.local "https://httpbin.test.svc.cluster.local:8443/status/200"
-*   Trying 10.100.78.113:8443...
-* Connected to httpbin.test.svc.cluster.local (10.100.78.113) port 8443 (#0)
-* ALPN, offering h2
-* ALPN, offering http/1.1
-*  CAfile: /tmp/ca.crt
-*  CApath: none
-* TLSv1.3 (OUT), TLS handshake, Client hello (1):
-* TLSv1.3 (IN), TLS handshake, Server hello (2):
-* TLSv1.3 (IN), TLS handshake, Encrypted Extensions (8):
-* TLSv1.3 (IN), TLS handshake, Request CERT (13):
-* TLSv1.3 (IN), TLS handshake, Certificate (11):
-* TLSv1.3 (IN), TLS handshake, CERT verify (15):
-* TLSv1.3 (IN), TLS handshake, Finished (20):
-* TLSv1.3 (OUT), TLS change cipher, Change cipher spec (1):
-* TLSv1.3 (OUT), TLS handshake, Certificate (11):
-* TLSv1.3 (OUT), TLS handshake, CERT verify (15):
-* TLSv1.3 (OUT), TLS handshake, Finished (20):
-* SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384
-* ALPN, server accepted to use h2
-* Server certificate:
-*  subject: CN=httpbin.test.svc.cluster.local; O=httpbin organization
-*  start date: Feb 14 09:51:56 2022 GMT
-*  expire date: Feb 14 09:51:56 2023 GMT
-*  common name: httpbin.test.svc.cluster.local (matched)
-*  issuer: O=example Inc.; CN=example.com
-*  SSL certificate verify ok.
-* Using HTTP2, server supports multiplexing
-* Connection state changed (HTTP/2 confirmed)
-* Copying HTTP/2 data in stream buffer to connection buffer after upgrade: len=0
-* Using Stream ID: 1 (easy handle 0x7f9e4729cac0)
-> GET /status/200 HTTP/2
-> Host:httpbin.test.svc.cluster.local
-> user-agent: curl/7.81.0-DEV
-> accept: */*
->
-* TLSv1.3 (IN), TLS handshake, Newsession Ticket (4):
-* TLSv1.3 (IN), TLS handshake, Newsession Ticket (4):
-* old SSL session ID is stale, removing
-* Connection state changed (MAX_CONCURRENT_STREAMS == 2147483647)!
-< HTTP/2 200
-< server: istio-envoy
-< date: Mon, 14 Feb 2022 10:03:08 GMT
-< content-type: text/html; charset=utf-8
-< access-control-allow-origin: *
-< access-control-allow-credentials: true
-< content-length: 0
-< x-envoy-upstream-service-time: 1
-< x-envoy-decorator-operation: httpbin.test.svc.cluster.local:9080/*
-<
-* Connection #0 to host httpbin.test.svc.cluster.local left intact
+$ kubectl exec "${EXTERNAL_CLIENT}" -c sleep -- curl -IsS --cacert /tmp/ca.crt --key /tmp/client.test.svc.cluster.local.key --cert /tmp/client.test.svc.cluster.local.crt -HHost:httpbin.test.svc.cluster.local "https://httpbin.test.svc.cluster.local:8443/status/200"
+server: istio-envoy
+date: Mon, 24 Oct 2022 09:05:31 GMT
+content-type: text/html; charset=utf-8
+access-control-allow-origin: *
+access-control-allow-credentials: true
+content-length: 0
+x-envoy-upstream-service-time: 4
+x-envoy-decorator-operation: ingress-sidecar.test:9080/*
 {{< /text >}}
 
 Apart from verifying the mTLS connectivity over external port 8443, it is also important to verify that port 8080 does not accept any external mTLS traffic.
 
 {{< text bash >}}
-$ kubectl exec "${EXTERNAL_CLIENT}" -c sleep -- curl --cacert /tmp/ca.crt --key /tmp/client.test.svc.cluster.local.key --cert /tmp/client.test.svc.cluster.local.crt -v -HHost:httpbin.test.svc.cluster.local "http://httpbin.test.svc.cluster.local:8080/status/200"
-*   Trying 10.100.78.113:8080...
-* Connected to httpbin.test.svc.cluster.local (10.100.78.113) port 8080 (#0)
-> GET /status/200 HTTP/1.1
-> Host:httpbin.test.svc.cluster.local
-> User-Agent: curl/7.81.0-DEV
-> Accept: */*
->
-* Recv failure: Connection reset by peer
-* Closing connection 0
+$ kubectl exec "${EXTERNAL_CLIENT}" -c sleep -- curl -IsS --cacert /tmp/ca.crt --key /tmp/client.test.svc.cluster.local.key --cert /tmp/client.test.svc.cluster.local.crt -HHost:httpbin.test.svc.cluster.local "http://httpbin.test.svc.cluster.local:8080/status/200"
 curl: (56) Recv failure: Connection reset by peer
 command terminated with exit code 56
 {{< /text >}}
