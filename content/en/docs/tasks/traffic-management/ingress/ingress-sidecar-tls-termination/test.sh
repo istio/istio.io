@@ -56,3 +56,4 @@ _verify_first_line snip_verify_external_to_internal_mesh_connectivity_on_port_84
 snip_cleanup_the_mutual_tls_termination_example_1
 snip_cleanup_the_mutual_tls_termination_example_2
 echo y | snip_cleanup_the_mutual_tls_termination_example_3
+kubectl delete ns istio-system
