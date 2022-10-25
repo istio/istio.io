@@ -354,3 +354,6 @@ other = "Also used by"
 
 [go_to_solutions]
 other = "Go to solutions"
+
+[case_study_slogan]
+other = "Read case studies of companies that benefited from implementing Istio"
