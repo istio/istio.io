@@ -340,5 +340,5 @@ other = "更多案例"
 [go_to_solutions]
 other = "转到解决方案"
 
-[case_study_slogen]
-other = "阅读受益于实施 Istio 的公司的案例"
+[case_study_slogan]
+other = "阅读因实施 Istio 而受益的公司案例"
