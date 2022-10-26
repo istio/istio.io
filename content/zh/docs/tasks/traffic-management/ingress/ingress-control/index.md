@@ -1,6 +1,6 @@
 ---
 title: 入口网关
-description: 描述如何配置 Istio Gateway，以将服务暴露至服务网格之外。
+description: 描述如何配置 Istio Gateway 对象，以将服务暴露至服务网格之外。
 weight: 10
 keywords: [traffic-management,ingress]
 aliases:

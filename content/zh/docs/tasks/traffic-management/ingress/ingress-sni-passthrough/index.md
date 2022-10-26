@@ -66,7 +66,7 @@ test: yes
 
         root /usr/share/nginx/html;
         index index.html;
-    
+
         server_name nginx.example.com;
         ssl_certificate /etc/nginx-server-certs/tls.crt;
         ssl_certificate_key /etc/nginx-server-certs/tls.key;
@@ -95,7 +95,7 @@ test: yes
       ports:
       - port: 443
         protocol: TCP
-        selector:
+      selector:
         run: my-nginx
     ---
     apiVersion: apps/v1
@@ -185,8 +185,8 @@ test: yes
           mode: PASSTHROUGH
         hosts:
         - nginx.example.com
-          EOF
-          {{< /text >}}
+    EOF
+    {{< /text >}}
 
 1. 为通过 `Gateway` 进入的流量配置路由：
 
@@ -199,20 +199,20 @@ test: yes
     spec:
       hosts:
       - nginx.example.com
-        gateways:
+      gateways:
       - mygateway
-        tls:
+      tls:
       - match:
         - port: 443
           sniHosts:
           - nginx.example.com
-          route:
+        route:
         - destination:
             host: my-nginx
             port:
               number: 443
-            EOF
-            {{< /text >}}
+    EOF
+    {{< /text >}}
 
 1. 根据[确定 Ingress IP 和端口](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-i-p-and-ports)中的指令来定义环境变量 `SECURE_INGRESS_PORT` 和 `INGRESS_HOST`。
 
