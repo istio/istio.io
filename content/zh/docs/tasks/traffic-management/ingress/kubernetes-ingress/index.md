@@ -42,8 +42,8 @@ test: yes
             backend:
               serviceName: httpbin
               servicePort: 8000
-            EOF
-            {{< /text >}}
+    EOF
+    {{< /text >}}
 
     需要使用 `kubernetes.io/ingress.class` 注解来告知 Istio 网关控制器它应该处理此 `Ingress` ，否则它将被忽略。
 
@@ -105,7 +105,7 @@ spec:
         backend:
           serviceName: httpbin
           servicePort: 8000
-        {{< /text >}}
+{{< /text >}}
 
 ## 清除{#cleanup}
 
