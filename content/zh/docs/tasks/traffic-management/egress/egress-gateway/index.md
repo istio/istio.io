@@ -1,5 +1,5 @@
 ---
-title: Egress Gateway
+title: 出口网关
 description: 描述如何配置 Istio 通过专用网关服务将流量定向到外部服务。
 weight: 30
 keywords: [traffic-management,egress]
