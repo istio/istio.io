@@ -24,7 +24,7 @@ This task describes how to configure Istio to expose a service outside of the se
 
     {{< tip >}}
     If you are going to use the `Gateway API` instructions, you can install Istio using the `minimal`
-    profile, because you will not need the `istio-ingressgateway`, which is otherwise installed
+    profile because you will not need the `istio-ingressgateway` which is otherwise installed
     by default:
 
     {{< text bash >}}
