@@ -153,8 +153,8 @@ Ingress [Gateway](/zh/docs/reference/config/networking/gateway/) 描述运行在
           protocol: HTTP
         hosts:
         - "httpbin.example.com"
-          EOF
-          {{< /text >}}
+    EOF
+    {{< /text >}}
 
 1. 为通过 `Gateway` 的入口流量配置路由：
 
@@ -167,21 +167,21 @@ Ingress [Gateway](/zh/docs/reference/config/networking/gateway/) 描述运行在
     spec:
       hosts:
       - "httpbin.example.com"
-        gateways:
+      gateways:
       - httpbin-gateway
-        http:
+      http:
       - match:
         - uri:
             prefix: /status
         - uri:
             prefix: /delay
-            route:
+        route:
         - destination:
             port:
               number: 8000
             host: httpbin
-            EOF
-            {{< /text >}}
+    EOF
+    {{< /text >}}
 
     已为 `httpbin` 服务创建了[Virtual Service](/zh/docs/reference/config/networking/virtual-service/)配置，包含两个路由规则，允许流量流向路径 `/status` 和 `/delay`。
 
@@ -242,19 +242,19 @@ metadata:
 spec:
   hosts:
   - "*"
-    gateways:
+  gateways:
   - httpbin-gateway
-    http:
+  http:
   - match:
     - uri:
         prefix: /headers
-        route:
+    route:
     - destination:
         port:
           number: 8000
         host: httpbin
-        EOF
-        {{< /text >}}
+EOF
+{{< /text >}}
 
 此时，便可以在浏览器中输入包含 `$INGRESS_HOST:$INGRESS_PORT` 的 URL。譬如，输入`http://$INGRESS_HOST:$INGRESS_PORT/headers`，将显示浏览器发送的所有 Header 信息。
 
