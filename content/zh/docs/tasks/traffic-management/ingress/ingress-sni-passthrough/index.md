@@ -9,14 +9,22 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-[安全网关](/zh/docs/tasks/traffic-management/ingress/secure-ingress-mount/)说明了如何为 HTTP 服务配置 HTTPS 访问入口。而本示例将说明如何为 HTTPS 服务配置 HTTPS 访问入口，即配置 Ingress Gateway 以执行 SNI 透传，而不是对传入请求进行 TLS 终止。
+[安全网关](/zh/docs/tasks/traffic-management/ingress/secure-ingress/)说明了如何为 HTTP 服务配置 HTTPS 访问入口。而本示例将说明如何为 HTTPS 服务配置 HTTPS 访问入口，即配置 Ingress Gateway 以执行 SNI 透传，而不是对传入请求进行 TLS 终止。
 
 本任务中的 HTTPS 示例服务是一个简单的 [NGINX](https://www.nginx.com) 服务。在接下来的步骤中，您首先在 Kubernetes 集群中创建一个 NGINX 服务。接着，通过网关给这个服务配置一个域名是 `nginx.example.com` 的访问入口。
+
+{{< boilerplate gateway-api-support >}}
+
+{{< boilerplate gateway-api-experimental >}}
+
+## 准备工作 {#before-you-begin}
+
+按照[安装指南](/zh/docs/setup/)部署 Istio。
 
 ## 生成客户端和服务端的证书和密钥{#generate-client-and-server-certificates-and-keys}
 
 对于此任务，您可以使用自己喜欢的工具来生成证书和密钥。以下命令使用
-[openssl](https://man.openbsd.org/openssl.1)
+[openssl](https://man.openbsd.org/openssl.1)：
 
 1. 创建根证书和私钥来为您的服务签名证书：
 
@@ -58,7 +66,7 @@ test: yes
 
         root /usr/share/nginx/html;
         index index.html;
-
+    
         server_name nginx.example.com;
         ssl_certificate /etc/nginx-server-certs/tls.crt;
         ssl_certificate_key /etc/nginx-server-certs/tls.key;
@@ -87,7 +95,7 @@ test: yes
       ports:
       - port: 443
         protocol: TCP
-      selector:
+        selector:
         run: my-nginx
     ---
     apiVersion: apps/v1
@@ -177,8 +185,8 @@ test: yes
           mode: PASSTHROUGH
         hosts:
         - nginx.example.com
-    EOF
-    {{< /text >}}
+          EOF
+          {{< /text >}}
 
 1. 为通过 `Gateway` 进入的流量配置路由：
 
@@ -191,20 +199,20 @@ test: yes
     spec:
       hosts:
       - nginx.example.com
-      gateways:
+        gateways:
       - mygateway
-      tls:
+        tls:
       - match:
         - port: 443
           sniHosts:
           - nginx.example.com
-        route:
+          route:
         - destination:
             host: my-nginx
             port:
               number: 443
-    EOF
-    {{< /text >}}
+            EOF
+            {{< /text >}}
 
 1. 根据[确定 Ingress IP 和端口](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-i-p-and-ports)中的指令来定义环境变量 `SECURE_INGRESS_PORT` 和 `INGRESS_HOST`。
 

@@ -1,26 +1,27 @@
 ---
 title: Kubernetes Ingress
-description: 展示如何配置Kubernetes Ingress对象，使得从服务网格外部可以访问网格内服务。
+description: 展示如何配置 Kubernetes Ingress 对象，使得从服务网格外部可以访问网格内服务。
 weight: 40
 keywords: [traffic-management,ingress]
 owner: istio/wg-networking-maintainers
 test: yes
 ---
-此任务描述如何使用[Ingress Resource](https://kubernetes.io/zh/docs/concepts/services-networking/ingress/)入口资源将 Istio 配置为在服务网格集群之外公开服务。
+
+此任务描述如何使用 [Ingress 资源](https://kubernetes.io/zh/docs/concepts/services-networking/ingress/)为 Istio 配置入口网关以暴露网格内的服务。
 
 {{< tip >}}
-建议使用[Istio Gateway](/zh/docs/tasks/traffic-management/ingress/ingress-control/)而不是 Ingress 来利用 Istio 提供的完整功能集，例如丰富的流量管理和安全功能。
+建议使用 [Istio Gateway](/zh/docs/tasks/traffic-management/ingress/ingress-control/) 而不是 Ingress 来利用 Istio 提供的完整功能集，例如丰富的流量管理和安全功能。
 {{< /tip >}}
 
 ## 准备工作{#before-you-begin}
 
-请按照[Ingress 网关任务](/zh/docs/tasks/traffic-management/ingress/ingress-control/)中的[准备工作](/zh/docs/tasks/traffic-management/ingress/ingress-control/#before-you-begin)、[确定 Ingress IP 和端口](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)的说明进行操作。
+请按照[入口网关任务](/zh/docs/tasks/traffic-management/ingress/ingress-control/)中的[准备工作](/zh/docs/tasks/traffic-management/ingress/ingress-control/#before-you-begin)、[确定 Ingress IP 和端口](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)的说明进行操作。
 
-## 使用Ingress resource配置ingress{#configuring-ingress-using-an-ingress-resource}
+## 使用 Ingress 资源配置入口网关 {#configuring-ingress-using-an-ingress-resource}
 
 [Kubernetes Ingress 资源](https://kubernetes.io/zh/docs/concepts/services-networking/ingress/)公开了从集群外到集群内服务的 HTTP 和 HTTPS 路由。
 
-让我们看看如何在端口80上配置 `Ingress` 以实现 HTTP 流量。
+让我们看看如何在端口 80 上配置 `Ingress` 以实现 HTTP 流量。
 
 1.  创建一个 `Ingress` 资源:
 
@@ -41,8 +42,8 @@ test: yes
             backend:
               serviceName: httpbin
               servicePort: 8000
-    EOF
-    {{< /text >}}
+            EOF
+            {{< /text >}}
 
     需要使用 `kubernetes.io/ingress.class` 注解来告知 Istio 网关控制器它应该处理此 `Ingress` ，否则它将被忽略。
 
@@ -104,7 +105,7 @@ spec:
         backend:
           serviceName: httpbin
           servicePort: 8000
-{{< /text >}}
+        {{< /text >}}
 
 ## 清除{#cleanup}
 
