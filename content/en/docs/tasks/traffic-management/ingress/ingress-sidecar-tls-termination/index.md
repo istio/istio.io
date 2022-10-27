@@ -22,7 +22,7 @@ to perform TLS termination for downstream requests coming from outside the servi
     feature `ENABLE_TLS_ON_SIDECAR_INGRESS`.
 
     {{< text bash >}}
-    $ istioctl install --set profile=demo --set meshConfig.outboundTrafficPolicy.mode=REGISTRY_ONLY --set values.pilot.env.ENABLE_TLS_ON_SIDECAR_INGRESS=true
+    $ istioctl install --set profile=default --set values.pilot.env.ENABLE_TLS_ON_SIDECAR_INGRESS=true
     {{< /text >}}
 
 *   Create the test namespace where the target `httpbin` service will be deployed. Make sure to enable sidecar injection
@@ -52,6 +52,8 @@ EOF
 ## Disable PeerAuthentication for external mTLS Port
 
 The external mTLS Port that will be used at the sidecar for TLS Termination has to disable `PeerAuthentication`.
+Please note that this is the `targetPort` of the `httpbin` service, and this should be used exclusively for external
+communication.
 
 {{< text bash >}}
 $ kubectl -n test apply -f - <<EOF
@@ -164,6 +166,7 @@ EOF
 ## Create sidecar configuration for httpbin to enable external mTLS on ingress
 
 This is the core step in this feature, where `sidecar` API is used to configure the ingress TLS settings.
+The `tlsMode` can be `SIMPLE` or `MUTUAL`, the current example uses `MUTUAL` scenario.
 
 {{< text bash >}}
 $ kubectl -n test apply -f - <<EOF
