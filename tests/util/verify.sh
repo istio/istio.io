@@ -253,9 +253,9 @@ __cmp_lines() {
 
 # Returns 0 if the command failed to execute.  Otherwise, returns 1.
 __cmp_failure() {
-    local out=$1
+    local funcret=$3
 
-    if [[ "$out" != "!ERROR!" ]]; then
+    if [[ "$funcret" -eq 0 ]]; then
         return 1
     fi
 
@@ -304,14 +304,10 @@ __verify_with_retry() {
         out=$($func 2>&1)
         local funcret="$?"
 
-        if [[ "$funcret" -eq 0 ]]; then
-            # shellcheck disable=SC2001
-            out=$(sed 's/[[:space:]]*$//g' <<< "$out")
-        else
-            out="!ERROR!"
-        fi
+        # shellcheck disable=SC2001
+        out=$(sed 's/[[:space:]]*$//g' <<< "$out")
 
-        $cmp_func "$out" "$expected"
+        $cmp_func "$out" "$expected" "$funcret"
         local cmpret="$?"
 
         if [[ "$cmpret" -eq 0 ]]; then
