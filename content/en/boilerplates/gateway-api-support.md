@@ -1,8 +1,7 @@
 ---
 ---
 {{< tip >}}
-Istio intends to make the Kubernetes [Gateway API](https://gateway-api.sigs.k8s.io/) the default API for traffic management
-[in the future](/blog/2022/gateway-api-beta/).
+{{< boilerplate gateway-api-future >}}
 The following instructions allow you to choose to use either the Gateway API or the Istio configuration API when configuring
 traffic management in the mesh. Follow instructions under either the `Gateway API` or `Istio classic` tab,
 according to your preference.

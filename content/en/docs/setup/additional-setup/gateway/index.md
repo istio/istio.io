@@ -7,6 +7,13 @@ owner: istio/wg-environments-maintainers
 test: yes
 ---
 
+{{< tip >}}
+{{< boilerplate gateway-api-future >}}
+If you use the Gateway API, you will not need to install and manage a gateway `Deployment` as described in this document.
+By default, a gateway `Deployment` and `Service` will be automatically provisioned based on the `Gateway` configuration.
+Refer to the [Gateway API task](/docs/tasks/traffic-management/ingress/gateway-api/) for details.
+{{< /tip >}}
+
 Along with creating a service mesh, Istio allows you to manage [gateways](/docs/concepts/traffic-management/#gateways),
 which are Envoy proxies running at the edge of the mesh, providing fine-grained control over traffic entering and leaving the mesh.
 

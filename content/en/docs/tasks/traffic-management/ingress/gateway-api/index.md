@@ -10,9 +10,18 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-This task describes how to configure Istio to expose a service outside the service mesh cluster using the Kubernetes [Gateway API](https://gateway-api.sigs.k8s.io/).
-These APIs are an actively developed evolution of the Kubernetes [Service](https://kubernetes.io/docs/concepts/services-networking/service/)
+In addition to its own traffic management API,
+{{< boilerplate gateway-api-future >}}
+This document describes the differences between the Istio and Kubernetes APIs and provides a simple example
+that shows you how to configure Istio to expose a service outside the service mesh cluster using the Gateway API.
+Note that these APIs are an actively developed evolution of the Kubernetes [Service](https://kubernetes.io/docs/concepts/services-networking/service/)
 and [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) APIs.
+
+{{< tip >}}
+Many of the Istio traffic management documents include instructions for using either the Istio or Kubernetes API
+(see the [control ingress traffic task](/docs/tasks/traffic-management/ingress/ingress-control), for example).
+You can even use the Gateway API, right from the start, by following the [future getting started instructions](/docs/setup/additional-setup/getting-started/).
+{{< /tip >}}
 
 ## Setup
 
