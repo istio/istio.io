@@ -85,6 +85,9 @@ providers:
   - name: "Layer5"
     logo: "/logos/layer5.svg"
     url: "https://layer5.io/cloud-native-management/meshery"
+  - name: "Baidu AI Cloud Mesh"
+    logo: "/logos/baidu-ai-cloud.svg"
+    url: "https://cloud.baidu.com/product/csm.html"
 
 integrations:
   - name: "Aeraki"
