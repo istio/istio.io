@@ -50,7 +50,7 @@ EOF
 
 ## Disable PeerAuthentication for the externally exposed httpbin port
 
-Disable `PeerAuthentication` for the port of the httpbin service which will perform ingress TLS termination at the sidecar. Note that this is the `targetPort` of the httpbin service which should be used exclusively for external
+Disable `PeerAuthentication` for the port of the httpbin service which will perform ingress TLS termination at the sidecar. Note that this is the `targetPort` of the httpbin service which should be used exclusively for external communication.
 
 {{< text bash >}}
 $ kubectl -n test apply -f - <<EOF
