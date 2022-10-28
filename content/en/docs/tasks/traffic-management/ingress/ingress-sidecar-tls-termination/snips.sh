@@ -41,7 +41,7 @@ spec:
 EOF
 }
 
-snip_disable_peerauthentication_for_external_mtls_port_1() {
+snip_disable_peerauthentication_for_the_externally_exposed_httpbin_port_1() {
 kubectl -n test apply -f - <<EOF
 apiVersion: security.istio.io/v1beta1
 kind: PeerAuthentication
@@ -71,17 +71,17 @@ openssl req -out client.test.svc.cluster.local.csr -newkey rsa:2048 -nodes -keyo
 openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 1 -in client.test.svc.cluster.local.csr -out client.test.svc.cluster.local.crt
 }
 
-snip_generate_k8s_secret_for_the_certificates_and_keys_1() {
+snip_create_k8s_secrets_for_the_certificates_and_keys_1() {
 kubectl -n test create secret generic httpbin-mtls-termination-cacert --from-file=ca.crt=./example.com.crt
 kubectl -n test create secret tls httpbin-mtls-termination --cert ./httpbin.test.svc.cluster.local.crt --key ./httpbin.test.svc.cluster.local.key
 }
 
-! read -r -d '' snip_create_httpbin_deployment_and_services_1 <<\ENDSNIP
+! read -r -d '' snip_deploy_the_httpbin_test_service_1 <<\ENDSNIP
 sidecar.istio.io/userVolume: '{"tls-secret":{"secret":{"secretName":"httpbin-mtls-termination","optional":true}},"tls-ca-secret":{"secret":{"secretName":"httpbin-mtls-termination-cacert"}}}'
 sidecar.istio.io/userVolumeMount: '{"tls-secret":{"mountPath":"/etc/istio/tls-certs/","readOnly":true},"tls-ca-secret":{"mountPath":"/etc/istio/tls-ca-certs/","readOnly":true}}'
 ENDSNIP
 
-snip_create_httpbin_deployment_and_services_2() {
+snip_deploy_the_httpbin_test_service_2() {
 kubectl -n test apply -f - <<EOF
 apiVersion: v1
 kind: ServiceAccount
@@ -135,7 +135,7 @@ spec:
 EOF
 }
 
-snip_create_sidecar_configuration_for_httpbin_to_enable_external_mtls_on_ingress_1() {
+snip_configure_httpbin_to_enable_external_mtls_1() {
 kubectl -n test apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
 kind: Sidecar

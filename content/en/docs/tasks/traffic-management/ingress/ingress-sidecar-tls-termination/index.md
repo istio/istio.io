@@ -8,11 +8,10 @@ test: yes
 ---
 
 In a regular Istio mesh deployment, the TLS termination for downstream requests is performed at the Ingress Gateway.
-Though this satisfies most of the use cases, for some use cases (like an API Gateway on the mesh) the Ingress Gateway resource is not necessarily needed. This example describes how to eliminate the additional hop introduced by the Istio Ingress Gateway and let the Envoy sidecar running alongside the application perform TLS termination for incoming requests from outside the Istio service mesh.
+Although this satisfies most use cases, for some (like an API Gateway in the mesh) the Ingress Gateway is not necessarily needed. This task shows how to eliminate the additional hop introduced by the Istio Ingress Gateway and let the Envoy sidecar, running alongside the application, perform TLS termination for requests coming from outside of the service mesh.
 
 The example HTTPS service used for this task is a simple [httpbin](https://httpbin.org) service.
-In the following steps you first deploy an httpbin service inside your Istio service mesh with required configuration
-to perform TLS termination for downstream requests coming from outside the service mesh.
+In the following steps you will deploy the httpbin service inside your service mesh and configure it.
 
 {{< boilerplate experimental-feature-warning >}}
 
@@ -35,7 +34,7 @@ to perform TLS termination for downstream requests coming from outside the servi
 
 ## Enable global mTLS
 
-Peer Authentication Policy to allow mTLS traffic for all workloads has to be enabled.
+Apply the following `PeerAuthentication` policy to require mTLS traffic for all workloads in the mesh.
 
 {{< text bash >}}
 $ kubectl -n test apply -f - <<EOF
@@ -49,11 +48,9 @@ spec:
 EOF
 {{< /text >}}
 
-## Disable PeerAuthentication for external mTLS Port
+## Disable PeerAuthentication for the externally exposed httpbin port
 
-The external mTLS Port that will be used at the sidecar for TLS Termination has to disable `PeerAuthentication`.
-Please note that this is the `targetPort` of the `httpbin` service, and this should be used exclusively for external
-communication.
+Disable `PeerAuthentication` for the port of the httpbin service which will perform ingress TLS termination at the sidecar. Please note that this is the `targetPort` of the httpbin service, and this should be used exclusively for external communication.
 
 {{< text bash >}}
 $ kubectl -n test apply -f - <<EOF
@@ -90,24 +87,24 @@ $ openssl req -out client.test.svc.cluster.local.csr -newkey rsa:2048 -nodes -ke
 $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 1 -in client.test.svc.cluster.local.csr -out client.test.svc.cluster.local.crt
 {{< /text >}}
 
-## Generate k8s secret for the certificates and keys
+## Create k8s secrets for the certificates and keys
 
 {{< text bash >}}
 $ kubectl -n test create secret generic httpbin-mtls-termination-cacert --from-file=ca.crt=./example.com.crt
 $ kubectl -n test create secret tls httpbin-mtls-termination --cert ./httpbin.test.svc.cluster.local.crt --key ./httpbin.test.svc.cluster.local.key
 {{< /text >}}
 
-## Create httpbin deployment and services
+## Deploy the httpbin test service
 
-When the httpbin deployment is to be created, we need to use `userVolumeMount` annotations in the deployment to make sure the certificates are mounted to the istio-proxy sidecar.
-Note: This step is needed until Istio supports `credentialName` for sidecar configuration.
+When the httpbin deployment is created, we need to use `userVolumeMount` annotations in the deployment to mount the certificates for the istio-proxy sidecar.
+Note that this step is only needed because Istio does not currently support `credentialName` in a sidecar configuration.
 
 {{< text yaml >}}
 sidecar.istio.io/userVolume: '{"tls-secret":{"secret":{"secretName":"httpbin-mtls-termination","optional":true}},"tls-ca-secret":{"secret":{"secretName":"httpbin-mtls-termination-cacert"}}}'
 sidecar.istio.io/userVolumeMount: '{"tls-secret":{"mountPath":"/etc/istio/tls-certs/","readOnly":true},"tls-ca-secret":{"mountPath":"/etc/istio/tls-ca-certs/","readOnly":true}}'
 {{< /text >}}
 
-The complete deployment yaml using `userVolumeMount` and service configuration for `httpbin` can be found below:
+Use the following command to deploy the `httpbin` service with the required `userVolumeMount` configuration:
 
 {{< text bash >}}
 $ kubectl -n test apply -f - <<EOF
@@ -163,10 +160,10 @@ spec:
 EOF
 {{< /text >}}
 
-## Create sidecar configuration for httpbin to enable external mTLS on ingress
+## Configure httpbin to enable external mTLS
 
-This is the core step in this feature, where `sidecar` API is used to configure the ingress TLS settings.
-The `tlsMode` can be `SIMPLE` or `MUTUAL`, the current example uses `MUTUAL` scenario.
+This is the core step for this feature. Using the `Sidecar` API, configure the ingress TLS settings.
+The TLS mode can be `SIMPLE` or `MUTUAL`. This example uses `MUTUAL`.
 
 {{< text bash >}}
 $ kubectl -n test apply -f - <<EOF
