@@ -178,24 +178,38 @@ kubectl get pods
 ! read -r -d '' snip_verification_2_out <<\ENDSNIP
 NAME                     READY   STATUS    RESTARTS   AGE
 sleep-557747455f-xx88g   1/1     Running   0          4m14s
-$
+ENDSNIP
+
+snip_verification_3() {
 kubectl get pods -n test
+}
+
+! read -r -d '' snip_verification_3_out <<\ENDSNIP
 NAME                       READY   STATUS    RESTARTS   AGE
 httpbin-5bbdbd6588-z9vbs   2/2     Running   0          8m44s
 sleep-557747455f-brzf6     2/2     Running   0          6m57s
-$
+ENDSNIP
+
+snip_verification_4() {
 kubectl get svc -n test
+}
+
+! read -r -d '' snip_verification_4_out <<\ENDSNIP
 NAME      TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)             AGE
 httpbin   ClusterIP   10.100.78.113   <none>        8443/TCP,8080/TCP   10m
 sleep     ClusterIP   10.110.35.153   <none>        80/TCP              8m49s
-$
+ENDSNIP
+
+snip_verification_5() {
 istioctl proxy-config secret httpbin-5bbdbd6588-z9vbs.test
+}
+
+! read -r -d '' snip_verification_5_out <<\ENDSNIP
 RESOURCE NAME                                                           TYPE           STATUS     VALID CERT     SERIAL NUMBER                               NOT AFTER                NOT BEFORE
 file-cert:/etc/istio/tls-certs/tls.crt~/etc/istio/tls-certs/tls.key     Cert Chain     ACTIVE     true           1                                           2023-02-14T09:51:56Z     2022-02-14T09:51:56Z
 default                                                                 Cert Chain     ACTIVE     true           329492464719328863283539045344215802956     2022-02-15T09:55:46Z     2022-02-14T09:53:46Z
 ROOTCA                                                                  CA             ACTIVE     true           204427760222438623495455009380743891800     2032-02-07T16:58:00Z     2022-02-09T16:58:00Z
 file-root:/etc/istio/tls-ca-certs/ca.crt                                Cert Chain     ACTIVE     true           14033888812979945197                        2023-02-14T09:51:56Z     2022-02-14T09:51:56Z
-$
 ENDSNIP
 
 snip_verify_internal_mesh_connectivity_on_port_8080_1() {
@@ -255,7 +269,8 @@ kubectl delete deployment sleep
 }
 
 snip_cleanup_the_mutual_tls_termination_example_2() {
-rm example.com.crt example.com.key httpbin.test.svc.cluster.local.crt httpbin.test.svc.cluster.local.key httpbin.test.svc.cluster.local.csr client.test.svc.cluster.local.crt client.test.svc.cluster.local.key client.test.svc.cluster.local.csr
+rm example.com.crt example.com.key httpbin.test.svc.cluster.local.crt httpbin.test.svc.cluster.local.key httpbin.test.svc.cluster.local.csr \
+    client.test.svc.cluster.local.crt client.test.svc.cluster.local.key client.test.svc.cluster.local.csr
 }
 
 snip_cleanup_the_mutual_tls_termination_example_3() {

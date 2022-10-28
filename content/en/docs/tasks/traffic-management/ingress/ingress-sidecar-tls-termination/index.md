@@ -50,7 +50,7 @@ EOF
 
 ## Disable PeerAuthentication for the externally exposed httpbin port
 
-Disable `PeerAuthentication` for the port of the httpbin service which will perform ingress TLS termination at the sidecar. Please note that this is the `targetPort` of the httpbin service, and this should be used exclusively for external communication.
+Disable `PeerAuthentication` for the port of the httpbin service which will perform ingress TLS termination at the sidecar. Note that this is the `targetPort` of the httpbin service which should be used exclusively for external
 
 {{< text bash >}}
 $ kubectl -n test apply -f - <<EOF
@@ -198,40 +198,45 @@ EOF
 
 ## Verification
 
-On top of the above server configuration, bring up two clients as mentioned below for performing end to end connectivity tests:
-1. One client (sleep) in the same namespace (test) with sidecar injected
-1. One client (sleep) in default namespace as an external client (outside service mesh)
+Now that the httpbin server is deployed and configured, bring up two clients to  test the end to end connectivity from both inside and outside of the mesh:
+1. An internal client (sleep) in the same namespace (test) as the httpbin service, with sidecar injected.
+1. An external client (sleep) in the default namespace (i.e., outside of the service mesh).
 
 {{< text bash >}}
 $ kubectl apply -f samples/sleep/sleep.yaml
 $ kubectl -n test apply -f samples/sleep/sleep.yaml
 {{< /text >}}
 
+Run the following commands to verify that everything is up and running, and configured correctly.
+
 {{< text bash >}}
 $ kubectl get pods
 NAME                     READY   STATUS    RESTARTS   AGE
 sleep-557747455f-xx88g   1/1     Running   0          4m14s
-$
+{{< /text >}}
+
+{{< text bash >}}
 $ kubectl get pods -n test
 NAME                       READY   STATUS    RESTARTS   AGE
 httpbin-5bbdbd6588-z9vbs   2/2     Running   0          8m44s
 sleep-557747455f-brzf6     2/2     Running   0          6m57s
-$
+{{< /text >}}
+
+{{< text bash >}}
 $ kubectl get svc -n test
 NAME      TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)             AGE
 httpbin   ClusterIP   10.100.78.113   <none>        8443/TCP,8080/TCP   10m
 sleep     ClusterIP   10.110.35.153   <none>        80/TCP              8m49s
-$
+{{< /text >}}
+
+{{< text bash >}}
 $ istioctl proxy-config secret httpbin-5bbdbd6588-z9vbs.test
 RESOURCE NAME                                                           TYPE           STATUS     VALID CERT     SERIAL NUMBER                               NOT AFTER                NOT BEFORE
 file-cert:/etc/istio/tls-certs/tls.crt~/etc/istio/tls-certs/tls.key     Cert Chain     ACTIVE     true           1                                           2023-02-14T09:51:56Z     2022-02-14T09:51:56Z
 default                                                                 Cert Chain     ACTIVE     true           329492464719328863283539045344215802956     2022-02-15T09:55:46Z     2022-02-14T09:53:46Z
 ROOTCA                                                                  CA             ACTIVE     true           204427760222438623495455009380743891800     2032-02-07T16:58:00Z     2022-02-09T16:58:00Z
 file-root:/etc/istio/tls-ca-certs/ca.crt                                Cert Chain     ACTIVE     true           14033888812979945197                        2023-02-14T09:51:56Z     2022-02-14T09:51:56Z
-$
 {{< /text >}}
-
-Once all the resources are created, and above verification steps are completed, go ahead and execute the different connectivity tests as below.
 
 ### Verify internal mesh connectivity on port 8080
 
@@ -250,7 +255,7 @@ x-envoy-upstream-service-time: 5
 
 ### Verify external to internal mesh connectivity on port 8443
 
-To verify mTLS traffic from external client, first copy the CA certificate and client certificate/key to the sleep client in default namespace which is outside the mesh.
+To verify mTLS traffic from an external client, first copy the CA certificate and client certificate/key to the sleep client running in the default namespace.
 
 {{< text bash >}}
 $ export EXTERNAL_CLIENT=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
@@ -259,7 +264,7 @@ $ kubectl cp client.test.svc.cluster.local.crt default/"${EXTERNAL_CLIENT}":/tmp
 $ kubectl cp example.com.crt default/"${EXTERNAL_CLIENT}":/tmp/ca.crt
 {{< /text >}}
 
-Once the certificates are available for the sleep client, you can verify the connectivity from this external sleep client to the internal httpbin service using the command below.
+Now that the certificates are available for the external sleep client, you can verify connectivity from it to the internal httpbin service using the following command.
 
 {{< text bash >}}
 $ kubectl exec "${EXTERNAL_CLIENT}" -c sleep -- curl -IsS --cacert /tmp/ca.crt --key /tmp/client.test.svc.cluster.local.key --cert /tmp/client.test.svc.cluster.local.crt -HHost:httpbin.test.svc.cluster.local "https://httpbin.test.svc.cluster.local:8443/status/200"
@@ -273,7 +278,7 @@ x-envoy-upstream-service-time: 4
 x-envoy-decorator-operation: ingress-sidecar.test:9080/*
 {{< /text >}}
 
-Apart from verifying the mTLS connectivity over external port 8443, it is also important to verify that port 8080 does not accept any external mTLS traffic.
+In addition to verifying external mTLS connectivity via the ingress port 8443, it is also important to verify that port 8080 does not accept any external mTLS traffic.
 
 {{< text bash >}}
 $ kubectl exec "${EXTERNAL_CLIENT}" -c sleep -- curl -IsS --cacert /tmp/ca.crt --key /tmp/client.test.svc.cluster.local.key --cert /tmp/client.test.svc.cluster.local.crt -HHost:httpbin.test.svc.cluster.local "http://httpbin.test.svc.cluster.local:8080/status/200"
@@ -285,23 +290,24 @@ command terminated with exit code 56
 
 1.  Remove created Kubernetes resources:
 
-{{< text bash >}}
-$ kubectl delete secret httpbin-mtls-termination httpbin-mtls-termination-cacert -n test
-$ kubectl delete service httpbin sleep -n test
-$ kubectl delete deployment httpbin sleep -n test
-$ kubectl delete namespace test
-$ kubectl delete service sleep
-$ kubectl delete deployment sleep
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl delete secret httpbin-mtls-termination httpbin-mtls-termination-cacert -n test
+    $ kubectl delete service httpbin sleep -n test
+    $ kubectl delete deployment httpbin sleep -n test
+    $ kubectl delete namespace test
+    $ kubectl delete service sleep
+    $ kubectl delete deployment sleep
+    {{< /text >}}
 
 1.  Delete the certificates and private keys:
 
-{{< text bash >}}
-$ rm example.com.crt example.com.key httpbin.test.svc.cluster.local.crt httpbin.test.svc.cluster.local.key httpbin.test.svc.cluster.local.csr client.test.svc.cluster.local.crt client.test.svc.cluster.local.key client.test.svc.cluster.local.csr
-{{< /text >}}
+    {{< text bash >}}
+    $ rm example.com.crt example.com.key httpbin.test.svc.cluster.local.crt httpbin.test.svc.cluster.local.key httpbin.test.svc.cluster.local.csr \
+        client.test.svc.cluster.local.crt client.test.svc.cluster.local.key client.test.svc.cluster.local.csr
+    {{< /text >}}
 
 1.  Uninstall Istio from your cluster:
 
-{{< text bash >}}
-$ istioctl uninstall --purge -y
-{{< /text >}}
+    {{< text bash >}}
+    $ istioctl uninstall --purge -y
+    {{< /text >}}
