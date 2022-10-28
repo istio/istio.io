@@ -10,7 +10,8 @@ test: yes
 This task describes how to configure Istio to expose a service outside of the service mesh cluster, using the Kubernetes [Ingress Resource](https://kubernetes.io/docs/concepts/services-networking/ingress/).
 
 {{< tip >}}
-Using the [Istio Gateway](/docs/tasks/traffic-management/ingress/ingress-control/), rather than Ingress, is recommended to make use of the full feature set that Istio offers, such as rich traffic management and security features.
+Using a [Gateway](/docs/tasks/traffic-management/ingress/ingress-control/), rather than Ingress,
+is recommended to make use of the full feature set that Istio offers, such as rich traffic management and security features.
 {{< /tip >}}
 
 ## Before you begin
