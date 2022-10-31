@@ -9,6 +9,9 @@ aliases:
 以下是 Istio 导出的标准服务级别指标。
 
 遥测组件由 [Proxy-wasm](https://github.com/proxy-wasm/spec) 插件[实现](https://github.com/istio/proxy/tree/master/extensions/stats)。
+`COUNTER` 是一个严格递增的整数。
+`DISTRIBUTION` 将数值的范围映射到频率。
+`COUNTER` 和 `DISTRIBUTION` 在 [Envoy 文档](https://github.com/envoyproxy/envoy/blob/main/source/docs/stats.md)中对应于指标计数器和直方图。
 
 ## 指标 {#metrics}
 
@@ -74,7 +77,7 @@ aliases:
 
 *   **Connection Security Policy**：标识请求的服务认证策略。当 Istio 使用安全策略来保证通信安全时，如果指标由服务端 Istio 代理上报，则将其设置为 `mutual_tls`。如果指标由客户端 Istio 代理上报，由于无法正确填充安全策略，因此将其设置为 `unknown`。
 
-*   **Response Flags**：有关来自代理的响应或连接的其他详细信息。如果是 Envoy，请参阅 [Envoy 访问日志](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#config-access-log-format-response-flags)中的`％RESPONSE_FLAGS％`获取更多信息。
+*   **Response Flags**：有关来自代理的响应或连接的其他详细信息。如果是 Envoy，请参阅 [Envoy 访问日志](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#config-access-log-format-response-flags)中的 `％RESPONSE_FLAGS％` 获取更多信息。
 
 *   **Canonical Service**：工作负载属于一个 Canonical 服务，而 Canonical 服务却可以属于多个服务。Canonical 服务具有名称和修订版本，因此会产生以下标签：
 
@@ -88,3 +91,5 @@ aliases:
 *   **Destination Cluster**：目标工作负载的集群名称。这是由集群安装时的 `global.multiCluster.clusterName` 设置的。
 
 *   **Source Cluster**：源工作负载的集群名称。这是由集群安装时的 `global.multiCluster.clusterName` 设置的。
+
+*   **gRPC Response Status**: 这标识了 gRPC 的响应状态。 这个标签仅出现在 gRPC 指标上。
