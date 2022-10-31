@@ -229,6 +229,8 @@ httpbin   ClusterIP   10.100.78.113   <none>        8443/TCP,8080/TCP   10m
 sleep     ClusterIP   10.110.35.153   <none>        80/TCP              8m49s
 {{< /text >}}
 
+In the following command, replace `httpbin-5bbdbd6588-z9vbs` with the name of your httpbin pod.
+
 {{< text bash >}}
 $ istioctl proxy-config secret httpbin-5bbdbd6588-z9vbs.test
 RESOURCE NAME                                                           TYPE           STATUS     VALID CERT     SERIAL NUMBER                               NOT AFTER                NOT BEFORE
