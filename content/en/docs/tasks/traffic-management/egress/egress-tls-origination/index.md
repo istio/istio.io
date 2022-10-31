@@ -238,7 +238,7 @@ Follow [these steps](/docs/tasks/traffic-management/egress/egress-gateway-tls-or
 1. Create required `RBAC` to make sure the secret created in the above step is accessible to the client pod, which is `sleep` in this case.
 
     {{< text bash >}}
-    $ kubectl create role client-credential-role --resource=secret --verb=list
+    $ kubectl create role client-credential-role --resource=secret --verb=get --resource-name=client-credential
     $ kubectl create rolebinding client-credential-role-binding --role=client-credential-role --serviceaccount=default:sleep
     {{< /text >}}
 
