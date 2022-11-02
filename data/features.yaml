@@ -90,7 +90,7 @@ features:
     link: "/docs/tasks/traffic-management/ingress/gateway-api/"
     level:
       checklist: features/k8s-gateway-apis.md
-      maturity: Alpha
+      maturity: Beta
       nextExpectedPromotion: ""
     area: Traffic Management
     id: "traffic.k8s_gateway_apis"
