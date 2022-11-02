@@ -64,7 +64,7 @@ Get the pod IP address and send the request with the following command:
 If you don’t see the expected output, retry after a few seconds. Caching and propagation can cause a delay.
 {{< /warning >}}
 
-## Configure access control for a TCP workload
+## Configure ALLOW authorization policy for a TCP workload
 
 1. Create the `tcp-policy` authorization policy for the `tcp-echo` workload in the `foo` namespace.
 Run the following command to apply the policy to allow requests to port 9000 and 9001:
@@ -153,7 +153,9 @@ ALLOW rules. Run the following command and verify the output:
     connection rejected
     {{< /text >}}
 
-1. Update the policy to a DENY policy using the following command:
+## Configure DENY authorization policy for a TCP workload
+
+1. Add a DENY policy with HTTP-only fields using the following command:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -171,14 +173,47 @@ ALLOW rules. Run the following command and verify the output:
       - to:
         - operation:
             methods: ["GET"]
-            ports: ["9000"]
     EOF
     {{< /text >}}
 
-1. Verify that requests to port 9000 are denied. This occurs because Istio ignores the
-HTTP-only fields in an invalid DENY rule. This is different from an invalid ALLOW rule,
-which causes Istio to ignore the entire rule. The final result is that only the `ports`
-field is used by Istio and the requests are denied because they match with the `ports`:
+1. Verify that requests to port 9000 are denied. This occurs because Istio doesn't understand the
+HTTP-only fields while creating a DENY rule for tcp port and due to it's rectrictive nature it denies all the traffic to the tcp ports:
+
+    {{< text bash >}}
+    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- sh -c 'echo "port 9000" | nc tcp-echo 9000' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
+    connection rejected
+    {{< /text >}}
+
+1. Verify that the requests to port 9001 are denied. Same reason as above.
+
+    {{< text bash >}}
+    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- sh -c 'echo "port 9001" | nc tcp-echo 9001' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
+    connection rejected
+    {{< /text >}}
+
+1. Add a DENY policy with both TCP and HTTP fields using the following command:
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: security.istio.io/v1beta1
+    kind: AuthorizationPolicy
+    metadata:
+      name: tcp-policy
+      namespace: foo
+    spec:
+      selector:
+        matchLabels:
+          app: tcp-echo
+      action: DENY
+      rules:
+      - to:
+        - operation:
+            methods: ["GET"]
+            ports: ["9000]
+    EOF
+    {{< /text >}}
+
+1. Verify that requests to port 9000 is denied. This occurs because the request matches the `ports` in the above-mentioned deny policy.
 
     {{< text bash >}}
     $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- sh -c 'echo "port 9000" | nc tcp-echo 9000' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
