@@ -240,3 +240,7 @@ The external authorizer is now ready to be used by the authorization policy.
     {{< /text >}}
 
 1. Remove the extension provider definition from the mesh config.
+
+## Performance expectations
+
+See [performance bencmarking](https://github.com/istio/tools/tree/master/perf/benchmark/configs/istio/ext-authz).
