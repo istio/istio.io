@@ -32,11 +32,15 @@ function _deploy_and_wait_for_addons() {
                  _wait_for_deployment istio-system jaeger
                  ;;
     kiali)      kubectl apply -f samples/addons/kiali.yaml || true # ignore first errors
-                 kubectl apply -f samples/addons/kiali.yaml # Need to apply twice due to a reace condition
+                 kubectl apply -f samples/addons/kiali.yaml # Need to apply twice due to a race condition
                  _wait_for_deployment istio-system kiali
                  ;;
     prometheus) kubectl apply -f samples/addons/prometheus.yaml
                  _wait_for_deployment istio-system prometheus
+                 ;;
+    skywalking) kubectl apply -f samples/addons/extras/skywalking.yaml
+                 _wait_for_deployment istio-system skywalking-oap
+                 _wait_for_deployment istio-system skywalking-ui
                  ;;
     *)           echo "unknown parameter $arg"
                  exit 1
@@ -58,6 +62,8 @@ function _undeploy_addons() {
     kiali)       kubectl delete -f samples/addons/kiali.yaml
                   ;;
     prometheus)  kubectl delete -f samples/addons/prometheus.yaml
+                  ;;
+    skywalking)  kubectl delete -f samples/addons/extras/skywalking.yaml
                   ;;
     *)            echo "unknown parameter $arg"
                   exit 1
