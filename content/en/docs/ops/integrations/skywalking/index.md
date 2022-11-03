@@ -48,7 +48,7 @@ spec:
 Consult the [SkyWalking documentation](http://skywalking.apache.org) to get started. No special changes are needed for SkyWalking to work with Istio.
 
 Once SkyWalking is installed, remember to modify the option `--set meshConfig.extensionProviders[0].skywalking.service` to point to the `skywalking-oap` deployment.
-See the [`ProxyConfig.Tracing`](/docs/reference/config/istio.mesh.v1alpha1/#Tracing) for advanced configuration such as TLS settings.
+See [`ProxyConfig.Tracing`](/docs/reference/config/istio.mesh.v1alpha1/#Tracing) for advanced configuration such as TLS settings.
 
 ## Usage
 
