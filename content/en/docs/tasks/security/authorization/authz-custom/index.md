@@ -243,4 +243,4 @@ The external authorizer is now ready to be used by the authorization policy.
 
 ## Performance expectations
 
-See [performance bencmarking](https://github.com/istio/tools/tree/master/perf/benchmark/configs/istio/ext-authz).
+See [performance benchmarking](https://github.com/istio/tools/tree/master/perf/benchmark/configs/istio/ext-authz).
