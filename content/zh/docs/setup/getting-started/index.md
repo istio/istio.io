@@ -238,7 +238,7 @@ istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121  80:31380/
 
 依据您的环境，选择相应的说明：
 
-**如果您确定您的环境中确实存在外部的负载均衡，请参照下面的说明。**
+如果您确定您的环境中确实存在外部的负载均衡，请参照下面的说明。
 
 设置入站 IP 地址和端口：
 
@@ -260,7 +260,7 @@ $ export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway
 
 {{< /warning >}}
 
-**按照下面说明：如果您的环境中没有外部负载均衡器，那就选择一个节点端口来代替。**
+按照下面说明：如果您的环境中没有外部负载均衡器，那就选择一个节点端口来代替。
 
 设置入站的端口：
 
@@ -296,7 +296,7 @@ _Docker For Desktop:_
 $ export INGRESS_HOST=127.0.0.1
 {{< /text >}}
 
-_其他环境：_
+其他环境：
 
 {{< text bash >}}
 $ export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].status.hostIP}')
