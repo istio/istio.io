@@ -153,6 +153,7 @@ backport
 base64
 Bazel
 Berben
+Berkus
 Bian
 BigQuery
 Birkland
@@ -310,6 +311,7 @@ CVEs
 cvss
 cyber
 DaemonSet
+DaoCloud
 Datadog
 datapath
 dataplane
@@ -380,6 +382,7 @@ Exfiltrating
 exfiltration
 ext-authz
 extensionProviders
+Etezadi
 ExternalName
 Ezequiel
 facto
@@ -404,6 +407,7 @@ FQDN
 FQDNs
 frontend
 frontends
+Faseela
 gamified
 gapped
 gateway-api
@@ -1001,6 +1005,7 @@ veth-pair
 vhost
 vhosts
 virtualization
+Vennam
 Virtualization
 VirtualService
 virtualservices-destrules
