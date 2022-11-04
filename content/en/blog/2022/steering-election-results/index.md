@@ -7,7 +7,7 @@ attribution: "Istio Steering Committee"
 keywords: [istio,steering,governance,community,election]
 ---
 
-The [Istio Steering Committee](https://github.com/istio/community/blob/master/steering/README.md) consists of 9 proportionally-allocated Contribution Seats, and 4 elected Community Seats. Our third annual election for our Community Seats has concluded, and we are pleased to announce the choice of our maintainers:
+The [Istio Steering Committee](https://github.com/istio/community/blob/master/steering/README.md) consists of 9 proportionally-allocated Contribution Seats, and 4 elected Community Seats. Our third annual election for our Community Seats has concluded, and we are pleased to announce the choice of our members:
 
 - [Craig Box](https://github.com/istio/community/blob/master/steering/elections/2022/candidate-craigbox.md) (ARMO)
 - [Iris Ding](https://github.com/istio/community/blob/master/steering/elections/2022/candidate-irisdingbj.md) (Intel)
