@@ -15,7 +15,7 @@ keywords: [istio,steering,governance,community,election]
 - [Faseela K](https://github.com/istio/community/blob/master/steering/elections/2022/candidate-kfaseela.md) (爱立信软件科技)
 - [Christian Posta](https://github.com/istio/community/blob/master/steering/elections/2022/candidate-ceposta.md) (Solo.io)
 
-在此衷心感谢 Zack Butcher、Lin Sun 和 Chunghu Xu，他们的任期现已结束。
+在此衷心感谢 Zack Butcher、Lin Sun 和 Zhonghu Xu，他们的任期现已结束。
 目前指导委员会由来自 8 个组织的代表组成，其中贡献席位成员分别来自 Google、IBM、Red Hat 和 DaoCloud，这反映了 Istio 全球广阔的贡献者生态。
 
 感谢本次选举过程的所有参与者，特别感谢选举活动的组织者：Josh Berkus、Cameron Etezadi 和 Ram Vennam。
