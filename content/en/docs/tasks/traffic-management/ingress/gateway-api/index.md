@@ -246,14 +246,15 @@ spec:
 ## Mesh Traffic
 
 {{< warning >}}
-This feature is under development and pending [upstream agreement](https://gateway-api.sigs.k8s.io/contributing/gamma/).
+Configuring internal mesh traffic using the Gatewway API is an
+[experimental feature](https://gateway-api.sigs.k8s.io/concepts/versioning/#release-channels-eg-experimental-standard)
+currently under development and pending [upstream agreement](https://gateway-api.sigs.k8s.io/contributing/gamma/).
 {{< /warning >}}
 
 The Gateway API can also be used to configure mesh traffic.
-This is done by configuring the `parentRef`, to point to the `istio` `Mesh`.
-This resource does not actually exist in the cluster and is only used to signal that the Istio mesh should be used.
+This is done by configuring the `parentRef` to point to  a service, instead of a gateway.
 
-For example, to redirect calls to `example.com` to an in-cluster `Service` named `example`:
+For example, to add a header on all calls to an in-cluster `Service` named `example`:
 
 {{< text yaml >}}
 apiVersion: gateway.networking.k8s.io/v1beta1
@@ -262,10 +263,15 @@ metadata:
   name: mesh
 spec:
   parentRefs:
-  - kind: Mesh
-    name: istio
-  hostnames: ["example.com"]
+  - kind: Service
+    name: example
   rules:
+  - filters:
+    - type: RequestHeaderModifier
+      requestHeaderModifier:
+        add:
+        - name: my-added-header
+          value: added-value
   - backendRefs:
     - name: example
       port: 80
