@@ -173,10 +173,15 @@ metadata:
   name: mesh
 spec:
   parentRefs:
-  - kind: Mesh
-    name: istio
-  hostnames: ["example.com"]
+  - kind: Service
+    name: example
   rules:
+  - filters:
+    - type: RequestHeaderModifier
+      requestHeaderModifier:
+        add:
+        - name: my-added-header
+          value: added-value
   - backendRefs:
     - name: example
       port: 80
