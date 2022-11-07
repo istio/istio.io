@@ -246,7 +246,7 @@ spec:
 ## Mesh Traffic
 
 {{< warning >}}
-Configuring internal mesh traffic using the Gatewway API is an
+Configuring internal mesh traffic using the Gateway API is an
 [experimental feature](https://gateway-api.sigs.k8s.io/concepts/versioning/#release-channels-eg-experimental-standard)
 currently under development and pending [upstream agreement](https://gateway-api.sigs.k8s.io/contributing/gamma/).
 {{< /warning >}}
