@@ -2836,7 +2836,7 @@ spec:
 {{</tabset>}}</p>
 <p>The <em>fixedDelay</em> field is used to indicate the amount of delay in seconds.
 The optional <em>percentage</em> field can be used to only delay a certain
-percentage of requests. If left unspecified, all request will be delayed.</p>
+percentage of requests. If left unspecified, no request will be delayed.</p>
 
 <table class="message-fields">
 <thead>
@@ -2864,7 +2864,8 @@ Yes
 <td><code>percentage</code></td>
 <td><code><a href="#Percent">Percent</a></code></td>
 <td>
-<p>Percentage of requests on which the delay will be injected.</p>
+<p>Percentage of requests on which the delay will be injected.
+If left unspecified, no request will be delayed.</p>
 
 </td>
 <td>
@@ -2936,7 +2937,7 @@ spec:
 {{</tabset>}}</p>
 <p>The <em>httpStatus</em> field is used to indicate the HTTP status code to
 return to the caller. The optional <em>percentage</em> field can be used to only
-abort a certain percentage of requests. If not specified, all requests are
+abort a certain percentage of requests. If not specified, no request will be
 aborted.</p>
 
 <table class="message-fields">
@@ -2978,7 +2979,8 @@ No
 <td><code>percentage</code></td>
 <td><code><a href="#Percent">Percent</a></code></td>
 <td>
-<p>Percentage of requests to be aborted with the error code provided.</p>
+<p>Percentage of requests to be aborted with the error code provided.
+If not specified, no request will be aborted.</p>
 
 </td>
 <td>
