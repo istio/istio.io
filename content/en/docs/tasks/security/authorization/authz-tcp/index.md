@@ -84,7 +84,7 @@ Run the following command to apply the policy to allow requests to port 9000 and
       rules:
       - to:
         - operation:
-           ports: ["9000", "9001"]
+            ports: ["9000", "9001"]
     EOF
     {{< /text >}}
 
@@ -177,7 +177,7 @@ ALLOW rules. Run the following command and verify the output:
     {{< /text >}}
 
 1. Verify that requests to port 9000 are denied. This occurs because Istio doesn't understand the
-HTTP-only fields while creating a DENY rule for tcp port and due to it's rectrictive nature it denies all the traffic to the tcp ports:
+HTTP-only fields while creating a DENY rule for tcp port and due to it's restrictive nature it denies all the traffic to the tcp ports:
 
     {{< text bash >}}
     $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- sh -c 'echo "port 9000" | nc tcp-echo 9000' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
@@ -209,7 +209,7 @@ HTTP-only fields while creating a DENY rule for tcp port and due to it's rectric
       - to:
         - operation:
             methods: ["GET"]
-            ports: ["9000]
+            ports: ["9000"]
     EOF
     {{< /text >}}
 

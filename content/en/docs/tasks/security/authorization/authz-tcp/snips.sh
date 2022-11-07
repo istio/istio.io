@@ -69,7 +69,7 @@ spec:
   rules:
   - to:
     - operation:
-       ports: ["9000", "9001"]
+        ports: ["9000", "9001"]
 EOF
 }
 
@@ -186,7 +186,7 @@ spec:
   - to:
     - operation:
         methods: ["GET"]
-        ports: ["9000]
+        ports: ["9000"]
 EOF
 }
 
