@@ -464,6 +464,7 @@ hyperkube
 hypervisor
 Hystrix
 i.e.
+iat
 Idit
 ILBs
 incentivized
@@ -664,6 +665,7 @@ namespaced
 namespaces
 Naser
 natively
+nbf
 Neeraj
 netfilter
 netmask
@@ -951,6 +953,7 @@ UID
 UIDs
 uint32
 ulimit
+un-injecting
 uncomment
 uncommented
 unconfigured
