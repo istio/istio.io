@@ -1,7 +1,7 @@
 ---
 title: Istio 1.16 Upgrade Notes
 description: Important changes to consider when upgrading to Istio 1.16.0.
-publishdate: 2022-08-31
+publishdate: 2022-11-15
 weight: 20
 ---
 

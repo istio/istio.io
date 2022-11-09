@@ -16,21 +16,26 @@ These notices describe functionality that will be removed in a future release ac
 
 ## Traffic Management
 
-- **Improved** sidecar `Host` header matching to ignore port numbers by default. This can be controlled by the `SIDECAR_IGNORE_PORT_IN_HOST_MATCH` environment variable.
+- **Improved** sidecar `Host` header matching to ignore port numbers by default. This can be controlled by the `SIDECAR_IGNORE_PORT_IN_HOST_MATCH` environment variable. ([Issue #36627](https://github.com/istio/istio/issues/36627))
 
-- **Updated** `meshConfig.discoverySelectors` to dynamically restrict the set of namespaces where istiod creates `istio-ca-root-cert` configmap
-  if `ENABLE_ENHANCED_RESOURCE_SCOPING` feature flag is enabled.
+- **Updated** `meshConfig.discoverySelectors` to dynamically restrict the set of namespaces where istiod creates the `istio-ca-root-cert` configmap
+  if the `ENABLE_ENHANCED_RESOURCE_SCOPING` feature flag is enabled.
 
-- **Updated** the gateway-api integration to read `v1beta1` resources for `HTTPRoute`, `Gateway`, and `GatewayClass`. Users of the gateway-api must be on version 0.5.0+ before upgrading Istio.
+- **Updated** `meshConfig.discoverySelectors` to dynamically restrict the set of namespaces where istiod discovers Custom Resource configurations
+  (like Gateway, VirtualService, DestinationRule, Ingress, etc.) if the `ENABLE_ENHANCED_RESOURCE_SCOPING` feature flag is enabled.
+  ([Issue #36627](https://github.com/istio/istio/issues/36627))
+
+- **Updated** the gateway-api integration to read `v1beta1` resources for `HTTPRoute`, `Gateway`, and `GatewayClass`. Users of the gateway-api must
+  be on version 0.5.0+ before upgrading Istio.
 
 - **Added** support for MAGLEV load balancing algorithm for consistent hashing.
 
-- **Added** Allow creating inbound listeners for service ports and sidecar
+- **Added** the creation of inbound listeners for service ports and sidecar
   and ingress listener both using environment variable
   `PILOT_ALLOW_SIDECAR_SERVICE_INBOUND_LISTENER_MERGE`.
-  This way traffic for service port is not sent via pass-through tcp even
-  though its regular http traffic when sidecar ingress listener is defined.
-  In case same port number is defined in both sidecar ingress and service,
+  Using this, the traffic for a service port is not sent via passthrough TCP even
+  though it is regular HTTP traffic when sidecar ingress listener is defined.
+  In case the same port number is defined in both sidecar ingress and service,
   sidecar always takes precedence.
   ([Issue #40919](https://github.com/istio/istio/issues/40919))
 
@@ -67,11 +72,11 @@ This method is preferred to use those well known paths than to set the TLS argum
 This will allow for an easier installation process for `istio-csr` as well as any other external issuer that needs to modify
 the Pilot DNS serving certificate. ([Issue #36916](https://github.com/istio/istio/issues/36916))
 
-- **Updated** dependency in Envoy to properly parse JWTs with negative values for exp, nbf or iat fields.
+- **Updated** dependency in Envoy to properly parse JWTs with negative values for `exp`, `nbf`, or `iat` fields.
 
 ## Telemetry
 
-- **Updated** Telemetry API uses a new native extension for Prometheus stats
+- **Updated** Telemetry API to use a new native extension for Prometheus stats
   instead of the Wasm-based extension. This improves CPU overhead and memory
   usage of the feature. Custom dimensions no longer require regex and bootstrap
   annotations. If customizations use CEL expressions with Wasm attributes, they
@@ -86,8 +91,8 @@ the Pilot DNS serving certificate. ([Issue #36916](https://github.com/istio/isti
 
 ## Extensibility
 
-- **Improved** When Wasm module downloading fails and `fail_open` is true, a RBAC filter allowing all the traffics is passed to Envoy instead of the original Wasm filter.
-  Previously, the given Wasm filter itself was passed to Envoy in the case, but it may cause the errors because some fields of Wasm configuration are optional in Istio, but not in Envoy.
+- **Improved** when Wasm module downloading fails and `fail_open` is true, a RBAC filter allowing all the traffic is passed to Envoy instead of the original Wasm filter.
+  Previously, the given Wasm filter itself was passed to Envoy in this case, but it may cause the errors because some fields of Wasm configuration are optional in Istio, but not in Envoy.
 
 - **Improved** WasmPlugin images (docker and OCI standard image) to support more than one layer as per spec changes.
   See ([https://github.com/solo-io/wasm/pull/293](https://github.com/solo-io/wasm/pull/293)) for more details.
@@ -116,7 +121,7 @@ the Pilot DNS serving certificate. ([Issue #36916](https://github.com/istio/isti
 
 ## istioctl
 
-- **Added** `--skip-confirmation` flag to `istioctl operator remove` to add confirmation mechanism for operator removal. ([Issue #41244](https://github.com/istio/istio/issues/41244))
+- **Added** the `--skip-confirmation` flag to `istioctl operator remove` to add confirmation mechanism for operator removal. ([Issue #41244](https://github.com/istio/istio/issues/41244))
 
 - **Added** precheck for revision when running `istioctl uninstall`. ([Issue #40598](https://github.com/istio/istio/issues/40598))
 

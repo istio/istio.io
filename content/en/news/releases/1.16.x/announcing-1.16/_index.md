@@ -25,3 +25,22 @@ Istio 1.16.0 is officially supported on Kubernetes versions `1.22` to `1.25`.
 ## What's new
 
 Here are some of the highlights of the release:
+
+### MAGLEV Load Balancing Support
+
+We have added support for the MAGLEV load balancing algorithm.
+
+### Added OpenTelemetry Tracing Provider Support
+
+We have added support for the OpenTelemetry tracing provider with the Telemetry API.
+
+### HBONE for Sidecars and Ingress (Experimental)
+
+We have added support for the HBONE protocol for Sidecars and Ingress gateways. For more information, see the [pull request](https://github.com/istio/istio/pull/41391).
+
+## Upgrading to 1.16
+
+When you upgrade, we would like to hear from you! Please take a few minutes to respond to a brief [survey](https://forms.gle/99uiMML96AmsXY5d6) to let us know how we’re doing.
+
+You can also join the conversation at [Discuss Istio](https://discuss.istio.io/), or join our [Slack workspace](https://slack.istio.io/).
+Would you like to contribute directly to Istio? Find and join one of our [Working Groups](https://github.com/istio/community/blob/master/WORKING-GROUPS.md) and help us improve.
