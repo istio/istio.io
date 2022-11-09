@@ -17,8 +17,15 @@
 
 startup_bookinfo_sample() {
     kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
-    kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml
-    kubectl apply -f samples/bookinfo/networking/destination-rule-all.yaml
+
+    if [ "$GATEWAY_API" == "true" ]; then
+        kubectl apply -f samples/bookinfo/gateway-api/bookinfo-gateway.yaml
+        kubectl wait --for=condition=ready gtw bookinfo-gateway
+        kubectl apply -f samples/bookinfo/platform/kube/bookinfo-versions.yaml
+    else
+        kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml
+        kubectl apply -f samples/bookinfo/networking/destination-rule-all.yaml
+    fi
 
     for deploy in "productpage-v1" "details-v1" "ratings-v1" "reviews-v1" "reviews-v2" "reviews-v3"; do
         _wait_for_deployment default "$deploy"
@@ -27,8 +34,14 @@ startup_bookinfo_sample() {
 
 cleanup_bookinfo_sample() {
     kubectl delete -f samples/bookinfo/platform/kube/bookinfo.yaml || true
-    kubectl delete -f samples/bookinfo/networking/destination-rule-all.yaml || true
-    kubectl delete -f samples/bookinfo/networking/bookinfo-gateway.yaml || true
+
+    if [ "$GATEWAY_API" == "true" ]; then
+        kubectl delete -f samples/bookinfo/platform/kube/bookinfo-versions.yaml || true
+        kubectl delete -f samples/bookinfo/gateway-api/bookinfo-gateway.yaml || true
+    else
+        kubectl delete -f samples/bookinfo/networking/destination-rule-all.yaml || true
+        kubectl delete -f samples/bookinfo/networking/bookinfo-gateway.yaml || true
+    fi
 }
 
 startup_sleep_sample() {
@@ -76,9 +89,15 @@ sample_http_request() {
         user="$2"
     fi
 
-    local ingress_url="http://istio-ingressgateway.istio-system"
+    local ingress_url
     local sleep_pod
     local response
+
+    if [ "$GATEWAY_API" == "true" ]; then
+        ingress_url="http://bookinfo-gateway.default"
+    else
+        ingress_url="http://istio-ingressgateway.istio-system"
+    fi
 
     sleep_pod=$(kubectl get pod -l app=sleep -n default -o 'jsonpath={.items..metadata.name}')
 

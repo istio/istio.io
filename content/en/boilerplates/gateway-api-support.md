@@ -2,9 +2,7 @@
 ---
 {{< tip >}}
 {{< boilerplate gateway-api-future >}}
-The following instructions allow you to choose to use either the Gateway API or the Istio configuration API when configuring
-traffic management in the mesh. Follow instructions under either the `Gateway API` or `Istio classic` tab,
-according to your preference.
+{{< boilerplate gateway-api-choose >}}
 
 Note that the Kubernetes Gateway API CRDs do not come installed by default on most Kubernetes clusters, so make sure they are
 installed before using the Gateway API:
