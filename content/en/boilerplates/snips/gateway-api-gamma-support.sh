@@ -17,9 +17,9 @@
 
 ####################################################################################################
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
-#          boilerplates/gateway-api-gamma-warning.md
+#          boilerplates/gateway-api-gamma-support.md
 ####################################################################################################
 
-bpsnip_gateway_api_gamma_warning_install_experimental_crds() {
+bpsnip_gateway_api_gamma_support_install_experimental_crds() {
 kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v0.5.1" | kubectl apply -f -
 }

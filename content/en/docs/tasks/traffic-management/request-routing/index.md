@@ -14,8 +14,6 @@ microservice.
 
 {{< boilerplate gateway-api-gamma-support >}}
 
-{{< boilerplate gateway-api-gamma-warning >}}
-
 ## Before you begin
 
 * Setup Istio by following the instructions in the
