@@ -158,7 +158,7 @@ $ kubectl get httproute reviews -o yaml
 ...
 spec:
   parentRefs:
-  - group: ""
+  - group: gateway.networking.k8s.io
     kind: Service
     name: reviews
   rules:
@@ -189,7 +189,7 @@ status:
       type: ResolvedRefs
     controllerName: istio.io/gateway-controller
     parentRef:
-      group: ""
+      group: gateway.networking.k8s.io
       kind: Service
       name: reviews
 {{< /text >}}
@@ -292,7 +292,6 @@ spec:
       port: 9080
 EOF
 {{< /text >}}
-
 
 {{< /tab >}}
 
