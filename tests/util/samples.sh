@@ -15,6 +15,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+GATEWAY_API="${GATEWAY_API:-false}"
+
 startup_bookinfo_sample() {
     kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
 
