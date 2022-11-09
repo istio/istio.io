@@ -1,7 +1,7 @@
 ---
 title: ISTIO-SECURITY-2022-008
 subtitle: Security Bulletin
-description: Identity impersonation if user has localhost access
+description: Identity impersonation if user has localhost access.
 cves: [CVE-2022-39388]
 cvss: "7.6"
 vector: "CVSS:3.1/AV:A/AC:L/PR:L/UI:N/S:C/C:H/I:L/A:N"
@@ -18,7 +18,7 @@ skip_seealso: true
 ### CVE-2022-39388
 
 - __[CVE-2022-39388](https://github.com/istio/istio/security/advisories/GHSA-6c6p-h79f-g6p4)__:
-  (CVSS Score 7.6, High): Identity impersonation if user has localhost access
+  (CVSS Score 7.6, High): Identity impersonation if user has localhost access.
 
 User can impersonate any workload identity within the service mesh if they have localhost access to the Istiod control plane.
 
