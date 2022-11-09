@@ -5,9 +5,9 @@
     HUGO_VERSION = "0.105.0"
     NODE_VERSION = "18.12.1"
     BUILD_WITH_CONTAINER = "0"
-    GO_VERSION = "1.19.1"
-    PYTHON_VERSION = "3.8"
-    RUBY_VERSION = "2.7.2"
+    GO_VERSION = "1.19.3"
+    PYTHON_VERSION = "3.10.6"
+    RUBY_VERSION = "3.0.2"
 
 [[headers]]
   for = "/*"
