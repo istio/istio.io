@@ -76,6 +76,7 @@ spec:
   parentRefs:
   - kind: Service
     name: reviews
+    port: 9080
   rules:
   - backendRefs:
     - name: reviews-v1
@@ -159,6 +160,7 @@ spec:
   - group: gateway.networking.k8s.io
     kind: Service
     name: reviews
+    port: 9080
   rules:
   - backendRefs:
     - group: ""
@@ -190,6 +192,7 @@ status:
       group: gateway.networking.k8s.io
       kind: Service
       name: reviews
+      port: 9080
 {{< /text >}}
 
 In the resource status, make sure that the `Accepted` condition is `True` for the `reviews` parent.
@@ -277,6 +280,7 @@ spec:
   parentRefs:
   - kind: Service
     name: reviews
+    port: 9080
   rules:
   - matches:
     - headers:

@@ -35,6 +35,7 @@ spec:
   parentRefs:
   - kind: Service
     name: reviews
+    port: 9080
   rules:
   - backendRefs:
     - name: reviews-v1
@@ -108,6 +109,7 @@ spec:
   - group: gateway.networking.k8s.io
     kind: Service
     name: reviews
+    port: 9080
   rules:
   - backendRefs:
     - group: ""
@@ -139,6 +141,7 @@ status:
       group: gateway.networking.k8s.io
       kind: Service
       name: reviews
+      port: 9080
 ENDSNIP
 
 snip_route_based_on_user_identity_1() {
@@ -181,6 +184,7 @@ spec:
   parentRefs:
   - kind: Service
     name: reviews
+    port: 9080
   rules:
   - matches:
     - headers:
