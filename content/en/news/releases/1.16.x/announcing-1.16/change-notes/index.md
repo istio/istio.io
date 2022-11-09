@@ -39,9 +39,6 @@ These notices describe functionality that will be removed in a future release ac
   sidecar always takes precedence.
   ([Issue #40919](https://github.com/istio/istio/issues/40919))
 
-- **Added** support for restricting istiod `WebhookCertPatcher` to only patch the webhooks it owns
-  if `ENABLE_ENHANCED_RESOURCE_SCOPING` feature flag is enabled.
-
 - **Fixed** `LocalityLoadBalancerSetting.failoverPriority` not working properly if xDS cache is enabled.
   ([Issue #40198](https://github.com/istio/istio/issues/40198))
 
