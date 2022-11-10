@@ -19,6 +19,8 @@ set -e
 set -u
 set -o pipefail
 
+GATEWAY_API="${GATEWAY_API:-false}"
+
 source "tests/util/samples.sh"
 
 # @setup profile=default
@@ -67,16 +69,20 @@ function reviews_v3_traffic_percentage() {
 
 # Step 1 configure all traffic to v1
 
-expected="virtualservice.networking.istio.io/productpage created
+if [ "$GATEWAY_API" == "true" ]; then
+    _verify_same snip_gtw_config_all_v1 "httproute.gateway.networking.k8s.io/reviews created"
+else
+    expected="virtualservice.networking.istio.io/productpage created
 virtualservice.networking.istio.io/reviews created
 virtualservice.networking.istio.io/ratings created
 virtualservice.networking.istio.io/details created"
-_verify_same snip_config_all_v1 "$expected"
+    _verify_same snip_config_all_v1 "$expected"
 
-_wait_for_istio virtualservice default productpage
-_wait_for_istio virtualservice default reviews
-_wait_for_istio virtualservice default ratings
-_wait_for_istio virtualservice default details
+    _wait_for_istio virtualservice default productpage
+    _wait_for_istio virtualservice default reviews
+    _wait_for_istio virtualservice default ratings
+    _wait_for_istio virtualservice default details
+fi
 
 # Step 2: verify no rating stars visible, (reviews-v3 traffic=0%)
 
@@ -84,13 +90,21 @@ _verify_same reviews_v3_traffic_percentage 0
 
 # Step 3: switch 50% traffic to v3
 
-_verify_same snip_config_50_v3 "virtualservice.networking.istio.io/reviews configured"
+if [ "$GATEWAY_API" == "true" ]; then
+    _verify_same snip_gtw_config_50_v3 "httproute.gateway.networking.k8s.io/reviews configured"
+else
+    _verify_same snip_config_50_v3 "virtualservice.networking.istio.io/reviews configured"
 
-_wait_for_istio virtualservice default reviews
+    _wait_for_istio virtualservice default reviews
+fi
 
 # Step 4: Confirm the rule was replaced
 
-_verify_elided snip_verify_config_50_v3 "$snip_verify_config_50_v3_out"
+if [ "$GATEWAY_API" == "true" ]; then
+    _verify_elided snip_gtw_verify_config_50_v3 "$snip_gtw_verify_config_50_v3_out"
+else
+    _verify_elided snip_verify_config_50_v3 "$snip_verify_config_50_v3_out"
+fi
 
 # Step 5: verify rating stars visible 50% of the time
 
@@ -98,13 +112,19 @@ _verify_same reviews_v3_traffic_percentage 50
 
 # Step 6: route 100% traffic to v3
 
-snip_config_100_v3
+if [ "$GATEWAY_API" == "true" ]; then
+    snip_gtw_config_100_v3
+else
+    snip_config_100_v3
 
-_wait_for_istio virtualservice default reviews
+    _wait_for_istio virtualservice default reviews
+fi
 
 _verify_same reviews_v3_traffic_percentage 100
 
 # @cleanup
-snip_cleanup
-cleanup_bookinfo_sample
-cleanup_sleep_sample
+if [ "$GATEWAY_API" != "true" ]; then
+    snip_cleanup
+    cleanup_bookinfo_sample
+    cleanup_sleep_sample
+fi
