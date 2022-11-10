@@ -252,7 +252,7 @@ currently under development and pending [upstream agreement](https://gateway-api
 {{< /warning >}}
 
 The Gateway API can also be used to configure mesh traffic.
-This is done by configuring the `parentRef` to point to  a service, instead of a gateway.
+This is done by configuring the `parentRef` to point to a service, instead of a gateway.
 
 For example, to add a header on all calls to an in-cluster `Service` named `example`:
 
@@ -276,6 +276,8 @@ spec:
     - name: example
       port: 80
 {{< /text >}}
+
+More details and examples can be found in other [traffic management tasks](/docs/tasks/traffic-management/).
 
 ## Cleanup
 
