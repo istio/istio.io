@@ -1,7 +1,7 @@
 ---
-title: 1.12.x Releases
-description: 关于1.12版本及其相关补丁版本的公告。
-weight: 18
+title: 1.12.x 版本
+description: 1.12 版本及其相关补丁发布的公告。
+weight: 17
 list_by_publishdate: true
 layout: release-grid
 decoration: dot
