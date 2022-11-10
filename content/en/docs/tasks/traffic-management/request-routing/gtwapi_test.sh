@@ -22,6 +22,7 @@ install_gateway_api_crds
 source "content/en/docs/tasks/traffic-management/request-routing/test.sh"
 
 # @cleanup
+source "tests/util/samples.sh"
 snip_cleanup_2
 cleanup_bookinfo_sample
 cleanup_sleep_sample
