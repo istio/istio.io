@@ -28,7 +28,7 @@ Here are some of the highlights of the release:
 
 ### MAGLEV Load Balancing Support
 
-We have added support for the MAGLEV load balancing algorithm.
+We have added support for the MAGLEV load balancing algorithm. For more information, see the [Envoy Documentation](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/load_balancers#maglev).
 
 ### Added OpenTelemetry Tracing Provider Support
 
