@@ -121,7 +121,7 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
     kind: Role
-    apiVersion: rbac.authorization.k8s.io/v1beta1
+    apiVersion: rbac.authorization.k8s.io/v1
     metadata:
       name: istio-system-access
       namespace: istio-system
@@ -157,7 +157,7 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
     kind: Role
-    apiVersion: rbac.authorization.k8s.io/v1beta1
+    apiVersion: rbac.authorization.k8s.io/v1
     metadata:
       name: ${NAMESPACE}-access
       namespace: $NAMESPACE
@@ -168,7 +168,7 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
       verbs: ["*"]
     ---
     kind: RoleBinding
-    apiVersion: rbac.authorization.k8s.io/v1beta1
+    apiVersion: rbac.authorization.k8s.io/v1
     metadata:
       name: ${NAMESPACE}-access
       namespace: $NAMESPACE
@@ -182,7 +182,7 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
       name: ${NAMESPACE}-access
     ---
     kind: RoleBinding
-    apiVersion: rbac.authorization.k8s.io/v1beta1
+    apiVersion: rbac.authorization.k8s.io/v1
     metadata:
       name: ${NAMESPACE}-istio-system-access
       namespace: istio-system
