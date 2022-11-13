@@ -1,16 +1,14 @@
 ---
 title: 使用 Helm 安装
 linktitle: 使用 Helm 安装
-description: 安装、配置、并深入评估 Istio。
+description: 安装、配置并深入评估 Istio。
 weight: 30
 keywords: [kubernetes,helm]
 owner: istio/wg-environments-maintainers
-test: no
+test: yes
 ---
 
-请跟随本指南一起，使用
- [Helm](https://helm.sh/docs/) 安装、配置、并深入评估 Istio 网格系统。
-本指南用到的 Helm chart、以及使用 [Istioctl](/zh/docs/setup/install/istioctl/)、[Operator](/zh/docs/setup/install/operator/) 安装 Istio 时用到的 chart，它们都是相同的底层 chart。
+请遵循本指南使用 [Helm](https://helm.sh/docs/) 安装和配置 Istio 网格。
 
 ## 安装步骤 {#installation-steps}
 
@@ -23,8 +21,8 @@ test: no
 1. 安装 Istio base chart，它包含了 Istio 控制平面用到的集群范围的资源：
 
     {{< warning >}}
-    When performing a revisioned installation, the base chart requires the `--defaultRevision` value to be set for resource
-    validation to function. More information on the `--defaultRevision` option can be found in the Helm upgrade documentation.
+    执行修订版安装时，base chart 需要设置 `--defaultRevision` 值以使资源验证起作用。
+    有关 `--defaultRevision` 选项的更多信息可以在 Helm 升级文档中找到。
     {{< /warning >}}
 
     {{< text syntax=bash snip_id=install_base >}}
@@ -37,7 +35,7 @@ test: no
     $ helm install istiod istio/istiod -n istio-system --wait
     {{< /text >}}
 
-1. (可选项) 安装 Istio 的入站网关：
+1. （可选）安装 Istio 的入站网关：
 
     {{< text syntax=bash snip_id=install_ingressgateway >}}
     $ kubectl create namespace istio-ingress
@@ -45,15 +43,21 @@ test: no
     $ helm install istio-ingress istio/gateway -n istio-ingress --wait
     {{< /text >}}
 
-请参阅[安装网关](/zh/docs/setup/additional-setup/gateway/)以获得关于网关安装的详细文档。
-{{< tip >}}
-有关如何使用 Helm 后期渲染器自定义 Helm chart 的深入文档，
-请参见[高级 Helm Chart 自定义](/zh/docs/setup/additional-setup/customize-installation-helm/)。
-{{< /tip >}}
+    请参阅[安装网关](/zh/docs/setup/additional-setup/gateway/)以获得关于网关安装的详细文档。
+
+    {{< warning >}}
+    网关被部署的命名空间不得具有 `istio-injection=disabled` 标签。
+    有关更多信息，请参见[控制注入策略](/zh/docs/setup/additional-setup/sidecar-injection/#controlling-the-injection-policy)。
+    {{< /warning >}}
+
+    {{< tip >}}
+    有关如何使用 Helm 后期渲染器自定义 Helm chart 的详细文档，
+    请参见[高级 Helm Chart 自定义](/zh/docs/setup/additional-setup/customize-installation-helm/)。
+    {{< /tip >}}
 
 ## 验证安装 {#verifying-the-installation}
 
-安装状态可以通过Helm进行验证:
+安装状态可以通过 Helm 进行验证：
 
 {{< text syntax=bash snip_id=none >}}
 $ helm status istiod -n istio-system
@@ -77,12 +81,12 @@ $ helm status istiod -n istio-system
 {{< /warning >}}
 
 依据你的安装方式，选择
-[Istioctl 卸载指南](/zh/docs/setup/install/istioctl#uninstall-istio) 或
+[Istioctl 卸载指南](/zh/docs/setup/install/istioctl#uninstall-istio)或
 [Operator 卸载指南](/zh/docs/setup/install/operator/#uninstall)。
 
 ## 卸载 {#uninstall}
 
-卸载前面安装的 chart，以便卸载 Istio 和它的各个组件。
+您可以通过卸载上述安装的 chart，以便卸载 Istio 和及其组件。
 
 1. 列出在命名空间 `istio-system` 中安装的所有 Istio chart：
 
@@ -93,26 +97,26 @@ $ helm status istiod -n istio-system
     istiod     istio-system 1        ... ... ... ... deployed istiod-1.0.0 1.0.0
     {{< /text >}}
 
-1. (可选项) 删除 Istio 的入/出站网关 chart:
+1. （可选）删除 Istio 的所有网关 chart：
 
     {{< text syntax=bash snip_id=delete_delete_gateway_charts >}}
     $ helm delete istio-ingress -n istio-ingress
     $ kubectl delete namespace istio-ingress
     {{< /text >}}
 
-1. 删除 Istio discovery chart:
+1. 删除 Istio discovery chart：
 
     {{< text syntax=bash snip_id=helm_delete_discovery_chart >}}
     $ helm delete istiod -n istio-system
     {{< /text >}}
 
-1. 删除 Istio base chart:
+1. 删除 Istio base chart：
 
-    {{< warning >}}
-    通过 Helm 删除 chart 并不会级联删除它安装的定制资源定义（CRD）。
-    {{< /warning >}}
+    {{< tip >}}
+    从设计角度而言，通过 Helm 删除 chart 并不会删除通过该 chart 安装的 CRD。
+    {{< /tip >}}
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=helm_delete_base_chart >}}
     $ helm delete istio-base -n istio-system
     {{< /text >}}
 
@@ -122,15 +126,17 @@ $ helm status istiod -n istio-system
     $ kubectl delete namespace istio-system
     {{< /text >}}
 
-## 卸载稳定的版本标签资源{#uninstall-stable-revision-label-resources}
+## 卸载稳定的修订版标签资源{#uninstall-stable-revision-label-resources}
 
-如果你决定继续使用旧的控制平面不更新，您可以通过第一次发布来卸载较新的版本及其标记 `helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags={prod-canary} --set revision=canary -n istio-system | kubectl delete -f -`。你必须按照上面的卸载程序卸载Istio 的修订版。
+如果你决定继续使用旧的控制平面不更新，您可以通过第一次发布来卸载较新的版本及其标记
+`helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags={prod-canary} --set revision=canary -n istio-system | kubectl delete -f -`。
+您必须按照上述卸载步骤卸载 Istio 的修订版。
 
-如果您使用就地升级安装了此版本的网关，则还必须手动重新安装上一个版本的网关，删除以前的版本及其标记不会自动恢复以前已升级的网关。
+如果您使用就地升级安装了此版本的网关，则还必须手动重新安装上一个版本的网关，移除以前的版本及其标记不会自动恢复以前就地升级的网关。
 
-### (可选项) 删除 Istio 安装的 CRD {#deleting-customer-resource-definition-installed}
+### （可选）删除 Istio 安装的 CRD {#deleting-customer-resource-definition-installed}
 
-永久删除 CRD， 会删除你在集群中创建的所有 Istio 资源。
+永久删除 CRD 会移除您在集群中已创建的所有 Istio 资源。
 用下面命令永久删除集群中安装的 Istio CRD：
 
 {{< text syntax=bash snip_id=delete_crds >}}
