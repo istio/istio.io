@@ -26,6 +26,20 @@ Istio 1.16.0 is officially supported on Kubernetes versions `1.22` to `1.25`.
 
 Here are some of the highlights of the release:
 
+### Kubernetes Gateway API Implementation Promoted to Beta
+
+Istio's implementation of the [Gateway API](https://gateway-api.sigs.k8s.io/) has been promoted to Beta.
+This is a significant step toward our goal of making the Gateway API the default API for traffic management [in the future](/blog/2022/gateway-api-beta/).
+
+Along with the Beta promotion, we have enhanced all of our
+[ingress tasks](/docs/tasks/traffic-management/ingress/) to include parallel instructions for
+configuring ingress using either the Gateway API or the Istio configuration API.
+Also, although using the Gateway API for more generally configuring internal mesh traffic is still an
+[experimental feature](https://gateway-api.sigs.k8s.io/concepts/versioning/#release-channels-eg-experimental-standard)
+of the Gateway API, pending [upstream agreement](https://gateway-api.sigs.k8s.io/contributing/gamma/),
+several other Istio documents have been updated with Gateway API instructions to allow early experimentation.
+Refer to the [gateway api task](/docs/tasks/traffic-management/ingress/gateway-api/) for more information.
+
 ### MAGLEV Load Balancing Support
 
 We have added support for the MAGLEV load balancing algorithm. For more information, see the [Envoy Documentation](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/load_balancers#maglev).
