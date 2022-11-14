@@ -19,10 +19,8 @@ source "tests/util/gateway-api.sh"
 install_gateway_api_crds
 
 # @setup profile=default
-source "content/en/docs/tasks/traffic-management/ingress/ingress-control/test.sh"
+source "content/en/docs/tasks/traffic-management/mirroring/test.sh"
 
-# TODO fix cleanup approach and remove this temporary hack
 # @cleanup
-snip_cleanup_2
-sleep 10s # TODO proper wait
-remove_gateway_api_crds
+snip_cleaning_up_2
+snip_cleaning_up_3
