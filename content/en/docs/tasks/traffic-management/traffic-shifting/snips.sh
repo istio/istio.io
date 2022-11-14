@@ -93,7 +93,7 @@ spec:
 status:
   parents:
   - conditions:
-    - lastTransitionTime: "2022-11-10T18:13:43Z"
+...
       message: Route was valid
       observedGeneration: 14
       reason: Accepted

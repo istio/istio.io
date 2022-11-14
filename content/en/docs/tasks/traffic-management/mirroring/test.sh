@@ -42,7 +42,7 @@ _wait_for_deployment default sleep
 
 if [ "$GATEWAY_API" == "true" ]; then
     snip_creating_a_default_routing_policy_2
-    sleep 10s # TODO proper wait
+    sleep 20s # TODO proper wait
 else
     snip_creating_a_default_routing_policy_1
 
