@@ -101,7 +101,10 @@ fi
 # Step 4: Confirm the rule was replaced
 
 if [ "$GATEWAY_API" == "true" ]; then
-    _verify_elided snip_gtw_verify_config_50_v3 "$snip_gtw_verify_config_50_v3_out"
+    _verify_lines snip_gtw_verify_config_50_v3 "
+    + message: Route was valid
+    + reason: Accepted
+    "
 else
     _verify_elided snip_verify_config_50_v3 "$snip_verify_config_50_v3_out"
 fi
