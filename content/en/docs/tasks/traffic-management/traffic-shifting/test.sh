@@ -27,14 +27,12 @@ source "tests/util/samples.sh"
 
 kubectl label namespace default istio-injection=enabled --overwrite
 startup_sleep_sample # needed for sending test requests with curl
+SLEEP_POD=$(kubectl get pod -l app=sleep -n default -o 'jsonpath={.items..metadata.name}')
 
 # launch the bookinfo app
 startup_bookinfo_sample
 
 # Verification util
-
-SLEEP_POD=$(kubectl get pod -l app=sleep -n default -o 'jsonpath={.items..metadata.name}')
-INGRESS_URL="http://istio-ingressgateway.istio-system"
 # reviews_v3_traffic_percentage
 # gets the % of productpage requests with reviews from reviews:v3 service
 # TODO: generalize this function and move to samples.sh so it can be reused by
@@ -45,7 +43,7 @@ function reviews_v3_traffic_percentage() {
   local v3_count=0
   local v3_search_string="glyphicon glyphicon-star" # search string present in reviews_v3 response html
   for ((i = 1; i <= total_request_count; i++)); do
-    if (kubectl exec "${SLEEP_POD}" -c sleep -n "default" -- curl -sS $INGRESS_URL/productpage | grep -q "$v3_search_string"); then
+    if (kubectl exec "${SLEEP_POD}" -c sleep -n "default" -- curl -sS http://productpage:9080/productpage | grep -q "$v3_search_string"); then
       v3_count=$((v3_count + 1))
     fi
   done
