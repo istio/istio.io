@@ -70,7 +70,7 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: networking.k8s.io/v1beta1
+    apiVersion: networking.k8s.io/v1
     kind: Ingress
     metadata:
       name: istio-system
@@ -85,32 +85,40 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
           - path: /
             pathType: Prefix
             backend:
-              serviceName: grafana
-              servicePort: 3000
+              service:
+                name: grafana
+                port:
+                  number: 3000
       - host: my-istio-tracing.io
         http:
           paths:
           - path: /
             pathType: Prefix
             backend:
-              serviceName: tracing
-              servicePort: 9411
+              service:
+                name: tracing
+                port:
+                  number: 9411
       - host: my-istio-logs-database.io
         http:
           paths:
           - path: /
             pathType: Prefix
             backend:
-              serviceName: prometheus
-              servicePort: 9090
+              service:
+                name: prometheus
+                port:
+                  number: 9090
       - host: my-kiali.io
         http:
           paths:
           - path: /
             pathType: Prefix
             backend:
-              serviceName: kiali
-              servicePort: 20001
+              service:
+                name: kiali
+                port:
+                  number: 20001
     EOF
     {{< /text >}}
 
