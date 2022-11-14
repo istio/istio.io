@@ -116,6 +116,10 @@ the Pilot DNS serving certificate. ([Issue #36916](https://github.com/istio/isti
 
 - **Fixed** an issue when `auto.sidecar-injector.istio.io` `namespaceSelector` caused problems with cluster maintenance. ([Issue #40984](https://github.com/istio/istio/issues/40984))
 
+- **Fixed** an issue issue when deleting a custom gateway using an Istio Operator custom resource, other gateways are restarted. ([Issue #40577](https://github.com/istio/istio/issues/40577))
+
+- **Fixed** an issue in Istio Operator where CNI is not created properly when `cni.resourceQuotas` is enabled due to missing RBAC permissions. ([Issue #41159](https://github.com/istio/istio/issues/41159))
+
 ## istioctl
 
 - **Added** the `--skip-confirmation` flag to `istioctl operator remove` to add confirmation mechanism for operator removal. ([Issue #41244](https://github.com/istio/istio/issues/41244))
