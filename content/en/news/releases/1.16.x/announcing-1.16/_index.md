@@ -42,7 +42,7 @@ Also, although using the Gateway API for more generally configuring internal mes
 [experimental feature](https://gateway-api.sigs.k8s.io/concepts/versioning/#release-channels-eg-experimental-standard)
 of the Gateway API, pending [upstream agreement](https://gateway-api.sigs.k8s.io/contributing/gamma/),
 several other Istio documents have been updated with Gateway API instructions to allow early experimentation.
-Refer to the [gateway api task](/docs/tasks/traffic-management/ingress/gateway-api/) for more information.
+Refer to the [Gateway API task](/docs/tasks/traffic-management/ingress/gateway-api/) for more information.
 
 ### JWT Claim Based Routing Promoted to Alpha
 
