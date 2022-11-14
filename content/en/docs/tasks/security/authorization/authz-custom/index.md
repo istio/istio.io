@@ -90,7 +90,7 @@ spec:
 
 ## Define the external authorizer
 
-In order to use the `CUSTOM` action in the authorization policy, you must then define the external authorizer that is allowed to be
+In order to use the `CUSTOM` action in the authorization policy, you must define the external authorizer that is allowed to be
 used in the mesh. This is currently defined in the [extension provider](https://github.com/istio/api/blob/a205c627e4b955302bbb77dd837c8548e89e6e64/mesh/v1alpha1/config.proto#L534)
 in the mesh config.
 
