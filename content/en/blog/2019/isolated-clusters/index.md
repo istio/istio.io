@@ -44,7 +44,7 @@ Istio.
 ## Isolation and boundary protection
 
 Isolation and boundary protection mechanisms are explained in the
-[NIST Special Publication 800-53, Revision 4, Security and Privacy Controls for Federal Information Systems and Organizations](http://dx.doi.org/10.6028/NIST.SP.800-53r4),
+[NIST Special Publication 800-53, Revision 4, Security and Privacy Controls for Federal Information Systems and Organizations](https://dx.doi.org/10.6028/NIST.SP.800-53r4),
 _Appendix F, Security Control Catalog, SC-7 Boundary Protection_.
 
 In particular, the _Boundary protection, isolation of information system components_ control enhancement:
