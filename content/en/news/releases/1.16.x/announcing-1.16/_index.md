@@ -26,6 +26,10 @@ Istio 1.16.0 is officially supported on Kubernetes versions `1.22` to `1.25`.
 
 Here are some of the highlights of the release:
 
+### External Authorization Promoted to Beta
+
+Istio's External Authorization feature has been promoted to Beta. For more information, see the [External Authorization](/docs/tasks/security/authorization/authz-custom/) documentation.
+
 ### Kubernetes Gateway API Implementation Promoted to Beta
 
 Istio's implementation of the [Gateway API](https://gateway-api.sigs.k8s.io/) has been promoted to Beta.
@@ -40,9 +44,13 @@ of the Gateway API, pending [upstream agreement](https://gateway-api.sigs.k8s.io
 several other Istio documents have been updated with Gateway API instructions to allow early experimentation.
 Refer to the [gateway api task](/docs/tasks/traffic-management/ingress/gateway-api/) for more information.
 
-### External Authorization Promoted to Beta
+### JWT Claim Based Routing Promoted to Alpha
 
-Istio's External Authorization feature has been promoted to Beta. For more information, see the [External Authorization](/docs/tasks/security/authorization/authz-custom/) documentation.
+Istio's JWT Claim Based Routing feature has been promoted to Alpha. For more information, see the [JWT Claim Based Routing](/docs/tasks/security/authentication/jwt-route/) documentation.
+
+### HBONE for Sidecars and Ingress (Experimental)
+
+We have added support for the HBONE protocol for Sidecars and Ingress gateways. For more information, see the [pull request](https://github.com/istio/istio/pull/41391).
 
 ### MAGLEV Load Balancing Support
 
@@ -51,10 +59,6 @@ We have added support for the MAGLEV load balancing algorithm. For more informat
 ### Added OpenTelemetry Tracing Provider Support
 
 We have added support for the OpenTelemetry tracing provider with the Telemetry API.
-
-### HBONE for Sidecars and Ingress (Experimental)
-
-We have added support for the HBONE protocol for Sidecars and Ingress gateways. For more information, see the [pull request](https://github.com/istio/istio/pull/41391).
 
 ## Upgrading to 1.16
 
