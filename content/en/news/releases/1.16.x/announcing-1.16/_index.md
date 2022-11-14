@@ -40,6 +40,10 @@ of the Gateway API, pending [upstream agreement](https://gateway-api.sigs.k8s.io
 several other Istio documents have been updated with Gateway API instructions to allow early experimentation.
 Refer to the [gateway api task](/docs/tasks/traffic-management/ingress/gateway-api/) for more information.
 
+### External Authorization Promoted to Beta
+
+Istio's External Authorization feature has been promoted to Beta. For more information, see the [External Authorization](/docs/tasks/security/authorization/authz-custom/) documentation.
+
 ### MAGLEV Load Balancing Support
 
 We have added support for the MAGLEV load balancing algorithm. For more information, see the [Envoy Documentation](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/load_balancers#maglev).
