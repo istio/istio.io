@@ -37,8 +37,8 @@ shift
 
 set -e
 
-export BUILD_GOOS=${GOOS:-linux}
-export BUILD_GOARCH=${GOARCH:-amd64}
+BUILD_GOOS=${GOOS:-linux}
+BUILD_GOARCH=${GOARCH:-amd64}
 GOBINARY=${GOBINARY:-go}
 GOPKG="$GOPATH/pkg"
 BUILDINFO=${BUILDINFO:-""}
