@@ -7,7 +7,7 @@ location: https://istio.io/docs/reference/config/istio.mesh.v1alpha1.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
 weight: 20
-number_of_entries: 55
+number_of_entries: 54
 ---
 <p>Configuration affecting the service mesh as a whole.</p>
 
@@ -499,17 +499,6 @@ For example <code>outbound|8080|v2|reviews.prod.svc.cluster.local</code>. This c
 No
 </td>
 </tr>
-<tr id="MeshConfig-thrift_config">
-<td><code>thriftConfig</code></td>
-<td><code><a href="#MeshConfig-ThriftConfig">ThriftConfig</a></code></td>
-<td>
-<p>Set configuration for Thrift protocol</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
 <tr id="MeshConfig-enable_prometheus_merge">
 <td><code>enablePrometheusMerge</code></td>
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></code></td>
@@ -779,45 +768,6 @@ If neither cert_signers nor trust_domains is set, this trustAnchor is used for a
 If only trust_domains is set, this trustAnchor is used for these trust_domains and all signers.
 If only cert_signers is set, this trustAnchor is used for these cert_signers and all trust domains.
 If both cert_signers and trust_domains is set, this trustAnchor is only used for these signers and trust domains.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="MeshConfig-ThriftConfig">MeshConfig.ThriftConfig</h2>
-<section>
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="MeshConfig-ThriftConfig-rate_limit_url">
-<td><code>rateLimitUrl</code></td>
-<td><code>string</code></td>
-<td>
-<p>Specify thrift rate limit service URL. If pilot has thrift protocol support enabled,
-this will enable the rate limit service for destinations that have matching rate
-limit configurations.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="MeshConfig-ThriftConfig-rate_limit_timeout">
-<td><code>rateLimitTimeout</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
-<td>
-<p>Specify thrift rate limit service timeout, in milliseconds. Default is <code>50ms</code></p>
 
 </td>
 <td>

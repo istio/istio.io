@@ -338,11 +338,11 @@ As another example, an authorization Wasm extension can use a singleton to maint
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
 metadata:
-  name: wasm-service
+  name: listener-filter-example
   namespace: myns
 spec:
   configPatches:
-  - applyTo: BOOTSTRAP
+  - applyTo: LISTENER_FILTER
     patch:
       operation: MERGE
       value:
@@ -363,6 +363,27 @@ spec:
                   local:
                     filename: &quot;/etc/envoy_filter_http_wasm_example.wasm&quot;
 </code></pre>
+<p>The following example inserts an <code>envoy.filters.listener.proxy_protocol</code> listener filter before the <code>envoy.filters.listener.tls_inspector</code>.</p>
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: wasm-service
+  namespace: myns
+spec:
+  configPatches:
+  - applyTo: LISTENER_FILTER
+    match:
+      context: SIDECAR_INBOUND # will match outbound listeners in all sidecars
+      listener:
+        portNumber: 15006
+        listenerFilter: &quot;envoy.filters.listener.tls_inspector&quot;
+    patch:
+      operation: INSERT_BEFORE
+      value:
+        # This is the full filter config including the name and typed_config section.
+        name: &quot;envoy.filters.listener.proxy_protocol&quot;
+        typed_config:
+          &quot;@type&quot;: &quot;type.googleapis.com/envoy.extensions.filters.listener.proxy_protocol.v3.ProxyProtocol&quot;</code></pre>
 
 <h2 id="EnvoyFilter">EnvoyFilter</h2>
 <section>
@@ -680,6 +701,18 @@ No
 patch will be applied to the filter chain (and a specific
 filter if specified) and not to other filter chains in the
 listener.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="EnvoyFilter-ListenerMatch-listener_filter">
+<td><code>listenerFilter</code></td>
+<td><code>string</code></td>
+<td>
+<p>Match a specific listener filter. If specified, the
+patch will be applied to the listener filter.</p>
 
 </td>
 <td>
@@ -1441,6 +1474,13 @@ is only supported by HTTP filters.</p>
 <td><code>BOOTSTRAP</code></td>
 <td>
 <p>Applies the patch to bootstrap configuration.</p>
+
+</td>
+</tr>
+<tr id="EnvoyFilter-ApplyTo-LISTENER_FILTER">
+<td><code>LISTENER_FILTER</code></td>
+<td>
+<p>Applies the patch to the listener filter.</p>
 
 </td>
 </tr>
