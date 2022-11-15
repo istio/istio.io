@@ -46,7 +46,7 @@ These notices describe functionality that will be removed in a future release ac
 
 - **Fixed** an issue where Remote JWKS URI's without a host port fail to parse into their host and port components.
 
-- **Fixed** the ordering of RBAC and metadata exchange filters while generating HTTP/network filters
+- **Fixed** the ordering of RBAC and metadata exchange filters while generating HTTP/network filters.
   ([Issue #41066](https://github.com/istio/istio/issues/41066))
 
 - **Fixed** an issue causing traffic to not match (and return a `404`) when using wildcard domain names and including an unexpected port in the `Host` header.
