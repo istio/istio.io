@@ -42,7 +42,7 @@ These notices describe functionality that will be removed in a future release ac
 - **Fixed** `LocalityLoadBalancerSetting.failoverPriority` not working properly if xDS cache is enabled.
   ([Issue #40198](https://github.com/istio/istio/issues/40198))
 
-- **Fixed** disable `PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING` temporarily to fix some memory/CPU cost issues.
+- **Fixed** some memory/CPU cost issues by temporarily disabling `PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING`.
 
 - **Fixed** an issue where Remote JWKS URI's without a host port fail to parse into their host and port components.
 
@@ -63,9 +63,9 @@ These notices describe functionality that will be removed in a future release ac
 /var/run/secrets/istiod/ca/root-cert.pem
 {{< /text >}}
 
-The CA path will alternatively be loaded from: `/var/run/secrets/tls/ca.crt`
+The CA path will alternatively be loaded from `/var/run/secrets/tls/ca.crt`.
 It also automatically loads any secret called `istiod-tls` and the `istio-root-ca-configmap` into those paths.
-This method is preferred to use those well known paths than to set the TLS arguments.
+This method is preferred to use these well known paths than to set the TLS arguments.
 This will allow for an easier installation process for `istio-csr` as well as any other external issuer that needs to modify
 the Pilot DNS serving certificate. ([Issue #36916](https://github.com/istio/istio/issues/36916))
 
@@ -89,9 +89,9 @@ the Pilot DNS serving certificate. ([Issue #36916](https://github.com/istio/isti
 ## Extensibility
 
 - **Improved** when Wasm module downloading fails and `fail_open` is true, a RBAC filter allowing all the traffic is passed to Envoy instead of the original Wasm filter.
-  Previously, the given Wasm filter itself was passed to Envoy in this case, but it may cause the errors because some fields of Wasm configuration are optional in Istio, but not in Envoy.
+  Previously, the given Wasm filter itself was passed to Envoy in this case, but it may cause errors because some fields of Wasm configuration are optional in Istio, but not in Envoy.
 
-- **Improved** WasmPlugin images (docker and OCI standard image) to support more than one layer as per spec changes.
+- **Improved** WasmPlugin images (docker and OCI standard image) to support more than one layer as per specification changes.
   See ([https://github.com/solo-io/wasm/pull/293](https://github.com/solo-io/wasm/pull/293)) for more details.
 
 - **Added** the `match` field in the WasmPlugin API. With this `match` clause, a WasmPlugin can be applied to more specific traffic (e.g., traffic to a specific port).
@@ -110,7 +110,7 @@ the Pilot DNS serving certificate. ([Issue #36916](https://github.com/istio/isti
 - **Added** auto-detection of [GKE specific installation steps](/docs/setup/additional-setup/cni/#hosted-kubernetes-settings) when using CNI to `istioctl install` and `helm install`.
 
 - **Added** an `ENABLE_LEADER_ELECTION=false` feature flag for pilot-discovery to disable leader election when using a single replica of istiod.
-  ([reference](/docs/reference/commands/pilot-discovery/)) ([Issue #40427](https://github.com/istio/istio/issues/40427))
+  ([Reference](/docs/reference/commands/pilot-discovery/)) ([Issue #40427](https://github.com/istio/istio/issues/40427))
 
 - **Added** support for configuring `MaxConcurrentReconciles` in istio-operator. ([Issue #40827](https://github.com/istio/istio/issues/40827))
 
@@ -122,7 +122,7 @@ the Pilot DNS serving certificate. ([Issue #36916](https://github.com/istio/isti
 
 ## istioctl
 
-- **Added** the `--skip-confirmation` flag to `istioctl operator remove` to add confirmation mechanism for operator removal. ([Issue #41244](https://github.com/istio/istio/issues/41244))
+- **Added** the `--skip-confirmation` flag to `istioctl operator remove` to add a confirmation mechanism for operator removal. ([Issue #41244](https://github.com/istio/istio/issues/41244))
 
 - **Added** precheck for revision when running `istioctl uninstall`. ([Issue #40598](https://github.com/istio/istio/issues/40598))
 
@@ -133,13 +133,13 @@ the Pilot DNS serving certificate. ([Issue #36916](https://github.com/istio/isti
 - **Added** `istioctl experimental check-inject` feature to describe why injection will/won't or did/didn't occur to the pod based on current running webhooks.
   ([Issue #38299](https://github.com/istio/istio/issues/38299))
 
-- **Fixed** setting `exportTo` field and `networking.istio.io/exportTo` annotation lead to incorrect IST0101 message.
+- **Fixed** setting `exportTo` field and `networking.istio.io/exportTo` annotation leading to an incorrect IST0101 message.
   ([Issue #39629](https://github.com/istio/istio/issues/39629))
 
-- **Fixed** setting `networking.istio.io/exportTo` annotation to services with multiple values lead to incorrect IST0101 message.
+- **Fixed** setting `networking.istio.io/exportTo` annotation to services with multiple values lead to an incorrect IST0101 message.
   ([Issue #39629](https://github.com/istio/istio/issues/39629))
 
-- **Fixed** `x un-inject` providing incorrect templates for "un-injecting".
+- **Fixed** `experimental un-inject` providing incorrect templates for "un-injecting".
 
 ## Documentation changes
 
