@@ -239,8 +239,8 @@ features:
     id: "security.external_authorization"
     link: "/docs/tasks/security/authorization/authz-custom"
     level:
-      checklist: ""
-      maturity: Alpha
+      checklist: features/external_authorization.md
+      maturity: Beta
       nextExpectedPromotion: ""
     area: Security and policy enforcement
   - name: "Authorization Dry Run"
