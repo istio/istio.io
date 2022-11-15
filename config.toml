@@ -14,7 +14,7 @@ buildFuture = true
 staticDir = ["static", "generated"]
 
 # we use Netlify server-side redirects instead of generated aliases
-disableAliases = true
+disableAliases = false
 
 [markup]
   [markup.goldmark]
