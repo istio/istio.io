@@ -389,7 +389,7 @@ spec:
 <p>The following example demonstrates the use of wildcards in the hosts for
 external services. If the connection has to be routed to the IP address
 requested by the application (i.e. application resolves DNS and attempts
-to connect to a specific IP), the discovery mode must be set to <code>NONE</code>.</p>
+to connect to a specific IP), the resolution mode must be set to <code>NONE</code>.</p>
 <p>{{<tabset category-name="example">}}
 {{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
@@ -585,11 +585,7 @@ spec:
 VM-based instances with sidecars as well as a set of Kubernetes
 pods managed by a standard deployment object. Consumers of this
 service in the mesh will be automatically load balanced across the
-VMs and Kubernetes.  VM for the <code>details.bookinfo.com</code>
-service. This VM has sidecar installed and bootstrapped using the
-<code>details-legacy</code> service account. The sidecar receives HTTP traffic
-on port 80 (wrapped in istio mutual TLS) and forwards it to the
-application on the localhost on the same port.</p>
+VMs and Kubernetes.</p>
 <p>{{<tabset category-name="example">}}
 {{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
@@ -720,8 +716,8 @@ from another service registry such as Kubernetes that also
 supplies its own set of endpoints, the ServiceEntry will be
 treated as a decorator of the existing Kubernetes
 service. Properties in the service entry will be added to the
-Kubernetes service if applicable. Currently, the only the
-following additional properties will be considered by <code>istiod</code>:</p>
+Kubernetes service if applicable. Currently, only the following
+additional properties will be considered by <code>istiod</code>:</p>
 <ol>
 <li>subjectAltNames: In addition to verifying the SANs of the
 service accounts associated with the pods of the service, the
@@ -786,7 +782,7 @@ No
 <td><code>resolution</code></td>
 <td><code><a href="#ServiceEntry-Resolution">Resolution</a></code></td>
 <td>
-<p>Service discovery mode for the hosts. Care must be taken
+<p>Service resolution mode for the hosts. Care must be taken
 when setting the resolution mode to NONE for a TCP port without
 accompanying IP addresses. In such cases, traffic to any IP on
 said port will be allowed (i.e. <code>0.0.0.0:&lt;port&gt;</code>).</p>

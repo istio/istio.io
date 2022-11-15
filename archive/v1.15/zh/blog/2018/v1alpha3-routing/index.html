@@ -1,0 +1,166 @@
+<!doctype html><html lang=zh itemscope itemtype=https://schema.org/WebPage><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=theme-color content="#466BB0"><meta name=title content="Istio v1aplha3 路由 API 介绍"><meta name=description content="Istio v1alpha3 路由 API 介绍, 动机及其设计原则。"><meta name=author content="Frank Budinsky (IBM) and Shriram Rajagopalan (VMware)"><meta name=keywords content="microservices,services,mesh,traffic-management"><meta property="og:title" content="Istio v1aplha3 路由 API 介绍"><meta property="og:type" content="website"><meta property="og:description" content="Istio v1alpha3 路由 API 介绍, 动机及其设计原则。"><meta property="og:url" content="/v1.15/zh/blog/2018/v1alpha3-routing/"><meta property="og:image" content="https://raw.githubusercontent.com/istio/istio.io/master/static/img/istio-whitelogo-bluebackground-framed.svg"><meta property="og:image:alt" content="Istio Logo"><meta property="og:image:width" content="1024"><meta property="og:image:height" content="1024"><meta property="og:site_name" content="Istio"><meta name=twitter:card content="summary"><meta name=twitter:site content="@IstioMesh"><title>Istioldie 1.15 / Istio v1aplha3 路由 API 介绍</title><script async src="https://www.googletagmanager.com/gtag/js?id=UA-98480406-2"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","UA-98480406-2")</script><link rel=alternate type=application/rss+xml title="Istio Blog" href=/v1.15/blog/feed.xml><link rel=alternate type=application/rss+xml title="Istio News" href=/v1.15/news/feed.xml><link rel=alternate type=application/rss+xml title="Istio Blog and News" href=/v1.15/feed.xml><link rel="shortcut icon" href=/v1.15/favicons/favicon.ico><link rel=apple-touch-icon href=/v1.15/favicons/apple-touch-icon-180x180.png sizes=180x180><link rel=icon type=image/png href=/v1.15/favicons/favicon-16x16.png sizes=16x16><link rel=icon type=image/png href=/v1.15/favicons/favicon-32x32.png sizes=32x32><link rel=icon type=image/png href=/v1.15/favicons/android-36x36.png sizes=36x36><link rel=icon type=image/png href=/v1.15/favicons/android-48x48.png sizes=48x48><link rel=icon type=image/png href=/v1.15/favicons/android-72x72.png sizes=72x72><link rel=icon type=image/png href=/v1.15/favicons/android-96x96.png sizes=96xW96><link rel=icon type=image/png href=/v1.15/favicons/android-144x144.png sizes=144x144><link rel=icon type=image/png href=/v1.15/favicons/android-192x192.png sizes=192x192><link rel=icon type=image/svg+xml href=/v1.15/favicons/favicon.svg><link rel=icon type=image/png href=/v1.15/favicons/favicon.png><link rel=mask-icon href=/v1.15/favicons/safari-pinned-tab.svg color=#466bb0><link rel=manifest href=/v1.15/manifest.json><meta name=apple-mobile-web-app-title content="Istio"><meta name=application-name content="Istio"><meta name=msapplication-config content="/browserconfig.xml"><meta name=msapplication-TileColor content="#466BB0"><meta name=theme-color content="#466BB0"><link rel=stylesheet href=/v1.15/css/all.css><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap"><script src=/v1.15/js/themes_init.min.js></script></head><body class="language-unknown archive-site"><script>const branchName="release-1.15",docTitle="Istio v1aplha3 路由 API 介绍",iconFile="/v1.15/img/icons.svg",buttonCopy="复制到剪切板",buttonPrint="打印",buttonDownload="下载"</script><script src="https://www.google.com/cse/brand?form=search-form" defer></script>
+<script src=/v1.15/js/all.min.js data-manual defer></script><header class=main-navigation><nav class="main-navigation-wrapper container-l"><div class=main-navigation-header><a id=brand href=/v1.15/zh/ aria-label=logotype><span class=logo><svg xmlns="http://www.w3.org/2000/svg" width="128" height="60" viewBox="0 0 128 60"><path d="M58.434 48.823A.441.441.0 0158.3 48.497V22.583a.444.444.0 01.134-.326.446.446.0 01.327-.134h3.527a.447.447.0 01.325.134.447.447.0 01.134.326v25.914a.443.443.0 01-.134.326.444.444.0 01-.325.134h-3.527a.444.444.0 01-.327-.134z"/><path d="m70.969 48.477a6.556 6.556.0 01-2.818-1.955 4.338 4.338.0 01-1-2.78v-.345a.443.443.0 01.134-.326.444.444.0 01.326-.135h3.374a.444.444.0 01.326.135.445.445.0 01.134.326v.077a2.014 2.014.0 001.054 1.667 4.672 4.672.0 002.664.709 4.446 4.446.0 002.492-.633 1.862 1.862.0 00.958-1.591 1.426 1.426.0 00-.786-1.322 12.7 12.7.0 00-2.549-.939l-1.457-.46a21.526 21.526.0 01-3.3-1.227 6.57 6.57.0 01-2.262-1.783 4.435 4.435.0 01-.92-2.894 5.081 5.081.0 012.109-4.275 8.993 8.993.0 015.558-1.591 10.445 10.445.0 014.1.748 6.3 6.3.0 012.722 2.07 5 5 0 01.958 3.009.441.441.0 01-.134.326.441.441.0 01-.325.134h-3.258a.441.441.0 01-.326-.134.443.443.0 01-.134-.326 1.974 1.974.0 00-.978-1.667 4.647 4.647.0 00-2.665-.671 4.741 4.741.0 00-2.435.556 1.724 1.724.0 00-.938 1.553 1.512 1.512.0 00.9 1.4 15.875 15.875.0 003.01 1.055l.843.229a27.368 27.368.0 013.412 1.246 6.67 6.67.0 012.338 1.763 4.387 4.387.0 01.958 2.933 4.988 4.988.0 01-2.146 4.275 9.543 9.543.0 01-5.712 1.552 11.626 11.626.0 01-4.227-.709z"/><path d="m97.039 32.837a.443.443.0 01-.326.135h-3.911a.169.169.0 00-.191.192v9.239a2.951 2.951.0 00.632 2.108 2.7 2.7.0 002.013.652h1.15a.444.444.0 01.325.134.441.441.0 01.134.326v2.875a.471.471.0 01-.459.5l-1.994.039a8 8 0 01-4.524-1.035q-1.495-1.035-1.533-3.91V33.166A.17.17.0 0088.164 32.974H85.978A.441.441.0 0185.652 32.839.441.441.0 0185.518 32.513V29.83a.441.441.0 01.134-.326.444.444.0 01.326-.135h2.186a.169.169.0 00.191-.192v-4.485a.438.438.0 01.134-.326.44.44.0 01.325-.134h3.336a.443.443.0 01.325.134.442.442.0 01.135.326v4.485a.169.169.0 00.191.192h3.911a.446.446.0 01.326.135.446.446.0 01.134.326v2.683a.446.446.0 01-.133.324z"/><path d="m101.694 25.917a2.645 2.645.0 01-.767-1.955 2.65 2.65.0 01.767-1.955 2.65 2.65.0 011.955-.767 2.65 2.65.0 011.955.767 2.652 2.652.0 01.767 1.955 2.647 2.647.0 01-.767 1.955 2.646 2.646.0 01-1.955.767 2.645 2.645.0 01-1.955-.767zm-.211 22.906a.441.441.0 01-.134-.326V29.79a.444.444.0 01.134-.326.446.446.0 01.326-.134h3.527a.446.446.0 01.326.134.445.445.0 01.134.326v18.707a.443.443.0 01-.134.326.443.443.0 01-.326.134h-3.527a.443.443.0 01-.326-.134z"/><path d="m114.019 47.734a8.1 8.1.0 01-3.047-4.255 14.439 14.439.0 01-.652-4.37 14.3 14.3.0 01.614-4.371A7.869 7.869.0 01114 30.56a9.072 9.072.0 015.252-1.5 8.543 8.543.0 015.041 1.5 7.985 7.985.0 013.009 4.14 12.439 12.439.0 01.69 4.37 13.793 13.793.0 01-.651 4.37 8.255 8.255.0 01-3.028 4.275 8.475 8.475.0 01-5.1 1.553 8.754 8.754.0 01-5.194-1.534zm7.629-3.1a4.536 4.536.0 001.476-2.262 11.335 11.335.0 00.383-3.221 10.618 10.618.0 00-.383-3.22 4.169 4.169.0 00-1.457-2.243 4.066 4.066.0 00-2.531-.785 3.942 3.942.0 00-2.453.785 4.376 4.376.0 00-1.5 2.243 11.839 11.839.0 00-.383 3.22 11.84 11.84.0 00.383 3.221 4.222 4.222.0 001.476 2.262 4.075 4.075.0 002.549.8 3.8 3.8.0 002.44-.809z"/><path d="m15.105 32.057v15.565a.059.059.0 01-.049.059L.069 50.25A.06.06.0 01.005 50.167l14.987-33.47a.06.06.0 01.114.025z"/><path d="m17.631 23.087v24.6a.06.06.0 00.053.059l22.449 2.507a.06.06.0 00.061-.084L17.745.032a.06.06.0 00-.114.024z"/><path d="m39.961 52.548-24.833 7.45a.062.062.0 01-.043.0L.079 52.548a.059.059.0 01.026-.113h39.839a.06.06.0 01.017.113z"/></svg></span></a><button id=hamburger class=main-navigation-toggle aria-label="Open navigation"><svg class="icon menu-hamburger"><use xlink:href="/v1.15/img/icons.svg#menu-hamburger"/></svg></button>
+<button id=menu-close class=main-navigation-toggle aria-label="Close navigation"><svg class="icon menu-close"><use xlink:href="/v1.15/img/icons.svg#menu-close"/></svg></button></div><div id=header-links class=main-navigation-links-wrapper><ul class=main-navigation-links><li class=main-navigation-links-item><a class="main-navigation-links-link has-dropdown"><span>关于</span><svg class="icon dropdown-arrow"><use xlink:href="/v1.15/img/icons.svg#dropdown-arrow"/></svg></a><ul class=main-navigation-links-dropdown><li class=main-navigation-links-dropdown-item><a href=/v1.15/zh/about/service-mesh class=main-navigation-links-link>服务网格</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.15/zh/about/solutions class=main-navigation-links-link>解决方案</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.15/zh/about/case-studies class=main-navigation-links-link>案例学习</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.15/zh/about/ecosystem class=main-navigation-links-link>生态系统</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.15/zh/about/deployment class=main-navigation-links-link>部署</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.15/zh/about/faq class=main-navigation-links-link>FAQ</a></li></ul></li><li class=main-navigation-links-item><a href=/v1.15/zh/blog/ class=main-navigation-links-link><span>博客</span></a></li><li class=main-navigation-links-item><a href=/v1.15/zh/news/ class=main-navigation-links-link><span>新闻</span></a></li><li class=main-navigation-links-item><a href=/v1.15/zh/get-involved/ class=main-navigation-links-link><span>加入我们</span></a></li><li class=main-navigation-links-item><a href=/v1.15/zh/docs/ class=main-navigation-links-link><span>文档</span></a></li></ul><div class=main-navigation-footer><button id=search-show class=search-show title='搜索 istio.io' aria-label=搜索><svg class="icon magnifier"><use xlink:href="/v1.15/img/icons.svg#magnifier"/></svg></button>
+<a href=/v1.15/zh/docs/setup/getting-started class="btn btn--primary" id=try-istio>试用 Istio</a></div></div><form id=search-form class=search name=cse role=search><input type=hidden name=cx value=002184991200833970123:iwwf17ikgf4>
+<input type=hidden name=ie value=utf-8>
+<input type=hidden name=hl value=zh>
+<input type=hidden id=search-page-url value=/zh/search>
+<input id=search-textbox class="search-textbox form-control" name=q type=search aria-label='搜索 istio.io' placeholder=搜索>
+<button id=search-close title=取消搜索 type=reset aria-label=取消搜索><svg class="icon menu-close"><use xlink:href="/v1.15/img/icons.svg#menu-close"/></svg></button></form></nav></header><div class=banner-container></div><article class=post itemscope itemtype=http://schema.org/BlogPosting><div class=header-content><h1>Istio v1aplha3 路由 API 介绍</h1><p>Istio v1alpha3 路由 API 介绍, 动机及其设计原则。</p></div><p class=post-author>Apr 25, 2018 <span>|</span> By Frank Budinsky - IBM and Shriram Rajagopalan - VMware</p><div><p>到目前为止，Istio 提供了一个简单的 API 来进行流量管理，该 API 包括了四种资源：<code>RouteRule</code>，<code>DestinationPolicy</code>，<code>EgressRule</code> 和 （Kubernetes 的）<code>Ingress</code>。借助此 API，用户可以轻松管理 Istio 服务网格中的流量。该 API 允许用户将请求路由到特定版本的服务，为弹性测试注入延迟和失败，添加超时和断路器等，所有这些功能都不必更改应用程序本身的代码。</p><p>虽然目前 API 的功能已被证明是 Istio 非常引人注目的一部分，但用户的反馈也表明，这个 API 确实有一些缺点，尤其是在使用它来管理包含数千个服务的非常大的应用程序，以及使用 HTTP 以外的协议时。此外，使用 Kubernetes Ingress 资源来配置外部流量的方式已被证明不能满足需求。</p><p>为了解决上述缺陷和其他的一些问题，Istio 引入了新的流量管理 API v1alpha3，新版本的 API 将完全取代之前的 API。尽管 v1alpha3 和之前的模型在本质上是基本相同的，但它并不向后兼容的，基于旧 API 的模型需要进行手动转换。</p><p>为了证明该非兼容升级的必要性，v1alpha3 API 经历了漫长而艰苦的社区评估过程，以希望新的 API 能够大幅改进，并经得起时间考验。在本文中，我们将介绍新的配置模型，并试图解释影响这次变化的一些动机和设计原则。</p><h2 id=design-principles>设计原则</h2><p>路由模型的重构过程中遵循了一些关键的设计原则：</p><ul><li>除支持声明式（意图）配置外，也支持显式指定模型依赖的基础设施。例如，除了配置入口网关（的功能特性）之外，负责实现 入口网关功能的组件（Controller）也可以在模型指定。</li><li>编写模型时应该"生产者导向”和"以 Host 为中心”，而不是通过组合多个规则来编写模型。例如，所有与特定 Host 关联的规则被配置在一起，而不是单独配置。</li><li>将路由与路由后行为清晰分开。</li></ul><h2 id=configuration-resources-in-v1alpha3>v1alpha3 中的配置资源</h2><p>在一个典型的网格中，通常有一个或多个用于终结外部 TLS 链接，将流量引入网格的负载均衡器（我们称之为 gateway）。然后流量通过边车网关（sidecar gateway）流经内部服务。应用程序使用外部服务的情况也很常见（例如访问 Google Maps API），一些情况下，这些外部服务可能被直接调用；但在某些部署中，网格中所有访问外部服务的流量可能被要求强制通过专用的出口网关（Egress gateway）。下图描绘了网关在网格中的使用情况。</p><figure style=width:80%><div class=wrapper-with-intrinsic-ratio style=padding-bottom:35.204472660409245%><a data-skipendnotes=true href=/v1.15/zh/blog/2018/v1alpha3-routing/gateways.svg title="Istio 服务网格中的网关"><img class=element-to-stretch src=/v1.15/zh/blog/2018/v1alpha3-routing/gateways.svg alt="Role of gateways in the mesh"></a></div><figcaption>Istio 服务网格中的网关</figcaption></figure><p>考虑到上述因素，<code>v1alpha3</code>引入了以下这些新的配置资源来控制进入网格，网格内部和离开网格的流量路由。</p><ol><li><code>Gateway</code></li><li><code>VirtualService</code></li><li><code>DestinationRule</code></li><li><code>ServiceEntry</code></li></ol><p><code>VirtualService</code>，<code>DestinationRule</code> 和 <code>ServiceEntry</code> 分别替换了原 API 中的 <code>RouteRule</code>，<code>DestinationPolicy</code> 和 <code>EgressRule</code>。<code>Gateway</code> 是一个独立于平台的抽象，用于对流入专用中间设备的流量进行建模。</p><p>下图描述了跨多个配置资源的控制流程。</p><figure style=width:80%><div class=wrapper-with-intrinsic-ratio style=padding-bottom:41.164966727369595%><a data-skipendnotes=true href=/v1.15/zh/blog/2018/v1alpha3-routing/virtualservices-destrules.svg title="不同 v1alpha3 元素之间的关系"><img class=element-to-stretch src=/v1.15/zh/blog/2018/v1alpha3-routing/virtualservices-destrules.svg alt="不同 v1alpha3 元素之间的关系"></a></div><figcaption>不同 v1alpha3 元素之间的关系</figcaption></figure><h3 id=gateway><code>Gateway</code></h3><p><a href=/v1.15/zh/docs/reference/config/networking/gateway/><code>Gateway</code></a> 用于为 HTTP / TCP 流量配置负载均衡器，并不管该负载均衡器将在哪里运行。网格中可以存在任意数量的 Gateway，并且多个不同的 Gateway 实现可以共存。实际上，通过在配置中指定一组工作负载（Pod）标签，可以将 Gateway 配置绑定到特定的工作负载，从而允许用户通过编写简单的 Gateway Controller 来重用现成的网络设备。</p><p>对于入口流量管理，您可能会问：<em>为什么不直接使用 Kubernetes Ingress API</em> ？原因是 Ingress API 无法表达 Istio 的路由需求。Ingress 试图在不同的 HTTP 代理之间取一个公共的交集，因此只能支持最基本的 HTTP 路由，最终导致需要将代理的其他高级功能放入到注解（annotation）中，而注解的方式在多个代理之间是不兼容的，无法移植。</p><p>Istio <code>Gateway</code> 通过将 L4-L6 配置与 L7 配置分离的方式克服了 <code>Ingress</code> 的这些缺点。<code>Gateway</code> 只用于配置 L4-L6 功能（例如，对外公开的端口，TLS 配置），所有主流的 L7 代理均以统一的方式实现了这些功能。然后，通过在 <code>Gateway</code> 上绑定 <code>VirtualService</code> 的方式，可以使用标准的 Istio 规则来控制进入 <code>Gateway</code> 的 HTTP 和 TCP 流量。</p><p>例如，下面这个简单的 <code>Gateway</code> 配置了一个 Load Balancer，以允许访问 host <code>bookinfo.com</code> 的 https 外部流量进入网格中：</p><pre><code class=language-yaml data-expandlinks=true data-repo=istio>apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: bookinfo-gateway
+spec:
+  servers:
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    hosts:
+    - bookinfo.com
+    tls:
+      mode: SIMPLE
+      serverCertificate: /tmp/tls.crt
+      privateKey: /tmp/tls.key
+</code></pre><p>要为进入上面的 Gateway 的流量配置相应的路由，必须为同一个 host 定义一个 <code>VirtualService</code>（在下一节中描述），并使用配置中的 <code>gateways</code> 字段绑定到前面定义的 <code>Gateway</code> 上：</p><pre><code class=language-yaml data-expandlinks=true data-repo=istio>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: bookinfo
+spec:
+  hosts:
+    - bookinfo.com
+  gateways:
+  - bookinfo-gateway # &lt;---- bind to gateway
+    http:
+  - match:
+    - uri:
+        prefix: /reviews
+    route:
+    ...
+</code></pre><p><code>Gateway</code> 可以用于建模边缘代理或纯粹的内部代理，如第一张图所示。无论在哪个位置，所有网关都可以用相同的方式进行配置和控制。</p><h3 id=virtualservice><code>VirtualService</code></h3><p>用一种叫做 &ldquo;Virtual services” 的东西代替路由规则可能看起来有点奇怪，但对于它配置的内容而言，这事实上是一个更好的名称，特别是在重新设计 API 以解决先前模型的可扩展性问题之后。</p><p>实际上，发生的变化是：在之前的模型中，需要用一组相互独立的配置规则来为特定的目的服务设置路由规则，并通过 precedence 字段来控制这些规则的顺序；在新的 API 中，则直接对（虚拟）服务进行配置，该虚拟服务的所有规则以一个有序列表的方式配置在对应的 <a href=/v1.15/zh/docs/reference/config/networking/virtual-service/><code>VirtualService</code></a> 资源中。</p><p>例如，之前在 <a href=/v1.15/zh/docs/examples/bookinfo/>Bookinfo</a> 应用程序的 <code>reviews</code> 服务中有两个 <code>RouteRule</code> 资源，如下所示：</p><pre><code class=language-yaml data-expandlinks=true data-repo=istio>apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: reviews-default
+spec:
+  destination:
+    name: reviews
+  precedence: 1
+  route:
+  - labels:
+      version: v1
+---
+apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: reviews-test-v2
+spec:
+  destination:
+    name: reviews
+  precedence: 2
+  match:
+    request:
+      headers:
+        cookie:
+          regex: &#34;^(.*?;)?(user=jason)(;.*)?$&#34;
+  route:
+  - labels:
+      version: v2
+</code></pre><p>在 <code>v1alpha3</code>，可以在单个 <code>VirtualService</code> 资源中提供相同的配置：</p><pre><code class=language-yaml data-expandlinks=true data-repo=istio>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: reviews
+spec:
+  hosts:
+    - reviews
+  http:
+  - match:
+    - headers:
+        cookie:
+          regex: &#34;^(.*?;)?(user=jason)(;.*)?$&#34;
+    route:
+    - destination:
+        host: reviews
+        subset: v2
+  - route:
+    - destination:
+        host: reviews
+        subset: v1
+</code></pre><p>正如你所看到的，和 <code>reviews</code> 服务相关的两个规则集中写在了一个地方。这个改变乍一看可能觉得并没有什么特别的优势，然而，如果仔细观察这个新模型，会发现它和之前的 API 之间存在着根本的差异，这使得 <code>v1alpha3</code> 功能更加强大。</p><p>首先，请注意 <code>VirtualService</code> 的目标服务是使用 <code>hosts</code> 字段（实际上是重复字段）指定的，然后再在每个路由的 <code>destination</code> 字段中指定。这是与以前模型的重要区别。</p><p><code>VirtualService</code> 描述了一个或多个用户可寻址目标到网格内实际工作负载之间的映射。在上面的示例中，这两个地址是相同的，但实际上用户可寻址目标可以是任何用于定位服务的，具有可选通配符前缀或 CIDR 前缀的 DNS 名称。
+这对于应用从单体架构到微服务架构的迁移过程特别有用，单体应用被拆分为多个独立的微服务后，采用 <code>VirtualService</code> 可以继续把多个微服务对外暴露为同一个目标地址，而不需要服务消费者进行修改以适应该变化。</p><p>例如，以下规则允许服务消费者访问 Bookinfo 应用程序的 reviews 和 ratings 服务，就好像它们是 <code>http://bookinfo.com/</code>（虚拟）服务的一部分：</p><pre><code class=language-yaml data-expandlinks=true data-repo=istio>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: bookinfo
+spec:
+  hosts:
+    - bookinfo.com
+  http:
+  - match:
+    - uri:
+        prefix: /reviews
+    route:
+    - destination:
+        host: reviews
+  - match:
+    - uri:
+        prefix: /ratings
+    route:
+    - destination:
+        host: ratings
+        ...
+</code></pre><p>实际上在 <code>VirtualService</code> 中 hosts 部分设置只是虚拟的目的地, 因此不一定是已在网格中注册的服务。这允许用户为在网格内没有可路由条目的虚拟主机的流量进行建模。通过将 <code>VirtualService</code> 绑定到同一 Host 的 <code>Gateway</code> 配置（如前一节所述 ），可向网格外部暴露这些 Host。</p><p>除了这个重大的重构之外，<code>VirtualService</code> 还包括其他一些重要的改变：</p><ol><li><p>可以在 <code>VirtualService</code> 配置中表示多个匹配条件，从而减少对冗余的规则设置。</p></li><li><p>每个服务版本都有一个名称（称为服务子集）。属于某个子集的一组 Pod/VM 在 <code>DestinationRule</code> 定义，具体定义参见下节。</p></li><li><p>通过使用带通配符前缀的 DNS 来指定 <code>VirtualService</code> 的 host，可以创建单个规则以作用于所有匹配的服务。例如，在 Kubernetes 中，在 <code>VirtualService</code> 中使用 <code>*.foo.svc.cluster.local</code> 作为 host , 可以对 <code>foo</code> 命名空间中的所有服务应用相同的重写规则。</p></li></ol><h3 id=destinationrule><code>DestinationRule</code></h3><p><a href=/v1.15/zh/docs/reference/config/networking/destination-rule/><code>DestinationRule</code></a> 配置将流量转发到服务时应用的策略集。这些策略应由服务提供者撰写，用于描述断路器，负载均衡设置，TLS 设置等。
+除了下述改变外，<code>DestinationRule</code> 与其前身 <code>DestinationPolicy</code> 大致相同。</p><ol><li><code>DestinationRule</code> 的 <code>host</code> 可以包含通配符前缀，以允许单个规则应用于多个服务。</li><li><code>DestinationRule</code> 定义了目的 host 的子集 <code>subsets</code> （例如：命名版本）。这些 subset 用于 <code>VirtualService</code> 的路由规则设置中，可以将流量导向服务的某些特定版本。通过这种方式为版本命名后，可以在不同的 virtual service 中明确地引用这些命名版本的 subset，简化 Istio 代理发出的统计数据，并可以将 subset 编码到 SNI 头中。
+为 reviews 服务配置策略和 subsets 的 <code>DestinationRule</code> 可能如下所示：</li></ol><pre><code class=language-yaml data-expandlinks=true data-repo=istio>apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: reviews
+spec:
+  host: reviews
+  trafficPolicy:
+    loadBalancer:
+      simple: RANDOM
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+  - name: v2
+    labels:
+      version: v2
+    trafficPolicy:
+      loadBalancer:
+        simple: ROUND_ROBIN
+  - name: v3
+    labels:
+      version: v3
+</code></pre><p>注意，与 <code>DestinationPolicy</code> 不同的是，可在单个 <code>DestinationRule</code> 中指定多个策略（例如上面实例中的缺省策略和 v2 版本特定的策略）。</p><h3 id=serviceentry><code>ServiceEntry</code></h3><p><a href=/v1.15/zh/docs/reference/config/networking/service-entry/><code>ServiceEntry</code></a> 用于将附加条目添加到 Istio 内部维护的服务注册表中。
+它最常用于对访问网格外部依赖的流量进行建模，例如访问 Web 上的 API 或遗留基础设施中的服务。</p><p>所有以前使用 <code>EgressRule</code> 进行配置的内容都可以通过 <code>ServiceEntry</code> 轻松完成。例如，可以使用类似这样的配置来允许从网格内部访问一个简单的外部服务：</p><pre><code class=language-yaml data-expandlinks=true data-repo=istio>apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: foo-ext
+spec:
+  hosts:
+  - foo.com
+    ports:
+  - number: 80
+    name: http
+    protocol: HTTP
+</code></pre><p>也就是说，<code>ServiceEntry</code> 比它的前身具有更多的功能。首先，<code>ServiceEntry</code> 不限于外部服务配置，它可以有两种类型：网格内部或网格外部。网格内部条目只是用于向网格显式添加服务，添加的服务与其他内部服务一样。采用网格内部条目，可以把原本未被网格管理的基础设施也纳入到网格中（例如，把虚机中的服务添加到基于 Kubernetes 的服务网格中）。网格外部条目则代表了网格外部的服务。对于这些外部服务来说，双向 TLS 身份验证是禁用的，并且策略是在客户端执行的，而不是在像内部服务请求一样在服务器端执行策略。</p><p>由于 <code>ServiceEntry</code> 配置只是将服务添加到网格内部的服务注册表中，因此它可以像注册表中的任何其他服务一样, 与 <code>VirtualService</code> 和/或 <code>DestinationRule</code> 一起使用。例如，以下 <code>DestinationRule</code> 可用于启动外部服务的 双向 TLS 连接：</p><pre><code class=language-yaml data-expandlinks=true data-repo=istio>apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: foo-ext
+spec:
+  name: foo.com
+  trafficPolicy:
+    tls:
+      mode: MUTUAL
+      clientCertificate: /etc/certs/myclientcert.pem
+      privateKey: /etc/certs/client_private_key.pem
+      caCertificates: /etc/certs/rootcacerts.pem
+</code></pre><p>除了扩展通用性以外，<code>ServiceEntry</code> 还提供了其他一些有关 <code>EgressRule</code> 改进，其中包括：</p><ol><li>一个 <code>ServiceEntry</code> 可以配置多个服务端点，这在之前需要采用多个 <code>EgressRules</code> 来实现。</li><li>现在可以配置服务端点的解析模式（<code>NONE</code>，<code>STATIC</code> 或 <code>DNS</code>）。</li><li>此外，我们正在努力解决另一个难题：目前需要通过纯文本端口访问安全的外部服务（例如 <code>http://google.com:443</code>）。该问题将会在未来几周内得到解决，届时将允许从应用程序直接访问 <code>https://google.com</code>。请继续关注解决此限制的 Istio 补丁版本（0.8.x）。</li></ol><h2 id=creating-and-deleting-v1alpha3-route-rules>创建和删除 v1alpha3 路由规则</h2><p>由于一个特定目的地的所有路由规则现在都存储在单个 <code>VirtualService</code> 资源的一个有序列表中，因此为该目的地添加新的规则不需要再创建新的 <code>RouteRule</code>，而是通过更新该目的地的 <code>VirtualService</code> 资源来实现。</p><p>旧的路由规则：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl apply -f my-second-rule-for-destination-abc.yaml
+</code></pre><p><code>v1alpha3</code> 路由规则：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl apply -f my-updated-rules-for-destination-abc.yaml
+</code></pre><p>通过使用<code>kubectl apply</code>更新现有资源，也可以删除特定目的地的最后一个路径规则。</p><p>在添加或删除引用服务版本的路由时，需要在该服务相应的 <code>DestinationRule</code> 更新 <code>subsets</code> 。正如你可能猜到的，这也是使用 <code>kubectl apply</code> 完成的。</p><h2 id=summary>总结</h2><p>Istio <code>v1alpha3</code> 路由 API 具有比其前身更多的功能，但不幸的是新的 API 并不向后兼容，旧的模型升级需要一次手动转换。Istio 0.9 以后将不再支持 <code>RouteRule</code>，<code>DesintationPolicy</code> 和 <code>EgressRule</code> 这些以前的配置资源 。Kubernetes 用户可以继续使用 <code>Ingress</code> 配置边缘负载均衡器来实现基本的路由。但是，高级路由功能（例如，跨两个版本的流量分割）则需要使 <code>用 Gateway</code> ，这是一种功能更强大，Istio 推荐的 <code>Ingress</code> 替代品。</p><h2 id=acknowledgments>致谢</h2><p>感谢以下人员为新版本的路由模型重构和实现工作做出的贡献（按字母顺序）</p><ul><li>Frank Budinsky (IBM)</li><li>Zack Butcher (Google)</li><li>Greg Hanson (IBM)</li><li>Costin Manolache (Google)</li><li>Martin Ostrowski (Google)</li><li>Shriram Rajagopalan (VMware)</li><li>Louis Ryan (Google)</li><li>Isaiah Snell-Feikema (IBM)</li><li>Kuat Yessenov (Google)</li></ul></div><nav class=pagenav><div class=left><a title="描述如何配置 Istio 进行 HTTP Egress 流量监控和访问策略。" href=/v1.15/zh/blog/2018/egress-monitoring-access-control/ class=next-link><svg class="icon left-arrow"><use xlink:href="/v1.15/img/icons.svg#left-arrow"/></svg>HTTP Egress 流量监控和访问策略</a></div><div class=right><a title="描述如何在 AWS 上使用网络负载均衡器配置 Istio Ingress。" href=/v1.15/zh/blog/2018/aws-nlb/ class=next-link>使用 AWS NLB 配置 Istio Ingress<svg class="icon right-arrow"><use xlink:href="/v1.15/img/icons.svg#right-arrow"/></svg></a></div></nav></article><footer class=footer><div class="footer-wrapper container-l"><div class="user-links footer-links"><a class=channel title='Istio 的代码在 GitHub 上开发' href=https://github.com/istio/community aria-label=GitHub><svg class="icon github"><use xlink:href="/v1.15/img/icons.svg#github"/></svg></a><a class=channel title='如果您想深入了解 Istio 的技术细节，请查看我们日益完善的设计文档' href=https://groups.google.com/forum/#!forum/istio-team-drive-access aria-label="team drive"><svg class="icon drive"><use xlink:href="/v1.15/img/icons.svg#drive"/></svg></a><a class=channel title='在 Slack 上与 Istio 社区交互讨论开发问题（仅限邀请）' href=https://slack.istio.io aria-label=slack><svg class="icon slack"><use xlink:href="/v1.15/img/icons.svg#slack"/></svg></a><a class=channel title='Stack Overflow 中列举了针对实际问题以及部署、配置和使用 Istio 的各项回答' href=https://stackoverflow.com/questions/tagged/istio aria-label="Stack Overflow"><svg class="icon stackoverflow"><use xlink:href="/v1.15/img/icons.svg#stackoverflow"/></svg></a><a class=channel title='关注我们的 Twitter 来获取最新信息' href=https://twitter.com/IstioMesh aria-label=Twitter><svg class="icon twitter"><use xlink:href="/v1.15/img/icons.svg#twitter"/></svg></a></div><hr class=footer-separator role=separator><div class="info footer-info"><a class=logo href=/v1.15/zh/ aria-label=logotype><svg xmlns="http://www.w3.org/2000/svg" width="128" height="60" viewBox="0 0 128 60"><path d="M58.434 48.823A.441.441.0 0158.3 48.497V22.583a.444.444.0 01.134-.326.446.446.0 01.327-.134h3.527a.447.447.0 01.325.134.447.447.0 01.134.326v25.914a.443.443.0 01-.134.326.444.444.0 01-.325.134h-3.527a.444.444.0 01-.327-.134z"/><path d="m70.969 48.477a6.556 6.556.0 01-2.818-1.955 4.338 4.338.0 01-1-2.78v-.345a.443.443.0 01.134-.326.444.444.0 01.326-.135h3.374a.444.444.0 01.326.135.445.445.0 01.134.326v.077a2.014 2.014.0 001.054 1.667 4.672 4.672.0 002.664.709 4.446 4.446.0 002.492-.633 1.862 1.862.0 00.958-1.591 1.426 1.426.0 00-.786-1.322 12.7 12.7.0 00-2.549-.939l-1.457-.46a21.526 21.526.0 01-3.3-1.227 6.57 6.57.0 01-2.262-1.783 4.435 4.435.0 01-.92-2.894 5.081 5.081.0 012.109-4.275 8.993 8.993.0 015.558-1.591 10.445 10.445.0 014.1.748 6.3 6.3.0 012.722 2.07 5 5 0 01.958 3.009.441.441.0 01-.134.326.441.441.0 01-.325.134h-3.258a.441.441.0 01-.326-.134.443.443.0 01-.134-.326 1.974 1.974.0 00-.978-1.667 4.647 4.647.0 00-2.665-.671 4.741 4.741.0 00-2.435.556 1.724 1.724.0 00-.938 1.553 1.512 1.512.0 00.9 1.4 15.875 15.875.0 003.01 1.055l.843.229a27.368 27.368.0 013.412 1.246 6.67 6.67.0 012.338 1.763 4.387 4.387.0 01.958 2.933 4.988 4.988.0 01-2.146 4.275 9.543 9.543.0 01-5.712 1.552 11.626 11.626.0 01-4.227-.709z"/><path d="m97.039 32.837a.443.443.0 01-.326.135h-3.911a.169.169.0 00-.191.192v9.239a2.951 2.951.0 00.632 2.108 2.7 2.7.0 002.013.652h1.15a.444.444.0 01.325.134.441.441.0 01.134.326v2.875a.471.471.0 01-.459.5l-1.994.039a8 8 0 01-4.524-1.035q-1.495-1.035-1.533-3.91V33.166A.17.17.0 0088.164 32.974H85.978A.441.441.0 0185.652 32.839.441.441.0 0185.518 32.513V29.83a.441.441.0 01.134-.326.444.444.0 01.326-.135h2.186a.169.169.0 00.191-.192v-4.485a.438.438.0 01.134-.326.44.44.0 01.325-.134h3.336a.443.443.0 01.325.134.442.442.0 01.135.326v4.485a.169.169.0 00.191.192h3.911a.446.446.0 01.326.135.446.446.0 01.134.326v2.683a.446.446.0 01-.133.324z"/><path d="m101.694 25.917a2.645 2.645.0 01-.767-1.955 2.65 2.65.0 01.767-1.955 2.65 2.65.0 011.955-.767 2.65 2.65.0 011.955.767 2.652 2.652.0 01.767 1.955 2.647 2.647.0 01-.767 1.955 2.646 2.646.0 01-1.955.767 2.645 2.645.0 01-1.955-.767zm-.211 22.906a.441.441.0 01-.134-.326V29.79a.444.444.0 01.134-.326.446.446.0 01.326-.134h3.527a.446.446.0 01.326.134.445.445.0 01.134.326v18.707a.443.443.0 01-.134.326.443.443.0 01-.326.134h-3.527a.443.443.0 01-.326-.134z"/><path d="m114.019 47.734a8.1 8.1.0 01-3.047-4.255 14.439 14.439.0 01-.652-4.37 14.3 14.3.0 01.614-4.371A7.869 7.869.0 01114 30.56a9.072 9.072.0 015.252-1.5 8.543 8.543.0 015.041 1.5 7.985 7.985.0 013.009 4.14 12.439 12.439.0 01.69 4.37 13.793 13.793.0 01-.651 4.37 8.255 8.255.0 01-3.028 4.275 8.475 8.475.0 01-5.1 1.553 8.754 8.754.0 01-5.194-1.534zm7.629-3.1a4.536 4.536.0 001.476-2.262 11.335 11.335.0 00.383-3.221 10.618 10.618.0 00-.383-3.22 4.169 4.169.0 00-1.457-2.243 4.066 4.066.0 00-2.531-.785 3.942 3.942.0 00-2.453.785 4.376 4.376.0 00-1.5 2.243 11.839 11.839.0 00-.383 3.22 11.84 11.84.0 00.383 3.221 4.222 4.222.0 001.476 2.262 4.075 4.075.0 002.549.8 3.8 3.8.0 002.44-.809z"/><path d="m15.105 32.057v15.565a.059.059.0 01-.049.059L.069 50.25A.06.06.0 01.005 50.167l14.987-33.47a.06.06.0 01.114.025z"/><path d="m17.631 23.087v24.6a.06.06.0 00.053.059l22.449 2.507a.06.06.0 00.061-.084L17.745.032a.06.06.0 00-.114.024z"/><path d="m39.961 52.548-24.833 7.45a.062.062.0 01-.043.0L.079 52.548a.059.059.0 01.026-.113h39.839a.06.06.0 01.017.113z"/></svg></a><div class=footer-languages><a tabindex=-1 lang=en id=switch-lang-en class=footer-languages-item>English</a>
+<a tabindex=-1 lang=zh id=switch-lang-zh class="footer-languages-item active"><svg class="icon tick"><use xlink:href="/v1.15/img/icons.svg#tick"/></svg>中文</a></div></div><ul class=footer-policies><li class=footer-policies-item><a class=footer-policies-link href=https://policies.google.com/privacy>隐私政策</a> |
+<a class=footer-policies-link href=https://github.com/istio/istio.io/edit/release-1.15/content/zh/blog/2018/v1alpha3-routing/index.md>在 GitHub 上编辑此页</a></li></ul><div class=footer-base><span class=footer-base-copyright>&copy; 2022 Istio Authors.</span>
+<span class=footer-base-version>部分内容可能滞后于英文版本，同步工作正在进行中<br>Version
+Istio 归档
+1.15.3</span><ul class=footer-base-releases><li class=footer-base-releases-item><a tabindex=-1 class=footer-base-releases-link onclick='return navigateToUrlOrRoot("https://istio.io/blog/2018/v1alpha3-routing/"),!1'>当前版本</a></li><li class=footer-base-releases-item><a tabindex=-1 class=footer-base-releases-link onclick='return navigateToUrlOrRoot("https://preliminary.istio.io/blog/2018/v1alpha3-routing/"),!1'>下个版本</a></li><li class=footer-base-releases-item><a tabindex=-1 class=footer-base-releases-link href=https://istio.io/archive>旧版本</a></li></ul></div></div></footer><div id=scroll-to-top-container aria-hidden=true><button id=scroll-to-top title=回到顶部 tabindex=-1><svg class="icon top"><use xlink:href="/v1.15/img/icons.svg#top"/></svg></button></div></body></html>

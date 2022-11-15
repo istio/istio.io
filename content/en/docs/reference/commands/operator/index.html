@@ -256,6 +256,14 @@ to enable it.  You can execute the following once:</p>
 <td>Defines the concurrency limit for operator to reconcile IstioOperatorSpec in parallel. Default value is 1.  (default `1`)</td>
 </tr>
 <tr>
+<td><code>--monitoring-host &lt;string&gt;</code></td>
+<td>HTTP host to use for operator&#39;s self-monitoring information  (default `0.0.0.0`)</td>
+</tr>
+<tr>
+<td><code>--monitoring-port &lt;uint32&gt;</code></td>
+<td>HTTP port to use for operator&#39;s self-monitoring information  (default `8383`)</td>
+</tr>
+<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
@@ -1039,12 +1047,6 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>String</td>
 <td><code></code></td>
 <td>The SPIFFE bundle trust domain to endpoint mappings. Istiod retrieves the root certificate from each SPIFFE bundle endpoint and uses it to verify client certifiates from that trust domain. The endpoint must be compliant to the SPIFFE Bundle Endpoint standard. For details, please refer to https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE_Trust_Domain_and_Bundle.md . No need to configure this for root certificates issued via Istiod or web-PKI based root certificates. Use || between &lt;trustdomain, endpoint&gt; tuples. Use | as delimiter between trust domain and endpoint in each tuple. For example: foo|https://url/for/foo||bar|https://url/for/bar</td>
-</tr>
-<tr>
-<td><code>TELEMETRY_USE_NATIVE_STATS</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>True if the stats runtime should use the Envoy extension instead of the compiled Wasm extension.</td>
 </tr>
 <tr>
 <td><code>TERM</code></td>
