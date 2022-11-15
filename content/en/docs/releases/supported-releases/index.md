@@ -54,6 +54,7 @@ current `<minor>` release. A patch is usually a small change relative to the `<m
 | Version         | Currently Supported  | Release Date      | End of Life              | Supported Kubernetes Versions | Tested, but not supported          |
 |-----------------|----------------------|-------------------|--------------------------|-------------------------------|------------------------------------|
 | master          | No, development only |                   |                          |                               |                                    |
+| 1.16            | Yes                  | November 15, 2022 | ~June 2023 (Expected)    | 1.22, 1.23, 1.24, 1.25        | 1.16, 1.17, 1.18, 1.19, 1.20, 1.21 |
 | 1.15            | Yes                  | August 31, 2022   | ~March 2023 (Expected)   | 1.22, 1.23, 1.24, 1.25        | 1.16, 1.17, 1.18, 1.19, 1.20, 1.21 |
 | 1.14            | Yes                  | May 24, 2022      | ~January 2023 (Expected) | 1.21, 1.22, 1.23, 1.24        | 1.16, 1.17, 1.18, 1.19, 1.20       |
 | 1.13            | Yes                  | February 11, 2022 | Oct 12, 2022             | 1.20, 1.21, 1.22, 1.23        | 1.16, 1.17, 1.18, 1.19             |
