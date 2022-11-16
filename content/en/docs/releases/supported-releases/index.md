@@ -79,7 +79,7 @@ Please keep up-to-date and use a supported version.
 
 | Minor Releases   | Patched versions with no known CVEs           |
 |------------------|-----------------------------------------------|
+| 1.16.x           | 1.16.0+                                       |
 | 1.15.x           | 1.15.3+                                       |
 | 1.14.x           | 1.14.5+                                       |
-| 1.13.x           | 1.13.9+                                       |
-| 1.12 and earlier | None, all versions have known vulnerabilities |
+| 1.13 and earlier | None, all versions have known vulnerabilities |
