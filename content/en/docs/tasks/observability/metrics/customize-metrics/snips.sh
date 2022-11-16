@@ -66,8 +66,11 @@ spec:
                     destination_port: string(destination.port)
                     request_host: request.host
 EOF
-istioctl install -f custom_metrics.yaml
 }
+
+! read -r -d '' snip_enable_custom_metrics_2_out <<\ENDSNIP
+# istioctl install -f custom_metrics.yaml
+ENDSNIP
 
 ! read -r -d '' snip_enable_custom_metrics_3 <<\ENDSNIP
 apiVersion: apps/v1
