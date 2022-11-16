@@ -109,7 +109,7 @@ the example application throughout this task.
                         destination_port: string(destination.port)
                         request_host: request.host
     EOF
-    $ istioctl install -f custom_metrics.yaml
+    # istioctl install -f custom_metrics.yaml
     {{< /text >}}
 
 1. Apply the following annotation to all injected pods with the list of the
