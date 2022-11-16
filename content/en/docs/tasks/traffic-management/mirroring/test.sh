@@ -42,7 +42,6 @@ _wait_for_deployment default sleep
 
 if [ "$GATEWAY_API" == "true" ]; then
     snip_creating_a_default_routing_policy_2
-    sleep 30s # TODO proper wait
 else
     snip_creating_a_default_routing_policy_1
 
@@ -51,15 +50,17 @@ else
     _wait_for_istio destinationrule default httpbin
 fi
 
-_verify_contains snip_creating_a_default_routing_policy_3 "headers"
-
-_verify_contains snip_creating_a_default_routing_policy_4 "GET /headers HTTP/1.1"
-
-_verify_not_contains snip_creating_a_default_routing_policy_5 "GET /headers HTTP/1.1"
+send_request_and_get_v1_log() {
+    _verify_contains snip_creating_a_default_routing_policy_3 "headers"
+    out=$(snip_creating_a_default_routing_policy_4)
+    echo "$out"
+}
+_verify_contains send_request_and_get_v1_log "GET /headers HTTP/1.1"
+_
+verify_not_contains snip_creating_a_default_routing_policy_5 "GET /headers HTTP/1.1"
 
 if [ "$GATEWAY_API" == "true" ]; then
     snip_mirroring_traffic_to_v2_2
-    sleep 30s # TODO proper wait
 else
     snip_mirroring_traffic_to_v2_1
 
@@ -67,17 +68,17 @@ else
     _wait_for_istio virtualservice default httpbin
 fi
 
-# Set environment variables. TODO: why didn't the exports from snip_creating_a_default_routing_policy_2/3/4 take?
+# Set environment variables. TODO: why didn't the exports from snip_creating_a_default_routing_policy_3/4/5 take?
 export SLEEP_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
 export V1_POD=$(kubectl get pod -l app=httpbin,version=v1 -o jsonpath={.items..metadata.name})
 export V2_POD=$(kubectl get pod -l app=httpbin,version=v2 -o jsonpath={.items..metadata.name})
 
-snip_mirroring_traffic_to_v2_3
-
-# TODO: This should check for 2 lines with the GET request
-_verify_contains snip_mirroring_traffic_to_v2_4 "GET /headers HTTP/1.1"
-
-_verify_contains snip_mirroring_traffic_to_v2_5 "GET /headers HTTP/1.1"
+send_request_and_get_v2_log() {
+    _verify_contains snip_mirroring_traffic_to_v2_3 "headers"
+    out=$(snip_mirroring_traffic_to_v2_5)
+    echo "$out"
+}
+_verify_contains send_request_and_get_v2_log "GET /headers HTTP/1.1"
 
 # @cleanup
 if [ "$GATEWAY_API" != "true" ]; then
