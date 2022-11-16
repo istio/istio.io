@@ -56,8 +56,8 @@ send_request_and_get_v1_log() {
     echo "$out"
 }
 _verify_contains send_request_and_get_v1_log "GET /headers HTTP/1.1"
-_
-verify_not_contains snip_creating_a_default_routing_policy_5 "GET /headers HTTP/1.1"
+
+_verify_not_contains snip_creating_a_default_routing_policy_5 "GET /headers HTTP/1.1"
 
 if [ "$GATEWAY_API" == "true" ]; then
     snip_mirroring_traffic_to_v2_2
