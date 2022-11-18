@@ -8,7 +8,7 @@ layout: protoc-gen-docs
 generator: protoc-gen-docs
 schema: istio.security.v1beta1.JWTRule
 aliases: [/docs/reference/config/security/v1beta1/jwt]
-number_of_entries: 2
+number_of_entries: 3
 ---
 <h2 id="JWTRule">JWTRule</h2>
 <section>
@@ -170,6 +170,27 @@ No
 No
 </td>
 </tr>
+<tr id="JWTRule-output_claim_to_headers">
+<td><code>outputClaimToHeaders</code></td>
+<td><code><a href="#ClaimToHeader">ClaimToHeader[]</a></code></td>
+<td>
+<p>This field specifies a list of operations to copy the claim to HTTP headers on a successfully verified token.
+This differs from the <code>output_payload_to_header</code> by allowing outputting individual claims instead of the whole payload.
+The header specified in each operation in the list must be unique. Nested claims of type string/int/bool is supported as well.</p>
+<pre><code>  outputClaimToHeaders:
+  - header: x-my-company-jwt-group
+    claim: my-group
+  - header: x-test-environment-flag
+    claim: test-flag
+  - header: x-jwt-claim-group
+    claim: nested.key.group
+</code></pre>
+
+</td>
+<td>
+No
+</td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -205,6 +226,46 @@ Yes
 <p>The prefix that should be stripped before decoding the token.
 For example, for &ldquo;Authorization: Bearer <token>&rdquo;, prefix=&ldquo;Bearer &quot; with a space at the end.
 If the header doesn&rsquo;t have this exact prefix, it is considered invalid.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ClaimToHeader">ClaimToHeader</h2>
+<section>
+<p>This message specifies the detail for copying claim to header.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ClaimToHeader-header">
+<td><code>header</code></td>
+<td><code>string</code></td>
+<td>
+<p>The name of the header to be created. The header will be overridden if it already exists in the request.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ClaimToHeader-claim">
+<td><code>claim</code></td>
+<td><code>string</code></td>
+<td>
+<p>The name of the claim to be copied from. Only claim of type string/int/bool is supported.
+The header will not be there if the claim does not exist or the type of the claim is not supported.</p>
 
 </td>
 <td>
