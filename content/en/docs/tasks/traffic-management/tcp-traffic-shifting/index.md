@@ -37,6 +37,12 @@ weighted routing feature.
     $ kubectl create namespace istio-io-tcp-traffic-shifting
     {{< /text >}}
 
+1.  Deploy the [sleep]({{< github_tree >}}/samples/sleep) sample app to use as a test source for sending requests.
+
+    {{< text bash >}}
+    $ kubectl apply -f @samples/sleep/sleep.yaml@ -n istio-io-tcp-traffic-shifting
+    {{< /text >}}
+
 1.  Deploy the `v1` and `v2` versions of the `tcp-echo` microservice.
 
     {{< text bash >}}
@@ -97,7 +103,8 @@ $ export TCP_INGRESS_PORT=$(kubectl get gtw tcp-echo-gateway -n istio-io-tcp-tra
 
     {{< text bash >}}
     $ for i in {1..20}; do \
-    sh -c "(date; sleep 1) | nc $INGRESS_HOST $TCP_INGRESS_PORT"; \
+    kubectl exec "$(kubectl get pod -l app=sleep -n istio-io-tcp-traffic-shifting -o jsonpath={.items..metadata.name})" \
+    -c sleep -n istio-io-tcp-traffic-shifting -- sh -c "(date; sleep 1) | nc $INGRESS_HOST $TCP_INGRESS_PORT"; \
     done
     one Mon Nov 12 23:24:57 UTC 2022
     one Mon Nov 12 23:25:00 UTC 2022
@@ -206,7 +213,8 @@ spec:
 
     {{< text bash >}}
     $ for i in {1..20}; do \
-    sh -c "(date; sleep 1) | nc $INGRESS_HOST $TCP_INGRESS_PORT"; \
+    kubectl exec "$(kubectl get pod -l app=sleep -n istio-io-tcp-traffic-shifting -o jsonpath={.items..metadata.name})" \
+    -c sleep -n istio-io-tcp-traffic-shifting -- sh -c "(date; sleep 1) | nc $INGRESS_HOST $TCP_INGRESS_PORT"; \
     done
     one Mon Nov 12 23:38:45 UTC 2022
     two Mon Nov 12 23:38:47 UTC 2022
@@ -263,9 +271,10 @@ $ kubectl delete -f @samples/tcp-echo/gateway-api/tcp-echo-all-v1.yaml@ -n istio
 
 {{< /tabset >}}
 
-2) Remove the `tcp-echo` application and test namespace:
+2) Remove the `sleep` sample, `tcp-echo` application and test namespace:
 
     {{< text bash >}}
+    $ kubectl delete -f @samples/sleep/sleep.yaml@ -n istio-io-tcp-traffic-shifting
     $ kubectl delete -f @samples/tcp-echo/tcp-echo-services.yaml@ -n istio-io-tcp-traffic-shifting
     $ kubectl delete namespace istio-io-tcp-traffic-shifting
     {{< /text >}}
