@@ -43,7 +43,7 @@ test: yes
 
 首先，您需要部署一个外部授权器。为此，您只需将示例外部授权器部署在网格中的独立Pod中。
 
-1. 运行以下命令以部署示例外部授权器:
+1. 运行以下命令以部署示例外部授权器：
 
     {{< text bash >}}
     $ kubectl apply -n foo -f {{< github_file >}}/samples/extauthz/ext-authz.yaml
@@ -51,7 +51,7 @@ test: yes
     deployment.apps/ext-authz created
     {{< /text >}}
 
-1. 验证示例外部授权器是否已启动并正在运行:
+1. 验证示例外部授权器是否已启动并正在运行：
 
     {{< text bash >}}
     $ kubectl logs "$(kubectl get pod -l app=ext-authz -n foo -o jsonpath={.items..metadata.name})" -n foo -c ext-authz
@@ -59,7 +59,7 @@ test: yes
     2021/01/07 22:55:47 Starting gRPC server at [::]:9000
     {{< /text >}}
 
-或者，您也可以将外部授权器与需要外部授权的应用程序部署在同一Pod内，甚至您也可以将其部署在网格之外。在这两种情况下，您还需要创建一个 ServiceEntry 资源来将服务注册到网格，并确保代理可以访问它。
+或者，您也可以将外部授权器与需要外部授权的应用程序部署在同一 Pod 内，甚至您也可以将其部署在网格之外。在这两种情况下，您还需要创建一个 ServiceEntry 资源来将服务注册到网格，并确保代理可以访问它。
 
 以下是将外部授权器部署在需要外部授权的应用程序同一 Pod 内时，您需要配置的示例 ServiceEntry。
 
@@ -222,3 +222,7 @@ spec:
     {{< /text >}}
 
 1. 从网格配置中删除扩展提供程序定义。
+
+## 性能预期{#performance-expectations}
+
+请参阅[性能基准测试](https://github.com/istio/tools/tree/master/perf/benchmark/configs/istio/ext_authz)。
