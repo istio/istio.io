@@ -208,12 +208,20 @@ features:
     link: "/docs/concepts/security/#authorization"
     level:
       checklist: features/authorization.md
-      maturity: Beta
+      maturity: Stable
       nextExpectedPromotion: ""
     area: Security and policy enforcement
   - name: "End User (JWT) Authentication"
     id: "security.jwt_authentication"
-    link: "/docs/concepts/security/#authentication"
+    link: "/docs/reference/config/security/request_authentication/"
+    level:
+      checklist: features/jwt_authentication.md
+      maturity: Stable
+      nextExpectedPromotion: ""
+    area: Security and policy enforcement
+  - name: "Peer Authentication"
+    id: "security.peer_authentication"
+    link: "/docs/reference/config/security/peer_authentication/"
     level:
       checklist: ""
       maturity: Beta
