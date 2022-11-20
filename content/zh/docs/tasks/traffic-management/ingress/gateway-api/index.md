@@ -15,8 +15,8 @@ test: yes
 和 [Ingress](https://kubernetes.io/zh-cn/docs/concepts/services-networking/ingress/) API 的积极发展演进。
 
 {{< tip >}}
-许多 Istio 流量管理文档均囊括了 Istio 或 Kubernetes API 的使用说明（例如请参阅[控制入站流量任务](/zh/docs/tasks/traffic-management/ingress/ingress-control)）。
-通过参照[后续入门指南](/zh/docs/setup/additional-setup/getting-started/)，您甚至从一开始就可以使用 Gateway API。
+许多 Istio 流量管理文档均囊括了 Istio 或 Kubernetes API 的使用说明（例如请参阅[控制入站流量](/zh/docs/tasks/traffic-management/ingress/ingress-control)）。
+通过参照[入门指南](/zh/docs/setup/additional-setup/getting-started/)，您甚至从一开始就可以使用 Gateway API。
 {{< /tip >}}
 
 ## 设置 {#setup}
@@ -272,7 +272,7 @@ spec:
       port: 80
 {{< /text >}}
 
-有关更多详情和示例，请参阅其他[流量管理任务](/zh/docs/tasks/traffic-management/)。
+有关更多详情和示例，请参阅其他[流量管理](/zh/docs/tasks/traffic-management/)。
 
 ## 清理 {#cleanup}
 
