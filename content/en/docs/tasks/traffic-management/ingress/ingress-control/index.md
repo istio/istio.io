@@ -225,7 +225,7 @@ Set the `INGRESS_HOST` and `INGRESS_PORT` environment variables according to the
 If you are unsure, you can determine if your Kubernetes cluster is running in an environment that supports external load balancers using the following command:
 
 {{< text bash >}}
-$ kubectl get svc istio-ingressgateway -n istio-system
+$ kubectl get svc istio-ingressgateway -n istio-ingress
 NAME                   TYPE           CLUSTER-IP       EXTERNAL-IP      PORT(S)   AGE
 istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121   ...       17h
 {{< /text >}}
