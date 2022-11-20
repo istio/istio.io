@@ -7,7 +7,7 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-此任务描述如何使用 Kubernetes [Ingress 资源](https://kubernetes.io/zh-cn/docs/concepts/services-networking/ingress/)为 Istio 配置入口网关以暴露服务网格集群内的服务。
+此任务描述如何使用 [Kubernetes Ingress](https://kubernetes.io/zh-cn/docs/concepts/services-networking/ingress/) 为 Istio 配置入口网关以暴露服务网格集群内的服务。
 
 {{< tip >}}
 建议使用 [Gateway](/zh/docs/tasks/traffic-management/ingress/ingress-control/) 而不是 Ingress 来利用 Istio 提供的完整功能集，例如丰富的流量管理和安全功能。
@@ -19,7 +19,7 @@ test: yes
 
 ## 使用 Ingress 资源配置入口网关 {#configuring-ingress-using-an-ingress-resource}
 
-[Kubernetes Ingress 资源](https://kubernetes.io/zh-cn/docs/concepts/services-networking/ingress/)公开了从集群外到集群内服务的 HTTP 和 HTTPS 路由。
+[Kubernetes Ingress](https://kubernetes.io/zh-cn/docs/concepts/services-networking/ingress/) 公开了从集群外到集群内服务的 HTTP 和 HTTPS 路由。
 
 让我们看看如何在端口 80 上配置 `Ingress` 以实现 HTTP 流量。
 
