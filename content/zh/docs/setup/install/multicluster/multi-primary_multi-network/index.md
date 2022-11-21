@@ -25,7 +25,7 @@ owner: istio/wg-environments-maintainers
     caption="Multiple primary clusters on separate networks"
     >}}
 
-## 为 `cluster1` 设置缺省网络 {#set-the-default-network for cluster1}
+## 为 `cluster1` 设置缺省网络 {#set-the-default-network-for-cluster1}
 
 创建命名空间 istio-system 之后，我们需要设置集群的网络：
 
