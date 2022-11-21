@@ -40,6 +40,7 @@ _wait_for_deployment istio-io-tcp-traffic-shifting sleep
 # Route all traffic to echo v1
 if [ "$GATEWAY_API" == "true" ]; then
     snip_apply_weightbased_tcp_routing_2
+    _wait_for_gateway istio-io-tcp-traffic-shifting tcp-echo-gateway
     snip_apply_weightbased_tcp_routing_3
 else
     snip_apply_weightbased_tcp_routing_1
