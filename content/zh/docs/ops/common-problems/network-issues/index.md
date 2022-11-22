@@ -29,7 +29,7 @@ $ kubectl logs PODNAME -c istio-proxy -n NAMESPACE
 - `UO`：上游溢出导致断路，请在 `DestinationRule` 检查您的熔断器配置。
 - `UF`：未能连接到上游，如果您正在使用 Istio 认证，请检查[双向 TLS 配置冲突](#service-unavailable-errors-after-setting-destination-rule)。
 
-## 路由规则似乎没有对流量生效{#route-rules-don't-seem-to-affect-traffic-flow}
+## 路由规则似乎没有对流量生效{#route-rules-dont-seem-to-affect-traffic-flow}
 
 在当前版本的 Envoy Sidecar 实现中，加权版本分发被观测到至少需要 100 个请求。
 
@@ -171,7 +171,7 @@ spec:
 
 请确保增大您的 ulimit。例如: `ulimit -n 16384`
 
-## Envoy 不能连接到 HTTP/1.0 服务{#envoy-won't-connect-to-my-http/1.0-service}
+## Envoy 不能连接到 HTTP/1.0 服务{#envoy-wont-connect-to-my-http10-service}
 
 Envoy 要求上游服务使用 `HTTP/1.1` 或者 `HTTP/2` 协议流量。举个例子，当在 Envoy 之后使用 [NGINX](https://www.nginx.com/) 来代理您的流量，您将需要在您的 NGINX 配置里将 [proxy_http_version](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_http_version) 设置为 "1.1"，因为 NGINX 默认的设置是 1.0。
 
