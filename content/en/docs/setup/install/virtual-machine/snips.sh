@@ -244,7 +244,7 @@ sudo rpm -e istio-sidecar
 
 snip_uninstall_4() {
 kubectl delete -n istio-system -f samples/multicluster/expose-istiod.yaml
-istioctl manifest generate | kubectl delete -f -
+istioctl uninstall -y --purge
 }
 
 snip_uninstall_5() {

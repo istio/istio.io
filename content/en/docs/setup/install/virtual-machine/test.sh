@@ -51,6 +51,4 @@ _verify_contains check_call "Hello version:"
 # @cleanup
 docker stop vm
 snip_uninstall_4
-kubectl delete validatingwebhookconfiguration istiod-default-validator #TODO fix snip and then remove
-kubectl delete mutatingwebhookconfiguration istio-revision-tag-default #TODO fix snip and then remove
 kubectl delete namespace istio-system vm-namespace sample
