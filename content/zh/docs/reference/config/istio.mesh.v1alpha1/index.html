@@ -7,7 +7,7 @@ location: https://istio.io/docs/reference/config/istio.mesh.v1alpha1.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
 weight: 20
-number_of_entries: 54
+number_of_entries: 55
 ---
 <p>Configuration affecting the service mesh as a whole.</p>
 
@@ -2488,6 +2488,19 @@ mesh wide or individual per-workload basis.</p>
 <td><code>cryptomb</code></td>
 <td><code><a href="#PrivateKeyProvider-CryptoMb">CryptoMb (oneof)</a></code></td>
 <td>
+<p>Use CryptoMb private key provider</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PrivateKeyProvider-qat" class="oneof">
+<td><code>qat</code></td>
+<td><code><a href="#PrivateKeyProvider-QAT">QAT (oneof)</a></code></td>
+<td>
+<p>Use QAT private key provider</p>
+
 </td>
 <td>
 No
@@ -3146,7 +3159,38 @@ gets full (eight sign or decrypt requests are received) it is processed immediat
 However, if the queue is not filled before the delay has expired, the requests already in the queue
 are processed, even if the queue is not full.
 In effect, this value controls the balance between latency and throughput.
-The duration needs to be set to a non-zero value.</p>
+The duration needs to be set to a value greater than or equal to 1 millisecond.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="PrivateKeyProvider-QAT">PrivateKeyProvider.QAT</h2>
+<section>
+<p>QAT (QuickAssist Technology) PrivateKeyProvider configuration</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="PrivateKeyProvider-QAT-poll_delay">
+<td><code>pollDelay</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
+<td>
+<p>How long to wait before polling the hardware accelerator after a request has been submitted there.
+Having a small value leads to quicker answers from the hardware but causes more polling loop spins,
+leading to potentially larger CPU usage.
+The duration needs to be set to a value greater than or equal to 1 millisecond.</p>
 
 </td>
 <td>
