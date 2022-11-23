@@ -479,7 +479,6 @@ To uninstall Istio, run the following command:
 
 {{< text bash >}}
 $ kubectl delete -n istio-system -f @samples/multicluster/expose-istiod.yaml@
-$ istioctl manifest generate | kubectl delete -f -
 $ istioctl uninstall -y --purge
 {{< /text >}}
 
