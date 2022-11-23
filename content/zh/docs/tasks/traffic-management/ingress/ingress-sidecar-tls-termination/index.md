@@ -16,13 +16,13 @@ test: yes
 ## 准备工作 {#before-you-begin}
 
 *   按照[安装指南](/zh/docs/setup/)中的说明设置 Istio ，启用实验功能 `ENABLE_TLS_ON_SIDECAR_INGRESS`。
-    
+
     {{< text bash >}}
     $ istioctl install --set profile=default --set values.pilot.env.ENABLE_TLS_ON_SIDECAR_INGRESS=true
     {{< /text >}}
-    
+
 *   创建用于部署目标服务的测试命名空间 `httpbin`。确保为命名空间启用 sidecar 注入。
-    
+
     {{< text bash >}}
     $ kubectl create ns test
     $ kubectl label namespace test istio-injection=enabled
