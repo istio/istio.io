@@ -36,7 +36,6 @@ snip_before_you_begin_3
 #  _verify_not_contains snip_creating_a_default_routing_policy_5.
 if [ "$GATEWAY_API" == "true" ]; then
     snip_creating_a_default_routing_policy_2
-    sleep 20s # TODO proper wait for config update
 else
     snip_creating_a_default_routing_policy_1
 
@@ -54,6 +53,9 @@ _wait_for_deployment default httpbin-v2
 
 snip_before_you_begin_4
 _wait_for_deployment default sleep
+
+# wait some more for the route config to be applied to the sleep pod
+sleep 30s # TODO proper wait for config update
 
 send_request_and_get_v1_log() {
     _verify_contains snip_creating_a_default_routing_policy_3 "headers"
