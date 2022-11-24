@@ -252,7 +252,7 @@ x-envoy-upstream-service-time: 5
 
 ### 在 8443 端口上验证外部到内部网格的连通性 {#verify-external-to-internal-mesh-connectivity-on-port-8443}
 
-要验证来自外部客户端的 mTLS 流量，首先将 CA 证书和客户端证书/密钥复制到在默认命名空间中运行的 sleep 客户端。
+要验证来自外部客户端的 mTLS 流量，首先将 CA 证书和客户端证书/密钥复制到在 default 命名空间中运行的 sleep 客户端。
 
 {{< text bash >}}
 $ export EXTERNAL_CLIENT=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
