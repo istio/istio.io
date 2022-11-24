@@ -21,7 +21,7 @@ test: yes
     $ istioctl install --set profile=default --set values.pilot.env.ENABLE_TLS_ON_SIDECAR_INGRESS=true
     {{< /text >}}
 
-*   创建用于部署目标服务的测试命名空间 `httpbin`。确保为命名空间启用 sidecar 注入。
+*   创建一个 test 命名空间，在其中部署目标 `httpbin` 服务。确保为该命名空间启用 Sidecar 注入。
 
     {{< text bash >}}
     $ kubectl create ns test
