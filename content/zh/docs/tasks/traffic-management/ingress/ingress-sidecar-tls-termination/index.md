@@ -30,7 +30,7 @@ test: yes
 
 ## 启用全局 mTLS {#enable-global-mtls}
 
-应用以下 `PeerAuthentication` 策略以要求网格中所有工作负载的 mTLS 流量。
+应用以下 `PeerAuthentication` 策略，对网格中的所有工作负载实现 mTLS 流量。
 
 {{< text bash >}}
 $ kubectl -n test apply -f - <<EOF
