@@ -312,6 +312,14 @@ pro_services:
     details:
       - "inovex is an IT project center driven by innovation and quality, focusing its services on ‘Digital Transformation’. Building production-ready cloud infrastructure since 2010 have been employing Kubernetes since its inception."
       - "We rely on Istio to heighten the security and resilience in the applications we build for our clients, meeting their needs even in multicluster setups."
+  - name: "Palark"
+    logo: "/logos/palark.svg"
+    url: "https://palark.com/"
+    description: "Palark offers comprehensive DevOps and SRE services, from consulting in cloud-native architecture to deploying and operating such apps."
+    details:
+      - "We’ve been using Kubernetes in production since 2017. To deliver advanced networking capabilities to our customers, we opted for Istio as a service mesh solution that provides everything needed and that we can trust."
+      - "One of the prominent features we’ve implemented is automating the multi-cluster communication for Istio deployed in different Kubernetes clusters."
+      - "Having vast experience integrating Istio into our Kubernetes platform and digging deep into its features and configuration peculiarities, Palark can help you to get the most out of Istio for your business needs."
   - name: "Your Name Here"
     logo: "/logos/istio.svg"
     url: "https://istio.io/"
