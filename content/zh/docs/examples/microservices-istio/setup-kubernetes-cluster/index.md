@@ -8,13 +8,13 @@ test: no
 
 {{< boilerplate work-in-progress >}}
 
-在这个模块，您将设置一个安装了 Istio 的 Kubernetes 集群，和一个整个教程要用到的命名空间。
+在这个模块，您将设置一个安装了 Istio 的 Kubernetes 集群，还将设置整个教程要用到的一个命名空间。
 
 {{< warning >}}
 如果您在培训班且讲师已准备好了集群，直接前往[设置本地机器](/zh/docs/examples/microservices-istio/setup-local-computer)。
 {{</ warning >}}
 
-1. 确保您有 [Kubernetes 集群](https://kubernetes.io/docs/tutorials/kubernetes-basics/)的访问权限。
+1. 确保您有 [Kubernetes 集群](https://kubernetes.io/zh-cn/docs/tutorials/kubernetes-basics/)的访问权限。
     您可以使用 [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/docs/quickstart) 或
      [IBM Cloud Kubernetes Service](https://cloud.ibm.com/docs/containers?topic=containers-getting-started)。
 
@@ -37,15 +37,15 @@ test: no
 
 1. 使用 `demo` 配置文件[安装 Istio](/zh/docs/setup/)。
 
-1. 本示例中使用了 [Kiali](/zh/docs/ops/integrations/kiali/) 和 [Prometheus](/zh/docs/ops/integrations/prometheus/)附加组件，需要安装它们。使用以下命令安装所有插件：
+1. 本示例中使用了 [Kiali](/zh/docs/ops/integrations/kiali/) 和 [Prometheus](/zh/docs/ops/integrations/prometheus/) 附加组件，需要安装它们。使用以下命令安装所有插件：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/addons@
     {{< /text >}}
 
     {{< tip >}}
-    If there are errors trying to install the addons, try running the command again. There may
-    be some timing issues which will be resolved when the command is run again.
+    如果尝试安装插件时出错，请尝试再次运行命令。
+    因为再次运行命令时可以解决一些时序引起的问题。
     {{< /tip >}}
 
 1. 使用 `kubectl` 命令为这些通用 Istio 服务创建一个 Kubernetes Ingress 资源。在教程目前这个阶段要熟悉这些服务并不是必须的。
@@ -59,7 +59,7 @@ test: no
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: extensions/v1beta1
+    apiVersion: networking.k8s.io/v1
     kind: Ingress
     metadata:
       name: istio-system
@@ -74,32 +74,40 @@ test: no
           - path: /
             pathType: Prefix
             backend:
-              serviceName: grafana
-              servicePort: 3000
+              service:
+                name: grafana
+                port:
+                  number: 3000
       - host: my-istio-tracing.io
         http:
           paths:
           - path: /
             pathType: Prefix
             backend:
-              serviceName: tracing
-              servicePort: 9411
+              service:
+                name: tracing
+                port:
+                  number: 9411
       - host: my-istio-logs-database.io
         http:
           paths:
           - path: /
             pathType: Prefix
             backend:
-              serviceName: prometheus
-              servicePort: 9090
+              service:
+                name: prometheus
+                port:
+                  number: 9090
       - host: my-kiali.io
         http:
           paths:
           - path: /
             pathType: Prefix
             backend:
-              serviceName: kiali
-              servicePort: 20001
+              service:
+                name: kiali
+                port:
+                  number: 20001
     EOF
     {{< /text >}}
 
@@ -108,7 +116,7 @@ test: no
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
     kind: Role
-    apiVersion: rbac.authorization.k8s.io/v1beta1
+    apiVersion: rbac.authorization.k8s.io/v1
     metadata:
       name: istio-system-access
       namespace: istio-system
@@ -139,18 +147,18 @@ test: no
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
     kind: Role
-    apiVersion: rbac.authorization.k8s.io/v1beta1
+    apiVersion: rbac.authorization.k8s.io/v1
     metadata:
       name: ${NAMESPACE}-access
       namespace: $NAMESPACE
     rules:
     - apiGroups: ["", "extensions", "apps", "networking.k8s.io", "networking.istio.io", "authentication.istio.io",
-                  "rbac.istio.io", "config.istio.io"]
+                  "rbac.istio.io", "config.istio.io", "security.istio.io"]
       resources: ["*"]
       verbs: ["*"]
     ---
     kind: RoleBinding
-    apiVersion: rbac.authorization.k8s.io/v1beta1
+    apiVersion: rbac.authorization.k8s.io/v1
     metadata:
       name: ${NAMESPACE}-access
       namespace: $NAMESPACE
@@ -164,7 +172,7 @@ test: no
       name: ${NAMESPACE}-access
     ---
     kind: RoleBinding
-    apiVersion: rbac.authorization.k8s.io/v1beta1
+    apiVersion: rbac.authorization.k8s.io/v1
     metadata:
       name: ${NAMESPACE}-istio-system-access
       namespace: istio-system
@@ -179,13 +187,13 @@ test: no
     EOF
     {{< /text >}}
 
-1. 每个参与者需要使用他们自己的 Kubernetes 配置文件。这个配置文件指明了集群的详细信息，服务账号，证书和参与者的命名空间。
+1. 每个参与者需要使用他们自己的 Kubernetes 配置文件。这个配置文件指明了集群的详细信息、服务账号、证书和参与者的命名空间。
     `kubectl` 命令使用这个配置文件在集群上操作。
 
     为每个参与者创建 Kubernetes 配置文件：
 
     {{< tip >}}
-    该命令假定您的集群名为 `tutorial-cluster`。如果群集的名称不同，则将所有引用替换为群集的名称。
+    该命令假定您的集群名为 `tutorial-cluster`。如果集群的名称不同，则将所有引用替换为集群的名称。
     {{</ tip >}}
 
     {{< text bash >}}
@@ -221,7 +229,7 @@ test: no
 1. 为 `${NAMESPACE}-user-config.yaml` 配置文件设置环境变量 `KUBECONFIG`：
 
     {{< text bash >}}
-    $ export KUBECONFIG=./${NAMESPACE}-user-config.yaml
+    $ export KUBECONFIG=$PWD/${NAMESPACE}-user-config.yaml
     {{< /text >}}
 
 1. 打印当前命名空间以确认配置文件已生效：
