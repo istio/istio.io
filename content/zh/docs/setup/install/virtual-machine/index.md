@@ -473,7 +473,7 @@ $ sudo rpm -e istio-sidecar
 
 {{< text bash >}}
 $ kubectl delete -f @samples/multicluster/expose-istiod.yaml@
-$ istioctl manifest generate | kubectl delete -f -
+$ istioctl uninstall -y --purge
 {{< /text >}}
 
 默认情况下，控制平面的命名空间（比如：`istio-system`）并不会被删除。
