@@ -261,7 +261,7 @@ $ kubectl cp client.test.svc.cluster.local.crt default/"${EXTERNAL_CLIENT}":/tmp
 $ kubectl cp example.com.crt default/"${EXTERNAL_CLIENT}":/tmp/ca.crt
 {{< /text >}}
 
-现在证书可用于外部 sleep 客户端，你可以使用以下命令验证它到服务网格内部 httpbin 服务的连接。
+现在证书可用于外部 sleep 客户端，您可以使用以下命令验证该客户端到内部 httpbin 服务的连通性。
 
 {{< text bash >}}
 $ kubectl exec "${EXTERNAL_CLIENT}" -c sleep -- curl -IsS --cacert /tmp/ca.crt --key /tmp/client.test.svc.cluster.local.key --cert /tmp/client.test.svc.cluster.local.crt -HHost:httpbin.test.svc.cluster.local "https://httpbin.test.svc.cluster.local:8443/status/200"
