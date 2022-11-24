@@ -250,7 +250,7 @@ content-length: 0
 x-envoy-upstream-service-time: 5
 {{< /text >}}
 
-### 验证 8443 端口上的外部到服务网格内部的连接 {#verify-external-to-internal-mesh-connectivity-on-port-8443}
+### 在 8443 端口上验证外部到内部网格的连通性 {#verify-external-to-internal-mesh-connectivity-on-port-8443}
 
 要验证来自外部客户端的 mTLS 流量，首先将 CA 证书和客户端证书/密钥复制到在默认命名空间中运行的 sleep 客户端。
 
