@@ -9,7 +9,7 @@ test: yes
 
 在常规的 Istio 网格部署中，下游请求的 TLS 终止是在 Ingress Gateway 处执行的。虽然这可以满足大多数使用场景，但对于某些场景（如网格中的 API 网关），Ingress Gateway 并不是必需的。此任务展示了如何消除 Istio Ingress Gateway 引入的额外跃点，并让与应用程序一起运行的 Envoy Sidecar 对来自服务网格外部的请求执行 TLS 终止。
 
-用于此任务的示例 HTTPS 服务是一个简单的 [httpbin](https://httpbin.org/) 服务。在以下步骤中，你将在服务网格中部署 httpbin 服务并对其进行配置。
+用于此任务的示例 HTTPS 服务是一个简单的 [httpbin](https://httpbin.org/) 服务。在以下步骤中，您将在服务网格中部署 httpbin 服务并对其进行配置。
 
 {{< boilerplate experimental-feature-warning >}}
 
