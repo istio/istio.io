@@ -275,7 +275,7 @@ x-envoy-upstream-service-time: 4
 x-envoy-decorator-operation: ingress-sidecar.test:9080/*
 {{< /text >}}
 
-除了通过入口端口 8443 验证外部 mTLS 连接之外，验证端口 8080 不接受任何外部 mTLS 流量也很重要。
+除了通过入口端口 8443 验证外部 mTLS 连通性之外，验证端口 8080 不接受任何外部 mTLS 流量也很重要。
 
 {{< text bash >}}
 $ kubectl exec "${EXTERNAL_CLIENT}" -c sleep -- curl -IsS --cacert /tmp/ca.crt --key /tmp/client.test.svc.cluster.local.key --cert /tmp/client.test.svc.cluster.local.crt -HHost:httpbin.test.svc.cluster.local "http://httpbin.test.svc.cluster.local:8080/status/200"
