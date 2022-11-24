@@ -1,6 +1,6 @@
 ---
 title: Ingress Sidecar TLS 终止
-description: 描述了如何在不使用入口网关的情况下，在一个 Sidecar 上终止 TLS 流量。
+description: 描述了如何在不使用 Ingress Gateway 的情况下，在一个 Sidecar 上终止 TLS 流量。
 weight: 30
 keywords: [traffic-management,ingress,https]
 owner: istio/wg-networking-maintainers
