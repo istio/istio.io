@@ -27,19 +27,13 @@ GATEWAY_API="${GATEWAY_API:-false}"
 
 kubectl label namespace default istio-injection- --overwrite
 
-snip_before_you_begin_1
-
-snip_before_you_begin_2
-
+# create the httpbin service
 snip_before_you_begin_3
 
-snip_before_you_begin_4
-
-# wait for deployments
-_wait_for_deployment default httpbin-v1
-_wait_for_deployment default httpbin-v2
-_wait_for_deployment default sleep
-
+# Configure the httpbin route before deploying the services to allow lots
+#  of time for the config to be ready before the first request. If too soon,
+#  it might send a request to v2, which will cuase the test to fail
+#  _verify_not_contains snip_creating_a_default_routing_policy_5.
 if [ "$GATEWAY_API" == "true" ]; then
     snip_creating_a_default_routing_policy_2
     sleep 20s # TODO proper wait for config update
@@ -50,6 +44,16 @@ else
     _wait_for_istio virtualservice default httpbin
     _wait_for_istio destinationrule default httpbin
 fi
+
+# deploy the services
+snip_before_you_begin_1
+_wait_for_deployment default httpbin-v1
+
+snip_before_you_begin_2
+_wait_for_deployment default httpbin-v2
+
+snip_before_you_begin_4
+_wait_for_deployment default sleep
 
 send_request_and_get_v1_log() {
     _verify_contains snip_creating_a_default_routing_policy_3 "headers"
