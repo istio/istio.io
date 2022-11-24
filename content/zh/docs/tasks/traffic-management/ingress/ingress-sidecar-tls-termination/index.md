@@ -285,7 +285,7 @@ command terminated with exit code 56
 
 ## 清理双向 TLS 终止示例 {#cleanup-the-mutual-tls-termination-example}
 
-1.  删除创建的 Kubernetes 资源：
+1.  移除创建的 Kubernetes 资源：
 
     {{< text bash >}}
     $ kubectl delete secret httpbin-mtls-termination httpbin-mtls-termination-cacert -n test
