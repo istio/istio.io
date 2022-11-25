@@ -8,7 +8,7 @@ layout: protoc-gen-docs
 generator: protoc-gen-docs
 schema: istio.extensions.v1alpha1.WasmPlugin
 aliases: [/docs/reference/config/extensions/v1alpha1/wasm-plugin]
-number_of_entries: 6
+number_of_entries: 7
 ---
 <p>WasmPlugins provides a mechanism to extend the functionality provided by
 the Istio proxy through WebAssembly filters.</p>
@@ -323,6 +323,19 @@ more details can be found <a href="https://www.envoyproxy.io/docs/envoy/latest/a
 No
 </td>
 </tr>
+<tr id="WasmPlugin-match">
+<td><code>match</code></td>
+<td><code><a href="#WasmPlugin-TrafficSelector">TrafficSelector[]</a></code></td>
+<td>
+<p>Specifies the criteria to determine which traffic is passed to WasmPlugin.
+If a traffic satisfies any of TrafficSelectors,
+the traffic passes the WasmPlugin.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -399,6 +412,57 @@ No
 <p>Value for the environment variable.
 Note that if <code>value_from</code> is <code>HOST</code>, it will be ignored.
 Defaults to &ldquo;&rdquo;.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="WasmPlugin-TrafficSelector">WasmPlugin.TrafficSelector</h2>
+<section>
+<p>TrafficSelector provides a mechanism to select a specific traffic flow
+for which this Wasm Plugin will be enabled.
+When all the sub conditions in the TrafficSelector are satisfied, the
+traffic will be selected.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="WasmPlugin-TrafficSelector-mode">
+<td><code>mode</code></td>
+<td><code><a href="/docs/reference/config/type/workload-selector/#WorkloadMode">WorkloadMode</a></code></td>
+<td>
+<p>Criteria for selecting traffic by their direction.
+Note that CLIENT and SERVER are analogous to INBOUND and OUTBOUND,
+respectively.
+For the gateway, the field should be CLIENT or CLIENT_AND_SERVER.
+If not specified, the default value is CLIENT_AND_SERVER.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="WasmPlugin-TrafficSelector-ports">
+<td><code>ports</code></td>
+<td><code><a href="/docs/reference/config/type/workload-selector/#PortSelector">PortSelector[]</a></code></td>
+<td>
+<p>Criteria for selecting traffic by their destination port.
+More specifically, for the outbound traffic, the destination port would be
+the port of the target service. On the other hand, for the inbound traffic,
+the destiation port is the port bound by the server process in the same Pod.</p>
+<p>If one of the given <code>ports</code> is matched, this condition is evaluated to true.
+If not specified, this condition is evaluated to true for any port.</p>
 
 </td>
 <td>
