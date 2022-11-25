@@ -290,10 +290,12 @@ snip_cleanup_1() {
 kubectl delete gateway httpbin-gateway
 kubectl delete virtualservice httpbin
 kubectl delete --ignore-not-found=true -f samples/httpbin/httpbin.yaml
+istioctl uninstall -y --purge
 }
 
 snip_cleanup_2() {
 kubectl delete gtw httpbin-gateway
 kubectl delete httproute httpbin
 kubectl delete --ignore-not-found=true -f samples/httpbin/httpbin.yaml
+istioctl uninstall -y --purge
 }

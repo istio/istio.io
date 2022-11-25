@@ -500,24 +500,26 @@ they have valid values, according to the output of the following commands:
 
 {{< tab name="Istio classic" category-value="istio-classic" >}}
 
-Delete the `Gateway` and `VirtualService` configuration, and shutdown the [httpbin]({{< github_tree >}}/samples/httpbin) service:
+Delete the `Gateway` and `VirtualService` configuration, shutdown the [httpbin]({{< github_tree >}}/samples/httpbin) service and uninstall Istio:
 
 {{< text bash >}}
 $ kubectl delete gateway httpbin-gateway
 $ kubectl delete virtualservice httpbin
 $ kubectl delete --ignore-not-found=true -f @samples/httpbin/httpbin.yaml@
+$ istioctl uninstall -y --purge
 {{< /text >}}
 
 {{< /tab >}}
 
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
-Delete the `Gateway` and `HTTPRoute` configuration, and shutdown the [httpbin]({{< github_tree >}}/samples/httpbin) service:
+Delete the `Gateway` and `HTTPRoute` configuration, shutdown the [httpbin]({{< github_tree >}}/samples/httpbin) service and uninstall Istio:
 
 {{< text bash >}}
 $ kubectl delete gtw httpbin-gateway
 $ kubectl delete httproute httpbin
 $ kubectl delete --ignore-not-found=true -f @samples/httpbin/httpbin.yaml@
+$ istioctl uninstall -y --purge
 {{< /text >}}
 
 {{< /tab >}}
