@@ -69,7 +69,7 @@ EOF
 
 ## 生成 CA 证书、服务器证书/密钥和客户端证书/密钥 {#generate-ca-cert-server-certkey-and-client-certkey}
 
-对于此任务，你可以使用自己喜欢的工具来生成证书和密钥。下面的命令使用 [openssl](https://man.openbsd.org/openssl.1)：
+对于此任务，您可以使用自己喜欢的工具来生成证书和密钥。下面的命令使用 [openssl](https://man.openbsd.org/openssl.1)：
 
 {{< text bash >}}
 $ #CA is example.com
