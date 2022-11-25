@@ -235,7 +235,7 @@ ROOTCA                                                                  CA      
 file-root:/etc/istio/tls-ca-certs/ca.crt                                Cert Chain     ACTIVE     true           14033888812979945197                        2023-02-14T09:51:56Z     2022-02-14T09:51:56Z
 {{< /text >}}
 
-### 验证 8080 端口上的服务网格内部连接 {#verify-internal-mesh-connectivity-on-port-8080}
+### 在 8080 端口上验证内部网格连通性 {#verify-internal-mesh-connectivity-on-port-8080}
 
 {{< text bash >}}
 $ export INTERNAL_CLIENT=$(kubectl -n test get pod -l app=sleep -o jsonpath={.items..metadata.name})
