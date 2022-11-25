@@ -224,7 +224,7 @@ httpbin   ClusterIP   10.100.78.113   <none>        8443/TCP,8080/TCP   10m
 sleep     ClusterIP   10.110.35.153   <none>        80/TCP              8m49s
 {{< /text >}}
 
-在以下命令中，将 `httpbin-5bbdbd6588-z9vbs` 替换为你的 httpbin pod 的名称。
+在以下命令中，将 `httpbin-5bbdbd6588-z9vbs` 替换为 httpbin Pod 的名称。
 
 {{< text bash >}}
 $ istioctl proxy-config secret httpbin-5bbdbd6588-z9vbs.test
