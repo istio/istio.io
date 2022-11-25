@@ -157,7 +157,7 @@ spec:
 
 ## 配置 httpbin 以启用外部 mTLS {#configure-httpbin-to-enable-external-mtls}
 
-这是此功能的核心步骤。使用 `Sidecar` API 配置入口 TLS 设置。TLS 模式可以是 `SIMPLE` 或 `MUTUAL`。本示例使用 `MUTUAL`.
+这是此功能的核心步骤。使用 `Sidecar` API 配置入口 TLS 设置。TLS 模式可以是 `SIMPLE` 或 `MUTUAL`。本示例使用 `MUTUAL`。
 
 {{< text bash >}}
 $ kubectl -n test apply -f - <<EOF
