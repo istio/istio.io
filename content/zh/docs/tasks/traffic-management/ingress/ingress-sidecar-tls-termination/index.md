@@ -91,7 +91,7 @@ $ kubectl -n test create secret tls httpbin-mtls-termination --cert ./httpbin.te
 
 ## 部署测试服务 httpbin {#deploy-the-httpbin-test-service}
 
-当创建 httpbin 部署时，我们需要在部署中使用 `userVolumeMount` 注解来为 istio-proxy sidecar 挂载证书。请注意，之所以需要此步骤是因为 Istio sidecar 目前不支持 `credentialName` 配置。
+当创建 httpbin Deployment 时，我们需要在该 Deployment 中使用 `userVolumeMount` 注解来为 istio-proxy sidecar 挂载证书。请注意，之所以需要此步骤是因为 Istio Sidecar 目前不支持 `credentialName` 配置。
 
 {{< text yaml >}}
 sidecar.istio.io/userVolume: '{"tls-secret":{"secret":{"secretName":"httpbin-mtls-termination","optional":true}},"tls-ca-secret":{"secret":{"secretName":"httpbin-mtls-termination-cacert"}}}'
