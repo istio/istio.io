@@ -446,9 +446,9 @@ using the `istio-ingressgateway` service's [node ports](https://kubernetes.io/do
 Set the ingress ports:
 
 {{< text bash >}}
-$ export INGRESS_PORT=$(kubectl -n  "${INGRESS_NS}" get service  "${INGRESS_NAME}" -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}')
-$ export SECURE_INGRESS_PORT=$(kubectl -n "${INGRESS_NS}" get service  "${INGRESS_NAME}" -o jsonpath='{.spec.ports[?(@.name=="https")].nodePort}')
-$ export TCP_INGRESS_PORT=$(kubectl -n "${INGRESS_NS}" get service  "${INGRESS_NAME}" -o jsonpath='{.spec.ports[?(@.name=="tcp")].nodePort}')
+$ export INGRESS_PORT=$(kubectl -n "${INGRESS_NS}" get service "${INGRESS_NAME}" -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}')
+$ export SECURE_INGRESS_PORT=$(kubectl -n "${INGRESS_NS}" get service "${INGRESS_NAME}" -o jsonpath='{.spec.ports[?(@.name=="https")].nodePort}')
+$ export TCP_INGRESS_PORT=$(kubectl -n "${INGRESS_NS}" get service "${INGRESS_NAME}" -o jsonpath='{.spec.ports[?(@.name=="tcp")].nodePort}')
 {{< /text >}}
 
 Setting the ingress IP depends on the cluster provider:
