@@ -58,12 +58,13 @@ To integrate your SPIRE deployment with Istio, configure SPIRE:
 
 1. Share the SPIRE Agent socket with the pods within the node by deploying the
     [SPIFFE CSI Driver](https://github.com/spiffe/spiffe-csi).
+    The `-workload-api-socket-dir` argument to the driver should be the mount location of the socket's directory.
 
 See [Install Istio](#install-istio) to configure Istio to integrate with the SPIFFE CSI Driver.
 
-{{< warning >}}
-Note that you must deploy SPIRE before installing Istio into your environment so that Istio can detect it as a CA.
-{{< /warning >}}
+{{< tip >}}
+Istio will become the Envoy SDS listener if the socket is not created by SPIRE before the Istio agent starts up. This timing is controlled by customizing the IstioOperator.
+{{< /tip >}}
 
 ## Install Istio
 
@@ -121,11 +122,34 @@ Note that you must deploy SPIRE before installing Istio into your environment so
                         name: workload-socket
                         mountPath: "/run/secrets/workload-spiffe-uds"
                         readOnly: true
+                    - path: spec.template.spec.initContainers
+                      value:
+                        - name: wait-for-spire-socket
+                          image: busybox:1.28
+                          volumeMounts:
+                            - name: workload-socket
+                              mountPath: /run/secrets/workload-spiffe-uds
+                              readOnly: true
+                          env:
+                            - name: CHECK_FILE
+                              value: /run/secrets/workload-spiffe-uds/socket
+                          command:
+                            - sh
+                            - "-c"
+                            - |-
+                              echo `date -Iseconds` Waiting for: ${CHECK_FILE}
+                              while [[ ! -e ${CHECK_FILE} ]] ; do
+                                echo `date -Iseconds` File does not exist: ${CHECK_FILE}
+                                sleep 15
+                              done
+                              ls -l ${CHECK_FILE}
     EOF
     {{< /text >}}
 
     This will share the `spiffe-csi-driver` with the Ingress Gateway and the sidecars that are going to be injected on workload pods,
     granting them access to the SPIRE Agent's UNIX Domain Socket.
+
+    This will also add an initContainer to the gateway that will wait for SPIRE to create the UNIX Domain Socket before starting the istio-proxy. If the SPIRE agent is not ready or has not been properly configured with the same socket path, the Ingress Gateway initContainer will wait forever.
 
 1. Use [sidecar injection](/docs/setup/additional-setup/sidecar-injection) to inject the `istio-proxy`
     container into the pods within your mesh. See [custom templates](/docs/setup/additional-setup/sidecar-injection/#custom-templates-experimental)
