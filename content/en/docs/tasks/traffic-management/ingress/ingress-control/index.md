@@ -483,7 +483,7 @@ Setting the ingress IP depends on the cluster provider:
 1.  _Other environments:_
 
     {{< text bash >}}
-    $ export INGRESS_HOST=$(kubectl get po -l "${INGRESS_NAME}" -n  "${INGRESS_NS}" -o jsonpath='{.items[0].status.hostIP}')
+    $ export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n "${INGRESS_NS}" -o jsonpath='{.items[0].status.hostIP}')
     {{< /text >}}
 
 ## Troubleshooting
