@@ -256,9 +256,9 @@ EOF
 }
 
 snip_using_node_ports_of_the_ingress_gateway_service_1() {
-export INGRESS_PORT=$(kubectl -n  "${INGRESS_NS}" get service  "${INGRESS_NAME}" -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}')
-export SECURE_INGRESS_PORT=$(kubectl -n "${INGRESS_NS}" get service  "${INGRESS_NAME}" -o jsonpath='{.spec.ports[?(@.name=="https")].nodePort}')
-export TCP_INGRESS_PORT=$(kubectl -n "${INGRESS_NS}" get service  "${INGRESS_NAME}" -o jsonpath='{.spec.ports[?(@.name=="tcp")].nodePort}')
+export INGRESS_PORT=$(kubectl -n "${INGRESS_NS}" get service "${INGRESS_NAME}" -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}')
+export SECURE_INGRESS_PORT=$(kubectl -n "${INGRESS_NS}" get service "${INGRESS_NAME}" -o jsonpath='{.spec.ports[?(@.name=="https")].nodePort}')
+export TCP_INGRESS_PORT=$(kubectl -n "${INGRESS_NS}" get service "${INGRESS_NAME}" -o jsonpath='{.spec.ports[?(@.name=="tcp")].nodePort}')
 }
 
 snip_using_node_ports_of_the_ingress_gateway_service_2() {
