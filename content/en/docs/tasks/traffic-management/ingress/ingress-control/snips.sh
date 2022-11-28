@@ -280,7 +280,7 @@ export INGRESS_HOST=127.0.0.1
 }
 
 snip_using_node_ports_of_the_ingress_gateway_service_6() {
-export INGRESS_HOST=$(kubectl get po -l "${INGRESS_NAME}" -n  "${INGRESS_NS}" -o jsonpath='{.items[0].status.hostIP}')
+export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n "${INGRESS_NS}" -o jsonpath='{.items[0].status.hostIP}')
 }
 
 snip_troubleshooting_1() {
