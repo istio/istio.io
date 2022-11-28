@@ -222,7 +222,7 @@ Set the `INGRESS_HOST` and `INGRESS_PORT` environment variables according to the
 
 {{< tab name="Istio classic" category-value="istio-classic" >}}
 
-Set the following enviroment variables to the name and namespace where the Istio ingress gateway is located in your cluster:
+Set the following environment variables to the name and namespace where the Istio ingress gateway is located in your cluster:
 
 {{< text bash >}}
 $ export INGRESS_NAME=istio-ingressgateway
