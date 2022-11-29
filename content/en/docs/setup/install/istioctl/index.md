@@ -59,16 +59,14 @@ parameters, rather than passing a configuration file with `-f`. This is done to 
 The two methods are equivalent, but `-f` is strongly recommended for production. The above command would be written as
 follows using `-f`:
 
-{{< text yaml >}}
-# my-config.yaml
+{{< text bash >}}
+$ cat <<EOF > ./my-config.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
   meshConfig:
     accessLogFile: /dev/stdout
-{{< /text >}}
-
-{{< text bash >}}
+EOF
 $ istioctl install -f my-config.yaml
 {{< /text >}}
 

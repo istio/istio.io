@@ -37,7 +37,8 @@ spec:
               disable_host_header_fallback: true
 ENDSNIP
 
-! read -r -d '' snip_enable_custom_metrics_2 <<\ENDSNIP
+snip_enable_custom_metrics_2() {
+cat <<EOF > ./custom_metrics.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -64,6 +65,11 @@ spec:
                   dimensions:
                     destination_port: string(destination.port)
                     request_host: request.host
+EOF
+}
+
+! read -r -d '' snip_enable_custom_metrics_2_out <<\ENDSNIP
+# istioctl install -f custom_metrics.yaml
 ENDSNIP
 
 ! read -r -d '' snip_enable_custom_metrics_3 <<\ENDSNIP
