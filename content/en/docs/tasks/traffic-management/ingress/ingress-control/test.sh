@@ -38,7 +38,7 @@ if [ "$GATEWAY_API" == "true" ]; then
     snip_configuring_ingress_using_a_gateway_5
 
     # set INGRESS_HOST and INGRESS_PORT environment variables
-    snip_determining_the_ingress_ip_and_ports_5
+    snip_determining_the_ingress_ip_and_ports_7
 else
     # create the gateway and routes
     snip_configuring_ingress_using_a_gateway_1
@@ -49,10 +49,11 @@ else
     _wait_for_istio virtualservice default httpbin
 
     # check for external load balancer
-    _verify_like snip_determining_the_ingress_ip_and_ports_2 "$snip_determining_the_ingress_ip_and_ports_2_out"
+    snip_determining_the_ingress_ip_and_ports_2
+    _verify_like snip_determining_the_ingress_ip_and_ports_4 "$snip_determining_the_ingress_ip_and_ports_4_out"
 
     # set INGRESS_HOST, INGRESS_PORT, SECURE_INGRESS_PORT, and TCP_INGRESS_PORT environment variables
-    snip_determining_the_ingress_ip_and_ports_3
+    snip_determining_the_ingress_ip_and_ports_5
 fi
 
 # access the httpbin service

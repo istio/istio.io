@@ -125,31 +125,41 @@ minikube tunnel
 }
 
 snip_determining_the_ingress_ip_and_ports_2() {
-kubectl get svc istio-ingressgateway -n istio-system
+export INGRESS_NAME=istio-ingressgateway
+export INGRESS_NS=istio-system
 }
 
-! read -r -d '' snip_determining_the_ingress_ip_and_ports_2_out <<\ENDSNIP
+snip_determining_the_ingress_ip_and_ports_3() {
+export INGRESS_NAME=istio-ingress
+export INGRESS_NS=istio-ingress
+}
+
+snip_determining_the_ingress_ip_and_ports_4() {
+kubectl get svc "$INGRESS_NAME" -n "$INGRESS_NS"
+}
+
+! read -r -d '' snip_determining_the_ingress_ip_and_ports_4_out <<\ENDSNIP
 NAME                   TYPE           CLUSTER-IP       EXTERNAL-IP      PORT(S)   AGE
 istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121   ...       17h
 ENDSNIP
 
-snip_determining_the_ingress_ip_and_ports_3() {
-export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].port}')
-export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].port}')
-export TCP_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="tcp")].port}')
-}
-
-snip_determining_the_ingress_ip_and_ports_4() {
-export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
-}
-
 snip_determining_the_ingress_ip_and_ports_5() {
+export INGRESS_HOST=$(kubectl -n "$INGRESS_NS" get service "$INGRESS_NAME" -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+export INGRESS_PORT=$(kubectl -n "$INGRESS_NS" get service "$INGRESS_NAME" -o jsonpath='{.spec.ports[?(@.name=="http2")].port}')
+export SECURE_INGRESS_PORT=$(kubectl -n "$INGRESS_NS" get service "$INGRESS_NAME" -o jsonpath='{.spec.ports[?(@.name=="https")].port}')
+export TCP_INGRESS_PORT=$(kubectl -n "$INGRESS_NS" get service "$INGRESS_NAME" -o jsonpath='{.spec.ports[?(@.name=="tcp")].port}')
+}
+
+snip_determining_the_ingress_ip_and_ports_6() {
+export INGRESS_HOST=$(kubectl -n "$INGRESS_NS" get service "$INGRESS_NAME" -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
+}
+
+snip_determining_the_ingress_ip_and_ports_7() {
 export INGRESS_HOST=$(kubectl get gtw httpbin-gateway -o jsonpath='{.status.addresses[*].value}')
 export INGRESS_PORT=$(kubectl get gtw httpbin-gateway -o jsonpath='{.spec.listeners[?(@.name=="http")].port}')
 }
 
-snip_determining_the_ingress_ip_and_ports_6() {
+snip_determining_the_ingress_ip_and_ports_8() {
 export INGRESS_HOST=$(kubectl get gtw my-gateway -o jsonpath='{.status.addresses[*].value}')
 export SECURE_INGRESS_PORT=$(kubectl get gtw my-gateway -o jsonpath='{.spec.listeners[?(@.name=="https")].port}')
 }
@@ -246,9 +256,9 @@ EOF
 }
 
 snip_using_node_ports_of_the_ingress_gateway_service_1() {
-export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}')
-export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].nodePort}')
-export TCP_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="tcp")].nodePort}')
+export INGRESS_PORT=$(kubectl -n "${INGRESS_NS}" get service "${INGRESS_NAME}" -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}')
+export SECURE_INGRESS_PORT=$(kubectl -n "${INGRESS_NS}" get service "${INGRESS_NAME}" -o jsonpath='{.spec.ports[?(@.name=="https")].nodePort}')
+export TCP_INGRESS_PORT=$(kubectl -n "${INGRESS_NS}" get service "${INGRESS_NAME}" -o jsonpath='{.spec.ports[?(@.name=="tcp")].nodePort}')
 }
 
 snip_using_node_ports_of_the_ingress_gateway_service_2() {
@@ -270,7 +280,7 @@ export INGRESS_HOST=127.0.0.1
 }
 
 snip_using_node_ports_of_the_ingress_gateway_service_6() {
-export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].status.hostIP}')
+export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n "${INGRESS_NS}" -o jsonpath='{.items[0].status.hostIP}')
 }
 
 snip_troubleshooting_1() {
