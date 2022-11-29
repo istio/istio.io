@@ -231,7 +231,7 @@ profiles:
 
 - compiled in charts. This is the default if no `--manifests` option is set. The compiled in charts are the same as those
 in the `manifests/` directory of the Istio release `.tgz`.
-- charts in the local file system, e.g., `istioctl install --manifests istio-{{< istio_full_version >}}/manifests`
+- charts in the local file system, e.g., `istioctl install --manifests istio-{{< istio_full_version >}}/manifests`.
 
 Local file system charts and profiles can be customized by editing the files in `manifests/`. For extensive changes,
 we recommend making a copy of the `manifests` directory and make changes there. Note, however, that the content layout
