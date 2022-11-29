@@ -223,8 +223,7 @@ spec:
 
 - 内置的 chart。如果没有设置 `--manifests`，则用 default。
   内置的 chart 和 Istio `.tgz` 发行包内 `manifests/` 目录下的内容相同。
-- 本地文件系统中的 chart，例如，`istioctl install --manifests istio-{{< istio_full_version >}}/manifests`
-- GitHub 上的 chart，例如，`istioctl install --manifests https://github.com/istio/istio/releases/download/{{< istio_full_version >}}/istio-{{< istio_full_version >}}-linux-arm64.tar.gz`
+- 本地文件系统中的 chart，例如 `istioctl install --manifests istio-{{< istio_full_version >}}/manifests`。
 
 本地文件系统的 chart 和配置档可以通过编辑 `manifests/` 目录下的文件定制。
 要进行广泛的更改，建议拷贝 `manifests` 目录，然后修改副本。
