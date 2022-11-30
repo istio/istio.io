@@ -209,7 +209,7 @@ Cert-manager has added [experimental Support for Kubernetes `CertificateSigningR
 1. Deploy the `proxyconfig-foo.yaml` in the foo namespace to define cert-signer for workloads in the `foo` namespace.
 
     {{< text bash >}}
-    $ cat <<EOF > ./proxyconfig-bar.yaml
+    $ cat <<EOF > ./proxyconfig-foo.yaml
     apiVersion: networking.istio.io/v1beta1
     kind: ProxyConfig
     metadata:
