@@ -56,7 +56,7 @@ ENDSNIP
 
 snip_configure_allow_authorization_policy_for_a_tcp_workload_1() {
 kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: tcp-policy
@@ -101,7 +101,7 @@ ENDSNIP
 
 snip_configure_allow_authorization_policy_for_a_tcp_workload_5() {
 kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: tcp-policy
@@ -137,7 +137,7 @@ ENDSNIP
 
 snip_configure_deny_authorization_policy_for_a_tcp_workload_1() {
 kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: tcp-policy
@@ -172,7 +172,7 @@ ENDSNIP
 
 snip_configure_deny_authorization_policy_for_a_tcp_workload_4() {
 kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: tcp-policy

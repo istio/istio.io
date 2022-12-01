@@ -105,7 +105,7 @@ ENDSNIP
 
 snip_enable_with_external_authorization_1() {
 kubectl apply -n foo -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: ext-authz

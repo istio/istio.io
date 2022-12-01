@@ -52,7 +52,7 @@ identity and more secure compared using the unauthenticated HTTP attributes (e.g
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: security.istio.io/v1beta1
+    apiVersion: security.istio.io/v1
     kind: RequestAuthentication
     metadata:
       name: ingress-jwt

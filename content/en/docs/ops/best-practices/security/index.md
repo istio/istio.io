@@ -59,7 +59,7 @@ and do not use any of the **positive** matching fields (e.g. `paths`, `values`).
 For example, the authorization policy below uses the `ALLOW-with-positive-matching` pattern to allow requests to path `/public`:
 
 {{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: foo
@@ -78,7 +78,7 @@ of unknown normalization behavior causing policy bypass.
 The following is an example using the `DENY-with-negative-matching` pattern to achieve the same result:
 
 {{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: foo
@@ -313,7 +313,7 @@ prefix matches instead of exact matches.  For example, for an `AuthorizationPoli
 for a hostname of `example.com`, you would use `hosts: ["example.com", "example.com:*"]` as shown in the below `AuthorizationPolicy`.
 
 {{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: ingress-host

@@ -313,7 +313,7 @@ ENDSNIP
 
 snip_enduser_authentication_4() {
 kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: RequestAuthentication
 metadata:
   name: "jwt-example"
@@ -381,7 +381,7 @@ ENDSNIP
 
 snip_require_a_valid_token_1() {
 kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: "frontend-ingress"
@@ -408,7 +408,7 @@ ENDSNIP
 
 snip_require_valid_tokens_perpath_1() {
 kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: "frontend-ingress"

@@ -54,7 +54,7 @@ accepts a JWT issued by `testing@secure.istio.io`:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: security.istio.io/v1beta1
+    apiVersion: security.istio.io/v1
     kind: RequestAuthentication
     metadata:
       name: "jwt-example"
@@ -91,7 +91,7 @@ with a `/` separator as shown:
 
     {{< text syntax="bash" expandlinks="false" >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: security.istio.io/v1beta1
+    apiVersion: security.istio.io/v1
     kind: AuthorizationPolicy
     metadata:
       name: require-jwt
@@ -135,7 +135,7 @@ the JWT to have a claim named `groups` containing the value `group1`:
 
     {{< text syntax="bash" expandlinks="false" >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: security.istio.io/v1beta1
+    apiVersion: security.istio.io/v1
     kind: AuthorizationPolicy
     metadata:
       name: require-jwt

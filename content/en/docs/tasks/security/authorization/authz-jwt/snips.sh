@@ -36,7 +36,7 @@ ENDSNIP
 
 snip_allow_requests_with_valid_jwt_and_listtyped_claims_1() {
 kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: RequestAuthentication
 metadata:
   name: "jwt-example"
@@ -69,7 +69,7 @@ ENDSNIP
 
 snip_allow_requests_with_valid_jwt_and_listtyped_claims_4() {
 kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: require-jwt
@@ -112,7 +112,7 @@ ENDSNIP
 
 snip_allow_requests_with_valid_jwt_and_listtyped_claims_8() {
 kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: require-jwt
