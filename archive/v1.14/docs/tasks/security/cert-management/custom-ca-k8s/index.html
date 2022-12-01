@@ -175,7 +175,7 @@ spec:
     ISTIO_META_CERT_SIGNER: bar
 EOF
 $ kubectl apply  -f ./proxyconfig-bar.yaml
-</code></pre></li><li><p>Deploy the <code>proxyconfig-foo.yaml</code> in the foo namespace to define cert-signer for workloads in the <code>foo</code> namespace.</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ cat &lt;&lt;EOF &gt; ./proxyconfig-foo.yaml
+</code></pre></li><li><p>Deploy the <code>proxyconfig-foo.yaml</code> in the foo namespace to define cert-signer for workloads in the <code>foo</code> namespace.</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ cat &lt;&lt;EOF &gt; ./proxyconfig-bar.yaml
 apiVersion: networking.istio.io/v1beta1
 kind: ProxyConfig
 metadata:
