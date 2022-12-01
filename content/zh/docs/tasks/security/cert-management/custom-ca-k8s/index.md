@@ -210,7 +210,7 @@ Cert-manager 从 1.4 版本开始已增加了[对 Kubernetes `CertificateSigning
 1. 在 `foo` 命名空间中部署 `proxyconfig-foo.yaml`，以便在 `foo` 命名空间中为工作负载定义证书签名者。
 
     {{< text bash >}}
-    $ cat <<EOF > ./proxyconfig-bar.yaml
+    $ cat <<EOF > ./proxyconfig-foo.yaml
     apiVersion: networking.istio.io/v1beta1
     kind: ProxyConfig
     metadata:
