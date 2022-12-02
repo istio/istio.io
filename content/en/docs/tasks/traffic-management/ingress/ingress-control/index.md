@@ -509,7 +509,7 @@ they have valid values, according to the output of the following commands:
     {{< /text >}}
 
 1.  If you have an external load balancer and it does not work for you, try to
-    [access the gateway using its node port](#accessing-the-ingress-gateway-using-node-ports).
+    [access the gateway using its node port](#using-node-ports-of-the-ingress-gateway-service).
 
 ## Cleanup
 
