@@ -23,8 +23,8 @@ Istio 生成各种 dashboard 使用的遥测数据，以帮助您可视化您的
 Istio 使用 Envoy 代理生成指标并在
 [manifests/charts/istio-control/istio-discovery/templates/telemetryv2_{{< istio_version >}}.yaml]({{<github_blob>}}/manifests/charts/istio-control/istio-discovery/templates/telemetryv2_{{< istio_version >}}.yaml) 文件的 `EnvoyFilter` 中提供配置。
 
-配置自定义统计信息涉及 `EnvoyFilter` 的两个部分： `definitions` 和 `metrics`。
-在 `definitions` 部分支持用名字、期望值表达式和指标类型（`counter` 、 `gauge` 和 `histogram` ）创建新的指标。
+配置自定义统计信息涉及 `EnvoyFilter` 的两个部分：`definitions` 和 `metrics`。
+在 `definitions` 部分支持用名字、期望值表达式和指标类型（`counter`、`gauge` 和 `histogram`）创建新的指标。
 在 `metrics` 的部分以表达式的形式提供指标维度的值，并允许您删除或覆盖现有的指标维度。
 您可以调整标准指标定义，
 利用 `tags_to_remove` 或重新定义维度。
@@ -42,7 +42,7 @@ Istio 使用 Envoy 代理生成指标并在
 
 ## 启用自定义指标{#enable-custom-metrics}
 
-1. 默认遥测 v2 `EnvoyFilter`配置等效于以下安装选项：
+1. 默认遥测 v2 `EnvoyFilter` 配置等效于以下安装选项：
 
     {{< text yaml >}}
     apiVersion: install.istio.io/v1alpha1
@@ -72,7 +72,8 @@ Istio 使用 Envoy 代理生成指标并在
     未指定设置将保留默认配置，相当于上面显示的显式设置。
     {{< /tip >}}
 
-    {{< text yaml >}}
+    {{< text bash >}}
+    $ cat <<EOF > ./custom_metrics.yaml
     apiVersion: install.istio.io/v1alpha1
     kind: IstioOperator
     spec:
@@ -99,13 +100,15 @@ Istio 使用 Envoy 代理生成指标并在
                       dimensions:
                         destination_port: string(destination.port)
                         request_host: request.host
+    EOF
+    # istioctl install -f custom_metrics.yaml
     {{< /text >}}
 
 1. 使用以下命令将以下注释应用到所有注入的 Pod 以及要提取到 Prometheus [时间序列](https://en.wikipedia.org/wiki/Time_series)中的维度列表：
 
     {{< tip >}}
     仅当您的维度不在
-    [DefaultStatTags 列表]({{<github_blob>}}/pkg/bootstrap/config.go) 才需要此步骤
+    [DefaultStatTags 列表]({{<github_blob>}}/pkg/bootstrap/config.go)才需要此步骤。
     {{< /tip >}}
 
     {{< text yaml >}}
@@ -137,7 +140,7 @@ $ curl "http://$GATEWAY_URL/productpage"
 {{< /text >}}
 
 {{< tip >}}
-`$GATEWAY_URL` 是 Bookinfo 示例中设置的值。
+`$GATEWAY_URL` 是 [Bookinfo](/zh/docs/examples/bookinfo/) 示例中设置的值。
 {{< /tip >}}
 
 使用以下命令验证 Istio 是否为您的新维度或修改后的维度生成数据：
@@ -170,8 +173,8 @@ Istio 公开了所有标准 [Envoy 属性](https://www.envoyproxy.io/docs/envoy/
 
 |字段  | 类型  | 值 |
 |---|---|---|
-| `name` | `string` | Pod 的名子。 |
-| `namespace` | `string` | Pod 运行的名子空间。 |
+| `name` | `string` | Pod 的名字。 |
+| `namespace` | `string` | Pod 运行的命名空间。 |
 | `labels` | `map` | 工作负载标签。 |
 | `owner` | `string` | 工作负载所有者。|
 | `workload_name` | `string` | 工作负载名称。 |
@@ -184,5 +187,5 @@ Istio 公开了所有标准 [Envoy 属性](https://www.envoyproxy.io/docs/envoy/
 例如，要在出站配置中使用的对等 `app` 标签的表达式是
 `upstream_peer.labels['app'].value`。
 
-有关详细信息[配置参考](/zh/docs/reference/config/proxy_extensions/stats/)。
+有关详细信息请参阅[配置参考](/zh/docs/reference/config/proxy_extensions/stats/)。
 
