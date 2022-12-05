@@ -181,3 +181,119 @@ spec:
         notNamespaces: ["foo"]
         notPrincipals: ["cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"]
 {{< /text >}}
+
+### Authorization policy that denies requests if the source is not the `foo` namespace
+
+{{< text yaml >}}
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+ name: httpbin-deny
+ namespace: foo
+spec:
+ selector:
+   matchLabels:
+     app: httpbin
+     version: v1
+ action: DENY
+ rules:
+ - from:
+   - source:
+       notNamespaces: ["foo"]
+{{< /text >}}
+
+The deny policy takes precedence over the allow policy. Requests matching allow
+policies can be denied if they match a deny policy. Istio evaluates deny
+policies first to ensure that an allow policy can't bypass a deny policy.
+
+### Value Matching : Policy which allows the access at paths with the `/test/*` prefix or the `*/info` suffix
+
+{{< text yaml >}}
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: tester
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: products
+  action: ALLOW
+  rules:
+  - to:
+    - operation:
+        paths: ["/test/*", "*/info"]
+{{< /text >}}
+
+### Exclusion Matching : Denies the request to the `/admin` path for requests without request principals
+
+{{< text yaml >}}
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: enable-jwt-for-admin
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: products
+  action: DENY
+  rules:
+  - to:
+    - operation:
+        paths: ["/admin"]
+    from:
+    - source:
+        notRequestPrincipals: ["*"]
+{{< /text >}}
+
+### Deny-All : `DENY` policy that explicitly denies all access
+
+{{< text yaml >}}
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: deny-all
+spec:
+  action: DENY
+  # the rules field has an empty rule, and the policy will always match.
+  rules:
+  - {}
+{{< /text >}}
+
+### Allow-All : `ALLOW` policy that allows full access to the workload
+
+{{< text yaml >}}
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: allow-all
+spec:
+  action: ALLOW
+  # This matches everything.
+  rules:
+  - {}
+{{< /text >}}
+
+### Authenticated Identity : The following example will authorize only the authenticated users
+
+{{< text yaml >}}
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+ name: httpbin
+ namespace: foo
+spec:
+ selector:
+   matchLabels:
+     app: httpbin
+     version: v1
+ action: ALLOW
+ rules:
+ - from:
+   - source:
+       principals: ["*"]
+   to:
+   - operation:
+       methods: ["GET", "POST"]
+{{< /text >}}

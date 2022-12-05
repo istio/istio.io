@@ -600,30 +600,7 @@ spec:
      values: ["https://accounts.google.com"]
 {{< /text >}}
 
-The following example shows an authorization policy that denies requests if the
-source is not the `foo` namespace:
-
-{{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
-kind: AuthorizationPolicy
-metadata:
- name: httpbin-deny
- namespace: foo
-spec:
- selector:
-   matchLabels:
-     app: httpbin
-     version: v1
- action: DENY
- rules:
- - from:
-   - source:
-       notNamespaces: ["foo"]
-{{< /text >}}
-
-The deny policy takes precedence over the allow policy. Requests matching allow
-policies can be denied if they match a deny policy. Istio evaluates deny
-policies first to ensure that an allow policy can't bypass a deny policy.
+This [example](/docs/ops/configuration/security/security-policy-examples/#authorization-policy-that-denies-requests-if-the-source-is-not-the-foo-namespace) shows an authorization policy that denies requests if the source is not the `foo` namespace:
 
 #### Policy Target
 
@@ -640,7 +617,6 @@ workloads. The `selector` uses labels to select the target workload. The
 selector contains a list of `{key: value}` pairs, where the `key` is the name of
 the label. If not set, the authorization policy applies to all workloads in the
 same namespace as the authorization policy.
-
 For example, the `allow-read` policy allows `"GET"` and `"HEAD"` access to the
 workload with the `app: products` label in the `default` namespace.
 
@@ -665,7 +641,6 @@ spec:
 
 Most fields in authorization policies support all the following matching
 schemas:
-
 - Exact match: exact string match.
 - Prefix match: a string with an ending `"*"`. For example, `"test.abc.*"`
    matches `"test.abc.com"`, `"test.abc.com.cn"`, `"test.abc.org"`, etc.
@@ -678,30 +653,11 @@ schemas:
 
 There are a few exceptions. For example, the following fields only support exact
 match:
-
 - The `key` field under the `when` section
 - The `ipBlocks` under the `source` section
 - The `ports` field under the `to` section
 
-The following example policy allows access at paths with the `/test/*` prefix
-or the `*/info` suffix.
-
-{{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
-kind: AuthorizationPolicy
-metadata:
-  name: tester
-  namespace: default
-spec:
-  selector:
-    matchLabels:
-      app: products
-  action: ALLOW
-  rules:
-  - to:
-    - operation:
-        paths: ["/test/*", "*/info"]
-{{< /text >}}
+This [example](/docs/ops/configuration/security/security-policy-examples/#value-matching-policy-which-allows-the-access-at-paths-with-the-test-prefix-or-the-info-suffix) policy allows access at paths with the `/test/*` prefix or the `*/info` suffix.
 
 #### Exclusion matching
 
@@ -732,28 +688,7 @@ spec:
         requestPrincipals: ["*"]
 {{< /text >}}
 
-The following example denies the request to the `/admin` path for requests
-without request principals:
-
-{{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
-kind: AuthorizationPolicy
-metadata:
-  name: enable-jwt-for-admin
-  namespace: default
-spec:
-  selector:
-    matchLabels:
-      app: products
-  action: DENY
-  rules:
-  - to:
-    - operation:
-        paths: ["/admin"]
-    from:
-    - source:
-        notRequestPrincipals: ["*"]
-{{< /text >}}
+This [example](/docs/ops/configuration/security/security-policy-examples/#exclusion-matching-denies-the-request-to-the-admin-path-for-requests-without-request-principals) denies the request to the `/admin` path for requests without request principals:
 
 #### `allow-nothing`, `deny-all` and `allow-all` policy
 
@@ -777,37 +712,9 @@ spec:
   # the rules field is not specified, and the policy will never match.
 {{< /text >}}
 
-The following example shows a `DENY` policy that explicitly denies all access. It will always deny the request even if
-there is another `ALLOW` policy allowing the request because the `DENY` policy takes precedence over the `ALLOW` policy.
-This is useful if you want to temporarily disable all access to the workload.
+This [example](/docs/ops/configuration/security/security-policy-examples#deny-all-deny-policy-that-explicitly-denies-all-access) shows a `DENY` policy that explicitly denies all access. It will always deny the request even if there is another `ALLOW` policy allowing the request because the `DENY` policy takes precedence over the `ALLOW` policy. This is useful if you want to temporarily disable all access to the workload.
 
-{{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
-kind: AuthorizationPolicy
-metadata:
-  name: deny-all
-spec:
-  action: DENY
-  # the rules field has an empty rule, and the policy will always match.
-  rules:
-  - {}
-{{< /text >}}
-
-The following example shows an `ALLOW` policy that allows full access to the workload. It will make other `ALLOW` policies
-useless as it will always allow the request. It might be useful if you want to temporarily expose full access to the
-workload. Note the request could still be denied due to `CUSTOM` and `DENY` policies.
-
-{{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
-kind: AuthorizationPolicy
-metadata:
-  name: allow-all
-spec:
-  action: ALLOW
-  # This matches everything.
-  rules:
-  - {}
-{{< /text >}}
+This [example](/docs/ops/configuration/security/security-policy-examples/#allow-all-allow-policy-that-allows-full-access-to-the-workload) shows an `ALLOW` policy that allows full access to the workload. It will make other `ALLOW` policies useless as it will always allow the request. It might be useful if you want to temporarily expose full access to the workload. Note the request could still be denied due to `CUSTOM` and `DENY` policies.
 
 #### Custom conditions
 
@@ -867,29 +774,7 @@ spec:
        methods: ["GET", "POST"]
 {{< /text >}}
 
-To allow only authenticated users, set `principals` to `"*"` instead, for
-example:
-
-{{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
-kind: AuthorizationPolicy
-metadata:
- name: httpbin
- namespace: foo
-spec:
- selector:
-   matchLabels:
-     app: httpbin
-     version: v1
- action: ALLOW
- rules:
- - from:
-   - source:
-       principals: ["*"]
-   to:
-   - operation:
-       methods: ["GET", "POST"]
-{{< /text >}}
+To allow only authenticated users, set `principals` to `"*"` instead, for [example](/docs/ops/configuration/security/security-policy-examples#autenticated-identity-the-following-example-will-authorize-only-the-authenticated-users):
 
 ### Using Istio authorization on plain TCP protocols
 
@@ -949,7 +834,6 @@ strict mutual TLS mode.
 ## Learn more
 
 After learning the basic concepts, there are more resources to review:
-
 - Try out the security policy by following the [authentication](/docs/tasks/security/authentication/authn-policy)
   and [authorization](/docs/tasks/security/authorization) tasks.
 
