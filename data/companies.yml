@@ -292,8 +292,8 @@ pro_services:
       - "Your Istio integration? Done!"
   - name: "InfraCloud Technologies"
     logo: "/logos/infracloud.svg"
-    url: "https://www.infracloud.io/"
-    description: "Being an early adopter & evangelist of Kubernetes, InfraCloud unleashes growth by helping companies grow & be part of their cloud-native and DevOps success stories at every step with its consulting, product engineering, & managed services."
+    url: "https://www.infracloud.io/istio-consulting/"
+    description: "InfraCloud helps companies adopt Istio. Our professional services include Istio consulting and advisory, implementing Istio in production, configuration & integration with observability tools, security, and enterprise Istio support & training."
     details:
       - "InfraCloud is your end-to-end Istio service mesh consulting & implementation partner - whether you're just starting out or want to take it to the next level."
       - "The team of service mesh consultants assesses your microservice landscape and proposes the right strategy and roadmap for your goals and deploy it successfully. Plus, get hands-on experience and training with InfraCloud team by your side enabling you to make the most of your Istio deployment."
