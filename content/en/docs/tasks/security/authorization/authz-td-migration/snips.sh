@@ -35,7 +35,7 @@ kubectl apply -f samples/sleep/sleep.yaml -n sleep-allow
 
 snip_before_you_begin_3() {
 kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: service-httpbin.default.svc.cluster.local

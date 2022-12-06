@@ -45,7 +45,7 @@ ENDSNIP
 
 snip_create_dryrun_policy_1() {
 kubectl apply -n foo -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: deny-path-headers

@@ -36,7 +36,7 @@ ENDSNIP
 
 snip_configuring_ingress_routing_based_on_jwt_claims_1() {
 kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: RequestAuthentication
 metadata:
   name: ingress-jwt

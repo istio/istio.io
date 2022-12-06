@@ -71,7 +71,7 @@ Run the following command to apply the policy to allow requests to port 9000 and
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: security.istio.io/v1beta1
+    apiVersion: security.istio.io/v1
     kind: AuthorizationPolicy
     metadata:
       name: tcp-policy
@@ -117,7 +117,7 @@ explicitly in the `tcp-echo` Kubernetes service object. Run the following comman
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: security.istio.io/v1beta1
+    apiVersion: security.istio.io/v1
     kind: AuthorizationPolicy
     metadata:
       name: tcp-policy
@@ -159,7 +159,7 @@ ALLOW rules. Run the following command and verify the output:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: security.istio.io/v1beta1
+    apiVersion: security.istio.io/v1
     kind: AuthorizationPolicy
     metadata:
       name: tcp-policy
@@ -195,7 +195,7 @@ HTTP-only fields while creating a DENY rule for tcp port and due to it's restric
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: security.istio.io/v1beta1
+    apiVersion: security.istio.io/v1
     kind: AuthorizationPolicy
     metadata:
       name: tcp-policy

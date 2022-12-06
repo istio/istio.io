@@ -43,7 +43,7 @@ Before you begin this task, do the following:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: security.istio.io/v1beta1
+    apiVersion: security.istio.io/v1
     kind: AuthorizationPolicy
     metadata:
       name: service-httpbin.default.svc.cluster.local

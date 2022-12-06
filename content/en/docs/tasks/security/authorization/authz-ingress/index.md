@@ -211,7 +211,7 @@ Create the AuthorizationPolicy:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: ingress-policy
@@ -234,7 +234,7 @@ EOF
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: ingress-policy
@@ -277,7 +277,7 @@ $ CLIENT_IP=$(kubectl get pods -n istio-system -o name -l istio=ingressgateway |
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: ingress-policy
@@ -309,7 +309,7 @@ Create the AuthorizationPolicy:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: ingress-policy
@@ -347,7 +347,7 @@ not allowed to access the ingress gateway:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: ingress-policy
@@ -370,7 +370,7 @@ EOF
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: ingress-policy

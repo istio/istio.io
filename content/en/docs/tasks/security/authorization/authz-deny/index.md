@@ -52,7 +52,7 @@ In this case, the policy denies requests if their method is `GET`.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: security.istio.io/v1beta1
+    apiVersion: security.istio.io/v1
     kind: AuthorizationPolicy
     metadata:
       name: deny-method-get
@@ -90,7 +90,7 @@ a header value that is not `admin`:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: security.istio.io/v1beta1
+    apiVersion: security.istio.io/v1
     kind: AuthorizationPolicy
     metadata:
       name: deny-method-get
@@ -130,7 +130,7 @@ to `ALLOW`. This type of policy is better known as an allow policy.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: security.istio.io/v1beta1
+    apiVersion: security.istio.io/v1
     kind: AuthorizationPolicy
     metadata:
       name: allow-path-ip
