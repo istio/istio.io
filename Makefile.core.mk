@@ -225,7 +225,7 @@ test_status:
 	@scripts/test_status.sh
 
 update-gateway-version: tidy-go
-	@$(eval GATEWAY_VERSION := ${shell grep gateway-api go.mod | awk '{ print $$2 }' | cut -f1 -d'-'})
+	@$(eval GATEWAY_VERSION := ${shell grep gateway-api go.mod | awk '{ print $$2 }'})
 	@${shell sed -Ei 's|k8s_gateway_api_version: ".*"|k8s_gateway_api_version: "${GATEWAY_VERSION}"|' 'data/args.yml'}
 
 

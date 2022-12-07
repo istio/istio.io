@@ -1472,12 +1472,12 @@ honnef.co/go/tools v0.0.0-20190523083050-ea95bdfd59fc/go.mod h1:rf3lG4BRIbNafJWh
 honnef.co/go/tools v0.0.1-2019.2.3/go.mod h1:a3bituU0lyd329TUQxRnasdCoJDkEUEAqEt0JzvZhAg=
 honnef.co/go/tools v0.0.1-2020.1.3/go.mod h1:X/FiERA/W4tHapMX5mGpAtMSVEeEUOyHaw9vFzvIQ3k=
 honnef.co/go/tools v0.0.1-2020.1.4/go.mod h1:X/FiERA/W4tHapMX5mGpAtMSVEeEUOyHaw9vFzvIQ3k=
-istio.io/api v0.0.0-20221124135806-a39e7047c3ca h1:bp+NX2xw7d6BDmawcR4oPpWYjRlNJAHFsCBGNVngkg8=
-istio.io/api v0.0.0-20221124135806-a39e7047c3ca/go.mod h1:oV64LW9BQmwkiP2KxXeOrktfTuLlHaV4ee3xPshNZuw=
+istio.io/api v0.0.0-20221205210105-82e7f2d88e02 h1:nH5OQpMOK7N1AJPUp0jVxlydc9bNgGm6UYOEDQC54c8=
+istio.io/api v0.0.0-20221205210105-82e7f2d88e02/go.mod h1:oV64LW9BQmwkiP2KxXeOrktfTuLlHaV4ee3xPshNZuw=
 istio.io/client-go v1.16.0-rc.0.0.20221109202342-07ece772a919 h1:TnZQP5IcgDLp4OH0Di31/qoDNFqN+EkVPg2iMl4WOnU=
 istio.io/client-go v1.16.0-rc.0.0.20221109202342-07ece772a919/go.mod h1:UV8SFeM2qNime5sobkr2m8oTCPxxVt9xCY4ol50U9YQ=
-istio.io/istio v0.0.0-20221126173207-ba82eda9fb9f h1:ZNdUxkM/vFY6ZqQgQkNgSGtFkodMC/0f0MhlphpptCU=
-istio.io/istio v0.0.0-20221126173207-ba82eda9fb9f/go.mod h1:nv+roovrBAcNw96h7gLmtB/ztxqglUtpZ9M2QBpWpdY=
+istio.io/istio v0.0.0-20221206063006-05425f2a523c h1:XjlaBqd9O+juaAAYWXV27gTGj1ZJomD1e+bg9r9ZDAU=
+istio.io/istio v0.0.0-20221206063006-05425f2a523c/go.mod h1:zOxqpRl6Y0d878ig+TSoCwnKdgMGBvTQqQN7sjBQEWw=
 istio.io/pkg v0.0.0-20221115162234-5e468deffb77 h1:2l0ufc1Lj/pnzxlQMtQx9cjdt4lrvcNMSg5sy/1zjoM=
 istio.io/pkg v0.0.0-20221115162234-5e468deffb77/go.mod h1:1297yENoCcROUAWFZEdwD4VFN8Qa/if1UtzwvVgah7I=
 k8s.io/api v0.18.2/go.mod h1:SJCWI7OLzhZSvbY7U8zwNl9UA4o1fizoug34OV/2r78=
@@ -1537,8 +1537,8 @@ sigs.k8s.io/controller-runtime v0.6.1/go.mod h1:XRYBPdbf5XJu9kpS84VJiZ7h/u1hF3gE
 sigs.k8s.io/controller-runtime v0.13.0 h1:iqa5RNciy7ADWnIc8QxCbOX5FEKVR3uxVxKHRMc2WIQ=
 sigs.k8s.io/controller-runtime v0.13.0/go.mod h1:Zbz+el8Yg31jubvAEyglRZGdLAjplZl+PgtYNI6WNTI=
 sigs.k8s.io/controller-tools v0.3.0/go.mod h1:enhtKGfxZD1GFEoMgP8Fdbu+uKQ/cq1/WGJhdVChfvI=
-sigs.k8s.io/gateway-api v0.5.1-0.20221110151456-3daef509bcc9 h1:DxW1glPU1tW2IGq8wdAWCmRwWfZrdJpZamyLUvUzGlk=
-sigs.k8s.io/gateway-api v0.5.1-0.20221110151456-3daef509bcc9/go.mod h1:x0AP6gugkFV8fC/oTlnOMU0pnmuzIR8LfIPRVUjxSqA=
+sigs.k8s.io/gateway-api v0.6.0-rc1 h1:ierhK6SIK8pSibB+gkr+aG8cWLez/M7iD9dQIqLALxU=
+sigs.k8s.io/gateway-api v0.6.0-rc1/go.mod h1:+3QMzP775JFKArHqiwk/kzItMRXW9CKPXcO8QcuXvvk=
 sigs.k8s.io/json v0.0.0-20220713155537-f223a00ba0e2 h1:iXTIw73aPyC+oRdyqqvVJuloN1p0AC/kzH07hu3NE+k=
 sigs.k8s.io/json v0.0.0-20220713155537-f223a00ba0e2/go.mod h1:B8JuhiUyNFVKdsE8h686QcCxMaH6HrOAZj4vswFpcB0=
 sigs.k8s.io/kind v0.8.1/go.mod h1:oNKTxUVPYkV9lWzY6CVMNluVq8cBsyq+UgPJdvA3uu4=
