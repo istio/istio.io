@@ -161,7 +161,9 @@ export ISTIO_API_GIT_SOURCE ?=
 update_ref_docs:
 	@scripts/grab_reference_docs.sh $(SOURCE_BRANCH_NAME) $(ISTIO_API_GIT_SOURCE)
 
-update_test_reference:
+update_test_reference: get_istio_sha gen
+
+get_istio_sha:
 	@go get istio.io/istio@$(SOURCE_BRANCH_NAME) && go mod tidy
 
 update_all: update_ref_docs update_test_reference
