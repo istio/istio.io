@@ -9,8 +9,12 @@ exclude k8s.io/kubernetes v1.13.0
 replace github.com/imdario/mergo => github.com/imdario/mergo v0.3.5
 
 require (
+	github.com/envoyproxy/go-control-plane v0.10.3-0.20221122163226-26d79674bf46
 	github.com/golang/sync v0.0.0-20180314180146-1d60e4601c6f
 	github.com/pmezard/go-difflib v1.0.0
+	golang.org/x/net v0.1.0
+	google.golang.org/genproto v0.0.0-20221027153422-115e99e71e1c
+	google.golang.org/grpc v1.51.0
 	istio.io/istio v0.0.0-20221206063006-05425f2a523c
 	istio.io/pkg v0.0.0-20221115162234-5e468deffb77
 	k8s.io/apimachinery v0.25.3
@@ -57,7 +61,6 @@ require (
 	github.com/docker/docker v20.10.20+incompatible // indirect
 	github.com/docker/docker-credential-helpers v0.7.0 // indirect
 	github.com/emicklei/go-restful/v3 v3.8.0 // indirect
-	github.com/envoyproxy/go-control-plane v0.10.3-0.20221122163226-26d79674bf46 // indirect
 	github.com/envoyproxy/protoc-gen-validate v0.6.8 // indirect
 	github.com/evanphx/json-patch v5.6.0+incompatible // indirect
 	github.com/evanphx/json-patch/v5 v5.6.0 // indirect
@@ -184,7 +187,6 @@ require (
 	golang.org/x/crypto v0.1.0 // indirect
 	golang.org/x/exp v0.0.0-20221031165847-c99f073a8326 // indirect
 	golang.org/x/mod v0.6.0 // indirect
-	golang.org/x/net v0.1.0 // indirect
 	golang.org/x/oauth2 v0.1.0 // indirect
 	golang.org/x/sync v0.1.0 // indirect
 	golang.org/x/sys v0.1.0 // indirect
@@ -197,8 +199,6 @@ require (
 	gomodules.xyz/orderedmap v0.1.0 // indirect
 	google.golang.org/api v0.102.0 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
-	google.golang.org/genproto v0.0.0-20221027153422-115e99e71e1c // indirect
-	google.golang.org/grpc v1.51.0 // indirect
 	google.golang.org/protobuf v1.28.1 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
