@@ -9,6 +9,8 @@ release: 1.16.1
 
 This release contains bug fixes to improve robustness. This release note describes what’s different between Istio 1.16.0 and Istio 1.16.1.
 
+This release includes security fixes in Go 1.19.4 (released 2022-12-06) for the `os` and `net/http` packages.
+
 {{< relnote >}}
 
 ## Changes
