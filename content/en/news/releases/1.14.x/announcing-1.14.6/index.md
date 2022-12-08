@@ -29,5 +29,5 @@ FYI, this release includes security fixes in Go 1.18.9 (released on 2022-12-06).
 - **Added** warning validation messages when a DestinationRule specifies failover policies but does not provide an `OutlierDetection` policy.
   Previously, istiod silently ignored the failover settings.
 
-- **Improved** when wasm module downloading fails and `fail_open` is true, a RBAC filter allows all traffic to pass to Envoy instead of the original wasm filter.
-  Previously, the given wasm filter itself was passed to Envoy in this case, but it may cause errors because some fields of wasm configuration are optional in Istio, but not in Envoy.
+- **Improved** when Wasm module downloading fails and `fail_open` is true, a RBAC filter allows all traffic to pass to `Envoy` instead of the original Wasm filter.
+  Previously, the given Wasm filter itself was passed to `Envoy` in this case, but it may cause errors because some fields of Wasm configuration are optional in Istio, but not in `Envoy`.
