@@ -1305,6 +1305,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>Override the ServerName used to validate Istiod certificate. Can be used as an alternative to setting /etc/hosts for VMs - discovery address will be an IP:port</td>
 </tr>
 <tr>
+<td><code>ISTIO_AGENT_DUAL_STACK</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>Enable pilot-agent to work in dual-stack clusters</td>
+</tr>
+<tr>
 <td><code>ISTIO_AGENT_ENABLE_WASM_REMOTE_LOAD_CONVERSION</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -1333,6 +1339,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, pilot will only send the delta configs as opposed to the state of the world on a Resource Request. This feature uses the delta xds api, but does not currently send the actual deltas.</td>
+</tr>
+<tr>
+<td><code>ISTIO_DUAL_STACK</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, pilot will configure clusters/listeners/routes for dual stack capability.</td>
 </tr>
 <tr>
 <td><code>ISTIO_ENABLE_HTTP2_PROBING</code></td>
