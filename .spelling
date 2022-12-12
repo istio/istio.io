@@ -853,6 +853,7 @@ serverless
 service-apis
 serviceaccount
 ServiceEntry
+ServiceEntries
 ServiceGraph
 servicegraph-example
 ServiceMeshCon
