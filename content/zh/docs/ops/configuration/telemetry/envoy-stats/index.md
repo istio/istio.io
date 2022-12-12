@@ -45,7 +45,7 @@ Envoy 只收集在 `stats_matcher` JSON 字段中能匹配上 `inclusion_list` �
 如果您基于 Envoy 建立或者维护仪表盘或者告警，**强烈建议**您在**升级 Istio 之前**先在[金丝雀环境](/zh/docs/setup/upgrade/canary/index.md)检查统计信息。
 {{< /tip >}}
 
-想让 Istio 代理能够记录更多的统计信息，您可以在您的网格配置中添加 [`ProxyConfig.ProxyStatsMatcher`](/zh/docs/reference/config/istio.mesh.v1alpha1/#ProxyStatsMatcher)。例如，为了启用断路器、重试、全局上游连接的统计数据，您可以指定如下的数据统计的匹配配置：
+想让 Istio 代理能够记录更多的统计信息，您可以在您的网格配置中添加 [`ProxyConfig.ProxyStatsMatcher`](/zh/docs/reference/config/istio.mesh.v1alpha1/#ProxyStatsMatcher)。例如，为了启用断路器、重试、全局上游连接和请求超时的统计数据，您可以指定如下的数据统计的匹配配置：
 
 {{< tip >}}
 为了能加载数据统计的匹配配置，代理需要重新启动。
@@ -59,10 +59,11 @@ spec:
     defaultConfig:
       proxyStatsMatcher:
         inclusionRegexps:
-          - ".*circuit_breakers.*"
-        inclusionPrefixes:
-          - "upstream_rq_retry"
-          - "upstream_cx"
+          - ".*outlier_detection.*"
+          - ".*upstream_rq_retry.*"
+          - ".*upstream_cx_.*"
+        inclusionSuffixes:
+          - "upstream_rq_timeout"
 {{< /text >}}
 
 通过使用每个代理的 `proxy.istio.io/config` 注解，您也可以重载全局数据统计对应的配置。
@@ -74,10 +75,11 @@ metadata:
     proxy.istio.io/config: |-
       proxyStatsMatcher:
         inclusionRegexps:
-        - ".*circuit_breakers.*"
-        inclusionPrefixes:
-        - "upstream_rq_retry"
-        - "upstream_cx"
+        - ".*outlier_detection.*"
+        - ".*upstream_rq_retry.*"
+        - ".*upstream_cx_.*"
+        inclusionSuffixes:
+        - "upstream_rq_timeout"
 {{< /text >}}
 
 {{< tip >}}
