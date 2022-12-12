@@ -49,7 +49,7 @@ If you build or maintain dashboards or alerts based on Envoy statistics, it is *
 statistics in a canary environment **before upgrading Istio**.
 {{< /tip >}}
 
-To configure Istio proxy to record additional statistics, you can add [`ProxyConfig.ProxyStatsMatcher`](/docs/reference/config/istio.mesh.v1alpha1/#ProxyStatsMatcher) to your mesh config. For example, to enable stats for circuit breaker, retry, and upstream connections globally, you can specify stats matcher as follows:
+To configure Istio proxy to record additional statistics, you can add [`ProxyConfig.ProxyStatsMatcher`](/docs/reference/config/istio.mesh.v1alpha1/#ProxyStatsMatcher) to your mesh config. For example, to enable stats for circuit breaker, retry, upstream connections and request timeout globally, you can specify stats matcher as follows:
 
 {{< tip >}}
 Proxy needs to restart to pick up the stats matcher configuration.
@@ -63,10 +63,11 @@ spec:
     defaultConfig:
       proxyStatsMatcher:
         inclusionRegexps:
-          - ".*circuit_breakers.*"
-        inclusionPrefixes:
-          - "upstream_rq_retry"
-          - "upstream_cx"
+          - ".*outlier_detection.*"
+          - ".*upstream_rq_retry.*"
+          - ".*upstream_cx_.*"
+        inclusionSuffixes:
+          - "upstream_rq_timeout"
 {{< /text >}}
 
 You can also override the global stats matching configuration per proxy by using the `proxy.istio.io/config` annotation. For example, to configure the same stats generation inclusion as above, you can add the annotation to a gateway proxy or a workload as follows:
@@ -77,10 +78,11 @@ metadata:
     proxy.istio.io/config: |-
       proxyStatsMatcher:
         inclusionRegexps:
-        - ".*circuit_breakers.*"
-        inclusionPrefixes:
-        - "upstream_rq_retry"
-        - "upstream_cx"
+        - ".*outlier_detection.*"
+        - ".*upstream_rq_retry.*"
+        - ".*upstream_cx_.*"
+        inclusionSuffixes:
+        - "upstream_rq_timeout"
 {{< /text >}}
 
 {{< tip >}}
