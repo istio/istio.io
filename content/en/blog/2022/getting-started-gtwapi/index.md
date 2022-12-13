@@ -28,7 +28,7 @@ To overcome Ingress' shortcomings, Istio introduced its own configuration API fo
 With Istio's API, the client-side representation is defined using an Istio Gateway resource, with L7 traffic
 moved to a VirtualService, not coincidentally the same configuration resource used for routing traffic between
 services inside the mesh. Although the Istio API provides a good solution for ingress traffic management
-for large-scale application, it is unfortunately an Istio-only API. If you are using a different service
+for large-scale applications, it is unfortunately an Istio-only API. If you are using a different service
 mesh implementation, or no service mesh at all, you're out of luck.
 
 ## Enter Gateway API
@@ -69,7 +69,7 @@ $ cd istio-{{< istio_full_version >}}
 $ ./bin/istioctl install --set profile=minimal -y
 {{< /text >}}
 
-Your cluster now has a fully-functional implementation of the Gateway API,
+Your cluster will now have a fully-functional implementation of the Gateway API,
 via Istio's gateway controller named `istio.io/gateway-controller`,
 ready to use.
 
@@ -81,7 +81,7 @@ without sidecar injection enabled. Because we're only going to use the Gateway A
 into the "Kubernetes cluster", it makes no difference if the target service is running inside or
 outside of a mesh.
 
-Use the following command to deploy the helloworld service:
+We'll use the following command to deploy the helloworld service:
 
 {{< text bash >}}
 $ kubectl create ns sample
@@ -89,7 +89,7 @@ $ kubectl apply -f @samples/helloworld/helloworld.yaml@ -n sample
 {{< /text >}}
 
 The helloworld service includes two backing deployments, corresponding to different versions (`v1` and `v2`).
-You can confirm they are both running using the following command:
+We can confirm they are both running using the following command:
 
 {{< text bash >}}
 $ kubectl get pod -n sample
@@ -141,8 +141,9 @@ operator, we're applying the Gateway in the `sample-ingress` namespace. We'll ad
 below, in the `sample` namespace, next the helloworld service itself, on behalf of the application developer.
 
 Because the Gateway resource is owned by a cluster operator, it can very well be used to provide ingress
-for more than one team's services, in our case more than just the helloworld service, so we'll set hostname to
-`*.sample.com` in the Gateway to emphasize this point.
+for more than one team's services, in our case more than just the helloworld service.
+To emphasize this point, we've set hostname to `*.sample.com` in the Gateway,
+allowing routes for multiple subdomains to be attached.
 
 After applying the Gateway resource, we need to wait for it to be ready before retrieving its external address:
 
@@ -152,7 +153,7 @@ $ export INGRESS_HOST=$(kubectl get -n sample-ingress gateway sample-gateway -o 
 {{< /text >}}
 
 Then we can attach an [HTTPRoute](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io%2fv1beta1.HTTPRoute)
-to the `sample-gateway` to expose and route traffic to the helloworld service:
+to the `sample-gateway` (i.e., using the `parentRefs` field) to expose and route traffic to the helloworld service:
 
 {{< text bash >}}
 $ kubectl apply -n sample -f - <<EOF
@@ -265,7 +266,7 @@ traffic management within a cluster.
 If you are using a service mesh, it would be highly desirable to use the same API
 resources to configure both ingress traffic routing and internal traffic, similar to the way Istio uses
 VirtualService to configure route rules for both. Fortunately, the Kubernetes Gateway API is working to
-add this support. 
+add this support.
 Although not as mature as the Gateway API for ingress traffic, an effort
 known as the [Gateway API for Mesh Management and Administration (GAMMA)](https://gateway-api.sigs.k8s.io/contributing/gamma/)
 initiative is underway to make this a reality and Istio intends to make Gateway API the default API for all
@@ -273,7 +274,7 @@ of its traffic management [in the future](/blog/2022/gateway-api-beta/).
 
 The first significant [Gateway Enhancement Proposal (GEP)](https://gateway-api.sigs.k8s.io/geps/gep-1426/)
 has recently been accepted and is, in-fact, already available to try out in Istio.
-To use it, you'll need to used the
+To try it out, you'll need to use the
 [experimental version](https://gateway-api.sigs.k8s.io/concepts/versioning/#release-channels-eg-experimental-standard)
 of the Gateway API CRDs, instead of the standard Beta version we installed above, but otherwise, you're ready to go.
 Check out the Istio [request routing task](/docs/tasks/traffic-management/request-routing/)
@@ -282,10 +283,10 @@ to get started.
 ## Summary
 
 In this article, we've seen how a light-weight minimal install of Istio can be used to provide a Beta-quality implementation
-of the new Kubernetes API for cluster ingress traffic control. For Istio users, the Istio implementation also lets
+of the new Kubernetes Gateway API for cluster ingress traffic control. For Istio users, the Istio implementation also lets
 you start trying out the experimental Gateway API support for east-west traffic management within the mesh.
 
 Much of Istio's documentation, including all of the [ingress tasks](/docs/tasks/traffic-management/ingress/)
 and several mesh-internal traffic management tasks, already include parallel instructions for
-configuring ingress using either the Gateway API or the Istio configuration API.
+configuring traffic using either the Gateway API or the Istio configuration API.
 Check out the [Gateway API task](/docs/tasks/traffic-management/ingress/gateway-api/) for more details.
