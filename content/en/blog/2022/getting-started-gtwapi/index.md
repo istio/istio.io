@@ -138,7 +138,7 @@ that get attached to the Gateway to direct subsets of traffic to specific servic
 like helloworld in our example. This separation allows us to define the Gateway and routes in
 different namespaces, presumably managed by different teams. Here, while acting in the role of cluster
 operator, we're applying the Gateway in the `sample-ingress` namespace. We'll add the route,
-below, in the `sample` namespace, next the helloworld service itself, on behalf of the application developer.
+below, in the `sample` namespace, next to the helloworld service itself, on behalf of the application developer.
 
 Because the Gateway resource is owned by a cluster operator, it can very well be used to provide ingress
 for more than one team's services, in our case more than just the helloworld service.
