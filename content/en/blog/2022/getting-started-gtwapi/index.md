@@ -273,7 +273,7 @@ initiative is underway to make this a reality and Istio intends to make Gateway 
 of its traffic management [in the future](/blog/2022/gateway-api-beta/).
 
 The first significant [Gateway Enhancement Proposal (GEP)](https://gateway-api.sigs.k8s.io/geps/gep-1426/)
-has recently been accepted and is, in-fact, already available to try out in Istio.
+has recently been accepted and is, in-fact, already available to use in Istio.
 To try it out, you'll need to use the
 [experimental version](https://gateway-api.sigs.k8s.io/concepts/versioning/#release-channels-eg-experimental-standard)
 of the Gateway API CRDs, instead of the standard Beta version we installed above, but otherwise, you're ready to go.
@@ -289,4 +289,5 @@ you start trying out the experimental Gateway API support for east-west traffic 
 Much of Istio's documentation, including all of the [ingress tasks](/docs/tasks/traffic-management/ingress/)
 and several mesh-internal traffic management tasks, already include parallel instructions for
 configuring traffic using either the Gateway API or the Istio configuration API.
-Check out the [Gateway API task](/docs/tasks/traffic-management/ingress/gateway-api/) for more details.
+Check out the [Gateway API task](/docs/tasks/traffic-management/ingress/gateway-api/) for more information about the
+Gateway API implementation in Istio.
