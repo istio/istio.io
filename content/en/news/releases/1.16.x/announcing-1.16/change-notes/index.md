@@ -77,8 +77,8 @@ These notices describe functionality that will be removed in a future release ac
   instead of the Wasm-based extension. This improves CPU overhead and memory
   usage of the feature. Custom dimensions no longer require regex and bootstrap
   annotations. If customizations use CEL expressions with Wasm attributes, they
-  are likely to be affected. This change can be disabled by setting the control
-  plane feature flag `TELEMETRY_USE_NATIVE_STATS` to `false`.
+  are likely to be affected. This change can be enabled by setting the control
+  plane feature flag `TELEMETRY_USE_NATIVE_STATS` to `true`.
 
 - **Added** support for use of the OpenTelemetry tracing provider with the Telemetry API.
   ([Issue #40027](https://github.com/istio/istio/issues/40027))
