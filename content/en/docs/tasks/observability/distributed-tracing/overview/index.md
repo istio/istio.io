@@ -32,6 +32,7 @@ For Zipkin, Jaeger, Stackdriver, and OpenCensus Agent the B3 multi-header format
 * `x-b3-parentspanid`
 * `x-b3-sampled`
 * `x-b3-flags`
+
 These are supported by Zipkin, Jaeger, OpenCensus, and many other tools.
 
 For Datadog, the following headers should be forwarded. Forwarding these is handled automatically by Datadog client libraries for many languages and frameworks.
