@@ -505,7 +505,7 @@ No
 <td>
 <p>If enabled, Istio agent will merge metrics exposed by the application with metrics from Envoy
 and Istio agent. The sidecar injection will replace <code>prometheus.io</code> annotations present on the pod
-and redirect them towards Istio agent, which will then merge metrics of from the application with Istio metrics.
+and redirect them towards Istio agent, which will then merge metrics from the application with Istio metrics.
 This relies on the annotations <code>prometheus.io/scrape</code>, <code>prometheus.io/port</code>, and
 <code>prometheus.io/path</code> annotations.
 If you are running a separately managed Envoy with an Istio sidecar, this may cause issues, as the metrics will collide.
