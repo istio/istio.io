@@ -28,7 +28,7 @@ instance. Separation between the tenants is provided by Kubernetes namespaces an
 One use case for this deployment model is a shared corporate infrastructure where malicious
 actions are not expected, but a clean separation of the tenants is still required.
 
-Potential future Istio multi-tenant deployment models are described at the bottom of this
+Potential future of Istio multi-tenant deployment models are described at the bottom of this
 blog.
 
 {{< tip >}}
