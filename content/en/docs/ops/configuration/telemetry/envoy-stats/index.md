@@ -49,7 +49,7 @@ If you build or maintain dashboards or alerts based on Envoy statistics, it is *
 statistics in a canary environment **before upgrading Istio**.
 {{< /tip >}}
 
-To configure Istio proxy to record additional statistics, you can add [`ProxyConfig.ProxyStatsMatcher`](/docs/reference/config/istio.mesh.v1alpha1/#ProxyStatsMatcher) to your mesh config. For example, to enable stats for circuit breaker, retry, upstream connections and request timeout globally, you can specify stats matcher as follows:
+To configure Istio proxy to record additional statistics, you can add [`ProxyConfig.ProxyStatsMatcher`](/docs/reference/config/istio.mesh.v1alpha1/#ProxyStatsMatcher) to your mesh config. For example, to enable stats for circuit breakers, request retries, upstream connections, and request timeouts globally, you can specify stats matcher as follows:
 
 {{< tip >}}
 Proxy needs to restart to pick up the stats matcher configuration.
