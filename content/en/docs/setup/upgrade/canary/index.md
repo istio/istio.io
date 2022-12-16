@@ -94,29 +94,20 @@ To upgrade the namespace `test-ns`, remove the `istio-injection` label, and add 
 $ kubectl label namespace test-ns istio-injection- istio.io/rev=canary
 {{< /text >}}
 
-After the namespace updates, you need to restart the pods to trigger re-injection. One way to do
-this is using:
+After the namespace updates, you need to restart the pods to trigger re-injection.
+One way to restart all pods in namespace `test-ns` is using:
 
 {{< text bash >}}
 $ kubectl rollout restart deployment -n test-ns
 {{< /text >}}
 
-When the pods are re-injected, they will be configured to point to the `istiod-canary` control plane. You can verify this by looking at the pod labels.
-
-For example, the following command will show all the pods using the `canary` revision:
+When the pods are re-injected, they will be configured to point to the `istiod-canary` control plane. You can verify this by using `istioctl proxy-status`.
 
 {{< text bash >}}
-$ kubectl get pods -n test-ns -l istio.io/rev=canary
+$ istioctl proxy-status | grep "\.test-ns "
 {{< /text >}}
 
-To verify that the new pods in the `test-ns` namespace are using the `istiod-canary` service corresponding to the `canary` revision, select one newly created pod and use the `pod_name` in the following command:
-
-{{< text bash >}}
-$ istioctl proxy-status | grep ${pod_name} | awk '{print $7}'
-istiod-canary-6956db645c-vwhsk
-{{< /text >}}
-
-The output confirms that the pod is using `istiod-canary` revision of the control plane.
+The output will show all pods under the namespace that are using the canary revision.
 
 ## Stable revision labels (experimental)
 

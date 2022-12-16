@@ -91,28 +91,19 @@ istiod-canary-6956db645c-vwhsk
 $ kubectl label namespace test-ns istio-injection- istio.io/rev=canary
 {{< /text >}}
 
-命名空间更新后，您需要重新启动 Pod 才能触发重新注入。一种方法是使用：
+命名空间更新后，您需要重新启动 Pod 才能触发重新注入。一种重启命名空间 `test-ns` 中所有 Pod 的方法是：
 
 {{< text bash >}}
 $ kubectl rollout restart deployment -n test-ns
 {{< /text >}}
 
-当 Pod 被重新注入时，它们将被配置为指向 `istiod-canary` 控制平面。你可以查看 Pod 标签验证这一点。
-
-例如，运行以下命令将显示使用 `canary` 修订版本的所有 Pod：
+当 Pod 被重新注入时，它们将被配置为指向 `istiod-canary` 控制平面。你可以使用 `istioctl proxy-status` 来验证。
 
 {{< text bash >}}
-$ kubectl get pods -n test-ns -l istio.io/rev=canary
+$ istioctl proxy-status | grep "\.test-ns "
 {{< /text >}}
 
-要验证 `test-ns` 命名空间中的新 Pod 正在使用与修订版本 `istiod-canary` 相对应的服务 `canary`， 请选择一个新创建的 Pod，然后在 `pod_name` 中使用以下命令：
-
-{{< text bash >}}
-$ istioctl proxy-status | grep ${pod_name} | awk '{print $8}'
-istiod-canary-6956db645c-vwhsk
-{{< /text >}}
-
-输出确认 Pod 正在使用 `istiod-canary` 控制平面的修订版本。
+输出会展示命名空间下所有正在使用修订版本的 Pod。
 
 ## 卸载旧的控制平面 {#uninstall-old-control-plane}
 
