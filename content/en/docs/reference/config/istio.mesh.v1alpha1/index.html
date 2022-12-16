@@ -505,7 +505,7 @@ No
 <td>
 <p>If enabled, Istio agent will merge metrics exposed by the application with metrics from Envoy
 and Istio agent. The sidecar injection will replace <code>prometheus.io</code> annotations present on the pod
-and redirect them towards Istio agent, which will then merge metrics from the application with Istio metrics.
+and redirect them towards Istio agent, which will then merge metrics of from the application with Istio metrics.
 This relies on the annotations <code>prometheus.io/scrape</code>, <code>prometheus.io/port</code>, and
 <code>prometheus.io/path</code> annotations.
 If you are running a separately managed Envoy with an Istio sidecar, this may cause issues, as the metrics will collide.
@@ -2875,14 +2875,15 @@ inclusion annotations
 (<code>sidecar.istio.io/statsInclusionPrefixes</code>,
 <code>sidecar.istio.io/statsInclusionRegexps</code>, and
 <code>sidecar.istio.io/statsInclusionSuffixes</code>). For example, to enable stats
-for circuit breaker, retry, and upstream connections, you can specify stats
-matcher as follow:</p>
+for circuit breakers, request retries, upstream connections, and request timeouts,
+you can specify stats matcher as follows:</p>
 <pre><code class="language-yaml">proxyStatsMatcher:
   inclusionRegexps:
-    - .*circuit_breakers.*
-  inclusionPrefixes:
-    - upstream_rq_retry
-    - upstream_cx
+    - .*outlier_detection.*
+    - .*upstream_rq_retry.*
+    - .*upstream_cx_.*
+  inclusionSuffixes:
+    - upstream_rq_timeout
 </code></pre>
 <p>Note including more Envoy stats might increase number of time series
 collected by prometheus significantly. Care needs to be taken on Prometheus
