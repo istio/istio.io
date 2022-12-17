@@ -23,6 +23,7 @@ _v3_
 1.13.x
 1.14.x
 1.15.x
+1.16.x
 1.2.x
 1.2.x.
 1.3.x
@@ -411,6 +412,7 @@ frontends
 Faseela
 gamified
 gapped
+GatewayClass
 gateway-api
 Gather.town
 GB
@@ -853,6 +855,7 @@ serverless
 service-apis
 serviceaccount
 ServiceEntry
+ServiceEntries
 ServiceGraph
 servicegraph-example
 ServiceMeshCon

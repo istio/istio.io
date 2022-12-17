@@ -2875,14 +2875,15 @@ inclusion annotations
 (<code>sidecar.istio.io/statsInclusionPrefixes</code>,
 <code>sidecar.istio.io/statsInclusionRegexps</code>, and
 <code>sidecar.istio.io/statsInclusionSuffixes</code>). For example, to enable stats
-for circuit breaker, retry, and upstream connections, you can specify stats
-matcher as follow:</p>
+for circuit breakers, request retries, upstream connections, and request timeouts,
+you can specify stats matcher as follows:</p>
 <pre><code class="language-yaml">proxyStatsMatcher:
   inclusionRegexps:
-    - .*circuit_breakers.*
-  inclusionPrefixes:
-    - upstream_rq_retry
-    - upstream_cx
+    - .*outlier_detection.*
+    - .*upstream_rq_retry.*
+    - .*upstream_cx_.*
+  inclusionSuffixes:
+    - upstream_rq_timeout
 </code></pre>
 <p>Note including more Envoy stats might increase number of time series
 collected by prometheus significantly. Care needs to be taken on Prometheus

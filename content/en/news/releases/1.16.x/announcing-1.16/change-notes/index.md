@@ -57,17 +57,17 @@ These notices describe functionality that will be removed in a future release ac
 
 - **Improved** Pilot will now load its DNS serving certificate from well known locations:
 
-{{< text plain >}}
-/var/run/secrets/istiod/tls/tls.crt
-/var/run/secrets/istiod/tls/tls.key
-/var/run/secrets/istiod/ca/root-cert.pem
-{{< /text >}}
+    {{< text plain >}}
+    /var/run/secrets/istiod/tls/tls.crt
+    /var/run/secrets/istiod/tls/tls.key
+    /var/run/secrets/istiod/ca/root-cert.pem
+    {{< /text >}}
 
-The CA path will alternatively be loaded from `/var/run/secrets/tls/ca.crt`.
-It also automatically loads any secret called `istiod-tls` and the `istio-root-ca-configmap` into those paths.
-This method is preferred to use these well known paths than to set the TLS arguments.
-This will allow for an easier installation process for `istio-csr` as well as any other external issuer that needs to modify
-the Pilot DNS serving certificate. ([Issue #36916](https://github.com/istio/istio/issues/36916))
+    The CA path will alternatively be loaded from `/var/run/secrets/tls/ca.crt`.
+    It also automatically loads any secret called `istiod-tls` and the `istio-root-ca-configmap` into those paths.
+    This method is preferred to use these well known paths than to set the TLS arguments.
+    This will allow for an easier installation process for `istio-csr` as well as any other external issuer that needs to modify
+    the Pilot DNS serving certificate. ([Issue #36916](https://github.com/istio/istio/issues/36916))
 
 - **Updated** dependency in Envoy to properly parse JWTs with negative values for `exp`, `nbf`, or `iat` fields.
 
@@ -77,8 +77,8 @@ the Pilot DNS serving certificate. ([Issue #36916](https://github.com/istio/isti
   instead of the Wasm-based extension. This improves CPU overhead and memory
   usage of the feature. Custom dimensions no longer require regex and bootstrap
   annotations. If customizations use CEL expressions with Wasm attributes, they
-  are likely to be affected. This change can be disabled by setting the control
-  plane feature flag `TELEMETRY_USE_NATIVE_STATS` to `false`.
+  are likely to be affected. This change can be enabled by setting the control
+  plane feature flag `TELEMETRY_USE_NATIVE_STATS` to `true`.
 
 - **Added** support for use of the OpenTelemetry tracing provider with the Telemetry API.
   ([Issue #40027](https://github.com/istio/istio/issues/40027))
@@ -116,7 +116,7 @@ the Pilot DNS serving certificate. ([Issue #36916](https://github.com/istio/isti
 
 - **Fixed** an issue when `auto.sidecar-injector.istio.io` `namespaceSelector` caused problems with cluster maintenance. ([Issue #40984](https://github.com/istio/istio/issues/40984))
 
-- **Fixed** an issue issue when deleting a custom gateway using an Istio Operator custom resource, other gateways are restarted. ([Issue #40577](https://github.com/istio/istio/issues/40577))
+- **Fixed** an issue when deleting a custom gateway using an Istio Operator custom resource, other gateways are restarted. ([Issue #40577](https://github.com/istio/istio/issues/40577))
 
 - **Fixed** an issue in Istio Operator where CNI is not created properly when `cni.resourceQuotas` is enabled due to missing RBAC permissions. ([Issue #41159](https://github.com/istio/istio/issues/41159))
 
