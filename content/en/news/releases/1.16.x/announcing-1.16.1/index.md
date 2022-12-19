@@ -21,8 +21,6 @@ This release includes security fixes in Go 1.19.4 (released 2022-12-06) for the 
 
 - **Fixed** OpenTelemetry tracer not working. ([Issue #42080](https://github.com/istio/istio/issues/42080))
 
-- **Fixed** Wasm cache file being marked as stale and deleted when in use. ([Issue #42154](https://github.com/istio/istio/issues/42154))
-
 - **Fixed** case where `ValidatingWebhookConfiguration` would be different when installed using Helm versus istioctl.
 
 - **Fixed** ServiceEntries using `DNS_ROUND_ROBIN` from being able to specify 0 endpoints. ([Issue #42184](https://github.com/istio/istio/issues/42184))
