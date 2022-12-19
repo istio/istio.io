@@ -1,5 +1,5 @@
 ---
-title: Isito 1.5 Change Notes
+title: Istio 1.5 Change Notes
 description: Istio 1.5 release notes.
 weight: 10
 release: 1.5
