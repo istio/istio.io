@@ -2609,20 +2609,6 @@ Default drain duration is <code>45s</code>.</p>
 No
 </td>
 </tr>
-<tr id="ProxyConfig-parent_shutdown_duration">
-<td><code>parentShutdownDuration</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
-<td>
-<p>The time in seconds that Envoy will wait before shutting down the
-parent process during a hot restart. MUST be &gt;=1s (e.g., <code>1s/1m/1h</code>).
-MUST BE greater than <code>drain_duration</code> parameter.
-Default shutdown duration is <code>60s</code>.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
 <tr id="ProxyConfig-discovery_address">
 <td><code>discoveryAddress</code></td>
 <td><code>string</code></td>
