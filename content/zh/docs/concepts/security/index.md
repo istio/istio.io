@@ -161,7 +161,7 @@ Istio 双向 TLS 具有一个宽容模式（permissive mode），允许服务同
 
 Istio 异步发送配置到目标端点。代理收到配置后，新的认证要求会立即生效。
 
-发送请求的客户端服务负责遵循必要的认证机制。对于 peer authentication，应用程序负责获取 JWT 凭证并将其附加到请求。对于双向 TLS，Istio 会自动将两个 PEPs 之间的所有流量升级为双向 TLS。如果认证策略禁用了双向 TLS 模式，则 Istio 将继续在 PEPs 之间使用纯文本。要覆盖此行为，请使用 [destination rules](/zh/docs/concepts/traffic-management/#destination-rules)显式禁用双向 TLS 模式。您可以在[双向 TLS 认证](/zh/docs/concepts/security/#mutual-TLS-authentication) 中找到有关双向 TLS 如何工作的更多信息。
+发送请求的客户端服务负责遵循必要的身份验证机制。对于 request authentication，应用程序负责获取 JWT 凭证并将其附加到请求。对于 peer authentication，Istio 会自动将两个 PEPs 之间的所有流量升级为双向 TLS。如果身份验证策略禁用双向 TLS 模式，Istio 将继续在 PEPs 之间使用纯文本。要覆盖此行为，请使用 [destination rules](/zh/docs/concepts/traffic-management/#destination-rules)显式禁用双向 TLS 模式。您可以在[双向 TLS 认证](/zh/docs/concepts/security/#mutual-TLS-authentication) 中找到有关双向 TLS 如何工作的更多信息。
 
 {{< image width="75%"
     link="./authn.svg"
