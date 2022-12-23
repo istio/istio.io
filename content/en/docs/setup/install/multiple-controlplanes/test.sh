@@ -25,11 +25,11 @@ source "tests/util/samples.sh"
 
 # set feature flag and deploy first controlplane
 snip_deploying_multiple_control_planes_1
-_wait_for_deployment usergroup-1 istiod
+_wait_for_deployment usergroup-1 istiod-usergroup-1
 
 # set feature flag and deploy second controlplane
 snip_deploying_multiple_control_planes_2
-_wait_for_deployment usergroup-2 istiod
+_wait_for_deployment usergroup-2 istiod-usergroup-2
 
 # deploy application workloads across usergroups
 snip_deploy_application_workloads_per_usergroup_1
