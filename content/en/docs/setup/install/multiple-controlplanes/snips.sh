@@ -139,28 +139,46 @@ httpbin-9dbd644c7-sd9ln   2/2     Running   0          115m
 sleep-78ff5975c6-sz728    2/2     Running   0          115m
 ENDSNIP
 
-snip_verify_the_application_to_controlplane_mapping_1() {
+snip_deploy_application_workloads_per_usergroup_6() {
+kubectl get pods -n app-ns-3
+}
+
+! read -r -d '' snip_deploy_application_workloads_per_usergroup_6_out <<\ENDSNIP
+NAME                      READY   STATUS    RESTARTS   AGE
+httpbin-9dbd644c7-8ll27   2/2     Running   0          115m
+sleep-78ff5975c6-sg4tq    2/2     Running   0          115m
+ENDSNIP
+
+snip_verify_the_application_to_control_plane_mapping_1() {
 istioctl ps -i usergroup-1
 }
 
-! read -r -d '' snip_verify_the_application_to_controlplane_mapping_1_out <<\ENDSNIP
+! read -r -d '' snip_verify_the_application_to_control_plane_mapping_1_out <<\ENDSNIP
 NAME                                                 CLUSTER        CDS        LDS        EDS        RDS          ECDS         ISTIOD                                  VERSION
-httpbin-9dbd644c7-hccpf.app-ns-1                     Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-usergroup-1-5ccc849b5f-wnqd6     1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
-istio-ingressgateway-8df594958-6t7x6.usergroup-1     Kubernetes     SYNCED     SYNCED     SYNCED     NOT SENT     NOT SENT     istiod-usergroup-1-5ccc849b5f-wnqd6     1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
-sleep-78ff5975c6-9zb77.app-ns-1                      Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-usergroup-1-5ccc849b5f-wnqd6     1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
+httpbin-9dbd644c7-hccpf.app-ns-1                     Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-usergroup-1-5ccc849b5f-wnqd6
+1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
+istio-ingressgateway-8df594958-6t7x6.usergroup-1     Kubernetes     SYNCED     SYNCED     SYNCED     NOT SENT     NOT SENT     istiod-usergroup-1-5ccc849b5f-wnqd6
+1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
+sleep-78ff5975c6-9zb77.app-ns-1                      Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-usergroup-1-5ccc849b5f-wnqd6
+1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
 ENDSNIP
 
-snip_verify_the_application_to_controlplane_mapping_2() {
+snip_verify_the_application_to_control_plane_mapping_2() {
 istioctl ps -i usergroup-2
 }
 
-! read -r -d '' snip_verify_the_application_to_controlplane_mapping_2_out <<\ENDSNIP
-NAME                                                  CLUSTER        CDS        LDS        EDS        RDS          ECDS         ISTIOD                                  VERSION
-httpbin-9dbd644c7-vvcqj.app-ns-3                      Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-usergroup-2-658d6458f7-slpd9     1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
-httpbin-9dbd644c7-xzgfm.app-ns-2                      Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-usergroup-2-658d6458f7-slpd9     1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
-istio-ingressgateway-7bc5b4c97d-bvsvg.usergroup-2     Kubernetes     SYNCED     SYNCED     SYNCED     NOT SENT     NOT SENT     istiod-usergroup-2-658d6458f7-slpd9     1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
-sleep-78ff5975c6-fthmt.app-ns-2                       Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-usergroup-2-658d6458f7-slpd9     1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
-sleep-78ff5975c6-nxtth.app-ns-3                       Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-usergroup-2-658d6458f7-slpd9     1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
+! read -r -d '' snip_verify_the_application_to_control_plane_mapping_2_out <<\ENDSNIP
+NAME                                                  CLUSTER        CDS        LDS        EDS        RDS          ECDS        ISTIOD                                  VERSION
+httpbin-9dbd644c7-vvcqj.app-ns-3                      Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT    istiod-usergroup-2-658d6458f7-slpd9
+1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
+httpbin-9dbd644c7-xzgfm.app-ns-2                      Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT    istiod-usergroup-2-658d6458f7-slpd9
+1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
+istio-ingressgateway-7bc5b4c97d-bvsvg.usergroup-2     Kubernetes     SYNCED     SYNCED     SYNCED     NOT SENT     NOT SENT    istiod-usergroup-2-658d6458f7-slpd9
+1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
+sleep-78ff5975c6-fthmt.app-ns-2                       Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT    istiod-usergroup-2-658d6458f7-slpd9
+1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
+sleep-78ff5975c6-nxtth.app-ns-3                       Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT    istiod-usergroup-2-658d6458f7-slpd9
+1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
 ENDSNIP
 
 snip_verify_the_application_connectivity_is_only_within_the_respective_usergroup_1() {
