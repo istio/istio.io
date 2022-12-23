@@ -22,7 +22,7 @@ test: n/a
 
 - 认为 Istio 具有潜在的安全漏洞。
 - 不确定漏洞是否或如何影响 Istio。
-- 认为 Istio 依赖的另一个项目中存在漏洞。例如：Envoy，Docker 或 Kubernetes。
+- 认为 Istio 依赖的另一个项目中存在漏洞。例如 Envoy、Docker 或 Kubernetes。
 
 当不确定的时候，请向我们私下披露。这包括但不限于：
 
@@ -37,7 +37,7 @@ test: n/a
 - 您需要帮助调整 Istio 组件的安全性。
 - 您需要使用安全更新相关的帮助。
 - 您的问题与安全性无关。
-- 您的问题与基本映像依赖关系有关（查看 [基础镜像](#base-images)）
+- 您的问题与基础镜像依赖关系有关（查看[基础镜像](#base-images)）。
 
 ## 评估{#evaluation}
 
@@ -49,7 +49,7 @@ Istio 安全团队会在三个工作日内确认并分析每个漏洞报告。
 
 ## 修复问题{#fixing-the-issue}
 
-一旦对安全漏洞进行了充分描述，Istio 团队就会开发出修复程序。修补程序的开发和测试在私有 GitHub 仓库中进行，以防止过早披露此漏洞信息。
+一旦对安全漏洞进行了充分描述，Istio 团队就会开发出修复程序。修复程序的开发和测试在私有 GitHub 仓库中进行，以防止过早披露此漏洞信息。
 
 ## 早期披露{#early-disclosure}
 
@@ -76,6 +76,15 @@ Istio 项目维护了一个邮件列表，用于在私下及早的公开安全�
 
 ## 基础镜像{#base-images}
 
-Istio 提供了两组基于 `ubuntu` 和基于 `distroless` 的默认 docker 镜像，更多详情请查阅（[Harden Docker Container Images](/zh/docs/ops/configuration/security/harden-docker-images/)）。
+Istio 提供了两组基于 `ubuntu` 和基于 `distroless` 的默认 Docker 镜像，更多详情请查阅（[加固 Docker 容器镜像](/zh/docs/ops/configuration/security/harden-docker-images/)）。
 这些镜像中偶尔会存在一些新发现的 CVE 安全漏洞。
 Istio 安全团队会对这些镜像进行自动扫描，以确保基础镜像中没有已知的 CVE 安全漏洞。
+
+当在镜像中检测到 CVE 安全漏洞时，新的镜像将被自动构建并用于所有后续构建。
+此外，安全团队会分析这些漏洞，查验这些漏洞是否可以直接在 Istio 中被利用。
+在大多数情况下，这些漏洞可能存在于基础镜像包中，但无法在 Istio 使用这些镜像时被人加以利用。
+对于这些情况，新版本通常不会仅仅为了解决这些 CVE 而发布，具体的修复将包含在下一个定期发布的版本中。
+
+因此，基础镜像 CVE 安全漏洞不应被[报告](#reporting-a-vulnerability)，除非有证据表明它可以在 Istio 中被利用。
+
+如果减少基础镜像 CVE 安全漏洞对您很重要，强烈建议使用 [`distroless`](/zh/docs/ops/configuration/security/harden-docker-images/) 基础镜像。
