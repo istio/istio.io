@@ -55,21 +55,47 @@ EOF
 }
 
 snip_deploying_multiple_control_planes_3() {
+kubectl apply -f - <<EOF
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: "usergroup-1-peerauth"
+  namespace: "usergroup-1"
+spec:
+  mtls:
+    mode: STRICT
+EOF
+}
+
+snip_deploying_multiple_control_planes_4() {
+kubectl apply -f - <<EOF
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: "usergroup-2-peerauth"
+  namespace: "usergroup-2"
+spec:
+  mtls:
+    mode: STRICT
+EOF
+}
+
+snip_deploying_multiple_control_planes_5() {
 kubectl get validatingwebhookconfiguration
 }
 
-! read -r -d '' snip_deploying_multiple_control_planes_3_out <<\ENDSNIP
+! read -r -d '' snip_deploying_multiple_control_planes_5_out <<\ENDSNIP
 NAME                                      WEBHOOKS   AGE
 istio-validator-usergroup-1-usergroup-1   1          18m
 istio-validator-usergroup-2-usergroup-2   1          18m
 istiod-default-validator                  1          18m
 ENDSNIP
 
-snip_deploying_multiple_control_planes_4() {
+snip_deploying_multiple_control_planes_6() {
 kubectl get mutatingwebhookconfiguration
 }
 
-! read -r -d '' snip_deploying_multiple_control_planes_4_out <<\ENDSNIP
+! read -r -d '' snip_deploying_multiple_control_planes_6_out <<\ENDSNIP
 NAME                                             WEBHOOKS   AGE
 istio-revision-tag-default-usergroup-1           4          18m
 istio-sidecar-injector-usergroup-1-usergroup-1   2          19m
@@ -186,10 +212,11 @@ kubectl -n app-ns-1 exec "$(kubectl -n app-ns-1 get pod -l app=sleep -o jsonpath
 }
 
 ! read -r -d '' snip_verify_the_application_connectivity_is_only_within_the_respective_usergroup_1_out <<\ENDSNIP
-HTTP/1.1 502 Bad Gateway
-date: Thu, 22 Dec 2022 15:01:29 GMT
+HTTP/1.1 503 Service Unavailable
+content-length: 95
+content-type: text/plain
+date: Sat, 24 Dec 2022 06:54:54 GMT
 server: envoy
-transfer-encoding: chunked
 ENDSNIP
 
 snip_verify_the_application_connectivity_is_only_within_the_respective_usergroup_2() {
