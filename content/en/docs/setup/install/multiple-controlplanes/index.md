@@ -76,6 +76,36 @@ in this deployment model. For making use of the complete resource scoping, the f
     EOF
     {{< /text >}}
 
+1. Deploy a policy for workloads in the `usergroup-1` namespace to only accept mutual TLS traffic.
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: security.istio.io/v1beta1
+    kind: PeerAuthentication
+    metadata:
+      name: "usergroup-1-peerauth"
+      namespace: "usergroup-1"
+    spec:
+      mtls:
+        mode: STRICT
+    EOF
+    {{< /text >}}
+
+1. Deploy a policy for workloads in the `usergroup-2` namespace to only accept mutual TLS traffic.
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: security.istio.io/v1beta1
+    kind: PeerAuthentication
+    metadata:
+      name: "usergroup-2-peerauth"
+      namespace: "usergroup-2"
+    spec:
+      mtls:
+        mode: STRICT
+    EOF
+    {{< /text >}}
+
 {{< warning >}}
 In a fully scoped environment where each control plane is associated with its resources through proper namespace labeling, there is no need for the default webhook
 configurations provided by Istio. However it is the responsibility of the Mesh Administrator to make sure no requests bypass the validation step.
@@ -212,10 +242,11 @@ Now that the applications are deployed, let us confirm if the application worklo
 
     {{< text bash >}}
     $ kubectl -n app-ns-1 exec "$(kubectl -n app-ns-1 get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -sIL http://httpbin.app-ns-2.svc.cluster.local:8000
-    HTTP/1.1 502 Bad Gateway
-    date: Thu, 22 Dec 2022 15:01:29 GMT
+    HTTP/1.1 503 Service Unavailable
+    content-length: 95
+    content-type: text/plain
+    date: Sat, 24 Dec 2022 06:54:54 GMT
     server: envoy
-    transfer-encoding: chunked
     {{< /text >}}
 
 1.  Send a request from the `sleep` pod in `app-ns-2` in `usergroup-2` to the `httpbin` service in `app-ns-3` in `usergroup-2`, the communication should work:

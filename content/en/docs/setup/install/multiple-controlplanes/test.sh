@@ -31,6 +31,10 @@ _wait_for_deployment usergroup-1 istiod-usergroup-1
 snip_deploying_multiple_control_planes_2
 _wait_for_deployment usergroup-2 istiod-usergroup-2
 
+# enable peer auth
+snip_deploying_multiple_control_planes_3
+snip_deploying_multiple_control_planes_4
+
 # deploy application workloads across usergroups
 snip_deploy_application_workloads_per_usergroup_1
 snip_deploy_application_workloads_per_usergroup_2
@@ -44,7 +48,7 @@ _wait_for_deployment app-ns-3 httpbin
 _wait_for_deployment app-ns-3 sleep
 
 # verification of connectivity
-_verify_first_line snip_verify_the_application_connectivity_is_only_within_the_respective_usergroup_1 "HTTP/1.1 502 Bad Gateway"
+_verify_first_line snip_verify_the_application_connectivity_is_only_within_the_respective_usergroup_1 "HTTP/1.1 503 Service Unavailable"
 _verify_first_line snip_verify_the_application_connectivity_is_only_within_the_respective_usergroup_2 "HTTP/1.1 200 OK"
 
 # @cleanup
