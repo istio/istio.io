@@ -43,7 +43,7 @@ in this deployment model. For making use of the complete resource scoping, the f
     {{< text bash >}}
     $ kubectl create ns usergroup-1
     $ kubectl label ns usergroup-1 usergroup=usergroup-1
-    $ istioctl install --set namespace=usergroup-1 --set values.global.istioNamespace=usergroup-1 --set revision=usergroup-1 --set values.pilot.env.ENABLE_ENHANCED_RESOURCE_SCOPING=true --set meshConfig.outboundTrafficPolicy.mode=REGISTRY_ONLY --skip-confirmation -f - <<EOF
+    $ istioctl install --set namespace=usergroup-1 --set values.global.istioNamespace=usergroup-1 --set revision=usergroup-1 --set values.pilot.env.ENABLE_ENHANCED_RESOURCE_SCOPING=true --skip-confirmation -f - <<EOF
     apiVersion: install.istio.io/v1alpha1
     kind: IstioOperator
     metadata:
@@ -62,7 +62,7 @@ in this deployment model. For making use of the complete resource scoping, the f
     {{< text bash >}}
     $ kubectl create ns usergroup-2
     $ kubectl label ns usergroup-2 usergroup=usergroup-2
-    $ istioctl install --set namespace=usergroup-2 --set values.global.istioNamespace=usergroup-2 --set revision=usergroup-2 --set values.pilot.env.ENABLE_ENHANCED_RESOURCE_SCOPING=true --set meshConfig.outboundTrafficPolicy.mode=REGISTRY_ONLY --skip-confirmation -f - <<EOF
+    $ istioctl install --set namespace=usergroup-2 --set values.global.istioNamespace=usergroup-2 --set revision=usergroup-2 --set values.pilot.env.ENABLE_ENHANCED_RESOURCE_SCOPING=true --skip-confirmation -f - <<EOF
     apiVersion: install.istio.io/v1alpha1
     kind: IstioOperator
     metadata:
