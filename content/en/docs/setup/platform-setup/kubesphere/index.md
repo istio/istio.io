@@ -1,6 +1,6 @@
 ---
 title: KubeSphere Container Platform
-description: Instructions to setup a KubeSphere Container Platform for Istio.
+description: Instructions to set up a KubeSphere Container Platform for Istio.
 weight: 40
 skip_seealso: true
 keywords: [platform-setup,kubesphere,kubernetes]

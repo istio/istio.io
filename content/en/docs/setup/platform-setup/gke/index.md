@@ -1,6 +1,6 @@
 ---
 title: Google Kubernetes Engine
-description: Instructions to setup a Google Kubernetes Engine cluster for Istio.
+description: Instructions to set up a Google Kubernetes Engine cluster for Istio.
 weight: 20
 skip_seealso: true
 aliases:

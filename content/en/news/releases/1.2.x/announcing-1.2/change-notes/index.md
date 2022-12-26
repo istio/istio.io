@@ -76,7 +76,7 @@ Refer to the [installation option change page](/news/releases/1.2.x/announcing-1
 
 ## Miscellaneous
 
-- **Added** [Istio CNI support](/docs/setup/additional-setup/cni/) to setup sidecar network redirection and remove the use of `istio-init` containers requiring `NET_ADMIN` capability.
+- **Added** [Istio CNI support](/docs/setup/additional-setup/cni/) to set up sidecar network redirection and remove the use of `istio-init` containers requiring `NET_ADMIN` capability.
 - **Added** a new experimental ['a-la-carte' Istio installer](https://github.com/istio/installer/wiki) to enable users to install and upgrade Istio with desired isolation and security.
 - **Added** [environment variable and configuration file support](https://docs.google.com/document/d/1M-qqBMNbhbAxl3S_8qQfaeOLAiRqSBpSgfWebFBRuu8/edit) for configuring Galley, in addition to command-line flags.
 - **Added** [ControlZ](/docs/ops/diagnostic-tools/controlz/) support to visualize the state of the MCP Server in Galley.
