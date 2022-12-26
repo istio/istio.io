@@ -1,6 +1,6 @@
 ---
 title: Tencent Cloud
-description: Instructions to setup Istio quickly in Tencent Cloud.
+description: Instructions to set up Istio quickly in Tencent Cloud.
 weight: 65
 skip_seealso: true
 keywords: [platform-setup,tencent-cloud-mesh,tcm,tencent-cloud,tencentcloud]

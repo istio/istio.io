@@ -1,6 +1,6 @@
 ---
 title: kind
-description: Instructions to setup kind for Istio.
+description: Instructions to set up kind for Istio.
 weight: 30
 skip_seealso: true
 keywords: [platform-setup,kubernetes,kind]
@@ -71,7 +71,7 @@ Follow these instructions to prepare a kind cluster for Istio installation.
 ## Setup Dashboard UI for kind
 
 kind does not have a built in Dashboard UI like minikube. But you can still setup Dashboard, a web based Kubernetes UI, to view your cluster.
-Follow these instructions to setup Dashboard for kind.
+Follow these instructions to set up Dashboard for kind.
 
 1.  To deploy Dashboard, run the following command:
 
