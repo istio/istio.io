@@ -23,7 +23,7 @@ of the clusters within the mesh.
 
 ## Multicluster Istio setup
 
-Follow the [multicluster installation](/docs/setup/install/multicluster/) section to setup your Istio clusters in one of the
+Follow the [multicluster installation](/docs/setup/install/multicluster/) section to set up your Istio clusters in one of the
 supported [multicluster deployment models](/docs/ops/deployment/deployment-models/#multiple-clusters). For the purpose of
 this guide, any of those approaches will work, with the following caveat:
 

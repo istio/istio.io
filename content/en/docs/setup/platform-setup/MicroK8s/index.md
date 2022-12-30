@@ -1,6 +1,6 @@
 ---
 title: MicroK8s
-description: Instructions to setup MicroK8s for use with Istio.
+description: Instructions to set up MicroK8s for use with Istio.
 weight: 45
 skip_seealso: true
 aliases:

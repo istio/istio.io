@@ -13,7 +13,7 @@ tutorial's modules and a local computer to run the commands. If you have your
 own cluster, ensure your cluster satisfies the prerequisites.
 
 If you are in a workshop and the instructors provide a cluster, let
-them handle the cluster prerequisites, while you skip ahead to setup your local
+them handle the cluster prerequisites, while you skip ahead to set up your local
 computer.
 
 ## Kubernetes cluster
