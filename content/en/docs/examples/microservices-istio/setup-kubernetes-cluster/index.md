@@ -1,5 +1,5 @@
 ---
-title: Setup a Kubernetes Cluster
+title: Set up a Kubernetes Cluster
 overview: Set up your Kubernetes cluster for the tutorial.
 weight: 2
 owner: istio/wg-docs-maintainers
@@ -272,4 +272,4 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
 
 Congratulations, you configured your cluster for the tutorial!
 
-You are ready to [setup a local computer](/docs/examples/microservices-istio/setup-local-computer).
+You are ready to [set up a local computer](/docs/examples/microservices-istio/setup-local-computer).

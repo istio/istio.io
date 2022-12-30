@@ -1,6 +1,6 @@
 ---
 title: IBM Cloud
-description: Instructions to setup an IBM Cloud cluster for Istio.
+description: Instructions to set up an IBM Cloud cluster for Istio.
 weight: 25
 skip_seealso: true
 aliases:
