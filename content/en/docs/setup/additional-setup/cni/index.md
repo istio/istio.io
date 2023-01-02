@@ -78,7 +78,7 @@ There are several commonly used install options:
 
 * `components.cni.namespace=kube-system` configures the namespace to install the CNI DaemonSet.
 * `values.cni.cniBinDir` and `values.cni.cniConfDir` configure the directory paths to install the plugin binary and create plugin configuration.
-  `values.cni.cniConfFileName` configures the name of the plugin configuration file.
+* `values.cni.cniConfFileName` configures the name of the plugin configuration file.
 * `values.cni.chained` controls whether to configure the plugin as a chained CNI plugin.
 
 {{< tip >}}
