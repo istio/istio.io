@@ -121,7 +121,7 @@ CNI DaemonSet 使用 [`system-node-critical`](https://kubernetes.io/zh-cn/docs/t
 
 ### 升级{#upgrade}
 
-当使用[就地升级](/zh/docs/setup/upgrade/in-place/)来升级 Istio 时，CNI 组件可以使用一个 `IstioOperator` 资源与控制平面一起升级。
+当使用[原地升级](/zh/docs/setup/upgrade/in-place/)来升级 Istio 时，CNI 组件可以使用一个 `IstioOperator` 资源与控制平面一起升级。
 
 使用[金丝雀升级](/zh/docs/setup/upgrade/canary/)升级 Istio 时，由于 CNI 组件以集群单例运行，建议将 CNI 组件与改版后的控制平面分开运行和升级。
 下面的 `IstioOperator` 可用于独立操作 CNI 组件。
