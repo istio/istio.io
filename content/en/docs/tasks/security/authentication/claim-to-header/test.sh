@@ -33,7 +33,6 @@ _wait_for_deployment foo sleep
 ISTIO_BRANCH=$(yq '.source_branch_name' "${REPO_ROOT}"/data/args.yml)
  
 TOKEN_URL="https://raw.githubusercontent.com/istio/istio/${ISTIO_BRANCH}/security/tools/jwt/samples/demo.jwt"
-TOKEN_GROUP_URL="https://raw.githubusercontent.com/istio/istio/${ISTIO_BRANCH}/security/tools/jwt/samples/groups-scope.jwt"
  
 export TOKEN
 export TOKEN_GROUP

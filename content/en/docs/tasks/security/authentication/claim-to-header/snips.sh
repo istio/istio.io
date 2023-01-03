@@ -83,7 +83,7 @@ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadat
 }
 
 ! read -r -d '' snip_allow_requests_with_valid_jwt_and_listtyped_claims_5_out <<\ENDSNIP
-X-Jwt-Claim-Foo: bar
+"X-Jwt-Claim-Foo": "bar"
 ENDSNIP
 
 snip_clean_up_1() {
