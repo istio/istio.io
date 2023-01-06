@@ -22,8 +22,9 @@
 
 snip_before_you_begin_1() {
 kubectl create ns foo
-kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml) -n foo
-kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml) -n foo
+kubectl label namespace foo istio-injection=enabled
+kubectl apply -f samples/httpbin/httpbin.yaml -n foo
+kubectl apply -f samples/sleep/sleep.yaml -n foo
 }
 
 snip_before_you_begin_2() {

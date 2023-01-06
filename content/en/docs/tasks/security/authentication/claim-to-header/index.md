@@ -1,8 +1,8 @@
 ---
-title: Copy Jwt Claim to HTTP Header
-description: Shows how users can copy their jwt claims to http headers.
+title: Copy JWT Claims to HTTP Headers
+description: Shows how users can copy their jWT claims to http headers.
 weight: 30
-keywords: [security,authentication,jwt,claim]
+keywords: [security,authentication,JWT,claim]
 aliases:
     - /docs/tasks/security/istio-auth.html
     - /docs/tasks/security/authn-policy/
@@ -12,24 +12,28 @@ status: Experimental
 ---
 This task shows you how to copy valid JWT claims to http headers after JWT authentication is successfully completed via Istio request authentication policy.
 
-Note: Claims of type string, boolean, integer are supported. Array type claims are not supported as of now.
+{{< warning >}}
+Only claims of type string, boolean, and integer are supported. Array type claims are not supported at this time.
+{{< /warning >}}
+
+{{< boilerplate experimental-feature-warning >}}
 
 ## Before you begin
 
 Before you begin this task, do the following:
 
-* Complete the [Istio end user authentication task](/docs/tasks/security/authentication/authn-policy/#end-user-authentication).
+* Familiarize yourself with [Istio end user authentication](/docs/tasks/security/authentication/authn-policy/#end-user-authentication) support.
 
 * Install Istio using [Istio installation guide](/docs/setup/install/istioctl/).
 
-* Deploy two workloads: `httpbin` and `sleep`. Deploy these in one namespace,
-for example `foo`. Both workloads run with an Envoy proxy in front of each.
+* Deploy `httpbin` and `sleep` workloads in namespace `foo` with sidecar injection enabled.
 Deploy the example namespace and workloads using these commands:
 
     {{< text bash >}}
     $ kubectl create ns foo
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@) -n foo
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@) -n foo
+    $ kubectl label namespace foo istio-injection=enabled
+    $ kubectl apply -f @samples/httpbin/httpbin.yaml@ -n foo
+    $ kubectl apply -f @samples/sleep/sleep.yaml@ -n foo
     {{< /text >}}
 
 * Verify that `sleep` successfully communicates with `httpbin` using this command:
@@ -47,8 +51,8 @@ Caching and propagation can cause a delay.
 ## Allow requests with valid JWT and list-typed claims
 
 1. The following command creates the `jwt-example` request authentication policy
-for the `httpbin` workload in the `foo` namespace. This policy for `httpbin` workload
-accepts a JWT issued by `testing@secure.istio.io` and copy the value of claim `foo` to a http header `X-Jwt-Claim-Foo`:
+for the `httpbin` workload in the `foo` namespace. This policy
+accepts a JWT issued by `testing@secure.istio.io` and copies the value of claim `foo` to an http header `X-Jwt-Claim-Foo`:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -77,8 +81,7 @@ accepts a JWT issued by `testing@secure.istio.io` and copy the value of claim `f
     401
     {{< /text >}}
 
-1. Get the JWT that sets the `iss` and `sub` keys to the same value, `testing@secure.istio.io`.
-This causes Istio to generate the attribute `requestPrincipal` with the value `testing@secure.istio.io/testing@secure.istio.io`:
+1. Get the JWT which is issued by `testing@secure.istio.io` and has a claim with key `foo`.
 
     {{< text syntax="bash" expandlinks="false" >}}
     $ TOKEN=$(curl {{< github_file >}}/security/tools/jwt/samples/demo.jwt -s) && echo "$TOKEN" | cut -d '.' -f2 - | base64 --decode -

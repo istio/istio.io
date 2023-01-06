@@ -45,8 +45,7 @@ _wait_for_istio requestauthentication foo jwt-example
 _verify_same snip_allow_requests_with_valid_jwt_and_listtyped_claims_2 "$snip_allow_requests_with_valid_jwt_and_listtyped_claims_2_out"
  
 _verify_same snip_allow_requests_with_valid_jwt_and_listtyped_claims_3 "$snip_allow_requests_with_valid_jwt_and_listtyped_claims_3_out"
- 
-# The previous step stored the JWT in TOKEN, and it's needed in the next step.
+
 TOKEN=$(curl "${TOKEN_URL}" -s)
  
 _verify_same snip_allow_requests_with_valid_jwt_and_listtyped_claims_4 "$snip_allow_requests_with_valid_jwt_and_listtyped_claims_4_out"
