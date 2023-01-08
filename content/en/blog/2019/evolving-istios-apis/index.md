@@ -51,7 +51,7 @@ AutoTrader UK has one of our favorite examples of a custom platform built on Ist
 
 Some areas of improvement that we’re working on for upcoming releases include:
 
-- Installation profiles to setup standard patterns for ingress and egress, with the Istio operator
+- Installation profiles to set up standard patterns for ingress and egress, with the Istio operator
 - Automatic inference of container ports and protocols for telemetry
 - Support for routing all traffic by default to constrain routing incrementally
 - Add a single global flag to enable mutual TLS and encrypt all inter-pod traffic

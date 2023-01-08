@@ -1,6 +1,6 @@
 ---
 title: Alibaba Cloud
-description: Instructions to setup an Alibaba Cloud Kubernetes cluster for Istio.
+description: Instructions to set up an Alibaba Cloud Kubernetes cluster for Istio.
 weight: 5
 skip_seealso: true
 aliases:

@@ -7,7 +7,7 @@ location: https://istio.io/docs/reference/config/istio.mesh.v1alpha1.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
 weight: 20
-number_of_entries: 55
+number_of_entries: 56
 ---
 <p>Configuration affecting the service mesh as a whole.</p>
 
@@ -2180,6 +2180,61 @@ No
 <td>
 <p>Optional. Format for the proxy access log
 Empty value results in proxy&rsquo;s default access log format, following Envoy access logging formatting.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="MeshConfig-ExtensionProvider-OpenTelemetryTracingProvider">MeshConfig.ExtensionProvider.OpenTelemetryTracingProvider</h2>
+<section>
+<p>Defines configuration for an OpenTelemetry tracing backend. Istio 1.16.1 or higher is needed.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MeshConfig-ExtensionProvider-OpenTelemetryTracingProvider-service">
+<td><code>service</code></td>
+<td><code>string</code></td>
+<td>
+<p>REQUIRED. Specifies the OpenTelemetry endpoint that will receive OTLP traces.
+The format is <code>[&lt;Namespace&gt;/]&lt;Hostname&gt;</code>. The specification of <code>&lt;Namespace&gt;</code> is required only when it is insufficient
+to unambiguously resolve a service in the service registry. The <code>&lt;Hostname&gt;</code> is a fully qualified host name of a
+service defined by the Kubernetes service or ServiceEntry.</p>
+<p>Example: &ldquo;otlp.default.svc.cluster.local&rdquo; or &ldquo;bar/otlp.example.com&rdquo;.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-OpenTelemetryTracingProvider-port">
+<td><code>port</code></td>
+<td><code>uint32</code></td>
+<td>
+<p>REQUIRED. Specifies the port of the service.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-OpenTelemetryTracingProvider-max_tag_length">
+<td><code>maxTagLength</code></td>
+<td><code>uint32</code></td>
+<td>
+<p>Optional. Controls the overall path length allowed in a reported span.
+NOTE: currently only controls max length of the path tag.</p>
 
 </td>
 <td>

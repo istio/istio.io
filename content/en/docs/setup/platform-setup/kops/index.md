@@ -1,6 +1,6 @@
 ---
 title: Kops
-description: Instructions to setup Kops for use with Istio.
+description: Instructions to set up Kops for use with Istio.
 weight: 33
 skip_seealso: true
 keywords: [platform-setup,kubernetes,kops]

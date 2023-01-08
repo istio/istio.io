@@ -42,6 +42,7 @@ system is undefined if two or more <code>Sidecar</code> configurations with a
 will be applied by default to all namespaces without a <code>Sidecar</code>
 configuration</em></em>. This global default <code>Sidecar</code> configuration should not have
 any <code>workloadSelector</code>.</p>
+<p><strong>NOTE 3</strong>: <em><em>A <code>Sidecar</code> is not applicable to gateways, even though gateways are istio-proxies</em></em>.</p>
 <p>The example below declares a global default <code>Sidecar</code> configuration
 in the root namespace called <code>istio-config</code>, that configures
 sidecars in all namespaces to allow egress traffic only to other

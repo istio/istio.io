@@ -1,6 +1,6 @@
 ---
 title: Minikube
-description: Instructions to setup minikube for Istio.
+description: Instructions to set up minikube for Istio.
 weight: 50
 skip_seealso: true
 aliases:

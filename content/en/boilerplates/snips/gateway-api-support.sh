@@ -22,5 +22,5 @@
 
 bpsnip_gateway_api_support_install_crds() {
 kubectl get crd gateways.gateway.networking.k8s.io || \
-  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.6.0-rc1" | kubectl apply -f -; }
+  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.6.0" | kubectl apply -f -; }
 }
