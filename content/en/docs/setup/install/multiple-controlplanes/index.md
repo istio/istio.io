@@ -9,26 +9,21 @@ test: yes
 
 {{< boilerplate experimental-feature-warning >}}
 
-This guide walks you through the process of installing multiple Istio control planes within a single cluster and
-then a way to scope workloads to specific control planes. For this guide, [the deployment model](/docs/ops/deployment/deployment-models/#control-plane-models)
-will have a single Kubernetes control plane with multiple Istio control planes and multiple meshes.
-The separation between the meshes is provided by Kubernetes namespaces and RBAC.
+This guide walks you through the process of installing multiple Istio control planes within a single cluster and then a way to scope workloads to specific control planes. For this guide, the deployment model will have a single Kubernetes control plane with multiple Istio control planes and multiple meshes. The separation between the meshes is provided by Kubernetes namespaces and RBAC.
 
-{{< image width="80%"
+{{< image width="90%"
     link="single-cluster-multiple-istiods.svg"
     caption="Multiple control planes in Single Cluster"
     >}}
 
-With `discoverySelectors` you can not only scope the Kubernetes resources to specific namespaces managed by Istio control plane, but also scope the Istio custom resources such as Gateway, VirtualService, DestinationRule, etc. Furthermore, you can leverage `discoverySelectors` to configure the Istio control plane on which namespaces you want the `istio-ca-root-cert` config map. These enhancements are very useful if you want to specify the allowed mesh namespaces for a given control plane as mesh operators, or enable soft multi-tenancy for your mesh based on the boundary of one or more namespaces. This guide uses `discoverySelectors` along with the revisions capability of Istio to demonstrate how multiple control planes can be deployed to work with properly scoped resources per control plane.
+Using `discoverySelectors`, you can scope Kubernetes resources in a cluster to specific namespaces managed by an Istio control plane. This includes the Istio custom resources (e.g., Gateway, VirtualService, DestinationRule, etc.) used to configure the mesh. Furthermore, `discoverySelectors` can be used to configure which namespaces should include the `istio-ca-root-cert` config map for a particular Istio control plane. Together, these functions allow mesh operators to specify the namespaces for a given control plane, enabling soft multi-tenancy for multiple meshes based on the boundary of one or more namespaces. This guide uses `discoverySelectors`, along with the revisions capability of Istio, to demonstrate how two meshes can be deployed on a single cluster, each working with a properly scoped subset of the cluster's resources.
 
 ## Before you begin
 
 This guide requires that you have a Kubernetes cluster with any of the
 [supported Kubernetes versions:](/docs/releases/supported-releases#support-status-of-istio-releases) {{< supported_kubernetes_versions >}}.
 
-This cluster will host two control planes installed in two different system namespaces.
-The mesh application workloads will run in application specific namespaces and can be associated to their control planes by
-proper configuration using revisions and discovery selectors.
+This cluster will host two control planes installed in two different system namespaces. The mesh application workloads will run in multiple application-specific namespaces, each namespace associated with one or the other control plane using revision and discovery selector configurations.
 
 ## Cluster configuration
 
