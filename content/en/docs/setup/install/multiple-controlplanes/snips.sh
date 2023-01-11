@@ -94,54 +94,54 @@ spec:
 EOF
 }
 
-snip_deploying_multiple_control_planes_5() {
+snip_verify_the_multiple_control_plane_creation_1() {
+kubectl get ns usergroup-1 usergroup2 --show-labels
+}
+
+! read -r -d '' snip_verify_the_multiple_control_plane_creation_1_out <<\ENDSNIP
+NAME              STATUS   AGE     LABELS
+usergroup-1       Active   13m     kubernetes.io/metadata.name=usergroup-1,usergroup=usergroup-1
+usergroup-2       Active   12m     kubernetes.io/metadata.name=usergroup-2,usergroup=usergroup-2
+ENDSNIP
+
+snip_verify_the_multiple_control_plane_creation_2() {
+kubectl get pods -n usergroup-1
+}
+
+! read -r -d '' snip_verify_the_multiple_control_plane_creation_2_out <<\ENDSNIP
+NAMESPACE     NAME                                     READY   STATUS    RESTARTS         AGE
+usergroup-1   istiod-usergroup-1-5ccc849b5f-wnqd6      1/1     Running   0                12m
+ENDSNIP
+
+snip_verify_the_multiple_control_plane_creation_3() {
+kubectl get pods -n usergroup-2
+}
+
+! read -r -d '' snip_verify_the_multiple_control_plane_creation_3_out <<\ENDSNIP
+NAMESPACE     NAME                                     READY   STATUS    RESTARTS         AGE
+usergroup-2   istiod-usergroup-2-658d6458f7-slpd9      1/1     Running   0                12m
+ENDSNIP
+
+snip_verify_the_multiple_control_plane_creation_4() {
 kubectl get validatingwebhookconfiguration
 }
 
-! read -r -d '' snip_deploying_multiple_control_planes_5_out <<\ENDSNIP
+! read -r -d '' snip_verify_the_multiple_control_plane_creation_4_out <<\ENDSNIP
 NAME                                      WEBHOOKS   AGE
 istio-validator-usergroup-1-usergroup-1   1          18m
 istio-validator-usergroup-2-usergroup-2   1          18m
 istiod-default-validator                  1          18m
 ENDSNIP
 
-snip_deploying_multiple_control_planes_6() {
+snip_verify_the_multiple_control_plane_creation_5() {
 kubectl get mutatingwebhookconfiguration
 }
 
-! read -r -d '' snip_deploying_multiple_control_planes_6_out <<\ENDSNIP
+! read -r -d '' snip_verify_the_multiple_control_plane_creation_5_out <<\ENDSNIP
 NAME                                             WEBHOOKS   AGE
 istio-revision-tag-default-usergroup-1           4          18m
 istio-sidecar-injector-usergroup-1-usergroup-1   2          19m
 istio-sidecar-injector-usergroup-2-usergroup-2   2          18m
-ENDSNIP
-
-snip_verify_multiple_control_plane_creation_1() {
-kubectl get ns usergroup-1 usergroup2 --show-labels
-}
-
-! read -r -d '' snip_verify_multiple_control_plane_creation_1_out <<\ENDSNIP
-NAME              STATUS   AGE     LABELS
-usergroup-1       Active   13m     kubernetes.io/metadata.name=usergroup-1,usergroup=usergroup-1
-usergroup-2       Active   12m     kubernetes.io/metadata.name=usergroup-2,usergroup=usergroup-2
-ENDSNIP
-
-snip_verify_multiple_control_plane_creation_2() {
-kubectl get pods -n usergroup-1
-}
-
-! read -r -d '' snip_verify_multiple_control_plane_creation_2_out <<\ENDSNIP
-NAMESPACE     NAME                                     READY   STATUS    RESTARTS         AGE
-usergroup-1   istiod-usergroup-1-5ccc849b5f-wnqd6      1/1     Running   0                12m
-ENDSNIP
-
-snip_verify_multiple_control_plane_creation_3() {
-kubectl get pods -n usergroup-2
-}
-
-! read -r -d '' snip_verify_multiple_control_plane_creation_3_out <<\ENDSNIP
-NAMESPACE     NAME                                     READY   STATUS    RESTARTS         AGE
-usergroup-2   istiod-usergroup-2-658d6458f7-slpd9      1/1     Running   0                12m
 ENDSNIP
 
 snip_deploy_application_workloads_per_usergroup_1() {

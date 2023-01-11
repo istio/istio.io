@@ -9,11 +9,11 @@ test: yes
 
 {{< boilerplate experimental-feature-warning >}}
 
-This guide walks you through the process of installing multiple Istio control planes within a single cluster and then a way to scope workloads to specific control planes. For this guide, the deployment model will have a single Kubernetes control plane with multiple Istio control planes and multiple meshes. The separation between the meshes is provided by Kubernetes namespaces and RBAC.
+This guide walks you through the process of installing multiple Istio control planes within a single cluster and then a way to scope workloads to specific control planes. This deployment model has a single Kubernetes control plane with multiple Istio control planes and meshes. The separation between the meshes is provided by Kubernetes namespaces and RBAC.
 
 {{< image width="90%"
     link="single-cluster-multiple-istiods.svg"
-    caption="Multiple control planes in Single Cluster"
+    caption="Multiple meshes in a single cluster"
     >}}
 
 Using `discoverySelectors`, you can scope Kubernetes resources in a cluster to specific namespaces managed by an Istio control plane. This includes the Istio custom resources (e.g., Gateway, VirtualService, DestinationRule, etc.) used to configure the mesh. Furthermore, `discoverySelectors` can be used to configure which namespaces should include the `istio-ca-root-cert` config map for a particular Istio control plane. Together, these functions allow mesh operators to specify the namespaces for a given control plane, enabling soft multi-tenancy for multiple meshes based on the boundary of one or more namespaces. This guide uses `discoverySelectors`, along with the revisions capability of Istio, to demonstrate how two meshes can be deployed on a single cluster, each working with a properly scoped subset of the cluster's resources.
@@ -35,7 +35,7 @@ Istio revisions and `discoverySelectors` are then used to scope the resources an
 By default, Istio only uses `discoverySelectors` to scope workload endpoints. To enable full resource scoping, including configuration resources, the feature flag `ENABLE_ENHANCED_RESOURCE_SCOPING` must be set to true.
 {{< /warning >}}
 
-1. Create the first system namespace, `usergroup-1`, and deploy istiod in it.
+1. Create the first system namespace, `usergroup-1`, and deploy istiod in it:
 
     {{< text bash >}}
     $ kubectl create ns usergroup-1
@@ -61,7 +61,7 @@ By default, Istio only uses `discoverySelectors` to scope workload endpoints. To
     EOF
     {{< /text >}}
 
-1. Create the second system namespace, `usergroup-2`, and deploy istiod in it.
+1. Create the second system namespace, `usergroup-2`, and deploy istiod in it:
 
     {{< text bash >}}
     $ kubectl create ns usergroup-2
@@ -87,7 +87,7 @@ By default, Istio only uses `discoverySelectors` to scope workload endpoints. To
     EOF
     {{< /text >}}
 
-1. Deploy a policy for workloads in the `usergroup-1` namespace to only accept mutual TLS traffic.
+1. Deploy a policy for workloads in the `usergroup-1` namespace to only accept mutual TLS traffic:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -102,7 +102,7 @@ By default, Istio only uses `discoverySelectors` to scope workload endpoints. To
     EOF
     {{< /text >}}
 
-1. Deploy a policy for workloads in the `usergroup-2` namespace to only accept mutual TLS traffic.
+1. Deploy a policy for workloads in the `usergroup-2` namespace to only accept mutual TLS traffic:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -122,7 +122,34 @@ In a fully scoped environment where each control plane is associated with its re
 configurations provided by Istio. However it is the responsibility of the Mesh Administrator to make sure no requests bypass the validation step.
 {{< /warning >}}
 
-The below output shows `istiod-default-validator` and `istio-revision-tag-default-usergroup-1`, which are the default webhook configuration available in Istio deployment used for handling requests coming from resources which are not labeled with any revision. It would be ideal to remove them from the charts for the current use case, as they are primarily used to handle revision based upgrade. `istio-revision-tag-default-tenant-1` handles the sidecar injection for pods that are labeled with `istio-injection=enabled`, which is not needed for cases where we are adding usergroup specific labels.
+### Verify the multiple control plane creation
+
+1. Check the labels on the system namespaces for each control plane:
+
+    {{< text bash >}}
+    $ kubectl get ns usergroup-1 usergroup2 --show-labels
+    NAME              STATUS   AGE     LABELS
+    usergroup-1       Active   13m     kubernetes.io/metadata.name=usergroup-1,usergroup=usergroup-1
+    usergroup-2       Active   12m     kubernetes.io/metadata.name=usergroup-2,usergroup=usergroup-2
+    {{< /text >}}
+
+1. Verify the control planes are deployed and running:
+
+    {{< text bash >}}
+    $ kubectl get pods -n usergroup-1
+    NAMESPACE     NAME                                     READY   STATUS    RESTARTS         AGE
+    usergroup-1   istiod-usergroup-1-5ccc849b5f-wnqd6      1/1     Running   0                12m
+    {{< /text >}}
+
+    {{< text bash >}}
+    $ kubectl get pods -n usergroup-2
+    NAMESPACE     NAME                                     READY   STATUS    RESTARTS         AGE
+    usergroup-2   istiod-usergroup-2-658d6458f7-slpd9      1/1     Running   0                12m
+    {{< /text >}}
+
+    You will notice that one istiod deployment per usergroup is created in the specified namespaces.
+
+1. Run the following commands to list the installed webhooks:
 
     {{< text bash >}}
     $ kubectl get validatingwebhookconfiguration
@@ -140,36 +167,11 @@ The below output shows `istiod-default-validator` and `istio-revision-tag-defaul
     istio-sidecar-injector-usergroup-2-usergroup-2   2          18m
     {{< /text >}}
 
-### Verify Multiple Control Plane Creation
-
-1. Check the labels on the system namespaces per user group
-
-    {{< text bash >}}
-    $ kubectl get ns usergroup-1 usergroup2 --show-labels
-    NAME              STATUS   AGE     LABELS
-    usergroup-1       Active   13m     kubernetes.io/metadata.name=usergroup-1,usergroup=usergroup-1
-    usergroup-2       Active   12m     kubernetes.io/metadata.name=usergroup-2,usergroup=usergroup-2
-    {{< /text >}}
-
-1. Verify the namespaces in which the control planes are deployed
-
-    {{< text bash >}}
-    $ kubectl get pods -n usergroup-1
-    NAMESPACE     NAME                                     READY   STATUS    RESTARTS         AGE
-    usergroup-1   istiod-usergroup-1-5ccc849b5f-wnqd6      1/1     Running   0                12m
-    {{< /text >}}
-
-    {{< text bash >}}
-    $ kubectl get pods -n usergroup-2
-    NAMESPACE     NAME                                     READY   STATUS    RESTARTS         AGE
-    usergroup-2   istiod-usergroup-2-658d6458f7-slpd9      1/1     Running   0                12m
-    {{< /text >}}
-
-    You will notice that one istiod deployment per usergroup is created in the specified namespaces.
+    Note that the output includes `istiod-default-validator` and `istio-revision-tag-default-usergroup-1`, which are the default webhook configurations used for handling requests coming from resources which are not associated with any revision. In a fully scoped environment where every control plane is associated with its resources through proper namespace labeling, there is no need for these default webhook configurations. They will never be invoked.
 
 ### Deploy application workloads per usergroup
 
-1.  Create three application namespaces
+1.  Create three application namespaces:
 
     {{< text bash >}}
     $ kubectl create ns app-ns-1
@@ -177,8 +179,7 @@ The below output shows `istiod-default-validator` and `istio-revision-tag-defaul
     $ kubectl create ns app-ns-3
     {{< /text >}}
 
-1.  Associate the namespaces with their respective control planes through proper namespace labeling. Here the labeling is done
-    according to the diagram shown in the beginning of the page.
+1.  Label each namespace to associate them with their respective control planes:
 
     {{< text bash >}}
     $ kubectl label ns app-ns-1 usergroup=usergroup-1 istio.io/rev=usergroup-1
@@ -186,7 +187,7 @@ The below output shows `istiod-default-validator` and `istio-revision-tag-defaul
     $ kubectl label ns app-ns-3 usergroup=usergroup-2 istio.io/rev=usergroup-2
     {{< /text >}}
 
-1.  Deploy one `sleep` and `httpbin` application per namespace
+1.  Deploy one `sleep` and `httpbin` application per namespace:
 
     {{< text bash >}}
     $ kubectl -n app-ns-1 apply -f samples/sleep/sleep.yaml
@@ -222,7 +223,7 @@ The below output shows `istiod-default-validator` and `istio-revision-tag-defaul
 
 ### Verify the application to control plane mapping
 
-Now that the applications are deployed, you can use the `istioctl ps` command to confirm that the application workloads are managed by their respective control plane, i.e., `app-ns-1` is managed by `usergroup-1`, `app-ns-2` and `app-ns-3` are managed by `usergroup-2`.
+Now that the applications are deployed, you can use the `istioctl ps` command to confirm that the application workloads are managed by their respective control plane, i.e., `app-ns-1` is managed by `usergroup-1`, `app-ns-2` and `app-ns-3` are managed by `usergroup-2`:
 
     {{< text bash >}}
     $ istioctl ps -i usergroup-1
@@ -252,7 +253,7 @@ Now that the applications are deployed, you can use the `istioctl ps` command to
 
 ### Verify the application connectivity is ONLY within the respective usergroup
 
-1.  Send a request from the `sleep` pod in `app-ns-1` in `usergroup-1` to the `httpbin` service in `app-ns-2` in `usergroup-2`, the communication should fail:
+1.  Send a request from the `sleep` pod in `app-ns-1` in `usergroup-1` to the `httpbin` service in `app-ns-2` in `usergroup-2`. The communication should fail:
 
     {{< text bash >}}
     $ kubectl -n app-ns-1 exec "$(kubectl -n app-ns-1 get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -sIL http://httpbin.app-ns-2.svc.cluster.local:8000
@@ -263,7 +264,7 @@ Now that the applications are deployed, you can use the `istioctl ps` command to
     server: envoy
     {{< /text >}}
 
-1.  Send a request from the `sleep` pod in `app-ns-2` in `usergroup-2` to the `httpbin` service in `app-ns-3` in `usergroup-2`, the communication should work:
+1.  Send a request from the `sleep` pod in `app-ns-2` in `usergroup-2` to the `httpbin` service in `app-ns-3` in `usergroup-2`. The communication should work:
 
     {{< text bash >}}
     $ kubectl -n app-ns-2 exec "$(kubectl -n app-ns-2 get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -sIL http://httpbin.app-ns-3.svc.cluster.local:8000
@@ -294,6 +295,6 @@ Now that the applications are deployed, you can use the `istioctl ps` command to
     {{< /text >}}
 
 {{< warning >}}
-Cluster Administrator has to make sure that the Mesh Administrator DO NOT have the permission to invoke global `istioctl uninstall --purge`
-as that will uninstall all the control planes in the cluster.
+A Cluster Administrator must make sure that Mesh Administrators DO NOT have permission to invoke the global `istioctl uninstall --purge` command,
+because that would uninstall all control planes in the cluster.
 {{< /warning >}}
