@@ -30,10 +30,12 @@ This cluster will host two control planes installed in two different system name
 ### Deploying multiple control planes
 
 Deploying multiple Istio control planes on a single cluster can be achieved by using different system namespaces for each control plane.
-Istio revisions and `discoverySelectors` features can be used together with this, to provide proper resource scoping for workloads
-in this deployment model. For making use of the complete resource scoping, the feature flag `ENABLE_ENHANCED_RESOURCE_SCOPING` has to be set to true.
+Istio revisions and `discoverySelectors` are then used to scope the resources and workloads that are managed by each control plane.
+{{< warning >}}
+By default, Istio only uses `discoverySelectors` to scope workload endpoints. To enable full resource scoping, including configuration resources, the feature flag `ENABLE_ENHANCED_RESOURCE_SCOPING` must be set to true.
+{{< /warning >}}
 
-1. Create the first system namespace and deploy istiod in the custom system namespace.
+1. Create the first system namespace, `usergroup-1`, and deploy istiod in it.
 
     {{< text bash >}}
     $ kubectl create ns usergroup-1
@@ -59,7 +61,7 @@ in this deployment model. For making use of the complete resource scoping, the f
     EOF
     {{< /text >}}
 
-1. Create the second system namespace and deploy istiod in the custom system namespace.
+1. Create the second system namespace, `usergroup-2`, and deploy istiod in it.
 
     {{< text bash >}}
     $ kubectl create ns usergroup-2
@@ -143,7 +145,7 @@ The below output shows `istiod-default-validator` and `istio-revision-tag-defaul
 1. Check the labels on the system namespaces per user group
 
     {{< text bash >}}
-    $ kubectl get ns --show-labels
+    $ kubectl get ns usergroup-1 usergroup2 --show-labels
     NAME              STATUS   AGE     LABELS
     usergroup-1       Active   13m     kubernetes.io/metadata.name=usergroup-1,usergroup=usergroup-1
     usergroup-2       Active   12m     kubernetes.io/metadata.name=usergroup-2,usergroup=usergroup-2
@@ -152,11 +154,14 @@ The below output shows `istiod-default-validator` and `istio-revision-tag-defaul
 1. Verify the namespaces in which the control planes are deployed
 
     {{< text bash >}}
-    $ kubectl get pods --all-namespaces
+    $ kubectl get pods -n usergroup-1
     NAMESPACE     NAME                                     READY   STATUS    RESTARTS         AGE
-    usergroup-1   istio-ingressgateway-8df594958-6t7x6     1/1     Running   0                12m
     usergroup-1   istiod-usergroup-1-5ccc849b5f-wnqd6      1/1     Running   0                12m
-    usergroup-2   istio-ingressgateway-7bc5b4c97d-bvsvg    1/1     Running   0                11m
+    {{< /text >}}
+
+    {{< text bash >}}
+    $ kubectl get pods -n usergroup-2
+    NAMESPACE     NAME                                     READY   STATUS    RESTARTS         AGE
     usergroup-2   istiod-usergroup-2-658d6458f7-slpd9      1/1     Running   0                12m
     {{< /text >}}
 
@@ -217,7 +222,7 @@ The below output shows `istiod-default-validator` and `istio-revision-tag-defaul
 
 ### Verify the application to control plane mapping
 
-Now that the applications are deployed, let us confirm if the application workloads are managed by the respective control plane using `istioctl ps` command.
+Now that the applications are deployed, you can use the `istioctl ps` command to confirm that the application workloads are managed by their respective control plane, i.e., `app-ns-1` is managed by `usergroup-1`, `app-ns-2` and `app-ns-3` are managed by `usergroup-2`.
 
     {{< text bash >}}
     $ istioctl ps -i usergroup-1
