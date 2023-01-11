@@ -117,7 +117,7 @@ istio-sidecar-injector-usergroup-2-usergroup-2   2          18m
 ENDSNIP
 
 snip_verify_multiple_control_plane_creation_1() {
-kubectl get ns --show-labels
+kubectl get ns usergroup-1 usergroup2 --show-labels
 }
 
 ! read -r -d '' snip_verify_multiple_control_plane_creation_1_out <<\ENDSNIP
@@ -127,14 +127,20 @@ usergroup-2       Active   12m     kubernetes.io/metadata.name=usergroup-2,userg
 ENDSNIP
 
 snip_verify_multiple_control_plane_creation_2() {
-kubectl get pods --all-namespaces
+kubectl get pods -n usergroup-1
 }
 
 ! read -r -d '' snip_verify_multiple_control_plane_creation_2_out <<\ENDSNIP
 NAMESPACE     NAME                                     READY   STATUS    RESTARTS         AGE
-usergroup-1   istio-ingressgateway-8df594958-6t7x6     1/1     Running   0                12m
 usergroup-1   istiod-usergroup-1-5ccc849b5f-wnqd6      1/1     Running   0                12m
-usergroup-2   istio-ingressgateway-7bc5b4c97d-bvsvg    1/1     Running   0                11m
+ENDSNIP
+
+snip_verify_multiple_control_plane_creation_3() {
+kubectl get pods -n usergroup-2
+}
+
+! read -r -d '' snip_verify_multiple_control_plane_creation_3_out <<\ENDSNIP
+NAMESPACE     NAME                                     READY   STATUS    RESTARTS         AGE
 usergroup-2   istiod-usergroup-2-658d6458f7-slpd9      1/1     Running   0                12m
 ENDSNIP
 
