@@ -828,6 +828,12 @@ These environment variables affect the behavior of the <code>install-cni</code> 
 <td>If enabled, pilot will configure clusters/listeners/routes for dual stack capability.</td>
 </tr>
 <tr>
+<td><code>ISTIO_ENABLE_OPTIMIZED_SERVICE_PUSH</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, Istiod will not push changes on arbitraty annotation change.</td>
+</tr>
+<tr>
 <td><code>ISTIO_GATEWAY_STRIP_HOST_PORT</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -1513,7 +1519,7 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td><code>VALIDATION_WEBHOOK_CONFIG_NAME</code></td>
 <td>String</td>
 <td><code>istio-istio-system</code></td>
-<td>Name of the validatingwebhookconfiguration to patch. Empty will skip using cluster admin to patch.</td>
+<td>If not empty, the controller will automatically patch validatingwebhookconfiguration when the CA certificate changes. Only works in kubernetes environment.</td>
 </tr>
 <tr>
 <td><code>VERIFY_CERTIFICATE_AT_CLIENT</code></td>
