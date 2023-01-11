@@ -23,34 +23,48 @@
 snip_deploying_multiple_control_planes_1() {
 kubectl create ns usergroup-1
 kubectl label ns usergroup-1 usergroup=usergroup-1
-istioctl install --set namespace=usergroup-1 --set values.global.istioNamespace=usergroup-1 --set revision=usergroup-1 --set values.pilot.env.ENABLE_ENHANCED_RESOURCE_SCOPING=true --skip-confirmation -f - <<EOF
+istioctl install -y -f - <<EOF
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 metadata:
   namespace: usergroup-1
 spec:
-# You may override parts of meshconfig by uncommenting the following lines.
+  profile: minimal
+  revision: usergroup-1
   meshConfig:
     discoverySelectors:
       - matchLabels:
           usergroup: usergroup-1
+  values:
+    global:
+      istioNamespace: usergroup-1
+    pilot:
+      env:
+        ENABLE_ENHANCED_RESOURCE_SCOPING: true
 EOF
 }
 
 snip_deploying_multiple_control_planes_2() {
 kubectl create ns usergroup-2
 kubectl label ns usergroup-2 usergroup=usergroup-2
-istioctl install --set namespace=usergroup-2 --set values.global.istioNamespace=usergroup-2 --set revision=usergroup-2 --set values.pilot.env.ENABLE_ENHANCED_RESOURCE_SCOPING=true --skip-confirmation -f - <<EOF
+istioctl install -y -f - <<EOF
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 metadata:
   namespace: usergroup-2
 spec:
-# You may override parts of meshconfig by uncommenting the following lines.
+  profile: minimal
+  revision: usergroup-2
   meshConfig:
     discoverySelectors:
       - matchLabels:
           usergroup: usergroup-2
+  values:
+    global:
+      istioNamespace: usergroup-2
+    pilot:
+      env:
+        ENABLE_ENHANCED_RESOURCE_SCOPING: true
 EOF
 }
 

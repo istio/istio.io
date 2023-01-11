@@ -23,13 +23,13 @@ Using `discoverySelectors`, you can scope Kubernetes resources in a cluster to s
 This guide requires that you have a Kubernetes cluster with any of the
 [supported Kubernetes versions:](/docs/releases/supported-releases#support-status-of-istio-releases) {{< supported_kubernetes_versions >}}.
 
-This cluster will host two control planes installed in two different system namespaces. The mesh application workloads will run in multiple application-specific namespaces, each namespace associated with one or the other control plane using revision and discovery selector configurations.
+This cluster will host two control planes installed in two different system namespaces. The mesh application workloads will run in multiple application-specific namespaces, each namespace associated with one or the other control plane based on revision and discovery selector configurations.
 
 ## Cluster configuration
 
 ### Deploying multiple control planes
 
-Deploying multiple Istio control planes can be achieved by specifying a distinct system namespace for each control plane.
+Deploying multiple Istio control planes on a single cluster can be achieved by using different system namespaces for each control plane.
 Istio revisions and `discoverySelectors` features can be used together with this, to provide proper resource scoping for workloads
 in this deployment model. For making use of the complete resource scoping, the feature flag `ENABLE_ENHANCED_RESOURCE_SCOPING` has to be set to true.
 
@@ -38,17 +38,24 @@ in this deployment model. For making use of the complete resource scoping, the f
     {{< text bash >}}
     $ kubectl create ns usergroup-1
     $ kubectl label ns usergroup-1 usergroup=usergroup-1
-    $ istioctl install --set namespace=usergroup-1 --set values.global.istioNamespace=usergroup-1 --set revision=usergroup-1 --set values.pilot.env.ENABLE_ENHANCED_RESOURCE_SCOPING=true --skip-confirmation -f - <<EOF
+    $ istioctl install -y -f - <<EOF
     apiVersion: install.istio.io/v1alpha1
     kind: IstioOperator
     metadata:
       namespace: usergroup-1
     spec:
-    # You may override parts of meshconfig by uncommenting the following lines.
+      profile: minimal
+      revision: usergroup-1
       meshConfig:
         discoverySelectors:
           - matchLabels:
               usergroup: usergroup-1
+      values:
+        global:
+          istioNamespace: usergroup-1
+        pilot:
+          env:
+            ENABLE_ENHANCED_RESOURCE_SCOPING: true
     EOF
     {{< /text >}}
 
@@ -57,17 +64,24 @@ in this deployment model. For making use of the complete resource scoping, the f
     {{< text bash >}}
     $ kubectl create ns usergroup-2
     $ kubectl label ns usergroup-2 usergroup=usergroup-2
-    $ istioctl install --set namespace=usergroup-2 --set values.global.istioNamespace=usergroup-2 --set revision=usergroup-2 --set values.pilot.env.ENABLE_ENHANCED_RESOURCE_SCOPING=true --skip-confirmation -f - <<EOF
+    $ istioctl install -y -f - <<EOF
     apiVersion: install.istio.io/v1alpha1
     kind: IstioOperator
     metadata:
       namespace: usergroup-2
     spec:
-    # You may override parts of meshconfig by uncommenting the following lines.
+      profile: minimal
+      revision: usergroup-2
       meshConfig:
         discoverySelectors:
           - matchLabels:
               usergroup: usergroup-2
+      values:
+        global:
+          istioNamespace: usergroup-2
+        pilot:
+          env:
+            ENABLE_ENHANCED_RESOURCE_SCOPING: true
     EOF
     {{< /text >}}
 
