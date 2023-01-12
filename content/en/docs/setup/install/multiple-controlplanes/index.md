@@ -117,11 +117,6 @@ By default, Istio only uses `discoverySelectors` to scope workload endpoints. To
     EOF
     {{< /text >}}
 
-{{< warning >}}
-In a fully scoped environment where each control plane is associated with its resources through proper namespace labeling, there is no need for the default webhook
-configurations provided by Istio. However it is the responsibility of the Mesh Administrator to make sure no requests bypass the validation step.
-{{< /warning >}}
-
 ### Verify the multiple control plane creation
 
 1. Check the labels on the system namespaces for each control plane:
@@ -148,6 +143,26 @@ configurations provided by Istio. However it is the responsibility of the Mesh A
     {{< /text >}}
 
     You will notice that one istiod deployment per usergroup is created in the specified namespaces.
+
+1. Run the following commands to list the installed webhooks:
+
+    {{< text bash >}}
+    $ kubectl get validatingwebhookconfiguration
+    NAME                                      WEBHOOKS   AGE
+    istio-validator-usergroup-1-usergroup-1   1          18m
+    istio-validator-usergroup-2-usergroup-2   1          18m
+    istiod-default-validator                  1          18m
+    {{< /text >}}
+
+    {{< text bash >}}
+    $ kubectl get mutatingwebhookconfiguration
+    NAME                                             WEBHOOKS   AGE
+    istio-revision-tag-default-usergroup-1           4          18m
+    istio-sidecar-injector-usergroup-1-usergroup-1   2          19m
+    istio-sidecar-injector-usergroup-2-usergroup-2   2          18m
+    {{< /text >}}
+
+    Note that the output includes `istiod-default-validator` and `istio-revision-tag-default-usergroup-1`, which are the default webhook configurations used for handling requests coming from resources which are not associated with any revision. In a fully scoped environment where every control plane is associated with its resources through proper namespace labeling, there is no need for these default webhook configurations. They will never be invoked.
 
 1. Run the following commands to list the installed webhooks:
 
@@ -227,28 +242,18 @@ Now that the applications are deployed, you can use the `istioctl ps` command to
 
     {{< text bash >}}
     $ istioctl ps -i usergroup-1
-    NAME                                                 CLUSTER        CDS        LDS        EDS        RDS          ECDS         ISTIOD                                  VERSION
-    httpbin-9dbd644c7-hccpf.app-ns-1                     Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-usergroup-1-5ccc849b5f-wnqd6
-    1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
-    istio-ingressgateway-8df594958-6t7x6.usergroup-1     Kubernetes     SYNCED     SYNCED     SYNCED     NOT SENT     NOT SENT     istiod-usergroup-1-5ccc849b5f-wnqd6
-    1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
-    sleep-78ff5975c6-9zb77.app-ns-1                      Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-usergroup-1-5ccc849b5f-wnqd6
-    1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
+    NAME                                 CLUSTER        CDS        LDS        EDS        RDS          ECDS         ISTIOD                                  VERSION
+    httpbin-9dbd644c7-hccpf.app-ns-1     Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-usergroup-1-5ccc849b5f-wnqd6     1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
+    sleep-78ff5975c6-9zb77.app-ns-1      Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-usergroup-1-5ccc849b5f-wnqd6     1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
     {{< /text >}}
 
     {{< text bash >}}
     $ istioctl ps -i usergroup-2
-    NAME                                                  CLUSTER        CDS        LDS        EDS        RDS          ECDS        ISTIOD                                  VERSION
-    httpbin-9dbd644c7-vvcqj.app-ns-3                      Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT    istiod-usergroup-2-658d6458f7-slpd9
-    1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
-    httpbin-9dbd644c7-xzgfm.app-ns-2                      Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT    istiod-usergroup-2-658d6458f7-slpd9
-    1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
-    istio-ingressgateway-7bc5b4c97d-bvsvg.usergroup-2     Kubernetes     SYNCED     SYNCED     SYNCED     NOT SENT     NOT SENT    istiod-usergroup-2-658d6458f7-slpd9
-    1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
-    sleep-78ff5975c6-fthmt.app-ns-2                       Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT    istiod-usergroup-2-658d6458f7-slpd9
-    1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
-    sleep-78ff5975c6-nxtth.app-ns-3                       Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT    istiod-usergroup-2-658d6458f7-slpd9
-    1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
+    NAME                                  CLUSTER        CDS        LDS        EDS        RDS          ECDS        ISTIOD                                  VERSION
+    httpbin-9dbd644c7-vvcqj.app-ns-3      Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT    istiod-usergroup-2-658d6458f7-slpd9     1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
+    httpbin-9dbd644c7-xzgfm.app-ns-2      Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT    istiod-usergroup-2-658d6458f7-slpd9     1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
+    sleep-78ff5975c6-fthmt.app-ns-2       Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT    istiod-usergroup-2-658d6458f7-slpd9     1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
+    sleep-78ff5975c6-nxtth.app-ns-3       Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT    istiod-usergroup-2-658d6458f7-slpd9     1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
     {{< /text >}}
 
 ### Verify the application connectivity is ONLY within the respective usergroup
