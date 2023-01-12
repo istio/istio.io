@@ -99,6 +99,7 @@ Note that you must deploy SPIRE before installing Istio into your environment so
                   - name: workload-socket
                     csi:
                       driver: "csi.spiffe.io"
+                      readOnly: true
       components:
         ingressGateways:
           - name: istio-ingressgateway
