@@ -4,7 +4,7 @@ description: This task shows you how to configure Istio to dynamically limit the
 weight: 10
 keywords: [policies,quotas]
 owner: istio/wg-policies-and-telemetry-maintainers
-test: no
+test: yes
 ---
 
 This task shows you how to use Envoy's native rate limiting to dynamically limit the traffic to an Istio
@@ -42,7 +42,8 @@ backend, is used below.
 1. Use the following configmap to [configure the reference implementation](https://github.com/envoyproxy/ratelimit#configuration)
     to rate limit requests to the path `/productpage` at 1 req/min and all other requests at 100 req/min.
 
-    {{< text yaml >}}
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
     apiVersion: v1
     kind: ConfigMap
     metadata:
@@ -60,17 +61,20 @@ backend, is used below.
             rate_limit:
               unit: minute
               requests_per_unit: 100
+    EOF
     {{< /text >}}
 
 1. Create a global rate limit service which implements Envoy's [rate limit service protocol](https://www.envoyproxy.io/docs/envoy/latest/api-v3/service/ratelimit/v3/rls.proto). As a reference, a demo configuration can be found [here]({{< github_blob >}}/samples/ratelimit/rate-limit-service.yaml), which is based on a [reference implementation](https://github.com/envoyproxy/ratelimit) provided by Envoy.
 
+    {{< text bash >}}
+    $ kubectl apply -f @samples/ratelimit/rate-limit-service.yaml@
+    {{< /text >}}
+
 1. Apply an `EnvoyFilter` to the `ingressgateway` to enable global rate limiting using Envoy's global rate limit filter.
 
-    The first patch inserts the
+    The patch inserts the
     `envoy.filters.http.ratelimit` [global envoy filter](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/http/ratelimit/v3/rate_limit.proto#envoy-v3-api-msg-extensions-filters-http-ratelimit-v3-ratelimit) filter into the `HTTP_FILTER` chain.
-    The `rate_limit_service` field specifies the external rate limit service, `rate_limit_cluster` in this case.
-
-    The second patch defines the `rate_limit_cluster`, which provides the endpoint location of the external rate limit service.
+    The `rate_limit_service` field specifies the external rate limit service, `outbound|8081||ratelimit.default.svc.cluster.local` in this case.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -109,30 +113,9 @@ backend, is used below.
                 rate_limit_service:
                   grpc_service:
                     envoy_grpc:
-                      cluster_name: rate_limit_cluster
+                      cluster_name: outbound|8081||ratelimit.default.svc.cluster.local
+                      authority: ratelimit.default.svc.cluster.local
                   transport_api_version: V3
-        - applyTo: CLUSTER
-          match:
-            cluster:
-              service: ratelimit.default.svc.cluster.local
-          patch:
-            operation: ADD
-            # Adds the rate limit service cluster for rate limit service defined in step 1.
-            value:
-              name: rate_limit_cluster
-              type: STRICT_DNS
-              connect_timeout: 10s
-              lb_policy: ROUND_ROBIN
-              http2_protocol_options: {}
-              load_assignment:
-                cluster_name: rate_limit_cluster
-                endpoints:
-                - lb_endpoints:
-                  - endpoint:
-                      address:
-                         socket_address:
-                          address: ratelimit.default.svc.cluster.local
-                          port_value: 8081
     EOF
     {{< /text >}}
 
@@ -182,6 +165,22 @@ The `HTTP_FILTER` patch inserts the `envoy.filters.http.local_ratelimit` [local 
 into the HTTP connection manager filter chain. The local rate limit filter's [token bucket](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/http/local_ratelimit/v3/local_rate_limit.proto#envoy-v3-api-field-extensions-filters-http-local-ratelimit-v3-localratelimit-token-bucket)
 is configured to allow 10 requests/min. The filter is also configured to add an `x-local-rate-limit`
 response header to requests that are blocked.
+
+{{< tip >}}
+The statistics mentioned on the [Envoy rating limiting page](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/local_rate_limit_filter#statistics) are disabled by default. You can enable them with the following annotations during deployment:
+
+{{< text yaml >}}
+template:
+  metadata:
+    annotations:
+      proxy.istio.io/config: |-
+        proxyStatsMatcher:
+          inclusionRegexps:
+          - ".*http_local_rate_limit.*"
+
+{{< /text >}}
+
+{{< /tip >}}
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -315,7 +314,8 @@ Send traffic to the Bookinfo sample. Visit `http://$GATEWAY_URL/productpage` in 
 browser or issue the following command:
 
 {{< text bash >}}
-$ curl "http://$GATEWAY_URL/productpage"
+$ curl -s "http://$GATEWAY_URL/productpage" -o /dev/null -w "%{http_code}\n"
+429
 {{< /text >}}
 
 {{< tip >}}
@@ -331,8 +331,18 @@ the local rate limit for `productpage` instances allows 10 req/min.
 To confirm this, send internal `productpage` requests, from the `ratings` pod, using the following `curl` command:
 
 {{< text bash >}}
-$ kubectl exec "$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')" -c ratings -- curl -sS productpage:9080/productpage | grep -o "<title>.*</title>"
-<title>Simple Bookstore App</title>
+$ kubectl exec "$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')" -c ratings -- curl -s productpage:9080/productpage -o /dev/null -w "%{http_code}\n"
+429
 {{< /text >}}
 
 You should see no more than 10 req/min go through per `productpage` instance.
+
+## Cleanup
+
+{{< text bash >}}
+$ kubectl delete envoyfilter filter-ratelimit -nistio-system
+$ kubectl delete envoyfilter filter-ratelimit-svc -nistio-system
+$ kubectl delete envoyfilter filter-local-ratelimit-svc -nistio-system
+$ kubectl delete cm ratelimit-config
+$ kubectl delete -f @samples/ratelimit/rate-limit-service.yaml@
+{{< /text >}}

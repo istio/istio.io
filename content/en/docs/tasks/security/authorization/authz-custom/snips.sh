@@ -103,17 +103,9 @@ data:
         headersToDownstreamOnDeny: ["content-type", "set-cookie"] # headers sent back to the client when request is denied.
 ENDSNIP
 
-snip_define_the_external_authorizer_4() {
-kubectl rollout restart deployment/istiod -n istio-system
-}
-
-! read -r -d '' snip_define_the_external_authorizer_4_out <<\ENDSNIP
-deployment.apps/istiod restarted
-ENDSNIP
-
 snip_enable_with_external_authorization_1() {
 kubectl apply -n foo -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: ext-authz

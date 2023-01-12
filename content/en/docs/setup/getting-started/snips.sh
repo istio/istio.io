@@ -26,7 +26,7 @@ curl -L https://istio.io/downloadIstio | sh -
 }
 
 snip_download_istio_download_2() {
-curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.14.0 TARGET_ARCH=x86_64 sh -
+curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.17.0 TARGET_ARCH=x86_64 sh -
 }
 
 snip_download_istio_download_4() {
@@ -127,97 +127,94 @@ istioctl analyze
 ENDSNIP
 
 snip_determining_the_ingress_ip_and_ports_1() {
-export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}')
-export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].nodePort}')
-}
-
-snip_determining_the_ingress_ip_and_ports_2() {
-echo "$INGRESS_PORT"
-}
-
-! read -r -d '' snip_determining_the_ingress_ip_and_ports_2_out <<\ENDSNIP
-32194
-ENDSNIP
-
-snip_determining_the_ingress_ip_and_ports_3() {
-echo "$SECURE_INGRESS_PORT"
-}
-
-! read -r -d '' snip_determining_the_ingress_ip_and_ports_3_out <<\ENDSNIP
-31632
-ENDSNIP
-
-snip_determining_the_ingress_ip_and_ports_4() {
-export INGRESS_HOST=$(minikube ip)
-}
-
-snip_determining_the_ingress_ip_and_ports_5() {
-echo "$INGRESS_HOST"
-}
-
-! read -r -d '' snip_determining_the_ingress_ip_and_ports_5_out <<\ENDSNIP
-192.168.4.102
-ENDSNIP
-
-snip_determining_the_ingress_ip_and_ports_6() {
 minikube tunnel
 }
 
-snip_determining_the_ingress_ip_and_ports_7() {
-kubectl get svc istio-ingressgateway -n istio-system
-}
-
-! read -r -d '' snip_determining_the_ingress_ip_and_ports_7_out <<\ENDSNIP
-NAME                   TYPE           CLUSTER-IP       EXTERNAL-IP     PORT(S)                                      AGE
-istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121  80:31380/TCP,443:31390/TCP,31400:31400/TCP   17h
-ENDSNIP
-
-snip_determining_the_ingress_ip_and_ports_8() {
+snip_determining_the_ingress_ip_and_ports_2() {
 export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].port}')
 export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].port}')
 }
 
-snip_determining_the_ingress_ip_and_ports_9() {
+snip_determining_the_ingress_ip_and_ports_3() {
+echo "$INGRESS_HOST"
+}
+
+! read -r -d '' snip_determining_the_ingress_ip_and_ports_3_out <<\ENDSNIP
+127.0.0.1
+ENDSNIP
+
+snip_determining_the_ingress_ip_and_ports_4() {
+echo "$INGRESS_PORT"
+}
+
+! read -r -d '' snip_determining_the_ingress_ip_and_ports_4_out <<\ENDSNIP
+80
+ENDSNIP
+
+snip_determining_the_ingress_ip_and_ports_5() {
+echo "$SECURE_INGRESS_PORT"
+}
+
+! read -r -d '' snip_determining_the_ingress_ip_and_ports_5_out <<\ENDSNIP
+443
+ENDSNIP
+
+snip_determining_the_ingress_ip_and_ports_6() {
+kubectl get svc istio-ingressgateway -n istio-system
+}
+
+! read -r -d '' snip_determining_the_ingress_ip_and_ports_6_out <<\ENDSNIP
+NAME                   TYPE           CLUSTER-IP       EXTERNAL-IP     PORT(S)                                      AGE
+istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121  80:31380/TCP,443:31390/TCP,31400:31400/TCP   17h
+ENDSNIP
+
+snip_determining_the_ingress_ip_and_ports_7() {
+export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].port}')
+export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].port}')
+}
+
+snip_determining_the_ingress_ip_and_ports_8() {
 export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
 }
 
-snip_determining_the_ingress_ip_and_ports_10() {
+snip_determining_the_ingress_ip_and_ports_9() {
 export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}')
 export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].nodePort}')
 }
 
-snip_determining_the_ingress_ip_and_ports_11() {
-export INGRESS_HOST=workerNodeAddress
+snip_determining_the_ingress_ip_and_ports_10() {
+export INGRESS_HOST=worker-node-address
 }
 
-snip_determining_the_ingress_ip_and_ports_12() {
+snip_determining_the_ingress_ip_and_ports_11() {
 gcloud compute firewall-rules create allow-gateway-http --allow "tcp:$INGRESS_PORT"
 gcloud compute firewall-rules create allow-gateway-https --allow "tcp:$SECURE_INGRESS_PORT"
 }
 
-snip_determining_the_ingress_ip_and_ports_13() {
+snip_determining_the_ingress_ip_and_ports_12() {
 ibmcloud ks workers --cluster cluster-name-or-id
 export INGRESS_HOST=public-IP-of-one-of-the-worker-nodes
 }
 
-snip_determining_the_ingress_ip_and_ports_14() {
+snip_determining_the_ingress_ip_and_ports_13() {
 export INGRESS_HOST=127.0.0.1
 }
 
-snip_determining_the_ingress_ip_and_ports_15() {
+snip_determining_the_ingress_ip_and_ports_14() {
 export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].status.hostIP}')
 }
 
-snip_determining_the_ingress_ip_and_ports_16() {
+snip_determining_the_ingress_ip_and_ports_15() {
 export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
 }
 
-snip_determining_the_ingress_ip_and_ports_17() {
+snip_determining_the_ingress_ip_and_ports_16() {
 echo "$GATEWAY_URL"
 }
 
-! read -r -d '' snip_determining_the_ingress_ip_and_ports_17_out <<\ENDSNIP
+! read -r -d '' snip_determining_the_ingress_ip_and_ports_16_out <<\ENDSNIP
 192.168.99.100:32194
 ENDSNIP
 
@@ -241,8 +238,7 @@ istioctl dashboard kiali
 
 snip_uninstall_1() {
 kubectl delete -f samples/addons
-istioctl manifest generate --set profile=demo | kubectl delete --ignore-not-found=true -f -
-istioctl tag remove default
+istioctl uninstall -y --purge
 }
 
 snip_uninstall_2() {

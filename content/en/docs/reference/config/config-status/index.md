@@ -16,10 +16,11 @@ control plane revision.
 
 Istio 1.6 and later provides information about the propagation of configuration
 changes through the mesh, using the `status` field of the resource.
-Status is disabled by default, and can be enabled during install with:
+Status is disabled by default, and can be enabled during install with
+(you must also enable `config_distribution_tracking`):
 
 {{< text bash >}}
-$ istioctl install --set values.pilot.env.PILOT_ENABLE_STATUS=true --set values.global.istiod.enableAnalysis=true
+$ istioctl install --set values.pilot.env.PILOT_ENABLE_STATUS=true --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --set values.global.istiod.enableAnalysis=true
 {{< /text >}}
 
 The `status` field contains the state of a resource's configuration with various

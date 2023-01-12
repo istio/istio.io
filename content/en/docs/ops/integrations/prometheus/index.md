@@ -53,7 +53,7 @@ To simplify configuration, Istio has the ability to control scraping entirely by
 While `prometheus.io` annotations are not a core part of Prometheus, they have become the de facto standard to configure scraping.
 {{< /tip >}}
 
-This option is enabled by default but can be disabled by passing `--set meshConfig.enablePrometheusMerge=false` during [installation](/docs/setup/install/istioctl/). When enabled, appropriate `prometheus.io` annotations will be added to all data plane pods to set up scraping. If these annotations already exist, they will be overwritten. With this option, the Envoy sidecar will merge Istio's metrics with the application metrics. The merged metrics will be scraped from `/stats/prometheus:15020`.
+This option is enabled by default but can be disabled by passing `--set meshConfig.enablePrometheusMerge=false` during [installation](/docs/setup/install/istioctl/). When enabled, appropriate `prometheus.io` annotations will be added to all data plane pods to set up scraping. If these annotations already exist, they will be overwritten. With this option, the Envoy sidecar will merge Istio's metrics with the application metrics. The merged metrics will be scraped from `:15020/stats/prometheus`.
 
 This option exposes all the metrics in plain text.
 
@@ -146,7 +146,7 @@ tls_config:
   ca_file: /etc/prom-certs/root-cert.pem
   cert_file: /etc/prom-certs/cert-chain.pem
   key_file: /etc/prom-certs/key.pem
-  insecure_skip_verify: true  # Prometheus does not support Istio security naming, thus skip verifying target pod ceritifcate
+  insecure_skip_verify: true  # Prometheus does not support Istio security naming, thus skip verifying target pod certificate
 {{< /text >}}
 
 ## Best practices

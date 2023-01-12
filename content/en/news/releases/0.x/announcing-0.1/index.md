@@ -74,7 +74,7 @@ this journey.
 
 To get involved, connect with us via any of these channels:
 
-- [istio.io]() for documentation and examples.
+- [istio.io](https://istio.io) for documentation and examples.
 
 - The [Istio discussion board](https://discuss.istio.io) general discussions,
 

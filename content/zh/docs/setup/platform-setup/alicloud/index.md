@@ -15,20 +15,20 @@ test: n/a
 
 {{< boilerplate untested-document >}}
 
-按照以下说明配置[阿里云 Kubernetes 容器服务](https://www.alibabacloud.com/product/kubernetes)集群以便安装运行 Istio。
-你可以在阿里云的 **容器服务管理控制台** 中快速简单的部署一个完全支持 Istio 的 Kubernetes 集群。
+按照以下说明配置[阿里云 Kubernetes 容器服务](https://www.alibabacloud.com/zh/product/kubernetes)集群以便安装运行 Istio。
+您可以在阿里云的 **容器服务管理控制台** 中快速简单地部署一个完全支持 Istio 的 Kubernetes 集群。
 
 {{< tip >}}
-你也可以按照[阿里云应用目录说明](https://archive.istio.io/v1.1/docs/setup/kubernetes/install/platform/alicloud/)，在阿里云 Kubernetes 容器服务中使用 **应用目录** 服务来安装配置 Istio。
+阿里云提供了一个完全托管的服务网格平台，名为阿里云服务网格（ASM），与 Istio 完全兼容。有关详细信息和说明，请参阅[阿里云服务网格](https://www.alibabacloud.com/help/zh/alibaba-cloud-service-mesh/latest/what-is-asm)。
 {{< /tip >}}
 
 ## 前置条件{#prerequisites}
 
-1. [按照阿里云说明](https://www.alibabacloud.com/help/doc-detail/53752.htm)启用以下服务：容器服务、资源编排服务（ROS）和 RAM。
+1. 按照[阿里云说明](https://www.alibabacloud.com/help/zh/container-service-for-kubernetes/latest/create-an-ack-managed-cluster)启用以下服务：容器服务、资源编排服务（ROS）和 RAM。
 
 ## 步骤{#procedure}
 
-1. 登陆 `容器服务管理控制台`，点击左边导航栏中 **Kubernetes** 下的 **集群** 进入到 **集群列表** 页面。
+1. 您登录 `容器服务管理控制台`，点击左边导航栏中 **Kubernetes** 下的 **集群** 进入到 **集群列表** 页面。
 
 1. 点击右上角的 **创建 Kubernetes 集群** 按钮。
 

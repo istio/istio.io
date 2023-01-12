@@ -127,7 +127,7 @@ not be directed to subset v1 but instead will continue to use default round-robi
 
 The ingress requests are using the gateway host (e.g., `myapp.com`)
 which will activate the rules in the myapp `VirtualService` that routes to any endpoint of the helloworld service.
-Only internal requests with the host `helloworld.default.svc.cluster.local` will use the
+Only internal requests with the host `helloworld.default.svc.cluster.local` will use the
 helloworld `VirtualService` which directs traffic exclusively to subset v1.
 
 To control the traffic from the gateway, you need to also include the subset rule in the myapp `VirtualService`:
@@ -228,7 +228,7 @@ server {
 Assume Istio is installed with the following configuration:
 
 - `mTLS mode` set to `STRICT` within the mesh
-- `meshConfig.outboundTrafficPolicy.mode` set to `ALLOW_ANY`
+- `meshConfig.outboundTrafficPolicy.mode` set to `ALLOW_ANY`
 
 Consider `nginx` is deployed as a `StatefulSet` in the default namespace and a corresponding `Headless Service` is defined as shown below:
 
@@ -264,7 +264,7 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: k8s.gcr.io/nginx-slim:0.8
+        image: registry.k8s.io/nginx-slim:0.8
         ports:
         - containerPort: 80
           name: web
@@ -658,13 +658,75 @@ another filter (e.g., `INSERT_FIRST`), or set an explicit priority in the `Envoy
 default creation time-based ordering. For example, adding `priority: 10` to the above filter will ensure
 that it is processed after the `istio.stats` filter which has a default priority of 0.
 
-## Port-forward error for Istio in dual-stack or `ipv6-only` cluster
+## Virtual service with fault injection and retry/timeout policies not working as expected
 
-{{< tip >}}
-Please refer to the [IPv6 enabled cluster document](https://docs.google.com/document/d/1a6eZ6ldF2l7De3vX-SBAHmuJ00uxlgpPznHocG7zcfs) for more information.
-{{< /tip >}}
+Currently, Istio does not support configuring fault injections and retry or timeout policies on the
+same `VirtualService`. Consider the following configuration:
 
-There may be error messages similar to those found in this [issue](https://github.com/istio/istio/issues/34358) when using some istioctl commands, such as `istioctl proxy-config`, `istioctl proxy-status` and `istioctl dashboard`, etc. All these commands are implemented via `Istio port-forward`. The error might be caused by the container runtime in the user's Kubernetes cluster. To avoid this error, please make sure to follow the rules:
+{{< text yaml >}}
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: helloworld
+spec:
+  hosts:
+    - "*"
+  gateways:
+  - helloworld-gateway
+  http:
+  - match:
+    - uri:
+        exact: /hello
+    fault:
+      abort:
+        httpStatus: 500
+        percentage:
+          value: 50
+    retries:
+      attempts: 5
+      retryOn: 5xx
+    route:
+    - destination:
+        host: helloworld
+        port:
+          number: 5000
+{{< /text >}}
 
-- `If Docker is the container runtime`： User needs to change the runtime from `Docker` to `containerd`,
-- `If containerd is the container runtime`： User should verify that the `containerd` version is higher than 1.5.0.
+You would expect that given the configured five retry attempts, the user would almost never see any
+errors when calling the `helloworld` service. However since both fault and retries are configured on
+the same `VirtualService`, the retry configuration does not take effect, resulting in a 50% failure
+rate. To work around this issue, you may remove the fault config from your `VirtualService` and
+inject the fault to the upstream Envoy proxy using `EnvoyFilter` instead:
+
+{{< text yaml >}}
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: hello-world-filter
+spec:
+  workloadSelector:
+    labels:
+      app: helloworld
+  configPatches:
+  - applyTo: HTTP_FILTER
+    match:
+      context: SIDECAR_INBOUND # will match outbound listeners in all sidecars
+      listener:
+        filterChain:
+          filter:
+            name: "envoy.filters.network.http_connection_manager"
+    patch:
+      operation: INSERT_BEFORE
+      value:
+        name: envoy.fault
+        typed_config:
+          "@type": "type.googleapis.com/envoy.extensions.filters.http.fault.v3.HTTPFault"
+          abort:
+            http_status: 500
+            percentage:
+              numerator: 50
+              denominator: HUNDRED
+{{< /text >}}
+
+This works because this way the retry policy is configured for the client proxy while the fault
+injection is configured for the upstream proxy.

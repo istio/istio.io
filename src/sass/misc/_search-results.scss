@@ -68,3 +68,8 @@
         border: 0;
     }
 }
+
+// temp hack for https://github.com/istio/istio.io/issues/11750
+.gsc-selected-option-container {
+    max-width: 100% !important;
+}

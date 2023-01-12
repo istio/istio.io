@@ -1,5 +1,5 @@
 ---
-title: Setup a Kubernetes Cluster
+title: Set up a Kubernetes Cluster
 overview: Set up your Kubernetes cluster for the tutorial.
 weight: 2
 owner: istio/wg-docs-maintainers
@@ -70,7 +70,7 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: networking.k8s.io/v1beta1
+    apiVersion: networking.k8s.io/v1
     kind: Ingress
     metadata:
       name: istio-system
@@ -85,32 +85,40 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
           - path: /
             pathType: Prefix
             backend:
-              serviceName: grafana
-              servicePort: 3000
+              service:
+                name: grafana
+                port:
+                  number: 3000
       - host: my-istio-tracing.io
         http:
           paths:
           - path: /
             pathType: Prefix
             backend:
-              serviceName: tracing
-              servicePort: 9411
+              service:
+                name: tracing
+                port:
+                  number: 9411
       - host: my-istio-logs-database.io
         http:
           paths:
           - path: /
             pathType: Prefix
             backend:
-              serviceName: prometheus
-              servicePort: 9090
+              service:
+                name: prometheus
+                port:
+                  number: 9090
       - host: my-kiali.io
         http:
           paths:
           - path: /
             pathType: Prefix
             backend:
-              serviceName: kiali
-              servicePort: 20001
+              service:
+                name: kiali
+                port:
+                  number: 20001
     EOF
     {{< /text >}}
 
@@ -121,7 +129,7 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
     kind: Role
-    apiVersion: rbac.authorization.k8s.io/v1beta1
+    apiVersion: rbac.authorization.k8s.io/v1
     metadata:
       name: istio-system-access
       namespace: istio-system
@@ -157,7 +165,7 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
     kind: Role
-    apiVersion: rbac.authorization.k8s.io/v1beta1
+    apiVersion: rbac.authorization.k8s.io/v1
     metadata:
       name: ${NAMESPACE}-access
       namespace: $NAMESPACE
@@ -168,7 +176,7 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
       verbs: ["*"]
     ---
     kind: RoleBinding
-    apiVersion: rbac.authorization.k8s.io/v1beta1
+    apiVersion: rbac.authorization.k8s.io/v1
     metadata:
       name: ${NAMESPACE}-access
       namespace: $NAMESPACE
@@ -182,7 +190,7 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
       name: ${NAMESPACE}-access
     ---
     kind: RoleBinding
-    apiVersion: rbac.authorization.k8s.io/v1beta1
+    apiVersion: rbac.authorization.k8s.io/v1
     metadata:
       name: ${NAMESPACE}-istio-system-access
       namespace: istio-system
@@ -264,4 +272,4 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
 
 Congratulations, you configured your cluster for the tutorial!
 
-You are ready to [setup a local computer](/docs/examples/microservices-istio/setup-local-computer).
+You are ready to [set up a local computer](/docs/examples/microservices-istio/setup-local-computer).

@@ -87,7 +87,7 @@
         <link rel="alternate" type="application/rss+xml" title="Istio News" href="/news/feed.xml">
         <link rel="alternate" type="application/rss+xml" title="Istio Blog and News" href="/feed.xml">
 
-        <!-- Favicons: generated from img/istio-whitelogo-bluebackground-framed.svg by http://cthedot.de/icongen -->
+        <!-- Favicons: generated from img/istio-whitelogo-bluebackground-framed.svg by https://cthedot.de/icongen -->
         <link rel="shortcut icon" href="/favicons/favicon.ico" >
         <link rel="apple-touch-icon" href="/favicons/apple-touch-icon-180x180.png" sizes="180x180">
         <link rel="icon" type="image/png" href="/favicons/favicon-16x16.png" sizes="16x16">
@@ -98,6 +98,8 @@
         <link rel="icon" type="image/png" href="/favicons/android-96x96.png" sizes="96xW96">
         <link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
         <link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
+        <link rel="icon" type="image/svg+xml" href="/favicons/favicon.svg">
+        <link rel="icon" type="image/png" href="/favicons/favicon.png">
         <link rel="mask-icon" href="/favicons/safari-pinned-tab.svg" color="#466BB0">
 
         <!-- app manifests -->
@@ -112,7 +114,8 @@
 
         <!-- style sheets -->
         <link rel="stylesheet" href="/css/all.css">
-        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap">
 
         <!-- set the color theme -->
@@ -180,14 +183,14 @@
                 </div>
             {{ else }}
                 <div id="edit-this-page-container" aria-hidden="true">
-                    <a tabindex="-1" id="edit-this-page" data-skipendnotes="true" href="https://github.com/istio/istio.io/edit/{{ .Site.Data.args.doc_branch_name }}/content/{{ .Lang }}/{{ .Path }}" title='{{ i18n "edit_on_github"}}'>
+                    <a tabindex="-1" id="edit-this-page" data-skipendnotes="true" href="https://github.com/istio/istio.io/edit/{{ .Site.Data.args.doc_branch_name }}/content/{{ .Lang }}/{{ .File }}" title='{{ i18n "edit_on_github"}}'>
                         {{ partial "icon.html" "pencil" }}
                     </a>
                 </div>
             {{ end }}
 
             <div id="report-site-bugs-container" aria-hidden="true">
-                <a tabindex="-1" id="report-site-bugs" data-skipendnotes="true" href="https://github.com/istio/istio.io/issues/new?title=Issue%20with%20{{ .Path}}" aria-hidden="true" title='{{ i18n "report_site_bugs"}}'>
+                <a tabindex="-1" id="report-site-bugs" data-skipendnotes="true" href="https://github.com/istio/istio.io/issues/new?title=Issue%20with%20{{ .File}}" aria-hidden="true" title='{{ i18n "report_site_bugs"}}'>
                     {{ partial "icon.html" "bugs" }}
                 </a>
             </div>

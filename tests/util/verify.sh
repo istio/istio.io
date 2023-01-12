@@ -209,15 +209,14 @@ __cmp_like() {
 
                 local comm=""
                 for ((k=0; k < ${#otok}; k++)) do
-                    if [ "${otok:$k:1}" = "${etok:$k:1}" ]; then
-                        comm="${comm}${otok:$k:1}"
-                    else
-                        if [[ "$comm" =~ ^([a-zA-Z0-9_]+-)+ ]]; then
-                            break
-                        fi
-                        return 1
+                    if [ "${otok:$k:1}" != "${etok:$k:1}" ]; then
+                        break
                     fi
+                    comm="${comm}${otok:$k:1}"
                 done
+                if ! [[ "$comm" =~ ^([a-zA-Z0-9_]+-)+ ]]; then
+                    return 1
+                fi
             done
         done
     fi
@@ -252,6 +251,17 @@ __cmp_lines() {
     return 0
 }
 
+# Returns 0 if the command failed to execute.  Otherwise, returns 1.
+__cmp_failure() {
+    local funcret=$3
+
+    if [[ "$funcret" -eq 0 ]]; then
+        return 1
+    fi
+
+    return 0
+}
+
 # Verify the output of $func is the same as $expected.  If they are not the same,
 # retry every second, up to 2 minutes by default. The delay between retries as
 # well as the timeout can be configured by setting the VERIFY_DELAY and
@@ -263,7 +273,7 @@ __cmp_lines() {
 # $1: output comparison function (required).
 # $2: function to be executed periodically (required).
 # $3: expected output (required).
-# $5: fail on error. If a non-empty string, will restore the failure status upon error.
+# $4: fail on error. If a non-empty string, will restore the failure status upon error.
 __verify_with_retry() {
     local cmp_func=$1
     local func=$2
@@ -297,7 +307,7 @@ __verify_with_retry() {
         # shellcheck disable=SC2001
         out=$(sed 's/[[:space:]]*$//g' <<< "$out")
 
-        $cmp_func "$out" "$expected"
+        $cmp_func "$out" "$expected" "$funcret"
         local cmpret="$?"
 
         if [[ "$cmpret" -eq 0 ]]; then
@@ -363,7 +373,7 @@ _verify_not_contains() {
     local expected=$2
     # __cmp_not_contains will return true even if func fails. Pass failonerr arg
     # to tell __verify_with_retry to fail in this case instead.
-    __verify_with_retry __cmp_not_contains "$func" "$expected" 1 "true"
+    __verify_with_retry __cmp_not_contains "$func" "$expected" "true"
 }
 
 # Runs $func and compares the output with $expected.  If the output does not
@@ -449,19 +459,5 @@ _verify_lines() {
 # for testing commands that demonstrate configurations that are expected to fail.
 _verify_failure() {
     local func=$1
-    local errexit_state
-
-    errexit_state="$(shopt -po errexit || true)"
-    set +e
-
-    # Run the command.
-    out=$($func 2>&1)
-    local funcret="$?"
-
-    # Restore the "errexit" state.
-    eval "$errexit_state"
-
-    if [[ "$funcret" -eq 0 ]]; then
-        __err_exit "$func" "$out" "NON-ZERO COMMAND EXIT STATUS"
-    fi
+    __verify_with_retry __cmp_failure "$func" "NON-ZERO COMMAND EXIT STATUS"
 }

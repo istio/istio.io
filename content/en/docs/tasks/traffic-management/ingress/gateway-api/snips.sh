@@ -21,7 +21,12 @@
 ####################################################################################################
 
 snip_setup_1() {
-kubectl get crd gateways.gateway.networking.k8s.io || { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.4.0" | kubectl apply -f -; }
+kubectl get crd gateways.gateway.networking.k8s.io || \
+  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.6.0" | kubectl apply -f -; }
+}
+
+snip_setup_2() {
+istioctl install --set profile=minimal -y
 }
 
 snip_configuring_a_gateway_1() {
@@ -31,7 +36,7 @@ kubectl apply -f samples/httpbin/httpbin.yaml
 snip_configuring_a_gateway_2() {
 kubectl create namespace istio-ingress
 kubectl apply -f - <<EOF
-apiVersion: gateway.networking.k8s.io/v1alpha2
+apiVersion: gateway.networking.k8s.io/v1beta1
 kind: Gateway
 metadata:
   name: gateway
@@ -47,7 +52,7 @@ spec:
       namespaces:
         from: All
 ---
-apiVersion: gateway.networking.k8s.io/v1alpha2
+apiVersion: gateway.networking.k8s.io/v1beta1
 kind: HTTPRoute
 metadata:
   name: http
@@ -62,12 +67,6 @@ spec:
     - path:
         type: PathPrefix
         value: /get
-    filters:
-    - type: RequestHeaderModifier
-      requestHeaderModifier:
-        add:
-        - name: my-added-header
-          value: added-value
     backendRefs:
     - name: httpbin
       port: 8000
@@ -98,8 +97,53 @@ HTTP/1.1 404 Not Found
 ...
 ENDSNIP
 
+snip_configuring_a_gateway_6() {
+kubectl apply -f - <<EOF
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: HTTPRoute
+metadata:
+  name: http
+  namespace: default
+spec:
+  parentRefs:
+  - name: gateway
+    namespace: istio-ingress
+  hostnames: ["httpbin.example.com"]
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /get
+    - path:
+        type: PathPrefix
+        value: /headers
+    filters:
+    - type: RequestHeaderModifier
+      requestHeaderModifier:
+        add:
+        - name: my-added-header
+          value: added-value
+    backendRefs:
+    - name: httpbin
+      port: 8000
+EOF
+}
+
+snip_configuring_a_gateway_7() {
+curl -s -HHost:httpbin.example.com "http://$INGRESS_HOST/headers"
+}
+
+! read -r -d '' snip_configuring_a_gateway_7_out <<\ENDSNIP
+{
+  "headers": {
+    "Accept": "*/*",
+    "Host": "httpbin.example.com",
+    "My-Added-Header": "added-value",
+...
+ENDSNIP
+
 ! read -r -d '' snip_automated_deployment_1 <<\ENDSNIP
-apiVersion: gateway.networking.k8s.io/v1alpha2
+apiVersion: gateway.networking.k8s.io/v1beta1
 kind: Gateway
 metadata:
   name: gateway
@@ -111,7 +155,7 @@ spec:
 ENDSNIP
 
 ! read -r -d '' snip_manual_deployment_1 <<\ENDSNIP
-apiVersion: gateway.networking.k8s.io/v1alpha2
+apiVersion: gateway.networking.k8s.io/v1beta1
 kind: Gateway
 metadata:
   name: gateway
@@ -123,17 +167,35 @@ spec:
 ENDSNIP
 
 ! read -r -d '' snip_mesh_traffic_1 <<\ENDSNIP
-apiVersion: gateway.networking.k8s.io/v1alpha2
+apiVersion: gateway.networking.k8s.io/v1beta1
 kind: HTTPRoute
 metadata:
   name: mesh
 spec:
   parentRefs:
-  - kind: Mesh
-    name: istio
-  hostnames: ["example.com"]
+  - kind: Service
+    name: example
   rules:
+  - filters:
+    - type: RequestHeaderModifier
+      requestHeaderModifier:
+        add:
+        - name: my-added-header
+          value: added-value
   - backendRefs:
     - name: example
       port: 80
 ENDSNIP
+
+snip_cleanup_1() {
+kubectl delete -f samples/httpbin/httpbin.yaml
+kubectl delete httproute http
+kubectl delete gateways.gateway.networking.k8s.io gateway -n istio-ingress
+istioctl uninstall -y --purge
+kubectl delete ns istio-system
+kubectl delete ns istio-ingress
+}
+
+snip_cleanup_2() {
+kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.6.0" | kubectl delete -f -
+}

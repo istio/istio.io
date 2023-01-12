@@ -35,7 +35,7 @@ EOF
 }
 
 snip_configure_cluster1_as_a_primary_2() {
-istioctl install --context="${CTX_CLUSTER1}" -f cluster1.yaml
+istioctl install --set values.pilot.env.EXTERNAL_ISTIOD=true --context="${CTX_CLUSTER1}" -f cluster1.yaml
 }
 
 snip_install_the_eastwest_gateway_in_cluster1_1() {
@@ -58,11 +58,9 @@ kubectl apply --context="${CTX_CLUSTER1}" -n istio-system -f \
     samples/multicluster/expose-istiod.yaml
 }
 
-snip_enable_api_server_access_to_cluster2_1() {
-istioctl x create-remote-secret \
-    --context="${CTX_CLUSTER2}" \
-    --name=cluster2 | \
-    kubectl apply -f - --context="${CTX_CLUSTER1}"
+snip_set_the_control_plane_cluster_for_cluster2_1() {
+kubectl --context="${CTX_CLUSTER2}" create namespace istio-system
+kubectl --context="${CTX_CLUSTER2}" annotate namespace istio-system topology.istio.io/controlPlaneClusters=cluster1
 }
 
 snip_configure_cluster2_as_a_remote_1() {
@@ -77,16 +75,22 @@ cat <<EOF > cluster2.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
+  profile: remote
   values:
+    istiodRemote:
+      injectionPath: /inject/cluster/cluster2/net/network1
     global:
-      meshID: mesh1
-      multiCluster:
-        clusterName: cluster2
-      network: network1
       remotePilotAddress: ${DISCOVERY_ADDRESS}
 EOF
 }
 
 snip_configure_cluster2_as_a_remote_3() {
 istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
+}
+
+snip_attach_cluster2_as_a_remote_cluster_of_cluster1_1() {
+istioctl x create-remote-secret \
+    --context="${CTX_CLUSTER2}" \
+    --name=cluster2 | \
+    kubectl apply -f - --context="${CTX_CLUSTER1}"
 }

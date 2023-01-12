@@ -108,7 +108,33 @@ _wait_for_istio() {
     echo "Duration: $(($(date +%s)-start)) seconds"
 }
 
+# Wait for named Gateway API gateway to be ready
+# usage: _wait_for_gateway <namespace> <gateway name> <optional: context>
+_wait_for_gateway() {
+    local namespace="$1"
+    local name="$2"
+    local context="${3:-}"
+    if ! kubectl --context="$context" -n "$namespace" wait --for=condition=ready gtw "$name" --timeout=2m; then
+        echo "Failed to deploy gateway $name in namespace $namespace"
+        exit 1
+    fi
+}
+
 # Encode the string to a URL
 _urlencode() {
     python3 -c "import urllib.parse; print(urllib.parse.quote('''$1'''))"
+}
+
+# Invokes bash make to rewrite a snippet to avoid installing from a real helm repository, and instead uses
+# local files
+# usage: _rewrite_helm_repo <commands>
+# shellcheck disable=SC2001
+_rewrite_helm_repo() {
+  # get function definition: https://stackoverflow.com/a/6916952/374797
+  cmd="$(type "${1:?snip}" | sed '1,3d;$d')"
+  cmd="$(echo "${cmd}" | sed 's|istio/base|manifests/charts/base|')"
+  cmd="$(echo "${cmd}" | sed 's|istio/istiod|manifests/charts/istio-control/istio-discovery|')"
+  cmd="$(echo "${cmd}" | sed 's|istio/gateway|manifests/charts/gateway|')"
+  cmd="$(echo "${cmd}" | sed -E "s|(helm[[:space:]]+[^[:space:]]+)|\1 --set global.tag=${ISTIO_IMAGE_VERSION=SHOULD_BE_SET}.${ISTIO_LONG_SHA=latest}|g")"
+  eval "${cmd}"
 }

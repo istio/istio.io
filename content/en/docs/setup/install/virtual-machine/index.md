@@ -25,7 +25,7 @@ Follow this guide to deploy Istio and connect a virtual machine to it.
 
 1. Create a virtual machine
 1. Set the environment variables `VM_APP`, `WORK_DIR` , `VM_NAMESPACE`,
-and `SERVICE_ACCOUNT` on your machine that you're using to setup the cluster.
+and `SERVICE_ACCOUNT` on your machine that you're using to set up the cluster.
     (e.g., `WORK_DIR="${HOME}/vmintegration"`):
 
     {{< tabset category-name="network-mode" >}}
@@ -61,7 +61,7 @@ and `SERVICE_ACCOUNT` on your machine that you're using to setup the cluster.
 
     {{< /tabset >}}
 
-1. Create the working directory on your machine that you're using to setup the cluster:
+1. Create the working directory on your machine that you're using to set up the cluster:
 
     {{< text syntax=bash snip_id=setup_wd >}}
     $ mkdir -p "${WORK_DIR}"
@@ -479,7 +479,7 @@ To uninstall Istio, run the following command:
 
 {{< text bash >}}
 $ kubectl delete -n istio-system -f @samples/multicluster/expose-istiod.yaml@
-$ istioctl manifest generate | kubectl delete -f -
+$ istioctl uninstall -y --purge
 {{< /text >}}
 
 The control plane namespace (e.g., `istio-system`) is not removed by default.

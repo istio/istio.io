@@ -27,13 +27,6 @@ owner: istio/wg-environments-maintainers
     caption="Primary and remote clusters on the same network"
     >}}
 
-{{< tip >}}
-目前，从集群配置档在从集群安装 Istio 服务器，该服务器用来为集群中的工作负载注入 CA 和 Webhook。
-但是，服务发现会被指向主集群的控制平面。
-
-后续版本将完全消除在从集群中安装 Istiod 的需求。请保持关注！
-{{< /tip >}}
-
 ## 将 `cluster1` 设为主集群 {#configure-cluster1-as-a-primary}
 
 为 `cluster1` 创建 Istio 配置文件：
@@ -55,8 +48,13 @@ EOF
 将配置文件应用到 `cluster1`：
 
 {{< text bash >}}
-$ istioctl install --context="${CTX_CLUSTER1}" -f cluster1.yaml
+$ istioctl install --set values.pilot.env.EXTERNAL_ISTIOD=true --context="${CTX_CLUSTER1}" -f cluster1.yaml
 {{< /text >}}
+
+需要注意的是，当 `values.pilot.env.EXTERNAL_ISTIOD` 被设置为 `true` 时，安装在 `cluster1` 上的控制平面也可以作为其他远程集群的外部控制平面。
+当这个功能被启用时，`istiod` 将试图获得领导权锁，并因此管理将附加到它的并且带有
+[适当注释的](#set-the-control-plane-cluster-for-cluster2) 远程集群
+（本例中为 `cluster2`）。
 
 ## 在 `cluster1` 安装东西向网关 {#install-the-east-west-gateway-in-cluster1}
 
@@ -92,22 +90,13 @@ $ kubectl apply --context="${CTX_CLUSTER1}" -f \
     @samples/multicluster/expose-istiod.yaml@
 {{< /text >}}
 
-## 启用 API Server 访问 `cluster2` 配置 {#enable-access-to-cluster2}
+## 设置集群 `cluster2` 的控制平面 {#set-the-control-plane-cluster-for-cluster2}
 
-在配置从集群之前，我们必须先授予 `cluster1` 控制平面到 `cluster2` API Server 的访问权限。
-这将执行以下操作：
-
-- 开启控制平面的身份认证功能，以验证 `cluster2` 中工作负载的连接请求。如果没有 API Server 的访问权限，控制平面将会拒绝该请求。
-
-- 在 `cluster2` 的服务端点开启服务发现。
-
-为了能够访问 `cluster2` API Server，我们要生成一个从集群的 Secret，并把它应用到 `cluster1`。
+我们需要通过注释 istio-system 命名空间来识别应该管理集群 `cluster2` 的外部控制平面：
 
 {{< text bash >}}
-$ istioctl x create-remote-secret \
-    --context="${CTX_CLUSTER2}" \
-    --name=cluster2 | \
-    kubectl apply -f - --context="${CTX_CLUSTER1}"
+$ kubectl --context="${CTX_CLUSTER2}" create namespace istio-system
+$ kubectl --context="${CTX_CLUSTER2}" annotate namespace istio-system topology.istio.io/controlPlaneClusters=cluster1
 {{< /text >}}
 
 ## 将 `cluster2` 设为从集群 {#configure-cluster2-as-a-remote}

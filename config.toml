@@ -17,50 +17,43 @@ staticDir = ["static", "generated"]
 disableAliases = true
 
 [markup]
-  defaultMarkdownHandler = "blackfriday"
-  [markup.blackfriday]
-    angledQuotes = false
-    footnoteAnchorPrefix = ""
-    footnoteReturnLinkContents = ""
-    fractions = true
-    hrefTargetBlank = false
-    latexDashes = true
-    nofollowLinks = false
-    noreferrerLinks = false
-    plainIDAnchors = true
-    skipHTML = false
-    smartDashes = true
-    smartypants = true
-    smartypantsQuotesNBSP = false
-    taskLists = true
-    extensions = [""]
   [markup.goldmark]
     [markup.goldmark.extensions]
       definitionList = true
       footnote = true
       linkify = true
+      linkifyProtocol = 'https'
       strikethrough = true
       table = true
       taskList = true
       typographer = true
     [markup.goldmark.parser]
-      attribute = true
       autoHeadingID = true
+      autoHeadingIDType = 'github'
+      [markup.goldmark.parser.attribute]
+        block = false
+        title = true
     [markup.goldmark.renderer]
       hardWraps = false
       unsafe = true
-      xHTML = false
+      xhtml = false
   [markup.highlight]
+    anchorLineNos = false
     codeFences = true
-    hl_Lines = ""
+    guessSyntax = false
+    hl_Lines = ''
+    hl_inline = false
+    lineAnchors = ''
     lineNoStart = 1
     lineNos = false
     lineNumbersInTable = true
     noClasses = true
-    style = "monokai"
+    noHl = false
+    style = 'monokai'
     tabWidth = 4
   [markup.tableOfContents]
     endLevel = 3
+    ordered = false
     startLevel = 2
 
 [mediaTypes]
@@ -113,7 +106,7 @@ disableAliases = true
     name = "About"
     title = "About section"
     weight = 1
-    
+
     [[menu.main]]
       identifier = "service-mesh"
       name = "Service mesh"
@@ -196,7 +189,7 @@ disableAliases = true
     name = "关于"
     title = "关于部分"
     weight = 1
-    
+
     [[languages.zh.menu.main]]
       identifier = "service-mesh"
       name = "服务网格"

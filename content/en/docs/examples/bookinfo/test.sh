@@ -21,6 +21,8 @@ set -o pipefail
 
 source "tests/util/samples.sh"
 
+GATEWAY_API="${GATEWAY_API:-false}"
+
 # @setup profile=demo
 
 # remove the injection label to prevent the following command from failing
@@ -40,29 +42,40 @@ _verify_like snip_start_the_application_services_5 "$snip_start_the_application_
 
 _verify_contains snip_start_the_application_services_6 "$snip_start_the_application_services_6_out"
 
-snip_determine_the_ingress_ip_and_port_1
+if [ "$GATEWAY_API" == "true" ]; then
+    _verify_like snip_determine_the_ingress_ip_and_port_3 "$snip_determine_the_ingress_ip_and_port_3_out"
+    snip_determine_the_ingress_ip_and_port_4
+    snip_determine_the_ingress_ip_and_port_5
+else
+    snip_determine_the_ingress_ip_and_port_1
 
-_verify_like snip_determine_the_ingress_ip_and_port_2 "$snip_determine_the_ingress_ip_and_port_2_out"
+    _verify_like snip_determine_the_ingress_ip_and_port_2 "$snip_determine_the_ingress_ip_and_port_2_out"
 
-# give config some time to propagate
-_wait_for_istio gateway default bookinfo-gateway
-_wait_for_istio virtualservice default bookinfo
+    # give config some time to propagate
+    _wait_for_istio gateway default bookinfo-gateway
+    _wait_for_istio virtualservice default bookinfo
 
-# export the INGRESS_ environment variables
-_set_ingress_environment_variables
+    # export the INGRESS_ environment variables
+    _set_ingress_environment_variables
+fi
 
-snip_determine_the_ingress_ip_and_port_3
+snip_determine_the_ingress_ip_and_port_6
 
 _verify_contains snip_confirm_the_app_is_accessible_from_outside_the_cluster_1 "$snip_confirm_the_app_is_accessible_from_outside_the_cluster_1_out"
 
-snip_apply_default_destination_rules_1
-
-_verify_lines snip_apply_default_destination_rules_2 "
+if [ "$GATEWAY_API" == "true" ]; then
+    snip_define_the_service_versions_3
+else
+    snip_define_the_service_versions_1
+    _verify_lines snip_define_the_service_versions_2 "
 + productpage
 + reviews
 + ratings
 + details
 "
+fi
 
 # @cleanup
-snip_cleanup_1
+if [ "$GATEWAY_API" != "true" ]; then
+    snip_cleanup_1
+fi

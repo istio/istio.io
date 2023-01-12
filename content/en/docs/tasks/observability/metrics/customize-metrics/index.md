@@ -80,7 +80,8 @@ the example application throughout this task.
     settings will retain the default configuration, equivalent to the explicit settings shown above.
     {{< /tip >}}
 
-    {{< text yaml >}}
+    {{< text bash >}}
+    $ cat <<EOF > ./custom_metrics.yaml
     apiVersion: install.istio.io/v1alpha1
     kind: IstioOperator
     spec:
@@ -107,6 +108,8 @@ the example application throughout this task.
                       dimensions:
                         destination_port: string(destination.port)
                         request_host: request.host
+    EOF
+    # istioctl install -f custom_metrics.yaml
     {{< /text >}}
 
 1. Apply the following annotation to all injected pods with the list of the

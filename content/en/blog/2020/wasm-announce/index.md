@@ -210,4 +210,4 @@ community home for the tooling and the WebAssembly Hub
 
 -   [Tutorials](https://docs.solo.io/web-assembly-hub/latest/tutorial_code/)
 
--   Videos on the [Solo.io Youtube Channel](https://www.youtube.com/channel/UCuketWAG3WqYjjxtQ9Q8ApQ)
+-   Videos on the [Solo.io YouTube Channel](https://www.youtube.com/channel/UCuketWAG3WqYjjxtQ9Q8ApQ)

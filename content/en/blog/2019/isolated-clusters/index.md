@@ -15,7 +15,7 @@ types of sensitive data they protect appear in the following table:
 | --- | --- |
 |[PCI DSS](https://www.pcisecuritystandards.org/pci_security)|payment card data|
 |[FedRAMP](https://www.fedramp.gov)|federal information, data and metadata|
-|[HIPAA](http://www.gpo.gov/fdsys/search/pagedetails.action?granuleId=CRPT-104hrpt736&packageId=CRPT-104hrpt736)|personal health data|
+|[HIPAA](https://www.gpo.gov/fdsys/search/pagedetails.action?granuleId=CRPT-104hrpt736&packageId=CRPT-104hrpt736)|personal health data|
 |[GDPR](https://gdpr-info.eu)| personal data|
 
 [PCI DSS](https://www.pcisecuritystandards.org/pci_security), for example, recommends putting cardholder data
@@ -44,7 +44,7 @@ Istio.
 ## Isolation and boundary protection
 
 Isolation and boundary protection mechanisms are explained in the
-[NIST Special Publication 800-53, Revision 4, Security and Privacy Controls for Federal Information Systems and Organizations](http://dx.doi.org/10.6028/NIST.SP.800-53r4),
+[NIST Special Publication 800-53, Revision 4, Security and Privacy Controls for Federal Information Systems and Organizations](https://dx.doi.org/10.6028/NIST.SP.800-53r4),
 _Appendix F, Security Control Catalog, SC-7 Boundary Protection_.
 
 In particular, the _Boundary protection, isolation of information system components_ control enhancement:

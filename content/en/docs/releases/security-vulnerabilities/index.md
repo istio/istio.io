@@ -42,6 +42,7 @@ Don't send a vulnerability report if:
 - You need help tuning Istio components for security.
 - You need help applying security related updates.
 - Your issue is not security related.
+- Your issue is related to base image dependencies (see [Base Images](#base-images))
 
 ## Evaluation
 
@@ -87,3 +88,18 @@ branches.
 As much as possible this announcement will be actionable, and include any mitigating steps customers can take prior to
 upgrading to a fixed version. The recommended target time for these announcements is 16:00 UTC from Monday to Thursday.
 This means the announcement will be seen morning Pacific, early evening Europe, and late evening Asia.
+
+## Base Images
+
+Istio offers two sets of docker images, based on `ubuntu` (default) and based on `distroless` (see [Harden Docker Container Images](/docs/ops/configuration/security/harden-docker-images/)).
+These base images occasionally have CVEs.
+The Istio security team has automated scanning to ensure base images are kept free of CVEs.
+
+When CVEs are detected in our images, new images are automatically built and used for all future builds.
+Additionally, the security team analyzes the vulnerabilities to see if they are exploitable in Istio directly.
+In most cases, these vulnerabilities may be present in packages within the base image, but are not exploitable in the way Istio uses them.
+For these cases, new releases will not typically be released just to resolve these CVEs, and the fixes will be included in the next regularly scheduled release.
+
+As a result, base image CVEs should not be [reported](#reporting-a-vulnerability) unless there is evidence it may be exploitable within Istio.
+
+The [`distroless`](/docs/ops/configuration/security/harden-docker-images/) base images are strongly encouraged if reducing base image CVEs is important to you.

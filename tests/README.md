@@ -317,6 +317,8 @@ error as the Istio control plane is being started. Adding a config when creating
    TEST_ENV=kind ADDITIONAL_CONTAINER_OPTIONS="--network host" make doc.test
    ```
 
+   If you encounter `couldn't get current server API group list: Get "...": dial tcp ... connect: connection refused`, the option above also works.
+
 1. Set the HUB and TAG environment variables to use a particular Istio build when running tests.
    If unset, their default values will match those used by the prow tests.
 

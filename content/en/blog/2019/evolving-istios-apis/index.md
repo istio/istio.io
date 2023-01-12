@@ -35,7 +35,7 @@ It sounds complicated, but not everyone needs to interact with those concepts. S
 
 Another example of composability in the networking space can be found in the [Google Cloud HTTP(S) Load Balancer](https://cloud.google.com/load-balancing/docs/https/) (GCLB). To correctly use an instance of the GCLB, six different infrastructure objects need to be created and configured. This design is the result of our 20 years of experience in operating distributed systems and [there is a reason why each one is separate from the others](https://www.youtube.com/watch?v=J5HJ1y6PeyE). But the steps are simplified when you’re creating an instance via the Google Cloud console. We provide the more common end-user/role-specific configurations, and you can configure less common settings later. Ultimately, the goals of infrastructure APIs are to offer the most flexibility without sacrificing functionality.
 
-[Knative](http://knative.dev) is a platform for building, running, and operating serverless workloads that provides a great real-world example of role-centric,
+[Knative](https://knative.dev) is a platform for building, running, and operating serverless workloads that provides a great real-world example of role-centric,
 higher-level APIs. [Knative Serving](https://knative.dev/docs/serving/), a component of Knative that builds on Kubernetes and Istio to support deploying and
 serving serverless applications and functions, provides an opinionated workflow for application developers to manage routes and revisions of their services.
 Thanks to that opinionated approach, Knative Serving exposes a subset of Istio’s networking APIs that are most relevant to application developers via a simplified
@@ -51,7 +51,7 @@ AutoTrader UK has one of our favorite examples of a custom platform built on Ist
 
 Some areas of improvement that we’re working on for upcoming releases include:
 
-- Installation profiles to setup standard patterns for ingress and egress, with the Istio operator
+- Installation profiles to set up standard patterns for ingress and egress, with the Istio operator
 - Automatic inference of container ports and protocols for telemetry
 - Support for routing all traffic by default to constrain routing incrementally
 - Add a single global flag to enable mutual TLS and encrypt all inter-pod traffic

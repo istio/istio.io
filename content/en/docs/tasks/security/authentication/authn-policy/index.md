@@ -1,6 +1,6 @@
 ---
 title: Authentication Policy
-description: Shows you how to use Istio authentication policy to setup mutual TLS and basic end-user authentication.
+description: Shows you how to use Istio authentication policy to set up mutual TLS and basic end-user authentication.
 weight: 10
 keywords: [security,authentication]
 aliases:
@@ -381,7 +381,7 @@ Now, add a request authentication policy that requires end-user JWT for the ingr
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: RequestAuthentication
 metadata:
   name: "jwt-example"
@@ -464,7 +464,7 @@ To reject requests without valid tokens, add an authorization policy with a rule
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: "frontend-ingress"
@@ -494,7 +494,7 @@ To refine authorization with a token requirement per host, path, or method, chan
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: "frontend-ingress"

@@ -56,8 +56,17 @@ detailed descriptions and instructions for all available options.
 Depending on which option you choose, the installation instructions for
 Istio may change slightly.
 
+{{< tip >}}
+If you are planning to deploy only one primary cluster (i.e., one of the
+Primary-Remote installations, below), you will only have a single CA
+(i.e., `istiod` on `cluster1`) issuing certificates for both clusters.
+In that case, you can skip the following CA certificate generation step
+and simply use the default self-signed CA for the installation.
+{{< /tip >}}
+
 This guide will assume that you use a common root to generate intermediate
-certificates for each cluster. Follow the [instructions](/docs/tasks/security/cert-management/plugin-ca-cert/)
+certificates for each primary cluster.
+Follow the [instructions](/docs/tasks/security/cert-management/plugin-ca-cert/)
 to generate and push a CA certificate secret to both the `cluster1` and `cluster2`
 clusters.
 

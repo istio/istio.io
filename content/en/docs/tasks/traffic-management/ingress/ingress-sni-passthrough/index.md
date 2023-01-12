@@ -17,22 +17,31 @@ The example HTTPS service used for this task is a simple [NGINX](https://www.ngi
 In the following steps you first deploy the NGINX service in your Kubernetes cluster.
 Then you configure a gateway to provide ingress access to the service via host `nginx.example.com`.
 
+{{< boilerplate gateway-api-support >}}
+
+{{< boilerplate gateway-api-experimental >}}
+
+## Before you begin
+
+Setup Istio by following the instructions in the [Installation guide](/docs/setup/).
+
 ## Generate client and server certificates and keys
 
 For this task you can use your favorite tool to generate certificates and keys. The commands below use
-[openssl](https://man.openbsd.org/openssl.1)
+[openssl](https://man.openbsd.org/openssl.1):
 
 1.  Create a root certificate and private key to sign the certificate for your services:
 
     {{< text bash >}}
-    $ openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=example Inc./CN=example.com' -keyout example.com.key -out example.com.crt
+    $ mkdir example_certs
+    $ openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=example Inc./CN=example.com' -keyout example_certs/example.com.key -out example_certs/example.com.crt
     {{< /text >}}
 
 1.  Create a certificate and a private key for `nginx.example.com`:
 
     {{< text bash >}}
-    $ openssl req -out nginx.example.com.csr -newkey rsa:2048 -nodes -keyout nginx.example.com.key -subj "/CN=nginx.example.com/O=some organization"
-    $ openssl x509 -req -sha256 -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 0 -in nginx.example.com.csr -out nginx.example.com.crt
+    $ openssl req -out example_certs/nginx.example.com.csr -newkey rsa:2048 -nodes -keyout example_certs/nginx.example.com.key -subj "/CN=nginx.example.com/O=some organization"
+    $ openssl x509 -req -sha256 -days 365 -CA example_certs/example.com.crt -CAkey example_certs/example.com.key -set_serial 0 -in example_certs/nginx.example.com.csr -out example_certs/nginx.example.com.crt
     {{< /text >}}
 
 ## Deploy an NGINX server
@@ -41,7 +50,9 @@ For this task you can use your favorite tool to generate certificates and keys. 
    certificate.
 
     {{< text bash >}}
-    $ kubectl create secret tls nginx-server-certs --key nginx.example.com.key --cert nginx.example.com.crt
+    $ kubectl create secret tls nginx-server-certs \
+      --key example_certs/nginx.example.com.key \
+      --cert example_certs/nginx.example.com.crt
     {{< /text >}}
 
 1.  Create a configuration file for the NGINX server:
@@ -82,7 +93,7 @@ to hold the configuration of the NGINX server:
 1.  Deploy the NGINX server:
 
     {{< text bash >}}
-    $ cat <<EOF | istioctl kube-inject -f - | kubectl apply -f -
+    $ cat <<EOF | kubectl apply -f -
     apiVersion: v1
     kind: Service
     metadata:
@@ -109,6 +120,7 @@ to hold the configuration of the NGINX server:
         metadata:
           labels:
             run: my-nginx
+            sidecar.istio.io/inject: "true"
         spec:
           containers:
           - name: my-nginx
@@ -165,65 +177,150 @@ to hold the configuration of the NGINX server:
 
 ## Configure an ingress gateway
 
-1.  Define a `Gateway` with a `server` section for port 443. Note the `PASSTHROUGH` TLS mode which instructs
-    the gateway to pass the ingress traffic AS IS, without terminating TLS.
+1.  Define a `Gateway` exposing port 443 with passthrough TLS mode. This instructs
+    the gateway to pass the ingress traffic "as is", without terminating TLS:
 
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: Gateway
-    metadata:
-      name: mygateway
-    spec:
-      selector:
-        istio: ingressgateway # use istio default ingress gateway
-      servers:
-      - port:
-          number: 443
-          name: https
-          protocol: HTTPS
-        tls:
-          mode: PASSTHROUGH
-        hosts:
-        - nginx.example.com
-    EOF
-    {{< /text >}}
+{{< tabset category-name="config-api" >}}
 
-1.  Configure routes for traffic entering via the `Gateway`:
+{{< tab name="Istio classic" category-value="istio-classic" >}}
 
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: nginx
-    spec:
-      hosts:
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: mygateway
+spec:
+  selector:
+    istio: ingressgateway # use istio default ingress gateway
+  servers:
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    tls:
+      mode: PASSTHROUGH
+    hosts:
+    - nginx.example.com
+EOF
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: Gateway
+metadata:
+  name: mygateway
+spec:
+  gatewayClassName: istio
+  listeners:
+  - name: https
+    hostname: "nginx.example.com"
+    port: 443
+    protocol: TLS
+    tls:
+      mode: Passthrough
+    allowedRoutes:
+      namespaces:
+        from: All
+EOF
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
+2)  Configure routes for traffic entering via the `Gateway`:
+
+{{< tabset category-name="config-api" >}}
+
+{{< tab name="Istio classic" category-value="istio-classic" >}}
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: nginx
+spec:
+  hosts:
+  - nginx.example.com
+  gateways:
+  - mygateway
+  tls:
+  - match:
+    - port: 443
+      sniHosts:
       - nginx.example.com
-      gateways:
-      - mygateway
-      tls:
-      - match:
-        - port: 443
-          sniHosts:
-          - nginx.example.com
-        route:
-        - destination:
-            host: my-nginx
-            port:
-              number: 443
-    EOF
-    {{< /text >}}
+    route:
+    - destination:
+        host: my-nginx
+        port:
+          number: 443
+EOF
+{{< /text >}}
 
-1.  Follow the instructions in
-    [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)
-    to define the `SECURE_INGRESS_PORT` and `INGRESS_HOST` environment variables.
+{{< /tab >}}
 
-1.  Access the NGINX service from outside the cluster. Note that the correct certificate is returned by the server and
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: TLSRoute
+metadata:
+  name: nginx
+spec:
+  parentRefs:
+  - name: mygateway
+  hostnames:
+  - "nginx.example.com"
+  rules:
+  - backendRefs:
+    - name: my-nginx
+      port: 443
+EOF
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
+3)  Determine the ingress IP and port:
+
+{{< tabset category-name="config-api" >}}
+
+{{< tab name="Istio classic" category-value="istio-classic" >}}
+
+Follow the instructions in
+[Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)
+to set the `SECURE_INGRESS_PORT` and `INGRESS_HOST` environment variables.
+
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+Use the following commands to set the `SECURE_INGRESS_PORT` and `INGRESS_HOST` environment variables:
+
+{{< text bash >}}
+$ kubectl wait --for=condition=ready gtw mygateway
+$ export INGRESS_HOST=$(kubectl get gtw mygateway -o jsonpath='{.status.addresses[*].value}')
+$ export SECURE_INGRESS_PORT=$(kubectl get gtw mygateway -o jsonpath='{.spec.listeners[?(@.name=="https")].port}')
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
+4)  Access the NGINX service from outside the cluster. Note that the correct certificate is returned by the server and
     it is successfully verified (_SSL certificate verify ok_ is printed).
 
     {{< text bash >}}
-    $ curl -v --resolve "nginx.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST" --cacert example.com.crt "https://nginx.example.com:$SECURE_INGRESS_PORT"
+    $ curl -v --resolve "nginx.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST" --cacert example_certs/example.com.crt "https://nginx.example.com:$SECURE_INGRESS_PORT"
     Server certificate:
       subject: CN=nginx.example.com; O=some organization
       start date: Wed, 15 Aug 2018 07:29:07 GMT
@@ -241,25 +338,42 @@ to hold the configuration of the NGINX server:
 
 ## Cleanup
 
-1.  Remove created Kubernetes resources:
+1.  Delete the gateway configuration and route:
+
+{{< tabset category-name="config-api" >}}
+
+{{< tab name="Istio classic" category-value="istio-classic" >}}
+
+{{< text bash >}}
+$ kubectl delete gateway mygateway
+$ kubectl delete virtualservice nginx
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text bash >}}
+$ kubectl delete gtw mygateway
+$ kubectl delete tlsroute nginx
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
+2)  Remove the NGINX resources and configuration file:
 
     {{< text bash >}}
     $ kubectl delete secret nginx-server-certs
     $ kubectl delete configmap nginx-configmap
     $ kubectl delete service my-nginx
     $ kubectl delete deployment my-nginx
-    $ kubectl delete gateway mygateway
-    $ kubectl delete virtualservice nginx
-    {{< /text >}}
-
-1.  Delete the certificates and keys:
-
-    {{< text bash >}}
-    $ rm example.com.crt example.com.key nginx.example.com.crt nginx.example.com.key nginx.example.com.csr
-    {{< /text >}}
-
-1.  Delete the generated configuration files used in this example:
-
-    {{< text bash >}}
     $ rm ./nginx.conf
+    {{< /text >}}
+
+1)  Delete the certificates and keys:
+
+    {{< text bash >}}
+    $ rm -rf ./example_certs
     {{< /text >}}

@@ -1,0 +1,154 @@
+---
+WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL SOURCE IN THE 'https://github.com/istio/api' REPO
+source_repo: https://github.com/istio/api
+title: Istio Status
+description: Common status field for all istio collections.
+location: https://istio.io/docs/reference/config/meta/v1beta1/istio-status.html
+layout: protoc-gen-docs
+generator: protoc-gen-docs
+number_of_entries: 2
+---
+<h2 id="IstioStatus">IstioStatus</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="IstioStatus-conditions">
+<td><code>conditions</code></td>
+<td><code><a href="#IstioCondition">IstioCondition[]</a></code></td>
+<td>
+<p>Current service state of pod.
+More info: <a href="/zh/docs/reference/config/config-status/">https://istio.io/docs/reference/config/config-status/</a>
++optional
++patchMergeKey=type
++patchStrategy=merge</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioStatus-validation_messages">
+<td><code>validationMessages</code></td>
+<td><code><a href="/zh/docs/reference/config/istio.analysis.v1alpha1/#AnalysisMessageBase">AnalysisMessageBase[]</a></code></td>
+<td>
+<p>Includes any errors or warnings detected by Istio&rsquo;s analyzers.
++optional
++patchMergeKey=type
++patchStrategy=merge</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioStatus-observed_generation">
+<td><code>observedGeneration</code></td>
+<td><code>int64</code></td>
+<td>
+<p>Resource Generation to which the Reconciled Condition refers.
+When this value is not equal to the object&rsquo;s metadata generation, reconciled condition  calculation for the current
+generation is still in progress.  See <a href="/latest/docs/reference/config/config-status/">https://istio.io/latest/docs/reference/config/config-status/</a> for more info.
++optional</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="IstioCondition">IstioCondition</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="IstioCondition-type">
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>
+<p>Type is the type of the condition.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioCondition-status">
+<td><code>status</code></td>
+<td><code>string</code></td>
+<td>
+<p>Status is the status of the condition.
+Can be True, False, Unknown.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioCondition-last_probe_time">
+<td><code>lastProbeTime</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#timestamp">Timestamp</a></code></td>
+<td>
+<p>Last time we probed the condition.
++optional</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioCondition-last_transition_time">
+<td><code>lastTransitionTime</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#timestamp">Timestamp</a></code></td>
+<td>
+<p>Last time the condition transitioned from one status to another.
++optional</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioCondition-reason">
+<td><code>reason</code></td>
+<td><code>string</code></td>
+<td>
+<p>Unique, one-word, CamelCase reason for the condition&rsquo;s last transition.
++optional</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioCondition-message">
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>
+<p>Human-readable message indicating details about last transition.
++optional</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>

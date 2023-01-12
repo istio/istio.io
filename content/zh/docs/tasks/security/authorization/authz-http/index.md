@@ -1,5 +1,5 @@
 ---
-title: HTTP 流量授权
+title: HTTP 流量
 description: 展示如何设置 HTTP 流量访问控制。
 weight: 10
 keywords: [security,access-control,rbac,authorization]
@@ -10,13 +10,13 @@ owner: istio/wg-security-maintainers
 test: yes
 ---
 
-该任务向您展示了如何在 Istio 网格中为 HTTP 流量设置授权。可在[授权概念页面](/zh/docs/concepts/security/#authorization)了解更多内容。
+此任务向您展示了如何为 Istio 网格中的 HTTP 流量设置 `ALLOW` 操作的 Istio 授权策略。
 
 ## 开始之前 {#before-you-begin}
 
-本任务假设您已经：
+在开始此任务之前，请执行以下操作：
 
-* 阅读了[授权概念](/zh/docs/concepts/security/#authorization)。
+* 阅读了[Istio 授权概念](/zh/docs/concepts/security/#authorization)。
 
 * 遵照 [Istio 安装指南](/zh/docs/setup/install/istioctl/)安装完成 Istio 并启用了双向 TLS。
 
@@ -39,16 +39,16 @@ test: yes
 
 ## 为 HTTP 流量的工作负载配置访问控制 {#configure-access-control-for-workloads-using-http-traffic}
 
-使用 Istio，您可以轻松地为网格中的{{< gloss "workload" >}}workloads{{< /gloss >}}设置访问控制。本任务向您展示如何使用 Istio 授权设置访问控制。首先，配置一个简单的 `deny-all` 策略，来拒绝工作负载的所有请求，然后逐渐地、增量地授予对工作负载更多的访问权。
+使用 Istio，您可以轻松地为网格中的{{< gloss "workload" >}}workloads{{< /gloss >}}设置访问控制。本任务向您展示如何使用 Istio 授权设置访问控制。首先，配置一个简单的 `allow-nothing` 策略，来拒绝工作负载的所有请求，然后逐渐地、增量地授予对工作负载更多的访问权。
 
-1. 运行下面的命令在 `default` 命名空间里创建一个 `deny-all` 策略。该策略没有 `selector` 字段，它会把策略应用于 `default` 命名空间中的每个工作负载。`spec:` 字段为空值 `{}`，意思是不允许任何流量，有效地拒绝所有请求。
+1. 运行下面的命令在 `default` 命名空间里创建一个 `allow-nothing` 策略。该策略没有 `selector` 字段，它会把策略应用于 `default` 命名空间中的每个工作负载。`spec:` 字段为空值 `{}`，意思是不允许任何流量，有效地拒绝所有请求。
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: security.istio.io/v1beta1
     kind: AuthorizationPolicy
     metadata:
-      name: deny-all
+      name: allow-nothing
       namespace: default
     spec:
       {}
@@ -61,8 +61,8 @@ test: yes
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: "security.istio.io/v1beta1"
-    kind: "AuthorizationPolicy"
+    apiVersion: security.istio.io/v1beta1
+    kind: AuthorizationPolicy
     metadata:
       name: "productpage-viewer"
       namespace: default
@@ -70,6 +70,7 @@ test: yes
       selector:
         matchLabels:
           app: productpage
+      action: ALLOW
       rules:
       - to:
         - operation:
@@ -97,6 +98,7 @@ test: yes
       selector:
         matchLabels:
           app: details
+      action: ALLOW
       rules:
       - from:
         - source:
@@ -120,6 +122,7 @@ test: yes
       selector:
         matchLabels:
           app: reviews
+      action: ALLOW
       rules:
       - from:
         - source:
@@ -147,6 +150,7 @@ test: yes
       selector:
         matchLabels:
           app: ratings
+      action: ALLOW
       rules:
       - from:
         - source:
@@ -166,7 +170,7 @@ test: yes
 1. 从您的配置中删除所有的授权策略：
 
     {{< text bash >}}
-    $ kubectl delete authorizationpolicy.security.istio.io/deny-all
+    $ kubectl delete authorizationpolicy.security.istio.io/allow-nothing
     $ kubectl delete authorizationpolicy.security.istio.io/productpage-viewer
     $ kubectl delete authorizationpolicy.security.istio.io/details-viewer
     $ kubectl delete authorizationpolicy.security.istio.io/reviews-viewer

@@ -32,10 +32,11 @@ spec:
     defaultConfig:
       proxyStatsMatcher:
         inclusionRegexps:
-          - ".*circuit_breakers.*"
-        inclusionPrefixes:
-          - "upstream_rq_retry"
-          - "upstream_cx"
+          - ".*outlier_detection.*"
+          - ".*upstream_rq_retry.*"
+          - ".*upstream_cx_.*"
+        inclusionSuffixes:
+          - "upstream_rq_timeout"
 ENDSNIP
 
 ! read -r -d '' snip_proxyIstioConfig <<\ENDSNIP
@@ -44,8 +45,9 @@ metadata:
     proxy.istio.io/config: |-
       proxyStatsMatcher:
         inclusionRegexps:
-        - ".*circuit_breakers.*"
-        inclusionPrefixes:
-        - "upstream_rq_retry"
-        - "upstream_cx"
+        - ".*outlier_detection.*"
+        - ".*upstream_rq_retry.*"
+        - ".*upstream_cx_.*"
+        inclusionSuffixes:
+        - "upstream_rq_timeout"
 ENDSNIP

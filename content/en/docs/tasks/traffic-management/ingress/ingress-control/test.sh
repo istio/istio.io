@@ -21,6 +21,8 @@ set -o pipefail
 
 source "tests/util/samples.sh"
 
+GATEWAY_API="${GATEWAY_API:-false}"
+
 # @setup profile=default
 
 kubectl label namespace default istio-injection=enabled --overwrite
@@ -28,41 +30,49 @@ kubectl label namespace default istio-injection=enabled --overwrite
 # start the httpbin sample
 startup_httpbin_sample
 
-# check for external load balancer
-CMP_MATCH_IP_PENDING=true # TODO(https://github.com/istio/istio.io/issues/8353)
-_verify_like snip_determining_the_ingress_ip_and_ports_1 "$snip_determining_the_ingress_ip_and_ports_1_out"
-unset CMP_MATCH_IP_PENDING
+if [ "$GATEWAY_API" == "true" ]; then
+    # create the gateway and routes
+    snip_configuring_ingress_using_a_gateway_3
+    _wait_for_gateway default httpbin-gateway
+    snip_configuring_ingress_using_a_gateway_4
+    snip_configuring_ingress_using_a_gateway_5
 
-# set INGRESS_HOST, INGRESS_PORT, SECURE_INGRESS_PORT, and TCP_INGRESS_PORT environment variables
-if [[ "$out" != *"<none>"* && "$out" != *"<pending>"* ]]; then
-    # external load balancer
-    snip_determining_the_ingress_ip_and_ports_2
+    # set INGRESS_HOST and INGRESS_PORT environment variables
+    snip_determining_the_ingress_ip_and_ports_7
 else
-    # node port
-    snip_determining_the_ingress_ip_and_ports_4
-    snip_determining_the_ingress_ip_and_ports_10
+    # create the gateway and routes
+    snip_configuring_ingress_using_a_gateway_1
+    snip_configuring_ingress_using_a_gateway_2
+
+    # wait for rules to propagate
+    _wait_for_istio gateway default httpbin-gateway
+    _wait_for_istio virtualservice default httpbin
+
+    # check for external load balancer
+    snip_determining_the_ingress_ip_and_ports_2
+    _verify_like snip_determining_the_ingress_ip_and_ports_4 "$snip_determining_the_ingress_ip_and_ports_4_out"
+
+    # set INGRESS_HOST, INGRESS_PORT, SECURE_INGRESS_PORT, and TCP_INGRESS_PORT environment variables
+    snip_determining_the_ingress_ip_and_ports_5
 fi
 
-# create the gateway and routes
-snip_configuring_ingress_using_an_istio_gateway_1
-snip_configuring_ingress_using_an_istio_gateway_2
-
-# wait for rules to propagate
-_wait_for_istio gateway default httpbin-gateway
-_wait_for_istio virtualservice default httpbin
+# access the httpbin service
+_verify_elided snip_accessing_ingress_services_1 "$snip_accessing_ingress_services_1_out"
 
 # access the httpbin service
-_verify_elided snip_configuring_ingress_using_an_istio_gateway_3 "$snip_configuring_ingress_using_an_istio_gateway_3_out"
+_verify_elided snip_accessing_ingress_services_2 "$snip_accessing_ingress_services_2_out"
 
-# access the httpbin service
-_verify_elided snip_configuring_ingress_using_an_istio_gateway_4 "$snip_configuring_ingress_using_an_istio_gateway_4_out"
+if [ "$GATEWAY_API" == "true" ]; then
+    # configure for web browser
+    snip_accessing_ingress_services_using_a_browser_2
+else
+    # configure for web browser
+    snip_accessing_ingress_services_using_a_browser_1
 
-# configure for web browser
-snip_accessing_ingress_services_using_a_browser_1
-
-# wait for rules to propagate
-_wait_for_istio gateway default httpbin-gateway
-_wait_for_istio virtualservice default httpbin
+    # wait for rules to propagate
+    _wait_for_istio gateway default httpbin-gateway
+    _wait_for_istio virtualservice default httpbin
+fi
 
 # helper function
 curl_httpbin_headers() {
@@ -73,4 +83,6 @@ curl_httpbin_headers() {
 _verify_contains curl_httpbin_headers "HTTP/1.1 200 OK"
 
 # @cleanup
-snip_cleanup_1
+if [ "$GATEWAY_API" != "true" ]; then
+    snip_cleanup_1
+fi

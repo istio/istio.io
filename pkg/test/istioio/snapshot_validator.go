@@ -16,7 +16,6 @@ package istioio
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"time"
@@ -54,7 +53,7 @@ func (s SnapshotValidator) run(ctx framework.TestContext) {
 		return
 	}
 
-	inBeforeBytes, err := ioutil.ReadFile(inBeforeFile)
+	inBeforeBytes, err := os.ReadFile(inBeforeFile)
 	if err != nil {
 		ctx.Fatalf("failed reading before snapshot: %v", err)
 	}
@@ -62,7 +61,7 @@ func (s SnapshotValidator) run(ctx framework.TestContext) {
 
 	// Copy the before file to the current working directory to aid debugging.
 	inBeforeFileCopy := filepath.Join(ctx.WorkDir(), filepath.Base(inBeforeFile))
-	if err := ioutil.WriteFile(inBeforeFileCopy, inBeforeBytes, os.ModePerm); err != nil {
+	if err := os.WriteFile(inBeforeFileCopy, inBeforeBytes, os.ModePerm); err != nil {
 		ctx.Fatalf("failed copying before snapshot: %v", err)
 	}
 
@@ -92,8 +91,8 @@ func (s SnapshotValidator) run(ctx framework.TestContext) {
 			return nil, true, err
 		}
 
-		if err := ioutil.WriteFile(diffFile, []byte(diffText), os.ModePerm); err != nil {
-			// Fatal error, shouldn't happen
+		if err := os.WriteFile(diffFile, []byte(diffText), os.ModePerm); err != nil {
+			// Fatal os.shouldn't happen
 			return nil, true, err
 		}
 

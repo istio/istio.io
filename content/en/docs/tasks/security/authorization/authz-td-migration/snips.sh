@@ -35,7 +35,7 @@ kubectl apply -f samples/sleep/sleep.yaml -n sleep-allow
 
 snip_before_you_begin_3() {
 kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: service-httpbin.default.svc.cluster.local
@@ -138,7 +138,7 @@ snip_clean_up_1() {
 kubectl delete authorizationpolicy service-httpbin.default.svc.cluster.local
 kubectl delete deploy httpbin; kubectl delete service httpbin; kubectl delete serviceaccount httpbin
 kubectl delete deploy sleep; kubectl delete service sleep; kubectl delete serviceaccount sleep
-istioctl x uninstall --purge
+istioctl uninstall --purge -y
 kubectl delete namespace sleep-allow istio-system
 rm ./td-installation.yaml
 }

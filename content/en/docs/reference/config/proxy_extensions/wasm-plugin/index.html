@@ -8,22 +8,18 @@ layout: protoc-gen-docs
 generator: protoc-gen-docs
 schema: istio.extensions.v1alpha1.WasmPlugin
 aliases: [/docs/reference/config/extensions/v1alpha1/wasm-plugin]
-number_of_entries: 6
+number_of_entries: 7
 ---
 <p>WasmPlugins provides a mechanism to extend the functionality provided by
 the Istio proxy through WebAssembly filters.</p>
-
 <p>Order of execution (as part of Envoy&rsquo;s filter chain) is determined by
 phase and priority settings, allowing the configuration of complex
 interactions between user-supplied WasmPlugins and Istio&rsquo;s internal
 filters.</p>
-
 <p>Examples:</p>
-
 <p>AuthN Filter deployed to ingress-gateway that implements an OpenID flow
 and populates the <code>Authorization</code> header with a JWT to be consumed by
 Istio AuthN.</p>
-
 <pre><code class="language-yaml">apiVersion: extensions.istio.io/v1alpha1
 kind: WasmPlugin
 metadata:
@@ -40,68 +36,7 @@ spec:
     openid_server: authn
     openid_realm: ingress
 </code></pre>
-
 <p>This is the same as the last example, but using an OCI image.</p>
-
-<pre><code class="language-yaml">apiVersion: extensions.istio.io/v1alpha1
-kind: WasmPlugin
-metadata:
-  name: openid-connect
-  namespace: istio-ingress
-spec:
-  selector:
-    labels:
-      istio: ingressgateway
-  url: oci://private-registry:5000/openid-connect/openid:latest
-  imagePullPolicy: IfNotPresent
-  imagePullSecret: private-registry-pull-secret
-  phase: AUTHN
-  pluginConfig:
-    openid_server: authn
-    openid_realm: ingress
-</code></pre>
-
-<p>This is the same as the last example, but using VmConfig to configure environment variables in the VM.</p>
-
-<pre><code class="language-yaml">apiVersion: extensions.istio.io/v1alpha1
-kind: WasmPlugin
-metadata:
-  name: openid-connect
-  namespace: istio-ingress
-spec:
-  selector:
-    labels:
-      istio: ingressgateway
-  url: oci://private-registry:5000/openid-connect/openid:latest
-  imagePullPolicy: IfNotPresent
-  imagePullSecret: private-registry-pull-secret
-  phase: AUTHN
-  pluginConfig:
-    openid_server: authn
-    openid_realm: ingress
-  vmConfig:
-    env:
-    - name: POD_NAME
-      valueFrom: HOST
-    - name: TRUST_DOMAIN
-      value: &quot;cluster.local&quot;
-</code></pre>
-
-<p>And a more complex example that deploys three WasmPlugins and orders them
-using <code>phase</code> and <code>priority</code>. The (hypothetical) setup is that the
-<code>openid-connect</code> filter performs an OpenID Connect flow to authenticate the
-user, writing a signed JWT into the Authorization header of the request,
-which can be verified by the Istio authn plugin. Then, the <code>acl-check</code> plugin
-kicks in, passing the JWT to a policy server, which in turn responds with a
-signed token that contains information about which files and functions of the
-system are available to the user that was previously authenticated. The
-<code>acl-check</code> filter writes this token to a header. Finally, the <code>check-header</code>
-filter verifies the token in that header and makes sure that the token&rsquo;s
-contents (the permitted &lsquo;function&rsquo;) matches its plugin configuration.</p>
-
-<p>The resulting filter chain looks like this:
--&gt; openid-connect -&gt; istio.authn -&gt; acl-check -&gt; check-header -&gt; router</p>
-
 <pre><code class="language-yaml">apiVersion: extensions.istio.io/v1alpha1
 kind: WasmPlugin
 metadata:
@@ -119,7 +54,83 @@ spec:
     openid_server: authn
     openid_realm: ingress
 </code></pre>
-
+<p>This is the same as the last example, but using VmConfig to configure environment variables in the VM.</p>
+<pre><code class="language-yaml">apiVersion: extensions.istio.io/v1alpha1
+kind: WasmPlugin
+metadata:
+  name: openid-connect
+  namespace: istio-ingress
+spec:
+  selector:
+    matchLabels:
+      istio: ingressgateway
+  url: oci://private-registry:5000/openid-connect/openid:latest
+  imagePullPolicy: IfNotPresent
+  imagePullSecret: private-registry-pull-secret
+  phase: AUTHN
+  pluginConfig:
+    openid_server: authn
+    openid_realm: ingress
+  vmConfig:
+    env:
+    - name: POD_NAME
+      valueFrom: HOST
+    - name: TRUST_DOMAIN
+      value: &quot;cluster.local&quot;
+</code></pre>
+<p>This is also the same as the last example, but the Wasm module is pulled via https and updated for each time when this plugin resource is changed.</p>
+<pre><code class="language-yaml">apiVersion: extensions.istio.io/v1alpha1
+kind: WasmPlugin
+metadata:
+  name: openid-connect
+  namespace: istio-ingress
+spec:
+  selector:
+    matchLabels:
+      istio: ingressgateway
+  url: https://private-bucket/filters/openid.wasm
+  imagePullPolicy: Always
+  phase: AUTHN
+  pluginConfig:
+    openid_server: authn
+    openid_realm: ingress
+  vmConfig:
+    env:
+    - name: POD_NAME
+      valueFrom: HOST
+    - name: TRUST_DOMAIN
+      value: &quot;cluster.local&quot;
+</code></pre>
+<p>And a more complex example that deploys three WasmPlugins and orders them
+using <code>phase</code> and <code>priority</code>. The (hypothetical) setup is that the
+<code>openid-connect</code> filter performs an OpenID Connect flow to authenticate the
+user, writing a signed JWT into the Authorization header of the request,
+which can be verified by the Istio authn plugin. Then, the <code>acl-check</code> plugin
+kicks in, passing the JWT to a policy server, which in turn responds with a
+signed token that contains information about which files and functions of the
+system are available to the user that was previously authenticated. The
+<code>acl-check</code> filter writes this token to a header. Finally, the <code>check-header</code>
+filter verifies the token in that header and makes sure that the token&rsquo;s
+contents (the permitted &lsquo;function&rsquo;) matches its plugin configuration.</p>
+<p>The resulting filter chain looks like this:
+-&gt; openid-connect -&gt; istio.authn -&gt; acl-check -&gt; check-header -&gt; router</p>
+<pre><code class="language-yaml">apiVersion: extensions.istio.io/v1alpha1
+kind: WasmPlugin
+metadata:
+  name: openid-connect
+  namespace: istio-ingress
+spec:
+  selector:
+    matchLabels:
+      istio: ingressgateway
+  url: oci://private-registry:5000/openid-connect/openid:latest
+  imagePullPolicy: IfNotPresent
+  imagePullSecret: private-registry-pull-secret
+  phase: AUTHN
+  pluginConfig:
+    openid_server: authn
+    openid_realm: ingress
+</code></pre>
 <pre><code class="language-yaml">apiVersion: extensions.istio.io/v1alpha1
 kind: WasmPlugin
 metadata:
@@ -138,7 +149,6 @@ spec:
     acl_server: some_server
     set_header: authz_complete
 </code></pre>
-
 <pre><code class="language-yaml">apiVersion: extensions.istio.io/v1alpha1
 kind: WasmPlugin
 metadata:
@@ -224,13 +234,12 @@ No
 <td><code>imagePullPolicy</code></td>
 <td><code><a href="#PullPolicy">PullPolicy</a></code></td>
 <td>
-<p>The pull behaviour to be applied when fetching an OCI image. Only
-relevant when images are referenced by tag instead of SHA. Defaults
-to IfNotPresent, except when an OCI image is referenced in the <code>url</code>
+<p>The pull behaviour to be applied when fetching Wasm module by either
+OCI image or http/https. Only relevant when referencing Wasm module without
+any digest, including the digest in OCI image URL or sha256 field in <code>vm_config</code>.
+Defaults to IfNotPresent, except when an OCI image is referenced in the <code>url</code>
 and the <code>latest</code> tag is used, in which case <code>Always</code> is the default,
-mirroring K8s behaviour.
-Setting is ignored if <code>url</code> field is referencing a Wasm module directly
-using <code>file://</code> or <code>http[s]://</code></p>
+mirroring K8s behaviour.</p>
 
 </td>
 <td>
@@ -245,18 +254,6 @@ No
 Name of a K8s Secret in the same namespace as the <code>WasmPlugin</code> that
 contains a docker pull secret which is to be used to authenticate
 against the registry when pulling the image.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="WasmPlugin-verification_key">
-<td><code>verificationKey</code></td>
-<td><code>string</code></td>
-<td>
-<p>Public key that will be used to verify signatures of signed OCI images
-or Wasm modules. Must be supplied in PEM format.</p>
 
 </td>
 <td>
@@ -320,6 +317,19 @@ No
 <td>
 <p>Configuration for a Wasm VM.
 more details can be found <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/wasm/v3/wasm.proto#extensions-wasm-v3-vmconfig">here</a>.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="WasmPlugin-match">
+<td><code>match</code></td>
+<td><code><a href="#WasmPlugin-TrafficSelector">TrafficSelector[]</a></code></td>
+<td>
+<p>Specifies the criteria to determine which traffic is passed to WasmPlugin.
+If a traffic satisfies any of TrafficSelectors,
+the traffic passes the WasmPlugin.</p>
 
 </td>
 <td>
@@ -411,6 +421,57 @@ No
 </tbody>
 </table>
 </section>
+<h2 id="WasmPlugin-TrafficSelector">WasmPlugin.TrafficSelector</h2>
+<section>
+<p>TrafficSelector provides a mechanism to select a specific traffic flow
+for which this Wasm Plugin will be enabled.
+When all the sub conditions in the TrafficSelector are satisfied, the
+traffic will be selected.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="WasmPlugin-TrafficSelector-mode">
+<td><code>mode</code></td>
+<td><code><a href="/docs/reference/config/type/workload-selector/#WorkloadMode">WorkloadMode</a></code></td>
+<td>
+<p>Criteria for selecting traffic by their direction.
+Note that CLIENT and SERVER are analogous to INBOUND and OUTBOUND,
+respectively.
+For the gateway, the field should be CLIENT or CLIENT_AND_SERVER.
+If not specified, the default value is CLIENT_AND_SERVER.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="WasmPlugin-TrafficSelector-ports">
+<td><code>ports</code></td>
+<td><code><a href="/docs/reference/config/type/workload-selector/#PortSelector">PortSelector[]</a></code></td>
+<td>
+<p>Criteria for selecting traffic by their destination port.
+More specifically, for the outbound traffic, the destination port would be
+the port of the target service. On the other hand, for the inbound traffic,
+the destiation port is the port bound by the server process in the same Pod.</p>
+<p>If one of the given <code>ports</code> is matched, this condition is evaluated to true.
+If not specified, this condition is evaluated to true for any port.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
 <h2 id="PluginPhase">PluginPhase</h2>
 <section>
 <p>The phase in the filter chain where the plugin will be injected.</p>
@@ -458,7 +519,7 @@ Do not specify <code>PluginPhase</code> if the plugin is independent of others.<
 </section>
 <h2 id="PullPolicy">PullPolicy</h2>
 <section>
-<p>The pull behaviour to be applied when fetching an OCI image,
+<p>The pull behaviour to be applied when fetching a Wam module,
 mirroring K8s behaviour.</p>
 
 <table class="enum-values">
@@ -489,8 +550,8 @@ will pull the latest version.</p>
 <tr id="PullPolicy-Always">
 <td><code>Always</code></td>
 <td>
-<p>We will always pull the latest version of an image when applying
-this plugin.</p>
+<p>We will always pull the latest version of an image when changing
+this plugin. Note that the change includes <code>metadata</code> field as well.</p>
 
 </td>
 </tr>

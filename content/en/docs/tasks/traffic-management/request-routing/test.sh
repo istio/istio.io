@@ -19,6 +19,8 @@ set -e
 set -u
 set -o pipefail
 
+GATEWAY_API="${GATEWAY_API:-false}"
+
 source "tests/util/samples.sh"
 
 # @setup profile=default
@@ -38,42 +40,56 @@ startup_sleep_sample # needed for sending test requests with curl
 startup_bookinfo_sample
 
 # set default route rules
-snip_apply_a_virtual_service_1
+if [ "$GATEWAY_API" == "true" ]; then
+    snip_route_to_version_1_2
+    _verify_lines snip_route_to_version_1_5 "
+    + message: Route was valid
+    + reason: Accepted
+    "
+else
+    snip_route_to_version_1_1
 
-# wait for rules to propagate
-_wait_for_istio virtualservice default productpage
-_wait_for_istio virtualservice default reviews
-_wait_for_istio virtualservice default ratings
-_wait_for_istio virtualservice default details
+    # wait for rules to propagate
+    _wait_for_istio virtualservice default productpage
+    _wait_for_istio virtualservice default reviews
+    _wait_for_istio virtualservice default ratings
+    _wait_for_istio virtualservice default details
 
-# confirm route rules are set
-_verify_elided snip_apply_a_virtual_service_2 "$snip_apply_a_virtual_service_2_out"
+    # confirm route rules are set
+    _verify_elided snip_route_to_version_1_3 "$snip_route_to_version_1_3_out"
 
-# check destination rules
-_verify_lines snip_apply_a_virtual_service_3 "
-+ productpage
-+ reviews
-+ ratings
-+ details
-"
+    # check destination rules
+    _verify_lines snip_route_to_version_1_4 "
+    + productpage
+    + reviews
+    + ratings
+    + details
+    "
+fi
 
 # check that requests do not return ratings
 _verify_not_contains get_bookinfo_productpage "glyphicon glyphicon-star"
 
 # route traffic for user jason to reviews:v2
-snip_route_based_on_user_identity_1
+if [ "$GATEWAY_API" == "true" ]; then
+    snip_route_based_on_user_identity_3
+else
+    snip_route_based_on_user_identity_1
 
-# wait for rules to propagate
-_wait_for_istio virtualservice default reviews
+    # wait for rules to propagate
+    _wait_for_istio virtualservice default reviews
 
-# confirm route rules are set
-_verify_elided snip_route_based_on_user_identity_2 "$snip_route_based_on_user_identity_2_out"
+    # confirm route rules are set
+    _verify_elided snip_route_based_on_user_identity_2 "$snip_route_based_on_user_identity_2_out"
+fi
 
 # check that requests from user jason return ratings and other requests do not
 _verify_contains get_bookinfo_productpage_jason "glyphicon glyphicon-star"
 _verify_not_contains get_bookinfo_productpage "glyphicon glyphicon-star"
 
 # @cleanup
-snip_cleanup_1
-cleanup_bookinfo_sample
-cleanup_sleep_sample
+if [ "$GATEWAY_API" != "true" ]; then
+    snip_cleanup_1
+    cleanup_bookinfo_sample
+    cleanup_sleep_sample
+fi

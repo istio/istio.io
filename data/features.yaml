@@ -90,7 +90,7 @@ features:
     link: "/docs/tasks/traffic-management/ingress/gateway-api/"
     level:
       checklist: features/k8s-gateway-apis.md
-      maturity: Alpha
+      maturity: Beta
       nextExpectedPromotion: ""
     area: Traffic Management
     id: "traffic.k8s_gateway_apis"
@@ -208,12 +208,20 @@ features:
     link: "/docs/concepts/security/#authorization"
     level:
       checklist: features/authorization.md
-      maturity: Beta
+      maturity: Stable
       nextExpectedPromotion: ""
     area: Security and policy enforcement
   - name: "End User (JWT) Authentication"
     id: "security.jwt_authentication"
-    link: "/docs/concepts/security/#authentication"
+    link: "/docs/reference/config/security/request_authentication/"
+    level:
+      checklist: features/jwt_authentication.md
+      maturity: Stable
+      nextExpectedPromotion: ""
+    area: Security and policy enforcement
+  - name: "Peer Authentication"
+    id: "security.peer_authentication"
+    link: "/docs/reference/config/security/peer_authentication/"
     level:
       checklist: ""
       maturity: Beta
@@ -239,8 +247,8 @@ features:
     id: "security.external_authorization"
     link: "/docs/tasks/security/authorization/authz-custom"
     level:
-      checklist: ""
-      maturity: Alpha
+      checklist: features/external_authorization.md
+      maturity: Beta
       nextExpectedPromotion: ""
     area: Security and policy enforcement
   - name: "Authorization Dry Run"
@@ -250,6 +258,14 @@ features:
       checklist: features/dry_run_authorization_policy.md
       maturity: Alpha
       nextExpectedPromotion: "1.14"
+    area: Security and policy enforcement
+  - name: "JWT Claim Based Routing"
+    id: "security.jwt_authentication"
+    link: "/docs/tasks/security/authentication/jwt-route"
+    level:
+      checklist: features/claim_based_routing.md
+      maturity: Alpha
+      nextExpectedPromotion: ""
     area: Security and policy enforcement
   - name: "In-Cluster Operator"
     id: "core.in_cluster_operator"

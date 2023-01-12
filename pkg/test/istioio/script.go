@@ -17,7 +17,6 @@ package istioio
 import (
 	"bufio"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"os/exec"
 	"path"
@@ -45,16 +44,15 @@ var _ Step = Script{}
 //
 // To simplify common tasks, the following environment variables are set when the script is executed:
 //
-//     - TEST_OUTPUT_DIR:
-//         Set to the working directory of the current test. By default, scripts are run from this
-//         directory. This variable is useful for cases where the execution `WorkDir` has been set,
-//         but the script needs to access files in the test working directory.
-//     - TEST_DEBUG_FILE:
-//         Set to the file where debugging output will be written.
-//     - KUBECONFIG:
-//         Set to the value from the test framework. This is necessary to make kubectl commands execute
-//         with the configuration specified on the command line.
-//
+//   - TEST_OUTPUT_DIR:
+//     Set to the working directory of the current test. By default, scripts are run from this
+//     directory. This variable is useful for cases where the execution `WorkDir` has been set,
+//     but the script needs to access files in the test working directory.
+//   - TEST_DEBUG_FILE:
+//     Set to the file where debugging output will be written.
+//   - KUBECONFIG:
+//     Set to the value from the test framework. This is necessary to make kubectl commands execute
+//     with the configuration specified on the command line.
 type Script struct {
 	// Input for the parser.
 	Input Input
@@ -89,7 +87,7 @@ func (s Script) run(ctx framework.TestContext) {
 
 	// Copy the command to workDir.
 	_, fileName := filepath.Split(s.Name())
-	if err := ioutil.WriteFile(path.Join(ctx.WorkDir(), fileName), []byte(command), 0o644); err != nil {
+	if err := os.WriteFile(path.Join(ctx.WorkDir(), fileName), []byte(command), 0o644); err != nil {
 		ctx.Fatalf("failed copying command %s to workDir: %v", s.Name(), err)
 	}
 

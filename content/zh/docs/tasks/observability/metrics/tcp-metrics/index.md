@@ -22,14 +22,16 @@ test: yes
 
 ## 收集新的遥测数据{#collecting-new-telemetry-data}
 
-1. 设置 Bookinfo 使用 Mongodb。
+1. 设置 Bookinfo 使用 MongoDB。
 
     1. 安装 `ratings` 服务的 `v2` 版本。
 
-        如果使用的是启用了 Sidecar 自动注入的集群，可以简单使用 `kubectl` 进行服务部署：
+        如果使用的是启用了 Sidecar 自动注入的集群，可以使用 `kubectl` 进行服务部署：
 
         {{< text bash >}}
         $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml@
+        serviceaccount/bookinfo-ratings-v2 created
+        deployment.apps/ratings-v2 created
         {{< /text >}}
 
         如果使用手工的 Sidecar 注入方式，就需要使用下面的命令：
@@ -41,7 +43,7 @@ test: yes
 
     1. 安装 `mongodb` 服务：
 
-        如果使用的是启用了 Sidecar 自动注入的集群，可以简单使用 `kubectl` 进行服务部署：
+        如果使用的是启用了 Sidecar 自动注入的集群，可以使用 `kubectl` 进行服务部署：
 
         {{< text bash >}}
         $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-db.yaml@
@@ -98,7 +100,7 @@ test: yes
     `$GATEWAY_URL` 是在[Bookinfo](/zh/docs/examples/bookinfo/)示例中设置的值.
     {{< /tip >}}
 
-1. 检查是否已经生成并收集了新的指标。
+1. 检查是否已经生成并收集了 TCP 指标。
 
     在 Kubernetes 环境中，使用下面的命令为 Prometheus 设置端口转发：
 
@@ -106,8 +108,8 @@ test: yes
     $ istioctl dashboard prometheus
     {{< /text >}}
 
-    在 Prometheus 浏览器窗口查看新指标的值。选择 **Graph**。
-    输入 `istio_mongo_received_bytes` 指标并选择 **Execute**。
+    在 Prometheus 浏览器窗口查看 TCP 指标的值。选择 **Graph**。
+    输入 `istio_tcp_connections_opened_total` 指标或 `istio_tcp_connections_closed_total` 并选择 **Execute**。
     在 **Console** 标签页中显示的表格包含了类似如下的内容：
 
     {{< text plain >}}
@@ -130,7 +132,8 @@ test: yes
 
 ## 理解 TCP 遥测数据的收集过程{#understanding-tcp-telemetry-collection}
 
-这一任务中，我们加入了一段 Istio 配置，对于所有目标为网格内 TCP 服务的流量，Mixer 自动为其生成并报告新的指标。默认情况下，每`15秒`记录一次所有活动连接的 TCP 指标，并且该计时器是可配置的通过[`tcpReportingDuration`](/zh/docs/reference/config/proxy_extensions/stats/#PluginConfig)。连接的指标也记录在连接的末尾。
+在此任务中，您使用 Istio 配置自动生成并报告网格内 TCP 服务的所有流量的指标。
+默认情况下，所有活动连接的 TCP 指标每 `15 秒` 记录一次，并且此计时器是可配置的通过[`tcpReportingDuration`](/zh/docs/reference/config/proxy_extensions/stats/#PluginConfig)。连接的指标也记录在连接的结束时。
 
 ### TCP 属性{#tcp-attributes}
 
@@ -140,7 +143,7 @@ test: yes
 1. TCP 服务端，作为第一个字节序列，发送一个魔术字节串和一个长度带前缀的有效载荷，这些有效载荷是 protobuf 编码的序列化元数据。
 1. 客户端和服务器可以同时写入并且顺序混乱。Envoy 中的扩展筛选器会在下游和上游进行处理，直到魔术字节序列不匹配或读取了整个有效负载。
 
-{{< image link="./istio-tcp-attribute-flow.svg"
+{{< image link="./alpn-based-tunneling-protocol.svg"
     alt="Istio 服务网格中的 TCP 服务属性生成流程"
     caption="TCP 属性流程"
     >}}

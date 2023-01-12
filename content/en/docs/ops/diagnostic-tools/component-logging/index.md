@@ -30,7 +30,7 @@ Each scope has a unique output level which is one of:
 
 1. none
 1. error
-1. warning
+1. warn
 1. info
 1. debug
 

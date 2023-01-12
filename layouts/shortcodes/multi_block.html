@@ -7,7 +7,7 @@
 
     <div class="multi-block-text">
         <h3 class="multi-block-header">{{- $header -}}</h3>
-        
+
         {{ if in (string .Inner) "\n\n" }}
             {{ .Inner | markdownify }}
         {{ else }}

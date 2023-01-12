@@ -13,7 +13,7 @@ test: no
 
 `reviews` 微服务具有三个版本：`v1`、`v2`、`v3`，而 [Bookinfo 示例](/zh/docs/examples/bookinfo)展示的是该应用的最终版本。在此模块中，应用程序仅使用 `reviews` 微服务的 `v1` 版本。接下来的模块通过多个版本的 `reviews` 微服务增强了应用程序。
 
-## 部署应用程序及测试 pod{#deploy-the-application-and-a-testing-pod}
+## 部署应用程序及测试 Pod {#deploy-the-application-and-a-testing-pod}
 
 1. 设置环境变量 `MYHOST` 的值为应用程序的 URL：
 
@@ -28,17 +28,21 @@ test: no
 
     {{< text bash >}}
     $ kubectl apply -l version!=v2,version!=v3 -f {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml
-    service "details" created
-    deployment "details-v1" created
-    service "ratings" created
-    deployment "ratings-v1" created
-    service "reviews" created
-    deployment "reviews-v1" created
-    service "productpage" created
-    deployment "productpage-v1" created
+    service/details created
+    serviceaccount/bookinfo-details created
+    deployment.apps/details-v1 created
+    service/ratings created
+    serviceaccount/bookinfo-ratings created
+    deployment.apps/ratings-v1 created
+    service/reviews created
+    serviceaccount/bookinfo-reviews created
+    deployment.apps/reviews-v1 created
+    service/productpage created
+    serviceaccount/bookinfo-productpage created
+    deployment.apps/productpage-v1 created
     {{< /text >}}
 
-1. 检查 pods 的状态：
+1. 检查 Pod 的状态：
 
     {{< text bash >}}
     $ kubectl get pods
@@ -49,16 +53,14 @@ test: no
     reviews-v1-77c65dc5c6-kjvxs     1/1     Running   0          9s
     {{< /text >}}
 
-1. 四个服务达到 `Running` 状态后，就可以扩展 deployment。要使每个微服务的每个版本在三个 pods 中运行，请执行以下命令：
+1. 四个服务达到 `Running` 状态后，就可以扩展 deployment。要使每个微服务的每个版本在三个 Pod 中运行，请执行以下命令：
 
     {{< text bash >}}
     $ kubectl scale deployments --all --replicas 3
-    deployment "details-v1" scaled
-    deployment "productpage-v1" scaled
-    deployment "ratings-v1" scaled
-    deployment "reviews-v1" scaled
-    deployment "reviews-v2" scaled
-    deployment "reviews-v3" scaled
+    deployment.apps/details-v1 scaled
+    deployment.apps/productpage-v1 scaled
+    deployment.apps/ratings-v1 scaled
+    deployment.apps/reviews-v1 scaled
     {{< /text >}}
 
 1. 检查 pods 的状态。可以看到每个微服务都有三个 pods：
@@ -80,16 +82,16 @@ test: no
     reviews-v1-77c65dc5c6-r55tl     1/1     Running   0          49s
     {{< /text >}}
 
-1. 在服务达到 `Running` 状态后，部署测试 Pod，[sleep]({{< github_tree >}}/samples/sleep)，用来向您的微服务发送请求：
+1. 在服务达到 `Running` 状态后，部署一个测试 Pod：[sleep]({{< github_tree >}}/samples/sleep)。此 Pod 用来向您的微服务发送请求：
 
     {{< text bash >}}
     $ kubectl apply -f {{< github_file >}}/samples/sleep/sleep.yaml
     {{< /text >}}
 
-1. 从测试 pod 中用 curl 命令发送请求给 Bookinfo 应用，以确认该应用运行正常：
+1. 从测试 Pod 中用 curl 命令发送请求给 Bookinfo 应用，以确认该应用运行正常：
 
     {{< text bash >}}
-    $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -c sleep -- curl productpage:9080/productpage | grep -o "<title>.*</title>"
+    $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -c sleep -- curl -sS productpage:9080/productpage | grep -o "<title>.*</title>"
     <title>Simple Bookstore App</title>
     {{< /text >}}
 
@@ -114,31 +116,45 @@ service/productpage patched
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: extensions/v1beta1
+    apiVersion: networking.k8s.io/v1
     kind: Ingress
     metadata:
       name: bookinfo
+      annotations:
+        kubernetes.io/ingress.class: istio
     spec:
       rules:
       - host: $MYHOST
         http:
           paths:
           - path: /productpage
+            pathType: Prefix
             backend:
-              serviceName: productpage
-              servicePort: 9080
+              service:
+                name: productpage
+                port:
+                  number: 9080
           - path: /login
+            pathType: Prefix
             backend:
-              serviceName: productpage
-              servicePort: 9080
+              service:
+                name: productpage
+                port:
+                  number: 9080
           - path: /logout
+            pathType: Prefix
             backend:
-              serviceName: productpage
-              servicePort: 9080
+              service:
+                name: productpage
+                port:
+                  number: 9080
           - path: /static
+            pathType: Prefix
             backend:
-              serviceName: productpage
-              servicePort: 9080
+              service:
+                name: productpage
+                port:
+                  number: 9080
     EOF
     {{< /text >}}
 

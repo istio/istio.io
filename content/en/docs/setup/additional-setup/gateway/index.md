@@ -4,8 +4,15 @@ description: Install and customize Istio Gateways.
 weight: 40
 keywords: [install,gateway,kubernetes]
 owner: istio/wg-environments-maintainers
-test: no
+test: yes
 ---
+
+{{< tip >}}
+{{< boilerplate gateway-api-future >}}
+If you use the Gateway API, you will not need to install and manage a gateway `Deployment` as described in this document.
+By default, a gateway `Deployment` and `Service` will be automatically provisioned based on the `Gateway` configuration.
+Refer to the [Gateway API task](/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment) for details.
+{{< /tip >}}
 
 Along with creating a service mesh, Istio allows you to manage [gateways](/docs/concepts/traffic-management/#gateways),
 which are Envoy proxies running at the edge of the mesh, providing fine-grained control over traffic entering and leaving the mesh.
@@ -64,7 +71,7 @@ spec:
   profile: empty # Do not install CRDs or the control plane
   components:
     ingressGateways:
-    - name: ingressgateway
+    - name: istio-ingressgateway
       namespace: istio-ingress
       enabled: true
       label:
@@ -92,7 +99,7 @@ Install using standard `helm` commands:
 
 {{< text bash >}}
 $ kubectl create namespace istio-ingress
-$ helm install istio-ingress istio/gateway -n istio-ingress
+$ helm install istio-ingressgateway istio/gateway -n istio-ingress
 {{< /text >}}
 
 To see possible supported configuration values, run `helm show values istio/gateway`.
@@ -291,9 +298,9 @@ spec:
 When this deployment is created, you will then have two versions of the gateway, both selected by the same Service:
 
 {{< text bash >}}
-$ kubectl get endpoints -o "custom-columns=NAME:.metadata.name,PODS:.subsets[*].addresses[*].targetRef.name"
+$ kubectl get endpoints -n istio-ingress -o "custom-columns=NAME:.metadata.name,PODS:.subsets[*].addresses[*].targetRef.name"
 NAME                   PODS
-istio-ingressgateway   istio-ingressgateway-788854c955-8gv96,istio-ingressgateway-canary-b78944cbd-mq2qf
+istio-ingressgateway   istio-ingressgateway-...,istio-ingressgateway-canary-...
 {{< /text >}}
 
 {{< image width="50%" link="canary-upgrade.svg" caption="Canary upgrade in progress" >}}

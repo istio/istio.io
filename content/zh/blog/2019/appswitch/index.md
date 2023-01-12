@@ -50,7 +50,7 @@ AppSwitch 的核心能够使用 BSD Socket API 及其相关的其它调用（例
 （1）速度很快。它使用 `seccomp` 过滤和二进制检测的组合来积极地限制应用程序正常执行的干预。AppSwitch 特别适用于服务网格和应用程序网络用例，因为它实现了这些功能，而无需实际触摸数据。相反，网络级方法会导致每个数据包的成本。看看这个[博客](/zh/blog/2018/delayering-istio/)进行一些性能测量。
 （2）它不需要任何内核支持，内核模块或补丁，可以在标准的发行版内核上运行
 （3）它可以作为普通用户运行（非 root）。事实上，该机制甚至可以通过删除对网络容器的根要求来运行[非 root 的 Docker 守护进程](https://linuxpiter.com/en/materials/2478)
-（4）它可以不加更改的用于任何类型的应用程序上，适用于任何类型的应用程序 - 从 WebSphere ND 和 SAP 到自定义 C 应用程序，再到静态链接的 `Golang` 应用程序。Linux/x86 是仅有的运行需求。
+（4）它可以不加更改的用于任何类型的应用程序上，适用于任何类型的应用程序 - 从 WebSphere ND 和 SAP 到自定义 C 应用程序，再到静态链接的 `Go` 应用程序。Linux/x86 是仅有的运行需求。
 
 ### 将服务与其引用分离{#decoupling-services-from-their-references}
 

@@ -67,6 +67,8 @@ test: no
 
 ## 安装 Istio 控制平面 {#install-control-plane}
 
+如果您的集群已经有一个 Istio 控制平面，您可以跳过安装步骤，但是仍然需要为虚拟机访问公开控制平面。
+
 安装 Istio，打开控制平面的对外访问，以便您的虚拟机可以访问它。
 
 1. 为安装创建 `IstioOperator` 空间
@@ -94,7 +96,7 @@ test: no
     {{< tab name="默认" category-value="default" >}}
 
     {{< text bash >}}
-    $ istioctl install
+    $ istioctl install -f vm-cluster.yaml
     {{< /text >}}
 
     {{< /tab >}}
@@ -471,7 +473,7 @@ $ sudo rpm -e istio-sidecar
 
 {{< text bash >}}
 $ kubectl delete -f @samples/multicluster/expose-istiod.yaml@
-$ istioctl manifest generate | kubectl delete -f -
+$ istioctl uninstall -y --purge
 {{< /text >}}
 
 默认情况下，控制平面的命名空间（比如：`istio-system`）并不会被删除。

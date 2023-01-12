@@ -15,7 +15,6 @@
 package istioio
 
 import (
-	"io/ioutil"
 	"os"
 	"path/filepath"
 
@@ -59,7 +58,7 @@ func (s *Snapshotter) run(ctx framework.TestContext) {
 	}
 
 	outputFile := filepath.Join(ctx.WorkDir(), s.StepName+".json")
-	if err := ioutil.WriteFile(outputFile, []byte(snapshotJSON), os.ModePerm); err != nil {
+	if err := os.WriteFile(outputFile, []byte(snapshotJSON), os.ModePerm); err != nil {
 		ctx.Fatal("failed writing snapshot file: %v", err)
 	}
 

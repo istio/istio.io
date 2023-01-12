@@ -144,19 +144,6 @@ Istio supports to control its behavior.
 				
 					<tr>
 				
-					<td><code>networking.istio.io/gatewayPort</code></td>
-				
-					<td>Alpha</td>
-				
-					<td>[Service]</td>
-					<td>IstioGatewayPortLabel overrides the default 15443 value to use for a multi-network gateway's port</td>
-				</tr>
-			
-		
-			
-				
-					<tr>
-				
 					<td><code>prometheus.istio.io/merge-metrics</code></td>
 				
 					<td>Alpha</td>
@@ -326,14 +313,14 @@ Istio supports to control its behavior.
 		
 			
 				
-					<tr>
+					<tr class="deprecated">
 				
 					<td><code>sidecar.istio.io/inject</code></td>
 				
-					<td>Beta</td>
+					<td>Deprecated</td>
 				
 					<td>[Pod]</td>
-					<td>Specifies whether or not an Envoy sidecar should be automatically injected into the workload.</td>
+					<td>Specifies whether or not an Envoy sidecar should be automatically injected into the workload. Deprecated in favor of `sidecar.istio.io/inject` label.</td>
 				</tr>
 			
 		
@@ -549,12 +536,51 @@ Istio supports to control its behavior.
 				
 					<tr>
 				
+					<td><code>topology.istio.io/controlPlaneClusters</code></td>
+				
+					<td>Alpha</td>
+				
+					<td>[Namespace]</td>
+					<td>A comma-separated list of clusters (or * for any) running istiod that should attempt leader election for a remote cluster thats system namespace includes this annotation. Istiod will not attempt to lead unannotated remote clusters.</td>
+				</tr>
+			
+		
+			
+				
+					<tr>
+				
+					<td><code>traffic.istio.io/nodeSelector</code></td>
+				
+					<td>Stable</td>
+				
+					<td>[Service]</td>
+					<td>This annotation is a set of node-labels (key1=value,key2=value). If the annotated Service is of type NodePort and is a multi-network gateway (see topology.istio.io/network), the addresses for selected nodes will be used for cross-network communication.</td>
+				</tr>
+			
+		
+			
+				
+					<tr>
+				
 					<td><code>traffic.sidecar.istio.io/excludeInboundPorts</code></td>
 				
 					<td>Alpha</td>
 				
 					<td>[Pod]</td>
 					<td>A comma separated list of inbound ports to be excluded from redirection to Envoy. Only applies when all inbound traffic (i.e. '*') is being redirected.</td>
+				</tr>
+			
+		
+			
+				
+					<tr>
+				
+					<td><code>traffic.sidecar.istio.io/excludeInterfaces</code></td>
+				
+					<td>Alpha</td>
+				
+					<td>[Pod]</td>
+					<td>A comma separated list of interfaces to be excluded from Istio traffic capture</td>
 				</tr>
 			
 		

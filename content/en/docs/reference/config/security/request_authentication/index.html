@@ -18,11 +18,9 @@ configured authentication rules. A request that does not contain any authenticat
 will be accepted but will not have any authenticated identity. To restrict access to authenticated
 requests only, this should be accompanied by an authorization rule.
 Examples:</p>
-
 <ul>
 <li>Require JWT for all request for workloads that have label <code>app:httpbin</code></li>
 </ul>
-
 <pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
 kind: RequestAuthentication
 metadata:
@@ -50,13 +48,11 @@ spec:
     - source:
         requestPrincipals: [&quot;*&quot;]
 </code></pre>
-
 <ul>
 <li>A policy in the root namespace (&ldquo;istio-system&rdquo; by default) applies to workloads in all namespaces
 in a mesh. The following policy makes all workloads only accept requests that contain a
 valid JWT token.</li>
 </ul>
-
 <pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
 kind: RequestAuthentication
 metadata:
@@ -78,13 +74,11 @@ spec:
     - source:
         requestPrincipals: [&quot;*&quot;]
 </code></pre>
-
 <ul>
 <li>The next example shows how to set a different JWT requirement for a different <code>host</code>. The <code>RequestAuthentication</code>
 declares it can accept JWTs issued by either <code>issuer-foo</code> or <code>issuer-bar</code> (the public key set is implicitly
 set from the OpenID Connect spec).</li>
 </ul>
-
 <pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
 kind: RequestAuthentication
 metadata:
@@ -121,13 +115,11 @@ spec:
     - operation:
         hosts: [&quot;another-host.com&quot;]
 </code></pre>
-
 <ul>
 <li>You can fine tune the authorization policy to set different requirement per path. For example,
 to require JWT on all paths, except /healthz, the same <code>RequestAuthentication</code> can be used, but the
 authorization policy could be:</li>
 </ul>
-
 <pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
@@ -145,33 +137,28 @@ spec:
     - operation:
         paths: [&quot;/healthz&quot;]
 </code></pre>
-
 <p>[Experimental] Routing based on derived <a href="/docs/reference/config/security/conditions/">metadata</a>
 is now supported. A prefix &lsquo;@&rsquo; is used to denote a match against internal metadata instead of the headers in the request.
 Currently this feature is only supported for the following metadata:</p>
-
 <ul>
 <li><code>request.auth.claims.{claim-name}[.{sub-claim}]*</code> which are extracted from validated JWT tokens. The claim name
 currently does not support the <code>.</code> character. Examples: <code>request.auth.claims.sub</code> and <code>request.auth.claims.name.givenName</code>.</li>
 </ul>
-
 <p>The use of matches against JWT claim metadata is only supported in Gateways. The following example shows:</p>
-
 <ul>
 <li>RequestAuthentication to decode and validate a JWT. This also makes the <code>@request.auth.claims</code> available for use in the VirtualService.</li>
 <li>AuthorizationPolicy to check for valid principals in the request. This makes the JWT required for the request.</li>
 <li>VirtualService to route the request based on the &ldquo;sub&rdquo; claim.</li>
 </ul>
-
 <pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
 kind: RequestAuthentication
 metadata:
   name: jwt-on-ingress
   namespace: istio-system
 spec:
- selector:
-   matchLabels:
-     app: istio-ingressgateway
+  selector:
+    matchLabels:
+      app: istio-ingressgateway
   jwtRules:
   - issuer: &quot;example.com&quot;
     jwksUri: https://example.com/.well-known/jwks.json
@@ -182,9 +169,9 @@ metadata:
   name: require-jwt
   namespace: istio-system
 spec:
- selector:
-   matchLabels:
-     app: istio-ingressgateway
+  selector:
+    matchLabels:
+      app: istio-ingressgateway
   rules:
   - from:
     - source:
@@ -233,7 +220,6 @@ spec:
 <p>Optional. The selector decides where to apply the request authentication policy. The selector will match with workloads
 in the same namespace as the request authentication policy. If the request authentication policy is in the root namespace,
 the selector will additionally match with workloads in all namespaces.</p>
-
 <p>If not set, the selector will match all workloads.</p>
 
 </td>

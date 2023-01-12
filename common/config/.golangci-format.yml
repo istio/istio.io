@@ -7,7 +7,7 @@
 
 service:
   # When updating this, also update the version stored in docker/build-tools/Dockerfile in the istio/tools repo.
-  golangci-lint-version: 1.38.x # use the fixed version to not introduce new linters unexpectedly
+  golangci-lint-version: 1.49.x # use the fixed version to not introduce new linters unexpectedly
 run:
   # timeout for analysis, e.g. 30s, 5m, default is 1m
   deadline: 20m
@@ -35,11 +35,16 @@ linters:
   disable-all: true
   enable:
   - goimports
-  - gci
   - gofumpt
+  - gci
   fast: false
 
 linters-settings:
+  gci:
+    sections:
+      - standard # Captures all standard packages if they do not match another section.
+      - default # Contains all imports that could not be matched to another section type.
+      - prefix(istio.io/) # Groups all imports with the specified Prefix.
   goimports:
     # put imports beginning with prefix after 3rd-party packages;
     # it's a comma-separated list of prefixes

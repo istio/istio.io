@@ -155,7 +155,7 @@ $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metad
     403
     {{< /text >}}
 
-## 清理{clean-up}
+## 清理{#clean-up}
 
 1. 从配置中删除命名空间 foo：
 

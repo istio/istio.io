@@ -1,104 +1,103 @@
 ---
-title: Callouts
-description: Plain callouts.
+title: 引出线
+description: 普通引出线。
 skip_sitemap: true
 ---
 
 {{< warning >}}
-This is a warning
+这是一条警告
 {{< /warning >}}
 
 {{< warning >}}
-This is a warning
+这是一条警告
 
-with two paragraphs
+有两段话
 {{< /warning >}}
 
 {{< warning >}}
-This is a warning with a reasonably long sentence.
+这是一条较长的警告语句。
 
-with two paragraphs
+有两段话
 
 {{< text plain >}}
-A nested text block
+嵌套的文本块
 {{< /text >}}
 
 {{< /warning >}}
 
 {{< warning >}}
-This is a warning with some very long text to see how the wrapping behavior will be like since we've had problems in this area previously where wrapping would
-actually not take place
+这是一条文字非常长的警告，用于查看封装行为的工作方式，因为我们以前在这方面遇到过问题，当时实际上并未进行封装
 {{< /warning >}}
 
 {{< warning >}}
-Very wide text block in a call out
+引出线中很宽的文本块
 
 {{< text plain >}}
-Reeeeeaaaaaalllllllllly lllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllong
+真得很宽很宽很宽很宽很宽很宽很宽很宽很宽很宽很宽很宽很宽很宽很宽很宽很宽很宽很宽很宽很宽很宽很宽
 {{< /text >}}
 
 {{< /warning >}}
 
 {{< tip >}}
-This is a tip
+这是一条提示
 {{< /tip >}}
 
 {{< tip >}}
-This is a tip
+这是一条提示
 
-with two paragraphs
+有两段话
 {{< /tip >}}
 
 {{< tip >}}
-This is a tip
+这是一条提示
 
-with two paragraphs
+有两段话
 
 {{< text plain >}}
-A nested text block
+嵌套的文本块
 {{< /text >}}
 
 {{< /tip >}}
 
 {{< idea >}}
-This is an idea
+这是一条想法
 {{< /idea >}}
 
 {{< idea >}}
-This is an idea
+这是一条想法
 
-with two paragraphs
+有两段话
 
 {{< /idea >}}
 
 {{< idea >}}
-This is an idea
+这是一条想法
 
-with two paragraphs
+有两段话
 
 {{< text plain >}}
-A nested text block
+嵌套的文本块
 {{< /text >}}
 
 {{< /idea >}}
 
 {{< quote >}}
-This is a quote
+这是一个引用
 {{< /quote >}}
 
 {{< quote >}}
-This is a quote
+这是一个引用
 
-with two paragraphs
+有两段话
 {{< /quote >}}
 
 {{< quote >}}
-This is a quote
+这是一个引用
 
-with two paragraphs
+有两段话
 
 {{< text plain >}}
-A nested text block
+嵌套的文本块
 {{< /text >}}
 
 {{< /quote >}}

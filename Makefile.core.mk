@@ -27,7 +27,7 @@ export IN_BUILD_CONTAINER := $(IN_BUILD_CONTAINER)
 
 # ISTIO_IMAGE_VERSION stores the prefix used by default for the Docker images for Istio.
 # For example, a value of 1.6-alpha will assume a default TAG value of 1.6-dev.<SHA>
-ISTIO_IMAGE_VERSION ?= 1.14-alpha
+ISTIO_IMAGE_VERSION ?= 1.17-alpha
 export ISTIO_IMAGE_VERSION
 
 # Determine the SHA for the Istio dependency by parsing the go.mod file.
@@ -85,9 +85,12 @@ site:
 snips:
 	@scripts/gen_snips.sh
 
-gen: snips tidy-go format-go
+gen: tidy-go format-go update-gateway-version snips
 
-gen-check: gen check-clean-repo
+gen-check: gen check-clean-repo check-localization
+
+check-localization:
+	@scripts/check_localization.sh
 
 build: site
 	@scripts/build_site.sh ""
@@ -158,7 +161,9 @@ export ISTIO_API_GIT_SOURCE ?=
 update_ref_docs:
 	@scripts/grab_reference_docs.sh $(SOURCE_BRANCH_NAME) $(ISTIO_API_GIT_SOURCE)
 
-update_test_reference:
+update_test_reference: get_istio_sha gen
+
+get_istio_sha:
 	@go get istio.io/istio@$(SOURCE_BRANCH_NAME) && go mod tidy
 
 update_all: update_ref_docs update_test_reference
@@ -221,6 +226,11 @@ test.kube.postsubmit: test.kube.presubmit
 test_status:
 	@scripts/test_status.sh
 
+update-gateway-version: tidy-go
+	@$(eval GATEWAY_VERSION := ${shell grep gateway-api go.mod | awk '{ print $$2 }'})
+	@${shell sed -Ei 's|k8s_gateway_api_version: ".*"|k8s_gateway_api_version: "${GATEWAY_VERSION}"|' 'data/args.yml'}
+
+
 include common/Makefile.common.mk
 
-.PHONY: site gen build build_nominify opt clean_public clean lint serve netlify_install netlify netlify_archive archive update_ref_docs update_operator_yamls update_all
+.PHONY: site gen build build_nominify opt clean_public clean lint serve netlify_install netlify netlify_archive archive update_ref_docs update_operator_yamls update_all update_gateway_version

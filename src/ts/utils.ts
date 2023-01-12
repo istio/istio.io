@@ -74,7 +74,7 @@ function saveFile(filename: string, text: string): void {
 function printText(text: string): void {
     const html = "<html><body><pre><code>" + text + "</code></pre></html>";
 
-    const printWin = window.open("", "", "left=0,top=0,width=100,height=100,toolbar=0,scrollbars=0,status=0,location=0,menubar=0", false);
+    const printWin = window.open("", "", "left=0,top=0,width=100,height=100,toolbar=0,scrollbars=0,status=0,location=0,menubar=0");
     if (printWin) {
         printWin.document.write(html);
         printWin.document.close();

@@ -3,7 +3,8 @@
 {{ with $items }}
     <div class="panels panels--grid">
         {{ range sort $items "name" }}
-            {{ partial "interactive_panel" . }}
+            {{- $text := partial "interactive_panel" . -}}
+            {{- $text | markdownify -}}
         {{ end }}
     </div>
 {{ end }}

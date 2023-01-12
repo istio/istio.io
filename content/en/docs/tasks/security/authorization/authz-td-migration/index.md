@@ -43,7 +43,7 @@ Before you begin this task, do the following:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: security.istio.io/v1beta1
+    apiVersion: security.istio.io/v1
     kind: AuthorizationPolicy
     metadata:
       name: service-httpbin.default.svc.cluster.local
@@ -176,7 +176,7 @@ as the old trust domain without you having to include the aliases.
 $ kubectl delete authorizationpolicy service-httpbin.default.svc.cluster.local
 $ kubectl delete deploy httpbin; kubectl delete service httpbin; kubectl delete serviceaccount httpbin
 $ kubectl delete deploy sleep; kubectl delete service sleep; kubectl delete serviceaccount sleep
-$ istioctl x uninstall --purge
+$ istioctl uninstall --purge -y
 $ kubectl delete namespace sleep-allow istio-system
 $ rm ./td-installation.yaml
 {{< /text >}}

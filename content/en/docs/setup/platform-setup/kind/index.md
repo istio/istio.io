@@ -1,6 +1,6 @@
 ---
 title: kind
-description: Instructions to setup kind for Istio.
+description: Instructions to set up kind for Istio.
 weight: 30
 skip_seealso: true
 keywords: [platform-setup,kubernetes,kind]
@@ -28,17 +28,6 @@ Follow these instructions to prepare a kind cluster for Istio installation.
     {{< /text >}}
 
     `--name` is used to assign a specific name to the cluster. By default, the cluster will be given the name "kind".
-
-    {{< tip >}}
-    You can use the following command to create a `kind` cluster with an associated external load balancer.
-    Otherwise you will need to access gateways and other k8s loadbalancer-type services using the service’s node port,
-    because `kind` does not provide an external loadbalancer by default.
-
-    {{< text bash >}}
-    $ @samples/kind-lb/setupkind.sh@ --cluster-name istio-testing
-    {{< /text >}}
-
-    {{< /tip >}}
 
 1.  To see the list of kind clusters, use the following command:
 
@@ -82,12 +71,12 @@ Follow these instructions to prepare a kind cluster for Istio installation.
 ## Setup Dashboard UI for kind
 
 kind does not have a built in Dashboard UI like minikube. But you can still setup Dashboard, a web based Kubernetes UI, to view your cluster.
-Follow these instructions to setup Dashboard for kind.
+Follow these instructions to set up Dashboard for kind.
 
 1.  To deploy Dashboard, run the following command:
 
     {{< text bash >}}
-    $ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.1.0/aio/deploy/recommended.yaml
+    $ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml
     {{< /text >}}
 
 1.  Verify that Dashboard is deployed and running.
@@ -99,16 +88,17 @@ Follow these instructions to setup Dashboard for kind.
     kubernetes-dashboard-b7ffbc8cb-zl8zg         1/1     Running   0          39s
     {{< /text >}}
 
-1.  Create a `ClusterRoleBinding` to provide admin access to the newly created cluster.
+1.  Create a `ServiceAccount` and `ClusterRoleBinding` to provide admin access to the newly created cluster.
 
     {{< text bash >}}
-    $ kubectl create clusterrolebinding default-admin --clusterrole cluster-admin --serviceaccount=default:default
+    $ kubectl create serviceaccount -n kubernetes-dashboard admin-user
+    $ kubectl create clusterrolebinding -n kubernetes-dashboard admin-user --clusterrole cluster-admin --serviceaccount=kubernetes-dashboard:admin-user
     {{< /text >}}
 
 1.  To login to Dashboard, you need a Bearer Token. Use the following command to store the token in a variable.
 
     {{< text bash >}}
-    $ token=$(kubectl get secrets -o jsonpath="{.items[?(@.metadata.annotations['kubernetes\.io/service-account\.name']=='default')].data.token}"|base64 --decode)
+    $ token=$(kubectl -n kubernetes-dashboard create token admin-user)
     {{< /text >}}
 
     Display the token using the `echo` command and copy it to use for logging into Dashboard.

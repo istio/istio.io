@@ -21,5 +21,5 @@ for installing Istio on OpenShift with CNI can be found [here](/docs/setup/addit
 
 - **Fixed** Fixed CNI installation on OpenShift ([Issue 21421](https://github.com/istio/istio/pull/21421)) ([Issue 22449](https://github.com/istio/istio/issues/22449)).
 - **Fixed** Not all inbound ports are redirected when CNI is enabled ([Issue 22448](https://github.com/istio/istio/issues/22498)).
-- **Fixed** Syntax errors in gateway templates with GoLang 1.14 ([Issue 22366](https://github.com/istio/istio/issues/22366)).
+- **Fixed** Syntax errors in gateway templates with Go 1.14 ([Issue 22366](https://github.com/istio/istio/issues/22366)).
 - **Fixed** Remove namespace from `clusterrole` and `clusterrolebinding` ([PR 297](https://github.com/istio/cni/pull/297)).

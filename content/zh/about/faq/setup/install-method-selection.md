@@ -65,4 +65,22 @@ weight: 10
     - 相比于 `istioctl install` 和 Operator 相比，检查较少。
     - 一些高权限任务需要更多步骤，并且具有更高的复杂性。
 
+1. [Istio Operator](/zh/docs/setup/install/operator/)
+
+    {{< warning >}}
+    不建议在新安装时使用 Operator。虽然 Operator 将继续得到支持，新特性请求将不会被优先化。
+    {{< /warning >}}
+
+    Istio 操作符提供了一个安装路径，而不需要 `istioctl` 二进制文件。这可以用于简化升级工作流，其中不需要考虑集群内特权控制器的运行。此方法适用于不需要严格审计或增加输出清单的情况。
+
+    优点:
+
+    - 与 `istioctl install` 相同的 API，但驱动是通过集群中的一个带有完全声明式操作的控制器。
+    - `IstioOperator` API 提供了广泛的配置/定制选项。
+    - 不需要管理多个 `istioctl` 二进制文件。
+
+    缺点:
+
+    - 集群中运行的高权限控制器存在安全风险。
+
 这些安装方式的安装向导在 [Istio 安装页](/zh/docs/setup/install)中。

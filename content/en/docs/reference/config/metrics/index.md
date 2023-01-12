@@ -12,6 +12,10 @@ aliases:
 The following are the standard service level metrics exported by Istio.
 
 The telemetry component is [implemented](https://github.com/istio/proxy/tree/master/extensions/stats) as a [Proxy-wasm](https://github.com/proxy-wasm/spec) plugin.
+A `COUNTER` is a strictly increasing integer.
+A `DISTRIBUTION` maps ranges of values to frequency.
+`COUNTER` and `DISTRIBUTION` correspond to the metrics counter and histogram
+in [the Envoy document](https://github.com/envoyproxy/envoy/blob/main/source/docs/stats.md).
 
 ## Metrics
 

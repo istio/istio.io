@@ -11,6 +11,12 @@ owner: istio/wg-environments-maintainers
 test: yes
 ---
 
+{{< tip >}}
+{{< boilerplate gateway-api-future >}}
+If you would like to get started with Istio using the Gateway API,
+refer to the [future getting started instructions](/docs/setup/additional-setup/getting-started/) instead of the following.
+{{< /tip >}}
+
 This guide lets you quickly evaluate Istio. If you are already familiar with
 Istio or interested in installing other configuration profiles or
 advanced [deployment models](/docs/ops/deployment/deployment-models/), refer to our
@@ -197,43 +203,37 @@ chosen platform:
 
 {{< tab name="Minikube" category-value="external-lb" >}}
 
-Set the ingress ports:
+Run this command in a new terminal window to start a Minikube tunnel that
+sends traffic to your Istio Ingress Gateway. This will provide an external
+load balancer, `EXTERNAL-IP`, for `service/istio-ingressgateway`.
 
 {{< text bash >}}
-$ export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}')
-$ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].nodePort}')
+$ minikube tunnel
 {{< /text >}}
 
-Ensure a port was successfully assigned to each environment variable:
+Set the ingress host and ports:
+
+{{< text bash >}}
+$ export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+$ export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].port}')
+$ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].port}')
+{{< /text >}}
+
+Ensure an IP address and ports were successfully assigned to each environment variable:
+
+{{< text bash >}}
+$ echo "$INGRESS_HOST"
+127.0.0.1
+{{< /text >}}
 
 {{< text bash >}}
 $ echo "$INGRESS_PORT"
-32194
+80
 {{< /text >}}
 
 {{< text bash >}}
 $ echo "$SECURE_INGRESS_PORT"
-31632
-{{< /text >}}
-
-Set the ingress IP:
-
-{{< text bash >}}
-$ export INGRESS_HOST=$(minikube ip)
-{{< /text >}}
-
-Ensure an IP address was successfully assigned to the environment variable:
-
-{{< text bash >}}
-$ echo "$INGRESS_HOST"
-192.168.4.102
-{{< /text >}}
-
-Run this command in a new terminal window to start a Minikube tunnel that
-sends traffic to your Istio Ingress Gateway:
-
-{{< text bash >}}
-$ minikube tunnel
+443
 {{< /text >}}
 
 {{< /tab >}}
@@ -250,7 +250,7 @@ istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121  80:31380/
 
 If the `EXTERNAL-IP` value is set, your environment has an external load balancer that you can use for the ingress gateway.
 If the `EXTERNAL-IP` value is `<none>` (or perpetually `<pending>`), your environment does not provide an external load balancer for the ingress gateway.
-In this case, you can access the gateway using the service's [node port](https://kubernetes.io/docs/concepts/services-networking/service/#nodeport).
+In this case, you can access the gateway using the service's [node port](https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport).
 
 Choose the instructions corresponding to your environment:
 
@@ -288,7 +288,7 @@ $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingress
 _GKE:_
 
 {{< text bash >}}
-$ export INGRESS_HOST=workerNodeAddress
+$ export INGRESS_HOST=worker-node-address
 {{< /text >}}
 
 You need to create firewall rules to allow the TCP traffic to the `ingressgateway` service's ports.
@@ -425,8 +425,7 @@ resources because they may have been deleted hierarchically.
 
 {{< text bash >}}
 $ kubectl delete -f @samples/addons@
-$ istioctl manifest generate --set profile=demo | kubectl delete --ignore-not-found=true -f -
-$ istioctl tag remove default
+$ istioctl uninstall -y --purge
 {{< /text >}}
 
 The `istio-system` namespace is not removed by default.

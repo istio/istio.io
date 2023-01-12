@@ -46,7 +46,7 @@ send_productpage_requests
 _verify_not_contains snip_verify_the_results_2 "destination_port"
 _verify_not_contains snip_verify_the_results_2 "request_host"
 
-echo "$snip_enable_custom_metrics_2" | istioctl install --set tag="$TAG" --set hub="$HUB" -y -f -
+snip_enable_custom_metrics_2 && istioctl install --set tag="$TAG" --set hub="$HUB" -y -f custom_metrics.yaml
 
 kubectl get istiooperator installed-state -n istio-system -o yaml
 _wait_for_istio envoyfilter istio-system stats-filter-1.8
@@ -69,4 +69,5 @@ cleanup_bookinfo_sample
 # Clean up Istio. NOTE: Don't wipe out CRDs as doing
 # so would take a lot of time for the test to finish
 # TODO: find out why?
+echo y | istioctl uninstall --revision=default
 kubectl delete ns istio-system

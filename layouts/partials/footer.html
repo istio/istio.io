@@ -56,9 +56,9 @@
                     <a class="disabled" title="{{ $title }}">{{ i18n "edit_on_github" }}</a>
                 {{ else }}
                     {{ if eq $home.Lang "zh" }}
-                        <a class="footer-policies-link" href="https://github.com/istio/istio.io/edit/{{ .Site.Data.args.doc_branch_name }}/content/zh/{{ .Path }}">{{ i18n "edit_on_github" }}</a>
+                        <a class="footer-policies-link" href="https://github.com/istio/istio.io/edit/{{ .Site.Data.args.doc_branch_name }}/content/zh/{{ .File }}">{{ i18n "edit_on_github" }}</a>
                     {{ else }}
-                        <a class="footer-policies-link" href="https://github.com/istio/istio.io/edit/{{ .Site.Data.args.doc_branch_name }}/content/en/{{ .Path }}">{{ i18n "edit_on_github" }}</a>
+                        <a class="footer-policies-link" href="https://github.com/istio/istio.io/edit/{{ .Site.Data.args.doc_branch_name }}/content/en/{{ .File }}">{{ i18n "edit_on_github" }}</a>
                     {{ end }}
                 {{ end }}
             </li>

@@ -219,7 +219,35 @@ In general, any field in a pod can be set. However, care must be taken for certa
   it is recommended to set the `image` to `auto` which will cause the sidecar injector to automatically select the image to use.
 * Some fields in `Pod` are dependent on related settings. For example, CPU request must be less than CPU limit. If both fields are not configured together, the pod may fail to start.
 
-Additionally, certain fields are configurable by [annotations](/docs/reference/config/annotations/) on the pod, although it is recommended to use the above approach to customizing settings.
+Additionally, certain fields are configurable by [annotations](/docs/reference/config/annotations/) on the pod, although it is recommended to use the above approach to customizing settings. Additional care must be taken for certain annotations:
+
+* If `sidecar.istio.io/proxyCPU` is set, make sure to explicitly set `sidecar.istio.io/proxyCPULimit`. Otherwise the sidecar's `cpu` limit will be set as unlimited.
+* If `sidecar.istio.io/proxyMemory` is set, make sure to explicitly set `sidecar.istio.io/proxyMemoryLimit`. Otherwise the sidecar's `memory` limit will be set as unlimited.
+
+For example, see the below incomplete resources annotation configuration and the corresponding injected resource settings:
+
+{{< text yaml >}}
+spec:
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/proxyCPU: "200m"
+        sidecar.istio.io/proxyMemoryLimit: "5Gi"
+{{< /text >}}
+
+{{< text yaml >}}
+spec:
+  containers:
+  - name: istio-proxy
+    resources:
+      limits:
+        memory: 5Gi
+      requests:
+        cpu: 200m
+        memory: 5Gi
+      securityContext:
+        allowPrivilegeEscalation: false
+{{< /text >}}
 
 ### Custom templates (experimental)
 

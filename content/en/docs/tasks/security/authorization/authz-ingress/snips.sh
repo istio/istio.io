@@ -126,7 +126,7 @@ ENDSNIP
 
 snip_ipbased_allow_list_and_deny_list_1() {
 kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: ingress-policy
@@ -145,7 +145,7 @@ EOF
 
 snip_ipbased_allow_list_and_deny_list_2() {
 kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: ingress-policy
@@ -180,7 +180,7 @@ ENDSNIP
 
 snip_ipbased_allow_list_and_deny_list_5() {
 kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: ingress-policy
@@ -207,7 +207,7 @@ ENDSNIP
 
 snip_ipbased_allow_list_and_deny_list_7() {
 kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: ingress-policy
@@ -234,7 +234,7 @@ ENDSNIP
 
 snip_ipbased_allow_list_and_deny_list_9() {
 kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: ingress-policy
@@ -253,7 +253,7 @@ EOF
 
 snip_ipbased_allow_list_and_deny_list_10() {
 kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: ingress-policy

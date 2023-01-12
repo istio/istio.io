@@ -260,6 +260,6 @@ test: yes
 1. 下线 [httpbin]({{< github_tree >}}/samples/httpbin) 服务和客户端：
 
     {{< text bash >}}
-    $ kubectl delete deploy httpbin fortio-deploy
-    $ kubectl delete svc httpbin
+    $ kubectl delete -f @samples/httpbin/sample-client/fortio-deploy.yaml@
+    $ kubectl delete -f @samples/httpbin/httpbin.yaml@
     {{< /text >}}

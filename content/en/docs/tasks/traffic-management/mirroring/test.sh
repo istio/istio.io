@@ -21,52 +21,74 @@ set -e
 set -u
 set -o pipefail
 
+GATEWAY_API="${GATEWAY_API:-false}"
+
 # @setup profile=default
 
-kubectl label namespace default istio-injection= --overwrite
+kubectl label namespace default istio-injection- --overwrite
 
-snip_before_you_begin_1
-
-snip_before_you_begin_2
-
+# create the httpbin service
 snip_before_you_begin_3
 
-snip_before_you_begin_4
+# Configure the httpbin route before deploying the services to allow lots
+#  of time for the config to be ready before the first request. If too soon,
+#  it might send a request to v2, which will cuase the test to fail
+#  _verify_not_contains snip_creating_a_default_routing_policy_5.
+if [ "$GATEWAY_API" == "true" ]; then
+    snip_creating_a_default_routing_policy_2
+else
+    snip_creating_a_default_routing_policy_1
 
-# wait for deployments
+    # wait for config
+    _wait_for_istio virtualservice default httpbin
+    _wait_for_istio destinationrule default httpbin
+fi
+
+# deploy the services
+snip_before_you_begin_1
 _wait_for_deployment default httpbin-v1
+
+snip_before_you_begin_2
 _wait_for_deployment default httpbin-v2
+
+snip_before_you_begin_4
 _wait_for_deployment default sleep
 
-snip_creating_a_default_routing_policy_1
+# wait some more for the route config to be applied to the sleep pod
+sleep 30s # TODO proper wait for config update
 
-# wait for config
-_wait_for_istio virtualservice default httpbin
-_wait_for_istio destinationrule default httpbin
+send_request_and_get_v1_log() {
+    _verify_contains snip_creating_a_default_routing_policy_3 "headers"
+    out=$(snip_creating_a_default_routing_policy_4)
+    echo "$out"
+}
+_verify_contains send_request_and_get_v1_log "GET /headers HTTP/1.1"
 
-_verify_contains snip_creating_a_default_routing_policy_2 "headers"
+_verify_not_contains snip_creating_a_default_routing_policy_5 "GET /headers HTTP/1.1"
 
-_verify_contains snip_creating_a_default_routing_policy_3 "GET /headers HTTP/1.1"
+if [ "$GATEWAY_API" == "true" ]; then
+    snip_mirroring_traffic_to_v2_2
+else
+    snip_mirroring_traffic_to_v2_1
 
-_verify_not_contains snip_creating_a_default_routing_policy_4 "GET /headers HTTP/1.1"
+    # wait for config
+    _wait_for_istio virtualservice default httpbin
+fi
 
-snip_mirroring_traffic_to_v2_1
-
-# wait for config
-_wait_for_istio virtualservice default httpbin
-
-# Set environment variables. TODO: why didn't the exports from snip_creating_a_default_routing_policy_2/3/4 take?
+# Set environment variables. TODO: why didn't the exports from snip_creating_a_default_routing_policy_3/4/5 take?
 export SLEEP_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
 export V1_POD=$(kubectl get pod -l app=httpbin,version=v1 -o jsonpath={.items..metadata.name})
 export V2_POD=$(kubectl get pod -l app=httpbin,version=v2 -o jsonpath={.items..metadata.name})
 
-snip_mirroring_traffic_to_v2_2
-
-# TODO: This should check for 2 lines with the GET request
-_verify_contains snip_mirroring_traffic_to_v2_3 "GET /headers HTTP/1.1"
-
-_verify_contains snip_mirroring_traffic_to_v2_4 "GET /headers HTTP/1.1"
+send_request_and_get_v2_log() {
+    _verify_contains snip_mirroring_traffic_to_v2_3 "headers"
+    out=$(snip_mirroring_traffic_to_v2_5)
+    echo "$out"
+}
+_verify_contains send_request_and_get_v2_log "GET /headers HTTP/1.1"
 
 # @cleanup
-snip_cleaning_up_1
-snip_cleaning_up_2
+if [ "$GATEWAY_API" != "true" ]; then
+    snip_cleaning_up_1
+    snip_cleaning_up_3
+fi

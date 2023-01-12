@@ -13,7 +13,7 @@ This task shows how to ensure your workloads only communicate using mutual TLS a
 Istio.
 
 Istio automatically configures workload sidecars to use [mutual TLS](/docs/tasks/security/authentication/authn-policy/#auto-mutual-tls) when calling other workloads. By default, Istio configures the destination workloads using `PERMISSIVE` mode.
-When `PERMISSIVE` mode is enabled, a service can accept both plain text and mutual TLS traffic. In order to only allow
+When `PERMISSIVE` mode is enabled, a service can accept both plaintext and mutual TLS traffic. In order to only allow
 mutual TLS traffic, the configuration needs to be changed to `STRICT` mode.
 
 You can use the [Grafana dashboard](/docs/tasks/observability/metrics/using-istio-dashboard/) to
@@ -154,13 +154,14 @@ $ for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$
 
 1. Remove the mesh-wide authentication policy.
 
-{{< text bash >}}
-$ kubectl delete peerauthentication -n istio-system default
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl delete peerauthentication -n foo default
+    $ kubectl delete peerauthentication -n istio-system default
+    {{< /text >}}
 
 1. Remove the test namespaces.
 
-{{< text bash >}}
-$ kubectl delete ns foo bar legacy
-Namespaces foo bar legacy deleted.
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl delete ns foo bar legacy
+    Namespaces foo bar legacy deleted.
+    {{< /text >}}

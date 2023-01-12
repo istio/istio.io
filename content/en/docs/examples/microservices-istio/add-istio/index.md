@@ -27,7 +27,7 @@ disrupt your application, it continues to run and serve user requests.
 
     {{< tip >}}
     This tutorial step demonstrates manual sidecar injection to enable Istio for instructional purposes,
-    however [Automatic sidecar injection](/docs/ops/configuration/mesh/injection-concepts/) is more convenient.
+    however [Automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection) is more convenient.
     {{< /tip >}}
 
     {{< text bash >}}

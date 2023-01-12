@@ -1,6 +1,6 @@
 ---
 title: Azure
-description: Instructions to setup an Azure cluster for Istio.
+description: Instructions to set up an Azure cluster for Istio.
 weight: 10
 skip_seealso: true
 aliases:

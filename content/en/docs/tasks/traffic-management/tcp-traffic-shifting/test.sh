@@ -19,11 +19,11 @@ set -e
 set -u
 set -o pipefail
 
-source "tests/util/samples.sh"
+GATEWAY_API="${GATEWAY_API:-false}"
 
 # @setup profile=demo
 
-# create a new namespace for testing purposes and enable automatic Istio sidecar injection
+# create a new namespace for testing purposes
 snip_set_up_the_test_environment_1
 
 # start the sleep sample
@@ -37,33 +37,45 @@ _wait_for_deployment istio-io-tcp-traffic-shifting tcp-echo-v1
 _wait_for_deployment istio-io-tcp-traffic-shifting tcp-echo-v2
 _wait_for_deployment istio-io-tcp-traffic-shifting sleep
 
-# export the INGRESS_ environment variables
-_set_ingress_environment_variables
-
 # Route all traffic to echo v1
-snip_apply_weightbased_tcp_routing_1
+if [ "$GATEWAY_API" == "true" ]; then
+    snip_apply_weightbased_tcp_routing_2
+    _wait_for_gateway istio-io-tcp-traffic-shifting tcp-echo-gateway
+    snip_apply_weightbased_tcp_routing_3
+else
+    snip_apply_weightbased_tcp_routing_1
 
-# wait for rules to propagate
-_wait_for_istio gateway istio-io-tcp-traffic-shifting tcp-echo-gateway
-_wait_for_istio destinationrule istio-io-tcp-traffic-shifting tcp-echo-destination
-_wait_for_istio virtualservice istio-io-tcp-traffic-shifting tcp-echo
+    # wait for rules to propagate
+    _wait_for_istio gateway istio-io-tcp-traffic-shifting tcp-echo-gateway
+    _wait_for_istio destinationrule istio-io-tcp-traffic-shifting tcp-echo-destination
+    _wait_for_istio virtualservice istio-io-tcp-traffic-shifting tcp-echo
 
-_verify_lines snip_apply_weightbased_tcp_routing_2 "
+    # export the INGRESS_ environment variables
+    _set_ingress_environment_variables
+fi
+
+_verify_lines snip_apply_weightbased_tcp_routing_4 "
 + one
 - two
 "
 
-snip_apply_weightbased_tcp_routing_3
+if [ "$GATEWAY_API" == "true" ]; then
+    snip_apply_weightbased_tcp_routing_6
+    _verify_elided snip_apply_weightbased_tcp_routing_8 "$snip_apply_weightbased_tcp_routing_8_out"
+else
+    snip_apply_weightbased_tcp_routing_5
 
-# wait for rules to propagate
-_wait_for_istio virtualservice istio-io-tcp-traffic-shifting tcp-echo
+    # wait for rules to propagate
+    _wait_for_istio virtualservice istio-io-tcp-traffic-shifting tcp-echo
 
-_verify_elided snip_apply_weightbased_tcp_routing_4 "$snip_apply_weightbased_tcp_routing_4_out"
+    _verify_elided snip_apply_weightbased_tcp_routing_7 "$snip_apply_weightbased_tcp_routing_7_out"
+fi
 
-_verify_lines snip_apply_weightbased_tcp_routing_5 "
+_verify_lines snip_apply_weightbased_tcp_routing_9 "
 + one
 + two
 "
 
 # @cleanup
 snip_cleanup_1
+snip_cleanup_3

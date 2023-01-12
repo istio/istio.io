@@ -43,7 +43,7 @@ Bash text block with yaml output and download name
 
 {{< text syntax="bash" outputis="yaml" downloadas="foo.yaml" >}}
 $ kubectl -n istio-system get configmap istio-galley-configuration -o jsonpath='{.data}'
-map[validatingwebhookconfiguration.yaml:apiVersion: admissionregistration.k8s.io/v1beta1
+map[validatingwebhookconfiguration.yaml:apiVersion: admissionregistration.k8s.io/v1
 kind: ValidatingWebhookConfiguration
 metadata:
   name: istio-galley

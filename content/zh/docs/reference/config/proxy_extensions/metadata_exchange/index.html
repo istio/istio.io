@@ -1,9 +1,9 @@
 ---
 WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL SOURCE IN THE 'https://github.com/istio/proxy' REPO
 source_repo: https://github.com/istio/proxy
-title: 元数据交换配置
-description: 元数据交换过滤器的配置。
-location: https://istio.io/zh/docs/reference/config/proxy_extensions/metadata_exchange.html
+title: Metadata Exchange Config
+description: Configuration for Metadata Exchange Filter.
+location: https://istio.io/docs/reference/config/proxy_extensions/metadata_exchange.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
 weight: 20
@@ -14,10 +14,10 @@ number_of_entries: 2
 <table class="message-fields">
 <thead>
 <tr>
-<th>字段</th>
-<th>类型</th>
-<th>描述</th>
-<th>是否必须</th>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -25,13 +25,13 @@ number_of_entries: 2
 <td><code>max_peer_cache_size</code></td>
 <td><code><a href="#google-protobuf-UInt32Value">UInt32Value</a></code></td>
 <td>
-<p>
-对端元数据缓存的最大值。和许多短暂的对等点连接的长期代理可以构建一个大型缓存。要关闭缓存，请将此字段设置为零。
-</p>
+<p>maximum size of the peer metadata cache.
+A long lived proxy that connects with many transient peers can build up a
+large cache. To turn off the cache, set this field to zero.</p>
 
 </td>
 <td>
-否
+No
 </td>
 </tr>
 </tbody>
@@ -39,17 +39,16 @@ number_of_entries: 2
 </section>
 <h2 id="google-protobuf-UInt32Value">google.protobuf.UInt32Value</h2>
 <section>
-<p><code>uint32</code>类型的封装。</p>
-
-<p>在 JSON 中<code>UInt32Value</code>表示是一个 JSON 数字类型。</p>
+<p>Wrapper message for <code>uint32</code>.</p>
+<p>The JSON representation for <code>UInt32Value</code> is JSON number.</p>
 
 <table class="message-fields">
 <thead>
 <tr>
-<th>字段</th>
-<th>类型</th>
-<th>描述</th>
-<th>是否必须</th>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -57,11 +56,11 @@ number_of_entries: 2
 <td><code>value</code></td>
 <td><code>uint32</code></td>
 <td>
-<p>是 uint32 类型的值。</p>
+<p>The uint32 value.</p>
 
 </td>
 <td>
-否
+No
 </td>
 </tr>
 </tbody>

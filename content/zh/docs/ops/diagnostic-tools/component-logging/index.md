@@ -1,6 +1,6 @@
 ---
 title: 组件日志记录
-description: 如何使用组件的级别日志来记录正在运行中的组件的行为。
+description: 如何使用组件级别日志来深入了解正在运行的组件的行为。
 weight: 70
 keywords: [ops]
 aliases:
@@ -18,7 +18,7 @@ Istio 组件使用一个灵活的日志框架来构建，该框架提供了许�
 
 例如，截至目前，`istioctl` 有 25 个作用域，代表命令中的不同功能区域：
 
-- `ads`，`adsc`，`all`，`analysis`，`authn`，`authorization`，`ca`，`cache`，`cli`，`default`，`installer`，`klog`，`mcp`，`model`，`patch`，`processing`，`resource`，`source`，`spiffe`，`tpath`，`translator`，`util`，`validation`，`validationController`，`wle`
+- `ads`, `adsc`, `all`, `analysis`, `authn`, `authorization`, `ca`, `cache`, `cli`, `default`, `installer`, `klog`, `mcp`, `model`, `patch`, `processing`, `resource`, `source`, `spiffe`, `tpath`, `translator`, `util`, `validation`, `validationController`, `wle`
 
 Pilot、Citadel 和 Galley 具有它们自己的范围，您可以通过查看它们的[参考文档](/zh/docs/reference/commands/)来获取更多信息。
 
@@ -26,7 +26,7 @@ Pilot、Citadel 和 Galley 具有它们自己的范围，您可以通过查看�
 
 1. none
 1. error
-1. warning
+1. warn
 1. info
 1. debug
 

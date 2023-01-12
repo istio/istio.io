@@ -11,6 +11,20 @@ test: no
 
 安装 Istio 时，`revision` 安装设置可用于同时部署多个独立的控制平面。升级的金丝雀版本可以通过使用不同的 `revision`，在旧版本的旁边安装启动新版本的 Istio 控制平面。每个修订都是一个完整的 Istio 控制平面实现，具有自己的 `Deployment`、`Service` 等。
 
+## 升级之前 {#before-you-upgrade}
+
+在升级 Istio 之前，建议执行 `istioctl x precheck` 命令，以确保升级与您的环境兼容。
+
+{{< text bash >}}
+$ istioctl x precheck
+✔ No issues found when checking the cluster. Istio is safe to install or upgrade!
+  To get started, check out https://istio.io/latest/docs/setup/getting-started/
+{{< /text >}}
+
+{{< idea >}}
+当使用基于版本的升级时，支持跨越两个小版本(例如，直接从版本 `1.8` 到 `1.10`)。这与就地升级相反，就地升级需要升级到每个中间次要版本释放。
+{{< /idea >}}
+
 ## 控制平面 {#control-plane}
 
 要安装名为 `canary` 的新修订版本，您可以按照如下所示设置 `revision` 字段：
@@ -77,41 +91,32 @@ istiod-canary-6956db645c-vwhsk
 $ kubectl label namespace test-ns istio-injection- istio.io/rev=canary
 {{< /text >}}
 
-命名空间更新后，您需要重新启动 Pod 才能触发重新注入。一种方法是使用：
+命名空间更新后，您需要重新启动 Pod 才能触发重新注入。一种重启命名空间 `test-ns` 中所有 Pod 的方法是：
 
 {{< text bash >}}
 $ kubectl rollout restart deployment -n test-ns
 {{< /text >}}
 
-当 Pod 被重新注入时，它们将被配置为指向 `istiod-canary` 控制平面。你可以查看 Pod 标签验证这一点。
-
-例如，运行以下命令将显示使用 `canary` 修订版本的所有 Pod：
+当 Pod 被重新注入时，它们将被配置为指向 `istiod-canary` 控制平面。你可以使用 `istioctl proxy-status` 来验证。
 
 {{< text bash >}}
-$ kubectl get pods -n test-ns -l istio.io/rev=canary
+$ istioctl proxy-status | grep "\.test-ns "
 {{< /text >}}
 
-要验证 `test-ns` 命名空间中的新 Pod 正在使用与修订版本 `istiod-canary` 相对应的服务 `canary`， 请选择一个新创建的 Pod，然后在 `pod_name` 中使用以下命令：
-
-{{< text bash >}}
-$ istioctl proxy-status | grep ${pod_name} | awk '{print $8}'
-istiod-canary-6956db645c-vwhsk
-{{< /text >}}
-
-输出确认 Pod 正在使用 `istiod-canary` 控制平面的修订版本。
+输出会展示命名空间下所有正在使用修订版本的 Pod。
 
 ## 卸载旧的控制平面 {#uninstall-old-control-plane}
 
 升级控制平面和数据平面之后，您可以卸载旧的控制平面。例如，以下命令卸载修订版本的控制平面 `1-6-5`：
 
 {{< text bash >}}
-$ istioctl x uninstall --revision 1-6-5
+$ istioctl uninstall --revision 1-6-5 -y
 {{< /text >}}
 
 如果旧的控制平面没有修订版本标签，请使用其原始安装选项将其卸载，例如：
 
 {{< text bash >}}
-$ istioctl x uninstall -f manifests/profiles/default.yaml
+$ istioctl uninstall -f manifests/profiles/default.yaml -y
 {{< /text >}}
 
 确认旧的控制平面已被移除，并且集群中仅存在新的控制平面：
@@ -126,7 +131,7 @@ istiod-canary-55887f699c-t8bh8   1/1     Running   0          27m
 
 ## 卸载金丝雀控制平面 {#uninstall-canary-control-plane}
 
-如果您决定回滚到旧的控制平面，而不是完成 Canary 升级，则可以使用 `istioctl x uninstall --revision=canary` 卸载 Canary 修订版。
+如果您决定回滚到旧的控制平面，而不是完成 Canary 升级，则可以使用 `istioctl uninstall --revision=canary` 卸载 Canary 修订版。
 
 但是，在这种情况下，您必须首先手动重新安装先前版本的网关，因为卸载命令不会自动还原先前就地升级的网关。
 

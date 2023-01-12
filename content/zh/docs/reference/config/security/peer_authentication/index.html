@@ -7,17 +7,14 @@ location: https://istio.io/docs/reference/config/security/peer_authentication.ht
 layout: protoc-gen-docs
 generator: protoc-gen-docs
 schema: istio.security.v1beta1.PeerAuthentication
-aliases: [/docs/reference/config/security/v1beta1/peer_authentication]
+aliases: [/zh/docs/reference/config/security/v1beta1/peer_authentication]
 number_of_entries: 3
 ---
 <h2 id="PeerAuthentication">PeerAuthentication</h2>
 <section>
 <p>PeerAuthentication defines how traffic will be tunneled (or not) to the sidecar.</p>
-
 <p>Examples:</p>
-
 <p>Policy to allow mTLS traffic for all workloads under namespace <code>foo</code>:</p>
-
 <pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
 kind: PeerAuthentication
 metadata:
@@ -27,12 +24,9 @@ spec:
   mtls:
     mode: STRICT
 </code></pre>
-
 <p>For mesh level, put the policy in root-namespace according to your Istio installation.</p>
-
 <p>Policies to allow both mTLS &amp; plaintext traffic for all workloads under namespace <code>foo</code>, but
 require mTLS for workload <code>finance</code>.</p>
-
 <pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
 kind: PeerAuthentication
 metadata:
@@ -54,10 +48,8 @@ spec:
   mtls:
     mode: STRICT
 </code></pre>
-
 <p>Policy to allow mTLS strict for all workloads, but leave port 8080 to
 plaintext:</p>
-
 <pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
 kind: PeerAuthentication
 metadata:
@@ -73,10 +65,8 @@ spec:
     8080:
       mode: DISABLE
 </code></pre>
-
-<p>Policy to inherite mTLS mode from namespace (or mesh) settings, and overwrite
+<p>Policy to inherit mTLS mode from namespace (or mesh) settings, and overwrite
 settings for port 8080</p>
-
 <pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
 kind: PeerAuthentication
 metadata:
@@ -105,7 +95,7 @@ spec:
 <tbody>
 <tr id="PeerAuthentication-selector">
 <td><code>selector</code></td>
-<td><code><a href="/zh/docs/reference/config/type/v1beta1/workload-selector.html#WorkloadSelector">WorkloadSelector</a></code></td>
+<td><code><a href="/zh/docs/reference/config/type/workload-selector/#WorkloadSelector">WorkloadSelector</a></code></td>
 <td>
 <p>The selector determines the workloads to apply the ChannelAuthentication on.
 If not set, the policy will be applied to all workloads in the same namespace as the policy.</p>
@@ -130,7 +120,8 @@ No
 <td><code>portLevelMtls</code></td>
 <td><code>map&lt;uint32,&nbsp;<a href="#PeerAuthentication-MutualTLS">MutualTLS</a>&gt;</code></td>
 <td>
-<p>Port specific mutual TLS settings.</p>
+<p>Port specific mutual TLS settings. These only apply when a workload selector
+is specified.</p>
 
 </td>
 <td>

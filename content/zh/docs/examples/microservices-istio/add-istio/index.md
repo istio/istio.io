@@ -20,7 +20,7 @@ test: no
 1. 重新部署 `productpage` 微服务，启用 Istio：
 
     {{< tip >}}
-    本教程为了教学目的将会逐步演示手动注入 Sidecar 去启用 Istio，但是 [自动注入 Sidecar](/zh/docs/ops/configuration/mesh/injection-concepts/) 更加方便.
+    本教程为了教学目的将会逐步演示如何手动注入 Sidecar 启用 Istio，但是 [自动注入 Sidecar](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection) 更加便捷。
     {{< /tip >}}
 
     {{< text bash >}}
@@ -81,7 +81,7 @@ test: no
         caption="在左上角的下拉菜单中，选择 Istio Mesh Dashboard"
         >}}
 
-    注意 在命名空间中的 `productpage` 服务，它的命名应该是 `productpage.<your namespace>.svc.cluster.local`。
+    注意命名空间中的 `productpage` 服务，它的命名应该是 `productpage.<your namespace>.svc.cluster.local`。
 
     {{< image width="80%"
         link="dashboard-mesh.png"

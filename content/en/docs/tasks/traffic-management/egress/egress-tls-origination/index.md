@@ -192,19 +192,140 @@ example would not be sufficient.
 Also note that even with HTTPS originated by the application, an attacker could know that requests to `edition.cnn.com`
 are being sent by inspecting [Server Name Indication (SNI)](https://en.wikipedia.org/wiki/Server_Name_Indication).
 The _SNI_ field is sent unencrypted during the TLS handshake. Using HTTPS prevents the attackers from knowing specific
-topics and articles but does not prevent an attackers from learning that `edition.cnn.com` is accessed.
+topics and articles but does not prevent attackers from learning that `edition.cnn.com` is accessed.
 
-## Cleanup
+### Cleanup the TLS origination configuration
 
-1.  Remove the Istio configuration items you created:
+Remove the Istio configuration items you created:
 
     {{< text bash >}}
     $ kubectl delete serviceentry edition-cnn-com
     $ kubectl delete destinationrule edition-cnn-com
     {{< /text >}}
 
-1.  Shutdown the [sleep]({{< github_tree >}}/samples/sleep) service:
+## Mutual TLS origination for egress traffic
+
+This section describes how to configure a sidecar to perform TLS origination for an external service, this time using a
+service that requires mutual TLS. This example is considerably more involved because it requires the following setup:
+
+1. Generate client and server certificates
+1. Deploy an external service that supports the mutual TLS protocol
+1. Configure the client (sleep pod) to use the credentials created in Step 1
+
+Once this setup is complete, you can then configure the external traffic to go through the sidecar which will perform
+TLS origination.
+
+### Generate client and server certificates and keys
+
+Follow [these steps](/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/#generate-client-and-server-certificates-and-keys)
+in the Egress Gateway TLS Origination task.
+
+### Deploy a mutual TLS server
+
+Follow [these steps](/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/#deploy-a-mutual-tls-server) in the Egress Gateway TLS Origination task.
+
+### Configure the client (sleep pod)
+
+1.  Create Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) to hold the client's certificates:
 
     {{< text bash >}}
-    $ kubectl delete -f @samples/sleep/sleep.yaml@
+    $ kubectl create secret generic client-credential --from-file=tls.key=client.example.com.key \
+      --from-file=tls.crt=client.example.com.crt --from-file=ca.crt=example.com.crt
     {{< /text >}}
+
+    The secret **must** be created in the same namespace as the client pod is deployed in, `default` in this case.
+
+1. Create required `RBAC` to make sure the secret created in the above step is accessible to the client pod, which is `sleep` in this case.
+
+    {{< text bash >}}
+    $ kubectl create role client-credential-role --resource=secret --verb=list
+    $ kubectl create rolebinding client-credential-role-binding --role=client-credential-role --serviceaccount=default:sleep
+    {{< /text >}}
+
+### Configure mutual TLS origination for egress traffic at sidecar
+
+1.  Add a `DestinationRule` to perform mutual TLS origination
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: DestinationRule
+    metadata:
+      name: originate-mtls-for-nginx
+    spec:
+      workloadSelector:
+        matchLabels:
+          app: sleep
+      host: my-nginx.mesh-external.svc.cluster.local
+      trafficPolicy:
+        loadBalancer:
+          simple: ROUND_ROBIN
+        portLevelSettings:
+        - port:
+            number: 443
+          tls:
+            mode: MUTUAL
+            credentialName: client-credential # this must match the secret created earlier to hold client certs, and works only when DR has a workloadSelector
+            sni: my-nginx.mesh-external.svc.cluster.local # this is optional
+    EOF
+    {{< /text >}}
+
+1.  Send an HTTP request to `http://my-nginx.mesh-external.svc.cluster.local`:
+
+    {{< text bash >}}
+    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -sS http://my-nginx.mesh-external.svc.cluster.local:443
+    <!DOCTYPE html>
+    <html>
+    <head>
+    <title>Welcome to nginx!</title>
+    ...
+    {{< /text >}}
+
+1.  Check the log of the `sleep` pod for a line corresponding to our request.
+
+    {{< text bash >}}
+    $ kubectl logs -l app=sleep -c istio-proxy | grep 'my-nginx.mesh-external.svc.cluster.local'
+    {{< /text >}}
+
+    You should see a line similar to the following:
+
+    {{< text plain>}}
+    [2022-05-19T10:01:06.795Z] "GET / HTTP/1.1" 200 - via_upstream - "-" 0 615 1 0 "-" "curl/7.83.1-DEV" "96e8d8a7-92ce-9939-aa47-9f5f530a69fb" "my-nginx.mesh-external.svc.cluster.local:443" "10.107.176.65:443"
+    {{< /text >}}
+
+### Cleanup the mutual TLS origination configuration
+
+1.  Remove created Kubernetes resources:
+
+    {{< text bash >}}
+    $ kubectl delete secret nginx-server-certs nginx-ca-certs -n mesh-external
+    $ kubectl delete secret client-credential
+    $ kubectl delete configmap nginx-configmap -n mesh-external
+    $ kubectl delete service my-nginx -n mesh-external
+    $ kubectl delete deployment my-nginx -n mesh-external
+    $ kubectl delete namespace mesh-external
+    $ kubectl delete serviceentry originate-mtls-for-nginx
+    $ kubectl delete destinationrule originate-mtls-for-nginx
+    {{< /text >}}
+
+1.  Delete the certificates and private keys:
+
+    {{< text bash >}}
+    $ rm example.com.crt example.com.key my-nginx.mesh-external.svc.cluster.local.crt my-nginx.mesh-external.svc.cluster.local.key my-nginx.mesh-external.svc.cluster.local.csr client.example.com.crt client.example.com.csr client.example.com.key
+    {{< /text >}}
+
+1.  Delete the generated configuration files used in this example:
+
+    {{< text bash >}}
+    $ rm ./nginx.conf
+    {{< /text >}}
+
+## Cleanup common configuration
+
+Delete the `sleep` service and deployment:
+
+{{< text bash >}}
+$ kubectl delete service sleep
+$ kubectl delete deployment sleep
+{{< /text >}}
+

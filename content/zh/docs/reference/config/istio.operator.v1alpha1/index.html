@@ -7,13 +7,35 @@ location: https://istio.io/docs/reference/config/istio.operator.v1alpha1.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
 weight: 20
-number_of_entries: 60
+number_of_entries: 74
 ---
-<p>Configuration affecting Istio control plane installation version and shape.</p>
+<p>Configuration affecting Istio control plane installation version and shape.
+Note: unlike other Istio protos, field names must use camelCase. This is asserted in tests.
+Without camelCase, the <code>json</code> tag on the Go struct will not match the user&rsquo;s JSON representation.
+This leads to Kubernetes merge libraries, which rely on this tag, to fail.
+All other usages use jsonpb which does not use the <code>json</code> tag.</p>
 
-<h2 id="Affinity">Affinity</h2>
+<h2 id="IstioOperatorSpec">IstioOperatorSpec</h2>
 <section>
-<p>Mirrors k8s.io.api.core.v1.</p>
+<p>IstioOperatorSpec defines the desired installed state of Istio components.
+The spec is a used to define a customization of the default profile values that are supplied with each Istio release.
+Because the spec is a customization API, specifying an empty IstioOperatorSpec results in a default Istio
+component values.</p>
+<pre><code class="language-yaml">apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  profile: default
+  hub: gcr.io/istio-testing
+  tag: latest
+  revision: 1-8-0
+  meshConfig:
+    accessLogFile: /dev/stdout
+    enableTracing: true
+  components:
+    egressGateways:
+    - name: istio-egressgateway
+      enabled: true
+</code></pre>
 
 <table class="message-fields">
 <thead>
@@ -25,27 +47,283 @@ number_of_entries: 60
 </tr>
 </thead>
 <tbody>
-<tr id="Affinity-nodeAffinity">
-<td><code>nodeAffinity</code></td>
-<td><code><a href="#NodeAffinity">NodeAffinity</a></code></td>
+<tr id="IstioOperatorSpec-profile">
+<td><code>profile</code></td>
+<td><code>string</code></td>
+<td>
+<p>Path or name for the profile e.g.</p>
+<ul>
+<li>minimal (looks in profiles dir for a file called minimal.yaml)</li>
+<li>/tmp/istio/install/values/custom/custom-install.yaml (local file path)</li>
+</ul>
+<p>default profile is used if this field is unset.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioOperatorSpec-installPackagePath">
+<td><code>installPackagePath</code></td>
+<td><code>string</code></td>
+<td>
+<p>Path for the install package. e.g.</p>
+<ul>
+<li>/tmp/istio-installer/nightly (local file path)</li>
+</ul>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioOperatorSpec-hub">
+<td><code>hub</code></td>
+<td><code>string</code></td>
+<td>
+<p>Root for docker image paths e.g. <code>docker.io/istio</code></p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioOperatorSpec-tag">
+<td><code>tag</code></td>
+<td><code><a href="#google-protobuf-Value">Value</a></code></td>
+<td>
+<p>Version tag for docker images e.g. <code>1.7.2</code></p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioOperatorSpec-namespace">
+<td><code>namespace</code></td>
+<td><code>string</code></td>
+<td>
+<p>Namespace to install control plane resources into. If unset, Istio will be installed into the same namespace
+as the <code>IstioOperator</code> CR. You must also set <code>values.global.istioNamespace</code> if you wish to install Istio in
+a custom namespace.
+If you have enabled CNI, you must  exclude this namespace by adding it to the list <code>values.cni.excludeNamespaces</code>.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioOperatorSpec-revision">
+<td><code>revision</code></td>
+<td><code>string</code></td>
+<td>
+<p>Identify the revision this installation is associated with.
+This option is currently experimental.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioOperatorSpec-defaultRevision">
+<td><code>defaultRevision</code></td>
+<td><code>bool</code></td>
+<td>
+<p>Identify whether this revision is the default revision for the cluster
+This option is currently experimental.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioOperatorSpec-meshConfig">
+<td><code>meshConfig</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct">Struct</a></code></td>
+<td>
+<p>Config used by control plane components internally.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioOperatorSpec-components">
+<td><code>components</code></td>
+<td><code><a href="#IstioComponentSetSpec">IstioComponentSetSpec</a></code></td>
+<td>
+<p>Kubernetes resource settings, enablement and component-specific settings that are not internal to the
+component.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioOperatorSpec-values">
+<td><code>values</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct">Struct</a></code></td>
+<td>
+<p>Overrides for default <code>values.yaml</code>. This is a validated pass-through to Helm templates.
+See the <a href="https://istio.io/v1.5/docs/reference/config/installation-options/">Helm installation options</a> for schema details.
+Anything that is available in <code>IstioOperatorSpec</code> should be set above rather than using the passthrough. This
+includes Kubernetes resource settings for components in <code>KubernetesResourcesSpec</code>.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioOperatorSpec-unvalidatedValues">
+<td><code>unvalidatedValues</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct">Struct</a></code></td>
+<td>
+<p>Unvalidated overrides for default <code>values.yaml</code>. Used for custom templates where new parameters are added.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioOperatorSpec-addonComponents" class="deprecated ">
+<td><code>addonComponents</code></td>
+<td><code>map&lt;string,&nbsp;<a href="#ExternalComponentSpec">ExternalComponentSpec</a>&gt;</code></td>
+<td>
+<p>Deprecated.
+Users should manage the installation of addon components on their own.
+Refer to samples/addons for demo installation of addon components.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="InstallStatus">InstallStatus</h2>
+<section>
+<p>Observed state of IstioOperator</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="InstallStatus-status">
+<td><code>status</code></td>
+<td><code><a href="#InstallStatus-Status">Status</a></code></td>
+<td>
+<p>Overall status of all components controlled by the operator.</p>
+<ul>
+<li>If all components have status <code>NONE</code>, overall status is <code>NONE</code>.</li>
+<li>If all components are <code>HEALTHY</code>, overall status is <code>HEALTHY</code>.</li>
+<li>If one or more components are <code>RECONCILING</code> and others are <code>HEALTHY</code>, overall status is <code>RECONCILING</code>.</li>
+<li>If one or more components are <code>UPDATING</code> and others are <code>HEALTHY</code>, overall status is <code>UPDATING</code>.</li>
+<li>If components are a mix of <code>RECONCILING</code>, <code>UPDATING</code> and <code>HEALTHY</code>, overall status is <code>UPDATING</code>.</li>
+<li>If any component is in <code>ERROR</code> state, overall status is <code>ERROR</code>.</li>
+<li>If further action is needed for reconciliation to proceed, overall status is <code>ACTION_REQUIRED</code>.</li>
+</ul>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="InstallStatus-message">
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>
+<p>Optional message providing additional information about the existing overall status.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="InstallStatus-componentStatus">
+<td><code>componentStatus</code></td>
+<td><code>map&lt;string,&nbsp;<a href="#InstallStatus-VersionStatus">VersionStatus</a>&gt;</code></td>
+<td>
+<p>Individual status of each component controlled by the operator. The map key is the name of the component.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="IstioComponentSetSpec">IstioComponentSetSpec</h2>
+<section>
+<p>IstioComponentSpec defines the desired installed state of Istio components.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="IstioComponentSetSpec-base">
+<td><code>base</code></td>
+<td><code><a href="#BaseComponentSpec">BaseComponentSpec</a></code></td>
 <td>
 </td>
 <td>
 No
 </td>
 </tr>
-<tr id="Affinity-podAffinity">
-<td><code>podAffinity</code></td>
-<td><code><a href="#PodAffinity">PodAffinity</a></code></td>
+<tr id="IstioComponentSetSpec-pilot">
+<td><code>pilot</code></td>
+<td><code><a href="#ComponentSpec">ComponentSpec</a></code></td>
 <td>
 </td>
 <td>
 No
 </td>
 </tr>
-<tr id="Affinity-podAntiAffinity">
-<td><code>podAntiAffinity</code></td>
-<td><code><a href="#PodAntiAffinity">PodAntiAffinity</a></code></td>
+<tr id="IstioComponentSetSpec-cni">
+<td><code>cni</code></td>
+<td><code><a href="#ComponentSpec">ComponentSpec</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioComponentSetSpec-istiodRemote">
+<td><code>istiodRemote</code></td>
+<td><code><a href="#ComponentSpec">ComponentSpec</a></code></td>
+<td>
+<p>Remote cluster using an external control plane.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioComponentSetSpec-ingressGateways">
+<td><code>ingressGateways</code></td>
+<td><code><a href="#GatewaySpec">GatewaySpec[]</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioComponentSetSpec-egressGateways">
+<td><code>egressGateways</code></td>
+<td><code><a href="#GatewaySpec">GatewaySpec[]</a></code></td>
 <td>
 </td>
 <td>
@@ -71,7 +349,7 @@ No
 <tbody>
 <tr id="BaseComponentSpec-enabled">
 <td><code>enabled</code></td>
-<td><code><a href="#TypeBoolValueForPB">TypeBoolValueForPB</a></code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></code></td>
 <td>
 <p>Selects whether this component is installed.</p>
 
@@ -80,25 +358,12 @@ No
 No
 </td>
 </tr>
-</tbody>
-</table>
-</section>
-<h2 id="ClientIPConfig">ClientIPConfig</h2>
-<section>
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="ClientIPConfig-timeoutSeconds">
-<td><code>timeoutSeconds</code></td>
-<td><code>int32</code></td>
+<tr id="BaseComponentSpec-k8s">
+<td><code>k8s</code></td>
+<td><code><a href="#KubernetesResourcesSpec">KubernetesResourcesSpec</a></code></td>
 <td>
+<p>Kubernetes resource spec.</p>
+
 </td>
 <td>
 No
@@ -123,7 +388,7 @@ No
 <tbody>
 <tr id="ComponentSpec-enabled">
 <td><code>enabled</code></td>
-<td><code><a href="#TypeBoolValueForPB">TypeBoolValueForPB</a></code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></code></td>
 <td>
 <p>Selects whether this component is installed.</p>
 
@@ -156,7 +421,7 @@ No
 </tr>
 <tr id="ComponentSpec-tag">
 <td><code>tag</code></td>
-<td><code><a href="#TypeInterface">TypeInterface</a></code></td>
+<td><code><a href="#google-protobuf-Value">Value</a></code></td>
 <td>
 <p>Tag for the component (overrides top level tag setting).</p>
 
@@ -167,7 +432,7 @@ No
 </tr>
 <tr id="ComponentSpec-spec">
 <td><code>spec</code></td>
-<td><code><a href="#TypeInterface">TypeInterface</a></code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct">Struct</a></code></td>
 <td>
 <p>Arbitrary install time configuration for the component.</p>
 
@@ -182,244 +447,6 @@ No
 <td>
 <p>Kubernetes resource spec.</p>
 
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="ConfigMapKeySelector">ConfigMapKeySelector</h2>
-<section>
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="ConfigMapKeySelector-localObjectReference">
-<td><code>localObjectReference</code></td>
-<td><code><a href="#LocalObjectReference">LocalObjectReference</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ConfigMapKeySelector-key">
-<td><code>key</code></td>
-<td><code>string</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ConfigMapKeySelector-optional">
-<td><code>optional</code></td>
-<td><code>bool</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="CrossVersionObjectReference">CrossVersionObjectReference</h2>
-<section>
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="CrossVersionObjectReference-kind">
-<td><code>kind</code></td>
-<td><code>string</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="CrossVersionObjectReference-name">
-<td><code>name</code></td>
-<td><code>string</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="CrossVersionObjectReference-apiVersion">
-<td><code>apiVersion</code></td>
-<td><code>string</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="DeploymentStrategy">DeploymentStrategy</h2>
-<section>
-<p>Mirrors k8s.io.api.apps.v1.DeploymentStrategy for unmarshaling.</p>
-
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="DeploymentStrategy-type">
-<td><code>type</code></td>
-<td><code>string</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="DeploymentStrategy-rollingUpdate">
-<td><code>rollingUpdate</code></td>
-<td><code><a href="#RollingUpdateDeployment">RollingUpdateDeployment</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="EnvVar">EnvVar</h2>
-<section>
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="EnvVar-name">
-<td><code>name</code></td>
-<td><code>string</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="EnvVar-value">
-<td><code>value</code></td>
-<td><code>string</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="EnvVar-valueFrom">
-<td><code>valueFrom</code></td>
-<td><code><a href="#EnvVarSource">EnvVarSource</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="EnvVarSource">EnvVarSource</h2>
-<section>
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="EnvVarSource-fieldRef">
-<td><code>fieldRef</code></td>
-<td><code><a href="#ObjectFieldSelector">ObjectFieldSelector</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="EnvVarSource-resourceFieldRef">
-<td><code>resourceFieldRef</code></td>
-<td><code><a href="#ResourceFieldSelector">ResourceFieldSelector</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="EnvVarSource-configMapKeyRef">
-<td><code>configMapKeyRef</code></td>
-<td><code><a href="#ConfigMapKeySelector">ConfigMapKeySelector</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="EnvVarSource-secretKeyRef">
-<td><code>secretKeyRef</code></td>
-<td><code><a href="#SecretKeySelector">SecretKeySelector</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="ExecAction">ExecAction</h2>
-<section>
-<p>Mirrors k8s.io.api.core.v1.ExecAction for unmarshaling.</p>
-
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="ExecAction-command">
-<td><code>command</code></td>
-<td><code>string[]</code></td>
-<td>
 </td>
 <td>
 No
@@ -444,7 +471,7 @@ No
 <tbody>
 <tr id="ExternalComponentSpec-enabled">
 <td><code>enabled</code></td>
-<td><code><a href="#TypeBoolValueForPB">TypeBoolValueForPB</a></code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></code></td>
 <td>
 <p>Selects whether this component is installed.</p>
 
@@ -466,7 +493,7 @@ No
 </tr>
 <tr id="ExternalComponentSpec-spec">
 <td><code>spec</code></td>
-<td><code><a href="#TypeInterface">TypeInterface</a></code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct">Struct</a></code></td>
 <td>
 <p>Arbitrary install time configuration for the component.</p>
 
@@ -475,7 +502,7 @@ No
 No
 </td>
 </tr>
-<tr id="ExternalComponentSpec-chart_path">
+<tr id="ExternalComponentSpec-chartPath">
 <td><code>chartPath</code></td>
 <td><code>string</code></td>
 <td>
@@ -511,57 +538,6 @@ No
 </tbody>
 </table>
 </section>
-<h2 id="ExternalMetricSource">ExternalMetricSource</h2>
-<section>
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="ExternalMetricSource-metricName">
-<td><code>metricName</code></td>
-<td><code>string</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ExternalMetricSource-metricSelector">
-<td><code>metricSelector</code></td>
-<td><code><a href="#k8s-io-apimachinery-pkg-apis-meta-v1-LabelSelector">LabelSelector</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ExternalMetricSource-targetValue">
-<td><code>targetValue</code></td>
-<td><code><a href="#k8s-io-apimachinery-pkg-api-resource-Quantity">Quantity</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ExternalMetricSource-targetAverageValue">
-<td><code>targetAverageValue</code></td>
-<td><code><a href="#k8s-io-apimachinery-pkg-api-resource-Quantity">Quantity</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
 <h2 id="GatewaySpec">GatewaySpec</h2>
 <section>
 <p>Configuration for gateways.</p>
@@ -578,7 +554,7 @@ No
 <tbody>
 <tr id="GatewaySpec-enabled">
 <td><code>enabled</code></td>
-<td><code><a href="#TypeBoolValueForPB">TypeBoolValueForPB</a></code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></code></td>
 <td>
 <p>Selects whether this gateway is installed.</p>
 
@@ -633,7 +609,7 @@ No
 </tr>
 <tr id="GatewaySpec-tag">
 <td><code>tag</code></td>
-<td><code><a href="#TypeInterface">TypeInterface</a></code></td>
+<td><code><a href="#google-protobuf-Value">Value</a></code></td>
 <td>
 <p>Tag for the component (overrides top level tag setting).</p>
 
@@ -647,675 +623,6 @@ No
 <td><code><a href="#KubernetesResourcesSpec">KubernetesResourcesSpec</a></code></td>
 <td>
 <p>Kubernetes resource spec.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="HTTPGetAction">HTTPGetAction</h2>
-<section>
-<p>Mirrors k8s.io.api.core.v1.HTTPGetAction for unmarshaling.</p>
-
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="HTTPGetAction-path">
-<td><code>path</code></td>
-<td><code>string</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="HTTPGetAction-port">
-<td><code>port</code></td>
-<td><code><a href="#TypeInterface_kubernetes">TypeInterface_kubernetes</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="HTTPGetAction-host">
-<td><code>host</code></td>
-<td><code>string</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="HTTPGetAction-scheme">
-<td><code>scheme</code></td>
-<td><code>string</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="HTTPGetAction-httpHeaders">
-<td><code>httpHeaders</code></td>
-<td><code><a href="#HTTPHeader">HTTPHeader[]</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="HTTPHeader">HTTPHeader</h2>
-<section>
-<p>Mirrors k8s.io.api.core.v1.HTTPHeader for unmarshaling.</p>
-
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="HTTPHeader-name">
-<td><code>name</code></td>
-<td><code>string</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="HTTPHeader-value">
-<td><code>value</code></td>
-<td><code>string</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="HorizontalPodAutoscalerSpec">HorizontalPodAutoscalerSpec</h2>
-<section>
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="HorizontalPodAutoscalerSpec-scaleTargetRef">
-<td><code>scaleTargetRef</code></td>
-<td><code><a href="#CrossVersionObjectReference">CrossVersionObjectReference</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="HorizontalPodAutoscalerSpec-minReplicas">
-<td><code>minReplicas</code></td>
-<td><code>int32</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="HorizontalPodAutoscalerSpec-maxReplicas">
-<td><code>maxReplicas</code></td>
-<td><code>int32</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="HorizontalPodAutoscalerSpec-metrics">
-<td><code>metrics</code></td>
-<td><code><a href="#MetricSpec">MetricSpec[]</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="InstallStatus">InstallStatus</h2>
-<section>
-<p>Observed state of IstioOperator</p>
-
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="InstallStatus-status">
-<td><code>status</code></td>
-<td><code><a href="#InstallStatus-Status">Status</a></code></td>
-<td>
-<p>Overall status of all components controlled by the operator.
-- If all components have status NONE, overall status is NONE.
-- If all components are HEALTHY, overall status is HEALTHY.
-- If one or more components are RECONCILING and others are HEALTHY, overall status is RECONCILING.
-- If one or more components are UPDATING and others are HEALTHY, overall status is UPDATING.
-- If components are a mix of RECONCILING, UPDATING and HEALTHY, overall status is UPDATING.
-- If any component is in ERROR state, overall status is ERROR.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="InstallStatus-component_status">
-<td><code>componentStatus</code></td>
-<td><code>map&lt;string,&nbsp;<a href="#InstallStatus-VersionStatus">VersionStatus</a>&gt;</code></td>
-<td>
-<p>Individual status of each component controlled by the operator. The map key is the name of the component.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="InstallStatus-Status">InstallStatus.Status</h2>
-<section>
-<p>Status describes the current state of a component.</p>
-
-<table class="enum-values">
-<thead>
-<tr>
-<th>Name</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr id="InstallStatus-Status-NONE">
-<td><code>NONE</code></td>
-<td>
-<p>Component is not present.</p>
-
-</td>
-</tr>
-<tr id="InstallStatus-Status-UPDATING">
-<td><code>UPDATING</code></td>
-<td>
-<p>Component is being updated to a different version.</p>
-
-</td>
-</tr>
-<tr id="InstallStatus-Status-RECONCILING">
-<td><code>RECONCILING</code></td>
-<td>
-<p>Controller has started but not yet completed reconciliation loop for the component.</p>
-
-</td>
-</tr>
-<tr id="InstallStatus-Status-HEALTHY">
-<td><code>HEALTHY</code></td>
-<td>
-<p>Component is healthy.</p>
-
-</td>
-</tr>
-<tr id="InstallStatus-Status-ERROR">
-<td><code>ERROR</code></td>
-<td>
-<p>Component is in an error state.</p>
-
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="InstallStatus-VersionStatus">InstallStatus.VersionStatus</h2>
-<section>
-<p>VersionStatus is the status and version of a component.</p>
-
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="InstallStatus-VersionStatus-version">
-<td><code>version</code></td>
-<td><code>string</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="InstallStatus-VersionStatus-status">
-<td><code>status</code></td>
-<td><code><a href="#InstallStatus-Status">Status</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="InstallStatus-VersionStatus-error">
-<td><code>error</code></td>
-<td><code>string</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="IstioComponentSetSpec">IstioComponentSetSpec</h2>
-<section>
-<p>IstioComponentSpec defines the desired installed state of Istio components.</p>
-
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="IstioComponentSetSpec-base">
-<td><code>base</code></td>
-<td><code><a href="#BaseComponentSpec">BaseComponentSpec</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="IstioComponentSetSpec-pilot">
-<td><code>pilot</code></td>
-<td><code><a href="#ComponentSpec">ComponentSpec</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="IstioComponentSetSpec-proxy">
-<td><code>proxy</code></td>
-<td><code><a href="#ComponentSpec">ComponentSpec</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="IstioComponentSetSpec-sidecar_injector">
-<td><code>sidecarInjector</code></td>
-<td><code><a href="#ComponentSpec">ComponentSpec</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="IstioComponentSetSpec-policy">
-<td><code>policy</code></td>
-<td><code><a href="#ComponentSpec">ComponentSpec</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="IstioComponentSetSpec-telemetry">
-<td><code>telemetry</code></td>
-<td><code><a href="#ComponentSpec">ComponentSpec</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="IstioComponentSetSpec-citadel">
-<td><code>citadel</code></td>
-<td><code><a href="#ComponentSpec">ComponentSpec</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="IstioComponentSetSpec-node_agent">
-<td><code>nodeAgent</code></td>
-<td><code><a href="#ComponentSpec">ComponentSpec</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="IstioComponentSetSpec-galley">
-<td><code>galley</code></td>
-<td><code><a href="#ComponentSpec">ComponentSpec</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="IstioComponentSetSpec-cni">
-<td><code>cni</code></td>
-<td><code><a href="#ComponentSpec">ComponentSpec</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="IstioComponentSetSpec-ingress_gateways">
-<td><code>ingressGateways</code></td>
-<td><code><a href="#GatewaySpec">GatewaySpec[]</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="IstioComponentSetSpec-egress_gateways">
-<td><code>egressGateways</code></td>
-<td><code><a href="#GatewaySpec">GatewaySpec[]</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="IstioOperatorSpec">IstioOperatorSpec</h2>
-<section>
-<p>IstioOperatorSpec defines the desired installed state of Istio components.
-The spec is a used to define a customization of the default profile values that are supplied with each Istio release.
-Because the spec is a customization API, specifying an empty IstioOperatorSpec results in a default Istio
-component values.</p>
-
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="IstioOperatorSpec-profile">
-<td><code>profile</code></td>
-<td><code>string</code></td>
-<td>
-<p>Path or name for the profile e.g.
-    - minimal (looks in profiles dir for a file called minimal.yaml)
-    - /tmp/istio/install/values/custom/custom-install.yaml (local file path)
-default profile is used if this field is unset.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="IstioOperatorSpec-install_package_path">
-<td><code>installPackagePath</code></td>
-<td><code>string</code></td>
-<td>
-<p>Path for the install package. e.g.
-    - /tmp/istio-installer/nightly (local file path)</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="IstioOperatorSpec-hub">
-<td><code>hub</code></td>
-<td><code>string</code></td>
-<td>
-<p>Root for docker image paths e.g. docker.io/istio</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="IstioOperatorSpec-tag">
-<td><code>tag</code></td>
-<td><code><a href="#TypeInterface2">TypeInterface2</a></code></td>
-<td>
-<p>Version tag for docker images e.g. 1.0.6</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="IstioOperatorSpec-namespace">
-<td><code>namespace</code></td>
-<td><code>string</code></td>
-<td>
-<p>Namespace to install control plane resources into. If unset, Istio will be installed into the same namespace
-as the IstioOperator CR.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="IstioOperatorSpec-revision">
-<td><code>revision</code></td>
-<td><code>string</code></td>
-<td>
-<p>Identify the revision this installation is associated with.
-This option is currently experimental.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="IstioOperatorSpec-mesh_config">
-<td><code>meshConfig</code></td>
-<td><code><a href="/zh/docs/reference/config/istio.mesh.v1alpha1.html#MeshConfig">MeshConfig</a></code></td>
-<td>
-<p>Config used by control plane components internally.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="IstioOperatorSpec-components">
-<td><code>components</code></td>
-<td><code><a href="#IstioComponentSetSpec">IstioComponentSetSpec</a></code></td>
-<td>
-<p>Kubernetes resource settings, enablement and component-specific settings that are not internal to the
-component.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="IstioOperatorSpec-addon_components">
-<td><code>addonComponents</code></td>
-<td><code>map&lt;string,&nbsp;<a href="#ExternalComponentSpec">ExternalComponentSpec</a>&gt;</code></td>
-<td>
-<p>Extra addon components which are not explicitly specified above.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="IstioOperatorSpec-values">
-<td><code>values</code></td>
-<td><code><a href="#TypeMapStringInterface2">TypeMapStringInterface2</a></code></td>
-<td>
-<p>Overrides for default values.yaml. This is a validated pass-through to Helm templates.
-See the Helm installation options for schema details: https://istio.io/docs/reference/config/installation-options/.
-Anything that is available in IstioOperatorSpec should be set above rather than using the passthrough. This
-includes Kubernetes resource settings for components in KubernetesResourcesSpec.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="IstioOperatorSpec-unvalidated_values">
-<td><code>unvalidatedValues</code></td>
-<td><code><a href="#TypeMapStringInterface2">TypeMapStringInterface2</a></code></td>
-<td>
-<p>Unvalidated overrides for default values.yaml. Used for custom templates where new parameters are added.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="K8sObjectOverlay">K8sObjectOverlay</h2>
-<section>
-<p>Patch for an existing k8s resource.</p>
-
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="K8sObjectOverlay-api_version">
-<td><code>apiVersion</code></td>
-<td><code>string</code></td>
-<td>
-<p>Resource API version.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="K8sObjectOverlay-kind">
-<td><code>kind</code></td>
-<td><code>string</code></td>
-<td>
-<p>Resource kind.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="K8sObjectOverlay-name">
-<td><code>name</code></td>
-<td><code>string</code></td>
-<td>
-<p>Name of resource.
-Namespace is always the component namespace.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="K8sObjectOverlay-patches">
-<td><code>patches</code></td>
-<td><code><a href="#K8sObjectOverlay-PathValue">PathValue[]</a></code></td>
-<td>
-<p>List of patches to apply to resource.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="K8sObjectOverlay-PathValue">K8sObjectOverlay.PathValue</h2>
-<section>
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="K8sObjectOverlay-PathValue-path">
-<td><code>path</code></td>
-<td><code>string</code></td>
-<td>
-<p>Path of the form a.[key1:value1].b.[:value2]
-Where [key1:value1] is a selector for a key-value pair to identify a list element and [:value] is a value
-selector to identify a list element in a leaf list.
-All path intermediate nodes must exist.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="K8sObjectOverlay-PathValue-value">
-<td><code>value</code></td>
-<td><code><a href="#TypeInterface">TypeInterface</a></code></td>
-<td>
-<p>Value to add, delete or replace.
-For add, the path should be a new leaf.
-For delete, value should be unset.
-For replace, path should reference an existing node.
-All values are strings but are converted into appropriate type based on schema.</p>
 
 </td>
 <td>
@@ -1363,7 +670,7 @@ No
 No
 </td>
 </tr>
-<tr id="KubernetesResourcesSpec-hpa_spec">
+<tr id="KubernetesResourcesSpec-hpaSpec">
 <td><code>hpaSpec</code></td>
 <td><code><a href="#HorizontalPodAutoscalerSpec">HorizontalPodAutoscalerSpec</a></code></td>
 <td>
@@ -1375,7 +682,7 @@ No
 No
 </td>
 </tr>
-<tr id="KubernetesResourcesSpec-image_pull_policy">
+<tr id="KubernetesResourcesSpec-imagePullPolicy">
 <td><code>imagePullPolicy</code></td>
 <td><code>string</code></td>
 <td>
@@ -1387,7 +694,7 @@ No
 No
 </td>
 </tr>
-<tr id="KubernetesResourcesSpec-node_selector">
+<tr id="KubernetesResourcesSpec-nodeSelector">
 <td><code>nodeSelector</code></td>
 <td><code>map&lt;string,&nbsp;string&gt;</code></td>
 <td>
@@ -1399,7 +706,7 @@ No
 No
 </td>
 </tr>
-<tr id="KubernetesResourcesSpec-pod_disruption_budget">
+<tr id="KubernetesResourcesSpec-podDisruptionBudget">
 <td><code>podDisruptionBudget</code></td>
 <td><code><a href="#PodDisruptionBudgetSpec">PodDisruptionBudgetSpec</a></code></td>
 <td>
@@ -1411,7 +718,7 @@ No
 No
 </td>
 </tr>
-<tr id="KubernetesResourcesSpec-pod_annotations">
+<tr id="KubernetesResourcesSpec-podAnnotations">
 <td><code>podAnnotations</code></td>
 <td><code>map&lt;string,&nbsp;string&gt;</code></td>
 <td>
@@ -1423,11 +730,11 @@ No
 No
 </td>
 </tr>
-<tr id="KubernetesResourcesSpec-priority_class_name">
+<tr id="KubernetesResourcesSpec-priorityClassName">
 <td><code>priorityClassName</code></td>
 <td><code>string</code></td>
 <td>
-<p>k8s priority<em>class</em>name. Default for all resources unless overridden.
+<p>k8s priority_class_name. Default for all resources unless overridden.
 <a href="https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass">https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass</a></p>
 
 </td>
@@ -1435,7 +742,7 @@ No
 No
 </td>
 </tr>
-<tr id="KubernetesResourcesSpec-readiness_probe">
+<tr id="KubernetesResourcesSpec-readinessProbe">
 <td><code>readinessProbe</code></td>
 <td><code><a href="#ReadinessProbe">ReadinessProbe</a></code></td>
 <td>
@@ -1448,7 +755,7 @@ k8s.io.api.core.v1.Probe readiness_probe = 9;</p>
 No
 </td>
 </tr>
-<tr id="KubernetesResourcesSpec-replica_count">
+<tr id="KubernetesResourcesSpec-replicaCount">
 <td><code>replicaCount</code></td>
 <td><code>uint32</code></td>
 <td>
@@ -1498,7 +805,7 @@ No
 </tr>
 <tr id="KubernetesResourcesSpec-tolerations">
 <td><code>tolerations</code></td>
-<td><code><a href="#k8s-io-api-core-v1-Toleration">Toleration[]</a></code></td>
+<td><code><a href="#Toleration">Toleration[]</a></code></td>
 <td>
 <p>k8s toleration
 <a href="https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/">https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/</a></p>
@@ -1508,12 +815,49 @@ No
 No
 </td>
 </tr>
-<tr id="KubernetesResourcesSpec-service_annotations">
+<tr id="KubernetesResourcesSpec-serviceAnnotations">
 <td><code>serviceAnnotations</code></td>
 <td><code>map&lt;string,&nbsp;string&gt;</code></td>
 <td>
 <p>k8s service annotations.
 <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/">https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/</a></p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="KubernetesResourcesSpec-securityContext">
+<td><code>securityContext</code></td>
+<td><code><a href="#PodSecurityContext">PodSecurityContext</a></code></td>
+<td>
+<p>k8s pod security context
+<a href="https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod">https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod</a></p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="KubernetesResourcesSpec-volumes">
+<td><code>volumes</code></td>
+<td><code><a href="#k8s-io-api-core-v1-Volume">Volume[]</a></code></td>
+<td>
+<p>k8s volume
+<a href="https://kubernetes.io/docs/concepts/storage/volumes/">https://kubernetes.io/docs/concepts/storage/volumes/</a>
+Volumes defines the collection of Volume to inject into the pod.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="KubernetesResourcesSpec-volumeMounts">
+<td><code>volumeMounts</code></td>
+<td><code><a href="#k8s-io-api-core-v1-VolumeMount">VolumeMount[]</a></code></td>
+<td>
+<p>k8s volumeMounts
+VolumeMounts defines the collection of VolumeMount to inject into containers.</p>
 
 </td>
 <td>
@@ -1534,8 +878,864 @@ No
 </tbody>
 </table>
 </section>
+<h2 id="K8sObjectOverlay">K8sObjectOverlay</h2>
+<section>
+<p>Patch for an existing k8s resource.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="K8sObjectOverlay-apiVersion">
+<td><code>apiVersion</code></td>
+<td><code>string</code></td>
+<td>
+<p>Resource API version.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="K8sObjectOverlay-kind">
+<td><code>kind</code></td>
+<td><code>string</code></td>
+<td>
+<p>Resource kind.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="K8sObjectOverlay-name">
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>
+<p>Name of resource.
+Namespace is always the component namespace.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="K8sObjectOverlay-patches">
+<td><code>patches</code></td>
+<td><code><a href="#K8sObjectOverlay-PathValue">PathValue[]</a></code></td>
+<td>
+<p>List of patches to apply to resource.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="Affinity">Affinity</h2>
+<section>
+<p>See k8s.io.api.core.v1.Affinity.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="Affinity-nodeAffinity">
+<td><code>nodeAffinity</code></td>
+<td><code><a href="#NodeAffinity">NodeAffinity</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Affinity-podAffinity">
+<td><code>podAffinity</code></td>
+<td><code><a href="#PodAffinity">PodAffinity</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Affinity-podAntiAffinity">
+<td><code>podAntiAffinity</code></td>
+<td><code><a href="#PodAntiAffinity">PodAntiAffinity</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ConfigMapKeySelector">ConfigMapKeySelector</h2>
+<section>
+<p>See k8s.io.api.core.v1.ConfigMapKeySelector.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ConfigMapKeySelector-localObjectReference">
+<td><code>localObjectReference</code></td>
+<td><code><a href="#LocalObjectReference">LocalObjectReference</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ConfigMapKeySelector-key">
+<td><code>key</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ConfigMapKeySelector-optional">
+<td><code>optional</code></td>
+<td><code>bool</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ContainerResourceMetricSource">ContainerResourceMetricSource</h2>
+<section>
+<p>See k8s.io.api.autoscaling.v2beta2.ContainerResourceMetricSource.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ContainerResourceMetricSource-name">
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ContainerResourceMetricSource-target">
+<td><code>target</code></td>
+<td><code><a href="#MetricTarget">MetricTarget</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ContainerResourceMetricSource-container">
+<td><code>container</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ContainerResourceMetricStatus">ContainerResourceMetricStatus</h2>
+<section>
+<p>See k8s.io.api.autoscaling.v2beta2.ContainerResourceMetricStatus.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ContainerResourceMetricStatus-name">
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ContainerResourceMetricStatus-current">
+<td><code>current</code></td>
+<td><code><a href="#MetricValueStatus">MetricValueStatus</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ContainerResourceMetricStatus-container">
+<td><code>container</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ClientIPConfig">ClientIPConfig</h2>
+<section>
+<p>See k8s.io.api.core.v1.ClientIPConfig.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ClientIPConfig-timeoutSeconds">
+<td><code>timeoutSeconds</code></td>
+<td><code>int32</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="CrossVersionObjectReference">CrossVersionObjectReference</h2>
+<section>
+<p>See k8s.io.api.autoscaling.v2beta2.CrossVersionObjectReference.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="CrossVersionObjectReference-kind">
+<td><code>kind</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="CrossVersionObjectReference-name">
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="CrossVersionObjectReference-apiVersion">
+<td><code>apiVersion</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="DeploymentStrategy">DeploymentStrategy</h2>
+<section>
+<p>See k8s.io.api.apps.v1.DeploymentStrategy.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="DeploymentStrategy-type">
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="DeploymentStrategy-rollingUpdate">
+<td><code>rollingUpdate</code></td>
+<td><code><a href="#RollingUpdateDeployment">RollingUpdateDeployment</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="EnvVar">EnvVar</h2>
+<section>
+<p>See k8s.io.api.core.v1.EnvVar.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="EnvVar-name">
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="EnvVar-value">
+<td><code>value</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="EnvVar-valueFrom">
+<td><code>valueFrom</code></td>
+<td><code><a href="#EnvVarSource">EnvVarSource</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="EnvVarSource">EnvVarSource</h2>
+<section>
+<p>See k8s.io.api.core.v1.EnvVarSource.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="EnvVarSource-fieldRef">
+<td><code>fieldRef</code></td>
+<td><code><a href="#ObjectFieldSelector">ObjectFieldSelector</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="EnvVarSource-resourceFieldRef">
+<td><code>resourceFieldRef</code></td>
+<td><code><a href="#ResourceFieldSelector">ResourceFieldSelector</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="EnvVarSource-configMapKeyRef">
+<td><code>configMapKeyRef</code></td>
+<td><code><a href="#ConfigMapKeySelector">ConfigMapKeySelector</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="EnvVarSource-secretKeyRef">
+<td><code>secretKeyRef</code></td>
+<td><code><a href="#SecretKeySelector">SecretKeySelector</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ExecAction">ExecAction</h2>
+<section>
+<p>See k8s.io.api.core.v1.ExecAction.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ExecAction-command">
+<td><code>command</code></td>
+<td><code>string[]</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ExternalMetricSource">ExternalMetricSource</h2>
+<section>
+<p>See k8s.io.api.autoscaling.v2beta2.ExternalMetricSource.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ExternalMetricSource-metric">
+<td><code>metric</code></td>
+<td><code><a href="#MetricIdentifier">MetricIdentifier</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ExternalMetricSource-target">
+<td><code>target</code></td>
+<td><code><a href="#MetricTarget">MetricTarget</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ExternalMetricSource-metricName" class="deprecated ">
+<td><code>metricName</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ExternalMetricSource-metricSelector" class="deprecated ">
+<td><code>metricSelector</code></td>
+<td><code><a href="#k8s-io-apimachinery-pkg-apis-meta-v1-LabelSelector">LabelSelector</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ExternalMetricSource-targetValue" class="deprecated ">
+<td><code>targetValue</code></td>
+<td><code><a href="#IntOrString">IntOrString</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ExternalMetricSource-targetAverageValue" class="deprecated ">
+<td><code>targetAverageValue</code></td>
+<td><code><a href="#IntOrString">IntOrString</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ExternalMetricStatus">ExternalMetricStatus</h2>
+<section>
+<p>See k8s.io.autoscaling.v2beta2.ExternalMetricStatus.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ExternalMetricStatus-metric">
+<td><code>metric</code></td>
+<td><code><a href="#MetricIdentifier">MetricIdentifier</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ExternalMetricStatus-current">
+<td><code>current</code></td>
+<td><code><a href="#MetricValueStatus">MetricValueStatus</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="HTTPGetAction">HTTPGetAction</h2>
+<section>
+<p>See k8s.io.api.core.v1.HTTPGetAction.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="HTTPGetAction-path">
+<td><code>path</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="HTTPGetAction-port">
+<td><code>port</code></td>
+<td><code><a href="#IntOrString">IntOrString</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="HTTPGetAction-host">
+<td><code>host</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="HTTPGetAction-scheme">
+<td><code>scheme</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="HTTPGetAction-httpHeaders">
+<td><code>httpHeaders</code></td>
+<td><code><a href="#HTTPHeader">HTTPHeader[]</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="HTTPHeader">HTTPHeader</h2>
+<section>
+<p>See k8s.io.api.core.v1.HTTPHeader.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="HTTPHeader-name">
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="HTTPHeader-value">
+<td><code>value</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="HorizontalPodAutoscalerSpec">HorizontalPodAutoscalerSpec</h2>
+<section>
+<p>See k8s.io.api.autoscaling.v2beta1.HorizontalPodAutoscalerSpec.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="HorizontalPodAutoscalerSpec-scaleTargetRef">
+<td><code>scaleTargetRef</code></td>
+<td><code><a href="#CrossVersionObjectReference">CrossVersionObjectReference</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="HorizontalPodAutoscalerSpec-minReplicas">
+<td><code>minReplicas</code></td>
+<td><code>int32</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="HorizontalPodAutoscalerSpec-maxReplicas">
+<td><code>maxReplicas</code></td>
+<td><code>int32</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="HorizontalPodAutoscalerSpec-metrics">
+<td><code>metrics</code></td>
+<td><code><a href="#MetricSpec">MetricSpec[]</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="HorizontalPodAutoscalerSpec-behavior">
+<td><code>behavior</code></td>
+<td><code><a href="#HorizontalPodAutoScalerBehavior">HorizontalPodAutoScalerBehavior</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="HorizontalPodAutoScalerBehavior">HorizontalPodAutoScalerBehavior</h2>
+<section>
+<p>See k8s.io.autoscaling.v2beta2.HorizontalPodAutoScalerBehavior.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="HorizontalPodAutoScalerBehavior-scaleUp">
+<td><code>scaleUp</code></td>
+<td><code><a href="#HPAScalingRules">HPAScalingRules</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="HorizontalPodAutoScalerBehavior-scaleDown">
+<td><code>scaleDown</code></td>
+<td><code><a href="#HPAScalingRules">HPAScalingRules</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="HPAScalingRules">HPAScalingRules</h2>
+<section>
+<p>See k8s.io.autoscaling.v2beta2.HPAScalingRules.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="HPAScalingRules-stabilizationWindowSeconds">
+<td><code>stabilizationWindowSeconds</code></td>
+<td><code>int32</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="HPAScalingRules-selectPolicy">
+<td><code>selectPolicy</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="HPAScalingRules-policies">
+<td><code>policies</code></td>
+<td><code><a href="#HPAScalingPolicy">HPAScalingPolicy[]</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="HPAScalingPolicy">HPAScalingPolicy</h2>
+<section>
+<p>See k8s.io.autoscaling.v2beta2.HPAScalingPolicy.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="HPAScalingPolicy-type">
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="HPAScalingPolicy-value">
+<td><code>value</code></td>
+<td><code>int32</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="HPAScalingPolicy-periodSeconds">
+<td><code>periodSeconds</code></td>
+<td><code>int32</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
 <h2 id="LocalObjectReference">LocalObjectReference</h2>
 <section>
+<p>See k8s.io.api.core.v1.LocalObjectReference.</p>
+
 <table class="message-fields">
 <thead>
 <tr>
@@ -1558,8 +1758,45 @@ No
 </tbody>
 </table>
 </section>
+<h2 id="MetricIdentifier">MetricIdentifier</h2>
+<section>
+<p>See k8s.io.autoscaling.v2beta2.MetricIdentifier.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MetricIdentifier-name" class="oneof oneof-start">
+<td><code>name</code></td>
+<td><code>string (oneof)</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MetricIdentifier-selector">
+<td><code>selector</code></td>
+<td><code><a href="#k8s-io-apimachinery-pkg-apis-meta-v1-LabelSelector">LabelSelector</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
 <h2 id="MetricSpec">MetricSpec</h2>
 <section>
+<p>See k8s.io.autoscaling.v2beta2.MetricSpec.</p>
+
 <table class="message-fields">
 <thead>
 <tr>
@@ -1606,6 +1843,15 @@ No
 No
 </td>
 </tr>
+<tr id="MetricSpec-containerResource">
+<td><code>containerResource</code></td>
+<td><code><a href="#ContainerResourceMetricSource">ContainerResourceMetricSource</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
 <tr id="MetricSpec-external">
 <td><code>external</code></td>
 <td><code><a href="#ExternalMetricSource">ExternalMetricSource</a></code></td>
@@ -1618,8 +1864,178 @@ No
 </tbody>
 </table>
 </section>
+<h2 id="MetricStatus">MetricStatus</h2>
+<section>
+<p>See k8s.io.autoscaling.v2beta2.MetricStatus.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MetricStatus-type">
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MetricStatus-object">
+<td><code>object</code></td>
+<td><code><a href="#ObjectMetricStatus">ObjectMetricStatus</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MetricStatus-pods">
+<td><code>pods</code></td>
+<td><code><a href="#PodsMetricStatus">PodsMetricStatus</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MetricStatus-resource">
+<td><code>resource</code></td>
+<td><code><a href="#ResourceMetricStatus">ResourceMetricStatus</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MetricStatus-containerResource">
+<td><code>containerResource</code></td>
+<td><code><a href="#ContainerResourceMetricStatus">ContainerResourceMetricStatus</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MetricStatus-external">
+<td><code>external</code></td>
+<td><code><a href="#ExternalMetricStatus">ExternalMetricStatus</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="MetricTarget">MetricTarget</h2>
+<section>
+<p>See k8s.io.autoscaling.v2beta2.MetricTarget.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MetricTarget-type">
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MetricTarget-value">
+<td><code>value</code></td>
+<td><code><a href="#IntOrString">IntOrString</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MetricTarget-averageValue">
+<td><code>averageValue</code></td>
+<td><code><a href="#IntOrString">IntOrString</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MetricTarget-averageUtilization">
+<td><code>averageUtilization</code></td>
+<td><code>int32</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="MetricValueStatus">MetricValueStatus</h2>
+<section>
+<p>See k8s.io.autoscaling.v2beta2.MetricValueStatus.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MetricValueStatus-value">
+<td><code>value</code></td>
+<td><code><a href="#IntOrString">IntOrString</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MetricValueStatus-averageValue">
+<td><code>averageValue</code></td>
+<td><code><a href="#IntOrString">IntOrString</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MetricValueStatus-averageUtilization">
+<td><code>averageUtilization</code></td>
+<td><code>int32</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
 <h2 id="NodeAffinity">NodeAffinity</h2>
 <section>
+<p>See k8s.io.api.core.v1.NodeAffinity.</p>
+
 <table class="message-fields">
 <thead>
 <tr>
@@ -1653,6 +2069,8 @@ No
 </section>
 <h2 id="NodeSelector">NodeSelector</h2>
 <section>
+<p>See k8s.io.api.core.v1.NodeSelector.</p>
+
 <table class="message-fields">
 <thead>
 <tr>
@@ -1675,8 +2093,45 @@ No
 </tbody>
 </table>
 </section>
+<h2 id="NodeSelectorTerm">NodeSelectorTerm</h2>
+<section>
+<p>See k8s.io.api.core.v1.NodeSelectorTerm.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="NodeSelectorTerm-matchExpressions">
+<td><code>matchExpressions</code></td>
+<td><code><a href="#NodeSelectorRequirement">NodeSelectorRequirement[]</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="NodeSelectorTerm-matchFields">
+<td><code>matchFields</code></td>
+<td><code><a href="#NodeSelectorRequirement">NodeSelectorRequirement[]</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
 <h2 id="NodeSelectorRequirement">NodeSelectorRequirement</h2>
 <section>
+<p>See k8s.io.api.core.v1.NodeSelectorRequirement.</p>
+
 <table class="message-fields">
 <thead>
 <tr>
@@ -1717,41 +2172,10 @@ No
 </tbody>
 </table>
 </section>
-<h2 id="NodeSelectorTerm">NodeSelectorTerm</h2>
-<section>
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="NodeSelectorTerm-matchExpressions">
-<td><code>matchExpressions</code></td>
-<td><code><a href="#NodeSelectorRequirement">NodeSelectorRequirement[]</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="NodeSelectorTerm-matchFields">
-<td><code>matchFields</code></td>
-<td><code><a href="#NodeSelectorRequirement">NodeSelectorRequirement[]</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
 <h2 id="ObjectFieldSelector">ObjectFieldSelector</h2>
 <section>
+<p>See k8s.io.api.core.v1.ObjectFieldSelector.</p>
+
 <table class="message-fields">
 <thead>
 <tr>
@@ -1785,6 +2209,8 @@ No
 </section>
 <h2 id="ObjectMeta">ObjectMeta</h2>
 <section>
+<p>From k8s.io.apimachinery.pkg.apis.meta.v1.ObjectMeta.</p>
+
 <table class="message-fields">
 <thead>
 <tr>
@@ -1799,8 +2225,6 @@ No
 <td><code>name</code></td>
 <td><code>string</code></td>
 <td>
-<p>From k8s.io.apimachinery.pkg.apis.meta.v1.ObjectMeta.</p>
-
 </td>
 <td>
 No
@@ -1820,6 +2244,8 @@ No
 </section>
 <h2 id="ObjectMetricSource">ObjectMetricSource</h2>
 <section>
+<p>See k8s.io.autoscaling.v2beta2.ObjectMetricSource.</p>
+
 <table class="message-fields">
 <thead>
 <tr>
@@ -1832,6 +2258,18 @@ No
 <tbody>
 <tr id="ObjectMetricSource-target">
 <td><code>target</code></td>
+<td><code><a href="#google-protobuf-Value">Value</a></code></td>
+<td>
+<p>Type changes from CrossVersionObjectReference to ResourceMetricTarget in autoscaling v2beta2/v2 compared with v2beta1
+Change it to dynamic type to keep backward compatible</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ObjectMetricSource-describedObject">
+<td><code>describedObject</code></td>
 <td><code><a href="#CrossVersionObjectReference">CrossVersionObjectReference</a></code></td>
 <td>
 </td>
@@ -1839,7 +2277,16 @@ No
 No
 </td>
 </tr>
-<tr id="ObjectMetricSource-metricName">
+<tr id="ObjectMetricSource-metric">
+<td><code>metric</code></td>
+<td><code><a href="#MetricIdentifier">MetricIdentifier</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ObjectMetricSource-metricName" class="deprecated ">
 <td><code>metricName</code></td>
 <td><code>string</code></td>
 <td>
@@ -1848,16 +2295,16 @@ No
 No
 </td>
 </tr>
-<tr id="ObjectMetricSource-targetValue">
+<tr id="ObjectMetricSource-targetValue" class="deprecated ">
 <td><code>targetValue</code></td>
-<td><code><a href="#k8s-io-apimachinery-pkg-api-resource-Quantity">Quantity</a></code></td>
+<td><code><a href="#IntOrString">IntOrString</a></code></td>
 <td>
 </td>
 <td>
 No
 </td>
 </tr>
-<tr id="ObjectMetricSource-selector">
+<tr id="ObjectMetricSource-selector" class="deprecated ">
 <td><code>selector</code></td>
 <td><code><a href="#k8s-io-apimachinery-pkg-apis-meta-v1-LabelSelector">LabelSelector</a></code></td>
 <td>
@@ -1866,9 +2313,53 @@ No
 No
 </td>
 </tr>
-<tr id="ObjectMetricSource-averageValue">
+<tr id="ObjectMetricSource-averageValue" class="deprecated ">
 <td><code>averageValue</code></td>
-<td><code><a href="#k8s-io-apimachinery-pkg-api-resource-Quantity">Quantity</a></code></td>
+<td><code><a href="#IntOrString">IntOrString</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ObjectMetricStatus">ObjectMetricStatus</h2>
+<section>
+<p>See k8s.io.autoscaling.v2beta2.ObjectMetricStatus.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ObjectMetricStatus-metric">
+<td><code>metric</code></td>
+<td><code><a href="#MetricIdentifier">MetricIdentifier</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ObjectMetricStatus-current">
+<td><code>current</code></td>
+<td><code><a href="#MetricValueStatus">MetricValueStatus</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ObjectMetricStatus-describedObject">
+<td><code>describedObject</code></td>
+<td><code><a href="#CrossVersionObjectReference">CrossVersionObjectReference</a></code></td>
 <td>
 </td>
 <td>
@@ -1880,6 +2371,8 @@ No
 </section>
 <h2 id="PodAffinity">PodAffinity</h2>
 <section>
+<p>See k8s.io.api.core.v1.PodAffinity.</p>
+
 <table class="message-fields">
 <thead>
 <tr>
@@ -1911,8 +2404,45 @@ No
 </tbody>
 </table>
 </section>
+<h2 id="PodAntiAffinity">PodAntiAffinity</h2>
+<section>
+<p>See k8s.io.api.core.v1.PodAntiAffinity.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="PodAntiAffinity-requiredDuringSchedulingIgnoredDuringExecution">
+<td><code>requiredDuringSchedulingIgnoredDuringExecution</code></td>
+<td><code><a href="#PodAffinityTerm">PodAffinityTerm[]</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodAntiAffinity-preferredDuringSchedulingIgnoredDuringExecution">
+<td><code>preferredDuringSchedulingIgnoredDuringExecution</code></td>
+<td><code><a href="#WeightedPodAffinityTerm">WeightedPodAffinityTerm[]</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
 <h2 id="PodAffinityTerm">PodAffinityTerm</h2>
 <section>
+<p>See k8s.io.api.core.v1.PodAntiAffinity.</p>
+
 <table class="message-fields">
 <thead>
 <tr>
@@ -1953,42 +2483,9 @@ No
 </tbody>
 </table>
 </section>
-<h2 id="PodAntiAffinity">PodAntiAffinity</h2>
-<section>
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="PodAntiAffinity-requiredDuringSchedulingIgnoredDuringExecution">
-<td><code>requiredDuringSchedulingIgnoredDuringExecution</code></td>
-<td><code><a href="#PodAffinityTerm">PodAffinityTerm[]</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="PodAntiAffinity-preferredDuringSchedulingIgnoredDuringExecution">
-<td><code>preferredDuringSchedulingIgnoredDuringExecution</code></td>
-<td><code><a href="#WeightedPodAffinityTerm">WeightedPodAffinityTerm[]</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
 <h2 id="PodDisruptionBudgetSpec">PodDisruptionBudgetSpec</h2>
 <section>
-<p>Mirrors k8s.io.api.policy.v1beta1.PodDisruptionBudget for unmarshaling.</p>
+<p>See k8s.io.api.policy.v1beta1.PodDisruptionBudget.</p>
 
 <table class="message-fields">
 <thead>
@@ -2002,7 +2499,7 @@ No
 <tbody>
 <tr id="PodDisruptionBudgetSpec-minAvailable">
 <td><code>minAvailable</code></td>
-<td><code>uint32</code></td>
+<td><code><a href="#IntOrString">IntOrString</a></code></td>
 <td>
 </td>
 <td>
@@ -2020,7 +2517,7 @@ No
 </tr>
 <tr id="PodDisruptionBudgetSpec-maxUnavailable">
 <td><code>maxUnavailable</code></td>
-<td><code>uint32</code></td>
+<td><code><a href="#IntOrString">IntOrString</a></code></td>
 <td>
 </td>
 <td>
@@ -2032,6 +2529,8 @@ No
 </section>
 <h2 id="PodsMetricSource">PodsMetricSource</h2>
 <section>
+<p>See k8s.io.autoscaling.v2beta2.PodsMetricSource.</p>
+
 <table class="message-fields">
 <thead>
 <tr>
@@ -2042,7 +2541,27 @@ No
 </tr>
 </thead>
 <tbody>
-<tr id="PodsMetricSource-metricName">
+<tr id="PodsMetricSource-metric">
+<td><code>metric</code></td>
+<td><code><a href="#MetricIdentifier">MetricIdentifier</a></code></td>
+<td>
+<p>v2beta2/v2 fields</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodsMetricSource-target">
+<td><code>target</code></td>
+<td><code><a href="#MetricTarget">MetricTarget</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodsMetricSource-metricName" class="deprecated ">
 <td><code>metricName</code></td>
 <td><code>string</code></td>
 <td>
@@ -2051,16 +2570,16 @@ No
 No
 </td>
 </tr>
-<tr id="PodsMetricSource-targetAverageValue">
+<tr id="PodsMetricSource-targetAverageValue" class="deprecated ">
 <td><code>targetAverageValue</code></td>
-<td><code><a href="#k8s-io-apimachinery-pkg-api-resource-Quantity">Quantity</a></code></td>
+<td><code><a href="#IntOrString">IntOrString</a></code></td>
 <td>
 </td>
 <td>
 No
 </td>
 </tr>
-<tr id="PodsMetricSource-selector">
+<tr id="PodsMetricSource-selector" class="deprecated ">
 <td><code>selector</code></td>
 <td><code><a href="#k8s-io-apimachinery-pkg-apis-meta-v1-LabelSelector">LabelSelector</a></code></td>
 <td>
@@ -2072,8 +2591,45 @@ No
 </tbody>
 </table>
 </section>
+<h2 id="PodsMetricStatus">PodsMetricStatus</h2>
+<section>
+<p>See k8s.io.autoscaling.v2beta2.PodsMetricStatus.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="PodsMetricStatus-metric">
+<td><code>metric</code></td>
+<td><code><a href="#MetricIdentifier">MetricIdentifier</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodsMetricStatus-current">
+<td><code>current</code></td>
+<td><code><a href="#MetricValueStatus">MetricValueStatus</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
 <h2 id="PreferredSchedulingTerm">PreferredSchedulingTerm</h2>
 <section>
+<p>See k8s.io.api.core.v1.PreferredSchedulingTerm.</p>
+
 <table class="message-fields">
 <thead>
 <tr>
@@ -2107,7 +2663,7 @@ No
 </section>
 <h2 id="ReadinessProbe">ReadinessProbe</h2>
 <section>
-<p>Mirrors k8s.io.api.core.v1.Probe for unmarshaling.</p>
+<p>See k8s.io.api.core.v1.ReadinessProbe.</p>
 
 <table class="message-fields">
 <thead>
@@ -2196,6 +2752,8 @@ No
 </section>
 <h2 id="ResourceFieldSelector">ResourceFieldSelector</h2>
 <section>
+<p>See k8s.io.api.core.v1..</p>
+
 <table class="message-fields">
 <thead>
 <tr>
@@ -2226,7 +2784,7 @@ No
 </tr>
 <tr id="ResourceFieldSelector-divisor">
 <td><code>divisor</code></td>
-<td><code><a href="#k8s-io-apimachinery-pkg-api-resource-Quantity">Quantity</a></code></td>
+<td><code><a href="#IntOrString">IntOrString</a></code></td>
 <td>
 </td>
 <td>
@@ -2238,6 +2796,8 @@ No
 </section>
 <h2 id="ResourceMetricSource">ResourceMetricSource</h2>
 <section>
+<p>See k8s.io.autoscaling.v2beta2.ResourceMetricSource.</p>
+
 <table class="message-fields">
 <thead>
 <tr>
@@ -2257,18 +2817,62 @@ No
 No
 </td>
 </tr>
-<tr id="ResourceMetricSource-targetAverageUtilization">
-<td><code>targetAverageUtilization</code></td>
-<td><code><a href="#TypeInterface_kubernetes">TypeInterface_kubernetes</a></code></td>
+<tr id="ResourceMetricSource-target">
+<td><code>target</code></td>
+<td><code><a href="#MetricTarget">MetricTarget</a></code></td>
 <td>
 </td>
 <td>
 No
 </td>
 </tr>
-<tr id="ResourceMetricSource-targetAverageValue">
+<tr id="ResourceMetricSource-targetAverageUtilization" class="deprecated ">
+<td><code>targetAverageUtilization</code></td>
+<td><code>int32</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ResourceMetricSource-targetAverageValue" class="deprecated ">
 <td><code>targetAverageValue</code></td>
-<td><code><a href="#k8s-io-apimachinery-pkg-api-resource-Quantity">Quantity</a></code></td>
+<td><code><a href="#IntOrString">IntOrString</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ResourceMetricStatus">ResourceMetricStatus</h2>
+<section>
+<p>See k8s.io.autoscaling.v2beta2.ResourceMetricStatus.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ResourceMetricStatus-name">
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ResourceMetricStatus-current">
+<td><code>current</code></td>
+<td><code><a href="#MetricValueStatus">MetricValueStatus</a></code></td>
 <td>
 </td>
 <td>
@@ -2280,7 +2884,7 @@ No
 </section>
 <h2 id="Resources">Resources</h2>
 <section>
-<p>Mirrors k8s.io.api.core.v1.ResourceRequirements for unmarshaling.</p>
+<p>See k8s.io.api.core.v1.ResourceRequirements.</p>
 
 <table class="message-fields">
 <thead>
@@ -2315,7 +2919,7 @@ No
 </section>
 <h2 id="RollingUpdateDeployment">RollingUpdateDeployment</h2>
 <section>
-<p>Mirrors k8s.io.api.apps.v1.RollingUpdateDeployment for unmarshaling.</p>
+<p>See k8s.io.api.apps.v1.RollingUpdateDeployment.</p>
 
 <table class="message-fields">
 <thead>
@@ -2329,7 +2933,7 @@ No
 <tbody>
 <tr id="RollingUpdateDeployment-maxUnavailable">
 <td><code>maxUnavailable</code></td>
-<td><code><a href="#TypeInterface_kubernetes">TypeInterface_kubernetes</a></code></td>
+<td><code><a href="#IntOrString">IntOrString</a></code></td>
 <td>
 </td>
 <td>
@@ -2338,7 +2942,7 @@ No
 </tr>
 <tr id="RollingUpdateDeployment-maxSurge">
 <td><code>maxSurge</code></td>
-<td><code><a href="#TypeInterface_kubernetes">TypeInterface_kubernetes</a></code></td>
+<td><code><a href="#IntOrString">IntOrString</a></code></td>
 <td>
 </td>
 <td>
@@ -2350,6 +2954,8 @@ No
 </section>
 <h2 id="SecretKeySelector">SecretKeySelector</h2>
 <section>
+<p>See k8s.io.api.core.v1.SecretKeySelector.</p>
+
 <table class="message-fields">
 <thead>
 <tr>
@@ -2390,68 +2996,10 @@ No
 </tbody>
 </table>
 </section>
-<h2 id="ServicePort">ServicePort</h2>
-<section>
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="ServicePort-name">
-<td><code>name</code></td>
-<td><code>string</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ServicePort-protocol">
-<td><code>protocol</code></td>
-<td><code>string</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ServicePort-port">
-<td><code>port</code></td>
-<td><code>int32</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ServicePort-targetPort">
-<td><code>targetPort</code></td>
-<td><code><a href="#TypeInterface_kubernetes">TypeInterface_kubernetes</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ServicePort-nodePort">
-<td><code>nodePort</code></td>
-<td><code>int32</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
 <h2 id="ServiceSpec">ServiceSpec</h2>
 <section>
+<p>See k8s.io.api.core.v1.ServiceSpec.</p>
+
 <table class="message-fields">
 <thead>
 <tr>
@@ -2582,8 +3130,81 @@ No
 </tbody>
 </table>
 </section>
+<h2 id="ServicePort">ServicePort</h2>
+<section>
+<p>See k8s.io.api.core.v1..</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ServicePort-name">
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ServicePort-protocol">
+<td><code>protocol</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ServicePort-port">
+<td><code>port</code></td>
+<td><code>int32</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ServicePort-targetPort">
+<td><code>targetPort</code></td>
+<td><code><a href="#IntOrString">IntOrString</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ServicePort-nodePort">
+<td><code>nodePort</code></td>
+<td><code>int32</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ServicePort-appProtocol">
+<td><code>appProtocol</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
 <h2 id="SessionAffinityConfig">SessionAffinityConfig</h2>
 <section>
+<p>See k8s.io.api.core.v1.SessionAffinityConfig.</p>
+
 <table class="message-fields">
 <thead>
 <tr>
@@ -2608,7 +3229,7 @@ No
 </section>
 <h2 id="TCPSocketAction">TCPSocketAction</h2>
 <section>
-<p>Mirrors k8s.io.api.core.v1.TCPSocketAction for unmarshaling.</p>
+<p>See k8s.io.api.core.v1.TCPSocketAction.</p>
 
 <table class="message-fields">
 <thead>
@@ -2622,7 +3243,7 @@ No
 <tbody>
 <tr id="TCPSocketAction-port">
 <td><code>port</code></td>
-<td><code><a href="#TypeInterface_kubernetes">TypeInterface_kubernetes</a></code></td>
+<td><code><a href="#IntOrString">IntOrString</a></code></td>
 <td>
 </td>
 <td>
@@ -2641,44 +3262,72 @@ No
 </tbody>
 </table>
 </section>
-<h2 id="TypeBoolValueForPB">TypeBoolValueForPB</h2>
+<h2 id="Toleration">Toleration</h2>
 <section>
-<p>GOTYPE: *BoolValueForPB</p>
+<p>See k8s.io.api.core.v1.Toleration.</p>
 
-</section>
-<h2 id="TypeIntOrStringForPB">TypeIntOrStringForPB</h2>
-<section>
-<p>GOTYPE: *IntOrStringForPB</p>
-
-</section>
-<h2 id="TypeInterface">TypeInterface</h2>
-<section>
-<p>GOTYPE: interface{}</p>
-
-</section>
-<h2 id="TypeInterface2">TypeInterface2</h2>
-<section>
-<p>GOTYPE: interface{}</p>
-
-</section>
-<h2 id="TypeInterface_kubernetes">TypeInterface_kubernetes</h2>
-<section>
-<p>GOTYPE: interface{}</p>
-
-</section>
-<h2 id="TypeMapStringInterface">TypeMapStringInterface</h2>
-<section>
-<p>GOTYPE: map[string]interface{}</p>
-
-</section>
-<h2 id="TypeMapStringInterface2">TypeMapStringInterface2</h2>
-<section>
-<p>This is required because synthetic type definition has file rather than package scope.
-GOTYPE: map[string]interface{}</p>
-
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="Toleration-key">
+<td><code>key</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Toleration-operator">
+<td><code>operator</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Toleration-value">
+<td><code>value</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Toleration-effect">
+<td><code>effect</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Toleration-tolerationSeconds">
+<td><code>tolerationSeconds</code></td>
+<td><code>int64</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
 </section>
 <h2 id="WeightedPodAffinityTerm">WeightedPodAffinityTerm</h2>
 <section>
+<p>See k8s.io.api.core.v1.WeightedPodAffinityTerm.</p>
+
 <table class="message-fields">
 <thead>
 <tr>
@@ -2710,10 +3359,9 @@ No
 </tbody>
 </table>
 </section>
-<h2 id="k8s-io-api-core-v1-Toleration">k8s.io.api.core.v1.Toleration</h2>
+<h2 id="PodSecurityContext">PodSecurityContext</h2>
 <section>
-<p>The pod this Toleration is attached to tolerates any taint that matches
-the triple &lt;key,value,effect&gt; using the matching operator &lt;operator&gt;.</p>
+<p>See k8s.io.api.core.v1.PodSecurityContext.</p>
 
 <table class="message-fields">
 <thead>
@@ -2725,69 +3373,392 @@ the triple &lt;key,value,effect&gt; using the matching operator &lt;operator&gt;
 </tr>
 </thead>
 <tbody>
-<tr id="k8s-io-api-core-v1-Toleration-key">
-<td><code>key</code></td>
-<td><code>string</code></td>
+<tr id="PodSecurityContext-seLinuxOptions">
+<td><code>seLinuxOptions</code></td>
+<td><code><a href="#SELinuxOptions">SELinuxOptions</a></code></td>
 <td>
-<p>Key is the taint key that the toleration applies to. Empty means match all taint keys.
-If the key is empty, operator must be Exists; this combination means to match all values and all keys.
-+optional</p>
-
 </td>
 <td>
 No
 </td>
 </tr>
-<tr id="k8s-io-api-core-v1-Toleration-operator">
-<td><code>operator</code></td>
-<td><code>string</code></td>
+<tr id="PodSecurityContext-runAsUser">
+<td><code>runAsUser</code></td>
+<td><code>int64</code></td>
 <td>
-<p>Operator represents a key&rsquo;s relationship to the value.
-Valid operators are Exists and Equal. Defaults to Equal.
-Exists is equivalent to wildcard for value, so that a pod can
-tolerate all taints of a particular category.
-+optional</p>
-
 </td>
 <td>
 No
 </td>
 </tr>
-<tr id="k8s-io-api-core-v1-Toleration-value">
+<tr id="PodSecurityContext-runAsNonRoot">
+<td><code>runAsNonRoot</code></td>
+<td><code>bool</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodSecurityContext-supplementalGroups">
+<td><code>supplementalGroups</code></td>
+<td><code>int64[]</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodSecurityContext-fsGroup">
+<td><code>fsGroup</code></td>
+<td><code>int64</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodSecurityContext-runAsGroup">
+<td><code>runAsGroup</code></td>
+<td><code>int64</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodSecurityContext-sysctls">
+<td><code>sysctls</code></td>
+<td><code><a href="#Sysctl">Sysctl[]</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodSecurityContext-windowsOptions">
+<td><code>windowsOptions</code></td>
+<td><code><a href="#WindowsSecurityContextOptions">WindowsSecurityContextOptions</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodSecurityContext-fsGroupChangePolicy">
+<td><code>fsGroupChangePolicy</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PodSecurityContext-seccompProfile">
+<td><code>seccompProfile</code></td>
+<td><code><a href="#SeccompProfile">SeccompProfile</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="SELinuxOptions">SELinuxOptions</h2>
+<section>
+<p>See k8s.io.api.core.v1.SELinuxOptions.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="SELinuxOptions-user">
+<td><code>user</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="SELinuxOptions-role">
+<td><code>role</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="SELinuxOptions-type">
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="SELinuxOptions-level">
+<td><code>level</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="Sysctl">Sysctl</h2>
+<section>
+<p>See k8s.io.api.core.v1.Sysctl.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="Sysctl-name">
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Sysctl-value">
 <td><code>value</code></td>
 <td><code>string</code></td>
 <td>
-<p>Value is the taint value the toleration matches to.
-If the operator is Exists, the value should be empty, otherwise just a regular string.
-+optional</p>
-
 </td>
 <td>
 No
 </td>
 </tr>
-<tr id="k8s-io-api-core-v1-Toleration-effect">
-<td><code>effect</code></td>
+</tbody>
+</table>
+</section>
+<h2 id="WindowsSecurityContextOptions">WindowsSecurityContextOptions</h2>
+<section>
+<p>See k8s.io.api.core.v1.WindowsSecurityContextOptions.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="WindowsSecurityContextOptions-gmsaCredentialSpecName">
+<td><code>gmsaCredentialSpecName</code></td>
 <td><code>string</code></td>
 <td>
-<p>Effect indicates the taint effect to match. Empty means match all taint effects.
-When specified, allowed values are NoSchedule, PreferNoSchedule and NoExecute.
-+optional</p>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="WindowsSecurityContextOptions-gmsaCredentialSpec">
+<td><code>gmsaCredentialSpec</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="WindowsSecurityContextOptions-runAsUserName">
+<td><code>runAsUserName</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="SeccompProfile">SeccompProfile</h2>
+<section>
+<p>See k8s.io.api.core.v1.SeccompProfile.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="SeccompProfile-type">
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="SeccompProfile-localhostProfile">
+<td><code>localhostProfile</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="IntOrString">IntOrString</h2>
+<section>
+<p>IntOrString is a type that can hold an int32 or a string.  When used in
+JSON or YAML marshalling and unmarshalling, it produces or consumes the
+inner type.  This allows you to have, for example, a JSON field that can
+accept a name or number.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="IntOrString-type">
+<td><code>type</code></td>
+<td><code>int64</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IntOrString-intVal">
+<td><code>intVal</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#int32value">Int32Value</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IntOrString-strVal">
+<td><code>strVal</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#stringvalue">StringValue</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="InstallStatus-VersionStatus">InstallStatus.VersionStatus</h2>
+<section>
+<p>VersionStatus is the status and version of a component.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="InstallStatus-VersionStatus-version">
+<td><code>version</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="InstallStatus-VersionStatus-status">
+<td><code>status</code></td>
+<td><code><a href="#InstallStatus-Status">Status</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="InstallStatus-VersionStatus-error">
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="K8sObjectOverlay-PathValue">K8sObjectOverlay.PathValue</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="K8sObjectOverlay-PathValue-path">
+<td><code>path</code></td>
+<td><code>string</code></td>
+<td>
+<p>Path of the form a.[key1:value1].b.[:value2]
+Where [key1:value1] is a selector for a key-value pair to identify a list element and [:value] is a value
+selector to identify a list element in a leaf list.
+All path intermediate nodes must exist.</p>
 
 </td>
 <td>
 No
 </td>
 </tr>
-<tr id="k8s-io-api-core-v1-Toleration-tolerationSeconds">
-<td><code>tolerationSeconds</code></td>
-<td><code>int64</code></td>
+<tr id="K8sObjectOverlay-PathValue-value">
+<td><code>value</code></td>
+<td><code><a href="#google-protobuf-Value">Value</a></code></td>
 <td>
-<p>TolerationSeconds represents the period of time the toleration (which must be
-of effect NoExecute, otherwise this field is ignored) tolerates the taint. By default,
-it is not set, which means tolerate the taint forever (do not evict). Zero and
-negative values will be treated as 0 (evict immediately) by the system.
-+optional</p>
+<p>Value to add, delete or replace.
+For add, the path should be a new leaf.
+For delete, value should be unset.
+For replace, path should reference an existing node.
+All values are strings but are converted into appropriate type based on schema.</p>
 
 </td>
 <td>
@@ -2797,66 +3768,13 @@ No
 </tbody>
 </table>
 </section>
-<h2 id="k8s-io-apimachinery-pkg-api-resource-Quantity">k8s.io.apimachinery.pkg.api.resource.Quantity</h2>
+<h2 id="google-protobuf-Value">google.protobuf.Value</h2>
 <section>
-<p>Quantity is a fixed-point representation of a number.
-It provides convenient marshaling/unmarshaling in JSON and YAML,
-in addition to String() and Int64() accessors.</p>
-
-<p>The serialization format is:</p>
-
-<p><quantity>        ::= <signedNumber><suffix>
-  (Note that <suffix> may be empty, from the &ldquo;&rdquo; case in <decimalSI>.)
-<digit>           ::= 0 | 1 | &hellip; | 9
-<digits>          ::= <digit> | <digit><digits>
-<number>          ::= <digits> | <digits>.<digits> | <digits>. | .<digits>
-<sign>            ::= &ldquo;+&rdquo; | &ldquo;-&rdquo;
-<signedNumber>    ::= <number> | <sign><number>
-<suffix>          ::= <binarySI> | <decimalExponent> | <decimalSI>
-<binarySI>        ::= Ki | Mi | Gi | Ti | Pi | Ei
-  (International System of units; See: http://physics.nist.gov/cuu/Units/binary.html)
-<decimalSI>       ::= m | &ldquo;&rdquo; | k | M | G | T | P | E
-  (Note that 1024 = 1Ki but 1000 = 1k; I didn&rsquo;t choose the capitalization.)
-<decimalExponent> ::= &ldquo;e&rdquo; <signedNumber> | &ldquo;E&rdquo; <signedNumber></p>
-
-<p>No matter which of the three exponent forms is used, no quantity may represent
-a number greater than 2^63-1 in magnitude, nor may it have more than 3 decimal
-places. Numbers larger or more precise will be capped or rounded up.
-(E.g.: 0.1m will rounded up to 1m.)
-This may be extended in the future if we require larger or smaller quantities.</p>
-
-<p>When a Quantity is parsed from a string, it will remember the type of suffix
-it had, and will use the same type again when it is serialized.</p>
-
-<p>Before serializing, Quantity will be put in &ldquo;canonical form&rdquo;.
-This means that Exponent/suffix will be adjusted up or down (with a
-corresponding increase or decrease in Mantissa) such that:
-  a. No precision is lost
-  b. No fractional digits will be emitted
-  c. The exponent (or suffix) is as large as possible.
-The sign will be omitted unless the number is negative.</p>
-
-<p>Examples:
-  1.5 will be serialized as &ldquo;1500m&rdquo;
-  1.5Gi will be serialized as &ldquo;1536Mi&rdquo;</p>
-
-<p>Note that the quantity will NEVER be internally represented by a
-floating point number. That is the whole point of this exercise.</p>
-
-<p>Non-canonical values will still parse as long as they are well formed,
-but will be re-emitted in their canonical form. (So always use canonical
-form, or don&rsquo;t diff.)</p>
-
-<p>This format is intended to make it difficult to use these numbers without
-writing some sort of special handling code in the hopes that that will
-cause implementors to also use a fixed point implementation.</p>
-
-<p>+protobuf=true
-+protobuf.embed=string
-+protobuf.options.marshal=false
-+protobuf.options.(gogoproto.goproto_stringer)=false
-+k8s:deepcopy-gen=true
-+k8s:openapi-gen=true</p>
+<p><code>Value</code> represents a dynamically typed value which can be either
+null, a number, a string, a boolean, a recursive struct value, or a
+list of values. A producer of value is expected to set one of that
+variants, absence of any variant indicates an error.</p>
+<p>The JSON representation for <code>Value</code> is JSON value.</p>
 
 <table class="message-fields">
 <thead>
@@ -2868,10 +3786,206 @@ cause implementors to also use a fixed point implementation.</p>
 </tr>
 </thead>
 <tbody>
-<tr id="k8s-io-apimachinery-pkg-api-resource-Quantity-string">
-<td><code>string</code></td>
+<tr id="google-protobuf-Value-null_value" class="oneof oneof-start">
+<td><code>nullValue</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#nullvalue">NullValue (oneof)</a></code></td>
+<td>
+<p>Represents a null value.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="google-protobuf-Value-number_value" class="oneof">
+<td><code>numberValue</code></td>
+<td><code>double (oneof)</code></td>
+<td>
+<p>Represents a double value.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="google-protobuf-Value-string_value" class="oneof">
+<td><code>stringValue</code></td>
+<td><code>string (oneof)</code></td>
+<td>
+<p>Represents a string value.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="google-protobuf-Value-bool_value" class="oneof">
+<td><code>boolValue</code></td>
+<td><code>bool (oneof)</code></td>
+<td>
+<p>Represents a boolean value.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="google-protobuf-Value-struct_value" class="oneof">
+<td><code>structValue</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct">Struct (oneof)</a></code></td>
+<td>
+<p>Represents a structured value.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="google-protobuf-Value-list_value" class="oneof">
+<td><code>listValue</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#listvalue">ListValue (oneof)</a></code></td>
+<td>
+<p>Represents a repeated <code>Value</code>.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="k8s-io-api-core-v1-Volume">k8s.io.api.core.v1.Volume</h2>
+<section>
+<p>Volume represents a named volume in a pod that may be accessed by any container in the pod.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="k8s-io-api-core-v1-Volume-name">
+<td><code>name</code></td>
 <td><code>string</code></td>
 <td>
+<p>name of the volume.
+Must be a DNS_LABEL and unique within the pod.
+More info: <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names">https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names</a></p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="k8s-io-api-core-v1-Volume-volumeSource">
+<td><code>volumeSource</code></td>
+<td><code><a href="#k8s-io-api-core-v1-VolumeSource">VolumeSource</a></code></td>
+<td>
+<p>volumeSource represents the location and type of the mounted volume.
+If not specified, the Volume is implied to be an EmptyDir.
+This implied behavior is deprecated and will be removed in a future version.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="k8s-io-api-core-v1-VolumeMount">k8s.io.api.core.v1.VolumeMount</h2>
+<section>
+<p>VolumeMount describes a mounting of a Volume within a container.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="k8s-io-api-core-v1-VolumeMount-name">
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>
+<p>This must match the Name of a Volume.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="k8s-io-api-core-v1-VolumeMount-readOnly">
+<td><code>readOnly</code></td>
+<td><code>bool</code></td>
+<td>
+<p>Mounted read-only if true, read-write otherwise (false or unspecified).
+Defaults to false.
++optional</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="k8s-io-api-core-v1-VolumeMount-mountPath">
+<td><code>mountPath</code></td>
+<td><code>string</code></td>
+<td>
+<p>Path within the container at which the volume should be mounted.  Must
+not contain &lsquo;:&rsquo;.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="k8s-io-api-core-v1-VolumeMount-subPath">
+<td><code>subPath</code></td>
+<td><code>string</code></td>
+<td>
+<p>Path within the volume from which the container&rsquo;s volume should be mounted.
+Defaults to &quot;&quot; (volume&rsquo;s root).
++optional</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="k8s-io-api-core-v1-VolumeMount-mountPropagation">
+<td><code>mountPropagation</code></td>
+<td><code>string</code></td>
+<td>
+<p>mountPropagation determines how mounts are propagated from the host
+to container and the other way around.
+When not set, MountPropagationNone is used.
+This field is beta in 1.10.
++optional</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="k8s-io-api-core-v1-VolumeMount-subPathExpr">
+<td><code>subPathExpr</code></td>
+<td><code>string</code></td>
+<td>
+<p>Expanded path within the volume from which the container&rsquo;s volume should be mounted.
+Behaves similarly to SubPath but environment variable references $(VAR_NAME) are expanded using the container&rsquo;s environment.
+Defaults to &quot;&quot; (volume&rsquo;s root).
+SubPathExpr and SubPath are mutually exclusive.
++optional</p>
+
 </td>
 <td>
 No
@@ -2884,7 +3998,8 @@ No
 <section>
 <p>A label selector is a label query over a set of resources. The result of matchLabels and
 matchExpressions are ANDed. An empty label selector matches all objects. A null
-label selector matches no objects.</p>
+label selector matches no objects.
++structType=atomic</p>
 
 <table class="message-fields">
 <thead>
@@ -2920,6 +4035,65 @@ No
 </td>
 <td>
 No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="InstallStatus-Status">InstallStatus.Status</h2>
+<section>
+<p>Status describes the current state of a component.</p>
+
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="InstallStatus-Status-NONE">
+<td><code>NONE</code></td>
+<td>
+<p>Component is not present.</p>
+
+</td>
+</tr>
+<tr id="InstallStatus-Status-UPDATING">
+<td><code>UPDATING</code></td>
+<td>
+<p>Component is being updated to a different version.</p>
+
+</td>
+</tr>
+<tr id="InstallStatus-Status-RECONCILING">
+<td><code>RECONCILING</code></td>
+<td>
+<p>Controller has started but not yet completed reconciliation loop for the component.</p>
+
+</td>
+</tr>
+<tr id="InstallStatus-Status-HEALTHY">
+<td><code>HEALTHY</code></td>
+<td>
+<p>Component is healthy.</p>
+
+</td>
+</tr>
+<tr id="InstallStatus-Status-ERROR">
+<td><code>ERROR</code></td>
+<td>
+<p>Component is in an error state.</p>
+
+</td>
+</tr>
+<tr id="InstallStatus-Status-ACTION_REQUIRED">
+<td><code>ACTION_REQUIRED</code></td>
+<td>
+<p>Overall status only and would not be set as a component status.
+Action is needed from the user for reconciliation to proceed
+e.g. There are proxies still pointing to the control plane revision when try to remove an <code>IstioOperator</code> CR.</p>
+
 </td>
 </tr>
 </tbody>

@@ -47,7 +47,7 @@ To fix this issue, [a fundamental change](https://github.com/envoyproxy/envoy/is
 Istio 1.9 provides a reliable distribution mechanism out of the box by leveraging the xDS proxy inside istio-agent and Envoy's [Extension Configuration Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/configuration/overview/extension) (ECDS).
 
 istio-agent intercepts the extension config resource update from istiod, reads the remote fetch hint from it, downloads the Wasm module, and rewrites the ECDS configuration with the path of the downloaded Wasm module.
-If the download fails, istio-agent will reject the ECDS update and prevent a bad configuration reaching Envoy. For more detail, please see [our docs on Wasm module distribution](/docs/ops/configuration/extensibility/wasm-module-distribution/).
+If the download fails, istio-agent will reject the ECDS update and prevent a bad configuration reaching Envoy. For more detail, please see [our docs on Wasm module distribution](/docs/tasks/extensibility/wasm-module-distribution/).
 
 {{< image width="75%"
     link="./architecture-istio-agent-downloading-wasm-module.svg"

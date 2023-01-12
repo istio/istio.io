@@ -114,7 +114,7 @@ Istio 提供两种类型的认证：
 
 ### 双向 TLS 认证{#mutual-TLS-authentication}
 
-Istio 通过客户端和服务器端 PEPs 建立服务到服务的通信通道，PEPs 被实现为[Envoy 代理](https://envoyproxy.github.io/envoy/)。当一个工作负载使用双向 TLS 认证向另一个工作负载发送请求时，该请求的处理方式如下：
+Istio 通过客户端和服务器端 PEPs 建立服务到服务的通信通道，PEPs 被实现为[Envoy 代理](https://www.envoyproxy.io/)。当一个工作负载使用双向 TLS 认证向另一个工作负载发送请求时，该请求的处理方式如下：
 
 1. Istio 将出站流量从客户端重新路由到客户端的本地 sidecar Envoy。
 1. 客户端 Envoy 与服务器端 Envoy 开始双向 TLS 握手。在握手期间，客户端 Envoy 还做了[安全命名](/zh/docs/concepts/security/#secure-naming)检查，以验证服务器证书中显示的服务帐户是否被授权运行目标服务。
@@ -161,7 +161,7 @@ Istio 双向 TLS 具有一个宽容模式（permissive mode），允许服务同
 
 Istio 异步发送配置到目标端点。代理收到配置后，新的认证要求会立即生效。
 
-发送请求的客户端服务负责遵循必要的认证机制。对于 peer authentication，应用程序负责获取 JWT 凭证并将其附加到请求。对于双向 TLS，Istio 会自动将两个 PEPs 之间的所有流量升级为双向 TLS。如果认证策略禁用了双向 TLS 模式，则 Istio 将继续在 PEPs 之间使用纯文本。要覆盖此行为，请使用 [destination rules](/zh/docs/concepts/traffic-management/#destination-rules)显式禁用双向 TLS 模式。您可以在[双向 TLS 认证](/zh/docs/concepts/security/#mutual-TLS-authentication) 中找到有关双向 TLS 如何工作的更多信息。
+发送请求的客户端服务负责遵循必要的认证机制。对于 request 认证，应用程序负责获取 JWT 凭证并将其附加到请求。对于 peer 认证，Istio 自动将两个 PEP 之间的所有流量升级为双向 TLS。如果认证策略禁用了双向 TLS 模式，则 Istio 将继续在 PEPs 之间使用纯文本。要覆盖此行为，请使用 [destination rules](/zh/docs/concepts/traffic-management/#destination-rules)显式禁用双向 TLS 模式。您可以在[双向 TLS 认证](/zh/docs/concepts/security/#mutual-TLS-authentication) 中找到有关双向 TLS 如何工作的更多信息。
 
 {{< image width="75%"
     link="./authn.svg"
@@ -347,7 +347,7 @@ Istio 的授权功能为网格中的工作负载提供网格、命名空间和�
 以下示例显示了一个授权策略，该策略允许两个源（服务帐号 `cluster.local/ns/default/sa/sleep` 和命名空间 `dev`），在使用有效的 JWT 令牌发送请求时，可以访问命名空间 foo 中的带有标签 `app: httpbin` 和 `version: v1` 的工作负载。
 
 {{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
  name: httpbin
@@ -375,7 +375,7 @@ spec:
 下例显示了一个授权策略，如果请求来源不是命名空间 `foo`，请求将被拒绝。
 
 {{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
  name: httpbin-deny
@@ -403,7 +403,7 @@ spec:
 以下示例策略 `allow-read` 允许对 `default` 命名空间中带有标签 `app: products` 的工作负载的 `"GET"` 和 `"HEAD"` 访问。
 
 {{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: allow-read
@@ -437,7 +437,7 @@ spec:
 以下示例策略允许访问前缀为 `/test/*` 或后缀为 `*/info` 的路径。
 
 {{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: tester
@@ -461,7 +461,7 @@ spec:
 因此，该策略从 JWT 身份验证中排除对 `/healthz` 路径的请求：
 
 {{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: disable-jwt-for-healthz
@@ -483,7 +483,7 @@ spec:
 下面的示例拒绝到 `/admin` 路径且不带请求主体的请求：
 
 {{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: enable-jwt-for-admin
@@ -502,32 +502,57 @@ spec:
         notRequestPrincipals: ["*"]
 {{< /text >}}
 
-#### 全部允许和默认全部拒绝授权策略{#allow-all-and-default-deny-all-authorization-policies}
+#### `allow-nothing`、`deny-all` 和 `allow-all` 策略{#allow-nothing-deny-all-and-allow-all-policy}
 
-以下示例显示了一个简单的 `allow-all` 授权策略，该策略允许完全访问 `default` 命名空间中的所有工作负载。
+以下示例显示了不匹配任何内容的 `ALLOW` 策略。如果没有其他 `ALLOW` 策略，请求将因“默认拒绝”行为被始终拒绝。
+
+请注意，“默认拒绝”行为仅适用于工作负载随着 `ALLOW` 操作至少有一个授权策略的情况。
+
+{{< tip >}}
+从 `allow-nothing` 策略开始并逐步添加更多 `ALLOW` 策略以开放对工作负载的更多访问权限是一种良好的安全实践。
+{{< /tip >}}
 
 {{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
-  name: allow-all
-  namespace: default
+  name: allow-nothing
 spec:
   action: ALLOW
+  # 若不指定 rules 字段，则策略将从不匹配。
+{{< /text >}}
+
+以下示例显示了显式拒绝所有访问的 `DENY` 策略。
+即使有另一个 `ALLOW` 策略允许请求，但由于 `DENY` 策略优先于 `ALLOW` 策略，所以将始终拒绝请求。
+如果您要临时禁用对工作负载的所有访问，可以使用此策略。
+
+{{< text yaml >}}
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: deny-all
+spec:
+  action: DENY
+  # rules 字段有一个空白规则，策略将始终匹配。
   rules:
   - {}
 {{< /text >}}
 
-以下示例显示了一个策略，该策略不允许任何对 `admin` 命名空间工作负载的访问。
+以下示例显示了允许完全访问工作负载的 `ALLOW` 策略。
+它将使得其他 `ALLOW` 策略无用，因为它将始终允许请求。
+如果您要临时暴露工作负载的完全访问权限，可以使用此策略。
+请注意，由于 `CUSTOM` 和 `DENY` 策略，请求可能仍被拒绝。
 
 {{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
-  name: deny-all
-  namespace: admin
+  name: allow-all
 spec:
-  {}
+  action: ALLOW
+  # 这将匹配所有内容。
+  rules:
+  - {}
 {{< /text >}}
 
 #### 自定义条件{#custom-conditions}
@@ -537,7 +562,7 @@ spec:
 在这种情况下，key 是 `request.headers [version]`，它是 Istio 属性 `request.headers`（是个字典）中的一项。
 
 {{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
  name: httpbin
@@ -567,7 +592,7 @@ spec:
 如果要使工作负载可公开访问，则需要将 `source` 部分留空。这允许来自所有（经过认证和未经认证）的用户和工作负载的源，例如：
 
 {{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
  name: httpbin
@@ -587,7 +612,7 @@ spec:
 要仅允许经过认证的用户，请将 `principal` 设置为 `"*"`，例如：
 
 {{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
  name: httpbin
@@ -617,14 +642,13 @@ Istio 授权支持工作负载使用任意普通 TCP 协议，如 MongoDB。
 - 授权策略对象 `source` 部分中的 `request_principals` 字段
 - 授权策略对象 `operation` 部分中的 `hosts`、`methods` 和 `paths` 字段
 
- [条件页面](/zh/docs/reference/config/security/conditions/)中列出了支持的条件。
-
+[条件页面](/zh/docs/reference/config/security/conditions/)中列出了支持的条件。
 如果您在授权策略中对 TCP 工作负载使用了任何只适用于 HTTP 的字段，Istio 将会忽略它们。
 
 假设您在端口 `27017` 上有一个 MongoDB 服务，下例配置了一个授权策略，只允许 Istio 网格中的 `bookinfo-ratings-v2` 服务访问该 MongoDB 工作负载。
 
 {{< text yaml >}}
-apiVersion: "security.istio.io/v1beta1"
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: mongodb-policy
@@ -651,6 +675,18 @@ Istio 使用双向 TLS 将某些信息从客户端安全地传递到服务器。
 - `source` 部分下的 `namespaces` 字段
 - `source.principal` 自定义条件
 - `source.namespace` 自定义条件
-- `connection.sni` 自定义条件
 
-如果您不使用授权策略中的上述任何字段，则双向 TLS 不是必须的。
+请注意，强烈建议始终在 PeerAuthentication 中以 STRICT 双向 TLS 模式使用这些字段，
+以避免在 PERMISSIVE 双向 TLS 模式中使用纯文本流量时可能出现的意外请求拒绝或绕过安全策略。
+
+如果您无法启用严格的双向 TLS 模式，请查看[安全公告](/zh/news/security/istio-security-2021-004)以获取更多详细信息和替代方案。
+
+## 学习更多{#learn-more}
+
+在学习了上述基本概念之后，您还可以温习下述资料：
+
+- 按照[身份验证](/zh/docs/tasks/security/authentication/authn-policy)和[授权](/zh/docs/tasks/security/authorization)任务尝试使用安全策略。
+
+- 了解一些可用于提高网格安全性的安全[策略示例](/zh/docs/ops/configuration/security/security-policy-examples)。
+
+- 阅读[常见问题](/zh/docs/ops/common-problems/security-issues/)，以便在出现问题时更好地解决安全策略问题。

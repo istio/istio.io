@@ -29,7 +29,7 @@ $ kubectl logs PODNAME -c istio-proxy -n NAMESPACE
 - `UO`：上游溢出导致断路，请在 `DestinationRule` 检查您的熔断器配置。
 - `UF`：未能连接到上游，如果您正在使用 Istio 认证，请检查[双向 TLS 配置冲突](#service-unavailable-errors-after-setting-destination-rule)。
 
-## 路由规则似乎没有对流量生效{#route-rules-don't-seem-to-affect-traffic-flow}
+## 路由规则似乎没有对流量生效{#route-rules-dont-seem-to-affect-traffic-flow}
 
 在当前版本的 Envoy Sidecar 实现中，加权版本分发被观测到至少需要 100 个请求。
 
@@ -171,7 +171,7 @@ spec:
 
 请确保增大您的 ulimit。例如: `ulimit -n 16384`
 
-## Envoy 不能连接到 HTTP/1.0 服务{#envoy-won't-connect-to-my-http/1.0-service}
+## Envoy 不能连接到 HTTP/1.0 服务{#envoy-wont-connect-to-my-http10-service}
 
 Envoy 要求上游服务使用 `HTTP/1.1` 或者 `HTTP/2` 协议流量。举个例子，当在 Envoy 之后使用 [NGINX](https://www.nginx.com/) 来代理您的流量，您将需要在您的 NGINX 配置里将 [proxy_http_version](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_http_version) 设置为 "1.1"，因为 NGINX 默认的设置是 1.0。
 
@@ -195,6 +195,113 @@ server {
     }
 }
 {{< /text >}}
+
+## 访问 Headless Service 时 503 错误{#503-error-while-accessing-headless-services}
+
+假设用以下配置安装 Istio：
+
+- 在网格内 `mTLS mode` 设置为 `STRICT`
+- `meshConfig.outboundTrafficPolicy.mode` 设置为 `ALLOW_ANY`
+
+考虑将 `nginx` 部署为 default 命名空间中的一个 `StatefulSet`，并且参照以下示例来定义相应的 `Headless Service`：
+
+{{< text yaml >}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+spec:
+  ports:
+  - port: 80
+    name: http-web  # 显式定义一个 http 端口
+  clusterIP: None   # 创建一个 Headless Service
+  selector:
+    app: nginx
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: web
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  serviceName: "nginx"
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: registry.k8s.io/nginx-slim:0.8
+        ports:
+        - containerPort: 80
+          name: web
+{{< /text >}}
+
+Service 定义中的端口名称 `http-web` 为该端口显式指定 http 协议。
+
+假设在 default 命名空间中也有一个 [sleep]({{< github_tree >}}/samples/sleep) Pod `Deployment`。
+当使用 Pod IP（这是访问 Headless Service 的一种常见方式）从这个`sleep` Pod 访问 `nginx` 时，请求经由 `PassthroughCluster` 到达服务器侧，但服务器侧的 Sidecar 代理找不到前往 `nginx` 的路由入口，且出现错误 `HTTP 503 UC`。
+
+{{< text bash >}}
+$ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items..metadata.name}')
+$ kubectl exec -it $SOURCE_POD -c sleep -- curl 10.1.1.171 -s -o /dev/null -w "%{http_code}"
+  503
+{{< /text >}}
+
+`10.1.1.171` 是其中一个 `nginx` 副本的 Pod IP，通过 `containerPort` 80 访问此服务。
+
+以下是避免这个 503 错误的几种方式：
+
+1. 指定正确的 Host 头：
+
+    上述 curl 请求中的 Host 头默认将是 Pod IP。
+    在指向 `nginx` 的请求中将 Host 头指定为 `nginx.default`，成功返回 `HTTP 200 OK`。
+
+    {{< text bash >}}
+    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items..metadata.name}')
+    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -H "Host: nginx.default" 10.1.1.171 -s -o /dev/null -w "%{http_code}"
+      200
+    {{< /text >}}
+
+1. 端口名称设置为 `tcp`、`tcp-web` 或 `tcp-<custom_name>`：
+
+    此例中协议被显式指定为 `tcp`。这种情况下，客户端和服务器都对 Sidecar 代理仅使用 `TCP Proxy` 网络过滤器。
+    并未使用 HTTP 连接管理器，因此请求中不应包含任意类型的头。
+
+    无论是否显式设置 Host 头，到 `nginx` 的请求都成功返回 `HTTP 200 OK`。
+
+    这可用于客户端无法在请求中包含头信息的某些场景。
+
+    {{< text bash >}}
+    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items..metadata.name}')
+    $ kubectl exec -it $SOURCE_POD -c sleep -- curl 10.1.1.171 -s -o /dev/null -w "%{http_code}"
+      200
+    {{< /text >}}
+
+    {{< text bash >}}
+    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -H "Host: nginx.default" 10.1.1.171 -s -o /dev/null -w "%{http_code}"
+      200
+    {{< /text >}}
+
+1. 使用域名代替 Pod IP：
+
+     Headless Service 的特定实例也可以仅使用域名进行访问。
+
+    {{< text bash >}}
+    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items..metadata.name}')
+    $ kubectl exec -it $SOURCE_POD -c sleep -- curl web-0.nginx.default -s -o /dev/null -w "%{http_code}"
+      200
+    {{< /text >}}
+
+    此处 `web-0` 是 3 个 `nginx` 副本中其中一个的 Pod 名称。
+
+有关针对不同协议的 Headless Service 和流量路由行为的更多信息，请参阅这个[流量路由](/zh/docs/ops/configuration/traffic-management/traffic-routing/)页面。
 
 ## TLS 配置错误{#TLS-configuration-mistakes}
 
@@ -472,3 +579,104 @@ servers:
 - 通过将 hosts 字段设置为 `*` 来禁用 `Gateway` 中的 SNI 匹配
 
 常见的症状是负载均衡器运行状况检查成功，而实际流量失败。
+
+## 未改动 Envoy 过滤器配置但突然停止工作{#unchanged-envoy-filter-config-suddently-stops-working}
+
+如果 `EnvoyFilter` 配置指定相对于另一个过滤器的插入位置，这可能非常脆弱，因为默认情况下评估顺序基于过滤器的创建时间。
+以一个具有以下 spec 的过滤器为例：
+
+{{< text yaml >}}
+spec:
+  configPatches:
+  - applyTo: NETWORK_FILTER
+    match:
+      context: SIDECAR_OUTBOUND
+      listener:
+        portNumber: 443
+        filterChain:
+          filter:
+            name: istio.stats
+    patch:
+      operation: INSERT_BEFORE
+      value:
+        ...
+{{< /text >}}
+
+为了正常工作，这个过滤器配置依赖于创建时间比它早的 `istio.stats` 过滤器。
+否则，`INSERT_BEFORE` 操作将被静默忽略。错误日志中将没有任何内容表明此过滤器尚未添加到链中。
+
+这在匹配特定版本（即在匹配条件中包含 `proxyVersion` 字段）的过滤器（例如 `istio.stats`）时尤其成问题。
+在升级 Istio 时，这些过滤器可能会被移除或被替换为新的过滤器。
+因此，像上面这样的 `EnvoyFilter` 最初可能运行良好，但在将 Istio 升级到新版本后，它将不再包含在 Sidecar 的网络过滤器链中。
+
+为避免此问题，您可以将操作更改为不依赖于另一个过滤器存在的操作（例如 `INSERT_FIRST`），或者在 `EnvoyFilter` 中设置显式优先级以覆盖默认的基于创建时间的排序。
+例如，将 `priority: 10` 添加到上述过滤器将确保它在默认优先级为 0 的 `istio.stats` 过滤器之后被处理。
+
+## 配有故障注入和重试/超时策略的虚拟服务未按预期工作{#virtual-service-with-fault-injection-and-retry-timeout-policies-not-working-as-expected}
+
+目前，Istio 不支持在同一个 `VirtualService` 上配置故障注入和重试或超时策略。考虑以下配置：
+
+{{< text yaml >}}
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: helloworld
+spec:
+  hosts:
+    - "*"
+  gateways:
+  - helloworld-gateway
+  http:
+  - match:
+    - uri:
+        exact: /hello
+    fault:
+      abort:
+        httpStatus: 500
+        percentage:
+          value: 50
+    retries:
+      attempts: 5
+      retryOn: 5xx
+    route:
+    - destination:
+        host: helloworld
+        port:
+          number: 5000
+{{< /text >}}
+
+您期望配置了五次重试尝试时用户在调用 `helloworld` 服务时几乎不会看到任何错误。
+但是由于故障和重试都配置在同一个 `VirtualService` 上，所以重试配置未生效，导致 50% 的失败率。
+要解决此问题，您可以从 `VirtualService` 中移除故障配置，并转为使用 `EnvoyFilter` 将故障注入上游 Envoy 代理：
+
+{{< text yaml >}}
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: hello-world-filter
+spec:
+  workloadSelector:
+    labels:
+      app: helloworld
+  configPatches:
+  - applyTo: HTTP_FILTER
+    match:
+      context: SIDECAR_INBOUND # 将匹配所有 Sidecar 中的出站监听器
+      listener:
+        filterChain:
+          filter:
+            name: "envoy.filters.network.http_connection_manager"
+    patch:
+      operation: INSERT_BEFORE
+      value:
+        name: envoy.fault
+        typed_config:
+          "@type": "type.googleapis.com/envoy.extensions.filters.http.fault.v3.HTTPFault"
+          abort:
+            http_status: 500
+            percentage:
+              numerator: 50
+              denominator: HUNDRED
+{{< /text >}}
+
+上述这种方式可行，这是因为这种方式为客户端代理配置了重试策略，而为上游代理配置了故障注入。

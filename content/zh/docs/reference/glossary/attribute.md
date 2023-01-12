@@ -14,4 +14,4 @@ source.ip: 192.168.0.1
 destination.workload.name: example
 {{< /text >}}
 
-属性被 Istio 的[策略和遥测](/zh/docs/reference/config/policy-and-telemetry/)功能所使用。
+Istio 的[策略和遥测](/zh/docs/reference/config/policy-and-telemetry/)功能会用到属性。

@@ -1,5 +1,5 @@
 ---
-title: Egress Gateway
+title: 出口网关
 description: 描述如何配置 Istio 通过专用网关服务将流量定向到外部服务。
 weight: 30
 keywords: [traffic-management,egress]
@@ -482,7 +482,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
     sleep istio-proxy
     {{< /text >}}
 
-1. 为 `default` 命名空间中为 `sleep` pod 创建一个相同的 destination rule 用来引导流量经过 egress gateway：
+1. 在 `default` 命名空间中创建一个与 `sleep` pod 类似的目标规则，用来引导 `test-egress` 命名空间内的流量经过 egress 网关：
 
     {{< text bash >}}
     $ kubectl apply -n test-egress -f - <<EOF

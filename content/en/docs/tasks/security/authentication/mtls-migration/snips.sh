@@ -115,6 +115,7 @@ for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$(k
 }
 
 snip_clean_up_the_example_1() {
+kubectl delete peerauthentication -n foo default
 kubectl delete peerauthentication -n istio-system default
 }
 

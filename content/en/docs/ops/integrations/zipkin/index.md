@@ -1,7 +1,7 @@
 ---
 title: Zipkin
 description: How to integrate with Zipkin.
-weight: 31
+weight: 32
 keywords: [integration,zipkin,tracing]
 owner: istio/wg-environments-maintainers
 test: n/a

@@ -170,7 +170,7 @@ continuous manual testing as possible, we have created a framework to automate t
 Every page on [istio.io](https://istio.io) that can be tested includes a `PAGE TEST` indication under
 the page title. For example:
 
-<img src="page-test.png" alt="PAGE TEST" title="PAGE TEST" />
+<img src="static/img/page-test.png" alt="PAGE TEST" title="PAGE TEST" />
 
 A green checkmark indicates an automated test is available for the page. The page is up to date and working as
 documented.

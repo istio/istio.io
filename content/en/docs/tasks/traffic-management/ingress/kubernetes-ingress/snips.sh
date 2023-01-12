@@ -22,7 +22,7 @@
 
 snip_configuring_ingress_using_an_ingress_resource_1() {
 kubectl apply -f - <<EOF
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
@@ -33,10 +33,13 @@ spec:
   - host: httpbin.example.com
     http:
       paths:
-      - path: /status/*
+      - path: /status
+        pathType: Prefix
         backend:
-          serviceName: httpbin
-          servicePort: 8000
+          service:
+            name: httpbin
+            port:
+              number: 8000
 EOF
 }
 
@@ -60,14 +63,14 @@ HTTP/1.1 404 Not Found
 ENDSNIP
 
 ! read -r -d '' snip_specifying_ingressclass_1 <<\ENDSNIP
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: IngressClass
 metadata:
   name: istio
 spec:
   controller: istio.io/ingress-controller
 ---
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ingress
@@ -80,8 +83,10 @@ spec:
       - path: /
         pathType: Prefix
         backend:
-          serviceName: httpbin
-          servicePort: 8000
+          service:
+            name: httpbin
+            port:
+              number: 8000
 ENDSNIP
 
 snip_cleanup_1() {

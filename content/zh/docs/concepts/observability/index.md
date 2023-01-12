@@ -1,5 +1,5 @@
 ---
-title: 可观察性
+title: 可观测性
 description: 描述 Istio 提供的遥测和监控特性。
 weight: 40
 keywords: [policies,telemetry,control,config]
@@ -14,9 +14,9 @@ owner: istio/wg-policies-and-telemetry-maintainers
 test: no
 ---
 
-Istio 为网格内所有的服务通信生成详细的遥测数据。这种遥测技术提供了服务行为的**可观察性**，使运维人员能够排查故障、维护和优化应用程序，而不会给服务的开发人员带来任何额外的负担。通过 Istio，运维人员可以全面了解到受监控的服务如何与其他服务以及 Istio 组件进行交互。
+Istio 为网格内所有的服务通信生成详细的遥测数据。这种遥测技术提供了服务行为的**可观测性**，使运维人员能够排查故障、维护和优化应用程序，而不会给服务的开发人员带来任何额外的负担。通过 Istio，运维人员可以全面了解到受监控的服务如何与其他服务以及 Istio 组件进行交互。
 
-Istio 生成以下类型的遥测数据，以提供对整个服务网格的可观察性：
+Istio 生成以下类型的遥测数据，以提供对整个服务网格的可观测性：
 
 - [**指标**](#metrics)。Istio 基于 4 个监控的黄金标识（延迟、流量、错误、饱和）生成了一系列服务指标。Istio 还为[网格控制平面](/zh/docs/ops/deployment/architecture/)提供了更详细的指标。除此以外还提供了一组默认的基于这些指标的网格监控仪表板。
 - [**分布式追踪**](#distributed-traces)。Istio 为每个服务生成分布式追踪 span，运维人员可以理解网格内服务的依赖和调用流程。
@@ -58,9 +58,7 @@ envoy_cluster_internal_upstream_rq{response_code="503",cluster_name="xds-grpc"} 
 
 除了代理级别指标之外，Istio 还提供了一组用于监控服务通信的面向服务的指标。这些指标涵盖了四个基本的服务监控需求：延迟、流量、错误和饱和情况。Istio 带有一组默认的[仪表板](/zh/docs/tasks/observability/metrics/using-istio-dashboard/)，用于监控基于这些指标的服务行为。
 
-[默认的 Istio 指标](/zh/docs/reference/config/policy-and-telemetry/metrics/)由 Istio 提供的配置集定义并默认导出到 [Prometheus](/zh/docs/reference/config/policy-and-telemetry/adapters/prometheus/)。运维人员可以自由地修改这些指标的形态和内容，更改它们的收集机制，以满足各自的监控需求。
-
-[收集指标](/zh/docs/tasks/observability/metrics/collecting-metrics/)任务为定制 Istio 指标生成提供了更详细的信息。
+默认情况下，[标准 Istio 指标]((/zh/docs/reference/config/metrics/))会导出到 [Prometheus](/zh/docs/ops/integrations/prometheus/)。
 
 服务级别指标的使用完全是可选的。运维人员可以选择关闭指标的生成和收集来满足自身需要。
 
@@ -95,14 +93,9 @@ istio_requests_total{
 
 ### 控制平面指标 {#control-plane-metrics}
 
-每一个 Istio 的组件（Pilot、Galley、Mixer）都提供了对自身监控指标的集合。这些指标容许监控 Istio 自己的行为（这与网格内的服务有所不同）。
+Istio 控制平面还提供了一组自我监控指标。这些指标容许监控 Istio 自己的行为（这与网格内的服务有所不同）。
 
-有关这些被维护指标的更多信息，请查看每个组件的参考文档：
-
-- [Pilot](/zh/docs/reference/commands/pilot-discovery/#metrics)
-- [Galley](/zh/docs/reference/commands/galley/#metrics)
-- [Mixer](/zh/docs/reference/commands/mixs/#metrics)
-- [Citadel](/zh/docs/reference/commands/istio_ca/#metrics)
+有关这些被维护指标的更多信息，请查看[参考文档](/zh/docs/reference/commands/pilot-discovery/#metrics)。
 
 ## 分布式追踪 {#distributed-traces}
 
@@ -114,7 +107,7 @@ Istio 支持很多追踪系统，包括 [Zipkin](/zh/docs/tasks/observability/di
 
 更多关于 Istio 分布式追踪的信息可以在[分布式追踪 FAQ](/zh/about/faq/distributed-tracing/) 中找到。
 
-Istio 为一个请求生成的分布式追踪数据：
+Istio 为单个请求生成的分布式追踪示例：
 
 {{< image link="/zh/docs/tasks/observability/distributed-tracing/zipkin/istio-tracing-details-zipkin.png" caption="Distributed Trace for a single request" >}}
 
@@ -122,14 +115,10 @@ Istio 为一个请求生成的分布式追踪数据：
 
 访问日志提供了一种从单个工作负载实例的角度监控和理解行为的方法。
 
-Istio 可以以一组可配置的格式集生成服务流量的访问日志，为运维人员提供日志记录的方式、内容、时间和位置的完全控制。Istio 向访问日志机制暴露了完整的源和目标元数据，允许对网络通信进行详细的审查。
+Istio 能够以一组可配置的格式为服务流量生成访问日志，使操作员可以完全控制日志记录的方式、内容、时间和地点。有关更多信息，请参阅[获取 Envoy 的访问日志](/zh/docs/tasks/observability/logs/access-log/)。
 
-访问日志可以在本地生成，或者导出到自定义的后端基础设施，包括 [Fluentd](/zh/docs/tasks/observability/logs/fluentd/)。
+Istio 访问日志示例：
 
-更多关于访问日志的内容在[收集日志](/zh/docs/tasks/observability/logs/collecting-logs/)和[获取 Envoy 服务日志](/zh/docs/tasks/observability/logs/access-log/)任务中提供。
-
-Istio 访问日志例子（JSON 格式）：
-
-{{< text json >}}
-{"level":"info","time":"2019-06-11T20:57:35.424310Z","instance":"accesslog.instance.istio-control","connection_security_policy":"mutual_tls","destinationApp":"productpage","destinationIp":"10.44.2.15","destinationName":"productpage-v1-6db7564db8-pvsnd","destinationNamespace":"default","destinationOwner":"kubernetes://apis/apps/v1/namespaces/default/deployments/productpage-v1","destinationPrincipal":"cluster.local/ns/default/sa/default","destinationServiceHost":"productpage.default.svc.cluster.local","destinationWorkload":"productpage-v1","httpAuthority":"35.202.6.119","latency":"35.076236ms","method":"GET","protocol":"http","receivedBytes":917,"referer":"","reporter":"destination","requestId":"e3f7cffb-5642-434d-ae75-233a05b06158","requestSize":0,"requestedServerName":"outbound_.9080_._.productpage.default.svc.cluster.local","responseCode":200,"responseFlags":"-","responseSize":4183,"responseTimestamp":"2019-06-11T20:57:35.459150Z","sentBytes":4328,"sourceApp":"istio-ingressgateway","sourceIp":"10.44.0.8","sourceName":"ingressgateway-7748774cbf-bvf4j","sourceNamespace":"istio-control","sourceOwner":"kubernetes://apis/apps/v1/namespaces/istio-control/deployments/ingressgateway","sourcePrincipal":"cluster.local/ns/istio-control/sa/default","sourceWorkload":"ingressgateway","url":"/productpage","userAgent":"curl/7.54.0","xForwardedFor":"10.128.0.35"}
+{{< text plain >}}
+[2019-03-06T09:31:27.360Z] "GET /status/418 HTTP/1.1" 418 - "-" 0 135 5 2 "-" "curl/7.60.0" "d209e46f-9ed5-9b61-bbdd-43e22662702a" "httpbin:8000" "127.0.0.1:80" inbound|8000|http|httpbin.default.svc.cluster.local - 172.30.146.73:80 172.30.146.82:38618 outbound_.8000_._.httpbin.default.svc.cluster.local
 {{< /text >}}

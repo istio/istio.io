@@ -9,9 +9,13 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-本任务展示了如何将 TCP 流量从微服务的一个版本逐步迁移到另一个版本。例如，将 TCP 流量从旧版本迁移到新版本。
+本任务展示了如何将 TCP 流量从微服务的一个版本迁移到另一个版本。
 
-一个常见的用例是将 TCP 流量从微服务的一个版本迁移到另一个版本。在 Istio 中，您可以通过配置一系列规则来实现此目标，这些规则将一定比例的 TCP 流量路由到不同的服务。在此任务中，将会把 100% 的 TCP 流量分配到 `tcp-echo:v1`，接着，再通过配置 Istio 路由权重把 20% 的 TCP 流量分配到 `tcp-echo:v2`。
+一个常见的用例是将 TCP 流量从微服务的旧版本逐步迁移到新版本。
+在 Istio 中，您可以通过配置一系列路由规则来实现此目标，这些规则将一定比例的 TCP 流量从一个目的地重定向到另一个目的地。
+
+在此任务中，您将会把 100% 的 TCP 流量分配到 `tcp-echo:v1`。
+接着，再通过配置 Istio 路由权重把 20% 的 TCP 流量分配到 `tcp-echo:v2`。
 
 ## 开始之前{#before-you-begin}
 
@@ -21,14 +25,14 @@ test: yes
 
 ## 设置测试环境{#set-up-the-test-environment}
 
-1.  首先，创建一个容器空间用于测试 TCP 流量迁移，并将其标记为使用自动注入 Sidecar 方式。
+1.  首先，创建一个命名空间用于测试 TCP 流量迁移，并将其标记为使用自动注入 Sidecar 方式。
 
     {{< text bash >}}
     $ kubectl create namespace istio-io-tcp-traffic-shifting
     $ kubectl label namespace istio-io-tcp-traffic-shifting istio-injection=enabled
     {{< /text >}}
 
-1. 部署 [sleep]({{< github_tree >}}/samples/sleep) 应用程序，作为发送请求的测试源。
+1. 部署 [sleep]({{< github_tree >}}/samples/sleep) 示例应用程序，作为发送请求的测试源。
 
     {{< text bash >}}
     $ kubectl apply -f @samples/sleep/sleep.yaml@ -n istio-io-tcp-traffic-shifting
@@ -40,7 +44,7 @@ test: yes
     $ kubectl apply -f @samples/tcp-echo/tcp-echo-services.yaml@ -n istio-io-tcp-traffic-shifting
     {{< /text >}}
 
-1. 根据[确定 Ingress IP 和端口](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports) 中的说明，定义 `TCP_INGRESS_PORT` and `INGRESS_HOST` 环境变量.
+1. 根据[确定 Ingress IP 和端口](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)中的说明，定义 `TCP_INGRESS_PORT` 和 `INGRESS_HOST` 环境变量。
 
 ## 应用基于权重的 TCP 路由{#apply-weight-based-TCP-routing}
 
@@ -72,13 +76,13 @@ test: yes
 
     请注意，所有时间戳都有一个前缀 “_one_”，说明所有流量都被路由到 `tcp-echo` Service 的 `v1` 版本。
 
-1. 通过以下命令，将 20% 流量从 `tcp-echo:v1`  迁移到 `tcp-echo:v2`：
+1. 通过以下命令，将 20% 流量从 `tcp-echo:v1` 迁移到 `tcp-echo:v2`：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/tcp-echo/tcp-echo-20-v2.yaml@ -n istio-io-tcp-traffic-shifting
     {{< /text >}}
 
-    等待几秒钟，等到新规则在集群中生效。
+    等待几秒钟，让新规则在集群中生效。
 
 1. 确认规则已经被替换：
 
@@ -135,7 +139,7 @@ test: yes
 
 在 Istio 中，可以对 `tcp-echo` 服务的两个版本进行独立扩容和缩容，这个过程不会影响两个服务版本之间的流量分配。
 
-有关不同版本间流量管理及自动伸缩的更多信息，请查看博客文章[使用 Istio 进行金丝雀部署](/zh/blog/2017/0.1-canary/)。
+有关不同版本间流量管理及自动扩缩的更多信息，请查看[使用 Istio 进行金丝雀部署](/zh/blog/2017/0.1-canary/)这篇博文。
 
 ## 清理{#cleanup}
 

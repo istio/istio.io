@@ -10,24 +10,31 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-本任务描述如何配置 Istio，以使用 Kubernetes Gateway API 在 Service Mesh 集群外部暴露服务。
-这些 API 是 Kubernetes [Service](https://kubernetes.io/zh/docs/concepts/services-networking/service/)
-和 [Ingress](https://kubernetes.io/zh/docs/concepts/services-networking/ingress/) API 的积极发展演进。
+本文描述 Istio 和 Kubernetes API 之间的差异，并提供了一个简单的例子，向您演示如何配置 Istio 以使用 Gateway API 在服务网格集群外部暴露服务。
+请注意，这些 API 是 Kubernetes [Service](https://kubernetes.io/zh-cn/docs/concepts/services-networking/service/)
+和 [Ingress](https://kubernetes.io/zh-cn/docs/concepts/services-networking/ingress/) API 的积极发展演进。
 
-{{< warning >}}
-该特性目前被认为是 alpha 版本。
-API （由 Kubernetes SIG-NETWORK 拥有）和 Istio 的实现方式都有可能在进一步升级之前发生改变。
-{{< /warning >}}。
+{{< tip >}}
+许多 Istio 流量管理文档均囊括了 Istio 或 Kubernetes API 的使用说明（例如请参阅[控制入站流量](/zh/docs/tasks/traffic-management/ingress/ingress-control)）。
+通过参照[入门指南](/zh/docs/setup/additional-setup/getting-started/)，您甚至从一开始就可以使用 Gateway API。
+{{< /tip >}}
 
 ## 设置 {#setup}
 
 1. 在大多数 Kubernetes 集群中，默认情况下不会安装 Gateway API。如果 Gateway API CRD 不存在，请安装：
 
     {{< text bash >}}
-    $ kubectl get crd gateways.gateway.networking.k8s.io || { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.4.0" | kubectl apply -f -; }
+    $ kubectl get crd gateways.gateway.networking.k8s.io || \
+      { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref={{< k8s_gateway_api_version >}}" | kubectl apply -f -; }
     {{< /text >}}
 
-## 与 Istio API 的区别{#differences-from-Istio-APIs }
+1. 使用 `minimal` 配置安装 Istio:
+
+    {{< text bash >}}
+    $ istioctl install --set profile=minimal -y
+    {{< /text >}}
+
+## 与 Istio API 的区别{#differences-from-istio-apis}
 
 Gateway API 与 Istio API （如 Gateway 和 VirtualService）有很多相似之处。
 主资源使用相同的`Gateway`名称，并且这些资源服务于相类似的目标。
@@ -62,7 +69,7 @@ Gateway API 与 Istio API （如 Gateway 和 VirtualService）有很多相似之
     {{< text bash >}}
     $ kubectl create namespace istio-ingress
     $ kubectl apply -f - <<EOF
-    apiVersion: gateway.networking.k8s.io/v1alpha2
+    apiVersion: gateway.networking.k8s.io/v1beta1
     kind: Gateway
     metadata:
       name: gateway
@@ -78,7 +85,7 @@ Gateway API 与 Istio API （如 Gateway 和 VirtualService）有很多相似之
           namespaces:
             from: All
     ---
-    apiVersion: gateway.networking.k8s.io/v1alpha2
+    apiVersion: gateway.networking.k8s.io/v1beta1
     kind: HTTPRoute
     metadata:
       name: http
@@ -93,19 +100,13 @@ Gateway API 与 Istio API （如 Gateway 和 VirtualService）有很多相似之
         - path:
             type: PathPrefix
             value: /get
-        filters:
-        - type: RequestHeaderModifier
-          requestHeaderModifier:
-            add:
-            - name: my-added-header
-              value: added-value
         backendRefs:
         - name: httpbin
           port: 8000
     EOF
     {{< /text >}}
 
-1.  设置主机 Ingress
+1.  设置主机 Ingress 环境变量：
 
     {{< text bash >}}
     $ kubectl wait -n istio-ingress --for=condition=ready gateways.gateway.networking.k8s.io gateway
@@ -124,11 +125,58 @@ Gateway API 与 Istio API （如 Gateway 和 VirtualService）有很多相似之
     请注意，使用 `-H` 标志可以将 *Host* HTTP 标头设置为
     "httpbin.example.com"。这一步是必需的，因为 `HTTPRoute` 已配置为处理"httpbin.example.com"的请求，
     但是在测试环境中，该主机没有 DNS 绑定，只是将请求发送到入口 IP。
+
 1.  访问其他没有被显式暴露的 URL 时，将看到 HTTP 404 错误：
 
     {{< text bash >}}
     $ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST/headers"
     HTTP/1.1 404 Not Found
+    ...
+    {{< /text >}}
+
+1.  更新路由规则也会暴露 `/headers` 并为请求添加标头：
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: gateway.networking.k8s.io/v1beta1
+    kind: HTTPRoute
+    metadata:
+      name: http
+      namespace: default
+    spec:
+      parentRefs:
+      - name: gateway
+        namespace: istio-ingress
+      hostnames: ["httpbin.example.com"]
+      rules:
+      - matches:
+        - path:
+            type: PathPrefix
+            value: /get
+        - path:
+            type: PathPrefix
+            value: /headers
+        filters:
+        - type: RequestHeaderModifier
+          requestHeaderModifier:
+            add:
+            - name: my-added-header
+              value: added-value
+        backendRefs:
+        - name: httpbin
+          port: 8000
+    EOF
+    {{< /text >}}
+
+1.  再次访问 `/headers`，注意到 `My-Added-Header` 标头已被添加到请求：
+
+    {{< text bash >}}
+    $ curl -s -HHost:httpbin.example.com "http://$INGRESS_HOST/headers"
+    {
+      "headers": {
+        "Accept": "*/*",
+        "Host": "httpbin.example.com",
+        "My-Added-Header": "added-value",
     ...
     {{< /text >}}
 
@@ -151,12 +199,12 @@ Gateway API 与 Istio API （如 Gateway 和 VirtualService）有很多相似之
 
     |Annotation| 用途                                                         |
     |----------|-------|
-    |`networking.istio.io/service-type`|控制 `Service.spec.type` 字段。 例如，设置 `ClusterIP` 为不对外暴露服务 ， 将会默认为`LoadBalancer`。|
+    |`networking.istio.io/service-type`|控制 `Service.spec.type` 字段。 例如，设置 `ClusterIP` 为不对外暴露服务，将会默认为`LoadBalancer`。|
 
 * 通过配置 `addresses` 字段可以显式设置 `Service.spec.loadBalancerIP` 字段：
 
     {{< text yaml >}}
-    apiVersion: gateway.networking.k8s.io/v1alpha2
+    apiVersion: gateway.networking.k8s.io/v1beta1
     kind: Gateway
     metadata:
       name: gateway
@@ -180,7 +228,7 @@ Gateway API 与 Istio API （如 Gateway 和 VirtualService）有很多相似之
 要将 `Gateway` 链接到 `Service`，需要将 `addresses` 字段配置为指向**单个**主机名。
 
 {{< text yaml >}}
-apiVersion: gateway.networking.k8s.io/v1alpha2
+apiVersion: gateway.networking.k8s.io/v1beta1
 kind: Gateway
 metadata:
   name: gateway
@@ -193,24 +241,54 @@ spec:
 
 ## 网格流量{#mesh-traffic}
 
-Gateway API 也可以用来配置网格流量。
-具体做法是先配置 `parentRef` ，然后指向`istio` `Mesh`来实现的。
-这个资源实际上并不存在于集群中，只是用来标识要使用的 Istio 网格参数。
+{{< warning >}}
+使用 Gateway API 配置内部网格流量目前是一个还在开发的[实验性特性](https://gateway-api.sigs.k8s.io/concepts/versioning/#release-channels-eg-experimental-standard)，
+[上游协议](https://gateway-api.sigs.k8s.io/contributing/gamma/)还处于未决（pending）状态。
+{{< /warning >}}
 
-例如，要将对 `example.com` 的调用重定向到另外一个名为 `example` 的集群内的 `Service`：
+Gateway API 也可以用来配置网格流量。
+具体做法是配置 `parentRef` 指向一个服务，而不是指向一个 Gateway。
+
+例如，要将所有调用的头部添加到一个名为 `example` 的集群内 `Service`：
 
 {{< text yaml >}}
-apiVersion: gateway.networking.k8s.io/v1alpha2
+apiVersion: gateway.networking.k8s.io/v1beta1
 kind: HTTPRoute
 metadata:
   name: mesh
 spec:
   parentRefs:
-  - kind: Mesh
-    name: istio
-  hostnames: ["example.com"]
+  - kind: Service
+    name: example
   rules:
+  - filters:
+    - type: RequestHeaderModifier
+      requestHeaderModifier:
+        add:
+        - name: my-added-header
+          value: added-value
   - backendRefs:
     - name: example
       port: 80
 {{< /text >}}
+
+有关更多详情和示例，请参阅其他[流量管理](/zh/docs/tasks/traffic-management/)。
+
+## 清理 {#cleanup}
+
+1. 卸载 Istio 和 `httpbin` 示例：
+
+    {{< text bash >}}
+    $ kubectl delete -f @samples/httpbin/httpbin.yaml@
+    $ kubectl delete httproute http
+    $ kubectl delete gateways.gateway.networking.k8s.io gateway -n istio-ingress
+    $ istioctl uninstall -y --purge
+    $ kubectl delete ns istio-system
+    $ kubectl delete ns istio-ingress
+    {{< /text >}}
+
+1. 如果不再需要这些 Gateway API CRD 资源，请移除：
+
+    {{< text bash >}}
+    $ kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref={{< k8s_gateway_api_version >}}" | kubectl delete -f -
+    {{< /text >}}

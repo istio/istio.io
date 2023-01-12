@@ -13,18 +13,13 @@ number_of_entries: 2
 <p><code>ProxyConfig</code> exposes proxy level configuration options. <code>ProxyConfig</code> can be configured on a per-workload basis,
 a per-namespace basis, or mesh-wide. <code>ProxyConfig</code> is not a required resource; there are default values in place, which are documented
 inline with each field.</p>
-
 <p><strong>NOTE</strong>: fields in ProxyConfig are not dynamically configured - changes will require restart of workloads to take effect.</p>
-
 <p>For any namespace, including the root configuration namespace, it is only valid
 to have a single workload selector-less <code>ProxyConfig</code> resource.</p>
-
 <p>For resources with a workload selector, it is only valid to have one resource selecting
 any given workload.</p>
-
 <p>For mesh level configuration, put the resource in the root configuration namespace for
 your Istio installation <em>without</em> a workload selector:</p>
-
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: ProxyConfig
 metadata:
@@ -33,11 +28,9 @@ metadata:
 spec:
   concurrency: 0
   image:
-    type: distroless
+    imageType: distroless
 </code></pre>
-
 <p>For namespace level configuration, put the resource in the desired namespace without a workload selector:</p>
-
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: ProxyConfig
 metadata:
@@ -46,9 +39,7 @@ metadata:
 spec:
   concurrency: 0
 </code></pre>
-
 <p>For workload level configuration, set the <code>selector</code> field on the <code>ProxyConfig</code> resource:</p>
-
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: ProxyConfig
 metadata:
@@ -56,13 +47,12 @@ metadata:
   namespace: example
 spec:
   selector:
-    labels:
+    matchLabels:
       app: ratings
   concurrency: 0
   image:
-    type: debug
+    imageType: debug
 </code></pre>
-
 <p>If a <code>ProxyConfig</code> CR is defined that matches a workload it will merge with its <code>proxy.istio.io/config</code> annotation if present,
 with the CR taking precedence over the annotation for overlapping fields. Similarly, if a mesh wide <code>ProxyConfig</code> CR is defined and
 <code>meshConfig.DefaultConfig</code> is set, the two resources will be merged with the CR taking precedence for overlapping fields.</p>
@@ -135,8 +125,8 @@ No
 <h2 id="ProxyImage">ProxyImage</h2>
 <section>
 <p>The following values are used to construct proxy image url.
-$hub/$image<em>name/$tag-$image</em>type
-example: docker.io/istio/proxyv2:1.11.1 or docker.io/istio/proxyv2:1.11.1-distroless
+format: <code>${hub}/${image_name}/${tag}-${image_type}</code>,
+example: <code>docker.io/istio/proxyv2:1.11.1</code> or <code>docker.io/istio/proxyv2:1.11.1-distroless</code>.
 This information was previously part of the Values API.</p>
 
 <table class="message-fields">

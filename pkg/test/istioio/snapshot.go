@@ -22,7 +22,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/golang/sync/errgroup"
+	"golang.org/x/sync/errgroup"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
@@ -105,7 +105,7 @@ func newClusterSnapshot(client kube.Client, contextName string) (ClusterSnapshot
 		Context: contextName,
 	}
 	nilVal := ClusterSnapshot{}
-	namespaces, err := client.CoreV1().Namespaces().List(context.TODO(), metav1.ListOptions{})
+	namespaces, err := client.Kube().CoreV1().Namespaces().List(context.TODO(), metav1.ListOptions{})
 	if err != nil {
 		return nilVal, fmt.Errorf("failed listing namespaces for context %s: %v", contextName, err)
 	}
@@ -134,7 +134,7 @@ func newClusterSnapshot(client kube.Client, contextName string) (ClusterSnapshot
 
 			if includeKubeResources {
 				// Service
-				if services, err := client.CoreV1().Services(namespace).List(context.TODO(), metav1.ListOptions{}); err != nil {
+				if services, err := client.Kube().CoreV1().Services(namespace).List(context.TODO(), metav1.ListOptions{}); err != nil {
 					scopes.Framework.Debugf("failed listing services in namespace %s: %v", namespace, err)
 				} else {
 					for _, svc := range services.Items {
@@ -144,7 +144,7 @@ func newClusterSnapshot(client kube.Client, contextName string) (ClusterSnapshot
 				}
 
 				// Deployments
-				if deployments, err := client.AppsV1().Deployments(namespace).List(context.TODO(), metav1.ListOptions{}); err != nil {
+				if deployments, err := client.Kube().AppsV1().Deployments(namespace).List(context.TODO(), metav1.ListOptions{}); err != nil {
 					scopes.Framework.Debugf("failed listing deployments in namespace %s: %v", namespace, err)
 				} else {
 					for _, pod := range deployments.Items {
@@ -154,7 +154,7 @@ func newClusterSnapshot(client kube.Client, contextName string) (ClusterSnapshot
 				}
 
 				// Pods
-				if pods, err := client.CoreV1().Pods(namespace).List(context.TODO(), metav1.ListOptions{}); err != nil {
+				if pods, err := client.Kube().CoreV1().Pods(namespace).List(context.TODO(), metav1.ListOptions{}); err != nil {
 					scopes.Framework.Debugf("failed listing pods in namespace %s: %v", namespace, err)
 				} else {
 					for _, pod := range pods.Items {
@@ -164,7 +164,7 @@ func newClusterSnapshot(client kube.Client, contextName string) (ClusterSnapshot
 				}
 
 				// ReplicaSets
-				if replicaSets, err := client.AppsV1().ReplicaSets(namespace).List(context.TODO(), metav1.ListOptions{}); err != nil {
+				if replicaSets, err := client.Kube().AppsV1().ReplicaSets(namespace).List(context.TODO(), metav1.ListOptions{}); err != nil {
 					scopes.Framework.Debugf("failed listing replicaSets in namespace %s: %v", namespace, err)
 				} else {
 					for _, rs := range replicaSets.Items {
@@ -174,7 +174,7 @@ func newClusterSnapshot(client kube.Client, contextName string) (ClusterSnapshot
 				}
 
 				// DaemonSets
-				if daemonSets, err := client.AppsV1().DaemonSets(namespace).List(context.TODO(), metav1.ListOptions{}); err != nil {
+				if daemonSets, err := client.Kube().AppsV1().DaemonSets(namespace).List(context.TODO(), metav1.ListOptions{}); err != nil {
 					scopes.Framework.Debugf("failed listing daemonSets in namespace %s: %v", namespace, err)
 				} else {
 					for _, ds := range daemonSets.Items {
@@ -238,6 +238,31 @@ func newClusterSnapshot(client kube.Client, contextName string) (ClusterSnapshot
 		})
 	}
 
+	wg.Go(func() error {
+		// MutatingWebhookConfigurations
+		if mutatingWebhookConfigurationsonSets,
+			err := client.Kube().AdmissionregistrationV1().MutatingWebhookConfigurations().List(context.TODO(), metav1.ListOptions{}); err != nil {
+			scopes.Framework.Debugf("failed listing mutatingWebhookConfigurationsonSets for context %s: %v", contextName, err)
+		} else {
+			for _, mwh := range mutatingWebhookConfigurationsonSets.Items {
+				clusterSN.MutatingWebhookConfigurations = append(clusterSN.MutatingWebhookConfigurations, mwh.Name)
+			}
+			sort.Strings(clusterSN.MutatingWebhookConfigurations)
+		}
+
+		// ValidatingWebhookConfigurations
+		if validatingWebhookConfigurationsonSets,
+			err := client.Kube().AdmissionregistrationV1().ValidatingWebhookConfigurations().List(context.TODO(), metav1.ListOptions{}); err != nil {
+			scopes.Framework.Debugf("failed listing validatingWebhookConfigurationsonSets for context %s: %v", contextName, err)
+		} else {
+			for _, vwh := range validatingWebhookConfigurationsonSets.Items {
+				clusterSN.ValidatingWebhookConfigurations = append(clusterSN.ValidatingWebhookConfigurations, vwh.Name)
+			}
+			sort.Strings(clusterSN.ValidatingWebhookConfigurations)
+		}
+		return nil
+	})
+
 	if err := wg.Wait(); err != nil {
 		return nilVal, err
 	}
@@ -282,9 +307,11 @@ func (s MeshSnapshot) ToJSON() (string, error) {
 }
 
 type ClusterSnapshot struct {
-	Context            string              `json:"context"`
-	Namespaces         []string            `json:"namespaces"`
-	NamespaceSnapshots []NamespaceSnapshot `json:"namespaceSnapshots"`
+	Context                         string              `json:"context"`
+	Namespaces                      []string            `json:"namespaces"`
+	NamespaceSnapshots              []NamespaceSnapshot `json:"namespaceSnapshots"`
+	MutatingWebhookConfigurations   []string            `json:"mutatingWebhookConfigurations"`
+	ValidatingWebhookConfigurations []string            `json:"validatingWebhookConfigurations"`
 }
 
 type NamespaceSnapshot struct {

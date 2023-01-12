@@ -114,18 +114,32 @@
 
     #search-show {
         display: none;
+        @media (min-width: $bp-lg) {
+            display: inline-block;
+        }
     }
 
     #search-form {
+        width: calc(100% - 8px);
+        max-width: 392px;
+        position: relative;
+        top: -76px;
         display: none;
-        position: absolute;
-
-        right: -150%;
-        transition: right .5s;
+        margin: auto;
+        @media (min-width: $bp-lg) {
+            width: auto;
+            position: absolute;
+            right: -150%;
+            top: 7px;
+            bottom: 0;
+            transition: right .5s;
+        }
 
         &.show-search {
-            right: 1rem;
             transition: right .5s;
+            @media (min-width: $bp-lg) {
+                right: 1rem;
+            }
         }
 
         button:focus {
@@ -141,14 +155,15 @@
         line-height: 1.5;
         border: 2px solid $inputBorderColor;
         outline-offset: -2px;
-        margin: 12px 1rem 5px;
+        margin: 12px 0 5px;
         width: 100%;
         text-align: center;
 
-        @media (min-width: $bp-sm) {
+        @media (min-width: $bp-lg) {
             margin: 4px 0 5px;
             width: 22rem;
             text-align: unset;
+            top: auto;
         }
 
         &:focus {
@@ -158,18 +173,17 @@
 
     #search-close {
         display: none;
-
-        @media (min-width: $bp-sm) {
+        @media (min-width: $bp-lg) {
+            background-color: rgba(0, 0, 0, 0);
+            color: $textBrandColor;
+            border-width: 0;
+            cursor: pointer;
+            font-size: inherit;
+            line-height: inherit;
+            margin-left: .5rem;
             display: block;
+            margin-top: -8px;
         }
-
-        background-color: rgba(0, 0, 0, 0);
-        color: $textBrandColor;
-        border-width: 0;
-        cursor: pointer;
-        font-size: inherit;
-        line-height: inherit;
-        margin-left: .5rem;
     }
 
     &-header {
@@ -195,6 +209,9 @@
         width: 100%;
         padding: 0 4.85rem 4.85rem;
         transition: right .5s;
+        @media (max-width: $bp-sm) {
+            padding: 0 1.75rem 4.85rem;
+        }
     }
 
     &-links {
@@ -325,6 +342,7 @@
             transition: none;
             max-height: unset;
 
+
             .main-navigation {
                 &-header { padding: 1.25rem 1rem; }
 
@@ -345,9 +363,14 @@
                 }
             }
 
-            #search-form.show-search {
-                display: flex;
+            #search-form {
+                display: block;
+
+                &.show-search {
+                    display: flex;
+                }
             }
+
 
             #brand,
             #hamburger {
@@ -472,8 +495,6 @@
 
 @media (min-width: $bp-xl) {
     .main-navigation-footer {
-        #search-show { display: inline-block; }
-
         #try-istio { margin-left: 2.75rem; }
     }
 }

@@ -174,10 +174,15 @@
         display: inline-flex;
 
         svg {
-            width: 42px;
-            height: 42px;
+            width: 34px;
+            height: 34px;
             fill: $textBrandColor;
             stroke: none;
+
+            @media (min-width: $bp-sm) {
+                width: 42px;
+                height: 42px;
+            }
         }
 
         @media (min-width: $bp-lg) {

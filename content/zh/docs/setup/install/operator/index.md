@@ -8,9 +8,13 @@ test: no
 status: Beta
 ---
 
-除了手动安装、升级、和卸载 Istio，您还可以用 Istio [Operator](https://kubernetes.io/zh/docs/concepts/extend-kubernetes/operator/) 管理安装。
+{{< warning >}}
+不鼓励在新的 Istio 安装中使用 Operator，以支持 [Istioctl](/zh/docs/setup/install/istioctl) 和 [Helm](/zh/docs/setup/install/helm) 安装方法。虽然运营商将继续得到支持，新功能请求不会被优先考虑。
+{{< /warning >}}
+
+除了手动在生产环境中安装、升级、和卸载 Istio，您还可以用 Istio [Operator](https://kubernetes.io/zh/docs/concepts/extend-kubernetes/operator/) 管理安装。
 这样做还能缓解管理不同 Istio 版本的负担。
-您只需简单的更新 Operator {{<gloss CRDs>}}自定义资源（CR）{{</gloss>}}即可， Operator 控制器将为您应用更改的相应配置。
+您只需简单的更新 Operator {{<gloss CRD>}}自定义资源（CR）{{</gloss>}}即可， Operator 控制器将为您应用更改的相应配置。
 
 当您用[使用 Istioctl 安装](/zh/docs/setup/install/istioctl)安装 Istio 时，底层使用的是和 Operator 安装相同的[`IstioOperator` API](/zh/docs/reference/config/istio.operator.v1alpha1/)。在这两种场景下，都会以架构验证配置，并执行同样的正确性检查。
 
@@ -21,7 +25,7 @@ status: Beta
 为避免此漏洞，需要确保 Operator 自身部署的足够安全。
 {{< /warning >}}
 
-## 先决条件
+## 先决条件 {#prerequisites}
 
 1. 执行必要的[平台安装](/zh/docs/setup/platform-setup/)。
 
@@ -29,48 +33,63 @@ status: Beta
 
 1. 安装 [{{< istioctl >}} 可执行程序](/zh/docs/ops/diagnostic-tools/istioctl/)。
 
-1. 部署 Istio Operator：
+## 安装 {#install}
+
+### 部署 Istio Operator {#deploy-the-Istio-operator}
+
+`istioctl` 命令可用于自动部署 Istio 操作符：
+
+{{< text syntax=bash snip_id=create_istio_operator >}}
+$ istioctl operator init
+{{< /text >}}
+
+此命令运行 Operator 在 `istio-operator` 命名空间中创建以下资源：
+
+- Operator 自定义资源定义（CRD）
+- Operator 控制器的 deployment 对象
+- 一个用来访问 Operator 指标的服务
+- Istio Operator 运行必须的 RBAC 规则
+
+您可以配置 Operator 控制器安装的命名空间、Operator 观测的命名空间、Istio 的镜像源和版本、以及更多。
+例如，可以使用参数 `--watchedNamespaces` 指定一个或多个命名空间来观测：
+
+{{< text bash >}}
+$ istioctl operator init --watchedNamespaces=istio-namespace1,istio-namespace2
+{{< /text >}}
+
+更多详细信息，请参阅 [`istioctl operator init` 命令参考](/zh/docs/reference/commands/istioctl/#istioctl-operator-init)。
+
+{{< tip >}}
+您也可以使用 Helm 部署 Operator：
+
+1. 创建 `istio-operator` 命名空间.
 
     {{< text bash >}}
-    $ istioctl operator init
+    $ kubectl create namespace istio-operator
     {{< /text >}}
 
-    此命令运行 Operator 在 `istio-operator` 命名空间中创建以下资源：
-
-    - Operator 自定义资源定义（CRD）
-    - Operator 控制器的 deployment 对象
-    - 一个用来访问 Operator 指标的服务
-    - Istio Operator 运行必须的 RBAC 规则
-
-    您可以配置 Operator 控制器安装的命名空间、Operator 观测的命名空间、Istio 的镜像源和版本、以及更多。
-    例如，可以使用参数 `--watchedNamespaces` 指定一个或多个命名空间来观测：
-
-    {{< text bash >}}
-    $ istioctl operator init --watchedNamespaces=istio-namespace1,istio-namespace2
-    {{< /text >}}
-
-    更多详细信息，请参阅 [`istioctl operator init` 命令参考](/zh/docs/reference/commands/istioctl/#istioctl-operator-init)。
-
-    {{< tip >}}
-    您也可以使用 Helm 部署 Operator：
+1. 使用 Helm 安装 operator.
 
     {{< text bash >}}
     $ helm install istio-operator manifests/charts/istio-operator \
-      --set hub=docker.io/istio \
-      --set tag={{< istio_full_version >}} \
-      --set operatorNamespace=istio-operator \
-      --set watchedNamespaces=istio-namespace1,istio-namespace2
+        --set watchedNamespaces="istio-namespace1\,istio-namespace2" \
+        -n istio-operator
     {{< /text >}}
 
-    注意：为了运行上面的命令您需要[下载 Istio 的发行版本](/zh/docs/setup/getting-started/#download)。
-    {{< /tip >}}
+注意：为了运行上面的命令您需要 [下载 Istio 的发行版本](/zh/docs/setup/getting-started/#download)。
+{{< /tip >}}
 
-## 安装
+{{< warning >}}
+在 Istio 1.10.0 之前，需要在安装 operator 之前创建命名空间 `istio-system`。从 Istio 1.10.0 开始，`istioctl operator init` 将创建 `istio-system` 命名空间。
+
+如果你使用的不是 `istioctl operator init`，那么 `istio-system` 命名空间需要手动创建。
+{{< /warning >}}
+
+### 使用 operator 安装 Istio {#install-Istio-with-the-operator}
 
 要使用 Operator 安装 Istio `demo` [配置项（configuration profile）](/zh/docs/setup/additional-setup/config-profiles/)，请运行以下命令：
 
-{{< text bash >}}
-$ kubectl create ns istio-system
+{{< text syntax=bash snip_id=create_demo_profile >}}
 $ kubectl apply -f - <<EOF
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
@@ -108,20 +127,20 @@ Istio 安装过程将在 120 秒内完成。
 
 可以使用以下命令确认 Istio 控制平面服务是否成功：
 
-{{< text bash >}}
-$ kubectl get svc -n istio-system
-NAME                        TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)                                                                      AGE
-istio-egressgateway         ClusterIP      10.103.243.113   <none>        80/TCP,443/TCP,15443/TCP                                                     17s
-istio-ingressgateway        LoadBalancer   10.101.204.227   <pending>     15020:31077/TCP,80:30689/TCP,443:32419/TCP,31400:31411/TCP,15443:30176/TCP   17s
-istiod                      ClusterIP      10.96.237.249    <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP,53/UDP,853/TCP                         30s                                                              13s
+{{< text syntax=bash snip_id=kubectl_get_svc >}}
+$ kubectl get services -n istio-system
+NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)   AGE
+istio-egressgateway    ClusterIP      10.96.65.145    <none>           ...       30s
+istio-ingressgateway   LoadBalancer   10.96.189.244   192.168.11.156   ...       30s
+istiod                 ClusterIP      10.96.189.20    <none>           ...       37s
 {{< /text >}}
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=kubectl_get_pods >}}
 $ kubectl get pods -n istio-system
-NAME                                   READY   STATUS    RESTARTS   AGE
-istio-egressgateway-5444c68db8-9h6dz   1/1     Running   0          87s
-istio-ingressgateway-5c68cb968-x7qv9   1/1     Running   0          87s
-istiod-598984548d-wjq9j                1/1     Running   0          99s
+NAME                                    READY   STATUS    RESTARTS   AGE
+istio-egressgateway-696cccb5-m8ndk      1/1     Running   0          68s
+istio-ingressgateway-86cb4b6795-9jlrk   1/1     Running   0          68s
+istiod-b47586647-sf6sw                  1/1     Running   0          74s
 {{< /text >}}
 
 ## 更新
@@ -131,7 +150,7 @@ istiod-598984548d-wjq9j                1/1     Running   0          99s
 
 例如，使用以下命令将安装切换到 `default` 配置：
 
-{{< text bash >}}
+{{< text syntax=bash >}}
 $ kubectl apply -f - <<EOF
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
@@ -187,8 +206,7 @@ $ <extracted-dir>/bin/istioctl operator init
 您会看到 `istio-operator` 的 Pod 已重新启动，其版本已更改到目标版本：
 
 {{< text bash >}}
-$ kubectl get pods --namespace istio-operator \
-  -o=jsonpath='{range .items[*]}{.metadata.name}{":\t"}{range .spec.containers[*]}{.image}{", "}{end}{"\n"}{end}'
+$ kubectl logs -f -n istio-operator "$(kubectl get pods -n istio-operator -lname=istio-operator -o jsonpath='{.items[0].metadata.name}')"
 {{< /text >}}
 
 经过一两分钟后，Istio 控制平面组件也会重新启动为新版本：
@@ -260,7 +278,7 @@ istiod-1-8-1-55887f699c-t8bh8    1/1     Running   0          8m13s
 {{< /text >}}
 
 {{< text bash >}}
-$ kubectl -n istio-system get svc -l app=istiod
+$ kubectl get services -n istio-system -l app=istiod
 NAME            TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)                                         AGE
 istiod          ClusterIP   10.87.7.69   <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP,853/TCP   10m
 istiod-1-8-1    ClusterIP   10.87.4.92   <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP,853/TCP   7m55s
@@ -272,14 +290,14 @@ istiod-1-8-1    ClusterIP   10.87.4.92   <none>        15010/TCP,15012/TCP,443/T
 
 如果您使用 Operator 完成了控制平面的金丝雀升级，请运行以下命令卸载旧版本的控件平面，并保留新版本：
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=none >}}
 $ kubectl delete istiooperators.install.istio.io -n istio-system example-istiocontrolplane
 {{< /text >}}
 
 等到 Istio 卸载完成 - 这可能需要一些时间。
 然后删除 Istio Operator：
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=none >}}
 $ istioctl operator remove --revision <revision>
 {{< /text >}}
 
@@ -288,7 +306,7 @@ $ istioctl operator remove --revision <revision>
 注意：在 Istio 完全移除之前删除 Operator 可能会导致 Istio 资源残留。
 需要清理 Operator 未删除的内容：
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=cleanup >}}
 $ istioctl manifest generate | kubectl delete -f -
 $ kubectl delete ns istio-system --grace-period=0 --force
 {{< /text >}}

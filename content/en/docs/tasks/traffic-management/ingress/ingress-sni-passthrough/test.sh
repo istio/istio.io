@@ -19,9 +19,11 @@ set -e
 set -u
 set -o pipefail
 
+GATEWAY_API="${GATEWAY_API:-false}"
+
 # @setup profile=default
 
-kubectl label namespace default istio-injection= --overwrite
+kubectl label namespace default istio-injection- --overwrite
 
 # Generate client and server certificates and keys
 snip_generate_client_and_server_certificates_and_keys_1
@@ -43,19 +45,31 @@ _wait_for_deployment default my-nginx
 _verify_contains snip_deploy_an_nginx_server_5 "subject: CN=nginx.example.com"
 
 # configure an ingress gateway
-snip_configure_an_ingress_gateway_1
-snip_configure_an_ingress_gateway_2
+if [ "$GATEWAY_API" == "true" ]; then
+    snip_configure_an_ingress_gateway_2
+    _wait_for_gateway default mygateway
 
-# wait for configuration to propagate
-_wait_for_istio gateway default mygateway
-_wait_for_istio virtualservice default nginx
+    snip_configure_an_ingress_gateway_4
+    snip_configure_an_ingress_gateway_5
 
-_set_ingress_environment_variables
+    echo "addr: ${INGRESS_HOST}:${SECURE_INGRESS_PORT}"
+else
+    snip_configure_an_ingress_gateway_1
+    snip_configure_an_ingress_gateway_3
+
+    # wait for configuration to propagate
+    _wait_for_istio gateway default mygateway
+    _wait_for_istio virtualservice default nginx
+
+    _set_ingress_environment_variables
+fi
 
 # validate the output
-_verify_contains snip_configure_an_ingress_gateway_3 "SSL certificate verify ok."
+_verify_contains snip_configure_an_ingress_gateway_6 "SSL certificate verify ok."
 
 # @cleanup
-snip_cleanup_1
-snip_cleanup_2
-snip_cleanup_3
+if [ "$GATEWAY_API" != "true" ]; then
+    snip_cleanup_1
+    snip_cleanup_3
+    snip_cleanup_4
+fi

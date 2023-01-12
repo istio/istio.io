@@ -110,7 +110,7 @@ traffic from your internal users to a particular set of instances.
 With a virtual service, you can specify traffic behavior for one or more hostnames.
 You use routing rules in the virtual service that tell Envoy how to send the
 virtual service’s traffic to appropriate destinations. Route destinations can
-be versions of the same service or entirely different services.
+be different versions of the same service or entirely different services.
 
 A typical use case is to send traffic to different versions of a service,
 specified as service subsets. Clients send requests to the virtual service host as if
@@ -557,8 +557,8 @@ fully or use a wildcard prefixed domain name.
 You can configure virtual services and destination rules to control traffic to a
 service entry in a more granular way, in the same way you configure traffic for
 any other service in the mesh. For example, the following destination rule
-configures the traffic route to use mutual TLS to secure the connection to the
-`ext-svc.example.com` external service that we configured using the service entry:
+adjusts the TCP connection timeout for requests to the `ext-svc.example.com`
+external service that we configured using the service entry:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -568,11 +568,9 @@ metadata:
 spec:
   host: ext-svc.example.com
   trafficPolicy:
-    tls:
-      mode: MUTUAL
-      clientCertificate: /etc/certs/myclientcert.pem
-      privateKey: /etc/certs/client_private_key.pem
-      caCertificates: /etc/certs/rootcacerts.pem
+    connectionPool:
+      tcp:
+        connectTimeout: 1s
 {{< /text >}}
 
 See the
@@ -741,6 +739,12 @@ introduces errors into a system to ensure that it can withstand and recover from
 error conditions. Using fault injection can be particularly useful to ensure
 that your failure recovery policies aren’t incompatible or too restrictive,
 potentially resulting in critical services being unavailable.
+
+{{< warning >}}
+Currently, the fault injection configuration can not be combined with retry or timeout configuration
+on the same virtual service, see
+[Traffic Management Problems](/docs/ops/common-problems/network-issues/#virtual-service-with-fault-injection-and-retry-timeout-policies-not-working-as-expected).
+{{< /warning >}}
 
 Unlike other mechanisms for introducing errors such as delaying packets or
 killing pods at the network layer, Istio’ lets you inject faults at the

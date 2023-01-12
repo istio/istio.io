@@ -42,7 +42,7 @@ Install the `istioctl` binary with `curl`:
 1. Add the `istioctl` client to your path, on a macOS or Linux system:
 
     {{< text bash >}}
-    $ export PATH=$PATH:$HOME/.istioctl/bin
+    $ export PATH=$HOME/.istioctl/bin:$PATH
     {{< /text >}}
 
 1. You can optionally enable the [auto-completion option](#enabling-auto-completion) when working with a bash or ZSH console.

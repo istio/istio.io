@@ -59,16 +59,14 @@ parameters, rather than passing a configuration file with `-f`. This is done to 
 The two methods are equivalent, but `-f` is strongly recommended for production. The above command would be written as
 follows using `-f`:
 
-{{< text yaml >}}
-# my-config.yaml
+{{< text bash >}}
+$ cat <<EOF > ./my-config.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
   meshConfig:
     accessLogFile: /dev/stdout
-{{< /text >}}
-
-{{< text bash >}}
+EOF
 $ istioctl install -f my-config.yaml
 {{< /text >}}
 
@@ -231,6 +229,13 @@ If attempting to install and manage Istio using `istioctl manifest generate`, pl
 
 1. The Istio namespace (`istio-system` by default) must be created manually.
 
+1. Istio validation will not be enabled by default. Unlike `istioctl install`, the `manifest generate` command will
+not create the `istiod-default-validator` validating webhook configuration unless `values.defaultRevision` is set:
+
+    {{< text bash >}}
+    $ istioctl manifest generate --set values.defaultRevision=default
+    {{< /text >}}
+
 1. While `istioctl install` will automatically detect environment specific settings from your Kubernetes context,
 `manifest generate` cannot as it runs offline, which may lead to unexpected results. In particular, you must ensure
 that you follow [these steps](/docs/ops/best-practices/security/#configure-third-party-service-account-tokens) if your
@@ -302,7 +307,7 @@ See [Customizing the installation configuration](/docs/setup/additional-setup/cu
 To completely uninstall Istio from a cluster, run the following command:
 
 {{< text bash >}}
-$ istioctl x uninstall --purge
+$ istioctl uninstall --purge
 {{< /text >}}
 
 {{< warning >}}
@@ -312,13 +317,13 @@ The optional `--purge` flag will remove all Istio resources, including cluster-s
 Alternatively, to remove only a specific Istio control plane, run the following command:
 
 {{< text bash >}}
-$ istioctl x uninstall <your original installation options>
+$ istioctl uninstall <your original installation options>
 {{< /text >}}
 
 or
 
 {{< text bash >}}
-$ istioctl manifest generate <your original installation options> | kubectl delete -f -
+$ istioctl manifest generate <your original installation options> | kubectl delete --ignore-not-found=true -f -
 {{< /text >}}
 
 The control plane namespace (e.g., `istio-system`) is not removed by default.
