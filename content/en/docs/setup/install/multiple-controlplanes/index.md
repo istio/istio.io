@@ -162,27 +162,7 @@ By default, Istio only uses `discoverySelectors` to scope workload endpoints. To
     istio-sidecar-injector-usergroup-2-usergroup-2   2          18m
     {{< /text >}}
 
-    Note that the output includes `istiod-default-validator` and `istio-revision-tag-default-usergroup-1`, which are the default webhook configurations used for handling requests coming from resources which are not associated with any revision. In a fully scoped environment where every control plane is associated with its resources through proper namespace labeling, there is no need for these default webhook configurations. They will never be invoked.
-
-1. Run the following commands to list the installed webhooks:
-
-    {{< text bash >}}
-    $ kubectl get validatingwebhookconfiguration
-    NAME                                      WEBHOOKS   AGE
-    istio-validator-usergroup-1-usergroup-1   1          18m
-    istio-validator-usergroup-2-usergroup-2   1          18m
-    istiod-default-validator                  1          18m
-    {{< /text >}}
-
-    {{< text bash >}}
-    $ kubectl get mutatingwebhookconfiguration
-    NAME                                             WEBHOOKS   AGE
-    istio-revision-tag-default-usergroup-1           4          18m
-    istio-sidecar-injector-usergroup-1-usergroup-1   2          19m
-    istio-sidecar-injector-usergroup-2-usergroup-2   2          18m
-    {{< /text >}}
-
-    Note that the output includes `istiod-default-validator` and `istio-revision-tag-default-usergroup-1`, which are the default webhook configurations used for handling requests coming from resources which are not associated with any revision. In a fully scoped environment where every control plane is associated with its resources through proper namespace labeling, there is no need for these default webhook configurations. They will never be invoked.
+    Note that the output includes `istiod-default-validator` and `istio-revision-tag-default-usergroup-1`, which are the default webhook configurations used for handling requests coming from resources which are not associated with any revision. In a fully scoped environment where every control plane is associated with its resources through proper namespace labeling, there is no need for these default webhook configurations. They should never be invoked.
 
 ### Deploy application workloads per usergroup
 
