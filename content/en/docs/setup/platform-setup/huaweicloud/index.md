@@ -1,6 +1,6 @@
 ---
 title: Huawei Cloud
-description: Instructions to setup an Huawei Cloud kubernetes cluster for Istio.
+description: Instructions to set up an Huawei Cloud kubernetes cluster for Istio.
 weight: 23
 skip_seealso: true
 aliases:

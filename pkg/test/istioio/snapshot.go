@@ -22,7 +22,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/golang/sync/errgroup"
+	"golang.org/x/sync/errgroup"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
