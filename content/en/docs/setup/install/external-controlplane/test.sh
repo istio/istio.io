@@ -99,21 +99,21 @@ _rewrite_helm_repo snip_enable_gateways_4
 _verify_same kubectl_get_egress_gateway_for_remote_cluster "Running" 
 
 if [ "$GATEWAY_API" == "true" ]; then
-  snip_configure_and_test_an_ingress_gateway_4
-  snip_configure_and_test_an_ingress_gateway_6
+  snip_configure_and_test_an_ingress_gateway_3
+  snip_configure_and_test_an_ingress_gateway_5
 else
   _verify_like snip_configure_and_test_an_ingress_gateway_1 "$snip_configure_and_test_an_ingress_gateway_1_out"
 
-  snip_configure_and_test_an_ingress_gateway_3
+  snip_configure_and_test_an_ingress_gateway_2
 
-  #snip_configure_and_test_an_ingress_gateway_5
+  #snip_configure_and_test_an_ingress_gateway_4
   export GATEWAY_URL=$(kubectl \
       --context="${CTX_REMOTE_CLUSTER}" \
       -n external-istiod get svc istio-ingressgateway \
       -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 fi
 
-_verify_contains snip_configure_and_test_an_ingress_gateway_7 "Hello version: v1"
+_verify_contains snip_configure_and_test_an_ingress_gateway_6 "Hello version: v1"
 
 # Adding clusters to the mesh.
 
