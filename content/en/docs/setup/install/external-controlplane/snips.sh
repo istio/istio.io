@@ -19,6 +19,7 @@
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
 #          docs/setup/install/external-controlplane/index.md
 ####################################################################################################
+source "content/en/boilerplates/snips/gateway-api-install-crds.sh"
 
 snip_set_up_a_gateway_in_the_external_cluster_1() {
 cat <<EOF > controlplane-gateway.yaml
@@ -406,36 +407,31 @@ NAME                                    READY   STATUS    RESTARTS   AGE
 istio-ingressgateway-7bcd5c6bbd-kmtl4   1/1     Running   0          8m4s
 ENDSNIP
 
-snip_install_crds() {
-kubectl get crd gateways.gateway.networking.k8s.io --context="${CTX_REMOTE_CLUSTER}" || \
-  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.6.0" | kubectl apply -f - --context="${CTX_REMOTE_CLUSTER}"; }
-}
-
-snip_configure_and_test_an_ingress_gateway_3() {
+snip_configure_and_test_an_ingress_gateway_2() {
 kubectl apply -f samples/helloworld/helloworld-gateway.yaml -n sample --context="${CTX_REMOTE_CLUSTER}"
 }
 
-snip_configure_and_test_an_ingress_gateway_4() {
+snip_configure_and_test_an_ingress_gateway_3() {
 kubectl apply -f samples/helloworld/gateway-api/helloworld-gateway.yaml -n sample --context="${CTX_REMOTE_CLUSTER}"
 }
 
-snip_configure_and_test_an_ingress_gateway_5() {
+snip_configure_and_test_an_ingress_gateway_4() {
 export INGRESS_HOST=$(kubectl -n external-istiod --context="${CTX_REMOTE_CLUSTER}" get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 export INGRESS_PORT=$(kubectl -n external-istiod --context="${CTX_REMOTE_CLUSTER}" get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].port}')
 export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
 }
 
-snip_configure_and_test_an_ingress_gateway_6() {
+snip_configure_and_test_an_ingress_gateway_5() {
 kubectl -n sample --context="${CTX_REMOTE_CLUSTER}" wait --for=condition=ready gtw helloworld-gateway
 export INGRESS_HOST=$(kubectl -n sample --context="${CTX_REMOTE_CLUSTER}" get gtw helloworld-gateway -o jsonpath='{.status.addresses[*].value}')
 export GATEWAY_URL=$INGRESS_HOST:80
 }
 
-snip_configure_and_test_an_ingress_gateway_7() {
+snip_configure_and_test_an_ingress_gateway_6() {
 curl -s "http://${GATEWAY_URL}/hello"
 }
 
-! read -r -d '' snip_configure_and_test_an_ingress_gateway_7_out <<\ENDSNIP
+! read -r -d '' snip_configure_and_test_an_ingress_gateway_6_out <<\ENDSNIP
 Hello version: v1, instance: helloworld-v1-776f57d5f6-s7zfc
 ENDSNIP
 
