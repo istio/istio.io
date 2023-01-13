@@ -267,6 +267,14 @@ features:
       maturity: Alpha
       nextExpectedPromotion: ""
     area: Security and policy enforcement
+  - name: "Copy JWT Claims to HTTP Headers"
+    id: "security.jwt_authentication"
+    link: "/docs/tasks/security/authentication/claim-to-header"
+    level:
+      checklist: features/claim_to_header.md
+      maturity: Experimental
+      nextExpectedPromotion: ""
+    area: Security and policy enforcement
   - name: "In-Cluster Operator"
     id: "core.in_cluster_operator"
     link: "/docs/setup/install/operator/"
