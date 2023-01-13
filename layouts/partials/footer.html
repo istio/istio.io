@@ -47,7 +47,10 @@
 
         <ul class="footer-policies">
             <li class="footer-policies-item">
-                <a class="footer-policies-link" href="https://policies.google.com/privacy">
+                <a class="footer-policies-link" href="https://www.linuxfoundation.org/legal/terms">
+                    {{ i18n "footer_terms_and_conditions" }}
+                </a> |
+                <a class="footer-policies-link" href="https://www.linuxfoundation.org/legal/privacy-policy">
                     {{ i18n "footer_privacy_policy" }}
                 </a> |
                 {{ if .Params.source_repo }}
@@ -65,7 +68,7 @@
         </ul>
 
         <div class="footer-base">
-            <span class="footer-base-copyright">&copy; {{ .Site.Data.args.copyright_year }} Istio Authors.</span>
+            <span class="footer-base-copyright">&copy; {{ .Site.Data.args.copyright_year }} the Istio Authors.</span>
 
             <span class="footer-base-version">
                 {{ $advisory := (i18n "advisory") }}
