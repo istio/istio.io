@@ -19,6 +19,7 @@
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
 #          docs/setup/install/external-controlplane/index.md
 ####################################################################################################
+source "content/en/boilerplates/snips/gateway-api-install-crds.sh"
 
 snip_set_up_a_gateway_in_the_external_cluster_1() {
 cat <<EOF > controlplane-gateway.yaml
@@ -397,30 +398,40 @@ snip_enable_gateways_4() {
 helm install istio-egressgateway istio/gateway -n external-istiod --kube-context="${CTX_REMOTE_CLUSTER}" --set service.type=ClusterIP
 }
 
-snip_test_the_ingress_gateway_1() {
+snip_configure_and_test_an_ingress_gateway_1() {
 kubectl get pod -l app=istio-ingressgateway -n external-istiod --context="${CTX_REMOTE_CLUSTER}"
 }
 
-! read -r -d '' snip_test_the_ingress_gateway_1_out <<\ENDSNIP
+! read -r -d '' snip_configure_and_test_an_ingress_gateway_1_out <<\ENDSNIP
 NAME                                    READY   STATUS    RESTARTS   AGE
 istio-ingressgateway-7bcd5c6bbd-kmtl4   1/1     Running   0          8m4s
 ENDSNIP
 
-snip_test_the_ingress_gateway_2() {
+snip_configure_and_test_an_ingress_gateway_2() {
 kubectl apply -f samples/helloworld/helloworld-gateway.yaml -n sample --context="${CTX_REMOTE_CLUSTER}"
 }
 
-snip_test_the_ingress_gateway_3() {
+snip_configure_and_test_an_ingress_gateway_3() {
+kubectl apply -f samples/helloworld/gateway-api/helloworld-gateway.yaml -n sample --context="${CTX_REMOTE_CLUSTER}"
+}
+
+snip_configure_and_test_an_ingress_gateway_4() {
 export INGRESS_HOST=$(kubectl -n external-istiod --context="${CTX_REMOTE_CLUSTER}" get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 export INGRESS_PORT=$(kubectl -n external-istiod --context="${CTX_REMOTE_CLUSTER}" get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].port}')
 export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
 }
 
-snip_test_the_ingress_gateway_4() {
+snip_configure_and_test_an_ingress_gateway_5() {
+kubectl -n sample --context="${CTX_REMOTE_CLUSTER}" wait --for=condition=ready gtw helloworld-gateway
+export INGRESS_HOST=$(kubectl -n sample --context="${CTX_REMOTE_CLUSTER}" get gtw helloworld-gateway -o jsonpath='{.status.addresses[*].value}')
+export GATEWAY_URL=$INGRESS_HOST:80
+}
+
+snip_configure_and_test_an_ingress_gateway_6() {
 curl -s "http://${GATEWAY_URL}/hello"
 }
 
-! read -r -d '' snip_test_the_ingress_gateway_4_out <<\ENDSNIP
+! read -r -d '' snip_configure_and_test_an_ingress_gateway_6_out <<\ENDSNIP
 Hello version: v1, instance: helloworld-v1-776f57d5f6-s7zfc
 ENDSNIP
 
