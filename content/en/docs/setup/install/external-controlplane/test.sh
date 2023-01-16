@@ -37,7 +37,7 @@ if [ "$GATEWAY_API" != "true" ]; then
   _set_kube_vars # helper function to initialize KUBECONFIG_FILES and KUBE_CONTEXTS
   export CTX_EXTERNAL_CLUSTER="${KUBE_CONTEXTS[0]}"
   export CTX_REMOTE_CLUSTER="${KUBE_CONTEXTS[2]}"
-  export CTX_SECOND_CLUSTER="${KUBE_CONTEXTS[1]}"
+  export REMOTE_CLUSTER_NAME="${CTX_REMOTE_CLUSTER}"
 fi
 
 # Set up the istiod gateway in the external cluster.

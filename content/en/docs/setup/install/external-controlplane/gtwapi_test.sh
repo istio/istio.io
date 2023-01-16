@@ -31,7 +31,7 @@ source "content/en/docs/setup/install/external-controlplane/test.sh"
 _set_kube_vars # helper function to initialize KUBECONFIG_FILES and KUBE_CONTEXTS
 export CTX_EXTERNAL_CLUSTER="${KUBE_CONTEXTS[0]}"
 export CTX_REMOTE_CLUSTER="${KUBE_CONTEXTS[2]}"
-export REMOTE_CLUSTER_NAME="${CTX_REMOTE_CLUSTER}"
+export CTX_SECOND_CLUSTER="${KUBE_CONTEXTS[1]}"
 
 snip_cleanup_1
 snip_cleanup_2
