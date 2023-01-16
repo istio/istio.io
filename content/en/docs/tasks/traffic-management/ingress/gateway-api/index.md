@@ -5,7 +5,7 @@ weight: 50
 aliases:
     - /docs/tasks/traffic-management/ingress/service-apis/
     - /latest/docs/tasks/traffic-management/ingress/service-apis/
-keywords: [traffic-management,ingress]
+keywords: [traffic-management,ingress, gateway-api]
 owner: istio/wg-networking-maintainers
 test: yes
 ---
