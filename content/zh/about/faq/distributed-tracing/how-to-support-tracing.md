@@ -19,7 +19,7 @@ Istio 允许报告服务网格中工作负载到工作负载间通信的追踪 s
 
 - `x-ot-span-context`
 
-如果使用 OpenTelemetry，您还需要转发以下 header：
+如果使用 OpenTelemetry，OpenCensus 或者 Stackdriver，您还需要转发以下 header：
 
 - `traceparent`
 - `tracestate`
