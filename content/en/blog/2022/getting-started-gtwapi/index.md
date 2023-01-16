@@ -152,7 +152,7 @@ $ kubectl wait -n sample-ingress --for=condition=ready gateway sample-gateway
 $ export INGRESS_HOST=$(kubectl get -n sample-ingress gateway sample-gateway -o jsonpath='{.status.addresses[*].value}')
 {{< /text >}}
 
-Then we can attach an [HTTPRoute](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io%2fv1beta1.HTTPRoute)
+Next, we attach an [HTTPRoute](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io%2fv1beta1.HTTPRoute)
 to the `sample-gateway` (i.e., using the `parentRefs` field) to expose and route traffic to the helloworld service:
 
 {{< text bash >}}
