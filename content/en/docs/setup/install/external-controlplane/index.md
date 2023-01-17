@@ -627,7 +627,13 @@ istio-ingressgateway-7bcd5c6bbd-kmtl4   1/1     Running   0          8m4s
 
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
-{{< boilerplate gateway-api-install-crds >}}
+The Kubernetes Gateway API CRDs do not come installed by default on most Kubernetes clusters, so make sure they are
+installed before using the Gateway API:
+
+{{< text syntax=bash snip_id=install_crds >}}
+$ kubectl get crd gateways.gateway.networking.k8s.io || \
+  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref={{< k8s_gateway_api_version >}}" |kubectl apply -f - --context="${CTX_REMOTE_CLUSTER}"; }
+{{< /text >}}
 
 {{< /tab >}}
 
