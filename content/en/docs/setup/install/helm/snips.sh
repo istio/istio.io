@@ -29,9 +29,72 @@ snip_install_base() {
 helm install istio-base istio/base -n istio-system
 }
 
+snip_installation_steps_3() {
+helm ls -n istio-system
+}
+
+! read -r -d '' snip_installation_steps_3_out <<\ENDSNIP
+  NAME          NAMESPACE       REVISION    UPDATED   STATUS      CHART           APP VERSION
+  istio-base    istio-system    1           ... ...   deployed    base-1.16.1     1.16.1
+ENDSNIP
+
 snip_install_discovery() {
 helm install istiod istio/istiod -n istio-system --wait
 }
+
+snip_installation_steps_5() {
+helm ls -n istio-system
+}
+
+! read -r -d '' snip_installation_steps_5_out <<\ENDSNIP
+  NAME          NAMESPACE       REVISION    UPDATED   STATUS      CHART           APP VERSION
+  istio-base    istio-system    1           ... ...   deployed    base-1.16.1     1.16.1
+  istiod        istio-system    1           ... ...   deployed    istiod-1.16.1   1.16.1
+ENDSNIP
+
+snip_installation_steps_6() {
+helm status istiod -n istio-system
+}
+
+! read -r -d '' snip_installation_steps_6_out <<\ENDSNIP
+  NAME: istiod
+  LAST DEPLOYED: Mon Jan 16 16:35:47 2023
+  NAMESPACE: istio-system
+  STATUS: deployed
+  REVISION: 1
+  TEST SUITE: None
+  NOTES:
+  "istiod" successfully installed!
+
+  To learn more about the release, try:
+   $ helm status istiod
+   $ helm get all istiod
+
+  Next steps:
+   * Deploy a Gateway: https://istio.io/latest/docs/setup/additional-setup/gateway/
+   * Try out our tasks to get started on common configurations:
+   * https://istio.io/latest/docs/tasks/traffic-management
+   * https://istio.io/latest/docs/tasks/security/
+   * https://istio.io/latest/docs/tasks/policy-enforcement/
+   * https://istio.io/latest/docs/tasks/policy-enforcement/
+   * Review the list of actively supported releases, CVE publications and our hardening guide:
+   * https://istio.io/latest/docs/releases/supported-releases/
+   * https://istio.io/latest/news/security/
+   * https://istio.io/latest/docs/ops/best-practices/security/
+
+  For further documentation see https://istio.io website
+
+  Tell us how your install/upgrade experience went at https://forms.gle/99uiMML96AmsXY5d6
+ENDSNIP
+
+snip_installation_steps_7() {
+kubectl get deployments -n istio-system --output wide
+}
+
+! read -r -d '' snip_installation_steps_7_out <<\ENDSNIP
+  NAME     READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS   IMAGES                         SELECTOR
+  istiod   1/1     1            1           10m   discovery    docker.io/istio/pilot:1.16.1   istio=pilot
+ENDSNIP
 
 snip_install_ingressgateway() {
 kubectl create namespace istio-ingress
