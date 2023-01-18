@@ -95,14 +95,13 @@ Follow these steps if you're using the Public or Developer Mode Satellites, or i
     {{< text yaml >}}
     global:
       proxy:
-        tracer: "lightstep"
-      tracer:
-        lightstep:
-          address: "ingest.lightstep.com:443"
-          accessToken: "<access-token>"
+        tracer: "lightstep"  
     meshConfig:
       defaultConfig:
         tracing:
+          lightstep:
+            address: "ingest.lightstep.com:443"
+            accessToken: "<access-token>"
           sampling: 100
           tlsSettings
             mode: "SIMPLE"
