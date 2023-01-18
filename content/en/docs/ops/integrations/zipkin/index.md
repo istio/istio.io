@@ -7,6 +7,10 @@ owner: istio/wg-environments-maintainers
 test: n/a
 ---
 
+{{< tip >}}
+Users are encouraged to transition to the [Telemetry API](/docs/tasks/observability/telemetry/) for tracing configuration.
+{{</ tip >}}
+
 [Zipkin](https://zipkin.io/) is a distributed tracing system. It helps gather timing data needed to troubleshoot latency problems in service architectures. Features include both the collection and lookup of this data.
 
 ## Installation
@@ -25,7 +29,7 @@ This will deploy Zipkin into your cluster. This is intended for demonstration on
 
 Consult the [Zipkin documentation](https://zipkin.io/) to get started. No special changes are needed for Zipkin to work with Istio.
 
-Once Zipkin is installed, you will need to point Istio proxies to send traces to the deployment. This can be configured with `--set values.global.tracer.zipkin.address=<zipkin-collector-address>:9411` at installation time. See the [`ProxyConfig.Tracing`](/docs/reference/config/istio.mesh.v1alpha1/#Tracing) for advanced configuration such as TLS settings.
+Once Zipkin is installed, you will need to point Istio proxies to send traces to the deployment. This can be configured with `--set meshConfig.defaultConfig.tracing.zipkin.address=<zipkin-collector-address>:9411` at installation time. See the [`ProxyConfig.Tracing`](/docs/reference/config/istio.mesh.v1alpha1/#Tracing) for advanced configuration such as TLS settings.
 
 ## Usage
 
