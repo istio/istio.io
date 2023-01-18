@@ -95,7 +95,7 @@ Follow these steps if you're using the Public or Developer Mode Satellites, or i
     {{< text yaml >}}
     global:
       proxy:
-        tracer: "lightstep"  
+        tracer: "lightstep"
     meshConfig:
       defaultConfig:
         tracing:
