@@ -46,6 +46,7 @@ use your own cert and your own pool's endpoint (`host:port`).
 1.  You need to deploy Istio with your Satellite address at an address in the format `<Host>:<Port>`, for example `lightstep-satellite.lightstep:9292`. You find this in your [configuration](https://docs.lightstep.com/docs/satellite-configuration-parameters#ports) file.
 
 1.  Deploy Istio with the following configuration parameters specified:
+    - `global.proxy.tracer="lightstep"`
     - `meshConfig.defaultConfig.sampling=100`
     - `meshConfig.defaultConfig.tracing.lightstep.address="<satellite-address>"`
     - `meshConfig.defaultConfig.tracing.lightstep.accessToken="<access-token>"`
@@ -55,6 +56,7 @@ use your own cert and your own pool's endpoint (`host:port`).
 
     {{< text bash >}}
     $ istioctl install \
+        --set global.proxy.tracer="lightstep" \
         --set meshConfig.defaultConfig.sampling=100 \
         --set meshConfig.defaultConfig.tracing.lightstep.address="<satellite-address>" \
         --set meshConfig.defaultConfig.tracing.lightstep.accessToken="<access-token>" \
