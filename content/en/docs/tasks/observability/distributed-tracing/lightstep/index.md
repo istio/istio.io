@@ -9,6 +9,10 @@ owner: istio/wg-policies-and-telemetry-maintainers
 test: no
 ---
 
+{{< tip >}}
+Users are encouraged to transition to the [Telemetry API](/docs/tasks/observability/telemetry/) for tracing configuration.
+{{</ tip >}}
+
 This task shows you how to configure Istio to collect trace spans and send them to [Lightstep](https://lightstep.com).
 Lightstep lets you analyze 100% of unsampled transaction data from large scale production software to produce meaningful
 distributed traces and metrics that help explain performance behaviors and accelerate root cause analysis.
@@ -42,20 +46,18 @@ use your own cert and your own pool's endpoint (`host:port`).
 1.  You need to deploy Istio with your Satellite address at an address in the format `<Host>:<Port>`, for example `lightstep-satellite.lightstep:9292`. You find this in your [configuration](https://docs.lightstep.com/docs/satellite-configuration-parameters#ports) file.
 
 1.  Deploy Istio with the following configuration parameters specified:
-    - `pilot.traceSampling=100`
-    - `global.proxy.tracer="lightstep"`
-    - `global.tracer.lightstep.address="<satellite-address>"`
-    - `global.tracer.lightstep.accessToken="<access-token>"`
+    - `meshConfig.defaultConfig.sampling=100`
+    - `meshConfig.defaultConfig.tracing.lightstep.address="<satellite-address>"`
+    - `meshConfig.defaultConfig.tracing.lightstep.accessToken="<access-token>"`
 
     You can set these parameters using the `--set key=value` syntax
     when you run the install command. For example:
 
     {{< text bash >}}
     $ istioctl install \
-        --set values.pilot.traceSampling=100 \
-        --set values.global.proxy.tracer="lightstep" \
-        --set values.global.tracer.lightstep.address="<satellite-address>" \
-        --set values.global.tracer.lightstep.accessToken="<access-token>" \
+        --set meshConfig.defaultConfig.sampling=100 \
+        --set meshConfig.defaultConfig.tracing.lightstep.address="<satellite-address>" \
+        --set meshConfig.defaultConfig.tracing.lightstep.accessToken="<access-token>" \
     {{< /text >}}
 
 ### Deploy Istio with Public or Developer Mode Satellites
