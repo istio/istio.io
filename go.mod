@@ -11,8 +11,8 @@ replace github.com/imdario/mergo => github.com/imdario/mergo v0.3.5
 require (
 	github.com/pmezard/go-difflib v1.0.0
 	golang.org/x/sync v0.1.0
-	istio.io/istio v0.0.0-20230114024127-9ea7ad532a9c
-	istio.io/pkg v0.0.0-20230109165950-4d649447a1d7
+	istio.io/istio v0.0.0-20230119054411-fb18a83f1a13
+	istio.io/pkg v0.0.0-20230118214312-7b3fd27b322d
 	k8s.io/apimachinery v0.26.0
 	k8s.io/client-go v0.26.0
 )
@@ -49,7 +49,7 @@ require (
 	github.com/docker/docker v23.0.0-rc.2+incompatible // indirect
 	github.com/docker/docker-credential-helpers v0.7.0 // indirect
 	github.com/emicklei/go-restful/v3 v3.10.1 // indirect
-	github.com/envoyproxy/go-control-plane v0.10.3-0.20230108042111-f1b6c9c302f1 // indirect
+	github.com/envoyproxy/go-control-plane v0.10.3-0.20230117170948-335df8c6b7f1 // indirect
 	github.com/envoyproxy/protoc-gen-validate v0.9.1 // indirect
 	github.com/evanphx/json-patch v5.6.0+incompatible // indirect
 	github.com/evanphx/json-patch/v5 v5.6.0 // indirect
@@ -196,7 +196,7 @@ require (
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	helm.sh/helm/v3 v3.10.3 // indirect
-	istio.io/api v0.0.0-20230111221020-454de919bf29 // indirect
+	istio.io/api v0.0.0-20230119040512-b00c2a9f9c63 // indirect
 	istio.io/client-go v1.16.0-rc.0.0.20221109202342-07ece772a919 // indirect
 	k8s.io/api v0.26.0 // indirect
 	k8s.io/apiextensions-apiserver v0.26.0 // indirect
