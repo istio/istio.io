@@ -109,7 +109,7 @@ $ istioctl proxy-status | grep "\.test-ns "
 
 The output will show all pods under the namespace that are using the canary revision.
 
-## Stable revision labels (experimental)
+## Stable revision labels (Alpha)
 
 {{< tip >}}
 If you're using Helm, refer to the [Helm upgrade documentation](/docs/setup/upgrade/helm).
