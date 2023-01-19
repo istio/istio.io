@@ -48,6 +48,25 @@ spec:
 EOF
 }
 
+snip_configuring_ingress_using_a_gateway_6() {
+kubectl apply -f - <<EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: httpbin-gateway
+spec:
+  selector:
+    istio: ingress # use Istio gateway installed with Helm CLI
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "httpbin.example.com"
+EOF
+}
+
 snip_configuring_ingress_using_a_gateway_2() {
 kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
