@@ -27,13 +27,13 @@ kubectl -n test-ns apply -f samples/sleep/sleep.yaml
 _wait_for_deployment test-ns sleep
 
 # precheck before upgrade
-_verify_lines snip_before_you_upgrade_1 snip_before_you_upgrade_1_out
+_verify_lines snip_before_you_upgrade_1 "$snip_before_you_upgrade_1_out"
 
 # install canary revision
 echo y | snip_control_plane_1
 _wait_for_deployment istio-system istiod-canary
-_verify_like snip_control_plane_2 snip_control_plane_2_out
-_verify_like snip_control_plane_3 snip_control_plane_3_out
+_verify_like snip_control_plane_2 "$snip_control_plane_2_out"
+_verify_like snip_control_plane_3 "$snip_control_plane_3_out"
 _verify_contains snip_data_plane_1 "istiod-canary"
 
 # Migrate the dataplane to new revision
@@ -43,7 +43,7 @@ _verify_contains snip_data_plane_4 "test-ns"
 
 # Uninstall old control plane
 snip_uninstall_old_control_plane_2
-_verify_like snip_uninstall_old_control_plane_3 snip_uninstall_old_control_plane_3_out 
+_verify_like snip_uninstall_old_control_plane_3 "$snip_uninstall_old_control_plane_3_out"
 
 # @cleanup
 echo y | snip_uninstall_canary_control_plane_1

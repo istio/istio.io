@@ -167,5 +167,5 @@ istioctl uninstall --revision=canary
 }
 
 snip_cleanup_1() {
-kubectl delete ns test-ns app-ns-1 app-ns-2 app-ns-3
+kubectl delete ns istio-system test-ns app-ns-1 app-ns-2 app-ns-3
 }
