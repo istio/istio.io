@@ -104,7 +104,9 @@
         margin: 0;
 
         &-item {
-            display: inline-block;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
             margin: 0;
             line-height: 1rem;
 
