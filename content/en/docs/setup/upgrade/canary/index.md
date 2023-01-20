@@ -4,7 +4,7 @@ description: Upgrade Istio by first running a canary deployment of a new control
 weight: 10
 keywords: [kubernetes,upgrading,canary]
 owner: istio/wg-environments-maintainers
-test: no
+test: yes
 ---
 
 Upgrading Istio can be done by first running a canary deployment of the new control plane, allowing you
@@ -80,7 +80,7 @@ Unlike istiod, Istio gateways do not run revision-specific instances, but are in
 You can verify that the `istio-ingress` gateway is using the `canary` revision by running the following command:
 
 {{< text bash >}}
-$ istioctl proxy-status | grep $(kubectl -n istio-system get pod -l app=istio-ingressgateway -o jsonpath='{.items..metadata.name}') | awk '{print $7}'
+$ istioctl proxy-status | grep "$(kubectl -n istio-system get pod -l app=istio-ingressgateway -o jsonpath='{.items..metadata.name}')" | awk '{print $10}'
 istiod-canary-6956db645c-vwhsk
 {{< /text >}}
 
@@ -109,7 +109,7 @@ $ istioctl proxy-status | grep "\.test-ns "
 
 The output will show all pods under the namespace that are using the canary revision.
 
-## Stable revision labels (Alpha)
+## Stable revision labels
 
 {{< tip >}}
 If you're using Helm, refer to the [Helm upgrade documentation](/docs/setup/upgrade/helm).
@@ -121,18 +121,71 @@ If you're using Helm, refer to the [Helm upgrade documentation](/docs/setup/upgr
 
 {{< boilerplate revision-tags-usage >}}
 
-{{< text bash >}}
-$ istioctl tag set prod-stable --revision 1-9-5
-$ istioctl tag set prod-canary --revision 1-10-0
-{{< /text >}}
+1. Install two revisions of control plane:
+
+    {{< text bash >}}
+    $ istioctl install --revision=1-9-5 --set profile=minimal --skip-confirmation
+    $ istioctl install --revision=1-10-0 --set profile=minimal --skip-confirmation
+    {{< /text >}}
+
+1. Create `stable` and `canary` revision tags and associate them to the respective revisions:
+
+    {{< text bash >}}
+    $ istioctl tag set prod-stable --revision 1-9-5
+    $ istioctl tag set prod-canary --revision 1-10-0
+    {{< /text >}}
+
+1. Label application namespaces to map to the respective revision tags:
+
+    {{< text bash >}}
+    $ kubectl create ns app-ns-1
+    $ kubectl label ns app-ns-1 istio.io/rev=prod-stable
+    $ kubectl create ns app-ns-2
+    $ kubectl label ns app-ns-2 istio.io/rev=prod-stable
+    $ kubectl create ns app-ns-3
+    $ kubectl label ns app-ns-3 istio.io/rev=prod-canary
+    {{< /text >}}
+
+1. Bring up a sample sleep pod in each namespace:
+
+    {{< text bash >}}
+    $ kubectl apply -n app-ns-1 -f samples/sleep/sleep.yaml
+    $ kubectl apply -n app-ns-2 -f samples/sleep/sleep.yaml
+    $ kubectl apply -n app-ns-3 -f samples/sleep/sleep.yaml
+    {{< /text >}}
+
+1. Verify application to control plane mapping using `istioctl proxy-status` command:
+
+    {{< text bash >}}
+    $ istioctl ps
+    NAME                                CLUSTER        CDS        LDS        EDS        RDS        ECDS         ISTIOD                             VERSION
+    sleep-78ff5975c6-62pzf.app-ns-3     Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-1-10-0-7f6fc6cfd6-s8zfg     1.16.1
+    sleep-78ff5975c6-8kxpl.app-ns-1     Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-1-9-5-bdf5948d5-n72r2       1.16.1
+    sleep-78ff5975c6-8q7m6.app-ns-2     Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-1-9-5-bdf5948d5-n72r2       1.16.1
+    {{< /text >}}
 
 {{< boilerplate revision-tags-middle >}}
 
 {{< text bash >}}
-$ istioctl tag set prod-stable --revision 1-10-0
+$ istioctl tag set prod-stable --revision 1-10-0 --overwrite
 {{< /text >}}
 
 {{< boilerplate revision-tags-prologue >}}
+
+{{< text bash >}}
+$ kubectl rollout restart deployment -n app-ns-1
+$ kubectl rollout restart deployment -n app-ns-2
+{{< /text >}}
+
+Verify the application to control plane mapping using `istioctl proxy-status` command:
+
+{{< text bash >}}
+$ istioctl ps
+NAME                                                   CLUSTER        CDS        LDS        EDS        RDS          ECDS         ISTIOD                             VERSION
+sleep-5984f48bc7-kmj6x.app-ns-1                        Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-1-10-0-7f6fc6cfd6-jsktb     1.16.1
+sleep-78ff5975c6-jldk4.app-ns-3                        Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-1-10-0-7f6fc6cfd6-jsktb     1.16.1
+sleep-7cdd8dccb9-5bq5n.app-ns-2                        Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-1-10-0-7f6fc6cfd6-jsktb     1.16.1
+{{< /text >}}
 
 ### Default tag
 
@@ -146,10 +199,10 @@ $ istioctl tag set default --revision 1-10-0
 
 ## Uninstall old control plane
 
-After upgrading both the control plane and data plane, you can uninstall the old control plane. For example, the following command uninstalls a control plane of revision `1-6-5`:
+After upgrading both the control plane and data plane, you can uninstall the old control plane. For example, the following command uninstalls a control plane of revision `1-9-5`:
 
 {{< text bash >}}
-$ istioctl uninstall --revision 1-6-5 -y
+$ istioctl uninstall --revision 1-9-5 -y
 {{< /text >}}
 
 If the old control plane does not have a revision label, uninstall it using its original installation options, for example:
@@ -171,7 +224,11 @@ Note that the above instructions only removed the resources for the specified co
 ## Uninstall canary control plane
 
 If you decide to rollback to the old control plane, instead of completing the canary upgrade,
-you can uninstall the canary revision using `istioctl uninstall --revision=canary`.
+you can uninstall the canary revision using:
+
+{{< text bash >}}
+$ istioctl uninstall --revision=canary
+{{< /text >}}
 
 However, in this case you must first reinstall the gateway(s) for the previous revision manually,
 because the uninstall command will not automatically revert the previously in-place upgraded ones.
@@ -181,3 +238,11 @@ Make sure to use the `istioctl` version corresponding to the old control plane t
 old gateways and, to avoid downtime, make sure the old gateways are up and running before proceeding
 with the canary uninstall.
 {{< /tip >}}
+
+## Cleanup
+
+Clean up the application namespaces:
+
+{{< text bash >}}
+$ kubectl delete ns test-ns app-ns-1 app-ns-2 app-ns-3
+{{< /text >}}

@@ -1,6 +1,6 @@
 ---
 ---
-Now, the situation is as below:
+Now, the updated mapping between revisions, tags, and namespaces is as shown below:
 
 {{< image width="70%"
 link="/docs/setup/upgrade/canary/tags-updated.png"
