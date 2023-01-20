@@ -17,29 +17,33 @@ Follow this guide to install and configure an Istio mesh using
 
 ## Installation steps
 
-This section describes the procedure to deploy Istio Service Mesh using Helm. The general syntax for helm installation is:
-`helm install <release> <chart> --namespace <namespace> --create-namespace [--set <other_parameters>]`
+This section describes the procedure to install Istio using Helm. The general syntax for helm installation is:
+
+{{< text syntax=bash snip_id=none >}}
+$ helm install <release> <chart> --namespace <namespace> --create-namespace [--set <other_parameters>]
+{{< /text >}}
 
 The variables specified in the command are as follows:
+* `<chart>` A path to a packaged chart, a path to an unpacked chart directory or a URL.
+* `<release>` A name to identify and manage the Helm chart once installed.
+* `<namespace>` The namespace in which the chart is to be installed.
 
-    <chart> : A path to a packaged Helm chart, unpackaged Helm chart or a URL.
-    <release> : Name to identify and manage the Helm chart once installed.
-    <namespace> : Namespace in which the chart has to be installed.
-
-Any of the configuration parameter default values can be changed by applying the `--set <parameter>=<value>` argument. To change many parameters at once, a custom values file can be applied using `--values <file>` argument.
+Default configuration values can be changed using one or more `--set <parameter>=<value>` arguments. Alternatively, you can specify several parameters in a custom values file using the `--values <file>` argument.
 
 {{< tip >}}
-The default values for the configuration parameters can be seen using the command `helm show values <chart>`. Otherwise you can refer to the respective `artifacthub` for
-checking the default values. See [Custom Resource Definition parameters](https://artifacthub.io/packages/helm/istio-official/base?modal=values), [Istiod chart configuration parameters](https://artifacthub.io/packages/helm/istio-official/istiod?modal=values) and [Gateway chart configuration parameters](https://artifacthub.io/packages/helm/istio-official/gateway?modal=values) for the same.
+You can display the default values of configuration parameters using the `helm show values <chart>` command or refer to `artifacthub` chart documentation at [Custom Resource Definition parameters](https://artifacthub.io/packages/helm/istio-official/base?modal=values), [Istiod chart configuration parameters](https://artifacthub.io/packages/helm/istio-official/istiod?modal=values) and [Gateway chart configuration parameters](https://artifacthub.io/packages/helm/istio-official/gateway?modal=values).
 {{< /tip >}}
 
-1. Create a namespace `istio-system` for Istio components (This step can be skipped if using --create-namespace argument):
+1. Create the namespace, `istio-system`, for the Istio components:
+    {{< tip >}}
+    This step can be skipped if using the `--create-namespace` argument in step 2.
+    {{< /tip >}}
 
     {{< text syntax=bash snip_id=create_istio_system_namespace >}}
     $ kubectl create namespace istio-system
     {{< /text >}}
 
-1. Install the Istio base chart which contains cluster-wide resources used by the Istio control plane. Custom Resource Definitions(CRD) are cluster-wide resources which must be installed prior to the deployment of Istio control plane:
+1. Install the Istio base chart which contains cluster-wide Custom Resource Definitions (CRDs) which must be installed prior to the deployment of the Istio control plane:
 
     {{< warning >}}
     When performing a revisioned installation, the base chart requires the `--defaultRevision` value to be set for resource
@@ -54,8 +58,8 @@ checking the default values. See [Custom Resource Definition parameters](https:/
 
     {{< text syntax=bash >}}
     $ helm ls -n istio-system
-      NAME          NAMESPACE       REVISION    UPDATED   STATUS      CHART           APP VERSION
-      istio-base    istio-system    1           ... ...   deployed    base-1.16.1     1.16.1
+    NAME       NAMESPACE    REVISION UPDATED         STATUS   CHART        APP VERSION
+    istio-base istio-system 1        ... ... ... ... deployed base-1.16.1  1.16.1
     {{< /text >}}
 
     In the output locate the entry for `istio-base` and make sure the status is set to `deployed`.
@@ -70,51 +74,51 @@ checking the default values. See [Custom Resource Definition parameters](https:/
 
     {{< text syntax=bash >}}
     $ helm ls -n istio-system
-      NAME          NAMESPACE       REVISION    UPDATED   STATUS      CHART           APP VERSION
-      istio-base    istio-system    1           ... ...   deployed    base-1.16.1     1.16.1
-      istiod        istio-system    1           ... ...   deployed    istiod-1.16.1   1.16.1
+    NAME       NAMESPACE    REVISION UPDATED         STATUS   CHART         APP VERSION
+    istio-base istio-system 1        ... ... ... ... deployed base-1.16.1   1.16.1
+    istiod     istio-system 1        ... ... ... ... deployed istiod-1.16.1 1.16.1
     {{< /text >}}
 
 1. Get the status of the installed helm chart to ensure it is deployed:
 
     {{< text syntax=bash >}}
     $ helm status istiod -n istio-system
-      NAME: istiod
-      LAST DEPLOYED: Mon Jan 16 16:35:47 2023
-      NAMESPACE: istio-system
-      STATUS: deployed
-      REVISION: 1
-      TEST SUITE: None
-      NOTES:
-      "istiod" successfully installed!
+    NAME: istiod
+    LAST DEPLOYED: Fri Jan 20 22:00:44 2023
+    NAMESPACE: istio-system
+    STATUS: deployed
+    REVISION: 1
+    TEST SUITE: None
+    NOTES:
+    "istiod" successfully installed!
 
-      To learn more about the release, try:
-       $ helm status istiod
-       $ helm get all istiod
+    To learn more about the release, try:
+      $ helm status istiod
+      $ helm get all istiod
 
-      Next steps:
-       * Deploy a Gateway: https://istio.io/latest/docs/setup/additional-setup/gateway/
-       * Try out our tasks to get started on common configurations:
-       * https://istio.io/latest/docs/tasks/traffic-management
-       * https://istio.io/latest/docs/tasks/security/
-       * https://istio.io/latest/docs/tasks/policy-enforcement/
-       * https://istio.io/latest/docs/tasks/policy-enforcement/
-       * Review the list of actively supported releases, CVE publications and our hardening guide:
-       * https://istio.io/latest/docs/releases/supported-releases/
-       * https://istio.io/latest/news/security/
-       * https://istio.io/latest/docs/ops/best-practices/security/
+    Next steps:
+      * Deploy a Gateway: https://istio.io/latest/docs/setup/additional-setup/gateway/
+      * Try out our tasks to get started on common configurations:
+        * https://istio.io/latest/docs/tasks/traffic-management
+        * https://istio.io/latest/docs/tasks/security/
+        * https://istio.io/latest/docs/tasks/policy-enforcement/
+        * https://istio.io/latest/docs/tasks/policy-enforcement/
+      * Review the list of actively supported releases, CVE publications and our hardening guide:
+        * https://istio.io/latest/docs/releases/supported-releases/
+        * https://istio.io/latest/news/security/
+        * https://istio.io/latest/docs/ops/best-practices/security/
 
-      For further documentation see https://istio.io website
+    For further documentation see https://istio.io website
 
-      Tell us how your install/upgrade experience went at https://forms.gle/99uiMML96AmsXY5d6
+    Tell us how your install/upgrade experience went at https://forms.gle/99uiMML96AmsXY5d6
     {{< /text >}}
 
 1. Check `istiod` service is successfully installed and its pods are running:
 
     {{< text syntax=bash >}}
     $ kubectl get deployments -n istio-system --output wide
-      NAME     READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS   IMAGES                         SELECTOR
-      istiod   1/1     1            1           10m   discovery    docker.io/istio/pilot:1.16.1   istio=pilot
+    NAME     READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS   IMAGES                         SELECTOR
+    istiod   1/1     1            1           10m   discovery    docker.io/istio/pilot:1.16.1   istio=pilot
     {{< /text >}}
 
 1. (Optional) Install an ingress gateway:
@@ -171,9 +175,9 @@ installed above.
 
     {{< text syntax=bash snip_id=helm_ls >}}
     $ helm ls -n istio-system
-    NAME       NAMESPACE    REVISION UPDATED         STATUS   CHART        APP VERSION
-    istio-base istio-system 1        ... ... ... ... deployed base-1.0.0   1.0.0
-    istiod     istio-system 1        ... ... ... ... deployed istiod-1.0.0 1.0.0
+    NAME       NAMESPACE    REVISION UPDATED         STATUS   CHART         APP VERSION
+    istio-base istio-system 1        ... ... ... ... deployed base-1.16.1   1.16.1
+    istiod     istio-system 1        ... ... ... ... deployed istiod-1.16.1 1.16.1
     {{< /text >}}
 
 1. (Optional) Delete any Istio gateway chart installations:
