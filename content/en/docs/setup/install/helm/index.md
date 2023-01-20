@@ -175,9 +175,9 @@ installed above.
 
     {{< text syntax=bash snip_id=helm_ls >}}
     $ helm ls -n istio-system
-    NAME       NAMESPACE    REVISION UPDATED         STATUS   CHART         APP VERSION
-    istio-base istio-system 1        ... ... ... ... deployed base-1.16.1   1.16.1
-    istiod     istio-system 1        ... ... ... ... deployed istiod-1.16.1 1.16.1
+    NAME       NAMESPACE    REVISION UPDATED         STATUS   CHART        APP VERSION
+    istio-base istio-system 1        ... ... ... ... deployed base-1.0.0   1.0.0
+    istiod     istio-system 1        ... ... ... ... deployed istiod-1.0.0 1.0.0
     {{< /text >}}
 
 1. (Optional) Delete any Istio gateway chart installations:
