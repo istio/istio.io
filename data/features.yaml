@@ -379,7 +379,7 @@ features:
     area: Core
     id: "core.revision_based_upgrade"
   - name: "Revision Tags"
-    link: "/docs/setup/upgrade/canary/#stable-revision-labels-experimental"
+    link: "/docs/setup/upgrade/canary/#stable-revision-labels-alpha"
     level:
       checklist: features/revision_tags.md
       maturity: Alpha
