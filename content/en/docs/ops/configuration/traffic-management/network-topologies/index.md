@@ -201,10 +201,16 @@ for examples of using this capability.
 ## PROXY Protocol
 
 {{< boilerplate experimental >}}
+The [PROXY protocol](https://www.haproxy.org/download/1.8/doc/proxy-protocol.txt) allows for exchanging and preservation of client attributes between TCP proxies,
+without relying on L7 protocols such as HTTP and the `X-Forwarded-For` and `X-Envoy-External-Address` headers, and is intended for scenarios where an external TCP load balancer needs to proxy TCP traffic through an Istio gateway to a backend TCP service and still expose client attributes such as source IP to upstream TCP service endpoints. 
 
-The [PROXY protocol](https://www.haproxy.org/download/1.8/doc/proxy-protocol.txt) allows for exchanging and preservation of client attributes across multiple proxies without relying on Layer 7 protocols.
+{{< idea >}}
+PROXY protocol is only supported for TCP traffic forwarding by Envoy. See the [Envoy documentation](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/other_features/ip_transparency#proxy-protocol) for more details, along with some important performance caveats.
 
-If your external load balancer is configured to use the PROXY protocol, the Istio gateway must also be configured to accept the PROXY protocol. Enabling this requires adding the [Envoy Proxy Protocol filter](https://www.envoyproxy.io/docs/envoy/latest/configuration/listeners/listener_filters/proxy_protocol) using an `EnvoyFilter` applied on the gateway workload. For example:
+PROXY protocol should not be used for L7 traffic, or for Istio gateways behind L7 load balancers.
+{{< /idea >}}
+
+If your external TCP load balancer is configured to forward TCP traffic and use the PROXY protocol, the Istio Gateway TCP listener must also be configured to accept the PROXY protocol. Enabling this requires adding the [Envoy Proxy Protocol filter](https://www.envoyproxy.io/docs/envoy/latest/configuration/listeners/listener_filters/proxy_protocol) using an `EnvoyFilter` applied on the gateway workload. For example:
 
 {{< text syntax=yaml snip_id=none >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -226,4 +232,7 @@ spec:
       istio: ingressgateway
 {{< /text >}}
 
-The client IP is retrieved from the PROXY protocol and set (or appended) in the `X-Forwarded-For` and `X-Envoy-External-Address` header. When PROXY protocol is used in conjunction with the `gatewayTopology` configuration, the `numTrustedProxies` and the received `X-Forwarded-For` header takes precedence in determining the trusted client addresses.
+The client IP is retrieved from the PROXY protocol by the gateway and set (or appended) in the `X-Forwarded-For` and `X-Envoy-External-Address` header. Note that the PROXY protocol is mutually exclusive with L7 headers like `X-Forwarded-For` and `X-Envoy-External-Address` - when PROXY protocol is used in conjunction with the `gatewayTopology` configuration, the `numTrustedProxies` and the received `X-Forwarded-For` header takes precedence in determining the trusted client addresses, and PROXY protocol client information will be ignored.
+
+Note that the above example only configures the Gateway to accept incoming PROXY protocol TCP traffic - See the [Envoy documentation](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/other_features/ip_transparency#proxy-protocol) for examples of how to configure Envoy itself to communicate with upstream services using PROXY protocol.
+
