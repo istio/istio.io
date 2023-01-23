@@ -223,6 +223,68 @@ Note: only one address may be specified.
 
 * (Advanced) The generated Pod configuration can be configured by [Custom Injection Templates](/docs/setup/additional-setup/sidecar-injection/#custom-templates-experimental).
 
+#### Resource Attachment and Scaling
+
+{{< warning >}}
+Resource attachment is current experimental.
+{{< /warning >}}
+
+To customize the Gateway, resources can be *attached* to the `Gateway`.
+Since most APIs do not directly support attaching, they can instead be attached to the generated `Deployment` and `Service`.
+
+Both of these objects are guaranteed to be named the same as the `Gateway` and have a label `istio.io/gateway-name: GATEWAY_NAME`.
+
+For example, to deploy a `HorizontalPodAutoscaler` and `PodDisruptionBudget`:
+
+{{< text yaml >}}
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: Gateway
+metadata:
+  name: gateway
+spec:
+  gatewayClassName: istio
+  listeners:
+  - name: default
+    hostname: "*.example.com"
+    port: 80
+    protocol: HTTP
+    allowedRoutes:
+      namespaces:
+        from: All
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: gateway
+spec:
+  # Match the generated Deployment by reference
+  # Note: Do not use `kind: Gateway`.
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: gateway
+  minReplicas: 2
+  maxReplicas: 5
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: gateway
+spec:
+  minAvailable: 1
+  selector:
+    # Match the generated Deployment by label
+    matchLabels:
+      istio.io/gateway-name: gateway
+{{< /text >}}
+
 ### Manual Deployment
 
 If you do not want to have an automated deployment, a `Deployment` and `Service` can be [configured manually](/docs/setup/additional-setup/gateway/).
