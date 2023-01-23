@@ -226,15 +226,14 @@ Note: only one address may be specified.
 #### Resource Attachment and Scaling
 
 {{< warning >}}
-Resource attachment is current experimental.
+Resource attachment is currently experimental.
 {{< /warning >}}
 
-To customize the Gateway, resources can be *attached* to the `Gateway`.
-Since most APIs do not directly support attaching, they can instead be attached to the generated `Deployment` and `Service`.
+Resources can be *attached* to a `Gateway` to customize it.
+However, most Kubernetes resources do not currently support attaching directly to a `Gateway`, but they can be attached to the corresponding generated `Deployment` and `Service` instead.
+This is easily done because both of these resources are generated with the same name as the `Gateway` and with a label `istio.io/gateway-name: <gateway name>`.
 
-Both of these objects are guaranteed to be named the same as the `Gateway` and have a label `istio.io/gateway-name: GATEWAY_NAME`.
-
-For example, to deploy a `HorizontalPodAutoscaler` and `PodDisruptionBudget`:
+For example, to deploy a `Gateway` with a `HorizontalPodAutoscaler` and `PodDisruptionBudget`:
 
 {{< text yaml >}}
 apiVersion: gateway.networking.k8s.io/v1beta1
