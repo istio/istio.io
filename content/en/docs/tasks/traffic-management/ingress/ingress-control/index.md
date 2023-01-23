@@ -67,8 +67,10 @@ kind: Gateway
 metadata:
   name: httpbin-gateway
 spec:
+  # The selector matches the ingress gateway pod labels.
+  # If you installed Istio using Helm following the standard documentation, this would be "istio=ingress"
   selector:
-    istio: ingressgateway # use Istio default gateway implementation
+    istio: ingressgateway
   servers:
   - port:
       number: 80
@@ -78,30 +80,6 @@ spec:
     - "httpbin.example.com"
 EOF
 {{< /text >}}
-
-{{< tip >}}
-If you installed Istio using Helm, the selector for the `Gateway` is `istio=ingress`:
-
-{{< text bash >}}
-$ kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
-kind: Gateway
-metadata:
-  name: httpbin-gateway
-spec:
-  selector:
-    istio: ingress # use Istio gateway installed with Helm CLI
-  servers:
-  - port:
-      number: 80
-      name: http
-      protocol: HTTP
-    hosts:
-    - "httpbin.example.com"
-EOF
-{{< /text >}}
-
-{{< /tip >}}
 
 Configure routes for traffic entering via the `Gateway`:
 
@@ -369,8 +347,10 @@ kind: Gateway
 metadata:
   name: httpbin-gateway
 spec:
+  # The selector matches the ingress gateway pod labels.
+  # If you installed Istio using Helm following the standard documentation, this would be "istio=ingress"
   selector:
-    istio: ingressgateway # use Istio default gateway implementation
+    istio: ingressgateway
   servers:
   - port:
       number: 80

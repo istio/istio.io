@@ -53,7 +53,7 @@ else
     _verify_like snip_determining_the_ingress_ip_and_ports_4 "$snip_determining_the_ingress_ip_and_ports_4_out"
 
     # set INGRESS_HOST, INGRESS_PORT, SECURE_INGRESS_PORT, and TCP_INGRESS_PORT environment variables
-    snip_determining_the_ingress_ip_and_ports_6
+    snip_determining_the_ingress_ip_and_ports_5
 fi
 
 # access the httpbin service
