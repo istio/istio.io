@@ -227,7 +227,7 @@ If you decide to rollback to the old control plane, instead of completing the ca
 you can uninstall the canary revision using:
 
 {{< text bash >}}
-$ istioctl uninstall --revision=canary
+$ istioctl uninstall --revision=canary -y
 {{< /text >}}
 
 However, in this case you must first reinstall the gateway(s) for the previous revision manually,
@@ -244,7 +244,7 @@ with the canary uninstall.
 1. Clean up the namespaces used for canary upgrade with revision labels example:
 
     {{< text bash >}}
-    $ kubectl delete ns istio-sysem test-ns
+    $ kubectl delete ns test-ns
     {{< /text >}}
 
 1. Clean up the namespaces used for canary upgrade with revision tags example:

@@ -41,10 +41,9 @@ snip_data_plane_2
 snip_data_plane_3
 _verify_contains snip_data_plane_4 "test-ns"
 
-# Uninstall old control plane
-snip_uninstall_old_control_plane_2
-_verify_like snip_uninstall_old_control_plane_3 "$snip_uninstall_old_control_plane_3_out"
+# Uninstall canary control plane
+snip_uninstall_canary_control_plane_1
+_verify_not_contains snip_uninstall_old_control_plane_3 "istiod-canary"
 
 # @cleanup
-echo y | snip_uninstall_canary_control_plane_1
 snip_cleanup_1

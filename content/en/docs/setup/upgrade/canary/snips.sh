@@ -163,11 +163,11 @@ istiod-canary-55887f699c-t8bh8   1/1     Running   0          27m
 ENDSNIP
 
 snip_uninstall_canary_control_plane_1() {
-istioctl uninstall --revision=canary
+istioctl uninstall --revision=canary -y
 }
 
 snip_cleanup_1() {
-kubectl delete ns istio-sysem test-ns
+kubectl delete ns test-ns
 }
 
 snip_cleanup_2() {
