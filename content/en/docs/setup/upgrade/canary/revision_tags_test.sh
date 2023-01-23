@@ -51,4 +51,4 @@ _verify_contains snip_usage_8 "istiod-1-10-0"
 # @cleanup
 snip_uninstall_old_control_plane_1
 istioctl uninstall --purge -y
-snip_cleanup_1
+snip_cleanup_2

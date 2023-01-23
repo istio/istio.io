@@ -40,9 +40,9 @@ kubectl get pods -n istio-system -l app=istiod
 }
 
 ! read -r -d '' snip_control_plane_2_out <<\ENDSNIP
-NAME                                    READY   STATUS    RESTARTS   AGE
-istiod-786779888b-p9s5n                 1/1     Running   0          114m
-istiod-canary-6956db645c-vwhsk          1/1     Running   0          1m
+NAME                             READY   STATUS    RESTARTS   AGE
+istiod-65448977c9-pf9dv          1/1     Running   0          6m5s
+istiod-canary-84c8d4dcfb-xxqcp   1/1     Running   0          13m
 ENDSNIP
 
 snip_control_plane_3() {
@@ -50,9 +50,9 @@ kubectl get svc -n istio-system -l app=istiod
 }
 
 ! read -r -d '' snip_control_plane_3_out <<\ENDSNIP
-NAME            TYPE        CLUSTER-IP    EXTERNAL-IP   PORT(S)                                                AGE
-istiod          ClusterIP   10.32.5.247   <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP                  33d
-istiod-canary   ClusterIP   10.32.6.58    <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP,53/UDP,853/TCP   12m
+NAME            TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)                                 AGE
+istiod          ClusterIP   10.105.184.255   <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP   11m
+istiod-canary   ClusterIP   10.106.170.120   <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP   18m
 ENDSNIP
 
 snip_control_plane_4() {
@@ -167,5 +167,9 @@ istioctl uninstall --revision=canary
 }
 
 snip_cleanup_1() {
-kubectl delete ns istio-system test-ns app-ns-1 app-ns-2 app-ns-3
+kubectl delete ns istio-sysem test-ns
+}
+
+snip_cleanup_2() {
+kubectl delete ns istio-system app-ns-1 app-ns-2 app-ns-3
 }

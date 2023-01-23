@@ -53,16 +53,16 @@ After running the command, you will have two control plane deployments and servi
 
 {{< text bash >}}
 $ kubectl get pods -n istio-system -l app=istiod
-NAME                                    READY   STATUS    RESTARTS   AGE
-istiod-786779888b-p9s5n                 1/1     Running   0          114m
-istiod-canary-6956db645c-vwhsk          1/1     Running   0          1m
+NAME                             READY   STATUS    RESTARTS   AGE
+istiod-65448977c9-pf9dv          1/1     Running   0          6m5s
+istiod-canary-84c8d4dcfb-xxqcp   1/1     Running   0          13m
 {{< /text >}}
 
 {{< text bash >}}
 $ kubectl get svc -n istio-system -l app=istiod
-NAME            TYPE        CLUSTER-IP    EXTERNAL-IP   PORT(S)                                                AGE
-istiod          ClusterIP   10.32.5.247   <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP                  33d
-istiod-canary   ClusterIP   10.32.6.58    <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP,53/UDP,853/TCP   12m
+NAME            TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)                                 AGE
+istiod          ClusterIP   10.105.184.255   <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP   11m
+istiod-canary   ClusterIP   10.106.170.120   <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP   18m
 {{< /text >}}
 
 You will also see that there are two sidecar injector configurations including the new revision.
@@ -241,8 +241,14 @@ with the canary uninstall.
 
 ## Cleanup
 
-Clean up the namespaces:
+1. Clean up the namespaces used for canary upgrade with revision labels example:
 
-{{< text bash >}}
-$ kubectl delete ns istio-system test-ns app-ns-1 app-ns-2 app-ns-3
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl delete ns istio-sysem test-ns
+    {{< /text >}}
+
+1. Clean up the namespaces used for canary upgrade with revision tags example:
+
+    {{< text bash >}}
+    $ kubectl delete ns istio-system app-ns-1 app-ns-2 app-ns-3
+    {{< /text >}}
