@@ -19,7 +19,9 @@ set -e
 set -u
 set -o pipefail
 
-# @setup profile=default
+# setup initial control plane
+istioctl install --set profile=default --revision=1-9-5 -y
+
 # Deploy a test namespace with an application pod
 kubectl create ns test-ns
 kubectl label namespace test-ns istio-injection=enabled
@@ -42,8 +44,9 @@ snip_data_plane_3
 _verify_contains snip_data_plane_4 "test-ns"
 
 # Uninstall canary control plane
-snip_uninstall_canary_control_plane_1
-_verify_not_contains snip_uninstall_old_control_plane_3 "istiod-canary"
+snip_uninstall_old_control_plane_1
+_verify_like snip_uninstall_old_control_plane_3 "$snip_uninstall_old_control_plane_3_out"
 
 # @cleanup
+snip_uninstall_canary_control_plane_1
 snip_cleanup_1

@@ -54,15 +54,15 @@ After running the command, you will have two control plane deployments and servi
 {{< text bash >}}
 $ kubectl get pods -n istio-system -l app=istiod
 NAME                             READY   STATUS    RESTARTS   AGE
-istiod-65448977c9-pf9dv          1/1     Running   0          6m5s
-istiod-canary-84c8d4dcfb-xxqcp   1/1     Running   0          13m
+istiod-1-9-5-bdf5948d5-htddg     1/1     Running   0          47s
+istiod-canary-84c8d4dcfb-skcfv   1/1     Running   0          25s
 {{< /text >}}
 
 {{< text bash >}}
 $ kubectl get svc -n istio-system -l app=istiod
 NAME            TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)                                 AGE
-istiod          ClusterIP   10.105.184.255   <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP   11m
-istiod-canary   ClusterIP   10.106.170.120   <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP   18m
+istiod-1-9-5    ClusterIP   10.96.93.151     <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP   109s
+istiod-canary   ClusterIP   10.104.186.250   <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP   87s
 {{< /text >}}
 
 You will also see that there are two sidecar injector configurations including the new revision.
@@ -70,8 +70,8 @@ You will also see that there are two sidecar injector configurations including t
 {{< text bash >}}
 $ kubectl get mutatingwebhookconfigurations
 NAME                            WEBHOOKS   AGE
-istio-sidecar-injector          1          7m56s
-istio-sidecar-injector-canary   1          3m18s
+istio-sidecar-injector-1-9-5    2          2m16s
+istio-sidecar-injector-canary   2          114s
 {{< /text >}}
 
 ## Data plane
@@ -244,7 +244,7 @@ with the canary uninstall.
 1. Clean up the namespaces used for canary upgrade with revision labels example:
 
     {{< text bash >}}
-    $ kubectl delete ns test-ns
+    $ kubectl delete ns istio-system test-ns
     {{< /text >}}
 
 1. Clean up the namespaces used for canary upgrade with revision tags example:

@@ -41,8 +41,8 @@ kubectl get pods -n istio-system -l app=istiod
 
 ! read -r -d '' snip_control_plane_2_out <<\ENDSNIP
 NAME                             READY   STATUS    RESTARTS   AGE
-istiod-65448977c9-pf9dv          1/1     Running   0          6m5s
-istiod-canary-84c8d4dcfb-xxqcp   1/1     Running   0          13m
+istiod-1-9-5-bdf5948d5-htddg     1/1     Running   0          47s
+istiod-canary-84c8d4dcfb-skcfv   1/1     Running   0          25s
 ENDSNIP
 
 snip_control_plane_3() {
@@ -51,8 +51,8 @@ kubectl get svc -n istio-system -l app=istiod
 
 ! read -r -d '' snip_control_plane_3_out <<\ENDSNIP
 NAME            TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)                                 AGE
-istiod          ClusterIP   10.105.184.255   <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP   11m
-istiod-canary   ClusterIP   10.106.170.120   <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP   18m
+istiod-1-9-5    ClusterIP   10.96.93.151     <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP   109s
+istiod-canary   ClusterIP   10.104.186.250   <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP   87s
 ENDSNIP
 
 snip_control_plane_4() {
@@ -61,8 +61,8 @@ kubectl get mutatingwebhookconfigurations
 
 ! read -r -d '' snip_control_plane_4_out <<\ENDSNIP
 NAME                            WEBHOOKS   AGE
-istio-sidecar-injector          1          7m56s
-istio-sidecar-injector-canary   1          3m18s
+istio-sidecar-injector-1-9-5    2          2m16s
+istio-sidecar-injector-canary   2          114s
 ENDSNIP
 
 snip_data_plane_1() {
@@ -167,7 +167,7 @@ istioctl uninstall --revision=canary -y
 }
 
 snip_cleanup_1() {
-kubectl delete ns test-ns
+kubectl delete ns istio-system test-ns
 }
 
 snip_cleanup_2() {
