@@ -39,7 +39,7 @@ export PATH=$PWD/bin:$PATH
 }
 
 snip_install_istio_install_1() {
-istioctl install -f samples/bookinfo/demo-profile-no-gateways.yaml -y
+istioctl install --set PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING -f samples/bookinfo/demo-profile-no-gateways.yaml -y
 }
 
 ! read -r -d '' snip_install_istio_install_1_out <<\ENDSNIP

@@ -26,7 +26,7 @@ kubectl get crd gateways.gateway.networking.k8s.io || \
 }
 
 snip_setup_2() {
-istioctl install --set profile=minimal -y
+istioctl install --set PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING --set profile=minimal -y
 }
 
 snip_configuring_a_gateway_1() {

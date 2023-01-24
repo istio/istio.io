@@ -45,7 +45,7 @@ ENDSNIP
 
 snip_deploying_a_gateway_2() {
 kubectl create namespace istio-ingress
-istioctl install -f ingress.yaml
+istioctl install --set PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING -f ingress.yaml
 }
 
 snip_deploying_a_gateway_3() {

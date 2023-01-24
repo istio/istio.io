@@ -21,7 +21,7 @@
 ####################################################################################################
 
 snip_before_you_begin_1() {
-istioctl install --set profile=demo --set meshConfig.outboundTrafficPolicy.mode=REGISTRY_ONLY
+istioctl install --set PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING --set profile=demo --set meshConfig.outboundTrafficPolicy.mode=REGISTRY_ONLY
 }
 
 snip_before_you_begin_2() {

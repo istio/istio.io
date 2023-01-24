@@ -101,6 +101,7 @@ with open(markdown, 'rt', encoding='utf-8') as mdfile:
         # Replace github file token with release-specific URL.
         github_url = "https://raw.githubusercontent.com/istio/istio/" + source_branch_name
         line = line.replace("{{< github_file >}}", github_url)
+        line = line.replace("istioctl install", "istioctl install --set PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING")
 
         match = sectionhead.match(line)
         if match:

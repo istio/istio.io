@@ -47,7 +47,7 @@ popd
 }
 
 snip_deploy_istio_1() {
-istioctl install --set profile=demo
+istioctl install --set PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING --set profile=demo
 }
 
 snip_deploying_example_services_1() {

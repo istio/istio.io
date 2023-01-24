@@ -21,7 +21,7 @@
 ####################################################################################################
 
 snip_before_you_begin_1() {
-istioctl install --set profile=default
+istioctl install --set PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING --set profile=default
 }
 
 snip_setup_1() {
