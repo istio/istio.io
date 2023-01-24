@@ -208,7 +208,7 @@ without relying on L7 protocols such as HTTP and the `X-Forwarded-For` and `X-En
 PROXY protocol is only supported for TCP traffic forwarding by Envoy. See the [Envoy documentation](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/other_features/ip_transparency#proxy-protocol) for more details, along with some important performance caveats.
 
 PROXY protocol should not be used for L7 traffic, or for Istio gateways behind L7 load balancers.
-{{< /idea >}}
+{{< /warning >}}
 
 If your external TCP load balancer is configured to forward TCP traffic and use the PROXY protocol, the Istio Gateway TCP listener must also be configured to accept the PROXY protocol. Enabling this requires adding the [Envoy Proxy Protocol filter](https://www.envoyproxy.io/docs/envoy/latest/configuration/listeners/listener_filters/proxy_protocol) using an `EnvoyFilter` applied on the gateway workload. For example:
 
