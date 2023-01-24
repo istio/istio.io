@@ -204,7 +204,7 @@ for examples of using this capability.
 The [PROXY protocol](https://www.haproxy.org/download/1.8/doc/proxy-protocol.txt) allows for exchanging and preservation of client attributes between TCP proxies,
 without relying on L7 protocols such as HTTP and the `X-Forwarded-For` and `X-Envoy-External-Address` headers. It is intended for scenarios where an external TCP load balancer needs to proxy TCP traffic through an Istio gateway to a backend TCP service and still expose client attributes such as source IP to upstream TCP service endpoints.
 
-{{< idea >}}
+{{< warning >}}
 PROXY protocol is only supported for TCP traffic forwarding by Envoy. See the [Envoy documentation](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/other_features/ip_transparency#proxy-protocol) for more details, along with some important performance caveats.
 
 PROXY protocol should not be used for L7 traffic, or for Istio gateways behind L7 load balancers.
