@@ -69,7 +69,7 @@ EOF
 }
 
 ! read -r -d '' snip_enable_custom_metrics_2_out <<\ENDSNIP
-# istioctl install -f custom_metrics.yaml
+# istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true -f custom_metrics.yaml
 ENDSNIP
 
 ! read -r -d '' snip_enable_custom_metrics_3 <<\ENDSNIP
