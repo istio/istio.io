@@ -19,6 +19,7 @@ set -e
 set -u
 set -o pipefail
 
+# @setup profile=none
 # setup initial control plane
 istioctl install --set profile=default --revision=1-9-5 -y
 
