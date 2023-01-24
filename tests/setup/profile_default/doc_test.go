@@ -41,10 +41,6 @@ func setupConfig(ctx resource.Context, cfg *istio.Config) {
 values:
   pilot:
     env:
-      PILOT_ENABLE_STATUS: true
       PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING: true
-  global:
-    istiod:
-      enableAnalysis: true
 `
 }
