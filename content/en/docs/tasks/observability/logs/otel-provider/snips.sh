@@ -130,7 +130,7 @@ kubectl delete -f samples/open-telemetry/otel.yaml
 }
 
 snip_disable_envoys_access_logging_1() {
-istioctl install --set PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING --set profile=default
+istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --set profile=default
 }
 
 ! read -r -d '' snip_disable_envoys_access_logging_1_out <<\ENDSNIP

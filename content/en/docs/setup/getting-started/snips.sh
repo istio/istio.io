@@ -34,7 +34,7 @@ export PATH=$PWD/bin:$PATH
 }
 
 snip_install_istio_install_1() {
-istioctl install --set PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING --set profile=demo -y
+istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --set profile=demo -y
 }
 
 ! read -r -d '' snip_install_istio_install_1_out <<\ENDSNIP

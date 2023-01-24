@@ -62,21 +62,21 @@ EOF
 }
 
 snip_install_the_istio_control_plane_2() {
-istioctl install --set PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING -f vm-cluster.yaml
+istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true -f vm-cluster.yaml
 }
 
 snip_install_istio() {
-istioctl install --set PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING -f vm-cluster.yaml --set values.pilot.env.PILOT_ENABLE_WORKLOAD_ENTRY_AUTOREGISTRATION=true --set values.pilot.env.PILOT_ENABLE_WORKLOAD_ENTRY_HEALTHCHECKS=true
+istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true -f vm-cluster.yaml --set values.pilot.env.PILOT_ENABLE_WORKLOAD_ENTRY_AUTOREGISTRATION=true --set values.pilot.env.PILOT_ENABLE_WORKLOAD_ENTRY_HEALTHCHECKS=true
 }
 
 snip_install_eastwest() {
-samples/multicluster/gen-eastwest-gateway.sh --single-cluster | istioctl install --set PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING -y -f -
+samples/multicluster/gen-eastwest-gateway.sh --single-cluster | istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true -y -f -
 }
 
 snip_install_the_istio_control_plane_5() {
 samples/multicluster/gen-eastwest-gateway.sh \
     --mesh mesh1 --cluster "${CLUSTER}" --network "${CLUSTER_NETWORK}" | \
-    istioctl install --set PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING -y -f -
+    istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true -y -f -
 }
 
 snip_expose_istio() {

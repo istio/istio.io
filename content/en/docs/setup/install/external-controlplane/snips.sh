@@ -47,7 +47,7 @@ EOF
 }
 
 snip_set_up_a_gateway_in_the_external_cluster_2() {
-istioctl install --set PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING -f controlplane-gateway.yaml --context="${CTX_EXTERNAL_CLUSTER}"
+istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true -f controlplane-gateway.yaml --context="${CTX_EXTERNAL_CLUSTER}"
 }
 
 snip_set_up_a_gateway_in_the_external_cluster_3() {
@@ -215,7 +215,7 @@ sed  -i'.bk' \
 }
 
 snip_set_up_the_control_plane_in_the_external_cluster_5() {
-istioctl install --set PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING -f external-istiod.yaml --context="${CTX_EXTERNAL_CLUSTER}"
+istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true -f external-istiod.yaml --context="${CTX_EXTERNAL_CLUSTER}"
 }
 
 snip_set_up_the_control_plane_in_the_external_cluster_6() {
@@ -367,7 +367,7 @@ spec:
       istio-ingressgateway:
         injectionTemplate: gateway
 EOF
-istioctl install --set PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING -f istio-ingressgateway.yaml --set values.global.istioNamespace=external-istiod --context="${CTX_REMOTE_CLUSTER}"
+istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true -f istio-ingressgateway.yaml --set values.global.istioNamespace=external-istiod --context="${CTX_REMOTE_CLUSTER}"
 }
 
 snip_enable_gateways_2() {
@@ -390,7 +390,7 @@ spec:
       istio-egressgateway:
         injectionTemplate: gateway
 EOF
-istioctl install --set PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING -f istio-egressgateway.yaml --set values.global.istioNamespace=external-istiod --context="${CTX_REMOTE_CLUSTER}"
+istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true -f istio-egressgateway.yaml --set values.global.istioNamespace=external-istiod --context="${CTX_REMOTE_CLUSTER}"
 }
 
 snip_enable_gateways_4() {
