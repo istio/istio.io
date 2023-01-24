@@ -118,7 +118,7 @@ the default) is used in the service entry below.
 $ kubectl delete serviceentry wikipedia
 {{< /text >}}
 
-### Wildcard configuration for a single hosting server
+## Configure egress gateway traffic to a wildcard host
 
 When all wildcard hosts are served by a single server, the configuration for
 egress gateway-based access to a wildcard host is very similar to that of any host, with one exception:
@@ -233,7 +233,7 @@ the set of domains.
     outbound|443||www.wikipedia.org::208.80.154.224:443::cx_total::2
     {{< /text >}}
 
-#### Cleanup wildcard configuration for a single hosting server
+### Cleanup egress gateway traffic to a wildcard host
 
 {{< text bash >}}
 $ kubectl delete serviceentry www-wikipedia
