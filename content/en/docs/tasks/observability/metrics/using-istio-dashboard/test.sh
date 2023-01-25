@@ -63,6 +63,7 @@ function query_request_count_to_productpage() {
 
 # This Prometheus query is from Mesh dashboard
 function query_request_for_all_workloads() {
+  bpsnip_trace_generation__1
   curl -L -s 'http://localhost:3000/api/datasources/proxy/1/api/v1/query?query=label_join(sum(rate(istio_requests_total%7Breporter%3D%22destination%22%2C%20response_code%3D%22200%22%7D%5B1m%5D))%20by%20(destination_workload%2C%20destination_workload_namespace%2C%20destination_service)%2C%20%22destination_workload_var%22%2C%20%22.%22%2C%20%22destination_workload%22%2C%20%22destination_workload_namespace%22)' \
   | jq -r '.data.result[].metric.destination_workload_var' | sort
 }
