@@ -18,7 +18,7 @@
 source "tests/util/gateway-api.sh"
 install_gateway_api_crds
 
-# @setup profile=default
+# @setup profile=default-gateway
 source "content/en/docs/tasks/traffic-management/ingress/ingress-control/test.sh"
 
 # TODO fix cleanup approach and remove this temporary hack
