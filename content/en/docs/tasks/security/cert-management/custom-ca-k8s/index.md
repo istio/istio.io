@@ -195,6 +195,7 @@ Cert-manager has added [experimental Support for Kubernetes `CertificateSigningR
     {{< text bash >}}
     $ kubectl create ns bar
     $ kubectl create ns foo
+    {{< /text >}}
 
 1. Deploy the `proxyconfig-bar.yaml` in the `bar` namespace to define cert-signer for workloads in the `bar` namespace.
 
