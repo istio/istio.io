@@ -15,7 +15,7 @@ IstioDay Europe 2023, set for April 18, will be the first ever in-person confere
 
 IstioDay is the perfect opportunity to showcase lessons learned from running Istio in production, hands-on experiences from the Istio community, and will feature maintainers from across the Istio ecosystem. IstioDay will include real world examples, case studies, and success stories that can inspire newcomers to use Istio in production. The content will range from introductory to advanced levels, split into four main topic tracks:
 
-* **New Features:** New standards, new extensions and how to address problems that are interesting to tackle
+* **New Features:** New standards, new extensions and how to address problems that are interesting to tackle.
 * **Case Studies:** Observability, traceability, and other things built on top of Istio.
 * **Istio Recipes:** How Istio works, with deep-dives into performance, cost, and multi-cloud environments.
 * **Project Updates:** The evolution of Istio, and the latest updates from the project maintainers.
