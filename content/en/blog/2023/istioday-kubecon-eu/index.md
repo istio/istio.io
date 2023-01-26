@@ -26,7 +26,7 @@ At this time, we encourage Istio users, developers, partners, and advocates to [
 * **Panel Discussion:** 35 minutes of discussion among 3 to 5 speakers
 * **Lighting Talk:** A brief 5-minute presentation, maximum of 1 speaker
 
-At KubeCon Europe, the Istio community also has an interactive social hour to take the load off and mesh with the Istio community, vendors, and maintainers. IstioDay is one of the `KubeCon + CloudNativeCon Europe CNCF-hosted Co-located Events`. In-person attendees will now have the option to register for an `All-Access In-Person KubeCon + CloudNativeCon pass` that will include entry to all `CNCF-hosted co-located events + KubeCon + CloudNativeCon`.
+IstioDay is one of the `KubeCon + CloudNativeCon Europe CNCF-hosted Co-located Events`. In-person attendees will now have the option to register for an `All-Access In-Person KubeCon + CloudNativeCon pass` that will include entry to all `CNCF-hosted co-located events + KubeCon + CloudNativeCon`.
 
 The most exciting factor this KubeCon is that the accepted co-located event speakers will receive a complimentary `All-Access In-Person ticket`, providing free access to all `CNCF-hosted co-located events` and `KubeCon + CloudNativeCon`.
 
