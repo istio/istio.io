@@ -72,3 +72,10 @@ https://archive.istio.io/* https://istio.io/:splat 301!
 /latest/faq/* /about/faq/
 /about/faq/* /about/faq/
 /latest/about/faq/* /about/faq/
+
+# media-resources page
+
+/about/media-resources https://github.com/cncf/artwork/tree/master/projects/istio
+/latest/about/media-resources https://github.com/cncf/artwork/tree/master/projects/istio
+/about/zh/media-resources https://github.com/cncf/artwork/tree/master/projects/istio
+/latest/zh/about/media-resources https://github.com/cncf/artwork/tree/master/projects/istio
