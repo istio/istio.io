@@ -190,6 +190,12 @@ Cert-manager has added [experimental Support for Kubernetes `CertificateSigningR
     $ istioctl install -f ./istio.yaml
     {{< /text >}}
 
+1. Create the `bar` and `foo` namespaces.
+
+    {{< text bash >}}
+    $ kubectl create ns bar
+    $ kubectl create ns foo
+
 1. Deploy the `proxyconfig-bar.yaml` in the `bar` namespace to define cert-signer for workloads in the `bar` namespace.
 
     {{< text bash >}}
@@ -260,7 +266,7 @@ When the workloads are deployed, they send CSR Requests with related signer info
 1. Check network connectivity between service `sleep` in the `foo` namespace and `httpbin` in the `bar` namespace.
 
     {{< text bash >}}
-    $ export SLEEP_POD_FOO=$(kubectl get pod -n foo -l app=sleep -o jsonpath={    .items..metadata.name})
+    $ export SLEEP_POD_FOO=$(kubectl get pod -n foo -l app=sleep -o jsonpath={.items..metadata.name})
     $ kubectl exec -it $SLEEP_POD_FOO -n foo -c sleep curl http://httpbin.bar:8000/html
     upstream connect error or disconnect/reset before headers. reset reason: connection failure, transport failure reason: TLS error: 268435581:SSL routines:OPENSSL_internal:CERTIFICATE_VERIFY_FAILED
    {{< /text >}}
