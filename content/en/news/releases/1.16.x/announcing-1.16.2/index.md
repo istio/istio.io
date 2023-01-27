@@ -24,6 +24,6 @@ This release contains bug fixes to improve robustness. This release note describ
 
 - **Fixed** auto-passthrough gateways not getting XDS pushes on service updates if `PILOT_FILTER_GATEWAY_CLUSTER_CONFIG` is enabled.
 
-- **Fixed** an abnormal exit in pilot if PortLevelSettings[].Port is nil when setting traffic policy TLS mode.  ([Issue #42598](https://github.com/istio/istio/issues/42598))
+- **Fixed** an abnormal exit in pilot if `PortLevelSettings[].Port` is nil when setting traffic policy TLS mode.  ([Issue #42598](https://github.com/istio/istio/issues/42598))
 
 - **Fixed** a bug that caused a namespace's network label to have a higher priority than the pod's network label.  ([Issue #42675](https://github.com/istio/istio/issues/42675))
