@@ -2,8 +2,8 @@
 ---
 Now, the updated mapping between revisions, tags, and namespaces is as shown below:
 
-{{< image width="70%"
-link="/docs/setup/upgrade/canary/tags-updated.png"
+{{< image
+link="/docs/setup/upgrade/canary/revision-tags-after.svg"
 caption="Namespace labels unchanged but now all namespaces pointed to 1-10-0"
 >}}
 
