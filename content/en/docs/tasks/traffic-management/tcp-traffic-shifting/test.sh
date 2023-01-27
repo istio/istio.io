@@ -54,6 +54,10 @@ else
     _set_ingress_environment_variables
 fi
 
+# Check the number of ssh keys.
+gcloud compute project-info describe
+kubectl config view
+
 _verify_lines snip_apply_weightbased_tcp_routing_4 "
 + one
 - two
