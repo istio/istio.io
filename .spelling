@@ -196,9 +196,11 @@ Cilium
 CIOs
 Circonus
 cli
+CloudNativeCon
 CloudWatch
 cluster1
 cluster2
+CNCF-hosted
 CNI
 cnn.com
 codec
@@ -528,6 +530,7 @@ IstioBirthday
 IstioCon
 istioctl
 istiod
+istioday
 Istiod
 Istiofied
 IstioMesh
