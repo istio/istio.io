@@ -367,7 +367,7 @@ features:
     link: "/docs/setup/install/helm/"
     level:
       checklist: features/helm_v3_support.md
-      maturity: Alpha
+      maturity: Beta
       nextExpectedPromotion: ""
     area: Core
   - name: "Revision Based Upgrade"
