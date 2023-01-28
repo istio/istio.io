@@ -9,9 +9,7 @@ owner: istio/wg-policies-and-telemetry-maintainers
 test: no
 ---
 
-{{< tip >}}
-Users are encouraged to transition to the [Telemetry API](/docs/tasks/observability/telemetry/) for tracing configuration.
-{{</ tip >}}
+{{< boilerplate telemetry-tracing-tips >}}
 
 This task shows you how to configure Istio to collect trace spans and send them to [Lightstep](https://lightstep.com).
 Lightstep lets you analyze 100% of unsampled transaction data from large scale production software to produce meaningful
