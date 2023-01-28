@@ -8,7 +8,7 @@ test: no
 ---
 
 [Apache SkyWalking](http://skywalking.apache.org) 是一个专门设计用于微服务、云原生和容器等架构的应用性能监控 (APM) 系统。
-SkyWalking 是可观测性的一站式解决方案，不仅像 Jaeger 和 Zipkin 的分布式追踪能力，像 Prometheus 和 Grafana 的指标能力，像 Kiali 的日志记录能力，
+SkyWalking 是可观测性的一站式解决方案，不仅具有像 Jaeger 和 Zipkin 的分布式追踪能力，像 Prometheus 和 Grafana 的指标能力，像 Kiali 的日志记录能力，
 还能将可观测性扩展到许多其他场景，例如将日志与链路关联，收集系统事件并将事件与指标关联，基于 eBPF 的服务性能分析等。
 
 ## 安装{#installation}
