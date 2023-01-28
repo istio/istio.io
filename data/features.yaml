@@ -374,15 +374,15 @@ features:
     link: "/docs/setup/upgrade/canary/"
     level:
       checklist: features/canary_based_revision_install.md
-      maturity: Alpha
+      maturity: Beta
       nextExpectedPromotion: ""
     area: Core
     id: "core.revision_based_upgrade"
   - name: "Revision Tags"
-    link: "/docs/setup/upgrade/canary/#stable-revision-labels-alpha"
+    link: "/docs/setup/upgrade/canary/#stable-revision-labels"
     level:
       checklist: features/revision_tags.md
-      maturity: Alpha
+      maturity: Beta
       nextExpectedPromotion: ""
     area: Core
     id: "core.revision_tags"
