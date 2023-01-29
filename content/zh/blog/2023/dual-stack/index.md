@@ -1,6 +1,7 @@
 ---
 title: "支持双栈 Kubernetes 集群"
-description: "双栈 Kubernetes 集群的实验版本和主干分支 Alpha 版本支持."
+description: "双栈 Kubernetes 集群的实验版本和主干分支 Alpha 版本支持。"
+
 publishdate: 2023-01-17T07:00:00-06:00
 attribution: "张怀龙 (Intel), 徐贺杰 (Intel), 丁少君 (Intel), Jacob Delgado (F5), 蔡迎春 (formerly F5)"
 keywords: [双栈]
@@ -8,15 +9,9 @@ keywords: [双栈]
 
 在过去的一年里，英特尔和 F5 在为 Istio 提供 [Kubernetes 双栈网络](https://kubernetes.io/docs/concepts/services-networking/dual-stack/)的支持中通力合作。
 
-<<<<<<< HEAD
-# 背景
-
-对于Isito双栈支持的工作花费了比预期更长的时间，而我们也还有很多关于双栈的工作需要继续。最初这项工作基于 F5 的设计实现展开，由此我们创建了 [RFC](https://docs.google.com/document/d/1oT6pmRhOw7AtsldU0-HbfA0zA26j9LYiBD_eepeErsQ/edit?usp=sharing) ，社区根据该设计文档展开了广泛的讨论。值得注意的是，社区对此方案存在对内存和性能方面的顾虑，并且希望这些问题能够在实现之前被解决，这也引起了我们对最初设计方案的反思。
-=======
 ## 背景
 
 对于 Istio 双栈支持的工作花费了比预期更长的时间，而我们也还有很多关于双栈的工作需要继续。最初这项工作基于 F5 的设计实现展开，由此我们创建了 [RFC](https://docs.google.com/document/d/1oT6pmRhOw7AtsldU0-HbfA0zA26j9LYiBD_eepeErsQ/edit?usp=sharing) ，社区根据该设计文档展开了广泛的讨论。值得注意的是，社区对此方案存在对内存和性能方面的顾虑，并且希望这些问题能够在实现之前被解决，这也引起了我们对最初设计方案的反思。
->>>>>>> 2fd3ddc0b... remove CLA failed submit log
 
 ## 实验双栈分支
 
@@ -40,7 +35,7 @@ keywords: [双栈]
 
 对于 Istio 双栈支持的实现，这些修改确保我们能够在 Envoy 的下游和上游连接上得到适当的支持。
 
-团队总共向 Envoy 提交了十多个 PR，其中有多半数的PR 的目的是使 Envoy 采用双栈时对 Istio 来说更加容易。
+团队总共向 Envoy 提交了十多个 PR，其中有多半数的 PR 的目的是使 Envoy 采用双栈时对 Istio 来说更加容易。
 
 同时，在 Istio 方面，也可以在 [Issue #40394](https://github.com/istio/istio/issues/40394) 中跟踪进度。尽管最近进展有所放缓，随着我们在各种问题上继续与 Envoy 合作，我们希望到2023年2月份 Istio 1.17 版本发布之前能够得到解决。
 
