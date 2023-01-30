@@ -6,7 +6,7 @@ attribution: "Craig Box (ARMO), for the Istio Product Security Working Group"
 keywords: [istio,security,audit,ada logics,assessment,cncf,ostif]
 ---
 
-Istio is a project that platform engineers trust to enforce security policy in their production Kubernetes environments. We pay a lot of care to security in our code, and maintain a robust [vulnerability program](/docs/releases/security-vulnerabilities/). To validate our work, we periodically invite external review of the project, and we are pleased to publish [the results of our second security audit](./Istio%20audit%20report%20-%20ADA%20Logics%20-%202022-12-28%20-%20v1.0.pdf).
+Istio is a project that platform engineers trust to enforce security policy in their production Kubernetes environments. We pay a lot of care to security in our code, and maintain a robust [vulnerability program](/docs/releases/security-vulnerabilities/). To validate our work, we periodically invite external review of the project, and we are pleased to publish [the results of our second security audit](./Istio%20audit%20report%20-%20ADA%20Logics%20-%202023-01-30%20-%20v1.0.pdf).
 
 The auditors’ assessment was that **"Istio is a well-maintained project that has a strong and sustainable approach to security"**. No critical issues were found; the highlight of the report was the discovery of a vulnerability in the Go programming language.
 
@@ -67,7 +67,7 @@ The remaining issues found were:
 * [TOC/TOU](https://en.wikipedia.org/wiki/Time-of-check_to_time-of-use) race conditions in a library used for copying files (#9)
 * A user could exhaust the memory of the Security Token Service if running in Debug mode (#11)
 
-Please refer to [the full report](./Istio%20audit%20report%20-%20ADA%20Logics%20-%202022-12-28%20-%20v1.0.pdf) for details.
+Please refer to [the full report](./Istio%20audit%20report%20-%20ADA%20Logics%20-%202023-01-30%20-%20v1.0.pdf) for details.
 
 ### Reviewing the 2020 report
 
