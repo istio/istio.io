@@ -70,7 +70,7 @@ In additional, a [default provider](/docs/reference/config/istio.mesh.v1alpha1/#
 will be used when the `Telemetry` resources do not specify a provider.
 
 {{< tip >}}
-If you're using [Sidecar](https://istio.io/latest/docs/reference/config/networking/sidecar/), don't forgot adding provider's service.
+If you're using [Sidecar](https://istio.io/latest/docs/reference/config/networking/sidecar/) configuration, do not forget to add provider's service.
 {{< /tip >}}
 
 ## Examples
