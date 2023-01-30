@@ -2,8 +2,8 @@
 ---
 The resulting mapping between revisions, tags, and namespaces is as shown below:
 
-{{< image width="70%"
-link="/docs/setup/upgrade/canary/tags.png"
+{{< image width="90%"
+link="/docs/setup/upgrade/canary/revision-tags-before.svg"
 caption="Two namespaces pointed to prod-stable and one pointed to prod-canary"
 >}}
 
