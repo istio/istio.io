@@ -195,6 +195,7 @@ CIDRs
 Cilium
 CIOs
 Circonus
+Cleartext
 cli
 CloudNativeCon
 CloudWatch
@@ -310,6 +311,7 @@ CVE-2022-31045
 CVE-2022-39278
 CVE-2022-39388
 CVE-2022-41715
+CVE-2022-41721
 cves
 CVEs
 cvss
@@ -358,6 +360,7 @@ docker.io
 dogfood
 Dorosh
 double-tls
+downloader
 Dropdown
 Drucker
 dual-stack
@@ -392,6 +395,7 @@ Ezequiel
 facto
 failover
 failovers
+Faseela
 faq
 faq.md
 Fawad
@@ -411,7 +415,7 @@ FQDN
 FQDNs
 frontend
 frontends
-Faseela
+fuzzers
 gamified
 gapped
 GatewayClass
@@ -439,6 +443,7 @@ grafana-istio-dashboard
 Graphviz
 grpc
 gRPC
+h2c
 Haidian
 Harvey
 Hashicorp
@@ -608,6 +613,7 @@ LoadBalancer
 loadimpact
 localhost
 log_output_level
+Logics
 lookups
 loopback
 Lua
@@ -722,6 +728,7 @@ operationalize
 operationalizes
 optname
 OS-level
+OSS-Fuzz
 Ostrowski
 otel-collector
 outsized
