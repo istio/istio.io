@@ -7,9 +7,7 @@ owner: istio/wg-environments-maintainers
 test: n/a
 ---
 
-{{< tip >}}
-Users are encouraged to transition to the [Telemetry API](/docs/tasks/observability/telemetry/) for tracing configuration.
-{{</ tip >}}
+{{< boilerplate telemetry-tracing-tips >}}
 
 [Zipkin](https://zipkin.io/) is a distributed tracing system. It helps gather timing data needed to troubleshoot latency problems in service architectures. Features include both the collection and lookup of this data.
 

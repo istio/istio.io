@@ -7,9 +7,7 @@ owner: istio/wg-environments-maintainers
 test: n/a
 ---
 
-{{< tip >}}
-Users are encouraged to transition to the [Telemetry API](/docs/tasks/observability/telemetry/) for tracing configuration.
-{{</ tip >}}
+{{< boilerplate telemetry-tracing-tips >}}
 
 [Jaeger](https://www.jaegertracing.io/) is an open source end to end distributed tracing system, allowing users to monitor and troubleshoot transactions in complex distributed systems.
 
