@@ -82,7 +82,7 @@ primary and canary installations.
     $ helm upgrade istio-base istio/base --set defaultRevision=canary -n istio-system --skip-crds
     {{< /text >}}
 
-### Stable revision labels (experimental)
+### Stable revision labels
 
 {{< boilerplate revision-tags-preamble >}}
 
