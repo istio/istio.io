@@ -60,14 +60,18 @@ data:
 
 For convenience, Istio comes with a few providers configured out of the box with default settings:
 
-|Provider Name|Functionality|
-|-------------|-------------|
-|`prometheus` |Metrics|
-|`stackdriver`|Metrics, Tracing, Access Logging|
-|`envoy`      |Access Logging|
+| Provider Name | Functionality                    |
+| ------------- | -------------------------------- |
+| `prometheus`  | Metrics                          |
+| `stackdriver` | Metrics, Tracing, Access Logging |
+| `envoy`       | Access Logging                   |
 
 In additional, a [default provider](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-DefaultProviders) can be set which
 will be used when the `Telemetry` resources do not specify a provider.
+
+{{< tip >}}
+If you're using [Sidecar](/docs/reference/config/networking/sidecar/) configuration, do not forget to add provider's service.
+{{< /tip >}}
 
 ## Examples
 
