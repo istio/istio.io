@@ -77,7 +77,7 @@ baseurl := "$(URL)"
 endif
 
 # Which branch of the Istio source code do we fetch stuff from
-export SOURCE_BRANCH_NAME ?= master
+export SOURCE_BRANCH_NAME ?= release-1.17
 
 site:
 	@scripts/gen_site.sh
@@ -116,6 +116,9 @@ lint-en: clean_public build_nominify lint-copyright-banner lint-python lint-yaml
 	@scripts/lint_site.sh en
 
 lint-fast: clean_public build_nominify lint-copyright-banner lint-python lint-yaml lint-dockerfiles lint-scripts lint-sass lint-typescript lint-go
+	@SKIP_LINK_CHECK=true scripts/lint_site.sh en
+
+lint-md: clean_public build_nominify
 	@SKIP_LINK_CHECK=true scripts/lint_site.sh en
 
 serve: site

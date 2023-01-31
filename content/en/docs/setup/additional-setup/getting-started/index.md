@@ -6,7 +6,7 @@ aliases:
     - /docs/setup/kubernetes/getting-started/
     - /docs/setup/kubernetes/
     - /docs/setup/kubernetes/install/kubernetes/
-keywords: [getting-started, install, bookinfo, quick-start, kubernetes]
+keywords: [getting-started, install, bookinfo, quick-start, kubernetes, gateway-api]
 owner: istio/wg-environments-maintainers
 test: yes
 ---

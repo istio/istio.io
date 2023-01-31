@@ -195,10 +195,13 @@ CIDRs
 Cilium
 CIOs
 Circonus
+Cleartext
 cli
+CloudNativeCon
 CloudWatch
 cluster1
 cluster2
+CNCF-hosted
 CNI
 cnn.com
 codec
@@ -308,6 +311,7 @@ CVE-2022-31045
 CVE-2022-39278
 CVE-2022-39388
 CVE-2022-41715
+CVE-2022-41721
 cves
 CVEs
 cvss
@@ -356,6 +360,7 @@ docker.io
 dogfood
 Dorosh
 double-tls
+downloader
 Dropdown
 Drucker
 dual-stack
@@ -391,6 +396,7 @@ Ezequiel
 facto
 failover
 failovers
+Faseela
 faq
 faq.md
 Fawad
@@ -410,7 +416,7 @@ FQDN
 FQDNs
 frontend
 frontends
-Faseela
+fuzzers
 gamified
 gapped
 GatewayClass
@@ -438,6 +444,7 @@ grafana-istio-dashboard
 Graphviz
 grpc
 gRPC
+h2c
 Haidian
 Harvey
 Hashicorp
@@ -529,6 +536,7 @@ IstioBirthday
 IstioCon
 istioctl
 istiod
+istioday
 Istiod
 Istiofied
 IstioMesh
@@ -606,6 +614,7 @@ LoadBalancer
 loadimpact
 localhost
 log_output_level
+Logics
 lookups
 loopback
 Lua
@@ -720,6 +729,7 @@ operationalize
 operationalizes
 optname
 OS-level
+OSS-Fuzz
 Ostrowski
 otel-collector
 outsized
@@ -983,6 +993,7 @@ URIs
 url
 user
 user1
+usergroup
 userId
 UTF-8
 v0.14.0

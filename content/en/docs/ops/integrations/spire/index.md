@@ -261,39 +261,40 @@ To improve workload attestation security robustness, SPIRE is able to verify aga
     apiVersion: apps/v1
     kind: Deployment
     metadata:
-    name: sleep
+      name: sleep
     spec:
-    replicas: 1
-    selector:
-        matchLabels:
-        app: sleep
-    template:
-        metadata:
-        labels:
+      replicas: 1
+      selector:
+          matchLabels:
             app: sleep
-        # Injects custom sidecar template
-        annotations:
-            inject.istio.io/templates: "sidecar,spire"
-        spec:
-        terminationGracePeriodSeconds: 0
-        serviceAccountName: sleep
-        containers:
-        - name: sleep
-            image: curlimages/curl
-            command: ["/bin/sleep", "3650d"]
-            imagePullPolicy: IfNotPresent
-            volumeMounts:
-            - name: tmp
-            mountPath: /tmp
-            securityContext:
-            runAsUser: 1000
-        volumes:
-        - name: tmp
-            emptyDir: {}
-        # CSI volume
-        - name: workload-socket
-            csi:
-            driver: "csi.spiffe.io"
+      template:
+          metadata:
+            labels:
+              app: sleep
+            # Injects custom sidecar template
+            annotations:
+                inject.istio.io/templates: "sidecar,spire"
+          spec:
+            terminationGracePeriodSeconds: 0
+            serviceAccountName: sleep
+            containers:
+            - name: sleep
+              image: curlimages/curl
+              command: ["/bin/sleep", "3650d"]
+              imagePullPolicy: IfNotPresent
+              volumeMounts:
+                - name: tmp
+                  mountPath: /tmp
+              securityContext:
+                runAsUser: 1000
+            volumes:
+              - name: tmp
+                emptyDir: {}
+              # CSI volume
+              - name: workload-socket
+                csi:
+                  driver: "csi.spiffe.io"
+                  readOnly: true
     {{< /text >}}
 
 1. Get pod information:

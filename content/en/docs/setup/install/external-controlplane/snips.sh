@@ -47,7 +47,7 @@ EOF
 }
 
 snip_set_up_a_gateway_in_the_external_cluster_2() {
-istioctl install -f controlplane-gateway.yaml --context="${CTX_EXTERNAL_CLUSTER}"
+istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true -f controlplane-gateway.yaml --context="${CTX_EXTERNAL_CLUSTER}"
 }
 
 snip_set_up_a_gateway_in_the_external_cluster_3() {
@@ -215,7 +215,7 @@ sed  -i'.bk' \
 }
 
 snip_set_up_the_control_plane_in_the_external_cluster_5() {
-istioctl install -f external-istiod.yaml --context="${CTX_EXTERNAL_CLUSTER}"
+istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true -f external-istiod.yaml --context="${CTX_EXTERNAL_CLUSTER}"
 }
 
 snip_set_up_the_control_plane_in_the_external_cluster_6() {
@@ -367,7 +367,7 @@ spec:
       istio-ingressgateway:
         injectionTemplate: gateway
 EOF
-istioctl install -f istio-ingressgateway.yaml --set values.global.istioNamespace=external-istiod --context="${CTX_REMOTE_CLUSTER}"
+istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true -f istio-ingressgateway.yaml --set values.global.istioNamespace=external-istiod --context="${CTX_REMOTE_CLUSTER}"
 }
 
 snip_enable_gateways_2() {
@@ -390,37 +390,52 @@ spec:
       istio-egressgateway:
         injectionTemplate: gateway
 EOF
-istioctl install -f istio-egressgateway.yaml --set values.global.istioNamespace=external-istiod --context="${CTX_REMOTE_CLUSTER}"
+istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true -f istio-egressgateway.yaml --set values.global.istioNamespace=external-istiod --context="${CTX_REMOTE_CLUSTER}"
 }
 
 snip_enable_gateways_4() {
 helm install istio-egressgateway istio/gateway -n external-istiod --kube-context="${CTX_REMOTE_CLUSTER}" --set service.type=ClusterIP
 }
 
-snip_test_the_ingress_gateway_1() {
+snip_configure_and_test_an_ingress_gateway_1() {
 kubectl get pod -l app=istio-ingressgateway -n external-istiod --context="${CTX_REMOTE_CLUSTER}"
 }
 
-! read -r -d '' snip_test_the_ingress_gateway_1_out <<\ENDSNIP
+! read -r -d '' snip_configure_and_test_an_ingress_gateway_1_out <<\ENDSNIP
 NAME                                    READY   STATUS    RESTARTS   AGE
 istio-ingressgateway-7bcd5c6bbd-kmtl4   1/1     Running   0          8m4s
 ENDSNIP
 
-snip_test_the_ingress_gateway_2() {
+snip_install_crds() {
+kubectl get crd gateways.gateway.networking.k8s.io --context="${CTX_REMOTE_CLUSTER}" || \
+  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.6.0" | kubectl apply -f - --context="${CTX_REMOTE_CLUSTER}"; }
+}
+
+snip_configure_and_test_an_ingress_gateway_3() {
 kubectl apply -f samples/helloworld/helloworld-gateway.yaml -n sample --context="${CTX_REMOTE_CLUSTER}"
 }
 
-snip_test_the_ingress_gateway_3() {
+snip_configure_and_test_an_ingress_gateway_4() {
+kubectl apply -f samples/helloworld/gateway-api/helloworld-gateway.yaml -n sample --context="${CTX_REMOTE_CLUSTER}"
+}
+
+snip_configure_and_test_an_ingress_gateway_5() {
 export INGRESS_HOST=$(kubectl -n external-istiod --context="${CTX_REMOTE_CLUSTER}" get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 export INGRESS_PORT=$(kubectl -n external-istiod --context="${CTX_REMOTE_CLUSTER}" get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].port}')
 export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
 }
 
-snip_test_the_ingress_gateway_4() {
+snip_configure_and_test_an_ingress_gateway_6() {
+kubectl -n sample --context="${CTX_REMOTE_CLUSTER}" wait --for=condition=ready gtw helloworld-gateway
+export INGRESS_HOST=$(kubectl -n sample --context="${CTX_REMOTE_CLUSTER}" get gtw helloworld-gateway -o jsonpath='{.status.addresses[*].value}')
+export GATEWAY_URL=$INGRESS_HOST:80
+}
+
+snip_configure_and_test_an_ingress_gateway_7() {
 curl -s "http://${GATEWAY_URL}/hello"
 }
 
-! read -r -d '' snip_test_the_ingress_gateway_4_out <<\ENDSNIP
+! read -r -d '' snip_configure_and_test_an_ingress_gateway_7_out <<\ENDSNIP
 Hello version: v1, instance: helloworld-v1-776f57d5f6-s7zfc
 ENDSNIP
 

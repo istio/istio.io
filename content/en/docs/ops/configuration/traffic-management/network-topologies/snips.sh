@@ -30,7 +30,7 @@ spec:
       gatewayTopology:
         numTrustedProxies: 2
 EOF
-istioctl install -f topology.yaml
+istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true -f topology.yaml
 }
 
 snip_create_httpbin_namespace() {

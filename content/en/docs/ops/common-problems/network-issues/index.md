@@ -127,7 +127,7 @@ not be directed to subset v1 but instead will continue to use default round-robi
 
 The ingress requests are using the gateway host (e.g., `myapp.com`)
 which will activate the rules in the myapp `VirtualService` that routes to any endpoint of the helloworld service.
-Only internal requests with the host `helloworld.default.svc.cluster.local` will use the
+Only internal requests with the host `helloworld.default.svc.cluster.local` will use the
 helloworld `VirtualService` which directs traffic exclusively to subset v1.
 
 To control the traffic from the gateway, you need to also include the subset rule in the myapp `VirtualService`:
@@ -228,7 +228,7 @@ server {
 Assume Istio is installed with the following configuration:
 
 - `mTLS mode` set to `STRICT` within the mesh
-- `meshConfig.outboundTrafficPolicy.mode` set to `ALLOW_ANY`
+- `meshConfig.outboundTrafficPolicy.mode` set to `ALLOW_ANY`
 
 Consider `nginx` is deployed as a `StatefulSet` in the default namespace and a corresponding `Headless Service` is defined as shown below:
 

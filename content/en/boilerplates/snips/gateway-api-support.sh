@@ -19,8 +19,4 @@
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
 #          boilerplates/gateway-api-support.md
 ####################################################################################################
-
-bpsnip_gateway_api_support_install_crds() {
-kubectl get crd gateways.gateway.networking.k8s.io || \
-  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.6.0" | kubectl apply -f -; }
-}
+source "content/en/boilerplates/snips/gateway-api-install-crds.sh"

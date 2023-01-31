@@ -2,8 +2,8 @@
 ---
 The resulting mapping between revisions, tags, and namespaces is as shown below:
 
-{{< image width="70%"
-link="/docs/setup/upgrade/canary/tags.png"
+{{< image width="90%"
+link="/docs/setup/upgrade/canary/revision-tags-before.svg"
 caption="Two namespaces pointed to prod-stable and one pointed to prod-canary"
 >}}
 
@@ -12,6 +12,7 @@ The cluster operator can view this mapping in addition to tagged namespaces thro
 {{< text bash >}}
 $ istioctl tag list
 TAG         REVISION NAMESPACES
+default     1-9-5    ...
 prod-canary 1-10-0   ...
 prod-stable 1-9-5    ...
 {{< /text >}}

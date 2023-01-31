@@ -5,7 +5,7 @@ weight: 50
 aliases:
     - /docs/tasks/traffic-management/ingress/service-apis/
     - /latest/docs/tasks/traffic-management/ingress/service-apis/
-keywords: [traffic-management,ingress]
+keywords: [traffic-management,ingress, gateway-api]
 owner: istio/wg-networking-maintainers
 test: yes
 ---
@@ -222,6 +222,67 @@ These resources can be customized in a few ways:
 Note: only one address may be specified.
 
 * (Advanced) The generated Pod configuration can be configured by [Custom Injection Templates](/docs/setup/additional-setup/sidecar-injection/#custom-templates-experimental).
+
+#### Resource Attachment and Scaling
+
+{{< warning >}}
+Resource attachment is currently experimental.
+{{< /warning >}}
+
+Resources can be *attached* to a `Gateway` to customize it.
+However, most Kubernetes resources do not currently support attaching directly to a `Gateway`, but they can be attached to the corresponding generated `Deployment` and `Service` instead.
+This is easily done because both of these resources are generated with the same name as the `Gateway` and with a label `istio.io/gateway-name: <gateway name>`.
+
+For example, to deploy a `Gateway` with a `HorizontalPodAutoscaler` and `PodDisruptionBudget`:
+
+{{< text yaml >}}
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: Gateway
+metadata:
+  name: gateway
+spec:
+  gatewayClassName: istio
+  listeners:
+  - name: default
+    hostname: "*.example.com"
+    port: 80
+    protocol: HTTP
+    allowedRoutes:
+      namespaces:
+        from: All
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: gateway
+spec:
+  # Match the generated Deployment by reference
+  # Note: Do not use `kind: Gateway`.
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: gateway
+  minReplicas: 2
+  maxReplicas: 5
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: gateway
+spec:
+  minAvailable: 1
+  selector:
+    # Match the generated Deployment by label
+    matchLabels:
+      istio.io/gateway-name: gateway
+{{< /text >}}
 
 ### Manual Deployment
 
