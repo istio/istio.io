@@ -51,7 +51,7 @@ Now, when you’re ready to promote the `1-8-0` revision from `canary` to `prod`
     caption="Namespaces A, B, and C pointed to 1-8-0"
     >}}
 
-Check out the [updated Canary Upgrade guide](/docs/setup/upgrade/canary/#stable-revision-labels-experimental) for a walk-through you can follow along with!
+Check out the [updated Canary Upgrade guide](/docs/setup/upgrade/canary/#stable-revision-labels) for a walk-through you can follow along with!
 
 ## Sidecar Networking Changes
 
