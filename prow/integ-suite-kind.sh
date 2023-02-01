@@ -92,6 +92,8 @@ done
 
 if [ -n "$PULL_NUMBER" ]; then
   echo "Optimizing tests for pull nummber: $PULL_NUMBER"
+  FILES=$(gh pr diff "$PULL_NUMBER" --name-only)
+  echo "$FILES"
   TESTS=$(python3 ./scripts/pr_tests.py --token="$ACCESS_TOKEN" "$PULL_NUMBER")
   if [ "$TESTS" = "NONE" ]; then
     echo "No tests affected by the current changes"
