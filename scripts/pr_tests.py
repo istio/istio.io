@@ -33,7 +33,7 @@ args = parser.parse_args()
 
 pull_number = int(args.pull_number)
 repo_name = args.repo if args.repo else istio_doc_repo
-access_token = args.token if args.token else None # Warning: Github rate limit is very low (60 req/hr) without access token
+access_token = args.token if args.token else None  # Warning: Github rate limit is very low (60 req/hr) without access token
 
 try:
     g = Github(access_token)
@@ -52,9 +52,9 @@ try:
                     relative_file = filename[len(doc_file_prefix):]
                     test_paths.add(relative_file.rsplit('/', 1)[0])
             elif filename == istio_go_dependency or \
-                 filename.startswith(test_framework_pkg) or \
-                 filename.startswith(test_framework_util) or \
-                 filename.startswith(boilerplate_snip_prefix):
+                    filename.startswith(test_framework_pkg) or \
+                    filename.startswith(test_framework_util) or \
+                    filename.startswith(boilerplate_snip_prefix):
                 print("ALL")
                 sys.exit(0)
 

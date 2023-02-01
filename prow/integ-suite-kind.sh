@@ -93,11 +93,11 @@ done
 if [ -z "$PULL_NUMBER" ]; then
   echo "Optimizing tests for pull nummber: $PULL_NUMBER"
   TESTS=$(python3 ./scripts/pr_tests.py --token="$ACCESS_TOKEN" "$PULL_NUMBER")
-  if [ "$TESTS" = "NONE"]; then
+  if [ "$TESTS" = "NONE" ]; then
     echo "No tests affected by the current changes"
     exit 0
-  elif [ "$TESTS" != "ALL"]; then
-    PARAMS+="TEST=$TESTS"
+  elif [ "$TESTS" != "ALL" ]; then
+    PARAMS+=("TEST=$TESTS")
   fi
 fi
 
