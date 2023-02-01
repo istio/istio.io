@@ -74,7 +74,7 @@ while (( "$#" )); do
       ;;
 
     --token-path)
-      ACCESS_TOKEN=$(cat $2)
+      ACCESS_TOKEN=$(cat "$2")
       shift 2
       ;;
 
