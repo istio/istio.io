@@ -38,7 +38,7 @@ func TestDocs(t *testing.T) {
 
 func setupConfig(ctx resource.Context, cfg *istio.Config) {
 	cfg.ControlPlaneValues = `
-profile: demo
+profile: minimal
 values:
   pilot:
     env:
