@@ -76,8 +76,8 @@ istio-sidecar-injector-canary   2          114s
 
 ## Data plane
 
-Unlike istiod, Istio gateways do not run revision-specific instances, but are instead in-place upgraded to use the new control plane revision.
-You can verify that the `istio-ingress` gateway is using the `canary` revision by running the following command:
+Refer [Gateway Canary Upgrade](/docs/setup/additional-setup/gateway/#canary-upgrade-advanced) to understand how to run revision specific instances of Istio gateway.
+In the current example, since we use `default` Istio profile, Istio gateways do not run revision-specific instances, but are instead in-place upgraded to use the new control plane revision. You can verify that the `istio-ingress` gateway is using the `canary` revision by running the following command:
 
 {{< text bash >}}
 $ istioctl proxy-status | grep "$(kubectl -n istio-system get pod -l app=istio-ingressgateway -o jsonpath='{.items..metadata.name}')" | awk '{print $10}'

@@ -53,10 +53,26 @@ kubectl get pods -l app=istiod -L istio.io/rev -n istio-system
 ENDSNIP
 
 snip_canary_upgrade_recommended_4() {
-helm delete istiod -n istio-system
+helm install istio-ingress-canary istio/gateway \
+    --set revision=canary \
+    -n istio-ingress
 }
 
 snip_canary_upgrade_recommended_5() {
+kubectl get pods -L istio.io/rev -n istio-ingress
+}
+
+! read -r -d '' snip_canary_upgrade_recommended_5_out <<\ENDSNIP
+  NAME                                    READY   STATUS    RESTARTS   AGE     REV
+  istio-ingress-754f55f7f6-6zg8n          1/1     Running   0          5m22s   default
+  istio-ingress-canary-5d649bd644-4m8lp   1/1     Running   0          3m24s   canary
+ENDSNIP
+
+snip_canary_upgrade_recommended_6() {
+helm delete istiod -n istio-system
+}
+
+snip_canary_upgrade_recommended_7() {
 helm upgrade istio-base istio/base --set defaultRevision=canary -n istio-system --skip-crds
 }
 
