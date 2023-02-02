@@ -53,7 +53,7 @@ cat /home/.kube/config
 export SLEEP=$(kubectl get pod -l app=sleep -n istio-io-tcp-traffic-shifting -o jsonpath={.items..metadata.name})
 for i in {1..20}; do \
 cat /home/.kube/config; \
-kubectl exec "$SLEEP" -c sleep -n istio-io-tcp-traffic-shifting -- sh -c "echo one"; \
+kubectl exec "$SLEEP" -c sleep -n istio-io-tcp-traffic-shifting -- sh -c "(date; sleep 1) | nc $INGRESS_HOST $TCP_INGRESS_PORT"; \
 done
 }
 

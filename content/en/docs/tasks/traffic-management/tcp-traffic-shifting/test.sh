@@ -42,6 +42,25 @@ if [ "$GATEWAY_API" == "true" ]; then
     snip_apply_weightbased_tcp_routing_2
     _wait_for_gateway istio-io-tcp-traffic-shifting tcp-echo-gateway
     snip_apply_weightbased_tcp_routing_3
+
+    # Make sure the nc command will work and not fail the cluster
+    # if ! [ -x "$(command -v nc)" ]; then
+    #     su-exec 0:0 apt-get update && su-exec 0:0 apt-get install -y --no-install-recommends netcat
+    # fi
+    # iteration=0
+    # maxloop=30
+    # export INGRESS_IP=$(kubectl get gtw tcp-echo-gateway -n istio-io-tcp-traffic-shifting -o jsonpath='{.status.addresses[*].value}')
+    # while [[ ! $(nc "$INGRESS_IP" "$TCP_INGRESS_PORT") ]]; do
+    #     echo "inside loop, iteration $iteration"
+    #     ((iteration+=1))
+    #     echo "iteration incremented: $iteration"
+    #     if [ $iteration -gt $maxloop ]; then
+    #         echo "gateway failed to become ready"
+    #         exit 1
+    #     fi
+    #     sleep 1
+    # done
+    sleep 30 # it seems we had 8 or so exits during the run of 20 so need 8 plus seconds
 else
     snip_apply_weightbased_tcp_routing_1
 
