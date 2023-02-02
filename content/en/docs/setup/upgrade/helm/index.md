@@ -74,7 +74,7 @@ primary and canary installations.
         -n istio-ingress
     {{< /text >}}
 
-1. Verify that you have two versions of `gateway` installed in your cluster:
+1. Verify that you have two versions of `istio-ingress gateway` installed in your cluster:
 
     {{< text bash >}}
     $ kubectl get pods -L istio.io/rev -n istio-ingress
