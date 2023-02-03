@@ -25,6 +25,5 @@ source "content/en/docs/tasks/traffic-management/ingress/ingress-sni-passthrough
 snip_cleanup_2
 snip_cleanup_3
 snip_cleanup_4
-istioctl uninstall --purge -y
 kubectl delete ns istio-system
 remove_gateway_api_crds
