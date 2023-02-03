@@ -43,5 +43,13 @@ values:
   pilot:
     env:
       PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING: true
+components:
+  egressGateways:
+  - enabled: false
+    name: istio-egressgateway
+  ingressGateways:
+  - enabled: false
+    name: istio-ingressgateway
 `
+	cfg.DeployEastWestGW = false
 }
