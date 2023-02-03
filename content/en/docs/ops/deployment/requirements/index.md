@@ -75,11 +75,11 @@ To be part of a mesh, Kubernetes pods must satisfy the following requirements:
   a Kubernetes `Deployment`. The `app` and `version` labels add contextual information
   to the metrics and telemetry that Istio collects.
 
-    - The `app` label: Each deployment should have a distinct
+    - The `app.kubernetes.io/name` label: Each deployment should have a distinct
       `app` label with a meaningful value. The `app` label is used to add
       contextual information in distributed tracing.
 
-    - The `version` label: This label indicates the version of the application
+    - The `app.kubernetes.io/version` label: This label indicates the version of the application
       corresponding to the particular deployment.
 
 - **Named service ports**: Service ports may optionally be named to explicitly specify a protocol.
