@@ -71,12 +71,12 @@ To be part of a mesh, Kubernetes pods must satisfy the following requirements:
     Otherwise, you will need to [provide the permission](https://kubernetes.io/docs/concepts/policy/pod-security-policy/#authorizing-policies).
 
 - **Pods with app and version labels**: We recommend adding an explicit
-  `app` label and `version` label to the specification of the pods deployed using
-  a Kubernetes `Deployment`. The `app` and `version` labels add contextual information
+  `app.kubernetes.io/name` label and `app.kubernetes.io/version` label to the specification of the pods deployed using
+  a Kubernetes `Deployment`. The `app.kubernetes.io/name` and `app.kubernetes.io/version` labels add contextual information
   to the metrics and telemetry that Istio collects.
 
     - The `app.kubernetes.io/name` label: Each deployment should have a distinct
-      `app` label with a meaningful value. The `app` label is used to add
+      `app.kubernetes.io/name` label with a meaningful value. The `app.kubernetes.io/name` label is used to add
       contextual information in distributed tracing.
 
     - The `app.kubernetes.io/version` label: This label indicates the version of the application
