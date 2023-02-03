@@ -95,8 +95,8 @@ Please keep up-to-date and use a supported version.
 
 ## Relationship between Istio and Envoy
 
-Istio's data plane related on [Envoy](httpst://github.com/envoyproxy/envoy).
-Istio cut branch after Envoy released before every major release, the relationship between two project summary as following:
+Istio's data plane related on [Envoy](https://github.com/envoyproxy/envoy).
+Istio cut major release branch after Envoy released, the relationship between two project summary as following:
 
 | Istio version | Envoy release |
 | ------------- | ------------- |
@@ -104,4 +104,4 @@ Istio cut branch after Envoy released before every major release, the relationsh
 | 1.16.x        | 1.24.x        |
 | 1.15.x        | 1.23.x        |
 
-you can find Envoy commit message from https://github.com/istio/proxy/blob/master/WORKSPACE#L38.
+you can find Envoy commit message from [Istio/proxy](https://github.com/istio/proxy/blob/master/WORKSPACE#L38).
