@@ -60,9 +60,29 @@ $ istioctl x precheck
       istiod-canary-9cc9fd96f-jpc7n   1/1     Running   0          34m   canary
     {{< /text >}}
 
-1. 遵循[此处](/zh/docs/setup/upgrade/canary/)的步骤来测试和迁移现有工作负载，以使用金丝雀控制平面。
+1. 如果您正在使用 [Istio Gateway](/zh/docs/setup/additional-setup/gateway/#deploying-a-gateway)，
+    可通过设置 revision 的值来安装金丝雀修订版的 Gateway Chart：
 
-1. 一旦您已经验证并迁移了要使用金丝雀控制平面的工作负载，您就可以卸载旧的控制平面：
+    {{< text bash >}}
+    $ helm install istio-ingress-canary istio/gateway \
+        --set revision=canary \
+        -n istio-ingress
+    {{< /text >}}
+
+1. 验证您已将两个 `istio-ingress gateway` 版本安装到了集群中：
+
+    {{< text bash >}}
+    $ kubectl get pods -L istio.io/rev -n istio-ingress
+      NAME                                    READY   STATUS    RESTARTS   AGE     REV
+      istio-ingress-754f55f7f6-6zg8n          1/1     Running   0          5m22s   default
+      istio-ingress-canary-5d649bd644-4m8lp   1/1     Running   0          3m24s   canary
+    {{< /text >}}
+
+    参见[升级 Gateway](/zh/docs/setup/additional-setup/gateway/#canary-upgrade-advanced)了解有关 Gateway 金丝雀升级的深度解析文档。
+
+1. 遵循[此处](/zh/docs/setup/upgrade/canary/#data-plane)的步骤来测试和迁移现有工作负载，以使用金丝雀控制平面。
+
+1. 一旦您已验证并迁移工作负载以使用金丝雀控制平面，您就可以卸载旧的控制平面：
 
     {{< text bash >}}
     $ helm delete istiod -n istio-system
