@@ -21,11 +21,11 @@ According to our [seat allocation process](https://docs.google.com/spreadsheets/
 - [Craig Box](https://github.com/craigbox) (ARMO)
 - [Faseela K](https://github.com/kfaseela) (Ericsson Software Technology)
 - [Iris Ding](https://github.com/irisdingbj) (Intel)
+- [Jianpeng He](https://github.com/zirain) (Huawei)
 - [John Howard](https://github.com/howardjohn) (Google)
 - [Justin Pettit](https://github.com/justinpettit) (Google)
 - [Rob Cernich](https://github.com/rcernich) (Red Hat)
 - [Zhonghu Xu](https://github.com/hzxuzhonghu) (Huawei)
-- [Jianpeng He](https://github.com/zirain) (Huawei)
 
 Our sincerest thanks to Louis Ryan, Srihari Angaluri, Kebe Liu and Jason McGee, all long-time contributors to the Istio project, whose terms have come to an end.
 
