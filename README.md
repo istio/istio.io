@@ -4,7 +4,7 @@
 | preliminary.istio.io | [![Netlify Status](https://api.netlify.com/api/v1/badges/a1cfd435-23d5-4a43-ac6d-8ec9230d9eb3/deploy-status)](https://app.netlify.com/sites/preliminary-istio/deploys)
 | archive.istio.io | [![Netlify Status](https://api.netlify.com/api/v1/badges/f8c3eecb-3c5c-48d9-b952-54c7ed0ece8f/deploy-status)](https://app.netlify.com/sites/archive-istio/deploys)
 
-## Eric edit test for istio.io, mark 2
+## Eric edit test for istio.io, mark 2. Edited.
 
 This repository contains the source code for [istio.io](https://istio.io) and
 [preliminary.istio.io](https://preliminary.istio.io).
