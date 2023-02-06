@@ -1,8 +1,7 @@
 ---
-title: "2023 Istio Steering Contributor Seats"
-subtitle: Announcing the Istio Steering Committee Contributor Members, 2023.
-description: Announcing the Istio Steering Committee Contributor Members, 2023.
-publishdate: 2023-02-04
+title: "Announcing the Contribution Seat holders for 2023"
+description: The Istio Steering Committee welcomes contributors from Google, IBM, Huawei and Red Hat.
+publishdate: 2023-02-06
 attribution: "Faseela K, for the Istio Steering Committee"
 keywords: [istio,steering,governance,community,contributor]
 ---
@@ -11,7 +10,9 @@ The [Istio Steering Committee](https://github.com/istio/community/blob/master/st
 
 Last year, we [elected four members](/blog/2022/steering-election-results/) to the community seats. It's now time to announce the companies who fuel our growth by selecting the Contribution Seat members. As per the [Steering charter](https://github.com/istio/community/blob/master/steering/CHARTER.md), every February we look at which companies have made the most contributions to Istio based on an [annually agreed metric](https://github.com/istio/community/blob/master/steering/CONTRIBUTION-FORMULA.md).
 
-According to our [seat allocation process](https://docs.google.com/spreadsheets/d/1IIms6OT1DgJ_lbn5433sy5wvqNBIIQgQHoWZvpShSXk/edit#gid=1365082320), this year Google will be allocated 5 seats and IBM/Red Hat will be allocated 2. As the third largest contributor to Istio in the last 12 months, we are pleased to announce that Huawei has earned two Contribution Seats. Based on this, here is the complete list of Istio Steering Committee members, including both the Contribution and Community seats:
+According to our [seat allocation process](https://docs.google.com/spreadsheets/d/1IIms6OT1DgJ_lbn5433sy5wvqNBIIQgQHoWZvpShSXk/edit#gid=1365082320), this year Google will be allocated 5 seats and IBM/Red Hat will be allocated 2. As the third largest contributor to Istio in the last 12 months, we are pleased to announce that Huawei has earned two Contribution Seats. 
+
+Based on this, here is the complete list of Istio Steering Committee members, including both the Contribution and Community Seats:
 
 - [Ameer Abbas](https://github.com/ameer00) (Google)
 - [Craig Box](https://github.com/craigbox) (ARMO)
