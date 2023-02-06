@@ -503,7 +503,6 @@ iptables
 IPv4
 IPv6
 Istio
-istio
 istio-agent
 istio-cni
 istio-control

@@ -18,7 +18,7 @@ on a minor release do not contain backward incompatible changes.
 - [Control Plane/Data Plane Skew](#control-planedata-plane-skew)
 - [Support status of Istio releases](#support-status-of-istio-releases)
 - [Supported releases without known Common Vulnerabilities and Exposures (CVEs)](#supported-releases-without-known-common-vulnerabilities-and-exposures-cves)
-- [Relationship between Istio and Envoy](#relationship-between-istio-and-envoy)
+- [Relationship between Istio and Envoy](#supported-envoy-versions)
 
 ## Support policy
 
@@ -97,7 +97,7 @@ Please keep up-to-date and use a supported version.
 
 Istio's data plane is based on [Envoy](https://github.com/envoyproxy/envoy).
 
-The relationship between two projects versions:
+The relationship between the two project's versions:
 
 | Istio version | Envoy version |
 | ------------- | ------------- |
@@ -105,4 +105,4 @@ The relationship between two projects versions:
 | 1.16.x        | 1.24.x        |
 | 1.15.x        | 1.23.x        |
 
-In general, Istio releases tend to map one to one with Envoy releases. You can find the precise Envoy commit used by Istio in [istio/proxy](https://github.com/istio/proxy/blob/master/WORKSPACE#L38).
+In general, Istio releases tend to map one to one with Envoy releases. You can find the precise Envoy commit used by Istio in [`istio/proxy`](https://github.com/istio/proxy/blob/master/WORKSPACE#L38).
