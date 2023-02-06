@@ -97,4 +97,4 @@ Please keep up-to-date and use a supported version.
  | 1.16.x        | 1.24.x        |
  | 1.15.x        | 1.23.x        |
 
- In general, Istio releases tend to map one to one with Envoy releases. You can find the precise Envoy commit used by Istio in [istio/proxy](https://github.com/istio/proxy/blob/master/WORKSPACE#L38).
+ In general, Istio releases tend to map one to one with Envoy releases. You can find the precise Envoy commit used by Istio in [`istio/proxy`](https://github.com/istio/proxy/blob/master/WORKSPACE#L38).
