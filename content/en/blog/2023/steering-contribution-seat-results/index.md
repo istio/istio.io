@@ -25,7 +25,7 @@ According to our [seat allocation process](https://docs.google.com/spreadsheets/
 - [Justin Pettit](https://github.com/justinpettit) (Google)
 - [Rob Cernich](https://github.com/rcernich) (Red Hat)
 - [Zhonghu Xu](https://github.com/hzxuzhonghu) (Huawei)
-- [TO BE FILLED] (Huawei)
+- [Jianpeng He](https://github.com/zirain) (Huawei)
 
 Our sincerest thanks to Louis Ryan, Srihari Angaluri, Kebe Liu and Jason McGee, all long-time contributors to the Istio project, whose terms have come to an end.
 
