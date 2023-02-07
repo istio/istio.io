@@ -33,4 +33,3 @@ This release fixes the security vulnerabilities described in our August 24th pos
   Note: this vulnerability does not impact downstream client connections.
 
 - [CVE-2021-32781](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-32781) (CVSS score 8.6, High): Envoy contains a remotely exploitable vulnerability that affects Envoy's decompressor, json-transcoder or grpc-web extensions or proprietary extensions that modify and increase the size of request or response bodies. Modifying and increasing the size of the body in an Envoy’s extension beyond internal buffer size may lead to Envoy accessing deallocated memory and terminating abnormally.
-

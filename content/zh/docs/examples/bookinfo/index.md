@@ -257,4 +257,3 @@ $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-versions.yaml@
 {{< text bash >}}
 $ @samples/bookinfo/platform/kube/cleanup.sh@
 {{< /text >}}
-

@@ -23,4 +23,3 @@ weight: 20
 一旦准备好迁移到新的控制平面版本，集群 Operators 就应该切换默认版本。
 这可以通过 `istioctl tag set default --revision <new revision>` 来实现，
 或者如果使用基于 Helm 的流程，则可以使用 `helm upgrade istio-base manifests/charts/base -n istio-system --set defaultRevision=<new revision>` 来完成。
-

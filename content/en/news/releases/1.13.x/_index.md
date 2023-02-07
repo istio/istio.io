@@ -6,4 +6,3 @@ list_by_publishdate: true
 layout: release-grid
 decoration: dot
 ---
-

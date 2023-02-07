@@ -125,4 +125,3 @@ For TCP traffic, Istio generates the following metrics:
 
 *   **gRPC Response Status**: This identifies the response status of the gRPC. This
     label is present only on gRPC metrics.
-

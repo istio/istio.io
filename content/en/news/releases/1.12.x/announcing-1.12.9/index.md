@@ -16,4 +16,3 @@ This release contains bug fixes to improve robustness. This release note describ
 - **Fixed** building routes order where a catch-all route no longer short circuits other routes declared after it.  ([Issue #39188](https://github.com/istio/istio/issues/39188))
 
 - **Fixed** a bug where the previous cluster was not stopping when updating a multicluster secret. The previous cluster did not stop even when the secret was deleted.  ([Issue #39366](https://github.com/istio/istio/issues/39366))
-

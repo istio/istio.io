@@ -164,4 +164,3 @@ spec:
 Admiral 提供了新的全局流量路由和唯一服务命名功能，致力于解决由[具有控制平面副本集的多集群部署](/zh/docs/setup/install/multicluster/gateways/#deploy-the-Istio-control-plane-in-each-cluster)带来的挑战。它消除了集群之间手动配置同步的需求，并为每个集群生成上下文配置。这样或许就可以操作由许多 Kubernetes 集群组成的服务网格了。
 
 我们认为 Istio/Service Mesh 社区将从这种方法中受益，因此我们开源了 [Admiral](https://github.com/istio-ecosystem/admiral)，我们很高兴收到您的反馈和支持！
-

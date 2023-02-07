@@ -120,4 +120,3 @@ Follow these instructions to set up Dashboard for kind.
     {{< warning >}}
     You have to save your token somewhere, otherwise you have to run step number 4 everytime you need a token to login to your Dashboard.
     {{< /warning >}}
-
