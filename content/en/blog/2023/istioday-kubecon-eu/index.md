@@ -45,4 +45,3 @@ Do you want to put your product or service in front of the most discerning Cloud
 For those of you who can't make it, keep your eyes peeled for announcements of IstioCon 2023 and Istio Day North America later this year.
 
 Stay tuned to hear more about the event, and we hope you can join us at Istio Day Europe!
-

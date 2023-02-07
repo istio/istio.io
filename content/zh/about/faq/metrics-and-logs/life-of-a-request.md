@@ -35,4 +35,3 @@ weight: 80
     # 列出所有的 virtual services
     $ kubectl get virtualservices
     {{< /text >}}
-

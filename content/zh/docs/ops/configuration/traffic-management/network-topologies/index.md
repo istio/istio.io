@@ -218,4 +218,3 @@ spec:
 请注意，上面的示例仅将 Gateway 配置为接受传入的 PROXY 协议 TCP 流量。
 有关如何配置 Envoy 本身以使用 PROXY 协议与上游服务通信的示例，请参见
 [Envoy 文档](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/other_features/ip_transparency#proxy-protocol)。
-

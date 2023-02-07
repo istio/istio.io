@@ -29,4 +29,3 @@ Based on this, here is the complete list of Istio Steering Committee members, in
 - [Zhonghu Xu](https://github.com/hzxuzhonghu) (Huawei)
 
 Our sincerest thanks to Louis Ryan, Srihari Angaluri, Kebe Liu and Jason McGee, all long-time contributors to the Istio project, whose terms have come to an end.
-

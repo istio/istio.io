@@ -34,4 +34,3 @@ This release contains bug fixes to improve robustness. This release note describ
 
 - **Fixed** `DestinationRule` updates not triggering an update for `AUTO_PASSTHROUGH` listeners on gateways.
   ([Issue #34944](https://github.com/istio/istio/issues/34944))
-

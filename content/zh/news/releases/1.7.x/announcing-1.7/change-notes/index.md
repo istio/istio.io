@@ -81,4 +81,3 @@ weight: 10
 
 - **新增** 如果一个 istio.io 页面已经被 istio.io 自动测试所测试，还会出现提示。
  ([Issue #7672](https://github.com/istio/istio.io/issues/7672))
-

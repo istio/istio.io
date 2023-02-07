@@ -23,4 +23,3 @@ aliases:
 
 - **修复** 修复了 webhook 分析中的一个问题，该问题会使 helm 调节器警告 webhook 的重复的问题。
   ([Issue #36114](https://github.com/istio/istio/issues/36114))
-

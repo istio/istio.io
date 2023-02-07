@@ -61,4 +61,3 @@ In this example, the port `svc-8080` does follow the syntax: `name: <http|https|
 ## How to resolve
 
 - JWT authentication is only supported over http, https or http2. Rename the Service port name to conform with `<http|https|http2>[-<suffix>]`
-

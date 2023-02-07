@@ -188,4 +188,3 @@ Istio 公开了所有标准 [Envoy 属性](https://www.envoyproxy.io/docs/envoy/
 `upstream_peer.labels['app'].value`。
 
 有关详细信息请参阅[配置参考](/zh/docs/reference/config/proxy_extensions/stats/)。
-
