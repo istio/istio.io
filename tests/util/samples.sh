@@ -91,7 +91,7 @@ sample_http_request() {
     local response
 
     if [ "$GATEWAY_API" == "true" ]; then
-        ingress_url="http://bookinfo-gateway.default"
+        ingress_url="http://bookinfo-gateway-istio.default"
     else
         ingress_url="http://istio-ingressgateway.istio-system"
     fi
