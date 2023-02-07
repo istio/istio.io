@@ -44,6 +44,7 @@ if [ "$GATEWAY_API" == "true" ]; then
     snip_apply_weightbased_tcp_routing_3
 
     # Make sure the nc command will work and not fail the cluster
+    # More info: https://github.com/istio/istio.io/pull/12544
     # TODO proper wait for things being ready
     # it seems we had 8 or so exits during the run of 20 so need 8 plus seconds
     sleep 20s
