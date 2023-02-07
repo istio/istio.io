@@ -180,7 +180,7 @@ spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: gateway
+    name: gateway-istio
   minReplicas: 2
   maxReplicas: 5
   metrics:
