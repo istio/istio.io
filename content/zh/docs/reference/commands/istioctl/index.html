@@ -5614,6 +5614,11 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td>Output format: one of json|yaml|short  (default `short`)</td>
 </tr>
 <tr>
+<td><code>--proxy-admin-port &lt;int&gt;</code></td>
+<td></td>
+<td>Envoy proxy admin port  (default `15000`)</td>
+</tr>
+<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -5694,6 +5699,11 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--port &lt;int&gt;</code></td>
 <td></td>
 <td>Filter clusters and listeners by Port field  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--proxy-admin-port &lt;int&gt;</code></td>
+<td></td>
+<td>Envoy proxy admin port  (default `15000`)</td>
 </tr>
 <tr>
 <td><code>--subset &lt;string&gt;</code></td>
@@ -5779,6 +5789,11 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td>Output format: one of json|yaml|short  (default `json`)</td>
 </tr>
 <tr>
+<td><code>--proxy-admin-port &lt;int&gt;</code></td>
+<td></td>
+<td>Envoy proxy admin port  (default `15000`)</td>
+</tr>
+<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -5860,6 +5875,11 @@ istioctl proxy-config c [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <td>Filter clusters by Port field  (default `0`)</td>
 </tr>
 <tr>
+<td><code>--proxy-admin-port &lt;int&gt;</code></td>
+<td></td>
+<td>Envoy proxy admin port  (default `15000`)</td>
+</tr>
+<tr>
 <td><code>--subset &lt;string&gt;</code></td>
 <td></td>
 <td>Filter clusters by substring of Subset field  (default ``)</td>
@@ -5931,6 +5951,11 @@ istioctl proxy-config c [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
 <td>Output format: one of json|yaml  (default `short`)</td>
+</tr>
+<tr>
+<td><code>--proxy-admin-port &lt;int&gt;</code></td>
+<td></td>
+<td>Envoy proxy admin port  (default `15000`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -6009,6 +6034,11 @@ istioctl proxy-config ep [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <td><code>--port &lt;int&gt;</code></td>
 <td></td>
 <td>Filter endpoints by Port field  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--proxy-admin-port &lt;int&gt;</code></td>
+<td></td>
+<td>Envoy proxy admin port  (default `15000`)</td>
 </tr>
 <tr>
 <td><code>--status &lt;string&gt;</code></td>
@@ -6100,6 +6130,11 @@ istioctl proxy-config l [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <td>Filter listeners by Port field  (default `0`)</td>
 </tr>
 <tr>
+<td><code>--proxy-admin-port &lt;int&gt;</code></td>
+<td></td>
+<td>Envoy proxy admin port  (default `15000`)</td>
+</tr>
+<tr>
 <td><code>--type &lt;string&gt;</code></td>
 <td></td>
 <td>Filter listeners by type field  (default ``)</td>
@@ -6178,6 +6213,11 @@ istioctl proxy-config l [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <td>Output format: one of json|yaml|short  (default `short`)</td>
 </tr>
 <tr>
+<td><code>--proxy-admin-port &lt;int&gt;</code></td>
+<td></td>
+<td>Envoy proxy admin port  (default `15000`)</td>
+</tr>
+<tr>
 <td><code>--reset</code></td>
 <td><code>-r</code></td>
 <td>Reset levels to default value (warning). </td>
@@ -6251,6 +6291,11 @@ istioctl proxy-config l [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <td>Output format: one of json|yaml|short  (default `short`)</td>
 </tr>
 <tr>
+<td><code>--proxy-admin-port &lt;int&gt;</code></td>
+<td></td>
+<td>Envoy proxy admin port  (default `15000`)</td>
+</tr>
+<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -6312,6 +6357,11 @@ istioctl proxy-config r [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
 <td>Output format: one of json|yaml|short  (default `short`)</td>
+</tr>
+<tr>
+<td><code>--proxy-admin-port &lt;int&gt;</code></td>
+<td></td>
+<td>Envoy proxy admin port  (default `15000`)</td>
 </tr>
 <tr>
 <td><code>--verbose</code></td>
@@ -6387,6 +6437,11 @@ istioctl proxy-config s [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
 <td>Output format: one of json|yaml|short  (default `short`)</td>
+</tr>
+<tr>
+<td><code>--proxy-admin-port &lt;int&gt;</code></td>
+<td></td>
+<td>Envoy proxy admin port  (default `15000`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
