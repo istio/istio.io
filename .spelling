@@ -109,9 +109,11 @@ allow_missing
 allowlist
 alt
 Amalgam8
+Ameer
 analytics
 Anantheswaran
 ANDed
+Angaluri
 Ansari
 Ansible
 Ant
@@ -190,8 +192,10 @@ camelCase
 canaried
 canarying
 CAs
+Cale
 CDNs
 CentOS
+Cernich
 checksum
 Chrony
 Ciążyński
@@ -349,6 +353,7 @@ dev
 devirtualization
 Devirtualization
 devops
+devstats
 Dhir
 discoverability
 discuss.istio.io
@@ -549,6 +554,7 @@ iter8
 Jannot
 jason
 Jeet
+Jianpeng
 Jog
 Joglekar
 Jonh
@@ -567,6 +573,7 @@ k8s
 Kafka
 katacoda
 Kaul
+Kebe
 Keepalived
 Kenan
 key.pem
@@ -679,6 +686,7 @@ namespace
 namespaced
 namespaces
 Naser
+Nassi
 natively
 Neeraj
 netfilter
@@ -904,6 +912,7 @@ SPIFFE-compliant
 Splunk
 src
 SREs
+Srihari
 Srinath
 Stackdriver
 Standard_D4ds_v5
