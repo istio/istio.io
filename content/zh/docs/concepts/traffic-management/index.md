@@ -272,7 +272,7 @@ spec:
 
 网关主要用于管理进入的流量，但您也可以配置出口网关。出口网关让您为离开网格的流量配置一个专用的出口节点，这可以限制哪些服务可以或应该访问外部网络，或者启用[出口流量安全控制](/zh/blog/2019/egress-traffic-control-in-istio-part-1/)为您的网格添加安全性。您也可以使用网关配置一个纯粹的内部代理。
 
-Istio 提供了一些预先配置好的网关代理部署（`istio-ingressgateway` 和 `istio-egressgateway`）供您使用——如果使用我们的[演示安装](/zh/docs/setup/getting-started/)它们都已经部署好了；如果使用[默认安全](/zh/docs/setup/additional-setup/config-profiles/)则只部署了入口网关。可以将您自己的网关配置应用到这些部署或配置您自己的网关代理。
+Istio 提供了一些预先配置好的网关代理部署（`istio-ingressgateway` 和 `istio-egressgateway`）供您使用——如果使用我们的[演示安装](/zh/docs/setup/getting-started/)它们都已经部署好了；如果使用[默认安装](/zh/docs/setup/additional-setup/config-profiles/)则只部署了入口网关。可以将您自己的网关配置应用到这些部署或配置您自己的网关代理。
 
 ### Gateway 示例 {#gateway-example}
 
