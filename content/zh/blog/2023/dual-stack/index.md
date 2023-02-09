@@ -13,7 +13,7 @@ keywords: [双栈]
 
 ## 实验双栈分支
 
-随着持续深入的探索，在重新评估技术方案的同时，我们创建了一个新分支 [experimental-dual-stack](https://github.com/istio/istio/tree/experimental-dual-stack)来参考最初的设计来实现和验证 Istio 双栈的实现方案。
+随着持续深入的探索，在重新评估技术方案的同时，我们创建了一个新分支 [experimental-dual-stack]({{< github_raw >}}/tree/experimental-dual-stack)来参考最初的设计来实现和验证 Istio 双栈的实现方案。
 
 我们在后续的文章中将详细的说明如何构建使用刚才提到的实验双栈分支。但是请注意写该文章最初的目的是大家一起探索当我们希望在 Istio 中实现具有重大影响的功能而不引起系统回退时，我们如何更好的处理并开展工作。因此它会被认为是高度实验性的使用（尽管单元和集成测试目前没有通过，但仍然有人正在他们的环境中测试和使用它）。
 
