@@ -88,11 +88,11 @@ Istio PKI 使用 X.509 证书为每个工作负载都提供强大的身份标识
 Istio 通过以下流程提供密钥和证书：
 
 1. `istiod` 提供 gRPC 服务以接受[证书签名请求](https://en.wikipedia.org/wiki/Certificate_signing_request)（CSRs）。
-2. `istio-agent` 在启动时创建私钥和 CSR，然后将 CSR 及其凭据发送到 `istiod` 进行签名。
-3. `istiod` CA 验证 CSR 中携带的凭据，成功验证后签署 CSR 以生成证书。
-4. 当工作负载启动时，Envoy 通过[秘密发现服务（SDS）](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#secret-discovery-service-sds)API 向同容器内的 `istio-agent` 发送证书和密钥请求。
-5. `istio-agent` 通过 Envoy SDS API 将从 `istiod` 收到的证书和密钥发送给 Envoy。
-6. `istio-agent` 监控工作负载证书的过期时间。上述过程会定期重复进行证书和密钥轮换。
+1. `istio-agent` 在启动时创建私钥和 CSR，然后将 CSR 及其凭据发送到 `istiod` 进行签名。
+1. `istiod` CA 验证 CSR 中携带的凭据，成功验证后签署 CSR 以生成证书。
+1. 当工作负载启动时，Envoy 通过[秘密发现服务（SDS）](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#secret-discovery-service-sds)API 向同容器内的 `istio-agent` 发送证书和密钥请求。
+1. `istio-agent` 通过 Envoy SDS API 将从 `istiod` 收到的证书和密钥发送给 Envoy。
+1. `istio-agent` 监控工作负载证书的过期时间。上述过程会定期重复进行证书和密钥轮换。
 
 ## 认证{#authentication}
 
