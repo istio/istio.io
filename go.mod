@@ -196,7 +196,7 @@ require (
 	gopkg.in/square/go-jose.v2 v2.6.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
-	helm.sh/helm/v3 v3.11.0 // indirect
+	helm.sh/helm/v3 v3.11.1 // indirect
 	istio.io/api v0.0.0-20230204131218-41d7951eb9e4 // indirect
 	istio.io/client-go v1.17.0-beta.1.0.20230204132017-4d5eb3e0ad38 // indirect
 	k8s.io/api v0.26.0 // indirect
