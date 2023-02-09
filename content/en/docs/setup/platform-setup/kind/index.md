@@ -95,19 +95,19 @@ Follow these instructions to set up Dashboard for kind.
     $ kubectl create clusterrolebinding -n kubernetes-dashboard admin-user --clusterrole cluster-admin --serviceaccount=kubernetes-dashboard:admin-user
     {{< /text >}}
 
-1.  To log in to Dashboard, you need a Bearer Token. Use the following command to store the token in a variable.
+1.  To log in to your Dashboard, you need a Bearer Token. Use the following command to store the token in a variable.
 
     {{< text bash >}}
     $ token=$(kubectl -n kubernetes-dashboard create token admin-user)
     {{< /text >}}
 
-    Display the token using the `echo` command and copy it to use for logging in to Dashboard.
+    Display the token using the `echo` command and copy it to use for logging in to your Dashboard.
 
     {{< text bash >}}
     $ echo $token
     {{< /text >}}
 
-1.  You can access Dashboard using the kubectl command-line tool by running the following command:
+1.  You can access your Dashboard using the kubectl command-line tool by running the following command:
 
     {{< text bash >}}
     $ kubectl proxy
