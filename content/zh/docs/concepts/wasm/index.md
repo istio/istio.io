@@ -24,7 +24,7 @@ WebAssembly 沙盒的目标：
 
 Istio 扩展（Proxy-Wasm 插件）有几个组成部分：
 
-- **过滤器服务提供商接口** 用于为过滤器构建 Proxy-Wasm 插件。
+- **过滤器服务提供方接口（SPI）** 用于为过滤器构建 Proxy-Wasm 插件。
 - **沙盒** 在 Envoy 中嵌入 V8 Wasm 运行时。
 - **主机 API** 用于处理请求头，尾和元数据。
 - **调出 API** 针对 gRPC 和 HTTP 请求。
