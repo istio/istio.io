@@ -10,7 +10,7 @@ keywords: [双栈]
 
 ## 背景
 
-对于 Istio 双栈支持的工作花费了比预期更长的时间，而我们也还有很多关于双栈的工作需要继续。最初这项工作基于 F5 的设计实现展开，由此我们创建了 [RFC](https://docs.google.com/document/d/1oT6pmRhOw7AtsldU0-HbfA0zA26j9LYiBD_eepeErsQ/edit?usp=sharing) ，社区根据该设计文档展开了广泛的讨论。值得注意的是，社区对此方案存在对内存和性能方面的顾虑，并且希望这些问题能够在实现之前被解决，这也引起了我们对最初设计方案的反思。
+对于 Istio 双栈特性支持的工作花费了比预期更长的时间，而我们也还有很多关于双栈的工作需要继续。最初这项工作基于 F5 的设计实现展开，由此我们创建了 [RFC](https://docs.google.com/document/d/1oT6pmRhOw7AtsldU0-HbfA0zA26j9LYiBD_eepeErsQ/edit?usp=sharing) ，社区根据该设计文档展开了广泛的讨论。值得注意的是，社区对此方案存在对内存和性能方面的顾虑，并且希望这些问题能够在实现之前被解决，这也引起了我们对最初设计方案的反思。
 
 ## 实验双栈分支
 
@@ -18,23 +18,22 @@ keywords: [双栈]
 
 我们在后续的文章中将详细的说明如何构建使用刚才提到的实验双栈分支。但是请注意写该文章最初的目的是大家一起探索当我们希望在 Istio 中实现具有重大影响的功能而不引起系统回退时，我们如何更好的处理并开展工作。因此它会被认为是高度实验性的使用（尽管单元和集成测试目前没有通过，但仍然有人正在他们的环境中测试和使用它）。
 
-原始设计的很大一部分是复制大量 Envoy 配置，尤其是 listeners, clusters 和 routes 以及其对应的一系列新的可引用的 endpoints 。最初的设计是根据客户要求创建的
-指定客户端发起的 IPv4 请求应该通过 IPv4 进行代理，对于发起 IPv6 的请求也是如此(我们称之为原生IP家族转发)
+原始设计的很大一部分是复制大量 Envoy 配置，尤其是 listeners, clusters 和 routes 以及其对应的一系列新的可引用的 endpoints 。最初的设计是根据客户要求创建的指定客户端发起的 IPv4 请求应该通过 IPv4 进行代理，对于发起 IPv6 的请求也是如此(我们称之为原生IP家族转发)
 
 ## 社区反馈
 
-社区为原始 RFC 提供的大部分反馈是更改 Envoy 以更好地支持双栈用例，在 Envoy 内部而不是在 Istio 中支持它。 我们吸取了经验教训和反馈并加以应用，由此我们创建了一个新的 [RFC](https://docs.google.com/document/d/15LP2XHpQ71ODkjCVItGacPgzcn19fsVhyE7ruMGXDyU/edit?usp=sharing)
+社区为原始 RFC 提供的大部分反馈是更改 Envoy 以更好地支持双栈用例，在 Envoy 内部而不仅仅是在 Istio 中修改。 我们吸取了经验教训和反馈并加以应用，由此我们创建了一个新的 [RFC](https://docs.google.com/document/d/15LP2XHpQ71ODkjCVItGacPgzcn19fsVhyE7ruMGXDyU/edit?usp=sharing)
 
 ## 当前工作
 
-我们与 Envoy 社区合作解决了众多问题，这也是对Istio双栈的支持花费了一些时间的原因。 这些问题有： [matched IP Family for outbound listener](https://github.com/envoyproxy/envoy/issues/16804) 和 [supported multiple addresses per listener](https://github.com/envoyproxy/envoy/issues/11184). 其中徐贺杰也一直在积极的帮助解决一些悬而未解的问题，此后 Envoy 就可以以一种更聪明的方式选择 endpoints（参考Issue：[smarter way to pick endpoints for dual-stack](https://github.com/envoyproxy/envoy/issues/21640)）。 Envoy 的这些改进，比如 [enable socket options on multiple addresses](https://github.com/envoyproxy/envoy/pull/23496)，使得即将到来的 Istio 1.17 中对双栈的支持能够落地（Istio 中对应的修改比如： [extra source addresses on inbound clusters](https://github.com/istio/istio/pull/41618)）。
+我们与 Envoy 社区合作解决了众多问题，这也是对 Istio 双栈特性的支持花费了一些时间的原因。 这些问题有： [matched IP Family for outbound listener](https://github.com/envoyproxy/envoy/issues/16804) 和 [supported multiple addresses per listener](https://github.com/envoyproxy/envoy/issues/11184). 其中徐贺杰也一直在积极的帮助解决一些悬而未解的问题，此后 Envoy 就可以以一种更聪明的方式选择 endpoints（参考Issue：[smarter way to pick endpoints for dual-stack](https://github.com/envoyproxy/envoy/issues/21640)）。 Envoy 的这些改进，比如 [enable socket options on multiple addresses](https://github.com/envoyproxy/envoy/pull/23496)，使得即将到来的 Istio 1.17 中对双栈特性的支持能够落地（Istio 中对应的修改比如： [extra source addresses on inbound clusters](https://github.com/istio/istio/pull/41618)）。
 
 团队所做的关于 Envoy 接口定义更改如下：
 
 1. [Listener addresses](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/listener/v3/listener.proto.html?highlight=additional_addresses)
 1. [bind config](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/core/v3/address.proto#config-core-v3-bindconfig).
 
-对于 Istio 双栈支持的实现，这些修改是很重要的，它确保我们能够在 Envoy 的下游和上游连接上得到适当的支持。
+对于 Istio 双栈特性支持的实现，这些修改是很重要的，它确保我们能够在 Envoy 的下游和上游连接上得到适当的支持。
 
 团队总共向 Envoy 提交了十多个 PR，其中有多半数的 PR 的目的是使 Envoy 采用双栈时对 Istio 来说更加容易。
 
@@ -44,7 +43,7 @@ keywords: [双栈]
 
 ### 参与其中
 
-虽然我们没有可供下载的具有双栈功能的 Istio 公开版本，但我们很高兴双栈特性能在2023 年初即将发布的 Istio 1.17 版本中得到支持并准备就绪。
+虽然我们没有可供下载的具有双栈特性的 Istio 公开版本，但我们很高兴双栈特性能在2023 年初即将发布的 Istio 1.17 版本中得到支持并准备就绪。
 
 我们非常乐意你提出宝贵意见，如果你期待与我们合作请访问我们在 [Istio Slack](https://slack.istio.io/) 中的 Slack 频道 **#dual-stack-support**。
 
