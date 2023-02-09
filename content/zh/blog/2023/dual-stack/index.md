@@ -2,14 +2,16 @@
 title: "支持双栈 Kubernetes 集群"
 description: "双栈 Kubernetes 集群的实验版本和主干分支 Alpha 版本支持。"
 
-publishdate: 2023-01-17T07:00:00-06:00
+publishdate: 2023-002-07T13:00:00-06:00 
 attribution: "张怀龙 (Intel), 徐贺杰 (Intel), 丁少君 (Intel), Jacob Delgado (F5), 蔡迎春 (formerly F5)"
 keywords: [双栈]
 ---
 
-# 背景
+在过去的一年里，英特尔和 F5 在为 Istio 提供 [Kubernetes 双栈网络](https://kubernetes.io/docs/concepts/services-networking/dual-stack/)的支持中通力合作。
 
-在过去的一年里，英特尔和 F5 在为 Istio 提供 [Kubernetes 双栈网络](https://kubernetes.io/docs/concepts/services-networking/dual-stack/)的支持中通力合作。对于 Istio 双栈支持的工作花费了比预期更长的时间，而我们也还有很多关于双栈的工作需要继续。最初这项工作基于 F5 的设计实现展开，由此我们创建了 [RFC](https://docs.google.com/document/d/1oT6pmRhOw7AtsldU0-HbfA0zA26j9LYiBD_eepeErsQ/edit?usp=sharing) ，社区根据该设计文档展开了广泛的讨论。值得注意的是，社区对此方案存在对内存和性能方面的顾虑，并且希望这些问题能够在实现之前被解决，这也引起了我们对最初设计方案的反思。
+## 背景
+
+对于 Istio 双栈支持的工作花费了比预期更长的时间，而我们也还有很多关于双栈的工作需要继续。最初这项工作基于 F5 的设计实现展开，由此我们创建了 [RFC](https://docs.google.com/document/d/1oT6pmRhOw7AtsldU0-HbfA0zA26j9LYiBD_eepeErsQ/edit?usp=sharing) ，社区根据该设计文档展开了广泛的讨论。值得注意的是，社区对此方案存在对内存和性能方面的顾虑，并且希望这些问题能够在实现之前被解决，这也引起了我们对最初设计方案的反思。
 
 ## 实验双栈分支
 
@@ -33,21 +35,21 @@ keywords: [双栈]
 1. [Listener addresses](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/listener/v3/listener.proto.html?highlight=additional_addresses)
 1. [bind config](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/core/v3/address.proto#config-core-v3-bindconfig).
 
-对于 Istio 双栈支持的实现，这些修改确保我们能够在 Envoy 的下游和上游连接上得到适当的支持。
+对于 Istio 双栈支持的实现，这些修改是很重要的，它确保我们能够在 Envoy 的下游和上游连接上得到适当的支持。
 
 团队总共向 Envoy 提交了十多个 PR，其中有多半数的 PR 的目的是使 Envoy 采用双栈时对 Istio 来说更加容易。
 
 同时，在 Istio 方面，也可以在 [Issue #40394](https://github.com/istio/istio/issues/40394) 中跟踪进度。尽管最近进展有所放缓，随着我们在各种问题上继续与 Envoy 合作，我们希望到2023年2月份 Istio 1.17 版本发布之前能够得到解决。
 
-我们希望 Istio 1.17 能够获得对双栈工作的基本支持。
+我们希望 Istio 1.17 能够获得双栈特性的最基本支持。除此以外，来自英特尔的丁少君和李纯已经就 ambient 的网络流量重定向功能与社区一起展开工作。在 Istio 1.17 发布后不久，我们将宣布更多关于这部分内容在此版本上的修改。
 
 ### 参与其中
 
-虽然我们没有可供下载的具有双栈功能的 Istio 公开版本，但我们期望能在2023年初发布的 Istio 1.17 版本中完成并准备就绪。
+虽然我们没有可供下载的具有双栈功能的 Istio 公开版本，但我们很高兴双栈特性能在2023 年初即将发布的 Istio 1.17 版本中得到支持并准备就绪。
 
-我们很乐意收到你的反馈，如果你希望与我们合作，请访问我们在 [Istio Slack](https://slack.istio.io/) 中的 Slack 频道 **#dual-stack-support**。
+我们非常乐意你提出宝贵意见，如果你期待与我们合作请访问我们在 [Istio Slack](https://slack.istio.io/) 中的 Slack 频道 **#dual-stack-support**。
 
-_感谢为 Istio 双栈工作的团队！_
+_感谢为 Istio 双栈特性工作的团队！_
 * _英特尔： [张怀龙](https://github.com/zhlsunshine), [徐贺杰](https://github.com/soulxu), [丁少君](https://github.com/irisdingbj)_
 * _F5： [Jacob Delgado](https://github.com/jacob-delgado)_
 * _formerly of F5： [蔡迎春](https://github.com/ycai-aspen)_
