@@ -71,9 +71,9 @@ Istio 身份模型使用 `service identity` （服务身份）来确定一个请
 - GKE/GCE: GCP service account
 - 本地（非 Kubernetes）：用户帐户、自定义服务帐户、服务名称、Istio 服务帐户或 GCP 服务帐户。自定义服务帐户引用现有服务帐户，就像客户的身份目录管理的身份一样。
 
-## 公钥基础设施 (PKI) {#PKI}
+## 身份和证书管理 {#PKI}
 
-Istio PKI 使用 X.509 证书为每个工作负载都提供强大的身份标识。伴随着每个 Envoy 代理的 `istio-agent` 和 `istiod` 一起协作来大规模进行自动化密钥和证书轮换。下图显示了这个机制的运行流程。
+Istio PKI 使用 X.509 证书为每个工作负载都提供强大的身份标识。`istio-agent` 与每个 Envoy 代理一起运行，与 `istiod` 一起协作来自动化的大规模密钥和证书轮换。下图显示了这个机制的运行流程。
 
 {{< tip >}}
 译者注：这里用 `istio-agent` 来表述，是因为下图及对图的相关解读中反复用到了 “Istio agent” 这个术语，这样的描述更容易理解。
@@ -85,25 +85,25 @@ Istio PKI 使用 X.509 证书为每个工作负载都提供强大的身份标识
     caption="身份供应"
     >}}
 
-Istio 供应身份是通过 secret discovery service（SDS）来实现的，具体流程如下：
+Istio 通过以下流程提供密钥和证书：
 
 1. `istiod` 提供 gRPC 服务以接受[证书签名请求](https://en.wikipedia.org/wiki/Certificate_signing_request)（CSRs）。
-1. 当工作负载启动时，Envoy 通过[秘密发现服务（SDS）](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#secret-discovery-service-sds)API 向同容器内的 `istio-agent` 发送证书和密钥请求。
-1. 在收到 SDS 请求后，`istio-agent` 创建私钥和 CSR，然后将 CSR 及其凭据发送到  `istiod` CA 进行签名。
-1. `istiod` CA 验证 CSR 中携带的凭据，成功验证后签署 CSR 以生成证书。
-1. `Istio-agent` 通过 Envoy SDS API 将私钥和从 Istio CA 收到的证书发送给 Envoy。
-1. `Istio-agent` 会监工作负载证书的有效期。上述 CSR 过程会周期性地重复，以处理证书和密钥轮换。
+2. `istio-agent` 在启动时创建私钥和 CSR，然后将 CSR 及其凭据发送到 `istiod` 进行签名。
+3. `istiod` CA 验证 CSR 中携带的凭据，成功验证后签署 CSR 以生成证书。
+4. 当工作负载启动时，Envoy 通过[秘密发现服务（SDS）](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#secret-discovery-service-sds)API 向同容器内的 `istio-agent` 发送证书和密钥请求。
+5. `istio-agent` 通过 Envoy SDS API 将从 `istiod` 收到的证书和密钥发送给 Envoy。
+6. `istio-agent` 监控工作负载证书的过期时间。上述过程会定期重复进行证书和密钥轮换。
 
 ## 认证{#authentication}
 
 Istio 提供两种类型的认证：
 
-- Peer authentication：用于服务到服务的认证，以验证进行连接的客户端。Istio 提供[双向 TLS](https://en.wikipedia.org/wiki/Mutual_authentication) 作为传输认证的全栈解决方案，无需更改服务代码就可以启用它。这个解决方案：
+- Peer authentication：用于服务到服务的认证，以验证建立连接的客户端。Istio 提供[双向 TLS](https://en.wikipedia.org/wiki/Mutual_authentication) 作为传输认证的全栈解决方案，无需更改服务代码就可以启用它。这个解决方案：
     - 为每个服务提供强大的身份，表示其角色，以实现跨群集和云的互操作性。
     - 保护服务到服务的通信。
     - 提供密钥管理系统，以自动进行密钥和证书的生成，分发和轮换。
 
-- Request authentication：用于最终用户认证，以验证附加到请求的凭据。 Istio 使用 JSON Web Token（JWT）验证启用请求级认证，并使用自定义认证实现或任何 OpenID Connect 的认证实现（例如下面列举的）来简化的开发人员体验。
+- Request authentication：用于终端用户认证，以验证附加到请求的凭据。 Istio 使用 JSON Web Token（JWT）验证启用请求级认证，并使用自定义认证实现或任何 OpenID Connect 的认证实现（例如下面列举的）来简化的开发人员体验。
     - [ORY Hydra](https://www.ory.sh/)
     - [Keycloak](https://www.keycloak.org/)
     - [Auth0](https://auth0.com/)
@@ -119,7 +119,7 @@ Istio 通过客户端和服务器端 PEPs 建立服务到服务的通信通道�
 1. Istio 将出站流量从客户端重新路由到客户端的本地 sidecar Envoy。
 1. 客户端 Envoy 与服务器端 Envoy 开始双向 TLS 握手。在握手期间，客户端 Envoy 还做了[安全命名](/zh/docs/concepts/security/#secure-naming)检查，以验证服务器证书中显示的服务帐户是否被授权运行目标服务。
 1. 客户端 Envoy 和服务器端 Envoy 建立了一个双向的 TLS 连接，Istio 将流量从客户端 Envoy 转发到服务器端 Envoy。
-1. 授权后，服务器端 Envoy 通过本地 TCP 连接将流量转发到服务器服务。
+1. 服务器端 Envoy 授权请求。如果获得授权，它将流量转发到通过本地 TCP 连接的后端服务。
 
 Istio 将 `TLSv1_2` 作为最低 TLS 版本为客户端和服务器配置了如下的加密套件:
 
@@ -147,17 +147,17 @@ Istio 双向 TLS 具有一个宽容模式（permissive mode），允许服务同
 
 服务器身份（Server identities）被编码在证书里，但服务名称（service names）通过服务发现或 DNS 被检索。安全命名信息将服务器身份映射到服务名称。身份 `A` 到服务名称 `B` 的映射表示“授权 `A` 运行服务 `B`"。控制平面监视 `apiserver`，生成安全命名映射，并将其安全地分发到 PEPs。 以下示例说明了为什么安全命名对身份验证至关重要。
 
-假设运行服务 `datastore` 的合法服务器仅使用 `infra-team` 身份。恶意用户拥有 `test-team` 身份的证书和密钥。恶意用户打算模拟服务以检查从客户端发送的数据。恶意用户使用证书和 `test-team` 身份的密钥部署伪造服务器。假设恶意用户成功攻击了发现服务或 DNS，以将 `datastore` 服务名称映射到伪造服务器。
+假设运行服务 `datastore` 的合法服务器仅使用 `infra-team` 身份。恶意用户拥有 `test-team` 身份的证书和密钥。恶意用户打算模拟合法服务以检查从客户端发送的数据。恶意用户使用证书和 `test-team` 身份的密钥部署伪造服务器。假设恶意用户成功劫持（通过 DNS 欺骗、BGP/路由劫持、ARP 欺骗等）发送到 `datastore` 的流量并将其重定向到伪造的服务器。
 
 当客户端调用 `datastore` 服务时，它从服务器的证书中提取 `test-team` 身份，并用安全命名信息检查 `test-team` 是否被允许运行 `datastore`。客户端检测到 `test-team` 不允许运行 `datastore` 服务，认证失败。
 
-对于非 HTTP/HTTPS 流量，安全命名不能保护其免于 DNS 欺骗，如攻击者劫持了 DNS 并修改了目的地的 IP 地址。这是因为 TCP 流量不包含主机名信息，Envoy 只能依靠目的地 IP 地址进行路由， 因此 Envoy 有可能将流量路由到劫持 IP 地址所在的服务上。而且甚至在客户端 Envoy 收到流量之前，也可能发生 DNS 劫持。
+请注意，对于非 HTTP/HTTPS 流量，安全命名不能保护其免于 DNS 欺骗，如攻击者劫持了 DNS 并修改了目的地的 IP 地址。这是因为 TCP 流量不包含主机名信息，Envoy 只能依靠目的地 IP 地址进行路由， 因此 Envoy 有可能将流量路由到劫持 IP 地址所在的服务上。这种 DNS 欺骗甚至可以在客户端 Envoy 接收到流量之前发生。
 
 ### 认证架构{#authentication-architecture}
 
 您可以使用 peer 和 request 认证策略为在 Istio 网格中接收请求的工作负载指定认证要求。网格运维人员使用 `.yaml` 文件来指定策略。部署后，策略将保存在 Istio 配置存储中。Istio 控制器监视配置存储。
 
-一有任何的策略变更，新策略都会转换为适当的配置，告知 PEP 如何执行所需的认证机制。控制平面可以获取公共密钥，并将其附加到配置中以进行 JWT 验证。或者，Istiod 提供了 Istio 系统管理的密钥和证书的路径，并将它们安装到应用程序 pod 用于双向 TLS。您可以在 [PKI 部分](/zh/docs/concepts/security/#PKI)中找到更多信息。
+在任何的策略变更时，新策略都会转换为适当的配置，告知 PEP 如何执行所需的认证机制。控制平面可以获取公钥并将其附加到 JWT 验证的配置中。或者，Istiod 提供了 Istio 系统管理的密钥和证书的路径，并将它们安装到应用程序 pod 用于双向 TLS。您可以在 [PKI 部分](/zh/docs/concepts/security/#PKI)中找到更多信息。
 
 Istio 异步发送配置到目标端点。代理收到配置后，新的认证要求会立即生效。
 
