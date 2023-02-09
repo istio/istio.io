@@ -1,7 +1,7 @@
 ---
 title: "支持双栈 Kubernetes 集群"
 description: "双栈 Kubernetes 集群的实验版本和主干分支 Alpha 版本支持。"
-publishdate: 2023-002-07T13:00:00-06:00 
+publishdate: 2023-002-07T13:00:00-06:00
 attribution: "张怀龙 (Intel), 徐贺杰 (Intel), 丁少君 (Intel), Jacob Delgado (F5), 蔡迎春 (formerly F5)"
 keywords: [双栈]
 ---
