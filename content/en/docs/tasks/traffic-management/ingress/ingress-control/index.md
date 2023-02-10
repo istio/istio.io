@@ -28,7 +28,7 @@ This task describes how to configure Istio to expose a service outside of the se
     by default:
 
     {{< text bash >}}
-    $ istioctl install profile=minimal
+    $ istioctl install --set profile=minimal
     {{< /text >}}
 
     {{< /tip >}}
