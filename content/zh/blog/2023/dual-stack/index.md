@@ -1,7 +1,7 @@
 ---
 title: "支持双栈 Kubernetes 集群"
 description: "双栈 Kubernetes 集群的实验版本和主干分支 Alpha 版本支持。"
-publishdate: 2023-002-07T13:00:00-06:00
+publishdate: 2023-02-15T13:00:00-06:00 
 attribution: "张怀龙 (Intel), 徐贺杰 (Intel), 丁少君 (Intel), Jacob Delgado (F5), 蔡迎春 (formerly F5)"
 keywords: [双栈]
 ---
@@ -48,6 +48,6 @@ keywords: [双栈]
 我们非常乐意你提出宝贵意见，如果你期待与我们合作请访问我们在 [Istio Slack](https://slack.istio.io/) 中的 Slack 频道 **#dual-stack-support**。
 
 _感谢为 Istio 双栈特性工作的团队！_
-* _英特尔： [张怀龙](https://github.com/zhlsunshine), [徐贺杰](https://github.com/soulxu), [丁少君](https://github.com/irisdingbj)_
-* _F5： [Jacob Delgado](https://github.com/jacob-delgado)_
-* _formerly of F5： [蔡迎春](https://github.com/ycai-aspen)_
+* 英特尔： [张怀龙](https://github.com/zhlsunshine), [徐贺杰](https://github.com/soulxu), [丁少君](https://github.com/irisdingbj)
+* F5： [Jacob Delgado](https://github.com/jacob-delgado)
+* [蔡迎春](https://github.com/ycai-aspen) （前 F5 员工）
