@@ -40,6 +40,7 @@ func setupConfig(ctx resource.Context, cfg *istio.Config) {
 	// FIXME: test framework does not honor profile=minimal config at present,
 	// hence we have to explicitly disable the gateways.
 	cfg.ControlPlaneValues = `
+profile: minimal
 values:
   pilot:
     env:
