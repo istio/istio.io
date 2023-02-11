@@ -1,7 +1,7 @@
 ---
 title: Upgrade with Helm
 linktitle: Upgrade with Helm
-description: Upgrade and configure Istio for in-depth evaluation.
+description: Instructions to upgrade Istio using Helm.
 weight: 27
 keywords: [kubernetes,helm]
 owner: istio/wg-environments-maintainers
