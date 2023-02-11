@@ -18,14 +18,11 @@
 source "tests/util/gateway-api.sh"
 install_gateway_api_crds
 
-# @setup profile=none
-istioctl install --set profile=minimal -y
+# @setup profile=minimal
 source "content/en/docs/tasks/traffic-management/ingress/ingress-sni-passthrough/test.sh"
 
 # @cleanup
 snip_cleanup_2
 snip_cleanup_3
 snip_cleanup_4
-istioctl uninstall --purge -y
-kubectl delete ns istio-system
 remove_gateway_api_crds
