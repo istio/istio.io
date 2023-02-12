@@ -11,14 +11,14 @@ test: yes
 This page shows common patterns of using Istio security policies. You may find them useful in your deployment or use this
 as a quick reference to example policies.
 
-The policies demonstrated here are just examples and and require changes to adapt to your actual environment
+The policies demonstrated here are just examples and require changes to adapt to your actual environment
 before applying.
 
 Also read the [authentication](/docs/tasks/security/authentication/authn-policy) and
 [authorization](/docs/tasks/security/authorization) tasks for a hands-on tutorial of using the security policy in
 more detail.
 
-### Require different JWT issuer per host
+## Require different JWT issuer per host
 
 JWT validation is common on the ingress gateway and you may want to require different JWT issuers for different
 hosts. You can use the authorization policy for fine grained JWT validation in addition to the
@@ -55,7 +55,7 @@ spec:
         hosts: [".another.org", "*.another.org"]
 {{< /text >}}
 
-### Namespace isolation
+## Namespace isolation
 
 The following two policies enable strict mTLS on namespace `foo`, and allow traffic from the same namespace.
 
@@ -82,7 +82,7 @@ spec:
         namespaces: ["foo"]
 {{< /text >}}
 
-### Namespace isolation with ingress exception
+## Namespace isolation with ingress exception
 
 The following two policies enable strict mTLS on namespace `foo`, and allow traffic from the same namespace and also
 from the ingress gateway.
@@ -112,7 +112,7 @@ spec:
         principals: ["cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"]
 {{< /text >}}
 
-### Require mTLS in authorization layer (defense in depth)
+## Require mTLS in authorization layer (defense in depth)
 
 You have configured `PeerAuthentication` to `STRICT` but want to make sure the traffic is indeed protected by mTLS with
 an extra check in the authorization layer, i.e., defense in depth.
@@ -135,7 +135,7 @@ spec:
         notPrincipals: ["*"]
 {{< /text >}}
 
-### Require mandatory authorization check with `DENY` policy
+## Require mandatory authorization check with `DENY` policy
 
 You can use the `DENY` policy if you want to require mandatory authorization check that must be satisfied and cannot be
 bypassed by another more permissive `ALLOW` policy. This works because the `DENY` policy takes precedence over the
@@ -144,7 +144,7 @@ bypassed by another more permissive `ALLOW` policy. This works because the `DENY
 Use the following policy to enforce mandatory JWT validation in addition to the [request authentication](/docs/tasks/security/authentication/authn-policy/#end-user-authentication) policy.
 The policy denies the request if the request principal is empty. The request principal will be empty if JWT validation failed.
 In other words, the policy allows requests if the request principal is non-empty.
-"*" means non-empty match and using with `notRequestPrincipals` means matching on empty request principal.
+`"*"` means non-empty match and using with `notRequestPrincipals` means matching on empty request principal.
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
