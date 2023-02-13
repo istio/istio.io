@@ -24,7 +24,7 @@ boilerplate_snip_prefix = "content/en/boilerplates/snips/"
 istio_go_dependency = "go.mod"
 test_framework_pkg = "pkg/test/"
 test_framework_util = "tests/"
-prow_dir = "prow/"
+prow_dir = "prow/disable"
 
 parser = argparse.ArgumentParser()
 parser.add_argument("pull_number", help="pull request to get modified files from")
