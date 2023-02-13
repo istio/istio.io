@@ -131,4 +131,4 @@ if [[ -z "${SKIP_SETUP:-}" ]]; then
   fi
 fi
 
-make "${PARAMS[*]}"
+make ${PARAMS[*]}
