@@ -73,15 +73,6 @@ k3d makes it very easy to create single- and multi-node k3s clusters in docker, 
     $ helm install istio-ingressgateway istio/gateway -n istio-system --wait
     {{< /text >}}
 
-## Uninstallation
-
-1.  When you are done experimenting and you want to delete the existing cluster, use the following command:
-
-    {{< text bash >}}
-    $ k3d cluster delete k3s-default
-    Deleting cluster "k3s-default" ...
-    {{< /text >}}
-
 ## Set up Dashboard UI for K3d
 
 k3d does not have a built in Dashboard UI like minikube. But you can still set up Dashboard, a web based Kubernetes UI, to view your cluster.
@@ -136,3 +127,12 @@ Follow these instructions to set up Dashboard for k3d.
     {{< warning >}}
     You have to save your token somewhere, otherwise you have to run step number 4 everytime you need a token to log in to your Dashboard.
     {{< /warning >}}
+
+## Uninstallation
+
+1.  When you are done experimenting and you want to delete the existing cluster, use the following command:
+
+    {{< text bash >}}
+    $ k3d cluster delete k3s-default
+    Deleting cluster "k3s-default" ...
+    {{< /text >}}
