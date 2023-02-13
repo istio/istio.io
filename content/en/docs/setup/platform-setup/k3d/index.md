@@ -19,7 +19,7 @@ k3d makes it very easy to create single- and multi-node k3s clusters in docker, 
 - To interact with the Kubernetes cluster [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl)
 - (Optional) [Helm](https://helm.sh/docs/intro/install/) is the package manager for Kubernetes
 
-## Installation steps
+## Installation
 
 1.  Create a cluster and disable Traefik with the following command:
 
@@ -55,7 +55,8 @@ k3d makes it very easy to create single- and multi-node k3s clusters in docker, 
     Switched to context "k3d-k3s-default".
     {{< /text >}}
 
-## Setup Istio for K3d
+## Set up Istio for K3d
+
 1.  Once you are done setting up a k3d cluster, you can proceed to [install Istio](docs/setup/install/helm/)
     on it.
 
@@ -72,7 +73,7 @@ k3d makes it very easy to create single- and multi-node k3s clusters in docker, 
     $ helm install istio-ingressgateway istio/gateway -n istio-system --wait
     {{< /text >}}
 
-## Unnstallation step
+## Uninstallation
 
 1.  When you are done experimenting and you want to delete the existing cluster, use the following command:
 
@@ -81,7 +82,7 @@ k3d makes it very easy to create single- and multi-node k3s clusters in docker, 
     Deleting cluster "k3s-default" ...
     {{< /text >}}
 
-## Setup Dashboard UI for K3d
+## Set up Dashboard UI for K3d
 
 k3d does not have a built in Dashboard UI like minikube. But you can still setup Dashboard, a web based Kubernetes UI, to view your cluster.
 Follow these instructions to set up Dashboard for k3d.
