@@ -57,7 +57,7 @@ k3d makes it very easy to create single- and multi-node k3s clusters in docker, 
 
 ## Set up Istio for K3d
 
-1.  Once you are done setting up a k3d cluster, you can proceed to [install Istio](docs/setup/install/helm/)
+1.  Once you are done setting up a k3d cluster, you can proceed to [install Istio](/docs/setup/install/helm/)
     on it.
 
     {{< text bash >}}
