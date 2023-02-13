@@ -91,7 +91,7 @@ while (( "$#" )); do
 done
 
 if [ -n "${PULL_NUMBER:-}" ]; then
-  echo "Optimizing tests for pull number: $PULL_NUMBER"
+  echo "Optimizing tests for pull nummber: $PULL_NUMBER"
   TESTS=$(python3 ./scripts/pr_tests.py --token="${ACCESS_TOKEN:-}" "$PULL_NUMBER")
   if [ "$TESTS" = "NONE" ]; then
     echo "No tests affected by the current changes"
@@ -131,4 +131,4 @@ if [[ -z "${SKIP_SETUP:-}" ]]; then
   fi
 fi
 
-make "${PARAMS[@]}"
+make "${PARAMS[*]}"
