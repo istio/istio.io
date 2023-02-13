@@ -53,7 +53,7 @@ Lightstep 可以分析来自大规模生产级软件的 100% 未采样的事务�
     - `meshConfig.defaultConfig.tracing.lightstep.accessToken="<access-token>"`
 
     当执行安装命令时，可以使用 `--set key=value` 语法来配置这些参数，例如：
-	
+
     {{< text bash >}}
     $ istioctl install \
         --set global.proxy.tracer="lightstep" \
