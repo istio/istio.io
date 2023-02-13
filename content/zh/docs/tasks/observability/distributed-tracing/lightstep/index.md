@@ -26,9 +26,12 @@ Lightstep 可以分析来自大规模生产级软件的 100% 未采样的事务�
 1. 如果您使用的是[本地 Satellite](https://docs.lightstep.com/docs/learn-about-satellites#on-premise-satellites), 请确保您有一个配置了 TLS 证书的 Satellite 池和一个公开的安全 GRPC 端口。
     请参阅[安装和配置 Satellite](https://docs.lightstep.com/docs/install-and-configure-satellites) 获取更多有关设置 Satellite 的细节。
 
-    对于 [Lightstep 公共 Satellite](https://docs.lightstep.com/docs/learn-about-satellites#public-satellites) 或 [开发者模式 Satellite](https://docs.lightstep.com/docs/learn-about -satellites#developer-satellites)，您的 Satellite 已经配置好了。 但是，您需要将[此证书](https://docs.lightstep.com/docs/instrument-with-istio-as-your-service-mesh#cacertpem-file)下载到本地目录。
+    对于 [Lightstep 公共 Satellite](https://docs.lightstep.com/docs/learn-about-satellites#public-satellites)
+    或[开发者模式 Satellite](https://docs.lightstep.com/docs/learn-about -satellites#developer-satellites)，
+    您的 Satellite 已经配置好了。但是，您需要将[此证书](https://docs.lightstep.com/docs/instrument-with-istio-as-your-service-mesh#cacertpem-file)下载到本地目录。
 
-1. 确保您有 Lightstep 的[访问令牌](https://docs.lightstep.com/docs/create-and-manage-access-tokens)。访问令牌允许您的应用程序与您的 Lightstep 项目进行通信。
+1. 确保您有 Lightstep 的[访问令牌](https://docs.lightstep.com/docs/create-and-manage-access-tokens)。
+    访问令牌允许您的应用程序与您的 Lightstep 项目进行通信。
 
 ## 部署 Istio{#deploy-istio}
 
@@ -36,9 +39,11 @@ Lightstep 可以分析来自大规模生产级软件的 100% 未采样的事务�
 
 ### 使用本地 Satellite 部署 Istio{#deploy-istio-with-on-premise- satellites}
 
-这些说明不假定使用 TLS。如果您为 Satellite 池使用 TLS，请遵循[公共 Satellite 池](#deploy-istio-with-public-or-developer-mode-satellites)的配置，但使用您自己的证书和您自己的池的端点（`host:port`）。
+这些说明不假定使用 TLS。如果您为 Satellite 池使用 TLS，请遵循[公共 Satellite 池](#deploy-istio-with-public-or-developer-mode-satellites)的配置，
+但使用您自己的证书和您自己的池的端点（`host:port`）。
 
-1. 您需要用您的 Satellite 地址部署 Istio，地址格式为`<主机>：<端口>`，例如`lightstep-satellite.lightstep:9292`。可以在您的[配置](https://docs.lightstep.com/docs/satellite-configuration-parameters#ports)文件中找到这个地址。
+1. 您需要用 Satellite 地址部署 Istio，地址格式为`<主机>：<端口>`，例如 `lightstep-satellite.lightstep:9292`。
+    可以在您的[配置](https://docs.lightstep.com/docs/satellite-configuration-parameters#ports)文件中找到这个地址。
 
 1. 使用以下指定的配置参数部署 Istio：
 
@@ -49,13 +54,14 @@ Lightstep 可以分析来自大规模生产级软件的 100% 未采样的事务�
 
     当执行安装命令时，可以使用 `--set key=value` 语法来配置这些参数，例如：
 	
-	    {{< text bash >}}
-	    $ istioctl install \
-	        --set global.proxy.tracer="lightstep" \
-	        --set meshConfig.defaultConfig.tracing.sampling=100 \
-	        --set meshConfig.defaultConfig.tracing.lightstep.address="<satellite-address>" \
-	        --set meshConfig.defaultConfig.tracing.lightstep.accessToken="<access-token>" \
-      {{< /text >}}
+    {{< text bash >}}
+    $ istioctl install \
+        --set global.proxy.tracer="lightstep" \
+        --set meshConfig.defaultConfig.tracing.sampling=100 \
+        --set meshConfig.defaultConfig.tracing.lightstep.address="<satellite-address>" \
+        --set meshConfig.defaultConfig.tracing.lightstep.accessToken="<access-token>" \
+    {{< /text >}}
+
 ### 使用公共或开发者模式 Satellite 部署 Istio{#deploy-istio-with-public-or-developer-mode-satellites}
 
 如果您使用的是公共或开发者模式 Satellite，或者如果您使用的是带有 TLS 证书的本地 Satellite，请按照这些步骤操作。
@@ -163,11 +169,15 @@ Lightstep 可以分析来自大规模生产级软件的 100% 未采样的事务�
 
 这个截图显示了该追踪是由一组 span 组成。每一个 span 对应着在执行 `/productpage` 请求期间调用的一个 Bookinfo 服务。
 
-追踪中的两个 span 表示一个 RPC 请求。例如，从 `productpage` 到 `reviews` 的请求调用，以操作标签 `reviews.default.svc.cluster.local:9080/*` 和服务标签 `productpage.default: proxy client` 的 span 开始。该服务表示是这个调用的客户端 span。截图显示此次调用耗时 15.30 毫秒。第二个 span 标记有操作标签 `reviews.default.svc.cluster.local:9080/*` 操作和服务标签 `reviews.default: proxy server` 。第二个 span 是第一个 span 的下一级，表示调用的服务端 span。截图显示此次调用耗时 14.60 毫秒。
+追踪中的两个 span 表示一个 RPC 请求。例如从 `productpage` 到 `reviews` 的请求调用，以操作标签 `reviews.default.svc.cluster.local:9080/*`
+和服务标签 `productpage.default: proxy client` 的 span 开始。该服务表示是这个调用的客户端 span。截图显示此次调用耗时 15.30 毫秒。
+第二个 span 标记有操作标签 `reviews.default.svc.cluster.local:9080/*` 操作和服务标签 `reviews.default: proxy server`。
+第二个 span 是第一个 span 的下一级，表示调用的服务端 span。截图显示此次调用耗时 14.60 毫秒。
 
 ## 追踪采样{#trace-sampling}
 
-Istio 通过配置追踪采样百分比来捕获追踪信息。想了解如何修改追踪采样百分比，请访问[分布式追踪采样部分](/zh/docs/tasks/observability/distributed-tracing/mesh-and-proxy-config/#customizing-trace-sampling)。
+Istio 通过配置追踪采样百分比来捕获追踪信息。想了解如何修改追踪采样百分比，
+请访问[分布式追踪采样部分](/zh/docs/tasks/observability/distributed-tracing/mesh-and-proxy-config/#customizing-trace-sampling)。
 使用 Lightstep 时，我们不建议将追踪采样的百分比降低到 100% 以下。要处理高流量的网格，请考虑扩大您的 Satellite 池的大小。
 
 ## 清除{#cleanup}
