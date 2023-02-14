@@ -1,7 +1,7 @@
 ---
 title: K3D
 description: Instructions to set up K3D for Istio.
-weight: 30
+weight: 28
 skip_seealso: true
 keywords: [platform-setup,kubernetes,K3D,K3S]
 owner: istio/wg-environments-maintainers
