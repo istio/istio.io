@@ -22,7 +22,7 @@
 source "content/en/boilerplates/snips/gateway-api-support.sh"
 
 snip_before_you_begin_1() {
-istioctl install profile=minimal
+istioctl install --set profile=minimal
 }
 
 snip_before_you_begin_2() {
