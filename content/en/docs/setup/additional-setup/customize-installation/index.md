@@ -128,7 +128,7 @@ spec:
 Use `istioctl install` to apply the modified settings to the cluster:
 
 {{< text syntax="bash" repo="operator" >}}
-$ istioctl install -f samples/operator/pilot-k8s.yaml
+$ istioctl install -f operator/samples/pilot-k8s.yaml
 {{< /text >}}
 
 ### Customize Istio settings using the Helm API
