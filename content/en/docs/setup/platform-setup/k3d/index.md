@@ -8,14 +8,13 @@ owner: istio/wg-environments-maintainers
 test: no
 ---
 
-`k3d` is a lightweight wrapper to run [`k3s`](https://github.com/rancher/k3s) (Rancher Lab’s minimal Kubernetes distribution) in docker.
-
-`k3d` makes it very easy to create single- and multi-node `k3s` clusters in docker, e.g. for local development on Kubernetes.
+k3d is a lightweight wrapper to run [k3s](https://github.com/rancher/k3s) (Rancher Lab’s minimal Kubernetes distribution) in docker.
+k3d makes it very easy to create single- and multi-node k3s clusters in docker, e.g. for local development on Kubernetes.
 
 ## Prerequisites
 
-- To use `k3d`, you will also need to [install docker](https://docs.docker.com/install/).
-- Install the latest version of [`k3d`](https://k3d.io/v5.4.7/#installation).
+- To use k3d, you will also need to [install docker](https://docs.docker.com/install/).
+- Install the latest version of [k3d](https://k3d.io/v5.4.7/#installation).
 - To interact with the Kubernetes cluster [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl)
 - (Optional) [Helm](https://helm.sh/docs/intro/install/) is the package manager for Kubernetes
 
@@ -27,7 +26,7 @@ test: no
     $ k3d cluster create --api-port 6550 -p "9080:80@loadbalancer"  -p "9443:443@loadbalancer" --agents 2 --k3s-arg '--disable=traefik@server:*'
     {{< /text >}}
 
-1.  To see the list of `k3d` clusters, use the following command:
+1.  To see the list of k3d clusters, use the following command:
 
     {{< text bash >}}
     $ k3d cluster list
@@ -55,9 +54,9 @@ test: no
     Switched to context "k3d-k3s-default".
     {{< /text >}}
 
-## Set up Istio for `k3d`
+## Set up Istio for k3d
 
-1.  Once you are done setting up a `k3d` cluster, you can proceed to [install Istio with Helm 3](/docs/setup/install/helm/) on it.
+1.  Once you are done setting up a k3d cluster, you can proceed to [install Istio with Helm 3](/docs/setup/install/helm/) on it.
 
     {{< text bash >}}
     $ kubectl create namespace istio-system
@@ -72,10 +71,10 @@ test: no
     $ helm install istio-ingressgateway istio/gateway -n istio-system --wait
     {{< /text >}}
 
-## Set up Dashboard UI for `k3d`
+## Set up Dashboard UI for k3d
 
-`k3d` does not have a built in Dashboard UI like minikube. But you can still set up Dashboard, a web based Kubernetes UI, to view your cluster.
-Follow these instructions to set up Dashboard for `k3d`.
+k3d does not have a built in Dashboard UI like minikube. But you can still set up Dashboard, a web based Kubernetes UI, to view your cluster.
+Follow these instructions to set up Dashboard for k3d.
 
 1.  To deploy Dashboard, run the following command:
 
