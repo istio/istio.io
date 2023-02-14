@@ -624,6 +624,12 @@ These environment variables affect the behavior of the <code>install-cni</code> 
 <td>If enabled, if user introduces new intermediate plug-in CA, user need not to restart istiod to pick up certs.Istiod picks newly added intermediate plug-in CA certs and updates it. Plug-in new Root-CA not supported.</td>
 </tr>
 <tr>
+<td><code>CA_TRUSTED_NODE_ACCOUNTS</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>If set, the list of service accounts that are allowed to use node authentication for CSRs. Node authentication allows an identity to create CSRs on behalf of other identities, but only if there is a pod running on the same node with that identity. This is intended for use with node proxies.</td>
+</tr>
+<tr>
 <td><code>CERT_SIGNER_DOMAIN</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -1235,9 +1241,9 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 </tr>
 <tr>
 <td><code>PILOT_JWT_ENABLE_REMOTE_JWKS</code></td>
-<td>Boolean</td>
+<td>String</td>
 <td><code>false</code></td>
-<td>If enabled, checks to see if the configured JwksUri in RequestAuthentication is a mesh cluster URL and configures remote Jwks to let Envoy fetch the Jwks instead of Istiod.</td>
+<td>Mode of fetching JWKs from JwksUri in RequestAuthentication. Supported value: istiod, false, hybrid, true, envoy. The client fetching JWKs is as following: istiod/false - Istiod; hybrid/true - Envoy and fallback to Istiod if JWKs server is external; envoy - Envoy.</td>
 </tr>
 <tr>
 <td><code>PILOT_JWT_PUB_KEY_REFRESH_INTERVAL</code></td>
@@ -1264,10 +1270,16 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>If enabled, pilot will send partial pushes in for child resources (RDS, EDS, etc) when possible. This occurs for EDS in many cases regardless of this setting.</td>
 </tr>
 <tr>
+<td><code>PILOT_PERSISTENT_SESSION_HEADER_LABEL</code></td>
+<td>String</td>
+<td><code>istio.io/persistent-session-header</code></td>
+<td>If not empty, services with this label will use header based persistent sessions</td>
+</tr>
+<tr>
 <td><code>PILOT_PERSISTENT_SESSION_LABEL</code></td>
 <td>String</td>
 <td><code>istio.io/persistent-session</code></td>
-<td>If not empty, services with this label will use persistent sessions</td>
+<td>If not empty, services with this label will use cookie based persistent sessions</td>
 </tr>
 <tr>
 <td><code>PILOT_PUSH_THROTTLE</code></td>
