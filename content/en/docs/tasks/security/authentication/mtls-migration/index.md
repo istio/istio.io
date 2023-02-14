@@ -93,7 +93,7 @@ $ kubectl apply -n foo -f - <<EOF
 apiVersion: security.istio.io/v1beta1
 kind: PeerAuthentication
 metadata:
-  name: "default"
+  name: default
 spec:
   mtls:
     mode: STRICT
@@ -131,12 +131,14 @@ We recommend you use [Istio Authorization](/docs/tasks/security/authorization/au
 
 ## Lock down mutual TLS for the entire mesh
 
+You can lock down workloads in all namespaces to only accept mutual TLS traffic by putting the policy in the system namespace of your Istio installation.
+
 {{< text bash >}}
 $ kubectl apply -n istio-system -f - <<EOF
 apiVersion: security.istio.io/v1beta1
 kind: PeerAuthentication
 metadata:
-  name: "default"
+  name: default
 spec:
   mtls:
     mode: STRICT
