@@ -1,5 +1,5 @@
 ---
-title: Announcing Istio release-1.17
+title: Announcing Istio 1.17
 linktitle: 1.17
 subtitle: Major Update
 description: Istio 1.17 release annoucement.
