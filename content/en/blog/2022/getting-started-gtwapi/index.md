@@ -55,7 +55,7 @@ To get started using the Gateway API, you need to first download the CRDs, which
 on most Kubernetes clusters, at least not yet:
 
 {{< text bash >}}
-$ kubectl get crd gateways.gateway.networking.k8s.io || \
+$ kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
   { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref={{< k8s_gateway_api_version >}}" | kubectl apply -f -; }
 {{< /text >}}
 
