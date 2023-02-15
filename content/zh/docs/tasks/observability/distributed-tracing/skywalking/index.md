@@ -7,10 +7,10 @@ owner: istio/wg-policies-and-telemetry-maintainers
 test: yes
 ---
 
-完成本任务之后，您将明白如何让应用程序使用 [Apache SkyWalking](https://skywalking.apache.org)
-参与跟踪，这与用于构建应用程序的语言、框架或平台无关。
+完成本任务之后，您将明白如何使用 [Apache SkyWalking](https://skywalking.apache.org)
+跟踪应用，这与用于构建应用的语言、框架或平台无关。
 
-本任务将 [Bookinfo](/zh/docs/examples/bookinfo/) 样例用作示例应用程序。
+本任务将 [Bookinfo](/zh/docs/examples/bookinfo/) 样例用作示例应用。
 
 若要学习 Istio 如何处理跟踪，请查阅[分布式跟踪概述](../overview/)一节。
 
@@ -56,9 +56,9 @@ EOF
 
 遵循 [SkyWalking 安装](/zh/docs/ops/integrations/skywalking/#installation)文档将 SkyWalking 部署到集群中。
 
-## 部署 Bookinfo 应用程序{#deploy-bookinfo-app}
+## 部署 Bookinfo 应用{#deploy-bookinfo-app}
 
-部署 [Bookinfo](/zh/docs/examples/bookinfo/#deploying-the-application) 样例应用程序。
+部署 [Bookinfo](/zh/docs/examples/bookinfo/#deploying-the-application) 样例应用。
 
 ## 访问仪表板{#accessing-dashboard}
 
@@ -73,7 +73,7 @@ $ istioctl dashboard skywalking
 
 ## 使用 Bookinfo 样例生成链路{#generating-tarces-using-bookinfo}
 
-1.  当 Bookinfo 应用程序启动且运行时，访问一次或多次 `http://$GATEWAY_URL/productpage` 以生成链路信息。
+1.  当 Bookinfo 应用启动且运行时，访问一次或多次 `http://$GATEWAY_URL/productpage` 以生成链路信息。
 
     {{< boilerplate trace-generation >}}
 
@@ -88,13 +88,13 @@ $ istioctl dashboard skywalking
 1.  链路由一组 span 组成，每个 span 对应在执行 `/productpage` 期间调用的一个 Bookinfo 服务，
     或对应 `istio-ingressgateway` 这种内部 Istio 组件。
 
-## 探索 SkyWalking 官方的演示应用程序{#explore-skywalking-official-demo-app}
+## 探索 SkyWalking 官方的演示应用{#explore-skywalking-official-demo-app}
 
-在本教程中，我们使用 [Bookinfo](/zh/docs/examples/bookinfo/#deploying-the-application) 样例应用程序。
-在这个样例应用程序中，没有安装到服务的 SkyWalking 代理，所有链路均由 Sidecar 代理生成。
+在本教程中，我们使用 [Bookinfo](/zh/docs/examples/bookinfo/#deploying-the-application) 样例应用。
+在这个样例应用中，没有安装到服务的 SkyWalking 代理，所有链路均由 Sidecar 代理生成。
 
 如果您想探索有关 [SkyWalking 语言代理](https://skywalking.apache.org/docs/#Agent)的更多信息，
-SkyWalking 团队也提供了集成语言代理的[演示应用程序](http://github.com/apache/skywalking-showcase)，
+SkyWalking 团队也提供了集成语言代理的[演示应用](http://github.com/apache/skywalking-showcase)，
 您可以具有更详细的链路以及其他语言代理特定的特性，例如配置文件分析。
 
 ## 清理{#cleanup}
@@ -106,4 +106,4 @@ SkyWalking 团队也提供了集成语言代理的[演示应用程序](http://gi
     {{< /text >}}
 
 1.  如果您未计划探索后续的任务，请参阅 [Bookinfo 清理](/zh/docs/examples/bookinfo/#cleanup)指示说明，
-    以关闭该应用程序。
+    以关闭该应用。
