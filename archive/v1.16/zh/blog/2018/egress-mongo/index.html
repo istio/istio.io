@@ -1,0 +1,724 @@
+<!doctype html><html lang=zh itemscope itemtype=https://schema.org/WebPage><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=theme-color content="#466BB0"><meta name=title content="使用外部 MongoDB 服务"><meta name=description content="描述了一个基于 Istio 的 Bookinfo 示例的简单场景。"><meta name=author content="Vadim Eisenberg"><meta name=keywords content="microservices,services,mesh,traffic-management,egress,tcp,mongo"><meta property="og:title" content="使用外部 MongoDB 服务"><meta property="og:type" content="website"><meta property="og:description" content="描述了一个基于 Istio 的 Bookinfo 示例的简单场景。"><meta property="og:url" content="/v1.16/zh/blog/2018/egress-mongo/"><meta property="og:image" content="https://raw.githubusercontent.com/istio/istio.io/master/static/img/istio-social.svg"><meta property="og:image:alt" content="Istio Logo"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="600"><meta property="og:site_name" content="Istio"><meta name=twitter:card content="summary"><meta name=twitter:site content="@IstioMesh"><title>Istioldie 1.16 / 使用外部 MongoDB 服务</title><script async src="https://www.googletagmanager.com/gtag/js?id=UA-98480406-2"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","UA-98480406-2")</script><link rel=alternate type=application/rss+xml title="Istio Blog" href=/v1.16/blog/feed.xml><link rel=alternate type=application/rss+xml title="Istio News" href=/v1.16/news/feed.xml><link rel=alternate type=application/rss+xml title="Istio Blog and News" href=/v1.16/feed.xml><link rel="shortcut icon" href=/v1.16/favicons/favicon.ico><link rel=apple-touch-icon href=/v1.16/favicons/apple-touch-icon-180x180.png sizes=180x180><link rel=icon type=image/png href=/v1.16/favicons/favicon-16x16.png sizes=16x16><link rel=icon type=image/png href=/v1.16/favicons/favicon-32x32.png sizes=32x32><link rel=icon type=image/png href=/v1.16/favicons/android-36x36.png sizes=36x36><link rel=icon type=image/png href=/v1.16/favicons/android-48x48.png sizes=48x48><link rel=icon type=image/png href=/v1.16/favicons/android-72x72.png sizes=72x72><link rel=icon type=image/png href=/v1.16/favicons/android-96x96.png sizes=96xW96><link rel=icon type=image/png href=/v1.16/favicons/android-144x144.png sizes=144x144><link rel=icon type=image/png href=/v1.16/favicons/android-192x192.png sizes=192x192><link rel=icon type=image/svg+xml href=/v1.16/favicons/favicon.svg><link rel=icon type=image/png href=/v1.16/favicons/favicon.png><link rel=mask-icon href=/v1.16/favicons/safari-pinned-tab.svg color=#466bb0><link rel=manifest href=/v1.16/manifest.json><meta name=apple-mobile-web-app-title content="Istio"><meta name=application-name content="Istio"><meta name=msapplication-config content="/browserconfig.xml"><meta name=msapplication-TileColor content="#466BB0"><meta name=theme-color content="#466BB0"><link rel=stylesheet href=/v1.16/css/all.css><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap"><script src=/v1.16/js/themes_init.min.js></script></head><body class="language-unknown archive-site"><script>const branchName="release-1.16",docTitle="使用外部 MongoDB 服务",iconFile="/v1.16/img/icons.svg",buttonCopy="复制到剪切板",buttonPrint="打印",buttonDownload="下载"</script><script src="https://www.google.com/cse/brand?form=search-form" defer></script>
+<script src=/v1.16/js/all.min.js data-manual defer></script><header class=main-navigation><nav class="main-navigation-wrapper container-l"><div class=main-navigation-header><a id=brand href=/v1.16/zh/ aria-label=logotype><span class=logo><svg xmlns="http://www.w3.org/2000/svg" width="128" height="60" viewBox="0 0 128 60"><path d="M58.434 48.823A.441.441.0 0158.3 48.497V22.583a.444.444.0 01.134-.326.446.446.0 01.327-.134h3.527a.447.447.0 01.325.134.447.447.0 01.134.326v25.914a.443.443.0 01-.134.326.444.444.0 01-.325.134h-3.527a.444.444.0 01-.327-.134z"/><path d="m70.969 48.477a6.556 6.556.0 01-2.818-1.955 4.338 4.338.0 01-1-2.78v-.345a.443.443.0 01.134-.326.444.444.0 01.326-.135h3.374a.444.444.0 01.326.135.445.445.0 01.134.326v.077a2.014 2.014.0 001.054 1.667 4.672 4.672.0 002.664.709 4.446 4.446.0 002.492-.633 1.862 1.862.0 00.958-1.591 1.426 1.426.0 00-.786-1.322 12.7 12.7.0 00-2.549-.939l-1.457-.46a21.526 21.526.0 01-3.3-1.227 6.57 6.57.0 01-2.262-1.783 4.435 4.435.0 01-.92-2.894 5.081 5.081.0 012.109-4.275 8.993 8.993.0 015.558-1.591 10.445 10.445.0 014.1.748 6.3 6.3.0 012.722 2.07 5 5 0 01.958 3.009.441.441.0 01-.134.326.441.441.0 01-.325.134h-3.258a.441.441.0 01-.326-.134.443.443.0 01-.134-.326 1.974 1.974.0 00-.978-1.667 4.647 4.647.0 00-2.665-.671 4.741 4.741.0 00-2.435.556 1.724 1.724.0 00-.938 1.553 1.512 1.512.0 00.9 1.4 15.875 15.875.0 003.01 1.055l.843.229a27.368 27.368.0 013.412 1.246 6.67 6.67.0 012.338 1.763 4.387 4.387.0 01.958 2.933 4.988 4.988.0 01-2.146 4.275 9.543 9.543.0 01-5.712 1.552 11.626 11.626.0 01-4.227-.709z"/><path d="m97.039 32.837a.443.443.0 01-.326.135h-3.911a.169.169.0 00-.191.192v9.239a2.951 2.951.0 00.632 2.108 2.7 2.7.0 002.013.652h1.15a.444.444.0 01.325.134.441.441.0 01.134.326v2.875a.471.471.0 01-.459.5l-1.994.039a8 8 0 01-4.524-1.035q-1.495-1.035-1.533-3.91V33.166A.17.17.0 0088.164 32.974H85.978A.441.441.0 0185.652 32.839.441.441.0 0185.518 32.513V29.83a.441.441.0 01.134-.326.444.444.0 01.326-.135h2.186a.169.169.0 00.191-.192v-4.485a.438.438.0 01.134-.326.44.44.0 01.325-.134h3.336a.443.443.0 01.325.134.442.442.0 01.135.326v4.485a.169.169.0 00.191.192h3.911a.446.446.0 01.326.135.446.446.0 01.134.326v2.683a.446.446.0 01-.133.324z"/><path d="m101.694 25.917a2.645 2.645.0 01-.767-1.955 2.65 2.65.0 01.767-1.955 2.65 2.65.0 011.955-.767 2.65 2.65.0 011.955.767 2.652 2.652.0 01.767 1.955 2.647 2.647.0 01-.767 1.955 2.646 2.646.0 01-1.955.767 2.645 2.645.0 01-1.955-.767zm-.211 22.906a.441.441.0 01-.134-.326V29.79a.444.444.0 01.134-.326.446.446.0 01.326-.134h3.527a.446.446.0 01.326.134.445.445.0 01.134.326v18.707a.443.443.0 01-.134.326.443.443.0 01-.326.134h-3.527a.443.443.0 01-.326-.134z"/><path d="m114.019 47.734a8.1 8.1.0 01-3.047-4.255 14.439 14.439.0 01-.652-4.37 14.3 14.3.0 01.614-4.371A7.869 7.869.0 01114 30.56a9.072 9.072.0 015.252-1.5 8.543 8.543.0 015.041 1.5 7.985 7.985.0 013.009 4.14 12.439 12.439.0 01.69 4.37 13.793 13.793.0 01-.651 4.37 8.255 8.255.0 01-3.028 4.275 8.475 8.475.0 01-5.1 1.553 8.754 8.754.0 01-5.194-1.534zm7.629-3.1a4.536 4.536.0 001.476-2.262 11.335 11.335.0 00.383-3.221 10.618 10.618.0 00-.383-3.22 4.169 4.169.0 00-1.457-2.243 4.066 4.066.0 00-2.531-.785 3.942 3.942.0 00-2.453.785 4.376 4.376.0 00-1.5 2.243 11.839 11.839.0 00-.383 3.22 11.84 11.84.0 00.383 3.221 4.222 4.222.0 001.476 2.262 4.075 4.075.0 002.549.8 3.8 3.8.0 002.44-.809z"/><path d="m15.105 32.057v15.565a.059.059.0 01-.049.059L.069 50.25A.06.06.0 01.005 50.167l14.987-33.47a.06.06.0 01.114.025z"/><path d="m17.631 23.087v24.6a.06.06.0 00.053.059l22.449 2.507a.06.06.0 00.061-.084L17.745.032a.06.06.0 00-.114.024z"/><path d="m39.961 52.548-24.833 7.45a.062.062.0 01-.043.0L.079 52.548a.059.059.0 01.026-.113h39.839a.06.06.0 01.017.113z"/></svg></span></a><button id=hamburger class=main-navigation-toggle aria-label="Open navigation"><svg class="icon menu-hamburger"><use xlink:href="/v1.16/img/icons.svg#menu-hamburger"/></svg></button>
+<button id=menu-close class=main-navigation-toggle aria-label="Close navigation"><svg class="icon menu-close"><use xlink:href="/v1.16/img/icons.svg#menu-close"/></svg></button></div><div id=header-links class=main-navigation-links-wrapper><ul class=main-navigation-links><li class=main-navigation-links-item><a class="main-navigation-links-link has-dropdown"><span>关于</span><svg class="icon dropdown-arrow"><use xlink:href="/v1.16/img/icons.svg#dropdown-arrow"/></svg></a><ul class=main-navigation-links-dropdown><li class=main-navigation-links-dropdown-item><a href=/v1.16/zh/about/service-mesh class=main-navigation-links-link>服务网格</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.16/zh/about/solutions class=main-navigation-links-link>解决方案</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.16/zh/about/case-studies class=main-navigation-links-link>案例学习</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.16/zh/about/ecosystem class=main-navigation-links-link>生态系统</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.16/zh/about/deployment class=main-navigation-links-link>部署</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.16/zh/about/faq class=main-navigation-links-link>FAQ</a></li></ul></li><li class=main-navigation-links-item><a href=/v1.16/zh/blog/ class=main-navigation-links-link><span>博客</span></a></li><li class=main-navigation-links-item><a href=/v1.16/zh/news/ class=main-navigation-links-link><span>新闻</span></a></li><li class=main-navigation-links-item><a href=/v1.16/zh/get-involved/ class=main-navigation-links-link><span>加入我们</span></a></li><li class=main-navigation-links-item><a href=/v1.16/zh/docs/ class=main-navigation-links-link><span>文档</span></a></li></ul><div class=main-navigation-footer><button id=search-show class=search-show title='搜索 istio.io' aria-label=搜索><svg class="icon magnifier"><use xlink:href="/v1.16/img/icons.svg#magnifier"/></svg></button>
+<a href=/v1.16/zh/docs/setup/getting-started class="btn btn--primary" id=try-istio>试用 Istio</a></div></div><form id=search-form class=search name=cse role=search><input type=hidden name=cx value=002184991200833970123:iwwf17ikgf4>
+<input type=hidden name=ie value=utf-8>
+<input type=hidden name=hl value=zh>
+<input type=hidden id=search-page-url value=/zh/search>
+<input id=search-textbox class="search-textbox form-control" name=q type=search aria-label='搜索 istio.io' placeholder=搜索>
+<button id=search-close title=取消搜索 type=reset aria-label=取消搜索><svg class="icon menu-close"><use xlink:href="/v1.16/img/icons.svg#menu-close"/></svg></button></form></nav></header><div class=banner-container></div><article class=post itemscope itemtype=http://schema.org/BlogPosting><div class=header-content><h1>使用外部 MongoDB 服务</h1><p>描述了一个基于 Istio 的 Bookinfo 示例的简单场景。</p></div><p class=post-author>Nov 16, 2018 <span>|</span> By Vadim Eisenberg</p><div><aside class="callout warning"><div class=type><svg class="large-icon"><use xlink:href="/v1.16/img/icons.svg#callout-warning"/></svg></div><div class=content>该博客文章是在 Istio 1.1 的版本下编写的，因此其中某些内容现在可能已过时。</div></aside></div><div><p>在<a href=/v1.16/zh/blog/2018/egress-tcp/>使用外部 TCP 服务</a>博文中，我描述了网格内的 Istio 应用程序如何通过 TCP 使用外部服务。在本文中，我将演示如何使用外部 MongoDB
+服务。您将使用 <a href=/v1.16/zh/docs/examples/bookinfo/>Istio Bookinfo 示例应用程序</a>，它的书籍评级数据保存在 MongoDB 数据库中。您会将此数据库部署在集群外部，并配置 <code>ratings</code>
+微服务使用它。您将学习控制到外部 MongoDB 服务流量的多种选择及其利弊。</p><h2 id=Bookinfo-with-external-ratings-database>使用外部 ratings 数据库的 Bookinfo</h2><p>首先，在您的 Kubernetes 集群外部建立一个 MongoDB 数据库实例以保存书籍评级数据。然后修改 <a href=/v1.16/zh/docs/examples/bookinfo/>Bookinfo 示例应用程序</a>使用该数据库。</p><h3 id=setting-up-the-ratings-database>建立 ratings 数据库</h3><p>在这个任务中您将建立一个 <a href=https://www.mongodb.com>MongoDB</a> 实例。您可以使用任何 MongoDB 实例；我使用 <a href=https://www.ibm.com/cloud/compose/mongodb>Compose for MongoDB</a>。</p><ol><li><p>为 <code>admin</code> 用户的密码设置一个环境变量。为了避免密码被保存在 Bash 历史记录中，在运行命令之后，请立即使用 <a href=https://www.gnu.org/software/bash/manual/html_node/Bash-History-Builtins.html#Bash-History-Builtins>history -d</a> 将其从历史记录中删除。</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ export MONGO_ADMIN_PASSWORD=&lt;your MongoDB admin password&gt;
+</code></pre></li><li><p>为需要创建的新用户（即 <code>bookinfo</code>）的密码设置环境变量，并使用 <a href=https://www.gnu.org/software/bash/manual/html_node/Bash-History-Builtins.html#Bash-History-Builtins>history -d</a> 将其从历史记录中删除。</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ export BOOKINFO_PASSWORD=&lt;password&gt;
+</code></pre></li><li><p>为您的 MongoDB 服务设置环境变量 <code>MONGODB_HOST</code> 和 <code>MONGODB_PORT</code>。</p></li><li><p>创建 <code>bookinfo</code> 用户：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ cat &lt;&lt;EOF | mongo --ssl --sslAllowInvalidCertificates $MONGODB_HOST:$MONGODB_PORT -u admin -p $MONGO_ADMIN_PASSWORD --authenticationDatabase admin
+use test
+db.createUser(
+   {
+     user: &#34;bookinfo&#34;,
+     pwd: &#34;$BOOKINFO_PASSWORD&#34;,
+     roles: [ &#34;read&#34;]
+   }
+);
+EOF
+</code></pre></li><li><p>创建一个 <em>collection</em> 来保存评级数据。以下命令将两个评级都设置为 <code>1</code>，以便在 Bookinfo <em>ratings</em> service 使用数据库时提供视觉验证（默认 Bookinfo <em>ratings</em>
+为 <code>4</code> 和 <code>5</code>）</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ cat &lt;&lt;EOF | mongo --ssl --sslAllowInvalidCertificates $MONGODB_HOST:$MONGODB_PORT -u admin -p $MONGO_ADMIN_PASSWORD --authenticationDatabase admin
+use test
+db.createCollection(&#34;ratings&#34;);
+db.ratings.insert(
+  [{rating: 1},
+   {rating: 1}]
+);
+EOF
+</code></pre></li><li><p>检查 <code>bookinfo</code> 用户是否可以获取评级数据:</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ cat &lt;&lt;EOF | mongo --ssl --sslAllowInvalidCertificates $MONGODB_HOST:$MONGODB_PORT -u bookinfo -p $BOOKINFO_PASSWORD --authenticationDatabase test
+use test
+db.ratings.find({});
+EOF
+</code></pre><p>输出应该类似于:</p><pre><code class=language-plain data-expandlinks=true data-repo=istio>MongoDB server version: 3.4.10
+switched to db test
+{ &#34;_id&#34; : ObjectId(&#34;5b7c29efd7596e65b6ed2572&#34;), &#34;rating&#34; : 1 }
+{ &#34;_id&#34; : ObjectId(&#34;5b7c29efd7596e65b6ed2573&#34;), &#34;rating&#34; : 1 }
+bye
+</code></pre></li></ol><h3 id=Initial-setting-of-Bookinfo-application>Bookinfo 应用程序的初始设置</h3><p>为了演示使用外部数据库的场景，请首先运行一个<a href=/v1.16/zh/docs/setup/getting-started/>安装了 Istio</a> 的 Kubernetes 集群。然后部署
+<a href=/v1.16/zh/docs/examples/bookinfo/>Istio Bookinfo 示例应用程序</a>并<a href=/v1.16/zh/docs/examples/bookinfo/#apply-default-destination-rules>应用默认 destination rules</a> 和<a href=/v1.16/zh/docs/tasks/traffic-management/egress/egress-control/#change-to-the-blocking-by-default-policy>改变 Istio 到 blocking-egress-by-default 策略</a>。</p><p>此应用程序从 <code>ratings</code> 微服务获取书籍评级（1 到 5 的数字）。评级以星标形式显示每条评论。<code>ratings</code> 微服务有几个版本。在下一小节中，请部署使用 <a href=https://www.mongodb.com>MongoDB</a>
+作为 ratings 数据库的版本。</p><p>本博文中的示例命令适用于 Istio 1.0。</p><p>作为提醒，这是 <a href=/v1.16/zh/docs/examples/bookinfo/>Bookinfo 示例应用程序</a>的端到端架构。</p><figure style=width:80%><div class=wrapper-with-intrinsic-ratio style=padding-bottom:59.086918235567985%><a data-skipendnotes=true href=/v1.16/zh/docs/examples/bookinfo/withistio.svg title="The original Bookinfo application"><img class=element-to-stretch src=/v1.16/zh/docs/examples/bookinfo/withistio.svg alt="The original Bookinfo application"></a></div><figcaption>The original Bookinfo application</figcaption></figure><h3 id=use-the-external-database-in-Bookinfo-application>在 Bookinfo 应用程序中使用外部数据库</h3><ol><li><p>部署使用 MongoDB 数据库的 <em>ratings</em> 微服务（<em>ratings v2</em>）：</p><div><a data-skipendnotes=true style=display:none href=https://raw.githubusercontent.com/istio/istio/release-1.16/samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml>Zip</a><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml@
+serviceaccount &#34;bookinfo-ratings-v2&#34; created
+deployment &#34;ratings-v2&#34; created
+</code></pre></div></li><li><p>为你的 MongoDB 设置 <code>MONGO_DB_URL</code> 环境变量：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl set env deployment/ratings-v2 &#34;MONGO_DB_URL=mongodb://bookinfo:$BOOKINFO_PASSWORD@$MONGODB_HOST:$MONGODB_PORT/test?authSource=test&amp;ssl=true&#34;
+deployment.extensions/ratings-v2 env updated
+</code></pre></li><li><p>将所有到 <em>reviews</em> service 的流量路由到它的 <em>v3</em> 版本，以确保 <em>reviews</em> service 总是调用 <em>ratings</em> service。此外，将所有到 <code>ratings</code> service
+的流量路由到使用外部数据库的 <em>ratings v2</em>。</p><p>通过添加两个 <a href=/v1.16/zh/docs/reference/config/networking/virtual-service/>virtual services</a> 来为以上两个 services 指定路由。这些 virtual service
+在 Istio 发布包中 <code>samples/bookinfo/networking/virtual-service-ratings-mongodb.yaml</code> 有指定 。
+<em><strong>重要：</strong></em> 请确保在运行以下命令之前<a href=/v1.16/zh/docs/examples/bookinfo/#apply-default-destination-rules>应用了默认的 destination rules</a>。</p><div><a data-skipendnotes=true style=display:none href=https://raw.githubusercontent.com/istio/istio/release-1.16/samples/bookinfo/networking/virtual-service-ratings-db.yaml>Zip</a><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl apply -f @samples/bookinfo/networking/virtual-service-ratings-db.yaml@
+</code></pre></div></li></ol><p>更新的架构如下所示。请注意，网格内的蓝色箭头标记对应于我们添加的 virtual service。根据 virtual service，流量将被发送到 <code>reviews v3</code> 和 <code>ratings v2</code>。</p><figure style=width:80%><div class=wrapper-with-intrinsic-ratio style=padding-bottom:59.314858206480224%><a data-skipendnotes=true href=/v1.16/zh/blog/2018/egress-mongo/bookinfo-ratings-v2-mongodb-external.svg title="The Bookinfo application with ratings v2 and an external MongoDB database"><img class=element-to-stretch src=/v1.16/zh/blog/2018/egress-mongo/bookinfo-ratings-v2-mongodb-external.svg alt="The Bookinfo application with ratings v2 and an external MongoDB database"></a></div><figcaption>The Bookinfo application with ratings v2 and an external MongoDB database</figcaption></figure><p>请注意，MongoDB 数据库位于 Istio 服务网格之外，或者更确切地说是在 Kubernetes 集群之外。服务网格的边界使用虚线标记。</p><h3 id=access-the-webpage>访问网页</h3><p><a href=/v1.16/zh/docs/examples/bookinfo/#determine-the-ingress-IP-and-port>确认 ingress IP 和端口之后</a>，访问应用程序的网页。</p><p>由于您尚未配置 egress 流量控制，所以 Istio 会阻止到 MongoDB 服务的访问。这就是为什么您当前不能看到评级的星标，只能看到 <em>&ldquo;Ratings service is currently unavailable&rdquo;</em> 的信息：</p><figure style=width:80%><div class=wrapper-with-intrinsic-ratio style=padding-bottom:36.18705035971223%><a data-skipendnotes=true href=/v1.16/zh/blog/2018/egress-mongo/errorFetchingBookRating.png title="The Ratings service error messages"><img class=element-to-stretch src=/v1.16/zh/blog/2018/egress-mongo/errorFetchingBookRating.png alt="The Ratings service error messages"></a></div><figcaption>The Ratings service error messages</figcaption></figure><p>在以下部分中，您将使用不同的 Istio egress 控制选项，配置对外部 MongoDB 服务的访问。</p><h2 id=egress-control-for-TCP>TCP 的 egress 控制</h2><p>由于 <a href=https://zh/docs.mongodb.com/manual/reference/mongodb-wire-protocol/>MongoDB 协议</a>运行在 TCP 之上，您可以像控制到<a href=/v1.16/zh/blog/2018/egress-tcp/>其余 TCP 服务</a>的流量一样控制到 MongoDB 的 egress 流量。为了控制 TCP 流量，您必须指定一个 <a href=https://tools.ietf.org/html/rfc2317>CIDR</a> 表示的 IP 块，该 IP 块包含 MongoDB 的地址。需要注意的是，有时候 MongoDB 主机的 IP 并不稳定或无法事先得知。</p><p>在 MongoDB IP 不稳定的情况下，可以以 <a href=#egress-control-for-TLS>TLS 方式控制</a> egress 流量，或绕过 Istio sidecar <a href=/v1.16/zh/docs/tasks/traffic-management/egress/egress-control/#direct-access-to-external-services>直接</a>路由流量。</p><p>获取 MongoDB 数据库实例的 IP 地址。一种选择是使用 <a href=https://linux.die.net/man/1/host>host</a> 命令。</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ export MONGODB_IP=$(host $MONGODB_HOST | grep &#34; has address &#34; | cut -d&#34; &#34; -f4)
+</code></pre><h3 id=control-TCP-egress-traffic-without-a-gateway>在没有 gateway 的情况下控制 TCP egress 流量</h3><p>如果您不用通过 <a href=/v1.16/zh/docs/tasks/traffic-management/egress/egress-gateway/#use-case>egress gateway</a> 定向流量，例如不要求所有流量都通过 gateway 流出网格时，请遵循以下部分的说明。或者，如果您确实希望通过 egress gateway 定向流量，请继续阅读<a href=#direct-tcp-egress-traffic-through-an-egress-gateway>通过 egress gateway 定向 TCP egress 流量</a>。</p><ol><li><p>定义一个网格外 TCP service entry：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl apply -f - &lt;&lt;EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: mongo
+spec:
+  hosts:
+  - my-mongo.tcp.svc
+  addresses:
+  - $MONGODB_IP/32
+  ports:
+  - number: $MONGODB_PORT
+    name: tcp
+    protocol: TCP
+  location: MESH_EXTERNAL
+  resolution: STATIC
+  endpoints:
+  - address: $MONGODB_IP
+EOF
+</code></pre><p>请注意，protocol 被指定为 <code>TCP</code> 而不是 <code>MONGO</code>，因为如果 <a href=https://zh/docs.mongodb.com/manual/tutorial/configure-ssl/>MongoDB 协议运行在 TLS 之上时</a>，流量可以加密。如果加密了流量，该加密的 MongoDB 协议就不能被 Istio 代理解析。</p><p>如果您知道使用的是未加密的 MongoDB 协议，可以指定 protocol 为 <code>MONGO</code>，从而使 Istio 代理产生 <a href=https://www.envoyproxy.io/docs/envoy/latest/configuration/listeners/network_filters/mongo_proxy_filter#statistics>MongoDB 相关的统计数据</a>。还要注意，当指定 protocol <code>TCP</code> 时，配置不是特定于 MongoDB 的，对于其余使用基于 TCP 协议的数据库同样适用。</p></li><li><p>刷新应用程序的网页。应用程序现在应该显示评级数据而非错误：</p><figure style=width:80%><div class=wrapper-with-intrinsic-ratio style=padding-bottom:36.69064748201439%><a data-skipendnotes=true href=/v1.16/zh/blog/2018/egress-mongo/externalDBRatings.png title="Book Ratings Displayed Correctly"><img class=element-to-stretch src=/v1.16/zh/blog/2018/egress-mongo/externalDBRatings.png alt="Book Ratings Displayed Correctly"></a></div><figcaption>Book Ratings Displayed Correctly</figcaption></figure></li></ol><p>请注意，和预期的一样，您会看到两个显示评论的一星评级。您将评级设置为一星，以作为外部数据库确实被使用了的视觉证据。</p><ol><li>如果要通过出口网关引导流量，请继续下一节。否则，请执行 <a href=#cleanup-of-TCP-egress-traffic-control>cleanup</a>.</li></ol><h3 id=direct-TCP-egress-traffic-through-an-egress-gateway>通过 egress gateway 定向 TCP Egress 流量</h3><p>在本节中，您将处理通过 <a href=/v1.16/zh/docs/tasks/traffic-management/egress/egress-gateway/#use-case>egress gateway</a> 定向流量的情况。Sidecar 代理通过匹配 MongoDB 主机的 IP 地址（一个 32 位长度的 CIDR 块），将 TCP 连接从 MongoDB 客户端路由到 egress gateway。Egress gateway 按照其 hostname，转发流量到 MongoDB 主机。</p><ol><li><p><a href=/v1.16/zh/docs/tasks/traffic-management/egress/egress-gateway/#deploy-Istio-egress-gateway>部署 Istio egress gateway</a>.</p></li><li><p>如果您未执行<a href=#control-TCP-egress-traffic-without-a-gateway>上一节</a>中的步骤，则立即执行这些步骤。</p></li><li><p>您可能希望启用 sidecar 代理和 MongoDB 客户端之间以及 egress gateway 的 <span class=term data-title="Mutual TLS Authentication" data-body='<p>双向 TLS 通过内置身份和凭证管理，提供强大的服务到服务身份验证。
+<a href="/zh/docs/concepts/security/#mutual-TLS-authentication">了解更多关于双向 TLS 身份验证</a>。</p>
+'>mutual TLS Authentication</span>，以使 egress gateway 监控来源 pod 的身份并基于该 identity 启用 Mixer 策略。启用双向 TLS 时同样对流量进行了加密。
+如果你不想开启双向 TLS，参考 <a href=#mutual-TLS-between-the-sidecar-proxies-and-the-egress-gateway>Mutual TLS between the sidecar proxies and the egress gateway</a> 小节
+否则，请继续以下部分。</p></li></ol><h4 id=configure-TCP-traffic-from-sidecars-to-the-egress-gateway>配置从 sidecar 到 egress gateway 的 TCP 流量</h4><ol><li><p>定义 <code>EGRESS_GATEWAY_MONGODB_PORT</code> 环境变量来保存用于通过 egress gateway 定向流量的端口，例如 <code>7777</code>。必须选择没有被网格中其余 service 使用的端口。</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ export EGRESS_GATEWAY_MONGODB_PORT=7777
+</code></pre></li><li><p>添加选择的端口到 <code>istio-egressgateway</code> service。您需要使用和安装 Istio 时一样的端口，特别是必须指定前面配置 <code>istio-egressgateway</code> 的所有端口。</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ helm template install/kubernetes/helm/istio/ --name istio-egressgateway --namespace istio-system -x charts/gateways/templates/deployment.yaml -x charts/gateways/templates/service.yaml --set gateways.istio-ingressgateway.enabled=false --set gateways.istio-egressgateway.enabled=true --set gateways.istio-egressgateway.ports[0].port=80 --set gateways.istio-egressgateway.ports[0].name=http --set gateways.istio-egressgateway.ports[1].port=443 --set gateways.istio-egressgateway.ports[1].name=https --set gateways.istio-egressgateway.ports[2].port=$EGRESS_GATEWAY_MONGODB_PORT --set gateways.istio-egressgateway.ports[2].name=mongo | kubectl apply -f -
+</code></pre></li><li><p>检查 <code>istio-egressgateway</code> service 确实有选择的端口：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl get svc istio-egressgateway -n istio-system
+NAME                  TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)                   AGE
+istio-egressgateway   ClusterIP   172.21.202.204   &lt;none&gt;        80/TCP,443/TCP,7777/TCP   34d
+</code></pre></li><li><p>为 <code>istio-egressgateway</code> 服务 关闭双向 TLS 认证</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl apply -f - &lt;&lt;EOF
+apiVersion: authentication.istio.io/v1alpha1
+kind: Policy
+metadata:
+  name: istio-egressgateway
+  namespace: istio-system
+spec:
+  targets:
+  - name: istio-egressgateway
+EOF
+</code></pre></li><li><p>为您的 MongoDB service 创建一个 egress <code>Gateway</code>、一个 destination rules 和 virtual services，以定向流量到 egress gateway，并从 egress gateway 发送到外部服务。</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl apply -f - &lt;&lt;EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: istio-egressgateway
+spec:
+  selector:
+    istio: egressgateway
+  servers:
+  - port:
+      number: $EGRESS_GATEWAY_MONGODB_PORT
+      name: tcp
+      protocol: TCP
+    hosts:
+    - my-mongo.tcp.svc
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: egressgateway-for-mongo
+spec:
+  host: istio-egressgateway.istio-system.svc.cluster.local
+  subsets:
+  - name: mongo
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: mongo
+spec:
+  host: my-mongo.tcp.svc
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: direct-mongo-through-egress-gateway
+spec:
+  hosts:
+  - my-mongo.tcp.svc
+  gateways:
+  - mesh
+  - istio-egressgateway
+  tcp:
+  - match:
+    - gateways:
+      - mesh
+      destinationSubnets:
+      - $MONGODB_IP/32
+      port: $MONGODB_PORT
+    route:
+    - destination:
+        host: istio-egressgateway.istio-system.svc.cluster.local
+        subset: mongo
+        port:
+          number: $EGRESS_GATEWAY_MONGODB_PORT
+  - match:
+    - gateways:
+      - istio-egressgateway
+      port: $EGRESS_GATEWAY_MONGODB_PORT
+    route:
+    - destination:
+        host: my-mongo.tcp.svc
+        port:
+          number: $MONGODB_PORT
+      weight: 100
+EOF
+</code></pre></li><li><p><a href=#verify-that-egress-traffic-is-directed-through-the-egress-gateway>验证 TCP egress 流量是否被定向到 egress gateway</a>.</p></li></ol><h4 id=mutual-TLS-between-the-sidecar-proxies-and-the-egress-gateway>Sidecar 代理和 egress gateway 之间的双向 TLS</h4><ol><li><p>删除前面小节中的配置：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl delete gateway istio-egressgateway --ignore-not-found=true
+$ kubectl delete virtualservice direct-mongo-through-egress-gateway --ignore-not-found=true
+$ kubectl delete destinationrule egressgateway-for-mongo mongo --ignore-not-found=true
+$ kubectl delete policy istio-egressgateway -n istio-system --ignore-not-found=true
+</code></pre></li><li><p>Enforce mutual TLS authentication for the <code>istio-egressgateway</code> service:</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl apply -f - &lt;&lt;EOF
+apiVersion: authentication.istio.io/v1alpha1
+kind: Policy
+metadata:
+  name: istio-egressgateway
+  namespace: istio-system
+spec:
+  targets:
+  - name: istio-egressgateway
+  peers:
+  - mtls: {}
+EOF
+</code></pre></li><li><p>为您的 MongoDB service 创建一个 egress <code>Gateway</code>、一个 destination rules 和 virtual services，以定向流量到 egress gateway，并从 egress gateway 发送到外部服务。</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl apply -f - &lt;&lt;EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: istio-egressgateway
+spec:
+  selector:
+    istio: egressgateway
+  servers:
+  - port:
+      number: 443
+      name: tls
+      protocol: TLS
+    hosts:
+    - my-mongo.tcp.svc
+    tls:
+      mode: MUTUAL
+      serverCertificate: /etc/certs/cert-chain.pem
+      privateKey: /etc/certs/key.pem
+      caCertificates: /etc/certs/root-cert.pem
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: egressgateway-for-mongo
+spec:
+  host: istio-egressgateway.istio-system.svc.cluster.local
+  subsets:
+  - name: mongo
+    trafficPolicy:
+      loadBalancer:
+        simple: ROUND_ROBIN
+      portLevelSettings:
+      - port:
+          number: 443
+        tls:
+          mode: ISTIO_MUTUAL
+          sni: my-mongo.tcp.svc
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: mongo
+spec:
+  host: my-mongo.tcp.svc
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: direct-mongo-through-egress-gateway
+spec:
+  hosts:
+  - my-mongo.tcp.svc
+  gateways:
+  - mesh
+  - istio-egressgateway
+  tcp:
+  - match:
+    - gateways:
+      - mesh
+      destinationSubnets:
+      - $MONGODB_IP/32
+      port: $MONGODB_PORT
+    route:
+    - destination:
+        host: istio-egressgateway.istio-system.svc.cluster.local
+        subset: mongo
+        port:
+          number: 443
+  - match:
+    - gateways:
+      - istio-egressgateway
+      port: 443
+    route:
+    - destination:
+        host: my-mongo.tcp.svc
+        port:
+          number: $MONGODB_PORT
+      weight: 100
+EOF
+</code></pre></li><li><p>继续下一节。</p></li></ol><h4 id=verify-that-egress-traffic-is-directed-through-the-egress-gateway>验证 TCP egress 流量是否通过 egress gateway 定向</h4><ol><li><p>再次刷新应用程序的网页，并验证等级是否仍正确显示。</p></li><li><p><a href=/v1.16/zh/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging>开启 Envoy 访问日志</a></p></li><li><p>检查 egress gateway 的 Envoy 的统计数据，找到对应请求 MongoDB service 的 counter。如果 Istio 步骤在 <code>istio-system</code> namespace 中，打印 counter 的命令为：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl logs -l istio=egressgateway -n istio-system
+[2019-04-14T06:12:07.636Z] &#34;- - -&#34; 0 - &#34;-&#34; 1591 4393 94 - &#34;-&#34; &#34;-&#34; &#34;-&#34; &#34;-&#34; &#34;&lt;Your MongoDB IP&gt;:&lt;your MongoDB port&gt;&#34; outbound|&lt;your MongoDB port&gt;||my-mongo.tcp.svc 172.30.146.119:59924 172.30.146.119:443 172.30.230.1:59206 -
+</code></pre></li></ol><h3 id=cleanup-of-TCP-egress-traffic-control>清理通过 egress gateway 定向 TCP egress 流量的配置</h3><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl delete serviceentry mongo
+$ kubectl delete gateway istio-egressgateway --ignore-not-found=true
+$ kubectl delete virtualservice direct-mongo-through-egress-gateway --ignore-not-found=true
+$ kubectl delete destinationrule egressgateway-for-mongo mongo --ignore-not-found=true
+$ kubectl delete policy istio-egressgateway -n istio-system --ignore-not-found=true
+</code></pre><h2 id=egress-control-for-TLS>TLS egress 控制</h2><p>在现实生活中，绝大多数到外部服务的通信都必须被加密，而 <a href=https://zh/docs.mongodb.com/manual/tutorial/configure-ssl/>MongoDB 协议在 TLS 之上运行</a>。
+并且，TLS 客户端经常发送<a href=https://en.wikipedia.org/wiki/Server_Name_Indication>服务器名称指示</a>，SNI，作为握手的一部分。
+如果您的 MongoDB 服务器运行 TLS 且 MongoDB 客户端发送 SNI 作为握手的一部分，您就可以像任何其余带有 SNI 的 TLS 流量一样控制 MongoDB egress 流量。
+您不需要指定 MongoDB 服务器的 IP 地址，而只需指定他们的主机名称，这样会更加方便，因为您无需依赖 IP 地址的稳定性。
+您还可以指定通配符为主机名的前缀，例如允许从 <code>*.com</code> 域访问任意服务器。</p><p>要想检查您的 MongoDB 服务器是否支持 TLS，请运行：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ openssl s_client -connect $MONGODB_HOST:$MONGODB_PORT -servername $MONGODB_HOST
+</code></pre><p>如果上述命令打印了一个服务器返回的证书，说明该服务器支持 TLS。如果没有，您就需要像前面小节描述的一样在 TCP 层面控制 MongoDB egress 流量。</p><h3 id=control-TLS-egress-traffic-without-a-gateway>无 gateway 情况下控制 TLS egress 流量</h3><p>如果您<a href=/v1.16/zh/docs/tasks/traffic-management/egress/egress-gateway/#use-case>不需要 egress gateway</a>，请遵循本小节中的说明。
+如果您需要通过 egress gateway 定向流量，请继续阅读<a href=#direct-tcp-egress-traffic-through-an-egress-gateway>通过 egress gateway 定向 TCP Egress 流量</a>。</p><ol><li><p>为 MongoDB service 创建一个 <code>ServiceEntry</code>：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl apply -f - &lt;&lt;EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: mongo
+spec:
+  hosts:
+  - $MONGODB_HOST
+  ports:
+  - number: $MONGODB_PORT
+    name: tls
+    protocol: TLS
+  resolution: DNS
+EOF
+</code></pre></li><li><p>刷新应用程序的网页。应用程序应该正确显示评级数据。</p></li></ol><h4 id=cleanup-of-the-egress-configuration-for-TLS>清理 TLS 的 egress 配置</h4><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl delete serviceentry mongo
+</code></pre><h3 id=direct-tcp-egress-traffic-through-an-egress-gateway>通过 egress gateway 定向 TLS Egress 流量</h3><p>在本小节中，您将处理通过 <a href=/v1.16/zh/docs/tasks/traffic-management/egress/egress-gateway/#use-case>egress gateway</a> 定向流量的情况。
+Sidecar 代理通过匹配 MongoDB 主机的 SNI，将 TLS 连接从 MongoDB 客户端路由到 egress gateway。
+Egress gateway 再将流量转发到 MongoDB 主机。请注意，sidecar 代理会将目的端口重写为 443。
+Egress gateway 在 443 端口上接受 MongoDB 流量，按照 SNI 匹配 MongoDB 主机，并再次将端口重写为 MongoDB 服务器的端口。</p><ol><li><p><a href=/v1.16/zh/docs/tasks/traffic-management/egress/egress-gateway/#deploy-Istio-egress-gateway>部署 Istio egress gateway</a>.</p></li><li><p>为 MongoDB service 创建一个 <code>ServiceEntry</code>:</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl apply -f - &lt;&lt;EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: mongo
+spec:
+  hosts:
+  - $MONGODB_HOST
+  ports:
+  - number: $MONGODB_PORT
+    name: tls
+    protocol: TLS
+  - number: 443
+    name: tls-port-for-egress-gateway
+    protocol: TLS
+  resolution: DNS
+  location: MESH_EXTERNAL
+EOF
+</code></pre></li><li><p>刷新应用程序的网页并验证评级数据是否显示正常。</p></li><li><p>为您的 MongoDB service 创建一个 egress <code>Gateway</code>、一个 destination rules 和 virtual services，以将流量定向到 egress gateway，并从 egress gateway 发送到外部服务。</p><p>如果您希望启用 sidecar 代理和应用程序 pod 以及 egress gateway 之间的<a href=/v1.16/zh/docs/tasks/security/authentication/authn-policy/#auto-mutual-TLS>双向 TLS 认证</a>，可以使用下面的命令。（您可能希望启用双向 TLS 以使 egress gateway 监控来源 pod 的身份并基于该 identity 启用 Mixer 策略。）</p><div id=tabset-zhblog2018egress-mongo-1 role=tablist class=tabset><div class=tab-strip data-category-name=mtls><button aria-selected=true data-category-value=enabled aria-controls=tabset-zhblog2018egress-mongo-1-0-panel id=tabset-zhblog2018egress-mongo-1-0-tab role=tab><span>mutual TLS enabled</span>
+</button><button tabindex=-1 data-category-value=disabled aria-controls=tabset-zhblog2018egress-mongo-1-1-panel id=tabset-zhblog2018egress-mongo-1-1-tab role=tab><span>mutual TLS disabled</span></button></div><div class=tab-content><div id=tabset-zhblog2018egress-mongo-1-0-panel role=tabpanel tabindex=0 aria-labelledby=tabset-zhblog2018egress-mongo-1-0-tab><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl apply -f - &lt;&lt;EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: istio-egressgateway
+spec:
+  selector:
+istio: egressgateway
+  servers:
+  - port:
+  number: 443
+  name: tls
+  protocol: TLS
+hosts:
+- $MONGODB_HOST
+tls:
+  mode: MUTUAL
+  serverCertificate: /etc/certs/cert-chain.pem
+  privateKey: /etc/certs/key.pem
+  caCertificates: /etc/certs/root-cert.pem
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: egressgateway-for-mongo
+spec:
+  host: istio-egressgateway.istio-system.svc.cluster.local
+  subsets:
+  - name: mongo
+trafficPolicy:
+  loadBalancer:
+    simple: ROUND_ROBIN
+  portLevelSettings:
+  - port:
+      number: 443
+    tls:
+      mode: ISTIO_MUTUAL
+      sni: $MONGODB_HOST
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: direct-mongo-through-egress-gateway
+spec:
+  hosts:
+  - $MONGODB_HOST
+  gateways:
+  - mesh
+  - istio-egressgateway
+  tls:
+  - match:
+- gateways:
+  - mesh
+  port: $MONGODB_PORT
+  sni_hosts:
+  - $MONGODB_HOST
+route:
+- destination:
+    host: istio-egressgateway.istio-system.svc.cluster.local
+    subset: mongo
+    port:
+      number: 443
+  tcp:
+  - match:
+- gateways:
+  - istio-egressgateway
+  port: 443
+route:
+- destination:
+    host: $MONGODB_HOST
+    port:
+      number: $MONGODB_PORT
+  weight: 100
+EOF
+</code></pre></div><div hidden id=tabset-zhblog2018egress-mongo-1-1-panel role=tabpanel tabindex=0 aria-labelledby=tabset-zhblog2018egress-mongo-1-1-tab><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl apply -f - &lt;&lt;EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: istio-egressgateway
+spec:
+  selector:
+istio: egressgateway
+  servers:
+  - port:
+  number: 443
+  name: tls
+  protocol: TLS
+hosts:
+- $MONGODB_HOST
+tls:
+  mode: PASSTHROUGH
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: egressgateway-for-mongo
+spec:
+  host: istio-egressgateway.istio-system.svc.cluster.local
+  subsets:
+  - name: mongo
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: direct-mongo-through-egress-gateway
+spec:
+  hosts:
+  - $MONGODB_HOST
+  gateways:
+  - mesh
+  - istio-egressgateway
+  tls:
+  - match:
+- gateways:
+  - mesh
+  port: $MONGODB_PORT
+  sni_hosts:
+  - $MONGODB_HOST
+route:
+- destination:
+    host: istio-egressgateway.istio-system.svc.cluster.local
+    subset: mongo
+    port:
+      number: 443
+  - match:
+- gateways:
+  - istio-egressgateway
+  port: 443
+  sni_hosts:
+  - $MONGODB_HOST
+route:
+- destination:
+    host: $MONGODB_HOST
+    port:
+      number: $MONGODB_PORT
+  weight: 100
+EOF
+</code></pre></div></div></div></li><li><p><a href=#verify-that-egress-traffic-is-directed-through-the-egress-gateway>验证 TCP egress 流量是否通过 egress gateway 定向</a></p></li></ol><h4 id=cleanup-directing-TLS-Egress-traffic-through-an-egress-gateway>清除通过 egress gateway 定向 TLS Egress 流量的配置</h4><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl delete serviceentry mongo
+$ kubectl delete gateway istio-egressgateway
+$ kubectl delete virtualservice direct-mongo-through-egress-gateway
+$ kubectl delete destinationrule egressgateway-for-mongo
+</code></pre><h3 id=enable-MongoDB-TLS-egress-traffic-to-arbitrary-wildcarded-domains>启用到任意通配符域名的 MongoDB TLS egress 流量</h3><p>有时，您希望将 egress 流量配置为来自同一域的多个主机名，例如到 <code>*.&lt;your company domain>.com</code> 中的所有 MongoDB service。
+您不希望创建多个配置项，而是一个用于公司中所有 MongoDB service 的通用配置项。
+要想通过一个配置来控制到所有相同域中的外部服务的访问，您需要使用 <em>通配符</em> 主机。</p><p>在本节中，您将为通配符域名配置 egress gateway。我在 <code>composedb.com</code> 处使用了 MongoDB instance，
+因此为 <code>*.com</code> 配置出口流量对我有效（我也可以使用<code>*.composedb.com</code>）。
+您可以根据 MongoDB 主机选择通配符域名。</p><p>要为通配符域名配置 egress gateway 流量，
+您需要使用<a href=/v1.16/zh/docs/tasks/traffic-management/egress/wildcard-egress-hosts/#wildcard-configuration-for-arbitrary-domains>一个额外的 SNI 代理</a>来部署一个自定义的 egress gateway。由于 Envoy（Istio egress gateway 使用的标准代理）目前的限制，这是必须的。</p><h4 id=prepare-a-new-egress-gateway-with-an-SNI-proxy>准备一个 SNI 代理使用新的 egress gateway</h4><p>在本节中，除了标准的 Istio Envoy 代理之外，您还将部署具有 SNI 代理的 egress gateway。您可以使用任何能够根据任意未预先配置的 SNI 值路由流量的 SNI 代理；我们使用 <a href=http://nginx.org>Nginx</a> 来实现这一功能。</p><ol><li><p>为 Nginx SNI 代理创建配置文件。如果需要，您可以编辑该文件以指定其他 Nginx 设置。</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ cat &lt;&lt;EOF &gt; ./sni-proxy.conf
+user www-data;
+
+events {
+}
+
+stream {
+  log_format log_stream &#39;\$remote_addr [\$time_local] \$protocol [\$ssl_preread_server_name]&#39;
+  &#39;\$status \$bytes_sent \$bytes_received \$session_time&#39;;
+
+  access_log /var/log/nginx/access.log log_stream;
+  error_log  /var/log/nginx/error.log;
+
+  # tcp forward proxy by SNI
+  server {
+    resolver 8.8.8.8 ipv6=off;
+    listen       127.0.0.1:$MONGODB_PORT;
+    proxy_pass   \$ssl_preread_server_name:$MONGODB_PORT;
+    ssl_preread  on;
+  }
+}
+EOF
+</code></pre></li><li><p>创建一个 Kubernetes <a href=https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/>ConfigMap</a> 来保存 Nginx SNI 代理的配置：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl create configmap egress-sni-proxy-configmap -n istio-system --from-file=nginx.conf=./sni-proxy.conf
+</code></pre></li><li><p>下面的命令将产生用于编辑和部署的 <code>istio-egressgateway-with-sni-proxy.yaml</code> 文件。</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ cat &lt;&lt;EOF | helm template install/kubernetes/helm/istio/ --name istio-egressgateway-with-sni-proxy --namespace istio-system -x charts/gateways/templates/deployment.yaml -x charts/gateways/templates/service.yaml -x charts/gateways/templates/serviceaccount.yaml -x charts/gateways/templates/autoscale.yaml -x charts/gateways/templates/role.yaml -x charts/gateways/templates/rolebindings.yaml --set global.mtls.enabled=true --set global.istioNamespace=istio-system -f - &gt; ./istio-egressgateway-with-sni-proxy.yaml
+gateways:
+  enabled: true
+  istio-ingressgateway:
+    enabled: false
+  istio-egressgateway:
+    enabled: false
+  istio-egressgateway-with-sni-proxy:
+    enabled: true
+    labels:
+      app: istio-egressgateway-with-sni-proxy
+      istio: egressgateway-with-sni-proxy
+    replicaCount: 1
+    autoscaleMin: 1
+    autoscaleMax: 5
+    cpu:
+      targetAverageUtilization: 80
+    serviceAnnotations: {}
+    type: ClusterIP
+    ports:
+      - port: 443
+        name: https
+    secretVolumes:
+      - name: egressgateway-certs
+        secretName: istio-egressgateway-certs
+        mountPath: /etc/istio/egressgateway-certs
+      - name: egressgateway-ca-certs
+        secretName: istio-egressgateway-ca-certs
+        mountPath: /etc/istio/egressgateway-ca-certs
+    configVolumes:
+      - name: sni-proxy-config
+        configMapName: egress-sni-proxy-configmap
+    additionalContainers:
+    - name: sni-proxy
+      image: nginx
+      volumeMounts:
+      - name: sni-proxy-config
+        mountPath: /etc/nginx
+        readOnly: true
+EOF
+</code></pre></li><li><p>部署新的 egress gateway：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl apply -f ./istio-egressgateway-with-sni-proxy.yaml
+serviceaccount &#34;istio-egressgateway-with-sni-proxy-service-account&#34; created
+role &#34;istio-egressgateway-with-sni-proxy-istio-system&#34; created
+rolebinding &#34;istio-egressgateway-with-sni-proxy-istio-system&#34; created
+service &#34;istio-egressgateway-with-sni-proxy&#34; created
+deployment &#34;istio-egressgateway-with-sni-proxy&#34; created
+horizontalpodautoscaler &#34;istio-egressgateway-with-sni-proxy&#34; created
+</code></pre></li><li><p>验证新 egress gateway 是否工作正常。请注意 pod 有两个容器（一个是 Envoy 代理，另一个是 SNI 代理）。</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl get pod -l istio=egressgateway-with-sni-proxy -n istio-system
+NAME                                                  READY     STATUS    RESTARTS   AGE
+istio-egressgateway-with-sni-proxy-79f6744569-pf9t2   2/2       Running   0          17s
+</code></pre></li><li><p>创建一个使用静态地址 127.0.0.1 (<code>localhost</code>) 的 service entry，并对定向到新 service entry 的流量禁用双向 TLS：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl apply -f - &lt;&lt;EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: sni-proxy
+spec:
+  hosts:
+  - sni-proxy.local
+  location: MESH_EXTERNAL
+  ports:
+  - number: $MONGODB_PORT
+    name: tcp
+    protocol: TCP
+  resolution: STATIC
+  endpoints:
+  - address: 127.0.0.1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: disable-mtls-for-sni-proxy
+spec:
+  host: sni-proxy.local
+  trafficPolicy:
+    tls:
+      mode: DISABLE
+EOF
+</code></pre></li></ol><h4 id=configure-access-to-com-using-the-new-egress-gateway>使用新 egress gateway 配置到 <code>*.com</code> 的访问</h4><ol><li><p>为 <code>*.com</code> 定义一个 <code>ServiceEntry</code>：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ cat &lt;&lt;EOF | kubectl create -f -
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: mongo
+spec:
+  hosts:
+  - &#34;*.com&#34;
+  ports:
+  - number: 443
+    name: tls
+    protocol: TLS
+  - number: $MONGODB_PORT
+    name: tls-mongodb
+    protocol: TLS
+  location: MESH_EXTERNAL
+EOF
+</code></pre></li><li><p>为 *.com 创建一个 egress Gateway，使用 443 端口和 TLS 协议。创建一个 destination rule 来为 gateway 设置 <a href=https://en.wikipedia.org/wiki/Server_Name_Indication>SNI</a>。
+以及为 Envoy 过滤器，以防止恶意应用程序篡改 SNI (过滤器验证这个应用程序发布的 SNI 与报告给 Mixer 的 SNI 是否相同)</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl apply -f - &lt;&lt;EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: istio-egressgateway-with-sni-proxy
+spec:
+  selector:
+    istio: egressgateway-with-sni-proxy
+  servers:
+  - port:
+      number: 443
+      name: tls
+      protocol: TLS
+    hosts:
+    - &#34;*.com&#34;
+    tls:
+      mode: MUTUAL
+      serverCertificate: /etc/certs/cert-chain.pem
+      privateKey: /etc/certs/key.pem
+      caCertificates: /etc/certs/root-cert.pem
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: mtls-for-egress-gateway
+spec:
+  host: istio-egressgateway-with-sni-proxy.istio-system.svc.cluster.local
+  subsets:
+    - name: mongo
+      trafficPolicy:
+        loadBalancer:
+          simple: ROUND_ROBIN
+        portLevelSettings:
+        - port:
+            number: 443
+          tls:
+            mode: ISTIO_MUTUAL
+---
+# The following filter is used to forward the original SNI (sent by the application) as the SNI of the mutual TLS
+# connection.
+# The forwarded SNI will be reported to Mixer so that policies will be enforced based on the original SNI value.
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: forward-downstream-sni
+spec:
+  filters:
+  - listenerMatch:
+      portNumber: $MONGODB_PORT
+      listenerType: SIDECAR_OUTBOUND
+    filterName: forward_downstream_sni
+    filterType: NETWORK
+    filterConfig: {}
+---
+# The following filter verifies that the SNI of the mutual TLS connection (the SNI reported to Mixer) is
+# identical to the original SNI issued by the application (the SNI used for routing by the SNI proxy).
+# The filter prevents Mixer from being deceived by a malicious application: routing to one SNI while
+# reporting some other value of SNI. If the original SNI does not match the SNI of the mutual TLS connection, the
+# filter will block the connection to the external service.
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: egress-gateway-sni-verifier
+spec:
+  workloadLabels:
+    app: istio-egressgateway-with-sni-proxy
+  filters:
+  - listenerMatch:
+      portNumber: 443
+      listenerType: GATEWAY
+    filterName: sni_verifier
+    filterType: NETWORK
+    filterConfig: {}
+EOF
+</code></pre></li><li><p>将目的为 <em>*.com</em> 的流量路由到 egress gateway，并从 egress gateway 路由到 SNI 代理.</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl apply -f - &lt;&lt;EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: direct-mongo-through-egress-gateway
+spec:
+  hosts:
+  - &#34;*.com&#34;
+  gateways:
+  - mesh
+  - istio-egressgateway-with-sni-proxy
+  tls:
+  - match:
+    - gateways:
+      - mesh
+      port: $MONGODB_PORT
+      sni_hosts:
+      - &#34;*.com&#34;
+    route:
+    - destination:
+        host: istio-egressgateway-with-sni-proxy.istio-system.svc.cluster.local
+        subset: mongo
+        port:
+          number: 443
+      weight: 100
+  tcp:
+  - match:
+    - gateways:
+      - istio-egressgateway-with-sni-proxy
+      port: 443
+    route:
+    - destination:
+        host: sni-proxy.local
+        port:
+          number: $MONGODB_PORT
+      weight: 100
+EOF
+</code></pre></li><li><p>再次刷新应用程序的网页，验证评级数据仍然显示正确。</p></li><li><p><a href=/v1.16/zh/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging>开启 Envoy 访问日志</a></p></li><li><p>检查 egress gateway 的 Envoy 的日志。如果 Istio 部署在 <code>istio-system</code> namespace 中，打印日志的的命令为：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl logs -l istio=egressgateway-with-sni-proxy -c istio-proxy -n istio-system
+</code></pre><p>You should see lines similar to the following:</p><pre><code class=language-plain data-expandlinks=true data-repo=istio>[2019-01-02T17:22:04.602Z] &#34;- - -&#34; 0 - 768 1863 88 - &#34;-&#34; &#34;-&#34; &#34;-&#34; &#34;-&#34; &#34;127.0.0.1:28543&#34; outbound|28543||sni-proxy.local 127.0.0.1:49976 172.30.146.115:443 172.30.146.118:58510 &lt;your MongoDB host&gt;
+[2019-01-02T17:22:04.713Z] &#34;- - -&#34; 0 - 1534 2590 85 - &#34;-&#34; &#34;-&#34; &#34;-&#34; &#34;-&#34; &#34;127.0.0.1:28543&#34; outbound|28543||sni-proxy.local 127.0.0.1:49988 172.30.146.115:443 172.30.146.118:58522 &lt;your MongoDB host&gt;
+</code></pre></li><li><p>检查 SNI 代理的日志。如果 Istio 部署在 <code>istio-system</code> namespace 中，打印日志的命令为：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl logs -l istio=egressgateway-with-sni-proxy -n istio-system -c sni-proxy
+127.0.0.1 [23/Aug/2018:03:28:18 +0000] TCP [&lt;your MongoDB host&gt;]200 1863 482 0.089
+127.0.0.1 [23/Aug/2018:03:28:18 +0000] TCP [&lt;your MongoDB host&gt;]200 2590 1248 0.095
+</code></pre></li></ol><h4 id=understanding-what-happened>理解原理</h4><p>在本节中，您使用通配符域名为您的 MongoDB 主机配置了 egress 流量。对于单个 MongoDB 主机使用通配符域名没有任何好处（可以指定确切的主机名），
+而当集群中的应用程序需要访问多个匹配某个通配符域名的 MongoDB 主机时可能有用。
+例如，如果应用程序需要访问 <code>mongodb1.composedb.com</code>、<code>mongodb2.composedb.com</code> 和 <code>mongodb3.composedb.com</code> 时，
+egress 流量可以使用针对泛域名 <code>*.composedb.com</code> 的单个配置实现。</p><p>当配置一个应用使用另一个主机名匹配本小节中的通配符域名的 MongoDB 实例时，不需要额外的 Istio 配置。
+我将这留作一个练习，让读者自行验证。</p><h4 id=cleanup-of-configuration-for-MongoDB-TLS-egress-traffic-to-arbitrary-wildcarded-domains>清理到任意通配符域名的 MongoDB TLS egress 流量的配置</h4><ol><li><p>删除针对 <code>*.com</code> 的配置项：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl delete serviceentry mongo
+$ kubectl delete gateway istio-egressgateway-with-sni-proxy
+$ kubectl delete virtualservice direct-mongo-through-egress-gateway
+$ kubectl delete destinationrule mtls-for-egress-gateway
+$ kubectl delete envoyfilter forward-downstream-sni egress-gateway-sni-verifier
+</code></pre></li><li><p>删除 <code>egressgateway-with-sni-proxy</code> <code>Deployment</code> 的配置项：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl delete serviceentry sni-proxy
+$ kubectl delete destinationrule disable-mtls-for-sni-proxy
+$ kubectl delete -f ./istio-egressgateway-with-sni-proxy.yaml
+$ kubectl delete configmap egress-sni-proxy-configmap -n istio-system
+</code></pre></li><li><p>删除您创建的配置文件：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ rm ./istio-egressgateway-with-sni-proxy.yaml
+$ rm ./nginx-sni-proxy.conf
+</code></pre></li></ol><h2 id=cleanup>清理</h2><ol><li><p>删除<code>bookinfo</code>用户：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ cat &lt;&lt;EOF | mongo --ssl --sslAllowInvalidCertificates $MONGODB_HOST:$MONGODB_PORT -u admin -p $MONGO_ADMIN_PASSWORD --authenticationDatabase admin
+use test
+db.dropUser(&#34;bookinfo&#34;);
+EOF
+</code></pre></li><li><p>删除 <code>ratings</code> 集合：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ cat &lt;&lt;EOF | mongo --ssl --sslAllowInvalidCertificates $MONGODB_HOST:$MONGODB_PORT -u admin -p $MONGO_ADMIN_PASSWORD --authenticationDatabase admin
+use test
+db.ratings.drop();
+EOF
+</code></pre></li><li><p>取消您使用的环境变量：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ unset MONGO_ADMIN_PASSWORD BOOKINFO_PASSWORD MONGODB_HOST MONGODB_PORT MONGODB_IP
+</code></pre></li><li><p>删除 virtual services：</p><div><a data-skipendnotes=true style=display:none href=https://raw.githubusercontent.com/istio/istio/release-1.16/samples/bookinfo/networking/virtual-service-ratings-db.yaml>Zip</a><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl delete -f @samples/bookinfo/networking/virtual-service-ratings-db.yaml@
+Deleted config: virtual-service/default/reviews
+Deleted config: virtual-service/default/ratings
+</code></pre></div></li><li><p>删除 <code>ratings v2-mongodb</code> deployment：</p><div><a data-skipendnotes=true style=display:none href=https://raw.githubusercontent.com/istio/istio/release-1.16/samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml>Zip</a><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl delete -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml@
+deployment &#34;ratings-v2&#34; deleted
+</code></pre></div></li></ol><h2 id=conclusion>总结</h2><p>在这篇博文中，我演示了 MongoDB egress 流量控制的各种选项。您可以在 TCP 或 TLS 层面上控制 MongoDB egress 流量。
+根据您的组织的安全需求，在 TCP 和 TLS 场景下您都可以将流量从 sidecar 代理定向到外部 MongoDB 主机
+，或者通过一个 egress gateway 进行转发。在后面一种场景中，您还可以决定是否禁用 sidecar 代理到 egress gateway 的双向 TLS 认证。
+如果您想要通过指定类似 <code>*.com</code> 的通配符域名来从 TLS 层面控制 MongoDB 的 egress 流量，并且通过 egress gateway 定向流量时，
+您必须部署一个使用 SNI 代理的自定义 egress gateway。</p><p>请注意，本博客文章中描述的 MongoDB 配置和注意事项与 TCP/TLS 之上的其他非 HTTP 协议相同。</p></div><nav class=pagenav><div class=left><a title="如何在不部署 Sidecar 代理的情况下使用 Istio 进行流量管理。" href=/v1.16/zh/blog/2018/incremental-traffic-management/ class=next-link><svg class="icon left-arrow"><use xlink:href="/v1.16/img/icons.svg#left-arrow"/></svg>增量式应用 Istio 第一部分，流量管理</a></div><div class=right><a title="Istio 为庆祝 1.0 的发布，在 Twitch 举办了为期一天的直播。" href=/v1.16/zh/blog/2018/istio-twitch-stream/ class=next-link>Istio 在 Twitch 上全天直播<svg class="icon right-arrow"><use xlink:href="/v1.16/img/icons.svg#right-arrow"/></svg></a></div></nav></article><footer class=footer><div class="footer-wrapper container-l"><div class="user-links footer-links"><a class=channel title='Istio 的代码在 GitHub 上开发' href=https://github.com/istio/community aria-label=GitHub><svg class="icon github"><use xlink:href="/v1.16/img/icons.svg#github"/></svg></a><a class=channel title='如果您想深入了解 Istio 的技术细节，请查看我们日益完善的设计文档' href=https://groups.google.com/forum/#!forum/istio-team-drive-access aria-label="team drive"><svg class="icon drive"><use xlink:href="/v1.16/img/icons.svg#drive"/></svg></a><a class=channel title='在 Slack 上与 Istio 社区交互讨论开发问题（仅限邀请）' href=https://slack.istio.io aria-label=slack><svg class="icon slack"><use xlink:href="/v1.16/img/icons.svg#slack"/></svg></a><a class=channel title='Stack Overflow 中列举了针对实际问题以及部署、配置和使用 Istio 的各项回答' href=https://stackoverflow.com/questions/tagged/istio aria-label="Stack Overflow"><svg class="icon stackoverflow"><use xlink:href="/v1.16/img/icons.svg#stackoverflow"/></svg></a><a class=channel title='关注我们的 Twitter 来获取最新信息' href=https://twitter.com/IstioMesh aria-label=Twitter><svg class="icon twitter"><use xlink:href="/v1.16/img/icons.svg#twitter"/></svg></a></div><hr class=footer-separator role=separator><div class="info footer-info"><a class=logo href=/v1.16/zh/ aria-label=logotype><svg xmlns="http://www.w3.org/2000/svg" width="128" height="60" viewBox="0 0 128 60"><path d="M58.434 48.823A.441.441.0 0158.3 48.497V22.583a.444.444.0 01.134-.326.446.446.0 01.327-.134h3.527a.447.447.0 01.325.134.447.447.0 01.134.326v25.914a.443.443.0 01-.134.326.444.444.0 01-.325.134h-3.527a.444.444.0 01-.327-.134z"/><path d="m70.969 48.477a6.556 6.556.0 01-2.818-1.955 4.338 4.338.0 01-1-2.78v-.345a.443.443.0 01.134-.326.444.444.0 01.326-.135h3.374a.444.444.0 01.326.135.445.445.0 01.134.326v.077a2.014 2.014.0 001.054 1.667 4.672 4.672.0 002.664.709 4.446 4.446.0 002.492-.633 1.862 1.862.0 00.958-1.591 1.426 1.426.0 00-.786-1.322 12.7 12.7.0 00-2.549-.939l-1.457-.46a21.526 21.526.0 01-3.3-1.227 6.57 6.57.0 01-2.262-1.783 4.435 4.435.0 01-.92-2.894 5.081 5.081.0 012.109-4.275 8.993 8.993.0 015.558-1.591 10.445 10.445.0 014.1.748 6.3 6.3.0 012.722 2.07 5 5 0 01.958 3.009.441.441.0 01-.134.326.441.441.0 01-.325.134h-3.258a.441.441.0 01-.326-.134.443.443.0 01-.134-.326 1.974 1.974.0 00-.978-1.667 4.647 4.647.0 00-2.665-.671 4.741 4.741.0 00-2.435.556 1.724 1.724.0 00-.938 1.553 1.512 1.512.0 00.9 1.4 15.875 15.875.0 003.01 1.055l.843.229a27.368 27.368.0 013.412 1.246 6.67 6.67.0 012.338 1.763 4.387 4.387.0 01.958 2.933 4.988 4.988.0 01-2.146 4.275 9.543 9.543.0 01-5.712 1.552 11.626 11.626.0 01-4.227-.709z"/><path d="m97.039 32.837a.443.443.0 01-.326.135h-3.911a.169.169.0 00-.191.192v9.239a2.951 2.951.0 00.632 2.108 2.7 2.7.0 002.013.652h1.15a.444.444.0 01.325.134.441.441.0 01.134.326v2.875a.471.471.0 01-.459.5l-1.994.039a8 8 0 01-4.524-1.035q-1.495-1.035-1.533-3.91V33.166A.17.17.0 0088.164 32.974H85.978A.441.441.0 0185.652 32.839.441.441.0 0185.518 32.513V29.83a.441.441.0 01.134-.326.444.444.0 01.326-.135h2.186a.169.169.0 00.191-.192v-4.485a.438.438.0 01.134-.326.44.44.0 01.325-.134h3.336a.443.443.0 01.325.134.442.442.0 01.135.326v4.485a.169.169.0 00.191.192h3.911a.446.446.0 01.326.135.446.446.0 01.134.326v2.683a.446.446.0 01-.133.324z"/><path d="m101.694 25.917a2.645 2.645.0 01-.767-1.955 2.65 2.65.0 01.767-1.955 2.65 2.65.0 011.955-.767 2.65 2.65.0 011.955.767 2.652 2.652.0 01.767 1.955 2.647 2.647.0 01-.767 1.955 2.646 2.646.0 01-1.955.767 2.645 2.645.0 01-1.955-.767zm-.211 22.906a.441.441.0 01-.134-.326V29.79a.444.444.0 01.134-.326.446.446.0 01.326-.134h3.527a.446.446.0 01.326.134.445.445.0 01.134.326v18.707a.443.443.0 01-.134.326.443.443.0 01-.326.134h-3.527a.443.443.0 01-.326-.134z"/><path d="m114.019 47.734a8.1 8.1.0 01-3.047-4.255 14.439 14.439.0 01-.652-4.37 14.3 14.3.0 01.614-4.371A7.869 7.869.0 01114 30.56a9.072 9.072.0 015.252-1.5 8.543 8.543.0 015.041 1.5 7.985 7.985.0 013.009 4.14 12.439 12.439.0 01.69 4.37 13.793 13.793.0 01-.651 4.37 8.255 8.255.0 01-3.028 4.275 8.475 8.475.0 01-5.1 1.553 8.754 8.754.0 01-5.194-1.534zm7.629-3.1a4.536 4.536.0 001.476-2.262 11.335 11.335.0 00.383-3.221 10.618 10.618.0 00-.383-3.22 4.169 4.169.0 00-1.457-2.243 4.066 4.066.0 00-2.531-.785 3.942 3.942.0 00-2.453.785 4.376 4.376.0 00-1.5 2.243 11.839 11.839.0 00-.383 3.22 11.84 11.84.0 00.383 3.221 4.222 4.222.0 001.476 2.262 4.075 4.075.0 002.549.8 3.8 3.8.0 002.44-.809z"/><path d="m15.105 32.057v15.565a.059.059.0 01-.049.059L.069 50.25A.06.06.0 01.005 50.167l14.987-33.47a.06.06.0 01.114.025z"/><path d="m17.631 23.087v24.6a.06.06.0 00.053.059l22.449 2.507a.06.06.0 00.061-.084L17.745.032a.06.06.0 00-.114.024z"/><path d="m39.961 52.548-24.833 7.45a.062.062.0 01-.043.0L.079 52.548a.059.059.0 01.026-.113h39.839a.06.06.0 01.017.113z"/></svg></a><div class=footer-languages><a tabindex=-1 lang=en id=switch-lang-en class=footer-languages-item>English</a>
+<a tabindex=-1 lang=zh id=switch-lang-zh class="footer-languages-item active"><svg class="icon tick"><use xlink:href="/v1.16/img/icons.svg#tick"/></svg>中文</a></div></div><ul class=footer-policies><li class=footer-policies-item><a class=footer-policies-link href=https://www.linuxfoundation.org/legal/terms>条款</a> |
+<a class=footer-policies-link href=https://www.linuxfoundation.org/legal/privacy-policy>隐私政策</a> |
+<a class=footer-policies-link href=https://github.com/istio/istio.io/edit/release-1.16/content/zh/blog/2018/egress-mongo/index.md>在 GitHub 上编辑此页</a></li></ul><div class=footer-base><span class=footer-base-copyright>&copy; 2023 the Istio Authors.</span>
+<span class=footer-base-version>部分内容可能滞后于英文版本，同步工作正在进行中<br>Version
+Istio 归档
+1.16.2</span><ul class=footer-base-releases><li class=footer-base-releases-item><a tabindex=-1 class=footer-base-releases-link onclick='return navigateToUrlOrRoot("https://istio.io/blog/2018/egress-mongo/"),!1'>当前版本</a></li><li class=footer-base-releases-item><a tabindex=-1 class=footer-base-releases-link onclick='return navigateToUrlOrRoot("https://preliminary.istio.io/blog/2018/egress-mongo/"),!1'>下个版本</a></li><li class=footer-base-releases-item><a tabindex=-1 class=footer-base-releases-link href=https://istio.io/archive>旧版本</a></li></ul></div></div></footer><script src=https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js defer></script><div id=scroll-to-top-container aria-hidden=true><button id=scroll-to-top title=回到顶部 tabindex=-1><svg class="icon top"><use xlink:href="/v1.16/img/icons.svg#top"/></svg></button></div></body></html>
