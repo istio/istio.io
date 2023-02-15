@@ -568,6 +568,8 @@ JWT
 JWT_RULE
 jwt.io
 JWTs
+k3d
+k3s
 k6
 k8s
 Kafka
