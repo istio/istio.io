@@ -14,17 +14,18 @@ status: Experimental
 
 This feature requires Kubernetes version >= 1.18.
 
-This task shows how to provision Workload Certificates
+This task shows how to provision workload certificates
 using a custom certificate authority that integrates with the
-[Kubernetes CSR API](https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/). Different workloads can get their certificates signed from different cert-signers. Each cert-signer is effectively a different CA. It is expected that workloads whose certificates are issued from the same cert-signer can talk MTLS to each other while workloads signed by different signers cannot.
+[Kubernetes CSR API](https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/). Different workloads can get their certificates signed from different cert-signers. Each cert-signer is effectively a different CA. It is expected that workloads whose certificates are issued from the same cert-signer can talk mTLS to each other while workloads signed by different signers cannot.
 This feature leverages [Chiron](/blog/2019/dns-cert/), a lightweight component linked with Istiod that signs certificates using the Kubernetes CSR API.
 
 For this example, we use [open-source cert-manager](https://cert-manager.io).
 Cert-manager has added [experimental Support for Kubernetes `CertificateSigningRequests`](https://cert-manager.io/docs/usage/kube-csr/) starting with version 1.4.
 
-## Deploy Custom CA controller in the Kubernetes cluster
+## Deploy custom CA controller in the Kubernetes cluster
 
 1. Deploy cert-manager according to the [installation doc](https://cert-manager.io/docs/installation/).
+
    {{< warning >}}
    Note: Make sure to enable feature gate: `--feature-gates=ExperimentalCertificateSigningRequestControllers=true`
    {{< /warning >}}
@@ -32,7 +33,7 @@ Cert-manager has added [experimental Support for Kubernetes `CertificateSigningR
 1. Create three self signed cluster issuers `istio-system`, `foo` and `bar` for cert-manager.
    Note: Namespace issuers and other types of issuers can also be used.
 
-       {{< text bash >}}
+    {{< text bash >}}
     $ cat <<EOF > ./selfsigned-issuer.yaml
     apiVersion: cert-manager.io/v1
     kind: ClusterIssuer
@@ -213,7 +214,7 @@ Cert-manager has added [experimental Support for Kubernetes `CertificateSigningR
     $ kubectl apply  -f ./proxyconfig-bar.yaml
     {{< /text >}}
 
-1. Deploy the `proxyconfig-foo.yaml` in the foo namespace to define cert-signer for workloads in the `foo` namespace.
+1. Deploy the `proxyconfig-foo.yaml` in the `foo` namespace to define cert-signer for workloads in the `foo` namespace.
 
     {{< text bash >}}
     $ cat <<EOF > ./proxyconfig-foo.yaml
@@ -229,7 +230,7 @@ Cert-manager has added [experimental Support for Kubernetes `CertificateSigningR
     $ kubectl apply  -f ./proxyconfig-foo.yaml
     {{< /text >}}
 
-1. Deploy the `httpbin` and `sleep` sample application in the `foo` and `bar` namespaces.
+1. Deploy the `httpbin` and `sleep` sample applications in the `foo` and `bar` namespaces.
 
     {{< text bash >}}
     $ kubectl label ns foo istio-injection=enabled
@@ -242,7 +243,7 @@ Cert-manager has added [experimental Support for Kubernetes `CertificateSigningR
 
 ## Verify the network connectivity between `httpbin` and `sleep` within the same namespace
 
-When the workloads are deployed, they send CSR Requests with related signer info. Istiod forwards the CSR request to the custom CA for signing. The custom CA will use the correct cluster issuer or issuer to sign the cert back. Workloads under `foo` namespace will use  `foo` cluster issuers while workloads under `bar` namespace will use the `bar` cluster issuers. To verify that they have indeed been signed by correct cluster issuers, We can verify workloads under the same namespace can communicate will while workloads under the different namespace cannot communicate.
+When the workloads are deployed, they send CSR requests with related signer info. Istiod forwards the CSR request to the custom CA for signing. The custom CA will use the correct cluster issuer to sign the cert back. Workloads under `foo` namespace will use `foo` cluster issuers while workloads under `bar` namespace will use the `bar` cluster issuers. To verify that they have indeed been signed by correct cluster issuers, we can verify workloads under the same namespace can communicate while workloads under the different namespace cannot communicate.
 
 1. Check network connectivity between service `sleep` and `httpbin` in the `foo` namespace.
 
@@ -270,7 +271,7 @@ When the workloads are deployed, they send CSR Requests with related signer info
     $ export SLEEP_POD_FOO=$(kubectl get pod -n foo -l app=sleep -o jsonpath={.items..metadata.name})
     $ kubectl exec -it $SLEEP_POD_FOO -n foo -c sleep curl http://httpbin.bar:8000/html
     upstream connect error or disconnect/reset before headers. reset reason: connection failure, transport failure reason: TLS error: 268435581:SSL routines:OPENSSL_internal:CERTIFICATE_VERIFY_FAILED
-   {{< /text >}}
+    {{< /text >}}
 
 ## Cleanup
 
