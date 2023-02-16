@@ -105,7 +105,7 @@ spec:
 <p>When this rule is applied to TCP traffic, the <code>method</code> field (as will all HTTP based attributes) cannot be processed.
 For a <code>DENY</code> rule, missing attributes are treated as matches. This means all TCP traffic on port 8080 would be denied in the example above.
 If we were to remove the <code>ports</code> match, all TCP traffic would be denied. As a result, it is recommended to always scope <code>DENY</code> policies to a specific port,
-especially when using HTTP attributes [Authorization Policy for TCP Ports] (<a href="/docs/tasks/security/authorization/authz-tcp/)">https://istio.io/latest/docs/tasks/security/authorization/authz-tcp/)</a>.</p>
+especially when using HTTP attributes <a href="/docs/tasks/security/authorization/authz-tcp/">Authorization Policy for TCP Ports</a>.</p>
 <p>The following authorization policy sets the <code>action</code> to &ldquo;AUDIT&rdquo;. It will audit any GET requests to the path with the
 prefix &ldquo;/user/profile&rdquo;.</p>
 <pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
