@@ -34,7 +34,7 @@ assistance. Separately, 3rd parties and partners may offer longer-term support s
 | Development Build | No support                                                                                                             | Dangerous, may not be fully reliable. Useful to experiment with.                                               |
 | Minor Release     | Support provided until 6 weeks after the N+2 minor release (ex. 1.11 supported until 6 weeks after 1.13.0 is released) |
 | Patch             | Same as the corresponding Minor release                                                                                | Users are encouraged to adopt patch releases as soon as they are available for a given release.                |
-| Security Patch    | Same as a Patch, however, it will not contain any additional code other than the security fix from the previous patch  | Given the nature of security fixes, users are **strongly** encouraged to adopt security patches after release. |
+| Security Patch    | Same as a Patch, but contains a security fix.  Sometimes security patches will contain additional code/fixes in addition to the security fixes.  | Given the nature of security fixes, users are **strongly** encouraged to adopt security patches after release. |
 
 You can find available releases on the [releases page](https://github.com/istio/istio/releases),
 and if you're the adventurous type, you can learn about our development builds on the [development builds wiki](https://github.com/istio/istio/wiki/Dev%20Builds).
