@@ -597,6 +597,7 @@ kubeconfig
 kubectl
 kubelet
 Kubelet
+kubelogin
 Kubernetes
 kubernetes.default
 KubeSphere
