@@ -120,7 +120,7 @@ These notices describe functionality that will be removed in a future release ac
 
 - **Updated** `admin log`'s `-r` flag to be shorthand for `--revision` for consistency with other commands (originally `-r` was shorthand for `--reset`). [PR #41321](https://github.com/istio/istio/pull/41321)
 
-- **Updated** `client-go` to v1.26.1, removing support for `azure` and `gcp` auth plugins. [PR #43101](https://github.com/istio/istio/pull/43101)
+- **Updated** `client-go` to `v1.26.1`, removing support for `azure` and `gcp` auth plugins. [PR #43101](https://github.com/istio/istio/pull/43101)
 
 - **Added** `istioctl proxy-config ecds` to support retrieving typed extension configuration from Envoy for a specified pod. [PR #42365](https://github.com/istio/istio/pull/42365)
 
