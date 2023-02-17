@@ -9,12 +9,12 @@ owner: istio/wg-security-maintainers
 test: n/a
 ---
 
-Istio's default images are [based](https://hub.docker.com/r/istio/base) on `ubuntu` with some extra tools added.
+Istio's [default images](https://hub.docker.com/r/istio/base) are based on `ubuntu` with some extra tools added.
 An alternative image based on [distroless images](https://github.com/GoogleContainerTools/distroless) is also available.
 
 These images strip all non-essential executables and libraries, offering the following benefits:
 
-- The attack surface is reduced. Include the smallest possible set of vulnerabilities.
+- The attack surface is reduced as they include the smallest possible set of vulnerabilities.
 - The images are smaller, which allows faster start-up.
 
 See also the [Why should I use distroless images?](https://github.com/GoogleContainerTools/distroless#why-should-i-use-distroless-images) section in the official distroless README.
