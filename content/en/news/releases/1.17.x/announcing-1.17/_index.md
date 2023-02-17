@@ -41,7 +41,7 @@ Istio's implementation of the [Gateway API](https://gateway-api.sigs.k8s.io/) ha
 - Enable users to deploy a service with a single or dual stack IP family on a dual stack cluster. For instance, a user can separately deploy 3 services with IPv4 only, IPv6 only and dual stack IP families on a dual stack Kubernetes cluster, enabling these services to be accessible to each other via sidecar.
 - Added extra source address configuration for gateway's listeners to support dual stack mode, so that IPv4 and IPV6 clients outside of the service mesh can access the gateway. This is applicable only for auto deployed gateways via the gateway controller, and the native gateway of Kubernetes should already support dual stack.
 
-This is an alpha feature and is currently under [active development]( https://github.com/istio/istio/issues/40394).
+This is an experimental feature and is currently under [active development]( https://github.com/istio/istio/issues/40394).
 
 ### Added support for filter patching in Istio
 
