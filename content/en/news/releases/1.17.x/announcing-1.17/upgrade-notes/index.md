@@ -15,3 +15,7 @@ Users upgrading from 1.15.x to Istio 1.17 should also reference the [1.16 change
 
 If you are using the [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io%2fv1beta1.Gateway)
 to manage your Istio gateways, the names of the `Kubernetes Deployment` and `Service` has been modified. The default `Service Account` used has also switched to use its own token. To continue using the old convention during upgrades, the `gateway.istio.io/name-override` and `gateway.istio.io/service-account` annotations can be used.
+
+## Client-go auth plugins removed
+
+istioctl 1.17 contains an upgraded version of client-go with the `gcp` and `azure` auth plugins *removed* (similar to the kubectl 1.26 [release](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.26.md#deprecation)). See [kubelogin](https://github.com/Azure/kubelogin) and [Kubectl Auth Changes in GKE](https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke) for details about the cloud-specific replacements. After migrating, be sure to update/regenerate your kubeconfig files before using istioctl.

@@ -140,6 +140,8 @@ These notices describe functionality that will be removed in a future release ac
 
 - **Fixed** `istioctl proxy-config endpoint -f -` returns `Error: open -: no such file or directory`. [Issue #43045](https://github.com/istio/istio/issues/43045)
 
+- Upgraded `client-go` to v1.26.1, removing support for `azure` and `gcp` auth plugins. [PR #43101](https://github.com/istio/istio/pull/43101).
+
 ## Documentation changes
 
 - **Fixed** incorrect `pilot-discovery` environment variable name from `VERIFY_CERT_AT_CLIENT` to `VERIFY_CERTIFICATE_AT_CLIENT`. [PR #2596](https://github.com/istio/api/pull/2596)
