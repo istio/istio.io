@@ -4,7 +4,7 @@ source_repo: https://github.com/istio/istio
 title: istioctl
 description: Istio control interface.
 generator: pkg-collateral-docs
-number_of_entries: 103
+number_of_entries: 107
 max_toc_level: 2
 remove_toc_prefix: 'istioctl '
 ---
@@ -4077,6 +4077,156 @@ istioctl x version --xds-label istio.io/rev=default
   istioctl experimental wait --for=distribution --threshold=.99 --timeout=300s virtualservice bookinfo.default
 
 </code></pre>
+<h2 id="istioctl-experimental-waypoint">istioctl experimental waypoint</h2>
+<p>A group of commands used to manage waypoint configuration</p>
+<pre class="language-bash"><code>istioctl experimental waypoint [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--service-account &lt;string&gt;</code></td>
+<td><code>-s</code></td>
+<td>service account to create a waypoint for  (default ``)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-experimental-waypoint Examples">Examples</h3>
+<pre class="language-bash"><code>  # Apply a waypoint to the current namespace
+  istioctl x waypoint apply
+
+  # Generate a waypoint as yaml
+  istioctl x waypoint generate --service-account something --namespace default
+</code></pre>
+<h2 id="istioctl-experimental-waypoint-apply">istioctl experimental waypoint apply</h2>
+<p>Apply a waypoint configuration to the cluster</p>
+<pre class="language-bash"><code>istioctl experimental waypoint apply [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--service-account &lt;string&gt;</code></td>
+<td><code>-s</code></td>
+<td>service account to create a waypoint for  (default ``)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-experimental-waypoint-apply Examples">Examples</h3>
+<pre class="language-bash"><code>  # Apply a waypoint to the current namespace
+  istioctl x waypoint apply
+</code></pre>
+<h2 id="istioctl-experimental-waypoint-generate">istioctl experimental waypoint generate</h2>
+<p>Generate a waypoint configuration as YAML</p>
+<pre class="language-bash"><code>istioctl experimental waypoint generate [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--service-account &lt;string&gt;</code></td>
+<td><code>-s</code></td>
+<td>service account to create a waypoint for  (default ``)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-experimental-waypoint-generate Examples">Examples</h3>
+<pre class="language-bash"><code> # Generate a waypoint as yaml
+  istioctl x waypoint generate --service-account something --namespace default
+</code></pre>
 <h2 id="istioctl-experimental-workload">istioctl experimental workload</h2>
 <p>Commands to assist in configuring and deploying workloads running on VMs and other non-Kubernetes environments</p>
 <table class="command-flags">
@@ -7670,6 +7820,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If true, pilot will add Istio ALPN filters, required for proper protocol sniffing.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_AMBIENT_CONTROLLERS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, controllers required for ambient will run. This is required to run ambient mesh.</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_ANALYSIS</code></td>
