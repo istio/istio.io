@@ -191,6 +191,13 @@ Cert-manager 从 1.4 版本开始已增加了[对 Kubernetes `CertificateSigning
     $ istioctl install -f ./istio.yaml
     {{< /text >}}
 
+1. 创建 `bar` 和 `foo` 命名空间。
+
+    {{< text bash >}}
+    $ kubectl create ns bar
+    $ kubectl create ns foo
+    {{< /text >}}
+
 1. 在 `bar` 命名空间中部署 `proxyconfig-bar.yaml`，以便在 `bar` 命名空间中为工作负载定义证书签名者。
 
     {{< text bash >}}
@@ -264,10 +271,10 @@ Cert-manager 从 1.4 版本开始已增加了[对 Kubernetes `CertificateSigning
 1. 检查 `foo` 命名空间中的 `sleep` 服务与 `bar` 命名空间中的 `httpbin` 服务之间的网络连通性。
 
     {{< text bash >}}
-    $ export SLEEP_POD_FOO=$(kubectl get pod -n foo -l app=sleep -o jsonpath={    .items..metadata.name})
+    $ export SLEEP_POD_FOO=$(kubectl get pod -n foo -l app=sleep -o jsonpath={.items..metadata.name})
     $ kubectl exec -it $SLEEP_POD_FOO -n foo -c sleep curl http://httpbin.bar:8000/html
     upstream connect error or disconnect/reset before headers. reset reason: connection failure, transport failure reason: TLS error: 268435581:SSL routines:OPENSSL_internal:CERTIFICATE_VERIFY_FAILED
-   {{< /text >}}
+    {{< /text >}}
 
 ## 清理{#cleanup}
 
