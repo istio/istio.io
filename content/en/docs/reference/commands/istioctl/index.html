@@ -265,6 +265,11 @@ debug and diagnose their Istio mesh.
 <td>Process directory arguments recursively. Useful when you want to analyze related manifests organized within the same directory. </td>
 </tr>
 <tr>
+<td><code>--revision &lt;string&gt;</code></td>
+<td></td>
+<td>analyze a specific revision deployed.  (default `default`)</td>
+</tr>
+<tr>
 <td><code>--suppress &lt;stringArray&gt;</code></td>
 <td><code>-S</code></td>
 <td>Suppress reporting a message code on a specific resource. Values are supplied in the form &lt;code&gt;=&lt;resource&gt; (e.g. &#39;--suppress &#34;IST0102=DestinationRule primary-dr.default&#34;&#39;). Can be repeated. You can include the wildcard character &#39;*&#39; to support a partial match (e.g. &#39;--suppress &#34;IST0102=DestinationRule *.default&#34; ).  (default `[]`)</td>
@@ -294,6 +299,9 @@ debug and diagnose their Istio mesh.
 <h3 id="istioctl-analyze Examples">Examples</h3>
 <pre class="language-bash"><code>  # Analyze the current live cluster
   istioctl analyze
+
+  # Analyze the current live cluster for a specific revision
+  istioctl analyze --revision 1-16
 
   # Analyze the current live cluster, simulating the effect of applying additional yaml files
   istioctl analyze a.yaml b.yaml my-app-config/
@@ -7654,9 +7662,9 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 </tr>
 <tr>
 <td><code>PILOT_JWT_ENABLE_REMOTE_JWKS</code></td>
-<td>Boolean</td>
+<td>String</td>
 <td><code>false</code></td>
-<td>If enabled, checks to see if the configured JwksUri in RequestAuthentication is a mesh cluster URL and configures remote Jwks to let Envoy fetch the Jwks instead of Istiod.</td>
+<td>Mode of fetching JWKs from JwksUri in RequestAuthentication. Supported value: istiod, false, hybrid, true, envoy. The client fetching JWKs is as following: istiod/false - Istiod; hybrid/true - Envoy and fallback to Istiod if JWKs server is external; envoy - Envoy.</td>
 </tr>
 <tr>
 <td><code>PILOT_JWT_PUB_KEY_REFRESH_INTERVAL</code></td>
