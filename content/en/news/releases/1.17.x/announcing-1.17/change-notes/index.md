@@ -120,6 +120,8 @@ These notices describe functionality that will be removed in a future release ac
 
 - **Updated** `admin log`'s `-r` flag to be shorthand for `--revision` for consistency with other commands (originally `-r` was shorthand for `--reset`). [PR #41321](https://github.com/istio/istio/pull/41321)
 
+- **Updated** `client-go` to v1.26.1, removing support for `azure` and `gcp` auth plugins. [PR #43101](https://github.com/istio/istio/pull/43101)
+
 - **Added** `istioctl proxy-config ecds` to support retrieving typed extension configuration from Envoy for a specified pod. [PR #42365](https://github.com/istio/istio/pull/42365)
 
 - **Added** the ability to set proxy log level for all pods in a deployment for `istioctl proxy-config log` command. [Issue #42919](https://github.com/istio/istio/issues/42919)
@@ -139,8 +141,6 @@ These notices describe functionality that will be removed in a future release ac
 - **Fixed** `istioctl validate` not detecting service port `appProtocol`. [PR #41517](https://github.com/istio/istio/pull/41517)
 
 - **Fixed** `istioctl proxy-config endpoint -f -` returns `Error: open -: no such file or directory`. [Issue #43045](https://github.com/istio/istio/issues/43045)
-
-- Upgraded `client-go` to v1.26.1, removing support for `azure` and `gcp` auth plugins. [PR #43101](https://github.com/istio/istio/pull/43101).
 
 ## Documentation changes
 
