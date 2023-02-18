@@ -50,7 +50,7 @@ and [bind config](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/core
 Making sure we can have proper support at both the downstream and upstream connection for Envoy is important for realizing
 dual-stack support.
 
-In total the team has submitted over a dozen PRs to Envoy and are working on atleast a half dozen more to make Envoy adoption of
+In total the team has submitted over a dozen PRs to Envoy and are working on at least a half dozen more to make Envoy adoption of
 dual stack easier for Istio.
 
 Meanwhile, on the Istio side you can track the progress in [Issue #40394](https://github.com/istio/istio/issues/40394).
