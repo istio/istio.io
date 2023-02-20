@@ -17,4 +17,4 @@ This release includes security fixes in Go 1.19.6 (released 2/14/2023) for the `
 
 ## Changes
 
-- The only change in this release is the Golang security update.
+- The only change in this release is the Go security update.
