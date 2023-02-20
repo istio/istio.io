@@ -103,8 +103,8 @@ Istio configuration.
 
 ### Locality Load Balancing
 
-[Locality load balancing](/docs/tasks/traffic-management/locality-load-balancing/failover/#configure
--locality-failover) can be used to make clients prefer that traffic go to the nearest destination. If the clusters
+[Locality load balancing](/docs/tasks/traffic-management/locality-load-balancing/failover/#configure-locality-failover) 
+can be used to make clients prefer that traffic go to the nearest destination. If the clusters
 are in different localities (region/zone), locality load balancing will prefer the local-cluster and is working as
 intended. If locality load balancing is disabled, or the clusters are in the same locality, there may be another issue.
 
