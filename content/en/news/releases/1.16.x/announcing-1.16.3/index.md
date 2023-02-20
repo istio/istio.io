@@ -20,7 +20,7 @@ This release includes security fixes in Go 1.19.6 (released 2/14/2023) for the `
 - **Fixed** initialization of secure gRPC server of Pilot when serving certificates are provided in default location.  ([Issue #42249](https://github.com/istio/istio/issues/42249))
 
 - **Fixed** the default behavior of generating manifests using the helm chart library when using `istioctl` without `--cluster-specific` option to instead use the minimum Kubernetes version defined by `istioctl`.  [Issue #42441](https://github.com/istio/istio/issues/42441)
-  
+
 - **Fixed** admission webhook failing with custom header value format.
   ([Issue #42749](https://github.com/istio/istio/issues/42749))
 
@@ -29,7 +29,7 @@ This release includes security fixes in Go 1.19.6 (released 2/14/2023) for the `
 - **Fixed** an issue where `ALL_METRICS` does not disable metrics as expected.
 
 - **Fixed** ignoring default CA certificate when `PeerCertificateVerifier` is created.
- 
+
 - **Fixed** istiod not reconciling Kubernetes gateway deployments and services when they are changed.
   ([Issue #43332](https://github.com/istio/istio/issues/43332))
 
