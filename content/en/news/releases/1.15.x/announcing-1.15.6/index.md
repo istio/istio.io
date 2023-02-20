@@ -3,7 +3,7 @@ title: Announcing Istio 1.15.6
 linktitle: 1.15.6
 subtitle: Patch Release
 description: Istio 1.15.6 patch release.
-publishdate: 2023-02-21
+publishdate: 2023-02-21T07:00:00-06:00
 release: 1.15.6
 aliases:
     - /news/announcing-1.15.6
