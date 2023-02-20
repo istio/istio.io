@@ -188,34 +188,33 @@ openssl command is expected.
     $ rm -rf certs
     {{< /text >}}
 
-*   Remove the secret `cacerts`, and the `foo` and `istio-system` namespaces:
+*   Remove the secret `cacerts`:
 
     {{< text bash >}}
     $ kubectl delete secret cacerts -n istio-system
-    $ kubectl delete ns foo istio-system
     {{< /text >}}
 
-*   Remove the authentication policy for the foo namespace:
+*   Remove the authentication policy from the `foo` namespace:
 
     {{< text bash >}}
     $ kubectl delete peerauthentication -n foo default
     {{< /text >}}
 
-*   Remove the sample and httpbin application:
+*   Remove the sample applications `sleep` and `httpbin`:
 
     {{< text bash >}}
     $ kubectl delete -f samples/sleep/sleep.yaml -n foo
     $ kubectl delete -f samples/httpbin/httpbin.yaml -n foo
     {{< /text >}}
 
-*   Remove the Istio Components from the cluster:
+*   Uninstall Istio from the cluster:
 
     {{< text bash >}}
-    $ istioctl uninstall --purge
+    $ istioctl uninstall --purge -y
     {{< /text >}}
 
-*   Remove the namespace foo and istio-system from the cluster:
+*   Remove the namespace `foo` and `istio-system` from the cluster:
 
     {{< text bash >}}
     $ kubectl delete ns foo istio-system
-    {{< /text >}} 
+    {{< /text >}}
