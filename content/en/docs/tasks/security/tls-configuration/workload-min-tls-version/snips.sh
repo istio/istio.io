@@ -63,5 +63,14 @@ Cipher is (NONE)
 ENDSNIP
 
 snip_cleanup_1() {
+kubectl delete -f samples/httpbin/httpbin.yaml -n foo
+kubectl delete -f samples/sleep/sleep.yaml -n foo
+}
+
+snip_cleanup_2() {
+istioctl uninstall --purge -y
+}
+
+snip_cleanup_3() {
 kubectl delete ns foo istio-system
 }
