@@ -11,7 +11,7 @@ replace github.com/imdario/mergo => github.com/imdario/mergo v0.3.5
 require (
 	github.com/pmezard/go-difflib v1.0.0
 	golang.org/x/sync v0.1.0
-	istio.io/istio v0.0.0-20230215162749-716b7bf0c105
+	istio.io/istio v0.0.0-20230216225414-161a50cb2db8
 	istio.io/pkg v0.0.0-20230204131618-33172c654db6
 	k8s.io/apimachinery v0.26.1
 	k8s.io/client-go v0.26.1
@@ -198,7 +198,7 @@ require (
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	helm.sh/helm/v3 v3.11.1 // indirect
-	istio.io/api v0.0.0-20230215152349-964a2f8161a3 // indirect
+	istio.io/api v0.0.0-20230216183923-7300918fbd68 // indirect
 	istio.io/client-go v1.17.0-beta.2 // indirect
 	k8s.io/api v0.26.1 // indirect
 	k8s.io/apiextensions-apiserver v0.26.1 // indirect
