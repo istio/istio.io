@@ -86,6 +86,19 @@ Cipher is (NONE)
 
 ## Cleanup
 
+Delete sample applications `sleep` and `httpbin` from `foo` namespace:
+
+{{< text bash >}}
+$ kubectl delete -f samples/httpbin/httpbin.yaml -n foo
+$ kubectl delete -f samples/sleep/sleep.yaml -n foo
+{{< /text >}}
+
+Uninstall Istio from cluster:
+
+{{< text bash >}}
+$ istioctl uninstall --revision=default
+{{< /text >}}
+
 To remove the `foo` and `istio-system` namespaces:
 
 {{< text bash >}}
