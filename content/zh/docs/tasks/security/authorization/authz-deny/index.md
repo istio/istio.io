@@ -19,7 +19,7 @@ test: yes
 
 * 部署工作负载：
 
-    该任务使用两个工作负载，httpbin 和 sleep，部署在一个命名空间 foo。这两个工作负载都在每个工作负载前都有一个 Envoy 代理。使用以下命令部署示例命名空间和工作负载：
+    该任务使用 `httpbin` 和 `sleep` 这两个工作负载，部署在一个命名空间 foo。这两个工作负载在每个工作负载前都有一个 Envoy 代理。使用以下命令部署示例命名空间和工作负载：
 
     {{< text bash >}}
     $ kubectl create ns foo
@@ -29,10 +29,10 @@ test: yes
 
 * 使用以下命令校验 `sleep` 任务与 `httpbin` 的对话。
 
-{{< text bash >}}
-$ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl http://httpbin.foo:8000/ip -sS -o /dev/null -w "%{http_code}\n"
-200
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl http://httpbin.foo:8000/ip -sS -o /dev/null -w "%{http_code}\n"
+    200
+    {{< /text >}}
 
 {{< warning >}}
 如果您在执行此任务时，没有看见到预期的输出，请您在几秒后重试。缓存和传播成本可能会导致一些延迟。
@@ -44,7 +44,7 @@ $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metad
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: security.istio.io/v1beta1
+    apiVersion: security.istio.io/v1
     kind: AuthorizationPolicy
     metadata:
       name: deny-method-get
@@ -75,11 +75,11 @@ $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metad
     200
     {{< /text >}}
 
-1. 更新 `deny-method-get` 授权策略，只有当 HTTP 头中 `x-token` 值不是 `admin` 时才会拒绝 `GET` 请求。以下的策略示例将 `notValues` 字段的值设置为 `["admin"]`，以拒绝 HTTP 头中 `x-token` 值为非`admin` 的请求：
+1. 更新 `deny-method-get` 授权策略，只有当 HTTP 头中 `x-token` 值不是 `admin` 时才会拒绝 `GET` 请求。以下的策略示例将 `notValues` 字段的值设置为 `["admin"]`，以拒绝 HTTP 头中 `x-token` 值为非 `admin` 的请求：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: security.istio.io/v1beta1
+    apiVersion: security.istio.io/v1
     kind: AuthorizationPolicy
     metadata:
       name: deny-method-get
@@ -117,7 +117,7 @@ $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metad
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: security.istio.io/v1beta1
+    apiVersion: security.istio.io/v1
     kind: AuthorizationPolicy
     metadata:
       name: allow-path-ip
