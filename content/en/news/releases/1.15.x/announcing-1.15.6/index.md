@@ -9,7 +9,7 @@ aliases:
     - /news/announcing-1.15.6
 ---
 
-This release contains bug fixes to improve robustness. This release note describes what’s different between Istio 1.15.5 and Istio 1.15.6.
+This release note describes what’s different between Istio 1.15.5 and Istio 1.15.6.
 
 This release includes security fixes in Go 1.19.6 (released 2/14/2023) for the `path/filepath`, `net/http`, `mime/multipart`, and `crypto/tls` packages.
 
