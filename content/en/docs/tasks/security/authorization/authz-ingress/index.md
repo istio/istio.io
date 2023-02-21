@@ -9,6 +9,8 @@ test: yes
 
 This task shows you how to enforce IP-based access control on an Istio ingress gateway using an authorization policy.
 
+{{< boilerplate gateway-api-support >}}
+
 ## Before you begin
 
 Before you begin this task, do the following:
@@ -18,13 +20,27 @@ Before you begin this task, do the following:
 * Install Istio using the [Istio installation guide](/docs/setup/install/istioctl/).
 
 * Deploy a workload, `httpbin` in a namespace, for example `foo`, and expose it
-through the Istio ingress gateway with this command:
+through an ingress gateway:
 
-    {{< text bash >}}
-    $ kubectl create ns foo
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@) -n foo
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin-gateway.yaml@) -n foo
-    {{< /text >}}
+{{< tabset category-name="config-api" >}}
+
+{{< tab name="Istio classic" category-value="istio-classic" >}}
+
+{{< text bash >}}
+$ kubectl create ns foo
+$ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@) -n foo
+$ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin-gateway.yaml@) -n foo
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+new doc goes here ...
+
+{{< /tab >}}
+
+{{< /tabset >}}
 
 * Turn on RBAC debugging in Envoy for the ingress gateway:
 
