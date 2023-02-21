@@ -265,6 +265,11 @@ debug and diagnose their Istio mesh.
 <td>Process directory arguments recursively. Useful when you want to analyze related manifests organized within the same directory. </td>
 </tr>
 <tr>
+<td><code>--revision &lt;string&gt;</code></td>
+<td></td>
+<td>analyze a specific revision deployed.  (default `default`)</td>
+</tr>
+<tr>
 <td><code>--suppress &lt;stringArray&gt;</code></td>
 <td><code>-S</code></td>
 <td>Suppress reporting a message code on a specific resource. Values are supplied in the form &lt;code&gt;=&lt;resource&gt; (e.g. &#39;--suppress &#34;IST0102=DestinationRule primary-dr.default&#34;&#39;). Can be repeated. You can include the wildcard character &#39;*&#39; to support a partial match (e.g. &#39;--suppress &#34;IST0102=DestinationRule *.default&#34; ).  (default `[]`)</td>
@@ -294,6 +299,9 @@ debug and diagnose their Istio mesh.
 <h3 id="istioctl-analyze Examples">Examples</h3>
 <pre class="language-bash"><code>  # Analyze the current live cluster
   istioctl analyze
+
+  # Analyze the current live cluster for a specific revision
+  istioctl analyze --revision 1-16
 
   # Analyze the current live cluster, simulating the effect of applying additional yaml files
   istioctl analyze a.yaml b.yaml my-app-config/
@@ -5614,6 +5622,11 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.16.0
 <td>Output format: one of json|yaml|short  (default `short`)</td>
 </tr>
 <tr>
+<td><code>--proxy-admin-port &lt;int&gt;</code></td>
+<td></td>
+<td>Envoy proxy admin port  (default `15000`)</td>
+</tr>
+<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -5694,6 +5707,11 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.16.0
 <td><code>--port &lt;int&gt;</code></td>
 <td></td>
 <td>Filter clusters and listeners by Port field  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--proxy-admin-port &lt;int&gt;</code></td>
+<td></td>
+<td>Envoy proxy admin port  (default `15000`)</td>
 </tr>
 <tr>
 <td><code>--subset &lt;string&gt;</code></td>
@@ -5779,6 +5797,11 @@ or release tar URL (e.g. https://github.com/istio/istio/releases/download/1.16.0
 <td>Output format: one of json|yaml|short  (default `short`)</td>
 </tr>
 <tr>
+<td><code>--proxy-admin-port &lt;int&gt;</code></td>
+<td></td>
+<td>Envoy proxy admin port  (default `15000`)</td>
+</tr>
+<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -5858,6 +5881,11 @@ istioctl proxy-config c [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <td><code>--port &lt;int&gt;</code></td>
 <td></td>
 <td>Filter clusters by Port field  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--proxy-admin-port &lt;int&gt;</code></td>
+<td></td>
+<td>Envoy proxy admin port  (default `15000`)</td>
 </tr>
 <tr>
 <td><code>--subset &lt;string&gt;</code></td>
@@ -5949,6 +5977,11 @@ istioctl proxy-config ep [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <td>Filter endpoints by Port field  (default `0`)</td>
 </tr>
 <tr>
+<td><code>--proxy-admin-port &lt;int&gt;</code></td>
+<td></td>
+<td>Envoy proxy admin port  (default `15000`)</td>
+</tr>
+<tr>
 <td><code>--status &lt;string&gt;</code></td>
 <td></td>
 <td>Filter endpoints by status field  (default ``)</td>
@@ -6038,6 +6071,11 @@ istioctl proxy-config l [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <td>Filter listeners by Port field  (default `0`)</td>
 </tr>
 <tr>
+<td><code>--proxy-admin-port &lt;int&gt;</code></td>
+<td></td>
+<td>Envoy proxy admin port  (default `15000`)</td>
+</tr>
+<tr>
 <td><code>--type &lt;string&gt;</code></td>
 <td></td>
 <td>Filter listeners by type field  (default ``)</td>
@@ -6116,6 +6154,11 @@ istioctl proxy-config l [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <td>Output format: one of json|yaml|short  (default `short`)</td>
 </tr>
 <tr>
+<td><code>--proxy-admin-port &lt;int&gt;</code></td>
+<td></td>
+<td>Envoy proxy admin port  (default `15000`)</td>
+</tr>
+<tr>
 <td><code>--reset</code></td>
 <td><code>-r</code></td>
 <td>Reset levels to default value (warning). </td>
@@ -6189,6 +6232,11 @@ istioctl proxy-config l [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <td>Output format: one of json|yaml|short  (default `short`)</td>
 </tr>
 <tr>
+<td><code>--proxy-admin-port &lt;int&gt;</code></td>
+<td></td>
+<td>Envoy proxy admin port  (default `15000`)</td>
+</tr>
+<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -6250,6 +6298,11 @@ istioctl proxy-config r [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
 <td>Output format: one of json|yaml|short  (default `short`)</td>
+</tr>
+<tr>
+<td><code>--proxy-admin-port &lt;int&gt;</code></td>
+<td></td>
+<td>Envoy proxy admin port  (default `15000`)</td>
 </tr>
 <tr>
 <td><code>--verbose</code></td>
@@ -6325,6 +6378,11 @@ istioctl proxy-config s [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
 <td>Output format: one of json|yaml|short  (default `short`)</td>
+</tr>
+<tr>
+<td><code>--proxy-admin-port &lt;int&gt;</code></td>
+<td></td>
+<td>Envoy proxy admin port  (default `15000`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
