@@ -71,7 +71,7 @@ $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metad
 TLSv1.3
 {{< /text >}}
 
-要检查是否允许 TLS 的 1.3 版本，您可以运行以下命令：
+要检查是否允许 TLS 的 1.2 版本，您可以运行以下命令：
 
 {{< text bash >}}
 $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c istio-proxy -n foo -- openssl s_client -alpn istio -tls1_2 -connect httpbin.foo:8000 | grep "Cipher is (NONE)"
@@ -84,6 +84,19 @@ Cipher is (NONE)
 {{< /text >}}
 
 ## 清理{#cleanup}
+
+从 `foo` 命名空间中删除样例应用 `sleep` 和 `httpbin`：
+
+{{< text bash >}}
+$ kubectl delete -f samples/httpbin/httpbin.yaml -n foo
+$ kubectl delete -f samples/sleep/sleep.yaml -n foo
+{{< /text >}}
+
+从集群中卸载 Istio：
+
+{{< text bash >}}
+$ istioctl uninstall --purge -y
+{{< /text >}}
 
 移除 `foo` 和 `istio-system` 这两个命名空间：
 
