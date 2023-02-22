@@ -7,7 +7,7 @@ test: n/a
 
 This message is similar to [IST0105](/docs/reference/config/analysis/ist0105/), which is a warning message for a single pod.
 
-This message occurs when the namespace is enabled for automatic sidecar injection, but some pods in the namespace are not having the correct sidecar injected. 
+This message occurs when the namespace is enabled for automatic sidecar injection, but some pods in the namespace are not having the correct sidecar injected.
 
 There are several possible causes for the pod:
 
