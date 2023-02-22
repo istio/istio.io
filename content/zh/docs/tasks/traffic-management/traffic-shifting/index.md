@@ -80,6 +80,7 @@ $ kubectl apply -f @samples/bookinfo/gateway-api/route-reviews-50-v3.yaml@
 {{< /tabset >}}
 
 4) 等待几秒钟，等待新的规则传播到代理中生效，确认规则已被替换：
+
 {{< tabset category-name="config-api" >}}
 
 {{< tab name="Istio classic" category-value="istio-classic" >}}
