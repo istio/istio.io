@@ -28,10 +28,10 @@ test: yes
 ## 应用基于权重的路由{#apply-weight-based-routing}
 
 {{< warning >}}
-如果尚未应用目标规则，请按照[应用默认目标规则](/zh/docs/examples/bookinfo/#apply-default-destination-rules)中的说明进行操作。
+如果尚未定义服务版本, 请按照[定义服务版本](/zh/docs/examples/bookinfo/#define-the-service-versions)中的说明进行操作。
 {{< /warning >}}
 
-1. 首先，运行此命令将所有流量路由到各个微服务的 `v1` 版本。
+1.  首先，运行此命令将所有流量路由到各个微服务的 `v1` 版本。
 
 {{< tabset category-name="config-api" >}}
 
@@ -53,11 +53,11 @@ $ kubectl apply -f @samples/bookinfo/gateway-api/route-reviews-v1.yaml@
 
 {{< /tabset >}}
 
-1. 在浏览器中打开 Bookinfo 站点。网址为 `http://$GATEWAY_URL/productpage`，其中 `$GATEWAY_URL` 是 Ingress 的外部 IP 地址，其描述参见 [Bookinfo](/zh/docs/examples/bookinfo/#determine-the-ingress-IP-and-port) 文档。
+2)  在浏览器中打开 Bookinfo 站点。网址为 `http://$GATEWAY_URL/productpage`，其中 `$GATEWAY_URL` 是 Ingress 的外部 IP 地址，其描述参见 [Bookinfo](/zh/docs/examples/bookinfo/#determine-the-ingress-IP-and-port) 文档。
 
     请注意，不管刷新多少次，页面的评论部分都不会显示评价星级的内容。这是因为 Istio 被配置为将星级评价的服务的所有流量都路由到了 `reviews:v1` 版本，而该版本的服务不访问带评价星级的服务。
 
-1. 使用下面的命令把 50% 的流量从 `reviews:v1` 转移到 `reviews:v3`：
+3)  使用下面的命令把 50% 的流量从 `reviews:v1` 转移到 `reviews:v3`：
 
 {{< tabset category-name="config-api" >}}
 
@@ -79,7 +79,7 @@ $ kubectl apply -f @samples/bookinfo/gateway-api/route-reviews-50-v3.yaml@
 
 {{< /tabset >}}
 
-1. 等待几秒钟，等待新的规则传播到代理中生效，确认规则已被替换：
+4) 等待几秒钟，等待新的规则传播到代理中生效，确认规则已被替换：
 {{< tabset category-name="config-api" >}}
 
 {{< tab name="Istio classic" category-value="istio-classic" >}}
@@ -151,13 +151,13 @@ status:
 
 {{< /tabset >}}
 
-1. 刷新浏览器中的 `/productpage` 页面，大约有 50% 的几率会看到页面中带 *红色* 星级的评价内容。这是因为 `reviews` 的 `v3` 版本可以访问带星级评价，但 `v1` 版本不能。
+5)  刷新浏览器中的 `/productpage` 页面，大约有 50% 的几率会看到页面中带 *红色* 星级的评价内容。这是因为 `reviews` 的 `v3` 版本可以访问带星级评价，但 `v1` 版本不能。
 
     {{< tip >}}
     在目前的 Envoy Sidecar 实现中，您可能需要多次刷新 `/productpage` 页面，可能 15 次或更多次，才能看到正确的流量分发的效果。您可以通过修改规则将 90% 的流量路由到 `v3` 版本，这样能看到更多带红色星级的评价。
     {{< /tip >}}
 
-2. 如果您认为 `reviews:v3` 微服务已经稳定，您可以通过应用 Virtual Service 规则将 100% 的流量路由 `reviews:v3`：
+6)  如果您认为 `reviews:v3` 微服务已经稳定，您可以通过应用 Virtual Service 规则将 100% 的流量路由 `reviews:v3`：
 
 {{< tabset category-name="config-api" >}}
 
@@ -179,7 +179,7 @@ $ kubectl apply -f @samples/bookinfo/gateway-api/route-reviews-v3.yaml@
 
 {{< /tabset >}}
 
-1. 现在，当您刷新 `/productpage` 时，您将始终看到带有 *红色* 星级评分的书评。
+7) 现在，当您刷新 `/productpage` 时，您将始终看到带有 *红色* 星级评分的书评。
 
 ## 理解原理{#understanding-what-happened}
 
@@ -213,4 +213,4 @@ $ kubectl delete httproute reviews
 
 {{< /tabset >}}
 
-1. 如果您不打算探索任何后续任务，请参阅 [Bookinfo 清理](/zh/docs/examples/bookinfo/#cleanup)中的说明来关闭应用程序。
+2) 如果您不打算探索任何后续任务，请参阅 [Bookinfo 清理](/zh/docs/examples/bookinfo/#cleanup)中的说明来关闭应用程序。
