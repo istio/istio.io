@@ -3,7 +3,7 @@ title: Announcing Istio 1.17.1
 linktitle: 1.17.1
 subtitle: Patch Release
 description: Istio 1.17.1 patch release.
-publishdate: 2023-02-21T09:00:00-06:00
+publishdate: 2023-02-23T09:00:00-06:00
 release: 1.17.1
 ---
 
@@ -22,3 +22,7 @@ This release includes security fixes included in Go 1.20.1 (released 2023-02-14)
 - **Fixed** ignoring default CA certificate when `PeerCertificateVerifier` is created. [PR #43337](https://github.com/istio/istio/pull/43337)
 
 - **Fixed** istiod not reconciling Kubernetes Gateway deployments and services when they are changed. [Issue #43332](https://github.com/istio/istio/issues/43332)
+
+- **Fixed** reporting `Programmed` condition on Gateway API Gateway resources. [Issue #43498](https://github.com/istio/istio/issues/43498)
+
+- **Fixed** an issue where updating service `ExternalName` does not take effect. [Issue #43440](https://github.com/istio/istio/issues/43440)
