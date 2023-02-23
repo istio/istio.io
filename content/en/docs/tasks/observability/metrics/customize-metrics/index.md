@@ -36,8 +36,6 @@ configuration settings are also exposed as istioctl installation options, which
 allow you to customize different metrics for gateways and sidecars as well as
 for the inbound or outbound direction.
 
-For more information, see [Stats Config reference](/docs/reference/config/proxy_extensions/stats/).
-
 ## Before you begin
 
 [Install Istio](/docs/setup/) in your cluster and deploy an application.
@@ -200,5 +198,3 @@ Peer metadata is available as attributes `upstream_peer` for outbound and `downs
 
 For example, the expression for the peer `app` label to be used in an outbound configuration is
 `upstream_peer.labels['app'].value`.
-
-For more information, see [configuration reference](/docs/reference/config/proxy_extensions/stats/).
