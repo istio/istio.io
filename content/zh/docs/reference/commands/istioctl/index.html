@@ -5950,7 +5950,7 @@ istioctl proxy-config c [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <tr>
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
-<td>Output format: one of json|yaml  (default `short`)</td>
+<td>Output format: one of json|yaml|short  (default `short`)</td>
 </tr>
 <tr>
 <td><code>--proxy-admin-port &lt;int&gt;</code></td>
@@ -7418,6 +7418,18 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>String</td>
 <td><code></code></td>
 <td>Allows specification of a quota project to be used in requests to GCP APIs.</td>
+</tr>
+<tr>
+<td><code>GRPC_KEEPALIVE_INTERVAL</code></td>
+<td>Time Duration</td>
+<td><code>30s</code></td>
+<td>gRPC Keepalive Interval</td>
+</tr>
+<tr>
+<td><code>GRPC_KEEPALIVE_TIMEOUT</code></td>
+<td>Time Duration</td>
+<td><code>10s</code></td>
+<td>gRPC Keepalive Timeout</td>
 </tr>
 <tr>
 <td><code>HTTP_STRIP_FRAGMENT_FROM_PATH_UNSAFE_IF_DISABLED</code></td>
