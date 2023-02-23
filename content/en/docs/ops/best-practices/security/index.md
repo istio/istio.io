@@ -675,13 +675,9 @@ While most cloud providers support this feature now, many local development tool
 
 By default, Istio (and Envoy) have no limit on the number of downstream connections. This can be exploited by a malicious actor (see [security bulletin 2020-007](/news/security/istio-security-2020-007/)). To work around you this, you must configure an appropriate connection limit for your environment.
 
-The `global_downstream_max_connections` value can be set when installing and configuring Istio via Helm or patching the ingress gateway deployment.
+### Configure `global_downstream_max_connections` value
 
-### Configure `global_downstream_max_connections` value with Helm
-
-When installing and configuring an Istio mesh using Helm it is possible to set the `global_downstream_max_connections` value as follows:
-
-1. Create `istiod-values.yaml` similar to:
+The following configuration can be supplied during installation:
 
 {{< text yaml >}}
 meshConfig:
@@ -689,60 +685,3 @@ meshConfig:
     runtimeValues:
       "overload.global_downstream_max_connections": "100000"
 {{< /text >}}
-
-1. Install Istio via Helm
-
-{{< text bash >}}
-$ helm install istio-base istio/base -n istio-system
-$ helm install istiod istio/istiod -n istio-system --values istiod-values.yaml
-{{< /text >}}
-
-1. Download Istio
-
-{{< text bash >}}
-$ curl -L https://istio.io/downloadIstio | sh -
-$ cd istio-1.17.0
-{{< /text >}}
-
-1. Create the namespace, enable the Istio proxy injection and deploy the sample application
-
-{{< text bash >}}
-$ kubectl create ns foo
-$ kubectl label ns foo istio-injection=enabled
-$ kubectl apply -f samples/httpbin/httpbin.yaml -n foo
-{{< /text >}}
-
-1. Check pod status
-
-{{< text bash >}}
-$ kubectl get po -n foo
-NAME                       READY   STATUS    RESTARTS   AGE
-httpbin-847f64cc8d-tlsg6   2/2     Running   0          6m7s
-{{< /text >}}
-
-1. Verify `global_downstream_max_connections` is set in `proxy config runtimeValues`
-
-{{< text bash >}}
-$ kubectl$ logs -n foo httpbin-847f64cc8d-tlsg6 -c istio-proxy
-...
-concurrency: 2
-configPath: ./etc/istio/proxy
-controlPlaneAuthPolicy: MUTUAL_TLS
-discoveryAddress: istiod.istio-system.svc:15012
-drainDuration: 45s
-proxyAdminPort: 15000
-runtimeValues:
-  overload.global_downstream_max_connections: "100000"
-serviceCluster: istio-proxy
-statNameLength: 189
-statusPort: 15020
-terminationDrainDuration: 5s
-tracing:
-  zipkin:
-    address: zipkin.istio-system:9411
-...
-{{< /text >}}
-
-### Configure `global_downstream_max_connections` value patching the ingress gateway deployment
-
-{{< boilerplate cve-2020-007-configmap >}}
