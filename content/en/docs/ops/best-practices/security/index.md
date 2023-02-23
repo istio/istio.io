@@ -675,11 +675,11 @@ While most cloud providers support this feature now, many local development tool
 
 By default, Istio (and Envoy) have no limit on the number of downstream connections. This can be exploited by a malicious actor (see [security bulletin 2020-007](/news/security/istio-security-2020-007/)). To work around you this, you must configure an appropriate connection limit for your environment.
 
-It is currently possible to configure the global_downstream_max_connections value in two ways: via Helm or patching the ingress gateway deployment.
+The `global_downstream_max_connections` value can be set when installing and configuring Istio via Helm or patching the ingress gateway deployment.
 
 ### Configure global_downstream_max_connections value with Helm
 
-When installing and configuring an Istio mesh using Helm it is possible to set the global_downstream_max_connections value as follows:
+When installing and configuring an Istio mesh using Helm it is possible to set the `global_downstream_max_connections` value as follows:
 
 1. Create `istiod-values.yaml` similar to:
 

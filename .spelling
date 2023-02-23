@@ -442,6 +442,7 @@ git
 GitHub
 GitOps
 GKE
+global_downstream_max_connections
 Gloo
 GlueCon
 Gmail
@@ -1114,4 +1115,3 @@ Ziyang
 Zolotusky
 ztunnel
 ztunnels
-global_downstream_max_connections
