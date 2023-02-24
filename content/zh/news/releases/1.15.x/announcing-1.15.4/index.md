@@ -13,7 +13,7 @@ release: 1.15.4
 
 {{< relnote >}}
 
-## Changes
+## 变更{#changes}
 
 - **改进** 当 Wasm 模块下载失败且 `fail_open` 值为 True 时，一个允许所有流量的 RBAC 过滤器会被传递给 Envoy，而不是原来的 Wasm 过滤器。之前，在这种情况下，给定的 Wasm 过滤器本身被传递给 Envoy，但它可能会导致错误，因为 Wasm 配置的某些字段在 Istio 中是可选的，但在 Envoy 中不是。
 

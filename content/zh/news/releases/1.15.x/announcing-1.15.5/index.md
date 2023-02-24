@@ -13,7 +13,7 @@ aliases:
 
 {{< relnote >}}
 
-## Changes
+## 变更{#changes}
 
 - **新增** 在 `istioctl analyze` 命令中加入 `--revision` 参数，使其可以指定一个版本。
   ([Issue #38148](https://github.com/istio/istio/issues/38148))
