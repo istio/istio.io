@@ -24,7 +24,7 @@ snip_install_spire_with_controller_manager
 _wait_for_daemonset spire spire-agent
 _wait_for_deployment spire spire-server
 
-# Istall Istio
+# Install Istio
 # @setup profile=none
 set +u # Do not exit when value is unset. CHECK_FILE in the IstioOperator might be unset
 snip_define_istio_operator
