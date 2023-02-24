@@ -5,7 +5,7 @@ weight: 31
 keywords: [kubernetes,spiffe,spire]
 aliases:
 owner: istio/wg-networking-maintainers
-test: no
+test: yes
 ---
 
 [SPIRE](https://spiffe.io/docs/latest/spire-about/spire-concepts/) is a production-ready implementation of the SPIFFE specification that performs node and workload attestation in order to securely
@@ -31,7 +31,7 @@ The integration is compatible with Istio upgrades.
 
 Istio provides a basic sample installation to quickly get SPIRE up and running:
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=install_spire_with_controller_manager >}}
 $ kubectl apply -f @samples/security/spire/spire-quickstart.yaml@
 {{< /text >}}
 
@@ -73,8 +73,10 @@ Istio will become the Envoy SDS listener if the socket is not created by SPIRE b
 1. After [deploying SPIRE](#install-spire) into your environment, and verifying that all deployments are in `Ready` state,
     install Istio with custom patches for the Ingress-gateway as well as for istio-proxy.
 
-    {{< text bash >}}
-    $ istioctl install --skip-confirmation -f - <<EOF
+    Create Istio configuration:
+
+    {{< text syntax=bash snip_id=define_istio_operator >}}
+    $ cat <<EOF > ./istio.yaml
     apiVersion: install.istio.io/v1alpha1
     kind: IstioOperator
     metadata:
@@ -139,13 +141,19 @@ Istio will become the Envoy SDS listener if the socket is not created by SPIRE b
                             - sh
                             - "-c"
                             - |-
-                              echo `date -Iseconds` Waiting for: ${CHECK_FILE}
+                              echo "$(date -Iseconds)" Waiting for: ${CHECK_FILE}
                               while [[ ! -e ${CHECK_FILE} ]] ; do
-                                echo `date -Iseconds` File does not exist: ${CHECK_FILE}
+                                echo "$(date -Iseconds)" File does not exist: ${CHECK_FILE}
                                 sleep 15
                               done
                               ls -l ${CHECK_FILE}
     EOF
+    {{< /text >}}
+
+    Apply the configuration:
+
+    {{< text bash >}}
+    $ istioctl install --skip-confirmation -f ./istio.yaml
     {{< /text >}}
 
     This will share the `spiffe-csi-driver` with the Ingress Gateway and the sidecars that are going to be injected on workload pods,
@@ -155,7 +163,7 @@ Istio will become the Envoy SDS listener if the socket is not created by SPIRE b
 
 Check Ingress-gateway pod state:
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=none >}}
 $ kubectl get pods -n istio-system
 NAME                                    READY   STATUS    RESTARTS   AGE
 istio-ingressgateway-5b45864fd4-lgrxs   0/1     Running   0          17s
@@ -177,7 +185,7 @@ along with a SPIRE Server, new entries can be automatically registered for each 
 
 1. Create an example ClusterSPIFFEID:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=create_clusterspiffeid >}}
     $ kubectl apply -f - <<EOF
     apiVersion: spire.spiffe.io/v1alpha1
     kind: ClusterSPIFFEID
@@ -187,29 +195,29 @@ along with a SPIRE Server, new entries can be automatically registered for each 
       spiffeIDTemplate: "spiffe://{{ .TrustDomain }}/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}"
       podSelector:
         matchLabels:
-          spiffe.io/spiffe-id: "true"
+          spiffe.io/spire-managed-identity: "true"
     EOF
     {{< /text >}}
 
-    The example ClusterSPIFFEID enables automatic workload registration for all workloads with the `spiffe.io/spiffe-id: "true"` label. For pods with this label, the values specified in the `spiffeIDTemplate` will be extracted to form the SPIFFE ID.
+    The example ClusterSPIFFEID enables automatic workload registration for all workloads with the `spiffe.io/spire-managed-identity: "true"` label. For pods with this label, the values specified in the `spiffeIDTemplate` will be extracted to form the SPIFFE ID.
 
-1. Add the `spiffe.io/spiffe-id` label to the Ingress-gateway deployment to register the workload:
+1. Add the `spiffe.io/spire-managed-identity` label to the Ingress-gateway deployment to register the workload:
 
-    {{< text bash >}}
-    $ kubectl patch deployment istio-ingressgateway -n istio-system -p '{"spec":{"template":{"metadata":{"labels":{"spiffe.io/spiffe-id": "true"}}}}}'
+    {{< text syntax=bash snip_id=label_ingressgateway >}}
+    $ kubectl patch deployment istio-ingressgateway -n istio-system -p '{"spec":{"template":{"metadata":{"labels":{"spiffe.io/spire-managed-identity": "true"}}}}}'
     {{< /text >}}
 
 1. Deploy an example workload:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=apply_sleep >}}
     $ istioctl kube-inject --filename @samples/security/spire/sleep-spire.yaml@ | kubectl apply -f -
     {{< /text >}}
 
-    In addition to needing `spiffe.io/spiffe-id` label, the workload will need the SPIFFE CSI Driver volume to access the SPIRE Agent socket. To accomplish this,
+    In addition to needing `spiffe.io/spire-managed-identity` label, the workload will need the SPIFFE CSI Driver volume to access the SPIRE Agent socket. To accomplish this,
     you can leverage the `spire` pod annotation template from the [Install Istio](#install-istio) section or add the CSI volume to
     the deployment spec of your workload. Both of these alternatives are highlighted on the example snippet below:
 
-    {{< text yaml >}}
+    {{< text syntax=yaml snip_id=none >}}
     apiVersion: apps/v1
     kind: Deployment
     metadata:
@@ -223,7 +231,7 @@ along with a SPIRE Server, new entries can be automatically registered for each 
           metadata:
             labels:
               app: sleep
-              spiffe.io/spiffe-id: true
+              spiffe.io/spire-managed-identity: "true"
             # Injects custom sidecar template
             annotations:
                 inject.istio.io/templates: "sidecar,spire"
@@ -264,19 +272,19 @@ To improve workload attestation security robustness, SPIRE is able to verify aga
 
     {{< text bash >}}
     $ INGRESS_POD=$(kubectl get pod -l istio=ingressgateway -n istio-system -o jsonpath="{.items[0].metadata.name}")
-    $ INGRESS_POD_UID=$(kubectl get pods -n istio-system $INGRESS_POD -o jsonpath='{.metadata.uid}')
+    $ INGRESS_POD_UID=$(kubectl get pods -n istio-system "$INGRESS_POD" -o jsonpath='{.metadata.uid}')
     {{< /text >}}
 
 1. Get the spire-server pod:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=set_spire_server_pod_name_var >}}
     $ SPIRE_SERVER_POD=$(kubectl get pod -l app=spire-server -n spire -o jsonpath="{.items[0].metadata.name}")
     {{< /text >}}
 
 1. Register an entry for the SPIRE Agent running on the node:
 
     {{< text bash >}}
-    $ kubectl exec -n spire $SPIRE_SERVER_POD -- \
+    $ kubectl exec -n spire "$SPIRE_SERVER_POD" -- \
     /opt/spire/bin/spire-server entry create \
         -spiffeID spiffe://example.org/ns/spire/sa/spire-agent \
         -selector k8s_psat:cluster:demo-cluster \
@@ -297,14 +305,14 @@ To improve workload attestation security robustness, SPIRE is able to verify aga
 1. Register an entry for the Ingress-gateway pod:
 
     {{< text bash >}}
-    $ kubectl exec -n spire $SPIRE_SERVER_POD -- \
+    $ kubectl exec -n spire "$SPIRE_SERVER_POD" -- \
     /opt/spire/bin/spire-server entry create \
         -spiffeID spiffe://example.org/ns/istio-system/sa/istio-ingressgateway-service-account \
         -parentID spiffe://example.org/ns/spire/sa/spire-agent \
         -selector k8s:sa:istio-ingressgateway-service-account \
         -selector k8s:ns:istio-system \
-        -selector k8s:pod-uid:$INGRESS_POD_UID \
-        -dns $INGRESS_POD \
+        -selector k8s:pod-uid:"$INGRESS_POD_UID" \
+        -dns "$INGRESS_POD" \
         -dns istio-ingressgateway.istio-system.svc \
         -socketPath /run/spire/sockets/server.sock
 
@@ -330,7 +338,7 @@ To improve workload attestation security robustness, SPIRE is able to verify aga
     you can leverage the `spire` pod annotation template from the [Install Istio](#install-istio) section or add the CSI volume to
     the deployment spec of your workload. Both of these alternatives are highlighted on the example snippet below:
 
-    {{< text yaml >}}
+    {{< text syntax=yaml snip_id=none >}}
     apiVersion: apps/v1
     kind: Deployment
     metadata:
@@ -372,21 +380,21 @@ To improve workload attestation security robustness, SPIRE is able to verify aga
 
 1. Get pod information:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=set_sleep_pod_vars >}}
     $ SLEEP_POD=$(kubectl get pod -l app=sleep -o jsonpath="{.items[0].metadata.name}")
-    $ SLEEP_POD_UID=$(kubectl get pods $SLEEP_POD -o jsonpath='{.metadata.uid}')
+    $ SLEEP_POD_UID=$(kubectl get pods "$SLEEP_POD" -o jsonpath='{.metadata.uid}')
     {{< /text >}}
 
 1. Register the workload:
 
     {{< text bash >}}
-    $ kubectl exec -n spire spire-server-0 -- \
+    $ kubectl exec -n spire "$SPIRE_SERVER_POD" -- \
     /opt/spire/bin/spire-server entry create \
         -spiffeID spiffe://example.org/ns/default/sa/sleep \
         -parentID spiffe://example.org/ns/spire/sa/spire-agent \
         -selector k8s:ns:default \
-        -selector k8s:pod-uid:$SLEEP_POD_UID \
-        -dns $SLEEP_POD \
+        -selector k8s:pod-uid:"$SLEEP_POD_UID" \
+        -dns "$SLEEP_POD" \
         -socketPath /run/spire/sockets/server.sock
     {{< /text >}}
 
@@ -401,26 +409,28 @@ See the [SPIRE help on Registering workloads](https://spiffe.io/docs/latest/depl
 Use the following command to confirm that identities were created for the workloads:
 
 {{< text bash >}}
-$ kubectl exec -t $SPIRE_SERVER_POD -n spire -c spire-server -- ./bin/spire-server entry show
+$ kubectl exec -t "$SPIRE_SERVER_POD" -n spire -c spire-server -- ./bin/spire-server entry show
 Found 2 entries
 Entry ID         : c8dfccdc-9762-4762-80d3-5434e5388ae7
 SPIFFE ID        : spiffe://example.org/ns/istio-system/sa/istio-ingressgateway-service-account
 Parent ID        : spiffe://example.org/spire/agent/k8s_psat/demo-cluster/bea19580-ae04-4679-a22e-472e18ca4687
 Revision         : 0
-TTL              : default
+X509-SVID TTL    : default
+JWT-SVID TTL     : default
 Selector         : k8s:pod-uid:88b71387-4641-4d9c-9a89-989c88f7509d
 
 Entry ID         : af7b53dc-4cc9-40d3-aaeb-08abbddd8e54
 SPIFFE ID        : spiffe://example.org/ns/default/sa/sleep
 Parent ID        : spiffe://example.org/spire/agent/k8s_psat/demo-cluster/bea19580-ae04-4679-a22e-472e18ca4687
 Revision         : 0
-TTL              : default
+X509-SVID TTL    : default
+JWT-SVID TTL     : default
 Selector         : k8s:pod-uid:ee490447-e502-46bd-8532-5a746b0871d6
 {{< /text >}}
 
 Check the Ingress-gateway pod state:
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=none >}}
 $ kubectl get pods -n istio-system
 NAME                                    READY   STATUS    RESTARTS   AGE
 istio-ingressgateway-5b45864fd4-lgrxs   1/1     Running   0          60s
@@ -433,14 +443,14 @@ After registering an entry for the Ingress-gateway pod, Envoy receives the ident
 
 1. Retrieve sleep's SVID identity document using the istioctl proxy-config secret command:
 
-    {{< text bash >}}
-    $ istioctl proxy-config secret $SLEEP_POD -o json | jq -r \
+    {{< text syntax=bash snip_id=get_sleep_svid >}}
+    $ istioctl proxy-config secret "$SLEEP_POD" -o json | jq -r \
     '.dynamicActiveSecrets[0].secret.tlsCertificate.certificateChain.inlineBytes' | base64 --decode > chain.pem
     {{< /text >}}
 
 1. Inspect the certificate and verify that SPIRE was the issuer:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=get_svid_subject >}}
     $ openssl x509 -in chain.pem -text | grep SPIRE
         Subject: C = US, O = SPIRE, CN = sleep-5f4d47c948-njvpk
     {{< /text >}}
@@ -466,7 +476,7 @@ This will allow Envoy to get federated bundles directly from SPIRE.
 
 * If using the SPIRE Controller Manager, create federated entries for workloads by setting the `federatesWith` field of the [ClusterSPIFFEID CR](https://github.com/spiffe/spire-controller-manager/blob/main/docs/clusterspiffeid-crd.md) to the trust domains you want the pod to federate with:
 
-    {{< text yaml >}}
+    {{< text syntax=yaml snip_id=none >}}
     apiVersion: spire.spiffe.io/v1alpha1
     kind: ClusterSPIFFEID
     metadata:
@@ -475,7 +485,7 @@ This will allow Envoy to get federated bundles directly from SPIRE.
       spiffeIDTemplate: "spiffe://{{ .TrustDomain }}/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}"
       podSelector:
         matchLabels:
-          spiffe.io/spiffe-id: "true"
+          spiffe.io/spire-managed-identity: "true"
       federatesWith: ["example.io", "example.ai"]
     {{< /text >}}
 
@@ -487,7 +497,7 @@ If you installed SPIRE using the quick start SPIRE deployment provided by Istio,
 use the following commands to remove those Kubernetes resources:
 
 {{< text bash >}}
-$ kubectl delete CustomResourceDefinition clusterspiffeids.spiffeid.spiffe.io
+$ kubectl delete CustomResourceDefinition clusterspiffeids.spire.spiffe.io
 $ kubectl delete CustomResourceDefinition clusterfederatedtrustdomains.spire.spiffe.io
 $ kubectl delete -n spire configmap spire-bundle
 $ kubectl delete -n spire serviceaccount spire-agent
@@ -507,4 +517,5 @@ $ kubectl delete clusterrolebinding spire-server-cluster-role-binding spire-agen
 $ kubectl delete role spire-server-role leader-election-role
 $ kubectl delete rolebinding spire-server-role-binding leader-election-role-binding
 $ kubectl delete namespace spire
+$ rm istio.yaml chain.pem
 {{< /text >}}
