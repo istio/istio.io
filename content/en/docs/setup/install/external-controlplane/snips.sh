@@ -203,6 +203,9 @@ spec:
       operatorManageWebhooks: true
       configValidation: false
       meshID: mesh1
+      multiCluster:
+        clusterName: ${REMOTE_CLUSTER_NAME}
+      network: network1
 EOF
 }
 
