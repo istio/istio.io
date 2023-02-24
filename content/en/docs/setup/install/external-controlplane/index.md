@@ -335,6 +335,9 @@ and installing the sidecar injector webhook configuration on the remote cluster 
           operatorManageWebhooks: true
           configValidation: false
           meshID: mesh1
+          multiCluster:
+            clusterName: ${REMOTE_CLUSTER_NAME}
+          network: network1
     EOF
     {{< /text >}}
 
