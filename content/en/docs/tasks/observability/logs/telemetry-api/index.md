@@ -7,12 +7,12 @@ owner: istio/wg-policies-and-telemetry-maintainers
 test: no
 ---
 
-Telemetry API was introduced into Istio as a first-class API for a long time.
-Previously; you'd be configuring telemetry in the `meshConfig` section of Istio configuration.
+Telemetry API has been in Istio as a first-class API for quite sometime now.
+Previously users had to configure telemetry in the `MeshConfig` section of Istio configuration.
 
-## Get start with Telemetry API
+## Get started with Telemetry API
 
-1. Move to Telemetry API with following configuration:
+1. Enable access logging
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n default -f -
@@ -32,7 +32,7 @@ The above example uses the built-in `envoy` access log provider, and we do not c
 
 1. Disable access log for specific workload
 
-You can disable access log for `details` service with following configuration:
+You can disable access log for `details` service with the following configuration:
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n default -f -
@@ -54,7 +54,7 @@ EOF
 
 1. Filter access log with workload mode
 
-You can disable inbound access log for `details` service with following configuration:
+You can disable inbound access log for `details` service with the following configuration:
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n default -f -
@@ -78,7 +78,7 @@ EOF
 
 1. Filter access log with CEL expression
 
-The following configuration will only display access log when response code is greater or equal to 500:
+The following configuration displays access log only when response code is greater or equal to 500:
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n default -f -
@@ -103,4 +103,4 @@ For more information, see [Use expressions for values](/docs/tasks/observability
 
 ## Work with OpenTelemetry provider
 
-Istio support send access log with [OpenTelemetry](https://opentelemetry.io/) protocol, see more [here](/docs/tasks/observability/logs/otel-provider).
+Istio supports sending access logs with [OpenTelemetry](https://opentelemetry.io/) protocol,  as explained [here](/docs/tasks/observability/logs/otel-provider).
