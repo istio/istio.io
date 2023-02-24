@@ -156,6 +156,18 @@ To ignore multiple codes for a resource, separate each code with a comma:
 $ kubectl annotate deployment my-deployment galley.istio.io/analyze-suppress=IST0107,IST0002
 {{< /text >}}
 
+### Cleanup
+You could also cleanup the deployments by running:
+
+{{< text syntax=bash snip_id=analyse_cleanup >}}
+$ kubectl label namespace default istio-injection-
+$ kubectl delete ns frod
+$ kubectl delete deployment my-deployment
+$ kubectl delete vs ratings
+$ istioctl uninstall --purge -y
+$ kubectl delete ns istio-system
+{{< /text >}}
+
 ## Helping us improve this tool
 
 We're continuing to add more analysis capability and we'd love your help in identifying more use cases.

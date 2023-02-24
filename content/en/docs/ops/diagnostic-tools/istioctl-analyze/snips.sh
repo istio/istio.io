@@ -114,3 +114,12 @@ kubectl annotate deployment my-deployment galley.istio.io/analyze-suppress=IST01
 snip_annotate_for_deployment_suppression_107() {
 kubectl annotate deployment my-deployment galley.istio.io/analyze-suppress=IST0107,IST0002
 }
+
+snip_analyse_cleanup() {
+kubectl label namespace default istio-injection-
+kubectl delete ns frod
+kubectl delete deployment my-deployment
+kubectl delete vs ratings
+istioctl uninstall --purge -y
+kubectl delete ns istio-system
+}
