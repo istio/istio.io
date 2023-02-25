@@ -30,6 +30,7 @@ kubectl -n test-ns apply -f samples/sleep/sleep.yaml
 _wait_for_deployment test-ns sleep
 
 # precheck before upgrade
+# shellcheck disable=SC2154
 _verify_lines snip_before_you_upgrade_1 "$snip_before_you_upgrade_1_out"
 
 # install canary revision
