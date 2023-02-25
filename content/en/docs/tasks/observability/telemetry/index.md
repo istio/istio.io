@@ -74,7 +74,7 @@ If you're using [Sidecar](/docs/reference/config/networking/sidecar/) configurat
 {{< /tip >}}
 
 {{< tip >}}
-Provider does not support `$(HOST_IP)`, If you're runing collector in agent mode, you can switch [InternalTrafficPolicy](https://kubernetes.io/docs/concepts/services-networking/service-traffic-policy/) to `Local` for better performance.
+Provider does not support `$(HOST_IP)`, If you're running collector in agent mode, you can [using service internal traffic policy](https://kubernetes.io/docs/concepts/services-networking/service-traffic-policy/#using-service-internal-traffic-policy) to `Local` for better performance.
 {{< /tip >}}
 
 ## Examples
