@@ -184,13 +184,15 @@ to your pod. The sidecar injection will treat any configuration defined here as 
 
 Care should be taken when customizing these settings, as this allows complete customization of the resulting `Pod`, including making changes that cause the sidecar container to not function properly.
 
-For example, the following configuration customizes a variety of settings, including lowering the CPU requests, adding a volume mount, and adding a `preStop` hook:
+For example, the following configuration allows to create a pod with an `istio-proxy` automatically injected and customized with a variety of settings, including lowering the CPU requests, adding a volume mount, and adding a `preStop` hook:
 
 {{< text yaml >}}
 apiVersion: v1
 kind: Pod
 metadata:
   name: example
+  labels:
+    sidecar.istio.io/inject: "true"
 spec:
   containers:
   - name: hello
