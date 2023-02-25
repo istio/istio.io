@@ -73,6 +73,10 @@ will be used when the `Telemetry` resources do not specify a provider.
 If you're using [Sidecar](/docs/reference/config/networking/sidecar/) configuration, do not forget to add provider's service.
 {{< /tip >}}
 
+{{< tip >}}
+Provider does not support `$(HOST_IP)`, If you're runing collector in agent mode, you can switch [InternalTrafficPolicy](https://kubernetes.io/docs/concepts/services-networking/service-traffic-policy/) to `Local` for better performance.
+{{< /tip >}}
+
 ## Examples
 
 ### Configuring mesh-wide behavior
