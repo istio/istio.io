@@ -136,6 +136,4 @@ weight: 10
 - **修复** 修复了一个导致 `istioctl x injector list` 提供不正确的 Pod 信息的问题。
 
 - **修复** 修复了当对特定命名空间使用 `exportTo` 时，`istioctl analyze` 会出现 `ConflictingMeshGatewayVirtualServiceHosts（IST0109）` 信息。
-
-- **修复** 修复了当对特定命名空间使用 `exportTo` 时，`istioctl analyze` 会出现 `ConflictingMeshGatewayVirtualServiceHosts（IST0109）` 信息。
   ([Issue #39634](https://github.com/istio/istio/issues/39634))
