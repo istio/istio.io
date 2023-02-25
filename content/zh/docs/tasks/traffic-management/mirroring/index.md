@@ -9,7 +9,8 @@ test: yes
 
 此任务演示了 Istio 的流量镜像功能。
 
-流量镜像，也称为影子流量，是一个以尽可能低的风险为生产带来变化的强大的功能。镜像会将实时流量的副本发送到镜像服务。镜像流量发生在主服务的关键请求路径之外。
+流量镜像，也称为影子流量，是一个以尽可能低的风险为生产带来变化的强大的功能。
+镜像会将实时流量的副本发送到镜像服务。镜像流量发生在主服务的关键请求路径之外。
 
 在此任务中，首先把流量全部路由到测试服务的 `v1` 版本。然后，执行规则将一部分流量镜像到 `v2` 版本。
 
@@ -81,7 +82,7 @@ test: yes
     EOF
     {{< /text >}}
 
-    **httpbin Kubernetes service：**
+    **httpbin Kubernetes 服务：**
 
     {{< text bash >}}
     $ kubectl create -f - <<EOF
@@ -103,7 +104,7 @@ test: yes
 
 *   启动 `sleep` 服务，这样就可以使用 `curl` 来提供负载：
 
-    **sleep service：**
+    **sleep 服务：**
 
     {{< text bash >}}
     $ cat <<EOF | istioctl kube-inject -f - | kubectl create -f -
@@ -287,7 +288,9 @@ spec:
 EOF
 {{< /text >}}
 
-这个路由规则发送 100% 流量到 `v1` 版本。最后一节表示您将 100% 的相同流量镜像（即发送）到 `httpbin:v2` 服务。当流量被镜像时，请求将发送到镜像服务中，并在 `headers` 中的 `Host/Authority` 属性值上追加 `-shadow`。例如 `cluster-1` 变为 `cluster-1-shadow`。
+这个路由规则发送 100% 流量到 `v1` 版本。最后一节表示您将 100% 的相同流量镜像（即发送）到 `httpbin:v2` 服务。
+当流量被镜像时，请求将发送到镜像服务中，并在 `headers` 中的 `Host/Authority` 属性值上追加 `-shadow`。
+例如 `cluster-1` 变为 `cluster-1-shadow`。
 
 此外，重点注意这些被镜像的流量是『即发即弃』的，就是说镜像请求的响应会被丢弃。
 
