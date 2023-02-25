@@ -11,7 +11,8 @@ aliases:
 
 本发布说明描述了 Istio 1.15.5 和 Istio 1.15.6 之间的不同之处。
 
-此版本包括 Go 1.19.6（2023 年 2 月 14 日发布）中`path/filepath`、`net/http`、`mime/multipart`和`crypto/tls`软件包的安全修复。
+此版本包括 Go 1.19.6（2023 年 2 月 14 日发布）中
+`path/filepath`、`net/http`、`mime/multipart` 和 `crypto/tls` 软件包的安全修复。
 
 {{< relnote >}}
 

@@ -7,11 +7,12 @@ publishdate: 2022-10-11
 release: 1.15.2
 ---
 
-该版本包含了对 [CVE-2022-39278](/news/security/istio-security-2022-007/#cve-2022-39278) 的修复以及改进稳健性的漏洞修复。
+该版本包含了对 [CVE-2022-39278](/news/security/istio-security-2022-007/#cve-2022-39278)
+的修复以及改进稳健性的漏洞修复。
 本发布说明描述了 Istio 1.15.1 和 Istio 1.15.2 之间的不同之处。
 
-仅供参考，该版本包括（2022-10-04 发布的）Go 1.19.2 中对 `archive/tar`、`net/http/httputil` 和 `regexp` 包的安全修复。
-
+仅供参考，该版本包括（2022-10-04 发布的）Go 1.19.2 中对 `archive/tar`、`net/http/httputil`
+和 `regexp` 包的安全修复。
 {{< relnote >}}}
 
 ## 变更{#changes}

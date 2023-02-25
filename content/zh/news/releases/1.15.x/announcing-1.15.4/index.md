@@ -15,7 +15,10 @@ release: 1.15.4
 
 ## 变更{#changes}
 
-- **改进** 当 Wasm 模块下载失败且 `fail_open` 值为 True 时，一个允许所有流量的 RBAC 过滤器会被传递给 Envoy，而不是原来的 Wasm 过滤器。之前，在这种情况下，给定的 Wasm 过滤器本身被传递给 Envoy，但它可能会导致错误，因为 Wasm 配置的某些字段在 Istio 中是可选的，但在 Envoy 中不是。
+- **改进** 当 Wasm 模块下载失败且 `fail_open` 值为 true 时，一个允许所有流量的
+  RBAC 过滤器会被传递给 Envoy，而不是原来的 Wasm 过滤器。
+  之前，在这种情况下，给定的 Wasm 过滤器本身被传递给 Envoy，但它可能会导致错误，
+  因为 Wasm 配置的某些字段在 Istio 中是可选的，但在 Envoy 中不是。
 
 - **修复** 修复了当使用 Istio Operator 资源删除一个自定义网关时，其他网关会被重新启动的问题。
   ([Issue #40577](https://github.com/istio/istio/issues/40577))
@@ -25,6 +28,7 @@ release: 1.15.4
 
 - **修复** 修复了 `istiod` 以 `PILOT_ENABLE_STATUS=true` 启动时，缺乏清理分发报告ConfigMap的权限的问题。
 
-- **修复** 修复了 `pilotExists` 总是返回 `false`的问题。 ([Issue #41631](https://github.com/istio/istio/issues/41631))
+- **修复** 修复了 `pilotExists` 总是返回 `false`的问题。
+  ([Issue #41631](https://github.com/istio/istio/issues/41631))
 
 - **修复** 修复了 Gateway Pod 不遵守 Helm 值中指定的 `global.imagePullPolicy`。
