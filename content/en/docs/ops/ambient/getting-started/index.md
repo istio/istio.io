@@ -67,7 +67,7 @@ Follow these steps to get started with ambient:
 ## Deploy the sample application {#bookinfo}
 
 You’ll use the sample [bookinfo application](/docs/examples/bookinfo/), which is part of
-your Istio download from previous steps. In ambient mode, you deploy applications to
+the Istio distribution that you downloaded above. In ambient mode, you deploy applications to
 your Kubernetes cluster exactly the same way you would
 without Istio. This means you can have your applications running in your Kubernetes before
 you enable ambient mesh, and have them join the mesh without needing to restart or
