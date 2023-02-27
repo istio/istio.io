@@ -7,7 +7,7 @@ owner: istio/wg-networking-maintainers
 test: n/a
 ---
 {{ warning }}
-Ambient is in alpha status, use at your own risk.
+Ambient is currently in alpha status, not intended for production use.
 {{ /warning }}
 
 This guide lets you quickly evaluate Istio ambient service mesh. These steps require you to have
