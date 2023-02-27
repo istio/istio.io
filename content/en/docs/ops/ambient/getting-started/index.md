@@ -80,7 +80,7 @@ Make sure the default namespace does not include the label `istio-injection=enab
 {{< text bash >}}
 $ kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
 $ kubectl apply -f samples/sleep/sleep.yaml
-$ kubectl apply -f https://raw.githubusercontent.com/linsun/sample-apps/main/sleep/notsleep.yaml
+$ kubectl apply -f samples/sleep/notsleep.yaml
 {{< /text >}}
 
 Note: `sleep` and `notsleep` are two simple applications that can serve as curl clients.
