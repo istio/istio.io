@@ -28,8 +28,8 @@ Follow these steps to get started with ambient:
 
 ## Download and install {#download}
 
-1.  Download the [alpha version of Istio](url) with support for ambient mesh. 
-    If you don’t have a Kubernetes cluster, you can set up using 
+1.  Download the [alpha version of Istio](url) with support for ambient mesh.
+    If you don’t have a Kubernetes cluster, you can set up using
     locally (e.g. using kind as below) or deploy one in Google or AWS Cloud:
 
     {{< text bash >}}
@@ -44,16 +44,16 @@ Follow these steps to get started with ambient:
     EOF
     {{< /text >}}
 
-1.  The ambient profile is designed to help you get started with ambient mesh.
-    Install Istio with the ambient profile on your Kubernetes cluster, using
-    the istioctl downloaded above:
+1.  The `ambient` profile is designed to help you get started with ambient mesh.
+    Install Istio with the `ambient` profile on your Kubernetes cluster, using
+    the `istioctl` downloaded above:
 
     {{< text bash >}}
     $ istioctl install --set profile=ambient
     {{< /text >}}
 
 1.  After running the above command, you’ll get the following output that indicates
-    these four components are installed successfully!
+    these five components are installed successfully!
 
     {{< text plain >}}
     ✔ Istio core installed
@@ -79,16 +79,16 @@ $ kubectl apply -f samples/sleep/sleep.yaml
 $ kubectl apply -f https://raw.githubusercontent.com/linsun/sample-apps/main/sleep/notsleep.yaml
 {{< /text >}}
 
-Note: sleep and notsleep are two simple applications that can serve as curl clients.
+Note: `sleep` and `notsleep` are two simple applications that can serve as curl clients.
 
-Connect productpage to the Istio ingress gateway so you can access the bookinfo
+Connect `productpage` to the Istio ingress gateway so you can access the bookinfo
 app from outside of the cluster:
 
 {{< text bash >}}
 $ kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml
 {{< /text >}}
 
-Test your bookinfo application, it should work with or without the gateway. Note: you can replace istio-ingressgateway.istio-system below with its load balancer IP (or hostname) if it has one:
+Test your bookinfo application, it should work with or without the gateway. Note: you can replace `istio-ingressgateway.istio-system` below with its load balancer IP (or hostname) if it has one:
 
 {{< text bash >}}
 $ kubectl exec deploy/sleep -- curl -s http://istio-ingressgateway.istio-system/productpage | head -n1
@@ -127,12 +127,12 @@ in Kiali’s dashboard:
 
 After you have added your application to ambient mesh, you can secure application access using L4
 authorization policies. This lets you control access to and from a service based on client workload
-identities, but not at the L7 level, such as HTTP methods like GET and POST.
+identities, but not at the L7 level, such as HTTP methods like `GET` and `POST`.
 
 ### L4 Authorization Policy
 
-Explicitly allow the sleep service account and istio-ingressgateway service accounts to call
- the productpage service:
+Explicitly allow the `sleep` service account and `istio-ingressgateway` service accounts to call
+ the `productpage` service:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -166,7 +166,7 @@ $ kubectl exec deploy/notsleep -- curl -s http://productpage:9080/ | head -n10
 
 ### L7 Authorization Policy
 
-Using the Kubernetes Gateway API, you can deploy a waypoint proxy for the productpage service that uses the bookinfo-productpage service account. Any traffic going to the productpage service will be mediated, enforced and observed by the Layer 7 (L7) proxy.
+Using the Kubernetes Gateway API, you can deploy a waypoint proxy for the `productpage` service that uses the `bookinfo-productpage` service account. Any traffic going to the `productpage` service will be mediated, enforced and observed by the Layer 7 (L7) proxy.
 Install Kubernetes Gateway CRDs, which don’t come installed by default on most Kubernetes clusters:
 
 {{< text bash >}}
@@ -174,14 +174,14 @@ $ kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
   { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.6.1" | kubectl apply -f -; }
 {{< /text >}}
 
-Deploy a waypoint proxy for the productpage service:
+Deploy a waypoint proxy for the `productpage` service:
 
 {{< text bash >}}
 $ istioctl x waypoint apply --service-account bookinfo-productpage
 {{< /text >}}
 
-View the productpage waypoint proxy status; you should see the details of the gateway
-resource with Ready status:
+View the `productpage` waypoint proxy status; you should see the details of the gateway
+resource with `Ready` status:
 
 {{< text bash >}}
 $ kubectl get gtw bookinfo-productpage -o yaml
@@ -202,7 +202,7 @@ status:
     type: Ready
 {{< /text >}}
 
-Update our AuthorizationPolicy to explicitly allow the sleep service account and istio-ingressgateway service accounts to GET the productpage service, but perform no other operations:
+Update our `AuthorizationPolicy` to explicitly allow the `sleep` service account and `istio-ingressgateway` service accounts to `GET` the `productpage` service, but perform no other operations:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -238,7 +238,7 @@ $ kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | head -n1
 {{< /text >}}
 
 ## Control Traffic {#control}
-Deploy a waypoint proxy for the review service, using the bookinfo-review service account, so that any traffic going to the review service will be mediated by the waypoint proxy.
+Deploy a `waypoint` proxy for the review service, using the `bookinfo-review` service account, so that any traffic going to the review service will be mediated by the waypoint proxy.
 
 {{< text bash >}}
 $ istioctl x waypoint apply --service-account bookinfo-reviews
