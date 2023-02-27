@@ -10,7 +10,7 @@ Istio ambient service mesh was [launched in Sept 2022](/blog/2022/introducing-am
 
 ## Major Changes from the Initial Launch
 
-Ambient mesh is designed for simplified operations, broader application compatibility, and reduced infrastructure cost. The ultimate goal of ambient is transparent to your applications and we have made a few changes to make ztunnel and waypoint components simpler and lightweight.
+Ambient mesh is designed for simplified operations, broader application compatibility, and reduced infrastructure cost. The ultimate goal of ambient is to be transparent to your applications and we have made a few changes to make the ztunnel and waypoint components simpler and lightweight.
 
 * The ztunnel component has been rewritten from the ground up to be fast, secure, and lightweight. Refer to the “Introducing Rust-Based Ztunnel for Istio Ambient Service Mesh” blog for more information.
 * We made significant changes to simplify waypoint proxy’s configuration to improve its debuggability and performance. We’ll cover this in a future blog soon.
