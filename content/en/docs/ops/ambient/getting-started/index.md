@@ -194,8 +194,7 @@ Verify that the waypoint proxy status is ready:
 status:
   conditions:
   - lastTransitionTime: "2023-02-24T03:22:43Z"
-    message: Deployed waypoint proxy to "default" namespace for "bookinfo-productpage"
-  	service account
+    message: Deployed waypoint proxy to "default" namespace for "bookinfo-productpage" service account
     observedGeneration: 1
     reason: Ready
     status: "True"
@@ -238,6 +237,7 @@ $ kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | head -n1
 {{< /text >}}
 
 ## Control Traffic {#control}
+
 Deploy a `waypoint` proxy for the review service, using the `bookinfo-review` service account, so that any traffic going to the review service will be mediated by the waypoint proxy.
 
 {{< text bash >}}
