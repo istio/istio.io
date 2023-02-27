@@ -47,7 +47,7 @@ When `ztunnel` receives the request, it will apply Authorization Policies and fo
 
 A pod can receive HBONE traffic or plaintext traffic.
 By default, both will be accepted by `ztunnel`.
-Because plaintext request will have no peer identity when Authorization Policies are evaluated,
+Because plaintext requests will have no peer identity when Authorization Policies are evaluated,
 a user can set a policy requiring an identity (either *any* identity, or a specific one) to block all plaintext traffic.
 
 When the destination is waypoint enabled, all requests *must* go through the waypoint where policy is enforced.
