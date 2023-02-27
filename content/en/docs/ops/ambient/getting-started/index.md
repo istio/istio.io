@@ -254,7 +254,7 @@ $ kubectl apply -f samples/bookinfo/networking/destination-rule-reviews.yaml
 Confirm that roughly 10% traffic from the 100 requests go to reviews-v2:
 
 {{< text bash >}}
-kubectl exec -it deploy/sleep -- sh -c 'for i in $(seq 1 100); do curl -s http://istio-ingressgateway.istio-system/productpage | grep reviews-v.-; done'
+$ kubectl exec -it deploy/sleep -- sh -c 'for i in $(seq 1 100); do curl -s http://istio-ingressgateway.istio-system/productpage | grep reviews-v.-; done'
 {{< /text >}}
 ## Uninstall {#uninstall}
 Refer to our [uninstall instruction](/docs/setup/getting-started/#uninstall) to uninstall Istio and bookinfo sample application.
