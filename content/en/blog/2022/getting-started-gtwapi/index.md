@@ -55,7 +55,7 @@ To get started using the Gateway API, you need to first download the CRDs, which
 on most Kubernetes clusters, at least not yet:
 
 {{< text bash >}}
-$ kubectl get crd gateways.gateway.networking.k8s.io || \
+$ kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
   { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref={{< k8s_gateway_api_version >}}" | kubectl apply -f -; }
 {{< /text >}}
 
@@ -152,7 +152,7 @@ $ kubectl wait -n sample-ingress --for=condition=ready gateway sample-gateway
 $ export INGRESS_HOST=$(kubectl get -n sample-ingress gateway sample-gateway -o jsonpath='{.status.addresses[*].value}')
 {{< /text >}}
 
-Then we can attach an [HTTPRoute](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io%2fv1beta1.HTTPRoute)
+Next, we attach an [HTTPRoute](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io%2fv1beta1.HTTPRoute)
 to the `sample-gateway` (i.e., using the `parentRefs` field) to expose and route traffic to the helloworld service:
 
 {{< text bash >}}

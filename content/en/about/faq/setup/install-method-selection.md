@@ -40,7 +40,7 @@ The following lists some of the pros and cons of each of the available methods:
     - UX is less streamlined compared to `istioctl install`.
     - Error reporting is not as robust as `istioctl install` for the apply step.
 
-1. [Install using Helm (alpha)](/docs/setup/install/helm/)
+1. [Install using Helm](/docs/setup/install/helm/)
 
     Using Helm charts allows easy integration with Helm based workflows and automated resource pruning during upgrades.
 

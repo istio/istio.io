@@ -42,6 +42,12 @@ if [ "$GATEWAY_API" == "true" ]; then
     snip_apply_weightbased_tcp_routing_2
     _wait_for_gateway istio-io-tcp-traffic-shifting tcp-echo-gateway
     snip_apply_weightbased_tcp_routing_3
+
+    # Make sure the nc command will work and not fail the cluster
+    # More info: https://github.com/istio/istio.io/pull/12544
+    # TODO proper wait for things being ready
+    # it seems we had 8 or so exits during the run of 20 so need 8 plus seconds
+    sleep 20s
 else
     snip_apply_weightbased_tcp_routing_1
 
@@ -77,5 +83,7 @@ _verify_lines snip_apply_weightbased_tcp_routing_9 "
 "
 
 # @cleanup
-snip_cleanup_1
-snip_cleanup_3
+if [ "$GATEWAY_API" != "true" ]; then
+    snip_cleanup_1
+    snip_cleanup_3
+fi

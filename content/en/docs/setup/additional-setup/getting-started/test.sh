@@ -15,12 +15,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+source "tests/util/gateway-api.sh"
+install_gateway_api_crds
+
 set -e
 set -u
 set -o pipefail
-
-source "tests/util/gateway-api.sh"
-install_gateway_api_crds
 
 # Download Istio
 # Skipping this as we use the istioctl built from istio/istio reference

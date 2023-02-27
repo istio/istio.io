@@ -163,6 +163,7 @@ For reference, here are the types of load balancers created by Istio with a `Loa
 |AWS EKS        | Classic Elastic Load Balancer | TCP Proxy
 |GCP GKE        | TCP/UDP Network Load Balancer | Network
 |Azure AKS      | Azure Load Balancer           | Network
+|IBM IKS/ROKS   | Network Load Balancer         | Network
 |DO DOKS        | Load Balancer                 | Network
 
 {{< tip >}}

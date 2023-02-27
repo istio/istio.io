@@ -73,6 +73,11 @@ while (( "$#" )); do
       shift 2
       ;;
 
+    --token-path)
+      ACCESS_TOKEN=$(cat "$2")
+      shift 2
+      ;;
+
     -*)
       echo "Error: unsupported flag: $1" >&2
       exit 1
@@ -85,8 +90,19 @@ while (( "$#" )); do
   esac
 done
 
+if [ -n "${PULL_NUMBER:-}" ]; then
+  echo "Optimizing tests for pull number: $PULL_NUMBER"
+  TESTS=$(python3 ./scripts/pr_tests.py --token="${ACCESS_TOKEN:-}" "$PULL_NUMBER")
+  if [ "$TESTS" = "NONE" ]; then
+    echo "No tests affected by the current changes"
+    exit 0
+  elif [ "$TESTS" != "ALL" ]; then
+    PARAMS+=("TEST=$TESTS")
+  fi
+fi
+
 export IP_FAMILY="${IP_FAMILY:-ipv4}"
-export NODE_IMAGE="gcr.io/istio-testing/kind-node:v1.26.0"
+export NODE_IMAGE="gcr.io/istio-testing/kind-node:v1.26.1"
 
 if [[ -z "${SKIP_SETUP:-}" ]]; then
   export ARTIFACTS="${ARTIFACTS:-$(mktemp -d)}"
@@ -115,4 +131,4 @@ if [[ -z "${SKIP_SETUP:-}" ]]; then
   fi
 fi
 
-make "${PARAMS[*]}"
+make "${PARAMS[@]}"

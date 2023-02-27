@@ -328,4 +328,3 @@ Delete the `sleep` service and deployment:
 $ kubectl delete service sleep
 $ kubectl delete deployment sleep
 {{< /text >}}
-

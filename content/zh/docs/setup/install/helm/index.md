@@ -10,15 +10,43 @@ test: yes
 
 请遵循本指南使用 [Helm](https://helm.sh/docs/) 安装和配置 Istio 网格。
 
+{{< boilerplate helm-preamble >}}
+
+{{< boilerplate helm-prereqs >}}
+
 ## 安装步骤 {#installation-steps}
 
-1. 为 Istio 组件，创建命名空间 `istio-system` :
+本节介绍使用 Helm 安装 Istio 的过程。Helm 安装的一般语法是：
+
+{{< text syntax=bash snip_id=none >}}
+$ helm install <release> <chart> --namespace <namespace> --create-namespace [--set <other_parameters>]
+{{< /text >}}
+
+该命令指定的变量如下：
+* `<chart>` 一个打好包的 Chart 路径，也可以是一个未打包的 Chart 目录或 URL。
+* `<release>` 一个用于标识和管理安装后的 Helm Chart 的名称。
+* `<namespace>` 要安装 Chart 的命名空间。
+
+可以使用一个或多个 `--set <parameter>=<value>` 参数更改默认配置值。
+或者，您可以使用 `--values <file>` 参数，在一个自定义值文件中指定几个参数。
+
+{{< tip >}}
+您可以使用 `helm show values <chart>` 命令显示配置参数的默认值，或参考 `artifacthub` Chart 文档中的
+[自定义资源参数](https://artifacthub.io/packages/helm/istio-official/base?modal=values)、
+[Istiod Chart 配置参数](https://artifacthub.io/packages/helm/istio-official/istiod?modal=values)
+和 [Gateway Chart 配置参数](https://artifacthub.io/packages/helm/istio-official/gateway?modal=values)。
+{{< /tip >}}
+
+1. 为 Istio 组件，创建命名空间 `istio-system`:
+    {{< tip >}}
+    如果在第二步使用了 `--create-namespace` 参数，这一步可以跳过。
+    {{< /tip >}}
 
     {{< text syntax=bash snip_id=create_istio_system_namespace >}}
     $ kubectl create namespace istio-system
     {{< /text >}}
 
-1. 安装 Istio base chart，它包含了 Istio 控制平面用到的集群范围的资源：
+1. 安装 Istio base chart，它包含了集群范围的自定义资源定义 (CRD)，这些资源必须在部署 Istio 控制平面之前安装：
 
     {{< warning >}}
     执行修订版安装时，base chart 需要设置 `--defaultRevision` 值以使资源验证起作用。
@@ -29,17 +57,77 @@ test: yes
     $ helm install istio-base istio/base -n istio-system
     {{< /text >}}
 
+1. 使用 `helm ls` 命令验证 CRD 的安装情况：
+
+    {{< text syntax=bash >}}
+    $ helm ls -n istio-system
+    NAME       NAMESPACE    REVISION UPDATED         STATUS   CHART        APP VERSION
+    istio-base istio-system 1        ... ... ... ... deployed base-1.16.1  1.16.1
+    {{< /text >}}
+
+   在输出中找到 `istio-base` 的条目，并确保状态已被设置为 `deployed`。
+
 1. 安装 Istio discovery chart，它用于部署 `istiod` 服务：
 
     {{< text syntax=bash snip_id=install_discovery >}}
     $ helm install istiod istio/istiod -n istio-system --wait
     {{< /text >}}
 
+1. 验证 Istio discovery chart 的安装情况：
+
+    {{< text syntax=bash >}}
+    $ helm ls -n istio-system
+    NAME       NAMESPACE    REVISION UPDATED         STATUS   CHART         APP VERSION
+    istio-base istio-system 1        ... ... ... ... deployed base-1.16.1   1.16.1
+    istiod     istio-system 1        ... ... ... ... deployed istiod-1.16.1 1.16.1
+    {{< /text >}}
+
+1. 获取已安装的 Helm Chart 的状态以确保它已部署:
+
+    {{< text syntax=bash >}}
+    $ helm status istiod -n istio-system
+    NAME: istiod
+    LAST DEPLOYED: Fri Jan 20 22:00:44 2023
+    NAMESPACE: istio-system
+    STATUS: deployed
+    REVISION: 1
+    TEST SUITE: None
+    NOTES:
+    "istiod" successfully installed!
+
+    To learn more about the release, try:
+      $ helm status istiod
+      $ helm get all istiod
+
+    Next steps:
+      * Deploy a Gateway: https://istio.io/latest/docs/setup/additional-setup/gateway/
+      * Try out our tasks to get started on common configurations:
+        * https://istio.io/latest/docs/tasks/traffic-management
+        * https://istio.io/latest/docs/tasks/security/
+        * https://istio.io/latest/docs/tasks/policy-enforcement/
+        * https://istio.io/latest/docs/tasks/policy-enforcement/
+      * Review the list of actively supported releases, CVE publications and our hardening guide:
+        * https://istio.io/latest/docs/releases/supported-releases/
+        * https://istio.io/latest/news/security/
+        * https://istio.io/latest/docs/ops/best-practices/security/
+
+    For further documentation see https://istio.io website
+
+    Tell us how your install/upgrade experience went at https://forms.gle/99uiMML96AmsXY5d6
+    {{< /text >}}
+
+1. 检查 `istiod` 服务是否安装成功，其 Pod 是否正在运行:
+
+    {{< text syntax=bash >}}
+    $ kubectl get deployments -n istio-system --output wide
+    NAME     READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS   IMAGES                         SELECTOR
+    istiod   1/1     1            1           10m   discovery    docker.io/istio/pilot:1.16.1   istio=pilot
+    {{< /text >}}
+
 1. （可选）安装 Istio 的入站网关：
 
     {{< text syntax=bash snip_id=install_ingressgateway >}}
     $ kubectl create namespace istio-ingress
-    $ kubectl label namespace istio-ingress istio-injection=enabled
     $ helm install istio-ingress istio/gateway -n istio-ingress --wait
     {{< /text >}}
 
@@ -54,14 +142,6 @@ test: yes
     有关如何使用 Helm 后期渲染器自定义 Helm chart 的详细文档，
     请参见[高级 Helm Chart 自定义](/zh/docs/setup/additional-setup/customize-installation-helm/)。
     {{< /tip >}}
-
-## 验证安装 {#verifying-the-installation}
-
-安装状态可以通过 Helm 进行验证：
-
-{{< text syntax=bash snip_id=none >}}
-$ helm status istiod -n istio-system
-{{< /text >}}
 
 ## 更新 Istio 配置 {#updating-your-configuration}
 

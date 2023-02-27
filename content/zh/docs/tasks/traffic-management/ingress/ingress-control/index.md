@@ -22,7 +22,7 @@ test: yes
     如果准备使用 `Gateway API` 指令，您可以使用 `minimal` 配置文件来安装 Istio，因为您不再需要默认以其他方式安装的 `istio-ingressgateway`：
 
     {{< text bash >}}
-    $ istioctl install profile=minimal
+    $ istioctl install --set profile=minimal
     {{< /text >}}
 
     {{< /tip >}}

@@ -23,4 +23,3 @@ When installing a new Istio control plane revision the previous resource validat
 unintended effects on the existing, stable revision. Once prepared to migrate over to the new control plane revision,
 cluster operators should switch the default revision. This can be done through `istioctl tag set default --revision <new revision>`,
 or if using a Helm-based flow, `helm upgrade istio-base manifests/charts/base -n istio-system --set defaultRevision=<new revision>`.
-

@@ -39,4 +39,3 @@ Istio supports the following service identities on different platforms:
   name, Istio service account, or GCP service account. The custom service
   account refers to the existing service account just like the identities that
   the customer’s Identity Directory manages.
-

@@ -47,11 +47,6 @@ cleanup_bookinfo_sample() {
 }
 
 startup_sleep_sample() {
-    # TODO: how to make sure previous test cleaned up everything?
-    set +e
-    kubectl delete pods -l app=sleep --force
-    set -e
-
     kubectl apply -f samples/sleep/sleep.yaml -n default
     _wait_for_deployment default sleep
 }
@@ -96,7 +91,7 @@ sample_http_request() {
     local response
 
     if [ "$GATEWAY_API" == "true" ]; then
-        ingress_url="http://bookinfo-gateway.default"
+        ingress_url="http://bookinfo-gateway-istio.default"
     else
         ingress_url="http://istio-ingressgateway.istio-system"
     fi

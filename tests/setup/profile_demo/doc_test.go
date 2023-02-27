@@ -37,5 +37,11 @@ func TestDocs(t *testing.T) {
 }
 
 func setupConfig(ctx resource.Context, cfg *istio.Config) {
-	cfg.ControlPlaneValues = "profile: demo"
+	cfg.ControlPlaneValues = `
+profile: demo
+values:
+  pilot:
+    env:
+      PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING: true
+`
 }

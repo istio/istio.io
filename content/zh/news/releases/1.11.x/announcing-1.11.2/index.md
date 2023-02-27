@@ -34,4 +34,3 @@ aliases:
 
 - **Fixed** 修复了 `DestinationRule` 更新不会触发 `AUTO_PASSTHROUGH` 网关上侦听器更新的问题。
   ([Issue #34944](https://github.com/istio/istio/issues/34944))
-

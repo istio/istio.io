@@ -70,7 +70,7 @@ spec:
       listener:
         filterChain:
           filter:
-            name: "envoy.http_connection_manager"
+            name: "envoy.filters.network.http_connection_manager"
             subFilter:
               name: "istio.stats"
     patch:
@@ -212,7 +212,7 @@ spec:
       listener:
         filterChain:
           filter:
-            name: "envoy.http_connection_manager"
+            name: "envoy.filters.network.http_connection_manager"
             subFilter:
               name: "istio.stats"
     patch:

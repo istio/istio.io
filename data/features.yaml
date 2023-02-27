@@ -267,6 +267,14 @@ features:
       maturity: Alpha
       nextExpectedPromotion: ""
     area: Security and policy enforcement
+  - name: "Copy JWT Claims to HTTP Headers"
+    id: "security.jwt_authentication"
+    link: "/docs/tasks/security/authentication/claim-to-header"
+    level:
+      checklist: features/claim_to_header.md
+      maturity: Experimental
+      nextExpectedPromotion: ""
+    area: Security and policy enforcement
   - name: "In-Cluster Operator"
     id: "core.in_cluster_operator"
     link: "/docs/setup/install/operator/"
@@ -335,7 +343,7 @@ features:
     level:
       checklist: features/ipv6-support.md
       maturity: Alpha
-      maturityNotes: Dual-stack IPv4 and IPv6 is not supported.
+      maturityNotes: Dual stack is experimental still.
       nextExpectedPromotion: ""
     area: Core
   - name: "Distroless Base Images for Istio"
@@ -359,22 +367,22 @@ features:
     link: "/docs/setup/install/helm/"
     level:
       checklist: features/helm_v3_support.md
-      maturity: Alpha
+      maturity: Beta
       nextExpectedPromotion: ""
     area: Core
   - name: "Revision Based Upgrade"
     link: "/docs/setup/upgrade/canary/"
     level:
       checklist: features/canary_based_revision_install.md
-      maturity: Alpha
+      maturity: Beta
       nextExpectedPromotion: ""
     area: Core
     id: "core.revision_based_upgrade"
   - name: "Revision Tags"
-    link: "/docs/setup/upgrade/canary/#stable-revision-labels-experimental"
+    link: "/docs/setup/upgrade/canary/#stable-revision-labels"
     level:
       checklist: features/revision_tags.md
-      maturity: Alpha
+      maturity: Beta
       nextExpectedPromotion: ""
     area: Core
     id: "core.revision_tags"
@@ -386,3 +394,11 @@ features:
       checklist: features/telemetry_api.md
       maturity: Experimental
       nextExpectedPromotion: "1.13"
+  - name: "Dual Stack Support in Istio"
+    id: "core.dual_stack"
+    level:
+      checklist: features/dual-stack-support.md
+      maturity: Experimental 
+      maturityNotes: Dual Stack IPv4 and IPv6 is supported.
+      nextExpectedPromotion: ""
+    area: Core

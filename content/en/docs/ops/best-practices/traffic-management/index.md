@@ -319,5 +319,3 @@ To make sure services will have zero down-time when configuring routes with subs
     1. Wait a few seconds for the `VirtualService` configuration to propagate to the Envoy sidecars.
 
     1. Update the `DestinationRule` to remove the unused subsets.
-
-

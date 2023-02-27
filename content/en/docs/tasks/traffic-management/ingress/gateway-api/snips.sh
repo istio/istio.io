@@ -21,12 +21,12 @@
 ####################################################################################################
 
 snip_setup_1() {
-kubectl get crd gateways.gateway.networking.k8s.io || \
-  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.6.0" | kubectl apply -f -; }
+kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
+  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.6.1" | kubectl apply -f -; }
 }
 
 snip_setup_2() {
-istioctl install --set profile=minimal -y
+istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --set profile=minimal -y
 }
 
 snip_configuring_a_gateway_1() {
@@ -154,6 +154,55 @@ spec:
 ...
 ENDSNIP
 
+! read -r -d '' snip_resource_attachment_and_scaling_1 <<\ENDSNIP
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: Gateway
+metadata:
+  name: gateway
+spec:
+  gatewayClassName: istio
+  listeners:
+  - name: default
+    hostname: "*.example.com"
+    port: 80
+    protocol: HTTP
+    allowedRoutes:
+      namespaces:
+        from: All
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: gateway
+spec:
+  # Match the generated Deployment by reference
+  # Note: Do not use `kind: Gateway`.
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: gateway-istio
+  minReplicas: 2
+  maxReplicas: 5
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: gateway
+spec:
+  minAvailable: 1
+  selector:
+    # Match the generated Deployment by label
+    matchLabels:
+      istio.io/gateway-name: gateway
+ENDSNIP
+
 ! read -r -d '' snip_manual_deployment_1 <<\ENDSNIP
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: Gateway
@@ -197,5 +246,5 @@ kubectl delete ns istio-ingress
 }
 
 snip_cleanup_2() {
-kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.6.0" | kubectl delete -f -
+kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.6.1" | kubectl delete -f -
 }

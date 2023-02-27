@@ -19,13 +19,14 @@ import (
 	"istio.io/istio.io/pkg/test/istioio"
 	"istio.io/istio/pkg/test/framework"
 	"istio.io/istio/pkg/test/framework/components/istio"
+	"istio.io/istio/pkg/test/framework/resource"
 )
 
 func TestMain(m *testing.M) {
 	// nolint: staticcheck
 	framework.
 		NewSuite(m).
-		Setup(istio.Setup(nil, nil)).
+		Setup(istio.Setup(nil, setupConfig)).
 		Run()
 }
 
@@ -33,4 +34,13 @@ func TestDocs(t *testing.T) {
 	framework.
 		NewTest(t).
 		Run(istioio.NewTestDocsFunc("profile=default"))
+}
+
+func setupConfig(ctx resource.Context, cfg *istio.Config) {
+	cfg.ControlPlaneValues = `
+values:
+  pilot:
+    env:
+      PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING: true
+`
 }

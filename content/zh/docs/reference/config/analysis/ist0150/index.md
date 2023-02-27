@@ -38,4 +38,3 @@ spec:
 
 - 如果您有一个服务类型为 ExternalName 并且服务协议为 TCP ，那么将端口重命名为 `<protocol>[-<suffix>]` 或者 `<protocol>` ，其中协议指的是 `https` 或者 `tls` 。想学得更多相关知识，
 请查看[显式协议选择](/zh/docs/ops/configuration/traffic-management/protocol-selection/#explicit-protocol-selection)文档。
-

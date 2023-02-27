@@ -613,7 +613,30 @@ No
 <td><code>meshMTLS</code></td>
 <td><code><a href="#MeshConfig-TLSConfig">TLSConfig</a></code></td>
 <td>
-<p>Configuration of mTLS for traffic between workloads within the mesh.</p>
+<p>The below configuration parameters can be used to specify TLSConfig for in-mesh and mesh-external TLS traffic.
+For example, a user could enable min TLS version for in-mesh traffic and specify a curve for mesh external traffic like below:
+meshConfig:
+meshMTLS:
+minProtocolVersion: TLSV1_3
+meshExternalTLS:
+ecdhCurves:
+- P-256
+- P-512</p>
+<p>Configuration of mTLS for traffic between workloads within the mesh.
+Mesh mTLS does not respect ECDH curves.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-mesh_external_TLS">
+<td><code>meshExternalTLS</code></td>
+<td><code><a href="#MeshConfig-TLSConfig">TLSConfig</a></code></td>
+<td>
+<p>Configuration of TLS for mesh external traffic(i.e. the traffic entering or leaving the mesh).
+This includes any TLS mode except ISTIO_MUTUAL mTLS. For ISTIO_MUTUAL settings, meshMTLS configuration should be used.
+Note: Mesh external does not respect min TLS version configured here currently.</p>
 
 </td>
 <td>
@@ -904,20 +927,6 @@ No
 No
 </td>
 </tr>
-<tr id="MeshConfig-ExtensionProvider-lightstep" class="oneof">
-<td><code>lightstep</code></td>
-<td><code><a href="#MeshConfig-ExtensionProvider-LightstepTracingProvider">LightstepTracingProvider (oneof)</a></code></td>
-<td>
-<p>Configures a Lightstep tracing provider.
-Note: For Istio 1.15+, configuring this provider will result in
-using an OpenTelemetryTracingProvider configured specially for
-Lightstep. This is part of the Lightstep transition to OpenTelemetry.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
 <tr id="MeshConfig-ExtensionProvider-datadog" class="oneof">
 <td><code>datadog</code></td>
 <td><code><a href="#MeshConfig-ExtensionProvider-DatadogTracingProvider">DatadogTracingProvider (oneof)</a></code></td>
@@ -1130,6 +1139,19 @@ set to TLS 1.2 (e.g., workloads using mTLS without sidecars), the
 minimum TLS version for clients may also be TLS 1.2.
 In the current Istio implementation, the maximum TLS protocol version
 is TLS 1.3.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-TLSConfig-ecdh_curves">
+<td><code>ecdhCurves</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>Optional: If specified, the TLS connection will only support the specified ECDH curves for the DH key exchange.
+If not specified, the default curves enforced by envoy will be used. For details about the default curves, refer to
+<a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/transport_sockets/tls/v3/common.proto">Ecdh Curves</a></p>
 
 </td>
 <td>
@@ -1594,6 +1616,18 @@ No
 <td>
 <p>Optional. Controls the overall path length allowed in a reported span.
 NOTE: currently only controls max length of the path tag.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-ZipkinTracingProvider-enable_64bit_trace_id">
+<td><code>enable64bitTraceId</code></td>
+<td><code>bool</code></td>
+<td>
+<p>Optional. A 128 bit trace id will be used in Istio.
+If true, will result in a 64 bit trace id being used.</p>
 
 </td>
 <td>

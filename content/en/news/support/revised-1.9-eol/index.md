@@ -12,4 +12,3 @@ Istio is [expanding](/blog/2021/extended-support/) the support window of the 1.9
 At that point we will stop back-porting fixes for security issues and critical bugs to 1.9, so we encourage you to upgrade to the latest version of Istio (1.11.1). If you don’t do this you may put yourself in the position of having to do a major upgrade on a short timeframe to pick up a critical fix.
 
 We care about you and your clusters, so please be kind to yourself and upgrade.
-

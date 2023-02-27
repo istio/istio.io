@@ -1,7 +1,11 @@
 ---
-title: 变更说明
-description: Istio 1.4 发行版说明.
+title: Istio 1.4 变更说明
+description: Istio 1.4 发行版说明。
+release: 1.4
+subtitle: 小规模发行
+linktitle: 1.4 变更说明
 weight: 10
+publishdate: 2019-11-14
 ---
 
 ## 流量管理{#traffic-management}
@@ -40,7 +44,7 @@ weight: 10
 
 ## 安装{#installation}
 
-- **新增了** 对 `Istio` 动态安装更新的实验性 [operator controller](/zh/docs/setup/install/standalone-operator/)。
+- **新增了** 对 `Istio` 动态安装更新的实验性 [operator controller](/zh/docs/setup/install/operator/)。
 - **移除了** `proxy_init` 镜像，`istio-init` 容器重新使用 `proxyv2` 镜像。
 - **更新了** 基础镜像为 `ubuntu:bionic`。
 

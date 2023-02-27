@@ -335,6 +335,9 @@ and installing the sidecar injector webhook configuration on the remote cluster 
           operatorManageWebhooks: true
           configValidation: false
           meshID: mesh1
+          multiCluster:
+            clusterName: ${REMOTE_CLUSTER_NAME}
+          network: network1
     EOF
     {{< /text >}}
 
@@ -521,6 +524,12 @@ See the [Istioctl-proxy Ecosystem project](https://github.com/istio-ecosystem/is
 
 #### Enable gateways
 
+{{< tip >}}
+{{< boilerplate gateway-api-future >}}
+If you use the Gateway API, you will not need to install any gateway components. You can
+skip the following instructions and proceed directly to [configure and test an ingress gateway](#configure-and-test-an-ingress-gateway).
+{{< /tip >}}
+
 Enable an ingress gateway on the remote cluster:
 
 {{< tabset category-name="ingress-gateway-install-type" >}}
@@ -597,32 +606,92 @@ See [Installing Gateways](/docs/setup/additional-setup/gateway/) for in-depth do
 {{< /tab >}}
 {{< /tabset >}}
 
-#### Test the ingress gateway
+#### Configure and test an ingress gateway
 
-1. Confirm that the Istio ingress gateway is running:
+{{< tip >}}
+{{< boilerplate gateway-api-choose >}}
+{{< /tip >}}
 
-    {{< text bash >}}
-    $ kubectl get pod -l app=istio-ingressgateway -n external-istiod --context="${CTX_REMOTE_CLUSTER}"
-    NAME                                    READY   STATUS    RESTARTS   AGE
-    istio-ingressgateway-7bcd5c6bbd-kmtl4   1/1     Running   0          8m4s
-    {{< /text >}}
+1. Make sure that the cluster is ready to configure the gateway:
 
-1. Expose the `helloworld` application on the ingress gateway:
+{{< tabset category-name="config-api" >}}
 
-    {{< text bash >}}
-    $ kubectl apply -f @samples/helloworld/helloworld-gateway.yaml@ -n sample --context="${CTX_REMOTE_CLUSTER}"
-    {{< /text >}}
+{{< tab name="Istio classic" category-value="istio-classic" >}}
 
-1. Set the `GATEWAY_URL` environment variable
-    (see [determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-  and-ports) for details):
+Confirm that the Istio ingress gateway is running:
 
-    {{< text bash >}}
-    $ export INGRESS_HOST=$(kubectl -n external-istiod --context="${CTX_REMOTE_CLUSTER}" get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-    $ export INGRESS_PORT=$(kubectl -n external-istiod --context="${CTX_REMOTE_CLUSTER}" get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].port}')
-    $ export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl get pod -l app=istio-ingressgateway -n external-istiod --context="${CTX_REMOTE_CLUSTER}"
+NAME                                    READY   STATUS    RESTARTS   AGE
+istio-ingressgateway-7bcd5c6bbd-kmtl4   1/1     Running   0          8m4s
+{{< /text >}}
 
-1. Confirm you can access the `helloworld` application through the ingress gateway:
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+The Kubernetes Gateway API CRDs do not come installed by default on most Kubernetes clusters, so make sure they are
+installed before using the Gateway API:
+
+{{< text syntax=bash snip_id=install_crds >}}
+$ kubectl get crd gateways.gateway.networking.k8s.io --context="${CTX_REMOTE_CLUSTER}" &> /dev/null || \
+  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref={{< k8s_gateway_api_version >}}" | kubectl apply -f - --context="${CTX_REMOTE_CLUSTER}"; }
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
+2) Expose the `helloworld` application on an ingress gateway:
+
+{{< tabset category-name="config-api" >}}
+
+{{< tab name="Istio classic" category-value="istio-classic" >}}
+
+{{< text bash >}}
+$ kubectl apply -f @samples/helloworld/helloworld-gateway.yaml@ -n sample --context="${CTX_REMOTE_CLUSTER}"
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text bash >}}
+$ kubectl apply -f @samples/helloworld/gateway-api/helloworld-gateway.yaml@ -n sample --context="${CTX_REMOTE_CLUSTER}"
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
+3) Set the `GATEWAY_URL` environment variable
+    (see [determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports) for details):
+
+{{< tabset category-name="config-api" >}}
+
+{{< tab name="Istio classic" category-value="istio-classic" >}}
+
+{{< text bash >}}
+$ export INGRESS_HOST=$(kubectl -n external-istiod --context="${CTX_REMOTE_CLUSTER}" get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+$ export INGRESS_PORT=$(kubectl -n external-istiod --context="${CTX_REMOTE_CLUSTER}" get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].port}')
+$ export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text bash >}}
+$ kubectl -n sample --context="${CTX_REMOTE_CLUSTER}" wait --for=condition=ready gtw helloworld-gateway
+$ export INGRESS_HOST=$(kubectl -n sample --context="${CTX_REMOTE_CLUSTER}" get gtw helloworld-gateway -o jsonpath='{.status.addresses[*].value}')
+$ export GATEWAY_URL=$INGRESS_HOST:80
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
+4) Confirm you can access the `helloworld` application through the ingress gateway:
 
     {{< text bash >}}
     $ curl -s "http://${GATEWAY_URL}/hello"

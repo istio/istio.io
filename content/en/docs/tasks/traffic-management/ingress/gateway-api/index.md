@@ -5,7 +5,7 @@ weight: 50
 aliases:
     - /docs/tasks/traffic-management/ingress/service-apis/
     - /latest/docs/tasks/traffic-management/ingress/service-apis/
-keywords: [traffic-management,ingress]
+keywords: [traffic-management,ingress, gateway-api]
 owner: istio/wg-networking-maintainers
 test: yes
 ---
@@ -28,7 +28,7 @@ You can even use the Gateway API, right from the start, by following the [future
 1. The Gateway APIs do not come installed by default on most Kubernetes clusters. Install the Gateway API CRDs if they are not present:
 
     {{< text bash >}}
-    $ kubectl get crd gateways.gateway.networking.k8s.io || \
+    $ kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
       { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref={{< k8s_gateway_api_version >}}" | kubectl apply -f -; }
     {{< /text >}}
 
@@ -222,6 +222,67 @@ These resources can be customized in a few ways:
 Note: only one address may be specified.
 
 * (Advanced) The generated Pod configuration can be configured by [Custom Injection Templates](/docs/setup/additional-setup/sidecar-injection/#custom-templates-experimental).
+
+#### Resource Attachment and Scaling
+
+{{< warning >}}
+Resource attachment is currently experimental.
+{{< /warning >}}
+
+Resources can be *attached* to a `Gateway` to customize it.
+However, most Kubernetes resources do not currently support attaching directly to a `Gateway`, but they can be attached to the corresponding generated `Deployment` and `Service` instead.
+This is easily done because both of these resources are generated with name `<gateway name>-<gateway class name>` and with a label `istio.io/gateway-name: <gateway name>`.
+
+For example, to deploy a `Gateway` with a `HorizontalPodAutoscaler` and `PodDisruptionBudget`:
+
+{{< text yaml >}}
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: Gateway
+metadata:
+  name: gateway
+spec:
+  gatewayClassName: istio
+  listeners:
+  - name: default
+    hostname: "*.example.com"
+    port: 80
+    protocol: HTTP
+    allowedRoutes:
+      namespaces:
+        from: All
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: gateway
+spec:
+  # Match the generated Deployment by reference
+  # Note: Do not use `kind: Gateway`.
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: gateway-istio
+  minReplicas: 2
+  maxReplicas: 5
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: gateway
+spec:
+  minAvailable: 1
+  selector:
+    # Match the generated Deployment by label
+    matchLabels:
+      istio.io/gateway-name: gateway
+{{< /text >}}
 
 ### Manual Deployment
 

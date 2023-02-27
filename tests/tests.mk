@@ -44,7 +44,7 @@ doc.test: init | $(JUNIT_REPORT)
 		2>&1 | tee >($(JUNIT_REPORT) > $(JUNIT_OUT))
 
 doc.test.help:
-	@echo "The command \"make doc.test\" accepts three optional environment variables."
+	@echo "The command \"make doc.test\" accepts two optional environment variables."
 	@echo -e "TEST: \n\tSpecify the test(s) to run using the directory path relative to content/en/docs. Default is all."
 	@echo -e "\tMultiple test names can be specified by separating them by commas."
 	@echo -e "TIMEOUT: \n\tSet the time limit exceeding which all tests will halt. Default is ${DEFAULT_TIMEOUT}."

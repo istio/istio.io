@@ -29,7 +29,7 @@ spec:
     meshMTLS:
       minProtocolVersion: TLSV1_3
 EOF
-istioctl install -f ./istio.yaml
+istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true -f ./istio.yaml
 }
 
 snip_check_the_tls_configuration_of_istio_workloads_1() {
@@ -63,5 +63,14 @@ Cipher is (NONE)
 ENDSNIP
 
 snip_cleanup_1() {
+kubectl delete -f samples/httpbin/httpbin.yaml -n foo
+kubectl delete -f samples/sleep/sleep.yaml -n foo
+}
+
+snip_cleanup_2() {
+istioctl uninstall --purge -y
+}
+
+snip_cleanup_3() {
 kubectl delete ns foo istio-system
 }

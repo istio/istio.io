@@ -119,4 +119,3 @@ In terms of CPU consumption per transaction, Istio has used significantly more C
 ## Conclusion
 
 In this investigation, we tried different options to access an external TLS-enabled MongoDB to compare their performance. The introduction of the Egress Gateway did not have a significant impact on the performance nor meaningful additional CPU consumption. Only when enabling mutual TLS between sidecars and egress gateway or using an additional SNI proxy for wildcarded domains we could observe some degradation.
-

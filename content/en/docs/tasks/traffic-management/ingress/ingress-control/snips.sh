@@ -22,7 +22,7 @@
 source "content/en/boilerplates/snips/gateway-api-support.sh"
 
 snip_before_you_begin_1() {
-istioctl install profile=minimal
+istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --set profile=minimal
 }
 
 snip_before_you_begin_2() {
@@ -36,8 +36,10 @@ kind: Gateway
 metadata:
   name: httpbin-gateway
 spec:
+  # The selector matches the ingress gateway pod labels.
+  # If you installed Istio using Helm following the standard documentation, this would be "istio=ingress"
   selector:
-    istio: ingressgateway # use Istio default gateway implementation
+    istio: ingressgateway
   servers:
   - port:
       number: 80
@@ -190,8 +192,10 @@ kind: Gateway
 metadata:
   name: httpbin-gateway
 spec:
+  # The selector matches the ingress gateway pod labels.
+  # If you installed Istio using Helm following the standard documentation, this would be "istio=ingress"
   selector:
-    istio: ingressgateway # use Istio default gateway implementation
+    istio: ingressgateway
   servers:
   - port:
       number: 80

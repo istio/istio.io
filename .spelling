@@ -24,6 +24,10 @@ _v3_
 1.14.x
 1.15.x
 1.16.x
+1.17.x
+1.23.x
+1.24.x
+1.25.x
 1.2.x
 1.2.x.
 1.3.x
@@ -105,9 +109,11 @@ allow_missing
 allowlist
 alt
 Amalgam8
+Ameer
 analytics
 Anantheswaran
 ANDed
+Angaluri
 Ansari
 Ansible
 Ant
@@ -186,8 +192,10 @@ camelCase
 canaried
 canarying
 CAs
+Cale
 CDNs
 CentOS
+Cernich
 checksum
 Chrony
 Ciążyński
@@ -195,10 +203,13 @@ CIDRs
 Cilium
 CIOs
 Circonus
+Cleartext
 cli
+CloudNativeCon
 CloudWatch
 cluster1
 cluster2
+CNCF-hosted
 CNI
 cnn.com
 codec
@@ -308,6 +319,7 @@ CVE-2022-31045
 CVE-2022-39278
 CVE-2022-39388
 CVE-2022-41715
+CVE-2022-41721
 cves
 CVEs
 cvss
@@ -341,6 +353,7 @@ dev
 devirtualization
 Devirtualization
 devops
+devstats
 Dhir
 discoverability
 discuss.istio.io
@@ -356,6 +369,7 @@ docker.io
 dogfood
 Dorosh
 double-tls
+downloader
 Dropdown
 Drucker
 dual-stack
@@ -390,6 +404,7 @@ Ezequiel
 facto
 failover
 failovers
+Faseela
 faq
 faq.md
 Fawad
@@ -409,7 +424,7 @@ FQDN
 FQDNs
 frontend
 frontends
-Faseela
+fuzzers
 gamified
 gapped
 GatewayClass
@@ -437,6 +452,7 @@ grafana-istio-dashboard
 Graphviz
 grpc
 gRPC
+h2c
 Haidian
 Harvey
 Hashicorp
@@ -528,6 +544,7 @@ IstioBirthday
 IstioCon
 istioctl
 istiod
+istioday
 Istiod
 Istiofied
 IstioMesh
@@ -537,6 +554,7 @@ iter8
 Jannot
 jason
 Jeet
+Jianpeng
 Jog
 Joglekar
 Jonh
@@ -550,11 +568,15 @@ JWT
 JWT_RULE
 jwt.io
 JWTs
+k3d
+k3s
 k6
 k8s
 Kafka
 katacoda
 Kaul
+Kebe
+keepalive
 Keepalived
 Kenan
 key.pem
@@ -578,6 +600,7 @@ kubeconfig
 kubectl
 kubelet
 Kubelet
+kubelogin
 Kubernetes
 kubernetes.default
 KubeSphere
@@ -605,6 +628,7 @@ LoadBalancer
 loadimpact
 localhost
 log_output_level
+Logics
 lookups
 loopback
 Lua
@@ -666,6 +690,7 @@ namespace
 namespaced
 namespaces
 Naser
+Nassi
 natively
 Neeraj
 netfilter
@@ -719,6 +744,7 @@ operationalize
 operationalizes
 optname
 OS-level
+OSS-Fuzz
 Ostrowski
 otel-collector
 outsized
@@ -890,6 +916,7 @@ SPIFFE-compliant
 Splunk
 src
 SREs
+Srihari
 Srinath
 Stackdriver
 Standard_D4ds_v5
@@ -982,6 +1009,7 @@ URIs
 url
 user
 user1
+usergroup
 userId
 UTF-8
 v0.14.0

@@ -253,5 +253,3 @@ metadata:
     1. 等待几秒钟，使 `VirtualService` 配置传播到 Envoy sidecar。
 
     1. 更新 `DestinationRule` 以删除未使用的子集。
-
-

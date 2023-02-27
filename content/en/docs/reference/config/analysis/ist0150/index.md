@@ -38,4 +38,3 @@ In this example, the port name `tcp` follows the syntax: `name: <protocol>`. How
 
 - If you have an ExternalName service type, and the protocol is TCP, rename the port to `<protocol>[-<suffix>]` or `<protocol>` where protocol is `https` or `tls`. To learn more, review
 docs on [explicit protocol selection](/docs/ops/configuration/traffic-management/protocol-selection/#explicit-protocol-selection).
-

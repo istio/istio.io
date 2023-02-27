@@ -4,7 +4,7 @@ description: 通过先运行一个金丝雀部署的新控制平面升级 Istio�
 weight: 10
 keywords: [kubernetes,upgrading,canary]
 owner: istio/wg-environments-maintainers
-test: no
+test: yes
 ---
 
 通过先运行一个金丝雀部署的新控制平面来完成 Istio 的升级，从而允许您在将所有流量迁移到新版本之前以一小部分工作负载监视升级的效果，这比 [就地升级](/zh/docs/setup/upgrade/in-place/) 要安全的多，这也是推荐的升级方法。
@@ -41,16 +41,16 @@ $ istioctl install --set revision=canary
 
 {{< text bash >}}
 $ kubectl get pods -n istio-system -l app=istiod
-NAME                                    READY   STATUS    RESTARTS   AGE
-istiod-786779888b-p9s5n                 1/1     Running   0          114m
-istiod-canary-6956db645c-vwhsk          1/1     Running   0          1m
+NAME                             READY   STATUS    RESTARTS   AGE
+istiod-1-9-5-bdf5948d5-htddg     1/1     Running   0          47s
+istiod-canary-84c8d4dcfb-skcfv   1/1     Running   0          25s
 {{< /text >}}
 
 {{< text bash >}}
 $ kubectl get svc -n istio-system -l app=istiod
-NAME            TYPE        CLUSTER-IP    EXTERNAL-IP   PORT(S)                                                AGE
-istiod          ClusterIP   10.32.5.247   <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP                  33d
-istiod-canary   ClusterIP   10.32.6.58    <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP,53/UDP,853/TCP   12m
+NAME            TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)                                 AGE
+istiod-1-9-5    ClusterIP   10.96.93.151     <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP   109s
+istiod-canary   ClusterIP   10.104.186.250   <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP   87s
 {{< /text >}}
 
 您还将看到包括新版本在内的两个 Sidecar 注入配置。
@@ -58,28 +58,16 @@ istiod-canary   ClusterIP   10.32.6.58    <none>        15010/TCP,15012/TCP,443/
 {{< text bash >}}
 $ kubectl get mutatingwebhookconfigurations
 NAME                            WEBHOOKS   AGE
-istio-sidecar-injector          1          7m56s
-istio-sidecar-injector-canary   1          3m18s
+istio-sidecar-injector-1-9-5    2          2m16s
+istio-sidecar-injector-canary   2          114s
 {{< /text >}}
-
-{{< warning >}}
-由于在安装过程中创建 `ValidatingWebhookConfiguration` 时存在 [一个BUG](https://github.com/istio/istio/issues/28880)，因此初始安装 Istio __不能__ 指定修订版本。作为临时的解决方法，为使 Istio 资源验证在删除未经修订的 Istio 安装后继续工作，`istiod` 必须将 Service 手动指向应处理验证的修订版本。
-
-实现此目的的一种方法是 `istiod` 使用 [此 Service]({{< github_blob >}}/manifests/charts/istio-control/istio-discovery/templates/service.yaml) 作为模版来手动创建一个名为 istiod 的 Service，指向目标修订。另一个选择是运行以下命令，其中 `<REVISION>` 是应处理验证的修订的名称。此命令创建一个 `istiod` Service 来指向目标修订版本。
-
-{{< text bash >}}
-$ kubectl get service -n istio-system -o json istiod-<REVISION> | jq '.metadata.name = "istiod" | del(.spec.clusterIP) | del(.spec.clusterIPs)' | kubectl apply -f -
-{{< /text >}}
-
-{{</ warning >}}
 
 ## 数据平面 {#data-plane}
 
-与 Istiod 不同，Istio Gateway 不运行特定修订版本的实例，而是就地升级以使用新的控制平面修订版本。
-您可以通过运行以下命令来验证 `istio-ingress` Gateway 是否正在使用 `canary` 修订版本：
+请参阅 [网关金丝雀升级](/zh/docs/setup/additional-setup/gateway/#canary-upgrade-advanced)，以了解如何运行 Istio Gateway 的特定修订版本的实例。在此示例中，由于我们使用了 `default` Istio 配置文件，因此 Istio 网关不运行特定修订版本的实例，而是就地升级以使用新的控制平面修订版本。您可以通过运行以下命令来验证 `istio-ingress` Gateway 是否正在使用 `canary` 修订版本：
 
 {{< text bash >}}
-$ istioctl proxy-status | grep $(kubectl -n istio-system get pod -l app=istio-ingressgateway -o jsonpath='{.items..metadata.name}') | awk '{print $8}'
+$ istioctl proxy-status | grep "$(kubectl -n istio-system get pod -l app=istio-ingressgateway -o jsonpath='{.items..metadata.name}')" | awk '{print $10}'
 istiod-canary-6956db645c-vwhsk
 {{< /text >}}
 
@@ -104,6 +92,94 @@ $ istioctl proxy-status | grep "\.test-ns "
 {{< /text >}}
 
 输出会展示命名空间下所有正在使用修订版本的 Pod。
+
+## 稳定修订标签 {#stable-revision-labels}
+
+{{< tip >}}
+如果您正在使用 Helm, 请参考 [Helm 升级文档](/zh/docs/setup/upgrade/helm).
+{{</ tip >}}
+
+{{< boilerplate revision-tags-preamble >}}
+
+### 用法 {#usage}
+
+{{< boilerplate revision-tags-usage >}}
+
+1. 安装两套修订版本的控制平面：
+
+    {{< text bash >}}
+    $ istioctl install --revision=1-9-5 --set profile=minimal --skip-confirmation
+    $ istioctl install --revision=1-10-0 --set profile=minimal --skip-confirmation
+    {{< /text >}}
+
+1. 创建 `stable`和 `canary` 修订版本标签，将其与各自的修订相关联:
+
+    {{< text bash >}}
+    $ istioctl tag set prod-stable --revision 1-9-5
+    $ istioctl tag set prod-canary --revision 1-10-0
+    {{< /text >}}
+
+1. 为应用命名空间打标签，将其与各自的修订版本相关联：
+
+    {{< text bash >}}
+    $ kubectl create ns app-ns-1
+    $ kubectl label ns app-ns-1 istio.io/rev=prod-stable
+    $ kubectl create ns app-ns-2
+    $ kubectl label ns app-ns-2 istio.io/rev=prod-stable
+    $ kubectl create ns app-ns-3
+    $ kubectl label ns app-ns-3 istio.io/rev=prod-canary
+    {{< /text >}}
+
+1. 在每个命名空间中部署一个休眠 pod 示例:
+
+    {{< text bash >}}
+    $ kubectl apply -n app-ns-1 -f samples/sleep/sleep.yaml
+    $ kubectl apply -n app-ns-2 -f samples/sleep/sleep.yaml
+    $ kubectl apply -n app-ns-3 -f samples/sleep/sleep.yaml
+    {{< /text >}}
+
+1. 使用 `istioctl proxy-status` 命令验证应用程序与控制平面的映射:
+
+    {{< text bash >}}
+    $ istioctl ps
+    NAME                                CLUSTER        CDS        LDS        EDS        RDS        ECDS         ISTIOD                             VERSION
+    sleep-78ff5975c6-62pzf.app-ns-3     Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-1-10-0-7f6fc6cfd6-s8zfg     1.16.1
+    sleep-78ff5975c6-8kxpl.app-ns-1     Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-1-9-5-bdf5948d5-n72r2       1.16.1
+    sleep-78ff5975c6-8q7m6.app-ns-2     Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-1-9-5-bdf5948d5-n72r2       1.16.1
+    {{< /text >}}
+
+{{< boilerplate revision-tags-middle >}}
+
+{{< text bash >}}
+$ istioctl tag set prod-stable --revision 1-10-0 --overwrite
+{{< /text >}}
+
+{{< boilerplate revision-tags-prologue >}}
+
+{{< text bash >}}
+$ kubectl rollout restart deployment -n app-ns-1
+$ kubectl rollout restart deployment -n app-ns-2
+{{< /text >}}
+
+使用 `istioctl proxy-status` 命令验证应用程序与控制平面的映射:
+
+{{< text bash >}}
+$ istioctl ps
+NAME                                                   CLUSTER        CDS        LDS        EDS        RDS          ECDS         ISTIOD                             VERSION
+sleep-5984f48bc7-kmj6x.app-ns-1                        Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-1-10-0-7f6fc6cfd6-jsktb     1.16.1
+sleep-78ff5975c6-jldk4.app-ns-3                        Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-1-10-0-7f6fc6cfd6-jsktb     1.16.1
+sleep-7cdd8dccb9-5bq5n.app-ns-2                        Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-1-10-0-7f6fc6cfd6-jsktb     1.16.1
+{{< /text >}}
+
+### 默认版本 {#default-tag}
+
+{{< boilerplate revision-tags-default-intro >}}
+
+{{< text bash >}}
+$ istioctl tag set default --revision 1-10-0
+{{< /text >}}
+
+{{< boilerplate revision-tags-default-outro >}}
 
 ## 卸载旧的控制平面 {#uninstall-old-control-plane}
 
@@ -138,3 +214,17 @@ istiod-canary-55887f699c-t8bh8   1/1     Running   0          27m
 {{< tip >}}
 确保使用与 `istioctl` 旧控制平面相对应的版本来重新安装旧网关，并且为避免停机，请确保旧网关已启动并正在运行，然后再进行金丝雀卸载。
 {{< /tip >}}
+
+## 清理{#cleanup}
+
+1. 清理用于金丝雀升级的命名空间与修订标签的例子：
+
+    {{< text bash >}}
+    $ kubectl delete ns istio-system test-ns
+    {{< /text >}}
+
+1. 清理用于金丝雀升级的命名空间与修订版本标签的例子：
+
+    {{< text bash >}}
+    $ kubectl delete ns istio-system app-ns-1 app-ns-2 app-ns-3
+    {{< /text >}}

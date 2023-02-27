@@ -27,7 +27,7 @@ export IN_BUILD_CONTAINER := $(IN_BUILD_CONTAINER)
 
 # ISTIO_IMAGE_VERSION stores the prefix used by default for the Docker images for Istio.
 # For example, a value of 1.6-alpha will assume a default TAG value of 1.6-dev.<SHA>
-ISTIO_IMAGE_VERSION ?= 1.17-alpha
+ISTIO_IMAGE_VERSION ?= 1.18-alpha
 export ISTIO_IMAGE_VERSION
 
 # Determine the SHA for the Istio dependency by parsing the go.mod file.
@@ -116,6 +116,9 @@ lint-en: clean_public build_nominify lint-copyright-banner lint-python lint-yaml
 	@scripts/lint_site.sh en
 
 lint-fast: clean_public build_nominify lint-copyright-banner lint-python lint-yaml lint-dockerfiles lint-scripts lint-sass lint-typescript lint-go
+	@SKIP_LINK_CHECK=true scripts/lint_site.sh en
+
+lint-md: clean_public build_nominify
 	@SKIP_LINK_CHECK=true scripts/lint_site.sh en
 
 serve: site
