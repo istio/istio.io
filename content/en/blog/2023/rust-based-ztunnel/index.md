@@ -50,7 +50,7 @@ Envoy proxies use the [xDS Protocol for configuration](https://www.envoyproxy.io
 
 To keep ztunnel configuration as small as possible, we investigated using a purpose built configuration protocol, that contains precisely the information we need (and nothing more), in an efficient format. For example, a single pod could be represented concisely:
 
-{{< text plaintext >}}
+{{< text yaml >}}
 name: helloworld-v1-55446d46d8-ntdbk
 namespace: default
 serviceAccount: helloworld
