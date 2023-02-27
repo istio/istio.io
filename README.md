@@ -205,7 +205,7 @@ to a new location, so they're not desirable for brand new content.
 a French translation. This file contains the text that is displayed by the site infrastructure for things like menus, and other
 standard material.
 
-- Edit the file `config.toml` to list your new language. Search for the `[languages]` entry and just add a new entry. This
+- Edit the file `hugo.toml` to list your new language. Search for the `[languages]` entry and just add a new entry. This
 tells the Hugo site generator to process your content.
 
 - Edit the file `scripts/lint_site.sh` and search for `check_content`. Add another call to `check_content` for your
