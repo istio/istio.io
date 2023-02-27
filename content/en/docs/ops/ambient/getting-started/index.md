@@ -6,7 +6,7 @@ weight: 1
 owner: istio/wg-networking-maintainers
 test: n/a
 ---
-{{ warning }}
+{{< warning >}}
 Ambient is currently in alpha status, not intended for production use.
 {{ /warning }}
 
