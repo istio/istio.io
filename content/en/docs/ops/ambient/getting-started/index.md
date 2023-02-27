@@ -125,7 +125,7 @@ If you follow the instructions to install [Prometheus](/docs/ops/integrations/pr
 and [Kiali](/docs/ops/integrations/kiali/#installation), you’ll be able to visualize your application
 in Kiali’s dashboard:
 
-{{< image link="./kiali-ambient.png" caption="Kiali Dashboard" >}}
+{{< image link="./kiali-ambient-bookinfo.png" caption="Kiali dashboard" >}}
 
 ## Secure Application Access {#secure}
 
