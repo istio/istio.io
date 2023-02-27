@@ -121,7 +121,7 @@ $ kubectl exec deploy/notsleep -- curl -s http://productpage:9080/ | head -n10
 {{< /text >}}
 
 You’ll immediately gain mTLS communication and L4 telemetry among the applications in the Ambient mesh.
-Follow the instructions to install [Prometheus](/docs/ops/integrations/prometheus/#installation)
+If you follow the instructions to install [Prometheus](/docs/ops/integrations/prometheus/#installation)
 and [Kiali](/docs/ops/integrations/kiali/#installation), you’ll be able to visualize your application
 in Kiali’s dashboard:
 
