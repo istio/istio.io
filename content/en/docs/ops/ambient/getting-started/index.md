@@ -29,7 +29,7 @@ Follow these steps to get started with ambient:
 ## Download and install {#download}
 
 1.  Download the [alpha version of Istio](https://github.com/istio/istio/wiki/Dev-Builds) with support for ambient mesh.
-    If you don’t have a Kubernetes cluster, you can set up using
+    If you don’t have a Kubernetes cluster, you can set up
     locally (e.g. using kind as below) or deploy one in Google or AWS Cloud:
 
     {{< text bash >}}
