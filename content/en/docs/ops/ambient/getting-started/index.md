@@ -187,7 +187,7 @@ resource with `Ready` status:
 $ kubectl get gtw bookinfo-productpage -o yaml
 {{< /text >}}
 
-Verify that the waypoing proxy status is ready:
+Verify that the waypoint proxy status is ready:
 
 {{< text plaintext >}}
 ...
