@@ -196,6 +196,7 @@ Cale
 CDNs
 CentOS
 Cernich
+cgroups
 checksum
 Chrony
 Ciążyński
@@ -229,6 +230,8 @@ ConfigMap
 configmaps
 configurability
 containerID
+Containerd
+Containers
 ControlZ
 CoreDNS
 coreos
@@ -573,6 +576,7 @@ k3s
 k6
 k8s
 Kafka
+Kata
 katacoda
 Kaul
 Kebe
@@ -597,6 +601,7 @@ kube-proxy
 kubebuilder
 KubeCon
 kubeconfig
+kubeadm
 kubectl
 kubelet
 Kubelet
@@ -863,6 +868,7 @@ RPC
 RPCs
 runtime
 runtimes
+RuntimeClass
 sa
 Salesforce
 sandboxed
