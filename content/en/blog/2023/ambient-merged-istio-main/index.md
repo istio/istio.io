@@ -6,7 +6,7 @@ attribution: "John Howard (Google), Lin Sun (Solo.io)"
 keywords: [istio,ambient]
 ---
 
-Istio ambient service mesh was [launched in Sept 2022](/blog/2022/introducing-ambient-mesh/) in an experimental branch, introducing a new data plane mode for Istio without sidecars. Through collaboration with the Istio community, across Google, Solo.io, Microsoft, Intel, Aviatrix, Huawei, IBM and others, we are excited to announce that Istio ambient mesh has graduated from the experimental branch and merged to Istio’s main branch! This is a significant milestone for ambient mesh, paving the way for releasing ambient in Istio 1.18 and becoming the default in Istio’s future releases.
+Istio ambient service mesh was [launched in Sept 2022](/blog/2022/introducing-ambient-mesh/) in an experimental branch, introducing a new data plane mode for Istio without sidecars. Through collaboration with the Istio community, across Google, Solo.io, Microsoft, Intel, Aviatrix, Huawei, IBM and others, we are excited to announce that Istio ambient mesh has graduated from the experimental branch and merged to Istio’s main branch! This is a significant milestone for ambient mesh, paving the way for releasing ambient in Istio 1.18 and installing it by default in Istio’s future releases.
 
 ## Major Changes from the Initial Launch
 
