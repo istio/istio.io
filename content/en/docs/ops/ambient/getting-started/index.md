@@ -73,6 +73,10 @@ without Istio. This means you can have your applications running in your Kuberne
 you enable ambient mesh, and have them join the mesh without needing to restart or
 reconfigure your applications.
 
+{{< warning >}}
+Make sure the default namespace does not include the label `istio-injection=enabled` because when using ambient you do not want Istio to inject sidecars into the application pods.
+{{< /warning >}}
+
 {{< text bash >}}
 $ kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
 $ kubectl apply -f samples/sleep/sleep.yaml
