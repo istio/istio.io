@@ -28,6 +28,7 @@ for ztunnel, which you will learn more about soon.
     link="ztunnel-architecture.png"
     caption="Ztunnel architecture"
     >}}
+
 ## Why not reuse Envoy?
 
 When Istio ambient service mesh was announced on Sept 7, 2022, the ztunnel was implemented using Envoy proxy. Given that we use Envoy for the rest of Istio - sidecars, gateways, and waypoint proxies - it was natural for us to start implementing ztunnel using Envoy.
@@ -88,7 +89,7 @@ This process of elimination left us with Rust, which was a perfect fit. Rust has
 
 ### Workload xDS configuration
 
-The workload xDS configurations are very easy to understand and debug. You can view them by sending a request to `localhost:15000/config_dump` from one of your ztunnel pods, or use the convenient `istioctl pc workload` command. There are two key workload xDS configurations: workloads and policies. 
+The workload xDS configurations are very easy to understand and debug. You can view them by sending a request to `localhost:15000/config_dump` from one of your ztunnel pods, or use the convenient `istioctl pc workload` command. There are two key workload xDS configurations: workloads and policies.
 
 Before your workloads are included in your ambient mesh, you will still be able to see them in ztunnel’s config dump, as ztunnel is aware of all of the workloads regardless of whether they are ambient enabled or not. For example, below contains a sample workload configuration for a newly deployed helloworld v1 pod which is out-of-mesh indicated by `protocol: TCP`:
 
@@ -143,14 +144,14 @@ After you deploy any workload level authorization policy, the policy configurati
 You’ll also notice the workload's configuration is updated with reference to the authorization policy.
 
 {{< text plaintext >}}
-  "workloads": {
+"workloads": {
     "10.244.2.8": {
     "workloadIp": "10.244.2.8",
     …
     "authorizationPolicies": [
-            "default/hw-viewer"
-      ],
-    },
+        "default/hw-viewer"
+    ],
+},
 {{< /text >}}
 
 ### L4 telemetry provided by ztunnel
