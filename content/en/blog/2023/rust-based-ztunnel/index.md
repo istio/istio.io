@@ -10,7 +10,7 @@ The ztunnel (<strong>z</strong>ero <strong>t</strong>rust t<strong>unnel</strong
 
 Because ztunnel is designed to run on all of your Kubernetes worker nodes, it is critical to keep its resource footprint small. ztunnel is designed to be transparently part of your service mesh with minimal impact to your workloads.
 
-## Ztunnel Architecture
+## Ztunnel architecture
 
 Similar to sidecars, ztunnel also serves as an xDS client and CA client:
 
@@ -24,6 +24,10 @@ for ztunnel, which you will learn more about soon.
 1. As traffic comes in or goes out, it serves as a core proxy that handles the inbound and outbound traffic (either out-of-mesh plain text or in-mesh HBONE) for all co-located workloads it manages.
 1. It provides L4 telemetry (metrics and logs) along with an admin server with debugging information to help you debug ztunnel if needed.
 
+{{< image width="100%"
+    link="ztunnel-architecture.png"
+    caption="Ztunnel architecture"
+    >}}
 ## Why not reuse Envoy?
 
 When Istio ambient service mesh was announced on Sept 7, 2022, the ztunnel was implemented using Envoy proxy. Given that we use Envoy for the rest of Istio - sidecars, gateways, and waypoint proxies - it was natural for us to start implementing ztunnel using Envoy.
@@ -39,7 +43,7 @@ This purpose-built ztunnel involved two key areas:
 * The configuration protocol between ztunnel and its Istiod
 * The runtime implementation of ztunnel
 
-### Configuration Protocol
+### Configuration protocol
 
 Envoy proxies use the [xDS Protocol for configuration](https://www.envoyproxy.io/docs/envoy/latest/api-docs/xds_protocol). This is a key part of what makes Istio work well, offering rich and dynamic configuration updates. However, as we tread of the beaten path, the config becomes more and more bespoke, which means it's much larger and more expensive to generate. In a sidecar, a single Service with 1 pod, generates roughly ~350 lines of xDS (in YAML), which already has been challenging to scale. The Envoy-based ztunnel was far worse, and in some areas had N^2 scaling attributes.
 
@@ -66,13 +70,13 @@ By having a purpose built API, we can push logic into the proxy instead of in En
 
 With this efficient API between Istiod and ztunnel, we found we could configure ztunnels with information about large meshes (such as those with 100,000 pods) with orders of magnitude less configuration, which means less CPU, memory, and network costs.
 
-### Runtime Implementation
+### Runtime implementation
 
 As the name suggests, ztunnel uses an [HTTPS tunnel](/blog/2022/introducing-ambient-mesh/#building-an-ambient-mesh) to carry users requests. While Envoy supports this tunneling, we found the configuration model limiting for our needs. Roughly speaking, Envoy operates by sending requests through a series of "filters", starting with accepting a request and ending with sending a request. With our requirements, which have multiple layers of requests (the tunnel itself and the users' requests), as well as a need to apply per-pod policy after load balancing, we found we would need to loop through these filters 4 times per connection when implementing our prior Envoy-based ztunnel. While Envoy has [some optimizations](https://www.envoyproxy.io/docs/envoy/latest/configuration/other_features/internal_listener) for essentially "sending a request to itself" in memory, this was still very complex and expensive.
 
 By building out our own implementation, we could design around these constraints from the ground up. In addition, we have more flexibility in all aspects of the design. For example, we could choose to share connections across threads or implement more bespoke requirements around isolation between service accounts. After establishing that a purpose built proxy was viable, we set out to choose the implementation details.
 
-#### A Rust-Based ztunnel
+#### A Rust-based ztunnel
 
 With the goal to make ztunnel fast, secure, and lightweight, [Rust](https://www.rust-lang.org/) was an obvious choice. However, it wasn't our first. Given Istio's current extensive usage of Go, we had hoped we could make a Go-based implementation meet these goals. In initial prototypes, we built out some simple versions of both a Go-based implementation as well as a Rust-based one. From our tests, we found that the Go-based version didn't meet our performance and footprint requirements. While it's likely we could have optimized it further, we felt that a Rust-based proxy would give us the long-term optimal implementation.
 
@@ -80,7 +84,7 @@ A C++ implementation -- likely reusing parts of Envoy -- was also considered. Ho
 
 This process of elimination left us with Rust, which was a perfect fit. Rust has a strong history of success in high performance, low resource utilization applications, especially in network applications (including service mesh). We chose to build on top of the [Tokio](https://tokio.rs/) and [Hyper](https://hyper.rs/) libraries, two of the de-facto standards in the ecosystem that are extensively battle-tested and easy to write highly performant async code with.
 
-## A Quick Tour of the Rust-Based Ztunnel
+## A quick tour of the Rust-based ztunnel
 
 ### Workload xDS configuration
 
@@ -149,7 +153,7 @@ You’ll also notice the workload's configuration is updated with reference to t
     },
 {{< /text >}}
 
-### L4 Telemetry provided by ztunnel
+### L4 telemetry provided by ztunnel
 
 You may be pleasantly surprised that the ztunnel logs are easy to understand. For example, you’ll see the HTTP Connect request on the destination ztunnel that indicates the source pod IP (`peer_ip`) and destination pod IP.
 
@@ -178,7 +182,7 @@ If you install Prometheus and Kiali, you can view these metrics easily from Kial
 
 {{< image width="100%"
     link="kiali-ambient.png"
-    caption="Kiali Dashboard - L4 Telemetry provided by ztunnel"
+    caption="Kiali dashboard - L4 telemetry provided by ztunnel"
     >}}
 
 ## Wrapping up
