@@ -8,7 +8,7 @@ test: n/a
 ---
 {{< warning >}}
 Ambient is currently in alpha status, not intended for production use.
-{{ /warning }}
+{{< /warning >}}
 
 This guide lets you quickly evaluate Istio ambient service mesh. These steps require you to have
 a {{< gloss >}}cluster{{< /gloss >}} running a
