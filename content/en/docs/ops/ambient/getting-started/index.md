@@ -110,7 +110,7 @@ $ kubectl label namespace default istio.io/dataplane-mode=ambient
 {{< /text >}}
 
 Congratulations! You have successfully added all pods in the default namespace
-to the ambient mesh. The best part is that there is no need to restart or redeploy anything!
+to the ambient mesh. The best part is that there was no need to restart or redeploy anything!
 
 Send some test traffic:
 
