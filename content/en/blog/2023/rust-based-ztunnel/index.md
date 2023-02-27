@@ -83,7 +83,7 @@ With the goal to make ztunnel fast, secure, and lightweight, [Rust](https://www.
 
 A C++ implementation -- likely reusing parts of Envoy -- was also considered. However, this option was not pursued due to lack of memory safety, developer experience concerns, and a general industry trend towards Rust.
 
-This process of elimination left us with Rust, which was a perfect fit. Rust has a strong history of success in high performance, low resource utilization applications, especially in network applications (including service mesh). We chose to build on top of the [Tokio](https://tokio.rs/) and [Hyper](https://hyper.rs/) libraries, two of the de-facto standards in the ecosystem that are extensively battle-tested and easy to write highly performant async code with.
+This process of elimination left us with Rust, which was a perfect fit. Rust has a strong history of success in high performance, low resource utilization applications, especially in network applications (including service mesh). We chose to build on top of the [Tokio](https://tokio.rs/) and [Hyper](https://hyper.rs/) libraries, two of the de-facto standards in the ecosystem that are extensively battle-tested and easy to write highly performant asynchronous code with.
 
 ## A quick tour of the Rust-based ztunnel
 
