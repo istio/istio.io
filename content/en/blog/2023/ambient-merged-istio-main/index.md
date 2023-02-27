@@ -15,7 +15,7 @@ Ambient mesh is designed for simplified operations, broader application compatib
 * The ztunnel component has been rewritten from the ground up to be fast, secure, and lightweight. Refer to the “Introducing Rust-Based Ztunnel for Istio Ambient Service Mesh” blog for more information.
 * We made significant changes to simplify waypoint proxy’s configuration to improve its debuggability and performance. We’ll cover this in a future blog soon.
 * Added the `istioctl x waypoint` command to help you conveniently deploy waypoint proxies, along with the `istioctl pc workload` to help you view workloads information.
-* The ability to explicitly bind Istio policies such as AuthorizationPolicy to waypoint proxies vs selecting the destination workload.
+* We gave user the ability to explicitly bind Istio policies such as AuthorizationPolicy to waypoint proxies vs selecting the destination workload.
 
 ## Get involved
 
