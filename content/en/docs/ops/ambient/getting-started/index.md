@@ -258,4 +258,26 @@ $ kubectl exec -it deploy/sleep -- sh -c 'for i in $(seq 1 100); do curl -s http
 {{< /text >}}
 
 ## Uninstall {#uninstall}
-Refer to our [uninstall instruction](/docs/setup/getting-started/#uninstall) to uninstall Istio and bookinfo sample application.
+
+To delete the Bookinfo sample application and its configuration, see [`Bookinfo` cleanup](/docs/examples/bookinfo/#cleanup).
+
+To remove the `sleep` and `notsleep` applications:
+
+{{< text bash >}}
+$ kubectl delete -f samples/sleep/sleep.yaml
+$ kubectl delete -f https://raw.githubusercontent.com/linsun/sample-apps/main/sleep/notsleep.yaml
+{{< /text >}}
+
+To remove the `productpage-viewer` authorization policy and uninstall Istio:
+
+{{< text bash >}}
+$ kubectl delete authorizationpolicy productpage-viewer
+$ istioctl uninstall -y --purge
+$ kubectl delete namespace istio-system
+{{< /text >}}
+
+The label to instruct Istio to automatically include applications in the `default` namespace to ambient mesh is not removed by default. If no longer needed, use the following command to remove it:
+
+{{< text bash >}}
+$ kubectl label namespace default istio.io/dataplane-mode-
+{{< /text >}}
