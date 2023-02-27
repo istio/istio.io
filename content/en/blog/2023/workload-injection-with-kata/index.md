@@ -56,7 +56,7 @@ Please refer to [Kata Containers installation guides](https://github.com/kata-co
 
 ### Configure Containerd correctly
 
-This content is included in [Configuration Containerd to use Kata Containers](https://github.com/kata-containers/kata-containers/blob/main/docs/how-to/containerd-kata.md#configuration), however, I just want to simply the `plugins` section configuration for Containerd by using [RuntimeClass](https://kubernetes.io/docs/concepts/containers/runtime-class/) as below:
+This content is included in [Configuration Containerd to use Kata Containers](https://github.com/kata-containers/kata-containers/blob/main/docs/how-to/containerd-kata.md#configuration), however, I just want to simply the `plugins` section configuration for Containerd by using [runtime class](https://kubernetes.io/docs/concepts/containers/runtime-class/) as below:
 
 {{< text toml >}}
 [plugins."io.containerd.grpc.v1.cri".containerd]
@@ -93,7 +93,7 @@ Based on the `containerd` configuration as before, `runc` is the default contain
 
 {{< image link="./containerd-with-runc-by-default.png" caption="Containerd with Runc Running by Default" >}}
 
-I use [RuntimeClass](https://kubernetes.io/docs/concepts/containers/runtime-class/) to launch the Kata Containers, and its yaml file `kata-runtimeclass.yaml` is below:
+I use [runtime class](https://kubernetes.io/docs/concepts/containers/runtime-class/) to launch the Kata Containers, and its yaml file `kata-runtimeclass.yaml` is below:
 
 {{< text yaml >}}
 apiVersion: node.k8s.io/v1
@@ -103,7 +103,7 @@ metadata:
 handler: kata
 {{< /text >}}
 
-The RuntimeClass CR name is `kata-runtime` and field `handler` is specified to `kata`. Create this CR by command:
+The `RuntimeClass` CR name is `kata-runtime` and field `handler` is specified to `kata`. Create this CR by command:
 
 {{< text bash >}}
 $ kubectl apply -f kata-runtimeclass.yaml
@@ -158,7 +158,7 @@ spec:
         - containerPort: 80
 {{< /text >}}
 
-Be careful then you can find that there is extra field `runtimeClassName: kata-runtime` in `containers` section of  `Deployment`. And I already define the RuntimeClass CR `kata-runtime`. Another note is that service account `httpbin` is necessary because the Kata Containers need a cluster role.
+Be careful then you can find that there is extra field `runtimeClassName: kata-runtime` in `containers` section of  `Deployment`. And I already define the `RuntimeClass` CR `kata-runtime`. Another note is that service account `httpbin` is necessary because the Kata Containers need a cluster role.
 
 It's time to deploy this service by command:
 
