@@ -1,6 +1,6 @@
 ---
 title: "Istio Ambient Service Mesh Merged to Istio’s Main Branch"
-description: A significant milestone for ambient mesh
+description: A significant milestone for ambient mesh.
 publishdate: 2023-02-27
 attribution: "John Howard (Google), Lin Sun (Solo.io)"
 keywords: [istio,ambient]
@@ -19,9 +19,8 @@ Ambient mesh is designed for simplified operations, broader application compatib
 
 ## Get involved
 
-Follow our [get started with ambient service mesh guide] to try our ambient pre-alpha build today, we love to hear from you! To learn more about ambient:
+Follow our [get started guide](/docs/ops/ambient/getting-started/) to try our ambient pre-alpha build today, we love to hear from you! To learn more about ambient:
 
 * Join us in the #ambient and #ambient-dev channel in Istio’s [slack](https://slack.istio.io).
 * Attend the weekly ambient contributor [meeting](https://github.com/istio/community/blob/master/WORKING-GROUPS.md#working-group-meetings) on Wednesdays.
 * Check out the [Istio](http://github.com/istio/istio) and [ztunnel](http://github.com/istio/ztunnel) repositories, submit issues or PRs!
-
