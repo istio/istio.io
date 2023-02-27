@@ -269,7 +269,7 @@ To remove the `sleep` and `notsleep` applications:
 
 {{< text bash >}}
 $ kubectl delete -f samples/sleep/sleep.yaml
-$ kubectl delete -f https://raw.githubusercontent.com/linsun/sample-apps/main/sleep/notsleep.yaml
+$ kubectl delete -f samples/sleep/notsleep.yaml
 {{< /text >}}
 
 To remove the `productpage-viewer` authorization policy and uninstall Istio:
