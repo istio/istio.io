@@ -46,7 +46,7 @@ Follow these steps to get started with ambient:
 
 1.  The `ambient` profile is designed to help you get started with ambient mesh.
     Install Istio with the `ambient` profile on your Kubernetes cluster, using
-    the `istioctl` downloaded above:
+    the `istioctl` command downloaded above:
 
     {{< text bash >}}
     $ istioctl install --set profile=ambient
