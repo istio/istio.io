@@ -69,9 +69,9 @@ Follow these steps to get started with ambient:
 You’ll use the sample [bookinfo application](/docs/examples/bookinfo/), which is part of
 the Istio distribution that you downloaded above. In ambient mode, you deploy applications to
 your Kubernetes cluster exactly the same way you would
-without Istio. This means you can have your applications running in your Kubernetes before
-you enable ambient mesh, and have them join the mesh without needing to restart or
-reconfigure your applications.
+without Istio. This means that you can have your applications running in your cluster before
+you enable ambient mesh and have them join the mesh without needing to restart or
+reconfigure them.
 
 {{< warning >}}
 Make sure the default namespace does not include the label `istio-injection=enabled` because when using ambient you do not want Istio to inject sidecars into the application pods.
