@@ -105,7 +105,7 @@ The following configuration displays access logs only when the response code is 
 Note: The xds.cluster_name is only available with Istio release 1.16.2 and higher
 
 {{< text bash >}}
-$ cat <<EOF | kubectl apply -n default -f -
+$ cat <<EOF | kubectl apply -f -
 apiVersion: telemetry.istio.io/v1alpha1
 kind: Telemetry
 metadata:
@@ -116,7 +116,7 @@ spec:
   - providers:
     - name: envoy
     filter:
-      expression: "response.code >= 400 || xds.cluster_name == 'BlackHoleCluster' ||  xds.cluster_name == 'PassthroughCluster' "       
+      expression: "response.code >= 400 || xds.cluster_name == 'BlackHoleCluster' ||  xds.cluster_name == 'PassthroughCluster' "
 
 EOF
 {{< /text >}}
