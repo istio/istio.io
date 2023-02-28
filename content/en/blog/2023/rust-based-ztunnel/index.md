@@ -31,7 +31,7 @@ for ztunnel, which you will learn more about soon.
 
 ## Why not reuse Envoy?
 
-When Istio ambient service mesh was announced on Sept 7, 2022, the ztunnel was implemented using Envoy proxy. Given that we use Envoy for the rest of Istio - sidecars, gateways, and waypoint proxies - it was natural for us to start implementing ztunnel using Envoy.
+When Istio ambient service mesh was announced on Sept 7, 2022, the ztunnel was implemented using an Envoy proxy. Given that we use Envoy for the rest of Istio - sidecars, gateways, and waypoint proxies - it was natural for us to start implementing ztunnel using Envoy.
 
 However, we found that while Envoy was a great fit for other use cases, it was challenging to implement ztunnel in Envoy, as many of the tradeoffs, requirements, and use cases are dramatically different than that of a sidecar proxy or ingress gateway. In addition, most of the things that make Envoy such a great fit for those other use cases, such as its rich L7 feature set and extensibility, went to waste in ztunnel which didn't need those features.
 
