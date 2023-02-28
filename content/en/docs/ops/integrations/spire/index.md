@@ -514,8 +514,8 @@ $ kubectl delete -n spire serviceaccount spire-server
 $ kubectl delete -n spire deployment spire-server
 $ kubectl delete clusterrole spire-server-cluster-role spire-agent-cluster-role manager-role
 $ kubectl delete clusterrolebinding spire-server-cluster-role-binding spire-agent-cluster-role-binding manager-role-binding
-$ kubectl delete role spire-server-role leader-election-role
-$ kubectl delete rolebinding spire-server-role-binding leader-election-role-binding
+$ kubectl delete -n spire role spire-server-role leader-election-role
+$ kubectl delete -n spire rolebinding spire-server-role-binding leader-election-role-binding
 $ kubectl delete namespace spire
 $ rm istio.yaml chain.pem
 {{< /text >}}
