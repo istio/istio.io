@@ -118,9 +118,11 @@ After the pod is included in ambient (by labeling the namespace default with `is
 
 {{< text plaintext >}}
 {
-    "workloadIp": "10.244.2.8",
-    …
-    "protocol": "HBONE",
+  "workloads": {
+    "10.244.2.8": {
+      "workloadIp": "10.244.2.8",
+      "protocol": "HBONE",
+      ...
 }
 {{< /text >}}
 
