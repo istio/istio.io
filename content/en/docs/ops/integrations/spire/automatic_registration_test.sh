@@ -64,6 +64,7 @@ snip_get_sleep_svid
 _verify_contains snip_get_svid_subject "O = SPIRE"
 
 # @cleanup
-snip_cleanup_spire_1
+kubectl delete -f samples/security/spire/sleep-spire.yaml
 istioctl uninstall --purge --skip-confirmation
 kubectl delete ns istio-system
+snip_cleanup_spire_1
