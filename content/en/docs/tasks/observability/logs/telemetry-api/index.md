@@ -102,7 +102,7 @@ EOF
 1. Set default filter access log with CEL expression
 
 The following configuration displays access logs only when the response code is greater or equal to 400 or the request went to the BlackHoleCluster or the PassthroughCluster:
-Note: The xds.cluster_name is only available with Istio release 1.16.2 and higher
+Note: The `xds.cluster_name` is only available with Istio release 1.16.2 and higher
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
