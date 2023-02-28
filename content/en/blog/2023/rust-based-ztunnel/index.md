@@ -65,7 +65,7 @@ workloadName: helloworld-v1
 workloadType: deployment
 {{< /text >}}
 
-This information is transported over the xDS transport API, but uses a custom ambient-specific type. Refer to the workload xDS configuration section to learn more about the configuration details.
+This information is transported over the xDS transport API, but uses a custom ambient-specific type. Refer to the [workload xDS configuration section](#workload-xds-configuration) to learn more about the configuration details.
 
 By having a purpose built API, we can push logic into the proxy instead of in Envoy configuration. For example, to configure mTLS in Envoy, we need to add an identical large set of configuration tuning the precise TLS settings for each service; with ztunnel, we need only a single enum to declare whether mTLS should be used or not. The rest of the complex logic is embedded directly into ztunnel code.
 
