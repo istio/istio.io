@@ -48,7 +48,7 @@ This purpose-built ztunnel involved two key areas:
 
 Envoy proxies use the [xDS Protocol for configuration](https://www.envoyproxy.io/docs/envoy/latest/api-docs/xds_protocol). This is a key part of what makes Istio work well, offering rich and dynamic configuration updates. However, as we tread off the beaten path, the config becomes more and more bespoke, which means it's much larger and more expensive to generate. In a sidecar, a single Service with 1 pod, generates roughly ~350 lines of xDS (in YAML), which already has been challenging to scale. The Envoy-based ztunnel was far worse, and in some areas had N^2 scaling attributes.
 
-To keep ztunnel configuration as small as possible, we investigated using a purpose built configuration protocol, that contains precisely the information we need (and nothing more), in an efficient format. For example, a single pod could be represented concisely:
+To keep the ztunnel configuration as small as possible, we investigated using a purpose built configuration protocol, that contains precisely the information we need (and nothing more), in an efficient format. For example, a single pod could be represented concisely:
 
 {{< text yaml >}}
 name: helloworld-v1-55446d46d8-ntdbk
