@@ -6,8 +6,21 @@ weight: 1
 owner: istio/wg-networking-maintainers
 test: n/a
 ---
+
 {{< warning >}}
-Ambient is currently in alpha status, not intended for production use.
+Ambient is currently in [alpha status](/docs/releases/feature-stages/#feature-phase-definitions).
+
+Please thoroughly review the [feature phase definitions](/docs/releases/feature-stages/#feature-phase-definitions) before use.
+
+In the past, smaller "alpha" features have often been introduced without any issues, and later promoted to "stable" without changes.
+This may give users an over-optimistic view of the stability and safety guarantees of an "alpha" feature.
+
+Given the scope of ambient mode, it is imperative to treat the feature as dictated by the feature phase definitions.
+In particular, there are already known performance, stability, and security issues in the alpha release.
+There are also planned breaking changes, including those that will prevent upgrades.
+These are all limitations that will be addressed before graduation to "beta".
+
+Please **do not run ambient in production** and ensure that you understand these caveats during its "alpha" status before use.
 {{< /warning >}}
 
 This guide lets you quickly evaluate Istio ambient service mesh. These steps require you to have
