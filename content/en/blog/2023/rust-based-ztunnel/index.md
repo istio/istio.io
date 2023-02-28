@@ -148,6 +148,7 @@ After you deploy any workload level authorization policy, the policy configurati
 You’ll also notice the workload's configuration is updated with reference to the authorization policy.
 
 {{< text plaintext >}}
+{
   "workloads": {
     "10.244.2.8": {
     "workloadIp": "10.244.2.8",
@@ -155,7 +156,9 @@ You’ll also notice the workload's configuration is updated with reference to t
     "authorizationPolicies": [
         "default/hw-viewer"
     ],
-  },
+  }
+  ...
+}
 {{< /text >}}
 
 ### L4 telemetry provided by ztunnel
