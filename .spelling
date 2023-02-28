@@ -231,7 +231,6 @@ configmaps
 configurability
 containerID
 Containerd
-Containers
 ControlZ
 CoreDNS
 coreos
