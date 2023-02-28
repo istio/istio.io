@@ -129,7 +129,8 @@ After the pod is included in ambient (by labeling the namespace default with `is
 After you deploy any workload level authorization policy, the policy configuration will be pushed as xDS configuration from Istiod to ztunnel and shown under `policies`:
 
 {{< text plaintext >}}
-"policies": {
+{
+  "policies": {
     "default/hw-viewer": {
       "name": "hw-viewer",
       "namespace": "default",
@@ -140,7 +141,8 @@ After you deploy any workload level authorization policy, the policy configurati
       }]]]
     }
   }
-…
+  ...
+}
 {{< /text >}}
 
 You’ll also notice the workload's configuration is updated with reference to the authorization policy.
