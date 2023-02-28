@@ -387,6 +387,7 @@ embeddable
 emojis
 enablement
 endUser-to-Service
+enum
 env
 envoyproxy
 etcd
@@ -970,6 +971,7 @@ timestamps
 TLS
 TLS-secured
 ToC
+Tokio
 toolbelt
 toolchain
 topologySpreadConstraints
