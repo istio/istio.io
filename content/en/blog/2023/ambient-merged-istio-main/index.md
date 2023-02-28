@@ -1,7 +1,7 @@
 ---
 title: "Istio Ambient Service Mesh Merged to Istio’s Main Branch"
 description: A significant milestone for ambient mesh.
-publishdate: 2023-02-27
+publishdate: 2023-02-28
 attribution: "John Howard (Google), Lin Sun (Solo.io)"
 keywords: [istio,ambient]
 ---
