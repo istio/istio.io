@@ -1,7 +1,7 @@
 ---
 title: "Introducing Rust-Based Ztunnel for Istio Ambient Service Mesh"
 description: A purpose-built per-node proxy for Istio ambient mesh.
-publishdate: 2023-01-30
+publishdate: 2023-02-28
 attribution: "Lin Sun (Solo.io), John Howard (Google)"
 keywords: [istio,ambient,ztunnel]
 ---
