@@ -22,7 +22,7 @@ weight: 10
   ([Issue #27990](https://github.com/istio/istio/issues/27990))
 
 - **新增** 新增对配置网格内部地址的支持。这可以通过设置
-`ENABLE_HCM_INTERNAL_NETWORKS` 为 true 来启用。
+  `ENABLE_HCM_INTERNAL_NETWORKS` 为 true 来启用。
 
 - **新增** 为 sidecar 新增了 `traffic.sidecar.istio.io/excludeInterfaces` 注解。
   ([Issue #39404](https://github.com/istio/istio/pull/39404))
@@ -74,7 +74,7 @@ weight: 10
 
 - **修复** 修复了一个 Bug，即 JWKS 动态生成的 `n` 没有经过 base64 编码，导致 envoy 无法正确解析它。
 
-## 观测{#telemetry} 
+## 观测{#telemetry}
 
 - **修复** 修复了 sidecar 客户端和 `ISTIO_MUTUAL`，网关的 TCP 服务器之间的 TCP 元数据交换。
 
@@ -134,8 +134,6 @@ weight: 10
 - **修复** 修复了当 `ServiceEntry` 地址为空但网状配置 `ISTIO_META_DNS_AUTO_ALLOCATE` 被启用时 `istioctl analyze` 返回一个意外的 IST0134 消息。
 
 - **修复** 修复了一个导致 `istioctl x injector list` 提供不正确的 Pod 信息的问题。
-
-- **修复** 修复了当对特定命名空间使用 `exportTo` 时，`istioctl analyze` 会出现 `ConflictingMeshGatewayVirtualServiceHosts（IST0109）` 信息。
 
 - **修复** 修复了当对特定命名空间使用 `exportTo` 时，`istioctl analyze` 会出现 `ConflictingMeshGatewayVirtualServiceHosts（IST0109）` 信息。
   ([Issue #39634](https://github.com/istio/istio/issues/39634))
