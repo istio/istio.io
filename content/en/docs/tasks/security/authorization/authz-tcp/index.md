@@ -33,7 +33,7 @@ Deploy the example namespace and workloads using the following command:
     $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@) -n foo
     {{< /text >}}
 
-* Verify that `sleep` successfully communicates with `tcp-echo`on ports 9000 and 9001
+* Verify that `sleep` successfully communicates with `tcp-echo` on ports 9000 and 9001
 using the following command:
 
     {{< text bash >}}
