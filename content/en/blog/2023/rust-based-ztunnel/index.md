@@ -6,7 +6,7 @@ attribution: "Lin Sun (Solo.io), John Howard (Google)"
 keywords: [istio,ambient,ztunnel]
 ---
 
-The ztunnel (<strong>z</strong>ero <strong>t</strong>rust t<strong>unnel</strong>) component is a purpose-built per-node proxy for Istio ambient mesh. It is responsible for securely connecting and authenticating workloads within ambient mesh. Ztunnel is designed to focus on a small set of features for your workloads in ambient mesh such as mTLS, authentication, L4 authorization and telemetry, without terminating workload HTTP traffic or parsing workload HTTP headers. The ztunnel ensures traffic is efficiently and securely transported to the waypoint proxies, where the full suite of Istio's functionality, such as HTTP telemetry and load balancing, is implemented.
+The ztunnel (zero trust tunnel) component is a purpose-built per-node proxy for Istio ambient mesh. It is responsible for securely connecting and authenticating workloads within ambient mesh. Ztunnel is designed to focus on a small set of features for your workloads in ambient mesh such as mTLS, authentication, L4 authorization and telemetry, without terminating workload HTTP traffic or parsing workload HTTP headers. The ztunnel ensures traffic is efficiently and securely transported to the waypoint proxies, where the full suite of Istio's functionality, such as HTTP telemetry and load balancing, is implemented.
 
 Because ztunnel is designed to run on all of your Kubernetes worker nodes, it is critical to keep its resource footprint small. ztunnel is designed to be an invisible (or "ambient") part of your service mesh with minimal impact to your workloads.
 
