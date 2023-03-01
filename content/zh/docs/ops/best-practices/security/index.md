@@ -4,7 +4,7 @@ description: 使用 Istio 保护应用的最佳实践。
 force_inline_toc: true
 weight: 30
 owner: istio/wg-security-maintainers
-test: no
+test: n/a
 ---
 
 Istio 安全功能提供强大的身份，强大的策略，透明的 TLS 加密，认证，授权和审计（AAA）工具来保护您的服务和数据。但是，为了更好地使用这些安全特性，必须按照最佳实践操作。这里建议您在阅读下文前回顾[安全概述](/zh/docs/concepts/security/)。
@@ -23,11 +23,107 @@ Istio 会在尽可能[自动](/zh/docs/ops/configuration/traffic-management/tls-
 
 Istio [授权](/zh/docs/concepts/security/#authorization)在 Istio 安全中扮演了至关重要的角色。它通过配置正确的授权策略来尽最大可能保护您的集群。因此理解下面这些配置的含义十分重要，因为 Istio 不能替所有的用户决定合适的授权策略。请您完整地阅读以下章节。
 
-### 配置 default-deny 授权策略{#apply-default-deny-authorization-policies}
+### 更安全的授权策略模式{#safer-authorization-policy-patterns}
 
-我们推荐您将 Istio 的策略设置成默认拒绝(default-deny)，从而增强您的集群安全性。 default-deny 授权策略意味着您的系统在默认情况下拒绝所有请求，并且您需要定义允许请求的条件。如果您忘记定义某些条件，对应的流量会被拒绝，而不是被意外的允许。后者是一个典型的安全事故，而前者只是会可能导致较差的用户体验，或者负载停机，而或者不符合您的服务水平目标/服务水平协议。
+#### 使用 default-deny 授权策略模式{#use-default-deny-patterns}
+
+我们推荐您将 Istio 的策略设置成默认拒绝 (default-deny)，从而增强您的集群安全性。 default-deny 授权策略意味着您的系统在默认情况下拒绝所有请求，并且您需要定义允许请求的条件。如果您忘记定义某些条件，对应的流量会被拒绝，而不是被意外的允许。后者是一个典型的安全事故，而前者只是会可能导致较差的用户体验，或者负载停机，而或者不符合您的服务水平目标/服务水平协议。
 
 例如，在 [HTTP 流量任务的授权](/zh/docs/tasks/security/authorization/authz-http/)中，命名为 `allow-nothing` 的授权策略确保了所有流量在默认情况下被拒绝。在此之上，其他的授权策略可以基于特定需求允许流量通过。
+
+#### 使用 `ALLOW-with-positive-matching` 和 `DENY-with-negative-match` 模式{#use-allow-with-positive-matching-and-deny-with-negative-match-patterns}
+
+尽可能使用 `ALLOW-with-positive-matching` 或 `DENY-with-negative-matching` 授权策略模式。这些授权策略模式更安全，因为在策略不匹配的情况下，最坏的结果是收到一个意外拒绝403，而不是绕过授权策略。
+
+`ALLOW-with-positive-matching` 授权策略模式是仅对 **positive** 匹配字段（例如 `paths`、`values`）使用 `ALLOW` 动作，而不要使用任何 **negative** 匹配字段（例如`notPaths`、`notValues`）。
+
+`DENY-with-negative-matching` 授权策略模式是仅对 **negative** 匹配字段（例如 `notPaths`、`notValues`）使用 `DENY` 动作 ，而不要使用任何 **positive** 匹配字段（例如 `paths`、`values`）。
+
+例如，下面的授权策略使用 `ALLOW-with-positive-matching` 模式，允许对路径 `/public` 的请求：
+
+{{< text yaml >}}
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: foo
+spec:
+  action: ALLOW
+  rules:
+  - to:
+    - operation:
+        paths: ["/public"]
+{{< /text >}}
+
+上述策略明确列出了允许的路径 (`/public`)。这意味着请求路径必须与 `/public` 一致才允许请求。默认情况下将拒绝任何其他请求，从而消除了未知的规范化行为导致策略绕过的风险。
+
+下面是一个使用 `DENY-with-negative-matching` 模式获得相同结果的示例：
+
+{{< text yaml >}}
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: foo
+spec:
+  action: DENY
+  rules:
+  - to:
+    - operation:
+        notPaths: ["/public"]
+{{< /text >}}
+
+### 理解授权策略中的路径规范化{#understand-path-normalization-in-authorization-policy}
+
+授权策略的执行点是 Envoy 代理，而不是后端应用程序中通常的资源访问点。当 Envoy 代理和后端应用程序对请求的解释不同时，就会发生策略不匹配。
+
+策略不匹配会导致意外拒绝或策略绕过。后者通常是一个安全事件，需要立即修复，这也是我们需要在授权策略中进行路径规范化的原因。
+
+例如，考虑一个授权策略来拒绝路径为 `/data/secret` 的请求。则路径为 `/data//secret` 的请求将不会被拒绝，因为它不符合授权策略中定义的路径，路径中多了一个正斜杠 `/`。
+
+请求通过后端应用程序，后端应用程序返回与路径 `/data/secret` 相同的响应。因为后端应用程序将路径 `/data//secret` 规范化为 `/data/secret`，这是因为它认为双正斜杠 `//` 等同于单个正斜杠 `/`。
+
+在这个例子中，策略执行点（Envoy 代理）对路径的理解与资源访问点（后端应用程序）不同。这种不同的理解导致了不匹配，随后并绕过了授权策略。
+
+由于以下因素，这成为了一个复杂的问题：
+
+* 缺乏一个明确的规范化标准。
+
+* 不同层的后端和框架有自己特殊的规范化。
+
+* 应用程序甚至可以针对自己的用例进行任意规范化。
+
+Istio 授权策略实现了对各种基本规范化选项的内置支持，以帮助您更好地解决问题：
+
+* 参考[配置路径规范化选项的指南](/zh/docs/ops/best-practices/security/#guideline-on-configuring-the-path-normalization-option) 来了解您可能要使用哪些规范化选项。
+
+* 参考 [自定义系统的路径规范化](/zh/docs/ops/best-practices/security/#customize-your-system-on-path-normalization)了解每个规范化选项的细节。
+
+* 如果您需要任何不支持的规范化选项，请参阅[不支持的规范化的缓解措施](/zh/docs/ops/best-practices/security/#mitigation-for-unsupported-normalization),了解和选择其他解决方案。
+
+### 配置路径规范化选项的指导原则{#guideline-on-configuring-the-path-normalization-option}
+
+#### 案例 1：您不需要规范化{#case-1:-you-do-not-need-normalization-at-all}
+
+在深入了解配置规范化的细节之前，您应该首先确定是否需要规范化。
+
+如果您不使用授权策略或者您的授权策略不使用任何 `path` 字段，则不需要规范化。
+
+如果您所有的授权策略都遵循[更安全的授权模式](/zh/docs/ops/best-practices/security/#safer-authorization-policy-patterns)，您可能不需要规范化, 在最坏的情况下，这会导致意外拒绝而不是策略绕过。
+
+#### 案例 2：您需要规范化，但不确定使用哪个规范化选项{#case-2:-you-need-normalization-but-not-sure-which-normalization-option-to-use}
+
+如果您需要规范化，但不知道要使用哪个选项。最安全的选择是最严格的规范化选项，它在授权策略中提供了最高级别的规范化。
+
+这种情况经常发生，因为复杂的多层系统使人们实际上不可能弄清楚在一个请求之外究竟发生了什么规范化。
+
+如果它已经满足了您的要求，并且您确信它的含义，您可以使用不太严格的规范化选项。
+
+无论是哪种方案，都要确保您为您的需求编写了正面和负面的测试，以验证规范化是否按预期工作。这些测试有助于发现由误解引起的潜在旁路问题，或不完全了解您的请求所发生的规范化而造成的潜在绕过问题。
+
+参考[自定义系统的路径规范化](/zh/docs/ops/best-practices/security/#customize-your-system-onpath-normalization) 以了解更多配置规范化选项的细节。
+
+#### 案例 3：您需要一个不支持的规范化选项{#case-3:-you-need-an-unsupported-normalization-option}
+
+如果您需要 Istio 还不支持的特定规范化选项，请按照[不支持规范化的缓解措施](/zh/docs/ops/best-practices/security/#mitigation-for-unsupported-normalization)来获得自定义规范化支持或为 Istio 社区创建功能请求。
 
 ### 在路径规范化上自定义系统{#customize-your-system-on-path-normalization}
 
@@ -108,7 +204,15 @@ apiVersion: v1
       ...
 {{< /text >}}
 
-### 较不常见规范化配置{#less-common-normalization-configurations}
+### 不支持规范化的缓解措施{#mitigation-for-unsupported-normalization}
+
+本节介绍了不支持规范化的各种缓解措施。当您需要一个特定的 Istio 不支持的规范化时，这些措施可能很有用。
+
+请确保您彻底理解缓解措施并谨慎使用，因为有些缓解措施依赖于 Istio 范围之外的东西，也不被 Istio 支持。
+
+#### 自定义规范化逻辑{#custom-normalization-logic}
+
+您可以使用 WASM 或 Lua 过滤器应用自定义规范化逻辑。建议使用 WASM 过滤器，因为 Istio 官方支持并使用它。您可以使用 Lua 过滤器进行快速概念验证 DEMO，但我们这样做不建议在生产环境中使用 Lua 过滤器，因为 Istio 不支持它。
 
 #### 大小写规范化{#case-normalization}
 
@@ -147,6 +251,61 @@ spec:
               end
 {{< /text >}}
 
+#### 编写主机匹配策略{#writing-host-match-policies}
+
+Istio 为主机名本身和所有匹配的端口生成主机名。例如，一个虚拟服务或网关生成与 `example.com` 主机匹配的 `example.com` 和 `example.com:*` 的配置。但是，完全匹配授权策略只匹配为`hosts` 或 `notHosts` 字段中给出的精确字符串。
+
+[授权策略规则](/zh/docs/reference/config/security/authorization-policy/#Rule)匹配的主机应该写成使用前缀匹配而不是完全匹配。例如，对于匹配 Envoy 配置生成的 `AuthorizationPolicy` 的主机名如 `example.com`，您可以使用 `hosts: ["example.com", "example.com:*"]`，如下面的 `AuthorizationPolicy` 所示：
+
+{{< text yaml >}}
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: ingress-host
+  namespace: istio-system
+spec:
+  selector:
+    matchLabels:
+      app: istio-ingressgateway
+  action: DENY
+  rules:
+  - to:
+    - operation:
+        hosts: ["example.com", "example.com:*"]
+{{< /text >}}
+
+此外，`host` 和 `notHosts` 字段通常应该只用在进入网格的外部流量的网关上，而不是在网格内流量的 Sidecar 上，这是因为服务器端的 Sidecar（执行授权策略的地方）在将请求重定向到应用程序时，不使用 `Host` 字段。由于客户端可以使用明确的 IP 地址和任意的 `Host` 头而不是服务名称来访问应用程序，这使得 `host` 和 `notHost` 在 Sidecar 上没有意义。
+
+如果您真的需要基于 sidecar 上的 `Host` 标头执行访问控制，请遵循 [default-deny 授权策略模式](/zh/docs/ops/best-practices/security/#use-default-deny-patterns)，如果客户端使用任意的 `Host` 标头，它将拒绝该请求。
+
+#### 专门的网络应用防火墙 (WAF){#specialized-web-application-firewall}
+
+许多专门的 Web 应用程序防火墙 (WAF) 产品提供额外的规范化选项。它们可以部署在 Istio 入口网关的前端，以规范化进入网格的请求。然后，授权策略将在规范化的请求上执行。请参考您的特定 WAF 产品以配置规范化选项。
+
+#### 对 Istio 的功能请求{#feature-request-to-istio}
+
+如果您认为 Istio 应该正式支持某个特定的规范化，您可以按照 [报告漏洞](/zh/docs/releases/security-vulnerabilities/#reporting-a-vulnerability) 页面，向 Istio 产品安全工作组发送关于特定规范化的功能请求，以便进行初步评估。
+
+在未与 Istio 产品安全工作组联系之前，请不要公开任何问题，因为该问题可能被视为需要私下修复的安全漏洞。
+
+如果 Istio 产品安全工作组评估该功能请求不属于安全漏洞，将在公开场合打开一个问题，以进一步讨论该功能请求。
+
+### 已知限制{#known-limitations}
+
+本节列出了授权策略的已知限制。
+
+#### 不支持服务器优先 TCP 协议{#server-first-tcp-protocols-are-not-supported}
+
+服务器优先 TCP 协议意味着服务器应用程序将在接受 TCP 连接后立即发送第一个字节，然后再从客户端接收任何数据。
+
+目前，授权策略只支持对入站流量实施访问控制，而不支持出站流量。
+
+它也不支持服务器优先 TCP 协议，因为服务器应用程序甚至在收到客户端的任何数据之前就已发送了第一个字节。在这种情况下，服务器发送的初始第一个字节直接返回给客户端，而无需经过授权策略的访问控制检查。
+
+如果由服务器优先 TCP 协议发送的第一个字节包含任何需要通过适当授权保护的敏感数据，则不应使用授权策略。
+
+如果第一个字节不包含任何敏感数据，您仍然可以在这种情况下使用授权策略，例如，第一个字节是用来与任何客户公开访问的数据协商连接的。对于客户端在第一个字节之后发送的以下请求，授权策略将照常工作。
+
 ## 理解流量拦截的局限性{#understand-traffic-capture-limitations}
 
 Istio Sidecar 原理为拦截入站和出站流量并将它们转发到 Sidecar 代理。
@@ -169,6 +328,8 @@ Istio Sidecar 原理为拦截入站和出站流量并将它们转发到 Sidecar 
 
 例如，您可以只允许流量通过端口 `9080` 进入应用 `reviews`。在存在达不到安全标准的 Pod 或者有安全弱点情况下，这可能限制或者阻止攻击者。
 
+根据实际执行情况，对网络策略的更改可能不会影响 Istio 代理中的现有连接。您可能需要在应用策略后重新启动 Istio 代理，以便现有的连接将被关闭，新的连接将受到新策略的约束。
+
 ### 确保 egress 流量安全{#securing-egress-traffic}
 
 一个常见的误解是类似 [`outboundTrafficPolicy: REGISTRY_ONLY`](/zh/docs/tasks/traffic-management/egress/egress-control/#envoy-passthrough-to-external-services) 的设置可以作为安全策略来阻止访问未声明服务。但是如上文所说这并不能作为一个很强的安全边界，而充其量应视为尽力而为。
@@ -181,8 +342,22 @@ Istio Sidecar 原理为拦截入站和出站流量并将它们转发到 Sidecar 
 Istio 提供了从 Sidecar 代理或者网关上[发起 TLS](/zh/docs/tasks/traffic-management/egress/egress-tls-origination/) 的能力。
 这使得从应用发出的纯文本 HTTP 流量可以透明地“升级”到 HTTPS。
 
-当进行 `DestinationRule`中的 `tls` 字段配置时，应格外注意 `caCertificates` 字段。
-如果该字段未设置，服务器证书将不会被验证。
+当进行 `DestinationRule` 中的 `tls` 字段配置时，应格外注意 `caCertificates`、`subjectAltNames` 和 `sni` 字段。
+通过在 Istiod 上启用环境变量 `VERIFY_CERTIFICATE_AT_CLIENT=true` ，可以从系统证书存储的 CA 证书自动设置 `caCertificate` 。
+如果自动使用的操作系统 CA 证书只适用于特定的主机，环境变量 `VERIFY_CERTIFICATE_AT_CLIENT=false` 在 Istiod 上，`caCertificates` 可以被设置为 `system` 在所需的 `DestinationRule` 中。
+在 `DestinationRule` 中指定 `caCertificates` 将被优先考虑，操作系统 CA 证书将不被使用。
+默认情况下，出口流量在 TLS 握手期间不发送 SNI。
+SNI必须在 `DestinationRule` 中设置，以确保主机正确处理请求。
+
+{{< warning >}}
+为了验证服务器的证书，必须同时设置 `caCertificates` 和 `subjectAltNames`。
+
+仅仅根据 CA 验证服务器提交的证书是不够的，因为还必须验证主题替代名称。
+
+如果 `VERIFY_CERTIFICATE_AT_CLIENT` 被设置，但 `subjectAltNames` 没有被设置，那么您就没有验证所有证书。
+
+如果服务器未使用 CA 证书，则无论是否设置 `subjectAltNames` 都将不使用。
+{{< /warning >}}
 
 例如：
 
@@ -197,6 +372,9 @@ spec:
     tls:
       mode: SIMPLE
       caCertificates: /etc/ssl/certs/ca-certificates.crt
+      subjectAltNames:
+      - "google.com"
+      sni: "google.com"
 {{< /text >}}
 
 ## 网关{#gateways}
@@ -408,4 +586,13 @@ $ kubectl get --raw /api/v1 | jq '.resources[] | select(.name | index("serviceac
 
 默认情况，Istio (以及 Envoy) 没有对下游连接数的限制。但这可能被恶意活动所利用(见 [security bulletin 2020-007](/zh/news/security/istio-security-2020-007/))。为了解决，您需要在您的环境中配置合适的连接数限制。
 
-{{< boilerplate cve-2020-007-configmap >}}
+### 配置 `global_downstream_max_connections` 值{#configure-global_downstream_max_connections-value}
+
+在安装过程中可以提供以下配置:
+
+{{< text yaml >}}
+meshConfig:
+  defaultConfig:
+    runtimeValues:
+      "overload.global_downstream_max_connections": "100000"
+{{< /text >}}
