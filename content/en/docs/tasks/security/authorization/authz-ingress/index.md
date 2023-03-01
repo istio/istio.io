@@ -142,8 +142,13 @@ spec:
 
 {{< tab name="Network Load Balancer" category-value="network" >}}
 
-If you are using a TCP/UDP network load balancer that preserves the client IP address (AWS Network Load Balancer, GCP External Network Load Balancer, Azure Load Balancer) or you are using Round-Robin DNS, then you can also preserve the client IP inside Kubernetes by bypassing kube-proxy and preventing it from sending traffic to other nodes.  **However, you must run an ingress gateway pod on every node.** If you don't, then any node that receives traffic and doesn't have an ingress gateway will drop the traffic. See [Source IP for Services with `Type=NodePort`](https://kubernetes.io/docs/tutorials/services/source-ip/#source-ip-for-services-with-type-nodeport)
-for more information. Update the ingress gateway to set `externalTrafficPolicy: Local` to preserve the
+If you are using a TCP/UDP network load balancer that preserves the client IP address (AWS Network Load Balancer, GCP External Network Load Balancer, Azure Load Balancer) or you are using Round-Robin DNS, then you can use the `externalTrafficPolicy: Local` setting to also preserve the client IP inside Kubernetes by bypassing kube-proxy and preventing it from sending traffic to other nodes.
+
+{{< warning >}}
+For production deployments it is strongly recommended to **deploy an ingress gateway pod to multiple nodes** if you enable `externalTrafficPolicy: Local`. Otherwise, this creates a situation where **only** nodes with an active ingress gateway pod will be able to accept and distribute incoming NLB traffic to the rest of the cluster, creating potential ingress traffic bottlenecks and reduced internal load balancing capability, or even complete loss of ingress traffic to the cluster if the subset of nodes with ingress gateway pods go down. See [Source IP for Services with `Type=NodePort`](https://kubernetes.io/docs/tutorials/services/source-ip/#source-ip-for-services-with-type-nodeport) for more information.
+{{< /warning >}}
+
+ Update the ingress gateway to set `externalTrafficPolicy: Local` to preserve the
 original client source IP on the ingress gateway using the following command:
 
 {{< text bash >}}
