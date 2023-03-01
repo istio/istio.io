@@ -1,7 +1,7 @@
 ---
 title: "Support for Dual Stack Kubernetes Clusters"
 description: "Experimental support for Dual Stack Kubernetes Clusters."
-publishdate: 2023-02-20
+publishdate: 2023-03-02
 attribution: "Steve Zhang (Intel), Alex Xu (Intel), Iris Ding (Intel), Jacob Delgado (F5), Ying-chun Cai (formerly F5)"
 keywords: [dual-stack]
 ---
