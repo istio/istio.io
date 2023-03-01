@@ -62,7 +62,7 @@ Upon receiving a request, the waypoint will ensure it is targeting either a `Pod
 
 For either type of request, the waypoint will enforce policies (such as `AuthorizationPolicy`, `WasmPlugin`, `Telemetry`, etc) before forwarding.
 
-For direct requests to a `Pod`, these are simply forwarded directly after policy is applied.
+For direct requests to a `Pod`, the requests are simply forwarded directly after policy is applied.
 
 For requests to a `Service`, the waypoint will also apply routing and load balancing.
 By default, a `Service` will simply route to itself, load balancing across its endpoints.
