@@ -10,12 +10,12 @@ test: n/a
 Ambient is currently in [alpha status](/docs/releases/feature-stages/#feature-phase-definitions).
 
 Please **do not run ambient in production** and be sure to thoroughly review the [feature phase definitions](/docs/releases/feature-stages/#feature-phase-definitions) before use.
-In particular, there are already known performance, stability, and security issues in the alpha release.
-There are also planned breaking changes, including those that will prevent upgrades.
-These are all limitations that will be addressed before graduation to "beta".
+In particular, there are known performance, stability, and security issues in the `alpha` release.
+There are also planned breaking changes, including some that will prevent upgrades.
+These are all limitations that will be addressed before graduation to `beta`.
 {{< /warning >}}
 
-This guide lets you quickly evaluate Istio ambient service mesh. These steps require you to have
+This guide lets you quickly evaluate Istio {{< gloss "ambient" >}}ambient service mesh{{< /gloss >}}. These steps require you to have
 a {{< gloss >}}cluster{{< /gloss >}} running a
 [supported version](/docs/releases/supported-releases#support-status-of-istio-releases) of Kubernetes ({{< supported_kubernetes_versions >}}). You can use any supported platform, for
 example [Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) or
@@ -33,9 +33,9 @@ Follow these steps to get started with ambient:
 
 ## Download and install {#download}
 
-1.  Download the [alpha version of Istio](https://github.com/istio/istio/wiki/Dev-Builds) with support for ambient mesh.
-    If you don’t have a Kubernetes cluster, you can set up
-    locally (e.g. using kind as below) or deploy one in Google or AWS Cloud:
+1.  Download the [latest version of Istio](https://github.com/istio/istio/wiki/Dev-Builds) with `alpha` support for ambient mesh.
+
+1.  If you don’t have a Kubernetes cluster, you can deploy one locally using `kind` with the following command:
 
     {{< text bash >}}
     $ kind create cluster --config=- <<EOF
@@ -58,7 +58,7 @@ Follow these steps to get started with ambient:
     {{< /text >}}
 
 1.  After running the above command, you’ll get the following output that indicates
-    these five components are installed successfully!
+    five components (including {{< gloss "ztunnel" >}}Ztunnel{{< /gloss >}}) have been installed successfully!
 
     {{< text plain >}}
     ✔ Istio core installed
@@ -83,9 +83,9 @@ Make sure the default namespace does not include the label `istio-injection=enab
 {{< /warning >}}
 
 {{< text bash >}}
-$ kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
-$ kubectl apply -f samples/sleep/sleep.yaml
-$ kubectl apply -f samples/sleep/notsleep.yaml
+$ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
+$ kubectl apply -f @samples/sleep/sleep.yaml@
+$ kubectl apply -f @samples/sleep/notsleep.yaml@
 {{< /text >}}
 
 Note: `sleep` and `notsleep` are two simple applications that can serve as curl clients.
@@ -94,7 +94,7 @@ Connect `productpage` to the Istio ingress gateway so you can access the bookinf
 app from outside of the cluster:
 
 {{< text bash >}}
-$ kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml
+$ kubectl apply -f @samples/bookinfo/networking/bookinfo-gateway.yaml@
 {{< /text >}}
 
 Test your bookinfo application, it should work with or without the gateway. Note: you can replace `istio-ingressgateway.istio-system` below with its load balancer IP (or hostname) if it has one:
@@ -125,7 +125,7 @@ $ kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | head -n10
 $ kubectl exec deploy/notsleep -- curl -s http://productpage:9080/ | head -n10
 {{< /text >}}
 
-You’ll immediately gain mTLS communication and L4 telemetry among the applications in the Ambient mesh.
+You’ll immediately gain mTLS communication and L4 telemetry among the applications in the ambient mesh.
 If you follow the instructions to install [Prometheus](/docs/ops/integrations/prometheus/#installation)
 and [Kiali](/docs/ops/integrations/kiali/#installation), you’ll be able to visualize your application
 in Kiali’s dashboard:
@@ -175,7 +175,7 @@ $ kubectl exec deploy/notsleep -- curl -s http://productpage:9080/ | head -n10
 
 ### L7 Authorization Policy
 
-Using the Kubernetes Gateway API, you can deploy a waypoint proxy for the `productpage` service that uses the `bookinfo-productpage` service account. Any traffic going to the `productpage` service will be mediated, enforced and observed by the Layer 7 (L7) proxy.
+Using the Kubernetes Gateway API, you can deploy a {{< gloss "waypoint" >}}waypoint proxy{{< /gloss >}} for the `productpage` service that uses the `bookinfo-productpage` service account. Any traffic going to the `productpage` service will be mediated, enforced and observed by the Layer 7 (L7) proxy.
 Install Kubernetes Gateway CRDs, which don’t come installed by default on most Kubernetes clusters:
 
 {{< text bash >}}
@@ -247,7 +247,7 @@ $ kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | head -n1
 
 ## Control Traffic {#control}
 
-Deploy a `waypoint` proxy for the review service, using the `bookinfo-review` service account, so that any traffic going to the review service will be mediated by the waypoint proxy.
+Deploy a waypoint proxy for the review service, using the `bookinfo-review` service account, so that any traffic going to the review service will be mediated by the waypoint proxy.
 
 {{< text bash >}}
 $ istioctl x waypoint apply --service-account bookinfo-reviews
@@ -256,8 +256,8 @@ $ istioctl x waypoint apply --service-account bookinfo-reviews
 Apply the reviews virtual service to control 90% traffic to reviews v1 and 10% traffic to reviews v2.
 
 {{< text bash >}}
-$ kubectl apply -f samples/bookinfo/networking/virtual-service-reviews-90-10.yaml
-$ kubectl apply -f samples/bookinfo/networking/destination-rule-reviews.yaml
+$ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-90-10.yaml@
+$ kubectl apply -f @samples/bookinfo/networking/destination-rule-reviews.yaml@
 {{< /text >}}
 
 Confirm that roughly 10% traffic from the 100 requests go to reviews-v2:
@@ -273,8 +273,8 @@ To delete the Bookinfo sample application and its configuration, see [`Bookinfo`
 To remove the `sleep` and `notsleep` applications:
 
 {{< text bash >}}
-$ kubectl delete -f samples/sleep/sleep.yaml
-$ kubectl delete -f samples/sleep/notsleep.yaml
+$ kubectl delete -f @samples/sleep/sleep.yaml@
+$ kubectl delete -f @samples/sleep/notsleep.yaml@
 {{< /text >}}
 
 To remove the `productpage-viewer` authorization policy and uninstall Istio:
