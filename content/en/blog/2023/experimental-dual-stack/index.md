@@ -83,9 +83,9 @@ EOF
 ```
 
 To verify your installation let us create 3 namespaces and install the `tcp-echo` server to them:
-* dual-stack: `tcp-echo` will listen on both an IPv4 and IPv6 address.
-* ipv4: `tcp-echo` will listen on only an IPv4 address.
-* ipv6: `tcp-echo` will listen on only an IPv6 address.
+* `dual-stack`: `tcp-echo` will listen on both an IPv4 and IPv6 address.
+* `ipv4`: `tcp-echo` will listen on only an IPv4 address.
+* `ipv6`: `tcp-echo` will listen on only an IPv6 address.
 
 ```shell
 $ kubectl create namespace dual-stack
