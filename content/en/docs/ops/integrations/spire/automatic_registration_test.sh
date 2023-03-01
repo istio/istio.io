@@ -19,30 +19,22 @@ set -e
 set -u
 set -o pipefail
 
+# @setup profile=none
+
 # Install SPIRE configured with k8s Controller Manager
 snip_install_spire_with_controller_manager
 _wait_for_daemonset spire spire-agent
 _wait_for_deployment spire spire-server
 
-# Install Istio
-# @setup profile=none
-set +u # Do not exit when value is unset. CHECK_FILE in the IstioOperator might be unset
-snip_define_istio_operator
-if ! istioctl install --set tag="$TAG" --set hub="$HUB" --skip-confirmation -f ./istio.yaml
-then
-    echo "Deployment istio-ingressgateway is not ready as expected"
-else
-    echo "Istio install succeeded, expected istio-ingressgateway to not be ready"
-    return 1
-fi
-set -u # Exit on unset value
-_wait_for_deployment istio-system istiod
-
 # Create ClusterSPIFFEID
 snip_create_clusterspiffeid
 
-# Add registration label to ingress-gateway
-snip_label_ingressgateway
+# Install Istio
+set +u # Do not exit when value is unset. CHECK_FILE in the IstioOperator might be unset
+snip_define_istio_operator_for_auto_registration
+snip_apply_istio_operator_configuration
+set -u # Exit on unset value
+_wait_for_deployment istio-system istiod
 _wait_for_deployment istio-system istio-ingressgateway
 
 # Deploy sleep application with registration label

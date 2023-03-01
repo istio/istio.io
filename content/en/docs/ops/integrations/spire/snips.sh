@@ -28,7 +28,101 @@ kubectl apply -f samples/security/spire/spire-quickstart.yaml
 socket_path = "/run/secrets/workload-spiffe-uds/socket"
 ENDSNIP
 
-snip_define_istio_operator() {
+snip_create_clusterspiffeid() {
+kubectl apply -f - <<EOF
+apiVersion: spire.spiffe.io/v1alpha1
+kind: ClusterSPIFFEID
+metadata:
+  name: example
+spec:
+  spiffeIDTemplate: "spiffe://{{ .TrustDomain }}/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}"
+  podSelector:
+    matchLabels:
+      spiffe.io/spire-managed-identity: "true"
+EOF
+}
+
+snip_define_istio_operator_for_auto_registration() {
+cat <<EOF > ./istio.yaml
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+metadata:
+  namespace: istio-system
+spec:
+  profile: default
+  meshConfig:
+    trustDomain: example.org
+  values:
+    global:
+    # This is used to customize the sidecar template
+    sidecarInjectorWebhook:
+      templates:
+        spire: |
+          spec:
+            containers:
+            - name: istio-proxy
+              volumeMounts:
+              - name: workload-socket
+                mountPath: /run/secrets/workload-spiffe-uds
+                readOnly: true
+            volumes:
+              - name: workload-socket
+                csi:
+                  driver: "csi.spiffe.io"
+                  readOnly: true
+  components:
+    ingressGateways:
+      - name: istio-ingressgateway
+        enabled: true
+        label:
+          istio: ingressgateway
+          spiffe.io/spire-managed-identity: "true"
+        k8s:
+          overlays:
+            - apiVersion: apps/v1
+              kind: Deployment
+              name: istio-ingressgateway
+              patches:
+                - path: spec.template.spec.volumes.[name:workload-socket]
+                  value:
+                    name: workload-socket
+                    csi:
+                      driver: "csi.spiffe.io"
+                      readOnly: true
+                - path: spec.template.spec.containers.[name:istio-proxy].volumeMounts.[name:workload-socket]
+                  value:
+                    name: workload-socket
+                    mountPath: "/run/secrets/workload-spiffe-uds"
+                    readOnly: true
+                - path: spec.template.spec.initContainers
+                  value:
+                    - name: wait-for-spire-socket
+                      image: busybox:1.28
+                      volumeMounts:
+                        - name: workload-socket
+                          mountPath: /run/secrets/workload-spiffe-uds
+                          readOnly: true
+                      env:
+                        - name: CHECK_FILE
+                          value: /run/secrets/workload-spiffe-uds/socket
+                      command:
+                        - sh
+                        - "-c"
+                        - |-
+                          echo "$(date -Iseconds)" Waiting for: ${CHECK_FILE}
+                          while [[ ! -e ${CHECK_FILE} ]] ; do
+                            echo "$(date -Iseconds)" File does not exist: ${CHECK_FILE}
+                            sleep 15
+                          done
+                          ls -l ${CHECK_FILE}
+EOF
+}
+
+snip_apply_istio_operator_configuration() {
+istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --skip-confirmation -f ./istio.yaml
+}
+
+snip_define_istio_operator_for_manual_registration() {
 cat <<EOF > ./istio.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
@@ -101,28 +195,6 @@ spec:
                           done
                           ls -l ${CHECK_FILE}
 EOF
-}
-
-snip_install_istio_2() {
-istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --skip-confirmation -f ./istio.yaml
-}
-
-snip_create_clusterspiffeid() {
-kubectl apply -f - <<EOF
-apiVersion: spire.spiffe.io/v1alpha1
-kind: ClusterSPIFFEID
-metadata:
-  name: example
-spec:
-  spiffeIDTemplate: "spiffe://{{ .TrustDomain }}/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}"
-  podSelector:
-    matchLabels:
-      spiffe.io/spire-managed-identity: "true"
-EOF
-}
-
-snip_label_ingressgateway() {
-kubectl patch deployment istio-ingressgateway -n istio-system -p '{"spec":{"template":{"metadata":{"labels":{"spiffe.io/spire-managed-identity": "true"}}}}}'
 }
 
 snip_apply_sleep() {
