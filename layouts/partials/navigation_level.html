@@ -30,9 +30,11 @@
             {{ $desc := .Description }}
             {{ $linktitle := .LinkTitle }}
             {{ if isset .Params "status" }}
-                {{ $status := .Params.status }}
-                {{ $linktitle = printf "%s %s" ($linktitle) "*" }}
-                {{ $desc = printf "%s (%s)" (trim $desc ".") (.Params.status) }}
+                {{ if or (eq .Params.status "Experimental") (eq .Params.status "Alpha") }}
+                    {{ $status := .Params.status }}
+                    {{ $linktitle = printf "%s %s" ($linktitle) "*" }}
+                    {{ $desc = printf "%s (%s)" (trim $desc ".") (.Params.status) }}
+                {{ end }}
             {{ end }}
 
             {{- if ne .PublishDate.Year 0001 -}}

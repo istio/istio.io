@@ -8,6 +8,8 @@ test: n/a
 status: Alpha
 ---
 
+{{< boilerplate alpha >}}
+
 [WasmPlugin API](/zh/docs/reference/config/proxy_extensions/wasm-plugin)
 提供了一种[将 Wasm 模块分发给](/zh/docs/tasks/extensibility/wasm-module-distribution)代理的方法。
 由于每个代理将从远程镜像仓库或 HTTP 服务器中拉取 Wasm 模块，所以了解 Istio 如何选择拉取模块的机制在可用性和性能方面都很重要。

@@ -5,8 +5,10 @@ weight: 10
 keywords: [security,authentication,jwt,route]
 owner: istio/wg-security-maintainers
 test: yes
-status: Experimental
+status: Alpha
 ---
+
+{{< boilerplate alpha >}}
 
 This task shows you how to route requests based on JWT claims on an Istio ingress gateway using the request authentication
 and virtual service.

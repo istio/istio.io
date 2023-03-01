@@ -11,13 +11,13 @@ test: yes
 status: Experimental
 ---
 
+{{< boilerplate experimental >}}
+
 本任务向您展示通过 Istio 请求身份验证策略成功完成 JWT 身份验证之后如何将 JWT 声明复制到 HTTP 头。
 
 {{< warning >}}
 仅支持 string、boolean 和 integer 类型的声明。此时不支持 array 类型的声明。
 {{< /warning >}}
-
-{{< boilerplate experimental-feature-warning >}}
 
 ## 开始之前{#before-you-begin}
 
