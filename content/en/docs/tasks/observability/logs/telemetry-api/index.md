@@ -109,7 +109,7 @@ $ cat <<EOF | kubectl apply -f -
 apiVersion: telemetry.istio.io/v1alpha1
 kind: Telemetry
 metadata:
-name: disable-details-logging
+name: default-exception-logging
 namespace: istio-system
 spec:
   accessLogging:
