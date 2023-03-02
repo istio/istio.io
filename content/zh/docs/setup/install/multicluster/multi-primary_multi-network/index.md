@@ -18,7 +18,8 @@ owner: istio/wg-environments-maintainers
 
 在此配置中，`cluster1` 和 `cluster2` 均监测两个集群 API Server 的服务端点。
 
-跨集群边界的服务负载，通过专用的[东西向](https://en.wikipedia.org/wiki/East-west_traffic)网关，以间接的方式通讯。每个集群中的网关在其他集群必须可以访问。
+跨集群边界的服务负载，通过专用的[东西向](https://en.wikipedia.org/wiki/East-west_traffic)网关，
+以间接的方式通讯。每个集群中的网关在其他集群必须可以访问。
 
 {{< image width="75%"
     link="arch.svg"
@@ -73,7 +74,8 @@ $ @samples/multicluster/gen-eastwest-gateway.sh@ \
 {{< /text >}}
 
 {{< warning >}}
-如果随着版本修正已经安装控制面板，在 `gen-eastwest-gateway.sh` 命令中添加 `--revision rev` 标志。
+如果控制面板已经安装了修订版本，可 `gen-eastwest-gateway.sh` 命令中添加
+`--revision rev` 标志。
 {{< /warning >}}
 
 等待东西向网关被分配外部 IP 地址:
@@ -87,7 +89,8 @@ istio-eastwestgateway   LoadBalancer   10.80.6.124   34.75.71.237   ...       51
 ## 开放 `cluster1` 中的服务 {#expose-services-in-cluster1}
 
 因为集群位于不同的网络中，所以我们需要在两个集群东西向网关上开放所有服务（*.local）。
-虽然此网关在互联网上是公开的，但它背后的服务只能被拥有可信 mTLS 证书、工作负载 ID 的服务访问，就像它们处于同一网络一样。
+虽然此网关在互联网上是公开的，但它背后的服务只能被拥有可信 mTLS 证书、工作负载 ID 的服务访问，
+就像它们处于同一网络一样。
 
 {{< text bash >}}
 $ kubectl --context="${CTX_CLUSTER1}" apply -n istio-system -f \
@@ -178,4 +181,4 @@ $ istioctl x create-remote-secret \
 
 ## 后续步骤 {#next-steps}
 
-现在，你可以[验证此次安装](/zh/docs/setup/install/multicluster/verify).
+现在，你可以[验证此次安装](/zh/docs/setup/install/multicluster/verify)。

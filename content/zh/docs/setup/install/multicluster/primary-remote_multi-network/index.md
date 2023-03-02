@@ -6,9 +6,10 @@ keywords: [kubernetes,multicluster]
 test: yes
 owner: istio/wg-environments-maintainers
 ---
-按照本指南，在 `cluster1` 主集群（{{< gloss >}}primary cluster{{< /gloss >}}） 安装 Istio 控制平面，
-并配置 `cluster2` 从集群（{{< gloss >}}remote cluster{{< /gloss >}}）指向 `cluster1` 的控制平面。
-集群 `cluster1` 在 `network1` 网络上，而集群 `cluster2` 在  `network2` 网络上。
+按照本指南，在 `cluster1` 主集群（{{< gloss >}}primary cluster{{< /gloss >}}）
+安装 Istio 控制平面，并配置 `cluster2`
+从集群（{{< gloss >}}remote cluster{{< /gloss >}}）指向 `cluster1` 的控制平面。
+集群 `cluster1` 在 `network1` 网络上，而集群 `cluster2` 在 `network2` 网络上。
 所以跨集群边界的 Pod 之间，网络不能直接连通。
 
 继续安装之前，请确保完成了[准备工作](/zh/docs/setup/install/multicluster/before-you-begin)中的步骤。
@@ -63,7 +64,8 @@ $ istioctl install --set values.pilot.env.EXTERNAL_ISTIOD=true --context="${CTX_
 
 请注意，`values.pilot.env.EXTERNAL_ISTIOD` 设置为 `true`。
 这将启用安装在 `cluster1` 上的控制平面，使其也用作其他从集群的外部控制平面。
-启用此特性后，`istiod` 将尝试获取领导选举锁，并因此管理[适当注解的](#set-the-control-plane-cluster-for-cluster2)且将接入的从集群（此处为 `cluster2`）。
+启用此特性后，`istiod` 将尝试获取领导选举锁，
+并因此管理[适当注解的](#set-the-control-plane-cluster-for-cluster2)且将接入的从集群（此处为 `cluster2`）。
 
 ## 在 `cluster1` 安装东西向网关 {#install-the-east-west-gateway-in-cluster1}
 
@@ -79,7 +81,8 @@ $ @samples/multicluster/gen-eastwest-gateway.sh@ \
 {{< /text >}}
 
 {{< warning >}}
-如果随着版本修正已经安装控制面板，在 `gen-eastwest-gateway.sh` 命令中添加 `--revision rev` 标志。
+如果随着版本修正已经安装控制面板，在 `gen-eastwest-gateway.sh` 命令中添加
+`--revision rev` 标志。
 {{< /warning >}}
 
 等待东西向网关获取外部 IP 地址
@@ -92,7 +95,8 @@ istio-eastwestgateway   LoadBalancer   10.80.6.124   34.75.71.237   ...       51
 
 ## 开放 `cluster1` 控制平面 {#expose-the-control-plane-in-cluster1}
 
-安装 `cluster2` 之前，我们需要先开放 `cluster1` 的控制平面，以便 `cluster2` 中的服务能访问服务发现。
+安装 `cluster2` 之前，我们需要先开放 `cluster1` 的控制平面，
+以便 `cluster2` 中的服务能访问服务发现。
 
 {{< text bash >}}
 $ kubectl apply --context="${CTX_CLUSTER1}" -n istio-system -f \
@@ -120,7 +124,9 @@ $ kubectl --context="${CTX_CLUSTER2}" create namespace istio-system
 $ kubectl --context="${CTX_CLUSTER2}" annotate namespace istio-system topology.istio.io/controlPlaneClusters=cluster1
 {{< /text >}}
 
-将 `topology.istio.io/controlPlaneClusters` 命名空间注解设置为 `cluster1` 将指示运行在 `cluster1` 上的相同命名空间（本例中为 istio-system）中的 `istiod` 管理[作为从集群接入](#attach-cluster2-as-a-remote-cluster-of-cluster1)的 `cluster2`。
+将 `topology.istio.io/controlPlaneClusters` 命名空间注解设置为
+`cluster1` 将指示运行在 `cluster1` 上的相同命名空间（本例中为 istio-system）中的
+`istiod` 管理[作为从集群接入](#attach-cluster2-as-a-remote-cluster-of-cluster1)的 `cluster2`。
 
 ## 为 `cluster2` 设置缺省网络 {#set-the-default-network-for-cluster2}
 
@@ -159,7 +165,8 @@ EOF
 
 {{< tip >}}
 此处我们使用 `injectionPath` 和 `remotePilotAddress` 参数配置控制平面的位置。
-尽管便于演示，但在生产环境中，建议使用正确签名的 DNS 证书来配置 `injectionURL` 参数，类似于[外部控制平面说明](/zh/docs/setup/install/external-controlplane/#register-the-new-cluster)所示的配置。
+尽管便于演示，但在生产环境中，建议使用正确签名的 DNS 证书来配置 `injectionURL` 参数，
+类似于[外部控制平面说明](/zh/docs/setup/install/external-controlplane/#register-the-new-cluster)所示的配置。
 {{< /tip >}}
 
 将此配置应用到 `cluster2`：
@@ -197,19 +204,23 @@ $ kubectl --context="${CTX_CLUSTER2}" apply -n istio-system -f \
 
 ## 作为 `cluster1` 的从集群接入 `cluster2` {#attach-cluster2-as-a-remote-cluster-of-cluster1}
 
-为了将从集群附加到其控制平面，我们让 `cluster1` 中的控制平面访问 `cluster2` 中的 API 服务器。这将执行以下操作：
+为了将从集群附加到其控制平面，我们让 `cluster1` 中的控制平面访问
+`cluster2` 中的 API 服务器。这将执行以下操作：
 
-- 使控制平面能够验证来自在 `cluster2` 中所运行的工作负载的连接请求。如果没有 API 服务器访问权限，则该控制平面将拒绝这些请求。
+- 使控制平面能够验证来自在 `cluster2` 中所运行的工作负载的连接请求。
+  如果没有 API 服务器访问权限，则该控制平面将拒绝这些请求。
 
 - 启用在 `cluster2` 中运行的服务端点的发现。
 
-因为它已包含在 `topology.istio.io/controlPlaneClusters` 命名空间注解中，`cluster1` 上的控制平面也将：
+因为它已包含在 `topology.istio.io/controlPlaneClusters` 命名空间注解中
+`cluster1` 上的控制平面也将：
 
 - 修补 `cluster2` 中 Webhook 中的证书。
 
 - 启动命名空间控制器，在 `cluster2` 的命名空间中写入 ConfigMap。
 
-为了能让 API 服务器访问 `cluster2`，我们生成一个远程 Secret 并将其应用于 `cluster1`：
+为了能让 API 服务器访问 `cluster2`，
+我们生成一个远程 Secret 并将其应用于 `cluster1`：
 
 {{< text bash >}}
 $ istioctl x create-remote-secret \
