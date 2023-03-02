@@ -6,20 +6,15 @@ attribution: "Steve(Huailong) Zhang (Intel)"
 keywords: [Istio, Kata, security]
 ---
 
-[Kata Containers](https://github.com/kata-containers), which  is a merger of two existing open source projects: `Intel Clear Containers` and `Hyper runV`, is an open source project and community working to build a standard implementation of lightweight Virtual Machines (VMs) that feel and perform like containers, but provide the workload isolation and security advantages of VMs.
+Based on [Kata Containers](https://github.com/kata-containers) definition, it's natural for me to think about how to achieve the Kata Containers as one of multiple container runtimes in Istio to inject the workload. The good news is that I successfully deploy it in my environment, and this blog will introduce what's the benefit can we get from the Kata and how to deploy it.
 
-Based on the definition above, it's natural for me to think about how to achieve the Kata Containers as one of multiple container runtimes in Istio to inject the workload. The good news is that I successfully deploy it in my environment, and this blog will introduce what's the benefit can we get from the Kata and how to deploy it.
+## What's the benefit of using Kata Containers to Istio?
 
-## What's the benefit to use Kata Containers?
-
-Kata is designed to provide greater isolation between containers while still enabling the performance and efficiency provided by other runtimes. There is one critical difference for Kata to be a special container runtime: Kata runtime enforces a deeper level of isolation between containers than other runtimes by following below 2 points:
-
-* Each pod runs its own kernel instead of sharing the host system’s kernel with the host and other containers using cgroups in Kata
-* Kata Containers can take advantage of security features provided by hardware-level virtualization(meaning virtualization that is built into CPUs and made available using VT extensions)
-
-However, it's different from common virtual machines to take a minute or two for starting and wasting a fair amount of hardware resources on isolation, Kata starts just as fast and consumes resources just as efficiently as other containers. The containers become more secure with the fewest cost.
+There is one critical difference for Kata to be a special container runtime: Kata runtime enforces a deeper level of isolation between containers. However, it's different from common virtual machines to take a minute or two for starting and wasting a fair amount of hardware resources on isolation, Kata starts just as fast and consumes resources just as efficiently as other containers. The containers become more secure with the fewest cost.
 
 {{< image link="./traditional-containers-vs-Kata-containers.png" caption="Traditional containers VS Kata Containers" >}}
+
+Therefore, it may be a good choice to gain a security pod environment without consuming much resources for Istio user.
 
 ## How to deploy workloads injection with Kata Containers in Istio?
 
@@ -182,5 +177,5 @@ Besides the Containerd `containerd-shim-runc-v2`, there also are some other proc
 
 There are 2 conclusions from above practice:
 
-* Basically, there is no any difference for using Kata Containers with other generic container runtimes in Istio.
+* Basically, there are no much differences for using Kata Containers with other generic container runtimes in Istio from my use case: deploy httpbin and bookinfo, but we still need to verify more other things, such as network situation, Istio CNI enable and so on.
 * There may be multiple container runtimes according to different requirements in Istio later in the same environment at the same time, and we need to aware of this.
