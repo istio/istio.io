@@ -1,7 +1,7 @@
 ---
 title: "Inject workload with Kata Containers in Istio"
-description: "Inject workload with Kata Containers in Istio, instead of runc."
-publishdate: 2023-03-01
+description: "Besides generic container runtime, inject workload with Kata Containers in Istio."
+publishdate: 2023-03-02
 attribution: "Steve(Huailong) Zhang (Intel)"
 keywords: [Istio, Kata, security]
 ---
