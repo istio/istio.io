@@ -9,13 +9,13 @@ test: no
 ---
 
 k3d 是在 docker 中运行 [k3s](https://github.com/rancher/k3s) (Rancher Lab 的最小 Kubernetes 分布)的轻量级包装器。
-k3d 使得在 docker 中创建单节点和多节点 k3s 集群变得非常容易，例如用于Kubernetes 的本地开发。
+k3d 使得在 docker 中创建单节点和多节点 k3s 集群变得非常容易，例如用于 Kubernetes 的本地开发。
 
 ## 先决条件
 
 - 要使用 k3d，您还需要 [安装 docker](https://docs.docker.com/install/)。
-- 安装 [k3d] 的最新版本 (https://k3d.io/v5.4.7/# 安装)。
-- 与Kubernetes 集群 [kubectl](https://kubernetes.io/docs/tasks/tools/# kubectl)进行交互。
+- 安装 [k3d] 的最新版本 (https://k3d.io/v5.4.7/#installation)。
+- 与Kubernetes 集群 [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl)进行交互。
 - (可选) [Helm](https://helm.sh/docs/intro/install/)是Kubernetes 的软件包管理器。
 
 ## 安装
@@ -45,7 +45,7 @@ k3d 使得在 docker 中创建单节点和多节点 k3s 集群变得非常容易
     `k3d-` is prefixed to the context and cluster names, for example: `k3d-k3s-default`
     {{< /tip >}}
 
-4. 如果运行多个集群，则需要选择 `kubectl` 与哪个集群进行对话。您可以设置默认集群通过在 [Kubernetes kubeconfig](https://kubernetes.io/docs/concepts/configuration/organized-cluster-access-kubeconfig/)文件中设置当前上下文来实现`kubectl`。此外，您可以运行以下命令为 `kubectl` 设置当前上下文。
+4. 如果运行多个集群，则需要选择 `kubectl` 与哪个集群进行对话。您可以设置默认集群通过在 [Kubernetes kubeconfig](https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/) 文件中设置当前上下文来实现 `kubectl`。此外，您可以运行以下命令为 `kubectl` 设置当前上下文。
 
     {{< text bash >}}
     $ kubectl config use-context k3d-k3s-default
@@ -54,7 +54,7 @@ k3d 使得在 docker 中创建单节点和多节点 k3s 集群变得非常容易
 
 ## 为 k3d 设置 Istio
 
-1. 完成 k3d 集群的设置后，可以继续在其上 [使用Helm 3安装Istio](/docs/setup/install/helm/)。
+1. 完成 k3d 集群的设置后，可以继续在其上 [使用 Helm 3安装 Istio](/docs/setup/install/helm/)。
 
     {{< text bash >}}
     $ kubectl create namespace istio-system
@@ -117,7 +117,7 @@ k3d 没有像 minikube 这样的内置仪表板 UI。但是您仍然可以设置
     Starting to serve on 127.0.0.1:8001
     {{< /text >}}
 
-    单击 [Kubernetes 仪表板](http:// localhost:8001/api/v1/namespaces/kubernetes-Dashboard/services/ https:// kubernetes-dashboard:/proxy/) 来查看您的部署和服务。
+    单击 [Kubernetes 仪表板](http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/) 来查看您的部署和服务。
 
     {{< warning >}}
     You have to save your token somewhere, otherwise you have to run step number 4 everytime you need a token to log in to your Dashboard.
