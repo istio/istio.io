@@ -1,6 +1,6 @@
 ---
 title: k3d
-description: Instructions to set up k3d for Istio.
+description: 为 Istio 设置 k3d 的说明。
 weight: 28
 skip_seealso: true
 keywords: [platform-setup,kubernetes,k3d,k3s]
@@ -13,9 +13,9 @@ k3d 使得在 docker 中创建单节点和多节点 k3s 集群变得非常容易
 
 ## 先决条件
 
-- 要使用 k3d，您还需要 [安装 docker](https://docs.docker.com/install/)。
-- 安装 [k3d] 的最新版本 (https://k3d.io/v5.4.7/#installation)。
-- 与Kubernetes 集群 [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl)进行交互。
+- 要使用 k3d，您还需要[安装 docker](https://docs.docker.com/install/)。
+- 安装最新版本 [k3d](https://k3d.io/v5.4.7/#installation)。
+- 与 Kubernetes 集群 [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl) 进行交互。
 - (可选) [Helm](https://helm.sh/docs/intro/install/)是Kubernetes 的软件包管理器。
 
 ## 安装
@@ -26,14 +26,14 @@ k3d 使得在 docker 中创建单节点和多节点 k3s 集群变得非常容易
     $ k3d cluster create --api-port 6550 -p "9080:80@loadbalancer"  -p "9443:443@loadbalancer" --agents 2 --k3s-arg '--disable=traefik@server:*'
     {{< /text >}}
 
-2. 查看 k3d 集群列表，请使用以下命令:
+1. 查看 k3d 集群列表，请使用以下命令:
 
     {{< text bash >}}
     $ k3d cluster list
     k3s-default
     {{< /text >}}
 
-3. 列出本地 Kubernetes 上下文，请使用以下命令。
+1. 列出本地 Kubernetes 上下文，请使用以下命令。
 
     {{< text bash >}}
     $ kubectl config get-contexts
@@ -45,7 +45,7 @@ k3d 使得在 docker 中创建单节点和多节点 k3s 集群变得非常容易
     `k3d-` is prefixed to the context and cluster names, for example: `k3d-k3s-default`
     {{< /tip >}}
 
-4. 如果运行多个集群，则需要选择 `kubectl` 与哪个集群进行对话。您可以设置默认集群通过在 [Kubernetes kubeconfig](https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/) 文件中设置当前上下文来实现 `kubectl`。此外，您可以运行以下命令为 `kubectl` 设置当前上下文。
+1. 如果运行多个集群，则需要选择 `kubectl` 与哪个集群进行对话。您可以设置默认集群通过在 [Kubernetes kubeconfig](https://kubernetes.io/zh-cn/docs/concepts/configuration/organize-cluster-access-kubeconfig/) 文件中设置当前上下文来实现 `kubectl`。此外，您可以运行以下命令为 `kubectl` 设置当前上下文。
 
     {{< text bash >}}
     $ kubectl config use-context k3d-k3s-default
@@ -54,7 +54,7 @@ k3d 使得在 docker 中创建单节点和多节点 k3s 集群变得非常容易
 
 ## 为 k3d 设置 Istio
 
-1. 完成 k3d 集群的设置后，可以继续在其上 [使用 Helm 3安装 Istio](/docs/setup/install/helm/)。
+1. 完成 k3d 集群的设置后，可以继续在其上 [使用 Helm 3安装 Istio](/zh/docs/setup/install/helm/)。
 
     {{< text bash >}}
     $ kubectl create namespace istio-system
@@ -62,7 +62,7 @@ k3d 使得在 docker 中创建单节点和多节点 k3s 集群变得非常容易
     $ helm install istiod istio/istiod -n istio-system --wait
     {{< /text >}}
 
-2. (可选) 安装入口网关:
+1. (可选) 安装入口网关:
 
     {{< text bash >}}
     $ kubectl label namespace istio-system istio-injection=enabled
@@ -82,7 +82,7 @@ k3d 没有像 minikube 这样的内置仪表板 UI。但是您仍然可以设置
     $ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/${VERSION_KUBE_DASHBOARD}/aio/deploy/recommended.yaml
     {{< /text >}}
 
-2. 验证仪表板已部署并正在运行。
+1. 验证仪表板已部署并正在运行。
 
     {{< text bash >}}
     $ kubectl get pod -n kubernetes-dashboard
@@ -91,26 +91,26 @@ k3d 没有像 minikube 这样的内置仪表板 UI。但是您仍然可以设置
     kubernetes-dashboard-67bd8fc546-4xfmm        1/1     Running   0          25s
     {{< /text >}}
 
-3. 创建 `serviceaccount` 和 `clusterrolebinding` 为新创建的集群提供管理员访问权限。
+1. 创建 `serviceaccount` 和 `clusterrolebinding` 为新创建的集群提供管理员访问权限。
 
     {{< text bash >}}
     $ kubectl create serviceaccount -n kubernetes-dashboard admin-user
     $ kubectl create clusterrolebinding -n kubernetes-dashboard admin-user --clusterrole cluster-admin --serviceaccount=kubernetes-dashboard:admin-user
     {{< /text >}}
 
-4. 要登录到您的仪表板，您需要一个承载令牌。使用以下命令将令牌存储在变量中。
+1. 要登录到您的仪表板，您需要一个承载令牌。使用以下命令将令牌存储在变量中。
 
     {{< text bash >}}
     $ token=$(kubectl -n kubernetes-dashboard create token admin-user)
     {{< /text >}}
 
-    Display the token using the `echo` command and copy it to use for logging in to your Dashboard.
+    使用 `echo` 命令显示令牌，并将其复制以用于登录到仪表板。
 
     {{< text bash >}}
     $ echo $token
     {{< /text >}}
 
-5. 您可以通过运行以下命令使用 kubectl 命令行工具访问仪表板:
+1. 您可以通过运行以下命令使用 kubectl 命令行工具访问仪表板:
 
     {{< text bash >}}
     $ kubectl proxy
