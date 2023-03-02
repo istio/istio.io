@@ -20,7 +20,7 @@ SPIRE's node attestation extends attestation to the physical or virtual hardware
 For a quick demo of how this SPIRE integration with Istio works, see [Integrating SPIRE as a CA through Envoy's SDS API]({{< github_tree >}}/samples/security/spire).
 
 {{< warning >}}
-Note that this integration requires version 1.14 for both `istioctl` and the data plane.
+Note that this integration requires version 1.14+ for both `istioctl` and the data plane.
 {{< /warning >}}
 
 The integration is compatible with Istio upgrades.
@@ -93,9 +93,9 @@ A ClusterSPIFFEID must be applied prior to installing Istio in order for the Ing
 
     The example ClusterSPIFFEID enables automatic workload registration for all workloads with the `spiffe.io/spire-managed-identity: "true"` label. For pods with this label, the values specified in the `spiffeIDTemplate` will be extracted to form the SPIFFE ID.
 
-1. [Download Istio release 1.14+](/docs/setup/getting-started/#download).
+2. [Download the Istio release](/docs/setup/getting-started/#download).
 
-1. Create the Istio configuration with custom patches for the Ingress-gateway and istio-proxy. The Ingress Gateway component includes the `spiffe.io/spire-managed-identity: "true"` label.
+3. Create the Istio configuration with custom patches for the Ingress-gateway and istio-proxy. The Ingress Gateway component includes the `spiffe.io/spire-managed-identity: "true"` label.
 
     {{< text syntax=bash snip_id=define_istio_operator_for_auto_registration >}}
     $ cat <<EOF > ./istio.yaml
@@ -173,13 +173,13 @@ A ClusterSPIFFEID must be applied prior to installing Istio in order for the Ing
     EOF
     {{< /text >}}
 
-1. Apply the configuration:
+4. Apply the configuration:
 
     {{< text syntax=bash snip_id=apply_istio_operator_configuration >}}
     $ istioctl install --skip-confirmation -f ./istio.yaml
     {{< /text >}}
 
-1. Check Ingress-gateway pod state:
+5. Check Ingress-gateway pod state:
 
     {{< text syntax=bash snip_id=none >}}
     $ kubectl get pods -n istio-system
@@ -194,9 +194,9 @@ Note that `SPIRE Controller Manager` is used in the [quick start](#option-1:-qui
 
 ### Option 2: Configuration for Manual Workload Registration with SPIRE
 
-1. [Download Istio release 1.14+](/docs/setup/getting-started/#download).
+1. [Download the Istio release](/docs/setup/getting-started/#download).
 
-1. After [deploying SPIRE](#install-spire) into your environment, and verifying that all deployments are in `Ready` state, install Istio with custom patches for the Ingress-gateway as well as for istio-proxy.
+2. After [deploying SPIRE](#install-spire) into your environment, and verifying that all deployments are in `Ready` state, install Istio with custom patches for the Ingress-gateway as well as for istio-proxy.
 
     Create Istio configuration:
 
@@ -275,13 +275,13 @@ Note that `SPIRE Controller Manager` is used in the [quick start](#option-1:-qui
     EOF
     {{< /text >}}
 
-1. Apply the configuration:
+3. Apply the configuration:
 
     {{< text syntax=bash snip_id=none >}}
     $ istioctl install --skip-confirmation -f ./istio.yaml
     {{< /text >}}
 
-1. Check Ingress-gateway pod state:
+4. Check Ingress-gateway pod state:
 
     {{< text syntax=bash snip_id=none >}}
     $ kubectl get pods -n istio-system
