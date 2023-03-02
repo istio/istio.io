@@ -93,9 +93,9 @@ A ClusterSPIFFEID must be applied prior to installing Istio in order for the Ing
 
     The example ClusterSPIFFEID enables automatic workload registration for all workloads with the `spiffe.io/spire-managed-identity: "true"` label. For pods with this label, the values specified in the `spiffeIDTemplate` will be extracted to form the SPIFFE ID.
 
-2. [Download the Istio release](/docs/setup/getting-started/#download).
+1. [Download the Istio release](/docs/setup/getting-started/#download).
 
-3. Create the Istio configuration with custom patches for the Ingress-gateway and istio-proxy. The Ingress Gateway component includes the `spiffe.io/spire-managed-identity: "true"` label.
+1. Create the Istio configuration with custom patches for the Ingress-gateway and istio-proxy. The Ingress Gateway component includes the `spiffe.io/spire-managed-identity: "true"` label.
 
     {{< text syntax=bash snip_id=define_istio_operator_for_auto_registration >}}
     $ cat <<EOF > ./istio.yaml
@@ -173,13 +173,13 @@ A ClusterSPIFFEID must be applied prior to installing Istio in order for the Ing
     EOF
     {{< /text >}}
 
-4. Apply the configuration:
+1. Apply the configuration:
 
     {{< text syntax=bash snip_id=apply_istio_operator_configuration >}}
     $ istioctl install --skip-confirmation -f ./istio.yaml
     {{< /text >}}
 
-5. Check Ingress-gateway pod state:
+1. Check Ingress-gateway pod state:
 
     {{< text syntax=bash snip_id=none >}}
     $ kubectl get pods -n istio-system
@@ -196,7 +196,7 @@ Note that `SPIRE Controller Manager` is used in the [quick start](#option-1:-qui
 
 1. [Download the Istio release](/docs/setup/getting-started/#download).
 
-2. After [deploying SPIRE](#install-spire) into your environment, and verifying that all deployments are in `Ready` state, install Istio with custom patches for the Ingress-gateway as well as for istio-proxy.
+1. After [deploying SPIRE](#install-spire) into your environment, and verifying that all deployments are in `Ready` state, configure Istio with custom patches for the Ingress-gateway as well as for istio-proxy.
 
     Create Istio configuration:
 
@@ -275,13 +275,13 @@ Note that `SPIRE Controller Manager` is used in the [quick start](#option-1:-qui
     EOF
     {{< /text >}}
 
-3. Apply the configuration:
+1. Apply the configuration:
 
     {{< text syntax=bash snip_id=none >}}
     $ istioctl install --skip-confirmation -f ./istio.yaml
     {{< /text >}}
 
-4. Check Ingress-gateway pod state:
+1. Check Ingress-gateway pod state:
 
     {{< text syntax=bash snip_id=none >}}
     $ kubectl get pods -n istio-system
