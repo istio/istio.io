@@ -30,19 +30,19 @@ A separate plugin must be configured and enabled to actually fulfill the audit d
 The request will not be audited if there are no such supporting plugins enabled.
 Currently, the only supported plugin is the <a href="/docs/reference/config/proxy_extensions/stackdriver/">Stackdriver</a> plugin.</p>
 <p>Here is an example of Istio Authorization Policy:</p>
-<p>It sets the <code>action</code> to &ldquo;ALLOW&rdquo; to create an allow policy. The default action is &ldquo;ALLOW&rdquo;
+<p>It sets the <code>action</code> to <code>ALLOW</code> to create an allow policy. The default action is <code>ALLOW</code>
 but it is useful to be explicit in the policy.</p>
 <p>It allows requests from:</p>
 <ul>
-<li>service account &ldquo;cluster.local/ns/default/sa/sleep&rdquo; or</li>
-<li>namespace &ldquo;test&rdquo;</li>
+<li>service account <code>cluster.local/ns/default/sa/sleep</code> or</li>
+<li>namespace <code>test</code></li>
 </ul>
 <p>to access the workload with:</p>
 <ul>
-<li>&ldquo;GET&rdquo; method at paths of prefix &ldquo;/info&rdquo; or,</li>
-<li>&ldquo;POST&rdquo; method at path &ldquo;/data&rdquo;.</li>
+<li><code>GET</code> method at paths of prefix <code>/info</code> or,</li>
+<li><code>POST</code> method at path <code>/data</code>.</li>
 </ul>
-<p>when the request has a valid JWT token issued by &ldquo;<a href="https://accounts.google.com">https://accounts.google.com</a>&rdquo;.</p>
+<p>when the request has a valid JWT token issued by <code>https://accounts.google.com</code>.</p>
 <p>Any other requests will be denied.</p>
 <pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
@@ -68,9 +68,9 @@ spec:
     - key: request.auth.claims[iss]
       values: [&quot;https://accounts.google.com&quot;]
 </code></pre>
-<p>The following is another example that sets <code>action</code> to &ldquo;DENY&rdquo; to create a deny policy.
-It denies requests from the &ldquo;dev&rdquo; namespace to the &ldquo;POST&rdquo; method on all workloads
-in the &ldquo;foo&rdquo; namespace.</p>
+<p>The following is another example that sets <code>action</code> to <code>DENY</code> to create a deny policy.
+It denies requests from the <code>dev</code> namespace to the <code>POST</code> method on all workloads
+in the <code>foo</code> namespace.</p>
 <pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
@@ -87,7 +87,7 @@ spec:
         methods: [&quot;POST&quot;]
 </code></pre>
 <p>The following is another example that sets <code>action</code> to <code>DENY</code> to create a deny policy.
-It denies all the requests with &ldquo;POST&rdquo; method on port &ldquo;8080&rdquo; on all workloads
+It denies all the requests with <code>POST</code> method on port <code>8080</code> on all workloads
 in the <code>foo</code> namespace.</p>
 <pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
 kind: AuthorizaionPolicy
@@ -101,17 +101,14 @@ spec:
     - operation:
         methods: [&quot;POST&quot;]
         ports: [&quot;8080&quot;]
-
-When this rule is applied to TCP traffic, the `method` field (as will all HTTP based attributes) cannot be processed. 
-For a `DENY` rule, missing attributes are treated as matches. This means all TCP traffic on port 8080 would be denied in the example above.
-If we were to remove the `ports` match, all TCP traffic would be denied. As a result, it is recommended to always scope `DENY` policies to a specific port, 
-especially when using HTTP attributes [Authorization Policy for TCP Ports] (https://istio.io/latest/docs/tasks/security/authorization/authz-tcp/).
-
-The following authorization policy sets the `action` to &quot;AUDIT&quot;. It will audit any GET requests to the path with the
-prefix &quot;/user/profile&quot;.
-
-```yaml
-apiVersion: security.istio.io/v1beta1
+</code></pre>
+<p>When this rule is applied to TCP traffic, the <code>method</code> field (as will all HTTP based attributes) cannot be processed.
+For a <code>DENY</code> rule, missing attributes are treated as matches. This means all TCP traffic on port <code>8080</code> would be denied in the example above.
+If we were to remove the <code>ports</code> match, all TCP traffic would be denied. As a result, it is recommended to always scope <code>DENY</code> policies to a specific port,
+especially when using HTTP attributes <a href="/docs/tasks/security/authorization/authz-tcp/">Authorization Policy for TCP Ports</a>.</p>
+<p>The following authorization policy sets the <code>action</code> to <code>AUDIT</code>. It will audit any <code>GET</code> requests to the path with the
+prefix <code>/user/profile</code>.</p>
+<pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
   namespace: ns1
@@ -128,15 +125,14 @@ spec:
         paths: [&quot;/user/profile/*&quot;]
 </code></pre>
 <p>Authorization Policy scope (target) is determined by &ldquo;metadata/namespace&rdquo; and
-an optional &ldquo;selector&rdquo;.</p>
+an optional <code>selector</code>.</p>
 <ul>
 <li>&ldquo;metadata/namespace&rdquo; tells which namespace the policy applies. If set to root
 namespace, the policy applies to all namespaces in a mesh.</li>
-<li>workload &ldquo;selector&rdquo; can be used to further restrict where a policy applies.</li>
+<li>workload <code>selector</code> can be used to further restrict where a policy applies.</li>
 </ul>
-<p>For example,</p>
-<p>The following authorization policy applies to all workloads in namespace foo. It allows nothing and effectively denies
-all requests to workloads in namespace foo.</p>
+<p>For example, the following authorization policy applies to all workloads in namespace <code>foo</code>. It allows nothing and effectively denies
+all requests to workloads in namespace <code>foo</code>.</p>
 <pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
@@ -145,7 +141,7 @@ metadata:
 spec:
   {}
 </code></pre>
-<p>The following authorization policy allows all requests to workloads in namespace foo.</p>
+<p>The following authorization policy allows all requests to workloads in namespace <code>foo</code>.</p>
 <pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
@@ -155,7 +151,7 @@ spec:
  rules:
  - {}
 </code></pre>
-<p>The following authorization policy applies to workloads containing label &ldquo;app: httpbin&rdquo; in namespace bar. It allows
+<p>The following authorization policy applies to workloads containing label <code>app: httpbin</code> in namespace <code>bar</code>. It allows
 nothing and effectively denies all requests to the selected workloads.</p>
 <pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
@@ -167,8 +163,8 @@ spec:
     matchLabels:
       app: httpbin
 </code></pre>
-<p>The following authorization policy applies to workloads containing label &ldquo;version: v1&rdquo; in all namespaces in the mesh.
-(Assuming the root namespace is configured to &ldquo;istio-system&rdquo;).</p>
+<p>The following authorization policy applies to workloads containing label <code>version: v1</code> in all namespaces in the mesh.
+(Assuming the root namespace is configured to <code>istio-system</code>).</p>
 <pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
