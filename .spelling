@@ -209,6 +209,7 @@ CloudNativeCon
 CloudWatch
 cluster1
 cluster2
+ClusterSPIFFEID
 CNCF-hosted
 CNI
 cnn.com
@@ -488,6 +489,7 @@ Idit
 ILBs
 incentivized
 Incrementality
+initContainer
 initializer
 initializers
 injector
