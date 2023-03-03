@@ -59,21 +59,7 @@ As of now, data plane to data plane is compatible across all versions; however, 
 
 ## Support status of Istio releases
 
-| Version         | Currently Supported  | Release Date      | End of Life            | Supported Kubernetes Versions | Tested, but not supported                |
-| --------------- | -------------------- | ----------------- | ---------------------- | ----------------------------- | -----------------------------------------|
-| master          | No, development only |                   |                        |                               |                                          |
-| 1.17            | Yes                  | February 14, 2023 | ~Sept 2023 (Expected)  | 1.23, 1.24, 1.25, 1.26        | 1.16, 1.17, 1.18, 1.19, 1.20, 1.21, 1.22 |
-| 1.16            | Yes                  | November 15, 2022 | ~June 2023 (Expected)  | 1.22, 1.23, 1.24, 1.25        | 1.16, 1.17, 1.18, 1.19, 1.20, 1.21       |
-| 1.15            | Yes                  | August 31, 2022   | ~March 2023 (Expected) | 1.22, 1.23, 1.24, 1.25        | 1.16, 1.17, 1.18, 1.19, 1.20, 1.21       |
-| 1.14            | No                   | May 24, 2022      | Dec 27, 2022           | 1.21, 1.22, 1.23, 1.24        | 1.16, 1.17, 1.18, 1.19, 1.20             |
-| 1.13            | No                   | February 11, 2022 | Oct 12, 2022           | 1.20, 1.21, 1.22, 1.23        | 1.16, 1.17, 1.18, 1.19                   |
-| 1.12            | No                   | November 18, 2021 | Jul 12, 2022           | 1.19, 1.20, 1.21, 1.22        | 1.16, 1.17, 1.18                         |
-| 1.11            | No                   | August 12, 2021   | Mar 25, 2022           | 1.18, 1.19, 1.20, 1.21, 1.22  | 1.16, 1.17                               |
-| 1.10            | No                   | May 18, 2021      | Jan 7, 2022            | 1.18, 1.19, 1.20, 1.21        | 1.16, 1.17, 1.22                         |
-| 1.9             | No                   | February 9, 2021  | Oct 8, 2021            | 1.17, 1.18, 1.19, 1.20        | 1.15, 1.16                               |
-| 1.8             | No                   | November 10, 2020 | May 12, 2021           | 1.16, 1.17, 1.18, 1.19        | 1.15                                     |
-| 1.7             | No                   | August 21, 2020   | Feb 25, 2021           | 1.16, 1.17, 1.18              | 1.15                                     |
-| 1.6 and earlier | No                   |                   |                        |                               |                                          |
+{{<support-status-table>}}
 
 {{< warning >}}
 [Kubernetes 1.22 removed some deprecated APIs](https://kubernetes.io/blog/2021/07/14/upcoming-changes-in-kubernetes-1-22/) and as a result versions of Istio prior to 1.10.0 will no longer work. If you are upgrading your Kubernetes version, make sure that your Istio version is still supported.
