@@ -1,0 +1,26 @@
+{{ $data := index .Site.Data.compatibility.supportStatus }}
+
+<table>
+  <thead>
+    <tr>
+      <th>Version</th>
+      <th>Currently Supported</th>
+      <th>Release Date</th>
+      <th>End of Life</th>
+      <th>Supported Kubernetes Versions</th>
+      <th>Tested, but not supported</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{ range $data }}
+    <tr>
+      <td>{{ .version }}</td>
+      <td>{{ .supported }}</td>
+      <td>{{ .releaseDate }}</td>
+      <td>{{ .eolDate }}</td>
+      <td>{{ .k8sVersions }}</td>
+      <td>{{ .testedK8sVersions }}</td>
+    </tr>
+    {{ end }}
+  </tbody>
+</table>
