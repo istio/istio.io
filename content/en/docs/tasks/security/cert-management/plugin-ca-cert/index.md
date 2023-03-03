@@ -39,7 +39,7 @@ security protection.
 {{< /warning >}}
 
 {{< warning >}}
-Support for SHA-1 signatures is [disabled by default in Go 1.18](https://github.com/golang/go/issues/41682). If you are generating the certificate on macOS make sure you are using OpenSSL [as described in GitHub issue 38049](https://github.com/istio/istio/issues/38049).
+Support for SHA-1 signatures is [disabled by default in Go 1.18](https://github.com/golang/go/issues/41682). If you are generating the certificate on macOS make sure you are using OpenSSL as described in [GitHub issue 38049](https://github.com/istio/istio/issues/38049).
 {{< /warning >}}
 
 1.  In the top-level directory of the Istio installation package, create a directory to hold certificates and keys:
@@ -188,11 +188,33 @@ openssl command is expected.
     $ rm -rf certs
     {{< /text >}}
 
-*   Remove the secret `cacerts`, and the `foo` and `istio-system` namespaces:
+*   Remove the secret `cacerts`:
 
     {{< text bash >}}
     $ kubectl delete secret cacerts -n istio-system
-    $ kubectl delete ns foo istio-system
     {{< /text >}}
 
-*   To remove the Istio components: follow the [uninstall instructions](/docs/setup/getting-started/#uninstall) to remove.
+*   Remove the authentication policy from the `foo` namespace:
+
+    {{< text bash >}}
+    $ kubectl delete peerauthentication -n foo default
+    {{< /text >}}
+
+*   Remove the sample applications `sleep` and `httpbin`:
+
+    {{< text bash >}}
+    $ kubectl delete -f samples/sleep/sleep.yaml -n foo
+    $ kubectl delete -f samples/httpbin/httpbin.yaml -n foo
+    {{< /text >}}
+
+*   Uninstall Istio from the cluster:
+
+    {{< text bash >}}
+    $ istioctl uninstall --purge -y
+    {{< /text >}}
+
+*   Remove the namespace `foo` and `istio-system` from the cluster:
+
+    {{< text bash >}}
+    $ kubectl delete ns foo istio-system
+    {{< /text >}}
