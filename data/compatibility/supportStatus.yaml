@@ -1,4 +1,4 @@
-# generates release support status table
+# used by support-status-table shortcode to generate release support status table
 - version: "master"
   supported: "No, development only"
   releaseDate: 
