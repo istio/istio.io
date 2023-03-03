@@ -18,8 +18,18 @@
       <td>{{ .supported }}</td>
       <td>{{ .releaseDate }}</td>
       <td>{{ .eolDate }}</td>
-      <td>{{ .k8sVersions }}</td>
-      <td>{{ .testedK8sVersions }}</td>
+      <td>
+        {{- range $i, $v := .k8sVersions -}}
+        {{- if ne $i 0 -}}, {{ end -}}
+          {{- $v -}}
+        {{- end -}}
+      </td>
+      <td>
+        {{- range $i, $v := .testedK8sVersions -}}
+        {{- if ne $i 0 -}}, {{ end -}}
+          {{- $v -}}
+        {{- end -}}
+      </td>
     </tr>
     {{ end }}
   </tbody>
