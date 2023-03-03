@@ -18,7 +18,7 @@ k3d 使得在 docker 中创建单节点和多节点 k3s 集群变得非常容易
 - 与 Kubernetes 集群 [kubectl](https://kubernetes.io/zh/docs/docs/tasks/tools/#kubectl) 进行交互。
 - (可选) [Helm](https://helm.sh/docs/intro/install/)是针对 Kubernetes 的包管理器。。
 
-## 安装{#prerequisites}
+## 安装{#installation}
 
 1. 创建集群并使用以下命令禁用 `Traefik`:
 
@@ -45,14 +45,16 @@ k3d 使得在 docker 中创建单节点和多节点 k3s 集群变得非常容易
     `k3d-` is prefixed to the context and cluster names, for example: `k3d-k3s-default`
     {{< /tip >}}
 
-1. 如果运行多个集群，则需要选择 `kubectl` 与哪个集群进行对话。您可以设置默认集群通过在 [Kubernetes kubeconfig](https://kubernetes.io/zh-cn/docs/concepts/configuration/organize-cluster-access-kubeconfig/) 文件中设置当前上下文来实现 `kubectl`。此外，您可以运行以下命令为 `kubectl` 设置当前上下文。
+1. 如果运行多个集群，则需要选择 `kubectl` 与哪个集群进行对话。您可以设置默认集群通过在
+    [Kubernetes kubeconfig](https://kubernetes.io/zh-cn/docs/concepts/configuration/organize-cluster-access-kubeconfig/)
+    文件中设置当前上下文来实现 `kubectl`。此外，您可以运行以下命令为 `kubectl` 设置当前上下文。
 
     {{< text bash >}}
     $ kubectl config use-context k3d-k3s-default
     Switched to context "k3d-k3s-default".
     {{< /text >}}
 
-## 为 k3d 设置 Istio{#prerequisites}
+## 为 k3d 设置 Istio{#set-up-istio-for-k3d}
 
 1. 完成 k3d 集群的设置后，可以继续在其上[使用 Helm 3 安装 Istio](/zh/docs/setup/install/helm/)。
 
@@ -62,14 +64,14 @@ k3d 使得在 docker 中创建单节点和多节点 k3s 集群变得非常容易
     $ helm install istiod istio/istiod -n istio-system --wait
     {{< /text >}}
 
-1. （可选）安装 Ingress Gateway：:
+1. （可选）安装 Ingress Gateway：
 
     {{< text bash >}}
     $ kubectl label namespace istio-system istio-injection=enabled
     $ helm install istio-ingressgateway istio/gateway -n istio-system --wait
     {{< /text >}}
 
-## 为 k3d 设置仪表板用户界面{#prerequisites}
+## 为 k3d 设置仪表板用户界面{#set-up-dashboard-UI-for-k3d}
 
 k3d 没有像 minikube 这样的内置仪表板 UI。但是您仍然可以设置 Dashboard (基于 web 的 Kubernetes UI) 来查看您的集群。
 按照以下说明为 k3d 设置仪表板。
@@ -123,7 +125,7 @@ k3d 没有像 minikube 这样的内置仪表板 UI。但是您仍然可以设置
     您必须将令牌保存在某个地方，否则每次需要令牌登录仪表板时都必须运行第4步。
     {{< /warning >}}
 
-## 卸载{#prerequisites}
+## 卸载{#uninstall}
 
 1. 当您完成实验并想要删除现有集群时，请使用以下命令:
 
