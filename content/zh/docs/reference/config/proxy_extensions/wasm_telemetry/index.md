@@ -9,6 +9,8 @@ aliases:
 status: Experimental
 ---
 
+{{< boilerplate experimental >}}
+
 默认情况下，遥测默认启用并作为一个 `filter` 被编译在 Istio 代理中，同时也被编译成 WebAssembly (Wasm) 模块，并随 Istio proxy 一起发布。若要使用 Wasm 进行遥测，请使用 `preview` 属性安装 Istio 。
 
 {{< text bash >}}

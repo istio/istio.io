@@ -11,13 +11,13 @@ test: yes
 status: Experimental
 ---
 
+{{< boilerplate experimental >}}
+
 This task shows you how to copy valid JWT claims to HTTP headers after JWT authentication is successfully completed via an Istio request authentication policy.
 
 {{< warning >}}
 Only claims of type string, boolean, and integer are supported. Array type claims are not supported at this time.
 {{< /warning >}}
-
-{{< boilerplate experimental-feature-warning >}}
 
 ## Before you begin
 

@@ -8,6 +8,8 @@ test: yes
 status: Alpha
 ---
 
+{{< boilerplate alpha >}}
+
 ## 向目的地的工作负载转发外部客户端属性（IP 地址、证书信息）{#forwarding-external-client-attributes-to-destination-workloads}
 
 许多应用程序需要知道发起源请求的客户端 IP 地址和证书信息才能正常工作。值得注意的是填充了客户端 IP 的日志、验证工具以及安全工具。例如 Web Application Firewalls (WAF)，它应用这些信息来运行正确的规则集。

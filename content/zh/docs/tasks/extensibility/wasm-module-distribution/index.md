@@ -12,6 +12,8 @@ test: yes
 status: Alpha
 ---
 
+{{< boilerplate alpha >}}
+
 Istio 提供了[使用 WebAssembly（Wasm）扩展代理功能](/zh/blog/2020/wasm-announce/)的能力。
 Wasm 可扩展性的关键优势之一是扩展可以在运行时动态加载。
 这些扩展必须首先分发到 Envoy 代理。

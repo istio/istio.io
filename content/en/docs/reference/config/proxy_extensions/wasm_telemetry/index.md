@@ -9,6 +9,8 @@ aliases:
 status: Experimental
 ---
 
+{{< boilerplate experimental >}}
+
 By default, telemetry generation is enabled as compiled-in Istio proxy filters. The same filters are also compiled to WebAssembly (Wasm) modules and shipped with Istio proxy. To enable telemetry generation with the Wasm runtime, install Istio with the `preview` profile:
 
 {{< text bash >}}

@@ -5,16 +5,16 @@ weight: 65
 keywords: [security,access-control,rbac,authorization,dry-run]
 owner: istio/wg-security-maintainers
 test: yes
-status: Experimental
+status: Alpha
 ---
+
+{{< boilerplate alpha >}}
 
 This task shows you how to set up an Istio authorization policy using a new [experimental annotation `istio.io/dry-run`](/docs/reference/config/annotations/)
 to dry-run the policy without actually enforcing it.
 
 The dry-run annotation allows you to better understand the effect of an authorization policy before applying it to
 the production traffic. This helps to reduce the risk of breaking the production traffic caused by an incorrect authorization policy.
-
-{{< boilerplate experimental-feature-warning >}}
 
 ## Before you begin
 
