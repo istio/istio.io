@@ -59,7 +59,7 @@ As of now, data plane to data plane is compatible across all versions; however, 
 
 ## Support status of Istio releases
 
-{{<support-status-table>}}
+{{< support_status_table >}}
 
 {{< warning >}}
 [Kubernetes 1.22 removed some deprecated APIs](https://kubernetes.io/blog/2021/07/14/upcoming-changes-in-kubernetes-1-22/) and as a result versions of Istio prior to 1.10.0 will no longer work. If you are upgrading your Kubernetes version, make sure that your Istio version is still supported.
