@@ -99,8 +99,30 @@ spec:
 EOF
 {{< /text >}}
 
+1. Set default filter access log with CEL expression
+
+The following configuration displays access logs only when the response code is greater or equal to 400 or the request went to the BlackHoleCluster or the PassthroughCluster:
+Note: The `xds.cluster_name` is only available with Istio release 1.16.2 and higher
+
+{{< text bash >}}
+$ cat <<EOF | kubectl apply -f -
+apiVersion: telemetry.istio.io/v1alpha1
+kind: Telemetry
+metadata:
+name: default-exception-logging
+namespace: istio-system
+spec:
+  accessLogging:
+  - providers:
+    - name: envoy
+    filter:
+      expression: "response.code >= 400 || xds.cluster_name == 'BlackHoleCluster' ||  xds.cluster_name == 'PassthroughCluster' "
+
+EOF
+{{< /text >}}
+
 For more information, see [Use expressions for values](/docs/tasks/observability/metrics/customize-metrics/#use-expressions-for-values)
 
 ## Work with OpenTelemetry provider
 
-Istio supports sending access logs with [OpenTelemetry](https://opentelemetry.io/) protocol,  as explained [here](/docs/tasks/observability/logs/otel-provider).
+Istio supports sending access logs with [OpenTelemetry](https://opentelemetry.io/) protocol, as explained [here](/docs/tasks/observability/logs/otel-provider).
