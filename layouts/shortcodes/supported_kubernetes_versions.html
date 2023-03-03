@@ -1,4 +1,4 @@
-{{ $allVersions := index .Site.Data.compatibility.supportStatus }}
-{{ $versionData := index $allVersions 1 }}
+{{- $allVersions := index .Site.Data.compatibility.supportStatus -}}
+{{- $versionData := index $allVersions 1 -}}
 
-{{ $versionData.k8sVersions }}
+{{- $versionData.k8sVersions -}}
