@@ -1,5 +1,6 @@
 {{- $allVersions := index .Site.Data.compatibility.supportStatus -}}
-{{- $versionData := index $allVersions 1 -}}
+{{- $version := cond (.Site.Data.args.preliminary) .Site.Data.versions.preliminary .Site.Data.versions.main -}}
+{{- $versionData := index (where $allVersions "version" $version) 0 -}}
 
 {{- range $i, $v := $versionData.k8sVersions -}}
     {{- if ne $i 0 -}}, {{ end -}}
