@@ -1,4 +1,5 @@
-# used by support-status-table shortcode to generate release support status table
+# Please keep entries ordered descending by version.
+# Used by support_status_table shortcode to generate release support status table
 - version: "master"
   supported: "No, development only"
   releaseDate: 
