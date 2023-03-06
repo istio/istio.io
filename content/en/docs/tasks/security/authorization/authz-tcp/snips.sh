@@ -107,6 +107,10 @@ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadat
     "echo \"port 9002\" | nc $TCP_ECHO_IP 9002" | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
 }
 
+! read -r -d '' snip_configure_allow_authorization_policy_for_a_tcp_workload_4_out <<\ENDSNIP
+connection rejected
+ENDSNIP
+
 snip_configure_allow_authorization_policy_for_a_tcp_workload_5() {
 kubectl apply -f - <<EOF
 apiVersion: security.istio.io/v1
