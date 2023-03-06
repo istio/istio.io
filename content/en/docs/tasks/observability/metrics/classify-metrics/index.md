@@ -20,7 +20,7 @@ Counting the number of review requests must account for the unbounded element
 requests to get reviews.
 
 Istio lets you create classification rules using the
-[AttributeGen plugin](/docs/reference/config/proxy_extensions/attributegen/) that groups requests
+AttributeGen plugin that groups requests
 into a fixed number of logical operations. For example, you can create an operation named
 `GetReviews`, which is a common way to identify operations using the
 [`Open API Spec operationId`](https://swagger.io/docs/specification/paths-and-operations/).
@@ -29,9 +29,6 @@ value equal to `GetReviews`.
 You can use the attribute as a dimension in Istio standard metrics. Similarly,
 you can track metrics based on other operations like `ListReviews` and
 `CreateReviews`.
-
-For more information, see the
-[reference content](/docs/reference/config/proxy_extensions/attributegen/).
 
 Istio uses the Envoy proxy to generate metrics and provides its configuration in
 the `EnvoyFilter` at
@@ -53,63 +50,38 @@ You can classify requests based on their type, for example `ListReview`,
     service-specific.
 
     {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
-kind: EnvoyFilter
+apiVersion: extensions.istio.io/v1alpha1
+kind: WasmPlugin
 metadata:
   name: istio-attributegen-filter
 spec:
-  workloadSelector:
-    labels:
+  selector:
+    matchLabels:
       app: reviews
-  configPatches:
-  - applyTo: HTTP_FILTER
-    match:
-      context: SIDECAR_INBOUND
-      proxy:
-        proxyVersion: '1\.9.*'
-      listener:
-        filterChain:
-          filter:
-            name: "envoy.filters.network.http_connection_manager"
-            subFilter:
-              name: "istio.stats"
-    patch:
-      operation: INSERT_BEFORE
-      value:
-        name: istio.attributegen
-        typed_config:
-          "@type": type.googleapis.com/udpa.type.v1.TypedStruct
-          type_url: type.googleapis.com/envoy.extensions.filters.http.wasm.v3.Wasm
-          value:
-            config:
-              configuration:
-                "@type": type.googleapis.com/google.protobuf.StringValue
-                value: |
-                  {
-                    "attributes": [
-                      {
-                        "output_attribute": "istio_operationId",
-                        "match": [
-                          {
-                            "value": "ListReviews",
-                            "condition": "request.url_path == '/reviews' && request.method == 'GET'"
-                          },
-                          {
-                            "value": "GetReview",
-                            "condition": "request.url_path.matches('^/reviews/[[:alnum:]]*$') && request.method == 'GET'"
-                          },
-                          {
-                            "value": "CreateReview",
-                            "condition": "request.url_path == '/reviews/' && request.method == 'POST'"
-                          }
-                        ]
-                      }
-                    ]
-                  }
-              vm_config:
-                runtime: envoy.wasm.runtime.null
-                code:
-                  local: { inline_string: "envoy.wasm.attributegen" }
+  url: https://storage.googleapis.com/istio-build/proxy/attributegen-359dcd3a19f109c50e97517fe6b1e2676e870c4d.wasm
+  imagePullPolicy: Always
+  phase: AUTHN
+  pluginConfig: {
+    "attributes": [
+      {
+        "output_attribute": "istio_operationId",
+        "match": [
+          {
+            "value": "ListReviews",
+            "condition": "request.url_path == '/reviews' && request.method == 'GET'"
+          },
+          {
+            "value": "GetReview",
+            "condition": "request.url_path.matches('^/reviews/[[:alnum:]]*$') && request.method == 'GET'"
+          },
+          {
+            "value": "CreateReview",
+            "condition": "request.url_path == '/reviews/' && request.method == 'POST'"
+          }
+        ]
+      }
+    ]
+  }
     {{< /text >}}
 
 1. Apply your changes using the following command:
