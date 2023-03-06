@@ -166,6 +166,7 @@ features:
     area: Observability
   - name: "WebAssembly Extension"
     id: "observability.webassembly"
+    link: "/docs/reference/config/proxy_extensions/wasm-plugin/"
     level:
       checklist: ""
       maturity: Alpha

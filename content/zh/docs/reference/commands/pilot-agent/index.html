@@ -1405,6 +1405,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td></td>
 </tr>
 <tr>
+<td><code>ISTIO_METADATA_DISCOVERY</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>Enables proxy discovery of the workload metadata to back-fill the telemetry reports.</td>
+</tr>
+<tr>
 <td><code>ISTIO_META_CERT_SIGNER</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -1923,6 +1929,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Time Duration</td>
 <td><code>10s</code></td>
 <td>The amount of time an auto-registered workload can remain disconnected from all Pilot instances before the associated WorkloadEntry is cleaned up.</td>
+</tr>
+<tr>
+<td><code>PILOT_XDS_CACHE_INDEX_CLEAR_INTERVAL</code></td>
+<td>Time Duration</td>
+<td><code>5s</code></td>
+<td>The interval for xds cache index clearing.</td>
 </tr>
 <tr>
 <td><code>PILOT_XDS_CACHE_SIZE</code></td>
