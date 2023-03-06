@@ -4,7 +4,7 @@ source_repo: https://github.com/istio/istio
 title: istioctl
 description: Istio control interface.
 generator: pkg-collateral-docs
-number_of_entries: 107
+number_of_entries: 108
 max_toc_level: 2
 remove_toc_prefix: 'istioctl '
 ---
@@ -4177,6 +4177,61 @@ istioctl x version --xds-label istio.io/rev=default
 <h3 id="istioctl-experimental-waypoint-apply Examples">Examples</h3>
 <pre class="language-bash"><code>  # Apply a waypoint to the current namespace
   istioctl x waypoint apply
+
+  # Apply a waypoint to a specific namespace for a specific service account
+  istioctl x waypoint apply --service-account something --namespace default
+</code></pre>
+<h2 id="istioctl-experimental-waypoint-delete">istioctl experimental waypoint delete</h2>
+<p>Delete a waypoint configuration from the cluster</p>
+<pre class="language-bash"><code>istioctl experimental waypoint delete [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--service-account &lt;string&gt;</code></td>
+<td><code>-s</code></td>
+<td>service account to create a waypoint for  (default ``)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-experimental-waypoint-delete Examples">Examples</h3>
+<pre class="language-bash"><code>  # Delete a waypoint from the current namespace
+  istioctl x waypoint delete
+  
+  # Delete a waypoint from a specific namespace for a specific service account
+  istioctl x waypoint delete --service-account something --namespace default
 </code></pre>
 <h2 id="istioctl-experimental-waypoint-generate">istioctl experimental waypoint generate</h2>
 <p>Generate a waypoint configuration as YAML</p>
@@ -7228,7 +7283,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <tr>
 <td><code>--filename &lt;stringSlice&gt;</code></td>
 <td><code>-f</code></td>
-<td>Names of files to validate  (default `[]`)</td>
+<td>Inputs of files to validate  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
@@ -7720,6 +7775,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Sets the maximum number of concurrent grpc streams.</td>
 </tr>
 <tr>
+<td><code>ISTIO_METADATA_DISCOVERY</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>Enables proxy discovery of the workload metadata to back-fill the telemetry reports.</td>
+</tr>
+<tr>
 <td><code>ISTIO_MULTIROOT_MESH</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -8186,6 +8247,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Time Duration</td>
 <td><code>10s</code></td>
 <td>The amount of time an auto-registered workload can remain disconnected from all Pilot instances before the associated WorkloadEntry is cleaned up.</td>
+</tr>
+<tr>
+<td><code>PILOT_XDS_CACHE_INDEX_CLEAR_INTERVAL</code></td>
+<td>Time Duration</td>
+<td><code>5s</code></td>
+<td>The interval for xds cache index clearing.</td>
 </tr>
 <tr>
 <td><code>PILOT_XDS_CACHE_SIZE</code></td>

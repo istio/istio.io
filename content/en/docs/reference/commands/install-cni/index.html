@@ -60,6 +60,10 @@ remove_toc_prefix: 'install-cni '
 <td>The IP port to use for the ControlZ introspection facility  (default `9876`)</td>
 </tr>
 <tr>
+<td><code>--ebpf-enabled</code></td>
+<td>Whether ebpf redirection is enabled </td>
+</tr>
+<tr>
 <td><code>--kube-ca-file &lt;string&gt;</code></td>
 <td>CA file for kubeconfig. Defaults to the same as install-cni pod  (default ``)</td>
 </tr>
@@ -85,11 +89,11 @@ remove_toc_prefix: 'install-cni '
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, ambient, authorization, cni, controllers, default, install, klog, model, proxyconfig, repair, spiffe, telemetry, trustBundle, validation]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, ambient, authorization, cni, controllers, default, ebpf, install, klog, model, proxyconfig, repair, spiffe, telemetry, trustBundle, validation]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, ambient, authorization, cni, controllers, default, install, klog, model, proxyconfig, repair, spiffe, telemetry, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, ambient, authorization, cni, controllers, default, ebpf, install, klog, model, proxyconfig, repair, spiffe, telemetry, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -109,7 +113,7 @@ remove_toc_prefix: 'install-cni '
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, ambient, authorization, cni, controllers, default, install, klog, model, proxyconfig, repair, spiffe, telemetry, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, ambient, authorization, cni, controllers, default, ebpf, install, klog, model, proxyconfig, repair, spiffe, telemetry, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -215,11 +219,11 @@ See each sub-command&#39;s help for details on how to use the generated script.
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, ambient, authorization, cni, controllers, default, install, klog, model, proxyconfig, repair, spiffe, telemetry, trustBundle, validation]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, ambient, authorization, cni, controllers, default, ebpf, install, klog, model, proxyconfig, repair, spiffe, telemetry, trustBundle, validation]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, ambient, authorization, cni, controllers, default, install, klog, model, proxyconfig, repair, spiffe, telemetry, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, ambient, authorization, cni, controllers, default, ebpf, install, klog, model, proxyconfig, repair, spiffe, telemetry, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -239,7 +243,7 @@ See each sub-command&#39;s help for details on how to use the generated script.
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, ambient, authorization, cni, controllers, default, install, klog, model, proxyconfig, repair, spiffe, telemetry, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, ambient, authorization, cni, controllers, default, ebpf, install, klog, model, proxyconfig, repair, spiffe, telemetry, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -284,11 +288,11 @@ If it is not installed already, you can install it via your OS&#39;s package man
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, ambient, authorization, cni, controllers, default, install, klog, model, proxyconfig, repair, spiffe, telemetry, trustBundle, validation]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, ambient, authorization, cni, controllers, default, ebpf, install, klog, model, proxyconfig, repair, spiffe, telemetry, trustBundle, validation]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, ambient, authorization, cni, controllers, default, install, klog, model, proxyconfig, repair, spiffe, telemetry, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, ambient, authorization, cni, controllers, default, ebpf, install, klog, model, proxyconfig, repair, spiffe, telemetry, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -308,7 +312,7 @@ If it is not installed already, you can install it via your OS&#39;s package man
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, ambient, authorization, cni, controllers, default, install, klog, model, proxyconfig, repair, spiffe, telemetry, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, ambient, authorization, cni, controllers, default, ebpf, install, klog, model, proxyconfig, repair, spiffe, telemetry, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -352,11 +356,11 @@ If it is not installed already, you can install it via your OS&#39;s package man
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, ambient, authorization, cni, controllers, default, install, klog, model, proxyconfig, repair, spiffe, telemetry, trustBundle, validation]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, ambient, authorization, cni, controllers, default, ebpf, install, klog, model, proxyconfig, repair, spiffe, telemetry, trustBundle, validation]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, ambient, authorization, cni, controllers, default, install, klog, model, proxyconfig, repair, spiffe, telemetry, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, ambient, authorization, cni, controllers, default, ebpf, install, klog, model, proxyconfig, repair, spiffe, telemetry, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -376,7 +380,7 @@ If it is not installed already, you can install it via your OS&#39;s package man
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, ambient, authorization, cni, controllers, default, install, klog, model, proxyconfig, repair, spiffe, telemetry, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, ambient, authorization, cni, controllers, default, ebpf, install, klog, model, proxyconfig, repair, spiffe, telemetry, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -419,11 +423,11 @@ to your powershell profile.
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, ambient, authorization, cni, controllers, default, install, klog, model, proxyconfig, repair, spiffe, telemetry, trustBundle, validation]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, ambient, authorization, cni, controllers, default, ebpf, install, klog, model, proxyconfig, repair, spiffe, telemetry, trustBundle, validation]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, ambient, authorization, cni, controllers, default, install, klog, model, proxyconfig, repair, spiffe, telemetry, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, ambient, authorization, cni, controllers, default, ebpf, install, klog, model, proxyconfig, repair, spiffe, telemetry, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -443,7 +447,7 @@ to your powershell profile.
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, ambient, authorization, cni, controllers, default, install, klog, model, proxyconfig, repair, spiffe, telemetry, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, ambient, authorization, cni, controllers, default, ebpf, install, klog, model, proxyconfig, repair, spiffe, telemetry, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -493,11 +497,11 @@ to enable it.  You can execute the following once:</p>
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, ambient, authorization, cni, controllers, default, install, klog, model, proxyconfig, repair, spiffe, telemetry, trustBundle, validation]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, ambient, authorization, cni, controllers, default, ebpf, install, klog, model, proxyconfig, repair, spiffe, telemetry, trustBundle, validation]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, ambient, authorization, cni, controllers, default, install, klog, model, proxyconfig, repair, spiffe, telemetry, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, ambient, authorization, cni, controllers, default, ebpf, install, klog, model, proxyconfig, repair, spiffe, telemetry, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -517,7 +521,7 @@ to enable it.  You can execute the following once:</p>
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, ambient, authorization, cni, controllers, default, install, klog, model, proxyconfig, repair, spiffe, telemetry, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, ambient, authorization, cni, controllers, default, ebpf, install, klog, model, proxyconfig, repair, spiffe, telemetry, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -560,12 +564,12 @@ to enable it.  You can execute the following once:</p>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, ambient, authorization, cni, controllers, default, install, klog, model, proxyconfig, repair, spiffe, telemetry, trustBundle, validation]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, ambient, authorization, cni, controllers, default, ebpf, install, klog, model, proxyconfig, repair, spiffe, telemetry, trustBundle, validation]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, ambient, authorization, cni, controllers, default, install, klog, model, proxyconfig, repair, spiffe, telemetry, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, ambient, authorization, cni, controllers, default, ebpf, install, klog, model, proxyconfig, repair, spiffe, telemetry, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -590,7 +594,7 @@ to enable it.  You can execute the following once:</p>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, ambient, authorization, cni, controllers, default, install, klog, model, proxyconfig, repair, spiffe, telemetry, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, ambient, authorization, cni, controllers, default, ebpf, install, klog, model, proxyconfig, repair, spiffe, telemetry, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -692,6 +696,12 @@ These environment variables affect the behavior of the <code>install-cni</code> 
 <td>String</td>
 <td><code>/etc/cni/net.d</code></td>
 <td>Directory on the host where CNI network plugins are installed</td>
+</tr>
+<tr>
+<td><code>EBPF_ENABLED</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>Whether ebpf redirection is enabled</td>
 </tr>
 <tr>
 <td><code>ENABLE_AUTO_MTLS_CHECK_POLICIES</code></td>
@@ -872,6 +882,12 @@ These environment variables affect the behavior of the <code>install-cni</code> 
 <td>Integer</td>
 <td><code>100000</code></td>
 <td>Sets the maximum number of concurrent grpc streams.</td>
+</tr>
+<tr>
+<td><code>ISTIO_METADATA_DISCOVERY</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>Enables proxy discovery of the workload metadata to back-fill the telemetry reports.</td>
 </tr>
 <tr>
 <td><code>ISTIO_MULTIROOT_MESH</code></td>
@@ -1386,6 +1402,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Time Duration</td>
 <td><code>10s</code></td>
 <td>The amount of time an auto-registered workload can remain disconnected from all Pilot instances before the associated WorkloadEntry is cleaned up.</td>
+</tr>
+<tr>
+<td><code>PILOT_XDS_CACHE_INDEX_CLEAR_INTERVAL</code></td>
+<td>Time Duration</td>
+<td><code>5s</code></td>
+<td>The interval for xds cache index clearing.</td>
 </tr>
 <tr>
 <td><code>PILOT_XDS_CACHE_SIZE</code></td>

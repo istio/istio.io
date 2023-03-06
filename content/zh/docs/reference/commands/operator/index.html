@@ -557,6 +557,12 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>Sets the maximum number of concurrent grpc streams.</td>
 </tr>
 <tr>
+<td><code>ISTIO_METADATA_DISCOVERY</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>Enables proxy discovery of the workload metadata to back-fill the telemetry reports.</td>
+</tr>
+<tr>
 <td><code>ISTIO_MULTIROOT_MESH</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -1023,6 +1029,12 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>Time Duration</td>
 <td><code>10s</code></td>
 <td>The amount of time an auto-registered workload can remain disconnected from all Pilot instances before the associated WorkloadEntry is cleaned up.</td>
+</tr>
+<tr>
+<td><code>PILOT_XDS_CACHE_INDEX_CLEAR_INTERVAL</code></td>
+<td>Time Duration</td>
+<td><code>5s</code></td>
+<td>The interval for xds cache index clearing.</td>
 </tr>
 <tr>
 <td><code>PILOT_XDS_CACHE_SIZE</code></td>
