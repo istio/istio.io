@@ -33,17 +33,21 @@ Deploy the example namespace and workloads using the following command:
     $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@) -n foo
     {{< /text >}}
 
-* Verify that `sleep` successfully communicates with `tcp-echo`on ports 9000 and 9001
+* Verify that `sleep` successfully communicates with `tcp-echo` on ports 9000 and 9001
 using the following command:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- sh -c 'echo "port 9000" | nc tcp-echo 9000' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
+    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" \
+        -c sleep -n foo -- sh -c \
+        'echo "port 9000" | nc tcp-echo 9000' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
     hello port 9000
     connection succeeded
     {{< /text >}}
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- sh -c 'echo "port 9001" | nc tcp-echo 9001' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
+    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" \
+        -c sleep -n foo -- sh -c \
+        'echo "port 9001" | nc tcp-echo 9001' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
     hello port 9001
     connection succeeded
     {{< /text >}}
@@ -55,7 +59,9 @@ Get the pod IP address and send the request with the following command:
 
     {{< text bash >}}
     $ TCP_ECHO_IP=$(kubectl get pod "$(kubectl get pod -l app=tcp-echo -n foo -o jsonpath={.items..metadata.name})" -n foo -o jsonpath="{.status.podIP}")
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- sh -c "echo \"port 9002\" | nc $TCP_ECHO_IP 9002" | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
+    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" \
+        -c sleep -n foo -- sh -c \
+        "echo \"port 9002\" | nc $TCP_ECHO_IP 9002" | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
     hello port 9002
     connection succeeded
     {{< /text >}}
@@ -91,7 +97,9 @@ Run the following command to apply the policy to allow requests to port 9000 and
 1. Verify that requests to port 9000 are allowed using the following command:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- sh -c 'echo "port 9000" | nc tcp-echo 9000' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
+    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" \
+        -c sleep -n foo -- sh -c \
+        'echo "port 9000" | nc tcp-echo 9000' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
     hello port 9000
     connection succeeded
     {{< /text >}}
@@ -99,7 +107,9 @@ Run the following command to apply the policy to allow requests to port 9000 and
 1. Verify that requests to port 9001 are allowed using the following command:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- sh -c 'echo "port 9001" | nc tcp-echo 9001' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
+    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" \
+        -c sleep -n foo -- sh -c \
+        'echo "port 9001" | nc tcp-echo 9001' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
     hello port 9001
     connection succeeded
     {{< /text >}}
@@ -109,7 +119,9 @@ policy which also applies to the pass through filter chain, even if the port is 
 explicitly in the `tcp-echo` Kubernetes service object. Run the following command and verify the output:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- sh -c "echo \"port 9002\" | nc $TCP_ECHO_IP 9002" | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
+    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" \
+        -c sleep -n foo -- sh -c \
+        "echo \"port 9002\" | nc $TCP_ECHO_IP 9002" | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
     connection rejected
     {{< /text >}}
 
@@ -141,7 +153,9 @@ The final result is that the request is rejected, because it does not match any 
 Run the following command and verify the output:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- sh -c 'echo "port 9000" | nc tcp-echo 9000' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
+    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" \
+        -c sleep -n foo -- sh -c \
+        'echo "port 9000" | nc tcp-echo 9000' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
     connection rejected
     {{< /text >}}
 
@@ -149,7 +163,9 @@ Run the following command and verify the output:
 ALLOW rules. Run the following command and verify the output:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- sh -c 'echo "port 9001" | nc tcp-echo 9001' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
+    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" \
+        -c sleep -n foo -- sh -c \
+        'echo "port 9001" | nc tcp-echo 9001' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
     connection rejected
     {{< /text >}}
 
@@ -180,14 +196,18 @@ ALLOW rules. Run the following command and verify the output:
 HTTP-only fields while creating a DENY rule for tcp port and due to it's restrictive nature it denies all the traffic to the tcp ports:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- sh -c 'echo "port 9000" | nc tcp-echo 9000' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
+    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" \
+        -c sleep -n foo -- sh -c \
+        'echo "port 9000" | nc tcp-echo 9000' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
     connection rejected
     {{< /text >}}
 
 1. Verify that the requests to port 9001 are denied. Same reason as above.
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- sh -c 'echo "port 9001" | nc tcp-echo 9001' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
+    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" \
+        -c sleep -n foo -- sh -c \
+        'echo "port 9001" | nc tcp-echo 9001' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
     connection rejected
     {{< /text >}}
 
@@ -216,7 +236,9 @@ HTTP-only fields while creating a DENY rule for tcp port and due to it's restric
 1. Verify that requests to port 9000 is denied. This occurs because the request matches the `ports` in the above-mentioned deny policy.
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- sh -c 'echo "port 9000" | nc tcp-echo 9000' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
+    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" \
+        -c sleep -n foo -- sh -c \
+        'echo "port 9000" | nc tcp-echo 9000' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
     connection rejected
     {{< /text >}}
 
@@ -224,7 +246,9 @@ HTTP-only fields while creating a DENY rule for tcp port and due to it's restric
 the `ports` in the DENY policy:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- sh -c 'echo "port 9001" | nc tcp-echo 9001' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
+    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" \
+        -c sleep -n foo -- sh -c \
+        'echo "port 9001" | nc tcp-echo 9001' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
     hello port 9001
     connection succeeded
     {{< /text >}}
