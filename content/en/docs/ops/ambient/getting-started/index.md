@@ -69,7 +69,7 @@ Follow these steps to get started with ambient:
     ✔ Installation complete
     {{< /text >}}
 
-1.  Verify the installed components using the below commands:
+1.  Verify the installed components using the following commands:
 
     {{< text bash >}}
     $ kubectl get pods -n istio-system
@@ -339,10 +339,12 @@ $ kubectl delete -f @samples/sleep/sleep.yaml@
 $ kubectl delete -f @samples/sleep/notsleep.yaml@
 {{< /text >}}
 
-To remove the `productpage-viewer` authorization policy and uninstall Istio:
+To remove the `productpage-viewer` authorization policy, waypoint proxies and uninstall Istio:
 
 {{< text bash >}}
 $ kubectl delete authorizationpolicy productpage-viewer
+$ istioctl x waypoint delete --service-account bookinfo-reviews
+$ istioctl x waypoint delete --service-account bookinfo-productpage
 $ istioctl uninstall -y --purge
 $ kubectl delete namespace istio-system
 {{< /text >}}

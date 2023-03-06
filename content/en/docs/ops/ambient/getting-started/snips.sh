@@ -207,6 +207,8 @@ kubectl delete -f samples/sleep/notsleep.yaml
 
 snip_uninstall_uninstall_2() {
 kubectl delete authorizationpolicy productpage-viewer
+istioctl x waypoint delete --service-account bookinfo-reviews
+istioctl x waypoint delete --service-account bookinfo-productpage
 istioctl uninstall -y --purge
 kubectl delete namespace istio-system
 }
