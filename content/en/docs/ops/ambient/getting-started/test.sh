@@ -62,7 +62,7 @@ _verify_contains snip_l7_authorization_policy_7 "$snip_l7_authorization_policy_7
 _verify_contains snip_l7_authorization_policy_8 "$snip_l7_authorization_policy_8_out"
 
 snip_control_traffic_control_1
-_verify_contains snip_control_traffic_control_1_out "waypoint default/bookinfo-reviews applied"
+_verify_contains snip_control_traffic_control_1 "waypoint default/bookinfo-reviews applied"
 
 snip_control_traffic_control_2
 # snip_control_traffic_control_3
