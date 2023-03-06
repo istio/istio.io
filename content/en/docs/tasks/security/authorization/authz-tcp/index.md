@@ -122,6 +122,7 @@ explicitly in the `tcp-echo` Kubernetes service object. Run the following comman
     $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" \
         -c sleep -n foo -- sh -c \
         "echo \"port 9002\" | nc $TCP_ECHO_IP 9002" | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
+    connection rejected
     {{< /text >}}
 
 1. Update the policy to add an HTTP-only field named `methods` for port 9000 using the following command:
