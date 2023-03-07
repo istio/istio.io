@@ -91,7 +91,7 @@ To verify your installation let us create 3 namespaces and install the `tcp-echo
 $ kubectl create namespace dual-stack
 $ kubectl create namespace ipv4
 $ kubectl create namespace ipv6
-```
+{{< /text >}}
 
 Let us enable sidecar injection on all of those namespaces as well as the default namespace:
 
