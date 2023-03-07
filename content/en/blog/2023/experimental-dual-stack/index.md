@@ -100,7 +100,7 @@ $ kubectl label --overwrite namespace default istio-injection=enabled
 $ kubectl label --overwrite namespace dual-stack istio-injection=enabled
 $ kubectl label --overwrite namespace ipv4 istio-injection=enabled
 $ kubectl label --overwrite namespace ipv6 istio-injection=enabled
-```
+{{< /text >}}
 
 Let's apply `tcp-echo` to those namespaces:
 
