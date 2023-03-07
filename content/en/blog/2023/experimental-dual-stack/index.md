@@ -66,7 +66,7 @@ announce experimental support for dual stack in Istio 1.17!
 
 To enable dual stack experimental support you must install Istio 1.17.0+ with the following:
 
-```shell
+{{< text bash >}}
 $ istioctl install -f - <<EOF
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
