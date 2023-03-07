@@ -1,8 +1,13 @@
-#!/usr/bin/env python3
-# This script copies the supported k8s versions from the latest entry in support status to master
+#!/usr/bin/env python
+
+# This is an idempotent script that copies the latest release's k8sVersions entry in support status YAML to master.
+# Run when cutting a release so that the shortcode will be populated, even when running in prelim mode.
+
+import sys
+if (sys.version_info[0] < 3):
+    raise Exception("This script requires Python 3, while you ran it with {}.{}.".format(sys.version_info[0], sys.version_info[1]))
 
 import yaml
-import sys
 
 matrix_path = '../data/compatibility/supportStatus.yml'
 
@@ -52,11 +57,8 @@ for (istio_idx, istio_info) in enumerate(data):
 # Set first entry (master) to latest release's k8sVersions
 data[0]['k8sVersions'] = data[1]['k8sVersions']
 
-try:
-    with open(matrix_path, "w") as f:
-        f.write(yaml_header) # place header comments at top of file
-        yaml.dump(data, f, indent=2, default_flow_style=False, sort_keys=False, Dumper=yaml.Dumper)
-    print('"{}" updated.'.format(matrix_path))
-except:
-    sys.stderr.write('Failed to write to "{}"\n'.format(matrix_path))
-    sys.exit(1)
+with open(matrix_path, "w") as f:
+    f.write(yaml_header) # place header comments at top of file
+    yaml.dump(data, f, indent=2, default_flow_style=False, sort_keys=False, Dumper=yaml.Dumper)
+
+print('"{}" updated.'.format(matrix_path))
