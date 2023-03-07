@@ -162,7 +162,7 @@ be listening on a single IP address.
 
 Virtual inbound addresses are now also configured to listen on both `0.0.0.0` and `[::]`.
 
-```json
+{{< text json >}}
     "name": "virtualInbound",
     "address": {
         "socketAddress": {
