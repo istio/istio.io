@@ -87,7 +87,7 @@ To verify your installation let us create 3 namespaces and install the `tcp-echo
 * `ipv4`: `tcp-echo` will listen on only an IPv4 address.
 * `ipv6`: `tcp-echo` will listen on only an IPv6 address.
 
-```shell
+{{< text bash >}}
 $ kubectl create namespace dual-stack
 $ kubectl create namespace ipv4
 $ kubectl create namespace ipv6
