@@ -158,7 +158,7 @@ be listening on a single IP address.
                 }
             }
         ],
-```
+{{< /text >}}
 
 Virtual inbound addresses are now also configured to listen on both `0.0.0.0` and `[::]`.
 
