@@ -112,7 +112,7 @@ $ kubectl apply --namespace ipv6 -f https://raw.githubusercontent.com/istio/isti
 
 To the default namespace let's apply sleep:
 
-```shell
+{{< text bash >}}
 $ kubectl apply -f https://raw.githubusercontent.com/istio/istio/master/samples/sleep/sleep.yaml
 ```
 
