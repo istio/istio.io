@@ -33,10 +33,15 @@ yaml_header = """
 """.lstrip()  # remove leading newline
 
 # Subclass built-in types
+
+
 class flow_seq(list):
     pass  # forces inline list
+
+
 class quoted(str):
     pass  # forces double quotes
+
 
 # Customize how YAML is displayed (d = dumper; v = value)
 yaml.add_representer(flow_seq, lambda d, v: d.represent_sequence('tag:yaml.org,2002:seq', v, flow_style=True))
