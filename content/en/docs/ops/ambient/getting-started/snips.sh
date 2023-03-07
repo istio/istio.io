@@ -174,15 +174,6 @@ kubectl exec deploy/notsleep -- curl -s http://productpage:9080/
 RBAC: access denied
 ENDSNIP
 
-snip_l7_authorization_policy_8() {
-# this should continue to work
-kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
-}
-
-! read -r -d '' snip_l7_authorization_policy_8_out <<\ENDSNIP
-<title>Simple Bookstore App</title>
-ENDSNIP
-
 snip_control_traffic_control_1() {
 istioctl x waypoint apply --service-account bookinfo-reviews
 }

@@ -300,7 +300,7 @@ $ kubectl exec deploy/notsleep -- curl -s http://productpage:9080/
 RBAC: access denied
 {{< /text >}}
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=none >}}
 $ # this should continue to work
 $ kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
 <title>Simple Bookstore App</title>

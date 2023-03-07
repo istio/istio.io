@@ -59,13 +59,17 @@ _verify_contains snip_l7_authorization_policy_3 "Deployed waypoint proxy"
 snip_l7_authorization_policy_5
 _verify_contains snip_l7_authorization_policy_6 "$snip_l7_authorization_policy_6_out"
 _verify_contains snip_l7_authorization_policy_7 "$snip_l7_authorization_policy_7_out"
-_verify_contains snip_l7_authorization_policy_8 "$snip_l7_authorization_policy_8_out"
+_verify_contains snip_verify_traffic_sleep_to_productpage "$snip_verify_traffic_sleep_to_productpage_out"
 
 snip_control_traffic_control_1
 _verify_contains snip_control_traffic_control_1 "waypoint default/bookinfo-reviews applied"
 
 snip_control_traffic_control_2
-# snip_control_traffic_control_3
+_verify_lines snip_control_traffic_control_3 "
++ reviews-v1
++ reviews-v2
+- reviews-v3
+"
 
 # @cleanup
 cleanup_bookinfo_sample
