@@ -30,16 +30,18 @@ yaml_header = """
 # Please keep entries ordered descending by version.
 # The order will be retained while rendering the
 # data into the support_status_table shortcode
-""".lstrip() # remove leading newline
+""".lstrip()  # remove leading newline
 
 # Subclass built-in types
-class flow_seq(list): pass # forces inline list
-class quoted(str): pass # forces double quotes
+class flow_seq(list):
+    pass  # forces inline list
+class quoted(str):
+    pass  # forces double quotes
 
 # Customize how YAML is displayed (d = dumper; v = value)
 yaml.add_representer(flow_seq, lambda d, v: d.represent_sequence('tag:yaml.org,2002:seq', v, flow_style=True))
 yaml.add_representer(quoted, lambda d, v: d.represent_scalar('tag:yaml.org,2002:str', v, style='"'))
-yaml.add_representer(type(None), lambda d, v: d.represent_scalar('tag:yaml.org,2002:null', '')) # empty null lines
+yaml.add_representer(type(None), lambda d, v: d.represent_scalar('tag:yaml.org,2002:null', ''))  # empty null lines
 
 # Disables unneeded anchors
 yaml.Dumper.ignore_aliases = lambda s, d: True
@@ -72,7 +74,7 @@ for (istio_idx, istio_info) in enumerate(data):
 data[0]['k8sVersions'] = data[1]['k8sVersions']
 
 with open(matrix_path, "w") as f:
-    f.write(yaml_header) # place header comments at top of file
+    f.write(yaml_header)  # place header comments at top of file
     yaml.dump(data, f, indent=2, default_flow_style=False, sort_keys=False, Dumper=yaml.Dumper)
 
 print('"{}" updated.'.format(matrix_path))
