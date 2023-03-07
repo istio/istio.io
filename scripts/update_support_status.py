@@ -25,6 +25,7 @@ def quoted_presenter(dumper, data):
     return dumper.represent_scalar('tag:yaml.org,2002:str', data, style='"')
 
 yaml.add_representer(quoted, quoted_presenter)
+yaml.add_representer(type(None), lambda d, v: d.represent_scalar(u'tag:yaml.org,2002:null', ''))
 
 for (istio_idx, istio_info) in enumerate(data):
     for key in istio_info:
