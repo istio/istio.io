@@ -65,7 +65,11 @@ snip_control_traffic_control_1
 _verify_contains snip_control_traffic_control_1 "waypoint default/bookinfo-reviews applied"
 
 snip_control_traffic_control_2
-# snip_control_traffic_control_3
+_verify_lines snip_control_traffic_control_3 "
++ reviews-v1
++ reviews-v2
+- reviews-v3
+"
 
 # @cleanup
 cleanup_bookinfo_sample
