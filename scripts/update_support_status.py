@@ -6,13 +6,12 @@ import sys
 
 matrix_path = '../data/compatibility/supportStatus.yml'
 
-# Needed because updating yaml while retaining sugar like comments requires extra libraries
+# Needed because updating yaml while retaining comments requires extra libraries
 yaml_header = """
 # Please keep entries ordered descending by version.
 # The order will be retained while rendering the
 # data into the support_status_table shortcode
 """
-
 
 with open(matrix_path) as stream:
     # data = yaml.safe_load(stream)
@@ -21,10 +20,8 @@ with open(matrix_path) as stream:
 class quoted(str):
     pass
 
-def quoted_presenter(dumper, data):
-    return dumper.represent_scalar('tag:yaml.org,2002:str', data, style='"')
-
-yaml.add_representer(quoted, quoted_presenter)
+# d = dumper; v = value
+yaml.add_representer(quoted, lambda d, v: d.represent_scalar('tag:yaml.org,2002:str', v, style='"'))
 yaml.add_representer(type(None), lambda d, v: d.represent_scalar(u'tag:yaml.org,2002:null', ''))
 
 for (istio_idx, istio_info) in enumerate(data):
