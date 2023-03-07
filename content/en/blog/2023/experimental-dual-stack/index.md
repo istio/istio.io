@@ -118,7 +118,7 @@ $ kubectl apply -f https://raw.githubusercontent.com/istio/istio/master/samples/
 
 Let us communicate with the `tcp-echo` servers.
 
-```shell
+{{< text bash >}}
 $ kubectl exec -it "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo dualstack | nc tcp-echo 9000"
 hello dualstack
 $ kubectl exec -it "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo ipv4 | nc tcp-echo.ipv4 9000"
