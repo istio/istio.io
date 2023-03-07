@@ -95,7 +95,7 @@ $ kubectl create namespace ipv6
 
 Let us enable sidecar injection on all of those namespaces as well as the default namespace:
 
-```shell
+{{< text bash >}}
 $ kubectl label --overwrite namespace default istio-injection=enabled
 $ kubectl label --overwrite namespace dual-stack istio-injection=enabled
 $ kubectl label --overwrite namespace ipv4 istio-injection=enabled
