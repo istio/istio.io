@@ -180,7 +180,7 @@ Virtual inbound addresses are now also configured to listen on both `0.0.0.0` an
             }
         }
     ],
-```
+{{< /text >}}
 
 While Envoy's endpoints now are configured to route to both IPv4 and IPv6:
 
