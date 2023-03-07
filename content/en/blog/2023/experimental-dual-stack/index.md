@@ -135,7 +135,7 @@ For the above experiment, you'll notice changes are made listeners and routes:
 
 {{< text bash >}}
 $ istioctl proxy-config listeners "$(kubectl get pod -n dual-stack -l app=tcp-echo -o jsonpath='{.items[0].metadata.name}')" -n dual-stack --port 9000
-```
+{{< /text >}}
 
 You will see listeners are now bound to multiple addresses, but only for dual stack services. Other services will only
 be listening on a single IP address.
