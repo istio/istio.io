@@ -80,7 +80,7 @@ spec:
       env:
         ISTIO_DUAL_STACK: "true"
 EOF
-```
+{{< /text >}}
 
 To verify your installation let us create 3 namespaces and install the `tcp-echo` server to them:
 * `dual-stack`: `tcp-echo` will listen on both an IPv4 and IPv6 address.
