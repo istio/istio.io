@@ -125,7 +125,7 @@ $ kubectl exec -it "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metad
 hello ipv4
 $ kubectl exec -it "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo ipv6 | nc tcp-echo.ipv6 9000"
 hello ipv6
-```
+{{< /text >}}
 
 Now you can experiment with dual-stack services in your environment!
 
