@@ -13,17 +13,21 @@ yaml_header = """
 # data into the support_status_table shortcode
 """
 
-with open(matrix_path) as stream:
-    #data = yaml.safe_load(stream)
-    data = yaml.load(stream, yaml.FullLoader)
-
 # Subclass built-in str type to use double quotes
-class quoted(str):
-    pass
+class quoted(str): pass
+class flow_seq(list): pass
 
 # Customize how YAML is displayed (d = dumper; v = value)
 yaml.add_representer(quoted, lambda d, v: d.represent_scalar('tag:yaml.org,2002:str', v, style='"'))
 yaml.add_representer(type(None), lambda d, v: d.represent_scalar('tag:yaml.org,2002:null', ''))
+
+# Test list class
+yaml.add_representer(flow_seq, lambda d, v: d.represent_sequence('tag:yaml.org,2002:seq', v, flow_style=True))
+# yaml.add_representer(type(list), lambda d, v: d.represent_scalar('tag:yaml.org,2002:seq', ''))
+
+with open(matrix_path) as stream:
+    #data = yaml.safe_load(stream)
+    data = yaml.load(stream, yaml.FullLoader)
 
 # Quote the data for readability and forced string type
 for (istio_idx, istio_info) in enumerate(data):
@@ -32,6 +36,7 @@ for (istio_idx, istio_info) in enumerate(data):
             if key in ["k8sVersions", "testedK8sVersions"]:
                 for (k8s_idx, k8s_ver) in enumerate(data[istio_idx][key]):
                     data[istio_idx][key][k8s_idx] = quoted(data[istio_idx][key][k8s_idx])
+                data[istio_idx][key] = flow_seq(data[istio_idx][key])
             else:
                 data[istio_idx][key] = quoted(data[istio_idx][key])
 
