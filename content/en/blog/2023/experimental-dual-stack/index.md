@@ -191,7 +191,7 @@ ENDPOINT                 STATUS      OUTLIER CHECK     CLUSTER
 10.244.0.26:9000         HEALTHY     OK                outbound|9000||tcp-echo.dual-stack.svc.cluster.local
 fd00:10:244::1a:9000     HEALTHY     OK                outbound|9000||tcp-echo.dual-stack.svc.cluster.local
 fd00:10:244::18:9000     HEALTHY     OK                outbound|9000||tcp-echo.ipv6.svc.cluster.local
-```
+{{< /text >}}
 
 ## Get Involved
 
