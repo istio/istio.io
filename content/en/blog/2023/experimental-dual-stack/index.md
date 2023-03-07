@@ -108,7 +108,7 @@ Let's apply `tcp-echo` to those namespaces:
 $ kubectl apply --namespace dual-stack -f https://raw.githubusercontent.com/istio/istio/master/samples/tcp-echo/tcp-echo-dual-stack.yaml
 $ kubectl apply --namespace ipv4 -f https://raw.githubusercontent.com/istio/istio/master/samples/tcp-echo/tcp-echo-ipv4.yaml
 $ kubectl apply --namespace ipv6 -f https://raw.githubusercontent.com/istio/istio/master/samples/tcp-echo/tcp-echo-ipv6.yaml
-```
+{{< /text >}}
 
 To the default namespace let's apply sleep:
 
