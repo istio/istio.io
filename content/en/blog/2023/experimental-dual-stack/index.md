@@ -114,7 +114,7 @@ To the default namespace let's apply sleep:
 
 {{< text bash >}}
 $ kubectl apply -f https://raw.githubusercontent.com/istio/istio/master/samples/sleep/sleep.yaml
-```
+{{< /text >}}
 
 Let us communicate with the `tcp-echo` servers.
 
