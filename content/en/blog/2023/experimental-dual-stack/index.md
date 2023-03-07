@@ -104,7 +104,7 @@ $ kubectl label --overwrite namespace ipv6 istio-injection=enabled
 
 Let's apply `tcp-echo` to those namespaces:
 
-```shell
+{{< text bash >}}
 $ kubectl apply --namespace dual-stack -f https://raw.githubusercontent.com/istio/istio/master/samples/tcp-echo/tcp-echo-dual-stack.yaml
 $ kubectl apply --namespace ipv4 -f https://raw.githubusercontent.com/istio/istio/master/samples/tcp-echo/tcp-echo-ipv4.yaml
 $ kubectl apply --namespace ipv6 -f https://raw.githubusercontent.com/istio/istio/master/samples/tcp-echo/tcp-echo-ipv6.yaml
