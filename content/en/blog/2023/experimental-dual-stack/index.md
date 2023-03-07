@@ -140,7 +140,7 @@ $ istioctl proxy-config listeners "$(kubectl get pod -n dual-stack -l app=tcp-ec
 You will see listeners are now bound to multiple addresses, but only for dual stack services. Other services will only
 be listening on a single IP address.
 
-```json
+{{< text json >}}
         "name": "fd00:10:96::f9fc_9000",
         "address": {
             "socketAddress": {
