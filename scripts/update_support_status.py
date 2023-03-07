@@ -6,30 +6,39 @@ import sys
 
 matrix_path = '../data/compatibility/supportStatus.yml'
 
-# Needed because updating yaml while retaining comments requires extra libraries
+# Needed since retaining YAML comments requires extra libraries
 yaml_header = """
 # Please keep entries ordered descending by version.
 # The order will be retained while rendering the
 # data into the support_status_table shortcode
-"""
+""".lstrip() # remove leading newline
 
-# Subclass built-in str type to use double quotes
-class quoted(str): pass
-class flow_seq(list): pass
+# Subclass built-in types
+class flow_seq(list): pass # forces inline list
+class quoted(str): pass # forces double quotes
 
 # Customize how YAML is displayed (d = dumper; v = value)
-yaml.add_representer(quoted, lambda d, v: d.represent_scalar('tag:yaml.org,2002:str', v, style='"'))
-yaml.add_representer(type(None), lambda d, v: d.represent_scalar('tag:yaml.org,2002:null', ''))
-
-# Test list class
 yaml.add_representer(flow_seq, lambda d, v: d.represent_sequence('tag:yaml.org,2002:seq', v, flow_style=True))
-# yaml.add_representer(type(list), lambda d, v: d.represent_scalar('tag:yaml.org,2002:seq', ''))
+yaml.add_representer(quoted, lambda d, v: d.represent_scalar('tag:yaml.org,2002:str', v, style='"'))
+yaml.add_representer(type(None), lambda d, v: d.represent_scalar('tag:yaml.org,2002:null', '')) # empty null lines
 
-with open(matrix_path) as stream:
-    #data = yaml.safe_load(stream)
-    data = yaml.load(stream, yaml.FullLoader)
+# Disables unneeded anchors
+yaml.Dumper.ignore_aliases = lambda s, d: True
 
-# Quote the data for readability and forced string type
+try:
+    with open(matrix_path) as stream:
+        data = yaml.safe_load(stream)
+
+except yaml.YAMLError as exc:
+    sys.stderr.write('Failed to load data from "{}"\n'.format(matrix_path))
+    if hasattr(exc, 'problem_mark'):
+        if exc.context:
+            print("{}\n{} {}".format(exc.problem_mark, exc.problem, exc.context).strip())
+        else:
+            print("{}\n{}".format(exc.problem_mark, exc.problem).strip())
+    sys.exit(1)
+
+# Iterate through each property and apply representers
 for (istio_idx, istio_info) in enumerate(data):
     for key in istio_info:
         if data[istio_idx][key]:
@@ -40,23 +49,14 @@ for (istio_idx, istio_info) in enumerate(data):
             else:
                 data[istio_idx][key] = quoted(data[istio_idx][key])
 
+# Set first entry (master) to latest release's k8sVersions
 data[0]['k8sVersions'] = data[1]['k8sVersions']
 
-yaml.Dumper.ignore_aliases = lambda s, d: True
-yaml.dump(data, sys.stdout, indent=2, default_flow_style=None, explicit_start=True, sort_keys=False, Dumper=yaml.Dumper)
-
-# yaml.dump(data, sys.stdout, indent=2, default_flow_style=False, explicit_start=True)
-
-#with open(matrix_path) as stream:
-#    data = yaml.safe_load(stream)
-#
-#try:
-#    data[0]['k8sVersions'] = data[1]['k8sVersions']
-#    print('"{}" updated.'.format(matrix_path))
-#    with open(matrix_path, "w") as f:
-#      #yaml.dump(data, f, default_flow_style=False)
-#      yaml.dump(data, sys.stdout, indent=4, default_flow_style=False, explicit_start=True)
-#
-#except:
-#    sys.stderr.write('failed to retrieve data from "{}"\n'.format(matrix_path))
-#    sys.exit(1)
+try:
+    with open(matrix_path, "w") as f:
+        f.write(yaml_header) # place header comments at top of file
+        yaml.dump(data, f, indent=2, default_flow_style=False, sort_keys=False, Dumper=yaml.Dumper)
+    print('"{}" updated.'.format(matrix_path))
+except:
+    sys.stderr.write('Failed to write to "{}"\n'.format(matrix_path))
+    sys.exit(1)
