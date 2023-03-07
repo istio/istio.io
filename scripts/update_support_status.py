@@ -14,16 +14,18 @@ yaml_header = """
 """
 
 with open(matrix_path) as stream:
-    # data = yaml.safe_load(stream)
+    #data = yaml.safe_load(stream)
     data = yaml.load(stream, yaml.FullLoader)
 
+# Subclass built-in str type to use double quotes
 class quoted(str):
     pass
 
-# d = dumper; v = value
+# Customize how YAML is displayed (d = dumper; v = value)
 yaml.add_representer(quoted, lambda d, v: d.represent_scalar('tag:yaml.org,2002:str', v, style='"'))
-yaml.add_representer(type(None), lambda d, v: d.represent_scalar(u'tag:yaml.org,2002:null', ''))
+yaml.add_representer(type(None), lambda d, v: d.represent_scalar('tag:yaml.org,2002:null', ''))
 
+# Quote the data for readability and forced string type
 for (istio_idx, istio_info) in enumerate(data):
     for key in istio_info:
         if data[istio_idx][key]:
@@ -33,14 +35,11 @@ for (istio_idx, istio_info) in enumerate(data):
             else:
                 data[istio_idx][key] = quoted(data[istio_idx][key])
 
-yaml.dump(data, sys.stdout, indent=2, default_flow_style=None, explicit_start=True, sort_keys=False)
+data[0]['k8sVersions'] = data[1]['k8sVersions']
 
-# with open(matrix_path) as stream:
-#     # data = yaml.safe_load(stream)
-#     data = yaml.load(stream, yaml.FullLoader)
-#     data[0].update(k8sVersions = quoted("dev"))
-# data[0]['k8sVersions'] = data[1]['k8sVersions']
-# 
+yaml.Dumper.ignore_aliases = lambda s, d: True
+yaml.dump(data, sys.stdout, indent=2, default_flow_style=None, explicit_start=True, sort_keys=False, Dumper=yaml.Dumper)
+
 # yaml.dump(data, sys.stdout, indent=2, default_flow_style=False, explicit_start=True)
 
 #with open(matrix_path) as stream:
