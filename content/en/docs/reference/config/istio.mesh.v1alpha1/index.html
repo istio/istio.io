@@ -425,7 +425,7 @@ No
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
 <td>
 <p>Configures DNS refresh rate for Envoy clusters of type <code>STRICT_DNS</code>
-Default refresh rate is <code>5s</code>.</p>
+Default refresh rate is <code>60s</code>.</p>
 
 </td>
 <td>
@@ -613,30 +613,31 @@ No
 <td><code>meshMTLS</code></td>
 <td><code><a href="#MeshConfig-TLSConfig">TLSConfig</a></code></td>
 <td>
-<p>The below configuration parameters can be used to specify TLSConfig for in-mesh and mesh-external TLS traffic.
-For example, a user could enable min TLS version for in-mesh traffic and specify a curve for mesh external traffic like below:
+<p>The below configuration parameters can be used to specify TLSConfig for mesh traffic.
+For example, a user could enable min TLS version for ISTIO_MUTUAL traffic and specify a curve for non ISTIO_MUTUAL traffic like below:
 meshConfig:
 meshMTLS:
 minProtocolVersion: TLSV1_3
-meshExternalTLS:
+tlsDefaults:
+Note: applicable only for non ISTIO_MUTUAL scenarios
 ecdhCurves:
 - P-256
 - P-512</p>
-<p>Configuration of mTLS for traffic between workloads within the mesh.
-Mesh mTLS does not respect ECDH curves.</p>
+<p>Configuration of mTLS for traffic between workloads with ISTIO_MUTUAL TLS traffic.
+Note: Mesh mTLS does not respect ECDH curves.</p>
 
 </td>
 <td>
 No
 </td>
 </tr>
-<tr id="MeshConfig-mesh_external_TLS">
-<td><code>meshExternalTLS</code></td>
+<tr id="MeshConfig-tls_defaults">
+<td><code>tlsDefaults</code></td>
 <td><code><a href="#MeshConfig-TLSConfig">TLSConfig</a></code></td>
 <td>
-<p>Configuration of TLS for mesh external traffic(i.e. the traffic entering or leaving the mesh).
-This includes any TLS mode except ISTIO_MUTUAL mTLS. For ISTIO_MUTUAL settings, meshMTLS configuration should be used.
-Note: Mesh external does not respect min TLS version configured here currently.</p>
+<p>Configuration of TLS for all traffic except for ISTIO_MUTUAL mode.
+Currently, this supports configuration of ecdh_curves only.
+For ISTIO_MUTUAL TLS settings, use meshMTLS configuration.</p>
 
 </td>
 <td>
