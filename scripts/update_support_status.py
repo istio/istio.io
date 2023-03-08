@@ -23,7 +23,7 @@ if (sys.version_info[0] < 3):
 
 import yaml
 
-matrix_path = '../data/compatibility/supportStatus.yml'
+matrix_path = 'data/compatibility/supportStatus.yml'
 
 # Needed since retaining YAML comments requires extra libraries
 yaml_header = """
