@@ -178,6 +178,8 @@ advance_master_to_next_release() {
 
     make update_all gen
 
+    python3 scripts/update_support_status.py
+
     if [[ $(git status --porcelain) ]]; then
         git add -A
         git commit -m "advance master to release-${NEXT_MINOR}"
