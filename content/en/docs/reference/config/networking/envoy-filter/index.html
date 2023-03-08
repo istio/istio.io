@@ -116,19 +116,20 @@ spec:
        name: envoy.filters.http.lua
        typed_config:
           &quot;@type&quot;: &quot;type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua&quot;
-          inlineCode: |
-            function envoy_on_request(request_handle)
-              -- Make an HTTP call to an upstream host with the following headers, body, and timeout.
-              local headers, body = request_handle:httpCall(
-               &quot;lua_cluster&quot;,
-               {
-                [&quot;:method&quot;] = &quot;POST&quot;,
-                [&quot;:path&quot;] = &quot;/acl&quot;,
-                [&quot;:authority&quot;] = &quot;internal.org.net&quot;
-               },
-              &quot;authorize call&quot;,
-              5000)
-            end
+          defaultSourceCode:
+            inlineString: |
+              function envoy_on_request(request_handle)
+                -- Make an HTTP call to an upstream host with the following headers, body, and timeout.
+                local headers, body = request_handle:httpCall(
+                 &quot;lua_cluster&quot;,
+                 {
+                  [&quot;:method&quot;] = &quot;POST&quot;,
+                  [&quot;:path&quot;] = &quot;/acl&quot;,
+                  [&quot;:authority&quot;] = &quot;internal.org.net&quot;
+                 },
+                &quot;authorize call&quot;,
+                5000)
+              end
   # The second patch adds the cluster that is referenced by the lua code
   # cds match is omitted as a new cluster is being added
   - applyTo: CLUSTER
