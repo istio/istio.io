@@ -323,6 +323,13 @@ pro_services:
       - "We’ve been using Kubernetes in production since 2017. To deliver advanced networking capabilities to our customers, we opted for Istio as a service mesh solution that provides everything needed and that we can trust."
       - "One of the prominent features we’ve implemented is automating the multi-cluster communication for Istio deployed in different Kubernetes clusters."
       - "Having vast experience integrating Istio into our Kubernetes platform and digging deep into its features and configuration peculiarities, Palark can help you to get the most out of Istio for your business needs."
+  - name: "Stackgenie"
+    logo: "/logos/stackgenie.svg"
+    url: "https://stackgenie.io"
+    description: "Stackgenie specialises in assisting companies with Istio adoption."
+    details: 
+      - "Istio consulting and advising, Istio production installation, configuration and integration with observability tools, security measures, and enterprise Istio support and training are all part of our entire professional services offering."
+      - "Leveraging our extensive expertise in cloud Native and Kubernetes projects, we provide end-to-end services to our clients."
   - name: "Your Name Here"
     logo: "/logos/istio.svg"
     url: "https://istio.io/"
@@ -330,7 +337,7 @@ pro_services:
     details:
       - "Add information about your how your company supports Istio."
       - "You can add multiple paragraphs."
-
+      
 users:
   - name: "1-800-Flowers.com"
     logo: "/logos/1-800-flowers.svg"
