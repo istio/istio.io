@@ -12,8 +12,7 @@ Over the past year, both Intel and F5 have collaborated on an effort to bring su
 ## Background
 
 The journey has taken us longer than anticipated and we continue to have work to do. The team initially started with a design based
-on a reference implementation from F5. The design led to an [RFC](https://docs.google.com/document/d/1oT6pmRhOw7AtsldU0-HbfA0zA26j9LYiBD_eepeErsQ/edit?usp=sharing) that
-caused us to re-examine our approach. Notably, there were concerns about memory and performance issues that the community wanted
+on a reference implementation from F5. The design led to an [RFC](https://docs.google.com/document/d/1oT6pmRhOw7AtsldU0-HbfA0zA26j9LYiBD_eepeErsQ/edit?usp=sharing) that caused us to re-examine our approach. Notably, there were concerns about memory and performance issues that the community wanted
 to be addressed before implementation.
 
 ## Experimental Dual Stack Branch
@@ -50,9 +49,7 @@ been working fervently to get long outstanding issues resolved, with the ability
 to Envoy, such as the ability to [enable socket options on multiple addresses](https://github.com/envoyproxy/envoy/pull/23496),
 have landed in the Istio 1.17 release (e.g. [extra source addresses on inbound clusters](https://github.com/istio/istio/pull/41618)).
 
-The Envoy API changes made by the team can be found at their site at [Listener addresses](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/listener/v3/listener.proto.html?highlight=additional_addresses)
-and [bind config](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/core/v3/address.proto#config-core-v3-bindconfig).
-Making sure we can have proper support at both the downstream and upstream connection for Envoy is important for realizing
+The Envoy API changes made by the team can be found at their site at [Listener addresses](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/listener/v3/listener.proto.html?highlight=additional_addresses) and [bind config](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/core/v3/address.proto#config-core-v3-bindconfig). Making sure we can have proper support at both the downstream and upstream connection for Envoy is important for realizing
 dual-stack support.
 
 In total the team has submitted over a dozen PRs to Envoy and are working on at least a half dozen more to make Envoy adoption of
@@ -64,68 +61,69 @@ announce experimental support for dual stack in Istio 1.17!
 
 ## Enabling Dual Stack in Istio 1.17
 
-To enable dual stack experimental support you must install Istio 1.17.0+ with the following:
+1. Enable dual stack experimental support on Istio 1.17.0+ with the following:
 
-{{< text bash >}}
-$ istioctl install -f - <<EOF
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  meshConfig:
-    defaultConfig:
-      proxyMetadata:
-        ISTIO_AGENT_DUAL_STACK: "true"
-  values:
-    pilot:
-      env:
-        ISTIO_DUAL_STACK: "true"
-EOF
-{{< /text >}}
+    {{< text bash >}}
+    $ istioctl install -f - <<EOF
+    apiVersion: install.istio.io/v1alpha1
+    kind: IstioOperator
+    spec:
+      meshConfig:
+        defaultConfig:
+          proxyMetadata:
+            ISTIO_AGENT_DUAL_STACK: "true"
+      values:
+        pilot:
+          env:
+            ISTIO_DUAL_STACK: "true"
+    EOF
+    {{< /text >}}
 
-To verify your installation let us create 3 namespaces and install the `tcp-echo` server to them:
-* `dual-stack`: `tcp-echo` will listen on both an IPv4 and IPv6 address.
-* `ipv4`: `tcp-echo` will listen on only an IPv4 address.
-* `ipv6`: `tcp-echo` will listen on only an IPv6 address.
+1. Create three namespaces:
 
-{{< text bash >}}
-$ kubectl create namespace dual-stack
-$ kubectl create namespace ipv4
-$ kubectl create namespace ipv6
-{{< /text >}}
+    * `dual-stack`: `tcp-echo` will listen on both an IPv4 and IPv6 address.
+    * `ipv4`: `tcp-echo` will listen on only an IPv4 address.
+    * `ipv6`: `tcp-echo` will listen on only an IPv6 address.
 
-Let us enable sidecar injection on all of those namespaces as well as the default namespace:
+    {{< text bash >}}
+    $ kubectl create namespace dual-stack
+    $ kubectl create namespace ipv4
+    $ kubectl create namespace ipv6
+    {{< /text >}}
 
-{{< text bash >}}
-$ kubectl label --overwrite namespace default istio-injection=enabled
-$ kubectl label --overwrite namespace dual-stack istio-injection=enabled
-$ kubectl label --overwrite namespace ipv4 istio-injection=enabled
-$ kubectl label --overwrite namespace ipv6 istio-injection=enabled
-{{< /text >}}
+1. Enable sidecar injection on all of those namespaces as well as the default namespace:
 
-Let's apply `tcp-echo` to those namespaces:
+    {{< text bash >}}
+    $ kubectl label --overwrite namespace default istio-injection=enabled
+    $ kubectl label --overwrite namespace dual-stack istio-injection=enabled
+    $ kubectl label --overwrite namespace ipv4 istio-injection=enabled
+    $ kubectl label --overwrite namespace ipv6 istio-injection=enabled
+    {{< /text >}}
 
-{{< text bash >}}
-$ kubectl apply --namespace dual-stack -f https://raw.githubusercontent.com/istio/istio/master/samples/tcp-echo/tcp-echo-dual-stack.yaml
-$ kubectl apply --namespace ipv4 -f https://raw.githubusercontent.com/istio/istio/master/samples/tcp-echo/tcp-echo-ipv4.yaml
-$ kubectl apply --namespace ipv6 -f https://raw.githubusercontent.com/istio/istio/master/samples/tcp-echo/tcp-echo-ipv6.yaml
-{{< /text >}}
+1. Create `tcp-echo` deployments in the namespaces:
 
-To the default namespace let's apply sleep:
+    {{< text bash >}}
+    $ kubectl apply --namespace dual-stack -f {{< github_file >}}/samples/tcp-echo/tcp-echo-dual-stack.yaml
+    $ kubectl apply --namespace ipv4 -f {{< github_file >}}/samples/tcp-echo/tcp-echo-ipv4.yaml
+    $ kubectl apply --namespace ipv6 -f {{< github_file >}}/samples/tcp-echo/tcp-echo-ipv6.yaml
+    {{< /text >}}
 
-{{< text bash >}}
-$ kubectl apply -f https://raw.githubusercontent.com/istio/istio/master/samples/sleep/sleep.yaml
-{{< /text >}}
+1. Create sleep deployment in the default namespace:
 
-Let us communicate with the `tcp-echo` servers.
+    {{< text bash >}}
+    $ kubectl apply -f {{< github_file >}}/master/samples/sleep/sleep.yaml
+    {{< /text >}}
 
-{{< text bash >}}
-$ kubectl exec -it "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo dualstack | nc tcp-echo 9000"
-hello dualstack
-$ kubectl exec -it "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo ipv4 | nc tcp-echo.ipv4 9000"
-hello ipv4
-$ kubectl exec -it "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo ipv6 | nc tcp-echo.ipv6 9000"
-hello ipv6
-{{< /text >}}
+1. Verify the traffic:
+
+    {{< text bash >}}
+    $ kubectl exec -it "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo dualstack | nc tcp-echo 9000"
+    hello dualstack
+    $ kubectl exec -it "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo ipv4 | nc tcp-echo.ipv4 9000"
+    hello ipv4
+    $ kubectl exec -it "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo ipv6 | nc tcp-echo.ipv6 9000"
+    hello ipv6
+    {{< /text >}}
 
 Now you can experiment with dual-stack services in your environment!
 
