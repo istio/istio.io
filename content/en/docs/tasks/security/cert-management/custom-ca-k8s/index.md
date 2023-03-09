@@ -288,10 +288,10 @@ When the workloads are deployed, they send CSR requests with related signer info
     $ istioctl uninstall --purge -y
     {{< /text >}}
 
-*   Remove the namespace `foo` and `istio-system` from the cluster:
+*   Remove the namespace `foo`,`bar` and `istio-system` from the cluster:
 
     {{< text bash >}}
-    $ kubectl delete ns foo istio-system
+    $ kubectl delete ns foo bar istio-system
     {{< /text >}}
 
 ## Reasons to use this feature
