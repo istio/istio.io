@@ -1,7 +1,7 @@
 ---
 title: "Support for Dual Stack Kubernetes Clusters"
 description: "Experimental support for Dual Stack Kubernetes Clusters."
-publishdate: 2023-03-02
+publishdate: 2023-03-10
 attribution: "Steve Zhang (Intel), Alex Xu (Intel), Iris Ding (Intel), Jacob Delgado (F5), Ying-chun Cai (formerly F5)"
 keywords: [dual-stack]
 ---
@@ -13,31 +13,12 @@ Over the past year, both Intel and F5 have collaborated on an effort to bring su
 
 The journey has taken us longer than anticipated and we continue to have work to do. The team initially started with a design based
 on a reference implementation from F5. The design led to an [RFC](https://docs.google.com/document/d/1oT6pmRhOw7AtsldU0-HbfA0zA26j9LYiBD_eepeErsQ/edit?usp=sharing) that caused us to re-examine our approach. Notably, there were concerns about memory and performance issues that the community wanted
-to be addressed before implementation.
-
-## Experimental Dual Stack Branch
-
-While the team was re-evaluating the options, we created a new branch, [experimental-dual-stack]({{< github_raw >}}/tree/experimental-dual-stack),
-to experiment and implement the reference design. We will detail how to use and install artifacts
-from that branch in an upcoming blog, however, be aware that its initial intent was to learn how to approach development
-in a way that we can implement a big impacting feature within Istio without causing regressions to single stack clusters.
-It was also branched between Istio 1.13 and 1.14 and hasn't kept up to date with the master branch. Using artifacts built
-from this branch would be considered highly experimental. While the branch builds locally, it fails the CI pipeline when
-another PR is added. With that said, there are still people and companies that are using artifacts from this branch
-in both staging and production environments.
-
-The original design was created with customer requirements that specified client originating IPv4 requests should be
-proxied over IPv4, and the same for an originating IPv6 requests to be satisfied over IPv6 (we will refer to this as
-native IP family going forward). To do this, we initially had to duplicate Envoy configuration for listeners, clusters,
-routes and endpoints. Given that many people already experience Envoy memory and CPU consumption issues, early feedback
-wanted us to completely re-evaluate this approach. Many proxies transparently handle outbound dual-stack traffic regardless
-of how the traffic was originated. Much of the earliest feedback was to implement the same behavior in Istio and Envoy.
+to be addressed before implementation. The original design had to duplicate Envoy configuration for listeners, clusters, routes and endpoints. Given that many people already experience Envoy memory and CPU consumption issues, early feedback wanted us to completely re-evaluate this approach. Many proxies transparently handle outbound dual-stack traffic regardless of how the traffic was originated. Much of the earliest feedback was to implement the same behavior in Istio and Envoy.
 
 ## Redefining Dual Stack Support
 
 Much of the feedback provided by the community for the original RFC was to update Envoy to better support dual-stack use cases
-internally instead of supporting this within Istio. This has led us to a [new design](https://docs.google.com/document/d/15LP2XHpQ71ODkjCVItGacPgzcn19fsVhyE7ruMGXDyU/edit?usp=sharing)
-where we have taken lessons learned as well as feedback and have applied them to fit a simplified design.
+internally instead of supporting this within Istio. This has led us to a [new design](https://docs.google.com/document/d/15LP2XHpQ71ODkjCVItGacPgzcn19fsVhyE7ruMGXDyU/edit?usp=sharing) where we have taken lessons learned as well as feedback and have applied them to fit a simplified design.
 
 ## Support for Dual Stack in Istio 1.17
 
