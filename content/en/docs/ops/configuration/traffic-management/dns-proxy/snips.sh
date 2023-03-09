@@ -43,7 +43,7 @@ metadata:
   name: external-address
 spec:
   addresses:
-  - 198.51.100.0
+  - 198.51.100.1
   hosts:
   - address.internal
   ports:
