@@ -21,13 +21,13 @@ test: n/a
 ---
 
 When configuring a production deployment of Istio, you need to answer a number of questions.
-Will the mesh be confined to a single {{< gloss >}}cluster{{< /gloss >}} or distributed across
+Will the mesh be confined to a single {{< gloss "cluster" >}}clusters{{< /gloss >}} or distributed across
 multiple clusters? Will all the services be located in a single fully connected network, or will
 gateways be required to connect services across multiple networks? Is there a single
-{{< gloss >}}control plane{{< /gloss >}}, potentially shared across clusters,
+{{< gloss "control plane">}}control plane{{< /gloss >}}, potentially shared across clusters,
 or are there multiple control planes deployed to ensure high availability (HA)?
-Are all clusters going to be connected into a single {{< gloss >}}multicluster{{< /gloss >}}
-service mesh or will they be federated into a {{< gloss >}}multi-mesh{{< /gloss >}} deployment?
+Are all clusters going to be connected into a single {{< gloss "multicluster" >}}multicluster{{< /gloss >}}
+service mesh or will they be federated into a {{< gloss "multi-mesh" >}}multi-mesh{{< /gloss >}} deployment?
 
 All of these questions, among others, represent independent dimensions of configuration for an Istio deployment.
 
@@ -61,7 +61,7 @@ to handle things like locality and zonal or regional fail over.
 In most cases, clusters represent boundaries for configuration and endpoint
 discovery. For example, each Kubernetes cluster has an API Server which manages
 the configuration for the cluster as well as serving
-{{< gloss >}}service endpoint{{< /gloss >}} information as pods are brought up
+{{< gloss "service endpoint" >}}service endpoint{{< /gloss >}} information as pods are brought up
 or down. Since Kubernetes configures this behavior on a per-cluster basis, this
 approach helps limit the potential problems caused by incorrect configurations.
 
@@ -71,7 +71,7 @@ clusters.
 ### Single cluster
 
 In the simplest case, you can confine an Istio mesh to a single
-{{< gloss >}}cluster{{< /gloss >}}. A cluster usually operates over a
+{{< gloss "cluster" >}}cluster{{< /gloss >}}. A cluster usually operates over a
 [single network](#single-network), but it varies between infrastructure
 providers. A single cluster and single network model includes a control plane,
 which results in the simplest Istio deployment.
@@ -91,7 +91,7 @@ should use multiple clusters.
 
 You can configure a single mesh to include
 multiple {{< gloss "cluster" >}}clusters{{< /gloss >}}. Using a
-{{< gloss >}}multicluster{{< /gloss >}} deployment within a single mesh affords
+{{< gloss "multicluster" >}}multicluster{{< /gloss >}} deployment within a single mesh affords
 the following capabilities beyond that of a single cluster deployment:
 
 - Fault isolation and fail over: `cluster-1` goes down, fail over to `cluster-2`.
@@ -182,8 +182,8 @@ There are a few efforts in progress that will help simplify the DNS story:
 
 ## Network models
 
-Istio uses a simplified definition of {{< gloss >}}network{{< /gloss >}} to
-refer to {{< gloss >}}workload instance{{< /gloss >}}s that have direct
+Istio uses a simplified definition of {{< gloss "network" >}}network{{< /gloss >}} to
+refer to {{< gloss "workload instance" >}}workload instances{{< /gloss >}} that have direct
 reachability. For example, by default all workload instances in a single
 cluster are on the same network.
 
@@ -225,7 +225,7 @@ Multiple networks afford the following capabilities beyond that of single networ
 In this model, the workload instances in different networks can only reach each
 other through one or more [Istio gateways](/docs/concepts/traffic-management/#gateways).
 Istio uses **partitioned service discovery** to provide consumers a different
-view of {{< gloss >}}service endpoint{{< /gloss >}}s. The view depends on the
+view of {{< gloss "service endpoint" >}}service endpoints{{< /gloss >}}. The view depends on the
 network of the consumers.
 
 {{< image width="50%"
@@ -252,7 +252,7 @@ out-of-network endpoints for proxyless services.
 
 ## Control plane models
 
-An Istio mesh uses the {{< gloss >}}control plane{{< /gloss >}} to configure all
+An Istio mesh uses the {{< gloss "control plane" >}}control plane{{< /gloss >}} to configure all
 communication between workload instances within the mesh. Workload instances
 connect to a control plane instance to get their configuration.
 
@@ -267,7 +267,7 @@ cluster.
     >}}
 
 A cluster like this one, with its own local control plane, is referred to as
-a {{< gloss >}}primary cluster{{< /gloss >}}.
+a {{< gloss "primary cluster" >}}primary cluster{{< /gloss >}}.
 
 Multicluster deployments can also share control plane instances. In this case,
 the control plane instances can reside in one or more primary clusters.
@@ -302,7 +302,7 @@ order to manage configuration rollout.
 
 Instead of running control planes in primary clusters inside the mesh, a
 service mesh composed entirely of remote clusters can be controlled by an
-{{< gloss >}}external control plane{{< /gloss >}}. This provides isolated
+{{< gloss "external control plane" >}}external control plane{{< /gloss >}}. This provides isolated
 management and complete separation of the control plane deployment from the
 data plane services that comprise the mesh.
 
@@ -313,7 +313,7 @@ data plane services that comprise the mesh.
     caption="A single cluster with an external control plane"
     >}}
 
-A cloud vendor's {{< gloss >}}managed control plane{{< /gloss >}} is a
+A cloud vendor's {{< gloss "managed control plane" >}}managed control plane{{< /gloss >}} is a
 typical example of an external control plane.
 
 For high availability, you should deploy multiple control planes across
@@ -399,7 +399,7 @@ can be routed to one cluster or the other using an external load balancer.
 ## Identity and trust models
 
 When a workload instance is created within a service mesh, Istio assigns the
-workload an {{< gloss >}}identity{{< /gloss >}}.
+workload an {{< gloss "identity" >}}identity{{< /gloss >}}.
 
 The Certificate Authority (CA) creates and signs the certificates used to verify
 the identities used within the mesh. You can verify the identity of the message sender
@@ -429,7 +429,8 @@ communicating.
 To enable communication between two meshes with different CAs, you must
 exchange the trust bundles of the meshes. Istio does not provide any tooling
 to exchange trust bundles across meshes. You can exchange the trust bundles
-either manually or automatically using a protocol such as [SPIFFE Trust Domain Federation](https://github.com/spiffe/spiffe/blob/main/standards/SPIFFE_Federation.md).
+either manually or automatically using a protocol such as
+[SPIFFE Trust Domain Federation](https://github.com/spiffe/spiffe/blob/main/standards/SPIFFE_Federation.md).
 Once you import a trust bundle to a mesh, you can configure local policies for
 those identities.
 
@@ -444,7 +445,7 @@ those identities.
 
 Istio supports having all of your services in a
 {{< gloss "service mesh" >}}mesh{{< /gloss >}}, or federating multiple meshes
-together, which is also known as {{< gloss >}}multi-mesh{{< /gloss >}}.
+together, which is also known as {{< gloss "multi-mesh" >}}multi-mesh{{< /gloss >}}.
 
 ### Single mesh
 
@@ -459,7 +460,7 @@ A single mesh can span [one or more clusters](#cluster-models) and
 
 ### Multiple meshes
 
-Multiple mesh deployments result from {{< gloss >}}mesh federation{{< /gloss >}}.
+Multiple mesh deployments result from {{< gloss "mesh federation" >}}mesh federation{{< /gloss >}}.
 
 Multiple meshes afford the following capabilities beyond that of a single mesh:
 
@@ -468,8 +469,9 @@ Multiple meshes afford the following capabilities beyond that of a single mesh:
   namespace
 - Stronger isolation: isolating test workloads from production workloads
 
-You can enable inter-mesh communication with {{< gloss >}}mesh federation{{<
-/gloss >}}. When federating, each mesh can expose a set of services and
+You can enable inter-mesh communication with {{< gloss "mesh federation" >}}mesh federation{{<
+/gloss >}}.
+When federating, each mesh can expose a set of services and
 identities, which all participating meshes can recognize.
 
 {{< image width="50%"
@@ -484,8 +486,8 @@ To avoid service naming collisions, you can give each mesh a globally unique
 name (FQDN) for each service is distinct.
 
 When federating two meshes that do not share the same
-{{< gloss >}}trust domain{{< /gloss >}}, you must federate
-{{< gloss >}}identity{{< /gloss >}} and **trust bundles** between them. See the
+{{< gloss "trust domain" >}}trust domain{{< /gloss >}}, you must federate
+{{< gloss "identity" >}}identity{{< /gloss >}} and **trust bundles** between them. See the
 section on [Trust between meshes](#trust-between-meshes) for more details.
 
 ## Tenancy models
@@ -553,7 +555,7 @@ example:
 - Developer
 
 To use cluster tenancy with Istio, you configure each team's cluster with its
-own {{< gloss >}}control plane{{< /gloss >}}, allowing each team to manage its own configuration.
+own {{< gloss "control plane" >}}control plane{{< /gloss >}}, allowing each team to manage its own configuration.
 Alternatively, you can use Istio to implement a group of clusters as a single tenant
 using {{< gloss "remote cluster" >}}remote clusters{{< /gloss >}} or multiple
 synchronized {{< gloss "primary cluster" >}}primary clusters{{< /gloss >}}.
@@ -561,7 +563,7 @@ Refer to [control plane models](#control-plane-models) for details.
 
 ### Mesh Tenancy
 
-In a multi-mesh deployment with {{< gloss >}}mesh federation{{< /gloss >}}, each mesh
+In a multi-mesh deployment with {{< gloss "mesh federation" >}}mesh federation{{< /gloss >}}, each mesh
 can be used as the unit of isolation.
 
 {{< image width="50%"
