@@ -772,4 +772,3 @@ $ kubectl delete authorizationpolicy ingress-policy -n foo
     {{< text bash >}}
     $ kubectl delete namespace foo
     {{< /text >}}
-

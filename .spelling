@@ -504,6 +504,7 @@ intranode
 Invasiveness
 ip
 ip_address
+ipBlocks
 IPs
 iptables
 IPv4
@@ -843,6 +844,7 @@ reimplement
 reimplemented
 reinject
 relabeling
+remoteIpBlocks
 repo
 repurposed
 requires_any
