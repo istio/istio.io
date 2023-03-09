@@ -110,7 +110,7 @@ Now you can experiment with dual-stack services in your environment!
 
 ## Important Changes to Listeners and Endpoints
 
-For the above experiment, you'll notice changes are made listeners and routes:
+For the above experiment, you'll notice changes are made to listeners and routes:
 
 {{< text bash >}}
 $ istioctl proxy-config listeners "$(kubectl get pod -n dual-stack -l app=tcp-echo -o jsonpath='{.items[0].metadata.name}')" -n dual-stack --port 9000
