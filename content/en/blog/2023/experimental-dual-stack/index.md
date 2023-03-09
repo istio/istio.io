@@ -40,7 +40,7 @@ Meanwhile, on the Istio side you can track the progress in [Issue #40394](https:
 Progress has slowed down a bit lately as we continue working with Envoy on various issues, however, we are happy to
 announce experimental support for dual stack in Istio 1.17!
 
-## Enabling Dual Stack in Istio 1.17
+## A Quick Experiment using Dual Stack
 
 1. Enable dual stack experimental support on Istio 1.17.0+ with the following:
 
@@ -161,7 +161,7 @@ Virtual inbound addresses are now also configured to listen on both `0.0.0.0` an
     ],
 {{< /text >}}
 
-While Envoy's endpoints now are configured to route to both IPv4 and IPv6:
+Envoy's endpoints now are configured to route to both IPv4 and IPv6:
 
 {{< text bash >}}
 $ istioctl proxy-config endpoints "$(kubectl get pod -n sleep -l app=tcp-echo -o jsonpath='{.items[0].metadata.name}')" --port 9000
