@@ -89,6 +89,7 @@ kubectl exec deploy/sleep -- curl -sS -v auto.internal
 ENDSNIP
 
 snip_cleanup_1() {
+kubectl delete -f samples/sleep/sleep.yaml
 istioctl uninstall --purge -y
 kubectl delete ns istio-system
 }

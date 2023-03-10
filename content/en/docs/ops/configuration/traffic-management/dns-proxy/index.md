@@ -78,6 +78,7 @@ EOF
 {{< /text >}}
 
 Bring up a client application to initiate the DNS request:
+
 {{< text syntax=bash snip_id=none >}}
 $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
 {{< /text >}}
@@ -136,6 +137,7 @@ As you can see, the request is sent to an automatically allocated address, `240.
 ## Cleanup
 
 {{< text bash >}}
+$ kubectl delete -f samples/sleep/sleep.yaml
 $ istioctl uninstall --purge -y
 $ kubectl delete ns istio-system
 {{< /text >}}
