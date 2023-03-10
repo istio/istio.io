@@ -137,17 +137,15 @@ Istio 本质上是多集群感知的，但 Kubernetes 不是（至少现在不�
 {{< tip >}}
 正在进行的一些工作将有助于简化 DNS 故事：
 
-- [DNS 边车代理](/blog/2020/dns-proxy/)
-  在 Istio 1.8 中支持预览。这为带有 sidecar
-  的所有工作负载提供 DNS 拦截，允许 Istio
-  代表应用程序执行 DNS 查找。
+- [DNS 边车代理](/zh/blog/2020/dns-proxy/)在 Istio 1.8 中支持预览。这为带有 Sidecar
+  的所有工作负载提供 DNS 拦截，允许 Istio 代表应用程序执行 DNS 查找。
 
 - [Admiral](https://github.com/istio-ecosystem/admiral)
   是一个 Istio 社区项目，提供了许多多集群功能。
   如果您需要支持多网络拓扑，那么大规模跨多个集群管理此配置是一项挑战。
   Admiral 对此配置持主观看法，并提供跨集群的自动配置和同步。
 
-- [Kubernetes 多集群 Services](https://github.com/kubernetes/enhancements/tree/master/keps/sig-multicluster/1645-multi-cluster-services-api)
+- [Kubernetes 多集群 Service](https://github.com/kubernetes/enhancements/tree/master/keps/sig-multicluster/1645-multi-cluster-services-api)
   是一个 Kubernetes 增强提案（KEP），它定义了一个用于将 Service 导出到多个集群的 API。
   这有效地将整个“集群集”的服务可见性和 DNS
   解析的责任推给了 Kubernetes。 还在 Istio 中构建
@@ -245,7 +243,7 @@ Istio 网格使用{{< gloss "control plane">}}控制平面{{< /gloss >}}来配�
     >}}
 
 为了支持多集群网格中的远程集群，主集群中的控制平面必须可以通过稳定的
-IP（例如，集群 IP）访问。
+IP（例如集群 IP）访问。
 对于跨网络的集群，这可以通过 Istio 网关公开控制平面来实现。
 云供应商可能会提供选项，例如内部负载均衡器，
 以在不将控制平面暴露在公共互联网上的情况下提供此功能。
@@ -282,11 +280,8 @@ Kubernetes API 服务器接收其配置（即 `Service` 和 `ServiceEntry`、
 该模型具有以下优点：
 
 - 更强的可用性：如果控制平面不可用，则不可用范围仅限于该控制平面。
-
 - 配置隔离：您可以在一个集群、区域或地域中进行配置更改，而不会影响其他集群、区或或地域。
-
 - 受控推出：您可以更细粒度地控制配置推出（例如，一次一个集群）。
-
 - 选择性服务可见：您可以将服务可见性限制在网格的一部分，
   帮助建立服务级别隔离。例如，管理员可以选择将 “HelloWorld” 服务部署到集群 A，
   而不是集群 B。任何从集群 B 调用 “HelloWorld” 的尝试都将导致 DNS 查找失败。
@@ -324,7 +319,6 @@ Istio 控制平面通过为每个代理提供服务端点列表来管理网格�
 这种行为可以通过几种方式实现：
 
 - 不要在集群之间交换远程密钥，这提供了集群之间最强的隔离。
-
 - 使用 `VirtualService` 和 `DestinationRule` 禁止在两个版本的服务之间进行路由。
 
 在任意情况下，都应阻止跨集群负载平衡。
