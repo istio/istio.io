@@ -1069,6 +1069,8 @@ The secret (of type <code>generic</code>)should contain the
 following keys and values: <code>key: &lt;privateKey&gt;</code>,
 <code>cert: &lt;clientCert&gt;</code>, <code>cacert: &lt;CACertificate&gt;</code>.
 Here CACertificate is used to verify the server certificate.
+For mutual TLS, <code>cacert: &lt;CACertificate&gt;</code> can be provided in the
+same secret or a separate secret named <code>&lt;secret&gt;-cacert</code>.
 Secret of type tls for client certificates along with
 ca.crt key for CA certificates is also supported.
 Only one of client certificates and CA certificate
