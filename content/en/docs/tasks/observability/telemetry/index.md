@@ -5,7 +5,10 @@ weight: 0
 keywords: [telemetry]
 owner: istio/wg-policies-and-telemetry-maintainers
 test: no
+status: Experimental
 ---
+
+{{< boilerplate experimental >}}
 
 Istio provides a [Telemetry API](/docs/reference/config/telemetry/) that enables flexible configuration of
 [metrics](/docs/tasks/observability/metrics/), [access logs](/docs/tasks/observability/logs/), and [tracing](/docs/tasks/observability/distributed-tracing/).
@@ -71,6 +74,10 @@ will be used when the `Telemetry` resources do not specify a provider.
 
 {{< tip >}}
 If you're using [Sidecar](/docs/reference/config/networking/sidecar/) configuration, do not forget to add provider's service.
+{{< /tip >}}
+
+{{< tip >}}
+Providers do not support `$(HOST_IP)`. If you're running collector in agent mode, you can use [service internal traffic policy](https://kubernetes.io/docs/concepts/services-networking/service-traffic-policy/#using-service-internal-traffic-policy), and set `InternalTrafficPolicy` to `Local` for better performance.
 {{< /tip >}}
 
 ## Examples

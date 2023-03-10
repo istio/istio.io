@@ -57,4 +57,3 @@ gcr.io/istio-release/pilot:1.12.0 的验证——对这些签名中的每一个�
 
 [{"critical":{"identity":{"docker-reference":"gcr.io/istio-release/pilot"},"image":{"docker-manifest-digest":"sha256:c37fd83f6435ca0966d653dc6ac42c9fe5ac11d0d5d719dfe97de84acbf7a32d"},"type":"cosign container image signature"},"optional":null}]
 {{< /text >}}
-

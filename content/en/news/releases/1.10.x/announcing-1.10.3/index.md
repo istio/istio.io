@@ -20,4 +20,3 @@ This release contains bug fixes to improve robustness. This release note describ
 - **Fixed** a bug where setting the `retryRemoteLocalities` on a `VirtualService` would produce configuration that Envoy would reject.  ([Issue #33737](https://github.com/istio/istio/issues/33737))
 
 - **Improved** the `meshConfig.defaultConfig.proxyMetadata` field to do a deep merge when overridden rather than replacing all values.
-

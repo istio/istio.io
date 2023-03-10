@@ -8,7 +8,7 @@ aliases:
  - /zh/docs/tasks/observability/distributed-tracing/configurability/mesh-and-proxy-config/
 owner: istio/wg-policies-and-telemetry-maintainers
 test: no
-status: Beta/Experimental
+status: Beta
 ---
 
 {{< tip >}}

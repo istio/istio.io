@@ -335,6 +335,9 @@ and installing the sidecar injector webhook configuration on the remote cluster 
           operatorManageWebhooks: true
           configValidation: false
           meshID: mesh1
+          multiCluster:
+            clusterName: ${REMOTE_CLUSTER_NAME}
+          network: network1
     EOF
     {{< /text >}}
 
@@ -631,7 +634,7 @@ The Kubernetes Gateway API CRDs do not come installed by default on most Kuberne
 installed before using the Gateway API:
 
 {{< text syntax=bash snip_id=install_crds >}}
-$ kubectl get crd gateways.gateway.networking.k8s.io --context="${CTX_REMOTE_CLUSTER}" || \
+$ kubectl get crd gateways.gateway.networking.k8s.io --context="${CTX_REMOTE_CLUSTER}" &> /dev/null || \
   { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref={{< k8s_gateway_api_version >}}" | kubectl apply -f - --context="${CTX_REMOTE_CLUSTER}"; }
 {{< /text >}}
 

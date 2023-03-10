@@ -5,16 +5,16 @@ weight: 10
 keywords: [security,authentication,jwt,route]
 owner: istio/wg-security-maintainers
 test: yes
-status: Experimental
+status: Alpha
 ---
+
+{{< boilerplate alpha >}}
 
 本任务向您展示如何实现基于 Istio 入口网关上的 JWT 声明路由请求，来使用请求身份认证
 和虚拟服务。
 
 注意：该特性只支持 Istio 入口网关，并且需要使用请求身份验证和虚拟
 服务来根据 JWT 声明进行正确的验证和路由。
-
-{{< boilerplate experimental-feature-warning >}}
 
 ## 开始之前{#before-you-begin}
 

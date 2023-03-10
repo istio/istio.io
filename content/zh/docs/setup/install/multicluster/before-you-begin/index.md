@@ -7,7 +7,7 @@ keywords: [kubernetes,multicluster]
 test: n/a
 owner: istio/wg-environments-maintainers
 ---
-在开始多集群安装之前，回顾[部署模型指南](/zh/docs/ops/deployment/deployment-models),
+在开始多集群安装之前，回顾[部署模型指南](/zh/docs/ops/deployment/deployment-models)，
 了解本指南中使用的基本概念。
 
 另外，检查需求并执行以下初始步骤。
@@ -63,8 +63,8 @@ $ export CTX_CLUSTER2=<your cluster2 context>
 生成并分别推送 CA 证书的秘钥给 `cluster1` 和 `cluster2`。
 
 {{< tip >}}
-如果你当前有一个自签名 CA 的独立集群
-(就像 [入门](/zh/docs/setup/getting-started/) 中描述的那样)，
+如果您当前有一个自签名 CA 的独立集群
+(就像[入门](/zh/docs/setup/getting-started/)中描述的那样)，
 你需要用一个[证书管理](/zh/docs/tasks/security/cert-management/)中介绍的方法，来改变 CA。
 改变 CA 通常需要重新安装 Istio。
 以下安装说明可能必须根据你对 CA 的选择进行更改。
@@ -89,5 +89,5 @@ $ export CTX_CLUSTER2=<your cluster2 context>
 对于跨越两个以上集群的网格，你可能需要使用一个以上的选项。
 例如，每个 region 一个主集群（即：多主）。每个 zone 一个从集群，并使用 region 主集群（即：主从）的控制平面。
 
-更多信息，参阅 [部署模型](/zh/docs/ops/deployment/deployment-models)。
+更多信息，参阅[部署模型](/zh/docs/ops/deployment/deployment-models)。
 {{< /tip >}}

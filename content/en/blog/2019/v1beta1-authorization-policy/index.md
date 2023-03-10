@@ -489,5 +489,3 @@ support the full `v1alpha1` semantics as of the date of this blog post.
 
 The command to support the full `v1alpha1` semantics is expected in a patch
 release following Istio 1.4.
-
-

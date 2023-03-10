@@ -18,4 +18,3 @@ keywords: [community,meetup]
 | [《服务网络安全-理解`IstioCNI`》张之晗-Tetrate](./IstioMeetupChina-服务网格安全-理解IstioCNI.pdf) |
 
 感谢来自中国的 Istio 社区成员的工作举办这次活动，感谢来自 Istio 社区的 Maria Cruz 和 Craig Box 的大力支持！
-

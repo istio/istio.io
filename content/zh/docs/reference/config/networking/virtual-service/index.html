@@ -216,8 +216,8 @@ No
 <td><code><a href="#HTTPRoute">HTTPRoute[]</a></code></td>
 <td>
 <p>An ordered list of route rules for HTTP traffic. HTTP routes will be
-applied to platform service ports named &lsquo;http-<em>&rsquo;/&lsquo;http2-</em>&rsquo;/&lsquo;grpc-*&rsquo;, gateway
-ports with protocol HTTP/HTTP2/GRPC/ TLS-terminated-HTTPS and service
+applied to platform service ports using HTTP/HTTP2/GRPC protocols, gateway
+ports with protocol HTTP/HTTP2/GRPC/TLS-terminated-HTTPS and service
 entry ports using HTTP/HTTP2/GRPC protocols.  The first rule matching
 an incoming request is used.</p>
 
@@ -1412,12 +1412,15 @@ the string match could be defined as <code>exact: &quot;true&quot;</code>.</p>
 string match could be defined as <code>exact: &quot;&quot;</code>.</p>
 </li>
 <li>
+<p>For a query parameter like &ldquo;?key=abc&rdquo; or &ldquo;?key=abx&rdquo;, the map key would be &ldquo;key&rdquo; and the
+string match could be defined as <code>prefix: &quot;ab&quot;</code>.</p>
+</li>
+<li>
 <p>For a query parameter like &ldquo;?key=123&rdquo;, the map key would be &ldquo;key&rdquo; and the
 string match could be defined as <code>regex: &quot;\d+$&quot;</code>. Note that this
 configuration will only match values like &ldquo;123&rdquo; but not &ldquo;a123&rdquo; or &ldquo;123a&rdquo;.</p>
 </li>
 </ul>
-<p><strong>Note:</strong> <code>prefix</code> matching is currently not supported.</p>
 
 </td>
 <td>

@@ -86,4 +86,3 @@ accurate.
 
 - **Added** visual indication if an istio.io page has been tested by istio.io automated tests.
  ([Issue #7672](https://github.com/istio/istio.io/issues/7672))
-

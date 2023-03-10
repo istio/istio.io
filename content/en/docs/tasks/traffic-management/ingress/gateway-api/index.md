@@ -28,7 +28,7 @@ You can even use the Gateway API, right from the start, by following the [future
 1. The Gateway APIs do not come installed by default on most Kubernetes clusters. Install the Gateway API CRDs if they are not present:
 
     {{< text bash >}}
-    $ kubectl get crd gateways.gateway.networking.k8s.io || \
+    $ kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
       { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref={{< k8s_gateway_api_version >}}" | kubectl apply -f -; }
     {{< /text >}}
 
@@ -231,7 +231,7 @@ Resource attachment is currently experimental.
 
 Resources can be *attached* to a `Gateway` to customize it.
 However, most Kubernetes resources do not currently support attaching directly to a `Gateway`, but they can be attached to the corresponding generated `Deployment` and `Service` instead.
-This is easily done because both of these resources are generated with the same name as the `Gateway` and with a label `istio.io/gateway-name: <gateway name>`.
+This is easily done because both of these resources are generated with name `<gateway name>-<gateway class name>` and with a label `istio.io/gateway-name: <gateway name>`.
 
 For example, to deploy a `Gateway` with a `HorizontalPodAutoscaler` and `PodDisruptionBudget`:
 
@@ -261,7 +261,7 @@ spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: gateway
+    name: gateway-istio
   minReplicas: 2
   maxReplicas: 5
   metrics:

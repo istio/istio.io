@@ -155,5 +155,3 @@ For further detailed information about the concepts and techniques described in 
 1. [IstioOperator - Customize Installation](/docs/setup/additional-setup/customize-installation)
 1. [Advanced Helm Techniques](https://helm.sh/docs/topics/advanced/)
 1. [Kustomize](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/kustomization/)
-
-

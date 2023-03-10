@@ -36,7 +36,7 @@ Accepted speakers will receive a complimentary All-Access In-Person ticket for *
 
 ## Sponsor the event
 
-Do you want to put your product or service in front of the most discerning Cloud Native users: those who demand *25% more conference* then the crowd? Check out [page 11 of the CNCF events prospectus](https://events.linuxfoundation.org/wp-content/uploads/2023/01/sponsor-cncf-2023-012523.pdf) to learn more.
+Do you want to put your product or service in front of the most discerning Cloud Native users: those who demand *25% more conference* than the crowd? Check out [page 11 of the CNCF events prospectus](https://events.linuxfoundation.org/wp-content/uploads/2023/01/sponsor-cncf-2023-012523.pdf) to learn more.
 
 ## Register to attend
 
@@ -45,4 +45,3 @@ Do you want to put your product or service in front of the most discerning Cloud
 For those of you who can't make it, keep your eyes peeled for announcements of IstioCon 2023 and Istio Day North America later this year.
 
 Stay tuned to hear more about the event, and we hope you can join us at Istio Day Europe!
-

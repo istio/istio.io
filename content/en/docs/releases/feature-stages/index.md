@@ -41,7 +41,6 @@ labels mean.
 ## Istio features
 
 Below is our list of existing features and their current phases. This information will be updated after every release.
-Experimental features are purposefully not listed on this page.
 
 ### Traffic management
 

@@ -675,4 +675,13 @@ While most cloud providers support this feature now, many local development tool
 
 By default, Istio (and Envoy) have no limit on the number of downstream connections. This can be exploited by a malicious actor (see [security bulletin 2020-007](/news/security/istio-security-2020-007/)). To work around you this, you must configure an appropriate connection limit for your environment.
 
-{{< boilerplate cve-2020-007-configmap >}}
+### Configure `global_downstream_max_connections` value
+
+The following configuration can be supplied during installation:
+
+{{< text yaml >}}
+meshConfig:
+  defaultConfig:
+    runtimeValues:
+      "overload.global_downstream_max_connections": "100000"
+{{< /text >}}

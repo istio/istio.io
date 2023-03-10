@@ -203,6 +203,9 @@ spec:
       operatorManageWebhooks: true
       configValidation: false
       meshID: mesh1
+      multiCluster:
+        clusterName: ${REMOTE_CLUSTER_NAME}
+      network: network1
 EOF
 }
 
@@ -407,8 +410,8 @@ istio-ingressgateway-7bcd5c6bbd-kmtl4   1/1     Running   0          8m4s
 ENDSNIP
 
 snip_install_crds() {
-kubectl get crd gateways.gateway.networking.k8s.io --context="${CTX_REMOTE_CLUSTER}" || \
-  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.6.0" | kubectl apply -f - --context="${CTX_REMOTE_CLUSTER}"; }
+kubectl get crd gateways.gateway.networking.k8s.io --context="${CTX_REMOTE_CLUSTER}" &> /dev/null || \
+  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.6.1" | kubectl apply -f - --context="${CTX_REMOTE_CLUSTER}"; }
 }
 
 snip_configure_and_test_an_ingress_gateway_3() {

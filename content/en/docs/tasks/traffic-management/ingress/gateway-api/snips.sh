@@ -21,8 +21,8 @@
 ####################################################################################################
 
 snip_setup_1() {
-kubectl get crd gateways.gateway.networking.k8s.io || \
-  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.6.0" | kubectl apply -f -; }
+kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
+  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.6.1" | kubectl apply -f -; }
 }
 
 snip_setup_2() {
@@ -180,7 +180,7 @@ spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: gateway
+    name: gateway-istio
   minReplicas: 2
   maxReplicas: 5
   metrics:
@@ -246,5 +246,5 @@ kubectl delete ns istio-ingress
 }
 
 snip_cleanup_2() {
-kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.6.0" | kubectl delete -f -
+kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.6.1" | kubectl delete -f -
 }

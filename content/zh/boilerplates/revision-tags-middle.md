@@ -2,8 +2,8 @@
 ---
 修订、标签和命名空间之间的结果映射如下所示：
 
-{{< image width="70%"
-link="/zh/docs/setup/upgrade/canary/tags.png"
+{{< image width="90%"
+link="/zh/docs/setup/upgrade/canary/revision-tags-before.svg"
 caption="Two namespaces pointed to prod-stable and one pointed to prod-canary"
 >}}
 
@@ -12,6 +12,7 @@ caption="Two namespaces pointed to prod-stable and one pointed to prod-canary"
 {{< text bash >}}
 $ istioctl tag list
 TAG         REVISION NAMESPACES
+default     1-9-5    ...
 prod-canary 1-10-0   ...
 prod-stable 1-9-5    ...
 {{< /text >}}

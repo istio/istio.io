@@ -8,6 +8,8 @@ test: yes
 status: Alpha
 ---
 
+{{< boilerplate alpha >}}
+
 ## Forwarding external client attributes (IP address, certificate info) to destination workloads
 
 Many applications require knowing the client IP address and certificate information of the originating request to behave
@@ -234,4 +236,3 @@ spec:
 The client IP is retrieved from the PROXY protocol by the gateway and set (or appended) in the `X-Forwarded-For` and `X-Envoy-External-Address` header. Note that the PROXY protocol is mutually exclusive with L7 headers like `X-Forwarded-For` and `X-Envoy-External-Address`. When PROXY protocol is used in conjunction with the `gatewayTopology` configuration, the `numTrustedProxies` and the received `X-Forwarded-For` header takes precedence in determining the trusted client addresses, and PROXY protocol client information will be ignored.
 
 Note that the above example only configures the Gateway to accept incoming PROXY protocol TCP traffic - See the [Envoy documentation](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/other_features/ip_transparency#proxy-protocol) for examples of how to configure Envoy itself to communicate with upstream services using PROXY protocol.
-

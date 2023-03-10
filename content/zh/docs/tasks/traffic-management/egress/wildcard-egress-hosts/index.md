@@ -228,4 +228,3 @@ $ kubectl delete -f @samples/sleep/sleep.yaml@
     {{< text bash >}}
     $ istioctl uninstall --purge -y
     {{< /text >}}
-

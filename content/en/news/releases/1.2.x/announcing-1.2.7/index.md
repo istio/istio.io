@@ -24,4 +24,3 @@ __ISTIO-SECURITY-2019-005__:  A DoS vulnerability has been discovered by the Env
 ## Bug fix
 
 - Fix a bug where `nodeagent` was failing to start when using citadel ([Issue 15876](https://github.com/istio/istio/issues/17108))
-

@@ -1,14 +1,14 @@
 # The primary Istio version identifier the docs describe, used throughout the site
-version: "1.17"
+version: "1.18"
 
 # The full Istio version identifier the docs describe
-full_version: "1.17.0"
+full_version: "1.18.0"
 
 # The previous Istio version identifier the docs describe, used for upgrade documentation
-previous_version: "1.16"
+previous_version: "1.17"
 
 # The year to display in copyright notices
-copyright_year: 2022
+copyright_year: 2023
 
 # Controls the incarnation of the site
 #
@@ -25,11 +25,11 @@ archive_date: YYYY-MM-DD
 archive_search_refinement: "V1.1"
 
 # GitHub branch names used when the docs have links to GitHub
-source_branch_name: release-1.17
+source_branch_name: master
 doc_branch_name: master
 
 # The list of supported versions described by the docs
-supported_kubernetes_versions: ["1.22", "1.23", "1.24", "1.25"]
+supported_kubernetes_versions: ["1.23", "1.24", "1.25", "1.26"]
 
 ####### Static values
 
@@ -52,4 +52,4 @@ supported_languages:
     code: "zh"
 
 # Kubernetes Gateway API
-k8s_gateway_api_version: "v0.6.0"
+k8s_gateway_api_version: "v0.6.1"

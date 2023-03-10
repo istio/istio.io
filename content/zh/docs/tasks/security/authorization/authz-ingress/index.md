@@ -411,4 +411,3 @@ EOF
     {{< text bash >}}
     $ kubectl delete authorizationpolicy ingress-policy -n istio-system
     {{< /text >}}
-

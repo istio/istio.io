@@ -23,4 +23,3 @@ This release contains bug fixes to improve robustness. This release note describ
 
 - **Fixed** an issue in webhook analysis which would make helm reconciler complain about overlapping webhooks.
   ([Issue #36114](https://github.com/istio/istio/issues/36114))
-
