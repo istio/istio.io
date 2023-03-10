@@ -53,6 +53,11 @@ spec:
 EOF
 }
 
+snip_dns_capture_in_action_2() {
+kubectl label namespace default istio-injection=enabled --overwrite
+kubectl apply -f samples/sleep/sleep.yaml
+}
+
 snip_dns_capture_in_action_3() {
 kubectl exec deploy/sleep -- curl -sS -v address.internal
 }

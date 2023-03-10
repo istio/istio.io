@@ -20,14 +20,15 @@
 set -e
 set -u
 set -o pipefail
-source "tests/util/samples.sh"
 
+# install Istio with smart dns proxy enabled
 snip_getting_started_1
 
-kubectl label namespace default istio-injection=enabled --overwrite
-startup_sleep_sample # needed for sending test requests with curl
-
+# deploy test application
 snip_dns_capture_in_action_1
+
+# configure service entries and verify
+snip_dns_capture_in_action_2
 _verify_first_line snip_dns_capture_in_action_3 "$snip_dns_capture_in_action_3_out"
 snip_address_auto_allocation_1
 _verify_contains snip_address_auto_allocation_2 "*   Trying 240.240."

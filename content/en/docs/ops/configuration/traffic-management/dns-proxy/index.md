@@ -79,8 +79,9 @@ EOF
 
 Bring up a client application to initiate the DNS request:
 
-{{< text syntax=bash snip_id=none >}}
-$ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
+{{< text bash >}}
+$ kubectl label namespace default istio-injection=enabled --overwrite
+$ kubectl apply -f @samples/sleep/sleep.yaml@
 {{< /text >}}
 
 Without the DNS capture, a request to `address.internal` would likely fail to resolve. Once this is enabled, you should instead get a response back based on the configured `address`:
@@ -137,7 +138,7 @@ As you can see, the request is sent to an automatically allocated address, `240.
 ## Cleanup
 
 {{< text bash >}}
-$ kubectl delete -f samples/sleep/sleep.yaml
+$ kubectl delete -f @samples/sleep/sleep.yaml@
 $ istioctl uninstall --purge -y
 $ kubectl delete ns istio-system
 {{< /text >}}
