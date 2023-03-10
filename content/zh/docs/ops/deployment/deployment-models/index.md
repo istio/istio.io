@@ -478,8 +478,8 @@ Istio 还支持使用集群作为租赁单位。在这种情况下，您可以�
 您需要为每个团队的集群配置自己的{{< gloss "control plane" >}}控制平面{{< /gloss >}}，
 允许每个团队管理自己的配置。
 或者，您可以使用 Istio 将一组集群实现为单个租户，
-使用{{< gloss "remote cluster" >}}从集群{{< /gloss >}}或多个同步的{{< gloss "primary cluster" > }}主集群{{< /gloss >}}。
-有关详细信息，请参阅 [控制平面模型](#control-plane-models)。
+使用{{< gloss "remote cluster" >}}从集群{{< /gloss >}}或多个同步的{{< gloss "primary cluster" >}}主集群{{< /gloss >}}。
+有关详细信息，请参阅[控制平面模型](#control-plane-models)。
 
 ### 网格租赁{#mesh-tenancy}
 
