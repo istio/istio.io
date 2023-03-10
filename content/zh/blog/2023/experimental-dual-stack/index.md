@@ -35,21 +35,21 @@ keywords: [双栈]
 
 1. Enable dual stack experimental support on Istio 1.17.0+ with the following
 
-   {{< text bash >}}
-   $ istioctl install -f - <<EOF
-   apiVersion: install.istio.io/v1alpha1
-   kind: IstioOperator
-   spec:
-     meshConfig:
-       defaultConfig:
-         proxyMetadata:
-           ISTIO_AGENT_DUAL_STACK: "true"
-     values:
-       pilot:
-         env:
-           ISTIO_DUAL_STACK: "true"
-   EOF
-   {{< /text >}}
+{{< text bash >}}
+$ istioctl install -f - <<EOF
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  meshConfig:
+    defaultConfig:
+      proxyMetadata:
+        ISTIO_AGENT_DUAL_STACK: "true"
+  values:
+    pilot:
+      env:
+        ISTIO_DUAL_STACK: "true"
+EOF
+{{< /text >}}
 
 1. 创建3个命名空间:
 
@@ -57,45 +57,45 @@ keywords: [双栈]
     * `ipv4`: `tcp-echo` will listen on only an IPv4 address.
     * `ipv6`: `tcp-echo` will listen on only an IPv6 address.
 
-   {{< text bash >}}
-   $ kubectl create namespace dual-stack
-   $ kubectl create namespace ipv4
-   $ kubectl create namespace ipv6
-   {{< /text >}}
+{{< text bash >}}
+$ kubectl create namespace dual-stack
+$ kubectl create namespace ipv4
+$ kubectl create namespace ipv6
+{{< /text >}}
 
 1. 在所有这些命名空间以及默认命名空间上启用 sidecar 注入：
 
-   {{< text bash >}}
-   $ kubectl label --overwrite namespace default istio-injection=enabled
-   $ kubectl label --overwrite namespace dual-stack istio-injection=enabled
-   $ kubectl label --overwrite namespace ipv4 istio-injection=enabled
-   $ kubectl label --overwrite namespace ipv6 istio-injection=enabled
-   {{< /text >}}
+{{< text bash >}}
+$ kubectl label --overwrite namespace default istio-injection=enabled
+$ kubectl label --overwrite namespace dual-stack istio-injection=enabled
+$ kubectl label --overwrite namespace ipv4 istio-injection=enabled
+$ kubectl label --overwrite namespace ipv6 istio-injection=enabled
+{{< /text >}}
 
 1. 在命名空间中创建 `tcp-echo` 部署：
 
-   {{< text bash >}}
-   $ kubectl apply --namespace dual-stack -f {{< github_file >}}/samples/tcp-echo/tcp-echo-dual-stack.yaml
-   $ kubectl apply --namespace ipv4 -f {{< github_file >}}/samples/tcp-echo/tcp-echo-ipv4.yaml
-   $ kubectl apply --namespace ipv6 -f {{< github_file >}}/samples/tcp-echo/tcp-echo-ipv6.yaml
-   {{< /text >}}
+{{< text bash >}}
+$ kubectl apply --namespace dual-stack -f {{< github_file >}}/samples/tcp-echo/tcp-echo-dual-stack.yaml
+$ kubectl apply --namespace ipv4 -f {{< github_file >}}/samples/tcp-echo/tcp-echo-ipv4.yaml
+$ kubectl apply --namespace ipv6 -f {{< github_file >}}/samples/tcp-echo/tcp-echo-ipv6.yaml
+{{< /text >}}
 
 1. 在默认命名空间中创建 `sleep` 部署：
 
-   {{< text bash >}}
-   $ kubectl apply -f {{< github_file >}}/master/samples/sleep/sleep.yaml
-   {{< /text >}}
+{{< text bash >}}
+$ kubectl apply -f {{< github_file >}}/master/samples/sleep/sleep.yaml
+{{< /text >}}
 
 1. 流量校验:
 
-   {{< text bash >}}
-   $ kubectl exec -it "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo dualstack | nc tcp-echo 9000"
-   hello dualstack
-   $ kubectl exec -it "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo ipv4 | nc tcp-echo.ipv4 9000"
-   hello ipv4
-   $ kubectl exec -it "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo ipv6 | nc tcp-echo.ipv6 9000"
-   hello ipv6
-   {{< /text >}}
+{{< text bash >}}
+$ kubectl exec -it "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo dualstack | nc tcp-echo 9000"
+hello dualstack
+$ kubectl exec -it "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo ipv4 | nc tcp-echo.ipv4 9000"
+hello ipv4
+$ kubectl exec -it "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo ipv6 | nc tcp-echo.ipv6 9000"
+hello ipv6
+{{< /text >}}
 
 现在您可以在您的环境中试验双栈服务！
 
