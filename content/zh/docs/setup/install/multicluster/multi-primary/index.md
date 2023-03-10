@@ -19,7 +19,7 @@ owner: istio/wg-environments-maintainers
 
 {{< image width="75%"
     link="arch.svg"
-    caption="Multiple primary clusters on the same network"
+    caption="同一网络的多主集群"
     >}}
 
 ## 将 `cluster1` 设为主集群 {#configure-cluster1-as-a-primary}
