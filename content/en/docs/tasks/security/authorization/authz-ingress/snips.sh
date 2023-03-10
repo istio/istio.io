@@ -137,26 +137,14 @@ spec:
   components:
     ingressGateways:
     - enabled: true
+      name: istio-ingressgateway
       k8s:
         hpaSpec:
           maxReplicas: 10
           minReplicas: 5
         serviceAnnotations:
-          service.beta.kubernetes.io/aws-load-balancer-access-log-emit-interval: "5"
-          service.beta.kubernetes.io/aws-load-balancer-access-log-enabled: "true"
-          service.beta.kubernetes.io/aws-load-balancer-access-log-s3-bucket-name: elb-logs
-          service.beta.kubernetes.io/aws-load-balancer-access-log-s3-bucket-prefix: k8sELBIngressGW
           service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
-        affinity:
-          podAntiAffinity:
-            preferredDuringSchedulingIgnoredDuringExecution:
-            - podAffinityTerm:
-                labelSelector:
-                  matchLabels:
-                    istio: ingressgateway
-                topologyKey: failure-domain.beta.kubernetes.io/zone
-              weight: 1
-      name: istio-ingressgateway
+        ...
 ENDSNIP
 
 ! read -r -d '' snip_tcpudp_proxy_load_balancer_tcpproxy_4 <<\ENDSNIP
@@ -165,10 +153,6 @@ kind: Gateway
 metadata:
   name: httpbin-gateway
   annotations:
-    service.beta.kubernetes.io/aws-load-balancer-access-log-emit-interval: "5"
-    service.beta.kubernetes.io/aws-load-balancer-access-log-enabled: "true"
-    service.beta.kubernetes.io/aws-load-balancer-access-log-s3-bucket-name: elb-logs
-    service.beta.kubernetes.io/aws-load-balancer-access-log-s3-bucket-prefix: k8sELBIngressGW
     service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
 spec:
   gatewayClassName: istio
@@ -185,8 +169,6 @@ spec:
     name: httpbin-gateway-istio
   minReplicas: 5
   maxReplicas: 10
----
-# TODO: affinity rules
 ENDSNIP
 
 snip_network_load_balancer_network_1() {
