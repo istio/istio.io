@@ -53,11 +53,11 @@ spec:
 EOF
 }
 
-snip_dns_capture_in_action_2() {
-curl -v address.internal
+snip_dns_capture_in_action_3() {
+kubectl exec deploy/sleep -- curl -sS -v address.internal
 }
 
-! read -r -d '' snip_dns_capture_in_action_2_out <<\ENDSNIP
+! read -r -d '' snip_dns_capture_in_action_3_out <<\ENDSNIP
 *   Trying 198.51.100.1:80...
 ENDSNIP
 
@@ -81,7 +81,7 @@ EOF
 }
 
 snip_address_auto_allocation_2() {
-curl -v auto.internal
+kubectl exec deploy/sleep -- curl -sS -v auto.internal
 }
 
 ! read -r -d '' snip_address_auto_allocation_2_out <<\ENDSNIP

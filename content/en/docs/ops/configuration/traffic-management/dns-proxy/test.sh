@@ -20,12 +20,17 @@
 set -e
 set -u
 set -o pipefail
+source "tests/util/samples.sh"
 
 snip_getting_started_1
+
+kubectl label namespace default istio-injection=enabled --overwrite
+startup_sleep_sample # needed for sending test requests with curl
+
 snip_dns_capture_in_action_1
-_verify_first_line snip_dns_capture_in_action_2 "$snip_dns_capture_in_action_2_out"
+_verify_first_line snip_dns_capture_in_action_3 "$snip_dns_capture_in_action_3_out"
 snip_address_auto_allocation_1
-_verify_first_line snip_address_auto_allocation_2 "$snip_address_auto_allocation_2_out"
+_verify_contains snip_address_auto_allocation_2 "*   Trying 240.240."
 
 # @cleanup
 

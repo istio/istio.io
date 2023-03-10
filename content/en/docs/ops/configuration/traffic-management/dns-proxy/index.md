@@ -77,10 +77,15 @@ spec:
 EOF
 {{< /text >}}
 
+Bring up a client application to initiate the DNS request:
+{{< text syntax=bash snip_id=none >}}
+$ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
+{{< /text >}}
+
 Without the DNS capture, a request to `address.internal` would likely fail to resolve. Once this is enabled, you should instead get a response back based on the configured `address`:
 
 {{< text bash >}}
-$ curl -v address.internal
+$ kubectl exec deploy/sleep -- curl -sS -v address.internal
 *   Trying 198.51.100.1:80...
 {{< /text >}}
 
@@ -122,7 +127,7 @@ EOF
 Now, send a request:
 
 {{< text bash >}}
-$ curl -v auto.internal
+$ kubectl exec deploy/sleep -- curl -sS -v auto.internal
 *   Trying 240.240.0.1:80...
 {{< /text >}}
 
