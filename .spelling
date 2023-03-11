@@ -186,6 +186,7 @@ buildah
 bytecode
 BytecodeAlliance
 c.f.
+Cai
 callout
 callouts
 camelCase
@@ -198,6 +199,7 @@ CentOS
 Cernich
 checksum
 Chrony
+Chun
 Ciążyński
 CIDRs
 Cilium
@@ -506,6 +508,7 @@ intranode
 Invasiveness
 ip
 ip_address
+ipBlocks
 IPs
 iptables
 IPv4
@@ -616,6 +619,7 @@ L3-4
 L4-L6
 Landow
 learnings
+Li
 LibreSSL
 lifecycle
 Lightstep
@@ -845,6 +849,7 @@ reimplement
 reimplemented
 reinject
 relabeling
+remoteIpBlocks
 repo
 repurposed
 requires_any
@@ -1102,6 +1107,7 @@ yamls
 Yangmin
 Yarmush
 Yessenov
+Yingchun
 Yizhou
 Yoichi
 Yossi
