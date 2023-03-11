@@ -330,6 +330,7 @@ pro_services:
     details: 
       - "Istio consulting and advising, Istio production installation, configuration and integration with observability tools, security measures, and enterprise Istio support and training are all part of our entire professional services offering."
       - "Leveraging our extensive expertise in cloud Native and Kubernetes projects, we provide end-to-end services to our clients."
+
   - name: "Your Name Here"
     logo: "/logos/istio.svg"
     url: "https://istio.io/"
@@ -337,7 +338,7 @@ pro_services:
     details:
       - "Add information about your how your company supports Istio."
       - "You can add multiple paragraphs."
-      
+
 users:
   - name: "1-800-Flowers.com"
     logo: "/logos/1-800-flowers.svg"
