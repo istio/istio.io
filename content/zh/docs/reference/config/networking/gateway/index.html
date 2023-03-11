@@ -723,12 +723,12 @@ No
 <td>
 <p>For gateways running on Kubernetes, the name of the secret that
 holds the TLS certs including the CA certificates. Applicable
-only on Kubernetes. The secret (of type <code>generic</code>) should
-contain the following keys and values: <code>key: &lt;privateKey&gt;</code> and <code>cert: &lt;serverCert&gt;</code>. For mutual TLS,
-<code>cacert: &lt;CACertificate&gt;</code> can be provided in the same secret or
-a separate secret named <code>&lt;secret&gt;-cacert</code>.
-Secret of type tls for server certificates along with
-ca.crt key for CA certificates is also supported.
+only on Kubernetes. An Opaque secret should contain the following
+keys and values: <code>key: &lt;privateKey&gt;</code> and <code>cert: &lt;serverCert&gt;</code>.
+For mutual TLS, <code>cacert: &lt;CACertificate&gt;</code> can be provided in the
+same secret or a separate secret named <code>&lt;secret&gt;-cacert</code>.
+A TLS secret for server certificates with an additional <code>ca.crt</code>
+key for CA certificates is also supported.
 Only one of server certificates and CA certificate
 or credentialName can be specified.</p>
 
@@ -810,7 +810,26 @@ No
 <td><code>string[]</code></td>
 <td>
 <p>Optional: If specified, only support the specified cipher list.
-Otherwise default to the default cipher list supported by Envoy.</p>
+Otherwise default to the default cipher list supported by Envoy
+as specified <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/transport_sockets/tls/v3/common.proto">here</a>.
+The supported list of ciphers are:</p>
+<ul>
+<li><code>ECDHE-ECDSA-AES128-GCM-SHA256</code></li>
+<li><code>ECDHE-RSA-AES128-GCM-SHA256</code></li>
+<li><code>ECDHE-ECDSA-AES256-GCM-SHA384</code></li>
+<li><code>ECDHE-RSA-AES256-GCM-SHA384</code></li>
+<li><code>ECDHE-ECDSA-CHACHA20-POLY1305</code></li>
+<li><code>ECDHE-RSA-CHACHA20-POLY1305</code></li>
+<li><code>ECDHE-ECDSA-AES128-SHA</code></li>
+<li><code>ECDHE-RSA-AES128-SHA</code></li>
+<li><code>ECDHE-ECDSA-AES256-SHA</code></li>
+<li><code>ECDHE-RSA-AES256-SHA</code></li>
+<li><code>AES128-GCM-SHA256</code></li>
+<li><code>AES256-GCM-SHA384</code></li>
+<li><code>AES128-SHA</code></li>
+<li><code>AES256-SHA</code></li>
+<li><code>DES-CBC3-SHA</code></li>
+</ul>
 
 </td>
 <td>
