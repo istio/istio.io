@@ -18,7 +18,7 @@
 source "tests/util/gateway-api.sh"
 install_gateway_api_crds
 
-# @setup profile=default
+# @setup profile=none
 source "content/en/docs/ops/configuration/traffic-management/network-topologies/test.sh"
 
 # @cleanup
