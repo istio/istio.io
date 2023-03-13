@@ -7,9 +7,9 @@ owner: istio/wg-networking-maintainers
 test: n/a
 ---
 
-本页介绍如何解决 Istio CNI 插件的问题。在阅读本文之前，您应该阅读 [CNI 安装和操作指南](/docs/setup/additional-setup/cni/)。
+本页介绍如何解决 Istio CNI 插件的问题。在阅读本文之前，您应该阅读 [CNI 安装和操作指南](/zh/docs/setup/additional-setup/cni/)。
 
-## 日志{#Log}
+## 日志{#log}
 
 Istio CNI 插件日志基于 `PodSpec` 提供了有关插件如何配置应用程序 pod 流量重定向的信息。
 
@@ -18,23 +18,23 @@ Istio CNI 插件日志基于 `PodSpec` 提供了有关插件如何配置应用�
 
 CNI 插件的默认日志级别是 `info`。要获得更详细的日志输出，可以通过编辑 `values.cni.logLevel` 安装选项并重新启动 CNI DaemonSet pod 来更改级别。
 
-Istio CNI DaemonSet pod 日志还提供了有关 CNI 插件安装的信息，和 [race condition repairing](/docs/setup/additional-setup/cni/#race-condition-mitigation)。
+Istio CNI DaemonSet pod 日志还提供了有关 CNI 插件安装的信息，和 [race condition repairing](/zh/docs/setup/additional-setup/cni/#race-condition-mitigation)。
 
-## 监控{#Monitoring}
+## 监控{#monitoring}
 
-CNI DaemonSet [generates metrics](/docs/reference/commands/install-cni/#metrics)，可用于监视 CNI 的安装，准备就绪和竞争条件缓解。
+CNI DaemonSet [generates metrics](/zh/docs/reference/commands/install-cni/#metrics)，可用于监视 CNI 的安装，准备就绪和竞争条件缓解。
 默认情况下，Prometheus 抓取注释 (`prometheus.io/port`, `prometheus.io/path`) 被添加到 `istio-cni-node` DaemonSet pod 中。
 您可以通过标准 Prometheus 配置收集生成的指标。
 
-## DaemonSet 准备就绪{#DaemonSet readiness}
+## DaemonSet 准备就绪{#daemonset-readiness}
 
 CNI DaemonSet 的就绪表明 Istio CNI 插件已正确安装和配置。
 如果 Istio CNI DaemonSet 尚未准备好，则表明出现了问题。查看  `istio-cni-node` 守护进程日志进行诊断。
 您还可以通过 `istio_cni_install_ready` 指标跟踪 CNI 安装准备情况。
 
-## Race 条件修复{#Race condition repair}
+## Race 条件修复{#race-condition-repair}
 
-Istio CNI DaemonSet 默认启用 [race condition mitigation](/docs/setup/additional-setup/cni/#race-condition-mitigation)，这将驱逐在 CNI 插件准备就绪之前启动的 pod。
+Istio CNI DaemonSet 默认启用 [race condition mitigation](/zh/docs/setup/additional-setup/cni/#race-condition-mitigation)，这将驱逐在 CNI 插件准备就绪之前启动的 pod。
 要了解哪些 pod 被驱逐，请查找如下所示的日志行:
 
 {{< text plain >}}
@@ -43,7 +43,7 @@ Istio CNI DaemonSet 默认启用 [race condition mitigation](/docs/setup/additio
 
 您还可以通过 `istio_cni_repair_pods_repaired_total` 指标追踪修复的 pod。
 
-## 诊断 pod 启动失败{#Diagnose pod start-up failure}
+## 诊断 pod 启动失败{#diagnose-pod-start-up-failure}
 
 CNI 插件的一个常见问题是由于容器网络设置失败，pod 无法启动。
 通常，失败原因会写入 pod 事件，并通过 pod 描述可见:
@@ -70,5 +70,5 @@ $ kubectl logs POD_NAME -n POD_NAMESPACE -c istio-validation
 
 CNI 插件出现故障的另一个症状是，在启动时，应用程序 pod 不断被逐出。
 这通常是因为插件没有正确安装，因此无法设置 pod 流量重定向。
-CNI [race repair logic](/docs/setup/additional-setup/cni/#race-condition-mitigation) 认为 pod 由于竞争条件而损坏，并连续逐出 pod。
+CNI [race repair logic](/zh/docs/setup/additional-setup/cni/#race-condition-mitigation) 认为 pod 由于竞争条件而损坏，并连续逐出 pod。
 遇到此问题时，请检查 CNI DaemonSet 日志，以获取有关无法正确安装插件的信息。
