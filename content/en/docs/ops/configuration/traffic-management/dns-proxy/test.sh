@@ -33,6 +33,15 @@ _verify_first_line snip_dns_capture_in_action_3 "$snip_dns_capture_in_action_3_o
 snip_address_auto_allocation_1
 _verify_contains snip_address_auto_allocation_2 "*   Trying 240.240."
 
+# verify external tcp services without vips
+snip_external_tcp_services_without_vips_1
+snip_external_tcp_services_without_vips_2
+snip_external_tcp_services_without_vips_3
+_verify_lines snip_external_tcp_services_without_vips_4 "
++ Cluster: outbound|9000||tcp-echo.external-1.svc.cluster.local
++ Cluster: outbound|9000||tcp-echo.external-2.svc.cluster.local
+"
+
 # @cleanup
 
 snip_cleanup_1

@@ -32,6 +32,12 @@ spec:
         ISTIO_META_DNS_CAPTURE: "true"
         # Enable automatic address allocation, optional
         ISTIO_META_DNS_AUTO_ALLOCATE: "true"
+    # The below configuration is only used in the External TCP services section of this document
+    # to clarify the external service behaviour in a simplified way.
+    # Otherwise this is not a mandatory setting for DNS proxying.
+    discoverySelectors:
+    - matchLabels:
+        istio-injection: enabled
 EOF
 }
 
@@ -93,8 +99,59 @@ kubectl exec deploy/sleep -- curl -sS -v auto.internal
 *   Trying 240.240.0.1:80...
 ENDSNIP
 
+snip_external_tcp_services_without_vips_1() {
+kubectl create ns external-1
+kubectl -n external-1 apply -f samples/tcp-echo/tcp-echo.yaml
+}
+
+snip_external_tcp_services_without_vips_2() {
+kubectl create ns external-2
+kubectl -n external-2 apply -f samples/tcp-echo/tcp-echo.yaml
+}
+
+snip_external_tcp_services_without_vips_3() {
+kubectl apply -f - <<EOF
+apiVersion: networking.istio.io/v1beta1
+kind: ServiceEntry
+metadata:
+  name: external-svc-1
+spec:
+  hosts:
+  - tcp-echo.external-1.svc.cluster.local
+  ports:
+  - name: external-svc-1
+    number: 9000
+    protocol: TCP
+  resolution: DNS
+---
+apiVersion: networking.istio.io/v1beta1
+kind: ServiceEntry
+metadata:
+  name: external-svc-2
+spec:
+  hosts:
+  - tcp-echo.external-2.svc.cluster.local
+  ports:
+  - name: external-svc-2
+    number: 9000
+    protocol: TCP
+  resolution: DNS
+EOF
+}
+
+snip_external_tcp_services_without_vips_4() {
+istioctl pc listener deploy/sleep | grep 9000
+}
+
+! read -r -d '' snip_external_tcp_services_without_vips_4_out <<\ENDSNIP
+240.240.105.94 9000  ALL                                                                                           Cluster: outbound|9000||tcp-echo.external-2.svc.cluster.local
+240.240.69.138 9000  ALL                                                                                           Cluster: outbound|9000||tcp-echo.external-1.svc.cluster.local
+ENDSNIP
+
 snip_cleanup_1() {
+kubectl -n external-1 delete -f samples/tcp-echo/tcp-echo.yaml
+kubectl -n external-2 delete -f samples/tcp-echo/tcp-echo.yaml
 kubectl delete -f samples/sleep/sleep.yaml
 istioctl uninstall --purge -y
-kubectl delete ns istio-system
+kubectl delete ns istio-system external-1 external-2
 }

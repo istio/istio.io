@@ -30,6 +30,12 @@ spec:
         ISTIO_META_DNS_CAPTURE: "true"
         # Enable automatic address allocation, optional
         ISTIO_META_DNS_AUTO_ALLOCATE: "true"
+    # The below configuration is only used in the External TCP services section of this document
+    # to clarify the external service behaviour in a simplified way.
+    # Otherwise this is not a mandatory setting for DNS proxying.
+    discoverySelectors:
+    - matchLabels:
+        istio-injection: enabled
 EOF
 {{< /text >}}
 
@@ -135,10 +141,76 @@ $ kubectl exec deploy/sleep -- curl -sS -v auto.internal
 
 As you can see, the request is sent to an automatically allocated address, `240.240.0.1`. These addresses will be picked from the `240.240.0.0/16` reserved IP address range to avoid conflicting with real services.
 
+## External TCP services without VIPs
+
+Istio by default has a limitation on routing external TCP traffic, because it is not able to distinguish between two different TCP services. This limitation especially impacts the use of third party databases, such as AWS Relational Database Service or any database setup with geographical redundancy. Similar, but different external TCP services, cannot be handled separately by default. For the sidecar to accurately distinguish traffic between two different TCP services that are outside the mesh, the services must be on different ports or they need to have a globally unique VIP. For example, if you have two external database services, `mysql-instance1` and `mysql-instance2`, and you create service entries for them, the sidecar will still have a single listener on `0.0.0.0:{port}` that looks up the IP address of only `mysql-instance1` from public DNS servers and forwards traffic to it. It cannot route traffic to `mysql-instance2` as it has no way of distinguishing whether traffic arriving at `0.0.0.0:{port}` is bound for `mysql-instance1` or `mysql-instance2`.
+
+The below example shows how we can make use of DNS proxying as a solution to this problem. A virtual IP address is assigned to the service entries automatically in this case, so that sidecar can clearly distinguish traffic bound for each external TCP service.
+
+1.  Enable DNS automatic address allocation as specified in the [Getting Started](#getting-started) section.
+
+1.  Bring up the client sleep pod as described in the [DNS Capture in Action](#dns-capture-in-action) section.
+
+1.  Deploy the first external sample TCP application:
+
+    {{< text bash >}}
+    $ kubectl create ns external-1
+    $ kubectl -n external-1 apply -f samples/tcp-echo/tcp-echo.yaml
+    {{< /text >}}
+
+1.  Deploy the second external sample TCP application:
+
+    {{< text bash >}}
+    $ kubectl create ns external-2
+    $ kubectl -n external-2 apply -f samples/tcp-echo/tcp-echo.yaml
+    {{< /text >}}
+
+1.  Configure `ServiceEntry` to reach external services:
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: networking.istio.io/v1beta1
+    kind: ServiceEntry
+    metadata:
+      name: external-svc-1
+    spec:
+      hosts:
+      - tcp-echo.external-1.svc.cluster.local
+      ports:
+      - name: external-svc-1
+        number: 9000
+        protocol: TCP
+      resolution: DNS
+    ---
+    apiVersion: networking.istio.io/v1beta1
+    kind: ServiceEntry
+    metadata:
+      name: external-svc-2
+    spec:
+      hosts:
+      - tcp-echo.external-2.svc.cluster.local
+      ports:
+      - name: external-svc-2
+        number: 9000
+        protocol: TCP
+      resolution: DNS
+    EOF
+    {{< /text >}}
+
+1.  Verify listeners are configured separately for each service at the client side:
+
+    {{< text bash >}}
+    $ istioctl pc listener deploy/sleep | grep 9000
+    240.240.105.94 9000  ALL                                                                                           Cluster: outbound|9000||tcp-echo.external-2.svc.cluster.local
+    240.240.69.138 9000  ALL                                                                                           Cluster: outbound|9000||tcp-echo.external-1.svc.cluster.local
+    {{< /text >}}
+
 ## Cleanup
 
 {{< text bash >}}
+$ kubectl -n external-1 delete -f @samples/tcp-echo/tcp-echo.yaml@
+$ kubectl -n external-2 delete -f @samples/tcp-echo/tcp-echo.yaml@
 $ kubectl delete -f @samples/sleep/sleep.yaml@
 $ istioctl uninstall --purge -y
-$ kubectl delete ns istio-system
+$ kubectl delete ns istio-system external-1 external-2
 {{< /text >}}
