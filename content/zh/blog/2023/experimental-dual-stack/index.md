@@ -8,15 +8,15 @@ keywords: [双栈]
 
 在过去的一年里，英特尔和 F5 在为 Istio 提供 [Kubernetes 双栈网络](https://kubernetes.io/docs/concepts/services-networking/dual-stack/)的支持中通力合作。
 
-## 背景
+## 背景{#background}
 
 对于 Istio 双栈特性支持的工作花费了比预期更长的时间，而我们也还有很多关于双栈的工作需要继续。最初这项工作基于 F5 的设计实现展开，由此我们创建了 [RFC](https://docs.google.com/document/d/1oT6pmRhOw7AtsldU0-HbfA0zA26j9LYiBD_eepeErsQ/edit?usp=sharing) ，值得注意的是，在与社区基于此设计文档展开的讨论中，社区表示对此方案在内存和性能方面存在顾虑，并且希望这些问题能够在 Istio 双栈实现之前解决掉，这也引起了我们对最初设计方案的反思。最初的设计为了支持双栈特性不得不为 listeners, clusters, routes 和 endpoints 增加重复的 Envoy 配置。鉴于许多人已经遇到 Envoy 内存和 CPU 消耗问题，社区早期反馈希望我们完全重新评估我们的方案。而且许多代理透明地处理出站双栈流量，而不管流量是如何产生的，因此许多社区早期的反馈建议是在 Istio 和 Envoy 中实现相同的行为。
 
-## 重新定义双栈特性的支持
+## 重新定义双栈特性的支持{#redefining-dual-stack-support}
 
 社区为原始 RFC 提供的大部分反馈是更改 Envoy 以更好地支持双栈用例，在 Envoy 内部而不仅仅是在 Istio 中修改。 我们吸取了经验教训和反馈并将它们应用到简化的设计中，由此我们创建了一个新的 [RFC](https://docs.google.com/document/d/15LP2XHpQ71ODkjCVItGacPgzcn19fsVhyE7ruMGXDyU/edit?usp=sharing)。
 
-## 双栈特性在 Istio 1.17中的支持
+## 双栈特性在 Istio 1.17中的支持{#support-for-dual-stack-in-istio-1.17}
 
 我们与 Envoy 社区合作解决了众多问题，这也是对 Istio 双栈特性的支持花费了一些时间的原因。 这些问题有： [matched IP Family for outbound listener](https://github.com/envoyproxy/envoy/issues/16804) 和 [supported multiple addresses per listener](https://github.com/envoyproxy/envoy/issues/11184). 其中徐贺杰也一直在积极的帮助解决一些悬而未解的问题，此后 Envoy 就可以以一种更聪明的方式选择 endpoints（参考Issue：[smarter way to pick endpoints for dual-stack](https://github.com/envoyproxy/envoy/issues/21640)）。 Envoy 的这些改进，比如 [enable socket options on multiple addresses](https://github.com/envoyproxy/envoy/pull/23496)，使得即将到来的 Istio 1.17 中对双栈特性的支持能够落地（Istio 中对应的修改比如： [extra source addresses on inbound clusters](https://github.com/istio/istio/pull/41618)）。
 
@@ -31,7 +31,7 @@ keywords: [双栈]
 
 同时，在 Istio 方面，也可以在 [Issue #40394](https://github.com/istio/istio/issues/40394) 中跟踪进度。因为我们在与 Envoy 社区解决各种双栈支持遇到的问题，所以 Istio 社区方面的进展有所放缓。尽管如此，我们很高兴的宣布 Istio 1.17 中实现了对双栈特性的实验性支持！
 
-## 使用双栈的快速实验
+## 使用双栈的快速实验{#redefining-dual-stack-support}
 
 1. 通过以下方式对 Istio 1.17.0+ 启用双栈实验性支持：
 
@@ -99,7 +99,7 @@ keywords: [双栈]
 
 现在您可以在您的环境中试验双栈服务！
 
-## 监听器和端点的重要变化
+## 监听器和端点的重要变化{#important-changes-to-listeners-and-endpoints}
 
 对于上述实验，您会注意到监听器和路由发生了变化：
 
@@ -162,7 +162,7 @@ fd00:10:244::1a:9000     HEALTHY     OK                outbound|9000||tcp-echo.d
 fd00:10:244::18:9000     HEALTHY     OK                outbound|9000||tcp-echo.ipv6.svc.cluster.local
 {{< /text >}}
 
-## 参与其中
+## 参与其中{#get-involved}
 
 还有很多工作要做，欢迎各位与我们一起完成双栈特性到达 Alpha 状态所需的其他任务。 [详情请看这里](https://github.com/istio/enhancements/pull/141)
 比如，来自英特尔的丁少君和李纯已经就 ambient 的网络流量重定向功能与社区一起展开工作。我们希望在后面的 Istio 1.18 alpha 双栈特性的版本中，ambient 也能够支持双栈特性。
