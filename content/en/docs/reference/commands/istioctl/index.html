@@ -466,6 +466,11 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
+<td><code>--output-dir &lt;string&gt;</code></td>
+<td></td>
+<td>Set a specific directory for output archive file.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--rps-limit &lt;int&gt;</code></td>
 <td></td>
 <td>Requests per second limit to the Kubernetes API server, defaults to 10.A higher limit can make bug report collection much faster.  (default `0`)</td>
@@ -579,6 +584,11 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
 <td>One of &#39;yaml&#39; or &#39;json&#39;.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--output-dir &lt;string&gt;</code></td>
+<td></td>
+<td>Set a specific directory for output archive file.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--rps-limit &lt;int&gt;</code></td>
@@ -4699,9 +4709,6 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
   # To override a setting that includes dots, escape them with a backslash (\).  Your shell may require enclosing quotes.
   istioctl install --set &#34;values.sidecarInjectorWebhook.injectedAnnotations.container\.apparmor\.security\.beta\.kubernetes\.io/istio-proxy=runtime/default&#34;
 
-  # For setting boolean-string option, it should be enclosed quotes and escaped with a backslash (\).
-  istioctl install --set meshConfig.defaultConfig.proxyMetadata.PROXY_XDS_VIA_AGENT=\&#34;false\&#34;
-
 </code></pre>
 <h2 id="istioctl-kube-inject">istioctl kube-inject</h2>
 <p>
@@ -5087,9 +5094,6 @@ settings (--set meshConfig.enableTracing=true). See documentation for more info:
   # To override a setting that includes dots, escape them with a backslash (\).  Your shell may require enclosing quotes.
   istioctl manifest generate --set &#34;values.sidecarInjectorWebhook.injectedAnnotations.container\.apparmor\.security\.beta\.kubernetes\.io/istio-proxy=runtime/default&#34;
 
-  # For setting boolean-string option, it should be enclosed quotes and escaped with a backslash (\).
-  istioctl manifest generate --set meshConfig.defaultConfig.proxyMetadata.PROXY_XDS_VIA_AGENT=\&#34;false\&#34;
-
 </code></pre>
 <h2 id="istioctl-manifest-install">istioctl manifest install</h2>
 <p>The install command generates an Istio install manifest and applies it to a cluster.</p>
@@ -5202,9 +5206,6 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 
   # To override a setting that includes dots, escape them with a backslash (\).  Your shell may require enclosing quotes.
   istioctl install --set &#34;values.sidecarInjectorWebhook.injectedAnnotations.container\.apparmor\.security\.beta\.kubernetes\.io/istio-proxy=runtime/default&#34;
-
-  # For setting boolean-string option, it should be enclosed quotes and escaped with a backslash (\).
-  istioctl install --set meshConfig.defaultConfig.proxyMetadata.PROXY_XDS_VIA_AGENT=\&#34;false\&#34;
 
 </code></pre>
 <h2 id="istioctl-operator">istioctl operator</h2>

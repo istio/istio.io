@@ -4,7 +4,7 @@ description: How to configure DNS proxying.
 weight: 60
 keywords: [traffic-management,dns,virtual-machine]
 owner: istio/wg-networking-maintainers
-test: no
+test: yes
 ---
 
 In addition to capturing application traffic, Istio can also capture DNS requests to improve the performance and usability of your mesh.
@@ -33,7 +33,23 @@ spec:
 EOF
 {{< /text >}}
 
-This can also be enabled on a per-pod basis with the [`proxy.istio.io/config` annotation](/docs/reference/config/annotations/).
+This can also be enabled on a per-pod basis with the [`proxy.istio.io/config` annotation](/docs/reference/config/annotations/):
+
+{{< text syntax=yaml snip_id=none >}}
+kind: Deployment
+metadata:
+  name: sleep
+spec:
+...
+  template:
+    metadata:
+      annotations:
+        proxy.istio.io/config: |
+          proxyMetadata:
+            ISTIO_META_DNS_CAPTURE: "true"
+            ISTIO_META_DNS_AUTO_ALLOCATE: "true"
+...
+{{< /text >}}
 
 {{< tip >}}
 When deploying to a VM using [`istioctl workload entry configure`](/docs/setup/install/virtual-machine/), basic DNS proxying will be enabled by default.
@@ -43,26 +59,35 @@ When deploying to a VM using [`istioctl workload entry configure`](/docs/setup/i
 
 To try out the DNS capture, first setup a `ServiceEntry` for some external service:
 
-{{< text yaml >}}
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1beta1
 kind: ServiceEntry
 metadata:
   name: external-address
 spec:
   addresses:
-  - 198.51.100.0
+  - 198.51.100.1
   hosts:
   - address.internal
   ports:
   - name: http
     number: 80
     protocol: HTTP
+EOF
+{{< /text >}}
+
+Bring up a client application to initiate the DNS request:
+
+{{< text bash >}}
+$ kubectl label namespace default istio-injection=enabled --overwrite
+$ kubectl apply -f @samples/sleep/sleep.yaml@
 {{< /text >}}
 
 Without the DNS capture, a request to `address.internal` would likely fail to resolve. Once this is enabled, you should instead get a response back based on the configured `address`:
 
 {{< text bash >}}
-$ curl -v address.internal
+$ kubectl exec deploy/sleep -- curl -sS -v address.internal
 *   Trying 198.51.100.1:80...
 {{< /text >}}
 
@@ -74,7 +99,7 @@ This is especially problematic with TCP traffic. Unlike HTTP requests, which are
 
 To work around these issues, the DNS proxy additionally supports automatically allocating addresses for `ServiceEntry`s that do not explicitly define one. This is configured by the `ISTIO_META_DNS_AUTO_ALLOCATE` option.
 
-When this feature is enabled, the DNS response will include a distinct and automatically assigned address for each `ServiceEntry`. The proxy is then configured to match requests to this IP address, and forward the request to the corresponding `ServiceEntry`.
+When this feature is enabled, the DNS response will include a distinct and automatically assigned address for each `ServiceEntry`. The proxy is then configured to match requests to this IP address, and forward the request to the corresponding `ServiceEntry`. When using `ISTIO_META_DNS_AUTO_ALLOCATE`, Istio will automatically allocate non-routable VIPs (from the Class E subnet) to such services as long as they do not use a wildcard host. The Istio agent on the sidecar will use the VIPs as responses to the DNS lookup queries from the application. Envoy can now clearly distinguish traffic bound for each external TCP service and forward it to the right target. For more information check respective [Istio blog about smart DNS proxying](/blog/2020/dns-proxy/#automatic-vip-allocation-where-possible).
 
 {{< warning >}}
 Because this feature modifies DNS responses, it may not be compatible with all applications.
@@ -82,7 +107,8 @@ Because this feature modifies DNS responses, it may not be compatible with all a
 
 To try this out, configure another `ServiceEntry`:
 
-{{< text yaml >}}
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1beta1
 kind: ServiceEntry
 metadata:
@@ -97,13 +123,22 @@ spec:
   resolution: STATIC
   endpoints:
   - address: 198.51.100.2
+EOF
 {{< /text >}}
 
 Now, send a request:
 
 {{< text bash >}}
-$ curl -v auto.internal
+$ kubectl exec deploy/sleep -- curl -sS -v auto.internal
 *   Trying 240.240.0.1:80...
 {{< /text >}}
 
 As you can see, the request is sent to an automatically allocated address, `240.240.0.1`. These addresses will be picked from the `240.240.0.0/16` reserved IP address range to avoid conflicting with real services.
+
+## Cleanup
+
+{{< text bash >}}
+$ kubectl delete -f @samples/sleep/sleep.yaml@
+$ istioctl uninstall --purge -y
+$ kubectl delete ns istio-system
+{{< /text >}}

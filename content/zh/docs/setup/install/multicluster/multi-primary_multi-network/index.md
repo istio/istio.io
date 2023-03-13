@@ -23,7 +23,7 @@ owner: istio/wg-environments-maintainers
 
 {{< image width="75%"
     link="arch.svg"
-    caption="Multiple primary clusters on separate networks"
+    caption="跨网络的多主集群"
     >}}
 
 ## 为 `cluster1` 设置缺省网络 {#set-the-default-network-for-cluster1}
