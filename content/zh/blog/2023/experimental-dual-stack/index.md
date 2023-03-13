@@ -14,7 +14,7 @@ keywords: [双栈]
 
 ## 重新定义双栈特性的支持
 
-社区为原始 RFC 提供的大部分反馈是更改 Envoy 以更好地支持双栈用例，在 Envoy 内部而不仅仅是在 Istio 中修改。 我们吸取了经验教训和反馈并将它们应用到简化的设计中，由此我们创建了一个新的 [RFC](https://docs.google.com/document/d/15LP2XHpQ71ODkjCVItGacPgzcn19fsVhyE7ruMGXDyU/edit?usp=sharing)
+社区为原始 RFC 提供的大部分反馈是更改 Envoy 以更好地支持双栈用例，在 Envoy 内部而不仅仅是在 Istio 中修改。 我们吸取了经验教训和反馈并将它们应用到简化的设计中，由此我们创建了一个新的 [RFC](https://docs.google.com/document/d/15LP2XHpQ71ODkjCVItGacPgzcn19fsVhyE7ruMGXDyU/edit?usp=sharing)。
 
 ## 双栈特性在 Istio 1.17中的支持
 
@@ -33,69 +33,69 @@ keywords: [双栈]
 
 ## 使用双栈的快速实验
 
-1. Enable dual stack experimental support on Istio 1.17.0+ with the following
+1. 通过以下方式对 Istio 1.17.0+ 启用双栈实验性支持：
 
-{{< text bash >}}
-$ istioctl install -f - <<EOF
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  meshConfig:
-    defaultConfig:
-      proxyMetadata:
-        ISTIO_AGENT_DUAL_STACK: "true"
-  values:
-    pilot:
-      env:
-        ISTIO_DUAL_STACK: "true"
-EOF
-{{< /text >}}
+    {{< text bash >}}
+    $ istioctl install -f - <<EOF
+    apiVersion: install.istio.io/v1alpha1
+    kind: IstioOperator
+    spec:
+      meshConfig:
+        defaultConfig:
+          proxyMetadata:
+            ISTIO_AGENT_DUAL_STACK: "true"
+      values:
+        pilot:
+          env:
+            ISTIO_DUAL_STACK: "true"
+    EOF
+    {{< /text >}}
 
-1. 创建3个命名空间:
+1. 创建3个命名空间：
 
     * `dual-stack`: `tcp-echo` will listen on both an IPv4 and IPv6 address.
     * `ipv4`: `tcp-echo` will listen on only an IPv4 address.
     * `ipv6`: `tcp-echo` will listen on only an IPv6 address.
 
-{{< text bash >}}
-$ kubectl create namespace dual-stack
-$ kubectl create namespace ipv4
-$ kubectl create namespace ipv6
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl create namespace dual-stack
+    $ kubectl create namespace ipv4
+    $ kubectl create namespace ipv6
+    {{< /text >}}
 
 1. 在所有这些命名空间以及默认命名空间上启用 sidecar 注入：
 
-{{< text bash >}}
-$ kubectl label --overwrite namespace default istio-injection=enabled
-$ kubectl label --overwrite namespace dual-stack istio-injection=enabled
-$ kubectl label --overwrite namespace ipv4 istio-injection=enabled
-$ kubectl label --overwrite namespace ipv6 istio-injection=enabled
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl label --overwrite namespace default istio-injection=enabled
+    $ kubectl label --overwrite namespace dual-stack istio-injection=enabled
+    $ kubectl label --overwrite namespace ipv4 istio-injection=enabled
+    $ kubectl label --overwrite namespace ipv6 istio-injection=enabled
+    {{< /text >}}
 
 1. 在命名空间中创建 `tcp-echo` 部署：
 
-{{< text bash >}}
-$ kubectl apply --namespace dual-stack -f {{< github_file >}}/samples/tcp-echo/tcp-echo-dual-stack.yaml
-$ kubectl apply --namespace ipv4 -f {{< github_file >}}/samples/tcp-echo/tcp-echo-ipv4.yaml
-$ kubectl apply --namespace ipv6 -f {{< github_file >}}/samples/tcp-echo/tcp-echo-ipv6.yaml
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl apply --namespace dual-stack -f {{< github_file >}}/samples/tcp-echo/tcp-echo-dual-stack.yaml
+    $ kubectl apply --namespace ipv4 -f {{< github_file >}}/samples/tcp-echo/tcp-echo-ipv4.yaml
+    $ kubectl apply --namespace ipv6 -f {{< github_file >}}/samples/tcp-echo/tcp-echo-ipv6.yaml
+    {{< /text >}}
 
 1. 在默认命名空间中创建 `sleep` 部署：
 
-{{< text bash >}}
-$ kubectl apply -f {{< github_file >}}/master/samples/sleep/sleep.yaml
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl apply -f {{< github_file >}}/master/samples/sleep/sleep.yaml
+    {{< /text >}}
 
 1. 流量校验:
 
-{{< text bash >}}
-$ kubectl exec -it "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo dualstack | nc tcp-echo 9000"
-hello dualstack
-$ kubectl exec -it "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo ipv4 | nc tcp-echo.ipv4 9000"
-hello ipv4
-$ kubectl exec -it "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo ipv6 | nc tcp-echo.ipv6 9000"
-hello ipv6
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl exec -it "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo dualstack | nc tcp-echo 9000"
+    hello dualstack
+    $ kubectl exec -it "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo ipv4 | nc tcp-echo.ipv4 9000"
+    hello ipv4
+    $ kubectl exec -it "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo ipv6 | nc tcp-echo.ipv6 9000"
+    hello ipv6
+    {{< /text >}}
 
 现在您可以在您的环境中试验双栈服务！
 
@@ -110,45 +110,45 @@ $ istioctl proxy-config listeners "$(kubectl get pod -n dual-stack -l app=tcp-ec
 您会看到侦听器现在绑定到多个地址，但仅限于双栈服务。其他服务只会监听单个 IP 地址。
 
 {{< text json >}}
-"name": "fd00:10:96::f9fc_9000",
-"address": {
-    "socketAddress": {
-        "address": "fd00:10:96::f9fc",
-        "portValue": 9000
-    }
-},
-"additionalAddresses": [
-    {
+        "name": "fd00:10:96::f9fc_9000",
         "address": {
             "socketAddress": {
-                "address": "10.96.106.11",
+                "address": "fd00:10:96::f9fc",
                 "portValue": 9000
             }
-        }
-    }
-],
+        },
+        "additionalAddresses": [
+            {
+                "address": {
+                    "socketAddress": {
+                        "address": "10.96.106.11",
+                        "portValue": 9000
+                    }
+                }
+            }
+        ],
 {{< /text >}}
 
 虚拟入站地址现在也被配置为侦听 `0.0.0.0` 和 `[::]`。
 
 {{< text json >}}
-"name": "virtualInbound",
-"address": {
-    "socketAddress": {
-        "address": "0.0.0.0",
-        "portValue": 15006
-    }
-},
-"additionalAddresses": [
-    {
-        "address": {
-            "socketAddress": {
-                "address": "::",
-                "portValue": 15006
+    "name": "virtualInbound",
+    "address": {
+        "socketAddress": {
+            "address": "0.0.0.0",
+            "portValue": 15006
+        }
+    },
+    "additionalAddresses": [
+        {
+            "address": {
+                "socketAddress": {
+                    "address": "::",
+                    "portValue": 15006
+                }
             }
         }
-    }
-],
+    ],
 {{< /text >}}
 
 Envoy 的 endpoints 现在配置为路由到 IPv4 和 IPv6：
@@ -162,7 +162,7 @@ fd00:10:244::1a:9000     HEALTHY     OK                outbound|9000||tcp-echo.d
 fd00:10:244::18:9000     HEALTHY     OK                outbound|9000||tcp-echo.ipv6.svc.cluster.local
 {{< /text >}}
 
-### 参与其中
+## 参与其中
 
 还有很多工作要做，欢迎各位与我们一起完成双栈特性到达 Alpha 状态所需的其他任务。 [详情请看这里](https://github.com/istio/enhancements/pull/141)
 比如，来自英特尔的丁少君和李纯已经就 ambient 的网络流量重定向功能与社区一起展开工作。我们希望在后面的 Istio 1.18 alpha 双栈特性的版本中，ambient 也能够支持双栈特性。
