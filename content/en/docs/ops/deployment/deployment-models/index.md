@@ -197,11 +197,12 @@ fits your existing network topology.
 In the simplest case, a service mesh operates over a single fully connected
 network. In a single network model, all
 {{< gloss "workload instance" >}}workload instances{{< /gloss >}}
-can reach each other directly without an Istio gateway. In addition, for single network across multi-clusters,
-Istio requires services and endpoints cannot have overlapping IP addresses.
+can reach each other directly without an Istio gateway.
 
 A single network allows Istio to configure service consumers in a uniform
 way across the mesh with the ability to directly address workload instances.
+Note, however, that for a single network across multiple clusters,
+services and endpoints cannot have overlapping IP addresses.
 
 {{< image width="50%"
     link="single-net.svg"
