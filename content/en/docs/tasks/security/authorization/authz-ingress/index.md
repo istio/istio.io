@@ -1,5 +1,5 @@
 ---
-title: Ingress Gateway Access Control
+title: Ingress Access Control
 description: Shows how to set up access control on an ingress gateway.
 weight: 50
 keywords: [security,access-control,rbac,authorization,ingress,ip,allowlist,denylist]
