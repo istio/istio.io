@@ -51,8 +51,8 @@ fromHeaders:
 <p>Identifies the issuer that issued the JWT. See
 <a href="https://tools.ietf.org/html/rfc7519#section-4.1.1">issuer</a>
 A JWT with different <code>iss</code> claim will be rejected.</p>
-<p>Example: <a href="https://foobar.auth0.com">https://foobar.auth0.com</a>
-Example: <a href="mailto:1234567-compute@developer.gserviceaccount.com">1234567-compute@developer.gserviceaccount.com</a></p>
+<p>Example: <code>https://foobar.auth0.com</code>
+Example: <code>1234567-compute@developer.gserviceaccount.com</code></p>
 
 </td>
 <td>
@@ -64,7 +64,7 @@ Yes
 <td><code>string[]</code></td>
 <td>
 <p>The list of JWT
-<a href="https://tools.ietf.org/html/rfc7519#section-4.1.3">audiences</a>.
+<a href="https://tools.ietf.org/html/rfc7519#section-4.1.3">audiences</a>
 that are allowed to access. A JWT containing any of these
 audiences will be accepted.</p>
 <p>The service name will be accepted if audiences is empty.</p>
@@ -116,7 +116,7 @@ No
 <td><code><a href="#JWTHeader">JWTHeader[]</a></code></td>
 <td>
 <p>List of header locations from which JWT is expected. For example, below is the location spec
-if JWT is expected to be found in <code>x-jwt-assertion</code> header, and have &ldquo;Bearer &quot; prefix:</p>
+if JWT is expected to be found in <code>x-jwt-assertion</code> header, and have <code>Bearer</code> prefix:</p>
 <pre><code class="language-yaml">  fromHeaders:
   - name: x-jwt-assertion
     prefix: &quot;Bearer &quot;
@@ -134,7 +134,7 @@ No
 <td><code>string[]</code></td>
 <td>
 <p>List of query parameters from which JWT is expected. For example, if JWT is provided via query
-parameter <code>my_token</code> (e.g /path?my_token=<JWT>), the config is:</p>
+parameter <code>my_token</code> (e.g <code>/path?my_token=&lt;JWT&gt;</code>), the config is:</p>
 <pre><code class="language-yaml">  fromParams:
   - &quot;my_token&quot;
 </code></pre>
@@ -185,8 +185,7 @@ The header specified in each operation in the list must be unique. Nested claims
   - header: x-jwt-claim-group
     claim: nested.key.group
 </code></pre>
-<p>[Experimental] This feature is a experimental feature.
-TODO: Update the status whenever this feature is promoted</p>
+<p>[Experimental] This feature is a experimental feature.</p>
 
 </td>
 <td>
@@ -226,7 +225,7 @@ Yes
 <td><code>string</code></td>
 <td>
 <p>The prefix that should be stripped before decoding the token.
-For example, for &ldquo;Authorization: Bearer <token>&rdquo;, prefix=&ldquo;Bearer &quot; with a space at the end.
+For example, for <code>Authorization: Bearer &lt;token&gt;</code>, prefix=<code>Bearer</code> with a space at the end.
 If the header doesn&rsquo;t have this exact prefix, it is considered invalid.</p>
 
 </td>
