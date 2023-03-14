@@ -441,6 +441,7 @@ GCP_OPTS
 GCP-IAM
 gcr.io
 gdb
+Geneve
 GiB
 git
 GitHub
