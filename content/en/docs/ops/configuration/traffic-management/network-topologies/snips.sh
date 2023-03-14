@@ -19,6 +19,7 @@
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
 #          docs/ops/configuration/traffic-management/network-topologies/index.md
 ####################################################################################################
+source "content/en/boilerplates/snips/gateway-api-support.sh"
 
 snip_install_num_trusted_proxies_two() {
 cat <<EOF > topology.yaml
@@ -57,12 +58,21 @@ snip_deploy_httpbin_gateway() {
 kubectl apply -n httpbin -f samples/httpbin/httpbin-gateway.yaml
 }
 
+snip_deploy_httpbin_k8s_gateway() {
+kubectl apply -n httpbin -f samples/httpbin/gateway-api/httpbin-gateway.yaml
+kubectl wait --for=condition=ready gtw -n httpbin httpbin-gateway
+}
+
 snip_export_gateway_url() {
 export GATEWAY_URL=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 }
 
+snip_export_k8s_gateway_url() {
+export GATEWAY_URL=$(kubectl get gateways.gateway.networking.k8s.io httpbin-gateway -n httpbin -ojsonpath='{.status.addresses[*].value}')
+}
+
 snip_curl_xff_headers() {
-curl -s -H 'X-Forwarded-For: 56.5.6.7, 72.9.5.6, 98.1.2.3' "$GATEWAY_URL"/get?show_env=true
+curl -s -H 'X-Forwarded-For: 56.5.6.7, 72.9.5.6, 98.1.2.3' "$GATEWAY_URL/get?show_env=true"
 }
 
 ! read -r -d '' snip_curl_xff_headers_out <<\ENDSNIP

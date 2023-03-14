@@ -19,6 +19,8 @@ set -e
 set -u
 set -o pipefail
 
+GATEWAY_API="${GATEWAY_API:-false}"
+
 # ingressgateway is necessary, but we need to do a custom install
 # @setup profile=none
 
@@ -35,13 +37,18 @@ snip_apply_httpbin
 _wait_for_deployment httpbin httpbin
 
 echo '*** apply httpbin gateway ***'
-snip_deploy_httpbin_gateway
+if [ "$GATEWAY_API" == "true" ]; then
+    snip_deploy_httpbin_k8s_gateway
+    snip_export_k8s_gateway_url
+else
+    snip_deploy_httpbin_gateway
 
-# wait for for the rules to propagate
-_wait_for_istio gateway httpbin httpbin-gateway
-_wait_for_istio virtualservice httpbin httpbin
+    # wait for for the rules to propagate
+    _wait_for_istio gateway httpbin httpbin-gateway
+    _wait_for_istio virtualservice httpbin httpbin
 
-snip_export_gateway_url
+    snip_export_gateway_url
+fi
 echo "*** GATEWAY_URL = $GATEWAY_URL ***"
 
 _verify_like snip_curl_xff_headers "$snip_curl_xff_headers_out"
