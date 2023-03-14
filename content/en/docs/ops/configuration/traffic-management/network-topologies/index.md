@@ -139,7 +139,7 @@ $ kubectl wait --for=condition=ready gtw -n httpbin httpbin-gateway
 
 {{< /tabset >}}
 
-1. Set a local `GATEWAY_URL` environmental variable based on your Istio ingress gateway's IP address:
+6) Set a local `GATEWAY_URL` environmental variable based on your Istio ingress gateway's IP address:
 
 {{< tabset category-name="config-api" >}}
 
@@ -161,7 +161,7 @@ $ export GATEWAY_URL=$(kubectl get gateways.gateway.networking.k8s.io httpbin-ga
 
 {{< /tabset >}}
 
-1. Run the following `curl` command to simulate a request with proxy addresses in the `X-Forwarded-For` header:
+7) Run the following `curl` command to simulate a request with proxy addresses in the `X-Forwarded-For` header:
 
     {{< text syntax=bash snip_id=curl_xff_headers >}}
     $ curl -s -H 'X-Forwarded-For: 56.5.6.7, 72.9.5.6, 98.1.2.3' "$GATEWAY_URL/get?show_env=true"
