@@ -20,7 +20,6 @@ set -u
 set -o pipefail
 
 source "tests/util/samples.sh"
-source "content/en/boilerplates/snips/start-otel-collector-service.sh"
 
 # @setup profile=demo
 
