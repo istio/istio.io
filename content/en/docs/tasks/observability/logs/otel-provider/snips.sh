@@ -126,7 +126,7 @@ snip_cleanup_1() {
 kubectl delete telemetry sleep-logging
 kubectl delete -f samples/sleep/sleep.yaml
 kubectl delete -f samples/httpbin/httpbin.yaml
-kubectl delete -f samples/open-telemetry/otel.yaml
+kubectl delete -f samples/open-telemetry/otel.yaml -n istio-system
 }
 
 snip_disable_envoys_access_logging_1() {
