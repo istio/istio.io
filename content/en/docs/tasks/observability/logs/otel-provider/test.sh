@@ -26,6 +26,7 @@ source "content/en/boilerplates/snips/start-otel-collector-service.sh"
 
 # Start the otel sample
 bpsnip_start_otel_collector_service__1
+_wait_for_deployment istio-system opentelemetry-collector
 
 # Apply Telemetry config
 snip_enable_envoys_access_logging_3
