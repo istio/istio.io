@@ -643,11 +643,6 @@ to enable it.  You can execute the following once:</p>
 <td>The network namespace that iptables rules should be applied to.  (default ``)</td>
 </tr>
 <tr>
-<td><code>--output-paths &lt;string&gt;</code></td>
-<td></td>
-<td>A file path to write the applied iptables rules to.  (default ``)</td>
-</tr>
-<tr>
 <td><code>--probe-timeout &lt;duration&gt;</code></td>
 <td></td>
 <td>failure detection timeout  (default `5s`)</td>
@@ -1087,6 +1082,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>Custom address for the DNS proxy. If it ends with :53 and running as root allows running without iptable DNS capture</td>
 </tr>
 <tr>
+<td><code>DRY_RUN_FILE_PATH</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>If provided, StdoutStubDependencies will write the input from stdin to the given file.</td>
+</tr>
+<tr>
 <td><code>ECC_SIGNATURE_ALGORITHM</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -1471,7 +1472,7 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <tr>
 <td><code>K8S_INGRESS_NS</code></td>
 <td>String</td>
-<td><code></code></td>
+<td><code>istio-system</code></td>
 <td></td>
 </tr>
 <tr>
