@@ -32,12 +32,6 @@ spec:
         ISTIO_META_DNS_CAPTURE: "true"
         # Enable automatic address allocation, optional
         ISTIO_META_DNS_AUTO_ALLOCATE: "true"
-    # The below configuration is only used in the External TCP services section of this document
-    # to clarify the external service behaviour in a simplified way.
-    # Otherwise this is not a mandatory setting for DNS proxying.
-    discoverySelectors:
-    - matchLabels:
-        istio-injection: enabled
 EOF
 }
 
@@ -100,16 +94,34 @@ kubectl exec deploy/sleep -- curl -sS -v auto.internal
 ENDSNIP
 
 snip_external_tcp_services_without_vips_1() {
+cat <<EOF | istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true -y -f -
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  meshConfig:
+    defaultConfig:
+      proxyMetadata:
+        # Enable basic DNS proxying
+        ISTIO_META_DNS_CAPTURE: "true"
+        # Enable automatic address allocation, optional
+        ISTIO_META_DNS_AUTO_ALLOCATE: "true"
+    discoverySelectors:
+    - matchLabels:
+        istio-injection: enabled
+EOF
+}
+
+snip_external_tcp_services_without_vips_2() {
 kubectl create ns external-1
 kubectl -n external-1 apply -f samples/tcp-echo/tcp-echo.yaml
 }
 
-snip_external_tcp_services_without_vips_2() {
+snip_external_tcp_services_without_vips_3() {
 kubectl create ns external-2
 kubectl -n external-2 apply -f samples/tcp-echo/tcp-echo.yaml
 }
 
-snip_external_tcp_services_without_vips_3() {
+snip_external_tcp_services_without_vips_4() {
 kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1beta1
 kind: ServiceEntry
@@ -139,13 +151,13 @@ spec:
 EOF
 }
 
-snip_external_tcp_services_without_vips_4() {
-istioctl pc listener deploy/sleep | grep 9000
+snip_external_tcp_services_without_vips_5() {
+istioctl pc listener deploy/sleep | grep tcp-echo | awk '{print $4, $5}'
 }
 
-! read -r -d '' snip_external_tcp_services_without_vips_4_out <<\ENDSNIP
-240.240.105.94 9000  ALL                                                                                           Cluster: outbound|9000||tcp-echo.external-2.svc.cluster.local
-240.240.69.138 9000  ALL                                                                                           Cluster: outbound|9000||tcp-echo.external-1.svc.cluster.local
+! read -r -d '' snip_external_tcp_services_without_vips_5_out <<\ENDSNIP
+Cluster: outbound|9000||tcp-echo.external-2.svc.cluster.local
+Cluster: outbound|9000||tcp-echo.external-1.svc.cluster.local
 ENDSNIP
 
 snip_cleanup_1() {

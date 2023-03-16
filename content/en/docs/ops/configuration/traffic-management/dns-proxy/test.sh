@@ -37,7 +37,8 @@ _verify_contains snip_address_auto_allocation_2 "*   Trying 240.240."
 snip_external_tcp_services_without_vips_1
 snip_external_tcp_services_without_vips_2
 snip_external_tcp_services_without_vips_3
-_verify_lines snip_external_tcp_services_without_vips_4 "
+snip_external_tcp_services_without_vips_4
+_verify_lines snip_external_tcp_services_without_vips_5 "
 + Cluster: outbound|9000||tcp-echo.external-1.svc.cluster.local
 + Cluster: outbound|9000||tcp-echo.external-2.svc.cluster.local
 "

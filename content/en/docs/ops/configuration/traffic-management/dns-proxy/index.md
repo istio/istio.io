@@ -30,12 +30,6 @@ spec:
         ISTIO_META_DNS_CAPTURE: "true"
         # Enable automatic address allocation, optional
         ISTIO_META_DNS_AUTO_ALLOCATE: "true"
-    # The below configuration is only used in the External TCP services section of this document
-    # to clarify the external service behaviour in a simplified way.
-    # Otherwise this is not a mandatory setting for DNS proxying.
-    discoverySelectors:
-    - matchLabels:
-        istio-injection: enabled
 EOF
 {{< /text >}}
 
@@ -101,7 +95,8 @@ $ kubectl exec deploy/sleep -- curl -sS -v address.internal
 
 In the above example, you had a predefined IP address for the service to which you sent the request. However, it's common to access external services that do not have stable addresses, and instead rely on DNS. In this case, the DNS proxy will not have enough information to return a response, and will need to forward DNS requests upstream.
 
-This is especially problematic with TCP traffic. Unlike HTTP requests, which are routed based on `Host` headers, TCP carries much less information; you can only route on the destination IP and port number. Because you don't have a stable IP for the backend, you cannot route based on that either, leaving only port number, which leads to conflicts when multiple `ServiceEntry`s for TCP services share the same port.
+This is especially problematic with TCP traffic. Unlike HTTP requests, which are routed based on `Host` headers, TCP carries much less information; you can only route on the destination IP and port number. Because you don't have a stable IP for the backend, you cannot route based on that either, leaving only port number, which leads to conflicts when multiple `ServiceEntry`s for TCP services share the same port. Refer
+[External TCP services without VIP](#external-tcp-services-without-vips) section for additional details.
 
 To work around these issues, the DNS proxy additionally supports automatically allocating addresses for `ServiceEntry`s that do not explicitly define one. This is configured by the `ISTIO_META_DNS_AUTO_ALLOCATE` option.
 
@@ -145,11 +140,28 @@ As you can see, the request is sent to an automatically allocated address, `240.
 
 Istio by default has a limitation on routing external TCP traffic, because it is not able to distinguish between two different TCP services. This limitation especially impacts the use of third party databases, such as AWS Relational Database Service or any database setup with geographical redundancy. Similar, but different external TCP services, cannot be handled separately by default. For the sidecar to accurately distinguish traffic between two different TCP services that are outside the mesh, the services must be on different ports or they need to have a globally unique VIP. For example, if you have two external database services, `mysql-instance1` and `mysql-instance2`, and you create service entries for them, the sidecar will still have a single listener on `0.0.0.0:{port}` that looks up the IP address of only `mysql-instance1` from public DNS servers and forwards traffic to it. It cannot route traffic to `mysql-instance2` as it has no way of distinguishing whether traffic arriving at `0.0.0.0:{port}` is bound for `mysql-instance1` or `mysql-instance2`.
 
-The below example shows how we can make use of DNS proxying as a solution to this problem. A virtual IP address is assigned to the service entries automatically in this case, so that sidecar can clearly distinguish traffic bound for each external TCP service.
+The following example shows how DNS proxying can be used to solve this problem.
+A virtual IP address will be assigned to every service entry so that client sidecars can clearly distinguish traffic bound for each external TCP service.
 
-1.  Enable DNS automatic address allocation as specified in the [Getting Started](#getting-started) section.
+1.  Update the Istio configuration specified in the [Getting Started](#getting-started) section to also configure `discoverySelectors` that restrict the mesh to namespaces with `istio-injection` enabled. This will let us use any other namespaces in the cluster to run TCP services outside of the mesh.
 
-1.  Bring up the client sleep pod as described in the [DNS Capture in Action](#dns-capture-in-action) section.
+    {{< text bash >}}
+    $ cat <<EOF | istioctl install -y -f -
+    apiVersion: install.istio.io/v1alpha1
+    kind: IstioOperator
+    spec:
+      meshConfig:
+        defaultConfig:
+          proxyMetadata:
+            # Enable basic DNS proxying
+            ISTIO_META_DNS_CAPTURE: "true"
+            # Enable automatic address allocation, optional
+            ISTIO_META_DNS_AUTO_ALLOCATE: "true"
+        discoverySelectors:
+        - matchLabels:
+            istio-injection: enabled
+    EOF
+    {{< /text >}}
 
 1.  Deploy the first external sample TCP application:
 
@@ -200,9 +212,9 @@ The below example shows how we can make use of DNS proxying as a solution to thi
 1.  Verify listeners are configured separately for each service at the client side:
 
     {{< text bash >}}
-    $ istioctl pc listener deploy/sleep | grep 9000
-    240.240.105.94 9000  ALL                                                                                           Cluster: outbound|9000||tcp-echo.external-2.svc.cluster.local
-    240.240.69.138 9000  ALL                                                                                           Cluster: outbound|9000||tcp-echo.external-1.svc.cluster.local
+    $ istioctl pc listener deploy/sleep | grep tcp-echo | awk '{print $4, $5}'
+    Cluster: outbound|9000||tcp-echo.external-2.svc.cluster.local
+    Cluster: outbound|9000||tcp-echo.external-1.svc.cluster.local
     {{< /text >}}
 
 ## Cleanup
