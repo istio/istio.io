@@ -178,7 +178,7 @@ advance_master_to_next_release() {
 
     make update_all gen
 
-    python3 scripts/update_support_status.py
+    yq -i '.[0].k8sVersions = .[1].k8sVersions' data/compatibility/supportStatus.yml
 
     if [[ $(git status --porcelain) ]]; then
         git add -A
