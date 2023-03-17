@@ -159,6 +159,8 @@ A virtual IP address will be assigned to every service entry so that client side
             ISTIO_META_DNS_CAPTURE: "true"
             # Enable automatic address allocation, optional
             ISTIO_META_DNS_AUTO_ALLOCATE: "true"
+        # discoverySelectors configuration below is just used for simulating the external service TCP scenario,
+        # so that we do not have to use an external site for testing.
         discoverySelectors:
         - matchLabels:
             istio-injection: enabled

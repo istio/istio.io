@@ -38,7 +38,10 @@ snip_external_tcp_services_without_vips_1
 snip_external_tcp_services_without_vips_2
 snip_external_tcp_services_without_vips_3
 snip_external_tcp_services_without_vips_4
-_verify_like snip_external_tcp_services_without_vips_5 "$snip_external_tcp_services_without_vips_5_out"
+_verify_lines snip_external_tcp_services_without_vips_5 "
++ DESTINATION=Cluster: outbound|9000||tcp-echo.external-1.svc.cluster.local
++ DESTINATION=Cluster: outbound|9000||tcp-echo.external-2.svc.cluster.local
+"
 
 # @cleanup
 
