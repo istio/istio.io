@@ -32,7 +32,7 @@ To summarize, all traffic from/to the application pod will be intercepted by eBP
 Follow the [Getting Started with Ambient Mesh](/blog/2022/get-started-ambient/) instructions to set up your cluster but, when you install Istio, set the `values.cni.ambient.redirectMode` configuration parameter to `ebpf`:
 
 {{< text bash >}}
-$ istioctl install --set profile=ambient  --set values.cni.ambient.redirectMode="ebpf"
+$ istioctl install --set profile=ambient --set values.cni.ambient.redirectMode="ebpf"
 {{< /text >}}
 
 Check the istio-cni logs to confirm eBPF redirection is on:
