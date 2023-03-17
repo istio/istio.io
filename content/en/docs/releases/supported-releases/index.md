@@ -18,7 +18,7 @@ on a minor release do not contain backward incompatible changes.
 - [Control Plane/Data Plane Skew](#control-planedata-plane-skew)
 - [Support status of Istio releases](#support-status-of-istio-releases)
 - [Supported releases without known Common Vulnerabilities and Exposures (CVEs)](#supported-releases-without-known-common-vulnerabilities-and-exposures-cves)
-- [Relationship between Istio and Envoy](#supported-envoy-versions)
+- [Supported Envoy Versions](#supported-envoy-versions)
 
 ## Support policy
 
@@ -64,7 +64,7 @@ As of now, data plane to data plane is compatible across all versions; however, 
 | master          | No, development only |                   |                        |                               |                                          |
 | 1.17            | Yes                  | February 14, 2023 | ~Sept 2023 (Expected)  | 1.23, 1.24, 1.25, 1.26        | 1.16, 1.17, 1.18, 1.19, 1.20, 1.21, 1.22 |
 | 1.16            | Yes                  | November 15, 2022 | ~June 2023 (Expected)  | 1.22, 1.23, 1.24, 1.25        | 1.16, 1.17, 1.18, 1.19, 1.20, 1.21       |
-| 1.15            | Yes                  | August 31, 2022   | ~March 2023 (Expected) | 1.22, 1.23, 1.24, 1.25        | 1.16, 1.17, 1.18, 1.19, 1.20, 1.21       |
+| 1.15            | Yes                  | August 31, 2022   | Mar 28, 2023           | 1.22, 1.23, 1.24, 1.25        | 1.16, 1.17, 1.18, 1.19, 1.20, 1.21       |
 | 1.14            | No                   | May 24, 2022      | Dec 27, 2022           | 1.21, 1.22, 1.23, 1.24        | 1.16, 1.17, 1.18, 1.19, 1.20             |
 | 1.13            | No                   | February 11, 2022 | Oct 12, 2022           | 1.20, 1.21, 1.22, 1.23        | 1.16, 1.17, 1.18, 1.19                   |
 | 1.12            | No                   | November 18, 2021 | Jul 12, 2022           | 1.19, 1.20, 1.21, 1.22        | 1.16, 1.17, 1.18                         |
