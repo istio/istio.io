@@ -48,7 +48,7 @@ a Fortio client sending requests to a Fortio server, both running in ambient mod
 
 {{< image width="90%" link="./MaxQPS.png" alt="Max QPS with varying number of connections" title="Max QPS with varying number of connections" caption="Max QPS with varying number of connections" >}}
 
-The above metrics were produced with following command:
+The above metrics were produced with the following command:
 
 {{< text bash >}}
 $ fortio load -t 60s -qps 0 -c <num_connections> http://<fortio-svc-name>:8080
