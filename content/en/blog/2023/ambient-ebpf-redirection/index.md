@@ -6,8 +6,8 @@ attribution: "Iris Ding (Intel), Chun Li (Intel)"
 keywords: [istio,ambient,ztunnel,eBPF]
 ---
 
-The istio-cni component running on each Kubernetes worker node is responsible for redirecting application pod traffic to ztunnel on that node. By default it relies on iptables and
-[Geneve](https://www.rfc-editor.org/rfc/rfc8926.html) tunnels to achieve this redirection. Now, a new approach which is based on eBPF is also available in Istio ambient mode for this purpose.
+In Istio ambient mode, the istio-cni component running on each Kubernetes worker node is responsible for redirecting application pod traffic to ztunnel on that node. By default it relies on iptables and
+[Geneve](https://www.rfc-editor.org/rfc/rfc8926.html) tunnels to achieve this redirection. Now, a new approach which is based on eBPF is also available in Istio for this purpose.
 
 ## Why eBPF
 
