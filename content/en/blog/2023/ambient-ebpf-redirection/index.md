@@ -11,7 +11,7 @@ In Istio ambient mode, the istio-cni component running on each Kubernetes worker
 
 ## Why eBPF
 
-In the context of Istio ambient mode redirection, although performance is undoubtedly important, it is also imperative to recognize the importance of programmability, which enables the implementation of versatile and customized requirements. With eBPF, you can leverage additional context to make these changes in the kernel so that packets can bypass complex routing and simply arrive at their final destination, that is sought-after for redirection datapath. Furthermore,
+Although performance considerations are essential in the implementation of Istio ambient mode redirection, it's also important to consider ease of programmability, to enable the implementation of versatile and customized requirements. With eBPF, you can leverage additional context in the kernel to bypass complex routing and simply send packets to there final destination. Furthermore,
 eBPF enables deeper visibility and additional context for packets in the kernel, allowing for more efficient and flexible management of data flow compared with iptables.
 
 ## How it works
