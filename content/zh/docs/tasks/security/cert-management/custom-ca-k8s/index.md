@@ -14,20 +14,22 @@ status: Experimental
 
 这个特性需要 Kubernetes 版本 >= 1.18。
 
-此任务演示如何提供工作负载证书的自定义证书颁发机构 [Kubernetes CSR API](https://kubernetes.io/zh-cn/docs/reference/access-authn-authz/certificate-signing-requests/)。
-不同的工作负载可以获取不同的证书签名者签名的证书。每个证书签名者本质上是一个不同的 CA。
-可以预期的是，如果工作负载的证书是同一个证书签名者颁发的，则这些工作负载可以与 MTLS 通信，而不同签名者签名的工作负载则不能这样。
-这个特性利用了 [Chiron](/zh/blog/2019/dns-cert/)，一个与 Istiod 关联的轻量级组件，使用 Kubernetes CSR API 签署证书。
+此任务演示如何使用集成了
+[Kubernetes CSR API](https://kubernetes.io/zh-cn/docs/reference/access-authn-authz/certificate-signing-requests/)
+的自定义证书颁发机构来制备工作负载证书。不同的工作负载可以获取不同的证书签名者签名的证书。
+每个证书签名者本质上是一个不同的 CA。可以预期的是，如果工作负载的证书是同一个证书签名者颁发的，
+则这些工作负载可以与 MTLS 通信，而不同签名者签名的工作负载则不能这样。这个特性利用了
+[Chiron](/zh/blog/2019/dns-cert/)，这是一个与 Istiod 关联的轻量级组件，使用 Kubernetes CSR API 签署证书。
 
-在本例中，我们使用[开源 cert-manager](https://cert-manager.io)。
-Cert-manager 从 1.4 版本开始已增加了[对 Kubernetes `CertificateSigningRequests` 实验性支持](https://cert-manager.io/docs/usage/kube-csr/)。
+在本例中，我们使用[开源 cert-manager](https://cert-manager.io)。Cert-manager 从 1.4
+版本开始已增加了[对 Kubernetes `CertificateSigningRequests` 实验性支持](https://cert-manager.io/docs/usage/kube-csr/)。
 
 ## 在 Kubernetes 集群中部署自定义 CA 控制器{#deploy-custom-ca-controller-in-the-k8s-cluster}
 
 1. 按照[安装文档](https://cert-manager.io/docs/installation/)部署 cert-manager。
 
     {{< warning >}}
-    注：确保启用特性门控`--feature-gates=ExperimentalCertificateSigningRequestControllers=true`
+    确保启用特性门控 `--feature-gates=ExperimentalCertificateSigningRequestControllers=true`。
     {{< /warning >}}
 
 1. 为 cert-manager 创建三个自签名的集群签发器：`istio-system`、`foo` 和 `bar`。
@@ -127,13 +129,11 @@ Cert-manager 从 1.4 版本开始已增加了[对 Kubernetes `CertificateSigning
 
 ## 导出每个集群签发器的根证书{#export-root-certificates-for-each-cluster-issuer}
 
-    {{< text bash >}}
-    $ export istioca=$(kubectl get clusterissuers istio-system -o jsonpath='{.spec.ca.secretName}' | xargs kubectl get secret -n cert-manager -o jsonpath='{.data.ca\.crt}' | base64 -d)
-
-    $ export fooca=$(kubectl get clusterissuers foo -o jsonpath='{.spec.ca.secretName}' | xargs kubectl get secret -n cert-manager -o jsonpath='{.data.ca\.crt}' | base64 -d)
-
-    $ export barca=$(kubectl get clusterissuers bar -o jsonpath='{.spec.ca.secretName}' | xargs kubectl get secret -n cert-manager -o jsonpath='{.data.ca\.crt}' | base64 -d)
-    {{< /text >}}
+{{< text bash >}}
+$ export istioca=$(kubectl get clusterissuers istio-system -o jsonpath='{.spec.ca.secretName}' | xargs kubectl get secret -n cert-manager -o jsonpath='{.data.ca\.crt}' | base64 -d)
+$ export fooca=$(kubectl get clusterissuers foo -o jsonpath='{.spec.ca.secretName}' | xargs kubectl get secret -n cert-manager -o jsonpath='{.data.ca\.crt}' | base64 -d)
+$ export barca=$(kubectl get clusterissuers bar -o jsonpath='{.spec.ca.secretName}' | xargs kubectl get secret -n cert-manager -o jsonpath='{.data.ca\.crt}' | base64 -d)
+{{< /text >}}
 
 ## 使用默认的证书签名者信息部署 Istio{#deploy-istio-with-default-cert-signer-info}
 
@@ -238,7 +238,6 @@ Cert-manager 从 1.4 版本开始已增加了[对 Kubernetes `CertificateSigning
     $ kubectl apply -f samples/httpbin/httpbin.yaml -n foo
     $ kubectl apply -f samples/sleep/sleep.yaml -n foo
     $ kubectl apply -f samples/httpbin/httpbin.yaml -n bar
-    $ kubectl apply -f samples/sleep/sleep.yaml -n bar
     {{< /text >}}
 
 ## 验证相同命名空间内 `httpbin` 和 `sleep` 之间的网络连通性{#verify-network-connectivity-between-httpbin-and-sleep-within-a-namespace}
@@ -248,10 +247,15 @@ Cert-manager 从 1.4 版本开始已增加了[对 Kubernetes `CertificateSigning
 而 `bar` 命名空间下的工作负载将使用 `bar` 集群签发器。要验证它们已经被正确的集群签发器进行了真正的签名，
 我们可以验证相同命名空间下的工作负载可以通信，而不同命名空间下的工作负载不能通信。
 
-1. 检查 `foo` 命名空间中 `sleep` 和 `httpbin` 服务之间的网络连通性。
+1. 将 `SLEEP_POD_FOO` 环境变量设置为 `sleep` Pod 的名称。
 
     {{< text bash >}}
     $ export SLEEP_POD_FOO=$(kubectl get pod -n foo -l app=sleep -o jsonpath={.items..metadata.name})
+    {{< /text >}}
+
+1. 检查 `foo` 命名空间中 `sleep` 和 `httpbin` 服务之间的网络连通性。
+
+    {{< text bash >}}
     $ kubectl exec -it $SLEEP_POD_FOO -n foo -c sleep curl http://httpbin.foo:8000/html
     <!DOCTYPE html>
     <html>
@@ -271,7 +275,6 @@ Cert-manager 从 1.4 版本开始已增加了[对 Kubernetes `CertificateSigning
 1. 检查 `foo` 命名空间中的 `sleep` 服务与 `bar` 命名空间中的 `httpbin` 服务之间的网络连通性。
 
     {{< text bash >}}
-    $ export SLEEP_POD_FOO=$(kubectl get pod -n foo -l app=sleep -o jsonpath={.items..metadata.name})
     $ kubectl exec -it $SLEEP_POD_FOO -n foo -c sleep curl http://httpbin.bar:8000/html
     upstream connect error or disconnect/reset before headers. reset reason: connection failure, transport failure reason: TLS error: 268435581:SSL routines:OPENSSL_internal:CERTIFICATE_VERIFY_FAILED
     {{< /text >}}
@@ -286,8 +289,10 @@ Cert-manager 从 1.4 版本开始已增加了[对 Kubernetes `CertificateSigning
     $ kubectl delete ns bar
     {{< /text >}}
 
-## 使用此功能的原因{#reasons-to-use-this-feature}
+## 使用此特性的原因{#reasons-to-use-this-feature}
 
-* 自定义 CA 集成 - 通过在 Kubernetes CSR 请求中指定签名者名称，此功能允许 Istio 使用 Kubernetes CSR API 接口与自定义证书颁发机构集成。这确实需要自定义 CA 来实现一个 Kubernetes 控制器来观察 `CertificateSigningRequest` 和 `Certificate` 资源并对其采取行动。
+* 自定义 CA 集成 - 通过在 Kubernetes CSR 请求中指定签名者名称，此特性允许 Istio 使用 Kubernetes CSR API
+  接口与自定义证书颁发机构集成。这确实需要自定义 CA 来实现一个 Kubernetes 控制器来观察
+  `CertificateSigningRequest` 和 `Certificate` 资源并对其采取行动。
 
 * 更好的多租户 - 通过为不同工作负载指定不同的证书签名者，不同租户的工作负载所用的证书可以由不同的 CA 进行签名。
