@@ -6,33 +6,36 @@ attribution: "Iris Ding (Intel), Chun Li (Intel)"
 keywords: [istio,ambient,ztunnel,eBPF]
 ---
 
-The istio-cni component running on each Kubernetes worker node is responsible for redirecting application pod traffics to ztunnel on that node. By default it relies on iptables and
-[Geneve](https://www.rfc-editor.org/rfc/rfc8926.html) tunnel to achieve this redirection.  Now a new approach which is based on eBPF is also available in Istio ambient mode for this purpose.
+The istio-cni component running on each Kubernetes worker node is responsible for redirecting application pod traffic to ztunnel on that node. By default it relies on iptables and
+[Geneve](https://www.rfc-editor.org/rfc/rfc8926.html) tunnels to achieve this redirection. Now, a new approach which is based on eBPF is also available in Istio ambient mode for this purpose.
 
 ## Why eBPF
 
-In the context of Istio ambient mode redirection, although performance is undoubtedly important, it is imperative to recognize that, programmability or possibility takes precedence. With eBPF, you can leverage additional context to make these changes in the kernel so that packets can bypass complex routing and simply arrive at their final destination, that is sought-after for redirection datapath. Moreover, eBPF will provide the same or better control in datapath compared with iptables while providing the end of user experience that we are looking for.
+In the context of Istio ambient mode redirection, although performance is undoubtedly important, it is also imperative to recognize the importance of programmability, which enables the implementation of versatile and customized requirements. With eBPF, you can leverage additional context to make these changes in the kernel so that packets can bypass complex routing and simply arrive at their final destination, that is sought-after for redirection datapath. Furthermore,
+eBPF enables deeper visibility and additional context for packets in the kernel, allowing for more efficient and flexible management of data flow compared with iptables.
 
 ## How it works
 
-The eBPF program attached to the [traffic control](https://man7.org/linux/man-pages/man8/tc-bpf.8.html) ingress and egress hook has been compiled into istio-cni component. The istio-cni component will watch pod events and attach/detach the eBPF program to related network interface when the pod is moved into/out of the ambient mode.
+An eBPF program, attached to the [traffic control](https://man7.org/linux/man-pages/man8/tc-bpf.8.html) ingress and egress hook, has been compiled into istio-cni component. The istio-cni component will watch pod events and attach/detach the eBPF program to other related network interfaces when the pod is moved into or out of ambient mode.
 
 {{< image width="55%"
     link="ambient-ebpf.png"
     caption="ambient eBPF architecture"
     >}}
 
-Utilizing eBPF program(instead of iptables) means eliminating encapsulating(for Geneve) tasks and shifting routing tasks to be customized in the kernel space, which yields gains in performance and flexibilities in routing. In summary, all traffic from/to the application pod will be intercepted and redirected to the corresponding ztunnel pod. On ztunnel side, proper redirection will be performed based connection lookup result within eBPF program. This would provide a more precise level of control over the network traffic between application and ztunnel.
+Using an eBPF program (instead of iptables) eliminates the need to encapsulate tasks (for Geneve), allowing the routing tasks to be customized in the kernel space instead. This yields gains in both performance and flexibility in routing.
+
+To summarize, all traffic from/to the application pod will be intercepted by eBPF and redirected to the corresponding ztunnel pod. On the ztunnel side, proper redirection will be performed based on connection lookup results within the eBPF program. This provides a more efficient control over the network traffic between the application and ztunnel.
 
 ## How to enable eBPF redirection in Istio ambient mode
 
-Follow the [get-started-ambient](/blog/2022/get-started-ambient/) to set up the cluster. When to install Istio,  set the `values.cni.ambient.redirectMode` configuration parameter with the following command:
+Follow the [Getting Started with Ambient Mesh](/blog/2022/get-started-ambient/) instructions to set up your cluster but, when you install Istio, set the `values.cni.ambient.redirectMode` configuration parameter to `ebpf`:
 
 {{< text bash >}}
 $ istioctl install --set profile=ambient  --set values.cni.ambient.redirectMode="ebpf"
 {{< /text >}}
 
-Grab the istio-cni logs to confirm eBPF redirection is on:
+Check the istio-cni logs to confirm eBPF redirection is on:
 
 {{< text plain >}}
 ambient Writing ambient config: {"ztunnelReady":true,"redirectMode":"eBPF"}
@@ -40,23 +43,23 @@ ambient Writing ambient config: {"ztunnelReady":true,"redirectMode":"eBPF"}
 
 ## Performance gains
 
-The latency and throughput(QPS) for eBPF mode is bit better than IPtables mode. The following test cases are run in a kind cluster which
-consists of a Fortio client sending requests to a Fortio server with both of them running in ambient mode(with debug log turned off in eBPF and client/server located in the same k8s node).
+The latency and throughput (QPS) for eBPF mode is somewhat better than IPtables mode. The following tests were run in a kind cluster with
+a Fortio client sending requests to a Fortio server, both running in ambient mode (with debug log turned off in eBPF) and on the same k8s node.
 
-{{< image width="90%" link="./MaxQPS.png" alt="Max QPS with different connection numbers " title="Max QPS with different connection numbers" caption="Max QPS with different connection numbers" >}}
+{{< image width="90%" link="./MaxQPS.png" alt="Max QPS with varying number of connections" title="Max QPS with varying number of connections" caption="Max QPS with varying number of connections" >}}
 
-The above metrics are tested with following command:
+The above metrics were produced with following command:
 
 {{< text bash >}}
-$ fortio load -t 60s -qps 0 -c <connection_nums> http://<fortio-svc-name>:8080
+$ fortio load -t 60s -qps 0 -c <num_connections> http://<fortio-svc-name>:8080
 {{< /text >}}
 
-{{< image width="90%" link="./Latency-with-8000-qps.png" alt="Latency(ms) for QPS 8000 with different connection numbers" title="Latency(ms) for QPS 8000 with different connection numbers" caption="Latency(ms) for QPS 8000 with different connection numbers" >}}
+{{< image width="90%" link="./Latency-with-8000-qps.png" alt="Latency(ms) for QPS 8000 with varying number of connections" title="Latency(ms) for QPS 8000 with varying number of connections" caption="Latency(ms) for QPS 8000 with varying number of connections" >}}
 
-The above metrics are tested with following command:
+The above metrics were produced with following command:
 
 {{< text bash >}}
-$ fortio load -t 60s -qps 8000 -c <connection_nums> http://<fortio-svc-name>:8080
+$ fortio load -t 60s -qps 8000 -c <num_connections> http://<fortio-svc-name>:8080
 {{< /text >}}
 
 ## Wrapping up
