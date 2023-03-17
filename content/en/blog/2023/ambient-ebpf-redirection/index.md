@@ -54,7 +54,8 @@ The above metrics were produced with the following command:
 $ fortio load -t 60s -qps 0 -c <num_connections> http://<fortio-svc-name>:8080
 {{< /text >}}
 
-{{< image width="90%" link="./Latency-with-8000-qps.png" alt="Latency(ms) for QPS 8000 with varying number of connections" title="Latency(ms) for QPS 8000 with varying number of connections" caption="Latency(ms) for QPS 8000 with varying number of connections" >}}
+{{< image width="90%" link="./Latency-with-8000-qps.png" alt="Latency (ms) for QPS 8000 with varying number of connections" title="Latency(ms) for QPS 8000 with varying number of connections" caption="Latency (ms) for QPS 8000 with varying number of connections" >}}
+
 
 The above metrics were produced with following command:
 
