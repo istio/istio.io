@@ -1,4 +1,9 @@
-{{- range $i, $v := .Site.Data.args.supported_kubernetes_versions -}}
+{{- $branch := .Site.Data.args.source_branch_name -}}
+{{- $key := cond (eq $branch "master") $branch (index (split $branch "-") 1) -}}
+{{- $versions := .Site.Data.compatibility.supportStatus -}}
+{{- $data := index (where $versions "version" $key) 0 -}}
+
+{{- range $i, $v := $data.k8sVersions -}}
     {{- if ne $i 0 -}}, {{ end -}}
     {{- $v -}}
 {{- end -}}
