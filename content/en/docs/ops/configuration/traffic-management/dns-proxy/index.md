@@ -96,7 +96,7 @@ $ kubectl exec deploy/sleep -- curl -sS -v address.internal
 In the above example, you had a predefined IP address for the service to which you sent the request. However, it's common to access external services that do not have stable addresses, and instead rely on DNS. In this case, the DNS proxy will not have enough information to return a response, and will need to forward DNS requests upstream.
 
 This is especially problematic with TCP traffic. Unlike HTTP requests, which are routed based on `Host` headers, TCP carries much less information; you can only route on the destination IP and port number. Because you don't have a stable IP for the backend, you cannot route based on that either, leaving only port number, which leads to conflicts when multiple `ServiceEntry`s for TCP services share the same port. Refer
-[External TCP services without VIP](#external-tcp-services-without-vips) section for additional details.
+to [the following section](#external-tcp-services-without-vips) for more details.
 
 To work around these issues, the DNS proxy additionally supports automatically allocating addresses for `ServiceEntry`s that do not explicitly define one. This is configured by the `ISTIO_META_DNS_AUTO_ALLOCATE` option.
 
@@ -138,7 +138,9 @@ As you can see, the request is sent to an automatically allocated address, `240.
 
 ## External TCP services without VIPs
 
-Istio by default has a limitation on routing external TCP traffic, because it is not able to distinguish between two different TCP services. This limitation especially impacts the use of third party databases, such as AWS Relational Database Service or any database setup with geographical redundancy. Similar, but different external TCP services, cannot be handled separately by default. For the sidecar to accurately distinguish traffic between two different TCP services that are outside the mesh, the services must be on different ports or they need to have a globally unique VIP. For example, if you have two external database services, `mysql-instance1` and `mysql-instance2`, and you create service entries for them, the sidecar will still have a single listener on `0.0.0.0:{port}` that looks up the IP address of only `mysql-instance1` from public DNS servers and forwards traffic to it. It cannot route traffic to `mysql-instance2` as it has no way of distinguishing whether traffic arriving at `0.0.0.0:{port}` is bound for `mysql-instance1` or `mysql-instance2`.
+By default, Istio has a limitation when routing external TCP traffic because it is unable to distinguish between muliple TCP services on the same port. This limitation is particularly apparent when using third party databases such as AWS Relational Database Service or any database setup with geographical redundancy. Similar, but different external TCP services, cannot be handled separately by default. For the sidecar to distinguish traffic between two different TCP services that are outside of the mesh, the services must be on different ports or they need to have globally unique VIPs.
+
+For example, if you have two external database services, `mysql-instance1` and `mysql-instance2`, and you create service entries for both, client sidecars will still have a single listener on `0.0.0.0:{port}` that looks up the IP address of only `mysql-instance1`, from public DNS servers, and forwards traffic to it. It cannot route traffic to `mysql-instance2` because it has no way of distinguishing whether traffic arriving at `0.0.0.0:{port}` is bound for `mysql-instance1` or `mysql-instance2`.
 
 The following example shows how DNS proxying can be used to solve this problem.
 A virtual IP address will be assigned to every service entry so that client sidecars can clearly distinguish traffic bound for each external TCP service.
