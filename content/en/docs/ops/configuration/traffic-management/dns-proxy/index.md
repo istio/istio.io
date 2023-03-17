@@ -214,9 +214,9 @@ A virtual IP address will be assigned to every service entry so that client side
 1.  Verify listeners are configured separately for each service at the client side:
 
     {{< text bash >}}
-    $ istioctl pc listener deploy/sleep | grep tcp-echo | awk '{print $4, $5}'
-    Cluster: outbound|9000||tcp-echo.external-2.svc.cluster.local
-    Cluster: outbound|9000||tcp-echo.external-1.svc.cluster.local
+    $ istioctl pc listener deploy/sleep | grep tcp-echo | awk '{printf "ADDRESS=%s, DESTINATION=%s %s\n", $1, $4, $5}'
+    ADDRESS=240.240.105.94, DESTINATION=Cluster: outbound|9000||tcp-echo.external-2.svc.cluster.local
+    ADDRESS=240.240.69.138, DESTINATION=Cluster: outbound|9000||tcp-echo.external-1.svc.cluster.local
     {{< /text >}}
 
 ## Cleanup

@@ -152,12 +152,12 @@ EOF
 }
 
 snip_external_tcp_services_without_vips_5() {
-istioctl pc listener deploy/sleep | grep tcp-echo | awk '{print $4, $5}'
+istioctl pc listener deploy/sleep | grep tcp-echo | awk '{printf "ADDRESS=%s, DESTINATION=%s %s\n", $1, $4, $5}'
 }
 
 ! read -r -d '' snip_external_tcp_services_without_vips_5_out <<\ENDSNIP
-Cluster: outbound|9000||tcp-echo.external-2.svc.cluster.local
-Cluster: outbound|9000||tcp-echo.external-1.svc.cluster.local
+ADDRESS=240.240.105.94, DESTINATION=Cluster: outbound|9000||tcp-echo.external-2.svc.cluster.local
+ADDRESS=240.240.69.138, DESTINATION=Cluster: outbound|9000||tcp-echo.external-1.svc.cluster.local
 ENDSNIP
 
 snip_cleanup_1() {
