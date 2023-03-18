@@ -6,7 +6,7 @@ keywords: [security,certificate]
 aliases:
     - /docs/tasks/security/custom-ca-k8s/
 owner: istio/wg-security-maintainers
-test: no
+test: yes
 status: Experimental
 ---
 
@@ -29,6 +29,12 @@ Cert-manager has added [experimental Support for Kubernetes `CertificateSigningR
    {{< warning >}}
    Make sure to enable feature gate: `--feature-gates=ExperimentalCertificateSigningRequestControllers=true`
    {{< /warning >}}
+
+   {{< text bash >}}
+   $ helm repo add jetstack https://charts.jetstack.io
+   $ helm repo update
+   $ helm install cert-manager jetstack/cert-manager --namespace cert-manager --create-namespace --set featureGates="ExperimentalCertificateSigningRequestControllers=true" --set installCRDs=true
+   {{< /text >}}
 
 1. Create three self signed cluster issuers `istio-system`, `foo` and `bar` for cert-manager.
    Note: Namespace issuers and other types of issuers can also be used.
@@ -251,7 +257,7 @@ When the workloads are deployed, they send CSR requests with related signer info
 1. Check network connectivity between service `sleep` and `httpbin` in the `foo` namespace.
 
     {{< text bash >}}
-    $ kubectl exec -it $SLEEP_POD_FOO -n foo -c sleep curl http://httpbin.foo:8000/html
+    $ kubectl exec $SLEEP_POD_FOO -n foo -c sleep -- curl http://httpbin.foo:8000/html
     <!DOCTYPE html>
     <html>
       <head>
@@ -270,7 +276,7 @@ When the workloads are deployed, they send CSR requests with related signer info
 1. Check network connectivity between service `sleep` in the `foo` namespace and `httpbin` in the `bar` namespace.
 
     {{< text bash >}}
-    $ kubectl exec -it $SLEEP_POD_FOO -n foo -c sleep curl http://httpbin.bar:8000/html
+    $ kubectl exec $SLEEP_POD_FOO -n foo -c sleep -- curl http://httpbin.bar:8000/html
     upstream connect error or disconnect/reset before headers. reset reason: connection failure, transport failure reason: TLS error: 268435581:SSL routines:OPENSSL_internal:CERTIFICATE_VERIFY_FAILED
     {{< /text >}}
 
@@ -279,9 +285,11 @@ When the workloads are deployed, they send CSR requests with related signer info
 * Remove the `istio-system`, `foo` and `bar` namespaces:
 
     {{< text bash >}}
-    $ kubectl delete ns istio-system
     $ kubectl delete ns foo
     $ kubectl delete ns bar
+    $ istioctl uninstall --purge -y
+    $ kubectl delete ns istio-system
+    $ helm delete -n cert-manager cert-manager
     {{< /text >}}
 
 ## Reasons to use this feature
