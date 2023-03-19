@@ -19,8 +19,8 @@ using a custom certificate authority that integrates with the
 [Kubernetes CSR API](https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/). Different workloads can get their certificates signed from different cert-signers. Each cert-signer is effectively a different CA. It is expected that workloads whose certificates are issued from the same cert-signer can talk mTLS to each other while workloads signed by different signers cannot.
 This feature leverages [Chiron](/blog/2019/dns-cert/), a lightweight component linked with Istiod that signs certificates using the Kubernetes CSR API.
 
-For this example, we use [open-source cert-manager](https://cert-manager.io).
-Cert-manager has added [experimental Support for Kubernetes `CertificateSigningRequests`](https://cert-manager.io/docs/usage/kube-csr/) starting with version 1.4.
+For this example, we use open source [cert-manager](https://cert-manager.io).
+Cert-manager has added [experimental support for Kubernetes `CertificateSigningRequests`](https://cert-manager.io/docs/usage/kube-csr/) starting with version 1.4.
 
 ## Deploy custom CA controller in the Kubernetes cluster
 
@@ -276,13 +276,26 @@ When the workloads are deployed, they send CSR requests with related signer info
 
 ## Cleanup
 
-* Remove the `istio-system`, `foo` and `bar` namespaces:
-
-    {{< text bash >}}
-    $ kubectl delete ns istio-system
-    $ kubectl delete ns foo
-    $ kubectl delete ns bar
-    {{< /text >}}
+*   Remove the sample applications `sleep` and `httpbin`:                                                                                                                                                          
+                                                                                                                                                                                                                   
+    {{< text bash >}}                                                                                                                                                                                              
+    $ kubectl delete -f samples/sleep/sleep.yaml -n foo                                                                                                                                                            
+    $ kubectl delete -f samples/sleep/sleep.yaml -n bar                                                                                                                                                        
+    $ kubectl delete -f samples/httpbin/httpbin.yaml -n foo                                                                                                                                                        
+    $ kubectl delete -f samples/httpbin/httpbin.yaml -n bar                                                                                                                                                       
+    {{< /text >}}                                                                                                                                                                                                  
+                                                                                                                                                                                                                   
+*   Uninstall Istio from the cluster:                                                                                                                                                                              
+                                                                                                                                                                                                                   
+    {{< text bash >}}                                                                                                                                                                                              
+    $ istioctl uninstall --purge -y                                                                                                                                                                                
+    {{< /text >}}                                                                                                                                                                                                  
+                                                                                                                                                                                                                   
+*   Remove the namespace `foo`,`bar` and `istio-system` from the cluster:                                                                                                                                          
+                                                                                                                                                                                                                   
+    {{< text bash >}}                                                                                                                                                                                              
+    $ kubectl delete ns foo bar istio-system                                                                                                                                                                       
+    {{< /text >}} 
 
 ## Reasons to use this feature
 
