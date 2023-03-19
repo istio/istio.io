@@ -71,7 +71,7 @@ func NewMeshSnapshot(kubeConfig string) (MeshSnapshot, error) {
 				return fmt.Errorf("failed getting context for kubeconfig %s: %v", part, err)
 			}
 
-			client, err := kube.NewClient(clientCmd)
+			client, err := kube.NewClient(clientCmd, "")
 			if err != nil {
 				return fmt.Errorf("failed creating kube client for context %s: %v", contextName, err)
 			}
