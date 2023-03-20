@@ -118,10 +118,21 @@ EOF
 kubectl apply -f ./selfsigned-issuer.yaml
 }
 
+snip_verify_secrets_are_created_for_each_cluster_issuer_1() {
+kubectl get secret -n cert-manager -l controller.cert-manager.io/fao=true
+}
+
+! read -r -d '' snip_verify_secrets_are_created_for_each_cluster_issuer_1_out <<\ENDSNIP
+NAME                  TYPE                DATA   AGE
+bar-ca-selfsigned     kubernetes.io/tls   3      3m36s
+foo-ca-selfsigned     kubernetes.io/tls   3      3m36s
+istio-ca-selfsigned   kubernetes.io/tls   3      3m38s
+ENDSNIP
+
 snip_export_root_certificates_for_each_cluster_issuer_1() {
-export istioca=$(kubectl get clusterissuers istio-system -o jsonpath='{.spec.ca.secretName}' | xargs kubectl get secret -n cert-manager -o jsonpath='{.data.ca\.crt}' | base64 -d)
-export fooca=$(kubectl get clusterissuers foo -o jsonpath='{.spec.ca.secretName}' | xargs kubectl get secret -n cert-manager -o jsonpath='{.data.ca\.crt}' | base64 -d)
-export barca=$(kubectl get clusterissuers bar -o jsonpath='{.spec.ca.secretName}' | xargs kubectl get secret -n cert-manager -o jsonpath='{.data.ca\.crt}' | base64 -d)
+export istioca=$(kubectl get clusterissuers istio-system -o jsonpath='{.spec.ca.secretName}' | xargs kubectl get secret -n cert-manager -o jsonpath='{.data.ca\.crt}' | base64 -d | sed 's/^/         /')
+export fooca=$(kubectl get clusterissuers foo -o jsonpath='{.spec.ca.secretName}' | xargs kubectl get secret -n cert-manager -o jsonpath='{.data.ca\.crt}' | base64 -d | sed 's/^/         /')
+export barca=$(kubectl get clusterissuers bar -o jsonpath='{.spec.ca.secretName}' | xargs kubectl get secret -n cert-manager -o jsonpath='{.data.ca\.crt}' | base64 -d | sed 's/^/         /')
 }
 
 snip_deploy_istio_with_default_certsigner_info_1() {
@@ -135,15 +146,15 @@ spec:
         ISTIO_META_CERT_SIGNER: istio-system
     caCertificates:
     - pem: |
-      $istioca
+$istioca
       certSigners:
       - clusterissuers.cert-manager.io/istio-system
     - pem: |
-      $fooca
+$fooca
       certSigners:
       - clusterissuers.cert-manager.io/foo
     - pem: |
-      $barca
+$barca
       certSigners:
       - clusterissuers.cert-manager.io/bar
   components:
@@ -173,7 +184,7 @@ spec:
                   verbs:
                   - approve
 EOF
-istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true -f ./istio.yaml
+istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --skip-confirmation -f ./istio.yaml
 }
 
 snip_deploy_istio_with_default_certsigner_info_2() {

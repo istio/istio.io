@@ -131,12 +131,22 @@ Cert-manager has added [experimental Support for Kubernetes `CertificateSigningR
     $ kubectl apply -f ./selfsigned-issuer.yaml
     {{< /text >}}
 
+## Verify secrets are created for each cluster issuer
+
+{{< text bash >}}
+$ kubectl get secret -n cert-manager -l controller.cert-manager.io/fao=true
+NAME                  TYPE                DATA   AGE
+bar-ca-selfsigned     kubernetes.io/tls   3      3m36s
+foo-ca-selfsigned     kubernetes.io/tls   3      3m36s
+istio-ca-selfsigned   kubernetes.io/tls   3      3m38s
+{{< /text >}}
+
 ## Export root certificates for each cluster issuer
 
 {{< text bash >}}
-$ export istioca=$(kubectl get clusterissuers istio-system -o jsonpath='{.spec.ca.secretName}' | xargs kubectl get secret -n cert-manager -o jsonpath='{.data.ca\.crt}' | base64 -d)
-$ export fooca=$(kubectl get clusterissuers foo -o jsonpath='{.spec.ca.secretName}' | xargs kubectl get secret -n cert-manager -o jsonpath='{.data.ca\.crt}' | base64 -d)
-$ export barca=$(kubectl get clusterissuers bar -o jsonpath='{.spec.ca.secretName}' | xargs kubectl get secret -n cert-manager -o jsonpath='{.data.ca\.crt}' | base64 -d)
+$ export istioca=$(kubectl get clusterissuers istio-system -o jsonpath='{.spec.ca.secretName}' | xargs kubectl get secret -n cert-manager -o jsonpath='{.data.ca\.crt}' | base64 -d | sed 's/^/         /')
+$ export fooca=$(kubectl get clusterissuers foo -o jsonpath='{.spec.ca.secretName}' | xargs kubectl get secret -n cert-manager -o jsonpath='{.data.ca\.crt}' | base64 -d | sed 's/^/         /')
+$ export barca=$(kubectl get clusterissuers bar -o jsonpath='{.spec.ca.secretName}' | xargs kubectl get secret -n cert-manager -o jsonpath='{.data.ca\.crt}' | base64 -d | sed 's/^/         /')
 {{< /text >}}
 
 ## Deploy Istio with default cert-signer info
@@ -154,15 +164,15 @@ $ export barca=$(kubectl get clusterissuers bar -o jsonpath='{.spec.ca.secretNam
             ISTIO_META_CERT_SIGNER: istio-system
         caCertificates:
         - pem: |
-          $istioca
+    $istioca
           certSigners:
           - clusterissuers.cert-manager.io/istio-system
         - pem: |
-          $fooca
+    $fooca
           certSigners:
           - clusterissuers.cert-manager.io/foo
         - pem: |
-          $barca
+    $barca
           certSigners:
           - clusterissuers.cert-manager.io/bar
       components:
@@ -192,7 +202,7 @@ $ export barca=$(kubectl get clusterissuers bar -o jsonpath='{.spec.ca.secretNam
                       verbs:
                       - approve
     EOF
-    $ istioctl install -f ./istio.yaml
+    $ istioctl install --skip-confirmation -f ./istio.yaml
     {{< /text >}}
 
 1. Create the `bar` and `foo` namespaces.
