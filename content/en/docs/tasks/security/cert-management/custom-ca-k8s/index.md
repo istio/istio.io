@@ -6,7 +6,7 @@ keywords: [security,certificate]
 aliases:
     - /docs/tasks/security/custom-ca-k8s/
 owner: istio/wg-security-maintainers
-test: no
+test: yes
 status: Experimental
 ---
 
@@ -29,6 +29,12 @@ Cert-manager has added [experimental Support for Kubernetes `CertificateSigningR
    {{< warning >}}
    Make sure to enable feature gate: `--feature-gates=ExperimentalCertificateSigningRequestControllers=true`
    {{< /warning >}}
+
+    {{< text bash >}}
+    $ helm repo add jetstack https://charts.jetstack.io
+    $ helm repo update
+    $ helm install cert-manager jetstack/cert-manager --namespace cert-manager --create-namespace --set featureGates="ExperimentalCertificateSigningRequestControllers=true" --set installCRDs=true
+    {{< /text >}}
 
 1. Create three self signed cluster issuers `istio-system`, `foo` and `bar` for cert-manager.
    Note: Namespace issuers and other types of issuers can also be used.
@@ -125,12 +131,22 @@ Cert-manager has added [experimental Support for Kubernetes `CertificateSigningR
     $ kubectl apply -f ./selfsigned-issuer.yaml
     {{< /text >}}
 
+## Verify secrets are created for each cluster issuer
+
+{{< text bash >}}
+$ kubectl get secret -n cert-manager -l controller.cert-manager.io/fao=true
+NAME                  TYPE                DATA   AGE
+bar-ca-selfsigned     kubernetes.io/tls   3      3m36s
+foo-ca-selfsigned     kubernetes.io/tls   3      3m36s
+istio-ca-selfsigned   kubernetes.io/tls   3      3m38s
+{{< /text >}}
+
 ## Export root certificates for each cluster issuer
 
 {{< text bash >}}
-$ export istioca=$(kubectl get clusterissuers istio-system -o jsonpath='{.spec.ca.secretName}' | xargs kubectl get secret -n cert-manager -o jsonpath='{.data.ca\.crt}' | base64 -d)
-$ export fooca=$(kubectl get clusterissuers foo -o jsonpath='{.spec.ca.secretName}' | xargs kubectl get secret -n cert-manager -o jsonpath='{.data.ca\.crt}' | base64 -d)
-$ export barca=$(kubectl get clusterissuers bar -o jsonpath='{.spec.ca.secretName}' | xargs kubectl get secret -n cert-manager -o jsonpath='{.data.ca\.crt}' | base64 -d)
+$ export ISTIOCA=$(kubectl get clusterissuers istio-system -o jsonpath='{.spec.ca.secretName}' | xargs kubectl get secret -n cert-manager -o jsonpath='{.data.ca\.crt}' | base64 -d | sed 's/^/        /')
+$ export FOOCA=$(kubectl get clusterissuers foo -o jsonpath='{.spec.ca.secretName}' | xargs kubectl get secret -n cert-manager -o jsonpath='{.data.ca\.crt}' | base64 -d | sed 's/^/        /')
+$ export BARCA=$(kubectl get clusterissuers bar -o jsonpath='{.spec.ca.secretName}' | xargs kubectl get secret -n cert-manager -o jsonpath='{.data.ca\.crt}' | base64 -d | sed 's/^/        /')
 {{< /text >}}
 
 ## Deploy Istio with default cert-signer info
@@ -148,15 +164,15 @@ $ export barca=$(kubectl get clusterissuers bar -o jsonpath='{.spec.ca.secretNam
             ISTIO_META_CERT_SIGNER: istio-system
         caCertificates:
         - pem: |
-          $istioca
+    $ISTIOCA
           certSigners:
           - clusterissuers.cert-manager.io/istio-system
         - pem: |
-          $fooca
+    $FOOCA
           certSigners:
           - clusterissuers.cert-manager.io/foo
         - pem: |
-          $barca
+    $BARCA
           certSigners:
           - clusterissuers.cert-manager.io/bar
       components:
@@ -186,7 +202,7 @@ $ export barca=$(kubectl get clusterissuers bar -o jsonpath='{.spec.ca.secretNam
                       verbs:
                       - approve
     EOF
-    $ istioctl install -f ./istio.yaml
+    $ istioctl install --skip-confirmation -f ./istio.yaml
     {{< /text >}}
 
 1. Create the `bar` and `foo` namespaces.
@@ -251,7 +267,7 @@ When the workloads are deployed, they send CSR requests with related signer info
 1. Check network connectivity between service `sleep` and `httpbin` in the `foo` namespace.
 
     {{< text bash >}}
-    $ kubectl exec -it $SLEEP_POD_FOO -n foo -c sleep curl http://httpbin.foo:8000/html
+    $ kubectl exec "$SLEEP_POD_FOO" -n foo -c sleep -- curl http://httpbin.foo:8000/html
     <!DOCTYPE html>
     <html>
       <head>
@@ -270,18 +286,22 @@ When the workloads are deployed, they send CSR requests with related signer info
 1. Check network connectivity between service `sleep` in the `foo` namespace and `httpbin` in the `bar` namespace.
 
     {{< text bash >}}
-    $ kubectl exec -it $SLEEP_POD_FOO -n foo -c sleep curl http://httpbin.bar:8000/html
+    $ kubectl exec "$SLEEP_POD_FOO" -n foo -c sleep -- curl http://httpbin.bar:8000/html
     upstream connect error or disconnect/reset before headers. reset reason: connection failure, transport failure reason: TLS error: 268435581:SSL routines:OPENSSL_internal:CERTIFICATE_VERIFY_FAILED
     {{< /text >}}
 
 ## Cleanup
 
-* Remove the `istio-system`, `foo` and `bar` namespaces:
+* Remove the namespaces and uninstall Istio and cert-manager:
 
     {{< text bash >}}
-    $ kubectl delete ns istio-system
     $ kubectl delete ns foo
     $ kubectl delete ns bar
+    $ istioctl uninstall --purge -y
+    $ helm delete -n cert-manager cert-manager
+    $ kubectl delete ns istio-system cert-manager
+    $ unset ISTIOCA FOOCA BARCA
+    $ rm -rf istio.yaml proxyconfig-foo.yaml proxyconfig-bar.yaml selfsigned-issuer.yaml
     {{< /text >}}
 
 ## Reasons to use this feature
