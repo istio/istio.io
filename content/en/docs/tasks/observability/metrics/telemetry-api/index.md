@@ -13,7 +13,7 @@ This task shows you how to customize the metrics that Istio generates with Telem
 
 ## Before you begin
 
-[Install Istio](/docs/setup/) in your cluster and deploy an application. 
+[Install Istio](/docs/setup/) in your cluster and deploy an application.
 Telemetry API can not work together with the `EnvoyFilter` way.
 From `1.18`, stats `EnvoyFilter` will not be installed by default.
 For version before `1.18`, you should install with following configuration in `IstioOperator` configuration:
@@ -36,8 +36,8 @@ spec:
 
 ## Override metrics
 
-The `metrics` section provides values for the metric dimensions as expressions, 
-and allows you to remove or override the existing metric dimensions. 
+The `metrics` section provides values for the metric dimensions as expressions,
+and allows you to remove or override the existing metric dimensions.
 You can modify the standard metric definitions using `tags_to_remove` or by re-defining a dimension.
 
 1. Remove `grpc_response_status` tags from `REQUEST_COUNT` metric
