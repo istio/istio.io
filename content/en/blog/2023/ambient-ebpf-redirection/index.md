@@ -7,8 +7,7 @@ keywords: [istio,ambient,ztunnel,eBPF]
 ---
 
 In Istio's new [ambient mode](/blog/2022/introducing-ambient-mesh/), the `istio-cni` component running on each Kubernetes worker node is responsible for redirecting application traffic to the zero-trust tunnel (ztunnel) on that node. By default it relies on iptables and
-[Generic Network Virtualization Encapsulation (Geneve](https://www.rfc-editor.org/rfc/rfc8926.html)) overlay tunnels to achieve this redirection. We have now added support for an eBPF-based method of traffic redirection.
-
+[Generic Network Virtualization Encapsulation (Geneve)](https://www.rfc-editor.org/rfc/rfc8926.html) overlay tunnels to achieve this redirection. We have now added support for an eBPF-based method of traffic redirection.
 
 ## Why eBPF
 
@@ -20,7 +19,7 @@ eBPF enables deeper visibility and additional context for packets in the kernel,
 
 An eBPF program, attached to the [traffic control](https://man7.org/linux/man-pages/man8/tc-bpf.8.html) ingress and egress hook, has been compiled into the Istio CNI component. `istio-cni` will watch pod events and attach/detach the eBPF program to other related network interfaces when the pod is moved into or out of ambient mode.
 
-Using an eBPF program (instead of iptables) eliminates the need to encapsulate tasks (for Geneve), allowing the routing tasks to be customized in the kernel space instead. This yields gains in both performance and flexibility in routing.
+Using an eBPF program (instead of iptables) eliminates the need to encapsulate tasks (for Geneve), allowing the routing tasks to be customized in kernel space instead. This yields both gains in performance, and additional flexibility, in routing.
 
 {{< image width="55%"
     link="ambient-ebpf.png"
@@ -38,7 +37,6 @@ $ istioctl install --set profile=ambient --set values.cni.ambient.redirectMode="
 {{< /text >}}
 
 Check the `istio-cni` logs to confirm eBPF redirection is on:
-
 
 {{< text plain >}}
 ambient Writing ambient config: {"ztunnelReady":true,"redirectMode":"eBPF"}
