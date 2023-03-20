@@ -20,12 +20,12 @@ eBPF enables deeper visibility and additional context for packets in the kernel,
 
 An eBPF program, attached to the [traffic control](https://man7.org/linux/man-pages/man8/tc-bpf.8.html) ingress and egress hook, has been compiled into the Istio CNI component. `istio-cni` will watch pod events and attach/detach the eBPF program to other related network interfaces when the pod is moved into or out of ambient mode.
 
+Using an eBPF program (instead of iptables) eliminates the need to encapsulate tasks (for Geneve), allowing the routing tasks to be customized in the kernel space instead. This yields gains in both performance and flexibility in routing.
+
 {{< image width="55%"
     link="ambient-ebpf.png"
     caption="ambient eBPF architecture"
     >}}
-
-Using an eBPF program (instead of iptables) eliminates the need to encapsulate tasks (for Geneve), allowing the routing tasks to be customized in the kernel space instead. This yields gains in both performance and flexibility in routing.
 
 All traffic to/from the application pod will be intercepted by eBPF and redirected to the corresponding ztunnel pod. On the ztunnel side, proper redirection will be performed based on connection lookup results within the eBPF program. This provides more efficient control of the network traffic between the application and ztunnel.
 
@@ -58,7 +58,6 @@ $ fortio load -t 60s -qps 0 -c <num_connections> http://<fortio-svc-name>:8080
 {{< /text >}}
 
 {{< image width="90%" link="./Latency-with-8000-qps.png" alt="Latency (ms) for QPS 8000 with varying number of connections" title="Latency(ms) for QPS 8000 with varying number of connections" caption="Latency (ms) for QPS 8000 with varying number of connections" >}}
-
 
 The above metrics were produced with the following command:
 
