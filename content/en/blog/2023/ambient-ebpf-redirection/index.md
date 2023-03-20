@@ -1,13 +1,14 @@
 ---
-title: "Leverage eBPF for traffic redirection in Istio ambient mode"
-description: An alternative approach to redirect application pod traffic to ztunnel in Istio ambient mode.
+title: "Using eBPF for traffic redirection in Istio ambient mode"
+description: An alternative approach to redirecting application pod traffic to the per-node ztunnel.
 publishdate: 2023-03-15
 attribution: "Iris Ding (Intel), Chun Li (Intel)"
 keywords: [istio,ambient,ztunnel,eBPF]
 ---
 
-In Istio ambient mode, the istio-cni component running on each Kubernetes worker node is responsible for redirecting application pod traffic to ztunnel on that node. By default it relies on iptables and
-[Geneve](https://www.rfc-editor.org/rfc/rfc8926.html) tunnels to achieve this redirection. Now, a new approach which is based on eBPF is also available in Istio for this purpose.
+In Istio's new [ambient mode](/blog/2022/introducing-ambient-mesh/), the `istio-cni` component running on each Kubernetes worker node is responsible for redirecting application traffic to the zero-trust tunnel (ztunnel) on that node. By default it relies on iptables and
+[Generic Network Virtualization Encapsulation (Geneve](https://www.rfc-editor.org/rfc/rfc8926.html)) overlay tunnels to achieve this redirection. We have now added support for an eBPF-based method of traffic redirection.
+
 
 ## Why eBPF
 
@@ -17,7 +18,7 @@ eBPF enables deeper visibility and additional context for packets in the kernel,
 
 ## How it works
 
-An eBPF program, attached to the [traffic control](https://man7.org/linux/man-pages/man8/tc-bpf.8.html) ingress and egress hook, has been compiled into istio-cni component. The istio-cni component will watch pod events and attach/detach the eBPF program to other related network interfaces when the pod is moved into or out of ambient mode.
+An eBPF program, attached to the [traffic control](https://man7.org/linux/man-pages/man8/tc-bpf.8.html) ingress and egress hook, has been compiled into the Istio CNI component. `istio-cni` will watch pod events and attach/detach the eBPF program to other related network interfaces when the pod is moved into or out of ambient mode.
 
 {{< image width="55%"
     link="ambient-ebpf.png"
@@ -26,7 +27,7 @@ An eBPF program, attached to the [traffic control](https://man7.org/linux/man-pa
 
 Using an eBPF program (instead of iptables) eliminates the need to encapsulate tasks (for Geneve), allowing the routing tasks to be customized in the kernel space instead. This yields gains in both performance and flexibility in routing.
 
-To summarize, all traffic from/to the application pod will be intercepted by eBPF and redirected to the corresponding ztunnel pod. On the ztunnel side, proper redirection will be performed based on connection lookup results within the eBPF program. This provides a more efficient control over the network traffic between the application and ztunnel.
+All traffic to/from the application pod will be intercepted by eBPF and redirected to the corresponding ztunnel pod. On the ztunnel side, proper redirection will be performed based on connection lookup results within the eBPF program. This provides more efficient control of the network traffic between the application and ztunnel.
 
 ## How to enable eBPF redirection in Istio ambient mode
 
@@ -36,7 +37,8 @@ Follow the [Getting Started with Ambient Mesh](/blog/2022/get-started-ambient/) 
 $ istioctl install --set profile=ambient --set values.cni.ambient.redirectMode="ebpf"
 {{< /text >}}
 
-Check the istio-cni logs to confirm eBPF redirection is on:
+Check the `istio-cni` logs to confirm eBPF redirection is on:
+
 
 {{< text plain >}}
 ambient Writing ambient config: {"ztunnelReady":true,"redirectMode":"eBPF"}
