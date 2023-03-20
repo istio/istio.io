@@ -22,7 +22,7 @@
 - version: "1.15"
   supported: "Yes"
   releaseDate: "Aug 31, 2022"
-  eolDate: "~Mar 2023 (Expected)"
+  eolDate: "Apr 4, 2023"
   k8sVersions: ["1.22", "1.23", "1.24", "1.25"]
   testedK8sVersions: ["1.16", "1.17", "1.18", "1.19", "1.20", "1.21"]
 - version: "1.14"
