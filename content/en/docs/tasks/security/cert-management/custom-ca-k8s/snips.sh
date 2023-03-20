@@ -222,7 +222,7 @@ export SLEEP_POD_FOO=$(kubectl get pod -n foo -l app=sleep -o jsonpath={.items..
 }
 
 snip_verify_the_network_connectivity_between_httpbin_and_sleep_within_the_same_namespace_2() {
-kubectl exec $SLEEP_POD_FOO -n foo -c sleep -- curl http://httpbin.foo:8000/html
+kubectl exec "$SLEEP_POD_FOO" -n foo -c sleep -- curl http://httpbin.foo:8000/html
 }
 
 ! read -r -d '' snip_verify_the_network_connectivity_between_httpbin_and_sleep_within_the_same_namespace_2_out <<\ENDSNIP
@@ -242,7 +242,7 @@ kubectl exec $SLEEP_POD_FOO -n foo -c sleep -- curl http://httpbin.foo:8000/html
 ENDSNIP
 
 snip_verify_the_network_connectivity_between_httpbin_and_sleep_within_the_same_namespace_3() {
-kubectl exec $SLEEP_POD_FOO -n foo -c sleep -- curl http://httpbin.bar:8000/html
+kubectl exec "$SLEEP_POD_FOO" -n foo -c sleep -- curl http://httpbin.bar:8000/html
 }
 
 ! read -r -d '' snip_verify_the_network_connectivity_between_httpbin_and_sleep_within_the_same_namespace_3_out <<\ENDSNIP
@@ -253,6 +253,8 @@ snip_cleanup_1() {
 kubectl delete ns foo
 kubectl delete ns bar
 istioctl uninstall --purge -y
-kubectl delete ns istio-system
 helm delete -n cert-manager cert-manager
+kubectl delete ns istio-system cert-manager
+unset istioca fooca barca
+rm -rf istio.yaml proxyconfig-foo.yaml proxyconfig-bar.yaml selfsigned-issuer.yaml
 }

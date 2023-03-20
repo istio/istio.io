@@ -25,6 +25,11 @@ set -o pipefail
 snip_deploy_custom_ca_controller_in_the_kubernetes_cluster_1
 snip_deploy_custom_ca_controller_in_the_kubernetes_cluster_2
 
+for secret in istio-ca-selfsigned foo-ca-selfsigned bar-ca-selfsigned
+do
+  while ! kubectl get secret $secret --namespace cert-manager; do echo "Waiting for secret"; sleep 1; done
+done
+
 snip_export_root_certificates_for_each_cluster_issuer_1
 
 snip_deploy_istio_with_default_certsigner_info_1
