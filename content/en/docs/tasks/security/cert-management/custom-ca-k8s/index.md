@@ -144,9 +144,9 @@ istio-ca-selfsigned   kubernetes.io/tls   3      3m38s
 ## Export root certificates for each cluster issuer
 
 {{< text bash >}}
-$ export istioca=$(kubectl get clusterissuers istio-system -o jsonpath='{.spec.ca.secretName}' | xargs kubectl get secret -n cert-manager -o jsonpath='{.data.ca\.crt}' | base64 -d | sed 's/^/         /')
-$ export fooca=$(kubectl get clusterissuers foo -o jsonpath='{.spec.ca.secretName}' | xargs kubectl get secret -n cert-manager -o jsonpath='{.data.ca\.crt}' | base64 -d | sed 's/^/         /')
-$ export barca=$(kubectl get clusterissuers bar -o jsonpath='{.spec.ca.secretName}' | xargs kubectl get secret -n cert-manager -o jsonpath='{.data.ca\.crt}' | base64 -d | sed 's/^/         /')
+$ export ISTIOCA=$(kubectl get clusterissuers istio-system -o jsonpath='{.spec.ca.secretName}' | xargs kubectl get secret -n cert-manager -o jsonpath='{.data.ca\.crt}' | base64 -d | sed 's/^/        /')
+$ export FOOCA=$(kubectl get clusterissuers foo -o jsonpath='{.spec.ca.secretName}' | xargs kubectl get secret -n cert-manager -o jsonpath='{.data.ca\.crt}' | base64 -d | sed 's/^/        /')
+$ export BARCA=$(kubectl get clusterissuers bar -o jsonpath='{.spec.ca.secretName}' | xargs kubectl get secret -n cert-manager -o jsonpath='{.data.ca\.crt}' | base64 -d | sed 's/^/        /')
 {{< /text >}}
 
 ## Deploy Istio with default cert-signer info
@@ -164,15 +164,15 @@ $ export barca=$(kubectl get clusterissuers bar -o jsonpath='{.spec.ca.secretNam
             ISTIO_META_CERT_SIGNER: istio-system
         caCertificates:
         - pem: |
-    $istioca
+    $ISTIOCA
           certSigners:
           - clusterissuers.cert-manager.io/istio-system
         - pem: |
-    $fooca
+    $FOOCA
           certSigners:
           - clusterissuers.cert-manager.io/foo
         - pem: |
-    $barca
+    $BARCA
           certSigners:
           - clusterissuers.cert-manager.io/bar
       components:
@@ -300,7 +300,7 @@ When the workloads are deployed, they send CSR requests with related signer info
     $ istioctl uninstall --purge -y
     $ helm delete -n cert-manager cert-manager
     $ kubectl delete ns istio-system cert-manager
-    $ unset istioca fooca barca
+    $ unset ISTIOCA FOOCA BARCA
     $ rm -rf istio.yaml proxyconfig-foo.yaml proxyconfig-bar.yaml selfsigned-issuer.yaml
     {{< /text >}}
 
