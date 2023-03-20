@@ -140,6 +140,10 @@ cat <<EOF > ./istio.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
+  values:
+    pilot:
+      env:
+        EXTERNAL_CA: ISTIOD_RA_KUBERNETES_API
   meshConfig:
     defaultConfig:
       proxyMetadata:
@@ -163,8 +167,6 @@ $BARCA
         env:
         - name: CERT_SIGNER_DOMAIN
           value: clusterissuers.cert-manager.io
-        - name: EXTERNAL_CA
-          value: ISTIOD_RA_KUBERNETES_API
         - name: PILOT_CERT_PROVIDER
           value: k8s.io/clusterissuers.cert-manager.io/istio-system
         overlays:
