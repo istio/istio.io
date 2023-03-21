@@ -163,25 +163,3 @@ You can modify the standard metric definitions using `tags_to_remove` or by re-d
                 mode: SERVER
                 metric: REQUEST_COUNT
     {{< /text >}}
-
-## Custom metric reporting interval
-
-Telemetry API allows configuration of the time between calls out to for TCP metrics reporting.
-The default duration is `5s`, changing to `10s` by following configuration:
-
-{{< text yaml >}}
-apiVersion: telemetry.istio.io/v1alpha1
-kind: Telemetry
-metadata:
-  name: reporting-interval
-  namespace: istio-system
-spec:
-  metrics:
-    - providers:
-        - name: prometheus
-      reportingInterval: 10s
-{{< /text >}}
-
-{{< tip >}}
-This currently only supports TCP metrics but we may use this for long duration HTTP streams in the future.
-{{< /tip >}}
