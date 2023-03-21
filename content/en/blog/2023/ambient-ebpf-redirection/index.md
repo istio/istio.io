@@ -12,8 +12,8 @@ In Istio's new [ambient mode](/blog/2022/introducing-ambient-mesh/), the `istio-
 ## Why eBPF
 
 Although performance considerations are essential in the implementation of Istio ambient mode redirection, it's also important to consider ease of programmability, to enable the implementation of versatile and customized requirements. With eBPF, you can leverage additional context in the kernel to bypass complex routing and simply send packets to their final destination.
-Furthermore, eBPF enables deeper visibility and additional context for packets in the kernel, allowing for more efficient and flexible management of data flow compared with iptables.
 
+Furthermore, eBPF enables deeper visibility and additional context for packets in the kernel, allowing for more efficient and flexible management of data flow compared with iptables.
 
 ## How it works
 
