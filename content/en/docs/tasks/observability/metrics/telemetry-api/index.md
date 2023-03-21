@@ -14,7 +14,7 @@ This task shows you how to customize the metrics that Istio generates with Telem
 ## Before you begin
 
 [Install Istio](/docs/setup/) in your cluster and deploy an application.
-Telemetry API can not work together with the `EnvoyFilter` way.
+Telemetry API can not work together with the `EnvoyFilter` way, for more details please checkout [this](https://github.com/istio/istio/issues/39772).
 From `1.18`, stats `EnvoyFilter` will not be installed by default.
 For version before `1.18`, you should install with following configuration in `IstioOperator` configuration:
 
@@ -22,11 +22,6 @@ For version before `1.18`, you should install with following configuration in `I
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
-  meshConfig:
-    defaultConfig:
-      extraStatTags:
-        - source_x
-        - destination_x
   values:
     telemetry:
       enabled: true
