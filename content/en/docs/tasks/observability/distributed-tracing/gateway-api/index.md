@@ -46,7 +46,7 @@ $ istioctl install -f ./tracing.yaml
 
 ### Enable tracing for mesh
 
-Enable tracing by running following configuration:
+Enable tracing by applying the following configuration:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
