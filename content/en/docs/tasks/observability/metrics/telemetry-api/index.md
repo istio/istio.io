@@ -8,7 +8,7 @@ test: no
 ---
 
 Telemetry API has been in Istio as a first-class API for quite sometime now.
-Previously users had to configure metrics in the `telemetry` section of Istio configuration,
+Previously, users had to configure metrics in the `telemetry` section of the Istio configuration.
 This task shows you how to customize the metrics that Istio generates with Telemetry API.
 
 ## Before you begin
