@@ -65,7 +65,7 @@ EOF
 ## Customizing Trace sampling
 
 The sampling rate option can be used to control what percentage of requests get
-reported to your tracing system. This should be configured depending upon your
+reported to your tracing system. This should be configured based upon your
 traffic in the mesh and the amount of tracing data you want to collect.
 The default rate is 1%.
 
