@@ -23,7 +23,7 @@ This task shows you how to customize the tracing options with Telemetry API.
 
 Using these features opens new possibilities for managing traces in your environment.
 
-In this example, we will send tracing to `zipkin`, make sure it's installed before you start.
+In this example, we will send tracing to `zipkin` so make sure it is installed:
 
 {{< text bash >}}
 $ cat <<EOF > ./tracing.yaml
