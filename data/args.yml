@@ -28,9 +28,6 @@ archive_search_refinement: "V1.1"
 source_branch_name: release-1.17
 doc_branch_name: release-1.17
 
-# The list of supported versions described by the docs
-supported_kubernetes_versions: ["1.23", "1.24", "1.25", "1.26"]
-
 ####### Static values
 
 # we use different search engines for each incarnation of the site

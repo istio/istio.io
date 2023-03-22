@@ -178,6 +178,8 @@ advance_master_to_next_release() {
 
     make update_all gen
 
+    yq -i '.[0].k8sVersions = .[1].k8sVersions' data/compatibility/supportStatus.yml
+
     if [[ $(git status --porcelain) ]]; then
         git add -A
         git commit -m "advance master to release-${NEXT_MINOR}"
