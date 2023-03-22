@@ -83,6 +83,39 @@ spec:
 EOF
 ENDSNIP
 
+! read -r -d '' snip_disable_the_probe_rewrite_for_a_pod_disablethehttpproberewriteforapod_2 <<\ENDSNIP
+kubectl apply -f - <<EOF
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: liveness-grpc
+spec:
+  selector:
+    matchLabels:
+      app: liveness-grpc
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: liveness-grpc
+        version: v1
+      annotations:
+        sidecar.istio.io/rewriteAppHTTPProbers: "false"
+    spec:
+      containers:
+      - name: etcd
+        image: registry.k8s.io/etcd:3.5.1-0
+        command: ["--listen-client-urls", "http://0.0.0.0:2379", "--advertise-client-urls", "http://127.0.0.1:2379", "--log-level", "debug"]
+        ports:
+        - containerPort: 2379
+        livenessProbe:
+          grpc:
+            port: 2379
+          initialDelaySeconds: 10
+          periodSeconds: 5
+EOF
+ENDSNIP
+
 snip_disable_the_probe_rewrite_globally_1() {
 kubectl get cm istio-sidecar-injector -n istio-system -o yaml | sed -e 's/"rewriteAppHTTPProbe": true/"rewriteAppHTTPProbe": false/' | kubectl apply -f -
 }
