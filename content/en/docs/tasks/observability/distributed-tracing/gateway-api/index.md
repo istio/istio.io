@@ -1,7 +1,7 @@
 ---
 title: Configure tracing with Telemetry API
 description: How to configure tracing options using Telemetry API.
-weight: 10
+weight: 8
 keywords: [telemetry,tracing]
 owner: istio/wg-policies-and-telemetry-maintainers
 test: no
