@@ -2,7 +2,7 @@
 title: Support for Istio 1.15 has ended
 subtitle: Support Announcement
 description: Istio 1.15 end of life announcement.
-publishdate: 2023-03-28
+publishdate: 2023-04-04
 ---
 
 As [previously announced](/news/support/announcing-1.15-eol/), support for Istio 1.15 has now officially ended.
