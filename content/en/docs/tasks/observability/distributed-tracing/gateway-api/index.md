@@ -21,8 +21,6 @@ This task shows you how to customize the tracing options with Telemetry API.
 
 ## Installation
 
-Using these features opens new possibilities for managing traces in your environment.
-
 In this example, we will send tracing to [`zipkin`](/docs/ops/integrations/zipkin/) so make sure it is installed:
 
 {{< text bash >}}
