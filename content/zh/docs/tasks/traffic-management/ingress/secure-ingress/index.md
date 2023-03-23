@@ -129,8 +129,8 @@ spec:
       credentialName: httpbin-credential # must be the same as secret
     hosts:
     - httpbin.example.com
-      EOF
-      {{< /text >}}
+EOF
+{{< /text >}}
 
 接下来，通过定义相应的虚拟服务来配置网关的入口流量路由：
 
@@ -143,21 +143,21 @@ metadata:
 spec:
   hosts:
   - "httpbin.example.com"
-    gateways:
+  gateways:
   - mygateway
-    http:
+  http:
   - match:
     - uri:
         prefix: /status
     - uri:
         prefix: /delay
-        route:
+    route:
     - destination:
         port:
           number: 8000
         host: httpbin
-        EOF
-        {{< /text >}}
+EOF
+{{< /text >}}
 
 最后，按照[这些说明](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)设置访问网关的 `INGRESS_HOST` 和 `SECURE_INGRESS_PORT` 变量。
 
@@ -191,8 +191,8 @@ spec:
         selector:
           matchLabels:
             kubernetes.io/metadata.name: default
-    EOF
-    {{< /text >}}
+EOF
+{{< /text >}}
 
 接下来，通过定义相应的 `HTTPRoute` 配置网关的入口流量路由：
 
@@ -218,8 +218,8 @@ spec:
         backendRefs:
     - name: httpbin
       port: 8000
-      EOF
-      {{< /text >}}
+EOF
+{{< /text >}}
 
 最后，从 `Gateway` 资源中获取网关地址和端口：
 
@@ -358,8 +358,8 @@ spec:
       credentialName: helloworld-credential
     hosts:
     - helloworld.example.com
-      EOF
-      {{< /text >}}
+EOF
+{{< /text >}}
 
 通过定义相应的虚拟服务来配置网关的流量路由。
 
@@ -372,19 +372,19 @@ metadata:
 spec:
   hosts:
   - helloworld.example.com
-    gateways:
+  gateways:
   - mygateway
-    http:
+  http:
   - match:
     - uri:
         exact: /hello
-        route:
+    route:
     - destination:
         host: helloworld
         port:
           number: 5000
-        EOF
-        {{< /text >}}
+EOF
+{{< /text >}}
 
 {{< /tab >}}
 
@@ -431,8 +431,8 @@ spec:
         selector:
           matchLabels:
             kubernetes.io/metadata.name: default
-    EOF
-    {{< /text >}}
+EOF
+{{< /text >}}
 
 为 `helloworld` 服务配置网关的流量路由：
 
@@ -455,8 +455,8 @@ spec:
         backendRefs:
     - name: helloworld
       port: 5000
-      EOF
-      {{< /text >}}
+EOF
+{{< /text >}}
 
 {{< /tab >}}
 
@@ -530,8 +530,8 @@ spec:
       credentialName: httpbin-credential # must be the same as secret
     hosts:
     - httpbin.example.com
-      EOF
-      {{< /text >}}
+EOF
+{{< /text >}}
 
 {{< /tab >}}
 
@@ -566,8 +566,8 @@ spec:
         selector:
           matchLabels:
             kubernetes.io/metadata.name: default
-        EOF
-        {{< /text >}}
+EOF
+{{< /text >}}
 
 {{< /tab >}}
 
@@ -616,10 +616,10 @@ spec:
 
 Istio 支持读取几种不同的 Secret 格式，以支持与各种工具的集成，例如 [cert-manager](/zh/docs/ops/integrations/certmanager/)：
 
-- 带有 `tls.key` 和 `tls.crt` 的 TLS Secret，如上所述。对于双向 TLS，`ca.crt` 可以作为密钥。
-- 带有 `key` 和 `cert` 键的通用 Secret。对于双向 TLS，`cacert` 可以作为密钥。
-- 带有 `key` 和 `cert` 键的通用 Secret。对于双向 TLS，名为 `<secret>-cacert` 的带有 `cacert` 键的通用 Secret。例如，`httpbin-credential` 有 `key` 和 `cert`，`httpbin-credential-cacert` 有 `cacert`。
-- `cacert` 键值可以是一个 CA 捆绑包，由串联的各个 CA 证书组成。
+* 带有 `tls.key` 和 `tls.crt` 的 TLS Secret，如上所述。对于双向 TLS，`ca.crt` 可以作为密钥。
+* 带有 `key` 和 `cert` 键的通用 Secret。对于双向 TLS，`cacert` 可以作为密钥。
+* 带有 `key` 和 `cert` 键的通用 Secret。对于双向 TLS，名为 `<secret>-cacert` 的带有 `cacert` 键的通用 Secret。例如，`httpbin-credential` 有 `key` 和 `cert`，`httpbin-credential-cacert` 有 `cacert`。
+* `cacert` 键值可以是一个 CA 捆绑包，由串联的各个 CA 证书组成。
 
 ### SNI 路由 {#sni-routing}
 
