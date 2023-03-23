@@ -16,6 +16,10 @@
 /release-builder/* go-get=1 /latest/golang/release-builder.html 200
 /proxy/*  go-get=1 /latest/golang/proxy.html 200
 
+# Added redirects to possibly fix a go get issue
+/api go-get=1 /latest/golang/api.html 200
+/client-go go-get=1 /latest/golang/client-go.html 200
+
 # Redirect default Netlify subdomain to primary domain
 https://istio.netlify.com/* https://istio.io/:splat 301!
 
