@@ -307,7 +307,7 @@ to set the `SECURE_INGRESS_PORT` and `INGRESS_HOST` environment variables.
 Use the following commands to set the `SECURE_INGRESS_PORT` and `INGRESS_HOST` environment variables:
 
 {{< text bash >}}
-$ kubectl wait --for=condition=ready gtw mygateway
+$ kubectl wait --for=condition=programmed gtw mygateway
 $ export INGRESS_HOST=$(kubectl get gtw mygateway -o jsonpath='{.status.addresses[*].value}')
 $ export SECURE_INGRESS_PORT=$(kubectl get gtw mygateway -o jsonpath='{.spec.listeners[?(@.name=="https")].port}')
 {{< /text >}}

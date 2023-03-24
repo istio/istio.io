@@ -95,7 +95,7 @@ EOF
 }
 
 snip_configuring_ingress_using_a_gateway_4() {
-kubectl wait --for=condition=ready gtw httpbin-gateway
+kubectl wait --for=condition=programmed gtw httpbin-gateway
 }
 
 snip_configuring_ingress_using_a_gateway_5() {

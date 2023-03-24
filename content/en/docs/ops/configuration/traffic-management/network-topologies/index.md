@@ -132,7 +132,7 @@ $ kubectl apply -n httpbin -f @samples/httpbin/httpbin-gateway.yaml@
 
 {{< text syntax=bash snip_id=deploy_httpbin_k8s_gateway >}}
 $ kubectl apply -n httpbin -f @samples/httpbin/gateway-api/httpbin-gateway.yaml@
-$ kubectl wait --for=condition=ready gtw -n httpbin httpbin-gateway
+$ kubectl wait --for=condition=programmed gtw -n httpbin httpbin-gateway
 {{< /text >}}
 
 {{< /tab >}}

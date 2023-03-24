@@ -235,7 +235,7 @@ EOF
 }
 
 snip_configure_an_ingress_gateway_5() {
-kubectl wait --for=condition=ready gtw mygateway
+kubectl wait --for=condition=programmed gtw mygateway
 export INGRESS_HOST=$(kubectl get gtw mygateway -o jsonpath='{.status.addresses[*].value}')
 export SECURE_INGRESS_PORT=$(kubectl get gtw mygateway -o jsonpath='{.spec.listeners[?(@.name=="https")].port}')
 }

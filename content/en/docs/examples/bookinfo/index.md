@@ -193,7 +193,7 @@ Kubernetes cluster, e.g., from a browser. A gateway is used for this purpose.
     run the following command to wait for the gateway to be ready:
 
     {{< text bash >}}
-    $ kubectl wait --for=condition=ready gtw bookinfo-gateway
+    $ kubectl wait --for=condition=programmed gtw bookinfo-gateway
     {{< /text >}}
 
     Get the gateway address and port from the bookinfo gateway resource:

@@ -163,7 +163,7 @@ Because creating a Kubernetes `Gateway` resource will also
 run the following command to wait for the gateway to be ready:
 
 {{< text bash >}}
-$ kubectl wait --for=condition=ready gtw httpbin-gateway
+$ kubectl wait --for=condition=programmed gtw httpbin-gateway
 {{< /text >}}
 
 Configure routes for traffic entering via the `Gateway`:

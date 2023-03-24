@@ -37,7 +37,7 @@ kubectl get pods -n istio-system -o name -l istio=ingressgateway | sed 's|pod/||
 
 snip_before_you_begin_4() {
 kubectl apply -f samples/httpbin/gateway-api/httpbin-gateway.yaml -n foo
-kubectl wait --for=condition=ready gtw -n foo httpbin-gateway
+kubectl wait --for=condition=programmed gtw -n foo httpbin-gateway
 }
 
 snip_before_you_begin_5() {

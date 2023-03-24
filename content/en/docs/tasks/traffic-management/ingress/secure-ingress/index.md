@@ -234,7 +234,7 @@ EOF
 Finally, get the gateway address and port from the `Gateway` resource:
 
 {{< text bash >}}
-$ kubectl wait --for=condition=ready gtw mygateway -n istio-system
+$ kubectl wait --for=condition=programmed gtw mygateway -n istio-system
 $ export INGRESS_HOST=$(kubectl get gtw mygateway -n istio-system -o jsonpath='{.status.addresses[*].value}')
 $ export SECURE_INGRESS_PORT=$(kubectl get gtw mygateway -n istio-system -o jsonpath='{.spec.listeners[?(@.name=="https")].port}')
 {{< /text >}}

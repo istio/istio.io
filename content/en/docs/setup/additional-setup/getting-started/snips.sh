@@ -122,7 +122,7 @@ httproute.gateway.networking.k8s.io/bookinfo created
 ENDSNIP
 
 snip_open_the_application_to_outside_traffic_ip_2() {
-kubectl wait --for=condition=ready gtw bookinfo-gateway
+kubectl wait --for=condition=programmed gtw bookinfo-gateway
 }
 
 snip_open_the_application_to_outside_traffic_ip_3() {

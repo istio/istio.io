@@ -113,7 +113,7 @@ In this example, we will deploy a simple application and expose it externally us
 1.  Set the Ingress Host environment variable:
 
     {{< text bash >}}
-    $ kubectl wait -n istio-ingress --for=condition=ready gateways.gateway.networking.k8s.io gateway
+    $ kubectl wait -n istio-ingress --for=condition=programmed gateways.gateway.networking.k8s.io gateway
     $ export INGRESS_HOST=$(kubectl get gateways.gateway.networking.k8s.io gateway -n istio-ingress -ojsonpath='{.status.addresses[*].value}')
     {{< /text >}}
 

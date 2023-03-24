@@ -57,7 +57,7 @@ Create the gateway:
 
 {{< text bash >}}
 $ kubectl apply -f @samples/httpbin/gateway-api/httpbin-gateway.yaml@ -n foo
-$ kubectl wait --for=condition=ready gtw -n foo httpbin-gateway
+$ kubectl wait --for=condition=programmed gtw -n foo httpbin-gateway
 {{< /text >}}
 
 Turn on RBAC debugging in Envoy for the ingress gateway:
