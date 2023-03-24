@@ -148,7 +148,7 @@ allowing routes for multiple subdomains to be attached.
 After applying the Gateway resource, we need to wait for it to be ready before retrieving its external address:
 
 {{< text bash >}}
-$ kubectl wait -n sample-ingress --for=condition=ready gateway sample-gateway
+$ kubectl wait -n sample-ingress --for=condition=programmed gateway sample-gateway
 $ export INGRESS_HOST=$(kubectl get -n sample-ingress gateway sample-gateway -o jsonpath='{.status.addresses[*].value}')
 {{< /text >}}
 

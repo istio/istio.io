@@ -74,7 +74,7 @@ EOF
 }
 
 snip_configuring_a_gateway_3() {
-kubectl wait -n istio-ingress --for=condition=ready gateways.gateway.networking.k8s.io gateway
+kubectl wait -n istio-ingress --for=condition=programmed gateways.gateway.networking.k8s.io gateway
 export INGRESS_HOST=$(kubectl get gateways.gateway.networking.k8s.io gateway -n istio-ingress -ojsonpath='{.status.addresses[*].value}')
 }
 

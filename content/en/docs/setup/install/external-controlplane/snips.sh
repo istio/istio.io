@@ -429,7 +429,7 @@ export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
 }
 
 snip_configure_and_test_an_ingress_gateway_6() {
-kubectl -n sample --context="${CTX_REMOTE_CLUSTER}" wait --for=condition=ready gtw helloworld-gateway
+kubectl -n sample --context="${CTX_REMOTE_CLUSTER}" wait --for=condition=programmed gtw helloworld-gateway
 export INGRESS_HOST=$(kubectl -n sample --context="${CTX_REMOTE_CLUSTER}" get gtw helloworld-gateway -o jsonpath='{.status.addresses[*].value}')
 export GATEWAY_URL=$INGRESS_HOST:80
 }

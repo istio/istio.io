@@ -86,7 +86,7 @@ $ kubectl apply -f @samples/tcp-echo/gateway-api/tcp-echo-all-v1.yaml@ -n istio-
 使用以下命令设置 `SECURE_INGRESS_PORT` 和 `INGRESS_HOST` 环境变量：
 
 {{< text bash >}}
-$ kubectl wait --for=condition=ready gtw tcp-echo-gateway -n istio-io-tcp-traffic-shifting
+$ kubectl wait --for=condition=programmed gtw tcp-echo-gateway -n istio-io-tcp-traffic-shifting
 $ export INGRESS_HOST=$(kubectl get gtw tcp-echo-gateway -n istio-io-tcp-traffic-shifting -o jsonpath='{.status.addresses[*].value}')
 $ export TCP_INGRESS_PORT=$(kubectl get gtw tcp-echo-gateway -n istio-io-tcp-traffic-shifting -o jsonpath='{.spec.listeners[?(@.name=="tcp-31400")].port}')
 {{< /text >}}

@@ -206,7 +206,7 @@ route at the edge of your mesh.
     run the following command to wait for the gateway to be ready:
 
     {{< text bash >}}
-    $ kubectl wait --for=condition=ready gtw bookinfo-gateway
+    $ kubectl wait --for=condition=programmed gtw bookinfo-gateway
     {{< /text >}}
 
 1.  Ensure that there are no issues with the configuration:

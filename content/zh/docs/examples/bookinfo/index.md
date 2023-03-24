@@ -170,7 +170,7 @@ Bookinfo 应用中的几个微服务是由不同的语言编写的。
     [部署关联的代理服务](/zh/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment)，所以运行以下命令等待网关就绪：
 
     {{< text bash >}}
-    $ kubectl wait --for=condition=ready gtw bookinfo-gateway
+    $ kubectl wait --for=condition=programmed gtw bookinfo-gateway
     {{< /text >}}
 
     从 bookinfo 网关资源处获取网关地址和端口：

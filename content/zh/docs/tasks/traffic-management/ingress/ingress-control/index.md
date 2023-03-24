@@ -139,7 +139,7 @@ EOF
 因为创建 Kubernetes `Gateway` 资源也将[部署关联的代理服务](/zh/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment)，运行以下命令等待 Gateway 就绪：
 
 {{< text bash >}}
-$ kubectl wait --for=condition=ready gtw httpbin-gateway
+$ kubectl wait --for=condition=programmed gtw httpbin-gateway
 {{< /text >}}
 
 通过 `Gateway` 为进入的流量配置路由：

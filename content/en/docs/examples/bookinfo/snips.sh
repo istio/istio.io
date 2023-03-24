@@ -96,7 +96,7 @@ httproute.gateway.networking.k8s.io/bookinfo created
 ENDSNIP
 
 snip_determine_the_ingress_ip_and_port_4() {
-kubectl wait --for=condition=ready gtw bookinfo-gateway
+kubectl wait --for=condition=programmed gtw bookinfo-gateway
 }
 
 snip_determine_the_ingress_ip_and_port_5() {

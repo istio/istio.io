@@ -113,7 +113,7 @@ Gateway API 与 Istio API （如 Gateway 和 VirtualService）有很多相似之
 1.  设置主机 Ingress 环境变量：
 
     {{< text bash >}}
-    $ kubectl wait -n istio-ingress --for=condition=ready gateways.gateway.networking.k8s.io gateway
+    $ kubectl wait -n istio-ingress --for=condition=programmed gateways.gateway.networking.k8s.io gateway
     $ export INGRESS_HOST=$(kubectl get gateways.gateway.networking.k8s.io gateway -n istio-ingress -ojsonpath='{.status.addresses[*].value}')
     {{< /text >}}
 
