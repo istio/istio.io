@@ -425,7 +425,10 @@ No
 <td><code>localityLbSetting</code></td>
 <td><code><a href="/zh/docs/reference/config/networking/destination-rule/#LocalityLoadBalancerSetting">LocalityLoadBalancerSetting</a></code></td>
 <td>
-<p>Locality based load balancing distribution or failover settings.</p>
+<p>Locality based load balancing distribution or failover settings.
+If unspecified, locality based load balancing will be enabled by default.
+However, this requires outlierDetection to actually take effect for a particular
+service, see <a href="/latest/docs/tasks/traffic-management/locality-load-balancing/failover/">https://istio.io/latest/docs/tasks/traffic-management/locality-load-balancing/failover/</a></p>
 
 </td>
 <td>
