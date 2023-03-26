@@ -159,20 +159,20 @@ metadata:
   name: bookinfo
 spec:
   hosts:
-  - bookinfo.com
+    - bookinfo.com
   http:
   - match:
     - uri:
-      prefix: /reviews
-      route:
+        prefix: /reviews
+    route:
     - destination:
-      host: reviews
-- match:
+        host: reviews
+  - match:
     - uri:
-      prefix: /ratings
-      route:
+        prefix: /ratings
+    route:
     - destination:
-      host: ratings
+        host: ratings
 {{< /text >}}
 
 有些匹配条件可以使用精确的值，如前缀或正则。
