@@ -156,12 +156,12 @@ destination 片段还指定了 Kubernetes 服务的子集，将符合此规则�
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-name: bookinfo
+  name: bookinfo
 spec:
-hosts:
-- bookinfo.com
-http:
-- match:
+  hosts:
+  - bookinfo.com
+  http:
+  - match:
     - uri:
       prefix: /reviews
       route:
