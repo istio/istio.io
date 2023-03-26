@@ -156,23 +156,23 @@ destination 片段还指定了 Kubernetes 服务的子集，将符合此规则�
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-name: bookinfo
+  name: bookinfo
 spec:
-hosts:
-- bookinfo.com
-http:
-- match:
+  hosts:
+    - bookinfo.com
+  http:
+  - match:
     - uri:
-      prefix: /reviews
-      route:
+        prefix: /reviews
+    route:
     - destination:
-      host: reviews
-- match:
+        host: reviews
+  - match:
     - uri:
-      prefix: /ratings
-      route:
+        prefix: /ratings
+    route:
     - destination:
-      host: ratings
+        host: ratings
 {{< /text >}}
 
 有些匹配条件可以使用精确的值，如前缀或正则。
@@ -287,7 +287,7 @@ spec:
     - ext-host.example.com
     tls:
       mode: SIMPLE
-      credentialName: ext-host-cert 
+      credentialName: ext-host-cert
 {{< /text >}}
 
 这个网关配置让 HTTPS 流量从 `ext-host.example.com` 通过 443 端口流入网格，但没有为请求指定任何路由规则。要指定路由并让网关按预期工作，您必须把网关绑定到虚拟服务上。正如下面的示例所示，使用虚拟服务的 `gateways` 字段进行设置：
