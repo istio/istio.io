@@ -38,10 +38,21 @@ test: n/a
 {{< tip >}}
 `istioctl bug-report` 仅在 istioctl 1.8.0 及以上的版本存在，这个命令依然可以对已经安装的较低版本 Istio 生效。
 {{< /tip >}}
+{{< tip >}}
+如果您在大型集群上运行“bug-report”，它可能无法完成。
+请使用 `--include ns1,ns2` 选项仅针对相关名称空间的代理命令和日志集合。 如需更多错误报告选项，
+请访问 [istioctl 错误报告
+reference](/docs/reference/commands/istioctl/#istioctl-bug-report).
+{{< /tip >}}
 
-如果你如法使用 bug-report 命令，可以使用以下方案搜集信息：
+如果您无法使用 `bug-report` 命令，请附上您自己的存档
+包含：
+* `istioctl` 分析的输出：
 
-* 所有 pods, services, deployments, endpoints 资源:
+    {{< text bash >}}
+    $ istioctl analyze --all-namespaces
+    {{< /text >}}
+* 所有命名空间下 `pods`, `services`, `deployments`, `endpoints` 资源:
 
     {{< text bash >}}
     $ kubectl get pods,services,deployments,endpoints --all-namespaces -o yaml > k8s_resources.yaml
@@ -59,20 +70,39 @@ test: n/a
     $ kubectl --namespace istio-system get cm -o yaml
     {{< /text >}}
 
-* Istio 组件日志和 Sidecar 的日志
+* 来自所有 `Istio` 组件和 `sidecars` 的当前和以前的日志。 这里有一些关于如何获取这些的例子，请适应你的环境：
 
-* Istiod 日志:
+     * Istiod 日志:
+
+        {{< text bash >}}
+        $ kubectl logs -n istio-system -l app=istiod
+        {{< /text >}}
+
+    * Ingress Gateway logs:
+
+        {{< text bash >}}
+        $ kubectl logs -l istio=ingressgateway -n istio-system
+        {{< /text >}}
+
+    * Egress Gateway logs:
+
+        {{< text bash >}}
+        $ kubectl logs -l istio=egressgateway -n istio-system
+        {{< /text >}}
+
+    * Sidecar logs:
+
+        {{< text bash >}}
+        $ for ns in $(kubectl get ns -o jsonpath='{.items[*].metadata.name}') ; do kubectl logs -l service.istio.io/canonical-revision -c istio-proxy -n $ns ; done
+        {{< /text >}}
+
+* All Istio configuration artifacts:
 
     {{< text bash >}}
-    $ kubectl logs -n istio-system -l app=istiod
-    {{< /text >}}
-
-* 所有 Istio 配置:
-
-    {{< text bash >}}
-    $ kubectl get $(kubectl get crd  --no-headers | awk '{printf "%s,",$1}END{printf "attributemanifests.config.istio.io\n"}') --all-namespaces
+    $ kubectl get istio-io --all-namespaces -o yaml
     {{< /text >}}
 
 ## 文档错误{#documentation-bugs}
 
-搜索我们的[文档问题数据库](https://github.com/istio/istio.io/issues/)以查看是否我们已经知道您的问题，并了解何时可以解决它。如果您在该数据库中找不到问题，请导航到这个问题的页面，然后在页面的右上角选择齿轮菜单，最后选择 *Report a Site Bug*。
+搜索我们的[文档问题数据库 (https://github.com/istio/istio.io/issues/)，看看我们是否已经知道您的问题，并了解我们认为何时可以解决它。 如果您没有在数据库中找到您的问题，请[在那里报告问题](https://github.com/istio/istio.io/issues/new)。
+如果您想提交对页面的建议编辑，您会在每个页面的右下角找到“在 GitHub 上编辑此页面”链接。

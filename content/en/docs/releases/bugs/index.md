@@ -56,7 +56,7 @@ reference](/docs/reference/commands/istioctl/#istioctl-bug-report).
 If you are unable to use the `bug-report` command, please attach your own archive
 containing:
 
-* Output of istioctl analyze:
+* Output of `istioctl` analyze:
 
     {{< text bash >}}
     $ istioctl analyze --all-namespaces
