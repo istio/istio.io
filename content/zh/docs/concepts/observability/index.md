@@ -2,7 +2,7 @@
 title: 可观测性
 description: 描述 Istio 提供的遥测和监控特性。
 weight: 40
-keywords: [policies,telemetry,control,config]
+keywords: [telemetry,metrics,logs,tracing]
 aliases:
     - /zh/docs/concepts/policy-and-control/mixer.html
     - /zh/docs/concepts/policy-and-control/mixer-config.html
