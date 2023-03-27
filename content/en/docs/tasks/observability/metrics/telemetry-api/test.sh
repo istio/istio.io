@@ -22,14 +22,14 @@ set -o pipefail
 source "tests/util/samples.sh"
 
 # @setup profile=none
-echo "$snip_before_you_begin_1" | istioctl install --set tag="$TAG" --set hub="$HUB" -y -f -
+echo "$snip_before_you_begin_1" | istioctl install -y -f -
 
 ## Setting up application
 # Set to known setting of sidecar injection
 kubectl label namespace default istio-injection=enabled --overwrite
 
 # remove grpc_response_status taq from REQUEST_COUNT metrics
-snip_override_metrics_1
+ech "$snip_override_metrics_1" | kubectl apply -f -
 
 # Install Bookinfo application
 startup_bookinfo_sample
