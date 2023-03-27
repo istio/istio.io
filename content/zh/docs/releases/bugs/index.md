@@ -105,4 +105,4 @@ reference](/docs/reference/commands/istioctl/#istioctl-bug-report).
 ## 文档错误{#documentation-bugs}
 
 搜索我们的[文档问题数据库](https://github.com/istio/istio.io/issues/)，以查看是否我们已经知道您的问题，并了解何时可以解决这些问题。如果您没有在数据库中找到相应的问题，请[在那里报告问题](https://github.com/istio/istio.io/issues/new)。
-如果您想提交对页面的建议编辑，您会在每个页面的右下角找到“在 GitHub 上编辑此页面”链接。
+如果您想提交对页面的修改建议，可以在每个页面的右下角找到“在 GitHub 上编辑此页”的链接。
