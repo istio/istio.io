@@ -29,7 +29,9 @@ echo "$snip_before_you_begin_1" | istioctl install -y -f -
 kubectl label namespace default istio-injection=enabled --overwrite
 
 # remove grpc_response_status taq from REQUEST_COUNT metrics
-ech "$snip_override_metrics_1" | kubectl apply -f -
+echo "$snip_override_metrics_1" | kubectl apply -f -
+
+echo "$snip_override_metrics_2" | kubectl apply -f -
 
 # Install Bookinfo application
 startup_bookinfo_sample
@@ -47,6 +49,7 @@ function send_productpage_requests() {
 
 send_productpage_requests
 _verify_not_contains snip_verify_the_results_2 "grpc_response_status"
+_verify_contains snip_verify_the_results_2 "source_x"
 
 # @cleanup
 cleanup_bookinfo_sample
