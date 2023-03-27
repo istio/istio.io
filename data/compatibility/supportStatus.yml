@@ -9,20 +9,20 @@
   testedK8sVersions:
 - version: "1.17"
   supported: "Yes"
-  releaseDate: "February 14, 2023"
+  releaseDate: "Feb 14, 2023"
   eolDate: "~Sept 2023 (Expected)"
   k8sVersions: ["1.23", "1.24", "1.25", "1.26"]
   testedK8sVersions: ["1.16", "1.17", "1.18", "1.19", "1.20", "1.21", "1.22"]
 - version: "1.16"
   supported: "Yes"
-  releaseDate: "November 15, 2022"
-  eolDate: "~June 2023 (Expected)"
+  releaseDate: "Nov 15, 2022"
+  eolDate: "~Jun 2023 (Expected)"
   k8sVersions: ["1.22", "1.23", "1.24", "1.25"]
   testedK8sVersions: ["1.16", "1.17", "1.18", "1.19", "1.20", "1.21"]
 - version: "1.15"
   supported: "Yes"
-  releaseDate: "August 31, 2022"
-  eolDate: "~March 2023 (Expected)"
+  releaseDate: "Aug 31, 2022"
+  eolDate: "~Mar 2023 (Expected)"
   k8sVersions: ["1.22", "1.23", "1.24", "1.25"]
   testedK8sVersions: ["1.16", "1.17", "1.18", "1.19", "1.20", "1.21"]
 - version: "1.14"
@@ -33,19 +33,19 @@
   testedK8sVersions: ["1.16", "1.17", "1.18", "1.19", "1.20"]
 - version: "1.13"
   supported: "No"
-  releaseDate: "February 11, 2022"
+  releaseDate: "Feb 11, 2022"
   eolDate: "Oct 12, 2022"
   k8sVersions: ["1.20", "1.21", "1.22", "1.23"]
   testedK8sVersions: ["1.16", "1.17", "1.18", "1.19"]
 - version: "1.12"
   supported: "No"
-  releaseDate: "November 18, 2021"
+  releaseDate: "Nov 18, 2021"
   eolDate: "Jul 12, 2022"
   k8sVersions: ["1.19", "1.20", "1.21", "1.22"]
   testedK8sVersions: ["1.16", "1.17", "1.18"]
 - version: "1.11"
   supported: "No"
-  releaseDate: "August 12, 2021"
+  releaseDate: "Aug 12, 2021"
   eolDate: "Mar 25, 2022"
   k8sVersions: ["1.18", "1.19", "1.20", "1.21", "1.22"]
   testedK8sVersions: ["1.16", "1.17"]
@@ -57,19 +57,19 @@
   testedK8sVersions: ["1.16", "1.17", "1.22"]
 - version: "1.9"
   supported: "No"
-  releaseDate: "February 9, 2021"
+  releaseDate: "Feb 9, 2021"
   eolDate: "Oct 8, 2021"
   k8sVersions: ["1.17", "1.18", "1.19", "1.20"]
   testedK8sVersions: ["1.15", "1.16"]
 - version: "1.8"
   supported: "No"
-  releaseDate: "November 10, 2020"
+  releaseDate: "Nov 10, 2020"
   eolDate: "May 12, 2021"
   k8sVersions: ["1.16", "1.17", "1.18", "1.19"]
   testedK8sVersions: ["1.15"]
 - version: "1.7"
   supported: "No"
-  releaseDate: "August 21, 2020"
+  releaseDate: "Aug 21, 2020"
   eolDate: "Feb 25, 2021"
   k8sVersions: ["1.16", "1.17", "1.18"]
   testedK8sVersions: ["1.15"]
