@@ -247,16 +247,16 @@ $ kubectl get gtw bookinfo-productpage -o yaml
 
 Verify that the waypoint proxy status is ready:
 
-{{< text plaintext >}}
+{{< text syntax=plaintext snip_id=none >}}
 ...
 status:
   conditions:
   - lastTransitionTime: "2023-02-24T03:22:43Z"
-    message: Deployed waypoint proxy to "default" namespace for "bookinfo-productpage" service account
+    message: Gateway valid, assigned to service(s) bookinfo-productpage-istio-waypoint.default.svc.cluster.local:15008
     observedGeneration: 1
-    reason: Ready
+    reason: Accepted
     status: "True"
-    type: Ready
+    type: Accepted
 {{< /text >}}
 
 Update our `AuthorizationPolicy` to explicitly allow the `sleep` service account and `istio-ingressgateway` service accounts to `GET` the `productpage` service, but perform no other operations:
@@ -288,10 +288,7 @@ Confirm the above authorization policy is working:
 {{< text bash >}}
 $ # this should fail with an RBAC error because it is not a GET operation
 $ kubectl exec deploy/sleep -- curl -s http://productpage:9080/ -X DELETE
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
-<title>405 Method Not Allowed</title>
-<h1>Method Not Allowed</h1>
-<p>The method is not allowed for the requested URL.</p>
+RBAC: access denied
 {{< /text >}}
 
 {{< text bash >}}

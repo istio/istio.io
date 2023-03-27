@@ -54,7 +54,7 @@ _verify_contains snip_verify_traffic_notsleep_to_productpage "command terminated
 
 snip_l7_authorization_policy_1
 snip_l7_authorization_policy_2
-_verify_contains snip_l7_authorization_policy_3 "Deployed waypoint proxy"
+_verify_contains snip_l7_authorization_policy_3 "Gateway valid, assigned to service"
 
 snip_l7_authorization_policy_5
 _verify_contains snip_l7_authorization_policy_6 "$snip_l7_authorization_policy_6_out"
