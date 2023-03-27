@@ -40,19 +40,17 @@ test: n/a
 {{< /tip >}}
 {{< tip >}}
 如果您在大型集群上运行`bug-report`，它可能无法完成。
-请使用 `--include ns1,ns2` 选项仅针对相关名称空间的代理命令和日志集合。 如需更多错误报告选项，
-请访问 [istioctl 错误报告
-reference](/docs/reference/commands/istioctl/#istioctl-bug-report).
+请使用 `--include ns1,ns2` 选项仅针对相关命名空间的代理命令和日志集合。如需更多 `bug-report` 选项，
+请参阅 [istioctl bug-report 参考](/zh/docs/reference/commands/istioctl/#istioctl-bug-report)。
 {{< /tip >}}
 
-如果您无法使用 `bug-report` 命令，请附上您自己的存档
-包含：
+如果您无法使用 `bug-report` 命令，请附上您自己的存档包含：
 * `istioctl` 分析的输出：
 
     {{< text bash >}}
     $ istioctl analyze --all-namespaces
     {{< /text >}}
-* 所有命名空间下 `pods`, `services`, `deployments`, `endpoints` 资源:
+* 所有命名空间下 `pods`、`services`、`deployments`、`endpoints` 资源:
 
     {{< text bash >}}
     $ kubectl get pods,services,deployments,endpoints --all-namespaces -o yaml > k8s_resources.yaml
@@ -70,7 +68,7 @@ reference](/docs/reference/commands/istioctl/#istioctl-bug-report).
     $ kubectl --namespace istio-system get cm -o yaml
     {{< /text >}}
 
-* 来自所有 `Istio` 组件和 `sidecars` 的当前和以前的日志。 这里有一些关于如何获取这些的例子，请适应你的环境：
+* 来自所有 Istio 组件和 Sidecar 的当前日志和历史日志。这里有一些关于如何获取这些日志的例子，请根据您的环境进行调整：
 
      * Istiod 日志:
 
