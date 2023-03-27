@@ -15,6 +15,7 @@ aliases:
 
 {{< relnote >}}
 
+<<<<<<< HEAD
 ## 变更{#changes}
 
 - **增加了** 环境变量，以支持修改 gRPC keepalive 值。[Issue #42398](https://github.com/istio/istio/pull/42398)
