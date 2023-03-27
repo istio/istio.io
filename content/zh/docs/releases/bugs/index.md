@@ -39,7 +39,7 @@ test: n/a
 `istioctl bug-report` 仅在 istioctl 1.8.0 及以上的版本存在，这个命令依然可以对已经安装的较低版本 Istio 生效。
 {{< /tip >}}
 {{< tip >}}
-如果您在大型集群上运行“bug-report”，它可能无法完成。
+如果您在大型集群上运行`bug-report`，它可能无法完成。
 请使用 `--include ns1,ns2` 选项仅针对相关名称空间的代理命令和日志集合。 如需更多错误报告选项，
 请访问 [istioctl 错误报告
 reference](/docs/reference/commands/istioctl/#istioctl-bug-report).
