@@ -11,7 +11,7 @@ aliases:
 
 The following are the standard service level metrics exported by Istio.
 
-The telemetry component is implemented as a [Proxy-wasm](https://github.com/proxy-wasm/spec) plugin.
+The telemetry component is implemented as a [Proxy extension](https://github.com/istio/proxy/tree/master/source/extensions/filters/http/istio_stats).
 A `COUNTER` is a strictly increasing integer.
 A `DISTRIBUTION` maps ranges of values to frequency.
 `COUNTER` and `DISTRIBUTION` correspond to the metrics counter and histogram
