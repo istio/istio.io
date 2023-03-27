@@ -78,25 +78,25 @@ reference](/docs/reference/commands/istioctl/#istioctl-bug-report).
         $ kubectl logs -n istio-system -l app=istiod
         {{< /text >}}
 
-    * Ingress Gateway logs:
+    * Ingress Gateway 日志:
 
         {{< text bash >}}
         $ kubectl logs -l istio=ingressgateway -n istio-system
         {{< /text >}}
 
-    * Egress Gateway logs:
+    * Egress Gateway 日志:
 
         {{< text bash >}}
         $ kubectl logs -l istio=egressgateway -n istio-system
         {{< /text >}}
 
-    * Sidecar logs:
+    * Sidecar 日志:
 
         {{< text bash >}}
         $ for ns in $(kubectl get ns -o jsonpath='{.items[*].metadata.name}') ; do kubectl logs -l service.istio.io/canonical-revision -c istio-proxy -n $ns ; done
         {{< /text >}}
 
-* All Istio configuration artifacts:
+* 所有 `Istio` 配置构件:
 
     {{< text bash >}}
     $ kubectl get istio-io --all-namespaces -o yaml
@@ -104,5 +104,5 @@ reference](/docs/reference/commands/istioctl/#istioctl-bug-report).
 
 ## 文档错误{#documentation-bugs}
 
-搜索我们的[文档问题数据库 (https://github.com/istio/istio.io/issues/)，看看我们是否已经知道您的问题，并了解我们认为何时可以解决它。 如果您没有在数据库中找到您的问题，请[在那里报告问题](https://github.com/istio/istio.io/issues/new)。
+搜索我们的[文档问题数据库](https://github.com/istio/istio.io/issues/)，以查看是否我们已经知道您的问题，并了解何时可以解决这些问题。如果您没有在数据库中找到相应的问题，请[在那里报告问题](https://github.com/istio/istio.io/issues/new)。
 如果您想提交对页面的建议编辑，您会在每个页面的右下角找到“在 GitHub 上编辑此页面”链接。
