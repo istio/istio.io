@@ -1,7 +1,8 @@
 ---
 title: "Using eBPF for traffic redirection in Istio ambient mode"
 description: An alternative approach to redirecting application pod traffic to the per-node ztunnel.
-publishdate: 2023-03-15
+publishdate: 2023-03-29
+
 attribution: "Iris Ding (Intel), Chun Li (Intel)"
 keywords: [istio,ambient,ztunnel,eBPF]
 ---
