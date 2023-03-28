@@ -45,7 +45,7 @@ kubectl get pods -n foo -o name -l istio.io/gateway-name=httpbin-gateway | sed '
 }
 
 snip_before_you_begin_6() {
-export INGRESS_HOST=$(kubectl get gtw httpbin-gateway -n foo -o jsonpath='{.status.addresses[*].value}')
+export INGRESS_HOST=$(kubectl get gtw httpbin-gateway -n foo -o jsonpath='{.status.addresses[0].value}')
 export INGRESS_PORT=$(kubectl get gtw httpbin-gateway -n foo -o jsonpath='{.spec.listeners[?(@.name=="http")].port}')
 }
 

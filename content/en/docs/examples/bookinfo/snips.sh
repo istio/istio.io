@@ -100,7 +100,7 @@ kubectl wait --for=condition=programmed gtw bookinfo-gateway
 }
 
 snip_determine_the_ingress_ip_and_port_5() {
-export INGRESS_HOST=$(kubectl get gtw bookinfo-gateway -o jsonpath='{.status.addresses[*].value}')
+export INGRESS_HOST=$(kubectl get gtw bookinfo-gateway -o jsonpath='{.status.addresses[0].value}')
 export INGRESS_PORT=$(kubectl get gtw bookinfo-gateway -o jsonpath='{.spec.listeners[?(@.name=="http")].port}')
 }
 

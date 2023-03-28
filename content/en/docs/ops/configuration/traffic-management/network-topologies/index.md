@@ -154,7 +154,7 @@ $ export GATEWAY_URL=$(kubectl -n istio-system get service istio-ingressgateway 
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
 {{< text syntax=bash snip_id=export_k8s_gateway_url >}}
-$ export GATEWAY_URL=$(kubectl get gateways.gateway.networking.k8s.io httpbin-gateway -n httpbin -ojsonpath='{.status.addresses[*].value}')
+$ export GATEWAY_URL=$(kubectl get gateways.gateway.networking.k8s.io httpbin-gateway -n httpbin -ojsonpath='{.status.addresses[0].value}')
 {{< /text >}}
 
 {{< /tab >}}
