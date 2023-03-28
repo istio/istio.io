@@ -20,7 +20,7 @@ aliases:
 
 - **新增** 增加了支持修改 gRPC keepalive 值的环境变量。 [Issue #42398](https://github.com/istio/istio/pull/42398)
 
-- **修复了** 修复了一个问题，即 `ALL_METRICS' 不能像预期那样禁用度量。[Issue #43178](https://github.com/istio/istio/issues/43178)
+- **修复了** 修复了一个问题，即 `ALL_METRICS' 不能像预期那样禁用指标的问题。[Issue #43178](https://github.com/istio/istio/issues/43178)
 
 - **修复** 修复了在创建 `PeerCertificateVerifier' 时忽略默认CA证书的问题。[PR #43337](https://github.com/istio/istio/pull/43337)
 
