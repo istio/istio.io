@@ -155,3 +155,7 @@ curl "http://$GATEWAY_URL/productpage"
 snip_verify_the_results_2() {
 istioctl x es "$(kubectl get pod -l app=productpage -o jsonpath='{.items[0].metadata.name}')" -oprom | grep istio_requests_total
 }
+
+snip_verify_the_results_3() {
+istioctl x es "$(kubectl get pod -l app=details -o jsonpath='{.items[0].metadata.name}')" -oprom | grep istio_requests_total
+}

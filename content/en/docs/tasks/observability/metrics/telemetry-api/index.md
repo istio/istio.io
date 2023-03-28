@@ -189,6 +189,10 @@ or modified dimensions:
 $ istioctl x es "$(kubectl get pod -l app=productpage -o jsonpath='{.items[0].metadata.name}')" -oprom | grep istio_requests_total
 {{< /text >}}
 
+{{< text bash >}}
+$ istioctl x es "$(kubectl get pod -l app=details -o jsonpath='{.items[0].metadata.name}')" -oprom | grep istio_requests_total
+{{< /text >}}
+
 For example, in the output, locate the metric `istio_requests_total` and
 verify it contains your new dimension.
 

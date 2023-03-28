@@ -22,16 +22,11 @@ set -o pipefail
 source "tests/util/samples.sh"
 
 # @setup profile=none
-echo "$snip_before_you_begin_1" | istioctl install -y -f -
+echo "$snip_before_you_begin_1" | istioctl install --set hub=gcr.io/istio-testing -y -f -
 
 ## Setting up application
 # Set to known setting of sidecar injection
 kubectl label namespace default istio-injection=enabled --overwrite
-
-# remove grpc_response_status taq from REQUEST_COUNT metrics
-echo "$snip_override_metrics_1" | kubectl apply -f -
-
-echo "$snip_override_metrics_2" | kubectl apply -f -
 
 # Install Bookinfo application
 startup_bookinfo_sample
@@ -42,17 +37,64 @@ startup_bookinfo_sample
 function send_productpage_requests() {
   _set_ingress_environment_variables
   local GATEWAY_URL="$INGRESS_HOST:$INGRESS_PORT"
-  for _ in {1..100}; do
+  for _ in {1..10}; do
     snip_verify_the_results_1 > /dev/null
   done
 }
 
+function restart_productpage() {
+  kubectl rollout restart deployment productpage-v1
+  kubectl rollout restart deployment details-v1
+  kubectl rollout restart deployment ratings-v1
+  kubectl rollout restart deployment reviews-v1
+  kubectl rollout restart deployment reviews-v2
+  kubectl rollout restart deployment reviews-v3
+  _wait_for_deployment default productpage-v1
+  _wait_for_deployment default details-v1
+  _wait_for_deployment default ratings-v1
+  _wait_for_deployment default reviews-v1
+  _wait_for_deployment default reviews-v2
+  _wait_for_deployment default reviews-v3
+}
+
+# remove grpc_response_status taq from REQUEST_COUNT metrics
+echo "$snip_override_metrics_1" | kubectl apply -f -
 send_productpage_requests
 _verify_not_contains snip_verify_the_results_2 "grpc_response_status"
-_verify_contains snip_verify_the_results_2 "source_x"
+
+# add custom tags to metrics
+kubectl delete temeletry --all -n istio-system
+echo "$snip_override_metrics_2" | kubectl apply -f -
+restart_productpage
+send_productpage_requests
+_verify_contains snip_verify_the_results_2 "destination_x"
+
+# remove all metrics
+kubectl delete temeletry --all -n istio-system
+echo "$snip_override_metrics_3" | kubectl apply -f -
+restart_productpage
+send_productpage_requests
+_verify_not_contains snip_verify_the_results_2 "response_code"
+_verify_not_contains snip_verify_the_results_3 "response_code"
+
+# remove clien metrics
+kubectl delete temeletry --all -n istio-system
+echo "$snip_override_metrics_4" | kubectl apply -f -
+restart_productpage
+send_productpage_requests
+_verify_not_contains snip_verify_the_results_2 "response_code"
+_verify_contains snip_verify_the_results_3 "response_code"
+
+# remove server metrics
+kubectl delete temeletry --all -n istio-system
+echo "$snip_override_metrics_5" | kubectl apply -f -
+restart_productpage
+send_productpage_requests
+_verify_contains snip_verify_the_results_2 "response_code"
+_verify_not_contains snip_verify_the_results_3 "response_code"
 
 # @cleanup
+kubectl delete temeletry --all -n istio-system
 cleanup_bookinfo_sample
-
 istioctl uninstall --purge -y
 kubectl delete ns istio-system
