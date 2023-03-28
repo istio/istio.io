@@ -252,11 +252,11 @@ Verify that the waypoint proxy status is ready:
 status:
   conditions:
   - lastTransitionTime: "2023-02-24T03:22:43Z"
-    message: Gateway valid, assigned to service(s) bookinfo-productpage-istio-waypoint.default.svc.cluster.local:15008
+    message: Resource programmed, assigned to service(s) bookinfo-productpage-istio-waypoint.default.svc.cluster.local:15008
     observedGeneration: 1
-    reason: Accepted
+    reason: Programmed
     status: "True"
-    type: Accepted
+    type: Programmed
 {{< /text >}}
 
 Update our `AuthorizationPolicy` to explicitly allow the `sleep` service account and `istio-ingressgateway` service accounts to `GET` the `productpage` service, but perform no other operations:
