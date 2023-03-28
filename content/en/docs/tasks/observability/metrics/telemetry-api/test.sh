@@ -82,6 +82,14 @@ _verify_same snip_verify_the_results_2 ""
 _verify_same snip_verify_the_results_3 ""
 cleanup_telemetry_api
 
+echo 'remove request count'
+echo "$snip_disable_metrics_2" | kubectl apply -f -
+restart_productpage
+send_productpage_requests
+_verify_same snip_verify_the_results_2 ""
+_verify_same snip_verify_the_results_3 ""
+cleanup_telemetry_api
+
 echo 'remove client metrics'
 echo "$snip_disable_metrics_3" | kubectl apply -f -
 restart_productpage
