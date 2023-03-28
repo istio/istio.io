@@ -78,15 +78,15 @@ echo 'remove all metrics'
 echo "$snip_disable_metrics_1" | kubectl apply -f -
 restart_productpage
 send_productpage_requests
-_verify_not_contains snip_verify_the_results_2 "response_code"
-_verify_not_contains snip_verify_the_results_3 "response_code"
+_verify_same snip_verify_the_results_2 ""
+_verify_same snip_verify_the_results_3 ""
 cleanup_telemetry_api
 
 echo 'remove client metrics'
 echo "$snip_disable_metrics_3" | kubectl apply -f -
 restart_productpage
 send_productpage_requests
-_verify_not_contains snip_verify_the_results_2 "response_code"
+_verify_same snip_verify_the_results_2 ""
 _verify_contains snip_verify_the_results_3 "response_code"
 cleanup_telemetry_api
 
@@ -95,7 +95,7 @@ echo "$snip_disable_metrics_4" | kubectl apply -f -
 restart_productpage
 send_productpage_requests
 _verify_contains snip_verify_the_results_2 "response_code"
-_verify_not_contains snip_verify_the_results_3 "response_code"
+_verify_same snip_verify_the_results_3 ""
 cleanup_telemetry_api
 
 # @cleanup
