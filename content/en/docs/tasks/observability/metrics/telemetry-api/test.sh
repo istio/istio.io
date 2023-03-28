@@ -57,44 +57,48 @@ function restart_productpage() {
   _wait_for_deployment default reviews-v3
 }
 
-# remove grpc_response_status taq from REQUEST_COUNT metrics
+function cleanup_telemetry_api() {
+  kubectl delete telemetry --all -nistio-system
+}
+
+echo 'remvoe grpc_response_status'
 echo "$snip_override_metrics_1" | kubectl apply -f -
 send_productpage_requests
 _verify_not_contains snip_verify_the_results_2 "grpc_response_status"
+cleanup_telemetry_api
 
-# add custom tags to metrics
-kubectl delete temeletry --all -n istio-system
+echo 'custom tags metrics'
 echo "$snip_override_metrics_2" | kubectl apply -f -
 restart_productpage
 send_productpage_requests
 _verify_contains snip_verify_the_results_2 "destination_x"
+cleanup_telemetry_api
 
-# remove all metrics
-kubectl delete temeletry --all -n istio-system
-echo "$snip_override_metrics_3" | kubectl apply -f -
+echo 'remove all metrics'
+echo "$snip_disable_metrics_1" | kubectl apply -f -
 restart_productpage
 send_productpage_requests
 _verify_not_contains snip_verify_the_results_2 "response_code"
 _verify_not_contains snip_verify_the_results_3 "response_code"
+cleanup_telemetry_api
 
-# remove clien metrics
-kubectl delete temeletry --all -n istio-system
-echo "$snip_override_metrics_4" | kubectl apply -f -
+echo 'remove client metrics'
+echo "$snip_disable_metrics_3" | kubectl apply -f -
 restart_productpage
 send_productpage_requests
 _verify_not_contains snip_verify_the_results_2 "response_code"
 _verify_contains snip_verify_the_results_3 "response_code"
+cleanup_telemetry_api
 
-# remove server metrics
-kubectl delete temeletry --all -n istio-system
-echo "$snip_override_metrics_5" | kubectl apply -f -
+echo 'remove server metrics'
+echo "$snip_disable_metrics_4" | kubectl apply -f -
 restart_productpage
 send_productpage_requests
 _verify_contains snip_verify_the_results_2 "response_code"
 _verify_not_contains snip_verify_the_results_3 "response_code"
+cleanup_telemetry_api
 
 # @cleanup
-kubectl delete temeletry --all -n istio-system
 cleanup_bookinfo_sample
 istioctl uninstall --purge -y
 kubectl delete ns istio-system
