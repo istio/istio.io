@@ -45,7 +45,7 @@ test: n/a
 {{< /tip >}}
 
 如果您无法使用 `bug-report` 命令，请附上您自己的存档包含：
-* `istioctl` 分析的输出：
+* istioctl 分析的输出：
 
     {{< text bash >}}
     $ istioctl analyze --all-namespaces
