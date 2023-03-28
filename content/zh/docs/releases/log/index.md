@@ -2,9 +2,6 @@
 title: 网站内容更改
 description: 该网站的最新更改列表。
 weight: 110
-aliases:
-    - /about/log
-    - /latest/about/log
 skip_seealso: true
 skip_byline: true
 owner: istio/wg-docs-maintainers
