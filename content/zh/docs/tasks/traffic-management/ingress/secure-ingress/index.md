@@ -225,7 +225,7 @@ EOF
 
 {{< text bash >}}
 $ kubectl wait --for=condition=programmed gtw mygateway -n istio-system
-$ export INGRESS_HOST=$(kubectl get gtw mygateway -n istio-system -o jsonpath='{.status.addresses[*].value}')
+$ export INGRESS_HOST=$(kubectl get gtw mygateway -n istio-system -o jsonpath='{.status.addresses[0].value}')
 $ export SECURE_INGRESS_PORT=$(kubectl get gtw mygateway -n istio-system -o jsonpath='{.spec.listeners[?(@.name=="https")].port}')
 {{< /text >}}
 

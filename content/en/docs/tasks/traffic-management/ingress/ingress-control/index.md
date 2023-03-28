@@ -282,7 +282,7 @@ $ export INGRESS_HOST=$(kubectl -n "$INGRESS_NS" get service "$INGRESS_NAME" -o 
 Get the gateway address and port from the httpbin gateway resource:
 
 {{< text bash >}}
-$ export INGRESS_HOST=$(kubectl get gtw httpbin-gateway -o jsonpath='{.status.addresses[*].value}')
+$ export INGRESS_HOST=$(kubectl get gtw httpbin-gateway -o jsonpath='{.status.addresses[0].value}')
 $ export INGRESS_PORT=$(kubectl get gtw httpbin-gateway -o jsonpath='{.spec.listeners[?(@.name=="http")].port}')
 {{< /text >}}
 
@@ -291,7 +291,7 @@ You can use similar commands to find other ports on any gateway. For example to 
 port named `https` on a gateway named `my-gateway`:
 
 {{< text bash >}}
-$ export INGRESS_HOST=$(kubectl get gtw my-gateway -o jsonpath='{.status.addresses[*].value}')
+$ export INGRESS_HOST=$(kubectl get gtw my-gateway -o jsonpath='{.status.addresses[0].value}')
 $ export SECURE_INGRESS_PORT=$(kubectl get gtw my-gateway -o jsonpath='{.spec.listeners[?(@.name=="https")].port}')
 {{< /text >}}
 

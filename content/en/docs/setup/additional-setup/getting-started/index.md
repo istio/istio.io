@@ -223,7 +223,7 @@ route at the edge of your mesh.
     {{< boilerplate external-loadbalancer-support >}}
 
     {{< text bash >}}
-    $ export INGRESS_HOST=$(kubectl get gtw bookinfo-gateway -o jsonpath='{.status.addresses[*].value}')
+    $ export INGRESS_HOST=$(kubectl get gtw bookinfo-gateway -o jsonpath='{.status.addresses[0].value}')
     $ export INGRESS_PORT=$(kubectl get gtw bookinfo-gateway -o jsonpath='{.spec.listeners[?(@.name=="http")].port}')
     {{< /text >}}
 

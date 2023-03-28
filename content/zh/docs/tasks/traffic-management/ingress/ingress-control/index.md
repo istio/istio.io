@@ -254,7 +254,7 @@ $ export INGRESS_HOST=$(kubectl -n "$INGRESS_NS" get service "$INGRESS_NAME" -o 
 从 httpbin 网关资源获取网关地址和端口：
 
 {{< text bash >}}
-$ export INGRESS_HOST=$(kubectl get gtw httpbin-gateway -o jsonpath='{.status.addresses[*].value}')
+$ export INGRESS_HOST=$(kubectl get gtw httpbin-gateway -o jsonpath='{.status.addresses[0].value}')
 $ export INGRESS_PORT=$(kubectl get gtw httpbin-gateway -o jsonpath='{.spec.listeners[?(@.name=="http")].port}')
 {{< /text >}}
 
@@ -263,7 +263,7 @@ $ export INGRESS_PORT=$(kubectl get gtw httpbin-gateway -o jsonpath='{.spec.list
 例如在名为 `my-gateway` 的网关上访问名为 `https` 的安全 HTTP 端口：
 
 {{< text bash >}}
-$ export INGRESS_HOST=$(kubectl get gtw my-gateway -o jsonpath='{.status.addresses[*].value}')
+$ export INGRESS_HOST=$(kubectl get gtw my-gateway -o jsonpath='{.status.addresses[0].value}')
 $ export SECURE_INGRESS_PORT=$(kubectl get gtw my-gateway -o jsonpath='{.spec.listeners[?(@.name=="https")].port}')
 {{< /text >}}
 
