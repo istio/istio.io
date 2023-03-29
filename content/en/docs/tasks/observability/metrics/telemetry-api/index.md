@@ -22,11 +22,6 @@ For versions of Istio before `1.18`, you should install with following `IstioOpe
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
-  meshConfig:
-    defaultConfig:
-      extraStatTags:
-      - source_x # need this for custom tags demo
-      - destination_x # need this for custom tags demo
   values:
     telemetry:
       enabled: true

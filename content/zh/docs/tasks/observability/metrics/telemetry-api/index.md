@@ -59,9 +59,6 @@ spec:
 
 1. 为 `REQUEST_COUNT` 指标添加自定义标签
 
-    Telemetry API 无法更新 `MeshConfig` 中的 `extraStatTags`，
-    您需要手动更新 `extraStatTags` 并滚动重新部署。
-
     {{< text yaml >}}
     apiVersion: telemetry.istio.io/v1alpha1
     kind: Telemetry
