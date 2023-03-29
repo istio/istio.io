@@ -41,7 +41,7 @@ GATEWAY_URL="$INGRESS_HOST:$INGRESS_PORT"
 bpsnip_trace_generation__1
 
 function access_skywalking_with_portforward() {
-  local skywalking_url='http://localhost:8080/graphql'
+  local skywalking_url='http://localhost:12800/graphql'
   local product_svc_id="cHJvZHVjdHBhZ2UuZGVmYXVsdA==.1"
   local now=$(date +%s)
   local _15min_ago=$((now - 15 * 60))
