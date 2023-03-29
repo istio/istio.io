@@ -44,7 +44,7 @@ https://docs.google.com/spreadsheets/d/1Nbjat-juyQ8AWhkq3njLckmHM8TRL4O-sjm9Bfr9
 
 以下是我们现有功能及其当前阶段的列表。此信息将在每次发布后更新。
 
-### 运输管理{#traffic-management}
+### 流量管理{#traffic-management}
 
 {{< features section="Traffic Management" >}}
 
