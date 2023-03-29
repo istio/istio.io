@@ -101,19 +101,19 @@ Review the listeners for `reviews` waypoint proxy:
 
 {{< text bash >}}
 $ istioctl pc l deploy/bookinfo-reviews-istio-waypoint --waypoint
-LISTENER              	CHAIN                                                 	MATCH                                         	DESTINATION
-envoy://connect_originate                                                       	ALL                                           	Cluster: connect_originate
-envoy://main_internal 	inbound-vip|9080||reviews.default.svc.cluster.local-http  ip=10.96.104.108 -> port=9080                 	Inline Route: /*
-envoy://main_internal 	direct-tcp                                            	ip=10.244.2.14 -> ANY                         	Cluster: encap
-envoy://main_internal 	direct-tcp                                            	ip=10.244.1.6 -> ANY                          	Cluster: encap
-envoy://main_internal 	direct-tcp                                            	ip=10.244.2.11 -> ANY                         	Cluster: encap
-envoy://main_internal 	direct-http                                           	ip=10.244.2.11 -> application-protocol='h2c'  	Cluster: encap
-envoy://main_internal 	direct-http                                           	ip=10.244.2.11 -> application-protocol='http/1.1' Cluster: encap
-envoy://main_internal 	direct-http                                           	ip=10.244.2.14 -> application-protocol='http/1.1' Cluster: encap
-envoy://main_internal 	direct-http                                           	ip=10.244.2.14 -> application-protocol='h2c'  	Cluster: encap
-envoy://main_internal 	direct-http                                           	ip=10.244.1.6 -> application-protocol='h2c'   	Cluster: encap
-envoy://main_internal 	direct-http                                           	ip=10.244.1.6 -> application-protocol='http/1.1'  Cluster: encap
-envoy://connect_terminate default                                               	ALL                                           	Inline Route:
+LISTENER              CHAIN                                                 MATCH                                         DESTINATION
+envoy://connect_originate                                                       ALL                                           Cluster: connect_originate
+envoy://main_internal inbound-vip|9080||reviews.default.svc.cluster.local-http  ip=10.96.104.108 -> port=9080                 Inline Route: /*
+envoy://main_internal direct-tcp                                            ip=10.244.2.14 -> ANY                         Cluster: encap
+envoy://main_internal direct-tcp                                            ip=10.244.1.6 -> ANY                          Cluster: encap
+envoy://main_internal direct-tcp                                            ip=10.244.2.11 -> ANY                         Cluster: encap
+envoy://main_internal direct-http                                           ip=10.244.2.11 -> application-protocol='h2c'  Cluster: encap
+envoy://main_internal direct-http                                           ip=10.244.2.11 -> application-protocol='http/1.1' Cluster: encap
+envoy://main_internal direct-http                                           ip=10.244.2.14 -> application-protocol='http/1.1' Cluster: encap
+envoy://main_internal direct-http                                           ip=10.244.2.14 -> application-protocol='h2c'  Cluster: encap
+envoy://main_internal direct-http                                           ip=10.244.1.6 -> application-protocol='h2c'   Cluster: encap
+envoy://main_internal direct-http                                           ip=10.244.1.6 -> application-protocol='http/1.1'  Cluster: encap
+envoy://connect_terminate default                                               ALL                                           Inline Route:
 {{< /text >}}
 
 For requests arriving on port `15008`, which by default is Istio’s inbound HBONE port, the waypoint proxy terminates the HBONE connection and forwards the request to the `main_internal` to enforce any workload policies such as AuthorizationPolicy. If you are not familiar with the [internal listener](https://www.envoyproxy.io/docs/envoy/latest/configuration/other_features/internal_listener), it is an Envoy listener that accepts user space connections without using the system network API. The `--waypoint` flag added to the command earlier shows the details of the `main_internal` listeners, their filter chain, chain matchers, and destinations.
@@ -124,20 +124,20 @@ Check out the clusters for `reviews` waypoint proxy, you get the `main_internal`
 
 {{< text bash >}}
 $ istioctl proxy-config clusters deploy/bookinfo-reviews-istio-waypoint
-SERVICE FQDN                         	PORT 	SUBSET  	DIRECTION   	TYPE         	DESTINATION RULE
-agent                                	-    	-       	-           	STATIC
-connect_originate                    	-    	-       	-           	ORIGINAL_DST
-encap                                	-    	-       	-           	STATIC
-kubernetes.default.svc.cluster.local 	443  	tcp     	inbound-vip 	EDS
-main_internal                        	-    	-       	-           	STATIC
-prometheus_stats                     	-    	-       	-           	STATIC
-reviews.default.svc.cluster.local    	9080 	http    	inbound-vip 	EDS
-reviews.default.svc.cluster.local    	9080 	http/v1 	inbound-vip 	EDS
-reviews.default.svc.cluster.local    	9080 	http/v2 	inbound-vip 	EDS
-reviews.default.svc.cluster.local    	9080 	http/v3 	inbound-vip 	EDS
-sds-grpc                             	-    	-       	-           	STATIC
-xds-grpc                             	-    	-       	-           	STATIC
-zipkin                               	-    	-       	-           	STRICT_DNS
+SERVICE FQDN                         PORT SUBSET  DIRECTION   TYPE         DESTINATION RULE
+agent                                -    -       -           STATIC
+connect_originate                    -    -       -           ORIGINAL_DST
+encap                                -    -       -           STATIC
+kubernetes.default.svc.cluster.local 443  tcp     inbound-vip EDS
+main_internal                        -    -       -           STATIC
+prometheus_stats                     -    -       -           STATIC
+reviews.default.svc.cluster.local    9080 http    inbound-vip EDS
+reviews.default.svc.cluster.local    9080 http/v1 inbound-vip EDS
+reviews.default.svc.cluster.local    9080 http/v2 inbound-vip EDS
+reviews.default.svc.cluster.local    9080 http/v3 inbound-vip EDS
+sds-grpc                             -    -       -           STATIC
+xds-grpc                             -    -       -           STATIC
+zipkin                               -    -       -           STRICT_DNS
 {{< /text >}}
 
 Note the list for `outbound` clusters is empty, which you can confirm using `istioctl proxy-config c deploy/bookinfo-reviews-istio-waypoint --direction outbound`! What is nice is that you didn’t configure any `exportTo` on other bookinfo services (for example, `productpage` or `ratings` services). In other words, the `reviews` waypoint isn’t made aware of any unnecessary clusters, without any extra manual configuration from you.
@@ -146,9 +146,9 @@ Display the list routes for `reviews` waypoint proxy:
 
 {{< text bash >}}
 $ istioctl proxy-config routes deploy/bookinfo-reviews-istio-waypoint
-NAME                                                    	DOMAINS 	MATCH              	VIRTUAL SERVICE
-encap                                                   	*       	/*
-inbound-vip|9080|http|reviews.default.svc.cluster.local 	*       	/*                 	reviews.default
+NAME                                                    DOMAINS MATCH              VIRTUAL SERVICE
+encap                                                   *       /*
+inbound-vip|9080|http|reviews.default.svc.cluster.local *       /*                 reviews.default
 default
 {{< /text >}}
 
@@ -198,19 +198,19 @@ Check out the endpoints for `reviews`’ waypoint proxy:
 
 {{< text bash >}}
 $ istioctl proxy-config endpoints deploy/bookinfo-reviews-istio-waypoint
-ENDPOINT                                            	STATUS  	OUTLIER CHECK 	CLUSTER
-127.0.0.1:15000                                     	HEALTHY 	OK            	prometheus_stats
-127.0.0.1:15020                                     	HEALTHY 	OK            	agent
-envoy://connect_originate/                          	HEALTHY 	OK            	encap
-envoy://connect_originate/10.244.1.6:9080           	HEALTHY 	OK            	inbound-vip|9080|http/v2|reviews.default.svc.cluster.local
-envoy://connect_originate/10.244.1.6:9080           	HEALTHY 	OK            	inbound-vip|9080|http|reviews.default.svc.cluster.local
-envoy://connect_originate/10.244.2.11:9080          	HEALTHY 	OK            	inbound-vip|9080|http/v1|reviews.default.svc.cluster.local
-envoy://connect_originate/10.244.2.11:9080          	HEALTHY 	OK            	inbound-vip|9080|http|reviews.default.svc.cluster.local
-envoy://connect_originate/10.244.2.14:9080          	HEALTHY 	OK            	inbound-vip|9080|http/v3|reviews.default.svc.cluster.local
-envoy://connect_originate/10.244.2.14:9080          	HEALTHY 	OK            	inbound-vip|9080|http|reviews.default.svc.cluster.local
-envoy://main_internal/                              	HEALTHY 	OK            	main_internal
-unix://./etc/istio/proxy/XDS                        	HEALTHY 	OK            	xds-grpc
-unix://./var/run/secrets/workload-spiffe-uds/socket 	HEALTHY 	OK            	sds-grpc
+ENDPOINT                                            STATUS  OUTLIER CHECK CLUSTER
+127.0.0.1:15000                                     HEALTHY OK            prometheus_stats
+127.0.0.1:15020                                     HEALTHY OK            agent
+envoy://connect_originate/                          HEALTHY OK            encap
+envoy://connect_originate/10.244.1.6:9080           HEALTHY OK            inbound-vip|9080|http/v2|reviews.default.svc.cluster.local
+envoy://connect_originate/10.244.1.6:9080           HEALTHY OK            inbound-vip|9080|http|reviews.default.svc.cluster.local
+envoy://connect_originate/10.244.2.11:9080          HEALTHY OK            inbound-vip|9080|http/v1|reviews.default.svc.cluster.local
+envoy://connect_originate/10.244.2.11:9080          HEALTHY OK            inbound-vip|9080|http|reviews.default.svc.cluster.local
+envoy://connect_originate/10.244.2.14:9080          HEALTHY OK            inbound-vip|9080|http/v3|reviews.default.svc.cluster.local
+envoy://connect_originate/10.244.2.14:9080          HEALTHY OK            inbound-vip|9080|http|reviews.default.svc.cluster.local
+envoy://main_internal/                              HEALTHY OK            main_internal
+unix://./etc/istio/proxy/XDS                        HEALTHY OK            xds-grpc
+unix://./var/run/secrets/workload-spiffe-uds/socket HEALTHY OK            sds-grpc
 {{< /text >}}
 
 Note you don’t get any endpoints related to any other services other than reviews, even though you have a few other services in the `default` and `istio-system` namespace.
