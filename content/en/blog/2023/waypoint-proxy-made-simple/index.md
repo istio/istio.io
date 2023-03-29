@@ -58,7 +58,7 @@ Consider a simple deployment, where we have 2 namespaces, each with 2 (color cod
 
 {{< image width="100%"
     link="sidecar-config.png"
-    caption="Configuration distribution for sidecar architecture. Every sidecar has configuration about all other sidecars."
+    caption="Every sidecar has configuration about all other sidecars"
     >}}
 
 In the sidecar model, we have 4 workloads, each with 4 sets of configuration. If any of those configurations changed, all of them would need to be updated. In total there are 16 configurations distributed.
@@ -67,7 +67,7 @@ In the waypoint architecture, however, the configuration is dramatically simplif
 
 {{< image width="100%"
     link="waypoint-config.png"
-    caption="Configuration distribution for waypoint architecture. Each waypoint only has configuration for its own namespace."
+    caption="Each waypoint only has configuration for its own namespace"
     >}}
 
 Here, we see a very different story. We have only 2 waypoint proxies, as each one is able to serve the entire namespace, and each one only needs configuration for its own namespace. In total we have 25% of the amount of configuration sent, even for a simple example.
