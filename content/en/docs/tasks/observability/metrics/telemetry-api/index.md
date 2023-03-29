@@ -58,9 +58,6 @@ You can modify the standard metric definitions using `tags_to_remove` or by re-d
 
 1. Add custom tags for `REQUEST_COUNT` metric
 
-    Telemetry API can not update `extraStatTags` in `MeshConfig`,
-    you need update `extraStatTags` and rollout deployment manually.
-
     {{< text yaml >}}
     apiVersion: telemetry.istio.io/v1alpha1
     kind: Telemetry
