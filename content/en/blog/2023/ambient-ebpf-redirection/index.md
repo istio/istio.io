@@ -66,4 +66,4 @@ Both eBPF and iptables have their own advantages and disadvantages when it comes
 
 Ultimately, the choice between eBPF and iptables for traffic redirection will depend on the specific needs and requirements of the system, as well as the user's level of expertise in using each tool. Some users may prefer the simplicity and compatibility of iptables, while others may require the flexibility and performance of eBPF.
 
-There is still plenty of work to be done, including integration with various CNI plugins, and contributions to improve the ease of use would be greatly welcomed.
+There is still plenty of work to be done, including integration with various CNI plugins, and contributions to improve the ease of use would be greatly welcomed. Please join us in #ambient on the [Istio slack](https://slack.istio.io/).
