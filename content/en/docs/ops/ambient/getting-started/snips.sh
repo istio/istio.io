@@ -119,18 +119,6 @@ snip_l7_authorization_policy_3() {
 kubectl get gtw bookinfo-productpage -o yaml
 }
 
-! read -r -d '' snip_l7_authorization_policy_4 <<\ENDSNIP
-...
-status:
-  conditions:
-  - lastTransitionTime: "2023-02-24T03:22:43Z"
-    message: Deployed waypoint proxy to "default" namespace for "bookinfo-productpage" service account
-    observedGeneration: 1
-    reason: Ready
-    status: "True"
-    type: Ready
-ENDSNIP
-
 snip_l7_authorization_policy_5() {
 kubectl apply -f - <<EOF
 apiVersion: security.istio.io/v1beta1
@@ -159,10 +147,7 @@ kubectl exec deploy/sleep -- curl -s http://productpage:9080/ -X DELETE
 }
 
 ! read -r -d '' snip_l7_authorization_policy_6_out <<\ENDSNIP
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
-<title>405 Method Not Allowed</title>
-<h1>Method Not Allowed</h1>
-<p>The method is not allowed for the requested URL.</p>
+RBAC: access denied
 ENDSNIP
 
 snip_l7_authorization_policy_7() {
