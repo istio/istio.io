@@ -31,7 +31,7 @@ All traffic to/from the application pod will be intercepted by eBPF and redirect
 
 ## How to enable eBPF redirection in Istio ambient mode
 
-Follow the [Getting Started with Ambient Mesh](/blog/2022/get-started-ambient/) instructions to set up your cluster but, when you install Istio, set the `values.cni.ambient.redirectMode` configuration parameter to `ebpf`:
+Follow the instructions in [Getting Started with Ambient Mesh](/blog/2022/get-started-ambient/) to set up your cluster, with a small change: when you install Istio, set the `values.cni.ambient.redirectMode` configuration parameter to `ebpf`.
 
 {{< text bash >}}
 $ istioctl install --set profile=ambient --set values.cni.ambient.redirectMode="ebpf"
@@ -45,24 +45,20 @@ ambient Writing ambient config: {"ztunnelReady":true,"redirectMode":"eBPF"}
 
 ## Performance gains
 
-The latency and throughput (QPS) for eBPF mode is somewhat better than IPtables mode. The following tests were run in a kind cluster with
-a Fortio client sending requests to a Fortio server, both running in ambient mode (with debug log turned off in eBPF) and on the same k8s node.
-
-{{< image width="90%" link="./MaxQPS.png" alt="Max QPS with varying number of connections" title="Max QPS with varying number of connections" caption="Max QPS with varying number of connections" >}}
-
-The above metrics were produced with the following command:
+The latency and throughput (QPS) for eBPF redirection are somewhat better than using iptables. The following tests were run in a `kind` cluster with
+a Fortio client sending requests to a Fortio server, both running in ambient mode (with eBPF debug logging disabled) and on the same Kubernetes worker node.
 
 {{< text bash >}}
 $ fortio load -uniform -t 60s -qps 0 -c <num_connections> http://<fortio-svc-name>:8080
 {{< /text >}}
 
-{{< image width="90%" link="./P75-Latency-with-8000-qps.png" alt="Latency (ms) for QPS 8000 with varying number of connections" title="P75 Latency(ms) for QPS 8000 with varying number of connections" caption="P75 Latency (ms) for QPS 8000 with varying number of connections" >}}
-
-The above metrics were produced with the following command:
+{{< image width="90%" link="./MaxQPS.png" alt="Max QPS with varying number of connections" title="Max QPS with varying number of connections" caption="Max QPS, with varying number of connections" >}}
 
 {{< text bash >}}
 $ fortio load -uniform -t 60s -qps 8000 -c <num_connections> http://<fortio-svc-name>:8080
 {{< /text >}}
+
+{{< image width="90%" link="./P75-Latency-with-8000-qps.png" alt="Latency (ms) for QPS 8000 with varying number of connections" title="P75 Latency (ms) for 8000 QPS, with varying number of connections" caption="P75 Latency (ms) for QPS 8000 with varying number of connections" >}}
 
 ## Wrapping up
 
