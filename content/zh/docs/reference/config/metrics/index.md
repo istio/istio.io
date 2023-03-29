@@ -8,7 +8,7 @@ aliases:
 
 以下是 Istio 导出的标准服务级别指标。
 
-遥测组件由 [Proxy-wasm](https://github.com/proxy-wasm/spec) 插件[实现](https://github.com/istio/proxy/tree/master/extensions/stats)。
+遥测组件由 [Proxy extension](https://github.com/istio/proxy/tree/master/source/extensions/filters/http/istio_stats) 扩展实现。
 `COUNTER` 是一个严格递增的整数。
 `DISTRIBUTION` 将数值的范围映射到频率。
 `COUNTER` 和 `DISTRIBUTION` 在 [Envoy 文档](https://github.com/envoyproxy/envoy/blob/main/source/docs/stats.md)中对应于指标计数器和直方图。
@@ -45,25 +45,25 @@ aliases:
 
 *   **Reporter**： 标识请求指标的上报端。如果指标由服务端 Istio 代理上报，则设置为 `destination`，如果指标由客户端 Istio 代理或网关上报，则设置为 `source`。
 
-*   **Source Workload**：标识源工作负载的名称，如果缺少源信息，则标识为 “unknown”。
+*   **Source Workload**：标识源工作负载的名称，如果缺少源信息，则标识为 `unknown`。
 
-*   **Source Workload Namespace**：标识源工作负载的命名空间，如果缺少源信息，则标识为 “unknown”。
+*   **Source Workload Namespace**：标识源工作负载的命名空间，如果缺少源信息，则标识为 `unknown`。
 
 *   **Source Principal**：标识流量源的对等主体。当使用对等身份验证时设置。
 
-*   **Source App**：根据源工作负载的 `app` 标签标识源应用程序，如果源信息丢失，则标识为 “unknown”。
+*   **Source App**：根据源工作负载的 `app` 标签标识源应用程序，如果源信息丢失，则标识为 `unknown`。
 
-*   **Source Version**：标识源工作负载的版本，如果源信息丢失，则标识为 “unknown”。
+*   **Source Version**：标识源工作负载的版本，如果源信息丢失，则标识为 `unknown`。
 
-*   **Destination Workload**：标识目标工作负载的名称，如果目标信息丢失，则标识为 “unknown”。
+*   **Destination Workload**：标识目标工作负载的名称，如果目标信息丢失，则标识为 `unknown`。
 
-*   **Destination Workload Namespace**：标识目标工作负载的命名空间，如果目标信息丢失，则标识为 “unknown”。
+*   **Destination Workload Namespace**：标识目标工作负载的命名空间，如果目标信息丢失，则标识为 `unknown`。
 
 *   **Destination Principal**：标识流量目标的对等主体。使用对等身份验证时设置。
 
-*   **Destination App**：它根据目标工作负载的 `app` 标签标识目标应用程序，如果目标信息丢失，则标识为 “unknown”。
+*   **Destination App**：它根据目标工作负载的 `app` 标签标识目标应用程序，如果目标信息丢失，则标识为 `unknown`。
 
-*   **Destination Version**：标识目标工作负载的版本，如果目标信息丢失，则标识为 “unknown”。
+*   **Destination Version**：标识目标工作负载的版本，如果目标信息丢失，则标识为 `unknown`。
 
 *   **Destination Service**：标识负责传入请求的目标服务主机。 例如：`details.default.svc.cluster.local`。
 
