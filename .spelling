@@ -480,6 +480,7 @@ httpbin
 httpbin.foo.svc.cluster.local
 httpbin.org
 HTTPRoute
+HTTPRoutes
 https
 Hu
 Huabing
