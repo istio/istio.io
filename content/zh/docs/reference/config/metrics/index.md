@@ -8,7 +8,7 @@ aliases:
 
 以下是 Istio 导出的标准服务级别指标。
 
-遥测组件由 [Proxy extension](https://github.com/istio/proxy/tree/master/source/extensions/filters/http/istio_stats) 扩展实现。
+遥测组件作为一个 [Proxy 扩展](https://github.com/istio/proxy/tree/master/source/extensions/filters/http/istio_stats) 被实现。
 `COUNTER` 是一个严格递增的整数。
 `DISTRIBUTION` 将数值的范围映射到频率。
 `COUNTER` 和 `DISTRIBUTION` 在 [Envoy 文档](https://github.com/envoyproxy/envoy/blob/main/source/docs/stats.md)中对应于指标计数器和直方图。
