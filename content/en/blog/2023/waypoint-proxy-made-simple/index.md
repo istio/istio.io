@@ -85,7 +85,8 @@ when you apply it to service account waypoint proxies.
 
 This reduced configuration means lower resource usage (CPU, RAM, and network bandwidth) for both the
 control plane and data plane. While users today can see similar improvements with careful usage of
-`exportTo` in the [Sidecar](/docs/reference/config/networking/sidecar/) API, in ambient mode this is no longer required, making scaling a breeze.
+`exportTo` in your Istio networking resources or the [Sidecar](/docs/reference/config/networking/sidecar/) API,
+in ambient mode this is no longer required, making scaling a breeze.
 
 ## What if my destination doesn’t have a waypoint proxy?
 
@@ -194,7 +195,7 @@ $ istioctl proxy-config routes deploy/bookinfo-reviews-istio-waypoint --name "in
            weight: 10
 {{< /text >}}
 
-Check out the endpoints for `reviews`’ waypoint proxy:
+Check out the endpoints for `reviews` waypoint proxy:
 
 {{< text bash >}}
 $ istioctl proxy-config endpoints deploy/bookinfo-reviews-istio-waypoint
