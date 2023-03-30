@@ -15,7 +15,7 @@ we have made significant changes to simplify waypoint configuration, debuggabili
 
 Similar to sidecar, the waypoint proxy is also Envoy-based and is dynamically configured by Istio
 to serve your applications configuration. What is unique about the waypoint is that it runs either
-per-namespace (default) or per-service account. By running outside of the application pod, waypoint proxy
+per-namespace (default) or per-service account. By running outside of the application pod, a waypoint proxy
 can install, upgrade, and scale independently from the application, as well as reduce operational costs.
 
 {{< image width="100%"
