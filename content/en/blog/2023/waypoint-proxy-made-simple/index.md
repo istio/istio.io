@@ -101,7 +101,7 @@ Assuming you have followed the [ambient get started guide](http://preliminary.is
 Review the listeners for `reviews` waypoint proxy:
 
 {{< text bash >}}
-$ istioctl pc l deploy/bookinfo-reviews-istio-waypoint --waypoint
+$ istioctl proxy-config listener deploy/bookinfo-reviews-istio-waypoint --waypoint
 LISTENER              CHAIN                                                 MATCH                                         DESTINATION
 envoy://connect_originate                                                       ALL                                           Cluster: connect_originate
 envoy://main_internal inbound-vip|9080||reviews.default.svc.cluster.local-http  ip=10.96.104.108 -> port=9080                 Inline Route: /*
