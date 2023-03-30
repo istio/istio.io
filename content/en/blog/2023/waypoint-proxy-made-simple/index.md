@@ -26,7 +26,7 @@ can install, upgrade, and scale independently from the application, as well as r
 Waypoint proxies are deployed declaratively using Kubernetes Gateway resources, or the helpful `istioctl` command:
 
 {{< text bash >}}
-$ istioctl x waypoint generate
+$ istioctl experimental waypoint generate
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: Gateway
 metadata:
