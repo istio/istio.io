@@ -77,8 +77,8 @@ If we scale each namespace up to 25 deployments with 10 pods each and each waypo
 | Config Distribution         |         Namespace 1              |       Namespace 2                |     Total     |
 | --------------------------- | -------------------------------- | -------------------------------- | ------------- |
 | Sidecars                    | 25 configurations * 250 sidecars | 25 configurations * 250 sidecars |    12500      |
-| Waypoint proxies            | 25 configurations * 2 waypoints  | 25 configurations * 2 waypoints  |     100       |
-| Waypoint proxies ÷ Sidecars |           0.08%                  |            0.08%                 |     0.08%     |
+| Waypoints                   | 25 configurations * 2 waypoints  | 25 configurations * 2 waypoints  |     100       |
+| Waypoints / Sidecars |           0.08%                  |            0.08%                 |     0.08%     |
 
 While we use namespace scoped waypoint proxies to illustrate the simplification above, the simplification is similar
 when you apply it to service account waypoint proxies.
@@ -116,7 +116,7 @@ envoy://main_internal direct-http                                           ip=1
 envoy://connect_terminate default                                               ALL                                           Inline Route:
 {{< /text >}}
 
-For requests arriving on port `15008`, which by default is Istio’s inbound HBONE port, the waypoint proxy terminates the HBONE connection and forwards the request to the `main_internal` to enforce any workload policies such as AuthorizationPolicy. If you are not familiar with the [internal listener](https://www.envoyproxy.io/docs/envoy/latest/configuration/other_features/internal_listener), it is an Envoy listener that accepts user space connections without using the system network API. The `--waypoint` flag added to the command earlier shows the details of the `main_internal` listeners, their filter chains, chain matchs, and destinations.
+For requests arriving on port `15008`, which by default is Istio’s inbound HBONE port, the waypoint proxy terminates the HBONE connection and forwards the request to the `main_internal` to enforce any workload policies such as AuthorizationPolicy. If you are not familiar with the [internal listener](https://www.envoyproxy.io/docs/envoy/latest/configuration/other_features/internal_listener), it is an Envoy listener that accepts user space connections without using the system network API. The `--waypoint` flag added to the command earlier shows the details of the `main_internal` listeners, their filter chains, chain matches, and destinations.
 
 Note `10.96.104.108` is the reviews’ service VIP and `10.244.x.x` are the `reviews`’ v1/v2/v3 pod IPs, which you can view your cluster’s using the `kubectl get svc,pod -o wide` command. For plain text or HBONE terminated inbound traffic, it will be matched on the service VIP and port 9080 for reviews or by pod IP address and application protocol (either `ANY` or `h2c` or `http/1.1`).
 
