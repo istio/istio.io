@@ -157,12 +157,12 @@ export INGRESS_HOST=$(kubectl -n "$INGRESS_NS" get service "$INGRESS_NAME" -o js
 }
 
 snip_determining_the_ingress_ip_and_ports_7() {
-export INGRESS_HOST=$(kubectl get gtw httpbin-gateway -o jsonpath='{.status.addresses[*].value}')
+export INGRESS_HOST=$(kubectl get gtw httpbin-gateway -o jsonpath='{.status.addresses[0].value}')
 export INGRESS_PORT=$(kubectl get gtw httpbin-gateway -o jsonpath='{.spec.listeners[?(@.name=="http")].port}')
 }
 
 snip_determining_the_ingress_ip_and_ports_8() {
-export INGRESS_HOST=$(kubectl get gtw my-gateway -o jsonpath='{.status.addresses[*].value}')
+export INGRESS_HOST=$(kubectl get gtw my-gateway -o jsonpath='{.status.addresses[0].value}')
 export SECURE_INGRESS_PORT=$(kubectl get gtw my-gateway -o jsonpath='{.spec.listeners[?(@.name=="https")].port}')
 }
 

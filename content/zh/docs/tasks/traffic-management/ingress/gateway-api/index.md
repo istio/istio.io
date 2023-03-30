@@ -114,7 +114,7 @@ Gateway API 与 Istio API （如 Gateway 和 VirtualService）有很多相似之
 
     {{< text bash >}}
     $ kubectl wait -n istio-ingress --for=condition=programmed gateways.gateway.networking.k8s.io gateway
-    $ export INGRESS_HOST=$(kubectl get gateways.gateway.networking.k8s.io gateway -n istio-ingress -ojsonpath='{.status.addresses[*].value}')
+    $ export INGRESS_HOST=$(kubectl get gateways.gateway.networking.k8s.io gateway -n istio-ingress -ojsonpath='{.status.addresses[0].value}')
     {{< /text >}}
 
 1.  使用 *curl* 访问 `httpbin` 服务：

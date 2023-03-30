@@ -308,7 +308,7 @@ Use the following commands to set the `SECURE_INGRESS_PORT` and `INGRESS_HOST` e
 
 {{< text bash >}}
 $ kubectl wait --for=condition=programmed gtw mygateway
-$ export INGRESS_HOST=$(kubectl get gtw mygateway -o jsonpath='{.status.addresses[*].value}')
+$ export INGRESS_HOST=$(kubectl get gtw mygateway -o jsonpath='{.status.addresses[0].value}')
 $ export SECURE_INGRESS_PORT=$(kubectl get gtw mygateway -o jsonpath='{.spec.listeners[?(@.name=="https")].port}')
 {{< /text >}}
 

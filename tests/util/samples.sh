@@ -22,7 +22,7 @@ startup_bookinfo_sample() {
 
     if [ "$GATEWAY_API" == "true" ]; then
         kubectl apply -f samples/bookinfo/gateway-api/bookinfo-gateway.yaml
-        kubectl wait --for=condition=ready gtw bookinfo-gateway --timeout=2m
+        kubectl wait --for=condition=programmed gtw bookinfo-gateway --timeout=2m
         kubectl apply -f samples/bookinfo/platform/kube/bookinfo-versions.yaml
     else
         kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml

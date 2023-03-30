@@ -683,7 +683,7 @@ $ export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
 
 {{< text bash >}}
 $ kubectl -n sample --context="${CTX_REMOTE_CLUSTER}" wait --for=condition=programmed gtw helloworld-gateway
-$ export INGRESS_HOST=$(kubectl -n sample --context="${CTX_REMOTE_CLUSTER}" get gtw helloworld-gateway -o jsonpath='{.status.addresses[*].value}')
+$ export INGRESS_HOST=$(kubectl -n sample --context="${CTX_REMOTE_CLUSTER}" get gtw helloworld-gateway -o jsonpath='{.status.addresses[0].value}')
 $ export GATEWAY_URL=$INGRESS_HOST:80
 {{< /text >}}
 
