@@ -11,7 +11,7 @@ Layer 7 processing layer. The waypoint proxy is an optional component that is En
 and handles L7 processing for workloads it manages. Since the [initial ambient launch](/blog/2022/introducing-ambient-mesh/) in 2022,
 we have made significant changes to simplify waypoint configuration, debuggability and scalability.
 
-## Architecture of waypoint
+## Architecture of waypoint proxies
 
 Similar to sidecar, the waypoint proxy is also Envoy-based and is dynamically configured by Istio
 to serve your applications configuration. What is unique about the waypoint is that it runs either
