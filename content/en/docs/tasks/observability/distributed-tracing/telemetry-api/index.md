@@ -39,7 +39,7 @@ spec:
         service: zipkin.istio-system.svc.cluster.local
         port: 9411
 EOF
-$ istioctl install -f ./tracing.yaml
+$ istioctl install -f ./tracing.yaml -y
 {{< /text >}}
 
 ### Enable tracing for mesh

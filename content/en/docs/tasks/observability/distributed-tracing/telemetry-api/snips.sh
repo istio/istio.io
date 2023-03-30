@@ -28,7 +28,7 @@ spec:
   meshConfig:
     enableTracing: true
     defaultConfig:
-      tracing: {} # disabled MeshConfig tracing options 
+      tracing: {} # disabled MeshConfig tracing options
     extensionProviders:
     # add zipkin provider
     - name: zipkin
@@ -36,7 +36,7 @@ spec:
         service: zipkin.istio-system.svc.cluster.local
         port: 9411
 EOF
-istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true -f ./tracing.yaml
+istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true -f ./tracing.yaml -y
 }
 
 snip_enable_tracing_for_mesh_1() {
