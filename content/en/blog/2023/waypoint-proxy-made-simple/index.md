@@ -78,7 +78,7 @@ If we scale each namespace up to 25 deployments with 10 pods each and each waypo
 | --------------------------- | -------------------------------- | -------------------------------- | ------------- |
 | Sidecars                    | 25 configurations * 250 sidecars | 25 configurations * 250 sidecars |    12500      |
 | Waypoints                   | 25 configurations * 2 waypoints  | 25 configurations * 2 waypoints  |     100       |
-| Waypoints / Sidecars |           0.08%                  |            0.08%                 |     0.08%     |
+| Waypoints / Sidecars        |              0.8%                |               0.8%               |      0.8%     |
 
 While we use namespace scoped waypoint proxies to illustrate the simplification above, the simplification is similar
 when you apply it to service account waypoint proxies.
