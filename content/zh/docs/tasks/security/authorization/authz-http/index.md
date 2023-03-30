@@ -45,7 +45,7 @@ test: yes
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: security.istio.io/v1beta1
+    apiVersion: security.istio.io/v1
     kind: AuthorizationPolicy
     metadata:
       name: allow-nothing
@@ -61,7 +61,7 @@ test: yes
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: security.istio.io/v1beta1
+    apiVersion: security.istio.io/v1
     kind: AuthorizationPolicy
     metadata:
       name: "productpage-viewer"
@@ -89,7 +89,7 @@ test: yes
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: "security.istio.io/v1beta1"
+    apiVersion: "security.istio.io/v1"
     kind: "AuthorizationPolicy"
     metadata:
       name: "details-viewer"
@@ -113,7 +113,7 @@ test: yes
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: "security.istio.io/v1beta1"
+    apiVersion: "security.istio.io/v1"
     kind: "AuthorizationPolicy"
     metadata:
       name: "reviews-viewer"
@@ -141,7 +141,7 @@ test: yes
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: "security.istio.io/v1beta1"
+    apiVersion: "security.istio.io/v1"
     kind: "AuthorizationPolicy"
     metadata:
       name: "ratings-viewer"
