@@ -56,7 +56,7 @@ The scalability problem, in particular, is a nuisance for users running in large
 
 Consider a simple deployment, where we have 2 namespaces, each with 2 (color coded) deployments. The Envoy (XDS) configuration required to program the sidecars is shown as circles:
 
-{{< image width="100%"
+{{< image width="70%"
     link="sidecar-config.png"
     caption="Every sidecar has configuration about all other sidecars"
     >}}
@@ -65,7 +65,7 @@ In the sidecar model, we have 4 workloads, each with 4 sets of configuration. If
 
 In the waypoint architecture, however, the configuration is dramatically simplified:
 
-{{< image width="100%"
+{{< image width="70%"
     link="waypoint-config.png"
     caption="Each waypoint only has configuration for its own namespace"
     >}}
