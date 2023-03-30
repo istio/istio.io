@@ -4,7 +4,7 @@ description: How to configure tracing options using Telemetry API.
 weight: 8
 keywords: [telemetry,tracing]
 owner: istio/wg-policies-and-telemetry-maintainers
-test: no
+test: yes
 ---
 
 Istio provides the ability to configure advanced tracing options,
@@ -108,9 +108,9 @@ You can customize the tags using any of the three supported options below.
             - name: "zipkin"
         randomSamplingPercentage: 100.00
         customTags:
-            "provider":
+          "provider":
             literal:
-                value: "zipkin"
+              value: "zipkin"
     {{< /text >}}
 
 1.  Environmental variables can be used where the value of the custom tag is
@@ -181,3 +181,7 @@ spec:
         port: 9411
         maxTagLength: <VALUE>
 {{< /text >}}
+
+## Verify the results
+
+You can verify the results with [zipkin UI](/docs/tasks/observability/distributed-tracing/zipkin/).
