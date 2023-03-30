@@ -19,7 +19,6 @@
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
 #          docs/ops/ambient/getting-started/index.md
 ####################################################################################################
-source "content/en/boilerplates/snips/gateway-api-support.sh"
 
 snip_download_and_install_download_2() {
 istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --set profile=ambient --skip-confirmation
@@ -47,6 +46,11 @@ istio-cni-node   1         1         1       1            1           kubernetes
 ztunnel          1         1         1       1            1           <none>                   82s
 ENDSNIP
 
+snip_download_and_install_download_6() {
+kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
+  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v0.6.1" | kubectl apply -f -; }
+}
+
 snip_deploy_the_sample_application_bookinfo_2() {
 kubectl apply -f samples/sleep/sleep.yaml
 kubectl apply -f samples/sleep/notsleep.yaml
@@ -62,22 +66,12 @@ export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/istio-ingressgateway-service-a
 }
 
 snip_deploy_the_sample_application_bookinfo_5() {
-kubectl apply -f - <<EOF
-apiVersion: gateway.networking.k8s.io/v1beta1
-kind: Gateway
-metadata:
-  name: bookinfo-gateway
-  namespace: istio-system
-spec:
-  gatewayClassName: istio
-  listeners:
-  - name: http
-    port: 80
-    protocol: HTTP
-    allowedRoutes:
-      namespaces:
-        from: All
-EOF
+sed -e 's/from: Same/from: All/'\
+    -e '/^  name: bookinfo-gateway/a\
+  namespace: istio-system\
+'   -e '/^  - name: bookinfo-gateway/a\
+    namespace: istio-system\
+' samples/bookinfo/gateway-api/bookinfo-gateway.yaml | kubectl apply -f -
 }
 
 snip_deploy_the_sample_application_bookinfo_6() {
@@ -85,29 +79,6 @@ kubectl wait --for=condition=programmed gtw/bookinfo-gateway -n istio-system
 }
 
 snip_deploy_the_sample_application_bookinfo_7() {
-kubectl apply -f - <<EOF
-apiVersion: gateway.networking.k8s.io/v1beta1
-kind: HTTPRoute
-metadata:
-  name: productpage
-spec:
-  parentRefs:
-  - name: bookinfo-gateway
-    namespace: istio-system
-  hostnames:
-  - "bookinfo-gateway-istio.istio-system"
-  rules:
-  - matches:
-    - path:
-        type: PathPrefix
-        value: /productpage
-    backendRefs:
-    - name: productpage
-      port: 9080
-EOF
-}
-
-snip_deploy_the_sample_application_bookinfo_8() {
 export GATEWAY_HOST=bookinfo-gateway-istio.istio-system
 export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/bookinfo-gateway-istio
 }
@@ -249,6 +220,10 @@ kubectl apply -f samples/bookinfo/networking/virtual-service-reviews-90-10.yaml
 kubectl apply -f samples/bookinfo/networking/destination-rule-reviews.yaml
 }
 
+snip_control_traffic_control_3() {
+kubectl apply -f samples/bookinfo/platform/kube/bookinfo-versions.yaml
+}
+
 snip_control_traffic_control_4() {
 kubectl apply -f samples/bookinfo/gateway-api/route-reviews-90-10.yaml
 }
@@ -258,11 +233,6 @@ kubectl exec deploy/sleep -- sh -c "for i in \$(seq 1 100); do curl -s http://$G
 }
 
 snip_uninstall_uninstall_1() {
-kubectl delete -f samples/sleep/sleep.yaml
-kubectl delete -f samples/sleep/notsleep.yaml
-}
-
-snip_uninstall_uninstall_2() {
 kubectl delete authorizationpolicy productpage-viewer
 istioctl x waypoint delete --service-account bookinfo-reviews
 istioctl x waypoint delete --service-account bookinfo-productpage
@@ -270,6 +240,15 @@ istioctl uninstall -y --purge
 kubectl delete namespace istio-system
 }
 
-snip_uninstall_uninstall_3() {
+snip_uninstall_uninstall_2() {
 kubectl label namespace default istio.io/dataplane-mode-
+}
+
+snip_uninstall_uninstall_3() {
+kubectl delete -f samples/sleep/sleep.yaml
+kubectl delete -f samples/sleep/notsleep.yaml
+}
+
+snip_uninstall_uninstall_4() {
+kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v0.6.1" | kubectl delete -f -
 }

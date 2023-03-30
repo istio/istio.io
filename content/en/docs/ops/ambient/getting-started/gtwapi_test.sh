@@ -15,9 +15,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# @setup profile=none
 GATEWAY_API="true"
 
-# @setup profile=none
 source "content/en/docs/ops/ambient/getting-started/test.sh"
 
 # @cleanup
+GATEWAY_API="true"
+
+source "tests/util/samples.sh"
+
+snip_uninstall_uninstall_1
+snip_uninstall_uninstall_2
+snip_uninstall_uninstall_3
+cleanup_bookinfo_sample
+snip_uninstall_uninstall_4

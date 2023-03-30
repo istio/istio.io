@@ -23,13 +23,6 @@ set -e
 set -u
 set -o pipefail
 
-# Helper function to initialize KUBECONFIG_FILES and KUBE_CONTEXTS
-_set_kube_vars
-
-# Kubernetes Gateway API CRDs are required by waypoint proxy.
-source "tests/util/gateway-api.sh"
-install_gateway_api_crds "${KUBE_CONTEXTS[0]}"
-
 source "tests/util/samples.sh"
 
 # install istio with ambient profile
@@ -40,6 +33,9 @@ _wait_for_daemonset istio-system istio-cni-node
 _verify_like snip_download_and_install_download_4 "$snip_download_and_install_download_4_out"
 _verify_like snip_download_and_install_download_5 "$snip_download_and_install_download_5_out"
 
+# Kubernetes Gateway API CRDs are required by waypoint proxy.
+snip_download_and_install_download_6
+
 # deploy test application
 startup_bookinfo_sample
 snip_deploy_the_sample_application_bookinfo_2
@@ -48,7 +44,6 @@ if [ "$GATEWAY_API" == "true" ]; then
   snip_deploy_the_sample_application_bookinfo_5
   snip_deploy_the_sample_application_bookinfo_6
   snip_deploy_the_sample_application_bookinfo_7
-  snip_deploy_the_sample_application_bookinfo_8
 else
   snip_deploy_the_sample_application_bookinfo_4
 fi
@@ -80,6 +75,7 @@ _verify_contains snip_l7_authorization_policy_6 "$snip_l7_authorization_policy_6
 _verify_contains snip_control_traffic_control_1 "$snip_control_traffic_control_1_out"
 
 if [ "$GATEWAY_API" == "true" ]; then
+  snip_control_traffic_control_3
   snip_control_traffic_control_4
 else
   snip_control_traffic_control_2
@@ -92,8 +88,10 @@ _verify_lines snip_control_traffic_control_5 "
 "
 
 # @cleanup
-cleanup_bookinfo_sample
-snip_uninstall_uninstall_1
-snip_uninstall_uninstall_2
-snip_uninstall_uninstall_3
-remove_gateway_api_crds "${KUBE_CONTEXTS[0]}"
+if [ "$GATEWAY_API" != "true" ]; then
+    snip_uninstall_uninstall_1
+    snip_uninstall_uninstall_2
+    snip_uninstall_uninstall_3
+    cleanup_bookinfo_sample
+    snip_uninstall_uninstall_4
+fi

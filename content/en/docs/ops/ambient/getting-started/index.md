@@ -87,9 +87,15 @@ Follow these steps to get started with ambient:
     ztunnel          1         1         1       1            1           <none>                   82s
     {{< /text >}}
 
-1. This guide includes tasks that use a `Gateway`.
+1.  Install Kubernetes Gateway CRDs, which don’t come installed by default on most Kubernetes clusters:
 
-   {{< boilerplate gateway-api-support >}}
+    {{< text bash >}}
+    $ kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
+      { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v0.6.1" | kubectl apply -f -; }
+    {{< /text >}}
+
+    {{< boilerplate gateway-api-future >}}
+    {{< boilerplate gateway-api-choose >}}
 
 ## Deploy the sample application {#bookinfo}
 
@@ -138,31 +144,18 @@ $ export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/istio-ingressgateway-service
 
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
-Create a [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io%2fv1beta1.Gateway),
-so you can access the bookinfo app from outside the cluster:
+Create a [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io%2fv1beta1.Gateway)
+and [HTTPRoute](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1beta1.HTTPRoute) so you can access
+the bookinfo app from outside the cluster:
 
 {{< text bash >}}
-$ kubectl apply -f - <<EOF
-apiVersion: gateway.networking.k8s.io/v1beta1
-kind: Gateway
-metadata:
-  name: bookinfo-gateway
-  namespace: istio-system
-spec:
-  gatewayClassName: istio
-  listeners:
-  - name: http
-    port: 80
-    protocol: HTTP
-    allowedRoutes:
-      namespaces:
-        from: All
-EOF
+$ sed -e 's/from: Same/from: All/'\
+    -e '/^  name: bookinfo-gateway/a\
+  namespace: istio-system\
+'   -e '/^  - name: bookinfo-gateway/a\
+    namespace: istio-system\
+' @samples/bookinfo/gateway-api/bookinfo-gateway.yaml@ | kubectl apply -f -
 {{< /text >}}
-
-The Gateway is configured to listen for HTTP traffic on port 80 and allow
-[HTTPRoutes](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io%2fv1beta1.HTTPRoute) from any
-namespace to bind to the listener.
 
 Creating a Kubernetes Gateway resource deploys an associated
 [proxy service](/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment), so run the following command
@@ -171,34 +164,6 @@ to wait for the gateway to be ready:
 {{< text bash >}}
 $ kubectl wait --for=condition=programmed gtw/bookinfo-gateway -n istio-system
 {{< /text >}}
-
-Route traffic through the Gateway to the `productpage` Service:
-
-{{< text bash >}}
-$ kubectl apply -f - <<EOF
-apiVersion: gateway.networking.k8s.io/v1beta1
-kind: HTTPRoute
-metadata:
-  name: productpage
-spec:
-  parentRefs:
-  - name: bookinfo-gateway
-    namespace: istio-system
-  hostnames:
-  - "bookinfo-gateway-istio.istio-system"
-  rules:
-  - matches:
-    - path:
-        type: PathPrefix
-        value: /productpage
-    backendRefs:
-    - name: productpage
-      port: 9080
-EOF
-{{< /text >}}
-
-You have now created an HTTPRoute configuration for the `productpage` service containing one route rule that allows
-traffic for path `/productpage`.
 
 Set the environment variables for the Kubernetes gateway:
 
@@ -412,7 +377,7 @@ $ kubectl apply -f @samples/bookinfo/networking/destination-rule-reviews.yaml@
 
 Create subsets of the bookinfo Services to control traffic to `reviews` v1 and v2 versions:
 
-{{< text syntax=bash snip_id=none >}}
+{{< text bash >}}
 $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-versions.yaml@
 {{< /text >}}
 
@@ -434,15 +399,6 @@ $ kubectl exec deploy/sleep -- sh -c "for i in \$(seq 1 100); do curl -s http://
 
 ## Uninstall {#uninstall}
 
-To delete the Bookinfo sample application and its configuration, see [`Bookinfo` cleanup](/docs/examples/bookinfo/#cleanup).
-
-To remove the `sleep` and `notsleep` applications:
-
-{{< text bash >}}
-$ kubectl delete -f @samples/sleep/sleep.yaml@
-$ kubectl delete -f @samples/sleep/notsleep.yaml@
-{{< /text >}}
-
 To remove the `productpage-viewer` authorization policy, waypoint proxies and uninstall Istio:
 
 {{< text bash >}}
@@ -459,36 +415,17 @@ The label to instruct Istio to automatically include applications in the `defaul
 $ kubectl label namespace default istio.io/dataplane-mode-
 {{< /text >}}
 
-{{< tabset category-name="config-api" >}}
+To delete the Bookinfo sample application and its configuration, see [`Bookinfo` cleanup](/docs/examples/bookinfo/#cleanup).
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+To remove the `sleep` and `notsleep` applications:
 
-To remove the `bookinfo` Gateway:
-
-{{< text syntax=bash snip_id=none >}}
-$ kubectl delete gw/bookinfo-gateway
+{{< text bash >}}
+$ kubectl delete -f @samples/sleep/sleep.yaml@
+$ kubectl delete -f @samples/sleep/notsleep.yaml@
 {{< /text >}}
-
-{{< /tab >}}
-
-{{< tab name="Gateway API" category-value="gateway-api" >}}
-
-To remove the `reviews` Service subsets and HTTPRoute:
-
-{{< text syntax=bash snip_id=none >}}
-$ kubectl delete -f @samples/bookinfo/platform/kube/bookinfo-versions.yaml@
-{{< /text >}}
-
-{{< text syntax=bash snip_id=none >}}
-$ kubectl delete -f httproute/reviews
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< /tabset >}}
 
 If you installed the Gateway API CRDs, remove them:
 
-{{< text syntax=bash snip_id=none >}}
-$ kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.6.1" | kubectl delete -f -
+{{< text bash >}}
+$ kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v0.6.1" | kubectl delete -f -
 {{< /text >}}
