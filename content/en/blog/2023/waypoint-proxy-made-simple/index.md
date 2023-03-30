@@ -218,4 +218,4 @@ Note you don’t get any endpoints related to any other services other than revi
 
 ## Wrapping up
 
-We are very excited about the waypoint simplification by focusing on destination oriented waypoint proxies. This is another significant step towards simplifying Istio’s usability, scalability and debuggability which are top priorities on Istio’s roadmap. Follow our [getting started guide](http://preliminary.istio.io/latest/docs/ops/ambient/getting-started/) to try the ambient pre-alpha build today and experience the simplified waypoint proxy!
+We are very excited about the waypoint simplification by focusing on destination oriented waypoint proxies. This is another significant step towards simplifying Istio’s usability, scalability and debuggability which are top priorities on Istio’s roadmap. Follow our [getting started guide](http://preliminary.istio.io/latest/docs/ops/ambient/getting-started/) to try the ambient alpha build today and experience the simplified waypoint proxy!
