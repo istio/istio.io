@@ -1406,7 +1406,7 @@ istioctl d [flags]
 <tr>
 <td><code>--ui-port &lt;int&gt;</code></td>
 <td></td>
-<td>The component dashboard UI port.  (default `12800`)</td>
+<td>The component dashboard UI port.  (default `8080`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -7852,12 +7852,6 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, Istiod will not push changes on arbitraty annotation change.</td>
-</tr>
-<tr>
-<td><code>ISTIO_GATEWAY_STRIP_HOST_PORT</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If enabled, Gateway will remove any port from host/authority header before any processing of request by HTTP filters or routing. Deprecated: in Istio 1.15+ port is ignored in domain matching.</td>
 </tr>
 <tr>
 <td><code>ISTIO_GPRC_MAXRECVMSGSIZE</code></td>
