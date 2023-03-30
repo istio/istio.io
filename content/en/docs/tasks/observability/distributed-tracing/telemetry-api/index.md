@@ -31,7 +31,7 @@ spec:
   meshConfig:
     enableTracing: true
     defaultConfig:
-      tracing: {} # disabled tracing options via `MeshConfig`
+      tracing: {} # disabled MeshConfig tracing options
     extensionProviders:
     # add zipkin provider
     - name: zipkin
@@ -184,4 +184,4 @@ spec:
 
 ## Verify the results
 
-You can verify the results with [zipkin UI](/docs/tasks/observability/distributed-tracing/zipkin/).
+You can verify the results with [Zipkin UI](/docs/tasks/observability/distributed-tracing/zipkin/).

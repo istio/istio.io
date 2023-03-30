@@ -28,7 +28,7 @@ spec:
   meshConfig:
     enableTracing: true
     defaultConfig:
-      tracing: {} # disabled tracing options via `MeshConfig`
+      tracing: {} # disabled MeshConfig tracing options 
     extensionProviders:
     # add zipkin provider
     - name: zipkin
