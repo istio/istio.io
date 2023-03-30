@@ -121,7 +121,7 @@ For requests arriving on port `15008`, which by default is Istio’s inbound HBO
 
 Note `10.96.104.108` is the reviews’ service VIP and `10.244.x.x` are the `reviews`’ v1/v2/v3 pod IPs, which you can view your cluster’s using the `kubectl get svc,pod -o wide` command. For plain text or HBONE terminated inbound traffic, it will be matched on the service VIP and port 9080 for reviews or by pod IP address and application protocol (either `ANY` or `h2c` or `http/1.1`).
 
-Check out the clusters for `reviews` waypoint proxy, you get the `main_internal` cluster along with a few inbound clusters. Other than the clusters for infrastructure, the only Envoy clusters created are for services and pods running in the same service account. No clusters are created for services or pods running elsewhere.
+Checking out the clusters for the `reviews` waypoint proxy, you get the `main_internal` cluster along with a few inbound clusters. Other than the clusters for infrastructure, the only Envoy clusters created are for services and pods running in the same service account. No clusters are created for services or pods running elsewhere.
 
 {{< text bash >}}
 $ istioctl proxy-config clusters deploy/bookinfo-reviews-istio-waypoint
