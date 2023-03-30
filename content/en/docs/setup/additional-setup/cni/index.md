@@ -58,15 +58,18 @@ See [compatibility with other CNI plugins](#compatibility-with-other-cni-plugins
 
 ### Install Istio with CNI plugin
 
-In most environments, a basic Istio cluster with CNI enabled can be installed using the following configuration:
+In most environments, a basic Istio cluster with CNI enabled can be installed using the following commands:
 
-{{< text yaml >}}
+{{< text bash >}}
+$ cat <<EOF > istio-cni.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
   components:
     cni:
       enabled: true
+EOF
+$ istioctl install -f istio-cni.yaml -y
 {{< /text >}}
 
 This will deploy an `istio-cni-node` DaemonSet into the cluster, which installs the Istio CNI plugin binary to each node and sets up the necessary configuration for the plugin.

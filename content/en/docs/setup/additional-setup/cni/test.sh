@@ -28,7 +28,7 @@ get_productpage() {
 }
 
 # @setup profile=none
-echo "$snip_install_istio_with_cni_plugin_1" | istioctl install -y -f -
+snip_install_istio_with_cni_plugin_1
 _wait_for_deployment istio-system istiod
 _wait_for_daemonset istio-system istio-cni-node
 
