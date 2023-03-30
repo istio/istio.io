@@ -6,7 +6,7 @@ attribution: "Lin Sun (Solo.io), John Howard (Google)"
 keywords: [istio,ambient,waypoint]
 ---
 
-Ambient splits Istio’s functionality into two distinct layers, secure overlay layer and
+Ambient splits Istio’s functionality into two distinct layers, a secure overlay layer and a
 Layer 7 processing layer. The waypoint proxy is an optional component that is Envoy-based
 and handles L7 processing for workloads it manages. Since the [initial ambient launch](/blog/2022/introducing-ambient-mesh/) in 2022,
 we have made significant changes to simplify waypoint configuration, debuggability and scalability.
