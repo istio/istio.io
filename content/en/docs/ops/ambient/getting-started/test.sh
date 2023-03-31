@@ -37,7 +37,8 @@ _wait_for_daemonset istio-system ztunnel
 _wait_for_daemonset istio-system istio-cni-node
 
 if [ "$GATEWAY_API" == "true" ]; then
-  _verify_like snip_download_and_install_download_9 "$snip_download_and_install_download_9_out"
+  # TODO: uncomment the following line after https://github.com/istio/istio/pull/44187 is available
+  #_verify_like snip_download_and_install_download_9 "$snip_download_and_install_download_9_out"
   _verify_like snip_download_and_install_download_10 "$snip_download_and_install_download_10_out"
 else
   _verify_like snip_download_and_install_download_7 "$snip_download_and_install_download_7_out"
