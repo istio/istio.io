@@ -96,7 +96,7 @@ This is an area under active development in the community, where we design how t
 
 ## A deep-dive of waypoint configuration
 
-Assuming you have followed the [ambient get started guide](http://preliminary.istio.io/latest/docs/ops/ambient/getting-started/) till the [control traffic section](http://preliminary.istio.io/latest/docs/ops/ambient/getting-started/#control), you have deployed a waypoint proxy for the bookinfo-reviews service account to direct 90% traffic to reviews v1 and 10% traffic to reviews v2.
+Assuming you have followed the [ambient get started guide](http://preliminary.istio.io/latest/docs/ops/ambient/getting-started/) up to and including the [control traffic section](http://preliminary.istio.io/latest/docs/ops/ambient/getting-started/#control), you have deployed a waypoint proxy for the bookinfo-reviews service account to direct 90% traffic to reviews v1 and 10% traffic to reviews v2.
 
 Use `istioctl` to retrieve the listeners for the `reviews` waypoint proxy:
 
