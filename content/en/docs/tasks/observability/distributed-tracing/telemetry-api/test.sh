@@ -62,6 +62,7 @@ pgrep istioctl | xargs kill
 
 # @cleanup
 cleanup_bookinfo_sample
+istioctl uninstall --purge -y
 
 # TODO: Fix issue with using killall. Also why do we need to do this in setup and cleanup?
 pgrep istioctl | xargs kill
