@@ -54,7 +54,6 @@ snip_deploy_the_sample_application_bookinfo_2
 if [ "$GATEWAY_API" == "true" ]; then
   snip_deploy_the_sample_application_bookinfo_5
   snip_deploy_the_sample_application_bookinfo_6
-  snip_deploy_the_sample_application_bookinfo_7
 else
   snip_deploy_the_sample_application_bookinfo_4
 fi

@@ -101,9 +101,6 @@ sed -e 's/from: Same/from: All/'\
 
 snip_deploy_the_sample_application_bookinfo_6() {
 kubectl wait --for=condition=programmed gtw/bookinfo-gateway -n istio-system
-}
-
-snip_deploy_the_sample_application_bookinfo_7() {
 export GATEWAY_HOST=bookinfo-gateway-istio.istio-system
 export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/bookinfo-gateway-istio
 }

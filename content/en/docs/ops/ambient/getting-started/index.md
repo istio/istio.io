@@ -213,17 +213,10 @@ $ sed -e 's/from: Same/from: All/'\
 ' @samples/bookinfo/gateway-api/bookinfo-gateway.yaml@ | kubectl apply -f -
 {{< /text >}}
 
-Creating a Kubernetes Gateway resource deploys an associated
-[proxy service](/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment), so run the following command
-to wait for the gateway to be ready:
-
-{{< text bash >}}
-$ kubectl wait --for=condition=programmed gtw/bookinfo-gateway -n istio-system
-{{< /text >}}
-
 Set the environment variables for the Kubernetes gateway:
 
 {{< text bash >}}
+$ kubectl wait --for=condition=programmed gtw/bookinfo-gateway -n istio-system
 $ export GATEWAY_HOST=bookinfo-gateway-istio.istio-system
 $ export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/bookinfo-gateway-istio
 {{< /text >}}
