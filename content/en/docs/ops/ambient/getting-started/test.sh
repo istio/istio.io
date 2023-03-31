@@ -92,6 +92,6 @@ if [ "$GATEWAY_API" != "true" ]; then
     snip_uninstall_uninstall_1
     snip_uninstall_uninstall_2
     snip_uninstall_uninstall_3
-    cleanup_bookinfo_sample
+    samples/bookinfo/platform/kube/cleanup.sh
     snip_uninstall_uninstall_4
 fi

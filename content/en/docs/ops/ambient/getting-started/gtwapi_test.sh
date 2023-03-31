@@ -23,10 +23,8 @@ source "content/en/docs/ops/ambient/getting-started/test.sh"
 # @cleanup
 GATEWAY_API="true"
 
-source "tests/util/samples.sh"
-
 snip_uninstall_uninstall_1
 snip_uninstall_uninstall_2
 snip_uninstall_uninstall_3
-cleanup_bookinfo_sample
+samples/bookinfo/platform/kube/cleanup.sh
 snip_uninstall_uninstall_4

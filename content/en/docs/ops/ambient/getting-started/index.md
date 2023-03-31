@@ -94,8 +94,10 @@ Follow these steps to get started with ambient:
       { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v0.6.1" | kubectl apply -f -; }
     {{< /text >}}
 
+    {{< tip >}}
     {{< boilerplate gateway-api-future >}}
     {{< boilerplate gateway-api-choose >}}
+    {{< /tip >}}
 
 ## Deploy the sample application {#bookinfo}
 
