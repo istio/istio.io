@@ -85,7 +85,7 @@ when you apply it to service account waypoint proxies.
 
 This reduced configuration means lower resource usage (CPU, RAM, and network bandwidth) for both the
 control plane and data plane. While users today can see similar improvements with careful usage of
-`exportTo` in your Istio networking resources or the [Sidecar](/docs/reference/config/networking/sidecar/) API,
+`exportTo` in their Istio networking resources or of the [Sidecar](/docs/reference/config/networking/sidecar/) API,
 in ambient mode this is no longer required, making scaling a breeze.
 
 ## What if my destination doesn’t have a waypoint proxy?
