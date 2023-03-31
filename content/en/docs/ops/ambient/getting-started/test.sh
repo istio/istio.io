@@ -26,12 +26,23 @@ set -o pipefail
 source "tests/util/samples.sh"
 
 # install istio with ambient profile
-snip_download_and_install_download_2
+if [ "$GATEWAY_API" == "true" ]; then
+  snip_download_and_install_download_5
+else
+  snip_download_and_install_download_3
+fi
+
 _wait_for_deployment istio-system istiod
 _wait_for_daemonset istio-system ztunnel
 _wait_for_daemonset istio-system istio-cni-node
-_verify_like snip_download_and_install_download_4 "$snip_download_and_install_download_4_out"
-_verify_like snip_download_and_install_download_5 "$snip_download_and_install_download_5_out"
+
+if [ "$GATEWAY_API" == "true" ]; then
+  _verify_like snip_download_and_install_download_9 "$snip_download_and_install_download_9_out"
+  _verify_like snip_download_and_install_download_10 "$snip_download_and_install_download_10_out"
+else
+  _verify_like snip_download_and_install_download_7 "$snip_download_and_install_download_7_out"
+  _verify_like snip_download_and_install_download_8 "$snip_download_and_install_download_8_out"
+fi
 
 # Kubernetes Gateway API CRDs are required by waypoint proxy.
 snip_download_and_install_download_6
