@@ -23,7 +23,7 @@ can install, upgrade, and scale independently from the application, as well as r
     caption="Waypoint architecture"
     >}}
 
-Waypoint proxies are deployed declaratively using Kubernetes Gateway resources, or the helpful `istioctl` command:
+Waypoint proxies are deployed declaratively using Kubernetes Gateway resources or the helpful `istioctl` command:
 
 {{< text bash >}}
 $ istioctl experimental waypoint generate
