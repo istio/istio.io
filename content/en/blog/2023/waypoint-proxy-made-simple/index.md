@@ -90,7 +90,7 @@ in ambient mode this is no longer required, making scaling a breeze.
 
 ## What if my destination doesn’t have a waypoint proxy?
 
-The design of ambient mode centers around the assumption that most configuration is best implemented by the service producer, rather than the service consumer. However, this isn't always the case - sometimes we need to configure traffic management for destinations we don't control. A common example of this would be connecting to an external service with improved resilience to handle occasional connection issues (e.g. to add a timeout for calls to `example.com`).
+The design of ambient mode centers around the assumption that most configuration is best implemented by the service producer, rather than the service consumer. However, this isn't always the case - sometimes we need to configure traffic management for destinations we don't control. A common example of this would be connecting to an external service with improved resilience to handle occasional connection issues (e.g., to add a timeout for calls to `example.com`).
 
 This is an area under active development in the community, where we design how traffic can be routed to your egress gateway and how you can configure the egress gateway with your desired policies. Look out for future blog posts in this area!
 
