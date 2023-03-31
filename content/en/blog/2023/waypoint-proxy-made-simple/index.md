@@ -153,7 +153,7 @@ inbound-vip|9080|http|reviews.default.svc.cluster.local *       /*              
 default
 {{< /text >}}
 
-If you recall, you didn’t configure any Sidecar resources or `exportTo` configuration on your Istio networking resources. You deployed the `bookinfo-productpage` route earlier to configure Istio ingress gateway to route to `productpage` but the `reviews` waypoint isn’t made aware of any irrelevant routes.
+Recall that you didn’t configure any Sidecar resources or `exportTo` configuration on your Istio networking resources. You did, however, deploy the `bookinfo-productpage` route, earlier, to configure an ingress gateway to route to `productpage` but the `reviews` waypoint has not been made aware of any such irrelevant routes.
 
 Displaying the detailed information for the `inbound-vip|9080|http|reviews.default.svc.cluster.local` route, you’ll see the weighted based routing configuration to direct 90% of the traffic to `reviews` v1 and 10% of the traffic to `reviews` v2, along with some of Istio’s default retry and timeout configurations. This confirms the traffic and resiliency policies are shifted from source to destination oriented waypoint discussed earlier.
 
