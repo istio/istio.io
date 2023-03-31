@@ -143,7 +143,7 @@ zipkin                               -    -       -           STRICT_DNS
 
 Note that there are no `outbound` clusters in the list, which you can confirm using `istioctl proxy-config cluster deploy/bookinfo-reviews-istio-waypoint --direction outbound`! What's nice is that you didn’t need to configure `exportTo` on any other bookinfo services (for example, the `productpage` or `ratings` services). In other words, the `reviews` waypoint is not made aware of any unnecessary clusters, without any extra manual configuration from you.
 
-Display the list routes for `reviews` waypoint proxy:
+Display the list of routes for the `reviews` waypoint proxy:
 
 {{< text bash >}}
 $ istioctl proxy-config routes deploy/bookinfo-reviews-istio-waypoint
