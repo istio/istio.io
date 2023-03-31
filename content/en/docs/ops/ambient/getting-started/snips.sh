@@ -46,6 +46,11 @@ istio-cni-node   1         1         1       1            1           kubernetes
 ztunnel          1         1         1       1            1           <none>                   82s
 ENDSNIP
 
+snip_download_and_install_download_6() {
+kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
+  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v0.6.1" | kubectl apply -f -; }
+}
+
 snip_deploy_the_sample_application_bookinfo_2() {
 kubectl apply -f samples/sleep/sleep.yaml
 kubectl apply -f samples/sleep/notsleep.yaml
@@ -55,8 +60,31 @@ snip_deploy_the_sample_application_bookinfo_3() {
 kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml
 }
 
+snip_deploy_the_sample_application_bookinfo_4() {
+export GATEWAY_HOST=istio-ingressgateway.istio-system
+export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/istio-ingressgateway-service-account
+}
+
+snip_deploy_the_sample_application_bookinfo_5() {
+sed -e 's/from: Same/from: All/'\
+    -e '/^  name: bookinfo-gateway/a\
+  namespace: istio-system\
+'   -e '/^  - name: bookinfo-gateway/a\
+    namespace: istio-system\
+' samples/bookinfo/gateway-api/bookinfo-gateway.yaml | kubectl apply -f -
+}
+
+snip_deploy_the_sample_application_bookinfo_6() {
+kubectl wait --for=condition=programmed gtw/bookinfo-gateway -n istio-system
+}
+
+snip_deploy_the_sample_application_bookinfo_7() {
+export GATEWAY_HOST=bookinfo-gateway-istio.istio-system
+export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/bookinfo-gateway-istio
+}
+
 snip_verify_traffic_sleep_to_ingress() {
-kubectl exec deploy/sleep -- curl -s http://istio-ingressgateway.istio-system/productpage | grep -o "<title>.*</title>"
+kubectl exec deploy/sleep -- curl -s "http://$GATEWAY_HOST/productpage" | grep -o "<title>.*</title>"
 }
 
 ! read -r -d '' snip_verify_traffic_sleep_to_ingress_out <<\ENDSNIP
@@ -98,28 +126,37 @@ spec:
  rules:
  - from:
    - source:
-       principals: ["cluster.local/ns/default/sa/sleep", "cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"]
+       principals:
+       - cluster.local/ns/default/sa/sleep
+       - cluster.local/$GATEWAY_SERVICE_ACCOUNT
 EOF
 }
 
 snip_l7_authorization_policy_1() {
-kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
-  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.6.1" | kubectl apply -f -; }
-}
-
-snip_l7_authorization_policy_2() {
 istioctl x waypoint apply --service-account bookinfo-productpage
 }
 
-! read -r -d '' snip_l7_authorization_policy_2_out <<\ENDSNIP
+! read -r -d '' snip_l7_authorization_policy_1_out <<\ENDSNIP
 waypoint default/bookinfo-productpage applied
 ENDSNIP
 
-snip_l7_authorization_policy_3() {
+snip_l7_authorization_policy_2() {
 kubectl get gtw bookinfo-productpage -o yaml
 }
 
-snip_l7_authorization_policy_5() {
+! read -r -d '' snip_l7_authorization_policy_2_out <<\ENDSNIP
+...
+status:
+  conditions:
+  - lastTransitionTime: "2023-02-24T03:22:43Z"
+    message: Resource programmed, assigned to service(s) bookinfo-productpage-istio-waypoint.default.svc.cluster.local:15008
+    observedGeneration: 1
+    reason: Programmed
+    status: "True"
+    type: Programmed
+ENDSNIP
+
+snip_l7_authorization_policy_3() {
 kubectl apply -f - <<EOF
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
@@ -134,37 +171,39 @@ spec:
  rules:
  - from:
    - source:
-       principals: ["cluster.local/ns/default/sa/sleep", "cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"]
+       principals:
+       - cluster.local/ns/default/sa/sleep
+       - cluster.local/$GATEWAY_SERVICE_ACCOUNT
    to:
    - operation:
        methods: ["GET"]
 EOF
 }
 
-snip_l7_authorization_policy_6() {
+snip_l7_authorization_policy_4() {
 # this should fail with an RBAC error because it is not a GET operation
-kubectl exec deploy/sleep -- curl -s http://productpage:9080/ -X DELETE
+kubectl exec deploy/sleep -- curl -s "http://$GATEWAY_HOST/productpage" -X DELETE
 }
 
-! read -r -d '' snip_l7_authorization_policy_6_out <<\ENDSNIP
+! read -r -d '' snip_l7_authorization_policy_4_out <<\ENDSNIP
 RBAC: access denied
 ENDSNIP
 
-snip_l7_authorization_policy_7() {
+snip_l7_authorization_policy_5() {
 # this should fail with an RBAC error because the identity is not allowed
 kubectl exec deploy/notsleep -- curl -s http://productpage:9080/
 }
 
-! read -r -d '' snip_l7_authorization_policy_7_out <<\ENDSNIP
+! read -r -d '' snip_l7_authorization_policy_5_out <<\ENDSNIP
 RBAC: access denied
 ENDSNIP
 
-snip_l7_authorization_policy_8() {
+snip_l7_authorization_policy_6() {
 # this should continue to work
 kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
 }
 
-! read -r -d '' snip_l7_authorization_policy_8_out <<\ENDSNIP
+! read -r -d '' snip_l7_authorization_policy_6_out <<\ENDSNIP
 <title>Simple Bookstore App</title>
 ENDSNIP
 
@@ -182,15 +221,18 @@ kubectl apply -f samples/bookinfo/networking/destination-rule-reviews.yaml
 }
 
 snip_control_traffic_control_3() {
-kubectl exec deploy/sleep -- sh -c "for i in \$(seq 1 100); do curl -s http://istio-ingressgateway.istio-system/productpage | grep reviews-v.-; done"
+kubectl apply -f samples/bookinfo/platform/kube/bookinfo-versions.yaml
+}
+
+snip_control_traffic_control_4() {
+kubectl apply -f samples/bookinfo/gateway-api/route-reviews-90-10.yaml
+}
+
+snip_control_traffic_control_5() {
+kubectl exec deploy/sleep -- sh -c "for i in \$(seq 1 100); do curl -s http://$GATEWAY_HOST/productpage | grep reviews-v.-; done"
 }
 
 snip_uninstall_uninstall_1() {
-kubectl delete -f samples/sleep/sleep.yaml
-kubectl delete -f samples/sleep/notsleep.yaml
-}
-
-snip_uninstall_uninstall_2() {
 kubectl delete authorizationpolicy productpage-viewer
 istioctl x waypoint delete --service-account bookinfo-reviews
 istioctl x waypoint delete --service-account bookinfo-productpage
@@ -198,6 +240,15 @@ istioctl uninstall -y --purge
 kubectl delete namespace istio-system
 }
 
-snip_uninstall_uninstall_3() {
+snip_uninstall_uninstall_2() {
 kubectl label namespace default istio.io/dataplane-mode-
+}
+
+snip_uninstall_uninstall_3() {
+kubectl delete -f samples/sleep/sleep.yaml
+kubectl delete -f samples/sleep/notsleep.yaml
+}
+
+snip_uninstall_uninstall_4() {
+kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v0.6.1" | kubectl delete -f -
 }

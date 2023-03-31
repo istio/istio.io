@@ -87,6 +87,18 @@ Follow these steps to get started with ambient:
     ztunnel          1         1         1       1            1           <none>                   82s
     {{< /text >}}
 
+1.  Install Kubernetes Gateway CRDs, which don’t come installed by default on most Kubernetes clusters:
+
+    {{< text bash >}}
+    $ kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
+      { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v0.6.1" | kubectl apply -f -; }
+    {{< /text >}}
+
+    {{< tip >}}
+    {{< boilerplate gateway-api-future >}}
+    {{< boilerplate gateway-api-choose >}}
+    {{< /tip >}}
+
 ## Deploy the sample application {#bookinfo}
 
 You’ll use the sample [bookinfo application](/docs/examples/bookinfo/), which is part of
@@ -111,17 +123,65 @@ $ kubectl apply -f @samples/sleep/notsleep.yaml@
 
 Note: `sleep` and `notsleep` are two simple applications that can serve as curl clients.
 
-Connect `productpage` to the Istio ingress gateway so you can access the bookinfo
-app from outside of the cluster:
+{{< tabset category-name="config-api" >}}
+
+{{< tab name="Istio classic" category-value="istio-classic" >}}
+
+Create an Istio [Gateway](/docs/reference/config/networking/gateway/) and
+[VirtualService](/docs/reference/config/networking/virtual-service/), so you can access the bookinfo app through the
+Istio ingress gateway:
 
 {{< text bash >}}
 $ kubectl apply -f @samples/bookinfo/networking/bookinfo-gateway.yaml@
 {{< /text >}}
 
-Test your bookinfo application, it should work with or without the gateway. Note: you can replace `istio-ingressgateway.istio-system` below with its load balancer IP (or hostname) if it has one:
+Set the environment variables for the Istio ingress gateway:
+
+{{< text bash >}}
+$ export GATEWAY_HOST=istio-ingressgateway.istio-system
+$ export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/istio-ingressgateway-service-account
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+Create a [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io%2fv1beta1.Gateway)
+and [HTTPRoute](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1beta1.HTTPRoute) so you can access
+the bookinfo app from outside the cluster:
+
+{{< text bash >}}
+$ sed -e 's/from: Same/from: All/'\
+    -e '/^  name: bookinfo-gateway/a\
+  namespace: istio-system\
+'   -e '/^  - name: bookinfo-gateway/a\
+    namespace: istio-system\
+' @samples/bookinfo/gateway-api/bookinfo-gateway.yaml@ | kubectl apply -f -
+{{< /text >}}
+
+Creating a Kubernetes Gateway resource deploys an associated
+[proxy service](/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment), so run the following command
+to wait for the gateway to be ready:
+
+{{< text bash >}}
+$ kubectl wait --for=condition=programmed gtw/bookinfo-gateway -n istio-system
+{{< /text >}}
+
+Set the environment variables for the Kubernetes gateway:
+
+{{< text bash >}}
+$ export GATEWAY_HOST=bookinfo-gateway-istio.istio-system
+$ export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/bookinfo-gateway-istio
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
+Test your bookinfo application, it should work with or without the gateway:
 
 {{< text syntax=bash snip_id=verify_traffic_sleep_to_ingress >}}
-$ kubectl exec deploy/sleep -- curl -s http://istio-ingressgateway.istio-system/productpage | grep -o "<title>.*</title>"
+$ kubectl exec deploy/sleep -- curl -s "http://$GATEWAY_HOST/productpage" | grep -o "<title>.*</title>"
 <title>Simple Bookstore App</title>
 {{< /text >}}
 
@@ -150,7 +210,7 @@ to the ambient mesh. The best part is that there was no need to restart or redep
 Send some test traffic:
 
 {{< text syntax=bash snip_id=none >}}
-$ kubectl exec deploy/sleep -- curl -s http://istio-ingressgateway.istio-system/productpage | grep -o "<title>.*</title>"
+$ kubectl exec deploy/sleep -- curl -s "http://$GATEWAY_HOST/productpage" | grep -o "<title>.*</title>"
 <title>Simple Bookstore App</title>
 {{< /text >}}
 
@@ -179,8 +239,7 @@ identities, but not at the L7 level, such as HTTP methods like `GET` and `POST`.
 
 ### L4 Authorization Policy
 
-Explicitly allow the `sleep` service account and `istio-ingressgateway` service accounts to call
- the `productpage` service:
+Explicitly allow the `sleep` and gateway service accounts to call the `productpage` service:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -197,7 +256,9 @@ spec:
  rules:
  - from:
    - source:
-       principals: ["cluster.local/ns/default/sa/sleep", "cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"]
+       principals:
+       - cluster.local/ns/default/sa/sleep
+       - cluster.local/$GATEWAY_SERVICE_ACCOUNT
 EOF
 {{< /text >}}
 
@@ -205,7 +266,7 @@ Confirm the above authorization policy is working:
 
 {{< text syntax=bash snip_id=none >}}
 $ # this should succeed
-$ kubectl exec deploy/sleep -- curl -s http://istio-ingressgateway.istio-system/productpage | grep -o "<title>.*</title>"
+$ kubectl exec deploy/sleep -- curl -s "http://$GATEWAY_HOST/productpage" | grep -o "<title>.*</title>"
 <title>Simple Bookstore App</title>
 {{< /text >}}
 
@@ -224,12 +285,6 @@ command terminated with exit code 56
 ### L7 Authorization Policy
 
 Using the Kubernetes Gateway API, you can deploy a {{< gloss "waypoint" >}}waypoint proxy{{< /gloss >}} for the `productpage` service that uses the `bookinfo-productpage` service account. Any traffic going to the `productpage` service will be mediated, enforced and observed by the Layer 7 (L7) proxy.
-Install Kubernetes Gateway CRDs, which don’t come installed by default on most Kubernetes clusters:
-
-{{< text bash >}}
-$ kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
-  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.6.1" | kubectl apply -f -; }
-{{< /text >}}
 
 Deploy a waypoint proxy for the `productpage` service:
 
@@ -239,15 +294,10 @@ waypoint default/bookinfo-productpage applied
 {{< /text >}}
 
 View the `productpage` waypoint proxy status; you should see the details of the gateway
-resource with `Ready` status:
+resource with `Programmed` status:
 
 {{< text bash >}}
 $ kubectl get gtw bookinfo-productpage -o yaml
-{{< /text >}}
-
-Verify that the waypoint proxy status is ready:
-
-{{< text syntax=plaintext snip_id=none >}}
 ...
 status:
   conditions:
@@ -259,7 +309,7 @@ status:
     type: Programmed
 {{< /text >}}
 
-Update our `AuthorizationPolicy` to explicitly allow the `sleep` service account and `istio-ingressgateway` service accounts to `GET` the `productpage` service, but perform no other operations:
+Update our `AuthorizationPolicy` to explicitly allow the `sleep` and gateway service accounts to `GET` the `productpage` service, but perform no other operations:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -276,18 +326,18 @@ spec:
  rules:
  - from:
    - source:
-       principals: ["cluster.local/ns/default/sa/sleep", "cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"]
+       principals:
+       - cluster.local/ns/default/sa/sleep
+       - cluster.local/$GATEWAY_SERVICE_ACCOUNT
    to:
    - operation:
        methods: ["GET"]
 EOF
 {{< /text >}}
 
-Confirm the above authorization policy is working:
-
 {{< text bash >}}
 $ # this should fail with an RBAC error because it is not a GET operation
-$ kubectl exec deploy/sleep -- curl -s http://productpage:9080/ -X DELETE
+$ kubectl exec deploy/sleep -- curl -s "http://$GATEWAY_HOST/productpage" -X DELETE
 RBAC: access denied
 {{< /text >}}
 
@@ -312,6 +362,10 @@ $ istioctl x waypoint apply --service-account bookinfo-reviews
 waypoint default/bookinfo-reviews applied
 {{< /text >}}
 
+{{< tabset category-name="config-api" >}}
+
+{{< tab name="Istio classic" category-value="istio-classic" >}}
+
 Apply the reviews virtual service to control 90% traffic to reviews v1 and 10% traffic to reviews v2.
 
 {{< text bash >}}
@@ -319,22 +373,33 @@ $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-90-10.ya
 $ kubectl apply -f @samples/bookinfo/networking/destination-rule-reviews.yaml@
 {{< /text >}}
 
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+Create subsets of the bookinfo Services to control traffic to `reviews` v1 and v2 versions:
+
+{{< text bash >}}
+$ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-versions.yaml@
+{{< /text >}}
+
+Create an HTTPRoute to control 90% of traffic to `reviews` v1 and 10% traffic to `reviews` v2.
+
+{{< text bash >}}
+$ kubectl apply -f @samples/bookinfo/gateway-api/route-reviews-90-10.yaml@
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
 Confirm that roughly 10% traffic from the 100 requests go to reviews-v2:
 
 {{< text bash >}}
-$ kubectl exec deploy/sleep -- sh -c "for i in \$(seq 1 100); do curl -s http://istio-ingressgateway.istio-system/productpage | grep reviews-v.-; done"
+$ kubectl exec deploy/sleep -- sh -c "for i in \$(seq 1 100); do curl -s http://$GATEWAY_HOST/productpage | grep reviews-v.-; done"
 {{< /text >}}
 
 ## Uninstall {#uninstall}
-
-To delete the Bookinfo sample application and its configuration, see [`Bookinfo` cleanup](/docs/examples/bookinfo/#cleanup).
-
-To remove the `sleep` and `notsleep` applications:
-
-{{< text bash >}}
-$ kubectl delete -f @samples/sleep/sleep.yaml@
-$ kubectl delete -f @samples/sleep/notsleep.yaml@
-{{< /text >}}
 
 To remove the `productpage-viewer` authorization policy, waypoint proxies and uninstall Istio:
 
@@ -350,4 +415,19 @@ The label to instruct Istio to automatically include applications in the `defaul
 
 {{< text bash >}}
 $ kubectl label namespace default istio.io/dataplane-mode-
+{{< /text >}}
+
+To delete the Bookinfo sample application and its configuration, see [`Bookinfo` cleanup](/docs/examples/bookinfo/#cleanup).
+
+To remove the `sleep` and `notsleep` applications:
+
+{{< text bash >}}
+$ kubectl delete -f @samples/sleep/sleep.yaml@
+$ kubectl delete -f @samples/sleep/notsleep.yaml@
+{{< /text >}}
+
+If you installed the Gateway API CRDs, remove them:
+
+{{< text bash >}}
+$ kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v0.6.1" | kubectl delete -f -
 {{< /text >}}
