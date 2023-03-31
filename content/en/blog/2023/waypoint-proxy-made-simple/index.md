@@ -214,7 +214,7 @@ unix://./etc/istio/proxy/XDS                        HEALTHY OK            xds-gr
 unix://./var/run/secrets/workload-spiffe-uds/socket HEALTHY OK            sds-grpc
 {{< /text >}}
 
-Note you don’t get any endpoints related to any other services other than reviews, even though you have a few other services in the `default` and `istio-system` namespace.
+Note that you don’t get any endpoints related to any services other than reviews, even though you have a few other services in the `default` and `istio-system` namespace.
 
 ## Wrapping up
 
