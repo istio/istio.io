@@ -22,11 +22,11 @@ Splunk is a technology company that provides a platform for collecting, analyzin
 
 # Securing Layer 3/4: AWS, Aviatrix and Kubernetes
 
-At Splunk Cloud, we use a pattern called “cookie cutter VPCs” where each cluster is provisioned with it’s own VPC, with identical private subnets for Pod and Node IPs, a public subnet for ingress and egress to and from the public internet, and an internal subnet for traffic between clusters.  This keeps Pods and Nodes from separate clusters completely isolated, while allowing traffic outside the cluster to have particular rules enforced in the public and internal subnets.  Additionally, this pattern avoids the possibility of RFC 1918 private IP exhaustion when leveraging many clusters.
+At Splunk Cloud, we use a pattern called "cookie cutter VPCs" where each cluster is provisioned with it’s own VPC, with identical private subnets for Pod and Node IPs, a public subnet for ingress and egress to and from the public internet, and an internal subnet for traffic between clusters.  This keeps Pods and Nodes from separate clusters completely isolated, while allowing traffic outside the cluster to have particular rules enforced in the public and internal subnets.  Additionally, this pattern avoids the possibility of RFC 1918 private IP exhaustion when leveraging many clusters.
 
 Within each VPC, Network ACLs and Security Groups are set up to restrict connectivity to what is absolutely required. As an example, we restrict public connectivity to our Ingress nodes (that will deploy Envoy ingress gateways).  In addition to ordinary east/west and north/south traffic, there are also shared services at Splunk that every cluster needs to access. Aviatrix is used to provide overlapping VPC access, while also enforcing some high level security rules (segmentation per domain).
 
-{{< image width="55%"
+{{< image width="90%"
     link="CNCS 2023 - VPC Connectivity 3.png"
     caption="Splunk Network Security Architecture"
     >}}
@@ -43,7 +43,7 @@ Istio manages Splunk’s ingress gateways, which receive traffic from public and
 
 Because Istio and related K8S objects are relatively complex to configure, Splunk created an abstraction layer, which is a controller that configures everything for the service, including virtual services, destination rules, gateways, certificates, and more. It sets up DNS that goes directly to the right NLB. It's a one-click solution for end-to-end network deployment.  For more complex use cases, the services teams can still bypass the abstraction and configure these settings directly.
 
-{{< image width="55%"
+{{< image width="90%"
     link="Splunk Platform.png"
     caption="Splunk Application Platform"
     >}}
@@ -58,13 +58,13 @@ The Istio project is aware of these limitations, and believes they will be subst
 
 With all these layers to network security at Splunk Cloud, it is helpful to take a step back and examine the life of a request as it traverses these layers.  When a client sends a request, they first connect to our NLB, which will be allowed or blocked by our `VPC ACLs`. The NLB then proxies the request to one of our ingress nodes, which terminates TLS and inspects the request at Layer 7, choosing to allow or block the request. The Envoy Gateway then validates the request using `ExtAuthZ` to ensure it is properly authenticated, and meets quota restrictions before being allowed into the cluster. Next, the Envoy Gateway proxies the request upstream, and the network policies from Kubernetes take effect again to make sure this proxying is allowed. The upstream sidecar on the workload inspects the Layer 7 requests and if allowed, it will decrypt the request and send it to the workload in clear text.
 
-{{< image width="55%"
+{{< image width="90%"
     link="security matrix.png"
     caption="Cloud Native Network Security Matrix"
-    >}}sec
+    >}}
 
 Securing Splunk’s Cloud Native Network Stack while meeting the scalability needs of this large enterprise company requires careful security planning at each layer.
 
 While applying identity, observability, and policy principles at every layer in the stack may appear redundant at first glance, each layer is able to make up for the shortcomings of the others, so that together these layers form a tight and effective barrier to unwanted access.
 
-If you are interested in diving deeper into Splunk's Network Security Stack, you can watch my Cloud Native SecuirtyCon [presentation](https://youtu.be/OuRQnJKIEaM) with Splunk's Principal Engineer, Bernard Van Der Walle.  This post was generated in part by ChatGPT summarizing a transcript of that presentation
+If you are interested in diving deeper into Splunk's Network Security Stack, you can watch my Cloud Native SecurityCon [presentation](https://youtu.be/OuRQnJKIEaM) with Splunk's Principal Engineer, Bernard Van Der Walle.  This post was generated in part by ChatGPT summarizing a transcript of that presentation
