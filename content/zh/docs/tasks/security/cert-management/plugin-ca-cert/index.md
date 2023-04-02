@@ -171,11 +171,34 @@ test: yes
     $ rm -rf certs
     {{< /text >}}
 
-*  删除私密 `cacerts`、`foo` 和 `istio-system` 命名空间：
+*  删除 Secret `cacerts`：
 
     {{< text bash >}}
     $ kubectl delete secret cacerts -n istio-system
-    $ kubectl delete ns foo istio-system
     {{< /text >}}
 
-*  移除 Istio 组件：按照[卸载说明](/zh/docs/setup/getting-started/#uninstall)进行移除。
+*  从 `foo` 命名空间中删除身份验证策略：
+
+    {{< text bash >}}
+    $ kubectl delete peerauthentication -n foo default
+    {{< /text >}}
+
+*  删除示例应用 `sleep` 和 `httpbin`：
+
+    {{< text bash >}}
+    $ kubectl delete -f samples/sleep/sleep.yaml -n foo
+    $ kubectl delete -f samples/httpbin/httpbin.yaml -n foo
+    {{< /text >}}
+
+*  从集群中卸载 Istio：
+
+    {{< text bash >}}
+    $ istioctl uninstall --purge -y
+    {{< /text >}}
+
+*  从集群中删除命名空间 `foo` 和 `istio-system`：
+
+    {{< text bash >}}
+    $ kubectl delete ns foo istio-system
+    {{< /text >}}
+    
