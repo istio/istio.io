@@ -201,4 +201,3 @@ test: yes
     {{< text bash >}}
     $ kubectl delete ns foo istio-system
     {{< /text >}}
-    
