@@ -1,6 +1,6 @@
 ---
 title: "Comprehensive Network Security at Splunk"
-description: The call for session proposals is now open.
+description: "Security from Layer 3 to Layer 7 with Istio and more"
 publishdate: 2023-04-03
 attribution: "Bernard Van De Walle (Splunk), Mitch Connors (Aviatrix), ChatGPT"
 keywords: [Istio,Security,Use Case]
