@@ -73,7 +73,9 @@ _verify_contains snip_verify_traffic_notsleep_to_productpage "$snip_verify_traff
 snip_l4_authorization_policy_1
 _verify_contains snip_verify_traffic_sleep_to_ingress "$snip_verify_traffic_sleep_to_ingress_out"
 _verify_contains snip_verify_traffic_sleep_to_productpage "$snip_verify_traffic_sleep_to_productpage_out"
-_verify_contains snip_verify_traffic_notsleep_to_productpage "command terminated with exit code 56"
+# _verify_contains snip_verify_traffic_notsleep_to_productpage "command terminated with exit code 56"
+# TODO: ^^^ Fix doc. How did this ever work, i.e., checking for error message from curl -s? Also piped through grep for <title>??
+_verify_failure  snip_verify_traffic_notsleep_to_productpage
 
 _verify_contains snip_l7_authorization_policy_1 "$snip_l7_authorization_policy_1_out"
 _verify_contains snip_l7_authorization_policy_2 "Resource programmed, assigned to service"
