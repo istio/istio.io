@@ -2,7 +2,7 @@
 title: "Comprehensive Network Security at Splunk"
 description: The call for session proposals is now open.
 publishdate: 2023-04-03
-attribution: "Mitch Connors (Aviatrix), ChatGPT"
+attribution: "Bernard Van De Walle (Splunk), Mitch Connors (Aviatrix), ChatGPT"
 keywords: [Istio,Security,Use Case]
 ---
 
@@ -67,4 +67,4 @@ Securing Splunk’s Cloud Native Network Stack while meeting the scalability nee
 
 While applying identity, observability, and policy principles at every layer in the stack may appear redundant at first glance, each layer is able to make up for the shortcomings of the others, so that together these layers form a tight and effective barrier to unwanted access.
 
-If you are interested in diving deeper into Splunk's Network Security Stack, you can watch my Cloud Native SecurityCon [presentation](https://youtu.be/OuRQnJKIEaM) with Splunk's Principal Engineer, Bernard Van Der Walle.  This post was generated in part by ChatGPT summarizing a transcript of that presentation
+If you are interested in diving deeper into Splunk's Network Security Stack, you can watch our Cloud Native SecurityCon [presentation](https://youtu.be/OuRQnJKIEaM).  This post was generated in part by ChatGPT summarizing a transcript of that presentation.
