@@ -59,7 +59,7 @@ snippetid = re.compile(r"snip_id=(\w+)")
 githubfile = re.compile(r"^(.*)(?<![A-Za-z0-9])@([\w\.\-_/]+)@(.*)$")
 execit = re.compile(r"^(.*kubectl exec.*) -it (.*)$")
 heredoc = re.compile(r"<<\s*\\?EOF")
-sectionhead = re.compile(r"^##+ (.*)$")
+sectionhead = re.compile(r"^##+ ([^{]*)({.*})?$")
 invalidchar = re.compile(r"[^0-9a-zA-Z_]")
 
 parser = argparse.ArgumentParser()
@@ -106,7 +106,7 @@ with open(markdown, 'rt', encoding='utf-8') as mdfile:
         match = sectionhead.match(line)
         if match:
             snipnum = 0
-            section = invalidchar.sub('', match.group(1).replace(" ", "_")).lower()
+            section = invalidchar.sub('', match.group(1).strip().replace(" ", "_")).lower()
             continue
 
         match = startsnip.match(line)

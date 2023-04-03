@@ -21,23 +21,23 @@
 ####################################################################################################
 source "content/en/boilerplates/snips/trace-generation.sh"
 
-snip_download_istio_download_1() {
+snip_download_istio_1() {
 curl -L https://istio.io/downloadIstio | sh -
 }
 
-snip_download_istio_download_2() {
+snip_download_istio_2() {
 curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.18.0 TARGET_ARCH=x86_64 sh -
 }
 
-snip_download_istio_download_4() {
+snip_download_istio_4() {
 export PATH=$PWD/bin:$PATH
 }
 
-snip_install_istio_install_1() {
+snip_install_istio_1() {
 istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --set profile=demo -y
 }
 
-! read -r -d '' snip_install_istio_install_1_out <<\ENDSNIP
+! read -r -d '' snip_install_istio_1_out <<\ENDSNIP
 ✔ Istio core installed
 ✔ Istiod installed
 ✔ Egress gateways installed
@@ -45,19 +45,19 @@ istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKIN
 ✔ Installation complete
 ENDSNIP
 
-snip_install_istio_install_2() {
+snip_install_istio_2() {
 kubectl label namespace default istio-injection=enabled
 }
 
-! read -r -d '' snip_install_istio_install_2_out <<\ENDSNIP
+! read -r -d '' snip_install_istio_2_out <<\ENDSNIP
 namespace/default labeled
 ENDSNIP
 
-snip_deploy_the_sample_application_bookinfo_1() {
+snip_deploy_the_sample_application_1() {
 kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
 }
 
-! read -r -d '' snip_deploy_the_sample_application_bookinfo_1_out <<\ENDSNIP
+! read -r -d '' snip_deploy_the_sample_application_1_out <<\ENDSNIP
 service/details created
 serviceaccount/bookinfo-details created
 deployment.apps/details-v1 created
@@ -74,11 +74,11 @@ serviceaccount/bookinfo-productpage created
 deployment.apps/productpage-v1 created
 ENDSNIP
 
-snip_deploy_the_sample_application_bookinfo_2() {
+snip_deploy_the_sample_application_2() {
 kubectl get services
 }
 
-! read -r -d '' snip_deploy_the_sample_application_bookinfo_2_out <<\ENDSNIP
+! read -r -d '' snip_deploy_the_sample_application_2_out <<\ENDSNIP
 NAME          TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
 details       ClusterIP   10.0.0.212      <none>        9080/TCP   29s
 kubernetes    ClusterIP   10.0.0.1        <none>        443/TCP    25m
@@ -87,11 +87,11 @@ ratings       ClusterIP   10.0.0.33       <none>        9080/TCP   29s
 reviews       ClusterIP   10.0.0.28       <none>        9080/TCP   29s
 ENDSNIP
 
-snip_deploy_the_sample_application_bookinfo_3() {
+snip_deploy_the_sample_application_3() {
 kubectl get pods
 }
 
-! read -r -d '' snip_deploy_the_sample_application_bookinfo_3_out <<\ENDSNIP
+! read -r -d '' snip_deploy_the_sample_application_3_out <<\ENDSNIP
 NAME                              READY   STATUS    RESTARTS   AGE
 details-v1-558b8b4b76-2llld       2/2     Running   0          2m41s
 productpage-v1-6987489c74-lpkgl   2/2     Running   0          2m40s
@@ -101,28 +101,28 @@ reviews-v2-7d79d5bd5d-8zzqd       2/2     Running   0          2m41s
 reviews-v3-7dbcdcbc56-m8dph       2/2     Running   0          2m41s
 ENDSNIP
 
-snip_deploy_the_sample_application_bookinfo_4() {
+snip_deploy_the_sample_application_4() {
 kubectl exec "$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')" -c ratings -- curl -sS productpage:9080/productpage | grep -o "<title>.*</title>"
 }
 
-! read -r -d '' snip_deploy_the_sample_application_bookinfo_4_out <<\ENDSNIP
+! read -r -d '' snip_deploy_the_sample_application_4_out <<\ENDSNIP
 <title>Simple Bookstore App</title>
 ENDSNIP
 
-snip_open_the_application_to_outside_traffic_ip_1() {
+snip_open_the_application_to_outside_traffic_1() {
 kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml
 }
 
-! read -r -d '' snip_open_the_application_to_outside_traffic_ip_1_out <<\ENDSNIP
+! read -r -d '' snip_open_the_application_to_outside_traffic_1_out <<\ENDSNIP
 gateway.networking.istio.io/bookinfo-gateway created
 virtualservice.networking.istio.io/bookinfo created
 ENDSNIP
 
-snip_open_the_application_to_outside_traffic_ip_2() {
+snip_open_the_application_to_outside_traffic_2() {
 istioctl analyze
 }
 
-! read -r -d '' snip_open_the_application_to_outside_traffic_ip_2_out <<\ENDSNIP
+! read -r -d '' snip_open_the_application_to_outside_traffic_2_out <<\ENDSNIP
 ✔ No validation issues found when analyzing namespace: default.
 ENDSNIP
 
@@ -218,21 +218,21 @@ echo "$GATEWAY_URL"
 192.168.99.100:32194
 ENDSNIP
 
-snip_verify_external_access_confirm_1() {
+snip_verify_external_access_1() {
 echo "http://$GATEWAY_URL/productpage"
 }
 
-snip_view_the_dashboard_dashboard_1() {
+snip_view_the_dashboard_1() {
 kubectl apply -f samples/addons
 kubectl rollout status deployment/kiali -n istio-system
 }
 
-! read -r -d '' snip_view_the_dashboard_dashboard_1_out <<\ENDSNIP
+! read -r -d '' snip_view_the_dashboard_1_out <<\ENDSNIP
 Waiting for deployment "kiali" rollout to finish: 0 of 1 updated replicas are available...
 deployment "kiali" successfully rolled out
 ENDSNIP
 
-snip_view_the_dashboard_dashboard_2() {
+snip_view_the_dashboard_2() {
 istioctl dashboard kiali
 }
 

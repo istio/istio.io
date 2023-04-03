@@ -26,13 +26,13 @@ set -o pipefail
 source "tests/util/samples.sh"
 
 # Kubernetes Gateway API CRDs are required by waypoint proxy.
-snip_download_and_install_download_2
+snip_download_and_install_2
 
 # install istio with ambient profile
 if [ "$GATEWAY_API" == "true" ]; then
-  snip_download_and_install_download_5
+  snip_download_and_install_5
 else
-  snip_download_and_install_download_3
+  snip_download_and_install_3
 fi
 
 _wait_for_deployment istio-system istiod
@@ -41,29 +41,29 @@ _wait_for_daemonset istio-system istio-cni-node
 
 if [ "$GATEWAY_API" == "true" ]; then
   # TODO: uncomment the following line after https://github.com/istio/istio/pull/44187 is available
-  #_verify_like snip_download_and_install_download_9 "$snip_download_and_install_download_9_out"
-  _verify_like snip_download_and_install_download_10 "$snip_download_and_install_download_10_out"
+  #_verify_like snip_download_and_install_9 "$snip_download_and_install_9_out"
+  _verify_like snip_download_and_install_10 "$snip_download_and_install_10_out"
 else
-  _verify_like snip_download_and_install_download_7 "$snip_download_and_install_download_7_out"
-  _verify_like snip_download_and_install_download_8 "$snip_download_and_install_download_8_out"
+  _verify_like snip_download_and_install_7 "$snip_download_and_install_7_out"
+  _verify_like snip_download_and_install_8 "$snip_download_and_install_8_out"
 fi
 
 # deploy test application
 startup_bookinfo_sample
-snip_deploy_the_sample_application_bookinfo_2
+snip_deploy_the_sample_application_2
 
 if [ "$GATEWAY_API" == "true" ]; then
-  snip_deploy_the_sample_application_bookinfo_5
-  snip_deploy_the_sample_application_bookinfo_6
+  snip_deploy_the_sample_application_5
+  snip_deploy_the_sample_application_6
 else
-  snip_deploy_the_sample_application_bookinfo_4
+  snip_deploy_the_sample_application_4
 fi
 
 _verify_contains snip_verify_traffic_sleep_to_ingress "$snip_verify_traffic_sleep_to_ingress_out"
 _verify_contains snip_verify_traffic_sleep_to_productpage "$snip_verify_traffic_sleep_to_productpage_out"
 _verify_contains snip_verify_traffic_notsleep_to_productpage "$snip_verify_traffic_notsleep_to_productpage_out"
 
-snip_adding_your_application_to_ambient_addtoambient_1
+snip_adding_your_application_to_ambient_1
 
 # test traffic after ambient mode is enabled
 _verify_contains snip_verify_traffic_sleep_to_ingress "$snip_verify_traffic_sleep_to_ingress_out"
@@ -73,7 +73,9 @@ _verify_contains snip_verify_traffic_notsleep_to_productpage "$snip_verify_traff
 snip_l4_authorization_policy_1
 _verify_contains snip_verify_traffic_sleep_to_ingress "$snip_verify_traffic_sleep_to_ingress_out"
 _verify_contains snip_verify_traffic_sleep_to_productpage "$snip_verify_traffic_sleep_to_productpage_out"
-_verify_contains snip_verify_traffic_notsleep_to_productpage "command terminated with exit code 56"
+# _verify_contains snip_verify_traffic_notsleep_to_productpage "command terminated with exit code 56"
+# TODO: ^^^ Fix doc. How did this ever work, i.e., checking for error message from curl -s? Also piped through grep for <title>??
+_verify_failure  snip_verify_traffic_notsleep_to_productpage
 
 _verify_contains snip_l7_authorization_policy_1 "$snip_l7_authorization_policy_1_out"
 _verify_contains snip_l7_authorization_policy_2 "Resource programmed, assigned to service"
@@ -83,16 +85,16 @@ _verify_contains snip_l7_authorization_policy_4 "$snip_l7_authorization_policy_4
 _verify_contains snip_l7_authorization_policy_5 "$snip_l7_authorization_policy_5_out"
 _verify_contains snip_l7_authorization_policy_6 "$snip_l7_authorization_policy_6_out"
 
-_verify_contains snip_control_traffic_control_1 "$snip_control_traffic_control_1_out"
+_verify_contains snip_control_traffic_1 "$snip_control_traffic_1_out"
 
 if [ "$GATEWAY_API" == "true" ]; then
-  snip_control_traffic_control_3
-  snip_control_traffic_control_4
+  snip_control_traffic_3
+  snip_control_traffic_4
 else
-  snip_control_traffic_control_2
+  snip_control_traffic_2
 fi
 
-_verify_lines snip_control_traffic_control_5 "
+_verify_lines snip_control_traffic_5 "
 + reviews-v1
 + reviews-v2
 - reviews-v3
@@ -100,9 +102,9 @@ _verify_lines snip_control_traffic_control_5 "
 
 # @cleanup
 if [ "$GATEWAY_API" != "true" ]; then
-    snip_uninstall_uninstall_1
-    snip_uninstall_uninstall_2
-    snip_uninstall_uninstall_3
+    snip_uninstall_1
+    snip_uninstall_2
+    snip_uninstall_3
     samples/bookinfo/platform/kube/cleanup.sh
-    snip_uninstall_uninstall_4
+    snip_uninstall_4
 fi

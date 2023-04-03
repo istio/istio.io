@@ -26,23 +26,23 @@ source "tests/util/samples.sh"
 
 # Install Istio
 # @setup profile=none
-snip_install_istio_install_1
+snip_install_istio_1
 _wait_for_deployment istio-system istiod
 
 # Label the namespace
 # remove the injection label to prevent the following command from failing
 kubectl label namespace default istio-injection-
-snip_install_istio_install_2
+snip_install_istio_2
 
 # TODO: how to make sure previous tests cleaned up everything?
 # Cleanup sleep
 cleanup_sleep_sample
 
 # Deploy the sample Application
-snip_deploy_the_sample_application_bookinfo_1
+snip_deploy_the_sample_application_1
 
 # Check the services
-_verify_like snip_deploy_the_sample_application_bookinfo_2 "$snip_deploy_the_sample_application_bookinfo_2_out"
+_verify_like snip_deploy_the_sample_application_2 "$snip_deploy_the_sample_application_2_out"
 
 # Wait for pods to be ready
 for deploy in "productpage-v1" "details-v1" "ratings-v1" "reviews-v1" "reviews-v2" "reviews-v3"; do
@@ -50,17 +50,17 @@ for deploy in "productpage-v1" "details-v1" "ratings-v1" "reviews-v1" "reviews-v
 done
 
 # Check the pods
-_verify_like snip_deploy_the_sample_application_bookinfo_3 "$snip_deploy_the_sample_application_bookinfo_3_out"
+_verify_like snip_deploy_the_sample_application_3 "$snip_deploy_the_sample_application_3_out"
 
 # Verify connectivity
-_verify_like snip_deploy_the_sample_application_bookinfo_4 "$snip_deploy_the_sample_application_bookinfo_4_out"
+_verify_like snip_deploy_the_sample_application_4 "$snip_deploy_the_sample_application_4_out"
 
 # Open to outside traffic
-_verify_contains snip_open_the_application_to_outside_traffic_ip_1 "$snip_open_the_application_to_outside_traffic_ip_1_out"
+_verify_contains snip_open_the_application_to_outside_traffic_1 "$snip_open_the_application_to_outside_traffic_1_out"
 _wait_for_istio gateway default bookinfo-gateway
 
 # Ensure no issues with configuration - istioctl analyze
-_verify_contains snip_open_the_application_to_outside_traffic_ip_2 "$snip_open_the_application_to_outside_traffic_ip_2_out"
+_verify_contains snip_open_the_application_to_outside_traffic_2 "$snip_open_the_application_to_outside_traffic_2_out"
 
 # Get GATEWAY_URL
 # export the INGRESS_ environment variables
@@ -76,7 +76,7 @@ get_bookinfo_productpage() {
 _verify_contains get_bookinfo_productpage "<title>Simple Bookstore App</title>"
 
 # verify Kiali deployment
-_verify_contains snip_view_the_dashboard_dashboard_1 'deployment "kiali" successfully rolled out'
+_verify_contains snip_view_the_dashboard_1 'deployment "kiali" successfully rolled out'
 
 # Verify Kiala dashboard
 # TODO Verify the browser output

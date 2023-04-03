@@ -20,24 +20,24 @@
 #          docs/ops/ambient/getting-started/index.md
 ####################################################################################################
 
-snip_download_and_install_download_2() {
+snip_download_and_install_2() {
 kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
   { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v0.6.1" | kubectl apply -f -; }
 }
 
-snip_download_and_install_download_3() {
+snip_download_and_install_3() {
 istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --set profile=ambient --set components.ingressGateways[0].enabled=true --set components.ingressGateways[0].name=istio-ingressgateway --skip-confirmation
 }
 
-snip_download_and_install_download_5() {
+snip_download_and_install_5() {
 istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --set profile=ambient --skip-confirmation
 }
 
-snip_download_and_install_download_7() {
+snip_download_and_install_7() {
 kubectl get pods -n istio-system
 }
 
-! read -r -d '' snip_download_and_install_download_7_out <<\ENDSNIP
+! read -r -d '' snip_download_and_install_7_out <<\ENDSNIP
 NAME                                    READY   STATUS    RESTARTS   AGE
 istio-cni-node-n9tcd                    1/1     Running   0          57s
 istio-ingressgateway-5b79b5bb88-897lp   1/1     Running   0          57s
@@ -45,52 +45,52 @@ istiod-69d4d646cd-26cth                 1/1     Running   0          67s
 ztunnel-lr7lz                           1/1     Running   0          69s
 ENDSNIP
 
-snip_download_and_install_download_8() {
+snip_download_and_install_8() {
 kubectl get daemonset -n istio-system
 }
 
-! read -r -d '' snip_download_and_install_download_8_out <<\ENDSNIP
+! read -r -d '' snip_download_and_install_8_out <<\ENDSNIP
 NAME             DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
 istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   70s
 ztunnel          1         1         1       1            1           <none>                   82s
 ENDSNIP
 
-snip_download_and_install_download_9() {
+snip_download_and_install_9() {
 kubectl get pods -n istio-system
 }
 
-! read -r -d '' snip_download_and_install_download_9_out <<\ENDSNIP
+! read -r -d '' snip_download_and_install_9_out <<\ENDSNIP
 NAME                                    READY   STATUS    RESTARTS   AGE
 istio-cni-node-n9tcd                    1/1     Running   0          57s
 istiod-69d4d646cd-26cth                 1/1     Running   0          67s
 ztunnel-lr7lz                           1/1     Running   0          69s
 ENDSNIP
 
-snip_download_and_install_download_10() {
+snip_download_and_install_10() {
 kubectl get daemonset -n istio-system
 }
 
-! read -r -d '' snip_download_and_install_download_10_out <<\ENDSNIP
+! read -r -d '' snip_download_and_install_10_out <<\ENDSNIP
 NAME             DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
 istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   70s
 ztunnel          1         1         1       1            1           <none>                   82s
 ENDSNIP
 
-snip_deploy_the_sample_application_bookinfo_2() {
+snip_deploy_the_sample_application_2() {
 kubectl apply -f samples/sleep/sleep.yaml
 kubectl apply -f samples/sleep/notsleep.yaml
 }
 
-snip_deploy_the_sample_application_bookinfo_3() {
+snip_deploy_the_sample_application_3() {
 kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml
 }
 
-snip_deploy_the_sample_application_bookinfo_4() {
+snip_deploy_the_sample_application_4() {
 export GATEWAY_HOST=istio-ingressgateway.istio-system
 export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/istio-ingressgateway-service-account
 }
 
-snip_deploy_the_sample_application_bookinfo_5() {
+snip_deploy_the_sample_application_5() {
 sed -e 's/from: Same/from: All/'\
       -e '/^  name: bookinfo-gateway/a\
   namespace: istio-system\
@@ -99,7 +99,7 @@ sed -e 's/from: Same/from: All/'\
 ' samples/bookinfo/gateway-api/bookinfo-gateway.yaml | kubectl apply -f -
 }
 
-snip_deploy_the_sample_application_bookinfo_6() {
+snip_deploy_the_sample_application_6() {
 kubectl wait --for=condition=programmed gtw/bookinfo-gateway -n istio-system
 export GATEWAY_HOST=bookinfo-gateway-istio.istio-system
 export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/bookinfo-gateway-istio
@@ -129,7 +129,7 @@ kubectl exec deploy/notsleep -- curl -s http://productpage:9080/ | grep -o "<tit
 <title>Simple Bookstore App</title>
 ENDSNIP
 
-snip_adding_your_application_to_ambient_addtoambient_1() {
+snip_adding_your_application_to_ambient_1() {
 kubectl label namespace default istio.io/dataplane-mode=ambient
 }
 
@@ -229,32 +229,32 @@ kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<title>
 <title>Simple Bookstore App</title>
 ENDSNIP
 
-snip_control_traffic_control_1() {
+snip_control_traffic_1() {
 istioctl x waypoint apply --service-account bookinfo-reviews
 }
 
-! read -r -d '' snip_control_traffic_control_1_out <<\ENDSNIP
+! read -r -d '' snip_control_traffic_1_out <<\ENDSNIP
 waypoint default/bookinfo-reviews applied
 ENDSNIP
 
-snip_control_traffic_control_2() {
+snip_control_traffic_2() {
 kubectl apply -f samples/bookinfo/networking/virtual-service-reviews-90-10.yaml
 kubectl apply -f samples/bookinfo/networking/destination-rule-reviews.yaml
 }
 
-snip_control_traffic_control_3() {
+snip_control_traffic_3() {
 kubectl apply -f samples/bookinfo/platform/kube/bookinfo-versions.yaml
 }
 
-snip_control_traffic_control_4() {
+snip_control_traffic_4() {
 kubectl apply -f samples/bookinfo/gateway-api/route-reviews-90-10.yaml
 }
 
-snip_control_traffic_control_5() {
+snip_control_traffic_5() {
 kubectl exec deploy/sleep -- sh -c "for i in \$(seq 1 100); do curl -s http://$GATEWAY_HOST/productpage | grep reviews-v.-; done"
 }
 
-snip_uninstall_uninstall_1() {
+snip_uninstall_1() {
 kubectl delete authorizationpolicy productpage-viewer
 istioctl x waypoint delete --service-account bookinfo-reviews
 istioctl x waypoint delete --service-account bookinfo-productpage
@@ -262,15 +262,15 @@ istioctl uninstall -y --purge
 kubectl delete namespace istio-system
 }
 
-snip_uninstall_uninstall_2() {
+snip_uninstall_2() {
 kubectl label namespace default istio.io/dataplane-mode-
 }
 
-snip_uninstall_uninstall_3() {
+snip_uninstall_3() {
 kubectl delete -f samples/sleep/sleep.yaml
 kubectl delete -f samples/sleep/notsleep.yaml
 }
 
-snip_uninstall_uninstall_4() {
+snip_uninstall_4() {
 kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v0.6.1" | kubectl delete -f -
 }

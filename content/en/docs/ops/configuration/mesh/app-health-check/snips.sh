@@ -50,7 +50,7 @@ NAME                             READY     STATUS    RESTARTS   AGE
 liveness-6857c8775f-zdv9r        2/2       Running   0           4m
 ENDSNIP
 
-! read -r -d '' snip_disable_the_probe_rewrite_for_a_pod_disablethehttpproberewriteforapod_1 <<\ENDSNIP
+! read -r -d '' snip_disable_the_probe_rewrite_for_a_pod_1 <<\ENDSNIP
 kubectl apply -f - <<EOF
 apiVersion: apps/v1
 kind: Deployment
@@ -83,7 +83,7 @@ spec:
 EOF
 ENDSNIP
 
-! read -r -d '' snip_disable_the_probe_rewrite_for_a_pod_disablethehttpproberewriteforapod_2 <<\ENDSNIP
+! read -r -d '' snip_disable_the_probe_rewrite_for_a_pod_2 <<\ENDSNIP
 kubectl apply -f - <<EOF
 apiVersion: apps/v1
 kind: Deployment
