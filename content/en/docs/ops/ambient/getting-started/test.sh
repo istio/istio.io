@@ -25,6 +25,9 @@ set -o pipefail
 
 source "tests/util/samples.sh"
 
+# Kubernetes Gateway API CRDs are required by waypoint proxy.
+snip_download_and_install_download_2
+
 # install istio with ambient profile
 if [ "$GATEWAY_API" == "true" ]; then
   snip_download_and_install_download_5
@@ -44,9 +47,6 @@ else
   _verify_like snip_download_and_install_download_7 "$snip_download_and_install_download_7_out"
   _verify_like snip_download_and_install_download_8 "$snip_download_and_install_download_8_out"
 fi
-
-# Kubernetes Gateway API CRDs are required by waypoint proxy.
-snip_download_and_install_download_6
 
 # deploy test application
 startup_bookinfo_sample
