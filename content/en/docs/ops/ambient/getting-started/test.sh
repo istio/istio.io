@@ -25,16 +25,28 @@ set -o pipefail
 
 source "tests/util/samples.sh"
 
-# install istio with ambient profile
+# Kubernetes Gateway API CRDs are required by waypoint proxy.
 snip_download_and_install_download_2
+
+# install istio with ambient profile
+if [ "$GATEWAY_API" == "true" ]; then
+  snip_download_and_install_download_5
+else
+  snip_download_and_install_download_3
+fi
+
 _wait_for_deployment istio-system istiod
 _wait_for_daemonset istio-system ztunnel
 _wait_for_daemonset istio-system istio-cni-node
-_verify_like snip_download_and_install_download_4 "$snip_download_and_install_download_4_out"
-_verify_like snip_download_and_install_download_5 "$snip_download_and_install_download_5_out"
 
-# Kubernetes Gateway API CRDs are required by waypoint proxy.
-snip_download_and_install_download_6
+if [ "$GATEWAY_API" == "true" ]; then
+  # TODO: uncomment the following line after https://github.com/istio/istio/pull/44187 is available
+  #_verify_like snip_download_and_install_download_9 "$snip_download_and_install_download_9_out"
+  _verify_like snip_download_and_install_download_10 "$snip_download_and_install_download_10_out"
+else
+  _verify_like snip_download_and_install_download_7 "$snip_download_and_install_download_7_out"
+  _verify_like snip_download_and_install_download_8 "$snip_download_and_install_download_8_out"
+fi
 
 # deploy test application
 startup_bookinfo_sample
@@ -43,7 +55,6 @@ snip_deploy_the_sample_application_bookinfo_2
 if [ "$GATEWAY_API" == "true" ]; then
   snip_deploy_the_sample_application_bookinfo_5
   snip_deploy_the_sample_application_bookinfo_6
-  snip_deploy_the_sample_application_bookinfo_7
 else
   snip_deploy_the_sample_application_bookinfo_4
 fi

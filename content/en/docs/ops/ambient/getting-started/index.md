@@ -49,44 +49,6 @@ Follow these steps to get started with ambient:
     EOF
     {{< /text >}}
 
-1.  The `ambient` profile is designed to help you get started with ambient mesh.
-    Install Istio with the `ambient` profile on your Kubernetes cluster, using
-    the `istioctl` command downloaded above:
-
-    {{< text bash >}}
-    $ istioctl install --set profile=ambient --skip-confirmation
-    {{< /text >}}
-
-1.  After running the above command, you’ll get the following output that indicates
-    five components (including {{< gloss "ztunnel" >}}Ztunnel{{< /gloss >}}) have been installed successfully!
-
-    {{< text syntax=plain snip_id=none >}}
-    ✔ Istio core installed
-    ✔ Istiod installed
-    ✔ CNI installed
-    ✔ Ingress gateways installed
-    ✔ Ztunnel installed
-    ✔ Installation complete
-    {{< /text >}}
-
-1.  Verify the installed components using the following commands:
-
-    {{< text bash >}}
-    $ kubectl get pods -n istio-system
-    NAME                                    READY   STATUS    RESTARTS   AGE
-    istio-cni-node-n9tcd                    1/1     Running   0          57s
-    istio-ingressgateway-5b79b5bb88-897lp   1/1     Running   0          57s
-    istiod-69d4d646cd-26cth                 1/1     Running   0          67s
-    ztunnel-lr7lz                           1/1     Running   0          69s
-    {{< /text >}}
-
-    {{< text bash >}}
-    $ kubectl get daemonset -n istio-system
-    NAME             DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
-    istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   70s
-    ztunnel          1         1         1       1            1           <none>                   82s
-    {{< /text >}}
-
 1.  Install Kubernetes Gateway CRDs, which don’t come installed by default on most Kubernetes clusters:
 
     {{< text bash >}}
@@ -98,6 +60,98 @@ Follow these steps to get started with ambient:
     {{< boilerplate gateway-api-future >}}
     {{< boilerplate gateway-api-choose >}}
     {{< /tip >}}
+
+1.  The `ambient` profile is designed to help you get started with ambient mesh.
+    Install Istio with the `ambient` profile on your Kubernetes cluster, using
+    the `istioctl` command downloaded above:
+
+{{< tabset category-name="config-api" >}}
+
+{{< tab name="Istio classic" category-value="istio-classic" >}}
+
+{{< text bash >}}
+$ istioctl install --set profile=ambient --set components.ingressGateways[0].enabled=true --set components.ingressGateways[0].name=istio-ingressgateway --skip-confirmation
+{{< /text >}}
+
+After running the above command, you’ll get the following output that indicates
+five components (including {{< gloss "ztunnel" >}}Ztunnel{{< /gloss >}}) have been installed successfully!
+
+{{< text syntax=plain snip_id=none >}}
+✔ Istio core installed
+✔ Istiod installed
+✔ CNI installed
+✔ Ingress gateways installed
+✔ Ztunnel installed
+✔ Installation complete
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text bash >}}
+$ istioctl install --set profile=ambient --skip-confirmation
+{{< /text >}}
+
+After running the above command, you’ll get the following output that indicates
+four components (including {{< gloss "ztunnel" >}}Ztunnel{{< /gloss >}}) have been installed successfully!
+
+{{< text syntax=plain snip_id=none >}}
+✔ Istio core installed
+✔ Istiod installed
+✔ CNI installed
+✔ Ztunnel installed
+✔ Installation complete
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
+5)  Verify the installed components using the following commands:
+
+{{< tabset category-name="config-api" >}}
+
+{{< tab name="Istio classic" category-value="istio-classic" >}}
+
+{{< text bash >}}
+$ kubectl get pods -n istio-system
+NAME                                    READY   STATUS    RESTARTS   AGE
+istio-cni-node-n9tcd                    1/1     Running   0          57s
+istio-ingressgateway-5b79b5bb88-897lp   1/1     Running   0          57s
+istiod-69d4d646cd-26cth                 1/1     Running   0          67s
+ztunnel-lr7lz                           1/1     Running   0          69s
+{{< /text >}}
+
+{{< text bash >}}
+$ kubectl get daemonset -n istio-system
+NAME             DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
+istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   70s
+ztunnel          1         1         1       1            1           <none>                   82s
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text bash >}}
+$ kubectl get pods -n istio-system
+NAME                                    READY   STATUS    RESTARTS   AGE
+istio-cni-node-n9tcd                    1/1     Running   0          57s
+istiod-69d4d646cd-26cth                 1/1     Running   0          67s
+ztunnel-lr7lz                           1/1     Running   0          69s
+{{< /text >}}
+
+{{< text bash >}}
+$ kubectl get daemonset -n istio-system
+NAME             DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
+istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   70s
+ztunnel          1         1         1       1            1           <none>                   82s
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
 
 ## Deploy the sample application {#bookinfo}
 
@@ -152,24 +206,17 @@ the bookinfo app from outside the cluster:
 
 {{< text bash >}}
 $ sed -e 's/from: Same/from: All/'\
-    -e '/^  name: bookinfo-gateway/a\
+      -e '/^  name: bookinfo-gateway/a\
   namespace: istio-system\
-'   -e '/^  - name: bookinfo-gateway/a\
+'     -e '/^  - name: bookinfo-gateway/a\
     namespace: istio-system\
 ' @samples/bookinfo/gateway-api/bookinfo-gateway.yaml@ | kubectl apply -f -
-{{< /text >}}
-
-Creating a Kubernetes Gateway resource deploys an associated
-[proxy service](/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment), so run the following command
-to wait for the gateway to be ready:
-
-{{< text bash >}}
-$ kubectl wait --for=condition=programmed gtw/bookinfo-gateway -n istio-system
 {{< /text >}}
 
 Set the environment variables for the Kubernetes gateway:
 
 {{< text bash >}}
+$ kubectl wait --for=condition=programmed gtw/bookinfo-gateway -n istio-system
 $ export GATEWAY_HOST=bookinfo-gateway-istio.istio-system
 $ export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/bookinfo-gateway-istio
 {{< /text >}}

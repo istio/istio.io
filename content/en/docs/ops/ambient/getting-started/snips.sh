@@ -21,14 +21,23 @@
 ####################################################################################################
 
 snip_download_and_install_download_2() {
+kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
+  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v0.6.1" | kubectl apply -f -; }
+}
+
+snip_download_and_install_download_3() {
+istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --set profile=ambient --set components.ingressGateways[0].enabled=true --set components.ingressGateways[0].name=istio-ingressgateway --skip-confirmation
+}
+
+snip_download_and_install_download_5() {
 istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --set profile=ambient --skip-confirmation
 }
 
-snip_download_and_install_download_4() {
+snip_download_and_install_download_7() {
 kubectl get pods -n istio-system
 }
 
-! read -r -d '' snip_download_and_install_download_4_out <<\ENDSNIP
+! read -r -d '' snip_download_and_install_download_7_out <<\ENDSNIP
 NAME                                    READY   STATUS    RESTARTS   AGE
 istio-cni-node-n9tcd                    1/1     Running   0          57s
 istio-ingressgateway-5b79b5bb88-897lp   1/1     Running   0          57s
@@ -36,20 +45,36 @@ istiod-69d4d646cd-26cth                 1/1     Running   0          67s
 ztunnel-lr7lz                           1/1     Running   0          69s
 ENDSNIP
 
-snip_download_and_install_download_5() {
+snip_download_and_install_download_8() {
 kubectl get daemonset -n istio-system
 }
 
-! read -r -d '' snip_download_and_install_download_5_out <<\ENDSNIP
+! read -r -d '' snip_download_and_install_download_8_out <<\ENDSNIP
 NAME             DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
 istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   70s
 ztunnel          1         1         1       1            1           <none>                   82s
 ENDSNIP
 
-snip_download_and_install_download_6() {
-kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
-  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v0.6.1" | kubectl apply -f -; }
+snip_download_and_install_download_9() {
+kubectl get pods -n istio-system
 }
+
+! read -r -d '' snip_download_and_install_download_9_out <<\ENDSNIP
+NAME                                    READY   STATUS    RESTARTS   AGE
+istio-cni-node-n9tcd                    1/1     Running   0          57s
+istiod-69d4d646cd-26cth                 1/1     Running   0          67s
+ztunnel-lr7lz                           1/1     Running   0          69s
+ENDSNIP
+
+snip_download_and_install_download_10() {
+kubectl get daemonset -n istio-system
+}
+
+! read -r -d '' snip_download_and_install_download_10_out <<\ENDSNIP
+NAME             DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
+istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   70s
+ztunnel          1         1         1       1            1           <none>                   82s
+ENDSNIP
 
 snip_deploy_the_sample_application_bookinfo_2() {
 kubectl apply -f samples/sleep/sleep.yaml
@@ -67,18 +92,15 @@ export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/istio-ingressgateway-service-a
 
 snip_deploy_the_sample_application_bookinfo_5() {
 sed -e 's/from: Same/from: All/'\
-    -e '/^  name: bookinfo-gateway/a\
+      -e '/^  name: bookinfo-gateway/a\
   namespace: istio-system\
-'   -e '/^  - name: bookinfo-gateway/a\
+'     -e '/^  - name: bookinfo-gateway/a\
     namespace: istio-system\
 ' samples/bookinfo/gateway-api/bookinfo-gateway.yaml | kubectl apply -f -
 }
 
 snip_deploy_the_sample_application_bookinfo_6() {
 kubectl wait --for=condition=programmed gtw/bookinfo-gateway -n istio-system
-}
-
-snip_deploy_the_sample_application_bookinfo_7() {
 export GATEWAY_HOST=bookinfo-gateway-istio.istio-system
 export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/bookinfo-gateway-istio
 }
