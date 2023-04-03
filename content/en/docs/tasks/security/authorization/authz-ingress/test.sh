@@ -47,9 +47,9 @@ fi
 _verify_same snip_before_you_begin_7 "$snip_before_you_begin_7_out"
 
 if [ "$GATEWAY_API" == "true" ]; then
-    snip_network_load_balancer_network_2
+    snip_network_load_balancer_2
 else
-    snip_network_load_balancer_network_1
+    snip_network_load_balancer_1
 fi
 
 # Test denied by default

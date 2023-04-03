@@ -87,7 +87,7 @@ spec:
   ...
 ENDSNIP
 
-! read -r -d '' snip_tcpudp_proxy_load_balancer_tcpproxy_1 <<\ENDSNIP
+! read -r -d '' snip_tcpudp_proxy_load_balancer_1 <<\ENDSNIP
 apiVersion: networking.istio.io/v1alp ha3
 kind: EnvoyFilter
 metadata:
@@ -107,7 +107,7 @@ spec:
       istio: ingressgateway
 ENDSNIP
 
-! read -r -d '' snip_tcpudp_proxy_load_balancer_tcpproxy_2 <<\ENDSNIP
+! read -r -d '' snip_tcpudp_proxy_load_balancer_2 <<\ENDSNIP
 apiVersion: networking.istio.io/v1alp ha3
 kind: EnvoyFilter
 metadata:
@@ -127,7 +127,7 @@ spec:
       istio.io/gateway-name: httpbin-gateway
 ENDSNIP
 
-! read -r -d '' snip_tcpudp_proxy_load_balancer_tcpproxy_3 <<\ENDSNIP
+! read -r -d '' snip_tcpudp_proxy_load_balancer_3 <<\ENDSNIP
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -147,7 +147,7 @@ spec:
         ...
 ENDSNIP
 
-! read -r -d '' snip_tcpudp_proxy_load_balancer_tcpproxy_4 <<\ENDSNIP
+! read -r -d '' snip_tcpudp_proxy_load_balancer_4 <<\ENDSNIP
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: Gateway
 metadata:
@@ -171,15 +171,15 @@ spec:
   maxReplicas: 10
 ENDSNIP
 
-snip_network_load_balancer_network_1() {
+snip_network_load_balancer_1() {
 kubectl patch svc istio-ingressgateway -n istio-system -p '{"spec":{"externalTrafficPolicy":"Local"}}'
 }
 
-snip_network_load_balancer_network_2() {
+snip_network_load_balancer_2() {
 kubectl patch svc httpbin-gateway-istio -n foo -p '{"spec":{"externalTrafficPolicy":"Local"}}'
 }
 
-! read -r -d '' snip_httphttps_load_balancer_httphttps_1 <<\ENDSNIP
+! read -r -d '' snip_httphttps_load_balancer_1 <<\ENDSNIP
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
