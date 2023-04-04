@@ -58,7 +58,8 @@ $ cat file.txt
 Hello
 {{< /text >}}
 
-For readability, you can use `\` to continue long commands on new lines, for example:
+For readability, you can use `\` to continue long commands on new lines. The new
+lines must be indented, for example:
 
 {{< text markdown >}}
 {{</* text bash */>}}
