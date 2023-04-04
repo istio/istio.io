@@ -35,7 +35,7 @@ The next security layer in Splunk’s stack is Kubernetes itself. Validating Web
 
 ## Securing Layer 7: Istio
 
-Splunk uses Istio to enforce policy on the application layer based on the details of each request. Istio also emits Telemetry data (metrics, logs, traces) that are useful for validating request-level security.
+Splunk uses Istio to enforce policy on the application layer based on the details of each request. Istio also emits Telemetry data (metrics, logs, traces) that is useful for validating request-level security.
 
 One of the key benefits of Istio's injection of Envoy sidecars is that Istio can provide in-transit encryption for the entire mesh without requiring any modifications to the applications. The applications send plain text HTTP requests, but the Envoy sidecar intercepts the traffic and implements Mutual TLS encryption to protect against interception or modification.
 
