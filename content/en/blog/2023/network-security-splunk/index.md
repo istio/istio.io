@@ -37,7 +37,7 @@ The next security layer in Splunk’s stack is Kubernetes itself. Validating Web
 
 Splunk uses Istio to enforce policy on the application layer based on the details of each request. Istio also emits Telemetry data (metrics, logs, traces) that are useful for validating request-level security.
 
-One of the key benefits of all those sidecars is that Istio can provide in-transit encryption for the entire mesh without requiring any modifications to the applications. The applications send plain text HTTP requests, but the Envoy sidecar intercepts the traffic and implements Mutual TLS encryption to protect against interception or modification.
+One of the key benefits of Istio's injection of Envoy sidecars is that Istio can provide in-transit encryption for the entire mesh without requiring any modifications to the applications. The applications send plain text HTTP requests, but the Envoy sidecar intercepts the traffic and implements Mutual TLS encryption to protect against interception or modification.
 
 Istio manages Splunk’s ingress gateways, which receive traffic from public and internal NLBs.  The gateways are managed by the platform team and run in the Istio Gateway namespace, allowing users to plug into them, but not modify them. The Gateway service is also provisioned with certificates to enforce TLS by default, and Validating Webhooks ensure that services can only connect to gateways for their own hostnames.  Additionally, gateways enforce request authentication at ingress, before traffic is able to impact application pods.
 
