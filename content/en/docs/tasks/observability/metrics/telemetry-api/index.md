@@ -4,7 +4,7 @@ description: This task shows you how to customize the Istio metrics with Telemet
 weight: 10
 keywords: [telemetry,metrics,customize]
 owner: istio/wg-policies-and-telemetry-maintainers
-test: no
+test: yes
 ---
 
 Telemetry API has been in Istio as a first-class API for quite sometime now.
@@ -57,9 +57,6 @@ You can modify the standard metric definitions using `tags_to_remove` or by re-d
     {{< /text >}}
 
 1. Add custom tags for `REQUEST_COUNT` metric
-
-    Telemetry API can not update `extraStatTags` in `MeshConfig`,
-    you need update `extraStatTags` and rollout deployment manually.
 
     {{< text yaml >}}
     apiVersion: telemetry.istio.io/v1alpha1
@@ -163,3 +160,35 @@ You can modify the standard metric definitions using `tags_to_remove` or by re-d
                 mode: SERVER
                 metric: REQUEST_COUNT
     {{< /text >}}
+
+## Verify the results
+
+Send traffic to the mesh. For the Bookinfo sample, visit `http://$GATEWAY_URL/productpage` in your web
+browser or issue the following command:
+
+{{< text bash >}}
+$ curl "http://$GATEWAY_URL/productpage"
+{{< /text >}}
+
+{{< tip >}}
+`$GATEWAY_URL` is the value set in the [Bookinfo](/docs/examples/bookinfo/) example.
+{{< /tip >}}
+
+Use the following command to verify that Istio generates the data for your new
+or modified dimensions:
+
+{{< text bash >}}
+$ istioctl x es "$(kubectl get pod -l app=productpage -o jsonpath='{.items[0].metadata.name}')" -oprom | grep istio_requests_total | grep -v TYPE |grep -v 'reporter="destination"'
+{{< /text >}}
+
+{{< text bash >}}
+$ istioctl x es "$(kubectl get pod -l app=details -o jsonpath='{.items[0].metadata.name}')" -oprom | grep istio_requests_total
+{{< /text >}}
+
+For example, in the output, locate the metric `istio_requests_total` and
+verify it contains your new dimension.
+
+{{< tip >}}
+It might take a short period of time for the proxies to start applying the config. If the metric is not received,
+you may retry sending requests after a short wait, and look for the metric again.
+{{< /tip >}}
