@@ -166,7 +166,7 @@ reconfigure them.
 Make sure the default namespace does not include the label `istio-injection=enabled` because when using ambient you do not want Istio to inject sidecars into the application pods.
 {{< /warning >}}
 
-{{< text syntax=bash snip_id=none >}}
+{{< text bash >}}
 $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
 {{< /text >}}
 
@@ -256,17 +256,17 @@ to the ambient mesh. The best part is that there was no need to restart or redep
 
 Send some test traffic:
 
-{{< text syntax=bash snip_id=none >}}
+{{< text bash >}}
 $ kubectl exec deploy/sleep -- curl -s "http://$GATEWAY_HOST/productpage" | grep -o "<title>.*</title>"
 <title>Simple Bookstore App</title>
 {{< /text >}}
 
-{{< text syntax=bash snip_id=none >}}
+{{< text bash >}}
 $ kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
 <title>Simple Bookstore App</title>
 {{< /text >}}
 
-{{< text syntax=bash snip_id=none >}}
+{{< text bash >}}
 $ kubectl exec deploy/notsleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
 <title>Simple Bookstore App</title>
 {{< /text >}}
@@ -311,19 +311,19 @@ EOF
 
 Confirm the above authorization policy is working:
 
-{{< text syntax=bash snip_id=none >}}
+{{< text bash >}}
 $ # this should succeed
 $ kubectl exec deploy/sleep -- curl -s "http://$GATEWAY_HOST/productpage" | grep -o "<title>.*</title>"
 <title>Simple Bookstore App</title>
 {{< /text >}}
 
-{{< text syntax=bash snip_id=none >}}
+{{< text bash >}}
 $ # this should succeed
 $ kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
 <title>Simple Bookstore App</title>
 {{< /text >}}
 
-{{< text syntax=bash snip_id=none >}}
+{{< text bash >}}
 $ # this should fail with a connection reset error code 56
 $ kubectl exec deploy/notsleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
 command terminated with exit code 56
