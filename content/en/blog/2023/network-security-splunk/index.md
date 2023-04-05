@@ -3,7 +3,7 @@ title: "Comprehensive Network Security at Splunk"
 description: "Security from Layer 3 to Layer 7 with Istio and more."
 publishdate: 2023-04-03
 attribution: "Bernard Van De Walle (Splunk), Mitch Connors (Aviatrix)
-keywords: [Istio,Security,Use Case]
+keywords: [Istio,Security,Use-case]
 ---
 
 With dozens of tools for securing your network available, it is easy to find tutorials and demonstrations illustrating how these individual tools make your network more secure by adding identity, policy, and observability to your traffic.  What is often less clear is how these tools interoperate to provide comprehensive security for your network in production.  How many tools do you need?  When is your network secure enough?
