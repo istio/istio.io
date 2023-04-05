@@ -435,7 +435,7 @@ $ kubectl apply -f @samples/bookinfo/gateway-api/route-reviews-90-10.yaml@
 
 {{< /tabset >}}
 
-Confirm that roughly 10% of the traffic from 100 requests go to reviews-v2:
+Confirm that roughly 10% of the traffic from 100 requests goes to reviews-v2:
 
 {{< text bash >}}
 $ kubectl exec deploy/sleep -- sh -c "for i in \$(seq 1 100); do curl -s http://$GATEWAY_HOST/productpage | grep reviews-v.-; done"
