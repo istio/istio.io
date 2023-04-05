@@ -85,12 +85,11 @@ _verify_contains snip_control_traffic_1 "$snip_control_traffic_1_out"
 
 if [ "$GATEWAY_API" == "true" ]; then
   snip_control_traffic_3
-  snip_control_traffic_4
 else
   snip_control_traffic_2
 fi
 
-_verify_lines snip_control_traffic_5 "
+_verify_lines snip_control_traffic_4 "
 + reviews-v1
 + reviews-v2
 - reviews-v3
