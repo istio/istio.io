@@ -7,7 +7,8 @@ owner: istio/wg-policies-and-telemetry-maintainers
 test: n/a
 ---
 
-WebAssembly 是一种沙盒技术，可以用于扩展 Istio 代理（Envoy）的能力。Proxy-Wasm 沙盒 API 取代了 Mixer 作为 Istio 主要的扩展机制。
+WebAssembly 是一种沙盒技术，可以用于扩展 Istio 代理（Envoy）的能力。
+Proxy-Wasm 沙盒 API 取代了 Mixer 作为 Istio 主要的扩展机制。
 
 WebAssembly 沙盒的目标：
 
@@ -34,8 +35,10 @@ Istio 扩展（Proxy-Wasm 插件）有几个组成部分：
 
 ## 例子 {#example}
 
-[这里](https://github.com/envoyproxy/envoy-wasm/tree/19b9fd9a22e27fcadf61a06bf6aac03b735418e6/examples/wasm)是用 C++ 为过滤器实现 Proxy-Wasm 插件的例子。
-您可以按照[本指南](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/write-a-wasm-extension-with-cpp.md)使用 C++ 实现 Wasm 扩展。
+[这里](https://github.com/envoyproxy/envoy-wasm/tree/19b9fd9a22e27fcadf61a06bf6aac03b735418e6/examples/wasm)是用
+C++ 为过滤器实现 Proxy-Wasm 插件的例子。
+您可以按照[本指南](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/write-a-wasm-extension-with-cpp.md)使用
+C++ 实现 Wasm 扩展。
 
 ## 生态 {#ecosystem}
 
