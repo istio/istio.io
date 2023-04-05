@@ -43,39 +43,3 @@
   eolDate: "Jul 12, 2022"
   k8sVersions: ["1.19", "1.20", "1.21", "1.22"]
   testedK8sVersions: ["1.16", "1.17", "1.18"]
-- version: "1.11"
-  supported: "No"
-  releaseDate: "Aug 12, 2021"
-  eolDate: "Mar 25, 2022"
-  k8sVersions: ["1.18", "1.19", "1.20", "1.21", "1.22"]
-  testedK8sVersions: ["1.16", "1.17"]
-- version: "1.10"
-  supported: "No"
-  releaseDate: "May 18, 2021"
-  eolDate: "Jan 7, 2022"
-  k8sVersions: ["1.18", "1.19", "1.20", "1.21"]
-  testedK8sVersions: ["1.16", "1.17", "1.22"]
-- version: "1.9"
-  supported: "No"
-  releaseDate: "Feb 9, 2021"
-  eolDate: "Oct 8, 2021"
-  k8sVersions: ["1.17", "1.18", "1.19", "1.20"]
-  testedK8sVersions: ["1.15", "1.16"]
-- version: "1.8"
-  supported: "No"
-  releaseDate: "Nov 10, 2020"
-  eolDate: "May 12, 2021"
-  k8sVersions: ["1.16", "1.17", "1.18", "1.19"]
-  testedK8sVersions: ["1.15"]
-- version: "1.7"
-  supported: "No"
-  releaseDate: "Aug 21, 2020"
-  eolDate: "Feb 25, 2021"
-  k8sVersions: ["1.16", "1.17", "1.18"]
-  testedK8sVersions: ["1.15"]
-- version: "1.6 and earlier"
-  supported: "No"
-  releaseDate:
-  eolDate:
-  k8sVersions:
-  testedK8sVersions:
