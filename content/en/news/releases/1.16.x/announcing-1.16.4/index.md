@@ -58,4 +58,3 @@ This release note describes what’s different between Istio 1.16.3 and 1.16.4.
 - **Fixed** an issue causing VMs using auto-registration to ignore labels other than those defined in a `WorkloadGroup`. ([Issue #32210](https://github.com/istio/istio/issues/32210))
 
 - **Fixed** `istioctl experimental wait` has undecipherable message when `PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING` is not enabled. [Issue #42967](https://github.com/istio/istio/issues/42967)
-
