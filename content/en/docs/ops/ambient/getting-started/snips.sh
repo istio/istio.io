@@ -299,13 +299,10 @@ kubectl apply -f samples/bookinfo/networking/destination-rule-reviews.yaml
 
 snip_control_traffic_3() {
 kubectl apply -f samples/bookinfo/platform/kube/bookinfo-versions.yaml
-}
-
-snip_control_traffic_4() {
 kubectl apply -f samples/bookinfo/gateway-api/route-reviews-90-10.yaml
 }
 
-snip_control_traffic_5() {
+snip_control_traffic_4() {
 kubectl exec deploy/sleep -- sh -c "for i in \$(seq 1 100); do curl -s http://$GATEWAY_HOST/productpage | grep reviews-v.-; done"
 }
 
