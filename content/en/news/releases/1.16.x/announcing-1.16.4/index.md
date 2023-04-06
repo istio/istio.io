@@ -17,7 +17,7 @@ This release note describes what’s different between Istio 1.16.3 and 1.16.4.
 - __[CVE-2023-27487](https://github.com/envoyproxy/envoy/security/advisories/GHSA-5375-pq35-hf2g)__: (CVSS Score 8.2, High):
 Client may fake the header `x-envoy-original-path`.
 
-- __CVE-2023-27488(https://github.com/envoyproxy/envoy/security/advisories/GHSA-9g5w-hqr3-w2ph)__: (CVSS Score 5.4, Moderate):
+- __[CVE-2023-27488](https://github.com/envoyproxy/envoy/security/advisories/GHSA-9g5w-hqr3-w2ph)__: (CVSS Score 5.4, Moderate):
 gRPC client produces invalid protobuf when an HTTP header with non-UTF8 value is received.
 
 - __[CVE-2023-27491](https://github.com/envoyproxy/envoy/security/advisories/GHSA-5jmv-cw9p-f9rp)__: (CVSS Score 5.4, Moderate):
