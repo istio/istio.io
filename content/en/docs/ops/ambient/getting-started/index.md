@@ -166,24 +166,27 @@ reconfigure them.
 Make sure the default namespace does not include the label `istio-injection=enabled` because when using ambient you do not want Istio to inject sidecars into the application pods.
 {{< /warning >}}
 
-{{< text bash >}}
-$ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
-{{< /text >}}
+1. Start the sample services:
 
-{{< text bash >}}
-$ kubectl apply -f @samples/sleep/sleep.yaml@
-$ kubectl apply -f @samples/sleep/notsleep.yaml@
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
+    {{< /text >}}
 
-Note: `sleep` and `notsleep` are two simple applications that can serve as curl clients.
+    {{< text bash >}}
+    $ kubectl apply -f @samples/sleep/sleep.yaml@
+    $ kubectl apply -f @samples/sleep/notsleep.yaml@
+    {{< /text >}}
+
+    Note: `sleep` and `notsleep` are two simple applications that can serve as curl clients.
+
+1. Deploy an ingress gateway so you can access the bookinfo app from outside the cluster:
 
 {{< tabset category-name="config-api" >}}
 
 {{< tab name="Istio classic" category-value="istio-classic" >}}
 
 Create an Istio [Gateway](/docs/reference/config/networking/gateway/) and
-[VirtualService](/docs/reference/config/networking/virtual-service/), so you can access the bookinfo app through the
-Istio ingress gateway:
+[VirtualService](/docs/reference/config/networking/virtual-service/):
 
 {{< text bash >}}
 $ kubectl apply -f @samples/bookinfo/networking/bookinfo-gateway.yaml@
@@ -201,8 +204,7 @@ $ export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/istio-ingressgateway-service
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
 Create a [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io%2fv1beta1.Gateway)
-and [HTTPRoute](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1beta1.HTTPRoute) so you can access
-the bookinfo app from outside the cluster:
+and [HTTPRoute](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1beta1.HTTPRoute):
 
 {{< text bash >}}
 $ sed -e 's/from: Same/from: All/'\
@@ -225,22 +227,22 @@ $ export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/bookinfo-gateway-istio
 
 {{< /tabset >}}
 
-Test your bookinfo application, it should work with or without the gateway:
+3) Test your bookinfo application, it should work with or without the gateway:
 
-{{< text syntax=bash snip_id=verify_traffic_sleep_to_ingress >}}
-$ kubectl exec deploy/sleep -- curl -s "http://$GATEWAY_HOST/productpage" | grep -o "<title>.*</title>"
-<title>Simple Bookstore App</title>
-{{< /text >}}
+    {{< text syntax=bash snip_id=verify_traffic_sleep_to_ingress >}}
+    $ kubectl exec deploy/sleep -- curl -s "http://$GATEWAY_HOST/productpage" | grep -o "<title>.*</title>"
+    <title>Simple Bookstore App</title>
+    {{< /text >}}
 
-{{< text syntax=bash snip_id=verify_traffic_sleep_to_productpage >}}
-$ kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
-<title>Simple Bookstore App</title>
-{{< /text >}}
+    {{< text syntax=bash snip_id=verify_traffic_sleep_to_productpage >}}
+    $ kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
+    <title>Simple Bookstore App</title>
+    {{< /text >}}
 
-{{< text syntax=bash snip_id=verify_traffic_notsleep_to_productpage >}}
-$ kubectl exec deploy/notsleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
-<title>Simple Bookstore App</title>
-{{< /text >}}
+    {{< text syntax=bash snip_id=verify_traffic_notsleep_to_productpage >}}
+    $ kubectl exec deploy/notsleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
+    <title>Simple Bookstore App</title>
+    {{< /text >}}
 
 ## Adding your application to ambient {#addtoambient}
 
@@ -409,11 +411,11 @@ $ istioctl x waypoint apply --service-account bookinfo-reviews
 waypoint default/bookinfo-reviews applied
 {{< /text >}}
 
+Configure traffic routing to send 90% of requests to `reviews` v1 and 10% to `reviews` v2:
+
 {{< tabset category-name="config-api" >}}
 
 {{< tab name="Istio classic" category-value="istio-classic" >}}
-
-Apply the reviews virtual service to control 90% traffic to reviews v1 and 10% traffic to reviews v2.
 
 {{< text bash >}}
 $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-90-10.yaml@
@@ -424,15 +426,8 @@ $ kubectl apply -f @samples/bookinfo/networking/destination-rule-reviews.yaml@
 
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
-Create subsets of the bookinfo Services to control traffic to `reviews` v1 and v2 versions:
-
 {{< text bash >}}
 $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-versions.yaml@
-{{< /text >}}
-
-Create an HTTPRoute to control 90% of traffic to `reviews` v1 and 10% traffic to `reviews` v2.
-
-{{< text bash >}}
 $ kubectl apply -f @samples/bookinfo/gateway-api/route-reviews-90-10.yaml@
 {{< /text >}}
 
@@ -440,7 +435,7 @@ $ kubectl apply -f @samples/bookinfo/gateway-api/route-reviews-90-10.yaml@
 
 {{< /tabset >}}
 
-Confirm that roughly 10% traffic from the 100 requests go to reviews-v2:
+Confirm that roughly 10% of the traffic from 100 requests goes to reviews-v2:
 
 {{< text bash >}}
 $ kubectl exec deploy/sleep -- sh -c "for i in \$(seq 1 100); do curl -s http://$GATEWAY_HOST/productpage | grep reviews-v.-; done"
