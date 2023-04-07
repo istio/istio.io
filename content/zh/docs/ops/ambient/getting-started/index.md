@@ -49,42 +49,108 @@ Ambient 目前处于 [Alpha 状态](/zh/docs/releases/feature-stages/#feature-ph
     EOF
     {{< /text >}}
 
+1.  安装大多数 Kubernetes 集群上默认并未安装的 Kubernetes Gateway CRD：
+
+    {{< text bash >}}
+    $ kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
+      { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v0.6.1" | kubectl apply -f -; }
+    {{< /text >}}
+
+    {{< tip >}}
+    {{< boilerplate gateway-api-future >}}
+    {{< boilerplate gateway-api-choose >}}
+    {{< /tip >}}
+
 1.  `ambient` 配置文件设计用于帮助您开始使用 Ambient Mesh。
     使用刚下载的 `istioctl` 命令，在您的 Kubernetes 集群上安装附带 `ambient` 配置文件的 Istio：
 
-    {{< text bash >}}
-    $ istioctl install --set profile=ambient --skip-confirmation
-    {{< /text >}}
+{{< tabset category-name="config-api" >}}
 
-1.  运行上一条命令后，您将看到以下输出，
-    表明（包括 {{< gloss "ztunnel" >}}Ztunnel{{< /gloss >}} 在内的）五个组件已被成功安装！
+{{< tab name="Istio classic" category-value="istio-classic" >}}
 
-    {{< text syntax=plain snip_id=none >}}
-    ✔ Istio core installed
-    ✔ Istiod installed
-    ✔ CNI installed
-    ✔ Ingress gateways installed
-    ✔ Ztunnel installed
-    ✔ Installation complete
-    {{< /text >}}
+{{< text bash >}}
+$ istioctl install --set profile=ambient --set components.ingressGateways[0].enabled=true --set components.ingressGateways[0].name=istio-ingressgateway --skip-confirmation
+{{< /text >}}
 
-1.  执行以下命令确认已安装的组件：
+运行上一条命令后，您将看到以下输出，
+表明（包括 {{< gloss "ztunnel" >}}Ztunnel{{< /gloss >}} 在内的）五个组件已被成功安装！
 
-    {{< text bash >}}
-    $ kubectl get pods -n istio-system
-    NAME                                    READY   STATUS    RESTARTS   AGE
-    istio-cni-node-n9tcd                    1/1     Running   0          57s
-    istio-ingressgateway-5b79b5bb88-897lp   1/1     Running   0          57s
-    istiod-69d4d646cd-26cth                 1/1     Running   0          67s
-    ztunnel-lr7lz                           1/1     Running   0          69s
-    {{< /text >}}
+{{< text syntax=plain snip_id=none >}}
+✔ Istio core installed
+✔ Istiod installed
+✔ CNI installed
+✔ Ingress gateways installed
+✔ Ztunnel installed
+✔ Installation complete
+{{< /text >}}
 
-    {{< text bash >}}
-    $ kubectl get daemonset -n istio-system
-    NAME             DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
-    istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   70s
-    ztunnel          1         1         1       1            1           <none>                   82s
-    {{< /text >}}
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text bash >}}
+$ istioctl install --set profile=ambient --skip-confirmation
+{{< /text >}}
+
+运行上一条命令后，您将看到以下输出，
+表明（包括 {{< gloss "ztunnel" >}}Ztunnel{{< /gloss >}} 在内的）五个组件已被成功安装！
+
+{{< text syntax=plain snip_id=none >}}
+✔ Istio core installed
+✔ Istiod installed
+✔ CNI installed
+✔ Ztunnel installed
+✔ Installation complete
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
+5)  使用以下命令确认已安装的组件：
+
+{{< tabset category-name="config-api" >}}
+
+{{< tab name="Istio classic" category-value="istio-classic" >}}
+
+{{< text bash >}}
+$ kubectl get pods -n istio-system
+NAME                                    READY   STATUS    RESTARTS   AGE
+istio-cni-node-n9tcd                    1/1     Running   0          57s
+istio-ingressgateway-5b79b5bb88-897lp   1/1     Running   0          57s
+istiod-69d4d646cd-26cth                 1/1     Running   0          67s
+ztunnel-lr7lz                           1/1     Running   0          69s
+{{< /text >}}
+
+{{< text bash >}}
+$ kubectl get daemonset -n istio-system
+NAME             DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
+istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   70s
+ztunnel          1         1         1       1            1           <none>                   82s
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text bash >}}
+$ kubectl get pods -n istio-system
+NAME                                    READY   STATUS    RESTARTS   AGE
+istio-cni-node-n9tcd                    1/1     Running   0          57s
+istiod-69d4d646cd-26cth                 1/1     Running   0          67s
+ztunnel-lr7lz                           1/1     Running   0          69s
+{{< /text >}}
+
+{{< text bash >}}
+$ kubectl get daemonset -n istio-system
+NAME             DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
+istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   70s
+ztunnel          1         1         1       1            1           <none>                   82s
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
 
 ## 部署样例应用 {#bookinfo}
 
@@ -109,18 +175,58 @@ $ kubectl apply -f @samples/sleep/notsleep.yaml@
 
 注：`sleep` 和 `notsleep` 是可以用作 curl 客户端的两个简单应用。
 
-将 `productpage` 连接到 Istio Ingress Gateway，
-这样您可以从集群外访问 bookinfo 应用：
+{{< tabset category-name="config-api" >}}
+
+{{< tab name="Istio classic" category-value="istio-classic" >}}
+
+创建 Istio [Gateway](/zh/docs/reference/config/networking/gateway/) 和
+[VirtualService](/zh/docs/reference/config/networking/virtual-service/)，
+这样您可以通过 Istio Ingress Gateway 访问 bookinfo 应用。
 
 {{< text bash >}}
 $ kubectl apply -f @samples/bookinfo/networking/bookinfo-gateway.yaml@
 {{< /text >}}
 
+为 Istio Ingress Gateway 设置环境变量：
+
+{{< text bash >}}
+$ export GATEWAY_HOST=istio-ingressgateway.istio-system
+$ export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/istio-ingressgateway-service-account
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+创建 [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io%2fv1beta1.Gateway)
+和 [HTTPRoute](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1beta1.HTTPRoute)，
+这样您可以从集群外访问 bookinfo 应用：
+
+{{< text bash >}}
+$ sed -e 's/from: Same/from: All/'\
+      -e '/^  name: bookinfo-gateway/a\
+  namespace: istio-system\
+'     -e '/^  - name: bookinfo-gateway/a\
+    namespace: istio-system\
+' @samples/bookinfo/gateway-api/bookinfo-gateway.yaml@ | kubectl apply -f -
+{{< /text >}}
+
+为 Kubernetes Gateway 设置环境变量：
+
+{{< text bash >}}
+$ kubectl wait --for=condition=programmed gtw/bookinfo-gateway -n istio-system
+$ export GATEWAY_HOST=bookinfo-gateway-istio.istio-system
+$ export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/bookinfo-gateway-istio
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
 测试您的 bookinfo 应用，无论是否有网关都应该能够正常工作。
-注：您可以将以下命令中的 `istio-ingressgateway.istio-system` 替换为负载均衡器 IP（或 hostname）：
 
 {{< text syntax=bash snip_id=verify_traffic_sleep_to_ingress >}}
-$ kubectl exec deploy/sleep -- curl -s http://istio-ingressgateway.istio-system/productpage | grep -o "<title>.*</title>"
+$ kubectl exec deploy/sleep -- curl -s "http://$GATEWAY_HOST/productpage" | grep -o "<title>.*</title>"
 <title>Simple Bookstore App</title>
 {{< /text >}}
 
@@ -147,17 +253,17 @@ $ kubectl label namespace default istio.io/dataplane-mode=ambient
 
 发送一些测试流量：
 
-{{< text syntax=bash snip_id=none >}}
-$ kubectl exec deploy/sleep -- curl -s http://istio-ingressgateway.istio-system/productpage | grep -o "<title>.*</title>"
+{{< text bash >}}
+$ kubectl exec deploy/sleep -- curl -s "http://$GATEWAY_HOST/productpage" | grep -o "<title>.*</title>"
 <title>Simple Bookstore App</title>
 {{< /text >}}
 
-{{< text syntax=bash snip_id=none >}}
+{{< text bash >}}
 $ kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
 <title>Simple Bookstore App</title>
 {{< /text >}}
 
-{{< text syntax=bash snip_id=none >}}
+{{< text bash >}}
 $ kubectl exec deploy/notsleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
 <title>Simple Bookstore App</title>
 {{< /text >}}
@@ -194,25 +300,27 @@ spec:
  rules:
  - from:
    - source:
-       principals: ["cluster.local/ns/default/sa/sleep", "cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"]
+       principals:
+       - cluster.local/ns/default/sa/sleep
+       - cluster.local/$GATEWAY_SERVICE_ACCOUNT
 EOF
 {{< /text >}}
 
 确认上述鉴权策略正在工作：
 
-{{< text syntax=bash snip_id=none >}}
+{{< text bash >}}
 $ # this should succeed
-$ kubectl exec deploy/sleep -- curl -s http://istio-ingressgateway.istio-system/productpage | grep -o "<title>.*</title>"
+$ kubectl exec deploy/sleep -- curl -s "http://$GATEWAY_HOST/productpage" | grep -o "<title>.*</title>"
 <title>Simple Bookstore App</title>
 {{< /text >}}
 
-{{< text syntax=bash snip_id=none >}}
+{{< text bash >}}
 $ # this should succeed
 $ kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
 <title>Simple Bookstore App</title>
 {{< /text >}}
 
-{{< text syntax=bash snip_id=none >}}
+{{< text bash >}}
 $ # this should fail with a connection reset error code 56
 $ kubectl exec deploy/notsleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
 command terminated with exit code 56
@@ -223,12 +331,6 @@ command terminated with exit code 56
 使用 Kubernetes Gateway API，您可以为使用 `bookinfo-productpage` 服务账号的
 `productpage` 服务来部署 {{< gloss "waypoint" >}}waypoint proxy{{< /gloss >}}。
 转到 `productpage` 服务的所有流量都将通过 L7 代理被协调、执行和观测。
-安装在大多数 Kubernetes 集群上默认并未安装的 Kubernetes Gateway CRD。
-
-{{< text bash >}}
-$ kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
-  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.6.1" | kubectl apply -f -; }
-{{< /text >}}
 
 为 `productpage` 服务部署 waypoint proxy：
 
@@ -237,27 +339,22 @@ $ istioctl x waypoint apply --service-account bookinfo-productpage
 waypoint default/bookinfo-productpage applied
 {{< /text >}}
 
-查看 `productpage` waypoint proxy 状态；您应看到处于 `Ready` 状态的网关资源详情：
+查看 `productpage` waypoint proxy 状态；您应看到处于 `Programmed` 状态的网关资源详情：
 
 {{< text bash >}}
 $ kubectl get gtw bookinfo-productpage -o yaml
-{{< /text >}}
-
-验证 waypoint proxy 状态为 `Ready`：
-
-{{< text plaintext >}}
 ...
 status:
   conditions:
   - lastTransitionTime: "2023-02-24T03:22:43Z"
-    message: Deployed waypoint proxy to "default" namespace for "bookinfo-productpage" service account
+    message: Resource programmed, assigned to service(s) bookinfo-productpage-istio-waypoint.default.svc.cluster.local:15008
     observedGeneration: 1
-    reason: Ready
+    reason: Programmed
     status: "True"
-    type: Ready
+    type: Programmed
 {{< /text >}}
 
-更新 `AuthorizationPolicy` 以显式允许 `sleep` 服务账号和 `istio-ingressgateway` 服务账号
+更新 `AuthorizationPolicy` 以显式允许 `sleep` 和 Gateway 服务账号以
 `GET` `productpage` 服务，但不执行其他操作：
 
 {{< text bash >}}
@@ -275,22 +372,19 @@ spec:
  rules:
  - from:
    - source:
-       principals: ["cluster.local/ns/default/sa/sleep", "cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"]
+       principals:
+       - cluster.local/ns/default/sa/sleep
+       - cluster.local/$GATEWAY_SERVICE_ACCOUNT
    to:
    - operation:
        methods: ["GET"]
 EOF
 {{< /text >}}
 
-确认上述鉴权策略正在工作：
-
 {{< text bash >}}
 $ # this should fail with an RBAC error because it is not a GET operation
-$ kubectl exec deploy/sleep -- curl -s http://productpage:9080/ -X DELETE
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
-<title>405 Method Not Allowed</title>
-<h1>Method Not Allowed</h1>
-<p>The method is not allowed for the requested URL.</p>
+$ kubectl exec deploy/sleep -- curl -s "http://$GATEWAY_HOST/productpage" -X DELETE
+RBAC: access denied
 {{< /text >}}
 
 {{< text bash >}}
@@ -315,6 +409,10 @@ $ istioctl x waypoint apply --service-account bookinfo-reviews
 waypoint default/bookinfo-reviews applied
 {{< /text >}}
 
+{{< tabset category-name="config-api" >}}
+
+{{< tab name="Istio classic" category-value="istio-classic" >}}
+
 应用评审虚拟服务以控制 90% 流量到 reviews-v1，控制 10% 流量到 reviews-v2。
 
 {{< text bash >}}
@@ -322,22 +420,38 @@ $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-90-10.ya
 $ kubectl apply -f @samples/bookinfo/networking/destination-rule-reviews.yaml@
 {{< /text >}}
 
+{{< text bash >}}
+$ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-90-10.yaml@
+$ kubectl apply -f @samples/bookinfo/networking/destination-rule-reviews.yaml@
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+创建 bookinfo 服务的子集，以控制到 `reviews` v1 和 v2 的流量：
+
+{{< text bash >}}
+$ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-versions.yaml@
+{{< /text >}}
+
+创建 HTTPRoute 以控制 90% 流量到 `reviews` v1 而 10% 流量到 `reviews` v2。
+
+{{< text bash >}}
+$ kubectl apply -f @samples/bookinfo/gateway-api/route-reviews-90-10.yaml@
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
 确认 100 个请求中大约有 10% 流量转到 reviews-v2：
 
 {{< text bash >}}
-$ kubectl exec deploy/sleep -- sh -c "for i in \$(seq 1 100); do curl -s http://istio-ingressgateway.istio-system/productpage | grep reviews-v.-; done"
+$ kubectl exec deploy/sleep -- sh -c "for i in \$(seq 1 100); do curl -s http://$GATEWAY_HOST/productpage | grep reviews-v.-; done"
 {{< /text >}}
 
 ## 卸载 {#uninstall}
-
-若要删除 Bookinfo 样例应用及其配置，请参阅 [`Bookinfo` 清理](/zh/docs/examples/bookinfo/#cleanup)。
-
-若要移除 `sleep` 和 `notsleep` 应用：
-
-{{< text bash >}}
-$ kubectl delete -f @samples/sleep/sleep.yaml@
-$ kubectl delete -f @samples/sleep/notsleep.yaml@
-{{< /text >}}
 
 若要移除 `productpage-viewer` 鉴权策略、waypoint proxy 并卸载 Istio：
 
@@ -354,4 +468,19 @@ $ kubectl delete namespace istio-system
 
 {{< text bash >}}
 $ kubectl label namespace default istio.io/dataplane-mode-
+{{< /text >}}
+
+若要删除 Bookinfo 样例应用及其配置，请参阅 [`Bookinfo` 清理](/zh/docs/examples/bookinfo/#cleanup)。
+
+移除 `sleep` 和 `notsleep` 应用：
+
+{{< text bash >}}
+$ kubectl delete -f @samples/sleep/sleep.yaml@
+$ kubectl delete -f @samples/sleep/notsleep.yaml@
+{{< /text >}}
+
+如果您安装了 Gateway API CRD，执行以下命令移除：
+
+{{< text bash >}}
+$ kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v0.6.1" | kubectl delete -f -
 {{< /text >}}
