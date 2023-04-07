@@ -12,14 +12,14 @@ Istio 提供了配置高级链路追踪选项的功能，例如采样率和向�
 
 ## 开始之前{#before-you-begin}
 
-1. 请确保您的应用程序按照[这里](/docs/zh/tasks/observability/distributed-tracing/overview/)所描述的方式配置链路追踪头（tracing headers）。
+1. 请确保您的应用程序按照[这里](/docs/zh/tasks/observability/distributed-tracing/overview/)所描述的方式配置链路追踪头。
 
 1. 请根据您首选的追踪后端，根据[集成](/zh/docs/ops/integrations/)追踪安装指南安装适当的插件,
    并配置你的 Istio 代理将链路追踪信息发送到链路追踪部署服务端。
 
 ## 安装{#installation}
 
-在此示例中，我们将发送跟踪信息到[`zipkin`](/docs/zh/ops/integrations/zipkin/)，请确保已安装它：
+在此示例中，我们将发送跟踪信息到[`链路追踪系统 zipkin`](/docs/zh/ops/integrations/zipkin/)，请确保已安装它：
 
 {{< text bash >}}
 $ cat <<EOF > ./tracing.yaml
@@ -175,4 +175,4 @@ spec:
 
 ## 验证结果{#verify-the-results}
 
-您可以使用[Zipkin UI](/docs/zh/tasks/observability/distributed-tracing/zipkin/)来验证结果。
+您可以使用[Zipkin 界面](/docs/zh/tasks/observability/distributed-tracing/zipkin/)来验证结果。
