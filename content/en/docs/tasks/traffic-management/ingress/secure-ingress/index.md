@@ -171,6 +171,24 @@ EOF
 Finally, follow [these instructions](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)
 to set the `INGRESS_HOST` and `SECURE_INGRESS_PORT` variables for accessing the gateway.
 
+{{< tip >}}
+Note that for some cloud like AWS, you may get INGRESS_HOST like: `ab52747ba608744d8afd530ffd975cbf-330887905.us-east-1.elb.amazonaws.com`, you have to convert it to IP in this task:
+
+{{< text bash >}}
+$ nslookup ab52747ba608744d8afd530ffd975cbf-330887905.us-east-1.elb.amazonaws.com
+Server:		15.64.64.54
+Address:	15.64.64.54#53
+Non-authoritative answer:
+Name:	ab52747ba608744d8afd530ffd975cbf-330887905.us-east-1.elb.amazonaws.com
+Address: 3.225.207.109
+Name:	ab52747ba608744d8afd530ffd975cbf-330887905.us-east-1.elb.amazonaws.com
+Address: 52.201.149
+$
+$ export INGRESS_HOST=3.225.207.109
+{{< /text >}}
+
+{{< /tip >}}
+
 {{< /tab >}}
 
 {{< tab name="Gateway API" category-value="gateway-api" >}}
