@@ -7,7 +7,8 @@ owner: istio/wg-security-maintainers
 test: yes
 ---
 
-此任务介绍如何设置 `DENY` 动作中的 Istio 授权策略，以明确拒绝 Istio 网格中的流量。这与 `ALLOW` 动作不同，因为 `DENY` 动作具有更高的优先级，不会被任何 `ALLOW` 动作绕过。
+此任务介绍如何设置 `DENY` 动作中的 Istio 授权策略，以明确拒绝 Istio 网格中的流量。
+这与 `ALLOW` 动作不同，因为 `DENY` 动作具有更高的优先级，不会被任何 `ALLOW` 动作绕过。
 
 ## 开始之前{#before-you-begin}
 
@@ -19,7 +20,8 @@ test: yes
 
 * 部署工作负载：
 
-    该任务使用 `httpbin` 和 `sleep` 这两个工作负载，部署在一个命名空间 foo。这两个工作负载在每个工作负载前都有一个 Envoy 代理。使用以下命令部署示例命名空间和工作负载：
+    该任务使用 `httpbin` 和 `sleep` 这两个工作负载，部署在一个命名空间 foo。
+    这两个工作负载在每个工作负载前都有一个 Envoy 代理。使用以下命令部署示例命名空间和工作负载：
 
     {{< text bash >}}
     $ kubectl create ns foo
@@ -35,12 +37,15 @@ test: yes
     {{< /text >}}
 
 {{< warning >}}
-如果您在执行此任务时，没有看见到预期的输出，请您在几秒后重试。缓存和传播成本可能会导致一些延迟。
+如果您在执行此任务时，没有看见到预期的输出，请您在几秒后重试。
+缓存和传播成本可能会导致一些延迟。
 {{< /warning >}}
 
 ## 明确拒绝请求{#explicitly-deny-a-request}
 
-1. 以下命令为 `foo` 命名空间中的 `httpbin` 工作负载创建 `deny-method-get` 授权策略。该授权将 `action` 设置为 `DENY`，以拒绝满足 `rules` 部分设置的条件的请求。该类型策略被称为“拒绝策略”。在这种情况下，如果请求方式是 `GET`，策略会拒绝请求。
+1. 以下命令为 `foo` 命名空间中的 `httpbin` 工作负载创建 `deny-method-get` 授权策略。
+   该授权将 `action` 设置为 `DENY`，以拒绝满足 `rules` 部分设置的条件的请求。
+   该类型策略被称为“拒绝策略”。在这种情况下，如果请求方式是 `GET`，策略会拒绝请求。
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -75,7 +80,9 @@ test: yes
     200
     {{< /text >}}
 
-1. 更新 `deny-method-get` 授权策略，只有当 HTTP 头中 `x-token` 值不是 `admin` 时才会拒绝 `GET` 请求。以下的策略示例将 `notValues` 字段的值设置为 `["admin"]`，以拒绝 HTTP 头中 `x-token` 值为非 `admin` 的请求：
+1. 更新 `deny-method-get` 授权策略，只有当 HTTP 头中 `x-token`
+   值不是 `admin` 时才会拒绝 `GET` 请求。以下的策略示例将 `notValues`
+   字段的值设置为 `["admin"]`，以拒绝 HTTP 头中 `x-token` 值为非 `admin` 的请求：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -113,7 +120,8 @@ test: yes
     403
     {{< /text >}}
 
-1. 以下命令创建 `allow-path-ip` 授权策略，允许以 `/ip` 路径向 `httpbin` 工作负载发出请求。该授权策略设置 `action` 字段为 `ALLOW`。该类型的策略被称为“允许策略”。
+1. 以下命令创建 `allow-path-ip` 授权策略，允许以 `/ip` 路径向 `httpbin`
+   工作负载发出请求。该授权策略设置 `action` 字段为 `ALLOW`。该类型的策略被称为“允许策略”。
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
