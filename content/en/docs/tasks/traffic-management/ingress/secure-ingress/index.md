@@ -172,7 +172,7 @@ Finally, follow [these instructions](/docs/tasks/traffic-management/ingress/ingr
 to set the `INGRESS_HOST` and `SECURE_INGRESS_PORT` variables for accessing the gateway.
 
 {{< tip >}}
-Note that for some cloud like AWS, you may get INGRESS_HOST like: `ab52747ba608744d8afd530ffd975cbf-330887905.us-east-1.elb.amazonaws.com`, you have to convert it to IP in this task:
+For some cloud like AWS, you may get `INGRESS_HOST` like: `ab52747ba608744d8afd530ffd975cbf-330887905.us-east-1.elb.amazonaws.com`, you have to convert it to IP in this task:
 
 {{< text bash >}}
 $ nslookup ab52747ba608744d8afd530ffd975cbf-330887905.us-east-1.elb.amazonaws.com
