@@ -661,20 +661,11 @@ See [configuring SNI routing](/docs/ops/common-problems/network-issues/#configur
     $ echo "INGRESS_HOST=$INGRESS_HOST, SECURE_INGRESS_PORT=$SECURE_INGRESS_PORT"
     {{< /text >}}
 
-
-*   For some cloud like AWS, you may get `INGRESS_HOST` with domain. 
+*   For some cloud like AWS, you may get `INGRESS_HOST` with domain.
     You need convert it to IP:
-    
+
     {{< text bash >}}
     $ nslookup ab52747ba608744d8afd530ffd975cbf-330887905.us-east-1.elb.amazonaws.com
-    Server:		15.64.64.54
-    Address:	15.64.64.54#53
-    Non-authoritative answer:
-    Name:	ab52747ba608744d8afd530ffd975cbf-330887905.us-east-1.elb.amazonaws.com
-    Address: 3.225.207.109
-    Name:	ab52747ba608744d8afd530ffd975cbf-330887905.us-east-1.elb.amazonaws.com
-    Address: 52.201.149
-    $
     $ export INGRESS_HOST=3.225.207.109
     {{< /text >}}
 
