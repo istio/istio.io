@@ -515,12 +515,12 @@ kubectl get svc -n istio-system
 echo "INGRESS_HOST=$INGRESS_HOST, SECURE_INGRESS_PORT=$SECURE_INGRESS_PORT"
 }
 
-snip_troubleshooting_2() {
+snip_troubleshooting_3() {
 nslookup ab52747ba608744d8afd530ffd975cbf-330887905.us-east-1.elb.amazonaws.com
 export INGRESS_HOST=3.225.207.109
 }
 
-snip_troubleshooting_3() {
+snip_troubleshooting_4() {
 kubectl -n istio-system get secrets
 }
 
