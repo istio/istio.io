@@ -20,7 +20,7 @@ Telemetry API can not work together with `EnvoyFilter`. For more details please 
 
 * Starting with Istio version `1.18`, the stats `EnvoyFilter` will not be installed by default.
 
-* For versions of Istio before `1.18`, you should install with following `IstioOperator` configuration:
+* For versions of Istio before `1.18`, you should install with the following `IstioOperator` configuration:
 
     {{< text yaml >}}
     apiVersion: install.istio.io/v1alpha1
