@@ -19,6 +19,7 @@ test: yes
 1. [命令](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-a-liveness-command)
 1. [HTTP 请求](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-a-liveness-http-request)
 1. [TCP 探针](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-a-tcp-liveness-probe)
+1. [gRPC 探针](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-a-grpc-liveness-probe)
 
 命令方式无需更改即可工作，但 HTTP 请求和 TCP 探针需要 Istio 更改 Pod 的配置。
 
@@ -27,7 +28,7 @@ test: yes
 
 TCP 探针检查需要特殊处理，因为 Istio 将所有传入的流量重定向到 Sidecar，所以所有 TCP 端口都显示为开放。Kubelet 仅检查某个进程是否正在监听指定的端口，因此只要 Sidecar 正在运行，该探针就总会成功。
 
-Istio 通过重写应用程序 `PodSpec` 就绪/存活探针来解决这两个问题，以便将探针请求发送到 [Sidecar 代理](/zh/docs/reference/commands/pilot-agent/)。对于 HTTP 请求，Sidecar 代理将请求重定向到应用程序并剥离响应体，仅返回响应代码。对于 TCP 探针，Sidecar 代理会在避免流量重定向的同时进行端口检查。
+Istio 通过重写应用程序 `PodSpec` 就绪/存活探针来解决这两个问题，以便将探针请求发送到 [Sidecar 代理](/zh/docs/reference/commands/pilot-agent/)。对于 HTTP 和 gRPC 请求，Sidecar 代理将请求重定向到应用程序并剥离响应体，仅返回响应代码。对于 TCP 探针，Sidecar 代理会在避免流量重定向的同时进行端口检查。
 
 在所有内置的 Istio [配置文件](/zh/docs/setup/additional-setup/config-profiles/)中，有问题的探针的重写是默认启用的，但可以如下所述禁用。
 
@@ -68,14 +69,18 @@ NAME                             READY     STATUS    RESTARTS   AGE
 liveness-6857c8775f-zdv9r        2/2       Running   0           4m
 {{< /text >}}
 
-## 使用 HTTP 或 TCP 方式的存活和就绪探针{#liveness-and-readiness-probes-using-the-http-request-approach}
+## 使用 HTTP、TCP 和 gRPC 方式的存活和就绪探针{#liveness-and-readiness-probes-using-the-http-request-approach}
 
-如上所述，Istio 默认使用探针重写来实现 HTTP/TCP 探针。您可以为特定 Pod 或全局禁用此特性。
+如上所述，Istio 默认使用探针重写来实现 HTTP、TCP 和 gRPC 探针。您可以为特定 Pod 或全局禁用此特性。
 
 ### 为 Pod 禁用探针重写{#disable-the-http-probe-rewrite-for-a-pod}
 
 您可以使用 `sidecar.istio.io/rewriteAppHTTPProbers: "false"` 来[为 Pod 添加注解](/zh/docs/reference/config/annotations/)
 以禁用探针重写选项。确保将注解添加到 [Pod 资源](https://kubernetes.io/zh-cn/docs/concepts/workloads/pods/pod-overview/)，因为它会在其他任何地方被忽略（例如，在封闭的 Deployment 资源上）。
+
+{{< tabset category-name="disable-probe-rewrite" >}}
+
+{{< tab name="HTTP Probe" category-value="http-probe" >}}
 
 {{< text yaml >}}
 kubectl apply -f - <<EOF
@@ -109,6 +114,47 @@ spec:
           periodSeconds: 5
 EOF
 {{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="gRPC Probe" category-value="grpc-probe" >}}
+
+{{< text yaml >}}
+kubectl apply -f - <<EOF
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+name: liveness-grpc
+spec:
+selector:
+matchLabels:
+app: liveness-grpc
+version: v1
+template:
+metadata:
+labels:
+app: liveness-grpc
+version: v1
+annotations:
+sidecar.istio.io/rewriteAppHTTPProbers: "false"
+spec:
+containers:
+- name: etcd
+image: registry.k8s.io/etcd:3.5.1-0
+command: ["--listen-client-urls", "http://0.0.0.0:2379", "--advertise-client-urls", "http://127.0.0.1:2379", "--log-level", "debug"]
+ports:
+- containerPort: 2379
+livenessProbe:
+grpc:
+port: 2379
+initialDelaySeconds: 10
+periodSeconds: 5
+EOF
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
 
 这种方式允许您在单个 Deployment 上逐步禁用健康检查探针重写，而无需重新安装 Istio。
 

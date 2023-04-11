@@ -149,7 +149,7 @@ After applying the Gateway resource, we need to wait for it to be ready before r
 
 {{< text bash >}}
 $ kubectl wait -n sample-ingress --for=condition=programmed gateway sample-gateway
-$ export INGRESS_HOST=$(kubectl get -n sample-ingress gateway sample-gateway -o jsonpath='{.status.addresses[*].value}')
+$ export INGRESS_HOST=$(kubectl get -n sample-ingress gateway sample-gateway -o jsonpath='{.status.addresses[0].value}')
 {{< /text >}}
 
 Next, we attach an [HTTPRoute](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io%2fv1beta1.HTTPRoute)

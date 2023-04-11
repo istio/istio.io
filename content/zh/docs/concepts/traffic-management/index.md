@@ -173,14 +173,6 @@ spec:
     route:
     - destination:
         host: ratings
-...
-
-  http:
-  - match:
-      sourceLabels:
-        app: reviews
-    route:
-...
 {{< /text >}}
 
 有些匹配条件可以使用精确的值，如前缀或正则。
@@ -295,8 +287,7 @@ spec:
     - ext-host.example.com
     tls:
       mode: SIMPLE
-      serverCertificate: /tmp/tls.crt
-      privateKey: /tmp/tls.key
+      credentialName: ext-host-cert
 {{< /text >}}
 
 这个网关配置让 HTTPS 流量从 `ext-host.example.com` 通过 443 端口流入网格，但没有为请求指定任何路由规则。要指定路由并让网关按预期工作，您必须把网关绑定到虚拟服务上。正如下面的示例所示，使用虚拟服务的 `gateways` 字段进行设置：

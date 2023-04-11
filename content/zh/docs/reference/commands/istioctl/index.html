@@ -4,7 +4,7 @@ source_repo: https://github.com/istio/istio
 title: istioctl
 description: Istio control interface.
 generator: pkg-collateral-docs
-number_of_entries: 108
+number_of_entries: 109
 max_toc_level: 2
 remove_toc_prefix: 'istioctl '
 ---
@@ -1064,6 +1064,11 @@ istioctl d [flags]
 <td>Label selector  (default ``)</td>
 </tr>
 <tr>
+<td><code>--ui-port &lt;int&gt;</code></td>
+<td></td>
+<td>The component dashboard UI port.  (default `15000`)</td>
+</tr>
+<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -1131,6 +1136,11 @@ istioctl d [flags]
 <td>Local port to listen to  (default `0`)</td>
 </tr>
 <tr>
+<td><code>--ui-port &lt;int&gt;</code></td>
+<td></td>
+<td>The component dashboard UI port.  (default `3000`)</td>
+</tr>
+<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -1191,6 +1201,11 @@ istioctl d [flags]
 <td><code>--port &lt;int&gt;</code></td>
 <td><code>-p</code></td>
 <td>Local port to listen to  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--ui-port &lt;int&gt;</code></td>
+<td></td>
+<td>The component dashboard UI port.  (default `16686`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -1255,6 +1270,11 @@ istioctl d [flags]
 <td>Local port to listen to  (default `0`)</td>
 </tr>
 <tr>
+<td><code>--ui-port &lt;int&gt;</code></td>
+<td></td>
+<td>The component dashboard UI port.  (default `20001`)</td>
+</tr>
+<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -1315,6 +1335,11 @@ istioctl d [flags]
 <td><code>--port &lt;int&gt;</code></td>
 <td><code>-p</code></td>
 <td>Local port to listen to  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--ui-port &lt;int&gt;</code></td>
+<td></td>
+<td>The component dashboard UI port.  (default `9090`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -1379,6 +1404,11 @@ istioctl d [flags]
 <td>Local port to listen to  (default `0`)</td>
 </tr>
 <tr>
+<td><code>--ui-port &lt;int&gt;</code></td>
+<td></td>
+<td>The component dashboard UI port.  (default `12800`)</td>
+</tr>
+<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -1439,6 +1469,11 @@ istioctl d [flags]
 <td><code>--port &lt;int&gt;</code></td>
 <td><code>-p</code></td>
 <td>Local port to listen to  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--ui-port &lt;int&gt;</code></td>
+<td></td>
+<td>The component dashboard UI port.  (default `9411`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -4237,11 +4272,14 @@ istioctl x version --xds-label istio.io/rev=default
 </tbody>
 </table>
 <h3 id="istioctl-experimental-waypoint-delete Examples">Examples</h3>
-<pre class="language-bash"><code>  # Delete a waypoint from the current namespace
+<pre class="language-bash"><code>  # Delete a waypoint from the default namespace
   istioctl x waypoint delete
   
   # Delete a waypoint from a specific namespace for a specific service account
   istioctl x waypoint delete --service-account something --namespace default
+
+  # Delete a waypoint by name, which can obtain from istioctl x waypoint list 
+  istioctl x waypoint delete waypoint-name --namespace default
 </code></pre>
 <h2 id="istioctl-experimental-waypoint-generate">istioctl experimental waypoint generate</h2>
 <p>Generate a waypoint configuration as YAML</p>
@@ -4291,6 +4329,64 @@ istioctl x version --xds-label istio.io/rev=default
 <h3 id="istioctl-experimental-waypoint-generate Examples">Examples</h3>
 <pre class="language-bash"><code> # Generate a waypoint as yaml
   istioctl x waypoint generate --service-account something --namespace default
+</code></pre>
+<h2 id="istioctl-experimental-waypoint-list">istioctl experimental waypoint list</h2>
+<p>List managed waypoint configurations in the cluster</p>
+<pre class="language-bash"><code>istioctl experimental waypoint list [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--all-namespaces</code></td>
+<td><code>-A</code></td>
+<td>List all waypoints in all namespaces </td>
+</tr>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the kubeconfig context to use  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--service-account &lt;string&gt;</code></td>
+<td><code>-s</code></td>
+<td>service account to create a waypoint for  (default ``)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-experimental-waypoint-list Examples">Examples</h3>
+<pre class="language-bash"><code>  # List all waypoints in the cluster
+  # List all waypoints in a specific namespace
+  istioctl x waypoint list --namespace default
+
+  # List all waypoints in the cluster
+  istioctl x waypoint list -A
 </code></pre>
 <h2 id="istioctl-experimental-workload">istioctl experimental workload</h2>
 <p>Commands to assist in configuring and deploying workloads running on VMs and other non-Kubernetes environments</p>

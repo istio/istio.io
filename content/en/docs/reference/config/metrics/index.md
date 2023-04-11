@@ -11,7 +11,7 @@ aliases:
 
 The following are the standard service level metrics exported by Istio.
 
-The telemetry component is [implemented](https://github.com/istio/proxy/tree/master/extensions/stats) as a [Proxy-wasm](https://github.com/proxy-wasm/spec) plugin.
+The telemetry component is implemented as a [Proxy extension](https://github.com/istio/proxy/tree/master/source/extensions/filters/http/istio_stats).
 A `COUNTER` is a strictly increasing integer.
 A `DISTRIBUTION` maps ranges of values to frequency.
 `COUNTER` and `DISTRIBUTION` correspond to the metrics counter and histogram
@@ -52,42 +52,42 @@ For TCP traffic, Istio generates the following metrics:
     Istio proxy or a gateway.
 
 *   **Source Workload**: This identifies the name of source workload which
-    controls the source, or "unknown" if the source information is missing.
+    controls the source, or `unknown` if the source information is missing.
 
 *   **Source Workload Namespace**: This identifies the namespace of the source
-    workload, or "unknown" if the source information is missing.
+    workload, or `unknown` if the source information is missing.
 
 *   **Source Principal**: This identifies the peer principal of the traffic source.
     It is set when peer authentication is used.
 
 *   **Source App**: This identifies the source application based on `app` label
-    of the source workload, or "unknown" if the source information is missing.
+    of the source workload, or `unknown` if the source information is missing.
 
 *   **Source Version**: This identifies the version of the source workload, or
-    "unknown" if the source information is missing.
+    `unknown` if the source information is missing.
 
 *   **Destination Workload**: This identifies the name of destination workload,
-    or "unknown" if the destination information is missing.
+    or `unknown` if the destination information is missing.
 
 *   **Destination Workload Namespace**: This identifies the namespace of the
-    destination workload, or "unknown" if the destination information is
+    destination workload, or `unknown` if the destination information is
     missing.
 
 *   **Destination Principal**: This identifies the peer principal of the traffic destination.
     It is set when peer authentication is used.
 
 *   **Destination App**: This identifies the destination application based on
-    `app` label of the destination workload, or "unknown" if the destination
+    `app` label of the destination workload, or `unknown` if the destination
     information is missing.
 
 *   **Destination Version**: This identifies the version of the destination workload,
-    or "unknown" if the destination information is missing.
+    or `unknown` if the destination information is missing.
 
 *   **Destination Service**: This identifies destination service host responsible
     for an incoming request. Ex: `details.default.svc.cluster.local`.
 
 *   **Destination Service Name**: This identifies the destination service name.
-    Ex: "details".
+    Ex: `details`.
 
 *   **Destination Service Namespace**: This identifies the namespace of
     destination service.

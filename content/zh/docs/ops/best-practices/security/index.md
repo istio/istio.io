@@ -236,10 +236,8 @@ spec:
         filterChain:
           filter:
             name: "envoy.filters.network.http_connection_manager"
-            subFilter:
-              name: "envoy.filters.http.router"
     patch:
-      operation: INSERT_BEFORE
+      operation: INSERT_FIRST
       value:
         name: envoy.lua
         typed_config:
