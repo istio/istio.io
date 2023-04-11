@@ -9,25 +9,29 @@ test: yes
 
 Telemetry API has been in Istio as a first-class API for quite sometime now.
 Previously, users had to configure metrics in the `telemetry` section of the Istio configuration.
+
 This task shows you how to customize the metrics that Istio generates with Telemetry API.
 
 ## Before you begin
 
 [Install Istio](/docs/setup/) in your cluster and deploy an application.
-Telemetry API can not work together with `EnvoyFilter`. For more details please checkout this [issue](https://github.com/istio/istio/issues/39772).
-Starting with Istio version `1.18`, the stats `EnvoyFilter` will not be installed by default.
-For versions of Istio before `1.18`, you should install with following `IstioOperator` configuration:
 
-{{< text yaml >}}
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  values:
-    telemetry:
-      enabled: true
-      v2:
-        enabled: false
-{{< /text >}}
+Telemetry API can not work together with `EnvoyFilter`. For more details please checkout this [issue](https://github.com/istio/istio/issues/39772).
+
+* Starting with Istio version `1.18`, the stats `EnvoyFilter` will not be installed by default.
+
+* For versions of Istio before `1.18`, you should install with the following `IstioOperator` configuration:
+
+    {{< text yaml >}}
+    apiVersion: install.istio.io/v1alpha1
+    kind: IstioOperator
+    spec:
+      values:
+        telemetry:
+          enabled: true
+          v2:
+            enabled: false
+    {{< /text >}}
 
 ## Override metrics
 
