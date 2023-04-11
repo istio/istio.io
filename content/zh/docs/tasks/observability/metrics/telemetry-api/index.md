@@ -9,6 +9,7 @@ test: no
 
 Telemetry API 现在已经成为 Istio 中的主流API。
 之前，用户必须在 Istio 监控配置部分 `telemetry` 指标。
+
 本任务将向您展示如何使用 Telemetry API 自定义生成 Istio 的遥测指标。
 
 ## 开始之前{#before-you-begin}
