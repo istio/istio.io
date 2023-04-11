@@ -15,7 +15,6 @@ aliases:
 
 {{< relnote >}}
 
-
 ## 变更{#changes}
 
 - **新增** 增加了支持修改 gRPC keepalive 值的环境变量。 [Issue #42398](https://github.com/istio/istio/pull/42398)
@@ -26,6 +25,6 @@ aliases:
 
 - **修复** 修复了 istiod 在 Kubernetes Gateway 部署和服务发生变化时不进行调节的问题。[Issue #43332](https://github.com/istio/istio/issues/43332)
 
-- **修复** 报告了 Gateway API 网关资源的 "Programmed "条件。[Issue #43498](https://github.com/istio/istio/issues/43498)
+- **修复** 修复了针对 Gateway API 网关资源会报告 ’Programmed‘ 状况的问题。[Issue #43498](https://github.com/istio/istio/issues/43498)
 
 - **修复** 修复了更新服务 `外部名称' 不生效的问题。[Issue #43440](https://github.com/istio/istio/issues/43440)
