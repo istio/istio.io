@@ -14,6 +14,7 @@ Telemetry API 现在已经成为 Istio 中的主流API。
 ## 开始之前{#before-you-begin}
 
 在集群中[安装 Istio](/zh/docs/setup/) 并部署一个应用。
+
 需要注意的是，Telemetry API 无法与 `EnvoyFilter` 一起使用。
 有关更多详细信息，请查看此问题 [issue](https://github.com/istio/istio/issues/39772)。
 * 从 Istio 版本 `1.18` 开始，默认情况下不会安装 `EnvoyFilter`。
