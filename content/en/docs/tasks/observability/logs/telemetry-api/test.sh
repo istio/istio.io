@@ -21,7 +21,7 @@ set -o pipefail
 
 source "tests/util/samples.sh"
 
-# @setup profile=minimal
+# @setup profile=default
 
 snip_install_loki
 
@@ -139,6 +139,6 @@ cleanup_httpbin_sample
 
 snip_cleanup_1
 snip_cleanup_2
-snip_cleanup_3
 
-kubectl delete ns istio-system
+# delete loki-elb service
+kubectl delete svc loki-elb -n istio-system
