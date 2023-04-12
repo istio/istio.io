@@ -59,6 +59,8 @@ EOF
 expose_loki
 kubectl wait pods -n istio-system -l app.kubernetes.io/name=loki --for condition=Ready --timeout=90s
 
+kubectl label namespace default istio-injection=enabled --overwrite
+
 startup_sleep_sample
 startup_httpbin_sample
 
