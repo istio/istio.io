@@ -54,6 +54,14 @@ remove_toc_prefix: 'pilot-agent '
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
@@ -106,6 +114,14 @@ See each sub-command&#39;s help for details on how to use the generated script.
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -177,6 +193,14 @@ If it is not installed already, you can install it via your OS&#39;s package man
 <td>disable completion descriptions </td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
@@ -241,6 +265,14 @@ If it is not installed already, you can install it via your OS&#39;s package man
 <td>disable completion descriptions </td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
@@ -302,6 +334,14 @@ to your powershell profile.
 <tr>
 <td><code>--no-descriptions</code></td>
 <td>disable completion descriptions </td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -372,6 +412,14 @@ to enable it.  You can execute the following once:</p>
 <tr>
 <td><code>--no-descriptions</code></td>
 <td>disable completion descriptions </td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -466,6 +514,16 @@ to enable it.  You can execute the following once:</p>
 <td><code>--redirect-dns</code></td>
 <td></td>
 <td>Enable capture of dns traffic by istio-agent </td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -673,6 +731,16 @@ to enable it.  You can execute the following once:</p>
 <td>Validate iptables </td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--skip-rule-apply</code></td>
 <td></td>
 <td>Skip iptables apply </td>
@@ -761,6 +829,14 @@ to enable it.  You can execute the following once:</p>
 <td>The log level used to start the Envoy proxy (choose from {trace, debug, info, warning, error, critical, off}).Level may also include one or more scopes, such as &#39;info,misc:error,upstream:debug&#39;  (default `warning,misc:error`)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--serviceCluster &lt;string&gt;</code></td>
 <td>Service cluster  (default `istio-proxy`)</td>
 </tr>
@@ -835,6 +911,14 @@ to enable it.  You can execute the following once:</p>
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
@@ -904,6 +988,16 @@ to enable it.  You can execute the following once:</p>
 <td>One of &#39;yaml&#39; or &#39;json&#39;.  (default ``)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--short</code></td>
 <td><code>-s</code></td>
 <td>Use --short=false to generate full version information </td>
@@ -970,6 +1064,14 @@ to enable it.  You can execute the following once:</p>
 <tr>
 <td><code>--requestTimeoutMillis &lt;int&gt;</code></td>
 <td>number of milliseconds to wait for response  (default `500`)</td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--timeoutSeconds &lt;int&gt;</code></td>
