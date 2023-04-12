@@ -94,7 +94,7 @@ _verify_same count_httpbin_pod "0"
 
 # enable access log via Telemetry API
 snip_get_started_with_telemetry_api_1
-_wait_for_istio telemetry istio-system mesh-logging-default
+sleep 3s # wait for the configuration to take effect
 
 send_httpbin_requests "status/200"
 
@@ -103,7 +103,7 @@ _verify_same count_httpbin_pod "10"
 
 # disable access log for sleep pod
 snip_get_started_with_telemetry_api_2
-_wait_for_istio telemetry default disable-sleep-logging
+sleep 3s # wait for the configuration to take effect
 
 send_httpbin_requests "status/200"
 
@@ -113,7 +113,7 @@ _verify_same count_httpbin_pod "20"
 
 # disable httpbin
 snip_get_started_with_telemetry_api_3
-_wait_for_istio telemetry default disable-httpbin-logging
+sleep 3s # wait for the configuration to take effect
 
 send_httpbin_requests "status/200"
 
@@ -124,7 +124,7 @@ _verify_same count_httpbin_pod "20"
 # filter sleep logs
 kubectl delete telemetry --all -n default
 snip_get_started_with_telemetry_api_4
-_wait_for_istio telemetry default filter-sleep-logging
+sleep 3s # wait for the configuration to take effect
 
 # only 5xx logs are sent to loki
 send_httpbin_requests "status/200"
