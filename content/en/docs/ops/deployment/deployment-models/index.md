@@ -393,11 +393,6 @@ ways:
 In either case, cross-cluster load balancing is prevented. External traffic
 can be routed to one cluster or the other using an external load balancer.
 
-{{< image width="75%"
-    link="blue-green.svg"
-    caption="Blue-green deployment without cross-cluster load balancing"
-    >}}
-
 ## Identity and trust models
 
 When a workload instance is created within a service mesh, Istio assigns the
