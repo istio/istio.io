@@ -661,6 +661,15 @@ See [configuring SNI routing](/docs/ops/common-problems/network-issues/#configur
     $ echo "INGRESS_HOST=$INGRESS_HOST, SECURE_INGRESS_PORT=$SECURE_INGRESS_PORT"
     {{< /text >}}
 
+*   Make sure the value of `INGRESS_HOST` is an IP address. In some cloud platforms, e.g., AWS, you may
+     get a domain name, instead. This task expects an IP address, so you will need to convert it with commands
+     similar to the following:
+
+    {{< text bash >}}
+    $ nslookup ab52747ba608744d8afd530ffd975cbf-330887905.us-east-1.elb.amazonaws.com
+    $ export INGRESS_HOST=3.225.207.109
+    {{< /text >}}
+
 *   Check the log of the gateway controller for error messages:
 
     {{< text syntax=bash snip_id=none >}}
