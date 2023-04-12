@@ -28,12 +28,36 @@ snip_install_loki
 _wait_for_deployment istio-system istiod
 _wait_for_deployment istio-system opentelemetry-collector
 
-port_forward_loki() {
-  kubectl wait pods -n istio-system -l app.kubernetes.io/name=loki --for condition=Ready --timeout=90s
-  kubectl port-forward -n istio-system svc/loki 3100:3100 &
+expose_loki() {
+cat <<EOF | kubectl apply -n istio-system -f -
+apiVersion: v1
+kind: Service
+metadata:
+  name: loki-elb
+  labels:
+    app.kubernetes.io/name: loki
+    app.kubernetes.io/instance: loki
+    app.kubernetes.io/version: "2.7.3"
+spec:
+  type: LoadBalancer
+  ports:
+    - name: http-metrics
+      port: 3100
+      targetPort: http-metrics
+      protocol: TCP
+    - name: grpc
+      port: 9095
+      targetPort: grpc
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: loki
+    app.kubernetes.io/instance: loki
+    app.kubernetes.io/component: single-binary
+EOF
 }
 
-port_forward_loki
+expose_loki
+kubectl wait pods -n istio-system -l app.kubernetes.io/name=loki --for condition=Ready --timeout=90s
 
 startup_sleep_sample
 startup_httpbin_sample
@@ -48,7 +72,8 @@ function send_httpbin_requests() {
 function count_by_pod() {
   local namespace="$1"
   local name="$2"
-  curl -G -s 'http://localhost:3100/loki/api/v1/query_range' --data-urlencode "query={namespace=\"$namespace\", pod=\"$name\"}" | jq '.data.result[0].values | length'
+  local loki_address=$(kubectl get svc loki-elb -n istio-system -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+  curl -G -s "http://$loki_address:3100/loki/api/v1/query_range" --data-urlencode "query={namespace=\"$namespace\", pod=\"$name\"}" | jq '.data.result[0].values | length'
 }
 
 count_sleep_pod() {
@@ -63,6 +88,7 @@ count_httpbin_pod() {
 
 send_httpbin_requests "status/200"
 
+# no logs are sent to loki
 _verify_same count_sleep_pod "0"
 _verify_same count_httpbin_pod "0"
 
@@ -81,6 +107,7 @@ _wait_for_istio telemetry default disable-sleep-logging
 
 send_httpbin_requests "status/200"
 
+# sleep pod logs are not sent to loki
 _verify_same count_sleep_pod "10"
 _verify_same count_httpbin_pod "20"
 
@@ -90,16 +117,18 @@ _wait_for_istio telemetry default disable-httpbin-logging
 
 send_httpbin_requests "status/200"
 
-_verify_same count_sleep_pod "20"
+_verify_same count_sleep_pod "10"
+# httpbin pod logs are not sent to loki
 _verify_same count_httpbin_pod "20"
 
 # filter sleep logs
-kubectl delete telemetry --all -n istio-sytem
+kubectl delete telemetry --all -n default
 snip_get_started_with_telemetry_api_4
 _wait_for_istio telemetry default filter-sleep-logging
 
+# only 5xx logs are sent to loki
 send_httpbin_requests "status/200"
-_verify_same count_sleep_pod "20"
+_verify_same count_sleep_pod "10"
 
 send_httpbin_requests "status/500"
 _verify_same count_sleep_pod "20"
