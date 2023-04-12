@@ -41,6 +41,16 @@ debug and diagnose their Istio mesh.
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -82,6 +92,16 @@ debug and diagnose their Istio mesh.
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--selector &lt;string&gt;</code></td>
@@ -159,6 +179,16 @@ debug and diagnose their Istio mesh.
 <td><code>--revision &lt;string&gt;</code></td>
 <td><code>-r</code></td>
 <td>Control plane revision  (default ``)</td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--selector &lt;string&gt;</code></td>
@@ -275,6 +305,16 @@ debug and diagnose their Istio mesh.
 <td>analyze a specific revision deployed.  (default `default`)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--suppress &lt;stringArray&gt;</code></td>
 <td><code>-S</code></td>
 <td>Suppress reporting a message code on a specific resource. Values are supplied in the form &lt;code&gt;=&lt;resource&gt; (e.g. &#39;--suppress &#34;IST0102=DestinationRule primary-dr.default&#34;&#39;). Can be repeated. You can include the wildcard character &#39;*&#39; to support a partial match (e.g. &#39;--suppress &#34;IST0102=DestinationRule *.default&#34; ).  (default `[]`)</td>
@@ -359,6 +399,16 @@ debug and diagnose their Istio mesh.
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -474,6 +524,16 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 <td><code>--rps-limit &lt;int&gt;</code></td>
 <td></td>
 <td>Requests per second limit to the Kubernetes API server, defaults to 10.A higher limit can make bug report collection much faster.  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--start-time &lt;string&gt;</code></td>
@@ -596,6 +656,16 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 <td>Requests per second limit to the Kubernetes API server, defaults to 10.A higher limit can make bug report collection much faster.  (default `0`)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--short</code></td>
 <td><code>-s</code></td>
 <td>Use --short=false to generate full version information </td>
@@ -649,6 +719,16 @@ See each sub-command&#39;s help for details on how to use the generated script.
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -707,6 +787,16 @@ If it is not installed already, you can install it via your OS&#39;s package man
 <td>disable completion descriptions </td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -758,6 +848,16 @@ If it is not installed already, you can install it via your OS&#39;s package man
 <td>disable completion descriptions </td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -806,6 +906,16 @@ to your powershell profile.
 <td><code>--no-descriptions</code></td>
 <td></td>
 <td>disable completion descriptions </td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -863,6 +973,16 @@ to enable it.  You can execute the following once:</p>
 <td><code>--no-descriptions</code></td>
 <td></td>
 <td>disable completion descriptions </td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -924,6 +1044,16 @@ istioctl d [flags]
 <td>Local port to listen to  (default `0`)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -982,6 +1112,16 @@ istioctl d [flags]
 <td><code>--port &lt;int&gt;</code></td>
 <td><code>-p</code></td>
 <td>Local port to listen to  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--selector &lt;string&gt;</code></td>
@@ -1057,6 +1197,16 @@ istioctl d [flags]
 <td><code>--port &lt;int&gt;</code></td>
 <td><code>-p</code></td>
 <td>Local port to listen to  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--selector &lt;string&gt;</code></td>
@@ -1136,6 +1286,16 @@ istioctl d [flags]
 <td>Local port to listen to  (default `0`)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--ui-port &lt;int&gt;</code></td>
 <td></td>
 <td>The component dashboard UI port.  (default `3000`)</td>
@@ -1201,6 +1361,16 @@ istioctl d [flags]
 <td><code>--port &lt;int&gt;</code></td>
 <td><code>-p</code></td>
 <td>Local port to listen to  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--ui-port &lt;int&gt;</code></td>
@@ -1270,6 +1440,16 @@ istioctl d [flags]
 <td>Local port to listen to  (default `0`)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--ui-port &lt;int&gt;</code></td>
 <td></td>
 <td>The component dashboard UI port.  (default `20001`)</td>
@@ -1335,6 +1515,16 @@ istioctl d [flags]
 <td><code>--port &lt;int&gt;</code></td>
 <td><code>-p</code></td>
 <td>Local port to listen to  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--ui-port &lt;int&gt;</code></td>
@@ -1404,6 +1594,16 @@ istioctl d [flags]
 <td>Local port to listen to  (default `0`)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--ui-port &lt;int&gt;</code></td>
 <td></td>
 <td>The component dashboard UI port.  (default `8080`)</td>
@@ -1471,6 +1671,16 @@ istioctl d [flags]
 <td>Local port to listen to  (default `0`)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--ui-port &lt;int&gt;</code></td>
 <td></td>
 <td>The component dashboard UI port.  (default `9411`)</td>
@@ -1519,6 +1729,16 @@ istioctl d [flags]
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -1585,6 +1805,16 @@ Use &#39;add-to-mesh&#39; as an alternate to namespace-wide auto injection for t
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--valuesFile &lt;string&gt;</code></td>
@@ -1680,6 +1910,16 @@ istioctl experimental add-to-mesh dep &lt;deployment&gt; [flags]
 <td>Control plane revision  (default ``)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--valuesFile &lt;string&gt;</code></td>
 <td></td>
 <td>Injection values configuration filename.  (default ``)</td>
@@ -1772,6 +2012,16 @@ The typical usage scenario is Mesh Expansion on VMs.</p>
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--serviceaccount &lt;string&gt;</code></td>
 <td><code>-s</code></td>
 <td>Service account to link to the service  (default `default`)</td>
@@ -1860,6 +2110,16 @@ See https://istio.io/v1.18/docs/ops/deployment/requirements/</p>
 <td>Control plane revision  (default ``)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--valuesFile &lt;string&gt;</code></td>
 <td></td>
 <td>Injection values configuration filename.  (default ``)</td>
@@ -1914,6 +2174,16 @@ See https://istio.io/v1.18/docs/ops/deployment/requirements/</p>
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -1961,6 +2231,16 @@ from multiple sources (mesh-level, namespace-level and workload-level).</p>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -2019,6 +2299,16 @@ Checks associated resources of the given resource, and running webhooks to exami
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -2071,6 +2361,16 @@ Checks associated resources of the given resource, and running webhooks to exami
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -2113,6 +2413,16 @@ Checks associated resources of the given resource, and running webhooks to exami
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -2185,6 +2495,16 @@ Checks associated resources of the given resource, and running webhooks to exami
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--secret-name &lt;string&gt;</code></td>
@@ -2263,6 +2583,16 @@ Checks associated resources of the given resource, and running webhooks to exami
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -2311,6 +2641,16 @@ the configuration objects that affect that pod.</p>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -2366,6 +2706,16 @@ the configuration objects that affect that service.</p>
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -2415,6 +2765,16 @@ the configuration objects that affect that service.</p>
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
 <td>Output format: one of json|yaml|prom  (default `short`)</td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--type &lt;string&gt;</code></td>
@@ -2476,6 +2836,16 @@ the configuration objects that affect that service.</p>
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -2517,6 +2887,16 @@ the configuration objects that affect that service.</p>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -2594,6 +2974,16 @@ THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
 <td><code>--revision &lt;string&gt;</code></td>
 <td><code>-r</code></td>
 <td>Control plane revision  (default ``)</td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--timeout &lt;duration&gt;</code></td>
@@ -2695,6 +3085,16 @@ also provides the inverse of &#34;istioctl kube-inject -f&#34;.
 <td>Modified output Kubernetes resource filename  (default ``)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -2764,6 +3164,16 @@ calculated over a time interval of 1 minute.
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -2817,6 +3227,16 @@ calculated over a time interval of 1 minute.
 <td><code>--revision &lt;string&gt;</code></td>
 <td><code>-r</code></td>
 <td>Control plane revision  (default ``)</td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--skip-controlplane</code></td>
@@ -2904,6 +3324,16 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <td><code>--revision &lt;string&gt;</code></td>
 <td><code>-r</code></td>
 <td>Control plane revision  (default ``)</td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--timeout &lt;duration&gt;</code></td>
@@ -3007,6 +3437,16 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <td>Control plane revision  (default ``)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -3051,6 +3491,16 @@ The &#39;add-to-mesh&#39; command can be used to add or restore the sidecar.</p>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -3109,6 +3559,16 @@ istioctl experimental remove-from-mesh dep &lt;deployment&gt; [flags]
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -3165,6 +3625,16 @@ The typical usage scenario is Mesh Expansion on VMs.</p>
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -3218,6 +3688,16 @@ The typical usage scenario is Mesh Expansion on VMs.</p>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -3280,6 +3760,16 @@ The typical usage scenario is Mesh Expansion on VMs.</p>
 <td>Output format for revision description (available formats: table,json)  (default `table`)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--verbose</code></td>
 <td><code>-v</code></td>
 <td>Enable verbose output </td>
@@ -3335,6 +3825,16 @@ The typical usage scenario is Mesh Expansion on VMs.</p>
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
 <td>Output format for revision description (available formats: table,json)  (default `table`)</td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--verbose</code></td>
@@ -3404,6 +3904,16 @@ The typical usage scenario is Mesh Expansion on VMs.</p>
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
 <td>Output format for revision description (available formats: table,json)  (default `table`)</td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--verbose</code></td>
@@ -3480,6 +3990,16 @@ without manual relabeling of the &#34;istio.io/rev&#34; tag.
 <td>Output format for revision description (available formats: table,json)  (default `table`)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--verbose</code></td>
 <td><code>-v</code></td>
 <td>Enable verbose output </td>
@@ -3552,6 +4072,16 @@ overwrite existing revision tags. </td>
 <td><code>--revision &lt;string&gt;</code></td>
 <td><code>-r</code></td>
 <td>Control plane revision to reference from a given revision tag  (default ``)</td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -3639,6 +4169,16 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td>Output format for revision description (available formats: table,json)  (default `table`)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--verbose</code></td>
 <td><code>-v</code></td>
 <td>Enable verbose output </td>
@@ -3704,6 +4244,16 @@ revision tag before removing using the &#34;istioctl tag list&#34; command.
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
 <td>Output format for revision description (available formats: table,json)  (default `table`)</td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -3789,6 +4339,16 @@ overwrite existing revision tags. </td>
 <td><code>--revision &lt;string&gt;</code></td>
 <td><code>-r</code></td>
 <td>Control plane revision to reference from a given revision tag  (default ``)</td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -3897,6 +4457,16 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td>Target control plane revision for the command.  (default ``)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--set &lt;stringArray&gt;</code></td>
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
@@ -4000,6 +4570,16 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td>Control plane revision  (default ``)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--short</code></td>
 <td><code>-s</code></td>
 <td>Use --short=false to generate full version information </td>
@@ -4098,6 +4678,16 @@ istioctl x version --xds-label istio.io/rev=default
 <td>Control plane revision  (default ``)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--threshold &lt;float32&gt;</code></td>
 <td></td>
 <td>The ratio of distribution required for success  (default `1`)</td>
@@ -4154,6 +4744,16 @@ istioctl x version --xds-label istio.io/rev=default
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--service-account &lt;string&gt;</code></td>
@@ -4213,6 +4813,16 @@ istioctl x version --xds-label istio.io/rev=default
 <td>The revision to label the waypoint with  (default ``)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--service-account &lt;string&gt;</code></td>
 <td><code>-s</code></td>
 <td>service account to create a waypoint for  (default ``)</td>
@@ -4263,6 +4873,16 @@ istioctl x version --xds-label istio.io/rev=default
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--service-account &lt;string&gt;</code></td>
@@ -4325,6 +4945,16 @@ istioctl x version --xds-label istio.io/rev=default
 <td>The revision to label the waypoint with  (default ``)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--service-account &lt;string&gt;</code></td>
 <td><code>-s</code></td>
 <td>service account to create a waypoint for  (default ``)</td>
@@ -4379,6 +5009,16 @@ istioctl x version --xds-label istio.io/rev=default
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--service-account &lt;string&gt;</code></td>
 <td><code>-s</code></td>
 <td>service account to create a waypoint for  (default ``)</td>
@@ -4430,6 +5070,16 @@ istioctl x version --xds-label istio.io/rev=default
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -4473,6 +5123,16 @@ istioctl x version --xds-label istio.io/rev=default
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -4575,6 +5235,16 @@ Configure requires either the WorkloadGroup artifact path or its location on the
 <td>Control plane revision  (default ``)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--tokenDuration &lt;int&gt;</code></td>
 <td></td>
 <td>The token duration in seconds (default: 1 hour)  (default `3600`)</td>
@@ -4623,6 +5293,16 @@ Configure requires either the WorkloadGroup artifact path or its location on the
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -4687,6 +5367,16 @@ The default output is serialized YAML, which can be piped into &#39;kubectl appl
 <td><code>--ports &lt;stringSlice&gt;</code></td>
 <td><code>-p</code></td>
 <td>The incoming ports exposed by the workload instance  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--serviceAccount &lt;string&gt;</code></td>
@@ -4776,6 +5466,16 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--revision &lt;string&gt;</code></td>
 <td><code>-r</code></td>
 <td>Target control plane revision for the command.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--set &lt;stringArray&gt;</code></td>
@@ -4912,6 +5612,16 @@ doubt re-run istioctl kube-inject on deployments to get the most up-to-date chan
 <td>Control plane revision  (default ``)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--timeout &lt;duration&gt;</code></td>
 <td></td>
 <td>The duration to wait before failing  (default `30s`)</td>
@@ -5007,6 +5717,16 @@ doubt re-run istioctl kube-inject on deployments to get the most up-to-date chan
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -5070,6 +5790,16 @@ removed.</p>
 <td>Rename resources before comparison.
 The format of each renaming pair is A-&gt;B, all renaming pairs are comma separated.
 e.g. Service:*:istiod-&gt;Service:*:istio-control - rename istiod service into istio-control  (default ``)</td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--select &lt;string&gt;</code></td>
@@ -5174,6 +5904,16 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td>Target control plane revision for the command.  (default ``)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--set &lt;stringArray&gt;</code></td>
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
@@ -5276,6 +6016,16 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td>Target control plane revision for the command.  (default ``)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--set &lt;stringArray&gt;</code></td>
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
@@ -5344,6 +6094,16 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -5427,6 +6187,16 @@ could be secret list separated by comma, eg. &#39;--imagePullSecrets imagePullSe
 <td><code>--revision &lt;string&gt;</code></td>
 <td><code>-r</code></td>
 <td>Target revision for the operator.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--tag &lt;string&gt;</code></td>
@@ -5523,6 +6293,16 @@ could be secret list separated by comma, eg. &#39;--imagePullSecrets imagePullSe
 <td>Target revision for the operator.  (default ``)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--tag &lt;string&gt;</code></td>
 <td></td>
 <td>The tag for the operator controller image.  (default `unknown`)</td>
@@ -5598,6 +6378,16 @@ could be secret list separated by comma, eg. &#39;--imagePullSecrets imagePullSe
 <td>Target revision for the operator.  (default ``)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--skip-confirmation</code></td>
 <td><code>-y</code></td>
 <td>The skipConfirmation determines whether the user is prompted for confirmation.
@@ -5642,6 +6432,16 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -5683,6 +6483,16 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -5744,6 +6554,16 @@ istioctl install --set profile=demo  # Use a profile from the list
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -5826,6 +6646,16 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td>Output format: one of json|yaml|flags  (default `yaml`)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -5883,6 +6713,16 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -5929,6 +6769,16 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--proxy-admin-port &lt;int&gt;</code></td>
 <td></td>
 <td>Envoy proxy admin port  (default `15000`)</td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -6016,6 +6866,16 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--proxy-admin-port &lt;int&gt;</code></td>
 <td></td>
 <td>Envoy proxy admin port  (default `15000`)</td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--subset &lt;string&gt;</code></td>
@@ -6106,6 +6966,16 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td>Envoy proxy admin port  (default `15000`)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -6192,6 +7062,16 @@ istioctl proxy-config c [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <td>Envoy proxy admin port  (default `15000`)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--subset &lt;string&gt;</code></td>
 <td></td>
 <td>Filter clusters by substring of Subset field  (default ``)</td>
@@ -6268,6 +7148,16 @@ istioctl proxy-config c [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <td><code>--proxy-admin-port &lt;int&gt;</code></td>
 <td></td>
 <td>Envoy proxy admin port  (default `15000`)</td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -6351,6 +7241,16 @@ istioctl proxy-config ep [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <td><code>--proxy-admin-port &lt;int&gt;</code></td>
 <td></td>
 <td>Envoy proxy admin port  (default `15000`)</td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--status &lt;string&gt;</code></td>
@@ -6447,6 +7347,16 @@ istioctl proxy-config l [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <td>Envoy proxy admin port  (default `15000`)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--type &lt;string&gt;</code></td>
 <td></td>
 <td>Filter listeners by type field  (default ``)</td>
@@ -6535,6 +7445,16 @@ istioctl proxy-config l [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <td>Reset levels to default value (warning). </td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--selector &lt;string&gt;</code></td>
 <td><code>-l</code></td>
 <td>Label selector  (default ``)</td>
@@ -6608,6 +7528,16 @@ istioctl proxy-config l [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <td>Envoy proxy admin port  (default `15000`)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -6674,6 +7604,16 @@ istioctl proxy-config r [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <td><code>--proxy-admin-port &lt;int&gt;</code></td>
 <td></td>
 <td>Envoy proxy admin port  (default `15000`)</td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--verbose</code></td>
@@ -6756,6 +7696,16 @@ istioctl proxy-config s [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <td>Envoy proxy admin port  (default `15000`)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -6817,6 +7767,16 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <td><code>--revision &lt;string&gt;</code></td>
 <td><code>-r</code></td>
 <td>Control plane revision  (default ``)</td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -6883,6 +7843,16 @@ without manual relabeling of the &#34;istio.io/rev&#34; tag.
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -6945,6 +7915,16 @@ overwrite existing revision tags. </td>
 <td><code>--revision &lt;string&gt;</code></td>
 <td><code>-r</code></td>
 <td>Control plane revision to reference from a given revision tag  (default ``)</td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -7015,6 +7995,16 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -7063,6 +8053,16 @@ revision tag before removing using the &#34;istioctl tag list&#34; command.
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -7138,6 +8138,16 @@ overwrite existing revision tags. </td>
 <td><code>--revision &lt;string&gt;</code></td>
 <td><code>-r</code></td>
 <td>Control plane revision to reference from a given revision tag  (default ``)</td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -7241,6 +8251,16 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td>Target control plane revision for the command.  (default ``)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--set &lt;stringArray&gt;</code></td>
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
@@ -7342,6 +8362,16 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td>Maximum time to wait for Istio resources in each component to be ready.  (default `5m0s`)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--set &lt;stringArray&gt;</code></td>
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
@@ -7411,6 +8441,16 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td><code>--referential</code></td>
 <td><code>-x</code></td>
 <td>Enable structural validation for policy and telemetry </td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -7496,6 +8536,16 @@ istioctl experimental precheck.
 <td>Control plane revision  (default ``)</td>
 </tr>
 <tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
+</tr>
+<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -7562,6 +8612,16 @@ istioctl experimental precheck.
 <td><code>--revision &lt;string&gt;</code></td>
 <td><code>-r</code></td>
 <td>Control plane revision  (default ``)</td>
+</tr>
+<tr>
+<td><code>--s2a_enable_appengine_dialer</code></td>
+<td></td>
+<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
+</tr>
+<tr>
+<td><code>--s2a_timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--short</code></td>
