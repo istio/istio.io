@@ -1,14 +1,28 @@
 ---
-title: Work with Telemetry API
+title: Configure access logs with Telemetry API
 description: This task shows you how to configure Envoy proxies to send access logs with Telemetry API.
 weight: 10
 keywords: [telemetry,logs]
 owner: istio/wg-policies-and-telemetry-maintainers
-test: no
+test: yes
 ---
 
 Telemetry API has been in Istio as a first-class API for quite sometime now.
 Previously users had to configure telemetry in the `MeshConfig` section of Istio configuration.
+
+{{< boilerplate before-you-begin-egress >}}
+
+{{< boilerplate start-httpbin-service >}}
+
+## Installation
+
+In this example, we will send logs to [`loki`] so make sure it is installed:
+
+{{< text syntax=bash snip_id=install_loki >}}
+$ istioctl install -f @samples/open-telemetry/loki/iop.yaml@ --skip-confirmation
+$ kubectl apply -f @samples/addons/loki.yaml@ -n istio-system
+$ kubectl apply -f @samples/open-telemetry/loki/otel.yaml@ -n istio-system
+{{< /text >}}
 
 ## Get started with Telemetry API
 
@@ -32,19 +46,19 @@ Previously users had to configure telemetry in the `MeshConfig` section of Istio
 
 1. Disable access log for specific workload
 
-    You can disable access log for `details` service with the following configuration:
+    You can disable access log for `sleep` service with the following configuration:
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -n default -f -
     apiVersion: telemetry.istio.io/v1alpha1
     kind: Telemetry
     metadata:
-      name: disable-details-logging
-      namespace: istio-system
+      name: disable-sleep-logging
+      namespace: default
     spec:
       selector:
         matchLabels:
-          app: details
+          app: sleep
       accessLogging:
       - providers:
         - name: envoy
@@ -54,19 +68,19 @@ Previously users had to configure telemetry in the `MeshConfig` section of Istio
 
 1. Filter access log with workload mode
 
-    You can disable inbound access log for `details` service with the following configuration:
+    You can disable inbound access log for `httpbin` service with the following configuration:
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -n default -f -
     apiVersion: telemetry.istio.io/v1alpha1
     kind: Telemetry
     metadata:
-      name: disable-details-logging
-      namespace: istio-system
+      name: disable-httpbin-logging
+      namespace: default
     spec:
       selector:
         matchLabels:
-          app: details
+          app: httpbin
       accessLogging:
       - providers:
         - name: envoy
@@ -85,12 +99,12 @@ Previously users had to configure telemetry in the `MeshConfig` section of Istio
     apiVersion: telemetry.istio.io/v1alpha1
     kind: Telemetry
     metadata:
-      name: disable-details-logging
+      name: filter-sleep-logging
       namespace: istio-system
     spec:
       selector:
         matchLabels:
-          app: httpbin
+          app: sleep
       accessLogging:
       - providers:
         - name: envoy
@@ -126,3 +140,24 @@ Previously users had to configure telemetry in the `MeshConfig` section of Istio
 ## Work with OpenTelemetry provider
 
 Istio supports sending access logs with [OpenTelemetry](https://opentelemetry.io/) protocol, as explained [here](/docs/tasks/observability/logs/otel-provider).
+
+## Cleanup
+
+1.  Remove all Telemetry API:
+
+    {{< text bash >}}
+    $ kubectl delete telemetry --all -A
+    {{< /text >}}
+
+1.  Remove `loki`:
+
+    {{< text bash >}}
+    $ kubectl delete -f @samples/addons/loki.yaml@ -n istio-system
+    $ kubectl delete -f @samples/open-telemetry/loki/otel.yaml@ -n istio-system
+    {{< /text >}}
+
+1.  Uninstall Istio from the cluster:
+
+    {{< text bash >}}
+    $ istioctl uninstall --purge --skip-confirmation
+    {{< /text >}}
