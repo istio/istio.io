@@ -24,14 +24,18 @@ snip_create_istio_operator() {
 istioctl operator init
 }
 
-snip_prerequisites_2() {
+snip_deploy_the_istio_operator_2() {
 istioctl operator init --watchedNamespaces=istio-namespace1,istio-namespace2
 }
 
-snip_prerequisites_3() {
+snip_deploy_the_istio_operator_3() {
+kubectl create namespace istio-operator
+}
+
+snip_deploy_the_istio_operator_4() {
 helm install istio-operator manifests/charts/istio-operator \
-  --set watchedNamespaces="istio-namespace1\,istio-namespace2" \
-  -n istio-operator
+    --set watchedNamespaces="istio-namespace1\,istio-namespace2" \
+    -n istio-operator
 }
 
 snip_create_demo_profile() {
@@ -46,7 +50,7 @@ spec:
 EOF
 }
 
-! read -r -d '' snip_install_2 <<\ENDSNIP
+! read -r -d '' snip_install_istio_with_the_operator_2 <<\ENDSNIP
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 ...
@@ -187,5 +191,5 @@ ENDSNIP
 
 snip_cleanup() {
 istioctl uninstall -y --purge
-kubectl delete ns istio-system --grace-period=0 --force
+kubectl delete ns istio-system istio-operator
 }

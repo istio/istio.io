@@ -6,7 +6,7 @@ keywords: [kubernetes, operator]
 aliases:
     - /docs/setup/install/standalone-operator
 owner: istio/wg-environments-maintainers
-test: no
+test: yes
 status: Beta
 ---
 
@@ -327,5 +327,5 @@ To clean up anything not removed by the operator:
 
 {{< text syntax=bash snip_id=cleanup >}}
 $ istioctl uninstall -y --purge
-$ kubectl delete ns istio-system --grace-period=0 --force
+$ kubectl delete ns istio-system istio-operator
  {{< /text >}}

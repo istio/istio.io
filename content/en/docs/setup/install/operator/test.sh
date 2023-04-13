@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2154
 # Copyright Istio Authors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,24 +14,24 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-set -e
-set -u
-
-set -o pipefail
 
 # @setup profile=none
 
-snip_create_istio_operator
+set -e
+set -u
+set -o pipefail
+
+# print out body of the function and execute with --hub flag
+# this is to avoid using the default public registry
+$(type snip_create_istio_operator | sed '1,3d;$d') --hub "$HUB"
 _wait_for_deployment istio-operator istio-operator
 
 snip_create_demo_profile
 sleep 30s
 _wait_for_deployment istio-system istiod
 
-# shellcheck disable=SC2154
 _verify_like snip_kubectl_get_svc "$snip_kubectl_get_svc_out"
 
-# shellcheck disable=SC2154
 _verify_like snip_kubectl_get_pods "$snip_kubectl_get_pods_out"
 
 snip_update_operator
@@ -39,4 +40,7 @@ _verify_contains snip_kubectl_get_svc "egressgateway"
 
 # @cleanup
 snip_cleanup
-kubectl delete ns istio-operator --grace-period=0 --force
+
+# Everything should be removed once cleanup completes. Use a small
+# timeout for comparing cluster snapshots before/after the test.
+export VERIFY_TIMEOUT=20
