@@ -16,7 +16,7 @@ Previously users had to configure telemetry in the `MeshConfig` section of Istio
 
 ## Installation
 
-In this example, we will send logs to [`loki`] so make sure it is installed:
+In this example, we will send logs to [Grafana Loki](https://grafana.com/oss/loki/) so make sure it is installed:
 
 {{< text syntax=bash snip_id=install_loki >}}
 $ istioctl install -f @samples/open-telemetry/loki/iop.yaml@ --skip-confirmation
