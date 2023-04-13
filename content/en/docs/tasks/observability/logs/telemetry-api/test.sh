@@ -150,5 +150,6 @@ snip_cleanup_1
 snip_cleanup_2
 
 # delete loki-elb service
+kubectl delete iop installed-state -n istio-system
 kubectl delete telemetry --all -A
 kubectl delete svc loki-elb -n istio-system
