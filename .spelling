@@ -640,6 +640,7 @@ linters
 list_by_publishdate
 Liu
 liveness
+Loki
 LoadBalancer
 loadimpact
 localhost
