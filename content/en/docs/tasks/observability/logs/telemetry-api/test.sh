@@ -88,6 +88,13 @@ count_httpbin_pod() {
   count_by_pod default $pod
 }
 
+rollout_restart_pods() {
+  kubectl rollout restart deploy/sleep
+  kubectl rollout restart deploy/httpbin
+  _wait_for_deployment default sleep
+  _wait_for_deployment default httpbin
+}
+
 send_httpbin_requests "status/200"
 
 # no logs are sent to loki
@@ -96,7 +103,7 @@ _verify_same count_httpbin_pod "0"
 
 # enable access log via Telemetry API
 snip_get_started_with_telemetry_api_1
-sleep 5s # wait for the configuration to take effect
+rollout_restart_pods
 
 send_httpbin_requests "status/200"
 
@@ -105,35 +112,35 @@ _verify_same count_httpbin_pod "10"
 
 # disable access log for sleep pod
 snip_get_started_with_telemetry_api_2
-sleep 5s # wait for the configuration to take effect
+rollout_restart_pods
 
 send_httpbin_requests "status/200"
 
 # sleep pod logs are not sent to loki
-_verify_same count_sleep_pod "10"
-_verify_same count_httpbin_pod "20"
+_verify_same count_sleep_pod "0"
+_verify_same count_httpbin_pod "10"
 
 # disable httpbin
 snip_get_started_with_telemetry_api_3
-sleep 5s # wait for the configuration to take effect
+rollout_restart_pods
 
 send_httpbin_requests "status/200"
 
-_verify_same count_sleep_pod "10"
+_verify_same count_sleep_pod "0"
 # httpbin pod logs are not sent to loki
-_verify_same count_httpbin_pod "20"
+_verify_same count_httpbin_pod "0"
 
 # filter sleep logs
 kubectl delete telemetry --all -n default
 snip_get_started_with_telemetry_api_4
-sleep 5s # wait for the configuration to take effect
+rollout_restart_pods
 
 # only 5xx logs are sent to loki
 send_httpbin_requests "status/200"
-_verify_same count_sleep_pod "10"
+_verify_same count_sleep_pod "0"
 
 send_httpbin_requests "status/500"
-_verify_same count_sleep_pod "20"
+_verify_same count_sleep_pod "10"
 
 # @cleanup
 cleanup_sleep_sample
@@ -143,4 +150,5 @@ snip_cleanup_1
 snip_cleanup_2
 
 # delete loki-elb service
+kubectl delete telemetry --all -A
 kubectl delete svc loki-elb -n istio-system
