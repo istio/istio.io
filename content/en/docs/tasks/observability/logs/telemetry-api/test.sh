@@ -96,7 +96,7 @@ _verify_same count_httpbin_pod "0"
 
 # enable access log via Telemetry API
 snip_get_started_with_telemetry_api_1
-sleep 3s # wait for the configuration to take effect
+sleep 5s # wait for the configuration to take effect
 
 send_httpbin_requests "status/200"
 
@@ -105,7 +105,7 @@ _verify_same count_httpbin_pod "10"
 
 # disable access log for sleep pod
 snip_get_started_with_telemetry_api_2
-sleep 3s # wait for the configuration to take effect
+sleep 5s # wait for the configuration to take effect
 
 send_httpbin_requests "status/200"
 
@@ -115,7 +115,7 @@ _verify_same count_httpbin_pod "20"
 
 # disable httpbin
 snip_get_started_with_telemetry_api_3
-sleep 3s # wait for the configuration to take effect
+sleep 5s # wait for the configuration to take effect
 
 send_httpbin_requests "status/200"
 
@@ -126,7 +126,7 @@ _verify_same count_httpbin_pod "20"
 # filter sleep logs
 kubectl delete telemetry --all -n default
 snip_get_started_with_telemetry_api_4
-sleep 3s # wait for the configuration to take effect
+sleep 5s # wait for the configuration to take effect
 
 # only 5xx logs are sent to loki
 send_httpbin_requests "status/200"
