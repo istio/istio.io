@@ -324,11 +324,6 @@ Istio 控制平面通过为每个代理提供服务端点列表来管理网格�
 在任意情况下，都应阻止跨集群负载平衡。
 可以使用外部负载均衡器将外部流量路由到一个集群或另一个集群。
 
-{{< image width="75%"
-    link="blue-green.svg"
-    caption="非跨集群负载均衡的蓝绿部署"
-    >}}
-
 ## 身份和信任模型{#identity-and-trust-models}
 
 在服务网格中创建工作负载实例时，Istio 会为工作负载分配一个{{< gloss "identity">}}身份标识{{< /gloss >}}。
