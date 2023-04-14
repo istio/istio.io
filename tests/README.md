@@ -242,7 +242,7 @@ expected output. The framework includes the following built-in verify functions:
      1. different elapsed time values (e.g., `30s` is like `5m`)
      1. different ip values (e.g., `172.21.0.1` is like `10.0.0.31`). Disallows
          `<none>` and `<pending>` by default. This can be customized by setting
-         the `ALLOW_NONE_IP` and `ALLOW_PENDING_IP` environment variables,
+         the `CMP_MATCH_IP_NONE` and `CMP_MATCH_IP_PENDING` environment variables,
          respectively.
      1. prefix match ending with a dash character (e.g., `reviews-v1-12345...` is like `reviews-v1-67890...`)
      1. expected `...` is a wildcard token, matches anything
