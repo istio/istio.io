@@ -1,7 +1,7 @@
 ---
 title: 使用 GitHub 参与社区活动
 description: 向您展示如何使用 GitHub 参与贡献 Istio 文档。
-weight: 30
+weight: 2
 aliases:
     - /zh/docs/welcome/contribute/creating-a-pull-request.html
     - /zh/docs/welcome/contribute/staging-your-changes.html
