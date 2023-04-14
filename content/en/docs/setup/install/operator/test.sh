@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC2154
+
 # Copyright Istio Authors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,22 +22,59 @@ set -e
 set -u
 set -o pipefail
 
-# print out body of the function and execute with --hub flag
-# this is to avoid using the default public registry
-$(type snip_create_istio_operator | sed '1,3d;$d') --hub "$HUB"
-_wait_for_deployment istio-operator istio-operator
+function testOperatorDeployWatchNs(){
+    # print out body of the function and execute with flag
+    # this is to avoid using the default public registry
+    $(type snip_deploy_istio_operator_watch_ns | sed '1,3d;$d') --hub "$HUB"
+    _wait_for_deployment istio-operator istio-operator
 
-snip_create_demo_profile
-sleep 30s
-_wait_for_deployment istio-system istiod
+    # cleanup required for next steps
+    istioctl uninstall -y --purge
+    kubectl delete ns istio-operator istio-namespace1 istio-namespace2
+}
 
-_verify_like snip_kubectl_get_svc "$snip_kubectl_get_svc_out"
+function testOperatorDeployHelm(){
+    snip_create_ns_istio_operator
+    snip_deploy_istio_operator_helm
+    _wait_for_deployment istio-operator istio-operator
 
-_verify_like snip_kubectl_get_pods "$snip_kubectl_get_pods_out"
+    # cleanup required for next steps
+    helm uninstall istio-operator -n istio-operator
+    kubectl delete ns istio-operator
+}
 
-snip_update_operator
-sleep 30s
-_verify_contains snip_kubectl_get_svc "egressgateway"
+function testOperatorDeploy(){
+    $(type snip_deploy_istio_operator | sed '1,3d;$d') --hub "$HUB"
+    _wait_for_deployment istio-operator istio-operator
+}
+
+function testInstallIstioDemo(){
+    snip_install_istio_demo_profile
+    sleep 30s
+    _wait_for_deployment istio-system istiod
+    _verify_like snip_kubectl_get_svc "$snip_kubectl_get_svc_out"
+    _verify_like snip_kubectl_get_pods "$snip_kubectl_get_pods_out"
+}
+
+function testUpdateProfileDefaultEgress(){
+    snip_update_to_default_profile_egress
+    sleep 30s
+    _verify_contains snip_kubectl_get_svc "egressgateway"
+}
+
+testOperatorDeployWatchNs
+
+testOperatorDeployHelm
+
+testOperatorDeploy
+
+testInstallIstioDemo
+
+snip_update_to_default_profile
+
+testUpdateProfileDefaultEgress
+
+_verify_like snip_verify_operator_cr "$snip_verify_operator_cr_out"
 
 # @cleanup
 snip_cleanup
