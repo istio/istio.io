@@ -17,87 +17,59 @@ GET /reviews/{review_id}
 计算审查请求的数量必须考虑到无界元素 `review_id`。
 `GET /reviews/1` 紧随其后的 `GET /reviews/2` 应该算作两次获得评论的请求。
 
-Istio 允许您使用
-[AttributeGen 插件](/zh/docs/reference/config/proxy_extensions/attributegen/) 创建分类规则，该插件将请求分组为固定数量的逻辑操作。
+Istio 允许您使用 AttributeGen 插件创建分类规则，该插件将请求分组为固定数量的逻辑操作。
 例如，您可以创建一个名为 `GetReviews` 的操作，
-，这是使用 [`Open API Spec operationId`](https://swagger.io/docs/specification/paths-and-operations/)。
+这是使用 [`Open API Spec operationId`](https://swagger.io/docs/specification/paths-and-operations/)。
 此信息作为 `istio_operationId` 属性注入到请求处理中值等于 `GetReviews`。
 您可以将属性用作 Istio 标准指标中的维度。
-相似地，您可以根据其他操作（例如 `ListReviews` 和 `CreateReviews`)。
+相似地，您可以基于 `ListReviews` 和 `CreateReviews` 这类其他操作跟踪指标。
 
-有关详细信息，请参阅[参考内容](/zh/docs/reference/config/proxy_extensions/attributegen/)。
-
-Istio 使用 Envoy 代理生成指标并在 `EnvoyFilter` 在
-[manifests/charts/istio-control/istio-discovery/templates/telemetryv2_{{< istio_version >}}.yaml]({{<github_blob>}}/manifests/charts/istio-control/istio-discovery/templates/telemetryv2_{{< istio_version >}}.yaml)。
+Istio 使用 Envoy 代理生成指标并在
+[manifests/charts/istio-control/istio-discovery/templates/telemetryv2_{{< istio_version >}}.yaml]({{<github_blob>}}/manifests/charts/istio-control/istio-discovery/templates/telemetryv2_{{< istio_version >}}.yaml) 的 `EnvoyFilter` 中提供其配置。
 因此，编写分类规则涉及将属性添加到 `EnvoyFilter`。
 
 ## 按请求分类指标{#classify-metrics-by-request}
 
-您可以根据请求的类型对请求进行分类，例如： `ListReview` 、 `GetReview` 、 `CreateReview`。
+您可以根据请求的类型对请求进行分类，例如 `ListReview`、`GetReview`、`CreateReview`。
 
 1. 创建一个文件，例如 `attribute_gen_service.yaml`，并使用以下内容保存它。
-   这会将 `istio.attributegen` 插件添加到 `EnvoyFilter`。它还创建一个属性， `istio_operationId` 并使用类别值填充它以计为指标。
+   这会将 `istio.attributegen` 插件添加到 `EnvoyFilter`。它还创建一个属性，`istio_operationId` 并使用类别值填充它以计为指标。
 
-   此配置是特定于服务的，因为请求路径通常是特定于服务的。
+    此配置是特定于服务的，因为请求路径通常是特定于服务的。
 
     {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
-kind: EnvoyFilter
+apiVersion: extensions.istio.io/v1alpha1
+kind: WasmPlugin
 metadata:
   name: istio-attributegen-filter
 spec:
-  workloadSelector:
-    labels:
+  selector:
+    matchLabels:
       app: reviews
-  configPatches:
-  - applyTo: HTTP_FILTER
-    match:
-      context: SIDECAR_INBOUND
-      proxy:
-        proxyVersion: '1\.9.*'
-      listener:
-        filterChain:
-          filter:
-            name: "envoy.http_connection_manager"
-            subFilter:
-              name: "istio.stats"
-    patch:
-      operation: INSERT_BEFORE
-      value:
-        name: istio.attributegen
-        typed_config:
-          "@type": type.googleapis.com/udpa.type.v1.TypedStruct
-          type_url: type.googleapis.com/envoy.extensions.filters.http.wasm.v3.Wasm
-          value:
-            config:
-              configuration:
-                "@type": type.googleapis.com/google.protobuf.StringValue
-                value: |
-                  {
-                    "attributes": [
-                      {
-                        "output_attribute": "istio_operationId",
-                        "match": [
-                          {
-                            "value": "ListReviews",
-                            "condition": "request.url_path == '/reviews' && request.method == 'GET'"
-                          },
-                          {
-                            "value": "GetReview",
-                            "condition": "request.url_path.matches('^/reviews/[[:alnum:]]*$') && request.method == 'GET'"
-                          },
-                          {
-                            "value": "CreateReview",
-                            "condition": "request.url_path == '/reviews/' && request.method == 'POST'"
-                          }
-                        ]
-                      }
-                    ]
-                  }
-              vm_config:
-                runtime: envoy.wasm.runtime.null
-                code:
-                  local: { inline_string: "envoy.wasm.attributegen" }
+  url: https://storage.googleapis.com/istio-build/proxy/attributegen-359dcd3a19f109c50e97517fe6b1e2676e870c4d.wasm
+  imagePullPolicy: Always
+  phase: AUTHN
+  pluginConfig: {
+    "attributes": [
+      {
+        "output_attribute": "istio_operationId",
+        "match": [
+          {
+            "value": "ListReviews",
+            "condition": "request.url_path == '/reviews' && request.method == 'GET'"
+          },
+          {
+            "value": "GetReview",
+            "condition": "request.url_path.matches('^/reviews/[[:alnum:]]*$') && request.method == 'GET'"
+          },
+          {
+            "value": "CreateReview",
+            "condition": "request.url_path == '/reviews/' && request.method == 'POST'"
+          }
+        ]
+      }
+    ]
+  }
     {{< /text >}}
 
 1. 使用以下命令应用您的更改：
@@ -106,14 +78,14 @@ spec:
     $ kubectl -n istio-system apply -f attribute_gen_service.yaml
     {{< /text >}}
 
-1. 查找 `stats-filter-{{< istio_version >}}` `EnvoyFilter` 资源从 `istio-system` 命名空间中 `istio-system`，使用以下命令：
+1. 使用以下命令从 `istio-system` 命名空间中查找 `stats-filter-{{< istio_version >}}` `EnvoyFilter` 资源：
 
     {{< text bash >}}
     $ kubectl -n istio-system get envoyfilter | grep ^stats-filter-{{< istio_version >}}
     stats-filter-{{< istio_version >}}                    2d
     {{< /text >}}
 
-1. 创建 `EnvoyFilter` 配置的本地文件系统副本，使用以下命令：
+1. 使用以下命令创建 `EnvoyFilter` 配置的本地文件系统副本：
 
     {{< text bash >}}
     $ kubectl -n istio-system get envoyfilter stats-filter-{{< istio_version >}} -o yaml > stats-filter-{{< istio_version >}}.yaml
@@ -171,7 +143,7 @@ spec:
 
 您可以使用与请求类似的过程对响应进行分类。请注意，`response_code` 默认情况下该维度已存在。下面的示例将更改它的填充方式。
 
-1. 创建一个文件，例如 `attribute_gen_service.yaml`，并使用以下内容。
+1. 创建一个文件，例如 `attribute_gen_service.yaml`，并在填写以下内容后保存。
    这会将 `istio.attributegen` 插件添加到 `EnvoyFilter` 并生成  `istio_responseClass` 属性供统计插件。
 
     此示例对各种响应进行分类，例如将所有响应分组将 `200` 范围内的代码作为 `2xx` 维度。
@@ -194,7 +166,7 @@ spec:
       listener:
         filterChain:
           filter:
-            name: "envoy.http_connection_manager"
+            name: "envoy.filters.network.http_connection_manager"
             subFilter:
               name: "istio.stats"
     patch:
@@ -258,15 +230,14 @@ spec:
     $ kubectl -n istio-system apply -f attribute_gen_service.yaml
     {{< /text >}}
 
-1. 从 `istio-system` 中找到 `stats-filter-{{< istio_version >}}` `EnvoyFilter` 资源
-   命名空间，使用以下命令：
+1. 使用以下命令从 `istio-system` 命名空间中找到 `stats-filter-{{< istio_version >}}` `EnvoyFilter` 资源：
 
     {{< text bash >}}
     $ kubectl -n istio-system get envoyfilter | grep ^stats-filter-{{< istio_version >}}
     stats-filter-{{< istio_version >}}                    2d
     {{< /text >}}
 
-1. 创建 `EnvoyFilter` 配置的本地文件系统副本，使用以下命令：
+1. 使用以下命令创建 `EnvoyFilter` 配置的本地文件系统副本：
 
     {{< text bash >}}
     $ kubectl -n istio-system get envoyfilter stats-filter-{{< istio_version >}} -o yaml > stats-filter-{{< istio_version >}}.yaml
@@ -307,21 +278,21 @@ spec:
 
 1. 通过向您的应用程序发送流量来生成指标。
 
-1. 访问 Prometheus 并查找新的或更改的维度，例如： `2xx`。
+1. 访问 Prometheus 并查找新的或更改的维度，例如 `2xx`。
    或者，使用以下命令验证 Istio 是否为您的新维度生成数据：
 
     {{< text bash >}}
     $ kubectl exec pod-name -c istio-proxy -- curl -sS 'localhost:15000/stats/prometheus' | grep istio_
     {{< /text >}}
 
-    在输出中，找到指标（例如：`istio_requests_total`）并验证是否存在新的或更改的维度。
+    在输出中，找到指标（例如 `istio_requests_total`）并验证是否存在新的或更改的维度。
 
 ## 故障排除{#troubleshooting}
 
 如果分类未按预期进行，请检查以下潜在原因和解决方法。
 
-查看具有您应用了配置更改的服务的 Pod 的 Envoy 代理日志。
-在您使用以下命令配置分类的 Pod (`pod-name`) 上的 Envoy 代理日志中检查服务是否没有报告错误：
+对于已应用了配置变更的 Service 所对应的 Pod，审查 Envoy 代理日志。
+在使用以下命令配置分类的 Pod (`pod-name`) 上的 Envoy 代理日志中检查服务是否没有报告错误：
 
 {{< text bash >}}
 $ kubectl logs pod-name -c istio-proxy | grep -e "Config Error" -e "envoy wasm"
