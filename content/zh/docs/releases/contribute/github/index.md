@@ -9,14 +9,18 @@ aliases:
     - /zh/about/contribute/creating-a-pull-request
     - /zh/about/contribute/editing
     - /zh/about/contribute/staging-your-changes
+    - /zh/about/contribute/github
+    - /zh/latest/about/contribute/github
 keywords: [contribute,community,github,pr]
+owner: istio/wg-docs-maintainers
+test: n/a
 ---
 
 Istio 文档协作遵循标准的 [GitHub 协作流](https://guides.github.com/introduction/flow/)。这种成熟的协作模式有助于开源项目管理以下类型的贡献：
 
-- [添加](/zh/about/contribute/add-content)新文件到存储库。
+- [添加](/zh/docs/releases/contribute/add-content)新文件到存储库。
 - [编辑](#quick-edit)现有文件。
-- [审阅](/zh/about/contribute/review)添加或修改的文件。
+- [审阅](/zh/docs/releases/contribute/review)添加或修改的文件。
 - 管理多个发布或开发[分支](#branching-strategy)。
 
 该贡献指南假定您可以完成以下任务：
@@ -48,7 +52,7 @@ Istio 文档协作遵循标准的 [GitHub 协作流](https://guides.github.com/i
 1. 在 GitHub UI 上进行编辑。
 1. 创建 Pull Request 提交您的修改。
 
-请参阅我们在[贡献新内容](/zh/about/contribute/add-content)或[内容审查](/zh/about/contribute/review)中的指南，
+请参阅我们在[贡献新内容](/zh/docs/releases/contribute/add-content)或[内容审查](/zh/docs/releases/contribute/review)中的指南，
 以了解有关提交更多实质性更改的详细信息。
 
 ## 分支策略{#branching-strategy}
