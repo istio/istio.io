@@ -121,9 +121,7 @@ spec:
   - name: http
     number: 80
     protocol: HTTP
-  resolution: STATIC
-  endpoints:
-  - address: 198.51.100.2
+  resolution: DNS
 EOF
 {{< /text >}}
 
