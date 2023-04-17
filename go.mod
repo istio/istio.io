@@ -11,10 +11,10 @@ replace github.com/imdario/mergo => github.com/imdario/mergo v0.3.5
 require (
 	github.com/pmezard/go-difflib v1.0.0
 	golang.org/x/sync v0.1.0
-	istio.io/istio v0.0.0-20230411123901-8d17b8f2d970
-	istio.io/pkg v0.0.0-20230410162501-7a8a1efb0878
-	k8s.io/apimachinery v0.27.0-rc.0
-	k8s.io/client-go v0.27.0-rc.0
+	istio.io/istio v0.0.0-20230414161035-1cfd62683dd3
+	istio.io/pkg v0.0.0-20230411034200-2c98fd007de2
+	k8s.io/apimachinery v0.27.0
+	k8s.io/client-go v0.27.0
 )
 
 require (
@@ -61,7 +61,7 @@ require (
 	github.com/go-errors/errors v1.4.2 // indirect
 	github.com/go-kit/log v0.2.1 // indirect
 	github.com/go-logfmt/logfmt v0.6.0 // indirect
-	github.com/go-logr/logr v1.2.3 // indirect
+	github.com/go-logr/logr v1.2.4 // indirect
 	github.com/go-openapi/jsonpointer v0.19.6 // indirect
 	github.com/go-openapi/jsonreference v0.20.2 // indirect
 	github.com/go-openapi/swag v0.22.3 // indirect
@@ -79,6 +79,7 @@ require (
 	github.com/google/go-containerregistry v0.14.0 // indirect
 	github.com/google/gofuzz v1.2.0 // indirect
 	github.com/google/pprof v0.0.0-20230228050547-1710fef4ab10 // indirect
+	github.com/google/s2a-go v0.1.0 // indirect
 	github.com/google/shlex v0.0.0-20191202100458-e7afc7fbc510 // indirect
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/googleapis/enterprise-certificate-proxy v0.2.3 // indirect
@@ -147,7 +148,7 @@ require (
 	github.com/quic-go/qtls-go1-20 v0.1.1 // indirect
 	github.com/quic-go/quic-go v0.33.0 // indirect
 	github.com/rivo/uniseg v0.4.3 // indirect
-	github.com/rogpeppe/go-internal v1.9.0 // indirect
+	github.com/rogpeppe/go-internal v1.10.0 // indirect
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
 	github.com/ryanuber/go-glob v1.0.0 // indirect
 	github.com/shopspring/decimal v1.3.1 // indirect
@@ -176,38 +177,38 @@ require (
 	golang.org/x/crypto v0.7.0 // indirect
 	golang.org/x/exp v0.0.0-20230321023759-10a507213a29 // indirect
 	golang.org/x/mod v0.9.0 // indirect
-	golang.org/x/net v0.8.0 // indirect
-	golang.org/x/oauth2 v0.6.0 // indirect
+	golang.org/x/net v0.9.0 // indirect
+	golang.org/x/oauth2 v0.7.0 // indirect
 	golang.org/x/sys v0.7.0 // indirect
-	golang.org/x/term v0.6.0 // indirect
-	golang.org/x/text v0.8.0 // indirect
+	golang.org/x/term v0.7.0 // indirect
+	golang.org/x/text v0.9.0 // indirect
 	golang.org/x/time v0.3.0 // indirect
 	golang.org/x/tools v0.7.0 // indirect
 	gomodules.xyz/jsonpatch/v2 v2.2.0 // indirect
 	gomodules.xyz/jsonpatch/v3 v3.0.1 // indirect
 	gomodules.xyz/orderedmap v0.1.0 // indirect
-	google.golang.org/api v0.116.0 // indirect
+	google.golang.org/api v0.117.0 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
-	google.golang.org/genproto v0.0.0-20230403163135-c38d8f061ccd // indirect
+	google.golang.org/genproto v0.0.0-20230410155749-daa745c078e1 // indirect
 	google.golang.org/grpc v1.54.0 // indirect
 	google.golang.org/protobuf v1.30.0 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
-	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
+	gopkg.in/natefinch/lumberjack.v2 v2.2.1 // indirect
 	gopkg.in/square/go-jose.v2 v2.6.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	helm.sh/helm/v3 v3.11.2 // indirect
-	istio.io/api v0.0.0-20230410230800-a94614182296 // indirect
-	istio.io/client-go v1.18.0-alpha.0.0.20230410063159-bde4fa0c1352 // indirect
-	k8s.io/api v0.27.0-rc.0 // indirect
-	k8s.io/apiextensions-apiserver v0.27.0-rc.0 // indirect
-	k8s.io/apiserver v0.27.0-rc.0 // indirect
-	k8s.io/cli-runtime v0.27.0-rc.0 // indirect
-	k8s.io/component-base v0.27.0-rc.0 // indirect
+	istio.io/api v0.0.0-20230411172800-cb047abbdf91 // indirect
+	istio.io/client-go v1.18.0-alpha.0.0.20230411173201-f27e09ad6e63 // indirect
+	k8s.io/api v0.27.0 // indirect
+	k8s.io/apiextensions-apiserver v0.27.0 // indirect
+	k8s.io/apiserver v0.27.0 // indirect
+	k8s.io/cli-runtime v0.27.0 // indirect
+	k8s.io/component-base v0.27.0 // indirect
 	k8s.io/klog/v2 v2.90.1 // indirect
 	k8s.io/kube-openapi v0.0.0-20230327201221-f5883ff37f0c // indirect
-	k8s.io/kubectl v0.27.0-rc.0 // indirect
+	k8s.io/kubectl v0.27.0 // indirect
 	k8s.io/utils v0.0.0-20230313181309-38a27ef9d749 // indirect
 	sigs.k8s.io/controller-runtime v0.13.1-0.20230315234915-a26de2d610c3 // indirect
 	sigs.k8s.io/gateway-api v0.6.2 // indirect
