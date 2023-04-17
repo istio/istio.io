@@ -1,6 +1,6 @@
 ---
-title: 预演
-description: 展示如何在不强制执行的情况下预演授权策略。
+title: 模拟运行
+description: 展示如何在不强制执行的情况下模拟运行授权策略。
 weight: 65
 keywords: [security,access-control,rbac,authorization,dry-run]
 owner: istio/wg-security-maintainers
@@ -11,9 +11,9 @@ status: Alpha
 {{< boilerplate alpha >}}
 
 本任务将向您展示如何使用新的[实验性注解 `istio.io/dry-run`](/zh/docs/reference/config/annotations/)
-来设置 Istio 授权策略，并对其进行预演而不实际执行。
+来设置 Istio 授权策略，并对其进行模拟运行而不实际执行。
 
-预演注解允许您在生产流量上应用授权策略之前更好地理解其效果，
+模拟运行注解允许您在生产流量上应用授权策略之前更好地理解其效果，
 从而帮助减少由于不正确的授权策略引起的生产流量中断风险。
 
 ## 开始之前{#before-you-begin}
@@ -24,11 +24,11 @@ status: Alpha
 
 * 按照 [Istio 安装指南](/zh/docs/setup/install/istioctl/)来安装 Istio。
 
-* 部署 Zipkin 以检查预演追踪结果。按照
+* 部署 Zipkin 以检查模拟运行追踪结果。按照
   [Zipkin 任务](/zh/docs/tasks/observability/distributed-tracing/zipkin/)
   将 Zipkin 安装到集群中。
 
-* 部署 Prometheus 以检查预演指标结果。按照
+* 部署 Prometheus 以检查模拟运行指标结果。按照
   [Prometheus 任务](/zh/docs/tasks/observability/metrics/querying-metrics/)
   将 Prometheus 安装到集群中。
 
@@ -44,7 +44,7 @@ status: Alpha
     $ kubectl apply -f @samples/sleep/sleep.yaml@ -n foo
     {{< /text >}}
 
-* 启用代理调试级别日志以检查预演日志结果：
+* 启用代理调试级别日志以检查模拟运行日志结果：
 
     {{< text bash >}}
     $ istioctl proxy-config log deploy/httpbin.foo --level "rbac:debug" | grep rbac
@@ -60,12 +60,12 @@ status: Alpha
 
 {{< warning >}}
 如果您按照指南操作无法看到期望的输出，请稍等几秒钟后重试。
-缓存和传播开销可能会导致某些延迟。
+因为缓存和传播开销可能会导致某些延迟。
 {{< /warning >}}
 
-## 创建预演策略{#create-dry-run-policy}
+## 创建模拟运行策略{#create-dry-run-policy}
 
-1. 使用以下命令创建带有预演注解 `"istio.io/dry-run": "true"` 的授权策略：
+1. 使用以下命令创建带有模拟运行注解 `"istio.io/dry-run": "true"` 的授权策略：
 
     {{< text bash >}}
     $ kubectl apply -n foo -f - <<EOF
@@ -87,7 +87,7 @@ status: Alpha
     EOF
     {{< /text >}}
 
-    您也可以使用以下命令将现有的授权策略快速更改为预演模式：
+    您也可以使用以下命令将现有的授权策略快速更改为模拟运行模式：
 
     {{< text bash >}}
     $ kubectl annotate --overwrite authorizationpolicies deny-path-headers -n foo istio.io/dry-run='true'
@@ -99,7 +99,7 @@ status: Alpha
     $ istioctl authn tls-check httpbin.foo.svc.cluster.local
     {{< /text >}}
 
-1. 验证请求路径 `/headers` 是否允许，因为策略是在预演模式下创建的，
+1. 验证请求路径 `/headers` 是否允许，因为策略是在模拟运行模式下创建的，
    所以请运行以下命令将 20 个请求从 `sleep` 发送到 `httpbin`，
    此请求包含头部 `X-B3-Sampled: 1` 以始终触发 Zipkin 追踪：
 
@@ -111,9 +111,9 @@ status: Alpha
     ...
     {{< /text >}}
 
-## 在代理日志中检查预演结果{#check-dry-run-results-in-proxy-log}
+## 在代理日志中检查模拟运行结果{#check-dry-run-results-in-proxy-log}
 
-1. 预演结果可以在代理调试日志中找到，格式为
+1. 模拟运行结果可以在代理调试日志中找到，格式为
    `shadow denied, matched policy ns[foo]-policy[deny-path-headers]-rule[0]`。
    运行以下命令检查日志：
 
@@ -127,7 +127,7 @@ status: Alpha
 
     另见[故障排查指南](/zh/docs/ops/common-problems/security-issues/#ensure-proxies-enforce-policies-correctly)了解日志记录到更多细节。
 
-## 使用 Prometheus 检查指标中的预演结果{#check-dry-run-result-in-metric-using-prometheus}
+## 使用 Prometheus 检查指标中的模拟运行结果{#check-dry-run-result-in-metric-using-prometheus}
 
 1. 使用以下命令打开 Prometheus 仪表板：
 
@@ -148,14 +148,14 @@ status: Alpha
     {{< /text >}}
 
 1. 查询的指标值为 `20`（根据发送的请求数量，您可能会找到不同的值。只要该值大于0，就是预期的结果）。
-   这意味着预演策略应用于端口 `80` 上的 `httpbin` 工作负载匹配了一个请求。
-   如果策略未处于预演模式，则该策略将拒绝一次请求。
+   这意味着模拟运行策略应用于端口 `80` 上的 `httpbin` 工作负载匹配了一个请求。
+   如果策略未处于模拟运行模式，则该策略将拒绝一次请求。
 
 1. 以下是 Prometheus 仪表板的屏幕截图：
 
     {{< image width="100%" link="./prometheus.png" caption="Prometheus dashboard" >}}
 
-## 使用 Zipkin 检查追踪中的预演结果{#check-dry-run-result-in-tracing-using-zipkin}
+## 使用 Zipkin 检查追踪中的模拟运行结果{#check-dry-run-result-in-tracing-using-zipkin}
 
 1. 使用以下命令打开 Zipkin 仪表板：
 
@@ -166,7 +166,7 @@ status: Alpha
 1. 查找从 `sleep` 到 `httpbin` 到请求到追踪结果。
    如果您由于 Zipkin 中的延迟看到追踪结果，请尝试发送更多请求。
 
-1. 在追踪结果中，您应看到以下自定义标记，表明此请求被命名空间 `foo` 中的预演策略 `deny-path-headers` 拒绝：
+1. 在追踪结果中，您应看到以下自定义标记，表明此请求被命名空间 `foo` 中的模拟运行策略 `deny-path-headers` 拒绝：
 
     {{< text plain >}}
     istio.authorization.dry_run.deny_policy.name: ns[foo]-policy[deny-path-headers]-rule[0]
@@ -179,27 +179,27 @@ status: Alpha
 
 ## 总结{#summary}
 
-代理调试日志、Prometheus 指标和 Zipkin 追踪结果表明预演策略将拒绝请求。
-如果预演结果不符预期，您可以进一步更改策略。
+代理调试日志、Prometheus 指标和 Zipkin 追踪结果表明模拟运行策略将拒绝请求。
+如果模拟运行结果不符预期，您可以进一步更改策略。
 
-建议保留预演策略一段时间，以便可以使用更多的生产流量进行测试。
+建议保留模拟运行策略一段时间，以便可以使用更多的生产流量进行测试。
 
-当您对预演结果有信心时，可以禁用预演模式，以便该策略开始实际拒绝请求。这可以通过以下任一方法实现：
+当您对模拟运行结果有信心时，可以禁用模拟运行模式，以便该策略开始实际拒绝请求。这可以通过以下任一方法实现：
 
-* 完全删除预演注解】；或
+* 完全删除模拟运行注解】；或
 
-* 将预演注解的值更改为 `false`。
+* 将模拟运行注解的值更改为 `false`。
 
 ## 限制{#limiatations}
 
-预演注解目前处于实验阶段，具有以下限制：
+模拟运行注解目前处于实验阶段，具有以下限制：
 
-* 预演注解目前仅支持 ALLOW 和 DENY 策略；
+* 模拟运行注解目前仅支持 ALLOW 和 DENY 策略；
 
-* 由于在代理中独立执行 ALLOW 和 DENY 策略，所以将有两个单独的预演结果（即日志、指标和追踪标记）。
-  您应该考虑所有两个预演结果，因为一个请求可能会被 ALLOW 策略允许，但仍会被另一个 DENY 策略拒绝；
+* 由于在代理中独立执行 ALLOW 和 DENY 策略，所以将有两个单独的模拟运行结果（即日志、指标和追踪标记）。
+  您应该考虑所有两个模拟运行结果，因为一个请求可能会被 ALLOW 策略允许，但仍会被另一个 DENY 策略拒绝；
 
-* 代理日志、指标和追踪中的预演结果仅用于手动故障排除，并且不应用作 API，因为它可能随时更改而没有事先通知。
+* 代理日志、指标和追踪中的模拟运行结果仅用于手动故障排除，并且不应用作 API，因为它可能随时更改而没有事先通知。
 
 ## 清理{#clean-up}
 
