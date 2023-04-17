@@ -1,6 +1,6 @@
 ---
 title: 模拟运行
-description: 展示如何在不强制执行的情况下模拟运行授权策略。
+description: 展示如何在不实际执行的情况下，观察授权策略应用后的效果。
 weight: 65
 keywords: [security,access-control,rbac,authorization,dry-run]
 owner: istio/wg-security-maintainers
