@@ -132,15 +132,15 @@ NAMESPACE      NAME                        REVISION   STATUS    AGE
 istio-system   example-istiocontrolplane              HEALTHY   11m
 ENDSNIP
 
-snip_canary_upgrade_init_1_17_1() {
+snip_canary_upgrade_init() {
 istio-1.17.1/bin/istioctl operator init --revision 1-17-1
 }
 
-snip_canary_upgrade_helm_install_1_17_2() {
+snip_canary_upgrade_helm_install() {
 helm install istio-operator manifests/charts/istio-operator \
   --set watchedNamespaces=istio-system \
   -n istio-operator \
-  --set revision=1-17-2
+  --set revision=1-18-0
 }
 
 snip_cat_operator_yaml() {

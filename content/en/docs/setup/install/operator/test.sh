@@ -22,6 +22,10 @@ set -e
 set -u
 set -o pipefail
 
+previousVersion=$(type snip_canary_upgrade_init | sed '1,3d;$d' | sed 's/\/.*//' | cut -d "-" -f2 )
+previousVersionMinorUpgrade="${previousVersion%.1}.2"
+fullVersion=$(type snip_canary_upgrade_helm_install | sed '1,3d;$d' | sed -e 's#.*revision=\(\)#\1#' | sed -r 's/[-]+/./g' )
+
 function testOperatorDeployWatchNs(){
     # print out body of the function and execute with flag
     # this is to avoid using the default public registry
@@ -82,26 +86,26 @@ function operatorInit(){
 }
 
 function testInplaceUpgrade(){
-    operatorInit "1.17.0"
-    operatorInit "1.17.1"
+    operatorInit "$previousVersion"
+    operatorInit "$previousVersionMinorUpgrade"
     snip_inplace_upgrade_get_pods_istio_operator
     snip_inplace_upgrade_get_pods_istio_system
 }
 
 function testCanaryUpgrade(){
-    istioDownload "1.17.1"
-    snip_canary_upgrade_init_1_17_1
-    rm -rf "istio-1.17.1"
+    istioDownload "$previousVersion"
+    snip_canary_upgrade_init
+    rm -rf "istio-"$previousVersion""
 
-    istioDownload "1.17.2"
-    snip_canary_upgrade_helm_install_1_17_2
-    rm -rf "istio-1.17.2"
+    istioDownload "$previousVersionMinorUpgrade"
+    snip_canary_upgrade_helm_install
+    rm -rf "istio-$previousVersionMinorUpgrade"
 }
 
 function testTwoControlPlanes(){
-    echo "$snip_cat_operator_yaml_out" > example-istiocontrolplane-1-17-1.yaml
+    echo "$snip_cat_operator_yaml_out" > example-istiocontrolplane-previous-version.yaml
     _verify_like snip_cat_operator_yaml "$snip_cat_operator_yaml_out"
-    kubectl apply -f example-istiocontrolplane-1-17-1.yaml
+    kubectl apply -f example-istiocontrolplane-previous-version.yaml
 
     _verify_like snip_get_pods_istio_system "$snip_get_pods_istio_system_out"
     _verify_like snip_get_svc_istio_system "$snip_get_svc_istio_system_out"
