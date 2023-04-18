@@ -10,6 +10,7 @@ The `ConflictingTelemetryWorkloadSelectors` message occurs when multiple Telemet
 This message is generated when the following conditions are met:
 
 1. There are multiple Telemetry resources within the same namespace.
-2. These Telemetry resources have workload selectors that match the same set of pods.
+
+1. These Telemetry resources have workload selectors that match the same set of pods.
 
 To resolve this issue, review the conflicting Telemetry resources and update their workload selectors to ensure that each pod is matched by only one Telemetry resource. You may need to adjust the label selectors or reorganize the Telemetry resources to avoid overlapping selectors.
