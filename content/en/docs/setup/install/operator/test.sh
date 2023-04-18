@@ -24,7 +24,6 @@ set -o pipefail
 
 previousVersion=$(type snip_canary_upgrade_init | sed '1,3d;$d' | sed 's/\/.*//' | cut -d "-" -f2 )
 previousVersionMinorUpgrade="${previousVersion%.1}.2"
-fullVersion=$(type snip_canary_upgrade_helm_install | sed '1,3d;$d' | sed -e 's#.*revision=\(\)#\1#' | sed -r 's/[-]+/./g' )
 
 function testOperatorDeployWatchNs(){
     # print out body of the function and execute with flag
@@ -95,7 +94,7 @@ function testInplaceUpgrade(){
 function testCanaryUpgrade(){
     istioDownload "$previousVersion"
     snip_canary_upgrade_init
-    rm -rf "istio-"$previousVersion""
+    rm -rf "istio-$previousVersion"
 
     istioDownload "$previousVersionMinorUpgrade"
     snip_canary_upgrade_helm_install
