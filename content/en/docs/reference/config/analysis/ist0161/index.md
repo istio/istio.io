@@ -18,7 +18,7 @@ To resolve this issue, ensure that the secret with the specified `credentialName
 If the secret is missing, create a new secret with the correct TLS certificate and private key. For example, using `kubectl`:
 
 {{< text bash >}}
-kubectl create secret tls my-tls-secret --cert=path/to/cert.pem --key=path/to/key.pem -n <namespace>
+$ kubectl create secret tls my-tls-secret --cert=path/to/cert.pem --key=path/to/key.pem -n <namespace>
 {{< /text >}}
 
 If the secret is found but the TLS certificate is invalid, update the secret with the correct TLS certificate and private key.
