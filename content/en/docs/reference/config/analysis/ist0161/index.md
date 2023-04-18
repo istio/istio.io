@@ -10,8 +10,10 @@ The `InvalidGatewayCredential` message occurs when a Gateway resource references
 This message is generated when the following conditions are met:
 
 1. A Gateway resource has a server with a TLS configuration.
-2. The TLS configuration references a `credentialName`.
-3. The secret with the specified `credentialName` is either not found, or the secret is found but the TLS certificate is invalid.
+
+1. The TLS configuration references a `credentialName`.
+
+1. The secret with the specified `credentialName` is either not found, or the secret is found but the TLS certificate is invalid.
 
 To resolve this issue, ensure that the secret with the specified `credentialName` exists in the same namespace as the Gateway workload, and that the secret contains a valid TLS certificate. You may need to create or update the secret to fix the problem.
 
