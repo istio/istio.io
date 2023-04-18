@@ -105,6 +105,24 @@ spec:
 EOF
 }
 
+snip_operator_logs() {
+kubectl logs -f -n istio-operator "$(kubectl get pods -n istio-operator -lname=istio-operator -o jsonpath='{.items[0].metadata.name}')"
+}
+
+snip_inplace_upgrade() {
+<extracted-dir>/bin/istioctl operator init
+}
+
+snip_inplace_upgrade_get_pods_istio_operator() {
+kubectl get pods --namespace istio-operator \
+  -o=jsonpath='{range .items[*]}{.metadata.name}{":\t"}{range .spec.containers[*]}{.image}{", "}{end}{"\n"}{end}'
+}
+
+snip_inplace_upgrade_get_pods_istio_system() {
+kubectl get pods --namespace istio-system \
+  -o=jsonpath='{range .items[*]}{"\n"}{.metadata.name}{":\t"}{range .spec.containers[*]}{.image}{", "}{end}{"\n"}{end}'
+}
+
 snip_verify_operator_cr() {
 kubectl get iop --all-namespaces
 }
@@ -113,6 +131,56 @@ kubectl get iop --all-namespaces
 NAMESPACE      NAME                        REVISION   STATUS    AGE
 istio-system   example-istiocontrolplane              HEALTHY   11m
 ENDSNIP
+
+snip_canary_upgrade_init_1_17_1() {
+istio-1.17.1/bin/istioctl operator init --revision 1-17-1
+}
+
+snip_canary_upgrade_helm_install_1_17_2() {
+helm install istio-operator manifests/charts/istio-operator \
+  --set watchedNamespaces=istio-system \
+  -n istio-operator \
+  --set revision=1-17-2
+}
+
+snip_cat_operator_yaml() {
+cat example-istiocontrolplane-1-17-1.yaml
+}
+
+! read -r -d '' snip_cat_operator_yaml_out <<\ENDSNIP
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+metadata:
+  namespace: istio-system
+  name: example-istiocontrolplane-1-17-1
+spec:
+  revision: 1-17-1
+  profile: demo
+ENDSNIP
+
+snip_get_pods_istio_system() {
+kubectl get pod -n istio-system -l app=istiod
+}
+
+! read -r -d '' snip_get_pods_istio_system_out <<\ENDSNIP
+NAME                            READY   STATUS    RESTARTS   AGE
+istiod-1-17-1-597475f4f6-bgtcz   1/1     Running   0          64s
+istiod-6ffcc65b96-bxzv5         1/1     Running   0          2m11s
+ENDSNIP
+
+snip_get_svc_istio_system() {
+kubectl get services -n istio-system -l app=istiod
+}
+
+! read -r -d '' snip_get_svc_istio_system_out <<\ENDSNIP
+NAME           TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)                                         AGE
+istiod         ClusterIP   10.104.129.150   <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP,853/TCP   2m35s
+istiod-1-17-1   ClusterIP   10.111.17.49     <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP           88s
+ENDSNIP
+
+snip_delete_example_istiocontrolplane() {
+kubectl delete istiooperators.install.istio.io -n istio-system example-istiocontrolplane
+}
 
 snip_cleanup() {
 istioctl uninstall -y --purge

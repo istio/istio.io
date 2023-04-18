@@ -62,6 +62,51 @@ function testUpdateProfileDefaultEgress(){
     _verify_contains snip_kubectl_get_svc "egressgateway"
 }
 
+function testOperatorLogs(){
+    command=$(type snip_operator_logs | sed '1,3d;$d')
+    # prevent following log stream
+    command="${command/"logs -f"/"logs"}"
+    echo "$command" | sh -
+}
+
+function istioDownload(){
+    version="$1"
+    curl -L https://istio.io/downloadIstio | ISTIO_VERSION="$version" sh -
+}
+
+function operatorInit(){
+    version="$1"
+    istioDownload "$version"
+    istio-"$version"/bin/istioctl operator init
+    rm -rf "istio-$version"
+}
+
+function testInplaceUpgrade(){
+    operatorInit "1.17.0"
+    operatorInit "1.17.1"
+    snip_inplace_upgrade_get_pods_istio_operator
+    snip_inplace_upgrade_get_pods_istio_system
+}
+
+function testCanaryUpgrade(){
+    istioDownload "1.17.1"
+    snip_canary_upgrade_init_1_17_1
+    rm -rf "istio-1.17.1"
+
+    istioDownload "1.17.2"
+    snip_canary_upgrade_helm_install_1_17_2
+    rm -rf "istio-1.17.2"
+}
+
+function testTwoControlPlanes(){
+    echo "$snip_cat_operator_yaml_out" > example-istiocontrolplane-1-17-1.yaml
+    _verify_like snip_cat_operator_yaml "$snip_cat_operator_yaml_out"
+    kubectl apply -f example-istiocontrolplane-1-17-1.yaml
+
+    _verify_like snip_get_pods_istio_system "$snip_get_pods_istio_system_out"
+    _verify_like snip_get_svc_istio_system "$snip_get_svc_istio_system_out"
+}
+
 testOperatorDeployWatchNs
 
 testOperatorDeployHelm
@@ -74,11 +119,18 @@ snip_update_to_default_profile
 
 testUpdateProfileDefaultEgress
 
-_verify_like snip_verify_operator_cr "$snip_verify_operator_cr_out"
+testOperatorLogs
 
-# @cleanup
 snip_cleanup
 
-# Everything should be removed once cleanup completes. Use a small
-# timeout for comparing cluster snapshots before/after the test.
-export VERIFY_TIMEOUT=20
+testInplaceUpgrade
+
+snip_update_to_default_profile
+
+_verify_like snip_verify_operator_cr "$snip_verify_operator_cr_out"
+
+testCanaryUpgrade
+
+# @cleanup
+snip_delete_example_istiocontrolplane
+snip_cleanup
