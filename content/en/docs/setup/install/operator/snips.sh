@@ -133,7 +133,7 @@ istio-system   example-istiocontrolplane              HEALTHY   11m
 ENDSNIP
 
 snip_canary_upgrade_init() {
-istio-1-18-0/bin/istioctl operator init --revision 1-18-0
+istio-1.18.0/bin/istioctl operator init --revision 1-18-0
 }
 
 snip_canary_upgrade_helm_install() {

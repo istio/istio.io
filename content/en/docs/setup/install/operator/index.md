@@ -252,7 +252,7 @@ Then, run the following command to install the new target revision of the Istio 
 `IstioOperator` CR (here, we assume the target revision is {{< istio_full_version_revision >}}):
 
 {{< text syntax=bash snip_id=canary_upgrade_init >}}
-$ istio-{{< istio_full_version_revision >}}/bin/istioctl operator init --revision {{< istio_full_version_revision >}}
+$ istio-{{< istio_full_version >}}/bin/istioctl operator init --revision {{< istio_full_version_revision >}}
 {{< /text >}}
 
 {{< tip >}}
