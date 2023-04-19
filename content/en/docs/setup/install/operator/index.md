@@ -239,7 +239,7 @@ $ kubectl get pods --namespace istio-system \
 
 The process for canary upgrade is similar to the [canary upgrade with `istioctl`](/docs/setup/upgrade/canary/).
 
-For example, to upgrade the revision of Istio installed in the previous section, first verify that the `IstioOperator` CR named `example-istiocontrolplane` exists in your cluster:
+For example, to upgrade Istio {{< istio_previous_version >}}.0 to {{< istio_full_version >}}, first install {{< istio_previous_version >}}.0 and verify that the `IstioOperator` CR named `example-istiocontrolplane` exists in your cluster:
 
 {{< text syntax=bash snip_id=verify_operator_cr >}}
 $ kubectl get iop --all-namespaces
@@ -249,10 +249,10 @@ istio-system   example-istiocontrolplane              HEALTHY   11m
 
 Download and extract the `istioctl` corresponding to the version of Istio you wish to upgrade to.
 Then, run the following command to install the new target revision of the Istio control plane based on the in-cluster
-`IstioOperator` CR (here, we assume the target revision is {{< istio_previous_version >}}):
+`IstioOperator` CR (here, we assume the target revision is {{< istio_full_version_revision >}}):
 
 {{< text syntax=bash snip_id=canary_upgrade_init >}}
-$ istio-{{< istio_previous_version >}}.1/bin/istioctl operator init --revision {{< istio_previous_version_revision >}}-1
+$ istio-{{< istio_full_version_revision >}}/bin/istioctl operator init --revision {{< istio_full_version_revision >}}
 {{< /text >}}
 
 {{< tip >}}
@@ -262,26 +262,26 @@ You can alternatively use Helm to deploy another operator with a different revis
 $ helm install istio-operator manifests/charts/istio-operator \
   --set watchedNamespaces=istio-system \
   -n istio-operator \
-  --set revision={{< istio_full_version_revision >}}
+  --set revision={{< istio_previous_version_revision >}}-1
 {{< /text >}}
 
 Note that you need to [download the Istio release](/docs/setup/getting-started/#download)
 to run the above command.
 {{< /tip >}}
 
-Make a copy of the `example-istiocontrolplane` CR and save it in a file named `example-istiocontrolplane-{{< istio_previous_version_revision >}}-1.yaml`.
-Change the name to `example-istiocontrolplane-{{< istio_previous_version_revision >}}-1` and add `revision: {{< istio_previous_version_revision >}}-1` to the CR.
+Make a copy of the `example-istiocontrolplane` CR and save it in a file named `example-istiocontrolplane-{{< istio_full_version_revision >}}.yaml`.
+Change the name to `example-istiocontrolplane-{{< istio_full_version_revision >}}` and add `revision: {{< istio_full_version_revision >}}` to the CR.
 Your updated `IstioOperator` CR should look something like this:
 
 {{< text syntax=bash snip_id=cat_operator_yaml >}}
-$ cat example-istiocontrolplane-{{< istio_previous_version_revision >}}-1.yaml
+$ cat example-istiocontrolplane-{{< istio_full_version_revision >}}.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 metadata:
   namespace: istio-system
-  name: example-istiocontrolplane-{{< istio_previous_version_revision >}}-1
+  name: example-istiocontrolplane-{{< istio_full_version_revision >}}
 spec:
-  revision: {{< istio_previous_version_revision >}}-1
+  revision: {{< istio_full_version_revision >}}
   profile: demo
 {{< /text >}}
 
@@ -290,7 +290,7 @@ Apply the updated `IstioOperator` CR to the cluster. After that, you will have t
 {{< text syntax=bash snip_id=get_pods_istio_system >}}
 $ kubectl get pod -n istio-system -l app=istiod
 NAME                            READY   STATUS    RESTARTS   AGE
-istiod-{{< istio_previous_version_revision >}}-1-597475f4f6-bgtcz   1/1     Running   0          64s
+istiod-{{< istio_full_version_revision >}}-597475f4f6-bgtcz   1/1     Running   0          64s
 istiod-6ffcc65b96-bxzv5         1/1     Running   0          2m11s
 {{< /text >}}
 
@@ -298,10 +298,10 @@ istiod-6ffcc65b96-bxzv5         1/1     Running   0          2m11s
 $ kubectl get services -n istio-system -l app=istiod
 NAME           TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)                                         AGE
 istiod         ClusterIP   10.104.129.150   <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP,853/TCP   2m35s
-istiod-{{< istio_previous_version_revision >}}-1   ClusterIP   10.111.17.49     <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP           88s
+istiod-{{< istio_full_version_revision >}}   ClusterIP   10.111.17.49     <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP           88s
 {{< /text >}}
 
-To complete the upgrade, label the workload namespaces with `istio.io/rev={{< istio_previous_version_revision >}}-1` and restart the workloads, as
+To complete the upgrade, label the workload namespaces with `istio.io/rev={{< istio_full_version_revision >}}` and restart the workloads, as
 explained in the [Data plane upgrade](/docs/setup/upgrade/canary/#data-plane) documentation.
 
 ## Uninstall

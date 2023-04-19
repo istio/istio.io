@@ -22,8 +22,12 @@ set -e
 set -u
 set -o pipefail
 
-previousVersion=$(type snip_canary_upgrade_init | sed '1,3d;$d' | sed 's/\/.*//' | cut -d "-" -f2 )
-previousVersionMinorUpgrade="${previousVersion%.1}.2"
+fullVersion=$(type snip_canary_upgrade_init | sed '1,3d;$d' | sed 's/.*istio-\(.*\)\/bin.*/\1/' ) # 1.18.0
+fullVersionRevision=$(echo "$fullVersion" | sed -r 's/[.]+/-/g' ) # 1-18-0
+previousVersionMinorUpgradeRevision=$(type snip_canary_upgrade_helm_install | sed '1,3d;$d' | sed -e 's#.*revision=\(\)#\1#' )
+previousVersionMinorUpgrade=$(echo "$previousVersionMinorUpgradeRevision" | sed -r 's/[-]+/./g')
+previousVersionRevision="${previousVersionMinorUpgradeRevision%-1}-0"
+previousVersion=$(echo "$previousVersionRevision" | sed -r 's/[-]+/./g')
 
 function testOperatorDeployWatchNs(){
     # print out body of the function and execute with flag
@@ -93,10 +97,15 @@ function testInplaceUpgrade(){
 
 function testCanaryUpgrade(){
     istioDownload "$previousVersion"
-    snip_canary_upgrade_init
+    operatorInit "$previousVersion"
+    snip_install_istio_demo_profile
+    _verify_like snip_verify_operator_cr "$snip_verify_operator_cr_out"
     rm -rf "istio-$previousVersion"
 
+    istioctl operator init --revision "$fullVersionRevision"
+
     istioDownload "$previousVersionMinorUpgrade"
+    cd istio-"$previousVersionMinorUpgrade"
     snip_canary_upgrade_helm_install
     rm -rf "istio-$previousVersionMinorUpgrade"
 }
@@ -105,6 +114,7 @@ function testTwoControlPlanes(){
     echo "$snip_cat_operator_yaml_out" > example-istiocontrolplane-previous-version.yaml
     _verify_like snip_cat_operator_yaml "$snip_cat_operator_yaml_out"
     kubectl apply -f example-istiocontrolplane-previous-version.yaml
+    rm -f example-istiocontrolplane-previous-version.yaml
 
     _verify_like snip_get_pods_istio_system "$snip_get_pods_istio_system_out"
     _verify_like snip_get_svc_istio_system "$snip_get_svc_istio_system_out"
@@ -128,9 +138,7 @@ snip_cleanup
 
 testInplaceUpgrade
 
-snip_update_to_default_profile
-
-_verify_like snip_verify_operator_cr "$snip_verify_operator_cr_out"
+snip_cleanup
 
 testCanaryUpgrade
 
