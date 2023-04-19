@@ -289,15 +289,15 @@ Apply the updated `IstioOperator` CR to the cluster. After that, you will have t
 
 {{< text syntax=bash snip_id=get_pods_istio_system >}}
 $ kubectl get pod -n istio-system -l app=istiod
-NAME                            READY   STATUS    RESTARTS   AGE
+NAME                             READY   STATUS    RESTARTS   AGE
 istiod-{{< istio_full_version_revision >}}-597475f4f6-bgtcz   1/1     Running   0          64s
-istiod-6ffcc65b96-bxzv5         1/1     Running   0          2m11s
+istiod-6ffcc65b96-bxzv5          1/1     Running   0          2m11s
 {{< /text >}}
 
 {{< text syntax=bash snip_id=get_svc_istio_system >}}
 $ kubectl get services -n istio-system -l app=istiod
-NAME           TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)                                         AGE
-istiod         ClusterIP   10.104.129.150   <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP,853/TCP   2m35s
+NAME            TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)                                         AGE
+istiod          ClusterIP   10.104.129.150   <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP,853/TCP   2m35s
 istiod-{{< istio_full_version_revision >}}   ClusterIP   10.111.17.49     <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP           88s
 {{< /text >}}
 
