@@ -7,8 +7,8 @@ owner: istio/wg-policies-and-telemetry-maintainers
 test: yes
 ---
 
-Telemetry API 如今在 Istio 中作为一流 API 已经有一段时间了。
-之前用户必须在 Istio 配置的 `MeshConfig` 部分配置遥测。
+Telemetry API 如今在 Istio 中作为核心 API 已经有一段时间了。
+之前用户必须在 Istio 的 `MeshConfig` 中配置遥测。
 
 {{< boilerplate before-you-begin-egress >}}
 
