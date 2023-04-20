@@ -13,39 +13,39 @@ test: no
 
 To check if Istio sidecar injection did/didn't(or will/won't) occur for a specific pod, run:
 
-```bash
+{{< text syntax=bash >}}
 $ istioctl experimental check-inject -n <namespace> <pod-name>
-```
+{{< /text >}}
 
 For a deployment, run:
 
-```bash
+{{< text syntax=bash >}}
 $ istioctl experimental check-inject -n <namespace> deploy/<deployment-name>
-```
+{{< /text >}}
 
 Or, for label pairs:
 
-```bash
+{{< text syntax=bash >}}
 $ istioctl experimental check-inject -n <namespace> -l <label-key>=<label-value>
-```
+{{< /text >}}
 
 For example, if you have a deployment named `httpbin` in the `hello` namespace and a pod named `httpbin-1234` with the label `app=httpbin`, the following commands are equivalent:
 
-```bash
+{{< text syntax=bash >}}
 $ istioctl experimental check-inject -n hello httpbin-1234
 
 $ istioctl experimental check-inject -n hello deploy/httpbin
 
 $ istioctl experimental check-inject -n hello -l app=httpbin
-``` 
+{{< /text >}}
 
 Example results:
 
-```text
+{{< text plain >}}
 WEBHOOK                      REVISION  INJECTED      REASON
 istio-revision-tag-default   default   ✔             Namespace label istio-injection=enabled matches
 istio-sidecar-injector-1-18  1-18      ✘             No matching namespace labels (istio.io/rev=1-18) or pod labels (istio.io/rev=1-18)
-```
+{{< /text >}}
 
 If the `INJECTED` field is marked as `✔`, the webhook in that row will perform the injection, with the reason why the webhook will do the sidecar injection.
 
