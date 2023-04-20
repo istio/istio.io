@@ -239,12 +239,38 @@ $ kubectl get pods --namespace istio-system \
 
 The process for canary upgrade is similar to the [canary upgrade with `istioctl`](/docs/setup/upgrade/canary/).
 
-For example, to upgrade Istio {{< istio_previous_version >}}.0 to {{< istio_full_version >}}, first install {{< istio_previous_version >}}.0 and verify that the `IstioOperator` CR named `example-istiocontrolplane` exists in your cluster:
+For example, to upgrade Istio {{< istio_previous_version >}}.0 to {{< istio_full_version >}}, first install {{< istio_previous_version >}}.0 :
+
+{{< text syntax=bash snip_id=download_istio_previous_version >}}
+$ curl -L https://istio.io/downloadIstio | ISTIO_VERSION={{< istio_previous_version >}}.0 sh -
+{{< /text >}}
+
+Deploy the operator using Istio version {{< istio_previous_version >}}.0:
+
+{{< text syntax=bash snip_id=deploy_operator_previous_version >}}
+$ istio-{{< istio_previous_version >}}.0/bin/istioctl operator init
+{{< /text >}}
+
+Install Istio control plane demo profile:
+
+{{< text syntax=bash snip_id=install_istio_previous_version >}}
+$ kubectl apply -f - <<EOF
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+metadata:
+  namespace: istio-system
+  name: example-istiocontrolplane-{{< istio_previous_version_revision >}}-0
+spec:
+  profile: default
+EOF
+{{< /text >}}
+
+Verify that the `IstioOperator` CR named `example-istiocontrolplane` exists in your cluster:
 
 {{< text syntax=bash snip_id=verify_operator_cr >}}
 $ kubectl get iop --all-namespaces
-NAMESPACE      NAME                        REVISION   STATUS    AGE
-istio-system   example-istiocontrolplane              HEALTHY   11m
+NAMESPACE      NAME                              REVISION   STATUS    AGE
+istio-system   example-istiocontrolplane{{< istio_previous_version_revision >}}-0              HEALTHY   11m
 {{< /text >}}
 
 Download and extract the `istioctl` corresponding to the version of Istio you wish to upgrade to.
@@ -258,11 +284,11 @@ $ istio-{{< istio_full_version >}}/bin/istioctl operator init --revision {{< ist
 {{< tip >}}
 You can alternatively use Helm to deploy another operator with a different revision setting:
 
-{{< text syntax=bash snip_id=canary_upgrade_helm_install >}}
+{{< text syntax=bash snip_id=none >}}
 $ helm install istio-operator manifests/charts/istio-operator \
   --set watchedNamespaces=istio-system \
   -n istio-operator \
-  --set revision={{< istio_previous_version_revision >}}-1
+  --set revision={{< istio_full_version_revision >}}
 {{< /text >}}
 
 Note that you need to [download the Istio release](/docs/setup/getting-started/#download)

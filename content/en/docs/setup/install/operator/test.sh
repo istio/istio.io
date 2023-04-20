@@ -22,12 +22,10 @@ set -e
 set -u
 set -o pipefail
 
-fullVersion=$(type snip_canary_upgrade_init | sed '1,3d;$d' | sed 's/.*istio-\(.*\)\/bin.*/\1/' ) # 1.18.0
+fullVersion=$(type snip_canary_upgrade_init | sed '1,3d;$d' | sed 's/.*istio-\(.*\)\/bin.*/\1/') # 1.18.0
 fullVersionRevision=$(echo "$fullVersion" | sed -r 's/[.]+/-/g' ) # 1-18-0
-previousVersionMinorUpgradeRevision=$(type snip_canary_upgrade_helm_install | sed '1,3d;$d' | sed -e 's#.*revision=\(\)#\1#' )
-previousVersionMinorUpgrade=$(echo "$previousVersionMinorUpgradeRevision" | sed -r 's/[-]+/./g')
-previousVersionRevision="${previousVersionMinorUpgradeRevision%-1}-0"
-previousVersion=$(echo "$previousVersionRevision" | sed -r 's/[-]+/./g')
+previousVersion=$(type snip_deploy_operator_previous_version | sed '1,3d;$d' | sed 's/.*istio-\(.*\)\/bin.*/\1/')
+previousVersionMinorUpgrade="${previousVersion%.0}.1"
 
 function testOperatorDeployWatchNs(){
     # print out body of the function and execute with flag
@@ -96,18 +94,13 @@ function testInplaceUpgrade(){
 }
 
 function testCanaryUpgrade(){
-    istioDownload "$previousVersion"
-    operatorInit "$previousVersion"
-    snip_install_istio_demo_profile
+    snip_download_istio_previous_version
+    snip_deploy_operator_previous_version
+    snip_install_istio_previous_version
     _verify_like snip_verify_operator_cr "$snip_verify_operator_cr_out"
     rm -rf "istio-$previousVersion"
 
     istioctl operator init --revision "$fullVersionRevision"
-
-    istioDownload "$previousVersionMinorUpgrade"
-    cd istio-"$previousVersionMinorUpgrade"
-    snip_canary_upgrade_helm_install
-    rm -rf "istio-$previousVersionMinorUpgrade"
 }
 
 function testTwoControlPlanes(){
