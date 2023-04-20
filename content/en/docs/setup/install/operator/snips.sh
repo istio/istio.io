@@ -168,7 +168,7 @@ metadata:
   name: example-istiocontrolplane-1-18-0
 spec:
   revision: 1-18-0
-  profile: demo
+  profile: default
 ENDSNIP
 
 snip_get_pods_istio_system() {

@@ -308,7 +308,7 @@ metadata:
   name: example-istiocontrolplane-{{< istio_full_version_revision >}}
 spec:
   revision: {{< istio_full_version_revision >}}
-  profile: demo
+  profile: default
 {{< /text >}}
 
 Apply the updated `IstioOperator` CR to the cluster. After that, you will have two control plane deployments and services running side-by-side:
