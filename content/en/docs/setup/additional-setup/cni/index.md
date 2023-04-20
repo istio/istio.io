@@ -133,6 +133,14 @@ Some platforms required special installation settings.
           chained: false
     {{< /text >}}
 
+### Cleanup
+
+1. Uninstall Istio:
+
+    {{< text bash >}}
+    $ istioctl uninstall -y --purge
+    {{< /text >}}
+
 ## Operation details
 
 ### Upgrade

@@ -333,3 +333,13 @@ A variant of the [canary upgrade](#canary-upgrade) approach is to shift the traf
 {{< image width="50%" link="high-level-canary.svg" caption="Canary upgrade in progress with external traffic shifting" >}}
 
 This offers fine-grained control, but may be unsuitable or overly complicated to set up in some environments.
+
+## Cleanup
+
+1. Uninstall Istio:
+
+    {{< text bash >}}
+    $ istioctl uninstall -y --purge
+    $ kubectl delete ns istio-system
+    $ kubectl delete ns istio-ingress
+    {{< /text >}}

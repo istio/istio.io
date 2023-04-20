@@ -69,3 +69,13 @@ istioctl x create-remote-secret \
     --name=cluster2 | \
     kubectl apply -f - --context="${CTX_CLUSTER1}"
 }
+
+snip_cleanup_1() {
+istioctl uninstall --context="${CTX_CLUSTER1}" -y --purge
+kubectl delete ns istio-system --context="${CTX_CLUSTER1}"
+}
+
+snip_cleanup_2() {
+istioctl uninstall --context="${CTX_CLUSTER2}" -y --purge
+kubectl delete ns istio-system --context="${CTX_CLUSTER2}"
+}

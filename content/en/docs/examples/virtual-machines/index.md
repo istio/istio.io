@@ -150,3 +150,9 @@ $ curl productpage.bookinfo:9080
 {{< /text >}}
 
 Istio's [DNS proxying](/docs/ops/configuration/traffic-management/dns-proxy/) automatically configures DNS for the virtual machine, allowing us to make calls to Kubernetes hostnames.
+
+## Cleanup
+
+- Delete the `Bookinfo` sample application and its configuration following the steps in
+[`Bookinfo` cleanup](/docs/examples/bookinfo/#cleanup).
+- Cleanup the VM following the steps in [virtual-machine uninstall](/docs/setup/install/virtual-machine/#configure-the-virtual-machine).

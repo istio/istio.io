@@ -101,3 +101,7 @@ kubectl exec "$(kubectl get pod -l app=productpage -o jsonpath='{.items[0].metad
 ! read -r -d '' snip_use_expressions_for_values_1 <<\ENDSNIP
 has(request.host) ? request.host : "unknown"
 ENDSNIP
+
+snip_uninstall_1() {
+istioctl uninstall -y --purge
+}
