@@ -17,9 +17,17 @@
 
 ####################################################################################################
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
-#          boilerplates/gateway-api-version.md
+#          boilerplates/args.md
 ####################################################################################################
 
-! read -r -d '' bpsnip_gateway_api_version_value <<\ENDSNIP
+! read -r -d '' bpsnip_args_gateway_api_version <<\ENDSNIP
 v0.6.2
+ENDSNIP
+
+! read -r -d '' bpsnip_args_istio_previous_version <<\ENDSNIP
+1.17
+ENDSNIP
+
+! read -r -d '' bpsnip_args_istio_full_version <<\ENDSNIP
+1.18.0
 ENDSNIP
