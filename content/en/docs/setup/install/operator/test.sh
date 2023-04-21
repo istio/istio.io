@@ -22,9 +22,11 @@ set -e
 set -u
 set -o pipefail
 
-fullVersion=$(type snip_canary_upgrade_init | sed '1,3d;$d' | sed 's/.*istio-\(.*\)\/bin.*/\1/') # 1.18.0
+source "content/en/boilerplates/snips/args.sh"
+
+fullVersion="${bpsnip_args_istio_full_version}"
 fullVersionRevision=$(echo "$fullVersion" | sed -r 's/[.]+/-/g' ) # 1-18-0
-previousVersion=$(type snip_deploy_operator_previous_version | sed '1,3d;$d' | sed 's/.*istio-\(.*\)\/bin.*/\1/')
+previousVersion="${bpsnip_args_istio_previous_version}.0"
 previousVersionMinorUpgrade="${previousVersion%.0}.1"
 
 function testOperatorDeployWatchNs(){

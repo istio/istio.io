@@ -14,9 +14,9 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-source "content/en/boilerplates/snips/gateway-api-version.sh"
+source "content/en/boilerplates/snips/args.sh"
 
-K8S_GATEWAY_API_CRDS="github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=${bpsnip_gateway_api_version_value}"
+K8S_GATEWAY_API_CRDS="github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=${bpsnip_args_gateway_api_version}"
 GATEWAY_API="true"
 
 function install_gateway_api_crds() {
