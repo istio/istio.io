@@ -13,7 +13,7 @@ test: yes
 
 {{< tip >}}
 {{< boilerplate gateway-api-future >}}
-以下指示说明将指导您通过 Gateway API 开始使用 Istio。
+以下文档将指导您通过 Gateway API 来使用 Istio。
 如果您更喜欢用经过验证的 Istio 经典 API 进行流量管理，
 您应转为参阅[这些指示说明](/zh/docs/setup/getting-started/)。
 {{< /tip >}}
@@ -29,7 +29,7 @@ $ kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
 
 {{< /warning >}}
 
-本指南可以让您快速评估 Istio。如果您已经熟悉了 Istio
+本指南可以让您快速熟悉 Istio。如果您已经熟悉了 Istio
 或想要安装其他配置文件或高级的[部署模型](/zh/docs/ops/deployment/deployment-models/)，
 请参阅 FAQ 页面：[我应该使用哪种 Istio 安装方法？](/zh/about/faq/#install-method-selection)。
 
@@ -66,7 +66,7 @@ $ kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
 
     {{< /tip >}}
 
-1.  移动到 Istio 文件包目录。例如，如果文件包是
+1.  切换到 Istio 文件包目录。例如，如果文件包是
     `istio-{{< istio_full_version >}}`：
 
     {{< text syntax=bash snip_id=none >}}
@@ -137,7 +137,7 @@ $ kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
     deployment.apps/productpage-v1 created
     {{< /text >}}
 
-1.  此应用将启动。随着每个 Pod 变为就绪， Istio Sidecar 将被随之部署。
+1.  此应用将启动。随着每个 Pod 就绪，Istio Sidecar 将随之被部署。
 
     {{< text bash >}}
     $ kubectl get services
@@ -149,7 +149,7 @@ $ kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
     reviews       ClusterIP   10.0.0.28       <none>        9080/TCP   29s
     {{< /text >}}
 
-    和
+    还有
 
     {{< text bash >}}
     $ kubectl get pods
