@@ -308,7 +308,7 @@ other = "试用 Istio"
 other = "服务网格"
 
 [what_is_istio]
-other = "什么是 Istio?"
+other = "什么是 Istio ？"
 
 [solutions]
 other = "解决方案"
