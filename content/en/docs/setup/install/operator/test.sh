@@ -25,7 +25,7 @@ set -o pipefail
 source "content/en/boilerplates/snips/args.sh"
 
 fullVersion="${bpsnip_args_istio_full_version}"
-fullVersionRevision=$(echo "$fullVersion" | sed -r 's/[.]+/-/g' ) # 1-18-0
+fullVersionRevision="${fullVersion//./-}"
 previousVersion="${bpsnip_args_istio_previous_version}.0"
 previousVersionMinorUpgrade="${previousVersion%.0}.1"
 
