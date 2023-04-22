@@ -11,7 +11,7 @@ test: no
 
 ## Quick Start
 
-To check if Istio sidecar injection did/didn't(or will/won't) occur for a specific pod, run:
+To check why Istio sidecar injection did/didn't (or will/won't) occur for a specific pod, run:
 
 {{< text syntax=bash >}}
 $ istioctl experimental check-inject -n <namespace> <pod-name>
