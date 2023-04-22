@@ -67,6 +67,9 @@ other = "取消搜索"
 [footer_istio]
 other = "Istio"
 
+[footer_version]
+other = "版本"
+
 [footer_istio_preliminary]
 other = "Istio 预览版"
 
@@ -276,6 +279,15 @@ other = "是的"
 
 [feedback_no]
 other = "没有"
+
+[feedback_ask_for_comment]
+other = "您是否有更多建议和改进意见？"
+
+[feedback_thankyou]
+other = "感谢您的反馈！"
+
+[feedback_comment_placeholder]
+other = "帮助我们进行改进..."
 
 [log_month_format]
 other = "2006-01"
