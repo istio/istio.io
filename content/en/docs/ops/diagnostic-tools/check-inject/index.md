@@ -33,9 +33,7 @@ For example, if you have a deployment named `httpbin` in the `hello` namespace a
 
 {{< text syntax=bash >}}
 $ istioctl experimental check-inject -n hello httpbin-1234
-
 $ istioctl experimental check-inject -n hello deploy/httpbin
-
 $ istioctl experimental check-inject -n hello -l app=httpbin
 {{< /text >}}
 
