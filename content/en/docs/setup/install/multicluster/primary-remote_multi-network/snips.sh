@@ -102,6 +102,13 @@ snip_configure_cluster2_as_a_remote_3() {
 istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --context="${CTX_CLUSTER2}" -f cluster2.yaml
 }
 
+snip_attach_cluster2_as_a_remote_cluster_of_cluster1_1() {
+istioctl x create-remote-secret \
+    --context="${CTX_CLUSTER2}" \
+    --name=cluster2 | \
+    kubectl apply -f - --context="${CTX_CLUSTER1}"
+}
+
 snip_install_the_eastwest_gateway_in_cluster2_1() {
 samples/multicluster/gen-eastwest-gateway.sh \
     --mesh mesh1 --cluster cluster2 --network network2 | \
@@ -120,11 +127,4 @@ ENDSNIP
 snip_expose_services_in_cluster2_1() {
 kubectl --context="${CTX_CLUSTER2}" apply -n istio-system -f \
     samples/multicluster/expose-services.yaml
-}
-
-snip_attach_cluster2_as_a_remote_cluster_of_cluster1_1() {
-istioctl x create-remote-secret \
-    --context="${CTX_CLUSTER2}" \
-    --name=cluster2 | \
-    kubectl apply -f - --context="${CTX_CLUSTER1}"
 }
