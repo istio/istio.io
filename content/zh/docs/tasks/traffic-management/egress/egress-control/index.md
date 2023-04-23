@@ -312,7 +312,7 @@ $ kubectl delete virtualservice httpbin-ext --ignore-not-found=true
 
 使用 `--set global.proxy.includeIPRanges="172.30.0.0/16\,172.21.0.0/16\,10.10.10.0/24"`
 
-#### Google Container Engine (GKE)
+#### Google Kubernetes Engine (GKE)
 
 范围是不固定的，你需要运行 `gcloud container clusters describe` 命令来确定要使用的范围。举个例子：
 
