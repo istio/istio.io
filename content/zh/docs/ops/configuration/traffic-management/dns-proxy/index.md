@@ -169,7 +169,7 @@ $ kubectl exec deploy/sleep -- curl -sS -v auto.internal
 以下示例显示了如何使用 DNS 代理解决此问题。虚拟 IP 地址将被分配到每个服务条目，
 以便客户端 Sidecar 可以清楚地区分每个外部 TCP 服务的流量。
 
-1.  更新[开始入门](#getting-started)部分中指定的 Istio 配置，以配置 `discoverySelectors`，
+1.  更新[开始](#getting-started)一节中指定的 Istio 配置，以配置 `discoverySelectors`，
     从而限制网格仅对启用了 `istio-injection` 的命名空间进行筛选。
     这将使我们可以在集群中使用任何其他命名空间来运行网格之外的 TCP 服务。
 
