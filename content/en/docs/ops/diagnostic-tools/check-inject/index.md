@@ -7,7 +7,7 @@ owner: istio/wg-user-experience-maintainers
 test: no
 ---
 
-`istioctl experimental check-inject` is a diagnostic tool that helps you verify if specific webooks will perform Istio sidecar injection in your pods. Use this tool to check if the sidecar injection configuration is correctly applied to a live cluster.
+`istioctl experimental check-inject` is a diagnostic tool that helps you verify if specific webhooks will perform Istio sidecar injection in your pods. Use this tool to check if the sidecar injection configuration is correctly applied to a live cluster.
 
 ## Quick Start
 
