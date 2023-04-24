@@ -3,20 +3,27 @@ title: 使用 Istio Operator 安装
 description: 使用 Istio Operator 在 Kubernetes 集群中安装 Istio 的说明。
 weight: 99
 keywords: [kubernetes, operator]
+aliases:
+    - /zh/docs/setup/install/standalone-operator
 owner: istio/wg-environments-maintainers
-test: no
+test: yes
 status: Beta
 ---
 
 {{< warning >}}
-不鼓励在新的 Istio 安装中使用 Operator，以支持 [Istioctl](/zh/docs/setup/install/istioctl) 和 [Helm](/zh/docs/setup/install/helm) 安装方法。虽然运营商将继续得到支持，新功能请求不会被优先考虑。
+全新安装 Istio 时不鼓励使用 Operator，请优先使用 [Istioctl](/zh/docs/setup/install/istioctl)
+和 [Helm](/zh/docs/setup/install/helm) 安装方法。Operator 仍然会得到维护，但新的功能请求可能不会优先考虑。
 {{< /warning >}}
 
-除了手动在生产环境中安装、升级、和卸载 Istio，您还可以用 Istio [Operator](https://kubernetes.io/zh/docs/concepts/extend-kubernetes/operator/) 管理安装。
+除了手动在生产环境中安装、升级、和卸载 Istio，您还可以用
+Istio [Operator](https://kubernetes.io/zh/docs/concepts/extend-kubernetes/operator/) 管理安装。
 这样做还能缓解管理不同 Istio 版本的负担。
-您只需简单的更新 Operator {{<gloss CRD>}}自定义资源（CR）{{</gloss>}}即可， Operator 控制器将为您应用更改的相应配置。
+您只需简单的更新 Operator {{<gloss CRD>}}自定义资源（CR）{{</gloss>}}即可，
+Operator 控制器将为您应用更改的相应配置。
 
-当您用[使用 Istioctl 安装](/zh/docs/setup/install/istioctl)安装 Istio 时，底层使用的是和 Operator 安装相同的[`IstioOperator` API](/zh/docs/reference/config/istio.operator.v1alpha1/)。在这两种场景下，都会以架构验证配置，并执行同样的正确性检查。
+当您[使用 Istioctl](/zh/docs/setup/install/istioctl)安装 Istio 时，
+底层使用的是和 Operator 安装相同的 [`IstioOperator` API](/zh/docs/reference/config/istio.operator.v1alpha1/)。
+在这两种场景下，都会以架构验证配置，并执行同样的正确性检查。
 
 {{< warning >}}
 使用 Operator 确实存在安全隐患：
@@ -39,7 +46,7 @@ status: Beta
 
 `istioctl` 命令可用于自动部署 Istio 操作符：
 
-{{< text syntax=bash snip_id=create_istio_operator >}}
+{{< text syntax=bash snip_id=deploy_istio_operator >}}
 $ istioctl operator init
 {{< /text >}}
 
@@ -53,7 +60,7 @@ $ istioctl operator init
 您可以配置 Operator 控制器安装的命名空间、Operator 观测的命名空间、Istio 的镜像源和版本、以及更多。
 例如，可以使用参数 `--watchedNamespaces` 指定一个或多个命名空间来观测：
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=deploy_istio_operator_watch_ns >}}
 $ istioctl operator init --watchedNamespaces=istio-namespace1,istio-namespace2
 {{< /text >}}
 
@@ -64,13 +71,13 @@ $ istioctl operator init --watchedNamespaces=istio-namespace1,istio-namespace2
 
 1. 创建 `istio-operator` 命名空间.
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=create_ns_istio_operator >}}
     $ kubectl create namespace istio-operator
     {{< /text >}}
 
 1. 使用 Helm 安装 operator.
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=deploy_istio_operator_helm >}}
     $ helm install istio-operator manifests/charts/istio-operator \
         --set watchedNamespaces="istio-namespace1\,istio-namespace2" \
         -n istio-operator
@@ -80,16 +87,18 @@ $ istioctl operator init --watchedNamespaces=istio-namespace1,istio-namespace2
 {{< /tip >}}
 
 {{< warning >}}
-在 Istio 1.10.0 之前，需要在安装 operator 之前创建命名空间 `istio-system`。从 Istio 1.10.0 开始，`istioctl operator init` 将创建 `istio-system` 命名空间。
+在 Istio 1.10.0 之前，需要在安装 operator 之前创建命名空间 `istio-system`。
+从 Istio 1.10.0 开始，`istioctl operator init` 将创建 `istio-system` 命名空间。
 
 如果你使用的不是 `istioctl operator init`，那么 `istio-system` 命名空间需要手动创建。
 {{< /warning >}}
 
 ### 使用 operator 安装 Istio {#install-Istio-with-the-operator}
 
-要使用 Operator 安装 Istio `demo` [配置项（configuration profile）](/zh/docs/setup/additional-setup/config-profiles/)，请运行以下命令：
+要使用 Operator 安装 Istio `demo`
+[配置项（configuration profile）](/zh/docs/setup/additional-setup/config-profiles/)，请运行以下命令：
 
-{{< text syntax=bash snip_id=create_demo_profile >}}
+{{< text syntax=bash snip_id=install_istio_demo_profile >}}
 $ kubectl apply -f - <<EOF
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
@@ -104,12 +113,14 @@ EOF
 控制器将检测 `IstioOperator` 资源，然后安装（`demo`）配置指定的 Istio 组件。
 
 {{< warning >}}
-如果在初始化 Istio Operator 时使用了 `--watchedNamespaces`，请将 `IstioOperator` 资源应用于任一观测的命名空间中，而不是应用于 `istio-system` 中。
+如果在初始化 Istio Operator 时使用了 `--watchedNamespaces`，
+请将 `IstioOperator` 资源应用于任一观测的命名空间中，而不是应用于 `istio-system` 中。
 {{< /warning >}}
 
-默认情况下，Istio 控制平面（istiod）将安装在 `istio-system` 命名空间中。要将其安装到其他命名空间，请使用 `values.global.istioNamespace` 字段，如下：
+默认情况下，Istio 控制平面（istiod）将安装在 `istio-system` 命名空间中。
+要将其安装到其他命名空间，请使用 `values.global.istioNamespace` 字段，如下：
 
-{{< text yaml >}}
+{{< text syntax=yaml snip_id=none >}}
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 ...
@@ -143,14 +154,14 @@ istio-ingressgateway-86cb4b6795-9jlrk   1/1     Running   0          68s
 istiod-b47586647-sf6sw                  1/1     Running   0          74s
 {{< /text >}}
 
-## 更新
+## 更新{#update}
 
 现在，控制器已经运行起来，您可以通过编辑或替换 `IstioOperator` 来改变 Istio 配置。
 控制器将检测到改变，继而用相应配置更新 Istio 的安装内容。
 
 例如，使用以下命令将安装切换到 `default` 配置：
 
-{{< text syntax=bash >}}
+{{< text syntax=bash snip_id=update_to_default_profile >}}
 $ kubectl apply -f - <<EOF
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
@@ -165,7 +176,7 @@ EOF
 您还可以启用或禁用组件、修改资源设置。
 例如，启用 `istio-egressgateway` 组件并增加 pilot 的内存要求：
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=update_to_default_profile_egress >}}
 $ kubectl apply -f - <<EOF
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
@@ -188,65 +199,94 @@ EOF
 
 通过检查 Operator 控制器日志，您可以检测到控制器为了响应 `IstioOperator` CR 的更新，而在集群中所做的改变：
 
-{{< text bash >}}
-$ kubectl logs -f -n istio-operator $(kubectl get pods -n istio-operator -lname=istio-operator -o jsonpath='{.items[0].metadata.name}')
+{{< text syntax=bash snip_id=operator_logs >}}
+$ kubectl logs -f -n istio-operator "$(kubectl get pods -n istio-operator -lname=istio-operator -o jsonpath='{.items[0].metadata.name}')"
 {{< /text >}}
 
-参阅 [`IstioOperator` API](/zh/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec) 获取完整的配置设置。
+参阅 [`IstioOperator` API](/zh/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec)
+获取完整的配置设置。
 
-## 就地升级
+## 就地升级{#in-place-upgrade}
 
 下载并提取希望升级到的 Istio 版本对应的 `istioctl`。
 在目标 Istio 版本的目录中，重新安装 Operator：
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=inplace_upgrade >}}
 $ <extracted-dir>/bin/istioctl operator init
 {{< /text >}}
 
 您会看到 `istio-operator` 的 Pod 已重新启动，其版本已更改到目标版本：
 
-{{< text bash >}}
-$ kubectl logs -f -n istio-operator "$(kubectl get pods -n istio-operator -lname=istio-operator -o jsonpath='{.items[0].metadata.name}')"
+{{< text syntax=bash snip_id=inplace_upgrade_get_pods_istio_operator >}}
+$ kubectl get pods --namespace istio-operator \
+  -o=jsonpath='{range .items[*]}{.metadata.name}{":\t"}{range .spec.containers[*]}{.image}{", "}{end}{"\n"}{end}'
 {{< /text >}}
 
 经过一两分钟后，Istio 控制平面组件也会重新启动为新版本：
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=inplace_upgrade_get_pods_istio_system >}}
 $ kubectl get pods --namespace istio-system \
   -o=jsonpath='{range .items[*]}{"\n"}{.metadata.name}{":\t"}{range .spec.containers[*]}{.image}{", "}{end}{"\n"}{end}'
 {{< /text >}}
 
-## 金丝雀升级
+## 金丝雀升级{#canary-upgrade}
 
 金丝雀升级的过程类似于
 [`istioctl` 版本的金丝雀升级](/zh/docs/setup/upgrade/#canary-upgrades)。
 
 例如，要升级上一节中安装的 Istio 修订版本，首先验证群集中名为 `example-istiocontrolplane` 的 `IstioOperator` CR 是否存在：
 
-{{< text bash >}}
+例如要升级 Istio {{< istio_previous_version >}}.0 到 {{< istio_full_version >}}，
+首先安装 {{< istio_previous_version >}}.0：
+
+{{< text syntax=bash snip_id=download_istio_previous_version >}}
+$ curl -L https://istio.io/downloadIstio | ISTIO_VERSION={{< istio_previous_version >}}.0 sh -
+{{< /text >}}
+
+使用 Istio 版本 {{< istio_previous_version >}}.0 部署 Operator：
+
+{{< text syntax=bash snip_id=deploy_operator_previous_version >}}
+$ istio-{{< istio_previous_version >}}.0/bin/istioctl operator init
+{{< /text >}}
+
+安装 Istio 控制面 demo 配置文件：
+
+{{< text syntax=bash snip_id=install_istio_previous_version >}}
+$ kubectl apply -f - <<EOF
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+metadata:
+  namespace: istio-system
+  name: example-istiocontrolplane-{{< istio_previous_version_revision >}}-0
+spec:
+  profile: default
+EOF
+{{< /text >}}
+
+确认您的集群中存在名为 `example-istiocontrolplane` 的 `IstioOperator` CR：
+
+{{< text syntax=bash snip_id=verify_operator_cr >}}
 $ kubectl get iop --all-namespaces
-NAMESPACE      NAME                        REVISION   STATUS    AGE
-istio-system   example-istiocontrolplane              HEALTHY   11m
+NAMESPACE      NAME                              REVISION   STATUS    AGE
+istio-system   example-istiocontrolplane{{< istio_previous_version_revision >}}-0              HEALTHY   11m
 {{< /text >}}
 
 下载并提取希望升级到的 Istio 版本对应的 `istioctl`。
 然后，运行以下命令，基于集群内的 `IstioOperator` CR 的方式，安装 Istio 目标版本的控制平面
 （这里，我们假设目标修订版本为 1.8.1）：
 
-{{< text bash >}}
-$ istio-1.8.1/bin/istioctl operator init --revision 1-8-1
+{{< text syntax=bash snip_id=canary_upgrade_init >}}
+$ istio-{{< istio_full_version >}}/bin/istioctl operator init --revision {{< istio_full_version_revision >}}
 {{< /text >}}
 
 {{< tip >}}
 您也可以通过 Helm 用不同的修订设置部署另一个 Operator：
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=none >}}
 $ helm install istio-operator manifests/charts/istio-operator \
-  --set hub=docker.io/istio \
-  --set tag={{< istio_full_version >}} \
-  --set operatorNamespace=istio-operator \
   --set watchedNamespaces=istio-system \
-  --set revision=1-7-0
+  -n istio-operator \
+  --set revision={{< istio_full_version_revision >}}
 {{< /text >}}
 
 注意：您需要[下载 Istio 的发行版本](/zh/docs/setup/getting-started/#download)来运行上面的命令。
@@ -256,41 +296,42 @@ $ helm install istio-operator manifests/charts/istio-operator \
 在 CR 中修改该文件的名称为 `example-istiocontrolplane-1-8-1`，并添加 `revision: 1-8-1`。
 更新后的 `IstioOperator` CR 如下所示：
 
-{{< text bash >}}
-$ cat example-istiocontrolplane-1-8-1.yaml
+{{< text syntax=bash snip_id=cat_operator_yaml >}}
+$ cat example-istiocontrolplane-{{< istio_full_version_revision >}}.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 metadata:
   namespace: istio-system
-  name: example-istiocontrolplane-1-8-1
+  name: example-istiocontrolplane-{{< istio_full_version_revision >}}
 spec:
-  revision: 1-8-1
-  profile: demo
+  revision: {{< istio_full_version_revision >}}
+  profile: default
 {{< /text >}}
 
 运行该命令后，您将看到两组并排运行的控制平面 Deployments 和 Services：
 
-{{< text bash >}}
-$ kubectl get pods -n istio-system -l app=istiod
+{{< text syntax=bash snip_id=get_pods_istio_system >}}
+$ kubectl get pod -n istio-system -l app=istiod
 NAME                             READY   STATUS    RESTARTS   AGE
-istiod-5f4f9dd5fc-4xc8p          1/1     Running   0          10m
-istiod-1-8-1-55887f699c-t8bh8    1/1     Running   0          8m13s
+istiod-{{< istio_full_version_revision >}}-597475f4f6-bgtcz   1/1     Running   0          64s
+istiod-6ffcc65b96-bxzv5          1/1     Running   0          2m11s
 {{< /text >}}
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=get_svc_istio_system >}}
 $ kubectl get services -n istio-system -l app=istiod
-NAME            TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)                                         AGE
-istiod          ClusterIP   10.87.7.69   <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP,853/TCP   10m
-istiod-1-8-1    ClusterIP   10.87.4.92   <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP,853/TCP   7m55s
+NAME            TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)                                         AGE
+istiod          ClusterIP   10.104.129.150   <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP,853/TCP   2m35s
+istiod-{{< istio_full_version_revision >}}   ClusterIP   10.111.17.49     <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP           88s
 {{< /text >}}
 
-要完成升级，请给工作负载的命名空间打这个标签：`istio.io/rev=1-8-1`，并重新启动工作负载，就如 [数据平面升级](/zh/docs/setup/upgrade/canary/#data-plane) 文档的描述。
+要完成升级，请给工作负载的命名空间打这个标签：`istio.io/rev=1-8-1`，并重新启动工作负载，
+就如[数据平面升级](/zh/docs/setup/upgrade/canary/#data-plane)文档的描述。
 
-## 卸载
+## 卸载{#uninstall}
 
 如果您使用 Operator 完成了控制平面的金丝雀升级，请运行以下命令卸载旧版本的控件平面，并保留新版本：
 
-{{< text syntax=bash snip_id=none >}}
+{{< text syntax=bash snip_id=delete_example_istiocontrolplane >}}
 $ kubectl delete istiooperators.install.istio.io -n istio-system example-istiocontrolplane
 {{< /text >}}
 
@@ -307,6 +348,6 @@ $ istioctl operator remove --revision <revision>
 需要清理 Operator 未删除的内容：
 
 {{< text syntax=bash snip_id=cleanup >}}
-$ istioctl manifest generate | kubectl delete -f -
-$ kubectl delete ns istio-system --grace-period=0 --force
+$ istioctl uninstall -y --purge
+$ kubectl delete ns istio-system istio-operator
 {{< /text >}}
