@@ -27,7 +27,7 @@ Istio 内置的一些[配置文件](/zh/docs/setup/additional-setup/config-profi
 
 ## 先决条件{#prerequisites}
 
-本指南需要先[安装好 Istio 控制面](/docs/setup/install/)，再继续操作。
+本指南需要先[安装好 Istio 控制面](/zh/docs/setup/install/)，再继续操作。
 
 {{< tip >}}
 您可以使用诸如 `istioctl install --set profile=minimal` 的 `minimal` 配置，
