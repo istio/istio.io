@@ -5,8 +5,6 @@ owner: istio/wg-user-experience-maintainers
 test: n/a
 ---
 
-This message is similar to [IST0105](/docs/reference/config/analysis/ist0105/), which is a warning message for a single pod.
-
 This message occurs when the namespace is enabled for automatic sidecar injection, but some pods in the namespace are not having the correct sidecar injected.
 
 If any of the pods in the namespace are not running the correct sidecar version, this message will be reported.
