@@ -121,10 +121,10 @@ debug and diagnose their Istio mesh.
 </code></pre>
 <h2 id="istioctl-admin-log">istioctl admin log</h2>
 <p>Retrieve or update logging levels of istiod components.</p>
-<pre class="language-bash"><code>istioctl admin log [&lt;pod-name&gt;] [--level &lt;scope&gt;:&lt;level&gt;][--stack-trace-level &lt;scope&gt;:&lt;level&gt;]|[-r|--reset]|[--output|-o short|yaml] [flags]
+<pre class="language-bash"><code>istioctl admin log [&lt;pod-name&gt;]|[-r|--revision] [--level &lt;scope&gt;:&lt;level&gt;][--stack-trace-level &lt;scope&gt;:&lt;level&gt;]|[--reset]|[--output|-o short|yaml] [flags]
 </code></pre>
 <div class="aliases">
-<pre class="language-bash"><code>istioctl admin l [&lt;pod-name&gt;] [--level &lt;scope&gt;:&lt;level&gt;][--stack-trace-level &lt;scope&gt;:&lt;level&gt;]|[-r|--reset]|[--output|-o short|yaml] [flags]
+<pre class="language-bash"><code>istioctl admin l [&lt;pod-name&gt;]|[-r|--revision] [--level &lt;scope&gt;:&lt;level&gt;][--stack-trace-level &lt;scope&gt;:&lt;level&gt;]|[--reset]|[--output|-o short|yaml] [flags]
 </code></pre></div>
 <table class="command-flags">
 <thead>
@@ -217,8 +217,11 @@ debug and diagnose their Istio mesh.
   # Update levels of the specified loggers.
   istioctl admin log --level ads:debug,authorization:debug
 
+  # Retrieve information about istiod logging levels for a specified revision.
+  istioctl admin log --revision v1
+
   # Reset levels of all the loggers to default value (info).
-  istioctl admin log -r
+  istioctl admin log --reset
 
 </code></pre>
 <h2 id="istioctl-analyze">istioctl analyze</h2>
@@ -2316,7 +2319,7 @@ Checks associated resources of the given resource, and running webhooks to exami
 </tbody>
 </table>
 <h3 id="istioctl-experimental-check-inject Examples">Examples</h3>
-<pre class="language-bash"><code>	# Check the injection status of a pod
+<pre class="language-bash"><code>  # Check the injection status of a pod
   istioctl experimental check-inject details-v1-fcff6c49c-kqnfk.test
 	
   # Check the injection status of a pod under a deployment
@@ -5088,10 +5091,10 @@ istioctl x version --xds-label istio.io/rev=default
 </table>
 <h3 id="istioctl-experimental-workload Examples">Examples</h3>
 <pre class="language-bash"><code>  # workload group yaml generation
-  workload group create
+  istioctl x workload group create
 
   # workload entry configuration generation
-  workload entry configure
+  istioctl x workload entry configure
 </code></pre>
 <h2 id="istioctl-experimental-workload-entry">istioctl experimental workload entry</h2>
 <p>Commands dealing with WorkloadEntry resources</p>
@@ -5142,7 +5145,7 @@ istioctl x version --xds-label istio.io/rev=default
 </tbody>
 </table>
 <h3 id="istioctl-experimental-workload-entry Examples">Examples</h3>
-<pre class="language-bash"><code>entry configure -f workloadgroup.yaml -o outputDir
+<pre class="language-bash"><code>  istioctl x workload entry configure -f workloadgroup.yaml -o outputDir
 </code></pre>
 <h2 id="istioctl-experimental-workload-entry-configure">istioctl experimental workload entry configure</h2>
 <p>Generates all the required configuration files for workload instance on a VM or non-Kubernetes environment from a WorkloadGroup artifact.
@@ -5258,10 +5261,10 @@ Configure requires either the WorkloadGroup artifact path or its location on the
 </table>
 <h3 id="istioctl-experimental-workload-entry-configure Examples">Examples</h3>
 <pre class="language-bash"><code>  # configure example using a local WorkloadGroup artifact
-  configure -f workloadgroup.yaml -o config
+  istioctl x workload entry configure -f workloadgroup.yaml -o config
 
   # configure example using the API server
-  configure --name foo --namespace bar -o config
+  istioctl x workload entry configure --name foo --namespace bar -o config
 </code></pre>
 <h2 id="istioctl-experimental-workload-group">istioctl experimental workload group</h2>
 <p>Commands dealing with WorkloadGroup resources</p>
@@ -5312,7 +5315,7 @@ Configure requires either the WorkloadGroup artifact path or its location on the
 </tbody>
 </table>
 <h3 id="istioctl-experimental-workload-group Examples">Examples</h3>
-<pre class="language-bash"><code>group create --name foo --namespace bar --labels app=foobar
+<pre class="language-bash"><code>  istioctl x workload group create --name foo --namespace bar --labels app=foobar
 </code></pre>
 <h2 id="istioctl-experimental-workload-group-create">istioctl experimental workload group create</h2>
 <p>Creates a WorkloadGroup resource that provides a template for associated WorkloadEntries.
@@ -5391,7 +5394,7 @@ The default output is serialized YAML, which can be piped into &#39;kubectl appl
 </tbody>
 </table>
 <h3 id="istioctl-experimental-workload-group-create Examples">Examples</h3>
-<pre class="language-bash"><code>create --name foo --namespace bar --labels app=foo,bar=baz --ports grpc=3550,http=8080 --annotations annotation=foobar --serviceAccount sa
+<pre class="language-bash"><code>  istioctl x workload group create --name foo --namespace bar --labels app=foo,bar=baz --ports grpc=3550,http=8080 --annotations annotation=foobar --serviceAccount sa
 </code></pre>
 <h2 id="istioctl-install">istioctl install</h2>
 <p>The install command generates an Istio install manifest and applies it to a cluster.</p>
@@ -7422,7 +7425,7 @@ istioctl proxy-config l [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <tr>
 <td><code>--level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-logger level of messages to output, in the form of [&lt;logger&gt;:]&lt;level&gt;,[&lt;logger&gt;:]&lt;level&gt;,... where logger can be one of admin, aws, assert, backtrace, client, config, connection, conn_handler, dubbo, file, filter, forward_proxy, grpc, hc, health_checker, http, http2, hystrix, init, io, jwt, kafka, lua, main, misc, mongo, quic, pool, rbac, redis, router, runtime, stats, secret, tap, testing, thrift, tracing, upstream, udp, wasm and level can be one of [trace, debug, info, warning, error, critical, off]  (default ``)</td>
+<td>Comma-separated minimum per-logger level of messages to output, in the form of [&lt;logger&gt;:]&lt;level&gt;,[&lt;logger&gt;:]&lt;level&gt;,... where logger components can be listed by running &#34;istioctl proxy-config log &lt;pod-name[.namespace]&gt;&#34;or referred from https://github.com/envoyproxy/envoy/blob/main/source/common/common/logger.h, and level can be one of [trace, debug, info, warning, error, critical, off]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
