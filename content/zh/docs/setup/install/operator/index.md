@@ -11,8 +11,8 @@ status: Beta
 ---
 
 {{< warning >}}
-不鼓励在新的 Istio 安装中使用 Operator，以支持 [Istioctl](/zh/docs/setup/install/istioctl)
-和 [Helm](/zh/docs/setup/install/helm) 安装方法。虽然运营商将继续得到支持，新功能请求不会被优先考虑。
+全新安装 Istio 时不鼓励使用 Operator，请优先使用 [Istioctl](/zh/docs/setup/install/istioctl)
+和 [Helm](/zh/docs/setup/install/helm) 安装方法。Operator 仍然会得到维护，但新的功能请求可能不会优先考虑。
 {{< /warning >}}
 
 除了手动在生产环境中安装、升级、和卸载 Istio，您还可以用
@@ -21,7 +21,7 @@ Istio [Operator](https://kubernetes.io/zh/docs/concepts/extend-kubernetes/operat
 您只需简单的更新 Operator {{<gloss CRD>}}自定义资源（CR）{{</gloss>}}即可，
 Operator 控制器将为您应用更改的相应配置。
 
-当您用[使用 Istioctl 安装](/zh/docs/setup/install/istioctl)安装 Istio 时，
+当您[使用 Istioctl](/zh/docs/setup/install/istioctl)安装 Istio 时，
 底层使用的是和 Operator 安装相同的 [`IstioOperator` API](/zh/docs/reference/config/istio.operator.v1alpha1/)。
 在这两种场景下，都会以架构验证配置，并执行同样的正确性检查。
 
