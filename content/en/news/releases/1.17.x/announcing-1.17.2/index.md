@@ -47,17 +47,16 @@ Crash when a redirect url without a state parameter is received in the OAuth fil
   ([Issue #42749](https://github.com/istio/istio/issues/42749))
 
 - **Fixed** a bug that would cause unexpected behavior when applying access logging configuration based on the direction of traffic. With this fix, access logging configuration for `CLIENT` or `SERVER` will not affect each other.
-  [Issue # 43371](https://github.com/istio/istio/issues/43371)
+  ([Issue # 43371](https://github.com/istio/istio/issues/43371))
 
 - **Fixed** an issue where `EnvoyFilter` for `Cluster.ConnectTimeout` was affecting unrelated `Clusters`.
   ([Issue #43435](https://github.com/istio/istio/issues/43435))
 
-- **Fixed** an issue where `EnvoyFilter` for `Cluster.ConnectTimeout` was affecting unrelated `Clusters`.
-   [Issue #43435](https://github.com/istio/istio/issues/43435)
+- **Fixed** a bug in `istioctl analyze` where some messages are missed when there are services with no selector in the analyzed namespace.
+  ([PR #43678](https://github.com/istio/istio/pull/43678))
 
-- **Fixed** a bug in `istioctl analyze` where some messages are missed when there are services with no selector in the analyzed namespace. [PR #43678](https://github.com/istio/istio/pull/43678)
-
-- **Fixed** resource namespace resolution for `istioctl` commands. [Issue #43691](https://github.com/istio/istio/issues/43691)
+- **Fixed** resource namespace resolution for `istioctl` commands.
+  ([Issue #43691](https://github.com/istio/istio/issues/43691))
 
 - **Fixed** an issue where auto allocated service entry IPs change on host reuse.
   ([Issue #43858](https://github.com/istio/istio/issues/43858))
@@ -68,6 +67,8 @@ Crash when a redirect url without a state parameter is received in the OAuth fil
 - **Fixed** an issue causing VMs using auto-registration to ignore labels other than those defined in a `WorkloadGroup`.
   ([Issue #32210](https://github.com/istio/istio/issues/32210))
 
-- **Fixed** an issue causing VMs using auto-registration to ignore labels other than those defined in a `WorkloadGroup`. [PR #44021](https://github.com/istio/istio/pull/44021)
+- **Fixed** an issue causing VMs using auto-registration to ignore labels other than those defined in a `WorkloadGroup`.
+  ([PR #44021](https://github.com/istio/istio/pull/44021))
 
-- **Fixed** `istioctl experimental wait` has undecipherable message when `PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING` is not enabled. [Issue #42967](https://github.com/istio/istio/issues/42967)
+- **Fixed** `istioctl experimental wait` has undecipherable message when `PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING` is not enabled.
+  ([Issue #42967](https://github.com/istio/istio/issues/42967))
