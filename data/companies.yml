@@ -75,7 +75,7 @@ providers:
     url: "https://cloud.tencent.com/product/tcm"
   - name: "Daocloud Service Mesh"
     logo: "/logos/daocloud.svg"
-    url: "https://www.daocloud.io/dsm"
+    url: "https://daocloud.io/dce_5.0"
   - name: "Northflank"
     logo: "/logos/northflank.svg"
     url: "https://northflank.com"
