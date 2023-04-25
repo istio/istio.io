@@ -62,3 +62,5 @@ _verify_like snip_canary_upgrade_advanced_2 "${snip_canary_upgrade_advanced_2_ou
 
 # @cleanup
 snip_cleanup_1
+istioctl uninstall --purge --skip-confirmation
+kubectl delete namespace istio-system

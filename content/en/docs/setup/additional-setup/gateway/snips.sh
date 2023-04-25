@@ -179,7 +179,6 @@ istio-ingressgateway   istio-ingressgateway-...,istio-ingressgateway-canary-...
 ENDSNIP
 
 snip_cleanup_1() {
-istioctl uninstall -y --purge
-kubectl delete ns istio-system
+istioctl uninstall --istioNamespace istio-ingress -y --purge
 kubectl delete ns istio-ingress
 }

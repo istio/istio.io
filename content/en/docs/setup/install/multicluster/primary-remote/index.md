@@ -194,14 +194,14 @@ You can now [verify the installation](/docs/setup/install/multicluster/verify).
 
 1. Uninstall Istio in `cluster1`:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=none >}}
     $ istioctl uninstall --context="${CTX_CLUSTER1}" -y --purge
     $ kubectl delete ns istio-system --context="${CTX_CLUSTER1}"
     {{< /text >}}
 
 1. Uninstall Istio in `cluster2`:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=none >}}
     $ istioctl uninstall --context="${CTX_CLUSTER2}" -y --purge
     $ kubectl delete ns istio-system --context="${CTX_CLUSTER2}"
     {{< /text >}}

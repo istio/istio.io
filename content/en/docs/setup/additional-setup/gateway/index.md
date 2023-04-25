@@ -336,10 +336,9 @@ This offers fine-grained control, but may be unsuitable or overly complicated to
 
 ## Cleanup
 
-1. Uninstall Istio:
+- Cleanup Istio ingress gateway
 
     {{< text bash >}}
-    $ istioctl uninstall -y --purge
-    $ kubectl delete ns istio-system
+    $ istioctl uninstall --istioNamespace istio-ingress -y --purge
     $ kubectl delete ns istio-ingress
     {{< /text >}}

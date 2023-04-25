@@ -64,10 +64,6 @@ spec:
       chained: false
 ENDSNIP
 
-snip_cleanup_1() {
-istioctl uninstall -y --purge
-}
-
 ! read -r -d '' snip_upgrade_1 <<\ENDSNIP
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator

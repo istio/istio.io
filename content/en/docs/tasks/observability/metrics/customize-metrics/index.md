@@ -43,7 +43,7 @@ Alternatively, you can set up custom statistics as part of the Istio
 installation.
 
 The [Bookinfo](/docs/examples/bookinfo/) sample application is used as
-the example application throughout this task.
+the example application throughout this task. For installation instructions, see [deploying the Bookinfo application](/docs/examples/bookinfo/#deploying-the-application).
 
 ## Enable custom metrics
 
@@ -199,11 +199,7 @@ Peer metadata is available as attributes `upstream_peer` for outbound and `downs
 For example, the expression for the peer `app` label to be used in an outbound configuration is
 `upstream_peer.labels['app'].value`.
 
-## Uninstall
+## Cleanup
 
 To delete the `Bookinfo` sample application and its configuration, see
 [`Bookinfo` cleanup](/docs/examples/bookinfo/#cleanup).
-
-{{< text bash >}}
-$ istioctl uninstall -y --purge
-{{< /text >}}
