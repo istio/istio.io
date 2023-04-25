@@ -18,7 +18,7 @@ skip_seealso: true
 ### Envoy CVEs{#envoy-cves}
 
 - __[CVE-2023-27487](https://github.com/envoyproxy/envoy/security/advisories/GHSA-5375-pq35-hf2g)__:
-  (CVSS Score 8.2, High)：客户端可能会伪造 `x-envoy-original-path` 标头信息。
+  (CVSS Score 8.2, High)：客户端可能会伪造 `x-envoy-original-path` 头信息。
 
 - __[CVE-2023-27488](https://github.com/envoyproxy/envoy/security/advisories/GHSA-9g5w-hqr3-w2ph)__:
   (CVSS Score 5.4, Moderate)：当收到具有非 UTF8 值的 HTTP 头信息时，gRPC 客户端会生成无效的 protobuf。
