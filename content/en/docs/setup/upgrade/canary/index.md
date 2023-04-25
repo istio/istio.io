@@ -30,7 +30,7 @@ $ istioctl x precheck
 {{< idea >}}
 
 When using revision-based upgrades jumping across two minor versions is supported (e.g. upgrading directly from
-version `1.8` to `1.10`). This is in contrast to in-place upgrades where it is required to upgrade to each intermediate minor
+version `1.15` to `1.17`). This is in contrast to in-place upgrades where it is required to upgrade to each intermediate minor
 release.
 
 {{< /idea >}}
@@ -41,7 +41,7 @@ To install a new revision called `canary`, you would set the `revision` field as
 
 {{< tip >}}
 In a production environment, a better revision name would correspond to the Istio version.
-However, you must replace `.` characters in the revision name, for example, `revision=1-6-8` for Istio `1.6.8`,
+However, you must replace `.` characters in the revision name, for example, `revision={{< istio_full_version_revision >}}` for Istio `{{< istio_full_version >}}`,
 because `.` is not a valid revision name character.
 {{< /tip >}}
 
@@ -54,14 +54,14 @@ After running the command, you will have two control plane deployments and servi
 {{< text bash >}}
 $ kubectl get pods -n istio-system -l app=istiod
 NAME                             READY   STATUS    RESTARTS   AGE
-istiod-1-9-5-bdf5948d5-htddg     1/1     Running   0          47s
+istiod-{{< istio_previous_version_revision >}}-1-bdf5948d5-htddg    1/1     Running   0          47s
 istiod-canary-84c8d4dcfb-skcfv   1/1     Running   0          25s
 {{< /text >}}
 
 {{< text bash >}}
 $ kubectl get svc -n istio-system -l app=istiod
 NAME            TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)                                 AGE
-istiod-1-9-5    ClusterIP   10.96.93.151     <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP   109s
+istiod-{{< istio_previous_version_revision >}}-1   ClusterIP   10.96.93.151     <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP   109s
 istiod-canary   ClusterIP   10.104.186.250   <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP   87s
 {{< /text >}}
 
@@ -70,7 +70,7 @@ You will also see that there are two sidecar injector configurations including t
 {{< text bash >}}
 $ kubectl get mutatingwebhookconfigurations
 NAME                            WEBHOOKS   AGE
-istio-sidecar-injector-1-9-5    2          2m16s
+istio-sidecar-injector-{{< istio_previous_version_revision >}}-1   2          2m16s
 istio-sidecar-injector-canary   2          114s
 {{< /text >}}
 
@@ -124,15 +124,15 @@ If you're using Helm, refer to the [Helm upgrade documentation](/docs/setup/upgr
 1. Install two revisions of control plane:
 
     {{< text bash >}}
-    $ istioctl install --revision=1-9-5 --set profile=minimal --skip-confirmation
-    $ istioctl install --revision=1-10-0 --set profile=minimal --skip-confirmation
+    $ istioctl install --revision={{< istio_previous_version_revision >}}-1 --set profile=minimal --skip-confirmation
+    $ istioctl install --revision={{< istio_full_version_revision >}} --set profile=minimal --skip-confirmation
     {{< /text >}}
 
 1. Create `stable` and `canary` revision tags and associate them to the respective revisions:
 
     {{< text bash >}}
-    $ istioctl tag set prod-stable --revision 1-9-5
-    $ istioctl tag set prod-canary --revision 1-10-0
+    $ istioctl tag set prod-stable --revision {{< istio_previous_version_revision >}}-1
+    $ istioctl tag set prod-canary --revision {{< istio_full_version_revision >}}
     {{< /text >}}
 
 1. Label application namespaces to map to the respective revision tags:
@@ -159,15 +159,15 @@ If you're using Helm, refer to the [Helm upgrade documentation](/docs/setup/upgr
     {{< text bash >}}
     $ istioctl ps
     NAME                                CLUSTER        CDS        LDS        EDS        RDS        ECDS         ISTIOD                             VERSION
-    sleep-78ff5975c6-62pzf.app-ns-3     Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-1-10-0-7f6fc6cfd6-s8zfg     1.16.1
-    sleep-78ff5975c6-8kxpl.app-ns-1     Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-1-9-5-bdf5948d5-n72r2       1.16.1
-    sleep-78ff5975c6-8q7m6.app-ns-2     Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-1-9-5-bdf5948d5-n72r2       1.16.1
+    sleep-78ff5975c6-62pzf.app-ns-3     Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-{{< istio_full_version_revision >}}-7f6fc6cfd6-s8zfg     {{< istio_full_version >}}
+    sleep-78ff5975c6-8kxpl.app-ns-1     Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-{{< istio_previous_version_revision >}}-1-bdf5948d5-n72r2      {{< istio_previous_version >}}.1
+    sleep-78ff5975c6-8q7m6.app-ns-2     Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-{{< istio_previous_version_revision >}}-1-bdf5948d5-n72r2      {{< istio_previous_version_revision >}}.1
     {{< /text >}}
 
 {{< boilerplate revision-tags-middle >}}
 
 {{< text bash >}}
-$ istioctl tag set prod-stable --revision 1-10-0 --overwrite
+$ istioctl tag set prod-stable --revision {{< istio_full_version_revision >}} --overwrite
 {{< /text >}}
 
 {{< boilerplate revision-tags-prologue >}}
@@ -182,9 +182,9 @@ Verify the application to control plane mapping using `istioctl proxy-status` co
 {{< text bash >}}
 $ istioctl ps
 NAME                                                   CLUSTER        CDS        LDS        EDS        RDS          ECDS         ISTIOD                             VERSION
-sleep-5984f48bc7-kmj6x.app-ns-1                        Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-1-10-0-7f6fc6cfd6-jsktb     1.16.1
-sleep-78ff5975c6-jldk4.app-ns-3                        Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-1-10-0-7f6fc6cfd6-jsktb     1.16.1
-sleep-7cdd8dccb9-5bq5n.app-ns-2                        Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-1-10-0-7f6fc6cfd6-jsktb     1.16.1
+sleep-5984f48bc7-kmj6x.app-ns-1                        Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-{{< istio_full_version_revision >}}-7f6fc6cfd6-jsktb     {{< istio_full_version >}}
+sleep-78ff5975c6-jldk4.app-ns-3                        Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-{{< istio_full_version_revision >}}-7f6fc6cfd6-jsktb     {{< istio_full_version >}}
+sleep-7cdd8dccb9-5bq5n.app-ns-2                        Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-{{< istio_full_version_revision >}}-7f6fc6cfd6-jsktb     {{< istio_full_version >}}
 {{< /text >}}
 
 ### Default tag
@@ -192,17 +192,17 @@ sleep-7cdd8dccb9-5bq5n.app-ns-2                        Kubernetes     SYNCED    
 {{< boilerplate revision-tags-default-intro >}}
 
 {{< text bash >}}
-$ istioctl tag set default --revision 1-10-0
+$ istioctl tag set default --revision {{< istio_full_version_revision >}}
 {{< /text >}}
 
 {{< boilerplate revision-tags-default-outro >}}
 
 ## Uninstall old control plane
 
-After upgrading both the control plane and data plane, you can uninstall the old control plane. For example, the following command uninstalls a control plane of revision `1-9-5`:
+After upgrading both the control plane and data plane, you can uninstall the old control plane. For example, the following command uninstalls a control plane of revision `{{< istio_previous_version_revision >}}-1`:
 
 {{< text bash >}}
-$ istioctl uninstall --revision 1-9-5 -y
+$ istioctl uninstall --revision {{< istio_previous_version_revision >}}-1 -y
 {{< /text >}}
 
 If the old control plane does not have a revision label, uninstall it using its original installation options, for example:
