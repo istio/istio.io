@@ -16,7 +16,7 @@ release: 1.17.2
 ## 安全更新{#security-updates}
 
 - __[CVE-2023-27487](https://github.com/envoyproxy/envoy/security/advisories/GHSA-5375-pq35-hf2g)__:
-  (CVSS Score 8.2, High)：客户端可能会伪造标 `x-envoy-original-path` 头信息。
+  (CVSS Score 8.2, High)：客户端可能会伪造 `x-envoy-original-path` 头信息。
 
 - __[CVE-2023-27488](https://github.com/envoyproxy/envoy/security/advisories/GHSA-9g5w-hqr3-w2ph)__:
   (CVSS Score 5.4, Moderate)：当收到具有非 UTF8 值的 HTTP 头信息时，gRPC 客户端会生成无效的 protobuf。
@@ -66,8 +66,10 @@ release: 1.17.2
 - **修复** 当 istiod 升级到 1.17 后，RBAC 更新未发送到旧代理的问题。
   ([Issue #43785](https://github.com/istio/istio/issues/43785))
 
-- **修复** 导致当 VM 使用自动注册时忽略掉在 `WorkloadGroup` 中定义的标签的问题。
+- **修复** 在验证 webhook 控制器中达到限流的循环重试中的调谐逻辑。当配置错误的情况下，该操作会大大减少抖动（以及生成的日志）。
   ([Issue #32210](https://github.com/istio/istio/issues/32210))
+
+- **修复** 导致当 VM 使用自动注册时忽略掉在 `WorkloadGroup` 中定义的标签的问题。
   ([PR #44021](https://github.com/istio/istio/pull/44021))
 
 - **修复** 当未启用 `PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING` 时 `istioctl experimental wait` 中存在无法辨认的消息。
