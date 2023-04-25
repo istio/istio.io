@@ -66,7 +66,7 @@ Crash when a redirect url without a state parameter is received in the OAuth fil
 
 - **Fixed** an issue causing VMs using auto-registration to ignore labels other than those defined in a `WorkloadGroup`.
   ([Issue #32210](https://github.com/istio/istio/issues/32210))
-  ([PR #44021](https://github.com/istio/istio/pull/44021))
+  ([PR #44012](https://github.com/istio/istio/pull/44012))
 
 - **Fixed** `istioctl experimental wait` has undecipherable message when `PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING` is not enabled.
   ([Issue #42967](https://github.com/istio/istio/issues/42967))
