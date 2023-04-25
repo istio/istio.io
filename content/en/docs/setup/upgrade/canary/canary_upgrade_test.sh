@@ -15,14 +15,18 @@
 # limitations under the License.
 source "content/en/docs/setup/upgrade/canary/snips.sh"
 source "tests/util/samples.sh"
+source "content/en/boilerplates/snips/args.sh"
 
 set -e
 set -u
 set -o pipefail
 
 # @setup profile=none
+
+previousVersionRevision1="${bpsnip_args_istio_previous_version//./-}-1"
+
 # setup initial control plane
-istioctl install --set profile=default --revision=1-9-5 -y
+istioctl install --set profile=default --revision="$previousVersionRevision1" -y
 
 # Deploy a test namespace with an application pod
 kubectl create ns test-ns

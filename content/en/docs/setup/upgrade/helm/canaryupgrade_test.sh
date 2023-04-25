@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2154
 # Copyright Istio Authors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,6 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 source "content/en/docs/setup/upgrade/helm/common.sh"
+source "content/en/boilerplates/snips/args.sh"
 
 set -e
 set -u
@@ -20,6 +22,9 @@ set -u
 set -o pipefail
 
 # @setup profile=none
+
+fullVersionRevision="${bpsnip_args_istio_full_version//./-}"
+previousVersionRevision1="${bpsnip_args_istio_previous_version//./-}-1"
 
 _install_istio_helm
 
@@ -36,8 +41,8 @@ _verify_lines snip_canary_upgrade_recommended_3 "
 snip_canary_upgrade_recommended_6
 _rewrite_helm_repo snip_canary_upgrade_recommended_7
 
-_rewrite_helm_repo helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{prod-stable}" --set revision=1-9-5 -n istio-system | kubectl delete -f -
-_rewrite_helm_repo helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{prod-canary}" --set revision=1-10-0 -n istio-system | kubectl delete -f -
+_rewrite_helm_repo helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{prod-stable}" --set revision="$previousVersionRevision1" -n istio-system | kubectl delete -f -
+_rewrite_helm_repo helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{prod-canary}" --set revision="$fullVersionRevision" -n istio-system | kubectl delete -f -
 helm uninstall istiod-canary -n istio-system
 _remove_istio_helm
 
