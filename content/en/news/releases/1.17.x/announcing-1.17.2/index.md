@@ -63,9 +63,11 @@ Crash when a redirect url without a state parameter is received in the OAuth fil
 
 - **Fixed** an issue where RBAC updates were not sent to older proxies after upgrading istiod to 1.17.
   ([Issue #43785](https://github.com/istio/istio/issues/43785))
+  
+- **Fixed** reconciliation logic in the validation webhook controller to rate-limit the retries in the loop. This should drastically reduce churn (and generated logs) in cases of misconfiguration.
+  ([Issue #32210](https://github.com/istio/istio/issues/32210))
 
 - **Fixed** an issue causing VMs using auto-registration to ignore labels other than those defined in a `WorkloadGroup`.
-  ([Issue #32210](https://github.com/istio/istio/issues/32210))
   ([PR #44012](https://github.com/istio/istio/pull/44012))
 
 - **Fixed** `istioctl experimental wait` has undecipherable message when `PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING` is not enabled.
