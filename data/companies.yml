@@ -565,3 +565,6 @@ users:
   - name: "Zendesk"
     logo: "/logos/zendesk.svg"
     url: "https://www.zendesk.com/"
+  - name: "GoTo Financial"
+    logo: "/logos/gotofinancial.svg"
+    url: "https://gotofinancial.com/"
