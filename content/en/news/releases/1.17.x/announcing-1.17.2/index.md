@@ -47,7 +47,7 @@ Crash when a redirect url without a state parameter is received in the OAuth fil
   ([Issue #42749](https://github.com/istio/istio/issues/42749))
 
 - **Fixed** a bug that would cause unexpected behavior when applying access logging configuration based on the direction of traffic. With this fix, access logging configuration for `CLIENT` or `SERVER` will not affect each other.
-  ([Issue # 43371](https://github.com/istio/istio/issues/43371))
+  ([Issue #43371](https://github.com/istio/istio/issues/43371))
 
 - **Fixed** an issue where `EnvoyFilter` for `Cluster.ConnectTimeout` was affecting unrelated `Clusters`.
   ([Issue #43435](https://github.com/istio/istio/issues/43435))
