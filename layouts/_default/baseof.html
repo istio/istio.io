@@ -145,6 +145,19 @@
 
         <!-- our own stuff -->
         <script src="/js/all.min.js" data-manual defer></script>
+        {{ if .Page.Store.Get "needMermaid" -}}
+        <script type="module">
+          import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+          mermaid.initialize({
+            startOnLoad: true,
+            'theme': 'base',
+            'themeVariables': {
+              'primaryColor': '#B7D4FF',
+              'primaryBorderColor': '#9BB9FF',
+            }
+          });
+        </script>
+        {{ end -}}
 
         {{ partial "events.html" (dict "page" . "kind" "sticker") }}
         {{ partial "header.html" . }}
