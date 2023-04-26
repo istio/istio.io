@@ -104,6 +104,7 @@ Airbnb
 Aizhamal
 AKS
 AKS-Engine
+Alexa
 Alibaba
 allow_missing
 allowlist
@@ -129,6 +130,7 @@ appswitch
 AppSwitch
 architected
 args.yaml
+ArgoCD
 Arielli
 arm64
 ArtifactHub
@@ -169,6 +171,7 @@ bitpipe
 BlackHole
 BlackHoleCluster
 Blatt
+Bloomberg
 Bluecore
 BluePerf
 boilerplates
@@ -334,6 +337,7 @@ cves
 CVEs
 cvss
 cyber
+D2iQ
 DaemonSet
 DaoCloud
 Datadog
@@ -436,6 +440,7 @@ FQDNs
 frontend
 frontends
 fuzzers
+Fu
 gamified
 gapped
 GatewayClass
@@ -590,6 +595,7 @@ k8s
 Kafka
 katacoda
 Kaul
+Keates
 Kebe
 keepalive
 Keepalived
@@ -905,6 +911,7 @@ ServiceEntry
 ServiceEntries
 ServiceGraph
 servicegraph-example
+ServiceMesh
 ServiceMeshCon
 ServiceMesher
 sha256
@@ -921,6 +928,7 @@ sidebar_multicard
 sidebar_none
 sidecar
 sidecar.env
+Sidecarless
 SignalFX
 sigstore
 sinkInfo
@@ -1091,6 +1099,7 @@ WebSocket
 Websockets
 WebSphere
 Weems
+Wehkamp
 Weibo
 whitelist
 whitelists
@@ -1132,6 +1141,7 @@ Zehuan
 Zhang
 Zhao
 zhaohuabing
+Zhenni
 Zhihan
 Zhong
 Zhonghu
