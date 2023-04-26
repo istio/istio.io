@@ -185,34 +185,6 @@ Apply the configuration to `cluster2`:
 $ istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
 {{< /text >}}
 
-## Install the east-west gateway in `cluster2`
-
-As we did with `cluster1` above, install a gateway in `cluster2` that is dedicated
-to east-west traffic and expose user services.
-
-{{< text bash >}}
-$ @samples/multicluster/gen-eastwest-gateway.sh@ \
-    --mesh mesh1 --cluster cluster2 --network network2 | \
-    istioctl --context="${CTX_CLUSTER2}" install -y -f -
-{{< /text >}}
-
-Wait for the east-west gateway to be assigned an external IP address:
-
-{{< text bash >}}
-$ kubectl --context="${CTX_CLUSTER2}" get svc istio-eastwestgateway -n istio-system
-NAME                    TYPE           CLUSTER-IP    EXTERNAL-IP    PORT(S)   AGE
-istio-eastwestgateway   LoadBalancer   10.0.12.121   34.122.91.98   ...       51s
-{{< /text >}}
-
-## Expose services in `cluster2`
-
-As we did with `cluster1` above, expose services via the east-west gateway.
-
-{{< text bash >}}
-$ kubectl --context="${CTX_CLUSTER2}" apply -n istio-system -f \
-    @samples/multicluster/expose-services.yaml@
-{{< /text >}}
-
 ## Attach `cluster2` as a remote cluster of `cluster1`
 
 To attach the remote cluster to its control plane, we give the control
@@ -240,6 +212,34 @@ $ istioctl x create-remote-secret \
     --context="${CTX_CLUSTER2}" \
     --name=cluster2 | \
     kubectl apply -f - --context="${CTX_CLUSTER1}"
+{{< /text >}}
+
+## Install the east-west gateway in `cluster2`
+
+As we did with `cluster1` above, install a gateway in `cluster2` that is dedicated
+to east-west traffic and expose user services.
+
+{{< text bash >}}
+$ @samples/multicluster/gen-eastwest-gateway.sh@ \
+    --mesh mesh1 --cluster cluster2 --network network2 | \
+    istioctl --context="${CTX_CLUSTER2}" install -y -f -
+{{< /text >}}
+
+Wait for the east-west gateway to be assigned an external IP address:
+
+{{< text bash >}}
+$ kubectl --context="${CTX_CLUSTER2}" get svc istio-eastwestgateway -n istio-system
+NAME                    TYPE           CLUSTER-IP    EXTERNAL-IP    PORT(S)   AGE
+istio-eastwestgateway   LoadBalancer   10.0.12.121   34.122.91.98   ...       51s
+{{< /text >}}
+
+## Expose services in `cluster2`
+
+As we did with `cluster1` above, expose services via the east-west gateway.
+
+{{< text bash >}}
+$ kubectl --context="${CTX_CLUSTER2}" apply -n istio-system -f \
+    @samples/multicluster/expose-services.yaml@
 {{< /text >}}
 
 **Congratulations!** You successfully installed an Istio mesh across primary
