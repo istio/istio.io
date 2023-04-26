@@ -4,7 +4,7 @@ description: How to integrate Istio with third party load balancers.
 weight: 90
 keywords: [traffic-management,ingress]
 owner: istio/wg-networking-maintainers
-test: no
+test: n/a
 ---
 
 Istio provides both an ingress and service mesh implementation, which can be used together or separately. While these are designed to work together seamlessly, there are times when integrating with a third party ingress is required. This could be for migration purposes, feature requirements, or personal preferences.
