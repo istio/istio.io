@@ -4,20 +4,23 @@ description: Instructions to set up an Azure cluster for Istio.
 weight: 10
 skip_seealso: true
 aliases:
-    - /docs/setup/kubernetes/prepare/platform-setup/azure/
-    - /docs/setup/kubernetes/platform-setup/azure/
-keywords: [platform-setup,azure]
+  - /docs/setup/kubernetes/prepare/platform-setup/azure/
+  - /docs/setup/kubernetes/platform-setup/azure/
+keywords: [platform-setup, azure]
 owner: istio/wg-environments-maintainers
 test: no
 ---
 
-This page was last updated September 12, 2019.
-
-{{< boilerplate untested-document >}}
-
 Follow these instructions to prepare an Azure cluster for Istio.
 
-You can deploy a Kubernetes cluster to Azure via [AKS](https://azure.microsoft.com/en-us/services/kubernetes-service/) or [AKS-Engine](https://github.com/azure/aks-engine) which fully supports Istio.
+{{< tip >}}
+Azure offers a {{< gloss >}}managed control plane{{< /gloss >}} add-on for the Azure Kubernetes Service (AKS),
+which you can use instead of installing Istio manually.
+Please refer to [Deploy Istio-based service mesh add-on for Azure Kubernetes Service](https://learn.microsoft.com/azure/aks/istio-deploy-addon)
+for details and instructions.
+{{< /tip >}}
+
+You can deploy a Kubernetes cluster to Azure via [AKS](https://azure.microsoft.com/en-us/services/kubernetes-service/) or [AKS-Engine](https://github.com/azure/aks-engine) (DEPRECATED) which fully supports Istio.
 
 ## AKS
 
@@ -39,7 +42,9 @@ For the `az` cli option, complete `az login` authentication OR use cloud shell, 
     $ az aks get-versions --location "my location" --query "orchestrators[].orchestratorVersion"
     {{< /text >}}
 
-    Ensure a minimum of `1.10.5` is listed.
+    {{< warning >}}
+    At the time of this document update, the minimum supported AKS Kubernetes version is 1.24.9
+    {{< /warning >}}
 
 1. Create the resource group and deploy the AKS cluster
 
@@ -52,13 +57,17 @@ For the `az` cli option, complete `az login` authentication OR use cloud shell, 
 
 1. Get the AKS `kubeconfig` credentials
 
-    Replace `myResourceGroup` and `myAKSCluster` with the names from the previous step and execute:
+   Replace `myResourceGroup` and `myAKSCluster` with the names from the previous step and execute:
 
     {{< text bash >}}
     $ az aks get-credentials --resource-group myResourceGroup --name myAKSCluster
     {{< /text >}}
 
 ## AKS-Engine
+
+   {{< warning >}}
+   The AKS Engine project is deprecated for Azure public cloud customers. Please consider using [Azure Kubernetes Service (AKS) with the Istio add-on](https://learn.microsoft.com/en-us/azure/aks/istio-about) for managed Kubernetes or [Cluster API Provider Azure](https://github.com/kubernetes-sigs/cluster-api-provider-azure) for self-managed Kubernetes.
+   {{< /warning >}}
 
 1. [Follow the instructions](https://github.com/Azure/aks-engine/blob/master/docs/tutorials/quickstart.md#install-aks-engine) to get and install the `aks-engine` binary.
 
@@ -68,43 +77,43 @@ For the `az` cli option, complete `az login` authentication OR use cloud shell, 
     $ wget https://raw.githubusercontent.com/Azure/aks-engine/master/examples/service-mesh/istio.json
     {{< /text >}}
 
-    Note: It is possible to use other api model definitions which will work with Istio. The MutatingAdmissionWebhook and ValidatingAdmissionWebhook admission control flags and RBAC are enabled by default. See [aks-engine api model default values](https://github.com/Azure/aks-engine/blob/master/docs/topics/clusterdefinitions.md) for further information.
+   Note: It is possible to use other api model definitions which will work with Istio. The MutatingAdmissionWebhook and ValidatingAdmissionWebhook admission control flags and RBAC are enabled by default. See [aks-engine api model default values](https://github.com/Azure/aks-engine/blob/master/docs/topics/clusterdefinitions.md) for further information.
 
 1. Deploy your cluster using the `istio.json` template. You can find references
    to the parameters in the
    [official docs](https://github.com/Azure/aks-engine/blob/master/docs/tutorials/deploy.md#step-3-edit-your-cluster-definition).
 
-    | Parameter                             | Expected value             |
-    |---------------------------------------|----------------------------|
-    | `subscription_id`                     | Azure Subscription Id      |
-    | `dns_prefix`                          | Cluster DNS Prefix         |
-    | `location`                            | Cluster Location           |
+   | Parameter         | Expected value        |
+   | ----------------- | --------------------- |
+   | `subscription_id` | Azure Subscription Id |
+   | `dns_prefix`      | Cluster DNS Prefix    |
+   | `location`        | Cluster Location      |
 
     {{< text bash >}}
     $ aks-engine deploy --subscription-id <subscription_id> \
-      --dns-prefix <dns_prefix> --location <location> --auto-suffix \
-      --api-model istio.json
+     --dns-prefix <dns_prefix> --location <location> --auto-suffix \
+     --api-model istio.json
     {{< /text >}}
 
-    {{< tip >}}
-    After a few minutes, you can find your cluster on your Azure subscription
-    in a resource group called `<dns_prefix>-<id>`. Assuming `dns_prefix` has
-    the value `myclustername`, a valid resource group with a unique cluster
-    ID is `mycluster-5adfba82`. The `aks-engine` generates your `kubeconfig`
-    file in the `_output` folder.
-    {{< /tip >}}
+   {{< tip >}}
+   After a few minutes, you can find your cluster on your Azure subscription
+   in a resource group called `<dns_prefix>-<id>`. Assuming `dns_prefix` has
+   the value `myclustername`, a valid resource group with a unique cluster
+   ID is `mycluster-5adfba82`. The `aks-engine` generates your `kubeconfig`
+   file in the `_output` folder.
+   {{< /tip >}}
 
 1. Use the `<dns_prefix>-<id>` cluster ID, to copy your `kubeconfig` to your
    machine from the `_output` folder:
 
     {{< text bash >}}
-    $ cp _output/<dns_prefix>-<id>/kubeconfig/kubeconfig.<location>.json \
-        ~/.kube/config
+    $ cp \_output/<dns_prefix>-<id>/kubeconfig/kubeconfig.<location>.json \
+     ~/.kube/config
     {{< /text >}}
 
-    For example:
+   For example:
 
     {{< text bash >}}
-    $ cp _output/mycluster-5adfba82/kubeconfig/kubeconfig.westus2.json \
-      ~/.kube/config
+    $ cp \_output/mycluster-5adfba82/kubeconfig/kubeconfig.westus2.json \
+     ~/.kube/config
     {{< /text >}}
