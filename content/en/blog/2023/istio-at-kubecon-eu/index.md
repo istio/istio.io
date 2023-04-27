@@ -1,12 +1,12 @@
 ---
-title: "Istio at KubeCon Europe 2023!"
-description: A quick recap of Istio at KubeCon Europe, RAI, Amsterdam, The Netherlands.
+title: "Istio at KubeCon Europe 2023"
+description: A quick recap of Istio at KubeCon Europe, at the RAI in Amsterdam.
 publishdate: 2023-04-27
 attribution: "Faseela K, for the Istio Day Programme Committee"
 keywords: [Istio Day,IstioCon,Istio,conference,KubeCon,CloudNativeCon]
 ---
 
-The open source and cloud native community gathered from 18th to 21st April in Amsterdam for the first KubeCon of 2023. The four-day conference, organized by the Cloud Native Computing Foundation, was special for Istio, as we evolved from a **ServiceMeshCon** to our **first official project co-located event**.
+The open source and cloud native community gathered from 18th to 21st April in Amsterdam for the first KubeCon of 2023. The four-day conference, organized by the Cloud Native Computing Foundation, was special for Istio, as we evolved from a participant at ServiceMeshCon to hosting our first official project co-located event.
 
 {{< image width="40%"
     link="./istio-day-welcome.jpg"
@@ -38,7 +38,7 @@ Istio’s presence at the conference did not end with Istio Day. The second day 
     caption="KubeCon Europe 2023, Question: How many of you use Istio in production?"
     >}}
 
-The following sessions at KubeCon were based on Istio and almost all of them had huge crowd in attendance:
+The following sessions at KubeCon were based on Istio and almost all of them had a huge crowd in attendance:
 * [Future of Istio - Sidecar, Sidecarless or Both?](https://sched.co/1HySB)
 * [Operate Multi Tenancy Istio with ArgoCD in production](https://sched.co/1Hyd1)
 * [Create Istio Filters with Any Programming Language](https://sched.co/1HybK)
@@ -48,14 +48,14 @@ The following sessions at KubeCon were based on Istio and almost all of them had
 * [Future of ServiceMesh - Sidecar, Sidecarless or Proxyless? - Panel Discussion](https://sched.co/1Hydb)
 * [The Top 10 List of Istio Security Risks and Mitigation Strategies](https://sched.co/1HyPQ)
 
-Istio had a full time kiosk in the KubeCon project pavilion, with the majority of questions asked being on the status of our CNCF graduation.
+Istio had a full time kiosk in the KubeCon project pavilion, with the majority of questions asked being on the status of our CNCF graduation. We are so excited to know that our users are eagerly waiting for news of our graduation, and we promise we are actively working towards it!
 
 {{< image width="75%"
     link="./istio-booth.jpg"
     caption="KubeCon Europe 2023, Istio Kiosk"
     >}}
 
-We are so excited to know that our users are eagerly waiting for news of our graduation, and we promise we are actively working towards it! Many of our TOC members and maintainers also offered support at the booth, where a lot of interesting discussions happened around Istio Ambient Mesh as well.
+Many of our TOC members and maintainers also offered support at the booth, where a lot of interesting discussions happened around Istio Ambient Mesh as well.
 
 {{< image width="75%"
     link="./toc-members-at-kiosk.jpg"
@@ -71,4 +71,4 @@ Another highlight was Istio TOC and steering members and authors Lin Sun and Chr
 
 Last, but not least, we would like to express our heartfelt gratitude to our platinum sponsors [Tetrate](http://tetrate.io/), for supporting Istio Day!
 
-2023 is going to be really big for Istio, with more events planned for the coming months! Stay tuned for updates on IstioCon 2023 and Istio Day at KubeCon NA.
+2023 is going to be really big for Istio, with more events planned for the coming months! Stay tuned for updates on IstioCon 2023 and Istio's presence at KubeCon in China and North America.
