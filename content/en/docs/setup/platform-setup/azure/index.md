@@ -77,7 +77,7 @@ For the `az` cli option, complete `az login` authentication OR use cloud shell, 
     $ wget https://raw.githubusercontent.com/Azure/aks-engine/master/examples/service-mesh/istio.json
     {{< /text >}}
 
-   Note: It is possible to use other api model definitions which will work with Istio. The MutatingAdmissionWebhook and ValidatingAdmissionWebhook admission control flags and RBAC are enabled by default. See [aks-engine api model default values](https://github.com/Azure/aks-engine/blob/master/docs/topics/clusterdefinitions.md) for further information.
+   Note: It is possible to use other API model definitions which will work with Istio. The `MutatingAdmissionWebhook` and `ValidatingAdmissionWebhook` admission control flags and RBAC are enabled by default. See [`aks-engine` API model default values](https://github.com/Azure/aks-engine/blob/master/docs/topics/clusterdefinitions.md) for further information.
 
 1. Deploy your cluster using the `istio.json` template. You can find references
    to the parameters in the
