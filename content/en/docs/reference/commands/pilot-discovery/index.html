@@ -437,12 +437,6 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>Expected audience in the tokens. </td>
 </tr>
 <tr>
-<td><code>AUTO_RELOAD_PLUGIN_CERTS</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If enabled, if user introduces new intermediate plug-in CA, user need not to restart istiod to pick up certs.Istiod picks newly added intermediate plug-in CA certs and updates it. Plug-in new Root-CA not supported.</td>
-</tr>
-<tr>
 <td><code>CA_TRUSTED_NODE_ACCOUNTS</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -1121,12 +1115,6 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>The interval for istiod to fetch the jwks_uri for the jwks public key.</td>
 </tr>
 <tr>
-<td><code>PILOT_LEGACY_INGRESS_BEHAVIOR</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If this is set to true, istio ingress will perform the legacy behavior, which does not meet https://kubernetes.io/docs/concepts/services-networking/ingress/#multiple-matches.</td>
-</tr>
-<tr>
 <td><code>PILOT_MAX_REQUESTS_PER_SECOND</code></td>
 <td>Floating-Point</td>
 <td><code>25</code></td>
@@ -1311,12 +1299,6 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>String</td>
 <td><code></code></td>
 <td>Additional config map to load for shared MeshConfig settings. The standard mesh config will take precedence.</td>
-</tr>
-<tr>
-<td><code>SIDECAR_IGNORE_PORT_IN_HOST_MATCH</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If enabled, port will not be used in vhost domain matches.</td>
 </tr>
 <tr>
 <td><code>SPIFFE_BUNDLE_ENDPOINTS</code></td>
