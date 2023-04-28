@@ -13,7 +13,7 @@ aliases:
 
 ## 流量管理 {#traffic-management}
 
-- **改进** 在多集群环境中[基于位置的路由](/zh/docs/ops/configuration/traffic-management/locality-load-balancing/)功能。
+- **改进** 在多集群环境中[基于位置的路由](/zh/docs/tasks/traffic-management/locality-load-balancing/)功能。
 - **改进** [`ALLOW_ANY` 模式](/zh/docs/reference/config/installation-options/#global-options)出站流量策略。在一个已存在端口上的未知 HTTP/HTTPS 主机流量将会被[按原样转发](/zh/docs/tasks/traffic-management/egress/egress-control/#envoy-passthrough-to-external-services)。未知流量会被记录在 Envoy 的访问日志中。
 - **增加** 支持为上游服务设置 HTTP 空闲超时时间。
 - **改进** Sidecar 支持 [NONE 模式](/zh/docs/reference/config/networking/sidecar/#CaptureMode) （不用 iptables）。
