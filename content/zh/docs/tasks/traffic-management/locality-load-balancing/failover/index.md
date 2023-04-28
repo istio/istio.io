@@ -11,14 +11,16 @@ owner: istio/wg-networking-maintainers
 
 在开始之前，一定要完成的步骤 [开始之前](/zh/docs/tasks/traffic-management/locality-load-balancing/before-you-begin)。
 
-在此任务中，您将使用 `sleep` pod 在 `region1.zone1` 作为请求源发送到 `helloWorld` 服务。然后，您将触发故障，这些故障将按照以下顺序导致不同地域之间的故障转移：
+在此任务中，您将使用 `sleep` pod 在 `region1.zone1` 作为请求源发送到 `helloWorld` 服务。
+然后，您将触发故障，这些故障将按照以下顺序导致不同地域之间的故障转移：
 
 {{< image width="75%"
     link="sequence.svg"
     caption="地域故障转移顺序"
     >}}
 
-在内部，[Envoy 优先级](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/priority.html)用于控制故障转移。 这些优先级将按照以下方式分配来自 `sleep` Pod (在 `region1` `zone1`) 的流量：
+在内部，[Envoy 优先级](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/priority.html)
+用于控制故障转移。这些优先级将按照以下方式分配来自 `sleep` Pod （在 `region1` `zone1`） 的流量：
 
 优先级 | 地域 | 细节
 -------- | -------- | -------
@@ -32,10 +34,17 @@ owner: istio/wg-networking-maintainers
 
 应用一个 `DestinationRule` 配置如下：
 
-- [异常检测](/zh/docs/reference/config/networking/destination-rule/#OutlierDetection) 用于 `helloWorld` 服务。这是故障转移正常运行所必须的。特别是，它可以配置 Sidecar 代理以知道服务的 Endpoint 何时不正常，最终触发故障转移到下一个地域。
-- [故障转移](/zh/docs/reference/config/networking/destination-rule/#LocalityLoadBalancerSetting-Failover) 地区之间的策略，这确保了超出地区边界的故障转移将具有可预测的行为。
+- [异常检测](/zh/docs/reference/config/networking/destination-rule/#OutlierDetection)
+用于 `helloWorld` 服务。这是故障转移正常运行所必须的。
+特别是，它可以配置 Sidecar 代理以知道服务的 Endpoint 何时不正常，最终触发故障转移到下一个地域。
+- [故障转移](/zh/docs/reference/config/networking/destination-rule/#LocalityLoadBalancerSetting-Failover)
+地区之间的策略，这确保了超出地区边界的故障转移将具有可预测的行为。
 
-- [连接池](/zh/docs/reference/config/networking/destination-rule/#ConnectionPoolSettings-http) 强制每个HTTP请求使用一个新连接的策略。该任务利用 Envoy 的 [逐出](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/operations/draining) 功能强制将故障转移到下一个位置。一旦逐出，Envoy 将拒绝所有新的请求。由于每个请求都使用一个新连接，这将导致在耗尽后立即进行故障转移。**此配置仅用于演示目的。**
+- [连接池](/zh/docs/reference/config/networking/destination-rule/#ConnectionPoolSettings-http)
+强制每个HTTP请求使用一个新连接的策略。该任务利用 Envoy 的
+[逐出](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/operations/draining)
+功能强制将故障转移到下一个位置。一旦逐出，Envoy 将拒绝所有新的请求。
+由于每个请求都使用一个新连接，这将导致在耗尽后立即进行故障转移。**此配置仅用于演示目的。**
 
 {{< text bash >}}
 $ kubectl --context="${CTX_PRIMARY}" apply -n sample -f - <<EOF
@@ -81,7 +90,8 @@ Hello version: region1.zone1, instance: helloworld-region1.zone1-86f77cd7b-cpxhv
 
 ## 故障转移到 `region1.zone2` {#failover-to-region1zone2}
 
-接下来， 触发故障转移到 `region1.zone2`。为此，您在 `region1.zone1` 中 `helloWorld` [逐出 Envoy Sidecar 代理](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/operations/draining#draining) ：
+接下来， 触发故障转移到 `region1.zone2`。为此，您在 `region1.zone1` 中 `helloWorld`
+[逐出 Envoy Sidecar 代理](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/operations/draining#draining)：
 
 {{< text bash >}}
 $ kubectl --context="${CTX_R1_Z1}" exec \

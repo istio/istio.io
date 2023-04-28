@@ -8,10 +8,13 @@ test: yes
 owner: istio/wg-networking-maintainers
 ---
 在开始区域负载均衡任务之前，必须首先
-[在多个集群上安装 Istio](/zh/docs/setup/install/multicluster)。群集必须跨越三个地区，其中包含四个可用区域。所需集群的数量可能会因您的云提供商所提供的功能而异。
+[在多个集群上安装 Istio](/zh/docs/setup/install/multicluster)。
+群集必须跨越三个地区，其中包含四个可用区域。
+所需集群的数量可能会因您的云提供商所提供的功能而异。
 
 {{< tip >}}
-为简单起见，我们假设只有一个 {{< gloss >}}primary cluster{{< /gloss >}} 在网格中。由于更改仅需要应用于一个集群，因此这简化了配置控制平面的过程。
+为简单起见，我们假设只有一个 {{< gloss >}}primary cluster{{< /gloss >}} 在网格中。
+由于更改仅需要应用于一个集群，因此这简化了配置控制平面的过程。
 {{< /tip >}}
 
 我们将部署 `helloWorld` 应用程序的多个实例，如下所示：
@@ -23,7 +26,8 @@ owner: istio/wg-networking-maintainers
 
 ## 环境变量 {#environment-variables}
 
-本指南假定将通过 [Kubernetes 配置文件](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/) 中的上下文切换访问集群。以下环境变量将用于各种上下文：
+本指南假定将通过 [Kubernetes 配置文件](https://kubernetes.io/zh-cn/docs/tasks/access-application-cluster/configure-access-multiple-clusters/) 中的上下文切换访问集群。
+以下环境变量将用于各种上下文：
 
 变量 | 描述
 -------- | -----------
