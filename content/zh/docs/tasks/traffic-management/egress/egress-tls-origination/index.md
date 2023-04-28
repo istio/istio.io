@@ -208,7 +208,7 @@ _SNI_ 字段在 TLS 握手过程中以未加密的形式发送。
 
 ### 配置客户端——sleep Pod{#configure-the-client-sleep-pod}
 
-1.  创建 Kubernetes [密钥](https://kubernetes.io/docs/concepts/configuration/secret/)来保存客户端的证书：
+1.  创建 Kubernetes [密钥](https://kubernetes.io/zh-cn/docs/concepts/configuration/secret/)来保存客户端的证书：
 
     {{< text bash >}}
     $ kubectl create secret generic client-credential --from-file=tls.key=client.example.com.key \

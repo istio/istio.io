@@ -34,7 +34,8 @@ $  wasme deploy istio webassemblyhub.io/ceposta/demo-add-header:v0.2 \
 
 ## 声明式方法{#a-declarative-approach}
 
-WebAssembly Hub 工具还包括[用于将 Wasm 扩展部署到 Istio 工作负载的 operator](https://docs.solo.io/web-assembly-hub/latest/tutorial_code/wasme_operator/)。[operator](https://kubernetes.io/zh/docs/concepts/extend-kubernetes/operator/)允许用户使用声明式的格式定义其 WebAssembly 扩展，并将其交给 operator 以修正部署状态。例如，我们使用 `FilterDeployment` 资源来定义需要扩展的镜像和工作负载：
+WebAssembly Hub 工具还包括[用于将 Wasm 扩展部署到 Istio 工作负载的 Operator](https://docs.solo.io/web-assembly-hub/latest/tutorial_code/wasme_operator/)。[Operator](https://kubernetes.io/zh-cn/docs/concepts/extend-kubernetes/operator/) 允许用户使用声明式的格式定义其 WebAssembly 扩展，
+并将其交给 Operator 以修正部署状态。例如，我们使用 `FilterDeployment` 资源来定义需要扩展的镜像和工作负载：
 
 {{< text yaml >}}
 apiVersion: wasme.io/v1

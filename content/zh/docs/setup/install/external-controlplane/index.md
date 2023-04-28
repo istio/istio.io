@@ -48,8 +48,8 @@ Ingress Gateway 也安装在 `istio-system` 命名空间中，以提供对外部
 
 变量名称 | 描述
 -------- | -----------
-`CTX_EXTERNAL_CLUSTER` | 默认 [Kubernetes配置文件](https://kubernetes.io/zh/docs/tasks/access-application-cluster/configure-access-multiple-clusters/)中的上下文名称，用于访问外部控制平面集群。
-`CTX_REMOTE_CLUSTER` | 默认 [Kubernetes配置文件](https://kubernetes.io/zh/docs/tasks/access-application-cluster/configure-access-multiple-clusters/)中的上下文名称，用于访问远程集群。
+`CTX_EXTERNAL_CLUSTER` | 默认 [Kubernetes 配置文件](https://kubernetes.io/zh-cn/docs/tasks/access-application-cluster/configure-access-multiple-clusters/) 中的上下文名称，用于访问外部控制平面集群。
+`CTX_REMOTE_CLUSTER` | 默认 [Kubernetes 配置文件](https://kubernetes.io/zh-cn/docs/tasks/access-application-cluster/configure-access-multiple-clusters/) 中的上下文名称，用于访问远程集群。
 `REMOTE_CLUSTER_NAME` | 远程集群的名称。
 `EXTERNAL_ISTIOD_ADDR` | 外部控制平面集群上的 Ingress Gateway 的主机名。 远程集群使用它来访问外部控制平面。
 `SSL_SECRET_NAME` | 拥有外部控制平面集群上 Ingress Gateway 的 TLS 证书的密钥名称。

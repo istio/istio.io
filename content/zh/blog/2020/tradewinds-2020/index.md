@@ -62,7 +62,7 @@ Istio 的[认证](/zh/docs/concepts/security/#authentication-policies)和[授权
 
 ## 改进生命周期管理{#improved-lifecycle-management}
 
-为了改进 Istio 的生命周期管理，我们使用了基于 [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/) 的安装方式。这里介绍 **[Istio Operator CRD 的两种安装模式](/zh/docs/setup/install/istioctl/)**：
+为了改进 Istio 的生命周期管理，我们使用了基于 [Operator](https://kubernetes.io/zh-cn/docs/concepts/extend-kubernetes/operator/) 的安装方式。这里介绍 **[Istio Operator CRD 的两种安装模式](/zh/docs/setup/install/istioctl/)**：
 
 - 人为触发：使用 istioctl 将设置应用至集群。
 - 机器触发：使用一个控制器，实时观察 CRD 的改动并使其生效。

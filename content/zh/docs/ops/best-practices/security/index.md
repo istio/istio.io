@@ -378,7 +378,7 @@ Istio Sidecar 原理为拦截入站和出站流量并将它们转发到 Sidecar 
 
 ### 基于 `NetworkPolicy` 的纵深防御{#defense-in-depth-with-network-policy}
 
-为了进一步确保流量安全， Istio 策略可以基于 Kubernetes [网络策略](https://kubernetes.io/docs/concepts/services-networking/network-policies/)。这将启动强大的[纵深防御](https://en.wikipedia.org/wiki/Defense_in_depth_(computing))策略来进一步确保您的网格安全性。
+为了进一步确保流量安全， Istio 策略可以基于 Kubernetes [网络策略](https://kubernetes.io/zh-cn/docs/concepts/services-networking/network-policies/)。这将启动强大的[纵深防御](https://en.wikipedia.org/wiki/Defense_in_depth_(computing))策略来进一步确保您的网格安全性。
 
 例如，您可以只允许流量通过端口 `9080` 进入应用 `reviews`。在存在达不到安全标准的
 Pod 或者有安全弱点情况下，这可能限制或者阻止攻击者。
@@ -447,7 +447,7 @@ spec:
 ### 限制 `Gateway` 创建权限{#restrict-gateway-creation-privileges}
 
 Istio 推荐将网关资源创建权限只分配给信任的集群管理员。这可以通过
-[Kubernetes RBAC policies](https://kubernetes.io/docs/reference/access-authn-authz/rbac/)
+[Kubernetes RBAC policies](https://kubernetes.io/zh-cn/docs/reference/access-authn-authz/rbac/)
 或者 类似 [Open Policy Agent](https://www.openpolicyagent.org/) 的工具实现。
 
 ### 避免过于宽泛的 `hosts` 配置{#avoid-overly-broad-hosts-configurations}
@@ -564,7 +564,7 @@ Istio 可以[自动确定流量协议](/zh/docs/ops/configuration/traffic-manage
 
 为了透明地劫持所以流量， Istio 依赖 通过 `istio-init` `initContainer` 配置 `iptables` 规则。
 这增加了一个[要求](/zh/docs/ops/deployment/requirements/)，即需要提供给 Pod `NET_ADMIN`
-和 `NET_RAW` [capabilities](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-capabilities-for-a-container)。
+和 `NET_RAW` [capabilities](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/security-context/#set-capabilities-for-a-container)。
 
 为了减少给予 Pods 的权限， Istio 提供了 [CNI plugin](/zh/docs/setup/additional-setup/cni/) 功能，即不再需要以上权限。
 
@@ -656,7 +656,7 @@ $ kubectl get --raw /api/v1 | jq '.resources[] | select(.name | index("serviceac
 {{< /text >}}
 
 尽管大多数云供应商现已支持该特性，许多的本地开发工具以及自定义安装还在 Kubernetes 1.20 之前的版本。
-因此为了启用该特性，请参考 [Kubernetes 文档](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#service-account-token-volume-projection)。
+因此为了启用该特性，请参考 [Kubernetes 文档](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-service-account/#service-account-token-volume-projection)。
 
 ## 配置下游连接数限制{#configure-a-limit-on-downstream-connections}
 

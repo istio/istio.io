@@ -41,7 +41,7 @@ Istio CNI 插件代替了 `istio-init` 容器所实现的功能。
     [dataplane v2](https://cloud.google.com/kubernetes-engine/docs/concepts/dataplane-v2)。
     * OpenShift 默认启用了 CNI。
 
-1. Kubernetes 需要启用 [ServiceAccount 准入控制器](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#serviceaccount)。
+1. Kubernetes 需要启用 [ServiceAccount 准入控制器](https://kubernetes.io/zh-cn/docs/reference/access-authn-authz/admission-controllers/#serviceaccount)。
     * Kubernetes 文档中强烈建议所有使用 `ServiceAccounts` 的 Kubernetes 安装实例都启用该控制器。
 
 ### 用 CNI 插件安装 Istio {#install-istio-with-cni-plugin}

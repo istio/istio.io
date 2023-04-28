@@ -33,7 +33,7 @@ $ curl example.com -v
 
 一旦 Istio 确定了预期的目的地，它必须选择要发送到的地址。由于 Istio 的高级[负载均衡能力](/zh/docs/concepts/traffic-management/#load-balancing-options)，这往往不是客户端发送的原始 IP 地址。根据服务配置的不同，Istio 有几种不同的方式来实现：
 
-* 使用客户端的原始 IP 地址（上例中为 `192.0.2.0`）。这种情况适用于 `resolution: NONE` 类型的 `ServiceEntry`  和[无头服务](https://kubernetes.io/zh-cn/docs/concepts/services-networking/service/#headless-services)。
+* 使用客户端的原始 IP 地址（上例中为 `192.0.2.0`）。这种情况适用于 `resolution: NONE` 类型的 `ServiceEntry` 和 [无头服务](https://kubernetes.io/zh-cn/docs/concepts/services-networking/service/#headless-services)。
 * 在一组静态 IP 地址上进行负载均衡。这种情况适用于 `resolution: STATIC` 类型的 `ServiceEntry`，将使用其中所有的 `spec.endpoints`，或者对于标准 `Service` 将使用所有 `Endpoint`。
 * 使用 DNS 定期解析地址，并在所有结果中进行负载均衡。这种情况适用于 `resolution: DNS` 类型的 `ServiceEntry`。
 

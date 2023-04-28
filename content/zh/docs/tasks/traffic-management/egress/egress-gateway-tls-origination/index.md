@@ -288,7 +288,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
     $ kubectl create namespace mesh-external
     {{< /text >}}
 
-1. 创建 Kubernetes [Secret](https://kubernetes.io/docs/concepts/configuration/secret/)，
+1. 创建 Kubernetes [Secret](https://kubernetes.io/zh-cn/docs/concepts/configuration/secret/)，
    保存服务器和 CA 的证书。
 
     {{< text bash >}}
@@ -326,7 +326,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
     EOF
     {{< /text >}}
 
-1. 生成 Kubernetes [ConfigMap](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/)
+1. 生成 Kubernetes [ConfigMap](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-pod-configmap/)
    保存 NGINX 服务器的配置文件：
 
     {{< text bash >}}
@@ -442,7 +442,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
 
 ### 使用客户端证书重新部署 egress 网关 {#redeploy-the-egress-gateway-with-the-client-certificates}
 
-1. 生成 Kubernetes [Secret](https://kubernetes.io/docs/concepts/configuration/secret/)
+1. 生成 Kubernetes [Secret](https://kubernetes.io/zh-cn/docs/concepts/configuration/secret/)
    保存客户端和 CA 的证书。
 
     {{< text bash >}}

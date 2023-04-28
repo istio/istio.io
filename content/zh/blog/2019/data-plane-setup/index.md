@@ -33,7 +33,7 @@ Istio 服务网格在逻辑上分为数据平面和控制平面。
 简单来说，Sidecar 注入会将额外容器的配置添加到 Pod 模板中。Istio 服务网格目前所需的容器有：
 
 `istio-init`
-[init 容器](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)用于设置 iptables 规则，以便将入站/出站流量通过 sidecar 代理。初始化容器与应用程序容器在以下方面有所不同：
+[init 容器](https://kubernetes.io/zh-cn/docs/concepts/workloads/pods/init-containers/) 用于设置 iptables 规则，以便将入站/出站流量通过 sidecar 代理。初始化容器与应用程序容器在以下方面有所不同：
 
 - 它在启动应用容器之前运行，并一直运行直至完成。
 - 如果有多个初始化容器，则每个容器都应在启动下一个容器之前成功完成。
@@ -205,7 +205,7 @@ kube-system    Active    40d       <none>
 
 但它是如何工作的呢？要深入了解这一点，我们需要理解 Kubernetes 准入控制器。
 
-[来自 Kubernetes 文档：](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/)
+[来自 Kubernetes 文档：](https://kubernetes.io/zh-cn/docs/reference/access-authn-authz/admission-controllers/)
 
 {{< tip >}}
 准入控制器是一段代码，用于在对象持久化之前但请求已经过身份验证和授权之后，拦截对 Kubernetes API 服务器的请求。您可以定义两种类型的 Admission Webhook：Validating 和 Mutating。Validating 类型的 Webhook 可以根据自定义的准入策略决定是否拒绝请求；Mutating 类型的 Webhook 可以根据自定义配置来对请求进行编辑。

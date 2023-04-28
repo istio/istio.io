@@ -158,7 +158,7 @@ target_release: 1.0
       value: password
     {{< /text >}}
 
-    替换上面代码段中的值，指定数据库主机，端口，用户和密码，请注意，在 Kubernetes 中使用容器环境变量中密码的正确方法是 [使用 secret](https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-environment-variables)，仅对于此示例任务，你可能会在 deployment spec 中直接配置明文的密码，**切记！不要在真实环境中这样做**！我想你们应该也知道，`"password"` 这个值也不应该用作密码。
+    替换上面代码段中的值，指定数据库主机，端口，用户和密码，请注意，在 Kubernetes 中使用容器环境变量中密码的正确方法是 [使用 secret](https://kubernetes.io/zh-cn/docs/concepts/configuration/secret/#using-secrets-as-environment-variables)，仅对于此示例任务，你可能会在 deployment spec 中直接配置明文的密码，**切记！不要在真实环境中这样做**！我想你们应该也知道，`"password"` 这个值也不应该用作密码。
 
 1. 应用修改后的 `spec` 来部署使用外部数据库的 _ratings_ 服务，_v2-mysql_ 的版本。
 

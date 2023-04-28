@@ -44,7 +44,7 @@ test: yes
     EOF
     {{< /text >}}
 
-1. 创建 Kubernetes [ConfigMap](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/) 以保存代理的配置：
+1. 创建 Kubernetes [ConfigMap](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-pod-configmap/) 以保存代理的配置：
 
     {{< text bash >}}
     $ kubectl create configmap proxy-configmap -n external --from-file=squid.conf=./proxy.conf

@@ -83,7 +83,7 @@ TLS 所需的私钥、服务器证书和 root 证书是通过以下方式配置�
     $ kubectl create namespace mesh-external
     {{< /text >}}
 
-1. 创建 Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/)来保存服务器的和 CA 的证书。
+1. 创建 Kubernetes [Secrets](https://kubernetes.io/zh-cn/docs/concepts/configuration/secret/) 来保存服务器的和 CA 的证书。
 
     {{< text bash >}}
     $ kubectl create -n mesh-external secret tls nginx-server-certs --key my-nginx.mesh-external.svc.cluster.local.key --cert my-nginx.mesh-external.svc.cluster.local.crt
@@ -120,7 +120,7 @@ TLS 所需的私钥、服务器证书和 root 证书是通过以下方式配置�
     EOF
     {{< /text >}}
 
-1.  创建一个 Kubernetes [ConfigMap](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/)
+1.  创建一个 Kubernetes [ConfigMap](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-pod-configmap/)
 来保存 NGINX 服务器的配置。
 
     {{< text bash >}}
@@ -393,7 +393,7 @@ Egress 网关将使用 SDS 而不是文件挂载来提供客户端证书。
     $ kubectl create namespace mesh-external
     {{< /text >}}
 
-1. 创建 Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/)来保存服务器的证书。
+1. 创建 Kubernetes [Secrets](https://kubernetes.io/zh-cn/docs/concepts/configuration/secret/) 来保存服务器的证书。
 
     {{< text bash >}}
     $ kubectl create -n mesh-external secret tls nginx-server-certs --key my-nginx.mesh-external.svc.cluster.local.key --cert my-nginx.mesh-external.svc.cluster.local.crt
@@ -430,7 +430,7 @@ Egress 网关将使用 SDS 而不是文件挂载来提供客户端证书。
     EOF
     {{< /text >}}
 
-1.  创建一个 Kubernetes [ConfigMap](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/)
+1.  创建一个 Kubernetes [ConfigMap](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-pod-configmap/)
 来保存 NGINX 服务器的配置。
 
     {{< text bash >}}
@@ -500,7 +500,7 @@ Egress 网关将使用 SDS 而不是文件挂载来提供客户端证书。
 
 ### 使用 SDS 给 Egress 流量配置双向 TSL 连接{#configure-mutual-TLS-origination-for-egress-traffic-using- SDS}
 
-1.  创建 Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/)来保存客户的证书。
+1.  创建 Kubernetes [Secrets](https://kubernetes.io/zh-cn/docs/concepts/configuration/secret/)来保存客户的证书。
 
     {{< text bash >}}
     $ kubectl create secret -n istio-system generic client-credential --from-file=tls.key=client.example.com.key \

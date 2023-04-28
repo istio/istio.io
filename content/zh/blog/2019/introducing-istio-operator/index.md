@@ -8,22 +8,24 @@ keywords: [install,configuration,istioctl,operator]
 target_release: 1.4
 ---
 
-Kubernetes [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/) 提供了一种将人类运维知识编码到软件中的模式，是一种简化软件基础结构组件管理的流行方法。Istio 是自动 operator 的理想选择，因为它的管理具有挑战性。
+Kubernetes [Operator](https://kubernetes.io/zh-cn/docs/concepts/extend-kubernetes/operator/) 提供了一种将人类运维知识编码到软件中的模式，是一种简化软件基础结构组件管理的流行方法。Istio 是自动 Operator 的理想选择，因为它的管理具有挑战性。
 
-到目前为止，[Helm](https://github.com/helm/helm) 一直是安装和升级 Istio 的主要工具。Istio 1.4 引入了一种新的[使用{{< istioctl >}}安装](/zh/docs/setup/install/istioctl/)方法。这种新的安装方法建立在 Helm 的优势之上，并添加了以下内容:
+到目前为止，[Helm](https://github.com/helm/helm) 一直是安装和升级 Istio 的主要工具。Istio 1.4 引入了一种新的[使用{{< istioctl >}}安装](/zh/docs/setup/install/istioctl/) 方法。这种新的安装方法建立在 Helm 的优势之上，并添加了以下内容:
 
 - 用户只需要安装一个工具：`istioctl`
 - 验证所有 API 字段
 - 不在 API 中的小型定制不需要更改 chart 或 API
 - 版本特定的升级 hook 可以很容易和稳健地实现
 
-[Helm 安装](/zh/docs/setup/install/helm/)方法正在弃用中。从 Istio 1.4 升级到一个默认没有安装 Helm 的版本也会被一个新的 [{{< istioctl >}} 升级特性](/zh/docs/setup/upgrade/istioctl-upgrade/)所取代。
+[Helm 安装](/zh/docs/setup/install/helm/) 方法正在弃用中。从 Istio 1.4 升级到一个默认没有安装 Helm 的版本也会被一个新的 [{{< istioctl >}} 升级特性](/zh/docs/setup/upgrade/istioctl-upgrade/)所取代。
 
-新的 `istioctl` 安装命令使用一个[自定义资源](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)来配置安装。自定义资源是新的 Istio operator 实现的一部分，该实现旨在简化安装、升级和复杂的 Istio 配置更改等常见管理任务。安装和升级的验证和检查与工具紧密集成，以防止常见错误并简化故障排除。
+新的 `istioctl` 安装命令使用一个 [自定义资源](https://kubernetes.io/zh-cn/docs/concepts/extend-kubernetes/api-extension/custom-resources/) 来配置安装。
+自定义资源是新的 Istio Operator 实现的一部分，该实现旨在简化安装、升级和复杂的 Istio 配置更改等常见管理任务。
+安装和升级的验证和检查与工具紧密集成，以防止常见错误并简化故障排除。
 
 ## Operator API{#the-Operator-API}
 
-每个 operator 实现都需要一个[自定义资源定义（CRD）](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) 来定义它的自定义资源，即它的 API。Istio 的 operator API 由 [`IstioControlPlane` CRD](/zh/docs/reference/config/istio.operator.v1alpha12.pb/) 定义，它是由一个 [`IstioControlPlane` 原型](https://github.com/istio/operator/blob/release-1.4/pkg/apis/istio/v1alpha2/istiocontrolplane_types.proto)生成的。API 支持所有 Istio 当前的[配置文件](/zh/docs/setup/additional-setup/config-profiles/) ，通过使用一个字段来选择 profile。例如，下面的 `IstioControlPlane` 资源使用 `demo` profile 配置 Istio：
+每个 Operator 实现都需要一个[自定义资源定义（CRD）](https://kubernetes.io/zh-cn/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) 来定义它的自定义资源，即它的 API。Istio 的 Operator API 由 [`IstioControlPlane` CRD](/zh/docs/reference/config/istio.operator.v1alpha12.pb/) 定义，它是由一个 [`IstioControlPlane` 原型](https://github.com/istio/operator/blob/release-1.4/pkg/apis/istio/v1alpha2/istiocontrolplane_types.proto)生成的。API 支持所有 Istio 当前的[配置文件](/zh/docs/setup/additional-setup/config-profiles/) ，通过使用一个字段来选择 profile。例如，下面的 `IstioControlPlane` 资源使用 `demo` profile 配置 Istio：
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha2
@@ -112,21 +114,23 @@ $ helm template ... --set global.mtls.enabled=true
 $ istioctl manifest generate ... --set values.global.mtls.enabled=true
 {{< /text >}}
 
-你也可以在一个 `IstioControlPlane` 自定义资源中设置 Helm 配置值。参见[使用 Helm 自定义 Istio 设置](/zh/docs/setup/install/istioctl/#customize-Istio-settings-using-the-helm-API)。
+你也可以在一个 `IstioControlPlane` 自定义资源中设置 Helm 配置值。
+参见 [使用 Helm 自定义 Istio 设置](/zh/docs/setup/install/istioctl/#customize-Istio-settings-using-the-helm-API)。
 
-另一个可以帮助从 Helm 迁移的特性是这个 alpha 命令：[{{< istioctl >}} manifest migrate](/zh/docs/reference/commands/istioctl/#istioctl-manifest-migrate)。此命令可用于将 Helm `values.yaml` 文件自动转换为相应的 `IstioControlPlane` 配置。
+另一个可以帮助从 Helm 迁移的特性是这个 alpha 命令：[{{< istioctl >}} manifest migrate](/zh/docs/reference/commands/istioctl/#istioctl-manifest-migrate)。
+此命令可用于将 Helm `values.yaml` 文件自动转换为相应的 `IstioControlPlane` 配置。
 
 ## 实现{#implementation}
 
-已经创建了几个框架，通过为部分或所有组件生成存根来帮助实现 operator。Istio operator 是在 [kubebuilder](https://github.com/kubernetes-sigs/kubebuilder) 和 [operator framework](https://github.com/operator-framework) 的帮助下创建的。Istio 的安装现在使用 proto 来描述 API，这样就可以通过 schema 对执行运行时进行验证。
+已经创建了几个框架，通过为部分或所有组件生成存根来帮助实现 Operator。Istio Operator 是在 [kubebuilder](https://github.com/kubernetes-sigs/kubebuilder) 和 [Operator Framework](https://github.com/operator-framework) 的帮助下创建的。Istio 的安装现在使用 proto 来描述 API，这样就可以通过 schema 对执行运行时进行验证。
 
-有关实现的更多信息可以在 [Istio operator 仓库](https://github.com/istio/operator)中的 README 和 ARCHITECTURE 文档中找到。
+有关实现的更多信息可以在 [Istio Operator 仓库](https://github.com/istio/operator) 中的 README 和 ARCHITECTURE 文档中找到。
 
 ## 总结{#summary}
 
-从 Istio 1.4 开始，Helm 安装将被新的 `istioctl` 命令所取代，该命令使用新的 operator 自定义资源定义，`IstioControlPlane`，作为配置 API。一个 alpha controller 也被提供用于 operator 的早期实验。
+从 Istio 1.4 开始，Helm 安装将被新的 `istioctl` 命令所取代，该命令使用新的 Operator 自定义资源定义，`IstioControlPlane`，作为配置 API。一个 alpha controller 也被提供用于 Operator 的早期实验。
 
-新的 `istioctl` 命令和 operator controller 都会验证配置 schema，并执行安装更改或升级的一系列检查。这些检查与工具紧密集成，以防止常见错误并简化故障排除。
+新的 `istioctl` 命令和 Operator controller 都会验证配置 schema，并执行安装更改或升级的一系列检查。这些检查与工具紧密集成，以防止常见错误并简化故障排除。
 
 Istio 维护者们期望这种新方法能够改善安装和升级期间的用户体验，更好地稳定安装 API，帮助用户更好地管理和监控他们的 Istio 安装。
 

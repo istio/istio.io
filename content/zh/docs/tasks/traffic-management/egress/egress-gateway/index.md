@@ -401,7 +401,7 @@ Istio 只是通过 sidecar 代理实现了这种流向。攻击者只要绕过 s
 出于安全考虑，集群管理员和云供应商必须确保网格所有的出站流量都要经过 egress gateway。
 这需要通过 Istio 之外的机制来满足这一要求。例如，集群管理员可以配置防火墙，
 拒绝 egress gateway 以外的所有流量。
-[Kubernetes 网络策略](https://kubernetes.io/docs/concepts/services-networking/network-policies/)也能禁止所有不是从
+[Kubernetes 网络策略](https://kubernetes.io/zh-cn/docs/concepts/services-networking/network-policies/) 也能禁止所有不是从
 egress gateway 发起的出站流量（[下一节](#apply-Kubernetes-network-policies)有一个这样的例子）。
 此外，集群管理员和云供应商还可以对网络进行限制，让运行应用的节点只能通过 gateway 来访问外部网络。
 要实现这一限制，可以只给 gateway Pod 分配公网 IP，并且可以配置 NAT 设备，
@@ -409,7 +409,7 @@ egress gateway 发起的出站流量（[下一节](#apply-Kubernetes-network-pol
 
 ## 应用 Kubernetes 网络策略{#apply-Kubernetes-network-policies}
 
-本节中展示了如何创建 [Kubernetes 网络策略](https://kubernetes.io/docs/concepts/services-networking/network-policies/)来阻止绕过
+本节中展示了如何创建 [Kubernetes 网络策略](https://kubernetes.io/zh-cn/docs/concepts/services-networking/network-policies/) 来阻止绕过
 egress gateway 的出站流量。为了测试网络策略，首先创建一个 `test-egress` 命名空间，
 并在其中部署 [sleep]({{< github_tree >}}/samples/sleep) 示例应用，
 然后尝试发送一个会通过安全网关的外部服务请求。
@@ -487,7 +487,7 @@ egress gateway 的出站流量。为了测试网络策略，首先创建一个 `
     {{< /text >}}
 
     {{< warning >}}
-    [网络政策](https://kubernetes.io/docs/concepts/services-networking/network-policies/)由您的
+    [网络政策](https://kubernetes.io/zh-cn/docs/concepts/services-networking/network-policies/) 由您的
     Kubernetes 集群中的网络插件实现。根据您的测试群集，以下情况可能不会阻止下面的步骤。
     {{< /warning >}}
 

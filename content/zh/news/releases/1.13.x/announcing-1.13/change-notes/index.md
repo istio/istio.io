@@ -14,12 +14,12 @@ aliases:
 
 - **新增** 新增了包含 `MeshConfig.DefaultConfig` 配置的稳定子集，用于配置 `ProxyConfig` 值的一个 ​​API (CRD)。
 
-- **新增** 新增了基于主机名的支持东西向流量的多网络网关。主机名将在控制平面和每个 IP 将用作端点。可以通过设置禁用此行为 istiod 的     `RESOLVE_HOSTNAME_GATEWAYS= false`。
+- **新增** 新增了基于主机名的支持东西向流量的多网络网关。主机名将在控制平面和每个 IP 将用作端点。可以通过设置禁用此行为 istiod 的 `RESOLVE_HOSTNAME_GATEWAYS= false`。
   ([Issue #29359](https://github.com/istio/istio/issues/29359))
 
 - **新增** 新增了对 gRPC 探针重写的支持。
 
-- **新增** 新增了一个功能标志 `PILOT_LEGACY_INGRESS_BEHAVIOR`，默认为 false。如果设置为 true，Istio ingress 将执行不符合[Kubernetes 规范](https://kubernetes.io/docs/concepts/services-networking/ingress/#multiple-matches)。
+- **新增** 新增了一个功能标志 `PILOT_LEGACY_INGRESS_BEHAVIOR`，默认为 false。如果设置为 true，Istio ingress 将执行不符合 [Kubernetes 规范](https://kubernetes.io/zh-cn/docs/concepts/services-networking/ingress/#multiple-matches)。
   ([Issue #35033](https://github.com/istio/istio/issues/35033))
 
 - **新增** 新增了通过 `proxyMetadata` 在 Envoy 工作线程之间取得平衡监听器的支持。
