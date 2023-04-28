@@ -147,7 +147,7 @@ Istio 代理允许调用未知的服务。如果这个选项设置为 `REGISTRY_
 1. 创建一个 `ServiceEntry`，以允许访问一个外部的 HTTP 服务：
 
     {{< warning >}}
-    `DNS` 解析在下面的服务条目中用作安全措。将解析设置为 `NONE` 会开启了攻击的可能。
+    `DNS` 解析在下面的服务条目中用作安全措施。将解析设置为 `NONE` 会开启了攻击的可能。
     恶意客户端在真正连接到其他IP时，可能会伪装设置 `HOST` 头信息为 `httpbin.org`
    （与 `httpbin.org` 不相关）。Istio Sidecar 代理将信任 HOST 头信息，并错误地允许通信，
     甚至将其传递到其他主机的 IP 地址。
