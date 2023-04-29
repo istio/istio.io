@@ -4776,6 +4776,12 @@ istioctl x version --xds-label istio.io/rev=default
 
   # Generate a waypoint as yaml
   istioctl x waypoint generate --service-account something --namespace default
+
+  # Delete a waypoint from a specific namespace for a specific service account
+  istioctl x waypoint delete --service-account something --namespace default
+
+  # List all waypoints in a specific namespace
+  istioctl x waypoint list --namespace default
 </code></pre>
 <h2 id="istioctl-experimental-waypoint-apply">istioctl experimental waypoint apply</h2>
 <p>Apply a waypoint configuration to the cluster</p>
@@ -4970,7 +4976,7 @@ istioctl x version --xds-label istio.io/rev=default
 </tbody>
 </table>
 <h3 id="istioctl-experimental-waypoint-generate Examples">Examples</h3>
-<pre class="language-bash"><code> # Generate a waypoint as yaml
+<pre class="language-bash"><code>  # Generate a waypoint as yaml
   istioctl x waypoint generate --service-account something --namespace default
 </code></pre>
 <h2 id="istioctl-experimental-waypoint-list">istioctl experimental waypoint list</h2>
@@ -5034,8 +5040,7 @@ istioctl x version --xds-label istio.io/rev=default
 </tbody>
 </table>
 <h3 id="istioctl-experimental-waypoint-list Examples">Examples</h3>
-<pre class="language-bash"><code>  # List all waypoints in the cluster
-  # List all waypoints in a specific namespace
+<pre class="language-bash"><code>  # List all waypoints in a specific namespace
   istioctl x waypoint list --namespace default
 
   # List all waypoints in the cluster
