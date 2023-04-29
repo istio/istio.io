@@ -350,7 +350,9 @@ target_release: 1.1
 
 ### Mixer 策略检查访问控制，第二部分{#access-control-by-Mixer-policy-checks-part-2}
 
-在我们用例中的组织设法配置日志和访问控制之后，它决定扩展它的访问策略，允许具有特殊 [服务帐户](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-service-account/) 的应用程序访问 _cnn.com_ 的任何主题，而不受监控。您将看到如何在 Istio 中配置此需求。
+在我们用例中的组织设法配置日志和访问控制之后，它决定扩展它的访问策略，
+允许具有特殊[服务帐户](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-service-account/)
+的应用程序访问 _cnn.com_ 的任何主题，而不受监控。您将看到如何在 Istio 中配置此需求。
 
 1. 使用 `politics` 服务账户开启 [sleep]({{< github_tree >}}/samples/sleep) 示例程序。
 
