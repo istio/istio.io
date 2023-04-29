@@ -25,7 +25,7 @@ aliases:
 假设我们有一个已部署的 **helloworld** 服务 **v1** 版本，我们想要测试（或简单上线）新版本 **v2**。
 使用 Kubernetes，您可以通过简单地更新服务的 [Deployment](https://kubernetes.io/zh-cn/docs/concepts/workloads/controllers/deployment/)
 中的镜像并自动进行部署来 [上线](https://kubernetes.io/zh-cn/docs/concepts/workloads/controllers/deployment/#updating-a-deployment) 新版本的 **helloworld** 服务。
-如果我们特能够小心保证在启动并且在仅启动一个或两个 v2 副本 [暂停](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#pausing-and-resuming-a-deployment)
+如果我们特能够小心保证在启动并且在仅启动一个或两个 v2 副本[暂停](https://kubernetes.io/zh-cn/docs/concepts/workloads/controllers/deployment/#pausing-and-resuming-a-deployment)
 上线时有足够的 **v1** 副本运行，则能够保持金丝雀发布对系统的影响非常小。
 后续我们可以观察效果，或在必要时进行 [回滚](https://kubernetes.io/zh-cn/docs/concepts/workloads/controllers/deployment/#rolling-back-a-deployment)。
 最好，我们也能够对 Deployment 设置 [HPA](https://kubernetes.io/zh-cn/docs/concepts/workloads/controllers/deployment/#scaling-a-deployment)，
