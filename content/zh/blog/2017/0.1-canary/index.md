@@ -15,7 +15,9 @@ aliases:
 
 采用 [Istio](/zh/) 项目的一大好处就是为服务金丝雀方式部署提供了控制便利。金丝雀部署（或上线）背后的想法是通过让一小部分用户流量引入的新版本进行测试，如果一切顺利，则可以增加（可能逐渐增加）百分比，逐步替换旧版本。如在过程中出现任何问题，则可以中止并回滚到旧版本。最简单的方式，是随机选择百分比请求到金丝雀版本，但在更复杂的方案下，则可以基于请求的区域，用户或其他属性。
 
-基于领域的专业水平，您可能想知道为什么需要 Istio 来支持金丝雀部署，因为像 Kubernetes 这样的平台已经提供了进行 [版本上线](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#updating-a-deployment) 和 [金丝雀部署](https://kubernetes.io/docs/concepts/cluster-administration/manage-deployment/#canary-deployments) 的方法。
+基于领域的专业水平，您可能想知道为什么需要 Istio 来支持金丝雀部署，因为像 Kubernetes
+这样的平台已经提供了进行 [版本上线](https://kubernetes.io/zh-cn/docs/concepts/workloads/controllers/deployment/#updating-a-deployment)
+和[金丝雀部署](https://kubernetes.io/zh-cn/docs/concepts/cluster-administration/manage-deployment/#canary-deployments) 的方法。
 问题解决了吗 ？不完全是。虽然以这种方式进行部署可以在简单的情况下工作，但功能非常有限，特别是在大规模自动缩放的云环境中大流量的情况下。
 
 ## Kubernetes 中的金丝雀部署{#canary-deployment-in-Kubernetes}
