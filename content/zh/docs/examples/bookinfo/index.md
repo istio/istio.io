@@ -45,6 +45,7 @@ Bookinfo 应用中的几个微服务是由不同的语言编写的。
 如果您还没有开始，请遵循[安装指南](/zh/docs/setup/)完成 Istio 的部署工作。
 
 {{< boilerplate gateway-api-support >}}
+
 ## 部署应用{#deploying-the-application}
 
 要在 Istio 中运行这一应用，无需对应用自身做出任何改变。
