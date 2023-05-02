@@ -23,7 +23,7 @@ target_release: 1.2
 如果应用程序发送 HTTP 请求，并且由出口网关发起执行 TLS，你就可以监控 HTTP 信息，像 HTTP 方法、HTTP 头和 URL 路径。也可以根据上面说的 HTTP 信息来[定义策略](/zh/blog/2018/egress-monitoring-access-control)。如果是由应用程序发起执行 TLS，你就可以对源 pod 的 TLS 流量的 [SNI 和服务账号进行监控](/zh/docs/tasks/traffic-management/egress/egress_sni_monitoring_and_policies/)，并且基于 SNI 和服务账号定义策略。
 
 您必须确保你集群到外部的流量不能绕过出口网关。Istio 不能给您确保这一点，
-所以你必需使用一些 [附加的安全机制](/zh/docs/tasks/traffic-management/egress/egress-gateway/#additional-security-considerations)，
+所以您必须使用一些[附加的安全机制](/zh/docs/tasks/traffic-management/egress/egress-gateway/#additional-security-considerations)，
 比如 [Kubernetes 网络策略](https://kubernetes.io/zh-cn/docs/concepts/services-networking/network-policies/) 或者 L3 防火墙。
 看一个 [Kubernetes 网络策略配置](/zh/docs/tasks/traffic-management/egress/egress-gateway/#apply-Kubernetes-network-policies) 的例子。
 根据 [纵深防御](https://en.wikipedia.org/wiki/Defense_in_depth_(computing)) 的概念，为同一个目标使用的安全机制越多越安全。
