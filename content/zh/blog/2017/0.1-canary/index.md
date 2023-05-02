@@ -94,7 +94,7 @@ spec:
         ...
 {{< /text >}}
 
-需要注意的是，这与使用普通 Kubernetes 进行 [金丝雀部署](https://kubernetes.io/zh-cn/docs/concepts/cluster-administration/manage-deployment/#canary-deployments) 的方式完全相同，但是在 Kubernetes 方式下控制流量分配需要调整每个 Deployment 的副本数目。例如，将 10％ 的流量发送到金丝雀版本（v2），v1 和 v2 的副本可以分别设置为 9 和 1。
+需要注意的是，这与使用普通 Kubernetes 进行[金丝雀部署](https://kubernetes.io/zh-cn/docs/concepts/cluster-administration/manage-deployment/#canary-deployments)的方式完全相同，但是在 Kubernetes 方式下控制流量分配需要调整每个 Deployment 的副本数目。例如，将 10％ 的流量发送到金丝雀版本（v2），v1 和 v2 的副本可以分别设置为 9 和 1。
 
 但是在 [启用 Istio](/zh/docs/setup/) 的集群中，我们可以通过设置路由规则来控制流量分配。如将 10％ 的流量发送到金丝雀版本本，我们可以使用 `kubectl` 来设置以下的路由规则：
 
