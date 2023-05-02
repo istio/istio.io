@@ -101,8 +101,8 @@ test: yes
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: "security.istio.io/v1"
-    kind: "AuthorizationPolicy"
+    apiVersion: security.istio.io/v1
+    kind: AuthorizationPolicy
     metadata:
       name: "details-viewer"
       namespace: default
@@ -127,8 +127,8 @@ test: yes
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: "security.istio.io/v1"
-    kind: "AuthorizationPolicy"
+    apiVersion: security.istio.io/v1
+    kind: AuthorizationPolicy
     metadata:
       name: "reviews-viewer"
       namespace: default
@@ -159,8 +159,8 @@ test: yes
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: "security.istio.io/v1"
-    kind: "AuthorizationPolicy"
+    apiVersion: security.istio.io/v1
+    kind: AuthorizationPolicy
     metadata:
       name: "ratings-viewer"
       namespace: default
