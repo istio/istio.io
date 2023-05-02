@@ -28,8 +28,8 @@ target_release: 1.2
 看一个 [Kubernetes 网络策略配置](/zh/docs/tasks/traffic-management/egress/egress-gateway/#apply-Kubernetes-network-policies) 的例子。
 根据 [纵深防御](https://en.wikipedia.org/wiki/Defense_in_depth_(computing)) 的概念，为同一个目标使用的安全机制越多越安全。
 
-你也必需也要确保 Istio 控制平面和出口网关不能被破坏。你的集群里面可能有成百上千的应用程序 pod，而只有十几个 Istio 控制平面 pod 和网关。
-你可以也应该聚焦在保护控制平面 pod 和网关，因为这比较容易（需要保护的 pod 数量很少），并且这对集群的安全性是最关键的。
+您也必需也要确保 Istio 控制平面和出口网关不能被破坏。您的集群里面可能有成百上千的应用程序 Pod，而只有十几个 Istio 控制平面 Pod 和网关。
+您可以也应该聚焦在保护控制平面 Pod 和网关，因为这比较容易（需要保护的 Pod 数量很少），并且这对集群的安全性是最关键的。
 如果攻击者破坏了控制平面和出口网关，他们可以违反任何策略。
 
 根据环境的不同，你可能有多种工具来保护控制平面 pod。合理的安全策略如下：
