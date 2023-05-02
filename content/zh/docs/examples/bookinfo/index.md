@@ -44,6 +44,8 @@ Bookinfo 应用中的几个微服务是由不同的语言编写的。
 
 如果您还没有开始，请遵循[安装指南](/zh/docs/setup/)完成 Istio 的部署工作。
 
+{{< boilerplate gateway-api-support >}}
+
 ## 部署应用{#deploying-the-application}
 
 要在 Istio 中运行这一应用，无需对应用自身做出任何改变。
@@ -98,12 +100,12 @@ Bookinfo 应用中的几个微服务是由不同的语言编写的。
 
     {{< text bash >}}
     $ kubectl get services
-    NAME                       CLUSTER-IP   EXTERNAL-IP   PORT(S)              AGE
-    details                    10.0.0.31    <none>        9080/TCP             6m
-    kubernetes                 10.0.0.1     <none>        443/TCP              7d
-    productpage                10.0.0.120   <none>        9080/TCP             6m
-    ratings                    10.0.0.15    <none>        9080/TCP             6m
-    reviews                    10.0.0.170   <none>        9080/TCP             6m
+    NAME          TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)    AGE
+    details       ClusterIP   10.0.0.31    <none>        9080/TCP   6m
+    kubernetes    ClusterIP   10.0.0.1     <none>        443/TCP    7d
+    productpage   ClusterIP   10.0.0.120   <none>        9080/TCP   6m
+    ratings       ClusterIP   10.0.0.15    <none>        9080/TCP   6m
+    reviews       ClusterIP   10.0.0.170   <none>        9080/TCP   6m
     {{< /text >}}
 
     还有：
@@ -122,7 +124,7 @@ Bookinfo 应用中的几个微服务是由不同的语言编写的。
 1. 要确认 Bookinfo 应用是否正在运行，请在某个 Pod 中用 `curl` 命令对应用发送请求，例如 `ratings`：
 
     {{< text bash >}}
-    $ kubectl exec -it $(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}') -c ratings -- curl productpage:9080/productpage | grep -o "<title>.*</title>"
+    $ kubectl exec "$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')" -c ratings -- curl -sS productpage:9080/productpage | grep -o "<title>.*</title>"
     <title>Simple Bookstore App</title>
     {{< /text >}}
 
@@ -158,6 +160,7 @@ Bookinfo 应用中的几个微服务是由不同的语言编写的。
 
     {{< tab name="Gateway API" category-value="gateway-api" >}}
 
+    {{< boilerplate external-loadbalancer-support >}}
     使用以下命令创建 [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/api-types/gateway/)：
 
     {{< text bash >}}
