@@ -102,11 +102,11 @@ if [ -n "${PULL_NUMBER:-}" ]; then
 fi
 
 export IP_FAMILY="${IP_FAMILY:-ipv4}"
-export NODE_IMAGE="gcr.io/istio-testing/kind-node:v1.26.1"
+export NODE_IMAGE="gcr.io/istio-testing/kind-node:v1.27.0"
 
 if [[ -z "${SKIP_SETUP:-}" ]]; then
   export ARTIFACTS="${ARTIFACTS:-$(mktemp -d)}"
-  export DEFAULT_CLUSTER_YAML="./prow/config/trustworthy-jwt.yaml"
+  export DEFAULT_CLUSTER_YAML="./prow/config/default.yaml"
   export METRICS_SERVER_CONFIG_DIR=''
 
   if [[ "${TOPOLOGY}" == "SINGLE_CLUSTER" ]]; then
