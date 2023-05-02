@@ -10,6 +10,7 @@ test: yes
 此任务向您展示如何使用授权策略在 Istio 入口网关上实施基于 IP 的访问控制。
 
 {{< boilerplate gateway-api-support >}}
+
 ## 开始之前 {#before-you-begin}
 
 在开始此任务之前，请执行以下操作：
@@ -296,7 +297,6 @@ spec:
 GCP 外部网络负载均衡器、Azure 负载均衡器)，或者您正在使用轮询DNS，则您可以通过绕过
 kube-proxy 并阻止其将流量发送到其他节点，使用 `externalTrafficPolicy: Local`
 设置来同时保留 Kubernetes 内部的客户端 IP。
-
 
 {{< warning >}}
 For production deployments it is strongly recommended to **deploy an ingress gateway pod to multiple nodes** if you enable `externalTrafficPolicy: Local`. Otherwise, this creates a situation where **only** nodes with an active ingress gateway pod will be able to accept and distribute incoming NLB traffic to the rest of the cluster, creating potential ingress traffic bottlenecks and reduced internal load balancing capability, or even complete loss of ingress traffic to the cluster if the subset of nodes with ingress gateway pods go down. See [Source IP for Services with `Type=NodePort`](https://kubernetes.io/docs/tutorials/services/source-ip/#source-ip-for-services-with-type-nodeport) for more information.
