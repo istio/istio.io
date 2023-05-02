@@ -82,7 +82,7 @@ Istio 1.1 满足所有的收集要求：
 
 第三个要求指出：Istio 运维人员必须能为整个集群所有的出口流量定规策略。策略指出集群中的 pod 可能会访问哪些外部服务。外部服务可以通过服务的 [全域名](https://en.wikipedia.org/wiki/Fully_qualified_domain_name)（比如 `www.ibm.com`）或者泛域名（比如：`*.ibm.com`）进行标示。只有指定的外部服务可以访问，其它所有的出口流量都要被阻止。
 
-这个要求是为了阻止攻击者访问恶意站点而提出的，比如下载更新/操作他们的恶意软件。同样也想去限制攻击者可以访问和攻击的外部站点的数量。只允许集群内应用程序需要访问的外部站点并且阻止其它所拥有的服务访问，这样减少了 [攻击面](https://en.wikipedia.org/wiki/Attack_surface)。当外部服务有了它们自己的安全机制，你想使用 [纵深防御](https://en.wikipedia.org/wiki/Defense_in_depth_(computing)) 并且使用多个安全层：除了外部系统的安全层外，集群内还有一个安全层。
+这个要求是为了阻止攻击者访问恶意站点而提出的，比如下载更新/操作他们的恶意软件。同样也想去限制攻击者可以访问和攻击的外部站点的数量。只允许集群内应用程序需要访问的外部站点并且阻止其它所拥有的服务访问，这样减少了[攻击面](https://en.wikipedia.org/wiki/Attack_surface)。当外部服务有了它们自己的安全机制，您想使用[纵深防御](https://en.wikipedia.org/wiki/Defense_in_depth_(computing)) 并且使用多个安全层：除了外部系统的安全层外，集群内还有一个安全层。
 
 这个要求意味着外部服务必须能用域名来标示。我们把出口管控系统的这个特性叫做 DNS 感知。如果系统不是 DNS 可感知的，外部服务必须用 IP 地址标示。
 使用 IP 地址不方便而且经常不灵活，因为服务的 IP 地址会变的。有时候服务的所有 IP 地址甚至都不知道，比如：[CDN](https://en.wikipedia.org/wiki/Content_delivery_network)。
