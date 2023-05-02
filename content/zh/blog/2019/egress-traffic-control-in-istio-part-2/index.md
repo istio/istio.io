@@ -80,4 +80,4 @@ target_release: 1.2
 
 ## 总结 {#summary}
 
-希望我能说服你：Istio 在阻止相关出口流量攻击上是一个非常高效的工具。在[这个系列文章的下一部分](/zh/blog/2019/egress-traffic-control-in-istio-part-3/)，我对 Istio 出口流量安全管控方案和其它的方案进行了对比，比如 [Kubernetes 网络策略](https://kubernetes.io/zh-cn/docs/concepts/services-networking/network-policies/) 和已有的出口代理/防火墙。
+希望我能说服您：Istio 在阻止相关出口流量攻击上是一个非常高效的工具。在[这个系列文章的下一部分](/zh/blog/2019/egress-traffic-control-in-istio-part-3/)，我对 Istio 出口流量安全管控方案和其它的方案进行了对比，比如 [Kubernetes 网络策略](https://kubernetes.io/zh-cn/docs/concepts/services-networking/network-policies/)和已有的出口代理/防火墙。
