@@ -1,7 +1,7 @@
 ---
 title: kind
 description: 为 Istio 设置 kind 的说明。
-weight: 17
+weight: 30
 skip_seealso: true
 keywords: [platform-setup,kubernetes,kind]
 owner: istio/wg-environments-maintainers
@@ -50,8 +50,8 @@ kind 主要是为了测试 Kubernetes 自身而设计的，但它也可用于本
     {{< /tip >}}
 
 1. 如果运行了多套集群，还需要选择 `kubectl` 将要操作哪一套。
-    可以在 [Kubernetes kubeconfig](https://kubernetes.io/zh-cn/docs/concepts/configuration/organize-cluster-access-kubeconfig/) 文件中设置当前环境来指定一个默认集群。
-    另外，还可以运行下列命令来为 `kubectl` 设置当前环境：
+    可以在 [Kubernetes kubeconfig](https://kubernetes.io/zh-cn/docs/concepts/configuration/organize-cluster-access-kubeconfig/)
+    文件中设置当前环境来指定一个默认集群。另外，还可以运行下列命令来为 `kubectl` 设置当前环境：
 
     {{< text bash >}}
     $ kubectl config use-context kind-istio-testing
@@ -113,7 +113,7 @@ kind 不像 minikube 一样内置了操作界面。但仍然可以设置一个�
     Starting to serve on 127.0.0.1:8001
     {{< /text >}}
 
-    点击 [Kubernetes Dashboard](http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/) 来查看部署和服务。
+    点击 [Kubernetes Dashboard](http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/) 来查看您的 Deployment 和服务。
 
     {{< warning >}}
     最好将 token 保存起来，不然每次登录到操作界面需要 token 时都得重新运行上述步骤 4.
