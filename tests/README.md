@@ -279,7 +279,7 @@ The following command will run all the doc tests within a `kube` environment:
 make doc.test
 ```
 
-The `make doc.test` rule can be passed two optional environment variables: `TEST` and `TIMEOUT`.
+The `make doc.test` target can be passed two optional environment variables: `TEST` and `TIMEOUT`.
 
 `TEST` specifies a directory relative to `content/en/docs/` containing the tests to run.
 For example, the following command will only run the tests under `content/en/docs/tasks/traffic-management`:
