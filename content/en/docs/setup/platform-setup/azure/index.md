@@ -81,7 +81,7 @@ For the `az` cli option, complete `az login` authentication OR use cloud shell, 
 
 1. Deploy your cluster using the `istio.json` template. You can find references
    to the parameters in the
-   [official docs](https://github.com/Azure/aks-engine/blob/master/docs/tutorials/deploy.md#step-3-edit-your-cluster-definition).
+   [official docs](https://github.com/Azure/aks-engine/blob/master/docs/tutorials/quickstart.md).
 
    | Parameter         | Expected value        |
    | ----------------- | --------------------- |
