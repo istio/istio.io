@@ -56,7 +56,7 @@ Istio 入口网关支持基于经过身份验证的 JWT 的路由，
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: security.istio.io/v1beta1
+    apiVersion: security.istio.io/v1
     kind: RequestAuthentication
     metadata:
       name: ingress-jwt
