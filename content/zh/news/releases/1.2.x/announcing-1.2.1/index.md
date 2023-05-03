@@ -28,4 +28,4 @@ aliases:
 - 通过将重试设置为 0，允许用户禁用 Istio 的默认重试（[Issue 14900](https://github.com/istio/istio/issues/14900)）
 - 引入 Redis 过滤器（此功能由环境特性标志 `PILOT_ENABLE_REDIS_FILTER` 保护，默认情况下处于禁用状态）
 - 将 HTTP/1.0 支持添加到网关配置生成（[Issue 13085](https://github.com/istio/istio/issues/13085)）
-- 为 Istio 组件添加了[容忍](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/)（[Pull Request 15081](https://github.com/istio/istio/pull/15081)）
+- 为 Istio 组件添加了[容忍](https://kubernetes.io/zh-cn/docs/concepts/scheduling-eviction/taint-and-toleration/)（[Pull Request 15081](https://github.com/istio/istio/pull/15081)）

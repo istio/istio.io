@@ -98,7 +98,7 @@ weight: 10
 
 - **新增** 在 `istio-init` 容器中增加了 `--log_output_level` 和 `--log_as_json`（正如它们在 `istio-proxy` 中一样）。
 
-- **新增** 为 Istio Gateway Helm chart 增加了配置网关部署的 [topologySpreadConstraints](https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/) 的值。
+- **新增** 为 Istio Gateway Helm chart 增加了配置网关部署的 [topologySpreadConstraints](https://kubernetes.io/zh-cn/docs/concepts/scheduling-eviction/topology-spread-constraints/) 的值。
 
 - **新增** 新增了对监视外部 istiod 的本地密钥资源更新的支持。
   ([Issue #31946](https://github.com/istio/istio/issues/31946))

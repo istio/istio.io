@@ -40,7 +40,7 @@ Sidecar proxy 模式成就了很多奇迹。Sidecar 身处微服务的数据路�
 
 ### 网络的去虚拟化{#network-devirtualization}
 
-Kubernetes 为运行其上的微服务应用提供了简单的设计优良的网络结构。然而为了支持这些设计，也为下层网络强加了特定的[需求](https://kubernetes.io/docs/concepts/cluster-administration/networking/)。要符合这些需求并不简单。通常会通过另加一层的方式来满足要求。典型方案就是在下层网络和 Kubernetes 之间加入叠加层。应用产生的流量会在源头进行封包，在目的地进行解包，这一过程消耗的不仅是网络资源，还包括 CPU。
+Kubernetes 为运行其上的微服务应用提供了简单的设计优良的网络结构。然而为了支持这些设计，也为下层网络强加了特定的 [需求](https://kubernetes.io/zh-cn/docs/concepts/cluster-administration/networking/)。要符合这些需求并不简单。通常会通过另加一层的方式来满足要求。典型方案就是在下层网络和 Kubernetes 之间加入叠加层。应用产生的流量会在源头进行封包，在目的地进行解包，这一过程消耗的不仅是网络资源，还包括 CPU。
 
 AppSwitch 会通过和平台之间的接触，来决定应用程序的可见范围。它会为应用程序提供一个关于下层网络的虚拟视图，这一视图类似于叠加层，但是不会在数据路径中引入额外的处理工作。和容器的情况类似，容器内部看起来也像是一个虚拟机，但是其基础实现不会干扰低级中断之类的高发事件的控制过程。
 
@@ -48,7 +48,7 @@ AppSwitch 能注入到标准的 Kubernetes 清单文件之中（和 Istio 注入
 
 ### 容器网络的组件{#artifacts-of-container-networking}
 
-将网络从主机扩展到容器是一个[巨大挑战](https://kubernetes.io/blog/2016/01/why-kubernetes-doesnt-use-libnetwork/)。新的网络层应运而生。容器中的进程只是主机上的一个进程。然而应用所期待的网络抽象和容器网络命名空间之间存在一个[错位](http://appswitch.io/blog/kubernetes_istio_and_network_function_devirtualization_with_appswitch/)，进程无法直接访问主机网络。应用程序眼里的网络是 Socket 或者 Session，而网络命名空间暴露的是设备抽象。一旦进入网络命名空间，进程会失去所有连接。为此发明了 `veth-pair` 之类的工具用来弥合这一鸿沟。数据现在必须从主机接口进入虚拟交换机，然后通过 `veth-pair` 才能进入容器网络空间里面的虚拟网络接口。
+将网络从主机扩展到容器是一个 [巨大挑战](https://kubernetes.io/blog/2016/01/why-kubernetes-doesnt-use-libnetwork/)。新的网络层应运而生。容器中的进程只是主机上的一个进程。然而应用所期待的网络抽象和容器网络命名空间之间存在一个 [错位](http://appswitch.io/blog/kubernetes_istio_and_network_function_devirtualization_with_appswitch/)，进程无法直接访问主机网络。应用程序眼里的网络是 Socket 或者 Session，而网络命名空间暴露的是设备抽象。一旦进入网络命名空间，进程会失去所有连接。为此发明了 `veth-pair` 之类的工具用来弥合这一鸿沟。数据现在必须从主机接口进入虚拟交换机，然后通过 `veth-pair` 才能进入容器网络空间里面的虚拟网络接口。
 
 AppSwitch 能够有效的移除连接两端的虚拟交换机和 `veth-pair` 层。运行在主机上的守护进程所用的主机网络既然已经就绪，就无需再使用网桥方式把主机网络桥接到容器了。主机上创建的 Socket 文件描述符被传递给运行在 Pod 网络命名空间中的应用程序。应用收到 FD 之后，控制路径的所有工作都已就绪，就可以使用 FD 进行实际 IO 了。
 

@@ -16,7 +16,7 @@ test: no
 
 1. 安装 [Docker](https://docs.docker.com/install/)。
 
-1. 安装 [`kubectl`](https://kubernetes.io/docs/tasks/tools/install-kubectl/)。
+1. 安装 [`kubectl`](https://kubernetes.io/zh-cn/docs/tasks/tools/#kubectl)。
 
 1. 为您从教程中收到的配置文件或者在上一个模块自己创建的配置文件设置环境变量 `KUBECONFIG`。
 

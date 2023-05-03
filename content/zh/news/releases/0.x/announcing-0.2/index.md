@@ -26,7 +26,7 @@ aliases:
 
 - _TCP 服务的策略与安全_: 除了 HTTP ，我们还为 TCP 服务增加了透明双向 TLS 认证和策略实施。这将让拥有像遥测，策略和安全等 Istio 功能的同时，保护更多 Kubernetes deployment 。
 
-- _自动注入 sidecar_: 通过利用 Kubernetes 1.7 提供的 alpha [初始化程序](https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/) ，当您的集群启用了该程序时，envoy sidecar 就可以自动注入到应用的 deployment 里。这使得你可以使用 `kubectl` 命令部署微服务，这与您通常在没有 Istio 的情况下部署微服务的命令完全相同。
+- _自动注入 sidecar_: 通过利用 Kubernetes 1.7 提供的 alpha [初始化程序](https://kubernetes.io/zh-cn/docs/reference/access-authn-authz/extensible-admission-controllers/) ，当您的集群启用了该程序时，envoy sidecar 就可以自动注入到应用的 deployment 里。这使得你可以使用 `kubectl` 命令部署微服务，这与您通常在没有 Istio 的情况下部署微服务的命令完全相同。
 
 - _扩展 Istio_ : 改进的 Mixer 设计，可以允许供应商编写 Mixer 适配器以实现对其自身系统的支持，例如应用管理或策略实施。该 [Mixer 适配器开发指南](https://github.com/istio/istio/wiki/Mixer-Compiled-In-Adapter-Dev-Guide)可以轻松的帮你将 Istio 集成于你的解决方案。
 
@@ -54,7 +54,7 @@ aliases:
 
 ### 通用{#general}
 
-- **更新配置模型**。Istio 现在使用了 Kubernetes 的 [Custom Resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
+- **更新配置模型**。Istio 现在使用了 Kubernetes 的 [Custom Resource](https://kubernetes.io/zh-cn/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
 来描述和存储其配置。当运行在 Kubernetes 上时，现在可以使用 `kubectl` 命令来管理配置。
 
 - **多 namespace 的支持**。Istio 控制平面组件现在位于专用的 `istio-system` namespace 下。
@@ -65,7 +65,7 @@ Istio 可以管理其他非系统名称空间中的服务。
 
 - **多环境的支持**。初步支持将 Istio 与其他服务注册表（包括 Consul 和 Eureka ）结合使用。
 
-- **自动注入 Sidecar**。使用 Kubernetes 中的 [Initializers](https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/) alpha 功能，可以在部署后将 Istio 边车自动注入到 Pod 中。
+- **自动注入 Sidecar**。使用 Kubernetes 中的 [Initializers](https://kubernetes.io/zh-cn/docs/reference/access-authn-authz/extensible-admission-controllers/) alpha 功能，可以在部署后将 Istio 边车自动注入到 Pod 中。
 
 ### 性能及品质{#performance-and-quality}
 
@@ -88,7 +88,7 @@ Istio 可以管理其他非系统名称空间中的服务。
 - **Egress 规则**。现在可以为 Egress 流量指定路由规则。
 
 - **新协议**。Mesh-wide 现在支持 WebSocket 链接, MongoDB 代理,
-和 Kubernetes [headless 服务](https://kubernetes.io/docs/concepts/services-networking/service/#headless-services)。
+和 Kubernetes [headless 服务](https://kubernetes.io/zh-cn/docs/concepts/services-networking/service/#headless-services)。
 
 - **其它改进**。Ingress 正确支持 gRPC 服务，更好的支持健康检查和 Jaeger 追踪。
 

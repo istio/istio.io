@@ -96,7 +96,7 @@ aliases:
 
 - **降低插件的负载均衡的要求**。不再通过单独的负载均衡公开插件。而是通过 Istio 网关公开插件。要使用 HTTP 或 HTTPS 协议从外部公开插件，请使用 [Addon Gateway 文档](/zh/docs/tasks/observability/gateways/)。
 
-- **附加安全凭证**。更改了附加凭证的存储。为了提高安全性与合规性，Grafana、Kiali 以及 Jaeger 的用户名密码现在存储在 [Kubernetes secret](https://kubernetes.io/docs/concepts/configuration/secret/) 中。
+- **附加安全凭证**。更改了附加凭证的存储。为了提高安全性与合规性，Grafana、Kiali 以及 Jaeger 的用户名密码现在存储在 [Kubernetes secret](https://kubernetes.io/zh-cn/docs/concepts/configuration/secret/) 中。
 
 - **更加灵活的 `statsd` 收集器**。删除了内置的 `statsd` 收集器。Istio 现在支持您自己的 `statsd`，以提高现有 Kubernetes 部署的灵活性。
 
@@ -113,6 +113,6 @@ aliases:
 - **安装验证命令**。添加 [`istioctl verify-install`](/zh/docs/reference/commands/istioctl/#istioctl-verify-install) 命令，用于验证指定了 YAML 文件的 Istio 安装的状态。
 
 - **弃用命令**。弃用 `istioctl create`、`istioctl replace`、`istioctl get` 和 `istioctl delete` 命令。
-请使用 [`kubectl`](https://kubernetes.io/docs/tasks/tools/install-kubectl) 替代。`istioctl gen-deploy` 命令也被弃用。请改用 [`helm template`](/zh/docs/setup/install/helm/#option-1-install-with-helm-via-helm-template)。这些命令将在 1.2 版被删除。
+请使用 [`kubectl`](https://kubernetes.io/zh-cn/docs/tasks/tools/#kubectl) 替代。`istioctl gen-deploy` 命令也被弃用。请改用 [`helm template`](/zh/docs/setup/install/helm/#option-1-install-with-helm-via-helm-template)。这些命令将在 1.2 版被删除。
 
 - **短命令**。`kubectl` 包含了一些简短命令，可用于 gateway，虚拟服务，目标规则和服务条目。

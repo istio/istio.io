@@ -21,5 +21,6 @@ Kubernetes 1.12 引入了 `可信任` JWT 来解决这些问题。但是，直�
 根据您选择的平台进行以下考虑：
 
 - **GKE：** 至少将群集版本升级到 1.13。
-- **本地 Kubernetes** 和 **私有 GKE：** 将[额外配置](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#service-account-token-volume-projection)添加到您的 Kubernetes。您也可以参考 [API 服务页面](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/)以获取最新的标志名称。
+- **本地 Kubernetes** 和 **私有 GKE：** 将 [额外配置](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-service-account/#service-account-token-volume-projection) 添加到您的 Kubernetes。
+您也可以参考 [API 服务页面](https://kubernetes.io/zh-cn/docs/reference/command-line-tools-reference/kube-apiserver/) 以获取最新的标志名称。
 - 对于其他平台，请与您的提供商联系。如果您的提供商不支持可信任 JWT，则您将需要使用文件挂载的方式来传播 Istio 1.3 中的工作负载密钥和证书。

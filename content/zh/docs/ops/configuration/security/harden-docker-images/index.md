@@ -40,7 +40,7 @@ $ istioctl install --set values.global.variant=distroless
 Distroless 镜像缺少所有调试工具（包括 Shell！）。
 虽然对安全性有好处，但这限制了使用 `kubectl exec` 对代理容器进行临时调试的能力。
 
-幸运的是，[临时容器](https://kubernetes.io/zh-cn/docs/concepts/workloads/pods/ephemeral-containers/)可以在此处提供帮助。
+幸运的是，[临时容器](https://kubernetes.io/zh-cn/docs/concepts/workloads/pods/ephemeral-containers/) 可以在此处提供帮助。
 `kubectl debug` 可以将临时容器附加到 Pod。
 通过使用带有额外工具的镜像，我们可以像以前一样进行调试：
 

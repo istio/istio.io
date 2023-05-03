@@ -9,16 +9,16 @@ target_release: 1.2
 ---
 
 欢迎来看在 Istio 对出口流量进行安全管控系列文章的第 3 部分。
-在[这个系列文章的第一部分](/zh/blog/2019/egress-traffic-control-in-istio-part-1/)，我提出了出口流量相关攻击和我们针对出口流量进行安全管控收集的要求点。
-在[这个系列文章的第二部分](/zh/blog/2019/egress-traffic-control-in-istio-part-2/)，我展示了 Istio 的对安全出口流量方案，并且展示了使用 Istio 如何来阻止攻击。
+在 [这个系列文章的第一部分](/zh/blog/2019/egress-traffic-control-in-istio-part-1/)，我提出了出口流量相关攻击和我们针对出口流量进行安全管控收集的要求点。
+在 [这个系列文章的第二部分](/zh/blog/2019/egress-traffic-control-in-istio-part-2/)，我展示了 Istio 的对安全出口流量方案，并且展示了使用 Istio 如何来阻止攻击。
 
 在这一期中，我对 Istio 出口流量安全管控方案和其它的方案进行了对比，比如使用 Kubernetes 网络策略和已有的出口代理和防火墙。最后我讲述了 Istio 中安全管控出口流量的性能因素。
 
 ## 出口流量管控的其它解决方案 {#alternative-solutions-for-egress-traffic-control}
 
-首先，我们回想一下我们之前收集的[出口流量管控要求](/zh/blog/2019/egress-traffic-control-in-istio-part-1/#requirements-for-egress-traffic-control)：
+首先，我们回想一下我们之前收集的 [出口流量管控要求](/zh/blog/2019/egress-traffic-control-in-istio-part-1/#requirements-for-egress-traffic-control)：
 
-1. 用 [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) 或者用 [TLS 源](/zh/docs/reference/glossary/#tls-origination)来支持 [TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security)。
+1. 用 [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) 或者用 [TLS 源](/zh/docs/reference/glossary/#tls-origination) 来支持 [TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security)。
 1. **监控** SNI 和每个出口访问的 workload 源。
 1. 定义和执行 **每个集群的策略**。
 1. 定义和执行 **每个源的策略**，Kubernetes 可感知。
@@ -27,7 +27,7 @@ target_release: 1.2
 
 接下来，将会介绍两种出口流量管控的备选方案：Kubernetes 网络策略和出口代理与防火墙。展示了上述要求中哪些是它们满足的，更重要的是那些要求是它们不能满足的。
 
-Kubernetes 通过[网络策略](https://kubernetes.io/docs/concepts/services-networking/network-policies/)提供了一个流量管控的原生方案，特别是对出口流量管控。使用这些网络策略，集群运维人员可以配置那个 pod 可以访问指定的外部服务。
+Kubernetes 通过 [网络策略](https://kubernetes.io/zh-cn/docs/concepts/services-networking/network-policies/) 提供了一个流量管控的原生方案，特别是对出口流量管控。使用这些网络策略，集群运维人员可以配置那个 pod 可以访问指定的外部服务。
 集群运维人员可以通过 pod 标签、命名空间标签或者 IP 范围来识别 pod。集群运维人员可以使用 IP 范围来明确外部服务，但是不能使用像 `cnn.com` 这样的域名来指定外部服务。因为 **Kubernetes 网络策略对 DNS 无感知**。
 网络策略可以满足第一个要求，因为它可以管控任何 TCP 流量。网络策略只能部分满足第三和第四点要求，因为集群运维人员可以针对每个集群或者每个 pod 制定策略，但是运维人员无法用域名来标示外部服务。
 只有当攻击者无法从恶意容器进入 Kubernetes 节点并干扰该节点内策略的执行时，网络策略才满足第五个要求。

@@ -12,7 +12,7 @@ target_release: 1.3
 
 ## Knative Serving{#Knative-serving}
 
-[Knative Serving](https://knative.dev/docs/serving/) 基于 [Kubernetes](https://kubernetes.io/) 来支持 Serverless 应用的部署和服务（Serving）。一个 Serverless 平台的核心功能就是 scale-to-zero，该功能可减少非活动工作负载的资源使用量和成本。当空闲应用收到新请求时，需要一种新的机制来 scale-from-zero。
+[Knative Serving](https://knative.dev/docs/serving/) 基于 [Kubernetes](https://kubernetes.io/zh-cn/) 来支持 Serverless 应用的部署和服务（Serving）。一个 Serverless 平台的核心功能就是 scale-to-zero，该功能可减少非活动工作负载的资源使用量和成本。当空闲应用收到新请求时，需要一种新的机制来 scale-from-zero。
 
 下图表示当前 Knative scale-from-zero 的架构。
 
@@ -32,19 +32,22 @@ target_release: 1.3
 
 Mixer 是一个属性处理引擎，它使用面向操作员（operator-supplied）的配置通过可插拔（Pluggable）的适配器将 Istio 代理的请求属性映射到对基础设施后端系统的调用。适配器使 **Mixer** 暴露单个统一的 API，与使用中的基础设施后端无关。运行时使用的适配器是由操作员配置决定的，适配器可以轻松扩展以适应新的或定制的基础设施后端。
 
-为了实现 Knative scale-from-zero，我们使用 Mixer [进程外适配器](https://github.com/istio/istio/wiki/Mixer-Out-Of-Process-Adapter-Dev-Guide)来调用 Autoscaler。Mixer 的进程外适配器使开发人员可以使用任何编程语言，并以独立程序的形式构建和维护您的扩展程序，而无需构建 Istio 代理。
+为了实现 Knative scale-from-zero，我们使用 Mixer [进程外适配器](https://github.com/istio/istio/wiki/Mixer-Out-Of-Process-Adapter-Dev-Guide) 来调用 Autoscaler。
+Mixer 的进程外适配器使开发人员可以使用任何编程语言，并以独立程序的形式构建和维护您的扩展程序，而无需构建 Istio 代理。
 
 下图表示使用 **Mixer** 适配器的 Knative 设计。
 
 {{< image width="60%" link="knative-mixer-adapter.png" caption="Knative scale-from-zero" >}}
 
-在这种设计中，无需像 Knative 原有的设置中那样为空闲应用程序更改到 **Activator** 的路由。当由 Istio 代理（Ingress 网关）收到对空闲应用程序的新请求时，它将通知 Mixer，包括所有相关的元数据信息。然后 Mixer 调用您的适配器，该适配器使用 Knative 原有的协议触发 Knative Autoscaler。
+在这种设计中，无需像 Knative 原有的设置中那样为空闲应用程序更改到 **Activator** 的路由。
+当由 Istio 代理（Ingress 网关）收到对空闲应用程序的新请求时，它将通知 Mixer，包括所有相关的元数据信息。
+然后 Mixer 调用您的适配器，该适配器使用 Knative 原有的协议触发 Knative Autoscaler。
 
 {{< idea >}}
 通过使用这种设计，您不需要处理缓存，重试和负载平衡的问题，因为 Istio 代理已经处理了这些问题。
 {{< /idea >}}
 
-Istio 的 Mixer 适配器模式使得我们可以用更简单的方式实现原本复杂并且基于网络的应用逻辑，如 [Knative 适配器](https://github.com/zachidan/istio-kactivator)中所示。
+Istio 的 Mixer 适配器模式使得我们可以用更简单的方式实现原本复杂并且基于网络的应用逻辑，如 [Knative 适配器](https://github.com/zachidan/istio-kactivator) 中所示。
 
 当适配器从 **Mixer** 接收到消息时，它会使用 Knative 协议直接向 **Autoscaler** 发送一个 `StatMessage`。Istio 代理将 **Autoscaler** 所需的元数据信息（`namespace` 和 `service name`）传输到 **Mixer**，再从那里传输到适配器。
 

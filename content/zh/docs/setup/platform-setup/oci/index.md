@@ -78,7 +78,7 @@ $ kubectl get nodes
 [CUSTOM]: https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengcreatingclusterusingoke_topic-Using_the_Console_to_create_a_Custom_Cluster_with_Explicitly_Defined_Settings.htm
 [OCICLI]: https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/cliinstall.htm
 [K8S]: https://docs.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengaboutk8sversions.htm
-[KUBECTL]: https://kubernetes.io/docs/tasks/tools/
+[KUBECTL]: https://kubernetes.io/zh-cn/docs/tasks/tools/
 [CONCEPTS]: https://docs.oracle.com/en-us/iaas/Content/GSG/Concepts/concepts.htm
 [BASTION]: https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengdownloadkubeconfigfile.htm#localdownload
 [CONSOLE]: https://docs.oracle.com/en-us/iaas/Content/GSG/Concepts/console.htm
