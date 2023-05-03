@@ -41,7 +41,7 @@ test: yes
 
 ## 部署一个 NGINX 服务{#deploy-an-nginx-server}
 
-1. 创建一个 Kubernetes 的 [Secret](https://kubernetes.io/docs/concepts/configuration/secret/) 资源来保存服务的证书：
+1. 创建一个 Kubernetes 的 [Secret](https://kubernetes.io/zh-cn/docs/concepts/configuration/secret/) 资源来保存服务的证书：
 
     {{< text bash >}}
     $ kubectl create secret tls nginx-server-certs --key nginx.example.com.key --cert nginx.example.com.crt
@@ -75,7 +75,7 @@ test: yes
     EOF
     {{< /text >}}
 
-1. 创建一个 Kubernetes 的 [ConfigMap](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/) 资源来保存 NGINX 服务的配置：
+1. 创建一个 Kubernetes 的 [ConfigMap](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-pod-configmap/) 资源来保存 NGINX 服务的配置：
 
     {{< text bash >}}
     $ kubectl create configmap nginx-configmap --from-file=nginx.conf=./nginx.conf

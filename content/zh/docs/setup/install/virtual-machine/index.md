@@ -243,7 +243,8 @@ EOF
 $ kubectl --namespace "${VM_NAMESPACE}" apply -f workloadgroup.yaml
 {{< /text >}}
 
-使用自动创建 `WorkloadEntry` 的特性，还可以进行应用程序的健康检查。与 [Kubernetes Readiness Probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) 具有相同行为和 API 。
+使用自动创建 `WorkloadEntry` 的特性，还可以进行应用程序的健康检查。
+与 [Kubernetes Readiness Probes](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) 具有相同行为和 API 。
 
 例如，在应用程序的 `/ready` 端点上配置探针：
 

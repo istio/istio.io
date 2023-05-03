@@ -49,7 +49,9 @@ test: no
     sleep-88ddbcfdd-cc85s             1/1       Running   0          7h
     {{< /text >}}
 
-1. Kubernetes 采取无侵入的和逐步的[滚动更新](https://kubernetes.io/docs/tutorials/kubernetes-basics/update-intro/)方式用启用 Istio 的 Pod 替换了原有的 Pod。Kubernetes 只有在新的 Pod 开始运行的时候才会终止老的 Pod，它透明地将流量一个一个地切换到新的 Pod 上。也就是说，它不会在声明一个新的 Pod 之前结束一个或者以上的 Pod。这些操作都是为了防止破坏您的应用，因此在注入 Istio 的过程中应用能够持续工作。
+1. Kubernetes 采取无侵入的和逐步的 [滚动更新](https://kubernetes.io/zh-cn/docs/tutorials/kubernetes-basics/update/update-intro/) 方式用启用 Istio 的 Pod 替换了原有的 Pod。
+Kubernetes 只有在新的 Pod 开始运行的时候才会终止老的 Pod，它透明地将流量一个一个地切换到新的 Pod 上。
+也就是说，它不会在声明一个新的 Pod 之前结束一个或者以上的 Pod。这些操作都是为了防止破坏您的应用，因此在注入 Istio 的过程中应用能够持续工作。
 
 1. 检查 `productpage` Istio Sidecar 的日志：
 

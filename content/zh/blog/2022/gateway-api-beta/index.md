@@ -6,13 +6,20 @@ attribution: "Craig Box (Google)"
 keywords: [traffic-management,gateway,gateway-api,api,gamma,sig-network]
 ---
 
-今天我们要[祝贺 Kubernetes SIG Network 社区发布了 Gateway API 规范的 beta 版本](https://kubernetes.io/blog/2022/07/13/gateway-api-graduates-to-beta/)。除了上述的这个里程碑，我们很高兴地宣布，对在 Istio ingress 中使用 Gateway API 的支持正在升级为 Beta版本，并且我们打算让 Gateway API 成为未来所有 Istio 流量管理的默认 API。我们也很高兴地欢迎来自服务网格接口（SMI）社区的朋友，他们将加入我们的行列，并使用网关 API 来标准化服务网格用例。
+今天我们要 [祝贺 Kubernetes SIG Network 社区发布了 Gateway API 规范的 beta 版本](https://kubernetes.io/blog/2022/07/13/gateway-api-graduates-to-beta/)。
+除了上述的这个里程碑，我们很高兴地宣布，对在 Istio ingress 中使用 Gateway API 的支持正在升级为 Beta版本，
+并且我们打算让 Gateway API 成为未来所有 Istio 流量管理的默认 API。
+我们也很高兴地欢迎来自服务网格接口（SMI）社区的朋友，他们将加入我们的行列，并使用网关 API 来标准化服务网格用例。
 
 ## Istio 流量管理 API 的历史{#the-history-of-istios-traffic-management-apis}
 
-API 设计与其说是一门科学，不如说是一门艺术，Istio 经常被用作一个 API 来配置其他 API 的服务！仅在流量路由的情况下，我们必须考虑生产者与消费者、路由与被路由，以及如何使用正确数量的对象来表达复杂的特征集——考虑到这些对象必须由不同的团队拥有。
+API 设计与其说是一门科学，不如说是一门艺术，Istio 经常被用作一个 API 来配置其他 API 的服务！
+仅在流量路由的情况下，我们必须考虑生产者与消费者、路由与被路由，以及如何使用正确数量的对象来表达复杂的特征集——考虑到这些对象必须由不同的团队拥有。
 
-当我们在 2017 年推出 Istio 时，我们从 Google 的生产 API 服务基础设施和 IBM 的 Amalgam8 项目的多年经验带到了 Kubernetes 上。我们很快就遇到了 Kubernetes 的 Ingress API 的限制。支持所有代理实现的愿望意味着 Ingress 仅支持最基本的 HTTP 路由功能，而其他功能通常作为供应商特定的注释来实现。Ingress API在基础设施管理员 （"创建和配置负载均衡器"），集群 Operator（"为我的整个域管理 TLS 证书"）和应用程序用户（“使用它将 /foo 路由到 foo 服务”）之间共享。
+当我们在 2017 年推出 Istio 时，我们从 Google 的生产 API 服务基础设施和 IBM 的 Amalgam8 项目的多年经验带到了 Kubernetes 上。
+我们很快就遇到了 Kubernetes 的 Ingress API 的限制。支持所有代理实现的愿望意味着 Ingress 仅支持最基本的 HTTP 路由功能，
+而其他功能通常作为供应商特定的注释来实现。Ingress API在基础设施管理员 （"创建和配置负载均衡器"），
+集群 Operator（"为我的整个域管理 TLS 证书"）和应用程序用户（“使用它将 /foo 路由到 foo 服务”）之间共享。
 
 我们[在 2018 年初重写了流量 API](/zh/blog/2018/v1alpha3-routing/) 以解决用户反馈问题，并更充分地解决这些问题。
 

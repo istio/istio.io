@@ -9,7 +9,7 @@ owner: istio/wg-user-experience-maintainers
 test: no
 ---
 
-来自 [Kubernetes 准入控制机制](https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/)：
+来自 [Kubernetes 准入控制机制](https://kubernetes.io/zh-cn/docs/reference/access-authn-authz/extensible-admission-controllers/)：
 
 {{< tip >}}
 准入 Webhook 是 HTTP 方式的回调，接收准入请求并对其进行相关操作。可定义两种类型的准入 Webhook，Validating 准入 Webhook 和 Mutating 准入 Webhook。使用 Validating Webhook，可以通过自定义的准入策略来拒绝请求；使用 Mutating Webhook，可以通过自定义默认值来修改请求。
@@ -23,7 +23,7 @@ Webhook 设置过程需要了解 Kubernetes 动态准入 Webhook 相关的知识
 
 请参阅[平台设置说明](/zh/docs/setup/platform-setup/)了解 Kubernetes 提供的详细的设置说明。如果集群配置错误，Webhook 将无法正常工作。集群配置后，当动态 Webhook 和相关特性不能正常工作时，您可以通过以下步骤进行检查。
 
-1. 验证当前使用正确的 [`kubectl`](https://kubernetes.io/docs/tasks/tools/install-kubectl/) 和 Kubernetes 服务 [支持的版本](/zh/docs/releases/supported-releases#support-status-of-istio-releases)({{< supported_kubernetes_versions >}})：
+1. 验证当前使用正确的 [`kubectl`](https://kubernetes.io/zh-cn/docs/tasks/tools/#kubectl) 和 Kubernetes 服务 [支持的版本](/zh/docs/releases/supported-releases#support-status-of-istio-releases)({{< supported_kubernetes_versions >}})：
 
     {{< text bash >}}
     $ kubectl version --short

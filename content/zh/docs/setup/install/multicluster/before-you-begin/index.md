@@ -34,8 +34,8 @@ owner: istio/wg-environments-maintainers
 
 变量 | 描述
 -------- | -----------
-`CTX_CLUSTER1` | [Kubernetes 配置文件](https://kubernetes.io/zh/docs/tasks/access-application-cluster/configure-access-multiple-clusters/)中的默认上下文名称，用于访问集群 `cluster1`。
-`CTX_CLUSTER2` | [Kubernetes 配置文件](https://kubernetes.io/zh/docs/tasks/access-application-cluster/configure-access-multiple-clusters/)中的默认上下文名称，用于访问集群 `cluster2`。
+`CTX_CLUSTER1` | [Kubernetes 配置文件](https://kubernetes.io/zh-cn/docs/tasks/access-application-cluster/configure-access-multiple-clusters/)中的默认上下文名称，用于访问集群 `cluster1`。
+`CTX_CLUSTER2` | [Kubernetes 配置文件](https://kubernetes.io/zh-cn/docs/tasks/access-application-cluster/configure-access-multiple-clusters/)中的默认上下文名称，用于访问集群 `cluster2`。
 
 继续之前，设置这两个变量：
 

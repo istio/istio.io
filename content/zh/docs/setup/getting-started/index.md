@@ -23,7 +23,7 @@ owner: istio/wg-environments-maintainers
 完成下面步骤需要您有一个 {{< gloss >}}cluster{{< /gloss >}}，
 且运行着兼容版本的 Kubernetes ({{< supported_kubernetes_versions >}})。
 您可以使用任何支持的平台，例如：
-[Minikube](https://kubernetes.io/zh/docs/tasks/tools/install-minikube/)
+[Minikube](https://kubernetes.io/zh-cn/docs/tasks/tools/#minikube)
 或[特定平台安装说明](/zh/docs/setup/platform-setup/)章节中指定的其他平台。
 
 请按照以下步骤开始使用 Istio：

@@ -422,7 +422,7 @@ Istio 支持两种类型的租赁模型：
 
 ### 命名空间租赁{#namespace-tenancy}
 
-Istio 使用[命名空间](https://kubernetes.io/docs/reference/glossary/?fundamental=true#term-namespace)作为网格内的租赁单位。
+Istio 使用 [命名空间](https://kubernetes.io/zh-cn/docs/reference/glossary/?fundamental=true#term-namespace) 作为网格内的租赁单位。
 Istio 还可以在未实现命名空间租用的环境中使用。在这样的环境中，您可以授予团队权限，以仅允许其将工作负载部署到给定的或一组命名空间。
 默认情况下，来自多个租赁命名空间的服务可以相互通信。
 

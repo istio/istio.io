@@ -749,7 +749,7 @@ $ kubectl delete destinationrule egressgateway-for-mongo
     EOF
     {{< /text >}}
 
-1. 创建一个 Kubernetes [ConfigMap](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/) 来保存 Nginx SNI 代理的配置：
+1. 创建一个 Kubernetes [ConfigMap](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-pod-configmap/) 来保存 Nginx SNI 代理的配置：
 
     {{< text bash >}}
     $ kubectl create configmap egress-sni-proxy-configmap -n istio-system --from-file=nginx.conf=./sni-proxy.conf

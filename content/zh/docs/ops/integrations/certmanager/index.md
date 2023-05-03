@@ -60,7 +60,8 @@ spec:
 
 ### Kubernetes Ingress
 
-cert-manager 通过[在 Ingress 对象上配置注解](https://cert-manager.io/docs/usage/ingress/)，做到与 Kubernetes Ingress 的直接集成。如果使用此方法，则 Ingress 必须与 `istio-ingressgateway` Deployment 位于同一命名空间中，因为 Secret 只能在同一命名空间中被读取。
+cert-manager 通过 [在 Ingress 对象上配置注解](https://cert-manager.io/docs/usage/ingress/)，做到与 Kubernetes Ingress 的直接集成。
+如果使用此方法，则 Ingress 必须与 `istio-ingressgateway` Deployment 位于同一命名空间中，因为 Secret 只能在同一命名空间中被读取。
 
 或者，也可以按照 [Istio Gateway](#istio-gateway) 部分的描述创建 `Certificate`，然后在 `Ingress` 对象中引用它：
 

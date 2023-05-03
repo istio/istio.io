@@ -28,7 +28,7 @@ weight: 10
 - **毕业** [自动双向 TLS](/zh/docs/tasks/security/authentication/authn-policy/#auto-mutual-TLS) 从 alpha 转到 beta。该特性现在默认启用。
 - **改进** 通过将 Node Agent 与 Pilot Agent 作为 Istio Agent 合并，并删除跨 Pod UDS，从而提高了 [SDS 安全性](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret) ，不再需要用户为 UDS 连接部署 Kubernetes Pod 安全策略。
 - **改进** 通过在 istiod 中包含证书来改进 Istio。
-- **新增** [`first-party-jwt`](https://kubernetes.io/docs/reference/access-authn-authz/authentication/#service-account-tokens) 在 [`third-party-jwt`](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#service-account-token-volume-projection) 不支持的集群中添加了支持 Kubernetes 作为 CSR 身份验证的后备令牌。
+- **新增** [`first-party-jwt`](https://kubernetes.io/zh-cn/docs/reference/access-authn-authz/authentication/#service-account-tokens) 在 [`third-party-jwt`](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-service-account/#service-account-token-volume-projection) 不支持的集群中添加了支持 Kubernetes 作为 CSR 身份验证的后备令牌。
 - **新增** 支持 Istio CA 和 Kubernetes CA 为控制平面提供证书，可以通过 `values.global.pilotCertProvider` 进行配置。
 - **新增** Istio Agent 为 Prometheus 设置了密钥和证书。
 

@@ -52,7 +52,7 @@ aliases:
 ## 安装和升级 {#installation-and-upgrade}
 
 - **更新** 默认代理内存大小限制 (`global.proxy.resources.limits.memory`) 从 `128Mi` 扩大到 `1024Mi`，以此保证代理有充足的内存。
-- **增加** pod 的[反亲和性](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity)和[容错](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/)功能支持了所有的控制平面组件。
+- **增加** Pod 的 [反亲和性](https://kubernetes.io/zh-cn/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity) 和 [容错](https://kubernetes.io/zh-cn/docs/concepts/scheduling-eviction/taint-and-toleration/) 功能支持了所有的控制平面组件。
 - **增加** `sidecarInjectorWebhook.neverInjectSelector` 和 `sidecarInjectorWebhook.alwaysInjectSelector` 配置，通过标签选择器让用户可以进一步控制 workload 是否应该自动注入 sidecar。
 - **增加** `global.logging.level` 和 `global.proxy.logLevel` 配置，允许用户方便的给控制平面和数据平面组件全局的配置日志。
 - **增加** 支持通过设置 [`global.tracer.datadog.address`](/zh/docs/reference/config/installation-options/#global-options) 来配置 Datadog 的地址。
