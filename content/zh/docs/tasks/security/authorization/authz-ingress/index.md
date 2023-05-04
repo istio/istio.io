@@ -66,7 +66,7 @@ $ kubectl wait --for=condition=programmed gtw -n foo httpbin-gateway
 $ kubectl get pods -n foo -o name -l istio.io/gateway-name=httpbin-gateway | sed 's|pod/||' | while read -r pod; do istioctl proxy-config log "$pod" -n foo --level rbac:debug; done
 {{< /text >}}
 
-设置环境变量 `INGRESS_PORT` 和 `INGRESS_HOST`:
+设置环境变量 `INGRESS_PORT` 和 `INGRESS_HOST`：
 
 {{< text bash >}}
 $ export INGRESS_HOST=$(kubectl get gtw httpbin-gateway -n foo -o jsonpath='{.status.addresses[0].value}')
