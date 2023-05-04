@@ -40,7 +40,7 @@ test: no
 1. 在 macOS 或 Linux 系统上，将 `istioctl` 添加到您的环境变量 PATH 中:
 
     {{< text bash >}}
-    $ export PATH=$PATH:$HOME/.istioctl/bin
+    $ export PATH=$HOME/.istioctl/bin:$PATH
     {{< /text >}}
 
 1. 使用 bash 或 ZSH 控制台时，可以选择启用[命令自动补全选项](#enabling-auto-completion)。
