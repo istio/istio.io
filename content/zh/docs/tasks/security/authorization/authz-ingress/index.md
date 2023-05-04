@@ -350,7 +350,7 @@ spec:
 如果您使用的是 `ExtraalTrafficPolicy：Local`，那么您的 `AuthorizationPolicy` 中应该使用
 `ipBlocks`。
 
-|Load Balancer Type |Source of Client IP   | `ipBlocks` vs. `remoteIpBlocks`
+| 负载均衡器类型 | 客户端源 IP   | `ipBlocks` 与 `remoteIpBlocks`
 --------------------|----------------------|---------------------------
 | TCP Proxy         | Proxy Protocol       | `remoteIpBlocks`
 | Network           | packet source address| `ipBlocks`
