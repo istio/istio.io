@@ -178,7 +178,7 @@ spec:
 
 如果您使用的是 TCP/UDP 代理外部负载均衡器 (AWS Classic ELB)，
 它可以使用[代理协议](https://www.haproxy.com/blog/haproxy/proxy-protocol/)
-将原始客户端 IP 地址嵌入到分组数据中。外部负载均衡器和 Istio 入口网关都必须支持代理协议才能工作。
+将原始客户端 IP 地址嵌入到分组数据中。外部负载均衡器和 Istio Ingress 网关都必须支持代理协议才能工作。
 在 Istio 中，您可以通过如下所示的 `EnvoyFilter` 启用：
 
 {{< tabset category-name="config-api" >}}
