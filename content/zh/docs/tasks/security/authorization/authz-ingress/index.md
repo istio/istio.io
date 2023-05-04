@@ -77,7 +77,7 @@ $ export INGRESS_PORT=$(kubectl get gtw httpbin-gateway -n foo -o jsonpath='{.sp
 
 {{< /tabset >}}
 
-* 使用以下命令验证 `httpbin` 工作负载和入口网关是否正常工作:
+* 使用以下命令验证 `httpbin` 工作负载和 Ingress 网关是否正常工作:
 
     {{< text bash >}}
     $ curl "$INGRESS_HOST:$INGRESS_PORT"/headers -s -o /dev/null -w "%{http_code}\n"
