@@ -309,10 +309,10 @@ No
 <p>Source specifies the source identities of a request. Fields in the source are
 ANDed together.</p>
 <p>For example, the following source matches if the principal is &ldquo;admin&rdquo; or &ldquo;dev&rdquo;
-and the namespace is &ldquo;prod&rdquo; or &ldquo;test&rdquo; and the ip is not &ldquo;1.2.3.4&rdquo;.</p>
+and the namespace is &ldquo;prod&rdquo; or &ldquo;test&rdquo; and the ip is not &ldquo;203.0.113.4&rdquo;.</p>
 <pre><code class="language-yaml">principals: [&quot;admin&quot;, &quot;dev&quot;]
 namespaces: [&quot;prod&quot;, &quot;test&quot;]
-notIpBlocks: [&quot;1.2.3.4&quot;]
+notIpBlocks: [&quot;203.0.113.4&quot;]
 </code></pre>
 
 <table class="message-fields">
@@ -403,8 +403,8 @@ No
 <td><code>ipBlocks</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>Optional. A list of IP blocks, populated from the source address of the IP packet. Single IP (e.g. &ldquo;1.2.3.4&rdquo;) and
-CIDR (e.g. &ldquo;1.2.3.0/24&rdquo;) are supported. This is the same as the <code>source.ip</code> attribute.</p>
+<p>Optional. A list of IP blocks, populated from the source address of the IP packet. Single IP (e.g. &ldquo;203.0.113.4&rdquo;) and
+CIDR (e.g. &ldquo;203.0.113.0/24&rdquo;) are supported. This is the same as the <code>source.ip</code> attribute.</p>
 <p>If not set, any IP is allowed.</p>
 
 </td>
@@ -431,7 +431,7 @@ No
 To make use of this field, you must configure the numTrustedProxies field of the gatewayTopology under the meshConfig
 when you install Istio or using an annotation on the ingress gateway.  See the documentation here:
 <a href="/docs/ops/configuration/traffic-management/network-topologies/">Configuring Gateway Network Topology</a>.
-Single IP (e.g. &ldquo;1.2.3.4&rdquo;) and CIDR (e.g. &ldquo;1.2.3.0/24&rdquo;) are supported.
+Single IP (e.g. &ldquo;203.0.113.4&rdquo;) and CIDR (e.g. &ldquo;203.0.113.0/24&rdquo;) are supported.
 This is the same as the <code>remote.ip</code> attribute.</p>
 <p>If not set, any IP is allowed.</p>
 
