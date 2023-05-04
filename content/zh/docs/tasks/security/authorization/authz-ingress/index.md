@@ -60,7 +60,7 @@ $ kubectl apply -f @samples/httpbin/gateway-api/httpbin-gateway.yaml@ -n foo
 $ kubectl wait --for=condition=programmed gtw -n foo httpbin-gateway
 {{< /text >}}
 
-在入口网关的特使中启用 RBAC 调试:
+针对 Ingress 网关在 Envoy 中启用 RBAC 调试：
 
 {{< text bash >}}
 $ kubectl get pods -n foo -o name -l istio.io/gateway-name=httpbin-gateway | sed 's|pod/||' | while read -r pod; do istioctl proxy-config log "$pod" -n foo --level rbac:debug; done
