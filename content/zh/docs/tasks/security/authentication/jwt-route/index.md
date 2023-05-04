@@ -10,20 +10,20 @@ status: Alpha
 
 {{< boilerplate alpha >}}
 
-本任务向您展示如何实现基于 Istio 入口网关上的 JWT 声明路由请求，来使用请求身份认证
-和虚拟服务。
+本任务向您展示如何实现基于 Istio 入口网关上的 JWT 声明路由请求，
+来使用请求身份认证和虚拟服务。
 
-注意：该特性只支持 Istio 入口网关，并且需要使用请求身份验证和虚拟
-服务来根据 JWT 声明进行正确的验证和路由。
+注意：该特性只支持 Istio 入口网关，并且需要使用请求身份验证和虚拟服务来根据
+JWT 声明进行正确的验证和路由。
 
-## 开始之前{#before-you-begin}
+## 开始之前 {#before-you-begin}
 
 * 理解 Istio [身份认证策略](/zh/docs/concepts/security/#authentication-policies)和[虚拟服务](/zh/docs/concepts/traffic-management/#virtual-services)相关概念。
 
-* 使用 [Istio 安装指南](/zh/docs/setup/install/istioctl/)安装 Istio 。
+* 使用 [Istio 安装指南](/zh/docs/setup/install/istioctl/)安装 Istio。
 
-* 在 `foo` 命名空间中，部署一个 `httpbin` 工作负载 ，
-并通过 Istio 入口网关使用以下命令暴露它：
+* 在 `foo` 命名空间中，部署一个 `httpbin` 工作负载，
+  并通过 Istio 入口网关使用以下命令暴露它：
 
     {{< text bash >}}
     $ kubectl create ns foo
@@ -46,7 +46,7 @@ status: Alpha
 如果您没有看到预期的输出，请在几秒钟后重试。因为缓存和传输的开销会导致延迟。
 {{< /warning >}}
 
-## 基于 JWT 声明配置入站路由{#configuring-ingress-routing-based-on-JWT-claims}
+## 基于 JWT 声明配置入站路由 {#configuring-ingress-routing-based-on-JWT-claims}
 
 Istio 入口网关支持基于经过身份验证的 JWT 的路由，
 这对于基于最终用户身份的路由非常有用，并且比使用未经身份验证的 HTTP
@@ -109,13 +109,13 @@ Istio 入口网关支持基于经过身份验证的 JWT 的路由，
     EOF
     {{< /text >}}
 
-    虚拟服务使用保留的消息头 `"@request.auth.claims.groups"` 来匹配 JWT 声明中的 `groups` 。
+    虚拟服务使用保留的消息头 `"@request.auth.claims.groups"` 来匹配 JWT 声明中的 `groups`。
     前缀的 `@` 表示它与来自 JWT 验证的元数据匹配，而不是与 HTTP 消息头匹配。
     JWT 支持字符串类型的声明、字符串列表和嵌套声明。使用 `.` 作为嵌套声明名称的分隔符。
-    例如， `"@request.auth.claims.name.givenName"` 匹配嵌套声明 `name` 和 `givenName`。
+    例如，`"@request.auth.claims.name.givenName"` 匹配嵌套声明 `name` 和 `givenName`。
     当前不支持使用 `.` 字符作为声明名称。
 
-## 基于 JWT 声明验证入口路由{#validating-ingress-routing-based-on-JWT-claims}
+## 基于 JWT 声明验证入口路由 {#validating-ingress-routing-based-on-JWT-claims}
 
 1. 验证入口网关返回没有 JWT 的 HTTP 404 代码：
 
@@ -163,9 +163,9 @@ Istio 入口网关支持基于经过身份验证的 JWT 的路由，
     ...
     {{< /text >}}
 
-## 清除{#cleanup}
+## 清除 {#cleanup}
 
-* 移除名称为 foo 的命名空间：
+* 移除名称为 `foo` 的命名空间：
 
     {{< text bash >}}
     $ kubectl delete namespace foo
