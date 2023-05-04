@@ -112,7 +112,7 @@ Kubernetes 的 `Ingress` 资源也必须由 Ingress 控制器支持，该控制�
 
 ## 原始客户端的源 IP 地址 {#source-ip-address-of-the-original-client}
 
-如果数据包通过外部代理负载均衡器和 / 或 Kube-Proxy ，则客户端的原始源 IP 地址将丢失。
+如果数据包通过外部代理负载均衡器和/或 kube-proxy，则客户端的原始源 IP 地址将丢失。
 以下小节介绍了为不同类型的负载均衡保留原始客户端 IP 以用于日志记录或安全目的的一些策略：
 
 1. [TCP/UDP Proxy Load Balancer](#tcp-proxy)
