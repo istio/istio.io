@@ -121,7 +121,7 @@ Kubernetes 的 `Ingress` 资源也必须由 Ingress 控制器支持，该控制�
 
 以下是 Istio 在流行的托管 Kubernetes 环境下使用 `LoadBalancer` 服务创建的负载均衡器类型，以供参考：
 
-|Cloud Provider | Load Balancer Name            | Load Balancer Type
+|云提供商 | 负载均衡器名称           | 负载均衡器类型
 ----------------|-------------------------------|-------------------
 |AWS EKS        | Classic Elastic Load Balancer | TCP Proxy
 |GCP GKE        | TCP/UDP Network Load Balancer | Network
