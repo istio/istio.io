@@ -299,7 +299,7 @@ kube-proxy 并阻止其将流量发送到其他节点，使用 `externalTrafficP
 设置来同时保留 Kubernetes 内部的客户端 IP。
 
 {{< warning >}}
-对于生产部署，如果您开启了 `exteralTrafficPolicy：Local`，强烈建议 **将一个入口网关实例部署到多个节点**。否则，这将导致 **只有** 具有活动入口网关实例的节点能够接受并将传入的 NLB 流量分发到集群的其余部分，从而造成潜在的入口流量瓶颈和降低的内部负载均衡能力，甚至在具有入口网关实例的节点子集关闭时完全丧失到集群的入口流量。有关更多信息，请参阅[服务源 IP `Type=NodePort`](https://kubernetes.io/docs/tutorials/services/source-ip/#source-ip-for-services-with-type-nodeport)。
+对于生产部署，如果您开启了 `externalTrafficPolicy: Local`，强烈建议 **将一个 Ingress 网关实例部署到多个节点**。否则，这将导致 **只有** 具有活动 Ingress 网关实例的节点能够接受并将传入的 NLB 流量分发到集群的其余部分，从而造成潜在的 Ingress 流量瓶颈和降低的内部负载均衡能力，甚至在具有 Ingress 网关实例的节点子集关闭时完全丧失到集群的 Ingress 流量。有关更多信息，请参阅[服务源 IP `Type=NodePort`](https://kubernetes.io/zh-cn/docs/tutorials/services/source-ip/#source-ip-for-services-with-type-nodeport)。
 {{< /warning >}}
 
 使用以下命令更新入口网关以设置 `exteralTrafficPolicy：Local` 以保留入口网关上的原始客户端源IP:
