@@ -33,13 +33,13 @@ Istio 的目标之一是充当可以投入到现有集群中的“透明代理�
 
 ## 流量路由{#traffic-routing}
 
-当 Envoy 代理收到请求时，必须决定将此请求转发到哪儿。
-默认将被转发到被请求的原始服务，除非进行了[自定义](/zh/docs/tasks/traffic-management/traffic-shifting/)。
+当 Envoy 代理收到请求时，必须决定将此请求转发到哪里。
+默认将转发到被请求的原始服务，除非进行了[自定义](/zh/docs/tasks/traffic-management/traffic-shifting/)。
 这个工作方式取决于使用的协议。
 
 ### TCP
 
-处理 TCP 流量时，Istio 可用于路由连接的有用信息非常少（只有目的地 IP 和端口）。
+处理 TCP 流量时，Istio 可用于路由连接的有用信息非常少（只有目标 IP 和端口）。
 这些属性用于决定预期的服务；代理被配置为在每个服务 IP (`<Kubernetes ClusterIP>:<Port>`) 对上侦听并将流量转发到上游服务。
 
 对于自定义，可以配置 TCP `VirtualService`，
@@ -67,8 +67,8 @@ HTTP 允许比 TCP 和 TLS 更丰富的路由。使用 HTTP，您可以路由单
 
 - Istio 将对个别请求执行负载均衡。通常，这是非常理想的，特别是在具有长期连接的情况下，
   例如 gRPC 和 HTTP/2，在这些情况下，连接级负载均衡是无效的。
-- 请求基于端口和 **`Host` 标头** 而不是端口和 IP 被路由。
-  这意味着目的地 IP 地址实际上被忽略。
+- 请求基于端口和 **`Host` 头信息** 而不是端口和 IP 被路由。
+  这意味着目标 IP 地址实际上被忽略。
   例如 `curl 8.8.8.8 -H "Host: productpage.default.svc.cluster.local"` 将被路由到 `productpage` 服务。
 
 ## 未匹配的流量{#unmatched-traffic}
@@ -129,7 +129,7 @@ HTTP 和 TLS 不共享此约束条件，因为基于 hostname/SNI 进行路由�
 
 {{< tip >}}
 `addresses` 字段和 `endpoints` 字段经常被混淆。
-`addresses` 是指将与之匹配的 IP，而 `endpoints` 是将发送流量的目的地 IP 集合。
+`addresses` 是指将与之匹配的 IP，而 `endpoints` 是将发送流量的目标 IP 集合。
 
 例如，下面的服务条目将匹配 `1.1.1.1` 的流量，并按照配置的负载均衡策略将请求发送到 `2.2.2.2` 和 `3.3.3.3`：
 
