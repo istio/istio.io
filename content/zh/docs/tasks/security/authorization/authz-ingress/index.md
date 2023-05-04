@@ -1,13 +1,13 @@
 ---
-title: 入口网关
-description: 展示如何在入口网关上设置访问控制。
+title: Ingress 网关
+description: 展示如何在 ingress 网关上设置访问控制。
 weight: 50
 keywords: [security,access-control,rbac,authorization,ingress,ip,allowlist,denylist]
 owner: istio/wg-security-maintainers
 test: yes
 ---
 
-此任务向您展示如何使用授权策略在 Istio 入口网关上实施基于 IP 的访问控制。
+此任务向您展示如何使用授权策略在 Istio ingress 网关上实施基于 IP 的访问控制。
 
 {{< boilerplate gateway-api-support >}}
 
@@ -19,8 +19,7 @@ test: yes
 
 * 使用 [Istio 安装指南](/zh/docs/setup/install/istioctl/)安装 Istio。
 
-* 在命名空间中部署工作负载 `httpbin`，例如 `foo`，并使用以下命令通过 Istio
-  入口网关公开它：
+* 在启用边车注入的命名空间`foo`中部署工作负载`httpbin`：
 
     {{< text bash >}}
     $ kubectl create ns foo
@@ -40,13 +39,13 @@ test: yes
 $ kubectl apply -f @samples/httpbin/httpbin-gateway.yaml@ -n foo
 {{< /text >}}
 
-* 在 Envoy 中为入口网关打开 RBAC 调试：
+* 在 Envoy 中为 ingress 网关打开 RBAC 调试：
 
     {{< text bash >}}
     $ kubectl get pods -n istio-system -o name -l istio=ingressgateway | sed 's|pod/||' | while read -r pod; do istioctl proxy-config log "$pod" -n istio-system --level rbac:debug; done
     {{< /text >}}
 
-* 遵从[确定入口 IP 和端口](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)中的指示说明来定义
+* 遵从[确定 ingress IP 和端口](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)中的指示说明来定义
   `INGRESS_HOST` 和 `INGRESS_PORT` 环境变量。
 
 {{< /tab >}}
@@ -104,7 +103,7 @@ Kubernetes 的 `Ingress` 资源也必须由 Ingress 控制器支持，该控制�
    除了它还创建一个特定于环境的外部负载均衡器来处理将流量分配到工作节点。
    例如，在 AWS EKS 中，`LoadBalancer` 服务将创建一个以您的工作程序节点为目标的经典
    ELB。如果您的 Kubernetes 环境没有 `LoadBalancer` 实现，那么它的行为就像
-   `NodePort`。Istio 入口网关创建一个 `LoadBalancer`服务。
+   `NodePort`。Istio ingress 网关创建一个 `LoadBalancer`服务。
 
 如果处理来自 `NodePort` 或 `LoadBalancer` 的流量的 Pod
 没有在接收流量的工作节点上运行怎么办？Kubernetes 有自己的内部代理，
@@ -233,7 +232,7 @@ spec:
 
 {{< /tabset >}}
 
-以下是一个示例配置，展示了如何使 AWS EKS 上的入口网关支持代理协议：
+以下是一个示例配置，展示了如何使 AWS EKS 上的 ingress 网关支持代理协议：
 
 {{< tabset category-name="config-api" >}}
 
@@ -362,8 +361,8 @@ spec:
 | HTTP/HTTPS        | X-Forwarded-For      | `remoteIpBlocks`
 
 * 以下命令为创建授权策略`Inress-Policy`
-Istio 入口网关。以下策略将 `action` 字段设置为 `ALLOW` 以
-允许 `ipBlocks` 中指定的 IP 地址访问入口网关。
+Istio  ingress 网关。以下策略将 `action` 字段设置为 `ALLOW` 以
+允许 `ipBlocks` 中指定的 IP 地址访问 ingress 网关。
 不在列表中的 IP 地址将被拒绝。`ipBlocks` 支持单 IP 地址和 CIDR 表示法。
 
 {{< tabset category-name="config-api" >}}
@@ -462,7 +461,7 @@ EOF
 
 {{< /tabset >}}
 
-* 验证对入口网关的请求是否被拒绝：
+* 验证对 ingress 网关的请求是否被拒绝：
 
     {{< text bash >}}
     $ curl "$INGRESS_HOST:$INGRESS_PORT"/headers -s -o /dev/null -w "%{http_code}\n"
@@ -609,7 +608,7 @@ EOF
 
 {{< /tabset >}}
 
-* 验证是否允许对入口网关的请求：
+* 验证是否允许对 ingress 网关的请求：
 
     {{< text bash >}}
     $ curl "$INGRESS_HOST:$INGRESS_PORT"/headers -s -o /dev/null -w "%{http_code}\n"
@@ -617,7 +616,7 @@ EOF
     {{< /text >}}
 
 * 更新 `Inress-Policy` 授权策略，将 `action` 键设置为 `DENY`，
-禁止 `ipBlocks` 中指定的 IP 地址访问入口网关：
+禁止 `ipBlocks` 中指定的 IP 地址访问 ingress 网关：
 
 {{< tabset category-name="config-api" >}}
 
@@ -715,16 +714,16 @@ EOF
 
 {{< /tabset >}}
 
-* 验证对入口网关的请求是否被拒绝：
+* 验证对 ingress 网关的请求是否被拒绝：
 
     {{< text bash >}}
     $ curl "$INGRESS_HOST:$INGRESS_PORT"/headers -s -o /dev/null -w "%{http_code}\n"
     403
     {{< /text >}}
 
-* 您可以使用在线代理服务来访问使用不同客户端 IP 的入口网关，以验证请求是否被允许。
+* 您可以使用在线代理服务来访问使用不同客户端 IP 的 ingress 网关，以验证请求是否被允许。
 
-* 如果您没有得到预期的响应，请查看应显示 RBAC 调试信息的入口网关日志：
+* 如果您没有得到预期的响应，请查看应显示 RBAC 调试信息的 ingress 网关日志：
 
 {{< tabset category-name="config-api" >}}
 
