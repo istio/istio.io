@@ -113,7 +113,7 @@ kind 不像 minikube 一样内置了操作界面。但仍然可以设置一个�
     Starting to serve on 127.0.0.1:8001
     {{< /text >}}
 
-    点击 [Kubernetes Dashboard](http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/) 来查看您的 Deployment 和服务。
+    点击 [Kubernetes Dashboard](http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/) 来查看您的 Deployment 和 Service。
 
     {{< warning >}}
     最好将 token 保存起来，不然每次登录到操作界面需要 token 时都得重新运行上述步骤 4.
