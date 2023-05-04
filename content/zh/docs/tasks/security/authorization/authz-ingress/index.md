@@ -129,7 +129,7 @@ Kubernetes 的 `Ingress` 资源也必须由 Ingress 控制器支持，该控制�
 |IBM IKS/ROKS   | Network Load Balancer         | Network
 |DO DOKS        | Load Balancer                 | Network
 {{< tip >}}
-您可以指示 AWS EKS 在网关服务上创建带有注释的网络负载均衡器：
+您可以指示 AWS EKS 在网关服务上创建带有注解的的 Network Load Balancer：
 {{< tabset category-name="config-api" >}}
 
 {{< tab name="Istio classic" category-value="istio-classic" >}}
