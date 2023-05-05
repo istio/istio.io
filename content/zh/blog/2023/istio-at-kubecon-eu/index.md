@@ -36,8 +36,8 @@ After this we stepped into our first [end user talk from John Keates from Wehkam
 专注安全性这一点在 Istio Day 中得到了更多见证。
 We also had lightning talks covering [faster Istio development environments](https://youtu.be/Onsukvmmm50),
 我们还就来自于 [更快速的 Istio 开发环境](https://youtu.be/Onsukvmmm50) 进行了闪电演讲，
-我们还针对分别来自 Mitch Connors、Zhonghu Xu 和 Matt Turner 的 [更快的 Istio 开发环境](https://youtu.be/Onsukvmmm50)、
-[Istio 资源隔离指南](https://youtu.be/TmlfQjChmNU) 和 [混合云部署安全](https://youtu.be/xejbMNbOwXk) 话题进行了闪电演讲。
+Mitch Connors、Zhonghu Xu 和 Matt Turner 分别就[更快速的 Istio 开发环境](https://youtu.be/Onsukvmmm50)、
+[Istio 资源隔离指南](https://youtu.be/TmlfQjChmNU)和[混合云部署安全](https://youtu.be/xejbMNbOwXk)话题进行了闪电演讲。
 
 {{< image width="75%"
     link="./istioday-hall.jpg"
