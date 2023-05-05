@@ -93,12 +93,6 @@ status: Alpha
     $ kubectl annotate --overwrite authorizationpolicies deny-path-headers -n foo istio.io/dry-run='true'
     {{< /text >}}
 
-    使用以下命令验证授权策略是否已正确应用：
-
-    {{< text bash >}}
-    $ istioctl authn tls-check httpbin.foo.svc.cluster.local
-    {{< /text >}}
-
 1. 验证请求路径 `/headers` 是否允许，因为策略是在模拟运行模式下创建的，
    所以请运行以下命令将 20 个请求从 `sleep` 发送到 `httpbin`，
    此请求包含头部 `X-B3-Sampled: 1` 以始终触发 Zipkin 追踪：

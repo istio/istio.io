@@ -154,7 +154,7 @@ spec:
 
     {{< text bash >}}
     $ kubectl apply -n foo -f - <<EOF
-    apiVersion: security.istio.io/v1beta1
+    apiVersion: security.istio.io/v1
     kind: AuthorizationPolicy
     metadata:
       name: ext-authz
