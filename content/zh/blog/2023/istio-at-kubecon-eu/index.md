@@ -55,7 +55,7 @@ Istio 相关的议题并没有随着 Istio Day 的结束而告终。
 
 TOC 成员 Neeraj Poddar 介绍的 Istio 维护者路线引起了极大的关注，
 他谈到了 Istio 目前正在进行的工作和未来的路线图。
-这次演讲以及其听众规模，印证了为什么 Istio 仍然是业内最受欢迎的服务网格。
+这次演讲及其观众规模印证了为什么 Istio 是业内最受欢迎的服务网格。
 
 {{< image width="75%"
     link="./use-istio-in-production.jpg"
