@@ -7,9 +7,8 @@ keywords: [Istio Day,IstioCon,Istio,conference,KubeCon,CloudNativeCon]
 ---
 
 4 月 18 日至 21 日，云原生及开源社区欢聚在举办于阿姆斯特丹的 2023 年第一场 KubeCon 中。
-这是一场由云原生计算基金会组织举办的为期四天的盛会，
-我们从只是作为 ServiceMeshCon 的参与者到现在举办第一个位于同一地点的官方项目活动，
-这对于 Istio 来说是特别的。
+这是一场由云原生计算基金会组织且专为 Istio 举办的为期四天的盛会，
+也是在这片土地上，我们从当年 ServiceMeshCon 的一个参与者演变为如今第一个官方项目活动 (Istio Day Europe) 的组织者。
 
 {{< image width="40%"
     link="./istio-day-welcome.jpg"
