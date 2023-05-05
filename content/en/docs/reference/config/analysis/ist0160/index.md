@@ -5,7 +5,7 @@ owner: istio/wg-user-experience-maintainers
 test: n/a
 ---
 
-The `MultipleTelemetriesWithoutWorkloadSelectors` message occurs when there are multiple Telemetry resources in the same namespace that do not define any workload selectors. Without workload selectors, these Telemetry resources apply to all workloads in the namespace by default. Having multiple such resources can lead to ambiguity in determining which Telemetry resource should be applied to a specific pod.
+The `MultipleTelemetriesWithoutWorkloadSelectors` message occurs when there are multiple Telemetry resources in the same namespace that do not define any workload selector. Without workload selectors, these Telemetry resources apply to all workloads in the namespace by default. Having multiple such resources can lead to ambiguity in determining which Telemetry resource should be applied to a specific pod.
 
 This message is generated when the following conditions are met:
 
