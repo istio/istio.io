@@ -12,7 +12,8 @@ test: yes
 本任务展示了如何将 TCP 流量从微服务的一个版本迁移到另一个版本。
 
 一个常见的用例是将 TCP 流量从微服务的旧版本逐步迁移到新版本。
-在 Istio 中，您可以通过配置一系列路由规则来实现此目标，这些规则将一定比例的 TCP 流量从一个目的地重定向到另一个目的地。
+在 Istio 中，您可以通过配置一系列路由规则来实现此目标，这些规则将一定比例的 TCP
+流量从一个目的地重定向到另一个目的地。
 
 在此任务中，您将会把 100% 的 TCP 流量分配到 `tcp-echo:v1`。
 接着，再通过配置 Istio 路由权重把 20% 的 TCP 流量分配到 `tcp-echo:v2`。
@@ -21,13 +22,13 @@ test: yes
 
 {{< boilerplate gateway-api-experimental >}}
 
-## 开始之前{#before-you-begin}
+## 开始之前 {#before-you-begin}
 
 * 按照[安装指南](/zh/docs/setup/)中的说明安装 Istio。
 
 * 查看[流量管理](/zh/docs/concepts/traffic-management)概念文档。
 
-## 设置测试环境{#set-up-the-test-environment}
+## 设置测试环境 {#set-up-the-test-environment}
 
 1.  首先，创建一个命名空间用于测试 TCP 流量迁移。
 
@@ -47,7 +48,7 @@ test: yes
     $ kubectl apply -f @samples/tcp-echo/tcp-echo-services.yaml@ -n istio-io-tcp-traffic-shifting
     {{< /text >}}
 
-## 应用基于权重的 TCP 路由{#apply-weight-based-TCP-routing}
+## 应用基于权重的 TCP 路由 {#apply-weight-based-TCP-routing}
 
 1. 将所有 TCP 流量路由到微服务 `tcp-echo` 的 `v1` 版本。
 
@@ -77,7 +78,8 @@ $ kubectl apply -f @samples/tcp-echo/gateway-api/tcp-echo-all-v1.yaml@ -n istio-
 
 {{< tab name="Istio classic" category-value="istio-classic" >}}
 
-遵循[确定 Ingress IP 和端口](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)中的指示说明来设置 `TCP_INGRESS_PORT` 和 `INGRESS_HOST` 环境变量。
+遵循[确定 Ingress IP 和端口](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)中的指示说明来设置
+`TCP_INGRESS_PORT` 和 `INGRESS_HOST` 环境变量。
 
 {{< /tab >}}
 
@@ -115,7 +117,8 @@ $ export TCP_INGRESS_PORT=$(kubectl get gtw tcp-echo-gateway -n istio-io-tcp-tra
     ...
     {{< /text >}}
 
-    请注意，所有时间戳都有一个前缀 “_one_”，说明所有流量都被路由到 `tcp-echo` Service 的 `v1` 版本。
+    请注意，所有时间戳都有一个前缀 “**one**”，说明所有流量都被路由到 `tcp-echo`
+    Service 的 `v1` 版本。
 
 4)  通过以下命令，将 20% 流量从 `tcp-echo:v1` 迁移到 `tcp-echo:v2`：
 
@@ -224,17 +227,21 @@ spec:
     ...
     {{< /text >}}
 
-    请注意，大约 20% 的时间戳带有前缀 “_two_”，说明 80% 的 TCP 流量被路由到 `tcp-echo` Service 的 `v1` 版本，而 20% 的流量被路由到 `v2`版本。
+    请注意，大约 20% 的时间戳带有前缀 “**two**”，说明 80% 的 TCP 流量被路由到
+    `tcp-echo` Service 的 `v1` 版本，而 20% 的流量被路由到 `v2` 版本。
 
-## 理解原理{#understanding-what-happened}
+## 理解原理 {#understanding-what-happened}
 
-这个任务中，使用 Istio 路由权重特性将 `tcp-echo` 服务的 TCP 流量从旧版本迁移到了新版本。请注意，这与使用容器编排平台的部署功能进行版本迁移完全不同，后者（容器编排平台）使用了实例扩容来管理流量。
+这个任务中，使用 Istio 路由权重特性将 `tcp-echo` 服务的 TCP
+流量从旧版本迁移到了新版本。请注意，这与使用容器编排平台的部署功能进行版本迁移完全不同，
+后者（容器编排平台）使用了实例扩容来管理流量。
 
-在 Istio 中，可以对 `tcp-echo` 服务的两个版本进行独立扩容和缩容，这个过程不会影响两个服务版本之间的流量分配。
+在 Istio 中，可以对 `tcp-echo` 服务的两个版本进行独立扩容和缩容，
+这个过程不会影响两个服务版本之间的流量分配。
 
 有关不同版本间流量管理及自动扩缩的更多信息，请查看[使用 Istio 进行金丝雀部署](/zh/blog/2017/0.1-canary/)这篇博文。
 
-## 清理{#cleanup}
+## 清理 {#cleanup}
 
 1. 移除路由规则：
 
