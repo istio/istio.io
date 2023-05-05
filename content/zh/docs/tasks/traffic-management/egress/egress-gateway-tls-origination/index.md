@@ -440,80 +440,21 @@ $ kubectl delete destinationrule egressgateway-for-cnn
     EOF
     {{< /text >}}
 
-### 使用客户端证书重新部署 egress 网关 {#redeploy-the-egress-gateway-with-the-client-certificates}
-
-1. 生成 Kubernetes [Secret](https://kubernetes.io/zh-cn/docs/concepts/configuration/secret/)
-   保存客户端和 CA 的证书。
-
-    {{< text bash >}}
-    $ kubectl create -n istio-system secret tls nginx-client-certs --key client.example.com.key --cert client.example.com.crt
-    $ kubectl create -n istio-system secret generic nginx-ca-certs --from-file=example.com.crt
-    {{< /text >}}
-
-1. 部署 `istio-egressgateway` 挂载新生成的 Secrets 的 Volume。
-   使用的参数选项与生成 `istio.yaml` 中的一致，创建下面的
-   `gateway-patch.json` 文件：
-
-    {{< text bash >}}
-    $ cat > gateway-patch.json <<EOF
-    [{
-      "op": "add",
-      "path": "/spec/template/spec/containers/0/volumeMounts/0",
-      "value": {
-        "mountPath": "/etc/istio/nginx-client-certs",
-        "name": "nginx-client-certs",
-        "readOnly": true
-      }
-    },
-    {
-      "op": "add",
-      "path": "/spec/template/spec/volumes/0",
-      "value": {
-      "name": "nginx-client-certs",
-        "secret": {
-          "secretName": "nginx-client-certs",
-          "optional": true
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/spec/template/spec/containers/0/volumeMounts/1",
-      "value": {
-        "mountPath": "/etc/istio/nginx-ca-certs",
-        "name": "nginx-ca-certs",
-        "readOnly": true
-      }
-    },
-    {
-      "op": "add",
-      "path": "/spec/template/spec/volumes/1",
-      "value": {
-      "name": "nginx-ca-certs",
-        "secret": {
-          "secretName": "nginx-ca-certs",
-          "optional": true
-        }
-      }
-    }]
-    EOF
-    {{< /text >}}
-
-1. 通过以下命令部署应用 `istio-egressgateway`：
-
-    {{< text bash >}}
-    $ kubectl -n istio-system patch --type=json deploy istio-egressgateway -p "$(cat gateway-patch.json)"
-    {{< /text >}}
-
-1. 验证密钥和证书被成功装载入 `istio-egressgateway` Pod：
-
-    {{< text bash >}}
-    $ kubectl exec -n istio-system "$(kubectl -n istio-system get pods -l istio=egressgateway -o jsonpath='{.items[0].metadata.name}')" -- ls -al /etc/istio/nginx-client-certs /etc/istio/nginx-ca-certs
-    {{< /text >}}
-
-    `tls.crt` 与 `tls.key` 在 `/etc/istio/nginx-client-certs` 中，而 `ca-chain.cert.pem` 在 `/etc/istio/nginx-ca-certs` 中。
-
 ### 为 egress 流量配置双向 TLS {#configure-mutual-TLS-origination-for-egress-traffic}
+
+1. 创建 Kubernetes [Secret](https://kubernetes.io/docs/concepts/configuration/secret/)
+   保存客户端证书：
+
+    {{< text bash >}}
+    $ kubectl create secret -n istio-system generic client-credential --from-file=tls.key=client.example.com.key \
+      --from-file=tls.crt=client.example.com.crt --from-file=ca.crt=example.com.crt
+    {{< /text >}}
+
+   Secret 所在的命名空间**必须**与出口网关部署的位置一只，在本例中为 `istio-system` 命名空间。
+
+   为了支持与各种工具的集成，Istio 支持多种 Secret 格式。
+
+   在本例中，使用了一个具有关键字 `tls.key`、`tls.crt` 和 `ca.crt` 的通用 Secret。
 
 1. 为 `my-nginx.mesh-external.svc.cluster.local` 创建一个 egress `Gateway`
    端口为 443，以及目标规则和虚拟服务来引导流量流经 egress 网关并从 egress
@@ -615,9 +556,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
             number: 443
           tls:
             mode: MUTUAL
-            clientCertificate: /etc/istio/nginx-client-certs/tls.crt
-            privateKey: /etc/istio/nginx-client-certs/tls.key
-            caCertificates: /etc/istio/nginx-ca-certs/example.com.crt
+            credentialName: client-credential # 这必须与之前创建的用于保存客户端证书的 Secret 相匹配
             sni: my-nginx.mesh-external.svc.cluster.local
     EOF
     {{< /text >}}
