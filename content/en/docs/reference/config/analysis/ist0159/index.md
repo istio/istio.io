@@ -5,7 +5,7 @@ owner: istio/wg-user-experience-maintainers
 test: n/a
 ---
 
-The `ConflictingTelemetryWorkloadSelectors` message occurs when multiple Telemetry resources in the same namespace have overlapping workload selectors, causing ambiguity in determining which Telemetry resource should be applied to a specific pod. This can lead to unintended telemetry configurations for the affected workloads.
+The `ConflictingTelemetryWorkloadSelectors` message occurs when multiple Telemetry resources in the same namespace have overlapping workload selectors, causing ambiguity in determining which Telemetry resource should be applied to a specific pod. This can lead to unintended telemetry configuration for the affected workloads.
 
 This message is generated when the following conditions are met:
 
