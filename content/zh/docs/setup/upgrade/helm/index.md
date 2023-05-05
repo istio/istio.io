@@ -1,7 +1,7 @@
 ---
 title: 使用 Helm 升级
 linktitle: Upgrade with Helm
-description: 深度评估升级和配置 Istio。
+description: 使用 Helm 升级 Istio 的说明。
 weight: 27
 keywords: [kubernetes,helm]
 owner: istio/wg-environments-maintainers
@@ -103,8 +103,8 @@ $ istioctl x precheck
 {{< boilerplate revision-tags-usage >}}
 
 {{< text bash >}}
-$ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{prod-stable}" --set revision=1-9-5 -n istio-system | kubectl apply -f -
-$ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{prod-canary}" --set revision=1-10-0 -n istio-system | kubectl apply -f -
+$ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{prod-stable}" --set revision={{< istio_previous_version_revision >}}-1 -n istio-system | kubectl apply -f -
+$ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{prod-canary}" --set revision={{< istio_full_version_revision >}} -n istio-system | kubectl apply -f -
 {{< /text >}}
 
 {{< warning >}}
@@ -115,7 +115,7 @@ $ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisi
 {{< boilerplate revision-tags-middle >}}
 
 {{< text bash >}}
-$ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{prod-stable}" --set revision=1-10-0 -n istio-system | kubectl apply -f -
+$ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{prod-stable}" --set revision={{< istio_full_version_revision >}} -n istio-system | kubectl apply -f -
 {{< /text >}}
 
 {{< boilerplate revision-tags-prologue >}}
@@ -125,7 +125,7 @@ $ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisi
 {{< boilerplate revision-tags-default-intro >}}
 
 {{< text bash >}}
-$ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{default}" --set revision=1-10-0 -n istio-system | kubectl apply -f -
+$ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{default}" --set revision={{< istio_full_version_revision >}} -n istio-system | kubectl apply -f -
 {{< /text >}}
 
 {{< boilerplate revision-tags-default-outro >}}
