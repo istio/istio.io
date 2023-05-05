@@ -101,7 +101,7 @@ See [Debugging Envoy and Istiod](/docs/ops/diagnostic-tools/proxy-cmd/) for more
 
 {{< tab name="macOS" category-value="macos" >}}
 
-If you are using the macOS operating system with the Bash terminal shell, make sure that the `zsh-completions` package is installed. With the [brew](https://brew.sh) package manager for macOS, you can check to see if the `zsh-completions` package is installed with the following command:
+If you are using the macOS operating system with the zsh terminal shell, make sure that the `zsh-completions` package is installed. With the [brew](https://brew.sh) package manager for macOS, you can check to see if the `zsh-completions` package is installed with the following command:
 
 {{< text bash >}}
 $ brew info zsh-completions
