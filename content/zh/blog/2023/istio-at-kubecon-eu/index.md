@@ -42,7 +42,7 @@ Mitch Connors、Zhonghu Xu 和 Matt Turner 分别就[更快速的 Istio 开发�
 
 我们有许多生态体系成员在本次活动中发布了与 Istio 相关的消息。
 Microsoft 宣布 [Istio 作为 Azure Kubernetes 服务的托管加载项](https://learn.microsoft.com/zh-cn/azure/aks/istio-about)，
-对于 Istio 的支持正式发布 [D2iQ Kubernetes 平台](https://www.prnewswire.com/news-releases/d2iq-takes-multi-cloud-multi-cluster-fleet-management-to-the-next-level-with-kubernetes-platform-enhancements-301799358.html)。
+[D2iQ Kubernetes 平台](https://www.prnewswire.com/news-releases/d2iq-takes-multi-cloud-multi-cluster-fleet-management-to-the-next-level-with-kubernetes-platform-enhancements-301799358.html)正式发布了对 Istio 的支持。
 
 Tetrate 发布 [Tetrate Service Express](https://tetrate.io/blog/introducing-tetrate-service-express/)，
 这是一种基于 Istio 的服务连接、安全性和弹性自动化解决方案，适用于 Amazon EKS 平台，
