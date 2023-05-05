@@ -117,11 +117,11 @@ $ brew install zsh-completions
 Once the `zsh-completions package` has been installed on your macOS system, add the following to your `~/.zshrc` file:
 
 {{< text plain >}}
-   if type brew &>/dev/null; then
-     FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+    if type brew &>/dev/null; then
+      FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
 
-     autoload -Uz compinit
-     compinit
+      autoload -Uz compinit
+      compinit
     fi
 {{< /text >}}
 
