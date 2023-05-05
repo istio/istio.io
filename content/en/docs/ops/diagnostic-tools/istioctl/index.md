@@ -101,23 +101,40 @@ See [Debugging Envoy and Istiod](/docs/ops/diagnostic-tools/proxy-cmd/) for more
 
 {{< tab name="macOS" category-value="macos" >}}
 
-If you are using the macOS operating system with the Bash terminal shell, make sure that the `bash-completion` package is installed. With the [brew](https://brew.sh) package manager for macOS, you can check to see if the `bash-completion` package is installed with the following command:
+If you are using the macOS operating system with the Bash terminal shell, make sure that the `zsh-completions` package is installed. With the [brew](https://brew.sh) package manager for macOS, you can check to see if the `zsh-completions` package is installed with the following command:
 
 {{< text bash >}}
-$ brew info bash-completion
-bash-completion: stable 1.3 (bottled)
+$ brew info zsh-completions
+zsh-completions: stable 0.34.0 (bottled)
 {{< /text >}}
 
-If you find that the `bash-completion` package is _not_ installed, proceed with installing the `bash-completion` package with the following command:
+If you find that the `zsh-completions` package is _not_ installed, proceed with installing the `zsh-completions` package with the following command:
 
 {{< text bash >}}
-$ brew install bash-completion
+$ brew install zsh-completions
 {{< /text >}}
 
-Once the `bash-completion package` has been installed on your macOS system, add the following line to your `~/.bash_profile` file:
+Once the `zsh-completions package` has been installed on your macOS system, add the following to your `~/.zshrc` file:
 
 {{< text plain >}}
-[[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
+   if type brew &>/dev/null; then
+     FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+
+     autoload -Uz compinit
+     compinit
+    fi
+{{< /text >}}
+
+You may also need to force rebuild `zcompdump`:
+
+{{< text bash >}}
+$ rm -f ~/.zcompdump; compinit
+{{< /text >}}
+
+Additionally, if you receive "zsh compinit: insecure directories" warnings when attempting to load these completions, you may need to run this:
+
+{{< text bash >}}
+$ chmod -R go-w '$HOMEBREW_PREFIX/share/zsh'
 {{< /text >}}
 
 {{< /tab >}}
