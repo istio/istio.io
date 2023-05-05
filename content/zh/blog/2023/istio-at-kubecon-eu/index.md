@@ -33,7 +33,6 @@ After this we stepped into our first [end user talk from John Keates from Wehkam
 紧跟着是来自彭博社讲师 Alexa Griffith 和 Zhenni Fu 带来的关于 [如何使用 Istio 保护他们高特权财务信息](https://youtu.be/f6jMix46ZD8) 的演讲。
 Istio Day 见证了人们更加注重安全性，这一点在 Zack Butcher
 讲到[使用 Istio 实现控制合规性](https://youtu.be/gIntE4Nn5r4)话题时达到了高潮。
-We also had lightning talks covering [faster Istio development environments](https://youtu.be/Onsukvmmm50),
 我们还就来自于 [更快速的 Istio 开发环境](https://youtu.be/Onsukvmmm50) 进行了闪电演讲，
 Mitch Connors、Zhonghu Xu 和 Matt Turner 分别就[更快速的 Istio 开发环境](https://youtu.be/Onsukvmmm50)、
 [Istio 资源隔离指南](https://youtu.be/TmlfQjChmNU)和[混合云部署安全](https://youtu.be/xejbMNbOwXk)话题进行了闪电演讲。
