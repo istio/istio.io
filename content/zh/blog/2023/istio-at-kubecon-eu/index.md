@@ -44,8 +44,8 @@ Mitch Connors、Zhonghu Xu 和 Matt Turner 分别就[更快速的 Istio 开发�
 Microsoft 宣布 [Istio 作为 Azure Kubernetes 服务的托管加载项](https://learn.microsoft.com/zh-cn/azure/aks/istio-about)，
 [D2iQ Kubernetes 平台](https://www.prnewswire.com/news-releases/d2iq-takes-multi-cloud-multi-cluster-fleet-management-to-the-next-level-with-kubernetes-platform-enhancements-301799358.html)正式发布了对 Istio 的支持。
 
-Tetrate 发布 [Tetrate Service Express](https://tetrate.io/blog/introducing-tetrate-service-express/)，
-这是一种基于 Istio 的服务连接、安全性和弹性自动化解决方案，适用于 Amazon EKS 平台，
+Tetrate 针对 Amazon EKS 发布了基于 Istio 的服务连通性、安全性和弹性自动化解决方案：
+[Tetrate Service Express](https://tetrate.io/blog/introducing-tetrate-service-express/)。
 Solo.io 发布了基于 Istio 应用联网功能的 [Gloo Fabric](https://www.solo.io/blog/introducing-solo-gloo-fabric/)，可扩展到跨云环境的基于虚拟机、容器和 Serverless 应用程序。
 
 Istio 相关的议题并没有随着 Istio Day 的结束而告终。
