@@ -72,7 +72,7 @@ TOC 成员 Neeraj Poddar 介绍的 Istio 维护者路线引起了极大的关注
 * [使用无代理 gRPC 和 Istio 为有状态应用程序自动缩放弹性 Kubernetes 基础设施](https://sched.co/1HyXz)
 * [开发 Istio 的心智模型：从 Kubernetes 到 Sidecar 再到 Ambient](https://sched.co/1HyZj)
 * [服务网格的未来 - Sidecar、无 Sidecar 还是无代理模式？ - 小组讨论会](https://sched.co/1Hydb)
-* [十大 Istio 安全风险和缓解策略的](https://sched.co/1HyPQ)
+* [十大 Istio 安全风险和缓解策略](https://sched.co/1HyPQ)
 
 Istio 在 KubeCon 展厅中有一个全天候展台，
 很大一部分问题都是关于我们在 CNCF 毕业状态相关的。
