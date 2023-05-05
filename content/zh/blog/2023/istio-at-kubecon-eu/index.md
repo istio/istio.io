@@ -41,7 +41,7 @@ We also had lightning talks covering [faster Istio development environments](htt
 
 {{< image width="75%"
     link="./istioday-hall.jpg"
-    caption="Istio Day 2023 欧洲站人头攒动的议题"
+    caption="Istio Day 2023 欧洲站热点议题"
     >}}
 
 我们由许多生态系统成员在活动中发布了与 Istio 相关的消息。
