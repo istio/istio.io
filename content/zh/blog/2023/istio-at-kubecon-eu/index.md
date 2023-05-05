@@ -28,7 +28,7 @@ keywords: [Istio Day,IstioCon,Istio,conference,KubeCon,CloudNativeCon]
 随后来自 TOC 的成员 Lin Sun 和 Louis Ryan 讲述了 2023 年[路线图更新议题](https://youtu.be/GQccKyVe0R8)。
 接着由 Christian Posta 和 John Howard 带来了期待已久的、曾在社区中引起一些有趣讨论的
 [Ambient Mesh 安全态势](https://youtu.be/QnfrbbY_Hy4)议题。
-在此之后，我们进入了第一个来自荷兰本地公司 [Wehkamp 公司 John Keates 的最终用户访谈](https://youtu.be/Gb_I2RJr8kQ)，
+在此之后，出场的是第一次来自荷兰本地公司 [Wehkamp 公司 John Keates 的最终用户访谈](https://youtu.be/Gb_I2RJr8kQ)，
 紧跟着是来自彭博社讲师 Alexa Griffith 和 Zhenni Fu 带来的关于 [如何使用 Istio 保护他们高特权财务信息](https://youtu.be/f6jMix46ZD8) 的演讲。
 Istio Day 见证了人们更加注重安全性，这一点在 Zack Butcher
 讲到[使用 Istio 实现控制合规性](https://youtu.be/gIntE4Nn5r4)话题时达到了高潮。
