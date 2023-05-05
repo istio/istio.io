@@ -101,7 +101,7 @@ See [Debugging Envoy and Istiod](/docs/ops/diagnostic-tools/proxy-cmd/) for more
 
 {{< tab name="macOS" category-value="macos" >}}
 
-If you are using the macOS operating system with the zsh terminal shell, make sure that the `zsh-completions` package is installed. With the [brew](https://brew.sh) package manager for macOS, you can check to see if the `zsh-completions` package is installed with the following command:
+If you are using the macOS operating system with the ZSH terminal shell, make sure that the `zsh-completions` package is installed. With the [brew](https://brew.sh) package manager for macOS, you can check to see if the `zsh-completions` package is installed with the following command:
 
 {{< text bash >}}
 $ brew info zsh-completions
@@ -131,7 +131,7 @@ You may also need to force rebuild `zcompdump`:
 $ rm -f ~/.zcompdump; compinit
 {{< /text >}}
 
-Additionally, if you receive "zsh compinit: insecure directories" warnings when attempting to load these completions, you may need to run this:
+Additionally, if you receive "ZSH compinit: insecure directories" warnings when attempting to load these completions, you may need to run this:
 
 {{< text bash >}}
 $ chmod -R go-w '$HOMEBREW_PREFIX/share/zsh'
