@@ -46,8 +46,7 @@ Microsoft 宣布 [Istio 作为 Azure Kubernetes 服务的托管加载项](https:
 
 Tetrate 发布 [Tetrate Service Express](https://tetrate.io/blog/introducing-tetrate-service-express/)，
 这是一种基于 Istio 的服务连接、安全性和弹性自动化解决方案，适用于 Amazon EKS 平台，
-Solo.io 发布 [Gloo Fabric](https://www.solo.io/blog/introducing-solo-gloo-fabric/)，
-基于 Istio 的应用程序网络功能扩展到跨云环境的基于虚拟机、容器和无服务器的应用程序。
+Solo.io 发布了基于 Istio 应用联网功能的 [Gloo Fabric](https://www.solo.io/blog/introducing-solo-gloo-fabric/)，可扩展到跨云环境的基于虚拟机、容器和 Serverless 应用程序。
 
 Istio 相关的议题并没有随着 Istio Day 的结束而告终。
 第二天的主题演讲以 Lin Sun 的 [项目更新视频](https://twitter.com/linsun_unc/status/1648952723604221953) 开始。
