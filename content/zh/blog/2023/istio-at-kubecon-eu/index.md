@@ -25,7 +25,7 @@ keywords: [Istio Day,IstioCon,Istio,conference,KubeCon,CloudNativeCon]
     caption="Istio Day 2023 欧洲站开场主题"
     >}}
 
-随后是来自 TOC 成员 Lin Sun 和 Louis Ryan 的 2023 年 [路线图更新议题](https://youtu.be/GQccKyVe0R8)。
+随后来自 TOC 的成员 Lin Sun 和 Louis Ryan 讲述了 2023 年[路线图更新议题](https://youtu.be/GQccKyVe0R8)。
 接着由 Christian Posta 和 John Howard 带来了期待已久的 [Ambient Mesh 安全态势](https://youtu.be/QnfrbbY_Hy4) 议题，
 并在社区中引起了一些有趣的讨论。
 After this we stepped into our first [end user talk from John Keates from Wehkamp](https://youtu.be/Gb_I2RJr8kQ),
