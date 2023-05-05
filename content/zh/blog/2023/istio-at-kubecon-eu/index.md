@@ -32,8 +32,8 @@ keywords: [Istio Day,IstioCon,Istio,conference,KubeCon,CloudNativeCon]
 After this we stepped into our first [end user talk from John Keates from Wehkamp](https://youtu.be/Gb_I2RJr8kQ),
 在此之后，我们进入了第一个来自荷兰本地公司 [Wehkamp 公司 John Keates 的最终用户访谈](https://youtu.be/Gb_I2RJr8kQ)，
 紧跟着是来自彭博社讲师 Alexa Griffith 和 Zhenni Fu 带来的关于 [如何使用 Istio 保护他们高特权财务信息](https://youtu.be/f6jMix46ZD8) 的演讲。
-当 Zack Butcher 谈到 [使用 Istio 实现控制合规性](https://youtu.be/gIntE4Nn5r4) 话题时，
-专注安全性这一点在 Istio Day 中得到了更多见证。
+Istio Day 见证了人们更加注重安全性，这一点在 Zack Butcher
+讲到[使用 Istio 实现控制合规性](https://youtu.be/gIntE4Nn5r4)话题时达到了高潮。
 We also had lightning talks covering [faster Istio development environments](https://youtu.be/Onsukvmmm50),
 我们还就来自于 [更快速的 Istio 开发环境](https://youtu.be/Onsukvmmm50) 进行了闪电演讲，
 Mitch Connors、Zhonghu Xu 和 Matt Turner 分别就[更快速的 Istio 开发环境](https://youtu.be/Onsukvmmm50)、
