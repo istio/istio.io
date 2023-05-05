@@ -15,7 +15,7 @@ keywords: [Istio Day,IstioCon,Istio,conference,KubeCon,CloudNativeCon]
     caption="欢迎来到 Istio Day 2023 年欧洲站"
     >}}
 
-在两位程序委员会主席 Mitch Connors 和 Faseela K 的精彩开场主题演讲后，Istio Day 正式开始。
+在两位技术程序委员会 (Program Committee) 主席 Mitch Connors 和 Faseela K 的精彩开场主题演讲后，Istio Day 正式开始。
 本次活动涵盖了从新功能到最终用户话题等丰富的内容，展厅内始终人头攒动。
 [开场主题演讲](https://youtu.be/h9EgMrJ0ahs)以突击测试的形式利用 Istio 的一些有趣内容达到了破冰效果，
 并对我们的贡献者、维护者、发布经理以及用户的日常工作表示了认可。
