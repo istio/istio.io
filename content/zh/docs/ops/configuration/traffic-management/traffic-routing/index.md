@@ -35,7 +35,7 @@ Istio 的目标之一是充当可以投入到现有集群中的“透明代理�
 
 当 Envoy 代理收到请求时，必须决定将此请求转发到哪里。
 默认将转发到被请求的原始服务，除非进行了[自定义](/zh/docs/tasks/traffic-management/traffic-shifting/)。
-这个工作方式取决于使用的协议。
+处理方式取决于使用的协议。
 
 ### TCP
 
@@ -67,14 +67,14 @@ HTTP 允许比 TCP 和 TLS 更丰富的路由。使用 HTTP，您可以路由单
 
 - Istio 将对个别请求执行负载均衡。通常，这是非常理想的，特别是在具有长期连接的情况下，
   例如 gRPC 和 HTTP/2，在这些情况下，连接级负载均衡是无效的。
-- 请求基于端口和 **`Host` 头信息** 而不是端口和 IP 被路由。
+- 请求基于端口和 **`Host` 头信息**而不是端口和 IP 被路由。
   这意味着目标 IP 地址实际上被忽略。
   例如 `curl 8.8.8.8 -H "Host: productpage.default.svc.cluster.local"` 将被路由到 `productpage` 服务。
 
 ## 未匹配的流量{#unmatched-traffic}
 
 如果不能使用上述任何一种方法匹配流量，
-则将其视为[流量透传](/zh/docs/tasks/traffic-management/egress/egress-control/#envoy-passthrough-to-external-services)。
+则将其视为[透传](/zh/docs/tasks/traffic-management/egress/egress-control/#envoy-passthrough-to-external-services)。
 默认情况下，这些请求将按原样转发，确保对 Istio 未感知的服务（例如没有创建 `ServiceEntry` 的外部服务）的流量继续起作用。
 请注意，当转发这些请求时，将不使用双向 TLS，并且遥测收集也会受限。
 
