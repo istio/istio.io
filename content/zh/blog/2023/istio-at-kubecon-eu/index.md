@@ -90,7 +90,7 @@ Istio 在 KubeCon 展厅中有一个全天候展台，
     caption="KubeCon 欧洲站，Istio 展台的更多支持"
     >}}
 
-另一个亮点是 Istio TOC 和指导成员以及作者 Lin Sun 和 Christian Posta 为
+另一个亮点是 Istio TOC 成员、指导委员会成员兼作者 Lin Sun 和 Christian Posta 为
 “Istio Ambient Explained”一书进行了签名。
 
 {{< image width="75%"
