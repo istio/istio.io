@@ -131,7 +131,7 @@ You may also need to force rebuild `zcompdump`:
 $ rm -f ~/.zcompdump; compinit
 {{< /text >}}
 
-Additionally, if you receive "ZSH compinit: insecure directories" warnings when attempting to load these completions, you may need to run this:
+Additionally, if you receive `ZSH compinit: insecure directories` warnings when attempting to load these completions, you may need to run this:
 
 {{< text bash >}}
 $ chmod -R go-w '$HOMEBREW_PREFIX/share/zsh'
