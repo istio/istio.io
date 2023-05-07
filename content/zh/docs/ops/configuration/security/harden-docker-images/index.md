@@ -22,7 +22,7 @@ Istio 的[默认镜像](https://hub.docker.com/r/istio/base)基于 `ubuntu` 添�
 
 请参考官方 Distroless README 的[为何选择 Distroless 镜像？](https://github.com/GoogleContainerTools/distroless#why-should-i-use-distroless-images) 章节。
 
-## 安装 Distroless 镜像{#install-distroless-images}
+## 安装 Distroless 镜像 {#install-distroless-images}
 
 按照[安装步骤](/zh/docs/setup/install/istioctl/)配置 Istio。
 添加 `variant` 选项以使用 **Distroless 镜像** 。
@@ -32,10 +32,10 @@ $ istioctl install --set values.global.variant=distroless
 {{< /text >}}
 
 如果您只对将 Distroless 镜像用于注入的代理镜像感兴趣，
-您还可以使用 [Proxy Config](/zh/docs/reference/config/networking/proxy-config/#ProxyImage) 中的 `proxyImage` 字段。
-请注意，上面的 `variant` 标志会自动为您设置该字段。
+您还可以使用 [Proxy Config](/zh/docs/reference/config/networking/proxy-config/#ProxyImage)
+中的 `proxyImage` 字段。请注意，上面的 `variant` 标志会自动为您设置该字段。
 
-## 调试{#debugging}
+## 调试 {#debugging}
 
 Distroless 镜像缺少所有调试工具（包括 Shell！）。
 虽然对安全性有好处，但这限制了使用 `kubectl exec` 对代理容器进行临时调试的能力。
