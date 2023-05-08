@@ -119,14 +119,14 @@ Istio 通过以下流程提供密钥和证书：
 
 Istio 提供两种类型的认证：
 
-- Peer authentication：用于服务到服务的认证，以验证建立连接的客户端。
+- 对等认证：用于服务到服务的认证，以验证建立连接的客户端。
   Istio 提供[双向 TLS](https://en.wikipedia.org/wiki/Mutual_authentication)
   作为传输认证的全栈解决方案，无需更改服务代码就可以启用它。这个解决方案：
     - 为每个服务提供强大的身份，表示其角色，以实现跨集群和云的互操作性。
     - 保护服务到服务的通信。
     - 提供密钥管理系统，以自动进行密钥和证书的生成、分发和轮换。
 
-- Request authentication：用于终端用户认证，以验证附加到请求的凭据。
+- 请求认证：用于终端用户认证，以验证附加到请求的凭据。
   Istio 使用 JSON Web Token（JWT）验证启用请求级认证，
   并使用自定义认证实现或任何 OpenID Connect 的认证实现（例如下面列举的）来简化的开发人员体验。
     - [ORY Hydra](https://www.ory.sh/)
@@ -213,7 +213,7 @@ IP 地址所在的服务上。这种 DNS 欺骗甚至可以在客户端 Envoy �
 
 ### 认证架构{#authentication-architecture}
 
-您可以使用 peer 和 request 认证策略为在 Istio 网格中接收请求的工作负载指定认证要求。
+您可以使用对等认证策略和请求认证策略为在 Istio 网格中接收请求的工作负载指定认证要求。
 网格运维人员使用 `.yaml` 文件来指定策略。部署后，策略将保存在 Istio 配置存储中。
 Istio 控制器监视配置存储。
 
@@ -224,23 +224,26 @@ Istiod 提供了 Istio 系统管理的密钥和证书的路径，并将它们安
 
 Istio 异步发送配置到目标端点。代理收到配置后，新的认证要求会立即生效。
 
-发送请求的客户端服务负责遵循必要的认证机制。对于 request 认证，
-应用程序负责获取 JWT 凭证并将其附加到请求。对于 peer 认证，
-Istio 自动将两个 PEP 之间的所有流量升级为双向 TLS。如果认证策略禁用了双向 TLS 模式，
-则 Istio 将继续在 PEP 之间使用纯文本。要覆盖此行为，
+发送请求的客户端服务负责遵循必要的认证机制。
+对于请求认证，应用程序负责获取 JWT 凭证并将其附加到请求。
+对于对等认证，Istio 自动将两个 PEP 之间的所有流量升级为双向 TLS。
+如果认证策略禁用了双向 TLS 模式，则 Istio 将继续在 PEP 之间使用纯文本。要覆盖此行为，
 请使用[目标规则](/zh/docs/concepts/traffic-management/#destination-rules)显式禁用双向 TLS 模式。
-您可以在[双向 TLS 认证](/zh/docs/concepts/security/#mutual-TLS-authentication)中找到有关双向 TLS 如何工作的更多信息。
+您可以在[双向 TLS 认证](/zh/docs/concepts/security/#mutual-TLS-authentication)中找到有关双向
+TLS 如何工作的更多信息。
 
 {{< image width="75%"
     link="./authn.svg"
     caption="认证架构"
     >}}
 
-Istio 将这两种认证类型以及凭证中的其他声明（如果适用）输出到下一层：[授权](/zh/docs/concepts/security/#authorization)。
+Istio 将这两种认证类型以及凭证中的其他声明（如果适用）输出到下一层：
+[授权](/zh/docs/concepts/security/#authorization)。
 
 ### 认证策略{#authentication-policies}
 
-本节中提供了更多 Istio 认证策略方面的细节。正如[认证架构](/zh/docs/concepts/security/#authentication-architecture)中所说的，
+本节中提供了更多 Istio 认证策略方面的细节。
+正如[认证架构](/zh/docs/concepts/security/#authentication-architecture)中所说的，
 认证策略是对服务收到的请求生效的。要在双向 TLS 中指定客户端认证策略，
 需要在 `DetinationRule` 中设置 `TLSSettings`。
 [TLS 设置参考文档](/zh/docs/reference/config/networking/destination-rule/#TLSSettings)中有更多这方面的信息。
@@ -269,12 +272,12 @@ Istio 将网格范围的策略存储在根命名空间。这些策略使用一�
 它们仅适用于其命名空间内的工作负载。如果您配置了 `selector` 字段，
 则认证策略仅适用于与您配置的条件匹配的工作负载。
 
-Peer 和 request 认证策略用 kind 字段区分，
+对等认证策略和请求认证策略用 kind 字段区分，
 分别是 `PeerAuthentication` 和 `RequestAuthentication`。
 
 #### Selector 字段{#selector-field}
 
-Peer 和 request 认证策略使用 `selector` 字段来指定该策略适用的工作负载的标签。
+对等认证策略和请求认证策略使用 `selector` 字段来指定该策略适用的工作负载的标签。
 以下示例显示适用于带有 `app：product-page` 标签的工作负载的策略的 selector 字段：
 
 {{< text yaml >}}
@@ -291,13 +294,13 @@ selector:
 - 命名空间范围的策略：为非root命名空间指定的策略，不带有或带有空的 `selector` 字段。
 - 特定于工作负载的策略：在常规命名空间中定义的策略，带有非空 `selector` 字段。
 
-Peer 和 request 认证策略对 `selector` 字段遵循相同的层次结构原则，
+对等认证策略和请求认证策略对 `selector` 字段遵循相同的层次结构原则，
 但是 Istio 以略微不同的方式组合和应用这些策略。
 
-只能有一个网格范围的 peer 认证策略，
-每个命名空间也只能有一个命名空间范围的 peer 认证策略。
-当您为同一网格或命名空间配置多个网格范围或命名空间范围的 peer 认证策略时，
-Istio 会忽略较新的策略。当多个特定于工作负载的 peer 认证策略匹配时，
+只能有一个网格范围的对等认证策略，
+每个命名空间也只能有一个命名空间范围的对等认证策略。
+当您为同一网格或命名空间配置多个网格范围或命名空间范围的对等认证策略时，
+Istio 会忽略较新的策略。当多个特定于工作负载的对等认证策略匹配时，
 Istio 将选择最旧的策略。
 
 Istio 按照以下顺序为每个工作负载应用最窄的匹配策略：
@@ -306,14 +309,14 @@ Istio 按照以下顺序为每个工作负载应用最窄的匹配策略：
 1. 命名空间范围
 1. 网格范围
 
-Istio 可以将所有匹配的 request 认证策略组合起来，
-就像它们来自单个 request 认证策略一样。因此，
+Istio 可以将所有匹配的请求认证策略组合起来，
+就像它们来自单个请求认证策略一样。因此，
 您可以在网格或命名空间中配置多个网格范围或命名空间范围的策略。
-但是，避免使用多个网格范围或命名空间范围的 request 认证策略仍然是一个好的实践。
+但是，避免使用多个网格范围或命名空间范围的请求认证策略仍然是一个好的实践。
 
-#### Peer 认证{#peer-authentication}
+#### 对等认证{#peer-authentication}
 
-Peer 认证策略指定 Istio 对目标工作负载实施的双向 TLS 模式。支持以下模式：
+对等认证策略指定 Istio 对目标工作负载实施的双向 TLS 模式。支持以下模式：
 
 - PERMISSIVE：工作负载接受双向 TLS 和纯文本流量。
   此模式在迁移因为没有 Sidecar 而无法使用双向 TLS 的工作负载的过程中非常有用。
@@ -321,9 +324,9 @@ Peer 认证策略指定 Istio 对目标工作负载实施的双向 TLS 模式。
 - STRICT： 工作负载仅接收双向 TLS 流量。
 - DISABLE：禁用双向 TLS。从安全角度来看，除非您提供自己的安全解决方案，否则请勿使用此模式。
 
-如果模式为 unset，将继承父作用域的模式。unset 模式的网格范围的 peer 认证策略默认使用 `PERMISSIVE` 模式。
+如果模式为 unset，将继承父作用域的模式。unset 模式的网格范围的对等认证策略默认使用 `PERMISSIVE` 模式。
 
-下面的 peer 认证策略要求命名空间 `foo` 中的所有工作负载都使用双向 TLS：
+下面的对等认证策略要求命名空间 `foo` 中的所有工作负载都使用双向 TLS：
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
@@ -336,10 +339,10 @@ spec:
     mode: STRICT
 {{< /text >}}
 
-对于特定于工作负载的 peer 认证策略，可以为不同的端口指定不同的双向 TLS 模式。
+对于特定于工作负载的对等认证策略，可以为不同的端口指定不同的双向 TLS 模式。
 您只能将端口范围的双向 TLS 配置在工作负载声明过的端口上。
 以下示例为 `app:example-app` 工作负载禁用了端口 80 上的双向 TLS，
-并对所有其他端口使用命名空间范围的 peer 认证策略的双向 TLS 设置：
+并对所有其他端口使用命名空间范围的对等认证策略的双向 TLS 设置：
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
@@ -356,7 +359,7 @@ spec:
       mode: DISABLE
 {{< /text >}}
 
-上面的 peer 认证策略仅在有如下 Service 定义时工作，
+上面的对等认证策略仅在有如下 Service 定义时工作，
 将流向 `example-service` 服务的请求绑定到 `example-app`
 工作负载的 `80` 端口
 
@@ -376,27 +379,27 @@ spec:
     app: example-app
 {{< /text >}}
 
-#### Request 认证{#request-authentication}
+#### 请求认证{#request-authentication}
 
-Request 认证策略指定验证 JSON Web Token（JWT）所需的值。这些值包括：
+请求认证策略指定验证 JSON Web Token（JWT）所需的值。这些值包括：
 
 - token 在请求中的位置
 - 请求的 issuer
 - 公共 JSON Web Key Set（JWKS）
 
-Istio 会根据 request 认证策略中的规则检查提供的令牌（如果已提供），
+Istio 会根据请求认证策略中的规则检查提供的令牌（如果已提供），
 并拒绝令牌无效的请求。当请求不带有令牌时，默认将接受这些请求。
 要拒绝没有令牌的请求，请提供授权规则，该规则指定对特定操作（例如，路径或操作）的限制。
 
-如果 request 认证策略使用唯一的位置，则可以在这些策略中指定多个 JWT。
+如果请求认证策略使用唯一的位置，则可以在这些策略中指定多个 JWT。
 当多个策略与一个工作负载匹配时，Istio 会将所有规则组合起来，
 就好像这些规则被指定为单个策略一样。此行为对于开发接受来自不同 JWT 提供者的工作负载时很有用。
 但是，不支持具有多个有效 JWT 的请求，因为此类请求的输出主体未被定义。
 
 #### Principal{#principals}
 
-使用 peer 认证策略和双向 TLS 时，Istio 将身份从 peer 认证提取到 `source.principal` 中。
-同样，当您使用 request 认证策略时，Istio 会将 JWT 中的身份赋值给 `request.auth.principal`。
+使用对等认证策略和双向 TLS 时，Istio 将身份从对等认证提取到 `source.principal` 中。
+同样，当您使用请求认证策略时，Istio 会将 JWT 中的身份赋值给 `request.auth.principal`。
 使用这些 principal 设置授权策略并作为遥测的输出。
 
 ### 更新认证策略{#updating-authentication-policies}
@@ -405,10 +408,10 @@ Istio 会根据 request 认证策略中的规则检查提供的令牌（如果�
 但是，Istio 无法保证所有工作负载都同时收到新政策。
 以下建议有助于避免在更新认证策略时造成干扰：
 
-- 将 peer 认证策略的模式从 `DISABLE` 更改为 `STRICT` 时，
+- 将对等认证策略的模式从 `DISABLE` 更改为 `STRICT` 时，
   请使用 `PERMISSIVE` 模式来过渡，反之亦然。当所有工作负载成功切换到所需模式时，
   您可以将策略应用于最终模式。您可以使用 Istio 遥测技术来验证工作负载已成功切换。
-- 将 request 认证策略从一个 JWT 迁移到另一个 JWT 时，
+- 将请求认证策略从一个 JWT 迁移到另一个 JWT 时，
   将新 JWT 的规则添加到该策略中，而不删除旧规则。这样，
   工作负载将接受两种类型的 JWT，当所有流量都切换到新的 JWT 时，
   您可以删除旧规则。但是，每个 JWT 必须使用不同的位置。
