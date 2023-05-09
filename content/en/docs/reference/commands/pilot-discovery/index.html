@@ -857,6 +857,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>If not empty, endpoints with the label value present will be sent with status DRAINING.</td>
 </tr>
 <tr>
+<td><code>PILOT_ENABLE_ALPHA_GATEWAY_API</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If this is set to true, support for alpha APIs in the Kubernetes gateway-api (github.com/kubernetes-sigs/gateway-api) will  be enabled. In addition to this being enabled, the gateway-api CRDs need to be installed.</td>
+</tr>
+<tr>
 <td><code>PILOT_ENABLE_ALPN_FILTER</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
