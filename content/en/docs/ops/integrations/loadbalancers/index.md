@@ -12,7 +12,7 @@ Istio provides both an ingress and service mesh implementation, which can be use
 ## Integration Modes
 
 In "standalone" mode, the third party ingress is directly sending to backends.
-In this case, the backends presumably have Istio sidecars injected;
+In this case, the backends presumably have Istio sidecars injected.
 
 {{< mermaid >}}
 graph LR
@@ -23,13 +23,13 @@ graph LR
 {{< /mermaid >}}
 
 In this mode, things mostly just work.
-Clients in a service mesh do not need to be aware that the backed they are connecting to have a sidecar.
+Clients in a service mesh do not need to be aware that the backend they are connecting to has a sidecar.
 However, the ingress will not use mTLS, which may lead to undesirable behavior.
 As a result, most of the configuration for this setup is around enabling mTLS.
 
-In "chained" mode, we use both the third party ingress *and* Istio's own Gateway in parallel.
+In "chained" mode, we use both the third party ingress *and* Istio's own Gateway in sequence.
 This can be useful when you want the functionality of both layers.
-In particular, this is useful with managed cloud load balancers, which have features like global addresses and managed certificates
+In particular, this is useful with managed cloud load balancers, which have features like global addresses and managed certificates.
 
 {{< mermaid >}}
 graph LR
@@ -49,7 +49,7 @@ Vendor specific configuration is required to support chained mode or standalone 
 
 ### Google HTTP(S) Load Balancer
 
-Integration with Google HTTP(S) Load Balancers works out of the box with standalone mode if mTLS is not required.
+Integration with Google HTTP(S) Load Balancers only works out of the box with standalone mode if mTLS is not required as
 mTLS is not supported.
 
 Chained mode is possible. See [Google documentation](https://cloud.google.com/architecture/exposing-service-mesh-apps-through-gke-ingress) for setup instructions.
@@ -66,7 +66,7 @@ This typically involves two steps beyond standard sidecar injection:
    This also allows preserving the original client IP address, which would otherwise be lost by the sidecar.
    This mode can be enabled by inserting the `traffic.sidecar.istio.io/includeInboundPorts: ""` annotation on the load balancer `Pod`s.
 1. Enable Service routing.
-   Istio sidecars can only properly function when requests are sent to Service's, not to specific pod IPs.
+   Istio sidecars can only properly function when requests are sent to Services, not to specific pod IPs.
    Most load balancers will send to specific pod IPs by default, breaking mTLS.
    Steps to do this are vendor specific; a few examples are listed below but consulting with the specific vendor's documentation is recommended.
 
