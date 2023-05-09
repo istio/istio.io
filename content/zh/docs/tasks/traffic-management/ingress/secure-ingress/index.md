@@ -634,6 +634,14 @@ HTTPS `Gateway` 将在转发请求之前对其配置的主机执行 [SNI](https:
     $ echo "INGRESS_HOST=$INGRESS_HOST, SECURE_INGRESS_PORT=$SECURE_INGRESS_PORT"
     {{< /text >}}
 
+*   确保 `INGRESS_HOST` 的值是一个 IP 地址。在某些云平台（例如 AWS）中，您可能会得到一个域名而不是 IP 地址。
+    此任务需要一个 IP 地 址，因此您需要使用类似以下的命令进行转换：
+
+    {{< text bash >}}
+    $ nslookup ab52747ba608744d8afd530ffd975cbf-330887905.us-east-1.elb.amazonaws.com
+    $ export INGRESS_HOST=3.225.207.109
+    {{< /text >}}
+
 *   检查网关控制器的日志以获取错误消息：
 
     {{< text syntax=bash snip_id=none >}}
