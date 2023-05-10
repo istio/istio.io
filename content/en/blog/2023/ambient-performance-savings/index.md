@@ -6,7 +6,7 @@ attribution: "Greg Hanson - Solo.io"
 keywords: [istio,ambient,waypoint,ztunnel]
 ---
 
-Istio Ambient Mesh is the new Istio data plane without requiring sidecars, refer to the [announcement](/blog/2022/introducing-ambient-mesh/) for more details. Istio Ambient Mesh will be included in Istio 1.18 but [pre-release builds](https://github.com/istio/istio/releases/tag/1.18.0-alpha.0) are available now. 
+Istio Ambient Mesh is the new Istio data plane without requiring sidecars, refer to the [announcement](/latest/blog/2022/introducing-ambient-mesh/) for more details. Istio Ambient Mesh will be included in Istio 1.18 but [pre-release builds](https://github.com/istio/istio/releases/tag/1.18.0-alpha.0) are available now. 
 
 Sidecars have been a staple of Istio’s architecture since day one and are responsible for the majority of features available in Istio today. However, sidecars require the injection of an additional container to each Kubernetes pod resource, each of which needs allocated resources from the pod.
 
