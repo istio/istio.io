@@ -131,6 +131,6 @@ Check out these resources to learn more:
  - [Get Started with Ambient Mesh](/latest/blog/2022/get-started-ambient/) guide by Lin Sun – Solo.io, John Howard – Google
  - [Ambient Mesh Security Deep Dive](/latest/blog/2022/ambient-security/) article by Ethan Jackson – Google, Yuval Kohavi – Solo.io, Justin Pettit – Google, Christian Posta – Solo.io
  - [Introducing Rust-Based Ztunnel for Istio Ambient Mesh](/latest/blog/2023/rust-based-ztunnel/) article by Lin Sun – Solo.io, John Howard – Google
- - [Istio Ambient Waypoint Proxy Made Simple](https://istio.io/latest/blog/2023/waypoint-proxy-made-simple/) article by Lin Sun – Solo.io, John Howard – Google
+ - [Istio Ambient Waypoint Proxy Made Simple](/latest/blog/2023/waypoint-proxy-made-simple/) article by Lin Sun – Solo.io, John Howard – Google
  - [Istio Ambient Service Mesh Merged to Istio’s Main Branch](https://istio.io/latest/blog/2023/ambient-merged-istio-main/) article by Lin Sun – Solo.io, John Howard – Google
  - [The Cloudcast](https://www.thecloudcast.net/2022/09/istio-ambient-mesh.html) podcast with Louis Ryan – Solo.io, Christian Posta – Solo.io
