@@ -177,3 +177,8 @@ kubectl get endpoints -n istio-ingress -o "custom-columns=NAME:.metadata.name,PO
 NAME                   PODS
 istio-ingressgateway   istio-ingressgateway-...,istio-ingressgateway-canary-...
 ENDSNIP
+
+snip_cleanup_1() {
+istioctl uninstall --istioNamespace istio-ingress -y --purge
+kubectl delete ns istio-ingress
+}
