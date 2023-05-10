@@ -211,6 +211,7 @@ Circonus
 cleartext
 Cleartext
 cli
+Cloudcast
 CloudNativeCon
 CloudWatch
 cluster1
@@ -686,6 +687,7 @@ microservice
 microservices
 middleboxes
 middleware
+millicores
 minikube
 misconfiguration
 misconfigurations
