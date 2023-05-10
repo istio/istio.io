@@ -128,7 +128,7 @@ Ambient service mesh’s goal of reducing infrastructure costs is bearing fruit 
 Check out these resources to learn more:
 
  - [Introducing Ambient Mesh](/latest/blog/2022/introducing-ambient-mesh/) article from John Howard – Google, Ethan J. Jackson – Google, Yuval Kohavi – Solo.io, Idit Levine – Solo.io, Justin Pettit – Google, Lin Sun – Solo.io
- - [Get Started with Ambient Mesh](/blog/2022/get-started-ambient/) guide by Lin Sun – Solo.io, John Howard – Google
+ - [Get Started with Ambient Mesh](/latest/blog/2022/get-started-ambient/) guide by Lin Sun – Solo.io, John Howard – Google
  - [Ambient Mesh Security Deep Dive](/blog/2022/ambient-security/) article by Ethan Jackson – Google, Yuval Kohavi – Solo.io, Justin Pettit – Google, Christian Posta – Solo.io
  - [Introducing Rust-Based Ztunnel for Istio Ambient Mesh](https://istio.io/latest/blog/2023/rust-based-ztunnel/) article by Lin Sun – Solo.io, John Howard – Google
  - [Istio Ambient Waypoint Proxy Made Simple](https://istio.io/latest/blog/2023/waypoint-proxy-made-simple/) article by Lin Sun – Solo.io, John Howard – Google
