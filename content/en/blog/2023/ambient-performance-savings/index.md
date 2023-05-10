@@ -41,7 +41,7 @@ Ambient mesh was designed to minimize resource requirements for users in their K
 
 The sidecar architecture forces this mode of allocation on users. Ambient solves these issues by leveraging a new architecture that separates the responsibilities of zero-trust networking and L7 policy handling. This is done with two new components to Istio: ztunnels and waypoint proxies.
 
- - [Ztunnels](https://istio.io/latest/blog/2023/rust-based-ztunnel/) are a brand new Istio component written in Rust that are designed to be fast, secure, and lightweight. Ztunnels are deployed per node on a cluster and enable the most basic service mesh configurations for L4 features such as mTLS, telemetry, authentication, and L4 authorizations.
+ - [Ztunnels](/blog/2023/rust-based-ztunnel/) are a brand new Istio component written in Rust that are designed to be fast, secure, and lightweight. Ztunnels are deployed per node on a cluster and enable the most basic service mesh configurations for L4 features such as mTLS, telemetry, authentication, and L4 authorizations.
  - [Waypoint proxies](https://istio.io/latest/blog/2023/waypoint-proxy-made-simple/) provide L7 mesh features such as VirtualService routing, L7 telemetry, and L7 authorizations policies. Waypoints are still based on Envoy and are deployed at the namespace level per ServiceAccount. 
 
 These ztunnels and waypoint proxies work in tandem to replace sidecars in the Istio service mesh. So let’s take a closer look at how the two architectures compare in the tests above.
