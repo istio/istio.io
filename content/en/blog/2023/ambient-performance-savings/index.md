@@ -10,7 +10,7 @@ Istio Ambient Mesh is the new Istio data plane without requiring sidecars, refer
 
 Sidecars have been a staple of Istio’s architecture since day one and are responsible for the majority of features available in Istio today. However, sidecars require the injection of an additional container to each Kubernetes pod resource, each of which needs allocated resources from the pod.
 
-Many of you are familiar with the simplified operation brought by the Istio ambient architecture. Let’s explore how [Istio Ambient Mesh](https://istio.io/latest/blog/2022/introducing-ambient-mesh/) cuts the service mesh costs typically associated with sidecars.
+Many of you are familiar with the simplified operation brought by the Istio ambient architecture. Let’s explore how ambient mesh cuts the service mesh costs typically associated with sidecars.
 
 ## Check Out the Savings
 
