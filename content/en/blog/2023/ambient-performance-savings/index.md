@@ -119,7 +119,7 @@ In comparison to what most users run Istio with in production, this test cluster
 
 ## Conclusion
 
-Ka-ching. These results were collected with a pre-alpha version of ambient which is now [merged into the main branch](https://istio.io/latest/blog/2023/ambient-merged-istio-main/). 
+Ka-ching. These results were collected with a pre-alpha version of ambient which is now [merged into the main branch](/latest/blog/2023/ambient-merged-istio-main/). 
 
 Ambient service mesh’s goal of reducing infrastructure costs is bearing fruit and setting a solid foot forward on its roadmap to production readiness. These early numbers suggest users could cut their cloud usage by *99%* and resource requirements by *90%* – especially if users only require an L4 mesh.
 
