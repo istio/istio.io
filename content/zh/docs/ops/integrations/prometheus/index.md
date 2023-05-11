@@ -53,7 +53,7 @@ $ kubectl apply -f {{< github_file >}}/samples/addons/prometheus.yaml
 尽管 `prometheus.io` 并不是 Prometheus 的核心注解，但是该注解已经成为获取指标的标准注解。
 {{< /tip >}}
 
-该选项默开启但是允许在[安装](/zh/docs/setup/install/istioctl/)时通过 `--set meshConfig.enablePrometheusMerge=false` 关闭。当开启后，会将适当的 `prometheus.io` 注解添加到所有的数据平面容器中来设置指标收集。如果这些注解已经存在，他们将会被覆盖。使用该选项，Envoy sidecar 将 Istio 的指标与应用程序的指标合并。合并的指标将由 `/stats/prometheus:15020` 收集。
+该选项默开启但是允许在[安装](/zh/docs/setup/install/istioctl/)时通过 `--set meshConfig.enablePrometheusMerge=false` 关闭。当开启后，会将适当的 `prometheus.io` 注解添加到所有的数据平面容器中来设置指标收集。如果这些注解已经存在，他们将会被覆盖。使用该选项，Envoy sidecar 将 Istio 的指标与应用程序的指标合并。合并的指标将由 `:15020/stats/prometheus` 收集。
 
 该选项以纯文本的形式显示所有指标。
 
@@ -102,7 +102,7 @@ $ kubectl apply -f {{< github_file >}}/samples/addons/prometheus.yaml
 
 #### TLS 设置{#TLS-settings}
 
-控制平面，网关和 Envoy Sidecar 指标将会作为纯文本收集。但是，应用程序指标将遵循 Istio 为任何工作负载进行的配置。特别是如果启用了 [Strict mTLS](/zh/docs/tasks/security/authentication/authn-policy/#globally-enabling-istio-mutual-tls-in-strict-mode)，则需要将 Prometheus 配置为使用 Istio 证书收集指标。
+控制平面，网关和 Envoy Sidecar 指标将会作为明文收集。但是，应用程序指标将遵循 Istio 为任何工作负载进行的配置。特别是如果启用了 [Strict mTLS](/zh/docs/tasks/security/authentication/authn-policy/#globally-enabling-istio-mutual-tls-in-strict-mode)，则需要将 Prometheus 配置为使用 Istio 证书收集指标。
 
 为 Prometheus 设置 Istio 证书的另一种方式是 Sidecar，该 Sidecar 将会转发 SDS 证书并将其输出到可以与 Prometheus 共享的 volume 中。然而，Sidecar 不应该拦截 Prometheus 的请求，因为 Prometheus 的端口的访问模式与 Istio 的 Sidecar 代理模型不兼容。
 
