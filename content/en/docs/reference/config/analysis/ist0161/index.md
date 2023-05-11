@@ -23,6 +23,6 @@ If the secret is missing, create a new secret with the correct TLS certificate a
 $ kubectl create secret tls my-tls-secret --cert=path/to/cert.pem --key=path/to/key.pem -n <namespace>
 {{< /text >}}
 
-If the secret is found but the TLS certificate is invalid, update the secret with the correct TLS certificate and private key.
-
 Make sure to replace `<namespace>` with the actual namespace where the Gateway workload is running, and update the file paths to point to the correct certificate and key files.
+
+If the secret is found but the TLS certificate is invalid, update the secret with the correct TLS certificate and private key.
