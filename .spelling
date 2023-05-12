@@ -397,6 +397,7 @@ ECR
 edition.cnn.com
 Eitan
 Elasticsearch
+EndpointSlice
 embeddable
 emojis
 enablement
@@ -813,6 +814,8 @@ pre-release
 pre-specified
 precheck
 preconfigured
+PREFER_MASTER
+PREFER_REPLICA
 prefetching
 preformatted
 preload
@@ -859,6 +862,8 @@ redeployments
 redis
 Redis
 Redis-based
+RedisDestination
+RedisService
 referer
 registrator
 Registrator
@@ -950,6 +955,7 @@ Srinath
 Stackdriver
 Standard_D4ds_v5
 stateful
+StatefulSet
 Statsd
 stdout
 Steitz
