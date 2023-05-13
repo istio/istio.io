@@ -2,7 +2,7 @@
 title: 流量管理
 description: 描述 Istio 多样的流量路由和控制特性。
 weight: 20
-keywords: [traffic-management,pilot, envoy-proxies, service-discovery, load-balancing]
+keywords: [traffic-management, pilot, envoy-proxies, service-discovery, load-balancing]
 aliases:
     - /zh/docs/concepts/traffic-management/pilot
     - /zh/docs/concepts/traffic-management/rules-configuration
@@ -18,12 +18,12 @@ test: n/a
 
 Istio 的流量路由规则可以让您很容易的控制服务之间的流量和 API 调用。
 Istio 简化了服务级别属性的配置，比如熔断器、超时和重试，并且能轻松的设置重要的任务，
-如 A/B 测试、金丝雀发布、基于流量百分比切分的概率发布等。它还提供了开箱即用的故障恢复特性，
+如 A/B 测试、金丝雀发布、基于流量百分比切分的分阶段发布等。它还提供了开箱即用的故障恢复特性，
 有助于增强应用的健壮性，从而更好地应对被依赖的服务或网络发生故障的情况。
 
 Istio 的流量管理模型源于和服务一起部署的 {{< gloss >}}Envoy{{</ gloss >}} 代理。
-网格内服务发送和接收的所有流量 {{< gloss >}}data plane{{</ gloss >}}
-流量都经由 Envoy 代理，这让控制网格内的流量变得异常简单，而且不需要对服务做任何的更改。
+网格内服务发送和接收的所有 {{< gloss >}}data plane{{</ gloss >}} 流量都经由 Envoy 代理，
+这让控制网格内的流量变得异常简单，而且不需要对服务做任何的更改。
 
 本节中描述的功能特性，如果您对它们是如何工作的感兴趣的话，
 可以在[架构概述](/zh/docs/ops/deployment/architecture/)中找到关于 Istio
@@ -32,14 +32,14 @@ Istio 的流量管理模型源于和服务一起部署的 {{< gloss >}}Envoy{{</
 ## Istio 流量管理介绍 {#introducing-Istio-traffic-management}
 
 为了在网格中导流，Istio 需要知道所有的 endpoint 在哪和属于哪个服务。
-为了定位到 {{< gloss >}}service registry{{</ gloss >}}(服务注册中心)，
+为了定位到 {{< gloss >}}service registry{{</ gloss >}}（服务注册中心），
 Istio 会连接到一个服务发现系统。例如，如果您在 Kubernetes 集群上安装了 Istio，
 那么它将自动检测该集群中的服务和 endpoint。
 
 使用此服务注册中心，Envoy 代理可以将流量定向到相关服务。大多数基于微服务的应用程序，
 每个服务的工作负载都有多个实例来处理流量，称为负载均衡池。默认情况下，
 Envoy 代理基于轮询调度模型在服务的负载均衡池内分发流量，按顺序将请求发送给池中每个成员，
-一旦所有服务实例均接收过一次请求后，重新回到第一个池成员。
+一旦所有服务实例均接收过一次请求后，就重新回到第一个池成员。
 
 Istio 基本的服务发现和负载均衡能力为您提供了一个可用的服务网格，
 但它能做到的远比这多的多。在许多情况下，您可能希望对网格的流量情况进行更细粒度的控制。
@@ -101,7 +101,7 @@ Envoy 会在所有的服务实例中使用轮询的负载均衡策略分发请�
 - 通过单个虚拟服务处理多个应用程序服务。如果您的网格使用 Kubernetes，
   可以配置一个虚拟服务处理特定命名空间中的所有服务。映射单一的虚拟服务到多个“真实”服务特别有用，
   可以在不需要客户适应转换的情况下，将单体应用转换为微服务构建的复合应用系统。
-  您的路由规则可以指定为“对 `monolith.com` 的 URI 调用转发到 `microservice A`”等等。
+  您的路由规则可以指定为“对 `monolith.com` 的 URI 调用转发到 `microservice A`” 等等。
   您可以在[下面的一个示例](#more-about-routing-rules)看到它是如何工作的。
 - 和[网关](/zh/docs/concepts/traffic-management/#gateways)整合并配置流量规则来控制出入流量。
 
@@ -178,7 +178,7 @@ hosts:
 route 部分的 `destination` 字段指定了符合此条件的流量的实际目标地址。
 与虚拟服务的 `hosts` 不同，destination 的 host 必须是存在于 Istio
 服务注册中心的实际目标地址，否则 Envoy 不知道该将请求发送到哪里。
-可以是一个有代理的服务网格，或者是一个通过服务入口被添加进来的非网格服务。
+可以是一个有代理的服务网格，或者是一个通过服务入口（service entry）被添加进来的非网格服务。
 本示例运行在 Kubernetes 环境中，host 名为一个 Kubernetes 服务名：
 
 {{< text yaml >}}
@@ -348,7 +348,7 @@ spec:
 
 使用[网关](/zh/docs/reference/config/networking/gateway/#Gateway)来管理网格的入站和出站流量，
 可以让您指定要进入或离开网格的流量。网关配置被用于运行在网格边缘的独立 Envoy 代理，
-而不是与服务工作负载一起运行的 sidecar Envoy 代理。
+而不是与服务工作负载一起运行的 Sidecar Envoy 代理。
 
 与 Kubernetes Ingress API 这种控制进入系统流量的其他机制不同，
 Istio 网关让您充分利用流量路由的强大能力和灵活性。
@@ -359,12 +359,12 @@ Istio 网关让您充分利用流量路由的强大能力和灵活性。
 
 网关主要用于管理进入的流量，但您也可以配置出口网关。出口网关让您为离开网格的流量配置一个专用的出口节点，
 这可以限制哪些服务可以或应该访问外部网络，
-或者启用[出口流量安全控制](/zh/blog/2019/egress-traffic-control-in-istio-part-1/)为您的网格添加安全性。
+或者启用[出口流量安全控制](/zh/blog/2019/egress-traffic-control-in-istio-part-1/)增强网格安全性。
 您也可以使用网关配置一个纯粹的内部代理。
 
 Istio 提供了一些预先配置好的网关代理部署（`istio-ingressgateway` 和 `istio-egressgateway`）
-供您使用——如果使用我们的[演示安装](/zh/docs/setup/getting-started/)它们都已经部署好了；
-如果使用[默认安装](/zh/docs/setup/additional-setup/config-profiles/)则只部署了入口网关。
+供您使用——如果使用 [demo 配置文件安装](/zh/docs/setup/getting-started/)它们都已经部署好了；
+如果使用的是 [default 配置文件](/zh/docs/setup/additional-setup/config-profiles/)则只部署了入口网关。
 可以将您自己的网关配置应用到这些部署或配置您自己的网关代理。
 
 ### Gateway 示例 {#gateway-example}
@@ -468,17 +468,17 @@ spec:
 ## Sidecar {#sidecars}
 
 默认情况下，Istio 让每个 Envoy 代理都可以访问来自和它关联的工作负载的所有端口的请求，
-然后转发到对应的工作负载。您可以使用 [sidecar](/zh/docs/reference/config/networking/sidecar/#Sidecar)
+然后转发到对应的工作负载。您可以使用 [Sidecar](/zh/docs/reference/config/networking/sidecar/#Sidecar)
 配置去做下面的事情：
 
 -   微调 Envoy 代理接受的端口和协议集。
 -   限制 Envoy 代理可以访问的服务集合。
 
-您可能希望在较庞大的应用程序中限制这样的 sidecar 可达性，
+您可能希望在较庞大的应用程序中限制这样的 Sidecar 可达性，
 配置每个代理能访问网格中的任意服务可能会因为高内存使用量而影响网格的性能。
 
-您可以指定将 sidecar 配置应用于特定命名空间中的所有工作负载，或者使用
-`workloadSelector` 选择特定的工作负载。例如，下面的 sidecar 配置将
+您可以指定将 Sidecar 配置应用于特定命名空间中的所有工作负载，或者使用
+`workloadSelector` 选择特定的工作负载。例如，下面的 Sidecar 配置将
 `bookinfo` 命名空间中的所有服务配置为仅能访问运行在相同命名空间和 Istio
 控制平面中的服务（Istio 的egress和遥测功能需要使用）：
 
@@ -568,7 +568,7 @@ spec:
 使用熔断模式可以快速失败而不必让客户端尝试连接到过载或有故障的主机。
 
 熔断适用于在负载均衡池中的“真实”网格目标地址，您可以在[目标规则](#destination-rules)中配置熔断器阈值，
-让配置应用于服务中的每个主机。下面的示例将 v1 子集的`reviews`服务工作负载的并发连接数限制为 100：
+让配置应用于服务中的每个主机。下面的示例将 v1 子集的 `reviews` 服务工作负载的并发连接数限制为 100：
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -637,7 +637,7 @@ spec:
 ### 和您的应用程序一起运行 {#working-with-your-applications}
 
 Istio 故障恢复功能对应用程序来说是完全透明的。在返回响应之前，
-应用程序不知道 Envoy sidecar 代理是否正在处理被调用服务的故障。这意味着，
+应用程序不知道 Envoy Sidecar 代理是否正在处理被调用服务的故障。这意味着，
 如果在应用程序代码中设置了故障恢复策略，那么您需要记住这两个策略都是独立工作的，
 否则会发生冲突。例如，假设您设置了两个超时，一个在虚拟服务中配置，
 另一个在应用程序中配置。应用程序为服务的 API 调用设置了 2 秒超时。
@@ -646,5 +646,5 @@ Istio 故障恢复功能对应用程序来说是完全透明的。在返回响�
 
 虽然 Istio 故障恢复特性提高了网格中服务的可靠性和可用性，
 但应用程序必须处理故障或错误并采取适当的回退操作。
-例如，当负载均衡中的所有实例都失败时，Envoy 返回一个`HTTP 503`代码
-。应用程序必须实现回退逻辑来处理`HTTP 503`错误代码。
+例如，当负载均衡中的所有实例都失败时，Envoy 返回一个 `HTTP 503` 代码。
+应用程序必须实现回退逻辑来处理 `HTTP 503` 错误代码。
