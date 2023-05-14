@@ -8,7 +8,7 @@ test: n/a
 当同一命名空间中的多个 Telemetry 资源具有重叠的工作负载选择器时，
 由于无法确定应将哪个 Telemetry 资源应用于特定 Pod，
 会出现 `ConflictingTelemetryWorkloadSelectors` 消息。
-这可能会导致出乎意料的遥测配置被应用到受影响的工作负载。
+这可能会导致受影响的工作负载的 Telemetry 配置出现意外。
 
 满足以下条件时会生成此消息：
 
