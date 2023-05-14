@@ -13,7 +13,7 @@ test: n/a
 
 这样的结果通常会在升级 Istio 控制平面的时候触发；
 当升级 Istio（包括 Sidecar 注入器）后，
-必须重新创建带有 Istio Sidecar 的所有运行中的工作负载，
+所有运行中带有 Istio Sidecar 的工作负载必须被重新创建，以便注入新版本的 Sidecar
 使得新版本 Sidecar 被允许注入。
 
 要解决该问题，请使用正常滚动策略重新部署应用程序来更新其 Sidecar 版本。
