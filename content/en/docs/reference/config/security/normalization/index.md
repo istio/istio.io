@@ -57,7 +57,7 @@ For example, `/public/./data/abc/../xyz` will be normalized to `/public/data/xyz
 
 This is enabled by default with the normalization option `BASE`.
 
-### 4. Path with query (`/foo?v=1`)
+### 5. Path with query (`/foo?v=1`)
 
 Istio authorization policy will remove anything after the question mark (`?`) when comparing with the path. Note the
 backend application will still see the query.
