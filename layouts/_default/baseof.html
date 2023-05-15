@@ -145,7 +145,15 @@
 
         <!-- our own stuff -->
         <script src="/js/all.min.js" data-manual defer></script>
-        {{ if .Page.Store.Get "needMermaid" -}}
+
+        {{ partial "events.html" (dict "page" . "kind" "sticker") }}
+        {{ partial "header.html" . }}
+        {{ partial "events.html" (dict "page" . "kind" "banner") }}
+
+        {{ block "main" . }}{{ end }}
+        {{ partial "footer.html" . }}
+        <!-- libraries we conditionally pull in -->
+        {{ if .Scratch.Get "needMermaid" -}}
         <script type="module">
           import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
           mermaid.initialize({
@@ -158,15 +166,6 @@
           });
         </script>
         {{ end -}}
-
-        {{ partial "events.html" (dict "page" . "kind" "sticker") }}
-        {{ partial "header.html" . }}
-        {{ partial "events.html" (dict "page" . "kind" "banner") }}
-
-        {{ block "main" . }}{{ end }}
-        {{ partial "footer.html" . }}
-
-        <!-- libraries we conditionally pull in -->
         {{ if .Scratch.Get "needPopper" }}
             <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" defer></script>
         {{ end }}

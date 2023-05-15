@@ -57,8 +57,14 @@ check_content() {
     # replace the {{< text >}} shortcodes with ```plain
     find "${TMP}" -type f -name \*.md -exec sed -E -i "s/\\{\\{< text .*>\}\}/\`\`\`plain/g" {} ";"
 
+    # replace the {{< mermaid >}} shortcodes with ```mermaid
+    find "${TMP}" -type f -name \*.md -exec sed -E -i "s/\\{\\{< mermaid .*>\}\}/\`\`\`mermaid/g" {} ";"
+
     # replace the {{< /text >}} shortcodes with ```
     find "${TMP}" -type f -name \*.md -exec sed -E -i "s/\\{\\{< \/text .*>\}\}/\`\`\`/g" {} ";"
+
+    # replace the {{< /mermaid >}} shortcodes with ```
+    find "${TMP}" -type f -name \*.md -exec sed -E -i "s/\\{\\{< \/mermaid .*>\}\}/\`\`\`/g" {} ";"
 
     # elide url="*"
     find "${TMP}" -type f -name \*.md -exec sed -E -i "s/url=\".*\"/URL/g" {} ";"
