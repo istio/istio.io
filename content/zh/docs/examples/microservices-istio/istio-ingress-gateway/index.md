@@ -7,7 +7,8 @@ owner: istio/wg-docs-maintainers
 test: no
 ---
 
-到目前为止，您可以通过 Kubernetes Ingress 在外部去访问您的应用。在本模块，您可以通过 Istio Ingress Gateway 配置流量，以便在微服务中通过使用 Istio 控制流量。
+到目前为止，您可以通过 Kubernetes Ingress 在外部去访问您的应用。在本模块，
+您可以通过 Istio Ingress Gateway 配置流量，以便在微服务中通过使用 Istio 控制流量。
 
 1.  在环境变量中存储命名空间 `NAMESPACE`。您需要通过它在日志中辨别您的微服务。
 
@@ -71,7 +72,8 @@ test: no
     EOF
     {{< /text >}}
 
-1.  在 [确定 Ingress IP 和 Port](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports) 部分可以使用指令设置 `INGRESS_HOST` 和 `INGRESS_PORT`。
+1.  在[确定 Ingress IP 和 Port](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)
+    部分可以使用指令设置 `INGRESS_HOST` 和 `INGRESS_PORT`。
 
 1.  将该命令的输出添加到您的 `/etc/hosts` 文件中。
 
@@ -103,16 +105,23 @@ test: no
     ...
     {{< /text >}}
 
-1.  在 Kiali 控制台 `my-kiali.io/kiali/console` 通过 Graph 检查您的命名空间。（这个 `my-kiali.io` URL 设置在您[之前配置](/zh/docs/examples/microservices-istio/bookinfo-kubernetes/#update-your-etc-hosts-configuration-file) 的 `/etc/hosts` 文件中）。
+1.  在 Kiali 控制台 `my-kiali.io/kiali/console` 通过 Graph
+    检查您的命名空间。（这个 `my-kiali.io` URL
+    设置在您[之前配置](/zh/docs/examples/microservices-istio/bookinfo-kubernetes/#update-your-etc-hosts-configuration-file)
+    的 `/etc/hosts` 文件中）。
 
-    在这，您可以看到有两个来源的流量，一个是 `unknown`（Kubernetes Ingress），一个是`istio-ingressgateway istio-system`（Istio Ingress Gateway）。
+    在这，您可以看到有两个来源的流量，一个是 `unknown`（Kubernetes Ingress），
+    一个是 `istio-ingressgateway istio-system`（Istio Ingress Gateway）。
 
     {{< image width="80%"
         link="kiali-ingress-gateway.png"
         caption="Kiali Graph Tab with Istio Ingress Gateway"
         >}}
 
-1. 此时您可以停止发送 Kubernetes Ingress 请求，只使用Istio Ingress Gateway。停止您之前设置的无限循环（在终端窗口使用 `Ctrl-C`）。在真实的生产环境中，您需要更新应用的 DNS 条目，使其包含 Istio ingress gateway 的 IP，或者配置您的外部负载均衡器。
+1. 此时您可以停止发送 Kubernetes Ingress 请求，只使用Istio Ingress Gateway。
+   停止您之前设置的无限循环（在终端窗口使用 `Ctrl-C`）。在真实的生产环境中，
+   您需要更新应用的 DNS 条目，使其包含 Istio ingress gateway 的 IP，
+   或者配置您的外部负载均衡器。
 
 1. 删除Kubernetes Ingress 资源：
 
