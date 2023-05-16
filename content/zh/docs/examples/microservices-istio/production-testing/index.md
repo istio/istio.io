@@ -10,7 +10,7 @@ test: no
 
 在生产环境中测试您的微服务！
 
-## 测试单个微服务{#testing-individual-microservices}
+## 测试单个微服务 {#testing-individual-microservices}
 
 1. 从测试 pod 中向服务之一发起 HTTP 请求：
 
@@ -18,19 +18,19 @@ test: no
     $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -- curl http://ratings:9080/ratings/7
     {{< /text >}}
 
-## 混乱测试{#chaos-testing}
+## 混乱测试 {#chaos-testing}
 
-在生产环境中执行一些[混乱测试](http://www.boyter.org/2016/07/chaos-testing-engineering/)，并查看您的应用程序如何反应。
-进行每次混乱的操作后，请访问应用程序的网页，查看是否有任何更改。
-使用 `kubectl get pods` 检查 pods 状态。
+在生产环境中执行一些[混沌测试](http://www.boyter.org/2016/07/chaos-testing-engineering/)，
+并查看您的应用程序如何反应。进行每次混乱的操作后，请访问应用程序的网页，查看是否有任何更改。
+使用 `kubectl get pods` 检查 Pod 状态。
 
-1. 在 `details` 服务的一个 pod 中终止它。
+1. 在 `details` 服务的一个 Pod 中终止它。
 
     {{< text bash >}}
     $ kubectl exec -it $(kubectl get pods -l app=details -o jsonpath='{.items[0].metadata.name}') -- pkill ruby
     {{< /text >}}
 
-1. 检查 pods 状态：
+1. 检查 Pod 状态：
 
     {{< text bash >}}
     $ kubectl get pods
@@ -50,9 +50,9 @@ test: no
     sleep-88ddbcfdd-l9zq4           1/1     Running   0          47m
     {{< /text >}}
 
-    请注意第一个 pod 重启了一次。
+    请注意第一个 Pod 重启了一次。
 
-1. 在 `details` 的所有 pods 中终止它：
+1. 在 `details` 的所有 Pod 中终止它：
 
     {{< text bash >}}
     $ for pod in $(kubectl get pods -l app=details -o jsonpath='{.items[*].metadata.name}'); do echo terminating $pod; kubectl exec -it $pod -- pkill ruby; done
@@ -67,7 +67,7 @@ test: no
 
     请注意详情部分显示的是错误信息而不是书籍详情。
 
-1. 检查 pods 状态：
+1. 检查 Pod 状态：
 
     {{< text bash >}}
     $ kubectl get pods
@@ -87,8 +87,8 @@ test: no
     sleep-88ddbcfdd-l9zq4           1/1     Running   0          48m
     {{< /text >}}
 
-    第一个 pod 重启了两次，其它两个 `details` pods 重启了一次。
-    您可能会看到 `Error` 和 `CrashLoopBackOff` 状态，直到 pods 变为 `Running` 状态。
+    第一个 Pod 重启了两次，其它两个 `details` Pod 重启了一次。
+    您可能会看到 `Error` 和 `CrashLoopBackOff` 状态，直到 Pod 变为 `Running` 状态。
 
 1. 在终端中使用 Ctrl-C 停止正在运行的无限循环，以模拟流量。
 
