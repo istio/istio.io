@@ -85,7 +85,7 @@ There are several commonly used install options:
 There is a time gap between a node becomes schedulable and the Istio CNI plugin becomes ready on that node.
 If an application pod starts up during this time, it is possible that traffic redirection is not properly set up and traffic would be able to bypass the Istio sidecar.
 This race condition is mitigated by a "detect and repair" method.
-Please take a look at [race condition & mitigation](#race-condition-mitigation) section to understand the implication of this mitigation.
+Please take a look at [race condition & mitigation](#race-condition--mitigation) section to understand the implication of this mitigation.
 {{< /tip >}}
 
 ### Hosted Kubernetes settings
