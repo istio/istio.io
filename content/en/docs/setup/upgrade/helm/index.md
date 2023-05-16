@@ -83,7 +83,7 @@ primary and canary installations.
       istio-ingress-canary-5d649bd644-4m8lp   1/1     Running   0          3m24s   canary
     {{< /text >}}
 
-    See [Upgarding Gateways](/docs/setup/additional-setup/gateway/#canary-upgrade-advanced) for in-depth documentation on gateway canary upgrade.
+    See [Upgrading Gateways](/docs/setup/additional-setup/gateway/#canary-upgrade-advanced) for in-depth documentation on gateway canary upgrade.
 
 1. Follow the steps [here](/docs/setup/upgrade/canary/#data-plane) to test or migrate
    existing workloads to use the canary control plane.
