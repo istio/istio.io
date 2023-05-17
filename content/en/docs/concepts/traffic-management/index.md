@@ -47,9 +47,10 @@ Using this service registry, the Envoy proxies can then direct traffic to the
 relevant services. Most microservice-based applications have multiple instances
 of each service workload to handle service traffic, sometimes referred to as a
 load balancing pool. By default, the Envoy proxies distribute traffic across
-each service’s load balancing pool using a round-robin model, where requests are
-sent to each pool member in turn, returning to the top of the pool once each
-service instance has received a request.
+each service’s load balancing pool using a least requests model, where each
+request is routed to the host with fewer active requests from a
+random selection of two hosts from the pool; in this way the most heavily loaded
+host will not receive requests until it is no more loaded than any other host.
 
 While Istio's basic service discovery and load balancing gives you a working
 service mesh, it’s far from all that Istio can do. In many cases you might want
@@ -100,7 +101,7 @@ services also provide a rich way of specifying different traffic routing rules
 for sending traffic to those workloads.
 
 Why is this so useful? Without virtual services, Envoy distributes
-traffic using round-robin load balancing between all service instances, as
+traffic using least requests load balancing between all service instances, as
 described in the introduction. You can improve this behavior with what you know
 about the workloads. For example, some might represent a different version. This
 can be useful in A/B testing, where you might want to configure traffic routes
@@ -371,16 +372,15 @@ You can see a complete list of destination rule options in the
 
 ### Load balancing options
 
-By default, Istio uses a round-robin load balancing policy, where each service
-instance in the instance pool gets a request in turn. Istio also supports the
+By default, Istio uses a least requests load balancing policy, where requests
+are distributed among the instances with the least number of requests. Istio also supports the
 following models, which you can specify in destination rules for requests to a
 particular service or service subset.
 
 -   Random: Requests are forwarded at random to instances in the pool.
 -   Weighted: Requests are forwarded to instances in the pool according to a
     specific percentage.
--   Least requests: Requests are forwarded to instances with the least number of
-    requests.
+-   Round robin: Requests are forwarded to each instance in sequence.
 
 See the
 [Envoy load balancing documentation](https://www.envoyproxy.io/docs/envoy/v1.5.0/intro/arch_overview/load_balancing)
