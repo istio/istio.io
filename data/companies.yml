@@ -94,6 +94,9 @@ providers:
   - name: "Istio Addon for Azure Kubernetes Service"
     logo: "/logos/microsoft-azure.svg"
     url: "https://learn.microsoft.com/en-us/azure/aks/istio-about"
+  - name: "IMESH Platform"
+    logo: "/logos/imesh.svg"
+    url: "https://imesh.ai/imesh-istio-platform.html"
 
 integrations:
   - name: "Aeraki"
