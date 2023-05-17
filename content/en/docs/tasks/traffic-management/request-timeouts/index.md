@@ -43,9 +43,9 @@ Nothing to do here because Gateway API routes will be created as needed.
 
 ## Request timeouts
 
-A timeout for HTTP requests can be specified using the *timeout* field of the [route rule](/docs/reference/config/networking/virtual-service/#HTTPRoute).
+A timeout for HTTP requests can be specified using a timeout field in a route rule.
 By default, the request timeout is disabled, but in this task you override the `reviews` service
-timeout to 1 second.
+timeout to half a second.
 To see its effect, however, you also introduce an artificial 2 second delay in calls
 to the `ratings` service.
 
