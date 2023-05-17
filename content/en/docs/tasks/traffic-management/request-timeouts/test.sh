@@ -36,7 +36,7 @@ snip_before_you_begin_1
 snip_request_timeouts_1
 
 # config a 2 second delay to calls to the ratings service
-snip_request_timeouts_2
+snip_request_timeouts_3
 
 # wait for rules to propagate
 _wait_for_istio virtualservice default productpage
@@ -54,7 +54,7 @@ get_productpage() {
 _verify_contains get_productpage "glyphicon glyphicon-star"
 
 # config a half second request timeout for calls to the reviews service
-snip_request_timeouts_3
+snip_request_timeouts_5
 
 _wait_for_istio virtualservice default reviews
 

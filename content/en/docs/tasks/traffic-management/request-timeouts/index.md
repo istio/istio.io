@@ -94,7 +94,6 @@ spec:
 EOF
 {{< /text >}}
 
-
 {{< /tab >}}
 
 {{< /tabset >}}
@@ -268,7 +267,6 @@ $ kubectl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
 $ kubectl delete httproute reviews
 $ kubectl delete virtualservice ratings
 {{< /text >}}
-
 
 {{< /tab >}}
 

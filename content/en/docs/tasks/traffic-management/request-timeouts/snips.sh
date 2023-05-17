@@ -19,6 +19,7 @@
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
 #          docs/tasks/traffic-management/request-timeouts/index.md
 ####################################################################################################
+source "content/en/boilerplates/snips/gateway-api-gamma-support.sh"
 
 snip_before_you_begin_1() {
 kubectl apply -f samples/bookinfo/networking/virtual-service-all-v1.yaml
@@ -43,6 +44,24 @@ EOF
 
 snip_request_timeouts_2() {
 kubectl apply -f - <<EOF
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: HTTPRoute
+metadata:
+  name: reviews
+spec:
+  parentRefs:
+  - kind: Service
+    name: reviews
+    port: 9080
+  rules:
+  - backendRefs:
+    - name: reviews-v2
+      port: 9080
+EOF
+}
+
+snip_request_timeouts_3() {
+kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -62,7 +81,27 @@ spec:
 EOF
 }
 
-snip_request_timeouts_3() {
+snip_request_timeouts_4() {
+kubectl apply -f - <<EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ratings
+spec:
+  hosts:
+  - ratings
+  http:
+  - fault:
+      delay:
+        percent: 100
+        fixedDelay: 2s
+    route:
+    - destination:
+        host: ratings
+EOF
+}
+
+snip_request_timeouts_5() {
 kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -80,6 +119,31 @@ spec:
 EOF
 }
 
+snip_request_timeouts_6() {
+kubectl apply -f - <<EOF
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: HTTPRoute
+metadata:
+  name: reviews
+spec:
+  parentRefs:
+  - kind: Service
+    name: reviews
+    port: 9080
+  rules:
+  - backendRefs:
+    - name: reviews-v2
+      port: 9080
+    timeouts:
+      request: 0.5s
+EOF
+}
+
 snip_cleanup_1() {
 kubectl delete -f samples/bookinfo/networking/virtual-service-all-v1.yaml
+}
+
+snip_cleanup_2() {
+kubectl delete httproute reviews
+kubectl delete virtualservice ratings
 }
