@@ -117,8 +117,8 @@ $ kubectl --context="${CTX_CLUSTER1}" apply -n istio-system -f \
 
 ## 为 `cluster2` 设置控制平面集群 {#set-the-control-plane-cluster-for-cluster2}
 
-命名空间 istio-system 创建之后，我们需要设置集群的网络：
-我们需要通过注解 istio-system 命名空间来识别应该管理 `cluster2` 的外部控制平面集群：
+命名空间 `istio-system` 创建之后，我们需要设置集群的网络：
+我们需要通过为 `istio-system` 命名空间添加注解来识别应管理 `cluster2` 的外部控制平面集群：
 
 {{< text bash >}}
 $ kubectl --context="${CTX_CLUSTER2}" create namespace istio-system
@@ -131,7 +131,7 @@ $ kubectl --context="${CTX_CLUSTER2}" annotate namespace istio-system topology.i
 
 ## 为 `cluster2` 设置默认网络 {#set-the-default-network-for-cluster2}
 
-通过向 istio-system 命名空间添加标签来设置 `cluster2` 的网络：
+通过向 `istio-system` 命名空间添加标签来设置 `cluster2` 的网络：
 
 {{< text bash >}}
 $ kubectl --context="${CTX_CLUSTER2}" label namespace istio-system topology.istio.io/network=network2
@@ -235,3 +235,19 @@ $ kubectl --context="${CTX_CLUSTER2}" apply -n istio-system -f \
 ## 后续步骤 {#next-steps}
 
 现在，您可以[验证此次安装](/zh/docs/setup/install/multicluster/verify)。
+
+## 清理 {#cleanup}
+
+1. 卸载 `cluster1` 中的 Istio：
+
+    {{< text syntax=bash snip_id=none >}}
+    $ istioctl uninstall --context="${CTX_CLUSTER1}" -y --purge
+    $ kubectl delete ns istio-system --context="${CTX_CLUSTER1}"
+    {{< /text >}}
+
+1. 卸载 `cluster2` 中的 Istio：
+
+    {{< text syntax=bash snip_id=none >}}
+    $ istioctl uninstall --context="${CTX_CLUSTER2}" -y --purge
+    $ kubectl delete ns istio-system --context="${CTX_CLUSTER2}"
+    {{< /text >}}

@@ -7,9 +7,10 @@ keywords: [kubernetes,multicluster]
 test: yes
 owner: istio/wg-environments-maintainers
 ---
+
 按照本指南，在 `cluster1` 和 `cluster2` 两个集群上，安装 Istio 控制平面，
 且将两者均设置为主集群（{{< gloss >}}primary cluster{{< /gloss >}}）。
-集群 `cluster1` 在  `network1` 网络上，而集群 `cluster2` 在  `network2` 网络上。
+集群 `cluster1` 在 `network1` 网络上，而集群 `cluster2` 在 `network2` 网络上。
 这意味着这些跨集群边界的 Pod 之间，网络不能直接连通。
 
 继续安装之前，请确保完成了[准备工作](/zh/docs/setup/install/multicluster/before-you-begin)中的步骤。
@@ -18,7 +19,7 @@ owner: istio/wg-environments-maintainers
 
 在此配置中，`cluster1` 和 `cluster2` 均监测两个集群 API Server 的服务端点。
 
-跨集群边界的服务负载，通过专用的[东西向](https://en.wikipedia.org/wiki/East-west_traffic)网关，
+跨集群边界的服务负载通过专用的[东西向](https://en.wikipedia.org/wiki/East-west_traffic)网关，
 以间接的方式通讯。每个集群中的网关在其他集群必须可以访问。
 
 {{< image width="75%"
@@ -28,7 +29,7 @@ owner: istio/wg-environments-maintainers
 
 ## 为 `cluster1` 设置缺省网络 {#set-the-default-network-for-cluster1}
 
-创建命名空间 istio-system 之后，我们需要设置集群的网络：
+创建命名空间 `istio-system` 之后，我们需要设置集群的网络：
 
 {{< text bash >}}
 $ kubectl --context="${CTX_CLUSTER1}" get namespace istio-system && \
@@ -65,7 +66,7 @@ $ istioctl install --context="${CTX_CLUSTER1}" -f cluster1.yaml
 [东西向](https://en.wikipedia.org/wiki/East-west_traffic)网关。
 默认情况下，此网关将被公开到互联网上。
 生产系统可能需要添加额外的访问限制（即：通过防火墙规则）来防止外部攻击。
-咨询你的云服务商，了解可用的选择。
+咨询您的云服务商，了解可用的选择。
 
 {{< text bash >}}
 $ @samples/multicluster/gen-eastwest-gateway.sh@ \
@@ -74,11 +75,11 @@ $ @samples/multicluster/gen-eastwest-gateway.sh@ \
 {{< /text >}}
 
 {{< warning >}}
-如果控制面板已经安装了修订版本，可 `gen-eastwest-gateway.sh` 命令中添加
+如果控制面已经安装了一个修订版，可以在 `gen-eastwest-gateway.sh` 命令中添加
 `--revision rev` 标志。
 {{< /warning >}}
 
-等待东西向网关被分配外部 IP 地址:
+等待东西向网关被分配外部 IP 地址：
 
 {{< text bash >}}
 $ kubectl --context="${CTX_CLUSTER1}" get svc istio-eastwestgateway -n istio-system
@@ -177,8 +178,24 @@ $ istioctl x create-remote-secret \
   kubectl apply -f - --context="${CTX_CLUSTER1}"
 {{< /text >}}
 
-**恭喜!** 你在跨网络多主架构的集群上，成功的安装了 Istio 网格。
+**恭喜!** 您在跨网络多主架构的集群上，成功的安装了 Istio 网格。
 
 ## 后续步骤 {#next-steps}
 
-现在，你可以[验证此次安装](/zh/docs/setup/install/multicluster/verify)。
+现在，您可以[验证此次安装](/zh/docs/setup/install/multicluster/verify)。
+
+## 清理 {#cleanup}
+
+1. 卸载 `cluster1` 中的 Istio：
+
+    {{< text syntax=bash snip_id=none >}}
+    $ istioctl uninstall --context="${CTX_CLUSTER1}" -y --purge
+    $ kubectl delete ns istio-system --context="${CTX_CLUSTER1}"
+    {{< /text >}}
+
+1. 卸载 `cluster2` 中的 Istio：
+
+    {{< text syntax=bash snip_id=none >}}
+    $ istioctl uninstall --context="${CTX_CLUSTER2}" -y --purge
+    $ kubectl delete ns istio-system --context="${CTX_CLUSTER2}"
+    {{< /text >}}
