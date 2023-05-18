@@ -76,7 +76,7 @@ Kubernetes 只有在新的 Pod 开始运行的时候才会终止老的 Pod，它
     http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard
     {{< /text >}}
 
-    在左上角的下拉菜单中，选择 _Istio Mesh Dashboard_ 。
+    在左上角的下拉菜单中，选择 **Istio Mesh Dashboard**。
 
     {{< image width="80%"
         link="dashboard-select-dashboard.png"
@@ -104,7 +104,7 @@ Kubernetes 只有在新的 Pod 开始运行的时候才会终止老的 Pod，它
         caption="Istio Service Dashboard"
         >}}
 
-这是在一个微服务中应用 Istio 的直接优点，您可以收到进出微服务的流量日志，包括时间、HTTP方法、路径和响应代码。您可以用 Istio 仪表盘监控您的微服务。
+这是在一个微服务中应用 Istio 的直接优点，您可以收到进出微服务的流量日志，包括时间、HTTP 方法、路径和响应代码。您可以用 Istio 仪表盘监控您的微服务。
 
 在下一个模块，您将会学习到关于 Istio 可以为您的应用提供的功能。当 Istio 的功能对微服务是有益的时候，您将学习如何在整个应用程序上使用 Istio 来实现其全部潜力。
 
