@@ -58,20 +58,6 @@ See [compatibility with other CNI plugins](#compatibility-with-other-cni-plugins
 
 ### Install Istio with CNI plugin
 
-In most environments, a basic Istio cluster with CNI enabled can be installed using the following commands:
-
-{{< text bash >}}
-$ cat <<EOF > istio-cni.yaml
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  components:
-    cni:
-      enabled: true
-EOF
-$ istioctl install -f istio-cni.yaml -y
-{{< /text >}}
-
 This will deploy an `istio-cni-node` DaemonSet into the cluster, which installs the Istio CNI plugin binary to each node and sets up the necessary configuration for the plugin.
 The CNI DaemonSet runs with [`system-node-critical`](https://kubernetes.io/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/) `PriorityClass`.
 
@@ -90,6 +76,32 @@ If an application pod starts up during this time, it is possible that traffic re
 This race condition is mitigated by a "detect and repair" method.
 Please take a look at [race condition & mitigation](#race-condition--mitigation) section to understand the implication of this mitigation.
 {{< /tip >}}
+
+#### Helm-based install
+
+When [installing Istio using Helm](/docs/setup/install/helm/), it's possible to install the CNI as a standalone chart, by using:
+
+    {{< text syntax=bash snip_id=install_ingressgateway >}}
+    $ kubectl create namespace istio-ingress
+    $ helm install istio-ingress istio/cni -n istio-ingress --wait
+    {{< /text >}}
+Once the CNI is successfully installed, configure the istiod sidecar-injector to use the CNI by setting `istio_cni.enabled=true` in the istiod helm chart.
+
+#### Operator-based install (deprecated)
+
+In most operator-managed environments, a basic Istio cluster with CNI enabled can be installed using the following commands:
+
+{{< text bash >}}
+$ cat <<EOF > istio-cni.yaml
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  components:
+    cni:
+      enabled: true
+EOF
+$ istioctl install -f istio-cni.yaml -y
+{{< /text >}}
 
 ### Hosted Kubernetes settings
 

@@ -135,6 +135,15 @@ You can display the default values of configuration parameters using the `helm s
     See [Controlling the injection policy](/docs/setup/additional-setup/sidecar-injection/#controlling-the-injection-policy) for more info.
     {{< /warning >}}
 
+1. (Optional) Install the CNI:
+
+    {{< text syntax=bash snip_id=install_ingressgateway >}}
+    $ helm install istio-ingress istio/cni -n istio-system --wait
+    {{< /text >}}
+
+    See [Install Istio with the Istio CNI plugin](/docs/setup/additional-setup/cni/#helm-based-install) for details on configuring the CNI installation
+
+
 {{< tip >}}
 See [Advanced Helm Chart Customization](/docs/setup/additional-setup/customize-installation-helm/) for in-depth documentation on how to use
 Helm post-renderer to customize the Helm charts.
