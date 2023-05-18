@@ -15,7 +15,7 @@ test: no
 Warning [IST0134] (ServiceEntry service-entry.default serviceentry.yaml:13) ServiceEntry addresses are required for this protocol.
 {{< /text >}}
 
-当集群的 ServiceEntry 未设置协议且缺少地址时：
+当集群的 `ServiceEntry` 未设置 `protocol` 且缺少 `addresses` 时：
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -35,7 +35,7 @@ spec:
   resolution: DNS
 {{< /text >}}
 
-这种分析器的另一个例子是 ServiceEntry 设置了 TCP 协议但缺少地址时：
+这种分析器的另一个例子是 `ServiceEntry` 设置了 `protocol: TCP` 但缺少 `addresses` 时：
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
