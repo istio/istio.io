@@ -91,6 +91,9 @@ providers:
   - name: "Baidu AI Cloud Mesh"
     logo: "/logos/baidu-ai-cloud.svg"
     url: "https://cloud.baidu.com/product/csm.html"
+  - name: "Istio Addon for Azure Kubernetes Service"
+    logo: "/logos/microsoft-azure.svg"
+    url: "https://learn.microsoft.com/en-us/azure/aks/istio-about"
 
 integrations:
   - name: "Aeraki"
