@@ -133,7 +133,7 @@ test: yes
 ## 理解 TCP 遥测数据的收集过程{#understanding-tcp-telemetry-collection}
 
 在此任务中，您使用 Istio 配置自动生成并报告网格内 TCP 服务的所有流量的指标。
-默认情况下，所有活动连接的 TCP 指标每 `15 秒` 记录一次，并且此计时器是可配置的通过[`tcpReportingDuration`](/zh/docs/reference/config/proxy_extensions/stats/#PluginConfig)。连接的指标也记录在连接的结束时。
+默认情况下，所有活动连接的 TCP 指标每 `15s` 记录一次，并且此计时器可通过 `tcpReportingDuration` 进行配置。连接结束时也会记录连接的指标。
 
 ### TCP 属性{#tcp-attributes}
 
