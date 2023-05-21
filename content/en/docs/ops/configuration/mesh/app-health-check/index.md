@@ -32,6 +32,42 @@ TCP probe checks need special handling, because Istio redirects all incoming tra
 
 Istio solves both these problems by rewriting the application `PodSpec` readiness/liveness probe,
 so that the probe request is sent to the [sidecar agent](/docs/reference/commands/pilot-agent/).
+
+The rewrite is visible at the application pod level. For example, in the [liveness-http-same-port sample]({{< github_file >}}/samples/health-check/liveness-http-same-port.yaml) the following `livenessProbe` is defined:
+
+{{< text bash yaml >}}
+$ cat liveness-http-same-port.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: liveness-http
+spec:
+...
+        livenessProbe:
+          httpGet:
+            path: /foo
+            port: 8001
+...
+{{< /text >}}
+
+Once deployed, you can inspect the pod's application container to see the changed path:
+
+{{< text bash yaml >}}
+$ kubectl get pod liveness-http -o json | jq '.spec.containers[0]'.livenessProbe.httpGet
+  "path": "/app-health/liveness-http/livez",
+  "port": 15020,
+  "scheme": "HTTP"
+{{< /text >}}
+
+The original `livenessProve` path is now mapped against the new path in the sidecar container environment variable `ISTIO_KUBE_APP_PROBERS`:
+
+{{< text bash yaml >}}
+$ kubectl get pod liveness-http -o=jsonpath='{.spec.containers[1].env}'
+...
+{"name":"ISTIO_KUBE_APP_PROBERS","value":"{\"/app-health/liveness-http/livez\":{\"httpGet\":{\"path\":\"/foo\",\"port\":8001,\"scheme\":\"HTTP\"},\"timeoutSeconds\":1}}"}
+...
+{{< /text >}}
+
 For HTTP and gRPC requests, the sidecar agent redirects the request to the application and strips the response body, only returning the response code. For TCP probes, the sidecar agent will then do the port check while avoiding the traffic redirection.
 
 The rewriting of problematic probes is enabled by default in all built-in Istio
