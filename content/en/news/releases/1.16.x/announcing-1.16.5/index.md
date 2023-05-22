@@ -16,7 +16,7 @@ This release note describes what’s different between Istio 1.16.4 and 1.16.5.
 - **Updated** VirtualService validation to fail on empty prefix header matcher.
   ([Issue #44424](https://github.com/istio/istio/issues/44424))
 
-- **Fixed** the `dns_upstream_failures_total` metric being mistakenly deleted in the previous release.
+- **Fixed** the `dns_upstream_failures_total` metric that was mistakenly deleted in the previous release.
   ([Issue #44151](https://github.com/istio/istio/issues/44151))
 
 - **Fixed** a bug where services are missing in gateways if `PILOT_FILTER_GATEWAY_CLUSTER_CONFIG` is enabled.
