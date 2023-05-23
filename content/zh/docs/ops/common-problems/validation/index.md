@@ -13,17 +13,20 @@ test: no
 
 ## 看似有效的配置不生效 {#valid-configuration-is-rejected}
 
-使用 [istioctl validate -f](/zh/docs/reference/commands/istioctl/#istioctl-validate) 以及 [istioctl analyze](/zh/docs/reference/commands/istioctl/#istioctl-analyze) 来获取更多为什么配置不生效的信息。使用和控制面版本相似的 _istioctl_ CLI 。
+使用 [istioctl validate -f](/zh/docs/reference/commands/istioctl/#istioctl-validate)
+以及 [istioctl analyze](/zh/docs/reference/commands/istioctl/#istioctl-analyze)
+来获取更多为什么配置不生效的信息。使用和控制面版本相似的 **istioctl** CLI。
 
-最常见的配置问题是关于 YAML 文件空格缩进以及数组符号 (`-`) 的错误。
+最常见的配置问题是关于 YAML 文件空格缩进以及数组符号（`-`）的错误。
 
-手动验证您的配置是否正确，当有必要的时候请参照 [Istio API 文档](/zh/docs/reference/config) 。
+手动验证您的配置是否正确，当有必要的时候请参照 [Istio API 文档](/zh/docs/reference/config)。
 
 ## 接受无效配置 {#invalid-configuration-is-accepted}
 
 验证存在正确的名为 `istio-validator-` 且后跟 `<revision>-` 的 `validatingwebhookconfiguration`，
 如果不是默认的修订版则后跟 Istio 系统命名空间（例如 `istio-validator-myrev-istio-system`）。
-有效配置的 `apiVersion`、`apiGroup` 和 `resource` 应列举在 `validatingwebhookconfiguration` 的 `webhooks` 部分。
+有效配置的 `apiVersion`、`apiGroup` 和 `resource` 应列举在 `validatingwebhookconfiguration`
+的 `webhooks` 部分。
 
 {{< text bash yaml >}}
 $ kubectl get validatingwebhookconfiguration istio-validator-istio-system -o yaml
@@ -47,11 +50,11 @@ webhooks:
   - v1beta1
   - v1
   clientConfig:
-    # caBundle should be non-empty. This is periodically (re)patched
-    # every second by the webhook service using the ca-cert
-    # from the mounted service account secret.
+    # caBundle 应该是非空的。webhook
+    # 服务使用已安装服务帐户密码中的 ca-cert
+    # 每隔一秒定期（重新）修订一次。
     caBundle: LS0t...
-    # service corresponds to the Kubernetes service that implements the webhook
+    # service 对应实现 webhook 的 Kubernetes 服务
     service:
       name: istiod
       namespace: istio-system
@@ -85,15 +88,20 @@ webhooks:
   timeoutSeconds: 10
 {{< /text >}}
 
-如果 `istio-validator-` webhook 不存在，那就验证 `global.configValidation` 安装选项是否被设为 `true`。
+如果 `istio-validator-` webhook 不存在，那就验证 `global.configValidation`
+安装选项是否被设为 `true`。
 
 校验配置如果失败会自动关闭。如果配置存在且作用范围正确，webhook 将被调用。
 在资源创建或更新的时候，如果 `caBundle` 缺失或证书错误，亦或网络连接问题都将会导致报错。
-如果你确信你的配置没有问题，webhook 没有被调用却看不到任何错误信息，你的集群配置肯定有问题。
+如果您确信您的配置没有问题，webhook 没有被调用却看不到任何错误信息，您的集群配置肯定有问题。
 
 ## 创建配置失败报错：x509 certificate errors {#x509-certificate-errors}
 
-`x509: certificate signed by unknown authority` 错误通常和 webhook 配置中的空 `caBundle` 有关，所以要确认它不为空 (请查阅[验证 webhook 配置](#invalid-configuration-is-accepted))。Istio 有意识地使用 `istio-validation` `configmap` 和根证书，调整了 webhook 配置。
+`x509: certificate signed by unknown authority` 错误通常和 webhook
+配置中的空 `caBundle` 有关，所以要确认它不为空
+（请查阅[验证 webhook 配置](#invalid-configuration-is-accepted)）。
+Istio 有意识地使用 `istio-validation` `configmap` 和根证书，调整了
+webhook 配置。
 
 1. 验证 `istio-pilot` Pod 是否在运行：
 
@@ -131,7 +139,9 @@ webhooks:
 
 ## 创建配置报错：`no such hosts` 或 `no endpoints available` {#creating-configuration-fail}
 
-校验失败自动关闭。如果 `istiod` Pod 没有准备就绪，配置是不会被创建或者更新的，在下面的例子里您可以看到关于 `no endpoints available` 的错误信息。
+校验失败自动关闭。如果 `istiod` Pod 没有准备就绪，
+配置是不会被创建或者更新的，在下面的例子里您可以看到关于
+`no endpoints available` 的错误信息。
 
 检查 `istiod` Pod 是否运行，并且检查 endpoint 是否准备就绪。
 
@@ -147,7 +157,8 @@ NAME           ENDPOINTS                          AGE
 istiod         10.48.6.108:15014,10.48.6.108:443   3d
 {{< /text >}}
 
-如果 Pod 或者 endpoint 尚未准备就绪，请检查 Pod 日志和任何导致 webhook Pod 无法启动的异常状态以及服务流量。
+如果 Pod 或者 endpoint 尚未准备就绪，请检查 Pod 日志和任何导致
+webhook Pod 无法启动的异常状态以及服务流量。
 
 {{< text bash >}}
 $ for pod in $(kubectl -n istio-system get pod -lapp=istiod -o jsonpath='{.items[*].metadata.name}'); do \
