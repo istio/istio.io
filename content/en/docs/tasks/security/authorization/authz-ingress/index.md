@@ -729,25 +729,25 @@ $ kubectl get pods -n foo -o name -l istio.io/gateway-name=httpbin-gateway | sed
 
 * Remove the authorization policy:
 
-{{< tabset category-name="config-api" >}}
+    {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+    {{< tab name="Istio classic" category-value="istio-classic" >}}
 
-{{< text bash >}}
-$ kubectl delete authorizationpolicy ingress-policy -n istio-system
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl delete authorizationpolicy ingress-policy -n istio-system
+    {{< /text >}}
 
-{{< /tab >}}
+    {{< /tab >}}
 
-{{< tab name="Gateway API" category-value="gateway-api" >}}
+    {{< tab name="Gateway API" category-value="gateway-api" >}}
 
-{{< text bash >}}
-$ kubectl delete authorizationpolicy ingress-policy -n foo
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl delete authorizationpolicy ingress-policy -n foo
+    {{< /text >}}
 
-{{< /tab >}}
+    {{< /tab >}}
 
-{{< /tabset >}}
+    {{< /tabset >}}
 
 * Remove the namespace `foo`:
 
