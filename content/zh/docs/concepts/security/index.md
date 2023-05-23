@@ -824,8 +824,8 @@ spec:
 Istio 使用双向 TLS 将某些信息从客户端安全地传递到服务器。
 在使用授权策略中的以下任何字段之前，必须先启用双向 TLS：
 
-- `source` 部分下的 `principals` 字段
-- `source` 部分下的 `namespaces` 字段
+- `source` 部分下的 `principals` 和 `notPrincipals` 字段
+- `source` 部分下的 `namespaces` 和 `notNamespaces` 字段
 - `source.principal` 自定义条件
 - `source.namespace` 自定义条件
 
