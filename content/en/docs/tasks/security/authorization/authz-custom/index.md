@@ -232,7 +232,7 @@ The external authorizer is now ready to be used by the authorization policy.
 
     You can now apply another authorization policy for the sample `ext-authz` server to control who is allowed to access it.
 
-## Clean up
+## Cleanup
 
 1. Remove the namespace `foo` from your configuration:
 

@@ -180,7 +180,7 @@ the JWT to have a claim named `groups` containing the value `group1`:
     403
     {{< /text >}}
 
-## Clean up
+## Cleanup
 
 1. Remove the namespace `foo`:
 
