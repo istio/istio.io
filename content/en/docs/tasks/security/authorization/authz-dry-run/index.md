@@ -104,18 +104,18 @@ Caching and propagation overhead can cause some delay.
 
 ## Check dry-run result in proxy log
 
-1. The dry-run results can be found in the proxy debug log in the format of `shadow denied, matched policy ns[foo]-policy[deny-path-headers]-rule[0]`.
-   Run the following command to check the log:
+The dry-run results can be found in the proxy debug log in the format of `shadow denied, matched policy ns[foo]-policy[deny-path-headers]-rule[0]`.
+Run the following command to check the log:
 
-    {{< text bash >}}
-    $ kubectl logs "$(kubectl -n foo -l app=httpbin get pods -o jsonpath={.items..metadata.name})" -c istio-proxy -n foo | grep "shadow denied"
-    2021-11-19T20:20:48.733099Z debug envoy rbac shadow denied, matched policy ns[foo]-policy[deny-path-headers]-rule[0]
-    2021-11-19T20:21:45.502199Z debug envoy rbac shadow denied, matched policy ns[foo]-policy[deny-path-headers]-rule[0]
-    2021-11-19T20:22:33.065348Z debug envoy rbac shadow denied, matched policy ns[foo]-policy[deny-path-headers]-rule[0]
-    ...
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl logs "$(kubectl -n foo -l app=httpbin get pods -o jsonpath={.items..metadata.name})" -c istio-proxy -n foo | grep "shadow denied"
+2021-11-19T20:20:48.733099Z debug envoy rbac shadow denied, matched policy ns[foo]-policy[deny-path-headers]-rule[0]
+2021-11-19T20:21:45.502199Z debug envoy rbac shadow denied, matched policy ns[foo]-policy[deny-path-headers]-rule[0]
+2021-11-19T20:22:33.065348Z debug envoy rbac shadow denied, matched policy ns[foo]-policy[deny-path-headers]-rule[0]
+...
+{{< /text >}}
 
-   Also see the [troubleshooting guide](/docs/ops/common-problems/security-issues/#ensure-proxies-enforce-policies-correctly) for more details of the logging.
+Also see the [troubleshooting guide](/docs/ops/common-problems/security-issues/#ensure-proxies-enforce-policies-correctly) for more details of the logging.
 
 ## Check dry-run result in metric using Prometheus
 

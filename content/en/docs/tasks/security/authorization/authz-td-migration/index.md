@@ -65,23 +65,23 @@ Before you begin this task, do the following:
     EOF
     {{< /text >}}
 
-Notice that it may take tens of seconds for the authorization policy to be propagated to the sidecars.
+    Notice that it may take tens of seconds for the authorization policy to be propagated to the sidecars.
 
 1. Verify that requests to `httpbin` from:
 
     * `sleep` in the `default` namespace are denied.
 
-    {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl http://httpbin.default:8000/ip -sS -o /dev/null -w "%{http_code}\n"
-    403
-    {{< /text >}}
+        {{< text bash >}}
+        $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl http://httpbin.default:8000/ip -sS -o /dev/null -w "%{http_code}\n"
+        403
+        {{< /text >}}
 
     * `sleep` in the `sleep-allow` namespace are allowed.
 
-    {{< text bash >}}
-    $ kubectl exec "$(kubectl -n sleep-allow get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -n sleep-allow -- curl http://httpbin.default:8000/ip -sS -o /dev/null -w "%{http_code}\n"
-    200
-    {{< /text >}}
+        {{< text bash >}}
+        $ kubectl exec "$(kubectl -n sleep-allow get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -n sleep-allow -- curl http://httpbin.default:8000/ip -sS -o /dev/null -w "%{http_code}\n"
+        200
+        {{< /text >}}
 
 ## Migrate trust domain without trust domain aliases
 
@@ -122,11 +122,11 @@ Notice that it may take tens of seconds for the authorization policy to be propa
     {{< /text >}}
 
     This is because we specified an authorization policy that deny all requests to `httpbin`, except the ones
-     the `old-td/ns/sleep-allow/sa/sleep` identity, which is the old identity of the `sleep` application in `sleep-allow` namespace.
-     When we migrated to a new trust domain above, i.e. `new-td`, the identity of this `sleep` application is now `new-td/ns/sleep-allow/sa/sleep`,
-     which is not the same as `old-td/ns/sleep-allow/sa/sleep`. Therefore, requests from the `sleep` application in `sleep-allow` namespace
-     to `httpbin` were allowed before are now being denied. Prior to Istio 1.4, the only way to make this work is to change the authorization
-     policy manually. In Istio 1.4, we introduce an easy way, as shown below.
+    the `old-td/ns/sleep-allow/sa/sleep` identity, which is the old identity of the `sleep` application in `sleep-allow` namespace.
+    When we migrated to a new trust domain above, i.e. `new-td`, the identity of this `sleep` application is now `new-td/ns/sleep-allow/sa/sleep`,
+    which is not the same as `old-td/ns/sleep-allow/sa/sleep`. Therefore, requests from the `sleep` application in `sleep-allow` namespace
+    to `httpbin` were allowed before are now being denied. Prior to Istio 1.4, the only way to make this work is to change the authorization
+    policy manually. In Istio 1.4, we introduce an easy way, as shown below.
 
 ## Migrate trust domain with trust domain aliases
 
@@ -149,17 +149,17 @@ Notice that it may take tens of seconds for the authorization policy to be propa
 
     * `sleep` in the `default` namespace are denied.
 
-    {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl http://httpbin.default:8000/ip -sS -o /dev/null -w "%{http_code}\n"
-    403
-    {{< /text >}}
+        {{< text bash >}}
+        $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl http://httpbin.default:8000/ip -sS -o /dev/null -w "%{http_code}\n"
+        403
+        {{< /text >}}
 
     * `sleep` in the `sleep-allow` namespace are allowed.
 
-    {{< text bash >}}
-    $ kubectl exec "$(kubectl -n sleep-allow get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -n sleep-allow -- curl http://httpbin.default:8000/ip -sS -o /dev/null -w "%{http_code}\n"
-    200
-    {{< /text >}}
+        {{< text bash >}}
+        $ kubectl exec "$(kubectl -n sleep-allow get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -n sleep-allow -- curl http://httpbin.default:8000/ip -sS -o /dev/null -w "%{http_code}\n"
+        200
+        {{< /text >}}
 
 ## Best practices
 

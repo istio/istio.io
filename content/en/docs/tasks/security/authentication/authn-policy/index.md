@@ -76,7 +76,7 @@ No resources found
 {{< /text >}}
 
 Last but not least, verify that there are no destination rules that apply on the example services. You can do this by checking the `host:` value of
- existing destination rules and make sure they do not match. For example:
+existing destination rules and make sure they do not match. For example:
 
 {{< text bash >}}
 $ kubectl get destinationrules.networking.istio.io --all-namespaces -o yaml | grep "host:"
@@ -85,7 +85,7 @@ $ kubectl get destinationrules.networking.istio.io --all-namespaces -o yaml | gr
 
 {{< tip >}}
 Depending on the version of Istio, you may see destination rules for hosts other than those shown. However, there should be none with hosts in the `foo`,
-`bar` and `legacy` namespace, nor is the match-all wildcard `*`
+`bar` and `legacy` namespace, nor is the match-all wildcard `*`.
 {{< /tip >}}
 
 ## Auto mutual TLS
