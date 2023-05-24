@@ -123,9 +123,6 @@ Some platforms required special installation settings.
           enabled: true
           namespace: kube-system
       values:
-        sidecarInjectorWebhook:
-          injectedAnnotations:
-            k8s.v1.cni.cncf.io/networks: istio-cni
         cni:
           cniBinDir: /var/lib/cni/bin
           cniConfDir: /etc/cni/multus/net.d
