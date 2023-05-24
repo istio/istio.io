@@ -23,7 +23,7 @@ test: yes
   这两个工作负载每个前面都会运行一个 Envoy 代理。
   `tcp-echo` 工作负载会监听端口 9000、9001 和 9002，并以前缀 `hello` 输出它收到的所有流量。
   例如，如果您发送 "world" 给 `tcp-echo`，那么它将会回复 `hello world`。
-  `tcp-echo` 的 Kubernetes 服务对象只声明了端口 9000 和 9001，而省略了端口 9002。透传过滤器链将处理端口 9002 的流量。
+  `tcp-echo` 的 Kubernetes 服务对象只声明了端口 9000 和 9001，并省略了端口 9002。透传过滤器链将处理端口 9002 的流量。
   使用以下命令部署示例命名空间和工作负载：
 
     {{< text bash >}}
@@ -32,7 +32,7 @@ test: yes
     $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@) -n foo
     {{< /text >}}
 
-* 使用以下命令确认 `sleep` 可以成功与 `tcp-echo` 的端口 9000 和 9001 交互：
+* 使用以下命令验证 `sleep` 可以成功与 `tcp-echo` 的端口 9000 和 9001 通信：
 
     {{< text bash >}}
     $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" \
@@ -50,9 +50,9 @@ test: yes
     connection succeeded
     {{< /text >}}
 
-* 确认 `sleep` 可以成功与 `tcp-echo` 的端口 9002 交互。
+* 确认 `sleep` 可以成功与 `tcp-echo` 的端口 9002 通信。
   您需要将流量直接发送到 `tcp-echo` 的 Pod IP，因为在 `tcp-echo` 的 Kubernetes 服务对象中未定义端口 9002。
-  使用以下命令获取 Pod IP 地址并发送请求：
+  获取 Pod IP 地址，并使用以下命令发送请求：
 
     {{< text bash >}}
     $ TCP_ECHO_IP=$(kubectl get pod "$(kubectl get pod -l app=tcp-echo -n foo -o jsonpath={.items..metadata.name})" -n foo -o jsonpath="{.status.podIP}")
@@ -248,8 +248,8 @@ test: yes
 
 ## 清理{#cleanup}
 
-1. 删除命名空间 foo：
+删除命名空间 foo：
 
-    {{< text bash >}}
-    $ kubectl delete namespace foo
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl delete namespace foo
+{{< /text >}}
