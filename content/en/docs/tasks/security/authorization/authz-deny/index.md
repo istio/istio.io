@@ -173,8 +173,8 @@ Caching and propagation overhead can cause some delay.
 
 ## Clean up
 
-1. Remove the namespace `foo` from your configuration:
+Remove the namespace `foo` from your configuration:
 
-    {{< text bash >}}
-    $ kubectl delete namespace foo
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl delete namespace foo
+{{< /text >}}

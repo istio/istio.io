@@ -25,8 +25,8 @@ Before you begin this task, do the following:
 * Install Istio using [Istio installation guide](/docs/setup/install/istioctl/).
 
 * Deploy two workloads: `httpbin` and `sleep`. Deploy these in one namespace,
-for example `foo`. Both workloads run with an Envoy proxy in front of each.
-Deploy the example namespace and workloads using these commands:
+  for example `foo`. Both workloads run with an Envoy proxy in front of each.
+  Deploy the example namespace and workloads using these commands:
 
     {{< text bash >}}
     $ kubectl create ns foo
@@ -49,8 +49,8 @@ Caching and propagation can cause a delay.
 ## Allow requests with valid JWT and list-typed claims
 
 1. The following command creates the `jwt-example` request authentication policy
-for the `httpbin` workload in the `foo` namespace. This policy for `httpbin` workload
-accepts a JWT issued by `testing@secure.istio.io`:
+   for the `httpbin` workload in the `foo` namespace. This policy for `httpbin` workload
+   accepts a JWT issued by `testing@secure.istio.io`:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -84,10 +84,10 @@ accepts a JWT issued by `testing@secure.istio.io`:
     {{< /text >}}
 
 1. The following command creates the `require-jwt` authorization policy for the `httpbin` workload in the `foo` namespace.
-The policy requires all requests to the `httpbin` workload to have a valid JWT with
-`requestPrincipal` set to `testing@secure.istio.io/testing@secure.istio.io`.
-Istio constructs the `requestPrincipal` by combining the `iss` and `sub` of the JWT token
-with a `/` separator as shown:
+   The policy requires all requests to the `httpbin` workload to have a valid JWT with
+   `requestPrincipal` set to `testing@secure.istio.io/testing@secure.istio.io`.
+   Istio constructs the `requestPrincipal` by combining the `iss` and `sub` of the JWT token
+   with a `/` separator as shown:
 
     {{< text syntax="bash" expandlinks="false" >}}
     $ kubectl apply -f - <<EOF
@@ -109,7 +109,7 @@ with a `/` separator as shown:
     {{< /text >}}
 
 1. Get the JWT that sets the `iss` and `sub` keys to the same value, `testing@secure.istio.io`.
-This causes Istio to generate the attribute `requestPrincipal` with the value `testing@secure.istio.io/testing@secure.istio.io`:
+   This causes Istio to generate the attribute `requestPrincipal` with the value `testing@secure.istio.io/testing@secure.istio.io`:
 
     {{< text syntax="bash" expandlinks="false" >}}
     $ TOKEN=$(curl {{< github_file >}}/security/tools/jwt/samples/demo.jwt -s) && echo "$TOKEN" | cut -d '.' -f2 - | base64 --decode -
@@ -131,7 +131,7 @@ This causes Istio to generate the attribute `requestPrincipal` with the value `t
     {{< /text >}}
 
 1. The following command updates the `require-jwt` authorization policy to also require
-the JWT to have a claim named `groups` containing the value `group1`:
+   the JWT to have a claim named `groups` containing the value `group1`:
 
     {{< text syntax="bash" expandlinks="false" >}}
     $ kubectl apply -f - <<EOF
@@ -182,8 +182,8 @@ the JWT to have a claim named `groups` containing the value `group1`:
 
 ## Clean up
 
-1. Remove the namespace `foo`:
+Remove the namespace `foo`:
 
-    {{< text bash >}}
-    $ kubectl delete namespace foo
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl delete namespace foo
+{{< /text >}}
