@@ -1626,6 +1626,18 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>The version to be used for the Kubernets Multi-Cluster Services (MCS) API.</td>
 </tr>
 <tr>
+<td><code>METRIC_GRACEFUL_DELETION_INTERVAL</code></td>
+<td>Time Duration</td>
+<td><code>5m0s</code></td>
+<td>Metric expiry graceful deletion interval. No-op if METRIC_ROTATION_INTERVAL is disabled.</td>
+</tr>
+<tr>
+<td><code>METRIC_ROTATION_INTERVAL</code></td>
+<td>Time Duration</td>
+<td><code>0s</code></td>
+<td>Metric scope rotation interval, set to 0 to disable the metric scope rotation</td>
+</tr>
+<tr>
 <td><code>MINIMUM_DRAIN_DURATION</code></td>
 <td>Time Duration</td>
 <td><code>5s</code></td>
