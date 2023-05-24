@@ -117,7 +117,7 @@ spec:
 EOF
 }
 
-snip_clean_up_1() {
+snip_cleanup_1() {
 kubectl delete authorizationpolicy.security.istio.io/allow-nothing
 kubectl delete authorizationpolicy.security.istio.io/productpage-viewer
 kubectl delete authorizationpolicy.security.istio.io/details-viewer

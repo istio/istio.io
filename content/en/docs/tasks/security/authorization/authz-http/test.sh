@@ -120,7 +120,7 @@ _wait_for_istio authorizationpolicy default ratings-viewer
 verify 200 "William Shakespeare" "Book Details" "Book Reviews"
 
 # @cleanup
-snip_clean_up_1
+snip_cleanup_1
 # remaining cleanup (undocumented).
 cleanup_bookinfo_sample
 cleanup_sleep_sample

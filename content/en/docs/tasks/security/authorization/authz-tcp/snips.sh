@@ -231,6 +231,6 @@ hello port 9001
 connection succeeded
 ENDSNIP
 
-snip_clean_up_1() {
+snip_cleanup_1() {
 kubectl delete namespace foo
 }

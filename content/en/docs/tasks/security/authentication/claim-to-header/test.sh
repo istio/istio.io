@@ -53,4 +53,4 @@ _verify_same snip_allow_requests_with_valid_jwt_and_listtyped_claims_4 "$snip_al
 _verify_same snip_allow_requests_with_valid_jwt_and_listtyped_claims_5 "$snip_allow_requests_with_valid_jwt_and_listtyped_claims_5_out"
  
 # @cleanup
-snip_clean_up_1
+snip_cleanup_1

@@ -76,4 +76,4 @@ pgrep istioctl | xargs kill
 
 # @cleanup
 _undeploy_addons prometheus zipkin
-snip_clean_up_1
+snip_cleanup_1

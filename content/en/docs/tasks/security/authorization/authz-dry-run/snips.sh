@@ -110,6 +110,6 @@ istio.authorization.dry_run.deny_policy.name: ns[foo]-policy[deny-path-headers]-
 istio.authorization.dry_run.deny_policy.result: denied
 ENDSNIP
 
-snip_clean_up_1() {
+snip_cleanup_1() {
 kubectl delete namespace foo
 }
