@@ -689,6 +689,18 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>The version to be used for the Kubernets Multi-Cluster Services (MCS) API.</td>
 </tr>
 <tr>
+<td><code>METRIC_GRACEFUL_DELETION_INTERVAL</code></td>
+<td>Time Duration</td>
+<td><code>5m0s</code></td>
+<td>Metric expiry graceful deletion interval. No-op if METRIC_ROTATION_INTERVAL is disabled.</td>
+</tr>
+<tr>
+<td><code>METRIC_ROTATION_INTERVAL</code></td>
+<td>Time Duration</td>
+<td><code>0s</code></td>
+<td>Metric scope rotation interval, set to 0 to disable the metric scope rotation</td>
+</tr>
+<tr>
 <td><code>PILOT_ALLOW_SIDECAR_SERVICE_INBOUND_LISTENER_MERGE</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
