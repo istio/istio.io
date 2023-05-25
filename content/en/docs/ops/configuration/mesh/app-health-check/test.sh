@@ -21,6 +21,16 @@ set -o pipefail
 
 # @setup profile=default
 
+snip__1 # Create and label namespace
+
+snip__2 # Deploy liveness-http
+
+_wait_for_deployment istio-io-health-rewrite liveness-http
+
+_verify_like snip__3 "$snip__3_out"
+
+_verify_like snip__4 "$snip__4_out"
+
 snip_liveness_and_readiness_probes_using_the_command_approach_1
 
 snip_liveness_and_readiness_probes_using_the_command_approach_2

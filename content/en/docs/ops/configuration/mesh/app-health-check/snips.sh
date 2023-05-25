@@ -20,6 +20,63 @@
 #          docs/ops/configuration/mesh/app-health-check/index.md
 ####################################################################################################
 
+snip__1() {
+kubectl create namespace istio-io-health-rewrite; kubectl label namespace istio-io-health-rewrite istio-injection=enabled
+}
+
+snip__2() {
+kubectl apply -f - <<EOF
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: liveness-http
+  namespace: istio-io-health-rewrite
+spec:
+  selector:
+    matchLabels:
+      app: liveness-http
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: liveness-http
+        version: v1
+    spec:
+      containers:
+      - name: liveness-http
+        image: docker.io/istio/health:example
+        ports:
+        - containerPort: 8001
+        livenessProbe:
+          httpGet:
+            path: /foo
+            port: 8001
+          initialDelaySeconds: 5
+          periodSeconds: 5
+EOF
+}
+
+snip__3() {
+export LIVENESS_POD=$(kubectl get po | awk 'NR>1 {print $1}'); kubectl get pod "$LIVENESS_POD" -n istio-io-health-rewrite -o json | jq '.spec.containers[0].livenessProbe.httpGet'
+}
+
+! read -r -d '' snip__3_out <<\ENDSNIP
+{
+  "path": "/app-health/liveness-http/livez",
+  "port": 15020,
+  "scheme": "HTTP"
+}
+
+ENDSNIP
+
+snip__4() {
+kubectl get pod "$LIVENESS_POD" -o=jsonpath="{.spec.containers[1].env[?(@.name=='ISTIO_KUBE_APP_PROBERS')]}"
+}
+
+! read -r -d '' snip__4_out <<\ENDSNIP
+{"name":"ISTIO_KUBE_APP_PROBERS","value":"{\"/app-health/liveness-http/livez\":{\"httpGet\":{\"path\":\"/foo\",\"port\":8001,\"scheme\":\"HTTP\"},\"timeoutSeconds\":1}}"}
+ENDSNIP
+
 snip_liveness_and_readiness_probes_using_the_command_approach_1() {
 kubectl create ns istio-io-health
 }
@@ -121,5 +178,5 @@ kubectl get cm istio-sidecar-injector -n istio-system -o yaml | sed -e 's/"rewri
 }
 
 snip_cleanup_1() {
-kubectl delete ns istio-io-health
+kubectl delete ns istio-io-health istio-io-health-rewrite
 }
