@@ -52,6 +52,6 @@ snip_configuring_a_gateway_6
 _verify_elided snip_configuring_a_gateway_7 "$snip_configuring_a_gateway_7_out"
 
 # @cleanup
-cleanup_httpbin_sample
-snip_cleanup_1
-snip_cleanup_2
+clean_up_httpbin_sample
+snip_clean_up_1
+snip_clean_up_2

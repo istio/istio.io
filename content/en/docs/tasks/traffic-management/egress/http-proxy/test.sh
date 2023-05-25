@@ -59,8 +59,8 @@ _verify_contains snip_configure_traffic_to_external_https_proxy_2 "<title>Wikipe
 _verify_contains snip_configure_traffic_to_external_https_proxy_3 "outbound|3128||my-company-proxy.com"
 
 # @cleanup
-snip_cleanup_1
-snip_cleanup_2
-snip_cleanup_3
-snip_cleanup_4
-snip_cleanup_5
+snip_clean_up_1
+snip_clean_up_2
+snip_clean_up_3
+snip_clean_up_4
+snip_clean_up_5

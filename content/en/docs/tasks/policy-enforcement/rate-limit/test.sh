@@ -54,5 +54,5 @@ snip_local_rate_limit_2
 _verify_same snip_verify_local_rate_limit_1 "$snip_verify_global_rate_limit_1_out"
 
 # @cleanup
-snip_cleanup_1
+snip_clean_up_1
 cleanup_bookinfo_sample

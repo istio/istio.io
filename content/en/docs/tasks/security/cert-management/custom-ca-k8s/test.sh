@@ -47,5 +47,5 @@ _verify_contains snip_verify_the_network_connectivity_between_httpbin_and_sleep_
 
 # @cleanup
 
-snip_cleanup_1
+snip_clean_up_1
 

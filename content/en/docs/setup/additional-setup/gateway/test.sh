@@ -61,6 +61,6 @@ _wait_for_deployment istio-ingress istio-ingressgateway-canary
 _verify_like snip_canary_upgrade_advanced_2 "${snip_canary_upgrade_advanced_2_out}"
 
 # @cleanup
-snip_cleanup_1
+snip_clean_up_1
 istioctl uninstall --purge --skip-confirmation
 kubectl delete namespace istio-system

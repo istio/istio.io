@@ -67,7 +67,7 @@ _verify_contains snip_use_a_kubernetes_service_with_endpoints_to_access_an_exter
 # @cleanup
 snip_cleanup_of_kubernetes_externalname_service_1
 snip_cleanup_of_kubernetes_service_with_endpoints_1
-snip_cleanup_1
-snip_cleanup_2
-snip_cleanup_3
-snip_cleanup_4
+snip_clean_up_1
+snip_clean_up_2
+snip_clean_up_3
+snip_clean_up_4

@@ -45,5 +45,5 @@ _verify_lines snip_external_tcp_services_without_vips_5 "
 
 # @cleanup
 
-snip_cleanup_1
+snip_clean_up_1
 

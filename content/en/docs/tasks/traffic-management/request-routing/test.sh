@@ -89,7 +89,7 @@ _verify_not_contains get_bookinfo_productpage "glyphicon glyphicon-star"
 
 # @cleanup
 if [ "$GATEWAY_API" != "true" ]; then
-    snip_cleanup_1
-    cleanup_bookinfo_sample
-    cleanup_sleep_sample
+    snip_clean_up_1
+    clean_up_bookinfo_sample
+    clean_up_sleep_sample
 fi

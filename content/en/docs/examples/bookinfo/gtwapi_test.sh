@@ -23,5 +23,5 @@ source "content/en/docs/examples/bookinfo/test.sh"
 
 # TODO fix cleanup approach and remove this temporary hack
 # @cleanup
-snip_cleanup_1
+snip_clean_up_1
 remove_gateway_api_crds

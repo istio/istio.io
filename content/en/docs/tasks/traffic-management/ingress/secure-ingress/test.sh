@@ -116,7 +116,7 @@ _verify_elided snip_configure_a_mutual_tls_ingress_gateway_5 "$snip_configure_a_
 
 # @cleanup
 if [ "$GATEWAY_API" != "true" ]; then
-    snip_cleanup_1
-    snip_cleanup_3
-    snip_cleanup_4
+    snip_clean_up_1
+    snip_clean_up_3
+    snip_clean_up_4
 fi

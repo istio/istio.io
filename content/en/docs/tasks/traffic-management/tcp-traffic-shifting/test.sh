@@ -84,6 +84,6 @@ _verify_lines snip_apply_weightbased_tcp_routing_9 "
 
 # @cleanup
 if [ "$GATEWAY_API" != "true" ]; then
-    snip_cleanup_1
-    snip_cleanup_3
+    snip_clean_up_1
+    snip_clean_up_3
 fi

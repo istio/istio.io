@@ -23,6 +23,6 @@ source "content/en/docs/tasks/traffic-management/ingress/ingress-control/test.sh
 
 # TODO fix cleanup approach and remove this temporary hack
 # @cleanup
-snip_cleanup_2
+snip_clean_up_2
 sleep 10s # TODO proper wait
 remove_gateway_api_crds

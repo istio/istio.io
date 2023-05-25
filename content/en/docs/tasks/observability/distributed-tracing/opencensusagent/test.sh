@@ -45,7 +45,7 @@ _verify_contains snip_generating_traces_using_the_bookinfo_sample_1 "outbound|90
 cleanup_bookinfo_sample
 _undeploy_addons jaeger
 kubectl delete telemetries.telemetry.istio.io -n istio-system mesh-default
-snip_cleanup_3
+snip_clean_up_3
 istioctl uninstall -r opencensusagent --skip-confirmation
 kubectl label namespace default istio-injection-
 kubectl delete ns istio-system

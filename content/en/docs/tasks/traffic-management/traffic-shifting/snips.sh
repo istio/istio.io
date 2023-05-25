@@ -110,10 +110,10 @@ snip_gtw_config_100_v3() {
 kubectl apply -f samples/bookinfo/gateway-api/route-reviews-v3.yaml
 }
 
-snip_cleanup() {
+snip_clean_up() {
 kubectl delete -f samples/bookinfo/networking/virtual-service-all-v1.yaml
 }
 
-snip_gtw_cleanup() {
+snip_gtw_clean_up() {
 kubectl delete httproute reviews
 }

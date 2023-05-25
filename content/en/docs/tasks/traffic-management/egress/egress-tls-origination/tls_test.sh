@@ -47,5 +47,5 @@ _verify_elided snip_curl_origination_http "$snip_curl_origination_http_out"
 _verify_elided snip_curl_origination_https "$snip_curl_origination_https_out"
 
 # @cleanup
-snip_cleanup_the_tls_origination_configuration_1
-cleanup_sleep_sample
+snip_clean_up_the_tls_origination_configuration_1
+clean_up_sleep_sample

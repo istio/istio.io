@@ -40,4 +40,4 @@ snip_disable_the_probe_rewrite_globally_1
 # TODO test annotation approach and verify both disable approaches work.
 
 # @cleanup
-snip_cleanup_1
+snip_clean_up_1

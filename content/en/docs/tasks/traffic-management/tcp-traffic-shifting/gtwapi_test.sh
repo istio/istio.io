@@ -22,6 +22,6 @@ install_gateway_api_crds
 source "content/en/docs/tasks/traffic-management/tcp-traffic-shifting/test.sh"
 
 # @cleanup
-snip_cleanup_2
-snip_cleanup_3
+snip_clean_up_2
+snip_clean_up_3
 remove_gateway_api_crds

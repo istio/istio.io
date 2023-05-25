@@ -125,7 +125,7 @@ _verify_same reviews_v3_traffic_percentage 100
 
 # @cleanup
 if [ "$GATEWAY_API" != "true" ]; then
-    snip_cleanup
-    cleanup_bookinfo_sample
-    cleanup_sleep_sample
+    snip_clean_up
+    clean_up_bookinfo_sample
+    clean_up_sleep_sample
 fi

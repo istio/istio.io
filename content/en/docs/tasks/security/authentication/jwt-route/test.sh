@@ -54,5 +54,5 @@ TOKEN_NO_GROUP=$(curl "${TOKEN_NO_GROUP_URL}" -s)
 _verify_elided snip_validating_ingress_routing_based_on_jwt_claims_6 "$snip_validating_ingress_routing_based_on_jwt_claims_6_out"
 
 # @cleanup
-snip_cleanup_1
-snip_cleanup_2
+snip_clean_up_1
+snip_clean_up_2

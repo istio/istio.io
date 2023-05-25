@@ -52,5 +52,5 @@ _verify_first_line snip_verify_the_application_connectivity_is_only_within_the_r
 _verify_first_line snip_verify_the_application_connectivity_is_only_within_the_respective_usergroup_2 "HTTP/1.1 200 OK"
 
 # @cleanup
-echo y | snip_cleanup_1
-echo y | snip_cleanup_2
+echo y | snip_clean_up_1
+echo y | snip_clean_up_2

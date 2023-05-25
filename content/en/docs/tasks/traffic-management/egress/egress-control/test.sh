@@ -52,7 +52,7 @@ snip_manage_traffic_to_external_services_2
 _wait_for_istio virtualservice default httpbin-ext
 _verify_first_line snip_manage_traffic_to_external_services_3 "$snip_manage_traffic_to_external_services_3_out"
 
-snip_cleanup_the_controlled_access_to_external_services_1
+snip_clean_up_the_controlled_access_to_external_services_1
 
 IP_RANGE=$(snip_minikube_docker_for_desktop_bare_metal_1 | sed -e 's/^[[:space:]]*--service-cluster-ip-range=//')
 istioctl install --set profile=demo \
@@ -60,7 +60,7 @@ istioctl install --set profile=demo \
 _wait_for_deployment istio-system istiod
 
 # Restart the sleep service
-snip_cleanup_1
+snip_clean_up_1
 snip_before_you_begin_1
 start=$(date +%s)
 kubectl wait --for=delete "pod/$SOURCE_POD" --timeout=180s
@@ -79,8 +79,8 @@ kubectl exec "$SOURCE_POD" -c sleep -- curl -sS -v http://httpbin.org/headers
 # TODO This doesn't work, curl returns 502.
 
 # @cleanup
-snip_cleanup_the_controlled_access_to_external_services_1
-snip_cleanup_1
+snip_clean_up_the_controlled_access_to_external_services_1
+snip_clean_up_1
 echo y | istioctl uninstall --revision=default
 kubectl delete ns istio-system
 kubectl label namespace default istio-injection-

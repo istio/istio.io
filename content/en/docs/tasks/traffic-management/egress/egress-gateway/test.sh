@@ -52,7 +52,7 @@ _verify_contains snip_egress_gateway_for_http_traffic_5 "HTTP/2 200"
 _verify_contains snip_egress_gateway_for_http_traffic_6 "GET /politics HTTP/2"
 
 # cleanup http task
-snip_cleanup_http_gateway_1
+snip_clean_up_http_gateway_1
 
 # ServiceEntry for HTTPS
 snip_egress_gateway_for_https_traffic_1
@@ -73,7 +73,7 @@ _verify_contains snip_egress_gateway_for_https_traffic_4 "HTTP/2 200"
 _verify_contains snip_egress_gateway_for_https_traffic_5 "outbound|443||edition.cnn.com"
 
 # cleanup https
-snip_cleanup_https_gateway_1
+snip_clean_up_https_gateway_1
 
 ### Kubernetes netowkring policy test
 
@@ -119,7 +119,7 @@ _verify_contains snip_apply_kubernetes_network_policies_13 "200"
 _verify_contains snip_apply_kubernetes_network_policies_14 "outbound|443||edition.cnn.com"
 
 # @cleanup
-snip_cleanup_http_gateway_1
-snip_cleanup_https_gateway_1
-snip_cleanup_network_policies_1
-snip_cleanup_1
+snip_clean_up_http_gateway_1
+snip_clean_up_https_gateway_1
+snip_clean_up_network_policies_1
+snip_clean_up_1

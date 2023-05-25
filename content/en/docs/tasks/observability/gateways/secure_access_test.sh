@@ -65,9 +65,9 @@ _verify_same secure_access_grafana "200"
 _verify_same secure_access_tracing "200"
 
 # @cleanup
-_verify_same snip_cleanup_1 "$snip_cleanup_1_out"
-_verify_same snip_cleanup_2 "$snip_cleanup_2_out"
-_verify_same snip_cleanup_3 "$snip_cleanup_3_out"
+_verify_same snip_clean_up_1 "$snip_clean_up_1_out"
+_verify_same snip_clean_up_2 "$snip_clean_up_2_out"
+_verify_same snip_clean_up_3 "$snip_clean_up_3_out"
 
 _undeploy_addons kiali prometheus grafana zipkin
 echo y | istioctl uninstall --revision=default

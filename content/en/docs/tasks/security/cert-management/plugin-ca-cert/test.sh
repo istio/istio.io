@@ -58,9 +58,9 @@ _verify_same snip_verifying_the_certificates_4 "$snip_verifying_the_certificates
 _verify_same snip_verifying_the_certificates_5 "$snip_verifying_the_certificates_5_out"
 
 # @cleanup
-snip_cleanup_1
-snip_cleanup_2
-snip_cleanup_3
-snip_cleanup_4
-snip_cleanup_5
-snip_cleanup_6
+snip_clean_up_1
+snip_clean_up_2
+snip_clean_up_3
+snip_clean_up_4
+snip_clean_up_5
+snip_clean_up_6

@@ -84,5 +84,5 @@ _verify_contains curl_httpbin_headers "HTTP/1.1 200 OK"
 
 # @cleanup
 if [ "$GATEWAY_API" != "true" ]; then
-    snip_cleanup_1
+    snip_clean_up_1
 fi

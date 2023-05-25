@@ -51,5 +51,5 @@ _verify_contains snip_perform_tls_origination_with_an_egress_gateway_6 "GET /pol
 
 # @cleanup
 kubectl label namespace default istio-injection-
-snip_cleanup_the_tls_origination_example_1
-snip_cleanup_1
+snip_clean_up_the_tls_origination_example_1
+snip_clean_up_1
