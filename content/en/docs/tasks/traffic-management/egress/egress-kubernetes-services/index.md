@@ -251,7 +251,7 @@ $ kubectl delete endpoints my-wikipedia
 $ kubectl delete service my-wikipedia
 {{< /text >}}
 
-## Cleanup
+## Clean up
 
 1.  Shutdown the [sleep]({{< github_tree >}}/samples/sleep) service:
 

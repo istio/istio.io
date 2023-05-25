@@ -115,7 +115,7 @@ spec:
               number: 8000
 {{< /text >}}
 
-## Cleanup
+## Clean up
 
 Delete the `Ingress` configuration, and shutdown the [httpbin]({{< github_tree >}}/samples/httpbin) service:
 

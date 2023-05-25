@@ -337,7 +337,7 @@ $ kubectl exec "$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadat
 
 You should see no more than 10 req/min go through per `productpage` instance.
 
-## Cleanup
+## Clean up
 
 {{< text bash >}}
 $ kubectl delete envoyfilter filter-ratelimit -nistio-system

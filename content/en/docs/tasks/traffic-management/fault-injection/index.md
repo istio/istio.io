@@ -200,7 +200,7 @@ service is currently unavailable` message.
    (which does not call `ratings` at all) for everybody but `jason`. Therefore you
    will not see any error message.
 
-## Cleanup
+## Clean up
 
 1. Remove the application routing rules:
 

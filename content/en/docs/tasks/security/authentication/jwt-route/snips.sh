@@ -130,10 +130,10 @@ HTTP/1.1 404 Not Found
 ...
 ENDSNIP
 
-snip_cleanup_1() {
+snip_clean_up_1() {
 kubectl delete namespace foo
 }
 
-snip_cleanup_2() {
+snip_clean_up_2() {
 kubectl delete requestauthentication ingress-jwt -n istio-system
 }

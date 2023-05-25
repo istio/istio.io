@@ -128,7 +128,7 @@ The Istio Dashboard consists of three main sections:
 For more on how to create, configure, and edit dashboards, please see the
 [Grafana documentation](https://docs.grafana.org/).
 
-## Cleanup
+## Clean up
 
 *   Remove any `kubectl port-forward` processes that may be running:
 

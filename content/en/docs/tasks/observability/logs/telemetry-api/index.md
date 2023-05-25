@@ -138,7 +138,7 @@ $ kubectl apply -f @samples/open-telemetry/loki/otel.yaml@ -n istio-system
 
 Istio supports sending access logs with [OpenTelemetry](https://opentelemetry.io/) protocol, as explained [here](/docs/tasks/observability/logs/otel-provider).
 
-## Cleanup
+## Clean up
 
 1.  Remove all Telemetry API:
 

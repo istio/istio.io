@@ -253,7 +253,7 @@ the `ports` in the DENY policy:
     connection succeeded
     {{< /text >}}
 
-## Cleanup
+## Clean up
 
 1. Remove the namespace foo:
 

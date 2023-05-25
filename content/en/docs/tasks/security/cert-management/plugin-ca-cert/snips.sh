@@ -105,27 +105,27 @@ openssl verify -CAfile <(cat certs/cluster1/ca-cert.pem certs/cluster1/root-cert
 ./proxy-cert-1.pem: OK
 ENDSNIP
 
-snip_cleanup_1() {
+snip_clean_up_1() {
 rm -rf certs
 }
 
-snip_cleanup_2() {
+snip_clean_up_2() {
 kubectl delete secret cacerts -n istio-system
 }
 
-snip_cleanup_3() {
+snip_clean_up_3() {
 kubectl delete peerauthentication -n foo default
 }
 
-snip_cleanup_4() {
+snip_clean_up_4() {
 kubectl delete -f samples/sleep/sleep.yaml -n foo
 kubectl delete -f samples/httpbin/httpbin.yaml -n foo
 }
 
-snip_cleanup_5() {
+snip_clean_up_5() {
 istioctl uninstall --purge -y
 }
 
-snip_cleanup_6() {
+snip_clean_up_6() {
 kubectl delete ns foo istio-system
 }

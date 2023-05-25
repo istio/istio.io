@@ -110,7 +110,7 @@ the default) is used in the service entry below.
     <title>Wikipedia – Die freie Enzyklopädie</title>
     {{< /text >}}
 
-### Cleanup direct traffic to a wildcard host
+### Clean up direct traffic to a wildcard host
 
 {{< text bash >}}
 $ kubectl delete serviceentry wikipedia
@@ -231,7 +231,7 @@ the set of domains.
     outbound|443||www.wikipedia.org::208.80.154.224:443::cx_total::2
     {{< /text >}}
 
-### Cleanup egress gateway traffic to a wildcard host
+### Clean up egress gateway traffic to a wildcard host
 
 {{< text bash >}}
 $ kubectl delete serviceentry www-wikipedia
@@ -240,7 +240,7 @@ $ kubectl delete virtualservice direct-wikipedia-through-egress-gateway
 $ kubectl delete destinationrule egressgateway-for-wikipedia
 {{< /text >}}
 
-## Cleanup
+## Clean up
 
 * Shutdown the [sleep]({{< github_tree >}}/samples/sleep) service:
 

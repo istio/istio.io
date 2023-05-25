@@ -61,7 +61,7 @@ kubectl exec "$SOURCE_POD" -c sleep -- sh -c 'curl -s https://en.wikipedia.org/w
 <title>Wikipedia – Die freie Enzyklopädie</title>
 ENDSNIP
 
-snip_cleanup_direct_traffic_to_a_wildcard_host_1() {
+snip_clean_up_direct_traffic_to_a_wildcard_host_1() {
 kubectl delete serviceentry wikipedia
 }
 
@@ -166,17 +166,17 @@ kubectl exec "$(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpa
 outbound|443||www.wikipedia.org::208.80.154.224:443::cx_total::2
 ENDSNIP
 
-snip_cleanup_egress_gateway_traffic_to_a_wildcard_host_1() {
+snip_clean_up_egress_gateway_traffic_to_a_wildcard_host_1() {
 kubectl delete serviceentry www-wikipedia
 kubectl delete gateway istio-egressgateway
 kubectl delete virtualservice direct-wikipedia-through-egress-gateway
 kubectl delete destinationrule egressgateway-for-wikipedia
 }
 
-snip_cleanup_1() {
+snip_clean_up_1() {
 kubectl delete -f samples/sleep/sleep.yaml
 }
 
-snip_cleanup_2() {
+snip_clean_up_2() {
 istioctl uninstall --purge -y
 }

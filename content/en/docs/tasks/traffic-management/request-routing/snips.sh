@@ -199,10 +199,10 @@ spec:
 EOF
 }
 
-snip_cleanup_1() {
+snip_clean_up_1() {
 kubectl delete -f samples/bookinfo/networking/virtual-service-all-v1.yaml
 }
 
-snip_cleanup_2() {
+snip_clean_up_2() {
 kubectl delete httproute reviews
 }

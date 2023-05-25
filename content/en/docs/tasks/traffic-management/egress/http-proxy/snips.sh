@@ -148,24 +148,24 @@ kubectl exec "$(kubectl get pod -n external -l app=squid -o jsonpath={.items..me
 1544160065.248    228 172.30.109.89 TCP_TUNNEL/200 87633 CONNECT en.wikipedia.org:443 - HIER_DIRECT/91.198.174.192 -
 ENDSNIP
 
-snip_cleanup_1() {
+snip_clean_up_1() {
 kubectl delete -f samples/sleep/sleep.yaml
 }
 
-snip_cleanup_2() {
+snip_clean_up_2() {
 kubectl delete -f samples/sleep/sleep.yaml -n external
 }
 
-snip_cleanup_3() {
+snip_clean_up_3() {
 kubectl delete -n external deployment squid
 kubectl delete -n external configmap proxy-configmap
 rm ./proxy.conf
 }
 
-snip_cleanup_4() {
+snip_clean_up_4() {
 kubectl delete namespace external
 }
 
-snip_cleanup_5() {
+snip_clean_up_5() {
 kubectl delete serviceentry proxy
 }

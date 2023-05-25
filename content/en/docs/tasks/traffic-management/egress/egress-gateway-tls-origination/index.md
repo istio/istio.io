@@ -224,7 +224,7 @@ be done by the egress gateway, as opposed to by the sidecar in the previous exam
     [2020-06-30T16:17:56.763Z] "GET /politics HTTP/2" 200 - "-" "-" 0 1295938 529 89 "10.244.0.171" "curl/7.64.0" "cf76518d-3209-9ab7-a1d0-e6002728ef5b" "edition.cnn.com" "151.101.129.67:443" outbound|443||edition.cnn.com 10.244.0.170:54280 10.244.0.170:8080 10.244.0.171:35628 - -
     {{< /text >}}
 
-### Cleanup the TLS origination example
+### Clean up the TLS origination example
 
 Remove the Istio configuration items you created:
 
@@ -539,7 +539,7 @@ to hold the configuration of the NGINX server:
     [2018-08-19T18:20:40.096Z] "GET / HTTP/1.1" 200 - 0 612 7 5 "172.30.146.114" "curl/7.35.0" "b942b587-fac2-9756-8ec6-303561356204" "my-nginx.mesh-external.svc.cluster.local" "172.21.72.197:443"
     {{< /text >}}
 
-### Cleanup the mutual TLS origination example
+### Clean up the mutual TLS origination example
 
 1.  Remove created Kubernetes resources:
 
@@ -568,7 +568,7 @@ to hold the configuration of the NGINX server:
     $ rm ./nginx.conf
     {{< /text >}}
 
-## Cleanup
+## Clean up
 
 Delete the `sleep` service and deployment:
 

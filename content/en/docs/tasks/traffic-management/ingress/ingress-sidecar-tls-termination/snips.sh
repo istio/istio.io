@@ -259,7 +259,7 @@ curl: (56) Recv failure: Connection reset by peer
 command terminated with exit code 56
 ENDSNIP
 
-snip_cleanup_the_mutual_tls_termination_example_1() {
+snip_clean_up_the_mutual_tls_termination_example_1() {
 kubectl delete secret httpbin-mtls-termination httpbin-mtls-termination-cacert -n test
 kubectl delete service httpbin sleep -n test
 kubectl delete deployment httpbin sleep -n test
@@ -268,11 +268,11 @@ kubectl delete service sleep
 kubectl delete deployment sleep
 }
 
-snip_cleanup_the_mutual_tls_termination_example_2() {
+snip_clean_up_the_mutual_tls_termination_example_2() {
 rm example.com.crt example.com.key httpbin.test.svc.cluster.local.crt httpbin.test.svc.cluster.local.key httpbin.test.svc.cluster.local.csr \
     client.test.svc.cluster.local.crt client.test.svc.cluster.local.key client.test.svc.cluster.local.csr
 }
 
-snip_cleanup_the_mutual_tls_termination_example_3() {
+snip_clean_up_the_mutual_tls_termination_example_3() {
 istioctl uninstall --purge -y
 }

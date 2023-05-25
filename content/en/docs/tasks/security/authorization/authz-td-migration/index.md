@@ -170,7 +170,7 @@ in authorization policy, `cluster.local` is a pointer that points to the current
 By using `cluster.local` in the authorization policy, when you migrate to a new trust domain, Istio will detect this and treat the new trust domain
 as the old trust domain without you having to include the aliases.
 
-## Cleanup
+## Clean up
 
 {{< text bash >}}
 $ kubectl delete authorizationpolicy service-httpbin.default.svc.cluster.local

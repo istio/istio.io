@@ -217,7 +217,7 @@ As you also configured logging exporter in OpenTelemetry Collector, you can see 
 $ kubectl -n istio-system logs deploy/opentelemetry-collector
 {{< /text >}}
 
-## Cleanup
+## Clean up
 
 1.  Remove any `istioctl` processes that may still be running using control-C or:
 

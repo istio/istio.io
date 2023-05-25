@@ -158,7 +158,7 @@ kubectl logs -l istio=egressgateway -c istio-proxy -n istio-system | tail
 [2019-09-03T20:57:49.103Z] "GET /politics HTTP/2" 301 - "-" "-" 0 0 90 89 "10.244.2.10" "curl/7.64.0" "ea379962-9b5c-4431-ab66-f01994f5a5a5" "edition.cnn.com" "151.101.65.67:80" outbound|80||edition.cnn.com - 10.244.1.5:80 10.244.2.10:50482 edition.cnn.com -
 ENDSNIP
 
-snip_cleanup_http_gateway_1() {
+snip_clean_up_http_gateway_1() {
 kubectl delete gateway istio-egressgateway
 kubectl delete serviceentry cnn
 kubectl delete virtualservice direct-cnn-through-egress-gateway
@@ -278,7 +278,7 @@ kubectl logs -l istio=egressgateway -n istio-system
 [2019-01-02T11:46:46.981Z] "- - -" 0 - 627 1879689 44 - "-" "-" "-" "-" "151.101.129.67:443" outbound|443||edition.cnn.com 172.30.109.80:41122 172.30.109.80:443 172.30.109.112:59970 edition.cnn.com
 ENDSNIP
 
-snip_cleanup_https_gateway_1() {
+snip_clean_up_https_gateway_1() {
 kubectl delete serviceentry cnn
 kubectl delete gateway istio-egressgateway
 kubectl delete virtualservice direct-cnn-through-egress-gateway
@@ -407,7 +407,7 @@ kubectl logs -l istio=egressgateway -n istio-system
 [2020-03-06T18:12:33.101Z] "- - -" 0 - "-" "-" 906 1352475 35 - "-" "-" "-" "-" "151.101.193.67:443" outbound|443||edition.cnn.com 172.30.223.53:39460 172.30.223.53:443 172.30.223.58:38138 edition.cnn.com -
 ENDSNIP
 
-snip_cleanup_network_policies_1() {
+snip_clean_up_network_policies_1() {
 kubectl delete -f samples/sleep/sleep.yaml -n test-egress
 kubectl delete destinationrule egressgateway-for-cnn -n test-egress
 kubectl delete networkpolicy allow-egress-to-istio-system-and-kube-dns -n test-egress
@@ -451,6 +451,6 @@ kubectl exec "$(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpa
 cluster.outbound|443||edition.cnn.com.upstream_cx_total: 2
 ENDSNIP
 
-snip_cleanup_1() {
+snip_clean_up_1() {
 kubectl delete -f samples/sleep/sleep.yaml
 }

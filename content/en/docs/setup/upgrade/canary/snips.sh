@@ -166,10 +166,10 @@ snip_uninstall_canary_control_plane_1() {
 istioctl uninstall --revision=canary -y
 }
 
-snip_cleanup_1() {
+snip_clean_up_1() {
 kubectl delete ns istio-system test-ns
 }
 
-snip_cleanup_2() {
+snip_clean_up_2() {
 kubectl delete ns istio-system app-ns-1 app-ns-2 app-ns-3
 }

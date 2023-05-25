@@ -265,7 +265,7 @@ kubectl exec "$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.
 429
 ENDSNIP
 
-snip_cleanup_1() {
+snip_clean_up_1() {
 kubectl delete envoyfilter filter-ratelimit -nistio-system
 kubectl delete envoyfilter filter-ratelimit-svc -nistio-system
 kubectl delete envoyfilter filter-local-ratelimit-svc -nistio-system

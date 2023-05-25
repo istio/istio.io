@@ -206,7 +206,7 @@ With Istio, you can allow the two versions of the `reviews` service to scale up 
 For more information about version routing with autoscaling, check out the blog
 article [Canary Deployments using Istio](/blog/2017/0.1-canary/).
 
-## Cleanup
+## Clean up
 
 1. Remove the application routing rules:
 

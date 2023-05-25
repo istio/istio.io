@@ -128,6 +128,6 @@ snip_define_the_service_versions_3() {
 kubectl apply -f samples/bookinfo/platform/kube/bookinfo-versions.yaml
 }
 
-snip_cleanup_1() {
+snip_clean_up_1() {
 samples/bookinfo/platform/kube/cleanup.sh
 }

@@ -725,7 +725,7 @@ $ kubectl get pods -n foo -o name -l istio.io/gateway-name=httpbin-gateway | sed
 
 {{< /tabset >}}
 
-## Cleanup
+## Clean up
 
 * Remove the authorization policy:
 

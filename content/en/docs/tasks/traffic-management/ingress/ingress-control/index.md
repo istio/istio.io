@@ -515,7 +515,7 @@ they have valid values, according to the output of the following commands:
 1.  If you have an external load balancer and it does not work for you, try to
     [access the gateway using its node port](#using-node-ports-of-the-ingress-gateway-service).
 
-## Cleanup
+## Clean up
 
 {{< tabset category-name="config-api" >}}
 

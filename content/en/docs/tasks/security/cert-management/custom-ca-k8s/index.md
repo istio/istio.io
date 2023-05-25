@@ -292,7 +292,7 @@ When the workloads are deployed, they send CSR requests with related signer info
     upstream connect error or disconnect/reset before headers. reset reason: connection failure, transport failure reason: TLS error: 268435581:SSL routines:OPENSSL_internal:CERTIFICATE_VERIFY_FAILED
     {{< /text >}}
 
-## Cleanup
+## Clean up
 
 * Remove the namespaces and uninstall Istio and cert-manager:
 

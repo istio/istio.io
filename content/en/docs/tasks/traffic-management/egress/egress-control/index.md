@@ -305,7 +305,7 @@ In this example, you set a timeout rule on calls to the `httpbin.org` service.
     This time a 504 (Gateway Timeout) appears after 3 seconds.
     Although httpbin.org was waiting 5 seconds, Istio cut off the request at 3 seconds.
 
-### Cleanup the controlled access to external services
+### Clean up the controlled access to external services
 
 {{< text bash >}}
 $ kubectl delete serviceentry httpbin-ext google
@@ -434,7 +434,7 @@ Unlike accessing external services through HTTP or HTTPS, you don't see any head
 requests sent to external services do not appear in the log of the sidecar. Bypassing the Istio sidecars means you can
 no longer monitor the access to external services.
 
-### Cleanup the direct access to external services
+### Clean up the direct access to external services
 
 Update the configuration to stop bypassing sidecar proxies for a range of IPs:
 
@@ -482,7 +482,7 @@ and review the security concerns described in the
 [additional security considerations](/docs/tasks/traffic-management/egress/egress-gateway/#additional-security-considerations)
 section.
 
-## Cleanup
+## Clean up
 
 Shutdown the [sleep]({{< github_tree >}}/samples/sleep) service:
 

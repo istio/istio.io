@@ -113,15 +113,15 @@ spec:
 EOF
 }
 
-snip_cleanup_1() {
+snip_clean_up_1() {
 kubectl delete telemetry --all -A
 }
 
-snip_cleanup_2() {
+snip_clean_up_2() {
 kubectl delete -f samples/addons/loki.yaml -n istio-system
 kubectl delete -f samples/open-telemetry/loki/otel.yaml -n istio-system
 }
 
-snip_cleanup_3() {
+snip_clean_up_3() {
 istioctl uninstall --purge --skip-confirmation
 }

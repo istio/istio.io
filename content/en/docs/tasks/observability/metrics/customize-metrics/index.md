@@ -199,7 +199,7 @@ Peer metadata is available as attributes `upstream_peer` for outbound and `downs
 For example, the expression for the peer `app` label to be used in an outbound configuration is
 `upstream_peer.labels['app'].value`.
 
-## Cleanup
+## Clean up
 
 To delete the `Bookinfo` sample application and its configuration, see
 [`Bookinfo` cleanup](/docs/examples/bookinfo/#cleanup).

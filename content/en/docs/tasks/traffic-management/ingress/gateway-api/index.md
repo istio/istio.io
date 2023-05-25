@@ -340,7 +340,7 @@ spec:
 
 More details and examples can be found in other [traffic management tasks](/docs/tasks/traffic-management/).
 
-## Cleanup
+## Clean up
 
 1. Uninstall Istio and the `httpbin` sample:
 

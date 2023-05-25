@@ -705,7 +705,7 @@ See [configuring SNI routing](/docs/ops/common-problems/network-issues/#configur
     that the gateway agent received the SDS request with the `httpbin-credential-cacert`
     resource name,   and that the ingress gateway obtained the root certificate.
 
-## Cleanup
+## Clean up
 
 1.  Delete the gateway configuration and routes:
 

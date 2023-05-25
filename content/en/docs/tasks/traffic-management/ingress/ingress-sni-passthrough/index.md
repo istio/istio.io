@@ -336,7 +336,7 @@ $ export SECURE_INGRESS_PORT=$(kubectl get gtw mygateway -o jsonpath='{.spec.lis
       <title>Welcome to nginx!</title>
     {{< /text >}}
 
-## Cleanup
+## Clean up
 
 1.  Delete the gateway configuration and route:
 

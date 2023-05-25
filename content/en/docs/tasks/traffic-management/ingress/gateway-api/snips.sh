@@ -236,7 +236,7 @@ spec:
       port: 80
 ENDSNIP
 
-snip_cleanup_1() {
+snip_clean_up_1() {
 kubectl delete -f samples/httpbin/httpbin.yaml
 kubectl delete httproute http
 kubectl delete gateways.gateway.networking.k8s.io gateway -n istio-ingress
@@ -245,6 +245,6 @@ kubectl delete ns istio-system
 kubectl delete ns istio-ingress
 }
 
-snip_cleanup_2() {
+snip_clean_up_2() {
 kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.6.2" | kubectl delete -f -
 }

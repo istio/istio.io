@@ -209,18 +209,18 @@ kubectl delete endpoints my-wikipedia
 kubectl delete service my-wikipedia
 }
 
-snip_cleanup_1() {
+snip_clean_up_1() {
 kubectl delete -f samples/sleep/sleep.yaml
 }
 
-snip_cleanup_2() {
+snip_clean_up_2() {
 kubectl delete -f samples/sleep/sleep.yaml -n without-istio
 }
 
-snip_cleanup_3() {
+snip_clean_up_3() {
 kubectl delete namespace without-istio
 }
 
-snip_cleanup_4() {
+snip_clean_up_4() {
 unset SOURCE_POD SOURCE_POD_WITHOUT_ISTIO
 }

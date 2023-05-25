@@ -97,7 +97,7 @@ If you want to explore more about [SkyWalking's language agents](https://skywalk
 [a demo application](http://github.com/apache/skywalking-showcase) that is integrated with the language agents and you can have more detailed traces as well as other language agent specific
 features such as profiling.
 
-## Cleanup
+## Clean up
 
 1.  Remove any `istioctl` processes that may still be running using control-C or:
 

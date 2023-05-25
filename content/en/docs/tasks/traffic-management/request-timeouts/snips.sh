@@ -80,6 +80,6 @@ spec:
 EOF
 }
 
-snip_cleanup_1() {
+snip_clean_up_1() {
 kubectl delete -f samples/bookinfo/networking/virtual-service-all-v1.yaml
 }

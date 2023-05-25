@@ -190,7 +190,7 @@ and remote clusters!
 
 You can now [verify the installation](/docs/setup/install/multicluster/verify).
 
-## Cleanup
+## Clean up
 
 1. Uninstall Istio in `cluster1`:
 

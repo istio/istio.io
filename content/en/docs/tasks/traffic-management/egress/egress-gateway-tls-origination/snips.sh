@@ -175,7 +175,7 @@ snip_perform_tls_origination_with_an_egress_gateway_6() {
 kubectl logs -l istio=egressgateway -c istio-proxy -n istio-system | tail
 }
 
-snip_cleanup_the_tls_origination_example_1() {
+snip_clean_up_the_tls_origination_example_1() {
 kubectl delete gateway istio-egressgateway
 kubectl delete serviceentry cnn
 kubectl delete virtualservice direct-cnn-through-egress-gateway
@@ -415,7 +415,7 @@ snip_configure_mutual_tls_origination_for_egress_traffic_6() {
 kubectl logs -l istio=egressgateway -n istio-system | grep 'my-nginx.mesh-external.svc.cluster.local' | grep HTTP
 }
 
-snip_cleanup_the_mutual_tls_origination_example_1() {
+snip_clean_up_the_mutual_tls_origination_example_1() {
 kubectl delete secret nginx-server-certs nginx-ca-certs -n mesh-external
 kubectl delete secret client-credential -n istio-system
 kubectl delete configmap nginx-configmap -n mesh-external
@@ -428,15 +428,15 @@ kubectl delete destinationrule -n istio-system originate-mtls-for-nginx
 kubectl delete destinationrule egressgateway-for-nginx
 }
 
-snip_cleanup_the_mutual_tls_origination_example_2() {
+snip_clean_up_the_mutual_tls_origination_example_2() {
 rm example.com.crt example.com.key my-nginx.mesh-external.svc.cluster.local.crt my-nginx.mesh-external.svc.cluster.local.key my-nginx.mesh-external.svc.cluster.local.csr client.example.com.crt client.example.com.csr client.example.com.key
 }
 
-snip_cleanup_the_mutual_tls_origination_example_3() {
+snip_clean_up_the_mutual_tls_origination_example_3() {
 rm ./nginx.conf
 }
 
-snip_cleanup_1() {
+snip_clean_up_1() {
 kubectl delete service sleep
 kubectl delete deployment sleep
 }

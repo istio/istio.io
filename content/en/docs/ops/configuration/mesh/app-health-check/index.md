@@ -178,7 +178,7 @@ to disable the probe rewrite globally. **Alternatively**, update the configurati
 $ kubectl get cm istio-sidecar-injector -n istio-system -o yaml | sed -e 's/"rewriteAppHTTPProbe": true/"rewriteAppHTTPProbe": false/' | kubectl apply -f -
 {{< /text >}}
 
-## Cleanup
+## Clean up
 
 Remove the namespace used for the examples:
 

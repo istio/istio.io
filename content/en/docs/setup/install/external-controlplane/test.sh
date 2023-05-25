@@ -158,7 +158,7 @@ if [ "$GATEWAY_API" != "true" ]; then
   export CTX_REMOTE_CLUSTER="${KUBE_CONTEXTS[2]}"
   export CTX_SECOND_CLUSTER="${KUBE_CONTEXTS[1]}"
 
-  snip_cleanup_1
-  snip_cleanup_2
-  snip_cleanup_3
+  snip_clean_up_1
+  snip_clean_up_2
+  snip_clean_up_3
 fi

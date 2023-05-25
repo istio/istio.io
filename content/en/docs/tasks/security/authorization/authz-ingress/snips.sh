@@ -483,14 +483,14 @@ snip_ipbased_allow_list_and_deny_list_21() {
 kubectl get pods -n foo -o name -l istio.io/gateway-name=httpbin-gateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n foo; done
 }
 
-snip_cleanup_1() {
+snip_clean_up_1() {
 kubectl delete authorizationpolicy ingress-policy -n istio-system
 }
 
-snip_cleanup_2() {
+snip_clean_up_2() {
 kubectl delete authorizationpolicy ingress-policy -n foo
 }
 
-snip_cleanup_3() {
+snip_clean_up_3() {
 kubectl delete namespace foo
 }

@@ -183,7 +183,7 @@ visit the [Distributed Tracing trace sampling section](/docs/tasks/observability
 
 When using Lightstep, we do not recommend reducing the trace sampling percentage below 100%. To handle a high traffic mesh, consider scaling up the size of your satellite pool.
 
-## Cleanup
+## Clean up
 
 If you are not planning any follow-up tasks, remove the Bookinfo sample application and any Lightstep secrets
 from your cluster.

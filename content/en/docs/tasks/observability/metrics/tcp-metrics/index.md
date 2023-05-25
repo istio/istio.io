@@ -170,7 +170,7 @@ This protocol extends TCP as follows:
     caption="TCP Attribute Flow"
     >}}
 
-## Cleanup
+## Clean up
 
 *   Remove the `port-forward` process:
 

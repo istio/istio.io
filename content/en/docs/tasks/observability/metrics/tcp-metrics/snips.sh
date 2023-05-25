@@ -102,6 +102,6 @@ canonical_service_name="ratings-v2",
 canonical_service_revision="v2"}
 ENDSNIP
 
-snip_cleanup_1() {
+snip_clean_up_1() {
 killall istioctl
 }

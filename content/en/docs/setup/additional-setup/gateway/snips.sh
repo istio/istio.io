@@ -178,7 +178,7 @@ NAME                   PODS
 istio-ingressgateway   istio-ingressgateway-...,istio-ingressgateway-canary-...
 ENDSNIP
 
-snip_cleanup_1() {
+snip_clean_up_1() {
 istioctl uninstall --istioNamespace istio-ingress -y --purge
 kubectl delete ns istio-ingress
 }

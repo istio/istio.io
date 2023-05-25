@@ -25,6 +25,6 @@ snip_accessing_the_dashboard_1() {
 istioctl dashboard zipkin
 }
 
-snip_cleanup_1() {
+snip_clean_up_1() {
 killall istioctl
 }

@@ -106,7 +106,7 @@ of Istio metrics.
 For more on querying Prometheus, please read their [querying
 docs](https://prometheus.io/docs/querying/basics/).
 
-## Cleanup
+## Clean up
 
 *   Remove any `istioctl` processes that may still be running using control-C or:
 

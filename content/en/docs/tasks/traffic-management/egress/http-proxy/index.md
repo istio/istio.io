@@ -195,7 +195,7 @@ Note that you must not create service entries for the external services you acce
 `wikipedia.org`. This is because from Istio's point of view the requests are sent to the external proxy only; Istio is
 not aware of the fact that the external proxy forwards the requests further.
 
-## Cleanup
+## Clean up
 
 1.  Shutdown the [sleep]({{< github_tree >}}/samples/sleep) service:
 

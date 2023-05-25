@@ -239,7 +239,7 @@ old gateways and, to avoid downtime, make sure the old gateways are up and runni
 with the canary uninstall.
 {{< /tip >}}
 
-## Cleanup
+## Clean up
 
 1. Clean up the namespaces used for canary upgrade with revision labels example:
 

@@ -118,7 +118,7 @@ HTTP/2 200
 ...
 ENDSNIP
 
-snip_cleanup_the_tls_origination_configuration_1() {
+snip_clean_up_the_tls_origination_configuration_1() {
 kubectl delete serviceentry edition-cnn-com
 kubectl delete destinationrule edition-cnn-com
 }
@@ -173,7 +173,7 @@ snip_configure_mutual_tls_origination_for_egress_traffic_at_sidecar_3() {
 kubectl logs -l app=sleep -c istio-proxy | grep 'my-nginx.mesh-external.svc.cluster.local'
 }
 
-snip_cleanup_the_mutual_tls_origination_configuration_1() {
+snip_clean_up_the_mutual_tls_origination_configuration_1() {
 kubectl delete secret nginx-server-certs nginx-ca-certs -n mesh-external
 kubectl delete secret client-credential
 kubectl delete configmap nginx-configmap -n mesh-external
@@ -184,15 +184,15 @@ kubectl delete serviceentry originate-mtls-for-nginx
 kubectl delete destinationrule originate-mtls-for-nginx
 }
 
-snip_cleanup_the_mutual_tls_origination_configuration_2() {
+snip_clean_up_the_mutual_tls_origination_configuration_2() {
 rm example.com.crt example.com.key my-nginx.mesh-external.svc.cluster.local.crt my-nginx.mesh-external.svc.cluster.local.key my-nginx.mesh-external.svc.cluster.local.csr client.example.com.crt client.example.com.csr client.example.com.key
 }
 
-snip_cleanup_the_mutual_tls_origination_configuration_3() {
+snip_clean_up_the_mutual_tls_origination_configuration_3() {
 rm ./nginx.conf
 }
 
-snip_cleanup_common_configuration_1() {
+snip_clean_up_common_configuration_1() {
 kubectl delete service sleep
 kubectl delete deployment sleep
 }

@@ -134,7 +134,7 @@ as you did in this task, they can also be overridden on a per-request basis if t
 an `x-envoy-upstream-rq-timeout-ms` header on outbound requests. In the header,
 the timeout is specified in milliseconds instead of seconds.
 
-## Cleanup
+## Clean up
 
 *   Remove the application routing rules:
 

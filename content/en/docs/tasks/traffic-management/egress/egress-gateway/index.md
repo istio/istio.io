@@ -241,7 +241,7 @@ First create a `ServiceEntry` to allow direct traffic to an external service.
     Note that you only redirected the traffic from port 80 to the egress gateway. The HTTPS traffic to port 443
     went directly to _edition.cnn.com_.
 
-### Cleanup HTTP gateway
+### Clean up HTTP gateway
 
 Remove the previous definitions before proceeding to the next step:
 
@@ -384,7 +384,7 @@ You need to specify port 443 with protocol `TLS` in a corresponding `ServiceEntr
     [2019-01-02T11:46:46.981Z] "- - -" 0 - 627 1879689 44 - "-" "-" "-" "-" "151.101.129.67:443" outbound|443||edition.cnn.com 172.30.109.80:41122 172.30.109.80:443 172.30.109.112:59970 edition.cnn.com
     {{< /text >}}
 
-### Cleanup HTTPS gateway
+### Clean up HTTPS gateway
 
 {{< text bash >}}
 $ kubectl delete serviceentry cnn
@@ -580,7 +580,7 @@ external service.
     [2020-03-06T18:12:33.101Z] "- - -" 0 - "-" "-" 906 1352475 35 - "-" "-" "-" "-" "151.101.193.67:443" outbound|443||edition.cnn.com 172.30.223.53:39460 172.30.223.53:443 172.30.223.58:38138 edition.cnn.com -
     {{< /text >}}
 
-### Cleanup network policies
+### Clean up network policies
 
 1.  Delete the resources created in this section:
 
@@ -631,7 +631,7 @@ external service.
     cluster.outbound|443||edition.cnn.com.upstream_cx_total: 2
     {{< /text >}}
 
-## Cleanup
+## Clean up
 
 Shutdown the [sleep]({{< github_tree >}}/samples/sleep) service:
 

@@ -490,33 +490,33 @@ virtualservice.networking.istio.io/tracing-vs created
 destinationrule.networking.istio.io/tracing created
 ENDSNIP
 
-snip_cleanup_1() {
+snip_clean_up_1() {
 kubectl -n istio-system delete gateway grafana-gateway kiali-gateway prometheus-gateway tracing-gateway
 }
 
-! read -r -d '' snip_cleanup_1_out <<\ENDSNIP
+! read -r -d '' snip_clean_up_1_out <<\ENDSNIP
 gateway.networking.istio.io "grafana-gateway" deleted
 gateway.networking.istio.io "kiali-gateway" deleted
 gateway.networking.istio.io "prometheus-gateway" deleted
 gateway.networking.istio.io "tracing-gateway" deleted
 ENDSNIP
 
-snip_cleanup_2() {
+snip_clean_up_2() {
 kubectl -n istio-system delete virtualservice grafana-vs kiali-vs prometheus-vs tracing-vs
 }
 
-! read -r -d '' snip_cleanup_2_out <<\ENDSNIP
+! read -r -d '' snip_clean_up_2_out <<\ENDSNIP
 virtualservice.networking.istio.io "grafana-vs" deleted
 virtualservice.networking.istio.io "kiali-vs" deleted
 virtualservice.networking.istio.io "prometheus-vs" deleted
 virtualservice.networking.istio.io "tracing-vs" deleted
 ENDSNIP
 
-snip_cleanup_3() {
+snip_clean_up_3() {
 kubectl -n istio-system delete destinationrule grafana kiali prometheus tracing
 }
 
-! read -r -d '' snip_cleanup_3_out <<\ENDSNIP
+! read -r -d '' snip_clean_up_3_out <<\ENDSNIP
 destinationrule.networking.istio.io "grafana" deleted
 destinationrule.networking.istio.io "kiali" deleted
 destinationrule.networking.istio.io "prometheus" deleted

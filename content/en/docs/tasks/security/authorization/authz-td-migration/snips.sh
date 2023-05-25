@@ -134,7 +134,7 @@ kubectl exec "$(kubectl -n sleep-allow get pod -l app=sleep -o jsonpath={.items.
 200
 ENDSNIP
 
-snip_cleanup_1() {
+snip_clean_up_1() {
 kubectl delete authorizationpolicy service-httpbin.default.svc.cluster.local
 kubectl delete deploy httpbin; kubectl delete service httpbin; kubectl delete serviceaccount httpbin
 kubectl delete deploy sleep; kubectl delete service sleep; kubectl delete serviceaccount sleep

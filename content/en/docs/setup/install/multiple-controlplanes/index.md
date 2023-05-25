@@ -263,7 +263,7 @@ sleep-78ff5975c6-nxtth.app-ns-3      Kubernetes     SYNCED     SYNCED     SYNCED
     x-envoy-upstream-service-time: 3
     {{< /text >}}
 
-## Cleanup
+## Clean up
 
 1.  Clean up the first usergroup:
 

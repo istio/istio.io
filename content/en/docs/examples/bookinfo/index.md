@@ -282,7 +282,7 @@ To proceed, refer to one or more of the [Istio Tasks](/docs/tasks),
 depending on your interest. [Configuring Request Routing](/docs/tasks/traffic-management/request-routing/)
 is a good place to start for beginners.
 
-## Cleanup
+## Clean up
 
 When you're finished experimenting with the Bookinfo sample, uninstall and clean
 it up using the following command:

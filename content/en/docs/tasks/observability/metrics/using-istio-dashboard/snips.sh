@@ -43,6 +43,6 @@ snip_viewing_the_istio_dashboard_3() {
 istioctl dashboard grafana
 }
 
-snip_cleanup_1() {
+snip_clean_up_1() {
 killall kubectl
 }

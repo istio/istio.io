@@ -58,7 +58,7 @@ $ istioctl dashboard jaeger
     where each span corresponds to a Bookinfo service, invoked during the execution of a `/productpage` request, or
     internal Istio component, for example: `istio-ingressgateway`.
 
-## Cleanup
+## Clean up
 
 1.  Remove any `istioctl` processes that may still be running using control-C or:
 

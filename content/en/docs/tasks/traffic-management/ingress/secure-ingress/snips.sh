@@ -524,22 +524,22 @@ snip_troubleshooting_4() {
 kubectl -n istio-system get secrets
 }
 
-snip_cleanup_1() {
+snip_clean_up_1() {
 kubectl delete gateway mygateway
 kubectl delete virtualservice httpbin helloworld
 }
 
-snip_cleanup_2() {
+snip_clean_up_2() {
 kubectl delete -n istio-system gtw mygateway
 kubectl delete httproute httpbin helloworld
 }
 
-snip_cleanup_3() {
+snip_clean_up_3() {
 kubectl delete -n istio-system secret httpbin-credential helloworld-credential
 rm -rf ./example_certs1 ./example_certs2
 }
 
-snip_cleanup_4() {
+snip_clean_up_4() {
 kubectl delete -f samples/httpbin/httpbin.yaml
 kubectl delete deployment helloworld-v1
 kubectl delete service helloworld

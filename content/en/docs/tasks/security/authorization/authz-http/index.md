@@ -198,7 +198,7 @@ and then grant more access to the workload gradually and incrementally.
     **Congratulations!** You successfully applied authorization policy to enforce access
     control for workloads using HTTP traffic.
 
-## Cleanup
+## Clean up
 
 1. Remove all authorization policies from your configuration:
 

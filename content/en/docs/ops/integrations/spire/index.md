@@ -591,7 +591,7 @@ This will allow Envoy to get federated bundles directly from SPIRE.
 
 * For manual registration see [Create Registration Entries for Federation](https://spiffe.io/docs/latest/architecture/federation/readme/#create-registration-entries-for-federation).
 
-## Cleanup SPIRE
+## Clean up SPIRE
 
 If you installed SPIRE using the quick start SPIRE deployment provided by Istio,
 use the following commands to remove those Kubernetes resources:

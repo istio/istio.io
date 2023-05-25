@@ -334,7 +334,7 @@ A variant of the [canary upgrade](#canary-upgrade) approach is to shift the traf
 
 This offers fine-grained control, but may be unsuitable or overly complicated to set up in some environments.
 
-## Cleanup
+## Clean up
 
 - Cleanup Istio ingress gateway
 

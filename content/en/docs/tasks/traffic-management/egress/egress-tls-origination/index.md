@@ -194,7 +194,7 @@ are being sent by inspecting [Server Name Indication (SNI)](https://en.wikipedia
 The _SNI_ field is sent unencrypted during the TLS handshake. Using HTTPS prevents the attackers from knowing specific
 topics and articles but does not prevent attackers from learning that `edition.cnn.com` is accessed.
 
-### Cleanup the TLS origination configuration
+### Clean up the TLS origination configuration
 
 Remove the Istio configuration items you created:
 
@@ -293,7 +293,7 @@ Follow [these steps](/docs/tasks/traffic-management/egress/egress-gateway-tls-or
     [2022-05-19T10:01:06.795Z] "GET / HTTP/1.1" 200 - via_upstream - "-" 0 615 1 0 "-" "curl/7.83.1-DEV" "96e8d8a7-92ce-9939-aa47-9f5f530a69fb" "my-nginx.mesh-external.svc.cluster.local:443" "10.107.176.65:443"
     {{< /text >}}
 
-### Cleanup the mutual TLS origination configuration
+### Clean up the mutual TLS origination configuration
 
 1.  Remove created Kubernetes resources:
 
@@ -320,7 +320,7 @@ Follow [these steps](/docs/tasks/traffic-management/egress/egress-gateway-tls-or
     $ rm ./nginx.conf
     {{< /text >}}
 
-## Cleanup common configuration
+## Clean up common configuration
 
 Delete the `sleep` service and deployment:
 

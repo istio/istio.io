@@ -315,7 +315,7 @@ openssl x509 -in chain.pem -text | grep SPIRE
     Subject: C = US, O = SPIRE, CN = sleep-5f4d47c948-njvpk
 ENDSNIP
 
-snip_cleanup_spire_1() {
+snip_clean_up_spire_1() {
 kubectl delete CustomResourceDefinition clusterspiffeids.spire.spiffe.io
 kubectl delete CustomResourceDefinition clusterfederatedtrustdomains.spire.spiffe.io
 kubectl delete -n spire configmap spire-bundle

@@ -196,7 +196,7 @@ The dry-run annotation is currently in experimental stage and has the following 
 * The dry-run results in the proxy log, metric and tracing are for manual troubleshooting purposes and should not be used
   as an API because it may change anytime without prior notice.
 
-## Cleanup
+## Clean up
 
 1. Remove the namespace `foo` from your configuration:
 

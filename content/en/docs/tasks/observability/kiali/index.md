@@ -249,7 +249,7 @@ For more details on these additional features, see the [Kiali documentation](htt
 
 For a deeper exploration of Kiali it is recommended to run through the [Kiali Tutorial](https://kiali.io/docs/tutorials/).
 
-## Cleanup
+## Clean up
 
 If you are not planning any follow-up tasks, remove the Bookinfo sample application and Kiali from your cluster.
 

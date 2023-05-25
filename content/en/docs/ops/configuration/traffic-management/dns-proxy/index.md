@@ -219,7 +219,7 @@ A virtual IP address will be assigned to every service entry so that client side
     ADDRESS=240.240.69.138, DESTINATION=Cluster: outbound|9000||tcp-echo.external-1.svc.cluster.local
     {{< /text >}}
 
-## Cleanup
+## Clean up
 
 {{< text bash >}}
 $ kubectl -n external-1 delete -f @samples/tcp-echo/tcp-echo.yaml@

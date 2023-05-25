@@ -84,7 +84,7 @@ The text output should include:
 Cipher is (NONE)
 {{< /text >}}
 
-## Cleanup
+## Clean up
 
 Delete sample applications `sleep` and `httpbin` from the `foo` namespace:
 

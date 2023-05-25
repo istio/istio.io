@@ -288,7 +288,7 @@ curl: (56) Recv failure: Connection reset by peer
 command terminated with exit code 56
 {{< /text >}}
 
-## Cleanup the mutual TLS termination example
+## Clean up the mutual TLS termination example
 
 1.  Remove created Kubernetes resources:
 

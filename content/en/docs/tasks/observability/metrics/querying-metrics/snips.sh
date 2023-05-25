@@ -53,6 +53,6 @@ ENDSNIP
 rate(istio_requests_total{destination_service=~"productpage.*", response_code="200"}[5m])
 ENDSNIP
 
-snip_cleanup_1() {
+snip_clean_up_1() {
 killall istioctl
 }

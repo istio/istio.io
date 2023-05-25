@@ -73,4 +73,4 @@ _verify_same snip_configure_deny_authorization_policy_for_a_tcp_workload_5 "$sni
 
 _verify_same snip_configure_deny_authorization_policy_for_a_tcp_workload_6 "$snip_configure_deny_authorization_policy_for_a_tcp_workload_6_out"
 # @cleanup
-snip_cleanup_1
+snip_clean_up_1

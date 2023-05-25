@@ -885,7 +885,7 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
     ...
     {{< /text >}}
 
-## Cleanup
+## Clean up
 
 Clean up the external control plane cluster:
 

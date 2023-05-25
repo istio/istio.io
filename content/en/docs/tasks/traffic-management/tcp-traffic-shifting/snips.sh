@@ -155,15 +155,15 @@ one Mon Nov 12 23:39:07 UTC 2022
 ...
 ENDSNIP
 
-snip_cleanup_1() {
+snip_clean_up_1() {
 kubectl delete -f samples/tcp-echo/tcp-echo-all-v1.yaml -n istio-io-tcp-traffic-shifting
 }
 
-snip_cleanup_2() {
+snip_clean_up_2() {
 kubectl delete -f samples/tcp-echo/gateway-api/tcp-echo-all-v1.yaml -n istio-io-tcp-traffic-shifting
 }
 
-snip_cleanup_3() {
+snip_clean_up_3() {
 kubectl delete -f samples/sleep/sleep.yaml -n istio-io-tcp-traffic-shifting
 kubectl delete -f samples/tcp-echo/tcp-echo-services.yaml -n istio-io-tcp-traffic-shifting
 kubectl delete namespace istio-io-tcp-traffic-shifting

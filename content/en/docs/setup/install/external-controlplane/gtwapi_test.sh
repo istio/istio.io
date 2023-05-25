@@ -33,8 +33,8 @@ export CTX_EXTERNAL_CLUSTER="${KUBE_CONTEXTS[0]}"
 export CTX_REMOTE_CLUSTER="${KUBE_CONTEXTS[2]}"
 export CTX_SECOND_CLUSTER="${KUBE_CONTEXTS[1]}"
 
-snip_cleanup_1
-snip_cleanup_2
-snip_cleanup_3
+snip_clean_up_1
+snip_clean_up_2
+snip_clean_up_3
 
 remove_gateway_api_crds "${CTX_REMOTE_CLUSTER}"

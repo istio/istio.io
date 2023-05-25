@@ -300,13 +300,13 @@ snip_troubleshooting_3() {
 kubectl get ingress --all-namespaces
 }
 
-snip_cleanup_1() {
+snip_clean_up_1() {
 kubectl delete gateway httpbin-gateway
 kubectl delete virtualservice httpbin
 kubectl delete --ignore-not-found=true -f samples/httpbin/httpbin.yaml
 }
 
-snip_cleanup_2() {
+snip_clean_up_2() {
 kubectl delete gtw httpbin-gateway
 kubectl delete httproute httpbin
 kubectl delete --ignore-not-found=true -f samples/httpbin/httpbin.yaml

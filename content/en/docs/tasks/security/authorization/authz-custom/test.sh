@@ -64,7 +64,7 @@ _verify_lines snip_enable_with_external_authorization_5 "
 "
 
 # @cleanup
-snip_cleanup_1
+snip_clean_up_1
 
 # delete the extension provider from the mesh config.
 meshConfigPlaceholder="data:^  mesh: |-^"

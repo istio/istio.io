@@ -160,7 +160,7 @@ ADDRESS=240.240.105.94, DESTINATION=Cluster: outbound|9000||tcp-echo.external-2.
 ADDRESS=240.240.69.138, DESTINATION=Cluster: outbound|9000||tcp-echo.external-1.svc.cluster.local
 ENDSNIP
 
-snip_cleanup_1() {
+snip_clean_up_1() {
 kubectl -n external-1 delete -f samples/tcp-echo/tcp-echo.yaml
 kubectl -n external-2 delete -f samples/tcp-echo/tcp-echo.yaml
 kubectl delete -f samples/sleep/sleep.yaml

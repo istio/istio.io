@@ -103,7 +103,7 @@ Before you begin this task, do the following:
     "X-Jwt-Claim-Foo": "bar"
     {{< /text >}}
 
-## Cleanup
+## Clean up
 
 1. Remove the namespace `foo`:
 

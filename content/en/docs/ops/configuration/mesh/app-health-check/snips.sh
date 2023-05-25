@@ -120,6 +120,6 @@ snip_disable_the_probe_rewrite_globally_1() {
 kubectl get cm istio-sidecar-injector -n istio-system -o yaml | sed -e 's/"rewriteAppHTTPProbe": true/"rewriteAppHTTPProbe": false/' | kubectl apply -f -
 }
 
-snip_cleanup_1() {
+snip_clean_up_1() {
 kubectl delete ns istio-io-health
 }

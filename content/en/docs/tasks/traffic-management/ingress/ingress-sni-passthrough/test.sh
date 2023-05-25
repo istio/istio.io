@@ -69,7 +69,7 @@ _verify_contains snip_configure_an_ingress_gateway_6 "SSL certificate verify ok.
 
 # @cleanup
 if [ "$GATEWAY_API" != "true" ]; then
-    snip_cleanup_1
-    snip_cleanup_3
-    snip_cleanup_4
+    snip_clean_up_1
+    snip_clean_up_3
+    snip_clean_up_4
 fi

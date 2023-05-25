@@ -168,20 +168,20 @@ snip_generating_traces_using_the_bookinfo_sample_1() {
 kubectl -n istio-system logs deploy/opentelemetry-collector
 }
 
-snip_cleanup_1() {
+snip_clean_up_1() {
 killall istioctl
 }
 
-snip_cleanup_2() {
+snip_clean_up_2() {
 kubectl delete -f https://raw.githubusercontent.com/istio/istio/release-1.18/samples/addons/jaeger.yaml
 }
 
-snip_cleanup_3() {
+snip_clean_up_3() {
 kubectl delete -n istio-system cm opentelemetry-collector
 kubectl delete -n istio-system svc opentelemetry-collector
 kubectl delete -n istio-system deploy opentelemetry-collector
 }
 
-snip_cleanup_4() {
+snip_clean_up_4() {
 kubectl delete telemetries.telemetry.istio.io -n istio-system mesh-default
 }

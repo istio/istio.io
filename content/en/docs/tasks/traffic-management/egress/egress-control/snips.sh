@@ -181,7 +181,7 @@ user    0m0.004s
 sys     0m0.004s
 ENDSNIP
 
-snip_cleanup_the_controlled_access_to_external_services_1() {
+snip_clean_up_the_controlled_access_to_external_services_1() {
 kubectl delete serviceentry httpbin-ext google
 kubectl delete virtualservice httpbin-ext --ignore-not-found=true
 }
@@ -225,6 +225,6 @@ kubectl exec "$SOURCE_POD" -c sleep -- curl -sS http://httpbin.org/headers
 }
 ENDSNIP
 
-snip_cleanup_1() {
+snip_clean_up_1() {
 kubectl delete -f samples/sleep/sleep.yaml
 }

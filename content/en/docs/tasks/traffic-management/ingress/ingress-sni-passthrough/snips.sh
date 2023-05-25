@@ -260,17 +260,17 @@ Server certificate:
   <title>Welcome to nginx!</title>
 ENDSNIP
 
-snip_cleanup_1() {
+snip_clean_up_1() {
 kubectl delete gateway mygateway
 kubectl delete virtualservice nginx
 }
 
-snip_cleanup_2() {
+snip_clean_up_2() {
 kubectl delete gtw mygateway
 kubectl delete tlsroute nginx
 }
 
-snip_cleanup_3() {
+snip_clean_up_3() {
 kubectl delete secret nginx-server-certs
 kubectl delete configmap nginx-configmap
 kubectl delete service my-nginx
@@ -278,6 +278,6 @@ kubectl delete deployment my-nginx
 rm ./nginx.conf
 }
 
-snip_cleanup_4() {
+snip_clean_up_4() {
 rm -rf ./example_certs
 }

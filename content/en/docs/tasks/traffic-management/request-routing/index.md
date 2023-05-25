@@ -326,7 +326,7 @@ In the [traffic shifting](/docs/tasks/traffic-management/traffic-shifting) task,
 will follow the same basic pattern you learned here to configure route rules to
 gradually send traffic from one version of a service to another.
 
-## Cleanup
+## Clean up
 
 1. Remove the application route rules:
 

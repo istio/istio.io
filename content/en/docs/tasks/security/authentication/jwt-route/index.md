@@ -162,7 +162,7 @@ identity and more secure compared using the unauthenticated HTTP attributes (e.g
     ...
     {{< /text >}}
 
-## Cleanup
+## Clean up
 
 * Remove the namespace `foo`:
 

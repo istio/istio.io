@@ -531,7 +531,7 @@ This example uses self-signed certificates, which may not be appropriate for pro
     * Grafana: `http://grafana.${INGRESS_DOMAIN}`
     * Tracing: `http://tracing.${INGRESS_DOMAIN}`
 
-## Cleanup
+## Clean up
 
 * Remove all related Gateways:
 

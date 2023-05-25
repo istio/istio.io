@@ -576,14 +576,14 @@ Hello version: v2, instance: helloworld-v2-54df5f84b-9hxgw
 ...
 ENDSNIP
 
-snip_cleanup_1() {
+snip_clean_up_1() {
 kubectl delete -f external-istiod-gw.yaml --context="${CTX_EXTERNAL_CLUSTER}"
 istioctl uninstall -y --purge --context="${CTX_EXTERNAL_CLUSTER}"
 kubectl delete ns istio-system external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
 rm controlplane-gateway.yaml external-istiod.yaml external-istiod-gw.yaml
 }
 
-snip_cleanup_2() {
+snip_clean_up_2() {
 kubectl delete ns sample --context="${CTX_REMOTE_CLUSTER}"
 istioctl manifest generate -f remote-config-cluster.yaml --set values.defaultRevision=default | kubectl delete --context="${CTX_REMOTE_CLUSTER}" -f -
 kubectl delete ns external-istiod --context="${CTX_REMOTE_CLUSTER}"
@@ -591,7 +591,7 @@ rm remote-config-cluster.yaml istio-ingressgateway.yaml
 rm istio-egressgateway.yaml eastwest-gateway-1.yaml || true
 }
 
-snip_cleanup_3() {
+snip_clean_up_3() {
 kubectl delete ns sample --context="${CTX_SECOND_CLUSTER}"
 istioctl manifest generate -f second-remote-cluster.yaml | kubectl delete --context="${CTX_SECOND_CLUSTER}" -f -
 kubectl delete ns external-istiod --context="${CTX_SECOND_CLUSTER}"

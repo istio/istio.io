@@ -180,7 +180,7 @@ openssl command is expected.
     ./proxy-cert-1.pem: OK
     {{< /text >}}
 
-## Cleanup
+## Clean up
 
 *   Remove the certificates, keys, and intermediate files from your local disk:
 
