@@ -35,42 +35,45 @@ release: 1.17.2
 
 ## 变更{#changes}
 
-- **新增** 支持将额外的信任域联邦从 `caCertificates` 推送到对等 SAN 验证器。
+- **新增** 新增了将额外的信任域联邦从 `caCertificates` 推送到对等 SAN 验证器的支持。
   ([Issue #41666](https://github.com/istio/istio/issues/41666))
 
-- **修复** 当标签为 `istio.io/rev=<tag>` 时，在注入的网关中覆盖 `istio.io/rev` 标签。
+- **修复** 修复了当标签为 `istio.io/rev=<tag>` 时在注入的网关中覆盖 `istio.io/rev` 标签的问题。
   ([Issue #33237](https://github.com/istio/istio/issues/33237))
 
-- **修复** 无法在 `ProxyConfig` 中禁用链路的问题。
+- **修复** 修复了无法在 `ProxyConfig` 中禁用链路的问题。
   ([Issue #31809](https://github.com/istio/istio/issues/31809))
 
-- **修复** 当头信息值使用自定义格式时 Admission Webhook 失败。
+- **修复** 修复了当头信息值使用自定义格式时 Admission Webhook 失败的问题。
   ([Issue #42749](https://github.com/istio/istio/issues/42749))
 
-- **修复** 基于流量流向应用访问日志配置时导致异常行为的问题。
+- **修复** 修复了基于流量流向应用访问日志配置时导致异常行为的问题。
   通过此修复，`CLIENT` 或 `SERVER` 的访问日志配置将不会相互影响。
   ([Issue # 43371](https://github.com/istio/istio/issues/43371))
 
-- **修复** `Cluster.ConnectTimeout` 类型的 `EnvoyFilter` 影响不相关 `Clusters` 的问题。
+- **修复** 修复了 `Cluster.ConnectTimeout` 类型的 `EnvoyFilter` 影响不相关 `Clusters` 的问题。
   ([Issue #43435](https://github.com/istio/istio/issues/43435))
 
-- **修复** 在 `istioctl analyze` 中的一个错误，当分析的命名空间中存在没有选择器的服务时，会丢失一些消息。
+- **修复** 修复了 `istioctl analyze` 中的一个错误，
+  即当分析的命名空间中存在没有选择器的服务时，会丢失一些消息。
   ([PR #43678](https://github.com/istio/istio/pull/43678))
 
-- **修复** `istioctl` 命令针对资源的命名空间解析。
+- **修复** 修复了 `istioctl` 命令针对资源的命名空间解析的问题。
   ([Issue #43691](https://github.com/istio/istio/issues/43691))
 
-- **修复** 自动分配的服务条目 IP 在主机重用时发生变化的问题。
+- **修复** 修复了自动分配的服务条目 IP 在主机重用时发生变化的问题。
   ([Issue #43858](https://github.com/istio/istio/issues/43858))
 
-- **修复** 当 istiod 升级到 1.17 后，RBAC 更新未发送到旧代理的问题。
+- **修复** 修复了当 istiod 升级到 1.17 后 RBAC 更新未发送到旧代理的问题。
   ([Issue #43785](https://github.com/istio/istio/issues/43785))
 
-- **修复** 在验证 webhook 控制器中达到限流的循环重试中的调谐逻辑。当配置错误的情况下，该操作会大大减少抖动（以及生成的日志）。
+- **修复** 修复了在验证 Webhook 控制器中达到限流的循环重试中的调谐逻辑。
+  本次修复可以在配置错误时大大减少抖动（以及生成的日志）。
   ([Issue #32210](https://github.com/istio/istio/issues/32210))
 
-- **修复** 导致当 VM 使用自动注册时忽略掉在 `WorkloadGroup` 中定义的标签的问题。
+- **修复** 修复了当 VM 使用自动注册时忽略掉在 `WorkloadGroup` 中定义的标签的问题。
   ([PR #44021](https://github.com/istio/istio/pull/44021))
 
-- **修复** 当未启用 `PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING` 时 `istioctl experimental wait` 中存在无法辨认的消息。
+- **修复** 修复了 `PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING` 未被启用时
+  `istioctl experimental wait` 中存在无法辨认消息的问题。
   ([Issue #42967](https://github.com/istio/istio/issues/42967))
