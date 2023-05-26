@@ -76,7 +76,7 @@ EOF
 Once deployed, you can inspect the pod's application container to see the changed path:
 
 {{< text bash json >}}
-$ export LIVENESS_POD=$(kubectl get pod -n istio-io-health-rewrite | awk 'NR>1 {print $1}'); kubectl get pod "$LIVENESS_POD" -n istio-io-health-rewrite -o json | jq '.spec.containers[0].livenessProbe.httpGet'
+$ kubectl get pod "$LIVENESS_POD" -n istio-io-health-rewrite -o json | jq '.spec.containers[0].livenessProbe.httpGet'
 {
   "path": "/app-health/liveness-http/livez",
   "port": 15020,

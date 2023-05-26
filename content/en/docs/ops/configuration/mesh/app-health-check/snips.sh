@@ -57,7 +57,7 @@ EOF
 }
 
 snip__3() {
-export LIVENESS_POD=$(kubectl get pod -n istio-io-health-rewrite | awk 'NR>1 {print $1}'); kubectl get pod "$LIVENESS_POD" -n istio-io-health-rewrite -o json | jq '.spec.containers[0].livenessProbe.httpGet'
+kubectl get pod "$LIVENESS_POD" -n istio-io-health-rewrite -o json | jq '.spec.containers[0].livenessProbe.httpGet'
 }
 
 ! read -r -d '' snip__3_out <<\ENDSNIP

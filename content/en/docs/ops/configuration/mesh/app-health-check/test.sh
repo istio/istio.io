@@ -27,6 +27,9 @@ snip__2 # Deploy liveness-http
 
 _wait_for_deployment istio-io-health-rewrite liveness-http
 
+LIVENESS_POD="$(kubectl get pod -n istio-io-health-rewrite -l app=liveness-http -o jsonpath='{.items[0].metadata.name}')"
+export LIVENESS_POD
+
 _verify_contains snip__3 "/app-health/liveness-http/livez"
 
 _verify_contains snip__4 "ISTIO_KUBE_APP_PROBERS"
