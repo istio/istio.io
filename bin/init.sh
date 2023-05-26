@@ -22,20 +22,20 @@ export ISTIO_REMOTE=${ISTIO_REMOTE:-origin}
 export ISTIO_BRANCH=${ISTIO_BRANCH:-master}
 
 # Determine the SHA for the Istio dependency by parsing the go.mod file.
-export ISTIO_SHA=${ISTIO_SHA:-$(< go.mod grep 'istio.io/istio v' | cut -d'-' -f3)}
+export ISTIO_SHA=518ee55a5a2690a2f0d8cafab0ce7b3081560034
 
 echo "ISTIOIO_GO=${ISTIOIO_GO}"
 echo "ISTIO_GO=${ISTIO_GO}"
 echo "ISTIO_REMOTE=${ISTIO_REMOTE}"
 echo "ISTIO_BRANCH=${ISTIO_BRANCH}"
-echo "ISTIO_SHA=518ee55a5a2690a2f0d8cafab0ce7b3081560034
+echo "ISTIO_SHA=${ISTIO_SHA}"
 
 # Download the Istio source if not available.
 #if [[ -d "${ISTIO_GO}" ]]
 #then
 #  echo "${ISTIO_GO} already exists. Using existing repository ..."
 #else
-  echo "Removing ${ISTIO_GO} and cloning ericvn's Istio repository which has branch.."
+  echo "Removing ${ISTIO_GO} and cloning ericvn's Istio repository which..."
   rm -rf "${ISTIO_GO}"
   git clone https://github.com/ericvn/istio.git "${ISTIO_GO}"
 #fi
