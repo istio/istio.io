@@ -24,7 +24,7 @@ test: n/a
 标签 [`topology.kubernetes.io/zone`](https://kubernetes.io/zh-cn/docs/reference/labels-annotations-taints/#topologykubernetesiozone) 确定节点的区域。
 
 - **分区**：允许管理员进一步细分区域，以实现更细粒度的控制，例如“相同机架”。
-Kubernetes 中不存在分区的概念。结果 Istio 引入了自定义节点标签 [`topology.istio.io/subzone`](https://github.com/istio/api/blob/master/label/labels.yaml#L76) 来定义分区。
+Kubernetes 中不存在分区的概念。结果 Istio 引入了自定义节点标签 [`topology.istio.io/subzone`](/zh/docs/reference/config/labels/#:~:text=topology.istio.io/subzone) 来定义分区。
 
 {{< tip >}}
 如果您使用托管的 Kubernetes 服务，则云提供商应为您配置区域和区域标签。
