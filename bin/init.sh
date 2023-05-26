@@ -28,16 +28,17 @@ echo "ISTIOIO_GO=${ISTIOIO_GO}"
 echo "ISTIO_GO=${ISTIO_GO}"
 echo "ISTIO_REMOTE=${ISTIO_REMOTE}"
 echo "ISTIO_BRANCH=${ISTIO_BRANCH}"
-echo "ISTIO_SHA=${ISTIO_SHA}"
+echo "ISTIO_SHA=518ee55a5a2690a2f0d8cafab0ce7b3081560034
 
 # Download the Istio source if not available.
-if [[ -d "${ISTIO_GO}" ]]
-then
-  echo "${ISTIO_GO} already exists. Using existing repository ..."
-else
-  echo "${ISTIO_GO} not found. Cloning Istio repository ..."
-  git clone https://github.com/istio/istio.git "${ISTIO_GO}"
-fi
+#if [[ -d "${ISTIO_GO}" ]]
+#then
+#  echo "${ISTIO_GO} already exists. Using existing repository ..."
+#else
+  echo "Removing ${ISTIO_GO} and cloning ericvn's Istio repository which has branch.."
+  rm -rf "${ISTIO_GO}"
+  git clone https://github.com/ericvn/istio.git "${ISTIO_GO}"
+#fi
 
 pushd "${ISTIO_GO}" > /dev/null
 
