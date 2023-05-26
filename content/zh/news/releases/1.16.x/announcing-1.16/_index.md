@@ -7,8 +7,8 @@ publishdate: 2022-11-15
 release: 1.16.0
 skip_list: true
 aliases:
-- /news/announcing-1.16
-- /news/announcing-1.16.0
+- /zh/news/announcing-1.16
+- /zh/news/announcing-1.16.0
 ---
 
 我们很高兴地宣布发布 Istio 1.16！
