@@ -75,21 +75,23 @@ EOF
 
 Once deployed, you can inspect the pod's application container to see the changed path:
 
-{{< text bash yaml >}}
-$ export LIVENESS_POD=$(kubectl get po | awk 'NR>1 {print $1}'); kubectl get pod "$LIVENESS_POD" -n istio-io-health-rewrite -o json | jq '.spec.containers[0].livenessProbe.httpGet'
+{{< text bash json >}}
+$ export LIVENESS_POD=$(kubectl get pod -n istio-io-health-rewrite | awk 'NR>1 {print $1}'); kubectl get pod "$LIVENESS_POD" -n istio-io-health-rewrite -o json | jq '.spec.containers[0].livenessProbe.httpGet'
 {
   "path": "/app-health/liveness-http/livez",
   "port": 15020,
   "scheme": "HTTP"
 }
-
 {{< /text >}}
 
 The original `livenessProve` path is now mapped against the new path in the sidecar container environment variable `ISTIO_KUBE_APP_PROBERS`:
 
-{{< text bash yaml >}}
-$ kubectl get pod "$LIVENESS_POD" -o=jsonpath="{.spec.containers[1].env[?(@.name=='ISTIO_KUBE_APP_PROBERS')]}"
-{"name":"ISTIO_KUBE_APP_PROBERS","value":"{\"/app-health/liveness-http/livez\":{\"httpGet\":{\"path\":\"/foo\",\"port\":8001,\"scheme\":\"HTTP\"},\"timeoutSeconds\":1}}"}
+{{< text bash json >}}
+$ kubectl get pod "$LIVENESS_POD" -n istio-io-health-rewrite -o=jsonpath="{.spec.containers[1].env[?(@.name=='ISTIO_KUBE_APP_PROBERS')]}"
+{
+  "name":"ISTIO_KUBE_APP_PROBERS",
+  "value":"{\"/app-health/liveness-http/livez\":{\"httpGet\":{\"path\":\"/foo\",\"port\":8001,\"scheme\":\"HTTP\"},\"timeoutSeconds\":1}}"
+}
 {{< /text >}}
 
 For HTTP and gRPC requests, the sidecar agent redirects the request to the application and strips the response body, only returning the response code. For TCP probes, the sidecar agent will then do the port check while avoiding the traffic redirection.

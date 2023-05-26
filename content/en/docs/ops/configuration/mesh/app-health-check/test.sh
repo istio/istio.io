@@ -27,9 +27,9 @@ snip__2 # Deploy liveness-http
 
 _wait_for_deployment istio-io-health-rewrite liveness-http
 
-_verify_like snip__3 "$snip__3_out"
+_verify_contains snip__3 "/app-health/liveness-http/livez"
 
-_verify_like snip__4 "$snip__4_out"
+_verify_contains snip__4 "ISTIO_KUBE_APP_PROBERS"
 
 snip_liveness_and_readiness_probes_using_the_command_approach_1
 

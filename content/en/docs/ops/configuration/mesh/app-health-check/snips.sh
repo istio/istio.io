@@ -57,7 +57,7 @@ EOF
 }
 
 snip__3() {
-export LIVENESS_POD=$(kubectl get po | awk 'NR>1 {print $1}'); kubectl get pod "$LIVENESS_POD" -n istio-io-health-rewrite -o json | jq '.spec.containers[0].livenessProbe.httpGet'
+export LIVENESS_POD=$(kubectl get pod -n istio-io-health-rewrite | awk 'NR>1 {print $1}'); kubectl get pod "$LIVENESS_POD" -n istio-io-health-rewrite -o json | jq '.spec.containers[0].livenessProbe.httpGet'
 }
 
 ! read -r -d '' snip__3_out <<\ENDSNIP
@@ -66,15 +66,17 @@ export LIVENESS_POD=$(kubectl get po | awk 'NR>1 {print $1}'); kubectl get pod "
   "port": 15020,
   "scheme": "HTTP"
 }
-
 ENDSNIP
 
 snip__4() {
-kubectl get pod "$LIVENESS_POD" -o=jsonpath="{.spec.containers[1].env[?(@.name=='ISTIO_KUBE_APP_PROBERS')]}"
+kubectl get pod "$LIVENESS_POD" -n istio-io-health-rewrite -o=jsonpath="{.spec.containers[1].env[?(@.name=='ISTIO_KUBE_APP_PROBERS')]}"
 }
 
 ! read -r -d '' snip__4_out <<\ENDSNIP
-{"name":"ISTIO_KUBE_APP_PROBERS","value":"{\"/app-health/liveness-http/livez\":{\"httpGet\":{\"path\":\"/foo\",\"port\":8001,\"scheme\":\"HTTP\"},\"timeoutSeconds\":1}}"}
+{
+  "name":"ISTIO_KUBE_APP_PROBERS",
+  "value":"{\"/app-health/liveness-http/livez\":{\"httpGet\":{\"path\":\"/foo\",\"port\":8001,\"scheme\":\"HTTP\"},\"timeoutSeconds\":1}}"
+}
 ENDSNIP
 
 snip_liveness_and_readiness_probes_using_the_command_approach_1() {
