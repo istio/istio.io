@@ -8,7 +8,7 @@ release: 1.15.7
 ---
 
 此版本修复了我们 4 月 4 日发布的帖子
-[ISTIO-SECURITY-2023-001](/news/security/istio-security-2023-001)
+[ISTIO-SECURITY-2023-001](/zh/news/security/istio-security-2023-001)
 中描述的安全漏洞。
 本发布说明描述了 Istio 1.15.6 和
 Istio 1.15.7 之间的不同之处。
