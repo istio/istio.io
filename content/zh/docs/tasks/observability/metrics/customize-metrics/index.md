@@ -36,8 +36,8 @@ Istio 使用 Envoy 代理生成指标并在
 在集群中[安装 Istio](/zh/docs/setup/)并部署应用程序。
 或者，您可以设置自定义统计作为 Istio 安装的一部分。
 
-[Bookinfo示例](/zh/docs/examples/bookinfo/)应用程序在此任务中用作示例应用程序。
-关于安装说明，请参阅部署 [Bookinfo应用](/zh/docs/examples/bookinfo/#deploying-the-application)。
+[Bookinfo 示例](/zh/docs/examples/bookinfo/)应用程序在此任务中用作示例应用程序。
+关于安装说明，请参阅部署 [Bookinfo 示例](/zh/docs/examples/bookinfo/#deploying-the-application)。
 
 ## 启用自定义指标{#enable-custom-metrics}
 
