@@ -52,9 +52,9 @@ publishdate: 2020-05-21
 
 使用以下命令删除 `ValidatingWebhookConfiguration` 自定义资源（CR）：
 
-  {{< text bash >}}
-  $ kubectl delete ValidatingWebhookConfiguration istio-galley -n istio-system
-  {{< /text >}}
+    {{< text bash >}}
+    $ kubectl delete ValidatingWebhookConfiguration istio-galley -n istio-system
+    {{< /text >}}
 
 ## 更改网关就绪端口{#change-the-readiness-port-of-gateways}
 
@@ -103,14 +103,14 @@ Istio 1.6 将 `v1alpha1` 版 RBAC 策略 API
 
 可以使用以下命令验证集群中是否存在 `v1alpha1` 版的安全策略：
 
-  {{< text bash >}}
-  $ kubectl get policies.authentication.istio.io --all-namespaces
-  $ kubectl get meshpolicies.authentication.istio.io --all-namespaces
-  $ kubectl get rbacconfigs.rbac.istio.io --all-namespaces
-  $ kubectl get clusterrbacconfigs.rbac.istio.io --all-namespaces
-  $ kubectl get serviceroles.rbac.istio.io --all-namespaces
-  $ kubectl get servicerolebindings.rbac.istio.io --all-namespaces
-  {{< /text >}}
+    {{< text bash >}}
+    $ kubectl get policies.authentication.istio.io --all-namespaces
+    $ kubectl get meshpolicies.authentication.istio.io --all-namespaces
+    $ kubectl get rbacconfigs.rbac.istio.io --all-namespaces
+    $ kubectl get clusterrbacconfigs.rbac.istio.io --all-namespaces
+    $ kubectl get serviceroles.rbac.istio.io --all-namespaces
+    $ kubectl get servicerolebindings.rbac.istio.io --all-namespaces
+    {{< /text >}}
 
 如果您的集群中有任何 `v1alpha1` 版的安全策略，
 请在升级前迁移到新的 API。
@@ -153,12 +153,12 @@ Istio 团队正在积极研究不再需要 `cluster-local` 的替代方案。
 如要覆盖默认的 `cluster-local` 行为，
 请修改 `MeshConfig` 部分中的配置，如下所示：
 
-  {{< text yaml >}}
-  values:
-    meshConfig:
-      serviceSettings:
-        - settings:
-            clusterLocal: false
-          hosts:
-            - "istiod.istio-system.svc.cluster.local"
-  {{< /text >}}
+    {{< text yaml >}}
+    values:
+      meshConfig:
+        serviceSettings:
+          - settings:
+              clusterLocal: false
+            hosts:
+              - "istiod.istio-system.svc.cluster.local"
+    {{< /text >}}
