@@ -6,100 +6,123 @@ attribution: "Neeraj Poddar (Aspen Mesh)，代表 Istio 产品安全工作组"
 keywords: [istio,security,audit,ncc,assessment]
 ---
 
-The Istio service mesh has gained wide production adoption across a wide variety of industries. The success of the project, and its critical usage for enforcing key security policies in infrastructure warranted an open and neutral assessment of the security risks associated with the project.
 Istio 服务网格已在各行各业获得广泛的生产应用。
-该项目的成功及其在基础设施中执行关键安全策略的关键用途，
-保证了对与该项目相关的安全风险进行公开和中立的评估。
+该项目的成功及其在基础设施中执行关键安全策略的重要用途，
+保证了可以对与该项目相关的安全风险进行公开和中立的评估。
 
-To achieve this goal, the Istio community contracted the [NCC Group](https://www.nccgroup.com/) last year to conduct a third-party security assessment of the project. The goal of the review was "to identify security issues related to the Istio code base, highlight high-risk configurations commonly used by administrators, and provide perspective on whether security features sufficiently address the concerns they are designed to provide".
-为实现这一目标，Istio 社区于去年签约
-[NCC Group](https://www.nccgroup.com/)
-对项目进行第三方安全评估。审查的目标是“确定与 Istio
-代码库相关的安全问题，突出管理员常用的高风险配置，
-并提供有关安全功能是否足以解决它们在设计初衷的担忧的观点”。
+为实现这一目标，Istio 社区于去年与 [NCC Group](https://www.nccgroup.com/)
+签约，并对项目进行第三方安全评估。审查的目标是“识别与 Istio
+代码库相关的安全问题，突显管理员常用的高风险配置，
+并提出针对安全功能是否足以解决那些它们在设计初衷希望解决问题的观点”。
 
-NCC Group carried out the review over a period of five weeks with collaboration from subject matter experts across the Istio community. In this blog, we will examine the key findings of the report, actions taken to implement various fixes and recommendations, and our plan of action for continuous security evaluation and improvement of the Istio project. You can download and read the unabridged version of the [security assessment report](./NCC_Group_Google_GOIST2005_Report_2020-08-06_v1.1.pdf).
 NCC Group 与 Istio 社区的主题专家合作，在五周内进行审查。在这篇博客中，
 我们将研究报告的主要发现、为实施各种修复和建议而采取的行动，
 以及我们对 Istio 项目进行持续安全评估和改进的行动计划。
 您可以下载并阅读完整版的[安全评估报告（英文）](./NCC_Group_Google_GOIST2005_Report_2020-08-06_v1.1.pdf)。
 
-## Scope and Key Findings
 ## 工作范围和主要发现{#scope-and-key-findings}
 
-The assessment evaluated Istio’s architecture as a whole for security related issues with focus on key components like istiod (Pilot), Ingress/Egress gateways, and Istio’s overall Envoy usage as its data plane proxy. Additionally, Istio documentation, including security guides, were audited for correctness and clarity. The report was compiled against Istio version 1.6.5, and since then the Product Security Working Group has issued several security releases as new vulnerabilities were disclosed, along with fixes to address concerns raised in the new report.
 该评估对 Istio 的架构整体安全相关问题进行了分析，重点关注关键组件，
-如 istiod (Pilot)、Ingress/Egress 网关，以及 Istio 的整体 Envoy
-作为其数据平面代理的使用。此外，还审核了包括安全指南等 Istio 文档的正确性和清晰度。
-该报告是针对 Istio 1.6.5 版编写的，从那时起，
+如 istiod（Pilot）、Ingress/Egress 网关，以及 Istio 的整体 Envoy
+作为其数据平面代理的使用。此外，还审核了包括安全指南等 Istio
+文档的正确性和清晰度。该报告是针对 Istio 1.6.5 版编写的，从那时起，
 产品安全工作组随着新漏洞的披露发布了多个安全版本，并修复了新报告中提出的问题。
 
-An important conclusion from the report is that the auditors found no "Critical" issues within the Istio project. This finding validates the continuous and proactive security review and vulnerability management process implemented by Istio’s Product Security Working Group (PSWG). For the remaining issues surfaced by the report, the PSWG went to work on addressing them, and we are glad to report that all issues marked "High", and several marked "Medium/Low", have been resolved in the releases following the report.
 该报告的一个重要结论是，审计人员在 Istio 项目中没有发现任何“严重”问题。
-这一发现证实了 Istio 的产品安全工作组（PSWG）实施的持续和主动的安全审查和漏洞管理流程。
-对于报告中出现的其余问题，PSWG 着手解决这些问题，
-我们很高兴地报告所有标记为“High”的问题和几个标记为“Medium/Low”的问题已在报告发布后的版本中得到解决。
+这一发现证实了 Istio 的产品安全工作组（PSWG）实施的持续和主动的安全审查和漏洞管理流程的有效性。
+对于报告中出现的其余问题，PSWG 已着手解决，
+我们很高兴地宣布所有标记为“High”的问题和几个标记为“Medium/Low”的问题已在报告发布后的版本中得到解决。
 
-The report also makes strategic recommendations around creating a hardening guide which is now available in our [Security Best Practices](/docs/ops/best-practices/security/) guide. This is a comprehensive document which pulls together recommendations from security experts within the Istio community, and industry leaders running Istio in production. Work is underway to create an opinionated and hardened security profile for installing Istio in secure environments, but in the interim we recommend users follow the Security Best Practices guide and configure Istio to meet their security requirements. With that, let’s look at the analysis and resolution for various issues raised in the report.
 该报告还围绕创建强化指南提出了战略建议，
 该指南现已在我们的[安全最佳实践](/zh/docs/ops/best-practices/security/)指南中提供。
 这是一份汇集了 Istio 社区安全专家和在生产环境中运行 Istio
-的行业领导者的建议的综合文档。正在努力创建一个稳固的和强化的安全配置文件，
+的行业领导者的建议的综合文档。创建一个稳固和强化的安全配置文件工作正在进行，
 以便在安全环境中安装 Istio，但在此期间，
 我们建议用户遵循安全最佳实践指南并配置 Istio 以满足安全要求。
 至此，我们再来看一下报告中提出的各种问题分析和解决方案。
 
-## Resolution and learnings
-## 决议和学习{#resolution-and-learnings}
+## 决议和经验{#resolution-and-learnings}
 
-### Inability to secure control plane network communications
-### 无法保护控制平面网络通信{inability-to-secure-control-plane-network-communications}
+### 无法保护控制平面的网络通信{inability-to-secure-control-plane-network-communications}
 
-The report flags configuration options that were available in older versions of Istio to control how communication is secured to the control plane. Since 1.7, Istio by default secures all control plane communication and many configuration options mentioned in the report to manage control plane encryption are no longer required.
 该报告标记了旧版本 Istio 中可用的配置选项，以控制如何确保与控制平面的通信安全。
 从 1.7 版开始，Istio 默认保护所有控制平面通信，
-不再需要报告中提到的许多配置选项来管理控制平面加密。
+不再需要报告中提到的许多配置选项来管理加密控制平面。
 
-The debug endpoint mentioned in the report is enabled by default (as of Istio 1.10) to allow users to debug their Istio service mesh using the `istioctl` tool. It can be disabled by setting the environment variable `ENABLE_DEBUG_ON_HTTP` to false as mentioned in the [Security Best Practices](/docs/ops/best-practices/security/#control-plane) guide. Additionally, in an upcoming version (1.11), this debug endpoint will be secured by default and a valid Kubernetes service account token will be required to gain access.
-报告中提到的（从 Istio 1.10 开始）允许用户使用 istioctl
-工具调试他们的 Istio 服务网格默认启用的问题。
+报告中提到的（从 Istio 1.10 开始）默认启用允许用户使用 `istioctl`
+工具调试他们的 Istio 服务网格的问题。
 如[安全最佳实践](/zh/docs/ops/best-practices/security/#control-plane)指南中所述，
 可以通过将环境变量 `ENABLE_DEBUG_ON_HTTP` 设置为 false 来禁用它。
 此外，在即将推出的版本（1.11）中，此调试端点将默认受到保护，
 并且需要有效的 Kubernetes 服务帐户令牌才能获得访问权限。
 
-### Lack of security related documentation
 ### 缺乏安全相关的文档{#lack-of-security-related-documentation}
 
-The report points out gaps in the security related documentation published with Istio 1.6. Since then, we have created a detailed [Security Best Practices](/docs/ops/best-practices/security/) guide with recommendations to ensure users can deploy Istio securely to meet their requirements.  Moving forward, we will continue to augment this documentation with more hardening recommendations. We advise users to monitor the guide for updates.
 该报告指出了与 Istio 1.6 一起发布的安全相关文档中的漏洞。
 从那时起，我们创建了详细的[安全最佳实践](/zh/docs/ops/best-practices/security/)指南，
 其中包含了推荐方式以满足用户可以安全地部署 Istio 的需求。
 展望未来，我们将继续通过更多强化建议来扩充此文档。我们建议用户关注这些指南的更新。
 
-### Lack of VirtualService Gateway field validation enables request hijacking
-### 缺少 VirtualService Gateway 字段验证会导致请求被劫持{#lack-of-virtualservice-gateway-field-validation-enables-request-hijacking}
+### 缺少 VirtualService Gateway 字段验证会导致请求劫持{#lack-of-virtualservice-gateway-field-validation-enables-request-hijacking}
 
-For this issue, the report uses a valid but permissive Gateway configuration that can cause requests to be routed incorrectly. Similar to the Kubernetes RBAC, Istio APIs, including Gateways, can be tuned to be permissive or restrictive depending upon your requirements.  However, the report surfaced missing links in our documentation related to best practices and guiding our users to secure their environments. To address them, we have added a section to our Security Best Practices guide with steps for running [Gateways](/docs/ops/best-practices/security/#gateways) securely. In particular, the section describing [using namespace prefixes in hosts specification](/docs/ops/best-practices/security/#avoid-overly-broad-hosts-configurations) on Gateway resources is strongly recommended to harden your configuration and prevent this type of request hijacking.
+对于此问题，该报告使用了一个有效但宽松的网关配置，
+该配置可能会导致请求被错误地路由。与 Kubernetes RBAC 类似，
+Istio API（包括 Gateway）可以根据您的要求调整为宽松或受限的模式。
+但是，该报告显示我们的文档中缺少与最佳实践相关的链接，
+并指导我们的用户保护他们的环境。为了解决这些问题，
+我们在安全最佳实践指南中添加了部分内容，其中包含安全运行
+[Gateway](/zh/docs/ops/best-practices/security/#gateways) 的步骤。
+特别是，该章节描述了强烈建议在 Gateway
+资源上强化[在主机设置中使用命名空间前缀](/zh/docs/ops/best-practices/security/#avoid-overly-broad-hosts-configurations)的部分，
+以防止这种请求劫持情况的发生。
 
-### Ingress Gateway configuration generation enables request hijacking
+### Ingress Gateway 配置生成导致请求劫持{#ingress-gateway-configuration-generation-enables-request-hijacking}
 
-The report raises possible request hijacking when using the default mechanism of selecting gateway workloads by labels across namespaces in a Gateway resource. This behavior was chosen by default as it allows delegation of managing Gateway and VirtualService resources to the applications team while allowing operations teams to centrally manage the ingress gateway workloads for meeting their unique security requirements like running on dedicated nodes for instance. As highlighted in the report, if this deployment topology is not a requirement in your environment it is strongly recommended to co-locate Gateway resources with your gateway workloads and set the environment variable `PILOT_SCOPE_GATEWAY_TO_NAMESPACE` to true.
+当使用 Gateway 资源中跨命名空间的标签选择网关工作负载的默认机制时，
+该报告提出了可能产生请求劫持的情况。默认情况下选择此行为会允许将所管理的
+Gateway 和 VirtualService 资源委托给应用程序团队，
+同时允许运营团队集中管理入口网关工作负载以满足他们独特的安全要求，
+例如在专用节点上运行。正如报告中强调的那样，如果您的环境不需要此部署拓扑，
+强烈建议将 Gateway 资源与网关工作负载放在一起，并将环境变量
+`PILOT_SCOPE_GATEWAY_TO_NAMESPACE` 设置为 true。
 
-Please refer to the [gateway deployment topologies guide](/docs/setup/additional-setup/gateway/#gateway-deployment-topologies) to understand the various recommended deployment models by the Istio community. Additionally, as mentioned in the [Security Best Practices](/docs/ops/best-practices/security/#restrict-gateway-creation-privileges) guide, Gateway resource creation should be access controlled using Kubernetes RBAC or other policy enforcement mechanisms to ensure only authorized entities can create them.
+请参阅[网关部署拓扑指南](/zh/docs/setup/additional-setup/gateway/#gateway-deployment-topologies)以了解
+Istio 社区推荐的各种部署模型。此外，如[安全最佳实践](/zh/docs/ops/best-practices/security/#restrict-gateway-creation-privileges)指南中所述，
+Gateway 资源创建应使用 Kubernetes RBAC 或其他策略执行机制进行访问控制，
+以确保只有授权实体才能创建它们。
 
-### Other Medium and Low Severity Issues
+### 其他 Medium 及 Low 严重级别问题{#other-medium-and-low-severity-issues}
 
-There are two medium severity issues reported related to debug information exposed at various levels within the project which can be used to gain access to sensitive information or orchestrate Denial of Service (DOS) attacks. While Istio by default enables these debug interfaces for profiling or enabling tools like "istioctl", they can be disabled by setting the environment variable `ENABLE_DEBUG_ON_HTTP` to false as discussed above.
+报告中有两个中等严重程度的问题，这些问题与项目中暴露的不同级别调试信息有关，
+这些信息可用于获取对敏感信息的访问权限或编排 Denial of Service（DOS）攻击。
+虽然 Istio 默认开启这些调试接口以进行分析或启用诸如“istioctl”之类的工具，
+但可以通过将环境变量 `ENABLE_DEBUG_ON_HTTP` 设置为 false 来禁用如上所述内容。
 
-The report correctly points out that various utilities like `sudo`, `tcpdump`, etc. installed in the default images shipped by Istio can lead to privilege escalation attacks. These utilities are  provided to aid runtime debugging of packets flowing through the mesh, and users are recommended to use [hardened versions](/docs/ops/configuration/security/harden-docker-images/) of these images in production.
+该报告正确地指出，安装在 Istio 提供的默认镜像中的各种实用程序，
+如 `sudo`、`tcpdump` 等，可能会导致权限提升攻击。
+提供这些实用程序是为了帮助运行时调试流经网格的数据包，
+建议用户在生产中使用这些镜像的[强化版本](/zh/docs/ops/configuration/security/harden-docker-images/)。
 
-The report also surfaces a known architectural limitation with any sidecar proxy-based service mesh implementation which uses `iptables` for intercepting traffic. This mechanism is susceptible to [sidecar proxy bypass](/docs/ops/best-practices/security/#understand-traffic-capture-limitations), which is a valid concern for secure environments. It can be addressed by following the [defense-in-depth](/docs/ops/best-practices/security/#defense-in-depth-with-networkpolicy) recommendation of the Security Best Practices guide. We are also investigating more secure options in collaboration with the Kubernetes community.
+该报告还提出了一个已知的架构限制，即任何基于 Sidecar
+代理的服务网格实现都使用 `iptables` 来拦截流量。
+这种机制容易受到[绕过 Sidecar 代理](/zh/docs/ops/best-practices/security/#understand-traffic-capture-limitations)的影响，这是对安全环境的有效关注。
+可以通过遵循安全最佳实践指南的[深度防御](/zh/docs/ops/best-practices/security/#defense-in-depth-with-networkpolicy)建议来解决这个问题。
 
-## The tradeoff between useful and secure
+## 易用性和安全之间的权衡{#the-tradeoff-between-useful-and-secure}
 
-You may have noticed a trend in the findings of the assessment and the recommendations made to address them. Istio provides various configuration options to create a more secure installation based on your requirement, and we have introduced a comprehensive [Security Best Practices](/docs/ops/best-practices/security) guide for our users to follow. As Istio is widely adopted in production, it is a tradeoff for us between switching to secure defaults and possible migration issues for our existing users on upgrades. The Istio Product Security Working Group evaluates each of these issues and creates a plan of action to enable secure default on a case-by-case basis after giving our users a number of releases to opt-in the secure configuration and migrate their workloads.
+您可能已经注意到评估结果的趋势以及为解决这些问题而提出的建议。
+Istio 提供各种配置选项以根据您的要求创建更安全的安装过程，
+我们还引入了全面的[安全最佳实践](/zh/docs/ops/best-practices/security)指南供我们的用户遵循。
+由于 Istio 已经在生产中被广泛应用，
+因此我们需要在切换到安全默认设置和现有用户升级时可能出现的迁移问题之间进行权衡。
+Istio 产品安全工作组评估了报告中的每一个问题，并制定了一个行动计划，
+以便在为我们的用户提供多个版本以选择加入安全配置并迁移他们的工作负载后，
+根据具体情况启用安全默认设置。
 
-Lastly, there were several lessons for us during and after undergoing a neutral security assessment. The primary one was to ensure our security practices are robust to quickly respond to the findings, and more importantly making security enhancements while maintaining our standards for upgrades without disruption.
+最后，我们在进行中立安全评估的过程中和结束后都获得了一些教训。
+首要任务是确保我们的安全实践稳健可靠，能够快速响应审查结果，
+更重要的是在增强安全性的同时保持我们无中断升级的标准。
 
-To continue this endeavor, we are always looking for feedback and participation in the Istio Product Security Working Group, so [join our public meetings](https://github.com/istio/community/blob/master/WORKING-GROUPS.md) to raise issues or learn about what we are doing to keep Istio secure!
+为了继续这一努力，我们一直在 Istio 产品安全工作组中寻求反馈及参与，
+所以[加入我们的公开会议](https://github.com/istio/community/blob/master/WORKING-GROUPS.md)，
+提出问题或了解我们为确保 Istio 安全所做的工作！
