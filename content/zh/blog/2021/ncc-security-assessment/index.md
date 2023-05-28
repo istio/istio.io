@@ -14,43 +14,37 @@ Istio 服务网格已在各行各业获得广泛的生产应用。
 To achieve this goal, the Istio community contracted the [NCC Group](https://www.nccgroup.com/) last year to conduct a third-party security assessment of the project. The goal of the review was "to identify security issues related to the Istio code base, highlight high-risk configurations commonly used by administrators, and provide perspective on whether security features sufficiently address the concerns they are designed to provide".
 为实现这一目标，Istio 社区于去年签约
 [NCC Group](https://www.nccgroup.com/)
-对项目进行第三方安全评估。
-审查的目标是“确定与 Istio 代码库相关的安全问题，
-突出管理员常用的高风险配置，
+对项目进行第三方安全评估。审查的目标是“确定与 Istio
+代码库相关的安全问题，突出管理员常用的高风险配置，
 并提供有关安全功能是否足以解决它们在设计初衷的担忧的观点”。
 
 NCC Group carried out the review over a period of five weeks with collaboration from subject matter experts across the Istio community. In this blog, we will examine the key findings of the report, actions taken to implement various fixes and recommendations, and our plan of action for continuous security evaluation and improvement of the Istio project. You can download and read the unabridged version of the [security assessment report](./NCC_Group_Google_GOIST2005_Report_2020-08-06_v1.1.pdf).
-NCC Group 与 Istio 社区的主题专家合作，在五周内进行审查。
-在这篇博客中，我们将研究报告的主要发现、
-为实施各种修复和建议而采取的行动，以及我们对
-Istio 项目进行持续安全评估和改进的行动计划。
+NCC Group 与 Istio 社区的主题专家合作，在五周内进行审查。在这篇博客中，
+我们将研究报告的主要发现、为实施各种修复和建议而采取的行动，
+以及我们对 Istio 项目进行持续安全评估和改进的行动计划。
 您可以下载并阅读完整版的[安全评估报告（英文）](./NCC_Group_Google_GOIST2005_Report_2020-08-06_v1.1.pdf)。
 
 ## Scope and Key Findings
 ## 工作范围和主要发现{#scope-and-key-findings}
 
 The assessment evaluated Istio’s architecture as a whole for security related issues with focus on key components like istiod (Pilot), Ingress/Egress gateways, and Istio’s overall Envoy usage as its data plane proxy. Additionally, Istio documentation, including security guides, were audited for correctness and clarity. The report was compiled against Istio version 1.6.5, and since then the Product Security Working Group has issued several security releases as new vulnerabilities were disclosed, along with fixes to address concerns raised in the new report.
-该评估对 Istio 的架构整体安全相关问题进行了分析，
-重点关注关键组件，如 istiod (Pilot)、Ingress/Egress 网关，
-以及 Istio 的整体 Envoy 作为其数据平面代理的使用。
-此外，还审核了包括安全指南等 Istio 文档的正确性和清晰度。
+该评估对 Istio 的架构整体安全相关问题进行了分析，重点关注关键组件，
+如 istiod (Pilot)、Ingress/Egress 网关，以及 Istio 的整体 Envoy
+作为其数据平面代理的使用。此外，还审核了包括安全指南等 Istio 文档的正确性和清晰度。
 该报告是针对 Istio 1.6.5 版编写的，从那时起，
-产品安全工作组随着新漏洞的披露发布了多个安全版本，
-并修复了新报告中提出的问题。
+产品安全工作组随着新漏洞的披露发布了多个安全版本，并修复了新报告中提出的问题。
 
 An important conclusion from the report is that the auditors found no "Critical" issues within the Istio project. This finding validates the continuous and proactive security review and vulnerability management process implemented by Istio’s Product Security Working Group (PSWG). For the remaining issues surfaced by the report, the PSWG went to work on addressing them, and we are glad to report that all issues marked "High", and several marked "Medium/Low", have been resolved in the releases following the report.
-该报告的一个重要结论是，审计人员在 Istio
-项目中没有发现任何“严重”问题。这一发现证实了
-Istio 的产品安全工作组（PSWG）实施的持续和主动的安全审查和漏洞管理流程。
+该报告的一个重要结论是，审计人员在 Istio 项目中没有发现任何“严重”问题。
+这一发现证实了 Istio 的产品安全工作组（PSWG）实施的持续和主动的安全审查和漏洞管理流程。
 对于报告中出现的其余问题，PSWG 着手解决这些问题，
 我们很高兴地报告所有标记为“High”的问题和几个标记为“Medium/Low”的问题已在报告发布后的版本中得到解决。
 
 The report also makes strategic recommendations around creating a hardening guide which is now available in our [Security Best Practices](/docs/ops/best-practices/security/) guide. This is a comprehensive document which pulls together recommendations from security experts within the Istio community, and industry leaders running Istio in production. Work is underway to create an opinionated and hardened security profile for installing Istio in secure environments, but in the interim we recommend users follow the Security Best Practices guide and configure Istio to meet their security requirements. With that, let’s look at the analysis and resolution for various issues raised in the report.
 该报告还围绕创建强化指南提出了战略建议，
 该指南现已在我们的[安全最佳实践](/zh/docs/ops/best-practices/security/)指南中提供。
-这是一份汇集了 Istio 社区安全专家和在生产环境中运行
-Istio 的行业领导者的建议的综合文档。
-正在努力创建一个稳固的和强化的安全配置文件，
+这是一份汇集了 Istio 社区安全专家和在生产环境中运行 Istio
+的行业领导者的建议的综合文档。正在努力创建一个稳固的和强化的安全配置文件，
 以便在安全环境中安装 Istio，但在此期间，
 我们建议用户遵循安全最佳实践指南并配置 Istio 以满足安全要求。
 至此，我们再来看一下报告中提出的各种问题分析和解决方案。
@@ -62,8 +56,7 @@ Istio 的行业领导者的建议的综合文档。
 ### 无法保护控制平面网络通信{inability-to-secure-control-plane-network-communications}
 
 The report flags configuration options that were available in older versions of Istio to control how communication is secured to the control plane. Since 1.7, Istio by default secures all control plane communication and many configuration options mentioned in the report to manage control plane encryption are no longer required.
-该报告标记了旧版本 Istio 中可用的配置选项，
-以控制如何确保与控制平面的通信安全。
+该报告标记了旧版本 Istio 中可用的配置选项，以控制如何确保与控制平面的通信安全。
 从 1.7 版开始，Istio 默认保护所有控制平面通信，
 不再需要报告中提到的许多配置选项来管理控制平面加密。
 
@@ -79,8 +72,13 @@ The debug endpoint mentioned in the report is enabled by default (as of Istio 1.
 ### 缺乏安全相关的文档{#lack-of-security-related-documentation}
 
 The report points out gaps in the security related documentation published with Istio 1.6. Since then, we have created a detailed [Security Best Practices](/docs/ops/best-practices/security/) guide with recommendations to ensure users can deploy Istio securely to meet their requirements.  Moving forward, we will continue to augment this documentation with more hardening recommendations. We advise users to monitor the guide for updates.
+该报告指出了与 Istio 1.6 一起发布的安全相关文档中的漏洞。
+从那时起，我们创建了详细的[安全最佳实践](/zh/docs/ops/best-practices/security/)指南，
+其中包含了推荐方式以满足用户可以安全地部署 Istio 的需求。
+展望未来，我们将继续通过更多强化建议来扩充此文档。我们建议用户关注这些指南的更新。
 
 ### Lack of VirtualService Gateway field validation enables request hijacking
+### 缺少 VirtualService Gateway 字段验证会导致请求被劫持{#lack-of-virtualservice-gateway-field-validation-enables-request-hijacking}
 
 For this issue, the report uses a valid but permissive Gateway configuration that can cause requests to be routed incorrectly. Similar to the Kubernetes RBAC, Istio APIs, including Gateways, can be tuned to be permissive or restrictive depending upon your requirements.  However, the report surfaced missing links in our documentation related to best practices and guiding our users to secure their environments. To address them, we have added a section to our Security Best Practices guide with steps for running [Gateways](/docs/ops/best-practices/security/#gateways) securely. In particular, the section describing [using namespace prefixes in hosts specification](/docs/ops/best-practices/security/#avoid-overly-broad-hosts-configurations) on Gateway resources is strongly recommended to harden your configuration and prevent this type of request hijacking.
 
