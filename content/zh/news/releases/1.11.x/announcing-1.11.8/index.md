@@ -11,8 +11,7 @@ aliases:
 
 此版本修复了我们 3 月 9 日的帖子
 [ISTIO-SECURITY-2022-004](/zh/news/security/istio-security-2022-004)
-中描述的安全漏洞。
-本发布说明描述了 Istio 1.11.7 和
+中描述的安全漏洞。本发布说明描述了 Istio 1.11.7 和
 Istio 1.11.8 之间的不同之处。
 
 {{< relnote >}}
@@ -24,8 +23,8 @@ Istio 1.11.8 之间的不同之处。
 
 ### Envoy CVE 漏洞{#envoy-cves}
 
-目前不认为 Istio 容易受到 Envoy 中这些
-CVE 漏洞的攻击。然而，它们被列出是为了披露。
+目前不认为 Istio 容易受到 Envoy 中这些 CVE 漏洞的攻击。
+然而，它们被列出是为了披露。
 
 - __[CVE-2022-21657](https://github.com/envoyproxy/envoy/security/advisories/GHSA-837m-wjrv-vm5g)__
   (CVSS Score 3.1, Low)：X.509 扩展密钥使用和信任目的旁路。
