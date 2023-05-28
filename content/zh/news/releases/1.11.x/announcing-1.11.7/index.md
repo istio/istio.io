@@ -9,7 +9,6 @@ aliases:
     - /zh/news/announcing-1.11.7
 ---
 
-This release fixes the security vulnerabilities described in our February 22nd post, [ISTIO-SECURITY-2022-003](/news/security/istio-security-2022-003). This release note describes what’s different between Istio 1.11.6 and 1.11.7.
 此版本修复了我们 2 月 22 日发布的 [ISTIO-SECURITY-2022-003](/zh/news/security/istio-security-2022-003) 
 中描述的安全漏洞。本发布说明描述了 Istio 1.11.6 和 Istio 1.11.7 之间的不同之处。
 
