@@ -17,26 +17,23 @@ aliases:
 
 在此版本中，
 我们延续了今年早些时候在[路线图](/zh/blog/2020/tradewinds-2020/)中绘制的路径，
-朝着更简单、更好的安装体验的方向前进，
-并且我们还添加了其他优势改进。
+朝着更简单、更好的安装体验的方向前进，并且我们还添加了其他优势改进。
 
 以下是今天发布的一些内容：
 
 ## 简化，简化，再简化{#simplify-simplify-simplify}
 
-上一个版本中，我们引入了 **Istiod**，
-这是一个新模块，它通过组合多个服务的功能来减少
-Istio 安装中的组件数量。在 Istio 1.6 中，
-我们已经完成了这一转变，并将所有功能完全迁移到了 Istiod 中。
-这使我们能够删除 Citadel、Sidecar 注入器和
-Galley 的独立部署。
+上一个版本中，我们引入了 **Istiod**，这是一个新模块，
+它通过组合多个服务的功能来减少 Istio 安装中的组件数量。
+在 Istio 1.6 中，我们已经完成了这一转变，
+并将所有功能完全迁移到了 Istiod 中。这使我们能够删除
+Citadel、Sidecar 注入器和 Galley 的独立部署。
 
-好消息！我们为使用 Kubernetes 中新的
-alpha 功能的开发人员提供了简化的体验。
+好消息！我们为使用 Kubernetes 中新的 alpha 功能的开发人员提供了简化的体验。
 如果您在 Kubernetes [`EndpointPort`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#endpointport-v1beta1-discovery-k8s-io)
 或 [`ServicePort`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#serviceport-v1-core)
 API 中使用新的 `appProtocol` 字段（这是 1.18 中的 Alpha 版本功能），
-你将不再需要在您的 `Service` 中附加名称字段以表示协议。
+您将不再需要在您的 `Service` 中附加名称字段以表示协议。
 
 ## 更好的生命周期{#better-lifecycle}
 
@@ -68,17 +65,14 @@ API 中使用新的 `appProtocol` 字段（这是 1.18 中的 Alpha 版本功能
 ## 针对虚拟机的更好支持{#better-virtual-machine-support}
 
 扩大对不在 Kubernetes 中运行的工作负载的支持是我们
-2020 年的主要投入领域之一，
-我们很高兴在这里宣布一些重大进展。
+2020 年的主要投入领域之一，我们很高兴在这里宣布一些重大进展。
 
 使用新的 [`WorkloadEntry`](/zh/docs/reference/config/networking/workload-entry/)
-资源对于需要将非 Kubernetes 工作负载添加到网格（例如，
-部署在 VM 上的工作负载）的人来说，
-比之前的任何时候都更加简单。我们创建此 API
-是为了在 Istio 中为非 Kubernetes
-工作负载提供一流的表现。
-它将虚拟机或裸金属工作负载提升到与 Kubernetes `Pod`
-相同的级别，而不仅仅是具有 IP 地址的端点。
+资源对于需要将非 Kubernetes 工作负载添加到网格（例如，部署在 VM
+上的工作负载）的人来说，比之前的任何时候都更加简单。
+我们创建此 API 是为了在 Istio 中为非 Kubernetes
+工作负载提供一流的表现。它将虚拟机或裸金属工作负载提升到与
+Kubernetes `Pod` 相同的级别，而不仅仅是具有 IP 地址的端点。
 您现在甚至可以定义 Pod 和 VM 并存的 Service。
 为什么这是有用的呢？因为您现在可以为同一服务实现混合部署（VM 和 Pod），
 这提供了一种将 VM 工作负载迁移到 Kubernetes
@@ -89,12 +83,10 @@ API 中使用新的 `appProtocol` 字段（这是 1.18 中的 Alpha 版本功能
 
 ## 网络改进{#networking-improvements}
 
-网络是服务网格的核心，
-因此我们也加入了一些很棒的流量管理功能。
-Istio 改进了对 Secret 的处理，从而为
-Kubernetes Ingress 提供了更好的支持。
-我们还默认启用了 Gateway SDS，以获得更安全的体验。
-我们还添加了对 Kubernetes Service API
+网络是服务网格的核心，因此我们也加入了一些很棒的流量管理功能。
+Istio 改进了对 Secret 的处理，从而为 Kubernetes Ingress
+提供了更好的支持。我们还默认启用了 Gateway SDS，
+以获得更安全的体验。我们还添加了对 Kubernetes Service API
 的实验性支持（依然是实验性的）。
 
 ## 加入 Istio 社区{#join-the-Istio-community}
