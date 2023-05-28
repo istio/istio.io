@@ -31,14 +31,13 @@ Istio 使用 Envoy 代理生成指标并在
 这些配置设置也用 istioctl 安装选项公开，
 允许您为网关和边车以及入站或出站方向自定义不同的指标。
 
-有关详细信息，请参阅[统计配置参考](/zh/docs/reference/config/proxy_extensions/stats/)。
-
 ## 开始之前{#before-you-begin}
 
 在集群中[安装 Istio](/zh/docs/setup/)并部署应用程序。
 或者，您可以设置自定义统计作为 Istio 安装的一部分。
 
-[Bookinfo示例](/zh/docs/examples/bookinfo/)应用程序在整个任务中用作示例应用程序。
+[Bookinfo 示例](/zh/docs/examples/bookinfo/)应用程序在此任务中用作示例应用程序。
+关于安装说明，请参阅部署 [Bookinfo 示例](/zh/docs/examples/bookinfo/#deploying-the-application)。
 
 ## 启用自定义指标{#enable-custom-metrics}
 
@@ -188,3 +187,7 @@ Istio 公开了所有标准 [Envoy 属性](https://www.envoyproxy.io/docs/envoy/
 `upstream_peer.labels['app'].value`。
 
 有关详细信息请参阅[配置参考](/zh/docs/reference/config/proxy_extensions/stats/)。
+
+## 清理{#cleanup}
+
+要删除 `Bookinfo` 示例应用及其配置，请参阅 [`Bookinfo` 清理](/zh/docs/examples/bookinfo/#cleanup)。
