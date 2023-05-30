@@ -83,7 +83,8 @@ There are several commonly used install options:
 * `values.cni.cniBinDir` and `values.cni.cniConfDir` configure the directory paths to install the plugin binary and create plugin configuration.
 * `values.cni.cniConfFileName` configures the name of the plugin configuration file.
 * `values.cni.chained` controls whether to configure the plugin as a chained CNI plugin.
-
+  * `values.istio_cni.chained` should be set to the same value as `values.cni.chained` to manage network annotations when chaining CNI plugins.
+  
 {{< tip >}}
 There is a time gap between a node becomes schedulable and the Istio CNI plugin becomes ready on that node.
 If an application pod starts up during this time, it is possible that traffic redirection is not properly set up and traffic would be able to bypass the Istio sidecar.
