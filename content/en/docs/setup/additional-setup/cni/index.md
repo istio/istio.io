@@ -123,12 +123,20 @@ Some platforms required special installation settings.
           enabled: true
           namespace: kube-system
       values:
+        sidecarInjectorWebhook:
+          injectedAnnotations:
+            k8s.v1.cni.cncf.io/networks: istio-cni
         cni:
           cniBinDir: /var/lib/cni/bin
           cniConfDir: /etc/cni/multus/net.d
           cniConfFileName: istio-cni.conf
           chained: false
     {{< /text >}}
+    
+{{< tip >}}
+Note: Using `sidecarInjectorWebhook` to inject the `k8s.v1.cni.cncf.io/networks: istio-cni` annotation will overwrite pre-existing annotations of the same name.
+To prevent this in cases where you have more than one `k8s.v1.cni.cncf.io/networks` annotation value to manage the use of more than one CNI configuration, you will want to modify the value to include the additional CNI annotation values.  If you are installing Istio via Helm, you may leave out the `sidecarInjectorWebhook` configuration as Istio will automatically append `istio-cni` to the list of existing network annotations.
+{{< /tip >}}
 
 ## Operation details
 
