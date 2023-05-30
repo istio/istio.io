@@ -22,7 +22,7 @@ export ISTIO_REMOTE=${ISTIO_REMOTE:-origin}
 export ISTIO_BRANCH=${ISTIO_BRANCH:-master}
 
 # Determine the SHA for the Istio dependency by parsing the go.mod file.
-export ISTIO_SHA=518ee55a5a2690a2f0d8cafab0ce7b3081560034
+export ISTIO_SHA=${ISTIO_SHA:-$(< go.mod grep 'istio.io/istio v' | cut -d'-' -f3)}
 
 echo "ISTIOIO_GO=${ISTIOIO_GO}"
 echo "ISTIO_GO=${ISTIO_GO}"
@@ -46,7 +46,8 @@ pushd "${ISTIO_GO}" > /dev/null
 git fetch "$ISTIO_REMOTE"
 
 # Checkout the Istio version from the git dependency.
-git checkout "$ISTIO_SHA"
+echo "Checking out commit with updated Bookinfo images"
+git checkout 518ee55a5a2690a2f0d8cafab0ce7b3081560034
 
 # Build and install istioctl
 ISTIOCTL_ARTIFACT="${ISTIO_OUT}/release/"
