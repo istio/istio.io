@@ -21,18 +21,18 @@ set -o pipefail
 
 # @setup profile=default
 
-snip__1 # Create and label namespace
+snip_liveness_probe_rewrite_example_1
 
-snip__2 # Deploy liveness-http
+snip_liveness_probe_rewrite_example_2
 
 _wait_for_deployment istio-io-health-rewrite liveness-http
 
 LIVENESS_POD="$(kubectl get pod -n istio-io-health-rewrite -l app=liveness-http -o jsonpath='{.items[0].metadata.name}')"
 export LIVENESS_POD
 
-_verify_contains snip__3 "/app-health/liveness-http/livez"
+_verify_contains snip_liveness_probe_rewrite_example_3 "/app-health/liveness-http/livez"
 
-_verify_contains snip__4 "ISTIO_KUBE_APP_PROBERS"
+_verify_contains snip_liveness_probe_rewrite_example_4 "ISTIO_KUBE_APP_PROBERS"
 
 snip_liveness_and_readiness_probes_using_the_command_approach_1
 

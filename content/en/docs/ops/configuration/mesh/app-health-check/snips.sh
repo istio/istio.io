@@ -20,11 +20,11 @@
 #          docs/ops/configuration/mesh/app-health-check/index.md
 ####################################################################################################
 
-snip_livenessprobe_rewrite_example_1() {
+snip_liveness_probe_rewrite_example_1() {
 kubectl create namespace istio-io-health-rewrite; kubectl label namespace istio-io-health-rewrite istio-injection=enabled
 }
 
-snip_livenessprobe_rewrite_example_2() {
+snip_liveness_probe_rewrite_example_2() {
 kubectl apply -f - <<EOF
 apiVersion: apps/v1
 kind: Deployment
@@ -56,11 +56,11 @@ spec:
 EOF
 }
 
-snip_livenessprobe_rewrite_example_3() {
+snip_liveness_probe_rewrite_example_3() {
 kubectl get pod "$LIVENESS_POD" -n istio-io-health-rewrite -o json | jq '.spec.containers[0].livenessProbe.httpGet'
 }
 
-! read -r -d '' snip_livenessprobe_rewrite_example_3_out <<\ENDSNIP
+! read -r -d '' snip_liveness_probe_rewrite_example_3_out <<\ENDSNIP
 {
   "path": "/app-health/liveness-http/livez",
   "port": 15020,
@@ -68,11 +68,11 @@ kubectl get pod "$LIVENESS_POD" -n istio-io-health-rewrite -o json | jq '.spec.c
 }
 ENDSNIP
 
-snip_livenessprobe_rewrite_example_4() {
+snip_liveness_probe_rewrite_example_4() {
 kubectl get pod "$LIVENESS_POD" -n istio-io-health-rewrite -o=jsonpath="{.spec.containers[1].env[?(@.name=='ISTIO_KUBE_APP_PROBERS')]}"
 }
 
-! read -r -d '' snip_livenessprobe_rewrite_example_4_out <<\ENDSNIP
+! read -r -d '' snip_liveness_probe_rewrite_example_4_out <<\ENDSNIP
 {
   "name":"ISTIO_KUBE_APP_PROBERS",
   "value":"{\"/app-health/liveness-http/livez\":{\"httpGet\":{\"path\":\"/foo\",\"port\":8001,\"scheme\":\"HTTP\"},\"timeoutSeconds\":1}}"
