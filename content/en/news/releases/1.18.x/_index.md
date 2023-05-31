@@ -1,5 +1,5 @@
 ---
-title: 1.187.x Releases
+title: 1.18.x Releases
 description: Announcements for the 1.18 release and its associated patch releases.
 weight: 12
 list_by_publishdate: true
