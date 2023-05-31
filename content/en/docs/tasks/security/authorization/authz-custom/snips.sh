@@ -36,7 +36,7 @@ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadat
 ENDSNIP
 
 snip_deploy_the_external_authorizer_1() {
-kubectl apply -n foo -f https://raw.githubusercontent.com/istio/istio/release-1.18/samples/extauthz/ext-authz.yaml
+kubectl apply -n foo -f https://raw.githubusercontent.com/istio/istio/master/samples/extauthz/ext-authz.yaml
 }
 
 ! read -r -d '' snip_deploy_the_external_authorizer_1_out <<\ENDSNIP

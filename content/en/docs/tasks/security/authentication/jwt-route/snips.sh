@@ -47,7 +47,7 @@ spec:
       istio: ingressgateway
   jwtRules:
   - issuer: "testing@secure.istio.io"
-    jwksUri: "https://raw.githubusercontent.com/istio/istio/release-1.18/security/tools/jwt/samples/jwks.json"
+    jwksUri: "https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/jwks.json"
 EOF
 }
 
@@ -97,7 +97,7 @@ HTTP/1.1 401 Unauthorized
 ENDSNIP
 
 snip_validating_ingress_routing_based_on_jwt_claims_3() {
-TOKEN_GROUP=$(curl https://raw.githubusercontent.com/istio/istio/release-1.18/security/tools/jwt/samples/groups-scope.jwt -s) && echo "$TOKEN_GROUP" | cut -d '.' -f2 - | base64 --decode -
+TOKEN_GROUP=$(curl https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/groups-scope.jwt -s) && echo "$TOKEN_GROUP" | cut -d '.' -f2 - | base64 --decode -
 }
 
 ! read -r -d '' snip_validating_ingress_routing_based_on_jwt_claims_3_out <<\ENDSNIP
@@ -114,7 +114,7 @@ HTTP/1.1 200 OK
 ENDSNIP
 
 snip_validating_ingress_routing_based_on_jwt_claims_5() {
-TOKEN_NO_GROUP=$(curl https://raw.githubusercontent.com/istio/istio/release-1.18/security/tools/jwt/samples/demo.jwt -s) && echo "$TOKEN_NO_GROUP" | cut -d '.' -f2 - | base64 --decode -
+TOKEN_NO_GROUP=$(curl https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/demo.jwt -s) && echo "$TOKEN_NO_GROUP" | cut -d '.' -f2 - | base64 --decode -
 }
 
 ! read -r -d '' snip_validating_ingress_routing_based_on_jwt_claims_5_out <<\ENDSNIP
