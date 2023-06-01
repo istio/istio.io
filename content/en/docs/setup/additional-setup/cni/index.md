@@ -78,9 +78,12 @@ $ istioctl install -f istio-cni.yaml -y
 
 
 {{< /tab >}}
+
 {{< tab name="Helm" category-value="helm" >}}
 
+{{< text bash >}}
 $ helm install istio-cni istio/cni -n kube-system --wait
+{{< /text >}}
 
 {{< /tab >}}
 
@@ -167,7 +170,7 @@ spec:
 {{< /tabset >}}
 
 {{< tip >}}
-Note: Using `sidecarInjectorWebhook` to inject the `k8s.v1.cni.cncf.io/networks: istio-cni` annotation will overwrite pre-existing annotations of the same name.
+Note: Using `sidecarInjectorWebhook` to inject the `k8s.v1.cni.cncf.io/networks: istio-cni` annotation will overwrite preexisting annotations of the same name.
 To prevent this in cases where you have more than one `k8s.v1.cni.cncf.io/networks` annotation value to manage the use of more than one CNI configuration, you will want to modify the value to include the additional CNI annotation values.  If you are installing Istio via Helm, you may leave out the `sidecarInjectorWebhook` configuration as Istio will automatically append `istio-cni` to the list of existing network annotations.
 {{< /tip >}}
 
@@ -181,6 +184,8 @@ CNI component can be upgraded together with the control plane using one `IstioOp
 When upgrading Istio with [canary upgrade](/docs/setup/upgrade/canary/), because the CNI component runs as a cluster singleton,
 it is recommended to operate and upgrade the CNI component separately from the revisioned control plane.
 The following `IstioOperator` can be used to operate the CNI component independently.
+
+This is not a problem for Helm as the istio-cni is installed separately.
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha1
