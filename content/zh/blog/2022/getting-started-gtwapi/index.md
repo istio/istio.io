@@ -1,22 +1,22 @@
 ---
 title: Kubernetes Gateway API 入门
-description: 使用 Gateway API 为您的 Kubernetes 集群配置入口流量。
+description: 使用 Gateway API 为 Kubernetes 集群配置入口流量。
 publishdate: 2022-12-14
 attribution: Frank Budinsky (IBM)
 keywords: [traffic-management,gateway,gateway-api,api,gamma,sig-network]
 ---
 
-无论您使用 Istio 或其他服务网格运行您的 Kubernetes 应用程序服务，
-还是只是在 Kubernetes 集群中使用普通服务，
-您都需要为集群外部的客户端提供对您应用程序服务的访问方式。
-如果您使用的是普通 Kubernetes 集群，您可能正在使用 Kubernetes
+无论您使用 Istio 或其他服务网格运行 Kubernetes 应用程序服务，
+还是仅在 Kubernetes 集群中使用普通服务，
+您都需要为集群外部的客户端提供对应用程序服务的访问方式。
+如果您使用的是普通 Kubernetes 集群，可能正在使用 Kubernetes
 [Ingress](https://kubernetes.io/zh-cn/docs/concepts/services-networking/ingress/) 资源来配置入口流量。
 
 一段时间以来，人们都知道 Kubernetes Ingress 资源存在重大缺陷，
-尤其是在使用它为大型应用程序配置入口流量以及使用 HTTP 以外协议时问题更为突出。
+尤其是在使用它为大型应用程序配置入口流量以及使用除 HTTP 外的其他协议时问题更为突出。
 其中一个问题是它在单个资源中同时配置了客户端 L4-L6 属性（例如端口、TLS 等）和服务端
 L7 路由，而对于大型应用程序的配置应该由不同的团队在不同的命名空间中进行管理。
-此外，通过尝试在不同 HTTP 代理之间描绘一个共同点，Ingress 只能支持最基本的
+此外，通过尝试在不同的 HTTP 代理之间找到共同点，使得 Ingress 只能支持最基本的
 HTTP 路由，并且最终会将先进代理的所有其他功能配置推入到不可移植的注解中。
 
 为了克服 Ingress 的缺点，Istio 曾引入自己用于入口流量管理的配置 API。
@@ -39,8 +39,8 @@ Gateway API 提供了一套用于入口流量控制的 Kubernetes 配置资源�
 所以现在可能是开始思考如何将入口流量配置从 Kubernetes Ingress
 或 Istio Gateway/VirtualService 转移到新的 Gateway API 的天赐良机。
 
-无论您是否已经使用或计划使用 Istio 来管理您的服务网格，Gateway API
-的 Istio 实现都可以开始被轻松地用于您集群的入口控制。由于 Gateway API
+无论您是否已经使用或计划使用 Istio 来管理服务网格，Gateway API
+的 Istio 实现都可以开始被轻松地用于集群的入口控制。由于 Gateway API
 本身仍然是 Beta 版的原因，其在 Istio 中的实现也处于 Beta 版，
 但由于在其幕后使用了与 Istio 相同且久经考验的内部资源来实现相关配置
 Istio 中的 Gateway API 实现也是非常健壮的。
