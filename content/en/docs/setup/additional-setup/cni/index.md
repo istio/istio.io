@@ -60,6 +60,10 @@ See [compatibility with other CNI plugins](#compatibility-with-other-cni-plugins
 
 In most environments, a basic Istio cluster with CNI enabled can be installed using the following commands:
 
+{{< tabset category-name="gateway-install-type" >}}
+
+{{< tab name="IstioOperator" category-value="iop" >}}
+
 {{< text bash >}}
 $ cat <<EOF > istio-cni.yaml
 apiVersion: install.istio.io/v1alpha1
@@ -72,6 +76,16 @@ EOF
 $ istioctl install -f istio-cni.yaml -y
 {{< /text >}}
 
+
+{{< /tab >}}
+{{< tab name="Helm" category-value="helm" >}}
+
+$ helm install istio-cni istio/cni -n kube-system --wait
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
 This will deploy an `istio-cni-node` DaemonSet into the cluster, which installs the Istio CNI plugin binary to each node and sets up the necessary configuration for the plugin.
 The CNI DaemonSet runs with [`system-node-critical`](https://kubernetes.io/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/) `PriorityClass`.
 
@@ -83,8 +97,7 @@ There are several commonly used install options:
 * `values.cni.cniBinDir` and `values.cni.cniConfDir` configure the directory paths to install the plugin binary and create plugin configuration.
 * `values.cni.cniConfFileName` configures the name of the plugin configuration file.
 * `values.cni.chained` controls whether to configure the plugin as a chained CNI plugin.
-  * `values.istio_cni.chained` should be set to the same value as `values.cni.chained` to manage network annotations when chaining CNI plugins.
-  
+
 {{< tip >}}
 There is a time gap between a node becomes schedulable and the Istio CNI plugin becomes ready on that node.
 If an application pod starts up during this time, it is possible that traffic redirection is not properly set up and traffic would be able to bypass the Istio sidecar.
@@ -92,48 +105,67 @@ This race condition is mitigated by a "detect and repair" method.
 Please take a look at [race condition & mitigation](#race-condition--mitigation) section to understand the implication of this mitigation.
 {{< /tip >}}
 
+### Installing with Helm
+
+The Istio CNI and Istio discovery chart use different values that require you set the following either in an overrides values file or at your command prompt when installing the `istiod` chart.
+
+* `values.istio_cni.enabled` should be set to the same value as `values.cni.enabled` to manage network annotations when chaining CNI plugins.
+* `values.istio_cni.chained` should be set to the same value as `values.cni.chained` to manage network annotations when chaining CNI plugins.
+
+{{< text bash >}}
+$  helm install istiod istio/istiod -n istio-system --set values.istio_cni.enabled=true --wait
+{{< /text >}}
+
 ### Hosted Kubernetes settings
 
 The `istio-cni` plugin is expected to work with any hosted Kubernetes version using CNI plugins.
 The default installation configuration works with most platforms.
 Some platforms required special installation settings.
 
-* Google Kubernetes Engine
+{{< tabset category-name="cni-platform" >}}
 
-    {{< text yaml >}}
-    apiVersion: install.istio.io/v1alpha1
-    kind: IstioOperator
-    spec:
-      components:
-        cni:
-          enabled: true
-          namespace: kube-system
-      values:
-        cni:
-          cniBinDir: /home/kubernetes/bin
-    {{< /text >}}
+{{< tab name="Google Kubernetes Engine" category-value="gke" >}}
 
-* Red Hat OpenShift 4.2+
+{{< text yaml >}}
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  components:
+    cni:
+      enabled: true
+      namespace: kube-system
+  values:
+    cni:
+      cniBinDir: /home/kubernetes/bin
+{{< /text >}}
 
-    {{< text yaml >}}
-    apiVersion: install.istio.io/v1alpha1
-    kind: IstioOperator
-    spec:
-      components:
-        cni:
-          enabled: true
-          namespace: kube-system
-      values:
-        sidecarInjectorWebhook:
-          injectedAnnotations:
-            k8s.v1.cni.cncf.io/networks: istio-cni
-        cni:
-          cniBinDir: /var/lib/cni/bin
-          cniConfDir: /etc/cni/multus/net.d
-          cniConfFileName: istio-cni.conf
-          chained: false
-    {{< /text >}}
-    
+{{< /tab >}}
+
+{{< tab name="Red Hat OpenShift 4.2+" category-value="ocp" >}}
+
+{{< text yaml >}}
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  components:
+    cni:
+      enabled: true
+      namespace: kube-system
+  values:
+    sidecarInjectorWebhook:
+      injectedAnnotations:
+        k8s.v1.cni.cncf.io/networks: istio-cni
+    cni:
+      cniBinDir: /var/lib/cni/bin
+      cniConfDir: /etc/cni/multus/net.d
+      cniConfFileName: istio-cni.conf
+      chained: false
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
 {{< tip >}}
 Note: Using `sidecarInjectorWebhook` to inject the `k8s.v1.cni.cncf.io/networks: istio-cni` annotation will overwrite pre-existing annotations of the same name.
 To prevent this in cases where you have more than one `k8s.v1.cni.cncf.io/networks` annotation value to manage the use of more than one CNI configuration, you will want to modify the value to include the additional CNI annotation values.  If you are installing Istio via Helm, you may leave out the `sidecarInjectorWebhook` configuration as Istio will automatically append `istio-cni` to the list of existing network annotations.

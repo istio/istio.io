@@ -32,6 +32,10 @@ EOF
 istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true -f istio-cni.yaml -y
 }
 
+snip_installing_with_helm_1() {
+ helm install istiod istio/istiod -n istio-system --set values.istio_cni.enabled=true --wait
+}
+
 ! read -r -d '' snip_hosted_kubernetes_settings_1 <<\ENDSNIP
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
