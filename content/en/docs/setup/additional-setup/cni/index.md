@@ -76,7 +76,6 @@ EOF
 $ istioctl install -f istio-cni.yaml -y
 {{< /text >}}
 
-
 {{< /tab >}}
 
 {{< tab name="Helm" category-value="helm" >}}
