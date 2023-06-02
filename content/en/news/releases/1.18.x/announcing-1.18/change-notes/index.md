@@ -3,7 +3,7 @@ title: Istio 1.18.0 Change Notes
 linktitle: 1.18.0
 subtitle: Minor Release
 description: Istio 1.18.0 change notes.
-publishdate: 2023-06-03
+publishdate: 2023-06-05
 release: 1.18.0
 weight: 20
 ---
