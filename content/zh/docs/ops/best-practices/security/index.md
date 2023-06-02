@@ -337,7 +337,9 @@ spec:
 
 #### 对 Istio 的功能请求 {#feature-request-to-istio}
 
-如果您认为 Istio 应该正式支持某个特定的规范化，您可以按照 [报告漏洞](/zh/docs/releases/security-vulnerabilities/#reporting-a-vulnerability) 页面，向 Istio 产品安全工作组发送关于特定规范化的功能请求，以便进行初步评估。
+如果您认为 Istio 应该正式支持某个特定的规范化，您可以按照
+[报告漏洞](/zh/docs/releases/security-vulnerabilities/#reporting-a-vulnerability)页面，
+向 Istio 产品安全工作组发送关于特定规范化的功能请求，以便进行初步评估。
 
 在未与 Istio 产品安全工作组联系之前，请不要公开任何问题，因为该问题可能被视为需要私下修复的安全漏洞。
 
@@ -457,8 +459,8 @@ spec:
 ### 限制 `Gateway` 创建权限 {#restrict-gateway-creation-privileges}
 
 Istio 推荐将网关资源创建权限只分配给信任的集群管理员。这可以通过
-[Kubernetes RBAC policies](https://kubernetes.io/zh-cn/docs/reference/access-authn-authz/rbac/)
-或者 类似 [Open Policy Agent](https://www.openpolicyagent.org/) 的工具实现。
+[Kubernetes RBAC 策略](https://kubernetes.io/zh-cn/docs/reference/access-authn-authz/rbac/)
+或者类似 [Open Policy Agent](https://www.openpolicyagent.org/) 的工具实现。
 
 ### 避免过于宽泛的 `hosts` 配置 {#avoid-overly-broad-hosts-configurations}
 
@@ -577,9 +579,9 @@ Istio 可以[自动确定流量协议](/zh/docs/ops/configuration/traffic-manage
 
 为了透明地劫持所以流量， Istio 依赖 通过 `istio-init` `initContainer` 配置 `iptables` 规则。
 这增加了一个[要求](/zh/docs/ops/deployment/requirements/)，即需要提供给 Pod `NET_ADMIN`
-和 `NET_RAW` [capabilities](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/security-context/#set-capabilities-for-a-container)。
+和 `NET_RAW` [兼容性](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/security-context/#set-capabilities-for-a-container)。
 
-为了减少给予 Pods 的权限， Istio 提供了 [CNI plugin](/zh/docs/setup/additional-setup/cni/) 功能，
+为了减少给予 Pods 的权限， Istio 提供了 [CNI 插件](/zh/docs/setup/additional-setup/cni/)功能，
 即不再需要以上权限。
 
 ## 使用精简 docker 镜像 {#use-hardened-docker-images}
