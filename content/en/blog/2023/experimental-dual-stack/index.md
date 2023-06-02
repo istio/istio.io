@@ -43,7 +43,7 @@ announce experimental support for dual stack in Istio 1.17!
 ## A Quick Experiment using Dual Stack
 
 {{< tip >}}
-If you want to use KinD for your test, you can setup a dual stack cluster with the following command:
+If you want to use KinD for your test, you can set up a dual stack cluster with the following command:
 
 {{< text bash >}}
 $ kind create cluster --name istio-ds --config - <<EOF
