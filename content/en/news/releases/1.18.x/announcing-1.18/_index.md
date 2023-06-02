@@ -17,5 +17,28 @@ We are pleased to announce the release of Istio 1.18. This is the second Istio r
 Istio 1.18.0 is officially supported on Kubernetes versions `1.24` to `1.27`.
 {{< /tip >}}
 
+## What's new
+
+### Ambient Mesh
+Istio 1.18 marks the first release of ambient mesh, a new Istio data plane mode that’s designed for simplified operations, broader application compatibility, and reduced infrastructure cost. For more details see the [announcement blog](https://istio.io/latest/blog/2022/introducing-ambient-mesh/).
+
+### Gateway API Support Improvements
+Istio 1.18 improves Istio's gateway-API support, including support for extra v1beta1 resources and enhancements to automated deployment logic to no longer rely on pod injection.  Users of Gateway API on Istio should review this release's upgrade notes for important guidance on upgrading.
+
+### Proxy Concurrency Changes
+Previously, the proxy `concurrency` setting, which configures how many worker threads the proxy runs,
+was inconsistently configured between sidecars and different gateway installation mechanisms.  In Istio 1.18, concurrency configuration has been tweaked to be consistent across deployment types.  More details on this change can be found in the upgrade notes for this release.
+
+### Enhancements to the `istioctl` command
+
+Added a number of enhancements to the istioctl command including enhancements to the bug reporting process and various improvements to the istioctl ananlyze command.
+
+## Upgrading to 1.18
+
+We would like to hear from you regarding your experience upgrading to Istio 1.17. Please take a few minutes to respond to a [brief survey](https://forms.gle/99uiMML96AmsXY5d6) and let us know how we are doing and what we can do to improve.
+
+You can also join the conversation at [Discuss Istio](https://discuss.istio.io/), or join our [Slack workspace](https://slack.istio.io/).
+Would you like to contribute directly to Istio? Find and join one of our [Working Groups](https://github.com/istio/community/blob/master/WORKING-GROUPS.md) and help us improve.
+
 
 
