@@ -42,10 +42,21 @@ announce experimental support for dual stack in Istio 1.17!
 
 ## A Quick Experiment using Dual Stack
 
+**note:** If you want to use KinD for your test you can setup a dual stack cluster with the following:
+
+    {{< text bash >}}
+    kind create cluster --name istio-ds --config - <<EOF
+    kind: Cluster
+    apiVersion: kind.x-k8s.io/v1alpha4
+    networking:
+    ipFamily: dual
+    EOF
+    {{< /text >}}
+
 1. Enable dual stack experimental support on Istio 1.17.0+ with the following:
 
     {{< text bash >}}
-    $ istioctl install -f - <<EOF
+    $ istioctl install -y -f - <<EOF
     apiVersion: install.istio.io/v1alpha1
     kind: IstioOperator
     spec:
@@ -92,7 +103,7 @@ announce experimental support for dual stack in Istio 1.17!
 1. Create sleep deployment in the default namespace:
 
     {{< text bash >}}
-    $ kubectl apply -f {{< github_file >}}/master/samples/sleep/sleep.yaml
+    $ kubectl apply -f {{< github_file >}}/samples/sleep/sleep.yaml
     {{< /text >}}
 
 1. Verify the traffic:
