@@ -14,7 +14,7 @@ We are pleased to announce the release of Istio 1.18. This is the second Istio r
 {{< relnote >}}
 
 {{< tip >}}
-Istio 1.17.0 is officially supported on Kubernetes versions `1.24` to `1.27`.
+Istio 1.18.0 is officially supported on Kubernetes versions `1.24` to `1.27`.
 {{< /tip >}}
 
 
