@@ -45,7 +45,7 @@ announce experimental support for dual stack in Istio 1.17!
 **note:** If you want to use KinD for your test you can setup a dual stack cluster with the following:
 
     {{< text bash >}}
-    kind create cluster --name istio-ds --config - <<EOF
+    $ kind create cluster --name istio-ds --config - <<EOF
     kind: Cluster
     apiVersion: kind.x-k8s.io/v1alpha4
     networking:
