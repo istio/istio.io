@@ -6,7 +6,7 @@ attribution: Frank Budinsky (IBM)
 keywords: [istioctl, cli, external, remote, multicluster]
 ---
 
-当在{{< gloss >}}远程集群{{< /gloss >}}，
+当在 {{< gloss >}}remote cluster{{< /gloss >}}，
 [外部控制平面](/zh/docs/setup/install/external-controlplane/)或[多集群](/zh/docs/setup/install/multicluster/)
 Istio 部署中使用 `istioctl` CLI 时，默认情况下某些命令将不起作用。
 例如，`istioctl proxy-status` 需要访问 `istiod`
@@ -26,7 +26,7 @@ Istio 部署中使用 `istioctl` CLI 时，默认情况下某些命令将不起�
 而 `istioctl` 命令需要返回整个网格的状态，
 而不仅仅是返回其中一个实例所管理的子集信息。
 
-当 `istiod` 服务运行在集群（即，{{< gloss >}}主集群{{< /gloss >}}）本地的普通
+当 `istiod` 服务运行在集群（即，{{< gloss >}}primary cluster{{< /gloss >}}）本地的普通
 Istio 环境中，通过简单查找所有正在运行中 `istiod` Pod 的命令，
 依次调用每个 Pod，然后再聚合这些结果并返回给用户。
 
