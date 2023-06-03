@@ -15,7 +15,7 @@ test: no
 1. 如果您想在 Docker Desktop 下运行 Istio，则需要安装[受支持的 Kubernetes 版本](/zh/docs/releases/supported-releases#support-status-of-istio-releases)
     ({{< supported_kubernetes_versions >}})。
 
-1. 如果您想在 Docker Desktop 内置的 Kubernetes 下运行 Istio，您可能需要在 Docker 首选项的 Advanced 面板下增加 Docker 的内存限制。设置可用的内存资源为 8.0 `GB` 以及 4 核心 `CPUs`.
+1. 如果您想在 Docker Desktop 内置的 Kubernetes 下运行 Istio，您可能需要在 Docker Desktop 的 *Settings...* 中的 *Resources->Advanced* 面板下增加 Docker 的内存限制。将资源设置为至少 8.0 `GB` 的内存和 4 核心 `CPUs`.
 
     {{< image width="60%" link="./dockerprefs.png"  caption="Docker Preferences"  >}}
 
