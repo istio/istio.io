@@ -490,33 +490,100 @@ EOF
     The `path` claim has value `L2hlYWRlcnM=` which is the base64 encode of `/headers`.
 
 1. Send a request to path `/headers` without a token. This should be rejected with 403 because there is no JWT token:
+    {{< tabset category-name="opa-deploy" >}}
+
+    {{< tab name="Deploy OPA in the same pod" category-value="opa-same" >}}
 
     {{< text bash >}}
     $ kubectl exec ${SLEEP_POD} -c sleep  -- curl http://httpbin-with-opa:8000/headers -s -o /dev/null -w "%{http_code}\n"
     403
     {{< /text >}}
 
+    {{< /tab >}}
+
+    {{< tab name="Deploy OPA in a separate pod" category-value="opa-standalone" >}}
+
+    {{< text bash >}}
+    $ kubectl exec ${SLEEP_POD} -c sleep  -- curl http://httpbin:8000/headers -s -o /dev/null -w "%{http_code}\n"
+    403
+    {{< /text >}}
+
+    {{< /tab >}}
+
+    {{< /tabset >}}
+
 1. Send a request to path `/get` with a valid token. This should be rejected with 403 because the path `/get` is not matched with the token `/headers`:
+
+    {{< tabset category-name="opa-deploy" >}}
+
+    {{< tab name="Deploy OPA in the same pod" category-value="opa-same" >}}
 
     {{< text bash >}}
     $ kubectl exec ${SLEEP_POD} -c sleep  -- curl http://httpbin-with-opa:8000/get -H "Authorization: Bearer $TOKEN_PATH_HEADERS" -s -o /dev/null -w "%{http_code}\n"
     403
     {{< /text >}}
 
+    {{< /tab >}}
+
+    {{< tab name="Deploy OPA in a separate pod" category-value="opa-standalone" >}}
+
+    {{< text bash >}}
+    $ kubectl exec ${SLEEP_POD} -c sleep  -- curl http://httpbin:8000/get -H "Authorization: Bearer $TOKEN_PATH_HEADERS" -s -o /dev/null -w "%{http_code}\n"
+    403
+    {{< /text >}}
+
+    {{< /tab >}}
+
+    {{< /tabset >}}
+
 1. Send a request to path `/headers` with valid token. This should be allowed with 200 because the path is matched with the token:
+
+    {{< tabset category-name="opa-deploy" >}}
+
+    {{< tab name="Deploy OPA in the same pod" category-value="opa-same" >}}
 
     {{< text bash >}}
     $ kubectl exec ${SLEEP_POD} -c sleep  -- curl http://httpbin-with-opa:8000/headers -H "Authorization: Bearer $TOKEN_PATH_HEADERS" -s -o /dev/null -w "%{http_code}\n"
     200
     {{< /text >}}
 
+    {{< /tab >}}
+
+    {{< tab name="Deploy OPA in a separate pod" category-value="opa-standalone" >}}
+
+    {{< text bash >}}
+    $ kubectl exec ${SLEEP_POD} -c sleep  -- curl http://httpbin:8000/headers -H "Authorization: Bearer $TOKEN_PATH_HEADERS" -s -o /dev/null -w "%{http_code}\n"
+    200
+    {{< /text >}}
+
+    {{< /tab >}}
+
+    {{< /tabset >}}
+
 1. Send request to path `/ip` without token. This should be allowed with 200 because the path `/ip` is excluded from
    authorization:
+
+    {{< tabset category-name="opa-deploy" >}}
+
+    {{< tab name="Deploy OPA in the same pod" category-value="opa-same" >}}
 
     {{< text bash >}}
     $ kubectl exec ${SLEEP_POD} -c sleep  -- curl http://httpbin-with-opa:8000/ip -s -o /dev/null -w "%{http_code}\n"
     200
     {{< /text >}}
+
+    {{< /tab >}}
+
+    {{< tab name="Deploy OPA in a separate pod" category-value="opa-standalone" >}}
+
+    {{< text bash >}}
+    $ kubectl exec ${SLEEP_POD} -c sleep  -- curl http://httpbin:8000/ip -s -o /dev/null -w "%{http_code}\n"
+    200
+    {{< /text >}}
+
+    {{< /tab >}}
+
+    {{< /tabset >}}
 
 1. Check the proxy and OPA logs to confirm the result.
 
