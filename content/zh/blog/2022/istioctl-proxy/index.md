@@ -1,5 +1,5 @@
 ---
-title: 为远程集群配置 istioctl
+title: 为从集群配置 istioctl
 description: 使用代理服务器在具有外部控制平面的网格中支持 istioctl 命令。
 publishdate: 2022-03-25
 attribution: Frank Budinsky (IBM)
@@ -10,7 +10,7 @@ keywords: [istioctl, cli, external, remote, multicluster]
 [外部控制平面](/zh/docs/setup/install/external-controlplane/)或[多集群](/zh/docs/setup/install/multicluster/)
 Istio 部署中使用 `istioctl` CLI 时，默认情况下某些命令将不起作用。
 例如，`istioctl proxy-status` 需要访问 `istiod`
-服务来对其管理的代理状态和配置执行检索操作。所以，如果您尝试在远程集群上运行它，
+服务来对其管理的代理状态和配置执行检索操作。所以，如果您尝试在从集群上运行它，
 您将收到如下错误消息：
 
     {{< text bash >}}
@@ -35,7 +35,7 @@ Istio 环境中，通过简单查找所有正在运行中 `istiod` Pod 的命令
     caption="具有对 istiod Pod 本地访问权限的 CLI"
     >}}
 
-另一方面，当使用远程集群时，这个方式就变得不可行，因为 `istiod`
+另一方面，当使用从集群时，这个方式就变得不可行，因为 `istiod`
 实例在网格集群之外运行，并且对于网格用户来说是无法访问的。
 这些实例甚至可能不会使用 Kubernetes 集群上的 Pod 进行部署。
 
@@ -55,18 +55,18 @@ Istio 环境中，通过简单查找所有正在运行中 `istiod` Pod 的命令
 
 可以在[此处](https://github.com/istio-ecosystem/istioctl-proxy-sample)找到包含此类
 `istioctl` 代理服务器实现的 Istio 生态系统项目。要试用它，
-您需要两个集群，其中一个集群使用安装在另一个集群中的控制平面将其配置为远程集群。
+您需要两个集群，其中一个集群使用安装在另一个集群中的控制平面将其配置为从集群。
 
-## 使用远程集群拓扑安装 Istio {#install-istio-with-a-remote-cluster-topology}
+## 使用从集群拓扑安装 Istio {#install-istio-with-a-remote-cluster-topology}
 
-为了演示 `istioctl` 在远程集群上的工作情况，
+为了演示 `istioctl` 在从集群上的工作情况，
 我们将首先使用[外部控制平面安装说明](/zh/docs/setup/install/external-controlplane/)来安装一个具有在另一个外部集群中运行外部控制平面的独立外部网格。
 
 完成安装后，我们应该有两个环境变量，`CTX_REMOTE_CLUSTER` 和 `CTX_EXTERNAL_CLUSTER`，
 分别包含远程（网格）和外部（控制平面）集群的上下文名称。
 
 我们还应该在网格中运行 `helloworld` 和 `sleep`
-示例程序，比如在远程集群上运行它们：
+示例程序，比如在从集群上运行它们：
 
     {{< text bash >}}
     $ kubectl get pod -n sample --context="${CTX_REMOTE_CLUSTER}"
@@ -75,7 +75,7 @@ Istio 环境中，通过简单查找所有正在运行中 `istiod` Pod 的命令
     sleep-557747455f-v627d           2/2     Running   0          9s
     {{< /text >}}
 
-请注意，如果您尝试在远程集群中运行 `istioctl proxy-status` 命令，
+请注意，如果您尝试在从集群中运行 `istioctl proxy-status` 命令，
 您将看到前面描述的错误消息：
 
     {{< text bash >}}
@@ -170,7 +170,7 @@ Istio 环境中，通过简单查找所有正在运行中 `istiod` Pod 的命令
 
 在本文中，我们使用了一个[示例代理服务器](https://github.com/istio-ecosystem/istioctl-proxy-sample)来配置
 `istioctl` 并与[安装在外部的控制平面](/zh/docs/setup/install/external-controlplane/)一同工作。
-我们已经看到一些 `istioctl` CLI 不能在由外部控制平面管理的远程集群上开箱即用的原因。
+我们已经看到一些 `istioctl` CLI 不能在由外部控制平面管理的从集群上开箱即用的原因。
 `istioctl proxy-status` 等命令需要访问 istiod 服务实例来管理网格，
 当控制平面在网格集群外部运行时，这些实例是不可用的。为了解决这个问题，
 `istioctl` 被配置了与外部控制平面一起运行的代理服务器，用于访问 `istiod` 实例。
