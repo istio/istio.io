@@ -11,7 +11,11 @@ owner: istio/wg-user-experience-maintainers
 test: no
 ---
 
-Istio 提供了两个非常有价值的命令来帮助诊断流量管理配置相关的问题，[`proxy-status`](/zh/docs/reference/commands/istioctl/#istioctl-proxy-status) 和 [`proxy-config`](/zh/docs/reference/commands/istioctl/#istioctl-proxy-config) 命令。`proxy-status` 命令容许您获取网格的概况，并识别出导致问题的代理。`proxy-config` 可以被用于检查 Envoy 配置和诊断问题。
+Istio 提供了两个非常有价值的命令来帮助诊断流量管理配置相关的问题，
+[`proxy-status`](/zh/docs/reference/commands/istioctl/#istioctl-proxy-status)
+和 [`proxy-config`](/zh/docs/reference/commands/istioctl/#istioctl-proxy-config)
+命令。`proxy-status` 命令容许您获取网格的概况，并识别出导致问题的代理。
+`proxy-config` 可以被用于检查 Envoy 配置和诊断问题。
 
 如果您想尝试以下的命令，需要：
 
@@ -25,7 +29,8 @@ Istio 提供了两个非常有价值的命令来帮助诊断流量管理配置�
 
 ## 获取网格概况{#get-an-overview-of-your-mesh}
 
-`proxy-status` 命令容许您获取网格的概况。如果您怀疑某一个 sidecar 没有接收到配置或配置不同步时，`proxy-status` 将告诉您原因。
+`proxy-status` 命令容许您获取网格的概况。如果您怀疑某一个 Sidecar
+没有接收到配置或配置不同步时，`proxy-status` 将告诉您原因。
 
 {{< text bash >}}
 $ istioctl proxy-status
@@ -42,13 +47,18 @@ reviews-v3-7dbcdcbc56-t8wrx.default                    SYNCED     SYNCED     SYN
 
 如果列表中缺少代理，这意味着它目前没有连接到 Istiod 实例，因此不会接收任何配置。
 
-* `SYNCED` 意思是 Envoy 知晓了 {{< gloss >}}Istiod{{< /gloss >}} 已经将最新的配置发送给了它。
-* `NOT SENT` 意思是 Istiod 没有发送任何信息给 Envoy。这通常是因为 Istiod 没什么可发送的。
-* `STALE` 意思是 Istiod 已经发送了一个更新到 Envoy，但还没有收到应答。这通常意味着 Envoy 和 Istiod 之间存在网络问题，或者 Istio 自身的 bug。
+* `SYNCED` 意思是 Envoy 知晓了 {{< gloss >}}Istiod{{< /gloss >}}
+  已经将最新的配置发送给了它。
+* `NOT SENT` 意思是 Istiod 没有发送任何信息给 Envoy。这通常是因为
+  Istiod 没什么可发送的。
+* `STALE` 意思是 Istiod 已经发送了一个更新到 Envoy，但还没有收到应答。
+  这通常意味着 Envoy 和 Istiod 之间存在网络问题，或者 Istio 自身的 bug。
 
-## 检查 Envoy 和 Istiod 的差异{#retrieve-diffs-between-envoy-and-Istiod}
+## 检查 Envoy 和 Istiod 的差异 {#retrieve-diffs-between-envoy-and-Istiod}
 
-通过提供代理 ID，`proxy-status` 命令还可以用来检查 Envoy 已加载的配置和 Istiod 发送给它的配置有什么异同，这可以帮您准确定位哪些配置是不同步的，以及问题出在哪里。
+通过提供代理 ID，`proxy-status` 命令还可以用来检查 Envoy
+已加载的配置和 Istiod 发送给它的配置有什么异同，这可以帮您准确定位哪些配置是不同步的，
+以及问题出在哪里。
 
 {{< text bash json >}}
 $ istioctl proxy-status details-v1-6dcc6fbb9d-wsjz4.default
@@ -98,9 +108,11 @@ Routes Match (RDS last loaded at Tue, 04 Aug 2020 11:52:54 IST)
 
 从这儿可以看到，监听器和路由是匹配的，但集群不同步。
 
-## 深入 Envoy 配置{#deep-dive-into-envoy-configuration}
+## 深入 Envoy 配置 {#deep-dive-into-envoy-configuration}
 
-`proxy-config` 命令可以用来查看给定的 Envoy 是如何配置的。这样就可以通过 Istio 配置和自定义资源来查明任何您无法检测到的问题。下面的命令为给定 Pod 提供了集群、监听器或路由的基本概要（当需要时可以为监听器或路由改变集群）：
+`proxy-config` 命令可以用来查看给定的 Envoy 是如何配置的。
+这样就可以通过 Istio 配置和自定义资源来查明任何您无法检测到的问题。
+下面的命令为给定 Pod 提供了集群、监听器或路由的基本概要（当需要时可以为监听器或路由改变集群）：
 
 {{< text bash >}}
 $ istioctl proxy-config cluster -n istio-system istio-ingressgateway-7d6874b48f-qxhn5
@@ -130,7 +142,10 @@ xds-grpc                                                                   -    
 zipkin                                                                     -         -          -             STRICT_DNS
 {{< /text >}}
 
-为了调试 Envoy 您需要理解 Envoy 集群、监听器、路由、endpoints 以及它们是如何交互的。我们将使用带有 `-o json` 参数的 `proxy-config` 命令，根据标志过滤出并跟随特定的 Envoy，它将请求从 `productpage` pod 发送到 `reviews` pod 9080 端口。
+为了调试 Envoy 您需要理解 Envoy 集群、监听器、路由、endpoints
+以及它们是如何交互的。我们将使用带有 `-o json` 参数的 `proxy-config`
+命令，根据标志过滤出并跟随特定的 Envoy，它将请求从 `productpage` Pod
+发送到 `reviews` Pod 9080 端口。
 
 1. 如果您在一个 Pod 上查询监听器概要信息，您将注意到 Istio 生成了下面的监听器：
     * `0.0.0.0:15001` 监听器接收所有进出 Pod 的流量，然后转发请求给一个虚拟监听器。
@@ -175,7 +190,10 @@ zipkin                                                                     -    
     10.111.121.13 15443 ALL                                              Cluster: outbound|15443||istio-ingressgateway.istio-system.svc.cluster.local
     {{< /text >}}
 
-1. 从上面的信息可以看到，每一个 sidecar 有一个绑定到 `0.0.0.0:15001` 的监听器，来确定 IP 表将所有进出 Pod 的流量路由到哪里。监听器设置 `useOriginalDst` 为 true 意味着它将请求传递给最适合原始请求目的地的监听器。如果找不到匹配的虚拟监听器，它会将请求发送到直接连接到目的地的 `PassthroughCluster`。
+1. 从上面的信息可以看到，每一个 Sidecar 有一个绑定到 `0.0.0.0:15001`
+   的监听器，来确定 IP 表将所有进出 Pod 的流量路由到哪里。监听器设置
+   `useOriginalDst` 为 true 意味着它将请求传递给最适合原始请求目的地的监听器。
+   如果找不到匹配的虚拟监听器，它会将请求发送到直接连接到目的地的 `PassthroughCluster`。
 
      {{< text bash json >}}
     $ istioctl proxy-config listeners productpage-v1-6c886ff494-7vxhs --port 15001 -o json
@@ -231,7 +249,9 @@ zipkin                                                                     -    
     ]
     {{< /text >}}
 
-1. 我们的请求是到端口 `9080` 的出站 HTTP 请求，它将被传递给 `0.0.0.0:9080` 的虚拟监听器。这一监听器将检索在它配置的 RDS 里的路由配置。在这个例子中它将寻找 Istiod（通过 ADS）配置在 RDS 中的路由 `9080`。
+1. 我们的请求是到端口 `9080` 的出站 HTTP 请求，它将被传递给 `0.0.0.0:9080`
+   的虚拟监听器。这一监听器将检索在它配置的 RDS 里的路由配置。
+   在这个例子中它将寻找 Istiod（通过 ADS）配置在 RDS 中的路由 `9080`。
 
     {{< text bash json >}}
     $ istioctl proxy-config listeners productpage-v1-6c886ff494-7vxhs -o json --address 0.0.0.0 --port 9080
@@ -245,7 +265,11 @@ zipkin                                                                     -    
     ...
     {{< /text >}}
 
-1. 对每个服务，`9080` 路由配置只有一个虚拟主机。我们的请求会走到 reviews 服务，因此 Envoy 将选择一个虚拟主机把请求匹配到一个域。一旦匹配到，Envoy 会寻找请求匹配到的第一个路由。本例中我们没有设置任何高级路由规则，因此路由会匹配任何请求。这一路由告诉 Envoy 发送请求到 `outbound|9080||reviews.default.svc.cluster.local` 集群。
+1. 对每个服务，`9080` 路由配置只有一个虚拟主机。我们的请求会走到 reviews
+   服务，因此 Envoy 将选择一个虚拟主机把请求匹配到一个域。一旦匹配到，
+   Envoy 会寻找请求匹配到的第一个路由。本例中我们没有设置任何高级路由规则，
+   因此路由会匹配任何请求。这一路由告诉 Envoy 发送请求到
+   `outbound|9080||reviews.default.svc.cluster.local` 集群。
 
     {{< text bash json >}}
     $ istioctl proxy-config routes productpage-v1-6c886ff494-7vxhs --name 9080 -o json
@@ -284,7 +308,9 @@ zipkin                                                                     -    
     ...
     {{< /text >}}
 
-1. 此集群配置为从 Istiod（通过 ADS）检索关联的 endpoints。所以 Envoy 会使用 `serviceName` 字段作为主键，来检查 endpoint 列表并把请求代理到其中之一。
+1. 此集群配置为从 Istiod（通过 ADS）检索关联的 endpoints。
+   所以 Envoy 会使用 `serviceName` 字段作为主键，来检查
+   endpoint 列表并把请求代理到其中之一。
 
     {{< text bash json >}}
     $ istioctl proxy-config cluster productpage-v1-6c886ff494-7vxhs --fqdn reviews.default.svc.cluster.local -o json
@@ -324,9 +350,11 @@ zipkin                                                                     -    
     172.17.0.9:9080     HEALTHY     OK                outbound|9080||reviews.default.svc.cluster.local
     {{< /text >}}
 
-## 检查 bootstrap 配置{#inspecting-bootstrap-configuration}
+## 检查 bootstrap 配置 {#inspecting-bootstrap-configuration}
 
-到目前为止，我们已经查看了从 Istiod 检索到的配置（大部分），然而 Envoy 需要一些 bootstrap 配置，其中包括诸如在何处可以找到 Istiod 之类的信息。使用下面的命令查看：
+到目前为止，我们已经查看了从 Istiod 检索到的配置（大部分），
+然而 Envoy 需要一些 bootstrap 配置，其中包括诸如在何处可以找到
+Istiod 之类的信息。使用下面的命令查看：
 
 {{< text bash json >}}
 $ istioctl proxy-config bootstrap -n istio-system istio-ingressgateway-7d6874b48f-qxhn5
@@ -376,9 +404,11 @@ $ istioctl proxy-config bootstrap -n istio-system istio-ingressgateway-7d6874b48
 ...
 {{< /text >}}
 
-## 验证到 Istiod 的连通性{#verifying-connectivity-to-Istiod}
+## 验证到 Istiod 的连通性 {#verifying-connectivity-to-Istiod}
 
-验证与 Istiod 的连通性是一个有用的故障排除步骤。服务网格内的每个代理容器都应该能和 Istiod 通信。这可以通过几个简单的步骤来实现：
+验证与 Istiod 的连通性是一个有用的故障排除步骤。
+服务网格内的每个代理容器都应该能和 Istiod 通信。
+这可以通过几个简单的步骤来实现：
 
 1. 创建一个 `sleep` pod：
 
