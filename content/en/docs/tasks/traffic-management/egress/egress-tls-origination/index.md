@@ -235,6 +235,8 @@ Follow [these steps](/docs/tasks/traffic-management/egress/egress-gateway-tls-or
 
     The secret **must** be created in the same namespace as the client pod is deployed in, `default` in this case.
 
+    {{< boilerplate crl-tip >}}
+
 1. Create required `RBAC` to make sure the secret created in the above step is accessible to the client pod, which is `sleep` in this case.
 
     {{< text bash >}}
