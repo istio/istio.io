@@ -2,12 +2,12 @@
     publish = "public"
 
 [build.environment]
-    HUGO_VERSION = "0.111.3"
-    NODE_VERSION = "18.12.1"
+    HUGO_VERSION = "0.112.5"
+    NODE_VERSION = "18.16.0"
     BUILD_WITH_CONTAINER = "0"
-    GO_VERSION = "1.19.3"
+    GO_VERSION = "1.20.4"
     PYTHON_VERSION = "3.8"
-    RUBY_VERSION = "3.0.2"
+    RUBY_VERSION = "3.0.6"
 
 [[headers]]
   for = "/*"
