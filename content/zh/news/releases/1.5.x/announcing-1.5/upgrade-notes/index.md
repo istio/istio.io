@@ -1,7 +1,11 @@
 ---
-title: 更新公告
+title: Istio 1.5 更新公告
 description: 升级到 Istio 1.5 需注意的重要变更。
 weight: 20
+release: 1.5
+subtitle: Minor Release
+linktitle: 1.5 更新公告
+publishdate: 2020-03-05
 ---
 
 此页面描述了从 Istio 1.4.x 升级到 1.5.x 时需要注意的更改。在这里，我们详细介绍了有意不再向下兼容情况。还提到了保留向下兼容但引入了新行为的情况，熟悉 Istio 1.4 的使用和操作的人可能会感到惊讶。
@@ -64,6 +68,16 @@ Mixer，即 `istio-telemetry` 和 `istio-policy` deployment 背后的过程，�
 * 不支持针对 TCP 和 HTTP 的黑洞遥测。
 * 直方图与 [Mixer Telemetry](https://github.com/istio/istio/issues/20483) 显著不同，且无法更改。
 
+## 流量治理资源可见性变化{#traffic-management-resource-visibility-changes}
+
+在 Istio 1.5 中，主机的代理配置除了和 [`ServiceEntry`](/docs/reference/config/networking/service-entry/) 相关的之外，均由 [`VirtualService`](/docs/reference/config/networking/virtual-service) 的可见性决定。
+
+如果在以前的版本中，您依赖 [`Sidecar`](/docs/reference/config/networking/sidecar/) 资源将主机（内部或外部网格）的可见性限制为sidecar代理的目标集，现在还需要考虑所有 [`VirtualService`](/docs/reference/config/networking/virtual-service) 所示的主机。
+
+根据您在网格中使用 [`Sidecar`](/docs/reference/config/networking/sidecar/) 资源的情况，这可能需要您查看 [`VirtualService`](/docs/reference/config/networking/virtual-service)s 所在的命名空间， 以确保只有预期的工作负载才能看到它们。
+
+有关此更改的更多详细信息，请访问 [24251](https://github.com/istio/istio/issues/24251) 和 [20408](https://github.com/istio/istio/pull/20408).
+
 ## 认证策略{#authentication-policy}
 
 Istio 1.5 引入了 [`PeerAuthentication`](/zh/docs/reference/config/security/peer_authentication/) 和 [`RequestAuthentication`](/zh/docs/reference/config/security/request_authentication) （它们取代了 Authentication API 的 Alpha 版本）。有关新 API 的更多信息，请参见 [authentication policy](/zh/docs/tasks/security/authentication/authn-policy) 教程。
@@ -100,4 +114,4 @@ $ kubectl delete meshpolicies.authentication.istio.io --all
 
 ## Helm 升级{#helm-upgrade}
 
-如果您使用 `helm upgrade` 将群集更新到较新的 Istio 版本，则建议您使用 [`istioctl upgrade`](/zh/docs/setup/upgrade/istioctl-upgrade/) 或遵循 [helm template](/zh/docs/setup/upgrade/cni-helm-upgrade/) 的步骤。
+如果您使用 `helm upgrade` 将群集更新到较新的 Istio 版本，则建议您使用 [`istioctl upgrade`](https://archive.istio.io/v1.5/zh/docs/setup/upgrade/istioctl-upgrade/) 或遵循 [helm template](https://istio.io/v1.4/docs/setup/upgrade/cni-helm-upgrade/) 的步骤。
