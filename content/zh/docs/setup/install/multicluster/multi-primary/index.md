@@ -73,7 +73,7 @@ $ istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
 
 ## 开启端点发现 {#enable-endpoint-discovery}
 
-在 `cluster2` 中安装远程集群的 secret，该 secret 提供 `cluster1` 的 API 服务器的访问权限。
+在 `cluster2` 中安装从集群的 secret，该 secret 提供 `cluster1` 的 API 服务器的访问权限。
 
 {{< text bash >}}
 $ istioctl x create-remote-secret \
@@ -82,7 +82,7 @@ $ istioctl x create-remote-secret \
     kubectl apply -f - --context="${CTX_CLUSTER2}"
 {{< /text >}}
 
-在 `cluster1` 中安装远程集群的 secret，该 secret 提供 `cluster2` 的 API 服务器的访问权限。
+在 `cluster1` 中安装从集群的 secret，该 secret 提供 `cluster2` 的 API 服务器的访问权限。
 
 {{< text bash >}}
 $ istioctl x create-remote-secret \
