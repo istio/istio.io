@@ -53,7 +53,7 @@ _wait_for_deployment mesh-external my-nginx
 
 # Configure sleep pod
 snip_configure_the_client_sleep_pod_1
-snip_configure_the_client_sleep_pod_3
+snip_configure_the_client_sleep_pod_2
 
 # Configure mTLS for egress traffic from sidecar to external service
 snip_configure_mutual_tls_origination_for_egress_traffic_at_sidecar_1

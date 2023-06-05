@@ -522,15 +522,7 @@ You can extend your gateway's definition to support [mutual TLS](https://en.wiki
       --from-file=ca.crt=example_certs1/example.com.crt
     {{< /text >}}
 
-   Optionally the gateway credential may include a [certificate revocation list(CRL)](https://datatracker.ietf.org/doc/html/rfc5280) using the key `ca.crl`. So, the above example would be modified as:
-
-    {{< text bash >}}
-    $ kubectl create -n istio-system secret generic httpbin-credential  \
-      --from-file=tls.key=example_certs1/httpbin.example.com.key \
-      --from-file=tls.crt=example_certs1/httpbin.example.com.crt \
-      --from-file=ca.crt=example_certs1/example.com.crt
-      --from-file=ca.crl=/some/path/to/your-crl.pem
-    {{< /text >}}
+    {{< boilerplate crl-tip >}}
 
 1. Configure the ingress gateway:
 

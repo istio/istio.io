@@ -102,17 +102,17 @@ _verify_elided snip_configure_a_tls_ingress_gateway_for_multiple_hosts_9 "$snip_
 snip_configure_a_mutual_tls_ingress_gateway_1
 
 if [ "$GATEWAY_API" == "true" ]; then
-    snip_configure_a_mutual_tls_ingress_gateway_4
-else
     snip_configure_a_mutual_tls_ingress_gateway_3
+else
+    snip_configure_a_mutual_tls_ingress_gateway_2
 
     # wait for the change to propagate
     _wait_for_istio gateway default mygateway
 fi
 
-_verify_failure snip_configure_a_mutual_tls_ingress_gateway_5
+_verify_failure snip_configure_a_mutual_tls_ingress_gateway_4
 
-_verify_elided snip_configure_a_mutual_tls_ingress_gateway_6 "$snip_configure_a_mutual_tls_ingress_gateway_6_out"
+_verify_elided snip_configure_a_mutual_tls_ingress_gateway_5 "$snip_configure_a_mutual_tls_ingress_gateway_5_out"
 
 # @cleanup
 if [ "$GATEWAY_API" != "true" ]; then

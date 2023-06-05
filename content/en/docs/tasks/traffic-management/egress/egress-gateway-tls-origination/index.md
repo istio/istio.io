@@ -410,13 +410,7 @@ to hold the configuration of the NGINX server:
 
     In this example. a single generic Secret with keys `tls.key`, `tls.crt`, and `ca.crt` is used.
 
-    Optionally the gateway credential may include a [certificate revocation list(CRL)](https://datatracker.ietf.org/doc/html/rfc5280)
-    using the key `ca.crl`. So, the above example would be modified as:
-
-    {{< text bash >}}
-    $ kubectl create secret -n istio-system generic client-credential --from-file=tls.key=client.example.com.key \
-      --from-file=tls.crt=client.example.com.crt --from-file=ca.crt=example.com.crt --from-file=ca.crl=/some/path/to/your-crl.pem
-    {{< /text >}}
+    {{< boilerplate crl-tip >}}
 
 1.  Create an egress `Gateway` for `my-nginx.mesh-external.svc.cluster.local`, port 443, and destination rules and
     virtual services to direct the traffic through the egress gateway and from the egress gateway to the external

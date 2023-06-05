@@ -235,13 +235,7 @@ Follow [these steps](/docs/tasks/traffic-management/egress/egress-gateway-tls-or
 
     The secret **must** be created in the same namespace as the client pod is deployed in, `default` in this case.
 
-    Optionally the credential may include a [certificate revocation list(CRL)]( https://datatracker.ietf.org/doc/html/rfc5280)
-    using the key `ca.crl`. So, the above example would be modified as:
-
-    {{< text bash >}}
-    $ kubectl create secret generic client-credential --from-file=tls.key=client.example.com.key \
-      --from-file=tls.crt=client.example.com.crt --from-file=ca.crt=example.com.crt --from-file=ca.crl=/some/path/to/your-crl.pem
-    {{< /text >}}
+    {{< boilerplate crl-tip >}}
 
 1. Create required `RBAC` to make sure the secret created in the above step is accessible to the client pod, which is `sleep` in this case.
 

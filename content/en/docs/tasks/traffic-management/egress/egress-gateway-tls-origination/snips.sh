@@ -303,11 +303,6 @@ kubectl create secret -n istio-system generic client-credential --from-file=tls.
 }
 
 snip_configure_mutual_tls_origination_for_egress_traffic_2() {
-kubectl create secret -n istio-system generic client-credential --from-file=tls.key=client.example.com.key \
-  --from-file=tls.crt=client.example.com.crt --from-file=ca.crt=example.com.crt --from-file=ca.crl=/some/path/to/your-crl.pem
-}
-
-snip_configure_mutual_tls_origination_for_egress_traffic_3() {
 kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
@@ -346,7 +341,7 @@ spec:
 EOF
 }
 
-snip_configure_mutual_tls_origination_for_egress_traffic_4() {
+snip_configure_mutual_tls_origination_for_egress_traffic_3() {
 kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -383,7 +378,7 @@ spec:
 EOF
 }
 
-snip_configure_mutual_tls_origination_for_egress_traffic_5() {
+snip_configure_mutual_tls_origination_for_egress_traffic_4() {
 kubectl apply -n istio-system -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
@@ -404,11 +399,11 @@ spec:
 EOF
 }
 
-snip_configure_mutual_tls_origination_for_egress_traffic_6() {
+snip_configure_mutual_tls_origination_for_egress_traffic_5() {
 kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -sS http://my-nginx.mesh-external.svc.cluster.local
 }
 
-! read -r -d '' snip_configure_mutual_tls_origination_for_egress_traffic_6_out <<\ENDSNIP
+! read -r -d '' snip_configure_mutual_tls_origination_for_egress_traffic_5_out <<\ENDSNIP
 <!DOCTYPE html>
 <html>
 <head>
@@ -416,7 +411,7 @@ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}
 ...
 ENDSNIP
 
-snip_configure_mutual_tls_origination_for_egress_traffic_7() {
+snip_configure_mutual_tls_origination_for_egress_traffic_6() {
 kubectl logs -l istio=egressgateway -n istio-system | grep 'my-nginx.mesh-external.svc.cluster.local' | grep HTTP
 }
 

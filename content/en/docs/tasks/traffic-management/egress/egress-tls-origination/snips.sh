@@ -129,11 +129,6 @@ kubectl create secret generic client-credential --from-file=tls.key=client.examp
 }
 
 snip_configure_the_client_sleep_pod_2() {
-kubectl create secret generic client-credential --from-file=tls.key=client.example.com.key \
-  --from-file=tls.crt=client.example.com.crt --from-file=ca.crt=example.com.crt --from-file=ca.crl=/some/path/to/your-crl.pem
-}
-
-snip_configure_the_client_sleep_pod_3() {
 kubectl create role client-credential-role --resource=secret --verb=list
 kubectl create rolebinding client-credential-role-binding --role=client-credential-role --serviceaccount=default:sleep
 }

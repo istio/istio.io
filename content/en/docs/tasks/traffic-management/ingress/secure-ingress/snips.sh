@@ -421,17 +421,6 @@ kubectl create -n istio-system secret generic httpbin-credential \
 }
 
 snip_configure_a_mutual_tls_ingress_gateway_2() {
-kubectl create -n istio-system secret generic httpbin-credential  \
-  --from-file=tls.key=example_certs1/httpbin.example.com.key \
-  --from-file=tls.crt=example_certs1/httpbin.example.com.crt \
-  --from-file=ca.crt=example_certs1/example.com.crt
-}
-
-! read -r -d '' snip_configure_a_mutual_tls_ingress_gateway_2_out <<\ENDSNIP
-  --from-file=ca.crl=/some/path/to/your-crl.pem
-ENDSNIP
-
-snip_configure_a_mutual_tls_ingress_gateway_3() {
 cat <<EOF | kubectl apply -f -
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
@@ -453,7 +442,7 @@ spec:
 EOF
 }
 
-snip_configure_a_mutual_tls_ingress_gateway_4() {
+snip_configure_a_mutual_tls_ingress_gateway_3() {
 cat <<EOF | kubectl apply -f -
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: Gateway
@@ -482,12 +471,12 @@ spec:
 EOF
 }
 
-snip_configure_a_mutual_tls_ingress_gateway_5() {
+snip_configure_a_mutual_tls_ingress_gateway_4() {
 curl -v -HHost:httpbin.example.com --resolve "httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST" \
 --cacert example_certs1/example.com.crt "https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418"
 }
 
-! read -r -d '' snip_configure_a_mutual_tls_ingress_gateway_5_out <<\ENDSNIP
+! read -r -d '' snip_configure_a_mutual_tls_ingress_gateway_4_out <<\ENDSNIP
 * TLSv1.3 (OUT), TLS handshake, Client hello (1):
 * TLSv1.3 (IN), TLS handshake, Server hello (2):
 * TLSv1.3 (IN), TLS handshake, Encrypted Extensions (8):
@@ -502,13 +491,13 @@ curl -v -HHost:httpbin.example.com --resolve "httpbin.example.com:$SECURE_INGRES
 * OpenSSL SSL_read: error:1409445C:SSL routines:ssl3_read_bytes:tlsv13 alert certificate required, errno 0
 ENDSNIP
 
-snip_configure_a_mutual_tls_ingress_gateway_6() {
+snip_configure_a_mutual_tls_ingress_gateway_5() {
 curl -v -HHost:httpbin.example.com --resolve "httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST" \
   --cacert example_certs1/example.com.crt --cert example_certs1/client.example.com.crt --key example_certs1/client.example.com.key \
   "https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418"
 }
 
-! read -r -d '' snip_configure_a_mutual_tls_ingress_gateway_6_out <<\ENDSNIP
+! read -r -d '' snip_configure_a_mutual_tls_ingress_gateway_5_out <<\ENDSNIP
 ...
     -=[ teapot ]=-
 
