@@ -272,6 +272,15 @@ Follow [these steps](/docs/tasks/traffic-management/egress/egress-gateway-tls-or
     EOF
     {{< /text >}}
 
+1.  Verify that the credential is supplied to the sidecar and active.
+
+    {{< text bash >}}
+    $ istioctl proxy-config secret deploy/sleep | grep client-credential
+    RESOURCE NAME                             TYPE           STATUS     VALID CERT     SERIAL NUMBER                              NOT AFTER                NOT BEFORE
+    kubernetes://client-credential            Cert Chain     ACTIVE     true           1                                          2024-06-04T12:15:20Z     2023-06-05T12:15:20Z
+    kubernetes://client-credential-cacert     Cert Chain     ACTIVE     true           10792363984292733914                       2024-06-04T12:15:19Z     2023-06-05T12:15:19Z
+    {{< /text >}}
+
 1.  Send an HTTP request to `http://my-nginx.mesh-external.svc.cluster.local`:
 
     {{< text bash >}}

@@ -596,7 +596,15 @@ EOF
 
 {{< /tabset >}}
 
-3) Attempt to send an HTTPS request using the prior approach and see how it fails:
+1.  Verify that the credential is supplied to the ingress gateway and active.
+
+    {{< text bash >}}
+    $ istioctl -n istio-system proxy-config secret deploy/istio-ingressgateway | grep httpbin-credential
+    kubernetes://httpbin-credential            Cert Chain     ACTIVE     true           0                                            2024-06-04T16:02:20Z     2023-06-05T16:02:20Z
+    kubernetes://httpbin-credential-cacert     CA             ACTIVE     true           31de7b680caf676d61fc47a55dcaf21d9ff02f38     2024-06-04T16:02:19Z     2023-06-05T16:02:19Z
+    {{< /text >}}
+
+1. Attempt to send an HTTPS request using the prior approach and see how it fails:
 
     {{< text bash >}}
     $ curl -v -HHost:httpbin.example.com --resolve "httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST" \
@@ -615,7 +623,7 @@ EOF
     * OpenSSL SSL_read: error:1409445C:SSL routines:ssl3_read_bytes:tlsv13 alert certificate required, errno 0
     {{< /text >}}
 
-1) Pass a client certificate and private key to `curl` and resend the request.
+1. Pass a client certificate and private key to `curl` and resend the request.
    Pass your client's certificate with the `--cert` flag and your private key
    with the `--key` flag to `curl`:
 
