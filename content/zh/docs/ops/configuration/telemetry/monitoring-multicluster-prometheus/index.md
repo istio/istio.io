@@ -99,7 +99,7 @@ scrape_configs:
 
 如果您希望在其中一个集群中运行 Prometheus，则需要与网格中的另一个主集群的 Prometheus 实例建立连接。
 
-这实际上只是外部 federation 配置的一种变异。在这种情况下，运行在集群上的 Prometheus 的配置不同于远程集群Prometheus 的配置。
+这实际上只是外部 federation 配置的一种变异。在这种情况下，运行在集群上的 Prometheus 的配置不同于从集群 Prometheus 的配置。
 
 {{< image width="80%"
     link="./in-mesh-production-prometheus.svg"
@@ -107,7 +107,7 @@ scrape_configs:
     caption="监控 Istio 多集群的内部 Prometheus"
     >}}
 
-配置您的 Prometheus 使得可以同时访问 **主** 和 **从** Prometheus 实例：
+配置您的 Prometheus 使得可以同时访问 Prometheus **主从** 实例：
 
 首先执行下面的命令：
 

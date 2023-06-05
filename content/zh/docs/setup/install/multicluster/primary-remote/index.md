@@ -55,9 +55,9 @@ $ istioctl install --set values.pilot.env.EXTERNAL_ISTIOD=true --context="${CTX_
 {{< /text >}}
 
 需要注意的是，当 `values.pilot.env.EXTERNAL_ISTIOD` 被设置为 `true` 时，
-安装在 `cluster1` 上的控制平面也可以作为其他远程集群的外部控制平面。
+安装在 `cluster1` 上的控制平面也可以作为其他从集群的外部控制平面。
 当这个功能被启用时，`istiod` 将试图获得领导权锁，并因此管理将附加到它的并且带有
-[适当注解的](#set-the-control-plane-cluster-for-cluster2)远程集群
+[适当注解的](#set-the-control-plane-cluster-for-cluster2)从集群
 （本例中为 `cluster2`）。
 
 ## 在 `cluster1` 安装东西向网关 {#install-the-east-west-gateway-in-cluster1}
@@ -148,7 +148,7 @@ $ istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
 
 ## 附加 `cluster2` 作为 `cluster1` 的从集群 {#attach-cluster2-as-a-remote-cluster-of-cluster1}
 
-为了将远程集群连接到它的控制平面，我们让 `cluster1`
+为了将从集群连接到它的控制平面，我们让 `cluster1`
 中的控制平面访问 `cluster2` 中的 API 服务器。
 这将执行以下操作：
 
