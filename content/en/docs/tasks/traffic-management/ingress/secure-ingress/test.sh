@@ -110,11 +110,9 @@ else
     _wait_for_istio gateway default mygateway
 fi
 
-_verify_contains snip_configure_a_mutual_tls_ingress_gateway_4 "kubernetes://httpbin-credential            Cert Chain     ACTIVE"
+_verify_failure snip_configure_a_mutual_tls_ingress_gateway_4
 
-_verify_failure snip_configure_a_mutual_tls_ingress_gateway_5
-
-_verify_elided snip_configure_a_mutual_tls_ingress_gateway_6 "$snip_configure_a_mutual_tls_ingress_gateway_6_out"
+_verify_elided snip_configure_a_mutual_tls_ingress_gateway_5 "$snip_configure_a_mutual_tls_ingress_gateway_5_out"
 
 # @cleanup
 if [ "$GATEWAY_API" != "true" ]; then
