@@ -62,8 +62,7 @@ only if the specified label is `istio.io/gateway-name`. Other labels are ignored
 - **Fixed** the `dns_upstream_failures_total` metric was mistakenly deleted in the previous release.
   ([Issue #44151](https://github.com/istio/istio/issues/44151))
 
-- **Fixed** an issue where ServiceEntry and Service had undefined or empty workload selectors. If the workload selector is undefined or empty,
-ServiceEntry and Service should not select any `WorkloadEntry` or endpoint.
+- **Fixed** an issue where ServiceEntry and Service had undefined or empty workload selectors. If the workload selector is undefined or empty, ServiceEntry and Service should not select any `WorkloadEntry` or endpoint.
 
 - **Fixed** An issue where a Service Entry configured with partial wildcard hosts generates a warning during validation as the config can some times generate invalid server name match.  ([Issue #44195](https://github.com/istio/istio/issues/44195))
 
