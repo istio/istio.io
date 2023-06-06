@@ -17,24 +17,8 @@ your mesh. For example, dashboards that support Istio include:
 * [Prometheus](/docs/tasks/observability/metrics/querying-metrics/)
 
 By default, Istio defines and generates a set of standard metrics (e.g.
-`requests_total`), but you can also customize them and create new metrics.
-
-## Custom statistics configuration
-
-Istio uses the Envoy proxy to generate metrics and provides its configuration in
-the `EnvoyFilter` at
-[manifests/charts/istio-control/istio-discovery/templates/telemetryv2_{{< istio_version >}}.yaml]({{<github_blob>}}/manifests/charts/istio-control/istio-discovery/templates/telemetryv2_{{< istio_version >}}.yaml).
-
-Configuring custom statistics involves two sections of the
-`EnvoyFilter`: `definitions` and `metrics`. The `definitions` section
-supports creating new metrics by name, the expected value expression, and the
-metric type (`counter`, `gauge`, and `histogram`). The `metrics` section
-provides values for the metric dimensions as expressions, and allows you to
-remove or override the existing metric dimensions. You can modify the standard
-metric definitions using `tags_to_remove` or by re-defining a dimension. These
-configuration settings are also exposed as istioctl installation options, which
-allow you to customize different metrics for gateways and sidecars as well as
-for the inbound or outbound direction.
+`requests_total`), but you can also customize them and create new metrics
+using the [Telemetry API](/docs/tasks/observability/telemetry/).
 
 ## Before you begin
 
@@ -47,97 +31,31 @@ the example application throughout this task. For installation instructions, see
 
 ## Enable custom metrics
 
-1. The default telemetry v2 `EnvoyFilter` configuration is equivalent to the following installation options:
+To customize telemetry v2 metrics, for example, to add `request_host`
+and `destination_port` dimensions to the `requests_total` metric emitted by both
+gateways and sidecars in the inbound and outbound direction, use the following:
 
-    {{< text yaml >}}
-    apiVersion: install.istio.io/v1alpha1
-    kind: IstioOperator
-    spec:
-      values:
-        telemetry:
-          v2:
-            prometheus:
-              configOverride:
-                inboundSidecar:
-                  disable_host_header_fallback: false
-                outboundSidecar:
-                  disable_host_header_fallback: false
-                gateway:
-                  disable_host_header_fallback: true
-    {{< /text >}}
-
-    To customize telemetry v2 metrics, for example, to add `request_host`
-    and `destination_port` dimensions to the `requests_total` metric emitted by both
-    gateways and sidecars in the inbound and outbound direction, change the installation
-    options as follows:
-
-    {{< tip >}}
-    You only need to specify the configuration for the settings that you want to customize.
-    For example, to only customize the sidecar inbound `requests_count` metric, you can omit
-    the `outboundSidecar` and `gateway` sections in the configuration. Unspecified
-    settings will retain the default configuration, equivalent to the explicit settings shown above.
-    {{< /tip >}}
-
-    {{< text bash >}}
-    $ cat <<EOF > ./custom_metrics.yaml
-    apiVersion: install.istio.io/v1alpha1
-    kind: IstioOperator
-    spec:
-      values:
-        telemetry:
-          v2:
-            prometheus:
-              configOverride:
-                inboundSidecar:
-                  metrics:
-                    - name: requests_total
-                      dimensions:
-                        destination_port: string(destination.port)
-                        request_host: request.host
-                outboundSidecar:
-                  metrics:
-                    - name: requests_total
-                      dimensions:
-                        destination_port: string(destination.port)
-                        request_host: request.host
-                gateway:
-                  metrics:
-                    - name: requests_total
-                      dimensions:
-                        destination_port: string(destination.port)
-                        request_host: request.host
-    EOF
-    # istioctl install -f custom_metrics.yaml
-    {{< /text >}}
-
-1. Apply the following annotation to all injected pods with the list of the
-   dimensions to extract into a Prometheus
-   [time series](https://en.wikipedia.org/wiki/Time_series) using the following command:
-
-    {{< tip >}}
-    This step is needed only  if your dimensions are not already in
-    [DefaultStatTags list]({{<github_blob>}}/pkg/bootstrap/config.go)
-    {{< /tip >}}
-
-    {{< text yaml >}}
-    apiVersion: apps/v1
-    kind: Deployment
-    spec:
-      template: # pod template
-        metadata:
-          annotations:
-            sidecar.istio.io/extraStatTags: destination_port,request_host
-    {{< /text >}}
-
-    To enable extra tags mesh wide, you can add `extraStatTags` to your mesh config:
-
-    {{< text yaml >}}
-    meshConfig:
-      defaultConfig:
-        extraStatTags:
-         - destination_port
-         - request_host
-    {{< /text >}}
+{{< text bash >}}
+$ cat <<EOF > ./custom_metrics.yaml
+apiVersion: telemetry.istio.io/v1alpha1
+kind: Telemetry
+metadata:
+  name: namespace-metrics
+spec:
+  metrics:
+  - providers:
+    - name: prometheus
+    overrides:
+    - match:
+        metric: REQUEST_COUNT
+      tagOverrides:
+        destination_port:
+          value: "string(destination.port)"
+        request_host:
+          value: "request.host"
+EOF
+$ kubectl apply -f custom_metrics.yaml
+{{< /text >}}
 
 ## Verify the results
 

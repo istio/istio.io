@@ -20,75 +20,27 @@
 #          docs/tasks/observability/metrics/customize-metrics/index.md
 ####################################################################################################
 
-! read -r -d '' snip_enable_custom_metrics_1 <<\ENDSNIP
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  values:
-    telemetry:
-      v2:
-        prometheus:
-          configOverride:
-            inboundSidecar:
-              disable_host_header_fallback: false
-            outboundSidecar:
-              disable_host_header_fallback: false
-            gateway:
-              disable_host_header_fallback: true
-ENDSNIP
-
-snip_enable_custom_metrics_2() {
+snip_enable_custom_metrics_1() {
 cat <<EOF > ./custom_metrics.yaml
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
+apiVersion: telemetry.istio.io/v1alpha1
+kind: Telemetry
+metadata:
+  name: namespace-metrics
 spec:
-  values:
-    telemetry:
-      v2:
-        prometheus:
-          configOverride:
-            inboundSidecar:
-              metrics:
-                - name: requests_total
-                  dimensions:
-                    destination_port: string(destination.port)
-                    request_host: request.host
-            outboundSidecar:
-              metrics:
-                - name: requests_total
-                  dimensions:
-                    destination_port: string(destination.port)
-                    request_host: request.host
-            gateway:
-              metrics:
-                - name: requests_total
-                  dimensions:
-                    destination_port: string(destination.port)
-                    request_host: request.host
+  metrics:
+  - providers:
+    - name: prometheus
+    overrides:
+    - match:
+        metric: REQUEST_COUNT
+      tagOverrides:
+        destination_port:
+          value: "string(destination.port)"
+        request_host:
+          value: "request.host"
 EOF
+kubectl apply -f custom_metrics.yaml
 }
-
-! read -r -d '' snip_enable_custom_metrics_2_out <<\ENDSNIP
-# istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true -f custom_metrics.yaml
-ENDSNIP
-
-! read -r -d '' snip_enable_custom_metrics_3 <<\ENDSNIP
-apiVersion: apps/v1
-kind: Deployment
-spec:
-  template: # pod template
-    metadata:
-      annotations:
-        sidecar.istio.io/extraStatTags: destination_port,request_host
-ENDSNIP
-
-! read -r -d '' snip_enable_custom_metrics_4 <<\ENDSNIP
-meshConfig:
-  defaultConfig:
-    extraStatTags:
-     - destination_port
-     - request_host
-ENDSNIP
 
 snip_verify_the_results_1() {
 curl "http://$GATEWAY_URL/productpage"
