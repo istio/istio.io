@@ -139,7 +139,7 @@ This change only impacts users explicitly enabling `PILOT_USE_ENDPOINT_SLICE` on
 - **Fixed** handling of remote SPIFFE trust bundles containing multiple certs.
   ([Issue #44831](https://github.com/istio/istio/issues/44831))
 
-- **Removed** support for the `certificates` field in `MeshConfig`. This was deprecated in 1.15, and does not work on Kubernetes 1.22+
+- **Removed** support for the `certificates` field in `MeshConfig`. This was deprecated in 1.15, and does not work on Kubernetes 1.22+.
   ([Issue #36231](https://github.com/istio/istio/issues/36231))
 
 ## Telemetry
