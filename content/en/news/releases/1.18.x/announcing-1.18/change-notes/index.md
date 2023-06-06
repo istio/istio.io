@@ -180,7 +180,7 @@ when advanced customizations are not used, improving performance.
 
 - **Updated** `Kiali` addon to version `v1.67.0`.
 
-- **Added** env variables to support modifying grpc keepalive values
+- **Added** env variables to support modifying grpc keepalive values.
   ([Issue #43256](https://github.com/istio/istio/issues/43256))
 
 - **Added** support for scraping metrics in dual stack clusters.
