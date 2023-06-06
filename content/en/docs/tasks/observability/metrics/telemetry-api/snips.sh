@@ -21,20 +21,6 @@
 ####################################################################################################
 
 ! read -r -d '' snip_before_you_begin_1 <<\ENDSNIP
-apiVersion: telemetry.istio.io/v1alpha1
-kind: Telemetry
-metadata:
-  name: mesh-default
-  namespace: istio-system
-spec:
-  metrics:
-  - providers:
-    - name: prometheus
-    overrides:
-    - disabled: true
-ENDSNIP
-
-! read -r -d '' snip_before_you_begin_2 <<\ENDSNIP
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:

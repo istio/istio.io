@@ -21,21 +21,7 @@ Telemetry API can not work together with `EnvoyFilter`. For more details please 
 * Starting with Istio version `1.18`, Prometheus `EnvoyFilter` will not be
   installed by default, and instead `meshConfig.defaultProviders` is used to
   enable it. Telemetry API should be used to further customize the telemetry
-  pipeline, e.g. to disable it:
-
-    {{< text yaml >}}
-    apiVersion: telemetry.istio.io/v1alpha1
-    kind: Telemetry
-    metadata:
-      name: mesh-default
-      namespace: istio-system
-    spec:
-      metrics:
-      - providers:
-        - name: prometheus
-        overrides:
-        - disabled: true
-    {{< /text >}}
+  pipeline.
 
 * For versions of Istio before `1.18`, you should install with the following `IstioOperator` configuration:
 
