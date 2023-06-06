@@ -180,7 +180,6 @@ kubectl delete configmap nginx-configmap -n mesh-external
 kubectl delete service my-nginx -n mesh-external
 kubectl delete deployment my-nginx -n mesh-external
 kubectl delete namespace mesh-external
-kubectl delete serviceentry originate-mtls-for-nginx
 kubectl delete destinationrule originate-mtls-for-nginx
 }
 
