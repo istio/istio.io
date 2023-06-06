@@ -158,10 +158,19 @@ EOF
 }
 
 snip_configure_mutual_tls_origination_for_egress_traffic_at_sidecar_2() {
-kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -sS http://my-nginx.mesh-external.svc.cluster.local:443
+istioctl proxy-config secret deploy/sleep | grep client-credential
 }
 
 ! read -r -d '' snip_configure_mutual_tls_origination_for_egress_traffic_at_sidecar_2_out <<\ENDSNIP
+kubernetes://client-credential            Cert Chain     ACTIVE     true           1                                          2024-06-04T12:15:20Z     2023-06-05T12:15:20Z
+kubernetes://client-credential-cacert     Cert Chain     ACTIVE     true           10792363984292733914                       2024-06-04T12:15:19Z     2023-06-05T12:15:19Z
+ENDSNIP
+
+snip_configure_mutual_tls_origination_for_egress_traffic_at_sidecar_3() {
+kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -sS http://my-nginx.mesh-external.svc.cluster.local:443
+}
+
+! read -r -d '' snip_configure_mutual_tls_origination_for_egress_traffic_at_sidecar_3_out <<\ENDSNIP
 <!DOCTYPE html>
 <html>
 <head>
@@ -169,7 +178,7 @@ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}
 ...
 ENDSNIP
 
-snip_configure_mutual_tls_origination_for_egress_traffic_at_sidecar_3() {
+snip_configure_mutual_tls_origination_for_egress_traffic_at_sidecar_4() {
 kubectl logs -l app=sleep -c istio-proxy | grep 'my-nginx.mesh-external.svc.cluster.local'
 }
 

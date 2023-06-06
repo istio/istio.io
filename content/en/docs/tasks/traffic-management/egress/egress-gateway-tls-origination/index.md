@@ -517,6 +517,14 @@ to hold the configuration of the NGINX server:
     EOF
     {{< /text >}}
 
+1.  Verify that the credential is supplied to the egress gateway and active.
+
+    {{< text bash >}}
+    $ istioctl -n istio-system proxy-config secret deploy/istio-egressgateway | grep client-credential
+    kubernetes://client-credential            Cert Chain     ACTIVE     true           1                                          2024-06-04T12:46:28Z     2023-06-05T12:46:28Z
+    kubernetes://client-credential-cacert     Cert Chain     ACTIVE     true           16491643791048004260                       2024-06-04T12:46:28Z     2023-06-05T12:46:28Z
+    {{< /text >}}
+
 1.  Send an HTTP request to `http://my-nginx.mesh-external.svc.cluster.local`:
 
     {{< text bash >}}
