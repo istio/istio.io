@@ -142,6 +142,7 @@ This change only impacts users explicitly enabling `PILOT_USE_ENDPOINT_SLICE` on
 
 - **Removed** support for the `certificates` field in `MeshConfig`. This was deprecated in 1.15, and does not work on Kubernetes 1.22+
   ([Issue #36231](https://github.com/istio/istio/issues/36231))
+
 ## Telemetry
 
 - **Added** support to control trace id length on Zipkin tracing provider.
