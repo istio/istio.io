@@ -172,7 +172,7 @@ This change only impacts users explicitly enabling `PILOT_USE_ENDPOINT_SLICE` on
 
 - **Improved** `istioctl operator remove` command to run without the confirmation in the dry-run mode.
 
-- **Improved** the `downloadIstioCtl.sh` script to not change to the home directory at the end.  ([Issue #43771](https://github.com/istio/istio/issues/43771))
+- **Improved** the `downloadIstioCtl.sh` script to not change to the home directory at the end. ([Issue #43771](https://github.com/istio/istio/issues/43771))
 
 - **Improved** the default telemetry installation to configure `meshConfig.defaultProviders` instead of custom `EnvoyFilter`s
 when advanced customizations are not used, improving performance.
