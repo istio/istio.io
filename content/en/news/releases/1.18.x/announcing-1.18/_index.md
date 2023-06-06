@@ -6,6 +6,7 @@ description: Istio 1.18 Release Announcement.
 publishdate: 2023-06-05
 release: 1.18.00
 aliases:
+    - /news/announcing-1.18
     - /news/announcing-1.18.0
 ---
 
