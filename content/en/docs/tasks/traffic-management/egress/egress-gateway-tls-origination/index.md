@@ -521,7 +521,6 @@ to hold the configuration of the NGINX server:
 
     {{< text bash >}}
     $ istioctl -n istio-system proxy-config secret deploy/istio-egressgateway | grep client-credential
-    RESOURCE NAME                             TYPE           STATUS     VALID CERT     SERIAL NUMBER                              NOT AFTER                NOT BEFORE
     kubernetes://client-credential            Cert Chain     ACTIVE     true           1                                          2024-06-04T12:46:28Z     2023-06-05T12:46:28Z
     kubernetes://client-credential-cacert     Cert Chain     ACTIVE     true           16491643791048004260                       2024-06-04T12:46:28Z     2023-06-05T12:46:28Z
     {{< /text >}}

@@ -162,7 +162,6 @@ istioctl proxy-config secret deploy/sleep | grep client-credential
 }
 
 ! read -r -d '' snip_configure_mutual_tls_origination_for_egress_traffic_at_sidecar_2_out <<\ENDSNIP
-RESOURCE NAME                             TYPE           STATUS     VALID CERT     SERIAL NUMBER                              NOT AFTER                NOT BEFORE
 kubernetes://client-credential            Cert Chain     ACTIVE     true           1                                          2024-06-04T12:15:20Z     2023-06-05T12:15:20Z
 kubernetes://client-credential-cacert     Cert Chain     ACTIVE     true           10792363984292733914                       2024-06-04T12:15:19Z     2023-06-05T12:15:19Z
 ENDSNIP
