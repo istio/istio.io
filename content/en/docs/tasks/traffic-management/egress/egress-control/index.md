@@ -365,7 +365,13 @@ Set the value of `values.global.proxy.includeIPRanges` according to your cluster
 
 To see which CIDR is used in the cluster use `ibmcloud ks cluster get -c <CLUSTER-NAME>` and look for the `Service Subnet`. On very old clusters, this may not work and so using `kubectl get svc -o wide -A` would be a way to narrow down the CIDR from the original option of `"172.30.0.0/16,172.21.0.0/16,10.10.10.0/24"`.
 
-Use `--set values.global.proxy.includeIPRanges="172.30.0.0/16\,172.21.0.0/16\,10.10.10.0/24"`
+For example on newer clusters:
+{{< text bash >}}
+$ ibmcloud ks cluster get --cluster my-cluster | grep "Service Subnet"
+Service Subnet:                 172.21.0.0/16
+{{< /text >}}
+
+Use `--set values.global.proxy.includeIPRanges="172.21.0.0/16"`
 
 #### Google Kubernetes Engine (GKE)
 
