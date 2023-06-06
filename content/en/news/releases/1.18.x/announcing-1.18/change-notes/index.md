@@ -225,7 +225,7 @@ These previously installed unsupported testing images, which led to accidental u
 
 ## istioctl
 
-- **Improved** the `istioctl pc secret` output to display the certificate serial number in HEX.  ([Issue #43765](https://github.com/istio/istio/issues/43765))
+- **Improved** the `istioctl pc secret` output to display the certificate serial number in HEX. ([Issue #43765](https://github.com/istio/istio/issues/43765))
 
 - **Improved** the `istioctl analyze` to output mismatched proxy image messages as IST0158 on namespace level instead of IST0105 on pod level, which is more succinct.
 
