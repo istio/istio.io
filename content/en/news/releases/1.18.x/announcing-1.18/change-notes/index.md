@@ -64,7 +64,7 @@ only if the specified label is `istio.io/gateway-name`. Other labels are ignored
 
 - **Fixed** an issue where ServiceEntry and Service had undefined or empty workload selectors. If the workload selector is undefined or empty, ServiceEntry and Service should not select any `WorkloadEntry` or endpoint.
 
-- **Fixed** An issue where a Service Entry configured with partial wildcard hosts generates a warning during validation as the config can some times generate invalid server name match.  ([Issue #44195](https://github.com/istio/istio/issues/44195))
+- **Fixed** An issue where a Service Entry configured with partial wildcard hosts generates a warning during validation as the config can some times generate invalid server name match. ([Issue #44195](https://github.com/istio/istio/issues/44195))
 
 - **Fixed** an issue where `Istio Gateway` (Envoy) would crash due to a duplicate `istio_authn` network filter in the Envoy filter chain.
   ([Issue #44385](https://github.com/istio/istio/issues/44385))
