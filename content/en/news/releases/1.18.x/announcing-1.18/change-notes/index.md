@@ -153,7 +153,7 @@ This change only impacts users explicitly enabling `PILOT_USE_ENDPOINT_SLICE` on
 - **Added** metric expiry support, when env flags `METRIC_ROTATION_INTERVAL` and
 `METRIC_GRACEFUL_DELETION_INTERVAL` are enabled.
 
-- **Fixed** an issue where you could not disable tracing in `ProxyConfig`
+- **Fixed** an issue where you could not disable tracing in `ProxyConfig`.
   ([Issue #31809](https://github.com/istio/istio/issues/31809))
 
 - **Fixed**  an issue where `ALL_METRICS` does not disable metrics as expected.
