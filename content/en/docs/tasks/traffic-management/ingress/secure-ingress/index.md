@@ -596,7 +596,7 @@ EOF
 
 {{< /tabset >}}
 
-1. Attempt to send an HTTPS request using the prior approach and see how it fails:
+3) Attempt to send an HTTPS request using the prior approach and see how it fails:
 
     {{< text bash >}}
     $ curl -v -HHost:httpbin.example.com --resolve "httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST" \
@@ -615,7 +615,7 @@ EOF
     * OpenSSL SSL_read: error:1409445C:SSL routines:ssl3_read_bytes:tlsv13 alert certificate required, errno 0
     {{< /text >}}
 
-1. Pass a client certificate and private key to `curl` and resend the request.
+1) Pass a client certificate and private key to `curl` and resend the request.
    Pass your client's certificate with the `--cert` flag and your private key
    with the `--key` flag to `curl`:
 
