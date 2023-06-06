@@ -18,7 +18,7 @@ your mesh. For example, dashboards that support Istio include:
 
 By default, Istio defines and generates a set of standard metrics (e.g.
 `requests_total`), but you can also customize them and create new metrics
-using [Telemetry API](/docs/tasks/observability/telemetry/).
+using the [Telemetry API](/docs/tasks/observability/telemetry/).
 
 ## Before you begin
 
