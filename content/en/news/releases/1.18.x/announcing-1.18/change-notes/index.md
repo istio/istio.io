@@ -26,7 +26,7 @@ only if the specified label is `istio.io/gateway-name`. Other labels are ignored
 - **Added** provision to provide overridden/explicit value for `failoverPriority` label. This provided value is used while assigning priority for endpoints instead of the client's value.
   ([Issue #39111](https://github.com/istio/istio/issues/39111))
 
-- **Added** prefix matching on query parameter.  ([Issue #43710](https://github.com/istio/istio/issues/43710))
+- **Added** prefix matching on query parameter. ([Issue #43710](https://github.com/istio/istio/issues/43710))
 
 - **Added** health checks for those VMs that are not using auto-registration.
   ([Issue #44712](https://github.com/istio/istio/issues/44712))
