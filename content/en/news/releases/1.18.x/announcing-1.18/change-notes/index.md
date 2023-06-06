@@ -92,7 +92,7 @@ only if the specified label is `istio.io/gateway-name`. Other labels are ignored
 - **Fixed** an issue where updating Service ExternalName does not take effect.
   ([Issue #43440](https://github.com/istio/istio/issues/43440))
 
-- **Fixed** an issue causing VMs using auto-registration to ignore labels other than those defined in a WorkloadGroup.
+- **Fixed** an issue causing VMs using auto-registration to ignore labels other than those defined in a `WorkloadGroup`.
   ([Issue #32210](https://github.com/istio/istio/issues/32210))
 
 - **Upgraded** the gateway-api integration to read `v1beta1` resources for `ReferenceGrant`, `Gateway`, and `GatewayClass`. Users of the gateway-api must be on `v0.6.0+` before upgrading Istio. `istioctl x precheck` can detect this issue before upgrading.
