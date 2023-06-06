@@ -49,7 +49,7 @@ only if the specified label is `istio.io/gateway-name`. Other labels are ignored
 - **Fixed** an issue that when there are different Binds specified in the Gateways with the same port and TCP protocol, listeners are not generated correctly.
   ([Issue #43775](https://github.com/istio/istio/issues/43775))
 
-- **Fixed** an issue with service entry deletion not deleting the corresponding endpoints in some cases. Fixes [#43853](https://github.com/istio/istio/issues/43853)
+- **Fixed** an issue with service entry deletion not deleting the corresponding endpoints in some cases.
   ([Issue #43853](https://github.com/istio/istio/issues/43853))
 
 - **Fixed** an issue where auto allocated service entry IPs change on host reuse.
