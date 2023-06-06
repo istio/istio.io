@@ -136,6 +136,23 @@ kubectl create rolebinding client-credential-role-binding --role=client-credenti
 snip_configure_mutual_tls_origination_for_egress_traffic_at_sidecar_1() {
 kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: originate-mtls-for-nginx
+spec:
+  hosts:
+  - my-nginx.mesh-external.svc.cluster.local
+  ports:
+  - number: 80
+    name: http-port
+    protocol: HTTP
+    targetPort: 443
+  - number: 443
+    name: https-port
+    protocol: HTTPS
+  resolution: DNS
+---
+apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
   name: originate-mtls-for-nginx
@@ -149,7 +166,7 @@ spec:
       simple: ROUND_ROBIN
     portLevelSettings:
     - port:
-        number: 443
+        number: 80
       tls:
         mode: MUTUAL
         credentialName: client-credential # this must match the secret created earlier to hold client certs, and works only when DR has a workloadSelector
@@ -167,7 +184,7 @@ kubernetes://client-credential-cacert     Cert Chain     ACTIVE     true        
 ENDSNIP
 
 snip_configure_mutual_tls_origination_for_egress_traffic_at_sidecar_3() {
-kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -sS http://my-nginx.mesh-external.svc.cluster.local:443
+kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -sS http://my-nginx.mesh-external.svc.cluster.local
 }
 
 ! read -r -d '' snip_configure_mutual_tls_origination_for_egress_traffic_at_sidecar_3_out <<\ENDSNIP
@@ -185,6 +202,8 @@ kubectl logs -l app=sleep -c istio-proxy | grep 'my-nginx.mesh-external.svc.clus
 snip_cleanup_the_mutual_tls_origination_configuration_1() {
 kubectl delete secret nginx-server-certs nginx-ca-certs -n mesh-external
 kubectl delete secret client-credential
+kubectl delete rolebinding client-credential-role-binding
+kubectl delete role client-credential-role
 kubectl delete configmap nginx-configmap -n mesh-external
 kubectl delete service my-nginx -n mesh-external
 kubectl delete deployment my-nginx -n mesh-external

@@ -246,10 +246,27 @@ Follow [these steps](/docs/tasks/traffic-management/egress/egress-gateway-tls-or
 
 ### Configure mutual TLS origination for egress traffic at sidecar
 
-1.  Add a `DestinationRule` to perform mutual TLS origination
+1.  Add a `ServiceEntry` to redirect HTTP requests to port 443 and add a `DestinationRule` to perform mutual TLS origination:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: ServiceEntry
+    metadata:
+      name: originate-mtls-for-nginx
+    spec:
+      hosts:
+      - my-nginx.mesh-external.svc.cluster.local
+      ports:
+      - number: 80
+        name: http-port
+        protocol: HTTP
+        targetPort: 443
+      - number: 443
+        name: https-port
+        protocol: HTTPS
+      resolution: DNS
+    ---
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
     metadata:
@@ -264,13 +281,16 @@ Follow [these steps](/docs/tasks/traffic-management/egress/egress-gateway-tls-or
           simple: ROUND_ROBIN
         portLevelSettings:
         - port:
-            number: 443
+            number: 80
           tls:
             mode: MUTUAL
             credentialName: client-credential # this must match the secret created earlier to hold client certs, and works only when DR has a workloadSelector
             sni: my-nginx.mesh-external.svc.cluster.local # this is optional
     EOF
     {{< /text >}}
+
+    The above `DestinationRule` will perform mTLS origination for HTTP requests on port 80 and the `ServiceEntry`
+    will then redirect the requests on port 80 to target port 443.
 
 1.  Verify that the credential is supplied to the sidecar and active.
 
@@ -283,7 +303,7 @@ Follow [these steps](/docs/tasks/traffic-management/egress/egress-gateway-tls-or
 1.  Send an HTTP request to `http://my-nginx.mesh-external.svc.cluster.local`:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -sS http://my-nginx.mesh-external.svc.cluster.local:443
+    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -sS http://my-nginx.mesh-external.svc.cluster.local
     <!DOCTYPE html>
     <html>
     <head>
@@ -310,6 +330,8 @@ Follow [these steps](/docs/tasks/traffic-management/egress/egress-gateway-tls-or
     {{< text bash >}}
     $ kubectl delete secret nginx-server-certs nginx-ca-certs -n mesh-external
     $ kubectl delete secret client-credential
+    $ kubectl delete rolebinding client-credential-role-binding
+    $ kubectl delete role client-credential-role
     $ kubectl delete configmap nginx-configmap -n mesh-external
     $ kubectl delete service my-nginx -n mesh-external
     $ kubectl delete deployment my-nginx -n mesh-external
