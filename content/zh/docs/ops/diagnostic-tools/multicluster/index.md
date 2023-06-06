@@ -69,7 +69,7 @@ $ istioctl --context $CTX_CLUSTER1 proxy-config endpoint sleep-dd98b5f48-djwdw.s
 10.0.0.11:5000                   HEALTHY     OK                outbound|5000||helloworld.sample.svc.cluster.local
 {{< /text >}}
 
-仅显示一个 `endpoints`，表示控制平面无法从远程集群读取 `endpoints`。
+仅显示一个 `endpoints`，表示控制平面无法从从集群读取 `endpoints`。
 验证远程 `secrets` 是否配置正确。
 
 {{< text bash >}}
@@ -90,7 +90,7 @@ $ istioctl --context $CTX_CLUSTER2 proxy-config endpoint sleep-dd98b5f48-djwdw.s
 10.0.1.11:5000                   HEALTHY     OK                outbound|5000||helloworld.sample.svc.cluster.local
 {{< /text >}}
 
-仅显示一个 `endpoints`，表示控制平面无法从远程集群读取 `endpoints`。
+仅显示一个 `endpoints`，表示控制平面无法从从集群读取 `endpoints`。
 验证远程 `secrets` 是否配置正确。
 
 {{< text bash >}}
@@ -98,17 +98,19 @@ $ kubectl get secrets --context=$CTX_CLUSTER1 -n istio-system -l "istio/multiClu
 {{< /text >}}
 
 * 如果缺失 `secrets`，则创建一个。
-* 如果存在 `secrets`，且 `endpoints` 是位于 **Primary** 集群中的 Pod，则：
+* 如果存在 `secrets`，且 `endpoints` 是位于 **主** 集群中的 Pod，则：
     * 查看配置，确保使用集群名作为远程 `kubeconfig` 的数据键（data key）。
     * 如果 `secrets` 看起来没问题，检查 `istiod` 的日志，以确定是连接还是权限问题导致无法连接远程 Kubernetes API。该日志可能包括 `Failed to add remote cluster from secret` 信息和对应的错误原因。
-* 如果存在 `secrets`，且 `endpoints` 是位于 **Remote** 集群中的 Pod，则：
-    * 代理正在从远程集群 istiod 读取配置。当一个远程集群有一个集群内的 istiod 时，它只作用于 sidecar 注入和 CA。您可以通过在 `istio-system` 命名空间中查找名为 `istiod-remote` 的服务来确认此问题。如果缺失，请使用 `values.global.remotePilotAddress` 重新设置。
+* 如果存在 `secrets`，且 `endpoints` 是位于 **从** 集群中的 Pod，则：
+    * 代理正在从从集群 istiod 读取配置。当一个从集群有一个集群内的 istiod 时，它只作用于 Sidecar 注入和 CA。
+      您可以通过在 `istio-system` 命名空间中查找名为 `istiod-remote` 的服务来确认此问题。
+      如果缺失，请使用 `values.global.remotePilotAddress` 重新设置。
 
 {{< /tab >}}
 
 {{< tab name="Multi-Network" category-value="multi-primary" >}}
 
-Primary 集群和 Remote 集群的步骤仍然适用于多网络，尽管多网络有其他情况：
+主集群和从集群的步骤仍然适用于多网络，尽管多网络有其他情况：
 
 {{< text bash >}}
 $ istioctl --context $CTX_CLUSTER1 proxy-config endpoint sleep-dd98b5f48-djwdw.sample | grep helloworld
@@ -116,14 +118,14 @@ $ istioctl --context $CTX_CLUSTER1 proxy-config endpoint sleep-dd98b5f48-djwdw.s
 10.0.6.13:5000                   HEALTHY     OK                outbound|5000||helloworld.sample.svc.cluster.local
 {{< /text >}}
 
-多网络中模型中，我们期望其中一个端点 IP 与远程集群的东西向网关（east-west gateway）公网 IP 匹配。看到多个 Pod IP 说明存在以下两种情况：
+多网络中模型中，我们期望其中一个端点 IP 与从集群的东西向网关（east-west gateway）公网 IP 匹配。看到多个 Pod IP 说明存在以下两种情况：
 
 * 无法确定远程网络的网关地址。
 * 无法确定客户端 Pod 或服务器 Pod 的网络。
 
 **无法确定远程网络的网关地址**：
 
-在无法访问的远程集群中，检查服务是否有外部 IP：
+在无法访问的从集群中，检查服务是否有外部 IP：
 
 {{< text bash >}}
 $ kubectl -n istio-system get service -l "istio=eastwestgateway"

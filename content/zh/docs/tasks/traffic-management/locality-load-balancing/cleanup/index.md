@@ -7,7 +7,8 @@ keywords: [locality,load balancing]
 test: yes
 owner: istio/wg-networking-maintainers
 ---
-现在您已经完成了地域负载均衡的任务，让我们清理。
+
+现在您已经完成了地域负载均衡的任务，让我们执行清理操作。
 
 ## 删除生成的文件 {#remove-generated-files}
 
