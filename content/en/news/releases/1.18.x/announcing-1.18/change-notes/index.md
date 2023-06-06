@@ -165,8 +165,6 @@ This change only impacts users explicitly enabling `PILOT_USE_ENDPOINT_SLICE` on
 - **Fixed** an issue where grpc stats are absent.
   ([Issue #43908](https://github.com/istio/istio/issues/43908)),([Issue #44144](https://github.com/istio/istio/issues/44144))
 
-## Extensibility
-
 ## Installation
 
 - **Improved** `istioctl operator remove` command to run without the confirmation in the dry-run mode.
@@ -216,9 +214,6 @@ to a file, but are passed via `stdin`.
 This won't affect the behavior of `istioctl install`.
   ([Issue #29394](https://github.com/istio/istio/issues/29394))
 
-- **Removed** eBPF support is temporarily disabled pending [CNCF establishing guidance around dual-licensed eBPF bytecode](https://github.com/cncf/toc/pull/1000#issuecomment-1564289871)
-  ([Issue #45162](https://github.com/istio/istio/issues/45162))
-
 - **Removed** `kustomization.yaml` and `pre-generated` installation manifests (`gen-istio.yaml`, etc) from published releases.
 These previously installed unsupported testing images, which led to accidental usage by users and tools such as Argo CD.
 
@@ -228,9 +223,7 @@ These previously installed unsupported testing images, which led to accidental u
 
 - **Improved** the `istioctl analyze` to output mismatched proxy image messages as IST0158 on namespace level instead of IST0105 on pod level, which is more succinct.
 
-- **Added** `istioctl analyze` will display a error when encountering the following two situations:
-- For any namespace, if there are multiple Telemetry CRs without selector,
-- For any namespace, if there are multiple telemetry CRs with selector that select the same workload.
+- **Added** `istioctl analyze` will display a error when encountering two additional erroneous Telemetry scenarios.
   ([Issue #43705](https://github.com/istio/istio/issues/43705))
 
 - **Added** `--output-dir` flag to specify the output directory for the `bug-report` command's generated archive file.
@@ -245,7 +238,7 @@ These previously installed unsupported testing images, which led to accidental u
 - **Added** istiod metrics to `bug-report`, and a few more debug points like `telemetryz`.
   ([Issue #44062](https://github.com/istio/istio/issues/44062))
 
-- **Added** a "VHOST NAME" column to the output of `istioctl pc route`
+- **Added** a "VHOST NAME" column to the output of `istioctl pc route`.
   ([Issue #44413](https://github.com/istio/istio/issues/44413))
 
 - **Added** local flags `--ui-port` for different `istioctl dashboard` commands to allow users to specify the component UI port to use for the dashboard.
@@ -290,5 +283,3 @@ or be detected if it can be run in Kubernetes versions 1.18-1.21.
   ([Issue #42964](https://github.com/istio/istio/issues/42964))
 
 - **Fixed** `istioctl experimental  wait` has undecipherable message when `PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING` is not enabled.
-
-## Documentation changes
