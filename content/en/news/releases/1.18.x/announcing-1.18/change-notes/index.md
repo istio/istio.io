@@ -18,7 +18,7 @@ These notices describe functionality that will be removed in a future release ac
 
 - **Improved** [Gateway API Automated Deployment](/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment) management logic. See Upgrade Notes for more information.
 
-- **Updated** the VirtualService validation to fail on empty prefix header matcher.  ([Issue #44424](https://github.com/istio/istio/issues/44424))
+- **Updated** the VirtualService validation to fail on empty prefix header matcher. ([Issue #44424](https://github.com/istio/istio/issues/44424))
 
 - **Updated** `ProxyConfig` resources with workload selector will be applied to Kubernetes `Gateway` pods
 only if the specified label is `istio.io/gateway-name`. Other labels are ignored.
