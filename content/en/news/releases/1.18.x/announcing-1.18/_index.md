@@ -26,7 +26,7 @@ Istio 1.18 marks the first release of ambient mesh, a new Istio data plane mode 
 
 ### Gateway API Support Improvements
 
-Istio 1.18 improves Istio's gateway-API support, including support for extra v1beta1 resources and enhancements to automated deployment logic to no longer rely on pod injection.  Users of Gateway API on Istio should review this release's upgrade notes for important guidance on upgrading.
+Istio 1.18 improves support for the Kubernetes Gateway API, including support for extra v1beta1 resources and enhancements to automated deployment logic to no longer rely on pod injection.  Users of Gateway API on Istio should review this release's upgrade notes for important guidance on upgrading.
 
 ### Proxy Concurrency Changes
 
