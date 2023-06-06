@@ -52,7 +52,7 @@ only if the specified label is `istio.io/gateway-name`. Other labels are ignored
 - **Fixed** an issue with service entry deletion not deleting the corresponding endpoints in some cases. Fixes [#43853](https://github.com/istio/istio/issues/43853)
   ([Issue #43853](https://github.com/istio/istio/issues/43853))
 
-- **Fixed** an issue where auto allocated service entry IPs change on host reuse
+- **Fixed** an issue where auto allocated service entry IPs change on host reuse.
   ([Issue #43858](https://github.com/istio/istio/issues/43858))
 
 - **Fixed** `WorkloadEntry` resources never being cleaned up if multiple
