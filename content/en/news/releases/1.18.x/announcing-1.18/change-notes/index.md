@@ -59,7 +59,7 @@ only if the specified label is `istio.io/gateway-name`. Other labels are ignored
 `WorkloadEntries` were auto-registered with the same IP and network.
   ([Issue #43950](https://github.com/istio/istio/issues/43950))
 
-- **Fixed** The `dns_upstream_failures_total` metric was mistakenly deleted in the previous release.
+- **Fixed** the `dns_upstream_failures_total` metric was mistakenly deleted in the previous release.
   ([Issue #44151](https://github.com/istio/istio/issues/44151))
 
 - **Fixed** an issue where ServiceEntry and Service had undefined or empty workload selectors. If the workload selector is undefined or empty,
