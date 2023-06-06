@@ -254,7 +254,7 @@ These previously installed unsupported testing images, which led to accidental u
 - **Fixed** Server Side Apply is enabled by default for Kubernetes cluster versions above 1.22
 or be detected if it can be run in Kubernetes versions 1.18-1.21.
 
-- **Fixed** `istioctl install --set <boolvar>=<bool>` and `istioctl manifests generate --set <boolvar>=<bool>` improperly converting a boolean into a string.  ([Issue #43355](https://github.com/istio/istio/issues/43355))
+- **Fixed** `istioctl install --set <boolvar>=<bool>` and `istioctl manifests generate --set <boolvar>=<bool>` improperly converting a boolean into a string. ([Issue #43355](https://github.com/istio/istio/issues/43355))
 
 - **Fixed** `istioctl experimental describe` not showing all weighted routes when the VirtualService is defined to split traffic across multiple services.
   ([Issue #43368](https://github.com/istio/istio/issues/43368))
