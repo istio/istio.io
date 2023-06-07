@@ -119,7 +119,7 @@ This change only impacts users explicitly enabling `PILOT_USE_ENDPOINT_SLICE` on
 - **Added** support for pushing additional federated trust domains from `caCertificates` to the peer SAN validator.
   ([Issue #41666](https://github.com/istio/istio/issues/41666))
 
-- **Added** support for using P384 curves when using ECDSA
+- **Added** support for using P384 curves when using ECDSA ([PR #44459](https://github.com/istio/istio/pull/44459))
 
 - **Added** `ecdh_curves` support for non `ISTIO_MUTUAL` traffic through MeshConfig API.
   ([Issue #41645](https://github.com/istio/istio/issues/41645))
@@ -156,7 +156,7 @@ This change only impacts users explicitly enabling `PILOT_USE_ENDPOINT_SLICE` on
 - **Fixed** an issue where you could not disable tracing in `ProxyConfig`.
   ([Issue #31809](https://github.com/istio/istio/issues/31809))
 
-- **Fixed**  an issue where `ALL_METRICS` does not disable metrics as expected.
+- **Fixed**  an issue where `ALL_METRICS` does not disable metrics as expected. ([PR #43179](https://github.com/istio/istio/pull/43179))
 
 - **Fixed** a bug that would cause unexpected behavior when applying access logging configuration based on the direction of traffic. With this fix, access logging configuration for `CLIENT` or `SERVER` will not affect each other.
 
@@ -167,16 +167,16 @@ This change only impacts users explicitly enabling `PILOT_USE_ENDPOINT_SLICE` on
 
 ## Installation
 
-- **Improved** `istioctl operator remove` command to run without the confirmation in the dry-run mode.
+- **Improved** `istioctl operator remove` command to run without the confirmation in the dry-run mode. ([PR #43120](https://github.com/istio/istio/pull/43120))
 
 - **Improved** the `downloadIstioCtl.sh` script to not change to the home directory at the end. ([Issue #43771](https://github.com/istio/istio/issues/43771))
 
 - **Improved** the default telemetry installation to configure `meshConfig.defaultProviders` instead of custom `EnvoyFilter`s
 when advanced customizations are not used, improving performance.
 
-- **Updated** the proxies `concurrency` configuration to always be detected based on CPU limits, unless explicitly configured. See upgrade notes for more info.
+- **Updated** the proxies `concurrency` configuration to always be detected based on CPU limits, unless explicitly configured. See upgrade notes for more info. ([PR #36884](https://github.com/istio/istio/pull/36884))
 
-- **Updated** `Kiali` addon to version `v1.67.0`.
+- **Updated** `Kiali` addon to version `v1.67.0`. ([PR #44498](https://github.com/istio/istio/pull/44498))
 
 - **Added** env variables to support modifying grpc keepalive values.
   ([Issue #43256](https://github.com/istio/istio/issues/43256))
@@ -205,7 +205,7 @@ to open files in `/tmp`. Rules passed to iptables-restore are no longer written
 to a file, but are passed via `stdin`.
   ([Issue #42485](https://github.com/istio/istio/issues/42485))
 
-- **Fixed** an issue where webhook configuration was being modified in dry-run mode when installing Istio with istioctl.
+- **Fixed** an issue where webhook configuration was being modified in dry-run mode when installing Istio with istioctl. ([PR #44345](https://github.com/istio/istio/pull/44345))
 
 - **Removed** injecting label `istio.io/rev` to gateways to avoid creating pods indefinitely when `istio.io/rev=<tag>`.
   ([Issue #33237](https://github.com/istio/istio/issues/33237))
@@ -282,4 +282,4 @@ or be detected if it can be run in Kubernetes versions 1.18-1.21.
 - **Fixed** `istioctl verify-install` fails when using multiple `iops`.
   ([Issue #42964](https://github.com/istio/istio/issues/42964))
 
-- **Fixed** `istioctl experimental  wait` has undecipherable message when `PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING` is not enabled.
+- **Fixed** `istioctl experimental  wait` has undecipherable message when `PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING` is not enabled. ([PR #43023](https://github.com/istio/istio/pull/43023))
