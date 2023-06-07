@@ -36,7 +36,7 @@ const (
 )
 
 // Logging scope for the script output.
-var scriptLog = log.RegisterScope("script", "output of test scripts", 0)
+var scriptLog = log.RegisterScope("script", "output of test scripts")
 
 var _ Step = Script{}
 

@@ -26,7 +26,7 @@ import (
 	"os"
 	"testing"
 
-	"istio.io/istio/pkg/test/istioio"
+	"istio.io/istio.io/pkg/test/istioio"
 	"istio.io/istio/pkg/test/framework"
 	"istio.io/istio/pkg/test/framework/components/istio"
 )
