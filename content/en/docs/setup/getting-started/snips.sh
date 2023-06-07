@@ -26,7 +26,7 @@ curl -L https://istio.io/downloadIstio | sh -
 }
 
 snip_download_istio_2() {
-curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.18.0 TARGET_ARCH=x86_64 sh -
+curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.19.0 TARGET_ARCH=x86_64 sh -
 }
 
 snip_download_istio_4() {

@@ -39,7 +39,7 @@ sudo systemctl restart mysql
 }
 
 snip_running_mysql_on_the_vm_3() {
-curl -LO https://raw.githubusercontent.com/istio/istio/release-1.18/samples/bookinfo/src/mysql/mysqldb-init.sql
+curl -LO https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/src/mysql/mysqldb-init.sql
 mysql -u root -ppassword < mysqldb-init.sql
 }
 
