@@ -35,7 +35,7 @@ only if the specified label is `istio.io/gateway-name`. Other labels are ignored
   ([Issue #42749](https://github.com/istio/istio/issues/42749))
 
 - **Fixed** fixed bug of Istio cannot be deployed on IPv6-first DS clusters for Dual Stack support in Istio.
- ([Optimized Design]( https://docs.google.com/document/d/15LP2XHpQ71ODkjCVItGacPgzcn19fsVhyE7ruMGXDyU/))([Original Design]( https://docs.google.com/document/d/1oT6pmRhOw7AtsldU0-HbfA0zA26j9LYiBD_eepeErsQ/)) ([Issue #40394](https://github.com/istio/istio/issues/40394)),([Issue #41462](https://github.com/istio/istio/issues/41462))
+ ([Optimized Design]( https://docs.google.com/document/d/15LP2XHpQ71ODkjCVItGacPgzcn19fsVhyE7ruMGXDyU/))([Original Design]( https://docs.google.com/document/d/1oT6pmRhOw7AtsldU0-HbfA0zA26j9LYiBD_eepeErsQ/)) ([Issue #40394](https://github.com/istio/istio/issues/40394))([Issue #41462](https://github.com/istio/istio/issues/41462))
 
 - **Fixed** an issue where `EnvoyFilter` for `Cluster.ConnectTimeout` was affecting unrelated `Clusters`.
   ([Issue #43435](https://github.com/istio/istio/issues/43435))
