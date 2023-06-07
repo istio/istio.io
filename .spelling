@@ -1113,8 +1113,6 @@ wildcarded
 wildcards
 workgroup
 workload
-WorkloadEntry
-WorkloadGroup
 workstream
 www.google.com
 x-envoy-upstream-rq-timeout-ms
