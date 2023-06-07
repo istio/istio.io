@@ -24,9 +24,9 @@ import (
 	"strings"
 	"time"
 
+	"istio.io/istio/pkg/log"
 	"istio.io/istio/pkg/test/framework"
 	"istio.io/istio/pkg/test/scopes"
-	"istio.io/pkg/log"
 )
 
 const (

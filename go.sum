@@ -1295,8 +1295,6 @@ istio.io/client-go v1.18.0-rc.0.0.20230607074103-2c9a1bf5428c h1:4uFhKbR8Du90Zur
 istio.io/client-go v1.18.0-rc.0.0.20230607074103-2c9a1bf5428c/go.mod h1:IxC0aLTTQUu7TakBtCepv1H1JcbqyVGLeQFVS5jQlw4=
 istio.io/istio v0.0.0-20230607024011-9204fe53f4ff h1:+GhXb85CiAsgHyKPBN4mGEbKEZhriFNFXQ8P9nZd1B4=
 istio.io/istio v0.0.0-20230607024011-9204fe53f4ff/go.mod h1:NX4yfexiBTf4o1h1zXJfu7BbLmpu40TFrJhqv/N8ZM8=
-istio.io/pkg v0.0.0-20230524020242-1015535057be h1:H+ww/6ysv++W5na8wIVNfoE01shRez0rXZXzLGoMIvg=
-istio.io/pkg v0.0.0-20230524020242-1015535057be/go.mod h1:ZcwaaLCBsaAszynqi6s8Bs6VL3yeTtuXDon9QuzSD5E=
 k8s.io/api v0.18.2/go.mod h1:SJCWI7OLzhZSvbY7U8zwNl9UA4o1fizoug34OV/2r78=
 k8s.io/api v0.18.3/go.mod h1:UOaMwERbqJMfeeeHc8XJKawj4P9TgDRnViIqqBeH2QA=
 k8s.io/api v0.18.4/go.mod h1:lOIQAKYgai1+vz9J7YcDZwC26Z0zQewYOGWdyIPUUQ4=
