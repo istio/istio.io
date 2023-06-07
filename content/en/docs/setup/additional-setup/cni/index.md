@@ -109,10 +109,11 @@ Please take a look at [race condition & mitigation](#race-condition--mitigation)
 
 ### Installing with Helm
 
-The Istio CNI and Istio discovery chart use different values that require you set the following either in an overrides values file or at your command prompt when installing the `istiod` chart.
+The Istio CNI and Istio discovery chart use different values that require you set the following, either in an overrides values file or at your command prompt when installing the `istiod` chart, to manage network annotations when chaining CNI plugins:
 
-* `values.istio_cni.enabled` should be set to the same value as `values.cni.enabled` to manage network annotations when chaining CNI plugins.
-* `values.istio_cni.chained` should be set to the same value as `values.cni.chained` to manage network annotations when chaining CNI plugins.
+* `values.istio_cni.enabled` should be set to the same value as `values.cni.enabled`.
+
+* `values.istio_cni.chained` should be set to the same value as `values.cni.chained`.
 
 {{< text bash >}}
 $  helm install istiod istio/istiod -n istio-system --set values.istio_cni.enabled=true --wait
