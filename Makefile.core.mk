@@ -85,7 +85,7 @@ site:
 snips:
 	@scripts/gen_snips.sh
 
-gen: tidy-go format-go update-gateway-version snips
+gen: tidy-go format-go snips
 
 gen-check: gen check-clean-repo check-localization
 
