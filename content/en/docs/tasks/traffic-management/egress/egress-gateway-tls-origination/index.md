@@ -410,8 +410,6 @@ to hold the configuration of the NGINX server:
 
     In this example. a single generic Secret with keys `tls.key`, `tls.crt`, and `ca.crt` is used.
 
-    {{< boilerplate crl-tip >}}
-
 1.  Create an egress `Gateway` for `my-nginx.mesh-external.svc.cluster.local`, port 443, and destination rules and
     virtual services to direct the traffic through the egress gateway and from the egress gateway to the external
     service.
