@@ -2,7 +2,7 @@
 title: Istio 1.18 Upgrade Notes
 description: Important changes to consider when upgrading to Istio 1.18.0.
 weight: 20
-publishdate: 2023-06-05
+publishdate: 2023-06-07
 ---
 
 When you upgrade from Istio 1.17.x to Istio 1.18.0, you need to consider the changes on this page.
