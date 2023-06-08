@@ -524,7 +524,8 @@ You can extend your gateway's definition to support [mutual TLS](https://en.wiki
 
     {{< tip >}}
     {{< boilerplate crl-tip >}}
-    The credential may also include [OCSP Staple](https://datatracker.ietf.org/doc/html/rfc6961) using the key `tls.ocsp-staple` which can be specified by an additional argument: `--from-file=tls.ocsp-staple=/some/path/to/your-ocsp-staple.pem`.
+
+    The credential may also include an [OCSP Staple](https://datatracker.ietf.org/doc/html/rfc6961) using the key `tls.ocsp-staple` which can be specified by an additional argument: `--from-file=tls.ocsp-staple=/some/path/to/your-ocsp-staple.pem`.
     {{< /tip >}}
 
 1. Configure the ingress gateway:
