@@ -17,7 +17,6 @@ These are all limitations that will be addressed before graduation to `beta`.
 This page is under active development, and will be updated throughout the alpha stage.
 {{< /warning >}}
 
-
 ## Differences from sidecar architecture
 
 ## Traffic routing
