@@ -725,10 +725,11 @@ No
 holds the TLS certs including the CA certificates. Applicable
 only on Kubernetes. An Opaque secret should contain the following
 keys and values: <code>key: &lt;privateKey&gt;</code> and <code>cert: &lt;serverCert&gt;</code>.
-For mutual TLS, <code>cacert: &lt;CACertificate&gt;</code> can be provided in the
-same secret or a separate secret named <code>&lt;secret&gt;-cacert</code>.
-A TLS secret for server certificates with an additional <code>ca.crt</code>
-key for CA certificates is also supported.
+For mutual TLS, <code>cacert: &lt;CACertificate&gt;</code> and <code>crl: &lt;CertificateRevocationList&gt;</code>
+can be provided in the same secret or a separate secret named <code>&lt;secret&gt;-cacert</code>.
+A TLS secret for server certificates with an additional <code>tls.ocsp-staple</code> key
+for specifying OCSP staple information, <code>ca.crt</code> key for CA certificates
+and <code>ca.crl</code> for certificate revocation list is also supported.
 Only one of server certificates and CA certificate
 or credentialName can be specified.</p>
 

@@ -8,7 +8,7 @@ layout: protoc-gen-docs
 generator: protoc-gen-docs
 schema: istio.networking.v1alpha3.VirtualService
 aliases: [/zh/docs/reference/config/networking/v1alpha3/virtual-service]
-number_of_entries: 27
+number_of_entries: 28
 ---
 <p>Configuration affecting traffic routing. Here are a few terms useful to define
 in the context of traffic routing.</p>
@@ -1349,7 +1349,12 @@ e.g. <em>x-request-id</em>.</p>
 </li>
 </ul>
 <p>If the value is empty and only the name of header is specified, presence of the header is checked.
-<strong>Note:</strong> The keys <code>uri</code>, <code>scheme</code>, <code>method</code>, and <code>authority</code> will be ignored.</p>
+To provide an empty value, use <code>{}</code>, for example:</p>
+<pre><code> - match:
+   - headers:
+       myheader: {}
+</code></pre>
+<p><strong>Note:</strong> The keys <code>uri</code>, <code>scheme</code>, <code>method</code>, and <code>authority</code> will be ignored.</p>
 
 </td>
 <td>
@@ -2308,6 +2313,62 @@ No
 <td><code>string</code></td>
 <td>
 <p>rewrite the Authority/Host header with this value.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="HTTPRewrite-uri_regex_rewrite">
+<td><code>uriRegexRewrite</code></td>
+<td><code><a href="#RegexRewrite">RegexRewrite</a></code></td>
+<td>
+<p>rewrite the path portion of the URI with the specified regex.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="RegexRewrite">RegexRewrite</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="RegexRewrite-match">
+<td><code>match</code></td>
+<td><code>string</code></td>
+<td>
+<p>RE2 style regex-based match (<a href="https://github.com/google/re2/wiki/Syntax)">https://github.com/google/re2/wiki/Syntax)</a>.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="RegexRewrite-rewrite">
+<td><code>rewrite</code></td>
+<td><code>string</code></td>
+<td>
+<p>The string that should replace into matching portions of original URI.
+Capture groups in the pattern can be referenced in the new URI.
+Examples:</p>
+<p>Example 1: rewrite with capture groups
+Path pattern &ldquo;/service/update/v1/api&rdquo; with match &ldquo;^/service/([^/]+)(/.*)$&rdquo; and
+rewrite string of &ldquo;/customprefix/\2/\1&rdquo; would transform into &ldquo;/customprefix/v1/api/update&rdquo;.</p>
+<p>Example 2: case insensitive rewrite
+Path pattern &ldquo;/aaa/XxX/bbb&rdquo; with match &ldquo;(?i)/xxx/&rdquo; and a rewrite string of /yyy/ would do a
+case-insensitive match and transform the path to &ldquo;/aaa/yyy/bbb&rdquo;.</p>
 
 </td>
 <td>

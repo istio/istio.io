@@ -322,7 +322,7 @@ Istio supports to control its behavior.
 					<td>Alpha</td>
 				
 					<td>[Pod]</td>
-					<td>An additional list of tags to extract from the in-proxy Istio telemetry. each additional tag needs to be present in this list.</td>
+					<td>An additional list of tags to extract from the in-proxy Istio Wasm telemetry. Each additional tag needs to be present in this list.</td>
 				</tr>
 			
 		
@@ -453,6 +453,19 @@ Istio supports to control its behavior.
 				
 					<td>[Pod]</td>
 					<td>Rewrite HTTP readiness and liveness probes to be redirected to the Envoy sidecar.</td>
+				</tr>
+			
+		
+			
+				
+					<tr>
+				
+					<td><code>sidecar.istio.io/statsHistogramBuckets</code></td>
+				
+					<td>Alpha</td>
+				
+					<td>[Pod]</td>
+					<td>Specifies the custom histogram buckets with a prefix matcher to separate the Istio mesh metrics from the Envoy stats, e.g. `{"istio":[1,5,10,50,100,500,1000,5000,10000],"envoy":[1,5,10,25,50,100,250,500,1000,2500,5000,10000]}`. Default buckets are `[0.5,1,5,10,25,50,100,250,500,1000,2500,5000,10000,30000,60000,300000,600000,1800000,3600000]`.</td>
 				</tr>
 			
 		
