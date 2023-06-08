@@ -73,7 +73,7 @@ CNI DaemonSet 使用 [`system-node-critical`](https://kubernetes.io/zh-cn/docs/t
 在一个节点变得可调度和 Istio CNI 插件在该节点上准备就绪之间存在某个时间间隔。
 如果应用 Pod 在此期间启动，则流量重定向可能会被不正确地设置，且流量可能绕过 Istio Sidecar。
 这种竞争条件通过“检测和修复”方法得到缓解。
-请查阅[竞争条件和缓解措施](#race-condition-mitigation)一节以了解此缓解措施的影响。
+请查阅[竞争条件和缓解措施](#race-condition--mitigation)一节以了解此缓解措施的影响。
 {{< /tip >}}
 
 ### 托管 Kubernetes 设置{#hosted-Kubernetes-settings}
