@@ -174,7 +174,7 @@ This change only impacts users explicitly enabling `PILOT_USE_ENDPOINT_SLICE` on
 - **Improved** the default telemetry installation to configure `meshConfig.defaultProviders` instead of custom `EnvoyFilter`s
 when advanced customizations are not used, improving performance.
 
-- **Updated** the proxies `concurrency` configuration to always be detected based on CPU limits, unless explicitly configured. See upgrade notes for more info. ([PR #36884](https://github.com/istio/istio/pull/36884))
+- **Updated** the proxies `concurrency` configuration to always be detected based on CPU limits, unless explicitly configured. See upgrade notes for more info. ([PR #43865](https://github.com/istio/istio/pull/43865))
 
 - **Updated** `Kiali` addon to version `v1.67.0`. ([PR #44498](https://github.com/istio/istio/pull/44498))
 
