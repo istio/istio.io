@@ -8,7 +8,7 @@ number_of_entries: 10
 max_toc_level: 2
 remove_toc_prefix: 'pilot-discovery '
 ---
-<p>Istio Pilot provides fleet-wide traffic management capabilities in the Istio Service Mesh.</p>
+<p>Istio Pilot provides mesh-wide traffic management, security and policy capabilities in the Istio Service Mesh.</p>
 <table class="command-flags">
 <thead>
 <tr>
@@ -269,12 +269,12 @@ to enable it.  You can execute the following once:</p>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, delta, file, gateway, grpcgen, ingress status, installer, klog, kube, model, monitor, pkica, pkira, processing, retry, rootcertrotator, secretcontroller, security, serverca, serviceentry, spiffe, status, tpath, trustBundle, util, validation, validationController, validationServer, wasm, wle]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, delta, file, gateway, grpcgen, ingress status, klog, kube, model, monitor, pkica, pkira, processing, retry, rootcertrotator, secretcontroller, security, serverca, serviceentry, spiffe, status, trustBundle, validation, validationController, validationServer, wasm, wle]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, delta, file, gateway, grpcgen, ingress status, installer, klog, kube, model, monitor, pkica, pkira, processing, retry, rootcertrotator, secretcontroller, security, serverca, serviceentry, spiffe, status, tpath, trustBundle, util, validation, validationController, validationServer, wasm, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, delta, file, gateway, grpcgen, ingress status, klog, kube, model, monitor, pkica, pkira, processing, retry, rootcertrotator, secretcontroller, security, serverca, serviceentry, spiffe, status, trustBundle, validation, validationController, validationServer, wasm, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -299,7 +299,7 @@ to enable it.  You can execute the following once:</p>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, delta, file, gateway, grpcgen, ingress status, installer, klog, kube, model, monitor, pkica, pkira, processing, retry, rootcertrotator, secretcontroller, security, serverca, serviceentry, spiffe, status, tpath, trustBundle, util, validation, validationController, validationServer, wasm, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, delta, file, gateway, grpcgen, ingress status, klog, kube, model, monitor, pkica, pkira, processing, retry, rootcertrotator, secretcontroller, security, serverca, serviceentry, spiffe, status, trustBundle, validation, validationController, validationServer, wasm, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -437,12 +437,6 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>Expected audience in the tokens. </td>
 </tr>
 <tr>
-<td><code>AUTO_RELOAD_PLUGIN_CERTS</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If enabled, if user introduces new intermediate plug-in CA, user need not to restart istiod to pick up certs.Istiod picks newly added intermediate plug-in CA certs and updates it. Plug-in new Root-CA not supported.</td>
-</tr>
-<tr>
 <td><code>CA_TRUSTED_NODE_ACCOUNTS</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -503,12 +497,6 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>The default TTL of issued workload certificates. Applied when the client sets a non-positive TTL in the CSR.</td>
 </tr>
 <tr>
-<td><code>ENABLE_AUTO_MTLS_CHECK_POLICIES</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>Enable the auto mTLS EDS output to consult the PeerAuthentication Policy, only set the {tlsMode: istio}  when server side policy enables mTLS PERMISSIVE or STRICT.</td>
-</tr>
-<tr>
 <td><code>ENABLE_AUTO_SNI</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -543,18 +531,6 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled (default), starts a leader election client and gains leadership before executing controllers. If false, it assumes that only one instance of istiod is running and skips leader election.</td>
-</tr>
-<tr>
-<td><code>ENABLE_LEGACY_FSGROUP_INJECTION</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If true, Istiod will set the pod fsGroup to 1337 on injection. This is required for Kubernetes 1.18 and older (see https://github.com/kubernetes/kubernetes/issues/57923 for details) unless JWT_POLICY is &#34;first-party-jwt&#34;.</td>
-</tr>
-<tr>
-<td><code>ENABLE_LEGACY_LB_ALGORITHM_DEFAULT</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If enabled, destinations for which no LB algorithm is specified will use the legacy default, ROUND_ROBIN. Care should be taken when using ROUND_ROBIN in general as it can overburden endpoints, especially when weights are used.</td>
 </tr>
 <tr>
 <td><code>ENABLE_MCS_AUTO_EXPORT</code></td>
@@ -597,12 +573,6 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, the TLS configuration on Sidecar.ingress will take effect</td>
-</tr>
-<tr>
-<td><code>ENABLE_WASM_TELEMETRY</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If enabled, Wasm-based telemetry will be enabled.</td>
 </tr>
 <tr>
 <td><code>EXTERNAL_CA</code></td>
@@ -677,12 +647,6 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td></td>
 </tr>
 <tr>
-<td><code>ISTIO_DEFAULT_REQUEST_TIMEOUT</code></td>
-<td>Time Duration</td>
-<td><code>0s</code></td>
-<td>Default Http and gRPC Request timeout</td>
-</tr>
-<tr>
 <td><code>ISTIO_DELTA_XDS</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -723,12 +687,6 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>String</td>
 <td><code>protobuf</code></td>
 <td>The content type to use for Kubernetes clients. Defaults to protobuf. Valid options: [protobuf, json]</td>
-</tr>
-<tr>
-<td><code>ISTIO_METADATA_DISCOVERY</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>Enables proxy discovery of the workload metadata to back-fill the telemetry reports.</td>
 </tr>
 <tr>
 <td><code>ISTIO_MULTIROOT_MESH</code></td>
@@ -825,6 +783,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>Time Duration</td>
 <td><code>0s</code></td>
 <td>Metric scope rotation interval, set to 0 to disable the metric scope rotation</td>
+</tr>
+<tr>
+<td><code>MUTEX_PROFILE_FRACTION</code></td>
+<td>Integer</td>
+<td><code>1000</code></td>
+<td>If set to a non-zero value, enables mutex profiling a rate of 1/MUTEX_PROFILE_FRACTION events. For example, &#39;1000&#39; will record 0.1% of events. Set to 0 to disable entirely.</td>
 </tr>
 <tr>
 <td><code>PILOT_ALLOW_SIDECAR_SERVICE_INBOUND_LISTENER_MERGE</code></td>
@@ -965,28 +929,10 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>If enabled, inbound clusters will be configured as ORIGINAL_DST clusters. When disabled, requests are always sent to localhost. The primary implication of this is that when enabled, binding to POD_IP will work while localhost will not; when disable, bind to POD_IP will not work, while localhost will. The enabled behavior matches the behavior without Istio enabled at all; this flag exists only for backwards compatibility. Regardless of this setting, the configuration can be overridden with the Sidecar.Ingress.DefaultEndpoint configuration.</td>
 </tr>
 <tr>
-<td><code>PILOT_ENABLE_ISTIO_TAGS</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>Determines whether or not trace spans generated by Envoy will include Istio-specific tags.</td>
-</tr>
-<tr>
 <td><code>PILOT_ENABLE_K8S_SELECT_WORKLOAD_ENTRIES</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, Kubernetes services with selectors will select workload entries with matching labels. It is safe to disable it if you are quite sure you don&#39;t need this feature</td>
-</tr>
-<tr>
-<td><code>PILOT_ENABLE_LEGACY_AUTO_PASSTHROUGH</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If enabled, pilot will allow any upstream cluster to be used with AUTO_PASSTHROUGH. This option is intended for backwards compatibility only and is not secure with untrusted downstreams; it will be removed in the future.</td>
-</tr>
-<tr>
-<td><code>PILOT_ENABLE_LEGACY_ISTIO_MUTUAL_CREDENTIAL_NAME</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If enabled, Gateway&#39;s with ISTIO_MUTUAL mode and credentialName configured will use simple TLS. This is to retain legacy behavior only and not recommended for use beyond migration.</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_METADATA_EXCHANGE</code></td>
@@ -1115,12 +1061,6 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>Enables the use of HTTP 1.0 in the outbound HTTP listeners, to support legacy applications.</td>
 </tr>
 <tr>
-<td><code>PILOT_INBOUND_PROTOCOL_DETECTION_TIMEOUT</code></td>
-<td>Time Duration</td>
-<td><code>1s</code></td>
-<td>Protocol detection timeout for inbound listener</td>
-</tr>
-<tr>
 <td><code>PILOT_INSECURE_MULTICLUSTER_KUBECONFIG_OPTIONS</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -1139,22 +1079,10 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>The interval for istiod to fetch the jwks_uri for the jwks public key.</td>
 </tr>
 <tr>
-<td><code>PILOT_LEGACY_INGRESS_BEHAVIOR</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If this is set to true, istio ingress will perform the legacy behavior, which does not meet https://kubernetes.io/docs/concepts/services-networking/ingress/#multiple-matches.</td>
-</tr>
-<tr>
 <td><code>PILOT_MAX_REQUESTS_PER_SECOND</code></td>
 <td>Floating-Point</td>
 <td><code>25</code></td>
 <td>Limits the number of incoming XDS requests per second. On larger machines this can be increased to handle more proxies concurrently.</td>
-</tr>
-<tr>
-<td><code>PILOT_PARTIAL_FULL_PUSHES</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If enabled, pilot will send partial pushes in for child resources (RDS, EDS, etc) when possible. This occurs for EDS in many cases regardless of this setting.</td>
 </tr>
 <tr>
 <td><code>PILOT_PERSISTENT_SESSION_HEADER_LABEL</code></td>
@@ -1196,7 +1124,7 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td><code>PILOT_SIDECAR_USE_REMOTE_ADDRESS</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
-<td>UseRemoteAddress sets useRemoteAddress to true for side car outbound listeners.</td>
+<td>UseRemoteAddress sets useRemoteAddress to true for sidecar outbound listeners.</td>
 </tr>
 <tr>
 <td><code>PILOT_SKIP_VALIDATE_TRUST_DOMAIN</code></td>
@@ -1283,12 +1211,6 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td></td>
 </tr>
 <tr>
-<td><code>PRIORITIZED_LEADER_ELECTION</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If enabled, the default revision will steal leader locks from non-default revisions</td>
-</tr>
-<tr>
 <td><code>REQUIRE_3P_TOKEN</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -1313,12 +1235,6 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>If enabled, readiness probes will be sent to &#39;localhost&#39;. Otherwise, they will be sent to the Pod&#39;s IP, matching Kubernetes&#39; behavior.</td>
 </tr>
 <tr>
-<td><code>REWRITE_TCP_PROBES</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If false, TCP probes will not be rewritten and therefor always succeed when a sidecar is used.</td>
-</tr>
-<tr>
 <td><code>ROOT_CA_DIR</code></td>
 <td>String</td>
 <td><code>./etc/cacerts</code></td>
@@ -1329,18 +1245,6 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>String</td>
 <td><code></code></td>
 <td>Additional config map to load for shared MeshConfig settings. The standard mesh config will take precedence.</td>
-</tr>
-<tr>
-<td><code>SIDECAR_IGNORE_PORT_IN_HOST_MATCH</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If enabled, port will not be used in vhost domain matches.</td>
-</tr>
-<tr>
-<td><code>SPIFFE_BUNDLE_ENDPOINTS</code></td>
-<td>String</td>
-<td><code></code></td>
-<td>The SPIFFE bundle trust domain to endpoint mappings. Istiod retrieves the root certificate from each SPIFFE bundle endpoint and uses it to verify client certificates from that trust domain. The endpoint must be compliant to the SPIFFE Bundle Endpoint standard. For details, please refer to https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE_Trust_Domain_and_Bundle.md . No need to configure this for root certificates issued via Istiod or web-PKI based root certificates. Use || between &lt;trustdomain, endpoint&gt; tuples. Use | as delimiter between trust domain and endpoint in each tuple. For example: foo|https://url/for/foo||bar|https://url/for/bar</td>
 </tr>
 <tr>
 <td><code>TOKEN_AUDIENCES</code></td>
@@ -1437,11 +1341,9 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <tr><td><code>citadel_server_success_cert_issuance_count</code></td><td><code>Sum</code></td><td>The number of certificates issuances that have succeeded.</td></tr>
 <tr><td><code>controller_sync_errors_total</code></td><td><code>Sum</code></td><td>Total number of errorMetric syncing controllers.</td></tr>
 <tr><td><code>endpoint_no_pod</code></td><td><code>LastValue</code></td><td>Endpoints without an associated pod.</td></tr>
-<tr><td><code>galley_validation_config_delete_error</code></td><td><code>Count</code></td><td>k8s webhook configuration delete error</td></tr>
-<tr><td><code>galley_validation_config_load</code></td><td><code>Count</code></td><td>k8s webhook configuration (re)loads</td></tr>
-<tr><td><code>galley_validation_config_load_error</code></td><td><code>Count</code></td><td>k8s webhook configuration (re)load error</td></tr>
-<tr><td><code>galley_validation_config_update_error</code></td><td><code>Count</code></td><td>k8s webhook configuration update error</td></tr>
-<tr><td><code>galley_validation_config_updates</code></td><td><code>Count</code></td><td>k8s webhook configuration updates</td></tr>
+<tr><td><code>galley_validation_config_load_error</code></td><td><code>Sum</code></td><td>k8s webhook configuration (re)load error</td></tr>
+<tr><td><code>galley_validation_config_update_error</code></td><td><code>Sum</code></td><td>k8s webhook configuration update error</td></tr>
+<tr><td><code>galley_validation_config_updates</code></td><td><code>Sum</code></td><td>k8s webhook configuration updates</td></tr>
 <tr><td><code>galley_validation_failed</code></td><td><code>Sum</code></td><td>Resource validation failed</td></tr>
 <tr><td><code>galley_validation_http_error</code></td><td><code>Sum</code></td><td>Resource validation http serve errors</td></tr>
 <tr><td><code>galley_validation_passed</code></td><td><code>Sum</code></td><td>Resource is valid</td></tr>
@@ -1458,6 +1360,7 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <tr><td><code>pilot_eds_no_instances</code></td><td><code>LastValue</code></td><td>Number of clusters without instances.</td></tr>
 <tr><td><code>pilot_endpoint_not_ready</code></td><td><code>LastValue</code></td><td>Endpoint found in unready state.</td></tr>
 <tr><td><code>pilot_inbound_updates</code></td><td><code>Sum</code></td><td>Total number of updates received by pilot.</td></tr>
+<tr><td><code>pilot_info</code></td><td><code>LastValue</code></td><td>Pilot version and build information.</td></tr>
 <tr><td><code>pilot_jwks_resolver_network_fetch_fail_total</code></td><td><code>Sum</code></td><td>Total number of failed network fetch by pilot jwks resolver</td></tr>
 <tr><td><code>pilot_jwks_resolver_network_fetch_success_total</code></td><td><code>Sum</code></td><td>Total number of successfully network fetch by pilot jwks resolver</td></tr>
 <tr><td><code>pilot_k8s_cfg_events</code></td><td><code>Sum</code></td><td>Events from k8s config.</td></tr>
@@ -1488,6 +1391,7 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <tr><td><code>pilot_xds_rds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected RDS.</td></tr>
 <tr><td><code>pilot_xds_send_time</code></td><td><code>Distribution</code></td><td>Total time in seconds Pilot takes to send generated configuration.</td></tr>
 <tr><td><code>pilot_xds_write_timeout</code></td><td><code>Sum</code></td><td>Pilot XDS response write timeouts.</td></tr>
+<tr><td><code>provider_lookup_cluster_failures</code></td><td><code>Sum</code></td><td>Number of times a cluster lookup failed</td></tr>
 <tr><td><code>remote_cluster_sync_timeouts_total</code></td><td><code>Sum</code></td><td>Number of times remote clusters took too long to sync, causing slow startup that excludes remote clusters.</td></tr>
 <tr><td><code>scrape_failures_total</code></td><td><code>Sum</code></td><td>The total number of failed scrapes.</td></tr>
 <tr><td><code>scrapes_total</code></td><td><code>Sum</code></td><td>The total number of scrapes.</td></tr>
