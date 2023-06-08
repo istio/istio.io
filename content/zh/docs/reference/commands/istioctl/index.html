@@ -4,7 +4,7 @@ source_repo: https://github.com/istio/istio
 title: istioctl
 description: Istio control interface.
 generator: pkg-collateral-docs
-number_of_entries: 109
+number_of_entries: 100
 max_toc_level: 2
 remove_toc_prefix: 'istioctl '
 ---
@@ -39,16 +39,6 @@ debug and diagnose their Istio mesh.
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -94,16 +84,6 @@ debug and diagnose their Istio mesh.
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
 <td><code>--selector &lt;string&gt;</code></td>
 <td><code>-l</code></td>
 <td>label selector  (default `app=istiod`)</td>
@@ -121,10 +101,10 @@ debug and diagnose their Istio mesh.
 </code></pre>
 <h2 id="istioctl-admin-log">istioctl admin log</h2>
 <p>Retrieve or update logging levels of istiod components.</p>
-<pre class="language-bash"><code>istioctl admin log [&lt;pod-name&gt;] [--level &lt;scope&gt;:&lt;level&gt;][--stack-trace-level &lt;scope&gt;:&lt;level&gt;]|[-r|--reset]|[--output|-o short|yaml] [flags]
+<pre class="language-bash"><code>istioctl admin log [&lt;pod-name&gt;]|[-r|--revision] [--level &lt;scope&gt;:&lt;level&gt;][--stack-trace-level &lt;scope&gt;:&lt;level&gt;]|[--reset]|[--output|-o short|json|yaml] [flags]
 </code></pre>
 <div class="aliases">
-<pre class="language-bash"><code>istioctl admin l [&lt;pod-name&gt;] [--level &lt;scope&gt;:&lt;level&gt;][--stack-trace-level &lt;scope&gt;:&lt;level&gt;]|[-r|--reset]|[--output|-o short|yaml] [flags]
+<pre class="language-bash"><code>istioctl admin l [&lt;pod-name&gt;]|[-r|--revision] [--level &lt;scope&gt;:&lt;level&gt;][--stack-trace-level &lt;scope&gt;:&lt;level&gt;]|[--reset]|[--output|-o short|json|yaml] [flags]
 </code></pre></div>
 <table class="command-flags">
 <thead>
@@ -168,7 +148,7 @@ debug and diagnose their Istio mesh.
 <tr>
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
-<td>Output format: one of json|short  (default `short`)</td>
+<td>Output format: one of json|yaml|short  (default `short`)</td>
 </tr>
 <tr>
 <td><code>--reset</code></td>
@@ -179,16 +159,6 @@ debug and diagnose their Istio mesh.
 <td><code>--revision &lt;string&gt;</code></td>
 <td><code>-r</code></td>
 <td>Control plane revision  (default ``)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--selector &lt;string&gt;</code></td>
@@ -308,16 +278,6 @@ debug and diagnose their Istio mesh.
 <td>analyze a specific revision deployed.  (default `default`)</td>
 </tr>
 <tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
 <td><code>--suppress &lt;stringArray&gt;</code></td>
 <td><code>-S</code></td>
 <td>Suppress reporting a message code on a specific resource. Values are supplied in the form &lt;code&gt;=&lt;resource&gt; (e.g. &#39;--suppress &#34;IST0102=DestinationRule primary-dr.default&#34;&#39;). Can be repeated. You can include the wildcard character &#39;*&#39; to support a partial match (e.g. &#39;--suppress &#34;IST0102=DestinationRule *.default&#34; ).  (default `[]`)</td>
@@ -402,16 +362,6 @@ debug and diagnose their Istio mesh.
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -527,16 +477,6 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 <td><code>--rps-limit &lt;int&gt;</code></td>
 <td></td>
 <td>Requests per second limit to the Kubernetes API server, defaults to 10.A higher limit can make bug report collection much faster.  (default `0`)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--start-time &lt;string&gt;</code></td>
@@ -659,16 +599,6 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 <td>Requests per second limit to the Kubernetes API server, defaults to 10.A higher limit can make bug report collection much faster.  (default `0`)</td>
 </tr>
 <tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
 <td><code>--short</code></td>
 <td><code>-s</code></td>
 <td>Use --short=false to generate full version information </td>
@@ -722,16 +652,6 @@ See each sub-command&#39;s help for details on how to use the generated script.
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -790,16 +710,6 @@ If it is not installed already, you can install it via your OS&#39;s package man
 <td>disable completion descriptions </td>
 </tr>
 <tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -851,16 +761,6 @@ If it is not installed already, you can install it via your OS&#39;s package man
 <td>disable completion descriptions </td>
 </tr>
 <tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -909,16 +809,6 @@ to your powershell profile.
 <td><code>--no-descriptions</code></td>
 <td></td>
 <td>disable completion descriptions </td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -976,16 +866,6 @@ to enable it.  You can execute the following once:</p>
 <td><code>--no-descriptions</code></td>
 <td></td>
 <td>disable completion descriptions </td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -1047,16 +927,6 @@ istioctl d [flags]
 <td>Local port to listen to  (default `0`)</td>
 </tr>
 <tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -1115,16 +985,6 @@ istioctl d [flags]
 <td><code>--port &lt;int&gt;</code></td>
 <td><code>-p</code></td>
 <td>Local port to listen to  (default `0`)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--selector &lt;string&gt;</code></td>
@@ -1200,16 +1060,6 @@ istioctl d [flags]
 <td><code>--port &lt;int&gt;</code></td>
 <td><code>-p</code></td>
 <td>Local port to listen to  (default `0`)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--selector &lt;string&gt;</code></td>
@@ -1289,16 +1139,6 @@ istioctl d [flags]
 <td>Local port to listen to  (default `0`)</td>
 </tr>
 <tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
 <td><code>--ui-port &lt;int&gt;</code></td>
 <td></td>
 <td>The component dashboard UI port.  (default `3000`)</td>
@@ -1364,16 +1204,6 @@ istioctl d [flags]
 <td><code>--port &lt;int&gt;</code></td>
 <td><code>-p</code></td>
 <td>Local port to listen to  (default `0`)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--ui-port &lt;int&gt;</code></td>
@@ -1443,16 +1273,6 @@ istioctl d [flags]
 <td>Local port to listen to  (default `0`)</td>
 </tr>
 <tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
 <td><code>--ui-port &lt;int&gt;</code></td>
 <td></td>
 <td>The component dashboard UI port.  (default `20001`)</td>
@@ -1518,16 +1338,6 @@ istioctl d [flags]
 <td><code>--port &lt;int&gt;</code></td>
 <td><code>-p</code></td>
 <td>Local port to listen to  (default `0`)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--ui-port &lt;int&gt;</code></td>
@@ -1597,16 +1407,6 @@ istioctl d [flags]
 <td>Local port to listen to  (default `0`)</td>
 </tr>
 <tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
 <td><code>--ui-port &lt;int&gt;</code></td>
 <td></td>
 <td>The component dashboard UI port.  (default `8080`)</td>
@@ -1674,16 +1474,6 @@ istioctl d [flags]
 <td>Local port to listen to  (default `0`)</td>
 </tr>
 <tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
 <td><code>--ui-port &lt;int&gt;</code></td>
 <td></td>
 <td>The component dashboard UI port.  (default `9411`)</td>
@@ -1734,416 +1524,12 @@ istioctl d [flags]
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 </tbody>
 </table>
-<h2 id="istioctl-experimental-add-to-mesh">istioctl experimental add-to-mesh</h2>
-<p>&#39;istioctl experimental add-to-mesh&#39; restarts pods with an Istio sidecar or configures meshed pod access to external services.
-Use &#39;add-to-mesh&#39; as an alternate to namespace-wide auto injection for troubleshooting compatibility.</p>
-<p>The &#39;remove-from-mesh&#39; command can be used to restart with the sidecar removed.</p>
-<p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
-<pre class="language-bash"><code>istioctl experimental add-to-mesh [flags]
-</code></pre>
-<div class="aliases">
-<pre class="language-bash"><code>istioctl experimental add [flags]
-</code></pre></div>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>The name of the kubeconfig context to use  (default ``)</td>
-</tr>
-<tr>
-<td><code>--injectConfigFile &lt;string&gt;</code></td>
-<td></td>
-<td>Injection configuration filename. Cannot be used with --injectConfigMapName  (default ``)</td>
-</tr>
-<tr>
-<td><code>--injectConfigMapName &lt;string&gt;</code></td>
-<td></td>
-<td>ConfigMap name for Istio sidecar injection, key should be &#34;config&#34;.  (default `istio-sidecar-injector`)</td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--meshConfigFile &lt;string&gt;</code></td>
-<td></td>
-<td>Mesh configuration filename. Takes precedence over --meshConfigMapName if set  (default ``)</td>
-</tr>
-<tr>
-<td><code>--meshConfigMapName &lt;string&gt;</code></td>
-<td></td>
-<td>ConfigMap name for Istio mesh configuration, key should be &#34;mesh&#34;  (default `istio`)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Config namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
-<td><code>--valuesFile &lt;string&gt;</code></td>
-<td></td>
-<td>Injection values configuration filename.  (default ``)</td>
-</tr>
-<tr>
-<td><code>--vklog &lt;Level&gt;</code></td>
-<td></td>
-<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="istioctl-experimental-add-to-mesh Examples">Examples</h3>
-<pre class="language-bash"><code>  # Restart all productpage pods with an Istio sidecar
-  istioctl experimental add-to-mesh service productpage
-
-  # Restart just pods from the productpage-v1 deployment
-  istioctl experimental add-to-mesh deployment productpage-v1
-
-  # Restart just pods from the details-v1 deployment
-  istioctl x add deployment details-v1
-
-  # Control how meshed pods see an external service
-  istioctl experimental add-to-mesh external-service vmhttp 172.12.23.125,172.12.23.126 \
-   http:9080 tcp:8888 --labels app=test,version=v1 --annotations env=stage --serviceaccount stageAdmin
-</code></pre>
-<h2 id="istioctl-experimental-add-to-mesh-deployment">istioctl experimental add-to-mesh deployment</h2>
-<p>&#39;istioctl experimental add-to-mesh deployment&#39; restarts pods with the Istio sidecar.  Use &#39;add-to-mesh&#39;
-to test deployments for compatibility with Istio.  It can be used instead of namespace-wide auto-injection of sidecars and is especially helpful for compatibility testing.</p>
-<p>If your deployment does not function after using &#39;add-to-mesh&#39; you must re-deploy it and troubleshoot it for Istio compatibility.
-See https://istio.io/v1.18/docs/ops/deployment/requirements/</p>
-<p>See also &#39;istioctl experimental remove-from-mesh deployment&#39; which does the reverse.</p>
-<p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
-<pre class="language-bash"><code>istioctl experimental add-to-mesh deployment &lt;deployment&gt; [flags]
-</code></pre>
-<div class="aliases">
-<pre class="language-bash"><code>istioctl experimental add-to-mesh deploy &lt;deployment&gt; [flags]
-istioctl experimental add-to-mesh dep &lt;deployment&gt; [flags]
-</code></pre></div>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>The name of the kubeconfig context to use  (default ``)</td>
-</tr>
-<tr>
-<td><code>--injectConfigFile &lt;string&gt;</code></td>
-<td></td>
-<td>Injection configuration filename. Cannot be used with --injectConfigMapName  (default ``)</td>
-</tr>
-<tr>
-<td><code>--injectConfigMapName &lt;string&gt;</code></td>
-<td></td>
-<td>ConfigMap name for Istio sidecar injection, key should be &#34;config&#34;.  (default `istio-sidecar-injector`)</td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--meshConfigFile &lt;string&gt;</code></td>
-<td></td>
-<td>Mesh configuration filename. Takes precedence over --meshConfigMapName if set  (default ``)</td>
-</tr>
-<tr>
-<td><code>--meshConfigMapName &lt;string&gt;</code></td>
-<td></td>
-<td>ConfigMap name for Istio mesh configuration, key should be &#34;mesh&#34;  (default `istio`)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Config namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--revision &lt;string&gt;</code></td>
-<td><code>-r</code></td>
-<td>Control plane revision  (default ``)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
-<td><code>--valuesFile &lt;string&gt;</code></td>
-<td></td>
-<td>Injection values configuration filename.  (default ``)</td>
-</tr>
-<tr>
-<td><code>--vklog &lt;Level&gt;</code></td>
-<td></td>
-<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="istioctl-experimental-add-to-mesh-deployment Examples">Examples</h3>
-<pre class="language-bash"><code>  # Restart pods from the productpage-v1 deployment with Istio sidecar
-  istioctl experimental add-to-mesh deployment productpage-v1
-
-  # Restart pods from the details-v1 deployment with Istio sidecar
-  istioctl x add-to-mesh deploy details-v1
-
-  # Restart pods from the ratings-v1 deployment with Istio sidecar
-  istioctl x add dep ratings-v1
-</code></pre>
-<h2 id="istioctl-experimental-add-to-mesh-external-service">istioctl experimental add-to-mesh external-service</h2>
-<p>istioctl experimental add-to-mesh external-service create a ServiceEntry and
-a Service without selector for the specified external service in Istio service mesh.
-The typical usage scenario is Mesh Expansion on VMs.</p>
-<p>See also &#39;istioctl experimental remove-from-mesh external-service&#39; which does the reverse.</p>
-<p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
-<pre class="language-bash"><code>istioctl experimental add-to-mesh external-service &lt;svcname&gt; &lt;ip&gt; [name1:]port1 [[name2:]port2] ... [flags]
-</code></pre>
-<div class="aliases">
-<pre class="language-bash"><code>istioctl experimental add-to-mesh es &lt;svcname&gt; &lt;ip&gt; [name1:]port1 [[name2:]port2] ... [flags]
-</code></pre></div>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--annotations &lt;stringSlice&gt;</code></td>
-<td><code>-a</code></td>
-<td>List of string annotations to apply if creating a service/endpoint; e.g. -a foo=bar,x=y  (default `[]`)</td>
-</tr>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>The name of the kubeconfig context to use  (default ``)</td>
-</tr>
-<tr>
-<td><code>--injectConfigFile &lt;string&gt;</code></td>
-<td></td>
-<td>Injection configuration filename. Cannot be used with --injectConfigMapName  (default ``)</td>
-</tr>
-<tr>
-<td><code>--injectConfigMapName &lt;string&gt;</code></td>
-<td></td>
-<td>ConfigMap name for Istio sidecar injection, key should be &#34;config&#34;.  (default `istio-sidecar-injector`)</td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--labels &lt;stringSlice&gt;</code></td>
-<td><code>-l</code></td>
-<td>List of labels to apply if creating a service/endpoint; e.g. -l env=prod,vers=2  (default `[]`)</td>
-</tr>
-<tr>
-<td><code>--meshConfigFile &lt;string&gt;</code></td>
-<td></td>
-<td>Mesh configuration filename. Takes precedence over --meshConfigMapName if set  (default ``)</td>
-</tr>
-<tr>
-<td><code>--meshConfigMapName &lt;string&gt;</code></td>
-<td></td>
-<td>ConfigMap name for Istio mesh configuration, key should be &#34;mesh&#34;  (default `istio`)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Config namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
-<td><code>--serviceaccount &lt;string&gt;</code></td>
-<td><code>-s</code></td>
-<td>Service account to link to the service  (default `default`)</td>
-</tr>
-<tr>
-<td><code>--valuesFile &lt;string&gt;</code></td>
-<td></td>
-<td>Injection values configuration filename.  (default ``)</td>
-</tr>
-<tr>
-<td><code>--vklog &lt;Level&gt;</code></td>
-<td></td>
-<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="istioctl-experimental-add-to-mesh-external-service Examples">Examples</h3>
-<pre class="language-bash"><code> # Control how meshed pods contact 172.12.23.125 and .126
-  istioctl experimental add-to-mesh external-service vmhttp 172.12.23.125,172.12.23.126 \
-   http:9080 tcp:8888 --labels app=test,version=v1 --annotations env=stage --serviceaccount stageAdmin
-</code></pre>
-<h2 id="istioctl-experimental-add-to-mesh-service">istioctl experimental add-to-mesh service</h2>
-<p>istioctl experimental add-to-mesh service restarts pods with the Istio sidecar.  Use &#39;add-to-mesh&#39;
-to test deployments for compatibility with Istio.  It can be used instead of namespace-wide auto-injection of sidecars and is especially helpful for compatibility testing.</p>
-<p>If your service does not function after using &#39;add-to-mesh&#39; you must re-deploy it and troubleshoot it for Istio compatibility.
-See https://istio.io/v1.18/docs/ops/deployment/requirements/</p>
-<p>See also &#39;istioctl experimental remove-from-mesh service&#39; which does the reverse.</p>
-<p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
-<pre class="language-bash"><code>istioctl experimental add-to-mesh service &lt;service&gt; [flags]
-</code></pre>
-<div class="aliases">
-<pre class="language-bash"><code>istioctl experimental add-to-mesh svc &lt;service&gt; [flags]
-</code></pre></div>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>The name of the kubeconfig context to use  (default ``)</td>
-</tr>
-<tr>
-<td><code>--injectConfigFile &lt;string&gt;</code></td>
-<td></td>
-<td>Injection configuration filename. Cannot be used with --injectConfigMapName  (default ``)</td>
-</tr>
-<tr>
-<td><code>--injectConfigMapName &lt;string&gt;</code></td>
-<td></td>
-<td>ConfigMap name for Istio sidecar injection, key should be &#34;config&#34;.  (default `istio-sidecar-injector`)</td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--meshConfigFile &lt;string&gt;</code></td>
-<td></td>
-<td>Mesh configuration filename. Takes precedence over --meshConfigMapName if set  (default ``)</td>
-</tr>
-<tr>
-<td><code>--meshConfigMapName &lt;string&gt;</code></td>
-<td></td>
-<td>ConfigMap name for Istio mesh configuration, key should be &#34;mesh&#34;  (default `istio`)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Config namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--revision &lt;string&gt;</code></td>
-<td><code>-r</code></td>
-<td>Control plane revision  (default ``)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
-<td><code>--valuesFile &lt;string&gt;</code></td>
-<td></td>
-<td>Injection values configuration filename.  (default ``)</td>
-</tr>
-<tr>
-<td><code>--vklog &lt;Level&gt;</code></td>
-<td></td>
-<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="istioctl-experimental-add-to-mesh-service Examples">Examples</h3>
-<pre class="language-bash"><code>  # Restart all productpage pods with an Istio sidecar
-  istioctl experimental add-to-mesh service productpage
-
-  # Restart all details-v1 pods with an Istio sidecar
-  istioctl x add-to-mesh svc details-v1
-
-  # Restart all ratings-v1 pods with an Istio sidecar
-  istioctl x add svc ratings-v1
-</code></pre>
 <h2 id="istioctl-experimental-authz">istioctl experimental authz</h2>
 <p></p>
 <p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
@@ -2175,16 +1561,6 @@ See https://istio.io/v1.18/docs/ops/deployment/requirements/</p>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -2234,16 +1610,6 @@ from multiple sources (mesh-level, namespace-level and workload-level).</p>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -2302,16 +1668,6 @@ Checks associated resources of the given resource, and running webhooks to exami
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -2319,7 +1675,7 @@ Checks associated resources of the given resource, and running webhooks to exami
 </tbody>
 </table>
 <h3 id="istioctl-experimental-check-inject Examples">Examples</h3>
-<pre class="language-bash"><code>	# Check the injection status of a pod
+<pre class="language-bash"><code>  # Check the injection status of a pod
   istioctl experimental check-inject details-v1-fcff6c49c-kqnfk.test
 	
   # Check the injection status of a pod under a deployment
@@ -2364,16 +1720,6 @@ Checks associated resources of the given resource, and running webhooks to exami
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -2416,16 +1762,6 @@ Checks associated resources of the given resource, and running webhooks to exami
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -2486,7 +1822,7 @@ Checks associated resources of the given resource, and running webhooks to exami
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.18.0/manifests).
+(e.g. ~/Downloads/istio-1.19.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -2498,16 +1834,6 @@ Checks associated resources of the given resource, and running webhooks to exami
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--secret-name &lt;string&gt;</code></td>
@@ -2586,16 +1912,6 @@ Checks associated resources of the given resource, and running webhooks to exami
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -2644,16 +1960,6 @@ the configuration objects that affect that pod.</p>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -2709,16 +2015,6 @@ the configuration objects that affect that service.</p>
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -2768,16 +2064,6 @@ the configuration objects that affect that service.</p>
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
 <td>Output format: one of json|yaml|prom  (default `short`)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--type &lt;string&gt;</code></td>
@@ -2839,16 +2125,6 @@ the configuration objects that affect that service.</p>
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -2890,16 +2166,6 @@ the configuration objects that affect that service.</p>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -2979,16 +2245,6 @@ THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
 <td>Control plane revision  (default ``)</td>
 </tr>
 <tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
 <td><code>--timeout &lt;duration&gt;</code></td>
 <td></td>
 <td>The duration to wait before failing  (default `30s`)</td>
@@ -3041,79 +2297,6 @@ THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
   istioctl x internal-debug syncz --xds-label istio.io/rev=default
 
 </code></pre>
-<h2 id="istioctl-experimental-kube-uninject">istioctl experimental kube-uninject</h2>
-<p>
-kube-uninject is used to prevent Istio from adding a sidecar and
-also provides the inverse of &#34;istioctl kube-inject -f&#34;.
-</p>
-<pre class="language-bash"><code>istioctl experimental kube-uninject [flags]
-</code></pre>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>The name of the kubeconfig context to use  (default ``)</td>
-</tr>
-<tr>
-<td><code>--filename &lt;string&gt;</code></td>
-<td><code>-f</code></td>
-<td>Input Kubernetes resource filename  (default ``)</td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Config namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--output &lt;string&gt;</code></td>
-<td><code>-o</code></td>
-<td>Modified output Kubernetes resource filename  (default ``)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
-<td><code>--vklog &lt;Level&gt;</code></td>
-<td></td>
-<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="istioctl-experimental-kube-uninject Examples">Examples</h3>
-<pre class="language-bash"><code>  # Update resources before applying.
-  kubectl apply -f &lt;(istioctl experimental kube-uninject -f &lt;resource.yaml&gt;)
-
-  # Create a persistent version of the deployment by removing Envoy sidecar.
-  istioctl experimental kube-uninject -f deployment.yaml -o deployment-uninjected.yaml
-
-  # Update an existing deployment.
-  kubectl get deployment -o yaml | istioctl experimental kube-uninject -f - | kubectl apply -f -
-</code></pre>
 <h2 id="istioctl-experimental-metrics">istioctl experimental metrics</h2>
 <p>
 Prints the metrics for the specified service(s) when running in Kubernetes.</p>
@@ -3165,16 +2348,6 @@ calculated over a time interval of 1 minute.
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -3230,16 +2403,6 @@ calculated over a time interval of 1 minute.
 <td><code>--revision &lt;string&gt;</code></td>
 <td><code>-r</code></td>
 <td>Control plane revision  (default ``)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--skip-controlplane</code></td>
@@ -3327,16 +2490,6 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <td><code>--revision &lt;string&gt;</code></td>
 <td><code>-r</code></td>
 <td>Control plane revision  (default ``)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--timeout &lt;duration&gt;</code></td>
@@ -3440,285 +2593,12 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <td>Control plane revision  (default ``)</td>
 </tr>
 <tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 </tbody>
 </table>
-<h2 id="istioctl-experimental-remove-from-mesh">istioctl experimental remove-from-mesh</h2>
-<p>&#39;istioctl experimental remove-from-mesh&#39; restarts pods without an Istio sidecar or removes external service access configuration.
-Use &#39;remove-from-mesh&#39; to quickly test uninjected behavior as part of compatibility troubleshooting.
-The &#39;add-to-mesh&#39; command can be used to add or restore the sidecar.</p>
-<p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
-<pre class="language-bash"><code>istioctl experimental remove-from-mesh [flags]
-</code></pre>
-<div class="aliases">
-<pre class="language-bash"><code>istioctl experimental rm [flags]
-</code></pre></div>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>The name of the kubeconfig context to use  (default ``)</td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Config namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
-<td><code>--vklog &lt;Level&gt;</code></td>
-<td></td>
-<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="istioctl-experimental-remove-from-mesh Examples">Examples</h3>
-<pre class="language-bash"><code>  # Restart all productpage pods without an Istio sidecar
-  istioctl experimental remove-from-mesh service productpage
-
-  # Restart all details-v1 pods without an Istio sidecar
-  istioctl x rm service details-v1
-
-  # Restart all ratings-v1 pods without an Istio sidecar
-  istioctl x rm deploy ratings-v1
-</code></pre>
-<h2 id="istioctl-experimental-remove-from-mesh-deployment">istioctl experimental remove-from-mesh deployment</h2>
-<p>&#39;istioctl experimental remove-from-mesh deployment&#39; restarts pods with the Istio sidecar un-injected.
-&#39;remove-from-mesh&#39; is a compatibility troubleshooting tool.</p>
-<p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
-<pre class="language-bash"><code>istioctl experimental remove-from-mesh deployment &lt;deployment&gt; [flags]
-</code></pre>
-<div class="aliases">
-<pre class="language-bash"><code>istioctl experimental remove-from-mesh deploy &lt;deployment&gt; [flags]
-istioctl experimental remove-from-mesh dep &lt;deployment&gt; [flags]
-</code></pre></div>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>The name of the kubeconfig context to use  (default ``)</td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Config namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
-<td><code>--vklog &lt;Level&gt;</code></td>
-<td></td>
-<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="istioctl-experimental-remove-from-mesh-deployment Examples">Examples</h3>
-<pre class="language-bash"><code>  # Restart all productpage-v1 pods without an Istio sidecar
-  istioctl experimental remove-from-mesh deployment productpage-v1
-
-  # Restart all details-v1 pods without an Istio sidecar
-  istioctl x remove-from-mesh deploy details-v1
-
-  # Restart all ratings-v1 pods without an Istio sidecar
-  istioctl x rm dep ratings-v1
-</code></pre>
-<h2 id="istioctl-experimental-remove-from-mesh-external-service">istioctl experimental remove-from-mesh external-service</h2>
-<p>&#39;istioctl experimental remove-from-mesh external-service&#39; removes the ServiceEntry and
-the Kubernetes Service for the specified external service (e.g. services running on a VM) from Istio service mesh.
-The typical usage scenario is Mesh Expansion on VMs.</p>
-<p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
-<pre class="language-bash"><code>istioctl experimental remove-from-mesh external-service &lt;svcname&gt; [flags]
-</code></pre>
-<div class="aliases">
-<pre class="language-bash"><code>istioctl experimental remove-from-mesh es &lt;svcname&gt; [flags]
-</code></pre></div>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>The name of the kubeconfig context to use  (default ``)</td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Config namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
-<td><code>--vklog &lt;Level&gt;</code></td>
-<td></td>
-<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="istioctl-experimental-remove-from-mesh-external-service Examples">Examples</h3>
-<pre class="language-bash"><code>  # Remove &#34;vmhttp&#34; service entry rules
-  istioctl experimental remove-from-mesh external-service vmhttp
-
-  # Remove &#34;vmhttp&#34; service entry rules
-  istioctl x remove-from-mesh es vmhttp
-
-  # Remove &#34;vmhttp&#34; service entry rules
-  istioctl x rm es vmhttp
-</code></pre>
-<h2 id="istioctl-experimental-remove-from-mesh-service">istioctl experimental remove-from-mesh service</h2>
-<p>&#39;istioctl experimental remove-from-mesh service&#39; restarts pods with the Istio sidecar un-injected.
-&#39;remove-from-mesh&#39; is a compatibility troubleshooting tool.</p>
-<p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
-<pre class="language-bash"><code>istioctl experimental remove-from-mesh service &lt;service&gt; [flags]
-</code></pre>
-<div class="aliases">
-<pre class="language-bash"><code>istioctl experimental remove-from-mesh svc &lt;service&gt; [flags]
-</code></pre></div>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>The name of the kubeconfig context to use  (default ``)</td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Config namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
-<td><code>--vklog &lt;Level&gt;</code></td>
-<td></td>
-<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="istioctl-experimental-remove-from-mesh-service Examples">Examples</h3>
-<pre class="language-bash"><code>  # Restart all productpage pods without an Istio sidecar
-  istioctl experimental remove-from-mesh service productpage
-
-  # Restart all details-v1 pods without an Istio sidecar
-  istioctl x remove-from-mesh svc details-v1
-
-  # Restart all ratings-v1 pods without an Istio sidecar
-  istioctl x rm svc ratings-v1
-</code></pre>
 <h2 id="istioctl-experimental-revision">istioctl experimental revision</h2>
 <p>The revision command provides a revision centric view of istio deployments. It provides insight into IstioOperator CRs defining the revision, istiod and gateway pods which are part of deployment of a particular revision.</p>
 <table class="command-flags">
@@ -3749,7 +2629,7 @@ The typical usage scenario is Mesh Expansion on VMs.</p>
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.18.0/manifests).
+(e.g. ~/Downloads/istio-1.19.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -3761,16 +2641,6 @@ The typical usage scenario is Mesh Expansion on VMs.</p>
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
 <td>Output format for revision description (available formats: table,json)  (default `table`)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--verbose</code></td>
@@ -3816,7 +2686,7 @@ The typical usage scenario is Mesh Expansion on VMs.</p>
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.18.0/manifests).
+(e.g. ~/Downloads/istio-1.19.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -3828,16 +2698,6 @@ The typical usage scenario is Mesh Expansion on VMs.</p>
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
 <td>Output format for revision description (available formats: table,json)  (default `table`)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--verbose</code></td>
@@ -3895,7 +2755,7 @@ The typical usage scenario is Mesh Expansion on VMs.</p>
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.18.0/manifests).
+(e.g. ~/Downloads/istio-1.19.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -3907,16 +2767,6 @@ The typical usage scenario is Mesh Expansion on VMs.</p>
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
 <td>Output format for revision description (available formats: table,json)  (default `table`)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--verbose</code></td>
@@ -3979,7 +2829,7 @@ without manual relabeling of the &#34;istio.io/rev&#34; tag.
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.18.0/manifests).
+(e.g. ~/Downloads/istio-1.19.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -3991,16 +2841,6 @@ without manual relabeling of the &#34;istio.io/rev&#34; tag.
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
 <td>Output format for revision description (available formats: table,json)  (default `table`)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--verbose</code></td>
@@ -4052,7 +2892,7 @@ injection labels.</p>
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.18.0/manifests).
+(e.g. ~/Downloads/istio-1.19.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -4075,16 +2915,6 @@ overwrite existing revision tags. </td>
 <td><code>--revision &lt;string&gt;</code></td>
 <td><code>-r</code></td>
 <td>Control plane revision to reference from a given revision tag  (default ``)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -4158,7 +2988,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.18.0/manifests).
+(e.g. ~/Downloads/istio-1.19.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -4170,16 +3000,6 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
 <td>Output format for revision description (available formats: table,json)  (default `table`)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--verbose</code></td>
@@ -4235,7 +3055,7 @@ revision tag before removing using the &#34;istioctl tag list&#34; command.
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.18.0/manifests).
+(e.g. ~/Downloads/istio-1.19.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -4247,16 +3067,6 @@ revision tag before removing using the &#34;istioctl tag list&#34; command.
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
 <td>Output format for revision description (available formats: table,json)  (default `table`)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -4277,8 +3087,8 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 </tbody>
 </table>
 <h3 id="istioctl-experimental-revision-tag-remove Examples">Examples</h3>
-<pre class="language-bash"><code> # Remove the revision tag &#34;prod&#34;
-	istioctl tag remove prod
+<pre class="language-bash"><code>  # Remove the revision tag &#34;prod&#34;
+  istioctl tag remove prod
 
 </code></pre>
 <h2 id="istioctl-experimental-revision-tag-set">istioctl experimental revision tag set</h2>
@@ -4319,7 +3129,7 @@ injection labels.</p>
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.18.0/manifests).
+(e.g. ~/Downloads/istio-1.19.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -4342,16 +3152,6 @@ overwrite existing revision tags. </td>
 <td><code>--revision &lt;string&gt;</code></td>
 <td><code>-r</code></td>
 <td>Control plane revision to reference from a given revision tag  (default ``)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -4441,7 +3241,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.18.0/manifests).
+(e.g. ~/Downloads/istio-1.19.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -4460,21 +3260,11 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td>Target control plane revision for the command.  (default ``)</td>
 </tr>
 <tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
 <td><code>--set &lt;stringArray&gt;</code></td>
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.18/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.19/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -4571,16 +3361,6 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td><code>--revision &lt;string&gt;</code></td>
 <td><code>-r</code></td>
 <td>Control plane revision  (default ``)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--short</code></td>
@@ -4681,16 +3461,6 @@ istioctl x version --xds-label istio.io/rev=default
 <td>Control plane revision  (default ``)</td>
 </tr>
 <tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
 <td><code>--threshold &lt;float32&gt;</code></td>
 <td></td>
 <td>The ratio of distribution required for success  (default `1`)</td>
@@ -4747,16 +3517,6 @@ istioctl x version --xds-label istio.io/rev=default
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--service-account &lt;string&gt;</code></td>
@@ -4822,16 +3582,6 @@ istioctl x version --xds-label istio.io/rev=default
 <td>The revision to label the waypoint with  (default ``)</td>
 </tr>
 <tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
 <td><code>--service-account &lt;string&gt;</code></td>
 <td><code>-s</code></td>
 <td>service account to create a waypoint for  (default ``)</td>
@@ -4882,16 +3632,6 @@ istioctl x version --xds-label istio.io/rev=default
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--service-account &lt;string&gt;</code></td>
@@ -4954,16 +3694,6 @@ istioctl x version --xds-label istio.io/rev=default
 <td>The revision to label the waypoint with  (default ``)</td>
 </tr>
 <tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
 <td><code>--service-account &lt;string&gt;</code></td>
 <td><code>-s</code></td>
 <td>service account to create a waypoint for  (default ``)</td>
@@ -5018,16 +3748,6 @@ istioctl x version --xds-label istio.io/rev=default
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
 <td><code>--service-account &lt;string&gt;</code></td>
 <td><code>-s</code></td>
 <td>service account to create a waypoint for  (default ``)</td>
@@ -5078,16 +3798,6 @@ istioctl x version --xds-label istio.io/rev=default
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -5096,10 +3806,10 @@ istioctl x version --xds-label istio.io/rev=default
 </table>
 <h3 id="istioctl-experimental-workload Examples">Examples</h3>
 <pre class="language-bash"><code>  # workload group yaml generation
-  workload group create
+  istioctl x workload group create
 
   # workload entry configuration generation
-  workload entry configure
+  istioctl x workload entry configure
 </code></pre>
 <h2 id="istioctl-experimental-workload-entry">istioctl experimental workload entry</h2>
 <p>Commands dealing with WorkloadEntry resources</p>
@@ -5133,16 +3843,6 @@ istioctl x version --xds-label istio.io/rev=default
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -5150,7 +3850,7 @@ istioctl x version --xds-label istio.io/rev=default
 </tbody>
 </table>
 <h3 id="istioctl-experimental-workload-entry Examples">Examples</h3>
-<pre class="language-bash"><code>entry configure -f workloadgroup.yaml -o outputDir
+<pre class="language-bash"><code>  istioctl x workload entry configure -f workloadgroup.yaml -o outputDir
 </code></pre>
 <h2 id="istioctl-experimental-workload-entry-configure">istioctl experimental workload entry configure</h2>
 <p>Generates all the required configuration files for workload instance on a VM or non-Kubernetes environment from a WorkloadGroup artifact.
@@ -5243,16 +3943,6 @@ Configure requires either the WorkloadGroup artifact path or its location on the
 <td>Control plane revision  (default ``)</td>
 </tr>
 <tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
 <td><code>--tokenDuration &lt;int&gt;</code></td>
 <td></td>
 <td>The token duration in seconds (default: 1 hour)  (default `3600`)</td>
@@ -5266,10 +3956,10 @@ Configure requires either the WorkloadGroup artifact path or its location on the
 </table>
 <h3 id="istioctl-experimental-workload-entry-configure Examples">Examples</h3>
 <pre class="language-bash"><code>  # configure example using a local WorkloadGroup artifact
-  configure -f workloadgroup.yaml -o config
+  istioctl x workload entry configure -f workloadgroup.yaml -o config
 
   # configure example using the API server
-  configure --name foo --namespace bar -o config
+  istioctl x workload entry configure --name foo --namespace bar -o config
 </code></pre>
 <h2 id="istioctl-experimental-workload-group">istioctl experimental workload group</h2>
 <p>Commands dealing with WorkloadGroup resources</p>
@@ -5303,16 +3993,6 @@ Configure requires either the WorkloadGroup artifact path or its location on the
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -5320,7 +4000,7 @@ Configure requires either the WorkloadGroup artifact path or its location on the
 </tbody>
 </table>
 <h3 id="istioctl-experimental-workload-group Examples">Examples</h3>
-<pre class="language-bash"><code>group create --name foo --namespace bar --labels app=foobar
+<pre class="language-bash"><code>  istioctl x workload group create --name foo --namespace bar --labels app=foobar
 </code></pre>
 <h2 id="istioctl-experimental-workload-group-create">istioctl experimental workload group create</h2>
 <p>Creates a WorkloadGroup resource that provides a template for associated WorkloadEntries.
@@ -5377,16 +4057,6 @@ The default output is serialized YAML, which can be piped into &#39;kubectl appl
 <td>The incoming ports exposed by the workload instance  (default `[]`)</td>
 </tr>
 <tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
 <td><code>--serviceAccount &lt;string&gt;</code></td>
 <td><code>-s</code></td>
 <td>The service identity to associate with the workload instances  (default `default`)</td>
@@ -5399,7 +4069,7 @@ The default output is serialized YAML, which can be piped into &#39;kubectl appl
 </tbody>
 </table>
 <h3 id="istioctl-experimental-workload-group-create Examples">Examples</h3>
-<pre class="language-bash"><code>create --name foo --namespace bar --labels app=foo,bar=baz --ports grpc=3550,http=8080 --annotations annotation=foobar --serviceAccount sa
+<pre class="language-bash"><code>  istioctl x workload group create --name foo --namespace bar --labels app=foo,bar=baz --ports grpc=3550,http=8080 --annotations annotation=foobar --serviceAccount sa
 </code></pre>
 <h2 id="istioctl-install">istioctl install</h2>
 <p>The install command generates an Istio install manifest and applies it to a cluster.</p>
@@ -5457,7 +4127,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.18.0/manifests).
+(e.g. ~/Downloads/istio-1.19.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -5476,21 +4146,11 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td>Target control plane revision for the command.  (default ``)</td>
 </tr>
 <tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
 <td><code>--set &lt;stringArray&gt;</code></td>
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.18/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.19/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -5620,16 +4280,6 @@ doubt re-run istioctl kube-inject on deployments to get the most up-to-date chan
 <td>Control plane revision  (default ``)</td>
 </tr>
 <tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
 <td><code>--timeout &lt;duration&gt;</code></td>
 <td></td>
 <td>The duration to wait before failing  (default `30s`)</td>
@@ -5725,16 +4375,6 @@ doubt re-run istioctl kube-inject on deployments to get the most up-to-date chan
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -5798,16 +4438,6 @@ removed.</p>
 <td>Rename resources before comparison.
 The format of each renaming pair is A-&gt;B, all renaming pairs are comma separated.
 e.g. Service:*:istiod-&gt;Service:*:istio-control - rename istiod service into istio-control  (default ``)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--select &lt;string&gt;</code></td>
@@ -5893,7 +4523,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.18.0/manifests).
+(e.g. ~/Downloads/istio-1.19.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -5912,21 +4542,11 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td>Target control plane revision for the command.  (default ``)</td>
 </tr>
 <tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
 <td><code>--set &lt;stringArray&gt;</code></td>
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.18/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.19/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -6005,7 +4625,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.18.0/manifests).
+(e.g. ~/Downloads/istio-1.19.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -6024,21 +4644,11 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td>Target control plane revision for the command.  (default ``)</td>
 </tr>
 <tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
 <td><code>--set &lt;stringArray&gt;</code></td>
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.18/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.19/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -6104,16 +4714,6 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -6173,7 +4773,7 @@ could be secret list separated by comma, eg. &#39;--imagePullSecrets imagePullSe
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.18.0/manifests).
+(e.g. ~/Downloads/istio-1.19.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -6195,16 +4795,6 @@ could be secret list separated by comma, eg. &#39;--imagePullSecrets imagePullSe
 <td><code>--revision &lt;string&gt;</code></td>
 <td><code>-r</code></td>
 <td>Target revision for the operator.  (default ``)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--tag &lt;string&gt;</code></td>
@@ -6282,7 +4872,7 @@ could be secret list separated by comma, eg. &#39;--imagePullSecrets imagePullSe
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.18.0/manifests).
+(e.g. ~/Downloads/istio-1.19.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -6299,16 +4889,6 @@ could be secret list separated by comma, eg. &#39;--imagePullSecrets imagePullSe
 <td><code>--revision &lt;string&gt;</code></td>
 <td><code>-r</code></td>
 <td>Target revision for the operator.  (default ``)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--tag &lt;string&gt;</code></td>
@@ -6386,16 +4966,6 @@ could be secret list separated by comma, eg. &#39;--imagePullSecrets imagePullSe
 <td>Target revision for the operator.  (default ``)</td>
 </tr>
 <tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
 <td><code>--skip-confirmation</code></td>
 <td><code>-y</code></td>
 <td>The skipConfirmation determines whether the user is prompted for confirmation.
@@ -6440,16 +5010,6 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -6491,16 +5051,6 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -6555,23 +5105,13 @@ istioctl install --set profile=demo  # Use a profile from the list
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.18.0/manifests).
+(e.g. ~/Downloads/istio-1.19.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -6640,7 +5180,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.18.0/manifests).
+(e.g. ~/Downloads/istio-1.19.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -6652,16 +5192,6 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
 <td>Output format: one of json|yaml|flags  (default `yaml`)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -6712,23 +5242,13 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.18.0/manifests).
+(e.g. ~/Downloads/istio-1.19.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Config namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -6777,16 +5297,6 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--proxy-admin-port &lt;int&gt;</code></td>
 <td></td>
 <td>Envoy proxy admin port  (default `15000`)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -6874,16 +5384,6 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--proxy-admin-port &lt;int&gt;</code></td>
 <td></td>
 <td>Envoy proxy admin port  (default `15000`)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--subset &lt;string&gt;</code></td>
@@ -6974,16 +5474,6 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td>Envoy proxy admin port  (default `15000`)</td>
 </tr>
 <tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -7070,16 +5560,6 @@ istioctl proxy-config c [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <td>Envoy proxy admin port  (default `15000`)</td>
 </tr>
 <tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
 <td><code>--subset &lt;string&gt;</code></td>
 <td></td>
 <td>Filter clusters by substring of Subset field  (default ``)</td>
@@ -7156,16 +5636,6 @@ istioctl proxy-config c [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <td><code>--proxy-admin-port &lt;int&gt;</code></td>
 <td></td>
 <td>Envoy proxy admin port  (default `15000`)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -7249,16 +5719,6 @@ istioctl proxy-config ep [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <td><code>--proxy-admin-port &lt;int&gt;</code></td>
 <td></td>
 <td>Envoy proxy admin port  (default `15000`)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--status &lt;string&gt;</code></td>
@@ -7355,16 +5815,6 @@ istioctl proxy-config l [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <td>Envoy proxy admin port  (default `15000`)</td>
 </tr>
 <tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
 <td><code>--type &lt;string&gt;</code></td>
 <td></td>
 <td>Filter listeners by type field  (default ``)</td>
@@ -7430,7 +5880,7 @@ istioctl proxy-config l [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <tr>
 <td><code>--level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-logger level of messages to output, in the form of [&lt;logger&gt;:]&lt;level&gt;,[&lt;logger&gt;:]&lt;level&gt;,... where logger can be one of admin, aws, assert, backtrace, client, config, connection, conn_handler, dubbo, file, filter, forward_proxy, grpc, hc, health_checker, http, http2, hystrix, init, io, jwt, kafka, lua, main, misc, mongo, quic, pool, rbac, redis, router, runtime, stats, secret, tap, testing, thrift, tracing, upstream, udp, wasm and level can be one of [trace, debug, info, warning, error, critical, off]  (default ``)</td>
+<td>Comma-separated minimum per-logger level of messages to output, in the form of [&lt;logger&gt;:]&lt;level&gt;,[&lt;logger&gt;:]&lt;level&gt;,... where logger components can be listed by running &#34;istioctl proxy-config log &lt;pod-name[.namespace]&gt;&#34;or referred from https://github.com/envoyproxy/envoy/blob/main/source/common/common/logger.h, and level can be one of [trace, debug, info, warning, error, critical, off]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -7451,16 +5901,6 @@ istioctl proxy-config l [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <td><code>--reset</code></td>
 <td><code>-r</code></td>
 <td>Reset levels to default value (warning). </td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--selector &lt;string&gt;</code></td>
@@ -7536,16 +5976,6 @@ istioctl proxy-config l [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <td>Envoy proxy admin port  (default `15000`)</td>
 </tr>
 <tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -7612,16 +6042,6 @@ istioctl proxy-config r [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <td><code>--proxy-admin-port &lt;int&gt;</code></td>
 <td></td>
 <td>Envoy proxy admin port  (default `15000`)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--verbose</code></td>
@@ -7704,16 +6124,6 @@ istioctl proxy-config s [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <td>Envoy proxy admin port  (default `15000`)</td>
 </tr>
 <tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -7775,16 +6185,6 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <td><code>--revision &lt;string&gt;</code></td>
 <td><code>-r</code></td>
 <td>Control plane revision  (default ``)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -7851,16 +6251,6 @@ without manual relabeling of the &#34;istio.io/rev&#34; tag.
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -7905,7 +6295,7 @@ injection labels.</p>
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.18.0/manifests).
+(e.g. ~/Downloads/istio-1.19.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -7923,16 +6313,6 @@ overwrite existing revision tags. </td>
 <td><code>--revision &lt;string&gt;</code></td>
 <td><code>-r</code></td>
 <td>Control plane revision to reference from a given revision tag  (default ``)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -8003,16 +6383,6 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -8063,16 +6433,6 @@ revision tag before removing using the &#34;istioctl tag list&#34; command.
 <td>Config namespace  (default ``)</td>
 </tr>
 <tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
 <td><code>--skip-confirmation</code></td>
 <td><code>-y</code></td>
 <td>The skipConfirmation determines whether the user is prompted for confirmation.
@@ -8086,8 +6446,8 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 </tbody>
 </table>
 <h3 id="istioctl-tag-remove Examples">Examples</h3>
-<pre class="language-bash"><code> # Remove the revision tag &#34;prod&#34;
-	istioctl tag remove prod
+<pre class="language-bash"><code>  # Remove the revision tag &#34;prod&#34;
+  istioctl tag remove prod
 
 </code></pre>
 <h2 id="istioctl-tag-set">istioctl tag set</h2>
@@ -8128,7 +6488,7 @@ injection labels.</p>
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.18.0/manifests).
+(e.g. ~/Downloads/istio-1.19.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -8146,16 +6506,6 @@ overwrite existing revision tags. </td>
 <td><code>--revision &lt;string&gt;</code></td>
 <td><code>-r</code></td>
 <td>Control plane revision to reference from a given revision tag  (default ``)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -8240,7 +6590,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.18.0/manifests).
+(e.g. ~/Downloads/istio-1.19.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -8259,21 +6609,11 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td>Target control plane revision for the command.  (default ``)</td>
 </tr>
 <tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
 <td><code>--set &lt;stringArray&gt;</code></td>
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.18/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.19/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -8356,7 +6696,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.18.0/manifests).
+(e.g. ~/Downloads/istio-1.19.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -8370,21 +6710,11 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td>Maximum time to wait for Istio resources in each component to be ready.  (default `5m0s`)</td>
 </tr>
 <tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
 <td><code>--set &lt;stringArray&gt;</code></td>
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.18/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.19/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -8451,16 +6781,6 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td>Enable structural validation for policy and telemetry </td>
 </tr>
 <tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -8473,6 +6793,9 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 
   # Validate bookinfo-gateway.yaml with shorthand syntax
   istioctl v -f samples/bookinfo/networking/bookinfo-gateway.yaml
+
+  # Validate all yaml files under samples/bookinfo/networking directory
+  istioctl validate -f samples/bookinfo/networking
 
   # Validate current deployments under &#39;default&#39; namespace within the cluster
   kubectl get deployments -o yaml | istioctl validate -f -
@@ -8530,7 +6853,7 @@ istioctl experimental precheck.
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.18.0/manifests).
+(e.g. ~/Downloads/istio-1.19.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -8542,16 +6865,6 @@ istioctl experimental precheck.
 <td><code>--revision &lt;string&gt;</code></td>
 <td><code>-r</code></td>
 <td>Control plane revision  (default ``)</td>
-</tr>
-<tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -8622,16 +6935,6 @@ istioctl experimental precheck.
 <td>Control plane revision  (default ``)</td>
 </tr>
 <tr>
-<td><code>--s2a_enable_appengine_dialer</code></td>
-<td></td>
-<td>If true, opportunistically use AppEngine-specific dialer to call S2A. </td>
-</tr>
-<tr>
-<td><code>--s2a_timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>Timeout enforced on the connection to the S2A service for handshake.  (default `3s`)</td>
-</tr>
-<tr>
 <td><code>--short</code></td>
 <td><code>-s</code></td>
 <td>Use --short=false to generate full version information </td>
@@ -8656,12 +6959,6 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 </thead>
 <tbody>
 <tr>
-<td><code>AUTO_RELOAD_PLUGIN_CERTS</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If enabled, if user introduces new intermediate plug-in CA, user need not to restart istiod to pick up certs.Istiod picks newly added intermediate plug-in CA certs and updates it. Plug-in new Root-CA not supported.</td>
-</tr>
-<tr>
 <td><code>CA_TRUSTED_NODE_ACCOUNTS</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -8684,12 +6981,6 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>String</td>
 <td><code>Kubernetes</code></td>
 <td>Defines the cluster and service registry that this Istiod instance is belongs to</td>
-</tr>
-<tr>
-<td><code>ENABLE_AUTO_MTLS_CHECK_POLICIES</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>Enable the auto mTLS EDS output to consult the PeerAuthentication Policy, only set the {tlsMode: istio}  when server side policy enables mTLS PERMISSIVE or STRICT.</td>
 </tr>
 <tr>
 <td><code>ENABLE_AUTO_SNI</code></td>
@@ -8726,18 +7017,6 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled (default), starts a leader election client and gains leadership before executing controllers. If false, it assumes that only one instance of istiod is running and skips leader election.</td>
-</tr>
-<tr>
-<td><code>ENABLE_LEGACY_FSGROUP_INJECTION</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If true, Istiod will set the pod fsGroup to 1337 on injection. This is required for Kubernetes 1.18 and older (see https://github.com/kubernetes/kubernetes/issues/57923 for details) unless JWT_POLICY is &#34;first-party-jwt&#34;.</td>
-</tr>
-<tr>
-<td><code>ENABLE_LEGACY_LB_ALGORITHM_DEFAULT</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If enabled, destinations for which no LB algorithm is specified will use the legacy default, ROUND_ROBIN. Care should be taken when using ROUND_ROBIN in general as it can overburden endpoints, especially when weights are used.</td>
 </tr>
 <tr>
 <td><code>ENABLE_MCS_AUTO_EXPORT</code></td>
@@ -8780,12 +7059,6 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, the TLS configuration on Sidecar.ingress will take effect</td>
-</tr>
-<tr>
-<td><code>ENABLE_WASM_TELEMETRY</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If enabled, Wasm-based telemetry will be enabled.</td>
 </tr>
 <tr>
 <td><code>EXTERNAL_ISTIOD</code></td>
@@ -8902,12 +7175,6 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td></td>
 </tr>
 <tr>
-<td><code>ISTIO_DEFAULT_REQUEST_TIMEOUT</code></td>
-<td>Time Duration</td>
-<td><code>0s</code></td>
-<td>Default Http and gRPC Request timeout</td>
-</tr>
-<tr>
 <td><code>ISTIO_DELTA_XDS</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -8948,12 +7215,6 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>String</td>
 <td><code>protobuf</code></td>
 <td>The content type to use for Kubernetes clients. Defaults to protobuf. Valid options: [protobuf, json]</td>
-</tr>
-<tr>
-<td><code>ISTIO_METADATA_DISCOVERY</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>Enables proxy discovery of the workload metadata to back-fill the telemetry reports.</td>
 </tr>
 <tr>
 <td><code>ISTIO_MULTIROOT_MESH</code></td>
@@ -9026,6 +7287,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Time Duration</td>
 <td><code>0s</code></td>
 <td>Metric scope rotation interval, set to 0 to disable the metric scope rotation</td>
+</tr>
+<tr>
+<td><code>MUTEX_PROFILE_FRACTION</code></td>
+<td>Integer</td>
+<td><code>1000</code></td>
+<td>If set to a non-zero value, enables mutex profiling a rate of 1/MUTEX_PROFILE_FRACTION events. For example, &#39;1000&#39; will record 0.1% of events. Set to 0 to disable entirely.</td>
 </tr>
 <tr>
 <td><code>PILOT_ALLOW_SIDECAR_SERVICE_INBOUND_LISTENER_MERGE</code></td>
@@ -9166,28 +7433,10 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>If enabled, inbound clusters will be configured as ORIGINAL_DST clusters. When disabled, requests are always sent to localhost. The primary implication of this is that when enabled, binding to POD_IP will work while localhost will not; when disable, bind to POD_IP will not work, while localhost will. The enabled behavior matches the behavior without Istio enabled at all; this flag exists only for backwards compatibility. Regardless of this setting, the configuration can be overridden with the Sidecar.Ingress.DefaultEndpoint configuration.</td>
 </tr>
 <tr>
-<td><code>PILOT_ENABLE_ISTIO_TAGS</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>Determines whether or not trace spans generated by Envoy will include Istio-specific tags.</td>
-</tr>
-<tr>
 <td><code>PILOT_ENABLE_K8S_SELECT_WORKLOAD_ENTRIES</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, Kubernetes services with selectors will select workload entries with matching labels. It is safe to disable it if you are quite sure you don&#39;t need this feature</td>
-</tr>
-<tr>
-<td><code>PILOT_ENABLE_LEGACY_AUTO_PASSTHROUGH</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If enabled, pilot will allow any upstream cluster to be used with AUTO_PASSTHROUGH. This option is intended for backwards compatibility only and is not secure with untrusted downstreams; it will be removed in the future.</td>
-</tr>
-<tr>
-<td><code>PILOT_ENABLE_LEGACY_ISTIO_MUTUAL_CREDENTIAL_NAME</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If enabled, Gateway&#39;s with ISTIO_MUTUAL mode and credentialName configured will use simple TLS. This is to retain legacy behavior only and not recommended for use beyond migration.</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_METADATA_EXCHANGE</code></td>
@@ -9316,12 +7565,6 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Enables the use of HTTP 1.0 in the outbound HTTP listeners, to support legacy applications.</td>
 </tr>
 <tr>
-<td><code>PILOT_INBOUND_PROTOCOL_DETECTION_TIMEOUT</code></td>
-<td>Time Duration</td>
-<td><code>1s</code></td>
-<td>Protocol detection timeout for inbound listener</td>
-</tr>
-<tr>
 <td><code>PILOT_INSECURE_MULTICLUSTER_KUBECONFIG_OPTIONS</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -9340,22 +7583,10 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>The interval for istiod to fetch the jwks_uri for the jwks public key.</td>
 </tr>
 <tr>
-<td><code>PILOT_LEGACY_INGRESS_BEHAVIOR</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If this is set to true, istio ingress will perform the legacy behavior, which does not meet https://kubernetes.io/docs/concepts/services-networking/ingress/#multiple-matches.</td>
-</tr>
-<tr>
 <td><code>PILOT_MAX_REQUESTS_PER_SECOND</code></td>
 <td>Floating-Point</td>
 <td><code>25</code></td>
 <td>Limits the number of incoming XDS requests per second. On larger machines this can be increased to handle more proxies concurrently.</td>
-</tr>
-<tr>
-<td><code>PILOT_PARTIAL_FULL_PUSHES</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If enabled, pilot will send partial pushes in for child resources (RDS, EDS, etc) when possible. This occurs for EDS in many cases regardless of this setting.</td>
 </tr>
 <tr>
 <td><code>PILOT_PERSISTENT_SESSION_HEADER_LABEL</code></td>
@@ -9397,7 +7628,7 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td><code>PILOT_SIDECAR_USE_REMOTE_ADDRESS</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
-<td>UseRemoteAddress sets useRemoteAddress to true for side car outbound listeners.</td>
+<td>UseRemoteAddress sets useRemoteAddress to true for sidecar outbound listeners.</td>
 </tr>
 <tr>
 <td><code>PILOT_SKIP_VALIDATE_TRUST_DOMAIN</code></td>
@@ -9472,12 +7703,6 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>The timeout to send the XDS configuration to proxies. After this timeout is reached, Pilot will discard that push.</td>
 </tr>
 <tr>
-<td><code>PRIORITIZED_LEADER_ELECTION</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If enabled, the default revision will steal leader locks from non-default revisions</td>
-</tr>
-<tr>
 <td><code>REQUIRE_3P_TOKEN</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -9496,28 +7721,10 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>If enabled, readiness probes will be sent to &#39;localhost&#39;. Otherwise, they will be sent to the Pod&#39;s IP, matching Kubernetes&#39; behavior.</td>
 </tr>
 <tr>
-<td><code>REWRITE_TCP_PROBES</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If false, TCP probes will not be rewritten and therefor always succeed when a sidecar is used.</td>
-</tr>
-<tr>
 <td><code>SHARED_MESH_CONFIG</code></td>
 <td>String</td>
 <td><code></code></td>
 <td>Additional config map to load for shared MeshConfig settings. The standard mesh config will take precedence.</td>
-</tr>
-<tr>
-<td><code>SIDECAR_IGNORE_PORT_IN_HOST_MATCH</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If enabled, port will not be used in vhost domain matches.</td>
-</tr>
-<tr>
-<td><code>SPIFFE_BUNDLE_ENDPOINTS</code></td>
-<td>String</td>
-<td><code></code></td>
-<td>The SPIFFE bundle trust domain to endpoint mappings. Istiod retrieves the root certificate from each SPIFFE bundle endpoint and uses it to verify client certificates from that trust domain. The endpoint must be compliant to the SPIFFE Bundle Endpoint standard. For details, please refer to https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE_Trust_Domain_and_Bundle.md . No need to configure this for root certificates issued via Istiod or web-PKI based root certificates. Use || between &lt;trustdomain, endpoint&gt; tuples. Use | as delimiter between trust domain and endpoint in each tuple. For example: foo|https://url/for/foo||bar|https://url/for/bar</td>
 </tr>
 <tr>
 <td><code>TERM</code></td>
@@ -9652,6 +7859,7 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <tr><td><code>pilot_xds_rds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected RDS.</td></tr>
 <tr><td><code>pilot_xds_send_time</code></td><td><code>Distribution</code></td><td>Total time in seconds Pilot takes to send generated configuration.</td></tr>
 <tr><td><code>pilot_xds_write_timeout</code></td><td><code>Sum</code></td><td>Pilot XDS response write timeouts.</td></tr>
+<tr><td><code>provider_lookup_cluster_failures</code></td><td><code>Sum</code></td><td>Number of times a cluster lookup failed</td></tr>
 <tr><td><code>reconcile_request_total</code></td><td><code>Sum</code></td><td>Number of times requesting Reconcile</td></tr>
 <tr><td><code>remote_cluster_sync_timeouts_total</code></td><td><code>Sum</code></td><td>Number of times remote clusters took too long to sync, causing slow startup that excludes remote clusters.</td></tr>
 <tr><td><code>render_manifest_total</code></td><td><code>Sum</code></td><td>Number of component manifests rendered</td></tr>
