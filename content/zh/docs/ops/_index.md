@@ -8,6 +8,5 @@ aliases:
     - /zh/help/troubleshooting/index.html
     - /zh/help/ops
     - /zh/help
-icon: guide
 test: n/a
 ---
