@@ -39,7 +39,6 @@ Added a number of enhancements to the istioctl command including enhancements to
 
 ## Upgrading to 1.18
 
-We would like to hear from you regarding your experience upgrading to Istio 1.17. Please take a few minutes to respond to a [brief survey](https://forms.gle/99uiMML96AmsXY5d6) and let us know how we are doing and what we can do to improve.
+We would like to hear from you regarding your experience upgrading to Istio 1.18. You can provide feedback at [Discuss Istio](https://discuss.istio.io/), or join the #release-1.18 channel in our [Slack workspace](https://slack.istio.io/).
 
-You can also join the conversation at [Discuss Istio](https://discuss.istio.io/), or join our [Slack workspace](https://slack.istio.io/).
 Would you like to contribute directly to Istio? Find and join one of our [Working Groups](https://github.com/istio/community/blob/master/WORKING-GROUPS.md) and help us improve.
