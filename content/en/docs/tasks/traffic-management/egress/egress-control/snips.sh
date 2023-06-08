@@ -194,6 +194,14 @@ grep service_cluster_ip_range cluster/config.yaml
 service_cluster_ip_range: 10.0.0.1/24
 ENDSNIP
 
+snip_ibm_cloud_kubernetes_service_1() {
+ibmcloud ks cluster get -c my-cluster | grep "Service Subnet"
+}
+
+! read -r -d '' snip_ibm_cloud_kubernetes_service_1_out <<\ENDSNIP
+Service Subnet:                 172.21.0.0/16
+ENDSNIP
+
 snip_google_kubernetes_engine_gke_1() {
 gcloud container clusters describe XXXXXXX --zone=XXXXXX | grep -e clusterIpv4Cidr -e servicesIpv4Cidr
 }
