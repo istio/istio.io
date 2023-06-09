@@ -27,7 +27,6 @@ test: yes
     您可以在 `demo` 配置文件以外的 Istio 配置上运行此任务，只要您确保 [部署 Istio egress 网关](/zh/docs/tasks/traffic-management/egress/egress-gateway/#deploy-Istio-egress-gateway)。
     [开启 Envoy 的访问日志](/zh/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)和
     [应用默认阻止出站流量策略](/zh/docs/tasks/traffic-management/egress/egress-control/#change-to-the-blocking-by-default-policy)
-    在您的安装步骤中。您还需要使用自己的 `IstioOperator` CR 代替[使用SNI代理设置出口网关](#setup-egress-gateway-with-sni-proxy)中显示。
     {{< /tip >}}
 
 *   部署[sleep]({{< github_tree >}}/samples/sleep)示例应用程序，以用作发送请求的测试源。如果您开启了 [自动 sidecar 注入](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)，运行以下命令以部署示例应用程序：
