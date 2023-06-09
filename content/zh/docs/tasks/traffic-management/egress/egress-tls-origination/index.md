@@ -224,6 +224,8 @@ $ kubectl delete destinationrule edition-cnn-com
 
     **必须**在部署客户端 Pod 的统一命名空间中创建密钥，本例为 `default`。
 
+    {{< boilerplate crl-tip >}}
+
 1. 创建必需的 `RBAC` 以确保在上述步骤中创建的密钥对客户端 Pod 是可访问的，在本例中是 `sleep`。
 
     {{< text bash >}}
@@ -233,10 +235,27 @@ $ kubectl delete destinationrule edition-cnn-com
 
 ### 为 Sidecar 上的出口流量配置双向 TLS 发起{#configure-mutual-tls-origination-for-egress-traffic-at-sidecar}
 
-1.  添加一个 `DestinationRule` 以执行双向 TLS 发起
+1. 添加 `ServiceEntry` 将 HTTP 请求重定向到 443 端口，并且添加 `DestinationRule` 以执行发起双向 TLS:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: ServiceEntry
+    metadata:
+      name: originate-mtls-for-nginx
+    spec:
+      hosts:
+      - my-nginx.mesh-external.svc.cluster.local
+      ports:
+      - number: 80
+        name: http-port
+        protocol: HTTP
+        targetPort: 443
+      - number: 443
+        name: https-port
+        protocol: HTTPS
+      resolution: DNS
+    ---
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
     metadata:
@@ -251,7 +270,7 @@ $ kubectl delete destinationrule edition-cnn-com
           simple: ROUND_ROBIN
         portLevelSettings:
         - port:
-            number: 443
+            number: 80
           tls:
             mode: MUTUAL
             credentialName: client-credential # this must match the secret created earlier to hold client certs, and works only when DR has a workloadSelector
@@ -259,10 +278,21 @@ $ kubectl delete destinationrule edition-cnn-com
     EOF
     {{< /text >}}
 
+    上面 `DestinationRule` 将在 80 端口对 HTTP 执行发起 mTLS 请求，
+    之后 `ServiceEntry` 将把 80 端口的请求重定向到 443 端口。
+
+1.  验证凭据是否已提供给 Sidecar 并且处于活跃状态。
+
+    {{< text bash >}}
+    $ istioctl proxy-config secret deploy/sleep | grep client-credential
+    kubernetes://client-credential            Cert Chain     ACTIVE     true           1                                          2024-06-04T12:15:20Z     2023-06-05T12:15:20Z
+    kubernetes://client-credential-cacert     Cert Chain     ACTIVE     true           10792363984292733914                       2024-06-04T12:15:19Z     2023-06-05T12:15:19Z
+    {{< /text >}}
+
 1.  发送一个 HTTP 请求到 `http://my-nginx.mesh-external.svc.cluster.local`：
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -sS http://my-nginx.mesh-external.svc.cluster.local:443
+    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -sS http://my-nginx.mesh-external.svc.cluster.local
     <!DOCTYPE html>
     <html>
     <head>
@@ -284,11 +314,13 @@ $ kubectl delete destinationrule edition-cnn-com
 
 ### 清理双向 TLS 发起配置{#cleanup-the-mutual-tls-origination-configuration}
 
-1.  移除创建的 Kubernetes 资源：
+1. 移除创建的 Kubernetes 资源：
 
     {{< text bash >}}
     $ kubectl delete secret nginx-server-certs nginx-ca-certs -n mesh-external
     $ kubectl delete secret client-credential
+    $ kubectl delete rolebinding client-credential-role-binding
+    $ kubectl delete role client-credential-role
     $ kubectl delete configmap nginx-configmap -n mesh-external
     $ kubectl delete service my-nginx -n mesh-external
     $ kubectl delete deployment my-nginx -n mesh-external
