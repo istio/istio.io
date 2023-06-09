@@ -1,13 +1,13 @@
 ---
 title: Ingress 网关
-description: 展示如何在 ingress 网关上设置访问控制。
+description: 展示如何在 Ingress 网关上设置访问控制。
 weight: 50
 keywords: [security,access-control,rbac,authorization,ingress,ip,allowlist,denylist]
 owner: istio/wg-security-maintainers
 test: yes
 ---
 
-此任务向您展示如何使用授权策略在 Istio ingress 网关上实施基于 IP 的访问控制。
+此任务向您展示如何使用授权策略在 Istio Ingress 网关上实施基于 IP 的访问控制。
 
 {{< boilerplate gateway-api-support >}}
 
@@ -19,7 +19,7 @@ test: yes
 
 * 使用 [Istio 安装指南](/zh/docs/setup/install/istioctl/)安装 Istio。
 
-* 在启用边车注入的命名空间`foo`中部署工作负载`httpbin`：
+* 在启用 Sidecar 注入的命名空间 `foo` 中部署工作负载 `httpbin`：
 
     {{< text bash >}}
     $ kubectl create ns foo
@@ -27,7 +27,7 @@ test: yes
     $ kubectl apply -f @samples/httpbin/httpbin.yaml@ -n foo
     {{< /text >}}
 
-* 通过 ingress 网关暴露 `httpbin`:
+* 通过 Ingress 网关暴露 `httpbin`：
 
 {{< tabset category-name="config-api" >}}
 
@@ -39,14 +39,14 @@ test: yes
 $ kubectl apply -f @samples/httpbin/httpbin-gateway.yaml@ -n foo
 {{< /text >}}
 
-* 在 Envoy 中为 ingress 网关打开 RBAC 调试：
+在 Envoy 中为 Ingress 网关打开 RBAC 调试：
 
-    {{< text bash >}}
-    $ kubectl get pods -n istio-system -o name -l istio=ingressgateway | sed 's|pod/||' | while read -r pod; do istioctl proxy-config log "$pod" -n istio-system --level rbac:debug; done
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl get pods -n istio-system -o name -l istio=ingressgateway | sed 's|pod/||' | while read -r pod; do istioctl proxy-config log "$pod" -n istio-system --level rbac:debug; done
+{{< /text >}}
 
-* 遵从[确定 ingress IP 和端口](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)中的指示说明来定义
-  `INGRESS_HOST` 和 `INGRESS_PORT` 环境变量。
+遵从[确定 Ingress IP 和端口](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)中的指示说明来定义
+`INGRESS_HOST` 和 `INGRESS_PORT` 环境变量。
 
 {{< /tab >}}
 
@@ -100,10 +100,10 @@ Kubernetes 的 `Ingress` 资源也必须由 Ingress 控制器支持，该控制�
   您必须在工作节点前面手动创建某种负载均衡器或使用轮询模式的 DNS。
 
 * `LoadBalancer` 就像 `NodePort` 一样，
-   除了它还创建一个特定于环境的外部负载均衡器来处理将流量分配到工作节点。
-   例如，在 AWS EKS 中，`LoadBalancer` 服务将创建一个以您的工作程序节点为目标的经典
-   ELB。如果您的 Kubernetes 环境没有 `LoadBalancer` 实现，那么它的行为就像
-   `NodePort`。Istio ingress 网关创建一个 `LoadBalancer`服务。
+  除了它还创建一个特定于环境的外部负载均衡器来处理将流量分配到工作节点。
+  例如，在 AWS EKS 中，`LoadBalancer` 服务将创建一个以您的工作程序节点为目标的经典
+  ELB。如果您的 Kubernetes 环境没有 `LoadBalancer` 实现，那么它的行为就像
+  `NodePort`。Istio Ingress 网关创建一个 `LoadBalancer`服务。
 
 如果处理来自 `NodePort` 或 `LoadBalancer` 的流量的 Pod
 没有在接收流量的工作节点上运行怎么办？Kubernetes 有自己的内部代理，
@@ -127,8 +127,10 @@ Kubernetes 的 `Ingress` 资源也必须由 Ingress 控制器支持，该控制�
 |Azure AKS      | Azure Load Balancer           | Network
 |IBM IKS/ROKS   | Network Load Balancer         | Network
 |DO DOKS        | Load Balancer                 | Network
+
 {{< tip >}}
 您可以指示 AWS EKS 在网关服务上创建带有注解的的 Network Load Balancer：
+
 {{< tabset category-name="config-api" >}}
 
 {{< tab name="Istio classic" category-value="istio-classic" >}}
@@ -192,13 +194,13 @@ metadata:
   namespace: istio-system
 spec:
   configPatches:
-  - applyTo: LISTENER
+  - applyTo: LISTENER_FILTER
     patch:
-      operation: MERGE
+      operation: INSERT_FIRST
       value:
-        listener_filters:
-        - name: envoy.listener.proxy_protocol
-        - name: envoy.listener.tls_inspector
+        name: proxy_protocol
+        typed_config:
+          "@type": "type.googleapis.com/envoy.extensions.filters.listener.proxy_protocol.v3.ProxyProtocol"
   workloadSelector:
     labels:
       istio: ingressgateway
@@ -209,20 +211,20 @@ spec:
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alp ha3
+apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
 metadata:
   name: proxy-protocol
   namespace: foo
 spec:
   configPatches:
-  - applyTo: LISTENER
+  - applyTo: LISTENER_FILTER
     patch:
-      operation: MERGE
+      operation: INSERT_FIRST
       value:
-        listener_filters:
-        - name: envoy.listener.proxy_protocol
-        - name: envoy.listener.tls_inspector
+        name: proxy_protocol
+        typed_config:
+          "@type": "type.googleapis.com/envoy.extensions.filters.listener.proxy_protocol.v3.ProxyProtocol"
   workloadSelector:
     labels:
       istio.io/gateway-name: httpbin-gateway
@@ -232,7 +234,7 @@ spec:
 
 {{< /tabset >}}
 
-以下是一个示例配置，展示了如何使 AWS EKS 上的 ingress 网关支持代理协议：
+以下是一个示例配置，展示了如何使 AWS EKS 上的 Ingress 网关支持代理协议：
 
 {{< tabset category-name="config-api" >}}
 
@@ -293,7 +295,7 @@ spec:
 ### 网络负载均衡器 {#network}
 
 如果您正在使用保留客户端 IP 地址的 TCP/UDP 网络负载均衡器 (AWS 网络负载均衡器、
-GCP 外部网络负载均衡器、Azure 负载均衡器)，或者您正在使用轮询DNS，则您可以通过绕过
+GCP 外部网络负载均衡器、Azure 负载均衡器)，或者您正在使用轮询 DNS，则您可以通过绕过
 kube-proxy 并阻止其将流量发送到其他节点，使用 `externalTrafficPolicy: Local`
 设置来同时保留 Kubernetes 内部的客户端 IP。
 
@@ -306,7 +308,7 @@ kube-proxy 并阻止其将流量发送到其他节点，使用 `externalTrafficP
 有关更多信息，请参阅[服务源 IP `Type=NodePort`](https://kubernetes.io/zh-cn/docs/tutorials/services/source-ip/#source-ip-for-services-with-type-nodeport)。
 {{< /warning >}}
 
-使用以下命令更新 Ingress 网关以设置 `exteralTrafficPolicy：Local` 以保留 Ingress 网关上的原始客户端源 IP:
+使用以下命令更新 Ingress 网关以设置 `exteralTrafficPolicy：Local` 以保留 Ingress 网关上的原始客户端源 IP：
 
 {{< tabset category-name="config-api" >}}
 
@@ -332,8 +334,8 @@ $ kubectl patch svc httpbin-gateway-istio -n foo -p '{"spec":{"externalTrafficPo
 
 如果您使用的是 HTTP/HTTPS 外部负载平衡器 (AWS、ALB、GCP)，它可以将原始客户端 IP 地址放在
 X-Forwarded-For 报头中。通过一些配置，Istio 可以从该报头中提取客户端 IP 地址。
-请参阅[配置网关网络拓扑](/zh/docs/ops/configuration/traffic-management/network-topologies/).
-在Kubernetes面前使用单个负载均衡的快速示例：
+请参阅[配置网关网络拓扑](/zh/docs/ops/configuration/traffic-management/network-topologies/)。
+在 Kubernetes 面前使用单个负载均衡的快速示例：
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha1
@@ -347,7 +349,7 @@ spec:
         numTrustedProxies: 1
 {{< /text >}}
 
-## IP-based allow list and deny list
+## 基于 IP 的允许列表和拒绝列表 {#ip-based-allow-list-and-deny-list}
 
 **何时使用 `ipBlocks` 与 `emoteIpBlocks`:** 如果您使用 X-Forwarded-For HTTP 头部
 或代理协议来确定原始客户端 IP 地址，则应在 `AuthorizationPolicy` 中使用 `emoteIpBlocks`。
@@ -360,10 +362,9 @@ spec:
 | Network           | packet source address| `ipBlocks`
 | HTTP/HTTPS        | X-Forwarded-For      | `remoteIpBlocks`
 
-* 以下命令为创建授权策略`Inress-Policy`
-Istio  ingress 网关。以下策略将 `action` 字段设置为 `ALLOW` 以
-允许 `ipBlocks` 中指定的 IP 地址访问 ingress 网关。
-不在列表中的 IP 地址将被拒绝。`ipBlocks` 支持单 IP 地址和 CIDR 表示法。
+* 以下命令为创建授权策略`Inress-Policy` Istio Ingress 网关。
+  以下策略将 `action` 字段设置为 `ALLOW` 以允许 `ipBlocks` 中指定的 IP 地址访问 Ingress 网关。
+  不在列表中的 IP 地址将被拒绝。`ipBlocks` 支持单 IP 地址和 CIDR 表示法。
 
 {{< tabset category-name="config-api" >}}
 
@@ -461,7 +462,7 @@ EOF
 
 {{< /tabset >}}
 
-* 验证对 ingress 网关的请求是否被拒绝：
+* 验证对 Ingress 网关的请求是否被拒绝：
 
     {{< text bash >}}
     $ curl "$INGRESS_HOST:$INGRESS_PORT"/headers -s -o /dev/null -w "%{http_code}\n"
@@ -510,7 +511,7 @@ $ CLIENT_IP=$(kubectl get pods -n foo -o name -l istio.io/gateway-name=httpbin-g
 
 {{< /tabset >}}
 
-* 更新 `inress-policy` 以包含您的客户端IP地址:
+* 更新 `inress-policy` 以包含您的客户端 IP 地址:
 
 {{< tabset category-name="config-api" >}}
 
@@ -608,7 +609,7 @@ EOF
 
 {{< /tabset >}}
 
-* 验证是否允许对 ingress 网关的请求：
+* 验证是否允许对 Ingress 网关的请求：
 
     {{< text bash >}}
     $ curl "$INGRESS_HOST:$INGRESS_PORT"/headers -s -o /dev/null -w "%{http_code}\n"
@@ -616,7 +617,7 @@ EOF
     {{< /text >}}
 
 * 更新 `Inress-Policy` 授权策略，将 `action` 键设置为 `DENY`，
-禁止 `ipBlocks` 中指定的 IP 地址访问 ingress 网关：
+  禁止 `ipBlocks` 中指定的 IP 地址访问 Ingress 网关：
 
 {{< tabset category-name="config-api" >}}
 
@@ -714,16 +715,16 @@ EOF
 
 {{< /tabset >}}
 
-* 验证对 ingress 网关的请求是否被拒绝：
+* 验证对 Ingress 网关的请求是否被拒绝：
 
     {{< text bash >}}
     $ curl "$INGRESS_HOST:$INGRESS_PORT"/headers -s -o /dev/null -w "%{http_code}\n"
     403
     {{< /text >}}
 
-* 您可以使用在线代理服务来访问使用不同客户端 IP 的 ingress 网关，以验证请求是否被允许。
+* 您可以使用在线代理服务来访问使用不同客户端 IP 的 Ingress 网关，以验证请求是否被允许。
 
-* 如果您没有得到预期的响应，请查看应显示 RBAC 调试信息的 ingress 网关日志：
+* 如果您没有得到预期的响应，请查看应显示 RBAC 调试信息的 Ingress 网关日志：
 
 {{< tabset category-name="config-api" >}}
 
@@ -745,9 +746,9 @@ $ kubectl get pods -n foo -o name -l istio.io/gateway-name=httpbin-gateway | sed
 
 {{< /tabset >}}
 
-## 清理
+## 清理 {#clean-up}
 
-* 删除授权策略:
+* 删除授权策略：
 
 {{< tabset category-name="config-api" >}}
 
@@ -769,7 +770,7 @@ $ kubectl delete authorizationpolicy ingress-policy -n foo
 
 {{< /tabset >}}
 
-* 移除命令空间 `foo`:
+* 移除命令空间 `foo`：
 
     {{< text bash >}}
     $ kubectl delete namespace foo
