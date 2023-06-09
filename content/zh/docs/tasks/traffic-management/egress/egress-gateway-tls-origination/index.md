@@ -561,6 +561,14 @@ $ kubectl delete destinationrule egressgateway-for-cnn
     EOF
     {{< /text >}}
 
+1. 验证凭据是否已提供给出口网关并处于活动状态。
+
+    {{< text bash >}}
+    $ istioctl -n istio-system proxy-config secret deploy/istio-egressgateway | grep client-credential
+    kubernetes://client-credential            Cert Chain     ACTIVE     true           1                                          2024-06-04T12:46:28Z     2023-06-05T12:46:28Z
+    kubernetes://client-credential-cacert     Cert Chain     ACTIVE     true           16491643791048004260                       2024-06-04T12:46:28Z     2023-06-05T12:46:28Z
+    {{< /text >}}
+
 1. 发送一个 HTTP 请求至 `http://my-nginx.mesh-external.svc.cluster.local`：
 
     {{< text bash >}}
