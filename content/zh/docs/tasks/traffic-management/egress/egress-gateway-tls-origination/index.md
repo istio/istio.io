@@ -275,8 +275,8 @@ $ kubectl delete destinationrule egressgateway-for-cnn
 
 ### 部署一个双向 TLS 服务器 {#deploy-a-mutual-TLS-server}
 
-为了模拟一个真实的支持双向 TLS 协议的外部服务，
-在 Kubernetes 集群中部署一个 [NGINX](https://www.nginx.com) 服务器，
+为了模拟一个真实的支持双向 TLS 协议的外部服务，在 Kubernetes 集群中部署一个
+[NGINX](https://www.nginx.com) 服务器，
 该服务器运行在 Istio 服务网格之外，譬如：运行在一个没有开启 Istio Sidecar proxy
 注入的命名空间中。
 
