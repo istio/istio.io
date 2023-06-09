@@ -88,7 +88,7 @@ spec:
 ENDSNIP
 
 ! read -r -d '' snip_tcpudp_proxy_load_balancer_1 <<\ENDSNIP
-apiVersion: networking.istio.io/v1alp ha3
+apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
 metadata:
   name: proxy-protocol
@@ -108,7 +108,7 @@ spec:
 ENDSNIP
 
 ! read -r -d '' snip_tcpudp_proxy_load_balancer_2 <<\ENDSNIP
-apiVersion: networking.istio.io/v1alp ha3
+apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
 metadata:
   name: proxy-protocol

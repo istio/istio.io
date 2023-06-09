@@ -186,7 +186,7 @@ If you are using a TCP/UDP Proxy external load balancer (AWS Classic ELB), it ca
 {{< tab name="Istio classic" category-value="istio-classic" >}}
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alp ha3
+apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
 metadata:
   name: proxy-protocol
@@ -210,7 +210,7 @@ spec:
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alp ha3
+apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
 metadata:
   name: proxy-protocol
