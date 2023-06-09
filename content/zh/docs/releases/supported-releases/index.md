@@ -13,12 +13,12 @@ test: n/a
 受支持的 Istio 版本包括处于维护窗口期以及为安全问题和错误提供了补丁的版本。
 Minor 版本中的补丁版本不包含向后的兼容性。
 
-- [支持策略](#support-policy)
-- [命名方案](#naming-scheme)
-- [控制面/数据面偏差](#control-planedata-plane-skew)
-- [Istio 版本的支持状态](#support-status-of-istio-releases)
-- [没有已知的 CVE 和常见漏洞的受支持版本](#supported-releases-without-known-common-vulnerabilities-and-exposures-cves)
-- [Istio 和 Envoy 之间的关系](#supported-envoy-versions)
+- [支持策略{#support-policy}](#支持策略support-policy)
+- [命名方案{#naming-scheme}](#命名方案naming-scheme)
+- [控制面/数据面偏差{#control-planedata-plane-skew}](#控制面数据面偏差control-planedata-plane-skew)
+- [Istio 版本的支持状态{#support-status-of-istio-releases}](#istio-版本的支持状态support-status-of-istio-releases)
+- [没有已知的 CVE 和常见漏洞的受支持版本{#supported-releases-without-known-common-vulnerabilities-and-exposures-cves}](#没有已知的-cve-和常见漏洞的受支持版本supported-releases-without-known-common-vulnerabilities-and-exposures-cves)
+- [支持的 Envoy 版本{#supported-envoy-versions}](#支持的-envoy-版本supported-envoy-versions)
 
 ## 支持策略{#support-policy}
 
@@ -61,11 +61,6 @@ Istio 控制面可以比数据面高一个版本。但数据面的版本不能�
 
 {{< support_status_table >}}
 
-{{< warning >}}
-[Kubernetes 1.22 删除了一些已弃用的 API](https://kubernetes.io/blog/2021/07/14/upcoming-changes-in-kubernetes-1-22/)，
-因此 1.10.0 之前的 Istio 版本将不再工作。如果您正在升级 Kubernetes 版本，请确保 Istio 的版本仍然受到支持。
-{{< /warning >}}
-
 ## 没有已知的 CVE 和常见漏洞的受支持版本{#supported-releases-without-known-common-vulnerabilities-and-exposures-cves}
 
 {{< warning >}}
@@ -74,10 +69,10 @@ Istio 不保证超出支持窗口期的 Minor 版本都有已知的 CVE 补丁�
 
 | Minor 版本 | 没有已知 CVE 的补丁版本                  |
 |------------------|---------------------------------|
-| 1.17.x           | 1.17.2+                         |
-| 1.16.x           | 1.16.4+                         |
-| 1.15.x           | 1.15.7 - 生命周期结束。不会针对新的 CVE 打补丁。 |
-| 1.14 和更早版本   | 无，所有版本都有已知的漏洞。                  |
+| 1.18.x           | 1.18.0                                               |
+| 1.17.x           | 1.17.2+                                              |
+| 1.16.x           | 1.16.4+                                              |
+| 1.15.x           | 1.15.7 - 生命周期结束。 不会针对新的 CVE 打补丁。  |
 
 ## 支持的 Envoy 版本{#supported-envoy-versions}
 
@@ -87,9 +82,9 @@ Istio 的数据面基于 [Envoy](https://github.com/envoyproxy/envoy)。
 
 | Istio 版本 | Envoy 版本 |
 | ---------- | ---------- |
-| 1.17.x     | 1.25.x     |
-| 1.16.x     | 1.24.x     |
-| 1.15.x     | 1.23.x     |
+| 1.18.x        | 1.26.x        |
+| 1.17.x        | 1.25.x        |
+| 1.16.x        | 1.24.x        |
 
 通常，Istio 版本倾向于与 Envoy 版本逐一对应。
 您可以在 [`istio/proxy`](https://github.com/istio/proxy/blob/master/WORKSPACE#L38)
