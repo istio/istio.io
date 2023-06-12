@@ -1,6 +1,6 @@
 ---
 title: Install Istio on a Dual-Stack Kubernetes Cluster
-description: Install and use Istio in Dual-Stack mode running on a Dual-Stack Kubernetes cluster
+description: Install and use Istio in Dual-Stack mode running on a Dual-Stack Kubernetes cluster.
 weight: 70
 aliases:
     - /docs/setup/kubernetes/install/dual-stack
@@ -17,7 +17,6 @@ This guide is intended to be used with:
    * [Configured for dual-stack operations](https://kubernetes.io/docs/concepts/services-networking/dual-stack/)
 * Istio 1.17 or later.
 
-
 ## Installation
 
 The installation guide requires changes to both istiod and the injected sidecars. When
@@ -30,7 +29,7 @@ to migrate from an installation on a dual-stack Kubernetes cluster with the foll
 parameters not defined, this is not currently supported.
 {{< /tip >}}
 
-{< tabset category-name="dualstack" >}
+{{< tabset category-name="dualstack" >}}
 
 {{< tab name="IstioOperator" category-value="iop" >}}
 
@@ -74,4 +73,4 @@ It is not clear if this works well with Ambient.
 ## Feedback
 
 Please report any issues found either on [GitHub](https://github.com/istio/istio.io/issues) or
-the istio's slack channel, #dualstack.
+the Istio's #dual-stack slack channel.
