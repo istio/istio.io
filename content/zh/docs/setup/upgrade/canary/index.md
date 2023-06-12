@@ -83,8 +83,8 @@ istiod-canary-6956db645c-vwhsk
 但是，仅安装新版本不会对现有的 Sidecar 代理产生影响。要升级它们，必须将它们配置为指向新的
 `istiod-canary` 控制平面。这是在基于命名空间标签的 Sidecar 注入期间控制的 `istio.io/rev`。
 
-要升级名称空间 `test-ns`，请删除 `istio-injection` 标签，然后添加 `istio.io/rev` 标签以指向
-`canary` 修订版本。`istio-injection` 标签必须移除，因为它的优先级高于 `istio.io/rev`，此标签用于向后兼容性。
+要升级命名空间 `test-ns`，请删除 `istio-injection` 标签，然后添加 `istio.io/rev` 标签以指向
+`canary` 修订版本。为了向后兼容性，`istio-injection` 标签必须移除，因为它的优先级高于 `istio.io/rev`。
 
 {{< text bash >}}
 $ kubectl label namespace test-ns istio-injection- istio.io/rev=canary
@@ -96,7 +96,7 @@ $ kubectl label namespace test-ns istio-injection- istio.io/rev=canary
 $ kubectl rollout restart deployment -n test-ns
 {{< /text >}}
 
-当 Pod 被重新注入时，它们将被配置为指向 `istiod-canary` 控制平面。你可以使用 `istioctl proxy-status` 来验证。
+当 Pod 被重新注入时，它们将被配置为指向 `istiod-canary` 控制平面。您可以使用 `istioctl proxy-status` 来验证。
 
 {{< text bash >}}
 $ istioctl proxy-status | grep "\.test-ns "
@@ -141,7 +141,7 @@ $ istioctl proxy-status | grep "\.test-ns "
     $ kubectl label ns app-ns-3 istio.io/rev=prod-canary
     {{< /text >}}
 
-1. 在每个命名空间中部署一个休眠 pod 示例:
+1. 在每个命名空间中部署一个休眠 Pod 示例:
 
     {{< text bash >}}
     $ kubectl apply -n app-ns-1 -f samples/sleep/sleep.yaml
@@ -194,7 +194,8 @@ $ istioctl tag set default --revision {{< istio_full_version_revision >}}
 
 ## 卸载旧的控制平面 {#uninstall-old-control-plane}
 
-升级控制平面和数据平面之后，您可以卸载旧的控制平面。例如，以下命令卸载修订版本的控制平面 `{{< istio_previous_version_revision >}}-1`：
+升级控制平面和数据平面之后，您可以卸载旧的控制平面。例如，
+以下命令卸载修订版本的控制平面 `{{< istio_previous_version_revision >}}-1`：
 
 {{< text bash >}}
 $ istioctl uninstall --revision {{< istio_previous_version_revision >}}-1 -y
@@ -214,7 +215,7 @@ NAME                             READY   STATUS    RESTARTS   AGE
 istiod-canary-55887f699c-t8bh8   1/1     Running   0          27m
 {{< /text >}}
 
-请注意，以上说明仅删除了用于指定控制平面修订版的资源，而未删除与其他控制平面共享的群集作用域资源。
+请注意，以上说明仅删除了用于指定控制平面修订版的资源，而未删除与其他控制平面共享的集群作用域资源。
 要完全卸载 Istio，请参阅[卸载指南](/zh/docs/setup/install/istioctl/#uninstall-istio)。
 
 ## 卸载金丝雀控制平面 {#uninstall-canary-control-plane}
@@ -228,10 +229,11 @@ $ istioctl uninstall --revision=canary -y
 但是，在这种情况下，您必须首先手动重新安装先前版本的网关，因为卸载命令不会自动还原先前原地升级的网关。
 
 {{< tip >}}
-确保使用与 `istioctl` 旧控制平面相对应的版本来重新安装旧网关，并且为避免停机，请确保旧网关已启动并正在运行，然后再进行金丝雀卸载。
+确保使用与 `istioctl` 旧控制平面相对应的版本来重新安装旧网关，并且为避免停机，
+请确保旧网关已启动并正在运行，然后再进行金丝雀卸载。
 {{< /tip >}}
 
-## 清理{#cleanup}
+## 清理 {#cleanup}
 
 1. 清理用于金丝雀升级的命名空间与修订标签的例子：
 
@@ -239,7 +241,7 @@ $ istioctl uninstall --revision=canary -y
     $ kubectl delete ns istio-system test-ns
     {{< /text >}}
 
-1. 清理用于金丝雀升级的命名空间与修订版本标签的例子：
+1. 清理用于金丝雀升级的命名空间与修订版本的例子：
 
     {{< text bash >}}
     $ kubectl delete ns istio-system app-ns-1 app-ns-2 app-ns-3
