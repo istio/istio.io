@@ -9,7 +9,10 @@ test: no
 
 正如您在上一个模块所见，Istio 通过增强 Kubernetes 功能，让您能更高效的操作微服务。
 
-在这个模块中，您可以在 `productpage` 微服务中，启用Istio。这个应用的其他部分会继续照原样运行。注意您可以一个微服务一个微服务的逐步启用 Istio。启用 Istio 在微服务中是无侵入的，您不用修改微服务代码或者破坏您的应用，它也能够持续运行并且为用户请求服务。
+在这个模块中，您可以在 `productpage` 微服务中，启用 Istio。
+这个应用的其他部分会继续照原样运行。注意您可以一个微服务一个微服务的逐步启用 Istio。
+启用 Istio 在微服务中是无侵入的，您不用修改微服务代码或者破坏您的应用，
+它也能够持续运行并且为用户请求服务。
 
 1. 应用默认目标规则：
 
@@ -20,7 +23,9 @@ test: no
 1. 重新部署 `productpage` 微服务，启用 Istio：
 
     {{< tip >}}
-    本教程为了教学目的将会逐步演示如何手动注入 Sidecar 启用 Istio，但是 [自动注入 Sidecar](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection) 更加便捷。
+    本教程为了教学目的将会逐步演示如何手动注入 Sidecar 启用 Istio，
+    但是[自动注入 Sidecar](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)
+    更加便捷。
     {{< /tip >}}
 
     {{< text bash >}}
@@ -30,7 +35,8 @@ test: no
 
 1. 进入应用的网页去验证应用是否在工作。Istio 是在没有改变原应用代码的情况下添加的。
 
-1. 检查 `productpage` 的 Pod 并且查看每个副本的两个容器。第一个容器是微服务本身的，第二个是连接到它的 Sidecar 代理：
+1. 检查 `productpage` 的 Pod 并且查看每个副本的两个容器。第一个容器是微服务本身的，
+   第二个是连接到它的 Sidecar 代理：
 
     {{< text bash >}}
     $ kubectl get pods
@@ -49,9 +55,11 @@ test: no
     sleep-88ddbcfdd-cc85s             1/1       Running   0          7h
     {{< /text >}}
 
-1. Kubernetes 采取无侵入的和逐步的 [滚动更新](https://kubernetes.io/zh-cn/docs/tutorials/kubernetes-basics/update/update-intro/) 方式用启用 Istio 的 Pod 替换了原有的 Pod。
-Kubernetes 只有在新的 Pod 开始运行的时候才会终止老的 Pod，它透明地将流量一个一个地切换到新的 Pod 上。
-也就是说，它不会在声明一个新的 Pod 之前结束一个或者以上的 Pod。这些操作都是为了防止破坏您的应用，因此在注入 Istio 的过程中应用能够持续工作。
+1. Kubernetes 采取无侵入的和逐步的[滚动更新](https://kubernetes.io/zh-cn/docs/tutorials/kubernetes-basics/update/update-intro/)
+   方式用启用 Istio 的 Pod 替换了原有的 Pod。Kubernetes 只有在新的 Pod
+   开始运行的时候才会终止老的 Pod， 它透明地将流量一个一个地切换到新的 Pod 上。
+   也就是说，它不会在声明一个新的 Pod 之前结束一个或者以上的 Pod。
+   这些操作都是为了防止破坏您的应用，因此在注入 Istio 的过程中应用能够持续工作。
 
 1. 检查 `productpage` Istio Sidecar 的日志：
 
@@ -70,7 +78,8 @@ Kubernetes 只有在新的 Pod 开始运行的时候才会终止老的 Pod，它
     tutorial
     {{< /text >}}
 
-1. 检查 Istio 仪表盘，通过自定义的 URL， 它配置在[您之前配置](/zh/docs/examples/microservices-istio/bookinfo-kubernetes/#update-your-etc-hosts-configuration-file)的 `/etc/hosts` 文件中：
+1. 检查 Istio 仪表盘，通过自定义的 URL，它配置在[您之前配置](/zh/docs/examples/microservices-istio/bookinfo-kubernetes/#update-your-etc-hosts-configuration-file)的
+   `/etc/hosts` 文件中：
 
     {{< text plain >}}
     http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard
@@ -97,15 +106,17 @@ Kubernetes 只有在新的 Pod 开始运行的时候才会终止老的 Pod，它
         caption="Istio Service Dashboard, `productpage` selected"
         >}}
 
-    向下滚动到 _Service Workloads_ 部分。观察到仪表盘图表已经更新。
+    向下滚动到 **Service Workloads** 部分。观察到仪表盘图表已经更新。
 
     {{< image width="80%"
         link="dashboard-service.png"
         caption="Istio Service Dashboard"
         >}}
 
-这是在一个微服务中应用 Istio 的直接优点，您可以收到进出微服务的流量日志，包括时间、HTTP 方法、路径和响应代码。您可以用 Istio 仪表盘监控您的微服务。
+这是在一个微服务中应用 Istio 的直接优点，您可以收到进出微服务的流量日志，
+包括时间、HTTP 方法、路径和响应代码。您可以用 Istio 仪表盘监控您的微服务。
 
-在下一个模块，您将会学习到关于 Istio 可以为您的应用提供的功能。当 Istio 的功能对微服务是有益的时候，您将学习如何在整个应用程序上使用 Istio 来实现其全部潜力。
+在下一个模块，您将会学习到关于 Istio 可以为您的应用提供的功能。当 Istio
+的功能对微服务是有益的时候，您将学习如何在整个应用程序上使用 Istio 来实现其全部潜力。
 
 您已经准备好[所有微服务上启用 Istio](/zh/docs/examples/microservices-istio/enable-istio-all-microservices)。
