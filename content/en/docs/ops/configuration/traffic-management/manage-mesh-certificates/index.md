@@ -40,7 +40,7 @@ While there are many environment variables that can be changed for
 outline some of them.
 {{< /tip >}}
 
-{{< tabset category-name="gateway-install-type" >}}
+{{< tabset category-name="certificates" >}}
 
 {{< tab name="IstioOperator" category-value="iop" >}}
 
