@@ -6,7 +6,7 @@ attribution: "Greg Hanson - Solo.io"
 keywords: [istio,ambient,waypoint,ztunnel]
 ---
 
-Istio Ambient Mesh is the new Istio data plane without requiring sidecars, refer to the [announcement](/blog/2022/introducing-ambient-mesh/) for more details. Istio Ambient Mesh will be included in Istio 1.18 but [pre-release builds](https://github.com/istio/istio/releases/tag/1.18.0-alpha.0) are available now.
+Istio Ambient Mesh is the new Istio data plane without requiring sidecars, refer to the [announcement](/blog/2022/introducing-ambient-mesh/) for more details. Istio Ambient Mesh is included in [Istio 1.18](https://github.com/istio/istio/releases/tag/1.18.0) but is still considered to be in [alpha feature status](/docs/releases/feature-stages/#feature-phase-definitions).
 
 Sidecars have been a staple of Istio’s architecture since day one and are responsible for the majority of features available in Istio today. However, sidecars require the injection of an additional container to each Kubernetes pod resource, each of which needs allocated resources from the pod.
 
@@ -116,7 +116,7 @@ In comparison to what most users run Istio with in production, this test cluster
 
 ## Conclusion
 
-Ka-ching. These results were collected with a pre-alpha version of ambient which is now [merged into the main branch](/blog/2023/ambient-merged-istio-main/).
+Ka-ching. These results were collected with an alpha version of ambient, which is now [merged into the main branch](/blog/2023/ambient-merged-istio-main/) and included in Istio 1.18.
 
 Ambient service mesh’s goal of reducing infrastructure costs is bearing fruit and setting a solid foot forward on its roadmap to production readiness. These early numbers suggest users could cut their cloud usage by *99%* and resource requirements by *90%* – especially if users only require an L4 mesh.
 
@@ -124,10 +124,10 @@ Ambient service mesh’s goal of reducing infrastructure costs is bearing fruit 
 
 Check out these resources to learn more:
 
-- [Introducing Ambient Mesh](/blog/2022/introducing-ambient-mesh/) article from John Howard – Google, Ethan J. Jackson – Google, Yuval Kohavi – Solo.io, Idit Levine – Solo.io, Justin Pettit – Google, Lin Sun – Solo.io
-- [Get Started with Ambient Mesh](/blog/2022/get-started-ambient/) guide by Lin Sun – Solo.io, John Howard – Google
-- [Ambient Mesh Security Deep Dive](/blog/2022/ambient-security/) article by Ethan Jackson – Google, Yuval Kohavi – Solo.io, Justin Pettit – Google, Christian Posta – Solo.io
-- [Introducing Rust-Based Ztunnel for Istio Ambient Mesh](/blog/2023/rust-based-ztunnel/) article by Lin Sun – Solo.io, John Howard – Google
-- [Istio Ambient Waypoint Proxy Made Simple](/blog/2023/waypoint-proxy-made-simple/) article by Lin Sun – Solo.io, John Howard – Google
-- [Istio Ambient Service Mesh Merged to Istio’s Main Branch](/blog/2023/ambient-merged-istio-main/) article by Lin Sun – Solo.io, John Howard – Google
-- [The Cloudcast](https://www.thecloudcast.net/2022/09/istio-ambient-mesh.html) podcast with Louis Ryan – Solo.io, Christian Posta – Solo.io
+- [Ambient Mesh Documentation](/docs/ops/ambient/)
+- [Introducing Ambient Mesh](/blog/2022/introducing-ambient-mesh/)
+- [Get Started with Ambient Mesh](/blog/2022/get-started-ambient/)
+- [Ambient Mesh Security Deep Dive](/blog/2022/ambient-security/)
+- [Introducing Rust-Based Ztunnel for Istio Ambient Mesh](/blog/2023/rust-based-ztunnel/)
+- [Istio Ambient Waypoint Proxy Made Simple](/blog/2023/waypoint-proxy-made-simple/)
+- [Istio Ambient Service Mesh Merged to Istio’s Main Branch](/blog/2023/ambient-merged-istio-main/)
