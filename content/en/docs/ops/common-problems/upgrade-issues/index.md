@@ -105,5 +105,43 @@ The equivalent ingress gateway proxy configuration annotation is the following:
 {{< text yaml >}}
 metadata:
   annotations:
-    "proxy.istio.io/config": '{"gatewayTopology" : { "numTrustedProxies": 1 }'
+    "proxy.istio.io/config": '{"gatewayTopology" : { "numTrustedProxies": 1 }}'
+{{< /text >}}
+
+### Use a proxy annotation to customize the histogram bucket sizes
+
+The usage of `EnvoyFilter` and the experimental boostrap discovery service to
+configure the bucket sizes for the histogram metrics has been replaced by the
+proxy annotation `sidecar.istio.io/statsHistogramBuckets`. For example, the
+following `EnvoyFilter` configuration should use an annotation on the pod
+instead:
+
+{{< text yaml >}}
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: envoy-stats-1
+  namespace: istio-system
+spec:
+  workloadSelector:
+    labels:
+      istio: ingressgateway
+  configPatches:
+  - applyTo: BOOTSTRAP
+    patch:
+      operation: MERGE
+      value:
+        stats_config:
+          histogram_bucket_settings:
+            - match:
+                prefix: envoy_cluster_upstream_cx_connect_ms
+              buckets: [1,5,50,500,5000,10000]
+{{< /text >}}
+
+The equivalent pod annotation is the following:
+
+{{< text yaml >}}
+metadata:
+  annotations:
+    "sidecar.istio.io/statsHistogramBuckets": '{"envoy_cluster_upstream_cx_connect_ms":[1,5,50,500,5000,10000]}'
 {{< /text >}}
