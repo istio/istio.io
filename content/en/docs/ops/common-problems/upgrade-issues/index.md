@@ -1,6 +1,6 @@
 ---
 title: Upgrade Problems
-description: Resolve common problems with Istio upgrades
+description: Resolve common problems with Istio upgrades.
 weight: 40
 owner: istio/wg-policies-and-telemetry-maintainers
 test: n/a
