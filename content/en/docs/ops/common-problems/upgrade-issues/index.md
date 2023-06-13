@@ -103,7 +103,7 @@ spec:
 The equivalent ingress gateway proxy configuration annotation is the following:
 
 {{< text yaml >}}
-  metadata:
-    annotations:
-      "proxy.istio.io/config": '{"gatewayTopology" : { "numTrustedProxies": 1 }'
+metadata:
+  annotations:
+    "proxy.istio.io/config": '{"gatewayTopology" : { "numTrustedProxies": 1 }'
 {{< /text >}}
