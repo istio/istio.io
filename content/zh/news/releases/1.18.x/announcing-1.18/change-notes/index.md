@@ -61,7 +61,7 @@ weight: 20
 - **修复** 修复了在某些情况下删除 ServiceEntry 时不会删除相应端点的问题。
   ([Issue #43853](https://github.com/istio/istio/issues/43853))
 
-- **修复** 修复了自动分配的服务入口 IP 在主机重用时会发生变化的问题。
+- **修复** 修复了自动分配的 ServiceEntry IP 在主机重用时会发生变化的问题。
   ([Issue #43858](https://github.com/istio/istio/issues/43858))
 
 - **修复** 修复了如果多个 `WorkloadEntry` 自动注册到相同 IP 和网络时，
