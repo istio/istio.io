@@ -20,8 +20,8 @@ test: yes
 
 * 部署工作负载：
 
-    该任务使用 `httpbin` 和 `sleep` 这两个工作负载，部署在一个命名空间 `foo`。
-    这两个工作负载在每个工作负载前都有一个 Envoy 代理。使用以下命令部署示例命名空间和工作负载：
+    该任务使用 `httpbin` 和 `sleep` 这两个工作负载，部署在一个命名空间 `foo` 中。
+    这两个工作负载之前都运行了一个 Envoy 代理。使用以下命令部署示例命名空间和工作负载：
 
     {{< text bash >}}
     $ kubectl create ns foo
@@ -142,7 +142,8 @@ test: yes
     EOF
     {{< /text >}}
 
-1. 检查 `/ip` 中 HTTP 头中 `x-token: guest` 的 `GET` 请求会否被 `deny-method-get` 策略拒绝。“拒绝策略”优先级高于“允许策略”：
+1. 检查 `/ip` 中 HTTP 头中 `x-token: guest` 的 `GET` 请求会否被 `deny-method-get`
+   策略拒绝。“拒绝策略”优先级高于“允许策略”：
 
     {{< text bash >}}
     $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/ip" -X GET -H "x-token: guest" -s -o /dev/null -w "%{http_code}\n"
@@ -156,7 +157,8 @@ test: yes
     200
     {{< /text >}}
 
-1. 检查 `/get` 路径的 HTTP 头 `x-token: admin` 的 `GET` 请求是否被拒绝，因为它们与 `allow-path-ip` 策略不匹配：
+1. 检查 `/get` 路径的 HTTP 头 `x-token: admin` 的 `GET` 请求是否被拒绝，
+   因为它们与 `allow-path-ip` 策略不匹配：
 
     {{< text bash >}}
     $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/get" -X GET -H "x-token: admin" -s -o /dev/null -w "%{http_code}\n"
@@ -165,8 +167,8 @@ test: yes
 
 ## 清理{#clean-up}
 
-1. 从配置中删除命名空间 foo：
+从配置中删除命名空间 foo：
 
-    {{< text bash >}}
-    $ kubectl delete namespace foo
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl delete namespace foo
+{{< /text >}}
