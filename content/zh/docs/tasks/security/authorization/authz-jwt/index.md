@@ -13,7 +13,7 @@ test: yes
 本教程向您展示如何通过设置 Istio 授权策略来实现基于 JSON Web Token（JWT）的强制访问控制。
 Istio 授权策略同时支持字符串类型和列表类型的 JWT 声明。
 
-## 开始之前
+## 开始之前 {#before-you-begin}
 
 在开始这个任务之前，请先完成以下操作：
 
@@ -24,7 +24,7 @@ Istio 授权策略同时支持字符串类型和列表类型的 JWT 声明。
 * 参照 [Istio 安装指南](/zh/docs/setup/install/istioctl/)安装 Istio。
 
 * 部署两个工作负载（workload）：`httpbin` 和 `sleep`。将它们部署在同一个命名空间中，
-* 例如 `foo`。每个工作负载都在前面运行一个 Envoy 代理。 你可以使用以下命令来部署它们：
+* 例如 `foo`。每个工作负载都在前面运行一个 Envoy 代理。您可以使用以下命令来部署它们：
 
     {{< text bash >}}
     $ kubectl create ns foo
@@ -40,10 +40,10 @@ Istio 授权策略同时支持字符串类型和列表类型的 JWT 声明。
     {{< /text >}}
 
 {{< warning >}}
-如果你没有看到预期的输出，过几秒再试。缓存和策略传播可能造成延迟。
+如果您没有看到预期的输出，过几秒再试。缓存和策略传播可能造成延迟。
 {{< /warning >}}
 
-## 允许包含有效 JWT 和 列表类型声明的请求
+## 允许包含有效 JWT 和 列表类型声明的请求 {#allow-requests-with-jwt-and-claims}
 
 1. 以下命令为 `foo` 命名空间下的 `httpbin` 工作负载创建一个名为 `jwt-example`
    的身份验证策略。这个策略使得 `httpbin` 工作负载接收 Issuer 为 `testing@secure.istio.io`
@@ -51,7 +51,7 @@ Istio 授权策略同时支持字符串类型和列表类型的 JWT 声明。
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: security.istio.io/v1beta1
+    apiVersion: security.istio.io/v1
     kind: RequestAuthentication
     metadata:
       name: "jwt-example"
@@ -87,7 +87,7 @@ Istio 授权策略同时支持字符串类型和列表类型的 JWT 声明。
 
     {{< text syntax="bash" expandlinks="false" >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: security.istio.io/v1beta1
+    apiVersion: security.istio.io/v1
     kind: AuthorizationPolicy
     metadata:
       name: require-jwt
@@ -130,7 +130,7 @@ Istio 授权策略同时支持字符串类型和列表类型的 JWT 声明。
 
     {{< text syntax="bash" expandlinks="false" >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: security.istio.io/v1beta1
+    apiVersion: security.istio.io/v1
     kind: AuthorizationPolicy
     metadata:
       name: require-jwt
@@ -175,10 +175,10 @@ Istio 授权策略同时支持字符串类型和列表类型的 JWT 声明。
     403
     {{< /text >}}
 
-## 清理
+## 清理 {#cleanup}
 
-1. 删除 `foo` 命名空间：
+删除 `foo` 命名空间：
 
-    {{< text bash >}}
-    $ kubectl delete namespace foo
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl delete namespace foo
+{{< /text >}}
