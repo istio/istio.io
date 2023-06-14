@@ -1,6 +1,6 @@
 ---
-title: 使用 Shortcode 
-description: 介绍可用的 shortcode 及其用法。
+title: 使用 Shortcodes
+description: 介绍可用的 shortcodes 及其用法。
 weight: 9
 aliases:
     - /zh/docs/welcome/contribute/writing-a-new-topic.html
@@ -10,13 +10,13 @@ aliases:
 keywords: [contribute]
 ---
 
-Hugo 的 shortcode 是具有特定语法的特殊占位符，您可以将其添加到内容中以创建动态内容体验，例如选项卡、图片、图标、指向另一个页面的链接以及特殊内容布局。
+Hugo 的 shortcodes 是具有特定语法的特殊占位符，您可以将其添加到内容中以创建动态内容体验，例如选项卡、图片、图标、指向另一个页面的链接以及特殊内容布局。
 
-本页面介绍了可用的 shortcode 及其用法。
+本页面介绍了可用的 shortcodes 及其用法。
 
 ## 添加图片{#add-images}
 
-将图片文件跟 markdown 文件放在相同的目录。为了增强其可读性，以及方便本地化，首选的图片格式是 SVG。下面的示例展示了添加带有图片的 shortcode ，所需的必填字段：
+将图片文件跟 `Markdown` 文件放在相同的目录。为了增强其可读性，以及方便本地化，首选的图片格式是 `SVG`。下面的示例展示了添加带有图片的 shortcode，所需的必填字段：
 
 {{< text html >}}
 {{</* image width="75%" ratio="45.34%"
@@ -25,7 +25,7 @@ Hugo 的 shortcode 是具有特定语法的特殊占位符，您可以将其添�
     */>}}
 {{< /text >}}
 
-`link` 和 `caption` 字段是必填字段，shortcode 还支持可选字段，例如：
+`link` 和 `caption` 字段是必填字段，shortcodes 还支持可选字段，例如：
 
 {{< text html >}}
 {{</* image width="75%" ratio="45.34%"
@@ -60,7 +60,7 @@ Hugo 的 shortcode 是具有特定语法的特殊占位符，您可以将其添�
 
 根据目标的不同，Istio 文档支持三种类型的链接。每种类型使用不同的语法来表示链接目标。
 
-- **外部链接**。用于指向 Istio 在 GitHub 的仓库，或者其它的站外链接。使用标准的 Markdown 语法表示 URL。当你引用的文件在互联网上时，请尽量使用 HTTPS 协议，例如：
+- **外部链接**。用于指向 Istio 在 GitHub 的仓库，或者其它的站外链接。使用标准的 `Markdown` 语法表示 URL。当你引用的文件在互联网上时，请尽量使用 HTTPS 协议，例如：
 
     {{< text markdown >}}
     [链接的描述文本](https://mysite/myfile.html)
@@ -106,14 +106,14 @@ Hugo 的 shortcode 是具有特定语法的特殊占位符，您可以将其添�
 
 ## 版本信息{#version-information}
 
-想要通过从网站检索，在您的内容中显示 Istio 的当前版本，请使用以下 shortcode ：
+想要通过从网站检索，在您的内容中显示 Istio 的当前版本，请使用以下 shortcodes:
 
 - `{{</* istio_version */>}}`，渲染结果为：{{< istio_version >}}
 - `{{</* istio_full_version */>}}`，渲染结构为：{{< istio_full_version >}}
 
 ## 术语表{#glossary-terms}
 
-当您在页面中介绍一个 Istio 术语时，贡献补充条款要求您将该术语包含在 `glossary` 中，并使用 shortcode `{{</* gloss */>}}` 标记它的第一个实例。shortcode 会对其进行特殊渲染，读者点击该术语，可以在弹出的窗口中获取该术语的定义。例如：
+当您在页面中介绍一个 Istio 术语时，贡献补充条款要求您将该术语包含在 `glossary` 中，并使用 shortcode 标识 `{{</* gloss */>}}` 来标记它的第一个实例。shortcodes 会对其进行特殊渲染，读者点击该术语，可以在弹出的窗口中获取该术语的定义。例如：
 
 {{< text markdown >}}
 Istio 里的组件通过控制 {{</*gloss*/>}}Envoy{{</*/gloss*/>}} 代理，实现服务发现、负载均衡和路由分发。
@@ -123,7 +123,7 @@ Istio 里的组件通过控制 {{</*gloss*/>}}Envoy{{</*/gloss*/>}} 代理，实
 
 Istio 里的组件通过控制 {{< gloss >}}Envoy{{< /gloss >}} 代理，实现服务发现、负载均衡和路由分发。
 
-如果你想在您的文本中使用该术语的其它形式，您依然可以使用该 shortcode 。要修改显示文本，只需在 shortcode 中包含对应的术语条目即可。例如：
+如果你想在您的文本中使用该术语的其它形式，您依然可以使用该 shortcode。要修改显示文本，只需在 shortcode 中包含对应的术语条目即可。例如：
 
 {{< text markdown >}}
 Istio 里的组件通过控制 {{</*gloss envoy*/>}}Envoy{{</*/gloss*/>}} 代理，实现服务发现、负载均衡和路由分发。
@@ -135,7 +135,7 @@ Istio 里的组件通过控制 {{< gloss envoy >}}Envoy{{</ gloss >}} 代理，�
 
 ## 标注{#callouts}
 
-想要强调部分内容，可以将它们设置为警告，提示，建议或引用。所有标注都使用了非常相似的 shortcode ：
+想要强调部分内容，可以将它们设置为警告，提示，建议或引用。所有标注都使用了非常相似的 shortcodes：
 
 {{< text markdown >}}
 {{</* warning */>}}
@@ -177,7 +177,7 @@ Istio 里的组件通过控制 {{< gloss envoy >}}Envoy{{</ gloss >}} 代理，�
 
 ## 使用样板文本{#use-boilerplate-text}
 
-要想在保持内容单一来源的情况下重用内容，请使用样板 shortcode 。要将样板文本嵌入任何内容文件中，请使用 `boilerplate` shortcode ，如下所示：
+要想在保持内容单一来源的情况下重用内容，请使用样板 shortcode。要将样板文本嵌入任何内容文件中，请使用 `boilerplate` 的 shortcode 标识符，如下所示：
 
 {{< text markdown >}}
 {{</* boilerplate example */>}}
@@ -187,7 +187,7 @@ Istio 里的组件通过控制 {{< gloss envoy >}}Envoy{{</ gloss >}} 代理，�
 
 {{< boilerplate example >}}
 
-该示例表明，您需要在想要插入样本内容的位置，填写 Markdown 的文件名。您可以在 `/content/zh/boilerplates` 目录中找到现有的全部样板文件。
+该示例表明，您需要在想要插入样本内容的位置，填写 `Markdown` 的文件名。您可以在 `/content/zh/boilerplates` 目录中找到现有的全部样板文件。
 
 ## 使用选项卡{#use-tabs}
 
@@ -197,7 +197,7 @@ Istio 里的组件通过控制 {{< gloss envoy >}}Envoy{{</ gloss >}} 代理，�
 - 不同语言的等效代码
 - 替代的配置
 
-要添加选项卡式内容，请组合使用 shortcode `tabset` 和 `tabs`，例如：
+要添加选项卡式内容，请组合使用 shortcodes 标识符 `tabset` 和 `tabs`，例如：
 
 {{< text markdown >}}
 {{</* tabset category-name="platform" */>}}
@@ -217,7 +217,7 @@ THREE
 {{</* /tabset */>}}
 {{< /text >}}
 
-上面的 shortcode ，渲染效果如下：
+上面的 shortcode，渲染效果如下：
 
 {{< tabset category-name="platform" >}}
 
@@ -235,7 +235,7 @@ THREE
 
 {{< /tabset >}}
 
-每个选项卡的 `name` 属性的值就是该选项卡显示的文本。在每个选项卡内部，支持绝大部分的 Markdown 语法，但是选项卡有一些[限制](#tab-limitations)。
+每个选项卡的 `name` 属性的值就是该选项卡显示的文本。在每个选项卡内部，支持绝大部分的 `Markdown` 语法，但是选项卡有一些[限制](#tab-limitations)。
 
 `category-name` 和 `category-value` 属性是可选的，它们让选定的标签可以跨页面存储。例如，访问者选择一个选项卡，并使用给定的名称和值自动保存他们的选择。如果有多个选项卡集使用了相同的 `category-name` 和 `category-value`，则它们的选择将自动跨页面同步。当站点中有许多具有相同类型格式的选项卡集时，此功能特别有用。
 
@@ -243,7 +243,7 @@ THREE
 
 ### 选项卡限制{#tab-limitations}
 
-您可以在选项卡中使用几乎所有的 Markdown 语法，但以下情况除外：
+您可以在选项卡中使用几乎所有的 `Markdown` 语法，但以下情况除外：
 
 - *标题*。选项卡中的标题会出现在目录中，但是单击目录中的链接不会自动跳到选项卡的位置。
 
@@ -251,13 +251,13 @@ THREE
 
 ## 使用横幅和标签{#use-banners-and-stickers}
 
-要通告即将发生的事件或发布新消息，您可以按顺序自动地将对时间敏感的横幅和标签（banners and stickers）添加至生成的网站。我们为通告实现了以下 shortcode ：
+要通告即将发生的事件或发布新消息，您可以按顺序自动地将对时间敏感的横幅和标签（banners and stickers）添加至生成的网站。我们为通告实现了以下 shortcodes：
 
 - **倒计时标签**：它会显示现在距离事件发生还有多少时间，例如：“距 3 月 30 日 ServiceMeshCon 还剩 37 天”。标签在活动开始前会对读者产生视觉影响，应谨慎使用。
 
-- **横幅**：它们向读者展示即将、正在或已经发生的重大事件的重要信息。例如，“Istio 1.5 已发布，请立即下载！”或“ 3 月 30 日加入我们的 ServiceMeshCon”。横幅是活动期间向读者显示的全屏切片。
+- **横幅**：它们向读者展示即将、正在或已经发生的重大事件的重要信息。例如，“Istio 1.5 已发布，请立即下载！”或“3 月 30 日加入我们的 ServiceMeshCon”。横幅是活动期间向读者显示的全屏切片。
 
-要创建横幅和标签，您可以在 `events/banners` 或 `events/stickers` 目录中创建 Markdown 文件。每个事件一个 Markdown 文件，并使用专用的 front-matter 字段来控制其行为。下表列举了可用的字段：
+要创建横幅和标签，您可以在 `events/banners` 或 `events/stickers` 目录中创建 `Markdown` 文件。每个事件一个 `Markdown` 文件，并使用专用的 `front-matter` 字段来控制其行为。下表列举了可用的字段：
 
 <table>
     <thead>
@@ -275,7 +275,7 @@ THREE
             <td><code>period_start</code></td>
             <td>以 <code>YYYY-MM-DD</code> 的格式显示事件的开始日期。
             除了日期以外，其值还可以是 <code>latest_release</code>，这会自动使用最新的已知的 Istio 版本的发布日期作为开始日期。
-            该功能对于创建 “Istio x.y.z 刚刚发布” 之类的横幅很有用。
+            该功能对于创建“Istio x.y.z 刚刚发布”之类的横幅很有用。
             </td>
         </tr>
         <tr>
