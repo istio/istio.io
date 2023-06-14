@@ -16,7 +16,7 @@ test: yes
 
 在开始此任务之前，请执行以下操作：
 
-* 阅读了[Istio 授权概念](/zh/docs/concepts/security/#authorization)。
+* 阅读了 [Istio 授权概念](/zh/docs/concepts/security/#authorization)。
 
 * 遵照 [Istio 安装指南](/zh/docs/setup/install/istioctl/)安装完成 Istio 并启用了双向 TLS。
 
@@ -186,12 +186,12 @@ test: yes
 
 ## 清除 {#clean-up}
 
-1. 从您的配置中删除所有的授权策略：
+从您的配置中删除所有的授权策略：
 
-    {{< text bash >}}
-    $ kubectl delete authorizationpolicy.security.istio.io/allow-nothing
-    $ kubectl delete authorizationpolicy.security.istio.io/productpage-viewer
-    $ kubectl delete authorizationpolicy.security.istio.io/details-viewer
-    $ kubectl delete authorizationpolicy.security.istio.io/reviews-viewer
-    $ kubectl delete authorizationpolicy.security.istio.io/ratings-viewer
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl delete authorizationpolicy.security.istio.io/allow-nothing
+$ kubectl delete authorizationpolicy.security.istio.io/productpage-viewer
+$ kubectl delete authorizationpolicy.security.istio.io/details-viewer
+$ kubectl delete authorizationpolicy.security.istio.io/reviews-viewer
+$ kubectl delete authorizationpolicy.security.istio.io/ratings-viewer
+{{< /text >}}
