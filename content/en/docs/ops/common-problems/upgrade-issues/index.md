@@ -19,7 +19,9 @@ which carry substantially lower upgrade risks.
 The usage of `IstioOperator` to customize Prometheus metrics generation has been
 replaced by [Telemetry API](/docs/tasks/observability/metrics/customize-metrics/),
 because `IstioOperator` relies on a template `EnvoyFilter` to change the
-metrics filter configuration.
+metrics filter configuration. Note that the two methods are incompatible, and
+Telemetry API does not work with `EnvoyFilter` or `IstioOperator` metric
+customization configuration.
 
 As an example, the following `IstioOperator` configuration adds a `destination_port` tag:
 
@@ -134,7 +136,7 @@ spec:
         stats_config:
           histogram_bucket_settings:
             - match:
-                prefix: envoy_cluster_upstream_cx_connect_ms
+                prefix: istiocustom
               buckets: [1,5,50,500,5000,10000]
 {{< /text >}}
 
@@ -143,5 +145,5 @@ The equivalent pod annotation is the following:
 {{< text yaml >}}
 metadata:
   annotations:
-    "sidecar.istio.io/statsHistogramBuckets": '{"envoy_cluster_upstream_cx_connect_ms":[1,5,50,500,5000,10000]}'
+    "sidecar.istio.io/statsHistogramBuckets": '{"istiocustom":[1,5,50,500,5000,10000]}'
 {{< /text >}}
