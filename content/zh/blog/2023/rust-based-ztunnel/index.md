@@ -236,4 +236,4 @@ istio_tcp_connections_opened_total{
 我们超级兴奋的是新的[基于 Rust 的 Ztunnel](https://github.com/istio/Ztunnel/) 比之前基于 Envoy 的 Ztunnel 大大简化，
 更加轻巧，性能更强。通过为基于 Rust 的 Ztunnel 特意设计的工作负载 xDS，您不仅能更容易地理解 xDS 的配置，而且还能大幅减少
 Istiod 控制平面和 Ztunnel 之间的网络流量和成本。随着 Istio Ambient 模式现在合并到上游主站，
-您可以按照我们的[入门指南](http://preliminary.istio.io/latest/docs/ops/ambient/getting-started/)尝试新的基于 Rust 的 Ztunnel。
+您可以按照我们的[入门指南](/docs/ops/ambient/getting-started/)尝试新的基于 Rust 的 Ztunnel。
