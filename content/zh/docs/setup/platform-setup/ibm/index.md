@@ -17,14 +17,13 @@ test: no
 
 {{< tip >}}
 IBM 为 IBM Cloud Kubernetes Service 提供了 {{< gloss >}}managed control plane{{< /gloss >}} 插件，
-您可以使用它代替手动安装 Istio。
-请参阅 [Istio on IBM Cloud Kubernetes Service](https://cloud.ibm.com/docs/containers?topic=containers-istio)
-有关详细信息和说明。
+您可以使用它代替手动安装 Istio。有关详细信息和说明，
+请参阅 [Istio on IBM Cloud Kubernetes Service](https://cloud.ibm.com/docs/containers?topic=containers-istio)。
 {{< /tip >}}
 
-要在手动安装 Istio 之前准备群集，请按照下列步骤操作：
+要在手动安装 Istio 之前准备集群，请按照下列步骤操作：
 
-1. [安装 IBM Cloud CLI，IBM Cloud Kubernetes Service 插件和 Kubernetes CLI](https://cloud.ibm.com/docs/containers?topic=containers-cs_cli_install)。
+1. [安装 IBM Cloud CLI、IBM Cloud Kubernetes Service 插件和 Kubernetes CLI](https://cloud.ibm.com/docs/containers?topic=containers-cs_cli_install)。
 
 1. 使用以下命令创建标准的 Kubernetes 集群。
     将 `<cluster-name>` 替换为您的集群使用的名称，将 `<zone-name>` 替换为可用区。
@@ -32,11 +31,11 @@ IBM 为 IBM Cloud Kubernetes Service 提供了 {{< gloss >}}managed control plan
     {{< tip >}}
     您可以通过运行 `ibmcloud ks zones` 来显示可用区。
     IBM Cloud Kubernetes Service [位置参考指南](https://cloud.ibm.com/docs/containers?topic=containers-regions-and-zones)
-    介绍可用区域以及如何指定它们。
+    介绍可用区以及如何指定它们。
     {{< /tip >}}
 
     {{< text bash >}}
-    $ ibmcloud ks cluster-create --zone <zone-name> --machine-type b3c.4x16 \
+    $ ibmcloud ks cluster create classic --zone <zone-name> --machine-type b3c.4x16 \
       --workers 3 --name <cluster-name>
     {{< /text >}}
 
@@ -48,7 +47,7 @@ IBM 为 IBM Cloud Kubernetes Service 提供了 {{< gloss >}}managed control plan
 1. 运行以下命令下载您的 `kubectl` 集群配置，然后按照命令输出的说明来设置 `KUBECONFIG` 环境变量。
 
     {{< text bash >}}
-    $ ibmcloud ks cluster-config <cluster-name>
+    $ ibmcloud ks cluster config --cluster <cluster-name>
     {{< /text >}}
 
     {{< warning >}}
