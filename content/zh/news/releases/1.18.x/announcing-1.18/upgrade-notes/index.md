@@ -5,49 +5,48 @@ weight: 20
 publishdate: 2023-06-07
 ---
 
-When you upgrade from Istio 1.17.x to Istio 1.18.0, you need to consider the changes on this page.
 当您从 Istio 1.17.x 升级到 Istio 1.18.0 时，您需要考虑本页所述的变更。
-These notes detail the changes which purposefully break backwards compatibility with Istio `1.17.x.`
-这些说明详述了故意破坏 Istio `1.17.x` 向后兼容性的一些变更。
-The notes also mention changes which preserve backwards compatibility while introducing new behavior.
+这些说明详述了故意打破 Istio `1.17.x` 向后兼容性的一些变更。
 这些说明还提到了在引入新特性的同时保持向后兼容性的一些变更。
-Changes are only included if the new behavior would be unexpected to a user of Istio `1.17.x.`
-仅当新特性对 Istio `1.17.x` 的用户来说在意料之外时，才会包含这些变更。
+这里仅包含出乎 Istio `1.17.x` 用户意料的新特性变更。
 
-## Proxy Concurrency changes
-## 代理并发更改
+## 代理并发变更 {#proxy-concurrency-changes}
 
-Previously, the proxy `concurrency` setting, which configures how many worker threads the proxy runs, was inconsistently configured between sidecars and different gateway installation mechanisms. This often led to gateways running with concurrency based on the number of physical cores on the host machine, despite having CPU limits, leading to decreased performance and increased resource usage.
-以前，配置代理运行多少个工作线程的代理“并发”设置在 sidecar 和不同的网关安装机制之间配置不一致。 尽管有 CPU 限制，这通常会导致网关根据主机上物理内核的数量并发运行，从而导致性能下降和资源使用增加。
+在之前，代理运行工作线程数量的 `concurrency` 设置在 Sidecar
+和不同网关安装机制之间的配置并不一致。尽管具有 CPU 限制设定，
+该并发设置也会被网关所处主机上物理核心的数量而影响，从而引起性能下降以及资源使用增加问题。
 
-In this release, concurrency configuration has been tweaked to be consistent across deployment types. The new logic will use the `ProxyConfig.Concurrency` setting (which can be configured mesh wide or per-pod), if set, and otherwise set concurrency based on the CPU limit allocated to the container.  For example, a limit of `2500m` would set concurrency to 3.
-在此版本中，并发配置已经过调整以在不同部署类型之间保持一致。 新逻辑将使用“ProxyConfig.Concurrency”设置（可以在网格范围内或每个 pod 中配置），如果已设置，则根据分配给容器的 CPU 限制设置并发性。 例如，“2500m”的限制会将并发设置为 3。
+在此版本中，不同部署类型中的并发配置已经进行调整并保持一致。
+新逻辑将使用 `ProxyConfig.Concurrency` 设置（可以在整个网格范围或各个 Pod 中进行配置），
+如果使用此设置，则会根据分配给容器的 CPU 限制进行并发性设置。例如，CPU 限制为 `2500m`
+会将并发设置为 3。
 
-Prior to this release, sidecars followed this logic, but sometimes incorrectly determined the CPU limit. Gateways would never automatically adapt based on concurrency settings.
-在此版本之前，sidecar 遵循此逻辑，但有时会错误地确定 CPU 限制。 网关永远不会根据并发设置自动适应。
+在此版本之前，虽然 Sidecar 遵循此逻辑，但有时会错误地识别 CPU 限制。
+而网关则完全不会根据此逻辑自动进行并发设置。
 
-To retain the old gateway behavior of always utilizing all cores, `proxy.istio.io/config: concurrency: 0` can be set on each gateway.  However, it is recommended to instead unset CPU limits if this is desired.
-为了保留始终利用所有核心的旧网关行为，可以在每个网关上设置 proxy.istio.io/config: concurrency: 0 。 但是，如果需要，建议取消设置 CPU 限制。
+如果要保留始终利用所有 CPU 核心的旧网关机制，可以在每个网关上使用
+`proxy.istio.io/config: concurrency: 0` 设置。
+但是，建议避免这种不设置 CPU 限制的行为。
 
-## Gateway API Automated Deployment changes
-## 网关 API 自动部署更改
+## Gateway API 自动部署变更 {#gateway-api-automated-deployment-changes}
 
-This change impacts you only if you use [Gateway API Automated Deployment](/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment). Note that this only applies to the Kubernetes Gateway API, not the Istio `Gateway`. You can check if you are using this feature with the following command:
-仅当您使用 [Gateway API 自动部署](/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment) 时，此更改才会对您产生影响。 请注意，这仅适用于 Kubernetes Gateway API，不适用于 Istio `Gateway`。 您可以使用以下命令检查您是否正在使用此功能：
+仅当您使用 [Gateway API 自动部署](/zh/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment)功能时，
+此变更才会对您产生影响。请注意，这仅适用于 Kubernetes Gateway API，
+不适用于 Istio `Gateway`。您可以使用以下命令检查您是否正在使用该功能：
 
     {{< text bash >}}
     $ kubectl get gateways.gateway.networking.k8s.io -ojson | jq -r '.items[] | select(.spec.gatewayClassName == "istio") | select((.spec.addresses | length) == 0) | "Found managed gateway: " + .metadata.namespace + "/" + .metadata.name'
     Found managed gateway: default/gateway
     {{< /text >}}
 
-If you see "Found managed gateway", you may be impacted by this change.
-如果您看到“找到托管网关”，则您可能会受到此更改的影响。
+如果您看到“Found managed gateway”信息，则您可能会受到此变更的影响。
 
-Prior to Istio 1.18, the managed gateway worked by creating a minimal Deployment configuration which was fully populated at runtime with Pod injection. To upgrade gateways, users would restart the Pods to trigger a re-injection.
-在 Istio 1.18 之前，托管网关通过创建一个最小的 Deployment 配置来工作，该配置在运行时通过 Pod 注入完全填充。 要升级网关，用户将重启 Pod 以触发重新注入。
+在 Istio 1.18 版之前，托管网关通过创建一个最小的 Deployment
+配置的形式工作，该 Deployment 在运行时通过 Pod 注入进行完全填充。
+如果要升级网关，用户需要重启 Pod 来触发重新的注入操作。
 
-In Istio 1.18, this has changed to create a fully rendered Deployment and no longer rely on injection. As a result, *Gateways will be updated, via a rolling restart, when their revision changes*.
-在 Istio 1.18 中，这已更改为创建一个完全呈现的 Deployment，不再依赖于注入。 因此，*网关将在其修订版更改时通过滚动重启进行更新*。
+在 Istio 1.18 版中，该行为已变更为创建一个不再依赖于注入的完整 Deployment。
+因此，*网关将在其修订版本变更时通过滚动重启进行更新*。
 
-Additionally, users using this feature must update their control plane to Istio 1.16.5+ or 1.17.3+ before adopting Istio 1.18. Failure to do so may lead to conflicting writes to the same resources.
-此外，使用此功能的用户必须在采用 Istio 1.18 之前将其控制平面更新到 Istio 1.16.5+ 或 1.17.3+。 如果不这样做，可能会导致对相同资源的写入冲突。
+此外，使用此功能的用户必须在采用 Istio 1.18 版之前将其控制平面更新到
+Istio 1.16.5+ 或 1.17.3+ 版本。否则可能会产生对相同资源的写入冲突问题。
