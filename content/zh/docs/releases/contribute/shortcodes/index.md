@@ -1,6 +1,6 @@
 ---
-title: 使用 Shortcodes
-description: 介绍可用的 shortcodes 及其用法。
+title: 使用 Shortcode
+description: 介绍可用的 Shortcode 及其用法。
 weight: 9
 aliases:
     - /zh/docs/welcome/contribute/writing-a-new-topic.html
@@ -16,7 +16,7 @@ Hugo 的 shortcodes 是具有特定语法的特殊占位符，您可以将其添
 
 ## 添加图片{#add-images}
 
-将图片文件跟 `Markdown` 文件放在相同的目录。为了增强其可读性，以及方便本地化，首选的图片格式是 `SVG`。下面的示例展示了添加带有图片的 shortcode，所需的必填字段：
+将图片文件跟 Markdown 文件放在相同的目录。为了增强其可读性，以及方便本地化，首选的图片格式是 SVG。下面的示例展示了添加带有图片的 Shortcode，所需的必填字段：
 
 {{< text html >}}
 {{</* image width="75%" ratio="45.34%"
@@ -25,7 +25,7 @@ Hugo 的 shortcodes 是具有特定语法的特殊占位符，您可以将其添
     */>}}
 {{< /text >}}
 
-`link` 和 `caption` 字段是必填字段，shortcodes 还支持可选字段，例如：
+`link` 和 `caption` 字段是必填字段，这种 Shortcode 也支持可选字段，例如：
 
 {{< text html >}}
 {{</* image width="75%" ratio="45.34%"
@@ -60,7 +60,7 @@ Hugo 的 shortcodes 是具有特定语法的特殊占位符，您可以将其添
 
 根据目标的不同，Istio 文档支持三种类型的链接。每种类型使用不同的语法来表示链接目标。
 
-- **外部链接**。用于指向 Istio 在 GitHub 的仓库，或者其它的站外链接。使用标准的 `Markdown` 语法表示 URL。当你引用的文件在互联网上时，请尽量使用 HTTPS 协议，例如：
+- **外部链接**。用于指向 Istio 在 GitHub 的仓库，或者其它的站外链接。使用标准的 Markdown 语法表示 URL。当您引用的文件在互联网上时，请尽量使用 HTTPS 协议，例如：
 
     {{< text markdown >}}
     [链接的描述文本](https://mysite/myfile.html)
@@ -106,14 +106,14 @@ Hugo 的 shortcodes 是具有特定语法的特殊占位符，您可以将其添
 
 ## 版本信息{#version-information}
 
-想要通过从网站检索，在您的内容中显示 Istio 的当前版本，请使用以下 shortcodes:
+想要通过从网站检索，在您的内容中显示 Istio 的当前版本，请使用以下这些 Shortcode：
 
 - `{{</* istio_version */>}}`，渲染结果为：{{< istio_version >}}
 - `{{</* istio_full_version */>}}`，渲染结构为：{{< istio_full_version >}}
 
 ## 术语表{#glossary-terms}
 
-当您在页面中介绍一个 Istio 术语时，贡献补充条款要求您将该术语包含在 `glossary` 中，并使用 shortcode 标识 `{{</* gloss */>}}` 来标记它的第一个实例。shortcodes 会对其进行特殊渲染，读者点击该术语，可以在弹出的窗口中获取该术语的定义。例如：
+当在某个页面中提及一个 Istio 术语时，贡献补充条款要求您将该术语包含在 `glossary` 中，并在本页第一次出现这个术语时使用 Shortcode `{{</* gloss */>}}` 进行标记。这种 Shortcode 会生成一个特殊的渲染效果，读者点击该术语，可以在弹出的窗口中获取该术语的定义。例如：
 
 {{< text markdown >}}
 Istio 里的组件通过控制 {{</*gloss*/>}}Envoy{{</*/gloss*/>}} 代理，实现服务发现、负载均衡和路由分发。
@@ -177,7 +177,7 @@ Istio 里的组件通过控制 {{< gloss envoy >}}Envoy{{</ gloss >}} 代理，�
 
 ## 使用样板文本{#use-boilerplate-text}
 
-要想在保持内容单一来源的情况下重用内容，请使用样板 shortcode。要将样板文本嵌入任何内容文件中，请使用 `boilerplate` 的 shortcode 标识符，如下所示：
+要想在保持内容单一来源的情况下重用内容，请使用样板 shortcode。要将样板文本嵌入任何内容文件中，请如下使用 `boilerplate` 这种 Shortcode：
 
 {{< text markdown >}}
 {{</* boilerplate example */>}}
@@ -187,7 +187,7 @@ Istio 里的组件通过控制 {{< gloss envoy >}}Envoy{{</ gloss >}} 代理，�
 
 {{< boilerplate example >}}
 
-该示例表明，您需要在想要插入样本内容的位置，填写 `Markdown` 的文件名。您可以在 `/content/zh/boilerplates` 目录中找到现有的全部样板文件。
+该示例表明，您需要在想要插入样本内容的位置，填写 Markdown 文件的文件名。您可以在 `/content/zh/boilerplates` 目录中找到现有的全部样板文件。
 
 ## 使用选项卡{#use-tabs}
 
