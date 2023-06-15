@@ -120,7 +120,7 @@ weight: 20
   其 `v1` 版本从 Kubernetes 1.19 版开始可用。
 
 - **移除** 默认移除了 Gateway API `alpha` 版类型。可以使用
-  `PILOT_ENABLE_ALPHA_GATEWAY_API=true` 来显式的重新启用它们。
+  `PILOT_ENABLE_ALPHA_GATEWAY_API=true` 来显式地重新启用这些类型。
 
 - **移除** 为 Istio CNI 移除了实验性的“污点控制器”功能。
 
