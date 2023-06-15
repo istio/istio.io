@@ -84,6 +84,15 @@ locate_file() {
     PP=$(echo "${FNP}" | rev | cut -d'/' -f2- | rev)
     mkdir -p "${ROOTDIR}/content/en/docs${PP}/${FN}"
     mkdir -p "${ROOTDIR}/content/zh/docs${PP}/${FN}"
+
+    # Verify that we aren't overwriting another file.
+    # At some point, this should be a failure.
+    # We have known failures at this time, https://github.com/istio/istio.io/issues/12693, so just log a message.
+    if [[ -e "${ROOTDIR}/content/en/docs${PP}/${FN}/index.html" ]]; then
+        echo "WARNING: File already exists: ${ROOTDIR}/content/en/docs${PP}/${FN}. Not copying ${FILENAME}"
+        return
+    fi
+
     sed -E -e 's/(href="https:\/\/istio.io.*)\.html/\1\//' -e 's/href="https:\/\/istio.io(\/[^vV])/href="\1/g' -e 's/href="\/latest\//href="\//g' "${FILENAME}" >"${ROOTDIR}/content/en/docs${PP}/${FN}/index.html"
     sed -E -e 's/(href="https:\/\/istio.io.*)\.html/\1\//' -e 's/href="https:\/\/istio.io(\/[^vV])/href="\1/g' -e 's/href="\/latest\/zh\//href="\/zh\//g' -e 's/href="\/docs\//href="\/zh\/docs\//g' -e 's/\[\/docs\//\[\/zh\/docs\//g' "${FILENAME}" >"${ROOTDIR}/content/zh/docs${PP}/${FN}/index.html"
 
