@@ -28,7 +28,7 @@ weight: 20
   `Gateway` Pod。其他标签将被忽略。
 
 - **新增** 为 `failoverPriority` 标签新提供了覆盖/显式的值。
-  当为端点分配优先级时客户端设置会被该值替代。
+  当为端点分配优先级时将使用这个提供的值，而不是客户端的值。
   ([Issue #39111](https://github.com/istio/istio/issues/39111))
 
 - **新增** 为查询参数新增前缀匹配能力。
