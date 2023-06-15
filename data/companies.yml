@@ -17,7 +17,7 @@ providers:
     logo: "/logos/huawei.png"
     url: "https://support.huaweicloud.com/asm/index.html"
   - name: "Tetrate Service Bridge"
-    logo: "/logos/tetrate.png"
+    logo: "/logos/tetrate.svg"
     url: "https://www.tetrate.io/tetrate-service-bridge/"
   - name: "Gloo Mesh by Solo.io"
     logo: "/logos/solo.png"
