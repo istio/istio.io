@@ -114,7 +114,7 @@ weight: 20
   和 `GatewayClass` 的 `v1beta1` 版本资源。用户在升级 Istio 之前，需要保证
   gateway-api 须高于 `v0.6.0+` 版。`istioctl x precheck` 可以在升级前检测到这个问题。
 
-- **移除** 移除了针对 Kubernetes `Gateway` Pod 中 `proxy.istio.io/config` 注释的支持。
+- **移除** 移除了针对 Kubernetes `Gateway` Pod 中 `proxy.istio.io/config` 注解的支持。
 
 - **移除** 移除了对 `Ingress` `networking.k8s.io/v1beta1` 版本的支持。
   其 `v1` 版本从 Kubernetes 1.19 版开始可用。
