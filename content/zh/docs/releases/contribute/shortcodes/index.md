@@ -10,9 +10,9 @@ aliases:
 keywords: [contribute]
 ---
 
-Hugo 的 shortcodes 是具有特定语法的特殊占位符，您可以将其添加到内容中以创建动态内容体验，例如选项卡、图片、图标、指向另一个页面的链接以及特殊内容布局。
+Hugo 的 Shortcode 是具有特定语法的特殊占位符，您可以将其添加到内容中以创建动态内容体验，例如选项卡、图片、图标、指向另一个页面的链接以及特殊内容布局。
 
-本页面介绍了可用的 shortcodes 及其用法。
+本页面介绍了可用的 Shortcode 及其用法。
 
 ## 添加图片{#add-images}
 
@@ -135,7 +135,7 @@ Istio 里的组件通过控制 {{< gloss envoy >}}Envoy{{</ gloss >}} 代理，�
 
 ## 标注{#callouts}
 
-想要强调部分内容，可以将它们设置为警告，提示，建议或引用。所有标注都使用了非常相似的 shortcodes：
+想要强调部分内容，可以将它们设置为警告，提示，建议或引用。所有标注都使用了非常相似的 Shortcode：
 
 {{< text markdown >}}
 {{</* warning */>}}
@@ -197,7 +197,7 @@ Istio 里的组件通过控制 {{< gloss envoy >}}Envoy{{</ gloss >}} 代理，�
 - 不同语言的等效代码
 - 替代的配置
 
-要添加选项卡式内容，请组合使用 shortcodes 标识符 `tabset` 和 `tabs`，例如：
+要添加选项卡式内容，请组合使用 Shortcode 标识符 `tabset` 和 `tabs`，例如：
 
 {{< text markdown >}}
 {{</* tabset category-name="platform" */>}}
@@ -235,7 +235,7 @@ THREE
 
 {{< /tabset >}}
 
-每个选项卡的 `name` 属性的值就是该选项卡显示的文本。在每个选项卡内部，支持绝大部分的 `Markdown` 语法，但是选项卡有一些[限制](#tab-limitations)。
+每个选项卡的 `name` 属性的值就是该选项卡显示的文本。在每个选项卡内部，支持绝大部分的 Markdown 语法，但是选项卡有一些[限制](#tab-limitations)。
 
 `category-name` 和 `category-value` 属性是可选的，它们让选定的标签可以跨页面存储。例如，访问者选择一个选项卡，并使用给定的名称和值自动保存他们的选择。如果有多个选项卡集使用了相同的 `category-name` 和 `category-value`，则它们的选择将自动跨页面同步。当站点中有许多具有相同类型格式的选项卡集时，此功能特别有用。
 
@@ -243,7 +243,7 @@ THREE
 
 ### 选项卡限制{#tab-limitations}
 
-您可以在选项卡中使用几乎所有的 `Markdown` 语法，但以下情况除外：
+您可以在选项卡中使用几乎所有的 Markdown 语法，但以下情况除外：
 
 - *标题*。选项卡中的标题会出现在目录中，但是单击目录中的链接不会自动跳到选项卡的位置。
 
@@ -251,13 +251,13 @@ THREE
 
 ## 使用横幅和标签{#use-banners-and-stickers}
 
-要通告即将发生的事件或发布新消息，您可以按顺序自动地将对时间敏感的横幅和标签（banners and stickers）添加至生成的网站。我们为通告实现了以下 shortcodes：
+要通告即将发生的事件或发布新消息，您可以按顺序自动地将对时间敏感的横幅和标签（banner 和 sticker）添加至生成的网站。我们为通告实现了以下 Shortcode：
 
 - **倒计时标签**：它会显示现在距离事件发生还有多少时间，例如：“距 3 月 30 日 ServiceMeshCon 还剩 37 天”。标签在活动开始前会对读者产生视觉影响，应谨慎使用。
 
 - **横幅**：它们向读者展示即将、正在或已经发生的重大事件的重要信息。例如，“Istio 1.5 已发布，请立即下载！”或“3 月 30 日加入我们的 ServiceMeshCon”。横幅是活动期间向读者显示的全屏切片。
 
-要创建横幅和标签，您可以在 `events/banners` 或 `events/stickers` 目录中创建 `Markdown` 文件。每个事件一个 `Markdown` 文件，并使用专用的 `front-matter` 字段来控制其行为。下表列举了可用的字段：
+要创建横幅和标签，您可以在 `events/banners` 或 `events/stickers` 目录中创建 Markdown 文件。每个事件一个 Markdown 文件，并使用专用的 front-matter 字段来控制其行为。下表列举了可用的字段：
 
 <table>
     <thead>
