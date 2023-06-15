@@ -232,7 +232,7 @@ weight: 20
 
 - **新增** 新增了通过验证 `.Values.pilot.env.EXTERNAL_CA` 和
   `.Values.global.pilotCertProvider` 参数来限制外部 CA `usecases` 的
-  k8s CSR 权限的 `clusterrole` 检查能力。
+  K8s CSR 权限的 `clusterrole` 检查能力。
 
 - **新增** 新增了 istio-cni `values.yaml` 节点亲和力配置。
   可用于允许将 istio-cni 排除在特定节点调度之外。
