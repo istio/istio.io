@@ -27,7 +27,7 @@ weight: 20
   带有工作负载选择器的 `ProxyConfig` 资源才会应用于 Kubernetes
   `Gateway` Pod。其他标签将被忽略。
 
-- **新增** 为 `failoverPriority` 标签新增了覆盖/显式值的规定。
+- **新增** 为 `failoverPriority` 标签新提供了覆盖/显式的值。
   当为端点分配优先级时客户端设置会被该值替代。
   ([Issue #39111](https://github.com/istio/istio/issues/39111))
 
