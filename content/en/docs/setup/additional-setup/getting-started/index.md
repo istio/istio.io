@@ -14,7 +14,7 @@ test: yes
 {{< tip >}}
 {{< boilerplate gateway-api-future >}}
 The following instructions allow you to get started with Istio using the Gateway API.
-If you prefer to use the tried-and-proven Istio classic API for traffic management, you should use
+If you prefer to use the tried-and-proven Istio APIs API for traffic management, you should use
 [these instructions](/docs/setup/getting-started/) instead.
 {{< /tip >}}
 
