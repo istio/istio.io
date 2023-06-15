@@ -35,7 +35,7 @@ test: yes
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text syntax=bash snip_id=config_all_v1 >}}
 $ kubectl apply -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
@@ -61,7 +61,7 @@ $ kubectl apply -f @samples/bookinfo/gateway-api/route-reviews-v1.yaml@
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text syntax=bash snip_id=config_50_v3 >}}
 $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-50-v3.yaml@
@@ -83,7 +83,7 @@ $ kubectl apply -f @samples/bookinfo/gateway-api/route-reviews-50-v3.yaml@
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text syntax=bash outputis=yaml snip_id=verify_config_50_v3 >}}
 $ kubectl get virtualservice reviews -o yaml
@@ -162,7 +162,7 @@ status:
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text syntax=bash snip_id=config_100_v3 >}}
 $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
@@ -196,7 +196,7 @@ $ kubectl apply -f @samples/bookinfo/gateway-api/route-reviews-v3.yaml@
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text syntax=bash snip_id=cleanup >}}
 $ kubectl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@

@@ -134,7 +134,7 @@ Bookinfo 应用中的几个微服务是由不同的语言编写的。
 
     {{< tabset category-name="config-api" >}}
 
-    {{< tab name="Istio classic" category-value="istio-classic" >}}
+    {{< tab name="Istio APIs" category-value="istio-apis" >}}
 
     使用以下命令创建 [Istio Gateway](/zh/docs/concepts/traffic-management/#gateways)：
 
@@ -207,7 +207,7 @@ $ curl -s "http://${GATEWAY_URL}/productpage" | grep -o "<title>.*</title>"
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 Istio 在[目标规则](/zh/docs/concepts/traffic-management/#destination-rules)中使用 *subsets* 定义服务的版本。
 运行以下命令为 Bookinfo 服务创建默认的目标规则：
