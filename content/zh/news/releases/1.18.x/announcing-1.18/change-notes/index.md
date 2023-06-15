@@ -301,7 +301,7 @@ weight: 20
   ([Issue #43368](https://github.com/istio/istio/issues/43368))
 
 - **修复** 修复了 `istioctl x precheck` 命令会显示由 Istio
-  默认设置的且不需要的 IST0136 消息的问题。
+  默认设置的但实际不需要的 IST0136 消息的问题。
   ([Issue #36860](https://github.com/istio/istio/issues/36860))
 
 - **修复** 修复了在 `istioctl analyze` 命令中，
