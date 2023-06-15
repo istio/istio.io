@@ -215,7 +215,7 @@ echo "$GATEWAY_URL"
 }
 
 ! read -r -d '' snip_determining_the_ingress_ip_and_ports_16_out <<\ENDSNIP
-192.168.99.100:32194
+127.0.0.1:80
 ENDSNIP
 
 snip_verify_external_access_1() {
