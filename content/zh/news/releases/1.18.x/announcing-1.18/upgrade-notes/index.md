@@ -34,10 +34,10 @@ publishdate: 2023-06-07
 此变更才会对您产生影响。请注意，这仅适用于 Kubernetes Gateway API，
 不适用于 Istio `Gateway`。您可以使用以下命令检查您是否正在使用该功能：
 
-    {{< text bash >}}
-    $ kubectl get gateways.gateway.networking.k8s.io -ojson | jq -r '.items[] | select(.spec.gatewayClassName == "istio") | select((.spec.addresses | length) == 0) | "Found managed gateway: " + .metadata.namespace + "/" + .metadata.name'
-    Found managed gateway: default/gateway
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl get gateways.gateway.networking.k8s.io -ojson | jq -r '.items[] | select(.spec.gatewayClassName == "istio") | select((.spec.addresses | length) == 0) | "Found managed gateway: " + .metadata.namespace + "/" + .metadata.name'
+Found managed gateway: default/gateway
+{{< /text >}}
 
 如果您看到“Found managed gateway”信息，则您可能会受到此变更的影响。
 
