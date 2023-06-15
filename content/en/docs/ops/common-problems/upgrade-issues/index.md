@@ -73,7 +73,7 @@ of Wasm code.
 
 The usage of `EnvoyFilter` to configure the number of the trusted hops in the
 HTTP connection manager has been replaced by `gatewayTopology` field in
-[`ProxyConfig`](docs/ops/configuration/traffic-management/network-topologies/).
+[`ProxyConfig`](/docs/ops/configuration/traffic-management/network-topologies).
 For example, the following `EnvoyFilter` configuration should use an annotation
 on the pod or the mesh default instead:
 
