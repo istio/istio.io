@@ -288,7 +288,7 @@ weight: 20
 - **新增** 为不同的 `istioctl dashboard` 命令添加了本地标志 `--ui-port`
   以允许用户指定用于仪表板的 UI 组件端口。
 
-- **修复** 修复了 Server Side Apply 应在 1.22 以上的 Kubernetes 版集群中默认启用，
+- **修复** 修复了 Server Side Apply 应在 1.22 版本以上的 Kubernetes 集群中默认启用，
   或者如果它在 Kubernetes 1.18-1.21 版本中运行需要被检测到的问题。
 
 - **修复** 修复了 `istioctl install --set <boolvar>=<bool>` 和
