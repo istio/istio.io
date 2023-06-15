@@ -141,7 +141,7 @@ weight: 20
 - **新增** 新增了对将额外的联邦信任域从 `caCertificates` 推送到对等 SAN 验证器的支持。
   ([Issue #41666](https://github.com/istio/istio/issues/41666))
 
-- **新增** 新增了在使用 ECDSA 时对 P384 曲线的支持
+- **新增** 新增了在使用 ECDSA 时对 P384 曲线的支持。
   ([PR #44459](https://github.com/istio/istio/pull/44459))
 
 - **新增** 新增了在 `ecdh_curves` 通过 MeshConfig API 对非 `ISTIO_MUTUAL` 流量的支持。
