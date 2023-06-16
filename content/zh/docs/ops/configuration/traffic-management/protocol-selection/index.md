@@ -68,4 +68,7 @@ spec:
 
 与 sidecar 不同，网关默认情况下无法自动检测转发请求到后端服务时所使用的具体 HTTP 协议。因此，除非使用显式协议选择指定 HTTP/1.1（`http`）或 HTTP/2（`http2` 或 `grpc`），否则网关将使用 HTTP/1.1 转发所有传入的 HTTP 请求。
 
-除了使用显式协议选择外，您还可以通过为服务设置 [`useClientProtocol`](/docs/reference/config/networking/destination-rule/#ConnectionPoolSettings-HTTPSettings) 选项来指示网关使用与传入请求相同的协议转发请求。但需要注意，对于不支持 HTTP/2 的服务使用此选项可能存在风险，因为 HTTPS 网关总是[宣传](https://en.wikipedia.org/wiki/Application-Layer_Protocol_Negotiation)支持 HTTP/1.1 和 HTTP/2。因此，即使后端服务不支持 HTTP/2，比较新的客户端通常也会认为它支持 HTTP/2，并且选择使用它。
+除了使用显式协议选择外，您还可以通过为服务设置 [`useClientProtocol`](/zh/docs/reference/config/networking/destination-rule/#ConnectionPoolSettings-HTTPSettings)
+选项来指示网关使用与传入请求相同的协议转发请求。但需要注意，对于不支持 HTTP/2 的服务使用此选项可能存在风险，
+因为 HTTPS 网关总是[宣传](https://en.wikipedia.org/wiki/Application-Layer_Protocol_Negotiation)支持 HTTP/1.1 和 HTTP/2。
+因此，即使后端服务不支持 HTTP/2，比较新的客户端通常也会认为它支持 HTTP/2，并且选择使用它。
