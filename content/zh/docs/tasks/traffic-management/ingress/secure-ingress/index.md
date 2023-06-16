@@ -524,7 +524,7 @@ EOF
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 更改网关的定义以将 TLS 模式设置为 `MUTUAL`。
 
@@ -697,7 +697,7 @@ HTTPS `Gateway` 将在转发请求之前对其配置的主机执行 [SNI](https:
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text bash >}}
 $ kubectl delete gateway mygateway
