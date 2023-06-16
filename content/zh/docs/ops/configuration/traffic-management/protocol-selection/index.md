@@ -25,7 +25,7 @@ Server First 协议，如 MySQL，不兼容自动协议选择。
 查看更多[Server First 协议](/zh/docs/ops/deployment/requirements#server-first-protocols)
 {{< /tip >}}
 
-## 明确的协议选择{#explicit-protocol-selection}
+## 显式协议选择{#explicit-protocol-selection}
 
 协议可以在 Service 定义中手动指定。
 
