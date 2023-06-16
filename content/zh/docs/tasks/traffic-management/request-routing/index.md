@@ -42,7 +42,7 @@ URL 是 `http://$GATEWAY_URL/productpage`，
 1. 运行以下命令以创建路由规则：
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 Istio 使用 Virtual Service 来定义路由规则。
 运行以下命令以应用 Virtual Service，
@@ -84,7 +84,7 @@ EOF
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text bash yaml >}}
 $ kubectl get virtualservices -o yaml
@@ -217,7 +217,7 @@ Istio 还支持在入口网关上基于强认证 JWT 的路由，参考 [JWT 基
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text bash >}}
 $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-test-v2.yaml@
@@ -305,7 +305,7 @@ EOF
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text bash >}}
 $ kubectl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
