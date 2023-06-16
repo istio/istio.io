@@ -1,7 +1,7 @@
 ---
 title: 扩展性
 description: 讲述 Istio 的 WebAssembly 插件系统。
-weight: 25
+weight: 50
 keywords: [wasm,webassembly,emscripten,extension,plugin,filter]
 owner: istio/wg-policies-and-telemetry-maintainers
 test: n/a

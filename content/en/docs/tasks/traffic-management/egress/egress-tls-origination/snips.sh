@@ -136,6 +136,23 @@ kubectl create rolebinding client-credential-role-binding --role=client-credenti
 snip_configure_mutual_tls_origination_for_egress_traffic_at_sidecar_1() {
 kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: originate-mtls-for-nginx
+spec:
+  hosts:
+  - my-nginx.mesh-external.svc.cluster.local
+  ports:
+  - number: 80
+    name: http-port
+    protocol: HTTP
+    targetPort: 443
+  - number: 443
+    name: https-port
+    protocol: HTTPS
+  resolution: DNS
+---
+apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
   name: originate-mtls-for-nginx
@@ -149,7 +166,7 @@ spec:
       simple: ROUND_ROBIN
     portLevelSettings:
     - port:
-        number: 443
+        number: 80
       tls:
         mode: MUTUAL
         credentialName: client-credential # this must match the secret created earlier to hold client certs, and works only when DR has a workloadSelector
@@ -158,10 +175,19 @@ EOF
 }
 
 snip_configure_mutual_tls_origination_for_egress_traffic_at_sidecar_2() {
-kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -sS http://my-nginx.mesh-external.svc.cluster.local:443
+istioctl proxy-config secret deploy/sleep | grep client-credential
 }
 
 ! read -r -d '' snip_configure_mutual_tls_origination_for_egress_traffic_at_sidecar_2_out <<\ENDSNIP
+kubernetes://client-credential            Cert Chain     ACTIVE     true           1                                          2024-06-04T12:15:20Z     2023-06-05T12:15:20Z
+kubernetes://client-credential-cacert     Cert Chain     ACTIVE     true           10792363984292733914                       2024-06-04T12:15:19Z     2023-06-05T12:15:19Z
+ENDSNIP
+
+snip_configure_mutual_tls_origination_for_egress_traffic_at_sidecar_3() {
+kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -sS http://my-nginx.mesh-external.svc.cluster.local
+}
+
+! read -r -d '' snip_configure_mutual_tls_origination_for_egress_traffic_at_sidecar_3_out <<\ENDSNIP
 <!DOCTYPE html>
 <html>
 <head>
@@ -169,13 +195,15 @@ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}
 ...
 ENDSNIP
 
-snip_configure_mutual_tls_origination_for_egress_traffic_at_sidecar_3() {
+snip_configure_mutual_tls_origination_for_egress_traffic_at_sidecar_4() {
 kubectl logs -l app=sleep -c istio-proxy | grep 'my-nginx.mesh-external.svc.cluster.local'
 }
 
 snip_cleanup_the_mutual_tls_origination_configuration_1() {
 kubectl delete secret nginx-server-certs nginx-ca-certs -n mesh-external
 kubectl delete secret client-credential
+kubectl delete rolebinding client-credential-role-binding
+kubectl delete role client-credential-role
 kubectl delete configmap nginx-configmap -n mesh-external
 kubectl delete service my-nginx -n mesh-external
 kubectl delete deployment my-nginx -n mesh-external

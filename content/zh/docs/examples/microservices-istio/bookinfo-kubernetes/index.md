@@ -9,9 +9,14 @@ test: no
 
 {{< boilerplate work-in-progress >}}
 
-该模块显示了一个应用程序，它由四种以不同编程语言编写的微服务组成：`productpage`、`details`、`ratings` 和 `reviews`。我们将组成的应用程序称为 `Bookinfo`，您可以在 [Bookinfo 示例](/zh/docs/examples/bookinfo)页面中了解更多信息。
+该模块显示了一个应用程序，它由四种以不同编程语言编写的微服务组成：
+`productpage`、`details`、`ratings` 和 `reviews`。我们将组成的应用程序称为
+`Bookinfo`，您可以在 [Bookinfo 示例](/zh/docs/examples/bookinfo)页面中了解更多信息。
 
-`reviews` 微服务具有三个版本：`v1`、`v2`、`v3`，而 [Bookinfo 示例](/zh/docs/examples/bookinfo)展示的是该应用的最终版本。在此模块中，应用程序仅使用 `reviews` 微服务的 `v1` 版本。接下来的模块通过多个版本的 `reviews` 微服务增强了应用程序。
+`reviews` 微服务具有三个版本：`v1`、`v2`、`v3`，而
+[Bookinfo 示例](/zh/docs/examples/bookinfo)展示的是该应用的最终版本。
+在此模块中，应用程序仅使用 `reviews` 微服务的 `v1` 版本。接下来的模块通过多个版本的
+`reviews` 微服务增强了应用程序。
 
 ## 部署应用程序及测试 Pod {#deploy-the-application-and-a-testing-pod}
 
@@ -22,7 +27,7 @@ test: no
     {{< /text >}}
 
 1. 浏览 [`bookinfo.yaml`]({{< github_blob >}}/samples/bookinfo/platform/kube/bookinfo.yaml)。
-    这是该应用的 Kubernetes 部署规范。注意 services 和 deployments。
+    这是该应用的 Kubernetes 部署规范。注意 Service 和 Deployment。
 
 1. 部署应用到 Kubernetes 集群：
 
@@ -53,7 +58,8 @@ test: no
     reviews-v1-77c65dc5c6-kjvxs     1/1     Running   0          9s
     {{< /text >}}
 
-1. 四个服务达到 `Running` 状态后，就可以扩展 deployment。要使每个微服务的每个版本在三个 Pod 中运行，请执行以下命令：
+1. 四个服务达到 `Running` 状态后，就可以扩展 deployment。要使每个微服务的每个版本在三个
+   Pod 中运行，请执行以下命令：
 
     {{< text bash >}}
     $ kubectl scale deployments --all --replicas 3
@@ -63,7 +69,7 @@ test: no
     deployment.apps/reviews-v1 scaled
     {{< /text >}}
 
-1. 检查 pods 的状态。可以看到每个微服务都有三个 pods：
+1. 检查 Pod 的状态，可以看到每个微服务都有三个 Pod：
 
     {{< text bash >}}
     $ kubectl get pods
@@ -82,7 +88,8 @@ test: no
     reviews-v1-77c65dc5c6-r55tl     1/1     Running   0          49s
     {{< /text >}}
 
-1. 在服务达到 `Running` 状态后，部署一个测试 Pod：[sleep]({{< github_tree >}}/samples/sleep)。此 Pod 用来向您的微服务发送请求：
+1. 在服务达到 `Running` 状态后，部署一个测试 Pod：[sleep]({{< github_tree >}}/samples/sleep)。
+   此 Pod 用来向您的微服务发送请求：
 
     {{< text bash >}}
     $ kubectl apply -f {{< github_file >}}/samples/sleep/sleep.yaml
@@ -95,13 +102,15 @@ test: no
     <title>Simple Bookstore App</title>
     {{< /text >}}
 
-## 启用对应用的外部访问{#enable-external-access-to-the-application}
+## 启用对应用的外部访问 {#enable-external-access-to-the-application}
 
-应用程序运行后，使集群外部的客户端可以访问它。成功配置以下步骤后，即可从笔记本电脑的浏览器访问该应用程序。
+应用程序运行后，使集群外部的客户端可以访问它。成功配置以下步骤后，
+即可从笔记本电脑的浏览器访问该应用程序。
 
 {{< warning >}}
 
-如果您的集群运行于 GKE，请将 `productpage` service 的类型修改为 `LoadBalancer`，如以下示例所示：
+如果您的集群运行于 GKE，请将 `productpage` service 的类型修改为
+`LoadBalancer`，如以下示例所示：
 
 {{< text bash >}}
 $ kubectl patch svc productpage -p '{"spec": {"type": "LoadBalancer"}}'
@@ -110,7 +119,7 @@ service/productpage patched
 
 {{< /warning >}}
 
-### 配置 Kubernetes Ingress 资源并访问应用页面{#configure-the-Kubernetes-Ingress-resource-and-access-your-application-webpage}
+### 配置 Kubernetes Ingress 资源并访问应用页面 {#configure-the-Kubernetes-Ingress-resource-and-access-your-application-webpage}
 
 1. 创建 Kubernetes Ingress 资源：
 
@@ -158,7 +167,7 @@ service/productpage patched
     EOF
     {{< /text >}}
 
-### 更新 `/etc/hosts` 配置文件{#update-your-etc-hosts-configuration-file}
+### 更新 `/etc/hosts` 配置文件 {#update-your-etc-hosts-configuration-file}
 
 1.  获取名为 `bookinfo` 的 Kubernetes Ingress 的 IP 地址:
 
@@ -166,13 +175,14 @@ service/productpage patched
     $ kubectl get ingress bookinfo
     {{< /text >}}
 
-1. 将以下命令的输出内容追加到 `/etc/hosts` 文件。您应当具有[超级用户](https://en.wikipedia.org/wiki/Superuser)权限，并且可能需要使用 [`sudo`](https://en.wikipedia.org/wiki/Sudo) 来编辑 `/etc/hosts`。
+1. 将以下命令的输出内容追加到 `/etc/hosts` 文件。您应当具有[超级用户](https://en.wikipedia.org/wiki/Superuser)权限，
+   并且可能需要使用 [`sudo`](https://en.wikipedia.org/wiki/Sudo) 来编辑 `/etc/hosts`。
 
     {{< text bash >}}
     $ echo $(kubectl get ingress istio-system -n istio-system -o jsonpath='{..ip} {..host}') $(kubectl get ingress bookinfo -o jsonpath='{..host}')
     {{< /text >}}
 
-### 访问应用{#access-your-application}
+### 访问应用 {#access-your-application}
 
 1. 用以下命令访问应用主页：
 

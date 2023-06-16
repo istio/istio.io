@@ -16,7 +16,9 @@ Istio 生成各种 dashboard 使用的遥测数据，以帮助您可视化您的
 * [Kiali](/zh/docs/tasks/observability/kiali/)
 * [Prometheus](/zh/docs/tasks/observability/metrics/querying-metrics/)
 
-默认情况下，Istio 定义并生成一组标准指标（例如： `requests_total`），但您也可以自定义它们并创建新指标。
+默认情况下，Istio 定义并生成一组标准指标（例如：`requests_total`），但您也可以使用
+[Telemetry API](/zh/docs/tasks/observability/telemetry/)
+自定义标准指标并创建新指标。
 
 ## 自定义统计配置{#custom-statistics-configuration}
 
@@ -31,105 +33,40 @@ Istio 使用 Envoy 代理生成指标并在
 这些配置设置也用 istioctl 安装选项公开，
 允许您为网关和边车以及入站或出站方向自定义不同的指标。
 
-有关详细信息，请参阅[统计配置参考](/zh/docs/reference/config/proxy_extensions/stats/)。
-
 ## 开始之前{#before-you-begin}
 
 在集群中[安装 Istio](/zh/docs/setup/)并部署应用程序。
 或者，您可以设置自定义统计作为 Istio 安装的一部分。
 
-[Bookinfo示例](/zh/docs/examples/bookinfo/)应用程序在整个任务中用作示例应用程序。
+[Bookinfo 示例](/zh/docs/examples/bookinfo/)应用程序在此任务中用作示例应用程序。
+关于安装说明，请参阅部署 [Bookinfo 示例](/zh/docs/examples/bookinfo/#deploying-the-application)。
 
 ## 启用自定义指标{#enable-custom-metrics}
 
-1. 默认遥测 v2 `EnvoyFilter` 配置等效于以下安装选项：
+例如要自定义遥测 v2 指标，可以使用以下命令，沿着入站和出站方向，将 `request_host`
+和 `destination_port` 维度添加到同由 Gateway 和 Sidecar 发出的 `requests_total`：
 
-    {{< text yaml >}}
-    apiVersion: install.istio.io/v1alpha1
-    kind: IstioOperator
-    spec:
-      values:
-        telemetry:
-          v2:
-            prometheus:
-              configOverride:
-                inboundSidecar:
-                  disable_host_header_fallback: false
-                outboundSidecar:
-                  disable_host_header_fallback: false
-                gateway:
-                  disable_host_header_fallback: true
-    {{< /text >}}
-
-    要自定义遥测 v2 指标，例如，添加`request_host`
-    和 `destination_port` 维度到两者发出的 `requests_total` 指标
-    入站和出站方向的网关和边车，请更改安装选项，如下所示：
-
-    {{< tip >}}
-    您只需为要自定义的设置指定配置。
-    例如，仅自定义边车入站 `requests_count` 指标，您可以省略
-    配置中的 `outboundSidecar` 和 `gateway` 部分。
-    未指定设置将保留默认配置，相当于上面显示的显式设置。
-    {{< /tip >}}
-
-    {{< text bash >}}
-    $ cat <<EOF > ./custom_metrics.yaml
-    apiVersion: install.istio.io/v1alpha1
-    kind: IstioOperator
-    spec:
-      values:
-        telemetry:
-          v2:
-            prometheus:
-              configOverride:
-                inboundSidecar:
-                  metrics:
-                    - name: requests_total
-                      dimensions:
-                        destination_port: string(destination.port)
-                        request_host: request.host
-                outboundSidecar:
-                  metrics:
-                    - name: requests_total
-                      dimensions:
-                        destination_port: string(destination.port)
-                        request_host: request.host
-                gateway:
-                  metrics:
-                    - name: requests_total
-                      dimensions:
-                        destination_port: string(destination.port)
-                        request_host: request.host
-    EOF
-    # istioctl install -f custom_metrics.yaml
-    {{< /text >}}
-
-1. 使用以下命令将以下注释应用到所有注入的 Pod 以及要提取到 Prometheus [时间序列](https://en.wikipedia.org/wiki/Time_series)中的维度列表：
-
-    {{< tip >}}
-    仅当您的维度不在
-    [DefaultStatTags 列表]({{<github_blob>}}/pkg/bootstrap/config.go)才需要此步骤。
-    {{< /tip >}}
-
-    {{< text yaml >}}
-    apiVersion: apps/v1
-    kind: Deployment
-    spec:
-      template: # pod template
-        metadata:
-          annotations:
-            sidecar.istio.io/extraStatTags: destination_port,request_host
-    {{< /text >}}
-
-    要在网格范围内启用额外的标签，您可以添加 `extraStatTags` 到网格配置中：
-
-    {{< text yaml >}}
-    meshConfig:
-      defaultConfig:
-        extraStatTags:
-         - destination_port
-         - request_host
-    {{< /text >}}
+{{< text bash >}}
+$ cat <<EOF > ./custom_metrics.yaml
+apiVersion: telemetry.istio.io/v1alpha1
+kind: Telemetry
+metadata:
+  name: namespace-metrics
+spec:
+  metrics:
+  - providers:
+    - name: prometheus
+    overrides:
+    - match:
+        metric: REQUEST_COUNT
+      tagOverrides:
+        destination_port:
+          value: "string(destination.port)"
+        request_host:
+          value: "request.host"
+EOF
+$ kubectl apply -f custom_metrics.yaml
+{{< /text >}}
 
 ## 验证结果{#verify-the-results}
 
@@ -188,3 +125,7 @@ Istio 公开了所有标准 [Envoy 属性](https://www.envoyproxy.io/docs/envoy/
 `upstream_peer.labels['app'].value`。
 
 有关详细信息请参阅[配置参考](/zh/docs/reference/config/proxy_extensions/stats/)。
+
+## 清理{#cleanup}
+
+要删除 `Bookinfo` 示例应用及其配置，请参阅 [`Bookinfo` 清理](/zh/docs/examples/bookinfo/#cleanup)。

@@ -7,6 +7,7 @@ keywords: [kubernetes,multicluster]
 test: yes
 owner: istio/wg-environments-maintainers
 ---
+
 按照本指南在 `cluster1` 和 `cluster2` 两个集群上安装 Istio 控制平面，
 将每一个集群都设置为主集群（{{< gloss >}}primary cluster{{< /gloss >}}）。
 两个集群都运行在网络 `network1` 上，所以两个集群中的 Pod 可以直接通信。
@@ -72,7 +73,7 @@ $ istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
 
 ## 开启端点发现 {#enable-endpoint-discovery}
 
-在 `cluster2` 中安装远程集群的 secret，该 secret 提供 `cluster1` 的 API 服务器的访问权限。
+在 `cluster2` 中安装从集群的 secret，该 secret 提供 `cluster1` 的 API 服务器的访问权限。
 
 {{< text bash >}}
 $ istioctl x create-remote-secret \
@@ -81,7 +82,7 @@ $ istioctl x create-remote-secret \
     kubectl apply -f - --context="${CTX_CLUSTER2}"
 {{< /text >}}
 
-在 `cluster1` 中安装远程集群的 secret，该 secret 提供 `cluster2` 的 API 服务器的访问权限。
+在 `cluster1` 中安装从集群的 secret，该 secret 提供 `cluster2` 的 API 服务器的访问权限。
 
 {{< text bash >}}
 $ istioctl x create-remote-secret \
@@ -90,8 +91,24 @@ $ istioctl x create-remote-secret \
     kubectl apply -f - --context="${CTX_CLUSTER1}"
 {{< /text >}}
 
-**恭喜!** 你已经成功地安装了跨多个主集群 Istio 网格！
+**恭喜!** 您已经成功地安装了跨多个主集群 Istio 网格！
 
 ## 后续步骤 {#next-steps}
 
-现在，你可以[验证此次安装](/zh/docs/setup/install/multicluster/verify)。
+现在，您可以[验证此次安装](/zh/docs/setup/install/multicluster/verify)。
+
+## 清理 {#cleanup}
+
+1. 卸载 `cluster1` 中的 Istio：
+
+    {{< text syntax=bash snip_id=none >}}
+    $ istioctl uninstall --context="${CTX_CLUSTER1}" -y --purge
+    $ kubectl delete ns istio-system --context="${CTX_CLUSTER1}"
+    {{< /text >}}
+
+1. 卸载 `cluster2` 中的 Istio：
+
+    {{< text syntax=bash snip_id=none >}}
+    $ istioctl uninstall --context="${CTX_CLUSTER2}" -y --purge
+    $ kubectl delete ns istio-system --context="${CTX_CLUSTER2}"
+    {{< /text >}}

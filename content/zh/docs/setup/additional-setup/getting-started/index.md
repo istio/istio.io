@@ -14,7 +14,7 @@ test: yes
 {{< tip >}}
 {{< boilerplate gateway-api-future >}}
 以下文档将指导您通过 Gateway API 来使用 Istio。
-如果您更喜欢用经过验证的 Istio 经典 API 进行流量管理，
+如果您更喜欢用经过验证的 Istio API 来进行流量管理，
 您应转为参阅[这些指示说明](/zh/docs/setup/getting-started/)。
 {{< /tip >}}
 

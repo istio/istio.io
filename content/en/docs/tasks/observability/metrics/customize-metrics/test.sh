@@ -22,7 +22,7 @@ set -o pipefail
 source "tests/util/samples.sh"
 
 # @setup profile=none
-echo "$snip_enable_custom_metrics_1" | istioctl install --set tag="$TAG" --set hub="$HUB" -y -f -
+istioctl install --set tag="$TAG" --set hub="$HUB" -y
 
 ## Setting up application
 # Set to known setting of sidecar injection
@@ -46,11 +46,7 @@ send_productpage_requests
 _verify_not_contains snip_verify_the_results_2 "destination_port"
 _verify_not_contains snip_verify_the_results_2 "request_host"
 
-snip_enable_custom_metrics_2 && istioctl install --set tag="$TAG" --set hub="$HUB" -y -f custom_metrics.yaml
-
-kubectl get istiooperator installed-state -n istio-system -o yaml
-_wait_for_istio envoyfilter istio-system stats-filter-1.8
-_wait_for_istio envoyfilter istio-system stats-filter-1.9
+snip_enable_custom_metrics_1
 
 # TODO: remove this delay once we can reliably detect the stats extension configuration update
 # has been applied.

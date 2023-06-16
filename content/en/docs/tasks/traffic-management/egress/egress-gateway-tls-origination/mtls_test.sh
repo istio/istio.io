@@ -62,11 +62,13 @@ snip_configure_mutual_tls_origination_for_egress_traffic_4
 
 _wait_for_istio destinationrule istio-system originate-mtls-for-nginx
 
+_verify_contains snip_configure_mutual_tls_origination_for_egress_traffic_5 "kubernetes://client-credential            Cert Chain     ACTIVE"
+
 # Verify that mTLS connection is set up properly
-_verify_contains snip_configure_mutual_tls_origination_for_egress_traffic_5 "Welcome to nginx!"
+_verify_contains snip_configure_mutual_tls_origination_for_egress_traffic_6 "Welcome to nginx!"
 
 # Verify request is routed through Gateway
-_verify_contains snip_configure_mutual_tls_origination_for_egress_traffic_6 "GET / HTTP/1.1"
+_verify_contains snip_configure_mutual_tls_origination_for_egress_traffic_7 "GET / HTTP/1.1"
 
 # @cleanup
 kubectl label namespace default istio-injection-

@@ -1066,12 +1066,14 @@ No
 client including the CA certificates. This secret must exist in
 the namespace of the proxy using the certificates.
 An Opaque secret should contain the following keys and values:
-<code>key: &lt;privateKey&gt;</code>, <code>cert: &lt;clientCert&gt;</code>, <code>cacert: &lt;CACertificate&gt;</code>.
+<code>key: &lt;privateKey&gt;</code>, <code>cert: &lt;clientCert&gt;</code>, <code>cacert: &lt;CACertificate&gt;</code>,
+<code>crl: &lt;certificateRevocationList&gt;</code>
 Here CACertificate is used to verify the server certificate.
 For mutual TLS, <code>cacert: &lt;CACertificate&gt;</code> can be provided in the
 same secret or a separate secret named <code>&lt;secret&gt;-cacert</code>.
 A TLS secret for client certificates with an additional
-<code>ca.crt</code> key for CA certificates is also supported.
+<code>ca.crt</code> key for CA certificates and <code>ca.crl</code> key for
+certificate revocation list(CRL) is also supported.
 Only one of client certificates and CA certificate
 or credentialName can be specified.</p>
 <p><strong>NOTE:</strong> This field is applicable at sidecars only if
@@ -1227,13 +1229,29 @@ No
 <td>
 <p>failoverPriority is an ordered list of labels used to sort endpoints to do priority based load balancing.
 This is to support traffic failover across different groups of endpoints.
-Suppose there are total N labels specified:</p>
+Two kinds of labels can be specified:</p>
+<ul>
+<li>
+<p>Specify only label keys <code>[key1, key2, key3]</code>, istio would compare the label values of client with endpoints.
+Suppose there are total N label keys <code>[key1, key2, key3, ...keyN]</code> specified:</p>
 <ol>
 <li>Endpoints matching all N labels with the client proxy have priority P(0) i.e. the highest priority.</li>
 <li>Endpoints matching the first N-1 labels with the client proxy have priority P(1) i.e. second highest priority.</li>
 <li>By extension of this logic, endpoints matching only the first label with the client proxy has priority P(N-1) i.e. second lowest priority.</li>
 <li>All the other endpoints have priority P(N) i.e. lowest priority.</li>
 </ol>
+</li>
+<li>
+<p>Specify labels with key and value <code>[key1=value1, key2=value2, key3=value3]</code>, istio would compare the labels with endpoints.
+Suppose there are total N labels <code>[key1=value1, key2=value2, key3=value3, ...keyN=valueN]</code> specified:</p>
+<ol>
+<li>Endpoints matching all N labels have priority P(0) i.e. the highest priority.</li>
+<li>Endpoints matching the first N-1 labels have priority P(1) i.e. second highest priority.</li>
+<li>By extension of this logic, endpoints matching only the first label has priority P(N-1) i.e. second lowest priority.</li>
+<li>All the other endpoints have priority P(N) i.e. lowest priority.</li>
+</ol>
+</li>
+</ul>
 <p>Note: For a label to be considered for match, the previous labels must match, i.e. nth label would be considered matched only if first n-1 labels match.</p>
 <p>It can be any label specified on both client and server workloads.
 The following labels which have special semantic meaning are also supported:</p>
@@ -1258,6 +1276,16 @@ The following labels which have special semantic meaning are also supported:</p>
 <li>endpoints have same [network] but different [region] labels with the client proxy have the fourth highest priority.</li>
 <li>all the other endpoints have the same lowest priority.</li>
 </ol>
+<p>Suppose a service associated endpoints reside in multi clusters, the below example represents:</p>
+<ol>
+<li>endpoints in <code>clusterA</code> and has <code>version=v1</code> label have P(0) priority.</li>
+<li>endpoints not in <code>clusterA</code> but has <code>version=v1</code> label have P(1) priority.</li>
+<li>all the other endpoints have P(2) priority.</li>
+</ol>
+<pre><code class="language-yaml">failoverPriority:
+- &quot;version=v1&quot;
+- &quot;topology.istio.io/cluster=clusterA&quot;
+</code></pre>
 <p>Optional: only one of distribute, failover or failoverPriority can be set.
 And it should be used together with <code>OutlierDetection</code> to detect unhealthy endpoints, otherwise has no effect.</p>
 

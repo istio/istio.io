@@ -57,10 +57,23 @@ Istio 和 Envoy 中实现相同的行为。
 
 ## 使用双栈的快速实验{#a-quick-experiment-using-dual-stack}
 
+{{< tip >}}
+如果您想使用 KinD 进行测试，可以使用以下命令设置双栈集群：
+
+{{< text bash >}}
+$ kind create cluster --name istio-ds --config - <<EOF
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+networking:
+  ipFamily: dual
+EOF
+{{< /text >}}
+
+{{< /tip >}}
 1. 通过以下方式对 Istio 1.17.0+ 启用双栈实验性支持：
 
     {{< text bash >}}
-    $ istioctl install -f - <<EOF
+    $ istioctl install -y -f - <<EOF
     apiVersion: install.istio.io/v1alpha1
     kind: IstioOperator
     spec:
@@ -107,7 +120,7 @@ Istio 和 Envoy 中实现相同的行为。
 1. 在默认命名空间中创建 `sleep` Deployment：
 
     {{< text bash >}}
-    $ kubectl apply -f {{< github_file >}}/master/samples/sleep/sleep.yaml
+    $ kubectl apply -f {{< github_file >}}/samples/sleep/sleep.yaml
     {{< /text >}}
 
 1. 校验流量：

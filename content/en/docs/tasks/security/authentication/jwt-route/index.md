@@ -110,9 +110,9 @@ identity and more secure compared using the unauthenticated HTTP attributes (e.g
     The virtual service uses the reserved header `"@request.auth.claims.groups"` to match with the JWT claim `groups`.
     The prefix `@` denotes it is matching with the metadata derived from the JWT validation and not with HTTP headers.
 
-    Claim of type string, list of string and nested claims are supported. Use the `.` as a separator for nested claim
-    names. For example, `"@request.auth.claims.name.givenName"` matches the nested claim `name` and `givenName`. Claim
-    name with the `.` character is currently not supported.
+    Claim of type string, list of string and nested claims are supported. Use the `.` or `[]` as a separator for nested claim
+    names. For example, `"@request.auth.claims.name.givenName"` or `"@request.auth.claims[name][givenName]"` matches
+    the nested claim `name` and `givenName`, they are equivalent here. When the claim name contains `.`, only `[]` can be used as a separator.
 
 ## Validating ingress routing based on JWT claims
 

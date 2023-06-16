@@ -1,12 +1,13 @@
 ---
-title: 主-从架构的安装
-description: 跨主-从集群，安装 Istio 网格。
+title: 主从架构的安装
+description: 跨主从集群，安装 Istio 网格。
 weight: 20
 icon: setup
 keywords: [kubernetes,multicluster]
 test: yes
 owner: istio/wg-environments-maintainers
 ---
+
 按照本指南，在 `cluster1` 主集群（{{< gloss >}}primary cluster{{< /gloss >}}）
 安装 Istio 控制平面，并设置 `cluster2` 从集群（{{< gloss >}}remote cluster{{< /gloss >}}）
 指向 `cluster1` 的控制平面。两个集群都运行在 `network1` 网络上,
@@ -54,16 +55,16 @@ $ istioctl install --set values.pilot.env.EXTERNAL_ISTIOD=true --context="${CTX_
 {{< /text >}}
 
 需要注意的是，当 `values.pilot.env.EXTERNAL_ISTIOD` 被设置为 `true` 时，
-安装在 `cluster1` 上的控制平面也可以作为其他远程集群的外部控制平面。
+安装在 `cluster1` 上的控制平面也可以作为其他从集群的外部控制平面。
 当这个功能被启用时，`istiod` 将试图获得领导权锁，并因此管理将附加到它的并且带有
-[适当注释的](#set-the-control-plane-cluster-for-cluster2)远程集群
+[适当注解的](#set-the-control-plane-cluster-for-cluster2)从集群
 （本例中为 `cluster2`）。
 
 ## 在 `cluster1` 安装东西向网关 {#install-the-east-west-gateway-in-cluster1}
 
 在 `cluster1` 中安装东西向流量专用网关，默认情况下，此网关将被公开到互联网上。
 生产环境可能需要增加额外的准入限制（即：通过防火墙规则）来防止外部攻击。
-咨询你的云供应商，了解可用的选项。
+咨询您的云供应商，了解可用的选项。
 
 {{< text bash >}}
 $ @samples/multicluster/gen-eastwest-gateway.sh@ \
@@ -72,7 +73,7 @@ $ @samples/multicluster/gen-eastwest-gateway.sh@ \
 {{< /text >}}
 
 {{< warning >}}
-如果控制面板已经安装了修订版本，可在 `gen-eastwest-gateway.sh` 命令中添加
+如果控制面已经安装了一个修订版，可在 `gen-eastwest-gateway.sh` 命令中添加
 `--revision rev` 标志。
 {{< /warning >}}
 
@@ -96,7 +97,7 @@ $ kubectl apply --context="${CTX_CLUSTER1}" -f \
 
 ## 设置集群 `cluster2` 的控制平面 {#set-the-control-plane-cluster-for-cluster2}
 
-我们需要通过注释 istio-system 命名空间来识别应该管理集群
+我们需要通过为 `istio-system` 命名空间添加注解来识别应管理集群
 `cluster2` 的外部控制平面：
 
 {{< text bash >}}
@@ -134,13 +135,12 @@ EOF
 {{< /text >}}
 
 {{< tip >}}
-为了便于演示，在这里我们使用 `injectionPath` 和
-`remotePilotAddress` 参数配置控制平面的位置。
-但在生产环境中，建议改为使用正确签名的 DNS 证书配置
-`injectionURL` 参数，类似于[外部控制平面说明](/zh-cn/docs/setup/install/external-controlplane/#register-the-new-cluster)中的显示配置。
+为了便于演示，在这里我们使用 `injectionPath` 和 `remotePilotAddress` 参数配置控制平面的位置。
+但在生产环境中，建议改为使用正确签名的 DNS 证书配置 `injectionURL` 参数，
+类似于[外部控制平面说明](/zh-cn/docs/setup/install/external-controlplane/#register-the-new-cluster)中的显示配置。
 {{< /tip >}}
 
-将此配置应用到 `cluster2`
+将此配置应用到 `cluster2`：
 
 {{< text bash >}}
 $ istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
@@ -148,7 +148,7 @@ $ istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
 
 ## 附加 `cluster2` 作为 `cluster1` 的从集群 {#attach-cluster2-as-a-remote-cluster-of-cluster1}
 
-为了将远程集群连接到它的控制平面，我们让 `cluster1`
+为了将从集群连接到它的控制平面，我们让 `cluster1`
 中的控制平面访问 `cluster2` 中的 API 服务器。
 这将执行以下操作：
 
@@ -174,8 +174,24 @@ $ istioctl x create-remote-secret \
     kubectl apply -f - --context="${CTX_CLUSTER1}"
 {{< /text >}}
 
-**恭喜!** 你已经成功地安装了跨主-从集群的 Istio 网格！
+**恭喜!** 您已经成功地安装了跨主从集群的 Istio 网格！
 
 ## 后续步骤 {#next-steps}
 
-现在，你可以[验证此次安装](/zh/docs/setup/install/multicluster/verify)。
+现在，您可以[验证此次安装](/zh/docs/setup/install/multicluster/verify)。
+
+## 清理 {#cleanup}
+
+1. 卸载 `cluster1` 中的 Istio：
+
+    {{< text syntax=bash snip_id=none >}}
+    $ istioctl uninstall --context="${CTX_CLUSTER1}" -y --purge
+    $ kubectl delete ns istio-system --context="${CTX_CLUSTER1}"
+    {{< /text >}}
+
+1. 卸载 `cluster2` 中的 Istio：
+
+    {{< text syntax=bash snip_id=none >}}
+    $ istioctl uninstall --context="${CTX_CLUSTER2}" -y --purge
+    $ kubectl delete ns istio-system --context="${CTX_CLUSTER2}"
+    {{< /text >}}

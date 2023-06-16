@@ -66,7 +66,7 @@ Ambient 目前处于 [Alpha 状态](/zh/docs/releases/feature-stages/#feature-ph
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text bash >}}
 $ istioctl install --set profile=ambient --set components.ingressGateways[0].enabled=true --set components.ingressGateways[0].name=istio-ingressgateway --skip-confirmation
@@ -111,7 +111,7 @@ $ istioctl install --set profile=ambient --skip-confirmation
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text bash >}}
 $ kubectl get pods -n istio-system
@@ -177,7 +177,7 @@ $ kubectl apply -f @samples/sleep/notsleep.yaml@
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 创建 Istio [Gateway](/zh/docs/reference/config/networking/gateway/) 和
 [VirtualService](/zh/docs/reference/config/networking/virtual-service/)，
@@ -411,7 +411,7 @@ waypoint default/bookinfo-reviews applied
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 应用评审虚拟服务以控制 90% 流量到 reviews-v1，控制 10% 流量到 reviews-v2。
 
