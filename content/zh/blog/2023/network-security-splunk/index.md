@@ -72,7 +72,7 @@ Istio 管理 Splunk 的入口网关，它接收来自公共和内部 NLB 的流�
 创建了一个抽象层，它是一个可以为服务配置一切内容的控制器，包括：
 VirtualService、DestinationRule、Gateway、证书等等。
 它会将 DNS 直接写入正确的 NLB 中。它是用于端到端网络部署的一键式解决方案。
-对于更复杂的用例，服务团队仍然可以绕过该抽象实现直接配置这些内容。
+对于更复杂的场景，服务团队仍然可以绕过该抽象实现直接配置这些内容。
 
 {{< image width="90%"
     link="Splunk Platform.png"
