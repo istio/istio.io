@@ -1,6 +1,6 @@
 ---
 title: "基于 Splunk 的全面网络安全"
-description: "使用 Istio 从 Layer 3 到 Layer 7 的安全性及更多内容。"
+description: "Istio 搭配其他工具确保 3 到 7 层网络安全。"
 publishdate: 2023-04-03
 attribution: "Bernard Van De Walle (Splunk), Mitch Connors (Aviatrix)"
 keywords: [Istio,Security,Use Case]
