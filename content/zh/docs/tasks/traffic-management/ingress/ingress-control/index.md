@@ -45,7 +45,7 @@ Ingress `Gateway` 描述在网格边界运作的负载均衡器，用于接收�
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 创建 [Istio Gateway](/zh/docs/reference/config/networking/gateway/)：
 
@@ -196,7 +196,7 @@ EOF
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 将以下环境变量设置到您集群中 Istio Ingress Gateway 所用的名称及其所在的命名空间：
 
@@ -306,7 +306,7 @@ $ export SECURE_INGRESS_PORT=$(kubectl get gtw my-gateway -o jsonpath='{.spec.li
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 在 `Gateway` 和 `VirtualService` 配置中使用通配符 `*`。例如如下修改 Ingress 配置：
 
@@ -480,7 +480,7 @@ $ export TCP_INGRESS_PORT=$(kubectl -n "${INGRESS_NS}" get service "${INGRESS_NA
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 删除 `Gateway` 和 `VirtualService` 配置，并关闭 [httpbin]({{< github_tree >}}/samples/httpbin) 服务：
 
