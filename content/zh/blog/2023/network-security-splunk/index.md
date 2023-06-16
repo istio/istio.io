@@ -60,7 +60,7 @@ Istio 也会发送 Telemetry 数据（指标、日志、跟踪），可用于验
 Istio 注入 Envoy Sidecar 的其中一个主要优势是 Istio
 可以为整个网格提供传输过程中的加密能力，而无需对应用程序进行任何修改。
 应用程序只发送明文 HTTP 请求，但 Envoy Sidecar
-拦截流量并实施相互 TLS 加密以防止劫持或篡改。
+拦截流量并实施双向 TLS 加密以防止劫持或篡改。
 
 Istio 管理 Splunk 的入口网关，它接收来自公共和内部 NLB 的流量。
 网关由平台团队管理并在 Istio Gateway 命名空间中运行，允许用户插拔，
