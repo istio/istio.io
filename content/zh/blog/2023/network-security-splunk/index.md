@@ -52,7 +52,7 @@ Splunk 技术栈中的下一个安全层级则是 Kubernetes 本身。用于验�
 将防止某些 K8S 对象的部署，这些对象会允许集群中的不安全流量（通常围绕 NLB 和
 Service）。Splunk 还依赖于 `NetworkPolicies` 来保护和限制 Pod 之间的连接。
 
-## 为 Layer 7 提供安全保障：Istio {#securing-layer-7-istio}
+## Istio 为 7 层提供安全保障 {#securing-layer-7-istio}
 
 Splunk 使用 Istio 根据每个请求的详细信息在应用层执行相关策略。
 Istio 也会发送 Telemetry 数据（指标、日志、跟踪），可用于验证请求级安全性。
