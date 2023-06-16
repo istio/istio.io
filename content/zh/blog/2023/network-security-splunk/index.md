@@ -23,7 +23,7 @@ keywords: [Istio,Security,Use Case]
 * Envoy
 * Aviatrix
 
-## 关于 Splunk 的使用案例 {#about-splunks-use-case}
+## 关于 Splunk 的使用场景 {#about-splunks-use-case}
 
 Splunk 是一家提供用于收集、分析以及各类数据可视化平台的科技公司。
 通过网页风格界面对机器生成的大量数据进行搜索、监控以及分析。
