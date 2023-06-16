@@ -30,7 +30,7 @@ Splunk 是一家提供用于收集、分析以及各类数据可视化平台的�
 Splunk Cloud 是一项将 Splunk 内部基础架构迁移到云原生架构的计划。
 如今，Splunk Cloud 由超过 35 个位于 AWS 和 GCP 遍布全球的完整集群副本组成。
 
-## 为 Layer 3/4 提供安全保障：AWS、Aviatrix 和 Kubernetes {#securing-layer-34-aws-aviatrix-and-kubernetes}
+## AWS、Aviatrix 和 Kubernetes 为 3/4 层提供安全保障 {#securing-layer-34-aws-aviatrix-and-kubernetes}
 
 在 Splunk Cloud 中，我们使用一种被称为“cookie cutter VPCs”的模式，
 为每个集群配备其自身的 VPC 网络，并且使 Pod 和节点 IP 具有相同的私有子网，
