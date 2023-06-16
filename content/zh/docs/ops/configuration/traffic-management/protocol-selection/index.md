@@ -73,4 +73,3 @@ spec:
 选项来指示网关使用与传入请求相同的协议转发请求。但需要注意，对于不支持 HTTP/2 的服务使用此选项可能存在风险，
 因为 HTTPS 网关总是[宣传](https://en.wikipedia.org/wiki/Application-Layer_Protocol_Negotiation)支持 HTTP/1.1 和 HTTP/2。
 因此，即使后端服务不支持 HTTP/2，比较新的客户端通常也会认为它支持 HTTP/2，并且选择使用它。
-
