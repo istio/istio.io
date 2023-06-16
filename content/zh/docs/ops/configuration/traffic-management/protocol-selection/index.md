@@ -50,7 +50,6 @@ Server First 协议，如 MySQL，不兼容自动协议选择。
 
 以下示例定义了一个通过 `appProtocol` 定义 `https` 端口和通过 `name` 定义 `http` 端口的服务：
 
-
 {{< text yaml >}}
 kind: Service
 metadata:
