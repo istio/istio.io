@@ -112,7 +112,7 @@ example.com.key         httpbin.example.com.csr
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 First, define a gateway with a `servers:` section for port 443, and specify values for
 `credentialName` to be `httpbin-credential`. The values are the same as the
@@ -341,7 +341,7 @@ is configured with unique credentials corresponding to each host.
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 Define a gateway with two server sections for port 443. Set the value of
 `credentialName` on each port to `httpbin-credential` and `helloworld-credential`
@@ -532,7 +532,7 @@ You can extend your gateway's definition to support [mutual TLS](https://en.wiki
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 Change the gateway's definition to set the TLS mode to `MUTUAL`.
 
@@ -717,7 +717,7 @@ See [configuring SNI routing](/docs/ops/common-problems/network-issues/#configur
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text bash >}}
 $ kubectl delete gateway mygateway

@@ -109,7 +109,7 @@ example.com.key         httpbin.example.com.csr
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 首先，使用 `servers:` 为 443 端口定义一个网关，并将 `credentialName` 的值设置为 `httpbin-credential`。
 该值与 Secret 的名称相同。TLS 模式的值应为 `SIMPLE`。
@@ -331,7 +331,7 @@ $ export SECURE_INGRESS_PORT=$(kubectl get gtw mygateway -n istio-system -o json
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 为 443 端口定义一个具有两个服务器部分的网关。将每个端口上的 `credentialName`
 值分别设置为 `httpbin-credential` 和 `helloworld-credential`。将 TLS 模式设置为 `SIMPLE`。
