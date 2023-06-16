@@ -25,7 +25,7 @@ Server First 协议，如 MySQL，不兼容自动协议选择。
 查看更多[Server First 协议](/zh/docs/ops/deployment/requirements#server-first-protocols)
 {{< /tip >}}
 
-## 手动协议选择{#manual-protocol-selection}
+## 明确的协议选择{#explicit-protocol-selection}
 
 协议可以在 Service 定义中手动指定。
 
@@ -34,24 +34,22 @@ Server First 协议，如 MySQL，不兼容自动协议选择。
 - 通过端口名称配置：`name: <protocol>[-<suffix>]`。
 - 在版本 1.18+ 的Kubernetes，通过 `appProtocol` 字段配置：`appProtocol: <protocol>`。
 
+请注意，由于网关可能终止 TLS 并进行协议的协商，因此网关上的行为在某些情况下可能会有所不同。
+
 支持以下协议：
 
-- `HTTP`
-- `HTTP2`
-- `HTTPS`
-- `TCP`
-- `TLS`
-- `gRPC`
-- `gRPC-Web`
-- `Mongo`
-- `MySQL`\*
-- `Redis`\*
-- `UDP` (UDP 不会被代理，但可以将端口指定为 UDP)
+| Protocol                              | Sidecar Purpose                                                                                                                                                         | Gateway Purpose                                                                                                                                                         |
+| ------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `http`                                | HTTP/1.1 明文流量                                                                                                                                              | HTTP (1.1 or 2) 明文流量                                                                                                                                       |
+| `http2`                               | HTTP/2 明文流量                                                                                                                                                | HTTP (1.1 or 2) 明文流量                                                                                                                                       |
+| `https`                               | TLS加密数据。由于 Sidecar 不解密 TLS 流量，因此仍是 `tls`。| TLS 加密 HTTP (1.1 or 2) 流量                                                                                                                                   |
+| `tcp`                                 | 不透明的 TCP 数据流                                                                                                                                                  | 不透明的 TCP 数据流                                                                                                                                                  |
+| `tls`                                 | TLS 加密数据                                                                                                                                                      | TLS 加密数据                                                                                                                                                      |
+| `grpc`, `grpc-web`                                | 与 `http2` 相同                                                                                                                                                         | 与 `http2` 相同                                                                                                                                                         |  |
+| `mongo`, `mysql`, `redis` | 实验性应用协议支持。要启用它们，请配置相应的 Pilot [环境变量](/docs/reference/commands/pilot-discovery/#envvars)。如果未启用，则将其视为不透明的TCP数据流。 | E实验性应用协议支持。要启用它们，请配置相应的 Pilot [环境变量](/docs/reference/commands/pilot-discovery/#envvars)。如果未启用，则将其视为不透明的TCP数据流。 |
 
-\* 在默认情况下，这些协议是禁用的，目的是避免无意启用 Experimental Feature。
-如需启用它们，需配置相应的 Pilot [环境变量](/zh/docs/reference/commands/pilot-discovery/#envvars)。
+以下示例定义了一个通过 `appProtocol` 定义 `https` 端口和通过 `name` 定义 `http` 端口的服务：
 
-例如，Service 通过 `appProtocol` 、名称分别定义一个 `mysql` 端口和一个 `http` 端口：
 
 {{< text yaml >}}
 kind: Service
@@ -65,3 +63,9 @@ spec:
   - port: 80
     name: http-web
 {{< /text >}}
+
+## HTTP 网关协议选择{#http-gateway-protocol-selection}
+
+与 sidecar 不同，网关默认情况下无法自动检测转发请求到后端服务时所使用的具体 HTTP 协议。因此，除非使用显式协议选择指定 HTTP/1.1（`http`）或 HTTP/2（`http2` 或 `grpc`），否则网关将使用 HTTP/1.1 转发所有传入的 HTTP 请求。
+
+除了使用显式协议选择外，您还可以通过为服务设置 [`useClientProtocol`](/docs/reference/config/networking/destination-rule/#ConnectionPoolSettings-HTTPSettings) 选项来指示网关使用与传入请求相同的协议转发请求。但需要注意，对于不支持 HTTP/2 的服务使用此选项可能存在风险，因为 HTTPS 网关总是[宣传](https://en.wikipedia.org/wiki/Application-Layer_Protocol_Negotiation)支持 HTTP/1.1 和 HTTP/2。因此，即使后端服务不支持 HTTP/2，比较新的客户端通常也会认为它支持 HTTP/2，并且选择使用它。
