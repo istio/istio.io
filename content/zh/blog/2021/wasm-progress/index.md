@@ -13,7 +13,7 @@ keywords: [wasm,extensibility,WebAssembly]
 ## WebAssembly 支持已合并到上游 Envoy
 
 在将 Wasm 和 WebAssembly for Proxies (Proxy-Wasm) ABI 的实验性支持添加到 Istio 对 Envoy 的分支后，我们从早期用户收集了一些很好的反馈。这些反馈与开发核心 Istio Wasm 扩展所获得的经验相结合，帮助 WebAssembly 在运行时变的更加成熟和稳定。
-这些改进解决了可直接将 Wasm 支持合并到 Envoy 上游的阻碍，于是在 2020年10月 它成为所有官方 Envoy 版本的一部分。
+这些改进解决了可直接将 Wasm 支持合并到 Envoy 上游的阻碍，于是在 2020 年 10 月 它成为所有官方 Envoy 版本的一部分。
 这是一个重要的里程碑，因为它表明：
 
 * 运行时已准备好进行更广泛的采用。
@@ -44,7 +44,7 @@ keywords: [wasm,extensibility,WebAssembly]
 Istio 1.9 通过利用 istio-agent 内部的 xDS 代理和 Envoy 的[扩展配置发现服务](https://www.envoyproxy.io/docs/envoy/latest/configuration/overview/extension) (ECDS)，提供了一个可靠的开箱即用的分发机制。
 
 istio-agent 拦截来自 istiod 的扩展配置资源更新，从中读取远程获取提示，下载 Wasm 模块，并使用已下载的 Wasm 模块路径重写 ECDS 配置。
-如果下载失败，istio-agent 将拒绝 ECDS 更新并阻止错误配置到达 Envoy。有关更多详细信息，请参见[我们的 Wasm 模块分发文档](/docs/tasks/extensibility/wasm-module-distribution/)。
+如果下载失败，istio-agent 将拒绝 ECDS 更新并阻止错误配置到达 Envoy。有关更多详细信息，请参见[我们的 Wasm 模块分发文档](/zh/docs/tasks/extensibility/wasm-module-distribution/)。
 
 {{< image width="75%"
     link="./architecture-istio-agent-downloading-wasm-module.svg"
@@ -56,7 +56,7 @@ istio-agent 拦截来自 istiod 的扩展配置资源更新，从中读取远程
 
 尽管我们在 Wasm 可扩展性方面取得了很多进展，但该项目仍有许多方面需要完成。为了整合各方的努力并更好地应对未来的挑战，我们成立了一个 [Istio WebAssembly SIG](https://discuss.istio.io/t/introducing-wasm-sig/9930)，旨在提供一种标准和可靠的方式，使 Istio 能够使用 Wasm 扩展。以下是我们正在处理的一些事项：
 
-* **一流的扩展API**：目前，Wasm 扩展需要通过 Istio 的 `EnvoyFilter` API 注入。一流的扩展 API 将使在 Istio 中使用 Wasm 更加容易，并且我们预计这将在 Istio 1.10 中引入。
+* **一流的扩展 API**：目前，Wasm 扩展需要通过 Istio 的 `EnvoyFilter` API 注入。一流的扩展 API 将使在 Istio 中使用 Wasm 更加容易，并且我们预计这将在 Istio 1.10 中引入。
 * **分发工件互操作性**：基于 Solo.io 的 [WebAssembly OCI 图像规范](https://www.solo.io/blog/announcing-the-webassembly-wasm-oci-image-spec/)，标准的 Wasm 工件格式将使构建、拉取、发布和执行变得容易。
 * **基于容器存储接口（CSI）的工件分发**：使用 istio-agent 分发模块易于采用，但可能不够高效，因为每个代理都会保留 Wasm 模块的副本。作为更有效的解决方案，使用 [Ephemeral CSI](https://kubernetes-csi.github.io/docs/ephemeral-local-volumes.html)，将提供一个 DaemonSet 来配置 Pods 的存储。类似于 CNI 插件，CSI 驱动程序将从 xDS 流中获取 Wasm 模块，并在 Pod 启动时将其挂载到 `rootfs` 内部。
 
