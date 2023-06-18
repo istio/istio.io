@@ -29,10 +29,10 @@ test: n/a
 1. **minimal**：与默认配置文件相同，但只安装了控制平面组件。
     它允许您使用 [Separate Profile](/zh/docs/setup/additional-setup/gateway/#deploying-a-gateway) 配置控制平面和数据平面组件(例如 Gateway)。
 
-1. **remote**：用于配置一个 {{< gloss >}}从集群{{< /gloss >}}，
-    这个从集群由 {{< gloss >}}外部控制平面{{< /gloss >}} 管理，
+1. **remote**：用于配置一个 {{< gloss >}}Remote Cluster{{< /gloss >}}，
+    这个从集群由 {{< gloss >}}External Control Plane{{< /gloss >}} 管理，
     或者由 [multicluster mesh](/zh/docs/ops/deployment/deployment-models/#multiple-clusters) 的
-    {{< gloss >}}主集群{{< /gloss >}} 中的控制平面管理。
+    {{< gloss >}}Primary Cluster{{< /gloss >}} 中的控制平面管理。
 
 1. **empty**：不部署任何东西。可以作为自定义配置的基本配置文件。
 
