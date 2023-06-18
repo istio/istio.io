@@ -6,7 +6,7 @@ description: Configuration for access control on workloads.
 location: https://istio.io/docs/reference/config/security/authorization-policy.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
-schema: istio.security.v1.AuthorizationPolicy
+schema: istio.security.v1beta1.AuthorizationPolicy
 weight: 20
 aliases: [/docs/reference/config/authorization/authorization-policy]
 number_of_entries: 9
@@ -44,7 +44,7 @@ but it is useful to be explicit in the policy.</p>
 </ul>
 <p>when the request has a valid JWT token issued by <code>https://accounts.google.com</code>.</p>
 <p>Any other requests will be denied.</p>
-<pre><code class="language-yaml">apiVersion: security.istio.io/v1
+<pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
   name: httpbin
@@ -71,7 +71,7 @@ spec:
 <p>The following is another example that sets <code>action</code> to <code>DENY</code> to create a deny policy.
 It denies requests from the <code>dev</code> namespace to the <code>POST</code> method on all workloads
 in the <code>foo</code> namespace.</p>
-<pre><code class="language-yaml">apiVersion: security.istio.io/v1
+<pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
   name: httpbin
@@ -89,7 +89,7 @@ spec:
 <p>The following is another example that sets <code>action</code> to <code>DENY</code> to create a deny policy.
 It denies all the requests with <code>POST</code> method on port <code>8080</code> on all workloads
 in the <code>foo</code> namespace.</p>
-<pre><code class="language-yaml">apiVersion: security.istio.io/v1
+<pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
 kind: AuthorizaionPolicy
 metadata:
   name: httpbin
@@ -106,9 +106,9 @@ spec:
 For a <code>DENY</code> rule, missing attributes are treated as matches. This means all TCP traffic on port <code>8080</code> would be denied in the example above.
 If we were to remove the <code>ports</code> match, all TCP traffic would be denied. As a result, it is recommended to always scope <code>DENY</code> policies to a specific port,
 especially when using HTTP attributes <a href="/docs/tasks/security/authorization/authz-tcp/">Authorization Policy for TCP Ports</a>.</p>
-<p>The following authorization policy sets the <code>action</code> to <code>AUDIT</code>. It will audit any GET requests to the path with the
+<p>The following authorization policy sets the <code>action</code> to <code>AUDIT</code>. It will audit any <code>GET</code> requests to the path with the
 prefix <code>/user/profile</code>.</p>
-<pre><code class="language-yaml">apiVersion: security.istio.io/v1
+<pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
   namespace: ns1
@@ -133,7 +133,7 @@ namespace, the policy applies to all namespaces in a mesh.</li>
 </ul>
 <p>For example, the following authorization policy applies to all workloads in namespace <code>foo</code>. It allows nothing and effectively denies
 all requests to workloads in namespace <code>foo</code>.</p>
-<pre><code class="language-yaml">apiVersion: security.istio.io/v1
+<pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
  name: allow-nothing
@@ -142,7 +142,7 @@ spec:
   {}
 </code></pre>
 <p>The following authorization policy allows all requests to workloads in namespace <code>foo</code>.</p>
-<pre><code class="language-yaml">apiVersion: security.istio.io/v1
+<pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
  name: allow-all
@@ -153,7 +153,7 @@ spec:
 </code></pre>
 <p>The following authorization policy applies to workloads containing label <code>app: httpbin</code> in namespace <code>bar</code>. It allows
 nothing and effectively denies all requests to the selected workloads.</p>
-<pre><code class="language-yaml">apiVersion: security.istio.io/v1
+<pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
   name: allow-nothing
@@ -165,7 +165,7 @@ spec:
 </code></pre>
 <p>The following authorization policy applies to workloads containing label <code>version: v1</code> in all namespaces in the mesh.
 (Assuming the root namespace is configured to <code>istio-system</code>).</p>
-<pre><code class="language-yaml">apiVersion: security.istio.io/v1
+<pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
  name: allow-nothing
