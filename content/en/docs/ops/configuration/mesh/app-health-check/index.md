@@ -38,7 +38,8 @@ so that the probe request is sent to the [sidecar agent](/docs/reference/command
 The rewrite is visible at the application pod level. For example, using [liveness-http-same-port sample]({{< github_file >}}/samples/health-check/liveness-http-same-port.yaml), we see it working. First, create and label a namespace:
 
 {{< text bash >}}
-$ kubectl create namespace istio-io-health-rewrite; kubectl label namespace istio-io-health-rewrite istio-injection=enabled
+$ kubectl create namespace istio-io-health-rewrite
+$ kubectl label namespace istio-io-health-rewrite istio-injection=enabled
 {{< /text >}}
 
 And deploy the sample app:
