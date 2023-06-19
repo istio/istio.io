@@ -19,7 +19,7 @@ skip_seealso: true
 
 Istio 1.12.0 和 1.12.1 版本容易受到提权攻击。
 对 `gateways.gateway.networking.k8s.io` 对象具有 `CREATE`
-权限的用户可以升级此权限以创建他们可能无权访问的其他资源，例如 `Pod`。
+权限的用户可以提升权限以创建他们可能无权访问的其他资源，例如 `Pod`。
 
 ## 我受到影响了吗？{#am-i-impacted?}
 
