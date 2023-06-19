@@ -73,4 +73,4 @@ Istio Day 是 [CNCF 主办的 KubeCon + CloudNativeCon 北美站同期活动](ht
 对于那些不能现场参加的与会人员，请密切关注 IstioCon 2023（在线）和
 Istio Day 中国站的公告。
 
-请持续关注并了解有关该活动的更多信息，我们希望您能参加我们在芝加哥的 Istio Day！
+请持续关注并了解有关该活动的更多信息，希望您能参加我们在芝加哥的 Istio Day！
