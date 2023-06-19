@@ -58,7 +58,7 @@ Istio 提供的所有内容。由于反馈热烈，我们很高兴与大家分�
 ## 赞助活动 {#sponsor-the-event}
 
 您是否希望将您的产品或服务展示在独具慧眼的云原生用户面前：
-那些比一般大众要求多 _25%_ 的用户？查看
+那些比一般大众要求多 __25%__ 的用户？查看
 [CNCF 活动招募说明书第 19 页](https://events.linuxfoundation.org/wp-content/uploads/2023/06/sponsor-cncf-2023-061523.pdf)了解更多信息。
 立即联系 sponsor@cncf.io 来确保您的赞助身份！签署的合同必须在 9 月 20 日之前被收到。
 
