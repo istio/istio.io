@@ -42,7 +42,7 @@ $ kubectl create namespace istio-io-health-rewrite
 $ kubectl label namespace istio-io-health-rewrite istio-injection=enabled
 {{< /text >}}
 
-And deploy the sample app:
+And deploy the sample application:
 
 {{< text bash yaml >}}
 $ kubectl apply -f - <<EOF
