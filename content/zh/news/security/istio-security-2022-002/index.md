@@ -35,7 +35,7 @@ Istio 1.12.0 和 1.12.1 版本容易受到提权攻击。
 * 不受信任的用户对 `gateways.gateway.networking.k8s.io`
   对象具有 `CREATE` 权限。
 
-## 解决方法 {workarounds}
+## 解决方法 {#workarounds}
 
 如果您无法进行升级，以下任何一项操作都可以防止此漏洞：
 
