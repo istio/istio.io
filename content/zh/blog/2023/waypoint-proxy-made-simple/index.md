@@ -84,7 +84,7 @@ Istio 强制所有进入命名空间的流量都经过 Waypoint，然后该 Wayp
 
 在这里，我们看到一个非常不同的情况。我们只有 2 个 Waypoint Proxy，
 因为每个 Waypoint Proxy 都能为整个命名空间提供服务，而且每个 Waypoint Proxy 只需要为自己的命名空间配置。
-总的来说，即使是一个简单的例子，也要发送 25% 的配置量。
+总的来说，即使对于一个简单的例子，我们发送的配置量也只有总量的 25%。
 
 如果我们将每个命名空间扩容到 25 个 Deployment，每个 Deployment 有 10 个 Pod，
 每个 Waypoint Deployment 有 2 个 Pod 以实现高可用性，那么数值就更加惊人了。
