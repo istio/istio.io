@@ -6,7 +6,7 @@ attribution: "Lin Sun (Solo.io), John Howard (Google)"
 keywords: [istio,ambient,waypoint]
 ---
 
-Ambient 将 Istio 的功能分为两个不同的层，一个具备安全机制的 Overlay 层和一个 L7 处理层。
+Ambient 将 Istio 的功能分为两个不同层级，一个是具备安全机制的 Overlay 层，另一个是 L7 处理层。
 Waypoint Proxy 是一个基于 Envoy 的可选组件，为其管理的工作负载进行 L7 处理。
 自 2022 年[首次发布 Ambient](/zh/blog/2022/introducing-ambient-mesh/) 以来，
 我们在简化 Waypoint 配置、可调试性和可扩展性方面做了许多重大变更。
@@ -42,7 +42,7 @@ Istiod 将监控这些资源并自动为用户部署和管理相应的 Waypoint 
 
 ## 将源代理配置转移到目的地代理 {#shift-source-proxy-configuration-to-destination-proxy}
 
-在现有的 Sidecar 架构中，大多数流量整形（例如[请求路由](/zh/docs/tasks/traffic-management/request-routing/)
+在现有的 Sidecar 架构中，大多数流量形态（例如[请求路由](/zh/docs/tasks/traffic-management/request-routing/)
 或[流量转移](/zh/docs/tasks/traffic-management/traffic-shifting/)或
 [故障注入](/zh/docs/tasks/traffic-management/fault-injection/)）策略由源（客户端）代理实现，
 而大多数安全策略由目标（服务器）代理实现。这导致了一些担忧：
