@@ -34,11 +34,11 @@ Engine（GKE）集群中运行的工作负载处于相同或接近的主要区�
 或 `zone` 工作，这通常是从 Kubernetes 节点上设置的标签推断出来的。
 首先，确定您工作负载所处的位置：
 
-    {{< text bash >}}
-    $ kubectl describe node | grep failure-domain.beta.kubernetes.io/region
-                        failure-domain.beta.kubernetes.io/region=us-east1
-                        failure-domain.beta.kubernetes.io/region=us-east1
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl describe node | grep failure-domain.beta.kubernetes.io/region
+                    failure-domain.beta.kubernetes.io/region=us-east1
+                    failure-domain.beta.kubernetes.io/region=us-east1
+{{< /text >}}
 
 在此示例中，GKE 集群节点在 `us-east1` 区域中运行。
 
