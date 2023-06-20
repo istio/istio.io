@@ -10,7 +10,10 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-除了支持 Kubernetes [Ingress](/zh/docs/tasks/traffic-management/ingress/kubernetes-ingress/)，Istio还提供了另一种配置模式，[Istio Gateway](/zh/docs/reference/config/networking/gateway/)。与 `Ingress` 相比，`Gateway` 提供了更广泛的自定义和灵活性，并允许将 Istio 功能（例如监控和路由规则）应用于进入集群的流量。
+除了支持 Kubernetes [Ingress](/zh/docs/tasks/traffic-management/ingress/kubernetes-ingress/)，
+Istio还提供了另一种配置模式，[Istio Gateway](/zh/docs/reference/config/networking/gateway/)。
+与 `Ingress` 相比，`Gateway` 提供了更广泛的自定义和灵活性，并允许将 Istio
+功能（例如监控和路由规则）应用于进入集群的流量。
 
 本任务描述了如何配置 Istio，以使用 Istio `Gateway` 来将服务暴露至服务网格之外。
 
@@ -19,7 +22,8 @@ test: yes
 *   遵照[安装指南](/zh/docs/setup/)中的文档说明，安装 Istio。
 
     {{< tip >}}
-    如果准备使用 `Gateway API` 指令，您可以使用 `minimal` 配置文件来安装 Istio，因为您不再需要默认以其他方式安装的 `istio-ingressgateway`：
+    如果准备使用 `Gateway API` 指令，您可以使用 `minimal` 配置文件来安装 Istio，
+    因为您不再需要默认以其他方式安装的 `istio-ingressgateway`：
 
     {{< text bash >}}
     $ istioctl install --set profile=minimal
@@ -33,7 +37,9 @@ test: yes
     $ kubectl apply -f @samples/httpbin/httpbin.yaml@
     {{< /text >}}
 
-    请注意本文旨在展示如何使用网关控制到“Kubernetes 集群”中的入口流量，无论是否启用 Sidecar 注入都可以启动 `httpbin` 服务（即目标服务可以在 Istio 网格内，也可以在 Istio 网格外）。
+    请注意本文旨在展示如何使用网关控制到“Kubernetes 集群”中的入口流量，
+    无论是否启用 Sidecar 注入都可以启动 `httpbin` 服务（即目标服务可以在
+    Istio 网格内，也可以在 Istio 网格外）。
 
 ## 使用网关配置 Ingress {#configuring-ingress-using-a-gateway}
 
@@ -101,7 +107,10 @@ EOF
 所有其他外部请求均被拒绝并返回 404 响应。
 
 {{< warning >}}
-来自网格内部其他服务的内部请求无需遵循这些规则，而是默认遵守轮询调度路由规则。您可以为 `gateways` 列表添加特定的 `mesh` 值，将这些规则同时应用到内部请求。由于服务的内部主机名可能与外部主机名不一致（譬如：`httpbin.default.svc.cluster.local`），您需要同时将内部主机名添加到 `hosts` 列表中。
+来自网格内部其他服务的内部请求无需遵循这些规则，而是默认遵守轮询调度路由规则。
+您可以为 `gateways` 列表添加特定的 `mesh` 值，将这些规则同时应用到内部请求。
+由于服务的内部主机名可能与外部主机名不一致（譬如：`httpbin.default.svc.cluster.local`），
+您需要同时将内部主机名添加到 `hosts` 列表中。
 详情请参考[操作指南](/zh/docs/ops/common-problems/network-issues#route-rules-have-no-effect-on-ingress-gateway-requests)。
 {{< /warning >}}
 
@@ -136,7 +145,8 @@ EOF
 在此例中，预期这些路由应处于与 `Gateway` 相同的命名空间中。
 {{< /tip >}}
 
-因为创建 Kubernetes `Gateway` 资源也将[部署关联的代理服务](/zh/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment)，运行以下命令等待 Gateway 就绪：
+因为创建 Kubernetes `Gateway` 资源也将[部署关联的代理服务](/zh/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment)，
+运行以下命令等待 Gateway 就绪：
 
 {{< text bash >}}
 $ kubectl wait --for=condition=programmed gtw httpbin-gateway
@@ -168,17 +178,18 @@ spec:
 EOF
 {{< /text >}}
 
-您现在已为 `httpbin` 服务创建了[HTTP 路由](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io%2fv1beta1.HTTPRoute)配置，包含两个路由规则，允许流量流向路径 `/status` 和 `/delay`。
+您现在已为 `httpbin` 服务创建了 [HTTP 路由](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io%2fv1beta1.HTTPRoute)配置，
+包含两个路由规则，允许流量流向路径 `/status` 和 `/delay`。
 
 {{< /tab >}}
 
 {{< /tabset >}}
 
-### 确定 Ingress IP 和端口{#determining-the-ingress-ip-and-ports}
+### 确定 Ingress IP 和端口  {#determining-the-ingress-ip-and-ports}
 
-每个 `Gateway` 由[类型为 LoadBalancer 的服务](https://kubernetes.io/zh-cn/docs/tasks/access-application-cluster/create-external-load-balancer/)支撑。
-该服务的外部负载均衡器 IP 和端口用于访问 Gateway。
-大多数云平台上运行的集群默认支持类型为 `LoadBalancer` 的 Kubernetes 服务，
+每个 `Gateway` 由[类型为 LoadBalancer 的 Service](https://kubernetes.io/zh-cn/docs/tasks/access-application-cluster/create-external-load-balancer/)支撑。
+该 Service 的外部负载均衡器 IP 和端口用于访问 Gateway。
+大多数云平台上运行的集群默认支持类型为 `LoadBalancer` 的 Kubernetes Service，
 但在某些环境（例如测试环境）中，您可能需要执行如下操作：
 
 * `minikube` - 在另一个终端中运行以下命令，启动一个外部负载均衡器：
@@ -187,9 +198,11 @@ EOF
     $ minikube tunnel
     {{< /text >}}
 
-* `kind` - 遵循 [MetalLB 设置指南](https://kind.sigs.k8s.io/docs/user/loadbalancer/)使得类型为 `LoadBalancer` 的服务能够工作。
+* `kind` - 遵循 [MetalLB 设置指南](https://kind.sigs.k8s.io/docs/user/loadbalancer/)使得类型为
+   `LoadBalancer` 的服务能够工作。
 
-* 其他平台 - 您可以使用 [MetalLB](https://metallb.universe.tf/installation/) 获取 `EXTERNAL-IP` 用于 `LoadBalancer` 服务。
+* 其他平台 - 您可以使用 [MetalLB](https://metallb.universe.tf/installation/) 获取
+  `EXTERNAL-IP` 用于 `LoadBalancer` 服务。
 
 为了方便演示，我们将 Ingress IP 和端口存储到环境变量中，在后续的教程中使用。
 根据以下指示设置 `INGRESS_HOST` 和 `INGRESS_PORT` 环境变量：
@@ -224,7 +237,8 @@ istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121   ...     
 {{< /text >}}
 
 如果 `EXTERNAL-IP` 值已设置，说明环境正在使用外部负载均衡器，可以用其为 Ingress Gateway 提供服务。
-如果 `EXTERNAL-IP` 值为 `<none>` （或持续显示 `<pending>`），说明环境没有为 Ingress Gateway 提供外部负载均衡器，无法使用 Ingress Gateway。
+如果 `EXTERNAL-IP` 值为 `<none>` （或持续显示 `<pending>`），说明环境没有为 Ingress Gateway
+提供外部负载均衡器，无法使用 Ingress Gateway。
 
 如果您的环境不支持外部负载均衡器，您可以尝试[使用 Node Port 访问 Ingress Gateway](https://kubernetes.io/zh-cn/docs/concepts/services-networking/service/#type-nodeport)。
 否则，使用以下命令设置 Ingress IP 和端口：
@@ -273,9 +287,9 @@ $ export SECURE_INGRESS_PORT=$(kubectl get gtw my-gateway -o jsonpath='{.spec.li
 
 {{< /tabset >}}
 
-## 访问 Ingress 服务{#accessing-ingress-services}
+## 访问 Ingress 服务  {#accessing-ingress-services}
 
-1. 使用 _curl_ 访问 _httpbin_ 服务：
+1. 使用 **curl** 访问 **httpbin** 服务：
 
     {{< text bash >}}
     $ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/status/200"
@@ -284,7 +298,7 @@ $ export SECURE_INGRESS_PORT=$(kubectl get gtw my-gateway -o jsonpath='{.spec.li
     ...
     {{< /text >}}
 
-    注意上文命令使用 `-H` 标识将 HTTP 头部参数 _Host_ 设置为 "httpbin.example.com"。
+    注意上文命令使用 `-H` 标识将 HTTP 头部参数 **Host** 设置为 "httpbin.example.com"。
     该操作是必需的，因为 Ingress `Gateway` 已被配置用来处理 "httpbin.example.com" 的服务请求，
     而在测试环境中并没有为该主机绑定 DNS，而是简单直接地向 Ingress IP 发送请求。
 
@@ -296,10 +310,11 @@ $ export SECURE_INGRESS_PORT=$(kubectl get gtw my-gateway -o jsonpath='{.spec.li
     ...
     {{< /text >}}
 
-## 通过浏览器访问 Ingress 服务{#accessing-ingress-services-using-a-browser}
+## 通过浏览器访问 Ingress 服务  {#accessing-ingress-services-using-a-browser}
 
-在浏览器中输入 `httpbin` 服务的 URL 不能获得有效的响应，因为无法像 `curl` 那样，将请求头部参数 _Host_ 传给浏览器。
-在现实场景中，这并不是问题，因为您需要合理配置被请求的主机及可解析的 DNS，从而在 URL 中使用主机的域名，
+在浏览器中输入 `httpbin` 服务的 URL 不能获得有效的响应，因为无法像 `curl` 那样，
+将请求头部参数 **Host** 传给浏览器。在现实场景中，这并不是问题，
+因为您需要合理配置被请求的主机及可解析的 DNS，从而在 URL 中使用主机的域名，
 例如 `https://httpbin.example.com/status/200`。
 
 您可以在简单的测试和演示中按下述方法绕过这个问题：
@@ -318,7 +333,7 @@ metadata:
   name: httpbin-gateway
 spec:
   selector:
-    istio: ingressgateway # use Istio default gateway implementation
+    istio: ingressgateway # 使用 Istio 默认网关实现
   servers:
   - port:
       number: 80
@@ -396,7 +411,7 @@ EOF
 此时，便可以在浏览器中输入包含 `$INGRESS_HOST:$INGRESS_PORT` 的 URL。
 譬如，输入 `http://$INGRESS_HOST:$INGRESS_PORT/headers`，将显示浏览器发送的所有 Header 信息。
 
-## 理解原理{#understanding-what-happened}
+## 理解原理  {#understanding-what-happened}
 
 `Gateway` 配置资源允许外部流量进入 Istio 服务网格，并对边界服务实施流量管理和 Istio 可用的策略特性。
 
@@ -405,10 +420,12 @@ EOF
 ## 使用 Ingress Gateway 服务的 Node Port {#using-node-ports-of-the-ingress-gateway-service}
 
 {{< warning >}}
-如果您的 Kubernetes 环境有支持 [类型为 LoadBalancer 的服务](https://kubernetes.io/zh-cn/docs/tasks/access-application-cluster/create-external-load-balancer/)的外部负载均衡器，您不应使用这些指示步骤。
+如果您的 Kubernetes 环境有支持[类型为 LoadBalancer 的 Service](https://kubernetes.io/zh-cn/docs/tasks/access-application-cluster/create-external-load-balancer/)的外部负载均衡器，
+您无需使用这些指示步骤。
 {{< /warning >}}
 
-如果您的环境不支持外部负载均衡器，则您仍然可以使用 `istio-ingressgateway` 服务的 [Node Port](https://kubernetes.io/zh-cn/docs/concepts/services-networking/service/#type-nodeport)来实验某些 Istio 特性。
+如果您的环境不支持外部负载均衡器，则您仍然可以使用 `istio-ingressgateway`
+Service 的 [Node Port](https://kubernetes.io/zh-cn/docs/concepts/services-networking/service/#type-nodeport)来实验某些 Istio 特性。
 
 设置 Ingress 端口：
 
@@ -420,13 +437,13 @@ $ export TCP_INGRESS_PORT=$(kubectl -n "${INGRESS_NS}" get service "${INGRESS_NA
 
 根据集群提供商来设置 Ingress IP：
 
-1.  _GKE：_
+1.  **GKE：**
 
     {{< text bash >}}
     $ export INGRESS_HOST=worker-node-address
     {{< /text >}}
 
-    您需要创建防火墙规则以允许 TCP 流量到达 _ingressgateway_ 服务的端口。
+    您需要创建防火墙规则以允许 TCP 流量到达 **ingressgateway** Service 的端口。
     运行以下命令以允许到 HTTP 和/或 HTTPS 端口的流量：
 
     {{< text bash >}}
@@ -434,26 +451,26 @@ $ export TCP_INGRESS_PORT=$(kubectl -n "${INGRESS_NS}" get service "${INGRESS_NA
     $ gcloud compute firewall-rules create allow-gateway-https --allow "tcp:$SECURE_INGRESS_PORT"
     {{< /text >}}
 
-1.  _IBM Cloud Kubernetes Service：_
+1.  **IBM Cloud Kubernetes Service：**
 
     {{< text bash >}}
     $ ibmcloud ks workers --cluster cluster-name-or-id
     $ export INGRESS_HOST=public-IP-of-one-of-the-worker-nodes
     {{< /text >}}
 
-1.  _Docker For Desktop：_
+1.  **Docker For Desktop：**
 
     {{< text bash >}}
     $ export INGRESS_HOST=127.0.0.1
     {{< /text >}}
 
-1.  _其他环境：_
+1.  **其他环境：**
 
     {{< text bash >}}
     $ export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n "${INGRESS_NS}" -o jsonpath='{.items[0].status.hostIP}')
     {{< /text >}}
 
-## 问题排查{#troubleshooting}
+## 问题排查  {#troubleshooting}
 
 1. 检查环境变量 `INGRESS_HOST` and `INGRESS_PORT`。确保环境变量的值有效，命令如下：
 
@@ -474,9 +491,10 @@ $ export TCP_INGRESS_PORT=$(kubectl -n "${INGRESS_NS}" get service "${INGRESS_NA
     $ kubectl get ingress --all-namespaces
     {{< /text >}}
 
-1. 如果使用了外部负载均衡器，该外部负载均衡器无法正常工作，尝试[通过 Node Port 访问 Gateway](#using-node-ports-of-the-ingress-gateway-service)。
+1. 如果使用了外部负载均衡器，但该外部负载均衡器无法正常工作，
+   可尝试[通过 Node Port 访问 Gateway](#using-node-ports-of-the-ingress-gateway-service)。
 
-## 清除{#cleanup}
+## 清除  {#cleanup}
 
 {{< tabset category-name="config-api" >}}
 
