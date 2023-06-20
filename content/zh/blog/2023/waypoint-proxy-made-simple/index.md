@@ -47,12 +47,12 @@ Istiod 将监控这些资源并自动为用户部署和管理相应的 Waypoint 
 [故障注入](/zh/docs/tasks/traffic-management/fault-injection/)）策略由源（客户端）代理实现，
 而大多数安全策略由目标（服务器）代理实现。这导致了一些担忧：
 
-* 缩放——每个源 Sidecar 都需要知道关于网格中每个其他目的地的信息。这是一个多项式缩放问题。
+* 扩缩：每个源 Sidecar 都需要知道关于网格中每个其他目的地的信息。这是一个多项式扩缩问题。
   更糟糕的是，如果任何目标配置发生变化，我们需要立即通知所有 Sidecar。
-* 调试——因为策略执行在客户端和服务器 Sidecar 之间分开，所以在故障排除时很难理解系统的行为。
-* 混合环境——如果我们的系统不是所有客户端都是网格的一部分，我们就会得到不一致的行为。
+* 调试：因为策略执行在客户端和服务器 Sidecar 之间分开，所以在故障排除时很难理解系统的行为。
+* 混合环境：如果有这样一个系统，不是所有客户端都属于网格，那可能就会得到不一致的行为。
   例如，非网格客户端不会遵守金丝雀部署策略，从而导致意外的流量分配。
-* 所有权和归属——理想情况下，在一个命名空间中编写的策略应该只影响在同一命名空间中运行的代理所做的工作。
+* 所有权和归属：理想情况下，在一个命名空间中编写的策略应该只影响在同一命名空间中运行的代理所做的工作。
   然而，在这个模型中，它是由每个 Sidecar 分发和执行的。
   尽管 Istio 已围绕此约束进行设计以确保其安全，但它仍然不是最佳选择。
 
@@ -69,7 +69,7 @@ Istio 强制所有进入命名空间的流量都经过 Waypoint，然后该 Wayp
 
 {{< image width="70%"
     link="sidecar-config.png"
-    caption="每个 Sidecar 都有其他 Sidecare 相关的配置"
+    caption="Every sidecar has configuration about all other sidecars"
     >}}
 
 在 Sidecar 模型中，我们有 4 个工作负载，每个工作负载有 4 组配置。
@@ -79,7 +79,7 @@ Istio 强制所有进入命名空间的流量都经过 Waypoint，然后该 Wayp
 
 {{< image width="70%"
     link="waypoint-config.png"
-    caption="每个 Waypoint 只有它自己所在命名空间的配置"
+    caption="Each waypoint only has configuration for its own namespace"
     >}}
 
 在这里，我们看到一个非常不同的情况。我们只有 2 个 Waypoint Proxy，
