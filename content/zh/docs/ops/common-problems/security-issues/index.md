@@ -176,7 +176,7 @@ Istiod 是否按预期在工作：
 
 1. 检查输出并验证是否出现错误，例如您可能会看到类似这样的内容：
 
-   {{< text plain >}}
+    {{< text plain >}}
     2021-04-23T20:53:29.507314Z info ads Push debounce stable[31] 1: 100.981865ms since last change, 100.981653ms since last push, full=true
     2021-04-23T20:53:29.507641Z info ads XDS: Pushing:2021-04-23T20:53:29Z/23 Services:15 ConnectedEndpoints:2  Version:2021-04-23T20:53:29Z/23
     2021-04-23T20:53:29.507911Z debug authorization Processed authorization policy for httpbin-74fb669cc6-lpscm.foo with details:
