@@ -217,8 +217,8 @@ Istiod 是否按预期在工作：
     - 适用于工作负载 `httpbin-74fb669cc6-lpscm.foo` 的带有策略
  `ns[foo]-policy[deny-path-headers]-rule[0]` 的 HTTP 过滤器配置。
 
-    - 适用于工作负载 `httpbin-74fb669cc6-lpscm.foo` 的带有策略
- `ns[foo]-policy[deny-path-headers]-rule[0]` 的 TCP 过滤器配置。
+    - 适用于工作负载 `httpbin-74fb669cc6-lpscm.foo` 且带有策略
+      `ns[foo]-policy[deny-path-headers]-rule[0]` 的 TCP 过滤器配置。
 
 ## 确认 Istiod 正确的将策略分发给了代理服务器 {#ensure-istiod-distributes-policies-to-proxies-correctly}
 
