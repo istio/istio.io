@@ -115,7 +115,7 @@ Envoy 就直接回调下游地址作为可信客户地址。
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text syntax=bash snip_id=deploy_httpbin_gateway >}}
 $ kubectl apply -n httpbin -f @samples/httpbin/httpbin-gateway.yaml@
@@ -138,7 +138,7 @@ $ kubectl wait --for=condition=programmed gtw -n httpbin httpbin-gateway
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text syntax=bash snip_id=export_gateway_url >}}
 $ export GATEWAY_URL=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
@@ -250,7 +250,7 @@ PROXY 协议不应该用于 L7 流量，也不应该在 L7 负载均衡器后使
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text syntax=yaml snip_id=none >}}
 apiVersion: networking.istio.io/v1alpha3

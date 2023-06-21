@@ -50,7 +50,7 @@ If you haven't already, follow the instructions in [define the service versions]
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 Istio uses virtual services to define route rules.
 Run the following command to apply virtual services that will route all traffic to `v1` of each microservice:
@@ -92,7 +92,7 @@ EOF
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text bash yaml >}}
 $ kubectl get virtualservices -o yaml
@@ -235,7 +235,7 @@ Remember, `reviews:v2` is the version that includes the star ratings feature.
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text bash >}}
 $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-test-v2.yaml@
@@ -332,7 +332,7 @@ gradually send traffic from one version of a service to another.
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text bash >}}
 $ kubectl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@

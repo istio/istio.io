@@ -67,7 +67,7 @@ Follow these steps to get started with ambient:
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text bash >}}
 $ istioctl install --set profile=ambient --set components.ingressGateways[0].enabled=true --set components.ingressGateways[0].name=istio-ingressgateway --skip-confirmation
@@ -112,7 +112,7 @@ four components (including {{< gloss "ztunnel" >}}Ztunnel{{< /gloss >}}) have be
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text bash >}}
 $ kubectl get pods -n istio-system
@@ -183,7 +183,7 @@ Make sure the default namespace does not include the label `istio-injection=enab
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 Create an Istio [Gateway](/docs/reference/config/networking/gateway/) and
 [VirtualService](/docs/reference/config/networking/virtual-service/):
@@ -415,7 +415,7 @@ Configure traffic routing to send 90% of requests to `reviews` v1 and 10% to `re
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text bash >}}
 $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-90-10.yaml@
