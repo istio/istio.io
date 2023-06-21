@@ -214,8 +214,8 @@ Istiod 是否按预期在工作：
 
     以上输出说明 Istiod 生成了：
 
-    - 适用于工作负载 `httpbin-74fb669cc6-lpscm.foo` 的带有策略
- `ns[foo]-policy[deny-path-headers]-rule[0]` 的 HTTP 过滤器配置。
+    - 适用于工作负载 `httpbin-74fb669cc6-lpscm.foo` 且带有策略
+      `ns[foo]-policy[deny-path-headers]-rule[0]` 的 HTTP 过滤器配置。
 
     - 适用于工作负载 `httpbin-74fb669cc6-lpscm.foo` 且带有策略
       `ns[foo]-policy[deny-path-headers]-rule[0]` 的 TCP 过滤器配置。
