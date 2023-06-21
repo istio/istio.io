@@ -151,7 +151,7 @@ volumes:
     name: istio-certs
 {{< /text >}}
 
-然后，将一下注解添加到 Prometheus Deployment 的 Pod Template
+然后，将以下注解添加到 Prometheus Deployment 的 Pod Template
 中，并且使用 [Sidecar 注入](/zh/docs/setup/additional-setup/sidecar-injection/)。
 这会将 Sidecar 配置为共享 volume 并写入证书，但是不会配置流量的重定向。
 
