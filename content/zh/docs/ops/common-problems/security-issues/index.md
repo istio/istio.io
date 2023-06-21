@@ -159,13 +159,13 @@ spec:
 Istiod 负责对授权策略进行转换，并将其分发给 Sidecar。下面的的步骤可以用于确认
 Istiod 是否按预期在工作：
 
-1. 运行以下命令启用 istiod 的调试日志记录：
+1. 运行以下命令启用 Istiod 的调试日志记录：
 
     {{< text bash >}}
     $ istioctl admin log --level authorization:debug
     {{< /text >}}
 
-2. 通过一下命令获取 istio 日志：
+2. 通过一下命令获取 Istio 日志：
 
     {{< tip >}}
     你可能需要先删除并重建授权策略，以保证调试日志能够根据这些策略正常生成。
