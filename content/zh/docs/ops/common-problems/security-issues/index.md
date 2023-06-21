@@ -174,7 +174,7 @@ Istiod 是否按预期在工作：
     $ kubectl logs $(kubectl -n istio-system get pods -l app=istiod -o jsonpath='{.items[0].metadata.name}') -c discovery -n istio-system
     {{< /text >}}
 
-3. 检查输出并验证是否出现错误，例如你可能会看到类似这样的内容：
+1. 检查输出并验证是否出现错误，例如您可能会看到类似这样的内容：
 
    {{< text plain >}}
     2021-04-23T20:53:29.507314Z info ads Push debounce stable[31] 1: 100.981865ms since last change, 100.981653ms since last push, full=true
