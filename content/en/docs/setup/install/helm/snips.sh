@@ -26,7 +26,7 @@ kubectl create namespace istio-system
 }
 
 snip_install_base() {
-helm install istio-base istio/base -n istio-system
+helm install istio-base istio/base -n istio-system --set defaultRevision=default
 }
 
 snip_installation_steps_4() {

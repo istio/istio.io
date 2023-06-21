@@ -46,12 +46,12 @@ You can display the default values of configuration parameters using the `helm s
 1. Install the Istio base chart which contains cluster-wide Custom Resource Definitions (CRDs) which must be installed prior to the deployment of the Istio control plane:
 
     {{< warning >}}
-    When performing a revisioned installation, the base chart requires the `--defaultRevision` value to be set for resource
-    validation to function. More information on the `--defaultRevision` option can be found in the Helm upgrade documentation.
+    When performing a revisioned installation, the base chart requires the `--set defaultRevision=<revision>` value to be set for resource
+    validation to function. Below we install the `default` revision, so `--set defaultRevision=default` is configured.
     {{< /warning >}}
 
     {{< text syntax=bash snip_id=install_base >}}
-    $ helm install istio-base istio/base -n istio-system
+    $ helm install istio-base istio/base -n istio-system --set defaultRevision=default
     {{< /text >}}
 
 1. Validate the CRD installation with the `helm ls` command:
