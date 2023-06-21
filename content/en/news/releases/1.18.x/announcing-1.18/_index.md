@@ -24,6 +24,8 @@ Istio 1.18.0 is officially supported on Kubernetes versions `1.24` to `1.27`.
 
 Istio 1.18 marks the first release of ambient mesh, a new Istio data plane mode that’s designed for simplified operations, broader application compatibility, and reduced infrastructure cost. For more details see the [announcement blog](/blog/2022/introducing-ambient-mesh/).
 
+**Note**: Ambient Mesh is currently in alpha and is not recommended for production use.
+
 ### Gateway API Support Improvements
 
 Istio 1.18 improves support for the Kubernetes Gateway API, including support for extra v1beta1 resources and enhancements to automated deployment logic to no longer rely on pod injection.  Users of Gateway API on Istio should review this release's upgrade notes for important guidance on upgrading.
