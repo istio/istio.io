@@ -15,10 +15,10 @@ Istio 强大的 API 可用于解决各种使用服务网格时遇到的问题。
 但是为了防止未按照预期正常工作的情况发生，您可能需要配置自动故障转移使流量可以指向另一个端点。
 
 与在服务网格内运行的服务类似，您可以对 Istio
-进行异常检测配置来实现将流量指向健康端点的故障转移操作，
+进行离群检测配置来实现将流量指向健康端点的故障转移操作，
 并且该配置仍然对您的应用程序完全透明。在此示例中，我们将使用
-Amazon DynamoDB 端点选择与 Google Kubernetes
-Engine（GKE）集群中运行的工作负载处于相同或接近的主要区域。
+Amazon DynamoDB 端点选择与 Google Kubernetes Engine（GKE）
+集群中运行的工作负载处于相同或接近的主要区域。
 另外我们还会为其配置一个故障转移区域。
 
 |路由|端点|
@@ -50,25 +50,25 @@ $ kubectl describe node | grep failure-domain.beta.kubernetes.io/region
 apiVersion: networking.istio.io/v1beta1
 kind: ServiceEntry
 metadata:
-name: external-svc-dns
+  name: external-svc-dns
 spec:
-hosts:
-- mydb.com
-location: MESH_EXTERNAL
-ports:
-- number: 80
-  name: http
-  protocol: HTTP
-resolution: DNS
-endpoints:
-- address: dynamodb.us-east-1.amazonaws.com
-  locality: us-east1
+  hosts:
+  - mydb.com
+  location: MESH_EXTERNAL
   ports:
-    http: 80
-- address: dynamodb.us-west-1.amazonaws.com
-  locality: us-west
-  ports:
-    http: 80
+  - number: 80
+    name: http
+    protocol: HTTP
+  resolution: DNS
+  endpoints:
+  - address: dynamodb.us-east-1.amazonaws.com
+    locality: us-east1
+    ports:
+      http: 80
+  - address: dynamodb.us-west-1.amazonaws.com
+    locality: us-west
+    ports:
+      http: 80
 {{< /text >}}
 
 让我们部署一个 sleep 容器作为发送请求的测试源。
@@ -95,21 +95,21 @@ healthy: dynamodb.us-east-1.amazonaws.com
 
 ## 使用 `DestinationRule` 设置故障转移条件 {#set-failover-conditions-using-a-destinationrule}
 
-Istio 的 `DestinationRule` 允许您配置负载均衡、连接池和异常检测设置。
+Istio 的 `DestinationRule` 允许您配置负载均衡、连接池和离群检测设置。
 我们可以指定用于将端点标识为不健康并将其从负载均衡池中删除的条件。
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1beta1
 kind: DestinationRule
 metadata:
-name: mydynamodb
+  name: mydynamodb
 spec:
-host: mydb.com
-trafficPolicy:
-  outlierDetection:
-    consecutive5xxErrors: 1
-    interval: 15s
-    baseEjectionTime: 1m
+  host: mydb.com
+  trafficPolicy:
+    outlierDetection:
+      consecutive5xxErrors: 1
+      interval: 15s
+      baseEjectionTime: 1m
 {{< /text >}}
 
 上面的 `DestinationRule` 将端点配置为每 15 秒扫描一次，如果任何端点出现
@@ -137,25 +137,25 @@ healthy: dynamodb.us-east-1.amazonaws.com
 apiVersion: networking.istio.io/v1beta1
 kind: ServiceEntry
 metadata:
-name: external-svc-dns
+  name: external-svc-dns
 spec:
-hosts:
-- mydb.com
-location: MESH_EXTERNAL
-ports:
-- number: 80
-  name: http
-  protocol: HTTP
-resolution: DNS
-endpoints:
-- address: dynamodb.us-east-1.amazonaws.com
-  locality: us-east1
+  hosts:
+  - mydb.com
+  location: MESH_EXTERNAL
   ports:
-    http: 81 # INVALID - This is purposefully wrong to trigger failover
-- address: dynamodb.us-west-1.amazonaws.com
-  locality: us-west
-  ports:
-    http: 80
+  - number: 80
+    name: http
+    protocol: HTTP
+  resolution: DNS
+  endpoints:
+  - address: dynamodb.us-east-1.amazonaws.com
+    locality: us-east1
+    ports:
+      http: 81 # INVALID - This is purposefully wrong to trigger failover
+  - address: dynamodb.us-west-1.amazonaws.com
+    locality: us-west
+    ports:
+      http: 80
 {{< /text >}}
 
 再次运行 curl 命令，结果展示流量在无法连接到 us-east
@@ -170,7 +170,7 @@ healthy: dynamodb.us-west-1.amazonaws.com
 healthy: dynamodb.us-west-1.amazonaws.com
 {{< /text >}}
 
-您可以通过运行以下命令检查 us-east 端点的异常检测状态：
+您可以通过运行以下命令检查 us-east 端点的离群检测状态：
 
 {{< text bash >}}
 $ istioctl pc endpoints <sleep-pod> | grep mydb
@@ -188,21 +188,21 @@ HTTP 协议，并且您可以让 Istio 代理将 TLS 源指向 HTTPS。
 apiVersion: networking.istio.io/v1beta1
 kind: ServiceEntry
 metadata:
-name: external-svc-dns
+  name: external-svc-dns
 spec:
-hosts:
-- mydb.com
-ports:
-- number: 80
-  name: http-port
-  protocol: HTTP
-  targetPort: 443
-resolution: DNS
-endpoints:
-- address: dynamodb.us-east-1.amazonaws.com
-  locality: us-east1
-- address: dynamodb.us-west-1.amazonaws.com
-  locality: us-west
+  hosts:
+  - mydb.com
+  ports:
+  - number: 80
+    name: http-port
+    protocol: HTTP
+    targetPort: 443
+  resolution: DNS
+  endpoints:
+  - address: dynamodb.us-east-1.amazonaws.com
+    locality: us-east1
+  - address: dynamodb.us-west-1.amazonaws.com
+    locality: us-west
 {{< /text >}}
 
 上面的 ServiceEntry 在 80 端口上定义了 `mydb.com` 服务，
@@ -212,26 +212,26 @@ endpoints:
 apiVersion: networking.istio.io/v1beta1
 kind: DestinationRule
 metadata:
-name: mydynamodb
+  name: mydynamodb
 spec:
-host: mydb.com
-trafficPolicy:
-  tls:
-    mode: SIMPLE
-  loadBalancer:
-    simple: ROUND_ROBIN
-    localityLbSetting:
-      enabled: true
-      failover:
-        - from: us-east1
-          to: us-west
-  outlierDetection:
-    consecutive5xxErrors: 1
-    interval: 15s
-    baseEjectionTime: 1m
+  host: mydb.com
+  trafficPolicy:
+    tls:
+      mode: SIMPLE
+    loadBalancer:
+      simple: ROUND_ROBIN
+      localityLbSetting:
+        enabled: true
+        failover:
+          - from: us-east1
+            to: us-west
+    outlierDetection:
+      consecutive5xxErrors: 1
+      interval: 15s
+      baseEjectionTime: 1m
 {{< /text >}}
 
-`DestinationRule` 现在执行 TLS 源并配置异常检测。
+`DestinationRule` 现在执行 TLS 源并配置离群检测。
 该规则还配置了一个[故障转移](/zh/docs/reference/config/networking/destination-rule/#LocalityLoadBalancerSetting)字段，
 您可以在其中准确指定哪些区域是故障转移目标。当您定义了多个区域时，这非常有用。
 
