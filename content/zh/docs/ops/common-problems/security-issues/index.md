@@ -151,8 +151,7 @@ spec:
 
 - 在任何情况下，`AUDIT` 动作不会实施控制访问权并且不会拒绝请求。
 
-阅读[授权隐式启用](/zh/docs/concepts/security/#implicit-enablement)
-以获取有关评估顺序的更多详细信息。
+阅读[授权隐式启用](/zh/docs/concepts/security/#implicit-enablement)了解有关评估顺序的更多详细信息。
 
 ## 确保 Istiod 接受策略 {#ensure-istiod-accepts-the-policies}
 
