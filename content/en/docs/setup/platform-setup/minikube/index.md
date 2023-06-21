@@ -45,7 +45,7 @@ Refer to the [`api-server` reference docs](https://kubernetes.io/docs/reference/
     {{< /text >}}
 
     Depending on the hypervisor you use and the platform on which the hypervisor
-    is run, minimum memory requirements vary. 16384 `MB` is sufficent to run
+    is run, minimum memory requirements vary. 16384 `MB` is sufficient to run
     Istio and bookinfo.
 
     {{< tip >}}
