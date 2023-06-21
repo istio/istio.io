@@ -147,25 +147,8 @@ spec:
 {{< tab name="Red Hat OpenShift 4.2+" category-value="ocp" >}}
 
 {{< text yaml >}}
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  components:
-    cni:
-      enabled: true
-      namespace: kube-system
-  values:
-    cni:
-      cniBinDir: /var/lib/cni/bin
-      cniConfDir: /etc/cni/multus/net.d
-      cniConfFileName: istio-cni.conf
-      chained: false
+$ istioctl install --set profile=openshift
 {{< /text >}}
-
-{{< tip >}}
-Note: Using `sidecarInjectorWebhook` to inject the `k8s.v1.cni.cncf.io/networks: istio-cni` annotation will overwrite preexisting annotations of the same name. The sidecar injection templates will automatically append the `istio-cni` network value to the `k8s.v1.cni.cncf.io/networks` annotation on pods if the following values are properly set for OpenShift: `istio_cni.enabled=true` and `istio_cni.chained=false`. If no network annotation currently exists, it will automatically create one for `istio-cni`.
-{{< /tip >}}
-
 {{< /tab >}}
 
 {{< /tabset >}}

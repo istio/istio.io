@@ -54,19 +54,7 @@ spec:
 ENDSNIP
 
 ! read -r -d '' snip_hosted_kubernetes_settings_2 <<\ENDSNIP
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  components:
-    cni:
-      enabled: true
-      namespace: kube-system
-  values:
-    cni:
-      cniBinDir: /var/lib/cni/bin
-      cniConfDir: /etc/cni/multus/net.d
-      cniConfFileName: istio-cni.conf
-      chained: false
+$ istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --set profile=openshift
 ENDSNIP
 
 ! read -r -d '' snip_upgrade_1 <<\ENDSNIP
