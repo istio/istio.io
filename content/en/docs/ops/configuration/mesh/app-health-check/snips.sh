@@ -21,7 +21,8 @@
 ####################################################################################################
 
 snip_liveness_probe_rewrite_example_1() {
-kubectl create namespace istio-io-health-rewrite; kubectl label namespace istio-io-health-rewrite istio-injection=enabled
+kubectl create namespace istio-io-health-rewrite
+kubectl label namespace istio-io-health-rewrite istio-injection=enabled
 }
 
 snip_liveness_probe_rewrite_example_2() {

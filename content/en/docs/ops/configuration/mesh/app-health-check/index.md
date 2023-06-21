@@ -35,7 +35,7 @@ so that the probe request is sent to the [sidecar agent](/docs/reference/command
 
 ## Liveness probe rewrite example
 
-To demonstrate how the readiness/liveness probe is rewritten at the application PodSpec level, let us use the [liveness-http-same-port sample]({{< github_file >}}/samples/health-check/liveness-http-same-port.yaml).
+To demonstrate how the readiness/liveness probe is rewritten at the application `PodSpec` level, let us use the [liveness-http-same-port sample]({{< github_file >}}/samples/health-check/liveness-http-same-port.yaml).
 
 First create and label a namespace for the example:
 
