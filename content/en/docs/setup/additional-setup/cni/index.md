@@ -146,9 +146,10 @@ spec:
 
 {{< tab name="Red Hat OpenShift 4.2+" category-value="ocp" >}}
 
-{{< text yaml >}}
+{{< text bash >}}
 $ istioctl install --set profile=openshift
 {{< /text >}}
+
 {{< /tab >}}
 
 {{< /tabset >}}

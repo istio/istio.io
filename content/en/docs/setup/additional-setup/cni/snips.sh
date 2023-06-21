@@ -53,9 +53,9 @@ spec:
       cniBinDir: /home/kubernetes/bin
 ENDSNIP
 
-! read -r -d '' snip_hosted_kubernetes_settings_2 <<\ENDSNIP
-$ istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --set profile=openshift
-ENDSNIP
+snip_hosted_kubernetes_settings_2() {
+istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --set profile=openshift
+}
 
 ! read -r -d '' snip_upgrade_1 <<\ENDSNIP
 apiVersion: install.istio.io/v1alpha1
