@@ -1592,6 +1592,11 @@ from multiple sources (mesh-level, namespace-level and workload-level).</p>
 <td>Kubernetes configuration context  (default ``)</td>
 </tr>
 <tr>
+<td><code>--file &lt;string&gt;</code></td>
+<td><code>-f</code></td>
+<td>The json file with Envoy config dump to be checked  (default ``)</td>
+</tr>
+<tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
 <td><code>-i</code></td>
 <td>Istio system namespace  (default `istio-system`)</td>
@@ -7773,7 +7778,7 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td><code>XDS_AUTH_PLAINTEXT</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
-<td>Authenticate plain text requests - used if Istiod is running on a secure/trusted network</td>
+<td>authenticate plain text requests - used if Istiod is running on a secure/trusted network</td>
 </tr>
 </tbody>
 </table>
