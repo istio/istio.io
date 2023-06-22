@@ -1358,6 +1358,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>If enabled, Istiod will not push changes on arbitraty annotation change.</td>
 </tr>
 <tr>
+<td><code>ISTIO_ENVOY_ENABLE_CORE_DUMP</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td></td>
+</tr>
+<tr>
 <td><code>ISTIO_GPRC_MAXRECVMSGSIZE</code></td>
 <td>Integer</td>
 <td><code>4194304</code></td>
@@ -2103,7 +2109,7 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td><code>XDS_AUTH_PLAINTEXT</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
-<td>Authenticate plain text requests - used if Istiod is running on a secure/trusted network</td>
+<td>authenticate plain text requests - used if Istiod is running on a secure/trusted network</td>
 </tr>
 <tr>
 <td><code>XDS_AUTH_PROVIDER</code></td>
