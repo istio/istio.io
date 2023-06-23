@@ -64,6 +64,8 @@ You can display the default values of configuration parameters using the `helm s
 
     In the output locate the entry for `istio-base` and make sure the status is set to `deployed`.
 
+1. If you intend to use Istio CNI chart you must do so now. See [Install Istio with the CNI plugin](/docs/setup/additional-setup/cni/#installing-with-helm) for more info.
+
 1. Install the Istio discovery chart which deploys the `istiod` service:
 
     {{< text syntax=bash snip_id=install_discovery >}}
