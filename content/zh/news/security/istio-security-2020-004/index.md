@@ -1,6 +1,6 @@
 ---
 title: ISTIO-SECURITY-2020-004
-subtitle: Security Bulletin
+subtitle: 安全公告
 description: 默认的 Kiali 安全配置允许对网格的完全控制。
 cves: [CVE-2020-1764]
 cvss: "8.7"
