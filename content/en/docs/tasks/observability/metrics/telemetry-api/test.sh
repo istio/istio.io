@@ -21,8 +21,7 @@ set -o pipefail
 
 source "tests/util/samples.sh"
 
-# @setup profile=none
-echo "$snip_before_you_begin_1" | istioctl install  --set tag="$TAG" --set hub="$HUB" -y -f -
+# @setup profile=default
 
 ## Setting up application
 # Set to known setting of sidecar injection
@@ -108,5 +107,3 @@ cleanup_telemetry_api
 
 # @cleanup
 cleanup_bookinfo_sample
-istioctl uninstall --purge -y
-kubectl delete ns istio-system
