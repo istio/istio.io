@@ -6,7 +6,7 @@ owner: istio/wg-policies-and-telemetry-maintainers
 test: n/a
 ---
 
-## `EnvoyFilter` migration
+## EnvoyFilter migration
 
 `EnvoyFilter` is an alpha API that is tightly coupled to the implementation
 details of Istio xDS configuration generation. Production use of the alpha API
@@ -69,7 +69,7 @@ allows dynamic loading of the plugins from artifact registries, URLs, or local
 files. "Null" plugin runtime is no longer a recommended option for deployment
 of Wasm code.
 
-### Use `gatewayTopology` to set the number of the trusted hops
+### Use gateway topology to set the number of the trusted hops
 
 The usage of `EnvoyFilter` to configure the number of the trusted hops in the
 HTTP connection manager has been replaced by `gatewayTopology` field in
