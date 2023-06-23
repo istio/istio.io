@@ -9,10 +9,10 @@ test: n/a
 ## EnvoyFilter migration
 
 `EnvoyFilter` is an alpha API that is tightly coupled to the implementation
-details of Istio xDS configuration generation. Production use of the alpha API
-must be carefully curated during the upgrade of Istio's control or data plane.
-In many instances, `EnvoyFilter` can be replaced with a first-class Istio API
-which carry substantially lower upgrade risks.
+details of Istio xDS configuration generation. Production use of the
+`EnvoyFilter` alpha API must be carefully curated during the upgrade of Istio's
+control or data plane. In many instances, `EnvoyFilter` can be replaced with a
+first-class Istio API which carries substantially lower upgrade risks.
 
 ### Use Telemetry API for metrics customization
 
@@ -41,7 +41,7 @@ spec:
                     destination_port: string(destination.port)
 {{< /text >}}
 
-Prefer the following `Telemetry` configuration instead:
+The following `Telemetry` configuration replaces the above:
 
 {{< text yaml >}}
 apiVersion: telemetry.istio.io/v1alpha1
@@ -64,10 +64,10 @@ spec:
 ### Use WasmPlugin API for Wasm data plane extensibility
 
 The usage of `EnvoyFilter` to inject Wasm filters has been replaced by
-[WasmPlugin API](/docs/tasks/extensibility/wasm-module-distribution). Wasm API
-allows dynamic loading of the plugins from artifact registries, URLs, or local
-files. "Null" plugin runtime is no longer a recommended option for deployment
-of Wasm code.
+[WasmPlugin API](/docs/tasks/extensibility/wasm-module-distribution).
+WasmPlugin API allows dynamic loading of the plugins from artifact registries,
+URLs, or local files. "Null" plugin runtime is no longer a recommended option
+for deployment of Wasm code.
 
 ### Use gateway topology to set the number of the trusted hops
 
@@ -75,7 +75,7 @@ The usage of `EnvoyFilter` to configure the number of the trusted hops in the
 HTTP connection manager has been replaced by `gatewayTopology` field in
 [`ProxyConfig`](/docs/ops/configuration/traffic-management/network-topologies).
 For example, the following `EnvoyFilter` configuration should use an annotation
-on the pod or the mesh default instead:
+on the pod or the mesh default. Instead of:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -102,7 +102,7 @@ spec:
       istio: ingress-gateway
 {{< /text >}}
 
-The equivalent ingress gateway proxy configuration annotation is the following:
+Use the equivalent ingress gateway proxy configuration annotation:
 
 {{< text yaml >}}
 metadata:
@@ -115,8 +115,8 @@ metadata:
 The usage of `EnvoyFilter` and the experimental bootstrap discovery service to
 configure the bucket sizes for the histogram metrics has been replaced by the
 proxy annotation `sidecar.istio.io/statsHistogramBuckets`. For example, the
-following `EnvoyFilter` configuration should use an annotation on the pod
-instead:
+following `EnvoyFilter` configuration should use an annotation on the pod.
+Instead of:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -140,7 +140,7 @@ spec:
               buckets: [1,5,50,500,5000,10000]
 {{< /text >}}
 
-The equivalent pod annotation is the following:
+Use the equivalent pod annotation:
 
 {{< text yaml >}}
 metadata:
