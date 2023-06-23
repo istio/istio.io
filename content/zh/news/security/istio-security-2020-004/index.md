@@ -1,7 +1,7 @@
 ---
 title: ISTIO-SECURITY-2020-004
 subtitle: Security Bulletin
-description: Default Kiali security configuration allows full control of mesh.
+description: 默认的 Kiali 安全配置允许对网格的完全控制。
 cves: [CVE-2020-1764]
 cvss: "8.7"
 vector: "AV:A/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:N"
