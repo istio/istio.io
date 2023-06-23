@@ -31,7 +31,7 @@ Before you begin this task, do the following:
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 Configure the gateway:
 
@@ -135,7 +135,7 @@ You can instruct AWS EKS to create a Network Load Balancer with an annotation on
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha1
@@ -183,7 +183,7 @@ If you are using a TCP/UDP Proxy external load balancer (AWS Classic ELB), it ca
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -237,7 +237,7 @@ Here is a sample configuration that shows how to make an ingress gateway on AWS 
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha1
@@ -304,7 +304,7 @@ original client source IP on the ingress gateway using the following command:
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text bash >}}
 $ kubectl patch svc istio-ingressgateway -n istio-system -p '{"spec":{"externalTrafficPolicy":"Local"}}'
@@ -355,7 +355,7 @@ IP addresses not in the list will be denied. The `ipBlocks` supports both single
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 ***ipBlocks:***
 
@@ -461,7 +461,7 @@ EOF
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 ***ipBlocks:***
 
@@ -503,7 +503,7 @@ $ CLIENT_IP=$(kubectl get pods -n foo -o name -l istio.io/gateway-name=httpbin-g
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 ***ipBlocks:***
 
@@ -610,7 +610,7 @@ not allowed to access the ingress gateway:
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 ***ipBlocks:***
 
@@ -718,7 +718,7 @@ different client IP to verify the request is allowed.
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text bash >}}
 $ kubectl get pods -n istio-system -o name -l istio=ingressgateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n istio-system; done
@@ -742,7 +742,7 @@ $ kubectl get pods -n foo -o name -l istio.io/gateway-name=httpbin-gateway | sed
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text bash >}}
 $ kubectl delete authorizationpolicy ingress-policy -n istio-system

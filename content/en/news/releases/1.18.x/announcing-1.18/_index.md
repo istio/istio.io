@@ -4,7 +4,7 @@ linktitle: 1.18.0
 subtitle: Major Release
 description: Istio 1.18 Release Announcement.
 publishdate: 2023-06-07
-release: 1.18.00
+release: 1.18.0
 aliases:
     - /news/announcing-1.18
     - /news/announcing-1.18.0
@@ -23,6 +23,8 @@ Istio 1.18.0 is officially supported on Kubernetes versions `1.24` to `1.27`.
 ### Ambient Mesh
 
 Istio 1.18 marks the first release of ambient mesh, a new Istio data plane mode that’s designed for simplified operations, broader application compatibility, and reduced infrastructure cost. For more details see the [announcement blog](/blog/2022/introducing-ambient-mesh/).
+
+**Note**: Ambient Mesh is currently in alpha and is not recommended for production use.
 
 ### Gateway API Support Improvements
 

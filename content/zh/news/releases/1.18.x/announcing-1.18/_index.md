@@ -4,7 +4,7 @@ linktitle: 1.18.0
 subtitle: 大版本更新
 description: Istio 1.18 发布公告。
 publishdate: 2023-06-07
-release: 1.18.00
+release: 1.18.0
 aliases:
     - /zh/news/announcing-1.18
     - /zh/news/announcing-1.18.0

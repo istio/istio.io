@@ -7,9 +7,13 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-在常规的 Istio 网格部署中，下游请求的 TLS 终止是在 Ingress Gateway 处执行的。虽然这可以满足大多数使用场景，但对于某些场景（如网格中的 API 网关），Ingress Gateway 并不是必需的。此任务展示了如何消除 Istio Ingress Gateway 引入的额外跃点，并让与应用程序一起运行的 Envoy Sidecar 对来自服务网格外部的请求执行 TLS 终止。
+在常规的 Istio 网格部署中，下游请求的 TLS 终止是在 Ingress Gateway 处执行的。
+虽然这可以满足大多数使用场景，但对于某些场景（如网格中的 API 网关），Ingress Gateway
+并不是必需的。此任务展示了如何消除 Istio Ingress Gateway 引入的额外跃点，
+并让与应用程序一起运行的 Envoy Sidecar 对来自服务网格外部的请求执行 TLS 终止。
 
-用于此任务的示例 HTTPS 服务是一个简单的 [httpbin](https://httpbin.org/) 服务。在以下步骤中，您将在服务网格中部署 httpbin 服务并对其进行配置。
+用于此任务的示例 HTTPS 服务是一个简单的 [httpbin](https://httpbin.org/) 服务。
+在以下步骤中，您将在服务网格中部署 httpbin 服务并对其进行配置。
 
 {{< boilerplate experimental-feature-warning >}}
 
@@ -46,7 +50,8 @@ EOF
 
 ## 为外部暴露的 httpbin 端口禁用 PeerAuthentication {#disable-peerauthentication-for-the-externally-exposed-httpbin-port}
 
-在 httpbin 服务的端口处禁用 `PeerAuthentication`，在 sidecar 处执行入口 TLS 终止。请注意，这里是 httpbin 服务的 `targetPort`，专门用于与外部通信。
+在 httpbin 服务的端口处禁用 `PeerAuthentication`，在 sidecar 处执行入口
+TLS 终止。请注意，这里是 httpbin 服务的 `targetPort`，专门用于与外部通信。
 
 {{< text bash >}}
 $ kubectl -n test apply -f - <<EOF
@@ -69,7 +74,8 @@ EOF
 
 ## 生成 CA 证书、服务器证书/密钥和客户端证书/密钥 {#generate-ca-cert-server-certkey-and-client-certkey}
 
-对于此任务，您可以使用自己喜欢的工具来生成证书和密钥。下面的命令使用 [openssl](https://man.openbsd.org/openssl.1)：
+对于此任务，您可以使用自己喜欢的工具来生成证书和密钥。下面的命令使用
+[openssl](https://man.openbsd.org/openssl.1)：
 
 {{< text bash >}}
 $ #CA is example.com
@@ -91,7 +97,9 @@ $ kubectl -n test create secret tls httpbin-mtls-termination --cert ./httpbin.te
 
 ## 部署测试服务 httpbin {#deploy-the-httpbin-test-service}
 
-当创建 httpbin Deployment 时，我们需要在该 Deployment 中使用 `userVolumeMount` 注解来为 istio-proxy sidecar 挂载证书。请注意，之所以需要此步骤是因为 Istio Sidecar 目前不支持 `credentialName` 配置。
+当创建 httpbin Deployment 时，我们需要在该 Deployment 中使用 `userVolumeMount`
+注解来为 istio-proxy Sidecar 挂载证书。请注意，之所以需要此步骤是因为 Istio Sidecar
+目前不支持 `credentialName` 配置。
 
 {{< text yaml >}}
 sidecar.istio.io/userVolume: '{"tls-secret":{"secret":{"secretName":"httpbin-mtls-termination","optional":true}},"tls-ca-secret":{"secret":{"secretName":"httpbin-mtls-termination-cacert"}}}'
@@ -157,7 +165,8 @@ spec:
 
 ## 配置 httpbin 以启用外部 mTLS {#configure-httpbin-to-enable-external-mtls}
 
-这是此功能的核心步骤。使用 `Sidecar` API 配置入口 TLS 设置。TLS 模式可以是 `SIMPLE` 或 `MUTUAL`。本示例使用 `MUTUAL`。
+这是此功能的核心步骤。使用 `Sidecar` API 配置入口 TLS 设置。TLS 模式可以是
+`SIMPLE` 或 `MUTUAL`，本示例使用 `MUTUAL`。
 
 {{< text bash >}}
 $ kubectl -n test apply -f - <<EOF
@@ -252,7 +261,8 @@ x-envoy-upstream-service-time: 5
 
 ### 在 8443 端口上验证外部到内部网格的连通性 {#verify-external-to-internal-mesh-connectivity-on-port-8443}
 
-要验证来自外部客户端的 mTLS 流量，首先将 CA 证书和客户端证书/密钥复制到在 default 命名空间中运行的 sleep 客户端。
+要验证来自外部客户端的 mTLS 流量，首先将 CA 证书和客户端证书/密钥复制到在 default
+命名空间中运行的 sleep 客户端。
 
 {{< text bash >}}
 $ export EXTERNAL_CLIENT=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})

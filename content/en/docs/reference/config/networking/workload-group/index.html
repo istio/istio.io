@@ -54,6 +54,38 @@ spec:
      - name: Lit-Header
        value: Im-The-Best
 </code></pre>
+<p>{{</tab>}}</p>
+<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
+kind: WorkloadGroup
+metadata:
+  name: reviews
+  namespace: bookinfo
+spec:
+  metadata:
+    labels:
+      app.kubernetes.io/name: reviews
+      app.kubernetes.io/version: &quot;1.3.4&quot;
+  template:
+    ports:
+      grpc: 3550
+      http: 8080
+    serviceAccount: default
+  probe:
+    initialDelaySeconds: 5
+    timeoutSeconds: 3
+    periodSeconds: 4
+    successThreshold: 3
+    failureThreshold: 3
+    httpGet:
+     path: /foo/bar
+     host: 127.0.0.1
+     port: 3100
+     scheme: HTTPS
+     httpHeaders:
+     - name: Lit-Header
+       value: Im-The-Best
+</code></pre>
 <p>{{</tab>}}
 {{</tabset>}}</p>
 

@@ -13,13 +13,13 @@ test: n/a
 
 尽管安装 Istio 不会默认部署 [Prometheus](http://prometheus.io)，[入门](/zh/docs/setup/getting-started/)指导中
 `Option 1: Quick Start` 的部署按照 [Prometheus 集成指导](/zh/docs/ops/integrations/prometheus/)安装了 Prometheus。
-此 Prometheus 部署刻意地配置了很短的保留窗口( 6 小时)。此快速入门 Prometheus 部署同时也配置为从网格上运行的每一个 Envoy
-代理上收集指标，同时通过一组有关它们的源的标签( `instance`，`pod` 和 `namespace` )来扩充指标。
+此 Prometheus 部署刻意地配置了很短的保留窗口（6 小时）。此快速入门 Prometheus 部署同时也配置为从网格上运行的每一个 Envoy
+代理上收集指标，同时通过一组有关它们的源的标签（`instance`、`pod` 和 `namespace`）来扩充指标。
 
 {{< image width="80%"
     link="./production-prometheus.svg"
-    alt="Architecture for production monitoring of Istio using Prometheus."
-    caption="Production-scale Istio monitoring with Istio"
+    alt="使用 Prometheus 对 Istio 生产监控的架构。"
+    caption="生产规模 Istio 监控"
     >}}
 
 ### 通过记录规则进行负载等级的聚合{#workload-level-aggregation-via-recording-rules}
@@ -217,12 +217,12 @@ spec:
 job。并且将收集到的指标重命名，方法为去除负载等级记录规则命名前缀 (`workload:`)。
 这使得现有的仪表盘以及引用能够无缝地针对生产用 Prometheus 继续工作（并且不在指向 Istio 实例）。
 
-您可以在设置联邦时包含额外的指标（例如 envoy，go 等）。
+您可以在设置联邦时包含额外的指标（例如 envoy、go 等）。
 
 控制面指标也被生产用 Prometheus 收集并联邦。
 {{< /tip >}}
 
-### Optimizing metrics collection with recording rules
+### 使用记录的规则优化指标收集 {#optimizing-metrics-collection-with-recording-rules}
 
 除了使用记录规则[在 Pod 和实例等级聚合](#workload-level-aggregation-via-recording-rules)，
 您也许想要使用记录规则为您现有的仪表盘以及告警专门生成聚合指标。这方面针对收集的优化可以很大的节约您
@@ -240,7 +240,7 @@ Prometheus 生产实例的资源消耗，同时加速了引用性能。
     )
     {{< /text >}}
 
-* P95 客户端延迟在过去 1 分钟的平均值，并按照来源，目的服务以及命名空间聚合
+* P95 客户端延迟在过去 1 分钟的平均值，并按照来源、目的服务以及命名空间聚合
 
     {{< text plain >}}
     histogram_quantile(0.95,

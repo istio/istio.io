@@ -1592,6 +1592,11 @@ from multiple sources (mesh-level, namespace-level and workload-level).</p>
 <td>Kubernetes configuration context  (default ``)</td>
 </tr>
 <tr>
+<td><code>--file &lt;string&gt;</code></td>
+<td><code>-f</code></td>
+<td>The json file with Envoy config dump to be checked  (default ``)</td>
+</tr>
+<tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
 <td><code>-i</code></td>
 <td>Istio system namespace  (default `istio-system`)</td>
@@ -1817,8 +1822,7 @@ Checks associated resources of the given resource, and running webhooks to exami
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.19.0/manifests).
-  (default ``)</td>
+(e.g. ~/Downloads/istio-1.19.0/manifests).  (default ``)</td>
 </tr>
 <tr>
 <td><code>--name &lt;string&gt;</code></td>
@@ -2887,8 +2891,7 @@ injection labels.</p>
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.19.0/manifests).
-  (default ``)</td>
+(e.g. ~/Downloads/istio-1.19.0/manifests).  (default ``)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -3124,8 +3127,7 @@ injection labels.</p>
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.19.0/manifests).
-  (default ``)</td>
+(e.g. ~/Downloads/istio-1.19.0/manifests).  (default ``)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -6290,8 +6292,7 @@ injection labels.</p>
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.19.0/manifests).
-  (default ``)</td>
+(e.g. ~/Downloads/istio-1.19.0/manifests).  (default ``)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -6483,8 +6484,7 @@ injection labels.</p>
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.19.0/manifests).
-  (default ``)</td>
+(e.g. ~/Downloads/istio-1.19.0/manifests).  (default ``)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -6848,8 +6848,7 @@ istioctl experimental precheck.
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.19.0/manifests).
-  (default ``)</td>
+(e.g. ~/Downloads/istio-1.19.0/manifests).  (default ``)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -7662,12 +7661,6 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Sets the mesh-wide trace sampling percentage. Should be 0.0 - 100.0. Precision to 0.01. Default is 1.0.</td>
 </tr>
 <tr>
-<td><code>PILOT_USE_ENDPOINT_SLICE</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If enabled, Pilot will use EndpointSlices as the source of endpoints for Kubernetes services. By default, this is false, and Endpoints will be used. This requires the Kubernetes EndpointSlice controller to be enabled. Currently this is mutual exclusive - either Endpoints or EndpointSlices will be used</td>
-</tr>
-<tr>
 <td><code>PILOT_WORKLOAD_ENTRY_GRACE_PERIOD</code></td>
 <td>Time Duration</td>
 <td><code>10s</code></td>
@@ -7785,7 +7778,7 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td><code>XDS_AUTH_PLAINTEXT</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
-<td>Authenticate plain text requests - used if Istiod is running on a secure/trusted network</td>
+<td>authenticate plain text requests - used if Istiod is running on a secure/trusted network</td>
 </tr>
 </tbody>
 </table>
