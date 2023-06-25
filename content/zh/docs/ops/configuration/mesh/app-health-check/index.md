@@ -14,14 +14,14 @@ owner: istio/wg-user-experience-maintainers
 test: yes
 ---
 
-[Kubernetes 存活和就绪探针](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)描述了几种配置存活和就绪探针的方法：
+[Kubernetes 活性和就绪探针](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)描述了几种配置容器活性和就绪探针的方法：
 
 1. [命令](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-a-liveness-command)
 1. [HTTP 请求](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-a-liveness-http-request)
 1. [TCP 探针](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-a-tcp-liveness-probe)
 1. [gRPC 探针](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-a-grpc-liveness-probe)
 
-命令方式无需更改即可工作，但 HTTP 请求和 TCP 探针需要 Istio 更改 Pod 的配置。
+命令方式无需更改即可工作，但 HTTP 请求、 TCP 探针和 gRPC 探针需要 Istio 更改 Pod 的配置。
 
 对 `liveness-http` 服务的健康检查请求由 kubelet 发送。当启用双向 TLS 时，
 这会成为一个问题，因为 kubelet 没有 Istio 颁发的证书。
@@ -31,7 +31,7 @@ TCP 探针检查需要特殊处理，因为 Istio 将所有传入的流量重定
 所以所有 TCP 端口都显示为开放。kubelet 仅检查某个进程是否正在监听指定的端口，
 因此只要 Sidecar 正在运行，该探针就总会成功。
 
-Istio 通过重写应用程序 `PodSpec` 就绪/存活探针来解决这两个问题，
+Istio 通过重写应用程序 `PodSpec` 就绪/活性探针来解决这两个问题，
 以便将探针请求发送到 [Sidecar 代理](/zh/docs/reference/commands/pilot-agent/)。
 对于 HTTP 和 gRPC 请求，Sidecar 代理将请求重定向到应用程序并剥离响应体，仅返回响应代码。
 对于 TCP 探针，Sidecar 代理会在避免流量重定向的同时进行端口检查。
@@ -39,9 +39,9 @@ Istio 通过重写应用程序 `PodSpec` 就绪/存活探针来解决这两个�
 在所有内置的 Istio [配置文件](/zh/docs/setup/additional-setup/config-profiles/)中，
 有问题的探针的重写是默认启用的，但可以如下所述禁用。
 
-## 使用命令方式的存活和就绪探针 {#liveness-and-readiness-probes-using-the-command-approach}
+## 使用命令方式的活性和就绪探针 {#liveness-and-readiness-probes-using-the-command-approach}
 
-Istio 提供了一个[存活示例]({{< github_file >}}/samples/health-check/liveness-command.yaml)来实现这种方式。
+Istio 提供了一个[活性示例]({{< github_file >}}/samples/health-check/liveness-command.yaml)来实现这种方式。
 为了演示该探针在启用双向 TLS 的情况下如何工作，本例先创建一个命名空间：
 
 {{< text bash >}}
@@ -69,7 +69,7 @@ EOF
 $ kubectl -n istio-io-health apply -f <(istioctl kube-inject -f @samples/health-check/liveness-command.yaml@)
 {{< /text >}}
 
-要确认存活探针是否正常工作，请检查示例 Pod 的状态以验证它是否正在运行。
+要确认活性探针是否正常工作，请检查示例 Pod 的状态以验证它是否正在运行。
 
 {{< text bash >}}
 $ kubectl -n istio-io-health get pod
@@ -77,7 +77,7 @@ NAME                             READY     STATUS    RESTARTS   AGE
 liveness-6857c8775f-zdv9r        2/2       Running   0           4m
 {{< /text >}}
 
-## 使用 HTTP、TCP 和 gRPC 方式的存活和就绪探针 {#liveness-and-readiness-probes-using-the-http-request-approach}
+## 使用 HTTP、TCP 和 gRPC 方式的活性和就绪探针 {#liveness-and-readiness-probes-using-the-http-request-approach}
 
 如上所述，Istio 默认使用探针重写来实现 HTTP、TCP 和 gRPC 探针。
 您可以为特定 Pod 或全局禁用此特性。
