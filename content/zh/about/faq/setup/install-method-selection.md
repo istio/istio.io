@@ -51,7 +51,7 @@ weight: 10
     - 与 `istioctl install` 相比，UX 的精简程度较低。
     - 错误报告没有 `istioctl install` 的错误报告详细、全面。
 
-1. [使用 Helm (alpha) 安装](/zh/docs/setup/install/helm/)
+1. [使用 Helm 安装](/zh/docs/setup/install/helm/)
 
     使用 Helm 的 Chart 可以通过 Helm 的工作流程轻松的完成，并在升级的过程中自动清理资源。
 
