@@ -48,15 +48,15 @@ $ helm install <release> <chart> --namespace <namespace> --create-namespace [--s
     $ kubectl create namespace istio-system
     {{< /text >}}
 
-1. 安装 Istio base chart，它包含了集群范围的自定义资源定义 (CRD)，这些资源必须在部署 Istio 控制平面之前安装：
+1. 安装 Istio Base Chart，它包含了集群范围的自定义资源定义 (CRD)，这些资源必须在部署 Istio 控制平面之前安装：
 
     {{< warning >}}
-    执行修订版安装时，base chart 需要设置 `--defaultRevision` 值以使资源验证起作用。
-    有关 `--defaultRevision` 选项的更多信息，可以在 Helm 升级文档中找到。
+    执行修订版安装时，Base Chart 需要设置 `--defaultRevision` 值以使资源验证起作用。
+    以下我们将安装 `default` 修订版，因此配置了 `--set defaultRevision=default` 参数。
     {{< /warning >}}
 
     {{< text syntax=bash snip_id=install_base >}}
-    $ helm install istio-base istio/base -n istio-system
+    $ helm install istio-base istio/base -n istio-system --set defaultRevision=default
     {{< /text >}}
 
 1. 使用 `helm ls` 命令验证 CRD 的安装情况：
@@ -69,13 +69,16 @@ $ helm install <release> <chart> --namespace <namespace> --create-namespace [--s
 
    在输出中找到 `istio-base` 的条目，并确保状态已被设置为 `deployed`。
 
-1. 安装 Istio discovery chart，它用于部署 `istiod` 服务：
+1. 如果您打算使用 Istio CNI Chart，那您现在就必须这样操作。
+   请参阅[通过 CNI 插件安装 Istio](/zh/docs/setup/additional-setup/cni/#installing-with-helm)了解更多信息。
+
+1. 安装 Istio Discovery Chart，它用于部署 `istiod` 服务：
 
     {{< text syntax=bash snip_id=install_discovery >}}
     $ helm install istiod istio/istiod -n istio-system --wait
     {{< /text >}}
 
-1. 验证 Istio discovery chart 的安装情况：
+1. 验证 Istio Discovery Chart 的安装情况：
 
     {{< text syntax=bash >}}
     $ helm ls -n istio-system
@@ -186,13 +189,13 @@ $ helm install <release> <chart> --namespace <namespace> --create-namespace [--s
     $ kubectl delete namespace istio-ingress
     {{< /text >}}
 
-1. 删除 Istio discovery chart：
+1. 删除 Istio Discovery Chart：
 
     {{< text syntax=bash snip_id=helm_delete_discovery_chart >}}
     $ helm delete istiod -n istio-system
     {{< /text >}}
 
-1. 删除 Istio base chart：
+1. 删除 Istio Base Chart：
 
     {{< tip >}}
     从设计角度而言，通过 Helm 删除 Chart 并不会删除通过该 Chart 安装的 CRD。
