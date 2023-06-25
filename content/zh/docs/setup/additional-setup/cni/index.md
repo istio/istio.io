@@ -112,6 +112,7 @@ Istio CNI 和 Istio Discovery Chart 使用不同的值，需要您在安装 `ist
 * `values.istio_cni.chained` 应设置为与 `values.cni.chained` 相同的值。
 
 例如：
+
 {{< text bash >}}
 $  helm install istiod istio/istiod -n istio-system --set values.istio_cni.enabled=true --wait
 {{< /text >}}
