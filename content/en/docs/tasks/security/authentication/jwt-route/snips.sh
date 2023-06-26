@@ -23,7 +23,7 @@
 snip_before_you_begin_1() {
 kubectl create ns foo
 kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml) -n foo
-kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin-gateway.yaml) -n foo
+kubectl apply -f samples/httpbin/httpbin-gateway.yaml -n foo
 }
 
 snip_before_you_begin_2() {
