@@ -113,7 +113,7 @@ $ helm template istio-ingress istio/gateway --namespace istio-ingress --post-ren
         value: "10"
 {{< /text >}}
 
-### 使用 Helm 应用补丁 `Post-Renderer`{#apply-the-patch-using-helm-Post-Renderer}
+### 使用 Helm 应用补丁 `Post-Renderer`{#apply-the-patch-using-helm-post-renderer}
 
 使用以下命令来安装 Istio 入口网关，使用 Helm 来应用我们的自定义 `post-renderer`:
 
