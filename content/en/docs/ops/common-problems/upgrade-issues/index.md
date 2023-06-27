@@ -1,7 +1,7 @@
 ---
 title: Upgrade Problems
 description: Resolve common problems with Istio upgrades.
-weight: 40
+weight: 60
 owner: istio/wg-policies-and-telemetry-maintainers
 test: n/a
 ---
@@ -17,10 +17,10 @@ first-class Istio API which carries substantially lower upgrade risks.
 ### Use Telemetry API for metrics customization
 
 The usage of `IstioOperator` to customize Prometheus metrics generation has been
-replaced by [Telemetry API](/docs/tasks/observability/metrics/customize-metrics/),
+replaced by the [Telemetry API](/docs/tasks/observability/metrics/customize-metrics/),
 because `IstioOperator` relies on a template `EnvoyFilter` to change the
 metrics filter configuration. Note that the two methods are incompatible, and
-Telemetry API does not work with `EnvoyFilter` or `IstioOperator` metric
+the Telemetry API does not work with `EnvoyFilter` or `IstioOperator` metric
 customization configuration.
 
 As an example, the following `IstioOperator` configuration adds a `destination_port` tag:
@@ -61,18 +61,18 @@ spec:
           value: "string(destination.port)"
 {{< /text >}}
 
-### Use WasmPlugin API for Wasm data plane extensibility
+### Use the WasmPlugin API for Wasm data plane extensibility
 
-The usage of `EnvoyFilter` to inject Wasm filters has been replaced by
+The usage of `EnvoyFilter` to inject Wasm filters has been replaced by the
 [WasmPlugin API](/docs/tasks/extensibility/wasm-module-distribution).
 WasmPlugin API allows dynamic loading of the plugins from artifact registries,
-URLs, or local files. "Null" plugin runtime is no longer a recommended option
+URLs, or local files. The "Null" plugin runtime is no longer a recommended option
 for deployment of Wasm code.
 
 ### Use gateway topology to set the number of the trusted hops
 
 The usage of `EnvoyFilter` to configure the number of the trusted hops in the
-HTTP connection manager has been replaced by `gatewayTopology` field in
+HTTP connection manager has been replaced by the `gatewayTopology` field in
 [`ProxyConfig`](/docs/ops/configuration/traffic-management/network-topologies).
 For example, the following `EnvoyFilter` configuration should use an annotation
 on the pod or the mesh default. Instead of:
