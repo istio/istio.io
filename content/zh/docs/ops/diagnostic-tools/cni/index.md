@@ -1,5 +1,5 @@
 ---
-title: Istio CNI 插件的故障排除
+title: Istio CNI 插件故障排除
 description: 描述使用 Istio 和 CNI 插件诊断问题的工具和技术。
 weight: 90
 keywords: [debug,cni]
