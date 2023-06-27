@@ -51,7 +51,7 @@ $ helm install <release> <chart> --namespace <namespace> --create-namespace [--s
 1. 安装 Istio Base Chart，它包含了集群范围的自定义资源定义 (CRD)，这些资源必须在部署 Istio 控制平面之前安装：
 
     {{< warning >}}
-    执行修订版安装时，Base Chart 需要设置 `--defaultRevision` 值以使资源验证起作用。
+    执行修订版安装时，Base Chart 需要设置 `--set defaultRevision=<revision>` 值以使资源验证起作用。
     以下我们将安装 `default` 修订版，因此配置了 `--set defaultRevision=default` 参数。
     {{< /warning >}}
 
