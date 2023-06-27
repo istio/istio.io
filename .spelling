@@ -405,6 +405,7 @@ enablement
 endUser-to-Service
 enum
 env
+EnvoyFilter
 envoyproxy
 etcd
 events.istio.io
