@@ -153,7 +153,7 @@ Both of these issues can be resolved by configuring Istio to perform TLS origina
 
     {{< warning >}} The `DestinationRule` above shall not verify the server's certificate, which might not be the expected behaviour.
     Please follow the [Security Best Practices](https://istio.io/latest/docs/ops/best-practices/security/#configure-tls-verification-in-destination-rule-when-using-tls-origination)
-    to configure TLS verification.{{< /warning >}}
+    to configure TLS verification. {{< /warning >}}
 
     The above `DestinationRule` will perform TLS origination for HTTP requests on port 80 and the `ServiceEntry`
     will then redirect the requests on port 80 to target port 443.
