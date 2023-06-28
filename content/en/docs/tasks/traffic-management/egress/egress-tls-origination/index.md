@@ -157,7 +157,7 @@ Both of these issues can be resolved by configuring Istio to perform TLS origina
     {{< warning >}}
     The `DestinationRule` above shall not verify the server's certificate, which might not be the expected behaviour.
 
-    Please follow the [Security Best Practices](https://istio.io/latest/docs/ops/best-practices/security/#configure-tls-verification-in-destination-rule-when-using-tls-origination) to configure TLS verification.
+    Please follow the [Security Best Practices](/docs/ops/best-practices/security/#configure-tls-verification-in-destination-rule-when-using-tls-origination) to configure TLS verification.
     {{< /warning >}}
 
 1. Send an HTTP request to `http://edition.cnn.com/politics`, as in the previous section:
