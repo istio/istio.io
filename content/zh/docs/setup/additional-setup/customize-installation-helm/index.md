@@ -27,7 +27,7 @@ Istio 的 helm chart 尝试结合用户满足其特定需求所需的大部分�
 
 ### 使用 Helm 和 kustomize 对 Istio 图表进行后期渲染{#using-helm-with-kustomize-to-post-render-istio-charts}
 
-使用 Helm `post-renderer` 功能，使用 Helm `post-renderer` 功能，你可以轻松地调整安装清单以满足你的要求。
+使用 Helm `post-renderer` 功能，使用 Helm `post-renderer` 功能，您可以轻松地调整安装清单以满足您的要求。
 `Post-rendering` 可在 Helm 安装前灵活地操作、配置、和/或验证已渲染的清单。
 这使得具有高级配置需求的用户可以使用像 Kustomize 这样的工具来应用配置更改，
 而不需要原始图表维护人员提供的任何额外支持。
@@ -68,7 +68,7 @@ EOF
 $ cat > kustomize.sh <<EOF
 #!/bin/sh
 cat > base.yaml
-exec kubectl kustomize # 如果你安装了它，你也可以使用 "kustomize build ."。
+exec kubectl kustomize # 如果您安装了它，您也可以使用 "kustomize build ."。
 EOF
 $ chmod +x ./kustomize.sh
 {{< /text >}}

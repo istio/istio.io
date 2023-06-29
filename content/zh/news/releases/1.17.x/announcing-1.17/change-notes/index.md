@@ -74,7 +74,7 @@ weight: 10
   创建后被处理并为其创建端点的问题。
   [Issue #42212](https://github.com/istio/istio/issues/42212)
 
-- **修复** 修复了同步超时设置在远程集群上不起作用的问题。
+- **修复** 修复了同步超时设置在从集群上不起作用的问题。
   [PR #42252](https://github.com/istio/istio/pull/42252)
 
 - **修复** 通过修复网关服务依赖关系，修复了 Kubernetes 服务中 `exportTo`

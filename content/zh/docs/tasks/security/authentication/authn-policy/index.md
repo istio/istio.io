@@ -450,7 +450,7 @@ $ wget --no-verbose {{< github_file >}}/security/tools/jwt/samples/key.pem
 {{< /text >}}
 
 {{< tip >}}
-如果您的系统尚未安装 `jwcrypto` 库，你需要从
+如果您的系统尚未安装 `jwcrypto` 库，您需要从
 [jwcrypto](https://pypi.org/project/jwcrypto) 下载并安装。
 {{< /tip >}}
 

@@ -10,7 +10,7 @@ owner: istio/wg-policies-and-telemetry-maintainers
 test: yes
 ---
 
-本任务介绍如何通过 Prometheus 查询 Istio 度量指标。作为任务的一部分，你将通过 web 界面查询度量指标值。
+本任务介绍如何通过 Prometheus 查询 Istio 度量指标。作为任务的一部分，您将通过 web 界面查询度量指标值。
 
 本任务以 [Bookinfo](/zh/docs/examples/bookinfo/) 样本应用作为案例。
 

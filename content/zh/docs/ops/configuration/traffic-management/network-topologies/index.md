@@ -88,7 +88,7 @@ Envoy 就直接回调下游地址作为可信客户地址。
     {{< /text >}}
 
     {{< idea >}}
-    如果你之前安装了 Istio Ingress Gateway，请在第 1 步之后重启所有 Ingress Gateway Pod。
+    如果您之前安装了 Istio Ingress Gateway，请在第 1 步之后重启所有 Ingress Gateway Pod。
     {{</ idea >}}
 
 1. 创建一个 `httpbin` 命名空间：
