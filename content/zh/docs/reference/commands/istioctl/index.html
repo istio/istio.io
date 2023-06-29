@@ -4,7 +4,7 @@ source_repo: https://github.com/istio/istio
 title: istioctl
 description: Istio control interface.
 generator: pkg-collateral-docs
-number_of_entries: 100
+number_of_entries: 99
 max_toc_level: 2
 remove_toc_prefix: 'istioctl '
 ---
@@ -3190,106 +3190,6 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
  # Rollout namespace &#34;test-ns&#34; to update workloads to the &#34;1-8-1&#34; revision
  kubectl rollout restart deployments -n test-ns
 
-</code></pre>
-<h2 id="istioctl-experimental-uninstall">istioctl experimental uninstall</h2>
-<p>The uninstall command uninstalls Istio from a cluster</p>
-<pre class="language-bash"><code>istioctl experimental uninstall [flags]
-</code></pre>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>The name of the kubeconfig context to use.  (default ``)</td>
-</tr>
-<tr>
-<td><code>--dry-run</code></td>
-<td></td>
-<td>Console/log output only, make no changes. </td>
-</tr>
-<tr>
-<td><code>--filename &lt;string&gt;</code></td>
-<td><code>-f</code></td>
-<td>The filename of the IstioOperator CR.  (default ``)</td>
-</tr>
-<tr>
-<td><code>--force</code></td>
-<td></td>
-<td>Proceed even with validation errors. </td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td></td>
-<td>The namespace of Istio Control Plane.  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Path to kube config.  (default ``)</td>
-</tr>
-<tr>
-<td><code>--manifests &lt;string&gt;</code></td>
-<td><code>-d</code></td>
-<td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.19.0/manifests).
-  (default ``)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Kubernetes namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--purge</code></td>
-<td></td>
-<td>Delete all Istio related sources for all versions </td>
-</tr>
-<tr>
-<td><code>--revision &lt;string&gt;</code></td>
-<td><code>-r</code></td>
-<td>Target control plane revision for the command.  (default ``)</td>
-</tr>
-<tr>
-<td><code>--set &lt;stringArray&gt;</code></td>
-<td><code>-s</code></td>
-<td>Override an IstioOperator value, e.g. to choose a profile
-(--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.19/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
-</tr>
-<tr>
-<td><code>--skip-confirmation</code></td>
-<td><code>-y</code></td>
-<td>The skipConfirmation determines whether the user is prompted for confirmation.
-If set to true, the user is not prompted and a Yes response is assumed in all cases. </td>
-</tr>
-<tr>
-<td><code>--verbose</code></td>
-<td><code>-v</code></td>
-<td>Verbose output. </td>
-</tr>
-<tr>
-<td><code>--vklog &lt;Level&gt;</code></td>
-<td></td>
-<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="istioctl-experimental-uninstall Examples">Examples</h3>
-<pre class="language-bash"><code>  # Uninstall a single control plane by revision
-  istioctl uninstall --revision foo
-
-  # Uninstall a single control plane by iop file
-  istioctl uninstall -f iop.yaml
-  
-  # Uninstall all control planes and shared resources
-  istioctl uninstall --purge
 </code></pre>
 <h2 id="istioctl-experimental-version">istioctl experimental version</h2>
 <p>Prints out build version information</p>
