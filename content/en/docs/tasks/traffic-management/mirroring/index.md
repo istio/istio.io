@@ -286,11 +286,11 @@ spec:
         host: httpbin
         subset: v1
       weight: 100
-    mirror:
-      host: httpbin
-      subset: v2
-    mirrorPercentage:
-      value: 100.0
+      mirror:
+        host: httpbin
+        subset: v2
+      mirrorPercentage:
+        value: 100.0
 EOF
 {{< /text >}}
 
