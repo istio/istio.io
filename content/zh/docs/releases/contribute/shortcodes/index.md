@@ -36,7 +36,7 @@ Hugo 的 Shortcode 是具有特定语法的特殊占位符，您可以将其添�
     */>}}
 {{< /text >}}
 
-如果你没有填写 `alt` 字段，Hugo 会自动使用 `title` 的文本。如果你没有填写 `title` 字段，Hugo 会自动使用 `caption` 的文本。
+如果您没有填写 `alt` 字段，Hugo 会自动使用 `title` 的文本。如果您没有填写 `title` 字段，Hugo 会自动使用 `caption` 的文本。
 
 `width` 字段设置图像相对于周围文本的大小，默认为 100％。
 
@@ -123,7 +123,7 @@ Istio 里的组件通过控制 {{</*gloss*/>}}Envoy{{</*/gloss*/>}} 代理，实
 
 Istio 里的组件通过控制 {{< gloss >}}Envoy{{< /gloss >}} 代理，实现服务发现、负载均衡和路由分发。
 
-如果你想在您的文本中使用该术语的其它形式，您依然可以使用该 shortcode。要修改显示文本，只需在 shortcode 中包含对应的术语条目即可。例如：
+如果您想在您的文本中使用该术语的其它形式，您依然可以使用该 shortcode。要修改显示文本，只需在 shortcode 中包含对应的术语条目即可。例如：
 
 {{< text markdown >}}
 Istio 里的组件通过控制 {{</*gloss envoy*/>}}Envoy{{</*/gloss*/>}} 代理，实现服务发现、负载均衡和路由分发。

@@ -48,7 +48,7 @@ Istio 提供了配置高级跟踪选项的能力，例如采样率和向报告�
 
 {{< warning >}}
 为跟踪配置而添加的任何 pod 注释都会覆盖全局设置。为了保留任何全局设置，
-你应该将它们从全局网格配置复制到 Pod 注释，并进行特定于工作负载的定制。
+您应该将它们从全局网格配置复制到 Pod 注释，并进行特定于工作负载的定制。
 特别是要确保注释中始终提供跟踪后端地址，以确保正确地报告工作负载的跟踪。
 {{< /warning >}}
 
@@ -103,7 +103,7 @@ EOF
 ### 使用 `proxy.istio.io/config` 跟踪设置的注释 {#using-proxy-istio-io-config-annotation-for-trace-settings}
 
 您可以添加 `proxy.istio.io/config` 注释到您的 Pod 元数据规范，以覆盖任何网格范围的跟踪设置。
-例如，要修改 Istio 附带的 `sleep` 部署，你需要在 `samples/sleep/sleep.yaml` 中添加以下内容:
+例如，要修改 Istio 附带的 `sleep` 部署，您需要在 `samples/sleep/sleep.yaml` 中添加以下内容:
 
 {{< text yaml >}}
 apiVersion: apps/v1

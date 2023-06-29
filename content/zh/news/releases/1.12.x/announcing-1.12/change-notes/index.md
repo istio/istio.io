@@ -129,14 +129,14 @@ aliases:
 并退出实验。
   ([Issue #33799](https://github.com/istio/istio/issues/33799))
 
-- **新增** `istioctl install` 现在将对 webhook 做 `IST0139` 分析。
+- **新增** `istioctl install` 现在将对 Webhook 做 `IST0139` 分析。
   ([Issue #33537](https://github.com/istio/istio/issues/33537))
 
-- **新增** `istioctl x remote-clusters` 以列出每个 `istiod` 实例具有 API Server 凭据的远程集群，
+- **新增** `istioctl x remote-clusters` 以列出每个 `istiod` 实例具有 API Server 凭据的从集群，
 以及每个集群的服务注册表同步状态。
   ([Issue #33799](https://github.com/istio/istio/issues/33799))
 
-- **新增** 新增 pod 的 `po` 别名，供用户使用 `istioctl x describe po` 命令，与使用 `kubectl` 命令时 pod 的别名保持一致。
+- **新增** 新增 Pod 的 `po` 别名，供用户使用 `istioctl x describe po` 命令，与使用 `kubectl` 命令时 pod 的别名保持一致。
   ([Pull Request #34802](https://github.com/istio/istio/pull/34802))
 
 - **新增** 预检查现在可以检测 Alpha Annotations 的使用。

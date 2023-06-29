@@ -46,7 +46,7 @@ prometheus   ClusterIP   10.8.4.109   <none>        9090/TCP   20h
 您可能希望在 Istio 部署之外运行 Prometheus 实例有几个原因。
 也许您希望长期监控并且与被监控的集群解耦。
 也许您在想单独的地方去监测多个独立的网格。
-或许你还有其他的动机，不管您的原因是什么，您都需要一些特殊的配置来让它全部工作起来。
+或许您还有其他的动机，不管您的原因是什么，您都需要一些特殊的配置来让它全部工作起来。
 
 {{< image width="80%"
     link="./external-production-prometheus.svg"

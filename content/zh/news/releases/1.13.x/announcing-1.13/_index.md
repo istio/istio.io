@@ -27,7 +27,8 @@ Istio 1.13.0 正式支持的 Kubernetes 版本为 `1.20` 至 `1.23`。
 
 ## 使用 `ProxyConfig` API 配置 Istio Sidecar 代理 {#configure-istio-sidecar-proxy-with-proxyconfig-api}
 
-在之前的 Istio 版本中，代理级别的 Envoy 选项可以通过[网格维度配置 API](/zh/docs/reference/config/istio.mesh.v1alpha1/#ProxyConfig)进行配置。在 1.13 中，我们将此配置提升为其开放的顶级自定义资源 `ProxyConfig`。与其他 Istio 配置 API 一样，此 CR 可以进行全局、按命名空间或按工作负载的配置。
+在之前的 Istio 版本中，代理级别的 Envoy 选项可以通过[网格维度配置 API](/zh/docs/reference/config/istio.mesh.v1alpha1/#ProxyConfig)进行配置。
+在 1.13 中，我们将此配置提升为其开放的顶级自定义资源 `ProxyConfig`。与其他 Istio 配置 API 一样，此 CR 可以进行全局、按命名空间或按工作负载的配置。
 
 在初始发布中，您可以通过 `ProxyConfig` CR 来配置并发性和代理映像类型。这在未来的版本中会进一步扩展。
 
@@ -45,7 +46,7 @@ Istio 1.13.0 正式支持的 Kubernetes 版本为 `1.20` 至 `1.23`。
 迄今为止，Istio 依赖于知道在东西向配置中两个网络之间所使用的负载均衡器的 IP 地址。
 但 `Amazon EKS` 负载均衡器提供的是主机名而不是 IP 地址，用户必须[手动解析此名称并设置 IP 地址](https://szabo.jp/2021/09/22/multicluster-istio-on-eks/)才能正常运行 Istio。
 
-在 1.13 中，Istio 现在可以自动解析网关的主机名，并且可以自动发现 EKS 上远程集群的网关。
+在 1.13 中，Istio 现在可以自动解析网关的主机名，并且可以自动发现 EKS 上从集群的网关。
 
 ## 功能更新 {#feature-updates}
 

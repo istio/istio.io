@@ -11,7 +11,7 @@ test: yes
 
 熔断，是创建弹性微服务应用程序的重要模式。熔断能够使您的应用程序具备应对来自故障、潜在峰值和其他未知网络因素影响的能力。
 
-这个任务中，你将配置熔断规则，然后通过有意的使熔断器“跳闸”来测试配置。
+这个任务中，您将配置熔断规则，然后通过有意的使熔断器“跳闸”来测试配置。
 
 ## 开始之前{#before-you-begin}
 
@@ -81,13 +81,13 @@ test: yes
 
 1. 向客户端注入 Istio Sidecar 代理，以便 Istio 对其网络交互进行管理：
 
-    如果你启用了[自动注入 Sidecar](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)，可以直接部署 `fortio` 应用：
+    如果您启用了[自动注入 Sidecar](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)，可以直接部署 `fortio` 应用：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/httpbin/sample-client/fortio-deploy.yaml@
     {{< /text >}}
 
-    否则，你需要在部署 `fortio` 应用前手动注入 Sidecar：
+    否则，您需要在部署 `fortio` 应用前手动注入 Sidecar：
 
     {{< text bash >}}
     $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/sample-client/fortio-deploy.yaml@)

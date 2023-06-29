@@ -47,7 +47,7 @@ Istio 为应用程序提供了大量的功能，而对应用程序代码本身�
   `NET_ADMIN` 和 `NET_RAW` 权限的 Pod 安全策略。如果您没有在 Pod 部署中指定服务账户，
   Pod 会使用其命名空间中的默认服务账户运行。
 
-  要列出服务账户的权限，请在下面的命令中用你的值替换 `<your namespace>` 和
+  要列出服务账户的权限，请在下面的命令中用您的值替换 `<your namespace>` 和
   `<your service account>`。
 
     {{< text bash >}}

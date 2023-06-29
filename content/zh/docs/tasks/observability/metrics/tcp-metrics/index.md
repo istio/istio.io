@@ -16,7 +16,7 @@ test: yes
 
 ## 开始之前{#before-you-begin}
 
-* 在集群中[安装 Istio](/zh/docs/setup/) 并部署一个应用。你必须安装[Prometheus](/zh/docs/ops/integrations/prometheus/)。
+* 在集群中[安装 Istio](/zh/docs/setup/) 并部署一个应用。您必须安装[Prometheus](/zh/docs/ops/integrations/prometheus/)。
 
 * 任务中假设 Bookinfo 应用部署在 `default` 命名空间中。如果使用不同的命名空间，需要更新例子中的相关配置和命令。
 
