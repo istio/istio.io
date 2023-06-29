@@ -154,6 +154,12 @@ Both of these issues can be resolved by configuring Istio to perform TLS origina
     The above `DestinationRule` will perform TLS origination for HTTP requests on port 80 and the `ServiceEntry`
     will then redirect the requests on port 80 to target port 443.
 
+    {{< warning >}}
+    The `DestinationRule` above does not verify the server's certificate, which might not be the expected behaviour.
+
+    Please follow the [Security Best Practices](/docs/ops/best-practices/security/#configure-tls-verification-in-destination-rule-when-using-tls-origination) to configure TLS verification.
+    {{< /warning >}}
+
 1. Send an HTTP request to `http://edition.cnn.com/politics`, as in the previous section:
 
     {{< text syntax=bash snip_id=curl_origination_http >}}
