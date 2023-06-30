@@ -1737,7 +1737,7 @@ No
 <td><code>int32</code></td>
 <td>
 <p>Maximum number of requests that will be queued while waiting for
-a ready connection pool connection. Default 1024.
+a ready connection pool connection. Default 2^32-1.
 Refer to <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/circuit_breaking">https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/circuit_breaking</a>
 under which conditions a new connection is created for HTTP2.
 Please note that this is applicable to both HTTP/1.1 and HTTP2.</p>
@@ -1751,7 +1751,7 @@ No
 <td><code>http2MaxRequests</code></td>
 <td><code>int32</code></td>
 <td>
-<p>Maximum number of active requests to a destination. Default 1024.
+<p>Maximum number of active requests to a destination. Default 2^32-1.
 Please note that this is applicable to both HTTP/1.1 and HTTP2.</p>
 
 </td>
