@@ -27,7 +27,7 @@ service to properly validate and route based on JWT claims.
     {{< text bash >}}
     $ kubectl create ns foo
     $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@) -n foo
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin-gateway.yaml@) -n foo
+    $ kubectl apply -f @samples/httpbin/httpbin-gateway.yaml@ -n foo
     {{< /text >}}
 
 *  Follow the instructions in

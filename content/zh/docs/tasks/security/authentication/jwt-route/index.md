@@ -28,7 +28,7 @@ JWT 声明进行正确的验证和路由。
     {{< text bash >}}
     $ kubectl create ns foo
     $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@) -n foo
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin-gateway.yaml@) -n foo
+    $ kubectl apply -f @samples/httpbin/httpbin-gateway.yaml@ -n foo
     {{< /text >}}
 
 *  按照
