@@ -63,19 +63,20 @@ metadata:
   name: ext-authz
   namespace: istio-system
 spec:
-  # 选择器适用于 istio-system 命名空间中的入口网关。
+  # The selector applies to the ingress gateway in the istio-system namespace.
   selector:
     matchLabels:
       app: istio-ingressgateway
-  # “CUSTOM” 操作将访问控制委托给外部授权程序，
-  # 这与在代理内部强制执行访问控制的 ALLOW/DENY 操作不同。
+  # The action "CUSTOM" delegates the access control to an external authorizer, this is different from
+  # the ALLOW/DENY action that enforces the access control right inside the proxy.
   action: CUSTOM
-  # provider 指定在 meshconfig 中定义的外部授权者的名称，
-  # 它告知我们在哪里以及如何与外部 auth 服务对话。稍后我们将对此进行更多介绍。
+  # The provider specifies the name of the external authorizer defined in the meshconfig, which tells where and how to
+  # talk to the external auth service. We will cover this more later.
   provider:
     name: "my-ext-authz-service"
-  # 该规则指定只有当请求路径有前缀“/admin/”时才会触发访问控制。
-  # 这使您可以轻松地根据请求本身启用或禁用外部授权，避免在不需要时进行额外的外部检查请求。
+  # The rule specifies that the access control is triggered only if the request path has the prefix "/admin/".
+  # This allows you to easily enable or disable the external authorization based on the requests, avoiding the external
+  # check request if it is not needed.
   rules:
   - to:
     - operation:
@@ -87,15 +88,15 @@ spec:
 
 {{< text yaml >}}
 extensionProviders:
-# 名称“my-ext-authz-service”在其授权策略的 provider 字段中被引用。
+# The name "my-ext-authz-service" is referred to by the authorization policy in its provider field.
 - name: "my-ext-authz-service"
-  # “envoyExtAuthzGrpc”字段指定外部授权服务的类型由 Envoy ext-authz filter gRPC API 实现。
-  # 另一种被支持的类型是 Envoy ext-authz 过滤器的 HTTP API。
-  # 在 https://www.envoyproxy.io/docs/envoy/v1.16.2/intro/arch_overview/security/ext_authz_filter 中查看更多信息。
+  # The "envoyExtAuthzGrpc" field specifies the type of the external authorization service is implemented by the Envoy
+  # ext-authz filter gRPC API. The other supported type is the Envoy ext-authz filter HTTP API.
+  # See more in https://www.envoyproxy.io/docs/envoy/v1.16.2/intro/arch_overview/security/ext_authz_filter.
   envoyExtAuthzGrpc:
-    # service 和 port 字段指定外部认证服务的地址，
-    # “ext-authz.istio-system.svc.cluster.local”表示该服务部署在网格中。
-    # 它也可以是定义为在网格外部的服务，或者是在相同 Pod 内定义的独立容器。
+    # The service and port specifies the address of the external auth service, "ext-authz.istio-system.svc.cluster.local"
+    # means the service is deployed in the mesh. It can also be defined out of the mesh or even inside the pod as a separate
+    # container.
     service: "ext-authz.istio-system.svc.cluster.local"
     port: 9000
 {{< /text >}}
@@ -194,7 +195,7 @@ spec:
   selector:
     app: httpbin-with-opa
 ---
-# 在 9191 端口定义本地 OPA 服务的服务入口。
+# Define the service entry for the local OPA service on port 9191.
 apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:
@@ -542,11 +543,11 @@ Istio 与任何外部授权系统集成，并具备以下优势：
 
 - 支持外部授权方的各种部署类型：
 
-  - 开启或不开启代理的 Pod 或普通服务
+    - 开启或不开启代理的 Pod 或普通服务
 
-  - 在工作负载 Pod 内作为一个单独的容器方式
+    - 在工作负载 Pod 内作为一个单独的容器方式
 
-  - 位于网格外部
+    - 位于网格外部
 
 我们正努力在后续版本中将此功能提升到更稳定的阶段，
 并欢迎您在 [discuss.istio.io](https://discuss.istio.io/c/security/) 上提供反馈。
