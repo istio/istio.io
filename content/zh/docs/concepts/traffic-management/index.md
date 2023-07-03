@@ -65,11 +65,10 @@ YAML 进行配置。
 ## 虚拟服务 {#virtual-services}
 
 [虚拟服务（Virtual Service）](/zh/docs/reference/config/networking/virtual-service/#VirtualService)
-和[目标规则（Destination Rule）](#destination-rules) 是 Istio
-流量路由功能的关键拼图。虚拟服务让您配置如何在服务网格内将请求路由到服务，
-这基于 Istio 和平台提供的基本的连通性和服务发现能力。每个虚拟服务包含一组路由规则，
-Istio 按顺序评估它们，Istio 将每个给定的请求匹配到虚拟服务指定的实际目标地址。
-您的网格可以有多个虚拟服务，也可以没有，取决于您的使用场景。
+和[目标规则（Destination Rule）](#destination-rules) 是Istio流量路由功能的核心构建模块。
+基于 Istio 和您的平台提供的基本连通性及服务发现能力，虚拟服务允许您配置请求如何路由到特定的服务。
+每个虚拟服务包含一组按顺序评估的路由规则，通过这些规则，Istio 将每个给定的请求匹配到虚拟服务指定的实际目标地址。
+根据您的使用场景，您的服务网格可以有多个或者不需要虚拟服务。
 
 ### 为什么使用虚拟服务？ {#why-use-virtual-services}
 
