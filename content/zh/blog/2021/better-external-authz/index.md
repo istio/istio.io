@@ -14,7 +14,7 @@ Istio 的授权策略为网格中的服务提供访问控制。它速度快、�
 包括 [`DENY` 操作](/zh/docs/tasks/security/authorization/authz-deny/)、
 [排除语义](/zh/docs/tasks/security/authorization/authz-deny/), 
 [`X-Forwarded-For` 头信息支持](/zh/docs/tasks/security/authorization/authz-ingress/)，
-[嵌套 JWT 声明支持](/docs/tasks/security/authorization/authz-jwt/)等等。
+[嵌套 JWT 声明支持](/zh/docs/tasks/security/authorization/authz-jwt/)等等。
 这些特性提高了授权策略的灵活性，但仍有许多场景无法通过该模型支持，例如：
 
 - 您拥有自己的内部授权系统，该系统无法轻松迁移或替换至授权策略中。
