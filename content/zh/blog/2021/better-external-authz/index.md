@@ -83,8 +83,7 @@ spec:
         paths: ["/admin/*"]
 {{< /text >}}
 
-它引用了一个名为 `my-ext-authz-service` 的提供程序，
-该提供程序被定义在网格配置中：
+此示例引用了一个在网格配置中定义的、名为 `my-ext-authz-service` 的提供程序：
 
 {{< text yaml >}}
 extensionProviders:
