@@ -12,8 +12,8 @@ keywords: [authorization,access control,opa,oauth2]
 Istio 的授权策略为网格中的服务提供访问控制。它速度快、功能强大且使用广泛。
 自 Istio 1.4 首次发布以来，我们不断改进策略以使其更加灵活，
 包括 [`DENY` 操作](/zh/docs/tasks/security/authorization/authz-deny/)、
-[排除语义](/zh/docs/tasks/security/authorization/authz-deny/), 
-[`X-Forwarded-For` 头信息支持](/zh/docs/tasks/security/authorization/authz-ingress/)，
+[排除语义](/zh/docs/tasks/security/authorization/authz-deny/)、
+[`X-Forwarded-For` 头信息支持](/zh/docs/tasks/security/authorization/authz-ingress/)、
 [嵌套 JWT 声明支持](/zh/docs/tasks/security/authorization/authz-jwt/)等等。
 这些特性提高了授权策略的灵活性，但仍有许多场景无法通过该模型支持，例如：
 
@@ -113,7 +113,6 @@ extensionProviders:
 可能会基于用户反馈进行针对后续版本的不兼容修改。当授权策略规则与 `CUSTOM`
 操作一起使用时，其目前不支持身份验证字段（例如源主体或 JWT 声明）。
 在单独的工作负载中只允许使用一个提供程序，但您仍然可以在不同的工作负载上使用不同的提供程序。
-
 
 有关详细信息，请参阅[更好的外部授权设计文档](https://docs.google.com/document/d/1V4mCQCw7mlGp0zSQQXYoBdbKMDnkPOjeyUb85U07iSI/edit#)。
 
@@ -542,6 +541,7 @@ Istio 与任何外部授权系统集成，并具备以下优势：
 - 根据条件触发，可以提高性能
 
 - 支持外部授权方的各种部署类型：
+
   - 开启或不开启代理的 Pod 或普通服务
 
   - 在工作负载 Pod 内作为一个单独的容器方式
