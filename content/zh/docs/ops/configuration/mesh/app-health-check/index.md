@@ -22,7 +22,7 @@ test: yes
 1. [TCP 探针](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-a-tcp-liveness-probe)
 1. [gRPC 探针](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-a-grpc-liveness-probe)
 
-命令方式无需更改即可工作，但 HTTP 请求， TCP 探针和 gRPC 探针需要 Istio 更改 Pod 的配置。
+命令方式无需更改即可工作，但 HTTP 请求、TCP 探针和 gRPC 探针需要 Istio 更改 Pod 的配置。
 
 对 `liveness-http` 服务的健康检查请求由 kubelet 发送。当启用双向 TLS 时，
 这会成为一个问题，因为 kubelet 没有 Istio 颁发的证书。
@@ -37,17 +37,17 @@ Istio 通过重写应用程序 `PodSpec` 就绪/存活探针来解决这两个�
 
 ## 存活探针重写示例 {#liveness-probe-rewrite-example}
 
-演示存活探针和就绪探针在应用程序 `PodSpec` 级别如何重写，
-使用[liveness-http-same-port sample]({{< github_file >}}/samples/health-check/liveness-http-same-port.yaml).
+为了演示存活探针和就绪探针如何在应用程序 `PodSpec` 级别进行重写，
+可以使用 [liveness-http-same-port 样例]({{< github_file >}}/samples/health-check/liveness-http-same-port.yaml)。
 
-首先为示例创建并标记一个命名空间：
+首先为此样例应用创建一个命名空间并打好标签：
 
 {{< text bash >}}
 $ kubectl create namespace istio-io-health-rewrite
 $ kubectl label namespace istio-io-health-rewrite istio-injection=enabled
 {{< /text >}}
 
-然后部署示例应用程序：
+然后部署样例应用程序：
 
 {{< text bash yaml >}}
 $ kubectl apply -f - <<EOF
@@ -92,7 +92,7 @@ $ kubectl get pod "$LIVENESS_POD" -n istio-io-health-rewrite -o json | jq '.spec
 }
 {{< /text >}}
 
-初始的 `livenessProve` 路径现在被映射到边车容器环境变量 `ISTIO_KUBE_APP_PROBERS` 中的新路径上：
+原来的 `livenessProve` 路径现在被映射到 Sidecar 容器环境变量 `ISTIO_KUBE_APP_PROBERS` 中的新路径：
 
 {{< text bash json >}}
 $ kubectl get pod "$LIVENESS_POD" -n istio-io-health-rewrite -o=jsonpath="{.spec.containers[1].env[?(@.name=='ISTIO_KUBE_APP_PROBERS')]}"
@@ -117,7 +117,7 @@ Istio 提供了一个[存活示例]({{< github_file >}}/samples/health-check/liv
 $ kubectl create ns istio-io-health
 {{< /text >}}
 
-要配置 `STRICT` 双向 TLS ，请运行：
+要配置 `STRICT` 双向 TLS，请运行：
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
