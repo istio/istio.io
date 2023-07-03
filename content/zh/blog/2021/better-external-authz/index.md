@@ -115,7 +115,7 @@ extensionProviders:
 操作一起使用时，其目前不支持身份验证字段（例如源主体或 JWT 声明）。
 在单独的工作负载中只允许使用一个提供程序，但您仍然可以在不同的工作负载上使用不同的提供程序。
 
-有关详细信息，请参阅[更好的外部授权设计文档](https://docs.google.com/document/d/1V4mCQCw7mlGp0zSQQXYoBdbKMDnkPOjeyUb85U07iSI/edit#)。
+有关详细信息，请参阅 [Better External Authorization 设计文档](https://docs.google.com/document/d/1V4mCQCw7mlGp0zSQQXYoBdbKMDnkPOjeyUb85U07iSI/edit#)。
 
 ## OPA 示例 {#example-with-opa}
 
