@@ -165,7 +165,7 @@ $ kubectl create secret generic opa-policy --from-file policy.rego
 
 ### 部署 httpbin 和 OPA {#deploy-httpbin-and-opa}
 
-启用边车注入：
+启用 Sidecar 注入：
 
 {{< text bash >}}
 $ kubectl label ns default istio-injection=enabled
