@@ -97,9 +97,9 @@ scrape_configs:
 
 ### 集群内的 Prometheus{#production-Prometheus-on-an-in-mesh-cluster}
 
-如果您希望在其中一个集群中运行 Prometheus，则需要与网格中的另一个主集群的 Prometheus 实例建立连接。
+如果您希望在其中一个从集群中运行 Prometheus，则需要与网格中另一个主集群的 Prometheus 实例建立连接。
 
-这实际上只是外部 federation 配置的一种变异。在这种情况下，运行在集群上的 Prometheus 的配置不同于从集群 Prometheus 的配置。
+这实际上只是外部 federation 配置的一种变体。在这种情况下，运行在主集群上的 Prometheus 的配置与从集群 Prometheus 的配置不同。
 
 {{< image width="80%"
     link="./in-mesh-production-prometheus.svg"
@@ -109,7 +109,7 @@ scrape_configs:
 
 配置您的 Prometheus 使得可以同时访问 Prometheus **主从** 实例：
 
-首先执行下面的命令：
+首先执行以下命令：
 
 {{< text bash >}}
 $ kubectl -n istio-system edit cm prometheus -o yaml
