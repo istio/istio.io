@@ -7,7 +7,7 @@ owner: istio/wg-networking-maintainers
 test: n/a
 ---
 
-本页介绍如何解决 Istio CNI 插件的问题。在阅读本文之前，您应该阅读
+本页介绍如何解决 Istio CNI 插件的问题。在阅读本文之前，您须阅读
 [CNI 安装和操作指南](/zh/docs/setup/additional-setup/cni/)。
 
 ## 日志 {#log}
@@ -21,13 +21,12 @@ Istio CNI 插件日志基于 `PodSpec` 提供了有关插件如何配置应用�
 CNI 插件的默认日志级别是 `info`。要获得更详细的日志输出，可以通过编辑
 `values.cni.logLevel` 安装选项并重新启动 CNI DaemonSet Pod 来更改级别。
 
-Istio CNI DaemonSet Pod 日志还提供了有关 CNI 插件安装的信息，和
-[竞争条件和缓解措施](/zh/docs/setup/additional-setup/cni/#race-condition-mitigation)。
+Istio CNI DaemonSet Pod 日志还提供了有关 CNI 插件安装的信息以及[竞争条件和缓解措施](/zh/docs/setup/additional-setup/cni/#race-condition-mitigation)。
 
 ## 监控 {#monitoring}
 
 CNI DaemonSet [generates metrics](/zh/docs/reference/commands/install-cni/#metrics)，
-可用于监视 CNI 的安装，准备就绪和竞争条件缓解。默认情况下，Prometheus 抓取注释（`prometheus.io/port`，
+可用于监视 CNI 的安装、准备就绪和竞争条件缓解措施。默认情况下，Prometheus 抓取注释（`prometheus.io/port`，
 `prometheus.io/path`）被添加到 `istio-cni-node` DaemonSet Pod 中。
 您可以通过标准 Prometheus 配置收集生成的指标。
 
@@ -40,9 +39,8 @@ CNI DaemonSet 的就绪表明 Istio CNI 插件已正确安装和配置。
 
 ## 竞争条件和缓解措施 {#race-condition-repair}
 
-Istio CNI DaemonSet 默认启用 [竞争条件和缓解措施](/zh/docs/setup/additional-setup/cni/#race-condition-mitigation)，
-这将驱逐在 CNI 插件准备就绪之前启动的 Pod。要了解哪些 Pod 被驱逐，
-请查找如下所示的日志行:
+Istio CNI DaemonSet 默认启用[竞争条件和缓解措施](/zh/docs/setup/additional-setup/cni/#race-condition-mitigation)，
+这将驱逐在 CNI 插件准备就绪之前启动的 Pod。要了解哪些 Pod 被驱逐，请查找如下所示的日志行：
 
 {{< text plain >}}
 2021-07-21T08:32:17.362512Z     info   Deleting broken pod: service-graph00/svc00-0v1-95b5885bf-zhbzm
@@ -53,7 +51,7 @@ Istio CNI DaemonSet 默认启用 [竞争条件和缓解措施](/zh/docs/setup/ad
 ## 诊断 Pod 启动失败 {#diagnose-pod-start-up-failure}
 
 CNI 插件的一个常见问题是由于容器网络设置失败，Pod 无法启动。
-通常，失败原因会写入 Pod 事件，并通过 Pod 描述可见:
+通常，失败原因会写入 Pod 事件，并通过 Pod 描述可见：
 
 {{< text bash >}}
 $ kubectl describe pod POD_NAME -n POD_NAMESPACE
@@ -78,6 +76,6 @@ $ kubectl logs POD_NAME -n POD_NAMESPACE -c istio-validation
 
 CNI 插件出现故障的另一个症状是，在启动时，应用程序 Pod 不断被逐出。
 这通常是因为插件没有正确安装，因此无法设置 Pod 流量重定向。
-CNI 的[竞态修复逻辑](/zh/docs/setup/additional-setup/cni/#race-condition-mitigation)
+CNI 的[竞争条件和缓解措施](/zh/docs/setup/additional-setup/cni/#race-condition-mitigation)
 认为由于竞争条件引起的问题导致 Pod 损坏，并连续逐出该 Pod。遇到此问题时，请检查 CNI DaemonSet 日志，
 以获取有关无法正确安装插件的信息。
