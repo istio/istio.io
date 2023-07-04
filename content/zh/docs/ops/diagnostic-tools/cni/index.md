@@ -22,7 +22,7 @@ CNI 插件的默认日志级别是 `info`。要获得更详细的日志输出，
 `values.cni.logLevel` 安装选项并重新启动 CNI DaemonSet Pod 来更改级别。
 
 Istio CNI DaemonSet Pod 日志还提供了有关 CNI 插件安装的信息，和
-[竞态条件修复](/zh/docs/setup/additional-setup/cni/#race-condition-mitigation)。
+[竞争条件和缓解措施](/zh/docs/setup/additional-setup/cni/#race-condition-mitigation)。
 
 ## 监控 {#monitoring}
 
@@ -38,9 +38,9 @@ CNI DaemonSet 的就绪表明 Istio CNI 插件已正确安装和配置。
 `istio-cni-node` 守护进程日志进行诊断。您还可以通过 `istio_cni_install_ready`
 指标跟踪 CNI 安装准备情况。
 
-## 竞态条件修复 {#race-condition-repair}
+## 竞争条件和缓解措施 {#race-condition-repair}
 
-Istio CNI DaemonSet 默认启用 [竞态条件缓解](/zh/docs/setup/additional-setup/cni/#race-condition-mitigation)，
+Istio CNI DaemonSet 默认启用 [竞争条件和缓解措施](/zh/docs/setup/additional-setup/cni/#race-condition-mitigation)，
 这将驱逐在 CNI 插件准备就绪之前启动的 Pod。要了解哪些 Pod 被驱逐，
 请查找如下所示的日志行:
 
