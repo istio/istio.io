@@ -17,8 +17,8 @@ test: n/a
 将单一应用程序分解为微服务可提供各种好处，包括更好的灵活性、
 可伸缩性以及服务复用的能力。但是，微服务也有特殊的安全需求：
 
-- 为了抵御中间人攻击，需要流量加密。
-- 为了提供灵活的服务访问控制，需要双向 TLS 和细粒度的访问策略。
+- 为了抵御中间人攻击，需要流量加密；
+- 为了提供灵活的服务访问控制，需要双向 TLS 和细粒度的访问策略；
 - 要确定谁在什么时候做了什么，需要审计工具。
 
 Istio Security 尝试提供全面的安全解决方案来解决所有这些问题。
@@ -33,9 +33,9 @@ Istio Security 尝试提供全面的安全解决方案来解决所有这些问�
 Istio 安全功能提供了强大的身份、强大的策略、透明的 TLS 加密、
 认证/授权/审计（AAA）工具来保护您的服务和数据。Istio 安全的目标是：
 
-- 默认安全：应用程序代码和基础设施无需更改
-- 深度防御：与现有安全系统集成以提供多层防御
-- 零信任网络：在不受信任的网络上构建安全解决方案
+- 默认安全：应用程序代码和基础设施无需更改；
+- 深度防御：与现有安全系统集成以提供多层防御；
+- 零信任网络：在不受信任的网络上构建安全解决方案。
 
 请访问我们的[双向 TLS 迁移](/zh/docs/tasks/security/authentication/mtls-migration/)相关文章，
 开始在已部署的服务中使用 Istio 安全功能。请访问我们的[安全任务](/zh/docs/tasks/security/)，
@@ -82,8 +82,8 @@ Istio 身份模型使用经典的 `service identity`（服务身份）来确定�
 
 下面的列表展示了在不同平台上可以使用的服务身份：
 
-- Kubernetes：Kubernetes 服务帐户
-- GKE/GCE：GCP 服务帐户
+- Kubernetes：Kubernetes 服务帐户；
+- GKE/GCE：GCP 服务帐户；
 - 本地（非 Kubernetes）：用户帐户、自定义服务帐户、服务名称、
   Istio 服务帐户或 GCP 服务帐户。自定义服务帐户引用现有服务帐户，
   就像客户的身份目录管理的身份一样。
@@ -97,7 +97,7 @@ Istio PKI 使用 X.509 证书为每个工作负载都提供强大的身份标识
 {{< tip >}}
 译者注：这里用 `istio-agent` 来表述，是因为下图及对图的相关解读中反复用到了 "Istio agent"
 这个术语，这样的描述更容易理解。另外，在实现层面，`istio-agent` 是指 Sidecar 容器中的
-`pilot-agent` 进程，它有很多功能，这里不表，
+`pilot-agent` 进程，它有很多功能，这里不表述，
 只特别提一下：它通过 Unix socket 的方式在本地提供 SDS 服务供 Envoy 使用，
 这个信息对了解 Envoy 与 SDS 之间的交互有意义。
 {{< /tip >}}
@@ -109,22 +109,22 @@ Istio PKI 使用 X.509 证书为每个工作负载都提供强大的身份标识
 
 Istio 通过以下流程提供密钥和证书：
 
-1. `istiod` 提供 gRPC 服务以接受[证书签名请求](https://en.wikipedia.org/wiki/Certificate_signing_request)（CSR）。
-1. `istio-agent` 在启动时创建私钥和 CSR，然后将 CSR 及其凭据发送到 `istiod` 进行签名。
-1. `istiod` CA 验证 CSR 中携带的凭据，成功验证后签署 CSR 以生成证书。
-1. 当工作负载启动时，Envoy 通过 [Secret 发现服务（SDS）](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#secret-discovery-service-sds)API 向同容器内的 `istio-agent` 发送证书和密钥请求。
-1. `istio-agent` 通过 Envoy SDS API 将从 `istiod` 收到的证书和密钥发送给 Envoy。
+1. `istiod` 提供 gRPC 服务以接受[证书签名请求](https://en.wikipedia.org/wiki/Certificate_signing_request)（CSR）；
+1. `istio-agent` 在启动时创建私钥和 CSR，然后将 CSR 及其凭据发送到 `istiod` 进行签名；
+1. `istiod` CA 验证 CSR 中携带的凭据，成功验证后签署 CSR 以生成证书；
+1. 当工作负载启动时，Envoy 通过 [Secret 发现服务（SDS）](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#secret-discovery-service-sds)API 向同容器内的 `istio-agent` 发送证书和密钥请求；
+1. `istio-agent` 通过 Envoy SDS API 将从 `istiod` 收到的证书和密钥发送给 Envoy；
 1. `istio-agent` 监控工作负载证书的过期时间。上述过程会定期重复进行证书和密钥轮换。
 
 ## 认证 {#authentication}
 
 Istio 提供两种类型的认证：
 
-- 对等认证：用于服务到服务的认证，以验证建立连接的客户端。
+- 对等认证：用于服务到服务的认证，以验证建立连接的客户端；
   Istio 提供[双向 TLS](https://en.wikipedia.org/wiki/Mutual_authentication)
   作为传输认证的全栈解决方案，无需更改服务代码就可以启用它。这个解决方案：
-    - 为每个服务提供强大的身份，表示其角色，以实现跨集群和云的互操作性。
-    - 保护服务到服务的通信。
+    - 为每个服务提供强大的身份，表示其角色，以实现跨集群和云的互操作性；
+    - 保护服务到服务的通信；
     - 提供密钥管理系统，以自动进行密钥和证书的生成、分发和轮换。
 
 - 请求认证：用于终端用户认证，以验证附加到请求的凭据。
@@ -148,11 +148,11 @@ PEP 被实现为 [Envoy 代理](https://www.envoyproxy.io/)。
 当一个工作负载使用双向 TLS 认证向另一个工作负载发送请求时，
 该请求的处理方式如下：
 
-1. Istio 将出站流量从客户端重新路由到客户端的本地 Sidecar Envoy。
+1. Istio 将出站流量从客户端重新路由到客户端的本地 Sidecar Envoy；
 1. 客户端 Envoy 与服务器端 Envoy 开始双向 TLS 握手。在握手期间，
    客户端 Envoy 还做了[安全命名](/zh/docs/concepts/security/#secure-naming)检查，
-   以验证服务器证书中显示的服务帐户是否被授权运行目标服务。
-1. 客户端 Envoy 和服务器端 Envoy 建立了一个双向的 TLS 连接，Istio 将流量从客户端 Envoy 转发到服务器端 Envoy。
+   以验证服务器证书中显示的服务帐户是否被授权运行目标服务；
+1. 客户端 Envoy 和服务器端 Envoy 建立了一个双向的 TLS 连接，Istio 将流量从客户端 Envoy 转发到服务器端 Envoy；
 1. 服务器端 Envoy 授权请求。如果获得授权，它将流量转发到通过本地 TCP 连接的后端服务。
 
 Istio 将 `TLSv1_2` 作为最低支持的 TLS 版本为客户端和服务器配置了如下的加密套件：
@@ -292,8 +292,8 @@ selector:
 则 Istio 会将策略与策略存储范围内的所有工作负载进行匹配。
 因此，`selector` 字段可帮助您指定策略的范围：
 
-- 网格范围策略：为根命名空间指定的策略，不带或带有空的 `selector` 字段。
-- 命名空间范围的策略：为非root命名空间指定的策略，不带有或带有空的 `selector` 字段。
+- 网格范围策略：为根命名空间指定的策略，不带或带有空的 `selector` 字段；
+- 命名空间范围的策略：为非root命名空间指定的策略，不带有或带有空的 `selector` 字段；
 - 特定于工作负载的策略：在常规命名空间中定义的策略，带有非空 `selector` 字段。
 
 对等认证策略和请求认证策略对 `selector` 字段遵循相同的层次结构原则，
@@ -377,9 +377,9 @@ spec:
     port: 8000
     protocol: TCP
     targetPort: 80
-  selector:
+    selector:
     app: example-app
-{{< /text >}}
+    {{< /text >}}
 
 #### 请求认证 {#request-authentication}
 
@@ -407,7 +407,7 @@ Istio 会根据请求认证策略中的规则检查提供的令牌（如果已�
 ### 更新认证策略 {#updating-authentication-policies}
 
 您可以随时更改认证策略，Istio 几乎实时将新策略推送到工作负载。
-但是，Istio 无法保证所有工作负载都同时收到新政策。
+但是，Istio 无法保证所有工作负载都同时收到新策略。
 以下建议有助于避免在更新认证策略时造成干扰：
 
 - 将对等认证策略的模式从 `DISABLE` 更改为 `STRICT` 时，
@@ -499,13 +499,13 @@ spec:
        principals: ["cluster.local/ns/default/sa/sleep"]
    - source:
        namespaces: ["dev"]
-   to:
+       to:
    - operation:
        methods: ["GET"]
-   when:
+       when:
    - key: request.auth.claims[iss]
      values: ["https://accounts.google.com"]
-{{< /text >}}
+     {{< /text >}}
 
 下例显示了一个授权策略，如果请求来源不是命名空间 `foo`，请求将被拒绝。
 
@@ -525,7 +525,7 @@ spec:
  - from:
    - source:
        notNamespaces: ["foo"]
-{{< /text >}}
+       {{< /text >}}
 
 拒绝策略优先于允许策略。如果请求同时匹配上允许策略和拒绝策略，请求将被拒绝。
 Istio 首先评估拒绝策略，以确保允许策略不能绕过拒绝策略。
@@ -559,7 +559,7 @@ spec:
   - to:
     - operation:
          methods: ["GET", "HEAD"]
-{{< /text >}}
+         {{< /text >}}
 
 #### 值匹配 {#value-matching}
 
@@ -597,7 +597,7 @@ spec:
   - to:
     - operation:
         paths: ["/test/*", "*/info"]
-{{< /text >}}
+        {{< /text >}}
 
 #### 排除匹配 {#exclusion-matching}
 
@@ -623,10 +623,10 @@ spec:
   - to:
     - operation:
         notPaths: ["/healthz"]
-    from:
+        from:
     - source:
         requestPrincipals: ["*"]
-{{< /text >}}
+        {{< /text >}}
 
 下面的示例拒绝到 `/admin` 路径且不带请求主体的请求：
 
@@ -645,10 +645,10 @@ spec:
   - to:
     - operation:
         paths: ["/admin"]
-    from:
+        from:
     - source:
         notRequestPrincipals: ["*"]
-{{< /text >}}
+        {{< /text >}}
 
 #### `allow-nothing`、`deny-all` 和 `allow-all` 策略 {#allow-nothing-deny-all-and-allow-all-policy}
 
@@ -730,13 +730,13 @@ spec:
  - from:
    - source:
        principals: ["cluster.local/ns/default/sa/sleep"]
-   to:
+       to:
    - operation:
        methods: ["GET"]
-   when:
+       when:
    - key: request.headers[version]
      values: ["v1", "v2"]
-{{< /text >}}
+     {{< /text >}}
 
 [条件页面](/zh/docs/reference/config/security/conditions/)中列出了支持的条件 `key` 值。
 
@@ -761,7 +761,7 @@ spec:
  - to:
    - operation:
        methods: ["GET", "POST"]
-{{< /text >}}
+       {{< /text >}}
 
 要仅允许经过认证的用户，请将 `principal` 设置为 `"*"`，例如：
 
@@ -781,10 +781,10 @@ spec:
  - from:
    - source:
        principals: ["*"]
-   to:
+       to:
    - operation:
        methods: ["GET", "POST"]
-{{< /text >}}
+       {{< /text >}}
 
 ### 在普通 TCP 协议上使用 Istio 授权 {#using-Istio-authorization-on-plain-TCP-protocols}
 
@@ -817,10 +817,10 @@ spec:
  - from:
    - source:
        principals: ["cluster.local/ns/default/sa/bookinfo-ratings-v2"]
-   to:
+       to:
    - operation:
        ports: ["27017"]
-{{< /text >}}
+       {{< /text >}}
 
 ### 对双向 TLS 的依赖 {#dependency-on-mutual-TLS}
 
