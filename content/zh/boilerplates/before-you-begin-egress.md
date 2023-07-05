@@ -10,7 +10,8 @@
     {{< /tip >}}
 
 *   将 [sleep]({{< github_tree >}}/samples/sleep) 示例应用程序部署为发送请求的测试源。
-    如果您启用了[自动 Sidecar 注入](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)，运行以下命令部署示例应用程序：
+    如果您启用了[自动 Sidecar 注入](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)，
+    运行以下命令部署示例应用程序：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/sleep/sleep.yaml@
