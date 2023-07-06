@@ -73,8 +73,8 @@ pilot:
 ### Self-signed CA
 
 To specify the signature algorithm for istiod, you need to set the
-`CITADEL_SELF_SIGNED_CA_CERT_ALGORITHM` to be either `RSA` (the default, does not have to be set)
-or `ECC`.
+`CITADEL_SELF_SIGNED_CA_CERT_ALGORITHM` environment variable. The available options are `RSA`
+(default, no need to set explicitly) or `ECC`.
 
 Managing other properties of this certificate based on its type can be managed by setting
 `CITADEL_SELF_SIGNED_CA_RSA_KEY_SIZE`, `ECC_CURVE` and `ECC_SIGNATURE_ALGORITHM`.
