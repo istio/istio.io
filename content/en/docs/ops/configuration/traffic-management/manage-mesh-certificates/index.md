@@ -27,8 +27,8 @@ or a managed offering provided by a cloud vendor, to effectively manage and issu
 When Istio is installed without a root CA certificate plugged-in, istiod will mint a self-signed
 CA certificate using RSA 2048.
 
-Istiod will also create a certificate for the istiod service derived from this root CA, whether
-it was created by istiod or plugged-in.
+Istiod will also create a certificate for the istiod service derived from the root CA,
+regardless of whether it was created by istiod itself or plugged in.
 
 Changing this will require a istiod modifying either the IOP file you give to
 istioctl or the values file you pass into your Helm install for the istio-discovery chart.
