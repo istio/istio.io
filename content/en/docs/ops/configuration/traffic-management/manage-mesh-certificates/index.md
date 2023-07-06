@@ -25,7 +25,7 @@ or a managed offering provided by a cloud vendor, to effectively manage and issu
 
 ## istiod
 
-When Istio is installed without a root CA certificate plugged-in, istiod will mint a self-signed
+When Istio is installed without a root CA certificate, istiod will generate a self-signed
 CA certificate using RSA 2048.
 
 Istiod will also create a certificate for the istiod service derived from the root CA,
