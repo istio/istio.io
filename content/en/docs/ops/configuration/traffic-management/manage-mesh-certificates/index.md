@@ -31,7 +31,7 @@ CA certificate using RSA 2048.
 Istiod will also create a certificate for the istiod service derived from the root CA,
 regardless of whether it was created by istiod itself or plugged in.
 
-Changing this will require a istiod modifying either the IOP file you give to
+To make this change, you will need to modify either the IOP file provided to
 istioctl or the values file used during the Helm installation of the istio-discovery chart.
 
 {{< tip >}}
