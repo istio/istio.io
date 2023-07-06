@@ -151,7 +151,7 @@ spec:
 
 ### Signature Algorithm
 
-By default, the sidecars will create RSA based certificates. If the user wishes to change it to
+By default, the sidecars will create RSA-based certificates. If you want to change it to
 ECC then `ECC_SIGNATURE_ALGORITHM` must be set to `ECDSA`
 
 {{< tabset category-name="gateway-install-type" >}}
