@@ -16,7 +16,8 @@ stronger bit length for RSA certificates. Configuring certificates within your e
 a daunting task for most users.
 
 This document is only intended to be used for in-mesh communication. For managing certificates at
-your Gateway see the the [Secure Gateways](/docs/tasks/traffic-management/ingress/secure-ingress/) document. For managing the CA certificated istiod uses to generate workload certificates for see
+your Gateway, see the [Secure Gateways](/docs/tasks/traffic-management/ingress/secure-ingress/) document.
+For managing the CA, certificated istiod is used to generate workload certificates. For details, see
 the [Plugin CA Certificates](/docs/tasks/security/cert-management/plugin-ca-cert/) document.
 
 It is recommended to use a more reliable tool, such as [cert-manager](/docs/ops/integrations/certmanager/)
