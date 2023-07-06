@@ -133,7 +133,7 @@ $ helm install <release> <chart> --namespace <namespace> --create-namespace [--s
 
     {{< text syntax=bash snip_id=install_ingressgateway >}}
     $ kubectl create namespace istio-ingress
-    $ helm install istio-ingress istio/gateway -n istio-ingress --wait
+    $ helm install istio-ingressgateway istio/gateway -n istio-ingress --wait
     {{< /text >}}
 
     参阅[安装网关](/zh/docs/setup/additional-setup/gateway/)以获得关于网关安装的详细文档。

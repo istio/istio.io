@@ -98,7 +98,7 @@ ENDSNIP
 
 snip_install_ingressgateway() {
 kubectl create namespace istio-ingress
-helm install istio-ingress istio/gateway -n istio-ingress --wait
+helm install istio-ingressgateway istio/gateway -n istio-ingress --wait
 }
 
 snip_helm_ls() {
