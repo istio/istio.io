@@ -31,7 +31,7 @@ Istiod will also create a certificate for the istiod service derived from the ro
 regardless of whether it was created by istiod itself or plugged in.
 
 Changing this will require a istiod modifying either the IOP file you give to
-istioctl or the values file you pass into your Helm install for the istio-discovery chart.
+istioctl or the values file used during the Helm installation of the istio-discovery chart.
 
 {{< tip >}}
 While there are many environment variables that can be changed for
