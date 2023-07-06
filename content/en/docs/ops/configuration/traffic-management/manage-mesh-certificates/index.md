@@ -94,7 +94,7 @@ this purpose.
 
 {{< tip >}}
 While there are many environment variables that can be changed for
-[pilot-agent](/docs/reference/commands/pilot-agent/) this document will only
+[pilot-agent](/docs/reference/commands/pilot-agent/), this document will only
 outline some of them.
 {{< /tip >}}
 
