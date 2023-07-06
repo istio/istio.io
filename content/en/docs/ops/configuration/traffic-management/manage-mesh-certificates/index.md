@@ -35,7 +35,7 @@ istioctl or the values file used during the Helm installation of the istio-disco
 
 {{< tip >}}
 While there are many environment variables that can be changed for
-[pilot-discovery](/docs/reference/commands/pilot-discovery/) this document will only
+[pilot-discovery](/docs/reference/commands/pilot-discovery/), this document will only
 outline some of them.
 {{< /tip >}}
 
