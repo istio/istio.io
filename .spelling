@@ -123,6 +123,7 @@ Ant
 AntiAffinity
 API
 api-server
+apiserver
 Apigee
 APIs
 apiVersion
@@ -633,6 +634,8 @@ Kumar
 Kustomization
 kustomize
 Kustomize
+kwok
+kwokctl
 kyzy
 L3-4
 L4-L6
@@ -720,6 +723,7 @@ Naser
 Nassi
 natively
 Neeraj
+nerdctl
 netfilter
 netmask
 network1
@@ -805,6 +809,7 @@ pluggability
 pluggable
 png
 Poddar
+Podman
 Polshakova
 Posta
 PostgreSQL
