@@ -95,10 +95,10 @@ EOF
     apiVersion: telemetry.istio.io/v1alpha1
     kind: Telemetry
     metadata:
-    name: mesh-default
-    namespace: istio-system
+      name: mesh-default
+      namespace: istio-system
     spec:
-    tracing:
+      tracing:
         - providers:
             - name: "zipkin"
         randomSamplingPercentage: 100.00
