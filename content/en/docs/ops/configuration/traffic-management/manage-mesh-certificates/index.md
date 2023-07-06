@@ -186,4 +186,4 @@ meshConfig:
 Only P256 and P384 are supported via `ECC_CURVE`.
 
 If you prefer to retain RSA signature algorithms and want to modify the RSA key size,
-you can change `WORKLOAD_RSA_KEY_SIZE`.
+you can change the value of `WORKLOAD_RSA_KEY_SIZE`.
