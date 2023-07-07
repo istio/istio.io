@@ -4,7 +4,6 @@ linktitle: 分布式追踪
 description: 分布式追踪问答。
 weight: 46
 layout: faq
-icon: faq
 aliases:
   - /zh/help/faq/distributed-tracing
 ---
