@@ -2938,17 +2938,17 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 </tbody>
 </table>
 <h3 id="istioctl-experimental-revision-tag-generate Examples">Examples</h3>
-<pre class="language-bash"><code> # Create a revision tag from the &#34;1-8-0&#34; revision
- istioctl tag generate prod --revision 1-8-0 &gt; tag.yaml
+<pre class="language-bash"><code>  # Create a revision tag from the &#34;1-8-0&#34; revision
+  istioctl tag generate prod --revision 1-8-0 &gt; tag.yaml
 
- # Apply the tag to cluster
- kubectl apply -f tag.yaml
+  # Apply the tag to cluster
+  kubectl apply -f tag.yaml
 
- # Point namespace &#34;test-ns&#34; at the revision pointed to by the &#34;prod&#34; revision tag
- kubectl label ns test-ns istio.io/rev=prod
+  # Point namespace &#34;test-ns&#34; at the revision pointed to by the &#34;prod&#34; revision tag
+  kubectl label ns test-ns istio.io/rev=prod
 
- # Rollout namespace &#34;test-ns&#34; to update workloads to the &#34;1-8-0&#34; revision
- kubectl rollout restart deployments -n test-ns
+  # Rollout namespace &#34;test-ns&#34; to update workloads to the &#34;1-8-0&#34; revision
+  kubectl rollout restart deployments -n test-ns
 
 </code></pre>
 <h2 id="istioctl-experimental-revision-tag-list">istioctl experimental revision tag list</h2>
@@ -3174,21 +3174,21 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 </tbody>
 </table>
 <h3 id="istioctl-experimental-revision-tag-set Examples">Examples</h3>
-<pre class="language-bash"><code> # Create a revision tag from the &#34;1-8-0&#34; revision
- istioctl tag set prod --revision 1-8-0
+<pre class="language-bash"><code>  # Create a revision tag from the &#34;1-8-0&#34; revision
+  istioctl tag set prod --revision 1-8-0
 
- # Point namespace &#34;test-ns&#34; at the revision pointed to by the &#34;prod&#34; revision tag
- kubectl label ns test-ns istio.io/rev=prod
+  # Point namespace &#34;test-ns&#34; at the revision pointed to by the &#34;prod&#34; revision tag
+  kubectl label ns test-ns istio.io/rev=prod
 
- # Change the revision tag to reference the &#34;1-8-1&#34; revision
- istioctl tag set prod --revision 1-8-1 --overwrite
+  # Change the revision tag to reference the &#34;1-8-1&#34; revision
+  istioctl tag set prod --revision 1-8-1 --overwrite
 
- # Make revision &#34;1-8-1&#34; the default revision, both resulting in that revision handling injection for &#34;istio-injection=enabled&#34;
- # and validating resources cluster-wide
- istioctl tag set default --revision 1-8-1
+  # Make revision &#34;1-8-1&#34; the default revision, both resulting in that revision handling injection for &#34;istio-injection=enabled&#34;
+  # and validating resources cluster-wide
+  istioctl tag set default --revision 1-8-1
 
- # Rollout namespace &#34;test-ns&#34; to update workloads to the &#34;1-8-1&#34; revision
- kubectl rollout restart deployments -n test-ns
+  # Rollout namespace &#34;test-ns&#34; to update workloads to the &#34;1-8-1&#34; revision
+  kubectl rollout restart deployments -n test-ns
 
 </code></pre>
 <h2 id="istioctl-experimental-version">istioctl experimental version</h2>
@@ -3292,21 +3292,21 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 </tbody>
 </table>
 <h3 id="istioctl-experimental-version Examples">Examples</h3>
-<pre class="language-bash"><code># Retrieve version information directly from the control plane, using token security
-# (This is the usual way to get the control plane version with an out-of-cluster control plane.)
-istioctl x version --xds-address istio.cloudprovider.example.com:15012
+<pre class="language-bash"><code>  # Retrieve version information directly from the control plane, using token security
+  # (This is the usual way to get the control plane version with an out-of-cluster control plane.)
+  istioctl x version --xds-address istio.cloudprovider.example.com:15012
 
-# Retrieve version information via Kubernetes config, using token security
-# (This is the usual way to get the control plane version with an in-cluster control plane.)
-istioctl x version
+  # Retrieve version information via Kubernetes config, using token security
+  # (This is the usual way to get the control plane version with an in-cluster control plane.)
+  istioctl x version
 
-# Retrieve version information directly from the control plane, using RSA certificate security
-# (Certificates must be obtained before this step.  The --cert-dir flag lets istioctl bypass the Kubernetes API server.)
-istioctl x version --xds-address istio.example.com:15012 --cert-dir ~/.istio-certs
+  # Retrieve version information directly from the control plane, using RSA certificate security
+  # (Certificates must be obtained before this step.  The --cert-dir flag lets istioctl bypass the Kubernetes API server.)
+  istioctl x version --xds-address istio.example.com:15012 --cert-dir ~/.istio-certs
 
-# Retrieve version information via XDS from specific control plane in multi-control plane in-cluster configuration
-# (Select a specific control plane in an in-cluster canary Istio configuration.)
-istioctl x version --xds-label istio.io/rev=default
+  # Retrieve version information via XDS from specific control plane in multi-control plane in-cluster configuration
+  # (Select a specific control plane in an in-cluster canary Istio configuration.)
+  istioctl x version --xds-label istio.io/rev=default
 
 </code></pre>
 <h2 id="istioctl-experimental-wait">istioctl experimental wait</h2>
@@ -6228,17 +6228,17 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 </tbody>
 </table>
 <h3 id="istioctl-tag-generate Examples">Examples</h3>
-<pre class="language-bash"><code> # Create a revision tag from the &#34;1-8-0&#34; revision
- istioctl tag generate prod --revision 1-8-0 &gt; tag.yaml
+<pre class="language-bash"><code>  # Create a revision tag from the &#34;1-8-0&#34; revision
+  istioctl tag generate prod --revision 1-8-0 &gt; tag.yaml
 
- # Apply the tag to cluster
- kubectl apply -f tag.yaml
+  # Apply the tag to cluster
+  kubectl apply -f tag.yaml
 
- # Point namespace &#34;test-ns&#34; at the revision pointed to by the &#34;prod&#34; revision tag
- kubectl label ns test-ns istio.io/rev=prod
+  # Point namespace &#34;test-ns&#34; at the revision pointed to by the &#34;prod&#34; revision tag
+  kubectl label ns test-ns istio.io/rev=prod
 
- # Rollout namespace &#34;test-ns&#34; to update workloads to the &#34;1-8-0&#34; revision
- kubectl rollout restart deployments -n test-ns
+  # Rollout namespace &#34;test-ns&#34; to update workloads to the &#34;1-8-0&#34; revision
+  kubectl rollout restart deployments -n test-ns
 
 </code></pre>
 <h2 id="istioctl-tag-list">istioctl tag list</h2>
@@ -6420,21 +6420,21 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 </tbody>
 </table>
 <h3 id="istioctl-tag-set Examples">Examples</h3>
-<pre class="language-bash"><code> # Create a revision tag from the &#34;1-8-0&#34; revision
- istioctl tag set prod --revision 1-8-0
+<pre class="language-bash"><code>  # Create a revision tag from the &#34;1-8-0&#34; revision
+  istioctl tag set prod --revision 1-8-0
 
- # Point namespace &#34;test-ns&#34; at the revision pointed to by the &#34;prod&#34; revision tag
- kubectl label ns test-ns istio.io/rev=prod
+  # Point namespace &#34;test-ns&#34; at the revision pointed to by the &#34;prod&#34; revision tag
+  kubectl label ns test-ns istio.io/rev=prod
 
- # Change the revision tag to reference the &#34;1-8-1&#34; revision
- istioctl tag set prod --revision 1-8-1 --overwrite
+  # Change the revision tag to reference the &#34;1-8-1&#34; revision
+  istioctl tag set prod --revision 1-8-1 --overwrite
 
- # Make revision &#34;1-8-1&#34; the default revision, both resulting in that revision handling injection for &#34;istio-injection=enabled&#34;
- # and validating resources cluster-wide
- istioctl tag set default --revision 1-8-1
+  # Make revision &#34;1-8-1&#34; the default revision, both resulting in that revision handling injection for &#34;istio-injection=enabled&#34;
+  # and validating resources cluster-wide
+  istioctl tag set default --revision 1-8-1
 
- # Rollout namespace &#34;test-ns&#34; to update workloads to the &#34;1-8-1&#34; revision
- kubectl rollout restart deployments -n test-ns
+  # Rollout namespace &#34;test-ns&#34; to update workloads to the &#34;1-8-1&#34; revision
+  kubectl rollout restart deployments -n test-ns
 
 </code></pre>
 <h2 id="istioctl-uninstall">istioctl uninstall</h2>
