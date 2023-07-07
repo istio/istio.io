@@ -24,7 +24,7 @@ installing Istio you will need to modify your `IstioOperator` or Helm values ove
 files with the following when you are installing Istio.
 
 {{< tip >}}
-Currently Istio only supports dual stack clusters on initial installation. While it is possible
+Currently Istio only supports dual-stack clusters on initial installation. While it is possible
 to migrate from an installation on a dual-stack Kubernetes cluster with the following
 parameters not defined, this is not currently supported.
 {{< /tip >}}
