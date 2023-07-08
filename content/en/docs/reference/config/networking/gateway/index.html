@@ -708,8 +708,8 @@ No
 <td><code>caCertificates</code></td>
 <td><code>string</code></td>
 <td>
-<p>REQUIRED if mode is <code>MUTUAL</code>. The path to a file containing
-certificate authority certificates to use in verifying a presented
+<p>REQUIRED if mode is <code>MUTUAL</code> or <code>OPTIONAL_MUTUAL</code>. The path to a file
+containing certificate authority certificates to use in verifying a presented
 client side certificate.</p>
 
 </td>
@@ -864,7 +864,8 @@ the destination service from the service registry.</p>
 <tr id="ServerTLSSettings-TLSmode-SIMPLE">
 <td><code>SIMPLE</code></td>
 <td>
-<p>Secure connections with standard TLS semantics.</p>
+<p>Secure connections with standard TLS semantics. In this mode
+client certificate is not requested during handshake.</p>
 
 </td>
 </tr>
@@ -872,7 +873,9 @@ the destination service from the service registry.</p>
 <td><code>MUTUAL</code></td>
 <td>
 <p>Secure connections to the downstream using mutual TLS by
-presenting server certificates for authentication.</p>
+presenting server certificates for authentication.
+A client certificate will also be requested during the handshake and
+at least one valid certificate is required to be sent by the client.</p>
 
 </td>
 </tr>
@@ -902,6 +905,18 @@ to Mutual mode, this mode uses certificates, representing
 gateway workload identity, generated automatically by Istio
 for mTLS authentication. When this mode is used, all other
 fields in <code>TLSOptions</code> should be empty.</p>
+
+</td>
+</tr>
+<tr id="ServerTLSSettings-TLSmode-OPTIONAL_MUTUAL">
+<td><code>OPTIONAL_MUTUAL</code></td>
+<td>
+<p>Similar to MUTUAL mode, except that the client certificate
+is optional. Unlike SIMPLE mode, A client certificate will
+still be explicitly requested during handshake, but the client
+is not required to send a certificate. If a client certificate
+is presented, it will be validated. ca_certificates should
+be specified for validating client certificates.</p>
 
 </td>
 </tr>
