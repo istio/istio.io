@@ -1,23 +1,22 @@
 ---
 WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL SOURCE IN THE 'https://github.com/istio/api' REPO
 source_repo: https://github.com/istio/api
-title: Resource Labels
-description: Resource labels used by Istio.
-location: https://istio.io/docs/reference/config/labels/
+title: 资源标签
+description: Istio 使用的资源标签。
+location: https://istio.io/latest/zh/docs/reference/config/labels/
 weight: 60
 ---
 <p>
-This page presents the various resource <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/">labels</a> that
-Istio supports to control its behavior.
+本页面介绍了 Istio 支持的可用于控制系统操作的各种资源<a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/"></a>标签</a> 。
 </p>
 
 <table class="annotations">
 	<thead>
 		<tr>
-			<th>Label Name</th>
-			<th>Feature Status</th>
-			<th>Resource Types</th>
-			<th>Description</th>
+			<th>标签名称</th>
+			<th>功能状态</th>
+			<th>资源类型</th>
+			<th>描述</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -30,8 +29,8 @@ Istio supports to control its behavior.
 				
 					<td>Alpha</td>
 				
-					<td>[Namespace]</td>
-					<td>Istio control plane revision associated with the resource; e.g. `canary`</td>
+					<td>[命名空间]</td>
+					<td>Istio控制平面版本与资源相关联; 例如，“canary”</td>
 				</tr>
 			
 		
@@ -43,8 +42,8 @@ Istio supports to control its behavior.
 				
 					<td>Alpha</td>
 				
-					<td>[Service]</td>
-					<td>IstioGatewayPortLabel overrides the default 15443 value to use for a multi-network gateway's port</td>
+					<td>[服务]</td>
+					<td>IstioGatewayPortLabel 覆盖了默认端口值的 15443，用于指定多网络网关的端口使用情况。</td>
 				</tr>
 			
 		
@@ -65,7 +64,7 @@ Istio supports to control its behavior.
 					<td>Alpha</td>
 				
 					<td>[Pod]</td>
-					<td>The name of the canonical service a workload belongs to</td>
+					<td>工作负载所属的标准服务的名称</td>
 				</tr>
 			
 		
@@ -78,7 +77,7 @@ Istio supports to control its behavior.
 					<td>Alpha</td>
 				
 					<td>[Pod]</td>
-					<td>The name of a revision within a canonical service that the workload belongs to</td>
+					<td>工作负载所属的规范服务中的版本名称</td>
 				</tr>
 			
 		
@@ -91,7 +90,7 @@ Istio supports to control its behavior.
 					<td>Beta</td>
 				
 					<td>[Pod]</td>
-					<td>Specifies whether or not an Envoy sidecar should be automatically injected into the workload.</td>
+					<td>指定是否应自动注入 Envoy sidecar 到工作负载中。</td>
 				</tr>
 			
 		
@@ -104,7 +103,7 @@ Istio supports to control its behavior.
 					<td>Alpha</td>
 				
 					<td>[Pod]</td>
-					<td>This label is applied to a workload internally that identifies the Kubernetes cluster containing the workload. The cluster ID is specified during Istio installation for each cluster via `values.global.multiCluster.clusterName`. It should be noted that this is only used internally within Istio and is not an actual label on workload pods. If a pod contains this label, it will be overridden by Istio internally with the cluster ID specified during Istio installation. This label provides a way to select workloads by cluster when using DestinationRules. For example, a service owner could create a DestinationRule containing a subset per cluster and then use these subsets to control traffic flow to each cluster independently.</td>
+					<td>这个标签是集群内部应用于工作负载的一个标识，用来识别包含该工作负载的 Kubernetes 集群。在Istio安装过程中，通过 values.global.multiCluster.clusterName 为每个集群指定了集群ID。需要注意的是，这个标签仅在 Istio 内部使用，并不是工作负载 Pod 上的实际标签。如果一个 Pod 包含了这个标签，它会被 Istio 内部根据Istio安装时指定的集群 ID 所覆盖。这个标签提供了一种通过集群选择工作负载的方式，当使用 DestinationRule 时很有用。例如，一个服务所有者可以创建一个包含每个集群服务版本的DestinationRule，然后使用这些服务版本来独立地控制流向每个集群的流量。</td>
 				</tr>
 			
 		
@@ -116,8 +115,8 @@ Istio supports to control its behavior.
 				
 					<td>Beta</td>
 				
-					<td>[Namespace Pod Service]</td>
-					<td>A label used to identify the network for one or more pods. This is used<br>internally by Istio to group pods resident in the same L3 domain/network.<br>Istio assumes that pods in the same network are directly reachable from<br>one another. When pods are in different networks, an Istio Gateway<br>(e.g. east-west gateway) is typically used to establish connectivity<br>(with AUTO_PASSTHROUGH mode). This label can be applied to the following<br>resources to help automate Istio's multi-network configuration.<br><br>* Istio System Namespace: Applying this label to the system namespace<br>  establishes a default network for pods managed by the control plane.<br>  This is typically configured during control plane installation using an<br>  admin-specified value.<br><br>* Pod: Applying this label to a pod allows overriding the default network<br>  on a per-pod basis. This is typically applied to the pod via webhook<br>  injection, but can also be manually specified on the pod by the service<br>  owner. The Istio installation in each cluster configures webhook injection<br>  using an admin-specified value.<br><br>* Gateway Service: Applying this label to the Service for an Istio Gateway,<br>  indicates that Istio should use this service as the gateway for the<br>  network, when configuring cross-network traffic. Istio will configure<br>  pods residing outside of the network to access the Gateway service<br>  via `spec.externalIPs`, `status.loadBalancer.ingress[].ip`, or in the case<br>  of a NodePort service, the Node's address. The label is configured when<br>  installing the gateway (e.g. east-west gateway) and should match either<br>  the default network for the control plane (as specified by the Istio System<br>  Namespace label) or the network of the targeted pods.</td>
+					<td>[命名空间 Pod 服务]</td>
+					<td>用于标识一个或多个Pod所属网络的标签。这个标签在 Istio 内部用于对属于同一 L3 域/网络的 Pod 进行分组。Istio 假设在同一网络中的 Pod 可以直接相互通信。当 Pod 位于不同网络时，通常使用一个 Istio 网关（例如：东西向网关）来建立连接（使用 AUTO_PASSTHROUG H模式）。这个标签可以应用于以下资源，用于帮助自动化配置 Istio 的多网络环境。<br><br>* Istio 系统命名空间：将此标签应用于系统命名空间可以为控制平面管理的 Pod 设置一个默认网络。通常在控制平面安装过程中，由管理员配置该值。<br><br>* Pod：将此标签应用于 Pod 可以在每个 Pod 上覆盖基本的默认网络。通常通过 Webhook 注入将此标签应用于 Pod，也可以由服务所有者在 Pod 上手动指定。每个集群中的 Istio 安装使用管理员提供的值配置 Webhook 注入。<br><br>* 网关服务：将此标签应用于 Istio 网关的服务，表示 Istio 应该将此服务用作配置跨网络流量的网关。Istio 将配置位于网络之外的 Pod 通过 spec.externalIPs、status.loadBalancer.ingress[].ip 访问网关服务，或在 NodePort 服务的情况下通过节点的地址访问网关服务。此标签在创建网关时进行配置（例如：东西向网关），应与控制平面的默认网络（由 Istio 系统命名空间标签指定）或目标 Pod 的网络匹配。</td>
 				</tr>
 			
 		
@@ -129,8 +128,8 @@ Istio supports to control its behavior.
 				
 					<td>Beta</td>
 				
-					<td>[Node]</td>
-					<td>User-provided node label for identifying the locality subzone of a workload. This allows admins to specify a more granular level of locality than what is offered by default with Kubernetes regions and zones.</td>
+					<td>[节点]</td>
+					<td>用户提供的节点标签，用于标识工作负载的分区。这使管理员可以指定比 Kubernetes 的地区和区域默认提供的更细粒度的地域性。</td>
 				</tr>
 			
 		
