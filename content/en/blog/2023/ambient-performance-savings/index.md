@@ -1,7 +1,7 @@
 ---
 title: "Cut Service Mesh Overhead with Istio Ambient Mesh"
 description: An anaylsis of how cloud resources are utilized in ambient and sidecar service mesh architectures.
-publishdate: 2023-06-15
+publishdate: 2023-07-12
 attribution: "Greg Hanson - Solo.io"
 keywords: [istio,ambient,waypoint,ztunnel]
 ---
@@ -27,7 +27,7 @@ Spoilers! There are significant savings across the board for all ambient scenari
     caption="Total Memory and CPU: Consumption and Allocation"
     >}}
 
-Looking at total CPU and memory consumption, we have to remember that in the [ambient architecture](/blog/2022/introducing-ambient-mesh/), there are not sidecar containers for every application pod in the mesh. The result is that memory usage of Istio’s dataplane in the ztunnel-only ambient scenario uses *less than 1%* of what is used in sidecar scenarios, and still only 12% when waypoints are added. Looking at CPU, ztunnel once again uses 18% of what the sidecar scenario requires, and 60% when waypoints are deployed.
+Looking at [total CPU and memory consumption numbers](#a-closer-look), we have to remember that in the [ambient architecture](/blog/2022/introducing-ambient-mesh/), there are no sidecar containers for every application pod in the mesh. The result is that memory usage of Istio’s dataplane in the ztunnel-only ambient scenario sees *more than 99% savings* compared to sidecar scenarios, and still 88% savings when waypoints are added. Looking at CPU, ztunnel once again sees 82% savings compared to the sidecar scenario, and 40% savings when waypoints are deployed.
 
 ## Where the Savings Are Coming From
 
@@ -39,10 +39,10 @@ Ambient mesh was designed to minimize resource requirements for users in their K
 
 The sidecar architecture forces this mode of allocation on users. Ambient solves these issues by leveraging a new architecture that separates the responsibilities of zero-trust networking and L7 policy handling. This is done with two new components to Istio: ztunnels and waypoint proxies.
 
-- [Ztunnels](/blog/2023/rust-based-ztunnel/) are a brand new Istio component written in Rust that are designed to be fast, secure, and lightweight. Ztunnels are deployed per node on a cluster and enable the most basic service mesh configurations for L4 features such as mTLS, telemetry, authentication, and L4 authorizations.
+- [Ztunnels](/blog/2023/rust-based-ztunnel/) are a brand new Istio component written in Rust that are designed to be fast, secure, and lightweight. Ztunnels are deployed per node and serve all pods co-located on the node. They enable the most basic service mesh configurations for L4 features such as mTLS, telemetry, authentication, and L4 authorizations.
 - [Waypoint proxies](/blog/2023/waypoint-proxy-made-simple/) provide L7 mesh features such as VirtualService routing, L7 telemetry, and L7 authorizations policies. Waypoints are still based on Envoy and are deployed per namespace or service account.
 
-These ztunnels and waypoint proxies work in tandem to replace sidecars in the Istio service mesh. So let’s take a closer look at how the two architectures compare in the tests above.
+These ztunnels and waypoint proxies work in tandem to replace sidecars in the Istio service mesh, and most importantly, unlike sidecars they scale independent to a user's applications pods. So let’s take a closer look at how the two architectures compare in the scenarios above.
 
 ## A Closer Look
 
@@ -61,11 +61,11 @@ These ztunnels and waypoint proxies work in tandem to replace sidecars in the Is
     caption="CPU and Memory usage for cluster"
     >}}
 
-Let’s start by looking at CPU usage by pod. In the sidecar scenarios, the containers utilizing the most CPU resources are the [frontend](https://github.com/GoogleCloudPlatform/microservices-demo/tree/main/src/frontend) service sidecars, which is main server hit by the load generators and also responsible for making any subsequent calls to other underlying microservices.
+Let’s start by looking at CPU usage by pod. In the sidecar scenarios, the containers utilizing the most CPU resources are the [frontend](https://github.com/GoogleCloudPlatform/microservices-demo/tree/main/src/frontend) service sidecars, which is the main server hit by the load generators and also responsible for making any subsequent calls to other underlying microservices.
 
-In the ambient scenarios, a particular ztunnel's performance depends on the distribution of services across the nodes in the cluster. In the ambient with both ztunnel and waypoint proxy scenario, there is an increase in average CPU usage per ztunnel as traffic is now directed to waypoint proxies. The waypoint proxies themselves consume more resources than their sidecar counterparts.  This is expected since there are only 3 waypoints handling L7 processing for all 48 pods in the namespace.
+In the ambient scenarios, a particular ztunnel's performance depends on the distribution of services across the nodes in the cluster. Ztunnels do use more CPU than a sidecar, but each ztunnel is handling inbound and outbound connections for about 48 application pods whereas a sidecar is responsible for only one.  In the ambient with both ztunnel and waypoint proxy scenario, there is an increase in average CPU usage per ztunnel as traffic is now directed to waypoint proxies. The waypoint proxies themselves consume more resources than their sidecar counterparts.  This is expected since there are only 3 waypoints handling L7 processing for all 48 pods in the namespace.
 
-Next is memory usage by pod. In both ambient scenarios, the L4 ztunnel consumes less memory than a sidecar. In fact, in the L4 only scenario, almost all three ztunnel instances consume less memory than a single sidecar. Ztunnels are able to serve multiple applications while consuming fewer resources that sidecars because they are lightweight and written in Rust. Waypoint proxies consume a similar amount of resources as sidecars do, but once again see a minor increase due to the same reasons outlined above for CPU. So what do these per pod usages mean for the totals across the cluster? Everything.
+Next is memory usage by pod. In both ambient scenarios, the L4 ztunnel consumes less memory than a sidecar. In fact, in the L4 only scenario, almost all three ztunnel instances combined consume less memory than a single sidecar. Ztunnels are able to serve multiple applications while consuming fewer resources than sidecars because they are lightweight and written in Rust. Waypoint proxies consume a similar amount of resources as sidecars do, but once again see a minor increase due to the same reasons outlined above for CPU. So what do these per pod usages mean for the totals across the cluster? Everything.
 
 {{< image width="100%"
     link="total-cpu.png"
@@ -87,13 +87,13 @@ Next is memory usage by pod. In both ambient scenarios, the L4 ztunnel consumes 
     caption="Stacked memory usage by pod for sidecar and ambient pods"
     >}}
 
-Looking at total CPU and memory utilization, we have to remember that in sidecar scenarios there are 144 sidecar containers required (48 services, 3 replicas each), while in ambient, only three ztunnel containers and 12 waypoint proxies are required. The stacked CPU and memory by pod graphs are excellent at highlighting just how many additional containers are present between scenarios. Memory usage of the Istio dataplane in the ztunnel-only ambient scenario uses *less than 1%* of what is used in sidecar scenarios, and still only 12% when waypoints are added. Looking at CPU, ztunnel uses *18%* of what sidecar scenarios require, and 60% when waypoints are deployed.
+Looking at total CPU and memory utilization, we have to remember that in sidecar scenarios there are 144 sidecar containers required (48 services, 3 replicas each), while in ambient, only three ztunnel containers and 12 waypoint proxies are required. The stacked CPU and memory by pod graphs are excellent at highlighting just how many additional containers are present between scenarios. Memory usage of the Istio dataplane in the ztunnel-only ambient scenario sees *more than 99% savings* compared to sidecar scenarios, and 88% when waypoints are added. Looking at CPU, ztunnel sees *82% savings* compared to sidecar scenarios, and 40% when waypoints are deployed.
 
-Finally, let’s consider allocation since the graphs above have only covered usage. Every sidecar resource has a default request of 100 millicores vCPU and 128 MB memory, as well as limits set for 2 vCPUs and 1 GB memory. For simplicity, we assume ztunnels and waypoint proxies have similar requests and limits as their sidecar counterparts. Breaking it down, that’s a 98% reduction in allocated resources with ztunnel, and 90% when waypoints are included.
+Finally, let’s consider allocation since the graphs above have only covered usage. Every sidecar resource has a default request of 100 millicores vCPU and 128 MB memory. For simplicity, we assume ztunnels and waypoint proxies have similar requests and limits as their sidecar counterparts. Breaking it down, that’s a 98% reduction in allocated resources with ztunnel, and 90% when waypoints are included.
 
 {{< image width="100%"
     link="allocation.png"
-    caption="CPU and memory usage and cost breakdown for sidecar and ambient scenarios"
+    caption="CPU and memory allocation and cost breakdown for sidecar and ambient scenarios"
     >}}
 
 Going further, we can calculate a dollar amount for these numbers by referring to [GCP monthly pricing](https://cloud.google.com/compute/vm-instance-pricing) for a monthly cost per GB memory and per CPU. Consider these two different machines and their costs:
@@ -116,7 +116,7 @@ In comparison to what most users run Istio with in production, this test cluster
 
 Ka-ching. These results were collected with an alpha version of ambient, which is now [merged into the main branch](/blog/2023/ambient-merged-istio-main/) and included in Istio 1.18.
 
-Huge thanks to all the Istio maintainers who work very hard to make ambient as lean and performant as possible, ambient service mesh’s goal of reducing infrastructure costs is bearing fruit and setting a solid foot forward on its roadmap to production readiness. These early numbers suggest users could cut their cloud usage by *99%* and resource requirements by *90%* – especially if users only require an L4 mesh.
+Huge thanks to all the Istio maintainers who work very hard to make ambient as lean and performant as possible. Ambient service mesh’s goal of reducing infrastructure costs is bearing fruit and setting a solid foot forward on its roadmap to production readiness. These early numbers suggest users could cut their cloud usage by *99%* and resource requirements by *90%* – especially if users only require an L4 mesh.
 
 ## Learn More About Istio Ambient Mesh
 
