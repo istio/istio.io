@@ -1,5 +1,5 @@
 ---
-title: WebAssembly 插件 alpha 版可用性公告
+title: WebAssembly 插件 Alpha 版可用性公告
 description: 介绍新的 Wasm 插件 API 以及 Envoy 和 Istio 中基于 Wasm 的插件支持的更新。
 publishdate: 2021-12-16
 attribution: "Daniel Grimm (Red Hat), Pengyuan Bian (Google), Takeshi Yoneda (Tetrate); Translated By: Wilson Wu (DaoCloud)"
@@ -178,7 +178,7 @@ Envoy 之间的所有系统调用和 Proxy-Wasm ABI 调用内容。
 
 ## 后续的工作以及期待反馈 {#future-work-and-looking-for-feedback}
 
-尽管我们已经发布了 Wasm 插件的 alpha 版本，但仍有很多工作要做。
+尽管我们已经发布了 Wasm 插件的 Alpha 版本，但仍有很多工作要做。
 其中一个重要的工作内容是在 Wasm API 中支持“镜像拉取 Secret”，
 这将允许您轻松使用私有仓库中的 OCI 镜像。其他工作还包括对 L4
 过滤器的推荐支持、Wasm 二进制文件的签名验证、Envoy 中的运行时改进、
