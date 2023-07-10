@@ -140,8 +140,8 @@ netlify_install:
 		@babel/preset-env@v7.18.2
 	@npm install --production --save-dev \
 		babel-preset-minify@v0.5.2
-	@npm install --save-dev \
-		@babel/polyfill@v7.12.1
+	@npm install --save \
+		core-js@3.31.1
 
 netlify: netlify_install
 	@scripts/gen_site.sh
