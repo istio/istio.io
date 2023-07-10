@@ -1,47 +1,52 @@
 ---
-title: "Using Accelerated Offload Connection Load Balance in Istio"
-description: "Accelerate connection balance using DLB connection balance configuration in Istio gateways."
+title: "Using Accelerated Offload Connection Load Balancing in Istio"
+description: "Accelerate connection balancing using DLB connection balancing configuration in Istio gateways."
 publishdate: 2023-06-08
 attribution: "Loong Dai (Intel)"
 keywords: [Istio, DLB, gateways]
 ---
 
-## What is connection load balance?
+## What is connection load balancing?
 
-Load balancing is a core networking solution used to distribute traffic across multiple servers in a server farm. Load balancers improve application availability and responsiveness and prevent server overload. Each load balancer sits between client devices and backend servers, receiving and then distributing incoming requests to any available server capable of fulfilling them.
+Load balancing is a core networking solution used to distribute traffic across multiple servers in a server farm.
+Load balancers improve application availability and responsiveness and prevent server overload. Each load balancer
+sits between client devices and backend servers, receiving and then distributing incoming requests to any available server capable of fulfilling them.
 
-For a common web server, it usually has multiple workers (processors or threads). If many clients connect to a single worker, this worker becomes busy and brings big tail latency while other workers run in the free state, affecting the performance of web server. Connection load balance is the solution for this situation, which is also known as connection balance.
+For a common web server, it usually has multiple workers (processors or threads). If many clients connect to
+a single worker, this worker becomes busy and brings long tail latency while other workers run in the free state,
+affecting the performance of the web server. Connection load balancing is the solution for this situation,
+which is also known as connection balancing.
 
-## What does Istio do for connection load balance?
+## What does Istio do for connection load balancing?
 
 Istio uses Envoy as the data plane.
 
-Envoy provides a connection load balance implementation called Exact connection balance. As its name says, a lock is held during balancing so that connection counts are nearly exactly balanced between workers. It is "nearly" exact in the sense that a connection might close in parallel thus making the counts incorrect, but this should be rectified on the next accept. This balancer sacrifices accept throughput for accuracy and should be used when there are a small number of connections that rarely cycle, e.g., service mesh gRPC egress.
+Envoy provides a connection load balancing implementation called Exact connection balancer. As its name says, a lock is held during balancing so that connection counts are nearly exactly balanced between workers. It is "nearly" exact in the sense that a connection might close in parallel thus making the counts incorrect, but this should be rectified on the next accept. This balancer sacrifices accept throughput for accuracy and should be used when there are a small number of connections that rarely cycle, e.g., service mesh gRPC egress.
 
 Obviously, it is not suitable for an ingress gateway since an ingress gateway accepts thousands of connections within a short time, and the resource cost from the lock brings a big drop in throughput.
 
-Now, Envoy has an integrated Intel® Dynamic Load Balancing (Intel®DLB) connection load balance to accelerate in big connection cases like ingress gateway.
+Now, Envoy has an integrated Intel® Dynamic Load Balancing (Intel®DLB) connection load balancing to accelerate in big connection cases like ingress gateway.
 
-## How Intel® Dynamic Load Balancing accelerates connection load balance in Envoy
+## How Intel® Dynamic Load Balancing accelerates connection load balancing in Envoy
 
 Intel DLB is a hardware managed system of queues and arbiters connecting producers and consumers. It is a PCI device envisaged to live in the server CPU uncore and can interact with software running on cores, and potentially with other devices.
 
 Intel DLB implements the following load balancing features:
 
-- Offloads queue management from software — useful where there are significant queuing-based costs.
-    - Especially with multi-producer / multi-consumer scenarios and enqueue batching to multiple destinations.
-    - The overhead locks are required to access shared queues in the software. Intel DLB implements lock-free access to shared queues.
-- Dynamic, flow aware load balancing and reordering.
-    - Ensures equal distribution of tasks and better CPU core utilization. Can provide flow-based atomicity if required.
+- Offloads queue management from software — useful where there are significant queuing-based costs
+    - Especially with multi-producer / multi-consumer scenarios and enqueue batching to multiple destinations
+    - The overhead locks are required to access shared queues in the software. Intel DLB implements lock-free access to shared queues
+- Dynamic, flow aware load balancing and reordering
+    - Ensures equal distribution of tasks and better CPU core utilization. Can provide flow-based atomicity if required
     - Distributes high bandwidth flows across many cores without loss of packet order
     - Better determinism and avoids excessive queuing latencies
     - Uses less IO memory footprint and saves DDR Bandwidth
-- Priority queuing (up to 8 levels) —allows for QOS
+- Priority queuing (up to 8 levels) — allows for QOS
     - Lower latency for traffic that is latency sensitive
     - Optional delay measurements in the packets
 - Scalability
-    - Allows dynamic sizing of applications, seamless scale up/down.
-    - Power aware; application can drop workers to lower power state in cases of lighter load.
+    - Allows dynamic sizing of applications, seamless scale up/down
+    - Power aware; application can drop workers to lower power state in cases of lighter load
 
 There are three types of load balancing queues:
 
@@ -49,13 +54,13 @@ There are three types of load balancing queues:
 - Ordered: For multiple producers and consumers where the order of tasks is important. When multiple tasks are processed by multiple processor cores, they must be rearranged in the original order.
 - Atomic: For multiple producers and consumers, where tasks are grouped according to certain rules. These tasks are processed using the same set of resources and the order of tasks within the same group is important.
 
-An ingress gateway is expected to process as much data as possible as quickly as possible, so Intel DLB connection load balance uses an unordered queue.
+An ingress gateway is expected to process as much data as possible as quickly as possible, so Intel DLB connection load balancing uses an unordered queue.
 
-## How to use Intel DLB connection load balance in Istio
+## How to use Intel DLB connection load balancing in Istio
 
-With the 1.17 release, Istio supports Intel DLB connection load balance officially.
+With the 1.17 release, Istio officially supports Intel DLB connection load balancing.
 
-The following steps show how to use Intel DLB connection load balance in an Istio [Ingress Gateway](../../../docs/tasks/traffic-management/ingress/ingress-control/) in an SPR (Sapphire Rapids) machine and Kubernetes is ready.
+The following steps show how to use Intel DLB connection load balancing in an Istio [Ingress Gateway](/docs/tasks/traffic-management/ingress/ingress-control/) in an SPR (Sapphire Rapids) machine and Kubernetes is ready.
 
 ### Step 1 Prepare DLB environment
 
@@ -80,7 +85,7 @@ $ kubectl describe nodes | grep dlb.intel.com/pf
 
 ### Step 2 Download Istio
 
-Now the latest version is 1.17.2, let’s download the installation:
+In this blog we use 1.17.2, let’s download the installation:
 
 {{< text bash >}}
 $ curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.17.2 TARGET_ARCH=x86_64 sh -
@@ -88,7 +93,9 @@ $ cd istio-1.17.2
 $ export PATH=$PWD/bin:$PATH
 {{< /text >}}
 
-**TIPS: All following actions will be done under this directory.**
+{{< tip >}}
+All following actions will be done under this directory.
+{{< /tip >}}
 
 You can check the version is 1.17.2:
 
@@ -100,7 +107,7 @@ no running Istio pods in "istio-system"
 
 ### Step 3 Install Istio
 
-Create install configuration for Istio, notice that we assign 4 CPUs and 1 DLB device to ingress gateway and set concurrency as 4, which is equal to the CPU number.
+Create an install configuration for Istio, notice that we assign 4 CPUs and 1 DLB device to ingress gateway and set concurrency as 4, which is equal to the CPU number.
 
 {{< text bash >}}
 $ cat > config.yaml << EOF
@@ -141,11 +148,6 @@ Use `istioctl` to install:
 
 {{< text bash >}}
 $ istioctl install -f config.yaml --set values.gateways.istio-ingressgateway.runAsRoot=true -y
-{{< /text >}}
-
-The expected output should be like below:
-
-{{< text plain >}}
 ✔ Istio core installed
 ✔ Istiod installed
 ✔ Ingress gateways installed
@@ -156,9 +158,9 @@ Thank you for installing Istio 1.17.  Please take a few minutes to tell us about
 
 ### Step 4 Setup Backend Service
 
-Since we want to use DLB connection load balance in Istio ingress gateway, we need to create a backend service first.
+Since we want to use DLB connection load balancing in Istio ingress gateway, we need to create a backend service first.
 
-Here we choose official sample -- [httpbin]({{< github_tree >}}/release-1.17/samples/httpbin).
+We'll use an Istio-provided sample to test, [httpbin]({{< github_tree >}}/release-1.17/samples/httpbin).
 
 {{< text bash >}}
 $ kubectl apply -f samples/httpbin/httpbin.yaml
@@ -208,7 +210,7 @@ You have now created a virtual service configuration for the httpbin service con
 
 The gateways list specifies that only requests through your httpbin-gateway are allowed. All other external requests will be rejected with a 404 response.
 
-### Step 5 Enable DLB Connection Load Balance
+### Step 5 Enable DLB Connection Load Balancing
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -236,7 +238,7 @@ spec:
 EOF
 {{< /text >}}
 
-It is expected if you check the log of ingress gateway pod `istio-ingressgateway-xxxx` and get logs like below:
+It is expected that if you check the log of ingress gateway pod `istio-ingressgateway-xxxx` you will see log entries similar to:
 
 {{< text bash >}}
 $ export POD="$(kubectl get pods -n istio-system | grep gateway | awk '{print $1}')"
@@ -244,7 +246,7 @@ $ kubectl logs -n istio-system ${POD} | grep dlb
 2023-05-05T06:16:36.921299Z     warning envoy config external/envoy/contrib/network/connection_balance/dlb/source/connection_balancer_impl.cc:46        dlb device 0 is not found, use dlb device 3 instead     thread=35
 {{< /text >}}
 
-Envoy will auto detect DLB device and choose the available one.
+Envoy will auto detect and choose the DLB device.
 
 ### Step 6 Test
 
@@ -263,7 +265,7 @@ You can also add the DNS binding in `/etc/hosts` and remove `-H` flag:
 
 {{< text bash >}}
 $ echo "$HOST httpbin.example.com" >> /etc/hosts
-$ curl -s -I "http://httpbin.example.com:31598/status/200"
+$ curl -s -I "http://httpbin.example.com:${PORT}/status/200"
 HTTP/1.1 200 OK
 server: istio-envoy
 ...
