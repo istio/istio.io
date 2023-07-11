@@ -206,7 +206,7 @@ env:
 W0227 21:51:03.156818       1 admission.go:257] Failed calling webhook, failing open sidecar-injector.istio.io: failed calling admission webhook "sidecar-injector.istio.io": Post https://istio-sidecar-injector.istio-system.svc:443/inject: Service Unavailable
 {{< /text >}}
 
-根据 `*_proxy` 相关的的环境变量设置，确保 Pod 和 service CIDR 是没有被代理的。检查
+根据 `*_proxy` 相关的环境变量设置，确保 Pod 和 service CIDR 是没有被代理的。检查
 `kube-apiserver` 的运行日志验证是否有请求正在被代理。
 
 一种解决方法是在 `kube-apiserver` 的配置中删除代理设置，另一种解决方法是把
