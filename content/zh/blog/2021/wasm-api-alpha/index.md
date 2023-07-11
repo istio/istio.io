@@ -20,7 +20,7 @@ Istio 1.12 中对 Wasm 可扩展性提供 Alpha 支持！在接下来的内容�
 通过 `extensions.istio.io` 命名空间中的新 `WasmPlugin` CRD，
 我们引入了一个用于自定义 Wasm 模块对 Istio 代理功能进行扩展的新顶层 API。
 这项出色的工作归功于过去两年 [Proxy-Wasm](https://github.com/proxy-wasm)
-社区出色的规范和实施基础上。从现在开始，您不再需要使用 `EnvoyFilter`
+社区出色的规范和实施基础。从现在开始，您不再需要使用 `EnvoyFilter`
 资源向代理添加自定义 Wasm 模块。取而代之的是使用 `WasmPlugin` 资源：
 
 {{< text yaml >}}
