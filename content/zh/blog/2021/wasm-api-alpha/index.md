@@ -67,7 +67,7 @@ spec:
 中的 `on_configure` 或 [Go SDK](https://github.com/tetratelabs/proxy-wasm-go-sdk/blob/v0.15.0/proxywasm/types/context.go#L74)
 中的 `OnPluginStart` 回调对这些配置进行检索。
 
-`url` 字段指定了 Wasm 模块的获取位置。请注意本示例中的 `url`
+`url` 字段指定了 Wasm 模块的拉取位置。请注意本示例中的 `url`
 是一个 docker URI。除了通过 HTTP、HTTPS 和本地文件系统
 （使用 file://）方式加载 Wasm 模块之外，我们还引入了
 OCI 镜像格式作为分发 Wasm 模块的首推机制。
