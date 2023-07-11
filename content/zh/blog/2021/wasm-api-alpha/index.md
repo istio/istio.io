@@ -2,7 +2,7 @@
 title: WebAssembly 插件 Alpha 版可用性公告
 description: 介绍新的 Wasm 插件 API 以及 Envoy 和 Istio 中基于 Wasm 的插件支持的更新。
 publishdate: 2021-12-16
-attribution: "Daniel Grimm (Red Hat), Pengyuan Bian (Google), Takeshi Yoneda (Tetrate); Translated By: Wilson Wu (DaoCloud)"
+attribution: "Daniel Grimm (Red Hat), Pengyuan Bian (Google), Takeshi Yoneda (Tetrate); Translated by Wilson Wu (DaoCloud)"
 
 keywords: [wasm,extensibility,WebAssembly]
 ---
