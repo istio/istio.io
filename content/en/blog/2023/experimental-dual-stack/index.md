@@ -65,7 +65,7 @@ EOF
       meshConfig:
         defaultConfig:
           proxyMetadata:
-            ISTIO_AGENT_DUAL_STACK: "true"
+            ISTIO_DUAL_STACK: "true"
       values:
         pilot:
           env:
