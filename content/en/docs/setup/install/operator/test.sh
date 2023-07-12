@@ -78,7 +78,9 @@ function testOperatorLogs(){
 
 function istioDownload(){
     version="$1"
-    curl -L https://istio.io/downloadIstio | ISTIO_VERSION="$version" sh -
+    # downloadIstio takes a TARGET_OS env var, but it's exepected to be Linux or Darwin.
+    # Uppercase the first letter of the TARGET_OS used within the pipeline, which is linux or darwin
+    curl -L https://istio.io/downloadIstio | TARGET_OS=${TARGET_OS^} ISTIO_VERSION="$version" sh -
 }
 
 function operatorInit(){
@@ -96,7 +98,9 @@ function testInplaceUpgrade(){
 }
 
 function testCanaryUpgrade(){
-    snip_download_istio_previous_version
+    # downloadIstio takes a TARGET_OS env var, but it's exepected to be Linux or Darwin.
+    # Uppercase the first letter of the TARGET_OS used within the pipeline, which is linux or darwin
+    TARGET_OS=${TARGET_OS^} snip_download_istio_previous_version
     snip_deploy_operator_previous_version
     snip_install_istio_previous_version
     _verify_like snip_verify_operator_cr "$snip_verify_operator_cr_out"
