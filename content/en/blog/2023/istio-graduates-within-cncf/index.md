@@ -17,7 +17,7 @@ We would like to invite the Istio community to [submit a talk to the upcoming vi
 
 ---
 
-When we [announced our incubation](/blog/2023/istio-graduates-within-cncf/), we mentioned that the journey began with Istio's inception in 2016. One of the great things about collaborative open source projects is that people come and go from employers, but their affiliation with a project can remain. Some of our original contributors founded companies based on Istio; some moved to other companies that support it; and some are still working on it at Google or IBM, six years later.
+When we [announced our incubation](/blog/2022/istio-accepted-into-cncf/), we mentioned that the journey began with Istio's inception in 2016. One of the great things about collaborative open source projects is that people come and go from employers, but their affiliation with a project can remain. Some of our original contributors founded companies based on Istio; some moved to other companies that support it; and some are still working on it at Google or IBM, six years later.
 
 The announcement from the CNCF and blog posts from [Intel](https://www.intel.com/content/www/us/en/developer/articles/community/Intel-Service-Mesh-Optimizes-and-Protects-Istio-Service-Mesh), [Red Hat](https://cloud.redhat.com/blog/red-hat-congratulates-istio-on-graduating-at-the-cncf) and [Solo.io](https://www.solo.io/blog/istio-graduates-cncf) (with more to come) summarize the thoughts and feelings of those working on the project today.
 
