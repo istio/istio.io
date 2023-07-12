@@ -1304,12 +1304,6 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>Override the ServerName used to validate Istiod certificate. Can be used as an alternative to setting /etc/hosts for VMs - discovery address will be an IP:port</td>
 </tr>
 <tr>
-<td><code>ISTIO_AGENT_DUAL_STACK</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>Enable pilot-agent to work in dual-stack clusters</td>
-</tr>
-<tr>
 <td><code>ISTIO_AGENT_ENABLE_WASM_REMOTE_LOAD_CONVERSION</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -1343,7 +1337,7 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td><code>ISTIO_DUAL_STACK</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
-<td>If enabled, pilot will configure clusters/listeners/routes for dual stack capability.</td>
+<td>If true, Istio will enable the Dual Stack feature.</td>
 </tr>
 <tr>
 <td><code>ISTIO_ENABLE_HTTP2_PROBING</code></td>
@@ -2044,6 +2038,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, addition runtime asserts will be performed. These checks are both expensive and panic on failure. As a result, this should be used only for testing.</td>
+</tr>
+<tr>
+<td><code>USE_EXTERNAL_WORKLOAD_SDS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>When set to true, the istio-agent will require an external SDS and will throw an error if the workload SDS socket is not found</td>
 </tr>
 <tr>
 <td><code>VALIDATION_WEBHOOK_CONFIG_NAME</code></td>
