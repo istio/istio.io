@@ -22,7 +22,6 @@ set -o pipefail
 # @setup profile=none
 
 # Install SPIRE configured with k8s Controller Manager
-sed -i 's/nightly/0.2.3/g' samples/security/spire/spire-quickstart.yaml
 snip_install_spire_with_controller_manager
 _wait_for_daemonset spire spire-agent
 _wait_for_deployment spire spire-server
