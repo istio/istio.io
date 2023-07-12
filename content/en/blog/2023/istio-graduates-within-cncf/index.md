@@ -13,7 +13,7 @@ As before, project work continues uninterrupted. We were excited to [bring ambie
 
 We have been delighted to welcome Microsoft to our community after [their decision to archive the Open Service Mesh project and collaborate together on Istio](https://openservicemesh.io/blog/osm-project-update/). As the [third most active CNCF project](https://all.devstats.cncf.io/d/53/projects-health-table?orgId=1) in terms of PRs, and with [support from over 20 vendors](https://istio.io/latest/about/ecosystem/) and [dozens of contributing companies](https://istio.devstats.cncf.io/d/5/companies-table?orgId=1&var-period_name=Last%20year&var-metric=prs), there is simply no better choice for a service mesh.
 
-We would like to invite the Istio community to [submit a talk to the upcoming IstioCon 2023](https://sessionize.com/istiocon-2023), the companion [full day, in-person event in Chinese](https://www.lfasiallc.com/kubecon-cloudnativecon-open-source-summit-china/co-located-events/istiocon-call-for-proposals-cn/#preparing-to-submit-your-proposal-cn) co-located with KubeCon China in Shanghai, or [Istio Day](https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america/co-located-events/istio-day/#call-for-proposals) co-located with KubeCon NA in Chicago.
+We would like to invite the Istio community to [submit a talk to the upcoming virtual IstioCon 2023](https://sessionize.com/istiocon-2023), the companion [full day, in-person event](https://www.lfasiallc.com/kubecon-cloudnativecon-open-source-summit-china/co-located-events/istiocon-call-for-proposals-cn/#preparing-to-submit-your-proposal-cn) co-located with KubeCon China in Shanghai, or [Istio Day](https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america/co-located-events/istio-day/#call-for-proposals) co-located with KubeCon NA in Chicago.
 
 ---
 
@@ -21,7 +21,7 @@ When we [announced our incubation](/blog/2023/istio-graduates-within-cncf/), we 
 
 The announcement from the CNCF and blog posts from [Intel](https://www.intel.com/content/www/us/en/developer/articles/community/Intel-Service-Mesh-Optimizes-and-Protects-Istio-Service-Mesh), [Red Hat](https://cloud.redhat.com/blog/red-hat-congratulates-istio-on-graduating-at-the-cncf) and [Solo.io](https://www.solo.io/blog/istio-graduates-cncf) (with more to come) summarize the thoughts and feelings of those working on the project today. 
 
-We also reached out to some contributors who have moved on from the project, to share their thoughts on this occasion.
+We also reached out to some contributors who have moved on from the project, to share their thoughts.
 
 {{< quote caption="Sven Mawson, Istio co-founder and Chief Software Architect, SambaNova Systems" >}}
 From the very beginning of Istio, we wished for it to join its big brother Kubernetes as a core part of the CNCF landscape. Seeing all that the Istio project has accomplished since those early days is an amazing gift. I couldn't be prouder of what the community has accomplished and what this graduation means to the continued success of the project.
