@@ -32,7 +32,7 @@ multi-cloud mesh-related features:
 
 1. Unified management and control: Istio provides a unified service mesh layer that can be
    managed across multiple clouds and on-premises environments. This enables enterprises to
-   have a unified control plane for service discovery, traffic management, and policy enforcement.
+   maintain a unified control plane for service discovery, traffic management, and policy enforcement.
 
 1. Enhanced observability: In multi-cloud environments, Istio's observability tools provide deep
    insights into service behavior and performance, facilitating issue detection and troubleshooting.
@@ -47,7 +47,7 @@ multi-cloud mesh-related features:
    cluster networks, handling hybrid cloud scenarios effortlessly.
 
 By utilizing Istio, enterprises can effectively manage and control services across multiple cloud
-environments, providing stable and efficient services regardless of the deployment environment.
+environments, providing stable and efficient services in any deployment context.
 
 ## Canary Deployment
 
@@ -64,11 +64,12 @@ a small subset of users instead of all users. This way, any issues with the new 
 impact a limited number of users. Once the new version is confirmed to be problem-free,
 it can gradually roll out to all users.
 
-Istio's service mesh simplifies the implementation of canary deployment models.
-By utilizing Istio's virtual services and destination rules, specific traffic can
-be directed to the new version of the service. For example, only 10% of the traffic
-can be routed to the new version while the remaining 90% continues to use the old version.
-This enables thorough testing of the new version's features and performance within a small user group.
+Istio's service mesh simplifies the implementation of canary deployment models,
+as its traffic policies enable specific traffic to be directed to the different
+versions of the service. For example, only 10% of the traffic can be routed to
+the new version while the remaining 90% continues to use the old version. This
+enables thorough testing of the new version's features and performance, ensuring
+a low impact on the existing system.
 
 Moreover, Istio's canary deployments offer flexibility by supporting more complex conditions
 through header-based or cookie-based routing. For instance, traffic from specific users or
@@ -107,7 +108,7 @@ The benefits of using Istio for microservices migration include:
    access control policies, ensuring the enforcement of security and compliance requirements
    during the migration process.
 
-By leveraging Istio's capabilities, DaoCloud has successfully assisted numerous Chinese enterprises
+Leveraging Istio's capabilities, DaoCloud has successfully assisted numerous Chinese enterprises
 in transforming their traditional microservices architectures into scalable, resilient, and cloud native
 systems. The gradual migration approach offered by Istio minimizes risks and disruptions while enabling
 the benefits of a modern cloud native architecture.
