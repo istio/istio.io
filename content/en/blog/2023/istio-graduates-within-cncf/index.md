@@ -5,7 +5,7 @@ attribution: "Craig Box, for the Istio Steering Committee"
 keywords: [Istio,CNCF]
 ---
 
-We are delighted to announce that [Istio is now a graduated Cloud Native Computing Foundation (CNCF) project](https://www.cncf.io/blog/).
+We are delighted to announce that [Istio is now a graduated Cloud Native Computing Foundation (CNCF) project](https://www.cncf.io/announcements/2023/07/12/cloud-native-computing-foundation-reaffirms-istio-maturity-with-project-graduation/).
 
 We would like to thank our TOC sponsors [Emily Fox](https://www.cncf.io/people/technical-oversight-committee/?p=emily-fox) and [Nikhita Raghunath](https://www.cncf.io/people/technical-oversight-committee/?p=nikhita-raghunath), and everyone who has collaborated over the past six years on Istio's design, development, and deployment.
 
