@@ -19,9 +19,9 @@ weight: 52
 ---
 
 Istio has gained recognition among DaoCloud's users for its excellent architecture and features,
-leading to improved business efficiency. As a leading cloud-native service provider in China,
+leading to improved business efficiency. As a leading cloud native service provider in China,
 DaoCloud offers high-quality services to customers across various industries. They utilize Istio
-as the foundation for their service mesh product, enabling customers to address specific needs
+as the foundation for their service mesh offerings, enabling customers to address specific needs
 in the following areas:
 
 ## Multi-Cloud Mesh
@@ -43,7 +43,7 @@ multi-cloud mesh-related features:
 1. Unified traffic policies: Istio enables control over traffic between services,
    adapting to diverse requirements such as active-active setups or disaster recovery scenarios.
 
-1. Inter-cluster network connectivity: Istio simplifies interconnecting different
+1. Inter-cluster network connectivity: Istio makes it easier to connect different
    cluster networks, handling hybrid cloud scenarios effortlessly.
 
 By utilizing Istio, enterprises can effectively manage and control services across multiple cloud
@@ -88,14 +88,14 @@ DaoCloud has helped many Chinese enterprises migrate their traditional microserv
 to the Istio service mesh, addressing the challenge of transforming application architectures.
 The benefits of using Istio for microservices migration include:
 
-1. Progressive cloud-native migration: Istio enables enterprises to gradually
-   migrate applications to a cloud-native architecture, minimizing disruptions
+1. Progressive cloud native migration: Istio enables enterprises to gradually
+   migrate applications to a cloud native architecture, minimizing disruptions
    and ensuring a smooth transition.
 
 1. Integration with existing frameworks: DaoCloud's Istio-based service mesh supports
    integration with popular traditional microservice frameworks like Spring Cloud and Dubbo,
    allowing enterprises to leverage their existing investments while moving towards a
-   more cloud-native architecture.
+   more cloud native architecture.
 
 1. Service discovery and traffic management: Istio provides robust service discovery
    and traffic management capabilities, enabling effective management and control of services.
@@ -104,10 +104,10 @@ The benefits of using Istio for microservices migration include:
    into service behavior and performance, facilitating issue identification and troubleshooting.
 
 1. Security and compliance: Istio's security features, such as mTLS authentication and
-   access control policies, ensure the enforcement of security and compliance requirements
+   access control policies, ensuring the enforcement of security and compliance requirements
    during the migration process.
 
 By leveraging Istio's capabilities, DaoCloud has successfully assisted numerous Chinese enterprises
-in transforming their traditional microservices architectures into scalable, resilient, and cloud-native
+in transforming their traditional microservices architectures into scalable, resilient, and cloud native
 systems. The gradual migration approach offered by Istio minimizes risks and disruptions while enabling
-the benefits of a modern cloud-native architecture.
+the benefits of a modern cloud native architecture.
