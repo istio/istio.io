@@ -7,7 +7,7 @@ location: https://istio.io/docs/reference/config/istio.mesh.v1alpha1.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
 weight: 20
-number_of_entries: 56
+number_of_entries: 59
 ---
 <p>Configuration affecting the service mesh as a whole.</p>
 
@@ -2592,6 +2592,74 @@ No
 </tbody>
 </table>
 </section>
+<h2 id="Topology">Topology</h2>
+<section>
+<p>Topology describes the configuration for relative location of a proxy with
+respect to intermediate trusted proxies and the client. These settings
+control how the client attributes are retrieved from the incoming traffic by
+the gateway proxy and propagated to the upstream services in the cluster.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="Topology-num_trusted_proxies">
+<td><code>numTrustedProxies</code></td>
+<td><code>uint32</code></td>
+<td>
+<p>Number of trusted proxies deployed in front of the Istio gateway proxy.
+When this option is set to value N greater than zero, the trusted client
+address is assumed to be the Nth address from the right end of the
+X-Forwarded-For (XFF) header from the incoming request. If the
+X-Forwarded-For (XFF) header is missing or has fewer than N addresses, the
+gateway proxy falls back to using the immediate downstream connection&rsquo;s
+source address as the trusted client address.
+Note that the gateway proxy will append the downstream connection&rsquo;s source
+address to the X-Forwarded-For (XFF) address and set the
+X-Envoy-External-Address header to the trusted client address before
+forwarding it to the upstream services in the cluster.
+The default value of num_trusted_proxies is 0.
+See [Envoy XFF] (<a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#config-http-conn-man-headers-x-forwarded-for">https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#config-http-conn-man-headers-x-forwarded-for</a>)
+header handling for more details.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Topology-forward_client_cert_details">
+<td><code>forwardClientCertDetails</code></td>
+<td><code><a href="#Topology-ForwardClientCertDetails">ForwardClientCertDetails</a></code></td>
+<td>
+<p>Configures how the gateway proxy handles x-forwarded-client-cert (XFCC)
+header in the incoming request.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Topology-proxy_protocol">
+<td><code>proxyProtocol</code></td>
+<td><code><a href="#Topology-ProxyProtocolConfiguration">ProxyProtocolConfiguration</a></code></td>
+<td>
+<p>Enables <a href="http://www.haproxy.org/download/1.5/doc/proxy-protocol.txt">PROXY protocol</a> for
+downstream connections on a gateway.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
 <h2 id="PrivateKeyProvider">PrivateKeyProvider</h2>
 <section>
 <p>PrivateKeyProvider defines private key configuration for gateways and sidecars. This can be configured
@@ -2930,6 +2998,21 @@ and exposed as Prometheus metrics.</p>
 No
 </td>
 </tr>
+<tr id="ProxyConfig-gateway_topology">
+<td><code>gatewayTopology</code></td>
+<td><code><a href="#Topology">Topology</a></code></td>
+<td>
+<p>Topology encapsulates the configuration which describes where the proxy is
+located i.e. behind a (or N) trusted proxy (proxies) or directly exposed
+to the internet. This configuration only effects gateways and is applied
+to all the gateways in the cluster unless overriden via annotations of the
+gateway workloads.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 <tr id="ProxyConfig-termination_drain_duration">
 <td><code>terminationDrainDuration</code></td>
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
@@ -3245,6 +3328,11 @@ No
 </tr>
 </tbody>
 </table>
+</section>
+<h2 id="Topology-ProxyProtocolConfiguration">Topology.ProxyProtocolConfiguration</h2>
+<section>
+<p>PROXY protocol configuration.</p>
+
 </section>
 <h2 id="PrivateKeyProvider-CryptoMb">PrivateKeyProvider.CryptoMb</h2>
 <section>
@@ -3924,6 +4012,70 @@ See the
 <code>X-B3-SpanId</code>, and <code>X-B3-Sampled</code> HTTP headers. See
 <a href="https://github.com/openzipkin/b3-propagation">B3 header propagation README</a>
 for details.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="Topology-ForwardClientCertDetails">Topology.ForwardClientCertDetails</h2>
+<section>
+<p>ForwardClientCertDetails controls how the x-forwarded-client-cert (XFCC)
+header is handled by the gateway proxy.
+See <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/filter/network/http_connection_manager/v2/http_connection_manager.proto#envoy-api-enum-config-filter-network-http-connection-manager-v2-httpconnectionmanager-forwardclientcertdetails">Envoy XFCC</a>
+header handling for more details.</p>
+
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="Topology-ForwardClientCertDetails-UNDEFINED">
+<td><code>UNDEFINED</code></td>
+<td>
+<p>Field is not set</p>
+
+</td>
+</tr>
+<tr id="Topology-ForwardClientCertDetails-SANITIZE">
+<td><code>SANITIZE</code></td>
+<td>
+<p>Do not send the XFCC header to the next hop. This is the default value.</p>
+
+</td>
+</tr>
+<tr id="Topology-ForwardClientCertDetails-FORWARD_ONLY">
+<td><code>FORWARD_ONLY</code></td>
+<td>
+<p>When the client connection is mTLS (Mutual TLS), forward the XFCC header
+in the request.</p>
+
+</td>
+</tr>
+<tr id="Topology-ForwardClientCertDetails-APPEND_FORWARD">
+<td><code>APPEND_FORWARD</code></td>
+<td>
+<p>When the client connection is mTLS, append the client certificate
+information to the request’s XFCC header and forward it.</p>
+
+</td>
+</tr>
+<tr id="Topology-ForwardClientCertDetails-SANITIZE_SET">
+<td><code>SANITIZE_SET</code></td>
+<td>
+<p>When the client connection is mTLS, reset the XFCC header with the client
+certificate information and send it to the next hop.</p>
+
+</td>
+</tr>
+<tr id="Topology-ForwardClientCertDetails-ALWAYS_FORWARD_ONLY">
+<td><code>ALWAYS_FORWARD_ONLY</code></td>
+<td>
+<p>Always forward the XFCC header in the request, regardless of whether the
+client connection is mTLS.</p>
 
 </td>
 </tr>
