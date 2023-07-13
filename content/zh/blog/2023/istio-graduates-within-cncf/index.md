@@ -7,7 +7,8 @@ keywords: [Istio,CNCF]
 
 我们很高兴宣布 [Istio 现已成为云原生计算基金会（CNCF）的毕业项目](https://www.cncf.io/blog/)。
 
-我们要感谢 TOC 倡议者 [Emily Fox](https://www.cncf.io/people/technical-oversight-committee/?p=emily-fox)
+我们要感谢 TOC 倡议者
+[Emily Fox](https://www.cncf.io/people/technical-oversight-committee/?p=emily-fox)
 和 [Nikhita Raghunath](https://www.cncf.io/people/technical-oversight-committee/?p=nikhita-raghunath)，
 以及在过去六年中参与 Istio 设计、开发和部署的所有贡献者。
 
@@ -23,7 +24,7 @@ Sidecar 部署仍然是使用 Istio 的推荐方法，而我们的
 微软[决定将 Open Service Mesh 项目归档并协作推进 Istio](https://openservicemesh.io/blog/osm-project-update/)。
 Istio 作为[活跃度排名第三的 CNCF 项目](https://all.devstats.cncf.io/d/53/projects-health-table?orgId=1)，
 得到了 [20 多家供应商的支持](/zh/about/ecosystem/)以及
-[数十家公司持续做贡献](https://istio.devstats.cncf.io/d/5/companies-table?orgId=1&var-period_name=Last%20year&var-metric=prs)，
+[数十家公司的持续贡献](https://istio.devstats.cncf.io/d/5/companies-table?orgId=1&var-period_name=Last%20year&var-metric=prs)，
 在服务网格领域没有比 Istio 更好的选择。
 
 我们邀请 Istio 社区为[即将举行的虚拟 IstioCon 2023 提交演讲话题]((https://sessionize.com/istiocon-2023))，
@@ -37,19 +38,20 @@ Istio 作为[活跃度排名第三的 CNCF 项目](https://all.devstats.cncf.io/
 当我们[宣布进入 Incubation](/zh/blog/2022/istio-accepted-into-cncf/) 时，
 曾提到过这段旅程始于 2016 年 Istio 创立之时。
 开源协作项目的一个伟大之处在于无论贡献者受雇于哪家公司，他们与项目本身的关联不会中断。
-六年来，一些最初的贡献者基于 Istio 创立了新公司；一些跳槽到了其他公司继续支持 Istio；
-还有一些至今仍在 Google 或 IBM 从事 Istio 相关的工作。
+六年来，一些最初的贡献者基于 Istio 创立了新公司；
+一些人跳槽到了其他公司继续支持 Istio；
+还有一些人至今仍在 Google 或 IBM 从事 Istio 相关的工作。
 
 CNCF 发布的公告以及
 [Intel](https://www.intel.com/content/www/us/en/developer/articles/community/Intel-Service-Mesh-Optimizes-and-Protects-Istio-Service-Mesh)、
 [Red Hat](https://cloud.redhat.com/blog/red-hat-congratulates-istio-on-graduating-at-the-cncf)、
-[Tetrate](https://tetrate.io/blog/istio-service-mesh-graduates-cncf/)
-和 [Solo.io](https://www.solo.io/blog/istio-graduates-cncf)（还有更多公司）
+[Tetrate](https://tetrate.io/blog/istio-service-mesh-graduates-cncf/)、
+[Solo.io](https://www.solo.io/blog/istio-graduates-cncf)
+和 [DaoCloud](https://blog.daocloud.io/8970.html)（还有更多公司）
 发布的博文都展示了如今 Istio 项目参与者的许多想法和感受。
 
 我们也联系了一些以下已离开 Istio 项目的贡献者，让他们分享自己的想法。
 
-{{< /quote >}}
 {{< quote caption="Sven Mawson, Istio 共同创始人兼 SambaNova Systems 首席软件架构师" >}}
 从 Istio 诞生之时，我们就希望它能够与老大哥 Kubernetes 一样成为 CNCF 全景图的核心组成部分。
 回首最初至今 Istio 项目所取得的一切成就，真是令人惊叹。
@@ -88,7 +90,6 @@ Istio 的成长超出了我们所有人最狂野的想象，而今天 Istio 又�
 愿这个项目继续发展，并帮助用户在未来很多年内都能交付安全、可靠的服务！
 {{< /quote >}}
 
-{{< /quote >}}
 {{< quote caption="Brian Avery，前 TOC 成员，Istio 产品安全负责人和测试与发布负责人" >}}
 在我作为 Istio 社区的贡献者和负责人期间，
 Istio 反复展示了自己作为一个强大平台的特点，
