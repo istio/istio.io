@@ -131,17 +131,17 @@ archive-version:
 # to what is included in the tools repo in docker/build-tools/Dockerfile.
 netlify_install:
 	@npm init -y
-	@npm install --production --global \
-	    sass@v1.23.7 \
-	    typescript@v3.7.2 \
-	    svgstore-cli@v1.3.1 \
-		@babel/core@v7.7.4 \
-		@babel/cli@v7.7.4 \
-		@babel/preset-env@v7.7.4
-	@npm install --production --save-dev \
-		babel-preset-minify@v0.5.1
-	@npm install --save-dev \
-		@babel/polyfill@v7.7.0
+	@npm install --omit=dev --global \
+	    sass@v1.52.1 \
+	    typescript@v4.7.2 \
+	    svgstore-cli@v1.3.2 \
+		@babel/core@v7.18.2 \
+		@babel/cli@v7.17.10 \
+		@babel/preset-env@v7.18.2
+	@npm install --omit=dev --save-dev \
+		babel-preset-minify@v0.5.2
+	@npm install --save \
+		core-js@3.31.1
 
 netlify: netlify_install
 	@scripts/gen_site.sh
