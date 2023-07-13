@@ -14,11 +14,11 @@ This release note describes what’s different between Istio 1.18.0 and 1.18.1.
 ## Security update
 
 - __[CVE-2023-35945](https://github.com/envoyproxy/envoy/security/advisories/GHSA-jfxv-29pc-x22r)__: (CVSS Score 7.5, High):
-HTTP/2 memory leak in nghttp2 codec
+HTTP/2 memory leak in `nghttp2` codec
 
 # Changes
 
-- **Updated** minimum supported Kubernetes version to 1.24.x.
+- **Updated** minimum supported Kubernetes version to `1.24.x`.
 
 - **Added** support for `PodDisruptionBudget` (PDB) in the Gateway chart.
   ([Issue #44469](https://github.com/istio/istio/issues/44469))
@@ -39,7 +39,7 @@ HTTP/2 memory leak in nghttp2 codec
 
 - **Fixed** an issue where disabling a log provider through Istio telemetry API would not work.
 
-- **Fixed** Regression in HTTPGet healthcheck probe translation.
+- **Fixed** Regression in HTTP get health check probe translation.
   ([Issue #45632](https://github.com/istio/istio/issues/45632))
 
 - **Fixed** an issue where `Telemetry` would not be fully disabled unless `match.metric=ALL_METRICS` was

@@ -14,7 +14,7 @@ This release note describes what’s different between Istio 1.17.3 and 1.17.4.
 ## Security update
 
 - __[CVE-2023-35945](https://github.com/envoyproxy/envoy/security/advisories/GHSA-jfxv-29pc-x22r)__: (CVSS Score 7.5, High):
-HTTP/2 memory leak in nghttp2 codec
+HTTP/2 memory leak in `nghttp2` codec
 
 # Changes
 
@@ -30,5 +30,5 @@ HTTP/2 memory leak in nghttp2 codec
 
 - **Fixed** an issue where disabling a log provider through Istio telemetry API would not work.
 
-- **Fixed** an issue where `Telemetry` would not be fully disabled unless `match.metric=ALL_METRICS` was 
+- **Fixed** an issue where `Telemetry` would not be fully disabled unless `match.metric=ALL_METRICS` was
   explicitly specified; matching all metrics is now correctly considered as the default.

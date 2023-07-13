@@ -14,7 +14,7 @@ This release note describes what’s different between Istio 1.16.5 and 1.16.6.
 ## Security update
 
 - __[CVE-2023-35945](https://github.com/envoyproxy/envoy/security/advisories/GHSA-jfxv-29pc-x22r)__: (CVSS Score 7.5, High):
-HTTP/2 memory leak in nghttp2 codec
+HTTP/2 memory leak in `nghttp2` codec
 
 ## Changes
 
