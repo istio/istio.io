@@ -15,11 +15,17 @@ We have been delighted to welcome Microsoft to our community after [their decisi
 
 We would like to invite the Istio community to [submit a talk to the upcoming virtual IstioCon 2023](https://sessionize.com/istiocon-2023), the companion [full day, in-person event](https://www.lfasiallc.com/kubecon-cloudnativecon-open-source-summit-china/co-located-events/istiocon-call-for-proposals-cn/#preparing-to-submit-your-proposal-cn) co-located with KubeCon China in Shanghai, or [Istio Day](https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america/co-located-events/istio-day/#call-for-proposals) co-located with KubeCon NA in Chicago.
 
----
+## Watch a video
+
+In this video for [Techstrong TV](https://techstrong.tv/), I talk about the history of the project, and what graduation means to us.
+
+<iframe width="754" height="424" src="https://player.vimeo.com/video/844586107" title="Vimeo video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+## Words of support from our alumni
 
 When we [announced our incubation](/blog/2022/istio-accepted-into-cncf/), we mentioned that the journey began with Istio's inception in 2016. One of the great things about collaborative open source projects is that people come and go from employers, but their affiliation with a project can remain. Some of our original contributors founded companies based on Istio; some moved to other companies that support it; and some are still working on it at Google or IBM, six years later.
 
-The announcement from the CNCF and blog posts from [Intel](https://www.intel.com/content/www/us/en/developer/articles/community/Intel-Service-Mesh-Optimizes-and-Protects-Istio-Service-Mesh), [Red Hat](https://cloud.redhat.com/blog/red-hat-congratulates-istio-on-graduating-at-the-cncf), [Solo.io](https://www.solo.io/blog/istio-graduates-cncf), [Tetrate](https://tetrate.io/blog/istio-service-mesh-graduates-cncf/), [VMware](https://tanzu.vmware.com/content/blog/vmware-celebrates-istio-s-graduation-to-cncf) and [DaoCloud](https://blog.daocloud.io/8970.html) (with more to come) summarize the thoughts and feelings of those working on the project today.
+The announcement from the CNCF and blog posts from [Intel](https://www.intel.com/content/www/us/en/developer/articles/community/Intel-Service-Mesh-Optimizes-and-Protects-Istio-Service-Mesh), [Red Hat](https://cloud.redhat.com/blog/red-hat-congratulates-istio-on-graduating-at-the-cncf), [Solo.io](https://www.solo.io/blog/istio-graduates-cncf), [Tetrate](https://tetrate.io/blog/istio-service-mesh-graduates-cncf/), [VMware](https://tanzu.vmware.com/content/blog/vmware-celebrates-istio-s-graduation-to-cncf) and [DaoCloud](https://blog.daocloud.io/8970.html) summarize the thoughts and feelings of those working on the project today.
 
 We also reached out to some contributors who have moved on from the project, to share their thoughts.
 
