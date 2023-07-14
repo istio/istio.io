@@ -22,7 +22,7 @@ providers:
   - name: "Gloo Mesh by Solo.io"
     logo: "/logos/solo.png"
     url: "https://www.solo.io/products/gloo-mesh/"
-  - name: "F5 Networks Aspen Service Mesh"
+  - name: "Aspen Service Mesh by F5"
     logo: "/logos/f5.svg"
     url: "https://www.f5.com/products/aspen-service-mesh"
   - name: "Intel Edge Multi-Cluster Orchestrator"
