@@ -105,8 +105,8 @@ JWT 声明复制到 HTTP 头。
 
 ## 清理 {#clean-up}
 
-1. 移除命名空间 `foo`：
+移除命名空间 `foo`：
 
-    {{< text bash >}}
-    $ kubectl delete namespace foo
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl delete namespace foo
+{{< /text >}}
