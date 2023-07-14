@@ -123,9 +123,9 @@ spec:
         overlays:
           - kind: Deployment
             name: istio-ingressgateway
-            patches:
-              - path: spec.template.spec.containers.[name:istio-proxy].args.[-1]
-                value: "--concurrency=4"
+        podAnnotations:
+          proxy.istio.io/config: |
+            concurrency: 4
         resources:
           requests:
             cpu: 4000m
