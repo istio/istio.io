@@ -335,6 +335,7 @@ CVE-2023-27491
 CVE-2023-27492
 CVE-2023-27493
 CVE-2023-27496
+CVE-2023-35945
 cves
 CVEs
 cvss
@@ -561,6 +562,7 @@ ISTIO-SECURITY-2022-003
 ISTIO-SECURITY-2022-004
 ISTIO-SECURITY-2022-005
 ISTIO-SECURITY-2023-001
+ISTIO-SECURITY-2023-002
 istio-system
 istio.io
 istio.io.
@@ -653,6 +655,7 @@ liveness
 Loki
 LoadBalancer
 loadimpact
+LoadReportingService
 localhost
 log_output_level
 Logics
