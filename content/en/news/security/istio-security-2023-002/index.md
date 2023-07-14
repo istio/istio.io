@@ -22,4 +22,4 @@ HTTP/2 memory leak in `nghttp2` codec.
 
 ## Am I Impacted?
 
-You may be at risk if you have an Istio gateway or if you use external istiod.
+If you accept HTTP/2 traffic from untrusted sources, which applies to most users. This especially applies if you use a Gateway exposed on the public internet.
