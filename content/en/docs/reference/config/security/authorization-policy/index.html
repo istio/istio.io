@@ -175,6 +175,27 @@ spec:
    matchLabels:
      version: v1
 </code></pre>
+<p>The following example shows you how to set up an authorization policy using an <a href="/docs/reference/config/annotations/">experimental annotation</a>
+<code>istio.io/dry-run</code> to dry-run the policy without actually enforcing it.</p>
+<p>The dry-run annotation allows you to better understand the effect of an authorization policy before applying it to the production traffic.
+This helps to reduce the risk of breaking the production traffic caused by an incorrect authorization policy.
+For more information, see <a href="/docs/tasks/security/authorization/authz-dry-run/">dry-run tasks</a>.</p>
+<pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: dry-run-example
+  annotations:
+    &quot;istio.io/dry-run&quot;: &quot;true&quot;
+spec:
+  selector:
+    matchLabels:
+      app: httpbin
+  action: DENY
+  rules:
+  - to:
+    - operation:
+        paths: [&quot;/headers&quot;]
+</code></pre>
 
 <h2 id="AuthorizationPolicy">AuthorizationPolicy</h2>
 <section>
