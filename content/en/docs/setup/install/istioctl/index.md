@@ -91,10 +91,10 @@ the `manifests` flag to a local file system path:
 $ istioctl install --manifests=manifests/
 {{< /text >}}
 
-If using the `istioctl` {{< istio_full_version >}} binary, this command will result in the same installation as `istioctl install` alone, because it points to the
-same charts as the compiled-in ones.
-Other than for experimenting with or testing new features, we recommend using the compiled-in charts rather than external ones to ensure compatibility of the
-`istioctl` binary with the charts.
+If using the `istioctl` {{< istio_full_version >}} binary, this command will result in the
+same installation as `istioctl install` alone, because it points to the same charts as the compiled-in ones.
+Other than for experimenting with or testing new features, we recommend using the compiled-in charts
+rather than external ones to ensure compatibility of the `istioctl` binary with the charts.
 
 ## Install a different profile
 
@@ -300,7 +300,8 @@ Then run the following `verify-install` command to see if the installation was s
 $ istioctl verify-install -f $HOME/generated-manifest.yaml
 {{< /text >}}
 
-See [Customizing the installation configuration](/docs/setup/additional-setup/customize-installation/) for additional information on customizing the install.
+See [Customizing the installation configuration](/docs/setup/additional-setup/customize-installation/)
+for additional information on customizing the install.
 
 ## Uninstall Istio
 
@@ -311,7 +312,8 @@ $ istioctl uninstall --purge
 {{< /text >}}
 
 {{< warning >}}
-The optional `--purge` flag will remove all Istio resources, including cluster-scoped resources that may be shared with other Istio control planes.
+The optional `--purge` flag will remove all Istio resources, including cluster-scoped resources
+that may be shared with other Istio control planes.
 {{< /warning >}}
 
 Alternatively, to remove only a specific Istio control plane, run the following command:

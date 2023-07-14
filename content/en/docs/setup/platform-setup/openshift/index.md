@@ -36,7 +36,9 @@ $ oc -n istio-system expose svc/istio-ingressgateway --port=http2
 
 ## Security context constraints for application sidecars
 
-The Istio sidecar injected into each application pod runs with user ID 1337, which is not allowed by default in OpenShift. To allow this user ID to be used, execute the following commands. Replace `<target-namespace>` with the appropriate namespace.
+The Istio sidecar injected into each application pod runs with user ID 1337,
+which is not allowed by default in OpenShift. To allow this user ID to be used,
+execute the following commands. Replace `<target-namespace>` with the appropriate namespace.
 
 {{< text bash >}}
 $ oc adm policy add-scc-to-group anyuid system:serviceaccounts:<target-namespace>

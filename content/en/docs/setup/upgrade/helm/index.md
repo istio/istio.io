@@ -18,7 +18,8 @@ Follow this guide to upgrade and configure an Istio mesh using
 
 ## Upgrade steps
 
-Before upgrading Istio, it is recommended to run the `istioctl x precheck` command to make sure the upgrade is compatible with your environment.
+Before upgrading Istio, it is recommended to run the `istioctl x precheck` command
+to make sure the upgrade is compatible with your environment.
 
 {{< text bash >}}
 $ istioctl x precheck
@@ -27,7 +28,8 @@ $ istioctl x precheck
 {{< /text >}}
 
 {{< warning >}}
-[Helm does not upgrade or delete CRDs](https://helm.sh/docs/chart_best_practices/custom_resource_definitions/#some-caveats-and-explanations) when performing an upgrade. Because of this restriction, an additional step is required when upgrading Istio with Helm.
+[Helm does not upgrade or delete CRDs](https://helm.sh/docs/chart_best_practices/custom_resource_definitions/#some-caveats-and-explanations)
+when performing an upgrade. Because of this restriction, an additional step is required when upgrading Istio with Helm.
 {{< /warning >}}
 
 ### Canary upgrade (recommended)
@@ -66,7 +68,8 @@ primary and canary installations.
       istiod-canary-9cc9fd96f-jpc7n   1/1     Running   0          34m   canary
     {{< /text >}}
 
-1. If you are using [Istio gateways](/docs/setup/additional-setup/gateway/#deploying-a-gateway), install a canary revision of the Gateway chart by setting the revision value:
+1. If you are using [Istio gateways](/docs/setup/additional-setup/gateway/#deploying-a-gateway),
+   install a canary revision of the Gateway chart by setting the revision value:
 
     {{< text bash >}}
     $ helm install istio-ingress-canary istio/gateway \
@@ -83,7 +86,8 @@ primary and canary installations.
       istio-ingress-canary-5d649bd644-4m8lp   1/1     Running   0          3m24s   canary
     {{< /text >}}
 
-    See [Upgrading Gateways](/docs/setup/additional-setup/gateway/#canary-upgrade-advanced) for in-depth documentation on gateway canary upgrade.
+    See [Upgrading Gateways](/docs/setup/additional-setup/gateway/#canary-upgrade-advanced)
+    for in-depth documentation on gateway canary upgrade.
 
 1. Follow the steps [here](/docs/setup/upgrade/canary/#data-plane) to test or migrate
    existing workloads to use the canary control plane.
@@ -115,8 +119,9 @@ $ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisi
 {{< /text >}}
 
 {{< warning >}}
-These commands create new `MutatingWebhookConfiguration` resources in your cluster, however, they are not owned by any Helm chart due to `kubectl` manually applying the templates. See the instructions
-below to uninstall revision tags.
+These commands create new `MutatingWebhookConfiguration` resources in your cluster,
+however, they are not owned by any Helm chart due to `kubectl` manually applying the templates.
+See the instructions below to uninstall revision tags.
 {{< /warning >}}
 
 {{< boilerplate revision-tags-middle >}}

@@ -9,30 +9,48 @@ test: yes
 
 {{< boilerplate experimental-feature-warning >}}
 
-This guide walks you through the process of installing multiple Istio control planes within a single cluster and then a way to scope workloads to specific control planes. This deployment model has a single Kubernetes control plane with multiple Istio control planes and meshes. The separation between the meshes is provided by Kubernetes namespaces and RBAC.
+This guide walks you through the process of installing multiple Istio control planes
+within a single cluster and then a way to scope workloads to specific control planes.
+This deployment model has a single Kubernetes control plane with multiple Istio control
+planes and meshes. The separation between the meshes is provided by Kubernetes namespaces and RBAC.
 
 {{< image width="90%"
     link="single-cluster-multiple-istiods.svg"
     caption="Multiple meshes in a single cluster"
     >}}
 
-Using `discoverySelectors`, you can scope Kubernetes resources in a cluster to specific namespaces managed by an Istio control plane. This includes the Istio custom resources (e.g., Gateway, VirtualService, DestinationRule, etc.) used to configure the mesh. Furthermore, `discoverySelectors` can be used to configure which namespaces should include the `istio-ca-root-cert` config map for a particular Istio control plane. Together, these functions allow mesh operators to specify the namespaces for a given control plane, enabling soft multi-tenancy for multiple meshes based on the boundary of one or more namespaces. This guide uses `discoverySelectors`, along with the revisions capability of Istio, to demonstrate how two meshes can be deployed on a single cluster, each working with a properly scoped subset of the cluster's resources.
+Using `discoverySelectors`, you can scope Kubernetes resources in a cluster to specific
+namespaces managed by an Istio control plane. This includes the Istio custom resources
+(e.g., Gateway, VirtualService, DestinationRule, etc.) used to configure the mesh.
+Furthermore, `discoverySelectors` can be used to configure which namespaces should include
+the `istio-ca-root-cert` config map for a particular Istio control plane. Together, these
+functions allow mesh operators to specify the namespaces for a given control plane, enabling
+soft multi-tenancy for multiple meshes based on the boundary of one or more namespaces.
+This guide uses `discoverySelectors`, along with the revisions capability of Istio,
+to demonstrate how two meshes can be deployed on a single cluster, each working with
+a properly scoped subset of the cluster's resources.
 
 ## Before you begin
 
 This guide requires that you have a Kubernetes cluster with any of the
 [supported Kubernetes versions:](/docs/releases/supported-releases#support-status-of-istio-releases) {{< supported_kubernetes_versions >}}.
 
-This cluster will host two control planes installed in two different system namespaces. The mesh application workloads will run in multiple application-specific namespaces, each namespace associated with one or the other control plane based on revision and discovery selector configurations.
+This cluster will host two control planes installed in two different system namespaces.
+The mesh application workloads will run in multiple application-specific namespaces,
+each namespace associated with one or the other control plane based on revision and discovery selector configurations.
 
 ## Cluster configuration
 
 ### Deploying multiple control planes
 
-Deploying multiple Istio control planes on a single cluster can be achieved by using different system namespaces for each control plane.
-Istio revisions and `discoverySelectors` are then used to scope the resources and workloads that are managed by each control plane.
+Deploying multiple Istio control planes on a single cluster can be achieved by using
+different system namespaces for each control plane. Istio revisions and `discoverySelectors`
+are then used to scope the resources and workloads that are managed by each control plane.
+
 {{< warning >}}
-By default, Istio only uses `discoverySelectors` to scope workload endpoints. To enable full resource scoping, including configuration resources, the feature flag `ENABLE_ENHANCED_RESOURCE_SCOPING` must be set to true.
+By default, Istio only uses `discoverySelectors` to scope workload endpoints.
+To enable full resource scoping, including configuration resources,
+the feature flag `ENABLE_ENHANCED_RESOURCE_SCOPING` must be set to true.
 {{< /warning >}}
 
 1. Create the first system namespace, `usergroup-1`, and deploy istiod in it:
@@ -162,7 +180,11 @@ By default, Istio only uses `discoverySelectors` to scope workload endpoints. To
     istio-sidecar-injector-usergroup-2-usergroup-2   2          18m
     {{< /text >}}
 
-    Note that the output includes `istiod-default-validator` and `istio-revision-tag-default-usergroup-1`, which are the default webhook configurations used for handling requests coming from resources which are not associated with any revision. In a fully scoped environment where every control plane is associated with its resources through proper namespace labeling, there is no need for these default webhook configurations. They should never be invoked.
+    Note that the output includes `istiod-default-validator` and `istio-revision-tag-default-usergroup-1`,
+    which are the default webhook configurations used for handling requests coming from resources which
+    are not associated with any revision. In a fully scoped environment where every control plane is
+    associated with its resources through proper namespace labeling, there is no need for these default
+    webhook configurations. They should never be invoked.
 
 ### Deploy application workloads per usergroup
 
@@ -218,7 +240,9 @@ By default, Istio only uses `discoverySelectors` to scope workload endpoints. To
 
 ### Verify the application to control plane mapping
 
-Now that the applications are deployed, you can use the `istioctl ps` command to confirm that the application workloads are managed by their respective control plane, i.e., `app-ns-1` is managed by `usergroup-1`, `app-ns-2` and `app-ns-3` are managed by `usergroup-2`:
+Now that the applications are deployed, you can use the `istioctl ps` command to
+confirm that the application workloads are managed by their respective control plane,
+i.e., `app-ns-1` is managed by `usergroup-1`, `app-ns-2` and `app-ns-3` are managed by `usergroup-2`:
 
 {{< text bash >}}
 $ istioctl ps -i usergroup-1
@@ -238,7 +262,8 @@ sleep-78ff5975c6-nxtth.app-ns-3      Kubernetes     SYNCED     SYNCED     SYNCED
 
 ### Verify the application connectivity is ONLY within the respective usergroup
 
-1.  Send a request from the `sleep` pod in `app-ns-1` in `usergroup-1` to the `httpbin` service in `app-ns-2` in `usergroup-2`. The communication should fail:
+1.  Send a request from the `sleep` pod in `app-ns-1` in `usergroup-1` to the
+    `httpbin` service in `app-ns-2` in `usergroup-2`. The communication should fail:
 
     {{< text bash >}}
     $ kubectl -n app-ns-1 exec "$(kubectl -n app-ns-1 get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -sIL http://httpbin.app-ns-2.svc.cluster.local:8000
@@ -249,7 +274,8 @@ sleep-78ff5975c6-nxtth.app-ns-3      Kubernetes     SYNCED     SYNCED     SYNCED
     server: envoy
     {{< /text >}}
 
-1.  Send a request from the `sleep` pod in `app-ns-2` in `usergroup-2` to the `httpbin` service in `app-ns-3` in `usergroup-2`. The communication should work:
+1.  Send a request from the `sleep` pod in `app-ns-2` in `usergroup-2` to the
+    `httpbin` service in `app-ns-3` in `usergroup-2`. The communication should work:
 
     {{< text bash >}}
     $ kubectl -n app-ns-2 exec "$(kubectl -n app-ns-2 get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -sIL http://httpbin.app-ns-3.svc.cluster.local:8000
@@ -280,6 +306,7 @@ sleep-78ff5975c6-nxtth.app-ns-3      Kubernetes     SYNCED     SYNCED     SYNCED
     {{< /text >}}
 
 {{< warning >}}
-A Cluster Administrator must make sure that Mesh Administrators DO NOT have permission to invoke the global `istioctl uninstall --purge` command,
-because that would uninstall all control planes in the cluster.
+A Cluster Administrator must make sure that Mesh Administrators DO NOT have permission
+to invoke the global `istioctl uninstall --purge` command, because that would uninstall
+all control planes in the cluster.
 {{< /warning >}}

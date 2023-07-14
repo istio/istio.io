@@ -28,10 +28,15 @@ The variables specified in the command are as follows:
 * `<release>` A name to identify and manage the Helm chart once installed.
 * `<namespace>` The namespace in which the chart is to be installed.
 
-Default configuration values can be changed using one or more `--set <parameter>=<value>` arguments. Alternatively, you can specify several parameters in a custom values file using the `--values <file>` argument.
+Default configuration values can be changed using one or more `--set <parameter>=<value>` arguments.
+Alternatively, you can specify several parameters in a custom values file using the `--values <file>` argument.
 
 {{< tip >}}
-You can display the default values of configuration parameters using the `helm show values <chart>` command or refer to `artifacthub` chart documentation at [Custom Resource Definition parameters](https://artifacthub.io/packages/helm/istio-official/base?modal=values), [Istiod chart configuration parameters](https://artifacthub.io/packages/helm/istio-official/istiod?modal=values) and [Gateway chart configuration parameters](https://artifacthub.io/packages/helm/istio-official/gateway?modal=values).
+You can display the default values of configuration parameters using the `helm show values <chart>` command
+or refer to `artifacthub` chart documentation at
+[Custom Resource Definition parameters](https://artifacthub.io/packages/helm/istio-official/base?modal=values),
+[Istiod chart configuration parameters](https://artifacthub.io/packages/helm/istio-official/istiod?modal=values)
+and [Gateway chart configuration parameters](https://artifacthub.io/packages/helm/istio-official/gateway?modal=values).
 {{< /tip >}}
 
 1. Create the namespace, `istio-system`, for the Istio components:
@@ -43,7 +48,8 @@ You can display the default values of configuration parameters using the `helm s
     $ kubectl create namespace istio-system
     {{< /text >}}
 
-1. Install the Istio base chart which contains cluster-wide Custom Resource Definitions (CRDs) which must be installed prior to the deployment of the Istio control plane:
+1. Install the Istio base chart which contains cluster-wide Custom Resource Definitions (CRDs)
+   which must be installed prior to the deployment of the Istio control plane:
 
     {{< warning >}}
     When performing a revisioned installation, the base chart requires the `--set defaultRevision=<revision>` value to be set for resource
@@ -64,7 +70,8 @@ You can display the default values of configuration parameters using the `helm s
 
     In the output locate the entry for `istio-base` and make sure the status is set to `deployed`.
 
-1. If you intend to use Istio CNI chart you must do so now. See [Install Istio with the CNI plugin](/docs/setup/additional-setup/cni/#installing-with-helm) for more info.
+1. If you intend to use Istio CNI chart you must do so now. See
+   [Install Istio with the CNI plugin](/docs/setup/additional-setup/cni/#installing-with-helm) for more info.
 
 1. Install the Istio discovery chart which deploys the `istiod` service:
 
@@ -138,8 +145,8 @@ You can display the default values of configuration parameters using the `helm s
     {{< /warning >}}
 
 {{< tip >}}
-See [Advanced Helm Chart Customization](/docs/setup/additional-setup/customize-installation-helm/) for in-depth documentation on how to use
-Helm post-renderer to customize the Helm charts.
+See [Advanced Helm Chart Customization](/docs/setup/additional-setup/customize-installation-helm/)
+for in-depth documentation on how to use Helm post-renderer to customize the Helm charts.
 {{< /tip >}}
 
 ## Updating your Istio configuration
@@ -218,7 +225,8 @@ you can uninstall the newer revision and its tag by first issuing
 `helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags={prod-canary} --set revision=canary -n istio-system | kubectl delete -f -`.
 You must them uninstall the revision of Istio that it pointed to by following the uninstall procedure above.
 
-If you installed the gateway(s) for this revision using in-place upgrades, you must also reinstall the gateway(s) for the previous revision manually,
+If you installed the gateway(s) for this revision using in-place upgrades,
+you must also reinstall the gateway(s) for the previous revision manually,
 Removing the previous revision and its tags will not automatically revert the previously in-place upgraded gateway(s).
 
 ### (Optional) Deleting CRDs installed by Istio
