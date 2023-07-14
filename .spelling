@@ -331,6 +331,7 @@ CVE-2023-27491
 CVE-2023-27492
 CVE-2023-27493
 CVE-2023-27496
+CVE-2023-35945
 cves
 CVEs
 cvss
@@ -643,6 +644,7 @@ Liu
 liveness
 LoadBalancer
 loadimpact
+LoadReportingService
 localhost
 log_output_level
 Logics
