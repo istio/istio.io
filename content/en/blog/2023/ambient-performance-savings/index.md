@@ -1,7 +1,7 @@
 ---
 title: "Cut Service Mesh Overhead with Istio Ambient Mesh"
 description: An anaylsis of how cloud resources are utilized in ambient and sidecar service mesh architectures.
-publishdate: 2023-07-12
+publishdate: 2023-07-14
 attribution: "Greg Hanson - Solo.io"
 keywords: [istio,ambient,waypoint,ztunnel]
 ---
@@ -20,14 +20,14 @@ Our test scenario deploys four instances of the [Online Boutique](https://github
 - Ambient with L4 ztunnel only
 - Ambient with L4 ztunnel and L7 waypoint proxies (one per namespace, scaled to 3 replicas)
 
-Spoilers! There are significant savings across the board for all ambient scenarios when compared to sidecars – up to 99% savings with only L4 and 88% with L4+L7.
+Spoilers! There are significant savings across the board for all ambient scenarios when compared to sidecars – up to 99% savings with only L4 and 89% with L4+L7.
 
 {{< image width="100%"
     link="savings.png"
     caption="Total Memory and CPU: Consumption and Allocation"
     >}}
 
-Looking at [total CPU and memory consumption numbers](#a-closer-look), we have to remember that in the [ambient architecture](/blog/2022/introducing-ambient-mesh/), there are no sidecar containers for every application pod in the mesh. The result is that memory usage of Istio’s dataplane in the ztunnel-only ambient scenario sees *more than 99% savings* compared to sidecar scenarios, and still 88% savings when waypoints are added. Looking at CPU, ztunnel once again sees 82% savings compared to the sidecar scenario, and 40% savings when waypoints are deployed.
+Looking at [total CPU and memory consumption numbers](#a-closer-look), we have to remember that in the [ambient architecture](/blog/2022/introducing-ambient-mesh/), there are no sidecar containers for every application pod in the mesh. The result is that memory usage of Istio’s dataplane in the ztunnel-only ambient scenario sees *more than 99% savings* compared to sidecar scenarios, and still 89% savings when waypoints are added. Looking at CPU, ztunnel once again sees 82% savings compared to the sidecar scenario, and 40% savings when waypoints are deployed.
 
 ## Where the Savings Are Coming From
 
@@ -87,7 +87,7 @@ Next is memory usage by pod. In both ambient scenarios, the L4 ztunnel consumes 
     caption="Stacked memory usage by pod for sidecar and ambient pods"
     >}}
 
-Looking at total CPU and memory utilization, we have to remember that in sidecar scenarios there are 144 sidecar containers required (48 services, 3 replicas each), while in ambient, only three ztunnel containers and 12 waypoint proxies are required. The stacked CPU and memory by pod graphs are excellent at highlighting just how many additional containers are present between scenarios. Memory usage of the Istio dataplane in the ztunnel-only ambient scenario sees *more than 99% savings* compared to sidecar scenarios, and 88% when waypoints are added. Looking at CPU, ztunnel sees *82% savings* compared to sidecar scenarios, and 40% when waypoints are deployed.
+Looking at total CPU and memory utilization, we have to remember that in sidecar scenarios there are 144 sidecar containers required (48 services, 3 replicas each), while in ambient, only three ztunnel containers and 12 waypoint proxies are required. The stacked CPU and memory by pod graphs are excellent at highlighting just how many additional containers are present between scenarios. Memory usage of the Istio dataplane in the ztunnel-only ambient scenario sees *more than 99% savings* compared to sidecar scenarios, and 89% when waypoints are added. Looking at CPU, ztunnel sees *82% savings* compared to sidecar scenarios, and 40% when waypoints are deployed.
 
 Finally, let’s consider allocation since the graphs above have only covered usage. Every sidecar resource has a default request of 100 millicores vCPU and 128 MB memory. For simplicity, we assume ztunnels and waypoint proxies have similar requests and limits as their sidecar counterparts. Breaking it down, that’s a 98% reduction in allocated resources with ztunnel, and 90% when waypoints are included.
 
