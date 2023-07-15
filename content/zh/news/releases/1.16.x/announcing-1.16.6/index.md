@@ -7,7 +7,7 @@ publishdate: 2023-07-14
 release: 1.16.6
 ---
 
-该版本修复了于 7 月 14 日发布的 [ISTIO-SECURITY-2023-002](/news/security/istio-security-2023-002)
+该版本修复了于 7 月 14 日发布的 [ISTIO-SECURITY-2023-002](/zh/news/security/istio-security-2023-002)
 中阐述的安全漏洞。
 
 本发布说明描述了 Istio 1.16.5 和 Istio 1.16.6 之间的不同之处。
