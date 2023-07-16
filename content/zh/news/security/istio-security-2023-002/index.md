@@ -15,7 +15,7 @@ skip_seealso: true
 
 ## CVE
 
-### Envoy CVEs {#envoy-cves}
+### Envoy CVE {#envoy-cves}
 
 - __[CVE-2023-35945](https://github.com/envoyproxy/envoy/security/advisories/GHSA-jfxv-29pc-x22r)__:
   (CVSS Score 7.5, High)：`nghttp2` 编解码器中的 HTTP/2 内存泄漏。
