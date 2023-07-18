@@ -89,7 +89,7 @@ istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKIN
 }
 
 snip_attach_cluster2_as_a_remote_cluster_of_cluster1_1() {
-istioctl x create-remote-secret \
+istioctl create-remote-secret \
     --context="${CTX_CLUSTER2}" \
     --name=cluster2 | \
     kubectl apply -f - --context="${CTX_CLUSTER1}"
