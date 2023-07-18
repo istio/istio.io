@@ -5,10 +5,10 @@ weight: 0
 keywords: [telemetry]
 owner: istio/wg-policies-and-telemetry-maintainers
 test: no
-status: Experimental
+status: Alpha
 ---
 
-{{< boilerplate experimental >}}
+{{< boilerplate alpha >}}
 
 Istio 提供 [Telemetry API](/zh/docs/reference/config/telemetry/)，
 能够灵活地配置[指标](/zh/docs/tasks/observability/metrics/)、
