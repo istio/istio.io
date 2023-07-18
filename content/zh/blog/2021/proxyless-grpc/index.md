@@ -33,7 +33,7 @@ Istio 1.11 中新增了直接向网格添加 gRPC 服务的实验性支持。
     * 基于权重的流量转移。
 * [`PeerAuthentication`](/zh/docs/reference/config/security/peer_authentication/)：
     * 仅支持 `DISABLE` 和 `STRICT`。其他模式将被视为 `DISABLE`。
-    * 未来版本中可能会支持 Auto-mTLS。
+    * 未来版本中可能会支持自动 mTLS。
 
 未来版本可能会支持包括：故障、重试、超时、镜像和重写规则等其他功能。
 其中部分功能正在等待基于 gRPC 的实现，另外一部分功能则需要 Istio 来支持。
