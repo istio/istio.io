@@ -8,7 +8,7 @@ test: no
 status: Experimental
 ---
 
-{{< boilerplate experimental >}}
+{{< boilerplate alpha >}}
 
 Istio provides a [Telemetry API](/docs/reference/config/telemetry/) that enables flexible configuration of
 [metrics](/docs/tasks/observability/metrics/), [access logs](/docs/tasks/observability/logs/), and [tracing](/docs/tasks/observability/distributed-tracing/).
