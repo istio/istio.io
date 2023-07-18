@@ -355,7 +355,7 @@ Handling connection for 17171
 
 在该初始版本中存在一些限制，可能会在未来版本中修复：
 
-* 不支持 Auto-mTLS，也不支持容忍模式。我们需要在服务端使用 `STRICT`
+* 不支持自动 mTLS，也不支持容忍模式。我们需要在服务端使用 `STRICT`
   以及在客户端使用 `ISTIO_MUTUAL` 进行显式 mTLS 配置。
   在迁移到 `STRICT` 期间可以使用 Envoy 过渡。
 * 在写入引导程序或 xDS 代理准备就绪之前调用 `grpc.Serve(listener)`
