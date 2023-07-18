@@ -8,7 +8,7 @@ attribution: "Steven Landow (Google); Translated by Wilson Wu (DaoCloud)"
 在 Istio 中，通过使用一组发现 API 对其 Envoy Sidecar 代理进行动态配置，
 这组 API 统称为 [xDS API](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/operations/dynamic_configuration)。
 这些 API 也希望成为[通用数据平面 API](https://blog.envoyproxy.io/the-universal-data-plane-api-d15cec7a?gi=64aa2eea0283)。
-gRPC 项目已经对 xDS API 提供支持，这意味着您无需为其部署
+gRPC 项目对 xDS API 提供了重要支持，这意味着您无需为其部署
 Envoy Sidecar 就可以对 gRPC 工作负载进行管理。您可以在
 [Megan Yahya 的 KubeCon EU 2021 演讲](https://www.youtube.com/watch?v=cGJXkZ7jiDk)中了解相关集成的更多信息。
 有关 gRPC 支持的最新更新以及实施状态可以在其[提案](https://github.com/grpc/proposal/search?q=xds)中找到。
