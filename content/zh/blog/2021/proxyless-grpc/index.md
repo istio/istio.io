@@ -63,7 +63,7 @@ Istio 的相关支持状态将在未来的官方文档中发布。
 ## 修改应用程序代码 {#changes-to-application-code}
 
 {{< tip >}}
-本节内容涵盖在 Go 语言中 gRPC 的 xDS 支持。其他语言中也存在类似 API。
+本节内容涵盖了在 Go 语言中 gRPC 对 xDS 的支持。其他语言中也存在类似 API。
 {{< /tip >}}
 
 要在 gRPC 中启用 xDS 功能，您的应用程序必须进行一些必要的修改。
