@@ -22,9 +22,6 @@ MOD_STRING=$(grep gateway-api go.mod | awk '{ print $2 }')
 # Does MOD_STRING contain a -? Yes, parse out short sha and get the full sha. If not, then this is the version needed.
 if [[ "$MOD_STRING" == *"-"* ]]; then
   IFS='-' read -ra SPLITS <<< "$MOD_STRING"
-  SHORT_SHA=${SPLITS[2]}
-  FULL_SHA=$(gh search commits -R kubernetes-sigs\/gateway-api --hash ${SHORT_SHA} | tail -n 1 | awk '{ print $2 }')
-  echo ${FULL_SHA}
-else
-  echo ${MOD_STRING}
+  MOD_STRING=${SPLITS[0]}
 fi
+echo "${MOD_STRING}"
