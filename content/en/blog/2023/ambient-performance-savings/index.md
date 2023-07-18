@@ -65,7 +65,7 @@ Let’s start by looking at CPU usage by pod. In the sidecar scenarios, the cont
 
 In the ambient scenarios, a particular ztunnel's performance depends on the distribution of services across the nodes in the cluster. Ztunnels do use more CPU than a sidecar, but each ztunnel is handling inbound and outbound connections for about 48 application pods whereas a sidecar is responsible for only one.  In the ambient with both ztunnel and waypoint proxy scenario, there is an increase in average CPU usage per ztunnel as traffic is now directed to waypoint proxies. The waypoint proxies themselves consume more resources than their sidecar counterparts.  This is expected since there are only 3 waypoints handling L7 processing for all 48 pods in the namespace.
 
-Next is memory usage by pod. In both ambient scenarios, the L4 ztunnel consumes less memory than a sidecar. In fact, in the L4 only scenario, almost all three ztunnel instances combined consume less memory than a single sidecar. Ztunnels are able to serve multiple applications while consuming fewer resources than sidecars because they are lightweight and written in Rust. Waypoint proxies consume a similar amount of resources as sidecars do, but once again see a minor increase due to the same reasons outlined above for CPU. So what do these per pod usages mean for the totals across the cluster? Everything.
+Next is memory usage by pod. In both ambient scenarios, the L4 ztunnel consumes less memory than a sidecar. In fact, in the L4 only scenario, almost all three ztunnel instances combined consume less memory than a single sidecar. Ztunnels are able to serve multiple applications while consuming fewer resources than sidecars because they are purpose built, and designed to have a small footprint. For a more in depth explanation of how this is done, refer to this [blog](/blog/2023/rust-based-ztunnel/#a-purpose-built-ztunnel). Waypoint proxies consume a similar amount of resources as sidecars do, but once again see a minor increase due to the same reasons outlined above for CPU. So what do these per pod usages mean for the totals across the cluster? Everything.
 
 {{< image width="100%"
     link="total-cpu.png"
@@ -101,12 +101,14 @@ Going further, we can calculate a dollar amount for these numbers by referring t
 - `n2-standard-4` (4 CPU, 16 GB) at $141/month
 - `n2-highmem-4` (4 CPU, 32 GB) at $191/month
 
-Calculating the difference in memory results in 1GB costing $3.33/month. Similarly for CPU:
+Calculating the difference in memory shows 1GB costs $3.33/month. In our test this brings memory costs from $60 down to only $1 in the ztunnel-only scenario, and $6 with waypoints deployed.  Similarly for CPU:
 
 - `n2-standard-4` (4 CPU, 16 GB) at $141/month
 - `n2-highmem-2` (2 CPU, 16 GB) at $95/month
 
-Calculating the difference results in 1 CPU costing approximately $23/month. We can literally put a dollar amount on the savings ambient brings!
+Calculating the difference in CPU shows 1 CPU costs $23/month. In our test this brings CPU costs from over $300 down to only $7 in the ztunnel-only scenario, and $34 with waypoints deployed
+
+We can literally put a dollar amount on the savings ambient brings - and so can you!
 
 ## Test It Out
 
