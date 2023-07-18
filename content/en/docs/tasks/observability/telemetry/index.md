@@ -5,7 +5,7 @@ weight: 0
 keywords: [telemetry]
 owner: istio/wg-policies-and-telemetry-maintainers
 test: no
-status: Experimental
+status: Alpha
 ---
 
 {{< boilerplate alpha >}}
