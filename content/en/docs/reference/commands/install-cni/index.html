@@ -732,6 +732,12 @@ These environment variables affect the behavior of the <code>install-cni</code> 
 <td>If true, the DNS name table for a headless service will resolve to same-network endpoints in any cluster.</td>
 </tr>
 <tr>
+<td><code>ENABLE_NATIVE_SIDECARS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If set, used Kubernetes native Sidecar container support. Requires SidecarContainer feature flag.</td>
+</tr>
+<tr>
 <td><code>ENABLE_TLS_ON_SIDECAR_INGRESS</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -1234,6 +1240,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Limits the number of incoming XDS requests per second. On larger machines this can be increased to handle more proxies concurrently.</td>
 </tr>
 <tr>
+<td><code>PILOT_MULTI_NETWORK_DISCOVER_GATEWAY_API</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true, Pilot will discover labeled Kubernetes gateway objects as multi-network gateways.</td>
+</tr>
+<tr>
 <td><code>PILOT_PERSISTENT_SESSION_HEADER_LABEL</code></td>
 <td>String</td>
 <td><code>istio.io/persistent-session-header</code></td>
@@ -1516,6 +1528,7 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <tr><td><code>pilot_conflict_outbound_listener_tcp_over_current_http</code></td><td><code>LastValue</code></td><td>Number of conflicting wildcard tcp listeners with current wildcard http listener.</td></tr>
 <tr><td><code>pilot_conflict_outbound_listener_tcp_over_current_tcp</code></td><td><code>LastValue</code></td><td>Number of conflicting tcp listeners with current tcp listener.</td></tr>
 <tr><td><code>pilot_destrule_subsets</code></td><td><code>LastValue</code></td><td>Duplicate subsets across destination rules for same host</td></tr>
+<tr><td><code>pilot_dns_cluster_without_endpoints</code></td><td><code>LastValue</code></td><td>DNS clusters without endpoints caused by the endpoint field in STRICT_DNS type cluster is not set or the corresponding subset cannot select any endpoint</td></tr>
 <tr><td><code>pilot_duplicate_envoy_clusters</code></td><td><code>LastValue</code></td><td>Duplicate envoy clusters caused by service entries with same hostname</td></tr>
 <tr><td><code>pilot_eds_no_instances</code></td><td><code>LastValue</code></td><td>Number of clusters without instances.</td></tr>
 <tr><td><code>pilot_endpoint_not_ready</code></td><td><code>LastValue</code></td><td>Endpoint found in unready state.</td></tr>
@@ -1526,5 +1539,9 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <tr><td><code>pilot_virt_services</code></td><td><code>LastValue</code></td><td>Total virtual services known to pilot.</td></tr>
 <tr><td><code>pilot_vservice_dup_domain</code></td><td><code>LastValue</code></td><td>Virtual services with dup domains.</td></tr>
 <tr><td><code>provider_lookup_cluster_failures</code></td><td><code>Sum</code></td><td>Number of times a cluster lookup failed</td></tr>
+<tr><td><code>xds_cache_dependent_config_size</code></td><td><code>LastValue</code></td><td>Current size of dependent configs</td></tr>
+<tr><td><code>xds_cache_evictions</code></td><td><code>Sum</code></td><td>Total number of xds cache evictions.</td></tr>
+<tr><td><code>xds_cache_reads</code></td><td><code>Sum</code></td><td>Total number of xds cache xdsCacheReads.</td></tr>
+<tr><td><code>xds_cache_size</code></td><td><code>LastValue</code></td><td>Current size of xds cache</td></tr>
 </tbody>
 </table>

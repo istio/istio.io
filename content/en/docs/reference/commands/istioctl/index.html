@@ -6942,6 +6942,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>If true, the DNS name table for a headless service will resolve to same-network endpoints in any cluster.</td>
 </tr>
 <tr>
+<td><code>ENABLE_NATIVE_SIDECARS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If set, used Kubernetes native Sidecar container support. Requires SidecarContainer feature flag.</td>
+</tr>
+<tr>
 <td><code>ENABLE_PROBE_KEEPALIVE_CONNECTIONS</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -7482,6 +7488,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Limits the number of incoming XDS requests per second. On larger machines this can be increased to handle more proxies concurrently.</td>
 </tr>
 <tr>
+<td><code>PILOT_MULTI_NETWORK_DISCOVER_GATEWAY_API</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true, Pilot will discover labeled Kubernetes gateway objects as multi-network gateways.</td>
+</tr>
+<tr>
 <td><code>PILOT_PERSISTENT_SESSION_HEADER_LABEL</code></td>
 <td>String</td>
 <td><code>istio.io/persistent-session-header</code></td>
@@ -7712,9 +7724,11 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <tr><td><code>pilot_conflict_outbound_listener_tcp_over_current_tcp</code></td><td><code>LastValue</code></td><td>Number of conflicting tcp listeners with current tcp listener.</td></tr>
 <tr><td><code>pilot_debounce_time</code></td><td><code>Distribution</code></td><td>Delay in seconds between the first config enters debouncing and the merged push request is pushed into the push queue.</td></tr>
 <tr><td><code>pilot_destrule_subsets</code></td><td><code>LastValue</code></td><td>Duplicate subsets across destination rules for same host</td></tr>
+<tr><td><code>pilot_dns_cluster_without_endpoints</code></td><td><code>LastValue</code></td><td>DNS clusters without endpoints caused by the endpoint field in STRICT_DNS type cluster is not set or the corresponding subset cannot select any endpoint</td></tr>
 <tr><td><code>pilot_duplicate_envoy_clusters</code></td><td><code>LastValue</code></td><td>Duplicate envoy clusters caused by service entries with same hostname</td></tr>
 <tr><td><code>pilot_eds_no_instances</code></td><td><code>LastValue</code></td><td>Number of clusters without instances.</td></tr>
 <tr><td><code>pilot_endpoint_not_ready</code></td><td><code>LastValue</code></td><td>Endpoint found in unready state.</td></tr>
+<tr><td><code>pilot_envoy_filter_status</code></td><td><code>LastValue</code></td><td>Status of Envoy filters whether it was applied or errored.</td></tr>
 <tr><td><code>pilot_inbound_updates</code></td><td><code>Sum</code></td><td>Total number of updates received by pilot.</td></tr>
 <tr><td><code>pilot_jwks_resolver_network_fetch_fail_total</code></td><td><code>Sum</code></td><td>Total number of failed network fetch by pilot jwks resolver</td></tr>
 <tr><td><code>pilot_jwks_resolver_network_fetch_success_total</code></td><td><code>Sum</code></td><td>Total number of successfully network fetch by pilot jwks resolver</td></tr>
@@ -7771,5 +7785,9 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <tr><td><code>webhook_patch_attempts_total</code></td><td><code>Sum</code></td><td>Webhook patching attempts</td></tr>
 <tr><td><code>webhook_patch_failures_total</code></td><td><code>Sum</code></td><td>Webhook patching total failures</td></tr>
 <tr><td><code>webhook_patch_retries_total</code></td><td><code>Sum</code></td><td>Webhook patching retries</td></tr>
+<tr><td><code>xds_cache_dependent_config_size</code></td><td><code>LastValue</code></td><td>Current size of dependent configs</td></tr>
+<tr><td><code>xds_cache_evictions</code></td><td><code>Sum</code></td><td>Total number of xds cache evictions.</td></tr>
+<tr><td><code>xds_cache_reads</code></td><td><code>Sum</code></td><td>Total number of xds cache xdsCacheReads.</td></tr>
+<tr><td><code>xds_cache_size</code></td><td><code>LastValue</code></td><td>Current size of xds cache</td></tr>
 </tbody>
 </table>
