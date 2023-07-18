@@ -53,7 +53,7 @@ Follow these steps to get started with ambient:
 
     {{< text bash >}}
     $ kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
-      { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v0.6.1" | kubectl apply -f -; }
+      { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v0.7.1" | kubectl apply -f -; }
     {{< /text >}}
 
     {{< tip >}}
@@ -471,5 +471,5 @@ $ kubectl delete -f @samples/sleep/notsleep.yaml@
 If you installed the Gateway API CRDs, remove them:
 
 {{< text bash >}}
-$ kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v0.6.1" | kubectl delete -f -
+$ kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v0.7.1" | kubectl delete -f -
 {{< /text >}}
