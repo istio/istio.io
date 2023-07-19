@@ -76,7 +76,7 @@ $ istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
 在 `cluster2` 中安装从集群的 secret，该 secret 提供 `cluster1` 的 API 服务器的访问权限。
 
 {{< text bash >}}
-$ istioctl x create-remote-secret \
+$ istioctl create-remote-secret \
     --context="${CTX_CLUSTER1}" \
     --name=cluster1 | \
     kubectl apply -f - --context="${CTX_CLUSTER2}"
@@ -85,7 +85,7 @@ $ istioctl x create-remote-secret \
 在 `cluster1` 中安装从集群的 secret，该 secret 提供 `cluster2` 的 API 服务器的访问权限。
 
 {{< text bash >}}
-$ istioctl x create-remote-secret \
+$ istioctl create-remote-secret \
     --context="${CTX_CLUSTER2}" \
     --name=cluster2 | \
     kubectl apply -f - --context="${CTX_CLUSTER1}"
