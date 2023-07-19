@@ -133,7 +133,7 @@ kubectl create namespace external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
 
 snip_set_up_the_control_plane_in_the_external_cluster_2() {
 kubectl create sa istiod-service-account -n external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
-istioctl x create-remote-secret \
+istioctl create-remote-secret \
   --context="${CTX_REMOTE_CLUSTER}" \
   --type=config \
   --namespace=external-istiod \
@@ -485,7 +485,7 @@ istio-sidecar-injector-external-istiod   4          4m13s
 ENDSNIP
 
 snip_register_the_new_cluster_6() {
-istioctl x create-remote-secret \
+istioctl create-remote-secret \
   --context="${CTX_SECOND_CLUSTER}" \
   --name="${SECOND_CLUSTER_NAME}" \
   --type=remote \

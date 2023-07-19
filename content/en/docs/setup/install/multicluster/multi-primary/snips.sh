@@ -57,14 +57,14 @@ istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKIN
 }
 
 snip_enable_endpoint_discovery_1() {
-istioctl x create-remote-secret \
+istioctl create-remote-secret \
     --context="${CTX_CLUSTER1}" \
     --name=cluster1 | \
     kubectl apply -f - --context="${CTX_CLUSTER2}"
 }
 
 snip_enable_endpoint_discovery_2() {
-istioctl x create-remote-secret \
+istioctl create-remote-secret \
     --context="${CTX_CLUSTER2}" \
     --name=cluster2 | \
     kubectl apply -f - --context="${CTX_CLUSTER1}"
