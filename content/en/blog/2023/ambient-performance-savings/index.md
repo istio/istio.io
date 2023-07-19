@@ -106,7 +106,7 @@ Calculating the difference in memory shows 1GB costs $3.33/month. In our test th
 - `n2-standard-4` (4 CPU, 16 GB) at $141/month
 - `n2-highmem-2` (2 CPU, 16 GB) at $95/month
 
-Calculating the difference in CPU shows 1 CPU costs $23/month. In our test this brings CPU costs from over $300 down to only $7 in the ztunnel-only scenario, and $34 with waypoints deployed
+Calculating the difference in CPU shows 1 CPU costs $23/month. In our test this brings CPU costs from over $300 down to only $7 in the ztunnel-only scenario, and $34 with waypoints deployed.
 
 We can literally put a dollar amount on the savings ambient brings - and so can you!
 
