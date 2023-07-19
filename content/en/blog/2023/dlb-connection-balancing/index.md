@@ -29,7 +29,7 @@ Now, Envoy has an integrated Intel® Dynamic Load Balancing (Intel®DLB) connect
 
 ## How Intel® Dynamic Load Balancing accelerates connection load balancing in Envoy
 
-Intel DLB is a hardware managed system of queues and arbiters connecting producers and consumers. It is a PCI device envisaged to live in the server CPU uncore and can interact with software running on cores, and potentially with other devices.
+Intel DLB is a hardware managed system of queues and arbiters connecting producers and consumers. It is a PCI device envisaged to live in the server CPU [uncore](https://en.wikipedia.org/wiki/Uncore) and can interact with software running on cores, and potentially with other devices.
 
 Intel DLB implements the following load balancing features:
 
@@ -304,4 +304,4 @@ $ kubectl logs -n istio-system ${POD} | grep dlb
 2023-05-05T06:37:45.975215Z     debug   envoy connection external/envoy/contrib/network/connection_balance/dlb/source/connection_balancer_impl.cc:283   worker_0 dlb receive none, skip thread=46
 {{< /text >}}
 
-For more details about Istio Ingress Gateway, please refer to [Istio Ingress Gateway Official Doc](../../../docs/tasks/traffic-management/ingress/ingress-control/).
+For more details about Istio Ingress Gateway, please refer to [Istio Ingress Gateway Official Doc](/docs/tasks/traffic-management/ingress/ingress-control/).
