@@ -1166,6 +1166,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>If set, used Kubernetes native Sidecar container support. Requires SidecarContainer feature flag.</td>
 </tr>
 <tr>
+<td><code>ENABLE_OPTIMIZED_CONFIG_REBUILD</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, pilot will only rebuild config for resources that have changed</td>
+</tr>
+<tr>
 <td><code>ENABLE_PROBE_KEEPALIVE_CONNECTIONS</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
