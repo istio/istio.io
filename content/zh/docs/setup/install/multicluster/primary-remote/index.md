@@ -168,7 +168,7 @@ $ istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
 我们生成一个远程 Secret 并将其应用于 `cluster1`：
 
 {{< text bash >}}
-$ istioctl x create-remote-secret \
+$ istioctl create-remote-secret \
     --context="${CTX_CLUSTER2}" \
     --name=cluster2 | \
     kubectl apply -f - --context="${CTX_CLUSTER1}"
