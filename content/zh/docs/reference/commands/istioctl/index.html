@@ -874,6 +874,110 @@ to enable it.  You can execute the following once:</p>
 </tr>
 </tbody>
 </table>
+<h2 id="istioctl-create-remote-secret">istioctl create-remote-secret</h2>
+<p>Create a secret with credentials to allow Istio to access remote Kubernetes apiservers</p>
+<pre class="language-bash"><code>istioctl create-remote-secret [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--auth-plugin-config &lt;stringToString&gt;</code></td>
+<td></td>
+<td>Authenticator plug-in configuration. --auth-type=plugin must be set with this option  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--auth-plugin-name &lt;string&gt;</code></td>
+<td></td>
+<td>Authenticator plug-in name. --auth-type=plugin must be set with this option  (default ``)</td>
+</tr>
+<tr>
+<td><code>--auth-type &lt;RemoteSecretAuthType&gt;</code></td>
+<td></td>
+<td>Type of authentication to use. supported values = [bearer-token plugin]  (default `bearer-token`)</td>
+</tr>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>Kubernetes configuration context  (default ``)</td>
+</tr>
+<tr>
+<td><code>--create-service-account</code></td>
+<td></td>
+<td>If true, the service account needed for creating the remote secret will be created if it doesn&#39;t exist. </td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--manifests &lt;string&gt;</code></td>
+<td><code>-d</code></td>
+<td>Specify a path to a directory of charts and profiles
+(e.g. ~/Downloads/istio-1.19.0/manifests).  (default ``)</td>
+</tr>
+<tr>
+<td><code>--name &lt;string&gt;</code></td>
+<td></td>
+<td>Name of the local cluster whose credentials are stored in the secret. If a name is not specified the kube-system namespace&#39;s UUID of the local cluster will be used.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Kubernetes namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--secret-name &lt;string&gt;</code></td>
+<td></td>
+<td>The name of the specific secret to use from the service-account. Needed when there are multiple secrets in the service account.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--server &lt;string&gt;</code></td>
+<td></td>
+<td>The address and port of the Kubernetes API server.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--service-account &lt;string&gt;</code></td>
+<td></td>
+<td>Create a secret with this service account&#39;s credentials. Default value is &#34;istio-reader-service-account&#34; if --type is &#34;remote&#34;, &#34;istiod&#34; if --type is &#34;config&#34;.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--type &lt;SecretType&gt;</code></td>
+<td></td>
+<td>Type of the generated secret. supported values = [remote config]  (default `remote`)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-create-remote-secret Examples">Examples</h3>
+<pre class="language-bash"><code>  # Create a secret to access cluster c0&#39;s apiserver and install it in cluster c1.
+  istioctl --kubeconfig=c0.yaml create-remote-secret --name c0 \
+    | kubectl --kubeconfig=c1.yaml apply -f -
+
+  # Delete a secret that was previously installed in c1
+  istioctl --kubeconfig=c0.yaml create-remote-secret --name c0 \
+    | kubectl --kubeconfig=c1.yaml delete -f -
+
+  # Create a secret access a remote cluster with an auth plugin
+  istioctl --kubeconfig=c0.yaml create-remote-secret --name c0 --auth-type=plugin --auth-plugin-name=gcp \
+    | kubectl --kubeconfig=c1.yaml apply -f -
+</code></pre>
 <h2 id="istioctl-dashboard">istioctl dashboard</h2>
 <p>Access to Istio web UIs</p>
 <pre class="language-bash"><code>istioctl dashboard [flags]
@@ -1770,110 +1874,6 @@ Checks associated resources of the given resource, and running webhooks to exami
 </tr>
 </tbody>
 </table>
-<h2 id="istioctl-experimental-create-remote-secret">istioctl experimental create-remote-secret</h2>
-<p>Create a secret with credentials to allow Istio to access remote Kubernetes apiservers</p>
-<pre class="language-bash"><code>istioctl experimental create-remote-secret [flags]
-</code></pre>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--auth-plugin-config &lt;stringToString&gt;</code></td>
-<td></td>
-<td>Authenticator plug-in configuration. --auth-type=plugin must be set with this option  (default `[]`)</td>
-</tr>
-<tr>
-<td><code>--auth-plugin-name &lt;string&gt;</code></td>
-<td></td>
-<td>Authenticator plug-in name. --auth-type=plugin must be set with this option  (default ``)</td>
-</tr>
-<tr>
-<td><code>--auth-type &lt;RemoteSecretAuthType&gt;</code></td>
-<td></td>
-<td>Type of authentication to use. supported values = [bearer-token plugin]  (default `bearer-token`)</td>
-</tr>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>Kubernetes configuration context  (default ``)</td>
-</tr>
-<tr>
-<td><code>--create-service-account</code></td>
-<td></td>
-<td>If true, the service account needed for creating the remote secret will be created if it doesn&#39;t exist. </td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--manifests &lt;string&gt;</code></td>
-<td><code>-d</code></td>
-<td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.19.0/manifests).  (default ``)</td>
-</tr>
-<tr>
-<td><code>--name &lt;string&gt;</code></td>
-<td></td>
-<td>Name of the local cluster whose credentials are stored in the secret. If a name is not specified the kube-system namespace&#39;s UUID of the local cluster will be used.  (default ``)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Kubernetes namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--secret-name &lt;string&gt;</code></td>
-<td></td>
-<td>The name of the specific secret to use from the service-account. Needed when there are multiple secrets in the service account.  (default ``)</td>
-</tr>
-<tr>
-<td><code>--server &lt;string&gt;</code></td>
-<td></td>
-<td>The address and port of the Kubernetes API server.  (default ``)</td>
-</tr>
-<tr>
-<td><code>--service-account &lt;string&gt;</code></td>
-<td></td>
-<td>Create a secret with this service account&#39;s credentials. Default value is &#34;istio-reader-service-account&#34; if --type is &#34;remote&#34;, &#34;istiod&#34; if --type is &#34;config&#34;.  (default ``)</td>
-</tr>
-<tr>
-<td><code>--type &lt;SecretType&gt;</code></td>
-<td></td>
-<td>Type of the generated secret. supported values = [remote config]  (default `remote`)</td>
-</tr>
-<tr>
-<td><code>--vklog &lt;Level&gt;</code></td>
-<td></td>
-<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="istioctl-experimental-create-remote-secret Examples">Examples</h3>
-<pre class="language-bash"><code>  # Create a secret to access cluster c0&#39;s apiserver and install it in cluster c1.
-  istioctl --kubeconfig=c0.yaml create-remote-secret --name c0 \
-    | kubectl --kubeconfig=c1.yaml apply -f -
-
-  # Delete a secret that was previously installed in c1
-  istioctl --kubeconfig=c0.yaml create-remote-secret --name c0 \
-    | kubectl --kubeconfig=c1.yaml delete -f -
-
-  # Create a secret access a remote cluster with an auth plugin
-  istioctl --kubeconfig=c0.yaml create-remote-secret --name c0 --auth-type=plugin --auth-plugin-name=gcp \
-    | kubectl --kubeconfig=c1.yaml apply -f -
-</code></pre>
 <h2 id="istioctl-experimental-describe">istioctl experimental describe</h2>
 <p>Describe resource and related Istio configuration</p>
 <pre class="language-bash"><code>istioctl experimental describe [flags]
@@ -2553,51 +2553,6 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
   istioctl x ps --xds-label istio.io/rev=default
 
 </code></pre>
-<h2 id="istioctl-experimental-remote-clusters">istioctl experimental remote-clusters</h2>
-<p>Lists the remote clusters each istiod instance is connected to.</p>
-<pre class="language-bash"><code>istioctl experimental remote-clusters [flags]
-</code></pre>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>Kubernetes configuration context  (default ``)</td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Kubernetes namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--revision &lt;string&gt;</code></td>
-<td><code>-r</code></td>
-<td>Control plane revision  (default ``)</td>
-</tr>
-<tr>
-<td><code>--vklog &lt;Level&gt;</code></td>
-<td></td>
-<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
-</tr>
-</tbody>
-</table>
 <h2 id="istioctl-experimental-revision">istioctl experimental revision</h2>
 <p>The revision command provides a revision centric view of istio deployments. It provides insight into IstioOperator CRs defining the revision, istiod and gateway pods which are part of deployment of a particular revision.</p>
 <table class="command-flags">
@@ -6105,6 +6060,51 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
   istioctl proxy-status istio-egressgateway-59585c5b9c-ndc59.istio-system --file cd.json
 
 </code></pre>
+<h2 id="istioctl-remote-clusters">istioctl remote-clusters</h2>
+<p>Lists the remote clusters each istiod instance is connected to.</p>
+<pre class="language-bash"><code>istioctl remote-clusters [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>Kubernetes configuration context  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Kubernetes namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--revision &lt;string&gt;</code></td>
+<td><code>-r</code></td>
+<td>Control plane revision  (default ``)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
+</tbody>
+</table>
 <h2 id="istioctl-tag">istioctl tag</h2>
 <p>Command group used to interact with revision tags. Revision tags allow for the creation of mutable aliases
 referring to control plane revisions for sidecar injection.</p>
