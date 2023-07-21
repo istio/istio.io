@@ -2244,6 +2244,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>If enabled, addition runtime asserts will be performed. These checks are both expensive and panic on failure. As a result, this should be used only for testing.</td>
 </tr>
 <tr>
+<td><code>USE_EXTERNAL_WORKLOAD_SDS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>When set to true, the istio-agent will require an external SDS and will throw an error if the workload SDS socket is not found</td>
+</tr>
+<tr>
 <td><code>VALIDATION_WEBHOOK_CONFIG_NAME</code></td>
 <td>String</td>
 <td><code>istio-istio-system</code></td>
