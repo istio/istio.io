@@ -175,7 +175,7 @@ test: no
 
 ## 配置虚拟机的命名空间 {#configure-the-virtual-machine-namespace}
 
-1. 创建用于托管虚拟机的名称空间：
+1. 创建用于托管虚拟机的命名空间：
 
     {{< text syntax=bash snip_id=install_namespace >}}
     $ kubectl create namespace "${VM_NAMESPACE}"
@@ -284,7 +284,7 @@ EOF
 
 接下来，使用 `istioctl x workload entry` 命令来生成:
 
-* `cluster.env`: 包含用来识别名称空间、服务帐户、网络 CIDR、和入站端口(可选)的元数据。
+* `cluster.env`: 包含用来识别命名空间、服务帐户、网络 CIDR、和入站端口(可选)的元数据。
 * `istio-token`: 用来从 CA 获取证书的 Kubernetes 令牌。
 * `mesh.yaml`: 提供 `ProxyConfig` 来配置 `discoveryAddress`, 健康检查, 以及一些认证操作。
 * `root-cert.pem`: 用于认证的根证书。
