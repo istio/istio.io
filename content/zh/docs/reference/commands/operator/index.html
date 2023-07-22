@@ -503,6 +503,12 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>If true, Istio will enable the Dual Stack feature.</td>
 </tr>
 <tr>
+<td><code>ISTIO_ENABLE_CONTROLLER_QUEUE_METRICS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, publishes metrics for queue depth, latency and processing times.</td>
+</tr>
+<tr>
 <td><code>ISTIO_ENABLE_HTTP2_PROBING</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -1165,6 +1171,9 @@ These environment variables affect the behavior of the <code>operator</code> com
 <tr><td><code>pilot_total_xds_rejects</code></td><td><code>Sum</code></td><td>Total number of XDS responses from pilot rejected by proxy.</td></tr>
 <tr><td><code>pilot_virt_services</code></td><td><code>LastValue</code></td><td>Total virtual services known to pilot.</td></tr>
 <tr><td><code>pilot_vservice_dup_domain</code></td><td><code>LastValue</code></td><td>Virtual services with dup domains.</td></tr>
+<tr><td><code>pilot_worker_queue_depth</code></td><td><code>LastValue</code></td><td>Depth of the controller queues</td></tr>
+<tr><td><code>pilot_worker_queue_duration</code></td><td><code>Distribution</code></td><td>Time taken to process an item</td></tr>
+<tr><td><code>pilot_worker_queue_latency</code></td><td><code>Distribution</code></td><td>Latency before the item is processed</td></tr>
 <tr><td><code>pilot_xds</code></td><td><code>LastValue</code></td><td>Number of endpoints connected to this pilot using XDS.</td></tr>
 <tr><td><code>pilot_xds_cds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected CDS configs.</td></tr>
 <tr><td><code>pilot_xds_config_size_bytes</code></td><td><code>Distribution</code></td><td>Distribution of configuration sizes pushed to clients</td></tr>
