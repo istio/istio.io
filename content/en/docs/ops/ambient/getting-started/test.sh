@@ -39,12 +39,10 @@ _wait_for_daemonset istio-system istio-cni-node
 
 if [ "$GATEWAY_API" == "true" ]; then
   _verify_like snip_download_and_install_9 "$snip_download_and_install_9_out"
-  updated_snip_download_and_install_10_out=$(echo $snip_download_and_install_10_out | sed -e 's/kubernetes.io/os=linux/.../')
-  _verify_like snip_download_and_install_10 "$updated_snip_download_and_install_10_out"
+  _verify_like snip_download_and_install_10 "$snip_download_and_install_10_out"
 else
   _verify_like snip_download_and_install_7 "$snip_download_and_install_7_out"
-  updated_snip_download_and_install_8_out=$(echo $snip_download_and_install_8_out | sed -e 's/kubernetes.io/os=linux/.../')
-  _verify_like snip_download_and_install_8 "$updated_snip_download_and_install_8_out"
+  _verify_like snip_download_and_install_8 "$snip_download_and_install_8_out"
 fi
 
 # deploy test application
