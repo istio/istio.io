@@ -22,5 +22,4 @@ This release note describes what’s different between Istio 1.18.1 and 1.18.2.
 
 ## Changes
 
-- **Added** support for a flag called USE_EXTERNAL_WORKLOAD_SDS, when set to true, it will require an external SDS workload socket and it will prevent the istio-proxy from starting if the workload SDS socket is not found.
-  ([Issue #45534](https://github.com/istio/istio/issues/45534))
+- **Added** support for a flag called `USE_EXTERNAL_WORKLOAD_SDS`, when set to true, it will require an external SDS workload socket and it will prevent the istio-proxy from starting if the workload SDS socket is not found. ([Issue #45534](https://github.com/istio/istio/issues/45534))
