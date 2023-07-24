@@ -24,4 +24,4 @@ skip_seealso: true
 
 ## Am I Impacted?
 
-If you accept HTTP/2 traffic from untrusted sources, which applies to most users. This especially applies if you use a Gateway exposed on the public internet.
+You are impacted If you accept HTTP/2 traffic from untrusted sources, which applies to most users. This especially applies if you use a Gateway exposed on the public internet.
