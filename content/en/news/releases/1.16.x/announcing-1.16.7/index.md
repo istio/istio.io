@@ -21,4 +21,3 @@ This is the last release of Istio 1.16.
 - __CVE-2023-35942__: (CVSS Score 6.5, Moderate): gRPC access log crash caused by the listener draining.
 - __CVE-2023-35943__: (CVSS Score 6.3, Moderate): CORS filter segfault when origin header is removed.
 - __CVE-2023-35944__: (CVSS Score 8.2, High): Incorrect handling of HTTP requests and responses with mixed case schemes in Envoy.
-
