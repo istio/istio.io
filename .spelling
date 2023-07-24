@@ -13,6 +13,7 @@ _v3_
 0-RTT
 0.1.x
 0.2.x
+0.20.0
 0.8.x
 1.0.x
 1.0.x.
@@ -27,12 +28,15 @@ _v3_
 1.16.x
 1.17.x
 1.18.x
+1.18.0
 1.19.x
 1.23.x
 1.24.x
+1.24.0
 1.25.x
 1.26.x
 1.27.x
+1.27.3
 1.2.x
 1.2.x.
 1.3.x
@@ -115,6 +119,7 @@ allow_missing
 allowlist
 alt
 Amalgam8
+ambient.istio.io
 Ameer
 analytics
 Anantheswaran
@@ -220,6 +225,7 @@ Cleartext
 cli
 CloudNativeCon
 CloudWatch
+cluster.local
 cluster1
 cluster2
 ClusterSPIFFEID
@@ -243,6 +249,8 @@ ConfigMap
 configmaps
 configurability
 conformant
+CONNECT-IP
+CONNECT-UDP
 containerID
 ControlZ
 Coraza
@@ -425,6 +433,7 @@ envoyproxy
 etcd
 events.istio.io
 example.com
+exec-ing
 ExecAction
 executables
 Exfiltrating
@@ -493,6 +502,7 @@ Haidian
 Harvey
 Hashicorp
 Hawton
+HBONE
 helloworld
 Herness
 hoc
@@ -511,6 +521,7 @@ httpbin.foo.svc.cluster.local
 httpbin.org
 HTTPRoute
 https
+HTTPS
 Hu
 Huabing
 Huawei
@@ -581,6 +592,10 @@ ISTIO-SECURITY-2022-005
 ISTIO-SECURITY-2023-001
 ISTIO-SECURITY-2023-002
 ISTIO-SECURITY-2023-003
+istio_tcp_connections_closed_total
+istio_tcp_connections_opened_total
+istio_tcp_received_bytes_total
+istio_tcp_sent_bytes_total
 istio-system
 istio.io
 istio.io.
@@ -657,6 +672,7 @@ Kustomize
 kyzy
 L3-4
 L4-L6
+L4-only
 Landow
 learnings
 Leggett
@@ -750,6 +766,7 @@ netmask
 network1
 network2
 networking.istio.io
+NetworkPolicy
 nginx
 NICs
 NiFi
@@ -760,6 +777,7 @@ no-brainer
 Node.js
 nodeAffinity
 non-conformant
+non-L4
 non-mTLS
 non-revisioned
 non-sandboxed
@@ -839,6 +857,7 @@ PostgreSQL
 pprof
 Pratima
 pre-alpha
+pre-ambient
 pre-connected
 pre-parsed
 pre-release
@@ -860,6 +879,7 @@ protobuf
 protoc
 protos
 proxied
+proxy-config
 proxy_http_version
 Proxy-wasm
 proxying
@@ -872,6 +892,7 @@ px.dev
 Qin
 qps
 quay.io
+Quickstart
 quo
 RabbitMQ
 Raghunath
@@ -966,6 +987,7 @@ sidebar_multicard
 sidebar_none
 sidecar
 sidecar.env
+sidecar.istio.io
 Sidecarless
 SignalFX
 sigstore
@@ -1010,6 +1032,7 @@ subresources
 substring
 Superfeet
 Superset
+superset
 supersets
 svc
 svc.com
@@ -1046,6 +1069,7 @@ topologySpreadConstraints
 touchpoints
 tradeoff
 tradeoffs
+TrafficPolicy
 Trulia
 trustability
 tunneling
@@ -1148,6 +1172,7 @@ Weems
 Wehkamp
 Weibo
 whitelist
+whitelisted
 whitelists
 whitespace
 Wikipedia
