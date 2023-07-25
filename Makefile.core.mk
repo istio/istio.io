@@ -41,9 +41,9 @@ export ISTIO_LONG_SHA
 # we only need to export the pipeline HUB value.
 # If the images were built as part of the private pipeline (as for security releases),
 # we export the HUB and TAG for the images once they are published.
-HUB ?= gcr.io/istio-testing
-# export HUB := docker.io/istio
-# export TAG ?= 1.7.3
+# HUB ?= gcr.io/istio-testing
+export HUB := gcr.io/istio-release
+export TAG ?= 1.18.2
 
 ifeq ($(HUB),)
   $(error "HUB cannot be empty")
