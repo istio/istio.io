@@ -94,11 +94,11 @@ _verify_same  snip_enduser_authentication_8 "$snip_enduser_authentication_8_out"
 snip_enduser_authentication_9
 snip_enduser_authentication_10
 
-# snip_enduser_authentication_10 is highly timing dependent, so just check
+# snip_enduser_authentication_11 is highly timing dependent, so just check
 # that the token times out during the run.
 expected="200
 401"
-_verify_contains  snip_enduser_authentication_10 "$expected"
+_verify_contains  snip_enduser_authentication_11 "$expected"
 
 snip_require_a_valid_token_1
 _wait_for_istio authorizationpolicy istio-system frontend-ingress
