@@ -19,6 +19,7 @@
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
 #          docs/tasks/security/authentication/authn-policy/index.md
 ####################################################################################################
+source "content/en/boilerplates/snips/gateway-api-support.sh"
 
 snip_before_you_begin_1() {
 istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --set profile=default
@@ -263,55 +264,28 @@ kubectl delete peerauthentication httpbin -n bar
 }
 
 snip_enduser_authentication_1() {
-kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
-kind: Gateway
-metadata:
-  name: httpbin-gateway
-  namespace: foo
-spec:
-  selector:
-    istio: ingressgateway # use Istio default gateway implementation
-  servers:
-  - port:
-      number: 80
-      name: http
-      protocol: HTTP
-    hosts:
-    - "*"
-EOF
+kubectl apply -f samples/httpbin/httpbin-gateway.yaml -n foo
 }
 
 snip_enduser_authentication_2() {
-kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: httpbin
-  namespace: foo
-spec:
-  hosts:
-  - "*"
-  gateways:
-  - httpbin-gateway
-  http:
-  - route:
-    - destination:
-        port:
-          number: 8000
-        host: httpbin.foo.svc.cluster.local
-EOF
+kubectl apply -f samples/httpbin/gateway-api/httpbin-gateway.yaml -n foo
+kubectl wait --for=condition=programmed gtw -n foo httpbin-gateway
 }
 
 snip_enduser_authentication_3() {
+export INGRESS_HOST=$(kubectl get gtw httpbin-gateway -n foo -o jsonpath='{.status.addresses[0].value}')
+export INGRESS_PORT=$(kubectl get gtw httpbin-gateway -n foo -o jsonpath='{.spec.listeners[?(@.name=="http")].port}')
+}
+
+snip_enduser_authentication_4() {
 curl "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"
 }
 
-! read -r -d '' snip_enduser_authentication_3_out <<\ENDSNIP
+! read -r -d '' snip_enduser_authentication_4_out <<\ENDSNIP
 200
 ENDSNIP
 
-snip_enduser_authentication_4() {
+snip_enduser_authentication_5() {
 kubectl apply -f - <<EOF
 apiVersion: security.istio.io/v1
 kind: RequestAuthentication
@@ -328,45 +302,45 @@ spec:
 EOF
 }
 
-snip_enduser_authentication_5() {
+snip_enduser_authentication_6() {
 curl "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"
 }
 
-! read -r -d '' snip_enduser_authentication_5_out <<\ENDSNIP
+! read -r -d '' snip_enduser_authentication_6_out <<\ENDSNIP
 200
 ENDSNIP
 
-snip_enduser_authentication_6() {
+snip_enduser_authentication_7() {
 curl --header "Authorization: Bearer deadbeef" "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"
 }
 
-! read -r -d '' snip_enduser_authentication_6_out <<\ENDSNIP
+! read -r -d '' snip_enduser_authentication_7_out <<\ENDSNIP
 401
 ENDSNIP
 
-snip_enduser_authentication_7() {
+snip_enduser_authentication_8() {
 TOKEN=$(curl https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/demo.jwt -s)
 curl --header "Authorization: Bearer $TOKEN" "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"
 }
 
-! read -r -d '' snip_enduser_authentication_7_out <<\ENDSNIP
+! read -r -d '' snip_enduser_authentication_8_out <<\ENDSNIP
 200
 ENDSNIP
 
-snip_enduser_authentication_8() {
+snip_enduser_authentication_9() {
 wget --no-verbose https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/gen-jwt.py
 }
 
-snip_enduser_authentication_9() {
+snip_enduser_authentication_10() {
 wget --no-verbose https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/key.pem
 }
 
-snip_enduser_authentication_10() {
+snip_enduser_authentication_11() {
 TOKEN=$(python3 ./gen-jwt.py ./key.pem --expire 5)
 for i in $(seq 1 10); do curl --header "Authorization: Bearer $TOKEN" "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"; sleep 10; done
 }
 
-! read -r -d '' snip_enduser_authentication_10_out <<\ENDSNIP
+! read -r -d '' snip_enduser_authentication_11_out <<\ENDSNIP
 200
 200
 200

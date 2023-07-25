@@ -323,54 +323,47 @@ $ kubectl delete peerauthentication httpbin -n bar
 To experiment with this feature, you need a valid JWT. The JWT must correspond to the JWKS endpoint you want to use for the demo. This tutorial uses the test token [JWT test]({{< github_file >}}/security/tools/jwt/samples/demo.jwt) and
 [JWKS endpoint]({{< github_file >}}/security/tools/jwt/samples/jwks.json) from the Istio code base.
 
-Also, for convenience, expose `httpbin.foo` via `ingressgateway` (for more details, see the [ingress task](/docs/tasks/traffic-management/ingress/)).
+Also, for convenience, expose `httpbin.foo` via an ingress gateway (for more details, see the [ingress task](/docs/tasks/traffic-management/ingress/)).
+
+{{< boilerplate gateway-api-support >}}
+
+{{< tabset category-name="config-api" >}}
+
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
+
+Configure the gateway:
 
 {{< text bash >}}
-$ kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
-kind: Gateway
-metadata:
-  name: httpbin-gateway
-  namespace: foo
-spec:
-  selector:
-    istio: ingressgateway # use Istio default gateway implementation
-  servers:
-  - port:
-      number: 80
-      name: http
-      protocol: HTTP
-    hosts:
-    - "*"
-EOF
-{{< /text >}}
-
-{{< text bash >}}
-$ kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: httpbin
-  namespace: foo
-spec:
-  hosts:
-  - "*"
-  gateways:
-  - httpbin-gateway
-  http:
-  - route:
-    - destination:
-        port:
-          number: 8000
-        host: httpbin.foo.svc.cluster.local
-EOF
+$ kubectl apply -f @samples/httpbin/httpbin-gateway.yaml@ -n foo
 {{< /text >}}
 
 Follow the instructions in
-    [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)
-to define the `INGRESS_HOST` and `INGRESS_PORT` environment variables.
+[Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)
+to define the `INGRESS_PORT` and `INGRESS_HOST` environment variables.
 
-And run a test query
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+Create the gateway:
+
+{{< text bash >}}
+$ kubectl apply -f @samples/httpbin/gateway-api/httpbin-gateway.yaml@ -n foo
+$ kubectl wait --for=condition=programmed gtw -n foo httpbin-gateway
+{{< /text >}}
+
+Set the `INGRESS_PORT` and `INGRESS_HOST` environment variables:
+
+{{< text bash >}}
+$ export INGRESS_HOST=$(kubectl get gtw httpbin-gateway -n foo -o jsonpath='{.status.addresses[0].value}')
+$ export INGRESS_PORT=$(kubectl get gtw httpbin-gateway -n foo -o jsonpath='{.spec.listeners[?(@.name=="http")].port}')
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
+Run a test query through the gateway:
 
 {{< text bash >}}
 $ curl "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"
