@@ -85,22 +85,22 @@ function handleEvents(): void {
                     el.style.display = "block";
                     const heroSection = document.querySelector<HTMLElement>("main.landing section#banner");
                     const banners = document.querySelector<HTMLElement>(".banner-container");
-                    
+
                     if (banners && heroSection) {
 
-                        var activeBannerCount = 0;
+                        let activeBannerCount = 0;
 
-                        banners.childNodes.forEach(function (childNode) {
-                          if ((childNode as HTMLElement).style.display == "block" && (childNode as HTMLElement).classList.contains("banner")) {
+                        banners.childNodes.forEach((childNode) => {
+                          if ((childNode as HTMLElement).style.display === "block" && (childNode as HTMLElement).classList.contains("banner")) {
                             activeBannerCount += 1
                           }
                         })
 
-                        let remSpacing = 8.125 + (60/16)*(activeBannerCount)
+                        const remSpacing = 8.125 + (60/16)*(activeBannerCount)
 
                         heroSection.style.marginTop="-"+String(remSpacing)+"rem";
                         heroSection.style.paddingTop=String(remSpacing)+"rem"
-                        
+
                         if (timeout > 0) {
                             window.setTimeout(() => {
                                 el.style.display = "none";
@@ -115,18 +115,18 @@ function handleEvents(): void {
                     el.style.display = "none";
                     const heroSection = document.querySelector<HTMLElement>("main.landing section#banner");
                     const banners = document.querySelector<HTMLElement>(".banner-container");
-                    
+
                     if (banners && heroSection) {
 
-                        var activeBannerCount = 0;
+                        let activeBannerCount = 0;
 
-                        banners.childNodes.forEach(function (childNode) {
-                          if ((childNode as HTMLElement).style.display == "block" && (childNode as HTMLElement).classList.contains("banner")) {
+                        banners.childNodes.forEach((childNode) => {
+                          if ((childNode as HTMLElement).style.display === "block" && (childNode as HTMLElement).classList.contains("banner")) {
                             activeBannerCount += 1
                           }
                         })
 
-                        let remSpacing = 8.125 + (60/16)*(activeBannerCount)
+                        const remSpacing = 8.125 + (60/16)*(activeBannerCount)
 
                         heroSection.style.marginTop="-"+String(remSpacing)+"rem";
                         heroSection.style.paddingTop=String(remSpacing)+"rem"
