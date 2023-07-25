@@ -84,21 +84,26 @@ fi
 
 _verify_same  snip_enduser_authentication_4 "$snip_enduser_authentication_4_out"
 
-snip_enduser_authentication_5
-_wait_for_istio requestauthentication istio-system jwt-example
+if [ "$GATEWAY_API" == "true" ]; then
+    snip_enduser_authentication_6
+    _wait_for_istio requestauthentication foo jwt-example
+else
+    snip_enduser_authentication_5
+    _wait_for_istio requestauthentication istio-system jwt-example
+fi
 
-_verify_same  snip_enduser_authentication_6 "$snip_enduser_authentication_6_out"
 _verify_same  snip_enduser_authentication_7 "$snip_enduser_authentication_7_out"
 _verify_same  snip_enduser_authentication_8 "$snip_enduser_authentication_8_out"
+_verify_same  snip_enduser_authentication_9 "$snip_enduser_authentication_9_out"
 
-snip_enduser_authentication_9
 snip_enduser_authentication_10
+snip_enduser_authentication_11
 
-# snip_enduser_authentication_11 is highly timing dependent, so just check
+# snip_enduser_authentication_12 is highly timing dependent, so just check
 # that the token times out during the run.
 expected="200
 401"
-_verify_contains  snip_enduser_authentication_11 "$expected"
+_verify_contains  snip_enduser_authentication_12 "$expected"
 
 snip_require_a_valid_token_1
 _wait_for_istio authorizationpolicy istio-system frontend-ingress

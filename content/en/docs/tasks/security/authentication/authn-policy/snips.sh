@@ -303,44 +303,61 @@ EOF
 }
 
 snip_enduser_authentication_6() {
+kubectl apply -f - <<EOF
+apiVersion: security.istio.io/v1
+kind: RequestAuthentication
+metadata:
+  name: "jwt-example"
+  namespace: foo
+spec:
+  selector:
+    matchLabels:
+      istio.io/gateway-name: httpbin-gateway
+  jwtRules:
+  - issuer: "testing@secure.istio.io"
+    jwksUri: "https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/jwks.json"
+EOF
+}
+
+snip_enduser_authentication_7() {
 curl "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"
 }
 
-! read -r -d '' snip_enduser_authentication_6_out <<\ENDSNIP
+! read -r -d '' snip_enduser_authentication_7_out <<\ENDSNIP
 200
 ENDSNIP
 
-snip_enduser_authentication_7() {
+snip_enduser_authentication_8() {
 curl --header "Authorization: Bearer deadbeef" "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"
 }
 
-! read -r -d '' snip_enduser_authentication_7_out <<\ENDSNIP
+! read -r -d '' snip_enduser_authentication_8_out <<\ENDSNIP
 401
 ENDSNIP
 
-snip_enduser_authentication_8() {
+snip_enduser_authentication_9() {
 TOKEN=$(curl https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/demo.jwt -s)
 curl --header "Authorization: Bearer $TOKEN" "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"
 }
 
-! read -r -d '' snip_enduser_authentication_8_out <<\ENDSNIP
+! read -r -d '' snip_enduser_authentication_9_out <<\ENDSNIP
 200
 ENDSNIP
 
-snip_enduser_authentication_9() {
+snip_enduser_authentication_10() {
 wget --no-verbose https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/gen-jwt.py
 }
 
-snip_enduser_authentication_10() {
+snip_enduser_authentication_11() {
 wget --no-verbose https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/key.pem
 }
 
-snip_enduser_authentication_11() {
+snip_enduser_authentication_12() {
 TOKEN=$(python3 ./gen-jwt.py ./key.pem --expire 5)
 for i in $(seq 1 10); do curl --header "Authorization: Bearer $TOKEN" "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"; sleep 10; done
 }
 
-! read -r -d '' snip_enduser_authentication_11_out <<\ENDSNIP
+! read -r -d '' snip_enduser_authentication_12_out <<\ENDSNIP
 200
 200
 200

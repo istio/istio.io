@@ -372,6 +372,10 @@ $ curl "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"
 
 Now, add a request authentication policy that requires end-user JWT for the ingress gateway.
 
+{{< tabset category-name="config-api" >}}
+
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
+
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
 apiVersion: security.istio.io/v1
@@ -389,7 +393,32 @@ spec:
 EOF
 {{< /text >}}
 
-Apply the policy to the namespace of the workload it selects, `ingressgateway` in this case. The namespace you need to specify is then `istio-system`.
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: security.istio.io/v1
+kind: RequestAuthentication
+metadata:
+  name: "jwt-example"
+  namespace: foo
+spec:
+  selector:
+    matchLabels:
+      istio.io/gateway-name: httpbin-gateway
+  jwtRules:
+  - issuer: "testing@secure.istio.io"
+    jwksUri: "{{< github_file >}}/security/tools/jwt/samples/jwks.json"
+EOF
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
+Apply the policy in the namespace of the workload it selects, the ingress gateway in this case.
 
 If you provide a token in the authorization header, its implicitly default location, Istio validates the token using the [public key set]({{< github_file >}}/security/tools/jwt/samples/jwks.json), and rejects requests if the bearer token is invalid. However, requests without tokens are accepted. To observe this behavior, retry the request without a token, with a bad token, and with a valid token:
 
