@@ -2,7 +2,7 @@
 title: Announcing Istio 1.17.5
 linktitle: 1.17.5
 subtitle: Patch Release
-description: Istio 1.17.4 patch release.
+description: Istio 1.17.5 patch release.
 publishdate: 2023-07-25
 release: 1.17.5
 ---
