@@ -3,8 +3,8 @@ title: ISTIO-SECURITY-2023-003
 subtitle: Security Bulletin
 description: CVEs reported by Envoy.
 cves: [CVE-2023-35941,CVE-2023-35942,CVE-2023-35943,CVE-2023-35944]
-cvss: "7.5"
-vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+cvss: "8.6"
+vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:L"
 releases: ["All releases prior to 1.16.0", "1.16.0 to 1.16.6", "1.17.0 to 1.17.4", "1.18.0 to 1.18.1"]
 publishdate: 2023-07-25
 keywords: [CVE]
