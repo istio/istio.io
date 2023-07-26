@@ -12,7 +12,6 @@ release: 1.18.2
 
 本发布说明描述了 Istio 1.18.1 和 Istio 1.18.2 之间的不同之处。
 
-
 {{< relnote >}}
 
 ## 安全更新 {#security-update}
