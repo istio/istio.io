@@ -17,7 +17,7 @@ release: 1.17.5
 ## 安全更新 {#security-update}
 
 - __CVE-2023-35941__:
-  (CVSS Score 8.6, High)：OAuth2 凭证具有永久有效性。
+  (CVSS Score 8.6, High)：OAuth2 凭证滥用永久有效性。
 - __CVE-2023-35942__:
   (CVSS Score 6.5, Moderate)：由于侦听器耗尽而导致 gRPC 访问日志崩溃。
 - __CVE-2023-35943__:

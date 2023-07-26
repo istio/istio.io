@@ -18,7 +18,7 @@ skip_seealso: true
 ### Envoy CVE {#envoy-cves}
 
 - __CVE-2023-35941__:
-  (CVSS Score 8.6, High)：OAuth2 凭证具有永久有效性。
+  (CVSS Score 8.6, High)：OAuth2 凭证滥用永久有效性。
 - __CVE-2023-35942__:
   (CVSS Score 6.5, Moderate)：由于侦听器耗尽而导致 gRPC 访问日志崩溃。
 - __CVE-2023-35943__:
@@ -28,5 +28,5 @@ skip_seealso: true
 
 ## 我受到影响了吗？{#am-i-impacted}
 
-如果您接受来自不受信来源的 HTTP/2 流量，这将适用于大多数用户。
-如果您使用公共互联网上公开的网关，这一点尤其适用。
+如果您接受来自不受信来源的 HTTP/2 流量，则您会受到影响，这种情况适用于大多数用户。
+如果您使用公共互联网上公开的网关，要特别注意您可能已经受到了影响。

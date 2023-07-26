@@ -17,7 +17,7 @@ release: 1.18.2
 ## 安全更新 {#security-update}
 
 - __CVE-2023-35941__:
-  (CVSS Score 8.6, High)：OAuth2 凭证具有永久有效性。
+  (CVSS Score 8.6, High)：OAuth2 凭证滥用永久有效性。
 - __CVE-2023-35942__:
   (CVSS Score 6.5, Moderate)：由于侦听器耗尽而导致 gRPC 访问日志崩溃。
 - __CVE-2023-35943__:
@@ -28,6 +28,6 @@ release: 1.18.2
 ## 变更 {#changes}
 
 - **新增** 添加了对名为 `USE_EXTERNAL_WORKLOAD_SDS` 标志的支持。
-  当设置为 true 时，它将需要外部 SDS 工作负载套接字，并且如果未找到工作负载
+  当设置为 true 时，它将需要一个外部 SDS 工作负载套接字，如果找不到工作负载
   SDS 套接字，则将阻止 istio-proxy 启动。
   ([Issue #45534](https://github.com/istio/istio/issues/45534))
