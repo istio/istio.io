@@ -6,16 +6,16 @@ attribution: "John Howard (Google)"
 keywords: [istio,sidecars,kubernetes]
 ---
 
-From the beginning of Istio, applications have been augmented with service mesh functionality by using the "sidecar" pattern:
-each Pod gets an additional container running alongside it.
-In Istio's case, this additional container runs the Istio proxy, giving us the classic Istio architecture:
+If you have heard anything about service meshes, it is that they work using the sidecar pattern: a proxy server is deployed alongside your application code.
+The sidecar pattern is just that: a pattern.
+Up until this point, there has been no formal support for 'sidecar containers' in Kubernetes at all.
 
-{{< image width="80%"
-    link="/docs/ops/deployment/architecture/arch.svg"
-    caption="Istio Architecture"
-    >}}
+This has caused no end of problems: what if you have a job that terminates by design, but a sidecar container that doesn't?
+This exact use case is the [most upvoted ever on the Kubernetes issue tracker](https://github.com/kubernetes/kubernetes/issues/25908).
 
-While most common in service meshes, the sidecar pattern is used for other contexts as well, such as monitoring agents.
+A formal proposal for adding sidecar support in Kubernetes was raised in 2019, with many stops and starts along the way.
+After a reboot of the project last year, formal support for sidecars is being released to Alpha in Kubernetes 1.28.
+Istio has implemented support for this feature, and in this post you can learn how to take advantage of it.
 
 ## Sidecar woes
 
@@ -31,7 +31,7 @@ This mismatch in expectation leads to a variety of issues:
   This wins the [most +1's](https://github.com/istio/istio/issues/11130) on GitHub by a landslide.
 * If Istio's container shuts down before the application container, it cannot access the network.
   This often means we shutdown too fast (breaking the network) or too slow (leaving pods running with no purpose).
-* If an application container intentionally exists (typically from usage in a `Job`), Istio's container will still run and keep the pod running - indefinitely.
+* If an application container intentionally exits (typically from usage in a `Job`), Istio's container will still run and keep the pod running indefinitely.
   This is also a [top GitHub issue](https://github.com/istio/istio/issues/11659).
 * `InitContainers`, which run before Istio's container starts, cannot access the network.
 
@@ -51,7 +51,7 @@ A special thanks goes to the huge group of individuals involved in getting this 
 
 ## Trying it out
 
-While Kubernetes 1.28 is not out yet, and the feature is Alpha (and therefor, off by default), and the support for the feature in Istio is not yet shipped, we can still try it out today - just don't try this in prod!
+While Kubernetes 1.28 is not out yet, and the feature is Alpha (and therefore, off by default), and the support for the feature in Istio is not yet shipped, we can still try it out today - just don't try this in prod!
 
 First, we need to spin up a pre-release Kubernetes cluster, with the `SidecarContainers` feature enabled:
 
@@ -66,7 +66,7 @@ EOF
 
 Then we can download the latest Istio pre-release. I used Linux here; see [Dev Builds](https://github.com/istio/istio/wiki/dev-builds) for more steps.
 These images are built from the latest Istio commit, so again - do not try in prod!
-When we install we will enable the feature flag for native sidecar support, and turn on access logs to help demo things later.
+When we install, we will enable the feature flag for native sidecar support and turn on access logs to help demo things later.
 
 {{< text shell >}}
 $ TAG=$(curl https://storage.googleapis.com/istio-build/dev/latest)
@@ -114,7 +114,7 @@ Additionally, the pod will terminate even if the proxy container is still runnin
 
 ### Init container traffic
 
-To put this to the test, lets make our pod actually do something.
+To put this to the test, let's make our pod actually do something.
 Here we deploy a simple pod that sends a request in an `initContainer`.
 Normally, this would fail.
 
@@ -145,7 +145,7 @@ $ kubectl logs sleep -c istio-proxy | tail -n1
 
 ### Exiting pods
 
-Earlier we mentioned that when applications exit (common in `Jobs`), the Pod would live forever.
+Earlier, we mentioned that when applications exit (common in `Jobs`), the Pod would live forever.
 Fortunately, this is addressed as well!
 
 First we deploy a pod that will exit after one second and doesn't restart:
@@ -188,7 +188,7 @@ I would say a resounding "Yes"!
 
 While the impacts of sidecar are lessened when ambient mode is used for a workload, I expect that almost all large scale Kubernetes users have some sort of sidecar in their deployments.
 This could be Istio workloads they don't want to migrate to ambient, that they haven't *yet* migrated, or things unrelated to Istio.
-So while there may be a less scenarios that this matters, it still is a huge improvement for the cases where sidecars are used.
+So while there may be fewer scenarios where this matters, it still is a huge improvement for the cases where sidecars are used.
 
 You may wonder the opposite - if all our sidecar woes are addressed, why do we need ambient mode at all?
 There are still a variety of benefits ambient brings with these sidecar limitations addressed.
