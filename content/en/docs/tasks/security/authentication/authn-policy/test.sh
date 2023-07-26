@@ -105,16 +105,26 @@ expected="200
 401"
 _verify_contains  snip_enduser_authentication_12 "$expected"
 
-snip_require_a_valid_token_1
-_wait_for_istio authorizationpolicy istio-system frontend-ingress
+if [ "$GATEWAY_API" == "true" ]; then
+    snip_require_a_valid_token_2
+    _wait_for_istio authorizationpolicy foo frontend-ingress
+else
+    snip_require_a_valid_token_1
+    _wait_for_istio authorizationpolicy istio-system frontend-ingress
+fi
 
-_verify_same  snip_require_a_valid_token_2 "$snip_require_a_valid_token_2_out"
+_verify_same  snip_require_a_valid_token_3 "$snip_require_a_valid_token_3_out"
 
-snip_require_valid_tokens_perpath_1
-_wait_for_istio authorizationpolicy istio-system frontend-ingress
+if [ "$GATEWAY_API" == "true" ]; then
+    snip_require_valid_tokens_perpath_2
+    _wait_for_istio authorizationpolicy foo frontend-ingress
+else
+    snip_require_valid_tokens_perpath_1
+    _wait_for_istio authorizationpolicy istio-system frontend-ingress
+fi
 
-_verify_same  snip_require_valid_tokens_perpath_2 "$snip_require_valid_tokens_perpath_2_out"
 _verify_same  snip_require_valid_tokens_perpath_3 "$snip_require_valid_tokens_perpath_3_out"
+_verify_same  snip_require_valid_tokens_perpath_4 "$snip_require_valid_tokens_perpath_4_out"
 
 # @cleanup
 snip_cleanup_part_1_1

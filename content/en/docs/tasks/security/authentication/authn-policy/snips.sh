@@ -390,10 +390,29 @@ EOF
 }
 
 snip_require_a_valid_token_2() {
+kubectl apply -f - <<EOF
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: "frontend-ingress"
+  namespace: foo
+spec:
+  selector:
+    matchLabels:
+      istio.io/gateway-name: httpbin-gateway
+  action: DENY
+  rules:
+  - from:
+    - source:
+        notRequestPrincipals: ["*"]
+EOF
+}
+
+snip_require_a_valid_token_3() {
 curl "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"
 }
 
-! read -r -d '' snip_require_a_valid_token_2_out <<\ENDSNIP
+! read -r -d '' snip_require_a_valid_token_3_out <<\ENDSNIP
 403
 ENDSNIP
 
@@ -420,18 +439,40 @@ EOF
 }
 
 snip_require_valid_tokens_perpath_2() {
+kubectl apply -f - <<EOF
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: "frontend-ingress"
+  namespace: foo
+spec:
+  selector:
+    matchLabels:
+      istio.io/gateway-name: httpbin-gateway
+  action: DENY
+  rules:
+  - from:
+    - source:
+        notRequestPrincipals: ["*"]
+    to:
+    - operation:
+        paths: ["/headers"]
+EOF
+}
+
+snip_require_valid_tokens_perpath_3() {
 curl "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"
 }
 
-! read -r -d '' snip_require_valid_tokens_perpath_2_out <<\ENDSNIP
+! read -r -d '' snip_require_valid_tokens_perpath_3_out <<\ENDSNIP
 403
 ENDSNIP
 
-snip_require_valid_tokens_perpath_3() {
+snip_require_valid_tokens_perpath_4() {
 curl "$INGRESS_HOST:$INGRESS_PORT/ip" -s -o /dev/null -w "%{http_code}\n"
 }
 
-! read -r -d '' snip_require_valid_tokens_perpath_3_out <<\ENDSNIP
+! read -r -d '' snip_require_valid_tokens_perpath_4_out <<\ENDSNIP
 200
 ENDSNIP
 

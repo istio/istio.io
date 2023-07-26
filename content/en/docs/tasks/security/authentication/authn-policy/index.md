@@ -484,6 +484,10 @@ This is often used to define a JWT policy for all services bound to the gateway,
 
 To reject requests without valid tokens, add an authorization policy with a rule specifying a `DENY` action for requests without request principals, shown as `notRequestPrincipals: ["*"]` in the following example. Request principals are available only when valid JWT tokens are provided. The rule therefore denies requests without valid tokens.
 
+{{< tabset category-name="config-api" >}}
+
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
+
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
 apiVersion: security.istio.io/v1
@@ -503,6 +507,33 @@ spec:
 EOF
 {{< /text >}}
 
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: "frontend-ingress"
+  namespace: foo
+spec:
+  selector:
+    matchLabels:
+      istio.io/gateway-name: httpbin-gateway
+  action: DENY
+  rules:
+  - from:
+    - source:
+        notRequestPrincipals: ["*"]
+EOF
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
 Retry the request without a token. The request now fails with error code `403`:
 
 {{< text bash >}}
@@ -513,6 +544,10 @@ $ curl "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"
 ### Require valid tokens per-path
 
 To refine authorization with a token requirement per host, path, or method, change the authorization policy to only require JWT on `/headers`. When this authorization rule takes effect, requests to `$INGRESS_HOST:$INGRESS_PORT/headers` fail with the error code `403`. Requests to all other paths succeed, for example `$INGRESS_HOST:$INGRESS_PORT/ip`.
+
+{{< tabset category-name="config-api" >}}
+
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -535,6 +570,36 @@ spec:
         paths: ["/headers"]
 EOF
 {{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: "frontend-ingress"
+  namespace: foo
+spec:
+  selector:
+    matchLabels:
+      istio.io/gateway-name: httpbin-gateway
+  action: DENY
+  rules:
+  - from:
+    - source:
+        notRequestPrincipals: ["*"]
+    to:
+    - operation:
+        paths: ["/headers"]
+EOF
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
 
 {{< text bash >}}
 $ curl "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"
