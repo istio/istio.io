@@ -11,11 +11,11 @@ test: yes
 
 此任务说明如何配置 Istio 以显示和访问集群外部的遥测插件。
 
-## 配置远程访问{#configuring-remote-access}
+## 配置远程访问  {#configuring-remote-access}
 
 远程访问遥测插件的方式有很多种。
 该任务涵盖了两种基本访问方式：安全的（通过 HTTPS）和不安全的（通过 HTTP）。
-对于任何生产或敏感环境，*强烈建议* 通过安全方式访问。
+对于任何生产或敏感环境，**强烈建议**通过安全方式访问。
 不安全访问易于设置，但是无法保护在集群外传输的任何凭据或数据。
 
 ### 方式 1：安全访问（HTTPS）{#option-one-secure-access-HTTPS}
@@ -25,12 +25,14 @@ test: yes
 您也可以使用自签名证书。访问[配置使用 SDS 通过 HTTPS 访问的安全网关任务](/zh/docs/tasks/traffic-management/ingress/secure-ingress-sds/)以了解使用自签名证书访问集群内服务的详情。
 
 {{< warning >}}
-本方式 *只* 涵盖了传输层的安全。您还应该配置遥测插件，使其暴露在外部时需要身份验证。
+本方式**只**涵盖了传输层的安全。您还应该配置遥测插件，使其暴露在外部时需要身份验证。
 {{< /warning >}}
 
-1. [安装 cert-manager](https://docs.cert-manager.io/en/latest/getting-started/install/kubernetes.html) 以自动管理证书。
-
-1. [安装 Istio](/zh/docs/setup/install/istioctl) 到您的集群并启用 `cert-manager` 标志且配置 `istio-ingressgateway` 使用 [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#sds-configuration)。
+1. [安装 cert-manager](https://docs.cert-manager.io/en/latest/getting-started/install/kubernetes.html)
+   以自动管理证书。
+1. [安装 Istio](/zh/docs/setup/install/istioctl) 到您的集群并启用 `cert-manager`
+   标志且配置 `istio-ingressgateway` 使用
+   [Secret 发现服务](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#sds-configuration)。
 
     要安装相应的 Istio，使用下列安装选项：
 
@@ -47,7 +49,7 @@ test: yes
 
 1. 为您的域名配置 DNS 记录。
 
-    1. 获取 `istio-ingressgateway` 的外部 IP 地址。
+    1. 获取 `istio-ingressgateway` 的外部 IP 地址：
 
         {{< text bash >}}
         $ kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
@@ -60,7 +62,7 @@ test: yes
         $ TELEMETRY_DOMAIN=<your.desired.domain>
         {{< /text >}}
 
-    1. 通过您的域名提供商将所需的域名指向该外部 IP 地址。
+    1. 通过您的域名提供商将所需的域名指向该外部 IP 地址：
 
         实现此步骤的机制因提供商而异。以下是一些示例文档链接：
 
@@ -69,7 +71,7 @@ test: yes
         * Google Domains: [资源记录](https://support.google.com/domains/answer/3290350?hl=en)
         * Name.com: [添加 A 记录](https://www.name.com/support/articles/115004893508-Adding-an-A-record)
 
-    1. 验证 DNS 记录无误。
+    1. 验证 DNS 记录无误：
 
         {{< text bash >}}
         $ dig +short $TELEMETRY_DOMAIN
@@ -608,7 +610,7 @@ test: yes
     * Grafana: `http://<IP ADDRESS OF CLUSTER INGRESS>:15031/`
     * Tracing: `http://<IP ADDRESS OF CLUSTER INGRESS>:15032/`
 
-## 清除{#cleanup}
+## 清除  {#cleanup}
 
 * 移除所有相关的网关：
 
