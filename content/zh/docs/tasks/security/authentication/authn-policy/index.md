@@ -438,8 +438,8 @@ EOF
 
 如果您在授权标头中提供了一个令牌，并且其位置是隐式默认的，Istio
 将使用[公钥集]({{< github_file >}}/security/tools/jwt/samples/jwks.json)验证令牌，
-并在令牌无效时拒绝请求。然而，没有令牌的请求将被接受。为了观察这种行为，尝试重新发送了几次请求：
-一次没有令牌，一次使用错误的令牌，一次使用有效的令牌。
+并拒绝无效的令牌请求。但是，没有令牌的请求会被接受。
+为了观察这种行为，请尝试重新发出没有令牌、有错误令牌以及含有效令牌的请求。
 
 {{< text bash >}}
 $ curl "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"
