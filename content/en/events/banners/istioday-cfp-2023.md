@@ -6,4 +6,4 @@ max_impressions: 12
 timeout: 20
 ---
 
-Submit your talk proposals for [IstioCon](https://events.linuxfoundation.org/istiocon/) (Virtual) and [Istio Day North America](https://sessionize.com/kccnc-na-co-located-23) (Chicago). CFPs closes soon!
+Submit your talk proposals for [IstioCon](https://events.linuxfoundation.org/istiocon/) (Virtual) and [Istio Day North America](https://sessionize.com/kccnc-na-co-located-23) (Chicago). CFPs close soon!
