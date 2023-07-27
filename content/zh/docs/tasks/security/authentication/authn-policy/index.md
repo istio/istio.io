@@ -485,6 +485,10 @@ $ for i in $(seq 1 10); do curl --header "Authorization: Bearer $TOKEN" "$INGRES
 可参考以下例子中的 `notRequestPrincipals:["*"]` 配置。
 仅当提供有效的JWT令牌时请求主体才可用，因此该规则将拒绝没有有效令牌的请求。
 
+{{< tabset category-name="config-api" >}}
+
+{{< tab name="Istio API" category-value="istio-apis" >}}
+
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
 apiVersion: security.istio.io/v1beta1
@@ -504,6 +508,33 @@ spec:
 EOF
 {{< /text >}}
 
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: "frontend-ingress"
+  namespace: foo
+spec:
+  selector:
+    matchLabels:
+      istio.io/gateway-name: httpbin-gateway
+  action: DENY
+  rules:
+  - from:
+    - source:
+        notRequestPrincipals: ["*"]
+EOF
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
 再次尝试不使用 token 请求服务，结果返回 `403`
 
 {{< text bash >}}
@@ -516,6 +547,10 @@ $ curl "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"
 为了按路径（路径指 host、path 或者 method）提供有效令牌我们需要在其认证策略中指定这些路径，
 如下列配置中的 `/headers`。待规则生效后，对 `$INGRESS_HOST:$INGRESS_PORT/headers`
 的请求将失败，错误代码为 `403`。而到其他所有路径的请求 —— 例如：`$INGRESS_HOST:$INGRESS_PORT/ip` —— 都会成功。
+
+{{< tabset category-name="config-api" >}}
+
+{{< tab name="Istio API" category-value="istio-apis" >}}
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -538,6 +573,36 @@ spec:
         paths: ["/headers"]
 EOF
 {{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: "frontend-ingress"
+  namespace: foo
+spec:
+  selector:
+    matchLabels:
+      istio.io/gateway-name: httpbin-gateway
+  action: DENY
+  rules:
+  - from:
+    - source:
+        notRequestPrincipals: ["*"]
+    to:
+    - operation:
+        paths: ["/headers"]
+EOF
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
 
 {{< text bash >}}
 $ curl "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"
