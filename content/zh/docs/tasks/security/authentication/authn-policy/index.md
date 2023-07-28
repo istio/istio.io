@@ -555,29 +555,6 @@ EOF
 
 {{< /tab >}}
 
-{{< tab name="Gateway API" category-value="gateway-api" >}}
-
-{{< text bash >}}
-$ kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1
-kind: AuthorizationPolicy
-metadata:
-  name: "frontend-ingress"
-  namespace: foo
-spec:
-  selector:
-    matchLabels:
-      istio.io/gateway-name: httpbin-gateway
-  action: DENY
-  rules:
-  - from:
-    - source:
-        notRequestPrincipals: ["*"]
-EOF
-{{< /text >}}
-
-{{< /tab >}}
-
 {{< /tabset >}}
 
 重新发送没有令牌的请求。现在，请求将失败，并返回错误码 `403`：
