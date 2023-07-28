@@ -25,7 +25,7 @@ Envoy provides a connection load balancing implementation called Exact connectio
 
 Obviously, it is not suitable for an ingress gateway since an ingress gateway accepts thousands of connections within a short time, and the resource cost from the lock brings a big drop in throughput.
 
-Now, Envoy has an integrated Intel® Dynamic Load Balancing (Intel®DLB) connection load balancing to accelerate in big connection cases like ingress gateway.
+Now, Envoy has integrated Intel® Dynamic Load Balancing (Intel®DLB) connection load balancing to accelerate in big connection cases like ingress gateway.
 
 ## How Intel® Dynamic Load Balancing accelerates connection load balancing in Envoy
 
@@ -60,9 +60,9 @@ An ingress gateway is expected to process as much data as possible as quickly as
 
 With the 1.17 release, Istio officially supports Intel DLB connection load balancing.
 
-The following steps show how to use Intel DLB connection load balancing in an Istio [Ingress Gateway](/docs/tasks/traffic-management/ingress/ingress-control/) in an SPR (Sapphire Rapids) machine and Kubernetes is ready.
+The following steps show how to use Intel DLB connection load balancing in an Istio [Ingress Gateway](/docs/tasks/traffic-management/ingress/ingress-control/) in an SPR (Sapphire Rapids) machine, assuming the Kubernetes cluster is running.
 
-### Step 1 Prepare DLB environment
+### Step 1: Prepare DLB environment
 
 Install the Intel DLB driver by following [the instructions on the Intel DLB driver official site](https://www.intel.com/content/www/us/en/download/686372/intel-dynamic-load-balancer.html).
 
@@ -83,7 +83,7 @@ $ kubectl describe nodes | grep dlb.intel.com/pf
 ...
 {{< /text >}}
 
-### Step 2 Download Istio
+### Step 2: Download Istio
 
 In this blog we use 1.17.2, let’s download the installation:
 
@@ -105,7 +105,7 @@ no running Istio pods in "istio-system"
 1.17.2
 {{< /text >}}
 
-### Step 3 Install Istio
+### Step 3: Install Istio
 
 Create an install configuration for Istio, notice that we assign 4 CPUs and 1 DLB device to ingress gateway and set concurrency as 4, which is equal to the CPU number.
 
@@ -156,7 +156,7 @@ $ istioctl install -f config.yaml --set values.gateways.istio-ingressgateway.run
 Thank you for installing Istio 1.17.  Please take a few minutes to tell us about your install/upgrade experience!  https://forms.gle/hMHGiwZHPU7UQRWe9
 {{< /text >}}
 
-### Step 4 Setup Backend Service
+### Step 4: Setup Backend Service
 
 Since we want to use DLB connection load balancing in Istio ingress gateway, we need to create a backend service first.
 
@@ -210,7 +210,7 @@ You have now created a virtual service configuration for the httpbin service con
 
 The gateways list specifies that only requests through your httpbin-gateway are allowed. All other external requests will be rejected with a 404 response.
 
-### Step 5 Enable DLB Connection Load Balancing
+### Step 5: Enable DLB Connection Load Balancing
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -248,7 +248,7 @@ $ kubectl logs -n istio-system ${POD} | grep dlb
 
 Envoy will auto detect and choose the DLB device.
 
-### Step 6 Test
+### Step 6: Test
 
 {{< text bash >}}
 $ export HOST="<YOUR-HOST-IP>"
