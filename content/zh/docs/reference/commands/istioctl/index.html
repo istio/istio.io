@@ -7146,6 +7146,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>If set, limit Kubernetes watches to a single namespace. Warning: only a single namespace can be set.</td>
 </tr>
 <tr>
+<td><code>JWKS_RESOLVER_INSECURE_SKIP_VERIFY</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, istiod will skip verifying the certificate of the JWKS server.</td>
+</tr>
+<tr>
 <td><code>JWT_POLICY</code></td>
 <td>String</td>
 <td><code>third-party-jwt</code></td>
