@@ -23,7 +23,7 @@ k3d 使得在 docker 中创建单节点和多节点 k3s 集群变得非常容易
 1. 创建集群并使用以下命令禁用 `Traefik`:
 
     {{< text bash >}}
-    $ k3d cluster create --api-port 6550 -p '9080:80@loadbalancer' -p '9443:443@loadbalancer' --agents 2 --k3s-arg '--disable=traefik@server:*'
+    $ k3d cluster create --api-port 6550 -p "9080:80@loadbalancer"  -p "9443:443@loadbalancer" --agents 2 --k3s-arg '--disable=traefik@server:*'
     {{< /text >}}
 
 1. 查看 k3d 集群列表，请使用以下命令:
