@@ -555,10 +555,6 @@ EOF
 
 {{< /tab >}}
 
-{{< /tabset >}}
-
-{{< /tab >}}
-
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
 {{< text bash >}}
