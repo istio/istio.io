@@ -238,7 +238,7 @@ integrations:
   - name: "Pomerium"
     logo: "/logos/pomerium.svg"
     url: "https://www.pomerium.io/guides/istio.html"
-    description: "Pomerium is an open-source identity awarew proxy. "
+    description: "Pomerium is an open-source identity and context-aware proxy. "
     details:
       - "Use Pomerium to manage incoming user requests, and then lean on Istio’s mTLS support to complete the zero-trust loop."
   - name: "Portshift"
