@@ -73,7 +73,7 @@ k3d makes it very easy to create single- and multi-node k3s clusters in docker, 
 
 ## Set up Dashboard UI for k3d
 
-k3d does not have a built in Dashboard UI like minikube. But you can still set up Dashboard, a web based Kubernetes UI, to view your cluster.
+k3d does not have a built-in Dashboard UI like minikube. But you can still set up Dashboard, a web based Kubernetes UI, to view your cluster.
 Follow these instructions to set up Dashboard for k3d.
 
 1.  To deploy Dashboard, run the following command:
