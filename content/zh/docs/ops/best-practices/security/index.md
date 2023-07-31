@@ -163,7 +163,7 @@ Istio 社区创建功能请求。
 ### 在路径规范化上自定义系统 {#customize-your-system-on-path-normalization}
 
 Istio 授权策略能够基于 HTTP 请求的 URL 路径实现。
-[路径规范化(即 URI 规范化)](https://en.wikipedia.org/wiki/URI_normalization)修改并标准化了入站请求的路径，
+[路径规范化（即 URI 规范化）](https://en.wikipedia.org/wiki/URI_normalization)修改并标准化了入站请求的路径，
 因此规范化后的路径可以按照标准进行处理。语法上来说，不同的路径在规范化之后可能是一致的。
 
 在评估授权策略和路由请求之前，Istio 支持以下的请求路径规范化方案：
@@ -333,9 +333,9 @@ spec:
 [default-deny 授权策略模式](/zh/docs/ops/best-practices/security/#use-default-deny-patterns)，
 如果客户端使用任意的 `Host` 标头，它将拒绝该请求。
 
-#### 专门的网络应用防火墙 (WAF) {#specialized-web-application-firewall}
+#### 专门的网络应用防火墙（WAF） {#specialized-web-application-firewall}
 
-许多专门的 Web 应用程序防火墙 (WAF) 产品提供额外的规范化选项。它们可以部署在 Istio 入口网关的前端，
+许多专门的 Web 应用程序防火墙（WAF）产品提供额外的规范化选项。它们可以部署在 Istio 入口网关的前端，
 以规范化进入网格的请求。然后，授权策略将在规范化的请求上执行。请参考您的特定 WAF 产品以配置规范化选项。
 
 #### 对 Istio 的功能请求 {#feature-request-to-istio}
