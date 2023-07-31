@@ -30,11 +30,13 @@ test: no
     {{< /text >}}
 
     {{< tip >}}
-    Istio的默认安装要求节点 vCPU 大于 1，如果您要使用[配置文件示例](/zh/docs/setup/additional-setup/config-profiles/)，您可以删除 `--machine-type` 参数，以使用较小 `n1-standard-1` 机器配置代替。
+    Istio 的默认安装要求节点 vCPU 大于 1，如果您要使用[配置文件示例](/zh/docs/setup/additional-setup/config-profiles/)，
+    您可以删除 `--machine-type` 参数，以使用较小的 `n1-standard-1` 机器配置代替。
     {{< /tip >}}
 
     {{< warning >}}
-    要在 GKE 上使用 Istio CNI 功能，请查看[CNI 安装指南](/zh/docs/setup/additional-setup/cni/#prerequisites)了解先决条件集群配置步骤。
+    要在 GKE 上使用 Istio CNI 功能，请查看
+    [CNI 安装指南](/zh/docs/setup/additional-setup/cni/#prerequisites)了解集群配置步骤的先决条件。
     {{< /warning >}}
 
     {{< warning >}}
