@@ -17,7 +17,7 @@ test: no
 
 {{< tip >}}
 KubeSphere 提供了 [All-in-One](https://kubesphere.io/docs/installation/all-in-one/) 和
-[Multi-Node](https://kubesphere.io/docs/installation/multi-node/) 两种模式的安装。
+[Multi-node](https://kubesphere.io/docs/installation/multi-node/) 两种模式的安装。
 这使得 Kubernetes 和 Istio 可以在一个统一的 Web 控制台中进行快速设置和管理。
 详细信息请参考 [Multi-node Installation](https://kubesphere.io/docs/installation/multi-node/)
 {{< /tip >}}

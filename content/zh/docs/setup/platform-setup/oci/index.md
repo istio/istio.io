@@ -61,9 +61,9 @@ $ oci ce cluster create-kubeconfig \
 {{< /tip >}}
 
 `kube-endpoint` 支持的值是 `PUBLIC_ENDPOINT` 或 `PRIVATE_ENDPOINT`。
-您可能还需要配置 SSH 隧道通过 [Bastion 主机][bastion]访问只有私有端点的集群。
+您可能还需要通过 [Bastion 主机][bastion]配置 SSH 隧道以访问只有私有端点的集群。
 
-将 `cluster-ocid` 替换为目标 OKE 集群的[OCID][CONCEPTS]。
+将 `cluster-ocid` 替换为目标 OKE 集群的 [OCID][CONCEPTS]。
 
 ## 验证对集群的访问{#verify-access-to-the-cluster}
 
