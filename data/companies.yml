@@ -238,9 +238,9 @@ integrations:
   - name: "Pomerium"
     logo: "/logos/pomerium.svg"
     url: "https://www.pomerium.io/guides/istio.html"
-    description: "Pomerium is an open-source identity awarew proxy. "
+    description: "Pomerium is an open-source identity and context-aware proxy. "
     details:
-      - "Use Pomerium to manage incoming user requests, and then lean on Istio’s mTLS support to complete the zero-trust loop."
+      - "Configure Istio with Pomerium Ingress Controller for Kubernetes to enable mTLS of east-west traffic in your network, bringing you closer to a zero trust architecture."
   - name: "Portshift"
     logo: "/logos/portshift.png"
     url: "https://www.portshift.io/product/service-mesh-security/"
