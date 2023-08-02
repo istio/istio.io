@@ -64,7 +64,7 @@ test: yes
 请注意，`DNS` 解析不能用于通配符主机。这就是为什么`NONE`分辨率（因为它是默认）用于以下服务条目。
 {{< /warning >}}
 
-1. 为 `*.wikipedia.org` 定义一个 `ServiceEntry` 以及相应的 `VirtualSevice`：
+1. 为 `*.wikipedia.org` 定义一个 `ServiceEntry` 以及相应的 `VirtualService`：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
