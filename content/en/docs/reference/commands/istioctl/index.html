@@ -2399,6 +2399,11 @@ calculated over a time interval of 1 minute.
 <td>Kubernetes namespace  (default ``)</td>
 </tr>
 <tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>Output format: one of [log json yaml]  (default `log`)</td>
+</tr>
+<tr>
 <td><code>--revision &lt;string&gt;</code></td>
 <td><code>-r</code></td>
 <td>Control plane revision  (default ``)</td>
@@ -7380,18 +7385,6 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>If enabled, Istiod sets up persistent session filter for listeners, if services have &#39;PILOT_PERSISTENT_SESSION_LABEL&#39; set.</td>
 </tr>
 <tr>
-<td><code>PILOT_ENABLE_PROTOCOL_SNIFFING_FOR_INBOUND</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If enabled, protocol sniffing will be used for inbound listeners whose port protocol is not specified or unsupported</td>
-</tr>
-<tr>
-<td><code>PILOT_ENABLE_PROTOCOL_SNIFFING_FOR_OUTBOUND</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If enabled, protocol sniffing will be used for outbound listeners whose port protocol is not specified or unsupported</td>
-</tr>
-<tr>
 <td><code>PILOT_ENABLE_QUIC_LISTENERS</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -7737,8 +7730,6 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <tr><td><code>num_outgoing_retries</code></td><td><code>Sum</code></td><td>Number of outgoing retry requests (e.g. to a token exchange server, CA, etc.)</td></tr>
 <tr><td><code>owned_resource_total</code></td><td><code>LastValue</code></td><td>Number of resources currently owned by the operator</td></tr>
 <tr><td><code>pilot_conflict_inbound_listener</code></td><td><code>LastValue</code></td><td>Number of conflicting inbound listeners.</td></tr>
-<tr><td><code>pilot_conflict_outbound_listener_http_over_current_tcp</code></td><td><code>LastValue</code></td><td>Number of conflicting wildcard http listeners with current wildcard tcp listener.</td></tr>
-<tr><td><code>pilot_conflict_outbound_listener_tcp_over_current_http</code></td><td><code>LastValue</code></td><td>Number of conflicting wildcard tcp listeners with current wildcard http listener.</td></tr>
 <tr><td><code>pilot_conflict_outbound_listener_tcp_over_current_tcp</code></td><td><code>LastValue</code></td><td>Number of conflicting tcp listeners with current tcp listener.</td></tr>
 <tr><td><code>pilot_debounce_time</code></td><td><code>Distribution</code></td><td>Delay in seconds between the first config enters debouncing and the merged push request is pushed into the push queue.</td></tr>
 <tr><td><code>pilot_destrule_subsets</code></td><td><code>LastValue</code></td><td>Duplicate subsets across destination rules for same host</td></tr>
