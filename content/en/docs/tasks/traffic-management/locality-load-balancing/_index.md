@@ -2,7 +2,7 @@
 title: Locality Load Balancing
 description: This series of tasks demonstrate how to configure locality load balancing in Istio.
 weight: 65
-keywords: [locality,load balancing,priority,prioritized,kubernetes,multicluster,traffic-shifting, single]
+keywords: [locality,load balancing,priority,prioritized,kubernetes,multicluster,traffic-shifting]
 list_below: true
 simple_list: true
 content_above: true
@@ -57,6 +57,3 @@ is **not** considered to be local to a pod running in zone `bar` of region
 Istio uses this locality information to control load balancing behavior.
 Follow one of the tasks in this series to configure locality load balancing for
 your mesh.
-
-## See Also
-<!-- [Single Cluster Load Balancing Examples]() -->
