@@ -310,8 +310,8 @@ spec:
   selector:
     matchLabels:
       app: httpbin
-    mtls:
-      mode: DISABLE
+  mtls:
+    mode: DISABLE
 EOF
 {{< /text >}}
 
