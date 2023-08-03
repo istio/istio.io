@@ -135,7 +135,7 @@ spec:
     - name: reviews-v2
       port: 9080
     timeouts:
-      request: 0.5s
+      request: 500ms
 EOF
 }
 
