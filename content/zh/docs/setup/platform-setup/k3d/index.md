@@ -20,13 +20,13 @@ k3d 使得在 Docker 中创建单节点和多节点 k3s 集群变得非常容易
 
 ## 安装 {#installation}
 
-1. 创建集群并使用以下命令禁用 `Traefik`:
+1. 创建集群并使用以下命令禁用 `Traefik`：
 
     {{< text bash >}}
     $ k3d cluster create --api-port 6550 -p '9080:80@loadbalancer' -p '9443:443@loadbalancer' --agents 2 --k3s-arg '--disable=traefik@server:*'
     {{< /text >}}
 
-1. 查看 k3d 集群列表，请使用以下命令:
+1. 查看 k3d 集群列表，请使用以下命令：
 
     {{< text bash >}}
     $ k3d cluster list
@@ -73,10 +73,11 @@ k3d 使得在 Docker 中创建单节点和多节点 k3s 集群变得非常容易
 
 ## 为 k3d 设置仪表板用户界面 {#set-up-dashboard-UI-for-k3d}
 
-k3d 没有像 minikube 这样的内置仪表板 UI。但是您仍然可以设置 Dashboard (基于 Web 的 Kubernetes UI) 来查看您的集群。
+k3d 没有像 minikube 这样的内置仪表板 UI。但是您仍然可以设置 Dashboard
+ (基于 Web 的 Kubernetes UI) 来查看您的集群。
 按照以下说明为 k3d 设置仪表板。
 
-1. 要部署仪表板，请运行以下命令:
+1. 要部署仪表板，请运行以下命令：
 
     {{< text bash >}}
     $ GITHUB_URL=https://github.com/kubernetes/dashboard/releases
@@ -112,7 +113,7 @@ k3d 没有像 minikube 这样的内置仪表板 UI。但是您仍然可以设置
     $ echo $token
     {{< /text >}}
 
-1. 您可以通过运行以下命令使用 kubectl 命令行工具访问仪表板:
+1. 您可以通过运行以下命令使用 kubectl 命令行工具访问仪表板：
 
     {{< text bash >}}
     $ kubectl proxy
@@ -127,7 +128,7 @@ k3d 没有像 minikube 这样的内置仪表板 UI。但是您仍然可以设置
 
 ## 卸载 {#uninstall}
 
-1. 当您完成实验并想要删除现有集群时，请使用以下命令:
+1. 当您完成实验并想要删除现有集群时，请使用以下命令：
 
     {{< text bash >}}
     $ k3d cluster delete k3s-default
