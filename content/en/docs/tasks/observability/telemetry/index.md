@@ -5,10 +5,10 @@ weight: 0
 keywords: [telemetry]
 owner: istio/wg-policies-and-telemetry-maintainers
 test: no
-status: Experimental
+status: Alpha
 ---
 
-{{< boilerplate experimental >}}
+{{< boilerplate alpha >}}
 
 Istio provides a [Telemetry API](/docs/reference/config/telemetry/) that enables flexible configuration of
 [metrics](/docs/tasks/observability/metrics/), [access logs](/docs/tasks/observability/logs/), and [tracing](/docs/tasks/observability/distributed-tracing/).

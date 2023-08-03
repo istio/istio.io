@@ -47,9 +47,9 @@ front-matter 中 `title:` 字段的文本必须使用首字母大小写。即：
 
 | 正确做法                          | 错误做法
 |----------------------------|------
-|创建 `ReplicaSet`, ... | 为了要创建 `ReplicaSet`, ...
+|创建 `ReplicaSet`，... | 为了要创建 `ReplicaSet`，...
 |参见配置文件。 | 请参见配置文件。
-|查看 Pods。              | 通过下一个命令，可查看 Pods。
+|查看 Pod。              | 通过下一个命令，可查看 Pod。
 
 ## 使用“您”称呼读者{#address-the-reader-as-you}
 

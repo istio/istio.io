@@ -24,11 +24,11 @@ weight: 10
 
 1. [使用 Istio Operator 安装](/zh/docs/setup/install/operator/)
 
-    没有 `istioctl` 二进制文件的简单安安装方式。这是推荐的方法。用于简单升级工作，无需考虑运行集群内的高权限 Controller。
+    没有 `istioctl` 二进制文件的简单安装方式。这是推荐的方法。用于简单升级工作，无需考虑运行集群内的高权限 Controller。
 
     优点:
 
-    - 具有与 `istioctl install` 相同的 API ，但是通过据群众具有高权限的 Controller Pod 通过完全声明的方式进行操作。
+    - 具有与 `istioctl install` 相同的 API ，但是通过集群中具有高权限的 Controller Pod 通过完全声明的方式进行操作。
     - 使用提供了扩展的配置、自定义选项的 `IstioOperator` API。
     - 不需要管理多个 `istioctl` 的二进制文件。
 

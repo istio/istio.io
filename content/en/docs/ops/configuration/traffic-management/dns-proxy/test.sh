@@ -29,7 +29,7 @@ snip_dns_capture_in_action_2
 
 # configure service entries and verify
 snip_dns_capture_in_action_1
-_verify_first_line snip_dns_capture_in_action_3 "$snip_dns_capture_in_action_3_out"
+_verify_contains snip_dns_capture_in_action_3 "$snip_dns_capture_in_action_3_out"
 snip_address_auto_allocation_1
 _verify_contains snip_address_auto_allocation_2 "*   Trying 240.240."
 

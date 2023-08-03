@@ -832,8 +832,8 @@ Istio 使用双向 TLS 将某些信息从客户端安全地传递到服务器。
 - `source.principal` 自定义条件
 - `source.namespace` 自定义条件
 
-请注意，强烈建议始终在 PeerAuthentication 中以 STRICT 双向 TLS 模式使用这些字段，
-以避免在 PERMISSIVE 双向 TLS 模式中使用纯文本流量时可能出现的意外请求拒绝或绕过安全策略。
+请注意，强烈建议始终在 `PeerAuthentication` 中以 `STRICT` 双向 TLS 模式使用这些字段，
+以避免在 `PERMISSIVE` 双向 TLS 模式中使用纯文本流量时可能出现的意外请求拒绝或绕过安全策略。
 
 如果您无法启用严格的双向 TLS 模式，
 请查看[安全公告](/zh/news/security/istio-security-2021-004)以获取更多详细信息和替代方案。

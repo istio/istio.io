@@ -70,10 +70,9 @@ Please keep up-to-date and use a supported version.
 
 | Minor Releases   | Patched versions with no known CVEs                  |
 | ---------------- | ---------------------------------------------------- |
-| 1.18.x           | 1.18.0                                               |
-| 1.17.x           | 1.17.2+                                              |
-| 1.16.x           | 1.16.4+                                              |
-| 1.15.x           | 1.15.7 - End of life. A new CVE will NOT be patched  |
+| 1.18.x           | 1.18.2+                                               |
+| 1.17.x           | 1.17.5+                                              |
+| 1.16.x           | 1.16.7+                                              |
 
 ## Supported Envoy Versions
 

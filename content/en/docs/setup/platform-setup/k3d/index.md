@@ -23,7 +23,7 @@ k3d makes it very easy to create single- and multi-node k3s clusters in docker, 
 1.  Create a cluster and disable `Traefik` with the following command:
 
     {{< text bash >}}
-    $ k3d cluster create --api-port 6550 -p "9080:80@loadbalancer"  -p "9443:443@loadbalancer" --agents 2 --k3s-arg '--disable=traefik@server:*'
+    $ k3d cluster create --api-port 6550 -p '9080:80@loadbalancer' -p '9443:443@loadbalancer' --agents 2 --k3s-arg '--disable=traefik@server:*'
     {{< /text >}}
 
 1.  To see the list of k3d clusters, use the following command:
@@ -73,7 +73,7 @@ k3d makes it very easy to create single- and multi-node k3s clusters in docker, 
 
 ## Set up Dashboard UI for k3d
 
-k3d does not have a built in Dashboard UI like minikube. But you can still set up Dashboard, a web based Kubernetes UI, to view your cluster.
+k3d does not have a built-in Dashboard UI like minikube. But you can still set up Dashboard, a web based Kubernetes UI, to view your cluster.
 Follow these instructions to set up Dashboard for k3d.
 
 1.  To deploy Dashboard, run the following command:

@@ -474,6 +474,7 @@ For example <code>inbound|7443|grpc-reviews|reviews.prod.svc.cluster.local</code
 <li><code>%SERVICE%</code> - Will be substituted with name of the service.</li>
 <li><code>%SERVICE_FQDN%</code> - Will be substituted with FQDN of the service.</li>
 <li><code>%SERVICE_PORT%</code> - Will be substituted with port of the service.</li>
+<li><code>%TARGET_PORT%</code>  - Will be substituted with the target port of the service.</li>
 <li><code>%SERVICE_PORT_NAME%</code> - Will be substituted with port name of the service.</li>
 </ul>
 <p>Following are some examples of supported patterns for reviews:</p>
@@ -959,17 +960,6 @@ No
 <td><code><a href="#MeshConfig-ExtensionProvider-StackdriverProvider">StackdriverProvider (oneof)</a></code></td>
 <td>
 <p>Configures a Stackdriver provider.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="MeshConfig-ExtensionProvider-opencensus" class="oneof">
-<td><code>opencensus</code></td>
-<td><code><a href="#MeshConfig-ExtensionProvider-OpenCensusAgentTracingProvider">OpenCensusAgentTracingProvider (oneof)</a></code></td>
-<td>
-<p>Configures an OpenCensusAgent tracing provider.</p>
 
 </td>
 <td>

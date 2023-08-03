@@ -107,7 +107,7 @@ Istio CA 签发中间证书。Istio CA 可以使用管理员指定的证书和�
     $ istioctl install --set profile=demo
     {{< /text >}}
 
-## 部署实例服务{#deploying-example-services}
+## 部署示例服务{#deploying-example-services}
 
 1. 部署 `httpbin` 和 `sleep` 示例服务。
 
