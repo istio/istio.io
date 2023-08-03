@@ -22,7 +22,8 @@ istio-testing-worker2         Ready    <none>          3d7h   v1.27.1
 istio-testing-worker3         Ready    <none>          3d7h   v1.27.1
 {{< /text >}}
 
-Add zone label to 3 workers with us-south10, us-south12 and us-south13:
+Add zone label to 3 workers with `us-south10`, `us-south12` and `us-south13`:
+
 {{< text bash >}}
 $ kubectl label node istio-testing-worker topology.kubernetes.io/zone=us-south10
 $ kubectl label node istio-testing-worker2 topology.kubernetes.io/zone=us-south12
@@ -39,7 +40,8 @@ istio-testing-worker3         Ready    <none>          3d7h   v1.27.1   us-south
 {{< /text >}}
 
 ## Istiod Isolation
-We will edit the istiod deployment to use Pod topology spread constraints to deploy istiod instance in each zone and ensure that all sidecars from each zone connect to their local istiod instance. 
+
+We will edit the istiod deployment to use pod topology spread constraints to deploy istiod instance in each zone and ensure that all sidecars from each zone connect to their local istiod instance.
 
 {{< text yaml >}}
 apiVersion: apps/v1
@@ -60,10 +62,9 @@ spec:
 ...
 {{< /text >}}
 
+## Deploy `HelloWorld` to 3 different zones
 
-## Deploy HelloWorld to 3 different zones
-
-we will add node affinity rule in [samples/helloworld/helloworld.yaml](https://raw.githubusercontent.com/istio/istio/release-1.18/samples/helloworld/helloworld.yaml) to assign the pod to certain zone: 
+we will add node affinity rule in [`samples/helloworld/helloworld.yaml`]({{< github_file >}}/samples/helloworld/helloworld.yaml) to assign the pod to certain zone:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -108,7 +109,7 @@ helloworld-us-south13-8bb7f48d-852jw     2/2     Running   0          34h   10.2
 
 Deploy the `Sleep` application to `us-south10`:
 
-we will add node affinity rule in [samples/sleep/sleep.yaml](https://raw.githubusercontent.com/istio/istio/release-1.18/samples/sleep/sleep.yaml) to assign the pod to zone `us-south10`:
+we will add node affinity rule in [`samples/sleep/sleep.yaml`]({{< github_file >}}/samples/sleep/sleep.yaml) to assign the pod to zone `us-south10`:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -143,7 +144,7 @@ EOF
 {{< text bash >}}
 $ kubectl get pod -o wide
 NAME                                     READY   STATUS    RESTARTS   AGE   IP            NODE                    NOMINATED NODE   READINESS GATES
-helloworld-us-south10-55c5c89785-dsg4s   1/2     Running   0          34h   10.244.1.7    istio-testing-worker    <none>           <none>
+helloworld-us-south10-55c5c89785-dsg4s   2/2     Running   0          34h   10.244.1.7    istio-testing-worker    <none>           <none>
 helloworld-us-south12-99775b858-vlnps    2/2     Running   0          34h   10.244.3.6    istio-testing-worker2   <none>           <none>
 helloworld-us-south13-8bb7f48d-852jw     2/2     Running   0          34h   10.244.2.10   istio-testing-worker3   <none>           <none>
 sleep-us-south10-6b544777c6-x66xv        2/2     Running   0          36h   10.244.1.6    istio-testing-worker    <none>           <none>
@@ -233,6 +234,4 @@ $ kubectl exec -c sleep \
 Hello version: v1, instance: helloworld-us-south12-99775b858-vlnps
 {{< /text >}}
 
-The first call will fail, which triggers the failover. Repeat the command
-several more times and verify that the `instance` in the response is always
-`us-south12`.
+The first call will fail, which triggers the failover. Repeat the command several more times and verify that the `instance` in the response is always `us-south12`.
