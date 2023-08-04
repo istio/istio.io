@@ -64,7 +64,7 @@ spec:
 
 ## Deploy `HelloWorld` to 3 different zones
 
-we will add node affinity rule in [`samples/helloworld/helloworld.yaml`]({{< github_file >}}/samples/helloworld/helloworld.yaml) to assign the pod to certain zone:
+We will add node affinity rule in [`samples/helloworld/helloworld.yaml`]({{< github_file >}}/samples/helloworld/helloworld.yaml) to assign the pod to certain zone:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -107,9 +107,9 @@ helloworld-us-south13-8bb7f48d-852jw     2/2     Running   0          34h   10.2
 
 ## Deploy `Sleep`
 
-Deploy the `Sleep` application to `us-south10`:
+Deploy the `Sleep` application to `us-south10`.
 
-we will add node affinity rule in [`samples/sleep/sleep.yaml`]({{< github_file >}}/samples/sleep/sleep.yaml) to assign the pod to zone `us-south10`:
+We will add node affinity rule in [`samples/sleep/sleep.yaml`]({{< github_file >}}/samples/sleep/sleep.yaml) to assign the pod to zone `us-south10`:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
