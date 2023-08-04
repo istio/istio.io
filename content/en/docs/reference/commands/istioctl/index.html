@@ -7156,6 +7156,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>If set, limit Kubernetes watches to a single namespace. Warning: only a single namespace can be set.</td>
 </tr>
 <tr>
+<td><code>ISTIO_WORKLOAD_ENTRY_VALIDATE_IDENTITY</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, will validate the identity of a workload matches the identity of the WorkloadEntry it is associating with for health checks and auto registration. This flag is added for backwards compatibility only and will be removed in future releases</td>
+</tr>
+<tr>
 <td><code>JWKS_RESOLVER_INSECURE_SKIP_VERIFY</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
