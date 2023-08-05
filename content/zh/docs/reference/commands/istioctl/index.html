@@ -2399,16 +2399,6 @@ calculated over a time interval of 1 minute.
 <td>Kubernetes namespace  (default ``)</td>
 </tr>
 <tr>
-<td><code>--output &lt;string&gt;</code></td>
-<td><code>-o</code></td>
-<td>Output format: one of [log json yaml]  (default `log`)</td>
-</tr>
-<tr>
-<td><code>--output-threshold &lt;Level&gt;</code></td>
-<td></td>
-<td>The severity level of precheck at which to display messages. Valid values: [Info Warning Error]  (default `Warning`)</td>
-</tr>
-<tr>
 <td><code>--revision &lt;string&gt;</code></td>
 <td><code>-r</code></td>
 <td>Control plane revision  (default ``)</td>
@@ -6709,7 +6699,7 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td><code>ISTIO_ENABLE_OPTIMIZED_SERVICE_PUSH</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
-<td>If enabled, Istiod will not push changes on arbitrary annotation change.</td>
+<td>If enabled, Istiod will not push changes on arbitraty annotation change.</td>
 </tr>
 <tr>
 <td><code>ISTIO_GPRC_MAXRECVMSGSIZE</code></td>
@@ -6902,6 +6892,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, pilot will read WorkloadEntry from other clusters, selectable by Services in that cluster.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_DESTINATION_RULE_INHERITANCE</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If set, workload specific DestinationRules will inherit configurations settings from mesh and namespace level rules</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_EDS_DEBOUNCE</code></td>
