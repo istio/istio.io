@@ -24,6 +24,12 @@ A [Kubernetes Ingress Resources](https://kubernetes.io/docs/concepts/services-ne
 
 Let's see how you can configure a `Ingress` on port 80 for HTTP traffic.
 
+1. First, deploy the `httpbin` application:
+
+    {{< text bash >}}
+    $ kubectl apply -f @samples/httpbin/httpbin.yaml@
+    {{< /text >}}
+
 1.  Create an `Ingress` resource:
 
     {{< text bash >}}
