@@ -410,6 +410,7 @@ emojis
 enablement
 endUser-to-Service
 enum
+enqueue
 env
 EnvoyFilter
 envoyproxy
@@ -1033,6 +1034,7 @@ uncaptured
 uncomment
 uncommented
 unconfigured
+uncore
 undeploy
 Undeploy
 undeployed
