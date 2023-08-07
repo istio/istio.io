@@ -25,7 +25,7 @@ Envoy provides a connection load balancing implementation called Exact connectio
 
 Obviously, it is not suitable for an ingress gateway since an ingress gateway accepts thousands of connections within a short time, and the resource cost from the lock brings a big drop in throughput.
 
-Now, Envoy has integrated Intel® Dynamic Load Balancing (Intel®DLB) connection load balancing to accelerate in big connection cases like ingress gateway.
+Now, Envoy has integrated Intel® Dynamic Load Balancing (Intel®DLB) connection load balancing to accelerate in high connection count cases like ingress gateway.
 
 ## How Intel® Dynamic Load Balancing accelerates connection load balancing in Envoy
 
@@ -33,20 +33,20 @@ Intel DLB is a hardware managed system of queues and arbiters connecting produce
 
 Intel DLB implements the following load balancing features:
 
-- Offloads queue management from software — useful where there are significant queuing-based costs
-    - Especially with multi-producer / multi-consumer scenarios and enqueue batching to multiple destinations
-    - The overhead locks are required to access shared queues in the software. Intel DLB implements lock-free access to shared queues
-- Dynamic, flow aware load balancing and reordering
-    - Ensures equal distribution of tasks and better CPU core utilization. Can provide flow-based atomicity if required
-    - Distributes high bandwidth flows across many cores without loss of packet order
-    - Better determinism and avoids excessive queuing latencies
-    - Uses less IO memory footprint and saves DDR Bandwidth
-- Priority queuing (up to 8 levels) — allows for QOS
-    - Lower latency for traffic that is latency sensitive
-    - Optional delay measurements in the packets
+- Offloads queue management from software — useful where there are significant queuing-based costs.
+    - Especially with multi-producer / multi-consumer scenarios and enqueue batching to multiple destinations.
+    - The overhead locks are required to access shared queues in the software. Intel DLB implements lock-free access to shared queues.
+- Dynamic, flow aware load balancing and reordering.
+    - Ensures equal distribution of tasks and better CPU core utilization. Can provide flow-based atomicity if required.
+    - Distributes high bandwidth flows across many cores without loss of packet order.
+    - Better determinism and avoids excessive queuing latencies.
+    - Uses less IO memory footprint and saves DDR Bandwidth.
+- Priority queuing (up to 8 levels) — allows for QOS.
+    - Lower latency for traffic that is latency sensitive.
+    - Optional delay measurements in the packets.
 - Scalability
-    - Allows dynamic sizing of applications, seamless scale up/down
-    - Power aware; application can drop workers to lower power state in cases of lighter load
+    - Allows dynamic sizing of applications, seamless scale up/down.
+    - Power aware; application can drop workers to lower power state in cases of lighter load.
 
 There are three types of load balancing queues:
 
@@ -85,7 +85,7 @@ $ kubectl describe nodes | grep dlb.intel.com/pf
 
 ### Step 2: Download Istio
 
-In this blog we use 1.17.2, let’s download the installation:
+In this blog we use 1.17.2. Let’s download the installation:
 
 {{< text bash >}}
 $ curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.17.2 TARGET_ARCH=x86_64 sh -
