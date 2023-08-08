@@ -278,7 +278,7 @@ server: istio-envoy
 请注意，您可以使用 `-H` 标志将 Host HTTP 头设置为 `httpbin.example.com`，
 因为现在您还没有为该主机绑定 DNS，所以只是将请求发送到入口 IP。
 
-您也可以在 `/etc/hosts `中添加 DNS 绑定并移除 `-H` 标志：
+您也可以在 `/etc/hosts` 中添加 DNS 绑定并移除 `-H` 标志：
 
 {{< text bash >}}
 $ echo "$HOST httpbin.example.com" >> /etc/hosts
