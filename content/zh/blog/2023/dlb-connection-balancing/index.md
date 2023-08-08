@@ -1,7 +1,7 @@
 ---
 title: "在 Istio 中使用加速卸载连接负载均衡"
 description: "在 Istio 网关中使用 DLB 连接负载均衡配置来加速连接均衡。"
-publishdate: 2023-06-08
+publishdate: 2023-08-08
 attribution: "Loong Dai (Intel); Translated by Michael Yao (DaoCloud)"
 keywords: [Istio, DLB, gateways]
 ---
