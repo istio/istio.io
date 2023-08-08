@@ -35,7 +35,7 @@ Envoy 提供了一个名为 Exact 连接均衡的连接负载均衡实现。
 ## Intel® Dynamic Load Balancing 如何加速 Envoy 中的连接负载均衡 {#how-intel-dlb-accelerate-in-envoy}
 
 Intel DLB 是一个硬件管理的队列和仲裁器系统，连接生产者和消费者。
-它是一个 PCI 设备，预期安装在服务器 CPU 的 [uncore](https://en.wikipedia.org/wiki/Uncore) 中，
+它是一个 PCI 设备，预期安装在服务器 CPU 的 [Uncore](https://zh.wikipedia.org/wiki/Uncore) 中，
 并且可以与运行在核心上的软件交互，也可以与其他设备交互。
 
 Intel DLB 实现了以下负载均衡功能：
@@ -322,4 +322,4 @@ $ kubectl logs -n istio-system ${POD} | grep dlb
 {{< /text >}}
 
 有关 Istio 入口网关的更多细节，请访问
-[Istio 入口网关官方文档](/zh/docs/tasks/traffic-management/ingress/ingress-control/).
+[Istio 入口网关官方文档](/zh/docs/tasks/traffic-management/ingress/ingress-control/)。
