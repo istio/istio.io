@@ -1,7 +1,7 @@
 ---
 title: "Using Accelerated Offload Connection Load Balancing in Istio"
 description: "Accelerate connection balancing using DLB connection balancing configuration in Istio gateways."
-publishdate: 2023-06-08
+publishdate: 2023-08-08
 attribution: "Loong Dai (Intel)"
 keywords: [Istio, DLB, gateways]
 ---
