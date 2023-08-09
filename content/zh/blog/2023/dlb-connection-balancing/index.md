@@ -1,12 +1,12 @@
 ---
-title: "在 Istio 中使用加速卸载连接负载均衡"
-description: "在 Istio 网关中使用 DLB 连接负载均衡配置来加速连接均衡。"
+title: "在 Istio 中使用硬件卸载加速连接负载均衡"
+description: "在 Istio 网关中使用 DLB 加速连接负载均衡。"
 publishdate: 2023-08-08
 attribution: "Loong Dai (Intel); Translated by Michael Yao (DaoCloud)"
 keywords: [Istio, DLB, gateways]
 ---
 
-## 什么是连接负载均衡？ {#what-is-clb}
+## 什么是连接负载均衡？ {#what-is-connection-load-balancing}
 
 负载均衡是一种核心网络解决方案，用于在服务器群中分配流量到多台服务器上。
 负载均衡器提高了应用程序的可用性和响应性，并防止服务器超载。
@@ -17,7 +17,7 @@ keywords: [Istio, DLB, gateways]
 而其他空闲状态的工作进程则无法运行，影响了 Web 服务器的性能。
 连接负载均衡是解决这种情况的方法，也被称为连接均衡。
 
-## Istio 为连接负载均衡做了什么？ {#what-does-istio-do-for-clb}
+## Istio 为连接负载均衡做了什么？ {#what-does-istio-do-for-connection-load-balancing}
 
 Istio 使用 Envoy 作为数据平面。
 
@@ -64,7 +64,7 @@ Intel DLB 实现了以下负载均衡功能：
 - 原子：适用于多个生产者和消费者，任务按照一定的规则分组。
   这些任务使用相同的资源集进行处理，并且组内任务的顺序很重要。
 
-入口网关被期望尽快地处理尽可能多的数据，因此Intel DLB连接负载均衡使用无序队列。
+入口网关被期望尽快地处理尽可能多的数据，因此 Intel DLB 连接负载均衡使用无序队列。
 
 ## 如何在 Istio 中使用 Intel DLB 连接负载均衡 {#how-to-use-intel-dlb-in-istio}
 
@@ -72,7 +72,7 @@ Intel DLB 实现了以下负载均衡功能：
 
 以下步骤展示了如何在 Istio
 [入口网关](/zh/docs/tasks/traffic-management/ingress/ingress-control/)中使用
-Intel DLB 连接负载均衡，在一个 SPR（Sapphire Rapids）机器上，假设 Kubernetes 集群正在运行。
+Intel DLB 连接负载均衡，在一个 Kubernetes 集群正常运行的 SPR（Sapphire Rapids）机器上。
 
 ### 第 1 步：准备 DLB 环境 {#prepare-dlb-env}
 
@@ -226,7 +226,7 @@ EOF
 gateways 列表指定只有通过 httpbin-gateway 的请求才被允许。
 所有其他外部请求将会被拒绝，并返回 404 响应。
 
-### 第 5 步：启用 DLB 连接负载均衡 {#enable-dlb-clb}
+### 第 5 步：启用 DLB 连接负载均衡 {#enable-dlb-connection-load-balancing}
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -254,7 +254,7 @@ spec:
 EOF
 {{< /text >}}
 
-预计如果您检查入口网关 Pod `istio-ingressgateway-xxxx` 的日志，您将看到类似以下的日志条目：
+如果您检查入口网关 Pod `istio-ingressgateway-xxxx` 的日志，您将看到类似以下的日志条目：
 
 {{< text bash >}}
 $ export POD="$(kubectl get pods -n istio-system | grep gateway | awk '{print $1}')"
@@ -288,7 +288,7 @@ server: istio-envoy
 ...
 {{< /text >}}
 
-访问还未显式暴露的任何其他 URL。您应看到一个 HTTP 404 错误：
+访问还未显式暴露的任何其他 URL，您应看到一个 HTTP 404 错误：
 
 {{< text bash >}}
 $ curl -s -I -HHost:httpbin.example.com "http://${HOST}:${PORT}/headers"
