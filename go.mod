@@ -11,7 +11,7 @@ replace github.com/imdario/mergo => github.com/imdario/mergo v0.3.5
 require (
 	github.com/pmezard/go-difflib v1.0.0
 	golang.org/x/sync v0.3.0
-	istio.io/istio v0.0.0-20230805033909-19fc32d088aa
+	istio.io/istio v0.0.0-20230810012219-0fff6ea9c85d
 	k8s.io/apimachinery v0.28.0-beta.0
 	k8s.io/client-go v0.28.0-beta.0
 )
@@ -133,8 +133,8 @@ require (
 	github.com/prometheus/procfs v0.10.1 // indirect
 	github.com/prometheus/prometheus v0.45.0 // indirect
 	github.com/quic-go/qpack v0.4.0 // indirect
-	github.com/quic-go/qtls-go1-20 v0.3.0 // indirect
-	github.com/quic-go/quic-go v0.37.0 // indirect
+	github.com/quic-go/qtls-go1-20 v0.3.1 // indirect
+	github.com/quic-go/quic-go v0.37.4 // indirect
 	github.com/rivo/uniseg v0.4.3 // indirect
 	github.com/rogpeppe/go-internal v1.10.0 // indirect
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
@@ -195,8 +195,8 @@ require (
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	helm.sh/helm/v3 v3.12.2 // indirect
-	istio.io/api v1.19.0-alpha.1.0.20230804170409-04e04e145d6a // indirect
-	istio.io/client-go v1.19.0-alpha.1.0.20230804171312-3ceddb136b6d // indirect
+	istio.io/api v1.19.0-alpha.1.0.20230809190132-998cce5514c7 // indirect
+	istio.io/client-go v1.19.0-alpha.1.0.20230809190832-ce93a7462cb1 // indirect
 	k8s.io/api v0.28.0-beta.0 // indirect
 	k8s.io/apiextensions-apiserver v0.28.0-beta.0 // indirect
 	k8s.io/apiserver v0.28.0-beta.0 // indirect
