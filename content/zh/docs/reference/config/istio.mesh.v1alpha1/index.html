@@ -615,7 +615,7 @@ No
 The default number of retry attempts is set at 2 for these errors:
 &ldquo;connect-failure,refused-stream,unavailable,cancelled,retriable-status-codes&rdquo;.
 Setting the number of attempts to 0 disables retry policy globally.
-This setting can be overriden on a per-host basis using the Virtual Service
+This setting can be overridden on a per-host basis using the Virtual Service
 API.
 All settings in the retry policy except <code>perTryTimeout</code> can currently be
 configured globally via this field.</p>
@@ -1889,7 +1889,7 @@ OpenCensus providers CANNOT be changed during the course of proxy&rsquo;s lifeti
 in the implementation of OpenCensus driver in Envoy. This means only a single provider configuration
 may be used for OpenCensus at any given time for a proxy or group of proxies AND that any change to the provider
 configuration MUST be accompanied by a restart of all proxies that will use that configuration.</p>
-<p>NOTE: Stackdriver tracing uses OpenCensus configuraiton under the hood and, as a result, cannot be used
+<p>NOTE: Stackdriver tracing uses OpenCensus configuration under the hood and, as a result, cannot be used
 alongside OpenCensus provider configuration.</p>
 
 <table class="message-fields">
@@ -2995,7 +2995,7 @@ No
 <p>Topology encapsulates the configuration which describes where the proxy is
 located i.e. behind a (or N) trusted proxy (proxies) or directly exposed
 to the internet. This configuration only effects gateways and is applied
-to all the gateways in the cluster unless overriden via annotations of the
+to all the gateways in the cluster unless overridden via annotations of the
 gateway workloads.</p>
 
 </td>
