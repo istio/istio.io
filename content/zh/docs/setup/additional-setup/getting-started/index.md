@@ -223,7 +223,7 @@ Bookinfo 应用已被部署但还不能从外部进行访问。
 
     {{< text bash >}}
     $ echo "$GATEWAY_URL"
-    169.48.8.37:80
+    127.0.0.1:80
     {{< /text >}}
 
 ### 验证外部访问{#confirm}
