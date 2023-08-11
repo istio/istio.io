@@ -11,5 +11,5 @@ The sunset of OpenCensus will impact Istio's usage of OpenCensus in tracing, log
 plans to use OpenTelemetry exporters with the OpenTelemetry collector to provide matching telemetry capabilities.
 
 This is an advance notice of Istio deprecating OpenCensus, tentatively scheduled for Oct. 10, 2024.
-At that point, Istio will stop supporting OpenCensus. We encourage you to start planning a transition to
-OpenTelemetry in Istio. If you don't plan ahead, you may put yourself in the position of having to do a major upgrade in a short timeframe.
+At that point, Istio will stop supporting OpenCensus. We encourage you to start planning a transition away
+from OpenCensus in Istio. If you don't plan ahead, you may put yourself in the position of having to do a major upgrade in a short timeframe.
