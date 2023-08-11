@@ -158,4 +158,4 @@ One implication of this is that direct calls to pods (for example, `curl <POD_IP
 be [passed through](/docs/tasks/traffic-management/egress/egress-control/#envoy-passthrough-to-external-services), it will not get the full Istio functionality
 including mTLS encryption, traffic routing, and telemetry.
 
-See the [Traffic Routing](/docs/ops/configuration/traffic-management/traffic-routing) page for more information
+See the [Traffic Routing](/docs/ops/configuration/traffic-management/traffic-routing) page for more information.
