@@ -71,6 +71,5 @@ The components marked as &#x2714; are installed within each profile:
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`CNI` | | | | | | | &#x2714; |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Ztunnel` | | | | | | | &#x2714; |
 
-
 To further customize Istio, a number of addon components can also be installed.
 Refer to [integrations](/docs/ops/integrations) for more details.
