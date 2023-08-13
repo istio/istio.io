@@ -144,3 +144,5 @@ mTLS 和[自动协议选择](/zh/docs/ops/configuration/traffic-management/proto
 这意味着直接调用 Pod（例如，`curl <POD_IP>`），而不匹配 Service。
 虽然流量可以[通过](/zh/docs/tasks/traffic-management/egress/egress-control/#envoy-passthrough-to-external-services)，
 但它不会获得完整的 Istio 功能，包括 mTLS 加密、流量路由和遥测。
+
+相关的更多信息，请参阅[流量路由](/zh/docs/ops/configuration/traffic-management/traffic-routing)页面。
