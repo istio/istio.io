@@ -12,28 +12,29 @@ status: Alpha
 
 {{< boilerplate gateway-api-support >}}
 
-## 向目的地的工作负载转发外部客户端属性（IP 地址、证书信息）{#forwarding-external-client-attributes-to-destination-workloads}
+## 向目的地的工作负载转发外部客户端属性（IP 地址、证书信息）  {#forwarding-external-client-attributes-to-destination-workloads}
 
 许多应用程序需要知道发起源请求的客户端 IP 地址和证书信息才能正常工作。
 值得注意的是填充了客户端 IP 的日志、验证工具以及安全工具。
-例如 Web Application Firewalls (WAF)，它应用这些信息来运行正确的规则集。
+例如 Web Application Firewall（WAF），它应用这些信息来运行正确的规则集。
 反向代理的主要工作内容是给服务提供客户端属性。为了向目的地的工作负载转发这些客户端属性，
-代理使用  `X-Forwarded-For` (XFF) 和 `X-Forwarded-Client-Cert` (XFCC) 头。
+代理使用  `X-Forwarded-For`（XFF）和 `X-Forwarded-Client-Cert`（XFCC）请求头。
 
 如今的网络千差万别，无论网络拓扑结构如何，对这些多样化属性的支持都是必要的。
 不管网络使用的是基于云的负载均衡、前置负载均衡、直接暴露在网络上的 Gateway、
 为许多中间代理服务的 Gateway，还是没有指定其他部署拓扑等，这些信息都是需要保存和转发。
 
-当 Istio 提供一个 [Ingress Gateway](/zh/docs/tasks/traffic-management/ingress/ingress-control/)，
-鉴于上述多样化架构的复杂性，无法提供合理的默认值，将客户端属性正确转发到目标工作负载。
+虽然 Istio 提供一个 [Ingress Gateway](/zh/docs/tasks/traffic-management/ingress/ingress-control/)，
+但鉴于上述多样化架构的复杂性，无法提供合理的默认值，将客户端属性正确转发到目标工作负载。
 随着 Istio 多集群部署模式越来越普遍，这个问题需要被越来越重视。
 
 了解关于 `X-Forwarded-For` 更多信息，参考 IETF 的 [RFC](https://tools.ietf.org/html/rfc7239)。
 
-## 配置网络拓扑{#configuring-network-topologies}
+## 配置网络拓扑  {#configuring-network-topologies}
 
-XFF 和 XFCC 头的配置可以通过 `MeshConfig` 为所有 Gateway 工作负载进行全局设置，
-也可以通过使用 Pod 注解给每个 Gateway 配置。例如，在安装或者升级期间，使用 `IstioOperator` 自定义资源去配置全局设置：
+XFF 和 XFCC 请求头的配置可以通过 `MeshConfig` 为所有 Gateway 工作负载进行全局设置，
+也可以通过使用 Pod 注解给每个 Gateway 配置。例如，在安装或者升级期间，使用 `IstioOperator`
+自定义资源去配置全局设置：
 
 {{< text syntax=yaml snip_id=none >}}
 spec:
@@ -53,9 +54,9 @@ spec:
       "proxy.istio.io/config": '{"gatewayTopology" : { "numTrustedProxies": <VALUE>, "forwardClientCertDetails": <ENUM_VALUE> } }'
 {{< /text >}}
 
-### 配置 X-Forwarded-For 头{#configuring-X-Forwarded-For-headers}
+### 配置 X-Forwarded-For 头  {#configuring-X-Forwarded-For-headers}
 
-应用程序依靠反向代理来转发请求的客户端属性，如 `X-Forwarded-For` 头。
+应用程序依靠反向代理来转发请求的客户端属性，如 `X-Forwarded-For` 请求头。
 然而由于 Istio 可以部署多样性的网络拓扑，您必须设置 Istio 网关代理上游的可信代理数量 `numTrustedProxies`，
 这样才能正确提取客户端地址。因为它将控制 Ingress Gateway 在 `X-Envoy-Eternal-Address` 头中填充的值，
 该值可以被上游服务可靠地用于访问客户的原始 IP 地址。
@@ -64,13 +65,13 @@ spec:
 
 {{< idea >}}
 需要注意的是，在 Istio Gateway 代理前面的所有代理必须先解析 HTTP 流量，并将每一次转发信息附加到
-`X-Forwarded-For` 头中。如果 `X-Forwarded-For` 头中的条目数少于所配置的可信跳数
+`X-Forwarded-For` 请求头中。如果 `X-Forwarded-For` 请求头中的条目数少于所配置的可信跳数
 Envoy 就直接回调下游地址作为可信客户地址。
 请参考 [Envoy 文档](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#x-forwarded-for)
 去了解如何确定 `X-Forwarded-For` 头文件和受信任的客户地址。
 {{< /idea >}}
 
-#### httpbin X-Forwarded-For 示例{#example-using-X-Forwarded-For-capability-with-httpbin}
+#### httpbin X-Forwarded-For 示例  {#example-using-X-Forwarded-For-capability-with-httpbin}
 
 1. 运行以下命令去创建一个 `topology.yaml` 的文件，并且设置 `numTrustedProxies` 为 `2`，然后安装 Istio：
 
@@ -193,15 +194,15 @@ $ export GATEWAY_URL=$(kubectl get gateways.gateway.networking.k8s.io httpbin-ga
 头中的第二个到最后一个（`numTrustedProxies: 2`）地址。此外，Gateway 在将其转发到
 `httpbin` 工作负载之前，会将自己的 IP 附加到 `X-Forwarded-For` 头中。
 
-### 配置 X-Forwarded-Client-Cert 头{#configuring-X-Forwarded-Client-Cert-headers}
+### 配置 X-Forwarded-Client-Cert 头  {#configuring-X-Forwarded-Client-Cert-headers}
 
 从 [Envoy 文档](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#x-forwarded-client-cert)
 参考 XFCC：
 
 {{< quote >}}
-x-forwarded-client-cert（XFCC）是一个代理头，
+x-forwarded-client-cert（XFCC）是一个代理请求头，
 它表明了请求从客户端流向服务器的途中所流经的部分或全部客户端和代理的证书信息。
-代理商可以选择在代理请求之前对 XFCC 头进行清理/附加/转发。
+代理商可以选择在代理请求之前对 XFCC 请求头进行清理/附加/转发。
 {{< /quote >}}
 
 配置如何处理 XFCC 头文件，需要在 `IstioOperator` 中设置 `forwardClientCertDetails`：
@@ -220,19 +221,20 @@ spec:
 
 | `ENUM_VALUE`          |                                                                                                                                |
 |-----------------------|--------------------------------------------------------------------------------------------------------------------------------|
-| `UNDEFINED`           | 没有设置字段。                                                                                                              |
-| `SANITIZE`            | 不要向下一跳地址发送 XFCC 头。                                       |
-| `FORWARD_ONLY`        | 当客户端连接为 mTLS（Mutual TLS）时，在请求中转发 XFCC 头。                                       |
-| `APPEND_FORWARD`      | 当客户端连接为 mTLS 时，将客户端证书信息附加到请求的 XFCC头 中并转发。|
-| `SANITIZE_SET`        | 当客户端连接为 mTLS 时，用客户端证书信息重置 XFCC 头，并将其发送到下一跳地址。这是 Gateway 的默认值。 |
-| `ALWAYS_FORWARD_ONLY` | 无论客户端连接是否为 mTLS，总是在请求中转发 XFCC 头。                            |
+| `UNDEFINED`           | 没有设置字段。                                                                                                                   |
+| `SANITIZE`            | 不要向下一跳地址发送 XFCC 头。                                                                                                     |
+| `FORWARD_ONLY`        | 当客户端连接为 mTLS（Mutual TLS）时，在请求中转发 XFCC 请求头。                                                                          |
+| `APPEND_FORWARD`      | 当客户端连接为 mTLS 时，将客户端证书信息附加到请求的 XFCC 请求头中并转发。                                                                   |
+| `SANITIZE_SET`        | 当客户端连接为 mTLS 时，用客户端证书信息重置 XFCC 请求头，并将其发送到下一跳地址。这是 Gateway 的默认值。                                       |
+| `ALWAYS_FORWARD_ONLY` | 无论客户端连接是否为 mTLS，总是在请求中转发 XFCC 请求头。                                                                                 |
 
 参考 [Envoy 文档](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#x-forwarded-client-cert)，
 了解并使用此功能的示例。
 
-## PROXY 协议{#PROXY-protocol}
+## PROXY 协议  {#PROXY-protocol}
 
-[PROXY 协议](https://www.haproxy.org/download/1.8/doc/proxy-protocol.txt)允许在不依赖 HTTP、`X-Forwarded-For` 和 `X-Envoy-External-Address` 头这类 7 层协议的情况下，在多个 TCP 代理之间交换和保存客户端属性。
+[PROXY 协议](https://www.haproxy.org/download/1.8/doc/proxy-protocol.txt)允许在不依赖 HTTP、
+`X-Forwarded-For` 和 `X-Envoy-External-Address` 头这类 7 层协议的情况下，在多个 TCP 代理之间交换和保存客户端属性。
 此协议适用于外部 TCP 负载均衡器需要通过 Istio Gateway 将 TCP 流量代理到后端 TCP 服务并且仍然将客户端属性（例如源 IP）
 暴露给上游 TCP 服务端点的场景。PROXY 协议可以通过 `EnvoyFilter` 启用。
 
@@ -301,7 +303,7 @@ spec:
 {{< /tabset >}}
 
 客户端 IP 从 PROXY 协议中由 Gateway 获取，并在 `X-Forwarded-For` 和 `X-Envoy-External-Address` 头中设置（或附加）。
-请注意，PROXY 协议与 `X-Forwarded-For` 和 `X-Envoy-External-Address` 等 L7 头互斥。
+请注意，PROXY 协议与 `X-Forwarded-For` 和 `X-Envoy-External-Address` 等 L7 请求头互斥。
 当 PROXY 协议与 `gatewayTopology` 配置一起使用时，在确定可信客户地址时会优先使用 `numTrustedProxies`
 和接收到的 `X-Forwarded-For` 头，PROXY 协议客户端信息将被忽略。
 
