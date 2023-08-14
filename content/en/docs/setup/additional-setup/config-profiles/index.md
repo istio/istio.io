@@ -46,14 +46,7 @@ for your specific needs. The following built-in configuration profiles are curre
 
 1. **ambient**: the ambient profile is designed to help you get started with [ambient mesh](/docs/ops/ambient).
 
-    {{< warning >}}
-    Ambient is currently in [alpha status](/docs/releases/feature-stages/#feature-phase-definitions).
-
-    Please **do not run ambient in production** and be sure to thoroughly review the [feature phase definitions](/docs/releases/feature-stages/#feature-phase-definitions) before use.
-    In particular, there are known performance, stability, and security issues in the `alpha` release.
-    There are also planned breaking changes, including some that will prevent upgrades.
-    These are all limitations that will be addressed before graduation to `beta`.
-    {{< /warning >}}
+    {{< boilerplate ambient-alpha-warning >}}
 
 {{< tip >}}
 Some additional vendor-specific configuration profiles are also available.
@@ -66,7 +59,7 @@ The components marked as &#x2714; are installed within each profile:
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Core components | | | | | | | | |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-egressgateway` | | &#x2714; | | | | | | | |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-ingressgateway` | &#x2714; | &#x2714; | | | | &#x2714; | &#x2714; |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-ingressgateway` | &#x2714; | &#x2714; | | | | &#x2714; | |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istiod` | &#x2714; | &#x2714; | &#x2714; | | | &#x2714; | &#x2714; |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`CNI` | | | | | | | &#x2714; |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Ztunnel` | | | | | | | &#x2714; |
