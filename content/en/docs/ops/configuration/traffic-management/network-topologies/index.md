@@ -247,7 +247,7 @@ PROXY protocol should not be used for L7 traffic, or for Istio gateways behind L
 {{< /warning >}}
 
 If your external TCP load balancer is configured to forward TCP traffic and use the PROXY protocol, the Istio Gateway TCP listener must also be configured to accept the PROXY protocol.
-To enable PROXY protocol on all TCP listeners on the gateways, set `proxyProtocol` in your `IstioOperator`
+To enable PROXY protocol on all TCP listeners on the gateways, set `proxyProtocol` in your `IstioOperator`. For example:
 
 {{< text syntax=yaml snip_id=none >}}
 apiVersion: install.istio.io/v1alpha1

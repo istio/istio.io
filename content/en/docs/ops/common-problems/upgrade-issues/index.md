@@ -73,7 +73,7 @@ for deployment of Wasm code.
 
 The usage of `EnvoyFilter` to configure the number of the trusted hops in the
 HTTP connection manager has been replaced by the
-[`gatewayTopology`]((/docs/reference/config/istio.mesh.v1alpha1/#Topology)
+[`gatewayTopology`](/docs/reference/config/istio.mesh.v1alpha1/#Topology)
 field in
 [`ProxyConfig`](/docs/ops/configuration/traffic-management/network-topologies).
 For example, the following `EnvoyFilter` configuration should use an annotation
@@ -117,7 +117,7 @@ metadata:
 The usage of `EnvoyFilter` to enable [PROXY
 protocol](https://www.haproxy.org/download/1.8/doc/proxy-protocol.txt) on the
 ingress gateways has been replaced by the
-[`gatewayTopology`]((/docs/reference/config/istio.mesh.v1alpha1/#Topology)
+[`gatewayTopology`](/docs/reference/config/istio.mesh.v1alpha1/#Topology)
 field in
 [`ProxyConfig`](/docs/ops/configuration/traffic-management/network-topologies).
 For example, the following `EnvoyFilter` configuration should use an annotation
