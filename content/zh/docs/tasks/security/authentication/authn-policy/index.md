@@ -337,66 +337,64 @@ $ kubectl delete peerauthentication httpbin -n bar
 为了体验这个特性，您需要一个有效的 JWT。该 JWT 必须和您用于该示例的 JWKS 终端对应。
 在这个教程中，我们使用来自 Istio 代码基础库的
 [JWT test]({{< github_file >}}/security/tools/jwt/samples/demo.jwt) 和
-[JWKS endpoint]({{< github_file >}}/security/tools/jwt/samples/jwks.json)
-同时为了方便访问我们将通过 `ingressgateway` 暴露 `httpbin.foo`
-服务（详细细节请查看 [ingress 任务](/zh/docs/tasks/traffic-management/ingress/)）。
+[JWKS endpoint]({{< github_file >}}/security/tools/jwt/samples/jwks.json)。
+
+同时为了方便访问，通过 Ingress 网关暴露 `httpbin.foo`
+（详细细节请查看 [Ingress 任务](/zh/docs/tasks/traffic-management/ingress/)）。
+
+{{< boilerplate gateway-api-support >}}
+
+{{< tabset category-name="config-api" >}}
+
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
+
+配置网关：
 
 {{< text bash >}}
-$ kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
-kind: Gateway
-metadata:
-  name: httpbin-gateway
-  namespace: foo
-spec:
-  selector:
-    istio: ingressgateway # 使用 Istio 的默认网关实现
-  servers:
-  - port:
-      number: 80
-      name: http
-      protocol: HTTP
-    hosts:
-    - "*"
-EOF
+$ kubectl apply -f @samples/httpbin/httpbin-gateway.yaml@ -n foo
 {{< /text >}}
+
+按照[确定 Ingress IP 和端口](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)中的说明，
+设置 `INGRESS_PORT` 和 `INGRESS_HOST` 环境变量。
+
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+创建网关：
 
 {{< text bash >}}
-$ kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: httpbin
-  namespace: foo
-spec:
-  hosts:
-  - "*"
-  gateways:
-  - httpbin-gateway
-  http:
-  - route:
-    - destination:
-        port:
-          number: 8000
-        host: httpbin.foo.svc.cluster.local
-EOF
+$ kubectl apply -f @samples/httpbin/gateway-api/httpbin-gateway.yaml@ -n foo
+$ kubectl wait --for=condition=programmed gtw -n foo httpbin-gateway
 {{< /text >}}
 
-参考[确定 ingress IP 和端口](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)章节配置环境变量
-`INGRESS_HOST` 和 `INGRESS_PORT` 的值。
+设置 `INGRESS_PORT` 和 `INGRESS_HOST` 环境变量：
 
-执行测试指令
+{{< text bash >}}
+$ export INGRESS_HOST=$(kubectl get gtw httpbin-gateway -n foo -o jsonpath='{.status.addresses[0].value}')
+$ export INGRESS_PORT=$(kubectl get gtw httpbin-gateway -n foo -o jsonpath='{.spec.listeners[?(@.name=="http")].port}')
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
+通过网关运行测试查询：
 
 {{< text bash >}}
 $ curl "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"
 200
 {{< /text >}}
 
-现在添加一个身份验证策略，该策略要求入口网关需要指定终端用户的 JWT。
+现在添加一个身份验证策略，该策略要求 Ingress 网关指定终端用户的 JWT。
+
+{{< tabset category-name="config-api" >}}
+
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: RequestAuthentication
 metadata:
   name: "jwt-example"
@@ -411,13 +409,37 @@ spec:
 EOF
 {{< /text >}}
 
-策略生效的命名空间是 `istio-system`，生效的工作负载由 `selector` 字段决定，
-上面的配置值是带有 `app: ingressgateway` 标签的工作负载。
+{{< /tab >}}
 
-如果您在授权标头（默认位置）中提供了令牌，则 Istio 将使用
-[public key set]({{<github_file>}}/security/tools/jwt/samples/jwks.json) 验证令牌，
-`bearer` 令牌无效会被拒绝，然而没有 `bearer` 令牌的请求会被接收。因此要观察此行为，请在没有令牌，
-令牌错误和有效令牌的情况下重试请求：
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: security.istio.io/v1
+kind: RequestAuthentication
+metadata:
+  name: "jwt-example"
+  namespace: foo
+spec:
+  selector:
+    matchLabels:
+      istio.io/gateway-name: httpbin-gateway
+  jwtRules:
+  - issuer: "testing@secure.istio.io"
+    jwksUri: "{{< github_file >}}/security/tools/jwt/samples/jwks.json"
+EOF
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
+在所选的工作负载的命名空间中应用该策略，本例中是 Ingress 网关。
+
+如果您在授权标头中提供了一个令牌，并且其位置是隐式默认的，Istio
+将使用[公钥集]({{< github_file >}}/security/tools/jwt/samples/jwks.json)验证令牌，
+并拒绝无效的令牌请求。但是，没有令牌的请求会被接受。
+为了观察这种行为，请尝试重新发出没有令牌、有错误令牌以及含有效令牌的请求。
 
 {{< text bash >}}
 $ curl "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"
@@ -485,9 +507,13 @@ $ for i in $(seq 1 10); do curl --header "Authorization: Bearer $TOKEN" "$INGRES
 可参考以下例子中的 `notRequestPrincipals:["*"]` 配置。
 仅当提供有效的JWT令牌时请求主体才可用，因此该规则将拒绝没有有效令牌的请求。
 
+{{< tabset category-name="config-api" >}}
+
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
+
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: "frontend-ingress"
@@ -504,7 +530,34 @@ spec:
 EOF
 {{< /text >}}
 
-再次尝试不使用 token 请求服务，结果返回 `403`
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: "frontend-ingress"
+  namespace: foo
+spec:
+  selector:
+    matchLabels:
+      istio.io/gateway-name: httpbin-gateway
+  action: DENY
+  rules:
+  - from:
+    - source:
+        notRequestPrincipals: ["*"]
+EOF
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
+重新发送没有令牌的请求。现在，请求将失败，并返回错误码 `403`：
 
 {{< text bash >}}
 $ curl "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"
@@ -517,9 +570,13 @@ $ curl "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"
 如下列配置中的 `/headers`。待规则生效后，对 `$INGRESS_HOST:$INGRESS_PORT/headers`
 的请求将失败，错误代码为 `403`。而到其他所有路径的请求 —— 例如：`$INGRESS_HOST:$INGRESS_PORT/ip` —— 都会成功。
 
+{{< tabset category-name="config-api" >}}
+
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
+
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: "frontend-ingress"
@@ -538,6 +595,36 @@ spec:
         paths: ["/headers"]
 EOF
 {{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: "frontend-ingress"
+  namespace: foo
+spec:
+  selector:
+    matchLabels:
+      istio.io/gateway-name: httpbin-gateway
+  action: DENY
+  rules:
+  - from:
+    - source:
+        notRequestPrincipals: ["*"]
+    to:
+    - operation:
+        paths: ["/headers"]
+EOF
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
 
 {{< text bash >}}
 $ curl "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"

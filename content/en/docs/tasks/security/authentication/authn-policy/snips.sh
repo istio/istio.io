@@ -19,6 +19,7 @@
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
 #          docs/tasks/security/authentication/authn-policy/index.md
 ####################################################################################################
+source "content/en/boilerplates/snips/gateway-api-support.sh"
 
 snip_before_you_begin_1() {
 istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --set profile=default
@@ -263,55 +264,28 @@ kubectl delete peerauthentication httpbin -n bar
 }
 
 snip_enduser_authentication_1() {
-kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
-kind: Gateway
-metadata:
-  name: httpbin-gateway
-  namespace: foo
-spec:
-  selector:
-    istio: ingressgateway # use Istio default gateway implementation
-  servers:
-  - port:
-      number: 80
-      name: http
-      protocol: HTTP
-    hosts:
-    - "*"
-EOF
+kubectl apply -f samples/httpbin/httpbin-gateway.yaml -n foo
 }
 
 snip_enduser_authentication_2() {
-kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: httpbin
-  namespace: foo
-spec:
-  hosts:
-  - "*"
-  gateways:
-  - httpbin-gateway
-  http:
-  - route:
-    - destination:
-        port:
-          number: 8000
-        host: httpbin.foo.svc.cluster.local
-EOF
+kubectl apply -f samples/httpbin/gateway-api/httpbin-gateway.yaml -n foo
+kubectl wait --for=condition=programmed gtw -n foo httpbin-gateway
 }
 
 snip_enduser_authentication_3() {
+export INGRESS_HOST=$(kubectl get gtw httpbin-gateway -n foo -o jsonpath='{.status.addresses[0].value}')
+export INGRESS_PORT=$(kubectl get gtw httpbin-gateway -n foo -o jsonpath='{.spec.listeners[?(@.name=="http")].port}')
+}
+
+snip_enduser_authentication_4() {
 curl "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"
 }
 
-! read -r -d '' snip_enduser_authentication_3_out <<\ENDSNIP
+! read -r -d '' snip_enduser_authentication_4_out <<\ENDSNIP
 200
 ENDSNIP
 
-snip_enduser_authentication_4() {
+snip_enduser_authentication_5() {
 kubectl apply -f - <<EOF
 apiVersion: security.istio.io/v1
 kind: RequestAuthentication
@@ -324,29 +298,29 @@ spec:
       istio: ingressgateway
   jwtRules:
   - issuer: "testing@secure.istio.io"
-    jwksUri: "https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/jwks.json"
+    jwksUri: "https://raw.githubusercontent.com/istio/istio/release-1.19/security/tools/jwt/samples/jwks.json"
 EOF
 }
 
-snip_enduser_authentication_5() {
-curl "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"
-}
-
-! read -r -d '' snip_enduser_authentication_5_out <<\ENDSNIP
-200
-ENDSNIP
-
 snip_enduser_authentication_6() {
-curl --header "Authorization: Bearer deadbeef" "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"
+kubectl apply -f - <<EOF
+apiVersion: security.istio.io/v1
+kind: RequestAuthentication
+metadata:
+  name: "jwt-example"
+  namespace: foo
+spec:
+  selector:
+    matchLabels:
+      istio.io/gateway-name: httpbin-gateway
+  jwtRules:
+  - issuer: "testing@secure.istio.io"
+    jwksUri: "https://raw.githubusercontent.com/istio/istio/release-1.19/security/tools/jwt/samples/jwks.json"
+EOF
 }
-
-! read -r -d '' snip_enduser_authentication_6_out <<\ENDSNIP
-401
-ENDSNIP
 
 snip_enduser_authentication_7() {
-TOKEN=$(curl https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/demo.jwt -s)
-curl --header "Authorization: Bearer $TOKEN" "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"
+curl "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"
 }
 
 ! read -r -d '' snip_enduser_authentication_7_out <<\ENDSNIP
@@ -354,19 +328,36 @@ curl --header "Authorization: Bearer $TOKEN" "$INGRESS_HOST:$INGRESS_PORT/header
 ENDSNIP
 
 snip_enduser_authentication_8() {
-wget --no-verbose https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/gen-jwt.py
+curl --header "Authorization: Bearer deadbeef" "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"
 }
+
+! read -r -d '' snip_enduser_authentication_8_out <<\ENDSNIP
+401
+ENDSNIP
 
 snip_enduser_authentication_9() {
-wget --no-verbose https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/key.pem
+TOKEN=$(curl https://raw.githubusercontent.com/istio/istio/release-1.19/security/tools/jwt/samples/demo.jwt -s)
+curl --header "Authorization: Bearer $TOKEN" "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"
 }
 
+! read -r -d '' snip_enduser_authentication_9_out <<\ENDSNIP
+200
+ENDSNIP
+
 snip_enduser_authentication_10() {
+wget --no-verbose https://raw.githubusercontent.com/istio/istio/release-1.19/security/tools/jwt/samples/gen-jwt.py
+}
+
+snip_enduser_authentication_11() {
+wget --no-verbose https://raw.githubusercontent.com/istio/istio/release-1.19/security/tools/jwt/samples/key.pem
+}
+
+snip_enduser_authentication_12() {
 TOKEN=$(python3 ./gen-jwt.py ./key.pem --expire 5)
 for i in $(seq 1 10); do curl --header "Authorization: Bearer $TOKEN" "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"; sleep 10; done
 }
 
-! read -r -d '' snip_enduser_authentication_10_out <<\ENDSNIP
+! read -r -d '' snip_enduser_authentication_12_out <<\ENDSNIP
 200
 200
 200
@@ -399,10 +390,29 @@ EOF
 }
 
 snip_require_a_valid_token_2() {
+kubectl apply -f - <<EOF
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: "frontend-ingress"
+  namespace: foo
+spec:
+  selector:
+    matchLabels:
+      istio.io/gateway-name: httpbin-gateway
+  action: DENY
+  rules:
+  - from:
+    - source:
+        notRequestPrincipals: ["*"]
+EOF
+}
+
+snip_require_a_valid_token_3() {
 curl "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"
 }
 
-! read -r -d '' snip_require_a_valid_token_2_out <<\ENDSNIP
+! read -r -d '' snip_require_a_valid_token_3_out <<\ENDSNIP
 403
 ENDSNIP
 
@@ -429,18 +439,40 @@ EOF
 }
 
 snip_require_valid_tokens_perpath_2() {
+kubectl apply -f - <<EOF
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: "frontend-ingress"
+  namespace: foo
+spec:
+  selector:
+    matchLabels:
+      istio.io/gateway-name: httpbin-gateway
+  action: DENY
+  rules:
+  - from:
+    - source:
+        notRequestPrincipals: ["*"]
+    to:
+    - operation:
+        paths: ["/headers"]
+EOF
+}
+
+snip_require_valid_tokens_perpath_3() {
 curl "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"
 }
 
-! read -r -d '' snip_require_valid_tokens_perpath_2_out <<\ENDSNIP
+! read -r -d '' snip_require_valid_tokens_perpath_3_out <<\ENDSNIP
 403
 ENDSNIP
 
-snip_require_valid_tokens_perpath_3() {
+snip_require_valid_tokens_perpath_4() {
 curl "$INGRESS_HOST:$INGRESS_PORT/ip" -s -o /dev/null -w "%{http_code}\n"
 }
 
-! read -r -d '' snip_require_valid_tokens_perpath_3_out <<\ENDSNIP
+! read -r -d '' snip_require_valid_tokens_perpath_4_out <<\ENDSNIP
 200
 ENDSNIP
 

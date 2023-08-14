@@ -151,7 +151,7 @@ aliases:
 - **修复** 修复了 `istioctl admin log` 格式。
   ([Issue #34982](https://github.com/istio/istio/issues/34982))
 
-- **修复了** 修复了在第一次安装 Istio 时没有使用 'istio-system' 作为 Istio 命名空间，APP pods（比如 httpbin）无法创建的问题。`istioctl install`，`istioctl tag set` 和 `istioctl tag generate` 将受到影响。例如，用户可以设置指定的命名空间（以 `mesh-1` 为例），通过 `istioctl install --set profile=demo --set values.global.istioNamespace=mesh-1 -y` 来安装 Istio。
+- **修复了** 修复了在第一次安装 Istio 时没有使用 'istio-system' 作为 Istio 命名空间，APP Pod（比如 httpbin）无法创建的问题。`istioctl install`，`istioctl tag set` 和 `istioctl tag generate` 将受到影响。例如，用户可以设置指定的命名空间（以 `mesh-1` 为例），通过 `istioctl install --set profile=demo --set values.global.istioNamespace=mesh-1 -y` 来安装 Istio。
   ([Issue #35539](https://github.com/istio/istio/issues/35539))
 
 - **修复** 修复了当 `--exclude` 没有设置时，`istioctl bug-report` 会显示额外的默认系统命名空间的问题。

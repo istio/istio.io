@@ -22,6 +22,12 @@ example [Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) or
 others specified by the
 [platform-specific setup instructions](/docs/setup/platform-setup/).
 
+{{< warning >}}
+Ambient is currently in [alpha status](/docs/releases/feature-stages/#feature-phase-definitions).
+Note that Ambient currently requires the use of [istio-cni](/docs/setup/additional-setup/cni) to configure Kubernetes nodes.
+`istio-cni` ambient mode does **not** currently support types of cluster CNI (namely, CNI implementations that do not use `veth` devices, such as [Minikube's](https://kubernetes.io/docs/tasks/tools/install-minikube/) `bridge` mode)
+{{< /warning >}}
+
 Follow these steps to get started with ambient:
 
 1. [Download and install](#download)
@@ -53,7 +59,7 @@ Follow these steps to get started with ambient:
 
     {{< text bash >}}
     $ kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
-      { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v0.6.1" | kubectl apply -f -; }
+      { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref={{< k8s_gateway_api_version >}}" | kubectl apply -f -; }
     {{< /text >}}
 
     {{< tip >}}
@@ -127,7 +133,7 @@ ztunnel-lr7lz                           1/1     Running   0          69s
 $ kubectl get daemonset -n istio-system
 NAME             DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
 istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   70s
-ztunnel          1         1         1       1            1           <none>                   82s
+ztunnel          1         1         1       1            1           kubernetes.io/os=linux   82s
 {{< /text >}}
 
 {{< /tab >}}
@@ -146,7 +152,7 @@ ztunnel-lr7lz                           1/1     Running   0          69s
 $ kubectl get daemonset -n istio-system
 NAME             DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
 istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   70s
-ztunnel          1         1         1       1            1           <none>                   82s
+ztunnel          1         1         1       1            1           kubernetes.io/os=linux   82s
 {{< /text >}}
 
 {{< /tab >}}
@@ -471,5 +477,5 @@ $ kubectl delete -f @samples/sleep/notsleep.yaml@
 If you installed the Gateway API CRDs, remove them:
 
 {{< text bash >}}
-$ kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v0.6.1" | kubectl delete -f -
+$ kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref={{< k8s_gateway_api_version >}}" | kubectl delete -f -
 {{< /text >}}

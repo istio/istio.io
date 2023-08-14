@@ -775,7 +775,7 @@ spec:
 consecutive_local_origin_failure is taken into account for outlier detection calculations.
 This should be used when you want to derive the outlier detection status based on the errors
 seen locally such as failure to connect, timeout while connecting etc. rather than the status code
-retuned by upstream service. This is especially useful when the upstream service explicitly returns
+returned by upstream service. This is especially useful when the upstream service explicitly returns
 a 5xx for some requests and you want to ignore those responses from upstream service while determining
 the outlier detection status of a host.
 Defaults to false.</p>
@@ -1124,7 +1124,7 @@ No
 <td>
 <p>InsecureSkipVerify specifies whether the proxy should skip verifying the
 CA signature and SAN for the server certificate corresponding to the host.
-This flag should only be set if global CA signature verifcation is
+This flag should only be set if global CA signature verification is
 enabled, <code>VerifyCertAtClient</code> environmental variable is set to <code>true</code>,
 but no verification is desired for a specific host. If enabled with or
 without <code>VerifyCertAtClient</code> enabled, verification of the CA signature and
@@ -2050,7 +2050,7 @@ Envoy for further details.</p>
 <td><code>ROUND_ROBIN</code></td>
 <td>
 <p>A basic round robin load balancing policy. This is generally unsafe
-for many scenarios (e.g. when enpoint weighting is used) as it can
+for many scenarios (e.g. when endpoint weighting is used) as it can
 overburden endpoints. In general, prefer to use LEAST_REQUEST as a
 drop-in replacement for ROUND_ROBIN.</p>
 

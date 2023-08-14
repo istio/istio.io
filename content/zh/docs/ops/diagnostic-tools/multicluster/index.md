@@ -27,12 +27,86 @@ Hello version: v1, instance: helloworld-v1-578dd69f69-j69pf
 按照[验证多集群安装](/zh/docs/setup/install/multicluster/verify/)指南操作完毕后，
 我们期待同时看到 `v1` 和 `v2` 响应，这表示流量同时到达了两个集群。
 
-造成响应仅来自集群本地实例的原因有很多:
+造成响应仅来自集群本地实例的原因有很多：
 
-### 本地负载均衡  {#locality-load-balancing}
+### 连接和防火墙问题  {#connectivity-and-firewall-issues}
 
-[本地负载均衡](/zh/docs/tasks/traffic-management/locality-load-balancing/failover/#configure-locality-failover)总是引导客户端访问最近的服务。
-如果集群分布于不同地理位置（地区/区域），本地负载均衡将优先选用本地实例提供服务，
+在某些环境中，防火墙阻止集群之间的流量可能并不明显。可能出现 `ICMP`（ping）流量成功，
+但 HTTP 和其他类型的流量失败的情况。这可能表现为超时，或者在某些情况下表现为更令人困惑的错误，
+例如：
+
+{{< text plain >}}
+upstream connect error or disconnect/reset before headers. reset reason: local reset, transport failure reason: TLS error: 268435612:SSL routines:OPENSSL_internal:HTTP_REQUEST
+{{< /text >}}
+
+虽然 Istio 提供了服务发现功能简化了这个问题，
+但如果每个集群中的 Pod 位于没有 Istio 的单个网络上，跨集群流量仍然应该成功。
+要排除 TLS/mTLS 问题，您可以使用不带 Istio Sidecar 的 Pod
+进行手动测试连通性。
+
+在每个集群中，为此测试创建一个新的命名空间。**不**要启用 Sidecar 注入：
+
+{{< text bash >}}
+$ kubectl create --context="${CTX_CLUSTER1}" namespace uninjected-sample
+$ kubectl create --context="${CTX_CLUSTER2}" namespace uninjected-sample
+{{< /text >}}
+
+然后部署[验证多集群安装](/zh/docs/setup/install/multicluster/verify/)中使用的应用程序：
+
+{{< text bash >}}
+$ kubectl apply --context="${CTX_CLUSTER1}" \
+    -f samples/helloworld/helloworld.yaml \
+    -l service=helloworld -n uninjected-sample
+$ kubectl apply --context="${CTX_CLUSTER2}" \
+    -f samples/helloworld/helloworld.yaml \
+    -l service=helloworld -n uninjected-sample
+$ kubectl apply --context="${CTX_CLUSTER1}" \
+    -f samples/helloworld/helloworld.yaml \
+    -l version=v1 -n uninjected-sample
+$ kubectl apply --context="${CTX_CLUSTER2}" \
+    -f samples/helloworld/helloworld.yaml \
+    -l version=v2 -n uninjected-sample
+$ kubectl apply --context="${CTX_CLUSTER1}" \
+    -f samples/sleep/sleep.yaml -n uninjected-sample
+$ kubectl apply --context="${CTX_CLUSTER2}" \
+    -f samples/sleep/sleep.yaml -n uninjected-sample
+{{< /text >}}
+
+使用 `-o wide` 参数验证 `cluster2` 集群中是否有一个正在运行的 helloworld Pod，
+这样我们就可以获得 Pod IP：
+
+{{< text bash >}}
+$ kubectl --context="${CTX_CLUSTER2}" -n uninjected-sample get pod -o wide
+NAME                             READY   STATUS    RESTARTS   AGE   IP           NODE     NOMINATED NODE   READINESS GATES
+helloworld-v2-54df5f84b-z28p5    1/1     Running   0          43s   10.100.0.1   node-1   <none>           <none>
+sleep-557747455f-jdsd8           1/1     Running   0          41s   10.100.0.2   node-2   <none>           <none>
+{{< /text >}}
+
+记下 `helloworld` 的 `IP` 地址列。在本例中，它是 `10.100.0.1`：
+
+{{< text bash >}}
+$ REMOTE_POD_IP=10.100.0.1
+{{< /text >}}
+
+接下来，尝试从 `cluster1` 中的 `sleep` Pod 直接向此 Pod IP 发送流量：
+
+{{< text bash >}}
+$ kubectl exec --context="${CTX_CLUSTER1}" -n uninjected-sample -c sleep \
+    "$(kubectl get pod --context="${CTX_CLUSTER1}" -n uninjected-sample -l \
+    app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+    -- curl -sS $REMOTE_POD_IP:5000/hello
+Hello version: v2, instance: helloworld-v2-54df5f84b-z28p5
+{{< /text >}}
+
+正常的情况下，应该只有来自 `helloworld-v2` 的响应。重复这些步骤，
+将流量从 `cluster2` 发送到 `cluster1`。
+
+如果成功，则可以排除连接问题。如果失败，则问题的原因可能超出了 Istio 配置的范围。
+
+### 地域负载均衡  {#locality-load-balancing}
+
+[地域负载均衡](/zh/docs/tasks/traffic-management/locality-load-balancing/failover/#configure-locality-failover)
+会引导客户端访问最近的服务。如果集群分布于不同地理位置（地区/区域），本地负载均衡将优先选用本地实例提供服务，
 这与预期相符。而如果禁用了本地负载均衡或者是集群处于同一地理位置，那就可能还存在其他问题。
 
 ### 受信配置  {#trust-configuration}
@@ -52,14 +126,15 @@ $ diff \
    <(kubectl --context="${CTX_CLUSTER2}" -n istio-system get secret cacerts -ojsonpath='{.data.root-cert\.pem}')
 {{< /text >}}
 
-您需要根据[插入式 CA 证书](/zh/docs/tasks/security/cert-management/plugin-ca-cert/)确保在每个集群上都完成了操作。
+您需要根据[插入式 CA 证书](/zh/docs/tasks/security/cert-management/plugin-ca-cert/)
+确保在每个集群上都完成了操作。
 
 ### 逐步分析  {#step-by-step-diagnosis}
 
 如果您已经阅读了上面的章节，但问题仍没有解决，那么可能需要进行更深入的探讨。
 
 下面这些步骤假定您已经完成了 [HelloWorld 认证](/zh/docs/setup/install/multicluster/verify/)指南，
-并且确保 `helloworld` 和 `sleep` 服务已经在每个集群中被正确的部署。
+并且确保 `helloworld` 和 `sleep` 服务已经在每个集群中被正确部署。
 
 针对每个集群，找到 `sleep` 服务对应的 `helloworld` 的 `endpoints`：
 
@@ -108,12 +183,12 @@ $ kubectl get secrets --context=$CTX_CLUSTER1 -n istio-system -l "istio/multiClu
 {{< /text >}}
 
 * 如果缺失 Secret，则创建一个。
-* 如果存在 Secret，且 `endpoints` 是位于 **主** 集群中的 Pod，则：
+* 如果存在 Secret，且 `endpoints` 是位于**主**集群中的 Pod，则：
     * 查看配置，确保使用集群名作为远程 `kubeconfig` 的数据键（data key）。
-    * 如果 Secret 看起来没问题，检查 `istiod` 的日志，以确定是连接还是权限问题导致无法连接远程
+    * 如果 Secret 看起来没问题，检查 `istiod` 的日志，以确定是连接问题还是权限问题导致无法连接远程
       Kubernetes API。该日志可能包括 `Failed to add remote cluster from secret` 信息和对应的错误原因。
-* 如果存在 Secret，且 `endpoints` 是位于 **从** 集群中的 Pod，则：
-    * 代理正在从从集群 istiod 读取配置。当一个从集群有一个集群内的 istiod 时，它只作用于 Sidecar 注入和 CA。
+* 如果存在 Secret，且 `endpoints` 是位于**从**集群中的 Pod，则：
+    * 代理正在从从集群 istiod 读取配置。当一个从集群有一个集群内的 istiod 时，它只作用于 Sidecar 注入和 CA 证书管理。
       您可以通过在 `istio-system` 命名空间中查找名为 `istiod-remote` 的 Service 来确认此问题。
       如果缺失，请使用 `values.global.remotePilotAddress` 重新设置。
 
@@ -129,8 +204,8 @@ $ istioctl --context $CTX_CLUSTER1 proxy-config endpoint sleep-dd98b5f48-djwdw.s
 10.0.6.13:5000                   HEALTHY     OK                outbound|5000||helloworld.sample.svc.cluster.local
 {{< /text >}}
 
-多网络中模型中，我们期望其中一个端点 IP 与从集群的东西向网关（east-west gateway）公网 IP 匹配。
-看到多个 Pod IP 说明存在以下两种情况：
+多网络中模型中，我们期望其中一个端点 IP 与从集群的东西向网关（east-west gateway）公网
+IP 匹配。看到多个 Pod IP 说明存在以下两种情况：
 
 * 无法确定远程网络的网关地址。
 * 无法确定客户端 Pod 或服务器端 Pod 的网络。
@@ -149,7 +224,7 @@ istio-eastwestgateway    LoadBalancer   10.8.17.119   <PENDING>        15021:317
 在这种情况下，可能需要自定义 Service 的 `spec.exteralIPs` 部分，手动为网关提供集群外可达的 IP。
 
 如果外部 IP 存在，请检查 `topology.istio.io/network` 标签的值是否正确。如果不正确，
-请重新安装网关，并确保在生成脚本上设置 --network 标志。
+请重新安装网关，并确保在生成脚本上设置 `--network` 标志。
 
 **无法确定客户端 Pod 或服务器端 Pod 的网络**：
 

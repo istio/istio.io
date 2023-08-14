@@ -39,7 +39,7 @@ Egress Gateway 节点，用它引导所有的出站流量，可以使应用节�
 
 {{< warning >}}
 此任务中的指令在 `default` 命名空间中为 Egress gateway 创建目标规则。
-并假设客户端 `SOURCE_POD` 也在 `default` 名称空间中运行。如果没有，
+并假设客户端 `SOURCE_POD` 也在 `default` 命名空间中运行。如果没有，
 目标规则则不会在[目标规则查找路径](/zh/docs/ops/best-practices/traffic-management/#cross-namespace-configuration)上找到，
 并且客户端请求将失败。
 {{< /warning >}}

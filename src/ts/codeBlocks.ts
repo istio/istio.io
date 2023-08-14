@@ -186,7 +186,7 @@ function handleCodeBlocks() {
 
             if (cmd !== "") {
                 if (code.dataset.expandlinks === "true") {
-                    cmd = cmd.replace(/@(.*?)@/g, "<a href='https://raw.githubusercontent.com/istio/" + code.dataset.repo + "/" + branchName + "/$1'>$1</a>");
+                    cmd = cmd.replace(/@([\w\/\.\-]*?)@/g, "<a href='https://raw.githubusercontent.com/istio/" + code.dataset.repo + "/" + branchName + "/$1'>$1</a>");
                 }
 
                 let html = "<div class='command'>" + cmd + "</div>";
