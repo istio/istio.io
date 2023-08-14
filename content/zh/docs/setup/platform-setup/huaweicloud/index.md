@@ -11,17 +11,22 @@ owner: istio/wg-environments-maintainers
 test: no
 ---
 
-遵循以下说明配置[华为云容器引擎 CCE](https://www.huaweicloud.com/intl/zh-cn/product/cce.html) 集群以便安装运行 Istio。您可以在华为云的`云容器引擎控制台`中快速简单地部署一个完全支持 Istio 的 Kubernetes 集群。
+遵循以下说明配置[华为云容器引擎 CCE](https://www.huaweicloud.com/intl/zh-cn/product/cce.html) 集群以便安装运行 Istio。
+您可以在华为云的`云容器引擎控制台`中快速简单地部署一个完全支持 Istio 的 Kubernetes 集群。
 
 {{< tip >}}
-华为提供了一个{{< gloss >}}managed control plane{{< /gloss >}}插件用于华为云容器引擎 CCE，您可以使用这个插件来代替手动安装 Istio。有关详细信息和操作说明，请参阅[华为应用服务网格](https://support.huaweicloud.com/asm/index.html)。
+华为提供了一个{{< gloss >}}managed control plane{{< /gloss >}}插件用于华为云容器引擎 CCE，
+您可以使用这个插件来代替手动安装 Istio。有关详细信息和操作说明，
+请参阅[华为应用服务网格](https://support.huaweicloud.com/asm/index.html)。
 {{< /tip >}}
 
 遵循[华为云操作说明](https://support.huaweicloud.com/qs-cce/cce_qs_0008.html)准备一个集群，然后继续以下步骤手动安装 Istio：
 
-1.  登录到 CCE 控制台。选择 **Dashboard** > **购买集群**打开**购买混合集群**页面。打开此页面的另一个方法是在导航窗格中选择**资源管理** > **集群**，然后点击**混合集群**旁边的**购买**。
+1.  登录到 CCE 控制台。选择 **Dashboard** > **购买集群**打开**购买混合集群**页面。
+    打开此页面的另一个方法是在导航窗格中选择**资源管理** > **集群**，然后点击**混合集群**旁边的**购买**。
 
-1.  在**配置集群**页面上，配置集群参数。在以下示例中，大多数参数保留默认值。集群配置完成后，点击**下一步**。**创建节点**以转到节点创建页面。
+1.  在**配置集群**页面上，配置集群参数。在以下示例中，大多数参数保留默认值。集群配置完成后，
+    点击**下一步**。**创建节点**以转到节点创建页面。
 
     {{< tip >}}
     Istio 对 Kubernetes 版本有一些要求，请根据 Istio 的[支持策略](/zh/docs/releases/supported-releases#support-status-of-istio-releases)选择版本。
@@ -45,7 +50,8 @@ test: no
 
 1.  现在您可以遵照[安装指南](/zh/docs/setup/install)在 CCE 集群上安装 Istio。
 
-1.  配置 [ELB](https://support.huaweicloud.com/intl/productdesc-elb/en-us_topic_0015479966.html) 以暴露 Istio 入口网关（如果需要）。
+1.  配置 [ELB](https://support.huaweicloud.com/intl/productdesc-elb/en-us_topic_0015479966.html)
+    以暴露 Istio 入口网关（如果需要）。
 
     - [创建弹性负载均衡器](https://console.huaweicloud.com/vpc/?region=ap-southeast-1#/elbs/createEnhanceElb)
 
