@@ -9,7 +9,7 @@ keywords: [istio,steering,governance,community,election]
 
 The Istio Steering Committee is pleased to announce the four winners of the 2023 election for Community Seats. The winners are:
 - Craig Box, ARMO
-- Iris (Shaojun) Ding, Intel
+- Iris Ding, Intel
 - Lin Sun, Solo.io
 - Faseela K, Ericsson Software Technology
 
