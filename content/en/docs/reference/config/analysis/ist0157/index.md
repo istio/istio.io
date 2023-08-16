@@ -5,4 +5,4 @@ owner: istio/wg-user-experience-maintainers
 test: n/a
 ---
 
-This message occurs when telemetry with empty providers will be ignored if the default providers in MeshConfig is empty.
+This message occurs when a Telemetry resource with empty providers is set, and it will be ignored if the default providers in MeshConfig are empty.
