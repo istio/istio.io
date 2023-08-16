@@ -327,7 +327,8 @@ metadata:
   name: mesh
 spec:
   parentRefs:
-  - kind: Service
+  - group: ""
+    kind: Service
     name: example
   rules:
   - filters:
