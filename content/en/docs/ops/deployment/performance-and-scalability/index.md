@@ -31,11 +31,11 @@ The Istio data plane components, the Envoy proxies, handle data flowing through
 the system. The Istio control plane component, Istiod, configures
 the data plane. The data plane and control plane have distinct performance concerns.
 
-## Performance summary for Istio 1.18
+## Performance summary for Istio {{< istio_release_name >}}
 
 The [Istio load tests](https://github.com/istio/tools/tree/{{< source_branch_name >}}/perf/load) mesh consists
 of **1000** services and **2000** sidecars with 70,000 mesh-wide requests per second.
-After running the tests using Istio 1.18, we get the following results:
+After running the tests using Istio {{< istio_release_name >}}, we get the following results:
 
 - The Envoy proxy uses **0.35 vCPU** and **40 MB memory** per 1000 requests per second going through the proxy.
 - Istiod uses **1 vCPU** and 1.5 GB of memory.
@@ -83,7 +83,7 @@ The latency, throughput, and the proxies' CPU and memory consumption are measure
 ### CPU and memory
 
 Since the sidecar proxy performs additional work on the data path, it consumes CPU
-and memory. In Istio 1.18, a proxy consumes about 0.5 vCPU per 1000
+and memory. In Istio {{< istio_release_name >}}, a proxy consumes about 0.5 vCPU per 1000
 requests per second.
 
 The memory consumption of the proxy depends on the total configuration state the proxy holds.
@@ -106,7 +106,7 @@ is busy handling the request, the worker won't start handling the next request
 immediately. This process adds to the queue wait time of the next request and affects
 average and tail latencies. The actual tail latency depends on the traffic pattern.
 
-### Latency for Istio 1.18 
+### Latency for Istio {{< istio_release_name >}}
 
 Inside the mesh, a request traverses the client-side proxy and then the server-side
 proxy. In the default configuration of Istio {{< istio_release_name >}} (i.e. Istio with telemetry v2),
@@ -126,8 +126,12 @@ for the `http/1.1` protocol, with a 1 kB payload at 1000 requests per second usi
     caption="P99 latency vs client connections"
 >}}
 
-- `no_mesh` Client pod directly calls the server pod, no sidecars are present.
-- `istio_with_stats` Client and server sidecars are present with telemetry configured by default. This is the default Istio configuration.
+- `baseline` Client pod directly calls the server pod, no sidecars are present.
+- `none_both` Istio proxy with no Istio specific filters configured.
+- `v2-stats-wasm_both` Client and server sidecars are present with telemetry v2 `v8` configured.
+- `v2-stats-nullvm_both` Client and server sidecars are present with telemetry v2 `nullvm` configured by default. This is the default Istio configuration.
+- `v2-sd-full-nullvm_both` Export Stackdriver metrics, access logs and edges with telemetry v2 `nullvm` configured.
+- `v2-sd-nologging-nullvm_both` Same as above, but does not export access logs.
 
 ### Benchmarking tools
 
