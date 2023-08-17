@@ -17,7 +17,7 @@ test: no
 
 下面的章节描述了向 Pod 中注入 Istio Sidecar 的两种方法：使用
 [`istioctl`](/zh/docs/reference/commands/istioctl) 手动注入或启用
-Pod 所属命名空间的 Istio sidecar 注入器自动注入。
+Pod 所属命名空间的 Istio Sidecar 注入器自动注入。
 
 当 Pod 所属命名空间启用自动注入后，自动注入器会使用准入控制器在创建 Pod 时自动注入代理配置。
 
@@ -223,8 +223,8 @@ spec:
   来覆盖默认的 `image` 配置，但建议将 `image` 设置为 `auto`，可使 Sidecar
   注入自动选择要使用的 Image。
 
-* `Pod` 中一些字段取决于相关设置。例如，CPU 请求必须小于 CPU 限制。如果两个字段没有一起配置，
-   Pod 可能会无法启动。
+* `Pod` 中一些字段取决于相关设置。例如，CPU 请求必须小于 CPU 限制。
+  如果两个字段没有一起配置，Pod 可能会无法启动。
 
 另外，某些字段可通过在 Pod 上的[注解](/zh/docs/reference/config/annotations/)进行配置，
 但是不建议使用上述方法进行自定义设置。必须特别注意某些注解：
