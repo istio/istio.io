@@ -7,7 +7,7 @@ keywords: [istio,sidecars,kubernetes]
 ---
 
 如果您曾经听说过有关服务网格的些许信息，
-那应该就是它们使用 Sidecar 模式进行工作：代理服务器与您的应用程序代码部署在一起。
+那就会知道它是以 Sidecar 模式工作的：与应用代码并列部署一个代理服务器。
 Sidecar 就是这样：它是一种模式。到目前为止，在 Kubernetes 中还没有对 Sidecar 容器进行正式支持。
 
 这导致了许多问题：如果您有一个按照预期终止的 Job，
