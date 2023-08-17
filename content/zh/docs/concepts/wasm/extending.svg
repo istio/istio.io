@@ -32,7 +32,7 @@
      inkscape:window-x="0"
      inkscape:window-y="25"
      inkscape:window-maximized="1"
-     inkscape:current-layer="g68" />
+     inkscape:current-layer="svg68" />
   <clipPath
      id="p.0">
     <path
@@ -425,12 +425,16 @@
        xml:space="preserve"
        style="font-size:37.3333px;fill:#000000"
        x="138.49535"
-       y="402.79065"
+       y="379.14456"
        id="text74"><tspan
          sodipodi:role="line"
          id="tspan74"
          x="138.49535"
-         y="402.79065">调用 API</tspan></text>
+         y="379.14456">对外调用</tspan><tspan
+         sodipodi:role="line"
+         x="138.49535"
+         y="426.75143"
+         id="tspan80">API</tspan></text>
   </g>
   <text
      xml:space="preserve"
@@ -441,7 +445,7 @@
        sodipodi:role="line"
        id="tspan75"
        x="1042.1775"
-       y="330.08057">外部函数</tspan></text>
+       y="330.08057">外接函数</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:37.3333px;fill:#000000"
