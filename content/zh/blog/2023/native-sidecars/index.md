@@ -42,7 +42,7 @@ Sidecar 容器提供了强大的功能，但也存在一些问题。
 ## 从根源解决 {#fixing-the-root-cause}
 
 虽然 Istio 中日益复杂的变通方案可以帮助减轻 Istio 用户的痛苦，
-但理想情况下，所有相关情况都应该正常运转 - 而不仅仅是针对 Istio。
+但理想情况下，所有相关情况下都应该正常运转 - 而不仅仅是针对 Istio。
 幸运的是，Kubernetes 社区一直努力直接在 Kubernetes 中解决这些问题。
 
 在 Kubernetes 1.28 中，合并了一项为 Sidecar 添加原生支持的新功能，
