@@ -5,16 +5,16 @@ weight: 65
 keywords: [security,access-control,rbac,authorization,dry-run]
 owner: istio/wg-security-maintainers
 test: yes
-status: Experimental
+status: Alpha
 ---
+
+{{< boilerplate alpha >}}
 
 This task shows you how to set up an Istio authorization policy using a new [experimental annotation `istio.io/dry-run`](/docs/reference/config/annotations/)
 to dry-run the policy without actually enforcing it.
 
 The dry-run annotation allows you to better understand the effect of an authorization policy before applying it to
 the production traffic. This helps to reduce the risk of breaking the production traffic caused by an incorrect authorization policy.
-
-{{< boilerplate experimental-feature-warning >}}
 
 ## Before you begin
 
@@ -67,7 +67,7 @@ Caching and propagation overhead can cause some delay.
 
     {{< text bash >}}
     $ kubectl apply -n foo -f - <<EOF
-    apiVersion: security.istio.io/v1beta1
+    apiVersion: security.istio.io/v1
     kind: AuthorizationPolicy
     metadata:
       name: deny-path-headers
@@ -104,18 +104,18 @@ Caching and propagation overhead can cause some delay.
 
 ## Check dry-run result in proxy log
 
-1. The dry-run results can be found in the proxy debug log in the format of `shadow denied, matched policy ns[foo]-policy[deny-path-headers]-rule[0]`.
-   Run the following command to check the log:
+The dry-run results can be found in the proxy debug log in the format of `shadow denied, matched policy ns[foo]-policy[deny-path-headers]-rule[0]`.
+Run the following command to check the log:
 
-    {{< text bash >}}
-    $ kubectl logs "$(kubectl -n foo -l app=httpbin get pods -o jsonpath={.items..metadata.name})" -c istio-proxy -n foo | grep "shadow denied"
-    2021-11-19T20:20:48.733099Z debug envoy rbac shadow denied, matched policy ns[foo]-policy[deny-path-headers]-rule[0]
-    2021-11-19T20:21:45.502199Z debug envoy rbac shadow denied, matched policy ns[foo]-policy[deny-path-headers]-rule[0]
-    2021-11-19T20:22:33.065348Z debug envoy rbac shadow denied, matched policy ns[foo]-policy[deny-path-headers]-rule[0]
-    ...
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl logs "$(kubectl -n foo -l app=httpbin get pods -o jsonpath={.items..metadata.name})" -c istio-proxy -n foo | grep "shadow denied"
+2021-11-19T20:20:48.733099Z debug envoy rbac shadow denied, matched policy ns[foo]-policy[deny-path-headers]-rule[0]
+2021-11-19T20:21:45.502199Z debug envoy rbac shadow denied, matched policy ns[foo]-policy[deny-path-headers]-rule[0]
+2021-11-19T20:22:33.065348Z debug envoy rbac shadow denied, matched policy ns[foo]-policy[deny-path-headers]-rule[0]
+...
+{{< /text >}}
 
-   Also see the [troubleshooting guide](/docs/ops/common-problems/security-issues/#ensure-proxies-enforce-policies-correctly) for more details of the logging.
+Also see the [troubleshooting guide](/docs/ops/common-problems/security-issues/#ensure-proxies-enforce-policies-correctly) for more details of the logging.
 
 ## Check dry-run result in metric using Prometheus
 

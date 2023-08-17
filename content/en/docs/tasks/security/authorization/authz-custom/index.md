@@ -90,7 +90,7 @@ spec:
 
 ## Define the external authorizer
 
-In order to use the `CUSTOM` action in the authorization policy, you must then define the external authorizer that is allowed to be
+In order to use the `CUSTOM` action in the authorization policy, you must define the external authorizer that is allowed to be
 used in the mesh. This is currently defined in the [extension provider](https://github.com/istio/api/blob/a205c627e4b955302bbb77dd837c8548e89e6e64/mesh/v1alpha1/config.proto#L534)
 in the mesh config.
 
@@ -143,14 +143,8 @@ allows requests with the header `x-ext-authz: allow`.
             port: "4180" # The default port used by oauth2-proxy.
             includeRequestHeadersInCheck: ["authorization", "cookie"] # headers sent to the oauth2-proxy in the check request.
             headersToUpstreamOnAllow: ["authorization", "path", "x-auth-request-user", "x-auth-request-email", "x-auth-request-access-token"] # headers sent to backend application when request is allowed.
+            headersToDownstreamOnAllow: ["content-type", "set-cookie"] # headers sent back to the client when request is allowed.
             headersToDownstreamOnDeny: ["content-type", "set-cookie"] # headers sent back to the client when request is denied.
-    {{< /text >}}
-
-1. Restart Istiod to allow the change to take effect with the following command:
-
-    {{< text bash >}}
-    $ kubectl rollout restart deployment/istiod -n istio-system
-    deployment.apps/istiod restarted
     {{< /text >}}
 
 ## Enable with external authorization
@@ -164,7 +158,7 @@ The external authorizer is now ready to be used by the authorization policy.
 
     {{< text bash >}}
     $ kubectl apply -n foo -f - <<EOF
-    apiVersion: security.istio.io/v1beta1
+    apiVersion: security.istio.io/v1
     kind: AuthorizationPolicy
     metadata:
       name: ext-authz
@@ -247,3 +241,7 @@ The external authorizer is now ready to be used by the authorization policy.
     {{< /text >}}
 
 1. Remove the extension provider definition from the mesh config.
+
+## Performance expectations
+
+See [performance benchmarking](https://github.com/istio/tools/tree/master/perf/benchmark/configs/istio/ext_authz).

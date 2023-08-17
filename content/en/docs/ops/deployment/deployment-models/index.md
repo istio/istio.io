@@ -201,6 +201,8 @@ can reach each other directly without an Istio gateway.
 
 A single network allows Istio to configure service consumers in a uniform
 way across the mesh with the ability to directly address workload instances.
+Note, however, that for a single network across multiple clusters,
+services and endpoints cannot have overlapping IP addresses.
 
 {{< image width="50%"
     link="single-net.svg"
@@ -390,11 +392,6 @@ ways:
 
 In either case, cross-cluster load balancing is prevented. External traffic
 can be routed to one cluster or the other using an external load balancer.
-
-{{< image width="75%"
-    link="blue-green.svg"
-    caption="Blue-green deployment without cross-cluster load balancing"
-    >}}
 
 ## Identity and trust models
 

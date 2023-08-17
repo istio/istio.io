@@ -187,8 +187,9 @@ aliases:
 - **修复** `istioctl install --dry-run` 的意外警告日志。
   ([Issue #37084](https://github.com/istio/istio/issues/37084))
 
-- **修复** 使用 `kube-inject` 时出现 nil 指针，取消引用恐慌，没有通过所需的修订，但也传递了 `injectConfigMapName`。  ([Issue #38083](https://github.com/istio/istio/issues/38083))
+- **修复** 使用 `kube-inject` 时出现 nil 指针，取消引用恐慌，没有通过所需的修订，但也传递了 `injectConfigMapName`。
+  ([Issue #38083](https://github.com/istio/istio/issues/38083))
 
 - **修复** Kubernetes 1.24+ 上 `istioctl create-remote-secret` 的行为。在这些版本中，
   不再自动创建包含 `ServiceAccount` API 令牌的 Secret，因此  `istioctl`
-  将要[创建一个服务账号令牌](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#manually-create-a-service-account-api-token)。
+  将要 [创建一个服务账号令牌](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-service-account/#manually-create-an-api-token-for-a-serviceaccount)。

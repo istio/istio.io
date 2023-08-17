@@ -1,64 +1,64 @@
 ---
-title: Callouts and Lists
-description: Composing callouts and lists.
+title: 引出线和列表
+description: 编写引出线和列表。
 skip_sitemap: true
 ---
 
-1. Warning
+1. 警告
 
     {{< warning >}}
-    This is a warning
+    这是一条警告
     {{< /warning >}}
 
     {{< warning >}}
-    This is a warning
+    这是一条警告
 
-    with two paragraphs
+    有两段话
     {{< /warning >}}
 
     {{< warning >}}
-    This is a warning
+    这是一条警告
 
-    with two paragraphs
+    有两段话
 
     {{< text plain >}}
-    A nested text block
+    嵌套的文本块
     {{< /text >}}
 
     {{< /warning >}}
 
-1. Tip
+1. 提示
 
     {{< tip >}}
-    This is a tip
+    这是一条提示
     {{< /tip >}}
 
     {{< tip >}}
-    This is a tip
+    这是一条提示
 
-    with two paragraphs
+    有两段话
     {{< /tip >}}
 
-1. Idea
+1. 想法
 
     {{< idea >}}
-    This is an idea
+    这是一条想法
     {{< /idea >}}
 
     {{< idea >}}
-    This is an idea
+    这是一条想法
 
-    with two paragraphs
+    有两段话
     {{< /idea >}}
 
-1. Quote
+1. 引用
 
     {{< quote >}}
-    This is a quote
+    这是一个引用
     {{< /quote >}}
 
     {{< quote >}}
-    This is a quote
+    这是一个引用
 
-    with two paragraphs
+    有两段话
     {{< /quote >}}

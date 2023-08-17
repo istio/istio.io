@@ -22,12 +22,11 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/golang/sync/errgroup"
+	"golang.org/x/sync/errgroup"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	"istio.io/istio/pkg/config/schema/collection"
-	"istio.io/istio/pkg/config/schema/collections"
+	"istio.io/istio/pkg/config/schema/gvr"
 	"istio.io/istio/pkg/kube"
 	"istio.io/istio/pkg/test/scopes"
 )
@@ -72,7 +71,7 @@ func NewMeshSnapshot(kubeConfig string) (MeshSnapshot, error) {
 				return fmt.Errorf("failed getting context for kubeconfig %s: %v", part, err)
 			}
 
-			client, err := kube.NewClient(clientCmd)
+			client, err := kube.NewClient(clientCmd, "")
 			if err != nil {
 				return fmt.Errorf("failed creating kube client for context %s: %v", contextName, err)
 			}
@@ -190,43 +189,43 @@ func newClusterSnapshot(client kube.Client, contextName string) (ClusterSnapshot
 				nsSnapshot.IstioOperators = res
 
 				// DestinationRule
-				res = listResource(client, namespace, collections.IstioNetworkingV1Alpha3Destinationrules)
+				res = listResourceGVK(client, namespace, gvr.DestinationRule)
 				nsSnapshot.DestinationRules = res
 
 				// EnvoyFilter
-				res = listResource(client, namespace, collections.IstioNetworkingV1Alpha3Envoyfilters)
+				res = listResourceGVK(client, namespace, gvr.EnvoyFilter)
 				nsSnapshot.EnvoyFilters = res
 
 				// Gateway
-				res = listResource(client, namespace, collections.IstioNetworkingV1Alpha3Gateways)
+				res = listResourceGVK(client, namespace, gvr.Gateway)
 				nsSnapshot.Gateways = res
 
 				// ServiceEntry
-				res = listResource(client, namespace, collections.IstioNetworkingV1Alpha3Serviceentries)
+				res = listResourceGVK(client, namespace, gvr.ServiceEntry)
 				nsSnapshot.ServiceEntries = res
 
 				// Sidecar
-				res = listResource(client, namespace, collections.IstioNetworkingV1Alpha3Sidecars)
+				res = listResourceGVK(client, namespace, gvr.Sidecar)
 				nsSnapshot.Sidecars = res
 
 				// VirtualService
-				res = listResource(client, namespace, collections.IstioNetworkingV1Alpha3Virtualservices)
+				res = listResourceGVK(client, namespace, gvr.VirtualService)
 				nsSnapshot.VirtualServices = res
 
 				// WorkloadEntry
-				res = listResource(client, namespace, collections.IstioNetworkingV1Alpha3Workloadentries)
+				res = listResourceGVK(client, namespace, gvr.WorkloadEntry)
 				nsSnapshot.WorkloadEntries = res
 
 				// AuthorizationPolicy
-				res = listResource(client, namespace, collections.IstioSecurityV1Beta1Authorizationpolicies)
+				res = listResourceGVK(client, namespace, gvr.AuthorizationPolicy)
 				nsSnapshot.AuthorizationPolicies = res
 
 				// PeerAuthentication
-				res = listResource(client, namespace, collections.IstioSecurityV1Beta1Peerauthentications)
+				res = listResourceGVK(client, namespace, gvr.PeerAuthentication)
 				nsSnapshot.PeerAuthentications = res
 
 				// RequestAuthentications
-				res = listResource(client, namespace, collections.IstioSecurityV1Beta1Requestauthentications)
+				res = listResourceGVK(client, namespace, gvr.RequestAuthentication)
 				nsSnapshot.RequestAuthentications = res
 
 				// Add the namespace snapshot to the map.
@@ -274,10 +273,6 @@ func newClusterSnapshot(client kube.Client, contextName string) (ClusterSnapshot
 	})
 
 	return clusterSN, nil
-}
-
-func listResource(client kube.Client, ns string, s collection.Schema) []string {
-	return listResourceGVK(client, ns, s.Resource().GroupVersionResource())
 }
 
 func listResourceGVK(client kube.Client, ns string, gvk schema.GroupVersionResource) []string {

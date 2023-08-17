@@ -19,18 +19,23 @@
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
 #          docs/tasks/traffic-management/ingress/ingress-sni-passthrough/index.md
 ####################################################################################################
+source "content/en/boilerplates/snips/gateway-api-support.sh"
+source "content/en/boilerplates/snips/gateway-api-experimental.sh"
 
 snip_generate_client_and_server_certificates_and_keys_1() {
-openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=example Inc./CN=example.com' -keyout example.com.key -out example.com.crt
+mkdir example_certs
+openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=example Inc./CN=example.com' -keyout example_certs/example.com.key -out example_certs/example.com.crt
 }
 
 snip_generate_client_and_server_certificates_and_keys_2() {
-openssl req -out nginx.example.com.csr -newkey rsa:2048 -nodes -keyout nginx.example.com.key -subj "/CN=nginx.example.com/O=some organization"
-openssl x509 -req -sha256 -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 0 -in nginx.example.com.csr -out nginx.example.com.crt
+openssl req -out example_certs/nginx.example.com.csr -newkey rsa:2048 -nodes -keyout example_certs/nginx.example.com.key -subj "/CN=nginx.example.com/O=some organization"
+openssl x509 -req -sha256 -days 365 -CA example_certs/example.com.crt -CAkey example_certs/example.com.key -set_serial 0 -in example_certs/nginx.example.com.csr -out example_certs/nginx.example.com.crt
 }
 
 snip_deploy_an_nginx_server_1() {
-kubectl create secret tls nginx-server-certs --key nginx.example.com.key --cert nginx.example.com.crt
+kubectl create secret tls nginx-server-certs \
+  --key example_certs/nginx.example.com.key \
+  --cert example_certs/nginx.example.com.crt
 }
 
 snip_deploy_an_nginx_server_2() {
@@ -64,7 +69,7 @@ kubectl create configmap nginx-configmap --from-file=nginx.conf=./nginx.conf
 }
 
 snip_deploy_an_nginx_server_4() {
-cat <<EOF | istioctl kube-inject -f - | kubectl apply -f -
+cat <<EOF | kubectl apply -f -
 apiVersion: v1
 kind: Service
 metadata:
@@ -91,6 +96,7 @@ spec:
     metadata:
       labels:
         run: my-nginx
+        sidecar.istio.io/inject: "true"
     spec:
       containers:
       - name: my-nginx
@@ -167,6 +173,27 @@ EOF
 
 snip_configure_an_ingress_gateway_2() {
 kubectl apply -f - <<EOF
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: Gateway
+metadata:
+  name: mygateway
+spec:
+  gatewayClassName: istio
+  listeners:
+  - name: https
+    hostname: "nginx.example.com"
+    port: 443
+    protocol: TLS
+    tls:
+      mode: Passthrough
+    allowedRoutes:
+      namespaces:
+        from: All
+EOF
+}
+
+snip_configure_an_ingress_gateway_3() {
+kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -189,11 +216,35 @@ spec:
 EOF
 }
 
-snip_configure_an_ingress_gateway_3() {
-curl -v --resolve "nginx.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST" --cacert example.com.crt "https://nginx.example.com:$SECURE_INGRESS_PORT"
+snip_configure_an_ingress_gateway_4() {
+kubectl apply -f - <<EOF
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: TLSRoute
+metadata:
+  name: nginx
+spec:
+  parentRefs:
+  - name: mygateway
+  hostnames:
+  - "nginx.example.com"
+  rules:
+  - backendRefs:
+    - name: my-nginx
+      port: 443
+EOF
 }
 
-! read -r -d '' snip_configure_an_ingress_gateway_3_out <<\ENDSNIP
+snip_configure_an_ingress_gateway_5() {
+kubectl wait --for=condition=programmed gtw mygateway
+export INGRESS_HOST=$(kubectl get gtw mygateway -o jsonpath='{.status.addresses[0].value}')
+export SECURE_INGRESS_PORT=$(kubectl get gtw mygateway -o jsonpath='{.spec.listeners[?(@.name=="https")].port}')
+}
+
+snip_configure_an_ingress_gateway_6() {
+curl -v --resolve "nginx.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST" --cacert example_certs/example.com.crt "https://nginx.example.com:$SECURE_INGRESS_PORT"
+}
+
+! read -r -d '' snip_configure_an_ingress_gateway_6_out <<\ENDSNIP
 Server certificate:
   subject: CN=nginx.example.com; O=some organization
   start date: Wed, 15 Aug 2018 07:29:07 GMT
@@ -210,18 +261,23 @@ Server certificate:
 ENDSNIP
 
 snip_cleanup_1() {
-kubectl delete secret nginx-server-certs
-kubectl delete configmap nginx-configmap
-kubectl delete service my-nginx
-kubectl delete deployment my-nginx
 kubectl delete gateway mygateway
 kubectl delete virtualservice nginx
 }
 
 snip_cleanup_2() {
-rm example.com.crt example.com.key nginx.example.com.crt nginx.example.com.key nginx.example.com.csr
+kubectl delete gtw mygateway
+kubectl delete tlsroute nginx
 }
 
 snip_cleanup_3() {
+kubectl delete secret nginx-server-certs
+kubectl delete configmap nginx-configmap
+kubectl delete service my-nginx
+kubectl delete deployment my-nginx
 rm ./nginx.conf
+}
+
+snip_cleanup_4() {
+rm -rf ./example_certs
 }

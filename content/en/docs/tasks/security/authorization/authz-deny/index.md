@@ -21,7 +21,7 @@ Before you begin this task, do the following:
 
 * Deploy workloads:
 
-    This task uses two workloads, httpbin and sleep, deployed on one namespace, foo.
+    This task uses two workloads, `httpbin` and `sleep`, deployed on one namespace, `foo`.
     Both workloads run with an Envoy proxy in front of each. Deploy the example namespace
     and workloads with the following command:
 
@@ -33,10 +33,10 @@ Before you begin this task, do the following:
 
 * Verify that `sleep` talks to `httpbin` with the following command:
 
-{{< text bash >}}
-$ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl http://httpbin.foo:8000/ip -sS -o /dev/null -w "%{http_code}\n"
-200
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl http://httpbin.foo:8000/ip -sS -o /dev/null -w "%{http_code}\n"
+    200
+    {{< /text >}}
 
 {{< warning >}}
 If you don’t see the expected output as you follow the task, retry after a few seconds.
@@ -46,13 +46,13 @@ Caching and propagation overhead can cause some delay.
 ## Explicitly deny a request
 
 1. The following command creates the `deny-method-get` authorization policy for the `httpbin` workload
-in the `foo` namespace. The policy sets the `action` to `DENY` to deny requests that satisfy
-the conditions set in the `rules` section. This type of policy is better known as deny policy.
-In this case, the policy denies requests if their method is `GET`.
+    in the `foo` namespace. The policy sets the `action` to `DENY` to deny requests that satisfy
+    the conditions set in the `rules` section. This type of policy is better known as a deny policy.
+    In this case, the policy denies requests if their method is `GET`.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: security.istio.io/v1beta1
+    apiVersion: security.istio.io/v1
     kind: AuthorizationPolicy
     metadata:
       name: deny-method-get
@@ -84,13 +84,13 @@ In this case, the policy denies requests if their method is `GET`.
     {{< /text >}}
 
 1. Update the `deny-method-get` authorization policy to deny `GET` requests only if
-the value of the HTTP header `x-token` value is not `admin`. The following example
-policy sets the value of the `notValues` field to `["admin"]` to deny requests with
-a header value that is not `admin`:
+    the `x-token` value of the HTTP header is not `admin`. The following example
+    policy sets the value of the `notValues` field to `["admin"]` to deny requests with
+    a header value that is not `admin`:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: security.istio.io/v1beta1
+    apiVersion: security.istio.io/v1
     kind: AuthorizationPolicy
     metadata:
       name: deny-method-get
@@ -125,12 +125,12 @@ a header value that is not `admin`:
     {{< /text >}}
 
 1. The following command creates the `allow-path-ip` authorization policy to allow requests
-at the `/ip` path to the `httpbin` workload. This authorization policy sets the `action` field
-to `ALLOW`. This type of policy is better known as an allow policy.
+    at the `/ip` path to the `httpbin` workload. This authorization policy sets the `action` field
+    to `ALLOW`. This type of policy is better known as an allow policy.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: security.istio.io/v1beta1
+    apiVersion: security.istio.io/v1
     kind: AuthorizationPolicy
     metadata:
       name: allow-path-ip
@@ -148,7 +148,7 @@ to `ALLOW`. This type of policy is better known as an allow policy.
     {{< /text >}}
 
 1. Verify that `GET` requests with the HTTP header `x-token: guest` at path `/ip` are denied
-by the `deny-method-get` policy. Deny policies takes precedence over the allow policies:
+    by the `deny-method-get` policy. Deny policies takes precedence over the allow policies:
 
     {{< text bash >}}
     $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/ip" -X GET -H "x-token: guest" -s -o /dev/null -w "%{http_code}\n"
@@ -156,7 +156,7 @@ by the `deny-method-get` policy. Deny policies takes precedence over the allow p
     {{< /text >}}
 
 1. Verify that `GET` requests with the HTTP header `x-token: admin` at path `/ip` are
-allowed by the `allow-path-ip` policy:
+    allowed by the `allow-path-ip` policy:
 
     {{< text bash >}}
     $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/ip" -X GET -H "x-token: admin" -s -o /dev/null -w "%{http_code}\n"
@@ -164,7 +164,7 @@ allowed by the `allow-path-ip` policy:
     {{< /text >}}
 
 1. Verify that `GET` requests with the HTTP header `x-token: admin` at path `/get` are
-denied because they don’t match the `allow-path-ip` policy:
+    denied because they don’t match the `allow-path-ip` policy:
 
     {{< text bash >}}
     $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/get" -X GET -H "x-token: admin" -s -o /dev/null -w "%{http_code}\n"
@@ -173,8 +173,8 @@ denied because they don’t match the `allow-path-ip` policy:
 
 ## Clean up
 
-1. Remove the namespace foo from your configuration:
+Remove the namespace `foo` from your configuration:
 
-    {{< text bash >}}
-    $ kubectl delete namespace foo
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl delete namespace foo
+{{< /text >}}

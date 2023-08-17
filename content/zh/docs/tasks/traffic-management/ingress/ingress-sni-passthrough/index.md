@@ -9,14 +9,22 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-[安全网关](/zh/docs/tasks/traffic-management/ingress/secure-ingress-mount/)说明了如何为 HTTP 服务配置 HTTPS 访问入口。而本示例将说明如何为 HTTPS 服务配置 HTTPS 访问入口，即配置 Ingress Gateway 以执行 SNI 透传，而不是对传入请求进行 TLS 终止。
+[安全网关](/zh/docs/tasks/traffic-management/ingress/secure-ingress/)说明了如何为 HTTP 服务配置 HTTPS 访问入口。而本示例将说明如何为 HTTPS 服务配置 HTTPS 访问入口，即配置 Ingress Gateway 以执行 SNI 透传，而不是对传入请求进行 TLS 终止。
 
 本任务中的 HTTPS 示例服务是一个简单的 [NGINX](https://www.nginx.com) 服务。在接下来的步骤中，您首先在 Kubernetes 集群中创建一个 NGINX 服务。接着，通过网关给这个服务配置一个域名是 `nginx.example.com` 的访问入口。
+
+{{< boilerplate gateway-api-support >}}
+
+{{< boilerplate gateway-api-experimental >}}
+
+## 准备工作 {#before-you-begin}
+
+按照[安装指南](/zh/docs/setup/)部署 Istio。
 
 ## 生成客户端和服务端的证书和密钥{#generate-client-and-server-certificates-and-keys}
 
 对于此任务，您可以使用自己喜欢的工具来生成证书和密钥。以下命令使用
-[openssl](https://man.openbsd.org/openssl.1)
+[openssl](https://man.openbsd.org/openssl.1)：
 
 1. 创建根证书和私钥来为您的服务签名证书：
 
@@ -33,7 +41,7 @@ test: yes
 
 ## 部署一个 NGINX 服务{#deploy-an-nginx-server}
 
-1. 创建一个 Kubernetes 的 [Secret](https://kubernetes.io/docs/concepts/configuration/secret/) 资源来保存服务的证书：
+1. 创建一个 Kubernetes 的 [Secret](https://kubernetes.io/zh-cn/docs/concepts/configuration/secret/) 资源来保存服务的证书：
 
     {{< text bash >}}
     $ kubectl create secret tls nginx-server-certs --key nginx.example.com.key --cert nginx.example.com.crt
@@ -67,7 +75,7 @@ test: yes
     EOF
     {{< /text >}}
 
-1. 创建一个 Kubernetes 的 [ConfigMap](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/) 资源来保存 NGINX 服务的配置：
+1. 创建一个 Kubernetes 的 [ConfigMap](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-pod-configmap/) 资源来保存 NGINX 服务的配置：
 
     {{< text bash >}}
     $ kubectl create configmap nginx-configmap --from-file=nginx.conf=./nginx.conf

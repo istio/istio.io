@@ -18,8 +18,7 @@ Istio 工作负载当前支持的最高 TLS 版本为 1.3。
   在 `istioctl install` 命令中用于配置 Istio 的 `IstioOperator` 自定义资源的 YAML 配置内，
   包含配置 Istio 工作负载最低 TLS 版本的字段。
   其中的 `minProtocolVersion` 字段用于指定 Istio 工作负载之间 TLS 连接的最低版本。
-  在下面的例子中，
-  Istio 工作负载的最低 TLS 版本配置为 1.3。
+  在下面的例子中，Istio 工作负载的最低 TLS 版本配置为 1.3。
 
     {{< text bash >}}
     $ cat <<EOF > ./istio.yaml
@@ -47,7 +46,7 @@ Istio 工作负载当前支持的最高 TLS 版本为 1.3。
     $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@) -n foo
     {{< /text >}}
 
-* 使用以下命令验证 `sleep` 是否成功的与 `httpbin` 建立通信：
+* 使用以下命令验证 `sleep` 是否成功地与 `httpbin` 建立通信：
 
     {{< text bash >}}
     $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl http://httpbin.foo:8000/ip -sS -o /dev/null -w "%{http_code}\n"
@@ -62,32 +61,45 @@ Istio 工作负载当前支持的最高 TLS 版本为 1.3。
 在示例中，最低 TLS 版本被配置为 1.3。
 您可以使用以下命令查看 TLS 1.3 协议是否被允许使用：
 
-    {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c istio-proxy -n foo -- openssl s_client -alpn istio -tls1_3 -connect httpbin.foo:8000 | grep "TLSv1.3"
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c istio-proxy -n foo -- openssl s_client -alpn istio -tls1_3 -connect httpbin.foo:8000 | grep "TLSv1.3"
+{{< /text >}}
 
 文本输出应该包括如下内容:
 
-    {{< text plain >}}
-    TLSv1.3
-    {{< /text >}}
+{{< text plain >}}
+TLSv1.3
+{{< /text >}}
 
-要检查是否允许 TLS 的1.3 版本，您可以运行以下命令：
+要检查是否允许 TLS 的 1.2 版本，您可以运行以下命令：
 
-    {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c istio-proxy -n foo -- openssl s_client -alpn istio -tls1_2 -connect httpbin.foo:8000 | grep "Cipher is (NONE)"
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c istio-proxy -n foo -- openssl s_client -alpn istio -tls1_2 -connect httpbin.foo:8000 | grep "Cipher is (NONE)"
+{{< /text >}}
 
-文本输出应该包括如下内容:
+文本输出应该包括如下内容：
 
-    {{< text plain >}}
-    Cipher is (NONE)
-    {{< /text >}}
+{{< text plain >}}
+Cipher is (NONE)
+{{< /text >}}
 
 ## 清理{#cleanup}
 
-*   移除 `foo` 和 `istio-system` 这两个命名空间：
+从 `foo` 命名空间中删除样例应用 `sleep` 和 `httpbin`：
 
-    {{< text bash >}}
-    $ kubectl delete ns foo istio-system
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl delete -f samples/httpbin/httpbin.yaml -n foo
+$ kubectl delete -f samples/sleep/sleep.yaml -n foo
+{{< /text >}}
+
+从集群中卸载 Istio：
+
+{{< text bash >}}
+$ istioctl uninstall --purge -y
+{{< /text >}}
+
+移除 `foo` 和 `istio-system` 这两个命名空间：
+
+{{< text bash >}}
+$ kubectl delete ns foo istio-system
+{{< /text >}}

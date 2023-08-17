@@ -24,7 +24,8 @@ source "tests/util/samples.sh"
 # @setup profile=demo
 
 # Start the otel sample
-startup_otel_sample
+bpsnip_start_otel_collector_service__1
+_wait_for_deployment istio-system opentelemetry-collector
 
 # Apply Telemetry config
 snip_enable_envoys_access_logging_3
@@ -41,9 +42,9 @@ startup_httpbin_sample
 # Make curl request to httpbin
 _verify_elided snip_test_the_access_log_1 "$snip_test_the_access_log_1_out"
 
-
 # Check the logs
 _verify_contains snip_test_the_access_log_2 "outbound|8000||httpbin.default.svc.cluster.local"
 
 # @cleanup
+
 snip_cleanup_1

@@ -6,12 +6,16 @@ attribution: "Lin Sun (Solo.io), John Howard (Google)"
 keywords: [ambient,demo,guide]
 ---
 
+{{< warning >}}
+Refer to the latest [getting started with ambient mesh doc](/docs/ops/ambient/getting-started/) for updated instructions.
+{{< /warning >}}
+
 Ambient mesh is [a new data plane mode for Istio introduced today](/blog/2022/introducing-ambient-mesh/). Following this getting started guide, you can experience how ambient mesh can simplify your application onboarding, help with ongoing operations, and reduce service mesh infrastructure resource usage.
 
 ## Install Istio with Ambient Mode
 
 1. [Download the preview version](https://gcsweb.istio.io/gcs/istio-build/dev/0.0.0-ambient.191fe680b52c1754ee72a06b3e0d3f9d116f2e82) of Istio with support for ambient mesh.
-1. Check out [supported environments]({{< github_tree >}}/experimental-ambient#supported-environments). We recommend using a Kubernetes cluster that is version 1.21 or newer that has two nodes or more. If you don’t have a Kubernetes cluster, you can set up using locally (e.g. using kind as below) or deploy one in Google or AWS Cloud:
+1. Check out [supported environments]({{< github_raw >}}/tree/experimental-ambient#supported-environments). We recommend using a Kubernetes cluster that is version 1.21 or newer that has two nodes or more. If you don’t have a Kubernetes cluster, you can set up using locally (e.g. using kind as below) or deploy one in Google or AWS Cloud:
 
 {{< text bash >}}
 $ kind create cluster --config=- <<EOF
@@ -356,14 +360,4 @@ Take a look at the short video to watch Lin run through the Istio ambient mesh d
 
 ## What's next
 
-We are super excited about the new Istio ambient data plane with its simple "ambient" architecture.
-Onboarding your applications onto a service mesh with ambient mode is now as easy as labeling a namespace.
-
-Your applications will gain instant benefits such as mTLS with cryptographic identity for mesh traffic and L4 observability.
-
-If you need to control access or routes or increase resiliency or gain L7 metrics among your applications in ambient mesh, you can apply waypoint proxies to your applications as needed.
-
-We’re big fans of paying for only what we need, as it not only saves resources but also saves operation cost from constantly updating many proxies!
-
-We invite you to try the new Istio ambient data plane architecture to experience how simple it is.
-We look forward to your [feedback](http://slack.istio.io) in the Istio community!
+We are super excited about the new Istio ambient data plane with its simple "ambient" architecture. Onboarding your applications onto a service mesh with ambient mode is now as easy as labeling a namespace. Your applications will gain instant benefits such as mTLS with cryptographic identity for mesh traffic and L4 observability. If you need to control access or routes or increase resiliency or gain L7 metrics among your applications in ambient mesh, you can apply waypoint proxies to your applications as needed. We’re big fans of paying for only what we need, as it not only saves resources but also saves operation cost from constantly updating many proxies! We invite you to try the new Istio ambient data plane architecture to experience how simple it is. We look forward to your [feedback](http://slack.istio.io) in the Istio community!

@@ -121,7 +121,7 @@ without impacting end users.
 
 {{< tip >}}
 Notice that the fault injection test is restricted to when the logged in user is
-`jason`. If you login as any other user, you will not experience any delays.
+`jason`. If you log in as any other user, you will not experience any delays.
 {{< /tip >}}
 
 ## Fixing the bug

@@ -19,6 +19,7 @@
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
 #          docs/tasks/traffic-management/mirroring/index.md
 ####################################################################################################
+source "content/en/boilerplates/snips/gateway-api-gamma-support.sh"
 
 snip_before_you_begin_1() {
 cat <<EOF | istioctl kube-inject -f - | kubectl create -f -
@@ -151,11 +152,54 @@ EOF
 }
 
 snip_creating_a_default_routing_policy_2() {
+kubectl apply -f - <<EOF
+apiVersion: v1
+kind: Service
+metadata:
+  name: httpbin-v1
+spec:
+  ports:
+  - port: 80
+    name: http
+  selector:
+    app: httpbin
+    version: v1
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: httpbin-v2
+spec:
+  ports:
+  - port: 80
+    name: http
+  selector:
+    app: httpbin
+    version: v2
+---
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: HTTPRoute
+metadata:
+  name: httpbin
+spec:
+  parentRefs:
+  - group: ""
+    kind: Service
+    name: httpbin
+    port: 8000
+  rules:
+  - backendRefs:
+    - name: httpbin-v1
+      port: 80
+EOF
+}
+
+snip_creating_a_default_routing_policy_3() {
 export SLEEP_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
 kubectl exec "${SLEEP_POD}" -c sleep -- curl -sS http://httpbin:8000/headers
 }
 
-! read -r -d '' snip_creating_a_default_routing_policy_2_out <<\ENDSNIP
+! read -r -d '' snip_creating_a_default_routing_policy_3_out <<\ENDSNIP
 {
   "headers": {
     "Accept": "*/*",
@@ -172,21 +216,21 @@ kubectl exec "${SLEEP_POD}" -c sleep -- curl -sS http://httpbin:8000/headers
 }
 ENDSNIP
 
-snip_creating_a_default_routing_policy_3() {
+snip_creating_a_default_routing_policy_4() {
 export V1_POD=$(kubectl get pod -l app=httpbin,version=v1 -o jsonpath={.items..metadata.name})
 kubectl logs "$V1_POD" -c httpbin
 }
 
-! read -r -d '' snip_creating_a_default_routing_policy_3_out <<\ENDSNIP
+! read -r -d '' snip_creating_a_default_routing_policy_4_out <<\ENDSNIP
 127.0.0.1 - - [07/Mar/2018:19:02:43 +0000] "GET /headers HTTP/1.1" 200 321 "-" "curl/7.35.0"
 ENDSNIP
 
-snip_creating_a_default_routing_policy_4() {
+snip_creating_a_default_routing_policy_5() {
 export V2_POD=$(kubectl get pod -l app=httpbin,version=v2 -o jsonpath={.items..metadata.name})
 kubectl logs "$V2_POD" -c httpbin
 }
 
-! read -r -d '' snip_creating_a_default_routing_policy_4_out <<\ENDSNIP
+! read -r -d '' snip_creating_a_default_routing_policy_5_out <<\ENDSNIP
 <none>
 ENDSNIP
 
@@ -214,23 +258,48 @@ EOF
 }
 
 snip_mirroring_traffic_to_v2_2() {
-kubectl exec "${SLEEP_POD}" -c sleep -- curl -sS http://httpbin:8000/headers
+kubectl apply -f - <<EOF
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: HTTPRoute
+metadata:
+  name: httpbin
+spec:
+  parentRefs:
+  - group: ""
+    kind: Service
+    name: httpbin
+    port: 8000
+  rules:
+  - filters:
+    - type: RequestMirror
+      requestMirror:
+        backendRef:
+          name: httpbin-v2
+          port: 80
+    backendRefs:
+    - name: httpbin-v1
+      port: 80
+EOF
 }
 
 snip_mirroring_traffic_to_v2_3() {
+kubectl exec "${SLEEP_POD}" -c sleep -- curl -sS http://httpbin:8000/headers
+}
+
+snip_mirroring_traffic_to_v2_4() {
 kubectl logs "$V1_POD" -c httpbin
 }
 
-! read -r -d '' snip_mirroring_traffic_to_v2_3_out <<\ENDSNIP
+! read -r -d '' snip_mirroring_traffic_to_v2_4_out <<\ENDSNIP
 127.0.0.1 - - [07/Mar/2018:19:02:43 +0000] "GET /headers HTTP/1.1" 200 321 "-" "curl/7.35.0"
 127.0.0.1 - - [07/Mar/2018:19:26:44 +0000] "GET /headers HTTP/1.1" 200 321 "-" "curl/7.35.0"
 ENDSNIP
 
-snip_mirroring_traffic_to_v2_4() {
+snip_mirroring_traffic_to_v2_5() {
 kubectl logs "$V2_POD" -c httpbin
 }
 
-! read -r -d '' snip_mirroring_traffic_to_v2_4_out <<\ENDSNIP
+! read -r -d '' snip_mirroring_traffic_to_v2_5_out <<\ENDSNIP
 127.0.0.1 - - [07/Mar/2018:19:26:44 +0000] "GET /headers HTTP/1.1" 200 361 "-" "curl/7.35.0"
 ENDSNIP
 
@@ -240,6 +309,11 @@ kubectl delete destinationrule httpbin
 }
 
 snip_cleaning_up_2() {
+kubectl delete httproute httpbin
+kubectl delete svc httpbin-v1 httpbin-v2
+}
+
+snip_cleaning_up_3() {
 kubectl delete deploy httpbin-v1 httpbin-v2 sleep
 kubectl delete svc httpbin
 }

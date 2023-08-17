@@ -56,7 +56,7 @@ and then grant more access to the workload gradually and incrementally.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: security.istio.io/v1beta1
+    apiVersion: security.istio.io/v1
     kind: AuthorizationPolicy
     metadata:
       name: allow-nothing
@@ -78,7 +78,7 @@ and then grant more access to the workload gradually and incrementally.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: security.istio.io/v1beta1
+    apiVersion: security.istio.io/v1
     kind: AuthorizationPolicy
     metadata:
       name: "productpage-viewer"
@@ -112,7 +112,7 @@ and then grant more access to the workload gradually and incrementally.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: security.istio.io/v1beta1
+    apiVersion: security.istio.io/v1
     kind: AuthorizationPolicy
     metadata:
       name: "details-viewer"
@@ -138,7 +138,7 @@ and then grant more access to the workload gradually and incrementally.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: security.istio.io/v1beta1
+    apiVersion: security.istio.io/v1
     kind: AuthorizationPolicy
     metadata:
       name: "reviews-viewer"
@@ -172,7 +172,7 @@ and then grant more access to the workload gradually and incrementally.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: security.istio.io/v1beta1
+    apiVersion: security.istio.io/v1
     kind: AuthorizationPolicy
     metadata:
       name: "ratings-viewer"
@@ -200,12 +200,12 @@ and then grant more access to the workload gradually and incrementally.
 
 ## Clean up
 
-1. Remove all authorization policies from your configuration:
+Remove all authorization policies from your configuration:
 
-    {{< text bash >}}
-    $ kubectl delete authorizationpolicy.security.istio.io/allow-nothing
-    $ kubectl delete authorizationpolicy.security.istio.io/productpage-viewer
-    $ kubectl delete authorizationpolicy.security.istio.io/details-viewer
-    $ kubectl delete authorizationpolicy.security.istio.io/reviews-viewer
-    $ kubectl delete authorizationpolicy.security.istio.io/ratings-viewer
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl delete authorizationpolicy.security.istio.io/allow-nothing
+$ kubectl delete authorizationpolicy.security.istio.io/productpage-viewer
+$ kubectl delete authorizationpolicy.security.istio.io/details-viewer
+$ kubectl delete authorizationpolicy.security.istio.io/reviews-viewer
+$ kubectl delete authorizationpolicy.security.istio.io/ratings-viewer
+{{< /text >}}

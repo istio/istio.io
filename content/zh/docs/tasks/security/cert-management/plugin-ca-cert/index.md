@@ -11,7 +11,10 @@ test: yes
 
 本任务介绍了系统管理员如何通过根证书、签名证书和密钥来配置 Istio 证书授权（CA）。
 
-默认情况下，Istio CA 会生成一个自签名的根证书和密钥，并使用它们来签署工作负载证书。为了保护根 CA 密钥，您应该使用在安全机器上离线运行的根 CA，并使用根 CA 向运行在每个集群上的 Istio CA 签发中间证书。Istio CA 可以使用管理员指定的证书和密钥来签署工作负载证书，并将管理员指定的根证书作为信任根分配给工作负载。
+默认情况下，Istio CA 会生成一个自签名的根证书和密钥，并使用它们来签署工作负载证书。
+为了保护根 CA 密钥，您应该使用在安全机器上离线运行的根 CA，并使用根 CA 向运行在每个集群上的
+Istio CA 签发中间证书。Istio CA 可以使用管理员指定的证书和密钥来签署工作负载证书，
+并将管理员指定的根证书作为信任根分配给工作负载。
 
 下图展示了在包含两个集群的网格中推荐的 CA 层次结构。
 
@@ -20,16 +23,21 @@ test: yes
     caption="CA Hierarchy"
     >}}
 
-本任务介绍如何生成和插入 Istio CA 的证书和密钥。这些步骤可以重复进行，为每个集群中运行的 Istio CA 提供证书和密钥。
+本任务介绍如何生成和插入 Istio CA 的证书和密钥。这些步骤可以重复进行，
+为每个集群中运行的 Istio CA 提供证书和密钥。
 
 ## 在集群中插入证书和密钥{#plug-in-certificates-and-key-into-the-cluster}
 
 {{< warning >}}
-以下内容仅用于演示。对于生产型集群的设置，强烈建议使用生产型 CA，如 [Hashicorp Vault](https://www.hashicorp.com/products/vault)。在具有强大安全保护功能的离线机器上管理根 CA 是一个很好的做法。
+以下内容仅用于演示。对于生产型集群的设置，强烈建议使用生产型 CA，如
+[Hashicorp Vault](https://www.hashicorp.com/products/vault)。
+在具有强大安全保护功能的离线机器上管理根 CA 是一个很好的做法。
 {{< /warning >}}
 
 {{< warning >}}
-[Go 1.18 默认禁用](https://github.com/golang/go/issues/41682)对 SHA-1 签名的支持。如果您正在 macOS 上生成证书，请确保您使用的是 OpenSSL。详情请参阅 [GitHub issue 38049](https://github.com/istio/istio/issues/38049)。
+[Go 1.18 默认禁用](https://github.com/golang/go/issues/41682)对 SHA-1 签名的支持。
+如果您正在 macOS 上生成证书，请确保您使用的是 OpenSSL。详情请参阅
+[GitHub issue 38049](https://github.com/istio/istio/issues/38049)。
 {{< /warning >}}
 
 1. 在 Istio 安装包的顶层目录下，创建一个目录来存放证书和密钥：
@@ -66,11 +74,13 @@ test: yes
     * `cert-chain.pem`：istiod 使用的生成的证书链
     * `root-cert.pem`：根证书
 
-    您可以使用一个您选择的字符串来替换 `cluster1`。例如，使用 `cluster2-cacerts` 参数，您可以在一个名为 `cluster2` 的目录中创建证书和密钥。
+    您可以使用一个您选择的字符串来替换 `cluster1`。例如，使用 `cluster2-cacerts` 参数，
+    您可以在一个名为 `cluster2` 的目录中创建证书和密钥。
 
     如果您正在离线机器上进行此操作，请将生成的目录复制到可以访问集群的机器上。
 
-1. 在每个集群中，创建一个私密 `cacerts`，包括所有输入文件 `ca-cert.pem`，`ca-key.pem`，`root-cert.pem` 和 `cert-chain.pem`。例如，在 `cluster1` 集群上：
+1. 在每个集群中，创建一个私密 `cacerts`，包括所有输入文件 `ca-cert.pem`，
+   `ca-key.pem`，`root-cert.pem` 和 `cert-chain.pem`。例如，在 `cluster1` 集群上：
 
     {{< text bash >}}
     $ kubectl create namespace istio-system
@@ -97,7 +107,7 @@ test: yes
     $ istioctl install --set profile=demo
     {{< /text >}}
 
-## 部署实例服务{#deploying-example-services}
+## 部署示例服务{#deploying-example-services}
 
 1. 部署 `httpbin` 和 `sleep` 示例服务。
 
@@ -125,7 +135,8 @@ test: yes
 
 本节中，验证工作负载证书是否已通过插入到 CA 中的证书签署。验证的前提要求机器上安装有 `openssl`。
 
-1. 在检索 `httpbin` 的证书链之前，请等待 20 秒使mTLS策略生效。由于本例中使用的 CA 证书是自签的，所以可以预料 openssl 命令返回 `verify error:num=19:self signed certificate in certificate chain`。
+1. 在检索 `httpbin` 的证书链之前，请等待 20 秒使mTLS策略生效。由于本例中使用的 CA 证书是自签的，
+   所以可以预料 openssl 命令返回 `verify error:num=19:self signed certificate in certificate chain`。
 
     {{< text bash >}}
     $ sleep 20; kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c istio-proxy -n foo -- openssl s_client -showcerts -connect httpbin.foo:8000 > httpbin-proxy-cert.txt
@@ -171,11 +182,33 @@ test: yes
     $ rm -rf certs
     {{< /text >}}
 
-*  删除私密 `cacerts`、`foo` 和 `istio-system` 命名空间：
+*  删除 Secret `cacerts`：
 
     {{< text bash >}}
     $ kubectl delete secret cacerts -n istio-system
-    $ kubectl delete ns foo istio-system
     {{< /text >}}
 
-*  移除 Istio 组件：按照[卸载说明](/zh/docs/setup/getting-started/#uninstall)进行移除。
+*  从 `foo` 命名空间中删除身份验证策略：
+
+    {{< text bash >}}
+    $ kubectl delete peerauthentication -n foo default
+    {{< /text >}}
+
+*  删除示例应用 `sleep` 和 `httpbin`：
+
+    {{< text bash >}}
+    $ kubectl delete -f samples/sleep/sleep.yaml -n foo
+    $ kubectl delete -f samples/httpbin/httpbin.yaml -n foo
+    {{< /text >}}
+
+*  从集群中卸载 Istio：
+
+    {{< text bash >}}
+    $ istioctl uninstall --purge -y
+    {{< /text >}}
+
+*  从集群中删除命名空间 `foo` 和 `istio-system`：
+
+    {{< text bash >}}
+    $ kubectl delete ns foo istio-system
+    {{< /text >}}

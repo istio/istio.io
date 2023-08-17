@@ -11,28 +11,20 @@ aliases: [/docs/reference/config/telemetry/v1alpha1/telemetry]
 number_of_entries: 18
 ---
 <p>Telemetry defines how the telemetry is generated for workloads within a mesh.</p>
-
 <p>For mesh level configuration, put the resource in root configuration
 namespace for your Istio installation <em>without</em> a workload selector.</p>
-
 <p>For any namespace, including the root configuration namespace, it is only
 valid to have a single workload selector-less Telemetry resource.</p>
-
 <p>For resources with a workload selector, it is only valid to have one resource
 selecting any given workload.</p>
-
 <p>The hierarchy of Telemetry configuration is as follows:</p>
-
 <ol>
 <li>Workload-specific configuration</li>
 <li>Namespace-specific configuration</li>
 <li>Root namespace configuration</li>
 </ol>
-
 <p>Examples:</p>
-
 <p>Policy to enable random sampling for 10% of traffic:</p>
-
 <pre><code class="language-yaml">apiVersion: telemetry.istio.io/v1alpha1
 kind: Telemetry
 metadata:
@@ -43,10 +35,8 @@ spec:
   tracing:
   - randomSamplingPercentage: 10.00
 </code></pre>
-
 <p>Policy to disable trace reporting for the &ldquo;foo&rdquo; workload (note: tracing
 context will still be propagated):</p>
-
 <pre><code class="language-yaml">apiVersion: telemetry.istio.io/v1alpha1
 kind: Telemetry
 metadata:
@@ -59,9 +49,7 @@ spec:
   tracing:
   - disableSpanReporting: true
 </code></pre>
-
 <p>Policy to select the alternate zipkin provider for trace reporting:</p>
-
 <pre><code class="language-yaml">apiVersion: telemetry.istio.io/v1alpha1
 kind: Telemetry
 metadata:
@@ -76,9 +64,7 @@ spec:
     - name: &quot;zipkin-alternate&quot;
     randomSamplingPercentage: 10.00
 </code></pre>
-
 <p>Policy to add a custom tag from a literal value:</p>
-
 <pre><code class="language-yaml">apiVersion: telemetry.istio.io/v1alpha1
 kind: Telemetry
 metadata:
@@ -93,9 +79,7 @@ spec:
         literal:
           value: &quot;foo&quot;
 </code></pre>
-
 <p>Policy to disable server-side metrics for Stackdriver for an entire mesh:</p>
-
 <pre><code class="language-yaml">apiVersion: telemetry.istio.io/v1alpha1
 kind: Telemetry
 metadata:
@@ -112,9 +96,7 @@ spec:
         mode: SERVER
       disabled: true
 </code></pre>
-
 <p>Policy to add dimensions to all Prometheus metrics for the <code>foo</code> namespace:</p>
-
 <pre><code class="language-yaml">apiVersion: telemetry.istio.io/v1alpha1
 kind: Telemetry
 metadata:
@@ -133,10 +115,8 @@ spec:
         request_host:
           value: &quot;request.host&quot;
 </code></pre>
-
 <p>Policy to remove the response_code dimension on some Prometheus metrics for
 the <code>bar.foo</code> workload:</p>
-
 <pre><code class="language-yaml">apiVersion: telemetry.istio.io/v1alpha1
 kind: Telemetry
 metadata:
@@ -171,9 +151,7 @@ spec:
         response_code:
           operation: REMOVE
 </code></pre>
-
 <p>Policy to enable access logging for the entire mesh:</p>
-
 <pre><code class="language-yaml">apiVersion: telemetry.istio.io/v1alpha1
 kind: Telemetry
 metadata:
@@ -189,9 +167,7 @@ spec:
     # cases where a parent configuration has marked as `disabled: true`. In
     # those cases, `disabled: false` must be set explicitly to override.
 </code></pre>
-
 <p>Policy to disable access logging for the <code>foo</code> namespace:</p>
-
 <pre><code class="language-yaml">apiVersion: telemetry.istio.io/v1alpha1
 kind: Telemetry
 metadata:
@@ -273,7 +249,6 @@ No
 <p>Tracing configures tracing behavior for workloads within a mesh.
 It can be used to enable/disable tracing, as well as to set sampling
 rates and custom tag extraction.</p>
-
 <p>Tracing configuration support overrides of the fields <code>providers</code>,
 <code>random_sampling_percentage</code>, <code>disable_span_reporting</code>, and <code>custom_tags</code> at
 each level in the configuration hierarchy, with missing values filled in
@@ -306,8 +281,8 @@ No
 <td><code><a href="#ProviderRef">ProviderRef[]</a></code></td>
 <td>
 <p>Optional. Name of provider(s) to use for span reporting. If a provider is
-not specified, the [default tracing
-provider][istio.mesh.v1alpha1.MeshConfig.default_providers.tracing] will be
+not specified, the <a href="/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-DefaultProviders">default tracing
+provider</a> will be
 used. NOTE: At the moment, only a single provider can be specified in a
 given Tracing rule.</p>
 
@@ -326,7 +301,6 @@ been made, that decision will be respected. However, if no sampling
 decision has been made (example: no <code>x-b3-sampled</code> tracing header was
 present in the requests), the traffic will be selected for telemetry
 generation at the percentage specified.</p>
-
 <p>Defaults to 0%. Valid values [0.00-100.00]. Can be specified in 0.01%
 increments.</p>
 
@@ -385,7 +359,7 @@ targeted customization.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 </tbody>
@@ -412,8 +386,8 @@ as to customize the dimensions of the generated metrics.</p>
 <td><code><a href="#ProviderRef">ProviderRef[]</a></code></td>
 <td>
 <p>Optional. Name of providers to which this configuration should apply.
-If a provider is not specified, the [default metrics
-provider][istio.mesh.v1alpha1.MeshConfig.default_providers.metrics] will be
+If a provider is not specified, the <a href="/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-DefaultProviders">default metrics
+provider</a> will be
 used.</p>
 
 </td>
@@ -426,18 +400,31 @@ No
 <td><code><a href="#MetricsOverrides">MetricsOverrides[]</a></code></td>
 <td>
 <p>Optional. Ordered list of overrides to metrics generation behavior.</p>
-
 <p>Specified overrides will be applied in order. They will be applied on
 top of inherited overrides from other resources in the hierarchy in the
-following order:
-1. Mesh-scoped overrides
-2. Namespace-scoped overrides
-3. Workload-scoped overrides</p>
-
+following order:</p>
+<ol>
+<li>Mesh-scoped overrides</li>
+<li>Namespace-scoped overrides</li>
+<li>Workload-scoped overrides</li>
+</ol>
 <p>Because overrides are applied in order, users are advised to order their
 overrides from least specific to most specific matches. That is, it is
 a best practice to list any universal overrides first, with tailored
 overrides following them.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Metrics-reporting_interval">
+<td><code>reportingInterval</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
+<td>
+<p>Optional. Reporting interval allows configuration of the time between calls out to for metrics reporting.
+This currently only supports TCP metrics but we may use this for long duration HTTP streams in the future.
+The default duration is <code>5s</code>.</p>
 
 </td>
 <td>
@@ -522,7 +509,6 @@ metric or the set of all standard metrics.</p>
 <p>Match allows provides the scope of the override. It can be used to select
 individual metrics, as well as the workload modes (server and/or client)
 in which the metrics will be generated.</p>
-
 <p>If match is not specified, the overrides will apply to <em>all</em> metrics for
 <em>both</em> modes of operation (client and server).</p>
 
@@ -554,7 +540,7 @@ selected metric(s).
 The key in the map is the name of the tag.
 The value in the map is the operation to perform on the the tag.
 WARNING: some providers may not support adding/removing tags.
-See also: https://istio.io/latest/docs/reference/config/metrics/#labels</p>
+See also: <a href="/docs/reference/config/metrics/#labels">https://istio.io/latest/docs/reference/config/metrics/#labels</a></p>
 
 </td>
 <td>
@@ -596,8 +582,8 @@ No
 <td><code><a href="#ProviderRef">ProviderRef[]</a></code></td>
 <td>
 <p>Optional. Name of providers to which this configuration should apply.
-If a provider is not specified, the [default logging
-provider][istio.mesh.v1alpha1.MeshConfig.default_providers.] will be used.</p>
+If a provider is not specified, the <a href="/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-DefaultProviders">default logging
+provider</a> will be used.</p>
 
 </td>
 <td>
@@ -670,7 +656,6 @@ No
 an operator-supplied value. This value can either be a hard-coded value,
 a value taken from an environment variable known to the sidecar proxy, or
 from a request header.</p>
-
 <p>NOTE: when specified, <code>custom_tags</code> will fully replace any values provided
 by parent configuration.</p>
 
@@ -924,9 +909,7 @@ No
 <td><code>string</code></td>
 <td>
 <p>CEL expression for selecting when requests/connections should be logged.</p>
-
 <p>Examples:</p>
-
 <ul>
 <li><code>response.code &gt;= 400</code></li>
 <li><code>connection.mtls &amp;&amp; request.url_path.contains('v1beta3')</code></li>
@@ -944,7 +927,7 @@ No
 <section>
 <p>Curated list of known metric types that is supported by Istio metric
 providers. See also:
-https://istio.io/latest/docs/reference/config/metrics/#metrics</p>
+<a href="/docs/reference/config/metrics/#metrics">https://istio.io/latest/docs/reference/config/metrics/#metrics</a></p>
 
 <table class="enum-values">
 <thead>
@@ -967,11 +950,8 @@ default metrics.</p>
 <td>
 <p>Counter of requests to/from an application, generated for HTTP, HTTP/2,
 and GRPC traffic.</p>
-
 <p>The Prometheus provider exports this metric as: <code>istio_requests_total</code>.</p>
-
 <p>The Stackdriver provider exports this metric as:</p>
-
 <ul>
 <li><code>istio.io/service/server/request_count</code> (SERVER mode)</li>
 <li><code>istio.io/service/client/request_count</code> (CLIENT mode)</li>
@@ -984,12 +964,9 @@ and GRPC traffic.</p>
 <td>
 <p>Histogram of request durations, generated for HTTP, HTTP/2, and GRPC
 traffic.</p>
-
 <p>The Prometheus provider exports this metric as:
 <code>istio_request_duration_milliseconds</code>.</p>
-
 <p>The Stackdriver provider exports this metric as:</p>
-
 <ul>
 <li><code>istio.io/service/server/response_latencies</code> (SERVER mode)</li>
 <li><code>istio.io/service/client/roundtrip_latencies</code> (CLIENT mode)</li>
@@ -1002,11 +979,8 @@ traffic.</p>
 <td>
 <p>Histogram of request body sizes, generated for HTTP, HTTP/2, and GRPC
 traffic.</p>
-
 <p>The Prometheus provider exports this metric as: <code>istio_request_bytes</code>.</p>
-
 <p>The Stackdriver provider exports this metric as:</p>
-
 <ul>
 <li><code>istio.io/service/server/request_bytes</code> (SERVER mode)</li>
 <li><code>istio.io/service/client/request_bytes</code> (CLIENT mode)</li>
@@ -1019,11 +993,8 @@ traffic.</p>
 <td>
 <p>Histogram of response body sizes, generated for HTTP, HTTP/2, and GRPC
 traffic.</p>
-
 <p>The Prometheus provider exports this metric as: <code>istio_response_bytes</code>.</p>
-
 <p>The Stackdriver provider exports this metric as:</p>
-
 <ul>
 <li><code>istio.io/service/server/response_bytes</code> (SERVER mode)</li>
 <li><code>istio.io/service/client/response_bytes</code> (CLIENT mode)</li>
@@ -1035,12 +1006,9 @@ traffic.</p>
 <td><code>TCP_OPENED_CONNECTIONS</code></td>
 <td>
 <p>Counter of TCP connections opened over lifetime of workload.</p>
-
 <p>The Prometheus provider exports this metric as:
 <code>istio_tcp_connections_opened_total</code>.</p>
-
 <p>The Stackdriver provider exports this metric as:</p>
-
 <ul>
 <li><code>istio.io/service/server/connection_open_count</code> (SERVER mode)</li>
 <li><code>istio.io/service/client/connection_open_count</code> (CLIENT mode)</li>
@@ -1052,12 +1020,9 @@ traffic.</p>
 <td><code>TCP_CLOSED_CONNECTIONS</code></td>
 <td>
 <p>Counter of TCP connections closed over lifetime of workload.</p>
-
 <p>The Prometheus provider exports this metric as:
 <code>istio_tcp_connections_closed_total</code>.</p>
-
 <p>The Stackdriver provider exports this metric as:</p>
-
 <ul>
 <li><code>istio.io/service/server/connection_close_count</code> (SERVER mode)</li>
 <li><code>istio.io/service/client/connection_close_count</code> (CLIENT mode)</li>
@@ -1069,12 +1034,9 @@ traffic.</p>
 <td><code>TCP_SENT_BYTES</code></td>
 <td>
 <p>Counter of bytes sent during a response over a TCP connection.</p>
-
 <p>The Prometheus provider exports this metric as:
 <code>istio_tcp_sent_bytes_total</code>.</p>
-
 <p>The Stackdriver provider exports this metric as:</p>
-
 <ul>
 <li><code>istio.io/service/server/sent_bytes_count</code> (SERVER mode)</li>
 <li><code>istio.io/service/client/sent_bytes_count</code> (CLIENT mode)</li>
@@ -1086,12 +1048,9 @@ traffic.</p>
 <td><code>TCP_RECEIVED_BYTES</code></td>
 <td>
 <p>Counter of bytes received during a request over a TCP connection.</p>
-
 <p>The Prometheus provider exports this metric as:
 <code>istio_tcp_received_bytes_total</code>.</p>
-
 <p>The Stackdriver provider exports this metric as:</p>
-
 <ul>
 <li><code>istio.io/service/server/received_bytes_count</code> (SERVER mode)</li>
 <li><code>istio.io/service/client/received_bytes_count</code> (CLIENT mode)</li>
@@ -1103,7 +1062,6 @@ traffic.</p>
 <td><code>GRPC_REQUEST_MESSAGES</code></td>
 <td>
 <p>Counter incremented for every gRPC messages sent from a client.</p>
-
 <p>The Prometheus provider exports this metric as:
 <code>istio_request_messages_total</code></p>
 
@@ -1113,7 +1071,6 @@ traffic.</p>
 <td><code>GRPC_RESPONSE_MESSAGES</code></td>
 <td>
 <p>Counter incremented for every gRPC messages sent from a server.</p>
-
 <p>The Prometheus provider exports this metric as:
 <code>istio_response_messages_total</code></p>
 

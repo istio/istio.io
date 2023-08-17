@@ -7,7 +7,8 @@ owner: istio/wg-environments-maintainers
 test: no
 ---
 
-[Grafana](https://grafana.com/) 是一个开源的监控解决方案，可以用来为 Istio 配置仪表板。您可以使用 Grafana 来监控 Istio 及部署在服务网格内的应用程序。
+[Grafana](https://grafana.com/) 是一个开源的监控解决方案，可以用来为 Istio
+配置仪表板。您可以使用 Grafana 来监控 Istio 及部署在服务网格内的应用程序。
 
 ## 配置 {#config}
 
@@ -19,23 +20,27 @@ test: no
 * [Performance Dashboard](https://grafana.com/grafana/dashboards/11829) 监控网格资源使用情况。
 * [Control Plane Dashboard](https://grafana.com/grafana/dashboards/7645) 监控控制面的健康状况及性能指标.
 
-可以通过多种方法来配置 Grafana 来使用这些仪表板:
+可以通过多种方法来配置 Grafana 来使用这些仪表板：
 
-### 方法1：快速开始
+### 方法1：快速开始 {#option-1-quick-start}
 
-Istio 提供了一个基本的安装示例，以快速让 Grafana 启动和运行，与所有已经安装的 Istio 仪表板捆绑在一起:
+Istio 提供了一个基本的安装示例，以快速让 Grafana 启动和运行，
+与所有已经安装的 Istio 仪表板捆绑在一起：
 
 {{< text bash >}}
 $ kubectl apply -f {{< github_file >}}/samples/addons/grafana.yaml
 {{< /text >}}
 
-通过 kubectl apply 方式将 Grafana 部署到集群中。该策略仅用于演示，并没有针对性能或安全性进行调优。
+通过 kubectl apply 方式将 Grafana 部署到集群中。该策略仅用于演示，
+并没有针对性能或安全性进行调优。
 
-### 方法2：从 `grafana.com` 导入已经部署的 Deployment
+### 方法2：从 `grafana.com` 导入已经部署的 Deployment {#option-2-import-from-grafanacom-into-an-existing-deployment}
 
-如果想要快速地将Istio仪表板导入到现有的Grafana实例中，您可以使用 [Grafana UI 中的 **Import** 按钮](https://grafana.com/docs/grafana/latest/reference/export_import/#importing-a-dashboard) 来添加上面的仪表板链接。当导入仪表板时，请注意必须选择一个 Prometheus 数据源。
+如果想要快速地将Istio仪表板导入到现有的Grafana实例中，您可以使用
+[Grafana UI 中的 **Import** 按钮](https://grafana.com/docs/grafana/latest/reference/export_import/#importing-a-dashboard)
+来添加上面的仪表板链接。当导入仪表板时，请注意必须选择一个 Prometheus 数据源。
 
-也可以使用脚本一次导入所有仪表板。例如:
+也可以使用脚本一次导入所有仪表板。例如：
 
 {{< text bash >}}
 $ # Address of Grafana
@@ -62,9 +67,11 @@ $     echo -e "\nDone\n"
 $ done
 {{< /text >}}
 
-### 方法3：特定的实现方法
+### 方法3：特定的实现方法 {#option-3-implementation-specific-methods}
 
-Grafana 可以通过其他方法进行安装和配置。要导入 Istio 仪表板，请参考文档中的安装方法。例如:
+Grafana 可以通过其他方法进行安装和配置。要导入 Istio 仪表板，
+请参考文档中的安装方法。例如：
 
-* [Grafana provisioning](https://grafana.com/docs/grafana/latest/administration/provisioning/#dashboards) 官方文档.
-* [Importing dashboards](https://github.com/helm/charts/tree/master/stable/grafana#import-dashboards) `stable/grafana` Helm chart 文档.
+* [Grafana provisioning](https://grafana.com/docs/grafana/latest/administration/provisioning/#dashboards) 官方文档。
+* [Importing dashboards](https://github.com/helm/charts/tree/master/stable/grafana#import-dashboards)
+  `stable/grafana` Helm chart 文档。

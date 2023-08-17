@@ -123,7 +123,7 @@ service/productpage patched
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: networking.k8s.io/v1beta1
+    apiVersion: networking.k8s.io/v1
     kind: Ingress
     metadata:
       name: bookinfo
@@ -135,22 +135,33 @@ service/productpage patched
         http:
           paths:
           - path: /productpage
+            pathType: Prefix
             backend:
-              serviceName: productpage
-              servicePort: 9080
+              service:
+                name: productpage
+                port:
+                  number: 9080
           - path: /login
+            pathType: Prefix
             backend:
-              serviceName: productpage
-              servicePort: 9080
+              service:
+                name: productpage
+                port:
+                  number: 9080
           - path: /logout
+            pathType: Prefix
             backend:
-              serviceName: productpage
-              servicePort: 9080
+              service:
+                name: productpage
+                port:
+                  number: 9080
           - path: /static
             pathType: Prefix
             backend:
-              serviceName: productpage
-              servicePort: 9080
+              service:
+                name: productpage
+                port:
+                  number: 9080
     EOF
     {{< /text >}}
 

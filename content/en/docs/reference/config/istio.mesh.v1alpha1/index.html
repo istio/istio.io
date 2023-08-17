@@ -7,7 +7,7 @@ location: https://istio.io/docs/reference/config/istio.mesh.v1alpha1.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
 weight: 20
-number_of_entries: 55
+number_of_entries: 59
 ---
 <p>Configuration affecting the service mesh as a whole.</p>
 
@@ -29,8 +29,20 @@ number_of_entries: 55
 <td><code>proxyListenPort</code></td>
 <td><code>int32</code></td>
 <td>
-<p>Port on which Envoy should listen for incoming connections from
-other services. Default port is 15001.</p>
+<p>Port on which Envoy should listen for all outbound traffic to other services.
+Default port is 15001.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-proxy_inbound_listen_port">
+<td><code>proxyInboundListenPort</code></td>
+<td><code>int32</code></td>
+<td>
+<p>Port on which Envoy should listen for all inbound traffic to the pod/vm will be captured to.
+Default port is 15006.</p>
 
 </td>
 <td>
@@ -308,11 +320,9 @@ No
 <td>
 <p>The trust domain aliases represent the aliases of <code>trust_domain</code>.
 For example, if we have</p>
-
 <pre><code class="language-yaml">trustDomain: td1
 trustDomainAliases: [&quot;td2&quot;, &quot;td3&quot;]
 </code></pre>
-
 <p>Any service with the identity <code>td1/ns/foo/sa/a-service-account</code>, <code>td2/ns/foo/sa/a-service-account</code>,
 or <code>td3/ns/foo/sa/a-service-account</code> will be treated the same in the Istio mesh.</p>
 
@@ -343,15 +353,12 @@ No
 imported through container registry integrations, e.g. this applies to
 Kubernetes Service resources. The value is a list of namespace names and
 reserved namespace aliases. The allowed namespace aliases are:</p>
-
 <pre><code>* - All Namespaces
 . - Current Namespace
 ~ - No Namespace
 </code></pre>
-
 <p>If not set the system will use &ldquo;*&rdquo; as the default value which implies that
 services are exported to all namespaces.</p>
-
 <p><code>All namespaces</code> is a reasonable default for implementations that don&rsquo;t
 need to restrict access or visibility of services across namespace
 boundaries. If that requirement is present it is generally good practice to
@@ -361,7 +368,6 @@ visibility of services to other namespaces as needed. Use of <code>No Namespace<
 is expected to be rare but can have utility for deployments where
 dependency management needs to be precise even within the scope of a single
 namespace.</p>
-
 <p>For further discussion see the reference documentation for <code>ServiceEntry</code>,
 <code>Sidecar</code>, and <code>Gateway</code>.</p>
 
@@ -376,7 +382,6 @@ No
 <td>
 <p>The default value for the VirtualService.export_to field. Has the same
 syntax as <code>default_service_export_to</code>.</p>
-
 <p>If not set the system will use &ldquo;*&rdquo; as the default value which implies that
 virtual services are exported to all namespaces</p>
 
@@ -391,7 +396,6 @@ No
 <td>
 <p>The default value for the <code>DestinationRule.export_to</code> field. Has the same
 syntax as <code>default_service_export_to</code>.</p>
-
 <p>If not set the system will use &ldquo;*&rdquo; as the default value which implies that
 destination rules are exported to all namespaces</p>
 
@@ -409,7 +413,6 @@ Istio configuration. When processing a leaf namespace Istio will search for
 declarations in that namespace first and if none are found it will
 search in the root namespace. Any matching declaration found in the root
 namespace is processed as if it were declared in the leaf namespace.</p>
-
 <p>The precise semantics of this processing are documented on each resource
 type.</p>
 
@@ -422,7 +425,10 @@ No
 <td><code>localityLbSetting</code></td>
 <td><code><a href="/docs/reference/config/networking/destination-rule/#LocalityLoadBalancerSetting">LocalityLoadBalancerSetting</a></code></td>
 <td>
-<p>Locality based load balancing distribution or failover settings.</p>
+<p>Locality based load balancing distribution or failover settings.
+If unspecified, locality based load balancing will be enabled by default.
+However, this requires outlierDetection to actually take effect for a particular
+service, see <a href="/docs/tasks/traffic-management/locality-load-balancing/failover/">https://istio.io/latest/docs/tasks/traffic-management/locality-load-balancing/failover/</a></p>
 
 </td>
 <td>
@@ -434,7 +440,7 @@ No
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
 <td>
 <p>Configures DNS refresh rate for Envoy clusters of type <code>STRICT_DNS</code>
-Default refresh rate is <code>5s</code>.</p>
+Default refresh rate is <code>60s</code>.</p>
 
 </td>
 <td>
@@ -463,18 +469,15 @@ No
 network filters like TCP and Redis.
 By default, Istio emits statistics with the pattern <code>inbound|&lt;port&gt;|&lt;port-name&gt;|&lt;service-FQDN&gt;</code>.
 For example <code>inbound|7443|grpc-reviews|reviews.prod.svc.cluster.local</code>. This can be used to override that pattern.</p>
-
 <p>A Pattern can be composed of various pre-defined variables. The following variables are supported.</p>
-
 <ul>
 <li><code>%SERVICE%</code> - Will be substituted with name of the service.</li>
 <li><code>%SERVICE_FQDN%</code> - Will be substituted with FQDN of the service.</li>
 <li><code>%SERVICE_PORT%</code> - Will be substituted with port of the service.</li>
+<li><code>%TARGET_PORT%</code>  - Will be substituted with the target port of the service.</li>
 <li><code>%SERVICE_PORT_NAME%</code> - Will be substituted with port name of the service.</li>
 </ul>
-
 <p>Following are some examples of supported patterns for reviews:</p>
-
 <ul>
 <li><code>%SERVICE_FQDN%_%SERVICE_PORT%</code> will use reviews.prod.svc.cluster.local_7443 as the stats name.</li>
 <li><code>%SERVICE%</code> will use reviews.prod as the stats name.</li>
@@ -493,9 +496,7 @@ No
 network filters like TCP and Redis.
 By default, Istio emits statistics with the pattern <code>outbound|&lt;port&gt;|&lt;subsetname&gt;|&lt;service-FQDN&gt;</code>.
 For example <code>outbound|8080|v2|reviews.prod.svc.cluster.local</code>. This can be used to override that pattern.</p>
-
 <p>A Pattern can be composed of various pre-defined variables. The following variables are supported.</p>
-
 <ul>
 <li><code>%SERVICE%</code> - Will be substituted with name of the service.</li>
 <li><code>%SERVICE_FQDN%</code> - Will be substituted with FQDN of the service.</li>
@@ -503,24 +504,11 @@ For example <code>outbound|8080|v2|reviews.prod.svc.cluster.local</code>. This c
 <li><code>%SERVICE_PORT_NAME%</code> - Will be substituted with port name of the service.</li>
 <li><code>%SUBSET_NAME%</code> - Will be substituted with subset.</li>
 </ul>
-
 <p>Following are some examples of supported patterns for reviews:</p>
-
 <ul>
 <li><code>%SERVICE_FQDN%_%SERVICE_PORT%</code> will use <code>reviews.prod.svc.cluster.local_7443</code> as the stats name.</li>
 <li><code>%SERVICE%</code> will use reviews.prod as the stats name.</li>
 </ul>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="MeshConfig-thrift_config">
-<td><code>thriftConfig</code></td>
-<td><code><a href="#MeshConfig-ThriftConfig">ThriftConfig</a></code></td>
-<td>
-<p>Set configuration for Thrift protocol</p>
 
 </td>
 <td>
@@ -578,10 +566,11 @@ computing configuration updates for sidecars. This can be used to reduce Istio&r
 by limiting the number of entities (including services, pods, and endpoints) that are watched and processed.
 If omitted, Istio will use the default behavior of processing all namespaces in the cluster.
 Elements in the list are disjunctive (OR semantics), i.e. a namespace will be included if it matches any selector.
-The following example selects any namespace that matches either below:
-1. The namespace has both of these labels: <code>env: prod</code> and <code>region: us-east1</code>
-2. The namespace has label <code>app</code> equal to <code>cassandra</code> or <code>spark</code>.</p>
-
+The following example selects any namespace that matches either below:</p>
+<ol>
+<li>The namespace has both of these labels: <code>env: prod</code> and <code>region: us-east1</code></li>
+<li>The namespace has label <code>app</code> equal to <code>cassandra</code> or <code>spark</code>.</li>
+</ol>
 <pre><code class="language-yaml">discoverySelectors:
   - matchLabels:
       env: prod
@@ -593,7 +582,6 @@ The following example selects any namespace that matches either below:
         - cassandra
         - spark
 </code></pre>
-
 <p>Refer to the <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors">kubernetes selector docs</a>
 for additional detail on selector semantics.</p>
 
@@ -625,9 +613,9 @@ No
 <td>
 <p>Configure the default HTTP retry policy.
 The default number of retry attempts is set at 2 for these errors:
-  &ldquo;connect-failure,refused-stream,unavailable,cancelled,retriable-status-codes&rdquo;.
+&ldquo;connect-failure,refused-stream,unavailable,cancelled,retriable-status-codes&rdquo;.
 Setting the number of attempts to 0 disables retry policy globally.
-This setting can be overriden on a per-host basis using the Virtual Service
+This setting can be overridden on a per-host basis using the Virtual Service
 API.
 All settings in the retry policy except <code>perTryTimeout</code> can currently be
 configured globally via this field.</p>
@@ -641,7 +629,31 @@ No
 <td><code>meshMTLS</code></td>
 <td><code><a href="#MeshConfig-TLSConfig">TLSConfig</a></code></td>
 <td>
-<p>Configuration of mTLS for traffic between workloads within the mesh.</p>
+<p>The below configuration parameters can be used to specify TLSConfig for mesh traffic.
+For example, a user could enable min TLS version for ISTIO_MUTUAL traffic and specify a curve for non ISTIO_MUTUAL traffic like below:
+meshConfig:
+meshMTLS:
+minProtocolVersion: TLSV1_3
+tlsDefaults:
+Note: applicable only for non ISTIO_MUTUAL scenarios
+ecdhCurves:
+- P-256
+- P-512</p>
+<p>Configuration of mTLS for traffic between workloads with ISTIO_MUTUAL TLS traffic.
+Note: Mesh mTLS does not respect ECDH curves.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-tls_defaults">
+<td><code>tlsDefaults</code></td>
+<td><code><a href="#MeshConfig-TLSConfig">TLSConfig</a></code></td>
+<td>
+<p>Configuration of TLS for all traffic except for ISTIO_MUTUAL mode.
+Currently, this supports configuration of ecdh_curves only.
+For ISTIO_MUTUAL TLS settings, use meshMTLS configuration.</p>
 
 </td>
 <td>
@@ -673,7 +685,8 @@ sources.</p>
 <td>
 <p>Address of the server implementing the Istio Mesh Configuration
 protocol (MCP). Can be IP address or a fully qualified DNS name.
-Use fs:/// to specify a file-based backend with absolute path to the directory.</p>
+Use xds:// to specify a grpc-based xds backend, k8s:// to specify a k8s controller or
+fs:/// to specify a file-based backend with absolute path to the directory.</p>
 
 </td>
 <td>
@@ -759,9 +772,9 @@ No
 <td><code>string (oneof)</code></td>
 <td>
 <p>The SPIFFE bundle endpoint URL that complies to:
-https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE_Trust_Domain_and_Bundle.md#the-spiffe-trust-domain-and-bundle
+<a href="https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE_Trust_Domain_and_Bundle.md#the-spiffe-trust-domain-and-bundle">https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE_Trust_Domain_and_Bundle.md#the-spiffe-trust-domain-and-bundle</a>
 The endpoint should support authentication based on Web PKI:
-https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE_Trust_Domain_and_Bundle.md#521-web-pki
+<a href="https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE_Trust_Domain_and_Bundle.md#521-web-pki">https://github.com/spiffe/spiffe/blob/master/standards/SPIFFE_Trust_Domain_and_Bundle.md#521-web-pki</a>
 The certificate is retrieved from the endpoint.</p>
 
 </td>
@@ -804,45 +817,6 @@ No
 </tbody>
 </table>
 </section>
-<h2 id="MeshConfig-ThriftConfig">MeshConfig.ThriftConfig</h2>
-<section>
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="MeshConfig-ThriftConfig-rate_limit_url">
-<td><code>rateLimitUrl</code></td>
-<td><code>string</code></td>
-<td>
-<p>Specify thrift rate limit service URL. If pilot has thrift protocol support enabled,
-this will enable the rate limit service for destinations that have matching rate
-limit configurations.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="MeshConfig-ThriftConfig-rate_limit_timeout">
-<td><code>rateLimitTimeout</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
-<td>
-<p>Specify thrift rate limit service timeout, in milliseconds. Default is <code>50ms</code></p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
 <h2 id="MeshConfig-CA">MeshConfig.CA</h2>
 <section>
 <table class="message-fields">
@@ -873,12 +847,14 @@ No
 <td><code><a href="/docs/reference/config/networking/destination-rule/#ClientTLSSettings">ClientTLSSettings</a></code></td>
 <td>
 <p>Use the tls_settings to specify the tls mode to use.
-Regarding tls_settings:
-- DISABLE MODE is legitimate for the case Istiod is making the request via an Envoy sidecar.
-DISABLE MODE can also be used for testing
-- TLS MUTUAL MODE be on by default. If the CA certificates
+Regarding tls_settings:</p>
+<ul>
+<li>DISABLE MODE is legitimate for the case Istiod is making the request via an Envoy sidecar.
+DISABLE MODE can also be used for testing</li>
+<li>TLS MUTUAL MODE be on by default. If the CA certificates
 (cert bundle to verify the CA server&rsquo;s certificate) is omitted, Istiod will
-use the system root certs to verify the CA server&rsquo;s certificate.</p>
+use the system root certs to verify the CA server&rsquo;s certificate.</li>
+</ul>
 
 </td>
 <td>
@@ -968,20 +944,6 @@ No
 No
 </td>
 </tr>
-<tr id="MeshConfig-ExtensionProvider-lightstep" class="oneof">
-<td><code>lightstep</code></td>
-<td><code><a href="#MeshConfig-ExtensionProvider-LightstepTracingProvider">LightstepTracingProvider (oneof)</a></code></td>
-<td>
-<p>Configures a Lightstep tracing provider.
-Note: For Istio 1.15+, configuring this provider will result in
-using an OpenTelemetryTracingProvider configured specially for
-Lightstep. This is part of the Lightstep transition to OpenTelemetry.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
 <tr id="MeshConfig-ExtensionProvider-datadog" class="oneof">
 <td><code>datadog</code></td>
 <td><code><a href="#MeshConfig-ExtensionProvider-DatadogTracingProvider">DatadogTracingProvider (oneof)</a></code></td>
@@ -998,17 +960,6 @@ No
 <td><code><a href="#MeshConfig-ExtensionProvider-StackdriverProvider">StackdriverProvider (oneof)</a></code></td>
 <td>
 <p>Configures a Stackdriver provider.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="MeshConfig-ExtensionProvider-opencensus" class="oneof">
-<td><code>opencensus</code></td>
-<td><code><a href="#MeshConfig-ExtensionProvider-OpenCensusAgentTracingProvider">OpenCensusAgentTracingProvider (oneof)</a></code></td>
-<td>
-<p>Configures an OpenCensusAgent tracing provider.</p>
 
 </td>
 <td>
@@ -1099,7 +1050,6 @@ No
 <section>
 <p>Holds the name references to the providers that will be used by default
 in other Istio configuration resources if the provider is not specified.</p>
-
 <p>These names must match a provider defined in <code>extension_providers</code> that is
 one of the supported tracing providers.</p>
 
@@ -1201,6 +1151,37 @@ is TLS 1.3.</p>
 No
 </td>
 </tr>
+<tr id="MeshConfig-TLSConfig-ecdh_curves">
+<td><code>ecdhCurves</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>Optional: If specified, the TLS connection will only support the specified ECDH curves for the DH key exchange.
+If not specified, the default curves enforced by envoy will be used. For details about the default curves, refer to
+<a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/transport_sockets/tls/v3/common.proto">Ecdh Curves</a></p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-TLSConfig-cipher_suites">
+<td><code>cipherSuites</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>Optional: If specified, the TLS connection will only support the specified cipher list when negotiating TLS 1.0-1.2.
+If not specified, the following cipher suites will be used:
+ECDHE-ECDSA-AES256-GCM-SHA384
+ECDHE-RSA-AES256-GCM-SHA384
+ECDHE-ECDSA-AES128-GCM-SHA256
+ECDHE-RSA-AES128-GCM-SHA256
+AES256-GCM-SHA384
+AES128-GCM-SHA256</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -1227,9 +1208,7 @@ By default, in multi-cluster deployments, the Istio control plane assumes all se
 endpoints to be reachable from any client in any of the clusters which are part of the
 mesh. This configuration option limits the set of service endpoints visible to a client
 to be cluster scoped.</p>
-
 <p>There are some common scenarios when this can be useful:</p>
-
 <ul>
 <li>A service (or group of services) is inherently local to the cluster and has local storage
 for that cluster. For example, the kube-system namespace (e.g. the Kube API Server).</li>
@@ -1238,7 +1217,6 @@ having services cluster-local and then slowly transition them to mesh-wide. They
 this service-by-service (e.g. mysvc.myns.svc.cluster.local) or as a group
 (e.g. *.myns.svc.cluster.local).</li>
 </ul>
-
 <p>By default Istio will consider kubernetes.default.svc (i.e. the API Server) as well as all
 services in the kube-system namespace to be cluster-local, unless explicitly overridden here.</p>
 
@@ -1296,8 +1274,8 @@ No
 <td><code>bool</code></td>
 <td>
 <p>If true, the body sent to the external authorization service in the gRPC authorization request is set with raw bytes
-in the raw_body field (https://github.com/envoyproxy/envoy/blame/cffb095d59d7935abda12b9509bcd136808367bb/api/envoy/service/auth/v3/attribute_context.proto#L153).
-Otherwise, it will be filled with UTF-8 string in the body field (https://github.com/envoyproxy/envoy/blame/cffb095d59d7935abda12b9509bcd136808367bb/api/envoy/service/auth/v3/attribute_context.proto#L147).
+in the raw_body field (<a href="https://github.com/envoyproxy/envoy/blame/cffb095d59d7935abda12b9509bcd136808367bb/api/envoy/service/auth/v3/attribute_context.proto#L153)">https://github.com/envoyproxy/envoy/blame/cffb095d59d7935abda12b9509bcd136808367bb/api/envoy/service/auth/v3/attribute_context.proto#L153)</a>.
+Otherwise, it will be filled with UTF-8 string in the body field (<a href="https://github.com/envoyproxy/envoy/blame/cffb095d59d7935abda12b9509bcd136808367bb/api/envoy/service/auth/v3/attribute_context.proto#L147)">https://github.com/envoyproxy/envoy/blame/cffb095d59d7935abda12b9509bcd136808367bb/api/envoy/service/auth/v3/attribute_context.proto#L147)</a>.
 This field only works with the envoy_ext_authz_grpc provider and has no effect for the envoy_ext_authz_http provider.</p>
 
 </td>
@@ -1328,7 +1306,6 @@ No
 The format is <code>[&lt;Namespace&gt;/]&lt;Hostname&gt;</code>. The specification of <code>&lt;Namespace&gt;</code> is required only when it is insufficient
 to unambiguously resolve a service in the service registry. The <code>&lt;Hostname&gt;</code> is a fully qualified host name of a
 service defined by the Kubernetes service or ServiceEntry.</p>
-
 <p>Example: &ldquo;my-ext-authz.foo.svc.cluster.local&rdquo; or &ldquo;bar/my-ext-authz.example.com&rdquo;.</p>
 
 </td>
@@ -1414,17 +1391,20 @@ No
 <td><code>string[]</code></td>
 <td>
 <p>List of client request headers that should be included in the authorization request sent to the authorization service.
-Note that in addition to the headers specified here following headers are included by default:
-1. <em>Host</em>, <em>Method</em>, <em>Path</em> and <em>Content-Length</em> are automatically sent.
-2. <em>Content-Length</em> will be set to 0 and the request will not have a message body. However, the authorization
+Note that in addition to the headers specified here following headers are included by default:</p>
+<ol>
+<li><em>Host</em>, <em>Method</em>, <em>Path</em> and <em>Content-Length</em> are automatically sent.</li>
+<li><em>Content-Length</em> will be set to 0 and the request will not have a message body. However, the authorization
 request can include the buffered client request body (controlled by include_request_body_in_check setting),
-consequently the value of Content-Length of the authorization request reflects the size of its payload size.</p>
-
+consequently the value of Content-Length of the authorization request reflects the size of its payload size.</li>
+</ol>
 <p>Exact, prefix and suffix matches are supported (similar to the authorization policy rule syntax except the presence match
-https://istio.io/latest/docs/reference/config/security/authorization-policy/#Rule):
-- Exact match: &ldquo;abc&rdquo; will match on value &ldquo;abc&rdquo;.
-- Prefix match: &ldquo;abc*&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;abcd&rdquo;.
-- Suffix match: &ldquo;*abc&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;xabc&rdquo;.</p>
+<a href="/docs/reference/config/security/authorization-policy/#Rule)">https://istio.io/latest/docs/reference/config/security/authorization-policy/#Rule)</a>:</p>
+<ul>
+<li>Exact match: &ldquo;abc&rdquo; will match on value &ldquo;abc&rdquo;.</li>
+<li>Prefix match: &ldquo;abc*&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;abcd&rdquo;.</li>
+<li>Suffix match: &ldquo;*abc&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;xabc&rdquo;.</li>
+</ul>
 
 </td>
 <td>
@@ -1463,12 +1443,13 @@ No
 forwarded to the upstream when the authorization check result is allowed (HTTP code 200).
 If not specified, the original request will not be modified and forwarded to backend as-is.
 Note, any existing headers will be overridden.</p>
-
 <p>Exact, prefix and suffix matches are supported (similar to the authorization policy rule syntax except the presence match
-https://istio.io/latest/docs/reference/config/security/authorization-policy/#Rule):
-- Exact match: &ldquo;abc&rdquo; will match on value &ldquo;abc&rdquo;.
-- Prefix match: &ldquo;abc*&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;abcd&rdquo;.
-- Suffix match: &ldquo;*abc&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;xabc&rdquo;.</p>
+<a href="/docs/reference/config/security/authorization-policy/#Rule)">https://istio.io/latest/docs/reference/config/security/authorization-policy/#Rule)</a>:</p>
+<ul>
+<li>Exact match: &ldquo;abc&rdquo; will match on value &ldquo;abc&rdquo;.</li>
+<li>Prefix match: &ldquo;abc*&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;abcd&rdquo;.</li>
+<li>Suffix match: &ldquo;*abc&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;xabc&rdquo;.</li>
+</ul>
 
 </td>
 <td>
@@ -1486,12 +1467,13 @@ the downstream.
 When a header is included in this list, <em>Path</em>, <em>Status</em>, <em>Content-Length</em>, <em>WWWAuthenticate</em> and <em>Location</em> are
 automatically added.
 Note, the body from the authorization service is always included in the response to downstream.</p>
-
 <p>Exact, prefix and suffix matches are supported (similar to the authorization policy rule syntax except the presence match
-https://istio.io/latest/docs/reference/config/security/authorization-policy/#Rule):
-- Exact match: &ldquo;abc&rdquo; will match on value &ldquo;abc&rdquo;.
-- Prefix match: &ldquo;abc*&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;abcd&rdquo;.
-- Suffix match: &ldquo;*abc&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;xabc&rdquo;.</p>
+<a href="/docs/reference/config/security/authorization-policy/#Rule)">https://istio.io/latest/docs/reference/config/security/authorization-policy/#Rule)</a>:</p>
+<ul>
+<li>Exact match: &ldquo;abc&rdquo; will match on value &ldquo;abc&rdquo;.</li>
+<li>Prefix match: &ldquo;abc*&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;abcd&rdquo;.</li>
+<li>Suffix match: &ldquo;*abc&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;xabc&rdquo;.</li>
+</ul>
 
 </td>
 <td>
@@ -1506,12 +1488,13 @@ No
 check result is allowed (HTTP code 200).
 If not specified, the original response will not be modified and forwarded to downstream as-is.
 Note, any existing headers will be overridden.</p>
-
 <p>Exact, prefix and suffix matches are supported (similar to the authorization policy rule syntax except the presence match
-https://istio.io/latest/docs/reference/config/security/authorization-policy/#Rule):
-- Exact match: &ldquo;abc&rdquo; will match on value &ldquo;abc&rdquo;.
-- Prefix match: &ldquo;abc*&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;abcd&rdquo;.
-- Suffix match: &ldquo;*abc&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;xabc&rdquo;.</p>
+<a href="/docs/reference/config/security/authorization-policy/#Rule)">https://istio.io/latest/docs/reference/config/security/authorization-policy/#Rule)</a>:</p>
+<ul>
+<li>Exact match: &ldquo;abc&rdquo; will match on value &ldquo;abc&rdquo;.</li>
+<li>Prefix match: &ldquo;abc*&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;abcd&rdquo;.</li>
+<li>Suffix match: &ldquo;*abc&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;xabc&rdquo;.</li>
+</ul>
 
 </td>
 <td>
@@ -1541,7 +1524,6 @@ No
 The format is <code>[&lt;Namespace&gt;/]&lt;Hostname&gt;</code>. The specification of <code>&lt;Namespace&gt;</code> is required only when it is insufficient
 to unambiguously resolve a service in the service registry. The <code>&lt;Hostname&gt;</code> is a fully qualified host name of a
 service defined by the Kubernetes service or ServiceEntry.</p>
-
 <p>Example: &ldquo;my-ext-authz.foo.svc.cluster.local&rdquo; or &ldquo;bar/my-ext-authz.example.com&rdquo;.</p>
 
 </td>
@@ -1634,7 +1616,6 @@ No
 The format is <code>[&lt;Namespace&gt;/]&lt;Hostname&gt;</code>. The specification of <code>&lt;Namespace&gt;</code> is required only when it is insufficient
 to unambiguously resolve a service in the service registry. The <code>&lt;Hostname&gt;</code> is a fully qualified host name of a
 service defined by the Kubernetes service or ServiceEntry.</p>
-
 <p>Example: &ldquo;zipkin.default.svc.cluster.local&rdquo; or &ldquo;bar/zipkin.example.com&rdquo;.</p>
 
 </td>
@@ -1659,6 +1640,18 @@ No
 <td>
 <p>Optional. Controls the overall path length allowed in a reported span.
 NOTE: currently only controls max length of the path tag.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-ZipkinTracingProvider-enable_64bit_trace_id">
+<td><code>enable64bitTraceId</code></td>
+<td><code>bool</code></td>
+<td>
+<p>Optional. A 128 bit trace id will be used in Istio.
+If true, will result in a 64 bit trace id being used.</p>
 
 </td>
 <td>
@@ -1692,7 +1685,6 @@ will generate OpenTelemetry-compatible configuration when using this option.</p>
 The format is <code>[&lt;Namespace&gt;/]&lt;Hostname&gt;</code>. The specification of <code>&lt;Namespace&gt;</code> is required only when it is insufficient
 to unambiguously resolve a service in the service registry. The <code>&lt;Hostname&gt;</code> is a fully qualified host name of a
 service defined by the Kubernetes service or ServiceEntry.</p>
-
 <p>Example: &ldquo;lightstep.default.svc.cluster.local&rdquo; or &ldquo;bar/lightstep.example.com&rdquo;.</p>
 
 </td>
@@ -1759,7 +1751,6 @@ No
 The format is <code>[&lt;Namespace&gt;/]&lt;Hostname&gt;</code>. The specification of <code>&lt;Namespace&gt;</code> is required only when it is insufficient
 to unambiguously resolve a service in the service registry. The <code>&lt;Hostname&gt;</code> is a fully qualified host name of a
 service defined by the Kubernetes service or ServiceEntry.</p>
-
 <p>Example: &ldquo;datadog.default.svc.cluster.local&rdquo; or &ldquo;bar/datadog.example.com&rdquo;.</p>
 
 </td>
@@ -1815,7 +1806,6 @@ No
 The format is <code>[&lt;Namespace&gt;/]&lt;Hostname&gt;</code>. The specification of <code>&lt;Namespace&gt;</code> is required only when it is insufficient
 to unambiguously resolve a service in the service registry. The <code>&lt;Hostname&gt;</code> is a fully qualified host name of a
 service defined by the Kubernetes service or ServiceEntry.</p>
-
 <p>Example: &ldquo;skywalking.default.svc.cluster.local&rdquo; or &ldquo;bar/skywalking.example.com&rdquo;.</p>
 
 </td>
@@ -1851,6 +1841,9 @@ No
 <h2 id="MeshConfig-ExtensionProvider-StackdriverProvider">MeshConfig.ExtensionProvider.StackdriverProvider</h2>
 <section>
 <p>Defines configuration for Stackdriver.</p>
+<p>WARNING: Stackdriver tracing uses OpenCensus configuration under the hood and, as a result, cannot be used
+alongside any OpenCensus provider configuration. This is due to a limitation in the implementation of OpenCensus
+driver in Envoy.</p>
 
 <table class="message-fields">
 <thead>
@@ -1891,6 +1884,13 @@ No
 <h2 id="MeshConfig-ExtensionProvider-OpenCensusAgentTracingProvider">MeshConfig.ExtensionProvider.OpenCensusAgentTracingProvider</h2>
 <section>
 <p>Defines configuration for an OpenCensus tracer writing to an OpenCensus backend.</p>
+<p>WARNING: OpenCensusAgentTracingProviders should be used with extreme care. Configuration of
+OpenCensus providers CANNOT be changed during the course of proxy&rsquo;s lifetime due to a limitation
+in the implementation of OpenCensus driver in Envoy. This means only a single provider configuration
+may be used for OpenCensus at any given time for a proxy or group of proxies AND that any change to the provider
+configuration MUST be accompanied by a restart of all proxies that will use that configuration.</p>
+<p>NOTE: Stackdriver tracing uses OpenCensus configuration under the hood and, as a result, cannot be used
+alongside OpenCensus provider configuration.</p>
 
 <table class="message-fields">
 <thead>
@@ -1910,7 +1910,6 @@ No
 The format is <code>[&lt;Namespace&gt;/]&lt;Hostname&gt;</code>. The specification of <code>&lt;Namespace&gt;</code> is required only when it is insufficient
 to unambiguously resolve a service in the service registry. The <code>&lt;Hostname&gt;</code> is a fully qualified host name of a
 service defined by the Kubernetes service or ServiceEntry.</p>
-
 <p>Example: &ldquo;ocagent.default.svc.cluster.local&rdquo; or &ldquo;bar/ocagent.example.com&rdquo;.</p>
 
 </td>
@@ -2026,7 +2025,6 @@ integration for HTTP traffic.</p>
 The format is <code>[&lt;Namespace&gt;/]&lt;Hostname&gt;</code>. The specification of <code>&lt;Namespace&gt;</code> is required only when it is insufficient
 to unambiguously resolve a service in the service registry. The <code>&lt;Hostname&gt;</code> is a fully qualified host name of a
 service defined by the Kubernetes service or ServiceEntry.</p>
-
 <p>Example: &ldquo;envoy-als.foo.svc.cluster.local&rdquo; or &ldquo;bar/envoy-als.example.com&rdquo;.</p>
 
 </td>
@@ -2050,9 +2048,11 @@ No
 <td><code>string</code></td>
 <td>
 <p>Optional. The friendly name of the access log.
-Defaults:
--  &ldquo;http_envoy_accesslog&rdquo;
--  &ldquo;listener_envoy_accesslog&rdquo;</p>
+Defaults:</p>
+<ul>
+<li>&ldquo;http_envoy_accesslog&rdquo;</li>
+<li>&ldquo;listener_envoy_accesslog&rdquo;</li>
+</ul>
 
 </td>
 <td>
@@ -2129,7 +2129,6 @@ integration for TCP traffic.</p>
 The format is <code>[&lt;Namespace&gt;/]&lt;Hostname&gt;</code>. The specification of <code>&lt;Namespace&gt;</code> is required only when it is insufficient
 to unambiguously resolve a service in the service registry. The <code>&lt;Hostname&gt;</code> is a fully qualified host name of a
 service defined by the Kubernetes service or ServiceEntry.</p>
-
 <p>Example: &ldquo;envoy-als.foo.svc.cluster.local&rdquo; or &ldquo;bar/envoy-als.example.com&rdquo;.</p>
 
 </td>
@@ -2153,9 +2152,11 @@ No
 <td><code>string</code></td>
 <td>
 <p>Optional. The friendly name of the access log.
-Defaults:
-- &ldquo;tcp_envoy_accesslog&rdquo;
-- &ldquo;listener_envoy_accesslog&rdquo;</p>
+Defaults:</p>
+<ul>
+<li>&ldquo;tcp_envoy_accesslog&rdquo;</li>
+<li>&ldquo;listener_envoy_accesslog&rdquo;</li>
+</ul>
 
 </td>
 <td>
@@ -2198,7 +2199,6 @@ No
 The format is <code>[&lt;Namespace&gt;/]&lt;Hostname&gt;</code>. The specification of <code>&lt;Namespace&gt;</code> is required only when it is insufficient
 to unambiguously resolve a service in the service registry. The <code>&lt;Hostname&gt;</code> is a fully qualified host name of a
 service defined by the Kubernetes service or ServiceEntry.</p>
-
 <p>Example: &ldquo;envoy-als.foo.svc.cluster.local&rdquo; or &ldquo;bar/envoy-als.example.com&rdquo;.</p>
 
 </td>
@@ -2222,8 +2222,10 @@ No
 <td><code>string</code></td>
 <td>
 <p>Optional. The friendly name of the access log.
-Defaults:
-- &ldquo;otel_envoy_accesslog&rdquo;</p>
+Defaults:</p>
+<ul>
+<li>&ldquo;otel_envoy_accesslog&rdquo;</li>
+</ul>
 
 </td>
 <td>
@@ -2236,6 +2238,61 @@ No
 <td>
 <p>Optional. Format for the proxy access log
 Empty value results in proxy&rsquo;s default access log format, following Envoy access logging formatting.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="MeshConfig-ExtensionProvider-OpenTelemetryTracingProvider">MeshConfig.ExtensionProvider.OpenTelemetryTracingProvider</h2>
+<section>
+<p>Defines configuration for an OpenTelemetry tracing backend. Istio 1.16.1 or higher is needed.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MeshConfig-ExtensionProvider-OpenTelemetryTracingProvider-service">
+<td><code>service</code></td>
+<td><code>string</code></td>
+<td>
+<p>REQUIRED. Specifies the OpenTelemetry endpoint that will receive OTLP traces.
+The format is <code>[&lt;Namespace&gt;/]&lt;Hostname&gt;</code>. The specification of <code>&lt;Namespace&gt;</code> is required only when it is insufficient
+to unambiguously resolve a service in the service registry. The <code>&lt;Hostname&gt;</code> is a fully qualified host name of a
+service defined by the Kubernetes service or ServiceEntry.</p>
+<p>Example: &ldquo;otlp.default.svc.cluster.local&rdquo; or &ldquo;bar/otlp.example.com&rdquo;.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-OpenTelemetryTracingProvider-port">
+<td><code>port</code></td>
+<td><code>uint32</code></td>
+<td>
+<p>REQUIRED. Specifies the port of the service.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-OpenTelemetryTracingProvider-max_tag_length">
+<td><code>maxTagLength</code></td>
+<td><code>uint32</code></td>
+<td>
+<p>Optional. Controls the overall path length allowed in a reported span.
+NOTE: currently only controls max length of the path tag.</p>
 
 </td>
 <td>
@@ -2264,11 +2321,10 @@ No
 <p>Collection of tag names and tag expressions to include in the log
 entry. Conflicts are resolved by the tag name by overriding previously
 supplied values.</p>
-
 <p>Example:
-  labels:
-    path: request.url_path
-    foo: request.headers[&lsquo;x-foo&rsquo;]</p>
+labels:
+path: request.url_path
+foo: request.headers[&lsquo;x-foo&rsquo;]</p>
 
 </td>
 <td>
@@ -2297,9 +2353,7 @@ No
 <p>Textual format for the envoy access logs. Envoy <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#command-operators">command operators</a> may be
 used in the format. The <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#config-access-log-format-strings">format string documentation</a>
 provides more information.</p>
-
-<p>NOTE: Istio will insert a newline (&lsquo;\n&rsquo;) on all formats (if missing).</p>
-
+<p>NOTE: Istio will insert a newline (&rsquo;\n&rsquo;) on all formats (if missing).</p>
 <p>Example: <code>text: &quot;%LOCAL_REPLY_BODY%:%RESPONSE_CODE%:path=%REQ(:path)%&quot;</code></p>
 
 </td>
@@ -2317,9 +2371,7 @@ as strings, numbers, or boolean values, as appropriate
 (see: <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#config-access-log-format-dictionaries">format dictionaries</a>). Nested JSON is
 supported for some command operators (e.g. <code>FILTER_STATE</code> or <code>DYNAMIC_METADATA</code>).
 Use <code>labels: {}</code> for default envoy JSON log format.</p>
-
 <p>Example:</p>
-
 <pre><code>labels:
   status: &quot;%RESPONSE_CODE%&quot;
   message: &quot;%LOCAL_REPLY_BODY%&quot;
@@ -2371,9 +2423,7 @@ as strings, numbers, or boolean values, as appropriate
 (see: <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#config-access-log-format-dictionaries">format dictionaries</a>). Nested JSON is
 supported for some command operators (e.g. FILTER_STATE or DYNAMIC_METADATA).
 Alias to <code>attributes</code> filed in <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/access_loggers/open_telemetry/v3/logs_service.proto">Open Telemetry</a></p>
-
 <p>Example:</p>
-
 <pre><code>labels:
   status: &quot;%RESPONSE_CODE%&quot;
   message: &quot;%LOCAL_REPLY_BODY%&quot;
@@ -2532,6 +2582,74 @@ No
 </tbody>
 </table>
 </section>
+<h2 id="Topology">Topology</h2>
+<section>
+<p>Topology describes the configuration for relative location of a proxy with
+respect to intermediate trusted proxies and the client. These settings
+control how the client attributes are retrieved from the incoming traffic by
+the gateway proxy and propagated to the upstream services in the cluster.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="Topology-num_trusted_proxies">
+<td><code>numTrustedProxies</code></td>
+<td><code>uint32</code></td>
+<td>
+<p>Number of trusted proxies deployed in front of the Istio gateway proxy.
+When this option is set to value N greater than zero, the trusted client
+address is assumed to be the Nth address from the right end of the
+X-Forwarded-For (XFF) header from the incoming request. If the
+X-Forwarded-For (XFF) header is missing or has fewer than N addresses, the
+gateway proxy falls back to using the immediate downstream connection&rsquo;s
+source address as the trusted client address.
+Note that the gateway proxy will append the downstream connection&rsquo;s source
+address to the X-Forwarded-For (XFF) address and set the
+X-Envoy-External-Address header to the trusted client address before
+forwarding it to the upstream services in the cluster.
+The default value of num_trusted_proxies is 0.
+See [Envoy XFF] (<a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#config-http-conn-man-headers-x-forwarded-for">https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#config-http-conn-man-headers-x-forwarded-for</a>)
+header handling for more details.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Topology-forward_client_cert_details">
+<td><code>forwardClientCertDetails</code></td>
+<td><code><a href="#Topology-ForwardClientCertDetails">ForwardClientCertDetails</a></code></td>
+<td>
+<p>Configures how the gateway proxy handles x-forwarded-client-cert (XFCC)
+header in the incoming request.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Topology-proxy_protocol">
+<td><code>proxyProtocol</code></td>
+<td><code><a href="#Topology-ProxyProtocolConfiguration">ProxyProtocolConfiguration</a></code></td>
+<td>
+<p>Enables <a href="http://www.haproxy.org/download/1.5/doc/proxy-protocol.txt">PROXY protocol</a> for
+downstream connections on a gateway.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
 <h2 id="PrivateKeyProvider">PrivateKeyProvider</h2>
 <section>
 <p>PrivateKeyProvider defines private key configuration for gateways and sidecars. This can be configured
@@ -2551,6 +2669,19 @@ mesh wide or individual per-workload basis.</p>
 <td><code>cryptomb</code></td>
 <td><code><a href="#PrivateKeyProvider-CryptoMb">CryptoMb (oneof)</a></code></td>
 <td>
+<p>Use CryptoMb private key provider</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PrivateKeyProvider-qat" class="oneof">
+<td><code>qat</code></td>
+<td><code><a href="#PrivateKeyProvider-QAT">QAT (oneof)</a></code></td>
+<td>
+<p>Use QAT private key provider</p>
+
 </td>
 <td>
 No
@@ -2564,24 +2695,19 @@ No
 <p>ProxyConfig defines variables for individual Envoy instances. This can be configured on a per-workload basis
 as well as by the mesh-wide defaults.
 To set the mesh wide defaults, configure the <code>defaultConfig</code> section of <code>meshConfig</code>. For example:</p>
-
 <pre><code>meshConfig:
   defaultConfig:
     discoveryAddress: istiod:15012
 </code></pre>
-
 <p>This can also be configured on a per-workload basis by configuring the <code>proxy.istio.io/config</code> annotation on the pod. For example:</p>
-
 <pre><code>annotations:
   proxy.istio.io/config: |
     discoveryAddress: istiod:15012
 </code></pre>
-
 <p>If both are configured, the two are merged with per field semantics; the field set in annotation will fully replace the field from mesh config defaults.
 This is different than a deep merge provided by protobuf.
 For example, <code>&quot;tracing&quot;: { &quot;sampling&quot;: 5 }</code> would completely override a setting configuring a tracing provider
 such as <code>&quot;tracing&quot;: { &quot;zipkin&quot;: { &quot;address&quot;: &quot;...&quot; } }</code>.</p>
-
 <p>Note: fields in ProxyConfig are not dynamically configured; changes will require restart of workloads to take effect.</p>
 
 <table class="message-fields">
@@ -2626,7 +2752,6 @@ shared by all Envoy instances. This setting corresponds to
 <code>--service-cluster</code> flag in Envoy.  In a typical Envoy deployment, the
 <code>service-cluster</code> flag is used to identify the caller, for
 source-based routing scenarios.</p>
-
 <p>Since Istio does not assign a local <code>service/service</code> version to each
 Envoy instance, the name is same for all of them.  However, the
 source/caller&rsquo;s identity (e.g., IP address) is encoded in the
@@ -2659,20 +2784,6 @@ No
 <p>The time in seconds that Envoy will drain connections during a hot
 restart. MUST be &gt;=1s (e.g., <em>1s/1m/1h</em>)
 Default drain duration is <code>45s</code>.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ProxyConfig-parent_shutdown_duration">
-<td><code>parentShutdownDuration</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
-<td>
-<p>The time in seconds that Envoy will wait before shutting down the
-parent process during a hot restart. MUST be &gt;=1s (e.g., <code>1s/1m/1h</code>).
-MUST BE greater than <code>drain_duration</code> parameter.
-Default shutdown duration is <code>60s</code>.</p>
 
 </td>
 <td>
@@ -2877,6 +2988,21 @@ and exposed as Prometheus metrics.</p>
 No
 </td>
 </tr>
+<tr id="ProxyConfig-gateway_topology">
+<td><code>gatewayTopology</code></td>
+<td><code><a href="#Topology">Topology</a></code></td>
+<td>
+<p>Topology encapsulates the configuration which describes where the proxy is
+located i.e. behind a (or N) trusted proxy (proxies) or directly exposed
+to the internet. This configuration only effects gateways and is applied
+to all the gateways in the cluster unless overridden via annotations of the
+gateway workloads.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 <tr id="ProxyConfig-termination_drain_duration">
 <td><code>terminationDrainDuration</code></td>
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
@@ -2931,17 +3057,16 @@ inclusion annotations
 (<code>sidecar.istio.io/statsInclusionPrefixes</code>,
 <code>sidecar.istio.io/statsInclusionRegexps</code>, and
 <code>sidecar.istio.io/statsInclusionSuffixes</code>). For example, to enable stats
-for circuit breaker, retry, and upstream connections, you can specify stats
-matcher as follow:</p>
-
+for circuit breakers, request retries, upstream connections, and request timeouts,
+you can specify stats matcher as follows:</p>
 <pre><code class="language-yaml">proxyStatsMatcher:
   inclusionRegexps:
-    - .*circuit_breakers.*
-  inclusionPrefixes:
-    - upstream_rq_retry
-    - upstream_cx
+    - .*outlier_detection.*
+    - .*upstream_rq_retry.*
+    - .*upstream_cx_.*
+  inclusionSuffixes:
+    - upstream_rq_timeout
 </code></pre>
-
 <p>Note including more Envoy stats might increase number of time series
 collected by prometheus significantly. Care needs to be taken on Prometheus
 resource provision and configuration to reduce cardinality.</p>
@@ -3194,6 +3319,11 @@ No
 </tbody>
 </table>
 </section>
+<h2 id="Topology-ProxyProtocolConfiguration">Topology.ProxyProtocolConfiguration</h2>
+<section>
+<p>PROXY protocol configuration.</p>
+
+</section>
 <h2 id="PrivateKeyProvider-CryptoMb">PrivateKeyProvider.CryptoMb</h2>
 <section>
 <p>CryptoMb PrivateKeyProvider configuration</p>
@@ -3217,7 +3347,38 @@ gets full (eight sign or decrypt requests are received) it is processed immediat
 However, if the queue is not filled before the delay has expired, the requests already in the queue
 are processed, even if the queue is not full.
 In effect, this value controls the balance between latency and throughput.
-The duration needs to be set to a non-zero value.</p>
+The duration needs to be set to a value greater than or equal to 1 millisecond.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="PrivateKeyProvider-QAT">PrivateKeyProvider.QAT</h2>
+<section>
+<p>QAT (QuickAssist Technology) PrivateKeyProvider configuration</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="PrivateKeyProvider-QAT-poll_delay">
+<td><code>pollDelay</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
+<td>
+<p>How long to wait before polling the hardware accelerator after a request has been submitted there.
+Having a small value leads to quicker answers from the hardware but causes more polling loop spins,
+leading to potentially larger CPU usage.
+The duration needs to be set to a value greater than or equal to 1 millisecond.</p>
 
 </td>
 <td>
@@ -3327,9 +3488,7 @@ Yes
 <section>
 <p>MeshNetworks (config map) provides information about the set of networks
 inside a mesh and how to route to endpoints in each network. For example</p>
-
 <p>MeshNetworks(file/config map):</p>
-
 <pre><code class="language-yaml">networks:
   network1:
     endpoints:
@@ -3375,24 +3534,23 @@ Yes
 <p>NetworkEndpoints describes how the network associated with an endpoint
 should be inferred. An endpoint will be assigned to a network based on
 the following rules:</p>
-
 <ol>
-<li><p>Implicitly: If the registry explicitly provides information about
+<li>
+<p>Implicitly: If the registry explicitly provides information about
 the network to which the endpoint belongs to. In some cases, its
 possible to indicate the network associated with the endpoint by
-adding the <code>ISTIO_META_NETWORK</code> environment variable to the sidecar.</p></li>
-
-<li><p>Explicitly:</p></li>
-</ol>
-
+adding the <code>ISTIO_META_NETWORK</code> environment variable to the sidecar.</p>
+</li>
+<li>
+<p>Explicitly:</p>
 <p>a. By matching the registry name with one of the &ldquo;fromRegistry&rdquo;
-   in the mesh config. A &ldquo;from_registry&rdquo; can only be assigned to a
-   single network.</p>
-
+in the mesh config. A &ldquo;from_registry&rdquo; can only be assigned to a
+single network.</p>
 <p>b. By matching the IP against one of the CIDR ranges in a mesh
-   config network. The CIDR ranges must not overlap and be assigned to
-   a single network.</p>
-
+config network. The CIDR ranges must not overlap and be assigned to
+a single network.</p>
+</li>
+</ol>
 <p>(2) will override (1) if both are present.</p>
 
 <table class="message-fields">
@@ -3844,6 +4002,70 @@ See the
 <code>X-B3-SpanId</code>, and <code>X-B3-Sampled</code> HTTP headers. See
 <a href="https://github.com/openzipkin/b3-propagation">B3 header propagation README</a>
 for details.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="Topology-ForwardClientCertDetails">Topology.ForwardClientCertDetails</h2>
+<section>
+<p>ForwardClientCertDetails controls how the x-forwarded-client-cert (XFCC)
+header is handled by the gateway proxy.
+See <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/filter/network/http_connection_manager/v2/http_connection_manager.proto#envoy-api-enum-config-filter-network-http-connection-manager-v2-httpconnectionmanager-forwardclientcertdetails">Envoy XFCC</a>
+header handling for more details.</p>
+
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="Topology-ForwardClientCertDetails-UNDEFINED">
+<td><code>UNDEFINED</code></td>
+<td>
+<p>Field is not set</p>
+
+</td>
+</tr>
+<tr id="Topology-ForwardClientCertDetails-SANITIZE">
+<td><code>SANITIZE</code></td>
+<td>
+<p>Do not send the XFCC header to the next hop. This is the default value.</p>
+
+</td>
+</tr>
+<tr id="Topology-ForwardClientCertDetails-FORWARD_ONLY">
+<td><code>FORWARD_ONLY</code></td>
+<td>
+<p>When the client connection is mTLS (Mutual TLS), forward the XFCC header
+in the request.</p>
+
+</td>
+</tr>
+<tr id="Topology-ForwardClientCertDetails-APPEND_FORWARD">
+<td><code>APPEND_FORWARD</code></td>
+<td>
+<p>When the client connection is mTLS, append the client certificate
+information to the request’s XFCC header and forward it.</p>
+
+</td>
+</tr>
+<tr id="Topology-ForwardClientCertDetails-SANITIZE_SET">
+<td><code>SANITIZE_SET</code></td>
+<td>
+<p>When the client connection is mTLS, reset the XFCC header with the client
+certificate information and send it to the next hop.</p>
+
+</td>
+</tr>
+<tr id="Topology-ForwardClientCertDetails-ALWAYS_FORWARD_ONLY">
+<td><code>ALWAYS_FORWARD_ONLY</code></td>
+<td>
+<p>Always forward the XFCC header in the request, regardless of whether the
+client connection is mTLS.</p>
 
 </td>
 </tr>

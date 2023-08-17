@@ -45,7 +45,7 @@ ENDSNIP
 
 snip_deploying_a_gateway_2() {
 kubectl create namespace istio-ingress
-istioctl install -f ingress.yaml
+istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true -f ingress.yaml
 }
 
 snip_deploying_a_gateway_3() {
@@ -89,9 +89,21 @@ spec:
         # Enable gateway injection. If connecting to a revisioned control plane, replace with "istio.io/rev: revision-name"
         sidecar.istio.io/inject: "true"
     spec:
+      # Allow binding to all ports (such as 80 and 443)
+      securityContext:
+        sysctls:
+        - name: net.ipv4.ip_unprivileged_port_start
+          value: "0"
       containers:
       - name: istio-proxy
         image: auto # The image will automatically update each time the pod starts.
+        # Drop all privileges, allowing to run as non-root
+        securityContext:
+          capabilities:
+            drop:
+            - ALL
+          runAsUser: 1337
+          runAsGroup: 1337
 ---
 # Set up roles to allow reading credentials for TLS
 apiVersion: rbac.authorization.k8s.io/v1
@@ -165,3 +177,8 @@ kubectl get endpoints -n istio-ingress -o "custom-columns=NAME:.metadata.name,PO
 NAME                   PODS
 istio-ingressgateway   istio-ingressgateway-...,istio-ingressgateway-canary-...
 ENDSNIP
+
+snip_cleanup_1() {
+istioctl uninstall --istioNamespace istio-ingress -y --purge
+kubectl delete ns istio-ingress
+}

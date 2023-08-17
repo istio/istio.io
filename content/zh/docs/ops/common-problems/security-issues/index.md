@@ -9,14 +9,20 @@ aliases:
     - /zh/help/ops/troubleshooting/repairing-citadel
     - /zh/docs/ops/troubleshooting/repairing-citadel
 owner: istio/wg-security-maintainers
-test: no
+test: n/a
 ---
 
-## 终端用户认证失败{#end-user-authentication-fails}
+## 终端用户认证失败 {#end-user-authentication-fails}
 
-使用 Istio，可以通过[请求认证策略](/zh/docs/tasks/security/authentication/authn-policy/#end-user-authentication) 启用终端用户认证。目前，Istio 认证策略提供的终端用户凭证是 JWT。以下是排查终端用户 JWT 身份认证问题的指南。
+使用 Istio，可以通过[请求认证策略](/zh/docs/tasks/security/authentication/authn-policy/#end-user-authentication)启用终端用户认证。
+目前，Istio 认证策略提供的终端用户凭证是 JWT。以下是排查终端用户 JWT
+身份认证问题的指南。
 
-1. 如果 `jwksUri` 未设置，确保 JWT 发行者是 url 格式并且 `url + /.well-known/openid-configuration` 可以在浏览器中打开；例如，如果 JWT 发行者是 `https://accounts.google.com`，确保 `https://accounts.google.com/.well-known/openid-configuration` 是有效的 url，并且可以在浏览器中打开。
+1. 如果 `jwksUri` 未设置，确保 JWT 发行者是 url 格式并且
+   `url + /.well-known/openid-configuration` 可以在浏览器中打开；
+   例如，如果 JWT 发行者是 `https://accounts.google.com`，确保
+   `https://accounts.google.com/.well-known/openid-configuration`
+   是有效的 url，并且可以在浏览器中打开。
 
     {{< text yaml >}}
     apiVersion: "security.istio.io/v1beta1"
@@ -32,11 +38,15 @@ test: no
         jwksUri: "{{< github_file >}}/security/tools/jwt/samples/jwks.json"
     {{< /text >}}
 
-1. 如果 JWT Token 放在 HTTP 请求头 Authorization 字段值中，需要确认 JWT Token 的有效性（未过期等）。JWT 令牌中的字段可以使用在线 JWT 解析工具进行解码，例如：[jwt.io](https://jwt.io/)。
+1. 如果 JWT Token 放在 HTTP 请求头 Authorization 字段值中，需要确认
+   JWT Token 的有效性（未过期等）。JWT 令牌中的字段可以使用在线 JWT 解析工具进行解码，
+   例如：[jwt.io](https://jwt.io/)。
 
 1. 通过 `istioctl proxy-config` 命令来验证目标负载的 Envoy 代理配置是否正确。
 
-   当配置完成上面提到的策略实例后，可以使用以下的指令来检查 `listener` 在入站端口 `80` 上的配置。您应该可以看到 `envoy.filters.http.jwt_authn` 过滤器包含我们在策略中已经声明的发行者和 JWKS 信息。
+   当配置完成上面提到的策略实例后，可以使用以下的指令来检查 `listener` 在入站端口
+   `80` 上的配置。您应该可以看到 `envoy.filters.http.jwt_authn` 过滤器包含我们在策略中已经声明的发行者和
+   JWKS 信息。
 
     {{< text bash >}}
     $ POD=$(kubectl get pod -l app=httpbin -n foo -o jsonpath={.items..metadata.name})
@@ -79,9 +89,9 @@ test: no
     <redacted>
     {{< /text >}}
 
-## 授权过于严格或者宽松{#authorization-is-too-restrictive-or-permissive}
+## 授权过于严格或者宽松 {#authorization-is-too-restrictive-or-permissive}
 
-### 确保策略 YAML 文件中没有输入错误{#make-sure-there-are-no-typos-in-the-policy-yaml-file}
+### 确保策略 YAML 文件中没有输入错误 {#make-sure-there-are-no-typos-in-the-policy-yaml-file}
 
 一个常见的错误是无意中在 YAML 文件中定义了多个项，例如下面的策略：
 
@@ -104,100 +114,125 @@ spec:
         - foo
 {{< /text >}}
 
-您期望的策略所允许的请求是符合路径为 `/foo` **and** 源命名空间为 `foo`。但是，策略实际上允许的请求是符合路径为 `/foo` **or** 源命名空间为 `foo`,这显然会更加宽松。
+您期望的策略所允许的请求是符合路径为 `/foo` **且**源命名空间为 `foo`。
+但是，策略实际上允许的请求是符合路径为 `/foo` **或**源命名空间为 `foo`，
+这显然会更加宽松。
 
-在 YAML 的语义中，`from:` 前面的 `-` 意味着这是列表中的一个新元素。这会在策略中创建两条规则，而不是所希望的一条。在认证策略中，多条规则之间是 `OR` 的关系。
+在 YAML 的语义中，`from:` 前面的 `-` 意味着这是列表中的一个新元素。
+这会在策略中创建两条规则，而不是所希望的一条。在认证策略中，多条规则之间是
+`OR` 的关系。
 
-为了解决这个问题，只需要将多余的 `-` 移除，这样策略就只有一条规则来允许符合路径为 `/foo` **and** 源命名空间为 `foo` 的请求，这样就更加严格了。
+为了解决这个问题，只需要将多余的 `-` 移除，这样策略就只有一条规则来允许符合路径为
+`/foo` **且**源命名空间为 `foo` 的请求，这样就更加严格了。
 
-### 确保您没有在 TCP 端口上使用仅适用于 HTTP 的字段{#make-sure-you-are-not-using-http-only-fields-on-tcp-ports}
+### 确保您没有在 TCP 端口上使用仅适用于 HTTP 的字段 {#make-sure-you-are-not-using-http-only-fields-on-tcp-ports}
 
-授权策略会变得更加严格因为定义了仅适用于 HTTP 的字段 (比如 `host`，`path`，`headers`，JWT， 等等) 在纯 TCP 连接上是不存在的。
+授权策略会变得更加严格因为定义了仅适用于 HTTP 的字段 (比如 `host`，`path`，
+`headers`，JWT，等等) 在纯 TCP 连接上是不存在的。
 
-对于 `ALLOW` 类的策略来说，这些字段不会被匹配。但对于 `DENY` 以及 `CUSTOM` 类策略来说，这类字段会被认为是始终匹配的。最终结果会是一个更加严格的策略从而可能导致意外的连接拒绝。
+对于 `ALLOW` 类的策略来说，这些字段不会被匹配。但对于 `DENY` 以及 `CUSTOM`
+类策略来说，这类字段会被认为是始终匹配的。最终结果会是一个更加严格的策略从而可能导致意外的连接拒绝。
 
-检查 Kubernetes 服务定义来确定端口是[命名中包含正确的协议名称](/zh/docs/ops/configuration/traffic-management/protocol-selection/#manual-protocol-selection)。如果您在端口上使用了仅适用于 HTTP 的字段，要确保端口名有 `http-` 前缀。
+检查 Kubernetes 服务定义来确定端口是[命名中包含正确的协议名称](/zh/docs/ops/configuration/traffic-management/protocol-selection/#manual-protocol-selection)。
+如果您在端口上使用了仅适用于 HTTP 的字段，要确保端口名有 `http-` 前缀。
 
-### 确保策略配置在正确的目标上{#make-sure-the-policy-is-applied-to-the-correct-target}
+### 确保策略配置在正确的目标上 {#make-sure-the-policy-is-applied-to-the-correct-target}
 
-检查工作负载的选择器和命名空间来确认策略配置在了正确的目标上。您可以通过指令 `istioctl x authz check POD-NAME.POD-NAMESPACE` 来检查认证策略。
+检查工作负载的选择器和命名空间来确认策略配置在了正确的目标上。您可以通过指令
+`istioctl x authz check POD-NAME.POD-NAMESPACE` 来检查认证策略。
 
-### 留意策略中的动作{#pay-attention-to-the-action-specified-in-the-policy}
+### 留意策略中的动作 {#pay-attention-to-the-action-specified-in-the-policy}
 
 - 如果没有声明，策略中默认动作是 `ALLOW`。
 
-- 当一个工作负载上同时配置了多个动作时 (`CUSTOM`, `ALLOW` 和 `DENY`)， 所有的动作必须都满足。换句话说，如果有任何一个动作拒绝该请求，那么该请求会被拒绝，并且只有所有的动作都允许了该请求，该请求才会被允许。
+- 当一个工作负载上同时配置了多个动作时（`CUSTOM`，`ALLOW` 和 `DENY`），
+  所有的动作必须都满足。换句话说，如果有任何一个动作拒绝该请求，那么该请求会被拒绝，
+  并且只有所有的动作都允许了该请求，该请求才会被允许。
 
 - 在任何情况下，`AUDIT` 动作不会实施控制访问权并且不会拒绝请求。
 
-## 确保 Istiod 接受策略{#ensure-istiod-accepts-the-policies}
+阅读[授权隐式启用](/zh/docs/concepts/security/#implicit-enablement)了解有关评估顺序的更多详细信息。
 
-Istiod 负责对授权策略进行转换，并将其分发给 Sidecar。下面的的步骤可以用于确认 Istiod 是否按预期在工作：
+## 确保 Istiod 接受策略 {#ensure-istiod-accepts-the-policies}
 
-1. 运行下列命令，导出 Istiod 的 `ControlZ`：
+Istiod 负责对授权策略进行转换，并将其分发给 Sidecar。下面的的步骤可以用于确认
+Istiod 是否按预期在工作：
+
+1. 运行以下命令启用 Istiod 的调试日志记录：
 
     {{< text bash >}}
-    $ istioctl dashboard controlz $(kubectl -n istio-system get pods -l app=istiod -o jsonpath='{.items[0].metadata.name}').istio-system
+    $ istioctl admin log --level authorization:debug
     {{< /text >}}
 
-1. 等待浏览器打开后，点击左侧菜单 `Logging Scopes`。
-
-1. 将 `authorization` 输出级别修改为 `debug`。
-
-1. 在步骤 1 中打开的终端窗口中输入 `Ctrl+C`，终止端口转发进程。
-
-1. 执行以下命令，输出 Pilot 日志并搜索 `authorization`：
+1. 通过以下命令获取 Istio 日志：
 
     {{< tip >}}
-    你可能需要先删除并重建授权策略，以保证调试日志能够根据这些策略正常生成。
+    您可能需要先删除并重建授权策略，以保证调试日志能够根据这些策略正常生成。
     {{< /tip >}}
 
     {{< text bash >}}
-    $ kubectl logs $(kubectl -n istio-system get pods -l app=istiod -o jsonpath='{.items[0].metadata.name}') -c discovery -n istio-system | grep authorization
+    $ kubectl logs $(kubectl -n istio-system get pods -l app=istiod -o jsonpath='{.items[0].metadata.name}') -c discovery -n istio-system
     {{< /text >}}
 
-1. 检查输出并验证：
-
-    - 没有出现错误。
-    - 出现 `building v1beta1 policy` 内容，意味着为目标服务生成了过滤器。
-
-1. 例如你可能会看到类似这样的内容：
+1. 检查输出并验证是否出现错误，例如您可能会看到类似这样的内容：
 
     {{< text plain >}}
-    2020-03-05T23:43:21.621339Z   debug   authorization   found authorization allow policies for workload [app=ext-authz-server,pod-template-hash=5fd587cc9d,security.istio.io/tlsMode=istio,service.istio.io/canonical-name=ext-authz-server,service.istio.io/canonical-revision=latest] in foo
-    2020-03-05T23:43:21.621348Z   debug   authorization   building filter for HTTP listener protocol
-    2020-03-05T23:43:21.621351Z   debug   authorization   building v1beta1 policy
-    2020-03-05T23:43:21.621399Z   debug   authorization   constructed internal model: &{Permissions:[{Services:[] Hosts:[] NotHosts:[] Paths:[] NotPaths:[] Methods:[] NotMethods:[] Ports:[] NotPorts:[] Constraints:[] AllowAll:true v1beta1:true}] Principals:[{Users:[] Names:[cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account] NotNames:[] Group: Groups:[] NotGroups:[] Namespaces:[] NotNamespaces:[] IPs:[] NotIPs:[] RequestPrincipals:[] NotRequestPrincipals:[] Properties:[] AllowAll:false v1beta1:true}]}
-    2020-03-05T23:43:21.621528Z   info    ads    LDS: PUSH for node:sleep-6bdb595bcb-vmchz.foo listeners:38
-    2020-03-05T23:43:21.621997Z   debug   authorization   generated policy ns[foo]-policy[ext-authz-server]-rule[0]: permissions:<and_rules:<rules:<any:true > > > principals:<and_ids:<ids:<or_ids:<ids:<metadata:<filter:"istio_authn" path:<key:"source.principal" > value:<string_match:<exact:"cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account" > > > > > > > >
-    2020-03-05T23:43:21.622052Z   debug   authorization   added HTTP filter to filter chain 0
-    2020-03-05T23:43:21.623532Z   debug   authorization   found authorization allow policies for workload [app=ext-authz-server,pod-template-hash=5fd587cc9d,security.istio.io/tlsMode=istio,service.istio.io/canonical-name=ext-authz-server,service.istio.io/canonical-revision=latest] in foo
-    2020-03-05T23:43:21.623543Z   debug   authorization   building filter for TCP listener protocol
-    2020-03-05T23:43:21.623546Z   debug   authorization   building v1beta1 policy
-    2020-03-05T23:43:21.623572Z   debug   authorization   constructed internal model: &{Permissions:[{Services:[] Hosts:[] NotHosts:[] Paths:[] NotPaths:[] Methods:[] NotMethods:[] Ports:[] NotPorts:[] Constraints:[] AllowAll:true v1beta1:true}] Principals:[{Users:[] Names:[cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account] NotNames:[] Group: Groups:[] NotGroups:[] Namespaces:[] NotNamespaces:[] IPs:[] NotIPs:[] RequestPrincipals:[] NotRequestPrincipals:[] Properties:[] AllowAll:false v1beta1:true}]}
-    2020-03-05T23:43:21.623625Z   debug   authorization   generated policy ns[foo]-policy[ext-authz-server]-rule[0]: permissions:<and_rules:<rules:<any:true > > > principals:<and_ids:<ids:<or_ids:<ids:<authenticated:<principal_name:<exact:"spiffe://cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account" > > > > > > >
-    2020-03-05T23:43:21.623645Z   debug   authorization   added TCP filter to filter chain 0
-    2020-03-05T23:43:21.623648Z   debug   authorization   added TCP filter to filter chain 1
+    2021-04-23T20:53:29.507314Z info ads Push debounce stable[31] 1: 100.981865ms since last change, 100.981653ms since last push, full=true
+    2021-04-23T20:53:29.507641Z info ads XDS: Pushing:2021-04-23T20:53:29Z/23 Services:15 ConnectedEndpoints:2  Version:2021-04-23T20:53:29Z/23
+    2021-04-23T20:53:29.507911Z debug authorization Processed authorization policy for httpbin-74fb669cc6-lpscm.foo with details:
+        * found 0 CUSTOM actions
+    2021-04-23T20:53:29.508077Z debug authorization Processed authorization policy for sleep-557747455f-6dxbl.foo with details:
+        * found 0 CUSTOM actions
+    2021-04-23T20:53:29.508128Z debug authorization Processed authorization policy for httpbin-74fb669cc6-lpscm.foo with details:
+        * found 1 DENY actions, 0 ALLOW actions, 0 AUDIT actions
+        * generated config from rule ns[foo]-policy[deny-path-headers]-rule[0] on HTTP filter chain successfully
+        * built 1 HTTP filters for DENY action
+        * added 1 HTTP filters to filter chain 0
+        * added 1 HTTP filters to filter chain 1
+    2021-04-23T20:53:29.508158Z debug authorization Processed authorization policy for sleep-557747455f-6dxbl.foo with details:
+        * found 0 DENY actions, 0 ALLOW actions, 0 AUDIT actions
+    2021-04-23T20:53:29.509097Z debug authorization Processed authorization policy for sleep-557747455f-6dxbl.foo with details:
+        * found 0 CUSTOM actions
+    2021-04-23T20:53:29.509167Z debug authorization Processed authorization policy for sleep-557747455f-6dxbl.foo with details:
+        * found 0 DENY actions, 0 ALLOW actions, 0 AUDIT actions
+    2021-04-23T20:53:29.509501Z debug authorization Processed authorization policy for httpbin-74fb669cc6-lpscm.foo with details:
+        * found 0 CUSTOM actions
+    2021-04-23T20:53:29.509652Z debug authorization Processed authorization policy for httpbin-74fb669cc6-lpscm.foo with details:
+        * found 1 DENY actions, 0 ALLOW actions, 0 AUDIT actions
+        * generated config from rule ns[foo]-policy[deny-path-headers]-rule[0] on HTTP filter chain successfully
+        * built 1 HTTP filters for DENY action
+        * added 1 HTTP filters to filter chain 0
+        * added 1 HTTP filters to filter chain 1
+        * generated config from rule ns[foo]-policy[deny-path-headers]-rule[0] on TCP filter chain successfully
+        * built 1 TCP filters for DENY action
+        * added 1 TCP filters to filter chain 2
+        * added 1 TCP filters to filter chain 3
+        * added 1 TCP filters to filter chain 4
+    2021-04-23T20:53:29.510903Z info ads LDS: PUSH for node:sleep-557747455f-6dxbl.foo resources:18 size:85.0kB
+    2021-04-23T20:53:29.511487Z info ads LDS: PUSH for node:httpbin-74fb669cc6-lpscm.foo resources:18 size:86.4kB
     {{< /text >}}
 
-    说明 Istiod 生成了：
+    以上输出说明 Istiod 生成了：
 
-    - 对于带 `app=ext-authz-server,...` 标签的负载生成了带有 `ns[foo]-policy[ext-authz-server]-rule[0]` 策略的 HTTP 过滤器配置。
+    - 适用于工作负载 `httpbin-74fb669cc6-lpscm.foo` 且带有策略
+      `ns[foo]-policy[deny-path-headers]-rule[0]` 的 HTTP 过滤器配置。
 
-    - 对于带 `app=ext-authz-server,...` 标签的负载生成了带有 `ns[foo]-policy[ext-authz-server]-rule[0]` 策略的 TCP 过滤器配置。
+    - 适用于工作负载 `httpbin-74fb669cc6-lpscm.foo` 且带有策略
+      `ns[foo]-policy[deny-path-headers]-rule[0]` 的 TCP 过滤器配置。
 
-## 确认 Istiod 正确的将策略分发给了代理服务器{#ensure-istiod-distributes-policies-to-proxies-correctly}
+## 确认 Istiod 正确的将策略分发给了代理服务器 {#ensure-istiod-distributes-policies-to-proxies-correctly}
 
 Pilot 负责向代理服务器分发授权策略。下面的步骤用来确认 Pilot 按照预期工作：
 
 {{< tip >}}
-这一章节的命令假设用户已经部署了 [Bookinfo](/zh/docs/examples/bookinfo/)，否则的话应该将 `"-l app=productpage"` 部分根据实际情况进行替换。
+这一章节的命令假设用户已经部署了 [Bookinfo](/zh/docs/examples/bookinfo/)，
+否则的话应该将 `"-l app=productpage"` 部分根据实际情况进行替换。
 {{< /tip >}}
 
 1. 运行下面的命令，获取 `productpage` 服务的代理配置信息：
 
     {{< text bash >}}
-    $ kubectl exec  $(kubectl get pods -l app=productpage -o jsonpath='{.items[0].metadata.name}') -c istio-proxy -- pilot-agent request GET config_dump
+    $ kubectl exec $(kubectl get pods -l app=productpage -o jsonpath='{.items[0].metadata.name}') -c istio-proxy -- pilot-agent request GET config_dump
     {{< /text >}}
 
 1. 校验日志内容：
@@ -205,7 +240,9 @@ Pilot 负责向代理服务器分发授权策略。下面的步骤用来确认 P
     - 日志中包含了一个 `envoy.filters.http.rbac` 过滤器，会对每一个进入的请求执行授权策略。
     - 授权策略更新之后，Istio 会据此更新过滤器。
 
-1. 下面的输出表明，`productpage` 的代理启用了 `envoy.filters.http.rbac` 过滤器，配置的规则为允许任何人通过 `GET` 方法进行访问 `productpage` 服务。`shadow_rules` 没有生效，可以放心的忽略它。
+1. 下面的输出表明，`productpage` 的代理启用了 `envoy.filters.http.rbac` 过滤器，
+   配置的规则为允许任何人通过 `GET` 方法进行访问 `productpage` 服务。`shadow_rules`
+   没有生效，可以放心的忽略它。
 
     {{< text plain >}}
     {
@@ -255,12 +292,13 @@ Pilot 负责向代理服务器分发授权策略。下面的步骤用来确认 P
     },
     {{< /text >}}
 
-## 确认策略在代理服务器中正确执行{#ensure-proxies-enforce-policies-correctly}
+## 确认策略在代理服务器中正确执行 {#ensure-proxies-enforce-policies-correctly}
 
 代理是授权策略的最终实施者。下面的步骤帮助用户确认代理的工作情况：
 
 {{< tip >}}
-这里的命令假设用户已经部署了 [Bookinfo](/zh/docs/examples/bookinfo/)，否则的话应该将 `"-l app=productpage"` 部分根据实际情况进行替换。
+这里的命令假设用户已经部署了 [Bookinfo](/zh/docs/examples/bookinfo/)，
+否则的话应该将 `"-l app=productpage"` 部分根据实际情况进行替换。
 {{< /tip >}}
 
 1. 使用以下命令，在代理中打开授权调试日志：
@@ -292,7 +330,8 @@ Pilot 负责向代理服务器分发授权策略。下面的步骤用来确认 P
 
     - 授权策略需要从请求中获取数据。
 
-1. 下面的输出表示，对 `productpage` 的 `GET` 请求被策略放行。`shadow denied` 没有什么影响，你可以放心的忽略它。
+1. 下面的输出表示，对 `productpage` 的 `GET` 请求被策略放行。`shadow denied` 没有什么影响，
+   您可以放心的忽略它。
 
     {{< text plain >}}
     ...
@@ -338,7 +377,7 @@ Pilot 负责向代理服务器分发授权策略。下面的步骤用来确认 P
     ...
     {{< /text >}}
 
-## 密钥和证书错误{#keys-and-certificates-errors}
+## 密钥和证书错误 {#keys-and-certificates-errors}
 
 如果您怀疑 Istio 使用的某些密钥或证书不正确，您可以检查任何 Pod 的内容信息。
 
@@ -376,12 +415,18 @@ Certificate:
 ...
 {{< /text >}}
 
-确保显示的证书包含有效信息。特别是，Subject Alternative Name 字段应为 `URI:spiffe://cluster.local/ns/my-ns/sa/my-sa`。
+确保显示的证书包含有效信息。特别是，Subject Alternative Name 字段应为
+`URI:spiffe://cluster.local/ns/my-ns/sa/my-sa`。
 
-## 双向 TLS 错误{#mutual-TLS-errors}
+## 双向 TLS 错误 {#mutual-TLS-errors}
 
-如果怀疑双向 TLS 出现了问题，首先要确认 [Citadel 健康](#repairing-citadel)，接下来要查看的是[密钥和证书正确下发](#keys-and-certificates-errors) Sidecar.
+如果怀疑双向 TLS 出现了问题，首先要确认 [Citadel 健康](#repairing-citadel)，
+接下来要查看的是[密钥和证书正确下发](#keys-and-certificates-errors) Sidecar。
 
-如果上述检查都正确无误，下一步就应该验证[认证策略](/zh/docs/tasks/security/authentication/authn-policy/)已经创建，并且对应的目标规则是否正确应用。
+如果上述检查都正确无误，下一步就应该验证[认证策略](/zh/docs/tasks/security/authentication/authn-policy/)已经创建，
+并且对应的目标规则是否正确应用。
 
-如果您怀疑客户端 sidecar 可能不正确地发送双向 TLS 或明文流量，请检查[Grafana Workload dashboard](/zh/docs/ops/integrations/grafana/)。无论是否使用 mTLS，都对出站请求进行注释。检查后，如果你认为客户端 sidecar 是错误的，报一个 issue 在 GitHub。
+如果您怀疑客户端 Sidecar 可能不正确地发送双向 TLS 或明文流量，
+请检查 [Grafana Workload dashboard](/zh/docs/ops/integrations/grafana/)。
+无论是否使用 mTLS，都对出站请求进行注释。检查后，如果您认为客户端 Sidecar 是错误的，
+报一个 issue 在 GitHub。

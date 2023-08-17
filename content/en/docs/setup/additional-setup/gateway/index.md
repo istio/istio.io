@@ -7,6 +7,13 @@ owner: istio/wg-environments-maintainers
 test: yes
 ---
 
+{{< tip >}}
+{{< boilerplate gateway-api-future >}}
+If you use the Gateway API, you will not need to install and manage a gateway `Deployment` as described in this document.
+By default, a gateway `Deployment` and `Service` will be automatically provisioned based on the `Gateway` configuration.
+Refer to the [Gateway API task](/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment) for details.
+{{< /tip >}}
+
 Along with creating a service mesh, Istio allows you to manage [gateways](/docs/concepts/traffic-management/#gateways),
 which are Envoy proxies running at the edge of the mesh, providing fine-grained control over traffic entering and leaving the mesh.
 
@@ -141,9 +148,21 @@ spec:
         # Enable gateway injection. If connecting to a revisioned control plane, replace with "istio.io/rev: revision-name"
         sidecar.istio.io/inject: "true"
     spec:
+      # Allow binding to all ports (such as 80 and 443)
+      securityContext:
+        sysctls:
+        - name: net.ipv4.ip_unprivileged_port_start
+          value: "0"
       containers:
       - name: istio-proxy
         image: auto # The image will automatically update each time the pod starts.
+        # Drop all privileges, allowing to run as non-root
+        securityContext:
+          capabilities:
+            drop:
+            - ALL
+          runAsUser: 1337
+          runAsGroup: 1337
 ---
 # Set up roles to allow reading credentials for TLS
 apiVersion: rbac.authorization.k8s.io/v1
@@ -314,3 +333,12 @@ A variant of the [canary upgrade](#canary-upgrade) approach is to shift the traf
 {{< image width="50%" link="high-level-canary.svg" caption="Canary upgrade in progress with external traffic shifting" >}}
 
 This offers fine-grained control, but may be unsuitable or overly complicated to set up in some environments.
+
+## Cleanup
+
+- Cleanup Istio ingress gateway
+
+    {{< text bash >}}
+    $ istioctl uninstall --istioNamespace istio-ingress -y --purge
+    $ kubectl delete ns istio-ingress
+    {{< /text >}}

@@ -1,6 +1,6 @@
 ---
 title: kind
-description: Instructions to setup kind for Istio.
+description: Instructions to set up kind for Istio.
 weight: 30
 skip_seealso: true
 keywords: [platform-setup,kubernetes,kind]
@@ -71,12 +71,12 @@ Follow these instructions to prepare a kind cluster for Istio installation.
 ## Setup Dashboard UI for kind
 
 kind does not have a built in Dashboard UI like minikube. But you can still setup Dashboard, a web based Kubernetes UI, to view your cluster.
-Follow these instructions to setup Dashboard for kind.
+Follow these instructions to set up Dashboard for kind.
 
 1.  To deploy Dashboard, run the following command:
 
     {{< text bash >}}
-    $ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.1.0/aio/deploy/recommended.yaml
+    $ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml
     {{< /text >}}
 
 1.  Verify that Dashboard is deployed and running.
@@ -88,25 +88,26 @@ Follow these instructions to setup Dashboard for kind.
     kubernetes-dashboard-b7ffbc8cb-zl8zg         1/1     Running   0          39s
     {{< /text >}}
 
-1.  Create a `ClusterRoleBinding` to provide admin access to the newly created cluster.
+1.  Create a `ServiceAccount` and `ClusterRoleBinding` to provide admin access to the newly created cluster.
 
     {{< text bash >}}
-    $ kubectl create clusterrolebinding default-admin --clusterrole cluster-admin --serviceaccount=default:default
+    $ kubectl create serviceaccount -n kubernetes-dashboard admin-user
+    $ kubectl create clusterrolebinding -n kubernetes-dashboard admin-user --clusterrole cluster-admin --serviceaccount=kubernetes-dashboard:admin-user
     {{< /text >}}
 
-1.  To login to Dashboard, you need a Bearer Token. Use the following command to store the token in a variable.
+1.  To log in to your Dashboard, you need a Bearer Token. Use the following command to store the token in a variable.
 
     {{< text bash >}}
-    $ token=$(kubectl get secrets -o jsonpath="{.items[?(@.metadata.annotations['kubernetes\.io/service-account\.name']=='default')].data.token}"|base64 --decode)
+    $ token=$(kubectl -n kubernetes-dashboard create token admin-user)
     {{< /text >}}
 
-    Display the token using the `echo` command and copy it to use for logging into Dashboard.
+    Display the token using the `echo` command and copy it to use for logging in to your Dashboard.
 
     {{< text bash >}}
     $ echo $token
     {{< /text >}}
 
-1.  You can Access Dashboard using the kubectl command-line tool by running the following command:
+1.  You can access your Dashboard using the kubectl command-line tool by running the following command:
 
     {{< text bash >}}
     $ kubectl proxy
@@ -117,6 +118,5 @@ Follow these instructions to setup Dashboard for kind.
     view your deployments and services.
 
     {{< warning >}}
-    You have to save your token somewhere, otherwise you have to run step number 4 everytime you need a token to login to your Dashboard.
+    You have to save your token somewhere, otherwise you have to run step number 4 everytime you need a token to log in to your Dashboard.
     {{< /warning >}}
-

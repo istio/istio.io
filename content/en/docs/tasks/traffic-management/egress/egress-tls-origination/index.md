@@ -154,6 +154,12 @@ Both of these issues can be resolved by configuring Istio to perform TLS origina
     The above `DestinationRule` will perform TLS origination for HTTP requests on port 80 and the `ServiceEntry`
     will then redirect the requests on port 80 to target port 443.
 
+    {{< warning >}}
+    The `DestinationRule` above does not verify the server's certificate, which might not be the expected behaviour.
+
+    Please follow the [Security Best Practices](/docs/ops/best-practices/security/#configure-tls-verification-in-destination-rule-when-using-tls-origination) to configure TLS verification.
+    {{< /warning >}}
+
 1. Send an HTTP request to `http://edition.cnn.com/politics`, as in the previous section:
 
     {{< text syntax=bash snip_id=curl_origination_http >}}
@@ -235,6 +241,10 @@ Follow [these steps](/docs/tasks/traffic-management/egress/egress-gateway-tls-or
 
     The secret **must** be created in the same namespace as the client pod is deployed in, `default` in this case.
 
+    {{< tip >}}
+    {{< boilerplate crl-tip >}}
+    {{< /tip >}}
+
 1. Create required `RBAC` to make sure the secret created in the above step is accessible to the client pod, which is `sleep` in this case.
 
     {{< text bash >}}
@@ -244,10 +254,27 @@ Follow [these steps](/docs/tasks/traffic-management/egress/egress-gateway-tls-or
 
 ### Configure mutual TLS origination for egress traffic at sidecar
 
-1.  Add a `DestinationRule` to perform mutual TLS origination
+1.  Add a `ServiceEntry` to redirect HTTP requests to port 443 and add a `DestinationRule` to perform mutual TLS origination:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: ServiceEntry
+    metadata:
+      name: originate-mtls-for-nginx
+    spec:
+      hosts:
+      - my-nginx.mesh-external.svc.cluster.local
+      ports:
+      - number: 80
+        name: http-port
+        protocol: HTTP
+        targetPort: 443
+      - number: 443
+        name: https-port
+        protocol: HTTPS
+      resolution: DNS
+    ---
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
     metadata:
@@ -262,7 +289,7 @@ Follow [these steps](/docs/tasks/traffic-management/egress/egress-gateway-tls-or
           simple: ROUND_ROBIN
         portLevelSettings:
         - port:
-            number: 443
+            number: 80
           tls:
             mode: MUTUAL
             credentialName: client-credential # this must match the secret created earlier to hold client certs, and works only when DR has a workloadSelector
@@ -270,10 +297,21 @@ Follow [these steps](/docs/tasks/traffic-management/egress/egress-gateway-tls-or
     EOF
     {{< /text >}}
 
+    The above `DestinationRule` will perform mTLS origination for HTTP requests on port 80 and the `ServiceEntry`
+    will then redirect the requests on port 80 to target port 443.
+
+1.  Verify that the credential is supplied to the sidecar and active.
+
+    {{< text bash >}}
+    $ istioctl proxy-config secret deploy/sleep | grep client-credential
+    kubernetes://client-credential            Cert Chain     ACTIVE     true           1                                          2024-06-04T12:15:20Z     2023-06-05T12:15:20Z
+    kubernetes://client-credential-cacert     Cert Chain     ACTIVE     true           10792363984292733914                       2024-06-04T12:15:19Z     2023-06-05T12:15:19Z
+    {{< /text >}}
+
 1.  Send an HTTP request to `http://my-nginx.mesh-external.svc.cluster.local`:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -sS http://my-nginx.mesh-external.svc.cluster.local:443
+    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -sS http://my-nginx.mesh-external.svc.cluster.local
     <!DOCTYPE html>
     <html>
     <head>
@@ -300,6 +338,8 @@ Follow [these steps](/docs/tasks/traffic-management/egress/egress-gateway-tls-or
     {{< text bash >}}
     $ kubectl delete secret nginx-server-certs nginx-ca-certs -n mesh-external
     $ kubectl delete secret client-credential
+    $ kubectl delete rolebinding client-credential-role-binding
+    $ kubectl delete role client-credential-role
     $ kubectl delete configmap nginx-configmap -n mesh-external
     $ kubectl delete service my-nginx -n mesh-external
     $ kubectl delete deployment my-nginx -n mesh-external
@@ -328,4 +368,3 @@ Delete the `sleep` service and deployment:
 $ kubectl delete service sleep
 $ kubectl delete deployment sleep
 {{< /text >}}
-

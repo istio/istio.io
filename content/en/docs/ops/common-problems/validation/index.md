@@ -23,60 +23,60 @@ necessary.
 
 ## Invalid configuration is accepted
 
-Verify the `istiod-istio-system` `validationwebhookconfiguration` exists and
-is correct. The `apiVersion`, `apiGroup`, and `resource` of the
-invalid configuration should be listed in one of the two `webhooks`
-entries.
+Verify that a `validatingwebhookconfiguration` named `istio-validator-` followed by
+`<revision>-`, if not the default revision, followed by the Istio system namespace
+(e.g., `istio-validator-myrev-istio-system`) exists and is correct.
+The `apiVersion`, `apiGroup`, and `resource` of the
+invalid configuration should be listed in the `webhooks` section of the `validatingwebhookconfiguration`.
 
 {{< text bash yaml >}}
-$ kubectl get validatingwebhookconfiguration istiod-istio-system -o yaml
+$ kubectl get validatingwebhookconfiguration istio-validator-istio-system -o yaml
 apiVersion: admissionregistration.k8s.io/v1
 kind: ValidatingWebhookConfiguration
 metadata:
-  creationTimestamp: "2020-01-24T19:53:03Z"
-  generation: 1
   labels:
     app: istiod
+    install.operator.istio.io/owning-resource-namespace: istio-system
     istio: istiod
+    istio.io/rev: default
+    operator.istio.io/component: Pilot
+    operator.istio.io/managed: Reconcile
+    operator.istio.io/version: unknown
     release: istio
-  name: istiod-istio-system
-  ownerReferences:
-  - apiVersion: rbac.authorization.k8s.io/v1
-    blockOwnerDeletion: true
-    controller: true
-    kind: ClusterRole
-    name: istiod-istio-system
-    uid: c3d24917-c2da-49ad-add3-c91c14608a45
-  resourceVersion: "36649"
-  selfLink: /apis/admissionregistration.k8s.io/v1/validatingwebhookconfigurations/istiod-istio-system
-  uid: 043e39d9-377a-4a67-a7cf-7ae4cb3c562c
+  name: istio-validator-istio-system
+  resourceVersion: "615569"
+  uid: 112fed62-93e7-41c9-8cb1-b2665f392dd7
 webhooks:
 - admissionReviewVersions:
   - v1beta1
+  - v1
   clientConfig:
     # caBundle should be non-empty. This is periodically (re)patched
     # every second by the webhook service using the ca-cert
     # from the mounted service account secret.
     caBundle: LS0t...
+    # service corresponds to the Kubernetes service that implements the webhook
     service:
-      # service corresponds to the Kubernetes service that implements the
-      # webhook, e.g. istio-galley.istio-system.svc:443
       name: istiod
       namespace: istio-system
       path: /validate
       port: 443
   failurePolicy: Fail
-  matchPolicy: Exact
-  name: validation.istio.io
+  matchPolicy: Equivalent
+  name: rev.validation.istio.io
   namespaceSelector: {}
-  objectSelector: {}
+  objectSelector:
+    matchExpressions:
+    - key: istio.io/rev
+      operator: In
+      values:
+      - default
   rules:
   - apiGroups:
-    - config.istio.io
-    - rbac.istio.io
     - security.istio.io
-    - authentication.istio.io
     - networking.istio.io
+    - telemetry.istio.io
+    - extensions.istio.io
     apiVersions:
     - '*'
     operations:
@@ -86,56 +86,12 @@ webhooks:
     - '*'
     scope: '*'
   sideEffects: None
-  timeoutSeconds: 30
+  timeoutSeconds: 10
 {{< /text >}}
 
-If the `validatingwebhookconfiguration` doesn’t exist, verify the
-`istio-validation` `configmap` exists. Istio uses
-the data from this configmap to create and update the
-`validatingwebhookconfiguration`.
-
-{{< text bash yaml >}}
-$ kubectl -n istio-system get configmap istio-validation -o jsonpath='{.data}'
-map[config:apiVersion: admissionregistration.k8s.io/v1beta1
-kind: ValidatingWebhookConfiguration
-metadata:
-  name: istiod-istio-system
-  namespace: istio-system
-  labels:
-    app: istiod
-    release: istio
-    istio: istiod
-webhooks:
-  - name: validation.istio.io
-    clientConfig:
-      service:
-        name: istiod
-        namespace: istio-system
-        path: "/validate"
-        port: 443
-      caBundle: ""
-    rules:
-      - operations:
-        - CREATE
-        - UPDATE
-        apiGroups:
-        - config.istio.io
-        - rbac.istio.io
-        - security.istio.io
-        - authentication.istio.io
-        - networking.istio.io
-        apiVersions:
-        - "*"
-        resources:
-        - "*"
-    failurePolicy: Fail
-    sideEffects: None]
-      (... snip ...)
-{{< /text >}}
-
-If the webhook array in `istio-validation` is empty, verify
-the `global.configValidation` installation options are
-set.
+If the `istio-validator-` webhook does not exist, verify
+the `global.configValidation` installation option is
+set to `true`.
 
 The validation configuration is fail-close. If
 configuration exists and is scoped properly, the webhook will be

@@ -59,7 +59,7 @@ snippetid = re.compile(r"snip_id=(\w+)")
 githubfile = re.compile(r"^(.*)(?<![A-Za-z0-9])@([\w\.\-_/]+)@(.*)$")
 execit = re.compile(r"^(.*kubectl exec.*) -it (.*)$")
 heredoc = re.compile(r"<<\s*\\?EOF")
-sectionhead = re.compile(r"^##+ (.*)$")
+sectionhead = re.compile(r"^##+ ([^{]*)({.*})?$")
 invalidchar = re.compile(r"[^0-9a-zA-Z_]")
 
 parser = argparse.ArgumentParser()
@@ -89,6 +89,10 @@ try:
     source_branch_name = docs_config['source_branch_name']
     istio_version = docs_config['version']
     istio_full_version = docs_config['full_version']
+    istio_previous_version = docs_config['previous_version']
+    istio_full_version_revision = istio_full_version.replace(".", "-")
+    istio_previous_version_revision = istio_previous_version.replace(".", "-")
+    k8s_gateway_api_version = docs_config['k8s_gateway_api_version']
 except:
     sys.stderr.write('failed to retrieve data from "data/args.yml"\n')
     sys.exit(1)
@@ -100,11 +104,12 @@ with open(markdown, 'rt', encoding='utf-8') as mdfile:
         # Replace github file token with release-specific URL.
         github_url = "https://raw.githubusercontent.com/istio/istio/" + source_branch_name
         line = line.replace("{{< github_file >}}", github_url)
+        line = line.replace("istioctl install", "istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true")
 
         match = sectionhead.match(line)
         if match:
             snipnum = 0
-            section = invalidchar.sub('', match.group(1).replace(" ", "_")).lower()
+            section = invalidchar.sub('', match.group(1).strip().replace(" ", "_")).lower()
             continue
 
         match = startsnip.match(line)
@@ -176,6 +181,10 @@ with open(markdown, 'rt', encoding='utf-8') as mdfile:
                         multiline_cmd = True
                 line = line.replace("{{< istio_version >}}", istio_version)
                 line = line.replace("{{< istio_full_version >}}", istio_full_version)
+                line = line.replace("{{< istio_previous_version >}}", istio_previous_version)
+                line = line.replace("{{< istio_full_version_revision >}}", istio_full_version_revision)
+                line = line.replace("{{< istio_previous_version_revision >}}", istio_previous_version_revision)
+                line = line.replace("{{< k8s_gateway_api_version >}}", k8s_gateway_api_version)
                 current_snip["script"].append(line)
 
 if len(boilerplates) > 0:

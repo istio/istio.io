@@ -91,20 +91,8 @@ table {
     border-collapse: separate;
     border-spacing: 0;
     width: 100%;
-    display: table;
-    @media (max-width: $bp-sm) {
-        display: block;
-        overflow-x: auto;
-    }
-
-    p {
-        word-break: break-word;
-
-        a,
-        code {
-            word-break: break-word;
-        }
-    }
+    display: block;
+    overflow-x: auto;
 }
 
 table p:first-of-type {
@@ -178,11 +166,6 @@ tr th:last-child {
 
 tr td:last-child {
     border-right: 1px solid $boxBorderColor;
-    word-break: break-word;
-}
-
-tr td:last-child code {
-    word-break: break-word;
 }
 
 thead+tbody tr:first-child td:first-child {

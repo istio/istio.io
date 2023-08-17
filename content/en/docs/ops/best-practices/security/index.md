@@ -59,7 +59,7 @@ and do not use any of the **positive** matching fields (e.g. `paths`, `values`).
 For example, the authorization policy below uses the `ALLOW-with-positive-matching` pattern to allow requests to path `/public`:
 
 {{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: foo
@@ -78,7 +78,7 @@ of unknown normalization behavior causing policy bypass.
 The following is an example using the `DENY-with-negative-matching` pattern to achieve the same result:
 
 {{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: foo
@@ -313,7 +313,7 @@ prefix matches instead of exact matches.  For example, for an `AuthorizationPoli
 for a hostname of `example.com`, you would use `hosts: ["example.com", "example.com:*"]` as shown in the below `AuthorizationPolicy`.
 
 {{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: ingress-host
@@ -675,4 +675,13 @@ While most cloud providers support this feature now, many local development tool
 
 By default, Istio (and Envoy) have no limit on the number of downstream connections. This can be exploited by a malicious actor (see [security bulletin 2020-007](/news/security/istio-security-2020-007/)). To work around you this, you must configure an appropriate connection limit for your environment.
 
-{{< boilerplate cve-2020-007-configmap >}}
+### Configure `global_downstream_max_connections` value
+
+The following configuration can be supplied during installation:
+
+{{< text yaml >}}
+meshConfig:
+  defaultConfig:
+    runtimeValues:
+      "overload.global_downstream_max_connections": "100000"
+{{< /text >}}

@@ -126,11 +126,11 @@ snip_cleanup_1() {
 kubectl delete telemetry sleep-logging
 kubectl delete -f samples/sleep/sleep.yaml
 kubectl delete -f samples/httpbin/httpbin.yaml
-kubectl delete -f samples/open-telemetry/otel.yaml
+kubectl delete -f samples/open-telemetry/otel.yaml -n istio-system
 }
 
 snip_disable_envoys_access_logging_1() {
-istioctl install --set profile=default
+istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --set profile=default
 }
 
 ! read -r -d '' snip_disable_envoys_access_logging_1_out <<\ENDSNIP

@@ -138,7 +138,7 @@ $ cat <<EOF > cluster2.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
-  profile: external
+  profile: remote
   values:
     istiodRemote:
       injectionPath: /inject/cluster/cluster2/net/network1
@@ -184,7 +184,7 @@ To provide API Server access to `cluster2`, we generate a remote secret and
 apply it to `cluster1`:
 
 {{< text bash >}}
-$ istioctl x create-remote-secret \
+$ istioctl create-remote-secret \
     --context="${CTX_CLUSTER2}" \
     --name=cluster2 | \
     kubectl apply -f - --context="${CTX_CLUSTER1}"
@@ -196,3 +196,19 @@ and remote clusters!
 ## Next Steps
 
 You can now [verify the installation](/docs/setup/install/multicluster/verify).
+
+## Cleanup
+
+1. Uninstall Istio in `cluster1`:
+
+    {{< text syntax=bash snip_id=none >}}
+    $ istioctl uninstall --context="${CTX_CLUSTER1}" -y --purge
+    $ kubectl delete ns istio-system --context="${CTX_CLUSTER1}"
+    {{< /text >}}
+
+1. Uninstall Istio in `cluster2`:
+
+    {{< text syntax=bash snip_id=none >}}
+    $ istioctl uninstall --context="${CTX_CLUSTER2}" -y --purge
+    $ kubectl delete ns istio-system --context="${CTX_CLUSTER2}"
+    {{< /text >}}

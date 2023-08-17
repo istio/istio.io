@@ -20,69 +20,27 @@
 #          docs/tasks/observability/metrics/customize-metrics/index.md
 ####################################################################################################
 
-! read -r -d '' snip_enable_custom_metrics_1 <<\ENDSNIP
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
+snip_enable_custom_metrics_1() {
+cat <<EOF > ./custom_metrics.yaml
+apiVersion: telemetry.istio.io/v1alpha1
+kind: Telemetry
+metadata:
+  name: namespace-metrics
 spec:
-  values:
-    telemetry:
-      v2:
-        prometheus:
-          configOverride:
-            inboundSidecar:
-              disable_host_header_fallback: false
-            outboundSidecar:
-              disable_host_header_fallback: false
-            gateway:
-              disable_host_header_fallback: true
-ENDSNIP
-
-! read -r -d '' snip_enable_custom_metrics_2 <<\ENDSNIP
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  values:
-    telemetry:
-      v2:
-        prometheus:
-          configOverride:
-            inboundSidecar:
-              metrics:
-                - name: requests_total
-                  dimensions:
-                    destination_port: string(destination.port)
-                    request_host: request.host
-            outboundSidecar:
-              metrics:
-                - name: requests_total
-                  dimensions:
-                    destination_port: string(destination.port)
-                    request_host: request.host
-            gateway:
-              metrics:
-                - name: requests_total
-                  dimensions:
-                    destination_port: string(destination.port)
-                    request_host: request.host
-ENDSNIP
-
-! read -r -d '' snip_enable_custom_metrics_3 <<\ENDSNIP
-apiVersion: apps/v1
-kind: Deployment
-spec:
-  template: # pod template
-    metadata:
-      annotations:
-        sidecar.istio.io/extraStatTags: destination_port,request_host
-ENDSNIP
-
-! read -r -d '' snip_enable_custom_metrics_4 <<\ENDSNIP
-meshConfig:
-  defaultConfig:
-    extraStatTags:
-     - destination_port
-     - request_host
-ENDSNIP
+  metrics:
+  - providers:
+    - name: prometheus
+    overrides:
+    - match:
+        metric: REQUEST_COUNT
+      tagOverrides:
+        destination_port:
+          value: "string(destination.port)"
+        request_host:
+          value: "request.host"
+EOF
+kubectl apply -f custom_metrics.yaml
+}
 
 snip_verify_the_results_1() {
 curl "http://$GATEWAY_URL/productpage"

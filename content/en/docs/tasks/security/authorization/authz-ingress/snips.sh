@@ -19,94 +19,45 @@
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
 #          docs/tasks/security/authorization/authz-ingress/index.md
 ####################################################################################################
+source "content/en/boilerplates/snips/gateway-api-support.sh"
 
 snip_before_you_begin_1() {
 kubectl create ns foo
-kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml) -n foo
-kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin-gateway.yaml) -n foo
+kubectl label namespace foo istio-injection=enabled
+kubectl apply -f samples/httpbin/httpbin.yaml -n foo
 }
 
 snip_before_you_begin_2() {
-kubectl get pods -n istio-system -o name -l istio=ingressgateway | sed 's|pod/||' | while read -r pod; do istioctl proxy-config log "$pod" -n istio-system --level rbac:debug; done
+kubectl apply -f samples/httpbin/httpbin-gateway.yaml -n foo
 }
 
 snip_before_you_begin_3() {
+kubectl get pods -n istio-system -o name -l istio=ingressgateway | sed 's|pod/||' | while read -r pod; do istioctl proxy-config log "$pod" -n istio-system --level rbac:debug; done
+}
+
+snip_before_you_begin_4() {
+kubectl apply -f samples/httpbin/gateway-api/httpbin-gateway.yaml -n foo
+kubectl wait --for=condition=programmed gtw -n foo httpbin-gateway
+}
+
+snip_before_you_begin_5() {
+kubectl get pods -n foo -o name -l istio.io/gateway-name=httpbin-gateway | sed 's|pod/||' | while read -r pod; do istioctl proxy-config log "$pod" -n foo --level rbac:debug; done
+}
+
+snip_before_you_begin_6() {
+export INGRESS_HOST=$(kubectl get gtw httpbin-gateway -n foo -o jsonpath='{.status.addresses[0].value}')
+export INGRESS_PORT=$(kubectl get gtw httpbin-gateway -n foo -o jsonpath='{.spec.listeners[?(@.name=="http")].port}')
+}
+
+snip_before_you_begin_7() {
 curl "$INGRESS_HOST:$INGRESS_PORT"/headers -s -o /dev/null -w "%{http_code}\n"
 }
 
-! read -r -d '' snip_before_you_begin_3_out <<\ENDSNIP
+! read -r -d '' snip_before_you_begin_7_out <<\ENDSNIP
 200
 ENDSNIP
 
 ! read -r -d '' snip_source_ip_address_of_the_original_client_1 <<\ENDSNIP
-apiVersion: networking.istio.io/v1alpha3
-kind: EnvoyFilter
-metadata:
-  name: proxy-protocol
-  namespace: istio-system
-spec:
-  configPatches:
-  - applyTo: LISTENER
-    patch:
-      operation: MERGE
-      value:
-        listener_filters:
-        - name: envoy.listener.proxy_protocol
-        - name: envoy.listener.tls_inspector
-  workloadSelector:
-    labels:
-      istio: ingressgateway
-ENDSNIP
-
-! read -r -d '' snip_source_ip_address_of_the_original_client_2 <<\ENDSNIP
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  meshConfig:
-    accessLogEncoding: JSON
-    accessLogFile: /dev/stdout
-  components:
-    ingressGateways:
-    - enabled: true
-      k8s:
-        hpaSpec:
-          maxReplicas: 10
-          minReplicas: 5
-        serviceAnnotations:
-          service.beta.kubernetes.io/aws-load-balancer-access-log-emit-interval: "5"
-          service.beta.kubernetes.io/aws-load-balancer-access-log-enabled: "true"
-          service.beta.kubernetes.io/aws-load-balancer-access-log-s3-bucket-name: elb-logs
-          service.beta.kubernetes.io/aws-load-balancer-access-log-s3-bucket-prefix: k8sELBIngressGW
-          service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
-        affinity:
-          podAntiAffinity:
-            preferredDuringSchedulingIgnoredDuringExecution:
-            - podAffinityTerm:
-                labelSelector:
-                  matchLabels:
-                    istio: ingressgateway
-                topologyKey: failure-domain.beta.kubernetes.io/zone
-              weight: 1
-      name: istio-ingressgateway
-ENDSNIP
-
-snip_source_ip_address_of_the_original_client_3() {
-kubectl patch svc istio-ingressgateway -n istio-system -p '{"spec":{"externalTrafficPolicy":"Local"}}'
-}
-
-! read -r -d '' snip_source_ip_address_of_the_original_client_4 <<\ENDSNIP
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  meshConfig:
-    accessLogEncoding: JSON
-    accessLogFile: /dev/stdout
-    defaultConfig:
-      gatewayTopology:
-        numTrustedProxies: 1
-ENDSNIP
-
-! read -r -d '' snip_source_ip_address_of_the_original_client_5 <<\ENDSNIP
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -124,9 +75,125 @@ spec:
           service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
 ENDSNIP
 
+! read -r -d '' snip_source_ip_address_of_the_original_client_2 <<\ENDSNIP
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: Gateway
+metadata:
+  name: httpbin-gateway
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+spec:
+  gatewayClassName: istio
+  ...
+ENDSNIP
+
+! read -r -d '' snip_tcpudp_proxy_load_balancer_1 <<\ENDSNIP
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: proxy-protocol
+  namespace: istio-system
+spec:
+  configPatches:
+  - applyTo: LISTENER_FILTER
+    patch:
+      operation: INSERT_FIRST
+      value:
+        name: proxy_protocol
+        typed_config:
+          "@type": "type.googleapis.com/envoy.extensions.filters.listener.proxy_protocol.v3.ProxyProtocol"
+  workloadSelector:
+    labels:
+      istio: ingressgateway
+ENDSNIP
+
+! read -r -d '' snip_tcpudp_proxy_load_balancer_2 <<\ENDSNIP
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: proxy-protocol
+  namespace: foo
+spec:
+  configPatches:
+  - applyTo: LISTENER_FILTER
+    patch:
+      operation: INSERT_FIRST
+      value:
+        name: proxy_protocol
+        typed_config:
+          "@type": "type.googleapis.com/envoy.extensions.filters.listener.proxy_protocol.v3.ProxyProtocol"
+  workloadSelector:
+    labels:
+      istio.io/gateway-name: httpbin-gateway
+ENDSNIP
+
+! read -r -d '' snip_tcpudp_proxy_load_balancer_3 <<\ENDSNIP
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  meshConfig:
+    accessLogEncoding: JSON
+    accessLogFile: /dev/stdout
+  components:
+    ingressGateways:
+    - enabled: true
+      name: istio-ingressgateway
+      k8s:
+        hpaSpec:
+          maxReplicas: 10
+          minReplicas: 5
+        serviceAnnotations:
+          service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
+        ...
+ENDSNIP
+
+! read -r -d '' snip_tcpudp_proxy_load_balancer_4 <<\ENDSNIP
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: Gateway
+metadata:
+  name: httpbin-gateway
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
+spec:
+  gatewayClassName: istio
+  ...
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: httpbin-gateway
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: httpbin-gateway-istio
+  minReplicas: 5
+  maxReplicas: 10
+ENDSNIP
+
+snip_network_load_balancer_1() {
+kubectl patch svc istio-ingressgateway -n istio-system -p '{"spec":{"externalTrafficPolicy":"Local"}}'
+}
+
+snip_network_load_balancer_2() {
+kubectl patch svc httpbin-gateway-istio -n foo -p '{"spec":{"externalTrafficPolicy":"Local"}}'
+}
+
+! read -r -d '' snip_httphttps_load_balancer_1 <<\ENDSNIP
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  meshConfig:
+    accessLogEncoding: JSON
+    accessLogFile: /dev/stdout
+    defaultConfig:
+      gatewayTopology:
+        numTrustedProxies: 1
+ENDSNIP
+
 snip_ipbased_allow_list_and_deny_list_1() {
 kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: ingress-policy
@@ -145,7 +212,7 @@ EOF
 
 snip_ipbased_allow_list_and_deny_list_2() {
 kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: ingress-policy
@@ -163,24 +230,86 @@ EOF
 }
 
 snip_ipbased_allow_list_and_deny_list_3() {
+kubectl apply -f - <<EOF
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: ingress-policy
+  namespace: foo
+spec:
+  selector:
+    matchLabels:
+      istio.io/gateway-name: httpbin-gateway
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        ipBlocks: ["1.2.3.4", "5.6.7.0/24"]
+EOF
+}
+
+snip_ipbased_allow_list_and_deny_list_4() {
+kubectl apply -f - <<EOF
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: ingress-policy
+  namespace: foo
+spec:
+  selector:
+    matchLabels:
+      istio.io/gateway-name: httpbin-gateway
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        remoteIpBlocks: ["1.2.3.4", "5.6.7.0/24"]
+EOF
+}
+
+snip_ipbased_allow_list_and_deny_list_5() {
 curl "$INGRESS_HOST:$INGRESS_PORT"/headers -s -o /dev/null -w "%{http_code}\n"
 }
 
-! read -r -d '' snip_ipbased_allow_list_and_deny_list_3_out <<\ENDSNIP
+! read -r -d '' snip_ipbased_allow_list_and_deny_list_5_out <<\ENDSNIP
 403
 ENDSNIP
 
-snip_ipbased_allow_list_and_deny_list_4() {
+snip_ipbased_allow_list_and_deny_list_6() {
 CLIENT_IP=$(kubectl get pods -n istio-system -o name -l istio=ingressgateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n istio-system | grep remoteIP; done | tail -1 | awk -F, '{print $3}' | awk -F: '{print $2}' | sed 's/ //') && echo "$CLIENT_IP"
 }
 
-! read -r -d '' snip_ipbased_allow_list_and_deny_list_4_out <<\ENDSNIP
+! read -r -d '' snip_ipbased_allow_list_and_deny_list_6_out <<\ENDSNIP
 192.168.10.15
 ENDSNIP
 
-snip_ipbased_allow_list_and_deny_list_5() {
+snip_ipbased_allow_list_and_deny_list_7() {
+CLIENT_IP=$(kubectl get pods -n istio-system -o name -l istio=ingressgateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n istio-system | grep remoteIP; done | tail -1 | awk -F, '{print $4}' | awk -F: '{print $2}' | sed 's/ //') && echo "$CLIENT_IP"
+}
+
+! read -r -d '' snip_ipbased_allow_list_and_deny_list_7_out <<\ENDSNIP
+192.168.10.15
+ENDSNIP
+
+snip_ipbased_allow_list_and_deny_list_8() {
+CLIENT_IP=$(kubectl get pods -n foo -o name -l istio.io/gateway-name=httpbin-gateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n foo | grep remoteIP; done | tail -1 | awk -F, '{print $3}' | awk -F: '{print $2}' | sed 's/ //') && echo "$CLIENT_IP"
+}
+
+! read -r -d '' snip_ipbased_allow_list_and_deny_list_8_out <<\ENDSNIP
+192.168.10.15
+ENDSNIP
+
+snip_ipbased_allow_list_and_deny_list_9() {
+CLIENT_IP=$(kubectl get pods -n foo -o name -l istio.io/gateway-name=httpbin-gateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n foo | grep remoteIP; done | tail -1 | awk -F, '{print $4}' | awk -F: '{print $2}' | sed 's/ //') && echo "$CLIENT_IP"
+}
+
+! read -r -d '' snip_ipbased_allow_list_and_deny_list_9_out <<\ENDSNIP
+192.168.10.15
+ENDSNIP
+
+snip_ipbased_allow_list_and_deny_list_10() {
 kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: ingress-policy
@@ -197,17 +326,9 @@ spec:
 EOF
 }
 
-snip_ipbased_allow_list_and_deny_list_6() {
-CLIENT_IP=$(kubectl get pods -n istio-system -o name -l istio=ingressgateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n istio-system | grep remoteIP; done | tail -1 | awk -F, '{print $4}' | awk -F: '{print $2}' | sed 's/ //') && echo "$CLIENT_IP"
-}
-
-! read -r -d '' snip_ipbased_allow_list_and_deny_list_6_out <<\ENDSNIP
-192.168.10.15
-ENDSNIP
-
-snip_ipbased_allow_list_and_deny_list_7() {
+snip_ipbased_allow_list_and_deny_list_11() {
 kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: ingress-policy
@@ -224,17 +345,55 @@ spec:
 EOF
 }
 
-snip_ipbased_allow_list_and_deny_list_8() {
+snip_ipbased_allow_list_and_deny_list_12() {
+kubectl apply -f - <<EOF
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: ingress-policy
+  namespace: foo
+spec:
+  selector:
+    matchLabels:
+      istio.io/gateway-name: httpbin-gateway
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        ipBlocks: ["1.2.3.4", "5.6.7.0/24", "$CLIENT_IP"]
+EOF
+}
+
+snip_ipbased_allow_list_and_deny_list_13() {
+kubectl apply -f - <<EOF
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: ingress-policy
+  namespace: foo
+spec:
+  selector:
+    matchLabels:
+      istio.io/gateway-name: httpbin-gateway
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        remoteIpBlocks: ["1.2.3.4", "5.6.7.0/24", "$CLIENT_IP"]
+EOF
+}
+
+snip_ipbased_allow_list_and_deny_list_14() {
 curl "$INGRESS_HOST:$INGRESS_PORT"/headers -s -o /dev/null -w "%{http_code}\n"
 }
 
-! read -r -d '' snip_ipbased_allow_list_and_deny_list_8_out <<\ENDSNIP
+! read -r -d '' snip_ipbased_allow_list_and_deny_list_14_out <<\ENDSNIP
 200
 ENDSNIP
 
-snip_ipbased_allow_list_and_deny_list_9() {
+snip_ipbased_allow_list_and_deny_list_15() {
 kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: ingress-policy
@@ -251,9 +410,9 @@ spec:
 EOF
 }
 
-snip_ipbased_allow_list_and_deny_list_10() {
+snip_ipbased_allow_list_and_deny_list_16() {
 kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: ingress-policy
@@ -270,22 +429,68 @@ spec:
 EOF
 }
 
-snip_ipbased_allow_list_and_deny_list_11() {
+snip_ipbased_allow_list_and_deny_list_17() {
+kubectl apply -f - <<EOF
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: ingress-policy
+  namespace: foo
+spec:
+  selector:
+    matchLabels:
+      istio.io/gateway-name: httpbin-gateway
+  action: DENY
+  rules:
+  - from:
+    - source:
+        ipBlocks: ["$CLIENT_IP"]
+EOF
+}
+
+snip_ipbased_allow_list_and_deny_list_18() {
+kubectl apply -f - <<EOF
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: ingress-policy
+  namespace: foo
+spec:
+  selector:
+    matchLabels:
+      istio.io/gateway-name: httpbin-gateway
+  action: DENY
+  rules:
+  - from:
+    - source:
+        remoteIpBlocks: ["$CLIENT_IP"]
+EOF
+}
+
+snip_ipbased_allow_list_and_deny_list_19() {
 curl "$INGRESS_HOST:$INGRESS_PORT"/headers -s -o /dev/null -w "%{http_code}\n"
 }
 
-! read -r -d '' snip_ipbased_allow_list_and_deny_list_11_out <<\ENDSNIP
+! read -r -d '' snip_ipbased_allow_list_and_deny_list_19_out <<\ENDSNIP
 403
 ENDSNIP
 
-snip_ipbased_allow_list_and_deny_list_12() {
+snip_ipbased_allow_list_and_deny_list_20() {
 kubectl get pods -n istio-system -o name -l istio=ingressgateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n istio-system; done
 }
 
+snip_ipbased_allow_list_and_deny_list_21() {
+kubectl get pods -n foo -o name -l istio.io/gateway-name=httpbin-gateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n foo; done
+}
+
 snip_clean_up_1() {
-kubectl delete namespace foo
+kubectl delete authorizationpolicy ingress-policy -n istio-system
 }
 
 snip_clean_up_2() {
-kubectl delete authorizationpolicy ingress-policy -n istio-system
+kubectl delete authorizationpolicy ingress-policy -n foo
+}
+
+snip_clean_up_3() {
+kubectl delete namespace foo
 }

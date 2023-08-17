@@ -31,7 +31,7 @@ metrics (coming..) among others. Following is a diagram of the pipeline:
 
 Istio supports exporting logs to Stackdriver which can in turn be configured to export
 logs to your favorite sink like BigQuery, Pub/Sub or GCS. Please follow the steps
-below to setup your favorite sink for exporting logs first and then Stackdriver
+below to set up your favorite sink for exporting logs first and then Stackdriver
 in Istio.
 
 ### Setting up various log sinks

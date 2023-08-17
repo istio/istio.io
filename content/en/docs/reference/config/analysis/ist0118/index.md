@@ -38,9 +38,9 @@ In this example, the port name `foo-http` does not follow the syntax: `name: <pr
 
 ## How to resolve
 
-- If you know the protocol the service port is serving, renaming the port with `<protocol>[-<suffix>]` format;
+- If you know the protocol the service port is serving, rename the port with `<protocol>[-<suffix>]` format;
 - If you don't know the protocol the service port is serving, you need to [query metrics from Prometheus](/docs/tasks/observability/metrics/querying-metrics/)
-    - Running query `istio_requests_total{reporter="destination",destination_service_name="SERVICE_NAME",response_code="200"}[TIME_RANGE]`. If you are using Mixer v2,
+    - Run query `istio_requests_total{reporter="destination",destination_service_name="SERVICE_NAME",response_code="200"}[TIME_RANGE]`. If you are using Mixer v2,
       you can also run query `istio_requests_total{reporter="destination",destination_service_name="SERVICE_NAME",response_code="200",destination_port="TARGET_PORT"}[TIME_RANGE]`.
-    - If there are outputs, you can find the `request_protocol` from the record. E.g., if the `request_protocol` is "http", renaming port to "http-foo";
+    - If there are outputs, you can find the `request_protocol` from the record. E.g., if the `request_protocol` is "http", rename port to "http-foo";
     - If there is no output, you can leave the port as it is.

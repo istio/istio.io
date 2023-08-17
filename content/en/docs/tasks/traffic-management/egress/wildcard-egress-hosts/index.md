@@ -38,8 +38,6 @@ without the need to specify every language's site separately.
     [enable Envoy’s access logging](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging), and
     [apply the blocking-by-default outbound traffic policy](/docs/tasks/traffic-management/egress/egress-control/#change-to-the-blocking-by-default-policy)
     in your installation.
-    You will also need to add the second gateway using your own `IstioOperator` CR instead of the one
-    shown in [setup egress gateway with SNI proxy](#setup-egress-gateway-with-sni-proxy).
     {{< /tip >}}
 
 *   Deploy the [sleep]({{< github_tree >}}/samples/sleep) sample app to use as a test source for sending requests.
@@ -118,7 +116,7 @@ the default) is used in the service entry below.
 $ kubectl delete serviceentry wikipedia
 {{< /text >}}
 
-### Wildcard configuration for a single hosting server
+## Configure egress gateway traffic to a wildcard host
 
 When all wildcard hosts are served by a single server, the configuration for
 egress gateway-based access to a wildcard host is very similar to that of any host, with one exception:
@@ -233,7 +231,7 @@ the set of domains.
     outbound|443||www.wikipedia.org::208.80.154.224:443::cx_total::2
     {{< /text >}}
 
-#### Cleanup wildcard configuration for a single hosting server
+### Cleanup egress gateway traffic to a wildcard host
 
 {{< text bash >}}
 $ kubectl delete serviceentry www-wikipedia

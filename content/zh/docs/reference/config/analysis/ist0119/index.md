@@ -5,8 +5,9 @@ owner: istio/wg-user-experience-maintainers
 test: no
 ---
 
-当认证策略指定使用 JWT 认证但目标 [Kubernetes 服务](https://kubernetes.io/docs/concepts/services-networking/service/)配置不正确时，会出现此消息。
-正确定位到 Kubernetes 服务需要使用 http|http2|https 前缀来命名端口（请参见[协议选择](/zh/docs/ops/configuration/traffic-management/protocol-selection/)），并且还需要协议使用 TCP；协议留空也可以，因为其默认值就是 TCP。
+当认证策略指定使用 JWT 认证但目标 [Kubernetes 服务](https://kubernetes.io/zh-cn/docs/concepts/services-networking/service/) 配置不正确时，会出现此消息。
+正确定位到 Kubernetes 服务需要使用 http|http2|https 前缀来命名端口
+（请参见 [协议选择](/zh/docs/ops/configuration/traffic-management/protocol-selection/)），并且还需要协议使用 TCP；协议留空也可以，因为其默认值就是 TCP。
 
 ## 示例{#example}
 

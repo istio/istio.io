@@ -24,6 +24,13 @@ else
     LANGS="en zh"
 fi
 
+red='\e[0;31m'
+clr='\e[0m'
+
+error() {
+  echo -e "${red}$*${clr}"
+}
+
 # This performs spell checking and style checking over markdown files in a content
 # directory. It transforms the shortcode sequences we use to annotate code blocks
 # into classic markdown ``` code blocks, so that the linters aren't confused
@@ -35,7 +42,7 @@ check_content() {
 
     # check for use of ```
     if grep -nr -e "\`\`\`" --include "*.md" "${DIR}"; then
-        echo "Ensure markdown content uses {{< text >}} for code blocks rather than \`\`\`. Please see https://istio.io/about/contribute/code-blocks/"
+        error "Ensure markdown content uses {{< text >}} for code blocks rather than \`\`\`. Please see https://istio.io/about/contribute/code-blocks/"
         FAILED=1
     fi
 
@@ -50,8 +57,14 @@ check_content() {
     # replace the {{< text >}} shortcodes with ```plain
     find "${TMP}" -type f -name \*.md -exec sed -E -i "s/\\{\\{< text .*>\}\}/\`\`\`plain/g" {} ";"
 
+    # replace the {{< mermaid >}} shortcodes with ```mermaid
+    find "${TMP}" -type f -name \*.md -exec sed -E -i "s/\\{\\{< mermaid .*>\}\}/\`\`\`mermaid/g" {} ";"
+
     # replace the {{< /text >}} shortcodes with ```
     find "${TMP}" -type f -name \*.md -exec sed -E -i "s/\\{\\{< \/text .*>\}\}/\`\`\`/g" {} ";"
+
+    # replace the {{< /mermaid >}} shortcodes with ```
+    find "${TMP}" -type f -name \*.md -exec sed -E -i "s/\\{\\{< \/mermaid .*>\}\}/\`\`\`/g" {} ";"
 
     # elide url="*"
     find "${TMP}" -type f -name \*.md -exec sed -E -i "s/url=\".*\"/URL/g" {} ";"
@@ -66,7 +79,7 @@ check_content() {
     pushd "${TMP}" >/dev/null
 
     if ! find . -type f -name '*.md' -print0 | xargs -0 -r mdspell "${LANG}" --ignore-acronyms --ignore-numbers --no-suggestions --report; then
-        echo "To learn how to address spelling errors, please see https://istio.io/about/contribute/build/#test-your-changes"
+        error "To learn how to address spelling errors, please see https://istio.io/about/contribute/build/#test-your-changes"
         FAILED=1
     fi
 
@@ -75,27 +88,27 @@ check_content() {
     fi
 
     if grep -nrP --include "*.md" -e "\(https://istio.io/(?!v[0-9]\.[0-9]/|archive/)" .; then
-        echo "Ensure markdown content uses relative references to istio.io"
+        error "Ensure markdown content uses relative references to istio.io"
         FAILED=1
     fi
 
     if grep -nr --include "*.md" -e "(https://preliminary.istio.io" .; then
-        echo "Ensure markdown content doesn't contain references to preliminary.istio.io"
+        error "Ensure markdown content doesn't contain references to preliminary.istio.io"
         FAILED=1
     fi
 
     if grep -nr --include "*.md" -e https://github.com/istio/istio/blob/ .; then
-        echo "Ensure markdown content uses {{< github_blob >}}"
+        error "Ensure markdown content uses {{< github_blob >}}"
         FAILED=1
     fi
 
     if grep -nr --include "*.md" -e https://github.com/istio/istio/tree/ .; then
-        echo "Ensure markdown content uses {{< github_tree >}}"
+        error "Ensure markdown content uses {{< github_tree >}}"
         FAILED=1
     fi
 
     if grep -nr --include "*.md" -e https://raw.githubusercontent.com/istio/istio/ .; then
-        echo "Ensure markdown content uses {{< github_file >}}"
+        error "Ensure markdown content uses {{< github_file >}}"
         FAILED=1
     fi
 
@@ -119,14 +132,14 @@ for lang in $LANGS; do
         list=$(find ./content/en/docs -name '*.md' -not -exec grep -q '^test: ' {} \; -print)
         if [[ -n $list ]]; then
             echo "$list"
-            echo "Ensure every document *.md file includes a test: attribute in its metadata"
+            error "Ensure every document *.md file includes a test: attribute in its metadata"
             FAILED=1
         fi
 
         list=$(find ./content/en/docs -name 'index.md' -not -exec grep -q '^owner: ' {} \; -print)
         if [[ -n $list ]]; then
             echo "$list"
-            echo "Ensure every document index.md file includes an owner: attribute in its metadata"
+            error "Ensure every document index.md file includes an owner: attribute in its metadata"
             FAILED=1
         fi
 
@@ -135,7 +148,7 @@ for lang in $LANGS; do
         while IFS= read -r -d '' f; do
             if grep -H -n -e '“' "${f}"; then
                 # shellcheck disable=SC1111
-                echo "Ensure content only uses standard quotation marks and not “"
+                error "Ensure content only uses standard quotation marks and not “"
                 FAILED=1
             fi
         done < <(find ./content/en -type f \( -name '*.html' -o -name '*.md' \) -print0)
@@ -145,17 +158,17 @@ for lang in $LANGS; do
 
         while IFS= read -r -d '' f; do
             if grep -H -n -E -e "- (/docs|/about|/blog|/faq|/news)" "${f}"; then
-                echo "Ensure translated content doesn't include aliases for English content"
+                error "Ensure translated content doesn't include aliases for English content"
                 FAILED=1
             fi
 
             if grep -H -n -E -e '"(/docs|/about|/blog|/faq|/news)' "${f}"; then
-                echo "Ensure translated content doesn't include references to English content"
+                error "Ensure translated content doesn't include references to English content"
                 FAILED=1
             fi
 
             if grep -H -n -E -e '\((/docs|/about|/blog|/faq|/news)' "${f}"; then
-                echo "Ensure translated content doesn't include references to English content"
+                error "Ensure translated content doesn't include references to English content"
                 FAILED=1
             fi
         done < <(find ./content/zh -type f \( -name '*.html' -o -name '*.md' \) -print0)
@@ -172,12 +185,12 @@ if [ -d ./public ]; then
 
     while IFS= read -r -d '' f; do
         if grep -H -n -i -e blockquote "${f}"; then
-            echo "Ensure content only uses {{< tip >}}, {{< warning >}}, {{< idea >}}, and {{< quote >}} instead of block quotes"
+            error "Ensure content only uses {{< tip >}}, {{< warning >}}, {{< idea >}}, and {{< quote >}} instead of block quotes"
             FAILED=1
         fi
 
         #if grep -H -n -e "\"https://github.*#L[0-9]*\"" "${f}"; then
-        #    echo "Ensure content doesn't use links to specific lines in GitHub files as those are too brittle"
+        #    error "Ensure content doesn't use links to specific lines in GitHub files as those are too brittle"
         #    FAILED=1
         #fi
     done < <(find ./public "${find_exclude[@]}" -type f -name '*.html' -print0)
@@ -205,6 +218,6 @@ if [ -d ./public ]; then
 fi
 
 if [[ ${FAILED} -eq 1 ]]; then
-    echo "LINTING FAILED"
+    error "LINTING FAILED"
     exit 1
 fi

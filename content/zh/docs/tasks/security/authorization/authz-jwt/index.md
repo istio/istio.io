@@ -1,6 +1,6 @@
 ---
-title: 基于 JWT 授权
-description: 有关如何在 Istio 中通过 JWT 实现访问控制的教程。
+title: JWT 令牌
+description: 演示如何为 JWT 令牌设置访问控制。
 weight: 30
 keywords: [security,authorization,jwt,claim]
 aliases:
@@ -13,15 +13,18 @@ test: yes
 本教程向您展示如何通过设置 Istio 授权策略来实现基于 JSON Web Token（JWT）的强制访问控制。
 Istio 授权策略同时支持字符串类型和列表类型的 JWT 声明。
 
-## 开始之前
+## 开始之前 {#before-you-begin}
 
 在开始这个任务之前，请先完成以下操作：
 
-* 阅读[授权](/zh/docs/concepts/security/#authorization)和[身份验证](/zh/docs/concepts/security/#authentication)的相关内容。
+* 完成 [Istio 最终用户身份验证任务](/zh/docs/tasks/security/authentication/authn-policy/#end-user-authentication)。
 
-* 参照 [Istio 安装向导](/zh/docs/setup/install/istioctl/) 安装 Istio。
+* 阅读 [Istio 授权概念](/zh/docs/concepts/security/#authorization)。
 
-* 部署两个工作负载（workload）：`httpbin` 和 `sleep`。将它们部署在同一个命名空间中，例如 `foo`。每个工作负载都在前面运行一个 Envoy 代理。 你可以使用以下命令来部署它们：
+* 参照 [Istio 安装指南](/zh/docs/setup/install/istioctl/)安装 Istio。
+
+* 部署两个工作负载（workload）：`httpbin` 和 `sleep`。将它们部署在同一个命名空间中，
+* 例如 `foo`。每个工作负载都在前面运行一个 Envoy 代理。您可以使用以下命令来部署它们：
 
     {{< text bash >}}
     $ kubectl create ns foo
@@ -37,17 +40,19 @@ Istio 授权策略同时支持字符串类型和列表类型的 JWT 声明。
     {{< /text >}}
 
 {{< warning >}}
-如果你没有看到预期的输出，过几秒再试。缓存和策略传播可能造成延迟。
+如果您没有看到预期的输出，过几秒再试。缓存和策略传播可能造成延迟。
 {{< /warning >}}
 
-## 允许包含有效 JWT 和 列表类型声明的请求
+## 允许包含有效 JWT 和 列表类型声明的请求 {#allow-requests-with-jwt-and-claims}
 
-1. 以下命令为 `foo` 命名空间下的 `httpbin` 工作负载创建一个名为 `jwt-example` 的身份验证策略。这个策略使得 `httpbin` 工作负载接收 Issuer 为 `testing@secure.istio.io` 的 JWT 令牌：
+1. 以下命令为 `foo` 命名空间下的 `httpbin` 工作负载创建一个名为 `jwt-example`
+   的身份验证策略。这个策略使得 `httpbin` 工作负载接收 Issuer 为 `testing@secure.istio.io`
+   的 JWT 令牌：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: "security.istio.io/v1beta1"
-    kind: "RequestAuthentication"
+    apiVersion: security.istio.io/v1
+    kind: RequestAuthentication
     metadata:
       name: "jwt-example"
       namespace: foo
@@ -75,11 +80,14 @@ Istio 授权策略同时支持字符串类型和列表类型的 JWT 声明。
     200
     {{< /text >}}
 
-1. 以下命令为 `foo` 命名空间下的 `httpbin` 工作负载创建一个名为 `require-jwt` 的授权策略。 这个策略要求所有发往 `httpbin` 服务的请求都要包含一个将 `requestPrincipal` 设置为 `testing@secure.istio.io/testing@secure.istio.io` 的有效 JWT。Istio 使用 `/` 连接 JWT 令牌的 `iss` 和 `sub` 以组成 `requestPrincipal` 字段。
+1. 以下命令为 `foo` 命名空间下的 `httpbin` 工作负载创建一个名为 `require-jwt`
+   的授权策略。这个策略要求所有发往 `httpbin` 服务的请求都要包含一个将 `requestPrincipal`
+   设置为 `testing@secure.istio.io/testing@secure.istio.io` 的有效 JWT。Istio 使用
+   `/` 连接 JWT 令牌的 `iss` 和 `sub` 以组成 `requestPrincipal` 字段。
 
     {{< text syntax="bash" expandlinks="false" >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: security.istio.io/v1beta1
+    apiVersion: security.istio.io/v1
     kind: AuthorizationPolicy
     metadata:
       name: require-jwt
@@ -96,7 +104,8 @@ Istio 授权策略同时支持字符串类型和列表类型的 JWT 声明。
     EOF
     {{< /text >}}
 
-1. 获取 `iss` 和 `sub` 都为 `testing@secure.istio.io` 的 JWT。这会让 Istio 生成的 `requestPrincipal` 属性值为 `testing@secure.istio.io/testing@secure.istio.io`：
+1. 获取 `iss` 和 `sub` 都为 `testing@secure.istio.io` 的 JWT。这会让 Istio 生成的
+   `requestPrincipal` 属性值为 `testing@secure.istio.io/testing@secure.istio.io`：
 
     {{< text syntax="bash" expandlinks="false" >}}
     $ TOKEN=$(curl {{< github_file >}}/security/tools/jwt/samples/demo.jwt -s) && echo "$TOKEN" | cut -d '.' -f2 - | base64 --decode -
@@ -121,7 +130,7 @@ Istio 授权策略同时支持字符串类型和列表类型的 JWT 声明。
 
     {{< text syntax="bash" expandlinks="false" >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: security.istio.io/v1beta1
+    apiVersion: security.istio.io/v1
     kind: AuthorizationPolicy
     metadata:
       name: require-jwt
@@ -166,10 +175,10 @@ Istio 授权策略同时支持字符串类型和列表类型的 JWT 声明。
     403
     {{< /text >}}
 
-## 清理
+## 清理 {#cleanup}
 
-1. 删除 `foo` 命名空间：
+删除 `foo` 命名空间：
 
-    {{< text bash >}}
-    $ kubectl delete namespace foo
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl delete namespace foo
+{{< /text >}}

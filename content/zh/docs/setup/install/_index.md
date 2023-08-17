@@ -1,7 +1,7 @@
 ---
 title: 安装指南
 linktitle: 安装
-description: 选择最适合你需求和平台的安装指南。
+description: 选择最适合您需求和平台的安装指南。
 weight: 20
 content_above: true
 aliases:

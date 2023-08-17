@@ -7,28 +7,50 @@ aliases:
   - /docs/ops/security/harden-docker-images
 owner: istio/wg-security-maintainers
 test: n/a
+status: Alpha
 ---
 
-To ease the process of hardening docker images, Istio provides a set of images based on  [distroless images](https://github.com/GoogleContainerTools/distroless)
+{{< boilerplate alpha >}}
 
-## Install distroless images
+Istio's [default images](https://hub.docker.com/r/istio/base) are based on `ubuntu` with some extra tools added.
+An alternative image based on [distroless images](https://github.com/GoogleContainerTools/distroless) is also available.
 
-Follow the [Installation Steps](/docs/setup/install/istioctl/) to setup Istio.
-Add the option `--set tag={{< istio_full_version >}}-distroless` to use the *distroless images*.
+These images strip all non-essential executables and libraries, offering the following benefits:
 
-{{< text bash >}}
-$ istioctl install --set tag={{< istio_full_version >}}-distroless
-{{< /text >}}
-
-## Benefits
-
-Non-essential executables and libraries are no longer part of the images when using the distroless variant.
-
-- The attack surface is reduced. Include the smallest possible set of vulnerabilities.
+- The attack surface is reduced as they include the smallest possible set of vulnerabilities.
 - The images are smaller, which allows faster start-up.
 
 See also the [Why should I use distroless images?](https://github.com/GoogleContainerTools/distroless#why-should-i-use-distroless-images) section in the official distroless README.
 
-{{< warning >}}
-Be aware that common debugging tools such as `bash`, `curl`, `netcat`, `tcpdump`, etc. are not available on distroless images.
-{{< /warning >}}
+## Install distroless images
+
+Follow the [Installation Steps](/docs/setup/install/istioctl/) to set up Istio.
+Add the `variant` option to use the *distroless images*.
+
+{{< text bash >}}
+$ istioctl install --set values.global.variant=distroless
+{{< /text >}}
+
+If you are only interested in using distroless images for injected proxy images, you can also use the `proxyImage` field in [Proxy Config](/docs/reference/config/networking/proxy-config/#ProxyImage).
+Note the above `variant` flag will automatically set this for you.
+
+## Debugging
+
+Distroless images are missing all debugging tools (including a shell!).
+While great for security, this limits the ability to do ad-hoc debugging using `kubectl exec` into the proxy container.
+
+Fortunately, [Ephemeral Containers](https://kubernetes.io/docs/concepts/workloads/pods/ephemeral-containers/) can help here.
+`kubectl debug` can attach a temporary container to a pod.
+By using an image with extra tools, we can debug as we used to:
+
+{{< text shell >}}
+$ kubectl debug --image istio/base --target istio-proxy -it app-65c6749c9d-t549t
+Defaulting debug container name to debugger-cdftc.
+If you don't see a command prompt, try pressing enter.
+root@app-65c6749c9d-t549t:/# curl example.com
+{{< /text >}}
+
+This deploys a new ephemeral container using the `istio/base`.
+This is the same base image used in non-distroless Istio images, and contains a variety of tools useful to debug Istio.
+However, any image will work.
+The container is also attached to the process namespace of the sidecar proxy (`--target istio-proxy`) and the network namespace of the pod.

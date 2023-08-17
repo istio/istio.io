@@ -29,7 +29,7 @@ weight: 20
 
 ## 配置管理{#configuration-management}
 
-我们已经在 Istio 资源 的 Kubernetes schema 中介绍过 OpenAPI V3 [Custom Resource Definitions (CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)，此 schema 描述 Istio 资源并且确保你创建和修改的 Istio 资源能够结构化并且保持正确。
+我们已经在 Istio 资源 的 Kubernetes schema 中介绍过 OpenAPI V3 [Custom Resource Definitions (CRD)](https://kubernetes.io/zh-cn/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)，此 schema 描述 Istio 资源并且确保你创建和修改的 Istio 资源能够结构化并且保持正确。
 
 如果配置的某个或者多个字段是 unknown 或者错误的类型，那么当你创建或者修改 Istio 资源的时候 Kubernetes API server 会拒绝。这个特性，`CustomResourceValidation` 是 Kubernetes 1.9+ 版本的默认选项。需要注意的是如果某个之前已经存在的配置并且没有被修改过那么他们 __不会__ 受到影响。
 

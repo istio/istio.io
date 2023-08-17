@@ -162,7 +162,7 @@ $ cat <<EOF > cluster2.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
-  profile: external
+  profile: remote
   values:
     istiodRemote:
       injectionPath: /inject/cluster/cluster2/net/network2
@@ -183,6 +183,35 @@ Apply the configuration to `cluster2`:
 
 {{< text bash >}}
 $ istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
+{{< /text >}}
+
+## Attach `cluster2` as a remote cluster of `cluster1`
+
+To attach the remote cluster to its control plane, we give the control
+plane in `cluster1` access to the API Server in `cluster2`. This will do the
+following:
+
+- Enables the control plane to authenticate connection requests from
+  workloads running in `cluster2`. Without API Server access, the control
+  plane will reject the requests.
+
+- Enables discovery of service endpoints running in `cluster2`.
+
+Because it has been included in the `topology.istio.io/controlPlaneClusters` namespace
+annotation, the control plane on `cluster1` will also:
+
+- Patch certs in the webhooks in `cluster2`.
+
+- Start the namespace controller which writes configmaps in namespaces in `cluster2`.
+
+To provide API Server access to `cluster2`, we generate a remote secret and
+apply it to `cluster1`:
+
+{{< text bash >}}
+$ istioctl create-remote-secret \
+    --context="${CTX_CLUSTER2}" \
+    --name=cluster2 | \
+    kubectl apply -f - --context="${CTX_CLUSTER1}"
 {{< /text >}}
 
 ## Install the east-west gateway in `cluster2`
@@ -213,38 +242,25 @@ $ kubectl --context="${CTX_CLUSTER2}" apply -n istio-system -f \
     @samples/multicluster/expose-services.yaml@
 {{< /text >}}
 
-## Attach `cluster2` as a remote cluster of `cluster1`
-
-To attach the remote cluster to its control plane, we give the control
-plane in `cluster1` access to the API Server in `cluster2`. This will do the
-following:
-
-- Enables the control plane to authenticate connection requests from
-  workloads running in `cluster2`. Without API Server access, the control
-  plane will reject the requests.
-
-- Enables discovery of service endpoints running in `cluster2`.
-
-Because it has been included in the `topology.istio.io/controlPlaneClusters` namespace
-annotation, the control plane on `cluster1` will also:
-
-- Patch certs in the webhooks in `cluster2`.
-
-- Start the namespace controller which writes configmaps in namespaces in `cluster2`.
-
-To provide API Server access to `cluster2`, we generate a remote secret and
-apply it to `cluster1`:
-
-{{< text bash >}}
-$ istioctl x create-remote-secret \
-    --context="${CTX_CLUSTER2}" \
-    --name=cluster2 | \
-    kubectl apply -f - --context="${CTX_CLUSTER1}"
-{{< /text >}}
-
 **Congratulations!** You successfully installed an Istio mesh across primary
 and remote clusters on different networks!
 
 ## Next Steps
 
 You can now [verify the installation](/docs/setup/install/multicluster/verify).
+
+## Cleanup
+
+1. Uninstall Istio in `cluster1`:
+
+    {{< text syntax=bash snip_id=none >}}
+    $ istioctl uninstall --context="${CTX_CLUSTER1}" -y --purge
+    $ kubectl delete ns istio-system --context="${CTX_CLUSTER1}"
+    {{< /text >}}
+
+1. Uninstall Istio in `cluster2`:
+
+    {{< text syntax=bash snip_id=none >}}
+    $ istioctl uninstall --context="${CTX_CLUSTER2}" -y --purge
+    $ kubectl delete ns istio-system --context="${CTX_CLUSTER2}"
+    {{< /text >}}

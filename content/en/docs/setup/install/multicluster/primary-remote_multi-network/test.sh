@@ -42,10 +42,6 @@ function install_istio_on_cluster1 {
     snip_expose_services_in_cluster1_1
 }
 
-function enable_api_server_access {
-    snip_attach_cluster2_as_a_remote_cluster_of_cluster1_1
-}
-
 function install_istio_on_cluster2 {
     echo "Installing Istio on Remote cluster: ${CTX_CLUSTER2}"
     snip_set_the_control_plane_cluster_for_cluster2_1
@@ -53,6 +49,9 @@ function install_istio_on_cluster2 {
     snip_configure_cluster2_as_a_remote_1
     snip_configure_cluster2_as_a_remote_2
     echo y | snip_configure_cluster2_as_a_remote_3
+
+    echo "Enabling API server access to remote cluster"
+    snip_attach_cluster2_as_a_remote_cluster_of_cluster1_1
 
     echo "Creating the east-west gateway"
     snip_install_the_eastwest_gateway_in_cluster2_1
@@ -66,7 +65,6 @@ function install_istio_on_cluster2 {
 
 time install_istio_on_cluster1
 time install_istio_on_cluster2
-time enable_api_server_access
 time verify_load_balancing
 
 # @cleanup

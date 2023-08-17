@@ -1,0 +1,272 @@
+<!doctype html><html lang=en itemscope itemtype=https://schema.org/WebPage><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=theme-color content="#466BB0"><meta name=title content="Introducing the Istio v1alpha3 routing API"><meta name=description content="Introduction, motivation and design principles for the Istio v1alpha3 routing API."><meta name=author content="Frank Budinsky (IBM) and Shriram Rajagopalan (VMware)"><meta name=keywords content="microservices,services,mesh,traffic-management"><meta property="og:title" content="Introducing the Istio v1alpha3 routing API"><meta property="og:type" content="website"><meta property="og:description" content="Introduction, motivation and design principles for the Istio v1alpha3 routing API."><meta property="og:url" content="/v1.15/blog/2018/v1alpha3-routing/"><meta property="og:image" content="https://raw.githubusercontent.com/istio/istio.io/master/static/img/istio-whitelogo-bluebackground-framed.svg"><meta property="og:image:alt" content="Istio Logo"><meta property="og:image:width" content="1024"><meta property="og:image:height" content="1024"><meta property="og:site_name" content="Istio"><meta name=twitter:card content="summary"><meta name=twitter:site content="@IstioMesh"><title>Istioldie 1.15 / Introducing the Istio v1alpha3 routing API</title><script async src="https://www.googletagmanager.com/gtag/js?id=UA-98480406-2"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","UA-98480406-2")</script><link rel=alternate type=application/rss+xml title="Istio Blog" href=/v1.15/blog/feed.xml><link rel=alternate type=application/rss+xml title="Istio News" href=/v1.15/news/feed.xml><link rel=alternate type=application/rss+xml title="Istio Blog and News" href=/v1.15/feed.xml><link rel="shortcut icon" href=/v1.15/favicons/favicon.ico><link rel=apple-touch-icon href=/v1.15/favicons/apple-touch-icon-180x180.png sizes=180x180><link rel=icon type=image/png href=/v1.15/favicons/favicon-16x16.png sizes=16x16><link rel=icon type=image/png href=/v1.15/favicons/favicon-32x32.png sizes=32x32><link rel=icon type=image/png href=/v1.15/favicons/android-36x36.png sizes=36x36><link rel=icon type=image/png href=/v1.15/favicons/android-48x48.png sizes=48x48><link rel=icon type=image/png href=/v1.15/favicons/android-72x72.png sizes=72x72><link rel=icon type=image/png href=/v1.15/favicons/android-96x96.png sizes=96xW96><link rel=icon type=image/png href=/v1.15/favicons/android-144x144.png sizes=144x144><link rel=icon type=image/png href=/v1.15/favicons/android-192x192.png sizes=192x192><link rel=icon type=image/svg+xml href=/v1.15/favicons/favicon.svg><link rel=icon type=image/png href=/v1.15/favicons/favicon.png><link rel=mask-icon href=/v1.15/favicons/safari-pinned-tab.svg color=#466bb0><link rel=manifest href=/v1.15/manifest.json><meta name=apple-mobile-web-app-title content="Istio"><meta name=application-name content="Istio"><meta name=msapplication-config content="/browserconfig.xml"><meta name=msapplication-TileColor content="#466BB0"><meta name=theme-color content="#466BB0"><link rel=stylesheet href=/v1.15/css/all.css><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap"><script src=/v1.15/js/themes_init.min.js></script></head><body class="language-unknown archive-site"><script>const branchName="release-1.15",docTitle="Introducing the Istio v1alpha3 routing API",iconFile="/v1.15/img/icons.svg",buttonCopy="Copy to clipboard",buttonPrint="Print",buttonDownload="Download"</script><script src="https://www.google.com/cse/brand?form=search-form" defer></script>
+<script src=/v1.15/js/all.min.js data-manual defer></script><header class=main-navigation><nav class="main-navigation-wrapper container-l"><div class=main-navigation-header><a id=brand href=/v1.15/ aria-label=logotype><span class=logo><svg xmlns="http://www.w3.org/2000/svg" width="128" height="60" viewBox="0 0 128 60"><path d="M58.434 48.823A.441.441.0 0158.3 48.497V22.583a.444.444.0 01.134-.326.446.446.0 01.327-.134h3.527a.447.447.0 01.325.134.447.447.0 01.134.326v25.914a.443.443.0 01-.134.326.444.444.0 01-.325.134h-3.527a.444.444.0 01-.327-.134z"/><path d="m70.969 48.477a6.556 6.556.0 01-2.818-1.955 4.338 4.338.0 01-1-2.78v-.345a.443.443.0 01.134-.326.444.444.0 01.326-.135h3.374a.444.444.0 01.326.135.445.445.0 01.134.326v.077a2.014 2.014.0 001.054 1.667 4.672 4.672.0 002.664.709 4.446 4.446.0 002.492-.633 1.862 1.862.0 00.958-1.591 1.426 1.426.0 00-.786-1.322 12.7 12.7.0 00-2.549-.939l-1.457-.46a21.526 21.526.0 01-3.3-1.227 6.57 6.57.0 01-2.262-1.783 4.435 4.435.0 01-.92-2.894 5.081 5.081.0 012.109-4.275 8.993 8.993.0 015.558-1.591 10.445 10.445.0 014.1.748 6.3 6.3.0 012.722 2.07 5 5 0 01.958 3.009.441.441.0 01-.134.326.441.441.0 01-.325.134h-3.258a.441.441.0 01-.326-.134.443.443.0 01-.134-.326 1.974 1.974.0 00-.978-1.667 4.647 4.647.0 00-2.665-.671 4.741 4.741.0 00-2.435.556 1.724 1.724.0 00-.938 1.553 1.512 1.512.0 00.9 1.4 15.875 15.875.0 003.01 1.055l.843.229a27.368 27.368.0 013.412 1.246 6.67 6.67.0 012.338 1.763 4.387 4.387.0 01.958 2.933 4.988 4.988.0 01-2.146 4.275 9.543 9.543.0 01-5.712 1.552 11.626 11.626.0 01-4.227-.709z"/><path d="m97.039 32.837a.443.443.0 01-.326.135h-3.911a.169.169.0 00-.191.192v9.239a2.951 2.951.0 00.632 2.108 2.7 2.7.0 002.013.652h1.15a.444.444.0 01.325.134.441.441.0 01.134.326v2.875a.471.471.0 01-.459.5l-1.994.039a8 8 0 01-4.524-1.035q-1.495-1.035-1.533-3.91V33.166A.17.17.0 0088.164 32.974H85.978A.441.441.0 0185.652 32.839.441.441.0 0185.518 32.513V29.83a.441.441.0 01.134-.326.444.444.0 01.326-.135h2.186a.169.169.0 00.191-.192v-4.485a.438.438.0 01.134-.326.44.44.0 01.325-.134h3.336a.443.443.0 01.325.134.442.442.0 01.135.326v4.485a.169.169.0 00.191.192h3.911a.446.446.0 01.326.135.446.446.0 01.134.326v2.683a.446.446.0 01-.133.324z"/><path d="m101.694 25.917a2.645 2.645.0 01-.767-1.955 2.65 2.65.0 01.767-1.955 2.65 2.65.0 011.955-.767 2.65 2.65.0 011.955.767 2.652 2.652.0 01.767 1.955 2.647 2.647.0 01-.767 1.955 2.646 2.646.0 01-1.955.767 2.645 2.645.0 01-1.955-.767zm-.211 22.906a.441.441.0 01-.134-.326V29.79a.444.444.0 01.134-.326.446.446.0 01.326-.134h3.527a.446.446.0 01.326.134.445.445.0 01.134.326v18.707a.443.443.0 01-.134.326.443.443.0 01-.326.134h-3.527a.443.443.0 01-.326-.134z"/><path d="m114.019 47.734a8.1 8.1.0 01-3.047-4.255 14.439 14.439.0 01-.652-4.37 14.3 14.3.0 01.614-4.371A7.869 7.869.0 01114 30.56a9.072 9.072.0 015.252-1.5 8.543 8.543.0 015.041 1.5 7.985 7.985.0 013.009 4.14 12.439 12.439.0 01.69 4.37 13.793 13.793.0 01-.651 4.37 8.255 8.255.0 01-3.028 4.275 8.475 8.475.0 01-5.1 1.553 8.754 8.754.0 01-5.194-1.534zm7.629-3.1a4.536 4.536.0 001.476-2.262 11.335 11.335.0 00.383-3.221 10.618 10.618.0 00-.383-3.22 4.169 4.169.0 00-1.457-2.243 4.066 4.066.0 00-2.531-.785 3.942 3.942.0 00-2.453.785 4.376 4.376.0 00-1.5 2.243 11.839 11.839.0 00-.383 3.22 11.84 11.84.0 00.383 3.221 4.222 4.222.0 001.476 2.262 4.075 4.075.0 002.549.8 3.8 3.8.0 002.44-.809z"/><path d="m15.105 32.057v15.565a.059.059.0 01-.049.059L.069 50.25A.06.06.0 01.005 50.167l14.987-33.47a.06.06.0 01.114.025z"/><path d="m17.631 23.087v24.6a.06.06.0 00.053.059l22.449 2.507a.06.06.0 00.061-.084L17.745.032a.06.06.0 00-.114.024z"/><path d="m39.961 52.548-24.833 7.45a.062.062.0 01-.043.0L.079 52.548a.059.059.0 01.026-.113h39.839a.06.06.0 01.017.113z"/></svg></span></a><button id=hamburger class=main-navigation-toggle aria-label="Open navigation"><svg class="icon menu-hamburger"><use xlink:href="/v1.15/img/icons.svg#menu-hamburger"/></svg></button>
+<button id=menu-close class=main-navigation-toggle aria-label="Close navigation"><svg class="icon menu-close"><use xlink:href="/v1.15/img/icons.svg#menu-close"/></svg></button></div><div id=header-links class=main-navigation-links-wrapper><ul class=main-navigation-links><li class=main-navigation-links-item><a class="main-navigation-links-link has-dropdown"><span>About</span><svg class="icon dropdown-arrow"><use xlink:href="/v1.15/img/icons.svg#dropdown-arrow"/></svg></a><ul class=main-navigation-links-dropdown><li class=main-navigation-links-dropdown-item><a href=/v1.15/about/service-mesh class=main-navigation-links-link>Service mesh</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.15/about/solutions class=main-navigation-links-link>Solutions</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.15/about/case-studies class=main-navigation-links-link>Case studies</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.15/about/ecosystem class=main-navigation-links-link>Ecosystem</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.15/about/deployment class=main-navigation-links-link>Deployment</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.15/about/faq class=main-navigation-links-link>FAQ</a></li></ul></li><li class=main-navigation-links-item><a href=/v1.15/blog/ class=main-navigation-links-link><span>Blog</span></a></li><li class=main-navigation-links-item><a href=/v1.15/news/ class=main-navigation-links-link><span>News</span></a></li><li class=main-navigation-links-item><a href=/v1.15/get-involved/ class=main-navigation-links-link><span>Get involved</span></a></li><li class=main-navigation-links-item><a href=/v1.15/docs/ class=main-navigation-links-link><span>Documentation</span></a></li></ul><div class=main-navigation-footer><button id=search-show class=search-show title='Search this site' aria-label=Search><svg class="icon magnifier"><use xlink:href="/v1.15/img/icons.svg#magnifier"/></svg></button>
+<a href=/v1.15/docs/setup/getting-started class="btn btn--primary" id=try-istio>Try Istio</a></div></div><form id=search-form class=search name=cse role=search><input type=hidden name=cx value=002184991200833970123:iwwf17ikgf4>
+<input type=hidden name=ie value=utf-8>
+<input type=hidden name=hl value=en>
+<input type=hidden id=search-page-url value=/search>
+<input id=search-textbox class="search-textbox form-control" name=q type=search aria-label='Search this site' placeholder=Search>
+<button id=search-close title='Cancel search' type=reset aria-label='Cancel search'><svg class="icon menu-close"><use xlink:href="/v1.15/img/icons.svg#menu-close"/></svg></button></form></nav></header><div class=banner-container></div><article class=post itemscope itemtype=http://schema.org/BlogPosting><div class=header-content><h1>Introducing the Istio v1alpha3 routing API</h1><p>Introduction, motivation and design principles for the Istio v1alpha3 routing API.</p></div><p class=post-author>Apr 25, 2018 <span>|</span> By Frank Budinsky - IBM and Shriram Rajagopalan - VMware</p><div><p>Up until now, Istio has provided a simple API for traffic management using four configuration resources:
+<code>RouteRule</code>, <code>DestinationPolicy</code>, <code>EgressRule</code>, and (Kubernetes) <code>Ingress</code>.
+With this API, users have been able to easily manage the flow of traffic in an Istio service mesh.
+The API has allowed users to route requests to specific versions of services, inject delays and failures for resilience
+testing, add timeouts and circuit breakers, and more, all without changing the application code itself.</p><p>While this functionality has proven to be a very compelling part of Istio, user feedback has also shown that this API does
+have some shortcomings, specifically when using it to manage very large applications containing thousands of services, and
+when working with protocols other than HTTP. Furthermore, the use of Kubernetes <code>Ingress</code> resources to configure external
+traffic has proven to be woefully insufficient for our needs.</p><p>To address these, and other concerns, a new traffic management API, a.k.a. <code>v1alpha3</code>, is being introduced, which will
+completely replace the previous API going forward. Although the <code>v1alpha3</code> model is fundamentally the same, it is not
+backward compatible and will require manual conversion from the old API.</p><p>To justify this disruption, the <code>v1alpha3</code> API has gone through a long and painstaking community
+review process that has hopefully resulted in a greatly improved API that will stand the test of time. In this article,
+we will introduce the new configuration model and attempt to explain some of the motivation and design principles that
+influenced it.</p><h2 id=design-principles>Design principles</h2><p>A few key design principles played a role in the routing model redesign:</p><ul><li>Explicitly model infrastructure as well as intent. For example, in addition to configuring an ingress gateway, the
+component (controller) implementing it can also be specified.</li><li>The authoring model should be &ldquo;producer oriented&rdquo; and &ldquo;host centric&rdquo; as opposed to compositional. For example, all
+rules associated with a particular host are configured together, instead of individually.</li><li>Clear separation of routing from post-routing behaviors.</li></ul><h2 id=configuration-resources-in-v1alpha3>Configuration resources in v1alpha3</h2><p>A typical mesh will have one or more load balancers (we call them gateways)
+that terminate TLS from external networks and allow traffic into the mesh.
+Traffic then flows through internal services via sidecar gateways.
+It is also common for applications to consume external
+services (e.g., Google Maps API). These may be called directly or, in certain deployments, all traffic
+exiting the mesh may be forced through dedicated egress gateways. The following diagram depicts
+this mental model.</p><figure style=width:80%><div class=wrapper-with-intrinsic-ratio style=padding-bottom:35.204472660409245%><a data-skipendnotes=true href=/v1.15/blog/2018/v1alpha3-routing/gateways.svg title="Gateways in an Istio service mesh"><img class=element-to-stretch src=/v1.15/blog/2018/v1alpha3-routing/gateways.svg alt="Role of gateways in the mesh"></a></div><figcaption>Gateways in an Istio service mesh</figcaption></figure><p>With the above setup in mind, <code>v1alpha3</code> introduces the following new
+configuration resources to control traffic routing into, within, and out of the mesh.</p><ol><li><code>Gateway</code></li><li><code>VirtualService</code></li><li><code>DestinationRule</code></li><li><code>ServiceEntry</code></li></ol><p><code>VirtualService</code>, <code>DestinationRule</code>, and <code>ServiceEntry</code> replace <code>RouteRule</code>,
+<code>DestinationPolicy</code>, and <code>EgressRule</code> respectively. The <code>Gateway</code> is a
+platform independent abstraction to model the traffic flowing into
+dedicated middleboxes.</p><p>The figure below depicts the flow of control across configuration
+resources.</p><figure style=width:80%><div class=wrapper-with-intrinsic-ratio style=padding-bottom:41.164966727369595%><a data-skipendnotes=true href=/v1.15/blog/2018/v1alpha3-routing/virtualservices-destrules.svg title="Relationship between different v1alpha3 elements"><img class=element-to-stretch src=/v1.15/blog/2018/v1alpha3-routing/virtualservices-destrules.svg alt="Relationship between different v1alpha3 elements"></a></div><figcaption>Relationship between different v1alpha3 elements</figcaption></figure><h3 id=gateway><code>Gateway</code></h3><p>A <a href=/v1.15/docs/reference/config/networking/gateway/><code>Gateway</code></a>
+configures a load balancer for HTTP/TCP traffic, regardless of
+where it will be running. Any number of gateways can exist within the mesh
+and multiple different gateway implementations can co-exist. In fact, a
+gateway configuration can be bound to a particular workload by specifying
+the set of workload (pod) labels as part of the configuration, allowing
+users to reuse off the shelf network appliances by writing a simple gateway
+controller.</p><p>For ingress traffic management, you might ask: <em>Why not reuse Kubernetes Ingress APIs</em>?
+The Ingress APIs proved to be incapable of expressing Istio&rsquo;s routing needs.
+By trying to draw a common denominator across different HTTP proxies, the
+Ingress is only able to support the most basic HTTP routing and ends up
+pushing every other feature of modern proxies into non-portable
+annotations.</p><p>Istio <code>Gateway</code> overcomes the <code>Ingress</code> shortcomings by separating the
+L4-L6 spec from L7. It only configures the L4-L6 functions (e.g., ports to
+expose, TLS configuration) that are uniformly implemented by all good L7
+proxies. Users can then use standard Istio rules to control HTTP
+requests as well as TCP traffic entering a <code>Gateway</code> by binding a
+<code>VirtualService</code> to it.</p><p>For example, the following simple <code>Gateway</code> configures a load balancer
+to allow external https traffic for host <code>bookinfo.com</code> into the mesh:</p><pre><code class=language-yaml data-expandlinks=true data-repo=istio>apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: bookinfo-gateway
+spec:
+  servers:
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    hosts:
+    - bookinfo.com
+    tls:
+      mode: SIMPLE
+      serverCertificate: /tmp/tls.crt
+      privateKey: /tmp/tls.key
+</code></pre><p>To configure the corresponding routes, a <code>VirtualService</code> (described in the <a href=#virtualservice>following section</a>)
+must be defined for the same host and bound to the <code>Gateway</code> using
+the <code>gateways</code> field in the configuration:</p><pre><code class=language-yaml data-expandlinks=true data-repo=istio>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: bookinfo
+spec:
+  hosts:
+    - bookinfo.com
+  gateways:
+  - bookinfo-gateway # &lt;---- bind to gateway
+  http:
+  - match:
+    - uri:
+        prefix: /reviews
+    route:
+    ...
+</code></pre><p>The <code>Gateway</code> can be used to model an edge-proxy or a purely internal proxy
+as shown in the first figure. Irrespective of the location, all gateways
+can be configured and controlled in the same way.</p><h3 id=virtualservice><code>VirtualService</code></h3><p>Replacing route rules with something called &ldquo;virtual services” might seem peculiar at first, but in reality it’s
+fundamentally a much better name for what is being configured, especially after redesigning the API to address the
+scalability issues with the previous model.</p><p>In effect, what has changed is that instead of configuring routing using a set of individual configuration resources
+(rules) for a particular destination service, each containing a precedence field to control the order of evaluation, we
+now configure the (virtual) destination itself, with all of its rules in an ordered list within a corresponding
+<a href=/v1.15/docs/reference/config/networking/virtual-service/><code>VirtualService</code></a> resource.
+For example, where previously we had two <code>RouteRule</code> resources for the
+<a href=/v1.15/docs/examples/bookinfo/>Bookinfo</a> application’s <code>reviews</code> service, like this:</p><pre><code class=language-yaml data-expandlinks=true data-repo=istio>apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: reviews-default
+spec:
+  destination:
+    name: reviews
+  precedence: 1
+  route:
+  - labels:
+      version: v1
+---
+apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: reviews-test-v2
+spec:
+  destination:
+    name: reviews
+  precedence: 2
+  match:
+    request:
+      headers:
+        cookie:
+          regex: &#34;^(.*?;)?(user=jason)(;.*)?$&#34;
+  route:
+  - labels:
+      version: v2
+</code></pre><p>In <code>v1alpha3</code>, we provide the same configuration in a single <code>VirtualService</code> resource:</p><pre><code class=language-yaml data-expandlinks=true data-repo=istio>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: reviews
+spec:
+  hosts:
+    - reviews
+  http:
+  - match:
+    - headers:
+        cookie:
+          regex: &#34;^(.*?;)?(user=jason)(;.*)?$&#34;
+    route:
+    - destination:
+        host: reviews
+        subset: v2
+  - route:
+    - destination:
+        host: reviews
+        subset: v1
+</code></pre><p>As you can see, both of the rules for the <code>reviews</code> service are consolidated in one place, which at first may or may not
+seem preferable. However, if you look closer at this new model, you’ll see there are fundamental differences that make
+<code>v1alpha3</code> vastly more functional.</p><p>First of all, notice that the destination service for the <code>VirtualService</code> is specified using a <code>hosts</code> field (repeated field, in fact) and is then again specified in a <code>destination</code> field of each of the route specifications. This is a
+very important difference from the previous model.</p><p>A <code>VirtualService</code> describes the mapping between one or more user-addressable destinations to the actual destination workloads inside the mesh. In our example, they are the same, however, the user-addressed hosts can be any DNS
+names with optional wildcard prefix or CIDR prefix that will be used to address the service. This can be particularly
+useful in facilitating turning monoliths into a composite service built out of distinct microservices without requiring the
+consumers of the service to adapt to the transition.</p><p>For example, the following rule allows users to address both the <code>reviews</code> and <code>ratings</code> services of the Bookinfo application
+as if they are parts of a bigger (virtual) service at <code>http://bookinfo.com/</code>:</p><pre><code class=language-yaml data-expandlinks=true data-repo=istio>apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: bookinfo
+spec:
+  hosts:
+    - bookinfo.com
+  http:
+  - match:
+    - uri:
+        prefix: /reviews
+    route:
+    - destination:
+        host: reviews
+  - match:
+    - uri:
+        prefix: /ratings
+    route:
+    - destination:
+        host: ratings
+  ...
+</code></pre><p>The hosts of a <code>VirtualService</code> do not actually have to be part of the service registry, they are simply virtual
+destinations. This allows users to model traffic for virtual hosts that do not have routable entries inside the mesh.
+These hosts can be exposed outside the mesh by binding the <code>VirtualService</code> to a <code>Gateway</code> configuration for the same host
+(as described in the <a href=#gateway>previous section</a>).</p><p>In addition to this fundamental restructuring, <code>VirtualService</code> includes several other important changes:</p><ol><li><p>Multiple match conditions can be expressed inside the <code>VirtualService</code> configuration, reducing the need for redundant
+rules.</p></li><li><p>Each service version has a name (called a service subset). The set of pods/VMs belonging to a subset is defined in a
+<code>DestinationRule</code>, described in the following section.</p></li><li><p><code>VirtualService</code> hosts can be specified using wildcard DNS prefixes to create a single rule for all matching services.
+For example, in Kubernetes, to apply the same rewrite rule for all services in the <code>foo</code> namespace, the <code>VirtualService</code>
+would use <code>*.foo.svc.cluster.local</code> as the host.</p></li></ol><h3 id=destinationrule><code>DestinationRule</code></h3><p>A <a href=/v1.15/docs/reference/config/networking/destination-rule/><code>DestinationRule</code></a>
+configures the set of policies to be applied while forwarding traffic to a service. They are
+intended to be authored by service owners, describing the circuit breakers, load balancer settings, TLS settings, etc..
+<code>DestinationRule</code> is more or less the same as its predecessor, <code>DestinationPolicy</code>, with the following exceptions:</p><ol><li>The <code>host</code> of a <code>DestinationRule</code> can include wildcard prefixes, allowing a single rule to be specified for many actual
+services.</li><li>A <code>DestinationRule</code> defines addressable <code>subsets</code> (i.e., named versions) of the corresponding destination host. These
+subsets are used in <code>VirtualService</code> route specifications when sending traffic to specific versions of the service.
+Naming versions this way allows us to cleanly refer to them across different virtual services, simplify the stats that
+Istio proxies emit, and to encode subsets in SNI headers.</li></ol><p>A <code>DestinationRule</code> that configures policies and subsets for the reviews service might look something like this:</p><pre><code class=language-yaml data-expandlinks=true data-repo=istio>apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: reviews
+spec:
+  host: reviews
+  trafficPolicy:
+    loadBalancer:
+      simple: RANDOM
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+  - name: v2
+    labels:
+      version: v2
+    trafficPolicy:
+      loadBalancer:
+        simple: ROUND_ROBIN
+  - name: v3
+    labels:
+      version: v3
+</code></pre><p>Notice that, unlike <code>DestinationPolicy</code>, multiple policies (e.g., default and v2-specific) are specified in a single
+<code>DestinationRule</code> configuration.</p><h3 id=serviceentry><code>ServiceEntry</code></h3><p><a href=/v1.15/docs/reference/config/networking/service-entry/><code>ServiceEntry</code></a>
+is used to add additional entries into the service registry that Istio maintains internally.
+It is most commonly used to allow one to model traffic to external dependencies of the mesh
+such as APIs consumed from the web or traffic to services in legacy infrastructure.</p><p>Everything you could previously configure using an <code>EgressRule</code> can just as easily be done with a <code>ServiceEntry</code>.
+For example, access to a simple external service from inside the mesh can be enabled using a configuration
+something like this:</p><pre><code class=language-yaml data-expandlinks=true data-repo=istio>apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: foo-ext
+spec:
+  hosts:
+  - foo.com
+  ports:
+  - number: 80
+    name: http
+    protocol: HTTP
+</code></pre><p>That said, <code>ServiceEntry</code> has significantly more functionality than its predecessor.
+First of all, a <code>ServiceEntry</code> is not limited to external service configuration,
+it can be of two types: mesh-internal or mesh-external.
+Mesh-internal entries are like all other internal services but are used to explicitly add services
+to the mesh. They can be used to add services as part of expanding the service mesh to include unmanaged infrastructure
+(e.g., VMs added to a Kubernetes-based service mesh).
+Mesh-external entries represent services external to the mesh.
+For them, mutual TLS authentication is disabled and policy enforcement is performed on the client-side,
+instead of on the usual server-side for internal service requests.</p><p>Because a <code>ServiceEntry</code> configuration simply adds a destination to the internal service registry, it can be
+used in conjunction with a <code>VirtualService</code> and/or <code>DestinationRule</code>, just like any other service in the registry.
+The following <code>DestinationRule</code>, for example, can be used to initiate mutual TLS connections for an external service:</p><pre><code class=language-yaml data-expandlinks=true data-repo=istio>apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: foo-ext
+spec:
+  host: foo.com
+  trafficPolicy:
+    tls:
+      mode: MUTUAL
+      clientCertificate: /etc/certs/myclientcert.pem
+      privateKey: /etc/certs/client_private_key.pem
+      caCertificates: /etc/certs/rootcacerts.pem
+</code></pre><p>In addition to its expanded generality, <code>ServiceEntry</code> provides several other improvements over <code>EgressRule</code>
+including the following:</p><ol><li>A single <code>ServiceEntry</code> can configure multiple service endpoints, which previously would have required multiple
+<code>EgressRules</code>.</li><li>The resolution mode for the endpoints is now configurable (<code>NONE</code>, <code>STATIC</code>, or <code>DNS</code>).</li><li>Additionally, we are working on addressing another pain point: the need to access secure external services over plain
+text ports (e.g., <code>http://google.com:443</code>). This should be fixed in the coming weeks, allowing you to directly access
+<code>https://google.com</code> from your application. Stay tuned for an Istio patch release (0.8.x) that addresses this limitation.</li></ol><h2 id=creating-and-deleting-v1alpha3-route-rules>Creating and deleting v1alpha3 route rules</h2><p>Because all route rules for a given destination are now stored together as an ordered
+list in a single <code>VirtualService</code> resource, adding a second and subsequent rules for a particular destination
+is no longer done by creating a new (<code>RouteRule</code>) resource, but instead by updating the one-and-only <code>VirtualService</code>
+resource for the destination.</p><p>old routing rules:</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl apply -f my-second-rule-for-destination-abc.yaml
+</code></pre><p><code>v1alpha3</code> routing rules:</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl apply -f my-updated-rules-for-destination-abc.yaml
+</code></pre><p>Deleting route rules other than the last one for a particular destination is also done by updating
+the existing resource using <code>kubectl apply</code>.</p><p>When adding or removing routes that refer to service versions, the <code>subsets</code> will need to be updated in
+the service&rsquo;s corresponding <code>DestinationRule</code>.
+As you might have guessed, this is also done using <code>kubectl apply</code>.</p><h2 id=summary>Summary</h2><p>The Istio <code>v1alpha3</code> routing API has significantly more functionality than
+its predecessor, but unfortunately is not backwards compatible, requiring a
+one time manual conversion. The previous configuration resources,
+<code>RouteRule</code>, <code>DesintationPolicy</code>, and <code>EgressRule</code>, will not be supported
+from Istio 0.9 onwards. Kubernetes users can continue to use <code>Ingress</code> to
+configure their edge load balancers for basic routing. However, advanced
+routing features (e.g., traffic split across two versions) will require use
+of <code>Gateway</code>, a significantly more functional and highly
+recommended <code>Ingress</code> replacement.</p><h2 id=acknowledgments>Acknowledgments</h2><p>Credit for the routing model redesign and implementation work goes to the
+following people (in alphabetical order):</p><ul><li>Frank Budinsky (IBM)</li><li>Zack Butcher (Google)</li><li>Greg Hanson (IBM)</li><li>Costin Manolache (Google)</li><li>Martin Ostrowski (Google)</li><li>Shriram Rajagopalan (VMware)</li><li>Louis Ryan (Google)</li><li>Isaiah Snell-Feikema (IBM)</li><li>Kuat Yessenov (Google)</li></ul></div><nav class=pagenav><div class=left><a title="Describes how to configure Istio for monitoring and access policies of HTTP egress traffic." href=/v1.15/blog/2018/egress-monitoring-access-control/ class=next-link><svg class="icon left-arrow"><use xlink:href="/v1.15/img/icons.svg#left-arrow"/></svg>Monitoring and Access Policies for HTTP Egress Traffic</a></div><div class=right><a title="Describes how to configure Istio ingress with a network load balancer on AWS." href=/v1.15/blog/2018/aws-nlb/ class=next-link>Configuring Istio Ingress with AWS NLB<svg class="icon right-arrow"><use xlink:href="/v1.15/img/icons.svg#right-arrow"/></svg></a></div></nav></article><footer class=footer><div class="footer-wrapper container-l"><div class="user-links footer-links"><a class=channel title='GitHub is where development takes place on Istio code' href=https://github.com/istio/community aria-label=GitHub><svg class="icon github"><use xlink:href="/v1.15/img/icons.svg#github"/></svg></a><a class=channel title="Access our team drive if you'd like to take a look at the Istio technical design documents" href=https://groups.google.com/forum/#!forum/istio-team-drive-access aria-label="team drive"><svg class="icon drive"><use xlink:href="/v1.15/img/icons.svg#drive"/></svg></a><a class=channel title='Interactively discuss issues with the Istio community on Slack' href=https://slack.istio.io aria-label=slack><svg class="icon slack"><use xlink:href="/v1.15/img/icons.svg#slack"/></svg></a><a class=channel title='Stack Overflow is where you can ask questions and find curated answers on deploying, configuring, and using Istio' href=https://stackoverflow.com/questions/tagged/istio aria-label="Stack Overflow"><svg class="icon stackoverflow"><use xlink:href="/v1.15/img/icons.svg#stackoverflow"/></svg></a><a class=channel title='Follow us on Twitter to get the latest news' href=https://twitter.com/IstioMesh aria-label=Twitter><svg class="icon twitter"><use xlink:href="/v1.15/img/icons.svg#twitter"/></svg></a></div><hr class=footer-separator role=separator><div class="info footer-info"><a class=logo href=/v1.15/ aria-label=logotype><svg xmlns="http://www.w3.org/2000/svg" width="128" height="60" viewBox="0 0 128 60"><path d="M58.434 48.823A.441.441.0 0158.3 48.497V22.583a.444.444.0 01.134-.326.446.446.0 01.327-.134h3.527a.447.447.0 01.325.134.447.447.0 01.134.326v25.914a.443.443.0 01-.134.326.444.444.0 01-.325.134h-3.527a.444.444.0 01-.327-.134z"/><path d="m70.969 48.477a6.556 6.556.0 01-2.818-1.955 4.338 4.338.0 01-1-2.78v-.345a.443.443.0 01.134-.326.444.444.0 01.326-.135h3.374a.444.444.0 01.326.135.445.445.0 01.134.326v.077a2.014 2.014.0 001.054 1.667 4.672 4.672.0 002.664.709 4.446 4.446.0 002.492-.633 1.862 1.862.0 00.958-1.591 1.426 1.426.0 00-.786-1.322 12.7 12.7.0 00-2.549-.939l-1.457-.46a21.526 21.526.0 01-3.3-1.227 6.57 6.57.0 01-2.262-1.783 4.435 4.435.0 01-.92-2.894 5.081 5.081.0 012.109-4.275 8.993 8.993.0 015.558-1.591 10.445 10.445.0 014.1.748 6.3 6.3.0 012.722 2.07 5 5 0 01.958 3.009.441.441.0 01-.134.326.441.441.0 01-.325.134h-3.258a.441.441.0 01-.326-.134.443.443.0 01-.134-.326 1.974 1.974.0 00-.978-1.667 4.647 4.647.0 00-2.665-.671 4.741 4.741.0 00-2.435.556 1.724 1.724.0 00-.938 1.553 1.512 1.512.0 00.9 1.4 15.875 15.875.0 003.01 1.055l.843.229a27.368 27.368.0 013.412 1.246 6.67 6.67.0 012.338 1.763 4.387 4.387.0 01.958 2.933 4.988 4.988.0 01-2.146 4.275 9.543 9.543.0 01-5.712 1.552 11.626 11.626.0 01-4.227-.709z"/><path d="m97.039 32.837a.443.443.0 01-.326.135h-3.911a.169.169.0 00-.191.192v9.239a2.951 2.951.0 00.632 2.108 2.7 2.7.0 002.013.652h1.15a.444.444.0 01.325.134.441.441.0 01.134.326v2.875a.471.471.0 01-.459.5l-1.994.039a8 8 0 01-4.524-1.035q-1.495-1.035-1.533-3.91V33.166A.17.17.0 0088.164 32.974H85.978A.441.441.0 0185.652 32.839.441.441.0 0185.518 32.513V29.83a.441.441.0 01.134-.326.444.444.0 01.326-.135h2.186a.169.169.0 00.191-.192v-4.485a.438.438.0 01.134-.326.44.44.0 01.325-.134h3.336a.443.443.0 01.325.134.442.442.0 01.135.326v4.485a.169.169.0 00.191.192h3.911a.446.446.0 01.326.135.446.446.0 01.134.326v2.683a.446.446.0 01-.133.324z"/><path d="m101.694 25.917a2.645 2.645.0 01-.767-1.955 2.65 2.65.0 01.767-1.955 2.65 2.65.0 011.955-.767 2.65 2.65.0 011.955.767 2.652 2.652.0 01.767 1.955 2.647 2.647.0 01-.767 1.955 2.646 2.646.0 01-1.955.767 2.645 2.645.0 01-1.955-.767zm-.211 22.906a.441.441.0 01-.134-.326V29.79a.444.444.0 01.134-.326.446.446.0 01.326-.134h3.527a.446.446.0 01.326.134.445.445.0 01.134.326v18.707a.443.443.0 01-.134.326.443.443.0 01-.326.134h-3.527a.443.443.0 01-.326-.134z"/><path d="m114.019 47.734a8.1 8.1.0 01-3.047-4.255 14.439 14.439.0 01-.652-4.37 14.3 14.3.0 01.614-4.371A7.869 7.869.0 01114 30.56a9.072 9.072.0 015.252-1.5 8.543 8.543.0 015.041 1.5 7.985 7.985.0 013.009 4.14 12.439 12.439.0 01.69 4.37 13.793 13.793.0 01-.651 4.37 8.255 8.255.0 01-3.028 4.275 8.475 8.475.0 01-5.1 1.553 8.754 8.754.0 01-5.194-1.534zm7.629-3.1a4.536 4.536.0 001.476-2.262 11.335 11.335.0 00.383-3.221 10.618 10.618.0 00-.383-3.22 4.169 4.169.0 00-1.457-2.243 4.066 4.066.0 00-2.531-.785 3.942 3.942.0 00-2.453.785 4.376 4.376.0 00-1.5 2.243 11.839 11.839.0 00-.383 3.22 11.84 11.84.0 00.383 3.221 4.222 4.222.0 001.476 2.262 4.075 4.075.0 002.549.8 3.8 3.8.0 002.44-.809z"/><path d="m15.105 32.057v15.565a.059.059.0 01-.049.059L.069 50.25A.06.06.0 01.005 50.167l14.987-33.47a.06.06.0 01.114.025z"/><path d="m17.631 23.087v24.6a.06.06.0 00.053.059l22.449 2.507a.06.06.0 00.061-.084L17.745.032a.06.06.0 00-.114.024z"/><path d="m39.961 52.548-24.833 7.45a.062.062.0 01-.043.0L.079 52.548a.059.059.0 01.026-.113h39.839a.06.06.0 01.017.113z"/></svg></a><div class=footer-languages><a tabindex=-1 lang=en id=switch-lang-en class="footer-languages-item active"><svg class="icon tick"><use xlink:href="/v1.15/img/icons.svg#tick"/></svg>English</a>
+<a tabindex=-1 lang=zh id=switch-lang-zh class=footer-languages-item>中文</a></div></div><ul class=footer-policies><li class=footer-policies-item><a class=footer-policies-link href=https://policies.google.com/privacy>Privacy policy</a> |
+<a class=footer-policies-link href=https://github.com/istio/istio.io/edit/release-1.15/content/en/blog/2018/v1alpha3-routing/index.md>Edit this Page on GitHub</a></li></ul><div class=footer-base><span class=footer-base-copyright>&copy; 2022 Istio Authors.</span>
+<span class=footer-base-version>Version
+Archive
+1.15.3</span><ul class=footer-base-releases><li class=footer-base-releases-item><a tabindex=-1 class=footer-base-releases-link onclick='return navigateToUrlOrRoot("https://istio.io/blog/2018/v1alpha3-routing/"),!1'>current release</a></li><li class=footer-base-releases-item><a tabindex=-1 class=footer-base-releases-link onclick='return navigateToUrlOrRoot("https://preliminary.istio.io/blog/2018/v1alpha3-routing/"),!1'>next release</a></li><li class=footer-base-releases-item><a tabindex=-1 class=footer-base-releases-link href=https://istio.io/archive>older releases</a></li></ul></div></div></footer><div id=scroll-to-top-container aria-hidden=true><button id=scroll-to-top title='Back to top' tabindex=-1><svg class="icon top"><use xlink:href="/v1.15/img/icons.svg#top"/></svg></button></div></body></html>

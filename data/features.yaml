@@ -90,11 +90,12 @@ features:
     link: "/docs/tasks/traffic-management/ingress/gateway-api/"
     level:
       checklist: features/k8s-gateway-apis.md
-      maturity: Alpha
+      maturity: Beta
       nextExpectedPromotion: ""
     area: Traffic Management
     id: "traffic.k8s_gateway_apis"
   - name: "Gateway Network Topology Configuration"
+    link: "/docs/ops/configuration/traffic-management/network-topologies/"
     id: "traffic.gateway_topology"
     level:
        checklist: features/configuring_gateway_network_topology.md
@@ -166,6 +167,7 @@ features:
     area: Observability
   - name: "WebAssembly Extension"
     id: "observability.webassembly"
+    link: "/docs/reference/config/proxy_extensions/wasm-plugin/"
     level:
       checklist: ""
       maturity: Alpha
@@ -208,12 +210,20 @@ features:
     link: "/docs/concepts/security/#authorization"
     level:
       checklist: features/authorization.md
-      maturity: Beta
+      maturity: Stable
       nextExpectedPromotion: ""
     area: Security and policy enforcement
   - name: "End User (JWT) Authentication"
     id: "security.jwt_authentication"
-    link: "/docs/concepts/security/#authentication"
+    link: "/docs/reference/config/security/request_authentication/"
+    level:
+      checklist: features/jwt_authentication.md
+      maturity: Stable
+      nextExpectedPromotion: ""
+    area: Security and policy enforcement
+  - name: "Peer Authentication"
+    id: "security.peer_authentication"
+    link: "/docs/reference/config/security/peer_authentication/"
     level:
       checklist: ""
       maturity: Beta
@@ -239,8 +249,8 @@ features:
     id: "security.external_authorization"
     link: "/docs/tasks/security/authorization/authz-custom"
     level:
-      checklist: ""
-      maturity: Alpha
+      checklist: features/external_authorization.md
+      maturity: Beta
       nextExpectedPromotion: ""
     area: Security and policy enforcement
   - name: "Authorization Dry Run"
@@ -250,6 +260,22 @@ features:
       checklist: features/dry_run_authorization_policy.md
       maturity: Alpha
       nextExpectedPromotion: "1.14"
+    area: Security and policy enforcement
+  - name: "JWT Claim Based Routing"
+    id: "security.jwt_authentication"
+    link: "/docs/tasks/security/authentication/jwt-route"
+    level:
+      checklist: features/claim_based_routing.md
+      maturity: Alpha
+      nextExpectedPromotion: ""
+    area: Security and policy enforcement
+  - name: "Copy JWT Claims to HTTP Headers"
+    id: "security.jwt_authentication"
+    link: "/docs/tasks/security/authentication/claim-to-header"
+    level:
+      checklist: features/claim_to_header.md
+      maturity: Experimental
+      nextExpectedPromotion: ""
     area: Security and policy enforcement
   - name: "In-Cluster Operator"
     id: "core.in_cluster_operator"
@@ -319,7 +345,7 @@ features:
     level:
       checklist: features/ipv6-support.md
       maturity: Alpha
-      maturityNotes: Dual-stack IPv4 and IPv6 is not supported.
+      maturityNotes: Dual stack is experimental still.
       nextExpectedPromotion: ""
     area: Core
   - name: "Distroless Base Images for Istio"
@@ -327,7 +353,7 @@ features:
     link: "/docs/ops/configuration/security/harden-docker-images/"
     level:
       checklist: features/distroless_images.md
-      maturity: Alpha
+      maturity: Beta
       nextExpectedPromotion: ""
     area: Core
   - name: "Virtual Machine Integration"
@@ -343,22 +369,22 @@ features:
     link: "/docs/setup/install/helm/"
     level:
       checklist: features/helm_v3_support.md
-      maturity: Alpha
+      maturity: Beta
       nextExpectedPromotion: ""
     area: Core
   - name: "Revision Based Upgrade"
     link: "/docs/setup/upgrade/canary/"
     level:
       checklist: features/canary_based_revision_install.md
-      maturity: Alpha
+      maturity: Beta
       nextExpectedPromotion: ""
     area: Core
     id: "core.revision_based_upgrade"
   - name: "Revision Tags"
-    link: "/docs/setup/upgrade/canary/#stable-revision-labels-experimental"
+    link: "/docs/setup/upgrade/canary/#stable-revision-labels"
     level:
       checklist: features/revision_tags.md
-      maturity: Alpha
+      maturity: Beta
       nextExpectedPromotion: ""
     area: Core
     id: "core.revision_tags"
@@ -368,5 +394,13 @@ features:
     link: "https://istio.io/latest/docs/tasks/observability/telemetry/"
     level:
       checklist: features/telemetry_api.md
-      maturity: Experimental
-      nextExpectedPromotion: "1.13"
+      maturity: Alpha
+      nextExpectedPromotion: ""
+  - name: "Dual Stack Support in Istio"
+    id: "core.dual_stack"
+    level:
+      checklist: features/dual-stack-support.md
+      maturity: Experimental 
+      maturityNotes: Dual Stack IPv4 and IPv6 is supported.
+      nextExpectedPromotion: ""
+    area: Core

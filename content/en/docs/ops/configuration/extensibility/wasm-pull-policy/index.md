@@ -8,6 +8,8 @@ test: n/a
 status: Alpha
 ---
 
+{{< boilerplate alpha >}}
+
 The [WasmPlugin API](/docs/reference/config/proxy_extensions/wasm-plugin) provides a method for [distributing Wasm modules](/docs/tasks/extensibility/wasm-module-distribution) to proxies.
 Since each proxy will pull Wasm modules from a remote registry or an HTTP server, understanding how Istio chooses to pull modules is important in terms of usability as well as performance.
 

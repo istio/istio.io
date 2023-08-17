@@ -10,7 +10,8 @@ test: yes
 This task describes how to configure Istio to expose a service outside of the service mesh cluster, using the Kubernetes [Ingress Resource](https://kubernetes.io/docs/concepts/services-networking/ingress/).
 
 {{< tip >}}
-Using the [Istio Gateway](/docs/tasks/traffic-management/ingress/ingress-control/), rather than Ingress, is recommended to make use of the full feature set that Istio offers, such as rich traffic management and security features.
+Using a [Gateway](/docs/tasks/traffic-management/ingress/ingress-control/), rather than Ingress,
+is recommended to make use of the full feature set that Istio offers, such as rich traffic management and security features.
 {{< /tip >}}
 
 ## Before you begin
@@ -27,7 +28,7 @@ Let's see how you can configure a `Ingress` on port 80 for HTTP traffic.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: networking.k8s.io/v1beta1
+    apiVersion: networking.k8s.io/v1
     kind: Ingress
     metadata:
       annotations:
@@ -38,10 +39,13 @@ Let's see how you can configure a `Ingress` on port 80 for HTTP traffic.
       - host: httpbin.example.com
         http:
           paths:
-          - path: /status/*
+          - path: /status
+            pathType: Prefix
             backend:
-              serviceName: httpbin
-              servicePort: 8000
+              service:
+                name: httpbin
+                port:
+                  number: 8000
     EOF
     {{< /text >}}
 
@@ -85,14 +89,14 @@ In Kubernetes 1.18, a new field, `pathType`, was added. This allows explicitly d
 In Kubernetes 1.18, a new resource, `IngressClass`, was added, replacing the `kubernetes.io/ingress.class` annotation on the `Ingress` resource. If you are using this resource, you will need to set the `controller` field to `istio.io/ingress-controller`. For example:
 
 {{< text yaml >}}
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: IngressClass
 metadata:
   name: istio
 spec:
   controller: istio.io/ingress-controller
 ---
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ingress
@@ -105,8 +109,10 @@ spec:
       - path: /
         pathType: Prefix
         backend:
-          serviceName: httpbin
-          servicePort: 8000
+          service:
+            name: httpbin
+            port:
+              number: 8000
 {{< /text >}}
 
 ## Cleanup

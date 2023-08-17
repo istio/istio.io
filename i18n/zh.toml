@@ -67,6 +67,9 @@ other = "取消搜索"
 [footer_istio]
 other = "Istio"
 
+[footer_version]
+other = "版本"
+
 [footer_istio_preliminary]
 other = "Istio 预览版"
 
@@ -84,6 +87,9 @@ other = "2006年1月2日"
 
 [footer_privacy_policy]
 other = "隐私政策"
+
+[footer_terms_and_conditions]
+other = "条款"
 
 [page_publish_date_format]
 other = "2006年1月2日"
@@ -274,6 +280,15 @@ other = "是的"
 [feedback_no]
 other = "没有"
 
+[feedback_ask_for_comment]
+other = "您是否有更多建议和改进意见？"
+
+[feedback_thankyou]
+other = "感谢您的反馈！"
+
+[feedback_comment_placeholder]
+other = "帮助我们进行改进..."
+
 [log_month_format]
 other = "2006-01"
 
@@ -305,7 +320,7 @@ other = "试用 Istio"
 other = "服务网格"
 
 [what_is_istio]
-other = "什么是 Istio?"
+other = "什么是 Istio ？"
 
 [solutions]
 other = "解决方案"
@@ -339,3 +354,6 @@ other = "更多案例"
 
 [go_to_solutions]
 other = "转到解决方案"
+
+[case_study_slogan]
+other = "阅读因实施 Istio 而受益的公司案例"

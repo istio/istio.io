@@ -13,10 +13,12 @@ This page lists the status, timeline and policy for currently supported releases
 releases that are in the active maintenance window and are patched for security and bug fixes. Subsequent patch releases
 on a minor release do not contain backward incompatible changes.
 
-* [Support Policy](#support-policy)
-* [Naming scheme](#naming-scheme)
-* [Support status of Istio releases](#support-status-of-istio-releases)
-* [Releases without known Common Vulnerabilities and Exposures (CVEs)](#releases-without-known-Common-Vulnerabilities-and Exposures)
+- [Support policy](#support-policy)
+- [Naming scheme](#naming-scheme)
+- [Control Plane/Data Plane Skew](#control-planedata-plane-skew)
+- [Support status of Istio releases](#support-status-of-istio-releases)
+- [Supported releases without known Common Vulnerabilities and Exposures (CVEs)](#supported-releases-without-known-common-vulnerabilities-and-exposures-cves)
+- [Relationship between Istio and Envoy](#supported-envoy-versions)
 
 ## Support policy
 
@@ -27,12 +29,12 @@ The various types of releases represent a different product quality level and le
 In this context, *support* means that the community will produce patch releases for critical issues and offer technical
 assistance. Separately, 3rd parties and partners may offer longer-term support solutions.
 
-| Type              | Support Level                                                                                                         | Quality and Recommended Use                                                                                    |
-|-------------------|-----------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------|
-| Development Build | No support                                                                                                            | Dangerous, may not be fully reliable. Useful to experiment with.                                               |
-| Minor Release     | Support provided until 6 weeks after the N+2 minor release (ex. 1.11 supported until 6 weeks after 1.13.0 is released)|
-| Patch             | Same as the corresponding Minor release                                                                               | Users are encouraged to adopt patch releases as soon as they are available for a given release.                |
-| Security Patch    | Same as a Patch, however, it will not contain any additional code other than the security fix from the previous patch | Given the nature of security fixes, users are **strongly** encouraged to adopt security patches after release. |
+| Type              | Support Level                                                                                                          | Quality and Recommended Use                                                                                    |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| Development Build | No support                                                                                                             | Dangerous, may not be fully reliable. Useful to experiment with.                                               |
+| Minor Release     | Support provided until 6 weeks after the N+2 minor release (ex. 1.11 supported until 6 weeks after 1.13.0 is released) |
+| Patch             | Same as the corresponding Minor release                                                                                | Users are encouraged to adopt patch releases as soon as they are available for a given release.                |
+| Security Patch    | Same as a Patch, but contains a security fix.  Sometimes security patches will contain additional code/fixes in addition to the security fixes.  | Given the nature of security fixes, users are **strongly** encouraged to adopt security patches after release. |
 
 You can find available releases on the [releases page](https://github.com/istio/istio/releases),
 and if you're the adventurous type, you can learn about our development builds on the [development builds wiki](https://github.com/istio/istio/wiki/Dev%20Builds).
@@ -49,25 +51,15 @@ Our naming scheme is as follows:
 where `<minor>` is increased for each release, and `<patch>` counts the number of patches for the
 current `<minor>` release. A patch is usually a small change relative to the `<minor>` release.
 
+## Control Plane/Data Plane Skew
+
+The Istio control plane can be one version ahead of the data plane. However, the data plane cannot be ahead of control plane. We recommend using [revisions](/docs/setup/upgrade/canary/) so that there is no skew at all.
+
+As of now, data plane to data plane is compatible across all versions; however, this may change in the future.
+
 ## Support status of Istio releases
 
-| Version         | Currently Supported  | Release Date      | End of Life              | Supported Kubernetes Versions | Tested, but not supported          |
-|-----------------|----------------------|-------------------|--------------------------|-------------------------------|------------------------------------|
-| master          | No, development only |                   |                          |                               |                                    |
-| 1.15            | Yes                  | August 31, 2022   | ~March 2023 (Expected)   | 1.22, 1.23, 1.24, 1.25        | 1.16, 1.17, 1.18, 1.19, 1.20, 1.21 |
-| 1.14            | Yes                  | May 24, 2022      | ~January 2023 (Expected) | 1.21, 1.22, 1.23, 1.24        | 1.16, 1.17, 1.18, 1.19, 1.20       |
-| 1.13            | Yes                  | February 11, 2022 | ~October 2022 (Expected) | 1.20, 1.21, 1.22, 1.23        | 1.16, 1.17, 1.18, 1.19             |
-| 1.12            | No                   | November 18, 2021 | Jul 12, 2022             | 1.19, 1.20, 1.21, 1.22        | 1.16, 1.17, 1.18                   |
-| 1.11            | No                   | August 12, 2021   | Mar 25, 2022             | 1.18, 1.19, 1.20, 1.21, 1.22  | 1.16, 1.17                         |
-| 1.10            | No                   | May 18, 2021      | Jan 7, 2022              | 1.18, 1.19, 1.20, 1.21        | 1.16, 1.17, 1.22                   |
-| 1.9             | No                   | February 9, 2021  | Oct 8, 2021              | 1.17, 1.18, 1.19, 1.20        | 1.15, 1.16                         |
-| 1.8             | No                   | November 10, 2020 | May 12, 2021             | 1.16, 1.17, 1.18, 1.19        | 1.15                               |
-| 1.7             | No                   | August 21, 2020   | Feb 25, 2021             | 1.16, 1.17, 1.18              | 1.15                               |
-| 1.6 and earlier | No                   |                   |                          |                               |                                    |
-
-{{< warning >}}
-[Kubernetes 1.22 removed some deprecated APIs](https://kubernetes.io/blog/2021/07/14/upcoming-changes-in-kubernetes-1-22/) and as a result versions of Istio prior to 1.10.0 will no longer work. If you are upgrading your Kubernetes version, make sure that your Istio version is still supported.
-{{< /warning >}}
+{{< support_status_table >}}
 
 ## Supported releases without known Common Vulnerabilities and Exposures (CVEs)
 
@@ -76,9 +68,22 @@ Istio does not guarantee that minor releases that fall outside the support windo
 Please keep up-to-date and use a supported version.
 {{< /warning >}}
 
-| Minor Releases   | Patched versions with no known CVEs           |
-|------------------|-----------------------------------------------|
-| 1.14.x           | 1.14.1 (not 1.14.2)                           |
-| 1.13.x           | 1.13.5 (not 1.13.6)                           |
-| 1.12.x           | 1.12.8+                                       |
-| 1.11 and earlier | None, all versions have known vulnerabilities |
+| Minor Releases   | Patched versions with no known CVEs                  |
+| ---------------- | ---------------------------------------------------- |
+| 1.18.x           | 1.18.2+                                               |
+| 1.17.x           | 1.17.5+                                              |
+| 1.16.x           | 1.16.7+                                              |
+
+## Supported Envoy Versions
+
+Istio's data plane is based on [Envoy](https://github.com/envoyproxy/envoy).
+
+The relationship between the two project's versions:
+
+| Istio version | Envoy version |
+| ------------- | ------------- |
+| 1.18.x        | 1.26.x        |
+| 1.17.x        | 1.25.x        |
+| 1.16.x        | 1.24.x        |
+
+In general, Istio releases tend to map one to one with Envoy releases. You can find the precise Envoy commit used by Istio in [`istio/proxy`](https://github.com/istio/proxy/blob/master/WORKSPACE#L38).

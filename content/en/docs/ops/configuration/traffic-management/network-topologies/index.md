@@ -8,6 +8,10 @@ test: yes
 status: Alpha
 ---
 
+{{< boilerplate alpha >}}
+
+{{< boilerplate gateway-api-support >}}
+
 ## Forwarding external client attributes (IP address, certificate info) to destination workloads
 
 Many applications require knowing the client IP address and certificate information of the originating request to behave
@@ -109,25 +113,58 @@ to understand how `X-Forwarded-For` headers and trusted client addresses are det
 1. Deploy `httpbin` in the `httpbin` namespace:
 
     {{< text syntax=bash snip_id=apply_httpbin >}}
-    $ kubectl apply -n httpbin -f samples/httpbin/httpbin.yaml
+    $ kubectl apply -n httpbin -f @samples/httpbin/httpbin.yaml@
     {{< /text >}}
 
 1. Deploy a gateway associated with `httpbin`:
 
-    {{< text syntax=bash snip_id=deploy_httpbin_gateway >}}
-    $ kubectl apply -n httpbin -f samples/httpbin/httpbin-gateway.yaml
-    {{< /text >}}
+{{< tabset category-name="config-api" >}}
 
-1. Set a local `GATEWAY_URL` environmental variable based on your Istio ingress gateway's IP address:
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
-    {{< text syntax=bash snip_id=export_gateway_url >}}
-    $ export GATEWAY_URL=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-    {{< /text >}}
+{{< text syntax=bash snip_id=deploy_httpbin_gateway >}}
+$ kubectl apply -n httpbin -f @samples/httpbin/httpbin-gateway.yaml@
+{{< /text >}}
 
-1. Run the following `curl` command to simulate a request with proxy addresses in the `X-Forwarded-For` header:
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text syntax=bash snip_id=deploy_httpbin_k8s_gateway >}}
+$ kubectl apply -n httpbin -f @samples/httpbin/gateway-api/httpbin-gateway.yaml@
+$ kubectl wait --for=condition=programmed gtw -n httpbin httpbin-gateway
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
+6) Set a local `GATEWAY_URL` environmental variable based on your Istio ingress gateway's IP address:
+
+{{< tabset category-name="config-api" >}}
+
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
+
+{{< text syntax=bash snip_id=export_gateway_url >}}
+$ export GATEWAY_URL=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text syntax=bash snip_id=export_k8s_gateway_url >}}
+$ export GATEWAY_URL=$(kubectl get gateways.gateway.networking.k8s.io httpbin-gateway -n httpbin -ojsonpath='{.status.addresses[0].value}')
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
+7) Run the following `curl` command to simulate a request with proxy addresses in the `X-Forwarded-For` header:
 
     {{< text syntax=bash snip_id=curl_xff_headers >}}
-    $ curl -s -H 'X-Forwarded-For: 56.5.6.7, 72.9.5.6, 98.1.2.3' "$GATEWAY_URL"/get?show_env=true
+    $ curl -s -H 'X-Forwarded-For: 56.5.6.7, 72.9.5.6, 98.1.2.3' "$GATEWAY_URL/get?show_env=true"
     {
     "args": {
       "show_env": "true"
@@ -200,11 +237,20 @@ for examples of using this capability.
 
 ## PROXY Protocol
 
-{{< boilerplate experimental >}}
+The [PROXY protocol](https://www.haproxy.org/download/1.8/doc/proxy-protocol.txt) allows for exchanging and preservation of client attributes between TCP proxies,
+without relying on L7 protocols such as HTTP and the `X-Forwarded-For` and `X-Envoy-External-Address` headers. It is intended for scenarios where an external TCP load balancer needs to proxy TCP traffic through an Istio gateway to a backend TCP service and still expose client attributes such as source IP to upstream TCP service endpoints. PROXY protocol can be enabled via `EnvoyFilter`.
 
-The [PROXY protocol](https://www.haproxy.org/download/1.8/doc/proxy-protocol.txt) allows for exchanging and preservation of client attributes across multiple proxies without relying on Layer 7 protocols.
+{{< warning >}}
+PROXY protocol is only supported for TCP traffic forwarding by Envoy. See the [Envoy documentation](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/other_features/ip_transparency#proxy-protocol) for more details, along with some important performance caveats.
 
-If your external load balancer is configured to use the PROXY protocol, the Istio gateway must also be configured to accept the PROXY protocol. Enabling this requires adding the [Envoy Proxy Protocol filter](https://www.envoyproxy.io/docs/envoy/latest/configuration/listeners/listener_filters/proxy_protocol) using an `EnvoyFilter` applied on the gateway workload. For example:
+PROXY protocol should not be used for L7 traffic, or for Istio gateways behind L7 load balancers.
+{{< /warning >}}
+
+If your external TCP load balancer is configured to forward TCP traffic and use the PROXY protocol, the Istio Gateway TCP listener must also be configured to accept the PROXY protocol. Enabling this requires adding the [Envoy Proxy Protocol filter](https://www.envoyproxy.io/docs/envoy/latest/configuration/listeners/listener_filters/proxy_protocol) using an `EnvoyFilter` applied on the gateway workload. For example:
+
+{{< tabset category-name="config-api" >}}
+
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text syntax=yaml snip_id=none >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -214,16 +260,46 @@ metadata:
   namespace: istio-system
 spec:
   configPatches:
-  - applyTo: LISTENER
+  - applyTo: LISTENER_FILTER
     patch:
-      operation: MERGE
+      operation: INSERT_FIRST
       value:
-        listener_filters:
-        - name: envoy.listener.proxy_protocol
-        - name: envoy.listener.tls_inspector
+        name: proxy_protocol
+        typed_config:
+          "@type": "type.googleapis.com/envoy.extensions.filters.listener.proxy_protocol.v3.ProxyProtocol"
   workloadSelector:
     labels:
       istio: ingressgateway
 {{< /text >}}
 
-The client IP is retrieved from the PROXY protocol and set (or appended) in the `X-Forwarded-For` and `X-Envoy-External-Address` header. When PROXY protocol is used in conjunction with the `gatewayTopology` configuration, the `numTrustedProxies` and the received `X-Forwarded-For` header takes precedence in determining the trusted client addresses.
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text syntax=yaml snip_id=none >}}
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: proxy-protocol
+  namespace: istio-system
+spec:
+  configPatches:
+  - applyTo: LISTENER_FILTER
+    patch:
+      operation: INSERT_FIRST
+      value:
+        name: proxy_protocol
+        typed_config:
+          "@type": "type.googleapis.com/envoy.extensions.filters.listener.proxy_protocol.v3.ProxyProtocol"
+  workloadSelector:
+    labels:
+      istio.io/gateway-name: <GATEWAY_NAME>
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
+The client IP is retrieved from the PROXY protocol by the gateway and set (or appended) in the `X-Forwarded-For` and `X-Envoy-External-Address` header. Note that the PROXY protocol is mutually exclusive with L7 headers like `X-Forwarded-For` and `X-Envoy-External-Address`. When PROXY protocol is used in conjunction with the `gatewayTopology` configuration, the `numTrustedProxies` and the received `X-Forwarded-For` header takes precedence in determining the trusted client addresses, and PROXY protocol client information will be ignored.
+
+Note that the above example only configures the Gateway to accept incoming PROXY protocol TCP traffic - See the [Envoy documentation](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/other_features/ip_transparency#proxy-protocol) for examples of how to configure Envoy itself to communicate with upstream services using PROXY protocol.

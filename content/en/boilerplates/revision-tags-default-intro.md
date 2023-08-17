@@ -8,4 +8,4 @@ revision performs the following functions:
 - Validates Istio resources
 - Steals the leader lock from non-default revisions and performs singleton mesh responsibilities (such as updating resource statuses)
 
-To make a revision `1-10-0` the default, run:
+To make a revision `{{< istio_full_version_revision >}}` the default, run:

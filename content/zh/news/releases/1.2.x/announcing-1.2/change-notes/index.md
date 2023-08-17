@@ -13,7 +13,7 @@ aliases:
 
 ## 流量管理 {#traffic-management}
 
-- **改进** 在多集群环境中[基于位置的路由](/zh/docs/ops/configuration/traffic-management/locality-load-balancing/)功能。
+- **改进** 在多集群环境中[基于位置的路由](/zh/docs/tasks/traffic-management/locality-load-balancing/)功能。
 - **改进** [`ALLOW_ANY` 模式](/zh/docs/reference/config/installation-options/#global-options)出站流量策略。在一个已存在端口上的未知 HTTP/HTTPS 主机流量将会被[按原样转发](/zh/docs/tasks/traffic-management/egress/egress-control/#envoy-passthrough-to-external-services)。未知流量会被记录在 Envoy 的访问日志中。
 - **增加** 支持为上游服务设置 HTTP 空闲超时时间。
 - **改进** Sidecar 支持 [NONE 模式](/zh/docs/reference/config/networking/sidecar/#CaptureMode) （不用 iptables）。
@@ -52,7 +52,7 @@ aliases:
 ## 安装和升级 {#installation-and-upgrade}
 
 - **更新** 默认代理内存大小限制 (`global.proxy.resources.limits.memory`) 从 `128Mi` 扩大到 `1024Mi`，以此保证代理有充足的内存。
-- **增加** pod 的[反亲和性](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity)和[容错](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/)功能支持了所有的控制平面组件。
+- **增加** Pod 的 [反亲和性](https://kubernetes.io/zh-cn/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity) 和 [容错](https://kubernetes.io/zh-cn/docs/concepts/scheduling-eviction/taint-and-toleration/) 功能支持了所有的控制平面组件。
 - **增加** `sidecarInjectorWebhook.neverInjectSelector` 和 `sidecarInjectorWebhook.alwaysInjectSelector` 配置，通过标签选择器让用户可以进一步控制 workload 是否应该自动注入 sidecar。
 - **增加** `global.logging.level` 和 `global.proxy.logLevel` 配置，允许用户方便的给控制平面和数据平面组件全局的配置日志。
 - **增加** 支持通过设置 [`global.tracer.datadog.address`](/zh/docs/reference/config/installation-options/#global-options) 来配置 Datadog 的地址。

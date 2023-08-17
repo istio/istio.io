@@ -1,28 +1,30 @@
 ---
-title: 可观察性最佳实践
+title: 可观测性最佳实践
 description: 使用 Istio 观测应用时的最佳实践。
 force_inline_toc: true
 weight: 50
 owner: istio/wg-policies-and-telemetry-maintainers
-test: no
+test: n/a
 ---
 
-## 使用 Prometheus 进行生产规模的监控{#using-Prometheus-for-production-scale-monitoring}
+## 使用 Prometheus 进行生产规模的监控 {#using-Prometheus-for-production-scale-monitoring}
 
 使用 Istio 以及 Prometheus 进行生产规模的监控时推荐的方式是使用[分层联邦](https://prometheus.io/docs/prometheus/latest/federation/#hierarchical-federation)并且结合一组[记录规则](https://prometheus.io/docs/prometheus/latest/configuration/recording_rules/)。
 
-尽管安装 Istio 不会默认部署 [Prometheus](http://prometheus.io)，[入门](/zh/docs/setup/getting-started/)指导中 `Option 1: Quick Start` 的部署按照 [Prometheus 集成指导](/zh/docs/ops/integrations/prometheus/)安装了 Prometheus。
-此 Prometheus 部署刻意地配置了很短的保留窗口 (6小时)。此快速入门 Prometheus 部署同时也配置为从网格上运行的每一个 Envoy 代理上收集指标，同时通过一组有关它们的源的标签( `instance`，`pod`, 和 `namespace`)来扩充指标。
+尽管安装 Istio 不会默认部署 [Prometheus](http://prometheus.io)，[入门](/zh/docs/setup/getting-started/)指导中
+`Option 1: Quick Start` 的部署按照 [Prometheus 集成指导](/zh/docs/ops/integrations/prometheus/)安装了 Prometheus。
+此 Prometheus 部署刻意地配置了很短的保留窗口（6 小时）。此快速入门 Prometheus 部署同时也配置为从网格上运行的每一个 Envoy
+代理上收集指标，同时通过一组有关它们的源的标签（`instance`、`pod` 和 `namespace`）来扩充指标。
 
 {{< image width="80%"
     link="./production-prometheus.svg"
-    alt="Architecture for production monitoring of Istio using Prometheus."
-    caption="Production-scale Istio monitoring with Istio"
+    alt="使用 Prometheus 对 Istio 生产监控的架构。"
+    caption="生产规模 Istio 监控"
     >}}
 
-### 通过记录规则进行负载等级的聚合{#workload-level-aggregation-via-recording-rules}
+### 通过记录规则进行负载等级的聚合 {#workload-level-aggregation-via-recording-rules}
 
-为了聚合统计实例以及 pod 级别的指标起来，需要用以下的记录规则更新默认 Prometheus 配置：
+为了聚合统计实例以及 Pod 级别的指标，需要用以下的记录规则更新默认 Prometheus 配置：
 
 {{< tabset category-name="workload-metrics-aggregation" >}}
 
@@ -145,12 +147,14 @@ spec:
 {{< /tabset >}}
 
 {{< tip >}}
-以上的记录规则只是同聚合得到 pods 以及实例级别的指标。这仍然完整的保留了 [Istio 标准指标](/zh/docs/reference/config/metrics/)中的全部项，包括全部的 Istio 维度。尽管这有助于通过联邦控制指标维度，您可能仍想进一步优化记录规则来匹配您现有的仪表盘，告警，以及特定的引用。
+以上的记录规则只是同聚合得到 Pod 以及实例级别的指标。这仍然完整的保留了
+[Istio 标准指标](/zh/docs/reference/config/metrics/)中的全部项，包括全部的 Istio 维度。
+尽管这有助于通过联邦控制指标维度，您可能仍想进一步优化记录规则来匹配您现有的仪表盘、告警以及特定的引用。
 
 如需要更多关于如何配置您的记录规则。请参考[使用记录规则优化指标收集](#optimizing-metrics-collection-with-recording-rules)。
 {{< /tip >}}
 
-### 使用负载级别的聚合指标进行联邦{#federation-using-workload-level-aggregated-metrics}
+### 使用负载级别的聚合指标进行联邦 {#federation-using-workload-level-aggregated-metrics}
 
 为了建立 Prometheus 联邦，请修改您的 Prometheus 生产部署配置来抓取 Istio Prometheus 联邦终端的指标数据。
 
@@ -209,17 +213,20 @@ spec:
 {{< /text >}}
 
 {{< tip >}}
-联邦配置的关键是首先匹配通过 Istio 部署的 Prometheus 中收集 [Istio 标准指标](/zh/docs/reference/config/metrics/)的 job。并且将收集到的指标重命名，方法为去除负载等级记录规则命名前缀 (`workload:`)。
-这使得现有的仪表盘以及引用能够无缝地针对生产用 Prometheus 继续工作 (并且不在指向 Istio 实例)。
+联邦配置的关键是首先匹配通过 Istio 部署的 Prometheus 中收集 [Istio 标准指标](/zh/docs/reference/config/metrics/)的
+Job。并且将收集到的指标重命名，方法为去除负载等级记录规则命名前缀 (`workload:`)。
+这使得现有的仪表盘以及引用能够无缝地针对生产用 Prometheus 继续工作（并且不在指向 Istio 实例）。
 
-您可以在设置联邦时包含额外的指标(例如 envoy, go 等)。
+您可以在设置联邦时包含额外的指标（例如 envoy、go 等）。
 
 控制面指标也被生产用 Prometheus 收集并联邦。
 {{< /tip >}}
 
-### Optimizing metrics collection with recording rules
+### 使用记录的规则优化指标收集 {#optimizing-metrics-collection-with-recording-rules}
 
-除了使用记录规则[在 pod 和实例等级聚合](#workload-level-aggregation-via-recording-rules)，您也许想要使用记录规则为您现有的仪表盘以及告警专门生成聚合指标。这方面针对收集的优化可以很大的节约您 Prometheus 生产实例的资源消耗，同时加速了引用性能。
+除了使用记录规则[在 Pod 和实例等级聚合](#workload-level-aggregation-via-recording-rules)，
+您也许想要使用记录规则为您现有的仪表盘以及告警专门生成聚合指标。这方面针对收集的优化可以很大的节约您
+Prometheus 生产实例的资源消耗，同时加速了引用性能。
 
 例如，假设一个监控仪表盘使用以下 Prometheus 引用：
 
@@ -233,7 +240,7 @@ spec:
     )
     {{< /text >}}
 
-* P95 客户端延迟在过去 1 分钟的平均值，并按照来源，目的服务以及命名空间聚合
+* P95 客户端延迟在过去 1 分钟的平均值，并按照来源、目的服务以及命名空间聚合
 
     {{< text plain >}}
     histogram_quantile(0.95,
@@ -280,7 +287,7 @@ Prometheus 生产实例可以从 Istio 实例那里得到的信息更新联邦�
 
 * 匹配字句 `{__name__=~"istio:(.*)"}`
 
-* 重新将指标标签为： `regex: "istio:(.*)"`
+* 重新将指标标签为：`regex: "istio:(.*)"`
 
 原始引用被替代为：
 

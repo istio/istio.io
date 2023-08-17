@@ -1,13 +1,14 @@
 ---
 title: 扩展性
 description: 讲述 Istio 的 WebAssembly 插件系统。
-weight: 25
+weight: 50
 keywords: [wasm,webassembly,emscripten,extension,plugin,filter]
 owner: istio/wg-policies-and-telemetry-maintainers
 test: n/a
 ---
 
-WebAssembly 是一种沙盒技术，可以用于扩展 Istio 代理（Envoy）的能力。Proxy-Wasm 沙盒 API 取代了 Mixer 作为 Istio 主要的扩展机制。在 Istio 1.6 中将会为 Proxy-Wasm 插件提供一种统一的配置 API。
+WebAssembly 是一种沙盒技术，可以用于扩展 Istio 代理（Envoy）的能力。
+Proxy-Wasm 沙盒 API 取代了 Mixer 作为 Istio 主要的扩展机制。
 
 WebAssembly 沙盒的目标：
 
@@ -24,7 +25,7 @@ WebAssembly 沙盒的目标：
 
 Istio 扩展（Proxy-Wasm 插件）有几个组成部分：
 
-- **过滤器服务提供商接口** 用于为过滤器构建 Proxy-Wasm 插件。
+- **过滤器服务提供方接口（SPI）** 用于为过滤器构建 Proxy-Wasm 插件。
 - **沙盒** 在 Envoy 中嵌入 V8 Wasm 运行时。
 - **主机 API** 用于处理请求头，尾和元数据。
 - **调出 API** 针对 gRPC 和 HTTP 请求。
@@ -34,21 +35,14 @@ Istio 扩展（Proxy-Wasm 插件）有几个组成部分：
 
 ## 例子 {#example}
 
-[这里](https://github.com/envoyproxy/envoy-wasm/tree/19b9fd9a22e27fcadf61a06bf6aac03b735418e6/examples/wasm)是用 C++ 为过滤器实现 Proxy-Wasm 插件的例子。
-
-为过滤器实现一个 Proxy-Wasm 插件需要：
-
-- 实现一个继承了 [base context 类](https://github.com/envoyproxy/envoy-wasm/blob/e8bf3ab26069a387f47a483d619221a0c482cd13/api/wasm/cpp/proxy_wasm_impl.h#L288)的 [root context 类](https://github.com/envoyproxy/envoy-wasm/blob/e8bf3ab26069a387f47a483d619221a0c482cd13/examples/wasm/envoy_filter_http_wasm_example.cc#L7)。
-- 实现一个继承了 [base context 类](https://github.com/envoyproxy/envoy-wasm/blob/e8bf3ab26069a387f47a483d619221a0c482cd13/api/wasm/cpp/proxy_wasm_impl.h#L314)的 [流 context 类](https://github.com/envoyproxy/envoy-wasm/blob/e8bf3ab26069a387f47a483d619221a0c482cd13/examples/wasm/envoy_filter_http_wasm_example.cc#L14)。
-- 重写 [context API](https://github.com/envoyproxy/envoy-wasm/blob/e8bf3ab26069a387f47a483d619221a0c482cd13/examples/wasm/envoy_filter_http_wasm_example.cc#L14) 的方法，以此处理来自主机的相应初始化和流事件。
-- [注册](https://github.com/envoyproxy/envoy-wasm/blob/e8bf3ab26069a387f47a483d619221a0c482cd13/examples/wasm/envoy_filter_http_wasm_example.cc#L26) 这个 `root context` 和流 `stream context`。
-
-## SDK
-
-C++ SDK 的详细说明见[这里](https://github.com/proxy-wasm/proxy-wasm-cpp-sdk/tree/a30aaeedf30cc1545318505574c7fb3bb8d8c243/docs/wasm_filter.md)。
+[这里](https://github.com/envoyproxy/envoy-wasm/tree/19b9fd9a22e27fcadf61a06bf6aac03b735418e6/examples/wasm)是用
+C++ 为过滤器实现 Proxy-Wasm 插件的例子。
+您可以按照[本指南](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/write-a-wasm-extension-with-cpp.md)使用
+C++ 实现 Wasm 扩展。
 
 ## 生态 {#ecosystem}
 
+- [Istio 生态 Wasm 扩展](https://github.com/istio-ecosystem/wasm-extensions)
 - [Proxy-Wasm ABI 说明](https://github.com/proxy-wasm/spec)
 - [Proxy-Wasm C++ SDK](https://github.com/proxy-wasm/proxy-wasm-cpp-sdk)
 - [Proxy-Wasm Rust SDK](https://github.com/proxy-wasm/proxy-wasm-rust-sdk)

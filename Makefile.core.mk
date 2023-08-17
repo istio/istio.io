@@ -27,7 +27,7 @@ export IN_BUILD_CONTAINER := $(IN_BUILD_CONTAINER)
 
 # ISTIO_IMAGE_VERSION stores the prefix used by default for the Docker images for Istio.
 # For example, a value of 1.6-alpha will assume a default TAG value of 1.6-dev.<SHA>
-ISTIO_IMAGE_VERSION ?= 1.16-alpha
+ISTIO_IMAGE_VERSION ?= 1.19-alpha
 export ISTIO_IMAGE_VERSION
 
 # Determine the SHA for the Istio dependency by parsing the go.mod file.
@@ -77,7 +77,7 @@ baseurl := "$(URL)"
 endif
 
 # Which branch of the Istio source code do we fetch stuff from
-export SOURCE_BRANCH_NAME ?= master
+export SOURCE_BRANCH_NAME ?= release-1.19
 
 site:
 	@scripts/gen_site.sh
@@ -85,9 +85,12 @@ site:
 snips:
 	@scripts/gen_snips.sh
 
-gen: snips tidy-go format-go
+gen: tidy-go format-go update-gateway-version snips
 
-gen-check: gen check-clean-repo
+gen-check: gen check-clean-repo check-localization
+
+check-localization:
+	@scripts/check_localization.sh
 
 build: site
 	@scripts/build_site.sh ""
@@ -115,6 +118,9 @@ lint-en: clean_public build_nominify lint-copyright-banner lint-python lint-yaml
 lint-fast: clean_public build_nominify lint-copyright-banner lint-python lint-yaml lint-dockerfiles lint-scripts lint-sass lint-typescript lint-go
 	@SKIP_LINK_CHECK=true scripts/lint_site.sh en
 
+lint-md: clean_public build_nominify
+	@SKIP_LINK_CHECK=true scripts/lint_site.sh en
+
 serve: site
 	@hugo serve --baseURL "http://${ISTIO_SERVE_DOMAIN}:1313/latest/" --bind 0.0.0.0 --disableFastRender
 
@@ -125,17 +131,17 @@ archive-version:
 # to what is included in the tools repo in docker/build-tools/Dockerfile.
 netlify_install:
 	@npm init -y
-	@npm install --production --global \
-	    sass@v1.23.7 \
-	    typescript@v3.7.2 \
-	    svgstore-cli@v1.3.1 \
-		@babel/core@v7.7.4 \
-		@babel/cli@v7.7.4 \
-		@babel/preset-env@v7.7.4
-	@npm install --production --save-dev \
-		babel-preset-minify@v0.5.1
-	@npm install --save-dev \
-		@babel/polyfill@v7.7.0
+	@npm install --omit=dev --global \
+	    sass@v1.52.1 \
+	    typescript@v4.7.2 \
+	    svgstore-cli@v1.3.2 \
+		@babel/core@v7.18.2 \
+		@babel/cli@v7.17.10 \
+		@babel/preset-env@v7.18.2
+	@npm install --omit=dev --save-dev \
+		babel-preset-minify@v0.5.2
+	@npm install --save \
+		core-js@3.31.1
 
 netlify: netlify_install
 	@scripts/gen_site.sh
@@ -158,7 +164,9 @@ export ISTIO_API_GIT_SOURCE ?=
 update_ref_docs:
 	@scripts/grab_reference_docs.sh $(SOURCE_BRANCH_NAME) $(ISTIO_API_GIT_SOURCE)
 
-update_test_reference:
+update_test_reference: get_istio_sha gen
+
+get_istio_sha:
 	@go get istio.io/istio@$(SOURCE_BRANCH_NAME) && go mod tidy
 
 update_all: update_ref_docs update_test_reference
@@ -221,6 +229,11 @@ test.kube.postsubmit: test.kube.presubmit
 test_status:
 	@scripts/test_status.sh
 
+update-gateway-version: tidy-go
+	@$(eval GATEWAY_VERSION := ${shell grep gateway-api go.mod | awk '{ print $$2 }' | awk -F '-' '{ print $$1 }'})
+	@${shell sed -Ei 's|k8s_gateway_api_version: ".*"|k8s_gateway_api_version: "${GATEWAY_VERSION}"|' 'data/args.yml'}
+
+
 include common/Makefile.common.mk
 
-.PHONY: site gen build build_nominify opt clean_public clean lint serve netlify_install netlify netlify_archive archive update_ref_docs update_operator_yamls update_all
+.PHONY: site gen build build_nominify opt clean_public clean lint serve netlify_install netlify netlify_archive archive update_ref_docs update_operator_yamls update_all update_gateway_version

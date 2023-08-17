@@ -44,9 +44,10 @@ Istio Auth 基于双向 TLS 和 X.509 等行业标准。此外，Google 还积�
 
 ### 强身份认证{#strong-identity}
 
-Istio Auth 使用了 [Kubernetes 服务帐户](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/)来识别服务运行的身份。身份用于建立信任和定义服务级别访问策略。身份在服务部署时分配，并在 X.509 证书的 SAN（主题备用名称）字段中进行编码。使用服务帐户作为身份具有以下优点：
+Istio Auth 使用了 [Kubernetes 服务帐户](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-service-account/) 来识别服务运行的身份。
+身份用于建立信任和定义服务级别访问策略。身份在服务部署时分配，并在 X.509 证书的 SAN（主题备用名称）字段中进行编码。使用服务帐户作为身份具有以下优点：
 
-* 管理员可以使用 Kubernetes 1.6 中引入的 [RBAC](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) 功能配置谁有权访问服务帐户
+* 管理员可以使用 Kubernetes 1.6 中引入的 [RBAC](https://kubernetes.io/zh-cn/docs/reference/access-authn-authz/rbac/) 功能配置谁有权访问服务帐户
 
 * 灵活地识别人类用户，服务或一组服务
 
@@ -62,7 +63,7 @@ Istio Auth 为每个集群提供 CA（证书颁发机构），并可对密钥和
 
 * 为每个服务帐户生成密钥和证书对。
 
-* 使用 [Kubernetes Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) 将密钥和证书分发到相应的 pod。
+* 使用 [Kubernetes Secrets](https://kubernetes.io/zh-cn/docs/concepts/configuration/secret/) 将密钥和证书分发到相应的 pod。
 
 * 定期轮换密钥和证书。
 

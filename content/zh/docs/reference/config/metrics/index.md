@@ -8,7 +8,10 @@ aliases:
 
 以下是 Istio 导出的标准服务级别指标。
 
-遥测组件由 [Proxy-wasm](https://github.com/proxy-wasm/spec) 插件[实现](https://github.com/istio/proxy/tree/master/extensions/stats)。
+遥测组件作为一个 [Proxy 扩展](https://github.com/istio/proxy/tree/master/source/extensions/filters/http/istio_stats) 被实现。
+`COUNTER` 是一个严格递增的整数。
+`DISTRIBUTION` 将数值的范围映射到频率。
+`COUNTER` 和 `DISTRIBUTION` 在 [Envoy 文档](https://github.com/envoyproxy/envoy/blob/main/source/docs/stats.md)中对应于指标计数器和直方图。
 
 ## 指标 {#metrics}
 
@@ -42,25 +45,25 @@ aliases:
 
 *   **Reporter**： 标识请求指标的上报端。如果指标由服务端 Istio 代理上报，则设置为 `destination`，如果指标由客户端 Istio 代理或网关上报，则设置为 `source`。
 
-*   **Source Workload**：标识源工作负载的名称，如果缺少源信息，则标识为 “unknown”。
+*   **Source Workload**：标识源工作负载的名称，如果缺少源信息，则标识为 `unknown`。
 
-*   **Source Workload Namespace**：标识源工作负载的命名空间，如果缺少源信息，则标识为 “unknown”。
+*   **Source Workload Namespace**：标识源工作负载的命名空间，如果缺少源信息，则标识为 `unknown`。
 
 *   **Source Principal**：标识流量源的对等主体。当使用对等身份验证时设置。
 
-*   **Source App**：根据源工作负载的 `app` 标签标识源应用程序，如果源信息丢失，则标识为 “unknown”。
+*   **Source App**：根据源工作负载的 `app` 标签标识源应用程序，如果源信息丢失，则标识为 `unknown`。
 
-*   **Source Version**：标识源工作负载的版本，如果源信息丢失，则标识为 “unknown”。
+*   **Source Version**：标识源工作负载的版本，如果源信息丢失，则标识为 `unknown`。
 
-*   **Destination Workload**：标识目标工作负载的名称，如果目标信息丢失，则标识为 “unknown”。
+*   **Destination Workload**：标识目标工作负载的名称，如果目标信息丢失，则标识为 `unknown`。
 
-*   **Destination Workload Namespace**：标识目标工作负载的命名空间，如果目标信息丢失，则标识为 “unknown”。
+*   **Destination Workload Namespace**：标识目标工作负载的命名空间，如果目标信息丢失，则标识为 `unknown`。
 
 *   **Destination Principal**：标识流量目标的对等主体。使用对等身份验证时设置。
 
-*   **Destination App**：它根据目标工作负载的 `app` 标签标识目标应用程序，如果目标信息丢失，则标识为 “unknown”。
+*   **Destination App**：它根据目标工作负载的 `app` 标签标识目标应用程序，如果目标信息丢失，则标识为 `unknown`。
 
-*   **Destination Version**：标识目标工作负载的版本，如果目标信息丢失，则标识为 “unknown”。
+*   **Destination Version**：标识目标工作负载的版本，如果目标信息丢失，则标识为 `unknown`。
 
 *   **Destination Service**：标识负责传入请求的目标服务主机。 例如：`details.default.svc.cluster.local`。
 
@@ -74,7 +77,7 @@ aliases:
 
 *   **Connection Security Policy**：标识请求的服务认证策略。当 Istio 使用安全策略来保证通信安全时，如果指标由服务端 Istio 代理上报，则将其设置为 `mutual_tls`。如果指标由客户端 Istio 代理上报，由于无法正确填充安全策略，因此将其设置为 `unknown`。
 
-*   **Response Flags**：有关来自代理的响应或连接的其他详细信息。如果是 Envoy，请参阅 [Envoy 访问日志](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#config-access-log-format-response-flags)中的`％RESPONSE_FLAGS％`获取更多信息。
+*   **Response Flags**：有关来自代理的响应或连接的其他详细信息。如果是 Envoy，请参阅 [Envoy 访问日志](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#config-access-log-format-response-flags)中的 `％RESPONSE_FLAGS％` 获取更多信息。
 
 *   **Canonical Service**：工作负载属于一个 Canonical 服务，而 Canonical 服务却可以属于多个服务。Canonical 服务具有名称和修订版本，因此会产生以下标签：
 
@@ -88,3 +91,5 @@ aliases:
 *   **Destination Cluster**：目标工作负载的集群名称。这是由集群安装时的 `global.multiCluster.clusterName` 设置的。
 
 *   **Source Cluster**：源工作负载的集群名称。这是由集群安装时的 `global.multiCluster.clusterName` 设置的。
+
+*   **gRPC Response Status**: 这标识了 gRPC 的响应状态。 这个标签仅出现在 gRPC 指标上。

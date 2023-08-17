@@ -162,7 +162,7 @@ Hello version: v1, instance: helloworld-v1-86f77cd7bd-cpxhv
 ...
 {{< /text >}}
 
-**恭喜!** 你已成功的在多集群环境中安装、并验证了 Istio！
+**恭喜!** 您已成功的在多集群环境中安装、并验证了 Istio！
 
 ## 后续步骤 {#next-steps}
 

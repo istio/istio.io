@@ -35,7 +35,7 @@ EOF
 }
 
 snip_configure_cluster1_as_a_primary_2() {
-istioctl install --set values.pilot.env.EXTERNAL_ISTIOD=true --context="${CTX_CLUSTER1}" -f cluster1.yaml
+istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --set values.pilot.env.EXTERNAL_ISTIOD=true --context="${CTX_CLUSTER1}" -f cluster1.yaml
 }
 
 snip_install_the_eastwest_gateway_in_cluster1_1() {
@@ -75,7 +75,7 @@ cat <<EOF > cluster2.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
-  profile: external
+  profile: remote
   values:
     istiodRemote:
       injectionPath: /inject/cluster/cluster2/net/network1
@@ -85,11 +85,11 @@ EOF
 }
 
 snip_configure_cluster2_as_a_remote_3() {
-istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
+istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --context="${CTX_CLUSTER2}" -f cluster2.yaml
 }
 
 snip_attach_cluster2_as_a_remote_cluster_of_cluster1_1() {
-istioctl x create-remote-secret \
+istioctl create-remote-secret \
     --context="${CTX_CLUSTER2}" \
     --name=cluster2 | \
     kubectl apply -f - --context="${CTX_CLUSTER1}"

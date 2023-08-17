@@ -14,74 +14,131 @@ owner: istio/wg-user-experience-maintainers
 test: yes
 ---
 
-众所周知，Kubernetes 有两种健康检查机制：[Liveness 和 Readiness 探针](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)，并且有三种方式供选择：
+[Kubernetes 存活和就绪探针](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/)
+描述了几种配置存活和就绪探针的方法：
 
-1. 命令方式
-1. TCP 请求方式
-1. HTTP 请求方式
+1. [命令](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-a-liveness-command)
+1. [HTTP 请求](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-a-liveness-http-request)
+1. [TCP 探针](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-a-tcp-liveness-probe)
+1. [gRPC 探针](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-a-grpc-liveness-probe)
 
-本节将阐述如何在启用了双向 TLS 的 Istio 中使用这三种方式。
+命令方式无需更改即可工作，但 HTTP 请求、TCP 探针和 gRPC 探针需要 Istio 更改 Pod 的配置。
 
-注意，无论是否启用了双向 TLS 认证，命令和 TCP 请求方式都可以与 Istio 一起使用。HTTP 请求方式则要求启用了 TLS 的 Istio 使用不同的配置。
+对 `liveness-http` 服务的健康检查请求由 kubelet 发送。当启用双向 TLS 时，
+这会成为一个问题，因为 kubelet 没有 Istio 颁发的证书。
+因此，健康检查请求将失败。
 
-## 在学习本节之前{#before-you-begin}
+TCP 探针检查需要特殊处理，因为 Istio 将所有传入的流量重定向到 Sidecar，
+所以所有 TCP 端口都显示为开放。kubelet 仅检查某个进程是否正在监听指定的端口，
+因此只要 Sidecar 正在运行，该探针就总会成功。
 
-* 理解 Kubernetes 的 [Liveness 和 Readiness 探针](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)，Istio 的[认证策略](/zh/docs/concepts/security/#authentication-policies)和[双向 TLS 认证](/zh/docs/concepts/security/#mutual-TLS-authentication)概念。
+Istio 通过重写应用程序 `PodSpec` 就绪/存活探针来解决这两个问题，
+以便将探针请求发送到 [Sidecar 代理](/zh/docs/reference/commands/pilot-agent/)。
 
-* 有一个安装了 Istio 的 Kubernetes 集群，并且未开启全局双向 TLS 认证。
+## 存活探针重写示例 {#liveness-probe-rewrite-example}
 
-## Liveness 和 Readiness 探针之命令方式{#liveness-and-readiness-probes-with-command-option}
+为了演示存活探针和就绪探针如何在应用程序 `PodSpec` 级别进行重写，
+可以使用 [liveness-http-same-port 样例]({{< github_file >}}/samples/health-check/liveness-http-same-port.yaml)。
 
-首先，您需要配置健康检查并开启双向 TLS 认证。
+首先为此样例应用创建一个命名空间并打好标签：
 
-要为服务开启双向 TLS 认证，必须配置验证策略和目标规则。
-按照以下步骤来完成配置：
+{{< text bash >}}
+$ kubectl create namespace istio-io-health-rewrite
+$ kubectl label namespace istio-io-health-rewrite istio-injection=enabled
+{{< /text >}}
 
-运行下面的命令创建命名空间：
+然后部署样例应用程序：
+
+{{< text bash yaml >}}
+$ kubectl apply -f - <<EOF
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: liveness-http
+  namespace: istio-io-health-rewrite
+spec:
+  selector:
+    matchLabels:
+      app: liveness-http
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: liveness-http
+        version: v1
+    spec:
+      containers:
+      - name: liveness-http
+        image: docker.io/istio/health:example
+        ports:
+        - containerPort: 8001
+        livenessProbe:
+          httpGet:
+            path: /foo
+            port: 8001
+          initialDelaySeconds: 5
+          periodSeconds: 5
+EOF
+{{< /text >}}
+
+部署完成后，您可以检查 Pod 的应用容器，以查看已更改的路径：
+
+{{< text bash json >}}
+$ kubectl get pod "$LIVENESS_POD" -n istio-io-health-rewrite -o json | jq '.spec.containers[0].livenessProbe.httpGet'
+{
+  "path": "/app-health/liveness-http/livez",
+  "port": 15020,
+  "scheme": "HTTP"
+}
+{{< /text >}}
+
+原来的 `livenessProve` 路径现在被映射到 Sidecar 容器环境变量 `ISTIO_KUBE_APP_PROBERS` 中的新路径：
+
+{{< text bash json >}}
+$ kubectl get pod "$LIVENESS_POD" -n istio-io-health-rewrite -o=jsonpath="{.spec.containers[1].env[?(@.name=='ISTIO_KUBE_APP_PROBERS')]}"
+{
+  "name":"ISTIO_KUBE_APP_PROBERS",
+  "value":"{\"/app-health/liveness-http/livez\":{\"httpGet\":{\"path\":\"/foo\",\"port\":8001,\"scheme\":\"HTTP\"},\"timeoutSeconds\":1}}"
+}
+{{< /text >}}
+
+对于 HTTP 和 gRPC 请求，Sidecar 代理将请求重定向到应用程序并剥离响应体，仅返回响应代码。
+对于 TCP 探针，Sidecar 代理会在避免流量重定向的同时进行端口检查。
+
+在所有内置的 Istio [配置文件](/zh/docs/setup/additional-setup/config-profiles/)中，
+有问题的探针的重写是默认启用的，但可以如下所述禁用。
+
+## 使用命令方式的存活和就绪探针 {#liveness-and-readiness-probes-using-the-command-approach}
+
+Istio 提供了一个[存活示例]({{< github_file >}}/samples/health-check/liveness-command.yaml)来实现这种方式。
+为了演示该探针在启用双向 TLS 的情况下如何工作，本例先创建一个命名空间：
 
 {{< text bash >}}
 $ kubectl create ns istio-io-health
 {{< /text >}}
 
-1. 配置验证策略，并运行：
+要配置 `STRICT` 双向 TLS，请运行：
 
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: "authentication.istio.io/v1alpha1"
-    kind: "Policy"
-    metadata:
-      name: "default"
-      namespace: "istio-io-health"
-    spec:
-      peers:
-      - mtls: {}
-    EOF
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: "default"
+  namespace: "istio-io-health"
+spec:
+  mtls:
+    mode: STRICT
+EOF
+{{< /text >}}
 
-1. 配置目标规则，并运行：
-
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: "networking.istio.io/v1alpha3"
-    kind: "DestinationRule"
-    metadata:
-      name: "default"
-      namespace: "istio-io-health"
-    spec:
-      host: "*.default.svc.cluster.local"
-      trafficPolicy:
-        tls:
-          mode: ISTIO_MUTUAL
-    EOF
-    {{< /text >}}
-
-运行以下命令来部署服务：
+接下来，运行以下命令来部署示例服务：
 
 {{< text bash >}}
 $ kubectl -n istio-io-health apply -f <(istioctl kube-inject -f @samples/health-check/liveness-command.yaml@)
 {{< /text >}}
 
-重复使用检查状态的命令来验证 Liveness 探针是否正常工作：
+要确认存活探针是否正常工作，请检查示例 Pod 的状态以验证它是否正在运行。
 
 {{< text bash >}}
 $ kubectl -n istio-io-health get pod
@@ -89,44 +146,25 @@ NAME                             READY     STATUS    RESTARTS   AGE
 liveness-6857c8775f-zdv9r        2/2       Running   0           4m
 {{< /text >}}
 
-## Liveness 和 Readiness 探针之 HTTP 请求方式{#liveness-and-readiness-probes-with-http-request-option}
+## 使用 HTTP、TCP 和 gRPC 方式的存活和就绪探针 {#liveness-and-readiness-probes-using-the-http-request-approach}
 
-本部分介绍，当双向 TLS 认证开启的时候，如何使用 HTTP 请求方式来做健康检查。
+如上所述，Istio 默认使用探针重写来实现 HTTP、TCP 和 gRPC 探针。
+您可以为特定 Pod 或全局禁用此特性。
 
-Kubernetes 的 HTTP 健康检查是由 Kubelet 来发送的，但是 Istio 并未颁发证书给 `liveness-http` 服务。因此，当启用双向 TLS 认证之后，所有的健康检查请求将会失败。
+### 为 Pod 禁用探针重写 {#disable-the-http-probe-rewrite-for-a-pod}
 
-有两种方式来解决此问题：探针重写和端口分离。
+您可以使用 `sidecar.istio.io/rewriteAppHTTPProbers: "false"`
+来[为 Pod 添加注解](/zh/docs/reference/config/annotations/)
+以禁用探针重写选项。确保将注解添加到
+[Pod 资源](https://kubernetes.io/zh-cn/docs/concepts/workloads/pods/pod-overview/)，
+因为在其他任何地方该注解会被忽略（例如，在封闭的 Deployment 资源上）。
 
-### 探针重写{#probe-rewrite}
+{{< tabset category-name="disable-probe-rewrite" >}}
 
-这种方式重写了应用程序的 `PodSpec` Readiness 和 Liveness 探针，以便将探针请求发送给
-[Pilot agent](/zh/docs/reference/commands/pilot-agent/). Pilot agent 将请求重定向到应用程序，剥离 response body ，只返回 response code 。
-
-有两种方式来让 Istio 重写 Liveness 探针。
-
-#### 通过安装参数，全局启用{#enable-globally-via-install-option}
-
-[安装 Istio](/zh/docs/setup/install/istioctl/) 的时候使用 `--set values.sidecarInjectorWebhook.rewriteAppHTTPProbe=true`.
-
-**或者**，更新 Istio sidecar 注入的 map ：
-
-{{< text bash >}}
-$ kubectl get cm istio-sidecar-injector -n istio-system -o yaml | sed -e 's/"rewriteAppHTTPProbe":false/"rewriteAppHTTPProbe":true/' | kubectl apply -f -
-{{< /text >}}
-
-上面的安装参数和注入的 map ，都指引着 Sidecar 注入过程中自动重写 Kubernetes pod 的 spec，以便让健康检查能够在双向 TLS 认证下正常工作。无需更新应用程序或者 pod 的 spec ：
-
-{{< warning >}}
-上面更改的配置 （通过安装参数或注入的 map ）会影响到所有 Istio 应用程序部署。
-{{< /warning >}}
-
-#### 对 pod 使用 annotation{#use-annotations-on-pod}
-
-<!-- Add samples YAML or kubectl patch? -->
-
-与安装 Istio 使用的参数方式相似，您也可以使用`sidecar.istio.io/rewriteAppHTTPProbers: "true"`来 [为 pod 添加 annotation](/zh/docs/reference/config/annotations/) 。确保 annotation 成功添加到了 [pod 资源](https://kubernetes.io/docs/concepts/workloads/pods/pod-overview/) 因为在其他地方（比如封闭的部署资源上），annotation 会被忽略。
+{{< tab name="HTTP Probe" category-value="http-probe" >}}
 
 {{< text yaml >}}
+kubectl apply -f - <<EOF
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -142,7 +180,7 @@ spec:
         app: liveness-http
         version: v1
       annotations:
-        sidecar.istio.io/rewriteAppHTTPProbers: "true"
+        sidecar.istio.io/rewriteAppHTTPProbers: "false"
     spec:
       containers:
       - name: liveness-http
@@ -155,55 +193,67 @@ spec:
             port: 8001
           initialDelaySeconds: 5
           periodSeconds: 5
+EOF
 {{< /text >}}
 
-这种方式可以使得在每个部署的应用上逐个启用健康检查并重写探针，而无需重新安装 Istio 。
+{{< /tab >}}
 
-#### 重新部署需要 Liveness 健康检查的应用程序{#re-deploy-the-liveness-health-check-app}
+{{< tab name="gRPC Probe" category-value="grpc-probe" >}}
 
-以下的说明假定您通过安装选项全局启用了该功能，Annotation 同样奏效。
-
-{{< text bash >}}
-$ kubectl delete -f <(istioctl kube-inject -f @samples/health-check/liveness-http-same-port.yaml@)
-$ kubectl apply -f <(istioctl kube-inject -f @samples/health-check/liveness-http-same-port.yaml@)
+{{< text yaml >}}
+kubectl apply -f - <<EOF
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: liveness-grpc
+spec:
+  selector:
+    matchLabels:
+      app: liveness-grpc
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: liveness-grpc
+        version: v1
+      annotations:
+        sidecar.istio.io/rewriteAppHTTPProbers: "false"
+    spec:
+      containers:
+      - name: etcd
+        image: registry.k8s.io/etcd:3.5.1-0
+        command: ["--listen-client-urls", "http://0.0.0.0:2379", "--advertise-client-urls", "http://127.0.0.1:2379", "--log-level", "debug"]
+        ports:
+        - containerPort: 2379
+        livenessProbe:
+          grpc:
+            port: 2379
+          initialDelaySeconds: 10
+          periodSeconds: 5
+EOF
 {{< /text >}}
 
+{{< /tab >}}
+
+{{< /tabset >}}
+
+这种方式允许您在单个 Deployment 上逐步禁用健康检查探针重写，
+而无需重新安装 Istio。
+
+### 全局禁用探针重写 {#disable-the-probe-rewrite-globally}
+
+[安装 Istio](/zh/docs/setup/install/istioctl/) 时使用
+`--set values.sidecarInjectorWebhook.rewriteAppHTTPProbe=false`
+全局禁用探针重写。**或者**更新 Istio Sidecar 注入器的配置映射：
+
 {{< text bash >}}
-$ kubectl get pod
-NAME                             READY     STATUS    RESTARTS   AGE
-liveness-http-975595bb6-5b2z7c   2/2       Running   0           1m
+$ kubectl get cm istio-sidecar-injector -n istio-system -o yaml | sed -e 's/"rewriteAppHTTPProbe": true/"rewriteAppHTTPProbe": false/' | kubectl apply -f -
 {{< /text >}}
 
-默认情况下未启用此功能。我们希望[收到您的反馈](https://github.com/istio/istio/issues/10357)，
-是否应将其更改为 Istio 安装过程中的默认行为。
+## 清理 {#cleanup}
 
-### 端口分离{#separate-port}
-
-另一种方式是使用单独的端口来进行运行状态检查和常规流量检查。
-
-运行下面的命令，重新部署服务：
+移除这些示例所用的命名空间：
 
 {{< text bash >}}
-$ kubectl delete -f <(istioctl kube-inject -f @samples/health-check/liveness-http.yaml@)
-$ kubectl apply -f <(istioctl kube-inject -f @samples/health-check/liveness-http.yaml@)
-{{< /text >}}
-
-稍等片刻，检查 pod 状态，确认 Liveness 探针在 'RESTARTS' 列的工作状态是 '0' 。
-
-{{< text bash >}}
-$ kubectl get pod
-NAME                             READY     STATUS    RESTARTS   AGE
-liveness-http-67d5db65f5-765bb   2/2       Running   0          1m
-{{< /text >}}
-
-请注意，[liveness-http]({{< github_file >}}/samples/health-check/liveness-http.yaml) 的镜像公开了两个端口：8001 和 8002 ([源码]({{< github_file >}}/samples/health-check/server.go))。在这个部署方式里面，端口 8001 用于常规流量，而端口 8002 给 Liveness 探针使用。
-
-### 清除{#cleanup}
-
-请按照如下操作删除上述步骤中添加的双向 TLS 策略和相应的目标规则：
-
-{{< text bash >}}
-$ kubectl delete policies default
-$ kubectl delete destinationrules default
-$ kubectl delete ns istio-io-health
+$ kubectl delete ns istio-io-health istio-io-health-rewrite
 {{< /text >}}

@@ -140,12 +140,11 @@ func checkFile(path string) (*TestCase, error) {
 	cleanupScript := splitScript[1]
 
 	// copy the files sourced by test to cleanup
-	re := regexp.MustCompile("(?m)^source \".*\\.sh\"$")
-	sources := re.FindAllString(testScript, -1)
+	sources := getNonTestSources(testScript, shortPath)
 	cleanupScript = strings.Join(sources, "\n") + cleanupScriptPrefix + cleanupScript
 
 	// find setup configuration
-	re = regexp.MustCompile(fmt.Sprintf("(?m)^%v (.*)$", setupSpec))
+	re := regexp.MustCompile(fmt.Sprintf("(?m)^%v (.*)$", setupSpec))
 	setups := re.FindAllStringSubmatch(testScript, -1)
 
 	if numSetups := len(setups); numSetups != 1 {
@@ -268,4 +267,19 @@ func getTemplateScript(template, testPath string) string {
 	splitPath[len(splitPath)-1] = snipsFileSuffix
 	snipsPath := strings.Join(splitPath, "/")
 	return fmt.Sprintf(template, defaultPath, snipsPath)
+}
+
+// getNonTestSources returns test source commands that are not test files.
+func getNonTestSources(testScript string, testPath string) []string {
+	re := regexp.MustCompile("(?m)^source \".*\\.sh\"$")
+	sources := re.FindAllString(testScript, -1)
+	testDir := testPath[:strings.LastIndex(testPath, "/")]
+	re = regexp.MustCompile(fmt.Sprintf("source \"%s/%s/.*test\\.sh\"", defaultPath, testDir))
+	for i := 0; i < len(sources); i++ {
+		if re.MatchString(sources[i]) {
+			sources = append(sources[:i], sources[i+1:]...)
+			i--
+		}
+	}
+	return sources
 }

@@ -5,16 +5,16 @@ weight: 10
 keywords: [security,authentication,jwt,route]
 owner: istio/wg-security-maintainers
 test: yes
-status: Experimental
+status: Alpha
 ---
+
+{{< boilerplate alpha >}}
 
 This task shows you how to route requests based on JWT claims on an Istio ingress gateway using the request authentication
 and virtual service.
 
 Note: this feature only supports Istio ingress gateway and requires the use of both request authentication and virtual
 service to properly validate and route based on JWT claims.
-
-{{< boilerplate experimental-feature-warning >}}
 
 ## Before you begin
 
@@ -27,7 +27,7 @@ service to properly validate and route based on JWT claims.
     {{< text bash >}}
     $ kubectl create ns foo
     $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@) -n foo
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin-gateway.yaml@) -n foo
+    $ kubectl apply -f @samples/httpbin/httpbin-gateway.yaml@ -n foo
     {{< /text >}}
 
 *  Follow the instructions in
@@ -54,7 +54,7 @@ identity and more secure compared using the unauthenticated HTTP attributes (e.g
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: security.istio.io/v1beta1
+    apiVersion: security.istio.io/v1
     kind: RequestAuthentication
     metadata:
       name: ingress-jwt
@@ -110,9 +110,9 @@ identity and more secure compared using the unauthenticated HTTP attributes (e.g
     The virtual service uses the reserved header `"@request.auth.claims.groups"` to match with the JWT claim `groups`.
     The prefix `@` denotes it is matching with the metadata derived from the JWT validation and not with HTTP headers.
 
-    Claim of type string, list of string and nested claims are supported. Use the `.` as a separator for nested claim
-    names. For example, `"@request.auth.claims.name.givenName"` matches the nested claim `name` and `givenName`. Claim
-    name with the `.` character is currently not supported.
+    Claim of type string, list of string and nested claims are supported. Use the `.` or `[]` as a separator for nested claim
+    names. For example, `"@request.auth.claims.name.givenName"` or `"@request.auth.claims[name][givenName]"` matches
+    the nested claim `name` and `givenName`, they are equivalent here. When the claim name contains `.`, only `[]` can be used as a separator.
 
 ## Validating ingress routing based on JWT claims
 
@@ -139,7 +139,7 @@ identity and more secure compared using the unauthenticated HTTP attributes (e.g
 1. Validate the ingress gateway routes the request with a valid JWT token that includes the claim `groups: group1`:
 
     {{< text syntax="bash" expandlinks="false" >}}
-    $ TOKEN_GROUP=$(curl {{< github_file >}}/security/tools/jwt/samples/groups-scope.jwt -s) && echo "$TOKEN_GROUP" | cut -d '.' -f2 - | base64 --decode -
+    $ TOKEN_GROUP=$(curl {{< github_file >}}/security/tools/jwt/samples/groups-scope.jwt -s) && echo "$TOKEN_GROUP" | cut -d '.' -f2 - | base64 --decode
     {"exp":3537391104,"groups":["group1","group2"],"iat":1537391104,"iss":"testing@secure.istio.io","scope":["scope1","scope2"],"sub":"testing@secure.istio.io"}
     {{< /text >}}
 
@@ -151,8 +151,8 @@ identity and more secure compared using the unauthenticated HTTP attributes (e.g
 
 1. Validate the ingress gateway returns the HTTP code 404 with a valid JWT but does not include the claim `groups: group1`:
 
-    {{< text syntax="bash" expandlinks="false" >}}
-    $ TOKEN_NO_GROUP=$(curl {{< github_file >}}/security/tools/jwt/samples/demo.jwt -s) && echo "$TOKEN_NO_GROUP" | cut -d '.' -f2 - | base64 --decode -
+    {{< text syntax="bash" >}}
+    $ TOKEN_NO_GROUP=$(curl {{< github_file >}}/security/tools/jwt/samples/demo.jwt -s) && echo "$TOKEN_NO_GROUP" | cut -d '.' -f2 - | base64 --decode
     {"exp":4685989700,"foo":"bar","iat":1532389700,"iss":"testing@secure.istio.io","sub":"testing@secure.istio.io"}
     {{< /text >}}
 

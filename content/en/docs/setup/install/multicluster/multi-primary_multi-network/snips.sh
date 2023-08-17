@@ -40,7 +40,7 @@ EOF
 }
 
 snip_configure_cluster1_as_a_primary_2() {
-istioctl install --context="${CTX_CLUSTER1}" -f cluster1.yaml
+istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --context="${CTX_CLUSTER1}" -f cluster1.yaml
 }
 
 snip_install_the_eastwest_gateway_in_cluster1_1() {
@@ -83,7 +83,7 @@ EOF
 }
 
 snip_configure_cluster2_as_a_primary_2() {
-istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
+istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --context="${CTX_CLUSTER2}" -f cluster2.yaml
 }
 
 snip_install_the_eastwest_gateway_in_cluster2_1() {
@@ -107,14 +107,14 @@ kubectl --context="${CTX_CLUSTER2}" apply -n istio-system -f \
 }
 
 snip_enable_endpoint_discovery_1() {
-istioctl x create-remote-secret \
+istioctl create-remote-secret \
   --context="${CTX_CLUSTER1}" \
   --name=cluster1 | \
   kubectl apply -f - --context="${CTX_CLUSTER2}"
 }
 
 snip_enable_endpoint_discovery_2() {
-istioctl x create-remote-secret \
+istioctl create-remote-secret \
   --context="${CTX_CLUSTER2}" \
   --name=cluster2 | \
   kubectl apply -f - --context="${CTX_CLUSTER1}"

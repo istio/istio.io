@@ -13,65 +13,69 @@ test: no
 
 ## 看似有效的配置不生效 {#valid-configuration-is-rejected}
 
-使用 [istioctl validate -f](/zh/docs/reference/commands/istioctl/#istioctl-validate) 以及 [istioctl analyze](/zh/docs/reference/commands/istioctl/#istioctl-analyze) 来获取更多为什么配置不生效的信息。使用和控制面版本相似的 _istioctl_ CLI 。
+使用 [istioctl validate -f](/zh/docs/reference/commands/istioctl/#istioctl-validate)
+以及 [istioctl analyze](/zh/docs/reference/commands/istioctl/#istioctl-analyze)
+来获取更多为什么配置不生效的信息。使用和控制面版本相似的 **istioctl** CLI。
 
-最常见的配置问题是关于 YAML 文件空格缩进以及数组符号 (`-`) 的错误。
+最常见的配置问题是关于 YAML 文件空格缩进以及数组符号（`-`）的错误。
 
-手动验证您的配置是否正确，当有必要的时候请参照 [Istio API 文档](/zh/docs/reference/config) 。
+手动验证您的配置是否正确，当有必要的时候请参照 [Istio API 文档](/zh/docs/reference/config)。
 
 ## 接受无效配置 {#invalid-configuration-is-accepted}
 
-验证 `istiod-istio-system` `validationwebhookconfiguration` 配置是否存在并且是正确的。无效的 `apiVersion`、`apiGroup` 和 `resource` 配置应该在两个 `webhook` 其中之一被列举出来。
+验证存在正确的名为 `istio-validator-` 且后跟 `<revision>-` 的 `validatingwebhookconfiguration`，
+如果不是默认的修订版则后跟 Istio 系统命名空间（例如 `istio-validator-myrev-istio-system`）。
+有效配置的 `apiVersion`、`apiGroup` 和 `resource` 应列举在 `validatingwebhookconfiguration`
+的 `webhooks` 部分。
 
 {{< text bash yaml >}}
-$ kubectl get validatingwebhookconfiguration istiod-istio-system -o yaml
+$ kubectl get validatingwebhookconfiguration istio-validator-istio-system -o yaml
 apiVersion: admissionregistration.k8s.io/v1
 kind: ValidatingWebhookConfiguration
 metadata:
-  creationTimestamp: "2020-01-24T19:53:03Z"
-  generation: 1
   labels:
     app: istiod
+    install.operator.istio.io/owning-resource-namespace: istio-system
     istio: istiod
+    istio.io/rev: default
+    operator.istio.io/component: Pilot
+    operator.istio.io/managed: Reconcile
+    operator.istio.io/version: unknown
     release: istio
-  name: istiod-istio-system
-  ownerReferences:
-  - apiVersion: rbac.authorization.k8s.io/v1
-    blockOwnerDeletion: true
-    controller: true
-    kind: ClusterRole
-    name: istiod-istio-system
-    uid: c3d24917-c2da-49ad-add3-c91c14608a45
-  resourceVersion: "36649"
-  selfLink: /apis/admissionregistration.k8s.io/v1/validatingwebhookconfigurations/istiod-istio-system
-  uid: 043e39d9-377a-4a67-a7cf-7ae4cb3c562c
+  name: istio-validator-istio-system
+  resourceVersion: "615569"
+  uid: 112fed62-93e7-41c9-8cb1-b2665f392dd7
 webhooks:
 - admissionReviewVersions:
   - v1beta1
+  - v1
   clientConfig:
-    # caBundle should be non-empty. This is periodically (re)patched
-    # every second by the webhook service using the ca-cert
-    # from the mounted service account secret.
+    # caBundle 应该是非空的。webhook
+    # 服务使用已安装服务帐户密码中的 ca-cert
+    # 每隔一秒定期（重新）修订一次。
     caBundle: LS0t...
+    # service 对应实现 webhook 的 Kubernetes 服务
     service:
-      # service corresponds to the Kubernetes service that implements the
-      # webhook, e.g. istio-galley.istio-system.svc:443
-      name: istio-istiod
+      name: istiod
       namespace: istio-system
       path: /validate
       port: 443
   failurePolicy: Fail
-  matchPolicy: Exact
-  name: validation.istio.io
+  matchPolicy: Equivalent
+  name: rev.validation.istio.io
   namespaceSelector: {}
-  objectSelector: {}
+  objectSelector:
+    matchExpressions:
+    - key: istio.io/rev
+      operator: In
+      values:
+      - default
   rules:
   - apiGroups:
-    - config.istio.io
-    - rbac.istio.io
     - security.istio.io
-    - authentication.istio.io
     - networking.istio.io
+    - telemetry.istio.io
+    - extensions.istio.io
     apiVersions:
     - '*'
     operations:
@@ -81,76 +85,41 @@ webhooks:
     - '*'
     scope: '*'
   sideEffects: None
-  timeoutSeconds: 30
+  timeoutSeconds: 10
 {{< /text >}}
 
-如果 `validatingwebhookconfiguration` 不存在，那就验证
-`istio-validation` `configmap` 是否存在。Istio 使用 configmap 的数据来创建或更新 `validatingwebhookconfiguration`。
+如果 `istio-validator-` webhook 不存在，那就验证 `global.configValidation`
+安装选项是否被设为 `true`。
 
-{{< text bash yaml >}}
-$ kubectl -n istio-system get configmap istio-validation -o jsonpath='{.data}'
-map[config:apiVersion: admissionregistration.k8s.io/v1beta1
-kind: ValidatingWebhookConfiguration
-metadata:
-  name: istiod-istio-system
-  namespace: istio-system
-  labels:
-    app: istiod
-    release: istio
-    istio: istiod
-webhooks:
-  - name: validation.istio.io
-    clientConfig:
-      service:
-        name: istiod
-        namespace: istio-system
-        path: "/validate"
-        port: 443
-      caBundle: ""
-    rules:
-      - operations:
-        - CREATE
-        - UPDATE
-        apiGroups:
-        - config.istio.io
-        - rbac.istio.io
-        - security.istio.io
-        - authentication.istio.io
-        - networking.istio.io
-        apiVersions:
-        - "*"
-        resources:
-        - "*"
-    failurePolicy: Fail
-    sideEffects: None]
-        (... snip ...)
-{{< /text >}}
-
-如果 `istio-validation` 中的 webhook 数组为空，则校验 `global.configValidation` 安装选项是否被设置。
-
-校验配置如果失败会自动关闭，正常情况下配置存在并校验通过，webhook 将被调用。在资源创建或更新的时候，如果缺失 `caBundle`或者错误的证书，亦或网络连接问题都将会导致报错。如果你确信你的配置没有问题，webhook 没有被调用却看不到任何错误信息，你的集群配置肯定有问题。
+校验配置如果失败会自动关闭。如果配置存在且作用范围正确，webhook 将被调用。
+在资源创建或更新的时候，如果 `caBundle` 缺失或证书错误，亦或网络连接问题都将会导致报错。
+如果您确信您的配置没有问题，webhook 没有被调用却看不到任何错误信息，您的集群配置肯定有问题。
 
 ## 创建配置失败报错：x509 certificate errors {#x509-certificate-errors}
 
-`x509: certificate signed by unknown authority` 错误通常和 webhook 配置中的空 `caBundle` 有关，所以要确认它不为空 (请查阅[验证 webhook 配置](#invalid-configuration-is-accepted))。Istio 有意识的使用 `istio-validation` `configmap` 和根证书，调整了 webhook 配置。
+`x509: certificate signed by unknown authority` 错误通常和 webhook
+配置中的空 `caBundle` 有关，所以要确认它不为空
+（请查阅[验证 webhook 配置](#invalid-configuration-is-accepted)）。
+Istio 有意识地使用 `istio-validation` `configmap` 和根证书，调整了
+webhook 配置。
 
-1. 验证 `istio-pilot` pod 是否在运行：
+1. 验证 `istio-pilot` Pod 是否在运行：
 
     {{< text bash >}}
-    $  kubectl -n istio-system get pod -lapp=pilot
+    $  kubectl -n istio-system get pod -lapp=istiod
     NAME                            READY     STATUS    RESTARTS   AGE
-    istio-pilot-5dbbbdb746-d676g   1/1       Running   0          2d
+    istiod-5dbbbdb746-d676g   1/1       Running   0          2d
     {{< /text >}}
 
-1. 检查 pod 日志是否有错误，修复 `caBundle` 失败的时候会报错：
+1. 检查 Pod 日志是否有错误，修复 `caBundle` 失败的时候会报错：
 
     {{< text bash >}}
-    $ for pod in $(kubectl -n istio-system get pod -lapp=pilot -o jsonpath='{.items[*].metadata.name}'); do \
+    $ for pod in $(kubectl -n istio-system get pod -lapp=istiod -o jsonpath='{.items[*].metadata.name}'); do \
         kubectl -n istio-system logs ${pod} \
     done
     {{< /text >}}
 
-1. 如果修复失败，请验证 Pilot 的 RBAC 配置：
+1. 如果修复失败，请验证 Istiod 的 RBAC 配置：
 
     {{< text bash yaml >}}
     $ kubectl get clusterrole istiod-istio-system -o yaml
@@ -168,34 +137,37 @@ webhooks:
 
     Istio 需要 `validatingwebhookconfigurations` 的写权限来创建和更新 `validatingwebhookconfiguration` 配置项。
 
-## 创建配置报错：`no such hosts` 、`no endpoints available` {#creating-configuration-fail}
+## 创建配置报错：`no such hosts` 或 `no endpoints available` {#creating-configuration-fail}
 
-如果 `istio-pilot` pod 没有准备就绪，配置是不会被创建或者更新的，在下面的例子里您可以看到关于 `no endpoints available` 的错误信息。
+校验失败自动关闭。如果 `istiod` Pod 没有准备就绪，
+配置是不会被创建或者更新的，在下面的例子里您可以看到关于
+`no endpoints available` 的错误信息。
 
-检查 `istio-pilot` pod 是否运行，并且检查 endpoint 是否准备就绪。
+检查 `istiod` Pod 是否运行，并且检查 endpoint 是否准备就绪。
 
 {{< text bash >}}
-$ kubectl -n istio-system get pod -lapp=pilot
+$  kubectl -n istio-system get pod -lapp=istiod
 NAME                            READY     STATUS    RESTARTS   AGE
-istio-pilot-5dbbbdb746-d676g   1/1       Running   0          2d
+istiod-5dbbbdb746-d676g   1/1       Running   0          2d
 {{< /text >}}
 
 {{< text bash >}}
-$ kubectl -n istio-system get endpoints istio-pilot
+$ kubectl -n istio-system get endpoints istiod
 NAME           ENDPOINTS                          AGE
-istio-pilot   10.48.6.108:15014,10.48.6.108:443   3d
+istiod         10.48.6.108:15014,10.48.6.108:443   3d
 {{< /text >}}
 
-如果 pod 或者 endpoint 尚未准备就绪，请检查 pod log 和任何导致 webhook pod 无法启动的异常状态，以及服务流量。
+如果 Pod 或者 endpoint 尚未准备就绪，请检查 Pod 日志和任何导致
+webhook Pod 无法启动的异常状态以及服务流量。
 
 {{< text bash >}}
-$ for pod in $(kubectl -n istio-system get pod -lapp=pilot -o jsonpath='{.items[*].metadata.name}'); do \
+$ for pod in $(kubectl -n istio-system get pod -lapp=istiod -o jsonpath='{.items[*].metadata.name}'); do \
     kubectl -n istio-system logs ${pod} \
 done
 {{< /text >}}
 
 {{< text bash >}}
-$ for pod in $(kubectl -n istio-system get pod -lapp=pilot -o name); do \
+$ for pod in $(kubectl -n istio-system get pod -lapp=istiod -o name); do \
     kubectl -n istio-system describe ${pod} \
 done
 {{< /text >}}

@@ -1,7 +1,7 @@
 ---
 title: Customizing the installation configuration
 description: Describes how to customize installation configuration options.
-weight: 55
+weight: 50
 keywords: [profiles,install,helm]
 owner: istio/wg-environments-maintainers
 test: n/a
@@ -231,8 +231,7 @@ profiles:
 
 - compiled in charts. This is the default if no `--manifests` option is set. The compiled in charts are the same as those
 in the `manifests/` directory of the Istio release `.tgz`.
-- charts in the local file system, e.g., `istioctl install --manifests istio-{{< istio_full_version >}}/manifests`
-- charts in GitHub, e.g., `istioctl install --manifests https://github.com/istio/istio/releases/download/{{< istio_full_version >}}/istio-{{< istio_full_version >}}-linux-arm64.tar.gz`
+- charts in the local file system, e.g., `istioctl install --manifests istio-{{< istio_full_version >}}/manifests`.
 
 Local file system charts and profiles can be customized by editing the files in `manifests/`. For extensive changes,
 we recommend making a copy of the `manifests` directory and make changes there. Note, however, that the content layout

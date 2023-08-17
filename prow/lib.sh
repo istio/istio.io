@@ -76,7 +76,7 @@ function setup_kind_cluster() {
   # If config not explicitly set, then use defaults
   if [[ -z "${CONFIG}" ]]; then
     # Kubernetes 1.15+
-    CONFIG=./prow/config/trustworthy-jwt.yaml
+    CONFIG=./prow/config/default.yaml
   fi
 
   # Create KinD cluster

@@ -170,7 +170,7 @@ continuous manual testing as possible, we have created a framework to automate t
 Every page on [istio.io](https://istio.io) that can be tested includes a `PAGE TEST` indication under
 the page title. For example:
 
-<img src="page-test.png" alt="PAGE TEST" title="PAGE TEST" />
+<img src="static/img/page-test.png" alt="PAGE TEST" title="PAGE TEST" />
 
 A green checkmark indicates an automated test is available for the page. The page is up to date and working as
 documented.
@@ -205,7 +205,7 @@ to a new location, so they're not desirable for brand new content.
 a French translation. This file contains the text that is displayed by the site infrastructure for things like menus, and other
 standard material.
 
-- Edit the file `config.toml` to list your new language. Search for the `[languages]` entry and just add a new entry. This
+- Edit the file `hugo.toml` to list your new language. Search for the `[languages]` entry and just add a new entry. This
 tells the Hugo site generator to process your content.
 
 - Edit the file `scripts/lint_site.sh` and search for `check_content`. Add another call to `check_content` for your

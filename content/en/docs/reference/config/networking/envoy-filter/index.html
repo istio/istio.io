@@ -22,7 +22,6 @@ application of these EnvoyFilters is as follows: all EnvoyFilters
 in the config <a href="/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig">root
 namespace</a>,
 followed by all matching EnvoyFilters in the workload&rsquo;s namespace.</p>
-
 <p><strong>NOTE 1</strong>: Some aspects of this API are deeply tied to the internal
 implementation in Istio networking subsystem as well as Envoy&rsquo;s XDS
 API. While the EnvoyFilter API by itself will maintain backward
@@ -30,25 +29,21 @@ compatibility, any envoy configuration provided through this
 mechanism should be carefully monitored across Istio proxy version
 upgrades, to ensure that deprecated fields are removed and replaced
 appropriately.</p>
-
 <p><strong>NOTE 2</strong>: When multiple EnvoyFilters are bound to the same
 workload in a given namespace, all patches will be processed
 sequentially in order of creation time.  The behavior is undefined
 if multiple EnvoyFilter configurations conflict with each other.</p>
-
 <p><strong>NOTE 3</strong>: To apply an EnvoyFilter resource to all workloads
 (sidecars and gateways) in the system, define the resource in the
 config <a href="/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig">root
 namespace</a>,
 without a workloadSelector.</p>
-
 <p>The example below declares a global default EnvoyFilter resource in
 the root namespace called <code>istio-config</code>, that adds a custom
 protocol filter on all sidecars in the system, for outbound port
 9307. The filter should be added before the terminating tcp_proxy
 filter to take effect. In addition, it sets a 30s idle timeout for
 all HTTP connections in both gateways and sidecars.</p>
-
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
 metadata:
@@ -88,14 +83,12 @@ spec:
           common_http_protocol_options:
             idle_timeout: 30s
 </code></pre>
-
 <p>The following example enables Envoy&rsquo;s Lua filter for all inbound
 HTTP calls arriving at service port 8080 of the reviews service pod
 with labels &ldquo;app: reviews&rdquo;, in the bookinfo namespace. The lua
 filter calls out to an external service internal.org.net:8888 that
 requires a special cluster definition in envoy. The cluster is also
 added to the sidecar as part of this configuration.</p>
-
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
 metadata:
@@ -123,19 +116,20 @@ spec:
        name: envoy.filters.http.lua
        typed_config:
           &quot;@type&quot;: &quot;type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua&quot;
-          inlineCode: |
-            function envoy_on_request(request_handle)
-              -- Make an HTTP call to an upstream host with the following headers, body, and timeout.
-              local headers, body = request_handle:httpCall(
-               &quot;lua_cluster&quot;,
-               {
-                [&quot;:method&quot;] = &quot;POST&quot;,
-                [&quot;:path&quot;] = &quot;/acl&quot;,
-                [&quot;:authority&quot;] = &quot;internal.org.net&quot;
-               },
-              &quot;authorize call&quot;,
-              5000)
-            end
+          defaultSourceCode:
+            inlineString: |
+              function envoy_on_request(request_handle)
+                -- Make an HTTP call to an upstream host with the following headers, body, and timeout.
+                local headers, body = request_handle:httpCall(
+                 &quot;lua_cluster&quot;,
+                 {
+                  [&quot;:method&quot;] = &quot;POST&quot;,
+                  [&quot;:path&quot;] = &quot;/acl&quot;,
+                  [&quot;:authority&quot;] = &quot;internal.org.net&quot;
+                 },
+                &quot;authorize call&quot;,
+                5000)
+              end
   # The second patch adds the cluster that is referenced by the lua code
   # cds match is omitted as a new cluster is being added
   - applyTo: CLUSTER
@@ -159,12 +153,10 @@ spec:
                     address: &quot;internal.org.net&quot;
                     port_value: 8888
 </code></pre>
-
 <p>The following example overwrites certain fields (HTTP idle timeout
 and X-Forward-For trusted hops) in the HTTP connection manager in a
 listener on the ingress gateway in istio-system namespace for the
 SNI host app.example.com:</p>
-
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
 metadata:
@@ -192,11 +184,9 @@ spec:
           common_http_protocol_options:
             idle_timeout: 30s
 </code></pre>
-
 <p>The following example inserts an attributegen filter
 that produces <code>istio_operationId</code> attribute which is consumed
 by the istio.stats filter. <code>filterClass: STATS</code> encodes this dependency.</p>
-
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
 metadata:
@@ -237,9 +227,7 @@ spec:
                code:
                  local: { inline_string: &quot;envoy.wasm.attributegen&quot; }
 </code></pre>
-
 <p>The following example inserts an http ext_authz filter in the <code>myns</code> namespace.</p>
-
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
 metadata:
@@ -264,12 +252,10 @@ spec:
             - key: foo
               value: myauth.acme # required by local ext auth server.
 </code></pre>
-
 <p>A workload in the <code>myns</code> namespace needs to access a different ext_auth server
 that does not accept initial metadata. Since proto merge cannot remove fields, the
 following configuration uses the <code>REPLACE</code> operation. If you do not need to inherit
 fields, REPLACE is preferred over MERGE.</p>
-
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
 metadata:
@@ -293,9 +279,7 @@ spec:
             envoy_grpc:
               cluster_name: acme-ext-authz-alt
 </code></pre>
-
 <p>The following example deploys a Wasm extension for all inbound sidecar HTTP requests.</p>
-
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
 metadata:
@@ -307,7 +291,7 @@ spec:
   # and the binary configuration. It should come before the next patch that applies it.
   # This resource is visible to all proxies in the namespace &quot;myns&quot;. It is possible to provide
   # multiple definitions for the same name &quot;my-wasm-extension&quot; in multiple namespaces. We recommend that:
-  # - if overriding is desired, then the root level definition can be overriden per namespace with REPLACE.
+  # - if overriding is desired, then the root level definition can be overridden per namespace with REPLACE.
   # - if overriding is not desired, then the name should be qualified with the namespace &quot;myns/my-wasm-extension&quot;,
   #   to avoid accidental name collisions.
   - applyTo: EXTENSION_CONFIG
@@ -348,12 +332,10 @@ spec:
             ads: {}
           type_urls: [&quot;type.googleapis.com/envoy.extensions.filters.http.wasm.v3.Wasm&quot;]
 </code></pre>
-
 <p>The following example adds a Wasm service extension for all proxies using a locally available Wasm file.
 The singleton Wasm extension is used to maintain a shared state between workers executing Wasm filters.
 For example, a local rate limit extension would rely on a singleton to limit requests across all workers.
 As another example, an authorization Wasm extension can use a singleton to maintain a database of accounts.</p>
-
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
 metadata:
@@ -382,6 +364,27 @@ spec:
                   local:
                     filename: &quot;/etc/envoy_filter_http_wasm_example.wasm&quot;
 </code></pre>
+<p>The following example inserts an <code>envoy.filters.listener.proxy_protocol</code> listener filter before the <code>envoy.filters.listener.tls_inspector</code>.</p>
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: listener-filter-example
+  namespace: myns
+spec:
+  configPatches:
+  - applyTo: LISTENER_FILTER
+    match:
+      context: SIDECAR_INBOUND # will match outbound listeners in all sidecars
+      listener:
+        portNumber: 15006
+        listenerFilter: &quot;envoy.filters.listener.tls_inspector&quot;
+    patch:
+      operation: INSERT_BEFORE
+      value:
+        # This is the full filter config including the name and typed_config section.
+        name: &quot;envoy.filters.listener.proxy_protocol&quot;
+        typed_config:
+          &quot;@type&quot;: &quot;type.googleapis.com/envoy.extensions.filters.listener.proxy_protocol.v3.ProxyProtocol&quot;</code></pre>
 
 <h2 id="EnvoyFilter">EnvoyFilter</h2>
 <section>
@@ -437,14 +440,11 @@ is significant. The API provides two primary ways to order patches.
 Patch sets in the root namespace are applied before the patch sets in the
 workload namespace. Patches within a patch set are processed in the order
 that they appear in the <code>configPatches</code> list.</p>
-
 <p>The default value for priority is 0 and the range is [ min-int32, max-int32 ].
 A patch set with a negative priority is processed before the default. A patch
 set with a positive priority is processed after the default.</p>
-
 <p>It is recommended to start with priority values that are multiples of 10
 to leave room for further insertion.</p>
-
 <p>Patch sets are sorted in the following ascending key order:
 priority, creation time, fully qualified resource name.</p>
 
@@ -702,6 +702,18 @@ No
 patch will be applied to the filter chain (and a specific
 filter if specified) and not to other filter chains in the
 listener.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="EnvoyFilter-ListenerMatch-listener_filter">
+<td><code>listenerFilter</code></td>
+<td><code>string</code></td>
+<td>
+<p>Match a specific listener filter. If specified, the
+patch will be applied to the listener filter.</p>
 
 </td>
 <td>
@@ -1041,9 +1053,7 @@ transport protocol to consider when determining a filter
 chain match.  This value will be compared against the
 transport protocol of a new connection, when it&rsquo;s detected by
 the <code>tls_inspector</code> listener filter.</p>
-
 <p>Accepted values include:</p>
-
 <ul>
 <li><code>raw_buffer</code> - default, used when no transport protocol is detected.</li>
 <li><code>tls</code> - set when TLS protocol is detected by the TLS inspector.</li>
@@ -1063,7 +1073,6 @@ of application protocols to consider when determining a
 filter chain match.  This value will be compared against the
 application protocols of a new connection, when it&rsquo;s detected
 by one of the listener filters such as the <code>http_inspector</code>.</p>
-
 <p>Accepted values include: h2, http/1.1, http/1.0</p>
 
 </td>
@@ -1326,7 +1335,7 @@ has no effect.</p>
 <section>
 <p>FilterClass determines the filter insertion point in the filter chain
 relative to the filters implicitly inserted by the control plane.
-It is used in conjuction with the <code>ADD</code> operation.
+It is used in conjunction with the <code>ADD</code> operation.
 This is the preferred insertion mechanism for adding filters over
 the <code>INSERT_*</code> operations since those operations rely on potentially unstable
 filter names.
@@ -1466,6 +1475,13 @@ is only supported by HTTP filters.</p>
 <td><code>BOOTSTRAP</code></td>
 <td>
 <p>Applies the patch to bootstrap configuration.</p>
+
+</td>
+</tr>
+<tr id="EnvoyFilter-ApplyTo-LISTENER_FILTER">
+<td><code>LISTENER_FILTER</code></td>
+<td>
+<p>Applies the patch to the listener filter.</p>
 
 </td>
 </tr>

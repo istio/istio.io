@@ -89,7 +89,7 @@ other = "January 2, 2006"
 other = "Privacy policy"
 
 [footer_terms_and_conditions]
-other = "Terms and conditions"
+other = "Terms and Conditions"
 
 [page_publish_date_format]
 other = "January 2, 2006"
@@ -354,3 +354,6 @@ other = "Also used by"
 
 [go_to_solutions]
 other = "Go to solutions"
+
+[case_study_slogan]
+other = "Read case studies of companies that benefited from implementing Istio"

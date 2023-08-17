@@ -12,6 +12,8 @@ test: yes
 status: Alpha
 ---
 
+{{< boilerplate alpha >}}
+
 Istio provides the ability to [extend proxy functionality using WebAssembly (Wasm)](/blog/2020/wasm-announce/).
 One of the key advantages of Wasm extensibility is that extensions can be loaded dynamically at runtime.
 These extensions must first be distributed to the Envoy proxy.
@@ -63,17 +65,17 @@ If a `WasmPlugin` is created in a specific namespace besides `istio-system`, the
 
 1. Test `/productpage` without credentials
 
-{{< text bash >}}
-$ curl -s -o /dev/null -w "%{http_code}" "http://$INGRESS_HOST:$INGRESS_PORT/productpage"
-401
-{{< /text >}}
+    {{< text bash >}}
+    $ curl -s -o /dev/null -w "%{http_code}" "http://$INGRESS_HOST:$INGRESS_PORT/productpage"
+    401
+    {{< /text >}}
 
 1. Test `/productpage` with credentials
 
-{{< text bash >}}
-$ curl -s -o /dev/null -w "%{http_code}" -H "Authorization: Basic YWRtaW4zOmFkbWluMw==" "http://$INGRESS_HOST:$INGRESS_PORT/productpage"
-200
-{{< /text >}}
+    {{< text bash >}}
+    $ curl -s -o /dev/null -w "%{http_code}" -H "Authorization: Basic YWRtaW4zOmFkbWluMw==" "http://$INGRESS_HOST:$INGRESS_PORT/productpage"
+    200
+    {{< /text >}}
 
 For more example usage of the `WasmPlugin` API, please take a look at the [API reference](/docs/reference/config/proxy_extensions/wasm-plugin/).
 

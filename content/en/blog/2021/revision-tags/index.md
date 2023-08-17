@@ -108,4 +108,4 @@ $ istioctl x uninstall --revision 1-9-5
 
 ## Wrapping up
 
-Using revisions makes it safer to canary changes to an Istio control plane. In large environments with lots of namespaces, you may prefer to use stable tags, as we've introduced in this blog, to remove the number of moving pieces and simplify any automation you may build around updating an Istio control plane. Please check out the [1.10 release](/news/releases/1.10.x/announcing-1.10/) [and the new tag feature](/docs/setup/upgrade/canary/#stable-revision-labels-experimental) and give us your feedback!
+Using revisions makes it safer to canary changes to an Istio control plane. In large environments with lots of namespaces, you may prefer to use stable tags, as we've introduced in this blog, to remove the number of moving pieces and simplify any automation you may build around updating an Istio control plane. Please check out the [1.10 release](/news/releases/1.10.x/announcing-1.10/) [and the new tag feature](/docs/setup/upgrade/canary/#stable-revision-labels) and give us your feedback!

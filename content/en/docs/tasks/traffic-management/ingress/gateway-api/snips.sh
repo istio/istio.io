@@ -21,12 +21,12 @@
 ####################################################################################################
 
 snip_setup_1() {
-kubectl get crd gateways.gateway.networking.k8s.io || \
-  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.5.0" | kubectl apply -f -; }
+kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
+  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.7.1" | kubectl apply -f -; }
 }
 
 snip_setup_2() {
-istioctl install --set profile=minimal -y
+istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --set profile=minimal -y
 }
 
 snip_configuring_a_gateway_1() {
@@ -36,7 +36,7 @@ kubectl apply -f samples/httpbin/httpbin.yaml
 snip_configuring_a_gateway_2() {
 kubectl create namespace istio-ingress
 kubectl apply -f - <<EOF
-apiVersion: gateway.networking.k8s.io/v1alpha2
+apiVersion: gateway.networking.k8s.io/v1beta1
 kind: Gateway
 metadata:
   name: gateway
@@ -52,7 +52,7 @@ spec:
       namespaces:
         from: All
 ---
-apiVersion: gateway.networking.k8s.io/v1alpha2
+apiVersion: gateway.networking.k8s.io/v1beta1
 kind: HTTPRoute
 metadata:
   name: http
@@ -74,8 +74,8 @@ EOF
 }
 
 snip_configuring_a_gateway_3() {
-kubectl wait -n istio-ingress --for=condition=ready gateways.gateway.networking.k8s.io gateway
-export INGRESS_HOST=$(kubectl get gateways.gateway.networking.k8s.io gateway -n istio-ingress -ojsonpath='{.status.addresses[*].value}')
+kubectl wait -n istio-ingress --for=condition=programmed gateways.gateway.networking.k8s.io gateway
+export INGRESS_HOST=$(kubectl get gateways.gateway.networking.k8s.io gateway -n istio-ingress -ojsonpath='{.status.addresses[0].value}')
 }
 
 snip_configuring_a_gateway_4() {
@@ -99,7 +99,7 @@ ENDSNIP
 
 snip_configuring_a_gateway_6() {
 kubectl apply -f - <<EOF
-apiVersion: gateway.networking.k8s.io/v1alpha2
+apiVersion: gateway.networking.k8s.io/v1beta1
 kind: HTTPRoute
 metadata:
   name: http
@@ -143,7 +143,7 @@ curl -s -HHost:httpbin.example.com "http://$INGRESS_HOST/headers"
 ENDSNIP
 
 ! read -r -d '' snip_automated_deployment_1 <<\ENDSNIP
-apiVersion: gateway.networking.k8s.io/v1alpha2
+apiVersion: gateway.networking.k8s.io/v1beta1
 kind: Gateway
 metadata:
   name: gateway
@@ -154,8 +154,57 @@ spec:
 ...
 ENDSNIP
 
+! read -r -d '' snip_resource_attachment_and_scaling_1 <<\ENDSNIP
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: Gateway
+metadata:
+  name: gateway
+spec:
+  gatewayClassName: istio
+  listeners:
+  - name: default
+    hostname: "*.example.com"
+    port: 80
+    protocol: HTTP
+    allowedRoutes:
+      namespaces:
+        from: All
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: gateway
+spec:
+  # Match the generated Deployment by reference
+  # Note: Do not use `kind: Gateway`.
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: gateway-istio
+  minReplicas: 2
+  maxReplicas: 5
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: gateway
+spec:
+  minAvailable: 1
+  selector:
+    # Match the generated Deployment by label
+    matchLabels:
+      istio.io/gateway-name: gateway
+ENDSNIP
+
 ! read -r -d '' snip_manual_deployment_1 <<\ENDSNIP
-apiVersion: gateway.networking.k8s.io/v1alpha2
+apiVersion: gateway.networking.k8s.io/v1beta1
 kind: Gateway
 metadata:
   name: gateway
@@ -167,16 +216,22 @@ spec:
 ENDSNIP
 
 ! read -r -d '' snip_mesh_traffic_1 <<\ENDSNIP
-apiVersion: gateway.networking.k8s.io/v1alpha2
+apiVersion: gateway.networking.k8s.io/v1beta1
 kind: HTTPRoute
 metadata:
   name: mesh
 spec:
   parentRefs:
-  - kind: Mesh
-    name: istio
-  hostnames: ["example.com"]
+  - group: ""
+    kind: Service
+    name: example
   rules:
+  - filters:
+    - type: RequestHeaderModifier
+      requestHeaderModifier:
+        add:
+        - name: my-added-header
+          value: added-value
   - backendRefs:
     - name: example
       port: 80
@@ -192,5 +247,5 @@ kubectl delete ns istio-ingress
 }
 
 snip_cleanup_2() {
-kubectl kustomize "github.com/kubernetes-sigs/service-apis/config/crd?ref=v0.5.0" | kubectl delete -f -
+kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.7.1" | kubectl delete -f -
 }

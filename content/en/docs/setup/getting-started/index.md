@@ -11,6 +11,12 @@ owner: istio/wg-environments-maintainers
 test: yes
 ---
 
+{{< tip >}}
+{{< boilerplate gateway-api-future >}}
+If you would like to get started with Istio using the Gateway API,
+refer to the [future getting started instructions](/docs/setup/additional-setup/getting-started/) instead of the following.
+{{< /tip >}}
+
 This guide lets you quickly evaluate Istio. If you are already familiar with
 Istio or interested in installing other configuration profiles or
 advanced [deployment models](/docs/ops/deployment/deployment-models/), refer to our
@@ -244,7 +250,7 @@ istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121  80:31380/
 
 If the `EXTERNAL-IP` value is set, your environment has an external load balancer that you can use for the ingress gateway.
 If the `EXTERNAL-IP` value is `<none>` (or perpetually `<pending>`), your environment does not provide an external load balancer for the ingress gateway.
-In this case, you can access the gateway using the service's [node port](https://kubernetes.io/docs/concepts/services-networking/service/#nodeport).
+In this case, you can access the gateway using the service's [node port](https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport).
 
 Choose the instructions corresponding to your environment:
 
@@ -282,7 +288,7 @@ $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingress
 _GKE:_
 
 {{< text bash >}}
-$ export INGRESS_HOST=workerNodeAddress
+$ export INGRESS_HOST=worker-node-address
 {{< /text >}}
 
 You need to create firewall rules to allow the TCP traffic to the `ingressgateway` service's ports.
@@ -326,7 +332,7 @@ $ export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -
 
     {{< text bash >}}
     $ echo "$GATEWAY_URL"
-    192.168.99.100:32194
+    127.0.0.1:80
     {{< /text >}}
 
 ### Verify external access {#confirm}

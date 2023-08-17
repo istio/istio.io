@@ -34,10 +34,10 @@
         {{ if .Permalink }}
             <meta property="og:url" content="{{ .Permalink }}">
         {{ end }}
-        <meta property="og:image" content="https://raw.githubusercontent.com/istio/istio.io/master/static/img/istio-whitelogo-bluebackground-framed.svg">
+        <meta property="og:image" content="https://raw.githubusercontent.com/istio/istio.io/master/static/img/istio-social.svg">
         <meta property="og:image:alt" content="Istio Logo">
-        <meta property="og:image:width" content="1024">
-        <meta property="og:image:height" content="1024">
+        <meta property="og:image:width" content="1200">
+        <meta property="og:image:height" content="600">
         <meta property="og:site_name" content="Istio">
 
         <!-- Twitter card -->
@@ -87,7 +87,7 @@
         <link rel="alternate" type="application/rss+xml" title="Istio News" href="/news/feed.xml">
         <link rel="alternate" type="application/rss+xml" title="Istio Blog and News" href="/feed.xml">
 
-        <!-- Favicons: generated from img/istio-whitelogo-bluebackground-framed.svg by http://cthedot.de/icongen -->
+        <!-- Favicons: generated from img/istio-whitelogo-bluebackground-framed.svg by https://cthedot.de/icongen -->
         <link rel="shortcut icon" href="/favicons/favicon.ico" >
         <link rel="apple-touch-icon" href="/favicons/apple-touch-icon-180x180.png" sizes="180x180">
         <link rel="icon" type="image/png" href="/favicons/favicon-16x16.png" sizes="16x16">
@@ -152,8 +152,20 @@
 
         {{ block "main" . }}{{ end }}
         {{ partial "footer.html" . }}
-
         <!-- libraries we conditionally pull in -->
+        {{ if .Scratch.Get "needMermaid" -}}
+        <script type="module">
+          import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+          mermaid.initialize({
+            startOnLoad: true,
+            'theme': 'base',
+            'themeVariables': {
+              'primaryColor': '#B7D4FF',
+              'primaryBorderColor': '#9BB9FF',
+            }
+          });
+        </script>
+        {{ end -}}
         {{ if .Scratch.Get "needPopper" }}
             <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" defer></script>
         {{ end }}

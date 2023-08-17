@@ -1,5 +1,5 @@
 ---
-title: HTTP 流量授权
+title: HTTP 流量
 description: 展示如何设置 HTTP 流量访问控制。
 weight: 10
 keywords: [security,access-control,rbac,authorization]
@@ -10,13 +10,13 @@ owner: istio/wg-security-maintainers
 test: yes
 ---
 
-该任务向您展示了如何在 Istio 网格中为 HTTP 流量设置授权。可在[授权概念页面](/zh/docs/concepts/security/#authorization)了解更多内容。
+此任务向您展示了如何为 Istio 网格中的 HTTP 流量设置 `ALLOW` 操作的 Istio 授权策略。
 
 ## 开始之前 {#before-you-begin}
 
-本任务假设您已经：
+在开始此任务之前，请执行以下操作：
 
-* 阅读了[授权概念](/zh/docs/concepts/security/#authorization)。
+* 阅读了 [Istio 授权概念](/zh/docs/concepts/security/#authorization)。
 
 * 遵照 [Istio 安装指南](/zh/docs/setup/install/istioctl/)安装完成 Istio 并启用了双向 TLS。
 
@@ -39,30 +39,38 @@ test: yes
 
 ## 为 HTTP 流量的工作负载配置访问控制 {#configure-access-control-for-workloads-using-http-traffic}
 
-使用 Istio，您可以轻松地为网格中的{{< gloss "workload" >}}workloads{{< /gloss >}}设置访问控制。本任务向您展示如何使用 Istio 授权设置访问控制。首先，配置一个简单的 `deny-all` 策略，来拒绝工作负载的所有请求，然后逐渐地、增量地授予对工作负载更多的访问权。
+使用 Istio，您可以轻松地为网格中的 {{< gloss "workload" >}}workloads{{< /gloss >}} 设置访问控制。
+本任务向您展示如何使用 Istio 授权设置访问控制。首先，配置一个简单的 `allow-nothing` 策略，
+来拒绝工作负载的所有请求，然后逐渐地、增量地授予对工作负载更多的访问权。
 
-1. 运行下面的命令在 `default` 命名空间里创建一个 `deny-all` 策略。该策略没有 `selector` 字段，它会把策略应用于 `default` 命名空间中的每个工作负载。`spec:` 字段为空值 `{}`，意思是不允许任何流量，有效地拒绝所有请求。
+1. 运行下面的命令在 `default` 命名空间里创建一个 `allow-nothing` 策略。
+   该策略没有 `selector` 字段，它会把策略应用于 `default` 命名空间中的每个工作负载。
+   `spec:` 字段为空值 `{}`，意思是不允许任何流量，有效地拒绝所有请求。
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: security.istio.io/v1beta1
+    apiVersion: security.istio.io/v1
     kind: AuthorizationPolicy
     metadata:
-      name: deny-all
+      name: allow-nothing
       namespace: default
     spec:
       {}
     EOF
     {{< /text >}}
 
-    打开浏览器访问 Bookinfo 的 `productpage` (`http://$GATEWAY_URL/productpage`) 页面。您将会看到 `"RBAC: access denied"`。该错误表明配置的 `deny-all` 策略按期望生效了，并且 Istio 没有任何规则允许对网格中的工作负载进行任何访问。
+    打开浏览器访问 Bookinfo 的 `productpage` (`http://$GATEWAY_URL/productpage`) 页面。
+    您将会看到 `"RBAC: access denied"`。该错误表明配置的 `deny-all` 策略按期望生效了，
+    并且 Istio 没有任何规则允许对网格中的工作负载进行任何访问。
 
-1. 运行下面的命令创建一个 `productpage-viewer` 策略以容许通过 `GET` 方法访问 `productpage` 工作负载。该策略没有在 `rules` 中设置 `from` 字段，这意味着所有的请求源都被容许访问，包括所有的用户和工作负载：
+1. 运行下面的命令创建一个 `productpage-viewer` 策略以容许通过 `GET` 方法访问 `productpage`
+   工作负载。该策略没有在 `rules` 中设置 `from` 字段，这意味着所有的请求源都被容许访问，
+   包括所有的用户和工作负载：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: "security.istio.io/v1beta1"
-    kind: "AuthorizationPolicy"
+    apiVersion: security.istio.io/v1
+    kind: AuthorizationPolicy
     metadata:
       name: "productpage-viewer"
       namespace: default
@@ -70,6 +78,7 @@ test: yes
       selector:
         matchLabels:
           app: productpage
+      action: ALLOW
       rules:
       - to:
         - operation:
@@ -77,19 +86,23 @@ test: yes
     EOF
     {{< /text >}}
 
-    在浏览器里访问 Bookinfo 的 `productpage` (`http://$GATEWAY_URL/productpage`)。您将看到 “Bookinfo Sample” 页面，但会发现页面中有如下的错误：
+    在浏览器里访问 Bookinfo 的 `productpage` (`http://$GATEWAY_URL/productpage`)。
+    您将看到 “Bookinfo Sample” 页面，但会发现页面中有如下的错误：
 
     * `Error fetching product details`
     * `Error fetching product reviews`
 
-    这些错误是预期的，因为我们没有授权 `productpage` 工作负载去访问 `details` 和 `reviews` 工作负载。接下来，您需要配置一个策略来容许访问其他工作负载。
+    这些错误是预期的，因为我们没有授权 `productpage` 工作负载去访问 `details` 和 `reviews`
+    工作负载。接下来，您需要配置一个策略来容许访问其他工作负载。
 
-1. 运行下面的命令创建一个 `details-viewer` 策略以容许 `productpage` 工作负载以 `GET` 方式，通过使用 `cluster.local/ns/default/sa/bookinfo-productpage` ServiceAccount 去访问 `details` 工作负载：
+1. 运行下面的命令创建一个 `details-viewer` 策略以容许 `productpage` 工作负载以 `GET` 方式，
+   通过使用 `cluster.local/ns/default/sa/bookinfo-productpage` ServiceAccount
+   去访问 `details` 工作负载：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: "security.istio.io/v1beta1"
-    kind: "AuthorizationPolicy"
+    apiVersion: security.istio.io/v1
+    kind: AuthorizationPolicy
     metadata:
       name: "details-viewer"
       namespace: default
@@ -97,6 +110,7 @@ test: yes
       selector:
         matchLabels:
           app: details
+      action: ALLOW
       rules:
       - from:
         - source:
@@ -107,12 +121,14 @@ test: yes
     EOF
     {{< /text >}}
 
-1. 运行下面的命令创建一个 `reviews-viewer` 策略以容许 `productpage` 工作负载以 `GET` 方式，通过使用 `cluster.local/ns/default/sa/bookinfo-productpage` ServiceAccount 去访问 `reviews` 工作负载：
+1. 运行下面的命令创建一个 `reviews-viewer` 策略以容许 `productpage` 工作负载以 `GET` 方式，
+   通过使用 `cluster.local/ns/default/sa/bookinfo-productpage` ServiceAccount 去访问
+   `reviews` 工作负载：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: "security.istio.io/v1beta1"
-    kind: "AuthorizationPolicy"
+    apiVersion: security.istio.io/v1
+    kind: AuthorizationPolicy
     metadata:
       name: "reviews-viewer"
       namespace: default
@@ -120,6 +136,7 @@ test: yes
       selector:
         matchLabels:
           app: reviews
+      action: ALLOW
       rules:
       - from:
         - source:
@@ -130,16 +147,20 @@ test: yes
     EOF
     {{< /text >}}
 
-    在浏览器访问 Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`)。现在您将看到 “Bookinfo Sample” 页面，“Book Details” 在左下方，“Book Reviews” 在右下方。但是在 “Book Reviews” 部分有 `Ratings service currently unavailable` 的错误。
+    在浏览器访问 Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`)。现在您将看到
+    “Bookinfo Sample” 页面，“Book Details” 在左下方，“Book Reviews” 在右下方。但是在 “Book Reviews”
+    部分有 `Ratings service currently unavailable` 的错误。
 
-    这是因为 `reviews` 工作负载没有权限访问 `ratings` 工作负载。为修复这个问题，您需要授权 `reviews` 工作负载可以访问 `ratings` 工作负载。下一步我们配置一个策略来容许 `reviews` 工作负载访问。
+    这是因为 `reviews` 工作负载没有权限访问 `ratings` 工作负载。为修复这个问题，您需要授权 `reviews`
+    工作负载可以访问 `ratings` 工作负载。下一步我们配置一个策略来容许 `reviews` 工作负载访问。
 
-1. 运行下面的命令创建一个 `ratings-viewer` 策略以容许 `reviews` 工作负载以 `GET` 方式，通过使用 `cluster.local/ns/default/sa/bookinfo-reviews` ServiceAccount 去访问 `ratings` 工作负载：
+1. 运行下面的命令创建一个 `ratings-viewer` 策略以容许 `reviews` 工作负载以 `GET` 方式，通过
+   使用 `cluster.local/ns/default/sa/bookinfo-reviews` ServiceAccount 去访问 `ratings` 工作负载：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: "security.istio.io/v1beta1"
-    kind: "AuthorizationPolicy"
+    apiVersion: security.istio.io/v1
+    kind: AuthorizationPolicy
     metadata:
       name: "ratings-viewer"
       namespace: default
@@ -147,6 +168,7 @@ test: yes
       selector:
         matchLabels:
           app: ratings
+      action: ALLOW
       rules:
       - from:
         - source:
@@ -157,18 +179,19 @@ test: yes
     EOF
     {{< /text >}}
 
-    在浏览器访问 Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`)。您会在 “Book Reviews” 部分看到“黑色”和“红色”评分。
+    在浏览器访问 Bookinfo `productpage` (`http://$GATEWAY_URL/productpage`)。您会在
+    “Book Reviews” 部分看到“黑色”和“红色”评分。
 
     **恭喜！** 您成功地应用了授权策略为使用 HTTP 流量的工作负载进行了访问控制。
 
 ## 清除 {#clean-up}
 
-1. 从您的配置中删除所有的授权策略：
+从您的配置中删除所有的授权策略：
 
-    {{< text bash >}}
-    $ kubectl delete authorizationpolicy.security.istio.io/deny-all
-    $ kubectl delete authorizationpolicy.security.istio.io/productpage-viewer
-    $ kubectl delete authorizationpolicy.security.istio.io/details-viewer
-    $ kubectl delete authorizationpolicy.security.istio.io/reviews-viewer
-    $ kubectl delete authorizationpolicy.security.istio.io/ratings-viewer
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl delete authorizationpolicy.security.istio.io/allow-nothing
+$ kubectl delete authorizationpolicy.security.istio.io/productpage-viewer
+$ kubectl delete authorizationpolicy.security.istio.io/details-viewer
+$ kubectl delete authorizationpolicy.security.istio.io/reviews-viewer
+$ kubectl delete authorizationpolicy.security.istio.io/ratings-viewer
+{{< /text >}}

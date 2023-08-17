@@ -89,7 +89,7 @@ concise list of things you should know before upgrading your deployment to Istio
   [gateways](/docs/concepts/traffic-management/#gateways).
 
 - **Performance and Scalability Improvements**. Tuned the performance and
-  scalability of Istio and Envoy. Read more about [Performance and Scalability](/docs/ops/deployment/performance-and-scalability/)
+  scalability of Istio and Envoy. Read more about [Performance and Scalability](https://archive.istio.io/v1.1/docs/ops/deployment/performance-and-scalability/)
   enhancements.
 
 - **Access Logging Off by Default**. Disabled the access logs for all Envoy

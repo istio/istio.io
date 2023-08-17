@@ -19,4 +19,3 @@ There are two different approaches to doing this. The supported way for Gloo OSS
 See a quick demo of integrating open-source Gloo with Istio 1.5:
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/zhUR3HgeFSg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-

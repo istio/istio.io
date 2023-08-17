@@ -242,7 +242,7 @@ expected output. The framework includes the following built-in verify functions:
      1. different elapsed time values (e.g., `30s` is like `5m`)
      1. different ip values (e.g., `172.21.0.1` is like `10.0.0.31`). Disallows
          `<none>` and `<pending>` by default. This can be customized by setting
-         the `ALLOW_NONE_IP` and `ALLOW_PENDING_IP` environment variables,
+         the `CMP_MATCH_IP_NONE` and `CMP_MATCH_IP_PENDING` environment variables,
          respectively.
      1. prefix match ending with a dash character (e.g., `reviews-v1-12345...` is like `reviews-v1-67890...`)
      1. expected `...` is a wildcard token, matches anything
@@ -279,7 +279,7 @@ The following command will run all the doc tests within a `kube` environment:
 make doc.test
 ```
 
-The `make doc.test` rule can be passed two optional environment variables: `TEST` and `TIMEOUT`.
+The `make doc.test` target can be passed two optional environment variables: `TEST` and `TIMEOUT`.
 
 `TEST` specifies a directory relative to `content/en/docs/` containing the tests to run.
 For example, the following command will only run the tests under `content/en/docs/tasks/traffic-management`:
@@ -307,7 +307,7 @@ You can also find this information by running `make doc.test.help`.
 error as the Istio control plane is being started. Adding a config when creating your `kind` cluster should fix the issue:
 
    ```sh
-   kind create cluster --name istio-test --config prow/config/trustworthy-jwt.yaml
+   kind create cluster --name istio-test --config prow/config/default.yaml
    ```
 
 1. When using `kind` clusters on a Mac, an extra env var is needed (ADDITIONAL_CONTAINER_OPTIONS="--network host").

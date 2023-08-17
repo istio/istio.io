@@ -20,4 +20,3 @@ This release contains bug fixes to improve robustness. This release note describ
 
 - **Fixed** Pilot agent app probe connection leak.
   ([Issue #27726](https://github.com/istio/istio/issues/27726))
-

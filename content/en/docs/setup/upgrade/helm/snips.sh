@@ -53,24 +53,40 @@ kubectl get pods -l app=istiod -L istio.io/rev -n istio-system
 ENDSNIP
 
 snip_canary_upgrade_recommended_4() {
-helm delete istiod -n istio-system
+helm install istio-ingress-canary istio/gateway \
+    --set revision=canary \
+    -n istio-ingress
 }
 
 snip_canary_upgrade_recommended_5() {
+kubectl get pods -L istio.io/rev -n istio-ingress
+}
+
+! read -r -d '' snip_canary_upgrade_recommended_5_out <<\ENDSNIP
+  NAME                                    READY   STATUS    RESTARTS   AGE     REV
+  istio-ingress-754f55f7f6-6zg8n          1/1     Running   0          5m22s   default
+  istio-ingress-canary-5d649bd644-4m8lp   1/1     Running   0          3m24s   canary
+ENDSNIP
+
+snip_canary_upgrade_recommended_6() {
+helm delete istiod -n istio-system
+}
+
+snip_canary_upgrade_recommended_7() {
 helm upgrade istio-base istio/base --set defaultRevision=canary -n istio-system --skip-crds
 }
 
 snip_usage_1() {
-helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{prod-stable}" --set revision=1-9-5 -n istio-system | kubectl apply -f -
-helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{prod-canary}" --set revision=1-10-0 -n istio-system | kubectl apply -f -
+helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{prod-stable}" --set revision=1-18-1 -n istio-system | kubectl apply -f -
+helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{prod-canary}" --set revision=1-19-0 -n istio-system | kubectl apply -f -
 }
 
 snip_usage_2() {
-helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{prod-stable}" --set revision=1-10-0 -n istio-system | kubectl apply -f -
+helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{prod-stable}" --set revision=1-19-0 -n istio-system | kubectl apply -f -
 }
 
 snip_default_tag_1() {
-helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{default}" --set revision=1-10-0 -n istio-system | kubectl apply -f -
+helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{default}" --set revision=1-19-0 -n istio-system | kubectl apply -f -
 }
 
 snip_in_place_upgrade_1() {

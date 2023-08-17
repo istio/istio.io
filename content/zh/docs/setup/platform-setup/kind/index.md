@@ -1,7 +1,7 @@
 ---
 title: kind
 description: 为 Istio 设置 kind 的说明。
-weight: 17
+weight: 30
 skip_seealso: true
 keywords: [platform-setup,kubernetes,kind]
 owner: istio/wg-environments-maintainers
@@ -14,10 +14,10 @@ kind 主要是为了测试 Kubernetes 自身而设计的，但它也可用于本
 
 ## 准备{#prerequisites}
 
-- 请使用最新的 Go 版本，最好是 Go 1.13 或更新版本。
-- 为了使用 kind，还需要[安装 docker](https://docs.docker.com/install/)。
+- 请使用最新的 Go 版本。
+- 为了使用 kind，还需要[安装 Docker](https://docs.docker.com/install/)。
 - 安装最新版本的 [kind](https://kind.sigs.k8s.io/docs/user/quick-start/)。
-- 增加 Docker 的[内存限制](/zh/docs/setup/platform-setup/docker/)
+- 增加 Docker 的[内存限制](/zh/docs/setup/platform-setup/docker/)。
 
 ## 安装步骤{#installation-steps}
 
@@ -28,16 +28,6 @@ kind 主要是为了测试 Kubernetes 自身而设计的，但它也可用于本
     {{< /text >}}
 
     `--name` 用于为集群指定一个名字。默认情况下，该集群将会名为 `kind`。
-
-    {{< tip >}}
-    您可以使用下面的命令来创建一个关联外部负载均衡的 `kind` 集群。
-    否则您需要使用服务的 node 端口访问网关或其他 k8s 负载均衡类型的服务。因为 `kind` 默认不提供外部负载均衡。
-
-    {{< text bash >}}
-    $ @samples/kind-lb/setupkind.sh@ --cluster-name istio-testing
-    {{< /text >}}
-
-    {{< /tip >}}
 
 1. 使用下列命令查看 kind 集群列表：
 
@@ -60,8 +50,8 @@ kind 主要是为了测试 Kubernetes 自身而设计的，但它也可用于本
     {{< /tip >}}
 
 1. 如果运行了多套集群，还需要选择 `kubectl` 将要操作哪一套。
-    可以在 [Kubernetes kubeconfig](https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/) 文件中设置当前环境来指定一个默认集群。
-    另外，还可以运行下列命令来为 `kubectl` 设置当前环境：
+    可以在 [Kubernetes kubeconfig](https://kubernetes.io/zh-cn/docs/concepts/configuration/organize-cluster-access-kubeconfig/)
+    文件中设置当前环境来指定一个默认集群。另外，还可以运行下列命令来为 `kubectl` 设置当前环境：
 
     {{< text bash >}}
     $ kubectl config use-context kind-istio-testing
@@ -85,7 +75,7 @@ kind 不像 minikube 一样内置了操作界面。但仍然可以设置一个�
 1. 运行以下命令以部署操作界面：
 
     {{< text bash >}}
-    $ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.1.0/aio/deploy/recommended.yaml
+    $ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml
     {{< /text >}}
 
 1. 验证操作界面已经部署并且正在运行。
@@ -97,16 +87,17 @@ kind 不像 minikube 一样内置了操作界面。但仍然可以设置一个�
     kubernetes-dashboard-b7ffbc8cb-zl8zg         1/1     Running   0          39s
     {{< /text >}}
 
-1. 创建 `ClusterRoleBinding` 以提供对新创建的集群的管理权限访问。
+1. 创建 `ServiceAccount` 和 `ClusterRoleBinding` 以提供对新创建的集群的管理权限访问。
 
     {{< text bash >}}
-    $ kubectl create clusterrolebinding default-admin --clusterrole cluster-admin --serviceaccount=default:default
+    $ kubectl create serviceaccount -n kubernetes-dashboard admin-user
+    $ kubectl create clusterrolebinding -n kubernetes-dashboard admin-user --clusterrole cluster-admin --serviceaccount=kubernetes-dashboard:admin-user
     {{< /text >}}
 
 1. 需要用 Bearer Token 来登录到操作界面。使用以下命令将 token 保存到变量。
 
     {{< text bash >}}
-    $ token=$(kubectl get secrets -o jsonpath="{.items[?(@.metadata.annotations['kubernetes\.io/service-account\.name']=='default')].data.token}"|base64 -d)
+    $ token=$(kubectl -n kubernetes-dashboard create token admin-user)
     {{< /text >}}
 
     使用 `echo` 命令显示 token 并复制它，以用于登录到操作界面。
@@ -122,7 +113,7 @@ kind 不像 minikube 一样内置了操作界面。但仍然可以设置一个�
     Starting to serve on 127.0.0.1:8001
     {{< /text >}}
 
-    点击 [Kubernetes Dashboard](http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/) 来查看部署和服务。
+    点击 [Kubernetes Dashboard](http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/) 来查看您的 Deployment 和 Service。
 
     {{< warning >}}
     最好将 token 保存起来，不然每次登录到操作界面需要 token 时都得重新运行上述步骤 4.

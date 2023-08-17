@@ -8,7 +8,7 @@ weight: 10
 
 - **新增** 配置选项 `values.global.proxy.holdApplicationUntilProxyStarts`，它使 Sidecar 注入器在 Pod 的容器列表的开始处注入 Sidecar，并配置它阻止所有其他容器的启动，直到代理准备好为止。默认情况下禁用此选项。
  ([Issue #11130](https://github.com/istio/istio/issues/11130))
-- **新增** SDS 支持客户证书和用于 [TLS/mTLS 从出口网关发起](/zh/docs/tasks/traffic-management/egress/egress-gateway-tls-origination-sds/)的 CA 证书，使用 `DestinationRule`。
+- **新增** SDS 支持客户证书和用于 [TLS/mTLS 从出口网关发起](/zh/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/)的 CA 证书，使用 `DestinationRule`。
   ([Issue #14039](https://github.com/istio/istio/issues/14039))
 
 ## 安全{#security}
@@ -81,4 +81,3 @@ weight: 10
 
 - **新增** 如果一个 istio.io 页面已经被 istio.io 自动测试所测试，还会出现提示。
  ([Issue #7672](https://github.com/istio/istio.io/issues/7672))
-

@@ -50,7 +50,6 @@ webhooks and dependent features are not functioning properly.
     {{< text bash >}}
     $ kubectl api-versions | grep admissionregistration.k8s.io/v1
     admissionregistration.k8s.io/v1
-    admissionregistration.k8s.io/v1beta1
     {{< /text >}}
 
 1. Verify `MutatingAdmissionWebhook` and `ValidatingAdmissionWebhook` plugins are

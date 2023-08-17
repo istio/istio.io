@@ -1,6 +1,6 @@
 ---
 title: Minikube
-description: Instructions to setup minikube for Istio.
+description: Instructions to set up minikube for Istio.
 weight: 50
 skip_seealso: true
 aliases:
@@ -24,8 +24,8 @@ Refer to the [`api-server` reference docs](https://kubernetes.io/docs/reference/
 ## Installation steps
 
 1.  Install the latest version of
-    [minikube](https://kubernetes.io/docs/setup/minikube/) and a
-    [minikube hypervisor driver](https://kubernetes.io/docs/tasks/tools/install-minikube/#install-a-hypervisor).
+    [minikube](https://kubernetes.io/docs/tasks/tools/#minikube) and a
+    [minikube hypervisor driver](https://minikube.sigs.k8s.io/docs/start/#install-a-hypervisor).
 
 1.  If you're not using the default driver, set your minikube hypervisor driver.
 
@@ -36,16 +36,16 @@ Refer to the [`api-server` reference docs](https://kubernetes.io/docs/reference/
     $ minikube config set driver kvm2
     {{< /text >}}
 
-1.  Start minikube with 16384 `MB` of memory and 4 `CPUs`. This example uses Kubernetes version **1.20.2**.
+1.  Start minikube with 16384 `MB` of memory and 4 `CPUs`. This example uses Kubernetes version **1.26.1**.
     You can change the version to any Kubernetes version supported by Istio by altering the
     `--kubernetes-version` value:
 
     {{< text bash >}}
-    $ minikube start --memory=16384 --cpus=4 --kubernetes-version=v1.20.2
+    $ minikube start --memory=16384 --cpus=4 --kubernetes-version=v1.26.1
     {{< /text >}}
 
     Depending on the hypervisor you use and the platform on which the hypervisor
-    is run, minimum memory requirements vary. 16384 `MB` is sufficent to run
+    is run, minimum memory requirements vary. 16384 `MB` is sufficient to run
     Istio and bookinfo.
 
     {{< tip >}}

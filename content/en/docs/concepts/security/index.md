@@ -575,7 +575,7 @@ access the workloads with the `app: httpbin` and `version: v1` labels in the
 `foo` namespace when requests sent have a valid JWT token.
 
 {{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
  name: httpbin
@@ -604,7 +604,7 @@ The following example shows an authorization policy that denies requests if the
 source is not the `foo` namespace:
 
 {{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
  name: httpbin-deny
@@ -645,7 +645,7 @@ For example, the `allow-read` policy allows `"GET"` and `"HEAD"` access to the
 workload with the `app: products` label in the `default` namespace.
 
 {{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: allow-read
@@ -687,7 +687,7 @@ The following example policy allows access at paths with the `/test/*` prefix
 or the `*/info` suffix.
 
 {{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: tester
@@ -713,7 +713,7 @@ JWT authentication, if the request path is not `/healthz`. Thus, the policy
 excludes requests to the `/healthz` path from the JWT authentication:
 
 {{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: disable-jwt-for-healthz
@@ -736,7 +736,7 @@ The following example denies the request to the `/admin` path for requests
 without request principals:
 
 {{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: enable-jwt-for-admin
@@ -768,7 +768,7 @@ access to the workload.
 {{< /tip >}}
 
 {{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: allow-nothing
@@ -782,7 +782,7 @@ there is another `ALLOW` policy allowing the request because the `DENY` policy t
 This is useful if you want to temporarily disable all access to the workload.
 
 {{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: deny-all
@@ -798,7 +798,7 @@ useless as it will always allow the request. It might be useful if you want to t
 workload. Note the request could still be denied due to `CUSTOM` and `DENY` policies.
 
 {{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: allow-all
@@ -818,7 +818,7 @@ key is `request.headers[version]`, which is an entry in the Istio attribute
 `request.headers`, which is a map.
 
 {{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
  name: httpbin
@@ -850,7 +850,7 @@ If you want to make a workload publicly accessible, you need to leave the
 unauthenticated) users and workloads, for example:
 
 {{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
  name: httpbin
@@ -871,7 +871,7 @@ To allow only authenticated users, set `principals` to `"*"` instead, for
 example:
 
 {{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
  name: httpbin
@@ -911,7 +911,7 @@ configures an authorization policy to only allows the `bookinfo-ratings-v2`
 service in the Istio mesh to access the MongoDB workload.
 
 {{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: mongodb-policy

@@ -39,7 +39,7 @@ Both of these exceptions will go away in a future Istio release, when [Mixer V2]
 
 Next, when testing Istio's data plane performance at scale, it's important to test not only at increasing requests per second, but also against an increasing number of **concurrent** connections. This is because real-world, high-throughput traffic comes from multiple clients. The [provided scripts](https://github.com/istio/tools/tree/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/benchmark#run-performance-tests) allow you to perform the same load test with any number of concurrent connections, at increasing RPS.
 
-Lastly, our test environment measures requests between two pods, not many. The client pod is [Fortio](http://fortio.org/), which sends traffic to the server pod.
+Lastly, our test environment measures requests between two pods, not many. The client pod is [Fortio](https://fortio.org/), which sends traffic to the server pod.
 
 Why test with only two pods? Because scaling up throughput (RPS) and connections (threads) has a greater effect on Envoy's performance than increasing the total size of the service registry — or, the total number of pods and services in the Kubernetes cluster. When the size of the service registry grows, Envoy does have to keep track of more endpoints, and lookup time per request does increase, but by a tiny constant. If you have many services, and this constant becomes a latency concern, Istio provides a [Sidecar resource](/docs/reference/config/networking/sidecar/), which allows you to limit which services each Envoy knows about.
 
@@ -108,6 +108,6 @@ For a mesh with 1000 RPS across 16 connections, Istio 1.2 adds just **3 millisec
 Istio's performance depends on your specific setup and traffic load. Because of this variance, make sure your test setup accurately reflects your production workloads. To try out the benchmarking scripts, head over [to the Istio Tools repository](https://github.com/istio/tools/tree/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/benchmark).
 {{< /tip >}}
 
-Also check out the [Istio Performance and Scalability guide](/docs/ops/deployment/performance-and-scalability) for the most up-to-date performance data.
+Also check out the [Istio Performance and Scalability guide](https://archive.istio.io/v1.16/docs/ops/deployment/performance-and-scalability) for the most up-to-date performance data.
 
 Thank you for reading, and happy benchmarking!
