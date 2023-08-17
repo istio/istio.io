@@ -52,7 +52,7 @@ Sidecar 容器提供了强大的功能，但也存在一些问题。
 [这些](https://github.com/kubernetes/kubernetes/issues/25908)在所有 Kubernetes Issue
 中的 #1 和 #6 的两个 [Issue](https://github.com/kubernetes/kubernetes/issues/65502) - 终于被关闭了！
 
-特别感谢参与冲刺的众多个人贡献者。
+特别感谢让这个功能冲过终点线的众多贡献者。
 
 ## 尝试一下 {#trying-it-out}
 
