@@ -1,5 +1,5 @@
 ---
-title: Istio 中的 Kubernetes Native Sidecar
+title: 在 Istio 中使用 Kubernetes 原生 Sidecar
 description: 使用 Istio 演示新的 SidecarContainers 功能。
 publishdate: 2023-08-15
 attribution: "John Howard (Google); Translated by Wilson Wu (DaoCloud)"
