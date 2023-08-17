@@ -120,7 +120,7 @@ sleep-7656cf8794-8fhdk   istio-init,istio-proxy   sleep
 这意味着在代理容器准备好之前，`initContainers` 以及 `containers` 中的所有后续容器将不会被启动。
 此外，即使代理容器仍在运行，Pod 也可以被终止。
 
-### 初始化容器流量 {#init-container-traffic}
+### Init 容器流量 {#init-container-traffic}
 
 为了测试这一点，我们让 Pod 真正做一些事情。这里我们部署了一个简单的 Pod，
 它在 `initContainer` 中发送请求。通常情况下，这会失败。
