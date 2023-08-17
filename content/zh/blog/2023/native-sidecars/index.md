@@ -206,7 +206,7 @@ sleep   0/2     Completed         0          12s
 我会大声地告诉大家“重要”！
 
 虽然当 Ambient 模式用于工作负载时，Sidecar 的影响会减轻，
-但我预计几乎所有大规模 Kubernetes 用户在其 Deployment 中都会存在某种 Sidecar。
+但我预计几乎所有大规模 Kubernetes 集群的用户在其部署中都会存在某种 Sidecar。
 这可能是他们不想迁移到 Ambient 模式的 Istio 工作负载、尚未完成迁移的工作负载或与 Istio 无关的内容。
 因此，虽然这种情况可能较少，但对于使用 Sidecar 的情况来说，这仍然是一个巨大的改进。
 
