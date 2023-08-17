@@ -8,7 +8,7 @@ keywords: [istio,sidecars,kubernetes]
 
 如果您曾经听说过有关服务网格的些许信息，
 那就会知道它是以 Sidecar 模式工作的：与应用代码并列部署一个代理服务器。
-Sidecar 就是这样：它是一种模式。到目前为止，在 Kubernetes 中还没有对 Sidecar 容器进行正式支持。
+Sidecar 就是这样：它是一种模式。在今日（8 月 15 日，即 Kubernetes 1.28 正式发版之日）之前，Kubernetes 对 Sidecar 容器从未有任何形式的正式支持。
 
 这导致了许多问题：如果您有一个按照预期终止的 Job，
 但由于 Sidecar 容器却不能达到这个预期，该怎么办？这是
