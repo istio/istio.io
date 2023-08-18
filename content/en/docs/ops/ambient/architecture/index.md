@@ -87,7 +87,6 @@ spec:
 
 ## Security
 
-
 {{< image link="./ambient-layers.png" caption="Layering of ambient mesh data plane" >}}
 
 To recap, Istio ambient mesh introduces a layered mesh data plane with a secure overlay responsible for transport security and routing, that has the option to add L7 capabilities for namespaces that need them.
