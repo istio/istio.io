@@ -8,6 +8,12 @@ release: 1.18.0
 weight: 20
 ---
 
+## Ambient Mesh
+
+Istio 1.18 marks the first release of ambient mesh, a new Istio data plane mode that’s designed for simplified operations, broader application compatibility, and reduced infrastructure cost. For more details see the [announcement blog](/blog/2022/introducing-ambient-mesh/).
+
+**Note**: Ambient Mesh is currently in alpha and is not recommended for production use.
+
 ## Deprecation Notices
 
 These notices describe functionality that will be removed in a future release according to [Istio's deprecation policy](/docs/releases/feature-stages/#feature-phase-definitions). Please consider upgrading your environment to remove the deprecated functionality.
