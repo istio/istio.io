@@ -64,7 +64,7 @@ spec:
 </code></pre><p>The following is another example that sets <code>action</code> to <code>DENY</code> to create a deny policy.
 It denies all the requests with <code>POST</code> method on port <code>8080</code> on all workloads
 in the <code>foo</code> namespace.</p><pre><code class=language-yaml>apiVersion: security.istio.io/v1beta1
-kind: AuthorizaionPolicy
+kind: AuthorizationPolicy
 metadata:
   name: httpbin
   namespace: foo
