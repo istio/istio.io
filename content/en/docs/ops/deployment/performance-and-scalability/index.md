@@ -35,11 +35,6 @@ the data plane. The data plane and control plane have distinct performance conce
 
 The [Istio load tests](https://github.com/istio/tools/tree/{{< source_branch_name >}}/perf/load) mesh consists
 of **1000** services and **2000** sidecars with 70,000 mesh-wide requests per second.
-After running the tests using Istio 1.19, we get the following results:
-
-- The Envoy proxy uses **0.35 vCPU** and **40 MB memory** per 1000 requests per second going through the proxy.
-- Istiod uses **1 vCPU** and 1.5 GB of memory.
-- The Envoy proxy adds 2.65 ms to the 90th percentile latency.
 
 ## Control plane performance
 
