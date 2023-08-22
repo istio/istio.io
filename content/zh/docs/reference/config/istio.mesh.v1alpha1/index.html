@@ -7,7 +7,7 @@ location: https://istio.io/docs/reference/config/istio.mesh.v1alpha1.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
 weight: 20
-number_of_entries: 59
+number_of_entries: 64
 ---
 <p>Configuration affecting the service mesh as a whole.</p>
 
@@ -2625,7 +2625,7 @@ No
 </tr>
 <tr id="Topology-forward_client_cert_details">
 <td><code>forwardClientCertDetails</code></td>
-<td><code><a href="#Topology-ForwardClientCertDetails">ForwardClientCertDetails</a></code></td>
+<td><code><a href="#ForwardClientCertDetails">ForwardClientCertDetails</a></code></td>
 <td>
 <p>Configures how the gateway proxy handles x-forwarded-client-cert (XFCC)
 header in the incoming request.</p>
@@ -3126,6 +3126,39 @@ No
 No
 </td>
 </tr>
+<tr id="ProxyConfig-proxy_headers">
+<td><code>proxyHeaders</code></td>
+<td><code><a href="#ProxyConfig-ProxyHeaders">ProxyHeaders</a></code></td>
+<td>
+<p>Define the set of headers to add/modify for HTTP request/responses.</p>
+<p>To enable an optional header, simply set the field. If no specific configuration is required, an empty object (<code>{}</code>) will enable it.
+Note: currently all headers are enabled by default.</p>
+<p>Below shows an example of customizing the <code>server</code> header and disabling the <code>X-Envoy-Attempt-Count</code> header:</p>
+<pre><code class="language-yaml">proxyHeaders:
+  server:
+    value: &quot;my-custom-server&quot;
+  requestId: {} // Explicitly enable Request IDs. As this is the default, this has no effect.
+  attemptCount:
+    disabled: true
+</code></pre>
+<p>Some headers are enabled by default, and require explicitly disabling. See below for an example of disabling all default-enabled headers:</p>
+<pre><code class="language-yaml">proxyHeaders:
+  forwardedClientCert: SANITIZE
+  server:
+    disabled: true
+  requestId:
+    disabled: true
+  attemptCount:
+    disabled: true
+  envoyDebugHeaders:
+    disabled: true
+</code></pre>
+
+</td>
+<td>
+No
+</td>
+</tr>
 <tr id="ProxyConfig-zipkin_address" class="deprecated ">
 <td><code>zipkinAddress</code></td>
 <td><code>string</code></td>
@@ -3431,6 +3464,197 @@ No
 <td>
 <p>Proxy stats name regexps matcher for inclusion.</p>
 
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ProxyConfig-ProxyHeaders">ProxyConfig.ProxyHeaders</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ProxyConfig-ProxyHeaders-forwarded_client_cert">
+<td><code>forwardedClientCert</code></td>
+<td><code><a href="#ForwardClientCertDetails">ForwardClientCertDetails</a></code></td>
+<td>
+<p>Controls the <code>X-Forwarded-Client-Cert</code> header for inbound sidecar requests. To set this on gateways, use the <code>Topology</code> setting.
+To disable the header, configure either <code>SANITIZE</code> (to always remove the header, if present) or <code>FORWARD_ONLY</code> (to leave the header as-is).
+By default, <code>APPEND_FORWARD</code> will be used.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-ProxyHeaders-request_id">
+<td><code>requestId</code></td>
+<td><code><a href="#ProxyConfig-ProxyHeaders-RequestId">RequestId</a></code></td>
+<td>
+<p>Controls the <code>X-Request-Id</code> header. If enabled, a request ID is generated for each request if one is not already set.
+This applies to all types of traffic (inbound, outbound, and gateways).
+If disabled, no request ID will be generate for the request. If it is already present, it will be preserved.
+Warning: request IDs are a critical component to mesh tracing and logging, so disabling this is not recommended.
+This header is enabled by default if not configured.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-ProxyHeaders-server">
+<td><code>server</code></td>
+<td><code><a href="#ProxyConfig-ProxyHeaders-Server">Server</a></code></td>
+<td>
+<p>Controls the <code>server</code> header. If enabled, the <code>Server: istio-envoy</code> header is set in response headers for inbound traffic (including gateways).
+If disabled, the <code>Server</code> header is not modified. If it is already present, it will be preserved.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-ProxyHeaders-attempt_count">
+<td><code>attemptCount</code></td>
+<td><code><a href="#ProxyConfig-ProxyHeaders-AttemptCount">AttemptCount</a></code></td>
+<td>
+<p>Controls the <code>X-Envoy-Attempt-Count</code> header.
+If enabled, this header will be added on outbound request headers (including gateways) that have retries configured.
+If disabled, this header will not be set. If it is already present, it will be preserved.
+This header is enabled by default if not configured.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-ProxyHeaders-envoy_debug_headers">
+<td><code>envoyDebugHeaders</code></td>
+<td><code><a href="#ProxyConfig-ProxyHeaders-EnvoyDebugHeaders">EnvoyDebugHeaders</a></code></td>
+<td>
+<p>Controls various <code>X-Envoy-*</code> headers, such as <code>X-Envoy-Overloaded</code> and `X-Envoy-Upstream-Service-Time. If enabled,
+these headers will be included.
+If disabled, these headers will not be set. If they are already present, they will be preserved.
+See the <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/http/router/v3/router.proto#envoy-v3-api-field-extensions-filters-http-router-v3-router-suppress-envoy-headers">Envoy documentation</a> for more details.
+These headers are enabled by default if not configured.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ProxyConfig-ProxyHeaders-Server">ProxyConfig.ProxyHeaders.Server</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ProxyConfig-ProxyHeaders-Server-disabled">
+<td><code>disabled</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-ProxyHeaders-Server-value">
+<td><code>value</code></td>
+<td><code>string</code></td>
+<td>
+<p>If set, and the server header is enabled, this value will be set as the server header. By default, <code>istio-envoy</code> will be used.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ProxyConfig-ProxyHeaders-RequestId">ProxyConfig.ProxyHeaders.RequestId</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ProxyConfig-ProxyHeaders-RequestId-disabled">
+<td><code>disabled</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ProxyConfig-ProxyHeaders-AttemptCount">ProxyConfig.ProxyHeaders.AttemptCount</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ProxyConfig-ProxyHeaders-AttemptCount-disabled">
+<td><code>disabled</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ProxyConfig-ProxyHeaders-EnvoyDebugHeaders">ProxyConfig.ProxyHeaders.EnvoyDebugHeaders</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ProxyConfig-ProxyHeaders-EnvoyDebugHeaders-disabled">
+<td><code>disabled</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></code></td>
+<td>
 </td>
 <td>
 No
@@ -4008,70 +4232,6 @@ for details.</p>
 </tbody>
 </table>
 </section>
-<h2 id="Topology-ForwardClientCertDetails">Topology.ForwardClientCertDetails</h2>
-<section>
-<p>ForwardClientCertDetails controls how the x-forwarded-client-cert (XFCC)
-header is handled by the gateway proxy.
-See <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/filter/network/http_connection_manager/v2/http_connection_manager.proto#envoy-api-enum-config-filter-network-http-connection-manager-v2-httpconnectionmanager-forwardclientcertdetails">Envoy XFCC</a>
-header handling for more details.</p>
-
-<table class="enum-values">
-<thead>
-<tr>
-<th>Name</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr id="Topology-ForwardClientCertDetails-UNDEFINED">
-<td><code>UNDEFINED</code></td>
-<td>
-<p>Field is not set</p>
-
-</td>
-</tr>
-<tr id="Topology-ForwardClientCertDetails-SANITIZE">
-<td><code>SANITIZE</code></td>
-<td>
-<p>Do not send the XFCC header to the next hop. This is the default value.</p>
-
-</td>
-</tr>
-<tr id="Topology-ForwardClientCertDetails-FORWARD_ONLY">
-<td><code>FORWARD_ONLY</code></td>
-<td>
-<p>When the client connection is mTLS (Mutual TLS), forward the XFCC header
-in the request.</p>
-
-</td>
-</tr>
-<tr id="Topology-ForwardClientCertDetails-APPEND_FORWARD">
-<td><code>APPEND_FORWARD</code></td>
-<td>
-<p>When the client connection is mTLS, append the client certificate
-information to the request’s XFCC header and forward it.</p>
-
-</td>
-</tr>
-<tr id="Topology-ForwardClientCertDetails-SANITIZE_SET">
-<td><code>SANITIZE_SET</code></td>
-<td>
-<p>When the client connection is mTLS, reset the XFCC header with the client
-certificate information and send it to the next hop.</p>
-
-</td>
-</tr>
-<tr id="Topology-ForwardClientCertDetails-ALWAYS_FORWARD_ONLY">
-<td><code>ALWAYS_FORWARD_ONLY</code></td>
-<td>
-<p>Always forward the XFCC header in the request, regardless of whether the
-client connection is mTLS.</p>
-
-</td>
-</tr>
-</tbody>
-</table>
-</section>
 <h2 id="ProxyConfig-TracingServiceName">ProxyConfig.TracingServiceName</h2>
 <section>
 <p>Allows specification of various Istio-supported naming schemes for the
@@ -4187,6 +4347,70 @@ Mesh policy cannot be INHERIT.</p>
 <td>
 <p>Use the policy defined by the parent scope. Should not be used for mesh
 policy.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ForwardClientCertDetails">ForwardClientCertDetails</h2>
+<section>
+<p>ForwardClientCertDetails controls how the x-forwarded-client-cert (XFCC)
+header is handled by the gateway proxy.
+See <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/filter/network/http_connection_manager/v2/http_connection_manager.proto#envoy-api-enum-config-filter-network-http-connection-manager-v2-httpconnectionmanager-forwardclientcertdetails">Envoy XFCC</a>
+header handling for more details.</p>
+
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ForwardClientCertDetails-UNDEFINED">
+<td><code>UNDEFINED</code></td>
+<td>
+<p>Field is not set</p>
+
+</td>
+</tr>
+<tr id="ForwardClientCertDetails-SANITIZE">
+<td><code>SANITIZE</code></td>
+<td>
+<p>Do not send the XFCC header to the next hop. This is the default value.</p>
+
+</td>
+</tr>
+<tr id="ForwardClientCertDetails-FORWARD_ONLY">
+<td><code>FORWARD_ONLY</code></td>
+<td>
+<p>When the client connection is mTLS (Mutual TLS), forward the XFCC header
+in the request.</p>
+
+</td>
+</tr>
+<tr id="ForwardClientCertDetails-APPEND_FORWARD">
+<td><code>APPEND_FORWARD</code></td>
+<td>
+<p>When the client connection is mTLS, append the client certificate
+information to the request’s XFCC header and forward it.</p>
+
+</td>
+</tr>
+<tr id="ForwardClientCertDetails-SANITIZE_SET">
+<td><code>SANITIZE_SET</code></td>
+<td>
+<p>When the client connection is mTLS, reset the XFCC header with the client
+certificate information and send it to the next hop.</p>
+
+</td>
+</tr>
+<tr id="ForwardClientCertDetails-ALWAYS_FORWARD_ONLY">
+<td><code>ALWAYS_FORWARD_ONLY</code></td>
+<td>
+<p>Always forward the XFCC header in the request, regardless of whether the
+client connection is mTLS.</p>
 
 </td>
 </tr>
