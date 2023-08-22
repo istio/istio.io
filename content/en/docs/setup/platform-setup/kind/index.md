@@ -68,6 +68,9 @@ Follow these instructions to prepare a kind cluster for Istio installation.
     Deleting cluster "istio-testing" ...
     {{< /text >}}
 
+## Setup MetalLB for kind
+
+kind does not have any inbuilt way to provide IP addresses to your `Loadbalancer` type services, to ensure you get IP's you can install [MetalLB](https://kind.sigs.k8s.io/docs/user/loadbalancer/).
 ## Setup Dashboard UI for kind
 
 kind does not have a built in Dashboard UI like minikube. But you can still setup Dashboard, a web based Kubernetes UI, to view your cluster.
