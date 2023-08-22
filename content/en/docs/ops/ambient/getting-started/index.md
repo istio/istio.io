@@ -178,7 +178,13 @@ Make sure the default namespace does not include the label `istio-injection=enab
 
     Note: `sleep` and `notsleep` are two simple applications that can serve as curl clients.
 
-1. Deploy an ingress gateway so you can access the bookinfo app from outside the cluster:
+{{< warning >}}
+To get IP address assignment for `Loadbalancer` service types in `kind`, you may need to install a tool like
+[MetalLB](https://metallb.universe.tf/). Please consult [this guide](https://kind.sigs.k8s.io/docs/user/loadbalancer/) for more information.
+{{</ warning >}}
+
+
+2. Deploy an ingress gateway so you can access the bookinfo app from outside the cluster:
 
 {{< tabset category-name="config-api" >}}
 
@@ -213,11 +219,6 @@ $ sed -e 's/from: Same/from: All/'\
     namespace: istio-system\
 ' @samples/bookinfo/gateway-api/bookinfo-gateway.yaml@ | kubectl apply -f -
 {{< /text >}}
-
-{{< warning >}}
-Kindly make sure you have a IP address for the bookinfo-gateway service in Kind, you can install [MetalLB](https://kind.sigs.k8s.io/docs/user/loadbalancer/)
- to do IP address allocation for Services.
-{{</ warning >}}
 
 Set the environment variables for the Kubernetes gateway:
 
