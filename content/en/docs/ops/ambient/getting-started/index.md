@@ -214,6 +214,11 @@ $ sed -e 's/from: Same/from: All/'\
 ' @samples/bookinfo/gateway-api/bookinfo-gateway.yaml@ | kubectl apply -f -
 {{< /text >}}
 
+{{< warning >}}
+Kindly make sure you have a IP address for the bookinfo-gateway service in Kind, you can install [MetalLB](https://kind.sigs.k8s.io/docs/user/loadbalancer/)
+ to do IP address allocation for Services.
+{{</ warning >}}
+
 Set the environment variables for the Kubernetes gateway:
 
 {{< text bash >}}
