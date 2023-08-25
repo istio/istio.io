@@ -659,7 +659,7 @@ spec:
 或者在 `EnvoyFilter` 中设置显式优先级以覆盖默认的基于创建时间的排序。例如，将 `priority: 10`
 添加到上述过滤器将确保它在默认优先级为 0 的 `istio.stats` 过滤器之后被处理。
 
-## 配有故障注入和重试/超时策略的虚拟服务未按预期工作 {#virtual-service-with-fault-injection-and-retry-timeout-policies-not-working-as-expected}
+## 配有故障注入和重试/超时策略的虚拟服务未按预期工作 {#virtual-service-with-fault-injection-and-retrytimeout-policies-not-working-as-expected}
 
 目前，Istio 不支持在同一个 `VirtualService` 上配置故障注入和重试或超时策略。考虑以下配置：
 

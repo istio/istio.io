@@ -596,7 +596,7 @@ spec:
 
 {{< warning >}}
 目前，故障注入配置不能与同一个虚拟服务上的重试或超时配置相结合，
-请参见[流量管理问题](/zh/docs/ops/common-problems/network-issues/#virtual-service-with-fault-injection-and-retry-timeout-policies-not-working-as-expected)。
+请参见[流量管理问题](/zh/docs/ops/common-problems/network-issues/#virtual-service-with-fault-injection-and-retrytimeout-policies-not-working-as-expected)。
 {{< /warning >}}
 
 与其他错误注入机制（如延迟数据包或在网络层杀掉 Pod）不同，Istio 允许在应用层注入错误。
