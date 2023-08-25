@@ -235,6 +235,8 @@ update-gateway-version: tidy-go
 		$(eval GATEWAY_VERSION := ${shell grep gateway-api go.mod | awk '{ print $$2 }' | awk -F '.0.202' '{ print $$1 }'}) \
 		echo "GATEWAY_VERSION=${GATEWAY_VERSION}";\
 	fi
+	# Force an older Gaeway API version
+	$(eval GATEWAY_VERSION := v0.7.1)
 	@${shell sed -Ei 's|k8s_gateway_api_version: ".*"|k8s_gateway_api_version: "${GATEWAY_VERSION}"|' 'data/args.yml'}
 
 
