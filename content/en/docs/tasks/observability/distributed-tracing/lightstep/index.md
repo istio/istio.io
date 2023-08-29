@@ -209,7 +209,7 @@ data:
     kubectl get pods -l app=otel-collector
     {{< /text >}}
 
-2. Apply the ConfigMap to your Kubernetes cluster
+1. Apply the ConfigMap to your Kubernetes cluster
 
     {{< text plain >}}
     kubectl apply -f otel-collector-configmap.yaml
