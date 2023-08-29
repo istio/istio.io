@@ -230,7 +230,11 @@ test_status:
 	@scripts/test_status.sh
 
 update-gateway-version: tidy-go
-	@$(eval GATEWAY_VERSION := ${shell grep gateway-api go.mod | awk '{ print $$2 }' | awk -F '-' '{ print $$1 }'})
+	@$(eval GATEWAY_VERSION := ${shell grep gateway-api go.mod | awk '{ print $$2 }'})
+	@if [ "$(findstring -rc,${GATEWAY_VERSION})" = "-rc" ]; then \
+		$(eval GATEWAY_VERSION := ${shell grep gateway-api go.mod | awk '{ print $$2 }' | awk -F '.0.202' '{ print $$1 }'}) \
+		echo "GATEWAY_VERSION=${GATEWAY_VERSION}";\
+	fi
 	@${shell sed -Ei 's|k8s_gateway_api_version: ".*"|k8s_gateway_api_version: "${GATEWAY_VERSION}"|' 'data/args.yml'}
 
 
