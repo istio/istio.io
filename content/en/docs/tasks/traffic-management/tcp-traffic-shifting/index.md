@@ -23,6 +23,8 @@ weighted routing feature.
 
 {{< boilerplate gateway-api-experimental >}}
 
+{{< boilerplate gateway-api-enable-alpha-crds >}}
+
 ## Before you begin
 
 * Setup Istio by following the instructions in the [Installation guide](/docs/setup/).
