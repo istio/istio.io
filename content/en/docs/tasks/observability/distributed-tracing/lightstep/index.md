@@ -77,7 +77,7 @@ You use a Kubernetes ConfigMap file to configure the Collector to scrape Prometh
               exporters: [logging,otlp]
     {{< /text >}}
 
-2. Create an `otel-collector-deployment.yaml` file by copying the following code.
+1. Create an `otel-collector-deployment.yaml` file by copying the following code.
 
     {{< text yaml >}}
     apiVersion: apps/v1
