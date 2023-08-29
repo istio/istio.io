@@ -221,7 +221,7 @@ data:
     kubectl get configmap otel-collector-conf
     {{< /text >}}
 
-3. Apply the Secret to your Kubernetes cluster
+1. Apply the Secret to your Kubernetes cluster
 
     {{< text plain >}}
     kubectl apply -f lightstep-secret.yaml
