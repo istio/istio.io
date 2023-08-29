@@ -23,7 +23,7 @@ To set up Istio metrics ingestion using OpenTelemetry Collector, you:
 ## Prerequisites
 
 * Istio configured as a network mesh on a Kubernetes cluster
-* A running OpenTelemetry Collector v0.77 or later, configured to [export metric data](https://docs.lightstep.com/docs/ingest-metrics-otel-collector) to Cloud Observability
+* A running OpenTelemetry Collector version 0.77 or later, configured to [export metric data](https://docs.lightstep.com/docs/ingest-metrics-otel-collector) to Cloud Observability
 * A good understanding of Kubernetes
 
 ## Configure the Collector
@@ -54,7 +54,7 @@ You use a Kubernetes ConfigMap file to configure the Collector to scrape Prometh
                     - role: "pod"
                   relabel_configs:
                   // add labels
-  
+
        processors:
           batch:
 
@@ -77,7 +77,7 @@ You use a Kubernetes ConfigMap file to configure the Collector to scrape Prometh
               exporters: [logging,otlp]
     {{< /text >}}
 
-2. Create an `otel-collector-deployment.yaml` file by copying the following code. 
+2. Create an `otel-collector-deployment.yaml` file by copying the following code.
 
     {{< text yaml >}}
     apiVersion: apps/v1
