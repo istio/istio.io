@@ -1,8 +1,8 @@
 ---
-title: Cloud Observability from ServiceNow
-description: How to configure the proxies to send tracing requests to Cloud Observability (formerly Lightstep).
+title: Viewing Istio Metrics in Cloud Observability from ServiceNow
+description: This task shows you how to use OpenTelemetry to ingest and view Istio metrics in Cloud Observability (formerly Lightstep).
 weight: 11
-keywords: [telemetry,tracing,lightstep, servicenow, cloud observability]
+keywords: [telemetry, metrics ,lightstep, servicenow, cloud observability]
 aliases:
  - /docs/tasks/telemetry/distributed-tracing/lightstep/
 owner: istio/wg-policies-and-telemetry-maintainers
@@ -230,8 +230,3 @@ data:
 ## View metrics in Cloud Observability
 
 Once you have Cloud Observability ingesting the Istio metrics, you can begin using them to [build dashboards](https://docs.lightstep.com/docs/create-and-manage-dashboards) in Cloud Observability.
-
-## Trace sampling
-
-Istio captures traces at a configurable trace sampling percentage. To learn how to modify the trace sampling percentage,
-visit the [Distributed Tracing trace sampling section](/docs/tasks/observability/distributed-tracing/mesh-and-proxy-config/#customizing-trace-sampling).
