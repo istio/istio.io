@@ -15,10 +15,6 @@ In particular, Istio relies on applications to [propagate the B3 trace headers](
 - `x-b3-flags`
 - `b3`
 
-If you are using Lightstep, you will also need to forward the following headers:
-
-- `x-ot-span-context`
-
 If you are using OpenTelemetry, OpenCensus or Stackdriver, you will also need to forward the following headers:
 
 - `traceparent`

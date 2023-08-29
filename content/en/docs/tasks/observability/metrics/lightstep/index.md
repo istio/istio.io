@@ -4,7 +4,7 @@ description: This task shows you how to use OpenTelemetry to ingest and view Ist
 weight: 11
 keywords: [telemetry, metrics ,lightstep, servicenow, cloud observability]
 aliases:
- - /docs/tasks/telemetry/distributed-tracing/lightstep/
+ - /docs/tasks/telemetry/observability/metrics/lightstep/
 owner: istio/wg-policies-and-telemetry-maintainers
 test: no
 ---
