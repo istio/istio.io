@@ -11,6 +11,7 @@ The notes also mention changes which preserve backwards compatibility while intr
 Changes are only included if the new behavior would be unexpected to a user of Istio `1.18.x.`
 
 ## Do not set spec.replicas unless user supplies a real number
+
 When using the gateway chart, the user had to either pick between
 explicitly setting `spec.replicas`, or using the chart-supplied
 `HorizontalPodAutoscaler`. Now `spec.replicas` is only set if
@@ -18,9 +19,11 @@ explicitly setting `spec.replicas`, or using the chart-supplied
 This allows for custom `HorizontalPodAutoscalers` to be used.
 
 ## Use the canonical filter names for EnvoyFilter
-If you are using EnvoyFilter API, please use canonical filter names https://www.envoyproxy.io/docs/envoy/latest/version_history/v1.14.0#deprecated.
-The use of deprecated filter name is not supported.
+
+If you are using EnvoyFilter API, please use canonical filter names. The use of deprecated filter name is not supported. See the [Envoy documentation](https://www.envoyproxy.io/docs/envoy/latest/version_history/v1.14.0#deprecated) for further details.
+
 ## `base` Helm Chart removals
+
 A number of configurations previously present in the the `base` Helm chart were *copied* to the `istiod` chart in a previous releases.
 
 In this release, the duplicated configurations are fully removed from the `base` chart.
@@ -40,8 +43,8 @@ Note: most resources have a suffix automatically added in addition.
 In the old chart, this was `-{{ .Values.global.istioNamespace }}`.
 In the new chart it is `{{- if not (eq .Values.revision "") }}-{{ .Values.revision }}{{- end }}` for namespace scoped resources, and `{{- if not (eq .Values.revision "")}}-{{ .Values.revision }}{{- end }}-{{ .Release.Namespace }}` for cluster scoped resources.
 
-## EnvoyFilter must specify the type URL for an Envoy extension injection.
+## EnvoyFilter must specify the type URL for an Envoy extension injection
+
 Previously, Istio permitted a lookup of the extension in `EnvoyFilter` by its internal Envoy name alone. To see if you are affected,
 run `istioctl analyze` and check for a deprecation warning `using deprecated types by name without typed_config`. Additionally, make
 sure any nested extension lists inside `EnvoyFilter` include both `name:` and `typed_config:` fields.
-
