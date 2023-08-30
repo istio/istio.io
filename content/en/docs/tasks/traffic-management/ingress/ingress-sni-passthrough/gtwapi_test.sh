@@ -18,7 +18,9 @@
 source "tests/util/gateway-api.sh"
 install_gateway_api_crds
 
-# @setup profile=minimal
+# @setup profile=none
+source "content/en/boilerplates/snips/gateway-api-experimental.sh"
+bpsnip_gateway_api_experimental_enable_alpha_crds
 source "content/en/docs/tasks/traffic-management/ingress/ingress-sni-passthrough/test.sh"
 
 # @cleanup

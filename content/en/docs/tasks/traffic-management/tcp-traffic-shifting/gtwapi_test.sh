@@ -18,7 +18,9 @@
 source "tests/util/gateway-api.sh"
 install_gateway_api_crds
 
-# @setup profile=default
+# @setup profile=none
+source "content/en/boilerplates/snips/gateway-api-experimental.sh"
+bpsnip_gateway_api_experimental_enable_alpha_crds
 source "content/en/docs/tasks/traffic-management/tcp-traffic-shifting/test.sh"
 
 # @cleanup
