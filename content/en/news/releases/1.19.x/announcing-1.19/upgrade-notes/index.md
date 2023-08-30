@@ -10,7 +10,7 @@ These notes detail the changes which purposefully break backwards compatibility 
 The notes also mention changes which preserve backwards compatibility while introducing new behavior.
 Changes are only included if the new behavior would be unexpected to a user of Istio `1.18.x.`
 
-## Do not set spec.replicas unless user supplies a real number
+## Do not set `spec.replicas` unless user supplies a real number
 
 When using the gateway chart, the user had to either pick between
 explicitly setting `spec.replicas`, or using the chart-supplied
