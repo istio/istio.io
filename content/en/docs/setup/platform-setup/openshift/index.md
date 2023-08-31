@@ -24,4 +24,3 @@ After installation is complete, expose an OpenShift route for the ingress gatewa
 {{< text bash >}}
 $ oc -n istio-system expose svc/istio-ingressgateway --port=http2
 {{< /text >}}
-
