@@ -240,6 +240,7 @@ configmap
 ConfigMap
 configmaps
 configurability
+conformant
 containerID
 ControlZ
 CoreDNS
@@ -1064,6 +1065,7 @@ user1
 usergroup
 userId
 UTF-8
+v0.8.0
 v0.14.0
 v1
 v1.21

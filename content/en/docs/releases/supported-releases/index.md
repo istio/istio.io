@@ -73,7 +73,6 @@ Please keep up-to-date and use a supported version.
 | 1.19.x           | 1.19.0+                                              |
 | 1.18.x           | 1.18.2+                                              |
 | 1.17.x           | 1.17.5+                                              |
-| 1.16.x           | 1.16.7 - End of life. A new CVE will NOT be patched  |
 
 ## Supported Envoy Versions
 
