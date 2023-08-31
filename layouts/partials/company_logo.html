@@ -19,7 +19,7 @@
 
       var scaleFator = 0.525;
 
-      var imageRatio  = image.naturalWidth / image.naturalHeight;
+      var imageRatio  = image.width / image.height;
 
       if (imageRatio >= 1.20 || imageRatio <= 0.8) { // Image is More Rectangnular
         image.width = Math.pow(imageRatio, scaleFator) * largeWidthBase;
@@ -28,7 +28,9 @@
       }
     }
 
-    images.forEach(adjustImageWidth);
+    images.forEach(function(img) {
+      img.addEventListener("load", adjustImageWidth(img));
+    });
 };
 
 document.addEventListener("DOMContentLoaded", normalizeCompanyLogos);
