@@ -7,31 +7,3 @@
         <img class="company-logo-img" src="{{ .logo }}" alt="{{ .alt }}" />
     </div>
 {{ end }}
-
-<!-- Credit to: https://danpaquette.net/read/automatically-resizing-a-list-of-icons-or-logos-so-theyre-visually-proportional/ -->
-<script>
-  normalizeCompanyLogos = function() {
-    var images = document.querySelectorAll(".company-logo-img");
-
-    function adjustImageWidth(image) {
-      var smallWdithBase = 60;
-      var largeWidthBase = 80;
-
-      var scaleFator = 0.525;
-
-      var imageRatio  = image.width / image.height;
-
-      if (imageRatio >= 1.20 || imageRatio <= 0.8) { // Image is More Rectangnular
-        image.width = Math.pow(imageRatio, scaleFator) * largeWidthBase;
-      } else { // Image is More Square
-        image.width = Math.pow(imageRatio, scaleFator) * smallWdithBase;
-      }
-    }
-
-    images.forEach(function(img) {
-      img.addEventListener("load", adjustImageWidth(img));
-    });
-};
-
-document.addEventListener("DOMContentLoaded", normalizeCompanyLogos);
-</script>
