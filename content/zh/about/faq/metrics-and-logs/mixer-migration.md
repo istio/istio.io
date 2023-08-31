@@ -3,7 +3,7 @@ title: 如何迁移现有的 Mixer 功能？
 weight: 30
 ---
 
-Mixer在 [Istio 1.8 版本中被移除](/zh/news/releases/1.8.x/announcing-1.8/#deprecations)。
+Mixer 在 [Istio 1.8 版本中被移除](/zh/news/releases/1.8.x/announcing-1.8/#deprecations)。
 如果您仍然依赖于 Mixer 的内置适配器或任何进程外的适配器进行网格扩展，则需要迁移。
 
 对于内置适配器，提供了几种替代方案：
