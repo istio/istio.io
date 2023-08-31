@@ -31,7 +31,7 @@ Istio 的流量管理模型源于和服务一起部署的 {{< gloss >}}Envoy{{</
 
 ## Istio 流量管理介绍 {#introducing-Istio-traffic-management}
 
-为了在网格中导流，Istio 需要知道所有的 endpoint 在哪和属于哪个服务。
+为了在网格中导流，Istio 需要知道所有的 endpoint 在哪以及它们属于哪些服务。
 为了定位到 {{< gloss >}}service registry{{</ gloss >}}（服务注册中心），
 Istio 会连接到一个服务发现系统。例如，如果您在 Kubernetes 集群上安装了 Istio，
 那么它将自动检测该集群中的服务和 endpoint。
