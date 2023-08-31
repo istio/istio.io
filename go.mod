@@ -12,8 +12,8 @@ require (
 	github.com/pmezard/go-difflib v1.0.0
 	golang.org/x/sync v0.3.0
 	istio.io/istio v0.0.0-20230826163543-353382f1b9bd
-	k8s.io/apimachinery v0.28.0
-	k8s.io/client-go v0.28.0
+	k8s.io/apimachinery v0.28.1
+	k8s.io/client-go v0.28.1
 )
 
 require (
@@ -181,7 +181,7 @@ require (
 	golang.org/x/text v0.12.0 // indirect
 	golang.org/x/time v0.3.0 // indirect
 	golang.org/x/tools v0.12.0 // indirect
-	gomodules.xyz/jsonpatch/v2 v2.3.0 // indirect
+	gomodules.xyz/jsonpatch/v2 v2.4.0 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
 	google.golang.org/genproto v0.0.0-20230815205213-6bfd019c3878 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20230815205213-6bfd019c3878 // indirect
@@ -197,17 +197,17 @@ require (
 	helm.sh/helm/v3 v3.12.2 // indirect
 	istio.io/api v1.19.0-beta.1.0.20230821193953-6d232ba686ad // indirect
 	istio.io/client-go v1.19.0-beta.1.0.20230821194453-c43dfa6b6b20 // indirect
-	k8s.io/api v0.28.0 // indirect
-	k8s.io/apiextensions-apiserver v0.28.0 // indirect
-	k8s.io/apiserver v0.28.0 // indirect
+	k8s.io/api v0.28.1 // indirect
+	k8s.io/apiextensions-apiserver v0.28.1 // indirect
+	k8s.io/apiserver v0.28.1 // indirect
 	k8s.io/cli-runtime v0.28.0 // indirect
-	k8s.io/component-base v0.28.0 // indirect
+	k8s.io/component-base v0.28.1 // indirect
 	k8s.io/klog/v2 v2.100.1 // indirect
 	k8s.io/kube-openapi v0.0.0-20230811205723-7ac0aad8c58d // indirect
 	k8s.io/kubectl v0.28.0 // indirect
 	k8s.io/utils v0.0.0-20230726121419-3b25d923346b // indirect
-	sigs.k8s.io/controller-runtime v0.15.1 // indirect
-	sigs.k8s.io/gateway-api v0.8.0-rc1.0.20230816004229-ce5bf58ac9bf // indirect
+	sigs.k8s.io/controller-runtime v0.16.0 // indirect
+	sigs.k8s.io/gateway-api v0.8.0 // indirect
 	sigs.k8s.io/json v0.0.0-20221116044647-bc3834ca7abd // indirect
 	sigs.k8s.io/kustomize/api v0.13.5-0.20230601165947-6ce0bf390ce3 // indirect
 	sigs.k8s.io/kustomize/kyaml v0.14.3 // indirect
