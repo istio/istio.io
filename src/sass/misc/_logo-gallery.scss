@@ -8,7 +8,6 @@
     background-color: #f8f9fa;
     padding: 1rem;
     place-items: center;
-    max-width: 320px;
     width: 100%;
 
     &::before {
@@ -18,11 +17,7 @@
     }
 
     & > img {
-        max-width: 70%;
-
-        @media (max-width: $bp-md) {
-            max-width: 100%;
-        }
+        max-width: 100%;
     }
 
     &::before,
