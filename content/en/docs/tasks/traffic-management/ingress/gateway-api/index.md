@@ -308,7 +308,7 @@ spec:
 
 {{< warning >}}
 Configuring internal mesh traffic using the Gateway API is an
-[experimental feature](https://gateway-api.sigs.k8s.io/concepts/versioning/#release-channels-eg-experimental-standard)
+[experimental feature](https://gateway-api.sigs.k8s.io/geps/overview/#status)
 currently under development.
 {{< /warning >}}
 
