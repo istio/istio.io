@@ -16,7 +16,7 @@ These notices describe functionality that will be removed in a future release ac
 
 ## Traffic Management
 
-- **Improved** JWT claim based routing, now support using `[]` as a separator for nested claim names.
+- **Improved** JWT claim based routing to support using `[]` as a separator for nested claim names.
   ([Issue #44228](https://github.com/istio/istio/issues/44228))
 
 - **Improved** performance of sidecar injection, in particular with pods with a large number of environment variables.
