@@ -160,6 +160,7 @@ sleep.legacy to httpbin.legacy: 200
 
 您会发现除了从没有 Sidecar 的服务（`sleep.legacy`）到有 Sidecar
 的服务（`httpbin.foo` 或 `httpbin.bar`）的请求外，其他请求依然是返回成功的。
+这是符合预期的，因为现在严格要求使用双向 TLS，但是没有 Sidecar 的工作负载无法满足这一要求。
 
 ### 清除部分 1 {#cleanup-part-1}
 
@@ -557,7 +558,7 @@ EOF
 
 {{< /tabset >}}
 
-重新发送没有令牌的请求。现在，请求将失败，并返回错误码 `403`：
+重新发送没有令牌的请求。请求失败并返回错误码 `403`：
 
 {{< text bash >}}
 $ curl "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"
