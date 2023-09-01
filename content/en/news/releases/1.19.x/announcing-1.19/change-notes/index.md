@@ -14,7 +14,7 @@ These notices describe functionality that will be removed in a future release ac
 
 ### Artifacts
 
-We are deprecating the macOS and Windows artifacts without an architecture specified in the name
+The macOS and Windows artifacts without an architecture specified in the name
 (ex: `istio-1.18.0-osx.tar.gz`). They will be removed in several releases. They have been replaced
 by artifacts containing the architecture in the name (ex: `istio-1.18.0-osx-amd64.tar.gz`).  ([Issue #45677](https://github.com/istio/istio/issues/45677))
 
@@ -31,21 +31,23 @@ will be resolved at the proxy instead of in the control plane.
 - **Added** support for `traffic.sidecar.istio.io/excludeInterfaces` annotation in proxy.
   ([Issue #41271](https://github.com/istio/istio/issues/41271))
 
-- **Fixed** `WorkloadEntry` resources on different networks to not require an address to be specified.
-  ([Issue #45150](https://github.com/istio/istio/issues/45150))
-
 - **Added** initial ambient support for `WorkloadEntry`.
   ([Issue #45472](https://github.com/istio/istio/issues/45472))
 
 - **Added** ambient support for `WorkloadEntry` resources without an address.
   ([Issue #45758](https://github.com/istio/istio/issues/45758))
 
-- **Added** initial ambient support for `ServiceEntry`.
+- **Added** initial ambient support for ServiceEntry.
 
-- **Added** support for regex rewrite in `VirtualService` `HTTPRewrite`.
+- **Added** support for regex rewrite in VirtualService `HTTPRewrite`.
   ([Issue #22290](https://github.com/istio/istio/issues/22290))
 
 - **Added** a new TLS mode `OPTIONAL_MUTUAL` in `ServerTLSSettings` of Gateway that will validate client certificate if presented.
+
+- **Added** enhancement for Dual Stack to set up the correct DNS family type. `CheckIPFamilyTypeForFirstIPs` has been added to help confirm the IP family type based on the first IP address. Changed the `ISTIO_DUAL_STACK` environment variable to be uniform the for both control and data plane.  ([Issue #41462](https://github.com/istio/istio/issues/41462))
+
+- **Fixed** `WorkloadEntry` resources on different networks to not require an address to be specified.
+  ([Issue #45150](https://github.com/istio/istio/issues/45150))
 
 - **Fixed** Istio's Gateway API implementation to adhere to the Gateway API
 requirement that a `group: ""` field must be set for a `parentRef` of `kind: Service`.
@@ -55,8 +57,6 @@ is a breaking change; see the upgrade notes for details.
 
 - **Fixed** configuring `istio.alpn` filter for non-Istio mTLS.
   ([Issue #40680](https://github.com/istio/istio/issues/40680))
-
-- **Added** enhancement for Dual Stack to set up the correct DNS family type. `CheckIPFamilyTypeForFirstIPs` has been added to help confirm the IP family type based on the first IP address. Changed the `ISTIO_DUAL_STACK` environment variable to be uniform the for both control and data plane.  ([Issue #41462](https://github.com/istio/istio/issues/41462))
 
 - **Fixed** the bug where patching `http_route` affects other `virtualhosts`.
   ([Issue #44820](https://github.com/istio/istio/issues/44820))
