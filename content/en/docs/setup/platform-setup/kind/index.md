@@ -74,7 +74,7 @@ kind does not have any built-in way to provide IP addresses to your `Loadbalance
 
 ## Setup Dashboard UI for kind
 
-kind does not have a built-in Dashboard UI like minikube. But you can still setup Dashboard, a web based Kubernetes UI, to view your cluster.
+kind does not have a built-in Dashboard UI like minikube. But you can still setup Dashboard, a web-based Kubernetes UI, to view your cluster.
 Follow these instructions to set up Dashboard for kind.
 
 1.  To deploy Dashboard, run the following command:
