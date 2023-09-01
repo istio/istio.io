@@ -311,7 +311,7 @@ spec:
 ## 网格流量  {#mesh-traffic}
 
 {{< warning >}}
-使用 Gateway API 配置内部网格流量目前是一个还在开发的[实验性特性](https://gateway-api.sigs.k8s.io/concepts/versioning/#release-channels-eg-experimental-standard)。
+使用 Gateway API 配置内部网格流量目前是一个还在开发的[实验性特性](https://gateway-api.sigs.k8s.io/geps/overview/#status)。
 {{< /warning >}}
 
 Gateway API 也可以用来配置网格流量。
