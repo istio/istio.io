@@ -180,57 +180,57 @@ Make sure the default namespace does not include the label `istio-injection=enab
 
 1. Deploy an ingress gateway so you can access the bookinfo app from outside the cluster:
 
-{{< warning >}}
-To get IP address assignment for `Loadbalancer` service types in `kind`, you may need to install a tool like [MetalLB](https://metallb.universe.tf/). Please consult [this guide](https://kind.sigs.k8s.io/docs/user/loadbalancer/) for more information.
-{{</ warning >}}
+    {{< warning >}}
+    To get IP address assignment for `Loadbalancer` service types in `kind`, you may need to install a tool like [MetalLB](https://metallb.universe.tf/). Please consult [this guide](https://kind.sigs.k8s.io/docs/user/loadbalancer/) for more information.
+    {{</ warning >}}
 
-{{< tabset category-name="config-api" >}}
+    {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio APIs" category-value="istio-apis" >}}
+    {{< tab name="Istio APIs" category-value="istio-apis" >}}
 
-Create an Istio [Gateway](/docs/reference/config/networking/gateway/) and
-[VirtualService](/docs/reference/config/networking/virtual-service/):
+    Create an Istio [Gateway](/docs/reference/config/networking/gateway/) and
+    [VirtualService](/docs/reference/config/networking/virtual-service/):
 
-{{< text bash >}}
-$ kubectl apply -f @samples/bookinfo/networking/bookinfo-gateway.yaml@
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl apply -f @samples/bookinfo/networking/bookinfo-gateway.yaml@
+    {{< /text >}}
 
-Set the environment variables for the Istio ingress gateway:
+    Set the environment variables for the Istio ingress gateway:
 
-{{< text bash >}}
-$ export GATEWAY_HOST=istio-ingressgateway.istio-system
-$ export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/istio-ingressgateway-service-account
-{{< /text >}}
+    {{< text bash >}}
+    $ export GATEWAY_HOST=istio-ingressgateway.istio-system
+    $ export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/istio-ingressgateway-service-account
+    {{< /text >}}
 
-{{< /tab >}}
+    {{< /tab >}}
 
-{{< tab name="Gateway API" category-value="gateway-api" >}}
+    {{< tab name="Gateway API" category-value="gateway-api" >}}
 
-Create a [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io%2fv1beta1.Gateway)
-and [HTTPRoute](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1beta1.HTTPRoute):
+    Create a [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io%2fv1beta1.Gateway)
+    and [HTTPRoute](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1beta1.HTTPRoute):
 
-{{< text bash >}}
-$ sed -e 's/from: Same/from: All/'\
-      -e '/^  name: bookinfo-gateway/a\
-  namespace: istio-system\
-'     -e '/^  - name: bookinfo-gateway/a\
-    namespace: istio-system\
-' @samples/bookinfo/gateway-api/bookinfo-gateway.yaml@ | kubectl apply -f -
-{{< /text >}}
+    {{< text bash >}}
+    $ sed -e 's/from: Same/from: All/'\
+          -e '/^  name: bookinfo-gateway/a\
+      namespace: istio-system\
+    '     -e '/^  - name: bookinfo-gateway/a\
+        namespace: istio-system\
+    ' @samples/bookinfo/gateway-api/bookinfo-gateway.yaml@ | kubectl apply -f -
+    {{< /text >}}
 
-Set the environment variables for the Kubernetes gateway:
+    Set the environment variables for the Kubernetes gateway:
 
-{{< text bash >}}
-$ kubectl wait --for=condition=programmed gtw/bookinfo-gateway -n istio-system
-$ export GATEWAY_HOST=bookinfo-gateway-istio.istio-system
-$ export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/bookinfo-gateway-istio
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl wait --for=condition=programmed gtw/bookinfo-gateway -n istio-system
+    $ export GATEWAY_HOST=bookinfo-gateway-istio.istio-system
+    $ export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/bookinfo-gateway-istio
+    {{< /text >}}
 
-{{< /tab >}}
+    {{< /tab >}}
 
-{{< /tabset >}}
+    {{< /tabset >}}
 
-3) Test your bookinfo application, it should work with or without the gateway:
+1. Test your bookinfo application, it should work with or without the gateway:
 
     {{< text syntax=bash snip_id=verify_traffic_sleep_to_ingress >}}
     $ kubectl exec deploy/sleep -- curl -s "http://$GATEWAY_HOST/productpage" | grep -o "<title>.*</title>"
