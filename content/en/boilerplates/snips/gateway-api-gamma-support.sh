@@ -19,7 +19,4 @@
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
 #          boilerplates/gateway-api-gamma-support.md
 ####################################################################################################
-
-bpsnip_gateway_api_gamma_support_install_experimental_crds() {
-kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v0.8.0-rc1" | kubectl apply -f -
-}
+source "content/en/boilerplates/snips/gateway-api-support.sh"

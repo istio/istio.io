@@ -1,9 +1,6 @@
 ---
 ---
-{{< tip >}}
-{{< boilerplate gateway-api-future >}}
-{{< boilerplate gateway-api-choose >}}
-{{< /tip >}}
+{{< boilerplate gateway-api-support >}}
 
 {{< warning >}}
 Note that this document uses the Gateway API to configure internal mesh (east-west) traffic,
