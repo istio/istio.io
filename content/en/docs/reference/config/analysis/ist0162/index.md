@@ -33,9 +33,8 @@ spec:
       protocol: HTTP
     hosts:
     - "*"
-{{< /text >}}
+---
 
-{{< text yaml >}}
 # Default Gateway Service
 
 apiVersion: v1
