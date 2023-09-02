@@ -1,9 +1,6 @@
 ---
 ---
-{{< tip >}}
-{{< boilerplate gateway-api-future >}}
-{{< boilerplate gateway-api-choose >}}
-{{< /tip >}}
+{{< boilerplate gateway-api-support >}}
 
 {{< warning >}}
 请注意，本文使用 Gateway API 配置内部网格（东西）流量，即不仅是 Ingress（南北）流量。
