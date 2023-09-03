@@ -29,16 +29,11 @@ Istio 致力于用最小的资源开销实现最大的便易性，旨在支持�
 Istio 的数据平面组件 Envoy 代理用来处理通过系统的数据流。控制平面组件如
 Pilot、Galley 和 Citadel 负责配置数据平面。数据平面和控制平面有不同的性能关注点。
 
-## Istio {{< istio_release_name >}} 性能总结 {#performance-summary-for-Istio}
+## Istio 1.19 性能总结 {#performance-summary-for-Istio}
 
 [Istio 负载测试](https://github.com/istio/tools/tree/master/perf/load)网格包含了
 **1000** 个服务和 **2000** 个 Sidecar，全网格范围内，QPS 为 70,000。
-在使用 Istio {{< istio_release_name >}} 运行测试后，我们得到了如下结果：
-
-- 通过代理的 QPS 有 1000 时，Envoy 使用了 **0.5 vCPU** 和 **50 MB 内存**。
-- 网格总的 QPS 为 1000 时，`istio-telemetry` 服务使用了 **0.6 vCPU**。
-- Pilot 使用了 **1 vCPU** 和 1.5 GB 内存。
-- 90% 的情况 Envoy 代理只增加了 6.3 ms 的延迟。
+在使用 Istio 1.19 运行测试后，我们得到了如下结果：
 
 ## 控制平面性能 {#control-plane-performance}
 
@@ -79,11 +74,11 @@ Kubernetes 环境和用户编写的配置文件。
 
 <!--
 Since the sidecar proxy performs additional work on the data path, it consumes CPU
-and memory. In Istio {{< istio_release_name >}}, a proxy consumes about 0.5 vCPU per 1000
+and memory. In Istio 1.19, a proxy consumes about 0.5 vCPU per 1000
 requests per second.
 -->
 由于 sidecar 代理在数据路径上执行额外的工作，它需要消耗 CPU 和内存。
-以 Istio {{< istio_release_name >}} 举例，1000 QPS 会使用大约 0.5 vCPU。
+以 Istio 1.19 举例，1000 QPS 会使用大约 0.5 vCPU。
 
 <!--
 The memory consumption of the proxy depends on the total configuration state the proxy holds.
@@ -118,16 +113,16 @@ Envoy 代理在向客户端发送响应后收集原始遥测数据。
 此过程会增加下一个请求的队列等待时间，并影响平均延迟和尾延迟。
 实际的尾部延迟取决于流量模式。
 
-### Istio {{< istio_release_name >}} 的延迟 {#latency-for-Istio}
+### Istio 1.19 的延迟 {#latency-for-Istio}
 
 <!--
 Inside the mesh, a request traverses the client-side proxy and then the server-side
-proxy. In the default configuration of Istio {{< istio_release_name >}} (i.e. Istio with telemetry v2),
+proxy. In the default configuration of Istio 1.19 (i.e. Istio with telemetry v2),
 the two proxies add about 1.7 ms and 2.7 ms to the 90th and 99th percentile latency, respectively, over the baseline data plane latency.
 We obtained these results using the [Istio benchmarks](https://github.com/istio/tools/tree/{{< source_branch_name >}}/perf/benchmark)
 for the `http/1.1` protocol, with a 1 kB payload at 1000 requests per second using 16 client connections, 2 proxy workers and mutual TLS enabled.
 -->
-在网格内部，请求会依次遍历客户端和服务器端代理。在 Istio {{< istio_release_name >}}
+在网格内部，请求会依次遍历客户端和服务器端代理。在 Istio 1.19
 的默认配置中（即带有遥测 v2 的 Istio），两个代理分别在基线数据平面延迟的 90 和 99
 分位延迟上增加约 1.7 和 2.7 毫秒。我们使用 `http/1.1` 协议的
 [Istio 基准测试](https://github.com/istio/tools/tree/{{< source_branch_name >}}/perf/benchmark)获得了这些结果，
@@ -146,19 +141,11 @@ for the `http/1.1` protocol, with a 1 kB payload at 1000 requests per second usi
 >}}
 
 <!--
-- `baseline` Client pod directly calls the server pod, no sidecars are present.
-- `none_both` Istio proxy with no Istio specific filters configured.
-- `v2-stats-wasm_both` Client and server sidecars are present with telemetry v2 `v8` configured.
-- `v2-stats-nullvm_both` Client and server sidecars are present with telemetry v2 `nullvm` configured by default. This is the default Istio configuration.
-- `v2-sd-full-nullvm_both` Export Stackdriver metrics, access logs and edges with telemetry v2 `nullvm` configured.
-- `v2-sd-nologging-nullvm_both` Same as above, but does not export access logs.
+- `no_mesh` Client pod directly calls the server pod, no sidecars are present.
+- `istio_with_stats` Client and server sidecars are present with telemetry configured by default. This is the default Istio configuration.
 -->
-- `baseline` 客户端 Pod 直接调用服务端 Pod，没有 Sidecar 参与。
-- `none_both` 未配置 Istio 特定过滤器的 Istio 代理。
-- `v2-stats-wasm_both` 客户端和服务器 Sidecar 配置了遥测 v2 `v8`。
-- `v2-stats-nullvm_both` 客户端和服务器 Sidecar 默认配置遥测 v2 `nullvm`。这是默认的 Istio 配置。
-- `v2-sd-full-nullvm_both` 导出 Stackdriver 指标、访问日志和配置了遥测 v2 `nullvm` 的边缘。
-- `v2-sd-nologging-nullvm_both` 同上，但不导出访问日志。
+- `no_mesh` 客户端 Pod 直接调用服务器 Pod，不存在 Sidecar。
+- `istio_with_stats` 默认情况下，客户端和服务器的 Sidecar 都带有遥测配置。这是默认的 Istio 配置。
 
 ### 基准测试工具 {#benchmarking-tools}
 

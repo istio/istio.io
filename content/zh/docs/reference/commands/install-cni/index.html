@@ -73,7 +73,7 @@ remove_toc_prefix: 'install-cni '
 </tr>
 <tr>
 <td><code>--log-uds-address &lt;string&gt;</code></td>
-<td>The UDS server address which CNI plugin will copy log output to  (default `/var/run/istio-cni/log.sock`)</td>
+<td>The UDS server address which CNI plugin will copy log ouptut to  (default `/var/run/istio-cni/log.sock`)</td>
 </tr>
 <tr>
 <td><code>--log_as_json</code></td>
@@ -744,6 +744,12 @@ These environment variables affect the behavior of the <code>install-cni</code> 
 <td>If enabled, pilot will only rebuild config for resources that have changed</td>
 </tr>
 <tr>
+<td><code>ENABLE_OTEL_BUILTIN_RESOURCE_LABELS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, envoy will send builtin lables(e.g. node_name) via OTel sink.</td>
+</tr>
+<tr>
 <td><code>ENABLE_TLS_ON_SIDECAR_INGRESS</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -862,6 +868,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>If set, limit Kubernetes watches to a single namespace. Warning: only a single namespace can be set.</td>
 </tr>
 <tr>
+<td><code>ISTIO_WORKLOAD_ENTRY_VALIDATE_IDENTITY</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, will validate the identity of a workload matches the identity of the WorkloadEntry it is associating with for health checks and auto registration. This flag is added for backwards compatibility only and will be removed in future releases</td>
+</tr>
+<tr>
 <td><code>JWKS_RESOLVER_INSECURE_SKIP_VERIFY</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -913,7 +925,7 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td><code>LOG_UDS_ADDRESS</code></td>
 <td>String</td>
 <td><code>/var/run/istio-cni/log.sock</code></td>
-<td>The UDS server address which CNI plugin will copy log output to</td>
+<td>The UDS server address which CNI plugin will copy log ouptut to</td>
 </tr>
 <tr>
 <td><code>MCS_API_GROUP</code></td>
@@ -956,6 +968,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Integer</td>
 <td><code>1000</code></td>
 <td>If set to a non-zero value, enables mutex profiling a rate of 1/MUTEX_PROFILE_FRACTION events. For example, &#39;1000&#39; will record 0.1% of events. Set to 0 to disable entirely.</td>
+</tr>
+<tr>
+<td><code>NATIVE_METADATA_EXCHANGE</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If set, uses a native implementation of the HTTP metadata exchange filter</td>
 </tr>
 <tr>
 <td><code>NODE_NAME</code></td>
@@ -1046,6 +1064,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, pilot will read WorkloadEntry from other clusters, selectable by Services in that cluster.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_DESTINATION_RULE_INHERITANCE</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If set, workload specific DestinationRules will inherit configurations settings from mesh and namespace level rules</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_EDS_DEBOUNCE</code></td>

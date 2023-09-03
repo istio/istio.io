@@ -7,7 +7,7 @@ owner: istio/wg-policies-and-telemetry-maintainers
 test: n/a
 ---
 
-## 使用 Prometheus 进行生产规模的监控{#using-Prometheus-for-production-scale-monitoring}
+## 使用 Prometheus 进行生产规模的监控 {#using-Prometheus-for-production-scale-monitoring}
 
 使用 Istio 以及 Prometheus 进行生产规模的监控时推荐的方式是使用[分层联邦](https://prometheus.io/docs/prometheus/latest/federation/#hierarchical-federation)并且结合一组[记录规则](https://prometheus.io/docs/prometheus/latest/configuration/recording_rules/)。
 
@@ -22,7 +22,7 @@ test: n/a
     caption="生产规模 Istio 监控"
     >}}
 
-### 通过记录规则进行负载等级的聚合{#workload-level-aggregation-via-recording-rules}
+### 通过记录规则进行负载等级的聚合 {#workload-level-aggregation-via-recording-rules}
 
 为了聚合统计实例以及 Pod 级别的指标，需要用以下的记录规则更新默认 Prometheus 配置：
 
@@ -154,7 +154,7 @@ spec:
 如需要更多关于如何配置您的记录规则。请参考[使用记录规则优化指标收集](#optimizing-metrics-collection-with-recording-rules)。
 {{< /tip >}}
 
-### 使用负载级别的聚合指标进行联邦{#federation-using-workload-level-aggregated-metrics}
+### 使用负载级别的聚合指标进行联邦 {#federation-using-workload-level-aggregated-metrics}
 
 为了建立 Prometheus 联邦，请修改您的 Prometheus 生产部署配置来抓取 Istio Prometheus 联邦终端的指标数据。
 
@@ -214,7 +214,7 @@ spec:
 
 {{< tip >}}
 联邦配置的关键是首先匹配通过 Istio 部署的 Prometheus 中收集 [Istio 标准指标](/zh/docs/reference/config/metrics/)的
-job。并且将收集到的指标重命名，方法为去除负载等级记录规则命名前缀 (`workload:`)。
+Job。并且将收集到的指标重命名，方法为去除负载等级记录规则命名前缀 (`workload:`)。
 这使得现有的仪表盘以及引用能够无缝地针对生产用 Prometheus 继续工作（并且不在指向 Istio 实例）。
 
 您可以在设置联邦时包含额外的指标（例如 envoy、go 等）。
@@ -287,7 +287,7 @@ Prometheus 生产实例可以从 Istio 实例那里得到的信息更新联邦�
 
 * 匹配字句 `{__name__=~"istio:(.*)"}`
 
-* 重新将指标标签为： `regex: "istio:(.*)"`
+* 重新将指标标签为：`regex: "istio:(.*)"`
 
 原始引用被替代为：
 

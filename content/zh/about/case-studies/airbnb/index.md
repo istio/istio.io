@@ -18,7 +18,9 @@ type: 案例研究
 weight: 20
 ---
 
-在 [IstioCon 2021 的演讲中](https://events.istio.io/istiocon-2021/sessions/airbnb-on-istio/)，Airbnb 的 Stephen Chan 和 Weibo He 介绍了 Airbnb 的 Istio 之旅 - 为什么他们需要现代服务网格，他们是如何把 Istio 作为解决方案的，他们的现状，他们一路走来的经验教训，以及他们未来的计划。
+在 [IstioCon 2021 的演讲中](https://events.istio.io/istiocon-2021/sessions/airbnb-on-istio/)，
+Airbnb 的 Stephen Chan 和 Weibo He 介绍了 Airbnb 的 Istio 之旅 - 为什么他们需要现代服务网格，
+他们是如何把 Istio 作为解决方案的，他们的现状，他们一路走来的经验教训，以及他们未来的计划。
 
 <iframe width="696" height="392" src="https://www.youtube-nocookie.com/embed/6kDiDQW5YXQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 

@@ -291,7 +291,7 @@ spec:
   # and the binary configuration. It should come before the next patch that applies it.
   # This resource is visible to all proxies in the namespace &quot;myns&quot;. It is possible to provide
   # multiple definitions for the same name &quot;my-wasm-extension&quot; in multiple namespaces. We recommend that:
-  # - if overriding is desired, then the root level definition can be overriden per namespace with REPLACE.
+  # - if overriding is desired, then the root level definition can be overridden per namespace with REPLACE.
   # - if overriding is not desired, then the name should be qualified with the namespace &quot;myns/my-wasm-extension&quot;,
   #   to avoid accidental name collisions.
   - applyTo: EXTENSION_CONFIG
@@ -1335,7 +1335,7 @@ has no effect.</p>
 <section>
 <p>FilterClass determines the filter insertion point in the filter chain
 relative to the filters implicitly inserted by the control plane.
-It is used in conjuction with the <code>ADD</code> operation.
+It is used in conjunction with the <code>ADD</code> operation.
 This is the preferred insertion mechanism for adding filters over
 the <code>INSERT_*</code> operations since those operations rely on potentially unstable
 filter names.

@@ -575,6 +575,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>If enabled, pilot will only rebuild config for resources that have changed</td>
 </tr>
 <tr>
+<td><code>ENABLE_OTEL_BUILTIN_RESOURCE_LABELS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, envoy will send builtin lables(e.g. node_name) via OTel sink.</td>
+</tr>
+<tr>
 <td><code>ENABLE_PROBE_KEEPALIVE_CONNECTIONS</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -725,6 +731,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>If set, limit Kubernetes watches to a single namespace. Warning: only a single namespace can be set.</td>
 </tr>
 <tr>
+<td><code>ISTIO_WORKLOAD_ENTRY_VALIDATE_IDENTITY</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, will validate the identity of a workload matches the identity of the WorkloadEntry it is associating with for health checks and auto registration. This flag is added for backwards compatibility only and will be removed in future releases</td>
+</tr>
+<tr>
 <td><code>JWKS_RESOLVER_INSECURE_SKIP_VERIFY</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -752,7 +764,7 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td><code>K8S_SIGNER</code></td>
 <td>String</td>
 <td><code></code></td>
-<td>Kubernetes CA Signer type. Valid from Kubernetes 1.18</td>
+<td>Kubernates CA Signer type. Valid from Kubernates 1.18</td>
 </tr>
 <tr>
 <td><code>KUBERNETES_SERVICE_HOST</code></td>
@@ -813,6 +825,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>Integer</td>
 <td><code>1000</code></td>
 <td>If set to a non-zero value, enables mutex profiling a rate of 1/MUTEX_PROFILE_FRACTION events. For example, &#39;1000&#39; will record 0.1% of events. Set to 0 to disable entirely.</td>
+</tr>
+<tr>
+<td><code>NATIVE_METADATA_EXCHANGE</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If set, uses a native implementation of the HTTP metadata exchange filter</td>
 </tr>
 <tr>
 <td><code>PILOT_ALLOW_SIDECAR_SERVICE_INBOUND_LISTENER_MERGE</code></td>
@@ -897,6 +915,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, pilot will read WorkloadEntry from other clusters, selectable by Services in that cluster.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_DESTINATION_RULE_INHERITANCE</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If set, workload specific DestinationRules will inherit configurations settings from mesh and namespace level rules</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_EDS_DEBOUNCE</code></td>

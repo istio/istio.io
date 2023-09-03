@@ -6,14 +6,7 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-{{< warning >}}
-Ambient is currently in [alpha status](/docs/releases/feature-stages/#feature-phase-definitions).
-
-Please **do not run ambient in production** and be sure to thoroughly review the [feature phase definitions](/docs/releases/feature-stages/#feature-phase-definitions) before use.
-In particular, there are known performance, stability, and security issues in the `alpha` release.
-There are also planned breaking changes, including some that will prevent upgrades.
-These are all limitations that will be addressed before graduation to `beta`.
-{{< /warning >}}
+{{< boilerplate ambient-alpha-warning >}}
 
 This guide lets you quickly evaluate Istio {{< gloss "ambient" >}}ambient service mesh{{< /gloss >}}. These steps require you to have
 a {{< gloss >}}cluster{{< /gloss >}} running a
@@ -21,6 +14,12 @@ a {{< gloss >}}cluster{{< /gloss >}} running a
 example [Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) or
 others specified by the
 [platform-specific setup instructions](/docs/setup/platform-setup/).
+
+{{< warning >}}
+Ambient is currently in [alpha status](/docs/releases/feature-stages/#feature-phase-definitions).
+Note that Ambient currently requires the use of [istio-cni](/docs/setup/additional-setup/cni) to configure Kubernetes nodes.
+`istio-cni` ambient mode does **not** currently support types of cluster CNI (namely, CNI implementations that do not use `veth` devices, such as [Minikube's](https://kubernetes.io/docs/tasks/tools/install-minikube/) `bridge` mode)
+{{< /warning >}}
 
 Follow these steps to get started with ambient:
 

@@ -3,7 +3,8 @@ title: 怎样查看 Istio 的请求都发生了什么？
 weight: 80
 ---
 
-您可以启用 [tracing](/zh/docs/tasks/observability/distributed-tracing/) 以确定 Istio 中的请求是怎样流动的。
+您可以启用 [tracing](/zh/docs/tasks/observability/distributed-tracing/)
+以确定 Istio 中的请求是怎样流动的。
 
 另外，您还可以使用如下命令以了解网格中的更多状态信息：
 

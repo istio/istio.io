@@ -208,7 +208,8 @@ metadata:
   name: httpbin
 spec:
   parentRefs:
-  - kind: Service
+  - group: ""
+    kind: Service
     name: httpbin
     port: 8000
   rules:
@@ -308,7 +309,8 @@ metadata:
   name: httpbin
 spec:
   parentRefs:
-  - kind: Service
+  - group: ""
+    kind: Service
     name: httpbin
     port: 8000
   rules:

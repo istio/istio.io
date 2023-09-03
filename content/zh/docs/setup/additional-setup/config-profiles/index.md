@@ -9,12 +9,16 @@ owner: istio/wg-environments-maintainers
 test: n/a
 ---
 
-本页面描述了在[安装 Istio](/zh/docs/setup/install/istioctl/) 时所能够使用的内置配置文件。这些配置文件提供了对 Istio 控制平面和 Istio 数据平面 Sidecar 的定制内容。
+本页面描述了在[安装 Istio](/zh/docs/setup/install/istioctl/) 时所能够使用的内置配置文件。
+这些配置文件提供了对 Istio 控制平面和 Istio 数据平面 Sidecar 的定制内容。
 
-您可以从 Istio 内置配置文件的其中一个开始入手，然后根据您的特定需求进一步[自定义配置文件](/zh/docs/setup/additional-setup/customize-installation/)。当前提供以下几种内置配置文件：
+您可以从其中一个 Istio 内置配置文件开始入手，
+然后根据您的特定需求进一步[自定义配置文件](/zh/docs/setup/additional-setup/customize-installation/)。
+当前提供以下几种内置配置文件：
 
 1. **default**：根据 [`IstioOperator` API](/zh/docs/reference/config/istio.operator.v1alpha1/) 的默认设置启动组件。
-    建议用于生产部署和 [Multicluster Mesh](/zh/docs/ops/deployment/deployment-models/#multiple-clusters) 中的 {{< gloss "primary cluster" >}}Primary Cluster{{< /gloss >}}。
+    建议用于生产部署和 [Multicluster Mesh](/zh/docs/ops/deployment/deployment-models/#multiple-clusters)
+    中的 {{< gloss "primary cluster" >}}Primary Cluster{{< /gloss >}}。
 
     您可以运行 `istioctl profile dump` 命令来查看默认设置。
 
@@ -27,28 +31,37 @@ test: n/a
     {{< /warning >}}
 
 1. **minimal**：与默认配置文件相同，但只安装了控制平面组件。
-    它允许您使用 [Separate Profile](/zh/docs/setup/additional-setup/gateway/#deploying-a-gateway) 配置控制平面和数据平面组件(例如 Gateway)。
+    它允许您使用 [Separate Profile](/zh/docs/setup/additional-setup/gateway/#deploying-a-gateway)
+    配置控制平面和数据平面组件（例如 Gateway）。
 
 1. **remote**：用于配置一个 {{< gloss >}}Remote Cluster{{< /gloss >}}，
     这个从集群由 {{< gloss >}}External Control Plane{{< /gloss >}} 管理，
-    或者由 [multicluster mesh](/zh/docs/ops/deployment/deployment-models/#multiple-clusters) 的
+    或者由 [Multicluster Mesh](/zh/docs/ops/deployment/deployment-models/#multiple-clusters) 的
     {{< gloss >}}Primary Cluster{{< /gloss >}} 中的控制平面管理。
 
-1. **empty**：不部署任何东西。可以作为自定义配置的基本配置文件。
+1. **empty**：不部署任何内容。可以作为自定义配置的基本配置文件。
 
-1. **preview**：预览文件包含的功能都是实验性。这是为了探索 Istio 的新功能。不确保稳定性、安全性和性能（使用风险需自负）。
+1. **preview**：预览文件包含的功能都属于实验性阶段。该配置文件是为了探索 Istio 的新功能。
+    确保稳定性、安全性和性能（使用风险需自负）。
+
+1. **ambient**：Ambient 配置文件旨在帮助您开始使用[Ambient Mesh](/zh/docs/ops/ambient)。
+
+    {{< boilerplate ambient-alpha-warning >}}
 
 {{< tip >}}
-此外，还提供了一些其他特定的配置文件。更多相关信息，请参阅平台的 [平台安装](/zh/docs/setup/platform-setup)。
+此外，还提供了一些其他特定的配置文件。更多相关信息，
+请参阅[平台安装](/zh/docs/setup/platform-setup)。
 {{< /tip >}}
 
 标注 &#x2714; 的组件安装在每个配置文件中：
 
-|     | default | demo | minimal | remote | empty | preview |
-| --- | --- | --- | --- | --- | --- | --- |
-| 核心组件 | | | | | | | |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-egressgateway` | | &#x2714; | | | | | | |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-ingressgateway` | &#x2714; | &#x2714; | | | | &#x2714; |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istiod` | &#x2714; | &#x2714; | &#x2714; | | | &#x2714; |
+|     | default | demo | minimal | remote | empty | preview | ambient |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 核心组件 | | | | | | | | |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-egressgateway` | | &#x2714; | | | | | | | |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-ingressgateway` | &#x2714; | &#x2714; | | | | &#x2714; | |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istiod` | &#x2714; | &#x2714; | &#x2714; | | | &#x2714; | &#x2714; |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`CNI` | | | | | | | &#x2714; |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Ztunnel` | | | | | | | &#x2714; |
 
-为了进一步自定义 Istio，还可以安装一些附加组件。详情请参阅 [集成](/zh/docs/ops/integrations)。
+为了进一步自定义 Istio，还可以安装一些附加组件。详情请参阅[集成](/zh/docs/ops/integrations)。
