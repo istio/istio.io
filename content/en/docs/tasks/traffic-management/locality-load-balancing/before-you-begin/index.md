@@ -188,4 +188,5 @@ $ kubectl label node kind-worker topology.kubernetes.io/zone=us-south10
 $ kubectl label node kind-worker2 topology.kubernetes.io/zone=us-south12
 $ kubectl label node kind-worker3 topology.kubernetes.io/zone=us-south13
 {{< /text >}}
+
 {{< /tip >}}
