@@ -157,3 +157,35 @@ Only one of the load balancing options should be configured, as they are
 mutually exclusive. Attempting to configure both may lead to unexpected
 behavior.
 {{< /warning >}}
+
+{{< tip >}}
+Locality load balancing can also be configured in a single multi-zone cluster environment for failover between different zones on the same cluster. The following example shows how to set up a kind cluster with multiple worker zones to test it. The remaining steps are similar to this multicluster example.
+
+Generate yaml to define a cluster with 1 control-plane and 3 worker nodes:
+
+{{< text bash >}}
+$ cat <<EOF > kind-cluster-config.yaml
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+  - role: control-plane
+  - role: worker
+  - role: worker
+  - role: worker
+EOF
+{{< /text >}}
+
+Create a kind cluster with yaml generated from above:
+
+{{< text bash >}}
+$ kind create cluster --config kind-cluster-config.yaml
+{{< /text >}}
+
+Use `topology.kubernetes.io/zone` to label each worker with a zone name:
+
+{{< text bash >}}
+$ kubectl label node kind-worker topology.kubernetes.io/zone=us-south10
+$ kubectl label node kind-worker2 topology.kubernetes.io/zone=us-south12
+$ kubectl label node kind-worker3 topology.kubernetes.io/zone=us-south13
+{{< /text >}}
+{{< /tip >}}
