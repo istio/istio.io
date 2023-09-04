@@ -1,31 +1,31 @@
 ---
 title: 虚拟机安装
 description: 部署 Istio，接入虚拟机中运行的工作负载。
-weight: 40
+weight: 60
 keywords:
 - kubernetes
 - virtual-machine
 - gateways
 - vms
 owner: istio/wg-environments-maintainers
-test: no
+test: yes
 ---
 
-请跟随本指南部署 Istio，并接入虚拟机。
+请遵循本指南部署 Istio，并接入虚拟机。
 
 ## 先决条件 {#prerequisites}
 
 1. [下载 Istio 发行版](/zh/docs/setup/getting-started/#download)
 1. 执行必要的[平台安装](/zh/docs/setup/platform-setup/)
-1. 检查 [Pod 和服务的需求](/zh/docs/ops/deployment/requirements/)
+1. 检查 [Pod 和 Service 的要求](/zh/docs/ops/deployment/requirements/)
 1. 虚拟机必须 IP 连通到目标网格的入口网关，如果有更高的性能需求，也可通过三层网络连通网格中的每个 Pod。
 1. 阅读[虚拟机架构](/zh/docs/ops/deployment/vm-architecture/)来理解 Istio 虚拟机集成的高级架构。
 
 ## 准备指导环境  {#prepare-the-guide-environment}
 
 1. 创建虚拟机
-1. 设置环境变量 `VM_APP`、`WORK_DIR`、`VM_NAMESPACE`、和 `SERVICE_ACCOUNT`
-   （例如： `WORK_DIR="${HOME}/vmintegration"`）：
+1. 在集群的计算机上设置环境变量 `VM_APP`、`WORK_DIR`、`VM_NAMESPACE` 和 `SERVICE_ACCOUNT`
+   （例如：`WORK_DIR="${HOME}/vmintegration"`）：
 
     {{< tabset category-name="network-mode" >}}
 
@@ -72,7 +72,7 @@ test: no
 
 安装 Istio，打开控制平面的对外访问，以便您的虚拟机可以访问它。
 
-1. 为安装创建 `IstioOperator` 空间
+1. 创建用于安装 Istio 的 `IstioOperator`。
 
     {{< text syntax="bash yaml" snip_id=setup_iop >}}
     $ cat <<EOF > ./vm-cluster.yaml
@@ -245,7 +245,8 @@ $ kubectl --namespace "${VM_NAMESPACE}" apply -f workloadgroup.yaml
 {{< /text >}}
 
 使用自动创建 `WorkloadEntry` 的特性，还可以进行应用程序的健康检查。
-与 [Kubernetes Readiness Probes](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) 具有相同行为和 API 。
+与 [Kubernetes Readiness Probes](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/)
+具有相同行为和 API 。
 
 例如，在应用程序的 `/ready` 端点上配置探针：
 
