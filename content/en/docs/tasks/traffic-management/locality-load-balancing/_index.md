@@ -3,7 +3,8 @@ title: Locality Load Balancing
 description: This series of tasks demonstrate how to configure locality load balancing in Istio.
 weight: 65
 keywords: [locality,load balancing,priority,prioritized,kubernetes,multicluster]
-skip_list: true
+list_below: true
+simple_list: true
 content_above: true
 aliases:
   - /help/ops/traffic-management/locality-load-balancing
@@ -53,17 +54,3 @@ That means that a pod running in zone `bar` of region `foo`
 is **not** considered to be local to a pod running in zone `bar` of region
 `baz`.
 
-Istio uses this locality information to control load balancing behavior.\
-Locality load balancing can be configured for either a multicluster or a single multi-zone cluster environment.\
-For a multicluster use case, locality load balancing can be utilized to distribute the application's workload across multiple clusters in different regions or zones and achieve high availability, scalability, and optimized performance.\
-For a single multi-zone cluster use case, locality load balancing can be used to achieve zone isolation that resources and instances of the application are isolated between zones as well as enhancing the availability and failure recovery.
-
-Follow the instructions corresponding to your use case:
-
-- Multicluster
-    - [Before you begin](/docs/tasks/traffic-management/locality-load-balancing/before-you-begin)
-    - [Locality failover](/docs/tasks/traffic-management/locality-load-balancing/failover)
-    - [Locality weighted distribution](/docs/tasks/traffic-management/locality-load-balancing/distribute)
-    - [Cleanup](/docs/tasks/traffic-management/locality-load-balancing/cleanup)
-- Single multi-zone cluster
-    - [Single Multi-Zone Cluster Load Balancer Standalone Example](/docs/tasks/traffic-management/locality-load-balancing/single-cluster-lb)
