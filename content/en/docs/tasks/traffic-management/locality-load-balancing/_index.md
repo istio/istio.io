@@ -54,3 +54,6 @@ That means that a pod running in zone `bar` of region `foo`
 is **not** considered to be local to a pod running in zone `bar` of region
 `baz`.
 
+Istio uses this locality information to control load balancing behavior.
+Follow one of the tasks in this series to configure locality load balancing for
+your mesh.
