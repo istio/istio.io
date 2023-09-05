@@ -266,8 +266,10 @@ spec:
 is now supported. A prefix &lsquo;@&rsquo; is used to denote a match against internal metadata instead of the headers in the request.
 Currently this feature is only supported for the following metadata:</p>
 <ul>
-<li><code>request.auth.claims.{claim-name}[.{sub-claim}]*</code> which are extracted from validated JWT tokens. The claim name
-currently does not support the <code>.</code> character. Examples: <code>request.auth.claims.sub</code> and <code>request.auth.claims.name.givenName</code>.</li>
+<li><code>request.auth.claims.{claim-name}[.{nested-claim}]*</code> which are extracted from validated JWT tokens.
+Use the <code>.</code> or <code>[]</code> as a separator for nested claim names.
+Examples: <code>request.auth.claims.sub</code>, <code>request.auth.claims.name.givenName</code> and <code>request.auth.claims[foo.com/name]</code>.
+For more information, see <a href="/docs/tasks/security/authentication/jwt-route/">JWT claim based routing</a>.</li>
 </ul>
 <p>The use of matches against JWT claim metadata is only supported in Gateways. The following example shows:</p>
 <ul>

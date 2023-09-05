@@ -8,7 +8,7 @@ layout: protoc-gen-docs
 generator: protoc-gen-docs
 schema: istio.extensions.v1alpha1.WasmPlugin
 aliases: [/docs/reference/config/extensions/v1alpha1/wasm-plugin]
-number_of_entries: 8
+number_of_entries: 9
 ---
 <p>WasmPlugins provides a mechanism to extend the functionality provided by
 the Istio proxy through WebAssembly filters.</p>
@@ -347,6 +347,17 @@ the traffic passes the WasmPlugin.</p>
 No
 </td>
 </tr>
+<tr id="WasmPlugin-type">
+<td><code>type</code></td>
+<td><code><a href="#PluginType">PluginType</a></code></td>
+<td>
+<p>Specifies the type of Wasm Extension to be used.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -478,6 +489,50 @@ If not specified, this condition is evaluated to true for any port.</p>
 </td>
 <td>
 No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="PluginType">PluginType</h2>
+<section>
+<p>PluginType indicates the type of Wasm Extension to be used.
+There are two types of Extensions: <code>HTTP</code> and <code>NETWORK</code>.
+HTTP Extension work at &ldquo;Layer 7&rdquo;(for example as an HTTP filters in Envoy).
+The detailed HTTP interface for can be found at [C++] (<a href="https://github.com/proxy-wasm/proxy-wasm-cpp-host/blob/b7e690703c7f26707438a2f1ebd7c197bc8f0296/include/proxy-wasm/context_interface.h#L199">https://github.com/proxy-wasm/proxy-wasm-cpp-host/blob/b7e690703c7f26707438a2f1ebd7c197bc8f0296/include/proxy-wasm/context_interface.h#L199</a>)
+and [Rust] (<a href="https://github.com/proxy-wasm/proxy-wasm-rust-sdk/blob/6b47aec926bc29971c727471d6f4c972ec407c7f/src/traits.rs#L309)">https://github.com/proxy-wasm/proxy-wasm-rust-sdk/blob/6b47aec926bc29971c727471d6f4c972ec407c7f/src/traits.rs#L309)</a>.
+NETWORK Extension work at &ldquo;Layer 4&rdquo;(for example, as a network filter in Envoy).
+The detailed NETWORK interface for can be found at [C++] (<a href="https://github.com/proxy-wasm/proxy-wasm-cpp-host/blob/b7e690703c7f26707438a2f1ebd7c197bc8f0296/include/proxy-wasm/context_interface.h#L257">https://github.com/proxy-wasm/proxy-wasm-cpp-host/blob/b7e690703c7f26707438a2f1ebd7c197bc8f0296/include/proxy-wasm/context_interface.h#L257</a>)
+and [Rust] (<a href="https://github.com/proxy-wasm/proxy-wasm-rust-sdk/blob/6b47aec926bc29971c727471d6f4c972ec407c7f/src/traits.rs#L257)">https://github.com/proxy-wasm/proxy-wasm-rust-sdk/blob/6b47aec926bc29971c727471d6f4c972ec407c7f/src/traits.rs#L257)</a>.
+The NETWORK Extension can be applied to HTTP traffic as well.</p>
+
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="PluginType-UNSPECIFIED_PLUGIN_TYPE">
+<td><code>UNSPECIFIED_PLUGIN_TYPE</code></td>
+<td>
+<p>Defaults to HTTP.</p>
+
+</td>
+</tr>
+<tr id="PluginType-HTTP">
+<td><code>HTTP</code></td>
+<td>
+<p>Use HTTP Wasm Extension.</p>
+
+</td>
+</tr>
+<tr id="PluginType-NETWORK">
+<td><code>NETWORK</code></td>
+<td>
+<p>Use Network Wasm Extension.</p>
+
 </td>
 </tr>
 </tbody>
