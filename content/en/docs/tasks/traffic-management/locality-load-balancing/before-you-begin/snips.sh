@@ -110,21 +110,3 @@ kubectl get pod --context="${CTX_R3_Z4}" -n sample -l app="helloworld" \
 NAME                                       READY   STATUS    RESTARTS   AGE
 helloworld-region3.zone4-86f77cd7b-cpxhv   2/2     Running   0          30s
 ENDSNIP
-
-snip_next_steps_1() {
-kind create cluster --config=- <<EOF
-kind: Cluster
-apiVersion: kind.x-k8s.io/v1alpha4
-nodes:
-  - role: control-plane
-  - role: worker
-  - role: worker
-  - role: worker
-EOF
-}
-
-snip_next_steps_2() {
-kubectl label node kind-worker topology.kubernetes.io/zone=us-south10
-kubectl label node kind-worker2 topology.kubernetes.io/zone=us-south12
-kubectl label node kind-worker3 topology.kubernetes.io/zone=us-south13
-}

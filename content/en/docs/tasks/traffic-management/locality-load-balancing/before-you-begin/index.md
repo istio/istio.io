@@ -164,7 +164,7 @@ To test it, you will need to create a cluster with multiple worker zones and dep
 
 1) If you don’t have a multi-zone Kubernetes cluster, you can deploy one locally using `kind` with the following command:
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=none >}}
 $ kind create cluster --config=- <<EOF
 kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
@@ -178,7 +178,7 @@ EOF
 
 2) Use `topology.kubernetes.io/zone` to label each worker with a zone name:
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=none >}}
 $ kubectl label node kind-worker topology.kubernetes.io/zone=us-south10
 $ kubectl label node kind-worker2 topology.kubernetes.io/zone=us-south12
 $ kubectl label node kind-worker3 topology.kubernetes.io/zone=us-south13
