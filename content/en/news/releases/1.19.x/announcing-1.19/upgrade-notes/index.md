@@ -2,7 +2,7 @@
 title: Istio 1.19 Upgrade Notes
 description: Important changes to consider when upgrading to Istio 1.19.
 weight: 20
-publishdate: 2023-09-01
+publishdate: 2023-09-05
 ---
 
 When you upgrade from Istio 1.18.x to Istio 1.19.x, you need to consider the changes on this page.

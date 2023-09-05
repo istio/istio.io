@@ -3,7 +3,7 @@ title: Announcing Istio 1.19.0
 linktitle: 1.19.0
 subtitle: Major Release
 description: Istio 1.19 Release Announcement.
-publishdate: 2023-09-01
+publishdate: 2023-09-05
 release: 1.19.0
 aliases:
     - /news/announcing-1.19
