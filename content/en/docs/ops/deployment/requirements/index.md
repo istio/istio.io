@@ -32,12 +32,6 @@ This document describes these application considerations and specific requiremen
 
 To be part of a mesh, Kubernetes pods must satisfy the following requirements:
 
-- **Service association**: A pod must belong to at least one Kubernetes
-  service even if the pod does NOT expose any port.
-  If a pod belongs to multiple [Kubernetes services](https://kubernetes.io/docs/concepts/services-networking/service/),
-  the services cannot use the same port number for different protocols, for
-  instance HTTP and TCP.
-
 - **Application UIDs**: Ensure your pods do **not** run applications as a user
   with the user ID (UID) value of `1337` because `1337` is reserved for the sidecar proxy.
 
@@ -84,7 +78,9 @@ To be part of a mesh, Kubernetes pods must satisfy the following requirements:
 
 - **Named service ports**: Service ports may optionally be named to explicitly specify a protocol.
   See [Protocol Selection](/docs/ops/configuration/traffic-management/protocol-selection/) for
-  more details.
+  more details. If a pod belongs to multiple [Kubernetes services](https://kubernetes.io/docs/concepts/services-networking/service/),
+  the services cannot use the same port number for different protocols, for
+  instance HTTP and TCP.
 
 ## Ports used by Istio
 
