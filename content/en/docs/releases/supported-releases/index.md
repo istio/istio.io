@@ -70,9 +70,9 @@ Please keep up-to-date and use a supported version.
 
 | Minor Releases   | Patched versions with no known CVEs                  |
 | ---------------- | ---------------------------------------------------- |
-| 1.18.x           | 1.18.2+                                               |
+| 1.19.x           | 1.19.0+                                              |
+| 1.18.x           | 1.18.2+                                              |
 | 1.17.x           | 1.17.5+                                              |
-| 1.16.x           | 1.16.7+                                              |
 
 ## Supported Envoy Versions
 
@@ -82,8 +82,8 @@ The relationship between the two project's versions:
 
 | Istio version | Envoy version |
 | ------------- | ------------- |
+| 1.19.x        | 1.27.x        |
 | 1.18.x        | 1.26.x        |
 | 1.17.x        | 1.25.x        |
-| 1.16.x        | 1.24.x        |
 
 In general, Istio releases tend to map one to one with Envoy releases. You can find the precise Envoy commit used by Istio in [`istio/proxy`](https://github.com/istio/proxy/blob/master/WORKSPACE#L38).
