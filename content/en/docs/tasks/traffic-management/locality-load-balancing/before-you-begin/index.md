@@ -159,12 +159,13 @@ behavior.
 {{< /warning >}}
 
 {{< tip >}}
-In a single multi-zone cluster environment, locality load balancing can also be configured for failover to a different zone within the same cluster. To test it, you will need to create a cluster with multiple worker zones and deploy istiod instance and the app to each zone. The following example shows how to set up a kind cluster with multiple worker zones. The remaining steps are identical to this multicluster example.
+In a single multi-zone cluster environment, locality load balancing can also be configured for failover to a different zone within the same cluster.
+To test it, you will need to create a cluster with multiple worker zones and deploy an istiod instance and the app to each zone.
 
-Generate yaml to define a cluster with 1 control-plane and 3 worker nodes:
+1) If you don’t have a multi-zone Kubernetes cluster, you can deploy one locally using `kind` with the following command:
 
 {{< text bash >}}
-$ cat <<EOF > kind-cluster-config.yaml
+$ kind create cluster --config=- <<EOF
 kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 nodes:
@@ -175,13 +176,7 @@ nodes:
 EOF
 {{< /text >}}
 
-Create a kind cluster with yaml generated from above:
-
-{{< text bash >}}
-$ kind create cluster --config kind-cluster-config.yaml
-{{< /text >}}
-
-Use `topology.kubernetes.io/zone` to label each worker with a zone name:
+2) Use `topology.kubernetes.io/zone` to label each worker with a zone name:
 
 {{< text bash >}}
 $ kubectl label node kind-worker topology.kubernetes.io/zone=us-south10
