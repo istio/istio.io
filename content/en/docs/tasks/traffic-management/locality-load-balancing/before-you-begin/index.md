@@ -159,7 +159,7 @@ behavior.
 {{< /warning >}}
 
 {{< tip >}}
-Locality load balancing can also be configured in a single multi-zone cluster environment for failover between different zones on the same cluster. The following example shows how to set up a kind cluster with multiple worker zones to test it. The remaining steps are similar to this multicluster example.
+In a single multi-zone cluster environment, locality load balancing can also be configured for failover to a different zone within the same cluster. To test it, you will need to create a cluster with multiple worker zones and deploy istiod instance and the app to each zone. The following example shows how to set up a kind cluster with multiple worker zones. The remaining steps are identical to this multicluster example.
 
 Generate yaml to define a cluster with 1 control-plane and 3 worker nodes:
 
