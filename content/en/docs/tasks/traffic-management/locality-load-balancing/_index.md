@@ -3,6 +3,7 @@ title: Locality Load Balancing
 description: This series of tasks demonstrate how to configure locality load balancing in Istio.
 weight: 65
 keywords: [locality,load balancing,priority,prioritized,kubernetes,multicluster]
+list_below: true
 simple_list: true
 content_above: true
 aliases:
