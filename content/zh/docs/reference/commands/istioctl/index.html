@@ -4,7 +4,7 @@ source_repo: https://github.com/istio/istio
 title: istioctl
 description: Istio control interface.
 generator: pkg-collateral-docs
-number_of_entries: 99
+number_of_entries: 94
 max_toc_level: 2
 remove_toc_prefix: 'istioctl '
 ---
@@ -926,7 +926,7 @@ to enable it.  You can execute the following once:</p>
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.19.0/manifests).  (default ``)</td>
+(e.g. ~/Downloads/istio-1.20.0/manifests).  (default ``)</td>
 </tr>
 <tr>
 <td><code>--name &lt;string&gt;</code></td>
@@ -2399,6 +2399,16 @@ calculated over a time interval of 1 minute.
 <td>Kubernetes namespace  (default ``)</td>
 </tr>
 <tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>Output format: one of [log json yaml]  (default `log`)</td>
+</tr>
+<tr>
+<td><code>--output-threshold &lt;Level&gt;</code></td>
+<td></td>
+<td>The severity level of precheck at which to display messages. Valid values: [Info Warning Error]  (default `Warning`)</td>
+</tr>
+<tr>
 <td><code>--revision &lt;string&gt;</code></td>
 <td><code>-r</code></td>
 <td>Control plane revision  (default ``)</td>
@@ -2583,7 +2593,7 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.19.0/manifests).
+(e.g. ~/Downloads/istio-1.20.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -2640,7 +2650,7 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.19.0/manifests).
+(e.g. ~/Downloads/istio-1.20.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -2709,7 +2719,7 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.19.0/manifests).
+(e.g. ~/Downloads/istio-1.20.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -2741,409 +2751,6 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 
   # View list of revisions including customizations, istiod and gateway pods
   istioctl x revision list -v
-
-</code></pre>
-<h2 id="istioctl-experimental-revision-tag">istioctl experimental revision tag</h2>
-<p>Command group used to interact with revision tags. Revision tags allow for the creation of mutable aliases
-referring to control plane revisions for sidecar injection.</p>
-<p>With revision tags, rather than relabeling a namespace from &#34;istio.io/rev=revision-a&#34; to &#34;istio.io/rev=revision-b&#34; to
-change which control plane revision handles injection, it&#39;s possible to create a revision tag &#34;prod&#34; and label our
-namespace &#34;istio.io/rev=prod&#34;. The &#34;prod&#34; revision tag could point to &#34;1-7-6&#34; initially and then be changed to point to &#34;1-8-1&#34;
-at some later point.</p>
-<p>This allows operators to change which Istio control plane revision should handle injection for a namespace or set of namespaces
-without manual relabeling of the &#34;istio.io/rev&#34; tag.
-</p>
-<pre class="language-bash"><code>istioctl experimental revision tag [flags]
-</code></pre>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>Kubernetes configuration context  (default ``)</td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--manifests &lt;string&gt;</code></td>
-<td><code>-d</code></td>
-<td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.19.0/manifests).
-  (default ``)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Kubernetes namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--output &lt;string&gt;</code></td>
-<td><code>-o</code></td>
-<td>Output format for revision description (available formats: table,json)  (default `table`)</td>
-</tr>
-<tr>
-<td><code>--verbose</code></td>
-<td><code>-v</code></td>
-<td>Enable verbose output </td>
-</tr>
-<tr>
-<td><code>--vklog &lt;Level&gt;</code></td>
-<td></td>
-<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
-</tr>
-</tbody>
-</table>
-<h2 id="istioctl-experimental-revision-tag-generate">istioctl experimental revision tag generate</h2>
-<p>Create a revision tag and output to the command&#39;s stdout. Tag an Istio control plane revision for use with namespace istio.io/rev
-injection labels.</p>
-<pre class="language-bash"><code>istioctl experimental revision tag generate &lt;revision-tag&gt; [flags]
-</code></pre>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--auto-inject-namespaces</code></td>
-<td></td>
-<td>If set to true, the sidecars should be automatically injected into all namespaces by default </td>
-</tr>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>Kubernetes configuration context  (default ``)</td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--manifests &lt;string&gt;</code></td>
-<td><code>-d</code></td>
-<td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.19.0/manifests).  (default ``)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Kubernetes namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--output &lt;string&gt;</code></td>
-<td><code>-o</code></td>
-<td>Output format for revision description (available formats: table,json)  (default `table`)</td>
-</tr>
-<tr>
-<td><code>--overwrite</code></td>
-<td></td>
-<td>If true, allow revision tags to be overwritten, otherwise reject revision tag updates that
-overwrite existing revision tags. </td>
-</tr>
-<tr>
-<td><code>--revision &lt;string&gt;</code></td>
-<td><code>-r</code></td>
-<td>Control plane revision to reference from a given revision tag  (default ``)</td>
-</tr>
-<tr>
-<td><code>--skip-confirmation</code></td>
-<td><code>-y</code></td>
-<td>The skipConfirmation determines whether the user is prompted for confirmation.
-If set to true, the user is not prompted and a Yes response is assumed in all cases. </td>
-</tr>
-<tr>
-<td><code>--verbose</code></td>
-<td><code>-v</code></td>
-<td>Enable verbose output </td>
-</tr>
-<tr>
-<td><code>--vklog &lt;Level&gt;</code></td>
-<td></td>
-<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
-</tr>
-<tr>
-<td><code>--webhook-name &lt;string&gt;</code></td>
-<td></td>
-<td>Name to use for a revision tag&#39;s mutating webhook configuration.  (default ``)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="istioctl-experimental-revision-tag-generate Examples">Examples</h3>
-<pre class="language-bash"><code>  # Create a revision tag from the &#34;1-8-0&#34; revision
-  istioctl tag generate prod --revision 1-8-0 &gt; tag.yaml
-
-  # Apply the tag to cluster
-  kubectl apply -f tag.yaml
-
-  # Point namespace &#34;test-ns&#34; at the revision pointed to by the &#34;prod&#34; revision tag
-  kubectl label ns test-ns istio.io/rev=prod
-
-  # Rollout namespace &#34;test-ns&#34; to update workloads to the &#34;1-8-0&#34; revision
-  kubectl rollout restart deployments -n test-ns
-
-</code></pre>
-<h2 id="istioctl-experimental-revision-tag-list">istioctl experimental revision tag list</h2>
-<p>List existing revision tags</p>
-<pre class="language-bash"><code>istioctl experimental revision tag list [flags]
-</code></pre>
-<div class="aliases">
-<pre class="language-bash"><code>istioctl experimental revision tag show [flags]
-</code></pre></div>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>Kubernetes configuration context  (default ``)</td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--manifests &lt;string&gt;</code></td>
-<td><code>-d</code></td>
-<td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.19.0/manifests).
-  (default ``)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Kubernetes namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--output &lt;string&gt;</code></td>
-<td><code>-o</code></td>
-<td>Output format for revision description (available formats: table,json)  (default `table`)</td>
-</tr>
-<tr>
-<td><code>--verbose</code></td>
-<td><code>-v</code></td>
-<td>Enable verbose output </td>
-</tr>
-<tr>
-<td><code>--vklog &lt;Level&gt;</code></td>
-<td></td>
-<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="istioctl-experimental-revision-tag-list Examples">Examples</h3>
-<pre class="language-bash"><code>istioctl tag list
-</code></pre>
-<h2 id="istioctl-experimental-revision-tag-remove">istioctl experimental revision tag remove</h2>
-<p>Remove Istio control plane revision tag.</p>
-<p>Removing a revision tag should be done with care. Removing a revision tag will disrupt sidecar injection in namespaces
-that reference the tag in an &#34;istio.io/rev&#34; label. Verify that there are no remaining namespaces referencing a
-revision tag before removing using the &#34;istioctl tag list&#34; command.
-</p>
-<pre class="language-bash"><code>istioctl experimental revision tag remove &lt;revision-tag&gt; [flags]
-</code></pre>
-<div class="aliases">
-<pre class="language-bash"><code>istioctl experimental revision tag delete &lt;revision-tag&gt; [flags]
-</code></pre></div>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>Kubernetes configuration context  (default ``)</td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--manifests &lt;string&gt;</code></td>
-<td><code>-d</code></td>
-<td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.19.0/manifests).
-  (default ``)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Kubernetes namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--output &lt;string&gt;</code></td>
-<td><code>-o</code></td>
-<td>Output format for revision description (available formats: table,json)  (default `table`)</td>
-</tr>
-<tr>
-<td><code>--skip-confirmation</code></td>
-<td><code>-y</code></td>
-<td>The skipConfirmation determines whether the user is prompted for confirmation.
-If set to true, the user is not prompted and a Yes response is assumed in all cases. </td>
-</tr>
-<tr>
-<td><code>--verbose</code></td>
-<td><code>-v</code></td>
-<td>Enable verbose output </td>
-</tr>
-<tr>
-<td><code>--vklog &lt;Level&gt;</code></td>
-<td></td>
-<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="istioctl-experimental-revision-tag-remove Examples">Examples</h3>
-<pre class="language-bash"><code>  # Remove the revision tag &#34;prod&#34;
-  istioctl tag remove prod
-
-</code></pre>
-<h2 id="istioctl-experimental-revision-tag-set">istioctl experimental revision tag set</h2>
-<p>Create or modify revision tags. Tag an Istio control plane revision for use with namespace istio.io/rev
-injection labels.</p>
-<pre class="language-bash"><code>istioctl experimental revision tag set &lt;revision-tag&gt; [flags]
-</code></pre>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--auto-inject-namespaces</code></td>
-<td></td>
-<td>If set to true, the sidecars should be automatically injected into all namespaces by default </td>
-</tr>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>Kubernetes configuration context  (default ``)</td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--manifests &lt;string&gt;</code></td>
-<td><code>-d</code></td>
-<td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.19.0/manifests).  (default ``)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Kubernetes namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--output &lt;string&gt;</code></td>
-<td><code>-o</code></td>
-<td>Output format for revision description (available formats: table,json)  (default `table`)</td>
-</tr>
-<tr>
-<td><code>--overwrite</code></td>
-<td></td>
-<td>If true, allow revision tags to be overwritten, otherwise reject revision tag updates that
-overwrite existing revision tags. </td>
-</tr>
-<tr>
-<td><code>--revision &lt;string&gt;</code></td>
-<td><code>-r</code></td>
-<td>Control plane revision to reference from a given revision tag  (default ``)</td>
-</tr>
-<tr>
-<td><code>--skip-confirmation</code></td>
-<td><code>-y</code></td>
-<td>The skipConfirmation determines whether the user is prompted for confirmation.
-If set to true, the user is not prompted and a Yes response is assumed in all cases. </td>
-</tr>
-<tr>
-<td><code>--verbose</code></td>
-<td><code>-v</code></td>
-<td>Enable verbose output </td>
-</tr>
-<tr>
-<td><code>--vklog &lt;Level&gt;</code></td>
-<td></td>
-<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
-</tr>
-<tr>
-<td><code>--webhook-name &lt;string&gt;</code></td>
-<td></td>
-<td>Name to use for a revision tag&#39;s mutating webhook configuration.  (default ``)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="istioctl-experimental-revision-tag-set Examples">Examples</h3>
-<pre class="language-bash"><code>  # Create a revision tag from the &#34;1-8-0&#34; revision
-  istioctl tag set prod --revision 1-8-0
-
-  # Point namespace &#34;test-ns&#34; at the revision pointed to by the &#34;prod&#34; revision tag
-  kubectl label ns test-ns istio.io/rev=prod
-
-  # Change the revision tag to reference the &#34;1-8-1&#34; revision
-  istioctl tag set prod --revision 1-8-1 --overwrite
-
-  # Make revision &#34;1-8-1&#34; the default revision, both resulting in that revision handling injection for &#34;istio-injection=enabled&#34;
-  # and validating resources cluster-wide
-  istioctl tag set default --revision 1-8-1
-
-  # Rollout namespace &#34;test-ns&#34; to update workloads to the &#34;1-8-1&#34; revision
-  kubectl rollout restart deployments -n test-ns
 
 </code></pre>
 <h2 id="istioctl-experimental-version">istioctl experimental version</h2>
@@ -3947,7 +3554,7 @@ The default output is serialized YAML, which can be piped into &#39;kubectl appl
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
-<td>The name of the kubeconfig context to use.  (default ``)</td>
+<td>Kubernetes configuration context  (default ``)</td>
 </tr>
 <tr>
 <td><code>--dry-run</code></td>
@@ -3973,13 +3580,13 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
-<td>Path to kube config.  (default ``)</td>
+<td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.19.0/manifests).
+(e.g. ~/Downloads/istio-1.20.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -4002,7 +3609,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.19/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.20/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -4343,7 +3950,7 @@ e.g.
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
-<td>The name of the kubeconfig context to use. Requires --cluster-specific.  (default ``)</td>
+<td>Kubernetes configuration context  (default ``)</td>
 </tr>
 <tr>
 <td><code>--dry-run</code></td>
@@ -4369,13 +3976,13 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
-<td>Path to kube config. Requires --cluster-specific.  (default ``)</td>
+<td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.19.0/manifests).
+(e.g. ~/Downloads/istio-1.20.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -4398,7 +4005,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.19/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.20/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -4445,7 +4052,7 @@ settings (--set meshConfig.enableTracing=true). See documentation for more info:
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
-<td>The name of the kubeconfig context to use.  (default ``)</td>
+<td>Kubernetes configuration context  (default ``)</td>
 </tr>
 <tr>
 <td><code>--dry-run</code></td>
@@ -4471,13 +4078,13 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
-<td>Path to kube config.  (default ``)</td>
+<td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.19.0/manifests).
+(e.g. ~/Downloads/istio-1.20.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -4500,7 +4107,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.19/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.20/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -4625,7 +4232,7 @@ could be secret list separated by comma, eg. &#39;--imagePullSecrets imagePullSe
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.19.0/manifests).
+(e.g. ~/Downloads/istio-1.20.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -4724,7 +4331,7 @@ could be secret list separated by comma, eg. &#39;--imagePullSecrets imagePullSe
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.19.0/manifests).
+(e.g. ~/Downloads/istio-1.20.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -4957,7 +4564,7 @@ istioctl install --set profile=demo  # Use a profile from the list
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.19.0/manifests).
+(e.g. ~/Downloads/istio-1.20.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -5032,7 +4639,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.19.0/manifests).
+(e.g. ~/Downloads/istio-1.20.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -5094,7 +4701,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.19.0/manifests).
+(e.g. ~/Downloads/istio-1.20.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -6191,7 +5798,7 @@ injection labels.</p>
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.19.0/manifests).  (default ``)</td>
+(e.g. ~/Downloads/istio-1.20.0/manifests).  (default ``)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -6383,7 +5990,7 @@ injection labels.</p>
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.19.0/manifests).  (default ``)</td>
+(e.g. ~/Downloads/istio-1.20.0/manifests).  (default ``)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -6484,7 +6091,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.19.0/manifests).
+(e.g. ~/Downloads/istio-1.20.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -6507,7 +6114,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.19/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.20/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -6558,7 +6165,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
-<td>The name of the kubeconfig context to use.  (default ``)</td>
+<td>Kubernetes configuration context  (default ``)</td>
 </tr>
 <tr>
 <td><code>--dry-run</code></td>
@@ -6584,13 +6191,13 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
-<td>Path to kube config.  (default ``)</td>
+<td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.19.0/manifests).
+(e.g. ~/Downloads/istio-1.20.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -6604,11 +6211,16 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td>Maximum time to wait for Istio resources in each component to be ready.  (default `5m0s`)</td>
 </tr>
 <tr>
+<td><code>--revision &lt;string&gt;</code></td>
+<td><code>-r</code></td>
+<td>Target control plane revision for the command.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--set &lt;stringArray&gt;</code></td>
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.19/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.20/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -6670,11 +6282,6 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td>Kubernetes namespace  (default ``)</td>
 </tr>
 <tr>
-<td><code>--referential</code></td>
-<td><code>-x</code></td>
-<td>Enable structural validation for policy and telemetry </td>
-</tr>
-<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -6726,7 +6333,7 @@ istioctl experimental precheck.
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
-<td>The name of the kubeconfig context to use  (default ``)</td>
+<td>Kubernetes configuration context  (default ``)</td>
 </tr>
 <tr>
 <td><code>--filename &lt;stringSlice&gt;</code></td>
@@ -6740,19 +6347,19 @@ istioctl experimental precheck.
 </tr>
 <tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
-<td></td>
-<td>Path to the kubeconfig file to use for CLI requests.  (default ``)</td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
 </tr>
 <tr>
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.19.0/manifests).  (default ``)</td>
+(e.g. ~/Downloads/istio-1.20.0/manifests).  (default ``)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
-<td>If present, the namespace scope for this CLI request  (default ``)</td>
+<td>Kubernetes namespace  (default ``)</td>
 </tr>
 <tr>
 <td><code>--revision &lt;string&gt;</code></td>
@@ -7008,6 +6615,18 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td></td>
 </tr>
 <tr>
+<td><code>INBOUND_INTERCEPTION_MODE</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>The mode used to redirect inbound connections to Envoy, either &#34;REDIRECT&#34; or &#34;TPROXY&#34;</td>
+</tr>
+<tr>
+<td><code>INBOUND_TPROXY_MARK</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
+</tr>
+<tr>
 <td><code>INJECTION_WEBHOOK_CONFIG_NAME</code></td>
 <td>String</td>
 <td><code>istio-sidecar-injector</code></td>
@@ -7138,6 +6757,22 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, mesh will support certificates signed by more than one trustAnchor for ISTIO_MUTUAL mTLS</td>
+</tr>
+<tr>
+<td><code>ISTIO_OUTBOUND_OWNER_GROUPS</code></td>
+<td>String</td>
+<td><code>*</code></td>
+<td>Comma separated list of groups whose outgoing traffic is to be redirected to Envoy.
+A group can be specified either by name or by a numeric GID.
+The wildcard character &#34;*&#34; can be used to configure redirection of traffic from all groups.</td>
+</tr>
+<tr>
+<td><code>ISTIO_OUTBOUND_OWNER_GROUPS_EXCLUDE</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Comma separated list of groups whose outgoing traffic is to be excluded from redirection to Envoy.
+A group can be specified either by name or by a numeric GID.
+Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected to Envoy.</td>
 </tr>
 <tr>
 <td><code>ISTIO_PROMETHEUS_ANNOTATIONS</code></td>
@@ -7314,12 +6949,6 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>If enabled, pilot will read WorkloadEntry from other clusters, selectable by Services in that cluster.</td>
 </tr>
 <tr>
-<td><code>PILOT_ENABLE_DESTINATION_RULE_INHERITANCE</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If set, workload specific DestinationRules will inherit configurations settings from mesh and namespace level rules</td>
-</tr>
-<tr>
 <td><code>PILOT_ENABLE_EDS_DEBOUNCE</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -7342,6 +6971,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If this is set to true, gateway-api resources will automatically provision in cluster deployment, services, etc</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_GATEWAY_API_GATEWAYCLASS_CONTROLLER</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If this is set to true, istiod will create and manage its default GatewayClasses</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_GATEWAY_API_STATUS</code></td>
@@ -7624,6 +7259,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Time Duration</td>
 <td><code>0s</code></td>
 <td>The timeout to send the XDS configuration to proxies. After this timeout is reached, Pilot will discard that push.</td>
+</tr>
+<tr>
+<td><code>PLATFORM</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Platform where Istio is deployed. Possible values are &#34;openshift&#34; and &#34;gcp&#34;</td>
 </tr>
 <tr>
 <td><code>REQUIRE_3P_TOKEN</code></td>

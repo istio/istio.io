@@ -73,7 +73,7 @@ remove_toc_prefix: 'install-cni '
 </tr>
 <tr>
 <td><code>--log-uds-address &lt;string&gt;</code></td>
-<td>The UDS server address which CNI plugin will copy log ouptut to  (default `/var/run/istio-cni/log.sock`)</td>
+<td>The UDS server address which CNI plugin will copy log output to  (default `/var/run/istio-cni/log.sock`)</td>
 </tr>
 <tr>
 <td><code>--log_as_json</code></td>
@@ -925,7 +925,7 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td><code>LOG_UDS_ADDRESS</code></td>
 <td>String</td>
 <td><code>/var/run/istio-cni/log.sock</code></td>
-<td>The UDS server address which CNI plugin will copy log ouptut to</td>
+<td>The UDS server address which CNI plugin will copy log output to</td>
 </tr>
 <tr>
 <td><code>MCS_API_GROUP</code></td>
@@ -1066,12 +1066,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>If enabled, pilot will read WorkloadEntry from other clusters, selectable by Services in that cluster.</td>
 </tr>
 <tr>
-<td><code>PILOT_ENABLE_DESTINATION_RULE_INHERITANCE</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If set, workload specific DestinationRules will inherit configurations settings from mesh and namespace level rules</td>
-</tr>
-<tr>
 <td><code>PILOT_ENABLE_EDS_DEBOUNCE</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -1094,6 +1088,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If this is set to true, gateway-api resources will automatically provision in cluster deployment, services, etc</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_GATEWAY_API_GATEWAYCLASS_CONTROLLER</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If this is set to true, istiod will create and manage its default GatewayClasses</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_GATEWAY_API_STATUS</code></td>

@@ -23,7 +23,7 @@ source "content/en/boilerplates/snips/trace-generation.sh"
 
 snip__1() {
 kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
-  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.8.0-rc1" | kubectl apply -f -; }
+  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.8.0" | kubectl apply -f -; }
 }
 
 snip_download_istio_1() {
@@ -31,7 +31,7 @@ curl -L https://istio.io/downloadIstio | sh -
 }
 
 snip_download_istio_2() {
-curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.19.0 TARGET_ARCH=x86_64 sh -
+curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.20.0 TARGET_ARCH=x86_64 sh -
 }
 
 snip_download_istio_4() {

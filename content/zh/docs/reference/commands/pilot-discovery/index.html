@@ -635,6 +635,18 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td></td>
 </tr>
 <tr>
+<td><code>INBOUND_INTERCEPTION_MODE</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>The mode used to redirect inbound connections to Envoy, either &#34;REDIRECT&#34; or &#34;TPROXY&#34;</td>
+</tr>
+<tr>
+<td><code>INBOUND_TPROXY_MARK</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
+</tr>
+<tr>
 <td><code>INJECTION_WEBHOOK_CONFIG_NAME</code></td>
 <td>String</td>
 <td><code>istio-sidecar-injector</code></td>
@@ -719,6 +731,22 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>If enabled, mesh will support certificates signed by more than one trustAnchor for ISTIO_MUTUAL mTLS</td>
 </tr>
 <tr>
+<td><code>ISTIO_OUTBOUND_OWNER_GROUPS</code></td>
+<td>String</td>
+<td><code>*</code></td>
+<td>Comma separated list of groups whose outgoing traffic is to be redirected to Envoy.
+A group can be specified either by name or by a numeric GID.
+The wildcard character &#34;*&#34; can be used to configure redirection of traffic from all groups.</td>
+</tr>
+<tr>
+<td><code>ISTIO_OUTBOUND_OWNER_GROUPS_EXCLUDE</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Comma separated list of groups whose outgoing traffic is to be excluded from redirection to Envoy.
+A group can be specified either by name or by a numeric GID.
+Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected to Envoy.</td>
+</tr>
+<tr>
 <td><code>ISTIO_PROMETHEUS_ANNOTATIONS</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -764,7 +792,7 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td><code>K8S_SIGNER</code></td>
 <td>String</td>
 <td><code></code></td>
-<td>Kubernates CA Signer type. Valid from Kubernates 1.18</td>
+<td>Kubernetes CA Signer type. Valid from Kubernetes 1.18</td>
 </tr>
 <tr>
 <td><code>KUBERNETES_SERVICE_HOST</code></td>
@@ -917,12 +945,6 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>If enabled, pilot will read WorkloadEntry from other clusters, selectable by Services in that cluster.</td>
 </tr>
 <tr>
-<td><code>PILOT_ENABLE_DESTINATION_RULE_INHERITANCE</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If set, workload specific DestinationRules will inherit configurations settings from mesh and namespace level rules</td>
-</tr>
-<tr>
 <td><code>PILOT_ENABLE_EDS_DEBOUNCE</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -945,6 +967,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If this is set to true, gateway-api resources will automatically provision in cluster deployment, services, etc</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_GATEWAY_API_GATEWAYCLASS_CONTROLLER</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If this is set to true, istiod will create and manage its default GatewayClasses</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_GATEWAY_API_STATUS</code></td>
@@ -1229,6 +1257,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>The timeout to send the XDS configuration to proxies. After this timeout is reached, Pilot will discard that push.</td>
 </tr>
 <tr>
+<td><code>PLATFORM</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Platform where Istio is deployed. Possible values are &#34;openshift&#34; and &#34;gcp&#34;</td>
+</tr>
+<tr>
 <td><code>POD_NAME</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -1371,12 +1405,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <tr><td><code>citadel_server_success_cert_issuance_count</code></td><td><code>Sum</code></td><td>The number of certificates issuances that have succeeded.</td></tr>
 <tr><td><code>controller_sync_errors_total</code></td><td><code>Sum</code></td><td>Total number of errorMetric syncing controllers.</td></tr>
 <tr><td><code>endpoint_no_pod</code></td><td><code>LastValue</code></td><td>Endpoints without an associated pod.</td></tr>
-<tr><td><code>galley_validation_failed</code></td><td><code>Sum</code></td><td>Resource validation failed</td></tr>
-<tr><td><code>galley_validation_http_error</code></td><td><code>Sum</code></td><td>Resource validation http serve errors</td></tr>
-<tr><td><code>galley_validation_passed</code></td><td><code>Sum</code></td><td>Resource is valid</td></tr>
 <tr><td><code>galley_validation_config_load_error</code></td><td><code>Sum</code></td><td>k8s webhook configuration (re)load error</td></tr>
 <tr><td><code>galley_validation_config_update_error</code></td><td><code>Sum</code></td><td>k8s webhook configuration update error</td></tr>
 <tr><td><code>galley_validation_config_updates</code></td><td><code>Sum</code></td><td>k8s webhook configuration updates</td></tr>
+<tr><td><code>galley_validation_failed</code></td><td><code>Sum</code></td><td>Resource validation failed</td></tr>
+<tr><td><code>galley_validation_http_error</code></td><td><code>Sum</code></td><td>Resource validation http serve errors</td></tr>
+<tr><td><code>galley_validation_passed</code></td><td><code>Sum</code></td><td>Resource is valid</td></tr>
 <tr><td><code>istio_build</code></td><td><code>LastValue</code></td><td>Istio component build info</td></tr>
 <tr><td><code>istiod_managed_clusters</code></td><td><code>LastValue</code></td><td>Number of clusters managed by istiod</td></tr>
 <tr><td><code>istiod_uptime_seconds</code></td><td><code>LastValue</code></td><td>Current istiod server uptime in seconds</td></tr>
