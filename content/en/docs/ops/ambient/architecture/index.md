@@ -36,7 +36,7 @@ Ambient mesh takes a different approach.
 It splits Istio’s functionality into two distinct layers.
 At the base, there’s a secure overlay that handles routing and zero trust security for traffic.
 Above that, when needed, users can enable L7 processing to get access to the full range of Istio features.
-The L7 processing mode, while heavier than the secure overlay, still runs as an ambient component of the infrastructure, requiring no modifications to application pods.
+The L7 processing mode, while heavier than the secure overlay, runs as a component of the infrastructure, requiring no modifications to application pods.
 
 {{< image width="100%"
     link="/blog/2022/introducing-ambient-mesh/ambient-layers.png"
