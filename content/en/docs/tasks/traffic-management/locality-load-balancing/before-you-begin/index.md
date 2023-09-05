@@ -13,25 +13,25 @@ To test it, you will need to create a cluster with multiple worker zones and dep
 
 1) If you don’t have a multi-zone Kubernetes cluster, you can deploy one locally using `kind` with the following command:
 
-{{< text syntax=bash snip_id=none >}}
-$ kind create cluster --config=- <<EOF
-kind: Cluster
-apiVersion: kind.x-k8s.io/v1alpha4
-nodes:
-  - role: control-plane
-  - role: worker
-  - role: worker
-  - role: worker
-EOF
-{{< /text >}}
+    {{< text syntax=bash snip_id=none >}}
+    $ kind create cluster --config=- <<EOF
+    kind: Cluster
+    apiVersion: kind.x-k8s.io/v1alpha4
+    nodes:
+    - role: control-plane
+    - role: worker
+    - role: worker
+    - role: worker
+    EOF
+    {{< /text >}}
 
 2) Use `topology.kubernetes.io/zone` to label each worker with a zone name:
 
-{{< text syntax=bash snip_id=none >}}
-$ kubectl label node kind-worker topology.kubernetes.io/zone=us-south10
-$ kubectl label node kind-worker2 topology.kubernetes.io/zone=us-south12
-$ kubectl label node kind-worker3 topology.kubernetes.io/zone=us-south13
-{{< /text >}}
+    {{< text syntax=bash snip_id=none >}}
+    $ kubectl label node kind-worker topology.kubernetes.io/zone=us-south10
+    $ kubectl label node kind-worker2 topology.kubernetes.io/zone=us-south12
+    $ kubectl label node kind-worker3 topology.kubernetes.io/zone=us-south13
+    {{< /text >}}
 
 3) Deploy istiod to the control-plane node and the helloworld app to each of the worker nodes.
 
