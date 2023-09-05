@@ -8,7 +8,7 @@ layout: protoc-gen-docs
 generator: protoc-gen-docs
 schema: istio.networking.v1alpha3.VirtualService
 aliases: [/docs/reference/config/networking/v1alpha3/virtual-service]
-number_of_entries: 28
+number_of_entries: 29
 ---
 <p>Configuration affecting traffic routing. Here are a few terms useful to define
 in the context of traffic routing.</p>
@@ -727,6 +727,22 @@ the requests to the intended destination. Mirrored traffic is on a
 best effort basis where the sidecar/gateway will not wait for the
 mirrored cluster to respond before returning the response from the
 original destination.  Statistics will be generated for the mirrored
+destination.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="HTTPRoute-mirrors">
+<td><code>mirrors</code></td>
+<td><code><a href="#HTTPMirrorPolicy">HTTPMirrorPolicy[]</a></code></td>
+<td>
+<p>Specifies the destinations to mirror HTTP traffic in addition
+to the original destination. Mirrored traffic is on a
+best effort basis where the sidecar/gateway will not wait for the
+mirrored destinations to respond before returning the response from the
+original destination. Statistics will be generated for the mirrored
 destination.</p>
 
 </td>
@@ -2495,7 +2511,8 @@ spec:
 between retries will be determined automatically (25ms+). When request
 <code>timeout</code> of the <a href="/docs/reference/config/networking/virtual-service/#HTTPRoute">HTTP route</a>
 or <code>per_try_timeout</code> is configured, the actual number of retries attempted also depends on
-the specified request <code>timeout</code> and <code>per_try_timeout</code> values.</p>
+the specified request <code>timeout</code> and <code>per_try_timeout</code> values. MUST BE &gt;= 0. If <code>0</code>, retries will be disabled.
+The maximum possible number of requests made will be 1 + <code>attempts</code>.</p>
 
 </td>
 <td>
@@ -2733,6 +2750,52 @@ No
 <td>
 <p>Abort Http request attempts and return error codes back to downstream
 service, giving the impression that the upstream service is faulty.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="HTTPMirrorPolicy">HTTPMirrorPolicy</h2>
+<section>
+<p>HTTPMirrorPolicy can be used to specify the destinations to mirror HTTP traffic in addition
+to the original destination. Mirrored traffic is on a
+best effort basis where the sidecar/gateway will not wait for the
+mirrored destinations to respond before returning the response from the
+original destination. Statistics will be generated for the mirrored
+destination.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="HTTPMirrorPolicy-destination">
+<td><code>destination</code></td>
+<td><code><a href="#Destination">Destination</a></code></td>
+<td>
+<p>Destination specifies the target of the mirror operation.</p>
+
+</td>
+<td>
+Yes
+</td>
+</tr>
+<tr id="HTTPMirrorPolicy-percentage">
+<td><code>percentage</code></td>
+<td><code><a href="#Percent">Percent</a></code></td>
+<td>
+<p>Percentage of the traffic to be mirrored by the <code>destination</code> field.
+If this field is absent, all the traffic (100%) will be mirrored.
+Max value is 100.</p>
 
 </td>
 <td>
