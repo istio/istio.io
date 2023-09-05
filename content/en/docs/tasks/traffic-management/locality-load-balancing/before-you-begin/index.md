@@ -33,6 +33,8 @@ $ kubectl label node kind-worker2 topology.kubernetes.io/zone=us-south12
 $ kubectl label node kind-worker3 topology.kubernetes.io/zone=us-south13
 {{< /text >}}
 
+3) Deploy istiod to the control-plane node and the helloworld app to each of the worker nodes.
+
 {{< /tip >}}
 
 Before you begin the locality load balancing tasks, you must first
