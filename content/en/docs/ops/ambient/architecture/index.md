@@ -68,7 +68,7 @@ We expect this to yield significant resource savings for users, as the waypoint 
     caption="When additional features are needed, ambient mesh deploys waypoint proxies, which ztunnels connect through for policy enforcement"
     >}}
 
-Ambient mesh uses HTTP CONNECT over mTLS to implement its secure tunnels and insert waypoint proxies in the path, a pattern we call HBONE (HTTP-Based Overlay Network Environment). HBONE provides for a cleaner encapsulation of traffic than TLS on its own while enabling interoperability with common load-balancer infrastructure. FIPS builds are used by default to meet compliance needs. More details on HBONE, its standards-based approach, and plans for UDP and other non-TCP protocols will be provided in a future blog.
+Ambient mesh uses HTTP CONNECT over mTLS to implement its secure tunnels and insert waypoint proxies in the path, a pattern we call HBONE (HTTP-Based Overlay Network Environment). HBONE provides for a cleaner encapsulation of traffic than TLS on its own while enabling interoperability with common load-balancer infrastructure.
 
 Mixing sidecars and ambient in a single mesh does not introduce limitations on the capabilities or security properties of the system. The Istio control plane ensures that policies are properly enforced regardless of the deployment model chosen. Ambient simply introduces an option that has better ergonomics and more flexibility.
 
