@@ -23,7 +23,7 @@ doc_type: get-involved
 {{% involve_block title="Ask questions" subtitle="There are a variety of ways to reach out to the community for input." icon="user" %}}
 1. Bring your particular Istio questions to the **gamified wizards of** [**Stack Overflow**](https://stackoverflow.com/questions/tagged/istio).
 1. **The** [**Istio discussion board**](https://discuss.istio.io/) hosts conversations with other Istio users. Join in to ask questions and discuss Istio.
-1. **Join our** [**Slack**](https://slack.istio.io/) and interact live with other members of the Istio community.
+1. **Join our** [**Slack**](https://join.slack.com/t/istio/shared_invite/zt-22l940p1h-HdIPYKoZy8JzOAqTCfuOnA) and interact live with other members of the Istio community.
 {{% /involve_block %}}
 
 {{% involve_block title="Join the community" subtitle="There is so much to talk about around Istio. We welcome your voice!" icon="events" %}}
