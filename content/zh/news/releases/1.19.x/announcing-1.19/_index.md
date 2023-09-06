@@ -6,8 +6,8 @@ description: Istio 1.19 发布公告。
 publishdate: 2023-09-05
 release: 1.19.0
 aliases:
-    - /news/announcing-1.19
-    - /news/announcing-1.19.0
+    - /zh/news/announcing-1.19
+    - /zh/news/announcing-1.19.0
 ---
 
 我们很高兴地宣布 Istio 1.19 发布。这是 2023 年的第三个 Istio 版本，
@@ -40,7 +40,7 @@ Kubernetes [Gateway API](http://gateway-api.org/)
 与任何实验性功能一样，我们非常感谢反馈。
 
 除了网状流量之外，入口流量的 API
-使用[处于 Beta 阶段](/docs/tasks/traffic-management/ingress/gateway-api/#configuring-a-gateway)并迅速接近 GA。
+使用[处于 Beta 阶段](/zh/docs/tasks/traffic-management/ingress/gateway-api/#configuring-a-gateway)并迅速接近 GA。
 
 ### Ambient Mesh
 
