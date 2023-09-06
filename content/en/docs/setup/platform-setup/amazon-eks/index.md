@@ -1,7 +1,7 @@
 ---
 title: Amazon EKS
-description: Steps to Configure Istio on Amazon EKS in AWS cloud.
-weight: 69
+description: Instructions to set up Istio on Amazon EKS in AWS cloud.
+weight: 7
 skip_seealso: true
 keywords: [platform-setup,aws-cloud,eks]
 owner: istio/wg-environments-maintainers
