@@ -78,8 +78,8 @@ function cleanup
   rm -f cluster1.yaml cluster2.yaml certs
 
   # Cleanup both clusters concurrently
-  cleanup_cluster1
-  cleanup_cluster2
+  cleanup_cluster1 &
+  cleanup_cluster2 &
   wait
 }
 
