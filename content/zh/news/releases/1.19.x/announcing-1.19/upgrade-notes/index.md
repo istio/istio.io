@@ -12,7 +12,6 @@ publishdate: 2023-09-05
 
 ## 使用 EnvoyFilter 的规范过滤器名称 {#use-the-canonical-filter-names-for-envoyfilter}
 
-If you are using EnvoyFilter API, please use canonical filter names. The use of deprecated filter name is not supported. See the [Envoy documentation](https://www.envoyproxy.io/docs/envoy/latest/version_history/v1.14.0#deprecated) for further details.
 如果您使用 EnvoyFilter API，请使用规范的过滤器名称。
 不支持使用已弃用的过滤器名称。有关更多详细信息，
 请参阅 [Envoy 文档](https://www.envoyproxy.io/docs/envoy/latest/version_history/v1.14.0#deprecated)。
