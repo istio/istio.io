@@ -48,7 +48,6 @@ If you are using EnvoyFilter API, please use canonical filter names. The use of 
 
 ## Gateway API：附加服务的 `parentRefs` 必须指定空组 {#gateway-api-service-attached-parentrefs-must-specify-empty-group}
 
-As a result of updates to the Gateway API conformance tests, Istio will no longer accept the default group of `gateway.networking.k8s.io` for a Service `parentRef` in a Gateway API route (e.g. `HTTPRoute`, `TCPRoute`, etc). Instead, you must explicitly set  `group: ""` like so:
 由于 Gateway API 一致性测试的更新，Istio 将不再接受 Gateway API
 路由中服务 `parentRef` 的默认组 `gateway.networking.k8s.io`
 （例如 `HTTPRoute`、`TCPRoute` 等）。相反，您必须显式设置 `group: ""`，如下所示：
