@@ -405,7 +405,7 @@ spec:
 <p>Optional. The selector decides where to apply the request authentication policy. The selector will match with workloads
 in the same namespace as the request authentication policy. If the request authentication policy is in the root namespace,
 the selector will additionally match with workloads in all namespaces.</p>
-<p>If not set, the selector will match all workloads.</p>
+<p>If not set, the selector will match all workloads. At most one of the selector and targetRef can be set.</p>
 
 </td>
 <td>

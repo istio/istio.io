@@ -393,7 +393,8 @@ spec:
 <p>Optional. The selector decides where to apply the authorization policy. The selector will match with workloads
 in the same namespace as the authorization policy. If the authorization policy is in the root namespace, the selector
 will additionally match with workloads in all namespaces.</p>
-<p>If not set, the selector will match all workloads.</p>
+<p>If the selector and the targetRef are not set, the selector will match all workloads. At most one of the selector
+and targetRef can be set.</p>
 
 </td>
 <td>
