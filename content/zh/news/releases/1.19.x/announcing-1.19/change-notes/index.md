@@ -296,7 +296,6 @@ weight: 20
 - **新增** 添加了对代理状态的命名空间过滤的支持。注意：
   请确保 istioctl 和 istiod 均已升级才能使此功能正常工作。
 
-
 - **新增** 添加了对验证 JSON 文件到 `istioctl validate` 的支持。
   ([Issue #46136](https://github.com/istio/istio/issues/46136))、([Issue #46136](https://github.com/istio/istio/issues/46136))
 
