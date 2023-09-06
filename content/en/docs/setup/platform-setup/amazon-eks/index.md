@@ -1,6 +1,6 @@
 ---
 title: Amazon EKS
-description: Steps to Configure Istio on Amazon EKS in AWS cloud
+description: Steps to Configure Istio on Amazon EKS in AWS cloud.
 weight: 69
 skip_seealso: true
 keywords: [platform-setup,aws-cloud,eks]
