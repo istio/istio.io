@@ -70,7 +70,7 @@ Istio 为应用程序提供了大量的功能，而对应用程序代码本身�
 
 - **已命名 Service 端口**：可以选择已命名 Service 端口用于显式指定协议。
   更多详细信息请参见[协议选择](/zh/docs/ops/configuration/traffic-management/protocol-selection/)。
-  如果一个 Pod 属于多个 [Kubernetes Service](https://kubernetes.io/docs/concepts/services-networking/service/)，
+  如果一个 Pod 属于多个 [Kubernetes Service](https://kubernetes.io/zh-cn/docs/concepts/services-networking/service/)，
   这些 Service 不能对不同的协议（例如 HTTP 和 TCP）使用相同的端口号。
 
 ## Istio 使用的端口 {#ports-used-by-Istio}
