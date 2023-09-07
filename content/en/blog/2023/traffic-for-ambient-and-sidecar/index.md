@@ -84,7 +84,7 @@ According to above description, the deployment and network traffic path are show
 
 Based on the above deployment, the first part is showing on top half of the diagram: the network traffic path of sleep pod in Sidecar mode to httpbin pod in Ambient mode.
 
-**(1) (2) (3) (4)** the sleep container sends a request to httpbin, the request is intercepted by iptable rules and directed to port 15001 on the sleep sidecar. Then, the sidecar handles the L7 load balancing and routing rules by following configurations distributed by the control plane. Next, the request traffic is forwarded to a specific httpbin pod in node B, identified by its concrete ip address.
+**(1) (2) (3) (4)** the sleep container sends a request to httpbin, the request is intercepted by iptables rules and directed to port 15001 on the sleep sidecar. Then, the sidecar handles the L7 load balancing and routing rules by following configurations distributed by the control plane. Next, the request traffic is forwarded to a specific httpbin pod in node B, identified by its concrete ip address.
 
 **(5) (6)**  After the request is sent to the  device pair (`veth httpbin <-> eth0 inside httpbin pod`),  the request would be intercepted and forwarded to the `istioin` device in the node B where httpbin pod is running by following its iptables rules and route rules. The `istioin` device in the node B is a `[geneve](https://www.rfc-editor.org/rfc/rfc8926.html)` tunnel, and the other side of this tunnel is pair to `pistioin` device which is inside the ztunnel pod of node B.
 
