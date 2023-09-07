@@ -3,8 +3,6 @@ title: Viewing Istio Metrics in Cloud Observability from ServiceNow
 description: This task shows you how to use OpenTelemetry to ingest and view Istio metrics in Cloud Observability (formerly Lightstep).
 weight: 11
 keywords: [telemetry, metrics ,lightstep, servicenow, cloud observability]
-aliases:
- - /docs/tasks/observability/distributed-tracing/lightstep/
 owner: istio/wg-policies-and-telemetry-maintainers
 test: no
 ---
