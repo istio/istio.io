@@ -124,7 +124,7 @@ for the `http/1.1` protocol, with a 1 kB payload at 1000 requests per second usi
 -->
 在网格内部，请求会依次遍历客户端和服务器端代理。在 Istio 1.19
 的默认配置中（即带有遥测 v2 的 Istio），两个代理分别在基线数据平面延迟的 90 和 99
-分位延迟上增加约 1.7 和 2.7 毫秒。我们使用 `http/1.1` 协议的
+分位延迟上增加约 1.31 和 1.58 毫秒。我们使用 `http/1.1` 协议的
 [Istio 基准测试](https://github.com/istio/tools/tree/{{< source_branch_name >}}/perf/benchmark)获得了这些结果，
 测试标准是每秒 1000 请求，负载为 1KB，使用了 16 个客户端连接和 2 个代理 worker 并启用双向 TLS。
 
