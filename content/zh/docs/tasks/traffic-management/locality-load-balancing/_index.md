@@ -3,6 +3,7 @@ title: 地域负载均衡
 description: 本系列任务演示如何在 Istio 中配置地域负载均衡。
 weight: 65
 keywords: [locality,load balancing,priority,prioritized,kubernetes,multicluster]
+list_below: true
 simple_list: true
 content_above: true
 aliases:
