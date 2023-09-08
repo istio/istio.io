@@ -21,7 +21,7 @@ In order to clarify the network traffic paths, this blog will explore two concre
 
 _Note 1: The following analysis is based on Istio 1.18.2, where ambient mode uses iptables for redirection._
 
-_Note 2: The communications between sidecar and ztunnel/waypoint proxy uses [HTTP Based Overlay Network (HBONE)](https://docs.google.com/document/d/1Ofqtxqzk-c_wn0EgAXjaJXDHB9KhDuLe-W3YGG67Y8g/edit)._
+_Note 2: The communication between sidecar and ztunnel/waypoint proxy uses `[HTTP Based Overlay Network (HBONE)](https://docs.google.com/document/d/1Ofqtxqzk-c_wn0EgAXjaJXDHB9KhDuLe-W3YGG67Y8g/edit)`._
 
 ## Ambient sleep to Sidecar httpbin
 
