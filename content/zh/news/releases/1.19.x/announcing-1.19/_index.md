@@ -32,14 +32,14 @@ Kubernetes [Gateway API](http://gateway-api.org/)
 是一项旨在为 Kubernetes 带来丰富的服务网络 API
 （类似于 Istio VirtualService 和 Gateway）的举措。
 
-在此版本中，配合 Gateway API v0.8.0 版本，
-正式添加了[服务网格支持](https://gateway-api.sigs.k8s.io/blog/2023/0829-mesh-support/)！
-这项工作是跨越更广泛的 Kubernetes 生态系统的社区努力，并且包含多个一致的实现（包括 Istio）。
+随着 Gateway API v0.8.0 的发布，
+正式添加了[对服务网格的支持](https://gateway-api.sigs.k8s.io/blog/2023/0829-mesh-support/)！
+这项进展是与更广泛的 Kubernetes 生态社区共同努力的结果，并且包含 Istio 在内的多个合规性实现。
 
 查看[网格文档](/zh/docs/tasks/traffic-management/ingress/gateway-api/#mesh-traffic)以开始使用。
 与任何实验性功能一样，我们非常感谢反馈。
 
-除了网状流量之外，入口流量的 API
+除了网格流量之外，入口流量的 API
 使用[处于 Beta 阶段](/zh/docs/tasks/traffic-management/ingress/gateway-api/#configuring-a-gateway)并迅速接近 GA。
 
 ### Ambient Mesh
