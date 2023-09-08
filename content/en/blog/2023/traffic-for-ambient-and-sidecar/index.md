@@ -12,7 +12,7 @@ There are 2 modes for Istio: ambient and sidecar, the former is still on the way
 
 In the architecture of modern microservices, communication and management among services is critical. To address the challenge, Istio emerged as a service mesh technology. It provides traffic control, security, and superior observation capabilities by importing the sidecar. In order to further improve the adaptability and flexibility of Istio, the Istio community began to explore a new mode - ambient mode. In this mode, Istio no longer relies on explicit sidecar injection, but achieves communication and mesh management among services through ztunnel and waypoint proxies. Ambient also brings a series of improvements, such as lower resource consumption, simpler deployment, more flexible configuration options, and non-restarting for pods when enabling ambient, enabling Istio to play a better role in various scenarios.
 
-There are many blogs to introduce and analyze Ambient in community and technology forums, and this blog will analyze the network traffic path in Istio Ambient and Sidecar modes, focusing on analyzing what's the network traffic path between services in these two modes.
+There are many blogs to introduce and analyze ambient in community and technology forums, and this blog will analyze the network traffic path in Istio ambient and sidecar modes. We will analyze the network traffic path between services in these two modes.
 
 In order to clarify the network traffic paths, this blog will explore two concrete scenarios with corresponding diagram to make it easier to understand. These two scenarios include:
 
