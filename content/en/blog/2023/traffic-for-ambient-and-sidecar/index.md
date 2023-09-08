@@ -98,7 +98,7 @@ Comparing with the first part of the diagram, it's clear that the waypoint proxy
 
 What's the background story?
 
-The Istiod control plane has all information of service and configuration in the service mesh. When helloworld is configured with waypoint proxy, the EDS configuration of helloworld service received by sidecar of sleep pod will be changed to type of `envoy_internal_address`, this causes that the request traffic going through the internal of envoy will be forwarded to port 15008 of waypoint proxy in node C via `[HBONE](https://docs.google.com/document/d/1Ofqtxqzk-c_wn0EgAXjaJXDHB9KhDuLe-W3YGG67Y8g/edit)` protocol.
+The Istio control plane has all information of service and configuration of the service mesh. When helloworld is configured with a waypoint proxy, the EDS configuration of helloworld service received by sidecar of sleep pod will be changed to the type of `envoy_internal_address`. This causes that the request traffic going through the sidecar to be forwarded to port 15008 of the waypoint proxy on node C via the `[HBONE](https://docs.google.com/document/d/1Ofqtxqzk-c_wn0EgAXjaJXDHB9KhDuLe-W3YGG67Y8g/edit)` protocol.
 
 Similar to sidecar, waypoint proxy is based on envoy and it will forward the request to the helloworld pod based on envoy L7 routing strategy.
 
