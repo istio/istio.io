@@ -94,7 +94,7 @@ Based on the above deployment, the first part is showing on top half of the diag
 
 ### [ sleep-> sidecar ] -> waypoint -> ztunnel -> helloworld httpbin network traffic path
 
-Comparing with the first part of the diagram, it's clear that the waypoint proxy path is added in path **"[ sleep -> sidecar ] -> ztunnel -> httpbin"**, and the extra configuration of waypoint proxy for helloworld service causes this.
+Comparing with the first part of the diagram, it's clear that the waypoint proxy is added in path **"[ sleep -> sidecar ] -> ztunnel -> httpbin"**.
 
 What's the background story?
 
