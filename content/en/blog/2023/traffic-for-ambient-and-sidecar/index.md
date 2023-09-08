@@ -16,7 +16,7 @@ There are many blogs to introduce and analyze Ambient in community and technolog
 
 In order to clarify the network traffic paths, this blog will explore two concrete scenarios with corresponding diagram to make it easier to understand. These two scenarios include:
 
-- **The network path of service in Ambient mode to service in Sidecar mode**
+- **The network path of services in ambient mode to services in sidecar mode**
 - **The network path of service in Sidecar mode to service in Ambient mode**
 
 _Note: The following analysis is based on Istio 1.18.2 which ambient only use iptables as the redirection mode._
