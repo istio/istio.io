@@ -6,7 +6,7 @@ attribution: "Steve Zhang (Intel), John Howard (Google), Yuxing Zeng(Alibaba)"
 keywords: [traffic,ambient,sidecar,coexistence]
 ---
 
-There are 2 modes for Istio: Ambient and Sidecar, the former is still on the way, the latter is the classic one. therefore, the coexistence of Ambient and Sidecar should be a normal deployment form. That's the reason why this blog may be helpful for Istio users.
+There are 2 modes for Istio: ambient and sidecar, the former is still on the way, the latter is the classic one. Therefore, the coexistence of Ambient and Sidecar should be a normal deployment form. That's the reason why this blog may be helpful for Istio users.
 
 ## Background
 
