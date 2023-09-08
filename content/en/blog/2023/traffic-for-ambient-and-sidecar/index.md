@@ -19,7 +19,7 @@ In order to clarify the network traffic paths, this blog will explore two concre
 - **The network path of services in ambient mode to services in sidecar mode**
 - **The network path of services in sidecar mode to services in ambient mode**
 
-_Note 1: The following analysis is based on Istio 1.18.2 which ambient only use iptables as the redirection mode._
+_Note 1: The following analysis is based on Istio 1.18.2, where ambient mode uses iptables for redirection._
 
 _Note 2: The communications between sidecar and ztunnel/waypoint proxy is based on HBONE._
 
