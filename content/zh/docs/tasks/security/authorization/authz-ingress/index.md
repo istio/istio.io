@@ -129,7 +129,7 @@ Kubernetes 的 `Ingress` 资源也必须由 Ingress 控制器支持，该控制�
 |DO DOKS        | Load Balancer                 | Network
 
 {{< tip >}}
-您可以指示 AWS EKS 在网关服务上创建带有注解的的 Network Load Balancer：
+您可以指示 AWS EKS 在网关服务上创建带有注解的 Network Load Balancer：
 
 {{< tabset category-name="config-api" >}}
 
