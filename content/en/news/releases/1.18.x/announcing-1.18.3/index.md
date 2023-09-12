@@ -23,7 +23,7 @@ This release note describes what’s different between Istio 1.18.2 and 1.18.3.
 - **Fixed** `health_checkers` EnvoyFilter extensions not being compiled into the proxy.
   ([Issue #46277](https://github.com/istio/istio/issues/46277))
 
-- **Fixed** an issue that Istio should using `IMDSv2` as possible on AWS.
+- **Fixed** an issue that Istio should prefer `IMDSv2` on AWS.
   ([Issue #45825](https://github.com/istio/istio/issues/45825))
 
 - **Fixed** an issue where the creation of a Telemetry object without any providers throws the IST0157 error.
