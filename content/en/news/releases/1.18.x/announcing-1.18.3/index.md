@@ -29,7 +29,7 @@ This release note describes what’s different between Istio 1.18.2 and 1.18.3.
 - **Fixed** an issue where the creation of a Telemetry object without any providers throws the IST0157 error.
   ([Issue #46510](https://github.com/istio/istio/issues/46510))
 
-- **Fixed** `meshConfig.defaultConfig.sampling` is ignored when there's only default providers.  ([Issue #46653](https://github.com/istio/istio/issues/46653))
+- **Fixed** `meshConfig.defaultConfig.sampling` is ignored when there are only default providers.  ([Issue #46653](https://github.com/istio/istio/issues/46653))
 
 - **Fixed** an issue causing mesh configuration to not be properly synced, typically resulting in a misconfigured trust domain.
   ([Issue #45739](https://github.com/istio/istio/issues/45739))
