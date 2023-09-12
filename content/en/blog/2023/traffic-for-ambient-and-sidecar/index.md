@@ -41,17 +41,17 @@ With the above description, the deployment and network traffic paths are:
     caption="Ambient sleep to Sidecar httpbin"
     >}}
 
-`ztunnel` will be deployed as a DaemonSet in istio-system namespace if ambient is enabled, while istio-cni and ztunnel would generate iptables rules and routes for both the ztunnel pod and pods on each node.
+ztunnel will be deployed as a DaemonSet in istio-system namespace if ambient is enabled, while istio-cni and ztunnel would generate iptables rules and routes for both the ztunnel pod and pods on each node.
 
-All network traffic coming in/out of the pod with ambient enabled will go through ztunnel based on the network the redirection logic. The ztunnel will then forward the traffic to the correct endpoints.
+All network traffic coming in/out of the pod with ambient enabled will go through ztunnel based on the network redirection logic. The ztunnel will then forward the traffic to the correct endpoints.
 
 ### sleep -> ztunnel -> [ sidecar -> httpbin ] network traffic path
 
 According to above diagram, the details of network traffic path is demonstrated as below:
 
-**(1) (2) (3)**  Request traffic of service sleep is sent out from the `veth` of the sleep pod, then it will be marked and forwarded to the `istioout` device in the node by following the iptables rules and route rules. The `istioout` device in the node A is a `[geneve](https://www.rfc-editor.org/rfc/rfc8926.html)` tunnel, and the other end of the tunnel is `pistioout`, which is inside the ztunnel pod on the same node.
+**(1) (2) (3)**  Request traffic of the sleep service is sent out from the `veth` of the sleep pod where it will be marked and forwarded to the `istioout` device in the node by following the iptables rules and route rules. The `istioout` device in the node A is a `[geneve](https://www.rfc-editor.org/rfc/rfc8926.html)` tunnel, and the other end of the tunnel is `pistioout`, which is inside the ztunnel pod on the same node.
 
-**(4) (5)**  When the traffic arrives `pistioout` device, it will be intercepted through the interface `eth0` of the ztunnel pod on port 15001 by iptables rules inside the pod.
+**(4) (5)**  When the traffic arrives through the `pistioout` device, it will be intercepted and redirected through the interface `eth0` of the ztunnel pod on port 15001 by iptables rules inside the pod.
 
 **(6)** According to the original request information, ztunnel can obtain the endpoint list of the target service.  It will then handle sending the request to the endpoint, such as one of the httpbin pods. At last, the request traffic would get into the httpbin pod via the container network.
 
