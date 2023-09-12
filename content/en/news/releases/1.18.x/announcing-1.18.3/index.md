@@ -17,7 +17,7 @@ This release note describes what’s different between Istio 1.18.2 and 1.18.3.
 
 - **Added** ability to install gateway helm chart with a dual-stack service definition.
 
-- **Fixed** app probe: http `request.host` is not well propagated.
+- **Fixed** an issue where HTTP probe’s `request.host` was not well propagated.
   ([Issue #46087](https://github.com/istio/istio/issues/46087))
 
 - **Fixed** `health_checkers` extensions is not compiled in.
