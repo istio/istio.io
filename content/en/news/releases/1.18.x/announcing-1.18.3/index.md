@@ -20,7 +20,7 @@ This release note describes what’s different between Istio 1.18.2 and 1.18.3.
 - **Fixed** an issue where HTTP probe’s `request.host` was not well propagated.
   ([Issue #46087](https://github.com/istio/istio/issues/46087))
 
-- **Fixed** `health_checkers` extensions is not compiled in.
+- **Fixed** `health_checkers` EnvoyFilter extensions not being compiled into the proxy.
   ([Issue #46277](https://github.com/istio/istio/issues/46277))
 
 - **Fixed** an issue that Istio should using `IMDSv2` as possible on AWS.
