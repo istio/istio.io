@@ -53,7 +53,7 @@ According to above diagram, the details of network traffic path is demonstrated 
 
 **(4) (5)**  When the traffic arrives through the `pistioout` device, it will be intercepted and redirected through the interface `eth0` of the ztunnel pod on port 15001 by iptables rules inside the pod.
 
-**(6)** According to the original request information, ztunnel can obtain the endpoint list of the target service.  It will then handle sending the request to the endpoint, such as one of the httpbin pods. At last, the request traffic would get into the httpbin pod via the container network.
+**(6)** According to the original request information, ztunnel can obtain the endpoint list of the target service. It will then handle sending the request to the endpoint, such as one of the httpbin pods. At last, the request traffic would get into the httpbin pod via the container network.
 
 **(7)**  The request traffic arriving in httpbin pod will be intercepted and redirected through port 15006 of the sidecar by its iptables rules.
 
