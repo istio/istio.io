@@ -94,7 +94,7 @@ Based on the above deployment, the first part is shown on top half of the diagra
 
 **(9)** The traffic getting into the port 15008 would be considered as a inbound request, then ztunnel will forward the request to the httpbin pod in the same node B.
 
-### [ sleep-> sidecar ] -> waypoint -> ztunnel -> helloworld httpbin network traffic path
+### [ sleep-> sidecar ] -> waypoint -> ztunnel -> helloworld network traffic path
 
 Comparing with the first part of the diagram, it's clear that the waypoint proxy is added in path **"[ sleep -> sidecar ] -> ztunnel -> httpbin"**. The Istio control plane has all information of service and configuration of the service mesh. When helloworld is configured with a waypoint proxy, the EDS configuration of helloworld service received by sidecar of sleep pod will be changed to the type of `envoy_internal_address`. This causes that the request traffic going through the sidecar to be forwarded to port 15008 of the waypoint proxy on node C via the `[HBONE](https://docs.google.com/document/d/1Ofqtxqzk-c_wn0EgAXjaJXDHB9KhDuLe-W3YGG67Y8g/edit)` protocol.
 
@@ -102,4 +102,4 @@ Similar to sidecar, waypoint proxy is based on envoy and it will forward the req
 
 ## Wrapping up
 
-Sidecar mode is significant to make Istio a great service mesh solution. However, it also causes some problems because app and sidecar containers must be in a pod together. Istio ambient mode implements communication among services through centralized proxies (ztunnel and waypoint). This mode provides greater flexibility and scalability, reduces resource consumption through not needing a sidecar for each pod in the mesh, and allows more precise configuration. Therefore, it's no doubt that ambient mode is the next evolution of Istio. Currently, ambient is still alpha and sidecar mode is still the recommended mode of Istio. The coexistence of sidecar and ambient modes may be last for a while before we're "all in ambient".
+Sidecar mode is significant to make Istio a great service mesh solution. However, it also causes some problems because app and sidecar containers must be in a pod together. Istio ambient mode implements communication among services through centralized proxies (ztunnel and waypoint). This mode provides greater flexibility and scalability, reduces resource consumption through not needing a sidecar for each pod in the mesh, and allows more precise configuration. Therefore, it's no doubt that ambient mode is the next evolution of Istio. Currently, ambient is still alpha and sidecar mode is still the recommended mode of Istio. The coexistence of sidecar and ambient modes may be last a very long time and users can choose what is best for them at the pace they desire.
