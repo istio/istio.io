@@ -86,10 +86,9 @@ With the above description, the deployment and network traffic paths are:
 
 Network traffic path of a request from the `sleep` pod (sidecar mode) to the `httpbin` pod (ambient mode) is depicted in the top half of the diagram above.
 
-**(1) (2) (3) (4)** the sleep container sends a request to httpbin. The request is intercepted by iptables rules and directed to port `15001` on the sidecar in the sleep pod. Then, the sidecar handles the request and routes the traffic based on the configuration received from istiod (control plane). Next, the sidecar forwards the traffic to an IP address corresponding to the `httpbin` pod on node B.
+**(1) (2) (3) (4)** the `sleep` container sends a request to `httpbin`. The request is intercepted by iptables rules and directed to port `15001` on the sidecar in the `sleep` pod. Then, the sidecar handles the request and routes the traffic based on the configuration received from istiod (control plane). Next, the sidecar forwards the traffic to an IP address corresponding to the `httpbin` pod on node B.
 
-**(5) (6)**  After the request is sent to the device pair (`veth httpbin <-> eth0 inside httpbin pod`), the request is intercepted and forwarded using the iptables and route rules to the `istioin` device on the node B where httpbin pod is running by following its iptables and route rules. 
-The `istioin` device on node B and the `pistion` device inside the ztunnel pod on the same node are connected by a `[geneve](https://www.rfc-editor.org/rfc/rfc8926.html)` tunnel.
+**(5) (6)**  After the request is sent to the device pair (`veth httpbin <-> eth0 inside httpbin pod`), the request is intercepted and forwarded using the iptables and route rules to the `istioin` device on the node B where httpbin pod is running by following its iptables and route rules. The `istioin` device on node B and the `pistion` device inside the ztunnel pod on the same node are connected by a `[geneve](https://www.rfc-editor.org/rfc/rfc8926.html)` tunnel.
 
 **(7) (8)** After the request enters the `pistioin` device of the ztunnel pod, the iptables rules in the ztunnel pod intercept and redirect the traffic through port 15008 on the ztunnel proxy running inside the pod.
 
