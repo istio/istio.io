@@ -45,19 +45,19 @@ ztunnel will be deployed as a DaemonSet in istio-system namespace if ambient mod
 
 All network traffic coming in/out of the pod with ambient mode enabled will go through ztunnel based on the network redirection logic. The ztunnel will then forward the traffic to the correct endpoints.
 
-### sleep -> ztunnel -> [ sidecar -> httpbin ] network traffic path
+### Network traffic path analysis of ambient mode sleep to sidecar mode httpbin
 
 According to above diagram, the details of network traffic path is demonstrated as below:
 
 **(1) (2) (3)**  Request traffic of the sleep service is sent out from the `veth` of the sleep pod where it will be marked and forwarded to the `istioout` device in the node by following the iptables rules and route rules. The `istioout` device in the node A is a `[geneve](https://www.rfc-editor.org/rfc/rfc8926.html)` tunnel, and the other end of the tunnel is `pistioout`, which is inside the ztunnel pod on the same node.
 
-**(4) (5)**  When the traffic arrives through the `pistioout` device, it will be intercepted and redirected through the interface `eth0` of the ztunnel pod on port 15001 by iptables rules inside the pod.
+**(4) (5)**  When the traffic arrives through the `pistioout` device, the iptables rules inside the pod intercept and redirect it through the `eth0` interface in the pod to port `15001`.
 
 **(6)** According to the original request information, ztunnel can obtain the endpoint list of the target service. It will then handle sending the request to the endpoint, such as one of the httpbin pods. At last, the request traffic would get into the httpbin pod via the container network.
 
-**(7)**  The request traffic arriving in httpbin pod will be intercepted and redirected through port 15006 of the sidecar by its iptables rules.
+**(7)**  The request traffic arriving in `httpbin` pod will be intercepted and redirected through port `15006` of the sidecar by its iptables rules.
 
-**(8)**  Sidecar will handle the inbound request traffic coming in via port 15006, and forward the traffic to the httpbin container in the same pod.
+**(8)**  Sidecar handles the inbound request traffic coming in via port 15006, and forwards the traffic to the httpbin container in the same pod.
 
 ## Sidecar mode sleep to ambient mode httpbin and helloworld
 
@@ -67,7 +67,7 @@ According to above diagram, the details of network traffic path is demonstrated 
     - sleep pod is scheduled to Node A
 - httpbin deployed in namespace bar-1
     - httpbin pod is scheduled to Node B
-    - the waypoint proxy of httpbin is disable
+    - the waypoint proxy of httpbin is disabled
 - helloworld is deployed in namespace bar-2
     - helloworld pod is scheduled to Node D
     - the waypoint proxy of helloworld is enabled
@@ -82,19 +82,20 @@ With the above description, the deployment and network traffic paths are:
     caption="sleep to httpbin and helloworld"
     >}}
 
-### [ sleep -> sidecar ] -> ztunnel -> httpbin network traffic path
+### Network traffic path analysis of sidecar mode sleep to ambient mode httpbin
 
-Based on the above deployment, the first part is shown on top half of the diagram: the network traffic path of the sleep pod in sidecar mode to the httpbin pod in ambient mode.
+Network traffic path of a request from the `sleep` pod (sidecar mode) to the `httpbin` pod (ambient mode) is depicted in the top half of the diagram above.
 
-**(1) (2) (3) (4)** the sleep container sends a request to httpbin. The request is intercepted by iptables rules and directed to port 15001 of the sleep pod sidecar. Then, the sidecar handles the request and routing rules by following configurations distributed by the control plane. Next, the request traffic is forwarded to a specific httpbin pod in node B, identified by its ip address.
+**(1) (2) (3) (4)** the sleep container sends a request to httpbin. The request is intercepted by iptables rules and directed to port `15001` on the sidecar in the sleep pod. Then, the sidecar handles the request and routes the traffic based on the configuration received from istiod (control plane). Next, the sidecar forwards the traffic to an IP address corresponding to the `httpbin` pod on node B.
 
-**(5) (6)**  After the request is sent to the device pair (`veth httpbin <-> eth0 inside httpbin pod`), the request would be intercepted and forwarded to the `istioin` device on the node B where httpbin pod is running by following its iptables and route rules. The `istioin` device in the node B is a `[geneve](https://www.rfc-editor.org/rfc/rfc8926.html)` tunnel, and the other side of this tunnel is `pistioin` device which is inside the ztunnel pod of node B.
+**(5) (6)**  After the request is sent to the device pair (`veth httpbin <-> eth0 inside httpbin pod`), the request is intercepted and forwarded using the iptables and route rules to the `istioin` device on the node B where httpbin pod is running by following its iptables and route rules. 
+The `istioin` device on node B and the `pistion` device inside the ztunnel pod on the same node are connected by a `[geneve](https://www.rfc-editor.org/rfc/rfc8926.html)` tunnel.
 
 **(7) (8)** After the request enters the `pistioin` device of the ztunnel pod, the iptables rules in the ztunnel pod intercept and redirect the traffic through port 15008 on the ztunnel proxy running inside the pod.
 
 **(9)** The traffic getting into the port 15008 would be considered as a inbound request, then ztunnel will forward the request to the httpbin pod in the same node B.
 
-### [ sleep-> sidecar ] -> waypoint -> ztunnel -> helloworld network traffic path
+### Network traffic path analysis of sidecar mode sleep to ambient mode httpbin via waypoint proxy
 
 Comparing with the top part of the diagram, the bottom part inserts a waypoint proxy in the path between sleep, ztunnel and httpbin pods. The Istio control plane has all information of service and configuration of the service mesh. When helloworld pod is deployed with a waypoint proxy, the EDS configuration of helloworld service received by sidecar of sleep pod will be changed to the type of `envoy_internal_address`. This causes that the request traffic going through the sidecar to be forwarded to port 15008 of the waypoint proxy on node C via the `[HBONE](https://docs.google.com/document/d/1Ofqtxqzk-c_wn0EgAXjaJXDHB9KhDuLe-W3YGG67Y8g/edit)` protocol.
 
