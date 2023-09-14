@@ -53,7 +53,7 @@ $ helm install istio-cni istio/cni -n kube-system \
 The **Istiod** chart installs a revision of Istiod. Istiod is the control plane component that manages and configures the proxies to route traffic within the mesh.
 
 {{< text bash >}}
-kubectl create namespace istio-system
+$ kubectl create namespace istio-system
 $ helm install istiod istio/istiod --namespace istio-system \
     --set defaultRevision="" \
     --set meshConfig.defaultConfig.proxyMetadata.ISTIO_META_ENABLE_HBONE=true \
