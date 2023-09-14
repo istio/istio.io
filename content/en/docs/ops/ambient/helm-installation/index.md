@@ -34,8 +34,10 @@ $ helm install istio-base istio/base
 ### Installing CNI Component
 
 The **CNI** chart installs the Istio CNI Plugin. There are some main roles of Istio CNI Plugin:
-- Eliminates the need for the `istio-init` container that sets up traffic routing for sidecar proxies.
-- In Ambient, it is responsible for detecting the pods that belong to the ambient mesh, and configuring 
+
+1. Eliminates the need for the `istio-init` container that sets up traffic routing for sidecar proxies.
+
+1. In Ambient, it is responsible for detecting the pods that belong to the ambient mesh, and configuring 
   the traffic redirection between the ztunnels - which will be installed later.
 
 {{< text bash >}}
@@ -48,7 +50,7 @@ $ helm install istio-cni istio/cni -n kube-system \
 
 ### Installing Istiod Component
 
-The **Istiod** chart installs a revision of Istiod. Istiod is the control plane component that manages and 
+The **Istiod** chart installs a revision of Istiod. Istiod is the control plane component that manages and
 configures the proxies to route traffic within the mesh.
 
 {{< text bash >}}
