@@ -88,7 +88,7 @@ However, simply installing the new revision has no impact on the existing sideca
 you must configure them to point to the new `istiod-canary` control plane. This is controlled during sidecar injection
 based on the namespace label `istio.io/rev`.
 
-Create a namespace `test-ns` with istio-injection enabled. In the `test-ns` namespace, deploy a sample sleep pod.
+Create a namespace `test-ns` with `istio-injection` enabled. In the `test-ns` namespace, deploy a sample sleep pod.
 
 Create a namespace `test-ns`.
 
