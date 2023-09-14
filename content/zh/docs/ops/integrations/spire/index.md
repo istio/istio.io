@@ -530,6 +530,7 @@ istiod-989f54d9c-sg7sn                  1/1     Running   0          45s
     {{< /text >}}
 
 1. 检查证书并确认 SPIRE 是颁发者：
+
     {{< text syntax=bash snip_id=get_svid_subject >}}
     $ openssl x509 -in chain.pem -text | grep SPIRE
         Subject: C = US, O = SPIRE, CN = sleep-5f4d47c948-njvpk
