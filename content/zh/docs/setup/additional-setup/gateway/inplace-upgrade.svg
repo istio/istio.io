@@ -1,1 +1,286 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="401" height="381" content="&lt;mxfile host=&quot;drawio-internal.googleplex.com&quot; modified=&quot;2021-05-12T22:52:20.022Z&quot; agent=&quot;5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36&quot; etag=&quot;SzER8CjIQfKzXOWCFtJb&quot; version=&quot;14.4.8&quot; type=&quot;google&quot; pages=&quot;4&quot;&gt;&lt;diagram id=&quot;P8ZkhgxdiRg3_sUfxNwi&quot; name=&quot;Page-1&quot;&gt;7VjLcpswFP0aL9Mxz5BlYqfuIm0y45m0WcpwAbUCUSEM9OsrgWTArzitXaeZrJDOfYDO0b3SMLImSTVjKIs/0wDIyBwH1ciajkzTcJyxeEikbhHPs1sgYjhQTh0wx79AgSouKnAA+cCRU0o4zoagT9MUfD7AEGO0HLqFlAzfmqEINoC5j8gm+hUHPFar0MuS+CfAUazfbIyVJUHaWQF5jAJa9iDrdmRNGKW8HSXVBIgkT/PSxn3cYV19GIOUHxKQ1vexf1356aP9JSzpjN1f3F+oLEtECrXgkemiJBtZN+kilw+ZIY0Y5LkYpSiBPEM+qCXxWvNUxpjDvDFZ01LsBREa84SImSGGS2AcC1avCY5SgXEqHQhaAHmgOeaYStQXSwHWc79bc0hwEMg33iCVh0DIm49c50IvTCSCqgcpbmZAE+CsFi5qYxqXSqeyk9nW2sU9iU1bgUhtrWiVq2NfDJQALxDDPEQMlGXGG1Wix7w53sL8qraOzrx1IPPmG2VeWVe96nxKuBusQiAasppSxmMa0RSR2w69YbRIA5BZx2LW+dxRyXDD/XfgvFanCyo4HSoDFebfZPgHR82eepZppTI3k1pPUrHcXpCcPvVtXVgz03E7ZcppwXzYQ406ODliEfA9fk7rJ3nbKzoDgjheDg+6owvqnVXQnpyduM8Iagzk7NQ9m6CXr0pQe1uvJLIDhVQw0Jfa/VlQbbjIG7GuhYPhZlVnFKNIPmeIQ4lqnUx8W5uvtW7som6PSL2eab26Va6aa4gJmVBCWZPMChzwAlvgOWf0B/QsnrmwXPfI7VVdOUxrs90a264c7qm6rXMiLaeQEVon0Oh3BjkReKG/TU7X92ARnkZOa8vp+W/lvDyRnBN5FQnFZYTDWfQMw9D0t+oZuAvXOVJ52q+tOg1jg9b3y5Di5urAs9N+VWfn1YkK9BEzXiAyB7bE/plq1PNhe40uPMd29qr9gp7rrvXcs9eo+b/U6J/Xmv4Xd7wiUqEPFDe7Xovr7ejAOkVb7SpqTbjVZ/yFluP38jzqEXrC6hTT7tdpuwG6H9DW7W8=&lt;/diagram&gt;&lt;diagram id=&quot;4JeC2udJRXLg3M3sNg4T&quot; name=&quot;Page-2&quot;&gt;zVjJcqMwEP0aHzNl1uBjYmc5JFWpcc2SowwNaEYgRggD+fqRQCCwXU6cCnFOqF8vSP2abtkza5lUdwxl8SMNgMzMeVDNrNXMNA3HmYuHROoW8Ty7BSKGA2WkgTV+AQUqv6jAAeQjQ04p4Tgbgz5NU/D5CEOM0XJsFlIyfmuGItgD1j4i++gvHPBYnaI7lsTvAUdx92ZjrjQJ6owVkMcooOUAsm5m1pJRyttVUi2ByOR1edkW9g8zW31fPJb3i/XLsrbL8qINdnuKS38EBin/2NBmG3qLSKHyNTNdlGQz6zrd5PIhacgysYV5ihLIM+SDSgevuxyXMeawblTWqhR1JPxinhAhGWK5BcaxYOSK4CgVGKfSgKANkCeaY46pRH1xOGAD84cdgwQHgXzjNVJxCIS82eGbsqOyKKNDNagNla07oAlwVguTUteJ3ZEfD2rEtBWIVG1Gva/Ov1goCk6gw9pLLQSimpVIGY9pRFNEbjR6zWiRBiCjzoWkbR6oTHNDwB/gvFafJio4HdMDFea/pfs3R0nPA82qUpEboe6EVBx34CTF56FOuzVS53caVzktmA9H7BzVUBCL4Fg8t7WTyTzKPAOCON6OW8eHs2yfleUBx5rxV1g2Rhxryr8Wy5dfimXnUGslsmGFVKRlyL/7r6Cd4iJvGLwSBoabVVopVpF83iEOJaq7YGJvbbxWu1daunAkia906q6z9r04xIQsKaGsCWYFDniBLfCcM/oXBhrP3FiuO0U3Vtp+DKt7iKvEQbM2DjVrd6pe7U7E7woyQusEGk7PQDECL/QPUez6HmzCT6TYcM7N8eVEHC/lFScUlxwOZyE5DEPTP0hy4G5cZ8rv2P5in7F33ivX5fDO1Q/g1+5c5ujS1U/nzxnHizeOY+ejx3HjesWYHH69QUZxyvNB5CcJ6HozrJ2mYu/8TNqxN52j9mLR7kBXXH+U9xfhYqI+8xMzXiCyBrbF/plajefD4Vaz8RzbOb0+391qphwnQtR/BLRVof9OsW7+Aw==&lt;/diagram&gt;&lt;diagram id=&quot;acmydcBVvZ5PIrEsXtoc&quot; name=&quot;Page-3&quot;&gt;7Vddc5swEPw1fkzHgMHOY7DddDJJ6hlPG6dvMjpArUBUCBv66yuBMB+mSdOxm840T+ZWp9XpdgXyyJpH+TVHSXjHMNCROcb5yFqMTNOw7bH8UUhRIbPZpAICTrBOaoA1+QEa1POCjGBIO4mCMSpI0gU9FsfgiQ6GOGf7bprPaHfVBAVwBKw9RI/RB4JFqHdRb0vhH4AEYb2yMdYjEaqTNZCGCLN9C7KWI2vOGRPVU5TPgarm1X0p3OvQnd+we8f8slpZ093naHNRkb1/yZTDFjjE4rTUZkW9QzTT/RqZDoqSkeXG21T9KIZUEHZB4oBDmsp4AQllRaSKqRojirrb+5AIWCfIU/FeOkoyhCKiMjLk4w64IFKbK0qCWGKCqQSKtkBXLCVyGYV6khl4K/22lxARjNWKLtI8FHxR1lpuRs6CvKf+M60zDnrKgwAsAsELOU973phoC+wbB01qn4Qt95h1ItKuDQ5cjTLyQYvzAqEuh4SiatM+Uzo4QdWACksTFHeEcb5nrE6+SMtDeiUTDCfJm8Gapa/3iuGaWNZecXfX2/I+UlX1GxUYQxVw2JG00hqDjzIqWgUMbfi4gKPEnlM5y2IMWBvzGd/WPjs40yeUzhllvCSzwMA2TFXjBWffoDVy6Uwt5JzDm5rFtCua2qqXx1Y17AGrOudyqjF5s+qbVYesatR3gqL3tnw9r9r/q1c9FCPVwH/Kqr+2ZM/EC8edLZbnfKtaPavO/qJVN8j1P95xfgP4Hj88ZvApL+pLYKvXgOVFV4eMi5AFLEZ02aBuo8ZYRk3OLVP3rlKDryBEoW/tKBOsqxDkRGzU9He2jh5bI4tcM5dBoYOqTlXcHwgiN8gy7sETjdANFogH8BSfOSwwB4oE2XWLO7la42feK6d6h6yB74hs12t8SXzfNz1v6NhiZ+vY5/2S2MfHcXqa4yjD5j9dOdb6Z2wtfwI=&lt;/diagram&gt;&lt;diagram id=&quot;ZL7lzrrOx4l-0F7w-HLO&quot; name=&quot;Page-4&quot;&gt;7VfbcpswEP0aP7pjIGDnMb70Mk0ymXGnl0cZLaBGsFQIG+frK4FkwHZz6cRJZ9In2KPVarXnsBIDb5ZWHwTJkyukwAfuiFYDbz5wXcf3R+qhkW2DTCZnDRALRo1TCyzZHRjQzItLRqHoOUpELlneB0PMMghlDyNC4KbvFiHvr5qTGA6AZUj4IfqNUZmYXdhtafwjsDixKzsjM5IS62yAIiEUNx3IWwy8mUCUzVtazYDr4tm6RNvPX67v3Nt8gteVyy4/lV+vhk2w90+ZstuCgEw+b2i3Cb0mvDT1GrgBSfOBN81WhX7oCIVkOGRZLKAolD2HnOM21ck0hZFbW+1NwiQscxJqe6MUpSIkMuXKctTrGoRkipsLzuJMYRK1Aycr4DdYMLWMRkMVGUTH/XLPIWWU6hWnxMThEMk613ozahZUe+w/UDpnx6f6EABTkGKr5hnNO2dGAptWQa7VSdJVj3UkRrXxLlbLjHox5DyBKO8YUVxvOkLNQxA3BWiwIidZj5jgV4nWeVjUH+mFcnCCvGoHbZR9vm+Q2sAq9yZ2f72V2EearB6RgXMsAwFrVjRcU4hIyWUngWMbPkzgwHFPqQLLjAI1wnxAt1ZnO2VGjPMZchR1MA8c6sNYF14KvIXOyHkw9khwCm2aKK7fhLFSPT+UquMfkWpwKqUGB6UGqjqyMVHIBGPMCF+06LQlY6Ss1ucSdYOoKfgJUm7N8UJKiX2CoGLyu57+zjfWj87IvDKRa2NrjCZPndxf8KE2iKUI4R6/sTntiIjhvnjucX4FcCLZup/cs7Nlj+n/dD2Wrslr0jV+4Bh4rpa/BLFmqlyv0UyjKHLD8FgzpcEq8E/ZTB3vSPccv2T3nDz5QjYMSUbqTbyde5k9++zV/N+5p/lv9Z5mVfhPXdP+fB3b6znzYDqZL04p1bOXu6cps/0rrcc6//be4jc=&lt;/diagram&gt;&lt;/mxfile&gt;" version="1.1" viewBox="0 0 401 381" style="background-color:#fff"><g><rect width="400" height="240" x="0" y="140" fill="#fff" stroke="#000" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject style="overflow:visible;text-align:left" width="100%" height="100%" pointer-events="none" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display:flex;align-items:unsafe flex-start;justify-content:unsafe flex-start;width:398px;height:1px;padding-top:147px;margin-left:2px"><div style="box-sizing:border-box;font-size:0;text-align:left"><div style="display:inline-block;font-size:12px;font-family:Helvetica;color:#000;line-height:1.2;pointer-events:all;white-space:normal;word-wrap:normal">istio-ingress Deployment</div></div></div></foreignObject><text x="2" y="159" fill="#000" font-family="Helvetica" font-size="12">istio-ingress Deployment</text></switch></g><rect width="150" height="60" x="25" y="190" fill="#e1d5e7" stroke="#9673a6" pointer-events="all" rx="9" ry="9"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject style="overflow:visible;text-align:left" width="100%" height="100%" pointer-events="none" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display:flex;align-items:unsafe center;justify-content:unsafe center;width:148px;height:1px;padding-top:220px;margin-left:26px"><div style="box-sizing:border-box;font-size:0;text-align:center"><div style="display:inline-block;font-size:12px;font-family:Helvetica;color:#000;line-height:1.2;pointer-events:all;white-space:normal;word-wrap:normal"><font><span style="font-size:16px">istio-ingress Pod</span><br/><font style="font-size:11px">revision=default</font><br/></font></div></div></div></foreignObject><text x="100" y="224" fill="#000" font-family="Helvetica" font-size="12" text-anchor="middle">istio-ingress Pod...</text></switch></g><rect width="150" height="60" x="110" y="240" fill="#e1d5e7" stroke="#9673a6" pointer-events="all" rx="9" ry="9"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject style="overflow:visible;text-align:left" width="100%" height="100%" pointer-events="none" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display:flex;align-items:unsafe center;justify-content:unsafe center;width:148px;height:1px;padding-top:270px;margin-left:111px"><div style="box-sizing:border-box;font-size:0;text-align:center"><div style="display:inline-block;font-size:12px;font-family:Helvetica;color:#000;line-height:1.2;pointer-events:all;white-space:normal;word-wrap:normal"><font><span style="font-size:16px">istio-ingress Pod</span><br/><font style="font-size:11px">revision=default</font><br/></font></div></div></div></foreignObject><text x="185" y="274" fill="#000" font-family="Helvetica" font-size="12" text-anchor="middle">istio-ingress Pod...</text></switch></g><rect width="150" height="60" x="230" y="280" fill="#d6b8de" stroke="#9673a6" pointer-events="all" rx="9" ry="9"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject style="overflow:visible;text-align:left" width="100%" height="100%" pointer-events="none" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display:flex;align-items:unsafe center;justify-content:unsafe center;width:148px;height:1px;padding-top:310px;margin-left:231px"><div style="box-sizing:border-box;font-size:0;text-align:center"><div style="display:inline-block;font-size:12px;font-family:Helvetica;color:#000;line-height:1.2;pointer-events:all;white-space:normal;word-wrap:normal"><font><span style="font-size:16px">istio-ingress Pod</span><br/><font style="font-size:11px">revision=canary</font><br/></font></div></div></div></foreignObject><text x="305" y="314" fill="#000" font-family="Helvetica" font-size="12" text-anchor="middle">istio-ingress Pod...</text></switch></g><path fill="none" stroke="#000" stroke-miterlimit="10" d="M 200 60 L 200 133.63" pointer-events="stroke"/><path fill="#000" stroke="#000" stroke-miterlimit="10" d="M 200 138.88 L 196.5 131.88 L 200 133.63 L 203.5 131.88 Z" pointer-events="all"/><rect width="170" height="60" x="115" y="0" fill="#fff2cc" stroke="#d6b656" pointer-events="all" rx="9" ry="9"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject style="overflow:visible;text-align:left" width="100%" height="100%" pointer-events="none" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display:flex;align-items:unsafe center;justify-content:unsafe center;width:168px;height:1px;padding-top:30px;margin-left:116px"><div style="box-sizing:border-box;font-size:0;text-align:center"><div style="display:inline-block;font-size:12px;font-family:Helvetica;color:#000;line-height:1.2;pointer-events:all;white-space:normal;word-wrap:normal"><font style="font-size:16px">istio-ingress Service</font></div></div></div></foreignObject><text x="200" y="34" fill="#000" font-family="Helvetica" font-size="12" text-anchor="middle">istio-ingress Service</text></switch></g></g><switch><a target="_blank" transform="translate(0,-5)" xlink:href="https://www.diagrams.net/doc/faq/svg-export-text-problems"><text x="50%" y="100%" font-size="10" text-anchor="middle">Viewer does not support full SVG 1.1</text></a></switch></svg>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="401"
+   height="381"
+   content="&lt;mxfile host=&quot;drawio-internal.googleplex.com&quot; modified=&quot;2021-05-12T22:52:20.022Z&quot; agent=&quot;5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36&quot; etag=&quot;SzER8CjIQfKzXOWCFtJb&quot; version=&quot;14.4.8&quot; type=&quot;google&quot; pages=&quot;4&quot;&gt;&lt;diagram id=&quot;P8ZkhgxdiRg3_sUfxNwi&quot; name=&quot;Page-1&quot;&gt;7VjLcpswFP0aL9Mxz5BlYqfuIm0y45m0WcpwAbUCUSEM9OsrgWTArzitXaeZrJDOfYDO0b3SMLImSTVjKIs/0wDIyBwH1ciajkzTcJyxeEikbhHPs1sgYjhQTh0wx79AgSouKnAA+cCRU0o4zoagT9MUfD7AEGO0HLqFlAzfmqEINoC5j8gm+hUHPFar0MuS+CfAUazfbIyVJUHaWQF5jAJa9iDrdmRNGKW8HSXVBIgkT/PSxn3cYV19GIOUHxKQ1vexf1356aP9JSzpjN1f3F+oLEtECrXgkemiJBtZN+kilw+ZIY0Y5LkYpSiBPEM+qCXxWvNUxpjDvDFZ01LsBREa84SImSGGS2AcC1avCY5SgXEqHQhaAHmgOeaYStQXSwHWc79bc0hwEMg33iCVh0DIm49c50IvTCSCqgcpbmZAE+CsFi5qYxqXSqeyk9nW2sU9iU1bgUhtrWiVq2NfDJQALxDDPEQMlGXGG1Wix7w53sL8qraOzrx1IPPmG2VeWVe96nxKuBusQiAasppSxmMa0RSR2w69YbRIA5BZx2LW+dxRyXDD/XfgvFanCyo4HSoDFebfZPgHR82eepZppTI3k1pPUrHcXpCcPvVtXVgz03E7ZcppwXzYQ406ODliEfA9fk7rJ3nbKzoDgjheDg+6owvqnVXQnpyduM8Iagzk7NQ9m6CXr0pQe1uvJLIDhVQw0Jfa/VlQbbjIG7GuhYPhZlVnFKNIPmeIQ4lqnUx8W5uvtW7som6PSL2eab26Va6aa4gJmVBCWZPMChzwAlvgOWf0B/QsnrmwXPfI7VVdOUxrs90a264c7qm6rXMiLaeQEVon0Oh3BjkReKG/TU7X92ARnkZOa8vp+W/lvDyRnBN5FQnFZYTDWfQMw9D0t+oZuAvXOVJ52q+tOg1jg9b3y5Di5urAs9N+VWfn1YkK9BEzXiAyB7bE/plq1PNhe40uPMd29qr9gp7rrvXcs9eo+b/U6J/Xmv4Xd7wiUqEPFDe7Xovr7ejAOkVb7SpqTbjVZ/yFluP38jzqEXrC6hTT7tdpuwG6H9DW7W8=&lt;/diagram&gt;&lt;diagram id=&quot;4JeC2udJRXLg3M3sNg4T&quot; name=&quot;Page-2&quot;&gt;zVjJcqMwEP0aHzNl1uBjYmc5JFWpcc2SowwNaEYgRggD+fqRQCCwXU6cCnFOqF8vSP2abtkza5lUdwxl8SMNgMzMeVDNrNXMNA3HmYuHROoW8Ty7BSKGA2WkgTV+AQUqv6jAAeQjQ04p4Tgbgz5NU/D5CEOM0XJsFlIyfmuGItgD1j4i++gvHPBYnaI7lsTvAUdx92ZjrjQJ6owVkMcooOUAsm5m1pJRyttVUi2ByOR1edkW9g8zW31fPJb3i/XLsrbL8qINdnuKS38EBin/2NBmG3qLSKHyNTNdlGQz6zrd5PIhacgysYV5ihLIM+SDSgevuxyXMeawblTWqhR1JPxinhAhGWK5BcaxYOSK4CgVGKfSgKANkCeaY46pRH1xOGAD84cdgwQHgXzjNVJxCIS82eGbsqOyKKNDNagNla07oAlwVguTUteJ3ZEfD2rEtBWIVG1Gva/Ov1goCk6gw9pLLQSimpVIGY9pRFNEbjR6zWiRBiCjzoWkbR6oTHNDwB/gvFafJio4HdMDFea/pfs3R0nPA82qUpEboe6EVBx34CTF56FOuzVS53caVzktmA9H7BzVUBCL4Fg8t7WTyTzKPAOCON6OW8eHs2yfleUBx5rxV1g2Rhxryr8Wy5dfimXnUGslsmGFVKRlyL/7r6Cd4iJvGLwSBoabVVopVpF83iEOJaq7YGJvbbxWu1daunAkia906q6z9r04xIQsKaGsCWYFDniBLfCcM/oXBhrP3FiuO0U3Vtp+DKt7iKvEQbM2DjVrd6pe7U7E7woyQusEGk7PQDECL/QPUez6HmzCT6TYcM7N8eVEHC/lFScUlxwOZyE5DEPTP0hy4G5cZ8rv2P5in7F33ivX5fDO1Q/g1+5c5ujS1U/nzxnHizeOY+ejx3HjesWYHH69QUZxyvNB5CcJ6HozrJ2mYu/8TNqxN52j9mLR7kBXXH+U9xfhYqI+8xMzXiCyBrbF/plajefD4Vaz8RzbOb0+391qphwnQtR/BLRVof9OsW7+Aw==&lt;/diagram&gt;&lt;diagram id=&quot;acmydcBVvZ5PIrEsXtoc&quot; name=&quot;Page-3&quot;&gt;7Vddc5swEPw1fkzHgMHOY7DddDJJ6hlPG6dvMjpArUBUCBv66yuBMB+mSdOxm840T+ZWp9XpdgXyyJpH+TVHSXjHMNCROcb5yFqMTNOw7bH8UUhRIbPZpAICTrBOaoA1+QEa1POCjGBIO4mCMSpI0gU9FsfgiQ6GOGf7bprPaHfVBAVwBKw9RI/RB4JFqHdRb0vhH4AEYb2yMdYjEaqTNZCGCLN9C7KWI2vOGRPVU5TPgarm1X0p3OvQnd+we8f8slpZ093naHNRkb1/yZTDFjjE4rTUZkW9QzTT/RqZDoqSkeXG21T9KIZUEHZB4oBDmsp4AQllRaSKqRojirrb+5AIWCfIU/FeOkoyhCKiMjLk4w64IFKbK0qCWGKCqQSKtkBXLCVyGYV6khl4K/22lxARjNWKLtI8FHxR1lpuRs6CvKf+M60zDnrKgwAsAsELOU973phoC+wbB01qn4Qt95h1ItKuDQ5cjTLyQYvzAqEuh4SiatM+Uzo4QdWACksTFHeEcb5nrE6+SMtDeiUTDCfJm8Gapa/3iuGaWNZecXfX2/I+UlX1GxUYQxVw2JG00hqDjzIqWgUMbfi4gKPEnlM5y2IMWBvzGd/WPjs40yeUzhllvCSzwMA2TFXjBWffoDVy6Uwt5JzDm5rFtCua2qqXx1Y17AGrOudyqjF5s+qbVYesatR3gqL3tnw9r9r/q1c9FCPVwH/Kqr+2ZM/EC8edLZbnfKtaPavO/qJVN8j1P95xfgP4Hj88ZvApL+pLYKvXgOVFV4eMi5AFLEZ02aBuo8ZYRk3OLVP3rlKDryBEoW/tKBOsqxDkRGzU9He2jh5bI4tcM5dBoYOqTlXcHwgiN8gy7sETjdANFogH8BSfOSwwB4oE2XWLO7la42feK6d6h6yB74hs12t8SXzfNz1v6NhiZ+vY5/2S2MfHcXqa4yjD5j9dOdb6Z2wtfwI=&lt;/diagram&gt;&lt;diagram id=&quot;ZL7lzrrOx4l-0F7w-HLO&quot; name=&quot;Page-4&quot;&gt;7VfbcpswEP0aP7pjIGDnMb70Mk0ymXGnl0cZLaBGsFQIG+frK4FkwHZz6cRJZ9In2KPVarXnsBIDb5ZWHwTJkyukwAfuiFYDbz5wXcf3R+qhkW2DTCZnDRALRo1TCyzZHRjQzItLRqHoOUpELlneB0PMMghlDyNC4KbvFiHvr5qTGA6AZUj4IfqNUZmYXdhtafwjsDixKzsjM5IS62yAIiEUNx3IWwy8mUCUzVtazYDr4tm6RNvPX67v3Nt8gteVyy4/lV+vhk2w90+ZstuCgEw+b2i3Cb0mvDT1GrgBSfOBN81WhX7oCIVkOGRZLKAolD2HnOM21ck0hZFbW+1NwiQscxJqe6MUpSIkMuXKctTrGoRkipsLzuJMYRK1Aycr4DdYMLWMRkMVGUTH/XLPIWWU6hWnxMThEMk613ozahZUe+w/UDpnx6f6EABTkGKr5hnNO2dGAptWQa7VSdJVj3UkRrXxLlbLjHox5DyBKO8YUVxvOkLNQxA3BWiwIidZj5jgV4nWeVjUH+mFcnCCvGoHbZR9vm+Q2sAq9yZ2f72V2EearB6RgXMsAwFrVjRcU4hIyWUngWMbPkzgwHFPqQLLjAI1wnxAt1ZnO2VGjPMZchR1MA8c6sNYF14KvIXOyHkw9khwCm2aKK7fhLFSPT+UquMfkWpwKqUGB6UGqjqyMVHIBGPMCF+06LQlY6Ss1ucSdYOoKfgJUm7N8UJKiX2CoGLyu57+zjfWj87IvDKRa2NrjCZPndxf8KE2iKUI4R6/sTntiIjhvnjucX4FcCLZup/cs7Nlj+n/dD2Wrslr0jV+4Bh4rpa/BLFmqlyv0UyjKHLD8FgzpcEq8E/ZTB3vSPccv2T3nDz5QjYMSUbqTbyde5k9++zV/N+5p/lv9Z5mVfhPXdP+fB3b6znzYDqZL04p1bOXu6cps/0rrcc6//be4jc=&lt;/diagram&gt;&lt;/mxfile&gt;"
+   version="1.1"
+   viewBox="0 0 401 381"
+   style="background-color:#fff"
+   id="svg6"
+   sodipodi:docname="inplace-upgrade.svg"
+   inkscape:version="1.3 (0e150ed, 2023-07-21)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <defs
+     id="defs6" />
+  <sodipodi:namedview
+     id="namedview6"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="1.2388451"
+     inkscape:cx="115.02648"
+     inkscape:cy="209.06568"
+     inkscape:window-width="1328"
+     inkscape:window-height="821"
+     inkscape:window-x="0"
+     inkscape:window-y="25"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg6" />
+  <g
+     id="g6">
+    <rect
+       width="400"
+       height="240"
+       x="0"
+       y="140"
+       fill="#fff"
+       stroke="#000"
+       pointer-events="all"
+       id="rect1" />
+    <g
+       transform="translate(-0.5 -0.5)"
+       id="g1">
+      <switch
+         id="switch1">
+        <foreignObject
+           style="overflow:visible;text-align:left"
+           width="100%"
+           height="100%"
+           pointer-events="none"
+           requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+          <xhtml:div
+             style="display:flex;align-items:unsafe flex-start;justify-content:unsafe flex-start;width:398px;height:1px;padding-top:147px;margin-left:2px">
+            <xhtml:div
+               style="box-sizing:border-box;font-size:0;text-align:left">
+              <xhtml:div
+                 style="display:inline-block;font-size:12px;font-family:Helvetica;color:#000;line-height:1.2;pointer-events:all;white-space:normal;word-wrap:normal">istio-ingress Deployment</xhtml:div>
+            </xhtml:div>
+          </xhtml:div>
+        </foreignObject>
+        <text
+           x="2"
+           y="159"
+           fill="#000"
+           font-family="Helvetica"
+           font-size="12"
+           id="text1">istio-ingress Deployment</text>
+      </switch>
+    </g>
+    <rect
+       width="150"
+       height="60"
+       x="25"
+       y="190"
+       fill="#e1d5e7"
+       stroke="#9673a6"
+       pointer-events="all"
+       rx="9"
+       ry="9"
+       id="rect2" />
+    <g
+       transform="translate(-0.5 -0.5)"
+       id="g2">
+      <switch
+         id="switch2">
+        <foreignObject
+           style="overflow:visible;text-align:left"
+           width="100%"
+           height="100%"
+           pointer-events="none"
+           requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+          <xhtml:div
+             style="display:flex;align-items:unsafe center;justify-content:unsafe center;width:148px;height:1px;padding-top:220px;margin-left:26px">
+            <xhtml:div
+               style="box-sizing:border-box;font-size:0;text-align:center">
+              <xhtml:div
+                 style="display:inline-block;font-size:12px;font-family:Helvetica;color:#000;line-height:1.2;pointer-events:all;white-space:normal;word-wrap:normal">
+                <xhtml:font>
+                  <xhtml:span
+                     style="font-size:16px">istio-ingress Pod</xhtml:span>
+                  <xhtml:br />
+                  <xhtml:font
+                     style="font-size:11px">revision=default</xhtml:font>
+                  <xhtml:br />
+                </xhtml:font>
+              </xhtml:div>
+            </xhtml:div>
+          </xhtml:div>
+        </foreignObject>
+        <text
+           x="100"
+           y="224"
+           fill="#000"
+           font-family="Helvetica"
+           font-size="12"
+           text-anchor="middle"
+           id="text2">istio-ingress Pod...</text>
+      </switch>
+    </g>
+    <rect
+       width="150"
+       height="60"
+       x="110"
+       y="240"
+       fill="#e1d5e7"
+       stroke="#9673a6"
+       pointer-events="all"
+       rx="9"
+       ry="9"
+       id="rect3" />
+    <g
+       transform="translate(-0.5 -0.5)"
+       id="g3">
+      <switch
+         id="switch3">
+        <foreignObject
+           style="overflow:visible;text-align:left"
+           width="100%"
+           height="100%"
+           pointer-events="none"
+           requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+          <xhtml:div
+             style="display:flex;align-items:unsafe center;justify-content:unsafe center;width:148px;height:1px;padding-top:270px;margin-left:111px">
+            <xhtml:div
+               style="box-sizing:border-box;font-size:0;text-align:center">
+              <xhtml:div
+                 style="display:inline-block;font-size:12px;font-family:Helvetica;color:#000;line-height:1.2;pointer-events:all;white-space:normal;word-wrap:normal">
+                <xhtml:font>
+                  <xhtml:span
+                     style="font-size:16px">istio-ingress Pod</xhtml:span>
+                  <xhtml:br />
+                  <xhtml:font
+                     style="font-size:11px">revision=default</xhtml:font>
+                  <xhtml:br />
+                </xhtml:font>
+              </xhtml:div>
+            </xhtml:div>
+          </xhtml:div>
+        </foreignObject>
+        <text
+           x="185"
+           y="274"
+           fill="#000"
+           font-family="Helvetica"
+           font-size="12"
+           text-anchor="middle"
+           id="text3">istio-ingress Pod...</text>
+      </switch>
+    </g>
+    <rect
+       width="150"
+       height="60"
+       x="230"
+       y="280"
+       fill="#d6b8de"
+       stroke="#9673a6"
+       pointer-events="all"
+       rx="9"
+       ry="9"
+       id="rect4" />
+    <g
+       transform="translate(-0.5 -0.5)"
+       id="g4">
+      <switch
+         id="switch4">
+        <foreignObject
+           style="overflow:visible;text-align:left"
+           width="100%"
+           height="100%"
+           pointer-events="none"
+           requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+          <xhtml:div
+             style="display:flex;align-items:unsafe center;justify-content:unsafe center;width:148px;height:1px;padding-top:310px;margin-left:231px">
+            <xhtml:div
+               style="box-sizing:border-box;font-size:0;text-align:center">
+              <xhtml:div
+                 style="display:inline-block;font-size:12px;font-family:Helvetica;color:#000;line-height:1.2;pointer-events:all;white-space:normal;word-wrap:normal">
+                <xhtml:font>
+                  <xhtml:span
+                     style="font-size:16px">istio-ingress Pod</xhtml:span>
+                  <xhtml:br />
+                  <xhtml:font
+                     style="font-size:11px">revision=canary</xhtml:font>
+                  <xhtml:br />
+                </xhtml:font>
+              </xhtml:div>
+            </xhtml:div>
+          </xhtml:div>
+        </foreignObject>
+        <text
+           x="305"
+           y="314"
+           fill="#000"
+           font-family="Helvetica"
+           font-size="12"
+           text-anchor="middle"
+           id="text4">istio-ingress Pod...</text>
+      </switch>
+    </g>
+    <path
+       fill="none"
+       stroke="#000"
+       stroke-miterlimit="10"
+       d="M 200 60 L 200 133.63"
+       pointer-events="stroke"
+       id="path4" />
+    <path
+       fill="#000"
+       stroke="#000"
+       stroke-miterlimit="10"
+       d="M 200 138.88 L 196.5 131.88 L 200 133.63 L 203.5 131.88 Z"
+       pointer-events="all"
+       id="path5" />
+    <rect
+       width="170"
+       height="60"
+       x="115"
+       y="0"
+       fill="#fff2cc"
+       stroke="#d6b656"
+       pointer-events="all"
+       rx="9"
+       ry="9"
+       id="rect5" />
+    <g
+       transform="translate(-0.5 -0.5)"
+       id="g5">
+      <switch
+         id="switch5">
+        <foreignObject
+           style="overflow:visible;text-align:left"
+           width="100%"
+           height="100%"
+           pointer-events="none"
+           requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+          <xhtml:div
+             style="display:flex;align-items:unsafe center;justify-content:unsafe center;width:168px;height:1px;padding-top:30px;margin-left:116px">
+            <xhtml:div
+               style="box-sizing:border-box;font-size:0;text-align:center">
+              <xhtml:div
+                 style="display:inline-block;font-size:12px;font-family:Helvetica;color:#000;line-height:1.2;pointer-events:all;white-space:normal;word-wrap:normal">
+                <xhtml:font
+                   style="font-size:16px">istio-ingress Service</xhtml:font>
+              </xhtml:div>
+            </xhtml:div>
+          </xhtml:div>
+        </foreignObject>
+        <text
+           x="200"
+           y="34"
+           fill="#000"
+           font-family="Helvetica"
+           font-size="12"
+           text-anchor="middle"
+           id="text5">istio-ingress Service</text>
+      </switch>
+    </g>
+  </g>
+</svg>
