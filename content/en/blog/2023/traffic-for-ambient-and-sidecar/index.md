@@ -37,7 +37,7 @@ _Note 2: The communications between sidecar and ztunnel/waypoint proxy uses `[HT
 With the above description, the deployment and network traffic paths are:
 
 {{< image width="100%"
-    link="ambient-to-sidecar.svg"
+    link="ambient-to-sidecar.png"
     caption="Ambient mode sleep to Sidecar mode httpbin"
     >}}
 
@@ -78,7 +78,7 @@ According to above diagram, the details of network traffic path is demonstrated 
 With the above description, the deployment and network traffic paths are:
 
 {{< image width="100%"
-    link="sidecar-to-ambient.svg"
+    link="sidecar-to-ambient.png"
     caption="sleep to httpbin and helloworld"
     >}}
 
