@@ -37,7 +37,7 @@ _Note 2: The communications between sidecar and ztunnel/waypoint proxy uses `[HT
 With the above description, the deployment and network traffic paths are:
 
 {{< image width="100%"
-    link="ambient-to-sidecar.png"
+    link="ambient-to-sidecar.svg"
     caption="Ambient mode sleep to Sidecar mode httpbin"
     >}}
 
@@ -78,7 +78,7 @@ According to above diagram, the details of network traffic path is demonstrated 
 With the above description, the deployment and network traffic paths are:
 
 {{< image width="100%"
-    link="sidecar-to-ambient.png"
+    link="sidecar-to-ambient.svg"
     caption="sleep to httpbin and helloworld"
     >}}
 
@@ -90,19 +90,19 @@ Based on the above deployment, the first part is shown on top half of the diagra
 
 **(5) (6)**  After the request is sent to the device pair (`veth httpbin <-> eth0 inside httpbin pod`), the request would be intercepted and forwarded to the `istioin` device on the node B where httpbin pod is running by following its iptables and route rules. The `istioin` device in the node B is a `[geneve](https://www.rfc-editor.org/rfc/rfc8926.html)` tunnel, and the other side of this tunnel is `pistioin` device which is inside the ztunnel pod of node B.
 
-**(7) (8)** After the request enters the `pistioin` device of the ztunnel pod, the iptables rules in the zunnel pod intercept and redirect the traffic through port 15008 on the ztunnel proxy running inside the pod.
+**(7) (8)** After the request enters the `pistioin` device of the ztunnel pod, the iptables rules in the ztunnel pod intercept and redirect the traffic through port 15008 on the ztunnel proxy running inside the pod.
 
 **(9)** The traffic getting into the port 15008 would be considered as a inbound request, then ztunnel will forward the request to the httpbin pod in the same node B.
 
 ### [ sleep-> sidecar ] -> waypoint -> ztunnel -> helloworld network traffic path
 
-Comparing with the top part of the diagram, the bottom part inserts a waypoint proxy in the path between sleep, zunnel and httpbin pods. The Istio control plane has all information of service and configuration of the service mesh. When helloworld pod is deployed with a waypoint proxy, the EDS configuration of helloworld service received by sidecar of sleep pod will be changed to the type of `envoy_internal_address`. This causes that the request traffic going through the sidecar to be forwarded to port 15008 of the waypoint proxy on node C via the `[HBONE](https://docs.google.com/document/d/1Ofqtxqzk-c_wn0EgAXjaJXDHB9KhDuLe-W3YGG67Y8g/edit)` protocol.
+Comparing with the top part of the diagram, the bottom part inserts a waypoint proxy in the path between sleep, ztunnel and httpbin pods. The Istio control plane has all information of service and configuration of the service mesh. When helloworld pod is deployed with a waypoint proxy, the EDS configuration of helloworld service received by sidecar of sleep pod will be changed to the type of `envoy_internal_address`. This causes that the request traffic going through the sidecar to be forwarded to port 15008 of the waypoint proxy on node C via the `[HBONE](https://docs.google.com/document/d/1Ofqtxqzk-c_wn0EgAXjaJXDHB9KhDuLe-W3YGG67Y8g/edit)` protocol.
 
-Waypoint proxy is an instance of the Envoy proxy and forwards the request to the helloworld pod based on the routing configuration received from the control plane. Once traffic reaches the veth on node D, it follows the same path as the previous scenario
+Waypoint proxy is an instance of the Envoy proxy and forwards the request to the helloworld pod based on the routing configuration received from the control plane. Once traffic reaches the `veth` on node D, it follows the same path as the previous scenario
 
 ## Wrapping up
 
 The sidecar mode is what made Istio a great service mesh. However, the sidecar mode can also cause problems as it requires the app and sidecar containers to run in the same pod. Istio ambient mode implements communication among services through centralized proxies (ztunnel and waypoint). The ambient mode provides greater flexibility and scalability, reduces resource consumption as it doesn't require a sidecar for each pod in the mesh, and allows more precise configuration. Therefore, there's no doubt ambient mode is the next evolution of Istio. It's obvious that the coexistence of sidecar and ambient modes may be last a very long time, although the ambient mode is still in alpha stage and the sidecar mode is still the recommended mode of Istio, it will give users a more light-weight option of running and adopting the Istio service mesh as the ambient mode moves towards beta and future releases.
 
-_Many thanks to everyone [Lin Sun](https://github.com/linsun]), [Peter Jausovec](https://github.com/peterj), [Ian Rudie](https://github.com/ilrudie) and [Daniel Hawton](https://github.com/dhawton) from solo.io ambient team and others for their help and proofreading of this blog._
+_Many thanks to everyone `[Lin Sun](https://github.com/linsun])`, `[Peter Jausovec](https://github.com/peterj)`, `[Ian Rudie](https://github.com/ilrudie)` and `[Daniel Hawton](https://github.com/dhawton)` from `solo.io` ambient team and others for their help and proofreading of this blog._
 
