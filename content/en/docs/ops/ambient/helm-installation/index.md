@@ -6,11 +6,9 @@ owner: istio/wg-environments-maintainers
 test: n/a
 ---
 
-This page is under construction.
-
-This guide shows you how to install Ambient Mesh with Helm. 
-Besides the demo in [Getting Started with Ambient Mesh](/docs/ops/ambient/getting-started/), 
-we **encourage** you to follow this guide to install Ambient Mesh. 
+This guide shows you how to install Ambient Mesh with Helm.
+Besides the demo in [Getting Started with Ambient Mesh](/docs/ops/ambient/getting-started/),
+we **encourage** you to follow this guide to install Ambient Mesh.
 Helm helps you manage components separately, and you can easily upgrade the components to the latest version.
 
 ## Setup Repo Info
@@ -20,14 +18,14 @@ $ helm repo add istio https://istio-release.storage.googleapis.com/charts
 $ helm repo update
 {{< /text >}}
 
-_See [helm repo](https://helm.sh/docs/helm/helm_repo/) for command documentation._
+*See [helm repo](https://helm.sh/docs/helm/helm_repo/) for command documentation.*
 
 ## Installing the Components
 
 ### Installing Base Component
 
-The **Base** chart contains the basic CustomResourceDefinitions (CRDs) and cluster roles required to set up Istio. 
-This should be installed piror to any other Istio component.
+The **Base** chart contains the basic CustomResourceDefinitions (CRDs) and cluster roles required to set up Istio.
+This should be installed prior to any other Istio component.
 
 {{< text bash >}}
 $ helm install istio-base istio/base
@@ -38,7 +36,8 @@ $ helm install istio-base istio/base
 The **CNI** chart installs the Istio CNI Plugin. There are some main roles of Istio CNI Plugin:
 
 - Eliminates the need for the `istio-init` container that sets up traffic routing for sidecar proxies.
-- In Ambient, it is responsible for detecting the pods that belong to the ambient mesh, and configuring the traffic redirection between the ztunnels - which will be installed later.
+- In Ambient, it is responsible for detecting the pods that belong to the ambient mesh, and configuring 
+  the traffic redirection between the ztunnels - which will be installed later.
 
 {{< text bash >}}
 $ helm install istio-cni istio/cni -n kube-system \
