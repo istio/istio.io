@@ -37,7 +37,7 @@ The **CNI** chart installs the Istio CNI Plugin. There are some main roles of Is
 
 1. Eliminates the need for the `istio-init` container that sets up traffic routing for sidecar proxies.
 
-1. In Ambient, it is responsible for detecting the pods that belong to the ambient mesh, and configuring 
+1. In Ambient, it is responsible for detecting the pods that belong to the ambient mesh, and configuring
   the traffic redirection between the ztunnels - which will be installed later.
 
 {{< text bash >}}
