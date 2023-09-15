@@ -232,7 +232,7 @@ spec:
         add:
         - name: my-added-header
           value: added-value
-  - backendRefs:
+    backendRefs:
     - name: example
       port: 80
 ENDSNIP
