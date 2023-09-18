@@ -356,7 +356,7 @@ Istio配置与入口网关以及将要注入到工作负载Pod上的Sidecar共�
 如果您是参照[快速入门](#option-1-quick-start)中的步骤来安装 `SPIRE`，则可以跳过这些步骤，
 因为 SPIRE 使用自动注册的机制。
 
-1. 使用一组选择器为 Ingress Gateway 生成条目，例如 pod 名称和 pod UID：
+1. 使用一组选择器为 Ingress Gateway 生成条目，例如 Pod 名称和 Pod UID：
 
     {{< text bash >}}
     $ INGRESS_POD=$(kubectl get pod -l istio=ingressgateway -n istio-system -o jsonpath="{.items[0].metadata.name}")
