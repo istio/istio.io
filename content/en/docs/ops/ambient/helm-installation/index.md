@@ -22,6 +22,13 @@ $ helm repo update
 
 ## Installing the Components
 
+To make it easier to install the components, we have created some Helm value files for you. Make sure you have
+pulled the Helm chart package, or download the [latest version of Istio](/docs/setup/getting-started/#download).
+There will be `ambient-values.yaml` files in the chart package.
+
+In the following steps, we will use the downloaded Istio release package as an example, and make sure you are in the
+root directory of the Istio release package.
+
 ### Installing Base Component
 
 The **Base** chart contains the basic CRDs and cluster roles required to set up Istio.
@@ -33,19 +40,12 @@ $ helm install istio-base istio/base
 
 ### Installing CNI Component
 
-The **CNI** chart installs the Istio CNI Plugin. There are some main roles of Istio CNI Plugin:
-
-1. Eliminates the need for the `istio-init` container that sets up traffic routing for sidecar proxies.
-
-1. In Ambient, it is responsible for detecting the pods that belong to the ambient mesh, and configuring 
-  the traffic redirection between the ztunnels - which will be installed later.
+The **CNI** chart installs the Istio CNI Plugin. It is responsible for detecting the pods that belong to the ambient mesh, 
+and configuring the traffic redirection between the ztunnels - which will be installed later.
 
 {{< text bash >}}
 $ helm install istio-cni istio/cni -n kube-system \
-    --set cni.ambient.enabled=true \
-    --set cni.logLevel=info \
-    --set cni.privileged=true \
-    --set 'cni.excludeNamespaces={kube-system}'
+  -f manifests/charts/istio-cni/ambient-values.yaml
 {{< /text >}}
 
 ### Installing Istiod Component
@@ -55,20 +55,9 @@ configures the proxies to route traffic within the mesh.
 
 {{< text bash >}}
 $ kubectl create namespace istio-system
-$ helm install istiod istio/istiod --namespace istio-system \
-    --set defaultRevision="" \
-    --set meshConfig.defaultConfig.proxyMetadata.ISTIO_META_ENABLE_HBONE=true \
-    --set 'meshConfig.defaultProviders.metrics[0]=prometheus' \
-    --set 'meshConfig.extensionProviders[0].name=prometheus' \
-    --set 'meshConfig.extensionProviders[0].prometheus={}' \
-    --set 'pilot.env.VERIFY_CERTIFICATE_AT_CLIENT=true' \
-    --set 'pilot.env.ENABLE_AUTO_SNI=true' \
-    --set 'pilot.env.PILOT_ENABLE_HBONE=true' \
-    --set 'pilot.env.PILOT_ENABLE_AMBIENT_CONTROLLERS=true' \
-    --set 'pilot.env.CA_TRUSTED_NODE_ACCOUNTS=istio-system/ztunnel\,kube-system/ztunnel' \
-    --set istio_cni.enabled=true \
-    --set telemetry.enabled=false \
-    --set telemetry.v2.enabled=false
+$ helm install istiod istio/istiod \
+  -f manifests/charts/istio-control/istio-discovery/ambient-values.yaml \
+  --namespace istio-system
 {{< /text >}}
 
 ### Installing Ztunnel Component
