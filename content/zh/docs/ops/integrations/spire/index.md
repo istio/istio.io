@@ -578,7 +578,7 @@ SPIRE 服务器能够对来自不同信任域的 SPIFFE 身份进行认证，这
       federatesWith: ["example.io", "example.ai"]
     {{< /text >}}
 
-* 要进行手动注册，请参阅[为联邦创建注册条目](https://spiffe.io/docs/latest/architecture/federation/readme/#create-registration-entries-for-federation)。
+- 要进行手动注册，请参阅[为联邦创建注册条目](https://spiffe.io/docs/latest/architecture/federation/readme/#create-registration-entries-for-federation)。
 
 ## 清理 SPIRE {#cleanup-spire}
 
