@@ -63,7 +63,6 @@ kubectl exec deploy/sleep -- curl -sS -v address.internal
 }
 
 ! read -r -d '' snip_dns_capture_in_action_3_out <<\ENDSNIP
-* processing: address.internal
 *   Trying 198.51.100.1:80...
 ENDSNIP
 
