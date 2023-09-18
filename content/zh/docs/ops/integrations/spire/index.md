@@ -60,7 +60,7 @@ $ kubectl apply -f @samples/security/spire/spire-quickstart.yaml@
 
 ### 选项  1：使用 SPIRE Controller Manager 配置工作负载注册 {#option-1-configuration-for-workload-registration-with-the-spire-controller-manager}
 
-通过部署 [SPIRE Controller Manager](https://github.com/spiffe/spire-controller-manager) 和 SPIRE 服务器，可以自动为与 [ClusterSPIFFEID](https://github.com/spiffe/spire-controller-manager/blob/main/docs/clusterspiffeid-crd.md) 自定义资源中定义的选择器匹配的每个新 pod 进行注册。
+通过部署 [SPIRE Controller Manager](https://github.com/spiffe/spire-controller-manager) 和 SPIRE 服务器，可以自动为与 [ClusterSPIFFEID](https://github.com/spiffe/spire-controller-manager/blob/main/docs/clusterspiffeid-crd.md) 自定义资源中定义的选择器匹配的每个新 Pod 进行注册。
 
 必须在安装 Istio 之前应用 ClusterSPIFFEID。此外，必须配置 Ingress-gateway pod 以匹配 ClusterSPIFFEID 中定义的选择器。如果在安装期间未自动创建 Ingress Gateway 工作负载的注册条目，则工作负载将无法达到 `Ready` 状态。
 
