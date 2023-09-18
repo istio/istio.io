@@ -48,7 +48,7 @@ $ kubectl apply -f @samples/security/spire/spire-quickstart.yaml@
     socket_path = "/run/secrets/workload-spiffe-uds/socket"
     {{< /text >}}
 
-1. 通过部署 [SPIFFE CSI 驱动](https://github.com/spiffe/spiffe-csi) 与节点内的 pod 共享 SPIRE 代理套接字。驱动程序的 `-workload-api-socket-dir` 参数应为套接字目录的挂载位置。
+1. 通过部署 [SPIFFE CSI 驱动](https://github.com/spiffe/spiffe-csi) 与节点内的 Pod 共享 SPIRE 代理套接字，通过设置驱动程序的 `-workload-api-socket-dir` 参数来指定套接字目录的挂载位置。
 
 请参阅 [安装 Istio](#install-istio) 以配置 Istio 以集成 SPIFFE CSI 驱动。
 
