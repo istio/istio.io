@@ -229,11 +229,11 @@ test.kube.postsubmit: test.kube.presubmit
 test_status:
 	@scripts/test_status.sh
 
-update-gateway-version:
+update-gateway-version: tidy-go
 	@$(eval GATEWAY_VERSION := ${shell grep gateway-api go.mod | awk '{ print $$2 }'})
 	@echo "GATEWAY_VERSION=${GATEWAY_VERSION}"
-	@if [ "$(findstring -rc,${GATEWAY_VERSION})" = "-rc" ]; then \
-		$(eval SHORT_SHA := ${shell grep gateway-api go.mod | awk '{ print $$2 }' | awk -F '.0.202' '{ print $$1 }'}) \
+	@ if [ "$(findstring -rc,${GATEWAY_VERSION})" = "-rc" ]; then \
+		$(eval GATEWAY_VERSION := ${shell grep gateway-api go.mod | awk '{ print $$2 }' | awk -F '.0.202' '{ print $$1 }'}) \
 		echo "Found -rc, GATEWAY_VERSION=${GATEWAY_VERSION}"; \
 	else \
 		if [ $(findstring -,${GATEWAY_VERSION}) = - ]; then\
