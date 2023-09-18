@@ -16,7 +16,7 @@ test: yes
 要了解关于如何将 SPIRE 与 Istio 集成的快速演示，请参阅[通过 Envoy 的 SDS API 将 SPIRE 集成为 CA]({{< github_tree >}}/samples/security/spire)。
 
 {{< warning >}}
-请注意，此集成需要 `istioctl` 和数据平面均为版本 1.14+。
+请注意，此集成需要 `istioctl` 和数据平面均为 1.14 及更高版本。
 {{< /warning >}}
 
 此集成与 Istio 升级兼容。
