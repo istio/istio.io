@@ -576,7 +576,7 @@ SPIRE 服务器能够对来自不同信任域的 SPIFFE 身份进行认证，这
 
 ## 清理 SPIRE {#cleanup-spire}
 
-如果您是通过Istio提供的快速入门SPIRE部署安装的SPIRE，请使用以下命令来删除这些Kubernetes资源：
+如果您是通过 Istio 提供的快速入门 SPIRE 部署安装的 SPIRE，请使用以下命令来删除这些 Kubernetes 资源：
 
 {{< text bash >}}
 $ kubectl delete CustomResourceDefinition clusterspiffeids.spire.spiffe.io
