@@ -232,7 +232,7 @@ test_status:
 update-gateway-version: tidy-go
 	@$(eval GATEWAY_VERSION := ${shell grep gateway-api go.mod | awk '{ print $$2 }'})
 	@echo "GATEWAY_VERSION=${GATEWAY_VERSION}"
-	@ if [ "$(findstring -rc,${GATEWAY_VERSION})" = "-rc" ]; then \
+	@if [ "$(findstring -rc,${GATEWAY_VERSION})" = "-rc" ]; then \
 		$(eval GATEWAY_VERSION := ${shell grep gateway-api go.mod | awk '{ print $$2 }' | awk -F '.0.202' '{ print $$1 }'}) \
 		echo "Found -rc, GATEWAY_VERSION=${GATEWAY_VERSION}"; \
 	else \
