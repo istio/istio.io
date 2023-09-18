@@ -13,7 +13,7 @@ This release contains bug fixes to improve robustness. This release note describ
 
 ## Changes
 
-- **Fixed** SELinux issue on CentOS9/RHEL9 where iptables-restore isn't allowed to open files in `/tmp`. Rules passed to iptables-restore are no longer written to a file, but are passed via stdin. ([Issue #42485](https://github.com/istio/istio/issues/42485))
+- **Fixed** a SELinux issue on CentOS 9/RHEL 9 where iptables-restore isn't allowed to open files in `/tmp`. Rules passed to iptables-restore are no longer written to a file, but are passed via stdin. ([Issue #42485](https://github.com/istio/istio/issues/42485))
 
 - **Fixed** an issue where Istio should be using IMDSv2 as possible on AWS. ([Issue #45825](https://github.com/istio/istio/issues/45825))
 
