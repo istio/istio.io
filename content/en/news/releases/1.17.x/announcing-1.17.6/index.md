@@ -17,6 +17,6 @@ This release contains bug fixes to improve robustness. This release note describ
 
 - **Fixed** an issue where Istio should be using IMDSv2 as possible on AWS. ([Issue #45825](https://github.com/istio/istio/issues/45825))
 
-- **Fixed** `meshConfig.defaultConfig.sampling` is ignored when there's only default providers. ([Issue #46653](https://github.com/istio/istio/issues/46653))
+- **Fixed** an issue where `meshConfig.defaultConfig.sampling` is ignored when there are only default providers. ([Issue #46653](https://github.com/istio/istio/issues/46653))
 
 - **Fixed** an issue where the creation of a telemetry object without any providers throws the IST0157 error. ([Issue #46510](https://github.com/istio/istio/issues/46510))
