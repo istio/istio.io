@@ -21,7 +21,7 @@ test: yes
 此时，使用 Istio 便可通过修改配置实现此需求，而无需更改应用中的任何代码。
 该应用可以发送未加密的 HTTP 请求，然后 Istio 将为应用加密请求。
 
-从应用源头发送未加密的 HTTP 请求并让 Istio 执行 TSL
+从应用源头发送未加密的 HTTP 请求并让 Istio 执行 TLS
 升级的另一个好处是可以产生更好的遥测并为未加密的请求提供更多的路由控制。
 
 ## 开始之前{#before-you-begin}
@@ -159,7 +159,7 @@ test: yes
     {{< /text >}}
 
     这次将会收到唯一的 **200 OK** 响应。
-    因为 Istio 为 **curl** 执行了 TSL 发起，原始的 HTTP 被升级为 HTTPS 并转发到 `edition.cnn.com`。
+    因为 Istio 为 **curl** 执行了 TLS 发起，原始的 HTTP 被升级为 HTTPS 并转发到 `edition.cnn.com`。
     服务器直接返回内容而无需重定向。这消除了客户端与服务器之间的请求冗余，使网格保持加密状态，
     隐藏了您的应用获取 `edition.cnn.com` 中 **politics** 的事实。
 

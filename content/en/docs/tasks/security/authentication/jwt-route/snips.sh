@@ -23,7 +23,7 @@
 snip_before_you_begin_1() {
 kubectl create ns foo
 kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml) -n foo
-kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin-gateway.yaml) -n foo
+kubectl apply -f samples/httpbin/httpbin-gateway.yaml -n foo
 }
 
 snip_before_you_begin_2() {
@@ -97,7 +97,7 @@ HTTP/1.1 401 Unauthorized
 ENDSNIP
 
 snip_validating_ingress_routing_based_on_jwt_claims_3() {
-TOKEN_GROUP=$(curl https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/groups-scope.jwt -s) && echo "$TOKEN_GROUP" | cut -d '.' -f2 - | base64 --decode -
+TOKEN_GROUP=$(curl https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/groups-scope.jwt -s) && echo "$TOKEN_GROUP" | cut -d '.' -f2 - | base64 --decode
 }
 
 ! read -r -d '' snip_validating_ingress_routing_based_on_jwt_claims_3_out <<\ENDSNIP
@@ -114,7 +114,7 @@ HTTP/1.1 200 OK
 ENDSNIP
 
 snip_validating_ingress_routing_based_on_jwt_claims_5() {
-TOKEN_NO_GROUP=$(curl https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/demo.jwt -s) && echo "$TOKEN_NO_GROUP" | cut -d '.' -f2 - | base64 --decode -
+TOKEN_NO_GROUP=$(curl https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/demo.jwt -s) && echo "$TOKEN_NO_GROUP" | cut -d '.' -f2 - | base64 --decode
 }
 
 ! read -r -d '' snip_validating_ingress_routing_based_on_jwt_claims_5_out <<\ENDSNIP

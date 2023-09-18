@@ -12,8 +12,8 @@ test: no
 
 ## Gardener 引导 {#bootstrapping-gardener}
 
-若要搭建自己的 [Gardener](https://gardener.cloud) 满足您所在组织的 Kubernetes 服务需求，可以查看
-[文档](https://github.com/gardener/gardener/blob/master/docs/README.md)。
+若要搭建自己的 [Gardener](https://gardener.cloud) 满足您所在组织的 Kubernetes 服务需求，
+可以查看[文档](https://github.com/gardener/gardener/blob/master/docs/README.md)。
 有关测试用途，也可以通过调用源代码仓库并执行 `make kind-up gardener-up`（这是开发时调用 Gardener 最简单的方式）
 [在您的笔记本上搭建 Gardener](https://github.com/gardener/gardener/blob/master/docs/development/getting_started_locally.md)。
 
@@ -29,7 +29,7 @@ test: no
 [快速使用 Istio、自定义域和证书培育自己的 Gardener](https://gardener.cloud/docs/extensions/others/gardener-extension-shoot-cert-service/docs/tutorial-custom-domain-with-istio/)
 是针对 Gardener 最终用户的详细教程。
 
-### 安装并且配置 `kubectl`{#install-and-configure-Kubernetes}
+### 安装并且配置 `kubectl` {#install-and-configure-Kubernetes}
 
 1. 如果您已经有 `kubectl` CLI，请运行 `kubectl version --short` 来检查版本。
     您需要一个至少与要订购的 Kubernetes 集群版本匹配的当前版本。
@@ -37,7 +37,7 @@ test: no
 
 1. [安装 `kubectl` CLI](https://kubernetes.io/zh-cn/docs/tasks/tools/)。
 
-### 访问 Gardener{#access-gardener}
+### 访问 Gardener {#access-gardener}
 
 1. 在 Gardener 仪表板中创建一个项目。这实际上将创建一个名为 `garden-<my-project>` 的 Kubernetes 命名空间。
 
@@ -51,9 +51,9 @@ test: no
     转到 "Members" 部分并添加服务帐户。然后，您可以为您的项目下载 kubeconfig。
     确保在您的 Shell 中设置 `export KUBECONFIG=garden-my-project.yaml`。
 
-    ![Download kubeconfig for Gardener](https://raw.githubusercontent.com/gardener/dashboard/master/docs/images/01-add-service-account.png "downloading the kubeconfig using a service account")
+    ![为 Gardener 下载 kubeconfig](https://raw.githubusercontent.com/gardener/dashboard/master/docs/images/01-add-service-account.png "使用服务账户下载 kubeconfig")
 
-### 创建 Kubernetes 集群{#creating-a-Kubernetes-cluster}
+### 创建 Kubernetes 集群 {#creating-a-Kubernetes-cluster}
 
 您可以通过提供集群规范 yaml 文件，使用 `kubectl` CLI 创建集群。
 您可以在[这里](https://github.com/gardener/gardener/blob/master/example/90-shoot.yaml)找到关于 GCP 的示例。
@@ -65,7 +65,7 @@ $ kubectl apply --filename my-cluster.yaml
 
 更简单的替代方法是按照 Gardener 仪表板中的集群创建向导来创建集群：
 
-![shoot creation](https://raw.githubusercontent.com/gardener/dashboard/master/docs/images/dashboard-demo.gif "shoot creation via the dashboard")
+![创建 shoot 集群](https://raw.githubusercontent.com/gardener/dashboard/master/docs/images/dashboard-demo.gif "通过仪表板创建 shoot 集群")
 
 ### 为集群配置 `kubectl`{#configure-Kubernetes-for-your-cluster}
 
@@ -78,7 +78,7 @@ $ kubectl --namespace shoot--my-project--my-cluster get secret kubecfg --output 
 此 kubeconfig 文件能让管理员对集群具有完全访问权限。
 对于负载集群的任何活动，请确保已设置 `export KUBECONFIG=my-cluster.yaml`。
 
-## 删除{#cleaning-up}
+## 删除 {#cleaning-up}
 
 使用 Gardener 仪表板删除集群，或者使用指向您的 `garden-my-project.yaml` kubeconfig 的 `kubectl` 执行以下操作：
 

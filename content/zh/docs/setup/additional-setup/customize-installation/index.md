@@ -145,7 +145,8 @@ spec:
 {{< /text >}}
 
 诸如 Kubernetes 资源、命名空间和开关设置等参数暂时并存在 Helm 和 `IstioOperator` API 中。
-Istio 社区推荐使用 `IstioOperator` API ，因为它更一致、更有效、且遵循[社区毕业流程](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE-CHECKLIST.md#feature-lifecycle-checklist).
+Istio 社区推荐使用 `IstioOperator` API，因为它更一致、更有效、
+且遵循[社区毕业流程](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE-CHECKLIST.md#feature-lifecycle-checklist)。
 
 ### 配置网关 {#configure-gateways}
 

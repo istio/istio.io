@@ -10,17 +10,18 @@ owner: istio/wg-policies-and-telemetry-maintainers
 test: yes
 ---
 
-本任务介绍如何通过 Prometheus 查询 Istio 度量指标。作为任务的一部分，你将通过 web 界面查询度量指标值。
+本任务介绍如何通过 Prometheus 查询 Istio 度量指标。作为任务的一部分，
+您将通过 Web 界面查询度量指标值。
 
 本任务以 [Bookinfo](/zh/docs/examples/bookinfo/) 样本应用作为案例。
 
-## 开始之前{#before-you-begin}
+## 开始之前  {#before-you-begin}
 
 * 在自身集群中[安装 Istio](/zh/docs/setup/) 。
 * 安装 [Prometheus Addon](/zh/docs/ops/integrations/prometheus/#option-1-quick-start)。
 * 部署 [Bookinfo](/zh/docs/examples/bookinfo/) 应用。
 
-## 查询 Istio 度量指标{#query-mesh-metrics}
+## 查询 Istio 度量指标  {#query-mesh-metrics}
 
 1. 验证自身集群中运行着 `prometheus` 服务。
 
@@ -68,7 +69,7 @@ test: yes
 
 {{< image link="./prometheus_query_result.png" caption="Prometheus 查询结果" >}}
 
-您还可以通过选择 **Execute** 按钮下方的 “图形” 选项卡以图形方式查看查询结果。
+您还可以通过选择 **Execute** 按钮下方的“图形”选项卡以图形方式查看查询结果。
 
 {{< image link="./prometheus_query_result_graphical.png" caption="Prometheus 查询结果 - Graphical" >}}
 
@@ -94,13 +95,14 @@ test: yes
     rate(istio_requests_total{destination_service=~"productpage.*", response_code="200"}[5m])
     {{< /text >}}
 
-### 关于 Prometheus 插件{#about-the-monitor-add-on}
+### 关于 Prometheus 插件  {#about-the-monitor-add-on}
 
-Prometheus 插件是预先配置抓取 Istio 端点收集指标的 Prometheus 服务器。它提供了一种持久存储和查询 Istio 指标的机制。
+Prometheus 插件是预先配置抓取 Istio 端点收集指标的 Prometheus 服务器。
+它提供了一种持久存储和查询 Istio 指标的机制。
 
-有关查询Prometheus的更多信息，请阅读他们的[查询文档](https://prometheus.io/docs/querying/basics/) 。
+有关查询Prometheus的更多信息，请阅读他们的[查询文档](https://prometheus.io/docs/querying/basics/)。
 
-## 清除{#cleanup}
+## 清理 {#cleanup}
 
 *   使用 control-C 或以下命令删除可能仍在运行的所有 `istioctl` 进程：
 
@@ -108,4 +110,4 @@ Prometheus 插件是预先配置抓取 Istio 端点收集指标的 Prometheus �
     $ killall istioctl
     {{< /text >}}
 
-*   如果您不打算探索任何后续任务，请参阅 [Bookinfo 清理说明](/zh/docs/examples/bookinfo/#cleanup) 清理说明关闭应用程序。
+*   如果您不打算探索任何后续任务，请参阅 [Bookinfo 清理说明](/zh/docs/examples/bookinfo/#cleanup)关闭应用程序。

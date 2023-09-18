@@ -775,7 +775,7 @@ spec:
 consecutive_local_origin_failure is taken into account for outlier detection calculations.
 This should be used when you want to derive the outlier detection status based on the errors
 seen locally such as failure to connect, timeout while connecting etc. rather than the status code
-retuned by upstream service. This is especially useful when the upstream service explicitly returns
+returned by upstream service. This is especially useful when the upstream service explicitly returns
 a 5xx for some requests and you want to ignore those responses from upstream service while determining
 the outlier detection status of a host.
 Defaults to false.</p>
@@ -1124,7 +1124,7 @@ No
 <td>
 <p>InsecureSkipVerify specifies whether the proxy should skip verifying the
 CA signature and SAN for the server certificate corresponding to the host.
-This flag should only be set if global CA signature verifcation is
+This flag should only be set if global CA signature verification is
 enabled, <code>VerifyCertAtClient</code> environmental variable is set to <code>true</code>,
 but no verification is desired for a specific host. If enabled with or
 without <code>VerifyCertAtClient</code> enabled, verification of the CA signature and
@@ -1605,8 +1605,7 @@ No
 <h2 id="LoadBalancerSettings-ConsistentHashLB-HTTPCookie">LoadBalancerSettings.ConsistentHashLB.HTTPCookie</h2>
 <section>
 <p>Describes a HTTP cookie that will be used as the hash key for the
-Consistent Hash load balancer. If the cookie is not present, it will
-be generated.</p>
+Consistent Hash load balancer.</p>
 
 <table class="message-fields">
 <thead>
@@ -1644,11 +1643,13 @@ No
 <td><code>ttl</code></td>
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
 <td>
-<p>Lifetime of the cookie.</p>
+<p>Lifetime of the cookie. If specified, a cookie with the TTL will be
+generated if the cookie is not present. If the TTL is present and zero,
+the generated cookie will be a session cookie.</p>
 
 </td>
 <td>
-Yes
+No
 </td>
 </tr>
 </tbody>
@@ -1737,7 +1738,7 @@ No
 <td><code>int32</code></td>
 <td>
 <p>Maximum number of requests that will be queued while waiting for
-a ready connection pool connection. Default 1024.
+a ready connection pool connection. Default 2^32-1.
 Refer to <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/circuit_breaking">https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/circuit_breaking</a>
 under which conditions a new connection is created for HTTP2.
 Please note that this is applicable to both HTTP/1.1 and HTTP2.</p>
@@ -1751,7 +1752,7 @@ No
 <td><code>http2MaxRequests</code></td>
 <td><code>int32</code></td>
 <td>
-<p>Maximum number of active requests to a destination. Default 1024.
+<p>Maximum number of active requests to a destination. Default 2^32-1.
 Please note that this is applicable to both HTTP/1.1 and HTTP2.</p>
 
 </td>
@@ -2050,7 +2051,7 @@ Envoy for further details.</p>
 <td><code>ROUND_ROBIN</code></td>
 <td>
 <p>A basic round robin load balancing policy. This is generally unsafe
-for many scenarios (e.g. when enpoint weighting is used) as it can
+for many scenarios (e.g. when endpoint weighting is used) as it can
 overburden endpoints. In general, prefer to use LEAST_REQUEST as a
 drop-in replacement for ROUND_ROBIN.</p>
 

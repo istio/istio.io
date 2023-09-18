@@ -28,7 +28,7 @@ JWT 声明进行正确的验证和路由。
     {{< text bash >}}
     $ kubectl create ns foo
     $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@) -n foo
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin-gateway.yaml@) -n foo
+    $ kubectl apply -f @samples/httpbin/httpbin-gateway.yaml@ -n foo
     {{< /text >}}
 
 *  按照
@@ -140,7 +140,7 @@ Istio 入口网关支持基于经过身份验证的 JWT 的路由，
 1. 使用包含 `groups: group1` 声明的有效 JWT 令牌验证入口网关路由请求：
 
     {{< text syntax="bash" expandlinks="false" >}}
-    $ TOKEN_GROUP=$(curl {{< github_file >}}/security/tools/jwt/samples/groups-scope.jwt -s) && echo "$TOKEN_GROUP" | cut -d '.' -f2 - | base64 --decode -
+    $ TOKEN_GROUP=$(curl {{< github_file >}}/security/tools/jwt/samples/groups-scope.jwt -s) && echo "$TOKEN_GROUP" | cut -d '.' -f2 - | base64 --decode
     {"exp":3537391104,"groups":["group1","group2"],"iat":1537391104,"iss":"testing@secure.istio.io","scope":["scope1","scope2"],"sub":"testing@secure.istio.io"}
     {{< /text >}}
 
@@ -152,8 +152,8 @@ Istio 入口网关支持基于经过身份验证的 JWT 的路由，
 
 1. 验证入口网关，返回了带有有效 JWT 的 HTTP 404 代码，但不包含 `groups: group1` 声明：
 
-    {{< text syntax="bash" expandlinks="false" >}}
-    $ TOKEN_NO_GROUP=$(curl {{< github_file >}}/security/tools/jwt/samples/demo.jwt -s) && echo "$TOKEN_NO_GROUP" | cut -d '.' -f2 - | base64 --decode -
+    {{< text syntax="bash" >}}
+    $ TOKEN_NO_GROUP=$(curl {{< github_file >}}/security/tools/jwt/samples/demo.jwt -s) && echo "$TOKEN_NO_GROUP" | cut -d '.' -f2 - | base64 --decode
     {"exp":4685989700,"foo":"bar","iat":1532389700,"iss":"testing@secure.istio.io","sub":"testing@secure.istio.io"}
     {{< /text >}}
 

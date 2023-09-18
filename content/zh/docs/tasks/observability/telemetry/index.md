@@ -5,10 +5,10 @@ weight: 0
 keywords: [telemetry]
 owner: istio/wg-policies-and-telemetry-maintainers
 test: no
-status: Experimental
+status: Alpha
 ---
 
-{{< boilerplate experimental >}}
+{{< boilerplate alpha >}}
 
 Istio 提供 [Telemetry API](/zh/docs/reference/config/telemetry/)，
 能够灵活地配置[指标](/zh/docs/tasks/observability/metrics/)、
@@ -16,7 +16,7 @@ Istio 提供 [Telemetry API](/zh/docs/reference/config/telemetry/)，
 
 ## 使用 API {#using-api}
 
-### 作用域、继承和覆盖{#scope-inheritance-and-overrides}
+### 作用域、继承和覆盖  {#scope-inheritance-and-overrides}
 
 在 Istio 配置层次结构中，Telemetry API 资源从父级资源中继承配置：
 
@@ -34,7 +34,7 @@ Istio 提供 [Telemetry API](/zh/docs/reference/config/telemetry/)，
 
 **使用工作负载选择算符** 将新的 Telemetry 资源应用到目标命名空间中，可以实现特定于工作负载的覆盖。
 
-### 工作负载选择{#workload-selection}
+### 工作负载选择  {#workload-selection}
 
 命名空间内的单个工作负载通过 [`selector`](/zh/docs/reference/config/type/workload-selector/#WorkloadSelector)
 进行选择，这允许基于标签选择工作负载。
@@ -42,7 +42,7 @@ Istio 提供 [Telemetry API](/zh/docs/reference/config/telemetry/)，
 使用 `selector` 让两个不同的 `Telemetry` 资源选择相同的工作负载是无效的。
 同样在未指定 `selector` 时在一个命名空间中设定两个不同的 `Telemetry` 资源也是无效的。
 
-### 提供程序选择{#provider-selection}
+### 提供程序选择  {#provider-selection}
 
 Telemetry API 使用提供程序的概念表明要使用的集成协议或类型。
 可以在 [`MeshConfig`](/zh/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider)
@@ -86,9 +86,9 @@ data:
 并将 `InternalTrafficPolicy` 设置为 `Local` 以获得更好的性能。
 {{< /tip >}}
 
-## 示例{#examples}
+## 示例  {#examples}
 
-### 配置网格范围的行为{#configuring-mesh-wide-behavior}
+### 配置网格范围的行为  {#configuring-mesh-wide-behavior}
 
 Telemetry API 资源从网格的根配置命名空间（通常是 `istio-system`）中进行继承。
 要配置网格范围的行为，可以在根配置命名空间中添加新的（或编辑现有的）`Telemetry` 资源。
@@ -115,7 +115,7 @@ spec:
 此配置覆盖源于 `MeshConfig` 的默认提供程序，将网格默认设置为 `localtrace` 提供程序。
 它还将网格范围的抽样百分比设置为 `100`，配置一个标记以名称 `foo` 和赋值 `bar` 添加到所有链路 span。
 
-### 配置作用于命名空间的追踪行为{#configuring-namespace-scoped-tracing-behavior}
+### 配置作用于命名空间的追踪行为  {#configuring-namespace-scoped-tracing-behavior}
 
 要定制个别命名空间的行为，添加 `Telemetry` 资源到目标命名空间。
 命名空间资源中指定的所有字段将完全覆盖从配置层次结构中继承的字段配置。
@@ -146,7 +146,7 @@ spec:
 `Telemetry` 资源中的所有配置将完全覆盖配置层次结构中其父级资源的配置。这包括提供程序选择。
 {{< /tip >}}
 
-### 配置特定于工作负载的行为{#configuring-workload-specific-behavior}
+### 配置特定于工作负载的行为  {#configuring-workload-specific-behavior}
 
 要定制个别工作负载的行为，添加 `Telemetry` 资源到目标命名空间并使用 `selector`。
 特定工作负载资源中指定的所有字段将完全覆盖从配置层次结构中继承的字段配置。

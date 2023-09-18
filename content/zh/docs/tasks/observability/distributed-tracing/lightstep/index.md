@@ -13,10 +13,10 @@ test: no
 
 此任务介绍如何配置 Istio 才能收集追踪 span，并且把收集到的 span 发送到
 [Lightstep](https://lightstep.com/products/)。Lightstep 可以分析来自大规模生产级软件的
-100% 未采样的事务数据，并做出容易理解的的分布式追踪和指标信息，这有助于解释性能行为和并加速根因分析。
+100% 未采样的事务数据，并做出容易理解的分布式追踪和指标信息，这有助于解释性能行为和并加速根因分析。
 在此任务的结尾，Istio 将追踪 span 从代理发送到 Lightstep Satellite 池，
 以让它们在 web UI 上展示。默认情况下，所有的 HTTP 请求都被捕获（为了看到端到端的追踪，
-你的代码需要转发 OT 头，即使它没有参与到追踪）。
+您的代码需要转发 OT 头，即使它没有参与到追踪）。
 
 如果您只想直接从 Istio 收集追踪 span（而不是直接向您的代码添加特定的检测），那么您不需要配置任何追踪器，
 只要您的服务转发[追踪器产生的 HTTP 请求头](https://www.envoyproxy.io/docs/envoy/latest/configuration/http_conn_man/headers#config-http-conn-man-headers-x-ot-span-context)。
@@ -25,7 +25,7 @@ test: no
 
 ## 开始之前{#before-you-begin}
 
-1. 确保你有一个 Lightstep 账户。这里可以免费[注册](https://lightstep.com/products/tracing/)试用 Lightstep。
+1. 确保您有一个 Lightstep 账户。这里可以免费[注册](https://lightstep.com/products/tracing/)试用 Lightstep。
 
 1. 如果您使用的是[本地 Satellite](https://docs.lightstep.com/docs/learn-about-satellites#on-premise-satellites)，
     请确保您有一个配置了 TLS 证书的 Satellite 池和一个公开的安全 GRPC 端口。
@@ -73,9 +73,9 @@ test: no
 
 如果您使用的是公共或开发者模式 Satellite，或者如果您使用的是带有 TLS 证书的本地 Satellite，请按照这些步骤操作。
 
-1. 把 Satellite 池证书颁发机构发的证书作为一个密钥存储在默认的命名空间下。
+1. 把 Satellite 池证书颁发机构发的证书作为一个 Secret 存储在默认的命名空间下。
     对于 Lightstep Tracing 用户，要在这里下载并使用[这个证书](https://docs.lightstep.com/docs/instrument-with-istio-as-your-service-mesh)。
-    如果你把 Bookinfo 应用程序部署在了其它的命名空间下，就要在对的应命名空间下创建相应的密钥证书。
+    如果您把 Bookinfo 应用程序部署在了其它的命名空间下，就要在对应的命名空间下创建相应的 Secret。
 
     {{< text bash >}}
     $ CACERT=$(cat Cert_Auth.crt | base64) # Cert_Auth.crt contains the necessary CACert
@@ -144,7 +144,7 @@ test: no
 
 1. 按照[为 Bookinfo 应用程序创建 Ingress 网关说明](/zh/docs/examples/bookinfo/#determine-the-ingress-ip-and-port)操作。
 
-1. 为了验证上一步是否成功，请确认你在 shell 的环境变量中中设置了 `GATEWAY_URL`。
+1. 为了验证上一步是否成功，请确认您在 shell 的环境变量中中设置了 `GATEWAY_URL`。
 
 1. 发送流量到示例应用程序。
 
@@ -162,7 +162,7 @@ test: no
 
     {{< image link="./istio-explorer.png" caption="Explorer view" >}}
 
-1. 在顶部找到查询栏，在这里你可以用 **Service** 、**Operation** 和 **Tag** 的值进行过滤查询。
+1. 在顶部找到查询栏，在这里您可以用 **Service** 、**Operation** 和 **Tag** 的值进行过滤查询。
 
 1. 从 **Service** 下拉列表中选择 `productpage.default`。
 
@@ -191,11 +191,11 @@ Istio 通过配置追踪采样百分比来捕获追踪信息。想了解如何�
 
 ## 清除{#cleanup}
 
-如果你不想继续执测试操作任务，可以从集群中删除 Bookinfo 示例应用程序和所有的 Lightstep 密钥。
+如果您不想继续执测试操作任务，可以从集群中删除 Bookinfo 示例应用程序和所有的 Lightstep Secret。
 
 1. 删除 Bookinfo 应用程序，请参阅[清除 Bookinfo](/zh/docs/examples/bookinfo/#cleanup) 说明。
 
-1. 删除给 Lightstep 生成的密钥：
+1. 删除给 Lightstep 生成的 Secret：
 
 {{< text bash >}}
 $ kubectl delete secret lightstep.cacert

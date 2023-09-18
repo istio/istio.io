@@ -221,11 +221,11 @@ to enable it.  You can execute the following once:</p>
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, delta, file, gateway, grpcgen, ingress status, installer, klog, kube, model, patch, processing, retry, security, serviceentry, spiffe, status, tpath, translator, trustBundle, util, validation, wasm, wle]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, delta, file, gateway, grpcgen, ingress status, installer, klog, kube, model, monitoring, patch, processing, retry, security, serviceentry, spiffe, status, tpath, translator, trustBundle, util, validation, wasm, wle]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, delta, file, gateway, grpcgen, ingress status, installer, klog, kube, model, patch, processing, retry, security, serviceentry, spiffe, status, tpath, translator, trustBundle, util, validation, wasm, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, delta, file, gateway, grpcgen, ingress status, installer, klog, kube, model, monitoring, patch, processing, retry, security, serviceentry, spiffe, status, tpath, translator, trustBundle, util, validation, wasm, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -245,7 +245,7 @@ to enable it.  You can execute the following once:</p>
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, delta, file, gateway, grpcgen, ingress status, installer, klog, kube, model, patch, processing, retry, security, serviceentry, spiffe, status, tpath, translator, trustBundle, util, validation, wasm, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, delta, file, gateway, grpcgen, ingress status, installer, klog, kube, model, monitoring, patch, processing, retry, security, serviceentry, spiffe, status, tpath, translator, trustBundle, util, validation, wasm, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -338,7 +338,7 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td><code>CLUSTER_ID</code></td>
 <td>String</td>
 <td><code>Kubernetes</code></td>
-<td>Defines the cluster and service registry that this Istiod instance is belongs to</td>
+<td>Defines the cluster and service registry that this Istiod instance belongs to</td>
 </tr>
 <tr>
 <td><code>ENABLE_AUTO_SNI</code></td>
@@ -407,6 +407,24 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>If true, the DNS name table for a headless service will resolve to same-network endpoints in any cluster.</td>
 </tr>
 <tr>
+<td><code>ENABLE_NATIVE_SIDECARS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If set, used Kubernetes native Sidecar container support. Requires SidecarContainer feature flag.</td>
+</tr>
+<tr>
+<td><code>ENABLE_OPTIMIZED_CONFIG_REBUILD</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, pilot will only rebuild config for resources that have changed</td>
+</tr>
+<tr>
+<td><code>ENABLE_OTEL_BUILTIN_RESOURCE_LABELS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, envoy will send builtin lables(e.g. node_name) via OTel sink.</td>
+</tr>
+<tr>
 <td><code>ENABLE_PROBE_KEEPALIVE_CONNECTIONS</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -455,6 +473,18 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td></td>
 </tr>
 <tr>
+<td><code>INBOUND_INTERCEPTION_MODE</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>The mode used to redirect inbound connections to Envoy, either &#34;REDIRECT&#34; or &#34;TPROXY&#34;</td>
+</tr>
+<tr>
+<td><code>INBOUND_TPROXY_MARK</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
+</tr>
+<tr>
 <td><code>INJECTION_WEBHOOK_CONFIG_NAME</code></td>
 <td>String</td>
 <td><code>istio-sidecar-injector</code></td>
@@ -488,7 +518,13 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td><code>ISTIO_DUAL_STACK</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
-<td>If enabled, pilot will configure clusters/listeners/routes for dual stack capability.</td>
+<td>If true, Istio will enable the Dual Stack feature.</td>
+</tr>
+<tr>
+<td><code>ISTIO_ENABLE_CONTROLLER_QUEUE_METRICS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, publishes metrics for queue depth, latency and processing times.</td>
 </tr>
 <tr>
 <td><code>ISTIO_ENABLE_HTTP2_PROBING</code></td>
@@ -500,7 +536,7 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td><code>ISTIO_ENABLE_OPTIMIZED_SERVICE_PUSH</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
-<td>If enabled, Istiod will not push changes on arbitraty annotation change.</td>
+<td>If enabled, Istiod will not push changes on arbitrary annotation change.</td>
 </tr>
 <tr>
 <td><code>ISTIO_GPRC_MAXRECVMSGSIZE</code></td>
@@ -527,6 +563,22 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>If enabled, mesh will support certificates signed by more than one trustAnchor for ISTIO_MUTUAL mTLS</td>
 </tr>
 <tr>
+<td><code>ISTIO_OUTBOUND_OWNER_GROUPS</code></td>
+<td>String</td>
+<td><code>*</code></td>
+<td>Comma separated list of groups whose outgoing traffic is to be redirected to Envoy.
+A group can be specified either by name or by a numeric GID.
+The wildcard character &#34;*&#34; can be used to configure redirection of traffic from all groups.</td>
+</tr>
+<tr>
+<td><code>ISTIO_OUTBOUND_OWNER_GROUPS_EXCLUDE</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Comma separated list of groups whose outgoing traffic is to be excluded from redirection to Envoy.
+A group can be specified either by name or by a numeric GID.
+Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected to Envoy.</td>
+</tr>
+<tr>
 <td><code>ISTIO_PROMETHEUS_ANNOTATIONS</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -537,6 +589,18 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>String</td>
 <td><code></code></td>
 <td>If set, limit Kubernetes watches to a single namespace. Warning: only a single namespace can be set.</td>
+</tr>
+<tr>
+<td><code>ISTIO_WORKLOAD_ENTRY_VALIDATE_IDENTITY</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, will validate the identity of a workload matches the identity of the WorkloadEntry it is associating with for health checks and auto registration. This flag is added for backwards compatibility only and will be removed in future releases</td>
+</tr>
+<tr>
+<td><code>JWKS_RESOLVER_INSECURE_SKIP_VERIFY</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, istiod will skip verifying the certificate of the JWKS server.</td>
 </tr>
 <tr>
 <td><code>JWT_POLICY</code></td>
@@ -597,6 +661,12 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>Integer</td>
 <td><code>1000</code></td>
 <td>If set to a non-zero value, enables mutex profiling a rate of 1/MUTEX_PROFILE_FRACTION events. For example, &#39;1000&#39; will record 0.1% of events. Set to 0 to disable entirely.</td>
+</tr>
+<tr>
+<td><code>NATIVE_METADATA_EXCHANGE</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If set, uses a native implementation of the HTTP metadata exchange filter</td>
 </tr>
 <tr>
 <td><code>PILOT_ALLOW_SIDECAR_SERVICE_INBOUND_LISTENER_MERGE</code></td>
@@ -683,12 +753,6 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>If enabled, pilot will read WorkloadEntry from other clusters, selectable by Services in that cluster.</td>
 </tr>
 <tr>
-<td><code>PILOT_ENABLE_DESTINATION_RULE_INHERITANCE</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If set, workload specific DestinationRules will inherit configurations settings from mesh and namespace level rules</td>
-</tr>
-<tr>
 <td><code>PILOT_ENABLE_EDS_DEBOUNCE</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -711,6 +775,12 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If this is set to true, gateway-api resources will automatically provision in cluster deployment, services, etc</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_GATEWAY_API_GATEWAYCLASS_CONTROLLER</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If this is set to true, istiod will create and manage its default GatewayClasses</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_GATEWAY_API_STATUS</code></td>
@@ -765,18 +835,6 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, Istiod sets up persistent session filter for listeners, if services have &#39;PILOT_PERSISTENT_SESSION_LABEL&#39; set.</td>
-</tr>
-<tr>
-<td><code>PILOT_ENABLE_PROTOCOL_SNIFFING_FOR_INBOUND</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If enabled, protocol sniffing will be used for inbound listeners whose port protocol is not specified or unsupported</td>
-</tr>
-<tr>
-<td><code>PILOT_ENABLE_PROTOCOL_SNIFFING_FOR_OUTBOUND</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If enabled, protocol sniffing will be used for outbound listeners whose port protocol is not specified or unsupported</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_QUIC_LISTENERS</code></td>
@@ -893,6 +951,12 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>Limits the number of incoming XDS requests per second. On larger machines this can be increased to handle more proxies concurrently.</td>
 </tr>
 <tr>
+<td><code>PILOT_MULTI_NETWORK_DISCOVER_GATEWAY_API</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true, Pilot will discover labeled Kubernetes gateway objects as multi-network gateways.</td>
+</tr>
+<tr>
 <td><code>PILOT_PERSISTENT_SESSION_HEADER_LABEL</code></td>
 <td>String</td>
 <td><code>istio.io/persistent-session-header</code></td>
@@ -1001,6 +1065,12 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>The timeout to send the XDS configuration to proxies. After this timeout is reached, Pilot will discard that push.</td>
 </tr>
 <tr>
+<td><code>PLATFORM</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Platform where Istio is deployed. Possible values are &#34;openshift&#34; and &#34;gcp&#34;</td>
+</tr>
+<tr>
 <td><code>REQUIRE_3P_TOKEN</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -1088,7 +1158,7 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td><code>XDS_AUTH_PLAINTEXT</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
-<td>Authenticate plain text requests - used if Istiod is running on a secure/trusted network</td>
+<td>authenticate plain text requests - used if Istiod is running on a secure/trusted network</td>
 </tr>
 </tbody>
 </table>
@@ -1118,14 +1188,14 @@ These environment variables affect the behavior of the <code>operator</code> com
 <tr><td><code>num_outgoing_retries</code></td><td><code>Sum</code></td><td>Number of outgoing retry requests (e.g. to a token exchange server, CA, etc.)</td></tr>
 <tr><td><code>owned_resource_total</code></td><td><code>LastValue</code></td><td>Number of resources currently owned by the operator</td></tr>
 <tr><td><code>pilot_conflict_inbound_listener</code></td><td><code>LastValue</code></td><td>Number of conflicting inbound listeners.</td></tr>
-<tr><td><code>pilot_conflict_outbound_listener_http_over_current_tcp</code></td><td><code>LastValue</code></td><td>Number of conflicting wildcard http listeners with current wildcard tcp listener.</td></tr>
-<tr><td><code>pilot_conflict_outbound_listener_tcp_over_current_http</code></td><td><code>LastValue</code></td><td>Number of conflicting wildcard tcp listeners with current wildcard http listener.</td></tr>
 <tr><td><code>pilot_conflict_outbound_listener_tcp_over_current_tcp</code></td><td><code>LastValue</code></td><td>Number of conflicting tcp listeners with current tcp listener.</td></tr>
 <tr><td><code>pilot_debounce_time</code></td><td><code>Distribution</code></td><td>Delay in seconds between the first config enters debouncing and the merged push request is pushed into the push queue.</td></tr>
 <tr><td><code>pilot_destrule_subsets</code></td><td><code>LastValue</code></td><td>Duplicate subsets across destination rules for same host</td></tr>
+<tr><td><code>pilot_dns_cluster_without_endpoints</code></td><td><code>LastValue</code></td><td>DNS clusters without endpoints caused by the endpoint field in STRICT_DNS type cluster is not set or the corresponding subset cannot select any endpoint</td></tr>
 <tr><td><code>pilot_duplicate_envoy_clusters</code></td><td><code>LastValue</code></td><td>Duplicate envoy clusters caused by service entries with same hostname</td></tr>
 <tr><td><code>pilot_eds_no_instances</code></td><td><code>LastValue</code></td><td>Number of clusters without instances.</td></tr>
 <tr><td><code>pilot_endpoint_not_ready</code></td><td><code>LastValue</code></td><td>Endpoint found in unready state.</td></tr>
+<tr><td><code>pilot_envoy_filter_status</code></td><td><code>LastValue</code></td><td>Status of Envoy filters whether it was applied or errored.</td></tr>
 <tr><td><code>pilot_inbound_updates</code></td><td><code>Sum</code></td><td>Total number of updates received by pilot.</td></tr>
 <tr><td><code>pilot_jwks_resolver_network_fetch_fail_total</code></td><td><code>Sum</code></td><td>Total number of failed network fetch by pilot jwks resolver</td></tr>
 <tr><td><code>pilot_jwks_resolver_network_fetch_success_total</code></td><td><code>Sum</code></td><td>Total number of successfully network fetch by pilot jwks resolver</td></tr>
@@ -1145,6 +1215,9 @@ These environment variables affect the behavior of the <code>operator</code> com
 <tr><td><code>pilot_total_xds_rejects</code></td><td><code>Sum</code></td><td>Total number of XDS responses from pilot rejected by proxy.</td></tr>
 <tr><td><code>pilot_virt_services</code></td><td><code>LastValue</code></td><td>Total virtual services known to pilot.</td></tr>
 <tr><td><code>pilot_vservice_dup_domain</code></td><td><code>LastValue</code></td><td>Virtual services with dup domains.</td></tr>
+<tr><td><code>pilot_worker_queue_depth</code></td><td><code>LastValue</code></td><td>Depth of the controller queues</td></tr>
+<tr><td><code>pilot_worker_queue_duration</code></td><td><code>Distribution</code></td><td>Time taken to process an item</td></tr>
+<tr><td><code>pilot_worker_queue_latency</code></td><td><code>Distribution</code></td><td>Latency before the item is processed</td></tr>
 <tr><td><code>pilot_xds</code></td><td><code>LastValue</code></td><td>Number of endpoints connected to this pilot using XDS.</td></tr>
 <tr><td><code>pilot_xds_cds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected CDS configs.</td></tr>
 <tr><td><code>pilot_xds_config_size_bytes</code></td><td><code>Distribution</code></td><td>Distribution of configuration sizes pushed to clients</td></tr>
@@ -1182,5 +1255,9 @@ These environment variables affect the behavior of the <code>operator</code> com
 <tr><td><code>webhook_patch_attempts_total</code></td><td><code>Sum</code></td><td>Webhook patching attempts</td></tr>
 <tr><td><code>webhook_patch_failures_total</code></td><td><code>Sum</code></td><td>Webhook patching total failures</td></tr>
 <tr><td><code>webhook_patch_retries_total</code></td><td><code>Sum</code></td><td>Webhook patching retries</td></tr>
+<tr><td><code>xds_cache_dependent_config_size</code></td><td><code>LastValue</code></td><td>Current size of dependent configs</td></tr>
+<tr><td><code>xds_cache_evictions</code></td><td><code>Sum</code></td><td>Total number of xds cache evictions.</td></tr>
+<tr><td><code>xds_cache_reads</code></td><td><code>Sum</code></td><td>Total number of xds cache xdsCacheReads.</td></tr>
+<tr><td><code>xds_cache_size</code></td><td><code>LastValue</code></td><td>Current size of xds cache</td></tr>
 </tbody>
 </table>

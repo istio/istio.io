@@ -193,6 +193,38 @@ spec:
 </code></pre>
 <p>{{</tab>}}
 {{</tabset>}}</p>
+<p>The following example declares a VM workload without an address.
+An alternative to having istiod read from remote API servers is
+to write a <code>WorkloadEntry</code> in the local cluster that represents
+the Workload(s) in the remote network with the given labels. A
+single <code>WorkloadEntry</code> with weights represent the aggregate of all
+the actual workloads in a given remote network.</p>
+<p>{{<tabset category-name="example">}}
+{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
+kind: WorkloadEntry
+metadata:
+  name: foo-workloads-cluster-2
+spec:
+  serviceAccount: foo
+  network: cluster-2-network
+  labels:
+    app: foo
+</code></pre>
+<p>{{</tab>}}</p>
+<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
+kind: WorkloadEntry
+metadata:
+  name: foo-workloads-cluster-2
+spec:
+  serviceAccount: foo
+  network: cluster-2-network
+  labels:
+    app: foo
+</code></pre>
+<p>{{</tab>}}
+{{</tabset>}}</p>
 
 <h2 id="WorkloadEntry">WorkloadEntry</h2>
 <section>
@@ -215,11 +247,12 @@ spec:
 <p>Address associated with the network endpoint without the
 port.  Domain names can be used if and only if the resolution is set
 to DNS, and must be fully-qualified without wildcards. Use the form
-unix:///absolute/path/to/socket for Unix domain socket endpoints.</p>
+unix:///absolute/path/to/socket for Unix domain socket endpoints.
+If address is empty, network must be specified.</p>
 
 </td>
 <td>
-Yes
+No
 </td>
 </tr>
 <tr id="WorkloadEntry-ports">
@@ -266,7 +299,7 @@ networks cannot reach each other directly, an Istio Gateway can be
 used to establish connectivity (usually using the
 <code>AUTO_PASSTHROUGH</code> mode in a Gateway Server). This is
 an advanced configuration used typically for spanning an Istio mesh
-over multiple clusters.</p>
+over multiple clusters. Required if address is not provided.</p>
 
 </td>
 <td>

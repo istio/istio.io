@@ -22,7 +22,7 @@
 
 snip_download_and_install_2() {
 kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
-  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v0.6.1" | kubectl apply -f -; }
+  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=f98e94a5305e3a08cb14f8a03470f8f3bdf6d54c" | kubectl apply -f -; }
 }
 
 snip_download_and_install_3() {
@@ -52,7 +52,7 @@ kubectl get daemonset -n istio-system
 ! read -r -d '' snip_download_and_install_8_out <<\ENDSNIP
 NAME             DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
 istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   70s
-ztunnel          1         1         1       1            1           <none>                   82s
+ztunnel          1         1         1       1            1           kubernetes.io/os=linux   82s
 ENDSNIP
 
 snip_download_and_install_9() {
@@ -73,7 +73,7 @@ kubectl get daemonset -n istio-system
 ! read -r -d '' snip_download_and_install_10_out <<\ENDSNIP
 NAME             DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
 istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   70s
-ztunnel          1         1         1       1            1           <none>                   82s
+ztunnel          1         1         1       1            1           kubernetes.io/os=linux   82s
 ENDSNIP
 
 snip_deploy_the_sample_application_1() {
@@ -324,5 +324,5 @@ kubectl delete -f samples/sleep/notsleep.yaml
 }
 
 snip_uninstall_4() {
-kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v0.6.1" | kubectl delete -f -
+kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=f98e94a5305e3a08cb14f8a03470f8f3bdf6d54c" | kubectl delete -f -
 }

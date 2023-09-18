@@ -65,7 +65,7 @@ EOF
       meshConfig:
         defaultConfig:
           proxyMetadata:
-            ISTIO_AGENT_DUAL_STACK: "true"
+            ISTIO_DUAL_STACK: "true"
       values:
         pilot:
           env:
@@ -111,7 +111,7 @@ EOF
 1. Verify the traffic:
 
     {{< text bash >}}
-    $ kubectl exec -it "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo dualstack | nc tcp-echo 9000"
+    $ kubectl exec -it "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo dualstack | nc tcp-echo.dual-stack 9000"
     hello dualstack
     $ kubectl exec -it "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo ipv4 | nc tcp-echo.ipv4 9000"
     hello ipv4
@@ -177,7 +177,7 @@ Virtual inbound addresses are now also configured to listen on both `0.0.0.0` an
 Envoy's endpoints now are configured to route to both IPv4 and IPv6:
 
 {{< text bash >}}
-$ istioctl proxy-config endpoints "$(kubectl get pod -n sleep -l app=tcp-echo -o jsonpath='{.items[0].metadata.name}')" --port 9000
+$ istioctl proxy-config endpoints "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" --port 9000
 ENDPOINT                 STATUS      OUTLIER CHECK     CLUSTER
 10.244.0.19:9000         HEALTHY     OK                outbound|9000||tcp-echo.ipv4.svc.cluster.local
 10.244.0.26:9000         HEALTHY     OK                outbound|9000||tcp-echo.dual-stack.svc.cluster.local

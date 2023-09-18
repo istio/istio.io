@@ -106,6 +106,16 @@ To see possible supported configuration values, run `helm show values istio/gate
 The Helm repository [README](https://artifacthub.io/packages/helm/istio-official/gateway) contains additional information
 on usage.
 
+{{< tip >}}
+
+When deploying the gateway in an OpenShift cluster, use the `openshift-values.yaml` file to override the default values, for example:
+
+{{< text bash >}}
+$ helm install istio-ingressgateway istio/gateway -n istio-ingress -f @manifests/charts/gateway/openshift-values.yaml@
+{{< /text >}}
+
+{{< /tip >}}
+
 {{< /tab >}}
 
 {{< tab name="Kubernetes YAML" category-value="yaml" >}}

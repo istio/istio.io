@@ -129,14 +129,14 @@ aliases:
 并退出实验。
   ([Issue #33799](https://github.com/istio/istio/issues/33799))
 
-- **新增** `istioctl install` 现在将对 webhook 做 `IST0139` 分析。
+- **新增** `istioctl install` 现在将对 Webhook 做 `IST0139` 分析。
   ([Issue #33537](https://github.com/istio/istio/issues/33537))
 
-- **新增** `istioctl x remote-clusters` 以列出每个 `istiod` 实例具有 API Server 凭据的远程集群，
+- **新增** `istioctl x remote-clusters` 以列出每个 `istiod` 实例具有 API Server 凭据的从集群，
 以及每个集群的服务注册表同步状态。
   ([Issue #33799](https://github.com/istio/istio/issues/33799))
 
-- **新增** 新增 pod 的 `po` 别名，供用户使用 `istioctl x describe po` 命令，与使用 `kubectl` 命令时 pod 的别名保持一致。
+- **新增** 新增 Pod 的 `po` 别名，供用户使用 `istioctl x describe po` 命令，与使用 `kubectl` 命令时 pod 的别名保持一致。
   ([Pull Request #34802](https://github.com/istio/istio/pull/34802))
 
 - **新增** 预检查现在可以检测 Alpha Annotations 的使用。
@@ -151,7 +151,7 @@ aliases:
 - **修复** 修复了 `istioctl admin log` 格式。
   ([Issue #34982](https://github.com/istio/istio/issues/34982))
 
-- **修复了** 修复了在第一次安装 Istio 时没有使用 'istio-system' 作为 Istio 命名空间，APP pods（比如 httpbin）无法创建的问题。`istioctl install`，`istioctl tag set` 和 `istioctl tag generate` 将受到影响。例如，用户可以设置指定的命名空间（以 `mesh-1` 为例），通过 `istioctl install --set profile=demo --set values.global.istioNamespace=mesh-1 -y` 来安装 Istio。
+- **修复了** 修复了在第一次安装 Istio 时没有使用 'istio-system' 作为 Istio 命名空间，APP Pod（比如 httpbin）无法创建的问题。`istioctl install`，`istioctl tag set` 和 `istioctl tag generate` 将受到影响。例如，用户可以设置指定的命名空间（以 `mesh-1` 为例），通过 `istioctl install --set profile=demo --set values.global.istioNamespace=mesh-1 -y` 来安装 Istio。
   ([Issue #35539](https://github.com/istio/istio/issues/35539))
 
 - **修复** 修复了当 `--exclude` 没有设置时，`istioctl bug-report` 会显示额外的默认系统命名空间的问题。

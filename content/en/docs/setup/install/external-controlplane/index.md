@@ -259,7 +259,7 @@ and installing the sidecar injector webhook configuration on the remote cluster 
 
     {{< text bash >}}
     $ kubectl create sa istiod-service-account -n external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
-    $ istioctl x create-remote-secret \
+    $ istioctl create-remote-secret \
       --context="${CTX_REMOTE_CLUSTER}" \
       --type=config \
       --namespace=external-istiod \
@@ -785,7 +785,7 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
     and install it:
 
     {{< text bash >}}
-    $ istioctl x create-remote-secret \
+    $ istioctl create-remote-secret \
       --context="${CTX_SECOND_CLUSTER}" \
       --name="${SECOND_CLUSTER_NAME}" \
       --type=remote \

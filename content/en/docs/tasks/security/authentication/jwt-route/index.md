@@ -27,7 +27,7 @@ service to properly validate and route based on JWT claims.
     {{< text bash >}}
     $ kubectl create ns foo
     $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@) -n foo
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin-gateway.yaml@) -n foo
+    $ kubectl apply -f @samples/httpbin/httpbin-gateway.yaml@ -n foo
     {{< /text >}}
 
 *  Follow the instructions in
@@ -139,7 +139,7 @@ identity and more secure compared using the unauthenticated HTTP attributes (e.g
 1. Validate the ingress gateway routes the request with a valid JWT token that includes the claim `groups: group1`:
 
     {{< text syntax="bash" expandlinks="false" >}}
-    $ TOKEN_GROUP=$(curl {{< github_file >}}/security/tools/jwt/samples/groups-scope.jwt -s) && echo "$TOKEN_GROUP" | cut -d '.' -f2 - | base64 --decode -
+    $ TOKEN_GROUP=$(curl {{< github_file >}}/security/tools/jwt/samples/groups-scope.jwt -s) && echo "$TOKEN_GROUP" | cut -d '.' -f2 - | base64 --decode
     {"exp":3537391104,"groups":["group1","group2"],"iat":1537391104,"iss":"testing@secure.istio.io","scope":["scope1","scope2"],"sub":"testing@secure.istio.io"}
     {{< /text >}}
 
@@ -151,8 +151,8 @@ identity and more secure compared using the unauthenticated HTTP attributes (e.g
 
 1. Validate the ingress gateway returns the HTTP code 404 with a valid JWT but does not include the claim `groups: group1`:
 
-    {{< text syntax="bash" expandlinks="false" >}}
-    $ TOKEN_NO_GROUP=$(curl {{< github_file >}}/security/tools/jwt/samples/demo.jwt -s) && echo "$TOKEN_NO_GROUP" | cut -d '.' -f2 - | base64 --decode -
+    {{< text syntax="bash" >}}
+    $ TOKEN_NO_GROUP=$(curl {{< github_file >}}/security/tools/jwt/samples/demo.jwt -s) && echo "$TOKEN_NO_GROUP" | cut -d '.' -f2 - | base64 --decode
     {"exp":4685989700,"foo":"bar","iat":1532389700,"iss":"testing@secure.istio.io","sub":"testing@secure.istio.io"}
     {{< /text >}}
 

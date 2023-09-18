@@ -80,7 +80,7 @@ EOF
       meshConfig:
         defaultConfig:
           proxyMetadata:
-            ISTIO_AGENT_DUAL_STACK: "true"
+            ISTIO_DUAL_STACK: "true"
       values:
         pilot:
           env:
@@ -126,7 +126,7 @@ EOF
 1. 校验流量：
 
     {{< text bash >}}
-    $ kubectl exec -it "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo dualstack | nc tcp-echo 9000"
+    $ kubectl exec -it "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo dualstack | nc tcp-echo.dual-stack 9000"
     hello dualstack
     $ kubectl exec -it "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo ipv4 | nc tcp-echo.ipv4 9000"
     hello ipv4
@@ -192,7 +192,7 @@ $ istioctl proxy-config listeners "$(kubectl get pod -n dual-stack -l app=tcp-ec
 Envoy 的 endpoints 现在配置为同时路由到 IPv4 和 IPv6：
 
 {{< text bash >}}
-$ istioctl proxy-config endpoints "$(kubectl get pod -n sleep -l app=tcp-echo -o jsonpath='{.items[0].metadata.name}')" --port 9000
+$ istioctl proxy-config endpoints "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" --port 9000
 ENDPOINT                 STATUS      OUTLIER CHECK     CLUSTER
 10.244.0.19:9000         HEALTHY     OK                outbound|9000||tcp-echo.ipv4.svc.cluster.local
 10.244.0.26:9000         HEALTHY     OK                outbound|9000||tcp-echo.dual-stack.svc.cluster.local

@@ -19,25 +19,28 @@ test: yes
 Istio 用户权限的提升，对于某些组织的安全政策来说，可能是难以接受的。
 Istio CNI 插件就是一个能够替代 `istio-init` 容器来实现相同的网络功能但却不需要 Istio 用户申请额外的 Kubernetes RBAC 授权的方案。
 
-Istio CNI 插件会在 Kubernetes Pod 生命周期的网络设置阶段完成 Istio 网格的 Pod 流量转发设置工作，因此用户在部署 Pod 到 Istio 网格中时，不再需要配置 [`NET_ADMIN` 功能需求](/zh/docs/ops/deployment/requirements/)了。
+Istio CNI 插件会在 Kubernetes Pod 生命周期的网络设置阶段完成 Istio 网格的 Pod 流量转发设置工作，
+因此用户在部署 Pod 到 Istio 网格中时，不再需要配置 [`NET_ADMIN` 功能需求](/zh/docs/ops/deployment/requirements/)了。
 Istio CNI 插件代替了 `istio-init` 容器所实现的功能。
 
 {{< tip >}}
-注意: Istio CNI 插件作为一个链接的 CNI 插件运行，它被设计为与另一个 CNI 插件一起使用，如 [PTP](https://www.cni.dev/plugins/current/main/ptp/) 或 [Calico](https://docs.projectcalico.org)。
+注意: Istio CNI 插件作为一个链接的 CNI 插件运行，它被设计为与另一个 CNI 插件一起使用，
+如 [PTP](https://www.cni.dev/plugins/current/main/ptp/) 或 [Calico](https://docs.projectcalico.org)。
 详情请参见[与其他CNI插件的兼容性](#compatibility-with-other-cni-plugins)。
 {{< /tip >}}
 
-## 安装 CNI{#install-cni}
+## 安装 CNI {#install-cni}
 
-### 前提条件{#prerequisites}
+### 前提条件 {#prerequisites}
 
-1. 安装支持 CNI 的 Kubernetes 集群，并且 `kubelet` 使用 `--network-plugin=cni` 参数启用 [CNI](https://github.com/containernetworking/cni) 插件。
+1. 安装支持 CNI 的 Kubernetes 集群，并且 `kubelet` 使用 `--network-plugin=cni` 参数启用
+    [CNI](https://github.com/containernetworking/cni) 插件。
     * AWS EKS、Azure AKS 和 IBM Cloud IKS 集群具备这一功能。
-    * Google Cloud GKE 集群在启用以下特性时启用 CNI:
-    [network policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy)，
-    [intranode visibility](https://cloud.google.com/kubernetes-engine/docs/how-to/intranode-visibility)，
-    [workload identity](https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity)，
-    [pod security policy](https://cloud.google.com/kubernetes-engine/docs/how-to/pod-security-policies#overview)，
+    * Google Cloud GKE 集群只需启用以下特性之一，就可以启用 CNI：
+    [network policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy)、
+    [intranode visibility](https://cloud.google.com/kubernetes-engine/docs/how-to/intranode-visibility)、
+    [workload identity](https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity)、
+    [pod security policy](https://cloud.google.com/kubernetes-engine/docs/how-to/pod-security-policies#overview)、
     [dataplane v2](https://cloud.google.com/kubernetes-engine/docs/concepts/dataplane-v2)。
     * OpenShift 默认启用了 CNI。
 
@@ -48,14 +51,33 @@ Istio CNI 插件代替了 `istio-init` 容器所实现的功能。
 
 在大多数环境中，可以使用以下配置安装基础的 Istio 集群并启用 CNI：
 
-{{< text yaml >}}
+{{< tabset category-name="gateway-install-type" >}}
+
+{{< tab name="IstioOperator" category-value="iop" >}}
+
+{{< text bash >}}
+$ cat <<EOF > istio-cni.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
   components:
     cni:
       enabled: true
+EOF
+$ istioctl install -f istio-cni.yaml -y
 {{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Helm" category-value="helm" >}}
+
+{{< text bash >}}
+$ helm install istio-cni istio/cni -n kube-system --wait
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
 
 这将部署 `istio-cni-node` DaemonSet 到集群中，将 Istio CNI 插件可执行文件安装到每个节点上并为此插件设置必要的配置。
 CNI DaemonSet 使用 [`system-node-critical`](https://kubernetes.io/zh-cn/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/) `PriorityClass` 来运行。
@@ -76,55 +98,71 @@ CNI DaemonSet 使用 [`system-node-critical`](https://kubernetes.io/zh-cn/docs/t
 请查阅[竞争条件和缓解措施](#race-condition-mitigation)一节以了解此缓解措施的影响。
 {{< /tip >}}
 
-### 托管 Kubernetes 设置{#hosted-Kubernetes-settings}
+### 通过 Helm 安装 {#installing-with-helm}
+
+{{< text bash >}}
+$  helm install istiod istio/istiod -n istio-system --set values.istio_cni.enabled=true --wait
+{{< /text >}}
+
+Istio CNI 和 Istio Discovery Chart 使用不同的值，需要您在安装 `istiod` Chart 时，
+在重载值文件或命令提示符中设置以下内容来管理网络注解的同时关联 CNI 插件：
+
+* `values.istio_cni.enabled` 应设置为与 `values.cni.enabled` 相同的值。
+
+* `values.istio_cni.chained` 应设置为与 `values.cni.chained` 相同的值。
+
+例如：
+
+{{< text bash >}}
+$  helm install istiod istio/istiod -n istio-system --set values.istio_cni.enabled=true --wait
+{{< /text >}}
+
+### 托管 Kubernetes 设置 {#hosted-Kubernetes-settings}
 
 `istio-cni` 插件预期可用于任何使用 CNI 插件的托管 Kubernetes 版本。
 默认的安装配置适用于大多数平台。某些平台需要特殊的安装设置。
 
-* Google Kubernetes Engine
+{{< tabset category-name="cni-platform" >}}
 
-    {{< text yaml >}}
-    apiVersion: install.istio.io/v1alpha1
-    kind: IstioOperator
-    spec:
-      components:
-        cni:
-          enabled: true
-          namespace: kube-system
-      values:
-        cni:
-          cniBinDir: /home/kubernetes/bin
-    {{< /text >}}
+{{< tab name="Google Kubernetes Engine" category-value="gke" >}}
 
-* Red Hat OpenShift 4.2+
+{{< text yaml >}}
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  components:
+    cni:
+      enabled: true
+      namespace: kube-system
+  values:
+    cni:
+      cniBinDir: /home/kubernetes/bin
+{{< /text >}}
 
-    {{< text yaml >}}
-    apiVersion: install.istio.io/v1alpha1
-    kind: IstioOperator
-    spec:
-      components:
-        cni:
-          enabled: true
-          namespace: kube-system
-      values:
-        sidecarInjectorWebhook:
-          injectedAnnotations:
-            k8s.v1.cni.cncf.io/networks: istio-cni
-        cni:
-          cniBinDir: /var/lib/cni/bin
-          cniConfDir: /etc/cni/multus/net.d
-          cniConfFileName: istio-cni.conf
-          chained: false
-    {{< /text >}}
+{{< /tab >}}
 
-## 操作细节{#operation-details}
+{{< tab name="Red Hat OpenShift 4.2+" category-value="ocp" >}}
 
-### 升级{#upgrade}
+{{< text bash >}}
+$ istioctl install --set profile=openshift
+{{< /text >}}
 
-当使用[原地升级](/zh/docs/setup/upgrade/in-place/)来升级 Istio 时，CNI 组件可以使用一个 `IstioOperator` 资源与控制平面一起升级。
+{{< /tab >}}
 
-使用[金丝雀升级](/zh/docs/setup/upgrade/canary/)升级 Istio 时，由于 CNI 组件以集群单例运行，建议将 CNI 组件与改版后的控制平面分开运行和升级。
+{{< /tabset >}}
+
+## 操作细节 {#operation-details}
+
+### 升级 {#upgrade}
+
+当使用[原地升级](/zh/docs/setup/upgrade/in-place/)来升级 Istio 时，
+CNI 组件可以使用一个 `IstioOperator` 资源与控制平面一起升级。
+
+使用[金丝雀升级](/zh/docs/setup/upgrade/canary/)升级 Istio 时，
+由于 CNI 组件以集群单例运行，建议将 CNI 组件与改版后的控制平面分开运行和升级。
 下面的 `IstioOperator` 可用于独立操作 CNI 组件。
+
+这对 Helm 而言不是问题，因为 istio-cni 是单独安装的。
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha1
@@ -141,7 +179,8 @@ spec:
         - kube-system
 {{< /text >}}
 
-在启用 CNI 组件的情况下安装修订的控制平面时，需要设置 `values.istio_cni.enabled`，这样 Sidecar 注入程序就不会注入 `istio-init` 初始化容器。
+在启用 CNI 组件的情况下安装修订的控制平面时，需要设置 `values.istio_cni.enabled`，
+这样 Sidecar 注入程序就不会注入 `istio-init` 初始化容器。
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha1
@@ -155,9 +194,10 @@ spec:
   ...
 {{< /text >}}
 
-`1.x` 版本的 CNI 插件兼容 `1.x-1`、`1.x` 和 `1.x+1` 版本的控制平面，这意味着 CNI 和控制平面可以按任何顺序进行升级，只要它们的版本差异在一个次要版本之内。
+`1.x` 版本的 CNI 插件兼容 `1.x-1`、`1.x` 和 `1.x+1` 版本的控制平面，
+这意味着 CNI 和控制平面可以按任何顺序进行升级，只要它们的版本差异在一个次要版本之内。
 
-### 竞争条件和缓解措施{#race-condition-mitigation}
+### 竞争条件和缓解措施 {#race-condition-mitigation}
 
 Istio CNI DaemonSet 在每个节点上安装 CNI 网络插件。
 但是，在将 DaemonSet Pod 调度到一个节点上与 CNI 插件被安装好并准备就绪之间存在一个时间间隔。
@@ -168,13 +208,13 @@ Istio CNI DaemonSet 在每个节点上安装 CNI 网络插件。
 该容器会检测流量重定向是否设置正确，如果不正确则阻止 Pod 启动。CNI DaemonSet 将检测并驱逐任何卡在这种状态下的 Pod。
 当新的 Pod 启动时，它应该正确设置流量重定向。此缓解措施默认被启用，可以通过将 `values.cni.repair.enabled` 设置为 false 来关闭。
 
-### 流量重定向参数{#traffic-redirection-parameters}
+### 流量重定向参数 {#traffic-redirection-parameters}
 
 为了将应用 Pod 的网络命名空间中的流量重定向至 Istio Sidecar，Istio CNI 插件配置了命名空间的 iptables。
 您可以使用与正常情况相同的 Pod 注解来调整流量重定向参数，例如要包含或排除在重定向之外的端口和 IP 范围。
 有关可用参数，请参阅[资源注解](/zh/docs/reference/config/annotations)。
 
-### 和应用的初始化容器的兼容性{#compatibility-with-application-init-containers}
+### 和应用的初始化容器的兼容性 {#compatibility-with-application-init-containers}
 
 Istio CNI 插件可能会导致与任何应用 `initContainers` 的网络连通性问题。
 使用 Istio CNI 时，`kubelet` 会通过以下步骤启动一个注入的 Pod：
@@ -208,8 +248,9 @@ Istio CNI 插件可能会导致与任何应用 `initContainers` 的网络连通�
 Istio CNI 插件维护着与当前需要 `NET_ADMIN` 和 `NET_RAW` 能力的 `istio-init` 容器相同的 CNI 插件集。
 
 Istio CNI 插件作为一个链式 CNI 插件存在。也就是说它的配置会作为一个新的配置列表元素被加入到现存 CNI 插件配置中。
-参考 [CNI 规范参考](https://github.com/containernetworking/cni/blob/master/SPEC.md#network-configuration-lists)中的更多细节。
-当 Pod 被创建或删除时，容器运行时会按照列表顺序调用每个插件。Istio CNI 插件只会把应用 Pod 的流量重定向到 Sidecar 中（通过在 Pod 的网络命名空间中使用 `iptables` 完成）。
+参考 [CNI 规范](https://github.com/containernetworking/cni/blob/master/SPEC.md#network-configuration-lists)中的更多细节。
+当 Pod 被创建或删除时，容器运行时会按照列表顺序调用每个插件。Istio CNI 插件只会把应用 Pod 的流量重定向到
+Sidecar 中（通过在 Pod 的网络命名空间中使用 `iptables` 完成）。
 
 {{< warning >}}
 Istio CNI 插件应该不会与设置 Pod 网络的基本 CNI 插件有冲突，但并不是所有的 CNI 插件都经过了验证。

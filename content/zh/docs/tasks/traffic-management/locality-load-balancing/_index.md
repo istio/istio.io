@@ -3,6 +3,7 @@ title: 地域负载均衡
 description: 本系列任务演示如何在 Istio 中配置地域负载均衡。
 weight: 65
 keywords: [locality,load balancing,priority,prioritized,kubernetes,multicluster]
+list_below: true
 simple_list: true
 content_above: true
 aliases:
@@ -15,7 +16,7 @@ owner: istio/wg-networking-maintainers
 test: n/a
 ---
 
-一个 **地域** 定义了 {{< gloss >}}workload instance{{</ gloss >}} 在你的网格中的地理位置。这三个元素定义了一个地域：
+一个 **地域** 定义了 {{< gloss >}}workload instance{{</ gloss >}} 在您的网格中的地理位置。这三个元素定义了一个地域：
 
 - **地区**：代表较大的地理区域，例如 **us-east**。一个地区通常包含许多**可用区**。
   在 Kubernetes 中，标签 [`topology.kubernetes.io/region`](https://kubernetes.io/zh-cn/docs/reference/labels-annotations-taints/#topologykubernetesioregion) 决定了节点所在的地区。

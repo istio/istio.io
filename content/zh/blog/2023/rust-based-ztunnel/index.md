@@ -29,7 +29,7 @@ Ztunnel 确保流量高效、安全地传输到 waypoint proxy，从而实现 HT
     caption="ztunnel architecture"
     >}}
 
-## 为什么不重用 Envoy？{#why-not-reuse-envoy?}
+## 为什么不重用 Envoy?{#why-not-reuse-envoy}
 
 当 Istio 环境服务网格于 2022 年 9 月 7 日发布时，Ztunnel 是使用 Envoy 代理实现的。
 鉴于我们将 Envoy 用于 Istio 的其余部分（Sidecar、Gateway 和 waypoint proxy），
