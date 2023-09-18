@@ -34,7 +34,9 @@ $ kubectl apply -f @samples/security/spire/spire-quickstart.yaml@
 
 ### 选项 2：配置自定义 SPIRE 安装 {#option-2-configure-a-custom-spire-installation}
 
-请参阅 [SPIRE 的 Kubernetes 快速入门指南](https://spiffe.io/docs/latest/try/getting-started-k8s/) 以开始将 SPIRE 部署到您的 Kubernetes 环境中。请参阅 [SPIRE CA 集成先决条件](#spire-ca-integration-prerequisites) 以获取有关如何配置 SPIRE 以与 Istio 部署集成的更多信息。
+请参阅 [SPIRE 的 Kubernetes 快速入门指南](https://spiffe.io/docs/latest/try/getting-started-k8s/)
+以开始将 SPIRE 部署到您的 Kubernetes 环境中。请参阅 [SPIRE CA 集成先决条件](#spire-ca-integration-prerequisites)
+以获取有关如何配置 SPIRE 以与 Istio 部署集成的更多信息。
 
 #### SPIRE CA 集成先决条件 {#spire-ca-integration-prerequisites}
 
