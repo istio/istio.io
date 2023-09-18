@@ -230,14 +230,9 @@ test_status:
 	@scripts/test_status.sh
 
 update-gateway-version: tidy-go
-	@$(eval GATEWAY_VERSION := ${shell grep gateway-api go.mod | awk '{ print $$2 }'})
-	@if [ "$(findstring -rc,${GATEWAY_VERSION})" = "-rc" ]; then \
-		$(eval GATEWAY_VERSION := ${shell grep gateway-api go.mod | awk '{ print $$2 }' | awk -F '.0.202' '{ print $$1 }'}) \
-		echo "GATEWAY_VERSION=${GATEWAY_VERSION}";\
-	fi
+	$(eval GATEWAY_VERSION := ${shell scripts/get_gateway_api_version.sh})
 	@${shell sed -Ei 's|k8s_gateway_api_version: ".*"|k8s_gateway_api_version: "${GATEWAY_VERSION}"|' 'data/args.yml'}
-
 
 include common/Makefile.common.mk
 
-.PHONY: site gen build build_nominify opt clean_public clean lint serve netlify_install netlify netlify_archive archive update_ref_docs update_operator_yamls update_all update_gateway_version
+.PHONY: site gen build build_nominify opt clean_public clean lint serve netlify_install netlify netlify_archive archive update_ref_docs update_operator_yamls update_all update-gateway-version
