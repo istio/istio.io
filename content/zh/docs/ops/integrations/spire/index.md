@@ -10,7 +10,8 @@ test: yes
 
 [SPIRE](https://spiffe.io/docs/latest/spire-about/spire-concepts/) 是 SPIFFE 规范的一个可用于生产环境的实现，它执行节点和工作负载的认证，以便在异构环境中安全地为运行的工作负载颁发加密身份。通过与 [Envoy 的 SDS API](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret) 集成，可以将 SPIRE 配置为 Istio 工作负载的加密身份源。Istio 可以检测到实现了 Envoy SDS API 的 UNIX 域套接字的存在，并允许 Envoy 直接从其中通信并获取身份。
 
-与默认的 Istio 身份管理相比，与 SPIRE 的集成提供了灵活的认证选项。例如，SPIRE 的插件架构使得可以选择 Kubernetes 命名空间和服务账户认证之外的多样化工作负载认证选项。SPIRE 的节点认证将认证扩展到工作负载运行的物理或虚拟硬件上。
+与默认的 Istio 身份管理相比，与 SPIRE 的集成提供了灵活的认证选项。例如，SPIRE 的插件架构使您可以选择 Kubernetes
+命名空间和服务账户认证之外的多样化工作负载认证选项。SPIRE 的节点认证将认证扩展到工作负载所运行的物理或虚拟硬件上。
 
 要了解关于如何将 SPIRE 与 Istio 集成的快速演示，请参阅[通过 Envoy 的 SDS API 将 SPIRE 集成为 CA]({{< github_tree >}}/samples/security/spire)。
 
