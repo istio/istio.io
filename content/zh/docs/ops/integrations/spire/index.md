@@ -563,7 +563,7 @@ SPIRE 服务器能够对来自不同信任域的 SPIFFE 身份进行认证，这
 
 ### 创建联邦注册条目 {#create-federated-registration-entries}
 
-* 如果使用 SPIRE Controller Manager，请通过将 [ClusterSPIFFEID CR](https://github.com/spiffe/spire-controller-manager/blob/main/docs/clusterspiffeid-crd.md) 的 `federatesWith` 字段设置为您希望 pod 与之联邦的信任域来为工作负载创建联邦条目：
+- 如果使用 SPIRE Controller Manager，请通过将 [ClusterSPIFFEID CR](https://github.com/spiffe/spire-controller-manager/blob/main/docs/clusterspiffeid-crd.md) 的 `federatesWith` 字段设置为您希望 pod 与之联邦的信任域来为工作负载创建联邦条目：
 
     {{< text syntax=yaml snip_id=none >}}
     apiVersion: spire.spiffe.io/v1alpha1
