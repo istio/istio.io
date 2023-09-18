@@ -352,7 +352,9 @@ Istio配置与入口网关以及将要注入到工作负载Pod上的Sidecar共�
 
 ### 选项 2：手动注册 {#option-2-manual-registration}
 
-为提高工作负载的认证安全性和稳健性，SPIRE 能够根据不同参数的一组选择器值来进行验证。如果您是通过按照[快速入门](#option-1-quick-start)中的步骤来安装 `SPIRE`，则可以跳过这些步骤，因为它使用自动注册。
+为提高工作负载的认证安全性和稳健性，SPIRE 能够根据不同参数的一组选择器值来进行验证。
+如果您是参照[快速入门](#option-1-quick-start)中的步骤来安装 `SPIRE`，则可以跳过这些步骤，
+因为 SPIRE 使用自动注册的机制。
 
 1. 使用一组选择器为 Ingress Gateway 生成条目，例如 pod 名称和 pod UID：
 
