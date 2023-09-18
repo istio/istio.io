@@ -80,7 +80,7 @@ $ kubectl apply -f @samples/security/spire/spire-quickstart.yaml@
     EOF
     {{< /text >}}
 
-    示例 ClusterSPIFFEID 允许自动注册所有具有 `spiffe.io/spire-managed-identity: "true"` 标签的工作负载。对于具有此标签的 pod，将提取 `spiffeIDTemplate` 中指定的值以形成 SPIFFE ID。
+    示例 ClusterSPIFFEID 允许自动注册所有具有 `spiffe.io/spire-managed-identity: "true"` 标签的工作负载。对于具有此标签的 Pod，将提取 `spiffeIDTemplate` 中指定的值以形成 SPIFFE ID。
 
 1. [下载 Istio](/zh/docs/setup/getting-started/#download)。
 
