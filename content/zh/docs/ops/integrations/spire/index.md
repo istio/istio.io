@@ -183,7 +183,7 @@ $ kubectl apply -f @samples/security/spire/spire-quickstart.yaml@
 
 1. [下载 Istio](/zh/docs/setup/getting-started/#download)。
 
-1. 在[部署 SPIRE](#install-spire)到您的环境并确保所有部署都处于 `Ready` 状态后，配置  Istio，包括对 Ingress-gateway 和 istio-proxy 的自定义补丁。
+1. 在[部署 SPIRE](#install-spire)到您的环境并确保所有部署都处于 `Ready` 状态后，配置 Istio ，包括对 Ingress-gateway 和 istio-proxy 的自定义补丁。
 
     创建 Istio 配置：
 
