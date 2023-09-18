@@ -302,7 +302,7 @@ Istio配置与入口网关以及将要注入到工作负载Pod上的Sidecar共�
     $ istioctl kube-inject --filename @samples/security/spire/sleep-spire.yaml@ | kubectl apply -f -
     {{< /text >}}
 
-    除了需要 `spiffe.io/spire-managed-identity` 标签之外，工作负载还需要使用 SPIFFE CSI 驱动器卷来访问 SPIRE 代理套接字。为了实现这一点，您可以利用[安装 Istio](#install-istio) 部分中的`spire` pod 注解模板，或者将 CSI 卷添加到您的工作负载的部署规范中。这两种方法都在下面的示例片段中进行了突出显示：
+    除了需要 `spiffe.io/spire-managed-identity` 标签之外，工作负载还需要使用 SPIFFE CSI 驱动器卷来访问 SPIRE 代理套接字。为了实现这一点，您可以利用[安装 Istio](#install-istio) 部分中的 `spire` Pod 注解模板，或者将 CSI 卷添加到您的工作负载的部署规范中。这两种方法都在下面的示例片段中进行了突出显示：
 
     {{< text syntax=yaml snip_id=none >}}
     apiVersion: apps/v1
