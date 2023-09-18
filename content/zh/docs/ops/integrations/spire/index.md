@@ -285,7 +285,8 @@ $ kubectl apply -f @samples/security/spire/spire-quickstart.yaml@
 
 Istio配置与入口网关以及将要注入到工作负载Pod上的Sidecar共享`spiffe-csi-driver`，从而使它们能够访问SPIRE代理的UNIX域套接字。
 
-此配置还向网关添加了一个initContainer，它将等待SPIRE创建UNIX域套接字，然后再启动istio-proxy。如果SPIRE代理尚未准备好，或者尚未使用相同的套接字路径正确配置，Ingress网关的initContainer将永远等待。
+此配置还向网关添加了一个 initContainer，它将等待 SPIRE 创建 UNIX 域套接字，然后再启动 istio-proxy。
+如果 SPIRE 代理尚未准备好，或者尚未使用相同的套接字路径正确配置，Ingress 网关的 initContainer 将永远处于等待状态。
 
 ## 注册工作负载 {#register-workloads}
 
