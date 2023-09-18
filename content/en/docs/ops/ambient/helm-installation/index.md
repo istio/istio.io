@@ -40,7 +40,7 @@ $ helm install istio-base istio/base
 
 ### Installing CNI Component
 
-The **CNI** chart installs the Istio CNI Plugin. It is responsible for detecting the pods that belong to the ambient mesh, 
+The **CNI** chart installs the Istio CNI Plugin. It is responsible for detecting the pods that belong to the ambient mesh,
 and configuring the traffic redirection between the ztunnels - which will be installed later.
 
 {{< text bash >}}
