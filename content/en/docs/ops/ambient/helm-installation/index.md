@@ -55,9 +55,8 @@ configures the proxies to route traffic within the mesh.
 
 {{< text bash >}}
 $ kubectl create namespace istio-system
-$ helm install istiod istio/istiod \
-  -f manifests/charts/istio-control/istio-discovery/ambient-values.yaml \
-  --namespace istio-system
+$ helm install istiod istio/istiod --namespace istio-system \
+  -f manifests/charts/istio-control/istio-discovery/ambient-values.yaml
 {{< /text >}}
 
 ### Installing Ztunnel Component
