@@ -31,7 +31,11 @@ Istio 提供了一个基本的示例安装，可以快速启动 SPIRE：
 $ kubectl apply -f @samples/security/spire/spire-quickstart.yaml@
 {{< /text >}}
 
-这将在您的集群中部署 SPIRE，以及两个附加组件：[SPIFFE CSI 驱动](https://github.com/spiffe/spiffe-csi)——用于与节点中的其他 pod 共享 SPIRE 代理的 UNIX 域套接字 — 以及 [SPIRE Controller Manager](https://github.com/spiffe/spire-controller-manager)，它负责进行工作负载注册并在 Kubernetes 中建立联合关系。请参阅 [安装 Istio](#install-istio) 以配置 Istio 并集成 SPIFFE CSI 驱动。
+这将在您的集群中部署 SPIRE，以及下述两个附加组件：
+
+- [SPIFFE CSI 驱动](https://github.com/spiffe/spiffe-csi)，用于与节点中的其他 Pod 共享 SPIRE 代理的 UNIX 域套接字；
+- [SPIRE Controller Manager](https://github.com/spiffe/spire-controller-manager)，它负责注册工作负载并在
+  Kubernetes 中建立联合关系。请参阅[安装 Istio](#install-istio) 以配置 Istio 并集成 SPIFFE CSI 驱动。
 
 ### 选项 2：配置自定义 SPIRE 安装 {#option-2-configure-a-custom-spire-installation}
 
