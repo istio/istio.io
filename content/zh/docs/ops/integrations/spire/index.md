@@ -12,7 +12,7 @@ test: yes
 
 与默认的 Istio 身份管理相比，与 SPIRE 的集成提供了灵活的认证选项。例如，SPIRE 的插件架构使得可以选择 Kubernetes 命名空间和服务账户认证之外的多样化工作负载认证选项。SPIRE 的节点认证将认证扩展到工作负载运行的物理或虚拟硬件上。
 
-要了解关于如何将 SPIRE 与 Istio 集成的快速演示，请参阅 [通过 Envoy 的 SDS API 将 SPIRE 集成为 CA]({{< github_tree >}}/samples/security/spire)。
+要了解关于如何将 SPIRE 与 Istio 集成的快速演示，请参阅[通过 Envoy 的 SDS API 将 SPIRE 集成为 CA]({{< github_tree >}}/samples/security/spire)。
 
 {{< warning >}}
 请注意，此集成需要 `istioctl` 和数据平面均为版本 1.14+。
