@@ -288,7 +288,7 @@ $ kubectl apply -f @samples/security/spire/spire-quickstart.yaml@
     接着，Envoy 将能够从 SPIRE 中获取加密身份信息。
     请参阅[注册工作负载](#register-workloads)以为您的网格中的服务注册条目。
 
-Istio配置与入口网关以及将要注入到工作负载Pod上的Sidecar共享`spiffe-csi-driver`，从而使它们能够访问SPIRE代理的UNIX域套接字。
+Istio 配置与入口网关以及将要注入到工作负载 Pod 上的 Sidecar 共享 `spiffe-csi-driver`，从而使它们能够访问 SPIRE 代理的 UNIX 域套接字。
 
 此配置还向网关添加了一个 initContainer，它将等待 SPIRE 创建 UNIX 域套接字，然后再启动 istio-proxy。
 如果 SPIRE 代理尚未准备好，或者尚未使用相同的套接字路径正确配置，Ingress 网关的 initContainer 将永远处于等待状态。
