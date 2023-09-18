@@ -139,7 +139,7 @@ $ rm -f ~/.zcompdump; compinit
 您可能需要运行以下命令：
 
 {{< text bash >}}
-$ chmod -R go-w '$HOMEBREW_PREFIX/share/zsh'
+$ chmod -R go-w "$(brew --prefix)/share"
 {{< /text >}}
 
 {{< /tab >}}
