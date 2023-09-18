@@ -168,7 +168,7 @@ $ kubectl apply -f @samples/security/spire/spire-quickstart.yaml@
     $ istioctl install --skip-confirmation -f ./istio.yaml
     {{< /text >}}
 
-1. 检查 Ingress-gateway pod 状态：
+1. 检查 Ingress-gateway Pod 状态：
 
     {{< text syntax=bash snip_id=none >}}
     $ kubectl get pods -n istio-system
