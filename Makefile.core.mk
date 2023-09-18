@@ -85,7 +85,7 @@ site:
 snips:
 	@scripts/gen_snips.sh
 
-gen: tidy-go format-go snips
+gen: tidy-go format-go update-gateway-version snips
 
 gen-check: gen check-clean-repo check-localization
 
@@ -229,11 +229,20 @@ test.kube.postsubmit: test.kube.presubmit
 test_status:
 	@scripts/test_status.sh
 
-update-gateway-version: tidy-go
+update-gateway-version:
 	@$(eval GATEWAY_VERSION := ${shell grep gateway-api go.mod | awk '{ print $$2 }'})
+	@echo "GATEWAY_VERSION=${GATEWAY_VERSION}"
 	@if [ "$(findstring -rc,${GATEWAY_VERSION})" = "-rc" ]; then \
-		$(eval GATEWAY_VERSION := ${shell grep gateway-api go.mod | awk '{ print $$2 }' | awk -F '.0.202' '{ print $$1 }'}) \
-		echo "GATEWAY_VERSION=${GATEWAY_VERSION}";\
+		$(eval SHORT_SHA := ${shell grep gateway-api go.mod | awk '{ print $$2 }' | awk -F '.0.202' '{ print $$1 }'}) \
+		echo "Found -rc, GATEWAY_VERSION=${GATEWAY_VERSION}"; \
+	else \
+		if [ $(findstring -,${GATEWAY_VERSION}) = - ]; then\
+			$(eval SHORT_SHA := ${shell grep gateway-api go.mod | awk '{ print $$2 }' | awk -F '-' '{ print $$NF }'}) \
+			$(eval GATEWAY_VERSION := ${shell curl -L -H 'Accept: application/vnd.github+json' -H 'X-GitHub-Api-Version: 2022-11-28' https://api.github.com/repos/kubernetes-sigs/gateway-api/commits/${SHORT_SHA} | jq -r .sha}) \
+			echo "Found -, GATEWAY_VERSION=${GATEWAY_VERSION}"; \
+		else \
+			echo "no - or -rc found"; \
+		fi \
 	fi
 	@${shell sed -Ei 's|k8s_gateway_api_version: ".*"|k8s_gateway_api_version: "${GATEWAY_VERSION}"|' 'data/args.yml'}
 
