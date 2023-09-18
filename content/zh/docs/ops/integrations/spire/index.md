@@ -294,7 +294,8 @@ Istio配置与入口网关以及将要注入到工作负载Pod上的Sidecar共�
 
 ### 选项1：使用 SPIRE 控制器管理器进行注册 {#option-1-registration-using-the-spire-controller-manager}
 
-将为与[ClusterSPIFFEID](https://github.com/spiffe/spire-controller-manager/blob/main/docs/clusterspiffeid-crd.md)自定义资源中定义的选择器匹配的每个新 Pod 自动注册新条目。请参阅[使用 SPIRE 控制器管理器进行工作负载注册的配置](#option-1-configuration-for-workload-registration-with-the-spire-controller-manager)以获取示例ClusterSPIFFEID配置。
+将为与 [ClusterSPIFFEID](https://github.com/spiffe/spire-controller-manager/blob/main/docs/clusterspiffeid-crd.md)自定义资源中定义的选择器匹配的每个新 Pod 自动注册新条目。
+请参阅[使用 SPIRE 控制器管理器进行工作负载注册的配置](#option-1-configuration-for-workload-registration-with-the-spire-controller-manager)以获取示例 ClusterSPIFFEID 配置。
 
 1. 部署示例工作负载：
 
