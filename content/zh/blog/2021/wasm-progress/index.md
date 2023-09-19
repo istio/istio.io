@@ -29,7 +29,7 @@ keywords: [wasm,extensibility,WebAssembly]
 ## `wasm-extensions` 生态系统仓库 {#wasm-extensions-ecosystem-repository}
 
 作为 Envoy Wasm 运行时的早期用户，Istio 的可扩展性和可观测工作组在开发扩展方面获得了很多经验。
-我们构建了几个一流的扩展，包括 [Metadata 交换](https://archive.istio.io/v1.17/docs/reference/config/proxy_extensions/metadata_exchange/)、
+我们构建了几个一流的扩展，包括 [Metadata 交换](/zh/docs/reference/config/proxy_extensions/metadata_exchange/)、
 [Prometheus 统计信息](https://archive.istio.io/v1.17/docs/reference/config/proxy_extensions/stats/)
 和[属性生成](https://archive.istio.io/v1.17/docs/reference/config/proxy_extensions/attributegen/)。
 为了更广泛地分享我们的学习成果，我们在 `istio-ecosystem`

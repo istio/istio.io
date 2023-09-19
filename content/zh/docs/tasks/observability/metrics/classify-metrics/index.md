@@ -24,7 +24,11 @@ Istio 允许您使用 AttributeGen 插件创建分类规则，该插件将请求
 您可以将属性用作 Istio 标准指标中的维度。
 相似地，您可以基于 `ListReviews` 和 `CreateReviews` 这类其他操作跟踪指标。
 
-## 按请求分类指标{#classify-metrics-by-request}
+Istio 使用 Envoy 代理生成指标，并在
+[manifests/charts/istio-control/istio-discovery/templates/telemetryv2_{{< istio_version >}}.yaml]({{<github_blob>}}/manifests/charts/istio-control/istio-discovery/templates/telemetryv2_{{< istio_version >}}.yaml)
+提供 `EnvoyFilter` 的相关配置。因此，编写分类规则需要向 `EnvoyFilter` 添加属性。
+
+## 按请求分类指标 {#classify-metrics-by-request}
 
 您可以根据请求的类型对请求进行分类，例如 `ListReview`、`GetReview`、`CreateReview`。
 
@@ -45,32 +49,27 @@ spec:
   url: https://storage.googleapis.com/istio-build/proxy/attributegen-359dcd3a19f109c50e97517fe6b1e2676e870c4d.wasm
   imagePullPolicy: Always
   phase: AUTHN
-  pluginConfig:
-    attributes:
-    - output_attribute: "istio_operationId"
-      match:
-        - value: "ListReviews"
-          condition: "request.url_path == '/reviews' && request.method == 'GET'"
-        - value: "GetReview"
-          condition: "request.url_path.matches('^/reviews/[[:alnum:]]*$') && request.method == 'GET'"
-        - value: "CreateReview"
-          condition: "request.url_path == '/reviews/' && request.method == 'POST'"
----
-apiVersion: telemetry.istio.io/v1alpha1
-kind: Telemetry
-metadata:
-  name: custom-tags
-spec:
-  metrics:
-    - overrides:
-        - match:
-            metric: REQUEST_COUNT
-            mode: CLIENT_AND_SERVER
-          tagOverrides:
-            request_operation:
-              value: istio_operationId
-      providers:
-        - name: prometheus
+  pluginConfig: {
+    "attributes": [
+      {
+        "output_attribute": "istio_operationId",
+        "match": [
+          {
+            "value": "ListReviews",
+            "condition": "request.url_path == '/reviews' && request.method == 'GET'"
+          },
+          {
+            "value": "GetReview",
+            "condition": "request.url_path.matches('^/reviews/[[:alnum:]]*$') && request.method == 'GET'"
+          },
+          {
+            "value": "CreateReview",
+            "condition": "request.url_path == '/reviews/' && request.method == 'POST'"
+          }
+        ]
+      }
+    ]
+  }
     {{< /text >}}
 
 1. 使用以下命令应用您的更改：
@@ -79,9 +78,69 @@ spec:
     $ kubectl -n istio-system apply -f attribute_gen_service.yaml
     {{< /text >}}
 
-1. 更改生效后，访问 Prometheus 并查找新的或更改的维度，例如 `reviews` Pod 中的 `istio_requests_total`。
+1. 使用以下命令从 `istio-system` 命名空间中查找
+   `stats-filter-{{< istio_version >}}` `EnvoyFilter` 资源：
 
-## 按响应对指标进行分类{#classify-metrics-by-response}
+    {{< text bash >}}
+    $ kubectl -n istio-system get envoyfilter | grep ^stats-filter-{{< istio_version >}}
+    stats-filter-{{< istio_version >}}                    2d
+    {{< /text >}}
+
+1. 使用以下命令创建 `EnvoyFilter` 配置的本地文件系统副本：
+
+    {{< text bash >}}
+    $ kubectl -n istio-system get envoyfilter stats-filter-{{< istio_version >}} -o yaml > stats-filter-{{< istio_version >}}.yaml
+    {{< /text >}}
+
+1. 使用文本编辑器打开 `stats-filter-{{< istio_version >}}.yaml`
+   并找到 `name: istio.stats` 扩展配置。对其更新以将
+   `requests_total` 标准指标中的 `request_operation`
+   维度映射到 `istio_operationId` 属性。更新后的配置文件部分应如下所示。
+
+    {{< text json >}}
+        name: istio.stats
+        typed_config:
+          '@type': type.googleapis.com/udpa.type.v1.TypedStruct
+          type_url: type.googleapis.com/envoy.extensions.filters.http.wasm.v3.Wasm
+          value:
+            config:
+              configuration:
+                "@type": type.googleapis.com/google.protobuf.StringValue
+                value: |
+                  {
+                    "metrics": [
+                     {
+                       "name": "requests_total",
+                       "dimensions": {
+                         "request_operation": "istio_operationId"
+                       }
+                     }]
+                  }
+    {{< /text >}}
+
+1. 保存 `stats-filter-{{< istio_version >}}.yaml`，然后使用以下命令应用配置：
+
+    {{< text bash >}}
+    $ kubectl -n istio-system apply -f stats-filter-{{< istio_version >}}.yaml
+    {{< /text >}}
+
+1. 将以下配置添加到网格配置中。这导致将 `request_operation`
+   添加为 `istio_requests_total` 指标的新维度。如果没有它，则会创建一个名为
+   `envoy_request_operation___somevalue___istio_requests_total` 的新指标。
+
+    {{< text yaml >}}
+    meshConfig:
+      defaultConfig:
+        extraStatTags:
+        - request_operation
+    {{< /text >}}
+
+1. 通过向您的应用程序发送流量来生成指标。
+
+1. 更改生效后，访问 Prometheus 并查找新的或更改的维度，
+   例如 `istio_requests_total`。
+
+## 按响应对指标进行分类 {#classify-metrics-by-response}
 
 您可以使用与请求类似的过程对响应进行分类。请注意，`response_code` 默认情况下该维度已存在。下面的示例将更改它的填充方式。
 
@@ -91,51 +150,79 @@ spec:
     此示例对各种响应进行分类，例如将所有响应分组将 `200` 范围内的代码作为 `2xx` 维度。
 
     {{< text yaml >}}
-apiVersion: extensions.istio.io/v1alpha1
-kind: WasmPlugin
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
 metadata:
   name: istio-attributegen-filter
 spec:
-  selector:
-  matchLabels:
-    app: productpage
-  url: https://storage.googleapis.com/istio-build/proxy/attributegen-359dcd3a19f109c50e97517fe6b1e2676e870c4d.wasm
-  imagePullPolicy: Always
-  phase: AUTHN
-   pluginConfig:
-     attributes:
-       - output_attribute: istio_responseClass
-         match:
-           - value: 2xx
-             condition: response.code >= 200 && response.code <= 299
-           - value: 3xx
-             condition: response.code >= 300 && response.code <= 399
-           - value: "404"
-             condition: response.code == 404
-           - value: "429"
-             condition: response.code == 429
-           - value: "503"
-             condition: response.code == 503
-           - value: 5xx
-             condition: response.code >= 500 && response.code <= 599
-           - value: 4xx
-             condition: response.code >= 400 && response.code <= 499
----
-apiVersion: telemetry.istio.io/v1alpha1
-kind: Telemetry
-metadata:
-  name: custom-tags
-spec:
-  metrics:
-    - overrides:
-        - match:
-            metric: REQUEST_COUNT
-            mode: CLIENT_AND_SERVER
-          tagOverrides:
-            response_code:
-              value: istio_responseClass
-      providers:
-        - name: prometheus
+  workloadSelector:
+    labels:
+      app: productpage
+  configPatches:
+  - applyTo: HTTP_FILTER
+    match:
+      context: SIDECAR_INBOUND
+      proxy:
+        proxyVersion: '1\.9.*'
+      listener:
+        filterChain:
+          filter:
+            name: "envoy.filters.network.http_connection_manager"
+            subFilter:
+              name: "istio.stats"
+    patch:
+      operation: INSERT_BEFORE
+      value:
+        name: istio.attributegen
+        typed_config:
+          "@type": type.googleapis.com/udpa.type.v1.TypedStruct
+          type_url: type.googleapis.com/envoy.extensions.filters.http.wasm.v3.Wasm
+          value:
+            config:
+              configuration:
+                "@type": type.googleapis.com/google.protobuf.StringValue
+                value: |
+                  {
+                    "attributes": [
+                      {
+                        "output_attribute": "istio_responseClass",
+                        "match": [
+                          {
+                            "value": "2xx",
+                            "condition": "response.code >= 200 && response.code <= 299"
+                          },
+                          {
+                            "value": "3xx",
+                            "condition": "response.code >= 300 && response.code <= 399"
+                          },
+                          {
+                            "value": "404",
+                            "condition": "response.code == 404"
+                          },
+                          {
+                            "value": "429",
+                            "condition": "response.code == 429"
+                          },
+                          {
+                            "value": "503",
+                            "condition": "response.code == 503"
+                          },
+                          {
+                            "value": "5xx",
+                            "condition": "response.code >= 500 && response.code <= 599"
+                          },
+                          {
+                            "value": "4xx",
+                            "condition": "response.code >= 400 && response.code <= 499"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+              vm_config:
+                runtime: envoy.wasm.runtime.null
+                code:
+                  local: { inline_string: "envoy.wasm.attributegen" }
     {{< /text >}}
 
 1. 使用以下命令应用您的更改：
@@ -144,7 +231,53 @@ spec:
     $ kubectl -n istio-system apply -f attribute_gen_service.yaml
     {{< /text >}}
 
-## 验证结果{#verify-the-results}
+1. 使用以下命令从 `istio-system` 命名空间中查找
+   `stats-filter-{{< istio_version >}}` `EnvoyFilter` 资源：
+
+    {{< text bash >}}
+    $ kubectl -n istio-system get envoyfilter | grep ^stats-filter-{{< istio_version >}}
+    stats-filter-{{< istio_version >}}                    2d
+    {{< /text >}}
+
+1. 使用以下命令创建 `EnvoyFilter` 配置的本地文件系统副本：
+
+    {{< text bash >}}
+    $ kubectl -n istio-system get envoyfilter stats-filter-{{< istio_version >}} -o yaml > stats-filter-{{< istio_version >}}.yaml
+    {{< /text >}}
+
+1. 使用文本编辑器打开 `stats-filter-{{< istio_version >}}.yaml`
+   并找到 `name: istio.stats` 扩展配置。对其更新以将
+   `requests_total` 标准指标中的 `request_operation`
+   维度映射到 `istio_operationId` 属性。更新后的配置文件部分应如下所示。
+
+    {{< text json >}}
+        name: istio.stats
+        typed_config:
+          '@type': type.googleapis.com/udpa.type.v1.TypedStruct
+          type_url: type.googleapis.com/envoy.extensions.filters.http.wasm.v3.Wasm
+          value:
+            config:
+              configuration:
+                "@type": type.googleapis.com/google.protobuf.StringValue
+                value: |
+                  {
+                    "metrics": [
+                     {
+                       "name": "requests_total",
+                       "dimensions": {
+                         "response_code": "istio_responseClass"
+                       }
+                     }]
+                  }
+    {{< /text >}}
+
+1. 保存 `stats-filter-{{< istio_version >}}.yaml`，然后使用以下命令应用配置：
+
+    {{< text bash >}}
+    $ kubectl -n istio-system apply -f stats-filter-{{< istio_version >}}.yaml
+    {{< /text >}}
+
+## 验证结果 {#verify-the-results}
 
 1. 通过向您的应用程序发送流量来生成指标。
 
@@ -157,7 +290,7 @@ spec:
 
     在输出中，找到指标（例如 `istio_requests_total`）并验证是否存在新的或更改的维度。
 
-## 故障排除{#troubleshooting}
+## 故障排除 {#troubleshooting}
 
 如果分类未按预期进行，请检查以下潜在原因和解决方法。
 
