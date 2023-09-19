@@ -37,9 +37,8 @@ The **CNI** chart installs the Istio CNI Plugin. It is responsible for detecting
 and configuring the traffic redirection between the ztunnels - which will be installed later.
 
 {{< text bash >}}
-$ helm install istio-cni istio/cni -n kube-system -f - <<EOF
-{{</* text_import file="@manifests/charts/istio-cni/ambient-values.yaml@" syntax="plain" */>}}
-EOF
+$ helm install istio-cni istio/cni -n kube-system \
+  -f @manifests/charts/istio-cni/ambient-values.yaml@
 {{< /text >}}
 
 ### Installing Istiod Component
@@ -49,9 +48,8 @@ configures the proxies to route traffic within the mesh.
 
 {{< text bash >}}
 $ kubectl create namespace istio-system
-$ helm install istiod istio/istiod --namespace istio-system -f - <<EOF
-{{</* text_import file="@manifests/charts/istio-control/istio-discovery/ambient-values.yaml@" syntax="plain" */>}}
-EOF
+$ helm install istiod istio/istiod --namespace istio-system \
+  -f @manifests/charts/istio-control/istio-discovery/ambient-values.yaml@
 {{< /text >}}
 
 ### Installing Ztunnel Component
