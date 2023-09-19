@@ -20,7 +20,6 @@
 #          docs/tasks/traffic-management/ingress/ingress-sni-passthrough/index.md
 ####################################################################################################
 source "content/en/boilerplates/snips/gateway-api-gamma-support.sh"
-source "content/en/boilerplates/snips/gateway-api-experimental.sh"
 
 snip_generate_client_and_server_certificates_and_keys_1() {
 mkdir example_certs
