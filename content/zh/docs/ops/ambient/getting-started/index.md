@@ -25,7 +25,7 @@ test: yes
 
 ## 下载和安装 {#download}
 
-1.  下载对 Ambient Mesh 提供 `alpha` 支持的[最新 Istio 版本](https://github.com/istio/istio/releases/tag/1.18.0-alpha.0)。
+1.  下载对 Ambient Mesh 提供 `alpha` 支持的[最新 Istio 版本](/zh/docs/setup/getting-started/#download)。
 
 1.  如果您没有 Kubernetes 集群，可以参照以下命令使用 `kind` 在本地部署一个集群：
 
