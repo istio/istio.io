@@ -21,10 +21,6 @@
 ####################################################################################################
 source "content/en/boilerplates/snips/gateway-api-gamma-support.sh"
 
-snip_before_you_begin_1() {
-kubectl apply -f samples/bookinfo/networking/virtual-service-all-v1.yaml
-}
-
 snip_request_timeouts_1() {
 kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
@@ -50,7 +46,8 @@ metadata:
   name: reviews
 spec:
   parentRefs:
-  - kind: Service
+  - group: ""
+    kind: Service
     name: reviews
     port: 9080
   rules:
@@ -127,7 +124,8 @@ metadata:
   name: reviews
 spec:
   parentRefs:
-  - kind: Service
+  - group: ""
+    kind: Service
     name: reviews
     port: 9080
   rules:

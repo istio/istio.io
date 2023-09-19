@@ -21,26 +21,6 @@ This task shows you how to set up request timeouts in Envoy using Istio.
 * Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application including the
   [service versions](/docs/examples/bookinfo/#define-the-service-versions).
 
-* Initialize the application version routing by running the following command:
-
-{{< tabset category-name="config-api" >}}
-
-{{< tab name="Istio APIs" category-value="istio-apis" >}}
-
-{{< text bash >}}
-$ kubectl apply -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< tab name="Gateway API" category-value="gateway-api" >}}
-
-Nothing to do here because Gateway API routes will be created as needed.
-
-{{< /tab >}}
-
-{{< /tabset >}}
-
 ## Request timeouts
 
 A timeout for HTTP requests can be specified using a timeout field in a route rule.
@@ -84,7 +64,8 @@ metadata:
   name: reviews
 spec:
   parentRefs:
-  - kind: Service
+  - group: ""
+    kind: Service
     name: reviews
     port: 9080
   rules:
@@ -197,7 +178,8 @@ metadata:
   name: reviews
 spec:
   parentRefs:
-  - kind: Service
+  - group: ""
+    kind: Service
     name: reviews
     port: 9080
   rules:
