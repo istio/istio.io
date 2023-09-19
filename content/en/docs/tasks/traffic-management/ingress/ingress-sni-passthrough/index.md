@@ -17,9 +17,7 @@ The example HTTPS service used for this task is a simple [NGINX](https://www.ngi
 In the following steps you first deploy the NGINX service in your Kubernetes cluster.
 Then you configure a gateway to provide ingress access to the service via host `nginx.example.com`.
 
-{{< boilerplate gateway-api-support >}}
-
-{{< boilerplate gateway-api-experimental >}}
+{{< boilerplate gateway-api-gamma-support >}}
 
 ## Before you begin
 
