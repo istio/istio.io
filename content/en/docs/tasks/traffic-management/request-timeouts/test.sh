@@ -29,20 +29,25 @@ startup_sleep_sample # needed for sending test requests with curl
 # launch the bookinfo app
 startup_bookinfo_sample
 
-# config route all requests to v1
-snip_before_you_begin_1
-
 # config route requests to v2 of the reviews service
-snip_request_timeouts_1
+if [ "$GATEWAY_API" == "true" ]; then
+    snip_request_timeouts_2
+else
+    snip_request_timeouts_1
+fi
 
 # config a 2 second delay to calls to the ratings service
-snip_request_timeouts_2
+if [ "$GATEWAY_API" == "true" ]; then
+    snip_request_timeouts_4
+else
+    snip_request_timeouts_3
 
-# wait for rules to propagate
-_wait_for_istio virtualservice default productpage
-_wait_for_istio virtualservice default reviews
-_wait_for_istio virtualservice default ratings
-_wait_for_istio virtualservice default details
+    # wait for rules to propagate
+    _wait_for_istio virtualservice default productpage
+    _wait_for_istio virtualservice default reviews
+    _wait_for_istio virtualservice default ratings
+    _wait_for_istio virtualservice default details
+fi
 
 get_productpage() {
     out=$(sample_http_request "/productpage")
@@ -54,14 +59,20 @@ get_productpage() {
 _verify_contains get_productpage "glyphicon glyphicon-star"
 
 # config a half second request timeout for calls to the reviews service
-snip_request_timeouts_3
+if [ "$GATEWAY_API" == "true" ]; then
+    snip_request_timeouts_6
+else
+    snip_request_timeouts_5
 
-_wait_for_istio virtualservice default reviews
+    _wait_for_istio virtualservice default reviews
+fi
 
 # verify product reviews are unavailable
 _verify_contains get_productpage "Sorry, product reviews are currently unavailable for this book."
 
 # @cleanup
-snip_cleanup_1
-cleanup_bookinfo_sample
-cleanup_sleep_sample
+if [ "$GATEWAY_API" != "true" ]; then
+    snip_cleanup_1
+    cleanup_bookinfo_sample
+    cleanup_sleep_sample
+fi
