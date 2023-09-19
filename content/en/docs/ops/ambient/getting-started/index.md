@@ -32,7 +32,7 @@ Follow these steps to get started with ambient:
 
 ## Download and install {#download}
 
-1.  Download the [latest version of Istio](https://github.com/istio/istio/releases/tag/1.18.0-alpha.0) with `alpha` support for ambient mesh.
+1.  Download the [latest version of Istio](/docs/setup/getting-started/#download) with `alpha` support for ambient mesh.
 
 1.  If you don’t have a Kubernetes cluster, you can deploy one locally using `kind` with the following command:
 

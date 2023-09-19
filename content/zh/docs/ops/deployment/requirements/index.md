@@ -31,10 +31,6 @@ Istio 为应用程序提供了大量的功能，而对应用程序代码本身�
 
 作为 Istio 服务网格中的一部分，Kubernetes 集群中的 Pod 和 Service 必须满足以下要求：
 
-- **Service 关联**：不管一个 Pod 是否对外暴露端口，每个 Pod 必须至少属于一个
-  [Kubernetes Service](https://kubernetes.io/zh-cn/docs/concepts/services-networking/service/)。
-  假如一个 Pod 同时属于多个 Kubernetes Service，那么它不能在不同 Service 的端口号上使用不同的协议（比如 HTTP 和 TCP）。
-
 - **应用 UID**：确保您的 Pod 不会被 ID（UID）为 `1337` 的用户运行应用，因为 `1337` 是为 Sidecar 代理保留的。
 
 - **`NET_ADMIN` 和 `NET_RAW` 权限**：如果您的集群[强制执行](https://kubernetes.io/zh-cn/docs/concepts/policy/pod-security-policy/#enabling-pod-security-policies)了
@@ -71,6 +67,11 @@ Istio 为应用程序提供了大量的功能，而对应用程序代码本身�
       `app` label 用于在分布式追踪中添加上下文信息。
 
     - `version` 标签：这个标签用于在特定方式部署的应用中表示版本。
+
+- **已命名 Service 端口**：可以选择已命名 Service 端口用于显式指定协议。
+  更多详细信息请参见[协议选择](/zh/docs/ops/configuration/traffic-management/protocol-selection/)。
+  如果一个 Pod 属于多个 [Kubernetes Service](https://kubernetes.io/zh-cn/docs/concepts/services-networking/service/)，
+  这些 Service 不能对不同的协议（例如 HTTP 和 TCP）使用相同的端口号。
 
 ## Istio 使用的端口 {#ports-used-by-Istio}
 

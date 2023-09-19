@@ -23,7 +23,7 @@ source "content/en/boilerplates/snips/trace-generation.sh"
 
 snip__1() {
 kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
-  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.8.0" | kubectl apply -f -; }
+  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=f98e94a5305e3a08cb14f8a03470f8f3bdf6d54c" | kubectl apply -f -; }
 }
 
 snip_download_istio_1() {

@@ -75,7 +75,7 @@ $ istioctl operator init --watchedNamespaces=istio-namespace1,istio-namespace2
     $ kubectl create namespace istio-operator
     {{< /text >}}
 
-1. 使用 Helm 安装 Operator。
+2) 使用 Helm 安装 Operator。
 
     {{< text syntax=bash snip_id=deploy_istio_operator_helm >}}
     $ helm install istio-operator manifests/charts/istio-operator \

@@ -1605,8 +1605,7 @@ No
 <h2 id="LoadBalancerSettings-ConsistentHashLB-HTTPCookie">LoadBalancerSettings.ConsistentHashLB.HTTPCookie</h2>
 <section>
 <p>Describes a HTTP cookie that will be used as the hash key for the
-Consistent Hash load balancer. If the cookie is not present, it will
-be generated.</p>
+Consistent Hash load balancer.</p>
 
 <table class="message-fields">
 <thead>
@@ -1644,11 +1643,13 @@ No
 <td><code>ttl</code></td>
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
 <td>
-<p>Lifetime of the cookie.</p>
+<p>Lifetime of the cookie. If specified, a cookie with the TTL will be
+generated if the cookie is not present. If the TTL is present and zero,
+the generated cookie will be a session cookie.</p>
 
 </td>
 <td>
-Yes
+No
 </td>
 </tr>
 </tbody>

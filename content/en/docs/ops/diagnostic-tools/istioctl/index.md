@@ -144,7 +144,7 @@ Additionally, if you receive `Zsh compinit: insecure directories` warnings
 when attempting to load these completions, you may need to run this:
 
 {{< text bash >}}
-$ chmod -R go-w '$HOMEBREW_PREFIX/share/zsh'
+$ chmod -R go-w "$(brew --prefix)/share"
 {{< /text >}}
 
 {{< /tab >}}
