@@ -2,7 +2,7 @@
 title: "Deep Dive into the Network Traffic Path of the Coexistence of Ambient and Sidecar"
 description: "Deep Dive into the Traffic Path of the Coexistence of Ambient and Sidecar."
 publishdate: 2023-09-18
-attribution: "Steve Zhang (Intel), John Howard (Google), Yuxing Zeng(Alibaba)"
+attribution: "Steve Zhang (Intel), John Howard (Google), Yuxing Zeng(Alibaba), Peter Jausovec(Solo.io)"
 keywords: [traffic,ambient,sidecar,coexistence]
 ---
 
@@ -12,7 +12,7 @@ There are 2 deployment modes for Istio: ambient mode and sidecar mode. The forme
 
 In the architecture of modern microservices, communication and management among services is critical. To address the challenge, Istio emerged as a service mesh technology. It provides traffic control, security, and superior observation capabilities by utilizing the sidecar. In order to further improve the adaptability and flexibility of Istio, the Istio community began to explore a new mode - ambient mode. In this mode, Istio no longer relies on explicit sidecar injection, but achieves communication and mesh management among services through ztunnel and waypoint proxies. Ambient also brings a series of improvements, such as lower resource consumption, simpler deployment, and more flexible configuration options. When enabling ambient mode, we don't have to restart pods anymore which enables Istio to play a better role in various scenarios.
 
-There are many blogs to introduce and analyze ambient mode in community and technology forums, and this blog will analyze the network traffic path in Istio ambient and sidecar modes. We will analyze the network traffic path between services in these two modes.
+There are many blogs, which can be found in `Reference Resources` section of this blog, to introduce and analyze ambient mode in community and technology forums, and this blog will analyze the network traffic path in Istio ambient and sidecar modes. We will analyze the network traffic path between services in these two modes.
 
 To clarify the network traffic paths and make it easier to understand, this blog post explores the following two scenarios with corresponding diagrams:
 
@@ -104,4 +104,8 @@ Waypoint proxy is an instance of the Envoy proxy and forwards the request to the
 
 The sidecar mode is what made Istio a great service mesh. However, the sidecar mode can also cause problems as it requires the app and sidecar containers to run in the same pod. Istio ambient mode implements communication among services through centralized proxies (ztunnel and waypoint). The ambient mode provides greater flexibility and scalability, reduces resource consumption as it doesn't require a sidecar for each pod in the mesh, and allows more precise configuration. Therefore, there's no doubt ambient mode is the next evolution of Istio. It's obvious that the coexistence of sidecar and ambient modes may be last a very long time, although the ambient mode is still in alpha stage and the sidecar mode is still the recommended mode of Istio, it will give users a more light-weight option of running and adopting the Istio service mesh as the ambient mode moves towards beta and future releases.
 
-_Many thanks to everyone `[Lin Sun](https://github.com/linsun])`, `[Peter Jausovec](https://github.com/peterj)`, `[Ian Rudie](https://github.com/ilrudie)` and `[Daniel Hawton](https://github.com/dhawton)` from `solo.io` ambient team and others for their help and proofreading of this blog._
+## Reference Resources
+
+- `[traffic ambient mesh istio cni node configuration](https://www.solo.io/blog/traffic-ambient-mesh-istio-cni-node-configuration/)`
+- `[traffic ambient mesh redirection iptables geneve tunnels](https://www.solo.io/blog/traffic-ambient-mesh-redirection-iptables-geneve-tunnels/)`
+- `[traffic ambient mesh ztunnel-ebpf waypoint](https://www.solo.io/blog/traffic-ambient-mesh-ztunnel-ebpf-waypoint/)`
