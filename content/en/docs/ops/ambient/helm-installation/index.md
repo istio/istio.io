@@ -22,13 +22,6 @@ $ helm repo update
 
 ## Installing the Components
 
-To make it easier to install the components, we have created some Helm value files for you. Make sure you have
-pulled the Helm chart package, or download the [latest version of Istio](/docs/setup/getting-started/#download).
-There will be `ambient-values.yaml` files in the chart package.
-
-In the following steps, we will use the downloaded Istio release package as an example, and make sure you are in the
-root directory of the Istio release package.
-
 ### Installing Base Component
 
 The **Base** chart contains the basic CRDs and cluster roles required to set up Istio.
@@ -44,8 +37,9 @@ The **CNI** chart installs the Istio CNI Plugin. It is responsible for detecting
 and configuring the traffic redirection between the ztunnels - which will be installed later.
 
 {{< text bash >}}
-$ helm install istio-cni istio/cni -n kube-system \
-  -f manifests/charts/istio-cni/ambient-values.yaml
+$ helm install istio-cni istio/cni -n kube-system -f - <<EOF
+{{</* text_import file="@manifests/charts/istio-cni/ambient-values.yaml@" syntax="plain" */>}}
+EOF
 {{< /text >}}
 
 ### Installing Istiod Component
@@ -55,8 +49,9 @@ configures the proxies to route traffic within the mesh.
 
 {{< text bash >}}
 $ kubectl create namespace istio-system
-$ helm install istiod istio/istiod --namespace istio-system \
-  -f manifests/charts/istio-control/istio-discovery/ambient-values.yaml
+$ helm install istiod istio/istiod --namespace istio-system -f - <<EOF
+{{</* text_import file="@manifests/charts/istio-control/istio-discovery/ambient-values.yaml@" syntax="plain" */>}}
+EOF
 {{< /text >}}
 
 ### Installing Ztunnel Component
