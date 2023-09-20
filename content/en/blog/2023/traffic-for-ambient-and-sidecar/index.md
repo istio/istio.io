@@ -19,7 +19,9 @@ To clarify the network traffic paths and make it easier to understand, this blog
 - **The network path of services in ambient mode to services in sidecar mode**
 - **The network path of services in sidecar mode to services in ambient mode**
 
-_Note 1: The following analysis is based on Istio 1.18.2, where ambient mode uses iptables for redirection._
+## Information about the analysis
+
+The analysis is based on Istio 1.18.2, where ambient mode uses iptables for redirection.
 
 ## Ambient mode `sleep` to sidecar mode `httpbin`
 
