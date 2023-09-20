@@ -10,7 +10,7 @@
 使用 Gateway API 配置内部网格流量目前是一个还在开发的[实验性特性](https://gateway-api.sigs.k8s.io/geps/overview/#status)。
 If using the Gateway API instructions, before proceeding make sure to:
 
-1) 安装 Gateway API CRD 的 **实验版本** 版本：
+1) 安装 **实验版本** 的 Gateway API CRD：
 
     {{< text syntax=bash snip_id=install_experimental_crds >}}
     $ kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref={{< k8s_gateway_api_version >}}" | kubectl apply -f -
