@@ -106,6 +106,6 @@ The sidecar mode is what made Istio a great service mesh. However, the sidecar m
 
 ## Reference Resources
 
-- `[traffic ambient mesh istio cni node configuration](https://www.solo.io/blog/traffic-ambient-mesh-istio-cni-node-configuration/)`
-- `[traffic ambient mesh redirection iptables geneve tunnels](https://www.solo.io/blog/traffic-ambient-mesh-redirection-iptables-geneve-tunnels/)`
-- `[traffic ambient mesh ztunnel-ebpf waypoint](https://www.solo.io/blog/traffic-ambient-mesh-ztunnel-ebpf-waypoint/)`
+- `[Traffic in ambient mesh: Istio CNI and node configuration](https://www.solo.io/blog/traffic-ambient-mesh-istio-cni-node-configuration/)`
+- `[Traffic in ambient mesh: Redirection using iptables and GENEVE tunnels](https://www.solo.io/blog/traffic-ambient-mesh-redirection-iptables-geneve-tunnels/)`
+- `[Traffic in ambient mesh: ztunnel, eBPF configuration, and waypoint proxies](https://www.solo.io/blog/traffic-ambient-mesh-ztunnel-ebpf-waypoint/)`
