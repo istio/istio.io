@@ -17,7 +17,7 @@
     {{< /text >}}
 
 2) 安装 Istio 时，通过将 `PILOT_ENABLE_ALPHA_GATEWAY_API`
-    环境变量设置为 `true` 使 Istio 读取 Alpha 版本的资源：
+    环境变量设置为 `true` 使 Istio 读取 Alpha 版本的 Gateway API 资源：
 
     {{< text syntax=bash snip_id=enable_alpha_crds >}}
     $ istioctl install --set values.pilot.env.PILOT_ENABLE_ALPHA_GATEWAY_API=true --set profile=minimal -y
