@@ -587,6 +587,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>If enabled, readiness probes will keep the connection from pilot-agent to the application alive. This mirrors older Istio versions&#39; behaviors, but not kubelet&#39;s.</td>
 </tr>
 <tr>
+<td><code>ENABLE_SELECTOR_BASED_K8S_GATEWAY_POLICY</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If disabled, Gateway API gateways will ignore workloadSelector policies, onlyapplying policies that select the gateway with a targetRef.</td>
+</tr>
+<tr>
 <td><code>ENABLE_TLS_ON_SIDECAR_INGRESS</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>

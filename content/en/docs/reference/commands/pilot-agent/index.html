@@ -513,11 +513,6 @@ to enable it.  You can execute the following once:</p>
 <td>Specify the envoy port to which redirect all TCP traffic (default $ENVOY_PORT = 15001).  (default ``)</td>
 </tr>
 <tr>
-<td><code>--host-nsenter-exec</code></td>
-<td></td>
-<td>Instead of using the internal go netns, use the nsenter command for switching network namespaces. </td>
-</tr>
-<tr>
 <td><code>--inbound-capture-port &lt;string&gt;</code></td>
 <td><code>-z</code></td>
 <td>Port to which all inbound TCP traffic to the pod/VM should be redirected to (default $INBOUND_CAPTURE_PORT = 15006).  (default ``)</td>
@@ -1182,6 +1177,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, readiness probes will keep the connection from pilot-agent to the application alive. This mirrors older Istio versions&#39; behaviors, but not kubelet&#39;s.</td>
+</tr>
+<tr>
+<td><code>ENABLE_SELECTOR_BASED_K8S_GATEWAY_POLICY</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If disabled, Gateway API gateways will ignore workloadSelector policies, onlyapplying policies that select the gateway with a targetRef.</td>
 </tr>
 <tr>
 <td><code>ENABLE_TLS_ON_SIDECAR_INGRESS</code></td>
