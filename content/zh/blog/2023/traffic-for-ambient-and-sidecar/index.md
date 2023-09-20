@@ -28,7 +28,9 @@ Istio 作为一种服务网格技术应运而生。它利用 Sidecar 提供流�
 - **Ambient 模式下的服务到 Sidecar 模式下服务的网络路径**
 - **Sidecar 模式下的服务到 Ambient 模式下服务的网络路径**
 
-备注 1：以下分析基于 Istio 1.18.2，其中 Ambient 模式使用 iptables 进行重定向。
+## 关于分析的信息 {#information-about-the-analysis}
+
+分析基于 Istio 1.18.2，其中 Ambient 模式使用 iptables 进行重定向。
 
 ## Ambient 模式 `sleep` 到 Sidecar 模式 `httpbin` {#ambient-mode-sleep-to-sidecar-mode-httpbin}
 
