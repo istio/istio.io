@@ -100,9 +100,9 @@ istiod-canary-6956db645c-vwhsk
 
 1. 在 `test-ns` 命名空间中启动一个示例 sleep Pod。
 
-{{< text bash >}}
-$ kubectl apply -n test-ns -f samples/sleep/sleep.yaml
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl apply -n test-ns -f samples/sleep/sleep.yaml
+    {{< /text >}}
 
 要升级命名空间 `test-ns`，请删除 `istio-injection` 标签，然后添加 `istio.io/rev` 标签以指向
 `canary` 修订版本。为了向后兼容性，`istio-injection` 标签必须移除，因为它的优先级高于 `istio.io/rev`。
