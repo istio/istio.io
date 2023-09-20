@@ -88,9 +88,9 @@ istiod-canary-6956db645c-vwhsk
 
 1. 创建命名空间 `test-ns`。
 
-{{< text bash >}}
-$ kubectl create ns test-ns
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl create ns test-ns
+    {{< /text >}}
 
 1. 使用 `istio-injection` 标签标记命名空间。
 
