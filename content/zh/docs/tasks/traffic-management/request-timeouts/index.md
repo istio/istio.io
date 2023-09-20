@@ -107,8 +107,8 @@ EOF
 
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
-Gateway API does not support fault injection yet, so we need to use an Istio `VirtualService` to
-add the delay for now:
+Gateway API 尚不支持故障注入，因此我们现在需要使用
+Istio `VirtualService` 来添加延迟：
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
