@@ -29,7 +29,7 @@ timeout to half a second.
 To see its effect, however, you also introduce an artificial 2 second delay in calls
 to the `ratings` service.
 
-1.  Route requests to v2 of the `reviews` service, i.e., a version that calls the `ratings` service:
+1)  Route requests to v2 of the `reviews` service, i.e., a version that calls the `ratings` service:
 
 {{< tabset category-name="config-api" >}}
 
