@@ -64,7 +64,7 @@ Istio 作为一种服务网格技术应运而生。它利用 Sidecar 提供流�
 隧道的另一端是 `pistioout`，即位于同一节点上的 ztunnel Pod 内。
 
 **(4) (5)** 当流量通过 `pistioout` 设备到达时，
-Pod 内的 iptables 规则会拦截并通过 pod 中的 `eth0` 接口将其重定向到端口 `15001`。
+Pod 内的 iptables 规则会拦截并通过 Pod 中的 `eth0` 接口将其重定向到端口 `15001`。
 
 **(6)** 根据原始请求信息，ztunnel 可以获取目标服务的端点列表。
 然后，它将处理将请求发送到端点，例如 `httpbin` Pod 之一。
@@ -104,8 +104,8 @@ Pod 内的 iptables 规则会拦截并通过 pod 中的 `eth0` 接口将其重�
 上图的上半部分描述了从 `sleep` Pod（Sidecar 模式）到 `httpbin` Pod（Ambient 模式）的请求的网络流量路径。
 
 **(1) (2) (3) (4)** `sleep` 容器向 `httpbin` 发送请求。该请求被 iptables 规则拦截，
-并定向到 `sleep` Pod 中 Sidecar 上的端口 `15001`。然后，
-Sidecar 处理请求并根据从 istiod（控制平面）收到的配置路由流量。
+并定向到 `sleep` Pod 中 Sidecar 上的端口 `15001`。
+然后，Sidecar 处理请求并根据从 istiod（控制平面）收到的配置路由流量。
 接下来，Sidecar 将流量转发到节点 B 上的 `httpbin` Pod 对应的 IP 地址。
 
 **(5) (6)** 将请求发送到设备对（`veth httpbin <-> eth0 inside httpbin pod`）后，
@@ -113,7 +113,7 @@ Sidecar 处理请求并根据从 istiod（控制平面）收到的配置路由�
 运行 `httpbin` Pod 的节点 B 上的设备。节点 B 上的 `istioin` 设备和同一节点上
 ztunnel Pod 内的 `pistion` 设备通过 [Geneve](https://www.rfc-editor.org/rfc/rfc8926.html) 连接隧道。
 
-**(7) (8)** 请求进入 ztunnel Pod 的 pistioin 设备后，ztunnel pod 中的 iptables
+**(7) (8)** 请求进入 ztunnel Pod 的 pistioin 设备后，ztunnel Pod 中的 iptables
 规则会拦截并通过 Pod 内运行的 ztunnel 代理上的端口 15008 重定向流量。
 
 **(9)** 进入端口 15008 的流量将被视为入站请求，
@@ -136,10 +136,10 @@ waypoint 代理是 Envoy 代理的一个实例，它根据从控制平面收到�
 Sidecar 模式使 Istio 成为一个出色的服务网格。但是，Sidecar 模式也会导致问题，
 因为它要求应用程序和 Sidecar 容器在同一个 Pod 中运行。
 Istio Ambient 模式通过集中式代理（ztunnel 和 waypoint）实现服务之间的通信。
-Ambient 模式提供了更大的灵活性和可扩展性，减少了资源消耗，因为它不需要网格中的每个 Pod 都有 sidecar，
+Ambient 模式提供了更大的灵活性和可扩展性，减少了资源消耗，因为它不需要网格中的每个 Pod 都有 Sidecar，
 并且允许更精确的配置。 因此，毫无疑问，Ambient 模式是 Istio 的下一个演进。
-显然，sidecar 和ambient 模式的共存可能会持续很长一段时间，
-虽然ambient 模式还处于alpha 阶段，sidecar 模式仍然是Istio 的推荐模式，
+显然，Sidecar 和 Ambient 模式的共存可能会持续很长一段时间，
+虽然 Ambient 模式还处于 Alpha 阶段，Sidecar 模式仍然是 Istio 的推荐模式，
 但它将给用户提供更轻量级的选择 随着 Ambient 模式转向测试版和未来版本，运行并采用 Istio 服务网格。
 
 ## 参考资源 {#reference-resources}
