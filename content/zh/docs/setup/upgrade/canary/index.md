@@ -83,6 +83,27 @@ istiod-canary-6956db645c-vwhsk
 但是，仅安装新版本不会对现有的 Sidecar 代理产生影响。要升级它们，必须将它们配置为指向新的
 `istiod-canary` 控制平面。这是在基于命名空间标签的 Sidecar 注入期间控制的 `istio.io/rev`。
 
+创建一个命名空间 `test-ns` 并启用 `istio-injection`。
+在 `test-ns` 命名空间中，部署一个示例 sleep Pod：
+
+1. 创建命名空间 `test-ns`。
+
+    {{< text bash >}}
+    $ kubectl create ns test-ns
+    {{< /text >}}
+
+1. 使用 `istio-injection` 标签标记命名空间。
+
+    {{< text bash >}}
+    $ kubectl label namespace test-ns istio-injection=enabled
+    {{< /text >}}
+
+1. 在 `test-ns` 命名空间中启动一个示例 sleep Pod。
+
+    {{< text bash >}}
+    $ kubectl apply -n test-ns -f samples/sleep/sleep.yaml
+    {{< /text >}}
+
 要升级命名空间 `test-ns`，请删除 `istio-injection` 标签，然后添加 `istio.io/rev` 标签以指向
 `canary` 修订版本。为了向后兼容性，`istio-injection` 标签必须移除，因为它的优先级高于 `istio.io/rev`。
 
