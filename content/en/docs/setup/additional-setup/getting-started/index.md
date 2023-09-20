@@ -351,12 +351,12 @@ If you installed the Kubernetes Gateway API CRDs and would now like to remove th
 
 * If you ran any tasks that required the **experimental version** of the CRDs:
 
-    {{< text syntax=bash snip_id=install_crds >}}
+    {{< text bash >}}
     $ kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref={{< k8s_gateway_api_version >}}" | kubectl delete -f -
     {{< /text >}}
 
 * Otherwise:
 
-    {{< text syntax=bash snip_id=install_crds >}}
+    {{< text bash >}}
     $ kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref={{< k8s_gateway_api_version >}}" | kubectl delete -f -
     {{< /text >}}

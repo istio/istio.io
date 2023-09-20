@@ -181,10 +181,10 @@ snip_uninstall_3() {
 kubectl label namespace default istio-injection-
 }
 
-snip_install_crds() {
+snip_uninstall_4() {
 kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=f98e94a5305e3a08cb14f8a03470f8f3bdf6d54c" | kubectl delete -f -
 }
 
-snip_install_crds() {
+snip_uninstall_5() {
 kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=f98e94a5305e3a08cb14f8a03470f8f3bdf6d54c" | kubectl delete -f -
 }
