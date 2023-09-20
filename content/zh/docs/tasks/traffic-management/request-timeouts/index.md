@@ -26,7 +26,7 @@ HTTP 请求的超时可以通过路由规则中的 timeout 字段来指定。
 默认情况下，超时是禁用的，本任务中，会把 `reviews` 服务的超时设置为半秒。
 为了观察效果，还需要在对 `ratings` 服务的调用上人为引入 2 秒的延迟。
 
-1) 将请求路由到 `reviews` 服务的 v2 版本，它会发起对 `ratings` 服务的调用：
+1. 将请求路由到 `reviews` 服务的 v2 版本，它会发起对 `ratings` 服务的调用：
 
 {{< tabset category-name="config-api" >}}
 
