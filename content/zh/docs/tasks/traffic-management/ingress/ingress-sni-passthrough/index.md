@@ -13,9 +13,7 @@ test: yes
 
 本任务中的 HTTPS 示例服务是一个简单的 [NGINX](https://www.nginx.com) 服务。在接下来的步骤中，您首先在 Kubernetes 集群中创建一个 NGINX 服务。接着，通过网关给这个服务配置一个域名是 `nginx.example.com` 的访问入口。
 
-{{< boilerplate gateway-api-support >}}
-
-{{< boilerplate gateway-api-experimental >}}
+{{< boilerplate gateway-api-gamma-support >}}
 
 ## 准备工作 {#before-you-begin}
 

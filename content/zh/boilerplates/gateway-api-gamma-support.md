@@ -1,8 +1,26 @@
 ---
 ---
-{{< boilerplate gateway-api-support >}}
+{{< tip >}}
+{{< boilerplate gateway-api-future >}}
+{{< boilerplate gateway-api-choose >}}
+{{< /tip >}}
 
 {{< warning >}}
 请注意，本文使用 Gateway API 配置内部网格（东西）流量，即不仅是 Ingress（南北）流量。
 使用 Gateway API 配置内部网格流量目前是一个还在开发的[实验性特性](https://gateway-api.sigs.k8s.io/geps/overview/#status)。
+If using the Gateway API instructions, before proceeding make sure to:
+
+1) 安装 Gateway API CRD 的 **实验版本** 版本：
+
+    {{< text syntax=bash snip_id=install_experimental_crds >}}
+    $ kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref={{< k8s_gateway_api_version >}}" | kubectl apply -f -
+    {{< /text >}}
+
+2) 安装 Istio 时，通过将 `PILOT_ENABLE_ALPHA_GATEWAY_API`
+    环境变量设置为 `true` 使 Istio 读取 Alpha 版本的资源：
+
+    {{< text syntax=bash snip_id=enable_alpha_crds >}}
+    $ istioctl install --set values.pilot.env.PILOT_ENABLE_ALPHA_GATEWAY_API=true --set profile=minimal -y
+    {{< /text >}}
+
 {{< /warning >}}
