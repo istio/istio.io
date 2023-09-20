@@ -80,7 +80,7 @@ test: yes
     EOF
     {{< /text >}}
 
-1. 创建一个 Kubernetes 的 
+1. 创建一个 Kubernetes 的
    [ConfigMap](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-pod-configmap/)
    资源来保存 NGINX 服务的配置：
 
