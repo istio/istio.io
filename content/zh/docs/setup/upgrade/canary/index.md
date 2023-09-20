@@ -94,9 +94,9 @@ istiod-canary-6956db645c-vwhsk
 
 1. 使用 `istio-injection` 标签标记命名空间。
 
-{{< text bash >}}
-$ kubectl label namespace test-ns istio-injection=enabled
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl label namespace test-ns istio-injection=enabled
+    {{< /text >}}
 
 1. 在 `test-ns` 命名空间中启动一个示例 sleep Pod。
 
