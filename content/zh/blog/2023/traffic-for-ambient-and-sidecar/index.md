@@ -115,7 +115,7 @@ Pod 内的 iptables 规则会拦截并通过 Pod 中的 `eth0` 接口将其重�
 运行 `httpbin` Pod 的节点 B 上的设备。节点 B 上的 `istioin` 设备和同一节点上
 ztunnel Pod 内的 `pistion` 设备通过 [Geneve](https://www.rfc-editor.org/rfc/rfc8926.html) 连接隧道。
 
-**(7) (8)** 请求进入 ztunnel Pod 的 pistioin 设备后，ztunnel Pod 中的 iptables
+**(7) (8)** 请求进入 ztunnel Pod 的 `pistioin` 设备后，ztunnel Pod 中的 iptables
 规则会拦截并通过 Pod 内运行的 ztunnel 代理上的端口 15008 重定向流量。
 
 **(9)** 进入端口 15008 的流量将被视为入站请求，
@@ -124,8 +124,8 @@ ztunnel Pod 内的 `pistion` 设备通过 [Geneve](https://www.rfc-editor.org/rf
 ### 通过 waypoint 代理从 Sidecar 模式 `sleep` 到 Ambient 模式 `httpbin` 的网络流量路径分析 {#network-traffic-path-analysis-of-sidecar-mode-sleep-to-ambient-mode-httpbin-via-waypoint-proxy}
 
 与图中的顶部相比，底部在 `sleep`、ztunnel 和 `httpbin` Pod 之间的路径中插入了一个 waypoint 代理。
-Istio 控制平面拥有服务网格的所有服务和配置信息。当使用 waypoint 代理部署 helloworld Pod 时，
-sleep Pod 的 Sidecar 接收到的 helloworld 服务的 EDS 配置将更改为 envoy_internal_address 类型。
+Istio 控制平面拥有服务网格的所有服务和配置信息。当使用 waypoint 代理部署 `helloworld` Pod 时，
+`sleep` Pod 的 Sidecar 接收到的 `helloworld` 服务的 EDS 配置将更改为 envoy_internal_address 类型。
 这会导致通过 Sidecar 的请求流量通过
 [HBONE](https://docs.google.com/document/d/1Ofqtxqzk-c_wn0EgAXjaJXDHB9KhDuLe-W3YGG67Y8g/edit)
 协议转发到节点 C 上的 waypoint 代理的 15008 端口。
