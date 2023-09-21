@@ -125,7 +125,7 @@ ztunnel Pod 内的 `pistion` 设备通过 [Geneve](https://www.rfc-editor.org/rf
 
 与图中的顶部相比，底部在 `sleep`、ztunnel 和 `httpbin` Pod 之间的路径中插入了一个 waypoint 代理。
 Istio 控制平面拥有服务网格的所有服务和配置信息。当使用 waypoint 代理部署 `helloworld` Pod 时，
-`sleep` Pod 的 Sidecar 接收到的 `helloworld` 服务的 EDS 配置将更改为 envoy_internal_address 类型。
+`sleep` Pod 的 Sidecar 接收到的 `helloworld` 服务的 EDS 配置将更改为 `envoy_internal_address` 类型。
 这会导致通过 Sidecar 的请求流量通过
 [HBONE](https://docs.google.com/document/d/1Ofqtxqzk-c_wn0EgAXjaJXDHB9KhDuLe-W3YGG67Y8g/edit)
 协议转发到节点 C 上的 waypoint 代理的 15008 端口。
