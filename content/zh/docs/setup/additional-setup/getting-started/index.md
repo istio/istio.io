@@ -329,3 +329,17 @@ $ kubectl delete namespace istio-system
 {{< text bash >}}
 $ kubectl label namespace default istio-injection-
 {{< /text >}}
+
+如果您安装了 Kubernetes Gateway API CRD 并且现在想要删除它们，请运行以下命令之一：
+
+- 如果您运行的任何任务需要 **实验版本** 的 CRD：
+
+    {{< text bash >}}
+    $ kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref={{< k8s_gateway_api_version >}}" | kubectl delete -f -
+    {{< /text >}}
+
+- 否则：
+
+    {{< text bash >}}
+    $ kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref={{< k8s_gateway_api_version >}}" | kubectl delete -f -
+    {{< /text >}}
