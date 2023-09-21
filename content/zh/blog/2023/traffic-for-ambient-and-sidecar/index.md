@@ -19,7 +19,7 @@ Istio 作为一种服务网格技术应运而生。它利用 Sidecar 提供流�
 代理实现服务之间的通信和网格管理。Ambient 还带来了一系列改进，例如更低的资源消耗、更简单的部署以及更灵活的配置选项。
 启用 Ambient 模式后，我们不再需要重新启动 Pod，这使得 Istio 在各种场景中能够更好地发挥作用。
 
-有很多介绍和分析 Aambient 的博客，
+有很多介绍和分析 Ambient 的博客，
 这些内容可以在本博客的[参考资源](#reference-resources)部分找到，
 本博客将分析 Istio Ambient 和 Sidecar 模式下的网络流量路径。
 
