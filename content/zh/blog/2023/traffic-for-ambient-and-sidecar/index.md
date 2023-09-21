@@ -7,7 +7,7 @@ keywords: [traffic,ambient,sidecar,coexistence]
 ---
 
 Istio 有两种部署模式：Ambient 模式和 Sidecar 模式。
-前者还在路上，后者才是经典。因此，Ambient 模式和 Sidecar
+前者还在持续开发中，后者是经典的网格方案。因此，Ambient 模式和 Sidecar
 模式并存应该是一种正常的部署形式，这也是这篇博客可能对 Istio 用户有所帮助的原因。
 
 ## 背景 {#background}
