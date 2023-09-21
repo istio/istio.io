@@ -19,9 +19,9 @@ Istio 作为一种服务网格技术应运而生。它利用 Sidecar 提供流�
 代理实现服务之间的通信和网格管理。Ambient 还带来了一系列改进，例如更低的资源消耗、更简单的部署以及更灵活的配置选项。
 启用 Ambient 模式后，我们不再需要重新启动 Pod，这使得 Istio 在各种场景中能够更好地发挥作用。
 
-社区和技术论坛上有很多介绍和分析 Ambient 模式的博客，
-可以在本博客的[参考资源](#reference-resources)部分找到，本博客将分析Istio Ambient 和 Sidecar 模式下的网络流量路径。
-我们将分析这两种模式下服务之间的网络流量路径。
+有很多介绍和分析 Aambient 的博客，
+这些内容可以在本博客的[参考资源](#reference-resources)部分找到，
+本博客将分析 Istio Ambient 和 Sidecar 模式下的网络流量路径。
 
 为了阐明网络流量路径并使其更容易理解，本博文探讨了以下两种场景并配有相应的图表：
 
@@ -107,8 +107,8 @@ Pod 内的 iptables 规则会拦截并通过 Pod 中的 `eth0` 接口将其重�
 
 **(1) (2) (3) (4)** `sleep` 容器向 `httpbin` 发送请求。该请求被 iptables 规则拦截，
 并定向到 `sleep` Pod 中 Sidecar 上的端口 `15001`。
-然后，Sidecar 处理请求并根据从 istiod（控制平面）收到的配置路由流量。
-接下来，Sidecar 将流量转发到节点 B 上的 `httpbin` Pod 对应的 IP 地址。
+然后，Sidecar 处理请求并根据从 istiod（控制平面）收到的配置路由流量，
+将流量转发到与节点 B 上的 `httpbin` Pod 对应的 IP 地址。
 
 **(5) (6)** 将请求发送到设备对（`veth httpbin <-> eth0 inside httpbin pod`）后，
 请求被拦截并使用 iptables 和路由规则转发到 `istioin` 通过遵循其 iptables 和路由规则，
@@ -127,7 +127,7 @@ ztunnel Pod 内的 `pistion` 设备通过 [Geneve](https://www.rfc-editor.org/rf
 Istio 控制平面拥有服务网格的所有服务和配置信息。当使用 waypoint 代理部署 `helloworld` Pod 时，
 `sleep` Pod 的 Sidecar 接收到的 `helloworld` 服务的 EDS 配置将更改为 `envoy_internal_address` 类型。
 这会导致通过 Sidecar 的请求流量通过
-[HBONE](https://docs.google.com/document/d/1Ofqtxqzk-c_wn0EgAXjaJXDHB9KhDuLe-W3YGG67Y8g/edit)
+[基于 HTTP 的覆盖网络（HBONE）](https://docs.google.com/document/d/1Ofqtxqzk-c_wn0EgAXjaJXDHB9KhDuLe-W3YGG67Y8g/edit)
 协议转发到节点 C 上的 waypoint 代理的 15008 端口。
 
 waypoint 代理是 Envoy 代理的一个实例，它根据从控制平面收到的路由配置将请求转发到 `helloworld` Pod。
@@ -147,5 +147,5 @@ Ambient 模式提供了更大的灵活性和可扩展性，减少了资源消耗
 ## 参考资源 {#reference-resources}
 
 - [Ambient 网格中的流量：Istio CNI 和节点配置](https://www.solo.io/blog/traffic-ambient-mesh-istio-cni-node-configuration/)
-- [Ambient 网格中的流量：使用 iptables 和 GENEVE 隧道进行重定向](https://www.solo.io/blog/traffic-ambient-mesh-redirection-iptables-geneve-tunnels/)
+- [Ambient 网格中的流量：使用 iptables 和 Geneve 隧道进行重定向](https://www.solo.io/blog/traffic-ambient-mesh-redirection-iptables-geneve-tunnels/)
 - [Ambient 网格中的流量：ztunnel、eBPF 配置和 waypoint 代理](https://www.solo.io/blog/traffic-ambient-mesh-ztunnel-ebpf-waypoint/)
