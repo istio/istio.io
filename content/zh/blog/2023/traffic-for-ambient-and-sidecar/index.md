@@ -142,7 +142,7 @@ Ambient 模式提供了更大的灵活性和可扩展性，减少了资源消耗
 并且允许更精确的配置。 因此，毫无疑问，Ambient 模式是 Istio 的下一个演进。
 显然，Sidecar 和 Ambient 模式的并存可能会持续很长一段时间，
 虽然 Ambient 模式还处于 Alpha 阶段且 Sidecar 模式仍然是 Istio 的推荐模式，
-但它将给用户提供更轻量级的选择 随着 Ambient 模式转向测试版和未来版本，运行并采用 Istio 服务网格。
+但随着 Ambient 模式进阶至 Beta 和后续完善，它将给用户提供一种更轻量级的选择来运行并采用 Istio 服务网格。
 
 ## 参考资源 {#reference-resources}
 
