@@ -63,11 +63,6 @@ kubectl apply --context="${CTX_CLUSTER1}" -n istio-system -f \
     samples/multicluster/expose-istiod.yaml
 }
 
-snip_expose_services_in_cluster1_1() {
-kubectl --context="${CTX_CLUSTER1}" apply -n istio-system -f \
-    samples/multicluster/expose-services.yaml
-}
-
 snip_set_the_control_plane_cluster_for_cluster2_1() {
 kubectl --context="${CTX_CLUSTER2}" create namespace istio-system
 kubectl --context="${CTX_CLUSTER2}" annotate namespace istio-system topology.istio.io/controlPlaneClusters=cluster1
@@ -124,7 +119,7 @@ NAME                    TYPE           CLUSTER-IP    EXTERNAL-IP    PORT(S)   AG
 istio-eastwestgateway   LoadBalancer   10.0.12.121   34.122.91.98   ...       51s
 ENDSNIP
 
-snip_expose_services_in_cluster2_1() {
-kubectl --context="${CTX_CLUSTER2}" apply -n istio-system -f \
+snip_expose_services_in_cluster1_and_cluster2_1() {
+kubectl --context="${CTX_CLUSTER1}" apply -n istio-system -f \
     samples/multicluster/expose-services.yaml
 }
