@@ -848,4 +848,3 @@ Istio 使用双向 TLS 将某些信息从客户端安全地传递到服务器。
 
 - 阅读[常见问题](/zh/docs/ops/common-problems/security-issues/)，
   以便在出现问题时更好地解决安全策略问题。
-  
