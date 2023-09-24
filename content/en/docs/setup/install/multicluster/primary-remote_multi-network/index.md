@@ -234,7 +234,7 @@ $ kubectl --context="${CTX_CLUSTER1}" apply -n istio-system -f \
 {{< /text >}}
 
 {{< tip >}}
-Since `cluster2` is installed with a remote profile. Exposing services on primary cluster will expose it on east-west gateways of both clusters.
+Since `cluster2` is installed with a remote profile, exposing services on the primary cluster will expose them on the east-west gateways of both clusters.
 {{< /tip >}}
 
 **Congratulations!** You successfully installed an Istio mesh across primary
