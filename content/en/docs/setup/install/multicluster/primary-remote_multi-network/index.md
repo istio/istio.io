@@ -223,8 +223,8 @@ istio-eastwestgateway   LoadBalancer   10.0.12.121   34.122.91.98   ...       51
 ## Expose services in `cluster1` and `cluster2`
 
 Since the clusters are on separate networks, we also need to expose all user
-services (*.local) on the east-west gateway in both clusters. While this
-gateway is public on the Internet, services behind it can only be accessed by
+services (*.local) on the east-west gateway in both clusters. While these
+gateways are public on the Internet, services behind them can only be accessed by
 services with a trusted mTLS certificate and workload ID, just as if they were
 on the same network.
 
