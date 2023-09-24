@@ -57,11 +57,12 @@ function install_istio_on_cluster2 {
     _verify_like snip_install_the_eastwest_gateway_in_cluster2_2 "$snip_install_the_eastwest_gateway_in_cluster2_2_out"
 }
 
+time install_istio_on_cluster1
+time install_istio_on_cluster2
+
 echo "Exposing services via the east-west gateway for both clusters"
 snip_expose_services_in_cluster1_and_cluster2_1
 
-time install_istio_on_cluster1
-time install_istio_on_cluster2
 time verify_load_balancing
 
 # @cleanup
