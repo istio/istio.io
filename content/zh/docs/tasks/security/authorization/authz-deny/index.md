@@ -10,13 +10,13 @@ test: yes
 此任务介绍如何设置 `DENY` 动作中的 Istio 授权策略，以明确拒绝 Istio 网格中的流量。
 这与 `ALLOW` 动作不同，因为 `DENY` 动作具有更高的优先级，不会被任何 `ALLOW` 动作绕过。
 
-## 开始之前{#before-you-begin}
+## 开始之前  {#before-you-begin}
 
 在您开始之前，请执行以下操作：
 
 * 阅读 [Istio 授权概念](/zh/docs/concepts/security/#authorization)。
 
-* 根据 [Istio 安装指南](/zh/docs/setup/install/istioctl/)安装 Istio.
+* 根据 [Istio 安装指南](/zh/docs/setup/install/istioctl/)安装 Istio。
 
 * 部署工作负载：
 
@@ -41,7 +41,7 @@ test: yes
 缓存和传播成本可能会导致一些延迟。
 {{< /warning >}}
 
-## 明确拒绝请求{#explicitly-deny-a-request}
+## 明确拒绝请求  {#explicitly-deny-a-request}
 
 1. 以下命令为 `foo` 命名空间中的 `httpbin` 工作负载创建 `deny-method-get` 授权策略。
    该授权将 `action` 设置为 `DENY`，以拒绝满足 `rules` 部分设置的条件的请求。
@@ -121,7 +121,7 @@ test: yes
     {{< /text >}}
 
 1. 以下命令创建 `allow-path-ip` 授权策略，允许以 `/ip` 路径向 `httpbin`
-   工作负载发出请求。该授权策略设置 `action` 字段为 `ALLOW`。该类型的策略被称为“允许策略”。
+   工作负载发出请求。此授权策略设置 `action` 字段为 `ALLOW`，此类型的策略被称为“允许策略”。
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -165,7 +165,7 @@ test: yes
     403
     {{< /text >}}
 
-## 清理{#clean-up}
+## 清理  {#clean-up}
 
 从配置中删除命名空间 foo：
 
