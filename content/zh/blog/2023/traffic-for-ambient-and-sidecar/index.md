@@ -52,7 +52,7 @@ Istio 作为一种服务网格技术应运而生。它利用 Sidecar 提供流�
 如果启用 Ambient 模式，ztunnel 将作为 DaemonSet 部署在 istio-system 命名空间中，
 而 istio-cni 和 ztunnel 将为 ztunnel Pod 和每个节点上的 Pod 生成 iptables 规则和路由。
 
-启用 Ambient 模式的 Pod 进出的所有网络流量都将根据网络重定向逻辑通过 ztunnel。
+启用 Ambient 模式时进出 Pod 的所有网络流量都将根据网络重定向逻辑流经 ztunnel。
 然后 ztunnel 会将流量转发到正确的端点。
 
 ### Ambient 模式 `sleep` 到 Sidecar 模式 `httpbin` 的网络流量路径分析 {#network-traffic-path-analysis-of-ambient-mode-sleep-to-sidecar-mode-httpbin}
