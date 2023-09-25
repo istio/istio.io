@@ -68,7 +68,7 @@ Istio 作为一种服务网格技术应运而生。它利用 Sidecar 提供流�
 Pod 内的 iptables 规则会拦截并通过 Pod 中的 `eth0` 接口将其重定向到端口 `15001`。
 
 **(6)** 根据原始请求信息，ztunnel 可以获取目标服务的端点列表。
-然后，它将处理将请求发送到端点，例如 `httpbin` Pod 之一。
+然后，它将处理请求并将其发送到端点，例如某个 `httpbin` Pod。
 最后，请求流量将通过容器网络进入 `httpbin` Pod。
 
 **(7)** 到达 `httpbin` Pod 的请求流量将被 Sidecar 的 iptables
