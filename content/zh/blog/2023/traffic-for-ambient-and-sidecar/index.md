@@ -127,7 +127,7 @@ Istio 控制平面拥有服务网格的所有服务和配置信息。当使用 w
 `sleep` Pod 的 Sidecar 接收到的 `helloworld` 服务的 EDS 配置将更改为 `envoy_internal_address` 类型。
 这会导致通过 Sidecar 的请求流量通过
 [基于 HTTP 的覆盖网络（HBONE）](https://docs.google.com/document/d/1Ofqtxqzk-c_wn0EgAXjaJXDHB9KhDuLe-W3YGG67Y8g/edit)
-协议转发到节点 C 上的 waypoint 代理的 15008 端口。
+协议被转发到节点 C 上的 waypoint 代理的 15008 端口。
 
 waypoint 代理是 Envoy 代理的一个实例，它根据从控制平面收到的路由配置将请求转发到 `helloworld` Pod。
 一旦流量到达节点 D 上的 `veth`，它就会遵循与之前场景相同的路径。
