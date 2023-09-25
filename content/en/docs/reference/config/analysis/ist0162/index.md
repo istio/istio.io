@@ -11,12 +11,12 @@ port that the Kubernetes service workload selected by the gateway does not.
 For example, your Istio configuration contains these values:
 
 {{< text yaml >}}
-# Gateway with bogus port
+# Gateway with bogus ports
 
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
-  name: httpbin-gateway
+  name: istio-ingressgateway
 spec:
   selector:
     istio: ingressgateway
@@ -60,8 +60,35 @@ spec:
 {{< /text >}}
 
 In this example, the `GatewayPortNotDefinedOnService` message occurs because this
-configuration uses port 8004, but a default `IngressGateway` is only open on target ports
+configuration uses port 8004, but a default `IngressGateway` (named `istio-ingressgateway`) is only open on target ports
 15021, 8080 and 8443.
 
 To resolve this problem, change your gateway configuration to use a valid port
 on the workload and try again.
+
+Here's a corrected example:
+
+{{< text yaml >}}
+# Gateway with correct ports
+
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: istio-ingressgateway
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 8080
+      name: http2
+      protocol: HTTP
+    hosts:
+    - "*"
+  - port:
+      number: 8443
+      name: https
+      protocol: HTTP
+    hosts:
+    - "*"
+{{< /text >}}
