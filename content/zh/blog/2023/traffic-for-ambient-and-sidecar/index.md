@@ -104,7 +104,7 @@ Pod 内的 iptables 规则会拦截并通过 Pod 中的 `eth0` 接口将其重�
 
 上图的上半部分描述了从 `sleep` Pod（Sidecar 模式）到 `httpbin` Pod（Ambient 模式）的请求的网络流量路径。
 
-**(1) (2) (3) (4)** `sleep` 容器向 `httpbin` 发送请求。该请求被 iptables 规则拦截，
+**(1) (2) (3) (4)** `sleep` 容器向 `httpbin` 发送一个请求。该请求被 iptables 规则拦截，
 并定向到 `sleep` Pod 中 Sidecar 上的端口 `15001`。
 然后，Sidecar 处理请求并根据从 istiod（控制平面）收到的配置路由流量，
 将流量转发到与节点 B 上的 `httpbin` Pod 对应的 IP 地址。
