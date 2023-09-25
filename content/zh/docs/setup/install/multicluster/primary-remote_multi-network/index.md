@@ -104,10 +104,6 @@ $ kubectl apply --context="${CTX_CLUSTER1}" -n istio-system -f \
     @samples/multicluster/expose-istiod.yaml@
 {{< /text >}}
 
-## 开放 `cluster1` 中的服务 {#expose-services-in-cluster1}
-
-
-
 ## 为 `cluster2` 设置控制平面集群 {#set-the-control-plane-cluster-for-cluster2}
 
 命名空间 `istio-system` 创建之后，我们需要设置集群的网络：
