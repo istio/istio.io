@@ -64,7 +64,7 @@ Istio 作为一种服务网格技术应运而生。它利用 Sidecar 提供流�
 节点 A 中的 `istioout` 设备是一个 [Geneve](https://www.rfc-editor.org/rfc/rfc8926.html) 隧道，
 隧道的另一端是 `pistioout`，即位于同一节点上的 ztunnel Pod 内。
 
-**(4) (5)** 当流量通过 `pistioout` 设备到达时，
+**(4) (5)** 当流量经由 `pistioout` 设备到达时，
 Pod 内的 iptables 规则会拦截并通过 Pod 中的 `eth0` 接口将其重定向到端口 `15001`。
 
 **(6)** 根据原始请求信息，ztunnel 可以获取目标服务的端点列表。
