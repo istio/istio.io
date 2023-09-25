@@ -21,7 +21,7 @@ Istio 作为一种服务网格技术应运而生。它利用 Sidecar 提供流�
 
 有很多介绍和分析 Ambient 的博客，
 这些内容可以在本博客的[参考资源](#reference-resources)部分找到，
-本博客将分析 Istio Ambient 和 Sidecar 模式下的网络流量路径。
+本文将分析 Istio Ambient 和 Sidecar 模式下的网络流量路径。
 
 为了阐明网络流量路径并使其更容易理解，本博文探讨了以下两种场景并配有相应的图表：
 
