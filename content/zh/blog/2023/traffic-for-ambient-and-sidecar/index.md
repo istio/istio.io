@@ -81,7 +81,7 @@ Pod 内的 iptables 规则会拦截并通过 Pod 中的 `eth0` 接口将其重�
 
 ### 第二种场景的部署和配置 {#deployment-and-configuration-for-the-second-scenario}
 
-- `sleep` 部署在名称空间 foo 中
+- `sleep` 部署在命名空间 foo 中
     - `sleep` Pod 被调度到节点 A
 - `httpbin` 部署在命名空间 bar-1 中
     - `httpbin` Pod 被调度到节点 B
