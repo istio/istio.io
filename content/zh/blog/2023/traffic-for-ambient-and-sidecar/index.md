@@ -60,7 +60,7 @@ Istio 作为一种服务网格技术应运而生。它利用 Sidecar 提供流�
 根据上图，网络流量路径的详细情况如下所示：
 
 **(1) (2) (3)** `sleep` 服务的请求流量从 `sleep` Pod 的 `veth` 发出，
-在该 Pod 中被标记并转发到 `istioout` 设备。节点遵循 iptables 规则和路由规则。
+遵循 iptables 规则和路由规则该 Pod 被标记并转发到节点中的 `istioout` 设备。
 节点 A 中的 `istioout` 设备是一个 [Geneve](https://www.rfc-editor.org/rfc/rfc8926.html) 隧道，
 隧道的另一端是 `pistioout`，即位于同一节点上的 ztunnel Pod 内。
 
