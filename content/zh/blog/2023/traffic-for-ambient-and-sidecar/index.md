@@ -2,7 +2,7 @@
 title: "深挖 Ambient 与 Sidecar 并存的网络流量路径"
 description: "深挖 Ambient 与 Sidecar 并存的流量路径。"
 publishdate: 2023-09-18
-attribution: "Steve Zhang (Intel), John Howard (Google), Yuxing Zeng(Alibaba), Peter Jausovec(Solo.io); Translated by Wilson Wu (DaoCloud)"
+attribution: "张怀龙 (Intel), John Howard (Google), 曾宇星 (Alibaba), Peter Jausovec (Solo.io); Translated by Wilson Wu (DaoCloud)"
 keywords: [traffic,ambient,sidecar,coexistence]
 ---
 
