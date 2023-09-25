@@ -111,7 +111,7 @@ Pod 内的 iptables 规则会拦截并通过 Pod 中的 `eth0` 接口将其重�
 
 **(5) (6)** 将请求发送到设备对（`veth httpbin <-> eth0 inside httpbin pod`）后，
 请求根据 iptables 和路由规则被拦截和转发到节点 B 上的 `istioin` 设备，
-运行 `httpbin` Pod 的节点 B 上的设备。节点 B 上的 `istioin` 设备和同一节点上
+在节点 B 上遵循 iptables 和路由规则来运行 `httpbin` Pod。节点 B 上的 `istioin` 设备和同一节点上
 ztunnel Pod 内的 `pistion` 设备通过 [Geneve](https://www.rfc-editor.org/rfc/rfc8926.html) 连接隧道。
 
 **(7) (8)** 请求进入 ztunnel Pod 的 `pistioin` 设备后，ztunnel Pod 中的 iptables
