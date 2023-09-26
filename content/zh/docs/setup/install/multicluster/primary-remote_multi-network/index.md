@@ -104,17 +104,6 @@ $ kubectl apply --context="${CTX_CLUSTER1}" -n istio-system -f \
     @samples/multicluster/expose-istiod.yaml@
 {{< /text >}}
 
-## 开放 `cluster1` 中的服务 {#expose-services-in-cluster1}
-
-因为集群位于不同的网络，所以我们需要开放两个集群的东西向网关上的所有用户服务（*.local）。
-虽然此网关被公开到互联网，但它背后的服务只能被拥有可信 mTLS 证书和工作负载 ID 的服务访问，
-就像它们处于同一个网络一样。
-
-{{< text bash >}}
-$ kubectl --context="${CTX_CLUSTER1}" apply -n istio-system -f \
-    @samples/multicluster/expose-services.yaml@
-{{< /text >}}
-
 ## 为 `cluster2` 设置控制平面集群 {#set-the-control-plane-cluster-for-cluster2}
 
 命名空间 `istio-system` 创建之后，我们需要设置集群的网络：
@@ -221,14 +210,21 @@ NAME                    TYPE           CLUSTER-IP    EXTERNAL-IP    PORT(S)   AG
 istio-eastwestgateway   LoadBalancer   10.0.12.121   34.122.91.98   ...       51s
 {{< /text >}}
 
-## 开放 `cluster2` 中的服务 {#expose-services-in-cluster2}
+## 开放 `cluster2` 和 `cluster2` 中的服务 {#expose-services-in-cluster1-and-cluster2}
 
-仿照上面 `cluster1` 的操作，通过东西向网关开放服务。
+因为集群位于不同的网络，所以我们需要开放两个集群的东西向网关上的所有用户服务（*.local）。
+虽然此网关被公开到互联网，但它背后的服务只能被拥有可信 mTLS 证书和工作负载 ID 的服务访问，
+就像它们处于同一个网络一样。
 
 {{< text bash >}}
-$ kubectl --context="${CTX_CLUSTER2}" apply -n istio-system -f \
+$ kubectl --context="${CTX_CLUSTER1}" apply -n istio-system -f \
     @samples/multicluster/expose-services.yaml@
 {{< /text >}}
+
+{{< tip >}}
+由于 `cluster2` 是使用远程配置文件安装的，
+因此在主集群上开放服务将在两个集群的东西向网关上开放它们。
+{{< /tip >}}
 
 **恭喜!** 您在跨网络、主从架构的集群上，成功地安装了 Istio 网格。
 
