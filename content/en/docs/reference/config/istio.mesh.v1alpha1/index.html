@@ -7,7 +7,7 @@ location: https://istio.io/docs/reference/config/istio.mesh.v1alpha1.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
 weight: 20
-number_of_entries: 64
+number_of_entries: 66
 ---
 <p>Configuration affecting the service mesh as a whole.</p>
 
@@ -3152,6 +3152,8 @@ Note: currently all headers are enabled by default.</p>
     disabled: true
   envoyDebugHeaders:
     disabled: true
+  metadataExchangeHeaders:
+    mode: IN_MESH
 </code></pre>
 
 </td>
@@ -3553,6 +3555,19 @@ These headers are enabled by default if not configured.</p>
 No
 </td>
 </tr>
+<tr id="ProxyConfig-ProxyHeaders-metadata_exchange_headers">
+<td><code>metadataExchangeHeaders</code></td>
+<td><code><a href="#ProxyConfig-ProxyHeaders-MetadataExchangeHeaders">MetadataExchangeHeaders</a></code></td>
+<td>
+<p>Controls Istio metadata exchange headers <code>X-Envoy-Peer-Metadata</code> and <code>X-Envoy-Peer-Metadata-Id</code>.
+By default, the behavior is unspecified.
+If IN_MESH, these headers will not be appended to outbound requests from sidecars to services not in-mesh.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -3654,6 +3669,30 @@ No
 <tr id="ProxyConfig-ProxyHeaders-EnvoyDebugHeaders-disabled">
 <td><code>disabled</code></td>
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ProxyConfig-ProxyHeaders-MetadataExchangeHeaders">ProxyConfig.ProxyHeaders.MetadataExchangeHeaders</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ProxyConfig-ProxyHeaders-MetadataExchangeHeaders-mode">
+<td><code>mode</code></td>
+<td><code><a href="#ProxyConfig-ProxyHeaders-MetadataExchangeMode">MetadataExchangeMode</a></code></td>
 <td>
 </td>
 <td>
@@ -4226,6 +4265,34 @@ See the
 <code>X-B3-SpanId</code>, and <code>X-B3-Sampled</code> HTTP headers. See
 <a href="https://github.com/openzipkin/b3-propagation">B3 header propagation README</a>
 for details.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ProxyConfig-ProxyHeaders-MetadataExchangeMode">ProxyConfig.ProxyHeaders.MetadataExchangeMode</h2>
+<section>
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ProxyConfig-ProxyHeaders-MetadataExchangeMode-UNDEFINED">
+<td><code>UNDEFINED</code></td>
+<td>
+<p>Existing Istio behavior for the metadata exchange headers is unchanged.</p>
+
+</td>
+</tr>
+<tr id="ProxyConfig-ProxyHeaders-MetadataExchangeMode-IN_MESH">
+<td><code>IN_MESH</code></td>
+<td>
+<p>Only append the istio metadata exchange headers for services considered in-mesh.
+Traffic is considered in-mesh if it is secured with Istio mutual TLS. This means that <code>MESH_EXTERNAL</code> services, unmatched passthrough traffic, and requests to workloads without Istio enabled will be considered out of mesh.</p>
 
 </td>
 </tr>

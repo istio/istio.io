@@ -60,7 +60,6 @@ COMP_OUTPUT_DIR="${ROOTDIR}/content/en/docs/reference/commands"
 COMP_OUTPUT_DIR_ZH="${ROOTDIR}/content/zh/docs/reference/commands"
 
 export GOOS=linux
-export GOARCH=amd64
 
 echo "WORK_DIR =" "${WORK_DIR}"
 
