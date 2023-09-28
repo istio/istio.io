@@ -1,6 +1,6 @@
 ---
 title: "IstioCon China 2023 wrap-up"
-description: A quick recap of Istio at KubeCon + CloudNativeCon + Open Source Summit China, in Shanghai.
+description: A quick recap of Istio at KubeCon + CloudNativeCon + Open Source Summit China in Shanghai.
 publishdate: 2023-09-29
 attribution: "IstioCon China 2023 Programme Committee"
 keywords: [Istio Day,IstioCon,Istio,conference,KubeCon,CloudNativeCon]
@@ -23,7 +23,7 @@ IstioCon China kicked off with an opening keynote from Program Committee members
     caption="IstioCon China 2023, Welcome"
     >}}
 
-The welcome speech was followed by a sponsored keynote from Justin Pettit from Google, on "Istio Ambient Mesh as a Managed Infrastructure" which highlighted the importance and priority of the Ambient model in the Istio community, especially for our top supporters like Google Cloud.
+The welcome speech was followed by a sponsored keynote from Justin Pettit from Google, on "Istio Ambient Mesh as a Managed Infrastructure" which highlighted the importance and priority of the ambient model in the Istio community, especially for our top supporters like Google Cloud.
 
 {{< image width="75%"
     link="./sponsored-keynote-google.jpg"
@@ -37,7 +37,7 @@ Perfectly placed after the keynote, Huailong Zhang from Intel and Yuxing Zeng fr
     caption="IstioCon China 2023, Deep Dive into Istio Network Flows and Configurations for the co-existence of Ambient and Sidecar"
     >}}
 
-Huawei's new Istio data plane based on eBPF intends to implement the capabilities of L4 and L7 in the kernel,to avoid kernel-state and user-mode switching and reduce the latency of the data plane. This was explained by an interesting talk from Xie SongYang and Zhonghu Xu. Chun Li and Iris Ding from Intel also integrated eBPF with Istio, with their talk Harnessing  eBPF for Traffic Redirection in Istio ambient Mode leading to more interesting discussions. DaoCloud also had a presence at the event, with Kebe Liu sharing Merbridge’s innovation in eBPF and Xiaopeng Han presenting about MirageDebug for localized Istio development.
+Huawei's new Istio data plane based on eBPF intends to implement the capabilities of L4 and L7 in the kernel,to avoid kernel-state and user-mode switching and reduce the latency of the data plane. This was explained by an interesting talk from Xie SongYang and Zhonghu Xu. Chun Li and Iris Ding from Intel also integrated eBPF with Istio, with their talk Harnessing  eBPF for Traffic Redirection in Istio ambient mode leading to more interesting discussions. DaoCloud also had a presence at the event, with Kebe Liu sharing Merbridge’s innovation in eBPF and Xiaopeng Han presenting about MirageDebug for localized Istio development.
 
 {{< image width="75%"
     link="./users-engaging.jpg"
