@@ -16,7 +16,7 @@ Alongside our virtual IstioCon 2023 event, [IstioCon China 2023](https://www.lfa
     caption="IstioCon China 2023"
     >}}
 
-IstioCon China  kicked off with an opening keynote from Program Committee members Jimmy Song and Zhonghu Xu. The event was packed with great content, ranging from new features to end user talks, with major focus on the new Istio Ambient Mesh.
+IstioCon China kicked off with an opening keynote from Program Committee members Jimmy Song and Zhonghu Xu. The event was packed with great content, ranging from new features to end user talks, with major focus on the new Istio ambient mesh.
 
 {{< image width="75%"
     link="./opening-keynote.jpg"
@@ -30,14 +30,14 @@ The welcome speech was followed by a sponsored keynote from Justin Pettit from G
     caption="IstioCon China 2023, Google Cloud Sponsored Keynote"
     >}}
 
-Perfectly placed after the keynote, Huailong Zhang from Intel and Yuxing Zeng from Alibaba discussed configurations for the co-existence of Ambient and Sidecar: a very relevant topic for existing users who want to experiment with the new Ambient model.
+Perfectly placed after the keynote, Huailong Zhang from Intel and Yuxing Zeng from Alibaba discussed configurations for the co-existence of Ambient and Sidecar: a very relevant topic for existing users who want to experiment with the new ambient model.
 
 {{< image width="75%"
     link="./ambient-l4.jpg"
     caption="IstioCon China 2023, Deep Dive into Istio Network Flows and Configurations for the co-existence of Ambient and Sidecar"
     >}}
 
-Huawei's new Istio data plane based on eBPF intends to implement the capabilities of L4 and L7 in the kernel,to avoid kernel-state and user-mode switching and reduce the latency of the data plane. This was explained by an interesting talk from Xie SongYang and Zhonghu Xu. Chun Li and Iris Ding from Intel also integrated eBPF with Istio, with their talk Harnessing  eBPF for Traffic Redirection in Istio Ambient Mode leading to more interesting discussions. DaoCloud also had a presence at the event, with Kebe Liu sharing Merbridge’s innovation in eBPF and Xiaopeng Han presenting about MirageDebug for localized Istio development.
+Huawei's new Istio data plane based on eBPF intends to implement the capabilities of L4 and L7 in the kernel,to avoid kernel-state and user-mode switching and reduce the latency of the data plane. This was explained by an interesting talk from Xie SongYang and Zhonghu Xu. Chun Li and Iris Ding from Intel also integrated eBPF with Istio, with their talk Harnessing  eBPF for Traffic Redirection in Istio ambient Mode leading to more interesting discussions. DaoCloud also had a presence at the event, with Kebe Liu sharing Merbridge’s innovation in eBPF and Xiaopeng Han presenting about MirageDebug for localized Istio development.
 
 {{< image width="75%"
     link="./users-engaging.jpg"
@@ -53,14 +53,14 @@ The slides for all the sessions can be found in the [IstioCon China 2023 schedul
 
 ## On the show floor
 
-Istio had a full time kiosk in the project pavilion at KubeCon + CloudNativeCon + Open Source Summit China 2023 , with the majority of questions asked around Ambient Mesh. Many of our members and maintainers offered support at the booth, where a lot of interesting discussions happened.
+Istio had a full time kiosk in the project pavilion at KubeCon + CloudNativeCon + Open Source Summit China 2023 , with the majority of questions asked around ambient mesh. Many of our members and maintainers offered support at the booth, where a lot of interesting discussions happened.
 
 {{< image width="75%"
     link="./istio-support-at-the-booth.jpg"
     caption="KubeCon + CloudNativeCon + Open Source Summit China 2023, Istio Kiosk"
     >}}
 
-Another highlight was the Istio steering members and authors of the Istio books "Cloud Native Service Mesh Istio" and "Istio: the Definitive Guide", Zhonghu Xu and Chaomeng Zhang, spent time at the Istio booth interacting with our users and contributors.
+Another highlight was the Istio Steering Committee members and authors of the Istio books "Cloud Native Service Mesh Istio" and "Istio: the Definitive Guide", Zhonghu Xu and Chaomeng Zhang, spent time at the Istio booth interacting with our users and contributors.
 
 {{< image width="75%"
     link="./meet-the-authors.jpg"
