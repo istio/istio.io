@@ -205,6 +205,7 @@ CDNs
 CFP
 CentOS
 Cernich
+Chaomeng
 checksum
 Chrony
 Chun
@@ -243,6 +244,7 @@ configurability
 conformant
 containerID
 ControlZ
+Coraza
 CoreDNS
 coreos
 Costin
@@ -380,6 +382,7 @@ Devirtualization
 devops
 devstats
 Dhir
+Dhiyaulhaq
 discoverability
 discuss.istio.io
 distro
@@ -477,6 +480,7 @@ GlueCon
 Gmail
 googleapis.com
 googlegroups.com
+GoTo
 Grafana
 grafana-istio-dashboard
 Graphviz
@@ -508,6 +512,7 @@ https
 Hu
 Huabing
 Huawei
+Huailong
 Huayuan
 hyperkube
 hypervisor
@@ -704,6 +709,7 @@ microservices
 middleboxes
 middleware
 minikube
+MirageDebug
 misconfiguration
 misconfigurations
 misconfigured
@@ -743,6 +749,7 @@ nginx
 NICs
 NiFi
 Nikhita
+Ning
 NLBs
 no-brainer
 Node.js
@@ -770,6 +777,7 @@ onboard
 Onboard
 onboarding
 Onboarding
+OneCloud
 onsite
 onwards
 OpenAPI
@@ -856,6 +864,7 @@ Pub/Sub
 PubNub
 pwd
 px.dev
+Qin
 qps
 quay.io
 quo
@@ -940,10 +949,13 @@ sharded
 sharding
 Sharding
 Shi
+Shilin
+Shivanshu
 shortcode
 shortcodes
 Shray
 Shriram
+Shrivastava
 sidebar_multicard
 sidebar_none
 sidecar
@@ -960,6 +972,7 @@ SNI
 SolarWinds
 Solo.io
 Solo.io.
+SongYang
 SPIFFE
 SPIFFE-compliant
 Splunk
@@ -1146,6 +1159,8 @@ xDS
 Xeon
 Xia
 Xiao
+Xiaopeng
+Xie
 Xining
 xRoute
 Xu
@@ -1160,11 +1175,14 @@ Yizhou
 Yoichi
 Yossi
 Yuval
+Yuxing
 Zack
 Zehuan
+Zeng
 Zhang
 Zhao
 zhaohuabing
+Zheng
 Zhenni
 Zhihan
 Zhong
@@ -1177,3 +1195,4 @@ Zolotusky
 Zsh
 ztunnel
 ztunnels
+Zufar
