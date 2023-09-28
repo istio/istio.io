@@ -2,7 +2,7 @@
 title: "IstioCon China 2023 wrap-up"
 description: A quick recap of Istio at KubeCon + CloudNativeCon + Open Source Summit China in Shanghai.
 publishdate: 2023-09-29
-attribution: "IstioCon China 2023 Programme Committee"
+attribution: "IstioCon China 2023 Program Committee"
 keywords: [Istio Day,IstioCon,Istio,conference,KubeCon,CloudNativeCon]
 ---
 
