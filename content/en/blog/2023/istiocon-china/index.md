@@ -53,18 +53,11 @@ The slides for all the sessions can be found in the [IstioCon China 2023 schedul
 
 ## On the show floor
 
-Istio had a full time kiosk in the project pavilion at KubeCon + CloudNativeCon + Open Source Summit China 2023 , with the majority of questions asked around Ambient Mesh.
-
-{{< image width="75%"
-    link="./istio-booth.jpg"
-    caption="KubeCon + CloudNativeCon + Open Source Summit China 2023, Istio Kiosk"
-    >}}
-
-Many of our members and maintainers offered support at the booth, where a lot of interesting discussions happened.
+Istio had a full time kiosk in the project pavilion at KubeCon + CloudNativeCon + Open Source Summit China 2023 , with the majority of questions asked around Ambient Mesh. Many of our members and maintainers offered support at the booth, where a lot of interesting discussions happened.
 
 {{< image width="75%"
     link="./istio-support-at-the-booth.jpg"
-    caption="Istio Members supporting at the Project Kiosk"
+    caption="KubeCon + CloudNativeCon + Open Source Summit China 2023, Istio Kiosk"
     >}}
 
 Another highlight was the Istio steering members and authors of the Istio books "Cloud Native Service Mesh Istio" and "Istio: the Definitive Guide", Zhonghu Xu and Chaomeng Zhang, spent time at the Istio booth interacting with our users and contributors.
@@ -75,6 +68,11 @@ Another highlight was the Istio steering members and authors of the Istio books 
     >}}
 
 We would like to express our heartfelt gratitude to our diamond sponsors Google Cloud, for supporting IstioCon 2023!
+
+{{< image width="40%"
+    link="./diamond-sponsor.jpg"
+    caption="IstioCon 2023, Our Diamond Sponsor"
+    >}}
 
 Last but not least, we would like to thank our IstioCon China Program Committee members for all their hard work and support!
 
