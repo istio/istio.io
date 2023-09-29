@@ -1,6 +1,6 @@
 ---
 title: "IstioCon China 2023 总结"
-description: 在上海 KubeCon + CloudNativeCon + Open Source Summit China 上快速回顾 Istio。
+description: 简要回顾上海 KubeCon + CloudNativeCon + Open Source Summit China 中的 Istio 主题演讲。
 publishdate: 2023-09-29
 attribution: "IstioCon 2023 中国站程序委员会; Translated by Wilson Wu (DaoCloud)"
 keywords: [Istio Day,IstioCon,Istio,conference,KubeCon,CloudNativeCon]
