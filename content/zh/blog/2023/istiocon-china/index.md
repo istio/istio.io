@@ -1,6 +1,6 @@
 ---
 title: "IstioCon 2023 中国站总结"
-description: 在上海 KubeCon + CloudNativeCon + 中国开源峰会上快速回顾 Istio。
+description: 在上海 KubeCon + CloudNativeCon + Open Source Summit China 上快速回顾 Istio。
 publishdate: 2023-09-29
 attribution: "IstioCon 2023 中国站程序委员会; Translated by Wilson Wu (DaoCloud)"
 keywords: [Istio Day,IstioCon,Istio,conference,KubeCon,CloudNativeCon]
@@ -17,7 +17,7 @@ IstioCon 致力于打造行业领先的服务网格，
 
 除了 [IstioCon 2023 虚拟](https://events.istio.io/)活动之外，
 [IstioCon 2023 中国站](https://www.lfasiallc.com/kubecon-cloudnativecon-open-source-summit-china/co-located-events/istiocon-cn/)也于 9 月 26 日在中国上海举行。
-该活动是 KubeCon + CloudNativeCon + 中国开源峰会的一部分，
+该活动是 KubeCon + CloudNativeCon + Open Source Summit China 的一部分，
 由 Istio 维护者和 CNCF 安排和主办。
 我们非常自豪能够在上海举办如此盛大的 IstioCon 活动，
 并很高兴将中国 Istio 社区的成员聚集在一起。
@@ -87,13 +87,13 @@ Boss 直聘的 Qin Shilin 分享了 Aeraki Mesh 的 Dubbo 服务治理实践。
 
 ## 在展会现场 {#on-the-show-floor}
 
-Istio 在 2023 年 KubeCon + CloudNativeCon + 中国开源峰会的活动展馆设有专门展亭，
-大部分问题都围绕 Ambient 网格提出。
+Istio 在 2023 年 KubeCon + CloudNativeCon + Open Source Summit China
+的活动展馆设有专门展亭，大部分问题都围绕 Ambient 网格提出。
 我们的许多会员和维护者在展位上提供了支持，并发生了很多有趣的讨论。
 
 {{< image width="75%"
     link="./istio-support-at-the-booth.jpg"
-    caption="2023 年 KubeCon + CloudNativeCon + 中国开源峰会，Istio 展亭"
+    caption="2023 年 KubeCon + CloudNativeCon + Open Source Summit China，Istio 展亭"
     >}}
 
 另一个亮点是 Istio 指导委员会成员以及 Istio 书籍
