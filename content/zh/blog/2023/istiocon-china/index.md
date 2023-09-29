@@ -13,7 +13,7 @@ keywords: [Istio Day,IstioCon,Istio,conference,KubeCon,CloudNativeCon]
 
 IstioCon 致力于打造行业领先的服务网格，
 提供一个平台来探索从现实世界的 Istio 部署中获得的见解、
-参与交路实践活动以及与整个 Istio 生态系统的维护者进行联系。
+参与交互式实践活动，并与整个 Istio 生态系统的维护者进行交流。
 
 除了 [IstioCon 2023 虚拟](https://events.istio.io/)活动之外，
 [IstioCon 2023 中国站](https://www.lfasiallc.com/kubecon-cloudnativecon-open-source-summit-china/co-located-events/istiocon-cn/)也于 9 月 26 日在中国上海举行。
