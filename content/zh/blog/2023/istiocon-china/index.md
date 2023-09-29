@@ -78,7 +78,7 @@ Shivanshu Raj Shrivastava 通过“使用 Wasm 扩展和定制 Istio”
 GoTo Financial 的 Zufar Dhiyaulhaq 分享了使用 Coraza Proxy Wasm 扩展 Envoy
 并快速实现自定义 Web 应用防火墙的实践。Tetrate 的 Huabing Zhao 与
 Boss 直聘的 Qin Shilin 分享了 Aeraki Mesh 的 Dubbo 服务治理实践。
-然而多租户一直是 Istio 的热门话题，来自 HP 的 John Cheng
+然而多租户一直是 Istio 的热门话题，来自 HP 的 John Zheng
 详细介绍了 HP OneCloud 平台中的多租户管理。
 
 所有会议的幻灯片都可以在
