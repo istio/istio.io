@@ -10,7 +10,7 @@ It’s great to be able to safely get together in person again.  After two years
 
 IstioCon is committed to the industry-leading service mesh that provides a platform to explore insights gained from real-world Istio deployments, engage in interactive hands-on activities, and connect with maintainers across the entire Istio ecosystem.
 
-Alongside our virtual IstioCon 2023 event, [IstioCon China 2023](https://www.lfasiallc.com/kubecon-cloudnativecon-open-source-summit-china/co-located-events/istiocon-cn/) was held on September 26 in Shanghai, China. Part of the KubeCon + CloudNativeCon + Open Source Summit China, the event was arranged and hosted by the Istio maintainers and the CNCF. We were very proud to have a strong program for IstioCon in Shanghai and pleased to bring together members of the Chinese Istio community. The event was a testament to Istio’s immense popularity in the Asia-Pacific ecosystem.
+Alongside our [virtual IstioCon 2023](https://events.istio.io/) event, [IstioCon China 2023](https://www.lfasiallc.com/kubecon-cloudnativecon-open-source-summit-china/co-located-events/istiocon-cn/) was held on September 26 in Shanghai, China. Part of the KubeCon + CloudNativeCon + Open Source Summit China, the event was arranged and hosted by the Istio maintainers and the CNCF. We were very proud to have a strong program for IstioCon in Shanghai and pleased to bring together members of the Chinese Istio community. The event was a testament to Istio’s immense popularity in the Asia-Pacific ecosystem.
 
 {{< image link="./group-pic.jpg"
     caption="IstioCon China 2023"
@@ -37,7 +37,7 @@ Perfectly placed after the keynote, Huailong Zhang from Intel and Yuxing Zeng fr
     caption="IstioCon China 2023, Deep Dive into Istio Network Flows and Configurations for the co-existence of Ambient and Sidecar"
     >}}
 
-Huawei's new Istio data plane based on eBPF intends to implement the capabilities of L4 and L7 in the kernel,to avoid kernel-state and user-mode switching and reduce the latency of the data plane. This was explained by an interesting talk from Xie SongYang and Zhonghu Xu. Chun Li and Iris Ding from Intel also integrated eBPF with Istio, with their talk Harnessing  eBPF for Traffic Redirection in Istio ambient mode leading to more interesting discussions. DaoCloud also had a presence at the event, with Kebe Liu sharing Merbridge’s innovation in eBPF and Xiaopeng Han presenting about MirageDebug for localized Istio development.
+Huawei's new Istio data plane based on eBPF intends to implement the capabilities of L4 and L7 in the kernel,to avoid kernel-state and user-mode switching and reduce the latency of the data plane. This was explained by an interesting talk from Xie SongYang and Zhonghu Xu. Chun Li and Iris Ding from Intel also integrated eBPF with Istio, with their talk "Harnessing  eBPF for Traffic Redirection in Istio ambient mode", leading to more interesting discussions. DaoCloud also had a presence at the event, with Kebe Liu sharing Merbridge’s innovation in eBPF and Xiaopeng Han presenting about MirageDebug for localized Istio development.
 
 {{< image width="75%"
     link="./users-engaging.jpg"
