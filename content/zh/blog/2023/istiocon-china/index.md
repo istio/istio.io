@@ -117,7 +117,7 @@ Zhonghu Xu 和 Chaomeng Zhang 在 Istio 展位与我们的用户和贡献者进�
 
 {{< image width="75%"
     link="./istiocon-program-committee.jpg"
-    caption="IstioCon 2023 中国站，程序委员会成员（拍摄者：Iris Ding）"
+    caption="IstioCon 2023 中国站，程序委员会成员（未出现在照片中：Iris Ding）"
     >}}
 
 [十一月芝加哥见！](https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america/co-located-events/istio-day/)
