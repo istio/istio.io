@@ -7,7 +7,7 @@ test: n/a
 ---
 
 {{<tip>}}
-Before you start with this guide, please make sure that you have already read the Ztunnel Networking sub-guide and have a basic understanding of Istio Ambient Mesh. This guide assumes that you have already completed the Installation, set up the ztunnel and enabled mtls.
+Before you start with this guide, please make sure that you have already read the Ztunnel Networking sub-guide and have a basic understanding of Istio Ambient Mesh. This guide assumes that you have already completed the Installation, set up the ztunnel and enabled mTLS.
 
 If you have not yet done these things, please go back to the Ztunnel Networking sub-guide and follow the instructions before proceeding with this guide.
 
@@ -35,7 +35,7 @@ TODO
 Before you begin, make sure that you have the following prerequisites in place:
 1. Istio Ambient Mesh installed and configured
 2. Ztunnel proxy is installed and running
-3. Mutual TLS (mtls) enabled and configured
+3. Mutual TLS (mTLS) enabled and configured
 
 ## Understanding the L7 Waypoint Proxy Default Configuration
 
@@ -48,10 +48,6 @@ In the future, there may be some additional limited configurability for L7 Waypo
 * Networking between pods and L7 Waypoint Proxies
 * Networking between L7 Waypoint Proxies
 * Networking between L7 Waypoint Proxies and sidecar proxies
-
-In particular, the only option for pod to L7 Waypoint Proxy networking setup is currently via the `istio-cni` and only via an internal ipTables based L7 Waypoint Proxy traffic redirect option. There is no option to use `init-containers` unlike with sidecar proxies. Alternate forms of L7 Waypoint Proxy traffic redirect such as eBPF are also not currently supported, although may be supported in future.
-
-Of course, once the baseline L7 Waypoint Proxy layer is installed, features such as Authorization Policy (both L4 and L7) as well as other Istio functions such as PeerAuthentication options for mutual-TLS are fully configurable similar to standard Istio. In future release versions, some limited configurability may also be added to the L7 Waypoint Proxy layer.
 
 #### Additional Notes
 
@@ -67,9 +63,9 @@ A figure showing an architecture summary of the L7 waypoint proxy.
 
 TODO
 
-## Install Gateway CRDs
+## Install Waypoint Proxy
 
-**Before Deploying the Waypoint proxy: Install Gateway CRDs**
+**Install Gateway CRDs**
 
 In L7 networking, a waypoint proxy is a lightweight Envoy proxy that runs on each node in the cluster. It is used to implement L7 functionality in Istio Ambient Mesh.
 
@@ -121,23 +117,13 @@ This indicates the L7 waypoint proxy is working.  In the next section we look at
 
 ### Verify that the Waypoint proxy is routing traffic to the application
 
-## Configuring the Waypoint Proxy
-
-How to create a Virtual Service
-
-How to configure a Virtual Service for L7 routing
-
-How to configure a Virtual Service for load balancing
-
-How to configure a Virtual Service for rate limiting
-
-How to configure a Virtual Service for fault injection
+## Configuring the Waypoint Proxy - 
 
 ### Overview
 
 This section describes how to configure the waypoint proxy for the Bookinfo application. The Bookinfo application is a sample application that requires a virtual service to route traffic to its different services.
 
-Link to add: https://istio.io/latest/docs/reference/config/networking/virtual-service/
+The core functionality of the waypoint L7 traffic management is identical to sidecar mode, hence to add more features refer to this link: https://istio.io/latest/docs/reference/config/networking/virtual-service/
 
 FOR EACH SECTION:
 
@@ -169,26 +155,18 @@ $ command
 
 This will output the configuration of the waypoint proxy, including the virtual service that is mapped to it.
 
-### Configuring L4 and L7 Virtual Services
+### Configuring Virtual Services
 
-You can configure both L4 and L7 virtual services for waypoint proxies. L4 virtual services are used to route traffic to services based on port number. L7 virtual services are used to route traffic to services based on more complex criteria, such as HTTP method and path.
+You can configure both L4 and L7 virtual services for waypoint proxies. If you want to do a Virtual Service with TCP that is effectively a L4 virtual services. This is used to route traffic to services based on port number. L7 virtual services are used to route traffic to services based on more complex criteria, such as HTTP method and path. In a Virtual service you can have only TCP, or only HTTP or Both.
 
-### Example L4 Virtual Service
+<< Considered merging L4 (TCP) and L7 (HTTP) virtual service >>
 
-The following YAML manifest shows an example of an L4 virtual service:
-
-{{< text bash >}}
-$ YAML
-{{< /text >}}
-
-This virtual service will route 100% of traffic to the `bookinfo-v1` service and 50% of traffic to the `bookinfo-v2` service.
-
-### Example L7 Virtual Service
+### Example
 
 The following YAML manifest shows an example of an L7 virtual service:
 
 {{< text bash >}}
-$ YAML
+$ yaml file
 {{< /text >}}
 
 This virtual service will route traffic to the `bookinfo-v1` service for requests to the `/productpage` path and traffic to the `bookinfo-v2` service for requests to the `/reviews` path.
@@ -202,7 +180,7 @@ You can verify this by using the `istioctl proxy-config` command to dump the way
 For example, the following command would dump the configuration for the waypoint proxy named `bookinfo-waypoint`:
 
 {{< text bash >}}
-$ istioctl proxy-config bookinfo-waypoint
+$ command
 {{< /text >}}
 
 The output of this command would include a list of the virtual services that are mapped to the waypoint proxy. For example:
@@ -222,6 +200,7 @@ $ virtual_services:
 This output shows that the `bookinfo` virtual service is mapped to the `bookinfo-waypoint` waypoint proxy. All traffic that matches the `bookinfo` virtual service's hosts and HTTP routes will be routed to the `bookinfo-waypoint` waypoint proxy.
 
 By understanding how virtual services are mapped to waypoint proxies, you can configure your Istio mesh to route traffic in the way that you need.
+
 
 ## Monitoring the L7 waypoint proxy
 
@@ -418,3 +397,4 @@ $ kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimen
 
 
 ## Troubleshooting
+TODO
