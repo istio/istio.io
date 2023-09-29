@@ -6,8 +6,8 @@ attribution: "IstioCon 2023 中国站程序委员会; Translated by Wilson Wu (D
 keywords: [Istio Day,IstioCon,Istio,conference,KubeCon,CloudNativeCon]
 ---
 
-能够再次安全地聚在一起真是太好了。经过两年只举办虚拟活动后，
-我们已经填满了 2023 年的日历。
+经过两年时间只举办虚拟活动后，能够再次线下欢聚一堂真是太好了。
+我们的活动已经排满了 2023 年的日历。
 [Istio Day 欧洲站](/zh/blog/2023/istio-at-kubecon-eu/)于 4 月举行，
 [Istio Day 北美站](https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america/co-located-events/istio-day/)将于今年 11 月举行。
 
