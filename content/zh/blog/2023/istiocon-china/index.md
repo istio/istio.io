@@ -15,7 +15,7 @@ IstioCon 致力于打造行业领先的服务网格，
 提供一个平台来探索从现实世界的 Istio 部署中获得的见解、
 参与交路实践活动以及与整个 Istio 生态系统的维护人员进行联系。
 
-除了 IstioCon 2023 虚拟活动之外，
+除了 [IstioCon 2023 虚拟](https://events.istio.io/)活动之外，
 [IstioCon 2023 中国站](https://www.lfasiallc.com/kubecon-cloudnativecon-open-source-summit-china/co-located-events/istiocon-cn/)也于 9 月 26 日在中国上海举行。
 该活动是 KubeCon + CloudNativeCon + 中国开源峰会的一部分，
 由 Istio 维护者和 CNCF 安排和主办。
@@ -59,7 +59,7 @@ Ambient 模式的现有用户来说，这是一个非常相关的主题。
 L4 和 L7 的能力，避免内核态和用户态切换，降低数据平面的延迟。
 通过 Xie SongYang 和 Xu Zhonghu 的一段有趣的谈话解释了这一点。
 来自英特尔的 Chun Li 和 Iris Ding 还将 eBPF 与 Istio 集成，
-他们的演讲在 Istio Ambient 模式中利用 eBPF 进行流量重定向引发了更有趣的讨论。
+他们的演讲“在 Istio Ambient 模式中利用 eBPF 进行流量重定向”引发了更有趣的讨论。
 DaoCloud 也出席了此次活动，Kebe Liu 分享了 Merbridge 在 eBPF 方面的创新，
 Xiaopeng Han 则介绍了用于本地化 Istio 开发的 MirageDebug。
 
