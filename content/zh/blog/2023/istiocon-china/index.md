@@ -55,7 +55,7 @@ Ambient 模式的现有用户来说，这是一个非常相关的主题。
     caption="IstioCon 2023 中国站，深入研究 Istio 网络流程和配置以实现 Ambient 和 Sidecar 的共存"
     >}}
 
-华为基于 eBP F的新 Istio 数据平面打算在内核中实现
+华为基于 eBPF 的新 Istio 数据平面打算在内核中实现
 L4 和 L7 的能力，避免内核态和用户态切换，降低数据平面的延迟。
 通过 Xie SongYang 和 Xu Zhonghu 的一段有趣的谈话解释了这一点。
 来自英特尔的 Chun Li 和 Iris Ding 还将 eBPF 与 Istio 集成，
@@ -78,7 +78,7 @@ Shivanshu Raj Shrivastava 通过“使用 Wasm 扩展和定制 Istio”
 GoTo Financial 的 Zufar Dhiyaulhaq 分享了使用 Coraza Proxy Wasm 扩展 Envoy
 并快速实现自定义 Web 应用防火墙的实践。Tetrate 的 Huabing Zhao 与
 Boss 直聘的 Qin Shilin 分享了 Aeraki Mesh 的 Dubbo 服务治理实践。
-然而多租户一直是 Istio 的热门话题，但来自 HP 的 John Cheng
+然而多租户一直是 Istio 的热门话题，来自 HP 的 John Cheng
 详细介绍了 HP OneCloud 平台中的多租户管理。
 
 所有会议的幻灯片都可以在
