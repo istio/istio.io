@@ -13,7 +13,7 @@ keywords: [Istio Day,IstioCon,Istio,conference,KubeCon,CloudNativeCon]
 
 IstioCon 致力于打造行业领先的服务网格，
 提供一个平台来探索从现实世界的 Istio 部署中获得的见解、
-参与交路实践活动以及与整个 Istio 生态系统的维护人员进行联系。
+参与交路实践活动以及与整个 Istio 生态系统的维护者进行联系。
 
 除了 [IstioCon 2023 虚拟](https://events.istio.io/)活动之外，
 [IstioCon 2023 中国站](https://www.lfasiallc.com/kubecon-cloudnativecon-open-source-summit-china/co-located-events/istiocon-cn/)也于 9 月 26 日在中国上海举行。
@@ -89,7 +89,7 @@ Boss 直聘的 Qin Shilin 分享了 Aeraki Mesh 的 Dubbo 服务治理实践。
 
 Istio 在 2023 年 KubeCon + CloudNativeCon + 中国开源峰会的活动展馆设有专门展亭，
 大部分问题都围绕 Ambient 网格提出。
-我们的许多会员和维护人员在展位上提供了支持，并发生了很多有趣的讨论。
+我们的许多会员和维护者在展位上提供了支持，并发生了很多有趣的讨论。
 
 {{< image width="75%"
     link="./istio-support-at-the-booth.jpg"
