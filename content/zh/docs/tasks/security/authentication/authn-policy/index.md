@@ -27,8 +27,8 @@ $ istioctl install --set profile=default
 
 本例中我们将在 `foo` 和 `bar` 命名空间下各自创建带有 Envoy 代理（Sidecar）的
 `httpbin` 和 `sleep` 服务。我还将在 `legacy` 命名空间下创建不带
-Envoy 代理（Sidecar）的 `httpbin` 和 `sleep` 服务。如果您希望使用相同的示例来完成这些任务，请
-执行如下命令：
+Envoy 代理（Sidecar）的 `httpbin` 和 `sleep` 服务。如果您希望使用相同的示例来完成这些任务，
+请执行如下命令：
 
 {{< text bash >}}
 $ kubectl create ns foo
@@ -116,7 +116,7 @@ $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metad
 工作负载仍然可以接收明文流量。为了阻止整个网格的服务以非双向 TLS 通信，
 您需要将整个网格的对等认证策略设置为 `STRICT` 模式。
 作用域为整个网格范围的对等认证策略不应设置 `selector`，
-这种认证策略必须应用于**根命名空间**，例如:
+这种认证策略必须应用于**根命名空间**，例如：
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
