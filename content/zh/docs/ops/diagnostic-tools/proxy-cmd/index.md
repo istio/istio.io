@@ -19,18 +19,17 @@ Istio 提供了两个非常有价值的命令来帮助诊断流量管理配置�
 
 如果您想尝试以下的命令，需要：
 
-* 有一个安装了 Istio 和 Bookinfo 应用的 Kubernetes 集群（正如在
-[安装步骤](/zh/docs/setup/getting-started/)和
-[Bookinfo 安装步骤](/zh/docs/examples/bookinfo/#deploying-the-application)所描述的那样）。
+* 有一个安装了 Istio 和 Bookinfo 应用的 Kubernetes 集群（正如在[安装步骤](/zh/docs/setup/getting-started/)和
+  [Bookinfo 安装步骤](/zh/docs/examples/bookinfo/#deploying-the-application)所描述的那样）。
 
-或者
+或者：
 
 * 使用类似的命令在 Kubernetes 集群中运行您自己的应用。
 
-## 获取网格概况{#get-an-overview-of-your-mesh}
+## 获取网格概况  {#get-an-overview-of-your-mesh}
 
-`proxy-status` 命令容许您获取网格的概况。如果您怀疑某一个 Sidecar
-没有接收到配置或配置不同步时，`proxy-status` 将告诉您原因。
+您可以使用 `proxy-status` 命令获取网格的概况。如果您怀疑某一个 Sidecar
+没有接收到配置或配置不同步时，可以通过 `proxy-status` 命令进行检测。
 
 {{< text bash >}}
 $ istioctl proxy-status
@@ -47,16 +46,15 @@ reviews-v3-7dbcdcbc56-t8wrx.default                    SYNCED     SYNCED     SYN
 
 如果列表中缺少代理，这意味着它目前没有连接到 Istiod 实例，因此不会接收任何配置。
 
-* `SYNCED` 意思是 Envoy 知晓了 {{< gloss >}}Istiod{{< /gloss >}}
-  已经将最新的配置发送给了它。
-* `NOT SENT` 意思是 Istiod 没有发送任何信息给 Envoy。这通常是因为
+* `SYNCED` 表示 Envoy 已确认 {{<gloss>}}Istiod{{</gloss>}} 发送给它的最新配置。
+* `NOT SENT` 表示 Istiod 尚未向 Envoy 发送任何内容。这通常是因为
   Istiod 没什么可发送的。
-* `STALE` 意思是 Istiod 已经发送了一个更新到 Envoy，但还没有收到应答。
-  这通常意味着 Envoy 和 Istiod 之间存在网络问题，或者 Istio 自身的 bug。
+* `STALE` 表示 Istiod 已经将更新的配置发送到给了 Envoy，但还没有收到应答。
+  这通常意味着 Envoy 和 Istiod 之间存在网络问题，或者 Istio 自身存在问题。
 
 ## 检查 Envoy 和 Istiod 的差异 {#retrieve-diffs-between-envoy-and-Istiod}
 
-通过提供代理 ID，`proxy-status` 命令还可以用来检查 Envoy
+`proxy-status` 命令还可以通过代理 ID 来检查 Envoy
 已加载的配置和 Istiod 发送给它的配置有什么异同，这可以帮您准确定位哪些配置是不同步的，
 以及问题出在哪里。
 
@@ -106,13 +104,14 @@ Listeners Match
 Routes Match (RDS last loaded at Tue, 04 Aug 2020 11:52:54 IST)
 {{< /text >}}
 
-从这儿可以看到，监听器和路由是匹配的，但集群不同步。
+从这儿可以看到，监听器和路由是匹配的，但集群信息不同步。
 
 ## 深入 Envoy 配置 {#deep-dive-into-envoy-configuration}
 
 `proxy-config` 命令可以用来查看给定的 Envoy 是如何配置的。
-这样就可以通过 Istio 配置和自定义资源来查明任何您无法检测到的问题。
-下面的命令为给定 Pod 提供了集群、监听器或路由的基本概要（当需要时可以为监听器或路由改变集群）：
+这样就可以使用它来检测仅通过查看 Istio 配置和自定义资源无法检测到的一些问题。
+下面的命令展示了给定 Pod 的集群（cluster）、监听器（listener）或路由（route）的基本概要
+（当需要时可以为监听器或路由改变集群）：
 
 {{< text bash >}}
 $ istioctl proxy-config cluster -n istio-system istio-ingressgateway-7d6874b48f-qxhn5
@@ -142,7 +141,7 @@ xds-grpc                                                                   -    
 zipkin                                                                     -         -          -             STRICT_DNS
 {{< /text >}}
 
-为了调试 Envoy 您需要理解 Envoy 集群、监听器、路由、endpoints
+为了调试 Envoy，您需要理解 Envoy 集群、监听器、路由、Endpoint
 以及它们是如何交互的。我们将使用带有 `-o json` 参数的 `proxy-config`
 命令，根据标志过滤出并跟随特定的 Envoy，它将请求从 `productpage` Pod
 发送到 `reviews` Pod 9080 端口。
@@ -308,9 +307,9 @@ zipkin                                                                     -    
     ...
     {{< /text >}}
 
-1. 此集群配置为从 Istiod（通过 ADS）检索关联的 endpoints。
+1. 此集群配置为从 Istiod（通过 ADS）检索关联的 Endpoint。
    所以 Envoy 会使用 `serviceName` 字段作为主键，来检查
-   endpoint 列表并把请求代理到其中之一。
+   Endpoint 列表并把请求代理到其中之一。
 
     {{< text bash json >}}
     $ istioctl proxy-config cluster productpage-v1-6c886ff494-7vxhs --fqdn reviews.default.svc.cluster.local -o json
@@ -340,7 +339,7 @@ zipkin                                                                     -    
     ]
     {{< /text >}}
 
-1. 要查看此集群当前可用的 endpoint，请使用 `proxy-config` endpoints 命令。
+1. 要查看此集群当前可用的 Endpoint，请使用 `proxy-config` endpoints 命令。
 
     {{< text bash json >}}
     $ istioctl proxy-config endpoints productpage-v1-6c886ff494-7vxhs --cluster "outbound|9080||reviews.default.svc.cluster.local"
@@ -408,16 +407,17 @@ $ istioctl proxy-config bootstrap -n istio-system istio-ingressgateway-7d6874b48
 
 验证与 Istiod 的连通性是一个有用的故障排除步骤。
 服务网格内的每个代理容器都应该能和 Istiod 通信。
-这可以通过几个简单的步骤来实现：
+这可以通过几个简单的步骤来检测：
 
-1. 创建一个 `sleep` pod：
+1. 创建一个 `sleep` Pod：
 
     {{< text bash >}}
     $ kubectl create namespace foo
     $ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml) -n foo
     {{< /text >}}
 
-1. 使用`curl`测试 Istiod 的连接。下面的示例使用默认 Istiod 配置参数和启用相互 TLS 调用 v1 注册 API：
+1. 使用 `curl` 测试 Istiod 的连接。下面的示例使用默认 Istiod 配置参数和启用双向 TLS
+   调用 v1 注册 API：
 
     {{< text bash >}}
     $ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name}) -c sleep -n foo -- curl -sS istiod.istio-system:15014/version
@@ -425,7 +425,7 @@ $ istioctl proxy-config bootstrap -n istio-system istio-ingressgateway-7d6874b48
 
 您应该收到一个响应，其中列出了 Istiod 的版本。
 
-## Istio 使用的 Envoy 版本是什么？{#what-envoy-version-is-Istio-using}
+## Istio 使用的 Envoy 版本是什么？  {#what-envoy-version-is-Istio-using}
 
 要在部署中找出 Envoy 的版本，您可以通过 `exec` 进入容器并查询 `server_info` 终端：
 

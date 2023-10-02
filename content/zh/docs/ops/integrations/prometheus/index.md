@@ -8,7 +8,7 @@ test: n/a
 ---
 
 [Prometheus](https://prometheus.io/) 是一个开源的监控系统、
-时间序列数据库。您可以利用 Prometheus 与 Istio 集成来收集指标，
+时间序列数据库。您可以利用 Prometheus 与 Istio 集成来收集指标（Metrics），
 通过这些指标判断 Istio 和网格内的应用的运行状况。您可以使用
 [Grafana](/zh/docs/ops/integrations/grafana/) 和
 [Kiali](/zh/docs/tasks/observability/kiali/) 来可视化这些指标。
@@ -23,7 +23,7 @@ Istio 提供了一个简单地安装示例来快速安装、运行 Prometheus：
 $ kubectl apply -f {{< github_file >}}/samples/addons/prometheus.yaml
 {{< /text >}}
 
-这将会在您的集群中部署 Prometheus。这仅用于展示，不会针对性能和安全性进行调整。
+这将会在您的集群中部署 Prometheus。这仅用于演示，并未针对性能或安全性进行调整。
 
 {{< warning >}}
 快速开始的配置仅适合小型集群和短期监控，不适用于大型网格和长时间的监控。
@@ -49,7 +49,6 @@ $ kubectl apply -f {{< github_file >}}/samples/addons/prometheus.yaml
 
 1. 控制平面（`istiod` Deployment）
 1. 入口和出口网关
-1. Ingress and Egress gateways
 1. Envoy Sidecar
 1. 用户应用程序（如果这些应用程序向 Prometheus 暴露指标的话）
 
@@ -58,8 +57,9 @@ $ kubectl apply -f {{< github_file >}}/samples/addons/prometheus.yaml
 ### 选项 1：指标合并 {#option-1-metrics-merging}
 
 为了简化配置，Istio 可以通过 `prometheus.io` 注解来控制指标的获取。
-他允许 Istio 通过 [Helm `stable/prometheus`](https://github.com/helm/charts/tree/master/stable/prometheus)
-的 chart 使用标准配置获取数据，开箱即用。
+这使得 Istio 抓取可以使用标准配置开箱即用，例如
+[Helm `stable/prometheus`](https://github.com/helm/charts/tree/master/stable/prometheus)
+Chart 提供的配置。
 
 {{< tip >}}
 尽管 `prometheus.io` 并不是 Prometheus 的核心注解，
@@ -69,7 +69,7 @@ $ kubectl apply -f {{< github_file >}}/samples/addons/prometheus.yaml
 该选项默开启但是允许在[安装](/zh/docs/setup/install/istioctl/)时通过
 `--set meshConfig.enablePrometheusMerge=false` 关闭。当开启后，
 会将适当的 `prometheus.io` 注解添加到所有的数据平面容器中来设置指标收集。
-如果这些注解已经存在，他们将会被覆盖。使用该选项，Envoy sidecar 将 Istio
+如果这些注解已经存在，他们将会被覆盖。使用该选项，Envoy Sidecar 将 Istio
 的指标与应用程序的指标合并。合并的指标将由 `:15020/stats/prometheus` 收集。
 
 该选项以纯文本的形式显示所有指标。
