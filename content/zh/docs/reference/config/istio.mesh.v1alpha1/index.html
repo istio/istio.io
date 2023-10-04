@@ -2421,8 +2421,7 @@ No
 <section>
 <p>A label selector is a label query over a set of resources. The result of matchLabels and
 matchExpressions are ANDed. An empty label selector matches all objects. A null
-label selector matches no objects.
-+structType=atomic</p>
+label selector matches no objects.</p>
 
 <table class="message-fields">
 <thead>
@@ -2440,8 +2439,7 @@ label selector matches no objects.
 <td>
 <p>matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
 map is equivalent to an element of matchExpressions, whose key field is &ldquo;key&rdquo;, the
-operator is &ldquo;In&rdquo;, and the values array contains only &ldquo;value&rdquo;. The requirements are ANDed.
-+optional</p>
+operator is &ldquo;In&rdquo;, and the values array contains only &ldquo;value&rdquo;. The requirements are ANDed.</p>
 
 </td>
 <td>
@@ -2452,8 +2450,7 @@ No
 <td><code>matchExpressions</code></td>
 <td><code><a href="#k8s-io-apimachinery-pkg-apis-meta-v1-LabelSelectorRequirement">LabelSelectorRequirement[]</a></code></td>
 <td>
-<p>matchExpressions is a list of label selector requirements. The requirements are ANDed.
-+optional</p>
+<p>matchExpressions is a list of label selector requirements. The requirements are ANDed.</p>
 
 </td>
 <td>
