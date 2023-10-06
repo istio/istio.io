@@ -8,7 +8,7 @@ layout: protoc-gen-docs
 generator: protoc-gen-docs
 schema: istio.networking.v1alpha3.Sidecar
 aliases: [/docs/reference/config/networking/v1alpha3/sidecar]
-number_of_entries: 7
+number_of_entries: 8
 ---
 <p><code>Sidecar</code> describes the configuration of the sidecar proxy that mediates
 inbound and outbound communication to the workload instance it is attached to. By
@@ -520,7 +520,7 @@ traffic listener on the sidecar proxy attached to a workload instance.</p>
 <tbody>
 <tr id="IstioIngressListener-port">
 <td><code>port</code></td>
-<td><code><a href="/docs/reference/config/networking/gateway/#Port">Port</a></code></td>
+<td><code><a href="#SidecarPort">SidecarPort</a></code></td>
 <td>
 <p>The port associated with the listener.</p>
 
@@ -572,7 +572,7 @@ or <code>unix:///path/to/socket</code> (forward to Unix domain socket).</p>
 
 </td>
 <td>
-Yes
+No
 </td>
 </tr>
 <tr id="IstioIngressListener-tls">
@@ -608,7 +608,7 @@ listener on the sidecar proxy attached to a workload instance.</p>
 <tbody>
 <tr id="IstioEgressListener-port">
 <td><code>port</code></td>
-<td><code><a href="/docs/reference/config/networking/gateway/#Port">Port</a></code></td>
+<td><code><a href="#SidecarPort">SidecarPort</a></code></td>
 <td>
 <p>The port associated with the listener. If using Unix domain socket,
 use 0 as the port number, with a valid protocol. The port if
@@ -725,7 +725,7 @@ the resource is present.</p>
 
 </td>
 <td>
-Yes
+No
 </td>
 </tr>
 </tbody>
@@ -757,6 +757,59 @@ services can be monitored.</p>
 <td><code>mode</code></td>
 <td><code><a href="#OutboundTrafficPolicy-Mode">Mode</a></code></td>
 <td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="SidecarPort">SidecarPort</h2>
+<section>
+<p>Port describes the properties of a specific port of a service.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="SidecarPort-number">
+<td><code>number</code></td>
+<td><code>uint32</code></td>
+<td>
+<p>A valid non-negative integer port number.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="SidecarPort-protocol">
+<td><code>protocol</code></td>
+<td><code>string</code></td>
+<td>
+<p>The protocol exposed on the port.
+MUST BE one of HTTP|HTTPS|GRPC|HTTP2|MONGO|TCP|TLS.
+TLS can be either used to terminate non-HTTP based connections on a specific port
+or to route traffic based on SNI header to the destination without terminating the TLS connection.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="SidecarPort-name">
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>
+<p>Label assigned to the port.</p>
+
 </td>
 <td>
 No
