@@ -34,8 +34,7 @@ test: no
     {{< /text >}}
 
     {{< tip >}}
-    如果您是一位讲师，可以为每个参与者分配独立的命名空间。
-    本教程支持多个参与者在不同的命名空间下同时运行。
+    如果您是管理员，您可以为每个用户分配一个独立的命名空间。本教程支持多个用户同时在多个命名空间中进行工作。
     {{< /tip >}}
 
 1. 使用 `demo` 配置文件[安装 Istio](/zh/docs/setup/)。
@@ -61,7 +60,7 @@ test: no
     - [Prometheus](https://prometheus.io/docs/prometheus/latest/getting_started/)
     - [Kiali](https://www.kiali.io/documentation/getting-started/)
 
-    `kubectl` 命令可以接收一个行内配置去为每个服务创建 Ingress 资源：
+    `kubectl` 命令可以通过修改 yaml 配置为每个服务创建 Ingress 资源：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -117,8 +116,7 @@ test: no
     EOF
     {{< /text >}}
 
-1. 创建一个角色为 `istio-system` 命名空间提供读权限。
-   要在下面的步骤中限制参与者的权限，这个角色是必须要有的。
+1. 创建一个角色为 `istio-system` 命名空间提供读权限。要在下面的步骤中限制用户的权限，这个角色是必须要有的。
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -134,7 +132,7 @@ test: no
     EOF
     {{< /text >}}
 
-1. 为每个参与者创建服务账号：
+1. 为每个用户创建服务账号：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -146,12 +144,9 @@ test: no
     EOF
     {{< /text >}}
 
-1. 限制每个参与者的权限。在教程中，参与者只需要在他们自己的命名空间中创建资源以及从
-   `istio-system` 命名空间中读取资源。即使使用您自己的集群，这也是一个好的实践，
-   它可以避免影响您集群中的其他命名空间。
+1. 限制每个用户的权限。在教程中，用户只需要在他们自己的命名空间中创建资源以及从 `istio-system` 命名空间中读取资源。即使使用您自己的集群，这也是一个好的实践，它可以避免影响您集群中的其他命名空间。
 
-    创建一个角色为每个参与者的命名空间提供读写权限。
-    为每个参与者赋予这个角色，以及读取 `istio-system` 资源的角色：
+    创建一个角色为每个用户的命名空间提供读写权限。为每个用户赋予这个角色，以及读取 `istio-system` 资源的角色：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -196,11 +191,9 @@ test: no
     EOF
     {{< /text >}}
 
-1. 每个参与者需要使用他们自己的 Kubernetes 配置文件。
-   这个配置文件指明了集群的详细信息、服务账号、证书和参与者的命名空间。
-   `kubectl` 命令使用这个配置文件在集群上操作。
+1. 每个用户需要使用他们自己的 Kubernetes 配置文件。这个配置文件指明了集群的详细信息、服务账号、证书和用户的命名空间。`kubectl` 命令使用这个配置文件在集群上操作。
 
-    为每个参与者创建 Kubernetes 配置文件：
+    为每个用户创建 Kubernetes 配置文件：
 
     {{< tip >}}
     该命令假定您的集群名为 `tutorial-cluster`。
