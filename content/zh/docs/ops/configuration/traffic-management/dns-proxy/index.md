@@ -97,7 +97,6 @@ $ kubectl apply -f @samples/sleep/sleep.yaml@
 
 {{< text bash >}}
 $ kubectl exec deploy/sleep -- curl -sS -v address.internal
-* processing: address.internal
 *   Trying 198.51.100.1:80...
 {{< /text >}}
 
