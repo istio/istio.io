@@ -385,7 +385,7 @@ $ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --c
 1. 将 istiod 主机添加到 `/etc/hosts`：
 
     {{< text bash >}}
-    $ sudo sh -c 'cat $(eval echo ~$SUDO_USER)/hosts >> /etc/hosts'
+    $ sudo sh -c 'cat $(eval echo ~$USER)/hosts >> /etc/hosts'
     {{< /text >}}
 
 1. 把文件 `/etc/certs/` 和 `/var/lib/istio/envoy/` 的所有权转移给 Istio 代理：
