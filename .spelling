@@ -643,6 +643,7 @@ kubectl
 kubelet
 Kubelet
 kubelogin
+Kubenet
 Kubernetes
 kubernetes.default
 KubeSphere

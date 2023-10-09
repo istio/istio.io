@@ -211,6 +211,41 @@ clusterIpv4Cidr: 10.4.0.0/14
 servicesIpv4Cidr: 10.7.240.0/20
 ENDSNIP
 
+snip_kubenet_1() {
+az aks show --resource-group "${RESOURCE_GROUP}" --name "${CLUSTER}" | grep Cidr
+}
+
+! read -r -d '' snip_kubenet_1_out <<\ENDSNIP
+    "podCidr": "10.244.0.0/16",
+    "podCidrs": [
+    "serviceCidr": "10.0.0.0/16",
+    "serviceCidrs": [
+ENDSNIP
+
+snip_azure_cni_1() {
+az aks show --resource-group "${RESOURCE_GROUP}" --name "${CLUSTER}" | grep serviceCidr
+}
+
+! read -r -d '' snip_azure_cni_1_out <<\ENDSNIP
+    "serviceCidr": "10.0.0.0/16",
+    "serviceCidrs": [
+ENDSNIP
+
+snip_azure_cni_2() {
+az aks show --resource-group "${RESOURCE_GROUP}" --name "${CLUSTER}" | grep nodeResourceGroup
+}
+
+! read -r -d '' snip_azure_cni_2_out <<\ENDSNIP
+  "nodeResourceGroup": "MC_user-rg_user-cluster_region",
+  "nodeResourceGroupProfile": null,
+az network vnet list -g MC_user-rg_user-cluster_region | grep name
+    "name": "aks-vnet-74242220",
+        "name": "aks-subnet",
+az network vnet show -g MC_user-rg_user-cluster_region -n aks-vnet-74242220 | grep addressPrefix
+    "addressPrefixes": [
+      "addressPrefix": "10.224.0.0/16",
+ENDSNIP
+
 snip_minikube_docker_for_desktop_bare_metal_1() {
 kubectl describe pod kube-apiserver -n kube-system | grep 'service-cluster-ip-range'
 }
