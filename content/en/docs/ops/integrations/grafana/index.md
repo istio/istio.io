@@ -21,6 +21,7 @@ for all of the most important metrics for the mesh and for the control plane.
 * [Workload Dashboard](https://grafana.com/grafana/dashboards/7630) provides a detailed breakdown of metrics for a workload.
 * [Performance Dashboard](https://grafana.com/grafana/dashboards/11829) monitors the resource usage of the mesh.
 * [Control Plane Dashboard](https://grafana.com/grafana/dashboards/7645) monitors the health and performance of the control plane.
+* [WASM Extension Dashboard](https://grafana.com/grafana/dashboards/13277) provides an overview of mesh wide WebAssembly extension runtime and loading state.
 
 There are a few ways to configure Grafana to use these dashboards:
 
@@ -54,7 +55,7 @@ $ GRAFANA_DATASOURCE="Prometheus"
 $ # The version of Istio to deploy
 $ VERSION={{< istio_full_version >}}
 $ # Import all Istio dashboards
-$ for DASHBOARD in 7639 11829 7636 7630 7645; do
+$ for DASHBOARD in 7639 11829 7636 7630 7645 13277; do
 $     REVISION="$(curl -s https://grafana.com/api/dashboards/${DASHBOARD}/revisions -s | jq ".items[] | select(.description | contains(\"${VERSION}\")) | .revision")"
 $     curl -s https://grafana.com/api/dashboards/${DASHBOARD}/revisions/${REVISION}/download > /tmp/dashboard.json
 $     echo "Importing $(cat /tmp/dashboard.json | jq -r '.title') (revision ${REVISION}, id ${DASHBOARD})..."

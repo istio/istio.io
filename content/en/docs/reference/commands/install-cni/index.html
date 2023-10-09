@@ -822,6 +822,12 @@ These environment variables affect the behavior of the <code>install-cni</code> 
 <td>If enabled, publishes metrics for queue depth, latency and processing times.</td>
 </tr>
 <tr>
+<td><code>ISTIO_ENABLE_IPV4_OUTBOUND_LISTENER_FOR_IPV6_CLUSTERS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true, pilot will configure an additional IPv4 listener for outbound traffic in IPv6 only clusters, e.g. AWS EKS IPv6 only clusters.</td>
+</tr>
+<tr>
 <td><code>ISTIO_ENABLE_OPTIMIZED_SERVICE_PUSH</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>

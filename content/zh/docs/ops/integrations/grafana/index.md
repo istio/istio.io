@@ -19,6 +19,7 @@ test: no
 * [Workload Dashboard](https://grafana.com/grafana/dashboards/7630) 为负载提供详细的分类指标。
 * [Performance Dashboard](https://grafana.com/grafana/dashboards/11829) 监控网格资源使用情况。
 * [Control Plane Dashboard](https://grafana.com/grafana/dashboards/7645) 监控控制面的健康状况及性能指标.
+* [WASM Extension Dashboard](https://grafana.com/grafana/dashboards/13277) 提供了网格范围的 WebAssembly 扩展运行时和加载状态的概述。
 
 可以通过多种方法来配置 Grafana 来使用这些仪表板：
 
@@ -52,7 +53,7 @@ $ GRAFANA_DATASOURCE="Prometheus"
 $ # The version of Istio to deploy
 $ VERSION={{< istio_full_version >}}
 $ # Import all Istio dashboards
-$ for DASHBOARD in 7639 11829 7636 7630 7645; do
+$ for DASHBOARD in 7639 11829 7636 7630 7645 13277; do
 $     REVISION="$(curl -s https://grafana.com/api/dashboards/${DASHBOARD}/revisions -s | jq ".items[] | select(.description | contains(\"${VERSION}$\")) | .revision")"
 $     curl -s https://grafana.com/api/dashboards/${DASHBOARD}/revisions/${REVISION}/download > /tmp/dashboard.json
 $     echo "Importing $(cat /tmp/dashboard.json | jq -r '.title') (revision ${REVISION}, id ${DASHBOARD})..."

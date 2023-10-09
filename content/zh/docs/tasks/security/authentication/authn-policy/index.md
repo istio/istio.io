@@ -17,7 +17,7 @@ test: yes
 
 * 理解 Istio [认证策略](/zh/docs/concepts/security/#authentication-policies)和[双向 TLS 认证](/zh/docs/concepts/security/#mutual-TLS-authentication)相关概念。
 * 参照[安装步骤](/zh/docs/setup/getting-started)，使用 `default`
-  模板在 Kubernetes 集群中安装 Istio。
+  配置模板在 Kubernetes 集群中安装 Istio。
 
 {{< text bash >}}
 $ istioctl install --set profile=default
@@ -25,10 +25,10 @@ $ istioctl install --set profile=default
 
 ### 设置 {#setup}
 
-我们将在 `foo` 和 `bar` 命名空间下各自创建带有 Envoy 代理（Sidecar）的
-`httpbin` 和 `sleep` 服务，在 `legacy` 命名空间下创建不带
+本例中我们将在 `foo` 和 `bar` 命名空间下各自创建带有 Envoy 代理（Sidecar）的
+`httpbin` 和 `sleep` 服务。我还将在 `legacy` 命名空间下创建不带
 Envoy 代理（Sidecar）的 `httpbin` 和 `sleep` 服务。如果您希望使用相同的示例来完成这些任务，
-执行如下命令：
+请执行如下命令：
 
 {{< text bash >}}
 $ kubectl create ns foo
@@ -43,10 +43,10 @@ $ kubectl apply -f @samples/sleep/sleep.yaml@ -n legacy
 {{< /text >}}
 
 现在您可以在 `foo`、`bar` 或 `legacy` 三个命名空间下的任意 `sleep` Pod
-使用 `curl` 向 `httpbin.foo`、`httpbin.bar` 或 `httpbin.legacy`
-发送 HTTP 请求来验证部署结果。所有请求都应该成功返回 HTTP 200。
+中使用 `curl` 向 `httpbin.foo`、`httpbin.bar` 或 `httpbin.legacy`
+发送 HTTP 请求来验证部署结果。所有请求都应该成功并返回 HTTP 200。
 
-例如，一个检查 `sleep.bar` 到 `httpbin.foo` 可达性的指令如下：
+例如，检查 `sleep.bar` 到 `httpbin.foo` 可达性的指令如下：
 
 {{< text bash >}}
 $ kubectl exec "$(kubectl get pod -l app=sleep -n bar -o jsonpath={.items..metadata.name})" -c sleep -n bar -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n"
@@ -68,57 +68,55 @@ sleep.legacy to httpbin.bar: 200
 sleep.legacy to httpbin.legacy: 200
 {{< /text >}}
 
-使用以下指令确认系统中没有对等身份验证策略：
+使用以下指令确认系统中没有对等认证策略：
 
 {{< text bash >}}
 $ kubectl get peerauthentication --all-namespaces
 No resources found
 {{< /text >}}
 
-最后同样重要的是，确认验证示例服务没有应用 destination rule。
-您可以检查现有 destination rule 中的 `host:` 值并确保它们不匹配。例如：
+最后同样重要的是，确认示例服务没有应用目标规则（destination rule）。
+您可以检查现有目标规则中的 `host:` 值并确保它们不匹配。例如：
 
 {{< text bash >}}
 $ kubectl get destinationrules.networking.istio.io --all-namespaces -o yaml | grep "host:"
 {{< /text >}}
 
 {{< tip >}}
-您可能会看到 destination rule 配置了除上面显示以外的其他 host，
-这依赖于 Istio 的版本。但是，应该没有 destination rule 配置
-`foo`、`bar` 和 `legacy` 命名空间中的 host，
-也没有配置通配符 `*`。
+您可能会看到目标规则配置了除上面显示以外的其他 host，这依赖于 Istio 的版本。
+然而，在 `foo`、`bar` 和 `legacy` 命名空间中不应有任何 host 相关的目标规则，
+也不应配置匹配所有的通配符 `*`。
 {{< /tip >}}
 
 ## 自动双向 TLS {#auto-mutual-TLS}
 
-默认情况下，Istio 会跟踪迁移到 Istio 代理的服务器工作负载并配置客户端代理，
-将双向 TLS 流量自动发送到这些工作负载，并将 plain-text 流量发送到没有
-Sidecar 的工作负载。
+默认情况下，Istio 会跟踪迁移到 Istio 代理的服务器工作负载，并配置客户端代理将双向
+TLS 流量自动发送到这些工作负载，并将明文流量发送到没有 Sidecar 的工作负载。
 
-因此，您无需做额外操作，具有代理的工作负载之间的所有流量即可启用双向 TLS。
-例如检查请求 `httpbin/header` 的响应。
-使用双向 TLS 时，代理会将 `X-Forwarded-Client-Cert` 标头注入到后端的上游请求。
-存在该标头则说启用了双向 TLS。例如：
+因此，具有代理的工作负载之间的所有流量即可启用双向 TLS，您无需做额外操作。
+例如，您无需检查请求 `httpbin/header` 的响应。
+当使用双向 TLS 时，代理会将 `X-Forwarded-Client-Cert` 标头注入到后端的上游请求。
+这个标头的存在就是启用双向 TLS 的证据。例如：
 
 {{< text bash >}}
 $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl -s http://httpbin.foo:8000/headers -s | grep X-Forwarded-Client-Cert | sed 's/Hash=[a-z0-9]*;/Hash=<redacted>;/'
-"X-Forwarded-Client-Cert": "By=spiffe://cluster.local/ns/foo/sa/httpbin;Hash=<redacted>;Subject=\"\";URI=spiffe://cluster.local/ns/foo/sa/sleep"
+    "X-Forwarded-Client-Cert": "By=spiffe://cluster.local/ns/foo/sa/httpbin;Hash=<redacted>;Subject=\"\";URI=spiffe://cluster.local/ns/foo/sa/sleep"
 {{< /text >}}
 
 当服务器没有 Sidecar 时，`X-Forwarded-Client-Cert` 标头将不会存在，
-这意味着请求是 plain-text 的。
+这意味着请求是明文的。
 
 {{< text bash >}}
 $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl http://httpbin.legacy:8000/headers -s | grep X-Forwarded-Client-Cert
 {{< /text >}}
 
-## 全局以严格模式启用 Istio 双向 TLS {#globally-enabling-Istio-mutual-TLS-in-STRICT-mode}
+## 全局以 STRICT 模式启用 Istio 双向 TLS {#globally-enabling-Istio-mutual-TLS-in-STRICT-mode}
 
 当 Istio 自动将代理和工作负载之间的所有流量升级到双向 TLS 时，
-工作负载仍然可以接收 plain-text 流量。为了阻止整个网格的服务以非双向 TLS 通信，
-需要将整个服务网格的对等认证策略设置为 `STRICT` 模式。
-在整个服务网格范围内，对等认证策略不应该有一个 `selector`，
-它必须应用于**根命名空间**，例如:
+工作负载仍然可以接收明文流量。为了阻止整个网格的服务以非双向 TLS 通信，
+您需要将整个网格的对等认证策略设置为 `STRICT` 模式。
+作用域为整个网格范围的对等认证策略不应设置 `selector`，
+这种认证策略必须应用于**根命名空间**，例如：
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -136,10 +134,10 @@ EOF
 {{< tip >}}
 该示例假定命名空间 `istio-system` 是根命名空间。如果在安装过程中使用了不同的值，
 请将 `istio-system` 替换为所使用的值。
- {{< /tip >}}
+{{< /tip >}}
 
-此对等身份验证策略将工作负载配置为仅接受使用 TLS 加密的请求。
-由于未对 `selector` 字段指定值，因此该策略适用于服务网格中的所有工作负载。
+这个对等认证策略将工作负载配置为仅接受使用 TLS 加密的请求。
+由于未对 `selector` 字段指定值，因此该策略适用于网格中的所有工作负载。
 
 再次运行测试指令：
 
@@ -159,12 +157,12 @@ sleep.legacy to httpbin.legacy: 200
 {{< /text >}}
 
 您会发现除了从没有 Sidecar 的服务（`sleep.legacy`）到有 Sidecar
-的服务（`httpbin.foo` 或 `httpbin.bar`）的请求外，其他请求依然是返回成功的。
-这是符合预期的，因为现在严格要求使用双向 TLS，但是没有 Sidecar 的工作负载无法满足这一要求。
+的服务（`httpbin.foo` 或 `httpbin.bar`）的请求外，其他请求依然是成功的。
+这是符合预期的结果，因为现在严格要求使用双向 TLS，但没有 Sidecar 的工作负载无法满足这一要求。
 
-### 清除部分 1 {#cleanup-part-1}
+### 清理第 1 部分 {#cleanup-part-1}
 
-删除在会话中添加的全局身份验证策略：
+删除在会话中添加的全局认证策略：
 
 {{< text bash >}}
 $ kubectl delete peerauthentication -n istio-system default
@@ -174,9 +172,9 @@ $ kubectl delete peerauthentication -n istio-system default
 
 ### 命名空间级别策略 {#namespace-wide-policy}
 
-如果要将特定命名空间内的所有工作负载更改双向 TLS，请使用命名空间级别策略。
-该策略的规范与整个服务网格级别规范相同，但是您可以在 `metadata` 字段指定命名空间的名称。
-例如，以下对等身份验证策略在 `foo` 命名空间上启用了严格的双向 TLS：
+如果要为特定命名空间内的所有工作负载更改双向 TLS，请使用命名空间级别策略。
+该策略的规范与整个网格级别的规范相同，但是您可以在 `metadata` 字段指定命名空间的名称。
+例如，以下对等认证策略在 `foo` 命名空间上启用了严格的双向 TLS：
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -210,9 +208,9 @@ sleep.legacy to httpbin.legacy: 200
 
 ### 为每个工作负载启用双向 TLS {#enable-mutual-TLS-per-workload}
 
-要为特定工作负载设置对等身份验证策略，必须配置 `selector`
-字段并指定与所需工作负载匹配的标签。例如，以下对等身份验证策略和
-destination rule 将为 `httpbin.bar` 服务启用严格的双向 TLS：
+要为特定工作负载设置对等认证策略，您必须配置 `selector`
+字段并指定与所需工作负载匹配的标签。例如，以下对等认证策略和目标规则将为
+`httpbin.bar` 服务启用严格的双向 TLS：
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n bar -f -
@@ -254,8 +252,8 @@ sleep.legacy to httpbin.bar: 000
 command terminated with exit code 56
 {{< /text >}}
 
-要优化每个端口的 双向 TLS 设置，必须配置 `portLevelMtls` 字段。
-例如，以下对等身份验证策略要求在除 `80` 端口以外的所有端口上都使用双向 TLS：
+要优化每个端口的双向 TLS 设置，您必须配置 `portLevelMtls` 字段。
+例如，以下对等认证策略要求在除 `80` 端口以外的所有端口上都使用双向 TLS：
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n bar -f -
@@ -276,7 +274,7 @@ spec:
 EOF
 {{< /text >}}
 
-1. 对等身份验证策略中的端口值为容器的端口。destination rule 的值是服务的端口。
+1. 对等认证策略中的端口值为容器的端口。目标规则的值是服务的端口。
 1. 如果端口绑定到服务则只能使用 `portLevelMtls` 配置，其他配置将被 Istio 忽略。
 
 {{< text bash >}}
@@ -298,7 +296,7 @@ sleep.legacy to httpbin.legacy: 200
 为了演示特定服务策略比命名空间范围的策略优先级高，您可以像下面一样为
 `httpbin.foo` 添加一个禁用双向 TLS 的策略。
 注意您已经为所有在命名空间 `foo` 中的服务创建了命名空间范围的策略来启用双向
-TLS 并观察到从 `sleep.legacy` 到 `httpbin.foo` 的请求都会失败（如上所示）。
+TLS，发现从 `sleep.legacy` 到 `httpbin.foo` 的请求都会失败（如上所示）。
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n foo -f -
@@ -311,12 +309,12 @@ spec:
   selector:
     matchLabels:
       app: httpbin
-    mtls:
-      mode: DISABLE
+  mtls:
+    mode: DISABLE
 EOF
 {{< /text >}}
 
-重新执行来自 `sleep.legacy` 的请求，您应该又会看到请求成功返回 200 代码，
+重新执行来自 `sleep.legacy` 的请求，您应该又会看到请求成功并返回 200 代码，
 证明了特定服务策略覆盖了命名空间范围的策略。
 
 {{< text bash >}}
@@ -324,7 +322,7 @@ $ kubectl exec "$(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items..me
 200
 {{< /text >}}
 
-### 清除部分 2 {#cleanup-part-2}
+### 清理第 2 部分 {#cleanup-part-2}
 
 删除之前步骤中创建的策略：
 
@@ -387,7 +385,7 @@ $ curl "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"
 200
 {{< /text >}}
 
-现在添加一个身份验证策略，该策略要求 Ingress 网关指定终端用户的 JWT。
+现在添加一个认证策略，该策略要求 Ingress 网关指定终端用户的 JWT。
 
 {{< tabset category-name="config-api" >}}
 
@@ -567,9 +565,9 @@ $ curl "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"
 
 ### 按路径提供有效令牌 {#require-valid-tokens-per-path}
 
-为了按路径（路径指 host、path 或者 method）提供有效令牌我们需要在其认证策略中指定这些路径，
-如下列配置中的 `/headers`。待规则生效后，对 `$INGRESS_HOST:$INGRESS_PORT/headers`
-的请求将失败，错误代码为 `403`。而到其他所有路径的请求 —— 例如：`$INGRESS_HOST:$INGRESS_PORT/ip` —— 都会成功。
+为了按路径（路径指 host、path 或者 method）提供有效令牌，我们需要在其授权策略中指定这些路径，
+如下列配置中的 `/headers` 只需要 JWT。待授权规则生效后，对 `$INGRESS_HOST:$INGRESS_PORT/headers`
+的请求将失败，错误代码为 `403`。而到其他所有路径的请求（例如 `$INGRESS_HOST:$INGRESS_PORT/ip`）都会成功。
 
 {{< tabset category-name="config-api" >}}
 
@@ -637,7 +635,7 @@ $ curl "$INGRESS_HOST:$INGRESS_PORT/ip" -s -o /dev/null -w "%{http_code}\n"
 200
 {{< /text >}}
 
-### 清除部分 3 {#cleanup-part-3}
+### 清理第 3 部分 {#cleanup-part-3}
 
 1. 删除认证策略：
 
@@ -657,7 +655,7 @@ $ curl "$INGRESS_HOST:$INGRESS_PORT/ip" -s -o /dev/null -w "%{http_code}\n"
     $ rm -f ./gen-jwt.py ./key.pem
     {{< /text >}}
 
-1. 如果您不不打算继续后续章节的任务，您可以通过删除命名空间的方式清除所有资源：
+1. 如果您不打算继续后续章节的任务，只需删除这些测试命名空间，就可以移除所有资源：
 
     {{< text bash >}}
     $ kubectl delete ns foo bar legacy

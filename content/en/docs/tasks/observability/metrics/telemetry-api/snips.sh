@@ -60,13 +60,13 @@ spec:
   metrics:
     - overrides:
         - match:
-            metric: ALL_METRICS
+            metric: REQUEST_COUNT
             mode: CLIENT
           tagOverrides:
             destination_x:
               value: upstream_peer.labels['app'].value
         - match:
-            metric: ALL_METRICS
+            metric: REQUEST_COUNT
             mode: SERVER
           tagOverrides:
             source_x:

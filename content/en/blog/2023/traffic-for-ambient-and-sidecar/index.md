@@ -12,16 +12,16 @@ There are 2 deployment modes for Istio: ambient mode and sidecar mode. The forme
 
 In the architecture of modern microservices, communication and management among services is critical. To address the challenge, Istio emerged as a service mesh technology. It provides traffic control, security, and superior observation capabilities by utilizing the sidecar. In order to further improve the adaptability and flexibility of Istio, the Istio community began to explore a new mode - ambient mode. In this mode, Istio no longer relies on explicit sidecar injection, but achieves communication and mesh management among services through ztunnel and waypoint proxies. Ambient also brings a series of improvements, such as lower resource consumption, simpler deployment, and more flexible configuration options. When enabling ambient mode, we don't have to restart pods anymore which enables Istio to play a better role in various scenarios.
 
-There are many blogs, which can be found in `Reference Resources` section of this blog, to introduce and analyze ambient mode in community and technology forums, and this blog will analyze the network traffic path in Istio ambient and sidecar modes. We will analyze the network traffic path between services in these two modes.
+There are many blogs, which can be found in the [Reference Resources](#reference-resources) section of this blog, that introduce and analyze ambient, and this blog will analyze the network traffic path in Istio ambient and sidecar modes.
 
 To clarify the network traffic paths and make it easier to understand, this blog post explores the following two scenarios with corresponding diagrams:
 
 - **The network path of services in ambient mode to services in sidecar mode**
 - **The network path of services in sidecar mode to services in ambient mode**
 
-_Note 1: The following analysis is based on Istio 1.18.2, where ambient mode uses iptables for redirection._
+## Information about the analysis
 
-_Note 2: The communications between sidecar and ztunnel/waypoint proxy uses `[HTTP Based Overlay Network (HBONE)](https://docs.google.com/document/d/1Ofqtxqzk-c_wn0EgAXjaJXDHB9KhDuLe-W3YGG67Y8g/edit)`._
+The analysis is based on Istio 1.18.2, where ambient mode uses iptables for redirection.
 
 ## Ambient mode `sleep` to sidecar mode `httpbin`
 
@@ -49,15 +49,15 @@ All network traffic coming in/out of the pod with ambient mode enabled will go t
 
 According to above diagram, the details of network traffic path is demonstrated as below:
 
-**(1) (2) (3)**  Request traffic of the `sleep` service is sent out from the `veth` of the `sleep` pod where it will be marked and forwarded to the `istioout` device in the node by following the iptables rules and route rules. The `istioout` device in the node A is a `[geneve](https://www.rfc-editor.org/rfc/rfc8926.html)` tunnel, and the other end of the tunnel is `pistioout`, which is inside the ztunnel pod on the same node.
+**(1) (2) (3)** Request traffic of the `sleep` service is sent out from the `veth` of the `sleep` pod where it will be marked and forwarded to the `istioout` device in the node by following the iptables rules and route rules. The `istioout` device on node A is a [Geneve](https://www.rfc-editor.org/rfc/rfc8926.html) tunnel, and the other end of the tunnel is `pistioout`, which is inside the ztunnel pod on the same node.
 
-**(4) (5)**  When the traffic arrives through the `pistioout` device, the iptables rules inside the pod intercept and redirect it through the `eth0` interface in the pod to port `15001`.
+**(4) (5)** When the traffic arrives through the `pistioout` device, the iptables rules inside the pod intercept and redirect it through the `eth0` interface in the pod to port `15001`.
 
-**(6)** According to the original request information, ztunnel can obtain the endpoint list of the target service. It will then handle sending the request to the endpoint, such as one of the `httpbin` pods. At last, the request traffic would get into the `httpbin` pod via the container network.
+**(6)** According to the original request information, ztunnel can obtain the endpoint list of the target service. It will then handle sending the request to the endpoint, such as one of the `httpbin` pods. Finally, the request traffic would get into the `httpbin` pod via the container network.
 
-**(7)**  The request traffic arriving in `httpbin` pod will be intercepted and redirected through port `15006` of the sidecar by its iptables rules.
+**(7)** The request traffic arriving in `httpbin` pod will be intercepted and redirected through port `15006` of the sidecar by its iptables rules.
 
-**(8)**  Sidecar handles the inbound request traffic coming in via port 15006, and forwards the traffic to the `httpbin` container in the same pod.
+**(8)** Sidecar handles the inbound request traffic coming in via port 15006, and forwards the traffic to the `httpbin` container in the same pod.
 
 ## Sidecar mode `sleep` to ambient mode `httpbin` and `helloworld`
 
@@ -86,19 +86,19 @@ With the above description, the deployment and network traffic paths are:
 
 Network traffic path of a request from the `sleep` pod (sidecar mode) to the `httpbin` pod (ambient mode) is depicted in the top half of the diagram above.
 
-**(1) (2) (3) (4)** the `sleep` container sends a request to `httpbin`. The request is intercepted by iptables rules and directed to port `15001` on the sidecar in the `sleep` pod. Then, the sidecar handles the request and routes the traffic based on the configuration received from istiod (control plane). Next, the sidecar forwards the traffic to an IP address corresponding to the `httpbin` pod on node B.
+**(1) (2) (3) (4)** the `sleep` container sends a request to `httpbin`. The request is intercepted by iptables rules and directed to port `15001` on the sidecar in the `sleep` pod. Then, the sidecar handles the request and routes the traffic based on the configuration received from istiod (control plane) forwarding the traffic to an IP address corresponding to the `httpbin` pod on node B.
 
-**(5) (6)**  After the request is sent to the device pair (`veth httpbin <-> eth0 inside httpbin pod`), the request is intercepted and forwarded using the iptables and route rules to the `istioin` device on the node B where `httpbin` pod is running by following its iptables and route rules. The `istioin` device on node B and the `pistion` device inside the ztunnel pod on the same node are connected by a `[geneve](https://www.rfc-editor.org/rfc/rfc8926.html)` tunnel.
+**(5) (6)** After the request is sent to the device pair (`veth httpbin <-> eth0 inside httpbin pod`), the request is intercepted and forwarded using the iptables and route rules to the `istioin` device on node B where `httpbin` pod is running by following its iptables and route rules. The `istioin` device on node B and the `pistion` device inside the ztunnel pod on the same node are connected by a [Geneve](https://www.rfc-editor.org/rfc/rfc8926.html) tunnel.
 
 **(7) (8)** After the request enters the `pistioin` device of the ztunnel pod, the iptables rules in the ztunnel pod intercept and redirect the traffic through port 15008 on the ztunnel proxy running inside the pod.
 
-**(9)** The traffic getting into the port 15008 would be considered as a inbound request, then ztunnel will forward the request to the `httpbin` pod in the same node B.
+**(9)** The traffic getting into the port 15008 would be considered as a inbound request, and the ztunnel will then forward the request to the `httpbin` pod in the same node B.
 
 ### Network traffic path analysis of sidecar mode `sleep` to ambient mode `httpbin` via waypoint proxy
 
-Comparing with the top part of the diagram, the bottom part inserts a waypoint proxy in the path between `sleep`, ztunnel and `httpbin` pods. The Istio control plane has all information of service and configuration of the service mesh. When `helloworld` pod is deployed with a waypoint proxy, the EDS configuration of `helloworld` service received by sidecar of `sleep` pod will be changed to the type of `envoy_internal_address`. This causes that the request traffic going through the sidecar to be forwarded to port 15008 of the waypoint proxy on node C via the `[HBONE](https://docs.google.com/document/d/1Ofqtxqzk-c_wn0EgAXjaJXDHB9KhDuLe-W3YGG67Y8g/edit)` protocol.
+Comparing with the top part of the diagram, the bottom part inserts a waypoint proxy in the path between the `sleep`, ztunnel and `httpbin` pods. The Istio control plane has all the service information and configuration of the service mesh. When `helloworld` pod is deployed with a waypoint proxy, the EDS configuration of `helloworld` service received by the `sleep` pod sidecar will be changed to the type of `envoy_internal_address`. This causes that the request traffic going through the sidecar to be forwarded to port 15008 of the waypoint proxy on node C via the [HTTP Based Overlay Network (HBONE)](https://docs.google.com/document/d/1Ofqtxqzk-c_wn0EgAXjaJXDHB9KhDuLe-W3YGG67Y8g/edit) protocol.
 
-Waypoint proxy is an instance of the Envoy proxy and forwards the request to the `helloworld` pod based on the routing configuration received from the control plane. Once traffic reaches the `veth` on node D, it follows the same path as the previous scenario
+Waypoint proxy is an instance of Envoy proxy and forwards the request to the `helloworld` pod based on the routing configuration received from the control plane. Once traffic reaches the `veth` on node D, it follows the same path as the previous scenario.
 
 ## Wrapping up
 
@@ -107,5 +107,5 @@ The sidecar mode is what made Istio a great service mesh. However, the sidecar m
 ## Reference Resources
 
 - [Traffic in ambient mesh: Istio CNI and node configuration](https://www.solo.io/blog/traffic-ambient-mesh-istio-cni-node-configuration/)
-- [Traffic in ambient mesh: Redirection using iptables and GENEVE tunnels](https://www.solo.io/blog/traffic-ambient-mesh-redirection-iptables-geneve-tunnels/)
+- [Traffic in ambient mesh: Redirection using iptables and Geneve tunnels](https://www.solo.io/blog/traffic-ambient-mesh-redirection-iptables-geneve-tunnels/)
 - [Traffic in ambient mesh: ztunnel, eBPF configuration, and waypoint proxies](https://www.solo.io/blog/traffic-ambient-mesh-ztunnel-ebpf-waypoint/)
