@@ -21,7 +21,7 @@ IstioCon 致力于打造行业领先的服务网格，
 由 Istio 维护者和 CNCF 安排和主办。
 我们非常自豪能够在上海举办如此盛大的 IstioCon 活动，
 并很高兴将中国 Istio 社区的成员聚集在一起。
-此次活动证明了 Istio 在亚太生态系统中巨大的受欢迎程度。
+此次活动展示了 Istio 在亚太生态系统中深受开发者和用户的欢迎。
 
 {{< image link="./group-pic.jpg"
     caption="IstioCon 2023 中国站"
