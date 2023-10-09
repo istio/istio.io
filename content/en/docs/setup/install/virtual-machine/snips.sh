@@ -187,7 +187,7 @@ sudo cp "${HOME}"/mesh.yaml /etc/istio/config/mesh
 }
 
 snip_configure_the_virtual_machine_7() {
-sudo sh -c 'cat $(eval echo ~$SUDO_USER)/hosts >> /etc/hosts'
+sudo sh -c 'cat $(eval echo ~$USER)/hosts >> /etc/hosts'
 }
 
 snip_configure_the_virtual_machine_8() {
