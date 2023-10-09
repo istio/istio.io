@@ -47,8 +47,8 @@ IstioCon 中国站在程序委员会成员宋净超和徐中虎的开幕主题�
     >}}
 
 主题演讲结束后，英特尔的张怀龙和阿里巴巴的曾宇星讨论了
-Ambient 和 Sidecar 共存的配置：对于想要尝试新
-Ambient 模式的现有用户来说，这是一个非常相关的主题。
+Ambient 和 Sidecar 共存的配置（[博客文章（英文版）](/blog/2023/traffic-for-ambient-and-sidecar/)）：
+对于想要尝试新 Ambient 模式的现有用户来说，这是一个非常相关的主题。
 
 {{< image width="75%"
     link="./ambient-l4.jpg"
