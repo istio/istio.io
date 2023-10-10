@@ -1,6 +1,6 @@
 ---
-title: Lightstep
-description: How to configure the proxies to send tracing requests to Lightstep.
+title: ServiceNow Cloud Observability (Lightstep)
+description: How to configure the proxies to send tracing requests to ServiceNow Cloud Observability (Lightstep).
 weight: 11
 keywords: [telemetry,tracing,lightstep]
 aliases:
@@ -11,8 +11,8 @@ test: no
 
 {{< boilerplate telemetry-tracing-tips >}}
 
-This task shows you how to configure Istio to collect trace spans and send them to [Lightstep](https://lightstep.com).
-Lightstep lets you analyze 100% of unsampled transaction data from large scale production software to produce meaningful
+This task shows you how to configure Istio to collect trace spans and send them to [ServiceNow Cloud Observability](https://lightstep.com) (SNCO).
+SNCO lets you analyze 100% of unsampled transaction data from large scale production software to produce meaningful
 distributed traces and metrics that help explain performance behaviors and accelerate root cause analysis.
 At the end of this task, Istio sends trace spans from the proxies to a Lightstep Satellite pool making them
 available to the web UI. By default, all HTTP requests are captured (to see end-to-end traces, your code needs to forward OT headers even if it does not join the traces).
@@ -23,174 +23,377 @@ This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as an
 
 ## Before you begin
 
-1.  Ensure you have a Lightstep account. [Sign up](https://go.lightstep.com/trial) for a free trial of Lightstep.
+1. Ensure you have a SNCO account. You can use the free community tier and sign up [here](https://info.servicenow.com/developersignup.html).
 
-1.  If you're using [on-premise Satellites](https://docs.lightstep.com/docs/learn-about-satellites#on-premise-satellites), ensure you have a satellite pool configured with TLS certs and a secure GRPC port exposed. See
-    [Install and Configure Satellites](https://docs.lightstep.com/docs/install-and-configure-satellites) for details about setting up satellites.
+1. Ensure sure you have a SNCO [access token](https://docs.lightstep.com/docs/create-and-manage-access-tokens). Access tokens allow your app to communicate with your SNCO project.
 
-    For [Lightstep Public Satellites](https://docs.lightstep.com/docs/learn-about-satellites#public-satellites) or [Developer Satellites](https://docs.lightstep.com/docs/learn-about-satellites#developer-satellites), your satellites are already configured. However you need to download [this certificate](https://docs.lightstep.com/docs/instrument-with-istio-as-your-service-mesh#cacertpem-file) to a local directory.
+## Setup Istio
 
-1.  Ensure sure you have a Lightstep [access token](https://docs.lightstep.com/docs/create-and-manage-access-tokens). Access tokens allow your app to communicate with your Lightstep project.
+Before installing Istio you will need to have a Kubernetes cluster running a supported version of Kubernetes. For Istio v.19 this is Kubernetes versions 1.25, 1.26, 1.27 or 1.28. See here for a list of supported Kubernetes versions if you are installing a different version of Istio.
 
-## Deploy Istio
+### Download and Extract Istio
 
-How you deploy Istio depends on which type of Satellite you use.
+1. Use the following command to download and extract the latest Istio release for your operating system (Linux of macOS). For other releases and operating systems, download the your installation file from the Istio releases page
 
-### Deploy Istio with On-Premise Satellites
+{{< text bash >}}
+curl -L <https://istio.io/downloadIstio> | sh -
+{{< /text >}}
 
-These instructions do not assume TLS. If you are using TLS for your Satellite pool, follow the config for the [Public Satellite pool](#deploy-istio-with-public-or-developer-mode-satellites), but
-use your own cert and your own pool's endpoint (`host:port`).
+1. Change to the directory where you extracted Istio. For example, if you downloaded the latest using the command above the directory will be `istio-1.19.0` (or similar depending on which version you downloaded)
 
-1.  You need to deploy Istio with your Satellite address at an address in the format `<Host>:<Port>`, for example `lightstep-satellite.lightstep:9292`. You find this in your [configuration](https://docs.lightstep.com/docs/satellite-configuration-parameters#ports) file.
+{{< text bash >}}
+cd istio-1.19.0
+{{< /text >}}
 
-1.  Deploy Istio with the following configuration parameters specified:
-    - `global.proxy.tracer="lightstep"`
-    - `meshConfig.defaultConfig.tracing.sampling=100`
-    - `meshConfig.defaultConfig.tracing.lightstep.address="<satellite-address>"`
-    - `meshConfig.defaultConfig.tracing.lightstep.accessToken="<access-token>"`
+1. Add istioctl to your PATH (Linux or macOS)
 
-    You can set these parameters using the `--set key=value` syntax
-    when you run the install command. For example:
+{{< text bash >}}
+export PATH=$PWD/bin:$PATH
+{{< /text >}}
 
-    {{< text bash >}}
-    $ istioctl install \
-        --set global.proxy.tracer="lightstep" \
-        --set meshConfig.defaultConfig.tracing.sampling=100 \
-        --set meshConfig.defaultConfig.tracing.lightstep.address="<satellite-address>" \
-        --set meshConfig.defaultConfig.tracing.lightstep.accessToken="<access-token>" \
-    {{< /text >}}
+### Install Istio in your Cluster
 
-### Deploy Istio with Public or Developer Mode Satellites
+1. Use `istioctl` to install Istio in your cluster. The example below uses the `demo` configuration profile which is ideal for the purposes of this guide. See the [available configuration profiles](https://istio.io/latest/docs/setup/additional-setup/config-profiles/) for more info.
 
-Follow these steps if you're using the Public or Developer Mode Satellites, or if you're using on-premise Satellites with a TLS certificate.
+{{< text bash >}}
+istioctl install --set profile=demo -y
+{{< /text >}}
 
-1.  Store your satellite pool's certificate authority certificate as a secret in the default and `istio-system` namespace, the latter for use by the Istio gateways.
-    Download and use [this certificate](https://docs.lightstep.com/docs/instrument-with-istio-as-your-service-mesh#cacertpem-file).
-    If you deploy the Bookinfo application in a different namespace, create the secret in that namespace instead.
+1. Add the following label to your Kubernetes namespace. This instructs Istio to automatically inject Envoy sidecar proxies with your pods in this namespace.
 
-    {{< text bash >}}
-    $ CACERT=$(cat Cert_Auth.crt | base64) # Cert_Auth.crt contains the necessary CACert
-    $ NAMESPACE=default
-    {{< /text >}}
+{{< text bash >}}
+kubectl label namespace default istio-injection=enabled
+{{< /text >}}
 
-    {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
-      apiVersion: v1
-      kind: Secret
-      metadata:
-        name: lightstep.cacert
-        namespace: $NAMESPACE
-        labels:
-          app: lightstep
-      type: Opaque
-      data:
-        cacert.pem: $CACERT
-    EOF
-    {{< /text >}}
+### Verify Installation
 
-1.  Deploy Istio with the following configuration parameters specified:
+1. You now have Istio installed and running in your cluster. Let’s take a look at what was installed. Run the following command:
 
-    {{< text yaml >}}
-    global:
-      proxy:
-        tracer: "lightstep"
-    meshConfig:
-      defaultConfig:
-        tracing:
-          lightstep:
-            address: "ingest.lightstep.com:443"
-            accessToken: "<access-token>"
-          sampling: 100
-          tlsSettings
-            mode: "SIMPLE"
-            # Specifying ca certificate here will moute `lightstep.cacert` secret volume
-            # at all sidecars by default.
-            caCertificates="/etc/lightstep/cacert.pem"
-    components:
-      ingressGateways:
-      # `lightstep.cacert` secret volume needs to be mount at gateways via k8s overlay.
-      - name: istio-ingressgateway
-        enabled: true
-        k8s:
-          overlays:
-          - kind: Deployment
-            name: istio-ingressgateway
-            patches:
-            - path: spec.template.spec.containers[0].volumeMounts[-1]
-              value: |
-                name: lightstep-certs
-                mountPath: /etc/lightstep
-                readOnly: true
-            - path: spec.template.spec.volumes[-1]
-              value: |
-                name: lightstep-certs
-                secret:
-                  secretName: lightstep.cacert
-                  optional: true
-    {{< /text >}}
+{{< text bash >}}
+kubectl get pods -n istio-system
+{{< /text >}}
+
+1. You should see 3 pods: the `istiod` control plane, an ingress gateway and an egress gateway. Let’s check the auto-injection label:
+
+{{< text bash >}}
+kubectl get namespaces --show-labels
+{{< /text >}}
+
+You should see the `default` namespace with the `istio-injection=enabled` label. This label tells Istio to inject an Envoy sidecar proxy with all workloads in this namespace.
+
+Now let’s deploy a sample application that we will use for testing our telemetry configuration.
 
 ## Install and run the Bookinfo app
 
 1. Follow the [instructions to deploy the Bookinfo sample application](/docs/examples/bookinfo/#deploying-the-application).
 
-1.  Follow the [instructions to create an ingress gateway for the Bookinfo application](/docs/examples/bookinfo/#determine-the-ingress-ip-and-port).
+1. Follow the [instructions to create an ingress gateway for the Bookinfo application](/docs/examples/bookinfo/#determine-the-ingress-ip-and-port).
 
-1.  To verify the previous step's success, confirm that you set `GATEWAY_URL` environment variable in your shell.
+1. To verify the previous step's success, confirm that you set `GATEWAY_URL` environment variable in your shell.
 
-1.  Send traffic to the sample application.
+1. Send traffic to the sample application.
 
     {{< text bash >}}
     $ curl http://$GATEWAY_URL/productpage
     {{< /text >}}
 
-## Visualize trace data
+## Collect OpenTelemetry Traces
 
-1.  Load the Lightstep [web UI](https://app.lightstep.com/). You'll see the three Bookinfo services listed in the Service Directory.
+### Deploy an OpenTelemetry Collector
 
-    {{< image link="./istio-services.png" caption="Bookfinder services in the Service Directory" >}}
+The OpenTelemetry Collector provides a vendor-agnostic solution for receiving, processing and exporting telemetry data. We won’t cover the collector in depth here but I encourage you to review the documentation on the collector to learn more about the features and capabilities it provides. For the purposes of this guide, the collector is used to receive the telemetry data from Istio, batch the data and export it to Cloud Observability.
 
-1.  Navigate to the Explorer view.
+1. Create a new filed name `otel-collector.yaml`
 
-    {{< image link="./istio-explorer.png" caption="Explorer view" >}}
+1. Add the following `ConfigMap` to the file.
 
-1.  Find the query bar at the top. The query bar allows you to interactively filter results by a **Service**, **Operation**, and **Tag** values.
+{{< text yaml >}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: opentelemetry-collector-conf
+  namespace: istio-system
+  labels:
+    app: opentelemetry-collector
+data:
+  opentelemetry-collector-config: |
+    receivers:
+      otlp:
+        protocols:
+          grpc:
+          http:
+    processors:
+      batch:
+    exporters:
+      otlp/lightstep:
+        endpoint: ingest.lightstep.com:443
+        headers:
+          "lightstep-access-token": "<YOUR_TOKEN>"
+      logging:
+        loglevel: debug
+    extensions:
+      health_check:
+    service:
+      extensions:
+      - health_check
+      pipelines:
+        logs:
+          receivers: [otlp]
+          processors: [batch]
+          exporters: [logging]
+        traces:
+          receivers: [otlp]
+          processors: [batch]
+          exporters: [logging, otlp/lightstep]
+        metrics:
+          receivers: [otlp]
+          processors: [batch]
+          exporters: [logging, otlp/lightstep]
+{{< /text >}}
 
-1.  Select `productpage.default` from the **Service** drop-down list.
+1. Update `<YOUR_TOKEN>` with a Lightstep access token for your project in Cloud Observability. See the instructions [here](https://docs.lightstep.com/docs/create-and-manage-access-tokens) on how to create and manage access tokens in Cloud Observability.
 
-1.  Click **Run**. You see something similar to the following:
+1. Add the following `service` definition to the file
 
-    {{< image link="./istio-tracing-list-lightstep.png" caption="Explorer" >}}
+{{< text yaml >}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: opentelemetry-collector
+  namespace: istio-system
+  labels:
+    app: opentelemetry-collector
+spec:
+  ports:
+    - name: grpc-otlp # Default endpoint for OpenTelemetry receiver.
+      port: 4317
+      protocol: TCP
+      targetPort: 4317
+  selector:
+    app: opentelemetry-collector
+{{< /text >}}
 
-1.  Click on the first row in the table of example traces below the latency histogram to see the details
-    corresponding to your refresh of the `/productpage`. The page then looks similar to:
+1. Add the following `deployment` to the file
 
-    {{< image link="./istio-tracing-details-lightstep.png" caption="Detailed Trace View" >}}
+{{< text yaml >}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: opentelemetry-collector
+  namespace: istio-system
+spec:
+  selector:
+    matchLabels:
+      app: opentelemetry-collector
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: opentelemetry-collector
+        sidecar.istio.io/inject: "false" # do not inject
+    spec:
+      containers:
+        - command:
+            - "/otelcol"
+            - "--config=/conf/opentelemetry-collector-config.yaml"
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.name
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+          image: otel/opentelemetry-collector:0.71.0
+          imagePullPolicy: IfNotPresent
+          name: opentelemetry-collector
+          ports:
+            - containerPort: 4317
+              protocol: TCP
+          resources:
+            limits:
+              cpu: "2"
+              memory: 4Gi
+            requests:
+              cpu: 200m
+              memory: 400Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - name: opentelemetry-collector-config-vol
+              mountPath: /conf
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - configMap:
+            defaultMode: 420
+            items:
+              - key: opentelemetry-collector-config
+                path: opentelemetry-collector-config.yaml
+            name: opentelemetry-collector-conf
+          name: opentelemetry-collector-config-vol
+{{< /text >}}
 
-The screenshot shows that the trace is comprised of a set of spans. Each span corresponds to a Bookinfo service invoked
-during the execution of a `/productpage` request.
+1. Deploy the collector to the `istio-system` namespace in the cluster
 
-Two spans in the trace represent every RPC. For example, the call from `productpage` to `reviews` starts
-with the span labeled with the `reviews.default.svc.cluster.local:9080/*` operation and the
-`productpage.default: proxy client` service. This service represents the client-side span of the call. The screenshot shows
-that the call took 15.30 ms. The second span is labeled with the `reviews.default.svc.cluster.local:9080/*` operation
-and the `reviews.default: proxy server` service. The second span is a child of the first span and represents the
-server-side span of the call. The screenshot shows that the call took 14.60 ms.
+{{< text bash >}}
+kubectl apply -f otel-collector.yaml -n istio-system
+{{< /text >}}
+
+**Note:** This example uses a specific version of the collector. To use the latest version or some other preferred version, update the `image` with the latest version of the `opentelemetry-collector`. See [here](https://github.com/open-telemetry/opentelemetry-collector/releases) for the list of collector releases.
+
+The OpenTelemetry Collector is now deployed and running in the cluster. Now we need to configure Istio to send the distributed tracing data to the collector.
+
+### Configure Istio Telemetry
+
+With the collector deployed and configured to export data to Cloud Observability we now need to configure Istio to use OpenTelemetry and send the telemetry data to the collector.
+
+1. Create a new file named istio-telemetry.yaml
+1. Add the following ConfigMap to the file. This configures Istio to use OpenTelemetry for tracing and configures the service (the collector) where it should send the OpenTelemetry data.
+
+{{< /text yaml >}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: istio
+  namespace: istio-system
+  annotations:
+    meta.helm.sh/release-name: istiod
+    meta.helm.sh/release-namespace: istio-system
+  labels:
+    app.kubernetes.io/managed-by: Helm
+    install.operator.istio.io/owning-resource: unknown
+    istio.io/rev: default
+    operator.istio.io/component: Pilot
+    release: istiod
+data:
+  meshNetworks: |-
+        networks: {}
+
+  mesh: |-
+    defaultConfig:
+      discoveryAddress: istiod.istio-system.svc:15012
+      tracing: {}
+    defaultProviders:
+      tracing:
+        - opentelemetry
+    extensionProviders:
+      - name: "opentelemetry"
+        opentelemetry:
+          service: "opentelemetry-collector.istio-system.svc.cluster.local"
+          port: 4317
+    enablePrometheusMerge: true
+    rootNamespace: null
+    trustDomain: cluster.local
+{{< /text >}}
+
+1. Next add the following `Telemetry` configuration to the file. This configures Istio to use the configuration created above for telemetry.
+
+{{< /text yaml >}}
+apiVersion: telemetry.istio.io/v1alpha1
+kind: Telemetry
+metadata:
+  name: mesh-default
+  namespace: istio-system
+spec:
+  accessLogging:
+    - providers:
+        - name: opentelemetry
+  tracing:
+    - providers:
+        - name: opentelemetry
+      randomSamplingPercentage: 100
+{{< /text >}}
+
+1. Deploy the configuration in the istio-system namespace
+
+{{< /text bash >}}
+kubectl apply -f istio-telemetry.yaml -n istio-system
+{{< /text >}}
+
+#### Restart Your Workloads
+
+Anytime the Istio configuration is updated you need to restart your workloads so the sidecars get re-injected with the updated configuration. The following is an example of how to restart a deployment:
+
+{{< /text bash >}}
+kubectl rollout restart deployment -n NAMESPACE DEPLOYMENT_NAME
+{{< /text >}}
+
+Restart the **Bookinfo** deployments before proceeding. The following will give you a list of deployments. If using a namespace other than the default namespace be sure to add `-n NAMESPACE` to the following command
+
+{{< /text bash >}}
+kubectl get deployments
+{{< /text >}}
+
+Istio is now configured to use OpenTelemetry for distributed tracing and send the tracing data to the OpenTelemetry Collector. Let’s test it all out and review the data in Cloud Observability.
+
+## See the Results in SNCO
+
+Istio is now configured to send OpenTelemetry data to Cloud Observability via a local OpenTelemetry Collector. Let’s use the **Bookinfo** application to test our configuration and review the results in Cloud Observability.
+
+1. Load the **Bookinfo** app in your browser again and refresh a few times to generate some traces.
+1. Sign in to ServiceNow Cloud Observability
+1. Click on Notebooks in the side navigation bar
+
+{{< image link="./notebooks.png" caption="Open SNCO Notebooks" >}}
+
+1. In the Unified Query Builder change `All telemetry` to `Spans with`
+
+{{< image link="./spans-with.png" caption="Use the Unified Query Builder" >}}
+
+1. In the `Search for a span attribute key` textbox enter `service` then in the `Search for values` textbox enter `productpage.default` and hit enter. This will execute the query to get latency values from all spans for the service `productpage.default` in the last hour
+
+{{< image link="./query-input.png" caption="Update the query" >}}
+
+1. Below the chart, click on the `Span samples` tab. This shows a list of all spans that match the query. Click on one of the span records in the table. This will load the trace view for the trace that includes that span in a new tab.
+
+{{< image link="./span-samples.png" caption="Open the matching span results" >}}
+
+Review the information that is available in this trace view. You should see a tree of the `egress` and `ingress` operations and the amount of latency they contributed as the request flows through the `istio-ingressgateway` to the `productpage` and from `productpage` to the `details` service. Click on each of the operations and notice the attributes that are populated in the sidebar on the right. You should see rich data about the context of the operation including versions, namespace, protocols, networking details, user agent and more.
+
+{{< image link="./trace-view.png" caption="Explore your selected trace" >}}
+
+## Conclusion
+
+You now have Istio configured for tracing with OpenTelemetry and a collector deployed to export the data to SNCO. Using this data you can monitor the health of requests flowing through your services and build dependency diagrams to visualize your microservice architecture. The rich span data provides important information about the context of requests and enables powerful querying capabilities to aid your investigations.
+
+All of this was accomplished without needing to modify any of the actual services running in your cluster. This solution allows you to start observing your applications with minimal effort and without the need to involve the service teams.
+
+### Additional Resources
+
+To further your journey with Istio, OpenTelemetry and SNCO, take a look at some of these resources:
+
+* [Configure Istio to Send Metrics to SNCO](https://docs.lightstep.com/integrations/ingest-metrics-istio)
+* [Understand Distributed Tracing](https://docs.lightstep.com/docs/understand-distributed-tracing)
+* [Monitor Kubernetes Applications](https://docs.lightstep.com/docs/monitor-k8s-applications)
+* [Customizing Istio Metrics with Telemetry API](https://istio.io/latest/docs/tasks/observability/metrics/telemetry-api/)
+* [Query and Visualize Your Data in Cloud Observability](https://docs.lightstep.com/docs/query-your-data)
+* [Observability Primer](https://opentelemetry.io/docs/concepts/observability-primer/)
 
 ## Trace sampling
 
 Istio captures traces at a configurable trace sampling percentage. To learn how to modify the trace sampling percentage,
 visit the [Distributed Tracing trace sampling section](/docs/tasks/observability/distributed-tracing/mesh-and-proxy-config/#customizing-trace-sampling).
 
-When using Lightstep, we do not recommend reducing the trace sampling percentage below 100%. To handle a high traffic mesh, consider scaling up the size of your satellite pool.
+When using SNCO, we do not recommend reducing the trace sampling percentage below 100%. To handle a high traffic mesh, consider scaling up the size of your satellite pool.
 
 ## Cleanup
 
-If you are not planning any follow-up tasks, remove the Bookinfo sample application and any Lightstep secrets
+If you are not planning any follow-up tasks, remove the Bookinfo sample application and any SNCO secrets
 from your cluster.
 
 1. To remove the Bookinfo application, refer to the [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions.
 
-1. Remove the secret generated for Lightstep:
+1. Remove the secret generated for SNCO:
 
 {{< text bash >}}
 $ kubectl delete secret lightstep.cacert
