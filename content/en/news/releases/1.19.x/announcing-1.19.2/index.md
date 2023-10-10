@@ -7,7 +7,7 @@ publishdate: 2023-10-10
 release: 1.19.2
 ---
 
-This release fixes the security vulnerabilities described in our Oct 10th post, [ISTIO-SECURITY-2023-004](/news/security/istio-security-2023-004).
+This release fixes the security vulnerabilities described in our Oct 10th post, [`ISTIO-SECURITY-2023-004`](/news/security/istio-security-2023-004).
 
 This release note describes what’s different between Istio 1.19.1 and 1.19.2.
 
@@ -15,4 +15,4 @@ This release note describes what’s different between Istio 1.19.1 and 1.19.2.
 
 ## Security update
 
-- __[CVE-2023-48887](https://nvd.nist.gov/vuln/detail/CVE-2023-44487)__: (CVSS Score 7.5, High): HTTP/2 denial of service
+- __[`CVE-2023-48887`](https://nvd.nist.gov/vuln/detail/CVE-2023-44487)__: (CVSS Score 7.5, High): HTTP/2 denial of service
