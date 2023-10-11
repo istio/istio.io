@@ -70,7 +70,7 @@ $ kubectl label namespace default istio-injection=enabled
 1. You now have Istio installed and running in your cluster. Let’s take a look at what was installed. Run the following command:
 
 {{< text bash >}}
-k$ ubectl get pods -n istio-system
+$ kubectl get pods -n istio-system
 {{< /text >}}
 
 1. You should see 3 pods: the `istiod` control plane, an ingress gateway and an egress gateway. Let’s check the auto-injection label:
