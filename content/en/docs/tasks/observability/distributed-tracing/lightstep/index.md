@@ -35,49 +35,49 @@ Before installing Istio you will need to have a Kubernetes cluster running a sup
 
 1. Use the following command to download and extract the latest Istio release for your operating system (Linux of macOS). For other releases and operating systems, download the your installation file from the Istio releases page
 
-{{< text bash >}}
-curl -L <https://istio.io/downloadIstio> | sh -
-{{< /text >}}
+  {{< text bash >}}
+  curl -L <https://istio.io/downloadIstio> | sh -
+  {{< /text >}}
 
 1. Change to the directory where you extracted Istio. For example, if you downloaded the latest using the command above the directory will be `istio-1.19.0` (or similar depending on which version you downloaded)
 
-{{< text bash >}}
-cd istio-1.19.0
-{{< /text >}}
+  {{< text bash >}}
+  cd istio-1.19.0
+  {{< /text >}}
 
 1. Add istioctl to your PATH (Linux or macOS)
 
-{{< text bash >}}
-export PATH=$PWD/bin:$PATH
-{{< /text >}}
+  {{< text bash >}}
+  export PATH=$PWD/bin:$PATH
+  {{< /text >}}
 
 ### Install Istio in your Cluster
 
 1. Use `istioctl` to install Istio in your cluster. The example below uses the `demo` configuration profile which is ideal for the purposes of this guide. See the [available configuration profiles](https://istio.io/latest/docs/setup/additional-setup/config-profiles/) for more info.
 
-{{< text bash >}}
-istioctl install --set profile=demo -y
-{{< /text >}}
+  {{< text bash >}}
+  istioctl install --set profile=demo -y
+  {{< /text >}}
 
 1. Add the following label to your Kubernetes namespace. This instructs Istio to automatically inject Envoy sidecar proxies with your pods in this namespace.
 
-{{< text bash >}}
-kubectl label namespace default istio-injection=enabled
-{{< /text >}}
+  {{< text bash >}}
+  kubectl label namespace default istio-injection=enabled
+  {{< /text >}}
 
 ### Verify Installation
 
 1. You now have Istio installed and running in your cluster. Let’s take a look at what was installed. Run the following command:
 
-{{< text bash >}}
-kubectl get pods -n istio-system
-{{< /text >}}
+  {{< text bash >}}
+  kubectl get pods -n istio-system
+  {{< /text >}}
 
 1. You should see 3 pods: the `istiod` control plane, an ingress gateway and an egress gateway. Let’s check the auto-injection label:
 
-{{< text bash >}}
-kubectl get namespaces --show-labels
-{{< /text >}}
+  {{< text bash >}}
+  kubectl get namespaces --show-labels
+  {{< /text >}}
 
 You should see the `default` namespace with the `istio-injection=enabled` label. This label tells Istio to inject an Envoy sidecar proxy with all workloads in this namespace.
 
@@ -107,147 +107,147 @@ The OpenTelemetry Collector provides a vendor-agnostic solution for receiving, p
 
 1. Add the following `ConfigMap` to the file.
 
-{{< text yaml >}}
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: opentelemetry-collector-conf
-  namespace: istio-system
-  labels:
-    app: opentelemetry-collector
-data:
-  opentelemetry-collector-config: |
-    receivers:
-      otlp:
-        protocols:
-          grpc:
-          http:
-    processors:
-      batch:
-    exporters:
-      otlp/lightstep:
-        endpoint: ingest.lightstep.com:443
-        headers:
-          "lightstep-access-token": "<YOUR_TOKEN>"
-      logging:
-        loglevel: debug
-    extensions:
-      health_check:
-    service:
+  {{< text yaml >}}
+  apiVersion: v1
+  kind: ConfigMap
+  metadata:
+    name: opentelemetry-collector-conf
+    namespace: istio-system
+    labels:
+      app: opentelemetry-collector
+  data:
+    opentelemetry-collector-config: |
+      receivers:
+        otlp:
+          protocols:
+            grpc:
+            http:
+      processors:
+        batch:
+      exporters:
+        otlp/lightstep:
+          endpoint: ingest.lightstep.com:443
+          headers:
+            "lightstep-access-token": "<YOUR_TOKEN>"
+        logging:
+          loglevel: debug
       extensions:
-      - health_check
-      pipelines:
-        logs:
-          receivers: [otlp]
-          processors: [batch]
-          exporters: [logging]
-        traces:
-          receivers: [otlp]
-          processors: [batch]
-          exporters: [logging, otlp/lightstep]
-        metrics:
-          receivers: [otlp]
-          processors: [batch]
-          exporters: [logging, otlp/lightstep]
-{{< /text >}}
+        health_check:
+      service:
+        extensions:
+        - health_check
+        pipelines:
+          logs:
+            receivers: [otlp]
+            processors: [batch]
+            exporters: [logging]
+          traces:
+            receivers: [otlp]
+            processors: [batch]
+            exporters: [logging, otlp/lightstep]
+          metrics:
+            receivers: [otlp]
+            processors: [batch]
+            exporters: [logging, otlp/lightstep]
+  {{< /text >}}
 
 1. Update `<YOUR_TOKEN>` with a Lightstep access token for your project in Cloud Observability. See the instructions [here](https://docs.lightstep.com/docs/create-and-manage-access-tokens) on how to create and manage access tokens in Cloud Observability.
 
 1. Add the following `service` definition to the file
 
-{{< text yaml >}}
-apiVersion: v1
-kind: Service
-metadata:
-  name: opentelemetry-collector
-  namespace: istio-system
-  labels:
-    app: opentelemetry-collector
-spec:
-  ports:
-    - name: grpc-otlp # Default endpoint for OpenTelemetry receiver.
-      port: 4317
-      protocol: TCP
-      targetPort: 4317
-  selector:
-    app: opentelemetry-collector
-{{< /text >}}
+  {{< text yaml >}}
+  apiVersion: v1
+  kind: Service
+  metadata:
+    name: opentelemetry-collector
+    namespace: istio-system
+    labels:
+      app: opentelemetry-collector
+  spec:
+    ports:
+      - name: grpc-otlp # Default endpoint for OpenTelemetry receiver.
+        port: 4317
+        protocol: TCP
+        targetPort: 4317
+    selector:
+      app: opentelemetry-collector
+  {{< /text >}}
 
 1. Add the following `deployment` to the file
 
-{{< text yaml >}}
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: opentelemetry-collector
-  namespace: istio-system
-spec:
-  selector:
-    matchLabels:
-      app: opentelemetry-collector
-  strategy:
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 1
-    type: RollingUpdate
-  template:
-    metadata:
-      labels:
+  {{< text yaml >}}
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: opentelemetry-collector
+    namespace: istio-system
+  spec:
+    selector:
+      matchLabels:
         app: opentelemetry-collector
-        sidecar.istio.io/inject: "false" # do not inject
-    spec:
-      containers:
-        - command:
-            - "/otelcol"
-            - "--config=/conf/opentelemetry-collector-config.yaml"
-          env:
-            - name: POD_NAME
-              valueFrom:
-                fieldRef:
-                  apiVersion: v1
-                  fieldPath: metadata.name
-            - name: POD_NAMESPACE
-              valueFrom:
-                fieldRef:
-                  apiVersion: v1
-                  fieldPath: metadata.namespace
-          image: otel/opentelemetry-collector:0.71.0
-          imagePullPolicy: IfNotPresent
-          name: opentelemetry-collector
-          ports:
-            - containerPort: 4317
-              protocol: TCP
-          resources:
-            limits:
-              cpu: "2"
-              memory: 4Gi
-            requests:
-              cpu: 200m
-              memory: 400Mi
-          terminationMessagePath: /dev/termination-log
-          terminationMessagePolicy: File
-          volumeMounts:
-            - name: opentelemetry-collector-config-vol
-              mountPath: /conf
-      dnsPolicy: ClusterFirst
-      restartPolicy: Always
-      schedulerName: default-scheduler
-      terminationGracePeriodSeconds: 30
-      volumes:
-        - configMap:
-            defaultMode: 420
-            items:
-              - key: opentelemetry-collector-config
-                path: opentelemetry-collector-config.yaml
-            name: opentelemetry-collector-conf
-          name: opentelemetry-collector-config-vol
-{{< /text >}}
+    strategy:
+      rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 1
+      type: RollingUpdate
+    template:
+      metadata:
+        labels:
+          app: opentelemetry-collector
+          sidecar.istio.io/inject: "false" # do not inject
+      spec:
+        containers:
+          - command:
+              - "/otelcol"
+              - "--config=/conf/opentelemetry-collector-config.yaml"
+            env:
+              - name: POD_NAME
+                valueFrom:
+                  fieldRef:
+                    apiVersion: v1
+                    fieldPath: metadata.name
+              - name: POD_NAMESPACE
+                valueFrom:
+                  fieldRef:
+                    apiVersion: v1
+                    fieldPath: metadata.namespace
+            image: otel/opentelemetry-collector:0.71.0
+            imagePullPolicy: IfNotPresent
+            name: opentelemetry-collector
+            ports:
+              - containerPort: 4317
+                protocol: TCP
+            resources:
+              limits:
+                cpu: "2"
+                memory: 4Gi
+              requests:
+                cpu: 200m
+                memory: 400Mi
+            terminationMessagePath: /dev/termination-log
+            terminationMessagePolicy: File
+            volumeMounts:
+              - name: opentelemetry-collector-config-vol
+                mountPath: /conf
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        terminationGracePeriodSeconds: 30
+        volumes:
+          - configMap:
+              defaultMode: 420
+              items:
+                - key: opentelemetry-collector-config
+                  path: opentelemetry-collector-config.yaml
+              name: opentelemetry-collector-conf
+            name: opentelemetry-collector-config-vol
+  {{< /text >}}
 
 1. Deploy the collector to the `istio-system` namespace in the cluster
 
-{{< text bash >}}
-kubectl apply -f otel-collector.yaml -n istio-system
-{{< /text >}}
+  {{< text bash >}}
+  kubectl apply -f otel-collector.yaml -n istio-system
+  {{< /text >}}
 
 **Note:** This example uses a specific version of the collector. To use the latest version or some other preferred version, update the `image` with the latest version of the `opentelemetry-collector`. See [here](https://github.com/open-telemetry/opentelemetry-collector/releases) for the list of collector releases.
 
@@ -260,79 +260,79 @@ With the collector deployed and configured to export data to Cloud Observability
 1. Create a new file named istio-telemetry.yaml
 1. Add the following ConfigMap to the file. This configures Istio to use OpenTelemetry for tracing and configures the service (the collector) where it should send the OpenTelemetry data.
 
-{{< /text yaml >}}
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: istio
-  namespace: istio-system
-  annotations:
-    meta.helm.sh/release-name: istiod
-    meta.helm.sh/release-namespace: istio-system
-  labels:
-    app.kubernetes.io/managed-by: Helm
-    install.operator.istio.io/owning-resource: unknown
-    istio.io/rev: default
-    operator.istio.io/component: Pilot
-    release: istiod
-data:
-  meshNetworks: |-
-        networks: {}
+  {{< /text yaml >}}
+  apiVersion: v1
+  kind: ConfigMap
+  metadata:
+    name: istio
+    namespace: istio-system
+    annotations:
+      meta.helm.sh/release-name: istiod
+      meta.helm.sh/release-namespace: istio-system
+    labels:
+      app.kubernetes.io/managed-by: Helm
+      install.operator.istio.io/owning-resource: unknown
+      istio.io/rev: default
+      operator.istio.io/component: Pilot
+      release: istiod
+  data:
+    meshNetworks: |-
+          networks: {}
 
-  mesh: |-
-    defaultConfig:
-      discoveryAddress: istiod.istio-system.svc:15012
-      tracing: {}
-    defaultProviders:
-      tracing:
-        - opentelemetry
-    extensionProviders:
-      - name: "opentelemetry"
-        opentelemetry:
-          service: "opentelemetry-collector.istio-system.svc.cluster.local"
-          port: 4317
-    enablePrometheusMerge: true
-    rootNamespace: null
-    trustDomain: cluster.local
-{{< /text >}}
+    mesh: |-
+      defaultConfig:
+        discoveryAddress: istiod.istio-system.svc:15012
+        tracing: {}
+      defaultProviders:
+        tracing:
+          - opentelemetry
+      extensionProviders:
+        - name: "opentelemetry"
+          opentelemetry:
+            service: "opentelemetry-collector.istio-system.svc.cluster.local"
+            port: 4317
+      enablePrometheusMerge: true
+      rootNamespace: null
+      trustDomain: cluster.local
+  {{< /text >}}
 
 1. Next add the following `Telemetry` configuration to the file. This configures Istio to use the configuration created above for telemetry.
 
-{{< /text yaml >}}
-apiVersion: telemetry.istio.io/v1alpha1
-kind: Telemetry
-metadata:
-  name: mesh-default
-  namespace: istio-system
-spec:
-  accessLogging:
-    - providers:
-        - name: opentelemetry
-  tracing:
-    - providers:
-        - name: opentelemetry
-      randomSamplingPercentage: 100
-{{< /text >}}
+  {{< /text yaml >}}
+  apiVersion: telemetry.istio.io/v1alpha1
+  kind: Telemetry
+  metadata:
+    name: mesh-default
+    namespace: istio-system
+  spec:
+    accessLogging:
+      - providers:
+          - name: opentelemetry
+    tracing:
+      - providers:
+          - name: opentelemetry
+        randomSamplingPercentage: 100
+  {{< /text >}}
 
 1. Deploy the configuration in the istio-system namespace
 
-{{< /text bash >}}
-kubectl apply -f istio-telemetry.yaml -n istio-system
-{{< /text >}}
+  {{< /text bash >}}
+  kubectl apply -f istio-telemetry.yaml -n istio-system
+  {{< /text >}}
 
 #### Restart Your Workloads
 
 Anytime the Istio configuration is updated you need to restart your workloads so the sidecars get re-injected with the updated configuration. The following is an example of how to restart a deployment:
 
-{{< /text bash >}}
-kubectl rollout restart deployment -n NAMESPACE DEPLOYMENT_NAME
-{{< /text >}}
+  {{< /text bash >}}
+  kubectl rollout restart deployment -n NAMESPACE DEPLOYMENT_NAME
+  {{< /text >}}
 
 Restart the **Bookinfo** deployments before proceeding. The following will give you a list of deployments. If using a namespace other than the default namespace be sure to add `-n NAMESPACE` to the following command
 
-{{< /text bash >}}
-kubectl get deployments
-{{< /text >}}
+  {{< /text bash >}}
+  kubectl get deployments
+  {{< /text >}}
 
 Istio is now configured to use OpenTelemetry for distributed tracing and send the tracing data to the OpenTelemetry Collector. Let’s test it all out and review the data in Cloud Observability.
 
@@ -344,23 +344,23 @@ Istio is now configured to send OpenTelemetry data to Cloud Observability via a 
 1. Sign in to ServiceNow Cloud Observability
 1. Click on Notebooks in the side navigation bar
 
-{{< image link="./notebooks.png" caption="Open SNCO Notebooks" >}}
+  {{< image link="./notebooks.png" caption="Open SNCO Notebooks" >}}
 
 1. In the Unified Query Builder change `All telemetry` to `Spans with`
 
-{{< image link="./spans-with.png" caption="Use the Unified Query Builder" >}}
+  {{< image link="./spans-with.png" caption="Use the Unified Query Builder" >}}
 
 1. In the `Search for a span attribute key` textbox enter `service` then in the `Search for values` textbox enter `productpage.default` and hit enter. This will execute the query to get latency values from all spans for the service `productpage.default` in the last hour
 
-{{< image link="./query-input.png" caption="Update the query" >}}
+  {{< image link="./query-input.png" caption="Update the query" >}}
 
 1. Below the chart, click on the `Span samples` tab. This shows a list of all spans that match the query. Click on one of the span records in the table. This will load the trace view for the trace that includes that span in a new tab.
 
-{{< image link="./span-samples.png" caption="Open the matching span results" >}}
+  {{< image link="./span-samples.png" caption="Open the matching span results" >}}
 
 Review the information that is available in this trace view. You should see a tree of the `egress` and `ingress` operations and the amount of latency they contributed as the request flows through the `istio-ingressgateway` to the `productpage` and from `productpage` to the `details` service. Click on each of the operations and notice the attributes that are populated in the sidebar on the right. You should see rich data about the context of the operation including versions, namespace, protocols, networking details, user agent and more.
 
-{{< image link="./trace-view.png" caption="Explore your selected trace" >}}
+  {{< image link="./trace-view.png" caption="Explore your selected trace" >}}
 
 ## Conclusion
 
@@ -395,6 +395,6 @@ from your cluster.
 
 1. Remove the secret generated for SNCO:
 
-{{< text bash >}}
-$ kubectl delete secret lightstep.cacert
-{{< /text >}}
+  {{< text bash >}}
+  $ kubectl delete secret lightstep.cacert
+  {{< /text >}}
