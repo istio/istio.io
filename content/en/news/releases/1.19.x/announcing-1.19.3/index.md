@@ -15,5 +15,5 @@ This release note describes what’s different between Istio 1.19.1 and 1.19.3. 
 
 ## Security update
 
-- __[`CVE-2023-48887`](https://nvd.nist.gov/vuln/detail/CVE-2023-44487)__: (CVSS Score 7.5, High): HTTP/2 denial of service
+- __[`CVE-2023-44487`](https://nvd.nist.gov/vuln/detail/CVE-2023-44487)__: (CVSS Score 7.5, High): HTTP/2 denial of service
 - __[`CVE-2023-39325`](https://github.com/golang/go/issues/63417)__: (CVSS Score 7.5, High): HTTP/2 denial of service
