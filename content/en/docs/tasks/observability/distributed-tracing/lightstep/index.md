@@ -375,7 +375,7 @@ To further your journey with Istio, OpenTelemetry and SNCO, take a look at some 
 * [Configure Istio to Send Metrics to SNCO](https://docs.lightstep.com/integrations/ingest-metrics-istio)
 * [Understand Distributed Tracing](https://docs.lightstep.com/docs/understand-distributed-tracing)
 * [Monitor Kubernetes Applications](https://docs.lightstep.com/docs/monitor-k8s-applications)
-* [Customizing Istio Metrics with Telemetry API](https://istio.io/latest/docs/tasks/observability/metrics/telemetry-api/)
+* [Customizing Istio Metrics with Telemetry API](/docs/tasks/observability/metrics/telemetry-api/)
 * [Query and Visualize Your Data in Cloud Observability](https://docs.lightstep.com/docs/query-your-data)
 * [Observability Primer](https://opentelemetry.io/docs/concepts/observability-primer/)
 
