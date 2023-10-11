@@ -257,10 +257,10 @@ The OpenTelemetry Collector is now deployed and running in the cluster. Now we n
 
 With the collector deployed and configured to export data to Cloud Observability we now need to configure Istio to use OpenTelemetry and send the telemetry data to the collector.
 
-1. Create a new file named istio-telemetry.yaml
+1. Create a new file named `istio-telemetry.yaml`
 1. Add the following ConfigMap to the file. This configures Istio to use OpenTelemetry for tracing and configures the service (the collector) where it should send the OpenTelemetry data.
 
-  {{< /text yaml >}}
+  {{< text yaml >}}
   apiVersion: v1
   kind: ConfigMap
   metadata:
@@ -298,7 +298,7 @@ With the collector deployed and configured to export data to Cloud Observability
 
 1. Next add the following `Telemetry` configuration to the file. This configures Istio to use the configuration created above for telemetry.
 
-  {{< /text yaml >}}
+  {{< text yaml >}}
   apiVersion: telemetry.istio.io/v1alpha1
   kind: Telemetry
   metadata:
