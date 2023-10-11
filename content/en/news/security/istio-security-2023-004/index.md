@@ -2,7 +2,7 @@
 title: ISTIO-SECURITY-2023-004
 subtitle: Security Bulletin
 description: CVE reported by Envoy.
-cves: [CVE-2023-44487]
+cves: [CVE-2023-44487, CVE-2023-39325]
 cvss: "7.5"
 vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
 releases: ["All releases prior to 1.17.0", "1.17.0 to 1.17.6", "1.18.0 to 1.18.3", "1.19.0 to 1.19.1"]
@@ -15,9 +15,13 @@ skip_seealso: true
 
 ## CVE
 
-### Envoy CVEs
+### Envoy CVE
 
 - __[`CVE-2023-44487`](https://nvd.nist.gov/vuln/detail/CVE-2023-44487)__: (CVSS Score 7.5, High): HTTP/2 denial of service
+
+### Go CVE
+
+- __[`CVE-2023-39325`](https://github.com/golang/go/issues/63417)__: (CVSS Score 7.5, High): HTTP/2 denial of service
 
 ## Am I Impacted?
 
