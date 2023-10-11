@@ -316,7 +316,7 @@ With the collector deployed and configured to export data to Cloud Observability
 
 1. Deploy the configuration in the istio-system namespace
 
-  {{< /text bash >}}
+  {{< text bash >}}
   kubectl apply -f istio-telemetry.yaml -n istio-system
   {{< /text >}}
 
@@ -324,13 +324,13 @@ With the collector deployed and configured to export data to Cloud Observability
 
 Anytime the Istio configuration is updated you need to restart your workloads so the sidecars get re-injected with the updated configuration. The following is an example of how to restart a deployment:
 
-  {{< /text bash >}}
+  {{< text bash >}}
   kubectl rollout restart deployment -n NAMESPACE DEPLOYMENT_NAME
   {{< /text >}}
 
 Restart the **Bookinfo** deployments before proceeding. The following will give you a list of deployments. If using a namespace other than the default namespace be sure to add `-n NAMESPACE` to the following command
 
-  {{< /text bash >}}
+  {{< text bash >}}
   kubectl get deployments
   {{< /text >}}
 
