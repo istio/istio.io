@@ -1,7 +1,7 @@
 ---
 title: ISTIO-SECURITY-2023-004
 subtitle: Security Bulletin
-description: CVE reported by Envoy.
+description: CVEs reported by Envoy and Go.
 cves: [CVE-2023-44487, CVE-2023-39325]
 cvss: "7.5"
 vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
