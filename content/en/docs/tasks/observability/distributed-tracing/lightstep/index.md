@@ -36,19 +36,19 @@ Before installing Istio you will need to have a Kubernetes cluster running a sup
 1. Use the following command to download and extract the latest Istio release for your operating system (Linux of macOS). For other releases and operating systems, download the your installation file from the Istio releases page
 
   {{< text bash >}}
-  curl -L <https://istio.io/downloadIstio> | sh -
+  $ curl -L <https://istio.io/downloadIstio> | sh -
   {{< /text >}}
 
 1. Change to the directory where you extracted Istio. For example, if you downloaded the latest using the command above the directory will be `istio-1.19.0` (or similar depending on which version you downloaded)
 
   {{< text bash >}}
-  cd istio-1.19.0
+  $ cd istio-1.19.0
   {{< /text >}}
 
 1. Add istioctl to your PATH (Linux or macOS)
 
   {{< text bash >}}
-  export PATH=$PWD/bin:$PATH
+  $ export PATH=$PWD/bin:$PATH
   {{< /text >}}
 
 ### Install Istio in your Cluster
@@ -56,13 +56,13 @@ Before installing Istio you will need to have a Kubernetes cluster running a sup
 1. Use `istioctl` to install Istio in your cluster. The example below uses the `demo` configuration profile which is ideal for the purposes of this guide. See the [available configuration profiles](https://istio.io/latest/docs/setup/additional-setup/config-profiles/) for more info.
 
   {{< text bash >}}
-  istioctl install --set profile=demo -y
+  $ istioctl install --set profile=demo -y
   {{< /text >}}
 
 1. Add the following label to your Kubernetes namespace. This instructs Istio to automatically inject Envoy sidecar proxies with your pods in this namespace.
 
   {{< text bash >}}
-  kubectl label namespace default istio-injection=enabled
+  $ kubectl label namespace default istio-injection=enabled
   {{< /text >}}
 
 ### Verify Installation
@@ -70,13 +70,13 @@ Before installing Istio you will need to have a Kubernetes cluster running a sup
 1. You now have Istio installed and running in your cluster. Let’s take a look at what was installed. Run the following command:
 
   {{< text bash >}}
-  kubectl get pods -n istio-system
+  k$ ubectl get pods -n istio-system
   {{< /text >}}
 
 1. You should see 3 pods: the `istiod` control plane, an ingress gateway and an egress gateway. Let’s check the auto-injection label:
 
   {{< text bash >}}
-  kubectl get namespaces --show-labels
+  $ kubectl get namespaces --show-labels
   {{< /text >}}
 
 You should see the `default` namespace with the `istio-injection=enabled` label. This label tells Istio to inject an Envoy sidecar proxy with all workloads in this namespace.
@@ -246,7 +246,7 @@ The OpenTelemetry Collector provides a vendor-agnostic solution for receiving, p
 1. Deploy the collector to the `istio-system` namespace in the cluster
 
   {{< text bash >}}
-  kubectl apply -f otel-collector.yaml -n istio-system
+  $ kubectl apply -f otel-collector.yaml -n istio-system
   {{< /text >}}
 
 **Note:** This example uses a specific version of the collector. To use the latest version or some other preferred version, update the `image` with the latest version of the `opentelemetry-collector`. See [here](https://github.com/open-telemetry/opentelemetry-collector/releases) for the list of collector releases.
@@ -317,7 +317,7 @@ With the collector deployed and configured to export data to Cloud Observability
 1. Deploy the configuration in the istio-system namespace
 
   {{< text bash >}}
-  kubectl apply -f istio-telemetry.yaml -n istio-system
+  $ kubectl apply -f istio-telemetry.yaml -n istio-system
   {{< /text >}}
 
 #### Restart Your Workloads
@@ -325,13 +325,13 @@ With the collector deployed and configured to export data to Cloud Observability
 Anytime the Istio configuration is updated you need to restart your workloads so the sidecars get re-injected with the updated configuration. The following is an example of how to restart a deployment:
 
   {{< text bash >}}
-  kubectl rollout restart deployment -n NAMESPACE DEPLOYMENT_NAME
+  $ kubectl rollout restart deployment -n NAMESPACE DEPLOYMENT_NAME
   {{< /text >}}
 
 Restart the **Bookinfo** deployments before proceeding. The following will give you a list of deployments. If using a namespace other than the default namespace be sure to add `-n NAMESPACE` to the following command
 
   {{< text bash >}}
-  kubectl get deployments
+  $ kubectl get deployments
   {{< /text >}}
 
 Istio is now configured to use OpenTelemetry for distributed tracing and send the tracing data to the OpenTelemetry Collector. Let’s test it all out and review the data in Cloud Observability.
