@@ -346,7 +346,7 @@ communicating peers but also critical to encrypt the traffic using the keys esta
 handshake. Now that you know mTLS excels at satisfying your secure application communication
 requirements (cryptographic identities, confidentiality, integrity and access policy enforcement),
 you can simply use Istio to upgrade your intra-mesh application communication with mTLS out of the
-box - with zero configuration!
+box - with very little configuration!
 
 *Huge thanks to Louis Ryan, Ben Leggett, John Howard, Christian Posta who contributed significant
 time in reviewing and proposing updates to the blog!*
