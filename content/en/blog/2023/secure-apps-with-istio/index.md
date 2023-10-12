@@ -38,7 +38,7 @@ issuing authority (and the identity document itself), they can trust what it say
 An identity could take any form, but, as with any form of identity document, the weaker the identity
 validations are, the easier it is to forge, and the less useful that identity document is to anyone
 using it to make a decision. That’s why, in computing, cryptographically verifiable identities are
-so important - they are signed by a verifiable authority, and practically unforgeable - similar to
+so important - they are signed by a verifiable authority, similar to
 your passport and driver’s license. Identities based around anything less are a security weakness
 that is relatively easy to exploit.
 
@@ -189,7 +189,7 @@ identifies a root CA, which you likely already have in your organization. This i
 basic Public Key Infrastructure (PKI) works - a CA has responsibility for validating an entity’s
 identity document, and then grants it an unforgeable identity document in the form of a certificate.
 
-You can rely on CA's and intermediate CAs as source of identity **truth** in a structural fashion
+You can rely on your CA and intermediate CAs as source of identity **truth** in a structural fashion
 that maintains high availability and stable, persistently-verifiable identity guarantees in a way
 that a massive distributed cache of IP and identity maps simply cannot. When the `frontend` and
 `checkout` identity certificates are issued by the same root certificate, `frontend` and `checkout`
@@ -209,7 +209,7 @@ your application are enforced in the same fashion regardless of the topology, wi
 keep track of the identity cache and calculate which IP address maps to which application pod.
 
 What about FIPS compliance? Per TLS 1.3  specification, TLS-compliant application must implement the
-TLS_AES_128_GCM_SHA256 cipher suite, and are recommended to implement TLS_AES_256_GCM_SHA384, both
+`TLS_AES_128_GCM_SHA256` cipher suite, and are recommended to implement `TLS_AES_256_GCM_SHA384`, both
 of which are also in the [guidelines for TLS](https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-52r2.pdf)
 by NIST. RSA or ECDSA server certificates are also recommended by both TLS 1.3 specification and
 NIST’s guideline for TLS. As long as you use mTLS and FIPS 140-2 or 140-3 compliant cryptographic
@@ -329,7 +329,7 @@ per namespace or workload. In addition, you can also apply Istio’s
 
 TLS version 1.3 is the default in Istio for intra-mesh application communication with the Envoy’s
 [default cipher suites](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/transport_sockets/tls/v3/common.proto)
-(for example TLS_AES_256_GCM_SHA384 for Istio 1.19.0). If you need an older version, you can
+(for example `TLS_AES_256_GCM_SHA384` for Istio 1.19.0). If you need an older version, you can
 [configure a different mesh-wide minimum TLS protocol version](https://istio.io/latest/docs/tasks/security/tls-configuration/workload-min-tls-version/) for your workloads.
 
 ## Wrapping up
