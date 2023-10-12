@@ -47,8 +47,7 @@ The **Istiod** chart installs a revision of Istiod. Istiod is the control plane 
 configures the proxies to route traffic within the mesh.
 
 {{< text bash >}}
-$ kubectl create namespace istio-system
-$ helm install istiod istio/istiod --namespace istio-system \
+$ helm install istiod istio/istiod --namespace istio-system --create-namespace \
   -f @manifests/charts/istio-control/istio-discovery/ambient-values.yaml@
 {{< /text >}}
 
