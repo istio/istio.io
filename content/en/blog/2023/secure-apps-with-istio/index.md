@@ -262,7 +262,7 @@ network become unstable when it's only the cache 'synchronizer' that is failing?
 default have a public IP.
 - Non-transactional: if you read the identity twice will you see the same value? If you are not
 careful in your access policy or auditing implementation this can cause real issues.
-- Quis-custodiat: who will guard the guards themselves? Are there established practices to protect
+- Who will guard the guards themselves? Are there established practices to protect
 the cache like CA has? What proof do you have that the cache has not been tampered with? Are you
 forced to reason about (and audit) the security of some complex infrastructure that is not your CA?
 
