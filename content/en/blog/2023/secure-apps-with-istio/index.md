@@ -14,7 +14,7 @@ simple steps to get you started with enabling mTLS among your applications using
 
 ## What do you need to secure the communications among your applications?
 
-Modern cloud native applications are frequently distributed across multiple kubernetes clusters or virtual machines. New versions are being staged frequently and they can rapidly scale up and down based on user requests. As modern applications gain resource utilization efficiency by not being dependent on co-location, it is paramount to be able to apply access policy to and secure the communications among these distributed applications due to increased multiple entry points resulting in a larger attack surface. To ignore this is to invite massive business risk from data loss, data theft, forged data, or simple mishandling.
+Modern cloud native applications are frequently distributed across multiple Kubernetes clusters or virtual machines. New versions are being staged frequently and they can rapidly scale up and down based on user requests. As modern applications gain resource utilization efficiency by not being dependent on co-location, it is paramount to be able to apply access policy to and secure the communications among these distributed applications due to increased multiple entry points resulting in a larger attack surface. To ignore this is to invite massive business risk from data loss, data theft, forged data, or simple mishandling.
 
 The following are the common key requirements for secure communications between applications:
 
@@ -98,7 +98,7 @@ and reliably, with a validatable audit trail.
 are standards and guidelines for federal computer systems that are developed by
 [National Institute of Standards and Technology (NIST)](https://www.nist.gov/). Not everyone
 requires FIPS compliance, but FIPS compliance means meeting all the necessary security requirements
-established by the U.S. government for protecting sensitive information. It is required when working
+established by the US government for protecting sensitive information. It is required when working
 with the federal government. To follow the guidelines developed by the US government relating to
 cybersecurity, many in the private sector voluntarily use these FIPS standards.
 
@@ -280,12 +280,22 @@ Let us illustrate the identity cache stale problem assuming the following large 
 
 1. 100 clusters where each cluster has 100 nodes with 20 pods per node. The number of total pods is 200,000.
 1. 0.2% of pods are being churned at all times (rollout, restarts, recovery, node churn, ...), each churn is a 10 second window.
-1. 400 pods which are being churched are distributed to 10k nodes’ (caches) every 10 secs
+1. 400 pods which are being churned are distributed to 10,000 nodes’ (caches) every 10 secs
 1. If the cache synchronizer stalls what % stale is the system after 5 minutes - potentially as high as 6%!
 
 Above assumes the cache synchronizer is in a steady state. If cache synchronizer has a brown-out it would affect its health-checking which increases churn rate, leading to cascading instability.
 
-CA could also be [compromised](https://en.wikipedia.org/wiki/Certificate_authority#CA_compromise) by an attacker who claims to present someone else and trick the CA to issue a certificate. The attacker can then use that certificate to communicate with other peers. This is where [certificate revocation](https://en.wikipedia.org/wiki/Certificate_authority#Certificate_revocation) can remediate the situation by revoking the certificate so it is no longer valid. Otherwise the attacker can exploit the compromised certificate till expiry. It is critical to keep the private key for the root certificates in an HSM that is kept [offline](https://en.wikipedia.org/wiki/Online_and_offline) and use intermediate certificates for signing workload certificates. In the event when CA is brown-out or stalled for 5 minutes, you won’t be able to obtain new or renewed workload certificates but the previously issued and valid certificates continue to provide strong identity guarantees for your workloads. For increased reliability for issuance, you can deploy Intermediate CAs to different zones and regions.
+CA could also be [compromised](https://en.wikipedia.org/wiki/Certificate_authority#CA_compromise)
+by an attacker who claims to present someone else and trick the CA to issue a certificate. The
+attacker can then use that certificate to communicate with other peers. This is where
+[certificate revocation](https://en.wikipedia.org/wiki/Certificate_authority#Certificate_revocation) can remediate the situation by revoking the
+certificate so it is no longer valid. Otherwise the attacker can exploit the compromised
+certificate till expiry. It is critical to keep the private key for the root certificates in an HSM
+that is kept [offline](https://en.wikipedia.org/wiki/Online_and_offline) and use intermediate
+certificates for signing workload certificates. In the event when CA is brown-out or stalled for 5
+minutes, you won’t be able to obtain new or renewed workload certificates but the previously issued
+and valid certificates continue to provide strong identity guarantees for your workloads. For
+increased reliability for issuance, you can deploy Intermediate CAs to different zones and regions.
 
 ## mTLS in Istio
 
@@ -317,7 +327,7 @@ per namespace or workload. In addition, you can also apply Istio’s
 
 ### TLS version
 
-TLS version 1.3 is the default in Istio for intra mesh application communication with the Envoy’s
+TLS version 1.3 is the default in Istio for intra-mesh application communication with the Envoy’s
 [default cipher suites](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/transport_sockets/tls/v3/common.proto)
 (for example TLS_AES_256_GCM_SHA384 for Istio 1.19.0). If you need an older version, you can
 [configure a different mesh-wide minimum TLS protocol version](https://istio.io/latest/docs/tasks/security/tls-configuration/workload-min-tls-version/) for your workloads.
@@ -335,8 +345,8 @@ considered standards-compliant TLS), it is not only important to properly authen
 communicating peers but also critical to encrypt the traffic using the keys established from the
 handshake. Now that you know mTLS excels at satisfying your secure application communication
 requirements (cryptographic identities, confidentiality, integrity and access policy enforcement),
-you can simply use Istio to upgrade your intra-service communication with mTLS out of the box -
-with zero configuration!
+you can simply use Istio to upgrade your intra-mesh application communication with mTLS out of the
+box - with zero configuration!
 
 *Huge thanks to Louis Ryan, Ben Leggett, John Howard, Christian Posta who contributed significant
 time in reviewing and proposing updates to the blog!*
