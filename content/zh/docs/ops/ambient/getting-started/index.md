@@ -61,7 +61,7 @@ test: yes
 {{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text bash >}}
-$ istioctl install --set profile=ambient --set components.ingressGateways[0].enabled=true --set components.ingressGateways[0].name=istio-ingressgateway --skip-confirmation
+$ istioctl install --set profile=ambient --set "components.ingressGateways[0].enabled=true" --set "components.ingressGateways[0].name=istio-ingressgateway" --skip-confirmation
 {{< /text >}}
 
 运行上一条命令后，您将看到以下输出，
