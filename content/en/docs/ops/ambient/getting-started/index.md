@@ -69,7 +69,7 @@ Follow these steps to get started with ambient:
 {{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text bash >}}
-$ istioctl install --set profile=ambient --set components.ingressGateways[0].enabled=true --set components.ingressGateways[0].name=istio-ingressgateway --skip-confirmation
+$ istioctl install --set profile=ambient --set "components.ingressGateways[0].enabled=true" --set "components.ingressGateways[0].name=istio-ingressgateway" --skip-confirmation
 {{< /text >}}
 
 After running the above command, you’ll get the following output that indicates
