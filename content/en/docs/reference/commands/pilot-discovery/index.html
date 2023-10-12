@@ -1359,6 +1359,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>If enabled, addition runtime asserts will be performed. These checks are both expensive and panic on failure. As a result, this should be used only for testing.</td>
 </tr>
 <tr>
+<td><code>USE_CACERTS_FOR_SELF_SIGNED_CA</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, istiod will use a secret named cacerts to store its self-signed istio-generated root certificate.</td>
+</tr>
+<tr>
 <td><code>USE_REMOTE_CERTS</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
