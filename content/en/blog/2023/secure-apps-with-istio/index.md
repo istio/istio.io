@@ -98,7 +98,7 @@ and reliably, with a validatable audit trail.
 are standards and guidelines for federal computer systems that are developed by
 [National Institute of Standards and Technology (NIST)](https://www.nist.gov/). Not everyone
 requires FIPS compliance, but FIPS compliance means meeting all the necessary security requirements
-established by the US government for protecting sensitive information. It is required when working
+established by the U.S. government for protecting sensitive information. It is required when working
 with the federal government. To follow the guidelines developed by the US government relating to
 cybersecurity, many in the private sector voluntarily use these FIPS standards.
 
@@ -119,7 +119,7 @@ primary goal is to provide a secure channel between two communicating peers.
 The TLS secure channel has the following properties:
 
 1. Authentication: the server side of the channel is always authenticated, the client side is
-optionally authenticated (in mTLS, the client side must be authenticated). When the client is
+optionally authenticated. When the client is
 also authenticated, the secure channel becomes a mutual TLS channel.
 1. Confidentiality: Data is encrypted and only visible to the client and server.  Data must be
 encrypted using keys that are unambiguously cryptographically bound to the source and destination
@@ -174,7 +174,7 @@ during the handshake phase the peers can now securely exchange encrypted data th
 required as part of the spec) to use the exact same negotiated parameters from the handshake to
 encrypt the traffic to ensure the traffic confidentiality and integrity.
 
-Putting the two protocols from the TLS 1.13 specification together and using the `frontend` and
+Putting the two protocols from the TLS 1.3 specification together and using the `frontend` and
 `checkout` applications to illustrate the flow as below:
 
 {{< image width="100%"
@@ -185,9 +185,11 @@ Putting the two protocols from the TLS 1.13 specification together and using the
 Who is issuing the identity certificates for `frontend` and `checkout`? It is commonly issued by a
 [certificate authority](https://en.wikipedia.org/wiki/Certificate_authority) (CA) which may have its own [root certificate](https://en.wikipedia.org/wiki/Root_certificate) or use an intermediate
 certificate from its root CA. A root certificate is basically a public key certificate that
-identifies a root CA, which you likely already have in your organization. This is how everyday,
-basic Public Key Infrastructure (PKI) works - a CA has responsibility for validating an entity’s
-identity document, and then grants it an unforgeable identity document in the form of a certificate.
+identifies a root CA, which you likely already have in your organization. Root certificate is
+distributed to `frontend` (or `checkout`) in addition to the identity certificate. This is how
+everyday, basic Public Key Infrastructure (PKI) works - a CA has responsibility for validating an
+entity’s identity document, and then grants it an unforgeable identity document in the form of a
+certificate.
 
 You can rely on your CA and intermediate CAs as source of identity **truth** in a structural fashion
 that maintains high availability and stable, persistently-verifiable identity guarantees in a way
@@ -201,14 +203,14 @@ You learned about how mTLS provides cryptographic identity, confidentiality and 
 about scalability as you grow to thousands or more applications among multiple clusters? If you
 establish a single root certificate across multiple clusters, the system doesn’t need to care when
 your application gets a connection request from which cluster as long as it is trusted by the root
-certificate - the system knows the identity on the connection is cryptographic verifiable. As your
+certificate - the system knows the identity on the connection is cryptographically verified. As your
 application pod changes IP or redeployed to a different cluster or network, your application (or
 component acting on behalf of it) simply originates the traffic with its trusted certificate minted
 by the CA to the destination. It can be 500+ network hops or can be direct; your access policies for
 your application are enforced in the same fashion regardless of the topology, without needing to
 keep track of the identity cache and calculate which IP address maps to which application pod.
 
-What about FIPS compliance? Per TLS 1.3  specification, TLS-compliant application must implement the
+What about FIPS compliance? Per TLS 1.3 specification, TLS-compliant applications must implement the
 `TLS_AES_128_GCM_SHA256` cipher suite, and are recommended to implement `TLS_AES_256_GCM_SHA384`, both
 of which are also in the [guidelines for TLS](https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-52r2.pdf)
 by NIST. RSA or ECDSA server certificates are also recommended by both TLS 1.3 specification and
@@ -348,5 +350,5 @@ requirements (cryptographic identities, confidentiality, integrity and access po
 you can simply use Istio to upgrade your intra-mesh application communication with mTLS out of the
 box - with very little configuration!
 
-*Huge thanks to Louis Ryan, Ben Leggett, John Howard, Christian Posta who contributed significant
-time in reviewing and proposing updates to the blog!*
+*Huge thanks to Louis Ryan, Ben Leggett, John Howard, Christian Posta, Justin Pettit who
+contributed significant time in reviewing and proposing updates to the blog!*
