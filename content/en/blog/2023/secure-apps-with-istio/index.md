@@ -58,7 +58,7 @@ the norm.
 ### Confidentiality
 
 Encrypting the data transmitted among applications is critical - because in a world where breaches
-are common, costly, and effectively trivial, relying entirely on “secure” internal environments or
+are common, costly, and effectively trivial, relying entirely on **secure** internal environments or
 other security perimeters has long since ceased to be adequate. To prevent a
 [man-in-the-middle attack](https://en.wikipedia.org/wiki/Man-in-the-middle_attack), you require a unique encryption channel for a source-destination pair because you want a strong identity uniqueness guarantee to avoid [confused deputy problems](https://en.wikipedia.org/wiki/Confused_deputy_problem).
 In other words, it is not enough to simply encrypt the channel -  it must be encrypted using unique
@@ -104,7 +104,7 @@ cybersecurity, many in the private sector voluntarily use these FIPS standards.
 
 To illustrate the above secure application requirements (identity, confidentiality and integrity),
 let’s use two simple applications (an application called `frontend` that calls an application called
-`checkout`). Remember, you can think of “ID” in the diagram as any kind of identity document such as
+`checkout`). Remember, you can think of **ID** in the diagram as any kind of identity document such as
 a government issued passport, photo identifier:
 
 {{< image width="100%"
@@ -197,7 +197,6 @@ that a massive distributed cache of IP and identity maps simply cannot. When the
 `checkout` identity certificates are issued by the same root certificate, `frontend` and `checkout`
 can verify their peer identities consistently and reliably regardless of which cluster or nodes or scale
 they run.
-
 
 You learned about how mTLS provides cryptographic identity, confidentiality and integrity, what
 about scalability as you grow to thousands or more applications among multiple clusters? If you
