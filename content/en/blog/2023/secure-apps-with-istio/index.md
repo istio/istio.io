@@ -315,7 +315,7 @@ creates an application’s identity based on its service account. Identity certi
 each application pod in the mesh after you add your application to the mesh.
 
 By default, your pod's identity certificate expires in 24 hours and Istio rotates the pod identity
-certificate every 12 hours so that in the event of compromising (for example, compromised CA or
+certificate every 12 hours so that in the event of a compromise (for example, compromised CA or
 stolen private key for the pod), the compromised certificate only works for a very limited period
 of time until the certificate expires therefore could limit the
 damage it can cause.
