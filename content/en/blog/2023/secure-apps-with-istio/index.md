@@ -337,7 +337,7 @@ TLS version 1.3 is the default in Istio for intra-mesh application communication
 
 ## Wrapping up
 
-The TLS protocol, as established by the Internet Engineering Task Force (IETF),  is one of the most
+The TLS protocol, as established by the Internet Engineering Task Force (IETF), is one of the most
 widely-reviewed, expert-approved, battle-tested data security protocols in existence. TLS is also
 widely used globally - whenever you visit any secured website, you shop with confidence partly
 because of the connection secure icon to indicate that you are connected to the trusted site
