@@ -10,7 +10,7 @@ keywords: [istio,mtls,tls]
 One of the biggest reasons users adopt service mesh is to enable secure communication
 among applications using mutual TLS (mTLS) based on cryptographically verifiable
 identities. In this blog, we’ll discuss the requirements of secure communication
-between applications, how mTLS enables and meets all those requirements, along with
+among applications, how mTLS enables and meets all those requirements, along with
 simple steps to get you started with enabling mTLS among your applications using Istio.
 
 ## What do you need to secure the communications among your applications?
@@ -23,14 +23,14 @@ The following are the common key requirements for secure communications between 
 
 Identity is a fundamental component of any security architecture. Before your
 applications can send their data securely, **identities** must be established for the
-applications. This "establishing an identity" process is called **identity validation** - it
+applications. This *establishing an identity* process is called **identity validation** - it
 involves some well-known, trusted **authority** performing one or more
 checks on the application workload to establish that it is what it claims to be. Once
 the authority is satisfied, it grants the workload an identity.
 
 Consider the act of being issued a passport - you will request one from some authority, that
-authority will probably ask you for several different "identity validations" that prove you are
-who you say you are - a birth certificate, current address, medical records, etc etc. Once you
+authority will probably ask you for several different identity validations that prove you are
+who you say you are - a birth certificate, current address, medical records, etc. Once you
 have satisfied all the identity validations, you will (hopefully) be granted the identity
 document. You can give that identity document to someone else as proof that you have satisfied
 all the identity validation requirements of the issuing authority, and if they trust the
