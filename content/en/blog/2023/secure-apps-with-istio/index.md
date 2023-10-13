@@ -204,7 +204,7 @@ about scalability as you grow to thousands or more applications among multiple c
 establish a single root certificate across multiple clusters, the system doesn’t need to care when
 your application gets a connection request from which cluster as long as it is trusted by the root
 certificate - the system knows the identity on the connection is cryptographically verified. As your
-application pod changes IP or redeployed to a different cluster or network, your application (or
+application pod changes IP or is redeployed to a different cluster or network, your application (or
 component acting on behalf of it) simply originates the traffic with its trusted certificate minted
 by the CA to the destination. It can be 500+ network hops or can be direct; your access policies for
 your application are enforced in the same fashion regardless of the topology, without needing to
