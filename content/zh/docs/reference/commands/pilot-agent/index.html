@@ -1571,6 +1571,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>The output directory for the key and certificate. If empty, key and certificate will not be saved. Must be set for VMs using provisioning certificates.</td>
 </tr>
 <tr>
+<td><code>PEER_METADATA_DISCOVERY</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If set to true, enable the peer metadata discovery extension in Envoy</td>
+</tr>
+<tr>
 <td><code>PILOT_ALLOW_SIDECAR_SERVICE_INBOUND_LISTENER_MERGE</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -1599,6 +1605,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Time Duration</td>
 <td><code>10s</code></td>
 <td>The maximum amount of time to wait for events while debouncing. If events keep showing up with no breaks for this time, we&#39;ll trigger a push.</td>
+</tr>
+<tr>
+<td><code>PILOT_DISABLE_MX_ALPN</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true, pilot will not put istio-peer-exchange ALPN into TLS handshake configuration.</td>
 </tr>
 <tr>
 <td><code>PILOT_DISTRIBUTION_HISTORY_RETENTION</code></td>
