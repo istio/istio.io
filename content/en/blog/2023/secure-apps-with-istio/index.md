@@ -59,7 +59,7 @@ the norm.
 ### Confidentiality
 
 Encrypting the data transmitted among applications is critical - because in a world where breaches
-are common, costly, and effectively trivial, relying entirely on **secure** internal environments or
+are common, costly, and effectively trivial, relying entirely on *secure* internal environments or
 other security perimeters has long since ceased to be adequate. To prevent a
 [man-in-the-middle attack](https://en.wikipedia.org/wiki/Man-in-the-middle_attack), you require a unique encryption channel for a source-destination pair because you want a strong identity uniqueness guarantee to avoid [confused deputy problems](https://en.wikipedia.org/wiki/Confused_deputy_problem).
 In other words, it is not enough to simply encrypt the channel -  it must be encrypted using unique
@@ -87,9 +87,9 @@ cryptographic protocol that secures communication between clients (e.g., web bro
 for comprehensive end-to-end policy enforcement, it is critical to have a reliable, verifiable,
 unambiguous identity for both sides - client and server. This is a common requirement for internal
 applications - imagine for example a scenario where only a `frontend` application should call the
-**GET** method for a backend `checkout` application, but should not be allowed to call the POST or
-DELETE method. Or a scenario where only applications that have a JWT token issued by a particular
-JWT issuer can call the GET method for a `checkout` application. By leveraging cryptographic
+**GET** method for a backend `checkout` application, but should not be allowed to call the `POST` or
+`DELETE` method. Or a scenario where only applications that have a JWT token issued by a particular
+JWT issuer can call the `GET` method for a `checkout` application. By leveraging cryptographic
 identities on both ends, we can ensure powerful access policies are enforced correctly, securely,
 and reliably, with a validatable audit trail.
 
@@ -100,12 +100,11 @@ are standards and guidelines for federal computer systems that are developed by
 [National Institute of Standards and Technology (NIST)](https://www.nist.gov/). Not everyone
 requires FIPS compliance, but FIPS compliance means meeting all the necessary security requirements
 established by the U.S. government for protecting sensitive information. It is required when working
-with the federal government. To follow the guidelines developed by the US government relating to
+with the federal government. To follow the guidelines developed by the U.S. government relating to
 cybersecurity, many in the private sector voluntarily use these FIPS standards.
 
 To illustrate the above secure application requirements (identity, confidentiality and integrity),
-let’s use the `frontend` application calls the `checkout` application. Remember, you can think
-of **ID** in the diagram as any kind of identity document such as a government issued passport,
+let’s use the example that the `frontend` application calls the `checkout` application. Remember, you can think of **ID** in the diagram as any kind of identity document such as a government issued passport,
 photo identifier:
 
 {{< image width="100%"
