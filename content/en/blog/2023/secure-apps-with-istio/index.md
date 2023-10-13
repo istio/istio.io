@@ -1,8 +1,6 @@
 ---
 title: "Secure Application Communications with Mutual TLS and Istio"
-description: |
-  Dive into requirements to secure application communications, mTLS and Istio to achieve
-  end-to-end mTLS among your applications.
+description: Dive into securing application communications, mTLS and Istio to achieve end-to-end mTLS among your applications.
 publishdate: 2023-11-12
 attribution: "Lin Sun (Solo.io), Yuval Kohavi (Solo.io)"
 keywords: [istio,mtls,tls]
