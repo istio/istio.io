@@ -103,9 +103,9 @@ with the federal government. To follow the guidelines developed by the US govern
 cybersecurity, many in the private sector voluntarily use these FIPS standards.
 
 To illustrate the above secure application requirements (identity, confidentiality and integrity),
-let’s use two simple applications (an application called `frontend` that calls an application called
-`checkout`). Remember, you can think of **ID** in the diagram as any kind of identity document such as
-a government issued passport, photo identifier:
+let’s use the `frontend` application calls the `checkout` application. Remember, you can think
+of **ID** in the diagram as any kind of identity document such as a government issued passport,
+photo identifier:
 
 {{< image width="100%"
     link="requirements-flow.png"
@@ -267,7 +267,7 @@ careful in your access policy or auditing implementation this can cause real iss
 the cache like CA has? What proof do you have that the cache has not been tampered with? Are you
 forced to reason about (and audit) the security of some complex infrastructure that is not your CA?
 
-Some of the above are worse than others. You can apply the 'failing closed' principle but that does not solve all of the above.
+Some of the above are worse than others. You can apply the **failing closed** principle but that does not solve all of the above.
 
 Identities are also used in enforcing access policies such as authorization policy, and these
 access policies are in the request path where your system has to make decisions fast to allow or
