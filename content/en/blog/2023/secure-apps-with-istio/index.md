@@ -171,7 +171,7 @@ There are a few major differences since TLS 1.2 related to handshake, refer to t
 #### Record protocol
 
 Having negotiated the TLS protocol version, session-key & [HMAC](https://en.wikipedia.org/wiki/HMAC)
-during the handshake phase the peers can now securely exchange encrypted data that is chunked by the [record protocol](https://datatracker.ietf.org/doc/html/rfc8446#section-5). It is critical (and
+during the handshake phase, the peers can now securely exchange encrypted data that is chunked by the [record protocol](https://datatracker.ietf.org/doc/html/rfc8446#section-5). It is critical (and
 required as part of the spec) to use the exact same negotiated parameters from the handshake to
 encrypt the traffic to ensure the traffic confidentiality and integrity.
 
