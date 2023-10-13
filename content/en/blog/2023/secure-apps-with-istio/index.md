@@ -63,7 +63,7 @@ Encrypting the data transmitted among applications is critical - because in a wo
 are common, costly, and effectively trivial, relying entirely on *secure* internal environments or
 other security perimeters has long since ceased to be adequate. To prevent a
 [man-in-the-middle attack](https://en.wikipedia.org/wiki/Man-in-the-middle_attack), you require a unique encryption channel for a source-destination pair because you want a strong identity uniqueness guarantee to avoid [confused deputy problems](https://en.wikipedia.org/wiki/Confused_deputy_problem).
-In other words, it is not enough to simply encrypt the channel -  it must be encrypted using unique
+In other words, it is not enough to simply encrypt the channel - it must be encrypted using unique
 keys directly derived from the unique source and destination identities so that only the source and
 destination can decrypt the data. Further, you may need to customize the encryption, e.g. by
 choosing specific ciphers, in accordance with what your security team requires.
