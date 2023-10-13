@@ -1,13 +1,14 @@
 ---
 title: "Secure Application Communications with Mutual TLS and Istio"
-description: What exactly are your requirements to secure application communications and how you can simply use Istio to achieve end-to-end mTLS communications among your applications.
+description: Dive into requirements to secure application communications, mTLS and Istio to achieve
+end-to-end mTLS among your applications.
 publishdate: 2023-11-12
 attribution: "Lin Sun (Solo.io), Yuval Kohavi (Solo.io)"
 keywords: [istio,mtls,tls]
 ---
 
 One of the biggest reasons users adopt service mesh is to enable secure communication
-among applications using mutual TLS(mTLS) based on cryptographically verifiable
+among applications using mutual TLS (mTLS) based on cryptographically verifiable
 identities. In this blog, we’ll discuss the requirements of secure communication
 between applications, how mTLS enables and meets all those requirements, along with
 simple steps to get you started with enabling mTLS among your applications using Istio.
