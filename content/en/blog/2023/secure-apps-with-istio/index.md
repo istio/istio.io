@@ -255,9 +255,9 @@ These Identity caches that map identity to workload IPs are not [ACID](https://e
 to something with strong guarantees. Consider the following properties and questions you may want
 to ask yourself:
 
-- Staleness: How can a peer verify that an entry in the cache is 'current'?
+- Staleness: How can a peer verify that an entry in the cache is **current**?
 - Incompleteness: If there's a cache miss and the system fails to close the connection, does the
-network become unstable when it's only the cache 'synchronizer' that is failing?
+network become unstable when it's only the cache **synchronizer** that is failing?
 - What if something simply doesn't have an IP? For example, an AWS Lambda service doesn’t by
 default have a public IP.
 - Non-transactional: if you read the identity twice will you see the same value? If you are not
@@ -279,9 +279,9 @@ policies to be enforced.
 Let us illustrate the identity cache stale problem assuming the following large scale multi-cluster deployment:
 
 1. 100 clusters where each cluster has 100 nodes with 20 pods per node. The number of total pods is 200,000.
-1. 0.2% of pods are being churned at all times (rollout, restarts, recovery, node churn, ...), each churn is a 10 second window.
-1. 400 pods which are being churned are distributed to 10,000 nodes’ (caches) every 10 secs
-1. If the cache synchronizer stalls what % stale is the system after 5 minutes - potentially as high as 6%!
+1. 0.25% of pods are being churned at all times (rollout, restarts, recovery, node churn, ...), each churn is a 10 second window.
+1. 500 pods which are being churned are distributed to 10,000 nodes (caches) every 10 secs
+1. If the cache synchronizer stalls what % stale is the system after 5 minutes - potentially as high as **7.5%**!
 
 Above assumes the cache synchronizer is in a steady state. If cache synchronizer has a brown-out it would affect its health-checking which increases churn rate, leading to cascading instability.
 
