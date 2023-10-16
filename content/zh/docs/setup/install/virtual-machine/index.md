@@ -170,6 +170,12 @@ test: yes
     $ kubectl apply -n istio-system -f @samples/multicluster/expose-services.yaml@
     {{< /text >}}
 
+    确保使用定义的集群网络标记 istio-system 命名空间：
+
+    {{< text bash >}}
+    $ kubectl label namespace istio-system topology.istio.io/network="${CLUSTER_NETWORK}"
+    {{< /text >}}
+
     {{< /tab >}}
 
     {{< /tabset >}}
