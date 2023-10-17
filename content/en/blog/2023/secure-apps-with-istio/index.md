@@ -264,7 +264,7 @@ default have a public IP.
 - Non-transactional: If you read the identity twice will you see the same value? If you are not
 careful in your access policy or auditing implementation this can cause real issues.
 - Who will guard the guards themselves? Are there established practices to protect
-the cache like CA has? What proof do you have that the cache has not been tampered with? Are you
+the cache like a CA has? What proof do you have that the cache has not been tampered with? Are you
 forced to reason about (and audit) the security of some complex infrastructure that is not your CA?
 
 Some of the above are worse than others. You can apply the **failing closed** principle but that does not solve all of the above.
