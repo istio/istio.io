@@ -261,7 +261,7 @@ to ask yourself:
 network become unstable when it's only the cache **synchronizer** that is failing?
 - What if something simply doesn't have an IP? For example, an AWS Lambda service doesn’t by
 default have a public IP.
-- Non-transactional: if you read the identity twice will you see the same value? If you are not
+- Non-transactional: If you read the identity twice will you see the same value? If you are not
 careful in your access policy or auditing implementation this can cause real issues.
 - Who will guard the guards themselves? Are there established practices to protect
 the cache like CA has? What proof do you have that the cache has not been tampered with? Are you
