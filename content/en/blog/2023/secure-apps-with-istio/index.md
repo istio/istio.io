@@ -277,7 +277,7 @@ allocated IP address associated as one of the `checkout` identities. If the `che
 recycled and the same IP address is just allocated to one of the `frontend` pods, that `frontend` pod could have the `checkout`'s identity before the cache is updated, which could cause wrong access
 policies to be enforced.
 
-Let us illustrate the identity cache stale problem assuming the following large scale multi-cluster deployment:
+Let us illustrate the identity cache staleness problem assuming the following large scale multi-cluster deployment:
 
 1. 100 clusters where each cluster has 100 nodes with 20 pods per node. The number of total pods is 200,000.
 1. 0.25% of pods are being churned at all times (rollout, restarts, recovery, node churn, ...), each churn is a 10 second window.
