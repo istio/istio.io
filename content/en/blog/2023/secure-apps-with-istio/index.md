@@ -245,7 +245,7 @@ If the identity is based on network properties such as IP address, which could b
 other pods, the identity can’t be validated using cryptographic techniques. Since this type of
 identity isn’t based on cryptographic identity, your system likely has an identity cache to track
 the mapping between the identity, the pod’s network labels, the corresponding IP address and the
-Kubernetes node info where the pod is deployed. With identity cache, you could run into pod IP
+Kubernetes node info where the pod is deployed. With an identity cache, you could run into pod IP
 addresses being reused and identity mistaken where policy isn’t enforced properly when the identity
 cache gets out of sync for a short period of time. For example, if you don’t have cryptographic
 identity on the connection between the peers, your system would have to get the identity from the
