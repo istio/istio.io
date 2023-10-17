@@ -331,7 +331,7 @@ per namespace or workload. In addition, you can also apply Istio’s
 
 TLS version 1.3 is the default in Istio for intra-mesh application communication with the Envoy’s
 [default cipher suites](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/transport_sockets/tls/v3/common.proto)
-(for example `TLS_AES_256_GCM_SHA384` for Istio 1.19.0). If you need an older version, you can
+(for example `TLS_AES_256_GCM_SHA384` for Istio 1.19.0). If you need an older TLS version, you can
 [configure a different mesh-wide minimum TLS protocol version](/docs/tasks/security/tls-configuration/workload-min-tls-version/) for your workloads.
 
 ## Wrapping up
