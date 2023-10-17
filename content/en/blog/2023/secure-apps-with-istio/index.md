@@ -229,8 +229,7 @@ If the connection doesn’t follow exactly the handshake and record protocols as
 specification, for example, the connection follows the handshake protocol but not using the
 negotiated session key and parameters from the handshake in the record protocol, you may have your
 connection’s handshake unrelated to the record protocol where identities could be different between
-the handshake and record protocols. With unrelated handshake and record protocols, one connection
-becomes two connections, thus the attack surface is increased for man-in-the middle attacks.
+the handshake and record protocols. TLS requires that the handshake and record protocols share the same connection because separating them increases the attack surface for man-in-the-middle attacks.
 
 A mTLS connection has a consistent end-to-end security from start of the handshake to finish. The
 encrypted data is encrypted with the session key negotiated using the public key in the
