@@ -10,6 +10,7 @@ _data
 _v2_
 _V2_
 _v3_
+0-RTT
 0.1.x
 0.2.x
 0.8.x
@@ -350,6 +351,7 @@ cves
 CVEs
 cvss
 cyber
+cybersecurity
 D2iQ
 DaemonSet
 DaoCloud
@@ -534,6 +536,7 @@ intermediation
 interoperate
 interoperation
 intra-cluster
+intra-mesh
 intrahost
 intranode
 Invasiveness
@@ -656,6 +659,7 @@ L3-4
 L4-L6
 Landow
 learnings
+Leggett
 Li
 LibreSSL
 lifecycle
@@ -896,6 +900,7 @@ reimplement
 reimplemented
 reinject
 relabeling
+remediate
 remoteIpBlocks
 repo
 repurposed
@@ -1046,6 +1051,7 @@ trustability
 tunneling
 UID
 UIDs
+U.S.
 uint32
 ulimit
 un-injecting
@@ -1060,6 +1066,7 @@ undeployed
 underutilization
 Underutilization
 unencrypted
+unforgeable
 unmanaged
 Unmarshalers
 Unmarshaling
@@ -1099,6 +1106,7 @@ v2
 V2
 v2-mysql
 v3
+validatable
 validator
 ValueType
 vCPU
