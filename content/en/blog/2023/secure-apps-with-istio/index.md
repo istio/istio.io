@@ -339,8 +339,8 @@ TLS version 1.3 is the default in Istio for intra-mesh application communication
 The TLS protocol, as established by the Internet Engineering Task Force (IETF), is one of the most
 widely-reviewed, expert-approved, battle-tested data security protocols in existence. TLS is also
 widely used globally - whenever you visit any secured website, you shop with confidence partly
-because of the connection secure icon to indicate that you are connected to a trusted site
-securely using TLS. The TLS 1.3 protocol was designed with end-to-end authentication,
+because of the padlock icon to indicate that you are securely connected to a trusted site
+by using TLS. The TLS 1.3 protocol was designed with end-to-end authentication,
 confidentiality, and integrity to ensure your application’s identity and communications are not
 compromised, and to prevent man-in-the-middle attacks. In order to achieve that (and to be
 considered standards-compliant TLS), it is not only important to properly authenticate the
