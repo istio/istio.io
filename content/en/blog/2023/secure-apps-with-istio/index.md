@@ -251,7 +251,7 @@ cache gets out of sync for a short period of time. For example, if you don’t h
 identity on the connection between the peers, your system would have to get the identity from the
 identity cache which could be outdated or incomplete.
 
-These Identity caches that map identity to workload IPs are not [ACID](https://en.wikipedia.org/wiki/ACID)
+These identity caches that map identity to workload IPs are not [ACID](https://en.wikipedia.org/wiki/ACID)
 (Atomicity, Consistency, Isolation, and Durability) and you want your security system to be applied
 to something with strong guarantees. Consider the following properties and questions you may want
 to ask yourself:
