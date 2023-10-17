@@ -186,7 +186,7 @@ Who issues the identity certificates for `frontend` and `checkout`? They are com
 its own [root certificate](https://en.wikipedia.org/wiki/Root_certificate) or uses an intermediate
 certificate from its root CA. A root certificate is basically a public key certificate that
 identifies a root CA, which you likely already have in your organization. Root certificate is
-distributed to `frontend` (or `checkout`) in addition to the identity certificate. This is how
+distributed to `frontend` (or `checkout`) in addition to its own root-signed identity certificate. This is how
 everyday, basic Public Key Infrastructure (PKI) works - a CA has responsibility for validating an
 entity’s identity document, and then grants it an unforgeable identity document in the form of a
 certificate.
