@@ -43,8 +43,8 @@ your passport and driver’s license. Identities based around anything less are 
 that is relatively easy to exploit.
 
 Your system may have identities derived from network properties such as IP addresses with
-distributed identity caches that track the mapping between identities and these network properties
-such as IP addresses. These identities don’t have strong guarantees as cryptographically verifiable
+distributed identity caches that track the mapping between identities and these network properties.
+These identities don’t have strong guarantees as cryptographically verifiable
 identities because IP addresses could be re-allocated to different workloads and identity caches may
 not always be updated to the latest.
 
