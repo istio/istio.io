@@ -182,7 +182,8 @@ Putting the two protocols from the TLS 1.3 specification together and using the 
     >}}
 
 Who issues the identity certificates for `frontend` and `checkout`? They are commonly issued by a
-[certificate authority (CA)](https://en.wikipedia.org/wiki/Certificate_authority) which may have its own [root certificate](https://en.wikipedia.org/wiki/Root_certificate) or use an intermediate
+[certificate authority (CA)](https://en.wikipedia.org/wiki/Certificate_authority) which either has
+its own [root certificate](https://en.wikipedia.org/wiki/Root_certificate) or uses an intermediate
 certificate from its root CA. A root certificate is basically a public key certificate that
 identifies a root CA, which you likely already have in your organization. Root certificate is
 distributed to `frontend` (or `checkout`) in addition to the identity certificate. This is how
