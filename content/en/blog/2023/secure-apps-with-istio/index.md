@@ -201,7 +201,7 @@ they run.
 You learned about how mTLS provides cryptographic identity, confidentiality and integrity, what
 about scalability as you grow to thousands or more applications among multiple clusters? If you
 establish a single root certificate across multiple clusters, the system doesn’t need to care when
-your application gets a connection request from which cluster as long as it is trusted by the root
+your application gets a connection request from another cluster as long as it is trusted by the root
 certificate - the system knows the identity on the connection is cryptographically verified. As your
 application pod changes IP or is redeployed to a different cluster or network, your application (or
 component acting on behalf of it) simply originates the traffic with its trusted certificate minted
