@@ -316,7 +316,7 @@ each application pod in the mesh after you add your application to the mesh.
 By default, your pod's identity certificate expires in 24 hours and Istio rotates the pod identity
 certificate every 12 hours so that in the event of a compromise (for example, compromised CA or
 stolen private key for the pod), the compromised certificate only works for a very limited period
-of time until the certificate expires and therefore could limit the
+of time until the certificate expires and therefore limit the
 damage it can cause.
 
 ### Enforce strict mTLS
