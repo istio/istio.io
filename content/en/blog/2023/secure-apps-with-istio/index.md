@@ -225,7 +225,7 @@ detection:
 
 ### What if someone in the middle of the connection silently captures the encrypted data?
 
-If the connection doesn’t follow exactly the handshake and record protocols as outlined in TLS
+If the connection doesn’t follow exactly the handshake and record protocols as outlined in the TLS
 specification, for example, the connection follows the handshake protocol but not reusing the
 negotiated session key and parameters from handshake in the record protocol, you may have your
 connection’s handshake unrelated to the record protocol where identities could be different between
