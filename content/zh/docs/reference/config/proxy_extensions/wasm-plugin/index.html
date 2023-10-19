@@ -213,7 +213,7 @@ hosted remotely.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 <tr id="WasmPlugin-sha256">
@@ -394,6 +394,7 @@ No
 </section>
 <h2 id="EnvVar">EnvVar</h2>
 <section>
+
 <table class="message-fields">
 <thead>
 <tr>
@@ -408,20 +409,19 @@ No
 <td><code>name</code></td>
 <td><code>string</code></td>
 <td>
-<p>Required
-Name of the environment variable. Must be a C_IDENTIFIER.</p>
+<p>Name of the environment variable.
+Must be a C_IDENTIFIER.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 <tr id="EnvVar-value_from">
 <td><code>valueFrom</code></td>
 <td><code><a href="#EnvValueSource">EnvValueSource</a></code></td>
 <td>
-<p>Required
-Source for the environment variable&rsquo;s value.</p>
+<p>Source for the environment variable&rsquo;s value.</p>
 
 </td>
 <td>
@@ -433,7 +433,7 @@ No
 <td><code>string</code></td>
 <td>
 <p>Value for the environment variable.
-Note that if <code>value_from</code> is <code>HOST</code>, it will be ignored.
+Only applicable if <code>valueFrom</code> is <code>HOST</code>.
 Defaults to &ldquo;&rdquo;.</p>
 
 </td>
