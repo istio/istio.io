@@ -37,6 +37,7 @@ the automatic loading of some of the below mentioned kernel modules.
 | `xt_mark` | Only needed for `TPROXY` interception mode |
 | `xt_owner` |  |
 | `xt_tcpudp` |  |
+| `xt_multiport`|  |
 
 The following additional modules are used by the above listed modules and should be also loaded on the cluster node:
 
