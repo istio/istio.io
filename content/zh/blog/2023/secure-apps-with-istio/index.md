@@ -306,4 +306,4 @@ TLS 1.3 协议的设计具有端到端身份验证、保密性和完整性，以
 擅长满足您的安全应用程序通信要求（加密身份、保密性、完整性和访问策略实施），
 您只需使用 Istio 即可通过开箱即用的 mTLS 升级您的网格内应用程序通信 - 只需很少的配置！
 
-**非常感谢 Louis Ryan、Ben Leggett、John Howard、Christian Posta、Justin Pettit，他们在博客的审核以及更新建议方面贡献了大量时间！**
+非常感谢 Louis Ryan、Ben Leggett、John Howard、Christian Posta、Justin Pettit，他们在博客的审核以及更新建议方面贡献了大量时间！
