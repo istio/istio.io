@@ -18,16 +18,12 @@ set -e
 
 GATEWAY_VERSION=$(grep gateway-api go.mod | awk '{ print $2 }')
 #echo "GATEWAY_VERSION=${GATEWAY_VERSION}"
-if [[ $GATEWAY_VERSION == *"-rc"* ]]; then
-  GATEWAY_VERSION=$(echo "$GATEWAY_VERSION" | awk -F '.0.202' '{ print $1 }')
-#  echo "Found -rc, GATEWAY_VERSION=${GATEWAY_VERSION}"
-else
-  if [[ $GATEWAY_VERSION == *"-"* ]]; then
+if [[ $GATEWAY_VERSION == *"-"* ]]; then
+  #echo "Found -, GATEWAY_VERSION=${GATEWAY_VERSION}"
+  if ! [[ $GATEWAY_VERSION =~ -rc[0-9]$ ]]; then
+    #echo "Not -rcN, GATEWAY_VERSION=${GATEWAY_VERSION}"
     SHORT_SHA=$(echo "$GATEWAY_VERSION" | awk -F '-' '{ print $NF }')
     GATEWAY_VERSION=$(curl -s -L -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" https://api.github.com/repos/kubernetes-sigs/gateway-api/commits/"${SHORT_SHA}" | jq -r .sha)
-#   echo "Found -, GATEWAY_VERSION=${GATEWAY_VERSION}"
-# else
-#   echo "no - or -rc found"
   fi
 fi
 echo "$GATEWAY_VERSION"
