@@ -36,6 +36,7 @@ test: no
 | `xt_mark`             | 仅适用于 `TPROXY` 拦截模式  |
 | `xt_owner`            |                          |
 | `xt_tcpudp`           |                          |
+| `xt_multiport`        |                          |
 
 以下更多模块由上述列出的模块使用，也应该加载到集群节点上：
 
