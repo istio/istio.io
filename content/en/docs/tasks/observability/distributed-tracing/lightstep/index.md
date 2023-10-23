@@ -356,7 +356,7 @@ Istio is now configured to send OpenTelemetry data to Cloud Observability via a 
 
 1. Below the chart, click on the `Span samples` tab. This shows a list of all spans that match the query. Click on one of the span records in the table. This will load the trace view for the trace that includes that span in a new tab.
 
-{{< image link="./span-samples.png" caption="Open the matching span results" >}}
+    {{< image link="./span-samples.png" caption="Open the matching span results" >}}
 
 Review the information that is available in this trace view. You should see a tree of the `egress` and `ingress` operations and the amount of latency they contributed as the request flows through the `istio-ingressgateway` to the `productpage` and from `productpage` to the `details` service. Click on each of the operations and notice the attributes that are populated in the sidebar on the right. You should see rich data about the context of the operation including versions, namespace, protocols, networking details, user agent and more.
 
