@@ -75,7 +75,7 @@ To view support configuration options and documentation, run:
 $ helm show values istio/istiod
 {{< /text >}}
 
-##  Verifying the Installation
+## Verifying the Installation
 
 ### Verifying the deployments status
 
