@@ -55,9 +55,9 @@ Before installing Istio you will need to have a Kubernetes cluster running a sup
 
 1. Use `istioctl` to install Istio in your cluster. The example below uses the `demo` configuration profile which is ideal for the purposes of this guide. See the [available configuration profiles](/docs/setup/additional-setup/config-profiles/) for more info.
 
-{{< text bash >}}
-$ istioctl install --set profile=demo -y
-{{< /text >}}
+    {{< text bash >}}
+    $ istioctl install --set profile=demo -y
+    {{< /text >}}
 
 1. Add the following label to your Kubernetes namespace. This instructs Istio to automatically inject Envoy sidecar proxies with your pods in this namespace.
 
