@@ -30,7 +30,7 @@ Helm helps you manage components separately, and you can easily upgrade the comp
 
 ## Installing the Components
 
-### Installing the Base Component
+### Installing the base Component
 
 The `base` chart contains the basic CRDs and cluster roles required to set up Istio.
 This should be installed prior to any other Istio component.
@@ -42,14 +42,14 @@ $ helm install istio-base istio/base
 ### Installing the CNI Component
 
 The **CNI** chart installs the Istio CNI Plugin. It is responsible for detecting the pods that belong to the ambient mesh,
-and configuring the traffic redirection between the ztunnel daemonset, which will be installed later.
+and configuring the traffic redirection between the ztunnel DaemonSet, which will be installed later.
 
 {{< text bash >}}
 $ helm install istio-cni istio/cni -n kube-system \
   -f @manifests/charts/istio-cni/ambient-values.yaml@
 {{< /text >}}
 
-### Installing the Istiod Component
+### Installing the discovery Component
 
 The `istiod` chart installs a revision of Istiod. Istiod is the control plane component that manages and
 configures the proxies to route traffic within the mesh.
@@ -61,13 +61,23 @@ $ helm install istiod istio/istiod --namespace istio-system --create-namespace \
 
 ### Installing the ztunnel component
 
-The `ztunnel` chart installs the ztunnel daemonset, which is the node-proxy component of ambient.
+The `ztunnel` chart installs the ztunnel DaemonSet, which is the node-proxy component of ambient.
 
 {{< text bash >}}
 $ helm install ztunnel istio/ztunnel -n istio-system
 {{< /text >}}
 
-## Verifying the Installation
+## Configuration
+
+To view support configuration options and documentation, run:
+
+  {{< text bash >}}
+  $ helm show values istio/istiod
+  {{< /text >}}
+
+##  Verifying the Installation
+
+### Verifying the deployments status
 
 After installing all the components, you can check the helm deployment status:
 
@@ -81,10 +91,93 @@ You can check the status of the pods deployed:
 $ kubectl get pods -n istio-system
 {{< /text >}}
 
-## Configuration
+### Verifying with the Sample Application
 
-To view support configuration options and documentation, run:
+After installing ambient with Helm, you can follow the rest of the
+[Deploy the sample application](/docs/ops/ambient/getting-started/#bookinfo)
+guide to deploy the sample application and ingress gateways, and follow the
+[Adding your application to ambient](/docs/ops/ambient/getting-started/#addtoambient)
+to add your application to ambient.
 
-{{< text bash >}}
-$ helm show values istio/istiod
+## Uninstall
+
+You can uninstall Istio and its components by uninstalling the charts
+installed above.
+
+1. List all the Istio charts installed in `istio-system` namespace:
+
+   {{< text syntax=bash >}}
+   $ helm ls -n istio-system
+   NAME       NAMESPACE    REVISION UPDATED         STATUS   CHART        APP VERSION
+   istio-base istio-system 1        ... ... ... ... deployed base-1.0.0   1.0.0
+   istiod     istio-system 1        ... ... ... ... deployed istiod-1.0.0 1.0.0
+   {{< /text >}}
+
+1. If you have installed the Istio CNI chart in `kube-system`, list the charts installed in `kube-system` namespace:
+
+   {{< text syntax=bash >}}
+   $ helm ls -n kube-system
+   NAME       NAMESPACE    REVISION UPDATED         STATUS   CHART        APP VERSION
+   istio-cni  kube-system  1        ... ... ... ... deployed cni-1.0.0    1.0.0
+   {{< /text >}}
+
+1. (Optional) Delete any Istio gateway chart installations:
+
+   {{< text syntax=bash >}}
+   $ helm delete istio-ingress -n istio-ingress
+   $ kubectl delete namespace istio-ingress
+   {{< /text >}}
+
+1. Delete Istio CNI chart:
+
+   {{< text syntax=bash >}}
+   $ helm delete istio-cni -n kube-system
+   {{< /text >}}
+
+1. Delete Istio ztunnel chart:
+
+   {{< text syntax=bash >}}
+   $ helm delete ztunnel -n istio-system
+   {{< /text >}}
+
+1. Delete Istio discovery chart:
+
+   {{< text syntax=bash >}}
+   $ helm delete istiod -n istio-system
+   {{< /text >}}
+
+1. Delete Istio base chart:
+
+   {{< tip >}}
+   By design, deleting a chart via Helm doesn't delete the installed Custom
+   Resource Definitions (CRDs) installed via the chart.
+   {{< /tip >}}
+
+   {{< text syntax=bash >}}
+   $ helm delete istio-base -n istio-system
+   {{< /text >}}
+
+1. Delete the `istio-system` namespace:
+
+   {{< text syntax=bash >}}
+   $ kubectl delete namespace istio-system
+   {{< /text >}}
+
+## Uninstall stable revision label resources
+
+If you decide to continue using the old control plane, instead of completing the update,
+you can uninstall the newer revision and its tag by first issuing
+`helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags={prod-canary} --set revision=canary -n istio-system | kubectl delete -f -`.
+You must them uninstall the revision of Istio that it pointed to by following the uninstall procedure above.
+
+If you installed the gateway(s) for this revision using in-place upgrades, you must also reinstall the gateway(s) for the previous revision manually,
+Removing the previous revision and its tags will not automatically revert the previously in-place upgraded gateway(s).
+
+### (Optional) Deleting CRDs installed by Istio
+
+Deleting CRDs permanently removes any Istio resources you have created in your
+cluster. To permanently delete Istio CRDs installed in your cluster:
+
+{{< text syntax=bash >}}
+$ kubectl get crd -oname | grep --color=never 'istio.io' | xargs kubectl delete
 {{< /text >}}
