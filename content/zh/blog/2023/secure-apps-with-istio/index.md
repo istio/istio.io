@@ -290,7 +290,7 @@ CA 也可能被呈现为其他人的攻击者[妥协](https://en.wikipedia.org/w
 
 ### TLS 版本  {#tls-version}
 
-TLS v1.3 是 Istio 中默认的网格内应用程序与 Envoy
+TLS 的 1.3 版是 Istio 中默认的网格内应用程序与 Envoy
 的[默认密码套件](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/transport_sockets/tls/v3/common.proto)
 （例如 Istio 1.19.0 中的 `TLS_AES_256_GCM_SHA384`）。如果您需要较旧的 TLS 版本，
 可以为您的工作负载[配置不同网格范围的最低 TLS 协议版本](/zh/docs/tasks/security/tls-configuration/workload-min-tls-version/)。
