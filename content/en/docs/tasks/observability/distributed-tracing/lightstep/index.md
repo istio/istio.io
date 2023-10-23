@@ -47,9 +47,9 @@ Before installing Istio you will need to have a Kubernetes cluster running a sup
 
 1. Add istioctl to your PATH (Linux or macOS)
 
-{{< text bash >}}
-$ export PATH=$PWD/bin:$PATH
-{{< /text >}}
+    {{< text bash >}}
+    $ export PATH=$PWD/bin:$PATH
+    {{< /text >}}
 
 ### Install Istio in your Cluster
 
