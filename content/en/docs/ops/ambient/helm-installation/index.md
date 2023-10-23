@@ -21,10 +21,10 @@ Helm helps you manage components separately, and you can easily upgrade the comp
 
 1. Configure the Helm repository:
 
-{{< text bash >}}
-$ helm repo add istio https://istio-release.storage.googleapis.com/charts
-$ helm repo update
-{{< /text >}}
+    {{< text bash >}}
+    $ helm repo add istio https://istio-release.storage.googleapis.com/charts
+    $ helm repo update
+    {{< /text >}}
 
 *See [helm repo](https://helm.sh/docs/helm/helm_repo/) for command documentation.*
 
