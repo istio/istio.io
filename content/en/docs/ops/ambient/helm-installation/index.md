@@ -30,7 +30,7 @@ Helm helps you manage components separately, and you can easily upgrade the comp
 
 ## Installing the Components
 
-### Installing Base Component
+### Installing the Base Component
 
 The **Base** chart contains the basic CRDs and cluster roles required to set up Istio.
 This should be installed prior to any other Istio component.
