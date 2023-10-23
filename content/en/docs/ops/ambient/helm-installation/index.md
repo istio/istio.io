@@ -71,9 +71,9 @@ $ helm install ztunnel istio/ztunnel -n istio-system
 
 To view support configuration options and documentation, run:
 
-  {{< text bash >}}
-  $ helm show values istio/istiod
-  {{< /text >}}
+{{< text bash >}}
+$ helm show values istio/istiod
+{{< /text >}}
 
 ##  Verifying the Installation
 
@@ -93,7 +93,7 @@ $ kubectl get pods -n istio-system
 
 ### Verifying with the Sample Application
 
-After installing ambient with Helm, you can follow the rest of the
+After installing ambient with Helm, you can follow
 [Deploy the sample application](/docs/ops/ambient/getting-started/#bookinfo)
 guide to deploy the sample application and ingress gateways, and follow the
 [Adding your application to ambient](/docs/ops/ambient/getting-started/#addtoambient)
@@ -106,62 +106,62 @@ installed above.
 
 1. List all the Istio charts installed in `istio-system` namespace:
 
-   {{< text syntax=bash >}}
-   $ helm ls -n istio-system
-   NAME       NAMESPACE    REVISION UPDATED         STATUS   CHART        APP VERSION
-   istio-base istio-system 1        ... ... ... ... deployed base-1.0.0   1.0.0
-   istiod     istio-system 1        ... ... ... ... deployed istiod-1.0.0 1.0.0
-   {{< /text >}}
+    {{< text syntax=bash >}}
+    $ helm ls -n istio-system
+    NAME       NAMESPACE    REVISION UPDATED         STATUS   CHART        APP VERSION
+    istio-base istio-system 1        ... ... ... ... deployed base-1.0.0   1.0.0
+    istiod     istio-system 1        ... ... ... ... deployed istiod-1.0.0 1.0.0
+    {{< /text >}}
 
 1. If you have installed the Istio CNI chart in `kube-system`, list the charts installed in `kube-system` namespace:
 
-   {{< text syntax=bash >}}
-   $ helm ls -n kube-system
-   NAME       NAMESPACE    REVISION UPDATED         STATUS   CHART        APP VERSION
-   istio-cni  kube-system  1        ... ... ... ... deployed cni-1.0.0    1.0.0
-   {{< /text >}}
+    {{< text syntax=bash >}}
+    $ helm ls -n kube-system
+    NAME       NAMESPACE    REVISION UPDATED         STATUS   CHART        APP VERSION
+    istio-cni  kube-system  1        ... ... ... ... deployed cni-1.0.0    1.0.0
+    {{< /text >}}
 
 1. (Optional) Delete any Istio gateway chart installations:
 
-   {{< text syntax=bash >}}
-   $ helm delete istio-ingress -n istio-ingress
-   $ kubectl delete namespace istio-ingress
-   {{< /text >}}
+    {{< text syntax=bash >}}
+    $ helm delete istio-ingress -n istio-ingress
+    $ kubectl delete namespace istio-ingress
+    {{< /text >}}
 
 1. Delete Istio CNI chart:
 
-   {{< text syntax=bash >}}
-   $ helm delete istio-cni -n kube-system
-   {{< /text >}}
+    {{< text syntax=bash >}}
+    $ helm delete istio-cni -n kube-system
+    {{< /text >}}
 
 1. Delete Istio ztunnel chart:
 
-   {{< text syntax=bash >}}
-   $ helm delete ztunnel -n istio-system
-   {{< /text >}}
+    {{< text syntax=bash >}}
+    $ helm delete ztunnel -n istio-system
+    {{< /text >}}
 
 1. Delete Istio discovery chart:
 
-   {{< text syntax=bash >}}
-   $ helm delete istiod -n istio-system
-   {{< /text >}}
+    {{< text syntax=bash >}}
+    $ helm delete istiod -n istio-system
+    {{< /text >}}
 
 1. Delete Istio base chart:
 
-   {{< tip >}}
-   By design, deleting a chart via Helm doesn't delete the installed Custom
-   Resource Definitions (CRDs) installed via the chart.
-   {{< /tip >}}
+    {{< tip >}}
+    By design, deleting a chart via Helm doesn't delete the installed Custom
+    Resource Definitions (CRDs) installed via the chart.
+    {{< /tip >}}
 
-   {{< text syntax=bash >}}
-   $ helm delete istio-base -n istio-system
-   {{< /text >}}
+    {{< text syntax=bash >}}
+    $ helm delete istio-base -n istio-system
+    {{< /text >}}
 
 1. Delete the `istio-system` namespace:
 
-   {{< text syntax=bash >}}
-   $ kubectl delete namespace istio-system
-   {{< /text >}}
+    {{< text syntax=bash >}}
+    $ kubectl delete namespace istio-system
+    {{< /text >}}
 
 ## Uninstall stable revision label resources
 
