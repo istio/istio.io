@@ -316,9 +316,9 @@ spec:
 
 1. Deploy the configuration in the istio-system namespace
 
-{{< text bash >}}
-$ kubectl apply -f istio-telemetry.yaml -n istio-system
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl apply -f istio-telemetry.yaml -n istio-system
+    {{< /text >}}
 
 #### Restart Your Workloads
 
