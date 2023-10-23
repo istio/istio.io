@@ -51,7 +51,7 @@ $ helm install istio-cni istio/cni -n kube-system \
 
 ### Installing Istiod Component
 
-The **Istiod** chart installs a revision of Istiod. Istiod is the control plane component that manages and
+The `istiod` chart installs a revision of Istiod. Istiod is the control plane component that manages and
 configures the proxies to route traffic within the mesh.
 
 {{< text bash >}}
