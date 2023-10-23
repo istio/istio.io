@@ -59,7 +59,7 @@ $ helm install istiod istio/istiod --namespace istio-system --create-namespace \
   -f @manifests/charts/istio-control/istio-discovery/ambient-values.yaml@
 {{< /text >}}
 
-### Installing Ztunnel Component
+### Installing the ztunnel component
 
 The `ztunnel` chart installs the ztunnel daemonset, which is the node-proxy component of ambient.
 
