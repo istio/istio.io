@@ -41,9 +41,9 @@ Before installing Istio you will need to have a Kubernetes cluster running a sup
 
 1. Change to the directory where you extracted Istio. For example, if you downloaded the latest using the command above the directory will be `istio-1.19.0` (or similar depending on which version you downloaded)
 
-{{< text bash >}}
-$ cd istio-1.19.0
-{{< /text >}}
+    {{< text bash >}}
+    $ cd istio-1.19.0
+    {{< /text >}}
 
 1. Add istioctl to your PATH (Linux or macOS)
 
