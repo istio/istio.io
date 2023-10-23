@@ -61,9 +61,9 @@ Before installing Istio you will need to have a Kubernetes cluster running a sup
 
 1. Add the following label to your Kubernetes namespace. This instructs Istio to automatically inject Envoy sidecar proxies with your pods in this namespace.
 
-{{< text bash >}}
-$ kubectl label namespace default istio-injection=enabled
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl label namespace default istio-injection=enabled
+    {{< /text >}}
 
 ### Verify Installation
 
