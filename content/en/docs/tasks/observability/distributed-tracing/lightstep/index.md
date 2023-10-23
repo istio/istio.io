@@ -352,7 +352,7 @@ Istio is now configured to send OpenTelemetry data to Cloud Observability via a 
 
 1. In the `Search for a span attribute key` text box enter `service` then in the `Search for values` text box enter `productpage.default` and hit enter. This will execute the query to get latency values from all spans for the service `productpage.default` in the last hour
 
-{{< image link="./query-input.png" caption="Update the query" >}}
+    {{< image link="./query-input.png" caption="Update the query" >}}
 
 1. Below the chart, click on the `Span samples` tab. This shows a list of all spans that match the query. Click on one of the span records in the table. This will load the trace view for the trace that includes that span in a new tab.
 
