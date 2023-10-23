@@ -28,7 +28,7 @@ webhooks:
   - v1beta1
   - v1
   clientConfig:
-    url: 
+    url:
   name: rev.validation.istio.io
 
 ---
@@ -44,7 +44,7 @@ webhooks:
     url: https://test.com:15017/validate
   failurePolicy: Ignore
   name: validation.istio.io
-  
+
 ---
 apiVersion: admissionregistration.k8s.io/v1
 kind: MutatingWebhookConfiguration
@@ -154,7 +154,7 @@ webhooks:
 
 ## How to resolve
 
-There are several ways to resolve these invalid configurations, depending on the why the configuration is invalid. 
+There are several ways to resolve these invalid configurations, depending on the why the configuration is invalid.
 
 If your webhook configurations have no URLs defined, adding valid URLs that use a hostname will resolve this warning message. Instructions on how to do that can be found [here](/docs/setup/install/external-controlplane/#set-up-the-remote-config-cluster).
 
