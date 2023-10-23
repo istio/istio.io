@@ -61,7 +61,7 @@ $ helm install istiod istio/istiod --namespace istio-system --create-namespace \
 
 ### Installing Ztunnel Component
 
-The **Ztunnel** chart installs a ztunnel, which is the node-proxy component in Ambient.
+The `ztunnel` chart installs the ztunnel daemonset, which is the node-proxy component of ambient.
 
 {{< text bash >}}
 $ helm install ztunnel istio/ztunnel -n istio-system
