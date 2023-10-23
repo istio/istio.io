@@ -344,7 +344,7 @@ Istio is now configured to send OpenTelemetry data to Cloud Observability via a 
 1. Sign in to ServiceNow Cloud Observability
 1. Click on Notebooks in the side navigation bar
 
-{{< image link="./notebooks.png" caption="Open SNCO Notebooks" >}}
+    {{< image link="./notebooks.png" caption="Open SNCO Notebooks" >}}
 
 1. In the Unified Query Builder change `All telemetry` to `Spans with`
 
