@@ -8,7 +8,7 @@ test: n/a
 
 This guide shows you how to install ambient mesh with Helm.
 Besides the demo in [Getting Started with Ambient Mesh](/docs/ops/ambient/getting-started/),
-we **encourage** you to follow this guide to install Ambient Mesh.
+we **encourage** you to follow this guide to install ambient mesh.
 Helm helps you manage components separately, and you can easily upgrade the components to the latest version.
 
 ## Prerequisites
