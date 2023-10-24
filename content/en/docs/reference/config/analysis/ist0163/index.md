@@ -2,7 +2,7 @@
 title: InvalidExternalControlPlaneConfig
 layout: analysis-message
 owner: istio/wg-user-experience-maintainers
-test: no
+test: n/a
 ---
 
 This message occurs when the address provided for the ingress gateway on the external control plane is not valid. The address could be invalid for several reasons including: the hostname address is malformed, the hostname cannot be resolved to an IP address via a DNS lookup, or the hostname resolves to zero IP addresses.

@@ -2,7 +2,7 @@
 title: ExternalControlPlaneAddressIsNotAHostname
 layout: analysis-message
 owner: istio/wg-user-experience-maintainers
-test: no
+test: n/a
 ---
 
 This message occurs when the address provided for the ingress gateway on the external control plane is an IP address and not a hostname.
