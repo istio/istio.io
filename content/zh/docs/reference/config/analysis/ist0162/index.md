@@ -5,7 +5,8 @@ owner: istio/wg-user-experience-maintainers
 test: n/a
 ---
 
-当 Gateway（通常是 `istio-ingressgateway`）提供的端口与网关实例关联的 Kubernetes 服务（Service）
+当 Gateway（通常是 `istio-ingressgateway`）
+提供的端口与网关实例关联的 Kubernetes 服务（Service）
 定义的端口不匹配时，`GatewayPortNotDefinedOnService` 消息将会出现。
 
 例如，您的配置定义如下：
@@ -59,8 +60,9 @@ spec:
     targetPort: 8443
 {{< /text >}}
 
-在此示例中，`GatewayPortNotDefinedOnService` 消息出现，因为此配置使用了端口 `8004`，
-但默认的 `IngressGateway`（名称为 `istio-ingressgateway`）只定义了目标端口 15021、8080 和 8443。
+在此示例中，`GatewayPortNotDefinedOnService` 消息出现，
+因为此配置使用了端口 `8004`，但默认的 `IngressGateway`
+（名称为 `istio-ingressgateway`）只定义了目标端口 15021、8080 和 8443。
 
 要解决此问题，请更改网关配置以使用工作负载上的有效端口，然后重试。
 
