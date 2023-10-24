@@ -16,7 +16,7 @@ Warning [IST0163] (MutatingWebhookConfiguration istio-sidecar-injector-external-
 Warning [IST0163] (ValidatingWebhookConfiguration istio-validator-external-istiod testing.yml:1) The hostname () that was provided for the webhook (rev.validation.istio.io) to reach the ingress gateway on the external control plane cluster is blank. Traffic may not flow properly.
 {{< /text >}}
 
-when your cluster has the following ValidatingWebhookConfiguration and MutatingWebhookConfigurations (shortened for clarity) that are missing webhook URLs:
+when your cluster has the following `ValidatingWebhookConfiguration` and `MutatingWebhookConfiguration` (shortened for clarity) that are missing webhook URLs:
 
 {{< text yaml >}}
 apiVersion: admissionregistration.k8s.io/v1
@@ -87,7 +87,7 @@ You will receive this message:
 Warning [IST0163] (ValidatingWebhookConfiguration istio-validator-external-istiod testing.yml:1) The hostname (https://thisisnotarealdomainname.com:15017/validate) that was provided for the webhook (rev.validation.istio.io) to reach the ingress gateway on the external control plane cluster cannot be resolved via a DNS lookup. Traffic may not flow properly.
 {{< /text >}}
 
-when your cluster has the following ValidatingWebhookConfiguration and MutatingWebhookConfigurations (shortened for clarity) that are using a hostname that cannot be resolved during a DNS lookup:
+when your cluster has the following `ValidatingWebhookConfiguration` and `MutatingWebhookConfiguration` (shortened for clarity) that are using a hostname that cannot be resolved during a DNS lookup:
 
 {{< text yaml >}}
 apiVersion: admissionregistration.k8s.io/v1

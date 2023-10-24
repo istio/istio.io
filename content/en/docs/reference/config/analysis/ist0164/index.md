@@ -15,7 +15,7 @@ You will receive this message:
 Info [IST0164] (MutatingWebhookConfiguration istio-sidecar-injector-external-istiod testing.yml:28) The address (https://999.999.999.999:5100/inject/cluster/your-cluster-name/net/network1) that was provided for the webhook (rev.namespace.sidecar-injector.istio.io) to reach the ingress gateway on the external control plane cluster is an IP address. This is not recommended for a production environment.
 {{< /text >}}
 
-when your cluster has the following ValidatingWebhookConfiguration(s) and MutatingWebhookConfiguration(s) (shortened for clarity):
+when your cluster has the following `ValidatingWebhookConfiguration` and `MutatingWebhookConfiguration` (shortened for clarity):
 
 {{< text yaml >}}
 apiVersion: admissionregistration.k8s.io/v1
