@@ -58,7 +58,7 @@ test: yes
 
 {{< tip >}}
 请注意，如果您正在使用 [Minikube](https://kubernetes.io/zh-cn/docs/tasks/tools/install-minikube/)
-（或任何其他使用配置有容器的非标准 `netns` 路径的节点的平台），
+（或在节点上为容器配置了非标准 `netns` 路径的任何其他平台），
 您可能需要在 `istioctl install` 命令后面追加 `--set values.cni.cniNetnsDir="/var/run/docker/netns"`，
 以便 Istio CNI DaemonSet 能够正确管理和捕获节点上的 Pod。
 
