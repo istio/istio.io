@@ -7,7 +7,7 @@ test: n/a
 
 当为外部控制平面上的入口网关提供的地址无效时，会出现此消息。
 该地址可能因多种原因而无效，包括：主机名地址格式错误、
-主机名无法通过 DNS 查找解析为 IP 地址，或者主机名解析为零个 IP 地址。
+主机名无法通过 DNS 查询解析为 IP 地址，或者主机名解析为零个 IP 地址。
 
 ## 示例  {#example}
 
@@ -18,8 +18,8 @@ Warning [IST0163] (MutatingWebhookConfiguration istio-sidecar-injector-external-
 Warning [IST0163] (ValidatingWebhookConfiguration istio-validator-external-istiod testing.yml:1) The hostname () that was provided for the webhook (rev.validation.istio.io) to reach the ingress gateway on the external control plane cluster is blank. Traffic may not flow properly.
 {{< /text >}}
 
-当您的集群具有以下缺少 Webhook URL 的 `ValidatingWebhookConfiguration`
-和 `MutatingWebhookConfiguration`（为清楚起见而缩短）时：
+当集群的 `ValidatingWebhookConfiguration` 和 `MutatingWebhookConfiguration`
+（为清楚起见而缩短）缺少 Webhook URL 时：
 
 {{< text yaml >}}
 apiVersion: admissionregistration.k8s.io/v1
@@ -90,9 +90,8 @@ webhooks:
 Warning [IST0163] (ValidatingWebhookConfiguration istio-validator-external-istiod testing.yml:1) The hostname (https://thisisnotarealdomainname.com:15017/validate) that was provided for the webhook (rev.validation.istio.io) to reach the ingress gateway on the external control plane cluster cannot be resolved via a DNS lookup. Traffic may not flow properly.
 {{< /text >}}
 
-当您的集群具有以下 `ValidatingWebhookConfiguration`
-和 `MutatingWebhookConfiguration`（为清楚起见而缩短）时，
-它们使用的主机名在 DNS 查找期间无法被解析：
+当集群的 `ValidatingWebhookConfiguration` 和 `MutatingWebhookConfiguration`
+（为清楚起见而缩短）所使用的主机名在 DNS 查询期间无法被解析时：
 
 {{< text yaml >}}
 apiVersion: admissionregistration.k8s.io/v1
@@ -167,8 +166,8 @@ webhooks:
 
 如果您的主机名无法通过 DNS 查找解析为 IP 地址，
 您可以尝试在本地计算机上运行 `dig <your-hostname>`
-来查看是否触发 DNS 解析。如果您的本地计算机可以通过 DNS 查找解析主机名，
-您的集群可能不行。任何阻止 DNS 流量的安全规则都可能导致解析查找失败。
+来查看是否触发 DNS 解析。如果您的本地计算机可以通过 DNS 查询来解析主机名，
+那可能是您的集群不能解析此主机名。任何阻止 DNS 流量的安全规则都可能导致解析查询失败。
 新的 DNS 记录可能需要长达 72 小时才能在网络上传播，
 具体取决于您的 DNS 提供商和具体配置。
 
