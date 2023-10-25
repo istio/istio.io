@@ -5,8 +5,7 @@ owner: istio/wg-user-experience-maintainers
 test: n/a
 ---
 
-当为外部控制平面上的入口网关提供的地址是 IP
-地址而不是主机名时，会出现此消息。
+当为外部控制平面上的入口网关提供的地址是 IP 地址而不是主机名时，会出现此消息。
 
 ## 示例  {#example}
 
