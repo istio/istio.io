@@ -134,7 +134,10 @@ EOF
 
 {{< /tabset >}}
 
-3) 在浏览器中打开 Bookinfo 的网址 `http://$GATEWAY_URL/productpage`。
+3) 在浏览器中打开 Bookinfo 的网址 `http://$GATEWAY_URL/productpage`，
+   其中 `$GATEWAY_URL` 是入口的外部 IP 地址，如
+   [Bookinfo](/zh/docs/examples/bookinfo/#determine-the-ingress-ip-and-port)
+   文档中所述。
 
     这时可以看到 Bookinfo 应用运行正常（显示了评级的星型符号），但是每次刷新页面，
     都会有 2 秒的延迟。
