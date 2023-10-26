@@ -56,6 +56,15 @@ test: yes
 1.  `ambient` 配置文件设计用于帮助您开始使用 Ambient Mesh。
     使用刚下载的 `istioctl` 命令，在您的 Kubernetes 集群上安装附带 `ambient` 配置文件的 Istio：
 
+{{< tip >}}
+请注意，如果您正在使用 [Minikube](https://kubernetes.io/zh-cn/docs/tasks/tools/install-minikube/)
+（或在节点上为容器配置了非标准 `netns` 路径的任何其他平台），
+您可能需要在 `istioctl install` 命令后面追加 `--set values.cni.cniNetnsDir="/var/run/docker/netns"`，
+以便 Istio CNI DaemonSet 能够正确管理和捕获节点上的 Pod。
+
+有关详细信息，请参阅您的平台文档。
+{{< /tip >}}
+
 {{< tabset category-name="config-api" >}}
 
 {{< tab name="Istio APIs" category-value="istio-apis" >}}
