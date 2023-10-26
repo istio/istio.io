@@ -125,8 +125,8 @@ $ diff \
    <(kubectl --context="${CTX_CLUSTER2}" -n istio-system get secret cacerts -ojsonpath='{.data.root-cert\.pem}')
 {{< /text >}}
 
-You can follow the [Plugin CA Certs](/docs/tasks/security/cert-management/plugin-ca-cert/) guide, ensuring to run
-the steps for every cluster.
+If root-certs does not match or secrets does not exist at all, you can follow the [Plugin CA Certs](/docs/tasks/security/cert-management/plugin-ca-cert/)
+guide, ensuring to run the steps for every cluster.
 
 ### Step-by-step Diagnosis
 
