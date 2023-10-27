@@ -309,7 +309,7 @@ kube-proxy 并阻止其将流量发送到其他节点，使用 `externalTrafficP
 有关更多信息，请参阅[服务源 IP `Type=NodePort`](https://kubernetes.io/zh-cn/docs/tutorials/services/source-ip/#source-ip-for-services-with-type-nodeport)。
 {{< /warning >}}
 
-使用以下命令更新 Ingress 网关以设置 `exteralTrafficPolicy：Local` 以保留 Ingress 网关上的原始客户端源 IP：
+使用以下命令更新 Ingress 网关以设置 `externalTrafficPolicy：Local` 以保留 Ingress 网关上的原始客户端源 IP：
 
 {{< tabset category-name="config-api" >}}
 
@@ -352,9 +352,9 @@ spec:
 
 ## 基于 IP 的允许列表和拒绝列表 {#ip-based-allow-list-and-deny-list}
 
-**何时使用 `ipBlocks` 与 `emoteIpBlocks`:** 如果您使用 X-Forwarded-For HTTP 头部
-或代理协议来确定原始客户端 IP 地址，则应在 `AuthorizationPolicy` 中使用 `emoteIpBlocks`。
-如果您使用的是 `ExtraalTrafficPolicy：Local`，那么您的 `AuthorizationPolicy` 中应该使用
+**何时使用 `ipBlocks` 与 `remoteIpBlocks`:** 如果您使用 X-Forwarded-For HTTP 头部
+或代理协议来确定原始客户端 IP 地址，则应在 `AuthorizationPolicy` 中使用 `remoteIpBlocks`。
+如果您使用的是 `externalTrafficPolicy：Local`，那么您的 `AuthorizationPolicy` 中应该使用
 `ipBlocks`。
 
 | 负载均衡器类型 | 客户端源 IP   | `ipBlocks` 与 `remoteIpBlocks`
@@ -363,7 +363,7 @@ spec:
 | Network           | packet source address| `ipBlocks`
 | HTTP/HTTPS        | X-Forwarded-For      | `remoteIpBlocks`
 
-* 以下命令为创建授权策略`Inress-Policy` Istio Ingress 网关。
+* 以下命令为创建授权策略`ingress-policy` Istio Ingress 网关。
   以下策略将 `action` 字段设置为 `ALLOW` 以允许 `ipBlocks` 中指定的 IP 地址访问 Ingress 网关。
   不在列表中的 IP 地址将被拒绝。`ipBlocks` 支持单 IP 地址和 CIDR 表示法。
 
@@ -512,7 +512,7 @@ $ CLIENT_IP=$(kubectl get pods -n foo -o name -l istio.io/gateway-name=httpbin-g
 
 {{< /tabset >}}
 
-* 更新 `inress-policy` 以包含您的客户端 IP 地址:
+* 更新 `ingress-policy` 以包含您的客户端 IP 地址:
 
 {{< tabset category-name="config-api" >}}
 
@@ -617,7 +617,7 @@ EOF
     200
     {{< /text >}}
 
-* 更新 `Inress-Policy` 授权策略，将 `action` 键设置为 `DENY`，
+* 更新 `ingress-policy` 授权策略，将 `action` 键设置为 `DENY`，
   禁止 `ipBlocks` 中指定的 IP 地址访问 Ingress 网关：
 
 {{< tabset category-name="config-api" >}}
