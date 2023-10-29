@@ -1221,8 +1221,8 @@ istio.io/api v1.19.0-alpha.1.0.20231020014103-f04dabe883d3 h1:rTT2/lUSay8+bRMjtM
 istio.io/api v1.19.0-alpha.1.0.20231020014103-f04dabe883d3/go.mod h1:hm1PE/mGdIAsjCDkTIAplP53H7TjO5LUQCiVvF26SVg=
 istio.io/client-go v1.19.0-alpha.1.0.20231020015056-c529c054a39d h1:apK1I3YbjsWy/G33uTpHznNeXhM3sCZ3ebONDtxAh/Q=
 istio.io/client-go v1.19.0-alpha.1.0.20231020015056-c529c054a39d/go.mod h1:oIxBb0bKB6J+sibL0oiWEJq7AQEjmJyqGlAmzYqEimE=
-istio.io/istio v0.0.0-20231023015400-38a0bb45102a h1:kf/jndi9P6OvC89R8475gWvMOwEzyeXU3tFYNW2e7mw=
-istio.io/istio v0.0.0-20231023015400-38a0bb45102a/go.mod h1:C43jrcywYo5fusYDYWdp25oYODBiIWu466eqVvuvmS8=
+istio.io/istio v0.0.0-20231028181830-1f683cffbbbe h1:WDQM+BB5xKSB1NRgKFqs6CAu6aXo/c/wTrVlMxgEOoM=
+istio.io/istio v0.0.0-20231028181830-1f683cffbbbe/go.mod h1:9ETIdHFY23F/jhDNi7k3nKVFFBn0bZ09FboUsbmg4pU=
 k8s.io/api v0.18.2/go.mod h1:SJCWI7OLzhZSvbY7U8zwNl9UA4o1fizoug34OV/2r78=
 k8s.io/api v0.18.4/go.mod h1:lOIQAKYgai1+vz9J7YcDZwC26Z0zQewYOGWdyIPUUQ4=
 k8s.io/api v0.28.2 h1:9mpl5mOb6vXZvqbQmankOfPIGiudghwCoLl1EYfUZbw=
@@ -1277,8 +1277,8 @@ sigs.k8s.io/controller-runtime v0.6.1/go.mod h1:XRYBPdbf5XJu9kpS84VJiZ7h/u1hF3gE
 sigs.k8s.io/controller-runtime v0.16.2 h1:mwXAVuEk3EQf478PQwQ48zGOXvW27UJc8NHktQVuIPU=
 sigs.k8s.io/controller-runtime v0.16.2/go.mod h1:vpMu3LpI5sYWtujJOa2uPK61nB5rbwlN7BAB8aSLvGU=
 sigs.k8s.io/controller-tools v0.3.0/go.mod h1:enhtKGfxZD1GFEoMgP8Fdbu+uKQ/cq1/WGJhdVChfvI=
-sigs.k8s.io/gateway-api v0.8.2-0.20230927170411-f5d3a1f3e76a h1:HTUETI64I1Tv9zkucOktm64OtP2SUJTOB4PdzO1ZpXA=
-sigs.k8s.io/gateway-api v0.8.2-0.20230927170411-f5d3a1f3e76a/go.mod h1:+QpYENjk9s31/abu2Pv5BpK2v88UQDK2aeQCwCvy6ck=
+sigs.k8s.io/gateway-api v1.0.0-rc1.0.20231023232744-ebe9f31ef278 h1:AxsYqH5+a1nmfa2PD5RKxu8ezZ1EUdShxPkf/IW8eio=
+sigs.k8s.io/gateway-api v1.0.0-rc1.0.20231023232744-ebe9f31ef278/go.mod h1:+QpYENjk9s31/abu2Pv5BpK2v88UQDK2aeQCwCvy6ck=
 sigs.k8s.io/json v0.0.0-20221116044647-bc3834ca7abd h1:EDPBXCAspyGV4jQlpZSudPeMmr1bNJefnuqLsRAsHZo=
 sigs.k8s.io/json v0.0.0-20221116044647-bc3834ca7abd/go.mod h1:B8JuhiUyNFVKdsE8h686QcCxMaH6HrOAZj4vswFpcB0=
 sigs.k8s.io/kind v0.8.1/go.mod h1:oNKTxUVPYkV9lWzY6CVMNluVq8cBsyq+UgPJdvA3uu4=
