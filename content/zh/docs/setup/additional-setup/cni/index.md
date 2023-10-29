@@ -10,21 +10,23 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-按照此流程利用 Istio 容器网络接口（[CNI](https://github.com/containernetworking/cni#cni---the-container-network-interface)）来安装、配置和使用 Istio 网格。
+按照此流程利用 Istio 容器网络接口（[CNI](https://github.com/containernetworking/cni#cni---the-container-network-interface)）
+来安装、配置和使用 Istio 网格。
 
 默认情况下，Istio 会在网格中部署的 Pod 上注入一个 `initContainer`：`istio-init`。
 `istio-init` 容器会将 Pod 的网络流量劫持到 Istio Sidecar 代理上。
 这需要用户或部署 Pod 的 Service Account 具有足够的部署
-[`NET_ADMIN` 容器](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/security-context/#set-capabilities-for-a-container)的 Kubernetes RBAC 权限。
-Istio 用户权限的提升，对于某些组织的安全政策来说，可能是难以接受的。
-Istio CNI 插件就是一个能够替代 `istio-init` 容器来实现相同的网络功能但却不需要 Istio 用户申请额外的 Kubernetes RBAC 授权的方案。
+[`NET_ADMIN` 容器](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/security-context/#set-capabilities-for-a-container)的
+Kubernetes RBAC 权限。Istio 用户权限的提升，对于某些组织的安全政策来说，可能是难以接受的。
+Istio CNI 插件就是一个能够替代 `istio-init` 容器来实现相同的网络功能但却不需要 Istio
+用户申请额外的 Kubernetes RBAC 授权的方案。
 
-Istio CNI 插件会在 Kubernetes Pod 生命周期的网络设置阶段完成 Istio 网格的 Pod 流量转发设置工作，
+Istio CNI 插件会在 Kubernetes Pod 生命周期的网络设置阶段完成 Istio 网格 Pod 流量转发设置的工作，
 因此用户在部署 Pod 到 Istio 网格中时，不再需要配置 [`NET_ADMIN` 功能需求](/zh/docs/ops/deployment/requirements/)了。
 Istio CNI 插件代替了 `istio-init` 容器所实现的功能。
 
 {{< tip >}}
-注意: Istio CNI 插件作为一个链接的 CNI 插件运行，它被设计为与另一个 CNI 插件一起使用，
+注意：Istio CNI 插件作为一个链接的 CNI 插件运行，它被设计为与另一个 CNI 插件一起使用，
 如 [PTP](https://www.cni.dev/plugins/current/main/ptp/) 或 [Calico](https://docs.projectcalico.org)。
 详情请参见[与其他CNI插件的兼容性](#compatibility-with-other-cni-plugins)。
 {{< /tip >}}
@@ -80,7 +82,8 @@ $ helm install istio-cni istio/cni -n kube-system --wait
 {{< /tabset >}}
 
 这将部署 `istio-cni-node` DaemonSet 到集群中，将 Istio CNI 插件可执行文件安装到每个节点上并为此插件设置必要的配置。
-CNI DaemonSet 使用 [`system-node-critical`](https://kubernetes.io/zh-cn/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/) `PriorityClass` 来运行。
+CNI DaemonSet 使用 [`system-node-critical`](https://kubernetes.io/zh-cn/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/)
+`PriorityClass` 来运行。
 
 {{< image width="60%" link="./cni.svg" caption="Istio CNI" >}}
 
@@ -243,9 +246,9 @@ Istio CNI 插件可能会导致与任何应用 `initContainers` 的网络连通�
 即发送到配置的 IP/端口的应用流量将绕过 Istio Sidecar。
 {{< /warning >}}
 
-### 和其它 CNI 插件的兼容性{#compatibility-with-other-CNI-plugins}
+### 和其它 CNI 插件的兼容性   {#compatibility-with-other-CNI-plugins}
 
-Istio CNI 插件维护着与当前需要 `NET_ADMIN` 和 `NET_RAW` 能力的 `istio-init` 容器相同的 CNI 插件集。
+Istio CNI 插件维护着与当前需要 `NET_ADMIN` 和 `NET_RAW` 权能的 `istio-init` 容器相同的 CNI 插件集。
 
 Istio CNI 插件作为一个链式 CNI 插件存在。也就是说它的配置会作为一个新的配置列表元素被加入到现存 CNI 插件配置中。
 参考 [CNI 规范](https://github.com/containernetworking/cni/blob/master/SPEC.md#network-configuration-lists)中的更多细节。
