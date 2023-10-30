@@ -52,7 +52,7 @@ Istio 中的安全性涉及多个组件：
     - [授权策略](/zh/docs/concepts/security/#authorization-policies)
     - [安全命名信息](/zh/docs/concepts/security/#secure-naming)
 
-- Sidecar 和边缘代理作为[策略执行点](https://www.jerichosystems.com/technology/glossaryterms/policy_enforcement_point.html)（PEP）
+- Sidecar 和边缘代理作为[策略执行点](https://csrc.nist.gov/glossary/term/policy_enforcement_point)（PEP）
   以保护客户端和服务器之间的通信安全。
 - 一组 Envoy 代理扩展，用于管理遥测和审计
 
