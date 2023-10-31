@@ -17,7 +17,7 @@
 &lt;h2 id="security-update">安全更新&lt;/h2>
 &lt;ul>
 &lt;li>&lt;p>&lt;strong>&lt;a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2CVE-2021-39155]">CVE-2021-39155&lt;/a>&lt;/strong> &lt;strong>(&lt;a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-32779">CVE-2021-32779&lt;/a>)&lt;/strong>：
-Istio 授权策略错误地以区分大小写的方式来比较主机头，而 RFC 4343 规定它应该是不区分大小写。Envoy 以不区分大小写的方式路由请求主机名，这意味着授权策略可以被绕过。&lt;/p>
+Istio 授权策略错误地以区分大小写的方式来比较主机名，而 RFC 4343 规定它应该是不区分大小写。Envoy 以不区分大小写的方式路由请求主机名，这意味着授权策略可以被绕过。&lt;/p>
 &lt;ul>
 &lt;li>&lt;strong>CVSS Score&lt;/strong>：8.3 &lt;a href="https://www.first.org/cvss/calculator/3.1#CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:L">CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:L&lt;/a>&lt;/li>
 &lt;/ul>&lt;/li>
