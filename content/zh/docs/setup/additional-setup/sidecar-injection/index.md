@@ -43,7 +43,7 @@ Pod 所属命名空间的 Istio Sidecar 注入器自动注入。
 
 #### 部署应用  {#deploying-an-app}
 
-部署 sleep 应用。验证 Deployment 和 Pod 只有一个容器。
+部署 sleep 应用，验证 Deployment 和 Pod 只有一个容器。
 
 {{< text bash >}}
 $ kubectl apply -f @samples/sleep/sleep.yaml@
@@ -117,18 +117,18 @@ sleep-776b7bcdcd-gmvnr   1/1       Running       0          2s
 在上面例子中，您在命名空间层级启用和禁用了注入。
 注入也可以通过配置 Pod 上的 `sidecar.istio.io/inject` 标签，在每个 Pod 的基础上进行控制。
 
-| 资源 | 标签 | 启用的值 | 禁用的值 |
-| -------- | ----- | ------------- | -------------- |
-| Namespace | `istio-injection` | `enabled` | `disabled` |
-| Pod | `sidecar.istio.io/inject` | `"true"` | `"false"` |
+| 资源        | 标签                      | 启用的值        | 禁用的值        |
+| --------   | ------------------------- | ------------- | -------------- |
+| Namespace  | `istio-injection`         | `enabled`     | `disabled`     |
+| Pod        | `sidecar.istio.io/inject` | `"true"`      | `"false"`      |
 
 如果您正在使用[控制平面修订版](/zh/docs/setup/upgrade/canary/)，将通过匹配 `istio.io/rev`
 标签来转为使用特定修订版的标签。例如，对于名为 `canary` 的修订版：
 
-| 资源 | 启用的标签 | 禁用的标签 |
-| -------- | ------------- | -------------- |
-| Namespace | `istio.io/rev=canary` | `istio-injection=disabled` |
-| Pod | `istio.io/rev=canary` | `sidecar.istio.io/inject="false"` |
+| 资源       | 启用的标签             | 禁用的标签                          |
+| --------- | --------------------- | --------------------------------- |
+| Namespace | `istio.io/rev=canary` | `istio-injection=disabled`        |
+| Pod       | `istio.io/rev=canary` | `sidecar.istio.io/inject="false"` |
 
 如果 `istio-injection` 标签和 `istio.io/rev` 标签在同一个命名空间中，则优先使用 `istio-injection` 标签。
 
@@ -260,7 +260,7 @@ spec:
         allowPrivilegeEscalation: false
 {{< /text >}}
 
-### 自定义模板（试验特性）{#custom-templates-experimental}
+### 自定义模板（试验特性）  {#custom-templates-experimental}
 
 {{< warning >}}
 此功能为试验特性功能，可随时更改或删除。
