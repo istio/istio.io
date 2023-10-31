@@ -1,7 +1,7 @@
 ---
 title: Istio 服务网格
 description: 服务网格。
-subtitle: Istio 解决了开发人员和运营商在分布式微服务架构中面临的挑战。无论您是从头构建还是将现有的应用程序迁移到本地云，Istio 都能提供帮助
+subtitle: Istio 解决了开发人员和运维人员在分布式微服务架构中面临的挑战。无论您是从头构建还是将现有的应用程序迁移到云原生环境，Istio 都能提供帮助
 weight: 34
 skip_toc: true
 skip_byline: true
