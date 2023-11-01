@@ -1123,6 +1123,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>If enabled, meshConfig.discoverySelectors will limit the CustomResource configurations(like Gateway,VirtualService,DestinationRule,Ingress, etc)that can be processed by pilot. This will also restrict the root-ca certificate distribution.</td>
 </tr>
 <tr>
+<td><code>ENABLE_EXTERNAL_NAME_ALIAS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, ExternalName Services will be treated as simple aliases: anywhere where we would match the concrete service, we also match the ExternalName. In general, this mirrors Kubernetes behavior more closely. However, it means that policies (routes and DestinationRule) cannot be applied to the ExternalName service. If disabled, ExternalName behaves in fairly unexpected manner. Port matters, while it does not in Kubernetes. If it is a TCP port, all traffic on that port will be matched, which can have disastrous consequences. Additionally, the destination is seen as an opaque destination; even if it is another service in the mesh, policies such as mTLS and load balancing will not be used when connecting to it.</td>
+</tr>
+<tr>
 <td><code>ENABLE_HCM_INTERNAL_NETWORKS</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
