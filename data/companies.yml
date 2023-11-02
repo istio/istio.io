@@ -95,7 +95,7 @@ providers:
     logo: "/logos/microsoft-azure.svg"
     url: "https://learn.microsoft.com/en-us/azure/aks/istio-about"
   - name: "IMESH Platform"
-    logo: "/logos/imesh.svg"
+    logo: "/logos/imesh-logo.png"
     url: "https://imesh.ai/imesh-istio-platform.html"
 
 integrations:
