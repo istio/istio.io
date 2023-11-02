@@ -27,6 +27,6 @@ source "content/en/docs/tasks/traffic-management/tcp-traffic-shifting/test.sh"
 snip_cleanup_2
 snip_cleanup_3
 
-istioctl uninstall --purge -y
-kubectl delete ns istio-system
+# istioctl uninstall --purge -y
+# kubectl delete ns istio-system
 remove_gateway_api_crds
