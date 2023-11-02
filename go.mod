@@ -2,8 +2,6 @@ module istio.io/istio.io
 
 go 1.21
 
-toolchain go1.21.3
-
 // https://github.com/containerd/containerd/issues/5781
 exclude k8s.io/kubernetes v1.13.0
 
