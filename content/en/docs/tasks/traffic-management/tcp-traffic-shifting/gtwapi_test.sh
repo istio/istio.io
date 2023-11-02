@@ -29,4 +29,5 @@ snip_cleanup_3
 
 # istioctl uninstall --purge -y
 # kubectl delete ns istio-system
+kubectl delete istiooperators installed-state -n istio-system
 remove_gateway_api_crds
