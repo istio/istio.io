@@ -30,18 +30,6 @@ Helm helps you manage components separately, and you can easily upgrade the comp
 
 ## Installing the Components
 
-### Creating the namespace
-
-Create the `istio-system` namespace for Istio components:
-
-{{< tip >}}
-This step can be skipped if using the `--create-namespace` argument.
-{{< /tip >}}
-
-{{< text syntax=bash snip_id=create_istio_system_namespace >}}
-$ kubectl create namespace istio-system
-{{< /text >}}
-
 ### Installing the base Component
 
 The `base` chart contains the basic CRDs and cluster roles required to set up Istio.
@@ -67,7 +55,7 @@ The `istiod` chart installs a revision of Istiod. Istiod is the control plane co
 configures the proxies to route traffic within the mesh.
 
 {{< text syntax=bash snip_id=install_discovery>}}
-$ helm install istiod istio/istiod --namespace istio-system --create-namespace \
+$ helm install istiod istio/istiod --namespace istio-system \
   -f @manifests/charts/istio-control/istio-discovery/ambient-values.yaml@
 {{< /text >}}
 

@@ -25,10 +25,6 @@ helm repo add istio https://istio-release.storage.googleapis.com/charts
 helm repo update
 }
 
-snip_create_istio_system_namespace() {
-kubectl create namespace istio-system
-}
-
 snip_install_base() {
 helm install istio-base istio/base -n istio-system --create-namespace
 }
@@ -39,7 +35,7 @@ helm install istio-cni istio/cni -n kube-system \
 }
 
 snip_install_discovery() {
-helm install istiod istio/istiod --namespace istio-system --create-namespace \
+helm install istiod istio/istiod --namespace istio-system \
   -f manifests/charts/istio-control/istio-discovery/ambient-values.yaml
 }
 
