@@ -45,7 +45,7 @@ The **CNI** chart installs the Istio CNI Plugin. It is responsible for detecting
 and configuring the traffic redirection between the ztunnel DaemonSet, which will be installed later.
 
 {{< text syntax=bash snip_id=install_cni >}}
-$ helm install istio-cni istio/cni -n kube-system \
+$ helm install istio-cni istio/cni -n istio-system \
   -f @manifests/charts/istio-cni/ambient-values.yaml@
 {{< /text >}}
 
@@ -113,14 +113,6 @@ installed above.
     istiod     istio-system 1        ... ... ... ... deployed istiod-1.0.0 1.0.0
     {{< /text >}}
 
-1. If you have installed the Istio CNI chart in `kube-system`, list the charts installed in `kube-system` namespace:
-
-    {{< text syntax=bash >}}
-    $ helm ls -n kube-system
-    NAME       NAMESPACE    REVISION UPDATED         STATUS   CHART        APP VERSION
-    istio-cni  kube-system  1        ... ... ... ... deployed cni-1.0.0    1.0.0
-    {{< /text >}}
-
 1. (Optional) Delete any Istio gateway chart installations:
 
     {{< text syntax=bash >}}
@@ -131,7 +123,7 @@ installed above.
 1. Delete Istio CNI chart:
 
     {{< text syntax=bash snip_id=delete_cni >}}
-    $ helm delete istio-cni -n kube-system
+    $ helm delete istio-cni -n istio-system
     {{< /text >}}
 
 1. Delete Istio ztunnel chart:

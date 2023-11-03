@@ -30,7 +30,7 @@ helm install istio-base istio/base -n istio-system --create-namespace
 }
 
 snip_install_cni() {
-helm install istio-cni istio/cni -n kube-system \
+helm install istio-cni istio/cni -n istio-system \
   -f manifests/charts/istio-cni/ambient-values.yaml
 }
 
@@ -66,21 +66,12 @@ istiod     istio-system 1        ... ... ... ... deployed istiod-1.0.0 1.0.0
 ENDSNIP
 
 snip_uninstall_2() {
-helm ls -n kube-system
-}
-
-! read -r -d '' snip_uninstall_2_out <<\ENDSNIP
-NAME       NAMESPACE    REVISION UPDATED         STATUS   CHART        APP VERSION
-istio-cni  kube-system  1        ... ... ... ... deployed cni-1.0.0    1.0.0
-ENDSNIP
-
-snip_uninstall_3() {
 helm delete istio-ingress -n istio-ingress
 kubectl delete namespace istio-ingress
 }
 
 snip_delete_cni() {
-helm delete istio-cni -n kube-system
+helm delete istio-cni -n istio-system
 }
 
 snip_delete_ztunnel() {

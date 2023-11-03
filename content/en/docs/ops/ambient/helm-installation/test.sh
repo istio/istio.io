@@ -27,7 +27,7 @@ _rewrite_helm_repo snip_install_cni
 _rewrite_helm_repo snip_install_ztunnel
 
 _wait_for_deployment istio-system istiod
-_wait_for_daemonset kube-system istio-cni-node
+_wait_for_daemonset istio-system istio-cni-node
 _wait_for_daemonset istio-system ztunnel
 
 # shellcheck disable=SC2154
