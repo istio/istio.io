@@ -3,7 +3,7 @@ title: Installing Ambient Mesh with Helm
 description: How to install Ambient Mesh with Helm.
 weight: 4
 owner: istio/wg-environments-maintainers
-test: n/a
+test: yes
 ---
 
 This guide shows you how to install ambient mesh with Helm.
@@ -21,7 +21,7 @@ Helm helps you manage components separately, and you can easily upgrade the comp
 
 1. Configure the Helm repository:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=configure_helm >}}
     $ helm repo add istio https://istio-release.storage.googleapis.com/charts
     $ helm repo update
     {{< /text >}}
@@ -30,13 +30,25 @@ Helm helps you manage components separately, and you can easily upgrade the comp
 
 ## Installing the Components
 
+### Creating the namespace
+
+Create the `istio-system` namespace for Istio components:
+
+{{< tip >}}
+This step can be skipped if using the `--create-namespace` argument.
+{{< /tip >}}
+
+{{< text syntax=bash snip_id=create_istio_system_namespace >}}
+$ kubectl create namespace istio-system
+{{< /text >}}
+
 ### Installing the base Component
 
 The `base` chart contains the basic CRDs and cluster roles required to set up Istio.
 This should be installed prior to any other Istio component.
 
-{{< text bash >}}
-$ helm install istio-base istio/base
+{{< text syntax=bash snip_id=install_base >}}
+$ helm install istio-base istio/base -n istio-system --create-namespace
 {{< /text >}}
 
 ### Installing the CNI Component
@@ -44,7 +56,7 @@ $ helm install istio-base istio/base
 The **CNI** chart installs the Istio CNI Plugin. It is responsible for detecting the pods that belong to the ambient mesh,
 and configuring the traffic redirection between the ztunnel DaemonSet, which will be installed later.
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=install_cni >}}
 $ helm install istio-cni istio/cni -n kube-system \
   -f @manifests/charts/istio-cni/ambient-values.yaml@
 {{< /text >}}
@@ -54,7 +66,7 @@ $ helm install istio-cni istio/cni -n kube-system \
 The `istiod` chart installs a revision of Istiod. Istiod is the control plane component that manages and
 configures the proxies to route traffic within the mesh.
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=install_discovery>}}
 $ helm install istiod istio/istiod --namespace istio-system --create-namespace \
   -f @manifests/charts/istio-control/istio-discovery/ambient-values.yaml@
 {{< /text >}}
@@ -63,7 +75,7 @@ $ helm install istiod istio/istiod --namespace istio-system --create-namespace \
 
 The `ztunnel` chart installs the ztunnel DaemonSet, which is the node-proxy component of ambient.
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=install_ztunnel >}}
 $ helm install ztunnel istio/ztunnel -n istio-system
 {{< /text >}}
 
@@ -71,7 +83,7 @@ $ helm install ztunnel istio/ztunnel -n istio-system
 
 To view support configuration options and documentation, run:
 
-{{< text bash >}}
+{{< text syntax=bash >}}
 $ helm show values istio/istiod
 {{< /text >}}
 
@@ -81,13 +93,13 @@ $ helm show values istio/istiod
 
 After installing all the components, you can check the helm deployment status:
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=show_components>}}
 $ helm list -n istio-system
 {{< /text >}}
 
 You can check the status of the pods deployed:
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=check_deployments >}}
 $ kubectl get pods -n istio-system
 {{< /text >}}
 
@@ -130,19 +142,19 @@ installed above.
 
 1. Delete Istio CNI chart:
 
-    {{< text syntax=bash >}}
+    {{< text syntax=bash snip_id=delete_cni >}}
     $ helm delete istio-cni -n kube-system
     {{< /text >}}
 
 1. Delete Istio ztunnel chart:
 
-    {{< text syntax=bash >}}
+    {{< text syntax=bash snip_id=delete_ztunnel >}}
     $ helm delete ztunnel -n istio-system
     {{< /text >}}
 
 1. Delete Istio discovery chart:
 
-    {{< text syntax=bash >}}
+    {{< text syntax=bash snip_id=delete_discovery >}}
     $ helm delete istiod -n istio-system
     {{< /text >}}
 
@@ -153,13 +165,13 @@ installed above.
     Resource Definitions (CRDs) installed via the chart.
     {{< /tip >}}
 
-    {{< text syntax=bash >}}
+    {{< text syntax=bash snip_id=delete_base >}}
     $ helm delete istio-base -n istio-system
     {{< /text >}}
 
 1. Delete the `istio-system` namespace:
 
-    {{< text syntax=bash >}}
+    {{< text syntax=bash snip_id=delete_system_namespace >}}
     $ kubectl delete namespace istio-system
     {{< /text >}}
 
