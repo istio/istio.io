@@ -54,7 +54,7 @@ $ helm install istio-cni istio/cni -n kube-system \
 The `istiod` chart installs a revision of Istiod. Istiod is the control plane component that manages and
 configures the proxies to route traffic within the mesh.
 
-{{< text syntax=bash snip_id=install_discovery>}}
+{{< text syntax=bash snip_id=install_discovery >}}
 $ helm install istiod istio/istiod --namespace istio-system \
   -f @manifests/charts/istio-control/istio-discovery/ambient-values.yaml@
 {{< /text >}}
@@ -81,7 +81,7 @@ $ helm show values istio/istiod
 
 After installing all the components, you can check the helm deployment status:
 
-{{< text syntax=bash snip_id=show_components>}}
+{{< text syntax=bash snip_id=show_components >}}
 $ helm list -n istio-system
 {{< /text >}}
 
