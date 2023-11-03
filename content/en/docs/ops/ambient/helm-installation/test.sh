@@ -22,14 +22,12 @@ set -o pipefail
 
 snip_configure_helm
 _rewrite_helm_repo snip_install_base
-
-_rewrite_helm_repo snip_install_cni
-_wait_for_daemonset kube-system istio-cni-node
-
 _rewrite_helm_repo snip_install_discovery
-_wait_for_deployment istio-system istiod
-
+_rewrite_helm_repo snip_install_cni
 _rewrite_helm_repo snip_install_ztunnel
+
+_wait_for_deployment istio-system istiod
+_wait_for_daemonset kube-system istio-cni-node
 _wait_for_daemonset istio-system ztunnel
 
 # shellcheck disable=SC2154
