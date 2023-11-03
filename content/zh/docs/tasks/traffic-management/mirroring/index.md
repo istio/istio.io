@@ -138,7 +138,7 @@ test: yes
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -208,7 +208,8 @@ metadata:
   name: httpbin
 spec:
   parentRefs:
-  - kind: Service
+  - group: ""
+    kind: Service
     name: httpbin
     port: 8000
   rules:
@@ -263,7 +264,7 @@ EOF
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -308,7 +309,8 @@ metadata:
   name: httpbin
 spec:
   parentRefs:
-  - kind: Service
+  - group: ""
+    kind: Service
     name: httpbin
     port: 8000
   rules:
@@ -360,7 +362,7 @@ EOF
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text bash >}}
 $ kubectl delete virtualservice httpbin

@@ -151,64 +151,74 @@ spec:
 
 - 在任何情况下，`AUDIT` 动作不会实施控制访问权并且不会拒绝请求。
 
+阅读[授权隐式启用](/zh/docs/concepts/security/#implicit-enablement)了解有关评估顺序的更多详细信息。
+
 ## 确保 Istiod 接受策略 {#ensure-istiod-accepts-the-policies}
 
 Istiod 负责对授权策略进行转换，并将其分发给 Sidecar。下面的的步骤可以用于确认
 Istiod 是否按预期在工作：
 
-1. 运行下列命令，导出 Istiod 的 `ControlZ`：
+1. 运行以下命令启用 Istiod 的调试日志记录：
 
     {{< text bash >}}
-    $ istioctl dashboard controlz $(kubectl -n istio-system get pods -l app=istiod -o jsonpath='{.items[0].metadata.name}').istio-system
+    $ istioctl admin log --level authorization:debug
     {{< /text >}}
 
-1. 等待浏览器打开后，点击左侧菜单 `Logging Scopes`。
-
-1. 将 `authorization` 输出级别修改为 `debug`。
-
-1. 在步骤 1 中打开的终端窗口中输入 `Ctrl+C`，终止端口转发进程。
-
-1. 执行以下命令，输出 Pilot 日志并搜索 `authorization`：
+1. 通过以下命令获取 Istio 日志：
 
     {{< tip >}}
     您可能需要先删除并重建授权策略，以保证调试日志能够根据这些策略正常生成。
     {{< /tip >}}
 
     {{< text bash >}}
-    $ kubectl logs $(kubectl -n istio-system get pods -l app=istiod -o jsonpath='{.items[0].metadata.name}') -c discovery -n istio-system | grep authorization
+    $ kubectl logs $(kubectl -n istio-system get pods -l app=istiod -o jsonpath='{.items[0].metadata.name}') -c discovery -n istio-system
     {{< /text >}}
 
-1. 检查输出并验证：
-
-    - 没有出现错误。
-    - 出现 `building v1beta1 policy` 内容，意味着为目标服务生成了过滤器。
-
-1. 例如您可能会看到类似这样的内容：
+1. 检查输出并验证是否出现错误，例如您可能会看到类似这样的内容：
 
     {{< text plain >}}
-    2020-03-05T23:43:21.621339Z   debug   authorization   found authorization allow policies for workload [app=ext-authz-server,pod-template-hash=5fd587cc9d,security.istio.io/tlsMode=istio,service.istio.io/canonical-name=ext-authz-server,service.istio.io/canonical-revision=latest] in foo
-    2020-03-05T23:43:21.621348Z   debug   authorization   building filter for HTTP listener protocol
-    2020-03-05T23:43:21.621351Z   debug   authorization   building v1beta1 policy
-    2020-03-05T23:43:21.621399Z   debug   authorization   constructed internal model: &{Permissions:[{Services:[] Hosts:[] NotHosts:[] Paths:[] NotPaths:[] Methods:[] NotMethods:[] Ports:[] NotPorts:[] Constraints:[] AllowAll:true v1beta1:true}] Principals:[{Users:[] Names:[cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account] NotNames:[] Group: Groups:[] NotGroups:[] Namespaces:[] NotNamespaces:[] IPs:[] NotIPs:[] RequestPrincipals:[] NotRequestPrincipals:[] Properties:[] AllowAll:false v1beta1:true}]}
-    2020-03-05T23:43:21.621528Z   info    ads    LDS: PUSH for node:sleep-6bdb595bcb-vmchz.foo listeners:38
-    2020-03-05T23:43:21.621997Z   debug   authorization   generated policy ns[foo]-policy[ext-authz-server]-rule[0]: permissions:<and_rules:<rules:<any:true > > > principals:<and_ids:<ids:<or_ids:<ids:<metadata:<filter:"istio_authn" path:<key:"source.principal" > value:<string_match:<exact:"cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account" > > > > > > > >
-    2020-03-05T23:43:21.622052Z   debug   authorization   added HTTP filter to filter chain 0
-    2020-03-05T23:43:21.623532Z   debug   authorization   found authorization allow policies for workload [app=ext-authz-server,pod-template-hash=5fd587cc9d,security.istio.io/tlsMode=istio,service.istio.io/canonical-name=ext-authz-server,service.istio.io/canonical-revision=latest] in foo
-    2020-03-05T23:43:21.623543Z   debug   authorization   building filter for TCP listener protocol
-    2020-03-05T23:43:21.623546Z   debug   authorization   building v1beta1 policy
-    2020-03-05T23:43:21.623572Z   debug   authorization   constructed internal model: &{Permissions:[{Services:[] Hosts:[] NotHosts:[] Paths:[] NotPaths:[] Methods:[] NotMethods:[] Ports:[] NotPorts:[] Constraints:[] AllowAll:true v1beta1:true}] Principals:[{Users:[] Names:[cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account] NotNames:[] Group: Groups:[] NotGroups:[] Namespaces:[] NotNamespaces:[] IPs:[] NotIPs:[] RequestPrincipals:[] NotRequestPrincipals:[] Properties:[] AllowAll:false v1beta1:true}]}
-    2020-03-05T23:43:21.623625Z   debug   authorization   generated policy ns[foo]-policy[ext-authz-server]-rule[0]: permissions:<and_rules:<rules:<any:true > > > principals:<and_ids:<ids:<or_ids:<ids:<authenticated:<principal_name:<exact:"spiffe://cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account" > > > > > > >
-    2020-03-05T23:43:21.623645Z   debug   authorization   added TCP filter to filter chain 0
-    2020-03-05T23:43:21.623648Z   debug   authorization   added TCP filter to filter chain 1
+    2021-04-23T20:53:29.507314Z info ads Push debounce stable[31] 1: 100.981865ms since last change, 100.981653ms since last push, full=true
+    2021-04-23T20:53:29.507641Z info ads XDS: Pushing:2021-04-23T20:53:29Z/23 Services:15 ConnectedEndpoints:2  Version:2021-04-23T20:53:29Z/23
+    2021-04-23T20:53:29.507911Z debug authorization Processed authorization policy for httpbin-74fb669cc6-lpscm.foo with details:
+        * found 0 CUSTOM actions
+    2021-04-23T20:53:29.508077Z debug authorization Processed authorization policy for sleep-557747455f-6dxbl.foo with details:
+        * found 0 CUSTOM actions
+    2021-04-23T20:53:29.508128Z debug authorization Processed authorization policy for httpbin-74fb669cc6-lpscm.foo with details:
+        * found 1 DENY actions, 0 ALLOW actions, 0 AUDIT actions
+        * generated config from rule ns[foo]-policy[deny-path-headers]-rule[0] on HTTP filter chain successfully
+        * built 1 HTTP filters for DENY action
+        * added 1 HTTP filters to filter chain 0
+        * added 1 HTTP filters to filter chain 1
+    2021-04-23T20:53:29.508158Z debug authorization Processed authorization policy for sleep-557747455f-6dxbl.foo with details:
+        * found 0 DENY actions, 0 ALLOW actions, 0 AUDIT actions
+    2021-04-23T20:53:29.509097Z debug authorization Processed authorization policy for sleep-557747455f-6dxbl.foo with details:
+        * found 0 CUSTOM actions
+    2021-04-23T20:53:29.509167Z debug authorization Processed authorization policy for sleep-557747455f-6dxbl.foo with details:
+        * found 0 DENY actions, 0 ALLOW actions, 0 AUDIT actions
+    2021-04-23T20:53:29.509501Z debug authorization Processed authorization policy for httpbin-74fb669cc6-lpscm.foo with details:
+        * found 0 CUSTOM actions
+    2021-04-23T20:53:29.509652Z debug authorization Processed authorization policy for httpbin-74fb669cc6-lpscm.foo with details:
+        * found 1 DENY actions, 0 ALLOW actions, 0 AUDIT actions
+        * generated config from rule ns[foo]-policy[deny-path-headers]-rule[0] on HTTP filter chain successfully
+        * built 1 HTTP filters for DENY action
+        * added 1 HTTP filters to filter chain 0
+        * added 1 HTTP filters to filter chain 1
+        * generated config from rule ns[foo]-policy[deny-path-headers]-rule[0] on TCP filter chain successfully
+        * built 1 TCP filters for DENY action
+        * added 1 TCP filters to filter chain 2
+        * added 1 TCP filters to filter chain 3
+        * added 1 TCP filters to filter chain 4
+    2021-04-23T20:53:29.510903Z info ads LDS: PUSH for node:sleep-557747455f-6dxbl.foo resources:18 size:85.0kB
+    2021-04-23T20:53:29.511487Z info ads LDS: PUSH for node:httpbin-74fb669cc6-lpscm.foo resources:18 size:86.4kB
     {{< /text >}}
 
-    说明 Istiod 生成了：
+    以上输出说明 Istiod 生成了：
 
-    - 对于带 `app=ext-authz-server,...` 标签的负载生成了带有 `ns[foo]-policy[ext-authz-server]-rule[0]`
-      策略的 HTTP 过滤器配置。
+    - 适用于工作负载 `httpbin-74fb669cc6-lpscm.foo` 且带有策略
+      `ns[foo]-policy[deny-path-headers]-rule[0]` 的 HTTP 过滤器配置。
 
-    - 对于带 `app=ext-authz-server,...` 标签的负载生成了带有 `ns[foo]-policy[ext-authz-server]-rule[0]`
-      策略的 TCP 过滤器配置。
+    - 适用于工作负载 `httpbin-74fb669cc6-lpscm.foo` 且带有策略
+      `ns[foo]-policy[deny-path-headers]-rule[0]` 的 TCP 过滤器配置。
 
 ## 确认 Istiod 正确的将策略分发给了代理服务器 {#ensure-istiod-distributes-policies-to-proxies-correctly}
 

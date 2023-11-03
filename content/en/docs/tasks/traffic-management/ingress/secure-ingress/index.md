@@ -112,7 +112,7 @@ example.com.key         httpbin.example.com.csr
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 First, define a gateway with a `servers:` section for port 443, and specify values for
 `credentialName` to be `httpbin-credential`. The values are the same as the
@@ -341,7 +341,7 @@ is configured with unique credentials corresponding to each host.
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 Define a gateway with two server sections for port 443. Set the value of
 `credentialName` on each port to `httpbin-credential` and `helloworld-credential`
@@ -512,7 +512,7 @@ EOF
 You can extend your gateway's definition to support [mutual TLS](https://en.wikipedia.org/wiki/Mutual_authentication).
 
 1. Change the credentials of the ingress gateway by deleting its secret and creating a new one.
-    The server uses the CA certificate to verify its clients, and we must use the name `cacert` to hold the CA certificate.
+   The server uses the CA certificate to verify its clients, and we must use the key `ca.crt` to hold the CA certificate.
 
     {{< text bash >}}
     $ kubectl -n istio-system delete secret httpbin-credential
@@ -522,11 +522,17 @@ You can extend your gateway's definition to support [mutual TLS](https://en.wiki
       --from-file=ca.crt=example_certs1/example.com.crt
     {{< /text >}}
 
+    {{< tip >}}
+    {{< boilerplate crl-tip >}}
+
+    The credential may also include an [OCSP Staple](https://datatracker.ietf.org/doc/html/rfc6961) using the key `tls.ocsp-staple` which can be specified by an additional argument: `--from-file=tls.ocsp-staple=/some/path/to/your-ocsp-staple.pem`.
+    {{< /tip >}}
+
 1. Configure the ingress gateway:
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 Change the gateway's definition to set the TLS mode to `MUTUAL`.
 
@@ -711,7 +717,7 @@ See [configuring SNI routing](/docs/ops/common-problems/network-issues/#configur
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text bash >}}
 $ kubectl delete gateway mygateway

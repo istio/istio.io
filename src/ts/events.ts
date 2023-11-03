@@ -83,13 +83,29 @@ function handleEvents(): void {
 
                 if (display) {
                     el.style.display = "block";
-                    const main = document.querySelector<HTMLElement>("main.primary");
-                    if (main) {
-                        main.classList.add("banner-padding");
+                    const heroSection = document.querySelector<HTMLElement>("main.landing section#banner");
+                    const banners = document.querySelector<HTMLElement>(".banner-container");
+
+                    if (banners && heroSection) {
+
+                        let activeBannerCount = 0;
+
+                        banners.childNodes.forEach((childNode) => {
+                          if ((childNode as HTMLElement).style.display === "block" && (childNode as HTMLElement).classList.contains("banner")) {
+                            activeBannerCount += 1
+                          }
+                        })
+
+                        const remSpacing = 8.125 + (60/16)*(activeBannerCount)
+
+                        heroSection.style.marginTop="-"+String(remSpacing)+"rem";
+                        heroSection.style.paddingTop=String(remSpacing)+"rem"
+
                         if (timeout > 0) {
                             window.setTimeout(() => {
                                 el.style.display = "none";
-                                main.classList.remove("banner-padding");
+                                heroSection.style.marginTop="";
+                                heroSection.style.paddingTop=""
                             }, timeout * 1000);
                         }
                     }
@@ -97,10 +113,24 @@ function handleEvents(): void {
 
                 listen(el, click, () => {
                     el.style.display = "none";
-                    const main = document.querySelector<HTMLElement>("main.primary");
-                    if (main) {
-                        main.classList.remove("banner-padding");
-                    }
+                    const heroSection = document.querySelector<HTMLElement>("main.landing section#banner");
+                    const banners = document.querySelector<HTMLElement>(".banner-container");
+
+                    if (banners && heroSection) {
+
+                        let activeBannerCount = 0;
+
+                        banners.childNodes.forEach((childNode) => {
+                          if ((childNode as HTMLElement).style.display === "block" && (childNode as HTMLElement).classList.contains("banner")) {
+                            activeBannerCount += 1
+                          }
+                        })
+
+                        const remSpacing = 8.125 + (60/16)*(activeBannerCount)
+
+                        heroSection.style.marginTop="-"+String(remSpacing)+"rem";
+                        heroSection.style.paddingTop=String(remSpacing)+"rem"
+                      }
                     remainingEventImpressions[title].impressions = 0;
                     saveRemainingEventImpressions();
                 });

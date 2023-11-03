@@ -11,25 +11,28 @@ test: n/a
 在此之前，请确保您已经按照[虚拟机安装](/zh/docs/setup/install/virtual-machine/)指南完成了相应操作。
 此外阅读[虚拟机体系架构](/zh/docs/ops/deployment/vm-architecture/)可以帮助您更好的了解组件间是如何交互的。
 
-对 Istio 部署至虚拟机进行故障排除跟对 Kubernetes 内运行的代理问题进行故障排除是类似的，但还是有一些关键点需要注意。
+对 Istio 部署至虚拟机进行故障排除跟对 Kubernetes
+内运行的代理问题进行故障排除是类似的，但还是有一些关键点需要注意。
 
 虽然在两个平台上都可以获得许多相同的信息，但对这些信息的访问是不同的。
 
-## 健康检查{#monitoring-health}
+## 健康检查 {#monitoring-health}
 
-Istio sidecar 通常作为一个 `systemd` 服务(unit)运行。您可以检查其状态来确保运行正常：
+Istio Sidecar 通常作为一个 `systemd` 服务（unit）运行。
+您可以检查其状态来确保运行正常：
 
 {{< text bash >}}
 $ systemctl status istio
 {{< /text  >}}
 
-除此之外您还可以在端点(endpoint)侧以编程的方式检查来 sidecar 的运行情况：
+除此之外您还可以在端点（endpoint）侧以编程的方式检查来 Sidecar
+的运行情况：
 
 {{< text bash >}}
 $ curl localhost:15021/healthz/ready -I
 {{< /text  >}}
 
-## 日志{#logs}
+## 日志 {#logs}
 
 Istio 代理的日志可以在以下地方找到。
 
@@ -39,21 +42,23 @@ Istio 代理的日志可以在以下地方找到。
 $ journalctl -f -u istio -n 1000
 {{< /text  >}}
 
-代理会将 `stderr` 日志和 `stdout` 日志分别重定向到 `/var/log/istio/istio.err.log` 和  `/var/log/istio/istio.log`。
-你可以以类似于 `kubectl` 的格式查看这些内容：
+代理会将 `stderr` 日志和 `stdout` 日志分别重定向到
+`/var/log/istio/istio.err.log` 和  `/var/log/istio/istio.log`。
+您可以以类似于 `kubectl` 的格式查看这些内容：
 
 {{< text bash >}}
 $ tail /var/log/istio/istio.err.log /var/log/istio/istio.log -Fq -n 100
 {{< /text  >}}
 
-修改配置文件 `cluster.env` 可以调整日志级别。如果 `istio` 已经在运行，请务必重新启动服务：
+修改配置文件 `cluster.env` 可以调整日志级别。如果 `istio`
+已经在运行，请务必重新启动服务：
 
 {{< text bash >}}
 $ echo "ISTIO_AGENT_FLAGS=\"--log_output_level=dns:debug --proxyLogLevel=debug\"" >> /var/lib/istio/envoy/cluster.env
 $ systemctl restart istio
 {{< /text  >}}
 
-## Iptables{#iptables}
+## Iptables {#iptables}
 
 确保 `iptables` 规则已经生效：
 
@@ -64,9 +69,10 @@ $ sudo iptables-save
 -A ISTIO_OUTPUT -j ISTIO_REDIRECT
 {{< /text  >}}
 
-## Istioctl{#istioctl}
+## Istioctl {#istioctl}
 
-绝大部分 `istioctl` 指令能在虚拟机中正常运行。例如利用 `istioctl proxy-status` 指令查看所有已连接的代理：
+绝大部分 `istioctl` 指令能在虚拟机中正常运行。例如利用
+`istioctl proxy-status` 指令查看所有已连接的代理：
 
 {{< text bash >}}
 $ istioctl proxy-status
@@ -74,8 +80,9 @@ NAME           CDS        LDS        EDS        RDS      ISTIOD                 
 vm-1.default   SYNCED     SYNCED     SYNCED     SYNCED   istiod-789ffff8-f2fkt     {{< istio_full_version >}}
 {{< /text  >}}
 
-然而由于 `istioctl proxy-config` 依赖于 Kubernetes 中的连接代理的功能，因此这对条指令无法在虚拟机环境工作。
-不过我们可以传递一个包含 Envoy 配置的文件来替代，举例：
+然而由于 `istioctl proxy-config` 依赖于 Kubernetes
+中的连接代理的功能，因此这对条指令无法在虚拟机环境工作。
+不过我们可以传递一个包含 Envoy 配置的文件来替代，例如：
 
 {{< text bash >}}
 $ curl -s localhost:15000/config_dump | istioctl proxy-config clusters --file -
@@ -86,9 +93,11 @@ istiod.istio-system.svc.cluster.local   15012     -       outbound      EDS
 istiod.istio-system.svc.cluster.local   15014     -       outbound      EDS
 {{< /text  >}}
 
-## 自动注册{#automatic-registration}
+## 自动注册 {#automatic-registration}
 
-当虚拟机连接到 Istiod 时，会自动创建一个 `workloadEntry`。 这使得虚拟机成为 `service` 的一部分，类似于 Kubernetes 中的 `endpoint`。
+当虚拟机连接到 Istiod 时，会自动创建一个 `workloadEntry`。
+这使得虚拟机成为 `service` 的一部分，类似于 Kubernetes
+中的 `endpoint`。
 
 检查这些配置是否正确创建:
 
@@ -100,7 +109,9 @@ vm-10.128.0.50   14m   10.128.0.50
 
 ## 证书{#certificates}
 
-虚拟机处理证书的方式与 Kubernetes Pods 不同，Kubernetes Pods 使用 Kubernetes 提供的 SA 令牌来(service account token)来验证和续订 mTLS 证书。虚拟机则是使用现有的 mTLS 凭据向证书颁发机构进行身份验证并续订证书。
+虚拟机处理证书的方式与 Kubernetes Pod 不同，Kubernetes Pod
+使用 Kubernetes 提供的 SA 令牌来（service account token）来验证和续订
+mTLS 证书。虚拟机则是使用现有的 mTLS 凭据向证书颁发机构进行身份验证并续订证书。
 
 可以使用与 Kubernetes 相同的方式查看这些证书的状态：
 

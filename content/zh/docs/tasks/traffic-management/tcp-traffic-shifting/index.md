@@ -18,9 +18,7 @@ test: yes
 在此任务中，您将会把 100% 的 TCP 流量分配到 `tcp-echo:v1`。
 接着，再通过配置 Istio 路由权重把 20% 的 TCP 流量分配到 `tcp-echo:v2`。
 
-{{< boilerplate gateway-api-support >}}
-
-{{< boilerplate gateway-api-experimental >}}
+{{< boilerplate gateway-api-gamma-support >}}
 
 ## 开始之前 {#before-you-begin}
 
@@ -54,7 +52,7 @@ test: yes
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text bash >}}
 $ kubectl apply -f @samples/tcp-echo/tcp-echo-all-v1.yaml@ -n istio-io-tcp-traffic-shifting
@@ -76,7 +74,7 @@ $ kubectl apply -f @samples/tcp-echo/gateway-api/tcp-echo-all-v1.yaml@ -n istio-
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 遵循[确定 Ingress IP 和端口](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)中的指示说明来设置
 `TCP_INGRESS_PORT` 和 `INGRESS_HOST` 环境变量。
@@ -124,7 +122,7 @@ $ export TCP_INGRESS_PORT=$(kubectl get gtw tcp-echo-gateway -n istio-io-tcp-tra
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text bash >}}
 $ kubectl apply -f @samples/tcp-echo/tcp-echo-20-v2.yaml@ -n istio-io-tcp-traffic-shifting
@@ -146,7 +144,7 @@ $ kubectl apply -f @samples/tcp-echo/gateway-api/tcp-echo-20-v2.yaml@ -n istio-i
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text bash yaml >}}
 $ kubectl get virtualservice tcp-echo -o yaml -n istio-io-tcp-traffic-shifting
@@ -247,7 +245,7 @@ spec:
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text bash >}}
 $ kubectl delete -f @samples/tcp-echo/tcp-echo-all-v1.yaml@ -n istio-io-tcp-traffic-shifting

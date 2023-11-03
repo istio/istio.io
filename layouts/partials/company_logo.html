@@ -1,9 +1,9 @@
 {{ if .link }}
     <a class="company-logo" href="{{ .link }}" title="{{ .alt }}">
-        <img src="{{ .logo }}" alt="{{ .alt }}" />
+        <img class="company-logo-img" src="{{ .logo }}" alt="{{ .alt }}" />
     </a>
 {{ else }}
     <div class="company-logo" title="{{ .alt }}">
-        <img src="{{ .logo }}" alt="{{ .alt }}" />
+        <img class="company-logo-img" src="{{ .logo }}" alt="{{ .alt }}" />
     </div>
 {{ end }}

@@ -39,7 +39,7 @@ If you haven't already, follow the instructions in [define the service versions]
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text syntax=bash snip_id=config_all_v1 >}}
 $ kubectl apply -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
@@ -69,7 +69,7 @@ the [Bookinfo](/docs/examples/bookinfo/#determine-the-ingress-ip-and-port) doc.
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text syntax=bash snip_id=config_50_v3 >}}
 $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-50-v3.yaml@
@@ -92,7 +92,7 @@ confirm the rule was replaced:
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text syntax=bash outputis=yaml snip_id=verify_config_50_v3 >}}
 $ kubectl get virtualservice reviews -o yaml
@@ -125,7 +125,7 @@ kind: HTTPRoute
 ...
 spec:
   parentRefs:
-  - group: gateway.networking.k8s.io
+  - group: ""
     kind: Service
     name: reviews
     port: 9080
@@ -176,7 +176,7 @@ route 100% of the traffic to `reviews:v3` by applying this virtual service:
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text syntax=bash snip_id=config_100_v3 >}}
 $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-v3.yaml@
@@ -212,7 +212,7 @@ article [Canary Deployments using Istio](/blog/2017/0.1-canary/).
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text syntax=bash snip_id=cleanup >}}
 $ kubectl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@

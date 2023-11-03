@@ -5,7 +5,7 @@ owner: istio/wg-user-experience-maintainers
 test: n/a
 ---
 
-当工作负载以 User ID (UID) `1337` 运行时，会出现此消息。应用程序的 Pods 不应该以 User ID (UID) `1337` 运行，因为 istio-proxy 容器默认以 UID `1337` 运行。当使用相同的 UID 运行您的容器应用时，将导致它的 `iptables` 配置冲突。
+当工作负载以 User ID (UID) `1337` 运行时，会出现此消息。应用程序的 Pod 不应该以 User ID (UID) `1337` 运行，因为 istio-proxy 容器默认以 UID `1337` 运行。当使用相同的 UID 运行您的容器应用时，将导致它的 `iptables` 配置冲突。
 
 {{< warning >}}
 User ID (UID) `1337` 为 Sidecar Proxy 保留。

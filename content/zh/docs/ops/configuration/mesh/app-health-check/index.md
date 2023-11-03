@@ -14,14 +14,15 @@ owner: istio/wg-user-experience-maintainers
 test: yes
 ---
 
-[Kubernetes 存活和就绪探针](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)描述了几种配置存活和就绪探针的方法：
+[Kubernetes 存活和就绪探针](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/)
+描述了几种配置存活和就绪探针的方法：
 
 1. [命令](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-a-liveness-command)
 1. [HTTP 请求](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-a-liveness-http-request)
 1. [TCP 探针](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-a-tcp-liveness-probe)
 1. [gRPC 探针](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-a-grpc-liveness-probe)
 
-命令方式无需更改即可工作，但 HTTP 请求和 TCP 探针需要 Istio 更改 Pod 的配置。
+命令方式无需更改即可工作，但 HTTP 请求、TCP 探针和 gRPC 探针需要 Istio 更改 Pod 的配置。
 
 对 `liveness-http` 服务的健康检查请求由 kubelet 发送。当启用双向 TLS 时，
 这会成为一个问题，因为 kubelet 没有 Istio 颁发的证书。
@@ -33,6 +34,74 @@ TCP 探针检查需要特殊处理，因为 Istio 将所有传入的流量重定
 
 Istio 通过重写应用程序 `PodSpec` 就绪/存活探针来解决这两个问题，
 以便将探针请求发送到 [Sidecar 代理](/zh/docs/reference/commands/pilot-agent/)。
+
+## 存活探针重写示例 {#liveness-probe-rewrite-example}
+
+为了演示存活探针和就绪探针如何在应用程序 `PodSpec` 级别进行重写，
+可以使用 [liveness-http-same-port 样例]({{< github_file >}}/samples/health-check/liveness-http-same-port.yaml)。
+
+首先为此样例应用创建一个命名空间并打好标签：
+
+{{< text bash >}}
+$ kubectl create namespace istio-io-health-rewrite
+$ kubectl label namespace istio-io-health-rewrite istio-injection=enabled
+{{< /text >}}
+
+然后部署样例应用程序：
+
+{{< text bash yaml >}}
+$ kubectl apply -f - <<EOF
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: liveness-http
+  namespace: istio-io-health-rewrite
+spec:
+  selector:
+    matchLabels:
+      app: liveness-http
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: liveness-http
+        version: v1
+    spec:
+      containers:
+      - name: liveness-http
+        image: docker.io/istio/health:example
+        ports:
+        - containerPort: 8001
+        livenessProbe:
+          httpGet:
+            path: /foo
+            port: 8001
+          initialDelaySeconds: 5
+          periodSeconds: 5
+EOF
+{{< /text >}}
+
+部署完成后，您可以检查 Pod 的应用容器，以查看已更改的路径：
+
+{{< text bash json >}}
+$ kubectl get pod "$LIVENESS_POD" -n istio-io-health-rewrite -o json | jq '.spec.containers[0].livenessProbe.httpGet'
+{
+  "path": "/app-health/liveness-http/livez",
+  "port": 15020,
+  "scheme": "HTTP"
+}
+{{< /text >}}
+
+原来的 `livenessProve` 路径现在被映射到 Sidecar 容器环境变量 `ISTIO_KUBE_APP_PROBERS` 中的新路径：
+
+{{< text bash json >}}
+$ kubectl get pod "$LIVENESS_POD" -n istio-io-health-rewrite -o=jsonpath="{.spec.containers[1].env[?(@.name=='ISTIO_KUBE_APP_PROBERS')]}"
+{
+  "name":"ISTIO_KUBE_APP_PROBERS",
+  "value":"{\"/app-health/liveness-http/livez\":{\"httpGet\":{\"path\":\"/foo\",\"port\":8001,\"scheme\":\"HTTP\"},\"timeoutSeconds\":1}}"
+}
+{{< /text >}}
+
 对于 HTTP 和 gRPC 请求，Sidecar 代理将请求重定向到应用程序并剥离响应体，仅返回响应代码。
 对于 TCP 探针，Sidecar 代理会在避免流量重定向的同时进行端口检查。
 
@@ -186,5 +255,5 @@ $ kubectl get cm istio-sidecar-injector -n istio-system -o yaml | sed -e 's/"rew
 移除这些示例所用的命名空间：
 
 {{< text bash >}}
-$ kubectl delete ns istio-io-health
+$ kubectl delete ns istio-io-health istio-io-health-rewrite
 {{< /text >}}

@@ -19,6 +19,8 @@ set -e
 set -u
 set -o pipefail
 
+GATEWAY_API="${GATEWAY_API:-false}"
+
 # @setup profile=default
 _wait_for_deployment istio-system istiod
 
@@ -68,42 +70,61 @@ _wait_for_istio peerauthentication foo overwrite-example
 
 snip_cleanup_part_2_1
 
-snip_enduser_authentication_1
-snip_enduser_authentication_2
-_wait_for_istio gateway foo httpbin-gateway
-_wait_for_istio virtualservice  foo httpbin
+if [ "$GATEWAY_API" == "true" ]; then
+    snip_enduser_authentication_2
+    snip_enduser_authentication_3
+else
+    snip_enduser_authentication_1
+    _wait_for_istio gateway foo httpbin-gateway
+    _wait_for_istio virtualservice foo httpbin
 
-# Export the INGRESS_ environment variables
-_set_ingress_environment_variables
+    # Export the INGRESS_ environment variables
+    _set_ingress_environment_variables
+fi
 
-_verify_same  snip_enduser_authentication_3 "$snip_enduser_authentication_3_out"
+_verify_same  snip_enduser_authentication_4 "$snip_enduser_authentication_4_out"
 
-snip_enduser_authentication_4
-_wait_for_istio requestauthentication istio-system jwt-example
+if [ "$GATEWAY_API" == "true" ]; then
+    snip_enduser_authentication_6
+    _wait_for_istio requestauthentication foo jwt-example
+else
+    snip_enduser_authentication_5
+    _wait_for_istio requestauthentication istio-system jwt-example
+fi
 
-_verify_same  snip_enduser_authentication_5 "$snip_enduser_authentication_5_out"
-_verify_same  snip_enduser_authentication_6 "$snip_enduser_authentication_6_out"
 _verify_same  snip_enduser_authentication_7 "$snip_enduser_authentication_7_out"
+_verify_same  snip_enduser_authentication_8 "$snip_enduser_authentication_8_out"
+_verify_same  snip_enduser_authentication_9 "$snip_enduser_authentication_9_out"
 
-snip_enduser_authentication_8
-snip_enduser_authentication_9
+snip_enduser_authentication_10
+snip_enduser_authentication_11
 
-# snip_enduser_authentication_10 is highly timing dependent, so just check
+# snip_enduser_authentication_12 is highly timing dependent, so just check
 # that the token times out during the run.
 expected="200
 401"
-_verify_contains  snip_enduser_authentication_10 "$expected"
+_verify_contains  snip_enduser_authentication_12 "$expected"
 
-snip_require_a_valid_token_1
-_wait_for_istio authorizationpolicy istio-system frontend-ingress
+if [ "$GATEWAY_API" == "true" ]; then
+    snip_require_a_valid_token_2
+    _wait_for_istio authorizationpolicy foo frontend-ingress
+else
+    snip_require_a_valid_token_1
+    _wait_for_istio authorizationpolicy istio-system frontend-ingress
+fi
 
-_verify_same  snip_require_a_valid_token_2 "$snip_require_a_valid_token_2_out"
+_verify_same  snip_require_a_valid_token_3 "$snip_require_a_valid_token_3_out"
 
-snip_require_valid_tokens_perpath_1
-_wait_for_istio authorizationpolicy istio-system frontend-ingress
+if [ "$GATEWAY_API" == "true" ]; then
+    snip_require_valid_tokens_perpath_2
+    _wait_for_istio authorizationpolicy foo frontend-ingress
+else
+    snip_require_valid_tokens_perpath_1
+    _wait_for_istio authorizationpolicy istio-system frontend-ingress
+fi
 
-_verify_same  snip_require_valid_tokens_perpath_2 "$snip_require_valid_tokens_perpath_2_out"
 _verify_same  snip_require_valid_tokens_perpath_3 "$snip_require_valid_tokens_perpath_3_out"
+_verify_same  snip_require_valid_tokens_perpath_4 "$snip_require_valid_tokens_perpath_4_out"
 
 # @cleanup
 snip_cleanup_part_1_1

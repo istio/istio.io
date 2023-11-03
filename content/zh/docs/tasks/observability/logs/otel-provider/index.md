@@ -20,7 +20,7 @@ test: yes
 
 {{< boilerplate start-otel-collector-service >}}
 
-## 启用 Envoy 的访问日志记录{#enable-envoy-access-logging}
+## 启用 Envoy 的访问日志记录  {#enable-envoy-access-logging}
 
 要启用访问日志记录，可以使用 [Telemetry API](/zh/docs/tasks/observability/telemetry/)。
 
@@ -87,7 +87,7 @@ EOF
 
 有关使用 Telemetry API 的更多信息，请参阅 [Telemetry API 概述](/zh/docs/tasks/observability/telemetry/)。
 
-### 使用网格配置
+### 使用网格配置 {#using-mesh-config}
 
 如果您使用了 `IstioOperator` CR 来安装 Istio，请将以下字段添加到您的配置：
 
@@ -112,7 +112,7 @@ spec:
 $ istioctl install -f <your-istio-operator-config-file>
 {{< /text >}}
 
-## 默认访问日志格式{#default-access-log-format}
+## 默认访问日志格式  {#default-access-log-format}
 
 如果 `accessLogFormat` 未被指定，Istio 将使用以下默认的访问日志格式：
 
@@ -149,7 +149,7 @@ $ istioctl install -f <your-istio-operator-config-file>
 | `%REQUESTED_SERVER_NAME%` | `-` | `outbound_.8000_._.httpbin.foo.svc.cluster.local`
 | `%ROUTE_NAME%` | `default` | `default`
 
-## 测试访问日志{#test-access-log}
+## 测试访问日志  {#test-access-log}
 
 1.  将请求从 `sleep` 发送到 `httpbin`：
 
@@ -178,10 +178,10 @@ $ istioctl install -f <your-istio-operator-config-file>
     {{< /text >}}
 
 请注意，与请求对应的消息分别出现在来源和目的地（即 `sleep` 和 `httpbin`）的 Istio 代理日志中。
-您可以在此日志中看到 HTTP 动作 (`GET`)、HTTP 路径 (`/status/418`)、响应码 (`418`)
+您可以在此日志中看到 HTTP 动作（`GET`）、HTTP 路径（`/status/418`）、响应码（`418`）
 和其他[请求相关的信息](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#format-rules)。
 
-## 清理{#cleanup}
+## 清理  {#cleanup}
 
 关闭 [sleep]({{< github_tree >}}/samples/sleep) 和 [httpbin]({{< github_tree >}}/samples/httpbin) 服务：
 
@@ -192,9 +192,10 @@ $ kubectl delete -f @samples/httpbin/httpbin.yaml@
 $ kubectl delete -f @samples/open-telemetry/otel.yaml@ -n istio-system
 {{< /text >}}
 
-### 禁用 Envoy 的访问日志记录{#disable-envoy-access-logging}
+### 禁用 Envoy 的访问日志记录  {#disable-envoy-access-logging}
 
-在您的 Istio 安装配置中移除 `meshConfig.extensionProviders` 和 `meshConfig.defaultProviders` 设置或设置为 `""`。
+在您的 Istio 安装配置中移除 `meshConfig.extensionProviders` 和
+`meshConfig.defaultProviders` 设置或设置为 `""`。
 
 {{< tip >}}
 如下例所示，将 `default` 替换为安装 Istio 时所用的配置文件名称。

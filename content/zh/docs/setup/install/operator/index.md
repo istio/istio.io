@@ -53,7 +53,7 @@ $ istioctl operator init
 此命令运行 Operator 在 `istio-operator` 命名空间中创建以下资源：
 
 - Operator 自定义资源定义（CRD）
-- Operator 控制器的 deployment 对象
+- Operator 控制器的 Deployment 对象
 - 一个用来访问 Operator 指标的服务
 - Istio Operator 运行必须的 RBAC 规则
 
@@ -69,13 +69,13 @@ $ istioctl operator init --watchedNamespaces=istio-namespace1,istio-namespace2
 {{< tip >}}
 您也可以使用 Helm 部署 Operator：
 
-1. 创建 `istio-operator` 命名空间.
+1. 创建 `istio-operator` 命名空间。
 
     {{< text syntax=bash snip_id=create_ns_istio_operator >}}
     $ kubectl create namespace istio-operator
     {{< /text >}}
 
-1. 使用 Helm 安装 operator.
+2) 使用 Helm 安装 Operator。
 
     {{< text syntax=bash snip_id=deploy_istio_operator_helm >}}
     $ helm install istio-operator manifests/charts/istio-operator \
@@ -83,14 +83,14 @@ $ istioctl operator init --watchedNamespaces=istio-namespace1,istio-namespace2
         -n istio-operator
     {{< /text >}}
 
-注意：为了运行上面的命令您需要 [下载 Istio 的发行版本](/zh/docs/setup/getting-started/#download)。
+注意：为了运行上面的命令，您需要[下载 Istio 的发行版本](/zh/docs/setup/getting-started/#download)。
 {{< /tip >}}
 
 {{< warning >}}
-在 Istio 1.10.0 之前，需要在安装 operator 之前创建命名空间 `istio-system`。
+在 Istio 1.10.0 之前，需要在安装 Operator 之前创建命名空间 `istio-system`。
 从 Istio 1.10.0 开始，`istioctl operator init` 将创建 `istio-system` 命名空间。
 
-如果你使用的不是 `istioctl operator init`，那么 `istio-system` 命名空间需要手动创建。
+如果您使用的不是 `istioctl operator init`，那么 `istio-system` 命名空间需要被手动创建。
 {{< /warning >}}
 
 ### 使用 operator 安装 Istio {#install-Istio-with-the-operator}
@@ -118,7 +118,7 @@ EOF
 {{< /warning >}}
 
 默认情况下，Istio 控制平面（istiod）将安装在 `istio-system` 命名空间中。
-要将其安装到其他命名空间，请使用 `values.global.istioNamespace` 字段，如下：
+要将其安装到其他命名空间，请如下使用 `values.global.istioNamespace` 字段：
 
 {{< text syntax=yaml snip_id=none >}}
 apiVersion: install.istio.io/v1alpha1
@@ -132,7 +132,7 @@ spec:
 {{< /text >}}
 
 {{< tip >}}
-Istio Operator 控制器在创建 `IstioOperator` 资源的 90 秒内启动 Istio 的安装。
+Istio Operator 控制器在创建 `IstioOperator` 资源的 90 秒内开始安装 Istio。
 Istio 安装过程将在 120 秒内完成。
 {{< /tip >}}
 
@@ -154,10 +154,10 @@ istio-ingressgateway-86cb4b6795-9jlrk   1/1     Running   0          68s
 istiod-b47586647-sf6sw                  1/1     Running   0          74s
 {{< /text >}}
 
-## 更新{#update}
+## 更新 {#update}
 
-现在，控制器已经运行起来，您可以通过编辑或替换 `IstioOperator` 来改变 Istio 配置。
-控制器将检测到改变，继而用相应配置更新 Istio 的安装内容。
+现在，控制器已经运行起来，您可以通过编辑或替换 `IstioOperator` 资源来改变 Istio 配置。
+控制器将检测到改变，继而用相应配置更新安装的 Istio。
 
 例如，使用以下命令将安装切换到 `default` 配置：
 
@@ -174,7 +174,7 @@ EOF
 {{< /text >}}
 
 您还可以启用或禁用组件、修改资源设置。
-例如，启用 `istio-egressgateway` 组件并增加 pilot 的内存要求：
+例如，启用 `istio-egressgateway` 组件并增加 pilot 的内存请求：
 
 {{< text syntax=bash snip_id=update_to_default_profile_egress >}}
 $ kubectl apply -f - <<EOF
@@ -206,7 +206,7 @@ $ kubectl logs -f -n istio-operator "$(kubectl get pods -n istio-operator -lname
 参阅 [`IstioOperator` API](/zh/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec)
 获取完整的配置设置。
 
-## 就地升级{#in-place-upgrade}
+## 就地升级 {#in-place-upgrade}
 
 下载并提取希望升级到的 Istio 版本对应的 `istioctl`。
 在目标 Istio 版本的目录中，重新安装 Operator：
@@ -229,12 +229,12 @@ $ kubectl get pods --namespace istio-system \
   -o=jsonpath='{range .items[*]}{"\n"}{.metadata.name}{":\t"}{range .spec.containers[*]}{.image}{", "}{end}{"\n"}{end}'
 {{< /text >}}
 
-## 金丝雀升级{#canary-upgrade}
+## 金丝雀升级 {#canary-upgrade}
 
 金丝雀升级的过程类似于
 [`istioctl` 版本的金丝雀升级](/zh/docs/setup/upgrade/#canary-upgrades)。
 
-例如，要升级上一节中安装的 Istio 修订版本，首先验证群集中名为 `example-istiocontrolplane` 的 `IstioOperator` CR 是否存在：
+例如，要升级上一节中安装的 Istio 修订版本，首先验证集群中名为 `example-istiocontrolplane` 的 `IstioOperator` CR 是否存在：
 
 例如要升级 Istio {{< istio_previous_version >}}.0 到 {{< istio_full_version >}}，
 首先安装 {{< istio_previous_version >}}.0：
@@ -249,7 +249,7 @@ $ curl -L https://istio.io/downloadIstio | ISTIO_VERSION={{< istio_previous_vers
 $ istio-{{< istio_previous_version >}}.0/bin/istioctl operator init
 {{< /text >}}
 
-安装 Istio 控制面 demo 配置文件：
+安装 Istio 控制平面 demo 配置文件：
 
 {{< text syntax=bash snip_id=install_istio_previous_version >}}
 $ kubectl apply -f - <<EOF
@@ -308,7 +308,7 @@ spec:
   profile: default
 {{< /text >}}
 
-运行该命令后，您将看到两组并排运行的控制平面 Deployments 和 Services：
+运行该命令后，您将看到两组并排运行的控制平面 Deployment 和 Service：
 
 {{< text syntax=bash snip_id=get_pods_istio_system >}}
 $ kubectl get pod -n istio-system -l app=istiod
@@ -327,7 +327,7 @@ istiod-{{< istio_full_version_revision >}}   ClusterIP   10.111.17.49     <none>
 要完成升级，请给工作负载的命名空间打这个标签：`istio.io/rev=1-8-1`，并重新启动工作负载，
 就如[数据平面升级](/zh/docs/setup/upgrade/canary/#data-plane)文档的描述。
 
-## 卸载{#uninstall}
+## 卸载 {#uninstall}
 
 如果您使用 Operator 完成了控制平面的金丝雀升级，请运行以下命令卸载旧版本的控件平面，并保留新版本：
 

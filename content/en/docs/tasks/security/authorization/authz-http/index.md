@@ -200,12 +200,12 @@ and then grant more access to the workload gradually and incrementally.
 
 ## Clean up
 
-1. Remove all authorization policies from your configuration:
+Remove all authorization policies from your configuration:
 
-    {{< text bash >}}
-    $ kubectl delete authorizationpolicy.security.istio.io/allow-nothing
-    $ kubectl delete authorizationpolicy.security.istio.io/productpage-viewer
-    $ kubectl delete authorizationpolicy.security.istio.io/details-viewer
-    $ kubectl delete authorizationpolicy.security.istio.io/reviews-viewer
-    $ kubectl delete authorizationpolicy.security.istio.io/ratings-viewer
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl delete authorizationpolicy.security.istio.io/allow-nothing
+$ kubectl delete authorizationpolicy.security.istio.io/productpage-viewer
+$ kubectl delete authorizationpolicy.security.istio.io/details-viewer
+$ kubectl delete authorizationpolicy.security.istio.io/reviews-viewer
+$ kubectl delete authorizationpolicy.security.istio.io/ratings-viewer
+{{< /text >}}

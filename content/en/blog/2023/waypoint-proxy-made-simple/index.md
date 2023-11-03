@@ -96,7 +96,7 @@ This is an area under active development in the community, where we design how t
 
 ## A deep-dive of waypoint configuration
 
-Assuming you have followed the [ambient get started guide](http://preliminary.istio.io/latest/docs/ops/ambient/getting-started/) up to and including the [control traffic section](http://preliminary.istio.io/latest/docs/ops/ambient/getting-started/#control), you have deployed a waypoint proxy for the bookinfo-reviews service account to direct 90% traffic to reviews v1 and 10% traffic to reviews v2.
+Assuming you have followed the [ambient get started guide](/docs/ops/ambient/getting-started/) up to and including the [control traffic section](/docs/ops/ambient/getting-started/#control), you have deployed a waypoint proxy for the bookinfo-reviews service account to direct 90% traffic to reviews v1 and 10% traffic to reviews v2.
 
 Use `istioctl` to retrieve the listeners for the `reviews` waypoint proxy:
 
@@ -218,4 +218,4 @@ Note that you don’t get any endpoints related to any services other than revie
 
 ## Wrapping up
 
-We are very excited about the waypoint simplification focusing on destination oriented waypoint proxies. This is another significant step towards simplifying Istio’s usability, scalability and debuggability which are top priorities on Istio’s roadmap. Follow our [getting started guide](http://preliminary.istio.io/latest/docs/ops/ambient/getting-started/) to try the ambient alpha build today and experience the simplified waypoint proxy!
+We are very excited about the waypoint simplification focusing on destination oriented waypoint proxies. This is another significant step towards simplifying Istio’s usability, scalability and debuggability which are top priorities on Istio’s roadmap. Follow our [getting started guide](/docs/ops/ambient/getting-started/) to try the ambient alpha build today and experience the simplified waypoint proxy!

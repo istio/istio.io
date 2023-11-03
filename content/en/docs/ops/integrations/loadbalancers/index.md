@@ -7,7 +7,10 @@ owner: istio/wg-networking-maintainers
 test: n/a
 ---
 
-Istio provides both an ingress and service mesh implementation, which can be used together or separately. While these are designed to work together seamlessly, there are times when integrating with a third party ingress is required. This could be for migration purposes, feature requirements, or personal preferences.
+Istio provides both an ingress and service mesh implementation, which can be used
+together or separately. While these are designed to work together seamlessly, there
+are times when integrating with a third party ingress is required. This could be
+for migration purposes, feature requirements, or personal preferences.
 
 ## Integration Modes
 
@@ -49,10 +52,12 @@ Vendor specific configuration is required to support chained mode or standalone 
 
 ### Google HTTP(S) Load Balancer
 
-Integration with Google HTTP(S) Load Balancers only works out of the box with standalone mode if mTLS is not required as
-mTLS is not supported.
+Integration with Google HTTP(S) Load Balancers only works out of the box with standalone mode
+if mTLS is not required as mTLS is not supported.
 
-Chained mode is possible. See [Google documentation](https://cloud.google.com/architecture/exposing-service-mesh-apps-through-gke-ingress) for setup instructions.
+Chained mode is possible. See
+[Google documentation](https://cloud.google.com/architecture/exposing-service-mesh-apps-through-gke-ingress)
+for setup instructions.
 
 ## In-Cluster Load Balancers
 

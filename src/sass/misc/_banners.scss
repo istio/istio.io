@@ -9,7 +9,7 @@
 
     @media screen AND (min-width: $bp-md) {
         display: block;
-        position: fixed;
+        position: sticky;
         z-index: $banner-z;
         width: 100%;
         text-align: center;
@@ -55,10 +55,5 @@
     }
     @media screen AND (min-width: $bp-lg) {
         top: $headerHeightLg;
-    }
-}
-@media screen AND (min-width: $bp-md) {
-    .banner-padding {
-        padding-top: 5rem !important;
     }
 }

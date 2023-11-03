@@ -9,11 +9,12 @@ test: yes
 
 本任务展示如何为连接、请求以及异常检测配置熔断。
 
-熔断，是创建弹性微服务应用程序的重要模式。熔断能够使您的应用程序具备应对来自故障、潜在峰值和其他未知网络因素影响的能力。
+熔断，是创建弹性微服务应用程序的重要模式。
+熔断能够使您的应用程序具备应对来自故障、潜在峰值和其他未知网络因素影响的能力。
 
-这个任务中，你将配置熔断规则，然后通过有意的使熔断器“跳闸”来测试配置。
+这个任务中，您将配置熔断规则，然后通过有意的使熔断器“跳闸”来测试配置。
 
-## 开始之前{#before-you-begin}
+## 开始之前 {#before-you-begin}
 
 * 跟随[安装指南](/zh/docs/setup/)安装 Istio。
 
@@ -21,12 +22,15 @@ test: yes
 
 应用程序 `httpbin` 作为此任务的后端服务。
 
-## 配置熔断器{#configuring-the-circuit-breaker}
+## 配置熔断器 {#configuring-the-circuit-breaker}
 
-1. 创建一个[目标规则](/zh/docs/reference/config/networking/destination-rule/)，在调用 `httpbin` 服务时应用熔断设置：
+1. 创建一个[目标规则](/zh/docs/reference/config/networking/destination-rule/)，
+   在调用 `httpbin` 服务时应用熔断设置：
 
     {{< warning >}}
-    如果您的 Istio 启用了双向 TLS 身份验证，则必须在应用目标规则之前将 TLS 流量策略 `mode：ISTIO_MUTUAL` 添加到 `DestinationRule`。否则请求将产生 503 错误，如[这里](/zh/docs/ops/common-problems/network-issues/#service-unavailable-errors-after-setting-destination-rule)所述。
+    如果您的 Istio 启用了双向 TLS 身份验证，则必须在应用目标规则之前将 TLS 流量策略
+    `mode：ISTIO_MUTUAL` 添加到 `DestinationRule`。否则请求将产生 503 错误，
+    如[这里](/zh/docs/ops/common-problems/network-issues/#service-unavailable-errors-after-setting-destination-rule)所述。
     {{< /warning >}}
 
     {{< text bash >}}
@@ -75,19 +79,23 @@ test: yes
           maxEjectionPercent: 100
     {{< /text >}}
 
-## 增加一个客户端{#adding-a-client}
+## 增加一个客户端 {#adding-a-client}
 
-创建客户端程序以发送流量到 `httpbin` 服务。这是一个名为 [Fortio](https://github.com/istio/fortio) 的负载测试客户端，它可以控制连接数、并发数及发送 HTTP 请求的延迟。通过 Fortio 能够有效的触发前面在 `DestinationRule` 中设置的熔断策略。
+创建客户端程序以发送流量到 `httpbin` 服务。这是一个名为
+[Fortio](https://github.com/istio/fortio) 的负载测试客户端，
+它可以控制连接数、并发数及发送 HTTP 请求的延迟。
+通过 Fortio 能够有效的触发前面在 `DestinationRule` 中设置的熔断策略。
 
 1. 向客户端注入 Istio Sidecar 代理，以便 Istio 对其网络交互进行管理：
 
-    如果你启用了[自动注入 Sidecar](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)，可以直接部署 `fortio` 应用：
+    如果您启用了[自动注入 Sidecar](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)，
+    可以直接部署 `fortio` 应用：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/httpbin/sample-client/fortio-deploy.yaml@
     {{< /text >}}
 
-    否则，你需要在部署 `fortio` 应用前手动注入 Sidecar：
+    否则，您需要在部署 `fortio` 应用前手动注入 Sidecar：
 
     {{< text bash >}}
     $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/sample-client/fortio-deploy.yaml@)
@@ -126,9 +134,10 @@ test: yes
 
 可以看到调用后端服务的请求已经成功！接下来，可以测试熔断。
 
-## 触发熔断器{#tripping-the-circuit-breaker}
+## 触发熔断器 {#tripping-the-circuit-breaker}
 
-在 `DestinationRule` 配置中，您定义了 `maxConnections: 1` 和 `http1MaxPendingRequests: 1`。这些规则意味着，如果并发的连接和请求数超过一个，在 `istio-proxy` 进行进一步的请求和连接时，后续请求或连接将被阻止。
+在 `DestinationRule` 配置中，您定义了 `maxConnections: 1` 和 `http1MaxPendingRequests: 1`。
+这些规则意味着，如果并发的连接和请求数超过一个，在 `istio-proxy` 进行进一步的请求和连接时，后续请求或连接将被阻止。
 
 1. 发送并发数为 2 的连接（`-c 2`），请求 20 次（`-n 20`）：
 
@@ -249,7 +258,7 @@ test: yes
 
     可以看到 `upstream_rq_pending_overflow` 值 `21`，这意味着，目前为止已有 21 个调用被标记为熔断。
 
-## 清理{#cleaning-up}
+## 清理 {#cleaning-up}
 
 1. 清理规则:
 

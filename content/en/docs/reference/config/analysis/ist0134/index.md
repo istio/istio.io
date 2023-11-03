@@ -5,7 +5,7 @@ owner: istio/wg-user-experience-maintainers
 test: no
 ---
 
-This message occurs when a ServiceEntry with the `protocol` field not set, or set to `TCP`, doesn't have `addresses` defined.
+This message occurs when a `ServiceEntry` with the `protocol` field not set, or set to `TCP`, doesn't have `addresses` defined.
 
 ## Example
 
@@ -15,7 +15,7 @@ You will receive this message:
 Warning [IST0134] (ServiceEntry service-entry.default serviceentry.yaml:13) ServiceEntry addresses are required for this protocol.
 {{< /text >}}
 
-when your cluster has the following ServiceEntry with unset protocol and missing addresses:
+When your cluster has the following `ServiceEntry` with unset `protocol` and missing `addresses`:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -35,7 +35,7 @@ spec:
   resolution: DNS
 {{< /text >}}
 
-another example of this analyzer is when you have a ServiceEntry with TCP protocol and missing addresses:
+Another example of this analyzer is when you have a `ServiceEntry` with `protocol: TCP` and missing `addresses`:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -58,4 +58,4 @@ spec:
 
 ## How to resolve
 
-Make sure to set `addresses` in your ServiceEntry when `protocol` is not set, or set to TCP. If `addresses` is not set, all traffic on the port defined in the ServiceEntry is matched, regardless of the host.
+Make sure to set `addresses` in your `ServiceEntry` when `protocol` is not set, or set to TCP. If `addresses` is not set, all traffic on the port defined in the `ServiceEntry` is matched, regardless of the host.

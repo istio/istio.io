@@ -17,9 +17,7 @@ The example HTTPS service used for this task is a simple [NGINX](https://www.ngi
 In the following steps you first deploy the NGINX service in your Kubernetes cluster.
 Then you configure a gateway to provide ingress access to the service via host `nginx.example.com`.
 
-{{< boilerplate gateway-api-support >}}
-
-{{< boilerplate gateway-api-experimental >}}
+{{< boilerplate gateway-api-gamma-support >}}
 
 ## Before you begin
 
@@ -182,7 +180,7 @@ to hold the configuration of the NGINX server:
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -238,7 +236,7 @@ EOF
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -294,7 +292,7 @@ EOF
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 Follow the instructions in
 [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)
@@ -342,7 +340,7 @@ $ export SECURE_INGRESS_PORT=$(kubectl get gtw mygateway -o jsonpath='{.spec.lis
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text bash >}}
 $ kubectl delete gateway mygateway

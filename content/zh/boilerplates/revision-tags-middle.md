@@ -4,7 +4,7 @@
 
 {{< image width="90%"
 link="/zh/docs/setup/upgrade/canary/revision-tags-before.svg"
-caption="Two namespaces pointed to prod-stable and one pointed to prod-canary"
+caption="两个命名空间指向了 prod-stable 而一个指向了 prod-canary"
 >}}
 
 除了标记的命名空间之外，集群管理员还可以通过以下 `istioctl tag list` 命令查看此映射：

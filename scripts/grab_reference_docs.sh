@@ -60,7 +60,6 @@ COMP_OUTPUT_DIR="${ROOTDIR}/content/en/docs/reference/commands"
 COMP_OUTPUT_DIR_ZH="${ROOTDIR}/content/zh/docs/reference/commands"
 
 export GOOS=linux
-export GOARCH=amd64
 
 echo "WORK_DIR =" "${WORK_DIR}"
 
@@ -84,6 +83,15 @@ locate_file() {
     PP=$(echo "${FNP}" | rev | cut -d'/' -f2- | rev)
     mkdir -p "${ROOTDIR}/content/en/docs${PP}/${FN}"
     mkdir -p "${ROOTDIR}/content/zh/docs${PP}/${FN}"
+
+    # Verify that we aren't overwriting another file.
+    # At some point, this should be a failure.
+    # We have known failures at this time, https://github.com/istio/istio.io/issues/12693, so just log a message.
+    if [[ -e "${ROOTDIR}/content/en/docs${PP}/${FN}/index.html" ]]; then
+        echo "WARNING: File already exists: ${ROOTDIR}/content/en/docs${PP}/${FN}. Not copying ${FILENAME}"
+        return
+    fi
+
     sed -E -e 's/(href="https:\/\/istio.io.*)\.html/\1\//' -e 's/href="https:\/\/istio.io(\/[^vV])/href="\1/g' -e 's/href="\/latest\//href="\//g' "${FILENAME}" >"${ROOTDIR}/content/en/docs${PP}/${FN}/index.html"
     sed -E -e 's/(href="https:\/\/istio.io.*)\.html/\1\//' -e 's/href="https:\/\/istio.io(\/[^vV])/href="\1/g' -e 's/href="\/latest\/zh\//href="\/zh\//g' -e 's/href="\/docs\//href="\/zh\/docs\//g' -e 's/\[\/docs\//\[\/zh\/docs\//g' "${FILENAME}" >"${ROOTDIR}/content/zh/docs${PP}/${FN}/index.html"
 
@@ -149,6 +157,7 @@ handle_components() {
 
         go build -o "${COMP_NAME}"
         mkdir -p "${COMP_OUTPUT_DIR}/${COMP_NAME}"
+        mkdir -p "${COMP_OUTPUT_DIR_ZH}/${COMP_NAME}"
         "./${COMP_NAME}" collateral -o "${COMP_OUTPUT_DIR}/${COMP_NAME}" --html_fragment_with_front_matter
         cp "${COMP_OUTPUT_DIR}/${COMP_NAME}/${COMP_NAME}.html" "${COMP_OUTPUT_DIR}/${COMP_NAME}/index.html"
         mv "${COMP_OUTPUT_DIR}/${COMP_NAME}/${COMP_NAME}.html" "${COMP_OUTPUT_DIR_ZH}/${COMP_NAME}/index.html"

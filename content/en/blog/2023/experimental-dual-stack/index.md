@@ -42,17 +42,30 @@ announce experimental support for dual stack in Istio 1.17!
 
 ## A Quick Experiment using Dual Stack
 
+{{< tip >}}
+If you want to use KinD for your test, you can set up a dual stack cluster with the following command:
+
+{{< text bash >}}
+$ kind create cluster --name istio-ds --config - <<EOF
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+networking:
+  ipFamily: dual
+EOF
+{{< /text >}}
+
+{{< /tip >}}
 1. Enable dual stack experimental support on Istio 1.17.0+ with the following:
 
     {{< text bash >}}
-    $ istioctl install -f - <<EOF
+    $ istioctl install -y -f - <<EOF
     apiVersion: install.istio.io/v1alpha1
     kind: IstioOperator
     spec:
       meshConfig:
         defaultConfig:
           proxyMetadata:
-            ISTIO_AGENT_DUAL_STACK: "true"
+            ISTIO_DUAL_STACK: "true"
       values:
         pilot:
           env:
@@ -92,13 +105,13 @@ announce experimental support for dual stack in Istio 1.17!
 1. Create sleep deployment in the default namespace:
 
     {{< text bash >}}
-    $ kubectl apply -f {{< github_file >}}/master/samples/sleep/sleep.yaml
+    $ kubectl apply -f {{< github_file >}}/samples/sleep/sleep.yaml
     {{< /text >}}
 
 1. Verify the traffic:
 
     {{< text bash >}}
-    $ kubectl exec -it "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo dualstack | nc tcp-echo 9000"
+    $ kubectl exec -it "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo dualstack | nc tcp-echo.dual-stack 9000"
     hello dualstack
     $ kubectl exec -it "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo ipv4 | nc tcp-echo.ipv4 9000"
     hello ipv4
@@ -164,7 +177,7 @@ Virtual inbound addresses are now also configured to listen on both `0.0.0.0` an
 Envoy's endpoints now are configured to route to both IPv4 and IPv6:
 
 {{< text bash >}}
-$ istioctl proxy-config endpoints "$(kubectl get pod -n sleep -l app=tcp-echo -o jsonpath='{.items[0].metadata.name}')" --port 9000
+$ istioctl proxy-config endpoints "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" --port 9000
 ENDPOINT                 STATUS      OUTLIER CHECK     CLUSTER
 10.244.0.19:9000         HEALTHY     OK                outbound|9000||tcp-echo.ipv4.svc.cluster.local
 10.244.0.26:9000         HEALTHY     OK                outbound|9000||tcp-echo.dual-stack.svc.cluster.local

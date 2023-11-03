@@ -1,0 +1,319 @@
+<!doctype html><html lang=zh itemscope itemtype=https://schema.org/WebPage><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=theme-color content="#466BB0"><meta name=title content="多集群服务网格中的分版本路由"><meta name=description content="在多集群服务网格环境中配置 Istio 的路由规则。"><meta name=author content="Frank Budinsky (IBM)"><meta name=keywords content="microservices,services,mesh,traffic-management,multicluster"><meta property="og:title" content="多集群服务网格中的分版本路由"><meta property="og:type" content="website"><meta property="og:description" content="在多集群服务网格环境中配置 Istio 的路由规则。"><meta property="og:url" content="/v1.18/zh/blog/2019/multicluster-version-routing/"><meta property="og:image" content="https://raw.githubusercontent.com/istio/istio.io/master/static/img/istio-social.svg"><meta property="og:image:alt" content="Istio Logo"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="600"><meta property="og:site_name" content="Istio"><meta name=twitter:card content="summary"><meta name=twitter:site content="@IstioMesh"><title>Istioldie 1.18 / 多集群服务网格中的分版本路由</title><script async src="https://www.googletagmanager.com/gtag/js?id=UA-98480406-2"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","UA-98480406-2")</script><link rel=alternate type=application/rss+xml title="Istio Blog" href=/v1.18/blog/feed.xml><link rel=alternate type=application/rss+xml title="Istio News" href=/v1.18/news/feed.xml><link rel=alternate type=application/rss+xml title="Istio Blog and News" href=/v1.18/feed.xml><link rel="shortcut icon" href=/v1.18/favicons/favicon.ico><link rel=apple-touch-icon href=/v1.18/favicons/apple-touch-icon-180x180.png sizes=180x180><link rel=icon type=image/png href=/v1.18/favicons/favicon-16x16.png sizes=16x16><link rel=icon type=image/png href=/v1.18/favicons/favicon-32x32.png sizes=32x32><link rel=icon type=image/png href=/v1.18/favicons/android-36x36.png sizes=36x36><link rel=icon type=image/png href=/v1.18/favicons/android-48x48.png sizes=48x48><link rel=icon type=image/png href=/v1.18/favicons/android-72x72.png sizes=72x72><link rel=icon type=image/png href=/v1.18/favicons/android-96x96.png sizes=96xW96><link rel=icon type=image/png href=/v1.18/favicons/android-144x144.png sizes=144x144><link rel=icon type=image/png href=/v1.18/favicons/android-192x192.png sizes=192x192><link rel=icon type=image/svg+xml href=/v1.18/favicons/favicon.svg><link rel=icon type=image/png href=/v1.18/favicons/favicon.png><link rel=mask-icon href=/v1.18/favicons/safari-pinned-tab.svg color=#466bb0><link rel=manifest href=/v1.18/manifest.json><meta name=apple-mobile-web-app-title content="Istio"><meta name=application-name content="Istio"><meta name=msapplication-config content="/browserconfig.xml"><meta name=msapplication-TileColor content="#466BB0"><meta name=theme-color content="#466BB0"><link rel=stylesheet href=/v1.18/css/all.css><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap"><script src=/v1.18/js/themes_init.min.js></script></head><body class="language-unknown archive-site"><script>const branchName="release-1.18",docTitle="多集群服务网格中的分版本路由",iconFile="/v1.18/img/icons.svg",buttonCopy="复制到剪切板",buttonPrint="打印",buttonDownload="下载"</script><script src="https://www.google.com/cse/brand?form=search-form" defer></script>
+<script src=/v1.18/js/all.min.js data-manual defer></script><header class=main-navigation><nav class="main-navigation-wrapper container-l"><div class=main-navigation-header><a id=brand href=/v1.18/zh/ aria-label=logotype><span class=logo><svg xmlns="http://www.w3.org/2000/svg" width="128" height="60" viewBox="0 0 128 60"><path d="M58.434 48.823A.441.441.0 0158.3 48.497V22.583a.444.444.0 01.134-.326.446.446.0 01.327-.134h3.527a.447.447.0 01.325.134.447.447.0 01.134.326v25.914a.443.443.0 01-.134.326.444.444.0 01-.325.134h-3.527a.444.444.0 01-.327-.134z"/><path d="m70.969 48.477a6.556 6.556.0 01-2.818-1.955 4.338 4.338.0 01-1-2.78v-.345a.443.443.0 01.134-.326.444.444.0 01.326-.135h3.374a.444.444.0 01.326.135.445.445.0 01.134.326v.077a2.014 2.014.0 001.054 1.667 4.672 4.672.0 002.664.709 4.446 4.446.0 002.492-.633 1.862 1.862.0 00.958-1.591 1.426 1.426.0 00-.786-1.322 12.7 12.7.0 00-2.549-.939l-1.457-.46a21.526 21.526.0 01-3.3-1.227 6.57 6.57.0 01-2.262-1.783 4.435 4.435.0 01-.92-2.894 5.081 5.081.0 012.109-4.275 8.993 8.993.0 015.558-1.591 10.445 10.445.0 014.1.748 6.3 6.3.0 012.722 2.07 5 5 0 01.958 3.009.441.441.0 01-.134.326.441.441.0 01-.325.134h-3.258a.441.441.0 01-.326-.134.443.443.0 01-.134-.326 1.974 1.974.0 00-.978-1.667 4.647 4.647.0 00-2.665-.671 4.741 4.741.0 00-2.435.556 1.724 1.724.0 00-.938 1.553 1.512 1.512.0 00.9 1.4 15.875 15.875.0 003.01 1.055l.843.229a27.368 27.368.0 013.412 1.246 6.67 6.67.0 012.338 1.763 4.387 4.387.0 01.958 2.933 4.988 4.988.0 01-2.146 4.275 9.543 9.543.0 01-5.712 1.552 11.626 11.626.0 01-4.227-.709z"/><path d="m97.039 32.837a.443.443.0 01-.326.135h-3.911a.169.169.0 00-.191.192v9.239a2.951 2.951.0 00.632 2.108 2.7 2.7.0 002.013.652h1.15a.444.444.0 01.325.134.441.441.0 01.134.326v2.875a.471.471.0 01-.459.5l-1.994.039a8 8 0 01-4.524-1.035q-1.495-1.035-1.533-3.91V33.166A.17.17.0 0088.164 32.974H85.978A.441.441.0 0185.652 32.839.441.441.0 0185.518 32.513V29.83a.441.441.0 01.134-.326.444.444.0 01.326-.135h2.186a.169.169.0 00.191-.192v-4.485a.438.438.0 01.134-.326.44.44.0 01.325-.134h3.336a.443.443.0 01.325.134.442.442.0 01.135.326v4.485a.169.169.0 00.191.192h3.911a.446.446.0 01.326.135.446.446.0 01.134.326v2.683a.446.446.0 01-.133.324z"/><path d="m101.694 25.917a2.645 2.645.0 01-.767-1.955 2.65 2.65.0 01.767-1.955 2.65 2.65.0 011.955-.767 2.65 2.65.0 011.955.767 2.652 2.652.0 01.767 1.955 2.647 2.647.0 01-.767 1.955 2.646 2.646.0 01-1.955.767 2.645 2.645.0 01-1.955-.767zm-.211 22.906a.441.441.0 01-.134-.326V29.79a.444.444.0 01.134-.326.446.446.0 01.326-.134h3.527a.446.446.0 01.326.134.445.445.0 01.134.326v18.707a.443.443.0 01-.134.326.443.443.0 01-.326.134h-3.527a.443.443.0 01-.326-.134z"/><path d="m114.019 47.734a8.1 8.1.0 01-3.047-4.255 14.439 14.439.0 01-.652-4.37 14.3 14.3.0 01.614-4.371A7.869 7.869.0 01114 30.56a9.072 9.072.0 015.252-1.5 8.543 8.543.0 015.041 1.5 7.985 7.985.0 013.009 4.14 12.439 12.439.0 01.69 4.37 13.793 13.793.0 01-.651 4.37 8.255 8.255.0 01-3.028 4.275 8.475 8.475.0 01-5.1 1.553 8.754 8.754.0 01-5.194-1.534zm7.629-3.1a4.536 4.536.0 001.476-2.262 11.335 11.335.0 00.383-3.221 10.618 10.618.0 00-.383-3.22 4.169 4.169.0 00-1.457-2.243 4.066 4.066.0 00-2.531-.785 3.942 3.942.0 00-2.453.785 4.376 4.376.0 00-1.5 2.243 11.839 11.839.0 00-.383 3.22 11.84 11.84.0 00.383 3.221 4.222 4.222.0 001.476 2.262 4.075 4.075.0 002.549.8 3.8 3.8.0 002.44-.809z"/><path d="m15.105 32.057v15.565a.059.059.0 01-.049.059L.069 50.25A.06.06.0 01.005 50.167l14.987-33.47a.06.06.0 01.114.025z"/><path d="m17.631 23.087v24.6a.06.06.0 00.053.059l22.449 2.507a.06.06.0 00.061-.084L17.745.032a.06.06.0 00-.114.024z"/><path d="m39.961 52.548-24.833 7.45a.062.062.0 01-.043.0L.079 52.548a.059.059.0 01.026-.113h39.839a.06.06.0 01.017.113z"/></svg></span></a><button id=hamburger class=main-navigation-toggle aria-label="Open navigation"><svg class="icon menu-hamburger"><use xlink:href="/v1.18/img/icons.svg#menu-hamburger"/></svg></button>
+<button id=menu-close class=main-navigation-toggle aria-label="Close navigation"><svg class="icon menu-close"><use xlink:href="/v1.18/img/icons.svg#menu-close"/></svg></button></div><div id=header-links class=main-navigation-links-wrapper><ul class=main-navigation-links><li class=main-navigation-links-item><a class="main-navigation-links-link has-dropdown"><span>关于</span><svg class="icon dropdown-arrow"><use xlink:href="/v1.18/img/icons.svg#dropdown-arrow"/></svg></a><ul class=main-navigation-links-dropdown><li class=main-navigation-links-dropdown-item><a href=/v1.18/zh/about/service-mesh class=main-navigation-links-link>服务网格</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.18/zh/about/solutions class=main-navigation-links-link>解决方案</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.18/zh/about/case-studies class=main-navigation-links-link>案例学习</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.18/zh/about/ecosystem class=main-navigation-links-link>生态系统</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.18/zh/about/deployment class=main-navigation-links-link>部署</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.18/zh/about/faq class=main-navigation-links-link>FAQ</a></li></ul></li><li class=main-navigation-links-item><a href=/v1.18/zh/blog/ class=main-navigation-links-link><span>博客</span></a></li><li class=main-navigation-links-item><a href=/v1.18/zh/news/ class=main-navigation-links-link><span>新闻</span></a></li><li class=main-navigation-links-item><a href=/v1.18/zh/get-involved/ class=main-navigation-links-link><span>加入我们</span></a></li><li class=main-navigation-links-item><a href=/v1.18/zh/docs/ class=main-navigation-links-link><span>文档</span></a></li></ul><div class=main-navigation-footer><button id=search-show class=search-show title='搜索 istio.io' aria-label=搜索><svg class="icon magnifier"><use xlink:href="/v1.18/img/icons.svg#magnifier"/></svg></button>
+<a href=/v1.18/zh/docs/setup/getting-started class="btn btn--primary" id=try-istio>试用 Istio</a></div></div><form id=search-form class=search name=cse role=search><input type=hidden name=cx value=002184991200833970123:iwwf17ikgf4>
+<input type=hidden name=ie value=utf-8>
+<input type=hidden name=hl value=zh>
+<input type=hidden id=search-page-url value=/zh/search>
+<input id=search-textbox class="search-textbox form-control" name=q type=search aria-label='搜索 istio.io' placeholder=搜索>
+<button id=search-close title=取消搜索 type=reset aria-label=取消搜索><svg class="icon menu-close"><use xlink:href="/v1.18/img/icons.svg#menu-close"/></svg></button></form></nav></header><div class=banner-container></div><article class=post itemscope itemtype=http://schema.org/BlogPosting><div class=header-content><h1>多集群服务网格中的分版本路由</h1><p>在多集群服务网格环境中配置 Istio 的路由规则。</p></div><p class=post-author>Feb 7, 2019 <span>|</span> By Frank Budinsky - IBM</p><div><aside class="callout warning"><div class=type><svg class="large-icon"><use xlink:href="/v1.18/img/icons.svg#callout-warning"/></svg></div><div class=content>该博客文章是在 Istio 1 的版本下编写的，因此其中某些内容现在可能已过时。</div></aside></div><div><p>如果花一点时间对 Istio 进行了解，你可能会注意到，大量的功能都可以在单一的 Kubernetes 集群中，用简单的<a href=/v1.18/zh/docs/tasks>任务</a>和<a href=/v1.18/zh/docs/examples/>示例</a>所表达的方式来运行。但是真实世界中的云计算和基于微服务的应用往往不是这么简单的，会需要在不止一个地点分布运行，用户难免会产生怀疑，生产环境中是否还能这样运行？</p><p>幸运的是，Istio 提供了多种服务网格的配置方式，应用能够用近乎透明的方式加入一个跨越多个集群运行的服务网格之中，也就是<a href=/v1.18/zh/docs/ops/deployment/deployment-models/#multiple-clusters>多集群服务网格</a> 。最简单的设置多集群网格的方式，就是使用<a href=/v1.18/zh/docs/ops/deployment/deployment-models/#control-plane-models>多控制平面拓扑</a> ，这种方式不需要特别的网络依赖。在这种条件下，每个 Kubernetes 集群都有自己的控制平面，但是每个控制平面都是同步的，并接受统一的管理。</p><p>本文中，我们会在多控制平面拓扑形式的多集群网格中尝试一下 Istio 的<a href=/v1.18/zh/docs/concepts/traffic-management/>流量管理</a>功能。我们会展示如何配置 Istio 路由规则，在多集群服务网格中部署 <a href=https://github.com/istio/istio/tree/release-1.18/samples/bookinfo>Bookinfo 示例</a>，<code>reviews</code> 服务的 <code>v1</code> 版本运行在一个集群上，而 <code>v2</code> 和 <code>v3</code> 运行在另一个集群上，并完成远程服务调用。</p><h2 id=setup-clusters>集群部署</h2><p>首先需要部署两个 Kubernetes 集群，并各自运行一个做了轻度定制的 Istio。</p><ul><li><p>依照<a href=/v1.18/zh/docs/setup/install/multicluster/gateways/>使用 Gateway 连接多个集群</a>中提到的步骤设置一个多集群环境。</p></li><li><p><code>kubectl</code> 命令可以使用 <code>--context</code> 参数访问两个集群。
+使用下面的命令列出所有 <code>context</code>：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl config get-contexts
+CURRENT   NAME       CLUSTER    AUTHINFO       NAMESPACE
+*         cluster1   cluster1   user@foo.com   default
+          cluster2   cluster2   user@foo.com   default
+</code></pre></li><li><p>将配置文件中的 <code>context</code> 名称赋值给两个环境变量：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ export CTX_CLUSTER1=&lt;cluster1 context name&gt;
+$ export CTX_CLUSTER2=&lt;cluster2 context name&gt;
+</code></pre></li></ul><h2 id=deploy-in-cluster-1>在 <code>cluster1</code> 中部署 <code>bookinfo</code> 的 <code>v1</code> 版本</h2><p>在 <code>cluster1</code> 中运行 <code>productpage</code> 和 <code>details</code> 服务，以及 <code>reviews</code> 服务的 <code>v1</code> 版本。</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl label --context=$CTX_CLUSTER1 namespace default istio-injection=enabled
+$ kubectl apply --context=$CTX_CLUSTER1 -f - &lt;&lt;EOF
+apiVersion: v1
+kind: Service
+metadata:
+  name: productpage
+  labels:
+    app: productpage
+spec:
+  ports:
+  - port: 9080
+    name: http
+  selector:
+    app: productpage
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: productpage-v1
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: productpage
+        version: v1
+    spec:
+      containers:
+      - name: productpage
+        image: istio/examples-bookinfo-productpage-v1:1.10.0
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 9080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: details
+  labels:
+    app: details
+spec:
+  ports:
+  - port: 9080
+    name: http
+  selector:
+    app: details
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: details-v1
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: details
+        version: v1
+    spec:
+      containers:
+      - name: details
+        image: istio/examples-bookinfo-details-v1:1.10.0
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 9080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: reviews
+  labels:
+    app: reviews
+spec:
+  ports:
+  - port: 9080
+    name: http
+  selector:
+    app: reviews
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: reviews-v1
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: reviews
+        version: v1
+    spec:
+      containers:
+      - name: reviews
+        image: istio/examples-bookinfo-reviews-v1:1.10.0
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 9080
+EOF
+</code></pre><h2 id=deploy-in-cluster-2>在 <code>cluster2</code> 中部署 <code>bookinfo</code> 的 <code>v2</code> 和 <code>v3</code></h2><p>在 <code>cluster2</code> 中运行 <code>ratings</code> 服务以及 <code>reviews</code> 服务的 <code>v2</code> 和 <code>v3</code> 版本：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl label --context=$CTX_CLUSTER2 namespace default istio-injection=enabled
+$ kubectl apply --context=$CTX_CLUSTER2 -f - &lt;&lt;EOF
+apiVersion: v1
+kind: Service
+metadata:
+  name: ratings
+  labels:
+    app: ratings
+spec:
+  ports:
+  - port: 9080
+    name: http
+  selector:
+    app: ratings
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ratings-v1
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ratings
+        version: v1
+    spec:
+      containers:
+      - name: ratings
+        image: istio/examples-bookinfo-ratings-v1:1.10.0
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 9080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: reviews
+  labels:
+    app: reviews
+spec:
+  ports:
+  - port: 9080
+    name: http
+  selector:
+    app: reviews
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: reviews-v2
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: reviews
+        version: v2
+    spec:
+      containers:
+      - name: reviews
+        image: istio/examples-bookinfo-reviews-v2:1.10.0
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 9080
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: reviews-v3
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: reviews
+        version: v3
+    spec:
+      containers:
+      - name: reviews
+        image: istio/examples-bookinfo-reviews-v3:1.10.0
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 9080
+EOF
+</code></pre><h2 id=access-the-application>访问 <code>bookinfo</code> 应用</h2><p>和平常一样，我们需要使用一个 Istio gateway 来访问 <code>bookinfo</code> 应用。</p><ul><li><p>在 <code>cluster1</code> 中创建 <code>bookinfo</code> 的网关：</p><div><a data-skipendnotes=true style=display:none href=https://raw.githubusercontent.com/istio/istio/release-1.18/samples/bookinfo/networking/bookinfo-gateway.yaml>Zip</a><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl apply --context=$CTX_CLUSTER1 -f @samples/bookinfo/networking/bookinfo-gateway.yaml@
+</code></pre></div></li><li><p>遵循 <a href=/v1.18/zh/docs/examples/bookinfo/#determine-the-ingress-IP-and-port>Bookinfo 示例应用</a>中的步骤，确定 Ingress 的 IP 和端口，用浏览器打开 <code>http://$GATEWAY_URL/productpage</code>。</p></li></ul><p>这里会看到 <code>productpage</code>，其中包含了 <code>reviews</code> 的内容，但是没有出现 <code>ratings</code>，这是因为只有 <code>reviews</code> 服务的 <code>v1</code> 版本运行在 <code>cluster1</code> 上，我们还没有配置到 <code>cluster2</code> 的访问。</p><h2 id=在-cluster1-上为远端的-reviews-服务创建-serviceentry-以及-destinationrule>在 <code>cluster1</code> 上为远端的 <code>reviews</code> 服务创建 <code>ServiceEntry</code> 以及 <code>DestinationRule</code></h2><p>根据<a href=/v1.18/zh/docs/setup/install/multicluster/gateways/#setup-DNS>配置指南</a>中的介绍，远程服务可以用一个 <code>.global</code> 的 DNS 名称进行访问。在我们的案例中，就是 <code>reviews.default.global</code>，所以我们需要为这个主机创建 <code>ServiceEntry</code> 和 <code>DestinationRule</code>。<code>ServiceEntry</code> 会使用 <code>cluster2</code> 网关作为端点地址来访问服务。可以使用网关的 DNS 名称或者公共 IP：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ export CLUSTER2_GW_ADDR=$(kubectl get --context=$CTX_CLUSTER2 svc --selector=app=istio-ingressgateway \
+    -n istio-system -o jsonpath=&#34;{.items[0].status.loadBalancer.ingress[0].ip}&#34;)
+</code></pre><p>用下面的命令来创建 <code>ServiceEntry</code> 和 <code>DestinationRule</code>：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl apply --context=$CTX_CLUSTER1 -f - &lt;&lt;EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: reviews-default
+spec:
+  hosts:
+  - reviews.default.global
+  location: MESH_INTERNAL
+  ports:
+  - name: http1
+    number: 9080
+    protocol: http
+  resolution: DNS
+  addresses:
+  - 240.0.0.3
+  endpoints:
+  - address: ${CLUSTER2_GW_ADDR}
+    labels:
+      cluster: cluster2
+    ports:
+      http1: 15443 # 不要修改端口值
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: reviews-global
+spec:
+  host: reviews.default.global
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+  subsets:
+  - name: v2
+    labels:
+      cluster: cluster2
+  - name: v3
+    labels:
+      cluster: cluster2
+EOF
+</code></pre><p><code>ServiceEntry</code> 的地址 <code>240.0.0.3</code> 可以是任意的未分配 IP。在 <code>240.0.0.0/4</code> 的范围里面进行选择是个不错的主意。阅读<a href=/v1.18/zh/docs/setup/install/multicluster/gateways/#configure-the-example-services>通过网关进行连接的多集群</a>一文，能够获得更多相关信息。</p><p>注意 <code>DestinationRule</code> 中的 <code>subset</code> 的标签，<code>cluster: cluster2</code> 对应的是 <code>cluster2</code> 网关。一旦流量到达目标集群，就会由本地目的 <code>DestinationRule</code> 来鉴别实际的 Pod 标签（<code>version: v1</code> 或者 <code>version: v2</code>）</p><h2 id=在所有集群上为本地-reviews-服务创建-destinationrule>在所有集群上为本地 <code>reviews</code> 服务创建 <code>DestinationRule</code></h2><p>技术上来说，我们只需要为每个集群定义本地的 <code>subset</code> 即可（<code>cluster1</code> 中的 <code>v1</code>，<code>cluster2</code> 中的 <code>v2</code> 和 <code>v3</code>），但是定义一个用不到的并未部署的版本也没什么大碍，为了清晰一点，我们会在两个集群上都创建全部三个 <code>subset</code>。</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl apply --context=$CTX_CLUSTER1 -f - &lt;&lt;EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: reviews
+spec:
+  host: reviews.default.svc.cluster.local
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+  - name: v2
+    labels:
+      version: v2
+  - name: v3
+    labels:
+      version: v3
+EOF
+</code></pre><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl apply --context=$CTX_CLUSTER2 -f - &lt;&lt;EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: reviews
+spec:
+  host: reviews.default.svc.cluster.local
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+  - name: v2
+    labels:
+      version: v2
+  - name: v3
+    labels:
+      version: v3
+EOF
+</code></pre><h2 id=create-a-destination-rule-on-both-clusters-for-the-local-reviews-service>创建 <code>VirtualService</code> 来路由 <code>reviews</code> 服务的流量</h2><p>目前所有调用 <code>reviews</code> 服务的流量都会进入本地的 <code>reviews</code> Pod，也就是 <code>v1</code>，如果查看一下远吗，会发现 <code>productpage</code> 的实现只是简单的对 <code>http://reviews:9080</code> （也就是 <code>reviews.default.svc.cluster.local</code>）发起了请求，也就是本地版本。对应的远程服务名称为 <code>reviews.default.global</code>，所以需要用路由规则来把请求转发到远端集群。</p><div><aside class="callout tip"><div class=type><svg class="large-icon"><use xlink:href="/v1.18/img/icons.svg#callout-tip"/></svg></div><div class=content>注意如果所有版本的 <code>reviews</code> 服务都在远端，也就是说本地没有 <code>reviews</code> 服务，那么 DNS 就会把 <code>reviews</code> 直接解析到 <code>reviews.default.global</code>，在本文的环境里，无需定义任何路由规则就可以发起对远端集群的请求。</div></aside></div><p>创建下列的 <code>VirtualService</code>，把 <code>jason</code> 的流量转发给运行在 <code>cluster2</code> 上的 <code>v2</code> 和 <code>v3</code> 版本的 <code>reviews</code>，两个版本各负责一半流量。其他用户的流量还是会发给 <code>v1</code> 版本的 <code>reviews</code>。</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl apply --context=$CTX_CLUSTER1 -f - &lt;&lt;EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: reviews
+spec:
+  hosts:
+    - reviews.default.svc.cluster.local
+  http:
+  - match:
+    - headers:
+        end-user:
+          exact: jason
+    route:
+    - destination:
+        host: reviews.default.global
+        subset: v2
+      weight: 50
+    - destination:
+        host: reviews.default.global
+        subset: v3
+      weight: 50
+  - route:
+    - destination:
+        host: reviews.default.svc.cluster.local
+        subset: v1
+EOF
+</code></pre><div><aside class="callout tip"><div class=type><svg class="large-icon"><use xlink:href="/v1.18/img/icons.svg#callout-tip"/></svg></div><div class=content>这种平均分配的规则并不实际，只是一种用于演示远端服务多版本之间流量分配的方便手段。</div></aside></div><p>回到浏览器，用 <code>jason</code> 的身份登录。刷新页面几次，会看到星形图标在红黑两色之间切换（<code>v2</code> 和 <code>v3</code>）。如果登出，就只会看到没有 <code>ratings</code> 的 <code>reviews</code> 服务了。</p><h2 id=summary>总结</h2><p>本文中，我们看到在多控制平面拓扑的多集群网格中，如何使用 Istio 路由规则进行跨集群的流量分配。
+这里我们手工配置了 <code>.global</code> 的 <code>ServiceEntry</code> 以及 <code>DestinationRule</code>，用于进行对远端集群中 <code>reviews</code> 服务的访问。实际上如果我们想要的话，可以让任何服务都在远端或本地运行，当然需要为远端服务配置 <code>.global</code> 的相关资源。幸运的是，这个过程可以自动化，并且可能在 Istio 的未来版本中实现。</p></div><nav class=pagenav><div class=left><a title="Istio 1.1 性能概览。" href=/v1.18/zh/blog/2019/istio1.1_perf/ class=next-link><svg class="icon left-arrow"><use xlink:href="/v1.18/img/icons.svg#left-arrow"/></svg>为性能而设计的 Istio 1.1</a></div><div class=right><a title=宣布新的博客策略。 href=/v1.18/zh/blog/2019/sail-the-blog/ class=next-link>博客策略更新！<svg class="icon right-arrow"><use xlink:href="/v1.18/img/icons.svg#right-arrow"/></svg></a></div></nav></article><footer class=footer><div class="footer-wrapper container-l"><div class="user-links footer-links"><a class=channel title='Istio 的代码在 GitHub 上开发' href=https://github.com/istio/community aria-label=GitHub><svg class="icon github"><use xlink:href="/v1.18/img/icons.svg#github"/></svg></a><a class=channel title='如果您想深入了解 Istio 的技术细节，请查看我们日益完善的设计文档' href=https://groups.google.com/forum/#!forum/istio-team-drive-access aria-label="team drive"><svg class="icon drive"><use xlink:href="/v1.18/img/icons.svg#drive"/></svg></a><a class=channel title='在 Slack 上与 Istio 社区交互讨论开发问题（仅限邀请）' href=https://slack.istio.io aria-label=slack><svg class="icon slack"><use xlink:href="/v1.18/img/icons.svg#slack"/></svg></a><a class=channel title='Stack Overflow 中列举了针对实际问题以及部署、配置和使用 Istio 的各项回答' href=https://stackoverflow.com/questions/tagged/istio aria-label="Stack Overflow"><svg class="icon stackoverflow"><use xlink:href="/v1.18/img/icons.svg#stackoverflow"/></svg></a><a class=channel title='关注我们的 Twitter 来获取最新信息' href=https://twitter.com/IstioMesh aria-label=Twitter><svg class="icon twitter"><use xlink:href="/v1.18/img/icons.svg#twitter"/></svg></a></div><hr class=footer-separator role=separator><div class="info footer-info"><a class=logo href=/v1.18/zh/ aria-label=logotype><svg xmlns="http://www.w3.org/2000/svg" width="128" height="60" viewBox="0 0 128 60"><path d="M58.434 48.823A.441.441.0 0158.3 48.497V22.583a.444.444.0 01.134-.326.446.446.0 01.327-.134h3.527a.447.447.0 01.325.134.447.447.0 01.134.326v25.914a.443.443.0 01-.134.326.444.444.0 01-.325.134h-3.527a.444.444.0 01-.327-.134z"/><path d="m70.969 48.477a6.556 6.556.0 01-2.818-1.955 4.338 4.338.0 01-1-2.78v-.345a.443.443.0 01.134-.326.444.444.0 01.326-.135h3.374a.444.444.0 01.326.135.445.445.0 01.134.326v.077a2.014 2.014.0 001.054 1.667 4.672 4.672.0 002.664.709 4.446 4.446.0 002.492-.633 1.862 1.862.0 00.958-1.591 1.426 1.426.0 00-.786-1.322 12.7 12.7.0 00-2.549-.939l-1.457-.46a21.526 21.526.0 01-3.3-1.227 6.57 6.57.0 01-2.262-1.783 4.435 4.435.0 01-.92-2.894 5.081 5.081.0 012.109-4.275 8.993 8.993.0 015.558-1.591 10.445 10.445.0 014.1.748 6.3 6.3.0 012.722 2.07 5 5 0 01.958 3.009.441.441.0 01-.134.326.441.441.0 01-.325.134h-3.258a.441.441.0 01-.326-.134.443.443.0 01-.134-.326 1.974 1.974.0 00-.978-1.667 4.647 4.647.0 00-2.665-.671 4.741 4.741.0 00-2.435.556 1.724 1.724.0 00-.938 1.553 1.512 1.512.0 00.9 1.4 15.875 15.875.0 003.01 1.055l.843.229a27.368 27.368.0 013.412 1.246 6.67 6.67.0 012.338 1.763 4.387 4.387.0 01.958 2.933 4.988 4.988.0 01-2.146 4.275 9.543 9.543.0 01-5.712 1.552 11.626 11.626.0 01-4.227-.709z"/><path d="m97.039 32.837a.443.443.0 01-.326.135h-3.911a.169.169.0 00-.191.192v9.239a2.951 2.951.0 00.632 2.108 2.7 2.7.0 002.013.652h1.15a.444.444.0 01.325.134.441.441.0 01.134.326v2.875a.471.471.0 01-.459.5l-1.994.039a8 8 0 01-4.524-1.035q-1.495-1.035-1.533-3.91V33.166A.17.17.0 0088.164 32.974H85.978A.441.441.0 0185.652 32.839.441.441.0 0185.518 32.513V29.83a.441.441.0 01.134-.326.444.444.0 01.326-.135h2.186a.169.169.0 00.191-.192v-4.485a.438.438.0 01.134-.326.44.44.0 01.325-.134h3.336a.443.443.0 01.325.134.442.442.0 01.135.326v4.485a.169.169.0 00.191.192h3.911a.446.446.0 01.326.135.446.446.0 01.134.326v2.683a.446.446.0 01-.133.324z"/><path d="m101.694 25.917a2.645 2.645.0 01-.767-1.955 2.65 2.65.0 01.767-1.955 2.65 2.65.0 011.955-.767 2.65 2.65.0 011.955.767 2.652 2.652.0 01.767 1.955 2.647 2.647.0 01-.767 1.955 2.646 2.646.0 01-1.955.767 2.645 2.645.0 01-1.955-.767zm-.211 22.906a.441.441.0 01-.134-.326V29.79a.444.444.0 01.134-.326.446.446.0 01.326-.134h3.527a.446.446.0 01.326.134.445.445.0 01.134.326v18.707a.443.443.0 01-.134.326.443.443.0 01-.326.134h-3.527a.443.443.0 01-.326-.134z"/><path d="m114.019 47.734a8.1 8.1.0 01-3.047-4.255 14.439 14.439.0 01-.652-4.37 14.3 14.3.0 01.614-4.371A7.869 7.869.0 01114 30.56a9.072 9.072.0 015.252-1.5 8.543 8.543.0 015.041 1.5 7.985 7.985.0 013.009 4.14 12.439 12.439.0 01.69 4.37 13.793 13.793.0 01-.651 4.37 8.255 8.255.0 01-3.028 4.275 8.475 8.475.0 01-5.1 1.553 8.754 8.754.0 01-5.194-1.534zm7.629-3.1a4.536 4.536.0 001.476-2.262 11.335 11.335.0 00.383-3.221 10.618 10.618.0 00-.383-3.22 4.169 4.169.0 00-1.457-2.243 4.066 4.066.0 00-2.531-.785 3.942 3.942.0 00-2.453.785 4.376 4.376.0 00-1.5 2.243 11.839 11.839.0 00-.383 3.22 11.84 11.84.0 00.383 3.221 4.222 4.222.0 001.476 2.262 4.075 4.075.0 002.549.8 3.8 3.8.0 002.44-.809z"/><path d="m15.105 32.057v15.565a.059.059.0 01-.049.059L.069 50.25A.06.06.0 01.005 50.167l14.987-33.47a.06.06.0 01.114.025z"/><path d="m17.631 23.087v24.6a.06.06.0 00.053.059l22.449 2.507a.06.06.0 00.061-.084L17.745.032a.06.06.0 00-.114.024z"/><path d="m39.961 52.548-24.833 7.45a.062.062.0 01-.043.0L.079 52.548a.059.059.0 01.026-.113h39.839a.06.06.0 01.017.113z"/></svg></a><div class=footer-languages><a tabindex=-1 lang=en id=switch-lang-en class=footer-languages-item>English</a>
+<a tabindex=-1 lang=zh id=switch-lang-zh class="footer-languages-item active"><svg class="icon tick"><use xlink:href="/v1.18/img/icons.svg#tick"/></svg>中文</a></div></div><ul class=footer-policies><li class=footer-policies-item><a class=footer-policies-link href=https://www.linuxfoundation.org/legal/terms>条款</a> |
+<a class=footer-policies-link href=https://www.linuxfoundation.org/legal/privacy-policy>隐私政策</a> |
+<a class=footer-policies-link href=https://github.com/istio/istio.io/edit/release-1.18/content/zh/blog/2019/multicluster-version-routing/index.md>在 GitHub 上编辑此页</a></li></ul><div class=footer-base><span class=footer-base-copyright>&copy; 2023 the Istio Authors.</span>
+<span class=footer-base-version>部分内容可能滞后于英文版本，同步工作正在进行中<br>版本
+Istio 归档
+1.18.2</span><ul class=footer-base-releases><li class=footer-base-releases-item><a tabindex=-1 class=footer-base-releases-link onclick='return navigateToUrlOrRoot("https://istio.io/blog/2019/multicluster-version-routing/"),!1'>当前版本</a></li><li class=footer-base-releases-item><a tabindex=-1 class=footer-base-releases-link onclick='return navigateToUrlOrRoot("https://preliminary.istio.io/blog/2019/multicluster-version-routing/"),!1'>下个版本</a></li><li class=footer-base-releases-item><a tabindex=-1 class=footer-base-releases-link href=https://istio.io/archive>旧版本</a></li></ul></div></div></footer><div id=scroll-to-top-container aria-hidden=true><button id=scroll-to-top title=回到顶部 tabindex=-1><svg class="icon top"><use xlink:href="/v1.18/img/icons.svg#top"/></svg></button></div></body></html>

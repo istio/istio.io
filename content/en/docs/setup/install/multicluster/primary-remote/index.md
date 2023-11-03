@@ -177,7 +177,7 @@ To provide API Server access to `cluster2`, we generate a remote secret and
 apply it to `cluster1`:
 
 {{< text bash >}}
-$ istioctl x create-remote-secret \
+$ istioctl create-remote-secret \
     --context="${CTX_CLUSTER2}" \
     --name=cluster2 | \
     kubectl apply -f - --context="${CTX_CLUSTER1}"

@@ -19,7 +19,7 @@ Ambient mesh is designed for simplified operations, broader application compatib
 
 ## Get involved
 
-Follow our [getting started guide](http://preliminary.istio.io/latest/docs/ops/ambient/getting-started/) to try the ambient pre-alpha build today. We'd love to hear from you! To learn more about ambient:
+Follow our [getting started guide](http://istio.io/latest/docs/ops/ambient/getting-started/) to try the ambient pre-alpha build today. We'd love to hear from you! To learn more about ambient:
 
 * Join us in the #ambient and #ambient-dev channel in Istio’s [slack](https://slack.istio.io).
 * Attend the weekly ambient contributor [meeting](https://github.com/istio/community/blob/master/WORKING-GROUPS.md#working-group-meetings) on Wednesdays.

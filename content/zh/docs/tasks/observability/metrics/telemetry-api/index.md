@@ -18,7 +18,8 @@ Telemetry API 现在已经成为 Istio 中的主流API。
 
 需要注意的是，Telemetry API 无法与 `EnvoyFilter` 一起使用。
 有关更多详细信息，请查看此问题 [issue](https://github.com/istio/istio/issues/39772)。
-* 从 Istio 版本 `1.18` 开始，默认情况下不会安装 `EnvoyFilter`。
+* 从 Istio 版本 `1.18` 开始，Prometheus 的 `EnvoyFilter` 默认不会被安装，
+  而是通过 `meshConfig.defaultProviders` 来启用它。您应使用 Telemetry API 来进一步定制遥测流程。
 
 * 对于 Istio `1.18` 之前的版本，您应该使用以下的 `IstioOperator` 配置进行安装：
 
@@ -71,13 +72,13 @@ spec:
       metrics:
         - overrides:
             - match:
-                metric: ALL_METRICS
+                metric: REQUEST_COUNT
                 mode: CLIENT
               tagOverrides:
                 destination_x:
                   value: upstream_peer.labels['app'].value
             - match:
-                metric: ALL_METRICS
+                metric: REQUEST_COUNT
                 mode: SERVER
               tagOverrides:
                 source_x:

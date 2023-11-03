@@ -78,8 +78,8 @@ then
   make "$ISTIOCTL_ARTIFACT"
   cp -a "$ISTIOCTL_ARTIFACT" "${ISTIOIO_BIN}/istioctl"
 else
-  make "${ISTIO_OUT}/release/istioctl-linux-amd64"
-  cp -a "${ISTIO_OUT}/release/istioctl-linux-amd64" /gobin/istioctl
+  make "${ISTIO_OUT}/release/istioctl-linux-${GOARCH_LOCAL}"
+  cp -a "${ISTIO_OUT}/release/istioctl-linux-${GOARCH_LOCAL}" /gobin/istioctl
 fi
 
 popd > /dev/null

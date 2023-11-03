@@ -332,7 +332,7 @@ $ export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -
 
     {{< text bash >}}
     $ echo "$GATEWAY_URL"
-    192.168.99.100:32194
+    127.0.0.1:80
     {{< /text >}}
 
 ### Verify external access {#confirm}

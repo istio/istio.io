@@ -21,7 +21,7 @@ test: no
     {{< image width="60%" link="./dockerprefs.png"  caption="Docker Preferences"  >}}
 
     {{< warning >}}
-    Minimum memory requirements vary.  8 `GB` is sufficent to run
+    Minimum memory requirements vary.  8 `GB` is sufficient to run
     Istio and Bookinfo.  If you don't have enough memory allocated in Docker Desktop,
     the following errors could occur:
 

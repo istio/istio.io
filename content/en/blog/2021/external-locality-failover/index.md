@@ -35,25 +35,25 @@ Next, create a `ServiceEntry` which aggregates the endpoints you want to use. In
 apiVersion: networking.istio.io/v1beta1
 kind: ServiceEntry
 metadata:
- name: external-svc-dns
+  name: external-svc-dns
 spec:
- hosts:
- - mydb.com
- location: MESH_EXTERNAL
- ports:
- - number: 80
-   name: http
-   protocol: HTTP
- resolution: DNS
- endpoints:
- - address: dynamodb.us-east-1.amazonaws.com
-   locality: us-east1
-   ports:
-     http: 80
- - address: dynamodb.us-west-1.amazonaws.com
-   locality: us-west
-   ports:
-     http: 80
+  hosts:
+  - mydb.com
+  location: MESH_EXTERNAL
+  ports:
+  - number: 80
+    name: http
+    protocol: HTTP
+  resolution: DNS
+  endpoints:
+  - address: dynamodb.us-east-1.amazonaws.com
+    locality: us-east1
+    ports:
+      http: 80
+  - address: dynamodb.us-west-1.amazonaws.com
+    locality: us-west
+    ports:
+      http: 80
 {{< /text >}}
 
 Let’s deploy a sleep container to use as a test source for sending requests.
@@ -85,14 +85,14 @@ Istio’s `DestinationRule` lets you configure load balancing, connection pool, 
 apiVersion: networking.istio.io/v1beta1
 kind: DestinationRule
 metadata:
- name: mydynamodb
+  name: mydynamodb
 spec:
- host: mydb.com
- trafficPolicy:
-   outlierDetection:
-     consecutive5xxErrors: 1
-     interval: 15s
-     baseEjectionTime: 1m
+  host: mydb.com
+  trafficPolicy:
+    outlierDetection:
+      consecutive5xxErrors: 1
+      interval: 15s
+      baseEjectionTime: 1m
 {{< /text >}}
 
 The above `DestinationRule` configures the endpoints to be scanned every 15 seconds, and if any endpoint fails with a 5xx error code, even once, it will be marked unhealthy for one minute. If this circuit breaker is not triggered, the traffic will route to the same region as the pod.
@@ -117,25 +117,25 @@ Next, let's see what happens if the us-east endpoint goes down. To simulate this
 apiVersion: networking.istio.io/v1beta1
 kind: ServiceEntry
 metadata:
- name: external-svc-dns
+  name: external-svc-dns
 spec:
- hosts:
- - mydb.com
- location: MESH_EXTERNAL
- ports:
- - number: 80
-   name: http
-   protocol: HTTP
- resolution: DNS
- endpoints:
- - address: dynamodb.us-east-1.amazonaws.com
-   locality: us-east1
-   ports:
-     http: 81 # INVALID - This is purposefully wrong to trigger failover
- - address: dynamodb.us-west-1.amazonaws.com
-   locality: us-west
-   ports:
-     http: 80
+  hosts:
+  - mydb.com
+  location: MESH_EXTERNAL
+  ports:
+  - number: 80
+    name: http
+    protocol: HTTP
+  resolution: DNS
+  endpoints:
+  - address: dynamodb.us-east-1.amazonaws.com
+    locality: us-east1
+    ports:
+      http: 81 # INVALID - This is purposefully wrong to trigger failover
+  - address: dynamodb.us-west-1.amazonaws.com
+    locality: us-west
+    ports:
+      http: 80
 {{< /text >}}
 
 Running our curl again shows that traffic is automatically failed over to our us-west region after failing to connect to the us-east endpoint:
@@ -166,21 +166,21 @@ Configuring failover for external HTTPS services is just as easy. Your applicati
 apiVersion: networking.istio.io/v1beta1
 kind: ServiceEntry
 metadata:
- name: external-svc-dns
+  name: external-svc-dns
 spec:
- hosts:
- - mydb.com
- ports:
- - number: 80
-   name: http-port
-   protocol: HTTP
-   targetPort: 443
- resolution: DNS
- endpoints:
- - address: dynamodb.us-east-1.amazonaws.com
-   locality: us-east1
- - address: dynamodb.us-west-1.amazonaws.com
-   locality: us-west
+  hosts:
+  - mydb.com
+  ports:
+  - number: 80
+    name: http-port
+    protocol: HTTP
+    targetPort: 443
+  resolution: DNS
+  endpoints:
+  - address: dynamodb.us-east-1.amazonaws.com
+    locality: us-east1
+  - address: dynamodb.us-west-1.amazonaws.com
+    locality: us-west
 {{< /text >}}
 
 The above ServiceEntry defines the `mydb.com` service on port 80 and redirects traffic to the real DynamoDB endpoints on port 443.
@@ -189,26 +189,26 @@ The above ServiceEntry defines the `mydb.com` service on port 80 and redirects t
 apiVersion: networking.istio.io/v1beta1
 kind: DestinationRule
 metadata:
- name: mydynamodb
+  name: mydynamodb
 spec:
- host: mydb.com
- trafficPolicy:
-   tls:
-     mode: SIMPLE
-   loadBalancer:
-     simple: ROUND_ROBIN
-     localityLbSetting:
-       enabled: true
-       failover:
-         - from: us-east1
-           to: us-west
-   outlierDetection:
-     consecutive5xxErrors: 1
-     interval: 15s
-     baseEjectionTime: 1m
+  host: mydb.com
+  trafficPolicy:
+    tls:
+      mode: SIMPLE
+    loadBalancer:
+      simple: ROUND_ROBIN
+      localityLbSetting:
+        enabled: true
+        failover:
+          - from: us-east1
+            to: us-west
+    outlierDetection:
+      consecutive5xxErrors: 1
+      interval: 15s
+      baseEjectionTime: 1m
 {{< /text >}}
 
- The `DestinationRule` now performs TLS origination and configures the outlier detection. The rule also has a [failover](/docs/reference/config/networking/destination-rule/#LocalityLoadBalancerSetting) field configured where you can specify exactly what regions are failover targets. This is useful when you have several regions defined.
+The `DestinationRule` now performs TLS origination and configures the outlier detection. The rule also has a [failover](/docs/reference/config/networking/destination-rule/#LocalityLoadBalancerSetting) field configured where you can specify exactly what regions are failover targets. This is useful when you have several regions defined.
 
 ## Wrapping Up
 

@@ -120,7 +120,7 @@ to understand how `X-Forwarded-For` headers and trusted client addresses are det
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text syntax=bash snip_id=deploy_httpbin_gateway >}}
 $ kubectl apply -n httpbin -f @samples/httpbin/httpbin-gateway.yaml@
@@ -143,7 +143,7 @@ $ kubectl wait --for=condition=programmed gtw -n httpbin httpbin-gateway
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text syntax=bash snip_id=export_gateway_url >}}
 $ export GATEWAY_URL=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
@@ -250,7 +250,7 @@ If your external TCP load balancer is configured to forward TCP traffic and use 
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text syntax=yaml snip_id=none >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -260,13 +260,13 @@ metadata:
   namespace: istio-system
 spec:
   configPatches:
-  - applyTo: LISTENER
+  - applyTo: LISTENER_FILTER
     patch:
-      operation: MERGE
+      operation: INSERT_FIRST
       value:
-        listener_filters:
-        - name: envoy.listener.proxy_protocol
-        - name: envoy.listener.tls_inspector
+        name: proxy_protocol
+        typed_config:
+          "@type": "type.googleapis.com/envoy.extensions.filters.listener.proxy_protocol.v3.ProxyProtocol"
   workloadSelector:
     labels:
       istio: ingressgateway
@@ -284,13 +284,13 @@ metadata:
   namespace: istio-system
 spec:
   configPatches:
-  - applyTo: LISTENER
+  - applyTo: LISTENER_FILTER
     patch:
-      operation: MERGE
+      operation: INSERT_FIRST
       value:
-        listener_filters:
-        - name: envoy.listener.proxy_protocol
-        - name: envoy.listener.tls_inspector
+        name: proxy_protocol
+        typed_config:
+          "@type": "type.googleapis.com/envoy.extensions.filters.listener.proxy_protocol.v3.ProxyProtocol"
   workloadSelector:
     labels:
       istio.io/gateway-name: <GATEWAY_NAME>

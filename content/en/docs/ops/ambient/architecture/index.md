@@ -77,7 +77,8 @@ metadata:
   name: echo
 spec:
   parentRefs:
-  - kind: Service
+  - group: ""
+    kind: Service
     name: echo
   rules:
   - backendRefs:

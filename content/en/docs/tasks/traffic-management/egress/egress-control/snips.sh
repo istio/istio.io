@@ -194,6 +194,14 @@ grep service_cluster_ip_range cluster/config.yaml
 service_cluster_ip_range: 10.0.0.1/24
 ENDSNIP
 
+snip_ibm_cloud_kubernetes_service_1() {
+ibmcloud ks cluster get -c my-cluster | grep "Service Subnet"
+}
+
+! read -r -d '' snip_ibm_cloud_kubernetes_service_1_out <<\ENDSNIP
+Service Subnet:                 172.21.0.0/16
+ENDSNIP
+
 snip_google_kubernetes_engine_gke_1() {
 gcloud container clusters describe XXXXXXX --zone=XXXXXX | grep -e clusterIpv4Cidr -e servicesIpv4Cidr
 }
@@ -201,6 +209,41 @@ gcloud container clusters describe XXXXXXX --zone=XXXXXX | grep -e clusterIpv4Ci
 ! read -r -d '' snip_google_kubernetes_engine_gke_1_out <<\ENDSNIP
 clusterIpv4Cidr: 10.4.0.0/14
 servicesIpv4Cidr: 10.7.240.0/20
+ENDSNIP
+
+snip_kubenet_1() {
+az aks show --resource-group "${RESOURCE_GROUP}" --name "${CLUSTER}" | grep Cidr
+}
+
+! read -r -d '' snip_kubenet_1_out <<\ENDSNIP
+    "podCidr": "10.244.0.0/16",
+    "podCidrs": [
+    "serviceCidr": "10.0.0.0/16",
+    "serviceCidrs": [
+ENDSNIP
+
+snip_azure_cni_1() {
+az aks show --resource-group "${RESOURCE_GROUP}" --name "${CLUSTER}" | grep serviceCidr
+}
+
+! read -r -d '' snip_azure_cni_1_out <<\ENDSNIP
+    "serviceCidr": "10.0.0.0/16",
+    "serviceCidrs": [
+ENDSNIP
+
+snip_azure_cni_2() {
+az aks show --resource-group "${RESOURCE_GROUP}" --name "${CLUSTER}" | grep nodeResourceGroup
+}
+
+! read -r -d '' snip_azure_cni_2_out <<\ENDSNIP
+  "nodeResourceGroup": "MC_user-rg_user-cluster_region",
+  "nodeResourceGroupProfile": null,
+az network vnet list -g MC_user-rg_user-cluster_region | grep name
+    "name": "aks-vnet-74242220",
+        "name": "aks-subnet",
+az network vnet show -g MC_user-rg_user-cluster_region -n aks-vnet-74242220 | grep addressPrefix
+    "addressPrefixes": [
+      "addressPrefix": "10.224.0.0/16",
 ENDSNIP
 
 snip_minikube_docker_for_desktop_bare_metal_1() {

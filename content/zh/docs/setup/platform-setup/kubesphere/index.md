@@ -12,21 +12,26 @@ test: no
 
 {{< boilerplate untested-document >}}
 
-根据如下指示准备 [KubeSphere Container Platform](https://github.com/kubesphere/kubesphere) 环境。您可以通过 KubeSphere 在 Linux 机器上快速安装一个 Kubernetes 集群。
+根据如下指示准备 [KubeSphere Container Platform](https://github.com/kubesphere/kubesphere) 环境。
+您可以通过 KubeSphere 在 Linux 机器上快速安装一个 Kubernetes 集群。
 
 {{< tip >}}
-KubeSphere 提供了[All-in-One](https://kubesphere.io/docs/installation/all-in-one/) 和 [Multi-Node](https://kubesphere.io/docs/installation/multi-node/) 两种模式的安装。这使得 Kubernetes 和 Istio 可以在一个统一的 web 控制台中进行快速设置和管理。详细信息请参考 [Multi-node Installation](https://kubesphere.io/docs/installation/multi-node/)
+KubeSphere 提供了 [All-in-One](https://kubesphere.io/docs/installation/all-in-one/) 和
+[Multi-node](https://kubesphere.io/docs/installation/multi-node/) 两种模式的安装。
+这使得 Kubernetes 和 Istio 可以在一个统一的 Web 控制台中进行快速设置和管理。
+详细信息请参考 [Multi-node Installation](https://kubesphere.io/docs/installation/multi-node/)
 {{< /tip >}}
 
 ## 先决条件 {#prerequisites}
 
 满足以下要求的虚拟机或裸金属机器：
-- 硬件:
 
-    - CPU: 至少 2 Cores
-    - Memory: 至少 4 `GB`
+- 硬件：
 
-- 操作系统:
+    - CPU：至少 2 Cores
+    - Memory：至少 4 `GB`
+
+- 操作系统：
 
     - CentOS 7.4 ~ 7.7 (`64-bit`)
     - Ubuntu 16.04/18.04 LTS (`64-bit`)
@@ -34,12 +39,13 @@ KubeSphere 提供了[All-in-One](https://kubesphere.io/docs/installation/all-in-
     - Debian Stretch 9.5 (`64-bit`)
 
 {{< tip >}}
-确保防火墙策略满足指定[端口需求](https://kubesphere.io/docs/installation/port-firewall/)。如果不能立即实现，您可以参考相应文档先关闭防火墙然后再进一步评估 Istio 和 KubeSphere。
+确保防火墙策略满足指定[端口需求](https://kubesphere.io/docs/installation/port-firewall/)。
+如果不能立即实现，您可以参考相应文档先关闭防火墙然后再进一步评估 Istio 和 KubeSphere。
 {{< /tip >}}
 
 ## 准备 Kubernetes 集群 {#provisioning-a-Kubernetes-cluster}
 
-1. 下载 KubeSphere 文件到您的机器上，然后移动到 KubeSphere 目录下。例如：如果您创建的目录是`kubesphere-all-v2.1.1`:
+1. 下载 KubeSphere 文件到您的机器上，然后移动到 KubeSphere 目录下。例如：如果您创建的目录是 `kubesphere-all-v2.1.1`：
 
     {{< text bash >}}
     $ curl -L https://kubesphere.io/download/stable/latest > installer.tar.gz
@@ -53,7 +59,7 @@ KubeSphere 提供了[All-in-One](https://kubesphere.io/docs/installation/all-in-
     $ ./install.sh
     {{< /text >}}
 
-1. 安装过程可能要持续 15 ~ 20 分钟。待所有 Pod 变成运行中状态。使用安装日志中提示的账号信息访问控制台,日志信息格式如下:
+1. 安装过程可能要持续 15 ~ 20 分钟。待所有 Pod 变成运行中状态。使用安装日志中提示的账号信息访问控制台，日志信息格式如下：
 
     {{< text plain >}}
     #####################################################
@@ -72,4 +78,5 @@ KubeSphere 提供了[All-in-One](https://kubesphere.io/docs/installation/all-in-
 
 ## 在 Kubernetes 中启用 Istio 安装
 
-KubeSphere 会在 Kubernetes 环境中安装 Istio。现在可以参考 [Enable Service Mesh](https://kubesphere.io/docs/pluggable-components/service-mesh/) 来启用 Istio。
+KubeSphere 会在 Kubernetes 环境中安装 Istio。现在可以参考
+[Enable Service Mesh](https://kubesphere.io/docs/pluggable-components/service-mesh/) 来启用 Istio。

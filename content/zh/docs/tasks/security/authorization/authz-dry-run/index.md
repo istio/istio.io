@@ -16,7 +16,7 @@ status: Alpha
 模拟运行注解允许您在生产流量上应用授权策略之前更好地理解其效果，
 从而帮助减少由于不正确的授权策略引起的生产流量中断风险。
 
-## 开始之前{#before-you-begin}
+## 开始之前 {#before-you-begin}
 
 在开始本任务之前，请完成以下操作：
 
@@ -63,7 +63,7 @@ status: Alpha
 因为缓存和传播开销可能会导致某些延迟。
 {{< /warning >}}
 
-## 创建模拟运行策略{#create-dry-run-policy}
+## 创建模拟运行策略 {#create-dry-run-policy}
 
 1. 使用以下命令创建带有模拟运行注解 `"istio.io/dry-run": "true"` 的授权策略：
 
@@ -105,23 +105,23 @@ status: Alpha
     ...
     {{< /text >}}
 
-## 在代理日志中检查模拟运行结果{#check-dry-run-results-in-proxy-log}
+## 在代理日志中检查模拟运行结果 {#check-dry-run-results-in-proxy-log}
 
-1. 模拟运行结果可以在代理调试日志中找到，格式为
-   `shadow denied, matched policy ns[foo]-policy[deny-path-headers]-rule[0]`。
-   运行以下命令检查日志：
+模拟运行结果可以在代理调试日志中找到，格式为
+`shadow denied, matched policy ns[foo]-policy[deny-path-headers]-rule[0]`。
+运行以下命令检查日志：
 
-    {{< text bash >}}
-    $ kubectl logs "$(kubectl -n foo -l app=httpbin get pods -o jsonpath={.items..metadata.name})" -c istio-proxy -n foo | grep "shadow denied"
-    2021-11-19T20:20:48.733099Z debug envoy rbac shadow denied, matched policy ns[foo]-policy[deny-path-headers]-rule[0]
-    2021-11-19T20:21:45.502199Z debug envoy rbac shadow denied, matched policy ns[foo]-policy[deny-path-headers]-rule[0]
-    2021-11-19T20:22:33.065348Z debug envoy rbac shadow denied, matched policy ns[foo]-policy[deny-path-headers]-rule[0]
-    ...
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl logs "$(kubectl -n foo -l app=httpbin get pods -o jsonpath={.items..metadata.name})" -c istio-proxy -n foo | grep "shadow denied"
+2021-11-19T20:20:48.733099Z debug envoy rbac shadow denied, matched policy ns[foo]-policy[deny-path-headers]-rule[0]
+2021-11-19T20:21:45.502199Z debug envoy rbac shadow denied, matched policy ns[foo]-policy[deny-path-headers]-rule[0]
+2021-11-19T20:22:33.065348Z debug envoy rbac shadow denied, matched policy ns[foo]-policy[deny-path-headers]-rule[0]
+...
+{{< /text >}}
 
-    另见[故障排查指南](/zh/docs/ops/common-problems/security-issues/#ensure-proxies-enforce-policies-correctly)了解日志记录到更多细节。
+另见[故障排查指南](/zh/docs/ops/common-problems/security-issues/#ensure-proxies-enforce-policies-correctly)了解日志记录的更多细节。
 
-## 使用 Prometheus 检查指标中的模拟运行结果{#check-dry-run-result-in-metric-using-prometheus}
+## 使用 Prometheus 检查指标中的模拟运行结果 {#check-dry-run-result-in-metric-using-prometheus}
 
 1. 使用以下命令打开 Prometheus 仪表板：
 
@@ -149,7 +149,7 @@ status: Alpha
 
     {{< image width="100%" link="./prometheus.png" caption="Prometheus dashboard" >}}
 
-## 使用 Zipkin 检查追踪中的模拟运行结果{#check-dry-run-result-in-tracing-using-zipkin}
+## 使用 Zipkin 检查追踪中的模拟运行结果 {#check-dry-run-result-in-tracing-using-zipkin}
 
 1. 使用以下命令打开 Zipkin 仪表板：
 
@@ -157,7 +157,7 @@ status: Alpha
     $ istioctl dashboard zipkin
     {{< /text >}}
 
-1. 查找从 `sleep` 到 `httpbin` 到请求到追踪结果。
+1. 查找从 `sleep` 到 `httpbin` 的请求的追踪结果。
    如果您由于 Zipkin 中的延迟看到追踪结果，请尝试发送更多请求。
 
 1. 在追踪结果中，您应看到以下自定义标记，表明此请求被命名空间 `foo` 中的模拟运行策略 `deny-path-headers` 拒绝：
@@ -171,7 +171,7 @@ status: Alpha
 
     {{< image width="100%" link="./trace.png" caption="Zipkin dashboard" >}}
 
-## 总结{#summary}
+## 总结 {#summary}
 
 代理调试日志、Prometheus 指标和 Zipkin 追踪结果表明模拟运行策略将拒绝请求。
 如果模拟运行结果不符预期，您可以进一步更改策略。
@@ -184,7 +184,7 @@ status: Alpha
 
 * 将模拟运行注解的值更改为 `false`。
 
-## 限制{#limiatations}
+## 限制 {#limiatations}
 
 模拟运行注解目前处于实验阶段，具有以下限制：
 
@@ -195,7 +195,7 @@ status: Alpha
 
 * 代理日志、指标和追踪中的模拟运行结果仅用于手动故障排除，并且不应用作 API，因为它可能随时更改而没有事先通知。
 
-## 清理{#clean-up}
+## 清理 {#clean-up}
 
 1. 从您的配置中移除命名空间 `foo`：
 

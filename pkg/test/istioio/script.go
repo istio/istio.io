@@ -24,9 +24,9 @@ import (
 	"strings"
 	"time"
 
+	"istio.io/istio/pkg/log"
 	"istio.io/istio/pkg/test/framework"
 	"istio.io/istio/pkg/test/scopes"
-	"istio.io/pkg/log"
 )
 
 const (
@@ -36,7 +36,7 @@ const (
 )
 
 // Logging scope for the script output.
-var scriptLog = log.RegisterScope("script", "output of test scripts", 0)
+var scriptLog = log.RegisterScope("script", "output of test scripts")
 
 var _ Step = Script{}
 

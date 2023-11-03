@@ -1,6 +1,5 @@
 ---
 title: 使用 Helm 升级
-linktitle: Upgrade with Helm
 description: 使用 Helm 升级 Istio 的说明。
 weight: 27
 keywords: [kubernetes,helm]

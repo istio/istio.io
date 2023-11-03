@@ -32,6 +32,14 @@ EOF
 istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true -f istio-cni.yaml -y
 }
 
+snip_install_istio_with_cni_plugin_2() {
+helm install istio-cni istio/cni -n kube-system --wait
+}
+
+snip_installing_with_helm_1() {
+ helm install istiod istio/istiod -n istio-system --set values.istio_cni.enabled=true --wait
+}
+
 ! read -r -d '' snip_hosted_kubernetes_settings_1 <<\ENDSNIP
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
@@ -45,24 +53,9 @@ spec:
       cniBinDir: /home/kubernetes/bin
 ENDSNIP
 
-! read -r -d '' snip_hosted_kubernetes_settings_2 <<\ENDSNIP
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  components:
-    cni:
-      enabled: true
-      namespace: kube-system
-  values:
-    sidecarInjectorWebhook:
-      injectedAnnotations:
-        k8s.v1.cni.cncf.io/networks: istio-cni
-    cni:
-      cniBinDir: /var/lib/cni/bin
-      cniConfDir: /etc/cni/multus/net.d
-      cniConfFileName: istio-cni.conf
-      chained: false
-ENDSNIP
+snip_hosted_kubernetes_settings_2() {
+istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --set profile=openshift
+}
 
 ! read -r -d '' snip_upgrade_1 <<\ENDSNIP
 apiVersion: install.istio.io/v1alpha1

@@ -363,7 +363,18 @@ Set the value of `values.global.proxy.includeIPRanges` according to your cluster
 
 #### IBM Cloud Kubernetes Service
 
-Use `--set values.global.proxy.includeIPRanges="172.30.0.0/16\,172.21.0.0/16\,10.10.10.0/24"`
+To see which CIDR is used in the cluster use `ibmcloud ks cluster get -c <CLUSTER-NAME>` and look for the `Service Subnet`:
+
+{{< text bash >}}
+$ ibmcloud ks cluster get -c my-cluster | grep "Service Subnet"
+Service Subnet:                 172.21.0.0/16
+{{< /text >}}
+
+Then use `--set values.global.proxy.includeIPRanges="172.21.0.0/16"`
+
+{{< warning >}}
+On very old clusters, this may not work so you can use `--set values.global.proxy.includeIPRanges="172.30.0.0/16,172.21.0.0/16,10.10.10.0/24"` or use `kubectl get svc -o wide -A` to further narrow down the CIDR value for the setting.
+{{< /warning >}}
 
 #### Google Kubernetes Engine (GKE)
 
@@ -378,9 +389,49 @@ servicesIpv4Cidr: 10.7.240.0/20
 
 Use `--set values.global.proxy.includeIPRanges="10.4.0.0/14\,10.7.240.0/20"`
 
-#### Azure Container Service(ACS)
+#### Azure Kubernetes Service (AKS)
 
-Use `--set values.global.proxy.includeIPRanges="10.244.0.0/16\,10.240.0.0/16`
+##### Kubenet
+
+To see which service CIDR and pod CIDR are used in the cluster, use `az aks show` and look for the `serviceCidr`:
+
+{{< text bash >}}
+$ az aks show --resource-group "${RESOURCE_GROUP}" --name "${CLUSTER}" | grep Cidr
+    "podCidr": "10.244.0.0/16",
+    "podCidrs": [
+    "serviceCidr": "10.0.0.0/16",
+    "serviceCidrs": [
+{{< /text >}}
+
+Then use `--set values.global.proxy.includeIPRanges="10.244.0.0/16\,10.0.0.0/16"`
+
+##### Azure CNI
+
+Follow these steps if you are using Azure CNI with a non-overlay networking mode. If using Azure CNI with overlay networking, please follow the [Kubenet instructions](#kubenet). For more information, see the [Azure CNI Overlay documentation](https://learn.microsoft.com/en-us/azure/aks/azure-cni-overlay).
+
+To see which service CIDR is used in the cluster, use `az aks show` and look for the `serviceCidr`:
+
+{{< text bash >}}
+$ az aks show --resource-group "${RESOURCE_GROUP}" --name "${CLUSTER}" | grep serviceCidr
+    "serviceCidr": "10.0.0.0/16",
+    "serviceCidrs": [
+{{< /text >}}
+
+To see which pod CIDR is used in the cluster, use `az` CLI to inspect the `vnet`:
+
+{{< text bash >}}
+$ az aks show --resource-group "${RESOURCE_GROUP}" --name "${CLUSTER}" | grep nodeResourceGroup
+  "nodeResourceGroup": "MC_user-rg_user-cluster_region",
+  "nodeResourceGroupProfile": null,
+$ az network vnet list -g MC_user-rg_user-cluster_region | grep name
+    "name": "aks-vnet-74242220",
+        "name": "aks-subnet",
+$ az network vnet show -g MC_user-rg_user-cluster_region -n aks-vnet-74242220 | grep addressPrefix
+    "addressPrefixes": [
+      "addressPrefix": "10.224.0.0/16",
+{{< /text >}}
+
+Then use `--set values.global.proxy.includeIPRanges="10.244.0.0/16\,10.0.0.0/16"`
 
 #### Minikube, Docker For Desktop, Bare Metal
 

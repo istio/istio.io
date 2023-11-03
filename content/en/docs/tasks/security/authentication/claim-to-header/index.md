@@ -105,8 +105,8 @@ Before you begin this task, do the following:
 
 ## Clean up
 
-1. Remove the namespace `foo`:
+Remove the namespace `foo`:
 
-    {{< text bash >}}
-    $ kubectl delete namespace foo
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl delete namespace foo
+{{< /text >}}

@@ -22,7 +22,7 @@
 
 snip_setup_1() {
 kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
-  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.6.2" | kubectl apply -f -; }
+  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=f5d3a1f3e76a6c87620002d92e2b6c7f938339f9" | kubectl apply -f -; }
 }
 
 snip_setup_2() {
@@ -222,7 +222,8 @@ metadata:
   name: mesh
 spec:
   parentRefs:
-  - kind: Service
+  - group: ""
+    kind: Service
     name: example
   rules:
   - filters:
@@ -231,7 +232,7 @@ spec:
         add:
         - name: my-added-header
           value: added-value
-  - backendRefs:
+    backendRefs:
     - name: example
       port: 80
 ENDSNIP
@@ -246,5 +247,5 @@ kubectl delete ns istio-ingress
 }
 
 snip_cleanup_2() {
-kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.6.2" | kubectl delete -f -
+kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=f5d3a1f3e76a6c87620002d92e2b6c7f938339f9" | kubectl delete -f -
 }

@@ -10,6 +10,7 @@ _data
 _v2_
 _V2_
 _v3_
+0-RTT
 0.1.x
 0.2.x
 0.8.x
@@ -25,9 +26,13 @@ _v3_
 1.15.x
 1.16.x
 1.17.x
+1.18.x
+1.19.x
 1.23.x
 1.24.x
 1.25.x
+1.26.x
+1.27.x
 1.2.x
 1.2.x.
 1.3.x
@@ -198,8 +203,10 @@ canarying
 CAs
 Cale
 CDNs
+CFP
 CentOS
 Cernich
+Chaomeng
 checksum
 Chrony
 Chun
@@ -235,8 +242,10 @@ configmap
 ConfigMap
 configmaps
 configurability
+conformant
 containerID
 ControlZ
+Coraza
 CoreDNS
 coreos
 Costin
@@ -333,10 +342,16 @@ CVE-2023-27491
 CVE-2023-27492
 CVE-2023-27493
 CVE-2023-27496
+CVE-2023-35941
+CVE-2023-35942
+CVE-2023-35943
+CVE-2023-35944
+CVE-2023-35945
 cves
 CVEs
 cvss
 cyber
+cybersecurity
 D2iQ
 DaemonSet
 DaoCloud
@@ -369,6 +384,7 @@ Devirtualization
 devops
 devstats
 Dhir
+Dhiyaulhaq
 discoverability
 discuss.istio.io
 distro
@@ -402,7 +418,9 @@ emojis
 enablement
 endUser-to-Service
 enum
+enqueue
 env
+EnvoyFilter
 envoyproxy
 etcd
 events.istio.io
@@ -464,6 +482,7 @@ GlueCon
 Gmail
 googleapis.com
 googlegroups.com
+GoTo
 Grafana
 grafana-istio-dashboard
 Graphviz
@@ -495,6 +514,7 @@ https
 Hu
 Huabing
 Huawei
+Huailong
 Huayuan
 hyperkube
 hypervisor
@@ -516,9 +536,11 @@ intermediation
 interoperate
 interoperation
 intra-cluster
+intra-mesh
 intrahost
 intranode
 Invasiveness
+IOPs
 ip
 ip_address
 ipBlocks
@@ -557,6 +579,8 @@ ISTIO-SECURITY-2022-003
 ISTIO-SECURITY-2022-004
 ISTIO-SECURITY-2022-005
 ISTIO-SECURITY-2023-001
+ISTIO-SECURITY-2023-002
+ISTIO-SECURITY-2023-003
 istio-system
 istio.io
 istio.io.
@@ -622,6 +646,7 @@ kubectl
 kubelet
 Kubelet
 kubelogin
+Kubenet
 Kubernetes
 kubernetes.default
 KubeSphere
@@ -634,6 +659,7 @@ L3-4
 L4-L6
 Landow
 learnings
+Leggett
 Li
 LibreSSL
 lifecycle
@@ -649,6 +675,7 @@ liveness
 Loki
 LoadBalancer
 loadimpact
+LoadReportingService
 localhost
 log_output_level
 Logics
@@ -687,6 +714,7 @@ microservices
 middleboxes
 middleware
 minikube
+MirageDebug
 misconfiguration
 misconfigurations
 misconfigured
@@ -702,6 +730,7 @@ multicloud
 Multicloud
 multicluster
 Multicluster
+mutex
 mutual-tls
 myapp
 mysql
@@ -724,6 +753,8 @@ networking.istio.io
 nginx
 NICs
 NiFi
+Nikhita
+Ning
 NLBs
 no-brainer
 Node.js
@@ -751,6 +782,7 @@ onboard
 Onboard
 onboarding
 Onboarding
+OneCloud
 onsite
 onwards
 OpenAPI
@@ -837,10 +869,12 @@ Pub/Sub
 PubNub
 pwd
 px.dev
+Qin
 qps
 quay.io
 quo
 RabbitMQ
+Raghunath
 Rahul
 Rajagopalan
 Rappi
@@ -866,6 +900,7 @@ reimplement
 reimplemented
 reinject
 relabeling
+remediate
 remoteIpBlocks
 repo
 repurposed
@@ -920,10 +955,13 @@ sharded
 sharding
 Sharding
 Shi
+Shilin
+Shivanshu
 shortcode
 shortcodes
 Shray
 Shriram
+Shrivastava
 sidebar_multicard
 sidebar_none
 sidecar
@@ -940,6 +978,7 @@ SNI
 SolarWinds
 Solo.io
 Solo.io.
+SongYang
 SPIFFE
 SPIFFE-compliant
 Splunk
@@ -951,6 +990,7 @@ Stackdriver
 Standard_D4ds_v5
 stateful
 Statsd
+stdin
 stdout
 Steitz
 Stoney
@@ -984,6 +1024,7 @@ team1
 team1-ns
 team2
 team2-ns
+Techstrong
 Telekom
 telemetry.istio.io
 telemetryv2_
@@ -1010,6 +1051,7 @@ trustability
 tunneling
 UID
 UIDs
+U.S.
 uint32
 ulimit
 un-injecting
@@ -1017,12 +1059,14 @@ uncaptured
 uncomment
 uncommented
 unconfigured
+uncore
 undeploy
 Undeploy
 undeployed
 underutilization
 Underutilization
 unencrypted
+unforgeable
 unmanaged
 Unmarshalers
 Unmarshaling
@@ -1043,6 +1087,7 @@ user1
 usergroup
 userId
 UTF-8
+v0.8.0
 v0.14.0
 v1
 v1.21
@@ -1061,6 +1106,7 @@ v2
 V2
 v2-mysql
 v3
+validatable
 validator
 ValueType
 vCPU
@@ -1122,6 +1168,8 @@ xDS
 Xeon
 Xia
 Xiao
+Xiaopeng
+Xie
 Xining
 xRoute
 Xu
@@ -1136,11 +1184,14 @@ Yizhou
 Yoichi
 Yossi
 Yuval
+Yuxing
 Zack
 Zehuan
+Zeng
 Zhang
 Zhao
 zhaohuabing
+Zheng
 Zhenni
 Zhihan
 Zhong
@@ -1153,3 +1204,4 @@ Zolotusky
 Zsh
 ztunnel
 ztunnels
+Zufar

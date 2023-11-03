@@ -24,7 +24,7 @@ within the minikube configuration using the following command:</p><pre><code cla
 You can change the version to any Kubernetes version supported by Istio by altering the
 <code>--kubernetes-version</code> value:</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ minikube start --memory=16384 --cpus=4 --kubernetes-version=v1.20.2
 </code></pre><p>Depending on the hypervisor you use and the platform on which the hypervisor
-is run, minimum memory requirements vary. 16384 <code>MB</code> is sufficent to run
+is run, minimum memory requirements vary. 16384 <code>MB</code> is sufficient to run
 Istio and bookinfo.</p><div><aside class="callout tip"><div class=content><p>If you don&rsquo;t have enough RAM allocated to the minikube
 virtual machine, the following errors could occur:</p><ul><li>image pull failures</li><li>healthcheck timeout failures</li><li>kubectl failures on the host</li><li>general network instability of the virtual machine and the host</li><li>complete lock-up of the virtual machine</li><li>host NMI watchdog reboots</li></ul><p>One effective way to monitor memory usage in minikube is to <code>ssh</code> into the minikube virtual machine
 and from that prompt run the top command:</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ minikube ssh

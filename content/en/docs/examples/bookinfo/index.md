@@ -153,7 +153,7 @@ Kubernetes cluster, e.g., from a browser. A gateway is used for this purpose.
 
     {{< tabset category-name="config-api" >}}
 
-    {{< tab name="Istio classic" category-value="istio-classic" >}}
+    {{< tab name="Istio APIs" category-value="istio-apis" >}}
 
     Create an [Istio Gateway](/docs/concepts/traffic-management/#gateways) using the following command:
 
@@ -234,7 +234,7 @@ versions.
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 Istio uses *subsets*, in [destination rules](/docs/concepts/traffic-management/#destination-rules),
 to define versions of a service.

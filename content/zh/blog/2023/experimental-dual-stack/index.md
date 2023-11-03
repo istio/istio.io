@@ -57,17 +57,30 @@ Istio 和 Envoy 中实现相同的行为。
 
 ## 使用双栈的快速实验{#a-quick-experiment-using-dual-stack}
 
+{{< tip >}}
+如果您想使用 KinD 进行测试，可以使用以下命令设置双栈集群：
+
+{{< text bash >}}
+$ kind create cluster --name istio-ds --config - <<EOF
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+networking:
+  ipFamily: dual
+EOF
+{{< /text >}}
+
+{{< /tip >}}
 1. 通过以下方式对 Istio 1.17.0+ 启用双栈实验性支持：
 
     {{< text bash >}}
-    $ istioctl install -f - <<EOF
+    $ istioctl install -y -f - <<EOF
     apiVersion: install.istio.io/v1alpha1
     kind: IstioOperator
     spec:
       meshConfig:
         defaultConfig:
           proxyMetadata:
-            ISTIO_AGENT_DUAL_STACK: "true"
+            ISTIO_DUAL_STACK: "true"
       values:
         pilot:
           env:
@@ -107,13 +120,13 @@ Istio 和 Envoy 中实现相同的行为。
 1. 在默认命名空间中创建 `sleep` Deployment：
 
     {{< text bash >}}
-    $ kubectl apply -f {{< github_file >}}/master/samples/sleep/sleep.yaml
+    $ kubectl apply -f {{< github_file >}}/samples/sleep/sleep.yaml
     {{< /text >}}
 
 1. 校验流量：
 
     {{< text bash >}}
-    $ kubectl exec -it "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo dualstack | nc tcp-echo 9000"
+    $ kubectl exec -it "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo dualstack | nc tcp-echo.dual-stack 9000"
     hello dualstack
     $ kubectl exec -it "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo ipv4 | nc tcp-echo.ipv4 9000"
     hello ipv4
@@ -179,7 +192,7 @@ $ istioctl proxy-config listeners "$(kubectl get pod -n dual-stack -l app=tcp-ec
 Envoy 的 endpoints 现在配置为同时路由到 IPv4 和 IPv6：
 
 {{< text bash >}}
-$ istioctl proxy-config endpoints "$(kubectl get pod -n sleep -l app=tcp-echo -o jsonpath='{.items[0].metadata.name}')" --port 9000
+$ istioctl proxy-config endpoints "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" --port 9000
 ENDPOINT                 STATUS      OUTLIER CHECK     CLUSTER
 10.244.0.19:9000         HEALTHY     OK                outbound|9000||tcp-echo.ipv4.svc.cluster.local
 10.244.0.26:9000         HEALTHY     OK                outbound|9000||tcp-echo.dual-stack.svc.cluster.local

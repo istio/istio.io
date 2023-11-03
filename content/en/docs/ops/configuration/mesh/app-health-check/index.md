@@ -32,6 +32,73 @@ TCP probe checks need special handling, because Istio redirects all incoming tra
 
 Istio solves both these problems by rewriting the application `PodSpec` readiness/liveness probe,
 so that the probe request is sent to the [sidecar agent](/docs/reference/commands/pilot-agent/).
+
+## Liveness probe rewrite example
+
+To demonstrate how the readiness/liveness probe is rewritten at the application `PodSpec` level, let us use the [liveness-http-same-port sample]({{< github_file >}}/samples/health-check/liveness-http-same-port.yaml).
+
+First create and label a namespace for the example:
+
+{{< text bash >}}
+$ kubectl create namespace istio-io-health-rewrite
+$ kubectl label namespace istio-io-health-rewrite istio-injection=enabled
+{{< /text >}}
+
+And deploy the sample application:
+
+{{< text bash yaml >}}
+$ kubectl apply -f - <<EOF
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: liveness-http
+  namespace: istio-io-health-rewrite
+spec:
+  selector:
+    matchLabels:
+      app: liveness-http
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: liveness-http
+        version: v1
+    spec:
+      containers:
+      - name: liveness-http
+        image: docker.io/istio/health:example
+        ports:
+        - containerPort: 8001
+        livenessProbe:
+          httpGet:
+            path: /foo
+            port: 8001
+          initialDelaySeconds: 5
+          periodSeconds: 5
+EOF
+{{< /text >}}
+
+Once deployed, you can inspect the pod's application container to see the changed path:
+
+{{< text bash json >}}
+$ kubectl get pod "$LIVENESS_POD" -n istio-io-health-rewrite -o json | jq '.spec.containers[0].livenessProbe.httpGet'
+{
+  "path": "/app-health/liveness-http/livez",
+  "port": 15020,
+  "scheme": "HTTP"
+}
+{{< /text >}}
+
+The original `livenessProve` path is now mapped against the new path in the sidecar container environment variable `ISTIO_KUBE_APP_PROBERS`:
+
+{{< text bash json >}}
+$ kubectl get pod "$LIVENESS_POD" -n istio-io-health-rewrite -o=jsonpath="{.spec.containers[1].env[?(@.name=='ISTIO_KUBE_APP_PROBERS')]}"
+{
+  "name":"ISTIO_KUBE_APP_PROBERS",
+  "value":"{\"/app-health/liveness-http/livez\":{\"httpGet\":{\"path\":\"/foo\",\"port\":8001,\"scheme\":\"HTTP\"},\"timeoutSeconds\":1}}"
+}
+{{< /text >}}
+
 For HTTP and gRPC requests, the sidecar agent redirects the request to the application and strips the response body, only returning the response code. For TCP probes, the sidecar agent will then do the port check while avoiding the traffic redirection.
 
 The rewriting of problematic probes is enabled by default in all built-in Istio
@@ -180,8 +247,8 @@ $ kubectl get cm istio-sidecar-injector -n istio-system -o yaml | sed -e 's/"rew
 
 ## Cleanup
 
-Remove the namespace used for the examples:
+Remove the namespaces used for the examples:
 
 {{< text bash >}}
-$ kubectl delete ns istio-io-health
+$ kubectl delete ns istio-io-health istio-io-health-rewrite
 {{< /text >}}

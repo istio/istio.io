@@ -259,7 +259,7 @@ and installing the sidecar injector webhook configuration on the remote cluster 
 
     {{< text bash >}}
     $ kubectl create sa istiod-service-account -n external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
-    $ istioctl x create-remote-secret \
+    $ istioctl create-remote-secret \
       --context="${CTX_REMOTE_CLUSTER}" \
       --type=config \
       --namespace=external-istiod \
@@ -616,7 +616,7 @@ See [Installing Gateways](/docs/setup/additional-setup/gateway/) for in-depth do
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 Confirm that the Istio ingress gateway is running:
 
@@ -646,7 +646,7 @@ $ kubectl get crd gateways.gateway.networking.k8s.io --context="${CTX_REMOTE_CLU
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text bash >}}
 $ kubectl apply -f @samples/helloworld/helloworld-gateway.yaml@ -n sample --context="${CTX_REMOTE_CLUSTER}"
@@ -669,7 +669,7 @@ $ kubectl apply -f @samples/helloworld/gateway-api/helloworld-gateway.yaml@ -n s
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text bash >}}
 $ export INGRESS_HOST=$(kubectl -n external-istiod --context="${CTX_REMOTE_CLUSTER}" get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
@@ -785,7 +785,7 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
     and install it:
 
     {{< text bash >}}
-    $ istioctl x create-remote-secret \
+    $ istioctl create-remote-secret \
       --context="${CTX_SECOND_CLUSTER}" \
       --name="${SECOND_CLUSTER_NAME}" \
       --type=remote \

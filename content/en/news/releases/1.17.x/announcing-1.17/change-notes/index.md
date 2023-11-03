@@ -80,7 +80,7 @@ These notices describe functionality that will be removed in a future release ac
 
 - **Added** an analyzer for Telemetry resource. [Issue #41170](https://github.com/istio/istio/issues/41170) [PR #41785](https://github.com/istio/istio/pull/41785)
 
-- **Added** support for `reporting_interval`. This allows end-users to configure `tcp_reporting_duration` (configuration of the time between calls) via  the Telemetry API for metrics reporting. This currently supports TCP metrics only, but in the future we may use this for long duration HTTP streams. [Issue #41763](https://github.com/istio/istio/issues/41763)
+- **Added** support for `reporting_interval`. This allows end-users to configure `tcp_reporting_duration` (configuration of the time between calls) via the Telemetry API for metrics reporting. This currently supports TCP metrics only, but in the future we may use this for long duration HTTP streams. [Issue #41763](https://github.com/istio/istio/issues/41763)
 
 - **Fixed** an issue with bad request `malformed Host header` in the Telemetry API when configuring `Datadog` tracing provider. [Issue #41829](https://github.com/istio/istio/issues/41829)
 

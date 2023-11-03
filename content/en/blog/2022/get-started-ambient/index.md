@@ -7,7 +7,7 @@ keywords: [ambient,demo,guide]
 ---
 
 {{< warning >}}
-Refer to the latest [getting started with ambient mesh doc](http://preliminary.istio.io/latest/docs/ops/ambient/getting-started/) for updated instructions.
+Refer to the latest [getting started with ambient mesh doc](/docs/ops/ambient/getting-started/) for updated instructions.
 {{< /warning >}}
 
 Ambient mesh is [a new data plane mode for Istio introduced today](/blog/2022/introducing-ambient-mesh/). Following this getting started guide, you can experience how ambient mesh can simplify your application onboarding, help with ongoing operations, and reduce service mesh infrastructure resource usage.
@@ -228,7 +228,7 @@ Using the Kubernetes Gateway API, you can deploy a waypoint proxy for the `produ
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: gateway.networking.k8s.io/v1alpha2
+apiVersion: gateway.networking.k8s.io/v1beta1
 kind: Gateway
 metadata:
  name: productpage
@@ -326,7 +326,7 @@ Deploy a waypoint proxy for the `review` service, using the `bookinfo-review` se
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: gateway.networking.k8s.io/v1alpha2
+apiVersion: gateway.networking.k8s.io/v1beta1
 kind: Gateway
 metadata:
  name: reviews

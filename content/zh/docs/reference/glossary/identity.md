@@ -23,7 +23,7 @@ Istio 在不同的平台上支持以下服务身份：
 
 - AWS: AWS IAM 用户/角色 账户
 
-- 本地 （非 Kubernetes）：用户账户、客户服务账户、服务名称、Istio 服务账户，或者 GCP 服务账户。
+- 本地 （非 Kubernetes）：用户账户、客户服务账户、服务名称、Istio 服务账户或者 GCP 服务账户。
   客户服务账户指现有的服务账户，就像客户身份目录中管理的身份。
 
 通常，[信任域](/zh/docs/reference/glossary/#trust-domain)指定身份所属的网格。

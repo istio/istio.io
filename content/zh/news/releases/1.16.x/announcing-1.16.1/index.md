@@ -28,6 +28,7 @@ release: 1.16.1
 - **修复** 修复了 ServiceEntries 使用 `DNS_ROUND_ROBIN` 能够指定 0 个端点的问题。
   ([Issue #42184](https://github.com/istio/istio/issues/42184))
 
-- **修复** 修复了当 `automountServiceAccountToken` 被设置为 false 且 `PILOT_CERT_PROVIDER` 环境变量被设置为 `kubernetes` 时阻止 `istio-proxy` 访问根 CA 的问题。
+- **修复** 修复了当 `automountServiceAccountToken` 被设置为 false 且
+  `PILOT_CERT_PROVIDER` 环境变量被设置为 `kubernetes` 时阻止 `istio-proxy` 访问根 CA 的问题。
 
 - **修复** 修复了网关 Pod 不遵守 Helm 值中所指定 `global.imagePullPolicy` 的问题。

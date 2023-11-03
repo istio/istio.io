@@ -14,7 +14,7 @@ test: yes
 {{< tip >}}
 {{< boilerplate gateway-api-future >}}
 以下文档将指导您通过 Gateway API 来使用 Istio。
-如果您更喜欢用经过验证的 Istio 经典 API 进行流量管理，
+如果您更喜欢用经过验证的 Istio API 来进行流量管理，
 您应转为参阅[这些指示说明](/zh/docs/setup/getting-started/)。
 {{< /tip >}}
 
@@ -84,7 +84,7 @@ $ kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
     $ export PATH=$PWD/bin:$PATH
     {{< /text >}}
 
-## 安装 Istio {#install}
+## 安装 Istio    {#install}
 
 1.  本次安装使用 `demo` [配置文件](/zh/docs/setup/additional-setup/config-profiles/)。
     这个配置文件包含了便于测试的一组默认值，当然您可以使用其他配置文件用于生产或性能测试。
@@ -95,8 +95,8 @@ $ kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
     更多细节请参阅[平台指示说明](/zh/docs/setup/platform-setup/)。
     {{< /warning >}}
 
-    与 [Istio Gateways](/zh/docs/concepts/traffic-management/#gateways) 不同，
-    创建 [Kubernetes Gateways](https://gateway-api.sigs.k8s.io/api-types/gateway/)
+    与 [Istio Gateway](/zh/docs/concepts/traffic-management/#gateways) 不同，
+    创建 [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/api-types/gateway/)
     将默认[部署关联的网关代理服务](/zh/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment)。
     因为本例不会使用这些服务，所以将禁用默认的 Istio 网关服务，
     这些默认服务通常是作为 `demo` 配置文件的一部分被安装的。
@@ -115,7 +115,7 @@ $ kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
     namespace/default labeled
     {{< /text >}}
 
-## 部署样例应用{#bookinfo}
+## 部署样例应用    {#bookinfo}
 
 1.  部署 [`Bookinfo` 样例应用](/zh/docs/examples/bookinfo/)：
 
@@ -174,7 +174,7 @@ $ kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
     <title>Simple Bookstore App</title>
     {{< /text >}}
 
-## 打开应用并允许对外流量{#ip}
+## 打开应用并允许对外流量    {#ip}
 
 Bookinfo 应用已被部署但还不能从外部进行访问。
 要使其能够被访问，您需要创建 Ingress Gateway，将路径映射到网格边缘处的某个路由。
@@ -202,7 +202,7 @@ Bookinfo 应用已被部署但还不能从外部进行访问。
     ✔ No validation issues found when analyzing namespace: default.
     {{< /text >}}
 
-### 确定 Ingress IP 和端口{#determing-ingress-ip-and-ports}
+### 确定 Ingress IP 和端口   {#determing-ingress-ip-and-ports}
 
 1. 设置访问网关的 `INGRESS_HOST` 和 `INGRESS_PORT` 变量：
 
@@ -226,7 +226,7 @@ Bookinfo 应用已被部署但还不能从外部进行访问。
     169.48.8.37:80
     {{< /text >}}
 
-### 验证外部访问{#confirm}
+### 验证外部访问   {#confirm}
 
 通过浏览器查看 Bookinfo 产品页面，确认能从集群外访问 Bookinfo 应用。
 
@@ -238,7 +238,7 @@ Bookinfo 应用已被部署但还不能从外部进行访问。
 
 1.  将上一条命令的输出粘贴到您的 Web 浏览器中，确认 Bookinfo 产品页面显示正常。
 
-## 查看仪表板{#dashboard}
+## 查看仪表板   {#dashboard}
 
 Istio 集成了[几种](/zh/docs/ops/integrations)不同的遥测应用。
 这些可以帮助您了解服务网格的结构，能够显示网格的拓扑，还能分析网格的健康状况。
@@ -268,7 +268,7 @@ Istio 集成了[几种](/zh/docs/ops/integrations)不同的遥测应用。
     $ istioctl dashboard kiali
     {{< /text >}}
 
-1.  在左侧导航菜单中，从 _Namespace_ 下拉菜单中选择 _Graph_，选择 _default_。
+1.  在左侧导航菜单中，从 **Namespace** 下拉菜单中选择 **Graph**，选择 **default**。
 
     {{< tip >}}
     {{< boilerplate trace-generation >}}
@@ -279,7 +279,7 @@ Istio 集成了[几种](/zh/docs/ops/integrations)不同的遥测应用。
 
     {{< image link="./kiali-example2.png" caption="Kiali Dashboard" >}}
 
-## 下一步{#next-steps}
+## 下一步   {#next-steps}
 
 恭喜完成了评估安装！
 
@@ -300,11 +300,11 @@ Istio 集成了[几种](/zh/docs/ops/integrations)不同的遥测应用。
 - [Pod 要求](/zh/docs/ops/deployment/requirements/)
 - [常规安装指示](/zh/docs/setup/)
 
-## 加入 Istio 社区{#join-istio-community}
+## 加入 Istio 社区   {#join-istio-community}
 
 欢迎您加入 [Istio 社区](/zh/get-involved/)提问和给出反馈。
 
-## 卸载{#uninstall}
+## 卸载   {#uninstall}
 
 要删除 `Bookinfo` 样例应用及其配置，请参阅
 [`Bookinfo` 清理](/zh/docs/examples/bookinfo/#cleanup)。
@@ -329,3 +329,17 @@ $ kubectl delete namespace istio-system
 {{< text bash >}}
 $ kubectl label namespace default istio-injection-
 {{< /text >}}
+
+如果您安装了 Kubernetes Gateway API CRD 并且现在想要删除它们，请运行以下命令之一：
+
+- 如果您运行的任何任务需要**实验版本**的 CRD：
+
+    {{< text bash >}}
+    $ kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref={{< k8s_gateway_api_version >}}" | kubectl delete -f -
+    {{< /text >}}
+
+- 否则：
+
+    {{< text bash >}}
+    $ kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref={{< k8s_gateway_api_version >}}" | kubectl delete -f -
+    {{< /text >}}

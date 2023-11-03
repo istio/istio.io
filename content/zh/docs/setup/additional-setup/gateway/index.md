@@ -25,7 +25,7 @@ Istio 内置的一些[配置文件](/zh/docs/setup/additional-setup/config-profi
 
 遵循本指南在 Istio 的生产安装环境中分别部署和管理一个或多个网关。
 
-## 先决条件{#prerequisites}
+## 先决条件  {#prerequisites}
 
 本指南需要先[安装好 Istio 控制面](/zh/docs/setup/install/)，再继续操作。
 
@@ -34,7 +34,7 @@ Istio 内置的一些[配置文件](/zh/docs/setup/additional-setup/config-profi
 避免在安装期间部署任何网关。
 {{< /tip >}}
 
-## 部署网关{#deploy-gateway}
+## 部署网关  {#deploy-gateway}
 
 使用与 [Istio Sidecar 注入](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)相同的机制，
 可以用类似的方式自动注入网关所用的 Envoy 代理配置。
@@ -68,20 +68,20 @@ kind: IstioOperator
 metadata:
   name: ingress
 spec:
-  profile: empty # Do not install CRDs or the control plane
+  profile: empty # 不安装 CRD 或控制平面
   components:
     ingressGateways:
     - name: istio-ingressgateway
       namespace: istio-ingress
       enabled: true
       label:
-        # Set a unique label for the gateway. This is required to ensure Gateways
-        # can select this workload
+        # 为网关设置唯一标签。
+        # 这是确保 Gateway 可以选择此工作负载所必需的。
         istio: ingressgateway
   values:
     gateways:
       istio-ingressgateway:
-        # Enable gateway injection
+        # 启用网关注入
         injectionTemplate: gateway
 {{< /text >}}
 
@@ -105,6 +105,16 @@ $ helm install istio-ingressgateway istio/gateway -n istio-ingress
 要查看支持的所有可能的配置值，请运行 `helm show values istio/gateway`。
 Helm 代码仓库中的 [README](https://artifacthub.io/packages/helm/istio-official/gateway)
 包含了更多使用信息。
+
+{{< tip >}}
+
+在一个 OpenShift 集群中部署网关时，请使用 `openshift-values.yaml` 文件覆盖默认值，例如：
+
+{{< text bash >}}
+$ helm install istio-ingressgateway istio/gateway -n istio-ingress -f @manifests/charts/gateway/openshift-values.yaml@
+{{< /text >}}
+
+{{< /tip >}}
 
 {{< /tab >}}
 
@@ -140,23 +150,23 @@ spec:
   template:
     metadata:
       annotations:
-        # Select the gateway injection template (rather than the default sidecar template)
+        # 选择网关注入模板（而不是默认的 Sidecar 模板）
         inject.istio.io/templates: gateway
       labels:
-        # Set a unique label for the gateway. This is required to ensure Gateways can select this workload
+        # 为网关设置唯一标签。这是确保 Gateway 可以选择此工作负载所必需的
         istio: ingressgateway
-        # Enable gateway injection. If connecting to a revisioned control plane, replace with "istio.io/rev: revision-name"
+        # 启用网关注入。如果后续连接到修订版的控制平面，请替换为 `istio.io/rev: revision-name`
         sidecar.istio.io/inject: "true"
     spec:
-      # Allow binding to all ports (such as 80 and 443)
+      # 允许绑定到所有端口（例如 80 和 443）
       securityContext:
         sysctls:
         - name: net.ipv4.ip_unprivileged_port_start
           value: "0"
       containers:
       - name: istio-proxy
-        image: auto # The image will automatically update each time the pod starts.
-        # Drop all privileges, allowing to run as non-root
+        image: auto # 每次 Pod 启动时，该镜像都会自动更新。
+        # 放弃所有 privilege 特权，允许以非 root 身份运行
         securityContext:
           capabilities:
             drop:
@@ -164,7 +174,7 @@ spec:
           runAsUser: 1337
           runAsGroup: 1337
 ---
-# Set up roles to allow reading credentials for TLS
+# 设置 Role 以允许读取 TLS 凭据
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
@@ -212,13 +222,13 @@ $ kubectl apply -f ingress.yaml
 
 {{< /tabset >}}
 
-## 管理网关{#manage-gateway}
+## 管理网关  {#manage-gateway}
 
 本节说明了如何在安装之后管理网关。有关具体用法的更多信息，请参阅
 [Ingress](/zh/docs/tasks/traffic-management/ingress/) 和
 [Egress](/zh/docs/tasks/traffic-management/egress/) 任务。
 
-### Gateway 选择算符{#gateway-selectors}
+### Gateway 选择算符  {#gateway-selectors}
 
 网关 Deployment Pod 上的标签由 `Gateway` 配置资源使用，
 因此重要的是您的 `Gateway` 选择算符要与这些标签匹配。
@@ -237,12 +247,12 @@ spec:
 ...
 {{< /text >}}
 
-### 网关部署拓扑{#gateway-deployment-topologies}
+### 网关部署拓扑  {#gateway-deployment-topologies}
 
 根据您的网格配置和使用场景，您可能希望以不同的方式部署网关。
 以下演示了几种不同的网关部署模式。请注意，在同一个集群内可以使用多种模式。
 
-#### 共享网关{#shared-gateway}
+#### 共享网关  {#shared-gateway}
 
 在此模型中，单个集中的网关由许多应用一起使用，可能还会跨许多命名空间使用。
 `ingress` 命名空间中的网关委派路由的所有权到应用程序命名空间，但保留对 TLS 配置的控制。
@@ -252,7 +262,7 @@ spec:
 此模型适用于您有许多应用程序想要对外暴露时，这是因为这些应用程序可以使用共享的基础设施。
 在许多应用程序共享相同的域或 TLS 证书的使用场景中，这种模型也能良好工作。
 
-#### 专用的应用程序网关{#dedicated-app-gateway}
+#### 专用的应用程序网关  {#dedicated-app-gateway}
 
 在此模型中，应用程序命名空间具有其自身专用的网关组件。
 这允许完全控制单个命名空间并赋予该命名空间的所有权。
@@ -263,9 +273,9 @@ spec:
 除非在 Istio 之前存在另一个负载均衡器，否则这通常意味着每个应用程序将具有自身的
 IP 地址，这可能会让 DNS 配置变得复杂。
 
-## 升级网关{#upgrading-gateways}
+## 升级网关  {#upgrading-gateways}
 
-### 就地升级{#in-place-upgrade}
+### 就地升级  {#in-place-upgrade}
 
 因为网关利用 Pod 注入，所以新创建的网关 Pod 将自动被注入包括版本在内的最新配置。
 
@@ -276,14 +286,15 @@ IP 地址，这可能会让 DNS 配置变得复杂。
 
 {{< image width="50%" link="inplace-upgrade.svg" caption="正在就地升级" >}}
 
-### 金丝雀升级{#canary-upgrade-advanced}
+### 金丝雀升级  {#canary-upgrade-advanced}
 
 {{< warning >}}
 此升级方法取决于控制面修订版，且因此只能结合[控制面金丝雀升级](/zh/docs/setup/upgrade/canary/)一起使用。
 {{< /warning >}}
 
 如果想要延后新控制面修订版的发版时间，您可以运行多个版本的网关 Deployment。
-例如如果您想要推出一个新修订版 `canary`，可以设置 `istio.io/rev=canary` 标签后创建网关 Deployment 的副本。
+例如如果您想要推出一个新修订版 `canary`，可以设置 `istio.io/rev=canary`
+标签后创建网关 Deployment 的副本。
 
 {{< text yaml >}}
 apiVersion: apps/v1
@@ -301,7 +312,7 @@ spec:
         inject.istio.io/templates: gateway
       labels:
         istio: ingressgateway
-        istio.io/rev: canary # Set to the control plane revision you want to deploy
+        istio.io/rev: canary # 设置为你要部署的控制平面的修订版
     spec:
       containers:
       - name: istio-proxy

@@ -43,9 +43,9 @@ _wait_for_deployment istio-ingress istio-ingressgateway
 rebuild
 # shellcheck disable=SC2154
 cat <<EOF >ingress.yaml
-$snip_deploying_a_gateway_4
+$snip_deploying_a_gateway_5
 EOF
-snip_deploying_a_gateway_5
+snip_deploying_a_gateway_6
 _wait_for_deployment istio-ingress istio-ingressgateway
 
 istioctl install --skip-confirmation --set profile=minimal --set revision=canary

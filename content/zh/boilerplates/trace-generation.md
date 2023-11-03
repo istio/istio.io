@@ -5,5 +5,5 @@
 使用以下命令向 `productpage` 服务发送 100 个请求：
 
 {{< text bash >}}
-$ for i in `seq 1 100`; do curl -s -o /dev/null http://$GATEWAY_URL/productpage; done
+$ for i in $(seq 1 100); do curl -s -o /dev/null "http://$GATEWAY_URL/productpage"; done
 {{< /text >}}

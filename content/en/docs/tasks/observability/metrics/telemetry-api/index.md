@@ -18,7 +18,10 @@ This task shows you how to customize the metrics that Istio generates with Telem
 
 Telemetry API can not work together with `EnvoyFilter`. For more details please checkout this [issue](https://github.com/istio/istio/issues/39772).
 
-* Starting with Istio version `1.18`, the stats `EnvoyFilter` will not be installed by default.
+* Starting with Istio version `1.18`, the Prometheus `EnvoyFilter` will not be
+  installed by default, and instead `meshConfig.defaultProviders` is used to
+  enable it. Telemetry API should be used to further customize the telemetry
+  pipeline.
 
 * For versions of Istio before `1.18`, you should install with the following `IstioOperator` configuration:
 
@@ -72,13 +75,13 @@ You can modify the standard metric definitions using `tags_to_remove` or by re-d
       metrics:
         - overrides:
             - match:
-                metric: ALL_METRICS
+                metric: REQUEST_COUNT
                 mode: CLIENT
               tagOverrides:
                 destination_x:
                   value: upstream_peer.labels['app'].value
             - match:
-                metric: ALL_METRICS
+                metric: REQUEST_COUNT
                 mode: SERVER
               tagOverrides:
                 source_x:

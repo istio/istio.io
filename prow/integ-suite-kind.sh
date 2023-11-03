@@ -102,7 +102,7 @@ if [ -n "${PULL_NUMBER:-}" ]; then
 fi
 
 export IP_FAMILY="${IP_FAMILY:-ipv4}"
-export NODE_IMAGE="gcr.io/istio-testing/kind-node:v1.27.0"
+export NODE_IMAGE="gcr.io/istio-testing/kind-node:v1.27.3"
 
 if [[ -z "${SKIP_SETUP:-}" ]]; then
   export ARTIFACTS="${ARTIFACTS:-$(mktemp -d)}"

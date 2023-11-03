@@ -9,5 +9,7 @@ test: table-of-contents
 ---
 
 {{< tip >}}
-Istio {{< istio_version >}} 已在以下 Kubernetes 发行版下测试：{{< supported_kubernetes_versions >}}。
+Istio {{< istio_version >}} 支持以下这些
+[Kubernetes 版本](/zh/docs/releases/supported-releases#support-status-of-istio-releases)：
+{{< supported_kubernetes_versions >}}。
 {{< /tip >}}

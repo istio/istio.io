@@ -165,7 +165,7 @@ $ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer
 {{< /text >}}
 
 Renders the commands with bash syntax highlighting and the output with the
-appropriate JASON syntax highlighting.
+appropriate JSON syntax highlighting.
 
 {{< text bash json >}}
 $ kubectl -n istio-system logs $(kubectl -n istio-system get pods -l istio-mixer-type=telemetry -o jsonpath='{.items[0].metadata.name}') mixer | grep \"instance\":\"newlog.logentry.istio-system\"

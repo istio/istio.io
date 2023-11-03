@@ -5,15 +5,17 @@ weight: 10
 keywords: [community]
 icon: community
 ---
-Istio 是一个开源项目，拥有一个活跃的社区支持它的使用和持续开发。我们非常欢迎您融入其中!
+Istio 是一个开源项目，拥有一个活跃的社区支持它的使用和持续开发。我们非常欢迎您融入其中！
 融入 Istio 社区有很多种方式：
 
 {{< community_item logo="./discourse.svg" alt="Discourse" >}}
-前往 [Istio 讨论板](https://discuss.istio.io) 提出问题、参与讨论或者寻求帮助解决问题。您可以使用 GitHub ID （或者 Google、Twitter 或 Yahoo）登录！
+前往 [Istio 讨论板](https://discuss.istio.io) 提出问题、参与讨论或者寻求帮助解决问题。
+您可以使用 GitHub ID （或者 Google、Twitter 或 Yahoo）登录！
 {{< /community_item >}}
 
 {{< community_item logo="./stackoverflow.svg" alt="Stack Overflow" >}}
-前往 [Stack Overflow](https://stackoverflow.com/questions/tagged/istio) 获取关于部署、配置和使用 Istio 实际问题的解答。
+前往 [Stack Overflow](https://stackoverflow.com/questions/tagged/istio)
+获取关于部署、配置和使用 Istio 实际问题的解答。
 {{< /community_item >}}
 
 {{< community_item logo="./slack.svg" alt="Slack" >}}
@@ -43,8 +45,8 @@ Istio 是一个开源项目，拥有一个活跃的社区支持它的使用和�
 {{< community_item logo="./group.svg" alt="Working Groups" >}}
 如果您想为 Istio 项目作出贡献, 请阅读我们的
 [行为规范](https://github.com/istio/community/blob/master/CONTRIBUTING.md#code-of-conduct) 和
-[贡献指南](https://github.com/istio/community/blob/master/CONTRIBUTING.md),
-并考虑参与我们的 [工作小组](https://github.com/istio/community/blob/master/WORKING-GROUPS.md)。
+[贡献指南](https://github.com/istio/community/blob/master/CONTRIBUTING.md)，
+并考虑参与我们的[工作小组](https://github.com/istio/community/blob/master/WORKING-GROUPS.md)。
 {{< /community_item >}}
 
 {{< community_item logo="./governance.svg" alt="Governance" >}}

@@ -7,10 +7,8 @@ aliases:
   - /docs/ops/security/harden-docker-images
 owner: istio/wg-security-maintainers
 test: n/a
-status: Alpha
+status: Beta
 ---
-
-{{< boilerplate alpha >}}
 
 Istio's [default images](https://hub.docker.com/r/istio/base) are based on `ubuntu` with some extra tools added.
 An alternative image based on [distroless images](https://github.com/GoogleContainerTools/distroless) is also available.

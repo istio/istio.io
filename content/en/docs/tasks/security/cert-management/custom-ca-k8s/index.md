@@ -26,9 +26,9 @@ Cert-manager has added [experimental Support for Kubernetes `CertificateSigningR
 
 1. Deploy cert-manager according to the [installation doc](https://cert-manager.io/docs/installation/).
 
-   {{< warning >}}
-   Make sure to enable feature gate: `--feature-gates=ExperimentalCertificateSigningRequestControllers=true`
-   {{< /warning >}}
+    {{< warning >}}
+    Make sure to enable feature gate: `--feature-gates=ExperimentalCertificateSigningRequestControllers=true`
+    {{< /warning >}}
 
     {{< text bash >}}
     $ helm repo add jetstack https://charts.jetstack.io

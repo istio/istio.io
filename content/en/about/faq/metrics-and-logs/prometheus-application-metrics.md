@@ -3,17 +3,11 @@ title: Can I use Prometheus to scrape application metrics with Istio?
 weight: 90
 ---
 
-Yes. Istio ships with [configuration for Prometheus]({{< github_file >}}/manifests/charts/istio-telemetry/prometheus/templates/configmap.yaml)
-that enables collection of application metrics when mutual TLS is enabled or disabled.
-
-The `kubernetes-pods` job collects application metrics from pods in environments without mutual TLS. The `kubernetes-pods-istio-secure` job collects metrics
-from application pods when mutual TLS is enabled for Istio.
-
-Both jobs require that the following annotations are added to any deployments from which application metric collection is desired:
-
-- `prometheus.io/scrape: "true"`
-- `prometheus.io/path: "<metrics path>"`
-- `prometheus.io/port: "<metrics port>"`
+Yes. [Prometheus](https://prometheus.io/) is an open source monitoring system and time series database.
+You can use Prometheus with Istio to record metrics that track the health of Istio and of
+applications within the service mesh. You can visualize metrics using tools like
+[Grafana](/docs/ops/integrations/grafana/) and [Kiali](/docs/tasks/observability/kiali/).
+See [Configuration for Prometheus](/docs/ops/integrations/prometheus/#Configuration) to understand how to enable collection of metrics.
 
 A few notes:
 

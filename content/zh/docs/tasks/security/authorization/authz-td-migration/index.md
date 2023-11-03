@@ -9,7 +9,7 @@ test: yes
 
 该任务阐述了如何在不更改授权策略的前提下从一个信任域迁移到另一个。
 
-在 Istio 1.4 中，我们引入了一个 alpha 特性以支持授权策略 {{< gloss >}}trust domain migration{{</ gloss >}}。
+在 Istio 1.4 中，我们引入了一个 Alpha 特性以支持授权策略 {{< gloss >}}trust domain migration{{</ gloss >}}。
 这意味着如果一个 Istio 网格需要改变它的 {{< gloss >}}trust domain{{</ gloss >}}，
 其授权策略是不需要手动更新的。在 Istio 中，如果一个 {{< gloss >}}workload{{</ gloss >}}
 运行在命名空间 `foo` 中，服务账户为 `bar`，系统的信任域为 `my-td`，那么该工作负载的身份就是
@@ -20,7 +20,7 @@ test: yes
 
 在您开始任务之前，请完成以下内容：
 
-1. 阅读 [授权](/zh/docs/concepts/security/#authorization) 指南。
+1. 阅读[授权](/zh/docs/concepts/security/#authorization)指南。
 
 1. 安装 Istio，自定义信任域，并启用双向 TLS。
 
@@ -45,7 +45,7 @@ test: yes
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: security.istio.io/v1beta1
+    apiVersion: security.istio.io/v1
     kind: AuthorizationPolicy
     metadata:
       name: service-httpbin.default.svc.cluster.local
@@ -67,23 +67,23 @@ test: yes
     EOF
     {{< /text >}}
 
-请注意授权策略传播到 sidecars 大约需要几十秒。
+    请注意授权策略传播到这些 Sidecar 大约需要几十秒。
 
 1. 验证从以下请求源发送至 `httpbin` 的请求：
 
     * 来自 `default` 命名空间的 `sleep` 服务的请求被拒绝。
 
-    {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl http://httpbin.default:8000/ip -sS -o /dev/null -w "%{http_code}\n"
-    403
-    {{< /text >}}
+        {{< text bash >}}
+        $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl http://httpbin.default:8000/ip -sS -o /dev/null -w "%{http_code}\n"
+        403
+        {{< /text >}}
 
     * 来自 `sleep-allow` 命名空间的 `sleep` 服务的请求通过了。
 
-    {{< text bash >}}
-    $ kubectl exec "$(kubectl -n sleep-allow get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -n sleep-allow -- curl http://httpbin.default:8000/ip -sS -o /dev/null -w "%{http_code}\n"
-    200
-    {{< /text >}}
+        {{< text bash >}}
+        $ kubectl exec "$(kubectl -n sleep-allow get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -n sleep-allow -- curl http://httpbin.default:8000/ip -sS -o /dev/null -w "%{http_code}\n"
+        200
+        {{< /text >}}
 
 ## 迁移信任域但不使用别名{#migrate-trust-domain-without-trust-domain-aliases}
 
@@ -93,7 +93,7 @@ test: yes
     $ istioctl install --set profile=demo --set meshConfig.trustDomain=new-td
     {{< /text >}}
 
-1. 重新部署 istiod 以使信任域更改。
+1. 重新部署 istiod 以使信任域发生更改。
 
     {{< text bash >}}
     $ kubectl rollout restart deployment -n istio-system istiod
@@ -151,17 +151,17 @@ test: yes
 
     * 来自 `default` 命名空间的 `sleep` 的请求被拒绝。
 
-    {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl http://httpbin.default:8000/ip -sS -o /dev/null -w "%{http_code}\n"
-    403
-    {{< /text >}}
+        {{< text bash >}}
+        $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl http://httpbin.default:8000/ip -sS -o /dev/null -w "%{http_code}\n"
+        403
+        {{< /text >}}
 
     * 来自 `sleep-allow` 命名空间的 `sleep` 通过了。
 
-    {{< text bash >}}
-    $ kubectl exec "$(kubectl -n sleep-allow get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -n sleep-allow -- curl http://httpbin.default:8000/ip -sS -o /dev/null -w "%{http_code}\n"
-    200
-    {{< /text >}}
+        {{< text bash >}}
+        $ kubectl exec "$(kubectl -n sleep-allow get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -n sleep-allow -- curl http://httpbin.default:8000/ip -sS -o /dev/null -w "%{http_code}\n"
+        200
+        {{< /text >}}
 
 ## 最佳实践{#best-practices}
 

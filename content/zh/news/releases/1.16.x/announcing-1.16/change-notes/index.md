@@ -73,7 +73,7 @@ weight: 10
   如果自定义使用带有 Wasm 属性的 CEL 表达式，则很可能会受到影响。
   通过将控制平面特性标志 `TELEMETRY_USE_NATIVE_STATS` 设置为 `true` 来启用此项变更。
 
-- **新增** 新增支持将 OpenTelemetry 跟踪提供程序与 Telemetry API 结合使用。
+- **新增** 新增了支持将 OpenTelemetry 跟踪提供程序与 Telemetry API 结合使用。
   ([Issue #40027](https://github.com/istio/istio/issues/40027))
 
 - **修复** 修复了允许多个正则表达式具有相同标记名称的问题。
@@ -94,10 +94,12 @@ weight: 10
 
 ## 安装{#installation}
 
-- **新增** 新增了 `seccompProfile` 字段以便按照 [https://kubernetes.io/zh-cn/docs/tutorials/security/seccomp/](https://kubernetes.io/docs/tutorials/security/seccomp/) 在容器 `securityContext` 中设置 `seccompProfile` 字段。
+- **新增** 新增了 `seccompProfile` 字段以便按照
+  [https://kubernetes.io/zh-cn/docs/tutorials/security/seccomp/](https://kubernetes.io/docs/tutorials/security/seccomp/)
+  在容器 `securityContext` 中设置 `seccompProfile` 字段。
   ([Issue #39791](https://github.com/istio/istio/issues/39791))
 
-- **新增** 新增全新的 Istio Operator `remote` 配置文件并废弃了等效的 `external` 配置文件。
+- **新增** 新增了全新的 Istio Operator `remote` 配置文件并废弃了等效的 `external` 配置文件。
   ([Issue #39797](https://github.com/istio/istio/issues/39797))
 
 - **新增** 新增了 `--cluster-specific` 标志到 `istioctl manifest generate`。
@@ -122,16 +124,16 @@ weight: 10
 
 ## istioctl
 
-- **新增** 为 `istioctl operator remove` 新增 `--skip-confirmation` 标志，为 operator 移除添加了确认机制。
+- **新增** 为 `istioctl operator remove` 新增了 `--skip-confirmation` 标志，为 operator 移除添加了确认机制。
   ([Issue #41244](https://github.com/istio/istio/issues/41244))
 
-- **新增** 新增运行 `istioctl uninstall` 时预先检查修订版本。
+- **新增** 新增了运行 `istioctl uninstall` 时预先检查修订版本。
   ([Issue #40598](https://github.com/istio/istio/issues/40598))
 
-- **新增** 为 `istioctl bug-report` 新增 `--rps-limit` 标志，允许提高到 Kubernetes API 服务器的每秒请求限制，
+- **新增** 为 `istioctl bug-report` 新增了 `--rps-limit` 标志，允许提高到 Kubernetes API 服务器的每秒请求限制，
   这可以大大减少收集错误报告的时间。
 
-- **新增** 新增 `istioctl experimental check-inject` 特性以描述为什么基于当前运行的 Webhook 会/不会或曾经/从未进行注入。
+- **新增** 新增了 `istioctl experimental check-inject` 特性以描述为什么基于当前运行的 Webhook 会/不会或曾经/从未进行注入。
   ([Issue #38299](https://github.com/istio/istio/issues/38299))
 
 - **修复** 修复了设置 `exportTo` 字段和 `networking.istio.io/exportTo` 注释会导致不正确 IST0101 消息的问题。
@@ -144,5 +146,6 @@ weight: 10
 
 ## 文档变更{#documentation-changes}
 
-- **新增** `build_push_update_images.sh` 现在支持 `--multiarch-images` 参数以便在 bookinfo 应用程序中构建多架构容器镜像。
+- **新增** `build_push_update_images.sh` 现在新增了对 `--multiarch-images` 参数的支持，
+  以便在 bookinfo 应用程序中构建多架构容器镜像。
   ([Issue #40405](https://github.com/istio/istio/issues/40405))

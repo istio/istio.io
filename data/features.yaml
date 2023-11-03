@@ -95,6 +95,7 @@ features:
     area: Traffic Management
     id: "traffic.k8s_gateway_apis"
   - name: "Gateway Network Topology Configuration"
+    link: "/docs/ops/configuration/traffic-management/network-topologies/"
     id: "traffic.gateway_topology"
     level:
        checklist: features/configuring_gateway_network_topology.md

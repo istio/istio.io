@@ -6,15 +6,7 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-{{< warning >}}
-Ambient 目前处于 [Alpha 状态](/zh/docs/releases/feature-stages/#feature-phase-definitions).
-
-请勿在生产环境中使用 Ambient，
-务必先行斟酌[特性阶段定义](/zh/docs/releases/feature-stages/#feature-phase-definitions)再行使用 Ambient。
-具体而言，`alpha` 版本意味着存在已知的性能、稳定性和安全性问题。
-还存在一些计划中的破坏性变更，其中某些变更可能会令升级失败。
-这些是进阶至 `beta` 之前需要解决的问题。
-{{< /warning >}}
+{{< boilerplate ambient-alpha-warning >}}
 
 本指南有助于您快速评估 Istio {{< gloss "ambient" >}}ambient service mesh{{< /gloss >}}。
 以下操作步骤需要您有一个 {{< gloss >}}cluster{{< /gloss >}} 运行了 Kubernetes ({{< supported_kubernetes_versions >}})
@@ -33,7 +25,7 @@ Ambient 目前处于 [Alpha 状态](/zh/docs/releases/feature-stages/#feature-ph
 
 ## 下载和安装 {#download}
 
-1.  下载对 Ambient Mesh 提供 `alpha` 支持的[最新 Istio 版本](https://github.com/istio/istio/releases/tag/1.18.0-alpha.0)。
+1.  下载对 Ambient Mesh 提供 `alpha` 支持的[最新 Istio 版本](/zh/docs/setup/getting-started/#download)。
 
 1.  如果您没有 Kubernetes 集群，可以参照以下命令使用 `kind` 在本地部署一个集群：
 
@@ -53,7 +45,7 @@ Ambient 目前处于 [Alpha 状态](/zh/docs/releases/feature-stages/#feature-ph
 
     {{< text bash >}}
     $ kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
-      { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v0.6.1" | kubectl apply -f -; }
+      { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref={{< k8s_gateway_api_version >}}" | kubectl apply -f -; }
     {{< /text >}}
 
     {{< tip >}}
@@ -64,12 +56,21 @@ Ambient 目前处于 [Alpha 状态](/zh/docs/releases/feature-stages/#feature-ph
 1.  `ambient` 配置文件设计用于帮助您开始使用 Ambient Mesh。
     使用刚下载的 `istioctl` 命令，在您的 Kubernetes 集群上安装附带 `ambient` 配置文件的 Istio：
 
+{{< tip >}}
+请注意，如果您正在使用 [Minikube](https://kubernetes.io/zh-cn/docs/tasks/tools/install-minikube/)
+（或在节点上为容器配置了非标准 `netns` 路径的任何其他平台），
+您可能需要在 `istioctl install` 命令后面追加 `--set values.cni.cniNetnsDir="/var/run/docker/netns"`，
+以便 Istio CNI DaemonSet 能够正确管理和捕获节点上的 Pod。
+
+有关详细信息，请参阅您的平台文档。
+{{< /tip >}}
+
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text bash >}}
-$ istioctl install --set profile=ambient --set components.ingressGateways[0].enabled=true --set components.ingressGateways[0].name=istio-ingressgateway --skip-confirmation
+$ istioctl install --set profile=ambient --set "components.ingressGateways[0].enabled=true" --set "components.ingressGateways[0].name=istio-ingressgateway" --skip-confirmation
 {{< /text >}}
 
 运行上一条命令后，您将看到以下输出，
@@ -111,7 +112,7 @@ $ istioctl install --set profile=ambient --skip-confirmation
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text bash >}}
 $ kubectl get pods -n istio-system
@@ -126,7 +127,7 @@ ztunnel-lr7lz                           1/1     Running   0          69s
 $ kubectl get daemonset -n istio-system
 NAME             DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
 istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   70s
-ztunnel          1         1         1       1            1           <none>                   82s
+ztunnel          1         1         1       1            1           kubernetes.io/os=linux   82s
 {{< /text >}}
 
 {{< /tab >}}
@@ -145,7 +146,7 @@ ztunnel-lr7lz                           1/1     Running   0          69s
 $ kubectl get daemonset -n istio-system
 NAME             DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
 istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   70s
-ztunnel          1         1         1       1            1           <none>                   82s
+ztunnel          1         1         1       1            1           kubernetes.io/os=linux   82s
 {{< /text >}}
 
 {{< /tab >}}
@@ -177,7 +178,7 @@ $ kubectl apply -f @samples/sleep/notsleep.yaml@
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 创建 Istio [Gateway](/zh/docs/reference/config/networking/gateway/) 和
 [VirtualService](/zh/docs/reference/config/networking/virtual-service/)，
@@ -411,7 +412,7 @@ waypoint default/bookinfo-reviews applied
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio classic" category-value="istio-classic" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 应用评审虚拟服务以控制 90% 流量到 reviews-v1，控制 10% 流量到 reviews-v2。
 
@@ -482,5 +483,5 @@ $ kubectl delete -f @samples/sleep/notsleep.yaml@
 如果您安装了 Gateway API CRD，执行以下命令移除：
 
 {{< text bash >}}
-$ kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v0.6.1" | kubectl delete -f -
+$ kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref={{< k8s_gateway_api_version >}}" | kubectl delete -f -
 {{< /text >}}

@@ -31,7 +31,7 @@ Istio 的流量管理模型源于和服务一起部署的 {{< gloss >}}Envoy{{</
 
 ## Istio 流量管理介绍 {#introducing-Istio-traffic-management}
 
-为了在网格中导流，Istio 需要知道所有的 endpoint 在哪和属于哪个服务。
+为了在网格中导流，Istio 需要知道所有的 endpoint 在哪以及它们属于哪些服务。
 为了定位到 {{< gloss >}}service registry{{</ gloss >}}（服务注册中心），
 Istio 会连接到一个服务发现系统。例如，如果您在 Kubernetes 集群上安装了 Istio，
 那么它将自动检测该集群中的服务和 endpoint。
@@ -60,21 +60,20 @@ YAML 进行配置。
 - [服务入口](#service-entries)
 - [Sidecar](#sidecars)
 
-指南也对构建在 API 资源内的[网络弹性和测试](#network-resilience-and-testing)做了概述。
+指南也对 API 资源内构建的[网络弹性和测试](#network-resilience-and-testing)做了概述。
 
 ## 虚拟服务 {#virtual-services}
 
 [虚拟服务（Virtual Service）](/zh/docs/reference/config/networking/virtual-service/#VirtualService)
-和[目标规则（Destination Rule）](#destination-rules) 是 Istio
-流量路由功能的关键拼图。虚拟服务让您配置如何在服务网格内将请求路由到服务，
-这基于 Istio 和平台提供的基本的连通性和服务发现能力。每个虚拟服务包含一组路由规则，
-Istio 按顺序评估它们，Istio 将每个给定的请求匹配到虚拟服务指定的实际目标地址。
-您的网格可以有多个虚拟服务，也可以没有，取决于您的使用场景。
+和[目标规则（Destination Rule）](#destination-rules) 是 Istio 流量路由功能的核心构建模块。
+基于 Istio 和您的平台提供的基本连通性及服务发现能力，虚拟服务允许您配置请求如何路由到特定的服务。
+每个虚拟服务包含一组按顺序评估的路由规则，通过这些规则，Istio 将每个到虚拟服务的给定请求匹配到特定的、真实的目标地址。
+根据您的使用场景，您的服务网格可以有多个虚拟服务或者不需要虚拟服务。
 
 ### 为什么使用虚拟服务？ {#why-use-virtual-services}
 
 虚拟服务在增强 Istio 流量管理的灵活性和有效性方面，发挥着至关重要的作用，
-通过对客户端请求的目标地址与真实响应请求的目标工作负载进行解耦来实现。
+实现方式是解耦客户端请求的目标地址与实际响应请求的目标工作负载。
 虚拟服务同时提供了丰富的方式，为发送至这些工作负载的流量指定不同的路由规则。
 
 为什么这如此有用？就像在介绍中所说，如果没有虚拟服务，
@@ -148,7 +147,7 @@ hosts:
 
 虚拟服务主机名可以是 IP 地址、DNS 名称，或者依赖于平台的一个简称（例如 Kubernetes
 服务的短名称），隐式或显式地指向一个完全限定域名（FQDN）。您也可以使用通配符（“\*”）前缀，
-让您创建一组匹配所有服务的路由规则。虚拟服务的 `hosts` 字段实际上不必是 Istio
+创建一组匹配所有服务的路由规则。虚拟服务的 `hosts` 字段实际上不必是 Istio
 服务注册的一部分，它只是虚拟的目标地址。这让您可以为没有路由到网格内部的虚拟主机建模。
 
 #### 路由规则 {#routing-rules}
@@ -415,7 +414,7 @@ spec:
 来添加一个入口到 Istio 内部维护的服务注册中心。添加了服务入口后，Envoy 代理可以向服务发送流量，
 就好像它是网格内部的服务一样。配置服务入口允许您管理运行在网格外的服务的流量，它包括以下几种能力：
 
--   为外部目标重定向和转发请求，例如来自 web 端的 API 调用，或者流向遗留老系统的服务。
+-   为外部目标重定向和转发请求，例如来自 Web 端的 API 调用，或者流向遗留老系统的服务。
 -   为外部目标定义[重试](#retries)、[超时](#timeouts)和[故障注入](#fault-injection)策略。
 -   添加一个运行在虚拟机的服务来[扩展您的网格](/zh/docs/examples/virtual-machines/single-network/#running-services-on-the-added-VM)。
 
@@ -425,7 +424,7 @@ spec:
 
 ### 服务入口示例 {#service-entry-example}
 
-下面示例的 mesh-external 服务入口将 `ext-resource` 外部依赖项添加到
+下面示例的 mesh-external 服务入口将 `ext-svc.example.com` 外部依赖项添加到
 Istio 的服务注册中心：
 
 {{< text yaml >}}
@@ -480,7 +479,7 @@ spec:
 您可以指定将 Sidecar 配置应用于特定命名空间中的所有工作负载，或者使用
 `workloadSelector` 选择特定的工作负载。例如，下面的 Sidecar 配置将
 `bookinfo` 命名空间中的所有服务配置为仅能访问运行在相同命名空间和 Istio
-控制平面中的服务（Istio 的egress和遥测功能需要使用）：
+控制平面中的服务（Istio 的 Egress 和遥测功能需要使用）：
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -510,7 +509,7 @@ spec:
 这意味着如果服务在 15 秒内没有响应，调用将失败。
 
 对于某些应用程序和服务，Istio 的缺省超时可能不合适。例如，超时太长可能会由于等待失败服务的回复而导致过度的延迟；
-而超时过短则可能在等待涉及多个服务返回的操作时触发不必要地失败。为了找到并使用最佳超时设置，
+而超时过短则可能在等待涉及多个服务返回的操作时触发不必要的失败。为了找到并使用最佳超时设置，
 Istio 允许您使用[虚拟服务](#virtual-services)按服务轻松地动态调整超时，而不必修改您的业务代码。
 下面的示例是一个虚拟服务，它对 ratings 服务的 v1 子集的调用指定 10 秒超时：
 
@@ -597,7 +596,7 @@ spec:
 
 {{< warning >}}
 目前，故障注入配置不能与同一个虚拟服务上的重试或超时配置相结合，
-请参见[流量管理问题](/zh/docs/ops/common-problems/network-issues/#virtual-service-with-fault-injection-and-retry-timeout-policies-not-working-as-expected)。
+请参见[流量管理问题](/zh/docs/ops/common-problems/network-issues/#virtual-service-with-fault-injection-and-retrytimeout-policies-not-working-as-expected)。
 {{< /warning >}}
 
 与其他错误注入机制（如延迟数据包或在网络层杀掉 Pod）不同，Istio 允许在应用层注入错误。

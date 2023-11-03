@@ -29,7 +29,7 @@ Ztunnel 确保流量高效、安全地传输到 waypoint proxy，从而实现 HT
     caption="ztunnel architecture"
     >}}
 
-## 为什么不重用 Envoy？{#why-not-reuse-envoy?}
+## 为什么不重用 Envoy?{#why-not-reuse-envoy}
 
 当 Istio 环境服务网格于 2022 年 9 月 7 日发布时，Ztunnel 是使用 Envoy 代理实现的。
 鉴于我们将 Envoy 用于 Istio 的其余部分（Sidecar、Gateway 和 waypoint proxy），
@@ -236,4 +236,4 @@ istio_tcp_connections_opened_total{
 我们超级兴奋的是新的[基于 Rust 的 Ztunnel](https://github.com/istio/Ztunnel/) 比之前基于 Envoy 的 Ztunnel 大大简化，
 更加轻巧，性能更强。通过为基于 Rust 的 Ztunnel 特意设计的工作负载 xDS，您不仅能更容易地理解 xDS 的配置，而且还能大幅减少
 Istiod 控制平面和 Ztunnel 之间的网络流量和成本。随着 Istio Ambient 模式现在合并到上游主站，
-您可以按照我们的[入门指南](http://preliminary.istio.io/latest/docs/ops/ambient/getting-started/)尝试新的基于 Rust 的 Ztunnel。
+您可以按照我们的[入门指南](/zh/docs/ops/ambient/getting-started/)尝试新的基于 Rust 的 Ztunnel。

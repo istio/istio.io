@@ -37,7 +37,6 @@ _verify_contains snip_get_stats "cluster_manager"
 _verify_contains snip_get_stats "listener_manager"
 _verify_contains snip_get_stats "server"
 _verify_contains snip_get_stats "cluster.xds-grpc"
-_verify_contains snip_get_stats "wasm"
 
 #configure via meshconfig and confirm new stats were added
 echo "Verify stats with mesh config"

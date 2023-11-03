@@ -77,7 +77,7 @@ $ istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
 Install a remote secret in `cluster2` that provides access to `cluster1`’s API server.
 
 {{< text bash >}}
-$ istioctl x create-remote-secret \
+$ istioctl create-remote-secret \
     --context="${CTX_CLUSTER1}" \
     --name=cluster1 | \
     kubectl apply -f - --context="${CTX_CLUSTER2}"
@@ -86,7 +86,7 @@ $ istioctl x create-remote-secret \
 Install a remote secret in `cluster1` that provides access to `cluster2`’s API server.
 
 {{< text bash >}}
-$ istioctl x create-remote-secret \
+$ istioctl create-remote-secret \
     --context="${CTX_CLUSTER2}" \
     --name=cluster2 | \
     kubectl apply -f - --context="${CTX_CLUSTER1}"

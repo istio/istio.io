@@ -24,10 +24,10 @@ Istio 服务网格（{{< gloss >}}service mesh{{< /gloss >}}）。
 
 - [控制平面拓扑](/zh/docs/ops/deployment/deployment-models#control-plane-models):
   多主集群（ {{< gloss "primary cluster" >}}primary clusters{{< /gloss >}}）,
-  主-从集群（{{< gloss >}}remote cluster{{< /gloss >}}）
+  主从集群（{{< gloss >}}remote cluster{{< /gloss >}}）
 
 {{< tip >}}
-对于跨两个以上集群的网格，你可以扩展本指南的步骤，以配置更复杂的拓扑结构。
+对于跨两个以上集群的网格，您可以扩展本指南的步骤，以配置更复杂的拓扑结构。
 
 更多信息，参见[部署模型](/zh/docs/ops/deployment/deployment-models)
 {{< /tip >}}
