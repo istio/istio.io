@@ -64,9 +64,9 @@ To be part of a mesh, Kubernetes pods must satisfy the following requirements:
     policies for your service account, your pods have permission to run the Istio init containers.
     Otherwise, you will need to [provide the permission](https://kubernetes.io/docs/concepts/policy/pod-security-policy/#authorizing-policies).
 
-- **Pods labels**: We recommend explicitly declaring pods with an application identifier and version by a pod label.
+- **Pod labels**: We recommend explicitly declaring pods with an application identifier and version by using a pod label.
   These labels add contextual information to the metrics and telemetry that Istio collects.
-  Each of these has can read from multiple different labels, in order of most preferred to least:
+  Each of these values are read from multiple labels ordered from highest to lowest precedence:
 
     - Application name: `service.istio.io/canonical-name`, `app.kubernetes.io/name`, or `app`.
     - Application version: `service.istio.io/canonical-revision`, `app.kubernetes.io/version`, or `version`.
