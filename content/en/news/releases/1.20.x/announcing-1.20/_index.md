@@ -59,6 +59,15 @@ ensuring that filters are applied uniformly, regardless of the traffic direction
 
 The extensibility of Istio is further broadened with support for network WasmPlugins with a new type `NETWORK`.
 
+### TCP metadata exchange enhancements
+
+Istio 1.20 brings two key updates to help control the TCP metadata exchange:
+
+- **Fallback Metadata Discovery** Istio can now use a backup method to collect metadata. To use this, turn on
+  the `PEER_METADATA_DISCOVERY` in the proxy and `PILOT_ENABLE_AMBIENT_CONTROLLERS` in the control plane.
+- **ALPN Token Control**: There's a new setting called `PILOT_DISABLE_MX_ALPN` for the control plane. This lets you stop
+  using a specific token (istio-peer-exchange) that's normally needed for services to talk to each other.
+
 ### Traffic Mirroring to Multiple Destinations
 
 Traffic mirroring in Istio 1.20 now supports multiple destinations. This feature enables the mirroring of traffic to
