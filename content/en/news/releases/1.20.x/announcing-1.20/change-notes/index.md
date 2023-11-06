@@ -54,7 +54,7 @@ environment to remove the deprecated functionality.
 - **Fixed** immediate `WorkloadEntry` auto-registration for proxies that are already connected 
   when creating a `WorkloadGroup`. ([Issue #45329](https://github.com/istio/istio/issues/45329))
 
-- **Fixed** ServiceEntry with DNS resolution for multi-network endpoints to now go through the gateway.
+- **Fixed** `ServiceEntry` with DNS resolution for multi-network endpoints to now go through the gateway.
   ([Issue #45506](https://github.com/istio/istio/issues/45506))
 
 - **Fixed** an issue with remote gateways not being recognized in the absence of valid local gateways.
