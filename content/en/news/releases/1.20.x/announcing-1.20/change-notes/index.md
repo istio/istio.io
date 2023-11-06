@@ -34,7 +34,7 @@ environment to remove the deprecated functionality.
 
 - **Added** support for network `WasmPlugin`.
 
-- **Added** Inlined `WorkloadEntry` resources via the `endpoints` field on `ServiceEntry` resources on different
+- **Added** inlined `WorkloadEntry` resources via the `endpoints` field on `ServiceEntry` resources on different
   networks do not require an address to be specified.
   ([Issue #45150](https://github.com/istio/istio/issues/45150))
 
@@ -51,7 +51,7 @@ environment to remove the deprecated functionality.
 - **Added** Support for alternate network namespace paths (for e.g. minikube) via `values.cni.cniNetnsDir`.
   ([Issue #47444](https://github.com/istio/istio/issues/47444))
 
-- **Fixed** immediate `WorkloadEntry` auto-registration for proxies that are already connected 
+- **Fixed** immediate `WorkloadEntry` auto-registration for proxies that are already connected
   when creating a `WorkloadGroup`. ([Issue #45329](https://github.com/istio/istio/issues/45329))
 
 - **Fixed** `ServiceEntry` with DNS resolution for multi-network endpoints to now go through the gateway.
@@ -204,7 +204,7 @@ environment to remove the deprecated functionality.
 - **Added** an analyzer for showing warning messages about incorrect/missing information related to Istio installations
   using an External Control Plane. ([Issue #47269](https://github.com/istio/istio/issues/47269))
 
-- **Added** IST0162 `GatewayPortNotDefinedOnService` message to detect the issue where a `Gateway` port was not exposed 
+- **Added** IST0162 `GatewayPortNotDefinedOnService` message to detect the issue where a `Gateway` port was not exposed
   by `Service`.
 
 - **Fixed** `istioctl operator remove` would remove all revisions of operator controller when the revision was "default"

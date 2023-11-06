@@ -26,7 +26,7 @@ Istio 1.20.0 is officially supported on Kubernetes versions `1.25` to `1.28`.
 
 ## What's new
 
-### Full Support for Gateway API GA (v1.0.0) and Improvements
+### Gateway API
 
 The Kubernetes [Gateway API](http://gateway-api.org/) is an initiative to bring a rich set of service networking APIs (
 similar to those of Istio VirtualService and Gateway) to Kubernetes.
@@ -55,9 +55,9 @@ opt in to the new behavior in preparation for the upcoming default switch.
 A new consistent ordering for Envoy filters across inbound, outbound, and gateway proxies has been implemented,
 ensuring that filters are applied uniformly, regardless of the traffic direction or protocol.
 
-### Expanded Support for Network WasmPlugins
+### Expanded Support for Network WasmPlugin
 
-The extensibility of Istio is further broadened with support for network WasmPlugins with a new type `NETWORK`.
+The extensibility of Istio is further broadened with support for network WasmPlugin with a new type `NETWORK`.
 
 ### TCP metadata exchange enhancements
 
@@ -66,7 +66,7 @@ Istio 1.20 brings two key updates to help control the TCP metadata exchange:
 - **Fallback Metadata Discovery** Istio can now use a backup method to collect metadata. To use this, turn on
   the `PEER_METADATA_DISCOVERY` in the proxy and `PILOT_ENABLE_AMBIENT_CONTROLLERS` in the control plane.
 - **ALPN Token Control**: There's a new setting called `PILOT_DISABLE_MX_ALPN` for the control plane. This lets you stop
-  using a specific token (istio-peer-exchange) that's normally needed for services to talk to each other.
+  using a specific token `istio-peer-exchange` that's normally needed for services to talk to each other.
 
 ### Traffic Mirroring to Multiple Destinations
 
