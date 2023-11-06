@@ -20,6 +20,8 @@ Istio 1.20.0 is officially supported on Kubernetes versions `1.25` to `1.28`.
 
 ## What's new
 
+### TODO(hanxiaop) edit contents here
+
 ## Upgrading to 1.20
 
 We would like to hear from you regarding your experience upgrading to Istio 1.20. You can provide feedback at [Discuss Istio](https://discuss.istio.io/), or join the #release-1.20 channel in our [Slack workspace](https://slack.istio.io/).

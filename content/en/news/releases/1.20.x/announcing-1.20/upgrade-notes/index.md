@@ -7,14 +7,15 @@ publishdate: 2023-11-14
 
 When you upgrade from Istio 1.19.x to Istio 1.20.x, you need to consider the changes on this page.
 These notes detail the changes which purposefully break backwards compatibility with Istio `1.19.x`.
-The notes also mention changes which preserve backwards compatibility while introducing new behavior.
+The notes also mention changes that preserve backwards compatibility while introducing new behavior.
 Changes are only included if the new behavior would be unexpected to a user of Istio `1.19.x`.
 
 ## Upcoming `ExternalName` support changes
 
 Below describes *upcoming* changes to `ExternalName`.
-In this release, there is no behavioral changes by default.
-However, you can explicitly opt-in to the new behavior early if desired, and prepare your environments for the upcoming
+
+In this release, there are no behavioral changes by default.
+However, you can explicitly opt in to the new behavior early if desired, and prepare your environments for the upcoming
 change.
 
 Kubernetes `ExternalName` `Service`s allow users to create new DNS entries. For example, you can create an `example`
@@ -37,7 +38,7 @@ This caused a few issues:
   used.
 
 `ExternalName` support has been revamped to fix these problems. `ExternalName`s are now simply treated as aliases.
-Wherever we would match `Host: <concrete service>` we additionally will match `Host: <external name service>`.
+Wherever we would match `Host: <concrete service>` we will additionally match `Host: <external name service>`.
 Note that the primary implementation of `ExternalName` -- DNS -- is handled outside of Istio in the Kubernetes DNS
 implementation, and remains unchanged.
 
@@ -50,7 +51,7 @@ If you are using `ExternalName` with Istio, please be advised of the following b
   service.
 
 These changes are off-by-default in this release, but will be on-by-default in the near future.
-To opt-in early, the `ENABLE_EXTERNAL_NAME_ALIAS=true` environment variable can be set.
+To opt in early, the `ENABLE_EXTERNAL_NAME_ALIAS=true` environment variable can be set.
 
 ## Envoy filter ordering
 
@@ -80,14 +81,13 @@ The sidecar container now comes with a `startupProbe` enabled by default.
 Startup probes run only at the start of the pod. Once the startup probe completes, readiness probes will continue.
 
 By using a startup probe, we can poll for the sidecar to start more aggressively, without polling as aggressively
-throughout
-the entire pod's lifecycle.
+throughout the entire pod's lifecycle.
 On average, this improves pod startup time by roughly 1s.
 
 If the startup probe does not pass after 10 minutes, the pod will be terminated.
 Previously, the pod would never be terminated even if it was unable to start indefinitely.
 
-If you do not want this feature, it can be disabled. However, you will want to tune the readiness probe with it.
+If you do not want this feature, it can be disabled. However, you will want to tune the readiness probe accordingly.
 
 The recommended values with the startup probe enabled (the new defaults):
 
