@@ -18,7 +18,6 @@ environment to remove the deprecated functionality.
 
 - **Improved** support for `ExternalName` services. See Upgrade Notes for more information.
 
-
 - **Improved** the ordering of HTTP and TCP envoy filters to improve consistency.
 
 - **Improved** `iptables` locking. The new implementation uses `iptables` builtin lock waiting when needed, and disables
@@ -30,7 +29,7 @@ environment to remove the deprecated functionality.
 - **Added** the ability for the user to specify the `IPFamilyPolicy` and `ipFamilies` setting in Istio Service resources
   either via the operator API or the helm charts.  ([Issue #44017](https://github.com/istio/istio/issues/44017))
 
-- **Added** support for network wasm plugins.
+- **Added** support for network Wasm plugins.
 
 - **Added** Inlined `WorkloadEntry` resources via `endpoints` field on `ServiceEntry` resources on different networks do
   not require an address to be specified.  ([Issue #45150](https://github.com/istio/istio/issues/45150))
@@ -45,7 +44,6 @@ environment to remove the deprecated functionality.
 
 - **Added** `failoverPriority` and `failover` to work together with each other.
 
-
 - **Added** Support alternate network namespace paths (for e.g. minikube) via `values.cni.cniNetnsDir`.
   ([Issue #47444](https://github.com/istio/istio/issues/47444))
 
@@ -56,7 +54,7 @@ environment to remove the deprecated functionality.
   ([Issue #45506](https://github.com/istio/istio/issues/45506))
 
 - **Fixed** Remote Gateways not being recognized when valid local gateways are not present.
-  Fixes https://github.com/istio/istio/issues/46435.
+  Fixes <https://github.com/istio/istio/issues/46435>.
   ([Issue #46437](https://github.com/istio/istio/issues/46437))
 
 - **Fixed** adding waypoints can cause traffic disruption.
@@ -72,7 +70,7 @@ environment to remove the deprecated functionality.
 - **Fixed** An issue where upstream DNS queries would result in pairs of permanently UNREPLIED conntrack
   entries.  ([Issue #46935](https://github.com/istio/istio/issues/46935))
 
-- **Fixed** an issue where auto allocation is allocation incorrect ips.
+- **Fixed** an issue where auto allocation is allocation incorrect IPs.
   ([Issue #47081](https://github.com/istio/istio/issues/47081))
 
 - **Fixed** An issue where multiple header matches in root virtual service generates incorrect
@@ -84,11 +82,11 @@ environment to remove the deprecated functionality.
 - **Fixed** Issue relying only on `HTTPRoute` to check `ReferenceGrant`.
   ([Issue #47341](https://github.com/istio/istio/issues/47341))
 
-- **Fixed** an issue where using a Sidecar resource using IstioIngressListener.defaultEndpoint cannot use [::1]:PORT if
+- **Fixed** an issue where using a Sidecar resource using `IstioIngressListener.defaultEndpoint` cannot use [::1]:PORT if
   the default IP addressing is not IPv6.
   ([Issue #47412](https://github.com/istio/istio/issues/47412))
 
-- **Fixed** Fixed multicluster secret filtering causing Istio to pick up secrets from every namespace.
+- **Fixed** multicluster secret filtering causing Istio to pick up secrets from every namespace.
   ([Issue #47433](https://github.com/istio/istio/issues/47433))
 
 - **Fixed** an issue causing traffic to terminating headless service instances to not function correctly.
@@ -106,7 +104,7 @@ environment to remove the deprecated functionality.
 
 ## Security
 
-- **Added** the capability to attach RequestAuthentication to Kubernetes `Gateway` resources via the `targetRef` field.
+- **Added** the capability to attach `RequestAuthentication` to Kubernetes `Gateway` resources via the `targetRef` field.
 
 - **Added** support for plugged root cert rotation.
 
@@ -134,19 +132,19 @@ environment to remove the deprecated functionality.
 - **Improved** Usage on OpenShift clusters is simplified by removing the need of granting the `anyuid` SCC privilege to
   Istio and applications.
 
-- **Updated** Kiali addon to version v1.76.0.
+- **Updated** Kiali addon to version `v1.76.0`.
 
-- **Added** volumes and volumeMounts to the gateways chart.
+- **Added** `volumes` and `volumeMounts` to the gateways chart.
 
 - **Added** basic ztunnel support for revisions when installing with istioctl.
   ([Issue #46421](https://github.com/istio/istio/issues/46421))
 
-- **Added** env var PILOT_ENABLE_GATEWAY_API_GATEWAYCLASS_CONTROLLER to enable/disable management of built-in
-  GatewayClasses.
+- **Added** env var `PILOT_ENABLE_GATEWAY_API_GATEWAYCLASS_CONTROLLER` to enable/disable management of built-in
+  `GatewayClasses`.
   ([Issue #46553](https://github.com/istio/istio/issues/46553))
 
 - **Added** eBPF redirection support for ambient after CNCF established guidance around dual-licensed eBPF bytecode.
-  https://github.com/cncf/foundation/issues/474#issuecomment-1739796978
+  <https://github.com/cncf/foundation/issues/474#issuecomment-1739796978>
   ([Issue #47257](https://github.com/istio/istio/issues/47257))
 
 - **Added** helm values for easier installation of ambient when the user wishes to use Helm.
@@ -158,7 +156,6 @@ environment to remove the deprecated functionality.
 - **Fixed** an issue where resources are being pruned when installing with the dry-run option.
 
 - **Fixed** an issue where installing Istio with `empty` profile did not have components information displayed.
-
 
 - **Fixed** an issue where the installation process continued even if a resource failed to be applied, causing
   unexpected behavior.
@@ -175,7 +172,7 @@ environment to remove the deprecated functionality.
 
 ## istioctl
 
-- **Added** a new `istioctl dashboard proxy` command, which can be used to show the admin UI of differnt proxy pods,
+- **Added** a new `istioctl dashboard proxy` command, which can be used to show the admin UI of different proxy pods,
   like Envoy, Ztunnel, Waypoint.
 
 - **Added** output format option for `istioctl experimental pre-check` command. Valid options are `log`, `json`
@@ -187,7 +184,7 @@ environment to remove the deprecated functionality.
 - **Added** support for auto-detecting the pilot's monitoring port if it is not set to the default value of `15014`.
   ([Issue #46652](https://github.com/istio/istio/issues/46652))
 
-- **Added** lazy loading for default namespace detection in `istioctl` to avoid checking the kube config for commands
+- **Added** lazy loading for default namespace detection in `istioctl` to avoid checking the kubeconfig for commands
   that require no Kubernetes environment.
   ([Issue #47159](https://github.com/istio/istio/issues/47159))
 

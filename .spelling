@@ -28,11 +28,13 @@ _v3_
 1.17.x
 1.18.x
 1.19.x
+1.20.x
 1.23.x
 1.24.x
 1.25.x
 1.26.x
 1.27.x
+1.28.x
 1.2.x
 1.2.x.
 1.3.x
@@ -58,6 +60,7 @@ _v3_
 18x
 1ms
 1qps
+1s
 1xx
 2.5s
 2010s
@@ -146,6 +149,7 @@ attestors
 AttributeGen
 Auth0
 AuthenticationPolicy
+Authn
 AuthorizationPolicy
 authorizer
 AuthPolicy
@@ -243,6 +247,7 @@ ConfigMap
 configmaps
 configurability
 conformant
+conntrack
 containerID
 ControlZ
 Coraza
@@ -477,6 +482,7 @@ git
 GitHub
 GitOps
 GKE
+glibc
 Gloo
 GlueCon
 Gmail
@@ -988,6 +994,7 @@ Srihari
 Srinath
 Stackdriver
 Standard_D4ds_v5
+StartupProbe
 stateful
 Statsd
 stdin

@@ -68,12 +68,12 @@ Istio does not guarantee that minor releases that fall outside the support windo
 Please keep up-to-date and use a supported version.
 {{< /warning >}}
 
-| Minor Releases   | Patched versions with no known CVEs                  |
-| ---------------- | ---------------------------------------------------- |
-| 1.20.x           | 1.20.0+                                              |
-| 1.19.x           | 1.19.0+                                              |
-| 1.18.x           | 1.18.2+                                              |
-| 1.17.x           | 1.17.5+                                              |
+| Minor Releases | Patched versions with no known CVEs                  |
+|----------------| ---------------------------------------------------- |
+| 1.20.x         | 1.20.0+                                              |
+| 1.19.x         | 1.19.0+                                              |
+| 1.18.x         | 1.18.2+                                              |
+| 1.17.x         | 1.17.5+                                              |
 
 ## Supported Envoy Versions
 

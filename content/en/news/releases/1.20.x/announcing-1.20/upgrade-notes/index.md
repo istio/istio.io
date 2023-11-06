@@ -91,21 +91,21 @@ If you do not want this feature, it can be disabled. However, you will want to t
 
 The recommended values with the startup probe enabled (the new defaults):
 
-```
+{{< text yaml >}}
 readinessInitialDelaySeconds: 0
 readinessPeriodSeconds: 15
 readinessFailureThreshold: 4
 startupProbe:
   enabled: true
   failureThreshold: 600
-```
+{{< /text >}}
 
 The recommended values to disable the startup probe (reverting the behavior to match older Istio versions):
 
-```
+{{< text yaml >}}
 readinessInitialDelaySeconds: 1
 readinessPeriodSeconds: 2
 readinessFailureThreshold: 30
 startupProbe:
   enabled: false
-```
+{{< /text >}}
