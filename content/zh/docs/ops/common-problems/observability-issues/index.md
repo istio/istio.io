@@ -47,7 +47,7 @@ Kubernetes 集群内的时间同步服务是否正确运行，以及 Web 客户�
 Istio CNI 插件在 Kubernetes Pod 生命周期中的网络配置阶段执行 Istio
 网格 Pod 流量重定向，从而消除了用户将 Pod 部署到 Istio 网格中的
 [`NET_ADMIN` 和 `NET_RAW` 的需求](/zh/docs/ops/deployment/requirements/)。
-Istio CNI 插件取代了 `Istio-init` 容器提供的功能。
+Istio CNI 插件取代了 `istio-init` 容器提供的功能。
 
 1. 验证 `istio-cni-node` Pod 正在运行：
 

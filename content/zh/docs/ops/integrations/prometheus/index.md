@@ -78,7 +78,7 @@ Chart 提供的配置。
 
 * 您需要使用 TLS 收集指标。
 * 您的应用程序暴露的指标与 Istio 暴露的指标重名。例如，
-  您的应用程序暴露一个叫做 `istio_request_total` 的指标。
+  您的应用程序暴露一个叫做 `istio_requests_total` 的指标。
   如果应用程序本身正在运行 Envoy，这就有可能发生。
 * 您的 Prometheus Deployment 没有配置通过 `prometheus.io` 注解抓取指标。
 

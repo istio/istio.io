@@ -95,9 +95,9 @@ istiod.istio-system.svc.cluster.local   15014     -       outbound      EDS
 
 ## 自动注册 {#automatic-registration}
 
-当虚拟机连接到 Istiod 时，会自动创建一个 `workloadEntry`。
-这使得虚拟机成为 `service` 的一部分，类似于 Kubernetes
-中的 `endpoint`。
+当虚拟机连接到 Istiod 时，会自动创建一个 `WorkloadEntry`。
+这使得虚拟机成为 `Service` 的一部分，类似于 Kubernetes
+中的 `Endpoint`。
 
 检查这些配置是否正确创建:
 
