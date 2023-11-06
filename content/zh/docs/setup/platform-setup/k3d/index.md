@@ -94,7 +94,7 @@ k3d 没有像 minikube 这样的内置仪表板 UI。但是您仍然可以设置
     kubernetes-dashboard-67bd8fc546-4xfmm        1/1     Running   0          25s
     {{< /text >}}
 
-1. 创建 `serviceaccount` 和 `clusterrolebinding` 为新创建的集群提供管理员访问权限。
+1. 创建 `ServiceAccount` 和 `ClusterRoleBinding` 为新创建的集群提供管理员访问权限。
 
     {{< text bash >}}
     $ kubectl create serviceaccount -n kubernetes-dashboard admin-user
