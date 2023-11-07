@@ -28,7 +28,7 @@ environment to remove the deprecated functionality.
 - **Added** support for traffic mirroring to multiple destinations in `VirtualService`.
   ([Issue #13330](https://github.com/istio/istio/issues/13330))
 
-- **Added** the ability for the user to specify the `IPFamilyPolicy` and `ipFamilies` settings in Istio Service
+- **Added** the ability for the user to specify the `ipFamilyPolicy` and `ipFamilies` settings in Istio Service
   resources either via the operator API or the Helm charts.
   ([Issue #44017](https://github.com/istio/istio/issues/44017))
 
