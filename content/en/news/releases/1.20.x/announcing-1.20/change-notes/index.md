@@ -48,7 +48,7 @@ environment to remove the deprecated functionality.
 
 - **Added** `failoverPriority` and `failover` to work in conjunction with each other.
 
-- **Added** Support for alternate network namespace paths (for e.g. minikube) via `values.cni.cniNetnsDir`.
+- **Added** support for alternate network namespace paths (for e.g. minikube) via `values.cni.cniNetnsDir`.
   ([Issue #47444](https://github.com/istio/istio/issues/47444))
 
 - **Fixed** immediate `WorkloadEntry` auto-registration for proxies that are already connected
