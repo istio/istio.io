@@ -82,7 +82,7 @@ Startup probes run only at the start of the pod. Once the startup probe complete
 
 By using a startup probe, we can poll for the sidecar to start more aggressively, without polling as aggressively
 throughout the entire pod's lifecycle.
-On average, this improves pod startup time by roughly 1s.
+On average, this improves pod startup time by roughly one second.
 
 If the startup probe does not pass after 10 minutes, the pod will be terminated.
 Previously, the pod would never be terminated even if it was unable to start indefinitely.
