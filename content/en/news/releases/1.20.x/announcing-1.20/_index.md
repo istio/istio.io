@@ -31,7 +31,7 @@ Istio 1.20.0 is officially supported on Kubernetes versions `1.25` to `1.28`.
 The Kubernetes [Gateway API](http://gateway-api.org/) is an initiative to bring a rich set of service networking APIs (
 similar to those of Istio VirtualService and Gateway) to Kubernetes.
 
-Now Kubernetes Gateway API is GA, and Istio brings full support for it! This effort was a widespread community effort
+Now that the Kubernetes Gateway API is GA, and Istio brings full support for it! This effort was a widespread community effort
 across the broader Kubernetes ecosystem and has multiple conformant implementations (including Istio). This marks a
 significant milestone, as Istio users can now leverage the stable set of Gateway API
 features for enhanced traffic management and ingress control in production environments.
