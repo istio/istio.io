@@ -64,7 +64,7 @@ environment to remove the deprecated functionality.
   ([Issue #46540](https://github.com/istio/istio/issues/46540))
 
 - **Fixed** an issue with reaching multi-network endpoints that are unreachable due to a `DestinationRule` TLS mode
-  other than `ISTIO_MUTUAL`.
+  set to something other than `ISTIO_MUTUAL`.
   ([Issue #46555](https://github.com/istio/istio/issues/46555))
 
 - **Fixed** an issue with Waypoint proxies missing the `ISTIO_META_NETWORK` field, which can be configured at install time using
