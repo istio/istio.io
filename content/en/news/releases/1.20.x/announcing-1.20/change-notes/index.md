@@ -67,7 +67,7 @@ environment to remove the deprecated functionality.
   set to something other than `ISTIO_MUTUAL`.
   ([Issue #46555](https://github.com/istio/istio/issues/46555))
 
-- **Fixed** an issue with Waypoint proxies missing the `ISTIO_META_NETWORK` field, which can be configured at install time using
+- **Fixed** an issue where Waypoint proxies were missing the `ISTIO_META_NETWORK` field when not configured at install time using
   `values.global.network` or overridden with `topology.istio.io/network` on the Kubernetes `Gateway` resource.
 
 - **Fixed** an issue where upstream DNS queries would result in pairs of permanently UNREPLIED conntrack
