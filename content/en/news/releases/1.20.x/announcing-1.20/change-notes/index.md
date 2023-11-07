@@ -70,8 +70,8 @@ environment to remove the deprecated functionality.
 - **Fixed** an issue where Waypoint proxies were missing the `ISTIO_META_NETWORK` field when not configured at install time using
   `values.global.network` or overridden with `topology.istio.io/network` on the Kubernetes `Gateway` resource.
 
-- **Fixed** an issue where upstream DNS queries would result in pairs of permanently UNREPLIED conntrack
-  entries. ([Issue #46935](https://github.com/istio/istio/issues/46935))
+- **Fixed** an issue where upstream DNS queries would result in pairs of permanently `UNREPLIED` `conntrack`
+  `iptables` entries. ([Issue #46935](https://github.com/istio/istio/issues/46935))
 
 - **Fixed** an issue with auto-allocation assigning incorrect IPs.
   ([Issue #47081](https://github.com/istio/istio/issues/47081))
