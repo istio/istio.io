@@ -58,8 +58,7 @@ environment to remove the deprecated functionality.
   ([Issue #45506](https://github.com/istio/istio/issues/45506))
 
 - **Fixed** an issue with remote gateways not being recognized in the absence of valid local gateways.
-  Fixes <https://github.com/istio/istio/issues/46435>.
-  ([Issue #46437](https://github.com/istio/istio/issues/46437))
+  ([Issue #46435](https://github.com/istio/istio/issues/46435))
 
 - **Fixed** an issue where adding Waypoint proxies could cause traffic disruption.
   ([Issue #46540](https://github.com/istio/istio/issues/46540))
