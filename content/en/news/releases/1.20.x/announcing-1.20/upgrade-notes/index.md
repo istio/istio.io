@@ -75,7 +75,7 @@ This changes the following areas:
 * Inbound TCP filters now place Metadata Exchange before Authn.
 * Gateway TCP filters now place stats after Authz, and CUSTOM Authz before Authn.
 
-## StartupProbe added to sidecar by default
+## `startupProbe` added to sidecar by default
 
 The sidecar container now comes with a `startupProbe` enabled by default.
 Startup probes run only at the start of the pod. Once the startup probe completes, readiness probes will continue.
