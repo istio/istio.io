@@ -55,7 +55,7 @@ To opt in early, the `ENABLE_EXTERNAL_NAME_ALIAS=true` environment variable can 
 
 ## Envoy filter ordering
 
-This change impacts internal implementation of how Envoy "filters" are ordered. These filters run in order to implement
+This change impacts internal implementation of how Envoy filters are ordered. These filters run in order to implement
 various functionality.
 
 The ordering is now consistent across inbound, outbound and gateway proxy modes, as well as HTTP and TCP protocols:
