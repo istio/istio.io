@@ -80,7 +80,6 @@ environment to remove the deprecated functionality.
   routes. ([Issue #47148](https://github.com/istio/istio/issues/47148))
 
 - **Fixed** DNS Proxy resolution for wildcard `ServiceEntry` with the search domain suffix for glibc-based containers.
-  ([Issue #47290](https://github.com/istio/istio/issues/47290)),
   ([Issue #47264](https://github.com/istio/istio/issues/47264)),
   ([Issue #31250](https://github.com/istio/istio/issues/31250)),
   ([Issue #33360](https://github.com/istio/istio/issues/33360)),
