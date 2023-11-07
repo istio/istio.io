@@ -12,7 +12,7 @@ Changes are only included if the new behavior would be unexpected to a user of I
 
 ## Upcoming `ExternalName` support changes
 
-Below describes *upcoming* changes to `ExternalName`.
+The following information describes *upcoming* changes to `ExternalName`.
 
 In this release, there are no behavioral changes by default.
 However, you can explicitly opt in to the new behavior early if desired, and prepare your environments for the upcoming
@@ -33,13 +33,12 @@ This caused a few issues:
 * Ports not declared as `HTTP` would match *all* traffic on that port, making it easy to accidentally send all traffic
   on a port to the wrong place.
 * Because the destination DNS name is treated as opaque, we cannot apply Istio policies to it as expected. For example,
-  if I point
-  an external name at another in-cluster Service (for example, `example.default.svc.cluster.local`), mTLS would not be
-  used.
+  if an external name points to another in-cluster Service (for example, `example.default.svc.cluster.local`), mTLS
+  would not be.
 
 `ExternalName` support has been revamped to fix these problems. `ExternalName`s are now simply treated as aliases.
 Wherever we would match `Host: <concrete service>` we will additionally match `Host: <external name service>`.
-Note that the primary implementation of `ExternalName` -- DNS -- is handled outside of Istio in the Kubernetes DNS
+Note that the primary implementation of `ExternalName` DNS is handled outside of Istio in the Kubernetes DNS
 implementation, and remains unchanged.
 
 If you are using `ExternalName` with Istio, please be advised of the following behavioral changes:
@@ -48,7 +47,7 @@ If you are using `ExternalName` with Istio, please be advised of the following b
 * `VirtualServices` that match on an `ExternalName` service will generally no longer match. Instead, the match should be
   rewritten to the referenced service.
 * `DestinationRule` can no longer apply to `ExternalName` services. Instead, create rules where the `host` references
-  service.
+  the service.
 
 These changes are off-by-default in this release, but will be on-by-default in the near future.
 To opt in early, the `ENABLE_EXTERNAL_NAME_ALIAS=true` environment variable can be set.
@@ -96,8 +95,8 @@ readinessInitialDelaySeconds: 0
 readinessPeriodSeconds: 15
 readinessFailureThreshold: 4
 startupProbe:
-  enabled: true
-  failureThreshold: 600
+enabled: true
+failureThreshold: 600
 {{< /text >}}
 
 The recommended values to disable the startup probe (reverting the behavior to match older Istio versions):
@@ -107,5 +106,5 @@ readinessInitialDelaySeconds: 1
 readinessPeriodSeconds: 2
 readinessFailureThreshold: 30
 startupProbe:
-  enabled: false
+enabled: false
 {{< /text >}}

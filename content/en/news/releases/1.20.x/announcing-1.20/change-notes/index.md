@@ -11,7 +11,8 @@ weight: 20
 ## Deprecation Notices
 
 These notices describe functionality that will be removed in a future release according
-to [Istio's deprecation policy](/docs/releases/feature-stages/#feature-phase-definitions). Please consider upgrading your
+to [Istio's deprecation policy](/docs/releases/feature-stages/#feature-phase-definitions). Please consider upgrading
+your
 environment to remove the deprecated functionality.
 
 - There are no new deprecations in Istio 1.20.0
@@ -25,6 +26,10 @@ environment to remove the deprecated functionality.
 - **Improved** `iptables` locking. The new implementation uses the built-in `iptables` lock waiting when needed, and
   disables locking entirely when it's not needed.
 
+- **Improved** `WorkloadEntry` resources added inline via the `endpoints` field in `ServiceEntry` resources on different
+  networks to no longer require an address to be specified.
+  ([Issue #45150](https://github.com/istio/istio/issues/45150))
+
 - **Added** support for traffic mirroring to multiple destinations in `VirtualService`.
   ([Issue #13330](https://github.com/istio/istio/issues/13330))
 
@@ -34,11 +39,8 @@ environment to remove the deprecated functionality.
 
 - **Added** support for network `WasmPlugin`.
 
-- **Added** inlined `WorkloadEntry` resources via the `endpoints` field on `ServiceEntry` resources on different
-  networks do not require an address to be specified.
-  ([Issue #45150](https://github.com/istio/istio/issues/45150))
-
-- **Added** a gated flag `ISTIO_ENABLE_IPV4_OUTBOUND_LISTENER_FOR_IPV6_CLUSTERS` to manage an additional outbound listener
+- **Added** a gated flag `ISTIO_ENABLE_IPV4_OUTBOUND_LISTENER_FOR_IPV6_CLUSTERS` to manage an additional outbound
+  listener
   for IPv6-only clusters to handle IPv4 NAT outbound traffic.
   This is useful for IPv6-only cluster environments such as EKS, which manages both egress-only IPv4 and IPv6 IPs.
   ([Issue #46719](https://github.com/istio/istio/issues/46719))
@@ -67,7 +69,8 @@ environment to remove the deprecated functionality.
   set to something other than `ISTIO_MUTUAL`.
   ([Issue #46555](https://github.com/istio/istio/issues/46555))
 
-- **Fixed** an issue where Waypoint proxies were missing the `ISTIO_META_NETWORK` field when not configured at install time using
+- **Fixed** an issue where Waypoint proxies were missing the `ISTIO_META_NETWORK` field when not configured at install
+  time using
   `values.global.network` or overridden with `topology.istio.io/network` on the Kubernetes `Gateway` resource.
 
 - **Fixed** an issue where upstream DNS queries would result in pairs of permanently `UNREPLIED` `conntrack`
@@ -89,7 +92,8 @@ environment to remove the deprecated functionality.
 - **Fixed** an issue relying only on `HTTPRoute` to check `ReferenceGrant`.
   ([Issue #47341](https://github.com/istio/istio/issues/47341))
 
-- **Fixed** an issue where using a `Sidecar` resource with `IstioIngressListener.defaultEndpoint` could not use [::1]:PORT
+- **Fixed** an issue where using a `Sidecar` resource with `IstioIngressListener.defaultEndpoint` could not use [::1]:
+  PORT
   if the default IP addressing was not IPv6.
   ([Issue #47412](https://github.com/istio/istio/issues/47412))
 
@@ -128,7 +132,7 @@ environment to remove the deprecated functionality.
 - **Added** xDS workload metadata discovery to the TCP metadata exchange filter as a fallback. This requires
   enabling the `PEER_METADATA_DISCOVERY` flag on the proxy and `PILOT_ENABLE_AMBIENT_CONTROLLERS` on the control plane.
 
-- **Added** a flag `PILOT_DISABLE_MX_ALPN` on the control plane to disable advertising the TCP metadata exchange ALPN
+- **Added** flag `PILOT_DISABLE_MX_ALPN` on the control plane to disable advertising the TCP metadata exchange ALPN
   token `istio-peer-exchange`.
 
 ## Extensibility
@@ -142,12 +146,12 @@ environment to remove the deprecated functionality.
 
 - **Updated** the Kiali addon to version `v1.76.0`.
 
-- **Added** `volumes` and `volumeMounts` to the gateways chart.
+- **Added** `volumes` and `volumeMounts` values to the gateways Helm chart.
 
-- **Added** basic ztunnel support for revisions when installing with `istioctl`.
+- **Added** basic revision support to Ztunnel when installing with `istioctl`.
   ([Issue #46421](https://github.com/istio/istio/issues/46421))
 
-- **Added** an env var `PILOT_ENABLE_GATEWAY_API_GATEWAYCLASS_CONTROLLER` to enable/disable management of built-in
+- **Added** flag `PILOT_ENABLE_GATEWAY_API_GATEWAYCLASS_CONTROLLER` to enable/disable management of built-in
   `GatewayClasses`.
   ([Issue #46553](https://github.com/istio/istio/issues/46553))
 
@@ -157,7 +161,8 @@ environment to remove the deprecated functionality.
 
 - **Added** Helm values for easier installation of ambient for users who wish to use Helm.
 
-- **Added** a `startupProbe` by default for the sidecar. This optimizes startup time and minimizes load throughout the
+- **Added** a `startupProbe` by default to the sidecar resource. This optimizes startup time and minimizes load
+  throughout the
   pod lifecycle. See the Upgrade Notes for more information.
   ([Issue #32569](https://github.com/istio/istio/issues/32569))
 
@@ -172,8 +177,7 @@ environment to remove the deprecated functionality.
 - **Fixed** an issue where Waypoint proxies were not injected with the correct image if `values.global.proxy.image` was
   set to a custom image.
 
-- **Fixed** an issue where sometimes `uninstall` was performed without confirmation when Istiod was not available to be
-  connected.
+- **Fixed** an issue where sometimes `uninstall` was performed without confirmation when Istiod was not available.
 
 - **Removed** support for installing the `ambient` profile with the in-cluster operator.
   ([Issue #46524](https://github.com/istio/istio/issues/46524))
@@ -186,8 +190,8 @@ environment to remove the deprecated functionality.
 - **Added** an output format option for the `istioctl experimental pre-check` command. Valid options are `log`, `json`
   or `yaml`.
 
-- **Added** a `--output-threshold` flag in `istioctl experimental precheck` to control the message output threshold.
-  The default threshold is now `warning`, which replaces the previous behavior of `info`.
+- **Added** `--output-threshold` flag in `istioctl experimental precheck` to control the message output threshold.
+  The default threshold is now `warning`, which replaces the previous default of `info`.
 
 - **Added** support for auto-detecting the pilot's monitoring port if it is not set to the default value of `15014`.
   ([Issue #46652](https://github.com/istio/istio/issues/46652))
@@ -202,15 +206,16 @@ environment to remove the deprecated functionality.
 - **Added** an analyzer for showing warning messages about incorrect/missing information related to Istio installations
   using an External Control Plane. ([Issue #47269](https://github.com/istio/istio/issues/47269))
 
-- **Added** IST0162 `GatewayPortNotDefinedOnService` message to detect the issue where a `Gateway` port was not exposed
+- **Added** IST0162 `GatewayPortNotDefinedOnService` message to detect an issue where a `Gateway` port was not exposed
   by `Service`.
 
-- **Fixed** `istioctl operator remove` would remove all revisions of operator controller when the revision was "default"
-  or not specified. ([Issue #45242](https://github.com/istio/istio/issues/45242))
+- **Fixed** `istioctl operator remove` command not to remove all revisions of the operator controller when the revision
+  was "default" or not specified. ([Issue #45242](https://github.com/istio/istio/issues/45242))
 
 - **Fixed** an issue where `verify-install` had incorrect results when installed deployments were not healthy.
 
-- **Fixed** `istioctl experimental describe` provides incorrect `Gateway` information when using the injected gateway.
+- **Fixed** `istioctl experimental describe` command that provided incorrect `Gateway` information when using the
+  injected gateway.
 
 - **Fixed** an issue where `istioctl analyze` would analyze irrelevant configmaps.
   ([Issue #46563](https://github.com/istio/istio/issues/46563))
