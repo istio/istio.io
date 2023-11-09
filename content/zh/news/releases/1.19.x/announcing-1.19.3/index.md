@@ -1,8 +1,8 @@
 ---
-title: Announcing Istio 1.19.3
+title: 发布 Istio 1.19.3
 linktitle: 1.19.3
-subtitle: Patch Release
-description: Istio 1.19.3 patch release.
+subtitle: 补丁发布
+description: Istio 1.19.3 补丁发布。
 publishdate: 2023-10-11
 release: 1.19.3
 ---

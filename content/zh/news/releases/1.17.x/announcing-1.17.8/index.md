@@ -1,5 +1,5 @@
 ---
-title: Announcing Istio 1.17.8
+title: 发布 Istio 1.17.8
 linktitle: 1.17.8
 subtitle: 补丁发布
 description: Istio 1.17.8 补丁发布。
