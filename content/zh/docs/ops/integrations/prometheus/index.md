@@ -127,7 +127,6 @@ Chart 提供的配置。
 #### TLS 设置 {#TLS-settings}
 
 控制平面，网关和 Envoy Sidecar 指标将会作为明文被收集。
-
 但是，应用程序指标将遵循为工作负载配置的任何
 [Istio 身份验证策略](/zh/docs/tasks/security/authentication/authn-policy)。
 
