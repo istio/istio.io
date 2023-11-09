@@ -87,7 +87,8 @@ snips:
 
 format-spelling:
 	@echo "Sorting the .spelling file..."
-	@sort .spelling --ignore-case -o .spelling
+	@{ grep '^#' .spelling; grep -v '^#' .spelling | sort --ignore-case; } > .spelling.sorted
+	@mv .spelling.sorted .spelling
 	@echo ".spelling file sorted."
 
 gen: tidy-go format-go update-gateway-version snips format-spelling
