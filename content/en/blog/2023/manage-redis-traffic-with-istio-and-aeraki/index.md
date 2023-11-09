@@ -1,7 +1,7 @@
 ---
 title: "Database Mesh: Simplify Redis Cluster with Istio and Aeraki"
 description: Managing a Redis Cluster can be complicated. With the help of Istio and Aeraki, advanced Redis features such as data sharding, prefix routing, read/write separation, traffic mirroring, fault injection can be easily achieved without modifying the applications.
-publishdate: 2023-05-11
+publishdate: 2023-11-09
 
 attribution: "Huabing Zhao (Tetrate)"
 keywords: [istio,aeraki,redis]
