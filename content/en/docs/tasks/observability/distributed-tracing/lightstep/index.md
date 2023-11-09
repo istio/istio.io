@@ -25,7 +25,7 @@ This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as an
 
 1. Ensure you have a Cloud Observability account. 
 
-1. Ensure sure you have a SNCO [access token](https://docs.lightstep.com/docs/create-and-manage-access-tokens). Access tokens allow your app to communicate with your SNCO project.
+1. Ensure sure you have a Cloud Observability [access token](https://docs.lightstep.com/docs/create-and-manage-access-tokens). Access tokens allow your app to communicate with your project.
 
 ## Setup Istio
 
@@ -245,20 +245,20 @@ spec:
 
 1. Deploy the collector to the `istio-system` namespace in the cluster
 
-{{< text bash >}}
-$ kubectl apply -f otel-collector.yaml -n istio-system
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl apply -f otel-collector.yaml -n istio-system
+    {{< /text >}}
 
-**Note:** This example uses a specific version of the collector. To use the latest version or some other preferred version, update the `image` with the latest version of the `opentelemetry-collector`. See [here](https://github.com/open-telemetry/opentelemetry-collector/releases) for the list of collector releases.
+**Note:** This example uses a specific version of the Collector. To use the latest version or some other preferred version, update the `image` with the latest version of the `opentelemetry-collector`. See [here](https://github.com/open-telemetry/opentelemetry-collector/releases) for the list of Collector releases.
 
-The OpenTelemetry Collector is now deployed and running in the cluster. Now we need to configure Istio to send the distributed tracing data to the collector.
+The OpenTelemetry Collector is now deployed and running in the cluster. Now we need to configure Istio to send the distributed tracing data to the Collector.
 
 ### Configure Istio Telemetry
 
-With the collector deployed and configured to export data to Cloud Observability we now need to configure Istio to use OpenTelemetry and send the telemetry data to the collector.
+With the Collector deployed and configured to export data to Cloud Observability, we now need to configure Istio to use OpenTelemetry and send the telemetry data to the Collector.
 
 1. Create a new file named `istio-telemetry.yaml`
-1. Add the following ConfigMap to the file. This configures Istio to use OpenTelemetry for tracing and configures the service (the collector) where it should send the OpenTelemetry data.
+1. Add the following `ConfigMap` to the file. This configures Istio to use OpenTelemetry for tracing and configures the service (the Collector) where it should send the OpenTelemetry data.
 
 {{< text yaml >}}
 apiVersion: v1
@@ -336,15 +336,15 @@ $ kubectl get deployments
 
 Istio is now configured to use OpenTelemetry for distributed tracing and send the tracing data to the OpenTelemetry Collector. Let’s test it all out and review the data in Cloud Observability.
 
-## See the Results in SNCO
+## See the Results in Cloud Observability
 
 Istio is now configured to send OpenTelemetry data to Cloud Observability via a local OpenTelemetry Collector. Let’s use the **Bookinfo** application to test our configuration and review the results in Cloud Observability.
 
 1. Load the **Bookinfo** app in your browser again and refresh a few times to generate some traces.
-1. Sign in to ServiceNow Cloud Observability
+1. Sign in to [Cloud Observability](https://app.lightstep.com).
 1. Click on Notebooks in the side navigation bar
 
-    {{< image link="./notebooks.png" caption="Open SNCO Notebooks" >}}
+    {{< image link="./notebooks.png" caption="Open Cloud Observability Notebooks" >}}
 
 1. In the Unified Query Builder change `All telemetry` to `Spans with`
 
@@ -364,13 +364,13 @@ Review the information that is available in this trace view. You should see a tr
 
 ## Conclusion
 
-You now have Istio configured for tracing with OpenTelemetry and a collector deployed to export the data to SNCO. Using this data you can monitor the health of requests flowing through your services and build dependency diagrams to visualize your microservice architecture. The rich span data provides important information about the context of requests and enables powerful querying capabilities to aid your investigations.
+You now have Istio configured for tracing with OpenTelemetry and a Collector deployed to export the data to Cloud Observability. Using this data you can monitor the health of requests flowing through your services and build dependency diagrams to visualize your microservice architecture. The rich span data provides important information about the context of requests and enables powerful querying capabilities to aid your investigations.
 
 All of this was accomplished without needing to modify any of the actual services running in your cluster. This solution allows you to start observing your applications with minimal effort and without the need to involve the service teams.
 
 ### Additional Resources
 
-To further your journey with Istio, OpenTelemetry and SNCO, take a look at some of these resources:
+To further your journey with Istio, OpenTelemetry and Cloud Observability, take a look at some of these resources:
 
 * [Configure Istio to Send Metrics to Cloud Observability](https://docs.lightstep.com/integrations/ingest-metrics-istio)
 * [Understand Distributed Tracing](https://docs.lightstep.com/docs/understand-distributed-tracing)
@@ -384,16 +384,16 @@ To further your journey with Istio, OpenTelemetry and SNCO, take a look at some 
 Istio captures traces at a configurable trace sampling percentage. To learn how to modify the trace sampling percentage,
 visit the [Distributed Tracing trace sampling section](/docs/tasks/observability/distributed-tracing/mesh-and-proxy-config/#customizing-trace-sampling).
 
-When using SNCO, we do not recommend reducing the trace sampling percentage below 100%. To handle a high traffic mesh, consider scaling up the size of your satellite pool.
+When using Cloud Observability, we do not recommend reducing the trace sampling percentage below 100%. To handle a high-traffic mesh, consider scaling up the size of your satellite pool.
 
 ## Cleanup
 
-If you are not planning any follow-up tasks, remove the Bookinfo sample application and any SNCO secrets
+If you are not planning any follow-up tasks, remove the Bookinfo sample application and any Cloud Observability secrets.
 from your cluster.
 
 1. To remove the Bookinfo application, refer to the [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions.
 
-1. Remove the secret generated for SNCO:
+1. Remove the secret generated for Cloud Observability:
 
 {{< text bash >}}
 $ kubectl delete secret lightstep.cacert
