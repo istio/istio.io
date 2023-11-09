@@ -23,7 +23,7 @@ This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as an
 
 ## Before you begin
 
-1. Ensure you have a SNCO account. You can use the free community tier and sign up [here](https://info.servicenow.com/developersignup.html).
+1. Ensure you have a Cloud Observability account. 
 
 1. Ensure sure you have a SNCO [access token](https://docs.lightstep.com/docs/create-and-manage-access-tokens). Access tokens allow your app to communicate with your SNCO project.
 
