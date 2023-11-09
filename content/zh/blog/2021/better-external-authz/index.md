@@ -17,7 +17,7 @@ Istio 的授权策略为网格中的服务提供访问控制。它速度快、�
 [嵌套 JWT 声明支持](/zh/docs/tasks/security/authorization/authz-jwt/)等等。
 这些特性提高了授权策略的灵活性，但仍有许多场景无法通过该模型支持，例如：
 
-- 您拥有自己的内部授权系统，该系统无法轻松的被迁移或替换至授权策略中。
+- 您拥有自己的内部授权系统，该系统无法轻松地被迁移或替换到授权策略中。
 
 - 您想与使用 Istio 中的[底层 Envoy 配置 API](/zh/docs/reference/config/networking/envoy-filter/)
   （例如 [Open Policy Agent](https://www.openpolicyagent.org/docs/latest/envoy-introduction/)
@@ -67,14 +67,14 @@ spec:
   selector:
     matchLabels:
       app: istio-ingressgateway
-  # “CUSTOM” 操作将 action 委托给外部授权者，
+  # “CUSTOM” 操作将访问控制委托给外部授权者，
   # 这与在代理内部强制执行访问控制权的 ALLOW/DENY 操作不同。
   action: CUSTOM
   # provider 指定在 meshconfig 中定义的外部授权者的名称，
-  # 它告诉在哪里以及如何与外部身份验证服务通信。我们稍后会详细介绍这一点。
+  # 从这个名称可以告知在哪里以及如何与外部身份验证服务通信。我们稍后会详细介绍这一点。
   provider:
     name: "my-ext-authz-service"
-  # 该规则指定只有请求路径有前缀 “/admin/” 时才触发访问控制。
+  # 这条规则指定只有请求路径有前缀 “/admin/” 时才触发访问控制。
   # 这允许您轻松地根据请求启用或禁用外部授权，避免在不需要时进行外部检查请求。
   rules:
   - to:
@@ -93,8 +93,8 @@ extensionProviders:
   # See more in https://www.envoyproxy.io/docs/envoy/v1.16.2/intro/arch_overview/security/ext_authz_filter.
   # 更多信息请参见 https://www.envoyproxy.io/docs/envoy/v1.16.2/intro/arch_overview/security/ext_authz_filter。
   envoyExtAuthzGrpc:
-    # service 和 port 指定外部auth服务的地址，
-    # “ext-authz.istio-system.svc.cluster.local” 表示该服务部署在mesh中。
+    # service 和 port 指定外部 auth 服务的地址，
+    # “ext-authz.istio-system.svc.cluster.local” 表示该服务部署在网格中。
     # 它也可以在网格之外定义，甚至可以在 Pod 内部定义为单独的容器。
     service: "ext-authz.istio-system.svc.cluster.local"
     port: 9000
@@ -194,7 +194,7 @@ spec:
   selector:
     app: httpbin-with-opa
 ---
-# 定义 9191 端口本地 OPA 服务的服务条目。
+# 在 9191 端口为本地 OPA 服务定义服务条目。
 apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:
