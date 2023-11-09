@@ -372,7 +372,7 @@ All of this was accomplished without needing to modify any of the actual service
 
 To further your journey with Istio, OpenTelemetry and SNCO, take a look at some of these resources:
 
-* [Configure Istio to Send Metrics to SNCO](https://docs.lightstep.com/integrations/ingest-metrics-istio)
+* [Configure Istio to Send Metrics to Cloud Observability](https://docs.lightstep.com/integrations/ingest-metrics-istio)
 * [Understand Distributed Tracing](https://docs.lightstep.com/docs/understand-distributed-tracing)
 * [Monitor Kubernetes Applications](https://docs.lightstep.com/docs/monitor-k8s-applications)
 * [Customizing Istio Metrics with Telemetry API](/docs/tasks/observability/metrics/telemetry-api/)
