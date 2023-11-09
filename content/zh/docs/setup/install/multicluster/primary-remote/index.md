@@ -20,7 +20,7 @@ owner: istio/wg-environments-maintainers
 {{< warning >}}
 这些说明不适用于 AWS EKS 主集群部署。
 这种不兼容性背后的原因是 AWS 负载均衡器（LB）以完全限定域名（FQDN）的形式呈现，
-而远程集群则使用 Kubernetes 服务类型 'ExternalName'。
+而从集群则使用 Kubernetes 服务类型 'ExternalName'。
 但是，'ExternalName' 类型专门支持 IP 地址，不支持 FQDN。
 {{< /warning >}}
 
