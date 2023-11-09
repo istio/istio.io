@@ -126,10 +126,24 @@ Chart 提供的配置。
 
 #### TLS 设置 {#TLS-settings}
 
-控制平面，网关和 Envoy Sidecar 指标将会作为明文收集。但是，应用程序指标将遵循
-Istio 为任何工作负载进行的配置。特别是如果启用了
-[Strict mTLS](/zh/docs/tasks/security/authentication/authn-policy/#globally-enabling-istio-mutual-tls-in-strict-mode)，
-则需要将 Prometheus 配置为使用 Istio 证书收集指标。
+控制平面，网关和 Envoy Sidecar 指标将会作为明文被收集。
+但是，应用程序指标将遵循为工作负载配置的任何
+[Istio 身份验证策略](/zh/docs/tasks/security/authentication/authn-policy)。
+
+* 如果您使用 `STRICT` 模式，则需要将 Prometheus 配置为使用 Istio 证书进行抓取，如下所述。
+* 如果您使用 `PERMISSIVE` 模式，工作负载通常接受 TLS 和明文。
+  然而，Prometheus 无法发送 Istio 针对 `PERMISSIVE` 模式所需的 TLS 特殊变体。
+  因此，您不得在 Prometheus 中配置 TLS。
+* 如果您使用 `DISABLE` 模式，则 Prometheus 不需要 TLS 配置。
+
+{{< tip >}}
+请注意，这仅适用于 Istio 终止的 TLS。如果您的应用程序直接处理 TLS：
+
+* 不支持 `STRICT` 模式，因为 Prometheus 将需要发送两层 TLS，但 Prometheus 无法做到这一点。
+* `PERMISSIVE` 模式和 `DISABLE` 模式应被配置为好似 Istio 不存在时的情形。
+
+有关更多信息，请参阅[了解 TLS 配置](/zh/docs/ops/configuration/traffic-management/tls-configuration/)。
+{{< /tip >}}
 
 为 Prometheus 设置 Istio 证书的另一种方式是 Sidecar，该
 Sidecar 将会转发 SDS 证书并将其输出到可以与 Prometheus
