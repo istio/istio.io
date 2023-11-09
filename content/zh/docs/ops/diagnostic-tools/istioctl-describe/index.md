@@ -179,7 +179,7 @@ $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
 ## 验证流量路由{#verifying-traffic-routes}
 
 `istioctl describe` 命令还可以展示流量的分隔权重。
-例如，运行如下命令将 90% 的流量路由到 `revis` 服务的 `v1` 子集，将
+例如，运行如下命令将 90% 的流量路由到 `reviews` 服务的 `v1` 子集，将
 10% 路由到 `v2` 子集：
 
 {{< text bash >}}

@@ -28,7 +28,7 @@ test: no
 
 1. 如果您没有使用默认的驱动，需要配置 minikube 虚拟机驱动。
 
-    比如，如果您安装了 KVM 虚拟机，使用如下命令设置 minikube 的 `vm-driver` 配置：
+    比如，如果您安装了 KVM 虚拟机，使用如下命令设置 minikube 的 `driver` 配置：
 
     {{< text bash >}}
     $ minikube config set driver kvm2

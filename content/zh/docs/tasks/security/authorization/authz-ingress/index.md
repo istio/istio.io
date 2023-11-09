@@ -309,7 +309,7 @@ kube-proxy 并阻止其将流量发送到其他节点，使用 `externalTrafficP
 有关更多信息，请参阅[服务源 IP `Type=NodePort`](https://kubernetes.io/zh-cn/docs/tutorials/services/source-ip/#source-ip-for-services-with-type-nodeport)。
 {{< /warning >}}
 
-使用以下命令更新 Ingress 网关以设置 `externalTrafficPolicy：Local` 以保留 Ingress 网关上的原始客户端源 IP：
+使用以下命令更新 Ingress 网关以设置 `externalTrafficPolicy: Local` 以保留 Ingress 网关上的原始客户端源 IP：
 
 {{< tabset category-name="config-api" >}}
 
@@ -354,7 +354,7 @@ spec:
 
 **何时使用 `ipBlocks` 与 `remoteIpBlocks`:** 如果您使用 X-Forwarded-For HTTP 头部
 或代理协议来确定原始客户端 IP 地址，则应在 `AuthorizationPolicy` 中使用 `remoteIpBlocks`。
-如果您使用的是 `externalTrafficPolicy：Local`，那么您的 `AuthorizationPolicy` 中应该使用
+如果您使用的是 `externalTrafficPolicy: Local`，那么您的 `AuthorizationPolicy` 中应该使用
 `ipBlocks`。
 
 | 负载均衡器类型 | 客户端源 IP   | `ipBlocks` 与 `remoteIpBlocks`

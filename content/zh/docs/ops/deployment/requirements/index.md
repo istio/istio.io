@@ -59,14 +59,12 @@ Istio 为应用程序提供了大量的功能，而对应用程序代码本身�
   如果您在服务账户的允许策略的功能列表中看到 `NET_ADMIN`、`NET_RAW` 或 `*`，
   则您的 Pod 有权限运行 Istio init 容器。否则，您将需要[提供权限](https://kubernetes.io/zh-cn/docs/concepts/security/pod-security-policy)。
 
-- **带有 app 和 version 标签（label）的 Pod**：我们建议显式地给 Deployment 加上 `app`
-  和 `version` 标签。给使用 Kubernetes `Deployment` 部署的 Pod 部署配置中增加这些标签，
-  可以给 Istio 收集的指标和遥测信息中增加上下文信息。
+- **Pod 标签（label）**：我们建议使用 Pod 标签显式声明带有应用程序标识符和版本的 Pod。
+  这些标签将上下文信息添加到 Istio 收集的指标和遥测数据中。
+  每个值都是从多个标签中读取的，按优先级从最高到最低的顺序排列：
 
-    - `app` 标签：每个部署配置应该有一个不同的 `app` 标签并且该标签的值应该有一定意义。
-      `app` label 用于在分布式追踪中添加上下文信息。
-
-    - `version` 标签：这个标签用于在特定方式部署的应用中表示版本。
+    - 应用程序名称：`service.istio.io/canonical-name`、`app.kubernetes.io/name` 或 `app`。
+    - 应用程序版本：`service.istio.io/canonical-revision`、`app.kubernetes.io/version` 或 `version`。
 
 - **已命名 Service 端口**：可以选择已命名 Service 端口用于显式指定协议。
   更多详细信息请参见[协议选择](/zh/docs/ops/configuration/traffic-management/protocol-selection/)。
