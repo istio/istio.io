@@ -1,9 +1,3 @@
-# markdown-spellcheck spelling configuration file
-# Format - lines beginning with # are comments
-# global dictionary is at the start, file overrides afterwards
-# one word per line, to define a file override use ' - filename'
-# followed by file specific exceptions, one per line
-# filename is relative to this configuration file
 0-RTT
 0.1.x
 0.2.x
