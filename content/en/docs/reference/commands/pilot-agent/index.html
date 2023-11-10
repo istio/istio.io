@@ -518,11 +518,6 @@ to enable it.  You can execute the following once:</p>
 <td>Specify the envoy port to which redirect all TCP traffic (default $ENVOY_PORT = 15001).  (default ``)</td>
 </tr>
 <tr>
-<td><code>--host-nsenter-exec</code></td>
-<td></td>
-<td>Instead of using the internal go netns, use the nsenter command for switching network namespaces. </td>
-</tr>
-<tr>
 <td><code>--inbound-capture-port &lt;string&gt;</code></td>
 <td><code>-z</code></td>
 <td>Port to which all inbound TCP traffic to the pod/VM should be redirected to (default $INBOUND_CAPTURE_PORT = 15006).  (default ``)</td>
@@ -541,6 +536,11 @@ to enable it.  You can execute the following once:</p>
 <td><code>--iptables-trace-logging</code></td>
 <td></td>
 <td>Insert tracing logs for each iptables rules, using the LOG chain. </td>
+</tr>
+<tr>
+<td><code>--iptables-version &lt;string&gt;</code></td>
+<td></td>
+<td>version of iptables command. If not set, this is automatically detected.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--istio-exclude-interfaces &lt;string&gt;</code></td>
@@ -1375,6 +1375,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>If enabled, HTTP2 probes will be enabled for HTTPS probes, following Kubernetes</td>
 </tr>
 <tr>
+<td><code>ISTIO_ENABLE_IPV4_OUTBOUND_LISTENER_FOR_IPV6_CLUSTERS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true, pilot will configure an additional IPv4 listener for outbound traffic in IPv6 only clusters, e.g. AWS EKS IPv6 only clusters.</td>
+</tr>
+<tr>
 <td><code>ISTIO_ENABLE_OPTIMIZED_SERVICE_PUSH</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -1538,7 +1544,7 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td><code>MINIMUM_DRAIN_DURATION</code></td>
 <td>Time Duration</td>
 <td><code>5s</code></td>
-<td>The minimum duration for which agent waits before it checks for active connections and terminates proxy when number of active connections become zero</td>
+<td>The minimum duration for which agent waits before it checks for active connections and terminates proxywhen number of active connections become zero</td>
 </tr>
 <tr>
 <td><code>MUTEX_PROFILE_FRACTION</code></td>

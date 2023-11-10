@@ -2952,7 +2952,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <tr>
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
-<td>Output format for revision description (available formats: table,json)  (default `table`)</td>
+<td>Output format for tag description (available formats: table,json)  (default `table`)</td>
 </tr>
 <tr>
 <td><code>--verbose</code></td>
@@ -6278,6 +6278,11 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td>Kubernetes namespace  (default ``)</td>
 </tr>
 <tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>Output format for tag description (available formats: table,json)  (default `table`)</td>
+</tr>
+<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -7108,6 +7113,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, HTTP2 probes will be enabled for HTTPS probes, following Kubernetes</td>
+</tr>
+<tr>
+<td><code>ISTIO_ENABLE_IPV4_OUTBOUND_LISTENER_FOR_IPV6_CLUSTERS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true, pilot will configure an additional IPv4 listener for outbound traffic in IPv6 only clusters, e.g. AWS EKS IPv6 only clusters.</td>
 </tr>
 <tr>
 <td><code>ISTIO_ENABLE_OPTIMIZED_SERVICE_PUSH</code></td>
