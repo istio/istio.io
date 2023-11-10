@@ -28,15 +28,18 @@ Istio 1.20.0 is officially supported on Kubernetes versions `1.25` to `1.28`.
 
 ### Gateway API
 
-The Kubernetes [Gateway API](http://gateway-api.org/) is an initiative to bring a rich set of service networking APIs (
-similar to those of Istio VirtualService and Gateway) to Kubernetes.
+The Kubernetes [Gateway API](http://gateway-api.org/) is an initiative to bring a rich set of service networking APIs
+(similar to those of Istio VirtualService and Gateway) to Kubernetes.
 
-Now that the Kubernetes Gateway API is GA, and Istio brings full support for it! This effort was a widespread community effort
-across the broader Kubernetes ecosystem and has multiple conformant implementations (including Istio). This marks a
-significant milestone, as Istio users can now leverage the stable set of Gateway API
+Kubernetes [Gateway API is now GA](https://kubernetes.io/blog/2023/10/31/gateway-api-ga/)
+and Istio provides [full support for it](https://gateway-api.sigs.k8s.io/implementations/#istio)!
+This has been a widespread community effort
+across the broader Kubernetes ecosystem that has produced multiple conformant implementations
+(including [Istio's fully-conformant one](https://github.com/kubernetes-sigs/gateway-api/blob/main/conformance/reports/v1.0.0/istio-istio.yaml)).
+
+This marks a significant milestone, as Istio users can now leverage the stable set of Gateway API
 features for enhanced traffic management and ingress control in production environments.
-
-Check out the [mesh documentation](/docs/tasks/traffic-management/ingress/gateway-api/#mesh-traffic) to get started.
+Check out the [Gateway API task](/docs/tasks/traffic-management/ingress/gateway-api/) to get started.
 
 In this release, we have also added support for configuring Istio
 CRDs `AuthorizationPolicy`, `RequestAuthentication`, `Telemetry` and `WasmPlugin` for Kubernetes Gateway API via
