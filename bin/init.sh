@@ -92,6 +92,7 @@ cp -a "${ISTIO_GO}/tools/certs" "${ISTIOIO_GO}/tools/certs"
 mkdir "${ISTIOIO_GO}/tests/integration/"
 cp -a "${ISTIO_GO}/tests/integration/iop-integration-test-defaults.yaml" "${ISTIOIO_GO}/tests/integration/"
 cp -a "${ISTIO_GO}/tests/integration/base.yaml" "${ISTIOIO_GO}/tests/integration/"
+sed -i "s/ENABLE_EXTERNAL_NAME_ALIAS: true$/ENABLE_EXTERNAL_NAME_ALIAS: false/" "${ISTIOIO_GO}/tests/integration/base.yaml"
 cp -a "${ISTIO_GO}/manifests" "${ISTIOIO_GO}/manifests"
 
 # For generating junit.xml files
