@@ -85,7 +85,12 @@ site:
 snips:
 	@scripts/gen_snips.sh
 
-gen: tidy-go format-go update-gateway-version snips
+format-spelling:
+	@echo "Sorting the .spelling file..."
+	@sort .spelling --ignore-case -o .spelling
+	@echo ".spelling file sorted."
+
+gen: tidy-go format-go update-gateway-version snips format-spelling
 
 gen-check: gen check-clean-repo check-localization
 
