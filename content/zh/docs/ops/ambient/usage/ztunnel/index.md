@@ -624,7 +624,8 @@ If an `AuthorizationPolicy` has been configured that requires any traffic proces
 {{< /warning >}}
 
 As an example, modify the `AuthorizationPolicy` to include a check for the HTTP GET method as shown below. Now notice that both `sleep` and `notsleep` pods are blocked from sending traffic to the destination `httpbin` service.
-例如，修改“AuthorizationPolicy”以包含对 HTTP GET 方法的检查，如下所示。 现在请注意，“sleep”和“notsleep” Pod 都被阻止向目标“httpbin”服务发送流量。
+例如，修改 `AuthorizationPolicy` 以包含对 HTTP GET 方法的检查，
+如下所示。现在请注意，`sleep` 和 `notsleep` Pod 都被阻止向目标 `httpbin` 服务发送流量。
 
 {{< text bash >}}
 $ kubectl apply -n ambient-demo -f - <<EOF
@@ -659,10 +660,11 @@ command terminated with exit code 56
 {{< /text >}}
 
 You can also confirm by viewing logs of specific ztunnel proxy pods (not shown in the example here) that it is always the ztunnel proxy on the node hosting the destination pod that actually enforces the policy.
-您还可以通过查看特定 ztunnel 代理 Pod 的日志（此处示例中未显示）来确认，实际执行策略的始终是托管目标 Pod 的节点上的 ztunnel 代理。
+您还可以通过查看特定 ztunnel 代理 Pod 的日志（此处示例中未显示）来确认，
+实际执行策略的始终是托管目标 Pod 的节点上的 ztunnel 代理。
 
 Go ahead and delete this `AuthorizationPolicy` before continuing with the rest of the examples in the guide.
-在继续本指南中的其余示例之前，请先删除此“AuthorizationPolicy”。
+在继续本指南中的其余示例之前，请先删除此 `AuthorizationPolicy`。
 
 {{< text bash >}}
 $ kubectl delete AuthorizationPolicy allow-sleep-to-httpbin  -n ambient-demo
@@ -672,20 +674,29 @@ $ kubectl delete AuthorizationPolicy allow-sleep-to-httpbin  -n ambient-demo
 ## Ambient 与非 Ambient 端点的互操作性  {#interop}
 
 In the use cases so far, the traffic source and destination pods are both ambient pods. This section covers some mixed use cases where ambient endpoints need to communicate with non-ambient endpoints. As with prior examples in this guide, this section covers use cases that do not require waypoint proxies.
-在到目前为止的用例中，流量源和目标 Pod 都是环境 Pod。 本节介绍一些混合用例，其中环境端点需要与非环境端点进行通信。 与本指南前面的示例一样，本节介绍不需要路点代理的用例。
+在到目前为止的用例中，流量源和目标 Pod 都是 Ambient Pod。
+本节介绍一些混合用例，其中 Ambient 端点需要与非 Ambient 端点进行通信。
+与本指南前面的示例一样，本节介绍的用例不需要 waypoint 代理。
 
 1. [East-West non-mesh pod to ambient mesh pod (and use of `PeerAuthentication` resource)](#ewnonmesh)
 1. [East-West Istio sidecar proxy pod to ambient mesh pod](#ewside2ambient)
 1. [North-South Ingress Gateway to ambient backend pods](#nsingress2ambient)
-1. [东西向非网状 pod 到环境网状 pod（以及使用 `PeerAuthentication` 资源）](#ewnonmesh)
-1. [东西向 Istio sidecar 代理 pod 到环境网格 pod](#ewside2ambient)
-1. [环境后端 Pod 的南北入口网关](#nsingress2ambient)
+1. [东西向非网状 Pod 到 Ambient 网格 Pod（以及使用 `PeerAuthentication` 资源）](#ewnonmesh)
+1. [东西向 Istio Sidecar 代理 Pod 到 Ambient 网格 Pod](#ewside2ambient)
+1. [Ambient 后端 Pod 的南北入口网关](#nsingress2ambient)
 
 ### East-West non-mesh pod to ambient mesh pod (and use of PeerAuthentication resource) {#ewnonmesh}
-### 东西向非网状 pod 到环境网状 pod（以及 PeerAuthentication 资源的使用）  {#ewnonmesh}
+### 东西向非网格 Pod 到 Ambient 网格 Pod（以及 PeerAuthentication 资源的使用）  {#ewnonmesh}
 
 In the example below, the same `httpbin` service which has already been setup in the prior examples is accessed via client `sleep` pods that are running in a separate namespace that is not part of the Istio mesh. This example shows that East-west traffic between ambient mesh pods and non mesh pods is seamlessly supported. Note that as described previously, this use case leverages the traffic hair-pinning capability of ambient. Since the non-mesh pods initiate traffic directly to the backend pods without going through HBONE or ztunnel, at the destination node, traffic is redirected via the ztunnel proxy at the destination node to ensure that ambient authorization policy is applied (this can be verified by viewing logs of the appropriate ztunnel proxy pod on the destination node; the logs are not shown in the example snippet below for simplicity).
-在下面的示例中，通过在不属于 Istio 网格的单独命名空间中运行的客户端“sleep” Pod 访问前面示例中已设置的相同“httpbin”服务。 此示例显示环境网格 Pod 和非网格 Pod 之间的东西向流量得到无缝支持。 请注意，如前所述，此用例利用了环境的流量发夹功能。 由于非网状 pod 直接向后端 pod 发起流量，而不经过 HBONE 或 ztunnel，因此在目标节点，流量将通过目标节点的 ztunnel 代理进行重定向，以确保应用环境授权策略（这可以通过以下方式验证） 查看目标节点上相应 ztunnel 代理 Pod 的日志；为简单起见，下面的示例代码片段中未显示日志）。
+在下面的示例中，通过在不属于 Istio 网格的单独命名空间中运行的客户端
+`sleep` Pod 访问前面示例中已设置的相同“httpbin”服务。
+此示例显示 Ambient 网格 Pod 和非网格 Pod 之间的东西向流量得到无缝支持。
+请注意，如前所述，此用例利用了 Ambient 的流量发夹功能。
+由于非网格 Pod 直接向后端 Pod 发起流量，而不经过 HBONE 或 ztunnel，
+因此在目标节点，流量将通过目标节点的 ztunnel 代理进行重定向，
+以确保应用 Ambient 授权策略（这可以通过以下方式验证）查看目标节点上相应
+ztunnel 代理 Pod 的日志；为简单起见，下面的示例代码片段中未显示日志）。
 
 {{< text bash >}}
 $ kubectl create namespace client-a
@@ -694,7 +705,7 @@ $ kubectl wait --for condition=available  deployment/sleep -n client-a
 {{< /text >}}
 
 Wait for the pods to get to Running state in the client-a namespace before continuing.
-等待 pod 在 client-a 命名空间中进入 Running 状态，然后再继续。
+等待 Pod 在 client-a 命名空间中进入 Running 状态，然后再继续。
 
 {{< text bash >}}
 $ kubectl exec deploy/sleep -n client-a  -- curl httpbin.ambient-demo.svc.cluster.local:8000 -s | grep title -m 1
@@ -702,7 +713,11 @@ $ kubectl exec deploy/sleep -n client-a  -- curl httpbin.ambient-demo.svc.cluste
 {{< /text >}}
 
 As shown in the example below, now add a `PeerAuthentication` resource with mTLS mode set to `STRICT`, in the ambient namespace and confirm that the same client's traffic is now rejected with an error indicating the request was rejected. This is because the client is using simple HTTP to connect to the server instead of an HBONE tunnel with mTLS. This is a possible method that can be used to prevent non-Istio sources from sending traffic to Istio ambient pods.
-如下面的示例所示，现在在环境命名空间中添加 mTLS 模式设置为“STRICT”的“PeerAuthentication”资源，并确认同一客户端的流量现在被拒绝，并出现一条指示请求被拒绝的错误。 这是因为客户端使用简单的 HTTP 连接到服务器，而不是使用 mTLS 的 HBONE 隧道。 这是一种可能的方法，可用于防止非 Istio 源向 Istio 环境 Pod 发送流量。
+如下面的示例所示，现在在 Ambient 命名空间中添加 mTLS 模式设置为
+`STRICT` 的 `PeerAuthentication` 资源，并确认同一客户端的流量现在被拒绝，
+并出现一条指示请求被拒绝的错误。这是因为客户端使用简单的 HTTP 连接到服务器，
+而不是使用 mTLS 的 HBONE 隧道。这是一种可能的方法，
+可用于防止非 Istio 源向 Istio Ambient Pod 发送流量。
 
 {{< text bash >}}
 $ kubectl apply -n ambient-demo -f - <<EOF
@@ -722,7 +737,8 @@ command terminated with exit code 56
 {{< /text >}}
 
 Change the mTLS mode to `PERMISSIVE` and confirm that the ambient pods can once again accept non-mTLS connections including from non-mesh pods in this case.
-将 mTLS 模式更改为“PERMISSIVE”，并确认环境 pod 可以再次接受非 mTLS 连接，包括本例中来自非网状 pod 的连接。
+将 mTLS 模式更改为 `PERMISSIVE`，并确认 Ambient Pod
+可以再次接受非 mTLS 连接，包括本例中来自非网状 Pod 的连接。
 
 {{< text bash >}}
 $ kubectl apply -n ambient-demo -f - <<EOF
@@ -742,17 +758,24 @@ $ kubectl exec deploy/sleep -n client-a  -- curl httpbin.ambient-demo.svc.cluste
 {{< /text >}}
 
 ### East-West Istio sidecar proxy pod to ambient mesh pod {#ewside2ambient}
-### 东西向 Istio sidecar 代理 pod 到环境网格 pod  {#ewside2ambient}
+### 东西向 Istio Sidecar 代理 Pod 到 Ambient 网格 Pod  {#ewside2ambient}
 
 This use case is that of seamless East-West traffic interoperability between an Istio pod using a sidecar proxy and an ambient pod within the same mesh.
-此用例是使用 sidecar 代理的 Istio Pod 与同一网格内的环境 Pod 之间的无缝东西向流量互操作性。
+此用例是使用 Sidecar 代理的 Istio Pod 与同一网格内的
+Ambient Pod 之间的无缝东西向流量互操作性。
 
 The same httpbin service from the previous example is used but now add a client to access this service from another namespace which is labeled for sidecar injection. This also works automatically and transparently as shown in the example below. In this case the sidecar proxy running with the client automatically knows to use the HBONE control plane since the destination has been discovered to be an HBONE destination. The user does not need to do any special configuration to enable this.
-使用与上一个示例相同的 httpbin 服务，但现在添加一个客户端以从另一个标记为 sidecar 注入的命名空间访问此服务。 这也会自动且透明地工作，如下例所示。 在这种情况下，与客户端一起运行的 sidecar 代理会自动知道使用 HBONE 控制平面，因为已发现目的地是 HBONE 目的地。 用户无需进行任何特殊配置即可启用此功能。
+使用与上一个示例相同的 httpbin 服务，但现在添加一个客户端以从另一个标记为
+Sidecar 注入的命名空间访问此服务。这也会自动且透明地工作，如下例所示。
+在这种情况下，与客户端一起运行的 Sidecar 代理会自动知道使用 HBONE 控制平面，
+因为已发现目的地是 HBONE 目标。用户无需进行任何特殊配置即可启用此功能。
 
 {{< tip >}}
 For sidecar proxies to use the HBONE/mTLS signaling option when communicating with ambient destinations, they need to be configured with `ISTIO_META_ENABLE_HBONE` set to true in the proxy metadata. This is automatically set for the user as default in the `MeshConfig` when using the `ambient` profile, hence the user does not need to do anything additional when using this profile.
-为了使 sidecar 代理在与环境目标通信时使用 HBONE/mTLS 信令选项，需要在代理元数据中将“ISTIO_META_ENABLE_HBONE”设置为 true 进行配置。 使用“ambient”配置文件时，会在“MeshConfig”中自动为用户设置默认值，因此用户在使用此配置文件时无需执行任何其他操作。
+为了使 Sidecar 代理在与 Ambient 目标通信时使用 HBONE/mTLS 信号选项，
+需要在代理元数据中将 `ISTIO_META_ENABLE_HBONE` 设置为 true 进行配置。
+使用 `ambient` 配置文件时，会在 `MeshConfig` 中自动为用户设置默认值，
+因此用户在使用此配置文件时无需执行任何其他操作。
 {{< /tip >}}
 
 {{< text bash >}}
@@ -771,22 +794,43 @@ $ kubectl exec deploy/sleep -n client-b  -- curl httpbin.ambient-demo.svc.cluste
 {{< /text >}}
 
 Again, it can further be verified from viewing the logs of the ztunnel pod (not shown in the example) at the destination node that traffic does in fact use the HBONE and CONNECT based path from the sidecar proxy based source client pod to the ambient based destination service pod. Additionally not shown but it can also be verified that unlike the previous subsection, in this case even if you apply a `PeerAuthentication` resource to the namespace tagged for ambient mode, communication continues between client and service pods since both use the HBONE control and data planes relying on mTLS.
-同样，通过查看目标节点上 ztunnel pod（示例中未显示）的日志，可以进一步验证流量实际上确实使用从基于 sidecar 代理的源客户端 pod 到基于环境的基于 HBONE 和 CONNECT 的路径。 目的地服务吊舱。 另外未显示，但也可以验证与前一小节不同，在这种情况下，即使您将“PeerAuthentication”资源应用于标记为环境模式的命名空间，客户端和服务 Pod 之间的通信也会继续，因为两者都使用 HBONE 控制和数据 依赖 mTLS 的飞机。
+同样，通过查看目标节点上 ztunnel Pod（示例中未显示）的日志，
+可以进一步验证流量实际上确实使用从基于 Sidecar 代理的源客户端 Pod
+到基于 Ambient 的基于 HBONE 和 CONNECT 的路径。目标服务吊舱。
+另外未显示，但也可以验证与前一小节不同，在这种情况下，即使您将 `PeerAuthentication`
+资源应用于标记为 Ambient 模式的命名空间，客户端和服务 Pod 之间的通信也会继续，
+因为两者都使用依赖 mTLS 的 HBONE 控制面和数据面。
 
 ### North-South Ingress Gateway to ambient backend pods {#nsingress2ambient}
-### 环境后端 Pod 的南北入口网关  {#nsingress2ambient}
+### Ambient 后端 Pod 的南北入口网关  {#nsingress2ambient}
 
 THis section describes a use case for North-South traffic with an Istio Gateway exposing the httpbin service via the Kubernetes Gateway API. The gateway itself is running in a non-Ambient namespace and may be an existing gateway that is also exposing other services that are provided by non-ambient pods. Hence this example shows that ambient workloads can also interoperate with Istio gateways that need not themselves be running in namespaces tagged for ambient mode of operation.
-本节介绍了南北流量的用例，其中 Istio 网关通过 Kubernetes 网关 API 公开 httpbin 服务。 网关本身在非 Ambient 命名空间中运行，并且可能是一个现有网关，也公开非 Ambient Pod 提供的其他服务。 因此，此示例表明环境工作负载还可以与 Istio 网关进行互操作，而 Istio 网关本身不需要在标记为环境操作模式的命名空间中运行。
+本节介绍了南北流量的用例，其中 Istio 网关通过 Kubernetes Gateway API
+公开 httpbin 服务。网关本身在非 Ambient 命名空间中运行，
+并且可能是一个现有网关，也公开非 Ambient Pod 提供的其他服务。
+因此，此示例表明 Ambient 工作负载还可以与 Istio 网关进行互操作，
+而 Istio 网关本身不需要在标记为 Ambient 操作模式的命名空间中运行。
 
 For this example, you can use `metallb` to provide a load balancer service on an IP addresses that is reachable from outside the cluster. The same example also works with other forms of North-South load balancing options. The example below assumes that you have already installed `metallb` in this cluster to provide the load balancer service including a pool of IP addresses for `metallb` to use for exposing services externally. Refer to the [`metallb` guide for kind](https://kind.sigs.k8s.io/docs/user/loadbalancer/) for instructions on setting up `metallb` on kind clusters or refer to the instructions from the [`metallb` documentation](https://metallb.universe.tf/installation/) appropriate for your environment.
-对于此示例，您可以使用“metalb”在可从集群外部访问的 IP 地址上提供负载均衡器服务。 同一示例还适用于其他形式的南北负载平衡选项。 下面的示例假设您已经在此集群中安装了“Metalb”来提供负载均衡器服务，其中包括“Metalb”的 IP 地址池，以用于向外部公开服务。 请参阅 [`metalb` 类型指南](https://kind.sigs.k8s.io/docs/user/loadbalancer/)，了解有关在类型集群上设置 `metalb` 的说明，或参阅 [ 适用于您的环境的 `Metalb` 文档](https://metalb.universe.tf/installation/)。
+对于此示例，您可以使用 `metallb` 在可以从集群外部访问的 IP 地址上提供负载均衡器服务。
+同一示例还适用于其他形式的南北负载均衡选项。
+下面的示例假设您已经在此集群中安装了 `metallb` 来提供负载均衡器服务，
+其中包括 `metallb` 的 IP 地址池，以用于向外部公开服务。
+请参阅 [`metallb` kind 指南](https://kind.sigs.k8s.io/docs/user/loadbalancer/)，
+了解有关在 kind 集群上设置 `metallb` 的说明，或参阅适用于您的环境的
+[`metallb` 文档](https://metallb.universe.tf/installation/)。
 
 This example uses the Kubernetes Gateway API for configuring the N-S gateway. Since this API is not currently provided as default in Kubernetes and kind distributions, you have to install the API CRDs first as shown in the example.
-此示例使用 Kubernetes Gateway API 来配置 N-S 网关。 由于 Kubernetes 和 kind 发行版中当前未默认提供此 API，因此您必须首先安装 API CRD，如示例中所示。
+此示例使用 Kubernetes Gateway API 来配置 N-S 网关。
+由于 Kubernetes 和 kind 发行版中当前未默认提供此 API，
+因此您必须首先安装 API CRD，如示例中所示。
 
 An instance of `Gateway` using the Kubernetes Gateway API CRDs will then be deployed to leverage this `metallb` load balancer service. The instance of Gateway runs in the istio-system namespace in this example to represent an existing Gateway running in a non-ambient namespace. Finally an `HTTPRoute` will be provisioned with a backend reference pointing to the existing httpbin service that is running on an ambient pod in the ambient-demo namespace.
-然后，将部署使用 Kubernetes Gateway API CRD 的“Gateway”实例，以利用此“metalb”负载均衡器服务。 在此示例中，Gateway 的实例在 istio-system 命名空间中运行，表示在非环境命名空间中运行的现有网关。 最后，将为“HTTPRoute”配置一个后端引用，该引用指向在ambient-demo命名空间中的ambient pod上运行的现有httpbin服务。
+然后，将部署使用 Kubernetes Gateway API CRD 的 `Gateway` 实例，
+以利用此 `metallb` 负载均衡器服务。在此示例中，
+Gateway 的实例在 istio-system 命名空间中运行，表示在非 Ambient
+命名空间中运行的现有网关。最后，将为 `HTTPRoute` 配置一个后端引用，
+该引用指向在 ambient-demo 命名空间中的 Ambient Pod 上运行的现有 httpbin 服务。
 
 {{< text bash >}}
 $ kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
@@ -835,7 +879,8 @@ EOF
 {{< /text >}}
 
 Next find the external service IP address on which the Gateway is listening and then access the httpbin service on this IP address (172.18.255.200 in the example below) from outside the cluster as shown below.
-接下来找到网关正在侦听的外部服务IP地址，然后从集群外部访问该IP地址（下例中的172.18.255.200）上的httpbin服务，如下所示。
+接下来找到网关正在侦听的外部服务 IP 地址，
+然后从集群外部访问该 IP 地址（下面例中的 172.18.255.200）上的 httpbin 服务，如下所示。
 
 {{< text bash >}}
 $ kubectl get service httpbin-gateway-istio -n istio-system
@@ -855,4 +900,10 @@ $ curl  "$INGRESS_HOST" -s | grep title -m 1
 {{< /text >}}
 
 These examples illustrate multiple options for interoperability between ambient pods and non-ambient endpoints (which can be either Kubernetes application pods or Istio gateway pods with both Istio native gateways and Kubernetes Gateway API instances). Interoperability is also supported between Istio ambient pods and Istio Egress Gateways as well as scenarios where the ambient pods run the client-side of an application with the service side running outside of the mesh of on a mesh pod that uses the sidecar proxy mode. Hence users have multiple options for seamlessly integrating ambient and non-ambient workloads within the same Istio mesh, allowing for phased introduction of ambient capability as best suits the needs of Istio mesh deployments and operations.
-这些示例说明了环境 pod 和非环境端点（可以是 Kubernetes 应用程序 pod 或具有 Istio 本机网关和 Kubernetes 网关 API 实例的 Istio 网关 pod）之间的互操作性的多种选项。 Istio 环境 pod 和 Istio Egress 网关之间还支持互操作性，以及环境 pod 运行应用程序的客户端且服务端运行在使用 sidecar 代理模式的网格 pod 之外的场景。 因此，用户有多种选择可以在同一 Istio 网格中无缝集成环境和非环境工作负载，从而允许分阶段引入环境功能，以最适合 Istio 网格部署和操作的需求。
+这些示例说明了 Ambient Pod 和非 Ambient 端点（可以是 Kubernetes
+应用程序 Pod 或具有 Istio 原生网关和 Kubernetes Gateway API 实例的 Istio 网关 Pod）
+之间的互操作性的多种选项。Istio Ambient Pod 和 Istio Egress
+网关之间还支持互操作性，以及 Ambient Pod 运行应用程序的客户端且服务端运行在使用
+Sidecar 代理模式的网格 Pod 之外的场景。因此，
+用户有多种选择可以在同一 Istio 网格中无缝集成 Ambient 和非 Ambient 工作负载，
+从而允许以最适合 Istio 网格部署和操作的需求分阶段引入 Ambient 功能。
