@@ -116,7 +116,7 @@ Hugo 的 Shortcode 是具有特定语法的特殊占位符，您可以将其添�
 当在某个页面中提及一个 Istio 术语时，贡献补充条款要求您将该术语包含在 `glossary` 中，并在本页第一次出现这个术语时使用 Shortcode `{{</* gloss */>}}` 进行标记。这种 Shortcode 会生成一个特殊的渲染效果，读者点击该术语，可以在弹出的窗口中获取该术语的定义。例如：
 
 {{< text markdown >}}
-Istio 里的组件通过控制 {{</*gloss*/>}}Envoy{{</*/gloss*/>}} 代理，实现服务发现、负载均衡和路由分发。
+Istio 里的组件通过控制 {{<gloss>}}Envoy{{</gloss>}} 代理，实现服务发现、负载均衡和路由分发。
 {{< /text >}}
 
 渲染结果如下：
@@ -126,12 +126,12 @@ Istio 里的组件通过控制 {{< gloss >}}Envoy{{< /gloss >}} 代理，实现�
 如果您想在您的文本中使用该术语的其它形式，您依然可以使用该 shortcode。要修改显示文本，只需在 shortcode 中包含对应的术语条目即可。例如：
 
 {{< text markdown >}}
-Istio 里的组件通过控制 {{</*gloss envoy*/>}}Envoy{{</*/gloss*/>}} 代理，实现服务发现、负载均衡和路由分发。
+{{</*gloss envoy*/>}}Envoy{{</*/gloss*/>}} 的 HTTP 支持首先被设计为 HTTP/2 多路复用代理。
 {{< /text >}}
 
 术语 `envoy` 定义的渲染结果如下：
 
-Istio 里的组件通过控制 {{< gloss envoy >}}Envoy{{</ gloss >}} 代理，实现服务发现、负载均衡和路由分发。
+{{< gloss envoy >}}Envoy{{</ gloss >}} 的 HTTP 支持首先被设计为 HTTP/2 多路复用代理。
 
 ## 标注{#callouts}
 
