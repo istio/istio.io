@@ -1,5 +1,5 @@
 ---
-title: L4 网络及 mTLS 与 ztunnel
+title: ztunnel 中的 L4 网络与 mTLS  
 description: 使用 ztunnel 代理的 Istio Ambient L4 网络和 mTLS 用户指南。
 weight: 2
 owner: istio/wg-networking-maintainers
