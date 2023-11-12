@@ -1,5 +1,5 @@
 ---
-title: ztunnel 中的 L4 网络与 mTLS  
+title: ztunnel 以及其中的 L4 网络与 mTLS  
 description: 使用 ztunnel 代理的 Istio Ambient L4 网络和 mTLS 用户指南。
 weight: 2
 owner: istio/wg-networking-maintainers
@@ -9,33 +9,23 @@ test: no
 {{< warning >}}
 `Ambient` 目前处于 [Alpha 状态](/zh/docs/releases/feature-stages/#feature-phase-definitions)。
 
-Please **do not run ambient in production** and be sure to thoroughly review the [feature phase definitions](/docs/releases/feature-stages/#feature-phase-definitions) before use. In particular, there are known performance, stability, and security issues in the `alpha` release. There are also functional caveats some of which are listed in the [Caveats section](#caveats) of this guide. There are also planned breaking changes, including some that will prevent upgrades. These are all limitations that will be addressed before graduation to `beta`. The current version of this guide is meant to assist early deployments and testing of the alpha version of ambient. This guide will be updated as ambient itself evolves from alpha to beta status and beyond.
 请**不要在生产环境中运行 Ambient**，
 并确保在使用前彻底检查[功能阶段定义](/zh/docs/releases/feature-stages/#feature-phase-definitions)。
 特别是，`alpha` 版本中存在已知的性能、稳定性和安全问题。
 还有一些功能性注意事项，其中一些已在本指南的[注意事项部分](#caveats)中列出。
-还有计划中的重大更改，包括一些会阻止升级的更改。这些都是在升级到 `beta`
-之前将解决的所有限制。本指南的当前版本旨在帮助早期部署和测试 Ambient 的 Alpha 版本。
+以及计划中的重大变更，包括一些会阻止升级的更改。这些都是在升级到 `beta`
+版之前所有要解决的限制。本指南的当前版本旨在帮助早期部署和测试 Ambient 的 Alpha 版本。
 随着 Ambient 本身从 Alpha 状态发展到 Beta 及更高状态，本指南将随之进行更新。
 {{< /warning >}}
 
-## Introduction {#introsection}
 ## 简介  {#introsection}
 
-This guide describes in-depth the functionality and usage of the ztunnel proxy and Layer-4 networking functions in Istio ambient mesh. To simply try out Istio ambient mesh, follow the [Ambient Quickstart](/docs/ops/ambient/getting-started/) instead. This guide follows a user journey and works through multiple examples to detail the design and architecture of Istio ambient. It is highly recommended to follow the topics linked below in sequence.
 本指南深入介绍了 Istio Ambient 网格中 ztunnel 代理和 4 层网络能力的功能和用法。
 要简单地尝试 Istio Ambient 网格，请按照
 [Ambient 快速入门](/zh/docs/ops/ambient/getting-started/)进行操作。
 本指南遵循用户旅程并通过多个示例来详细介绍 Istio Ambient 的设计和架构。
-强烈建议按顺序关注下面链接的主题。
+强烈建议按顺序关注下面链接中的主题。
 
-* [Introduction](#introsection)
-* [Current Caveats](#caveats)
-* [Functional Overview](#functionaloverview)
-* [Deploying an Application](#deployapplication)
-* [Monitoring the ztunnel proxy & L4 networking](#monitoringzt)
-* [L4 Authorization Policy](#l4auth)
-* [Ambient Interoperability with non-Ambient endpoints](#interop)
 * [简介](#introsection)
 * [当前注意事项](#caveats)
 * [功能概述](#functionaloverview)
@@ -44,19 +34,17 @@ This guide describes in-depth the functionality and usage of the ztunnel proxy a
 * [L4 授权策略](#l4auth)
 * [Ambient 与非 Ambient 端点的互操作性](#interop)
 
-The ztunnel (Zero Trust Tunnel) component is a purpose-built per-node proxy for Istio ambient mesh. Since workload pods no longer require proxies running in sidecars in order to participate in the mesh, Istio in ambient mode is informally also referred to as "sidecar-less" mesh.
-ztunnel（零信任隧道：Zero Trust Tunnel）组件是专门为 Istio Ambient 网格构建的基于每个节点的代理。
-由于工作负载 Pod 不再需要在 Sidecar 中运行的代理也可以参与网格，
-因此 Ambient 模式下的 Istio 也被非正式地称为“无 Sidecar”网格。
+ztunnel（零信任隧道：Zero Trust Tunnel）组件是专门为 Istio Ambient
+网格构建的基于每个节点的代理。由于工作负载 Pod 不再需要在 Sidecar
+中运行的代理也可以参与网格，因此 Ambient 模式下的 Istio
+也被非正式地称为“无 Sidecar”网格。
 
 {{< tip >}}
-Pods/workloads using sidecar proxies can co-exist within the same mesh as pods that operate in ambient mode. Mesh pods that use sidecar proxies can also interoperate with pods in the same Istio mesh that are running in ambient mode. The term ambient mesh refers to an Istio mesh that has a superset of the capabilities and hence can support mesh pods that use either type of proxying.
 使用 Sidecar 代理的 Pod/工作负载可以与在 Ambient 模式下运行的 Pod 共存于同一网格内。
 使用 Sidecar 代理的网格 Pod 还可以与同一 Istio 网格中以 Ambient 模式运行的 Pod 进行互操作。
 Ambient 网格的概念是指具有功能超集的 Istio 网格，因此可以支持使用任一类型代理的网格 Pod。
 {{< /tip >}}
 
-The ztunnel node proxy is responsible for securely connecting and authenticating workloads within the ambient mesh. The ztunnel proxy is written in Rust and is intentionally scoped to handle L3 and L4 functions in the ambient mesh such as mTLS, authentication, L4 authorization and telemetry. Ztunnel does not terminate workload HTTP traffic or parse workload HTTP headers. The ztunnel ensures L3 and L4 traffic is efficiently and securely transported to **waypoint proxies**, where the full suite of Istio’s L7 functionality, such as HTTP telemetry and load balancing, is implemented. The term "Secure Overlay Networking" is used informally to collectively describe the set of L4 networking functions implemented in an ambient mesh via the ztunnel proxy. At the transport layer, this is implemented via an HTTP CONNECT-based traffic tunneling protocol called HBONE which is described in a [later section](#hbonesection) of this guide.
 ztunnel 节点代理负责安全连接和验证 Ambient 网格内的工作负载。
 ztunnel 代理是用 Rust 语言编写的，旨在处理 Ambient 网格中的 L3 和 L4 功能，
 例如 mTLS、身份验证、L4 授权和遥测。ztunnel 不会终止工作负载 HTTP
@@ -67,7 +55,6 @@ ztunnel 代理在 Ambient 网格中实现的 L4 网络功能集。
 在传输层，这是通过称为 HBONE 的基于 HTTP CONNECT 的流量隧道协议来实现的，
 该协议在本指南的[后续部分](#hbonesection)中进行了描述。
 
-Some use cases of Istio in ambient mode may be addressed solely via the L4 secure overlay networking features, and will not need L7 features thereby not requiring deployment of a waypoint proxy. Other use cases requiring advanced traffic management and L7 networking features will require deployment of a waypoint proxy. This guide focuses on functionality related to the L4 secure overlay network using ztunnel proxies. This guide refers to L7 only when needed to describe some L4 ztunnel function. Other guides are dedicated to cover the advanced L7 networking functions and the use of waypoint proxies in detail.
 Istio 在 Ambient 模式下的一些用例可以仅通过 L4 安全覆盖网络功能来解决，
 并且不需要 L7 功能，因此不需要部署 waypoint 代理。
 其他需要高级流量管理和 L7 网络功能的用例将需要部署 waypoint 代理。
@@ -75,133 +62,97 @@ Istio 在 Ambient 模式下的一些用例可以仅通过 L4 安全覆盖网络�
 本指南仅在需要描述某些 L4 ztunnel 功能时才引用 L7。
 高级 L7 网络功能和 waypoint 代理的详细使用将在其他指南中专门介绍。
 
-| Application Deployment Use Case | Istio Ambient Mesh Configuration |
-| ------------- | ------------- |
-| Zero Trust networking via mutual-TLS, encrypted and tunneled data transport of client application traffic, L4 authorization, L4 telemetry | Baseline Ambient Mesh with ztunnel proxy networking |
-| Application requires L4 Mutual-TLS plus advanced Istio traffic management features (incl VirtualService, L7 telemetry, L7 Authorization) | Full Istio Ambient Mesh configuration both ztunnel proxy and waypoint proxy based networking |
 | 应用程序部署用例 | Istio Ambient 网格配置 |
 | ------------- | ------------- |
 | 通过双向 TLS、客户端应用程序流量的加密和隧道数据传输、L4 授权、L4 遥测实现零信任网络 | 具有 ztunnel 代理网络的基线 Ambient 网格 |
 | 应用程序需要 L4 Mutual-TLS 以及高级 Istio 流量管理功能（包括 VirtualService、L7 遥测、L7 授权） | 完整的 Istio Ambient 网格配置，包括基于 ztunnel 代理和 waypoint 代理的网络 |
 
-## Current Caveats {#caveats}
 ## 当前注意事项  {#caveats}
 
-Ztunnel proxies are automatically installed when one of the supported installation methods is used to install Istio ambient mesh. The minimum Istio version required for Istio ambient mode is `1.18.0`. In general Istio in ambient mode supports the existing Istio APIs that are supported in sidecar proxy mode. Since the ambient functionality is currently at an alpha release level, the following is a list of feature restrictions or caveats in the current release of Istio's ambient functionality (as of the `1.19.0` release). These restrictions are expected to be addressed/removed in future software releases as ambient graduates to beta and eventually General Availability.
 当使用其中一种支持的安装方法安装 Istio Ambient 网格时，会自动安装 ztunnel 代理。
 Istio Ambient 模式所需的最低 Istio 版本是 `1.18.0`。
 一般来说，Ambient 模式下的 Istio 支持 Sidecar 代理模式下支持的现有 Istio API。
 由于 Ambient 功能当前处于 Alpha 版本级别，
 因此以下是 Istio Ambient 功能当前版本（自 `1.19.0` 版本起）中的功能限制或警告列表。
-这些限制预计将在未来的软件版本中得到解决/删除，因为 Ambient 将进入 Beta 并最终正式发布。
+由于 Ambient 将进入 Beta 并最终正式发布，这些限制预计将在未来的软件版本中得到解决/删除。
 
-1. **Kubernetes (K8s) only:** Istio in ambient mode is currently only supported for deployment on Kubernetes clusters. Deployment on non-Kubernetes endpoints such as virtual machines is not currently supported.
-1. **仅限 Kubernetes（K8s）：**目前仅支持 Ambient 模式下的 Istio 在 Kubernetes 集群上部署。
+1. **仅限 Kubernetes（K8s）：**目前仅支持 Istio Ambient 模式在 Kubernetes 集群上部署。
    目前不支持在虚拟机等非 Kubernetes 端点上部署。
 
-1. **No Istio multi-cluster support:** Only single cluster deployments are currently supported for Istio ambient mode.
-1. **不支持 Istio 多集群：** Istio Ambient 模式当前仅支持单集群部署。
+1. **不支持 Istio 多集群：**Istio Ambient 模式当前仅支持单集群部署。
 
-1. **K8s CNI restrictions:** Istio in ambient mode does not currently work with every Kubernetes CNI implementation. Additionally, with some plugins, certain CNI functions (in particular Kubernetes `NetworkPolicy` and Kubernetes Service Load balancing features) may get transparently bypassed in the presence of Istio ambient mode. The exact set of supported CNI plugins as well as any CNI feature caveats are currently under test and will be formally documented as Istio's ambient mode approaches the beta release.
-1. **K8s CNI 限制：** Ambient 模式下的 Istio 目前不适用于所有 Kubernetes CNI 实现。
+1. **K8s CNI 限制：**Ambient 模式下的 Istio 目前不适用于所有 Kubernetes CNI 实现。
    此外，对于某些插件，某些 CNI 功能（特别是 Kubernetes `NetworkPolicy` 和 Kubernetes 服务负载均衡功能）
    可能会在 Istio Ambient 模式存在的情况下被透明绕过。
    已被支持的 CNI 插件的明确集合以及任何 CNI 功能警告目前正在测试中，
    并将在 Istio Ambient 模式接近 Beta 版本时正式提供文档。
 
-1. **TCP/IPv4 only:** In the current release, TCP over IPv4 is the only protocol supported for transport on an Istio secure overlay tunnel (this includes protocols such as HTTP that run between application layer endpoints on top of the TCP/ IPv4 connection).
 1. **仅限 TCP/IPv4：**在当前版本中，基于 IPv4 的 TCP 是
    Istio 安全覆盖隧道上唯一支持的传输协议（这包括在 TCP/IPv4 连接之上的应用程序层端点之间运行的 HTTP 等协议）。
 
-1. **No dynamic switching to ambient mode:** ambient mode can only be enabled on a new Istio mesh control plane that is deployed using ambient profile or ambient helm configuration. An existing Istio mesh deployed using a pre-ambient profile for instance can not be dynamically switched to also enable ambient mode operation.
 1. **无法动态切换到 Ambient 模式：**Ambient 模式只能在使用 Ambient 配置文件或
    Ambient Helm 配置部署的新 Istio 网格控制平面上启用。
    例如，使用 Pre-Ambient 配置文件部署的现有 Istio 网格无法被动态切换至同时启用 Ambient 模式的状态。
 
-1. **Restrictions with Istio `PeerAuthentication`:** as of the time of writing, the `PeerAuthentication` resource is not supported by all components (i.e. waypoint proxies) in Istio ambient mode. Hence it is recommended to only use the `STRICT` mTLS mode currently. Like many of the other alpha stage caveats, this shall be addressed as the feature moves toward beta status.
 1. **Istio `PeerAuthentication` 的限制：**截至撰写本文时，Istio Ambient 模式下的所有组件（即 waypoint 代理）
    并不支持 `PeerAuthentication` 资源。因此，建议当前仅使用 `STRICT` mTLS 模式。
    与许多其他 Alpha 阶段的注意事项一样，随着该功能转向 Beta 状态，该问题应该会得到解决。
 
-1. **istioctl CLI gaps:** There may be some minor functional gaps in areas such as Istio CLI output displays when it comes to displaying or monitoring Istio's ambient mode related information. These will be addressed as the feature matures.
 1. **istioctl CLI 差距：**在显示或监控 Istio Ambient 模式相关信息时，
    Istio CLI 输出显示等区域可能存在一些细微的功能差距。随着功能的成熟，这些问题将得到解决。
 
-### Environment used for this guide
 ### 本指南使用的环境  {#environment-used-for-this-guide}
 
-The examples in this guide used a deployment of Istio version `1.19.0` on a `kind` cluster of version `0.20.0` running Kubernetes version `1.27.3`.
 本指南中的示例运行在基于 `kind` `0.20.0` 版的
 Kubernetes `1.27.3` 集群的 Istio `1.19.0` 版本中。
 
-The minimum Istio version needed for ambient functions is 1.18.0 and the minimum Kubernetes version needed is `1.24.0`. The examples below require a cluster with more than 1 worker node in order to explain how cross-node traffic operates. Refer to the [installation user guide](/docs/ops/ambient/usage/install/) or [getting started guide](/docs/ops/ambient/getting-started/) for information on installing Istio in ambient mode on a Kubernetes cluster.
 Ambient 功能所需的最低 Istio 版本是 1.18.0，所需的最低 Kubernetes 版本是 `1.24.0`。
 下面的示例需要一个具有超过 1 个工作节点的集群，以便解释跨节点流量的运行方式。
 请参阅[安装用户指南](/zh/docs/ops/ambient/usage/install/)或[入门指南](/zh/docs/ops/ambient/getting-started/)，
 了解关于在 Kubernetes 集群中安装 Ambient 模式 Istio 的信息。
 
-## Functional Overview {#functionaloverview}
 ## 功能概述  {#functionaloverview}
 
-The functional behavior of the ztunnel proxy can be divided into its data plane behavior and its interaction with the Istio control plane. This section takes a brief look at these two aspects - detailed description of the internal design of the ztunnel proxy is out of scope for this guide.
 ztunnel 代理的功能行为可以分为数据平面行为和与 Istio 控制平面的交互。
 本节简要介绍这两个方面 - ztunnel 代理内部设计的详细描述超出了本指南的范围。
 
-### Control plane overview
 ### 控制平面概述  {#control-plane-overview}
 
-The figure shows an overview of the control plane related components and flows between ztunnel proxy and the `istiod` control plane.
 该图展示了 ztunnel 代理和 `istiod` 控制平面以及控制平面相关组件之间的流程概述。
 
-{{< image width="100%"
-link="ztunnel-architecture.png"
-caption="Ztunnel architecture"
->}}
 {{< image width="100%"
 link="ztunnel-architecture.png"
 caption="ztunnel 架构"
 >}}
 
-The ztunnel proxy uses xDS APIs to communicate with the Istio control plane (`istiod`). This enables the fast, dynamic configuration updates required in modern distributed systems. The ztunnel proxy also obtains mTLS certificates for the Service Accounts of all pods that are scheduled on its Kubernetes node using xDS. A single ztunnel proxy may implement L4 data plane functionality on behalf of any pod sharing it's node which requires efficiently obtaining relevant configuration and certificates. This multi-tenant architecture contrasts sharply with the sidecar model where each application pod has its own proxy.
 ztunnel 代理使用 xDS API 与 Istio 控制平面（`istiod`）进行通信。
 这使得现代分布式系统所需的快速、动态配置更新成为可能。
-ztunnel 代理还为使用 xDS 在其 Kubernetes 节点上调度的所有 Pod 的服务帐户获取mTLS 证书。
+ztunnel 代理还为使用 xDS 在其 Kubernetes 节点上调度的所有 Pod 的服务帐户获取 mTLS 证书。
 单个 ztunnel 代理可以代表共享其节点的任何 Pod 实现 L4 数据平面功能，
 这需要有效获取相关配置和证书。这种多租户架构与 Sidecar 模型形成鲜明对比，
 在 Sidecar 模型中，每个应用程序 Pod 都有自己的代理。
 
-It is also worth noting that in ambient mode, a simplified set of resources are used in the xDS APIs for ztunnel proxy configuration. This results in improved performance (having to transmit and process a much smaller set of information that is sent from istiod to the ztunnel proxies) and improved troubleshooting.
 另外值得注意的是，在 Ambient 模式下，xDS API 中使用一组简化的资源来进行 ztunnel 代理配置。
 这会提高性能（需要传输和处理从 istiod 发送到 ztunnel 代理的非常小的信息集）并改进排障过程。
 
-### Data plane overview
 ### 数据平面概述  {#data-plane-overview}
 
-This section briefly summarizes key aspects of the data plane functionality.
 本节简要总结了数据平面功能的关键内容。
 
-#### Ztunnel to ztunnel datapath
 #### ztunnel 到 ztunnel 数据路径  {#ztunnel-to-ztunnel-datapath}
 
-The first scenario is ztunnel to ztunnel L4 networking. This is depicted in the following figure.
 第一个场景是 ztunnel 到 ztunnel L4 网络。如下图所示。
 
-{{< image width="100%"
-link="ztunnel-datapath-1.png"
-caption="Basic ztunnel L4-only datapath"
->}}
 {{< image width="100%"
 link="ztunnel-datapath-1.png"
 caption="ztunnel 基础：仅 L4 数据路径"
 >}}
 
-The figure depicts ambient pod workloads running on two nodes W1 and W2 of a Kubernetes cluster. There is a single instance of the ztunnel proxy on each node. In this scenario, application client pods C1, C2 and C3 need to access a service provided by pod S1 and there is no requirement for advanced L7 features such as L7 traffic routing or L7 traffic management so no Waypoint proxy is needed.
 该图描绘了 Kubernetes 集群的两个节点 W1 和 W2 上运行的 Ambient Pod 工作负载。
 每个节点上都有一个 ztunnel 代理实例。在此场景中，应用程序客户端
 Pod C1、C2 和 C3 需要访问 Pod S1 提供的服务，并且不需要高级 L7 功能
 （例如 L7 流量路由或 L7 流量管理），因此不需要 waypoint 代理。
 
-The figure shows that pods C1 and C2 running on node W1 connect with pod S1 running on node W2 and their TCP traffic is tunneled through a single shared HBONE tunnel instance that has been created between the ztunnel proxy pods of each node. Mutual TLS (mTLS) is used for encryption as well as mutual authentication of traffic being tunneled. SPIFFE identities are used to identify the workloads on each side of the connection. The term `HBONE` (for HTTP Based Overlay Network Encapsulation) is used in Istio ambient to refer to a technique for transparently and securely tunneling TCP packets encapsulated within HTTPS packets. Some brief additional notes on HBONE are provided in a following subsection.
 该图展示了在节点 W1 上运行的 Pod C1 和 C2 与在节点 W2 上运行的 Pod S1 连接，
 它们的 TCP 流量通过在每个节点的 ztunnel 代理 Pod 之间创建的单个共享 HBONE 隧道实例进行隧道传输。
 双向 TLS（mTLS）用于加密以及隧道流量的相互身份验证。SPIFFE 身份用于识别连接两端的工作负载。
@@ -209,14 +160,11 @@ Istio Ambient 中使用的 `HBONE`（基于 HTTP 的覆盖网络封装：HTTP Ba
 安全地隧道传输封装在 HTTPS 数据包中的 TCP 数据包的技术。
 以下小节提供了有关 HBONE 的一些简短附加说明。
 
-Note that the figure shows that local traffic - from pod C3 to destination pod S1 on worker node W2 - also traverses the local ztunnel proxy instance so that L4 traffic management functions such as L4 Authorization and L4 Telemetry are enforced identically on traffic, whether or not it crosses a node boundary.
 请注意，该图展示本地流量（从 Pod C3 到工作节点 W2 上的目标 Pod S1）也会遍历本地 ztunnel 代理实例，
 以便对流量执行相同的 L4 流量管理功能（例如 L4 授权和 L4 遥测），无论它是否跨越节点边界。
 
-#### Ztunnel datapath via waypoint
 #### 通过 waypoint 的 ztunnel 数据路径  {#ztunnel-datapath-via-waypoint}
 
-The next figure depicts the data path for a use case which requires advanced L7 traffic routing, management or policy handling. Here ztunnel uses HBONE tunneling to send traffic to a waypoint proxy for L7 processing. After processing, the waypoint sends traffic via a second HBONE tunnel to the ztunnel on the node hosting the selected service destination pod. In general the waypoint proxy may or may not be located on the same nodes as the source or destination pod.
 下图描述了需要高级 L7 流量路由、管理或策略处理用例的数据路径。
 这里 ztunnel 使用 HBONE 隧道将流量发送到 waypoint 代理进行 L7 处理。
 处理后，waypoint 通过第二个 HBONE 隧道将流量发送到托管所选服务目标 Pod 节点上的 ztunnel。
@@ -224,92 +172,69 @@ The next figure depicts the data path for a use case which requires advanced L7 
 
 {{< image width="100%"
 link="ztunnel-waypoint-datapath.png"
-caption="Ztunnel datapath via an interim waypoint"
->}}
-{{< image width="100%"
-link="ztunnel-waypoint-datapath.png"
 caption="通过临时 waypoint 的 ztunnel 数据路径"
 >}}
 
-#### Ztunnel datapath hair-pinning
 #### ztunnel 数据路径发夹  {#ztunnel-datapath-hair-pinning}
 
 {{< warning >}}
-As noted earlier, some ambient functions may change as the project moves to beta status and beyond. This feature (hair-pinning) is an example of a feature that is currently available in the alpha version of ambient and under review for possible modification as the project evolves.
 如前所述，随着项目进入 Beta 及更高版本，一些 Ambient 功能可能会发生变化。
 此功能（发夹）是当前在 Ambient 的 Alpha 版本中可用的功能示例，
 并且随着项目的发展正在审查可能的修改。
 {{< /warning >}}
 
-It was noted earlier that traffic is always sent to a destination pod by first sending it to the ztunnel proxy on the same node as the destination pod. But what if the sender is either completely outside the Istio ambient mesh and hence does not initiate HBONE tunnels to the destination ztunnel first ? What if the sender is malicious and trying to send traffic directly to an ambient pod destination, bypassing the destination ztunnel proxy ?
 前面已经指出，流量发送到目标 Pod 时，始终首先将其发送到与目标 Pod 位于同一节点上的 ztunnel 代理。
 但是，如果发送方完全位于 Istio Ambient 网格之外，因此没有预先启动到目标 ztunnel 的 HBONE 隧道，该怎么办？
 如果发送者是恶意的并尝试绕过目标 ztunnel 代理将流量直接发送到 Ambient Pod 目标怎么办？
 
-There are two scenarios here both of which are depicted in the following figure. In the first scenario, traffic stream B1 is being received by node W2 outside of any HBONE tunnel and addressed directly to ambient pod S1's IP address for some reason (maybe because the traffic source is not an ambient pod). As shown in the figure, the ztunnel traffic redirection logic will intercept such traffic and redirect it via the local ztunnel proxy for destination side proxy processing and possible filtering based on AuthorizationPolicy prior to sending it into pod S1. In the second scenario, traffic stream G1 is being received by the ztunnel proxy of node W2 (possibly over an HBONE tunnel) but the ztunnel proxy checks that the destination service requires waypoint processing and yet the source sending this traffic is not a waypoint or is not associated with this destination service. In this case. again the ztunnel proxy hairpins the traffic towards one of the waypoints associated with the destination service from where it can then be delivered to any pod implementing the destination service (possibly to pod S1 itself as shown in the figure).
-这里有两种情况，如下图所示。在第一种情况下，流量流 B1 由任何 HBONE 隧道外部的节点 W2 接收，
+这里有两种情况，如下图所示。在第一种情况下，流量流 B1 被任何 HBONE 隧道外部的节点 W2 接收，
 并出于某种原因直接寻址到 Ambient Pod S1 的 IP 地址（可能是因为流量源不是 Ambient Pod）。
 如图所示，ztunnel 流量重定向逻辑将拦截此类流量，并通过本地 ztunnel 代理将其重定向，
 以进行目标端代理处理，并在将其发送到 Pod S1 之前根据 AuthorizationPolicy 进行可能的过滤。
-在第二种情况下，流量流 G1 正在由节点 W2 的 ztunnel 代理接收（可能通过 HBONE 隧道），
+在第二种情况下，流量流 G1 正在被节点 W2 的 ztunnel 代理接收（可能通过 HBONE 隧道），
 但 ztunnel 代理检查目标服务是否需要 waypoint 处理，但发送此流量的源不是 waypoint
 或者是与此目标服务无关。在这种情况下。ztunnel 代理再次将流量发夹到与目标服务关联的 waypoint 之一，
 然后可以将流量从那里传递到实现目标服务的任何 Pod（可能是 Pod S1 本身，如图所示）。
 
 {{< image width="100%"
 link="ztunnel-hairpin.png"
-caption="Ztunnel traffic hair-pinning"
->}}
-{{< image width="100%"
-link="ztunnel-hairpin.png"
 caption="ztunnel 流量发夹"
 >}}
 
-### Note on HBONE {#hbonesection}
 ### 关于 HBONE 的说明  {#hbonesection}
 
-HBONE (HTTP Based Overlay Network Encapsulation) is an Istio-specific term. It refers to the use of standard HTTP tunneling via the [HTTP CONNECT](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/CONNECT) method to transparently tunnel application packets/ byte streams. In its current implementation within Istio, it transports TCP packets only by tunneling these transparently using the HTTP CONNECT method, uses [HTTP/2](https://httpwg.org/specs/rfc7540.html), with encryption and mutual authentication provided by [mutual TLS](https://www.cloudflare.com/learning/access-management/what-is-mutual-tls/) and the HBONE tunnel itself runs on TCP port 15008. The overall HBONE packet format from IP layer onwards is depicted in the following figure.
-HBONE（基于 HTTP 的覆盖网络封装）是 Istio 特定的术语。
+HBONE（基于 HTTP 的覆盖网络封装：HTTP Based Overlay Network Encapsulation）是 Istio 中特定的术语。
 它是指通过 [HTTP CONNECT](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/CONNECT)
-方法使用标准 HTTP 隧道来透明地隧道应用程序数据包/字节流。
+方法使用标准 HTTP 隧道来透明地传递应用程序数据包/字节流。
 在 Istio 的当前实现中，它仅通过使用 HTTP CONNECT 方法透明地隧道传输 TCP 数据包，
 使用 [HTTP/2](https://httpwg.org/specs/rfc7540.html)，
 并通过[双向 TLS](https://www.cloudflare.com/learning/access-management/what-is-mutual-tls/)
 提供加密和相互身份验证且 HBONE 隧道本身在 TCP 端口 15008 上运行。
-来自 IP 层的整体 HBONE 数据包格式 如下图所示。
+来自 IP 层的整体 HBONE 数据包格式如下图所示。
 
-{{< image width="100%"
-link="hbone-packet.png"
-caption="HBONE L3 packet format"
->}}
 {{< image width="100%"
 link="hbone-packet.png"
 caption="HBONE L3 数据包格式"
 >}}
 
-In future Istio Ambient may also support [HTTP/3 (QUIC)](https://datatracker.ietf.org/doc/html/rfc9114) based transport and will be used to transport all types of L3 and L4 packets including native IPv4, IPv6, UDP by leveraging new standards such as CONNECT-UDP and CONNECT-IP being developed as part of the [IETF MASQUE](https://ietf-wg-masque.github.io/) working group. Such additional use cases of HBONE and HTTP tunneling in Istio's ambient mode are currently for further investigation.
-未来 Istio Ambient 还可能支持基于
-[HTTP/3 (QUIC)](https://datatracker.ietf.org/doc/html/rfc9114) 的传输，
-并将用于传输所有类型的 L3 和 L4 数据包，包括本机 IPv4 、IPv6、UDP，
-利用作为 [IETF MASQUE](https://ietf-wg-masque.github.io/)
-工作组一部分开发的 CONNECT-UDP 和 CONNECT-IP 等新标准。
-Istio 环境模式下的 HBONE 和 HTTP 隧道的此类额外用例目前正在进一步研究。
+未来 Istio Ambient 还可能利用作为
+[IETF MASQUE](https://ietf-wg-masque.github.io/)
+工作组中一部分开发的 CONNECT-UDP 和 CONNECT-IP 等新标准支持基于
+[HTTP/3（QUIC）](https://datatracker.ietf.org/doc/html/rfc9114)的传输，
+并将用于传输包括本机 IPv4、IPv6、UDP 的所有类型 L3 和 L4 数据包。
+Istio Ambient 模式下的 HBONE 和 HTTP 隧道的此类额外用例目前正在进一步研究。
 
-## Deploying an Application {#deployapplication}
 ## 部署应用程序  {#deployapplication}
 
-Normally, a user with Istio admin privileges will deploy the Istio mesh infrastructure. Once Istio is successfully deployed in ambient mode, it will be transparently available to applications deployed by all users in namespaces that have been annotated to use Istio ambient as illustrated in the examples below.
 通常，具有 Istio 管理员权限的用户将部署 Istio 网格基础设施。
-一旦 Istio 在环境模式下成功部署，它将透明地可供命名空间中所有用户部署的应用程序使用，
-这些应用程序已被注释为使用 Istio 环境，如下面的示例所示。
+一旦 Istio 在 Ambient 模式下被成功部署，它将透明地可供命名空间中所有用户部署的应用程序使用，
+这些应用程序已被注解为使用 Istio Ambient，如下面的示例所示。
 
-### Basic application deployment without Ambient
 ### 部署不基于 Ambient 的基础应用程序  {#basic-application-deployment-without-ambient}
 
-First, deploy a simple HTTP client server application without making it part of the Istio ambient mesh. Execute the following examples from the top of a local Istio repository or Istio folder created by downloading the istioctl client as described in Istio guides.
-首先，部署一个简单的 HTTP 客户端服务器应用程序，而不使其成为 Istio 环境网格的一部分。
-从本地 Istio 存储库或通过下载 istioctl 客户端创建的 Istio 文件夹的顶部执行以下示例，
-如 Istio 指南中所述。
+首先，部署一个简单的 HTTP 客户端服务器应用程序，而不使其成为 Istio Ambient
+网格的一部分。如 Istio 指南中所述，从本地 Istio 仓库或通过下载 istioctl
+客户端创建的 Istio 文件夹中执行以下示例。
 
 {{< text bash >}}
 $ kubectl create ns ambient-demo
@@ -319,9 +244,9 @@ $ kubectl apply -f samples/sleep/notsleep.yaml -n ambient-demo
 $ kubectl scale deployment sleep --replicas=2 -n ambient-demo
 {{< /text >}}
 
-These manifests deploy multiple replicas of the `sleep` and `notsleep` pods which will be used as clients for the httpbin service pod (for simplicity, the command-line outputs have been deleted in the code samples above).
-这些清单部署了“sleep”和“notsleep” Pod 的多个副本，这些副本将用作 httpbin
-服务 Pod 的客户端（为简单起见，上面的代码示例中的命令行输出已被删除）。
+这些清单部署了 `sleep` 和 `notsleep` Pod 的多个副本，
+这些副本将被作为 httpbin 服务 Pod 的客户端
+（为简单起见，上面的代码示例中的命令行输出已被删除）。
 
 {{< text bash >}}
 $ kubectl wait -n ambient-demo --for=condition=ready pod --selector=app=httpbin --timeout=90s
@@ -343,26 +268,23 @@ NAME      TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
 httpbin   ClusterIP   10.110.145.219   <none>        8000/TCP   28m
 {{< /text >}}
 
-Note that each application pod has just 1 container running in it (the "1/1" indicator) and that `httpbin` is an http service listening on `ClusterIP` service port 8000. You should now be able to `curl` this service from either client pod and confirm it returns the `httpbin` web page as shown below. At this point there is no `TLS` of any form being used.
 请注意，每个应用程序 Pod 中仅运行 1 个容器（“1/1”指示符），
-并且“httpbin”是侦听“ClusterIP”服务端口 8000 的 http 服务。
-您现在应该能够“curl”此服务 从任一客户端 pod 并确认它返回“httpbin”网页，
-如下所示。 此时，还没有使用任何形式的“TLS”。
+并且 `httpbin` 是侦听 `ClusterIP` 服务端口 8000 的 http 服务。
+您现在应该能够从任一客户端 Pod `curl` 该服务并确认它返回如下所示的 `httpbin` 网页。
+此时，还没有使用任何形式的 `TLS`。
 
 {{< text bash >}}
 $ kubectl exec deploy/sleep -n ambient-demo  -- curl httpbin:8000 -s | grep title -m 1
     <title>httpbin.org</title>
 {{< /text >}}
 
-### Enabling ambient for an application
 ### 为应用程序启用 Ambient  {#enabling-ambient-for-an-application}
 
-You can now enable ambient for the application deployed in the prior subsection by simply adding the label `istio.io/dataplane-mode=ambient` to the application's namespace as shown below. Note that this example focuses on a fresh namespace with new, sidecar-less workloads captured via ambient mode only. Later sections will describe how conflicts are resolved in hybrid scenarios that mix sidecar mode and ambient mode within the same mesh.
-现在，您只需将标签“istio.io/dataplane-mode=ambient”
-添加到应用程序的命名空间即可为上一小节中部署的应用程序启用环境，如下所示。
-请注意，此示例重点关注一个新的命名空间，其中包含仅通过环境模式捕获的新的、
-无 sidecar 的工作负载。 后面的部分将描述如何在同一网格内混合 sidecar
-模式和环境模式的混合场景中解决冲突。
+现在，您只需将标签 `istio.io/dataplane-mode=ambient`
+添加到应用程序的命名空间即可为上一小节中部署的应用程序启用 Ambient，如下所示。
+请注意，此示例重点关注一个新的命名空间，其中包含仅通过 Ambient 模式捕获的新的、
+无 Sidecar 的工作负载。后面的部分将描述如何在同一网格内混用 Sidecar
+模式和 Ambient 模式的混合场景中解决冲突。
 
 {{< text bash >}}
 $ kubectl label namespace ambient-demo istio.io/dataplane-mode=ambient
@@ -375,8 +297,8 @@ sleep-69cfb4968f-rhhhp     1/1     Running   0          78m
 {{< /text >}}
 
 Note that after ambient is enabled for the namespace, every application pod still only has 1 container, and the uptime of these pods indicates these were not restarted in order to enable ambient mode (unlike `sidecar` mode which does restart application pods when the sidecar proxies are injected). This results in better user experience and operational performance since ambient mode can seamlessly be enabled (or disabled) completely transparently as far as the application pods are concerned.
-请注意，为命名空间启用环境后，每个应用程序 pod 仍然只有 1 个容器，
-并且这些 pod 的正常运行时间表明这些 pod 没有为了启用环境模式而重新启动
+请注意，为命名空间启用 Ambient 后，每个应用程序 Pod 仍然只有 1 个容器，
+并且这些 Pod 的正常运行时间表明这些 pod 没有为了启用环境模式而重新启动
 （与 sidecar 模式不同，当 sidecar 启动时，它会重新启动应用程序 pod） 代理被注入）。
 这会带来更好的用户体验和操作性能，因为就应用程序 Pod 而言，
 可以完全透明地无缝启用（或禁用）环境模式。
