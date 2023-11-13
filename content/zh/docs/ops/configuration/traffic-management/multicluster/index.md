@@ -15,7 +15,7 @@ test: no
 
 ## 保持集群内的流量 {#keeping-traffic-in-cluster}
 
-在某些情况下，默认的跨集群负载均衡操作是不可取的。为了保持流量在 "cluster-local" 
+在某些情况下，默认的跨集群负载均衡操作是不可取的。为了保持流量在 "cluster-local"
 (即从 `cluster-a` 发送的流量将只会到达 `cluster-a` 中的目的地)，
 需要使用 [`MeshConfig.serviceSettings`](/zh/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ServiceSettings-Settings)
 将主机名或通配符标记为 `clusterLocal`。

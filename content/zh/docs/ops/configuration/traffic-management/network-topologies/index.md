@@ -15,20 +15,22 @@ status: Alpha
 ## 向目的地的工作负载转发外部客户端属性（IP 地址、证书信息）  {#forwarding-external-client-attributes-to-destination-workloads}
 
 许多应用程序需要知道发起源请求的客户端 IP 地址和证书信息才能正常工作。
-值得注意的是填充了客户端 IP 的日志、验证工具以及安全工具。
-例如 Web Application Firewall（WAF），它应用这些信息来运行正确的规则集。
-反向代理的主要工作内容是给服务提供客户端属性。为了向目的地的工作负载转发这些客户端属性，
-代理使用  `X-Forwarded-For`（XFF）和 `X-Forwarded-Client-Cert`（XFCC）请求头。
+这些应用包括需要填充客户端 IP 的日志工具和审计工具，
+还包括一些需要此信息来正确应用规则集的安全工具，
+例如网络应用防火墙（Web Application Firewall, WAF）。
+为服务提供客户端属性的能力长时间以来是实现反向代理的一个保证。
+为了向目的地工作负载转发这些客户端属性，
+代理可以使用 `X-Forwarded-For`（XFF）和 `X-Forwarded-Client-Cert`（XFCC）请求头。
 
-如今的网络千差万别，无论网络拓扑结构如何，对这些多样化属性的支持都是必要的。
-不管网络使用的是基于云的负载均衡、前置负载均衡、直接暴露在网络上的 Gateway、
-为许多中间代理服务的 Gateway，还是没有指定其他部署拓扑等，这些信息都是需要保存和转发。
+如今的网络千差万别，但无论网络拓扑结构如何，对这些多样化属性的支持都是必要的。
+不管网络使用的是基于云的负载均衡、本地负载均衡、直接暴露在互联网上的 Gateway、
+为许多中间代理服务的 Gateway，还是其他未指定的部署拓扑，这些信息都是需要保存和转发的。
 
-虽然 Istio 提供一个 [Ingress Gateway](/zh/docs/tasks/traffic-management/ingress/ingress-control/)，
-但鉴于上述多样化架构的复杂性，无法提供合理的默认值，将客户端属性正确转发到目标工作负载。
+虽然 Istio 提供一个[入口网关](/zh/docs/tasks/traffic-management/ingress/ingress-control/)，
+但鉴于上述多样化架构的复杂性，想要将客户端属性正确转发到目的地工作负载，很难提供合理的默认值。
 随着 Istio 多集群部署模式越来越普遍，这个问题需要被越来越重视。
 
-了解关于 `X-Forwarded-For` 更多信息，参考 IETF 的 [RFC](https://tools.ietf.org/html/rfc7239)。
+关于 `X-Forwarded-For` 的更多信息，参考 IETF 的 [RFC](https://tools.ietf.org/html/rfc7239)。
 
 ## 配置网络拓扑  {#configuring-network-topologies}
 
@@ -45,7 +47,7 @@ spec:
         forwardClientCertDetails: <ENUM_VALUE>
 {{< /text >}}
 
-在您的 Istio Ingress Gateway Pod 的 Spec 通过添加 `proxy.istio.io/config` 注解可以设置这两个配置。
+在您的 Istio 入口网关 Pod 的 spec 中通过添加 `proxy.istio.io/config` 注解也可以设置这两个配置。
 
 {{< text syntax=yaml snip_id=none >}}
 ...
@@ -56,19 +58,19 @@ spec:
 
 ### 配置 X-Forwarded-For 头  {#configuring-X-Forwarded-For-headers}
 
-应用程序依靠反向代理来转发请求的客户端属性，如 `X-Forwarded-For` 请求头。
+应用程序依靠反向代理来转发请求中的客户端属性，如 `X-Forwarded-For` 请求头。
 然而由于 Istio 可以部署多样性的网络拓扑，您必须设置 Istio 网关代理上游的可信代理数量 `numTrustedProxies`，
-这样才能正确提取客户端地址。因为它将控制 Ingress Gateway 在 `X-Envoy-Eternal-Address` 头中填充的值，
-该值可以被上游服务可靠地用于访问客户的原始 IP 地址。
+这样客户端地址才能被正确提取。因为这将控制入口网关在 `X-Envoy-Eternal-Address` 头中填充的值，
+该值可以被上游服务可靠地用于访问客户端的原始 IP 地址。
 
-例如，如果在 Istio Gateway 之前，有一个基于云的负载均衡和一个反向代理，设置 `numTrustedProxies` 为 `2`。
+例如，如果在 Istio Gateway 之前，有一个基于云的负载均衡和一个反向代理，可以设置 `numTrustedProxies` 为 `2`。
 
 {{< idea >}}
 需要注意的是，在 Istio Gateway 代理前面的所有代理必须先解析 HTTP 流量，并将每一次转发信息附加到
-`X-Forwarded-For` 请求头中。如果 `X-Forwarded-For` 请求头中的条目数少于所配置的可信跳数
-Envoy 就直接回调下游地址作为可信客户地址。
+`X-Forwarded-For` 请求头中。如果 `X-Forwarded-For` 请求头中的条目数少于所配置的可信跳数，
+Envoy 就直接回调下游地址作为可信客户端地址。
 请参考 [Envoy 文档](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#x-forwarded-for)
-去了解如何确定 `X-Forwarded-For` 头文件和受信任的客户地址。
+去了解如何确定 `X-Forwarded-For` 头文件和受信任的客户端地址。
 {{< /idea >}}
 
 #### httpbin X-Forwarded-For 示例  {#example-using-X-Forwarded-For-capability-with-httpbin}
@@ -89,7 +91,7 @@ Envoy 就直接回调下游地址作为可信客户地址。
     {{< /text >}}
 
     {{< idea >}}
-    如果您之前安装了 Istio Ingress Gateway，请在第 1 步之后重启所有 Ingress Gateway Pod。
+    如果您之前安装了 Istio 入口网关，请在第 1 步之后重启所有入口网关 Pod。
     {{</ idea >}}
 
 1. 创建一个 `httpbin` 命名空间：
@@ -135,7 +137,7 @@ $ kubectl wait --for=condition=programmed gtw -n httpbin httpbin-gateway
 
 {{< /tabset >}}
 
-6) 基于您的 Istio Ingress Gateway 设置一个本地环境变量 `GATEWAY_URL`：
+6) 基于您的 Istio 入口网关设置一个本地环境变量 `GATEWAY_URL`：
 
 {{< tabset category-name="config-api" >}}
 
@@ -248,11 +250,12 @@ PROXY 协议不应该用于 L7 流量，也不应该在 L7 负载均衡器后使
 
 如果外部负载均衡器配置为转发 TCP 流量并使用 PROXY 协议，Istio Gateway TCP 侦听器也必须配置为接受 PROXY 协议。
 启用该功能需要在 Gateway 工作负载上使用 `EnvoyFilter` 添加
-[Envoy PROXY 协议过滤器](https://www.envoyproxy.io/docs/envoy/latest/configuration/listeners/listener_filters/proxy_protocol)。示例：
+[Envoy PROXY 协议过滤器](https://www.envoyproxy.io/docs/envoy/latest/configuration/listeners/listener_filters/proxy_protocol)。
+示例：
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio APIs" category-value="istio-apis" >}}
+{{< tab name="Istio API" category-value="istio-apis" >}}
 
 {{< text syntax=yaml snip_id=none >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -262,13 +265,13 @@ metadata:
   namespace: istio-system
 spec:
   configPatches:
-  - applyTo: LISTENER
+  - applyTo: LISTENER_FILTER
     patch:
-      operation: MERGE
+      operation: INSERT_FIRST
       value:
-        listener_filters:
-        - name: envoy.listener.proxy_protocol
-        - name: envoy.listener.tls_inspector
+        name: proxy_protocol
+        typed_config:
+          "@type": "type.googleapis.com/envoy.extensions.filters.listener.proxy_protocol.v3.ProxyProtocol"
   workloadSelector:
     labels:
       istio: ingressgateway
@@ -286,13 +289,13 @@ metadata:
   namespace: istio-system
 spec:
   configPatches:
-  - applyTo: LISTENER
+  - applyTo: LISTENER_FILTER
     patch:
-      operation: MERGE
+      operation: INSERT_FIRST
       value:
-        listener_filters:
-        - name: envoy.listener.proxy_protocol
-        - name: envoy.listener.tls_inspector
+        name: proxy_protocol
+        typed_config:
+          "@type": "type.googleapis.com/envoy.extensions.filters.listener.proxy_protocol.v3.ProxyProtocol"
   workloadSelector:
     labels:
       istio.io/gateway-name: <GATEWAY_NAME>
@@ -304,7 +307,7 @@ spec:
 
 客户端 IP 从 PROXY 协议中由 Gateway 获取，并在 `X-Forwarded-For` 和 `X-Envoy-External-Address` 头中设置（或附加）。
 请注意，PROXY 协议与 `X-Forwarded-For` 和 `X-Envoy-External-Address` 等 L7 请求头互斥。
-当 PROXY 协议与 `gatewayTopology` 配置一起使用时，在确定可信客户地址时会优先使用 `numTrustedProxies`
+当 PROXY 协议与 `gatewayTopology` 配置一起使用时，在确定可信客户端地址时会优先使用 `numTrustedProxies`
 和接收到的 `X-Forwarded-For` 头，PROXY 协议客户端信息将被忽略。
 
 请注意，上面的示例仅将 Gateway 配置为接受传入的 PROXY 协议 TCP 流量。
