@@ -74,7 +74,7 @@ Istio Ambient 模式所需的最低 Istio 版本是 `1.18.0`。
 一般来说，Ambient 模式下的 Istio 支持 Sidecar 代理模式下支持的现有 Istio API。
 由于 Ambient 功能当前处于 Alpha 版本级别，
 因此以下是 Istio Ambient 功能当前版本（自 `1.19.0` 版本起）中的功能限制或警告列表。
-由于 Ambient 将进入 Beta 并最终正式发布，这些限制预计将在未来的软件版本中得到解决/删除。
+由于 Ambient 将进入 Beta 并最终正式发布，这些限制预计将在未来的软件版本中得到解决/移除。
 
 1. **仅限 Kubernetes（K8s）：**目前仅支持 Istio Ambient 模式在 Kubernetes 集群上部署。
    目前不支持在虚拟机等非 Kubernetes 端点上部署。
@@ -103,8 +103,8 @@ Istio Ambient 模式所需的最低 Istio 版本是 `1.18.0`。
 
 ### 本指南使用的环境  {#environment-used-for-this-guide}
 
-本指南中的示例运行在基于 `kind` `0.20.0` 版的
-Kubernetes `1.27.3` 集群的 Istio `1.19.0` 版本中。
+本指南中的示例在基于 `0.20.0` 版 `kind` 的
+Kubernetes `1.27.3` 集群内的 Istio `1.19.0` 版本中运行。
 
 Ambient 功能所需的最低 Istio 版本是 1.18.0，所需的最低 Kubernetes 版本是 `1.24.0`。
 下面的示例需要一个具有超过 1 个工作节点的集群，以便解释跨节点流量的运行方式。
@@ -160,8 +160,9 @@ Istio Ambient 中使用的 `HBONE`（基于 HTTP 的覆盖网络封装：HTTP Ba
 安全地隧道传输封装在 HTTPS 数据包中的 TCP 数据包的技术。
 以下小节提供了有关 HBONE 的一些简短附加说明。
 
-请注意，该图展示本地流量（从 Pod C3 到工作节点 W2 上的目标 Pod S1）也会遍历本地 ztunnel 代理实例，
-以便对流量执行相同的 L4 流量管理功能（例如 L4 授权和 L4 遥测），无论它是否跨越节点边界。
+请注意，该图展示本地流量（从 Pod C3 到工作节点 W2
+上的目标 Pod S1）无论是否跨越节点边界也会遍历本地 ztunnel 代理实例，
+以便对流量执行相同的 L4 流量管理功能（例如 L4 授权和 L4 遥测）。
 
 #### 通过 waypoint 的 ztunnel 数据路径  {#ztunnel-datapath-via-waypoint}
 
@@ -296,46 +297,38 @@ sleep-69cfb4968f-mhccl     1/1     Running   0          78m
 sleep-69cfb4968f-rhhhp     1/1     Running   0          78m
 {{< /text >}}
 
-Note that after ambient is enabled for the namespace, every application pod still only has 1 container, and the uptime of these pods indicates these were not restarted in order to enable ambient mode (unlike `sidecar` mode which does restart application pods when the sidecar proxies are injected). This results in better user experience and operational performance since ambient mode can seamlessly be enabled (or disabled) completely transparently as far as the application pods are concerned.
 请注意，为命名空间启用 Ambient 后，每个应用程序 Pod 仍然只有 1 个容器，
-并且这些 Pod 的正常运行时间表明这些 pod 没有为了启用环境模式而重新启动
-（与 sidecar 模式不同，当 sidecar 启动时，它会重新启动应用程序 pod） 代理被注入）。
-这会带来更好的用户体验和操作性能，因为就应用程序 Pod 而言，
-可以完全透明地无缝启用（或禁用）环境模式。
+并且这些 Pod 的正常运行时间表明这些 Pod 没有为了启用 Ambient 模式而被重新启动
+（与 `sidecar` 模式不同，当 Sidecar 代理被注入时，它会重新启动应用程序 Pod）。
+这会带来更好的用户体验和运维效率，因为就应用程序 Pod 而言，
+可以完全透明地无缝启用（或禁用）Ambient 模式。
 
-Initiate a `curl` request again from one of the client pods to the service to verify that traffic continues to flow while ambient mode.
-再次从客户端 Pod 之一向服务发起“curl”请求，以验证流量在环境模式下是否继续流动。
+再次从客户端 Pod 之一向服务发起 `curl` 请求，以验证流量在 Ambient 模式下是否继续流动。
 
 {{< text bash >}}
 $ kubectl exec deploy/sleep -n ambient-demo  -- curl httpbin:8000 -s | grep title -m 1
     <title>httpbin.org</title>
 {{< /text >}}
 
-This indicates the traffic path is working. The next section looks at how to monitor the configuration and data plane of the ztunnel proxy to confirm that traffic is correctly using the ztunnel proxy.
-这表明流量路径正在工作。 下一节将介绍如何监控 ztunnel 代理的配置和数据平面，
+这表明流量路径正在工作。下一节将介绍如何监控 ztunnel 代理的配置和数据平面，
 以确认流量正确使用 ztunnel 代理。
 
-## Monitoring the ztunnel proxy & L4 networking {#monitoringzt}
 ## 监控 ztunnel 代理和 L4 网络  {#monitoringzt}
 
-This section describes some options for monitoring the ztunnel proxy configuration and data path. This information can also help with some high level troubleshooting and in identifying information that would be useful to collect and provide in a bug report if there are any problems. Additional advanced monitoring of ztunnel internals and advanced troubleshooting is out of scope for this guide.
 本节介绍一些用于监视 ztunnel 代理配置和数据路径的选项。
 此信息还可以帮助进行一些高级故障排除，以及识别在出现任何问题时可在错误报告中收集和提供的有用信息。
 ztunnel 内部的其他高级监控和高级故障排除超出了本指南的范围。
 
-### Viewing ztunnel proxy state
-### 查看 ztunnel 代理状态
+### 查看 ztunnel 代理状态  {#viewing-ztunnel-proxy-state}
 
-As indicated previously, the ztunnel proxy on each node gets configuration and discovery information from the istiod component via xDS APIs. Use the `istioctl proxy-config` command shown below to view discovered workloads as seen by a ztunnel proxy as well as secrets holding the TLS certificates that the ztunnel proxy has received from the istiod control plane to use in mTLS signaling on behalf of the local workloads.
 如前所述，每个节点上的 ztunnel 代理通过 xDS API 从 istiod 组件获取配置和发现信息。
-使用如下所示的“istioctl proxy-config”命令查看 ztunnel 代理发现的工作负载，
-以及保存 ztunnel 代理从 istiod 控制平面接收到的 TLS 证书的机密，
-以代表本地在 mTLS 信令中使用 工作负载。
+使用如下所示的 `istioctl proxy-config` 命令查看 ztunnel 代理发现的工作负载，
+以及保存 ztunnel 代理从 istiod 控制平面接收到的 TLS 证书的 Secret，
+以代表本地在 mTLS 信令中使用工作负载。
 
-In the first example, you see all the workloads and control plane components that the specific ztunnel pod is currently tracking including information about the IP address and protocol to use when connecting to that component and whether there is a Waypoint proxy associated with that workload. This example can repeated with any of the other ztunnel pods in the system to display their current configuration.
 在第一个示例中，您会看到特定 ztunnel Pod 当前正在跟踪的所有工作负载和控制平面组件，
 包括有关连接到该组件时要使用的 IP 地址和协议的信息，
-以及是否存在与该工作负载关联的 Waypoint 代理。
+以及是否存在与该工作负载关联的 waypoint 代理。
 可以对系统中的任何其他 ztunnel Pod 重复此示例，以显示其当前配置。
 
 {{< text bash >}}
@@ -360,7 +353,6 @@ ztunnel-gkldc                          istio-system       10.240.1.3 amb1-worker
 ztunnel-xxbgj                          istio-system       10.240.2.2 amb1-worker2       None     TCP
 {{< /text >}}
 
-In the second example, you see the list of TLS certificates that this ztunnel proxy instance has received from istiod to use in TLS signaling.
 在第二个示例中，您会看到此 ztunnel 代理实例从 istiod
 接收到的用于 TLS 信令的 TLS 证书列表。
 
@@ -377,47 +369,40 @@ spiffe://cluster.local/ns/istio-system/sa/ztunnel     CA             Available  
 spiffe://cluster.local/ns/istio-system/sa/ztunnel     Cert Chain     Available     true           ec30e0e1b7105e3dce4425b5255287c6     2033-09-16T18:26:19Z     2023-09-19T18:26:19Z
 {{< /text >}}
 
-Using these CLI commands, a user can check that ztunnel proxies are getting configured with all the expected workloads and TLS certificates and missing information can be used for troubleshooting to explain any potential observed networking errors. A user may also use the `all` option to view all parts of the proxy-config with a single CLI command and the JSON output formatter as shown in the example below to display the complete set of available state information.
 使用这些 CLI 命令，用户可以检查 ztunnel 代理是否已配置所有预期的工作负载和 TLS 证书，
-并且缺失的信息可用于故障排除，以解释任何潜在的观察到的网络错误。
-用户还可以使用“all”选项通过单个 CLI 命令和 JSON
-输出格式化程序来查看代理配置的所有部分，如下例所示，以显示完整的可用状态信息集。
+并且缺失的信息可被用于故障排除，以解释任何潜在的观察到的网络错误。
+用户还可以使用 `all` 选项通过单个 CLI 命令和 JSON
+输出格式化程序来查看代理配置的所有内容，如下面例子所示，以显示完整的可用状态信息集。
 
 {{< text bash >}}
 $ istioctl proxy-config all "$ZTUNNEL".istio-system -o json | jq
 {{< /text >}}
 
-Note that when used with a ztunnel proxy instance, not all options of the `istioctl proxy-config` CLI are supported since some apply only to sidecar proxies.
-请注意，与 ztunnel 代理实例一起使用时，并非支持“istioctl proxy-config”
-CLI 的所有选项，因为某些选项仅适用于 sidecar 代理。
+请注意，与 ztunnel 代理实例一起使用时，并非所有
+`istioctl proxy-config` CLI 的选项都被支持，因为某些选项仅适用于 Sidecar 代理。
 
-An advanced user may also view the raw configuration dump of a ztunnel proxy via a `curl` to the endpoint inside a ztunnel proxy pod as shown in the following example.
-高级用户还可以通过“curl”到 ztunnel 代理 Pod 内的端点查看
-ztunnel 代理的原始配置转储，如以下示例所示。
+高级用户还可以通过 `curl` 命令访问 ztunnel 代理 Pod 内的端点查看
+ztunnel 代理的原始配置 Dump，如以下示例所示。
 
 {{< text bash >}}
 $ kubectl exec ds/ztunnel -n istio-system  -- curl http://localhost:15000/config_dump | jq .
 {{< /text >}}
 
-### Viewing Istiod state for ztunnel xDS resources
-### 查看 ztunnel xDS 资源的 Istiod 状态
+### 查看 ztunnel xDS 资源的 istiod 状态  {#viewing-istiod-state-for-ztunnel-xds-resources}
 
-Sometimes an advanced user may want to view the state of ztunnel proxy config resources as maintained in the istiod control plane, in the format of the xDS API resources defined specially for ztunnel proxies. This can be done by exec-ing into the istiod pod and obtaining this information from port 15014 for a given ztunnel proxy as shown in the example below. This output can then also be saved and viewed with a JSON pretty print formatter utility for easier browsing (not shown in the example).
 有时，高级用户可能希望以专门为 ztunnel 代理定义的 xDS API 资源的格式查看 istiod
-控制平面中维护的 ztunnel 代理配置资源的状态。这可以通过执行 istiod pod
-并从给定 ztunnel 代理的端口 15014 获取此信息来完成，如下例所示。
-然后，还可以使用 JSON 漂亮的打印格式化程序实用程序保存和查看此输出，
+控制平面中维护的 ztunnel 代理配置资源的状态。这可以通过访问 istiod Pod
+并从给定 ztunnel 代理的端口 15014 获取此信息来完成，如下面例子所示。
+然后，还可以使用 JSON 漂亮的打印格式化实用程序保存和查看此输出，
 以便于浏览（示例中未显示）。
 
 {{< text bash >}}
 $ kubectl exec -n istio-system deploy/istiod -- curl localhost:15014/debug/config_dump?proxyID="$ZTUNNEL".istio-system | jq
 {{< /text >}}
 
-### Verifying ztunnel traffic logs
-### 验证 ztunnel 流量日志
+### 验证 ztunnel 流量日志  {#verifying-ztunnel-traffic-logs}
 
-Send some traffic from a client `sleep` pod to the `httpbin` service.
-将一些流量从客户端 `sleep` pod 发送到 `httpbin` 服务。
+将一些流量从客户端 `sleep` Pod 发送到 `httpbin` 服务。
 
 {{< text bash >}}
 $ kubectl -n ambient-demo exec deploy/sleep -- sh -c 'for i in $(seq 1 10); do curl -s -I http://httpbin:8000/; done'
@@ -426,9 +411,8 @@ Server: gunicorn/19.9.0
 --snip--
 {{< /text >}}
 
-The response displayed confirms the client pod receives responses from the service. Now check logs of the ztunnel pods to confirm the traffic was sent over the HBONE tunnel.
-显示的响应确认客户端 Pod 收到来自服务的响应。
-现在检查 ztunnel pod 的日志以确认流量是通过 HBONE 隧道发送的。
+响应被展示确认了客户端 Pod 收到来自服务的响应。
+现在检查 ztunnel Pod 的日志以确认流量是通过 HBONE 隧道发送的。
 
 {{< text bash >}}
 $ kubectl -n istio-system logs -l app=ztunnel | grep -E "inbound|outbound"
@@ -437,56 +421,47 @@ $ kubectl -n istio-system logs -l app=ztunnel | grep -E "inbound|outbound"
 --snip--
 {{< /text >}}
 
-These log messages confirm the traffic indeed used the ztunnel proxy in the datapath. Additional fine grained monitoring can be done by checking logs on the specific ztunnel proxy instances that are on the same nodes as the source and destination pods of traffic. If these logs are not seen, then a possibility is that traffic redirection may not be working correctly. Detailed description of monitoring and troubleshooting of the traffic redirection logic is out of scope for this guide. Note that as mentioned previously, with ambient traffic always traverses the ztunnel pod even when the source and destination of the traffic are on the same compute node.
 这些日志消息确认流量确实使用了数据路径中的 ztunnel 代理。
-可以通过检查与流量源和目标 pod 位于同一节点上的特定 ztunnel
-代理实例上的日志来完成额外的细粒度监控。 如果没有看到这些日志，
+可以通过检查与流量源和目标 Pod 位于同一节点上的特定 ztunnel
+代理实例上的日志来完成额外的细粒度监控。如果没有看到这些日志，
 则可能是流量重定向无法正常工作。流量重定向逻辑的监控和故障排除的详细描述超出了本指南的范围。
-请注意，如前所述，即使流量的源和目的地位于同一计算节点上，环境流量也始终会遍历 ztunnel pod。
+请注意，如前所述，即使流量的源和目标位于同一计算节点上，Ambient 流量也始终会遍历 ztunnel Pod。
 
-### Monitoring and Telemetry via Prometheus, Grafana, Kiali
-### 通过 Prometheus、Grafana、Kiali 进行监控和遥测
+### 通过 Prometheus、Grafana、Kiali 进行监控和遥测  {#monitoring-and-telemetry-via-prometheus-grafana-kiali}
 
-In addition to checking ztunnel logs and other monitoring options noted above, one can also use normal Istio monitoring and telemetry functions to monitor application traffic within an Istio Ambient mesh. The use of Istio in ambient mode does not change this behavior. Since this functionality is largely unchanged in Istio ambient mode from Istio sidecar mode , these details are not repeated in this guide. Please refer to [Prometheus](/docs/ops/integrations/prometheus/#installation) and [Kiali](/docs/ops/integrations/kiali/#installation) for information on installation of Prometheus and Kiali services and dashboards as well as the standard Istio metrics and telemetry documentation (such as [here](/docs/reference/config/metrics/) and [here](/docs/tasks/observability/metrics/querying-metrics/)) for additional details.
 除了检查 ztunnel 日志和上述其他监控选项之外，还可以使用普通的 Istio
 监控和遥测功能来监控 Istio Ambient 网格内的应用程序流量。
-在环境模式下使用 Istio 不会改变此行为。 由于此功能在 Istio 环境模式下与
-Istio sidecar 模式基本没有变化，因此本指南中不再重复这些细节。
-请参阅 [Prometheus](/docs/ops/integrations/prometheus/#installation)
-和 [Kiali](/docs/ops/integrations/kiali/#installation)
-了解 Prometheus 和 Kiali 服务和仪表板的安装信息以及 标准 Istio 指标和遥测文档
-（例如[此处](/docs/reference/config/metrics/) 
-和[此处](/docs/tasks/observability/metrics/querying-metrics/)）了解更多详细信息。
+在 Ambient 模式下使用 Istio 不会改变此行为。由于此功能在 Istio Ambient 模式下与
+Istio Sidecar 模式基本没有变化，因此本指南中不再重复这些细节。
+请参阅 [Prometheus](/zh/docs/ops/integrations/prometheus/#installation)
+和 [Kiali](/zh/docs/ops/integrations/kiali/#installation)
+了解 Prometheus 和 Kiali 服务和仪表板的安装信息以及标准 Istio 指标和遥测文档
+（例如[此处](/zh/docs/reference/config/metrics/)和[此处](/zh/docs/tasks/observability/metrics/querying-metrics/)）了解更多详细信息。
 
-One point to note is that in case of a service that is only using ztunnel and L4 networking, the Istio metrics reported will currently only be the L4/ TCP metrics (namely `istio_tcp_sent_bytes_total`, `istio_tcp_received_bytes_total`, `istio_tcp_connections_opened_total`, `istio_tcp_connections_closed_total`). The full set of Istio and Envoy metrics will be reported when a Waypoint proxy is involved.
 需要注意的一点是，如果服务仅使用 ztunnel 和 L4 网络，
-则报告的 Istio 指标目前仅是 L4/ TCP 指标（即 `istio_tcp_sent_bytes_total`、
+则报告的 Istio 指标目前仅是 L4/TCP 指标（即 `istio_tcp_sent_bytes_total`、
 `istio_tcp_received_bytes_total`、`istio_tcp_connections_opened_total`、
-`istio_tcp_connections_filled_total` ）。
-当涉及 Waypoint 代理时，将报告全套 Istio 和 Envoy 指标。
+`istio_tcp_connections_filled_total`）。
+当涉及 waypoint 代理时，将报告全套 Istio 和 Envoy 指标。
 
-### Verifying ztunnel load balancing
-### 验证 ztunnel 负载平衡
+### 验证 ztunnel 负载平衡  {#verifying-ztunnel-load-balancing}
 
-The ztunnel proxy automatically performs client-side load balancing if the destination is a service with multiple endpoints. No additional configuration is needed. The ztunnel load balancing algorithm is an internally fixed L4 Round Robin algorithm that distributes traffic based on L4 connection state and is not user configurable.
-如果目标是具有多个端点的服务，ztunnel 代理会自动执行客户端负载平衡。
-无需额外配置。 ztunnel负载均衡算法是内部固定的L4循环算法，
-根据L4连接状态分配流量，用户不可配置。
+如果目标是具有多个端点的服务，ztunnel 代理会自动执行客户端负载均衡。
+无需额外配置。ztunnel 负载均衡算法是内部固定的 L4 循环算法，
+根据 L4 连接状态分配流量，用户不可配置。
 
 {{< tip >}}
-If the destination is a service with multiple instances or pods and there is no Waypoint associated with the destination service, then the source ztunnel proxy performs L4 load balancing directly across these instances or service backends and then sends traffic via the remote ztunnel proxies associated with those backends. If the destination service does have a Waypoint deployment (with one or more backend instances of the Waypoint proxy) associated with it, then the source ztunnel proxy performs load balancing by distributing traffic across these Waypoint proxies and sends traffic via the remote ztunnel proxies associated with the Waypoint proxy instances.
-如果目标是具有多个实例或 Pod 的服务，并且没有与目标服务关联的 Waypoint，
-则源 ztunnel 代理直接跨这些实例或服务后端执行 L4 负载平衡，
-然后通过与这些实例或服务后端关联的远程 ztunnel 代理发送流量 后端。
-如果目标服务确实具有与其关联的 Waypoint 部署（具有一个或多个 Waypoint
-代理的后端实例），则源 ztunnel 代理通过在这些 Waypoint 代理之间分配流量来执行负载平衡，
-并通过与关联的远程 ztunnel 代理发送流量 Waypoint 代理实例。
+如果目标是具有多个实例或 Pod 的服务，并且没有与目标服务关联的 waypoint，
+则源 ztunnel 代理直接跨越这些实例或服务后端执行 L4 负载均衡，
+然后通过远程 ztunnel 代理与这些后端发送流量。如果目标服务确实具有与其关联的
+waypoint 部署（具有一个或多个 waypoint 代理的后端实例），
+则源 ztunnel 代理通过在这些 waypoint 代理之间分配流量来执行负载均衡，
+并通过远程 ztunnel 代理与关联的 waypoint 代理实例发送流量。
 {{< /tip >}}
 
-Now repeat the previous example with multiple replicas of the service pod and verify that client traffic is load balanced across the service replicas. Wait for all pods in the ambient-demo namespace to go into Running state before continuing to the next step.
-现在，使用服务 Pod 的多个副本重复前面的示例，
-并验证客户端流量是否在服务副本之间实现负载平衡。
-等待ambient-demo命名空间中的所有pod进入Running状态，然后再继续下一步。
+现在，使用多副本服务 Pod 重复前面的示例，
+并验证客户端流量是否在服务副本之间实现负载均衡。
+等待 ambient-demo 命名空间中的所有 Pod 进入 Running 状态，然后再继续下一步。
 
 {{< text bash >}}
 $ kubectl -n ambient-demo scale deployment httpbin --replicas=2 ; kubectl wait --for condition=available  deployment/httpbin -n ambient-demo
@@ -515,63 +490,48 @@ $ kubectl -n istio-system logs -l app=ztunnel | grep -E "inbound|outbound"
 --snip--
 {{< /text >}}
 
-Here note the logs from the ztunnel proxies first indicating the http CONNECT request to the new destination pod (10.240.1.11) which indicates the setup of the HBONE tunnel to ztunnel on the node hosting the additional destination service pod. This is then followed by logs indicating the client traffic being sent to both 10.240.1.11 and 10.240.2.10 which are the two destination pods providing the service. Also note that the data path is performing client-side load balancing in this case and not depending on Kubernetes service load balancing. In your setup these numbers will be different and will match the pod addresses of the httpbin pods in your cluster.
-请注意来自 ztunnel 代理的日志，首先指示对新目标 Pod (10.240.1.11) 的
+请注意来自 ztunnel 代理的日志，首先表明了对新目标 Pod（10.240.1.11）的
 http CONNECT 请求，该请求指示在托管其他目标服务 Pod 的节点上设置到
-ztunnel 的 HBONE 隧道。 接下来的日志指示客户端流量发送到 10.240.1.11
-和 10.240.2.10，这是提供服务的两个目标 Pod。 另请注意，在这种情况下，
-数据路径正在执行客户端负载平衡，而不是依赖于 Kubernetes 服务负载平衡。
-在您的设置中，这些数字将有所不同，并将与集群中 httpbin pod 的 pod 地址匹配。
+ztunnel 的 HBONE 隧道。接下来的日志表明了客户端流量被发送到 10.240.1.11
+和 10.240.2.10，这是提供服务的两个目标 Pod。另请注意，在这种情况下，
+数据路径正在执行客户端负载均衡，而不是依赖于 Kubernetes 服务负载均衡。
+在您的设置中，这些数字将有所不同，并将与集群中 httpbin Pod 的地址匹配。
 
-This is a round robin load balancing algorithm and is separate from and independent of any load balancing algorithm that may be configured within a `VirtualService`'s `TrafficPolicy` field, since as discussed previously, all aspects of `VirtualService` API objects are instantiated on the Waypoint proxies and not the ztunnel proxies.
-这是一种循环负载平衡算法，并且独立于可以在 `VirtualService` 的 `TrafficPolicy`
-字段中配置的任何负载平衡算法，因为如前所述，`VirtualService` API
-对象的所有方面都被实例化 在 Waypoint 代理上而不是 ztunnel 代理上。
+这是一种循环负载均衡算法，并且独立于可以在 `VirtualService` 的 `TrafficPolicy`
+字段中配置的任何负载均衡算法，因为如前所述，`VirtualService` API
+对象的所有方面都被实例化 在 waypoint 代理上而不是 ztunnel 代理上。
 
-### Pod selection logic for ambient and sidecar modes
-### 环境模式和边车模式的 Pod 选择逻辑
+### Ambient 模式和 Sidecar 模式的 Pod 选择逻辑  {#pod-selection-logic-for-ambient-and-sidecar-modes}
 
-Istio with sidecar proxies can co-exist with ambient based node level proxies within the same compute cluster. It is important to ensure that the same pod or namespace does not get configured to use both a sidecar proxy and an ambient node-level proxy. However if this does occur, currently sidecar injection takes precedence for such a pod or namespace.
-具有 sidecar 代理的 Istio 可以与同一计算集群中基于环境的节点级代理共存。
-确保相同的 pod 或命名空间不会配置为同时使用 sidecar 代理和环境节点级代理非常重要。
-但是，如果确实发生这种情况，当前此类 pod 或命名空间将优先进行 sidecar 注入。
+具有 Sidecar 代理的 Istio 可以与同一计算集群中基于 Ambient 的节点级代理共存。
+确保相同的 Pod 或命名空间不会配置为同时使用 Sidecar 代理和 Ambient 节点级代理非常重要。
+但是，如果确实发生这种情况，当前此类 Pod 或命名空间将优先进行 Sidecar 注入。
 
-Note that two pods within the same namespace could in theory be set to use different modes by labeling individual pods separately from the namespace label, however this is not recommended. For most common use cases it is recommended that a single mode be used for all pods within a single namespace.
-请注意，理论上，可以通过将各个 pod 与命名空间标签分开标记来将同一命名空间中的两个
-pod 设置为使用不同的模式，但不建议这样做。 对于大多数常见用例，
+请注意，理论上，可以通过将各个 Pod 与命名空间标签分开标记来将同一命名空间中的两个
+Pod 设置为使用不同的模式，但不建议这样做。对于大多数常见用例，
 建议对单个命名空间内的所有 Pod 使用单一模式。
 
-The exact logic to determine whether a pod is setup to use ambient mode is as follows.
-确定 pod 是否设置为使用环境模式的确切逻辑如下。
+确定 Pod 是否设置为使用 Ambient 模式的确切逻辑如下。
 
-1. The `istio-cni` plugin configuration exclude list configured in `cni.values.excludeNamespaces` is used to skip namespaces in the exclude list.
-1. `ambient` mode is used for a pod if
-- The namespace has label `istio.io/dataplane-mode=ambient`
-- The annotation `sidecar.istio.io/status` is not present on the pod
-- `ambient.istio.io/redirection` is not `disabled`
-1. `cni.values.excludeNamespaces` 中配置的 `istio-cni`
-   插件配置排除列表用于跳过排除列表中的命名空间。
-1. pod 使用 `ambient` 模式，如果
-- 命名空间具有标签 `istio.io/dataplane-mode=ambient`
-- Pod 上不存在注释 `sidecar.istio.io/status`
+1. 在 `cni.values.excludeNamespaces` 配置中的
+   `istio-cni` 插件配置排除列表用于跳过排除列表中的命名空间。
+1. Pod 已使用 `ambient` 模式，如果：
+- 命名空间具有 `istio.io/dataplane-mode=ambient` 标签
+- Pod 上不存在 `sidecar.istio.io/status` 注解
 - `ambient.istio.io/redirection` 不是 `disabled`
 
-The simplest option to avoid a configuration conflict is for a user to ensure that for each namespace, it either has the label for sidecar injection (`istio-injection=enabled`) or for ambient data plane mode (`istio.io/dataplane-mode=ambient`) but never both.
 避免配置冲突的最简单选项是用户确保对于每个命名空间，
-它要么具有 sidecar 注入标签（`istio-injection=enabled`），
-要么具有环境数据平面模式标签（`istio.io/dataplane- mode=ambient`），
+它要么具有 Sidecar 注入标签（`istio-injection=enabled`），
+要么具有 Ambient 数据平面模式标签（`istio.io/dataplane- mode=ambient`），
 但绝不能两者兼而有之。
 
-## L4 Authorization Policy {#l4auth}
 ## L4 授权策略  {#l4auth}
 
-As mentioned previously, the ztunnel proxy performs Authorization policy enforcement when it requires only L4 traffic processing in order to enforce the policy in the data plane and there are no Waypoints involved. The actual enforcement point is at the receiving (or server side) ztunnel proxy in the path of a connection.
-如前所述，ztunnel 代理在仅需要 L4
-流量处理以便在数据平面中实施策略并且不涉及路点时执行授权策略实施。
-实际的执行点位于连接路径中的接收（或服务器端）ztunnel 代理。
+如前面所述，ztunnel 代理在仅需要 L4
+流量处理以便在数据平面中实施策略并且不涉及 waypoint 时执行授权策略。
+实际的执行点位于连接路径中的接收端（或服务器端）ztunnel 代理。
 
-Apply a basic L4 Authorization policy for the already deployed `httpbin` application as shown in the example below.
-为已部署的“httpbin”应用程序应用基本的 L4 授权策略，如下例所示。
+为已部署的 `httpbin` 应用程序应用基本的 L4 授权策略，如下面例子所示。
 
 {{< text bash >}}
 $ kubectl apply -n ambient-demo -f - <<EOF
@@ -592,15 +552,13 @@ spec:
 EOF
 {{< /text >}}
 
-The behavior of the `AuthorizationPolicy` API has the same functional behavior in Istio ambient mode as in sidecar mode. When there is no `AuthorizationPolicy` provisioned, then the default action is `ALLOW`. Once the policy above is provisioned, pods matching the selector in the policy (i.e. app:httpbin) only allow traffic explicitly whitelisted which in this case is sources with principal (i.e. identity) of `cluster.local/ns/ambient-demo/sa/sleep`. Now as shown below, if you try the curl operation to the `httpbin` service from the `sleep` pods, it still works but the same operation is blocked when initiated from the `notsleep` pods.
-`AuthorizationPolicy` API 的行为在 Istio 环境模式下与 Sidecar
+`AuthorizationPolicy` API 的行为在 Istio Ambient 模式下与 Sidecar
 模式下具有相同的功能行为。当没有配置 `AuthorizationPolicy` 时，默认操作是 `ALLOW`。
-配置上述策略后，与策略中的选择器（即 app:httpbin）匹配的 Pod 仅允许明确列入白名单的流量，
-在本例中是主体（即身份）为 `cluster.local/ns/ambient-demo/sa/sleep` 的源 /睡觉`。
+配置上述策略后，与策略中的 Selector（即 app:httpbin）匹配的 Pod 仅允许明确列入白名单的流量，
+在本例中是主体（即身份）为 `cluster.local/ns/ambient-demo/sa/sleep` 的源。
 现在如下所示，如果您尝试从 `sleep` Pod 对 `httpbin` 服务执行curl 操作，它仍然有效，
-但从 `notsleep` Pod 启动时，相同的操作会被阻止。
+但从 `notsleep` Pod 发起时，相同的操作会被阻止。
 
-Note that this policy performs an explicit `ALLOW` action on traffic from sources with principal (i.e. identity) of `cluster.local/ns/ambient-demo/sa/sleep` and hence traffic from all other sources will be denied.
 请注意，此策略对来自主体（即身份）为 `cluster.local/ns/ambient-demo/sa/sleep`
 的源的流量执行显式 `ALLOW` 操作，因此来自所有其他源的流量将被拒绝。
 
@@ -614,8 +572,7 @@ $ kubectl exec deploy/notsleep -n ambient-demo -- curl httpbin:8000 -s | grep ti
 command terminated with exit code 56
 {{< /text >}}
 
-Note that there are no waypoint proxies deployed and yet this `AuthorizationPolicy` is getting enforced and this is because this policy only requires L4 traffic processing which can be performed by ztunnel proxies. These policy actions can be further confirmed by checking ztunnel logs and looking for logs that indicate RBAC actions as shown in the following example.
-请注意，没有部署路点代理，但此 `AuthorizationPolicy` 正在强制执行，
+请注意，waypoint 代理并未被部署，但此 `AuthorizationPolicy` 正在被强制执行，
 这是因为此策略仅需要可由 ztunnel 代理执行的 L4 流量处理。
 可以通过检查 ztunnel 日志并查找指示 RBAC 操作的日志来进一步确认这些策略操作，
 如以下示例所示。
@@ -628,16 +585,14 @@ $ kubectl logs ds/ztunnel -n istio-system  | grep -E RBAC
 {{< /text >}}
 
 {{< warning >}}
-If an `AuthorizationPolicy` has been configured that requires any traffic processing beyond L4, and if no waypoint proxies are configured for the destination of the traffic, then ztunnel proxy will simply drop all traffic as a defensive move. Hence check to ensure that either all rules involve L4 processing only or else if non-L4 rules are unavoidable, then waypoint proxies are also configured to handle policy enforcement.
 如果配置的 `AuthorizationPolicy` 需要 L4 之外的任何流量处理，
-并且没有为流量的目的地配置路点代理，则 ztunnel 代理将简单地丢弃所有流量作为防御措施。
+并且没有为流量的目标配置 waypoint 代理，则 ztunnel 代理将简单地丢弃所有流量作为防御措施。
 因此，请检查以确保所有规则仅涉及 L4 处理，否则如果非 L4 规则不可避免，
-则还配置路点代理来处理策略实施。
+则还配置 waypoint 代理来处理执行策略。
 {{< /warning >}}
 
-As an example, modify the `AuthorizationPolicy` to include a check for the HTTP GET method as shown below. Now notice that both `sleep` and `notsleep` pods are blocked from sending traffic to the destination `httpbin` service.
 例如，修改 `AuthorizationPolicy` 以包含对 HTTP GET 方法的检查，
-如下所示。现在请注意，`sleep` 和 `notsleep` Pod 都被阻止向目标 `httpbin` 服务发送流量。
+如下所示。现在请注意，`sleep` 和 `notsleep` Pod 都会被阻止向目标 `httpbin` 服务发送流量。
 
 {{< text bash >}}
 $ kubectl apply -n ambient-demo -f - <<EOF
@@ -671,43 +626,34 @@ $ kubectl exec deploy/notsleep -n ambient-demo -- curl httpbin:8000 -s | grep ti
 command terminated with exit code 56
 {{< /text >}}
 
-You can also confirm by viewing logs of specific ztunnel proxy pods (not shown in the example here) that it is always the ztunnel proxy on the node hosting the destination pod that actually enforces the policy.
-您还可以通过查看特定 ztunnel 代理 Pod 的日志（此处示例中未显示）来确认，
-实际执行策略的始终是托管目标 Pod 的节点上的 ztunnel 代理。
+您还可以通过查看特定 ztunnel 代理 Pod 的日志（此处示例中未显示）来进行确认，
+实际执行策略的始终是托管目标 Pod 节点上的 ztunnel 代理。
 
-Go ahead and delete this `AuthorizationPolicy` before continuing with the rest of the examples in the guide.
 在继续本指南中的其余示例之前，请先删除此 `AuthorizationPolicy`。
 
 {{< text bash >}}
 $ kubectl delete AuthorizationPolicy allow-sleep-to-httpbin  -n ambient-demo
 {{< /text >}}
 
-## Ambient Interoperability with non-ambient endpoints {#interop}
 ## Ambient 与非 Ambient 端点的互操作性  {#interop}
 
-In the use cases so far, the traffic source and destination pods are both ambient pods. This section covers some mixed use cases where ambient endpoints need to communicate with non-ambient endpoints. As with prior examples in this guide, this section covers use cases that do not require waypoint proxies.
-在到目前为止的用例中，流量源和目标 Pod 都是 Ambient Pod。
+到目前为止的用例中，流量源和目标 Pod 都是 Ambient Pod。
 本节介绍一些混合用例，其中 Ambient 端点需要与非 Ambient 端点进行通信。
 与本指南前面的示例一样，本节介绍的用例不需要 waypoint 代理。
 
-1. [East-West non-mesh pod to ambient mesh pod (and use of `PeerAuthentication` resource)](#ewnonmesh)
-1. [East-West Istio sidecar proxy pod to ambient mesh pod](#ewside2ambient)
-1. [North-South Ingress Gateway to ambient backend pods](#nsingress2ambient)
-1. [东西向非网状 Pod 到 Ambient 网格 Pod（以及使用 `PeerAuthentication` 资源）](#ewnonmesh)
+1. [东西向非网格 Pod 到 Ambient 网格 Pod（以及使用 `PeerAuthentication` 资源）](#ewnonmesh)
 1. [东西向 Istio Sidecar 代理 Pod 到 Ambient 网格 Pod](#ewside2ambient)
-1. [Ambient 后端 Pod 的南北入口网关](#nsingress2ambient)
+1. [南北入口网关到 Ambient 后端 Pod](#nsingress2ambient)
 
-### East-West non-mesh pod to ambient mesh pod (and use of PeerAuthentication resource) {#ewnonmesh}
 ### 东西向非网格 Pod 到 Ambient 网格 Pod（以及 PeerAuthentication 资源的使用）  {#ewnonmesh}
 
-In the example below, the same `httpbin` service which has already been setup in the prior examples is accessed via client `sleep` pods that are running in a separate namespace that is not part of the Istio mesh. This example shows that East-west traffic between ambient mesh pods and non mesh pods is seamlessly supported. Note that as described previously, this use case leverages the traffic hair-pinning capability of ambient. Since the non-mesh pods initiate traffic directly to the backend pods without going through HBONE or ztunnel, at the destination node, traffic is redirected via the ztunnel proxy at the destination node to ensure that ambient authorization policy is applied (this can be verified by viewing logs of the appropriate ztunnel proxy pod on the destination node; the logs are not shown in the example snippet below for simplicity).
 在下面的示例中，通过在不属于 Istio 网格的单独命名空间中运行的客户端
-`sleep` Pod 访问前面示例中已设置的相同“httpbin”服务。
+`sleep` Pod 访问前面示例中已设置的相同 `httpbin` 服务。
 此示例显示 Ambient 网格 Pod 和非网格 Pod 之间的东西向流量得到无缝支持。
-请注意，如前所述，此用例利用了 Ambient 的流量发夹功能。
+请注意，如前面所述，此用例利用了 Ambient 的流量发夹功能。
 由于非网格 Pod 直接向后端 Pod 发起流量，而不经过 HBONE 或 ztunnel，
 因此在目标节点，流量将通过目标节点的 ztunnel 代理进行重定向，
-以确保应用 Ambient 授权策略（这可以通过以下方式验证）查看目标节点上相应
+以确保应用 Ambient 授权策略（这可以通过以下方式验证，查看目标节点上相应
 ztunnel 代理 Pod 的日志；为简单起见，下面的示例代码片段中未显示日志）。
 
 {{< text bash >}}
@@ -716,7 +662,6 @@ $ kubectl apply -f samples/sleep/sleep.yaml -n client-a
 $ kubectl wait --for condition=available  deployment/sleep -n client-a
 {{< /text >}}
 
-Wait for the pods to get to Running state in the client-a namespace before continuing.
 等待 Pod 在 client-a 命名空间中进入 Running 状态，然后再继续。
 
 {{< text bash >}}
@@ -724,12 +669,11 @@ $ kubectl exec deploy/sleep -n client-a  -- curl httpbin.ambient-demo.svc.cluste
     <title>httpbin.org</title>
 {{< /text >}}
 
-As shown in the example below, now add a `PeerAuthentication` resource with mTLS mode set to `STRICT`, in the ambient namespace and confirm that the same client's traffic is now rejected with an error indicating the request was rejected. This is because the client is using simple HTTP to connect to the server instead of an HBONE tunnel with mTLS. This is a possible method that can be used to prevent non-Istio sources from sending traffic to Istio ambient pods.
-如下面的示例所示，现在在 Ambient 命名空间中添加 mTLS 模式设置为
-`STRICT` 的 `PeerAuthentication` 资源，并确认同一客户端的流量现在被拒绝，
+如下面的示例所示，现在在 Ambient 命名空间中添加 mTLS 模式并设置为
+`STRICT` 的 `PeerAuthentication` 资源，确认同一客户端的流量现在被拒绝，
 并出现一条指示请求被拒绝的错误。这是因为客户端使用简单的 HTTP 连接到服务器，
-而不是使用 mTLS 的 HBONE 隧道。这是一种可能的方法，
-可用于防止非 Istio 源向 Istio Ambient Pod 发送流量。
+而不是使用 mTLS 的 HBONE 隧道。这是一种可用于防止非
+Istio 源向 Istio Ambient Pod 发送流量的可能方法。
 
 {{< text bash >}}
 $ kubectl apply -n ambient-demo -f - <<EOF
@@ -748,9 +692,8 @@ $ kubectl exec deploy/sleep -n client-a  -- curl httpbin.ambient-demo.svc.cluste
 command terminated with exit code 56
 {{< /text >}}
 
-Change the mTLS mode to `PERMISSIVE` and confirm that the ambient pods can once again accept non-mTLS connections including from non-mesh pods in this case.
 将 mTLS 模式更改为 `PERMISSIVE`，并确认 Ambient Pod
-可以再次接受非 mTLS 连接，包括本例中来自非网状 Pod 的连接。
+可以再次接受非 mTLS 连接，包括本例中来自非网格 Pod 的连接。
 
 {{< text bash >}}
 $ kubectl apply -n ambient-demo -f - <<EOF
@@ -769,23 +712,19 @@ $ kubectl exec deploy/sleep -n client-a  -- curl httpbin.ambient-demo.svc.cluste
     <title>httpbin.org</title>
 {{< /text >}}
 
-### East-West Istio sidecar proxy pod to ambient mesh pod {#ewside2ambient}
 ### 东西向 Istio Sidecar 代理 Pod 到 Ambient 网格 Pod  {#ewside2ambient}
 
-This use case is that of seamless East-West traffic interoperability between an Istio pod using a sidecar proxy and an ambient pod within the same mesh.
 此用例是使用 Sidecar 代理的 Istio Pod 与同一网格内的
 Ambient Pod 之间的无缝东西向流量互操作性。
 
-The same httpbin service from the previous example is used but now add a client to access this service from another namespace which is labeled for sidecar injection. This also works automatically and transparently as shown in the example below. In this case the sidecar proxy running with the client automatically knows to use the HBONE control plane since the destination has been discovered to be an HBONE destination. The user does not need to do any special configuration to enable this.
 使用与上一个示例相同的 httpbin 服务，但现在添加一个客户端以从另一个标记为
-Sidecar 注入的命名空间访问此服务。这也会自动且透明地工作，如下例所示。
+Sidecar 注入的命名空间访问此服务。这也会自动且透明地工作，如下面例子所示。
 在这种情况下，与客户端一起运行的 Sidecar 代理会自动知道使用 HBONE 控制平面，
 因为已发现目的地是 HBONE 目标。用户无需进行任何特殊配置即可启用此功能。
 
 {{< tip >}}
-For sidecar proxies to use the HBONE/mTLS signaling option when communicating with ambient destinations, they need to be configured with `ISTIO_META_ENABLE_HBONE` set to true in the proxy metadata. This is automatically set for the user as default in the `MeshConfig` when using the `ambient` profile, hence the user does not need to do anything additional when using this profile.
 为了使 Sidecar 代理在与 Ambient 目标通信时使用 HBONE/mTLS 信号选项，
-需要在代理元数据中将 `ISTIO_META_ENABLE_HBONE` 设置为 true 进行配置。
+需要在代理元数据中进行配置，将 `ISTIO_META_ENABLE_HBONE` 设置为 true。
 使用 `ambient` 配置文件时，会在 `MeshConfig` 中自动为用户设置默认值，
 因此用户在使用此配置文件时无需执行任何其他操作。
 {{< /tip >}}
@@ -797,47 +736,40 @@ $ kubectl apply -f samples/sleep/sleep.yaml -n client-b
 $ kubectl wait --for condition=available  deployment/sleep -n client-b
 {{< /text >}}
 
-Wait for the pods to get to Running state in the client-b namespace before continuing.
-等待 pod 在 client-b 命名空间中进入 Running 状态，然后再继续。
+等待 Pod 在 client-b 命名空间中进入 Running 状态，然后再继续。
 
 {{< text bash >}}
 $ kubectl exec deploy/sleep -n client-b  -- curl httpbin.ambient-demo.svc.cluster.local:8000 -s | grep title -m 1
     <title>httpbin.org</title>
 {{< /text >}}
 
-Again, it can further be verified from viewing the logs of the ztunnel pod (not shown in the example) at the destination node that traffic does in fact use the HBONE and CONNECT based path from the sidecar proxy based source client pod to the ambient based destination service pod. Additionally not shown but it can also be verified that unlike the previous subsection, in this case even if you apply a `PeerAuthentication` resource to the namespace tagged for ambient mode, communication continues between client and service pods since both use the HBONE control and data planes relying on mTLS.
 同样，通过查看目标节点上 ztunnel Pod（示例中未显示）的日志，
 可以进一步验证流量实际上确实使用从基于 Sidecar 代理的源客户端 Pod
-到基于 Ambient 的基于 HBONE 和 CONNECT 的路径。目标服务吊舱。
+到基于 HBONE 和 CONNECT 的 Ambient 路径的目标服务。
 另外未显示，但也可以验证与前一小节不同，在这种情况下，即使您将 `PeerAuthentication`
 资源应用于标记为 Ambient 模式的命名空间，客户端和服务 Pod 之间的通信也会继续，
 因为两者都使用依赖 mTLS 的 HBONE 控制面和数据面。
 
-### North-South Ingress Gateway to ambient backend pods {#nsingress2ambient}
-### Ambient 后端 Pod 的南北入口网关  {#nsingress2ambient}
+### 南北入口网关到 Ambient 后端 Pod  {#nsingress2ambient}
 
-THis section describes a use case for North-South traffic with an Istio Gateway exposing the httpbin service via the Kubernetes Gateway API. The gateway itself is running in a non-Ambient namespace and may be an existing gateway that is also exposing other services that are provided by non-ambient pods. Hence this example shows that ambient workloads can also interoperate with Istio gateways that need not themselves be running in namespaces tagged for ambient mode of operation.
 本节介绍了南北流量的用例，其中 Istio 网关通过 Kubernetes Gateway API
 公开 httpbin 服务。网关本身在非 Ambient 命名空间中运行，
-并且可能是一个现有网关，也公开非 Ambient Pod 提供的其他服务。
+并且可能是一个现有网关，并公开非 Ambient Pod 提供的其他服务。
 因此，此示例表明 Ambient 工作负载还可以与 Istio 网关进行互操作，
 而 Istio 网关本身不需要在标记为 Ambient 操作模式的命名空间中运行。
 
-For this example, you can use `metallb` to provide a load balancer service on an IP addresses that is reachable from outside the cluster. The same example also works with other forms of North-South load balancing options. The example below assumes that you have already installed `metallb` in this cluster to provide the load balancer service including a pool of IP addresses for `metallb` to use for exposing services externally. Refer to the [`metallb` guide for kind](https://kind.sigs.k8s.io/docs/user/loadbalancer/) for instructions on setting up `metallb` on kind clusters or refer to the instructions from the [`metallb` documentation](https://metallb.universe.tf/installation/) appropriate for your environment.
 对于此示例，您可以使用 `metallb` 在可以从集群外部访问的 IP 地址上提供负载均衡器服务。
 同一示例还适用于其他形式的南北负载均衡选项。
 下面的示例假设您已经在此集群中安装了 `metallb` 来提供负载均衡器服务，
 其中包括 `metallb` 的 IP 地址池，以用于向外部公开服务。
 请参阅 [`metallb` kind 指南](https://kind.sigs.k8s.io/docs/user/loadbalancer/)，
-了解有关在 kind 集群上设置 `metallb` 的说明，或参阅适用于您的环境的
+了解有关在 kind 集群上设置 `metallb` 的说明，或参阅适用于您环境的
 [`metallb` 文档](https://metallb.universe.tf/installation/)。
 
-This example uses the Kubernetes Gateway API for configuring the N-S gateway. Since this API is not currently provided as default in Kubernetes and kind distributions, you have to install the API CRDs first as shown in the example.
-此示例使用 Kubernetes Gateway API 来配置 N-S 网关。
+此示例使用 Kubernetes Gateway API 来配置南北网关。
 由于 Kubernetes 和 kind 发行版中当前未默认提供此 API，
 因此您必须首先安装 API CRD，如示例中所示。
 
-An instance of `Gateway` using the Kubernetes Gateway API CRDs will then be deployed to leverage this `metallb` load balancer service. The instance of Gateway runs in the istio-system namespace in this example to represent an existing Gateway running in a non-ambient namespace. Finally an `HTTPRoute` will be provisioned with a backend reference pointing to the existing httpbin service that is running on an ambient pod in the ambient-demo namespace.
 然后，将部署使用 Kubernetes Gateway API CRD 的 `Gateway` 实例，
 以利用此 `metallb` 负载均衡器服务。在此示例中，
 Gateway 的实例在 istio-system 命名空间中运行，表示在非 Ambient
@@ -890,9 +822,8 @@ spec:
 EOF
 {{< /text >}}
 
-Next find the external service IP address on which the Gateway is listening and then access the httpbin service on this IP address (172.18.255.200 in the example below) from outside the cluster as shown below.
 接下来找到网关正在侦听的外部服务 IP 地址，
-然后从集群外部访问该 IP 地址（下面例中的 172.18.255.200）上的 httpbin 服务，如下所示。
+然后从集群外部访问该 IP 地址（下面例子中的 172.18.255.200）上的 httpbin 服务，如下所示。
 
 {{< text bash >}}
 $ kubectl get service httpbin-gateway-istio -n istio-system
@@ -911,11 +842,10 @@ $ curl  "$INGRESS_HOST" -s | grep title -m 1
     <title>httpbin.org</title>
 {{< /text >}}
 
-These examples illustrate multiple options for interoperability between ambient pods and non-ambient endpoints (which can be either Kubernetes application pods or Istio gateway pods with both Istio native gateways and Kubernetes Gateway API instances). Interoperability is also supported between Istio ambient pods and Istio Egress Gateways as well as scenarios where the ambient pods run the client-side of an application with the service side running outside of the mesh of on a mesh pod that uses the sidecar proxy mode. Hence users have multiple options for seamlessly integrating ambient and non-ambient workloads within the same Istio mesh, allowing for phased introduction of ambient capability as best suits the needs of Istio mesh deployments and operations.
 这些示例说明了 Ambient Pod 和非 Ambient 端点（可以是 Kubernetes
 应用程序 Pod 或具有 Istio 原生网关和 Kubernetes Gateway API 实例的 Istio 网关 Pod）
 之间的互操作性的多种选项。Istio Ambient Pod 和 Istio Egress
-网关之间还支持互操作性，以及 Ambient Pod 运行应用程序的客户端且服务端运行在使用
+网关之间也支持互操作性，以及 Ambient Pod 运行应用程序的客户端且服务端运行在使用
 Sidecar 代理模式的网格 Pod 之外的场景。因此，
 用户有多种选择可以在同一 Istio 网格中无缝集成 Ambient 和非 Ambient 工作负载，
 从而允许以最适合 Istio 网格部署和操作的需求分阶段引入 Ambient 功能。
