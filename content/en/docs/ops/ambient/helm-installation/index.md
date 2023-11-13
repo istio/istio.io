@@ -79,13 +79,13 @@ $ helm show values istio/istiod
 
 ### Verifying the deployments status
 
-After installing all the components, you can check the helm deployment status:
+After installing all the components, you can check the Helm deployment status with:
 
 {{< text syntax=bash snip_id=show_components >}}
 $ helm list -n istio-system
 {{< /text >}}
 
-You can check the status of the pods deployed:
+You can check the status of the deployed pods with:
 
 {{< text syntax=bash snip_id=check_deployments >}}
 $ kubectl get pods -n istio-system
@@ -158,17 +158,21 @@ installed above.
 ## Uninstall stable revision label resources
 
 If you decide to continue using the old control plane, instead of completing the update,
-you can uninstall the newer revision and its tag by first issuing
-`helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags={prod-canary} --set revision=canary -n istio-system | kubectl delete -f -`.
-You must them uninstall the revision of Istio that it pointed to by following the uninstall procedure above.
+you can uninstall the newer revision and its tag by first running:
 
-If you installed the gateway(s) for this revision using in-place upgrades, you must also reinstall the gateway(s) for the previous revision manually,
-Removing the previous revision and its tags will not automatically revert the previously in-place upgraded gateway(s).
+{{< text syntax=bash >}}
+`helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags={prod-canary} --set revision=canary -n istio-system | kubectl delete -f -`
+{{< /text >}}
+
+You must then uninstall the revision of Istio by following the uninstall procedure above.
+
+If you installed the gateway(s) for this revision using in-place upgrades, you must also reinstall the gateway(s) for the previous revision manually.
+Removing the previous revision and its tags will not automatically revert the previously upgraded gateway(s).
 
 ### (Optional) Deleting CRDs installed by Istio
 
-Deleting CRDs permanently removes any Istio resources you have created in your
-cluster. To permanently delete Istio CRDs installed in your cluster:
+Deleting CRDs removes any Istio resources you have created in your cluster. 
+To delete Istio CRDs installed in your cluster:
 
 {{< text syntax=bash >}}
 $ kubectl get crd -oname | grep --color=never 'istio.io' | xargs kubectl delete
