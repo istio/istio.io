@@ -186,6 +186,10 @@ Make sure the default namespace does not include the label `istio-injection=enab
 
 1. Deploy an ingress gateway so you can access the bookinfo app from outside the cluster:
 
+    {{< tip >}}
+    To get IP address assignment for `Loadbalancer` service types in `kind`, you may need to install a tool like [MetalLB](https://metallb.universe.tf/). Please consult [this guide](https://kind.sigs.k8s.io/docs/user/loadbalancer/) for more information.
+    {{</ tip >}}
+
 {{< tabset category-name="config-api" >}}
 
 {{< tab name="Istio APIs" category-value="istio-apis" >}}
