@@ -19,4 +19,11 @@
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
 #          boilerplates/gateway-api-gamma-support.md
 ####################################################################################################
-source "content/en/boilerplates/snips/gateway-api-support.sh"
+
+bpsnip_gateway_api_gamma_support_install_experimental_crds() {
+kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v1.0.0" | kubectl apply -f -
+}
+
+bpsnip_gateway_api_gamma_support_enable_alpha_crds() {
+istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --set values.pilot.env.PILOT_ENABLE_ALPHA_GATEWAY_API=true --set profile=minimal -y
+}

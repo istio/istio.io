@@ -93,7 +93,7 @@ test: yes
 
     1. 打开浏览器的 *开发工具* 菜单
     1. 打开 *网络* 标签
-    1. 重新加载 `productpage` 页面。您会看到页面加载实际上用了大约 6 秒。
+    1. 重新加载 `/productpage` 页面。您会看到页面加载实际上用了大约 6 秒。
 
 ## 理解原理{#understanding-what-happened}
 

@@ -17,6 +17,13 @@ owner: istio/wg-environments-maintainers
 
 {{< boilerplate multi-cluster-with-metallb >}}
 
+{{< warning >}}
+这些说明不适用于 AWS EKS 主集群部署。
+这种不兼容性背后的原因是 AWS 负载均衡器（LB）以完全限定域名（FQDN）的形式呈现，
+而从集群则使用 Kubernetes 服务类型 'ExternalName'。
+但是，'ExternalName' 类型专门支持 IP 地址，不支持 FQDN。
+{{< /warning >}}
+
 在此配置中，集群 `cluster1` 将监测两个集群 API Server 的服务端点。
 以这种方式，控制平面就能为两个集群中的工作负载提供服务发现。
 

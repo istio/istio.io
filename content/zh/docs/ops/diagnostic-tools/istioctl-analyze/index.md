@@ -87,7 +87,7 @@ $ istioctl analyze --use-kube=false samples/bookinfo/networking/*.yaml
 
 从 Istio 1.5 开始，可以通过 `istiod.enableAnalysis` 标志将 Galley
 设置为与其主要负责的配置分发一起执行配置分析。
-此分析使用与 `istioctl analysis` 相同的逻辑和错误消息。
+此分析使用与 `istioctl analyze` 相同的逻辑和错误消息。
 来自分析的验证消息被写入受影响的 Istio 资源的状态子资源。
 
 例如：如果您的 "ratings" VirtualService 上网关配置错误，运行
@@ -113,11 +113,11 @@ status:
 {{< /text >}}
 
 `enableAnalysis` 在后台运行，并将保持资源的状态字段与其当前验证状态保持同步。
-请注意，这不是`istioctl analysis`的替代品：
+请注意，这不是`istioctl analyze` 的替代品：
 
 - 并非所有资源都有自定义状态字段（例如 Kubernetes `namespace` 资源），
   因此附加到这些资源的消息不会显示验证消息。
-- `enableAnalysis` 仅适用于从 1.5 开始的 Istio 版本，而 `istioctl analysis`
+- `enableAnalysis` 仅适用于从 1.5 开始的 Istio 版本，而 `istioctl analyze`
   可用于旧版本。
 - 虽然可以轻松查看特定资源的问题，但很难全面了解网格中的验证状态。
 
@@ -138,7 +138,7 @@ Info [IST0102] (Namespace frod) The namespace is not enabled for Istio injection
 {{< /text >}}
 
 由于您无权更新命名空间，因此无法通过注解命名空间来解析消息。相反，
-您可以使用 `istioctl analysis` 来抑制资源上的上述消息：
+您可以使用 `istioctl analyze` 来抑制资源上的上述消息：
 
 {{< text syntax=bash snip_id=analyze_suppress0102 >}}
 $ istioctl analyze -k --namespace frod --suppress "IST0102=Namespace frod"
@@ -157,7 +157,7 @@ $ istioctl analyze -k --all-namespaces --suppress "IST0102=Namespace frod" --sup
 ### 通过注解忽略特定的分析器消息 {#ignoring-specific-analyzer-messages-via-annotations}
 
 您也可以使用资源上的注解忽略特定的分析器消息。例如，要忽略资源
-`deployment/my deployment` 上的代码IST0107（`MisplacedAnnotation`）：
+`deployment/my-deployment` 上的代码IST0107（`MisplacedAnnotation`）：
 
 {{< text syntax=bash snip_id=annotate_for_deployment_suppression >}}
 $ kubectl annotate deployment my-deployment galley.istio.io/analyze-suppress=IST0107

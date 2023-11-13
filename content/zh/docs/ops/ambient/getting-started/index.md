@@ -25,7 +25,7 @@ test: yes
 
 ## 下载和安装 {#download}
 
-1.  下载对 Ambient Mesh 提供 `alpha` 支持的[最新 Istio 版本](https://github.com/istio/istio/releases/tag/1.18.0-alpha.0)。
+1.  下载对 Ambient Mesh 提供 `alpha` 支持的[最新 Istio 版本](/zh/docs/setup/getting-started/#download)。
 
 1.  如果您没有 Kubernetes 集群，可以参照以下命令使用 `kind` 在本地部署一个集群：
 
@@ -56,12 +56,21 @@ test: yes
 1.  `ambient` 配置文件设计用于帮助您开始使用 Ambient Mesh。
     使用刚下载的 `istioctl` 命令，在您的 Kubernetes 集群上安装附带 `ambient` 配置文件的 Istio：
 
+{{< tip >}}
+请注意，如果您正在使用 [Minikube](https://kubernetes.io/zh-cn/docs/tasks/tools/install-minikube/)
+（或在节点上为容器配置了非标准 `netns` 路径的任何其他平台），
+您可能需要在 `istioctl install` 命令后面追加 `--set values.cni.cniNetnsDir="/var/run/docker/netns"`，
+以便 Istio CNI DaemonSet 能够正确管理和捕获节点上的 Pod。
+
+有关详细信息，请参阅您的平台文档。
+{{< /tip >}}
+
 {{< tabset category-name="config-api" >}}
 
 {{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text bash >}}
-$ istioctl install --set profile=ambient --set components.ingressGateways[0].enabled=true --set components.ingressGateways[0].name=istio-ingressgateway --skip-confirmation
+$ istioctl install --set profile=ambient --set "components.ingressGateways[0].enabled=true" --set "components.ingressGateways[0].name=istio-ingressgateway" --skip-confirmation
 {{< /text >}}
 
 运行上一条命令后，您将看到以下输出，

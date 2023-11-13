@@ -8,7 +8,7 @@ layout: protoc-gen-docs
 generator: protoc-gen-docs
 schema: istio.networking.v1alpha3.Sidecar
 aliases: [/docs/reference/config/networking/v1alpha3/sidecar]
-number_of_entries: 7
+number_of_entries: 8
 ---
 <p><code>Sidecar</code> describes the configuration of the sidecar proxy that mediates
 inbound and outbound communication to the workload instance it is attached to. By
@@ -423,6 +423,77 @@ spec:
 </code></pre>
 <p>{{</tab>}}
 {{</tabset>}}</p>
+<p>In addition to configuring traffic capture and how traffic is forwarded to the app,
+it&rsquo;s possible to control inbound connection pool settings. By default, Istio pushes
+connection pool settings from <code>DestinationRules</code> to both clients (for outbound
+connections to the service) as well as servers (for inbound connections to a service
+instance). Using the <code>InboundConnectionPool</code> and per-port <code>ConnectionPool</code> settings
+in a <code>Sidecar</code> allow you to control those connection pools for the server separately
+from the settings pushed to all clients.</p>
+<p>{{<tabset category-name="example">}}
+{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
+kind: Sidecar
+metadata:
+  name: connection-pool-settings
+  namespace: prod-us1
+spec:
+  workloadSelector:
+    labels:
+      app: productpage
+  inboundConnectionPool:
+      http:
+        http1MaxPendingRequests: 1024
+        http2MaxRequests: 1024
+        maxRequestsPerConnection: 1024
+        maxRetries: 100
+  ingress:
+  - port:
+      number: 80
+      protocol: HTTP
+      name: somename
+    connectionPool:
+      http:
+        http1MaxPendingRequests: 1024
+        http2MaxRequests: 1024
+        maxRequestsPerConnection: 1024
+        maxRetries: 100
+      tcp:
+        maxConnections: 100
+</code></pre>
+<p>{{</tab>}}</p>
+<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
+kind: Sidecar
+metadata:
+  name: connection-pool-settings
+  namespace: prod-us1
+spec:
+  workloadSelector:
+    labels:
+      app: productpage
+  inboundConnectionPool:
+      http:
+        http1MaxPendingRequests: 1024
+        http2MaxRequests: 1024
+        maxRequestsPerConnection: 1024
+        maxRetries: 100
+  ingress:
+  - port:
+      number: 80
+      protocol: HTTP
+      name: somename
+    connectionPool:
+      http:
+        http1MaxPendingRequests: 1024
+        http2MaxRequests: 1024
+        maxRequestsPerConnection: 1024
+        maxRetries: 100
+      tcp:
+        maxConnections: 100
+</code></pre>
+<p>{{</tab>}}
+{{</tabset>}}</p>
 
 <h2 id="Sidecar">Sidecar</h2>
 <section>
@@ -483,6 +554,39 @@ detected defaults from the namespace-wide or the global default Sidecar.</p>
 No
 </td>
 </tr>
+<tr id="Sidecar-inbound_connection_pool">
+<td><code>inboundConnectionPool</code></td>
+<td><code><a href="/docs/reference/config/networking/destination-rule/#ConnectionPoolSettings">ConnectionPoolSettings</a></code></td>
+<td>
+<p>Settings controlling the volume of connections Envoy will accept from the network.
+This default will apply for all inbound listeners and can be overridden per-port
+in the <code>Ingress</code> field. This configuration mirrors the <code>DestinationRule</code>&rsquo;s
+<a href="/docs/reference/config/networking/destination-rule/#ConnectionPoolSettings"><code>connectionPool</code></a> field.</p>
+<p>By default, Istio applies a service&rsquo;s <code>DestinationRule</code> to client sidecars
+for outbound traffic directed at the service &ndash; the usual case folks think
+of when configuring a <code>DestinationRule</code> &ndash; but also to the server&rsquo;s inbound
+sidecar. The <code>Sidecar</code>&rsquo;s connection pool configures the server&rsquo;s inbound
+sidecar directly, so its settings can be different than clients&rsquo;. This is
+valuable, for example, when you have many clients calling few servers: a
+<code>DestinationRule</code> can limit the concurrency of any single client, while
+the <code>Sidecar</code> allows you to configure much higher concurrency on the server
+side.</p>
+<p>Connection pool settings for a server&rsquo;s inbound sidecar are configured in the
+following precedence, highest to lowest:</p>
+<ul>
+<li>per-port <code>ConnectionPool</code> from the <code>Sidecar</code></li>
+<li>top level <code>InboundConnectionPool</code> from the <code>Sidecar</code></li>
+<li>per-port <code>TrafficPolicy.ConnectionPool</code> from the <code>DestinationRule</code></li>
+<li>top level <code>TrafficPolicy.ConnectionPool</code> from the <code>DestinationRule</code></li>
+<li>default connection pool settings (essentially unlimited)</li>
+</ul>
+<p>In every case, the connection pool settings are overriden, not merged.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 <tr id="Sidecar-outbound_traffic_policy">
 <td><code>outboundTrafficPolicy</code></td>
 <td><code><a href="#OutboundTrafficPolicy">OutboundTrafficPolicy</a></code></td>
@@ -520,7 +624,7 @@ traffic listener on the sidecar proxy attached to a workload instance.</p>
 <tbody>
 <tr id="IstioIngressListener-port">
 <td><code>port</code></td>
-<td><code><a href="/docs/reference/config/networking/gateway/#Port">Port</a></code></td>
+<td><code><a href="#SidecarPort">SidecarPort</a></code></td>
 <td>
 <p>The port associated with the listener.</p>
 
@@ -572,7 +676,7 @@ or <code>unix:///path/to/socket</code> (forward to Unix domain socket).</p>
 
 </td>
 <td>
-Yes
+No
 </td>
 </tr>
 <tr id="IstioIngressListener-tls">
@@ -582,6 +686,23 @@ Yes
 <p>Set of TLS related options that will enable TLS termination on the
 sidecar for requests originating from outside the mesh.
 Currently supports only SIMPLE and MUTUAL TLS modes.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioIngressListener-connection_pool">
+<td><code>connectionPool</code></td>
+<td><code><a href="/docs/reference/config/networking/destination-rule/#ConnectionPoolSettings">ConnectionPoolSettings</a></code></td>
+<td>
+<p>Settings controlling the volume of connections Envoy will accept from the network.
+This setting overrides the top-level default <code>inboundConnectionPool</code> to configure
+specific settings for this port. This configuration mirrors the <code>DestinationRule</code>&rsquo;s
+<a href="/docs/reference/config/networking/destination-rule/#TrafficPolicy-PortTrafficPolicy"><code>PortTrafficPolicy.connectionPool</code></a> field.
+This port level connection pool has the highest precedence in configuration,
+overriding both the <code>Sidecar</code>&rsquo;s top level <code>InboundConnectionPool</code> as well as any
+connection pooling settings from the <code>DestinationRule</code>.</p>
 
 </td>
 <td>
@@ -608,7 +729,7 @@ listener on the sidecar proxy attached to a workload instance.</p>
 <tbody>
 <tr id="IstioEgressListener-port">
 <td><code>port</code></td>
-<td><code><a href="/docs/reference/config/networking/gateway/#Port">Port</a></code></td>
+<td><code><a href="#SidecarPort">SidecarPort</a></code></td>
 <td>
 <p>The port associated with the listener. If using Unix domain socket,
 use 0 as the port number, with a valid protocol. The port if
@@ -725,7 +846,7 @@ the resource is present.</p>
 
 </td>
 <td>
-Yes
+No
 </td>
 </tr>
 </tbody>
@@ -757,6 +878,59 @@ services can be monitored.</p>
 <td><code>mode</code></td>
 <td><code><a href="#OutboundTrafficPolicy-Mode">Mode</a></code></td>
 <td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="SidecarPort">SidecarPort</h2>
+<section>
+<p>Port describes the properties of a specific port of a service.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="SidecarPort-number">
+<td><code>number</code></td>
+<td><code>uint32</code></td>
+<td>
+<p>A valid non-negative integer port number.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="SidecarPort-protocol">
+<td><code>protocol</code></td>
+<td><code>string</code></td>
+<td>
+<p>The protocol exposed on the port.
+MUST BE one of HTTP|HTTPS|GRPC|HTTP2|MONGO|TCP|TLS.
+TLS can be either used to terminate non-HTTP based connections on a specific port
+or to route traffic based on SNI header to the destination without terminating the TLS connection.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="SidecarPort-name">
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>
+<p>Label assigned to the port.</p>
+
 </td>
 <td>
 No

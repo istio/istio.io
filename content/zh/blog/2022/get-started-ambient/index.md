@@ -231,7 +231,7 @@ $ kubectl exec deploy/notsleep -- curl -s http://productpage:9080/ | head -n1
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: gateway.networking.k8s.io/v1alpha2
+apiVersion: gateway.networking.k8s.io/v1beta1
 kind: Gateway
 metadata:
  name: productpage
@@ -329,7 +329,7 @@ istio_requests_total{
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: gateway.networking.k8s.io/v1alpha2
+apiVersion: gateway.networking.k8s.io/v1beta1
 kind: Gateway
 metadata:
  name: reviews

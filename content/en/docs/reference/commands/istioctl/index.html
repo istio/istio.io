@@ -1160,7 +1160,7 @@ istioctl d [flags]
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
-<td>Namespace where the addon is running, if not specified, istio-system would be used  (default ``)</td>
+<td>Namespace where the addon is running, if not specified, istio-system would be used  (default `default`)</td>
 </tr>
 <tr>
 <td><code>--port &lt;int&gt;</code></td>
@@ -5424,7 +5424,7 @@ istioctl proxy-config l [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <tr>
 <td><code>--level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-logger level of messages to output, in the form of [&lt;logger&gt;:]&lt;level&gt;,[&lt;logger&gt;:]&lt;level&gt;,... where logger components can be listed by running &#34;istioctl proxy-config log &lt;pod-name[.namespace]&gt;&#34;or referred from https://github.com/envoyproxy/envoy/blob/main/source/common/common/logger.h, and level can be one of [trace, debug, info, warning, error, critical, off]  (default ``)</td>
+<td>Comma-separated minimum per-logger level of messages to output, in the form of [&lt;logger&gt;:]&lt;level&gt;,[&lt;logger&gt;:]&lt;level&gt;,... or &lt;level&gt; to change all active loggers, where logger components can be listed by running &#34;istioctl proxy-config log &lt;pod-name[.namespace]&gt;&#34;or referred from https://github.com/envoyproxy/envoy/blob/main/source/common/common/logger.h, and level can be one of [trace, debug, info, warning, error, critical, off]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -6592,6 +6592,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>If enabled, meshConfig.discoverySelectors will limit the CustomResource configurations(like Gateway,VirtualService,DestinationRule,Ingress, etc)that can be processed by pilot. This will also restrict the root-ca certificate distribution.</td>
 </tr>
 <tr>
+<td><code>ENABLE_EXTERNAL_NAME_ALIAS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, ExternalName Services will be treated as simple aliases: anywhere where we would match the concrete service, we also match the ExternalName. In general, this mirrors Kubernetes behavior more closely. However, it means that policies (routes and DestinationRule) cannot be applied to the ExternalName service. If disabled, ExternalName behaves in fairly unexpected manner. Port matters, while it does not in Kubernetes. If it is a TCP port, all traffic on that port will be matched, which can have disastrous consequences. Additionally, the destination is seen as an opaque destination; even if it is another service in the mesh, policies such as mTLS and load balancing will not be used when connecting to it.</td>
+</tr>
+<tr>
 <td><code>ENABLE_HCM_INTERNAL_NETWORKS</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -6656,6 +6662,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, readiness probes will keep the connection from pilot-agent to the application alive. This mirrors older Istio versions&#39; behaviors, but not kubelet&#39;s.</td>
+</tr>
+<tr>
+<td><code>ENABLE_SELECTOR_BASED_K8S_GATEWAY_POLICY</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If disabled, Gateway API gateways will ignore workloadSelector policies, onlyapplying policies that select the gateway with a targetRef.</td>
 </tr>
 <tr>
 <td><code>ENABLE_TLS_ON_SIDECAR_INGRESS</code></td>
@@ -6812,6 +6824,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, HTTP2 probes will be enabled for HTTPS probes, following Kubernetes</td>
+</tr>
+<tr>
+<td><code>ISTIO_ENABLE_IPV4_OUTBOUND_LISTENER_FOR_IPV6_CLUSTERS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true, pilot will configure an additional IPv4 listener for outbound traffic in IPv6 only clusters, e.g. AWS EKS IPv6 only clusters.</td>
 </tr>
 <tr>
 <td><code>ISTIO_ENABLE_OPTIMIZED_SERVICE_PUSH</code></td>
@@ -6978,6 +6996,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Time Duration</td>
 <td><code>10s</code></td>
 <td>The maximum amount of time to wait for events while debouncing. If events keep showing up with no breaks for this time, we&#39;ll trigger a push.</td>
+</tr>
+<tr>
+<td><code>PILOT_DISABLE_MX_ALPN</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true, pilot will not put istio-peer-exchange ALPN into TLS handshake configuration.</td>
 </tr>
 <tr>
 <td><code>PILOT_DISTRIBUTION_HISTORY_RETENTION</code></td>
@@ -7410,6 +7434,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, addition runtime asserts will be performed. These checks are both expensive and panic on failure. As a result, this should be used only for testing.</td>
+</tr>
+<tr>
+<td><code>USE_CACERTS_FOR_SELF_SIGNED_CA</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, istiod will use a secret named cacerts to store its self-signed istio-generated root certificate.</td>
 </tr>
 <tr>
 <td><code>VALIDATION_WEBHOOK_CONFIG_NAME</code></td>

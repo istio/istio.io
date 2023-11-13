@@ -74,14 +74,26 @@ istiod-canary-6956db645c-vwhsk
 ENDSNIP
 
 snip_data_plane_2() {
-kubectl label namespace test-ns istio-injection- istio.io/rev=canary
+kubectl create ns test-ns
 }
 
 snip_data_plane_3() {
-kubectl rollout restart deployment -n test-ns
+kubectl label namespace test-ns istio-injection=enabled
 }
 
 snip_data_plane_4() {
+kubectl apply -n test-ns -f samples/sleep/sleep.yaml
+}
+
+snip_data_plane_5() {
+kubectl label namespace test-ns istio-injection- istio.io/rev=canary
+}
+
+snip_data_plane_6() {
+kubectl rollout restart deployment -n test-ns
+}
+
+snip_data_plane_7() {
 istioctl proxy-status | grep "\.test-ns "
 }
 

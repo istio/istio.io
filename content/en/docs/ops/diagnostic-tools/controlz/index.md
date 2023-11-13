@@ -10,7 +10,7 @@ owner: istio/wg-user-experience-maintainers
 test: no
 ---
 
-Istiod is build with a flexible introspection framework, called ControlZ, which makes it easy to inspect and manipulate the internal state
+Istiod is built with a flexible introspection framework, called ControlZ, which makes it easy to inspect and manipulate the internal state
 of an istiod instance. Istiod opens a port which can be used from a web browser to get an interactive view into its state,
 or via REST for access and control from external tools.
 

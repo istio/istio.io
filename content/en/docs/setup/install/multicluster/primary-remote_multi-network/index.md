@@ -109,19 +109,6 @@ $ kubectl apply --context="${CTX_CLUSTER1}" -n istio-system -f \
     @samples/multicluster/expose-istiod.yaml@
 {{< /text >}}
 
-## Expose services in `cluster1`
-
-Since the clusters are on separate networks, we also need to expose all user
-services (*.local) on the east-west gateway in both clusters. While this
-gateway is public on the Internet, services behind it can only be accessed by
-services with a trusted mTLS certificate and workload ID, just as if they were
-on the same network.
-
-{{< text bash >}}
-$ kubectl --context="${CTX_CLUSTER1}" apply -n istio-system -f \
-    @samples/multicluster/expose-services.yaml@
-{{< /text >}}
-
 ## Set the control plane cluster for `cluster2`
 
 We need identify the external control plane cluster that should manage `cluster2` by annotating the
@@ -233,14 +220,22 @@ NAME                    TYPE           CLUSTER-IP    EXTERNAL-IP    PORT(S)   AG
 istio-eastwestgateway   LoadBalancer   10.0.12.121   34.122.91.98   ...       51s
 {{< /text >}}
 
-## Expose services in `cluster2`
+## Expose services in `cluster1` and `cluster2`
 
-As we did with `cluster1` above, expose services via the east-west gateway.
+Since the clusters are on separate networks, we also need to expose all user
+services (*.local) on the east-west gateway in both clusters. While these
+gateways are public on the Internet, services behind them can only be accessed by
+services with a trusted mTLS certificate and workload ID, just as if they were
+on the same network.
 
 {{< text bash >}}
-$ kubectl --context="${CTX_CLUSTER2}" apply -n istio-system -f \
+$ kubectl --context="${CTX_CLUSTER1}" apply -n istio-system -f \
     @samples/multicluster/expose-services.yaml@
 {{< /text >}}
+
+{{< tip >}}
+Since `cluster2` is installed with a remote profile, exposing services on the primary cluster will expose them on the east-west gateways of both clusters.
+{{< /tip >}}
 
 **Congratulations!** You successfully installed an Istio mesh across primary
 and remote clusters on different networks!

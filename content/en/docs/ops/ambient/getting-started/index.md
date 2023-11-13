@@ -32,7 +32,7 @@ Follow these steps to get started with ambient:
 
 ## Download and install {#download}
 
-1.  Download the [latest version of Istio](https://github.com/istio/istio/releases/tag/1.18.0-alpha.0) with `alpha` support for ambient mesh.
+1.  Download the [latest version of Istio](/docs/setup/getting-started/#download) with `alpha` support for ambient mesh.
 
 1.  If you don’t have a Kubernetes cluster, you can deploy one locally using `kind` with the following command:
 
@@ -64,12 +64,18 @@ Follow these steps to get started with ambient:
     Install Istio with the `ambient` profile on your Kubernetes cluster, using
     the `istioctl` command downloaded above:
 
+{{< tip >}}
+Note that if you are using [Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) (or any other platform using nodes configured with a nonstandard `netns` path for containers), you may need to append `--set values.cni.cniNetnsDir="/var/run/docker/netns"` to the `istioctl install` command so that the Istio CNI DaemonSet can correctly manage and capture pods on the node.
+
+Consult your platform documentation for details.
+{{< /tip >}}
+
 {{< tabset category-name="config-api" >}}
 
 {{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text bash >}}
-$ istioctl install --set profile=ambient --set components.ingressGateways[0].enabled=true --set components.ingressGateways[0].name=istio-ingressgateway --skip-confirmation
+$ istioctl install --set profile=ambient --set "components.ingressGateways[0].enabled=true" --set "components.ingressGateways[0].name=istio-ingressgateway" --skip-confirmation
 {{< /text >}}
 
 After running the above command, you’ll get the following output that indicates

@@ -424,7 +424,7 @@ spec:
 
 ### 服务入口示例 {#service-entry-example}
 
-下面示例的 mesh-external 服务入口将 `ext-resource` 外部依赖项添加到
+下面示例的 mesh-external 服务入口将 `ext-svc.example.com` 外部依赖项添加到
 Istio 的服务注册中心：
 
 {{< text yaml >}}
