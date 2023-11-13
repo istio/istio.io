@@ -161,7 +161,7 @@ If you decide to continue using the old control plane, instead of completing the
 you can uninstall the newer revision and its tag by first running:
 
 {{< text syntax=bash >}}
-$ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags={prod-canary} --set revision=canary -n istio-system | kubectl delete -f -
+$ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags=prod-canary --set revision=canary -n istio-system | kubectl delete -f -
 {{< /text >}}
 
 You must then uninstall the revision of Istio by following the uninstall procedure above.
