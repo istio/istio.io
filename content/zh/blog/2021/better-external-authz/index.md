@@ -3,11 +3,11 @@ title: 更好的外部授权方式集成
 subtitle: 使用 AuthorizationPolicy 将外部授权系统（例如 OPA、oauth2-proxy 等）与 Istio 进行集成
 description: AuthorizationPolicy 现在支持以 CUSTOM 自定义方式委托外部系统进行授权操作。
 publishdate: 2021-02-09
-attribution: Yangmin Zhu (Google)
+attribution: Yangmin Zhu (Google); Translated by Wilson Wu (DaoCloud)
 keywords: [authorization,access control,opa,oauth2]
 ---
 
-## 背景 {#background}
+## 背景  {#background}
 
 Istio 的授权策略为网格中的服务提供访问控制。它速度快、功能强大且使用广泛。
 自 Istio 1.4 首次发布以来，我们不断改进策略以使其更加灵活，
@@ -17,16 +17,16 @@ Istio 的授权策略为网格中的服务提供访问控制。它速度快、�
 [嵌套 JWT 声明支持](/zh/docs/tasks/security/authorization/authz-jwt/)等等。
 这些特性提高了授权策略的灵活性，但仍有许多场景无法通过该模型支持，例如：
 
-- 您拥有自己的内部授权系统，该系统无法轻松迁移或替换至授权策略中。
+- 您拥有自己的内部授权系统，该系统无法轻松地被迁移或替换到授权策略中。
 
-- 您想与使用 Istio 中[底层 Envoy 配置 API](/zh/docs/reference/config/networking/envoy-filter/)
+- 您想与使用 Istio 中的[底层 Envoy 配置 API](/zh/docs/reference/config/networking/envoy-filter/)
   （例如 [Open Policy Agent](https://www.openpolicyagent.org/docs/latest/envoy-introduction/)
   或 [`oauth2` 代理](https://github.com/oauth2-proxy/oauth2-proxy)）
   或者根本无法正常工作的第三方解决方案进行集成。
 
 - 授权策略缺少在您场景中所需的语义内容。
 
-## 解决方案 {#solution}
+## 解决方案  {#solution}
 
 在 Istio 1.9 中，我们通过引入
 [`CUSTOM` 操作](/zh/docs/reference/config/security/authorization-policy/#AuthorizationPolicy-Action)实现了授权策略的可扩展性，
@@ -50,7 +50,7 @@ Istio 的授权策略为网格中的服务提供访问控制。它速度快、�
 
 1. 外部授权服务将决定是否允许请求通过。
 
-1. 如果允许，请求将继续，并将由 `ALLOW`/`DENY` 操作定义的任意本地授权强制执行。
+1. 如果允许，请求将被继续执行，并将由 `ALLOW`/`DENY` 操作定义的任意本地授权强制执行。
 
 1. 如果被拒绝，请求将立即被终止。
 
@@ -63,20 +63,19 @@ metadata:
   name: ext-authz
   namespace: istio-system
 spec:
-  # The selector applies to the ingress gateway in the istio-system namespace.
+  # selector 适用于 istio-system 命名空间中的入口网关。
   selector:
     matchLabels:
       app: istio-ingressgateway
-  # The action "CUSTOM" delegates the access control to an external authorizer, this is different from
-  # the ALLOW/DENY action that enforces the access control right inside the proxy.
+  # “CUSTOM” 操作将访问控制委托给外部授权者，
+  # 这与在代理内部强制执行访问控制权的 ALLOW/DENY 操作不同。
   action: CUSTOM
-  # The provider specifies the name of the external authorizer defined in the meshconfig, which tells where and how to
-  # talk to the external auth service. We will cover this more later.
+  # provider 指定在 meshconfig 中定义的外部授权者的名称，
+  # 从这个名称可以告知在哪里以及如何与外部身份验证服务通信。我们稍后会详细介绍这一点。
   provider:
     name: "my-ext-authz-service"
-  # The rule specifies that the access control is triggered only if the request path has the prefix "/admin/".
-  # This allows you to easily enable or disable the external authorization based on the requests, avoiding the external
-  # check request if it is not needed.
+  # 这条规则指定只有请求路径有前缀 “/admin/” 时才触发访问控制。
+  # 这允许您轻松地根据请求启用或禁用外部授权，避免在不需要时进行外部检查请求。
   rules:
   - to:
     - operation:
@@ -87,15 +86,16 @@ spec:
 
 {{< text yaml >}}
 extensionProviders:
-# The name "my-ext-authz-service" is referred to by the authorization policy in its provider field.
+# name 是 “my-ext-authz-service”，被其提供程序字段中的授权策略引用。
 - name: "my-ext-authz-service"
-  # The "envoyExtAuthzGrpc" field specifies the type of the external authorization service is implemented by the Envoy
-  # ext-authz filter gRPC API. The other supported type is the Envoy ext-authz filter HTTP API.
+  # “envoyExtAuthzGrpc” 字段指定 Envoy ext-authz 过滤器 gRPC API 实现的外部授权服务的类型。
+  # 另一种支持的类型是 Envoy ext-authz 过滤器 HTTP API。
   # See more in https://www.envoyproxy.io/docs/envoy/v1.16.2/intro/arch_overview/security/ext_authz_filter.
+  # 更多信息请参见 https://www.envoyproxy.io/docs/envoy/v1.16.2/intro/arch_overview/security/ext_authz_filter。
   envoyExtAuthzGrpc:
-    # The service and port specifies the address of the external auth service, "ext-authz.istio-system.svc.cluster.local"
-    # means the service is deployed in the mesh. It can also be defined out of the mesh or even inside the pod as a separate
-    # container.
+    # service 和 port 指定外部 auth 服务的地址，
+    # “ext-authz.istio-system.svc.cluster.local” 表示该服务部署在网格中。
+    # 它也可以在网格之外定义，甚至可以在 Pod 内部定义为单独的容器。
     service: "ext-authz.istio-system.svc.cluster.local"
     port: 9000
 {{< /text >}}
@@ -116,7 +116,7 @@ extensionProviders:
 
 有关详细信息，请参阅 [Better External Authorization 设计文档](https://docs.google.com/document/d/1V4mCQCw7mlGp0zSQQXYoBdbKMDnkPOjeyUb85U07iSI/edit#)。
 
-## OPA 示例 {#example-with-opa}
+## OPA 示例  {#example-with-opa}
 
 在本节中，我们将演示如何使用 `CUSTOM` 操作以及
 Open Policy Agent 作为入口网关上的外部授权程序。我们将有条件地在除
@@ -125,7 +125,7 @@ Open Policy Agent 作为入口网关上的外部授权程序。我们将有条�
 您还可以参考[外部授权任务](/zh/docs/tasks/security/authorization/authz-custom/)来获得使用
 `ext-authz` 服务器示例的更基础介绍。
 
-### 创建 OPA 策略示例 {#create-the-example-opa-policy}
+### 创建 OPA 策略示例  {#create-the-example-opa-policy}
 
 运行以下命令创建一个 OPA 策略，如果路径的前缀与 JWT
 令牌中的声明“path”（base64 编码）匹配，则允许该请求：
@@ -162,7 +162,7 @@ EOF
 $ kubectl create secret generic opa-policy --from-file policy.rego
 {{< /text >}}
 
-### 部署 httpbin 和 OPA {#deploy-httpbin-and-opa}
+### 部署 httpbin 和 OPA  {#deploy-httpbin-and-opa}
 
 启用 Sidecar 注入：
 
@@ -194,7 +194,7 @@ spec:
   selector:
     app: httpbin-with-opa
 ---
-# Define the service entry for the local OPA service on port 9191.
+# 在 9191 端口为本地 OPA 服务定义服务条目。
 apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:
@@ -365,7 +365,7 @@ $ kubectl apply -f @samples/httpbin/httpbin.yaml@
 
 {{< /tabset >}}
 
-### 定义外部授权程序 {#define-external-authorizer}
+### 定义外部授权程序  {#define-external-authorizer}
 
 运行以下命令来编辑 `meshconfig`：
 
@@ -467,7 +467,7 @@ EOF
 
 {{< /tabset >}}
 
-### 测试 OPA 策略 {##test-the-opa-policy}
+### 测试 OPA 策略  {##test-the-opa-policy}
 
 1. 创建一个客户端 Pod 来发送请求：
 
@@ -497,38 +497,106 @@ EOF
 1. 在不携带令牌时向路径 `/headers` 发送请求。
    因为没有 JWT 令牌，请求会以 403 状态方式被拒绝：
 
+    {{< tabset category-name="opa-deploy" >}}
+
+    {{< tab name="在同一个 Pod 中部署 OPA" category-value="opa-same" >}}
+
     {{< text bash >}}
     $ kubectl exec ${SLEEP_POD} -c sleep  -- curl http://httpbin-with-opa:8000/headers -s -o /dev/null -w "%{http_code}\n"
     403
     {{< /text >}}
 
+    {{< /tab >}}
+
+    {{< tab name="在单独的 Pod 中部署 OPA" category-value="opa-standalone" >}}
+
+    {{< text bash >}}
+    $ kubectl exec ${SLEEP_POD} -c sleep  -- curl http://httpbin:8000/headers -s -o /dev/null -w "%{http_code}\n"
+    403
+    {{< /text >}}
+
+    {{< /tab >}}
+
+    {{< /tabset >}}
+
 1. 携带有效令牌向路径 `/get` 发送请求。因为路径为 `/get`
    与令牌中 `/headers` 路径不匹配，请求也会以 403 状态方式被拒绝：
+
+    {{< tabset category-name="opa-deploy" >}}
+
+    {{< tab name="在同一个 Pod 中部署 OPA" category-value="opa-same" >}}
 
     {{< text bash >}}
     $ kubectl exec ${SLEEP_POD} -c sleep  -- curl http://httpbin-with-opa:8000/get -H "Authorization: Bearer $TOKEN_PATH_HEADERS" -s -o /dev/null -w "%{http_code}\n"
     403
     {{< /text >}}
 
+    {{< /tab >}}
+
+    {{< tab name="在单独的 Pod 中部署 OPA" category-value="opa-standalone" >}}
+
+    {{< text bash >}}
+    $ kubectl exec ${SLEEP_POD} -c sleep  -- curl http://httpbin:8000/get -H "Authorization: Bearer $TOKEN_PATH_HEADERS" -s -o /dev/null -w "%{http_code}\n"
+    403
+    {{< /text >}}
+
+    {{< /tab >}}
+
+    {{< /tabset >}}
+
 1. 携带有效令牌向路径 `/headers` 发送请求。
    由于路径与令牌匹配，请求会以 200 状态被允许：
+
+    {{< tabset category-name="opa-deploy" >}}
+
+    {{< tab name="在同一个 Pod 中部署 OPA" category-value="opa-same" >}}
 
     {{< text bash >}}
     $ kubectl exec ${SLEEP_POD} -c sleep  -- curl http://httpbin-with-opa:8000/headers -H "Authorization: Bearer $TOKEN_PATH_HEADERS" -s -o /dev/null -w "%{http_code}\n"
     200
     {{< /text >}}
 
+    {{< /tab >}}
+
+    {{< tab name="在单独的 Pod 中部署 OPA" category-value="opa-standalone" >}}
+
+    {{< text bash >}}
+    $ kubectl exec ${SLEEP_POD} -c sleep  -- curl http://httpbin:8000/headers -H "Authorization: Bearer $TOKEN_PATH_HEADERS" -s -o /dev/null -w "%{http_code}\n"
+    200
+    {{< /text >}}
+
+    {{< /tab >}}
+
+    {{< /tabset >}}
+
 1. 不携带令牌向路径 `/ip` 发送请求。由于路径 `/ip`
    被排除在授权之外，请求也会以 200 状态被允许：
+
+    {{< tabset category-name="opa-deploy" >}}
+
+    {{< tab name="在同一个 Pod 中部署 OPA" category-value="opa-same" >}}
 
     {{< text bash >}}
     $ kubectl exec ${SLEEP_POD} -c sleep  -- curl http://httpbin-with-opa:8000/ip -s -o /dev/null -w "%{http_code}\n"
     200
     {{< /text >}}
 
+    {{< /tab >}}
+
+    {{< tab name="在单独的 Pod 中部署 OPA" category-value="opa-standalone" >}}
+
+    {{< text bash >}}
+    $ kubectl exec ${SLEEP_POD} -c sleep  -- curl http://httpbin:8000/ip -s -o /dev/null -w "%{http_code}\n"
+    200
+    {{< /text >}}
+
+    {{< /tab >}}
+
+    {{< /tabset >}}
+
 1. 检查代理和 OPA 日志以确认结果。
 
-## 总结 {#summary}
+## 总结  {#summary}
 
 在 Istio 1.9 中，授权策略中的 `CUSTOM` 操作允许您轻松地将
 Istio 与任何外部授权系统集成，并具备以下优势：
@@ -551,6 +619,6 @@ Istio 与任何外部授权系统集成，并具备以下优势：
 我们正努力在后续版本中将此功能提升到更稳定的阶段，
 并欢迎您在 [discuss.istio.io](https://discuss.istio.io/c/security/) 上提供反馈。
 
-## 致谢 {#acknowledgements}
+## 致谢  {#acknowledgements}
 
 感谢 `Craig Box`、`Christian Posta` 和 `Limin Wang` 对本博客的初稿进行审核。

@@ -29,7 +29,7 @@ In contrast, operating at the network layer has the advantage of being universal
 
 ## Implementation
 
-The Istio’s proxy is based on [Envoy](https://envoyproxy.github.io/envoy/), which is implemented as a user space daemon in the data plane that
+The Istio’s proxy is based on [Envoy](https://github.com/envoyproxy/envoy), which is implemented as a user space daemon in the data plane that
 interacts with  the network layer using standard sockets. This gives it a large amount of flexibility in processing, and allows it to be
 distributed (and upgraded!) in a container.
 
