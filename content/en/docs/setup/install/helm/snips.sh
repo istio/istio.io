@@ -128,10 +128,6 @@ snip_delete_istio_system_namespace() {
 kubectl delete namespace istio-system
 }
 
-snip_uninstall_stable_revision_label_resources_1() {
-helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags={prod-canary} --set revision=canary -n istio-system | kubectl delete -f -`.
-}
-
 snip_delete_crds() {
 kubectl get crd -oname | grep --color=never 'istio.io' | xargs kubectl delete
 }
