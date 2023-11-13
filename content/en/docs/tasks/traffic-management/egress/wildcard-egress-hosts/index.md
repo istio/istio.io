@@ -240,6 +240,26 @@ $ kubectl delete virtualservice direct-wikipedia-through-egress-gateway
 $ kubectl delete destinationrule egressgateway-for-wikipedia
 {{< /text >}}
 
+### Wildcard configuration for arbitrary domains
+
+The configuration in the previous section worked because all the `*.wikipedia.org` sites can be served by any one
+of the `wikipedia.org` servers. However, this is not always the case. For example, you may want to configure egress
+control for access to more general wildcard domains like `*.com` or `*.org`. Configuring traffic to arbitrary
+wildcard domains introduces a challenge for Istio gateways; an Istio gateway can only be configured to route traffic
+to predefined hosts, predefined IP addresses, or to the original destination IP address of the request.
+
+In the previous section you configured the virtual service to direct traffic to the predefined host `www.wikipedia.org`.
+In the general case, however, you don't know the host or IP address of an arbitrary host received in a request,
+which leaves the original desitination address of the request as the only value with which to route the request.
+However, when using an egress gateway, the original destination address of the request is lost since the original
+request is redirected to the gateway, causing the destination IP address to become the IP address of the gateway.
+
+Although not as easily, you can use [Envoy filters](/docs/reference/config/networking/envoy-filter/)
+to configure a gateway to support arbitrary domains by using the [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication)
+value in an HTTPS, or any TLS, to identify the original destination to which to route the request. Some examples of
+how you can configure this can be found in [EnvoyFilter Samples](https://github.com/istio/istio/wiki/EnvoyFilter-Samples#envoyfilter)
+as well as in [configuring an egress gateway for arbitrary domains](link_to_Gergo's_blog).
+
 ## Cleanup
 
 * Shutdown the [sleep]({{< github_tree >}}/samples/sleep) service:
