@@ -1,0 +1,198 @@
+<!doctype html><html lang=zh itemscope itemtype=https://schema.org/WebPage><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=theme-color content="#466BB0"><meta name=title content="基于 gRPC 的无代理服务网格"><meta name=description content="介绍 Istio 对 gRPC 无代理服务网格功能的支持。"><meta name=author content="Steven Landow (Google); Translated by Wilson Wu (DaoCloud)"><meta name=keywords content="microservices,services,mesh"><meta property="og:title" content="基于 gRPC 的无代理服务网格"><meta property="og:type" content="website"><meta property="og:description" content="介绍 Istio 对 gRPC 无代理服务网格功能的支持。"><meta property="og:url" content="/v1.19/zh/blog/2021/proxyless-grpc/"><meta property="og:image" content="https://raw.githubusercontent.com/istio/istio.io/master/static/img/istio-social.svg"><meta property="og:image:alt" content="Istio Logo"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="600"><meta property="og:site_name" content="Istio"><meta name=twitter:card content="summary"><meta name=twitter:site content="@IstioMesh"><title>Istioldie 1.19 / 基于 gRPC 的无代理服务网格</title><script async src="https://www.googletagmanager.com/gtag/js?id=UA-98480406-2"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","UA-98480406-2")</script><link rel=alternate type=application/rss+xml title="Istio Blog" href=/v1.19/blog/feed.xml><link rel=alternate type=application/rss+xml title="Istio News" href=/v1.19/news/feed.xml><link rel=alternate type=application/rss+xml title="Istio Blog and News" href=/v1.19/feed.xml><link rel="shortcut icon" href=/v1.19/favicons/favicon.ico><link rel=apple-touch-icon href=/v1.19/favicons/apple-touch-icon-180x180.png sizes=180x180><link rel=icon type=image/png href=/v1.19/favicons/favicon-16x16.png sizes=16x16><link rel=icon type=image/png href=/v1.19/favicons/favicon-32x32.png sizes=32x32><link rel=icon type=image/png href=/v1.19/favicons/android-36x36.png sizes=36x36><link rel=icon type=image/png href=/v1.19/favicons/android-48x48.png sizes=48x48><link rel=icon type=image/png href=/v1.19/favicons/android-72x72.png sizes=72x72><link rel=icon type=image/png href=/v1.19/favicons/android-96x96.png sizes=96xW96><link rel=icon type=image/png href=/v1.19/favicons/android-144x144.png sizes=144x144><link rel=icon type=image/png href=/v1.19/favicons/android-192x192.png sizes=192x192><link rel=icon type=image/svg+xml href=/v1.19/favicons/favicon.svg><link rel=icon type=image/png href=/v1.19/favicons/favicon.png><link rel=mask-icon href=/v1.19/favicons/safari-pinned-tab.svg color=#466bb0><link rel=manifest href=/v1.19/manifest.json><meta name=apple-mobile-web-app-title content="Istio"><meta name=application-name content="Istio"><meta name=msapplication-config content="/browserconfig.xml"><meta name=msapplication-TileColor content="#466BB0"><meta name=theme-color content="#466BB0"><link rel=stylesheet href=/v1.19/css/all.css><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap"><script src=/v1.19/js/themes_init.min.js></script></head><body class="language-unknown archive-site"><script>const branchName="release-1.19",docTitle="基于 gRPC 的无代理服务网格",iconFile="/v1.19/img/icons.svg",buttonCopy="复制到剪切板",buttonPrint="打印",buttonDownload="下载"</script><script src="https://www.google.com/cse/brand?form=search-form" defer></script>
+<script src=/v1.19/js/all.min.js data-manual defer></script><header class=main-navigation><nav class="main-navigation-wrapper container-l"><div class=main-navigation-header><a id=brand href=/v1.19/zh/ aria-label=logotype><span class=logo><svg xmlns="http://www.w3.org/2000/svg" width="128" height="60" viewBox="0 0 128 60"><path d="M58.434 48.823A.441.441.0 0158.3 48.497V22.583a.444.444.0 01.134-.326.446.446.0 01.327-.134h3.527a.447.447.0 01.325.134.447.447.0 01.134.326v25.914a.443.443.0 01-.134.326.444.444.0 01-.325.134h-3.527a.444.444.0 01-.327-.134z"/><path d="m70.969 48.477a6.556 6.556.0 01-2.818-1.955 4.338 4.338.0 01-1-2.78v-.345a.443.443.0 01.134-.326.444.444.0 01.326-.135h3.374a.444.444.0 01.326.135.445.445.0 01.134.326v.077a2.014 2.014.0 001.054 1.667 4.672 4.672.0 002.664.709 4.446 4.446.0 002.492-.633 1.862 1.862.0 00.958-1.591 1.426 1.426.0 00-.786-1.322 12.7 12.7.0 00-2.549-.939l-1.457-.46a21.526 21.526.0 01-3.3-1.227 6.57 6.57.0 01-2.262-1.783 4.435 4.435.0 01-.92-2.894 5.081 5.081.0 012.109-4.275 8.993 8.993.0 015.558-1.591 10.445 10.445.0 014.1.748 6.3 6.3.0 012.722 2.07 5 5 0 01.958 3.009.441.441.0 01-.134.326.441.441.0 01-.325.134h-3.258a.441.441.0 01-.326-.134.443.443.0 01-.134-.326 1.974 1.974.0 00-.978-1.667 4.647 4.647.0 00-2.665-.671 4.741 4.741.0 00-2.435.556 1.724 1.724.0 00-.938 1.553 1.512 1.512.0 00.9 1.4 15.875 15.875.0 003.01 1.055l.843.229a27.368 27.368.0 013.412 1.246 6.67 6.67.0 012.338 1.763 4.387 4.387.0 01.958 2.933 4.988 4.988.0 01-2.146 4.275 9.543 9.543.0 01-5.712 1.552 11.626 11.626.0 01-4.227-.709z"/><path d="m97.039 32.837a.443.443.0 01-.326.135h-3.911a.169.169.0 00-.191.192v9.239a2.951 2.951.0 00.632 2.108 2.7 2.7.0 002.013.652h1.15a.444.444.0 01.325.134.441.441.0 01.134.326v2.875a.471.471.0 01-.459.5l-1.994.039a8 8 0 01-4.524-1.035q-1.495-1.035-1.533-3.91V33.166A.17.17.0 0088.164 32.974H85.978A.441.441.0 0185.652 32.839.441.441.0 0185.518 32.513V29.83a.441.441.0 01.134-.326.444.444.0 01.326-.135h2.186a.169.169.0 00.191-.192v-4.485a.438.438.0 01.134-.326.44.44.0 01.325-.134h3.336a.443.443.0 01.325.134.442.442.0 01.135.326v4.485a.169.169.0 00.191.192h3.911a.446.446.0 01.326.135.446.446.0 01.134.326v2.683a.446.446.0 01-.133.324z"/><path d="m101.694 25.917a2.645 2.645.0 01-.767-1.955 2.65 2.65.0 01.767-1.955 2.65 2.65.0 011.955-.767 2.65 2.65.0 011.955.767 2.652 2.652.0 01.767 1.955 2.647 2.647.0 01-.767 1.955 2.646 2.646.0 01-1.955.767 2.645 2.645.0 01-1.955-.767zm-.211 22.906a.441.441.0 01-.134-.326V29.79a.444.444.0 01.134-.326.446.446.0 01.326-.134h3.527a.446.446.0 01.326.134.445.445.0 01.134.326v18.707a.443.443.0 01-.134.326.443.443.0 01-.326.134h-3.527a.443.443.0 01-.326-.134z"/><path d="m114.019 47.734a8.1 8.1.0 01-3.047-4.255 14.439 14.439.0 01-.652-4.37 14.3 14.3.0 01.614-4.371A7.869 7.869.0 01114 30.56a9.072 9.072.0 015.252-1.5 8.543 8.543.0 015.041 1.5 7.985 7.985.0 013.009 4.14 12.439 12.439.0 01.69 4.37 13.793 13.793.0 01-.651 4.37 8.255 8.255.0 01-3.028 4.275 8.475 8.475.0 01-5.1 1.553 8.754 8.754.0 01-5.194-1.534zm7.629-3.1a4.536 4.536.0 001.476-2.262 11.335 11.335.0 00.383-3.221 10.618 10.618.0 00-.383-3.22 4.169 4.169.0 00-1.457-2.243 4.066 4.066.0 00-2.531-.785 3.942 3.942.0 00-2.453.785 4.376 4.376.0 00-1.5 2.243 11.839 11.839.0 00-.383 3.22 11.84 11.84.0 00.383 3.221 4.222 4.222.0 001.476 2.262 4.075 4.075.0 002.549.8 3.8 3.8.0 002.44-.809z"/><path d="m15.105 32.057v15.565a.059.059.0 01-.049.059L.069 50.25A.06.06.0 01.005 50.167l14.987-33.47a.06.06.0 01.114.025z"/><path d="m17.631 23.087v24.6a.06.06.0 00.053.059l22.449 2.507a.06.06.0 00.061-.084L17.745.032a.06.06.0 00-.114.024z"/><path d="m39.961 52.548-24.833 7.45a.062.062.0 01-.043.0L.079 52.548a.059.059.0 01.026-.113h39.839a.06.06.0 01.017.113z"/></svg></span></a><button id=hamburger class=main-navigation-toggle aria-label="Open navigation"><svg class="icon menu-hamburger"><use xlink:href="/v1.19/img/icons.svg#menu-hamburger"/></svg></button>
+<button id=menu-close class=main-navigation-toggle aria-label="Close navigation"><svg class="icon menu-close"><use xlink:href="/v1.19/img/icons.svg#menu-close"/></svg></button></div><div id=header-links class=main-navigation-links-wrapper><ul class=main-navigation-links><li class=main-navigation-links-item><a class="main-navigation-links-link has-dropdown"><span>关于</span><svg class="icon dropdown-arrow"><use xlink:href="/v1.19/img/icons.svg#dropdown-arrow"/></svg></a><ul class=main-navigation-links-dropdown><li class=main-navigation-links-dropdown-item><a href=/v1.19/zh/about/service-mesh class=main-navigation-links-link>服务网格</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.19/zh/about/solutions class=main-navigation-links-link>解决方案</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.19/zh/about/case-studies class=main-navigation-links-link>案例学习</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.19/zh/about/ecosystem class=main-navigation-links-link>生态系统</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.19/zh/about/deployment class=main-navigation-links-link>部署</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.19/zh/about/faq class=main-navigation-links-link>FAQ</a></li></ul></li><li class=main-navigation-links-item><a href=/v1.19/zh/blog/ class=main-navigation-links-link><span>博客</span></a></li><li class=main-navigation-links-item><a href=/v1.19/zh/news/ class=main-navigation-links-link><span>新闻</span></a></li><li class=main-navigation-links-item><a href=/v1.19/zh/get-involved/ class=main-navigation-links-link><span>加入我们</span></a></li><li class=main-navigation-links-item><a href=/v1.19/zh/docs/ class=main-navigation-links-link><span>文档</span></a></li></ul><div class=main-navigation-footer><button id=search-show class=search-show title='搜索 istio.io' aria-label=搜索><svg class="icon magnifier"><use xlink:href="/v1.19/img/icons.svg#magnifier"/></svg></button>
+<a href=/v1.19/zh/docs/setup/getting-started class="btn btn--primary" id=try-istio>试用 Istio</a></div></div><form id=search-form class=search name=cse role=search><input type=hidden name=cx value=002184991200833970123:iwwf17ikgf4>
+<input type=hidden name=ie value=utf-8>
+<input type=hidden name=hl value=zh>
+<input type=hidden id=search-page-url value=/zh/search>
+<input id=search-textbox class="search-textbox form-control" name=q type=search aria-label='搜索 istio.io' placeholder=搜索>
+<button id=search-close title=取消搜索 type=reset aria-label=取消搜索><svg class="icon menu-close"><use xlink:href="/v1.19/img/icons.svg#menu-close"/></svg></button></form></nav></header><div class=banner-container></div><article class=post itemscope itemtype=http://schema.org/BlogPosting><div class=header-content><h1>基于 gRPC 的无代理服务网格</h1><p>介绍 Istio 对 gRPC 无代理服务网格功能的支持。</p></div><p class=post-author>Oct 28, 2021 <span>|</span> By Steven Landow - Google; Translated by Wilson Wu - DaoCloud</p><div><p>在 Istio 中，通过使用一组发现 API 对其 Envoy Sidecar 代理进行动态配置，
+这组 API 统称为 <a href=https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/operations/dynamic_configuration>xDS API</a>。
+这些 API 也希望成为<a href="https://blog.envoyproxy.io/the-universal-data-plane-api-d15cec7a?gi=64aa2eea0283">通用数据平面 API</a>。
+gRPC 项目对 xDS API 提供了重要支持，这意味着您无需为其部署
+Envoy Sidecar 就可以对 gRPC 工作负载进行管理。您可以在
+<a href="https://www.youtube.com/watch?v=cGJXkZ7jiDk">Megan Yahya 的 KubeCon EU 2021 演讲</a>中了解相关集成的更多信息。
+有关 gRPC 支持的最新更新以及实施状态可以在其<a href="https://github.com/grpc/proposal/search?q=xds">提案</a>中找到。</p><p>Istio 1.11 中新增了直接向网格添加 gRPC 服务的实验性支持。
+我们提供基本的服务发现、一些基于 VirtualService 的流量策略以及双向 TLS 支持。</p><h2 id=supported-features>支持的功能</h2><p>与 Envoy 相比，当前 xDS API 在 gRPC 中的实现在某些领域仍受到限制。
+尽管以下功能列表并不详尽，而且某些功能可能仅包含部分实现，但这些功能都可以被正常使用：</p><ul><li>基本服务发现。您的 gRPC 服务可以正常访问网格中注册的其他 Pod 和虚拟机。</li><li><a href=/v1.19/zh/docs/reference/config/networking/destination-rule/><code>DestinationRule</code></a>：<ul><li>Subset：您的 gRPC 服务可以根据标签选择器将流量拆分到不同的实例组。</li><li>Istio 目前唯一支持的 <code>loadBalancer</code> 策略是 <code>ROUND_ROBIN</code>，
+而在 Istio 未来版本中将添加 <code>consistencyHash</code> 策略（gRPC 已经支持）。</li><li><code>tls</code> 设置仅针对 <code>DISABLE</code> 或 <code>ISTIO_MUTUAL</code> 生效。其他模式下将被视为 <code>DISABLE</code>。</li></ul></li><li><a href=/v1.19/zh/docs/reference/config/networking/virtual-service/><code>VirtualService</code></a>：<ul><li>头匹配和 URI 匹配格式为 <code>/ServiceName/RPCName</code>。</li><li>覆盖目标主机和 Subset。</li><li>基于权重的流量转移。</li></ul></li><li><a href=/v1.19/zh/docs/reference/config/security/peer_authentication/><code>PeerAuthentication</code></a>：<ul><li>仅支持 <code>DISABLE</code> 和 <code>STRICT</code>。其他模式将被视为 <code>DISABLE</code>。</li><li>未来版本中可能会支持自动 mTLS。</li></ul></li></ul><p>未来版本可能会支持包括：故障、重试、超时、镜像和重写规则等其他功能。
+其中部分功能正在等待基于 gRPC 的实现，另外一部分功能则需要 Istio 来支持。
+gRPC 中 xDS 功能的状态可以在<a href=https://github.com/grpc/grpc/blob/master/doc/grpc_xds_features.md>此处</a>找到。
+Istio 的相关支持状态将在未来的官方文档中发布。</p><div><aside class="callout warning"><div class=type><svg class="large-icon"><use xlink:href="/v1.19/img/icons.svg#callout-warning"/></svg></div><div class=content>此功能是<a href=/v1.19/zh/docs/releases/feature-stages/>实验性</a>功能。
+对应的标准 Istio 功能将随着时间推移和整体设计的改进得到支持。</div></aside></div><h2 id=architecture-overview>架构概述</h2><figure style=width:80%><div class=wrapper-with-intrinsic-ratio style=padding-bottom:44.32692307692307%><a data-skipendnotes=true href=/v1.19/zh/blog/2021/proxyless-grpc/architecture.svg title="gRPC 服务与 istiod 通信架构"><img class=element-to-stretch src=/v1.19/zh/blog/2021/proxyless-grpc/architecture.svg alt="gRPC 服务与 istiod 通信架构"></a></div><figcaption>gRPC 服务与 istiod 通信架构</figcaption></figure><p>尽管进行数据平面通信时不使用代理，但进行初始化以及与控制平面通信时仍然需要通过代理实现。
+首先，代理在启动时生成一个 <a href=https://github.com/grpc/proposal/blob/master/A27-xds-global-load-balancing.md#xdsclient-and-bootstrap-file>Bootstrap 文件</a>，
+利用同样的方式也会为 Envoy 生成引导程序。它会告诉 <code>gRPC</code>
+库如何连接到 <code>istiod</code>，在哪里可以找到数据平面通信证书，
+以及将哪些元数据发送到控制平面。接下来，代理将充当 <code>xDS</code> 角色，
+代表应用程序与 <code>istiod</code> 进行数据转发、连接和身份验证。
+最后，代理将获取并轮转数据平面流量中使用的证书。</p><h2 id=changes-to-application-code>修改应用程序代码</h2><div><aside class="callout tip"><div class=type><svg class="large-icon"><use xlink:href="/v1.19/img/icons.svg#callout-tip"/></svg></div><div class=content>本节内容涵盖了在 Go 语言中 gRPC 对 xDS 的支持。其他语言中也存在类似 API。</div></aside></div><p>要在 gRPC 中启用 xDS 功能，您的应用程序必须进行一些必要的修改。
+您的 gRPC 版本最低应为 <code>1.39.0</code>。</p><h3 id=in-the-client>客户端中</h3><p>在向 gRPC 中注册 xDS 解析器和平衡器时会引发下面的副作用。
+该引用应该被添加到您的 <code>main</code> 包或与调用 <code>grpc.Dial</code> 代码处于相同位置的包中。</p><pre><code class=language-go data-expandlinks=true data-repo=istio>import _ &#34;google.golang.org/grpc/xds&#34;
+</code></pre><p>创建 gRPC 连接时，URL 必须使用 <code>xds:///</code> 格式。</p><pre><code class=language-go data-expandlinks=true data-repo=istio>conn, err := grpc.DialContext(ctx, &#34;xds:///foo.ns.svc.cluster.local:7070&#34;)
+</code></pre><p>此外，对于 (m)TLS 的支持，必须将特殊的 <code>TransportCredentials</code>
+选项传递到 <code>DialContext</code> 中。在 istiod 不发送安全配置时 <code>FallbackCreds</code> 将对相关操作视为成功。</p><pre><code class=language-go data-expandlinks=true data-repo=istio>import &#34;google.golang.org/grpc/credentials/xds&#34;
+
+...
+
+creds, err := xds.NewClientCredentials(xds.ClientOptions{
+FallbackCreds: insecure.NewCredentials()
+})
+// handle err
+conn, err := grpc.DialContext(
+ctx,
+&#34;xds:///foo.ns.svc.cluster.local:7070&#34;,
+grpc.WithTransportCredentials(creds),
+)
+</code></pre><h3 id=on-the-server>服务端中</h3><p>为了支持服务端的各项配置（例如 mTLS），需要进行一些必要的修改。</p><p>首先，我们使用一个特殊的构造函数来创建 <code>GRPCServer</code>：</p><pre><code class=language-go data-expandlinks=true data-repo=istio>import &#34;google.golang.org/grpc/xds&#34;
+
+...
+
+server = xds.NewGRPCServer()
+RegisterFooServer(server, &amp;fooServerImpl)
+</code></pre><p>如果您通过 <code>protoc</code> 生成的 Go 代码已过期，可能需要重新生成来与
+xDS 服务器兼容。您生成的 <code>RegisterFooServer</code> 函数应如下所示：</p><pre><code class=language-go data-expandlinks=true data-repo=istio>func RegisterFooServer(s grpc.ServiceRegistrar, srv FooServer) {
+s.RegisterService(&amp;FooServer_ServiceDesc, srv)
+}
+</code></pre><p>最后，与客户端修改一样，我们必须启用安全支持：</p><pre><code class=language-go data-expandlinks=true data-repo=istio>creds, err := xds.NewServerCredentials(xdscreds.ServerOptions{FallbackCreds: insecure.NewCredentials()})
+// handle err
+server = xds.NewGRPCServer(grpc.Creds(creds))
+</code></pre><h3 id=in-your-kubernetes-deployment>在您的 Kubernetes Deployment 中</h3><p>假设您的应用程序代码是兼容的，在 Pod 中只需要添加
+<code>inject.istio.io/templates: grpc-agent</code> 注解。
+该操作会为应用程序添加一个运行上述代理的 Sidecar 容器，以及一些
+gRPC 用于查找引导文件并启用某些功能的环境变量。</p><p>对于 gRPC 服务器，您的 Pod 还需要添加 <code>proxy.istio.io/config: '{"holdApplicationUntilProxyStarts": true}'</code>
+注解，以确保在初始化 gRPC 服务器之前其中的 xDS 代理和引导文件已准备就绪。</p><h2 id=example>示例</h2><p>在本指南中，您将部署 <code>echo</code> 程序，它是一个已经支持服务端和客户端无代理
+gRPC 的应用程序。使用此应用程序，您可以尝试一些已被支持的基于 mTLS 的流量策略。</p><h3 id=prerequisites>先决条件</h3><p>本指南<a href=/v1.19/zh/docs/setup/install/>需要安装</a> Istio（1.11+）控制平面才能继续。</p><h3 id=deploy-the-application>部署应用程序</h3><p>创建一个开启注入的命名空间 <code>echo-grpc</code>。接下来部署包含两个实例的 <code>echo</code> 应用程序及其 Service。</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl create namespace echo-grpc
+$ kubectl label namespace echo-grpc istio-injection=enabled
+$ kubectl -n echo-grpc apply -f samples/grpc-echo/grpc-echo.yaml
+</code></pre><p>确保两个 Pod 都正在运行：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl -n echo-grpc get pods
+NAME                       READY   STATUS    RESTARTS   AGE
+echo-v1-69d6d96cb7-gpcpd   2/2     Running   0          58s
+echo-v2-5c6cbf6dc7-dfhcb   2/2     Running   0          58s
+</code></pre><h3 id=test-the-grpc-resolver>测试 gRPC 解析器</h3><p>首先，将 <code>17171</code> 端口转发到其中一个 Pod。此端口是无 xDS
+支持的 gRPC 服务器，允许来自转发端口的 Pod 请求。</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl -n echo-grpc port-forward $(kubectl -n echo-grpc get pods -l version=v1 -ojsonpath=&#39;{.items[0].metadata.name}&#39;) 17171 &amp;
+</code></pre><p>接下来，我们可以批量发送 5 个请求：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ grpcurl -plaintext -d &#39;{&#34;url&#34;: &#34;xds:///echo.echo-grpc.svc.cluster.local:7070&#34;, &#34;count&#34;: 5}&#39; :17171 proto.EchoTestService/ForwardEcho | jq -r &#39;.output | join(&#34;&#34;)&#39;  | grep Hostname
+Handling connection for 17171
+[0 body] Hostname=echo-v1-7cf5b76586-bgn6t
+[1 body] Hostname=echo-v2-cf97bd94d-qf628
+[2 body] Hostname=echo-v1-7cf5b76586-bgn6t
+[3 body] Hostname=echo-v2-cf97bd94d-qf628
+[4 body] Hostname=echo-v1-7cf5b76586-bgn6t
+</code></pre><p>针对短名称，您还可以使用类似 Kubernetes 的名称进行解析：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ grpcurl -plaintext -d &#39;{&#34;url&#34;: &#34;xds:///echo:7070&#34;}&#39; :17171 proto.EchoTestService/ForwardEcho | jq -r &#39;.output | join
+(&#34;&#34;)&#39;  | grep Hostname
+[0 body] Hostname=echo-v1-7cf5b76586-ltr8q
+$ grpcurl -plaintext -d &#39;{&#34;url&#34;: &#34;xds:///echo.echo-grpc:7070&#34;}&#39; :17171 proto.EchoTestService/ForwardEcho | jq -r
+&#39;.output | join(&#34;&#34;)&#39;  | grep Hostname
+[0 body] Hostname=echo-v1-7cf5b76586-ltr8q
+$ grpcurl -plaintext -d &#39;{&#34;url&#34;: &#34;xds:///echo.echo-grpc.svc:7070&#34;}&#39; :17171 proto.EchoTestService/ForwardEcho | jq -r
+&#39;.output | join(&#34;&#34;)&#39;  | grep Hostname
+[0 body] Hostname=echo-v2-cf97bd94d-jt5mf
+</code></pre><h3 id=creating-subsets-with-destination-rule>通过 DestinationRule 创建 Subset</h3><p>首先，为每个版本的工作负载分别创建 Subset。</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ cat &lt;&lt;EOF | kubectl apply -f -
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: echo-versions
+  namespace: echo-grpc
+spec:
+  host: echo.echo-grpc.svc.cluster.local
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+  - name: v2
+    labels:
+      version: v2
+EOF
+</code></pre><h3 id=traffic-shifting>流量转移</h3><p>使用上面定义的 Subset，您可以将 80% 的流量发送到一个特定版本：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ cat &lt;&lt;EOF | kubectl apply -f -
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: echo-weights
+  namespace: echo-grpc
+spec:
+  hosts:
+  - echo.echo-grpc.svc.cluster.local
+  http:
+  - route:
+    - destination:
+        host: echo.echo-grpc.svc.cluster.local
+        subset: v1
+      weight: 20
+    - destination:
+        host: echo.echo-grpc.svc.cluster.local
+        subset: v2
+      weight: 80
+EOF
+</code></pre><p>现在，发送 10 个为一组的请求：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ grpcurl -plaintext -d &#39;{&#34;url&#34;: &#34;xds:///echo.echo-grpc.svc.cluster.local:7070&#34;, &#34;count&#34;: 10}&#39; :17171 proto.EchoTestService/ForwardEcho | jq -r &#39;.output | join(&#34;&#34;)&#39;  | grep ServiceVersion
+</code></pre><p>在所有响应中，应该以 <code>v2</code> 的响应居多：</p><pre><code class=language-plain data-expandlinks=true data-repo=istio>[0 body] ServiceVersion=v2
+[1 body] ServiceVersion=v2
+[2 body] ServiceVersion=v1
+[3 body] ServiceVersion=v2
+[4 body] ServiceVersion=v1
+[5 body] ServiceVersion=v2
+[6 body] ServiceVersion=v2
+[7 body] ServiceVersion=v2
+[8 body] ServiceVersion=v2
+[9 body] ServiceVersion=v2
+</code></pre><h3 id=enabling-mtls>启用 mTLS</h3><p>由于在 gRPC 中启用安全性需要对应用程序本身进行修改，因此
+Istio 自动检测 mTLS 支持的传统方法并不可靠。基于这个原因，
+针对该初始版本，需要在客户端和服务端上显式启用 mTLS。</p><p>要在客户端启用 mTLS，请使用带有 <code>tls</code> 设置的 <code>DestinationRule</code> 资源：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ cat &lt;&lt;EOF | kubectl apply -f -
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: echo-mtls
+  namespace: echo-grpc
+spec:
+  host: echo.echo-grpc.svc.cluster.local
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+EOF
+</code></pre><p>现在，尝试调用尚未配置 mTLS 的服务端将会失败。</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ grpcurl -plaintext -d &#39;{&#34;url&#34;: &#34;xds:///echo.echo-grpc.svc.cluster.local:7070&#34;}&#39; :17171 proto.EchoTestService/ForwardEcho | jq -r &#39;.output | join(&#34;&#34;)&#39;
+Handling connection for 17171
+ERROR:
+Code: Unknown
+Message: 1/1 requests had errors; first error: rpc error: code = Unavailable desc = all SubConns are in TransientFailure
+</code></pre><p>需要在服务端启用 mTLS，请使用 <code>PeerAuthentication</code> 资源。</p><div><aside class="callout warning"><div class=type><svg class="large-icon"><use xlink:href="/v1.19/img/icons.svg#callout-warning"/></svg></div><div class=content>以下策略将对整个命名空间强制开启 STRICT mTLS。</div></aside></div><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ cat &lt;&lt;EOF | kubectl apply -f -
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: echo-mtls
+  namespace: echo-grpc
+spec:
+  mtls:
+    mode: STRICT
+EOF
+</code></pre><p>应用该策略后，请求将被成功发送。</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ grpcurl -plaintext -d &#39;{&#34;url&#34;: &#34;xds:///echo.echo-grpc.svc.cluster.local:7070&#34;}&#39; :17171 proto.EchoTestService/ForwardEcho | jq -r &#39;.output | join(&#34;&#34;)&#39;
+Handling connection for 17171
+[0] grpcecho.Echo(&amp;{xds:///echo.echo-grpc.svc.cluster.local:7070 map[] 0  5s false })
+[0 body] x-request-id=0
+[0 body] Host=echo.echo-grpc.svc.cluster.local:7070
+[0 body] content-type=application/grpc
+[0 body] user-agent=grpc-go/1.39.1
+[0 body] StatusCode=200
+[0 body] ServiceVersion=v1
+[0 body] ServicePort=17070
+[0 body] Cluster=
+[0 body] IP=10.68.1.18
+[0 body] IstioVersion=
+[0 body] Echo=
+[0 body] Hostname=echo-v1-7cf5b76586-z5p8l
+</code></pre><h2 id=limitations>限制</h2><p>在该初始版本中存在一些限制，可能会在未来版本中修复：</p><ul><li>不支持自动 mTLS，也不支持容忍模式。我们需要在服务端使用 <code>STRICT</code>
+以及在客户端使用 <code>ISTIO_MUTUAL</code> 进行显式 mTLS 配置。
+在迁移到 <code>STRICT</code> 期间可以使用 Envoy 过渡。</li><li>在写入引导程序或 xDS 代理准备就绪之前调用 <code>grpc.Serve(listener)</code>
+或 <code>grpc.Dial("xds:///...")</code> 可能会导致失败。可以使用<code>holdApplicationUntilProxyStarts</code> 来解决此问题，
+或者可以通过加固应用程序本身来应对这些问题。</li><li>如果启用 xDS 的 gRPC 服务器开启并使用 mTLS，
+那么需要确保您的健康检查机制可以正常工作。可以使用单独的端口，
+或者在健康检查客户端通过一种方法来获取正确的客户端证书。</li><li>gRPC 中 xDS 的实现与 Envoy 不匹配。这将造成某些行为可能与预期不同，
+并且可能导致某些功能缺失。在 <a href=https://github.com/grpc/grpc/blob/master/doc/grpc_xds_features.md>gRPC 的功能状态</a>中提供了更多详细信息。
+请确保任何 Istio 配置实际应用于您的无代理 gRPC 应用程序前做足测试工作。</li></ul><h2 id=performance>性能</h2><h3 id=experiment-setup>实验设置</h3><ul><li>使用 Fortio，一个基于 Go 语言实现的压力测试应用程序<ul><li>稍作修改，使其支持 gRPC 的 xDS 功能（PR）</li></ul></li><li>资源：<ul><li>GKE 1.20 集群，具有 3 个 <code>e2-standard-16</code> 节点（每个节点 16 CPU + 64 GB 内存）</li><li>Fortio 客户端和服务端应用程序：1.5 vCPU、1000 MiB 内存</li><li>Sidecar（istio-agent 及可能会用到的 Envoy 代理）：1 vCPU，512 MiB 内存</li></ul></li><li>测试的工作负载类型：<ul><li>基线：常规 gRPC，不使用 Envoy 代理或无代理 xDS</li><li>Envoy：标准 istio-agent + Envoy 代理 Sidecar</li><li>无代理：gRPC 使用 xDS gRPC 服务器实现以及客户端中的 <code>xds:///</code> 解析器</li><li>通过 <code>PeerAuthentication</code> 和 <code>DestinationRule</code> 开启/禁用 mTLS</li></ul></li></ul><h3 id=latency>延迟</h3><p><figure style=width:80%><div class=wrapper-with-intrinsic-ratio style=padding-bottom:75%><a data-skipendnotes=true href=/v1.19/zh/blog/2021/proxyless-grpc/latencies_p50.svg title="p50 延迟对比图"><img class=element-to-stretch src=/v1.19/zh/blog/2021/proxyless-grpc/latencies_p50.svg alt="p50 延迟对比图"></a></div><figcaption>p50 延迟对比图</figcaption></figure><figure style=width:80%><div class=wrapper-with-intrinsic-ratio style=padding-bottom:75%><a data-skipendnotes=true href=/v1.19/zh/blog/2021/proxyless-grpc/latencies_p99.svg title="p99 延迟对比图"><img class=element-to-stretch src=/v1.19/zh/blog/2021/proxyless-grpc/latencies_p99.svg alt="p99 延迟对比图"></a></div><figcaption>p99 延迟对比图</figcaption></figure></p><p>使用无代理 gRPC 解析器时，延迟会略有增加。与 Envoy 相比，
+这是一个巨大的改进，并且仍然允许高级流量管理和 mTLS 功能。</p><h3 id=istio-proxy-container-resource-usage>istio-proxy 容器资源使用情况</h3><table><thead><tr><th></th><th>客户端 <code>mCPU</code></th><th>客户端内存（<code>MiB</code>）</th><th>服务端 <code>mCPU</code></th><th>服务端内存（<code>MiB</code>）</th></tr></thead><tbody><tr><td>Envoy 纯文本</td><td>320.44</td><td>66.93</td><td>243.78</td><td>64.91</td></tr><tr><td>Envoy mTLS</td><td>340.87</td><td>66.76</td><td>309.82</td><td>64.82</td></tr><tr><td>无代理纯文本</td><td>0.72</td><td>23.54</td><td>0.84</td><td>24.31</td></tr><tr><td>无代理 mTLS</td><td>0.73</td><td>25.05</td><td>0.78</td><td>25.43</td></tr></tbody></table><p>尽管我们仍然需要代理，但代理使用的完整 vCPU 不到 0.1%，
+并且仅使用 25 MiB 内存，不到运行 Envoy 所需内存的一半。</p><p>这些指标不包括应用程序容器中 gRPC 的额外资源使用情况，
+仅用于演示在此模式下对 istio-agent 的资源使用影响。</p></div><nav class=pagenav><div class=left><a title="介绍新的 Wasm 插件 API 以及 Envoy 和 Istio 中基于 Wasm 的插件支持的更新。" href=/v1.19/zh/blog/2021/wasm-api-alpha/ class=next-link><svg class="icon left-arrow"><use xlink:href="/v1.19/img/icons.svg#left-arrow"/></svg>WebAssembly 插件 Alpha 版可用性公告</a></div><div class=right><a title=允许更少的频繁升级。 href=/v1.19/zh/blog/2021/extended-support/ class=next-link>宣布对 Istio 1.9 的扩展支持<svg class="icon right-arrow"><use xlink:href="/v1.19/img/icons.svg#right-arrow"/></svg></a></div></nav></article><footer class=footer><div class="footer-wrapper container-l"><div class="user-links footer-links"><a class=channel title='Istio 的代码在 GitHub 上开发' href=https://github.com/istio/community aria-label=GitHub><svg class="icon github"><use xlink:href="/v1.19/img/icons.svg#github"/></svg></a><a class=channel title='如果您想深入了解 Istio 的技术细节，请查看我们日益完善的设计文档' href=https://groups.google.com/forum/#!forum/istio-team-drive-access aria-label="team drive"><svg class="icon drive"><use xlink:href="/v1.19/img/icons.svg#drive"/></svg></a><a class=channel title='在 Slack 上与 Istio 社区交互讨论开发问题（仅限邀请）' href=https://slack.istio.io aria-label=slack><svg class="icon slack"><use xlink:href="/v1.19/img/icons.svg#slack"/></svg></a><a class=channel title='Stack Overflow 中列举了针对实际问题以及部署、配置和使用 Istio 的各项回答' href=https://stackoverflow.com/questions/tagged/istio aria-label="Stack Overflow"><svg class="icon stackoverflow"><use xlink:href="/v1.19/img/icons.svg#stackoverflow"/></svg></a><a class=channel title='关注我们的 Twitter 来获取最新信息' href=https://twitter.com/IstioMesh aria-label=Twitter><svg class="icon twitter"><use xlink:href="/v1.19/img/icons.svg#twitter"/></svg></a></div><hr class=footer-separator role=separator><div class="info footer-info"><a class=logo href=/v1.19/zh/ aria-label=logotype><svg xmlns="http://www.w3.org/2000/svg" width="128" height="60" viewBox="0 0 128 60"><path d="M58.434 48.823A.441.441.0 0158.3 48.497V22.583a.444.444.0 01.134-.326.446.446.0 01.327-.134h3.527a.447.447.0 01.325.134.447.447.0 01.134.326v25.914a.443.443.0 01-.134.326.444.444.0 01-.325.134h-3.527a.444.444.0 01-.327-.134z"/><path d="m70.969 48.477a6.556 6.556.0 01-2.818-1.955 4.338 4.338.0 01-1-2.78v-.345a.443.443.0 01.134-.326.444.444.0 01.326-.135h3.374a.444.444.0 01.326.135.445.445.0 01.134.326v.077a2.014 2.014.0 001.054 1.667 4.672 4.672.0 002.664.709 4.446 4.446.0 002.492-.633 1.862 1.862.0 00.958-1.591 1.426 1.426.0 00-.786-1.322 12.7 12.7.0 00-2.549-.939l-1.457-.46a21.526 21.526.0 01-3.3-1.227 6.57 6.57.0 01-2.262-1.783 4.435 4.435.0 01-.92-2.894 5.081 5.081.0 012.109-4.275 8.993 8.993.0 015.558-1.591 10.445 10.445.0 014.1.748 6.3 6.3.0 012.722 2.07 5 5 0 01.958 3.009.441.441.0 01-.134.326.441.441.0 01-.325.134h-3.258a.441.441.0 01-.326-.134.443.443.0 01-.134-.326 1.974 1.974.0 00-.978-1.667 4.647 4.647.0 00-2.665-.671 4.741 4.741.0 00-2.435.556 1.724 1.724.0 00-.938 1.553 1.512 1.512.0 00.9 1.4 15.875 15.875.0 003.01 1.055l.843.229a27.368 27.368.0 013.412 1.246 6.67 6.67.0 012.338 1.763 4.387 4.387.0 01.958 2.933 4.988 4.988.0 01-2.146 4.275 9.543 9.543.0 01-5.712 1.552 11.626 11.626.0 01-4.227-.709z"/><path d="m97.039 32.837a.443.443.0 01-.326.135h-3.911a.169.169.0 00-.191.192v9.239a2.951 2.951.0 00.632 2.108 2.7 2.7.0 002.013.652h1.15a.444.444.0 01.325.134.441.441.0 01.134.326v2.875a.471.471.0 01-.459.5l-1.994.039a8 8 0 01-4.524-1.035q-1.495-1.035-1.533-3.91V33.166A.17.17.0 0088.164 32.974H85.978A.441.441.0 0185.652 32.839.441.441.0 0185.518 32.513V29.83a.441.441.0 01.134-.326.444.444.0 01.326-.135h2.186a.169.169.0 00.191-.192v-4.485a.438.438.0 01.134-.326.44.44.0 01.325-.134h3.336a.443.443.0 01.325.134.442.442.0 01.135.326v4.485a.169.169.0 00.191.192h3.911a.446.446.0 01.326.135.446.446.0 01.134.326v2.683a.446.446.0 01-.133.324z"/><path d="m101.694 25.917a2.645 2.645.0 01-.767-1.955 2.65 2.65.0 01.767-1.955 2.65 2.65.0 011.955-.767 2.65 2.65.0 011.955.767 2.652 2.652.0 01.767 1.955 2.647 2.647.0 01-.767 1.955 2.646 2.646.0 01-1.955.767 2.645 2.645.0 01-1.955-.767zm-.211 22.906a.441.441.0 01-.134-.326V29.79a.444.444.0 01.134-.326.446.446.0 01.326-.134h3.527a.446.446.0 01.326.134.445.445.0 01.134.326v18.707a.443.443.0 01-.134.326.443.443.0 01-.326.134h-3.527a.443.443.0 01-.326-.134z"/><path d="m114.019 47.734a8.1 8.1.0 01-3.047-4.255 14.439 14.439.0 01-.652-4.37 14.3 14.3.0 01.614-4.371A7.869 7.869.0 01114 30.56a9.072 9.072.0 015.252-1.5 8.543 8.543.0 015.041 1.5 7.985 7.985.0 013.009 4.14 12.439 12.439.0 01.69 4.37 13.793 13.793.0 01-.651 4.37 8.255 8.255.0 01-3.028 4.275 8.475 8.475.0 01-5.1 1.553 8.754 8.754.0 01-5.194-1.534zm7.629-3.1a4.536 4.536.0 001.476-2.262 11.335 11.335.0 00.383-3.221 10.618 10.618.0 00-.383-3.22 4.169 4.169.0 00-1.457-2.243 4.066 4.066.0 00-2.531-.785 3.942 3.942.0 00-2.453.785 4.376 4.376.0 00-1.5 2.243 11.839 11.839.0 00-.383 3.22 11.84 11.84.0 00.383 3.221 4.222 4.222.0 001.476 2.262 4.075 4.075.0 002.549.8 3.8 3.8.0 002.44-.809z"/><path d="m15.105 32.057v15.565a.059.059.0 01-.049.059L.069 50.25A.06.06.0 01.005 50.167l14.987-33.47a.06.06.0 01.114.025z"/><path d="m17.631 23.087v24.6a.06.06.0 00.053.059l22.449 2.507a.06.06.0 00.061-.084L17.745.032a.06.06.0 00-.114.024z"/><path d="m39.961 52.548-24.833 7.45a.062.062.0 01-.043.0L.079 52.548a.059.059.0 01.026-.113h39.839a.06.06.0 01.017.113z"/></svg></a><div class=footer-languages><a tabindex=-1 lang=en id=switch-lang-en class=footer-languages-item>English</a>
+<a tabindex=-1 lang=zh id=switch-lang-zh class="footer-languages-item active"><svg class="icon tick"><use xlink:href="/v1.19/img/icons.svg#tick"/></svg>中文</a></div></div><ul class=footer-policies><li class=footer-policies-item><a class=footer-policies-link href=https://www.linuxfoundation.org/legal/terms>条款</a> |
+<a class=footer-policies-link href=https://www.linuxfoundation.org/legal/privacy-policy>隐私政策</a> |
+<a class=footer-policies-link href=https://github.com/istio/istio.io/edit/release-1.19/content/zh/blog/2021/proxyless-grpc/index.md>在 GitHub 上编辑此页</a></li></ul><div class=footer-base><span class=footer-base-copyright>&copy; 2023 the Istio Authors.</span>
+<span class=footer-base-version>部分内容可能滞后于英文版本，同步工作正在进行中<br>版本
+Istio 归档
+1.19.4</span><ul class=footer-base-releases><li class=footer-base-releases-item><a tabindex=-1 class=footer-base-releases-link onclick='return navigateToUrlOrRoot("https://istio.io/blog/2021/proxyless-grpc/"),!1'>当前版本</a></li><li class=footer-base-releases-item><a tabindex=-1 class=footer-base-releases-link onclick='return navigateToUrlOrRoot("https://preliminary.istio.io/blog/2021/proxyless-grpc/"),!1'>下个版本</a></li><li class=footer-base-releases-item><a tabindex=-1 class=footer-base-releases-link href=https://istio.io/archive>旧版本</a></li></ul></div></div></footer><div id=scroll-to-top-container aria-hidden=true><button id=scroll-to-top title=回到顶部 tabindex=-1><svg class="icon top"><use xlink:href="/v1.19/img/icons.svg#top"/></svg></button></div></body></html>

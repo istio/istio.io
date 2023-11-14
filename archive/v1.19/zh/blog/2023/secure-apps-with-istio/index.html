@@ -1,0 +1,165 @@
+<!doctype html><html lang=zh itemscope itemtype=https://schema.org/WebPage><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=theme-color content="#466BB0"><meta name=title content="使用双向 TLS（mTLS）及 Istio 来保护应用程序通信"><meta name=description content="深入研究保护应用程序通信、mTLS 和 Istio，以在应用程序之间实现端到端 mTLS。"><meta name=author content="Lin Sun (Solo.io), Yuval Kohavi (Solo.io); Translated by Wilson Wu (DaoCloud)"><meta name=keywords content="microservices,services,mesh,istio,mtls,tls"><meta property="og:title" content="使用双向 TLS（mTLS）及 Istio 来保护应用程序通信"><meta property="og:type" content="website"><meta property="og:description" content="深入研究保护应用程序通信、mTLS 和 Istio，以在应用程序之间实现端到端 mTLS。"><meta property="og:url" content="/v1.19/zh/blog/2023/secure-apps-with-istio/"><meta property="og:image" content="https://raw.githubusercontent.com/istio/istio.io/master/static/img/istio-social.svg"><meta property="og:image:alt" content="Istio Logo"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="600"><meta property="og:site_name" content="Istio"><meta name=twitter:card content="summary"><meta name=twitter:site content="@IstioMesh"><title>Istioldie 1.19 / 使用双向 TLS（mTLS）及 Istio 来保护应用程序通信</title><script async src="https://www.googletagmanager.com/gtag/js?id=UA-98480406-2"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","UA-98480406-2")</script><link rel=alternate type=application/rss+xml title="Istio Blog" href=/v1.19/blog/feed.xml><link rel=alternate type=application/rss+xml title="Istio News" href=/v1.19/news/feed.xml><link rel=alternate type=application/rss+xml title="Istio Blog and News" href=/v1.19/feed.xml><link rel="shortcut icon" href=/v1.19/favicons/favicon.ico><link rel=apple-touch-icon href=/v1.19/favicons/apple-touch-icon-180x180.png sizes=180x180><link rel=icon type=image/png href=/v1.19/favicons/favicon-16x16.png sizes=16x16><link rel=icon type=image/png href=/v1.19/favicons/favicon-32x32.png sizes=32x32><link rel=icon type=image/png href=/v1.19/favicons/android-36x36.png sizes=36x36><link rel=icon type=image/png href=/v1.19/favicons/android-48x48.png sizes=48x48><link rel=icon type=image/png href=/v1.19/favicons/android-72x72.png sizes=72x72><link rel=icon type=image/png href=/v1.19/favicons/android-96x96.png sizes=96xW96><link rel=icon type=image/png href=/v1.19/favicons/android-144x144.png sizes=144x144><link rel=icon type=image/png href=/v1.19/favicons/android-192x192.png sizes=192x192><link rel=icon type=image/svg+xml href=/v1.19/favicons/favicon.svg><link rel=icon type=image/png href=/v1.19/favicons/favicon.png><link rel=mask-icon href=/v1.19/favicons/safari-pinned-tab.svg color=#466bb0><link rel=manifest href=/v1.19/manifest.json><meta name=apple-mobile-web-app-title content="Istio"><meta name=application-name content="Istio"><meta name=msapplication-config content="/browserconfig.xml"><meta name=msapplication-TileColor content="#466BB0"><meta name=theme-color content="#466BB0"><link rel=stylesheet href=/v1.19/css/all.css><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap"><script src=/v1.19/js/themes_init.min.js></script></head><body class="language-unknown archive-site"><script>const branchName="release-1.19",docTitle="使用双向 TLS（mTLS）及 Istio 来保护应用程序通信",iconFile="/v1.19/img/icons.svg",buttonCopy="复制到剪切板",buttonPrint="打印",buttonDownload="下载"</script><script src="https://www.google.com/cse/brand?form=search-form" defer></script>
+<script src=/v1.19/js/all.min.js data-manual defer></script><header class=main-navigation><nav class="main-navigation-wrapper container-l"><div class=main-navigation-header><a id=brand href=/v1.19/zh/ aria-label=logotype><span class=logo><svg xmlns="http://www.w3.org/2000/svg" width="128" height="60" viewBox="0 0 128 60"><path d="M58.434 48.823A.441.441.0 0158.3 48.497V22.583a.444.444.0 01.134-.326.446.446.0 01.327-.134h3.527a.447.447.0 01.325.134.447.447.0 01.134.326v25.914a.443.443.0 01-.134.326.444.444.0 01-.325.134h-3.527a.444.444.0 01-.327-.134z"/><path d="m70.969 48.477a6.556 6.556.0 01-2.818-1.955 4.338 4.338.0 01-1-2.78v-.345a.443.443.0 01.134-.326.444.444.0 01.326-.135h3.374a.444.444.0 01.326.135.445.445.0 01.134.326v.077a2.014 2.014.0 001.054 1.667 4.672 4.672.0 002.664.709 4.446 4.446.0 002.492-.633 1.862 1.862.0 00.958-1.591 1.426 1.426.0 00-.786-1.322 12.7 12.7.0 00-2.549-.939l-1.457-.46a21.526 21.526.0 01-3.3-1.227 6.57 6.57.0 01-2.262-1.783 4.435 4.435.0 01-.92-2.894 5.081 5.081.0 012.109-4.275 8.993 8.993.0 015.558-1.591 10.445 10.445.0 014.1.748 6.3 6.3.0 012.722 2.07 5 5 0 01.958 3.009.441.441.0 01-.134.326.441.441.0 01-.325.134h-3.258a.441.441.0 01-.326-.134.443.443.0 01-.134-.326 1.974 1.974.0 00-.978-1.667 4.647 4.647.0 00-2.665-.671 4.741 4.741.0 00-2.435.556 1.724 1.724.0 00-.938 1.553 1.512 1.512.0 00.9 1.4 15.875 15.875.0 003.01 1.055l.843.229a27.368 27.368.0 013.412 1.246 6.67 6.67.0 012.338 1.763 4.387 4.387.0 01.958 2.933 4.988 4.988.0 01-2.146 4.275 9.543 9.543.0 01-5.712 1.552 11.626 11.626.0 01-4.227-.709z"/><path d="m97.039 32.837a.443.443.0 01-.326.135h-3.911a.169.169.0 00-.191.192v9.239a2.951 2.951.0 00.632 2.108 2.7 2.7.0 002.013.652h1.15a.444.444.0 01.325.134.441.441.0 01.134.326v2.875a.471.471.0 01-.459.5l-1.994.039a8 8 0 01-4.524-1.035q-1.495-1.035-1.533-3.91V33.166A.17.17.0 0088.164 32.974H85.978A.441.441.0 0185.652 32.839.441.441.0 0185.518 32.513V29.83a.441.441.0 01.134-.326.444.444.0 01.326-.135h2.186a.169.169.0 00.191-.192v-4.485a.438.438.0 01.134-.326.44.44.0 01.325-.134h3.336a.443.443.0 01.325.134.442.442.0 01.135.326v4.485a.169.169.0 00.191.192h3.911a.446.446.0 01.326.135.446.446.0 01.134.326v2.683a.446.446.0 01-.133.324z"/><path d="m101.694 25.917a2.645 2.645.0 01-.767-1.955 2.65 2.65.0 01.767-1.955 2.65 2.65.0 011.955-.767 2.65 2.65.0 011.955.767 2.652 2.652.0 01.767 1.955 2.647 2.647.0 01-.767 1.955 2.646 2.646.0 01-1.955.767 2.645 2.645.0 01-1.955-.767zm-.211 22.906a.441.441.0 01-.134-.326V29.79a.444.444.0 01.134-.326.446.446.0 01.326-.134h3.527a.446.446.0 01.326.134.445.445.0 01.134.326v18.707a.443.443.0 01-.134.326.443.443.0 01-.326.134h-3.527a.443.443.0 01-.326-.134z"/><path d="m114.019 47.734a8.1 8.1.0 01-3.047-4.255 14.439 14.439.0 01-.652-4.37 14.3 14.3.0 01.614-4.371A7.869 7.869.0 01114 30.56a9.072 9.072.0 015.252-1.5 8.543 8.543.0 015.041 1.5 7.985 7.985.0 013.009 4.14 12.439 12.439.0 01.69 4.37 13.793 13.793.0 01-.651 4.37 8.255 8.255.0 01-3.028 4.275 8.475 8.475.0 01-5.1 1.553 8.754 8.754.0 01-5.194-1.534zm7.629-3.1a4.536 4.536.0 001.476-2.262 11.335 11.335.0 00.383-3.221 10.618 10.618.0 00-.383-3.22 4.169 4.169.0 00-1.457-2.243 4.066 4.066.0 00-2.531-.785 3.942 3.942.0 00-2.453.785 4.376 4.376.0 00-1.5 2.243 11.839 11.839.0 00-.383 3.22 11.84 11.84.0 00.383 3.221 4.222 4.222.0 001.476 2.262 4.075 4.075.0 002.549.8 3.8 3.8.0 002.44-.809z"/><path d="m15.105 32.057v15.565a.059.059.0 01-.049.059L.069 50.25A.06.06.0 01.005 50.167l14.987-33.47a.06.06.0 01.114.025z"/><path d="m17.631 23.087v24.6a.06.06.0 00.053.059l22.449 2.507a.06.06.0 00.061-.084L17.745.032a.06.06.0 00-.114.024z"/><path d="m39.961 52.548-24.833 7.45a.062.062.0 01-.043.0L.079 52.548a.059.059.0 01.026-.113h39.839a.06.06.0 01.017.113z"/></svg></span></a><button id=hamburger class=main-navigation-toggle aria-label="Open navigation"><svg class="icon menu-hamburger"><use xlink:href="/v1.19/img/icons.svg#menu-hamburger"/></svg></button>
+<button id=menu-close class=main-navigation-toggle aria-label="Close navigation"><svg class="icon menu-close"><use xlink:href="/v1.19/img/icons.svg#menu-close"/></svg></button></div><div id=header-links class=main-navigation-links-wrapper><ul class=main-navigation-links><li class=main-navigation-links-item><a class="main-navigation-links-link has-dropdown"><span>关于</span><svg class="icon dropdown-arrow"><use xlink:href="/v1.19/img/icons.svg#dropdown-arrow"/></svg></a><ul class=main-navigation-links-dropdown><li class=main-navigation-links-dropdown-item><a href=/v1.19/zh/about/service-mesh class=main-navigation-links-link>服务网格</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.19/zh/about/solutions class=main-navigation-links-link>解决方案</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.19/zh/about/case-studies class=main-navigation-links-link>案例学习</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.19/zh/about/ecosystem class=main-navigation-links-link>生态系统</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.19/zh/about/deployment class=main-navigation-links-link>部署</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.19/zh/about/faq class=main-navigation-links-link>FAQ</a></li></ul></li><li class=main-navigation-links-item><a href=/v1.19/zh/blog/ class=main-navigation-links-link><span>博客</span></a></li><li class=main-navigation-links-item><a href=/v1.19/zh/news/ class=main-navigation-links-link><span>新闻</span></a></li><li class=main-navigation-links-item><a href=/v1.19/zh/get-involved/ class=main-navigation-links-link><span>加入我们</span></a></li><li class=main-navigation-links-item><a href=/v1.19/zh/docs/ class=main-navigation-links-link><span>文档</span></a></li></ul><div class=main-navigation-footer><button id=search-show class=search-show title='搜索 istio.io' aria-label=搜索><svg class="icon magnifier"><use xlink:href="/v1.19/img/icons.svg#magnifier"/></svg></button>
+<a href=/v1.19/zh/docs/setup/getting-started class="btn btn--primary" id=try-istio>试用 Istio</a></div></div><form id=search-form class=search name=cse role=search><input type=hidden name=cx value=002184991200833970123:iwwf17ikgf4>
+<input type=hidden name=ie value=utf-8>
+<input type=hidden name=hl value=zh>
+<input type=hidden id=search-page-url value=/zh/search>
+<input id=search-textbox class="search-textbox form-control" name=q type=search aria-label='搜索 istio.io' placeholder=搜索>
+<button id=search-close title=取消搜索 type=reset aria-label=取消搜索><svg class="icon menu-close"><use xlink:href="/v1.19/img/icons.svg#menu-close"/></svg></button></form></nav></header><div class=banner-container></div><article class=post itemscope itemtype=http://schema.org/BlogPosting><div class=header-content><h1>使用双向 TLS（mTLS）及 Istio 来保护应用程序通信</h1><p>深入研究保护应用程序通信、mTLS 和 Istio，以在应用程序之间实现端到端 mTLS。</p></div><p class=post-author>Oct 17, 2023 <span>|</span> By Lin Sun - Solo.io, Yuval Kohavi - Solo.io; Translated by Wilson Wu - DaoCloud</p><div><p>用户采用服务网格的最大原因之一是使用基于加密可验证身份的双向 TLS（mTLS）
+来实现应用程序之间的安全通信。在本博客中，我们将讨论应用程序之间安全通信的要求，
+以及 mTLS 如何启用和满足所有这些要求，并介绍了简单的步骤让您可以使用 Istio 在应用程序之间启用 mTLS。</p><h2 id=what-do-you-need-to-secure-the-communications-among-your-applications>您需要怎样保护应用程序之间的通信？</h2><p>现代云原生应用程序经常分布在多个 Kubernetes 集群或虚拟机上。
+新版本被频繁上架，还需要根据用户请求量快速扩缩。
+随着现代应用程序不再依赖于同位共址的方式来获得资源利用效率，
+增加了多个访问入口的同时也导致了更大的攻击面，
+因此对分布式应用程序施加访问策略并确保这些应用程序之间通信安全的能力变得至关重要。忽视这一点将会因数据丢失、
+数据被盗、伪造数据或简单的处理不当而带来巨大的业务风险。</p><p>以下是应用程序之间安全通信的常见关键要求：</p><h3 id=identities>身份</h3><p>身份是任何安全架构的基本组成部分。在您的应用程序可以安全地发送数据之前，
+必须为应用程序建立<strong>身份</strong>。这个<strong>建立身份</strong>的过程称为<strong>身份验证</strong> - 它涉及一些众所周知的、
+受信任的<strong>权威机构</strong>对应用程序工作负载执行一项或多项检查，
+以确定其是否如所声称的那样。一旦权威机构设定的要求被满足，该机构就会授予工作负载一个身份。</p><p>考虑一下签发护照的行为 - 您将向某个机构申请护照，该机构可能会要求您提供几种不同的身份验证，
+以证明您是自己所陈述的身份 - 出生证明、居住地址、医疗记录等。一旦您满足了所有身份验证要求，
+您将（有希望）获得身份证明文件。您可以将该身份证明文件交给其他人，
+作为您已满足发证机构的所有身份验证要求的证据，如果他们信任发证机构（以及身份证明文件本身），
+他们就可以相信其对您的描述（或他们可以联系这个受信任的机构并验证该文件）。</p><p>身份可以采取任何形式，但是，与任何形式的身份证明文件一样，身份验证越弱，
+就越容易伪造，并且身份证明文件对于任何使用它来做出决定的人来说用处就越小。
+这就是为什么在计算领域，可加密验证的身份如此重要 - 身份由可验证的权威机构签署，
+类似于您的护照和驾照。未经权威机构签发的身份机制是一个相对容易被利用的安全漏洞。</p><p>您的系统可能具有从网络属性派生的身份，例如带有分布式身份缓存的 IP 地址，
+这种缓存会跟踪身份与这些网络属性之间的映射。这些身份没有像可加密验证的身份那样得到强有力的保证，
+因为 IP 地址可能会重新分配给不同的工作负载，并且身份缓存可能并不总是被更新到最新。</p><p>你的应用程序需要使用可加密验证的身份，
+因为在连接建立期间为应用程序交换可加密验证的身份本质上比依赖于将 IP 地址映射到身份的系统更可靠、更安全。
+后者采用的系统依赖于分布式身份缓存，最终一致性和过期都是个问题，
+这可能会在 Kubernetes 中造成结构性弱点，使得 Pod 自动流失率高成为常态。</p><h3 id=confidentiality>保密性</h3><p>对应用程序之间传输的数据进行加密至关重要 - 因为在这样一个违规行为屡见不鲜、违规造成的成本高昂、采取的通用防范措施收效甚微的世道中，
+完全依赖<strong>安全的</strong>内部环境或其他安全边界早已不再足够。
+为了防止<a href=https://zh.wikipedia.org/wiki/%E4%B8%AD%E9%97%B4%E4%BA%BA%E6%94%BB%E5%87%BB>中间人攻击</a>，
+您需要有一个对源和目标配对的唯一加密通道，
+因为您需要强大的身份唯一性保证用于避免<a href=https://en.wikipedia.org/wiki/Confused_deputy_problem>混乱的代表问题</a>。
+换句话说，仅拥有加密通道是不够的 - 必须使用直接从唯一源和目标身份派生的唯一密钥进行加密，
+以便只有源和目标才能解密数据。此外，您可能需要自定义加密，例如根据您安全团队的要求选择特定的加密算法。</p><h3 id=integrity>完整性</h3><p>通过网络从源发送到目标的加密数据一旦发送，就不能被除源和目标之外的任何身份进行修改。
+换句话说，接收到的数据与发送的数据相同。如果您不具有<a href=https://zh.wikipedia.org/wiki/%E6%95%B0%E6%8D%AE%E5%AE%8C%E6%95%B4%E6%80%A7>数据完整性</a>，
+那么中间人可能会在源和目标之间的通信过程中修改数据的某些位或整个内容。</p><h3 id=access-policy-enforcement>访问策略执行</h3><p>应用程序所有者需要将访问策略实施于应用程序中，并正确、一致且明确地执行这些策略。
+为了对通信通道的两端实施策略，我们需要为每一端提供一个应用程序身份。
+一旦我们拥有了可加密验证的身份，并为潜在通信渠道的两端提供了明确的来源链，
+我们就可以开始应用关于谁可以与什么通信的策略。标准 TLS 是一种广泛使用的加密协议，
+可保护客户端（例如 Web 浏览器）和服务器（例如 Web 服务器）之间的通信安全，
+它仅真正验证并强制一侧（即服务器）的身份。但对于全面的端到端策略执行，
+客户端和服务器双方拥有可靠、可验证、明确的身份至关重要。
+这是内部应用程序的常见要求 - 想象一下这样的场景：只有 <code>frontend</code> 应用程序应该调用后端
+<code>checkout</code> 应用程序的 <strong>GET</strong> 方法，但不应允许调用 <code>POST</code> 或 <code>DELETE</code> 方法。
+或者是这样一个场景：应用程序只有具有特定 JWT 颁发者颁发的 JWT 令牌时才能调用 <code>checkout</code> 应用程序的 <code>GET</code> 方法。
+通过利用两端的加密身份，我们可以确保正确、安全、可靠地执行强大的访问策略，并具有可验证的审计跟踪。</p><h3 id=fips-compliance>FIPS 合规性</h3><p><a href=https://www.nist.gov/standardsgov/compliance-faqs-federal-information-processing-standards-fips>联邦信息处理标准（FIPS）</a>
+是由<a href=https://www.nist.gov/>美国国家标准与技术研究院（NIST）</a>制定的联邦计算机系统的标准和指南。
+并非每个人都需要 FIPS 合规性，但 FIPS 合规性意味着满足美国政府为保护敏感信息而制定的所有必要的安全要求。
+与美国联邦政府合作时合规是必需的要求。为了遵循美国政府制定的有关网络安全的指导方针，
+许多民营企业自愿遵从这些 FIPS 标准。</p><p>为了说明上述安全应用程序要求（身份、保密性和完整性），
+我们以 <code>frontend</code> 应用程序调用 <code>checkout</code> 应用程序为例。请记住，
+您可以将图中的 <strong>ID</strong> 视为任何类型的身份证明文件，例如政府颁发的护照、带照片的身份证明：</p><figure style=width:100%><div class=wrapper-with-intrinsic-ratio style=padding-bottom:62.545899632802936%><a data-skipendnotes=true href=/v1.19/zh/blog/2023/secure-apps-with-istio/requirements-flow.png title="当 frontend 调用 checkout 应用程序时的要求"><img class=element-to-stretch src=/v1.19/zh/blog/2023/secure-apps-with-istio/requirements-flow.png alt="当 frontend 调用 checkout 应用程序时的要求"></a></div><figcaption>当 frontend 调用 checkout 应用程序时的要求</figcaption></figure><h2 id=how-does-mtls-satisfy-the-above-requirements>mTLS 是如何满足上述要求的？</h2><p>TLS 1.3（撰写本文时最新的 TLS 版本）
+<a href=https://datatracker.ietf.org/doc/html/rfc8446>规范</a>的主要目标是在两个通信对等点之间提供安全通道。
+TLS 安全通道具有以下特征：</p><ol><li>身份验证：通道的服务器端始终进行身份验证，客户端也可以选择进行身份验证。
+当客户端也经过身份验证时，安全通道将成为双向 TLS 通道。</li><li>保密性：数据经过加密，只有客户端和服务器可见。
+数据必须使用密钥进行明确加密并绑定到源和目标身份文件中，以便可靠地保护应用层流量。</li><li>完整性：在此通道上传输的数据不会在未经察觉的情况下被篡改。
+这个效果的保证基于一个事实：只有源和目标具有加密和解密给定会话数据的密钥。</li></ol><h3 id=mtls-internals>mTLS 内部</h3><p>我们已经确定，可加密验证的身份是保护通道安全和支持访问策略执行的关键，
+并且我们已经确定，mTLS 是一种经过实战检验的协议，
+它要求在通道两端使用可加密验证的身份提供一些极其重要的保证。接下来让我们详细了解 mTLS 协议的实际工作原理。</p><h4 id=handshake-protocol>握手协议</h4><p><a href=https://datatracker.ietf.org/doc/html/rfc8446#section-4>握手协议</a>对通信对等方进行身份验证，
+协商加密模式和参数，并建立共享密钥材料。换句话说，
+握手的作用是验证通信对等方的身份并协商会话密钥，以便可以根据会话密钥对连接的其余部分进行加密。
+当您的应用程序建立 mTLS 连接时，服务器和客户端会协商一个密码套件，
+该套件决定您的应用程序将用于其余连接的加密算法，并且您的应用程序还会协商要使用的加密会话密钥。
+整个握手过程采用防篡改设计 — 任何未拥有与源和/或目标相同特征、可加密验证的身份文件实体干扰都将被拒绝。
+因此，在任何通信对等方继续处理应用程序数据之前，检查整个握手并验证其完整性非常重要。</p><p>根据 TLS 1.3 规范中的<a href=https://datatracker.ietf.org/doc/html/rfc8446#section-2>握手协议概述</a>，
+握手可以被认为具有三个阶段 - 让我们再次使用 <code>frontend</code> 应用程序调用后端 <code>checkout</code> 应用程序的示例：</p><ol><li>第 1 阶段：<code>frontend</code> 和 <code>checkout</code> 协商可用于保护其余握手和流量数据的加密参数和加密密钥。</li><li>第 2 阶段：此阶段及之后的所有内容均被加密。在此阶段，<code>frontend</code> 和 <code>checkout</code> 建立其他握手参数，
+以及客户端是否也经过 mTLS 等身份验证。</li><li>第 3 阶段：<code>frontend</code> 通过其可加密验证的身份来验证 <code>checkout</code>
+（若采用 mTLS，<code>checkout</code> 还会以相同的方式验证 <code>frontend</code>）。</li></ol><p>与 TLS 1.2 相比，握手相关的内容存在以下几个较大差异，
+请参阅 TLS 1.3 规范以了解<a href=https://datatracker.ietf.org/doc/html/rfc8446#section-1.2>更多详细信息</a>：</p><ol><li>所有握手消息（第 2 阶段和第 3 阶段）<strong>均使用第 1 阶段协商的加密密钥</strong>进行加密。</li><li>传统对称加密算法已被修剪。</li><li>新增零往返时间（0-RTT）模式，节省连接建立时的往返时间。</li></ol><h4 id=record-protocol>记录协议</h4><p>在握手阶段协商了 TLS 协议版本、会话密钥和
+<a href=https://en.wikipedia.org/wiki/HMAC>HMAC</a> 后，
+对等方现在可以安全地交换由<a href=https://datatracker.ietf.org/doc/html/rfc8446#section-5>记录协议</a>分块的加密数据。
+使用与握手中完全相同的协商参数来加密流量以确保流量的保密性和完整性至关重要（这也是此规范所要求的一部分）。</p><p>将 TLS 1.3 规范中的两个协议放在一起，
+并使用 <code>frontend</code> 和 <code>checkout</code> 应用程序来说明流程，如下所示：</p><figure style=width:100%><div class=wrapper-with-intrinsic-ratio style=padding-bottom:59.57746478873239%><a data-skipendnotes=true href=/v1.19/zh/blog/2023/secure-apps-with-istio/mtls-flow.png title="当 frontend 调用 checkout 应用程序时的 mTLS 流程"><img class=element-to-stretch src=/v1.19/zh/blog/2023/secure-apps-with-istio/mtls-flow.png alt="当 frontend 调用 checkout 应用程序时的 mTLS 流程"></a></div><figcaption>当 frontend 调用 checkout 应用程序时的 mTLS 流程</figcaption></figure><p>谁为 <code>frontend</code> 和 <code>checkout</code> 颁发身份证书？
+它们通常由<a href=https://zh.wikipedia.org/wiki/%E8%AF%81%E4%B9%A6%E9%A2%81%E5%8F%91%E6%9C%BA%E6%9E%84>证书颁发机构（CA）</a>颁发，
+该机构拥有自己的<a href=https://zh.wikipedia.org/wiki/%E6%A0%B9%E8%AF%81%E4%B9%A6>根证书</a>或使用来自其根 CA 的中间证书。
+根证书基本上是一个用于标识根 CA 的公钥证书，您的组织中可能已经拥有该根 CA。
+除了其自己的根签名身份证书之外，根证书还分发到 <code>frontend</code>（或 <code>checkout</code>）。
+这就是日常基本公钥基础设施（PKI）的工作方式 - CA 负责验证实体的身份文件，
+然后以证书的形式授予其不可伪造的身份文件。</p><p>您可以依靠您的 CA 和中间 CA 作为身份<strong>真相</strong>的来源，
+以一种结构方式保持高可用性和稳定、持久可验证的身份保证，
+而 IP 和身份映射的大规模分布式缓存根本无法做到这一点。
+当 <code>frontend</code> 和 <code>checkout</code> 身份证书由同一根证书颁发时，
+<code>frontend</code> 和 <code>checkout</code> 可以一致且可靠地验证其对等身份，
+无论它们以何种规模运行在哪个集群或节点。</p><p>您已经了解 mTLS 如何提供加密身份、保密性和完整性，
+那么当您在多个集群中扩展到数千个或更多应用程序时，可扩展性如何？
+如果您跨多个集群建立单个根证书，则系统不需要关心您的应用程序何时从另一个集群获取连接请求，
+只要它受到根证书的信任即可 - 系统知道连接上的身份是已验证的加密方式。
+当您的应用程序 Pod 更改 IP 或重新部署到不同的集群或网络时，
+您的应用程序（或代表它的组件）只需使用 CA 生成的受信任证书将流量发送到目标。
+可以是 500+ 网络跳转，也可以是直达；无论拓扑如何，您的应用程序的访问策略都会以相同的方式强制执行，
+无需跟踪身份缓存并计算哪个 IP 地址映射到哪个应用程序 Pod。</p><p>FIPS 合规性怎么样？根据 TLS 1.3 规范，
+符合 TLS 的应用程序必须实现 <code>TLS_AES_128_GCM_SHA256</code> 密码套件，
+并建议实现 <code>TLS_AES_256_GCM_SHA384</code>，这两者也包含在由 NIST 发布的
+<a href=https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-52r2.pdf>TLS 指南</a>中。
+TLS 1.3 规范和 NIST 的 TLS 指南也推荐使用 RSA 或 ECDSA 服务器证书。
+只要您为 mTLS 连接使用 mTLS 和符合 FIPS 140-2 或 140-3 的加密模块，
+就能够符合 <a href=https://csrc.nist.gov/projects/cryptographic-module-validation-program/validated-modules>FIPS 140-2 或 140-3 验证</a>。</p><h2 id=what-could-go-wrong>可能会出现什么问题</h2><p>严格按照 TLS 1.3 规范的规定实施 mTLS 至关重要。
+如果不使用符合 TLS 规范的正确 mTLS，可能会在未察觉的情况下出现以下问题：</p><h3 id=what-if-someone-in-the-middle-of-the-connection-silently-captures-the-encrypted-data>如果连接中间有人静默捕获加密数据怎么办？</h3><p>如果连接不完全遵循 TLS 规范中概述的握手和记录协议，
+例如，连接遵循握手协议，但不使用记录协议中握手中协商的会话密钥和参数，
+您可能会遇到以下情况：连接的握手与记录协议无关，其中握手和记录协议之间的身份可能不同。
+TLS 要求握手和记录协议共享相同的连接，因为将它们分开会增加中间人攻击的攻击面。</p><p>mTLS 连接从握手开始到结束都具有一致的端到端安全性。
+加密数据通过使用证书中的公钥协商的会话密钥进行加密。
+只有源和目标才能使用私钥解密数据。换句话说，
+只有拥有私钥的证书所有者才能解密数据。除非黑客控制了证书的私钥，
+否则他或她没有办法扰乱 mTLS 连接来成功执行中间人攻击。</p><h3 id=what-if-either-source-or-destination-identity-is-not-cryptographically-secure>如果源身份或目标身份未以加密方式确保安全怎么办？</h3><p>如果身份基于 IP 地址等网络特征（可以重新分配给其他 Pod），
+则无法使用加密技术来验证身份。由于此类身份不是基于加密身份，
+因此您的系统可能有一个身份缓存来跟踪身份、Pod 的网络标签、
+相应的 IP 地址和部署 Pod 的 Kubernetes 节点信息之间的映射。
+使用身份缓存时，当身份缓存短时间内不同步时，您可能会遇到 Pod IP
+地址被重复使用和身份错误的情况，因为策略未被正确执行。
+例如，如果您在对等点之间的连接上没有加密身份，
+您的系统将必须从身份缓存中获取身份，该身份可能已过时或不完整。</p><p>这些将身份映射到工作负载 IP 的身份缓存不是
+<a href=https://zh.wikipedia.org/wiki/ACID>ACID</a>（原子性、一致性、隔离性和持久性），
+并且您希望您的安全系统应用于某些内容并具备强有力的保证。
+考虑以下您可能要自省的特征和问题：</p><ul><li>过时性：对等方如何验证缓存中的条目是否是<strong>当前</strong>的？</li><li>不完整性：如果存在缓存未命中并且系统无法关闭连接，
+当只有缓存<strong>同步器</strong>出现故障时，网络是否会变得不稳定？</li><li>如果某个东西根本没有 IP 怎么办？例如，AWS Lambda 服务默认没有公共 IP。</li><li>非事务性：如果您读取身份两次，您会看到相同的值吗？
+如果您在访问策略或审核实施方面不小心，这可能会导致真正的问题。</li><li>谁来保护守卫本身？是否有像 CA 那样保护缓存的既定做法？
+您有什么证据证明缓存没有被篡改？
+您是否被迫推理（并审核）某些不属于您的 CA 的复杂基础设施的安全性？</li></ul><p>上述某几条的情况可能相对更为糟糕。您可以应用<strong>失败关闭</strong>原则，但这并不能解决上述所有问题。</p><p>身份还用于执行访问策略（例如授权策略），这些访问策略位于请求路径中，
+您的系统必须快速做出决定以允许或拒绝访问。每当身份出现错误时，
+访问策略就可能被绕过而不会被检测或审计。例如，
+您的身份缓存可能会将您的 <code>checkout</code> Pod 之前分配的 IP
+地址关联为 <code>checkout</code> 的一个身份。如果 <code>checkout</code> Pod 被回收，
+并且相同的 IP 地址被分配给 <code>frontend</code> 的一个 Pod，
+则该 <code>frontend</code> Pod 可能在缓存更新之前就拥有 <code>checkout</code> 的身份，
+这可能会导致错误的访问策略被执行。</p><p>让我们假设以下大规模多集群部署来说明身份缓存的过时性问题：</p><ol><li>100 个集群，每个集群有 100 个节点，每个节点有 20 个 Pod。Pod 总数为 200,000 个。</li><li>0.25% 的 Pod 始终处于搅动状态（滚动、重启、恢复、节点搅动等），每次搅动的时间窗为 10 秒。</li><li>每 10 秒将 500 个正在搅动的 Pod 被分发到 10,000 个节点（缓存）。</li><li>如果缓存同步器停止运行 5 分钟，系统的陈旧百分比 - 可能高达 <strong>7.5%</strong>！</li></ol><p>上面假设缓存同步器处于稳定状态。如果缓存同步器出现故障，
+则会影响其运行状况检查，以增加流失率，从而导致级联不稳定性。</p><p>CA 也可能被呈现为其他人的攻击者<a href=https://en.wikipedia.org/wiki/Certificate_authority#CA_compromise>妥协</a>以及欺骗 CA 进行证书颁发。
+然后，攻击者可以使用该证书与其他对等点进行通信。在这种情况下，
+可以通过<a href=https://en.wikipedia.org/wiki/Certificate_authority#Certificate_replication>证书吊销</a>使其不再有效来进行补救。
+否则，攻击者可以利用受损的证书直至其过期。
+将根证书的私钥保存在保持<a href=https://zh.wikipedia.org/wiki/%E5%9C%A8%E7%BA%BF%E5%92%8C%E7%A6%BB%E7%BA%BF>离线</a>的 HSM
+中并使用中间证书来签署工作负载证书至关重要。如果 CA 出现故障或停滞 5 分钟，
+您将无法获取新的或续订的工作负载证书，但之前颁发的有效证书将继续为您的工作负载提供强大的身份保证。
+为了提高颁发的可靠性，您可以将中间 CA 部署到不同的可用区和区域。</p><h2 id=mtls-in-istio>Istio 中的 mTLS</h2><h3 id=enable-mtls>启用 mTLS</h3><p>在 Istio 中为网格内应用程序启用 mTLS 非常简单。
+您所需要做的就是将应用程序添加到网格中，这可以通过对命名空间打 Sidecar 注入或 Ambient 标签来完成。
+对于 Sidecar，需要滚动重启才能将 Sidecar 注入到您的应用程序 Pod 中。</p><h3 id=cryptographic-identity>加密身份</h3><p>在 Kubernetes 环境中，<a href=/v1.19/zh/docs/concepts/security/#istio-identity>Istio</a>
+根据其服务帐户创建应用程序的身份。将应用程序添加到网格后，将向网格中的每个应用程序 Pod 提供身份证书。</p><p>默认情况下，您的 Pod 身份证书将在 24 小时后过期，
+并且 Istio 每 12 小时轮换一次 Pod 身份证书，因此，
+如果发生泄露（例如，CA 泄露或 Pod 私钥被盗），
+泄露的证书仅在证书到期前非常有限的时间可用，因此限制了它可能造成的损害。</p><h3 id=enforce-strict-mtls>执行严格的 mTLS</h3><p>默认的 mTLS 行为就是不严格执行的 mTLS。
+若要严格强制您的应用程序仅接受 mTLS 流量，您可以使用 Istio 的
+<a href=/v1.19/zh/docs/reference/config/security/peer_authentication/>PeerAuthentication</a>
+策略（网格范围或每个命名空间或工作负载）。此外，您还可以应用 Istio 的
+<a href=/v1.19/zh/docs/reference/config/security/authorization-policy/>AuthorizationPolicy</a>
+来控制工作负载的访问。</p><h3 id=tls-version>TLS 版本</h3><p>TLS 的 1.3 版是 Istio 中默认的网格内应用程序与 Envoy
+的<a href=https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/transport_sockets/tls/v3/common.proto>默认密码套件</a>
+（例如 Istio 1.19.0 中的 <code>TLS_AES_256_GCM_SHA384</code>）。如果您需要较旧的 TLS 版本，
+可以为您的工作负载<a href=/v1.19/zh/docs/tasks/security/tls-configuration/workload-min-tls-version/>配置不同网格范围的最低 TLS 协议版本</a>。</p><h2 id=wrapping-up>总结</h2><p>TLS 协议由互联网工程任务组（IETF）制定，是现有的审查最广泛、经专家认可、
+得到实战检验的数据安全协议之一。TLS 在全球范围内也被广泛使用。当您访问任意安全的网站时，
+您可以放心购物的部分原因是那个挂锁图标，这表明您已使用 TLS 安全地连接到受信任的网站。
+TLS 1.3 协议的设计具有端到端身份验证、保密性和完整性，以确保应用程序的身份和通信不会受到损害，
+并防止中间人攻击。为了实现这一点（并被视为符合标准的 TLS），正确验证通信对等方非常重要，
+而且使用握手建立的密钥对流量进行加密也很重要。既然您知道 mTLS
+擅长满足您的安全应用程序通信要求（加密身份、保密性、完整性和访问策略实施），
+您只需使用 Istio 即可通过开箱即用的 mTLS 升级您的网格内应用程序通信 - 只需很少的配置！</p><p>非常感谢 Louis Ryan、Ben Leggett、John Howard、Christian Posta、Justin Pettit，他们在博客的审核以及更新建议方面贡献了大量时间！</p></div><nav class=pagenav><div class=left></div><div class=right><a title="简要回顾上海 KubeCon + CloudNativeCon + Open Source Summit China 中的 Istio 主题演讲。" href=/v1.19/zh/blog/2023/istiocon-china/ class=next-link>IstioCon China 2023 总结<svg class="icon right-arrow"><use xlink:href="/v1.19/img/icons.svg#right-arrow"/></svg></a></div></nav></article><footer class=footer><div class="footer-wrapper container-l"><div class="user-links footer-links"><a class=channel title='Istio 的代码在 GitHub 上开发' href=https://github.com/istio/community aria-label=GitHub><svg class="icon github"><use xlink:href="/v1.19/img/icons.svg#github"/></svg></a><a class=channel title='如果您想深入了解 Istio 的技术细节，请查看我们日益完善的设计文档' href=https://groups.google.com/forum/#!forum/istio-team-drive-access aria-label="team drive"><svg class="icon drive"><use xlink:href="/v1.19/img/icons.svg#drive"/></svg></a><a class=channel title='在 Slack 上与 Istio 社区交互讨论开发问题（仅限邀请）' href=https://slack.istio.io aria-label=slack><svg class="icon slack"><use xlink:href="/v1.19/img/icons.svg#slack"/></svg></a><a class=channel title='Stack Overflow 中列举了针对实际问题以及部署、配置和使用 Istio 的各项回答' href=https://stackoverflow.com/questions/tagged/istio aria-label="Stack Overflow"><svg class="icon stackoverflow"><use xlink:href="/v1.19/img/icons.svg#stackoverflow"/></svg></a><a class=channel title='关注我们的 Twitter 来获取最新信息' href=https://twitter.com/IstioMesh aria-label=Twitter><svg class="icon twitter"><use xlink:href="/v1.19/img/icons.svg#twitter"/></svg></a></div><hr class=footer-separator role=separator><div class="info footer-info"><a class=logo href=/v1.19/zh/ aria-label=logotype><svg xmlns="http://www.w3.org/2000/svg" width="128" height="60" viewBox="0 0 128 60"><path d="M58.434 48.823A.441.441.0 0158.3 48.497V22.583a.444.444.0 01.134-.326.446.446.0 01.327-.134h3.527a.447.447.0 01.325.134.447.447.0 01.134.326v25.914a.443.443.0 01-.134.326.444.444.0 01-.325.134h-3.527a.444.444.0 01-.327-.134z"/><path d="m70.969 48.477a6.556 6.556.0 01-2.818-1.955 4.338 4.338.0 01-1-2.78v-.345a.443.443.0 01.134-.326.444.444.0 01.326-.135h3.374a.444.444.0 01.326.135.445.445.0 01.134.326v.077a2.014 2.014.0 001.054 1.667 4.672 4.672.0 002.664.709 4.446 4.446.0 002.492-.633 1.862 1.862.0 00.958-1.591 1.426 1.426.0 00-.786-1.322 12.7 12.7.0 00-2.549-.939l-1.457-.46a21.526 21.526.0 01-3.3-1.227 6.57 6.57.0 01-2.262-1.783 4.435 4.435.0 01-.92-2.894 5.081 5.081.0 012.109-4.275 8.993 8.993.0 015.558-1.591 10.445 10.445.0 014.1.748 6.3 6.3.0 012.722 2.07 5 5 0 01.958 3.009.441.441.0 01-.134.326.441.441.0 01-.325.134h-3.258a.441.441.0 01-.326-.134.443.443.0 01-.134-.326 1.974 1.974.0 00-.978-1.667 4.647 4.647.0 00-2.665-.671 4.741 4.741.0 00-2.435.556 1.724 1.724.0 00-.938 1.553 1.512 1.512.0 00.9 1.4 15.875 15.875.0 003.01 1.055l.843.229a27.368 27.368.0 013.412 1.246 6.67 6.67.0 012.338 1.763 4.387 4.387.0 01.958 2.933 4.988 4.988.0 01-2.146 4.275 9.543 9.543.0 01-5.712 1.552 11.626 11.626.0 01-4.227-.709z"/><path d="m97.039 32.837a.443.443.0 01-.326.135h-3.911a.169.169.0 00-.191.192v9.239a2.951 2.951.0 00.632 2.108 2.7 2.7.0 002.013.652h1.15a.444.444.0 01.325.134.441.441.0 01.134.326v2.875a.471.471.0 01-.459.5l-1.994.039a8 8 0 01-4.524-1.035q-1.495-1.035-1.533-3.91V33.166A.17.17.0 0088.164 32.974H85.978A.441.441.0 0185.652 32.839.441.441.0 0185.518 32.513V29.83a.441.441.0 01.134-.326.444.444.0 01.326-.135h2.186a.169.169.0 00.191-.192v-4.485a.438.438.0 01.134-.326.44.44.0 01.325-.134h3.336a.443.443.0 01.325.134.442.442.0 01.135.326v4.485a.169.169.0 00.191.192h3.911a.446.446.0 01.326.135.446.446.0 01.134.326v2.683a.446.446.0 01-.133.324z"/><path d="m101.694 25.917a2.645 2.645.0 01-.767-1.955 2.65 2.65.0 01.767-1.955 2.65 2.65.0 011.955-.767 2.65 2.65.0 011.955.767 2.652 2.652.0 01.767 1.955 2.647 2.647.0 01-.767 1.955 2.646 2.646.0 01-1.955.767 2.645 2.645.0 01-1.955-.767zm-.211 22.906a.441.441.0 01-.134-.326V29.79a.444.444.0 01.134-.326.446.446.0 01.326-.134h3.527a.446.446.0 01.326.134.445.445.0 01.134.326v18.707a.443.443.0 01-.134.326.443.443.0 01-.326.134h-3.527a.443.443.0 01-.326-.134z"/><path d="m114.019 47.734a8.1 8.1.0 01-3.047-4.255 14.439 14.439.0 01-.652-4.37 14.3 14.3.0 01.614-4.371A7.869 7.869.0 01114 30.56a9.072 9.072.0 015.252-1.5 8.543 8.543.0 015.041 1.5 7.985 7.985.0 013.009 4.14 12.439 12.439.0 01.69 4.37 13.793 13.793.0 01-.651 4.37 8.255 8.255.0 01-3.028 4.275 8.475 8.475.0 01-5.1 1.553 8.754 8.754.0 01-5.194-1.534zm7.629-3.1a4.536 4.536.0 001.476-2.262 11.335 11.335.0 00.383-3.221 10.618 10.618.0 00-.383-3.22 4.169 4.169.0 00-1.457-2.243 4.066 4.066.0 00-2.531-.785 3.942 3.942.0 00-2.453.785 4.376 4.376.0 00-1.5 2.243 11.839 11.839.0 00-.383 3.22 11.84 11.84.0 00.383 3.221 4.222 4.222.0 001.476 2.262 4.075 4.075.0 002.549.8 3.8 3.8.0 002.44-.809z"/><path d="m15.105 32.057v15.565a.059.059.0 01-.049.059L.069 50.25A.06.06.0 01.005 50.167l14.987-33.47a.06.06.0 01.114.025z"/><path d="m17.631 23.087v24.6a.06.06.0 00.053.059l22.449 2.507a.06.06.0 00.061-.084L17.745.032a.06.06.0 00-.114.024z"/><path d="m39.961 52.548-24.833 7.45a.062.062.0 01-.043.0L.079 52.548a.059.059.0 01.026-.113h39.839a.06.06.0 01.017.113z"/></svg></a><div class=footer-languages><a tabindex=-1 lang=en id=switch-lang-en class=footer-languages-item>English</a>
+<a tabindex=-1 lang=zh id=switch-lang-zh class="footer-languages-item active"><svg class="icon tick"><use xlink:href="/v1.19/img/icons.svg#tick"/></svg>中文</a></div></div><ul class=footer-policies><li class=footer-policies-item><a class=footer-policies-link href=https://www.linuxfoundation.org/legal/terms>条款</a> |
+<a class=footer-policies-link href=https://www.linuxfoundation.org/legal/privacy-policy>隐私政策</a> |
+<a class=footer-policies-link href=https://github.com/istio/istio.io/edit/release-1.19/content/zh/blog/2023/secure-apps-with-istio/index.md>在 GitHub 上编辑此页</a></li></ul><div class=footer-base><span class=footer-base-copyright>&copy; 2023 the Istio Authors.</span>
+<span class=footer-base-version>部分内容可能滞后于英文版本，同步工作正在进行中<br>版本
+Istio 归档
+1.19.4</span><ul class=footer-base-releases><li class=footer-base-releases-item><a tabindex=-1 class=footer-base-releases-link onclick='return navigateToUrlOrRoot("https://istio.io/blog/2023/secure-apps-with-istio/"),!1'>当前版本</a></li><li class=footer-base-releases-item><a tabindex=-1 class=footer-base-releases-link onclick='return navigateToUrlOrRoot("https://preliminary.istio.io/blog/2023/secure-apps-with-istio/"),!1'>下个版本</a></li><li class=footer-base-releases-item><a tabindex=-1 class=footer-base-releases-link href=https://istio.io/archive>旧版本</a></li></ul></div></div></footer><div id=scroll-to-top-container aria-hidden=true><button id=scroll-to-top title=回到顶部 tabindex=-1><svg class="icon top"><use xlink:href="/v1.19/img/icons.svg#top"/></svg></button></div></body></html>
