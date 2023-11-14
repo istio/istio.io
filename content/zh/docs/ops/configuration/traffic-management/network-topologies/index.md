@@ -207,7 +207,7 @@ x-forwarded-client-cert（XFCC）是一个代理请求头，
 代理商可以选择在代理请求之前对 XFCC 请求头进行清理/附加/转发。
 {{< /quote >}}
 
-配置如何处理 XFCC 头文件，需要在 `IstioOperator` 中设置 `forwardClientCertDetails`：
+要配置如何处理 XFCC 头文件，需要在 `IstioOperator` 中设置 `forwardClientCertDetails`：
 
 {{< text syntax=yaml snip_id=none >}}
 apiVersion: install.istio.io/v1alpha1
@@ -249,61 +249,26 @@ PROXY 协议不应该用于 L7 流量，也不应该在 L7 负载均衡器后使
 {{< /warning >}}
 
 如果外部负载均衡器配置为转发 TCP 流量并使用 PROXY 协议，Istio Gateway TCP 侦听器也必须配置为接受 PROXY 协议。
-启用该功能需要在 Gateway 工作负载上使用 `EnvoyFilter` 添加
-[Envoy PROXY 协议过滤器](https://www.envoyproxy.io/docs/envoy/latest/configuration/listeners/listener_filters/proxy_protocol)。
+要在 Gateway 的所有 TCP 侦听器上启用 PROXY 协议，请在您的 `IstioOperator` 中设置 `proxyProtocol`。
 示例：
 
-{{< tabset category-name="config-api" >}}
-
-{{< tab name="Istio API" category-value="istio-apis" >}}
-
 {{< text syntax=yaml snip_id=none >}}
-apiVersion: networking.istio.io/v1alpha3
-kind: EnvoyFilter
-metadata:
-  name: proxy-protocol
-  namespace: istio-system
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
 spec:
-  configPatches:
-  - applyTo: LISTENER_FILTER
-    patch:
-      operation: INSERT_FIRST
-      value:
-        name: proxy_protocol
-        typed_config:
-          "@type": "type.googleapis.com/envoy.extensions.filters.listener.proxy_protocol.v3.ProxyProtocol"
-  workloadSelector:
-    labels:
-      istio: ingressgateway
+  meshConfig:
+    defaultConfig:
+      gatewayTopology:
+        proxyProtocol: {}
 {{< /text >}}
 
-{{< /tab >}}
+另外部署具有以下 Pod 注解的 Gateway：
 
-{{< tab name="Gateway API" category-value="gateway-api" >}}
-
-{{< text syntax=yaml snip_id=none >}}
-apiVersion: networking.istio.io/v1alpha3
-kind: EnvoyFilter
+{{< text yaml >}}
 metadata:
-  name: proxy-protocol
-  namespace: istio-system
-spec:
-  configPatches:
-  - applyTo: LISTENER_FILTER
-    patch:
-      operation: INSERT_FIRST
-      value:
-        name: proxy_protocol
-        typed_config:
-          "@type": "type.googleapis.com/envoy.extensions.filters.listener.proxy_protocol.v3.ProxyProtocol"
-  workloadSelector:
-    labels:
-      istio.io/gateway-name: <GATEWAY_NAME>
+  annotations:
+    "proxy.istio.io/config": '{"gatewayTopology" : { "proxyProtocol": {} }}'
 {{< /text >}}
-
-{{< /tab >}}
-
-{{< /tabset >}}
 
 客户端 IP 从 PROXY 协议中由 Gateway 获取，并在 `X-Forwarded-For` 和 `X-Envoy-External-Address` 头中设置（或附加）。
 请注意，PROXY 协议与 `X-Forwarded-For` 和 `X-Envoy-External-Address` 等 L7 请求头互斥。
