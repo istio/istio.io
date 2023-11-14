@@ -88,52 +88,15 @@ spec:
 ENDSNIP
 
 ! read -r -d '' snip_tcpudp_proxy_load_balancer_1 <<\ENDSNIP
-apiVersion: networking.istio.io/v1alpha3
-kind: EnvoyFilter
-metadata:
-  name: proxy-protocol
-  namespace: istio-system
-spec:
-  configPatches:
-  - applyTo: LISTENER_FILTER
-    patch:
-      operation: INSERT_FIRST
-      value:
-        name: proxy_protocol
-        typed_config:
-          "@type": "type.googleapis.com/envoy.extensions.filters.listener.proxy_protocol.v3.ProxyProtocol"
-  workloadSelector:
-    labels:
-      istio: ingressgateway
-ENDSNIP
-
-! read -r -d '' snip_tcpudp_proxy_load_balancer_2 <<\ENDSNIP
-apiVersion: networking.istio.io/v1alpha3
-kind: EnvoyFilter
-metadata:
-  name: proxy-protocol
-  namespace: foo
-spec:
-  configPatches:
-  - applyTo: LISTENER_FILTER
-    patch:
-      operation: INSERT_FIRST
-      value:
-        name: proxy_protocol
-        typed_config:
-          "@type": "type.googleapis.com/envoy.extensions.filters.listener.proxy_protocol.v3.ProxyProtocol"
-  workloadSelector:
-    labels:
-      istio.io/gateway-name: httpbin-gateway
-ENDSNIP
-
-! read -r -d '' snip_tcpudp_proxy_load_balancer_3 <<\ENDSNIP
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
   meshConfig:
     accessLogEncoding: JSON
     accessLogFile: /dev/stdout
+    defaultConfig:
+      gatewayTopology:
+        proxyProtocol: {}
   components:
     ingressGateways:
     - enabled: true
@@ -147,13 +110,14 @@ spec:
         ...
 ENDSNIP
 
-! read -r -d '' snip_tcpudp_proxy_load_balancer_4 <<\ENDSNIP
+! read -r -d '' snip_tcpudp_proxy_load_balancer_2 <<\ENDSNIP
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: Gateway
 metadata:
   name: httpbin-gateway
   annotations:
     service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
+    proxy.istio.io/config: '{"gatewayTopology" : { "proxyProtocol": {} }}'
 spec:
   gatewayClassName: istio
   ...
