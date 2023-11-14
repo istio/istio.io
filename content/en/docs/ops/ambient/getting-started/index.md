@@ -377,9 +377,10 @@ metadata:
  name: productpage-viewer
  namespace: default
 spec:
- selector:
-   matchLabels:
-     istio.io/gateway-name: bookinfo-productpage
+  targetRef:
+    kind: Gateway
+    group: gateway.networking.k8s.io
+    name: bookinfo-productpage
  action: ALLOW
  rules:
  - from:
