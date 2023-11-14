@@ -243,7 +243,6 @@ configurability
 conformant
 CONNECT-IP
 CONNECT-UDP
-conntrack
 containerID
 ControlZ
 Coraza
@@ -1004,7 +1003,6 @@ Srihari
 Srinath
 Stackdriver
 Standard_D4ds_v5
-StartupProbe
 stateful
 Statsd
 stdin
