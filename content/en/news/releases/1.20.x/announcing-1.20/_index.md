@@ -78,7 +78,7 @@ various endpoints, allowing for simultaneous observation across different servic
 
 Security within Istio is improved through the added support for pluggable root certificate rotation.
 
-### StartupProbe in Sidecar Containers
+### `StartupProbe` in Sidecar Containers
 
 To enhance pod startup times, Istio now includes a `startupProbe` in sidecar containers by default. This proactive
 measure allows for aggressive polling during the initial phase without persisting throughout the pod's lifecycle,
