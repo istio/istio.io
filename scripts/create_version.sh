@@ -95,7 +95,7 @@ archive_old_release() {
         s/^archive_search_refinement: .*$/archive_search_refinement: \"V${PREV_MINOR}\"/
     " data/args.yml
 
-    sed -i "s/^disableAliases = true$/disableAliases = false/" config.toml
+    sed -i "s/^disableAliases = true$/disableAliases = false/" hugo.toml
 
     if [[ $(git status --porcelain) ]]; then # for idempotence
         git add -u
@@ -160,7 +160,7 @@ advance_master_to_next_release() {
     fi
 
     git checkout "${MASTER}"
-    sed -i "
+
         s/^version: .*$/version: \"${NEXT_MINOR}\"/;
         s/^full_version: .*$/full_version: \"${NEXT_MINOR}.0\"/;
         s/^previous_version: .*$/previous_version: \"${CURR_MINOR}\"/;
