@@ -256,8 +256,8 @@ request is redirected to the gateway, causing the destination IP address to beco
 
 Although not as easily, you can use [Envoy filters](/docs/reference/config/networking/envoy-filter/)
 to configure a gateway to support arbitrary domains by using the [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication)
-value in an HTTPS, or any TLS, to identify the original destination to which to route the request. Some examples of
-how you can configure this can be found in [EnvoyFilter Samples](https://github.com/istio/istio/wiki/EnvoyFilter-Samples#envoyfilter)
+value in an HTTPS, or any TLS, request to identify the original destination to which to route the request. Some examples of
+how you can configure this can be found in [EnvoyFilter samples](https://github.com/istio/istio/wiki/EnvoyFilter-Samples#envoyfilter)
 as well as in [configuring an egress gateway for arbitrary domains](link_to_Gergo's_blog).
 
 ## Cleanup
