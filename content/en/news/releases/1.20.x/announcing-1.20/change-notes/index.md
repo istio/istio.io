@@ -15,7 +15,7 @@ to [Istio's deprecation policy](/docs/releases/feature-stages/#feature-phase-def
 your
 environment to remove the deprecated functionality.
 
-- There are no new deprecations in Istio 1.20.0
+- There are no new deprecations in Istio 1.20.0.
 
 ## Traffic Management
 
@@ -48,10 +48,10 @@ environment to remove the deprecated functionality.
 - **Added** the capability to attach `AuthorizationPolicy` to Kubernetes `Gateway` resources via the `targetRef`
   field. ([Issue #46847](https://github.com/istio/istio/issues/46847))
 
-- **Added** `failoverPriority` and `failover` to work in conjunction with each other.
-
 - **Added** support for alternate network namespace paths (for e.g. minikube) via `values.cni.cniNetnsDir`.
   ([Issue #47444](https://github.com/istio/istio/issues/47444))
+
+- **Updated** `failoverPriority` and `failover` to work in conjunction with each other.
 
 - **Fixed** immediate `WorkloadEntry` auto-registration for proxies that are already connected
   when creating a `WorkloadGroup`. ([Issue #45329](https://github.com/istio/istio/issues/45329))
@@ -151,7 +151,7 @@ environment to remove the deprecated functionality.
 - **Added** basic revision support to Ztunnel when installing with `istioctl`.
   ([Issue #46421](https://github.com/istio/istio/issues/46421))
 
-- **Added** flag `PILOT_ENABLE_GATEWAY_API_GATEWAYCLASS_CONTROLLER` to enable/disable management of built-in
+- **Added** the `PILOT_ENABLE_GATEWAY_API_GATEWAYCLASS_CONTROLLER` flag to enable/disable management of built-in
   `GatewayClasses`.
   ([Issue #46553](https://github.com/istio/istio/issues/46553))
 
@@ -190,7 +190,7 @@ environment to remove the deprecated functionality.
 - **Added** an output format option for the `istioctl experimental pre-check` command. Valid options are `log`, `json`
   or `yaml`.
 
-- **Added** `--output-threshold` flag in `istioctl experimental precheck` to control the message output threshold.
+- **Added** the `--output-threshold` flag in `istioctl experimental precheck` to control the message output threshold.
   The default threshold is now `warning`, which replaces the previous default of `info`.
 
 - **Added** support for auto-detecting the pilot's monitoring port if it is not set to the default value of `15014`.
@@ -209,12 +209,12 @@ environment to remove the deprecated functionality.
 - **Added** IST0162 `GatewayPortNotDefinedOnService` message to detect an issue where a `Gateway` port was not exposed
   by `Service`.
 
-- **Fixed** `istioctl operator remove` command not to remove all revisions of the operator controller when the revision
-  was "default" or not specified. ([Issue #45242](https://github.com/istio/istio/issues/45242))
+- **Fixed** `istioctl operator remove` command to not remove all revisions of the operator controller when the revision
+  is "default" or not specified. ([Issue #45242](https://github.com/istio/istio/issues/45242))
 
 - **Fixed** an issue where `verify-install` had incorrect results when installed deployments were not healthy.
 
-- **Fixed** `istioctl experimental describe` command that provided incorrect `Gateway` information when using the
+- **Fixed** the `istioctl experimental describe` command to provide correct `Gateway` information when using the
   injected gateway.
 
 - **Fixed** an issue where `istioctl analyze` would analyze irrelevant configmaps.
@@ -228,4 +228,4 @@ environment to remove the deprecated functionality.
   provided.
   ([Issue #47505](https://github.com/istio/istio/issues/47505))
 
-- **Removed** `istioctl experimental revision tag` command, which was graduated to `istioctl tag`.
+- **Removed** the `istioctl experimental revision tag` command, which was graduated to `istioctl tag`.

@@ -45,8 +45,6 @@ In this release, we have also added support for configuring Istio
 CRDs `AuthorizationPolicy`, `RequestAuthentication`, `Telemetry` and `WasmPlugin` for Kubernetes Gateway API via
 the `targetRef` field.
 
-### Ambient Mesh TODO(hanxiaop：ambient content and status)
-
 ### Revamped ExternalName Service Support
 
 Istio 1.20 introduces a new update to `ExternalName` services, aligning more closely with Kubernetes behavior.
@@ -93,7 +91,7 @@ SCC privilege to Istio and applications.
 
 ### Enhancements to the `istioctl` command
 
-Added a number of enhancements to the istioctl command including adding:
+Added a number of enhancements to the istioctl command including:
 
 - The pilot monitoring port can now be auto-detected if it's not set to `15014`.
 - `istioctl dashboard proxy` command has been added to display the admin UI for different kinds of proxies, including
