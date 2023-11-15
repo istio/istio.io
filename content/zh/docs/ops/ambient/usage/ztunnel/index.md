@@ -1,6 +1,6 @@
 ---
-title: ztunnel 以及其中的 L4 网络与 mTLS  
-description: 使用 ztunnel 代理的 Istio Ambient L4 网络和 mTLS 用户指南。
+title: 使用 ztunnel 实现 L4 联网和 mTLS 
+description: Istio Ambient 使用 ztunnel 代理实现 L4 联网和 mTLS 的用户指南。
 weight: 2
 owner: istio/wg-networking-maintainers
 test: no
@@ -34,7 +34,7 @@ test: no
 * [L4 授权策略](#l4auth)
 * [Ambient 与非 Ambient 端点的互操作性](#interop)
 
-ztunnel（零信任隧道：Zero Trust Tunnel）组件是专门为 Istio Ambient
+ztunnel（Zero Trust Tunnel，零信任隧道）组件是专门为 Istio Ambient
 网格构建的基于每个节点的代理。由于工作负载 Pod 不再需要在 Sidecar
 中运行代理也可以参与网格，因此 Ambient 模式下的 Istio
 也被非正式地称为“无 Sidecar” 网格。
@@ -53,7 +53,7 @@ ztunnel 代理是用 Rust 语言编写的，旨在处理 Ambient 网格中的 L3
 “安全覆盖网络（Secure Overlay Networking）”概念被非正式地用于统称通过
 ztunnel 代理在 Ambient 网格中实现的 L4 网络功能集。
 在传输层，这是通过一种称为 HBONE 的基于 HTTP CONNECT 的流量隧道协议来实现的，
-该协议在本指南的[后续部分](#hbonesection)中进行了描述。
+HBONE 协议在本指南的[关于 HBONE](#hbonesection) 一节中进行说明。
 
 Istio 在 Ambient 模式下的一些用例可以仅通过 L4 安全覆盖网络功能来解决，
 并且不需要 L7 功能，因此不需要部署 Waypoint 代理。
@@ -160,8 +160,8 @@ Istio Ambient 中使用的 `HBONE`（基于 HTTP 的覆盖网络封装：HTTP Ba
 安全地隧道传输封装在 HTTPS 数据包中的 TCP 数据包的技术。
 以下小节提供了有关 HBONE 的一些简短附加说明。
 
-请注意，该图展示本地流量（从 Pod C3 到工作节点 W2
-上的目标 Pod S1）无论是否跨越节点边界也会遍历本地 ztunnel 代理实例，
+请注意，该图展示本地流量（从 Pod C3 到工作节点 W2 上的目标 Pod S1）
+无论是否跨越节点边界也会遍历本地 ztunnel 代理实例，
 以便对流量执行相同的 L4 流量管理功能（例如 L4 授权和 L4 遥测）。
 
 #### 通过 Waypoint 的 ztunnel 数据路径  {#ztunnel-datapath-via-waypoint}
@@ -190,7 +190,8 @@ caption="通过临时 Waypoint 的 ztunnel 数据路径"
 
 这里有两种情况，如下图所示。在第一种情况下，流量流 B1 被节点 W2 在任何 HBONE 隧道外接收，
 并出于某种原因直接寻址到 Ambient Pod S1 的 IP 地址（可能是因为流量源不是 Ambient Pod）。
-如图所示，ztunnel 流量重定向逻辑将拦截此类流量，并通过本地 ztunnel 代理进行目的地侧代理处理和可能基于 AuthorizationPolicy 的过滤，然后发送到 Pod S1。
+如图所示，ztunnel 流量重定向逻辑将拦截此类流量，并通过本地 ztunnel 代理进行目的地侧代理处理和可能基于
+AuthorizationPolicy 的过滤，然后发送到 Pod S1。
 在第二种情况下，流量流 G1 被节点 W2 的 ztunnel 代理接收（可能通过 HBONE 隧道），
 但 ztunnel 代理检查目标服务是否需要 Waypoint 处理，但发送此流量的源不是 Waypoint
 或者是与此目标服务无关。在这种情况下。ztunnel 代理再次将流量 Hair-pinning 到与目标服务关联的 Waypoint 之一，
@@ -203,7 +204,7 @@ caption="ztunnel 流量 Hair-pinning"
 
 ### 关于 HBONE 的说明  {#hbonesection}
 
-HBONE（基于 HTTP 的覆盖网络封装：HTTP Based Overlay Network Encapsulation）是 Istio 中特定的术语。
+HBONE（HTTP Based Overlay Network Encapsulation，基于 HTTP 的覆盖网络封装）是 Istio 中特定的术语。
 它是指通过 [HTTP CONNECT](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/CONNECT)
 方法使用标准 HTTP 隧道来透明地传递应用程序数据包/字节流。
 在 Istio 的当前实现中，它仅通过使用 HTTP CONNECT 方法透明地隧道传输 TCP 数据包，
@@ -221,14 +222,14 @@ caption="HBONE L3 数据包格式"
 [IETF MASQUE](https://ietf-wg-masque.github.io/)
 工作组中一部分开发的 CONNECT-UDP 和 CONNECT-IP 等新标准支持基于
 [HTTP/3（QUIC）](https://datatracker.ietf.org/doc/html/rfc9114)的传输，
-并将用于传输包括本机 IPv4、IPv6、UDP 的所有类型 L3 和 L4 数据包。
-Istio Ambient 模式下的 HBONE 和 HTTP 隧道的此类额外用例目前正在进一步研究。
+并将用于传输原生 IPv4、IPv6、UDP 等所有类型的 L3 和 L4 数据包。
+Istio Ambient 模式下的 HBONE 和 HTTP 隧道的此类附加用例目前还需进一步调研。
 
 ## 部署应用程序  {#deployapplication}
 
 通常，具有 Istio 管理员权限的用户将部署 Istio 网格基础设施。
 一旦 Istio 在 Ambient 模式下被成功部署，它将透明地可供命名空间中所有用户部署的应用程序使用，
-这些应用程序已被注解为使用 Istio Ambient，如下面的示例所示。
+这些应用程序已被注解为使用 Istio Ambient，如下例所示。
 
 ### 部署不基于 Ambient 的基础应用程序  {#basic-application-deployment-without-ambient}
 
@@ -283,7 +284,7 @@ $ kubectl exec deploy/sleep -n ambient-demo  -- curl httpbin:8000 -s | grep titl
 现在，您只需将标签 `istio.io/dataplane-mode=ambient`
 添加到应用程序的命名空间即可为上一小节中部署的应用程序启用 Ambient，如下所示。
 请注意，此示例重点关注一个新的命名空间，其中包含仅通过 Ambient 模式捕获的新的、
-无 Sidecar 的工作负载。后面的部分将描述如何在同一网格内混用 Sidecar
+无 Sidecar 的工作负载。后续章节将说明如何在同一网格内混用 Sidecar
 模式和 Ambient 模式的混合场景中解决冲突。
 
 {{< text bash >}}
@@ -410,7 +411,7 @@ Server: gunicorn/19.9.0
 --snip--
 {{< /text >}}
 
-响应被展示确认了客户端 Pod 收到来自服务的响应。
+上述响应确认了客户端 Pod 收到来自服务的响应。
 现在检查 ztunnel Pod 的日志以确认流量是通过 HBONE 隧道发送的。
 
 {{< text bash >}}
@@ -432,10 +433,10 @@ $ kubectl -n istio-system logs -l app=ztunnel | grep -E "inbound|outbound"
 监控和遥测功能来监控 Istio Ambient 网格内的应用程序流量。
 在 Ambient 模式下使用 Istio 不会改变此行为。由于此功能在 Istio Ambient 模式下与
 Istio Sidecar 模式基本没有变化，因此本指南中不再重复这些细节。
-请参阅 [Prometheus](/zh/docs/ops/integrations/prometheus/#installation)
-和 [Kiali](/zh/docs/ops/integrations/kiali/#installation)
-了解 Prometheus 和 Kiali 服务和仪表板的安装信息以及标准 Istio 指标和遥测文档
-（例如[此处](/zh/docs/reference/config/metrics/)和[此处](/zh/docs/tasks/observability/metrics/querying-metrics/)）了解更多详细信息。
+请参阅 [Prometheus 服务和仪表板的安装信息](/zh/docs/ops/integrations/prometheus/#installation)、
+[Kiali 服务和仪表板的安装信息](/zh/docs/ops/integrations/kiali/#installation)、
+[标准的 Istio 指标文档](/zh/docs/reference/config/metrics/)和
+[Istio 遥测文档](/zh/docs/tasks/observability/metrics/querying-metrics/)。
 
 需要注意的一点是，如果服务仅使用 ztunnel 和 L4 网络，
 则报告的 Istio 指标目前仅是 L4/TCP 指标（即 `istio_tcp_sent_bytes_total`、
@@ -515,9 +516,10 @@ Pod 设置为使用不同的模式，但不建议这样做。对于大多数常�
 1. 在 `cni.values.excludeNamespaces` 配置中的
    `istio-cni` 插件配置排除列表用于跳过排除列表中的命名空间。
 1. Pod 已使用 `ambient` 模式，如果：
-- 命名空间具有 `istio.io/dataplane-mode=ambient` 标签
-- Pod 上不存在 `sidecar.istio.io/status` 注解
-- `ambient.istio.io/redirection` 不是 `disabled`
+    
+    - 命名空间具有 `istio.io/dataplane-mode=ambient` 标签
+    - Pod 上不存在 `sidecar.istio.io/status` 注解
+    - `ambient.istio.io/redirection` 不是 `disabled`
 
 避免配置冲突的最简单选项是用户确保对于每个命名空间，
 它要么具有 Sidecar 注入标签（`istio-injection=enabled`），
@@ -841,10 +843,9 @@ $ curl  "$INGRESS_HOST" -s | grep title -m 1
     <title>httpbin.org</title>
 {{< /text >}}
 
-这些示例说明了 Ambient Pod 和非 Ambient 端点（可以是 Kubernetes
-应用程序 Pod 或具有 Istio 原生网关和 Kubernetes Gateway API 实例的 Istio 网关 Pod）
-之间的互操作性的多种选项。Istio Ambient Pod 和 Istio Egress
-网关之间也支持互操作性，以及 Ambient Pod 运行应用程序的客户端且服务端运行在使用
-Sidecar 代理模式的网格 Pod 之外的场景。因此，
-用户有多种选择可以在同一 Istio 网格中无缝集成 Ambient 和非 Ambient 工作负载，
+这些示例说明了 Ambient Pod 和非 Ambient 端点
+（可以是 Kubernetes 应用 Pod 或具有 Istio 原生网关和 Kubernetes Gateway API 实例的 Istio 网关 Pod）
+之间的互操作性的多种选项。Istio Ambient Pod 和 Istio Egress 网关之间也支持互操作性，
+以及 Ambient Pod 运行应用程序的客户端且服务端运行在使用 Sidecar 代理模式的网格 Pod 之外的场景。
+因此，用户有多种选择可以在同一 Istio 网格中无缝集成 Ambient 和非 Ambient 工作负载，
 从而允许以最适合 Istio 网格部署和操作的需求分阶段引入 Ambient 功能。
