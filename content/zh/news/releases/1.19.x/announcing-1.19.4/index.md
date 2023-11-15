@@ -16,9 +16,9 @@ release: 1.19.4
 - **改进** 改进了 `iptables` 锁定功能。新的实现在需要时使用
   `iptables` 内置锁等待，并在不需要时完全禁用锁定。
 
-- **新增** 添加了门控标志 `ISTIO_ENABLE_IPV4_OUTBOUND_LISTENER_FOR_IPV6_CLUSTERS`
-  用来管理仅 IPv6 的集群额外出站侦听器，以处理 IPv4 NAT 出站流量。
-  这对于仅 IPv6 集群环境（例如管理仅出口 IPv4 和 IPv6 IP 的 EKS）非常有用。
+- **新增** 添加了门控标志 `ISTIO_ENABLE_IPV4_OUTBOUND_LISTENER_FOR_IPV6_CLUSTERS`，
+  在只有 IPv6 的集群中用来管理一个附加的出站侦听器，以处理 IPv4 NAT 出站流量。
+  这对于只有 IPv6 的集群环境（例如管理只有 Egress IPv4 以及 IPv6 IP 的 EKS）非常有用。
   ([Issue #46719](https://github.com/istio/istio/issues/46719))
 
 - **修复** 修复了根虚拟服务中的多个标头匹配生成错误路由的问题。
@@ -33,7 +33,7 @@ release: 1.19.4
 
 - **修复** 修复了如果默认 IP 寻址不是 IPv6，
   则正在使用 `IstioIngressListener.defaultEndpoint` 的
-  Sidecar 资源无法利用 [::1]:PORT 的问题。
+  Sidecar 资源无法使用 [::1]:PORT 的问题。
   ([Issue #47412](https://github.com/istio/istio/issues/47412))
 
 - **修复** 修复了如果未提供 EDS 端点，`istioctl proxy-config` 无法处理文件中的配置转储的问题。

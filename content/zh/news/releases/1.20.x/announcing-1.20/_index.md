@@ -15,7 +15,7 @@ aliases:
 我们要感谢此版本的几位发布经理：来自 DaoCloud 的 `Xiaopeng Han`、
 来自 Google 的 `Aryan Gupta` 和来自 Tetrate 的 `Jianpeng He`。
 这些发布经理们要特别感谢测试和发布工作组负责人 Eric Van Norman (IBM) 在整个发布周期中提供的帮助和指导。
-我们还要感谢 Istio 工作组的维护者以及广大 Istio 社区，在发布过程中提供及时反馈、
+我们还要感谢 Istio 工作组的维护者以及广大 Istio 社区，感谢他们在发布过程中提供及时反馈、
 审核和社区测试，以及在确保及时发布方面给予的全力支持。
 
 {{< relnote >}}
@@ -24,7 +24,7 @@ aliases:
 Istio 1.20.0 已得到 Kubernetes `1.25` 到 `1.28` 的官方正式支持。
 {{< /tip >}}
 
-## 新特性 {#what-s-new}
+## 新特性 {#whats-new}
 
 ### Gateway API
 
@@ -34,21 +34,21 @@ Kubernetes [Gateway API](http://gateway-api.org/)
 
 Kubernetes [Gateway API 现已正式发布](https://kubernetes.io/blog/2023/10/31/gateway-api-ga/)
 并且 Istio 已对其提供[全面支持](https://gateway-api.sigs.k8s.io/implementations/#istio)！
-这是整个 Kubernetes 生态系统社区共同努力的结果，并且产生了多种一致性实现
-（包括 [Istio 的完整一致的实现](https://github.com/kubernetes-sigs/gateway-api/blob/main/conformance/reports/v1.0.0/istio-istio.yaml)）。
+这是整个 Kubernetes 生态系统社区共同努力的结果，并且产生了多种合规实现
+（包括 [Istio 完全合规的实现](https://github.com/kubernetes-sigs/gateway-api/blob/main/conformance/reports/v1.0.0/istio-istio.yaml)）。
 
 这标志着一个重要的里程碑，因为 Istio 用户现在可以利用一组稳定
-Gateway API 功能来增强生产环境中的流量管理和入口控制。
+Gateway API 功能集来增强生产环境中的流量管理和入口控制。
 查看 [Gateway API 任务](/zh/docs/tasks/traffic-management/ingress/gateway-api/)并开始使用。
 
 在此版本中，我们还添加了通过 `targetRef` 字段为 Kubernetes
 Gateway API 配置 Istio CRD `AuthorizationPolicy`、`RequestAuthentication`、
 `Telemetry` 和 `WasmPlugin` 的支持。
 
-### 改进后的 ExternalName 服务支持 {#revamped-externalname-service-support}
+### 重构对 ExternalName 服务的支持 {#revamped-externalname-service-support}
 
-Istio 1.20 引入了 `ExternalName` 服务的全新更新，与 Kubernetes 行为更加一致。
-此更新简化了 `ServiceEntry` 定义并增强了 Istio 处理 DNS 条目的能力。
+Istio 1.20 引入了针对 `ExternalName` 服务的全新更新，与 Kubernetes 行为更加一致。
+本次变更简化了 `ServiceEntry` 定义并增强了 Istio 处理 DNS 条目的能力。
 用户现在可以选择新行为，为即将到来的默认切换做好准备。
 
 ### 一致的 Envoy 过滤器排序 {#consistent-envoy-filter-ordering}
@@ -65,11 +65,11 @@ Istio 的可扩展性进一步扩大。
 
 Istio 1.20 带来了两项关键更新用于帮助控制 TCP 元数据交换：
 
-- **回退元数据发现** Istio 现在可以使用备份方法来收集元数据。
+- **回退元数据发现**：Istio 现在可以使用备份方法来收集元数据。
   要使用此功能，请在代理中开启 `PEER_METADATA_DISCOVERY`，
   并在控制平面中开启 `PILOT_ENABLE_AMBIENT_CONTROLLERS`。
-- **ALPN 令牌控制**：控制平面有一个名为`PILOT_DISABLE_MX_ALPN` 的新设置。
-  这可以让您停止使用服务之间相互通信通常需要的特定令牌 `istio-peer-exchange`。
+- **ALPN 令牌控制**：针对控制平面推出一个名为 `PILOT_DISABLE_MX_ALPN` 的新设置。
+  这可以让您停止使用服务之间相互通信时正常所需的特定令牌 `istio-peer-exchange`。
 
 ### 流量镜像支持多个目标 {#traffic-mirroring-to-multiple-destinations}
 
@@ -96,7 +96,7 @@ Istio 在 OpenShift 集群上的安装过程已得到简化，
 为 istioctl 命令添加了许多增强功能，包括：
 
 - 如果未将 Pilot 监控端口设置为 `15014`，现在该问题可被自动检测到。
-- 添加了 `istioctl dashboard proxy` 命令来显示不同类型代理的管理 UI，包括 Envoy、Ztunnel、Waypoint。
+- 添加了 `istioctl dashboard proxy` 命令来显示 Envoy、Ztunnel、Waypoint 等各种代理的管理 UI。
 
 ## 升级至 1.20 {#upgrading-to-1.20}
 
