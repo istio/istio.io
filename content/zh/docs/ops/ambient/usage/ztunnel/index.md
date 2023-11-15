@@ -192,7 +192,7 @@ caption="通过临时 waypoint 的 ztunnel 数据路径"
 并出于某种原因直接寻址到 Ambient Pod S1 的 IP 地址（可能是因为流量源不是 Ambient Pod）。
 如图所示，ztunnel 流量重定向逻辑将拦截此类流量，并通过本地 ztunnel 代理将其重定向，
 以进行目标端代理处理，并在将其发送到 Pod S1 之前根据 AuthorizationPolicy 进行可能的过滤。
-在第二种情况下，流量流 G1 正在被节点 W2 的 ztunnel 代理接收（可能通过 HBONE 隧道），
+在第二种情况下，流量流 G1 被节点 W2 的 ztunnel 代理接收（可能通过 HBONE 隧道），
 但 ztunnel 代理检查目标服务是否需要 waypoint 处理，但发送此流量的源不是 waypoint
 或者是与此目标服务无关。在这种情况下。ztunnel 代理再次将流量发夹到与目标服务关联的 waypoint 之一，
 然后可以将流量从那里传递到实现目标服务的任何 Pod（可能是 Pod S1 本身，如图所示）。
