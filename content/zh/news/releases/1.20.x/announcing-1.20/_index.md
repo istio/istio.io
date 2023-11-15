@@ -6,8 +6,8 @@ description: Istio 1.20 发布公告。
 publishdate: 2023-11-14
 release: 1.20.0
 aliases:
-- /news/announcing-1.20
-- /news/announcing-1.20.0
+- /zh/news/announcing-1.20
+- /zh/news/announcing-1.20.0
 ---
 
 我们很高兴地宣布 Istio 1.20 发布。这是 2023 年内最后一个 Istio 版本，
