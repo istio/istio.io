@@ -516,7 +516,7 @@ Pod 设置为使用不同的模式，但不建议这样做。对于大多数常�
 1. 在 `cni.values.excludeNamespaces` 配置中的
    `istio-cni` 插件配置排除列表用于跳过排除列表中的命名空间。
 1. Pod 已使用 `ambient` 模式，如果：
-    
+
     - 命名空间具有 `istio.io/dataplane-mode=ambient` 标签
     - Pod 上不存在 `sidecar.istio.io/status` 注解
     - `ambient.istio.io/redirection` 不是 `disabled`
