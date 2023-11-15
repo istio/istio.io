@@ -31,7 +31,7 @@ test: no
 * [功能概述](#functionaloverview)
 * [部署应用程序](#deployapplication)
 * [监控 ztunnel 代理和 L4 网络](#monitoringzt)
-* [L4 授权策略](#l4auth)
+* [L4 鉴权策略](#l4auth)
 * [Ambient 与非 Ambient 端点的互操作性](#interop)
 
 ztunnel（Zero Trust Tunnel，零信任隧道）组件是专门为 Istio Ambient
@@ -47,7 +47,7 @@ Ambient 网格的概念是指具有功能超集的 Istio 网格，因此可以�
 
 ztunnel 节点代理负责安全连接和验证 Ambient 网格内的工作负载。
 ztunnel 代理是用 Rust 语言编写的，旨在处理 Ambient 网格中的 L3 和 L4 功能，
-例如 mTLS、身份验证、L4 授权和遥测。ztunnel 不会终止工作负载 HTTP
+例如 mTLS、身份验证、L4 鉴权和遥测。ztunnel 不会终止工作负载 HTTP
 流量或解析工作负载 HTTP 标头。ztunnel 确保 L3 和 L4 流量高效、安全地传输到 **Waypoint 代理**，
 其中实现了 Istio 的全套 L7 功能，例如 HTTP 遥测和负载均衡。
 “安全覆盖网络（Secure Overlay Networking）”概念被非正式地用于统称通过
@@ -64,8 +64,8 @@ Istio 在 Ambient 模式下的一些用例可以仅通过 L4 安全覆盖网络�
 
 | 应用程序部署用例 | Istio Ambient 网格配置 |
 | ------------- | ------------- |
-| 通过双向 TLS、客户端应用程序流量的加密和隧道数据传输实现零信任网络、L4 授权、L4 遥测 | 具有 ztunnel 代理网络的基线 Ambient 网格 |
-| 应用程序需要 L4 双向 TLS 以及高级 Istio 流量管理功能（包括 VirtualService、L7 遥测、L7 授权） | 完整的 Istio Ambient 网格配置，包括基于 ztunnel 代理和 Waypoint 代理的网络 |
+| 通过双向 TLS、客户端应用程序流量的加密和隧道数据传输实现零信任网络、L4 鉴权、L4 遥测 | 具有 ztunnel 代理网络的基线 Ambient 网格 |
+| 应用程序需要 L4 双向 TLS 以及高级 Istio 流量管理功能（包括 VirtualService、L7 遥测、L7 鉴权） | 完整的 Istio Ambient 网格配置，包括基于 ztunnel 代理和 Waypoint 代理的网络 |
 
 ## 当前注意事项  {#caveats}
 
@@ -162,7 +162,7 @@ Istio Ambient 中使用的 `HBONE`（基于 HTTP 的覆盖网络封装：HTTP Ba
 
 请注意，该图展示本地流量（从 Pod C3 到工作节点 W2 上的目标 Pod S1）
 无论是否跨越节点边界也会遍历本地 ztunnel 代理实例，
-以便对流量执行相同的 L4 流量管理功能（例如 L4 授权和 L4 遥测）。
+以便对流量执行相同的 L4 流量管理功能（例如 L4 鉴权和 L4 遥测）。
 
 #### 通过 Waypoint 的 ztunnel 数据路径  {#ztunnel-datapath-via-waypoint}
 
@@ -526,13 +526,13 @@ Pod 设置为使用不同的模式，但不建议这样做。对于大多数常�
 要么具有 Ambient 数据平面模式标签（`istio.io/dataplane- mode=ambient`），
 但绝不能两者兼而有之。
 
-## L4 授权策略  {#l4auth}
+## L4 鉴权策略  {#l4auth}
 
 如前面所述，ztunnel 代理在仅需要 L4
-流量处理以便在数据平面中实施策略并且不涉及 Waypoint 时执行授权策略。
+流量处理以便在数据平面中实施策略并且不涉及 Waypoint 时执行鉴权策略。
 实际的执行点位于连接路径中的接收端（或服务器端）ztunnel 代理。
 
-为已部署的 `httpbin` 应用程序应用基本的 L4 授权策略，如下面例子所示。
+为已部署的 `httpbin` 应用程序应用基本的 L4 鉴权策略，如下面例子所示。
 
 {{< text bash >}}
 $ kubectl apply -n ambient-demo -f - <<EOF
@@ -654,7 +654,7 @@ $ kubectl delete AuthorizationPolicy allow-sleep-to-httpbin  -n ambient-demo
 请注意，如前面所述，此用例利用了 Ambient 的流量 Hair-pinning 功能。
 由于非网格 Pod 直接向后端 Pod 发起流量，而不经过 HBONE 或 ztunnel，
 因此在目标节点，流量将通过目标节点的 ztunnel 代理进行重定向，
-以确保应用 Ambient 授权策略（这可以通过以下方式验证，查看目标节点上相应
+以确保应用 Ambient 鉴权策略（这可以通过以下方式验证，查看目标节点上相应
 ztunnel 代理 Pod 的日志；为简单起见，下面的示例代码片段中未显示日志）。
 
 {{< text bash >}}
