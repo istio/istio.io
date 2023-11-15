@@ -184,7 +184,7 @@ caption="通过临时 Waypoint 的 ztunnel 数据路径"
 并且随着项目的发展正在审查可能的修改。
 {{< /warning >}}
 
-前面已经指出，流量发送到目标 Pod 时，始终首先将其发送到与目标 Pod 位于同一节点上的 ztunnel 代理。
+前面已经指出，流量总是先发送到与目的地 Pod 相同节点上的 ztunnel 代理，然后再发送到目的地 Pod。
 但是，如果发送方完全位于 Istio Ambient 网格之外，因此不首先向目的地 ztunnel 发起 HBONE 隧道，该怎么办？
 如果发送者是恶意的并尝试绕过目标 ztunnel 代理将流量直接发送到 Ambient Pod 目标怎么办？
 
