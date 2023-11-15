@@ -245,15 +245,15 @@ spec:
     kind: Gateway
     group: gateway.networking.k8s.io
     name: bookinfo-productpage
- action: ALLOW
- rules:
- - from:
-   - source:
-       principals:
-       - cluster.local/ns/default/sa/sleep
-       - cluster.local/$GATEWAY_SERVICE_ACCOUNT
-   to:
-   - operation:
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        principals:
+        - cluster.local/ns/default/sa/sleep
+        - cluster.local/$GATEWAY_SERVICE_ACCOUNT
+    to:
+    - operation:
        methods: ["GET"]
 EOF
 }
