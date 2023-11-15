@@ -14,7 +14,7 @@ test: no
 特别是，`alpha` 版本中存在已知的性能、稳定性和安全问题。
 还有一些功能性注意事项，其中一些已在本指南的[注意事项部分](#caveats)中列出。
 以及计划中的重大变更，其中一些会影响升级。这些都是在升级到 `beta`
-版之前所有要解决的限制。本指南的当前版本旨在帮助早期部署和测试 Ambient 的 Alpha 版本。
+版之前将要解决的限制。当前版本的指南旨在帮助对 Ambient 的 Alpha 版本进行早期部署和测试。
 随着 Ambient 状态从 Alpha 发展到 Beta 及以后，本指南将随之进行更新。
 {{< /warning >}}
 
@@ -48,7 +48,7 @@ Ambient 网格的概念是指具有功能超集的 Istio 网格，因此可以�
 ztunnel 节点代理负责安全连接和验证 Ambient 网格内的工作负载。
 ztunnel 代理是用 Rust 语言编写的，旨在处理 Ambient 网格中的 L3 和 L4 功能，
 例如 mTLS、身份验证、L4 授权和遥测。ztunnel 不会终止工作负载 HTTP
-流量或解析工作负载 HTTP 标头。ztunnel 确保 L3 和 L4 流量高效、安全地传输到 **waypoint 代理**，
+流量或解析工作负载 HTTP 标头。ztunnel 确保 L3 和 L4 流量高效、安全地传输到 **Waypoint 代理**，
 其中实现了 Istio 的全套 L7 功能，例如 HTTP 遥测和负载均衡。
 “安全覆盖网络（Secure Overlay Networking）”概念被非正式地用于统称通过
 ztunnel 代理在 Ambient 网格中实现的 L4 网络功能集。
@@ -56,16 +56,16 @@ ztunnel 代理在 Ambient 网格中实现的 L4 网络功能集。
 该协议在本指南的[后续部分](#hbonesection)中进行了描述。
 
 Istio 在 Ambient 模式下的一些用例可以仅通过 L4 安全覆盖网络功能来解决，
-并且不需要 L7 功能，因此不需要部署 waypoint 代理。
-其他需要高级流量管理和 L7 网络功能的用例将需要部署 waypoint 代理。
+并且不需要 L7 功能，因此不需要部署 Waypoint 代理。
+其他需要高级流量管理和 L7 网络功能的用例将需要部署 Waypoint 代理。
 本指南重点介绍与使用 ztunnel 代理的 L4 安全覆盖网络相关的功能。
 本指南仅在需要描述某些 L4 ztunnel 功能时才引用 L7。
-高级 L7 网络功能和 waypoint 代理的详细使用将在其他指南中专门介绍。
+高级 L7 网络功能和 Waypoint 代理的详细使用将在其他指南中专门介绍。
 
 | 应用程序部署用例 | Istio Ambient 网格配置 |
 | ------------- | ------------- |
 | 通过双向 TLS、客户端应用程序流量的加密和隧道数据传输实现零信任网络、L4 授权、L4 遥测 | 具有 ztunnel 代理网络的基线 Ambient 网格 |
-| 应用程序需要 L4 双向 TLS 以及高级 Istio 流量管理功能（包括 VirtualService、L7 遥测、L7 授权） | 完整的 Istio Ambient 网格配置，包括基于 ztunnel 代理和 waypoint 代理的网络 |
+| 应用程序需要 L4 双向 TLS 以及高级 Istio 流量管理功能（包括 VirtualService、L7 遥测、L7 授权） | 完整的 Istio Ambient 网格配置，包括基于 ztunnel 代理和 Waypoint 代理的网络 |
 
 ## 当前注意事项  {#caveats}
 
@@ -94,7 +94,7 @@ Istio Ambient 模式所需的最低 Istio 版本是 `1.18.0`。
    Ambient Helm 配置部署的新 Istio 网格控制平面上启用。
    例如，使用 Pre-Ambient 配置文件部署的现有 Istio 网格无法被动态切换至同时启用 Ambient 模式的状态。
 
-1. **Istio `PeerAuthentication` 的限制：**截至撰写本文时，Istio Ambient 模式下的所有组件（即 waypoint 代理）
+1. **Istio `PeerAuthentication` 的限制：**截至撰写本文时，Istio Ambient 模式下的所有组件（即 Waypoint 代理）
    并不支持 `PeerAuthentication` 资源。因此，建议当前仅使用 `STRICT` mTLS 模式。
    与许多其他 Alpha 阶段的注意事项一样，随着该功能转向 Beta 状态，该问题应该会得到解决。
 
@@ -133,7 +133,7 @@ ztunnel 代理还使用 xDS 为其 Kubernetes 节点上调度的所有 Pod 的�
 在 Sidecar 模型中，每个应用程序 Pod 都有自己的代理。
 
 另外值得注意的是，在 Ambient 模式下，xDS API 中使用一组简化的资源来进行 ztunnel 代理配置。
-这会提高性能（需要传输和处理从 istiod 发送到 ztunnel 代理的非常小的信息集）并改进排障过程。
+这会提高性能（需要传输和处理从 istiod 发送到 ztunnel 代理的信息集更小）并改进排障过程。
 
 ### 数据平面概述  {#data-plane-overview}
 
@@ -151,7 +151,7 @@ caption="ztunnel 基础：仅 L4 数据路径"
 该图描绘了 Kubernetes 集群的两个节点 W1 和 W2 上运行的 Ambient Pod 工作负载。
 每个节点上都有一个 ztunnel 代理实例。在此场景中，应用程序客户端
 Pod C1、C2 和 C3 需要访问由 Pod S1 提供的服务，并且不需要高级 L7 功能
-（例如 L7 流量路由或 L7 流量管理），因此不需要 waypoint 代理。
+（例如 L7 流量路由或 L7 流量管理），因此不需要 Waypoint 代理。
 
 该图展示了在节点 W1 上运行的 Pod C1 和 C2 与在节点 W2 上运行的 Pod S1 连接，
 它们的 TCP 流量通过在每个节点的 ztunnel 代理 Pod 之间创建的单个共享 HBONE 隧道实例进行隧道传输。
@@ -164,23 +164,23 @@ Istio Ambient 中使用的 `HBONE`（基于 HTTP 的覆盖网络封装：HTTP Ba
 上的目标 Pod S1）无论是否跨越节点边界也会遍历本地 ztunnel 代理实例，
 以便对流量执行相同的 L4 流量管理功能（例如 L4 授权和 L4 遥测）。
 
-#### 通过 waypoint 的 ztunnel 数据路径  {#ztunnel-datapath-via-waypoint}
+#### 通过 Waypoint 的 ztunnel 数据路径  {#ztunnel-datapath-via-waypoint}
 
 下图描述了需要高级 L7 流量路由、管理或策略处理用例的数据路径。
-这里 ztunnel 使用 HBONE 隧道将流量发送到 waypoint 代理进行 L7 处理。
-处理后，waypoint 通过第二个 HBONE 隧道将流量发送到托管所选服务目标 Pod 节点上的 ztunnel。
-一般来说，waypoint 代理可能位于也可能不位于与源或目标 Pod 相同的节点上。
+这里 ztunnel 使用 HBONE 隧道将流量发送到 Waypoint 代理进行 L7 处理。
+处理后，Waypoint 通过第二个 HBONE 隧道将流量发送到托管所选服务目标 Pod 节点上的 ztunnel。
+一般来说，Waypoint 代理可能位于也可能不位于与源或目标 Pod 相同的节点上。
 
 {{< image width="100%"
 link="ztunnel-waypoint-datapath.png"
-caption="通过临时 waypoint 的 ztunnel 数据路径"
+caption="通过临时 Waypoint 的 ztunnel 数据路径"
 >}}
 
-#### ztunnel 数据路径发夹  {#ztunnel-datapath-hair-pinning}
+#### ztunnel 数据路径 Hair-pinning  {#ztunnel-datapath-hair-pinning}
 
 {{< warning >}}
 如前所述，随着项目进入 Beta 及更高版本，一些 Ambient 功能可能会发生变化。
-此功能（发夹）是当前在 Ambient 的 Alpha 版本中可用的功能示例，
+此功能（Hair-pinning）是当前在 Ambient 的 Alpha 版本中可用的功能示例，
 并且随着项目的发展正在审查可能的修改。
 {{< /warning >}}
 
@@ -188,18 +188,17 @@ caption="通过临时 waypoint 的 ztunnel 数据路径"
 但是，如果发送方完全位于 Istio Ambient 网格之外，因此不首先向目的地 ztunnel 发起 HBONE 隧道，该怎么办？
 如果发送者是恶意的并尝试绕过目标 ztunnel 代理将流量直接发送到 Ambient Pod 目标怎么办？
 
-这里有两种情况，如下图所示。在第一种情况下，流量流 B1 被任何 HBONE 隧道外部的节点 W2 接收，
+这里有两种情况，如下图所示。在第一种情况下，流量流 B1 被节点 W2 在任何 HBONE 隧道外接收，
 并出于某种原因直接寻址到 Ambient Pod S1 的 IP 地址（可能是因为流量源不是 Ambient Pod）。
-如图所示，ztunnel 流量重定向逻辑将拦截此类流量，并通过本地 ztunnel 代理将其重定向，
-以进行目标端代理处理，并在将其发送到 Pod S1 之前根据 AuthorizationPolicy 进行可能的过滤。
+如图所示，ztunnel 流量重定向逻辑将拦截此类流量，并通过本地 ztunnel 代理进行目的地侧代理处理和可能基于 AuthorizationPolicy 的过滤，然后发送到 Pod S1。
 在第二种情况下，流量流 G1 被节点 W2 的 ztunnel 代理接收（可能通过 HBONE 隧道），
-但 ztunnel 代理检查目标服务是否需要 waypoint 处理，但发送此流量的源不是 waypoint
-或者是与此目标服务无关。在这种情况下。ztunnel 代理再次将流量发夹到与目标服务关联的 waypoint 之一，
+但 ztunnel 代理检查目标服务是否需要 Waypoint 处理，但发送此流量的源不是 Waypoint
+或者是与此目标服务无关。在这种情况下。ztunnel 代理再次将流量 Hair-pinning 到与目标服务关联的 Waypoint 之一，
 然后可以将流量从那里传递到实现目标服务的任何 Pod（可能是 Pod S1 本身，如图所示）。
 
 {{< image width="100%"
 link="ztunnel-hairpin.png"
-caption="ztunnel 流量发夹"
+caption="ztunnel 流量 Hair-pinning"
 >}}
 
 ### 关于 HBONE 的说明  {#hbonesection}
@@ -328,7 +327,7 @@ ztunnel 内部的其他高级监控和高级故障排除超出了本指南的范
 
 在第一个示例中，您会看到特定 ztunnel Pod 当前正在跟踪的所有工作负载和控制平面组件，
 包括有关连接到该组件时要使用的 IP 地址和协议的信息，
-以及是否存在与该工作负载关联的 waypoint 代理。
+以及是否存在与该工作负载关联的 Waypoint 代理。
 可以对系统中的任何其他 ztunnel Pod 重复此示例，以显示其当前配置。
 
 {{< text bash >}}
@@ -442,7 +441,7 @@ Istio Sidecar 模式基本没有变化，因此本指南中不再重复这些细
 则报告的 Istio 指标目前仅是 L4/TCP 指标（即 `istio_tcp_sent_bytes_total`、
 `istio_tcp_received_bytes_total`、`istio_tcp_connections_opened_total`、
 `istio_tcp_connections_filled_total`）。
-当涉及 waypoint 代理时，将报告全套 Istio 和 Envoy 指标。
+当涉及 Waypoint 代理时，将报告全套 Istio 和 Envoy 指标。
 
 ### 验证 ztunnel 负载平衡  {#verifying-ztunnel-load-balancing}
 
@@ -451,12 +450,12 @@ Istio Sidecar 模式基本没有变化，因此本指南中不再重复这些细
 根据 L4 连接状态分配流量，用户不可配置。
 
 {{< tip >}}
-如果目标是具有多个实例或 Pod 的服务，并且没有与目标服务关联的 waypoint，
+如果目标是具有多个实例或 Pod 的服务，并且没有与目标服务关联的 Waypoint，
 则源 ztunnel 代理直接跨越这些实例或服务后端执行 L4 负载均衡，
 然后通过远程 ztunnel 代理与这些后端发送流量。如果目标服务确实具有与其关联的
-waypoint 部署（具有一个或多个 waypoint 代理的后端实例），
-则源 ztunnel 代理通过在这些 waypoint 代理之间分配流量来执行负载均衡，
-并通过远程 ztunnel 代理与关联的 waypoint 代理实例发送流量。
+Waypoint 部署（具有一个或多个 Waypoint 代理的后端实例），
+则源 ztunnel 代理通过在这些 Waypoint 代理之间分配流量来执行负载均衡，
+并通过远程 ztunnel 代理与关联的 Waypoint 代理实例发送流量。
 {{< /tip >}}
 
 现在，使用多副本服务 Pod 重复前面的示例，
@@ -499,7 +498,7 @@ ztunnel 的 HBONE 隧道。接下来的日志表明了客户端流量被发送�
 
 这是一种循环负载均衡算法，并且独立于可以在 `VirtualService` 的 `TrafficPolicy`
 字段中配置的任何负载均衡算法，因为如前所述，`VirtualService` API
-对象的所有方面都被实例化 在 waypoint 代理上而不是 ztunnel 代理上。
+对象的所有方面都被实例化 在 Waypoint 代理上而不是 ztunnel 代理上。
 
 ### Ambient 模式和 Sidecar 模式的 Pod 选择逻辑  {#pod-selection-logic-for-ambient-and-sidecar-modes}
 
@@ -528,7 +527,7 @@ Pod 设置为使用不同的模式，但不建议这样做。对于大多数常�
 ## L4 授权策略  {#l4auth}
 
 如前面所述，ztunnel 代理在仅需要 L4
-流量处理以便在数据平面中实施策略并且不涉及 waypoint 时执行授权策略。
+流量处理以便在数据平面中实施策略并且不涉及 Waypoint 时执行授权策略。
 实际的执行点位于连接路径中的接收端（或服务器端）ztunnel 代理。
 
 为已部署的 `httpbin` 应用程序应用基本的 L4 授权策略，如下面例子所示。
@@ -572,7 +571,7 @@ $ kubectl exec deploy/notsleep -n ambient-demo -- curl httpbin:8000 -s | grep ti
 command terminated with exit code 56
 {{< /text >}}
 
-请注意，waypoint 代理并未被部署，但此 `AuthorizationPolicy` 正在被强制执行，
+请注意，Waypoint 代理并未被部署，但此 `AuthorizationPolicy` 正在被强制执行，
 这是因为此策略仅需要可由 ztunnel 代理执行的 L4 流量处理。
 可以通过检查 ztunnel 日志并查找指示 RBAC 操作的日志来进一步确认这些策略操作，
 如以下示例所示。
@@ -586,9 +585,9 @@ $ kubectl logs ds/ztunnel -n istio-system  | grep -E RBAC
 
 {{< warning >}}
 如果配置的 `AuthorizationPolicy` 需要 L4 之外的任何流量处理，
-并且没有为流量的目标配置 waypoint 代理，则 ztunnel 代理将简单地丢弃所有流量作为防御措施。
+并且没有为流量的目标配置 Waypoint 代理，则 ztunnel 代理将简单地丢弃所有流量作为防御措施。
 因此，请检查以确保所有规则仅涉及 L4 处理，否则如果非 L4 规则不可避免，
-则还配置 waypoint 代理来处理执行策略。
+则还配置 Waypoint 代理来处理执行策略。
 {{< /warning >}}
 
 例如，修改 `AuthorizationPolicy` 以包含对 HTTP GET 方法的检查，
@@ -639,7 +638,7 @@ $ kubectl delete AuthorizationPolicy allow-sleep-to-httpbin  -n ambient-demo
 
 到目前为止的用例中，流量源和目标 Pod 都是 Ambient Pod。
 本节介绍一些混合用例，其中 Ambient 端点需要与非 Ambient 端点进行通信。
-与本指南前面的示例一样，本节介绍的用例不需要 waypoint 代理。
+与本指南前面的示例一样，本节介绍的用例不需要 Waypoint 代理。
 
 1. [东西向非网格 Pod 到 Ambient 网格 Pod（以及使用 `PeerAuthentication` 资源）](#ewnonmesh)
 1. [东西向 Istio Sidecar 代理 Pod 到 Ambient 网格 Pod](#ewside2ambient)
@@ -650,7 +649,7 @@ $ kubectl delete AuthorizationPolicy allow-sleep-to-httpbin  -n ambient-demo
 在下面的示例中，通过在不属于 Istio 网格的单独命名空间中运行的客户端
 `sleep` Pod 访问前面示例中已设置的相同 `httpbin` 服务。
 此示例显示 Ambient 网格 Pod 和非网格 Pod 之间的东西向流量得到无缝支持。
-请注意，如前面所述，此用例利用了 Ambient 的流量发夹功能。
+请注意，如前面所述，此用例利用了 Ambient 的流量 Hair-pinning 功能。
 由于非网格 Pod 直接向后端 Pod 发起流量，而不经过 HBONE 或 ztunnel，
 因此在目标节点，流量将通过目标节点的 ztunnel 代理进行重定向，
 以确保应用 Ambient 授权策略（这可以通过以下方式验证，查看目标节点上相应
