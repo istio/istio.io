@@ -85,7 +85,7 @@ site:
 snips:
 	@scripts/gen_snips.sh
 
-# Force locale since MacOS and Linux use differnet locales. Else MacOS users updates will
+# Force locale, since macOS and Linux use different locales. Otherwise updates from macOS users will
 # fail make gen-check with an incorrect (for the pipeline) .spelling.
 format-spelling:
 	@echo "Sorting the .spelling file..."
