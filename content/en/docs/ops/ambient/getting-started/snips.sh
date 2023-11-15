@@ -254,7 +254,7 @@ spec:
         - cluster.local/$GATEWAY_SERVICE_ACCOUNT
     to:
     - operation:
-       methods: ["GET"]
+        methods: ["GET"]
 EOF
 }
 
