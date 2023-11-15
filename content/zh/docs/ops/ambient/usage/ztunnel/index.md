@@ -10,12 +10,12 @@ test: no
 `Ambient` 目前处于 [Alpha 状态](/zh/docs/releases/feature-stages/#feature-phase-definitions)。
 
 请**不要在生产环境中运行 Ambient**，
-并确保在使用前彻底检查[功能阶段定义](/zh/docs/releases/feature-stages/#feature-phase-definitions)。
+并确保在使用前仔细检查[功能阶段定义](/zh/docs/releases/feature-stages/#feature-phase-definitions)。
 特别是，`alpha` 版本中存在已知的性能、稳定性和安全问题。
 还有一些功能性注意事项，其中一些已在本指南的[注意事项部分](#caveats)中列出。
-以及计划中的重大变更，包括一些会阻止升级的更改。这些都是在升级到 `beta`
+以及计划中的重大变更，其中一些会影响升级。这些都是在升级到 `beta`
 版之前所有要解决的限制。本指南的当前版本旨在帮助早期部署和测试 Ambient 的 Alpha 版本。
-随着 Ambient 本身从 Alpha 状态发展到 Beta 及更高状态，本指南将随之进行更新。
+随着 Ambient 状态从 Alpha 发展到 Beta 及以后，本指南将随之进行更新。
 {{< /warning >}}
 
 ## 简介  {#introsection}
@@ -36,7 +36,7 @@ test: no
 
 ztunnel（零信任隧道：Zero Trust Tunnel）组件是专门为 Istio Ambient
 网格构建的基于每个节点的代理。由于工作负载 Pod 不再需要在 Sidecar
-中运行的代理也可以参与网格，因此 Ambient 模式下的 Istio
+中运行代理也可以参与网格，因此 Ambient 模式下的 Istio
 也被非正式地称为“无 Sidecar” 网格。
 
 {{< tip >}}
@@ -52,7 +52,7 @@ ztunnel 代理是用 Rust 语言编写的，旨在处理 Ambient 网格中的 L3
 其中实现了 Istio 的全套 L7 功能，例如 HTTP 遥测和负载均衡。
 “安全覆盖网络（Secure Overlay Networking）”概念被非正式地用于统称通过
 ztunnel 代理在 Ambient 网格中实现的 L4 网络功能集。
-在传输层，这是通过称为 HBONE 的基于 HTTP CONNECT 的流量隧道协议来实现的，
+在传输层，这是通过一种称为 HBONE 的基于 HTTP CONNECT 的流量隧道协议来实现的，
 该协议在本指南的[后续部分](#hbonesection)中进行了描述。
 
 Istio 在 Ambient 模式下的一些用例可以仅通过 L4 安全覆盖网络功能来解决，
@@ -64,8 +64,8 @@ Istio 在 Ambient 模式下的一些用例可以仅通过 L4 安全覆盖网络�
 
 | 应用程序部署用例 | Istio Ambient 网格配置 |
 | ------------- | ------------- |
-| 通过双向 TLS、客户端应用程序流量的加密和隧道数据传输、L4 授权、L4 遥测实现零信任网络 | 具有 ztunnel 代理网络的基线 Ambient 网格 |
-| 应用程序需要 L4 Mutual-TLS 以及高级 Istio 流量管理功能（包括 VirtualService、L7 遥测、L7 授权） | 完整的 Istio Ambient 网格配置，包括基于 ztunnel 代理和 waypoint 代理的网络 |
+| 通过双向 TLS、客户端应用程序流量的加密和隧道数据传输实现零信任网络、L4 授权、L4 遥测 | 具有 ztunnel 代理网络的基线 Ambient 网格 |
+| 应用程序需要 L4 双向 TLS 以及高级 Istio 流量管理功能（包括 VirtualService、L7 遥测、L7 授权） | 完整的 Istio Ambient 网格配置，包括基于 ztunnel 代理和 waypoint 代理的网络 |
 
 ## 当前注意事项  {#caveats}
 
@@ -74,7 +74,7 @@ Istio Ambient 模式所需的最低 Istio 版本是 `1.18.0`。
 一般来说，Ambient 模式下的 Istio 支持 Sidecar 代理模式下支持的现有 Istio API。
 由于 Ambient 功能当前处于 Alpha 版本级别，
 因此以下是 Istio Ambient 功能当前版本（自 `1.19.0` 版本起）中的功能限制或警告列表。
-由于 Ambient 将进入 Beta 并最终正式发布，这些限制预计将在未来的软件版本中得到解决/移除。
+预计在 Ambient 进入 Beta 版本并最终正式发布时，这些限制将被解决/移除。
 
 1. **仅限 Kubernetes（K8s）：**目前仅支持 Istio Ambient 模式在 Kubernetes 集群上部署。
    目前不支持在虚拟机等非 Kubernetes 端点上部署。
@@ -127,7 +127,7 @@ caption="ztunnel 架构"
 
 ztunnel 代理使用 xDS API 与 Istio 控制平面（`istiod`）进行通信。
 这使得现代分布式系统所需的快速、动态配置更新成为可能。
-ztunnel 代理还为使用 xDS 在其 Kubernetes 节点上调度的所有 Pod 的服务帐户获取 mTLS 证书。
+ztunnel 代理还使用 xDS 为其 Kubernetes 节点上调度的所有 Pod 的服务帐户获取 mTLS 证书。
 单个 ztunnel 代理可以代表共享其节点的任何 Pod 实现 L4 数据平面功能，
 这需要有效获取相关配置和证书。这种多租户架构与 Sidecar 模型形成鲜明对比，
 在 Sidecar 模型中，每个应用程序 Pod 都有自己的代理。
@@ -150,7 +150,7 @@ caption="ztunnel 基础：仅 L4 数据路径"
 
 该图描绘了 Kubernetes 集群的两个节点 W1 和 W2 上运行的 Ambient Pod 工作负载。
 每个节点上都有一个 ztunnel 代理实例。在此场景中，应用程序客户端
-Pod C1、C2 和 C3 需要访问 Pod S1 提供的服务，并且不需要高级 L7 功能
+Pod C1、C2 和 C3 需要访问由 Pod S1 提供的服务，并且不需要高级 L7 功能
 （例如 L7 流量路由或 L7 流量管理），因此不需要 waypoint 代理。
 
 该图展示了在节点 W1 上运行的 Pod C1 和 C2 与在节点 W2 上运行的 Pod S1 连接，
@@ -185,7 +185,7 @@ caption="通过临时 waypoint 的 ztunnel 数据路径"
 {{< /warning >}}
 
 前面已经指出，流量发送到目标 Pod 时，始终首先将其发送到与目标 Pod 位于同一节点上的 ztunnel 代理。
-但是，如果发送方完全位于 Istio Ambient 网格之外，因此没有预先启动到目标 ztunnel 的 HBONE 隧道，该怎么办？
+但是，如果发送方完全位于 Istio Ambient 网格之外，因此不首先向目的地 ztunnel 发起 HBONE 隧道，该怎么办？
 如果发送者是恶意的并尝试绕过目标 ztunnel 代理将流量直接发送到 Ambient Pod 目标怎么办？
 
 这里有两种情况，如下图所示。在第一种情况下，流量流 B1 被任何 HBONE 隧道外部的节点 W2 接收，
