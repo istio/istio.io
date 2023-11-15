@@ -85,9 +85,11 @@ site:
 snips:
 	@scripts/gen_snips.sh
 
+# Force locale since MacOS and Linux use differnet locales. Else MacOS users updates will
+# fail make gen-check with an incorrect (for the pipeline) .spelling.
 format-spelling:
 	@echo "Sorting the .spelling file..."
-	@sort .spelling --ignore-case -o .spelling
+	@LC_ALL=C sort .spelling --ignore-case -o .spelling
 	@echo ".spelling file sorted."
 
 gen: tidy-go format-go update-gateway-version snips format-spelling
