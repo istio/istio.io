@@ -914,6 +914,7 @@ No
 <ul>
 <li><code>response.code &gt;= 400</code></li>
 <li><code>connection.mtls &amp;&amp; request.url_path.contains('v1beta3')</code></li>
+<li><code>!has(request.useragent) || !(request.useragent.startsWith(&quot;Amazon-Route53-Health-Check-Service&quot;))</code></li>
 </ul>
 
 </td>
