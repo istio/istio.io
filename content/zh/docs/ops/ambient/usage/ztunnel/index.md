@@ -37,7 +37,7 @@ test: no
 ztunnel（Zero Trust Tunnel，零信任隧道）组件是专门为 Istio Ambient
 网格构建的基于每个节点的代理。由于工作负载 Pod 不再需要在 Sidecar
 中运行代理也可以参与网格，因此 Ambient 模式下的 Istio
-也被非正式地称为“无 Sidecar” 网格。
+也被非正式地称为 “无 Sidecar” 网格。
 
 {{< tip >}}
 使用 Sidecar 代理的 Pod/工作负载可以与在 Ambient 模式下运行的 Pod 共存于同一网格内。
