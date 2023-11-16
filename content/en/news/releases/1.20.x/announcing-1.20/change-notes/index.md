@@ -187,7 +187,7 @@ environment to remove the deprecated functionality.
 - **Added** a new `istioctl dashboard proxy` command, which can be used to show the admin UI of different proxy pods,
   like Envoy, Ztunnel, Waypoint.
 
-- **Added** an output format option for the `istioctl experimental pre-check` command. Valid options are `log`, `json`
+- **Added** an output format option for the `istioctl experimental precheck` command. Valid options are `log`, `json`
   or `yaml`.
 
 - **Added** the `--output-threshold` flag in `istioctl experimental precheck` to control the message output threshold.
