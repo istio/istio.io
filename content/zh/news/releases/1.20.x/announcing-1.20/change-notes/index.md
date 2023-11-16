@@ -186,7 +186,7 @@ weight: 20
 - **新增** 添加了一个新的 `istioctl dashboard proxy` 命令，
   可用于显示不同代理 Pod 的管理 UI，例如 Envoy、Ztunnel、Waypoint。
 
-- **新增** 添加了 `istioctl experimental pre-check` 命令的输出格式选项。
+- **新增** 添加了 `istioctl experimental precheck` 命令的输出格式选项。
   有效选项为 `log`、`json` 或 `yaml`。
 
 - **新增** 在 `istioctl experimental precheck` 中添加了 `--output-threshold`
