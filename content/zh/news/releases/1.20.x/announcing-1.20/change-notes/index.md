@@ -49,9 +49,9 @@ weight: 20
 - **新增** 通过 `values.cni.cniNetnsDir` 指定替代网络命名空间路径（例如 minikube）。
   ([Issue #47444](https://github.com/istio/istio/issues/47444))
 
-- **更新** 更新了 `failoverPriority` 和 `failover` 的相互配合工作能力。
+- **更新** `failoverPriority` 和 `failover` 现在可以协同工作。
 
-- **修复** 修复了创建 `WorkloadGroup` 时已被连接代理的 `WorkloadEntry` 立即自动注册的问题。
+- **修复** 修复了创建 `WorkloadGroup` 时立即自动注册已连接的代理的 `WorkloadEntry` 的问题。
   ([Issue #45329](https://github.com/istio/istio/issues/45329))
 
 - **修复** 修复了多网络端点的 DNS 解析问题，
@@ -166,7 +166,7 @@ weight: 20
   这可以优化启动时间并最大限度地减少整个 Pod 生命周期的负载。有关详细信息，请参阅升级说明。
   ([Issue #32569](https://github.com/istio/istio/issues/32569))
 
-- **修复** 修复了使用 `--dry-run` 选项安装时资源被缩减的问题。
+- **修复** 修复了使用 `--dry-run` 选项安装时资源被误删除的问题。
 
 - **修复** 修复了使用 `empty` 配置文件安装 Istio 时不显示组件信息的问题。
 
