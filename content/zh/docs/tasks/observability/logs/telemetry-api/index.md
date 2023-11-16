@@ -135,7 +135,7 @@ $ kubectl apply -f @samples/open-telemetry/loki/otel.yaml@ -n istio-system
 1. 使用 CEL 表达式过滤健康检查访问日志
 
     仅当日志不是由 Amazon Route 53 健康检查服务所生成时，以下配置才显示访问日志。
-    注意：`request.useragent` 特定于 HTTP 流量，因此为了避免破坏 TCP 流量，
+    注意：`request.useragent` 专用于 HTTP 流量，因此为了避免破坏 TCP 流量，
     我们需要检查该字段是否存在。有关更多信息，请参阅
     [CEL 类型检查](https://kubernetes.io/docs/reference/using-api/cel/#type-checking)
 
