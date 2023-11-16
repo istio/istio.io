@@ -19,16 +19,16 @@ weight: 20
 
 - **改进** 改进了对 `ExternalName` 服务的支持。有关详细信息，请参阅升级说明。
 
-- **改进** 改进了 HTTP 和 TCP Envoy 过滤器的排序用于增强一致性。
+- **改进** 改进了 HTTP 和 TCP Envoy 过滤器的排序，以增强一致性。
 
 - **改进** 改进了 `iptables` 锁定功能。新的实现在需要时使用
   `iptables` 内置锁等待，并在不需要时完全禁用锁定。
 
-- **改进** 改进了在不同网络上 `ServiceEntry` 资源中通过 `endpoints`
-  字段内联添加的 `WorkloadEntry` 资源，不再需要指定地址。
+- **改进** 改进了通过 `ServiceEntry` 资源中的 `endpoints`
+  字段内联添加的 `WorkloadEntry` 资源在不同网络上不再需要指定地址。
   ([Issue #45150](https://github.com/istio/istio/issues/45150))
 
-- **新增** 添加了支持将流量镜像发送到 `VirtualService` 中的多个目标的功能。
+- **新增** 添加了对 `VirtualService` 中多个目的地的流量镜像支持。
   ([Issue #13330](https://github.com/istio/istio/issues/13330))
 
 - **新增** 添加了用户可以通过 Operator API 或 Helm Chart
@@ -46,7 +46,7 @@ weight: 20
   附加到 Kubernetes `Gateway` 资源的功能。
   ([Issue #46847](https://github.com/istio/istio/issues/46847))
 
-- **新增** 通过 `values.cni.cniNetnsDir` 添加了对备用网络命名空间路径（例如 minikube）的支持。
+- **新增** 通过 `values.cni.cniNetnsDir` 指定替代网络命名空间路径（例如 minikube）。
   ([Issue #47444](https://github.com/istio/istio/issues/47444))
 
 - **更新** 更新了 `failoverPriority` 和 `failover` 的相互配合工作能力。
