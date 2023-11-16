@@ -39,8 +39,8 @@ Kubernetes `ExternalName` `Service` 允许用户创建新的 DNS 条目。
 对 `ExternalName` 的支持进行了重构，用于解决这些问题。
 `ExternalName` 现在被简单地视为别名。无论我们在哪里匹配 `Host: <concrete service>`，
 我们都会另外匹配 `Host: <external name service>`。
-请注意，`ExternalName` DNS 的主要实现是在 Kubernetes DNS
-实现中的 Istio 外部被处理的，并将保持不变。
+请注意，`ExternalName` DNS 的主要实现是在 Istio 外部的
+Kubernetes DNS 实现中处理的，并将保持不变。
 
 如果您将 `ExternalName` 与 Istio 一起使用，请注意以下行为变化：
 
@@ -51,12 +51,12 @@ Kubernetes `ExternalName` `Service` 允许用户创建新的 DNS 条目。
 * `DestinationRule` 不再适用于 `ExternalName` 服务。
   相反，创建规则通过 `host` 引用服务。
 
-这些变更在此版本中默认处于关闭状态，但在不久的将来将默认处于打开状态。
+这些变更在此版本中默认处于关闭状态，但在不久的将来将默认开启。
 需要尽早选择开启，可以设置 `ENABLE_EXTERNAL_NAME_ALIAS=true` 环境变量。
 
 ## Envoy 过滤器排序 {#envoy-filter-ordering}
 
-此更改会影响 Envoy 过滤器排序方式的内部实现。
+此更改影响 Envoy 过滤器排序方式的内部实现。
 这些按照顺序运行的过滤器是为了实现各类功能。
 
 现在，入站、出站和网关代理模式以及 HTTP 和 TCP 协议的顺序是一致的：
