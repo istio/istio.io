@@ -1,4 +1,4 @@
-#sidebar-toggler, #scroll-to-top, #switch-lang, #edit-this-page, #report-site-bugs {
+#sidebar-toggler, #scroll-to-top {
     z-index: $floating-button-z;
     outline: none;
     background-color: rgba($backgroundColor, .7);
@@ -53,57 +53,6 @@
 
         &.show {
             display: block;
-        }
-    }
-}
-
-#switch-lang-container, #edit-this-page-container, #report-site-bugs-container {
-    display: none;
-
-    @media screen {
-        display: block;
-    }
-
-    #switch-lang, #edit-this-page, #report-site-bugs {
-        display: block;
-        position: fixed;
-        right: 1rem;
-        background-color: bisque;
-
-        &.disabled {
-            background-color: lightgrey;
-            cursor: default;
-
-            svg:hover {
-                fill: $floatingButtonColor;
-            }
-        }
-    }
-}
-
-#switch-lang-container {
-    #switch-lang {
-        bottom: 1rem;
-        @media (min-width: $bp-sm) {
-            bottom: calc(1rem + #{$footerHeight});
-        }
-    }
-}
-
-#edit-this-page-container {
-    #edit-this-page {
-        bottom: 6rem;
-        @media (min-width: $bp-sm) {
-            bottom: calc(6rem + #{$footerHeight});
-        }
-    }
-}
-
-#report-site-bugs-container {
-    #report-site-bugs {
-        bottom: 3.5rem;
-        @media (min-width: $bp-sm) {
-            bottom: calc(3.5rem + #{$footerHeight});
         }
     }
 }
