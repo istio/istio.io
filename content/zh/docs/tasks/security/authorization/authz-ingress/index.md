@@ -377,9 +377,10 @@ metadata:
   name: ingress-policy
   namespace: foo
 spec:
-  selector:
-    matchLabels:
-      istio.io/gateway-name: httpbin-gateway
+  targetRef:
+    kind: Gateway
+    group: gateway.networking.k8s.io
+    name: httpbin-gateway
   action: ALLOW
   rules:
   - from:
@@ -398,9 +399,10 @@ metadata:
   name: ingress-policy
   namespace: foo
 spec:
-  selector:
-    matchLabels:
-      istio.io/gateway-name: httpbin-gateway
+  targetRef:
+    kind: Gateway
+    group: gateway.networking.k8s.io
+    name: httpbin-gateway
   action: ALLOW
   rules:
   - from:
@@ -524,9 +526,10 @@ metadata:
   name: ingress-policy
   namespace: foo
 spec:
-  selector:
-    matchLabels:
-      istio.io/gateway-name: httpbin-gateway
+  targetRef:
+    kind: Gateway
+    group: gateway.networking.k8s.io
+    name: httpbin-gateway
   action: ALLOW
   rules:
   - from:
@@ -545,9 +548,10 @@ metadata:
   name: ingress-policy
   namespace: foo
 spec:
-  selector:
-    matchLabels:
-      istio.io/gateway-name: httpbin-gateway
+  targetRef:
+    kind: Gateway
+    group: gateway.networking.k8s.io
+    name: httpbin-gateway
   action: ALLOW
   rules:
   - from:
@@ -630,9 +634,10 @@ metadata:
   name: ingress-policy
   namespace: foo
 spec:
-  selector:
-    matchLabels:
-      istio.io/gateway-name: httpbin-gateway
+  targetRef:
+    kind: Gateway
+    group: gateway.networking.k8s.io
+    name: httpbin-gateway
   action: DENY
   rules:
   - from:
@@ -651,9 +656,10 @@ metadata:
   name: ingress-policy
   namespace: foo
 spec:
-  selector:
-    matchLabels:
-      istio.io/gateway-name: httpbin-gateway
+  targetRef:
+    kind: Gateway
+    group: gateway.networking.k8s.io
+    name: httpbin-gateway
   action: DENY
   rules:
   - from:

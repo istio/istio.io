@@ -302,19 +302,19 @@ $ kubectl apply -f - <<EOF
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
- name: productpage-viewer
- namespace: default
+  name: productpage-viewer
+  namespace: default
 spec:
- selector:
-   matchLabels:
-     app: productpage
- action: ALLOW
- rules:
- - from:
-   - source:
-       principals:
-       - cluster.local/ns/default/sa/sleep
-       - cluster.local/$GATEWAY_SERVICE_ACCOUNT
+  selector:
+    matchLabels:
+      app: productpage
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        principals:
+        - cluster.local/ns/default/sa/sleep
+        - cluster.local/$GATEWAY_SERVICE_ACCOUNT
 EOF
 {{< /text >}}
 
@@ -374,22 +374,23 @@ $ kubectl apply -f - <<EOF
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
- name: productpage-viewer
- namespace: default
+  name: productpage-viewer
+  namespace: default
 spec:
- selector:
-   matchLabels:
-     istio.io/gateway-name: bookinfo-productpage
- action: ALLOW
- rules:
- - from:
-   - source:
-       principals:
-       - cluster.local/ns/default/sa/sleep
-       - cluster.local/$GATEWAY_SERVICE_ACCOUNT
-   to:
-   - operation:
-       methods: ["GET"]
+  targetRef:
+    kind: Gateway
+    group: gateway.networking.k8s.io
+    name: bookinfo-productpage
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        principals:
+        - cluster.local/ns/default/sa/sleep
+        - cluster.local/$GATEWAY_SERVICE_ACCOUNT
+    to:
+    - operation:
+        methods: ["GET"]
 EOF
 {{< /text >}}
 
