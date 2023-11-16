@@ -29,7 +29,7 @@ target_release: 0.1
 
 ## 实现{#implementation}
 
-Istio 的代理基于 [`Envoy`](https://envoyproxy.github.io/envoy/)，它作为数据平面的用户空间守护进程实现的，使用标准套接字与网络层交互。这使它在处理方面具有很大的灵活性，并允许它在容器中分发（和升级！）。
+Istio 的代理基于 [Envoy](https://github.com/envoyproxy/envoy)，它作为数据平面的用户空间守护进程实现的，使用标准套接字与网络层交互。这使它在处理方面具有很大的灵活性，并允许它在容器中分发（和升级！）。
 
 网络策略数据平面通常在内核空间中实现（例如：使用 iptables 、eBPF 过滤器、或甚至自定义内核模块）。在内核空间使它们性能很好，但不像 Envoy 代理那样灵活。
 

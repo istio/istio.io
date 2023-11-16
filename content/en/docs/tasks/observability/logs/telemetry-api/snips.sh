@@ -113,6 +113,21 @@ spec:
 EOF
 }
 
+snip_get_started_with_telemetry_api_6() {
+cat <<EOF | kubectl apply -f -
+apiVersion: telemetry.istio.io/v1alpha1
+kind: Telemetry
+metadata:
+  name: filter-health-check-logging
+spec:
+  accessLogging:
+  - providers:
+    - name: otel
+    filter:
+      expression: "!has(request.useragent) || !(request.useragent.startsWith("Amazon-Route53-Health-Check-Service"))"
+EOF
+}
+
 snip_cleanup_1() {
 kubectl delete telemetry --all -A
 }

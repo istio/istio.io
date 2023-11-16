@@ -395,12 +395,12 @@ to enable it.  You can execute the following once:</p>
 <tr>
 <td><code>--dry-run</code></td>
 <td><code>-n</code></td>
-<td>Do not call any external dependencies like iptables </td>
+<td>Do not call any external dependencies like iptables. </td>
 </tr>
 <tr>
 <td><code>--istio-inbound-interception-mode &lt;string&gt;</code></td>
 <td><code>-m</code></td>
-<td>The mode used to redirect inbound connections to Envoy, either &#34;REDIRECT&#34; or &#34;TPROXY&#34;  (default ``)</td>
+<td>The mode used to redirect inbound connections to Envoy, either &#34;REDIRECT&#34; or &#34;TPROXY&#34;.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--istio-inbound-tproxy-mark &lt;string&gt;</code></td>
@@ -455,17 +455,17 @@ to enable it.  You can execute the following once:</p>
 <tr>
 <td><code>--proxy-gid &lt;string&gt;</code></td>
 <td><code>-g</code></td>
-<td>Specify the GID of the user for which the redirection is not applied. (same default value as -u param)  (default ``)</td>
+<td>Specify the GID of the user for which the redirection is not applied (same default value as -u param).  (default ``)</td>
 </tr>
 <tr>
 <td><code>--proxy-uid &lt;string&gt;</code></td>
 <td><code>-u</code></td>
-<td>Specify the UID of the user for which the redirection is not applied. Typically, this is the UID of the proxy container  (default ``)</td>
+<td>Specify the UID of the user for which the redirection is not applied. Typically, this is the UID of the proxy container.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--redirect-dns</code></td>
 <td></td>
-<td>Enable capture of dns traffic by istio-agent </td>
+<td>Enable capture of dns traffic by istio-agent. </td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -515,20 +515,20 @@ to enable it.  You can execute the following once:</p>
 <tr>
 <td><code>--envoy-port &lt;string&gt;</code></td>
 <td><code>-p</code></td>
-<td>Specify the envoy port to which redirect all TCP traffic (default $ENVOY_PORT = 15001).  (default ``)</td>
+<td>Specify the envoy port to which redirect all TCP traffic.  (default `15001`)</td>
 </tr>
 <tr>
 <td><code>--inbound-capture-port &lt;string&gt;</code></td>
 <td><code>-z</code></td>
-<td>Port to which all inbound TCP traffic to the pod/VM should be redirected to (default $INBOUND_CAPTURE_PORT = 15006).  (default ``)</td>
+<td>Port to which all inbound TCP traffic to the pod/VM should be redirected to.  (default `15006`)</td>
 </tr>
 <tr>
 <td><code>--inbound-tunnel-port &lt;string&gt;</code></td>
 <td><code>-e</code></td>
-<td>Specify the istio tunnel port for inbound tcp traffic (default $INBOUND_TUNNEL_PORT = 15008).  (default ``)</td>
+<td>Specify the istio tunnel port for inbound tcp traffic.  (default `15008`)</td>
 </tr>
 <tr>
-<td><code>--iptables-probe-port &lt;string&gt;</code></td>
+<td><code>--iptables-probe-port &lt;uint16&gt;</code></td>
 <td></td>
 <td>Set listen port for failure detection.  (default `15002`)</td>
 </tr>
@@ -560,17 +560,17 @@ to enable it.  You can execute the following once:</p>
 <tr>
 <td><code>--istio-inbound-tproxy-mark &lt;string&gt;</code></td>
 <td><code>-t</code></td>
-<td>  (default ``)</td>
+<td>  (default `1337`)</td>
 </tr>
 <tr>
 <td><code>--istio-inbound-tproxy-route-table &lt;string&gt;</code></td>
 <td><code>-r</code></td>
-<td>  (default ``)</td>
+<td>  (default `133`)</td>
 </tr>
 <tr>
 <td><code>--istio-local-exclude-ports &lt;string&gt;</code></td>
 <td><code>-d</code></td>
-<td>Comma separated list of inbound ports to be excluded from redirection to Envoy (optional). Only applies when all inbound traffic (i.e. &#34;*&#34;) is being redirected (default to $ISTIO_LOCAL_EXCLUDE_PORTS).  (default ``)</td>
+<td>Comma separated list of inbound ports to be excluded from redirection to Envoy (optional). Only applies when all inbound traffic (i.e. &#34;*&#34;) is being redirected.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--istio-local-outbound-ports-exclude &lt;string&gt;</code></td>
@@ -590,7 +590,7 @@ to enable it.  You can execute the following once:</p>
 <tr>
 <td><code>--istio-service-exclude-cidr &lt;string&gt;</code></td>
 <td><code>-x</code></td>
-<td>Comma separated list of IP ranges in CIDR form to be excluded from redirection. Only applies when all  outbound traffic (i.e. &#34;*&#34;) is being redirected (default to $ISTIO_SERVICE_EXCLUDE_CIDR).  (default ``)</td>
+<td>Comma separated list of IP ranges in CIDR form to be excluded from redirection. Only applies when all  outbound traffic (i.e. &#34;*&#34;) is being redirected.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--kube-virt-interfaces &lt;string&gt;</code></td>
@@ -1125,7 +1125,7 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <tr>
 <td><code>ENABLE_EXTERNAL_NAME_ALIAS</code></td>
 <td>Boolean</td>
-<td><code>false</code></td>
+<td><code>true</code></td>
 <td>If enabled, ExternalName Services will be treated as simple aliases: anywhere where we would match the concrete service, we also match the ExternalName. In general, this mirrors Kubernetes behavior more closely. However, it means that policies (routes and DestinationRule) cannot be applied to the ExternalName service. If disabled, ExternalName behaves in fairly unexpected manner. Port matters, while it does not in Kubernetes. If it is a TCP port, all traffic on that port will be matched, which can have disastrous consequences. Additionally, the destination is seen as an opaque destination; even if it is another service in the mesh, policies such as mTLS and load balancing will not be used when connecting to it.</td>
 </tr>
 <tr>
@@ -1313,12 +1313,6 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>String</td>
 <td><code></code></td>
 <td></td>
-</tr>
-<tr>
-<td><code>INVALID_DROP</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If set to true, enable the invalid drop iptables rule, default false will cause iptables reset out of window packets</td>
 </tr>
 <tr>
 <td><code>IPTABLES_TRACE_LOGGING</code></td>
@@ -1556,7 +1550,7 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td><code>MINIMUM_DRAIN_DURATION</code></td>
 <td>Time Duration</td>
 <td><code>5s</code></td>
-<td>The minimum duration for which agent waits before it checks for active connections and terminates proxywhen number of active connections become zero</td>
+<td>The minimum duration for which agent waits before it checks for active connections and terminates proxy when number of active connections become zero</td>
 </tr>
 <tr>
 <td><code>MUTEX_PROFILE_FRACTION</code></td>
@@ -2222,7 +2216,7 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <tr><td><code>cert_expiry_seconds</code></td><td><code>LastValue</code></td><td>The time remaining, in seconds, before the certificate chain will expire. A negative value indicates the cert is expired.</td></tr>
 <tr><td><code>controller_sync_errors_total</code></td><td><code>Sum</code></td><td>Total number of errorMetric syncing controllers.</td></tr>
 <tr><td><code>dns_requests_total</code></td><td><code>Sum</code></td><td>Total number of DNS requests.</td></tr>
-<tr><td><code>dns_upstream_failures_total</code></td><td><code>Sum</code></td><td>Total number of DNS requests forwarded to upstream.</td></tr>
+<tr><td><code>dns_upstream_failures_total</code></td><td><code>Sum</code></td><td>Total number of DNS failures.</td></tr>
 <tr><td><code>dns_upstream_request_duration_seconds</code></td><td><code>Distribution</code></td><td>Total time in seconds Istio takes to get DNS response from upstream.</td></tr>
 <tr><td><code>dns_upstream_requests_total</code></td><td><code>Sum</code></td><td>Total number of DNS requests forwarded to upstream.</td></tr>
 <tr><td><code>endpoint_no_pod</code></td><td><code>LastValue</code></td><td>Endpoints without an associated pod.</td></tr>

@@ -9,10 +9,11 @@ test: yes
 {{< boilerplate ambient-alpha-warning >}}
 
 本指南有助于您快速评估 Istio {{< gloss "ambient" >}}ambient service mesh{{< /gloss >}}。
-以下操作步骤需要您有一个 {{< gloss >}}cluster{{< /gloss >}} 运行了 Kubernetes ({{< supported_kubernetes_versions >}})
-的[支持版本](/zh/docs/releases/supported-releases#support-status-of-istio-releases)。
-您可以使用所有受支持的平台，例如 [Minikube](https://kubernetes.io/zh-cn/docs/tasks/tools/install-minikube/)
-或[特定平台搭建指南](/zh/docs/setup/platform-setup/)中所述的其他平台。
+以下操作步骤需要您有一个 {{< gloss >}}cluster{{< /gloss >}} 运行了
+[Istio 支持的](/zh/docs/releases/supported-releases#support-status-of-istio-releases)
+Kubernetes 版本 ({{< supported_kubernetes_versions >}})。
+您可以使用 [Minikube](https://kubernetes.io/zh-cn/docs/tasks/tools/install-minikube/)
+或[特定平台搭建指南](/zh/docs/setup/platform-setup/)中指定的所有受支持的平台。
 
 参照以下步骤开始使用 Ambient：
 
@@ -67,7 +68,7 @@ test: yes
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio APIs" category-value="istio-apis" >}}
+{{< tab name="Istio API" category-value="istio-apis" >}}
 
 {{< text bash >}}
 $ istioctl install --set profile=ambient --set "components.ingressGateways[0].enabled=true" --set "components.ingressGateways[0].name=istio-ingressgateway" --skip-confirmation
@@ -112,7 +113,7 @@ $ istioctl install --set profile=ambient --skip-confirmation
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio APIs" category-value="istio-apis" >}}
+{{< tab name="Istio API" category-value="istio-apis" >}}
 
 {{< text bash >}}
 $ kubectl get pods -n istio-system
@@ -165,20 +166,30 @@ ztunnel          1         1         1       1            1           kubernetes
 因为使用 Ambient 时，您不会想要 Istio 将 Sidecar 注入到应用 Pod 中。
 {{< /warning >}}
 
-{{< text syntax=bash snip_id=none >}}
-$ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
-{{< /text >}}
+1. 启动样例服务：
 
-{{< text bash >}}
-$ kubectl apply -f @samples/sleep/sleep.yaml@
-$ kubectl apply -f @samples/sleep/notsleep.yaml@
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
+    {{< /text >}}
 
-注：`sleep` 和 `notsleep` 是可以用作 curl 客户端的两个简单应用。
+    {{< text bash >}}
+    $ kubectl apply -f @samples/sleep/sleep.yaml@
+    $ kubectl apply -f @samples/sleep/notsleep.yaml@
+    {{< /text >}}
+
+    注：`sleep` 和 `notsleep` 是可以用作 curl 客户端的两个简单应用。
+
+1. 部署一个 Ingress Gateway，这样您可以从集群外访问 bookinfo 应用：
+
+    {{< tip >}}
+    要在 `kind` 中获取服务类型为 `Loadbalancer` 的 IP 地址，
+    您可能需要安装 [MetalLB](https://metallb.universe.tf/)
+    这类工具。更多细节请参阅[此指南](https://kind.sigs.k8s.io/docs/user/loadbalancer/)。
+    {{</ tip >}}
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio APIs" category-value="istio-apis" >}}
+{{< tab name="Istio API" category-value="istio-apis" >}}
 
 创建 Istio [Gateway](/zh/docs/reference/config/networking/gateway/) 和
 [VirtualService](/zh/docs/reference/config/networking/virtual-service/)，
@@ -224,22 +235,22 @@ $ export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/bookinfo-gateway-istio
 
 {{< /tabset >}}
 
-测试您的 bookinfo 应用，无论是否有网关都应该能够正常工作。
+3) 测试您的 bookinfo 应用，无论是否有网关都应该能够正常工作。
 
-{{< text syntax=bash snip_id=verify_traffic_sleep_to_ingress >}}
-$ kubectl exec deploy/sleep -- curl -s "http://$GATEWAY_HOST/productpage" | grep -o "<title>.*</title>"
-<title>Simple Bookstore App</title>
-{{< /text >}}
+    {{< text syntax=bash snip_id=verify_traffic_sleep_to_ingress >}}
+    $ kubectl exec deploy/sleep -- curl -s "http://$GATEWAY_HOST/productpage" | grep -o "<title>.*</title>"
+    <title>Simple Bookstore App</title>
+    {{< /text >}}
 
-{{< text syntax=bash snip_id=verify_traffic_sleep_to_productpage >}}
-$ kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
-<title>Simple Bookstore App</title>
-{{< /text >}}
+    {{< text syntax=bash snip_id=verify_traffic_sleep_to_productpage >}}
+    $ kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
+    <title>Simple Bookstore App</title>
+    {{< /text >}}
 
-{{< text syntax=bash snip_id=verify_traffic_notsleep_to_productpage >}}
-$ kubectl exec deploy/notsleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
-<title>Simple Bookstore App</title>
-{{< /text >}}
+    {{< text syntax=bash snip_id=verify_traffic_notsleep_to_productpage >}}
+    $ kubectl exec deploy/notsleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
+    <title>Simple Bookstore App</title>
+    {{< /text >}}
 
 ## 添加应用到 Ambient {#addtoambient}
 
@@ -274,7 +285,7 @@ $ kubectl exec deploy/notsleep -- curl -s http://productpage:9080/ | grep -o "<t
 和 [Kiali](/zh/docs/ops/integrations/kiali/#installation)，
 您将能够在 Kiali 的应用中直观地查看自己的应用：
 
-{{< image link="./kiali-ambient-bookinfo.png" caption="Kiali dashboard" >}}
+{{< image link="./kiali-ambient-bookinfo.png" caption="Kiali 仪表盘" >}}
 
 ## 确保应用访问安全 {#secure}
 
@@ -282,7 +293,7 @@ $ kubectl exec deploy/notsleep -- curl -s http://productpage:9080/ | grep -o "<t
 这允许您基于客户端负载身份来控制到服务的访问或源于服务的访问，
 但类似 `GET` 和 `POST` 的这些 HTTP 方法并不在 L7 级别。
 
-### L4 鉴权策略{#l4-policy}
+### L4 鉴权策略 {#l4-policy}
 
 显式允许 `sleep` 服务账号和 `istio-ingressgateway` 服务账号调用 `productpage` 服务：
 
@@ -310,24 +321,24 @@ EOF
 确认上述鉴权策略正在工作：
 
 {{< text bash >}}
-$ # this should succeed
+$ # 这条命令应成功
 $ kubectl exec deploy/sleep -- curl -s "http://$GATEWAY_HOST/productpage" | grep -o "<title>.*</title>"
 <title>Simple Bookstore App</title>
 {{< /text >}}
 
 {{< text bash >}}
-$ # this should succeed
+$ # 这条命令应成功
 $ kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
 <title>Simple Bookstore App</title>
 {{< /text >}}
 
 {{< text bash >}}
-$ # this should fail with a connection reset error code 56
+$ # 这条命令应失败且返回连接重置错误码 56
 $ kubectl exec deploy/notsleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
 command terminated with exit code 56
 {{< /text >}}
 
-### L7 鉴权策略{#l7-policy}
+### L7 鉴权策略 {#l7-policy}
 
 使用 Kubernetes Gateway API，您可以为使用 `bookinfo-productpage` 服务账号的
 `productpage` 服务来部署 {{< gloss "waypoint" >}}waypoint proxy{{< /gloss >}}。
@@ -383,24 +394,24 @@ EOF
 {{< /text >}}
 
 {{< text bash >}}
-$ # this should fail with an RBAC error because it is not a GET operation
+$ # 这条命令应失败且返回 RBAC 错误，这是因为它不是 GET 操作
 $ kubectl exec deploy/sleep -- curl -s "http://$GATEWAY_HOST/productpage" -X DELETE
 RBAC: access denied
 {{< /text >}}
 
 {{< text bash >}}
-$ # this should fail with an RBAC error because the identity is not allowed
+$ # 这条命令应失败且返回 RBAC 错误，这是因为此身份不被允许
 $ kubectl exec deploy/notsleep -- curl -s http://productpage:9080/
 RBAC: access denied
 {{< /text >}}
 
 {{< text bash >}}
-$ # this should continue to work
+$ # 这条命令应继续工作
 $ kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
 <title>Simple Bookstore App</title>
 {{< /text >}}
 
-## 控制流量{#control}
+## 控制流量 {#control}
 
 使用 `bookinfo-review` 服务账号为评审服务部署一个 waypoint proxy，
 因此转到评审服务的所有流量都将通过 waypoint proxy 进行协调。
@@ -410,16 +421,11 @@ $ istioctl x waypoint apply --service-account bookinfo-reviews
 waypoint default/bookinfo-reviews applied
 {{< /text >}}
 
+控制 90% 请求流量到 `reviews` v1，控制 10% 流量到 `reviews` v2：
+
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio APIs" category-value="istio-apis" >}}
-
-应用评审虚拟服务以控制 90% 流量到 reviews-v1，控制 10% 流量到 reviews-v2。
-
-{{< text bash >}}
-$ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-90-10.yaml@
-$ kubectl apply -f @samples/bookinfo/networking/destination-rule-reviews.yaml@
-{{< /text >}}
+{{< tab name="Istio API" category-value="istio-apis" >}}
 
 {{< text bash >}}
 $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-90-10.yaml@
@@ -430,15 +436,8 @@ $ kubectl apply -f @samples/bookinfo/networking/destination-rule-reviews.yaml@
 
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
-创建 bookinfo 服务的子集，以控制到 `reviews` v1 和 v2 的流量：
-
 {{< text bash >}}
 $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-versions.yaml@
-{{< /text >}}
-
-创建 HTTPRoute 以控制 90% 流量到 `reviews` v1 而 10% 流量到 `reviews` v2。
-
-{{< text bash >}}
 $ kubectl apply -f @samples/bookinfo/gateway-api/route-reviews-90-10.yaml@
 {{< /text >}}
 
