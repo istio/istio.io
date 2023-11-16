@@ -61,20 +61,20 @@ Kubernetes DNS 实现中处理的，并将保持不变。
 
 现在，入站、出站和网关代理模式以及 HTTP 和 TCP 协议的顺序是一致的：
 
-* 元数据交换
+* Metadata Exchange
 * CUSTOM Authz
 * WASM Authn
 * Authn
 * WASM Authz
 * Authz
-* WASM 统计
-* 统计
-* WASM 未指定
+* WASM Stats
+* Stats
+* WASM unspecified
 
 这改变了以下领域：
 
-* 入站 TCP 过滤器现在将元数据交换置于 Authn 之前。
-* 网关 TCP 过滤器现在将统计放在 Authz 之后，
+* 入站 TCP 过滤器现在将 Metadata Exchange 置于 Authn 之前。
+* 网关 TCP 过滤器现在将 Stats 放在 Authz 之后，
   将 CUSTOM Authz 放在 Authn 之前。
 
 ## `startupProbe` 被默认添加到 Sidecar {#startupProbe-added-to-sidecar-by-default}
