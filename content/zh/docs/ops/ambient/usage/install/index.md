@@ -1,9 +1,9 @@
 ---
-title: Ambient Mesh 用户指南
-description: 如何使用 Ambient Mesh。
+title: 安装指南
+description: Istio Ambient 网格安装指南。
 weight: 2
 owner: istio/wg-networking-maintainers
-test: n/a
+test: no
 ---
 -
 - 本页正在建设中。
