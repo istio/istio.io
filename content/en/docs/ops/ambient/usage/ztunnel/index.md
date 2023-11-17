@@ -116,9 +116,10 @@ As noted earlier, some ambient functions may change as the project moves to beta
 
 It was noted earlier that traffic is always sent to a destination pod by first sending it to the ztunnel proxy on the same node as the destination pod. But what if the sender is either completely outside the Istio ambient mesh and hence does not initiate HBONE tunnels to the destination ztunnel first? What if the sender is malicious and trying to send traffic directly to an ambient pod destination, bypassing the destination ztunnel proxy?
 
-There are two scenarios here both of which are depicted in the following figure. In the first scenario, traffic stream B1 is being received by node W2 outside of any HBONE tunnel and directly addressed to ambient pod S1's IP address for some reason (possibly because the traffic source is not an ambient pod). As shown in the figure, the ztunnel traffic redirection logic intercepts such traffic and redirects it via the local ztunnel proxy for destination-side proxy processing and possible filtering based on AuthorizationPolicy prior to sending it into pod S1.
+There are two scenarios here both of which are depicted in the following figure:
 
-In the second scenario, traffic stream G1 is being received by the ztunnel proxy of node W2 (possibly over an HBONE tunnel). However, the ztunnel proxy checks that the destination service requires waypoint processing and yet the source sending this traffic is not a waypoint or is not associated with this destination service. In this case, the ztunnel proxy hairpins the traffic towards one of the waypoints associated with the destination service from where it can then be delivered to any pod implementing the destination service (possibly to pod S1 itself, as shown in the figure).
+1. Traffic stream B1 is being received by node W2 outside of any HBONE tunnel and directly addressed to ambient pod S1's IP address for some reason (possibly because the traffic source is not an ambient pod). As shown in the figure, the ztunnel traffic redirection logic intercepts such traffic and redirects it via the local ztunnel proxy for destination-side proxy processing and possible filtering based on AuthorizationPolicy prior to sending it into pod S1.
+1. Traffic stream G1 is being received by the ztunnel proxy of node W2 (possibly over an HBONE tunnel). However, the ztunnel proxy checks that the destination service requires waypoint processing and yet the source sending this traffic is not a waypoint or is not associated with this destination service. In this case, the ztunnel proxy hairpins the traffic towards one of the waypoints associated with the destination service from where it can then be delivered to any pod implementing the destination service (possibly to pod S1 itself, as shown in the figure).
 
 {{< image width="100%"
 link="ztunnel-hairpin.png"
@@ -307,7 +308,7 @@ The use of Istio in ambient mode does not change this behavior. Since this funct
 * [Istio metrics](/docs/reference/config/metrics/)
 * [Querying Metrics from Prometheus](/docs/tasks/observability/metrics/querying-metrics/)
 
-One point to note is that in case of a service that is only using ztunnel and L4 networking, the Istio metrics reported will currently only be the L4 or TCP metrics (namely `istio_tcp_sent_bytes_total`, `istio_tcp_received_bytes_total`, `istio_tcp_connections_opened_total`, `istio_tcp_connections_closed_total`). The full set of Istio and Envoy metrics will be reported when a Waypoint proxy is involved.
+One point to note is that in case of a service that is only using ztunnel and L4 networking, the Istio metrics reported will currently only be the L4 TCP metrics (namely `istio_tcp_sent_bytes_total`, `istio_tcp_received_bytes_total`, `istio_tcp_connections_opened_total`, `istio_tcp_connections_closed_total`). The full set of Istio and Envoy metrics will be reported when a Waypoint proxy is involved.
 
 ### Verifying ztunnel load balancing
 
