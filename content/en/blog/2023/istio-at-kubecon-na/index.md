@@ -24,8 +24,8 @@ Istio Day kicked off with an opening keynote from the Program Committee chairs, 
 
 The opening keynote also announced the availability of [the Istio Certified Associate (ICA) exam](https://www.cncf.io/blog/2023/11/06/introducing-the-istio-certified-associate-ica-certification-for-microservices-management/) for enrollment starting November 6th.
 
-{{< image width="75%" ratio="60%"
-    link="https://www.cncf.io/blog/2023/11/06/introducing-the-istio-certified-associate-ica-certification-for-microservices-management/"
+{{< image width="75%"
+    link="./ica.jpg"
     alt="Istio Certified Associate (ICA): enroll now!"
     >}}
 
@@ -128,7 +128,7 @@ We would like to express our heartfelt gratitude to our platinum sponsors Google
 
 [See you in Paris in March 2024!](https://events.linuxfoundation.org/kubecon-cloudnativecon-europe/co-located-events/istio-day/)
 
-{{< image width="100%" ratio="60%"
-    link="https://events.linuxfoundation.org/kubecon-cloudnativecon-europe/co-located-events/istio-day/"
+{{< image width="100%"
+    link="./istio-day-paris.jpg"
     alt="Istio Day Europe 2024"
     >}}
