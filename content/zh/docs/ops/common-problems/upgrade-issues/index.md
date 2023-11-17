@@ -10,7 +10,7 @@ test: n/a
 
 `EnvoyFilter` 是一个与 Istio xDS 配置生成的实现细节紧密耦合的 Alpha API。
 在升级 Istio 的控制面或数据面时，必须谨慎使用 `EnvoyFilter` Alpha API。
-在许多情况下，您可以用低升级风险的标准 Istio API 替换 `EnvoyFilter`。
+在许多情况下，您可以使用升级风险低的标准 Istio API 替换 `EnvoyFilter`。
 
 ### 使用 Telemetry API 自定义指标 {#use-telemetry-api-for-metrics- customization}
 
