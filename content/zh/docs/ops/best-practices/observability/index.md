@@ -11,7 +11,8 @@ test: n/a
 
 使用 Istio 以及 Prometheus 进行生产规模的监控时推荐的方式是使用[分层联邦](https://prometheus.io/docs/prometheus/latest/federation/#hierarchical-federation)并且结合一组[记录规则](https://prometheus.io/docs/prometheus/latest/configuration/recording_rules/)。
 
-尽管安装 Istio 不会默认部署 [Prometheus](http://prometheus.io)，[入门](/zh/docs/setup/getting-started/)里根据 [Prometheus 集成指导](/zh/docs/ops/integrations/prometheus/)的`选项1：快速开始`章节，指导了Prometheus部署过程。
+尽管安装 Istio 不会默认部署 [Prometheus](http://prometheus.io)，在[入门](/zh/docs/setup/getting-started/)中根据
+[Prometheus 集成指导](/zh/docs/ops/integrations/prometheus/)中的`选项 1：快速开始`章节，对 Prometheus 的部署过程进行了指导。
 此 Prometheus 部署刻意地配置了很短的保留窗口（6 小时）。此快速入门 Prometheus 部署同时也配置为从网格上运行的每一个 Envoy
 代理上收集指标，同时通过一组有关它们的源的标签（`instance`、`pod` 和 `namespace`）来扩充指标。
 
