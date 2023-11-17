@@ -1,6 +1,6 @@
 ---
 title: "Istio at KubeCon North America 2023"
-description: A quick recap of Istio at KubeCon North America, at McCormick Place in Chicago.
+description: A quick recap of Istio at KubeCon North America, at the McCormick Place in Chicago.
 publishdate: 2023-11-16
 attribution: "Faseela K, for the Istio Day Programme Committee"
 keywords: [Istio Day,IstioCon,Istio,conference,KubeCon,CloudNativeCon]
@@ -24,7 +24,7 @@ Istio Day kicked off with an opening keynote from the Program Committee chairs, 
 
 The opening keynote also announced the availability of [the Istio Certified Associate (ICA) exam](https://www.cncf.io/blog/2023/11/06/introducing-the-istio-certified-associate-ica-certification-for-microservices-management/) for enrollment starting November 6th.
 
-{{< image width="75%"
+{{< image width="75%" ratio="60%"
     link="https://www.cncf.io/blog/2023/11/06/introducing-the-istio-certified-associate-ica-certification-for-microservices-management/"
     alt="Istio Certified Associate (ICA): enroll now!"
     >}}
@@ -35,7 +35,7 @@ We were also proud to showcase a small video of many of our contributors, vendor
 <iframe width="560" height="315" src="https://www.youtube.com/embed/c5baPkXZEMU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </div>
 
-The keynote was followed by [an end user talk by Kush Trivedi and Khushboo Mittal](https://www.youtube.com/watch?v=Uk0k8uhdyaA) from DevRev about their usage of Istio. We had a much-awaited session on [architecting ambient for scale](https://www.youtube.com/watch?v=S39yo6ZJ4iM) from John Howard, which stirred some interesting discussions in the community. We also had an interesting talk showcasing the collaboration between Lilt and Intel about [Scaling AI powered translation services using Istio](https://www.youtube.com/watch?v=jFJyLbHros0). 
+The keynote was followed by [an end user talk by Kush Trivedi and Khushboo Mittal](https://www.youtube.com/watch?v=Uk0k8uhdyaA) from DevRev about their usage of Istio. We had a much-awaited session on [architecting ambient for scale](https://www.youtube.com/watch?v=S39yo6ZJ4iM) from John Howard, which stirred some interesting discussions in the community. We also had an interesting talk showcasing the collaboration between Lilt and Intel about [Scaling AI powered translation services using Istio](https://www.youtube.com/watch?v=jFJyLbHros0).
 
 After this we stepped into another [end user talk from Intuit](https://www.youtube.com/watch?v=Xe38vEygOqk) where Karim Lakhani explained about Intuit’s modern SaaS platform deploying multiple cloud native projects including Istio. The audience was excited when Mitch Connors and Christian Hernandez did [a live demo of upgrading Istio ambient mesh with Argo](https://www.youtube.com/watch?v=o71PJAqy4P8) on a live public site, with a publicly accessible availability monitor.
 
@@ -128,6 +128,7 @@ We would like to express our heartfelt gratitude to our platinum sponsors Google
 
 [See you in Paris in March 2024!](https://events.linuxfoundation.org/kubecon-cloudnativecon-europe/co-located-events/istio-day/)
 
-{{< image width="75%"
+{{< image width="100%" ratio="60%"
     link="https://events.linuxfoundation.org/kubecon-cloudnativecon-europe/co-located-events/istio-day/"
+    alt="Istio Day Europe 2024"
     >}}
