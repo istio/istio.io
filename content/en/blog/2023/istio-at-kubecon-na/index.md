@@ -12,7 +12,7 @@ With Istio Day NA over, that's a wrap for our major community events for 2023. I
 
 {{< image width="75%"
     link="./welcome.jpg"
-    caption="Istio Day NA 2023, Welcome"
+    alt="Istio Day NA 2023 welcome sign"
     >}}
 
 Istio Day kicked off with an opening keynote from the Program Committee chairs, Faseela K and Zack Butcher. The keynote made sure to recognize the day-to-day efforts of our contributors, maintainers, release managers, and users, with some awards for our top contributors and community helpers. Rob Salmond and Andrea Ma were recognized for their selfless efforts in the Istio community, and the top 20 contributors in the last 6 months were also called out.
@@ -25,17 +25,19 @@ Istio Day kicked off with an opening keynote from the Program Committee chairs, 
 The opening keynote also announced the availability of [the Istio Certified Associate (ICA) exam](https://www.cncf.io/blog/2023/11/06/introducing-the-istio-certified-associate-ica-certification-for-microservices-management/) for enrollment starting November 6th.
 
 {{< image width="75%"
-    link="./ica.jpg"
-    caption="Istio Day NA 2023, Istio Certified Associate (ICA)"
+    link="https://www.cncf.io/blog/2023/11/06/introducing-the-istio-certified-associate-ica-certification-for-microservices-management/"
+    alt="Istio Certified Associate (ICA): enroll now!"
     >}}
 
-We were also glad to showcase a small video of many of our contributors, vendors and end-users congratulating us for the CNCF graduation!
+We were also proud to showcase a small video of many of our contributors, vendors and end-users congratulating us for the CNCF graduation!
 
 <div style="text-align: center;">
 <iframe width="560" height="315" src="https://www.youtube.com/embed/c5baPkXZEMU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </div>
 
-The keynote was followed by [an end user talk by Kush Trivedi and Khushboo Mittal](https://www.youtube.com/watch?v=Uk0k8uhdyaA) from DevRev about their usage of Istio. We had a much-awaited session on [architecting ambient for scale](https://www.youtube.com/watch?v=S39yo6ZJ4iM) from John Howard, which stirred some interesting discussions in the community. We also had an interesting talk showcasing the collaboration between Lilt and Intel about [Scaling AI powered translation services using Istio](https://www.youtube.com/watch?v=jFJyLbHros0). After this we stepped into another [end user talk from Intuit](https://www.youtube.com/watch?v=Xe38vEygOqk) where Karim Lakhani explained about Intuit’s modern SaaS platform deploying multiple cloud native projects including Istio. The audience was excited when Mitch Connors and Christian Hernandez did [a live demo of upgrading Istio ambient mesh with Argo](https://www.youtube.com/watch?v=o71PJAqy4P8) on a live public site, with a publicly accessible availability monitor.
+The keynote was followed by [an end user talk by Kush Trivedi and Khushboo Mittal](https://www.youtube.com/watch?v=Uk0k8uhdyaA) from DevRev about their usage of Istio. We had a much-awaited session on [architecting ambient for scale](https://www.youtube.com/watch?v=S39yo6ZJ4iM) from John Howard, which stirred some interesting discussions in the community. We also had an interesting talk showcasing the collaboration between Lilt and Intel about [Scaling AI powered translation services using Istio](https://www.youtube.com/watch?v=jFJyLbHros0). 
+
+After this we stepped into another [end user talk from Intuit](https://www.youtube.com/watch?v=Xe38vEygOqk) where Karim Lakhani explained about Intuit’s modern SaaS platform deploying multiple cloud native projects including Istio. The audience was excited when Mitch Connors and Christian Hernandez did [a live demo of upgrading Istio ambient mesh with Argo](https://www.youtube.com/watch?v=o71PJAqy4P8) on a live public site, with a publicly accessible availability monitor.
 
 {{< image width="75%"
     link="./istioday-session-1.jpg"
@@ -54,45 +56,46 @@ The slides for all the sessions can be found in the [Istio Day NA 2023 schedule]
 
 {{< image width="75%"
     link="./istioday-session-2.jpg"
-    caption="Istio Day NA 2023, Kush Trivedi and Khushboo Mittal from DevRev on stage"
+    caption="Kush Trivedi and Khushboo Mittal from DevRev on stage"
     >}}
 
-Istio’s presence at the conference did not end with Istio Day. The first day keynote of KubeCon + CloudNativeCon started with a project update video from Mitch Connors. It was also a proud moment for us, when two of our contributors, Lin Sun and Faseela K, took home the prestigious CNCF community ["Chop Wood Carry Water" award](https://www.cncf.io/announcements/2023/11/08/cloud-native-computing-foundation-announces-2023-community-awards-winners/), presented by Chris Aniszczyk, CTO CNCF, at the second day keynote.
+Our presence at the conference did not end with Istio Day. The first day keynote of KubeCon + CloudNativeCon started with a project update video from Mitch Connors. It was also a proud moment for us, when two of our contributors, Lin Sun and Faseela K, took home the prestigious CNCF community ["Chop Wood Carry Water" award](https://www.cncf.io/announcements/2023/11/08/cloud-native-computing-foundation-announces-2023-community-awards-winners/), presented by Chris Aniszczyk, CTO CNCF, at the second day keynote.
 
 {{< image width="75%"
     link="./chop-wood-carry-water.jpg"
-    caption="KubeCon NA 2023, Chop Wood Carry Water Winners"
+    caption="Chop Wood Carry Water winners, Faseela K and Lin Sun (second and third from left)"
     >}}
 
 Some of our maintainers and contributors made it to the CNCF Fall 2023 Ambassadors list as well, Lin Sun, Mitch Connors, and Faseela K, to name a few.
 
 {{< image width="75%"
     link="./cncf-ambassadors.jpg"
-    caption="KubeCon NA 2023, Istio CNCF Ambassadors"
+    caption="The CNCF Ambassador group photo. Many Istio maintainers are in this picture!"
     >}}
 
 [The KubeCon maintainer track session for Istio](https://sched.co/1R2tA), presented by TOC members John Howard and Louis Ryan,  grabbed great attention as they talked about the current ongoing efforts and future roadmap of Istio. The technologies described in the talk, and the resulting size of the audience, underlined why Istio continues to be the most popular service mesh in the industry.
 
 {{< image width="75%"
     link="./maintainer-track.jpg"
-    caption="KubeCon NA 2023, Maintainer Track"
+    alt="The Istio maintainer track session at KubeCon NA 2023"
     >}}
 
 [The Contribfest Hands-on Development and Contribution Workshop](https://sched.co/1R2q7/) by Lin Sun, Eric Van Norman, Steven Landow, and Faseela K was also well received. It was great to see so many people interested in contributing to Istio and pushing their first pull request at the end of the workshop.
 
 {{< image width="75%"
     link="./contrib-fest.jpg"
-    caption="KubeCon NA 2023, Contribfest Istio Workshop"
+    alt="The Contribfest Istio Workshop at KubeCon NA 2023"
     >}}
 
 A much-awaited panel discussion on [Service Mesh Battle Scars: Technology, Timing and Tradeoffs](https://sched.co/1R2ts), led by the maintainers from three CNCF Service Mesh projects, had a huge crowd in attendance, and a lot of interesting discussions.
 
 {{< image width="75%"
     link="./servicemesh-battle-scars-panel.jpg"
-    caption="KubeCon NA 2023, Service Mesh Battle Scars!"
+    alt="The Service Mesh Battle Scars panel at KubeCon NA 2023"
     >}}
 
-Istio came up as a hot topic of discussion in several other KubeCon talks as well, here are a few we noticed:
+Istio came up as a hot topic of discussion in several other KubeCon talks as well. Here are a few we noticed:
+
 * [Take It to the Edge: Creating a Globally Distributed Ingress with Istio & K8gb](https://sched.co/1R2o5/)
 * [Under the Hood: Exploring Istio's Lock Contention and Its Impact on Expedia's Compute Platform](https://sched.co/1R2uV)
 * [Untangling Your Service Mesh with Feature Gates](https://sched.co/1R2v6)
@@ -126,6 +129,5 @@ We would like to express our heartfelt gratitude to our platinum sponsors Google
 [See you in Paris in March 2024!](https://events.linuxfoundation.org/kubecon-cloudnativecon-europe/co-located-events/istio-day/)
 
 {{< image width="75%"
-    link="./istio-day-paris.jpg"
-    caption="See you soon in Paris!"
+    link="https://events.linuxfoundation.org/kubecon-cloudnativecon-europe/co-located-events/istio-day/"
     >}}
