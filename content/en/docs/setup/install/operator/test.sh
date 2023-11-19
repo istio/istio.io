@@ -119,6 +119,12 @@ function testTwoControlPlanes(){
     _verify_like snip_get_svc_istio_system "$snip_get_svc_istio_system_out"
 }
 
+function deletePreviousOperator(){
+    # Deletion of a specific istiooperator instead of doing all.
+    ioPreviousVersion=$(type snip_install_istio_previous_version | sed '1,3d;$d' | grep "name:" | awk '{print $2}')
+    kubectl delete istiooperators.install.istio.io -n istio-system "$ioPreviousVersion"
+}
+
 testOperatorDeployWatchNs
 
 testOperatorDeployHelm
@@ -132,6 +138,7 @@ snip_update_to_default_profile
 testUpdateProfileDefaultEgress
 
 testOperatorLogs
+snip_delete_example_istiocontrolplane
 
 snip_cleanup
 
@@ -140,6 +147,7 @@ testInplaceUpgrade
 snip_cleanup
 
 testCanaryUpgrade
+deletePreviousOperator
 
 # @cleanup
 snip_delete_example_istiocontrolplane
