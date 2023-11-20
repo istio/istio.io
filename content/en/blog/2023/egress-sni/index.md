@@ -1,8 +1,8 @@
 ---
-title: [WIP] Routing HTTPS/TLS traffic to arbitrary remote destinations
-description: A generic approach to set up egress gateways and use them to route traffic to a restricted set of target remote hosts dynamically, supporting wildcard domains.
+title: "[WIP] Routing HTTPS/TLS traffic to arbitrary remote destinations"
+description: "A generic approach to set up egress gateways and use them to route traffic to a restricted set of target remote hosts dynamically, supporting wildcard domains."
 publishdate: 2023-12-10
-attribution: Gergő Huszty (IBM)
+attribution: "Gergő Huszty (IBM)"
 keywords: [traffic-management,gateway,mesh,mtls,egress,remote]
 ---
 
@@ -342,3 +342,7 @@ items:
               cluster: sni_cluster
 {{< /text >}}
 
+The solution scales easily. You can pick up multiple domain names to the list, and they are allowlisted as soon as you roll it out!
+No need to set up per domain `VirtualService`s or other routing details. Beware the list appears at multiple places, so if you use
+some tooling for CI/CD (i.e. Kustomize), the domain name list is better to be extracted to a single place, from where you render into the final
+places.
