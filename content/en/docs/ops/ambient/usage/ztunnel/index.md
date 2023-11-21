@@ -116,7 +116,7 @@ As noted earlier, some ambient functions may change as the project moves to beta
 
 It was noted earlier that traffic is always sent to a destination pod by first sending it to the ztunnel proxy on the same node as the destination pod. But what if the sender is either completely outside the Istio ambient mesh and hence does not initiate HBONE tunnels to the destination ztunnel first? What if the sender is malicious and trying to send traffic directly to an ambient pod destination, bypassing the destination ztunnel proxy?
 
-There are two scenarios here both of which are depicted in the following figure:
+There are two scenarios here, both of which are depicted in the following figure:
 
 1. Traffic stream B1 is being received by node W2 outside of any HBONE tunnel and directly addressed to ambient pod S1's IP address for some reason (possibly because the traffic source is not an ambient pod). As shown in the figure, the ztunnel traffic redirection logic intercepts such traffic and redirects it via the local ztunnel proxy for destination-side proxy processing and possible filtering based on AuthorizationPolicy prior to sending it into pod S1.
 1. Traffic stream G1 is being received by the ztunnel proxy of node W2 (possibly over an HBONE tunnel). However, the ztunnel proxy checks that the destination service requires waypoint processing and yet the source sending this traffic is not a waypoint or is not associated with this destination service. In this case, the ztunnel proxy hairpins the traffic towards one of the waypoints associated with the destination service from where it can then be delivered to any pod implementing the destination service (possibly to pod S1 itself, as shown in the figure).
