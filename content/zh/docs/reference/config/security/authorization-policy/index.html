@@ -393,7 +393,8 @@ spec:
 <p>Optional. The selector decides where to apply the authorization policy. The selector will match with workloads
 in the same namespace as the authorization policy. If the authorization policy is in the root namespace, the selector
 will additionally match with workloads in all namespaces.</p>
-<p>If not set, the selector will match all workloads.</p>
+<p>If the selector and the targetRef are not set, the selector will match all workloads. At most one of the selector
+and targetRef can be set.</p>
 
 </td>
 <td>
@@ -951,7 +952,6 @@ Extension behavior is defined by the named providers declared in MeshConfig. The
 the extension by specifying the name of the provider.
 One example use case of the extension is to integrate with a custom external authorization system to delegate
 the authorization decision to it.</p>
-<p>Note: The CUSTOM action is currently an <strong>alpha feature</strong> and is subject to breaking changes in later versions.</p>
 <p>The following authorization policy applies to an ingress gateway and delegates the authorization check to a named extension
 &ldquo;my-custom-authz&rdquo; if the request path has prefix &ldquo;/admin/&rdquo;.</p>
 <pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1

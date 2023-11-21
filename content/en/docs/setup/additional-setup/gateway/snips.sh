@@ -53,7 +53,11 @@ kubectl create namespace istio-ingress
 helm install istio-ingressgateway istio/gateway -n istio-ingress
 }
 
-! read -r -d '' snip_deploying_a_gateway_4 <<\ENDSNIP
+snip_deploying_a_gateway_4() {
+helm install istio-ingressgateway istio/gateway -n istio-ingress -f manifests/charts/gateway/openshift-values.yaml
+}
+
+! read -r -d '' snip_deploying_a_gateway_5 <<\ENDSNIP
 apiVersion: v1
 kind: Service
 metadata:
@@ -130,7 +134,7 @@ subjects:
   name: default
 ENDSNIP
 
-snip_deploying_a_gateway_5() {
+snip_deploying_a_gateway_6() {
 kubectl create namespace istio-ingress
 kubectl apply -f ingress.yaml
 }

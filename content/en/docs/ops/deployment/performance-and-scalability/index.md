@@ -105,7 +105,7 @@ average and tail latencies. The actual tail latency depends on the traffic patte
 
 Inside the mesh, a request traverses the client-side proxy and then the server-side
 proxy. In the default configuration of Istio {{< istio_release_name >}} (i.e. Istio with telemetry v2),
-the two proxies add about 1.7 ms and 2.7 ms to the 90th and 99th percentile latency, respectively, over the baseline data plane latency.
+the two proxies add about 1.31 ms and 1.58 ms to the 90th and 99th percentile latency, respectively, over the baseline data plane latency.
 We obtained these results using the [Istio benchmarks](https://github.com/istio/tools/tree/{{< source_branch_name >}}/perf/benchmark)
 for the `http/1.1` protocol, with a 1 kB payload at 1000 requests per second using 16 client connections, 2 proxy workers and mutual TLS enabled.
 

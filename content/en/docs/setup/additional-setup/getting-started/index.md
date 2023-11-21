@@ -346,3 +346,17 @@ If no longer needed, use the following command to remove it:
 {{< text bash >}}
 $ kubectl label namespace default istio-injection-
 {{< /text >}}
+
+If you installed the Kubernetes Gateway API CRDs and would now like to remove them, run one of the following commands:
+
+- If you ran any tasks that required the **experimental version** of the CRDs:
+
+    {{< text bash >}}
+    $ kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref={{< k8s_gateway_api_version >}}" | kubectl delete -f -
+    {{< /text >}}
+
+- Otherwise:
+
+    {{< text bash >}}
+    $ kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref={{< k8s_gateway_api_version >}}" | kubectl delete -f -
+    {{< /text >}}

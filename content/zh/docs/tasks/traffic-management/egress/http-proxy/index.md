@@ -8,19 +8,27 @@ aliases:
 owner: istio/wg-networking-maintainers
 test: yes
 ---
-[配置 Egress Gateway](/zh/docs/tasks/traffic-management/egress/egress-gateway/) 示例展示如何通过名为 Egress Gateway 的 Istio 组件将流量从网格引导到外部服务。但是，有些情况下需要一个外部的传统（非 Istio）HTTPS 代理来访问外部服务。例如，您的公司可能已经有了这样的代理，并且可能需要所有应用程序通过代理来引导其流量。
 
-此示例演示如何启用对外部 HTTPS 代理的访问。由于应用程序使用 HTTP [CONNECT](https://tools.ietf.org/html/rfc7231#section-4.3.6) 方法与 HTTPS 代理建立连接，因此配置流量到外部 HTTPS 代理不同于将流量配置为外部 HTTP 和 HTTPS 服务。
+[配置 Egress Gateway](/zh/docs/tasks/traffic-management/egress/egress-gateway/)
+示例展示如何通过名为 Egress Gateway 的 Istio 组件将流量从网格引导到外部服务。但是，
+有些情况下需要一个外部的传统（非 Istio）HTTPS 代理来访问外部服务。例如，您的公司可能已经有了这样的代理，
+并且可能需要所有应用程序通过代理来引导其流量。
+
+此示例演示如何启用对外部 HTTPS 代理的访问。由于应用程序使用 HTTP [CONNECT](https://tools.ietf.org/html/rfc7231#section-4.3.6)
+方法与 HTTPS 代理建立连接，因此配置流量到外部 HTTPS 代理不同于将流量配置为外部 HTTP 和 HTTPS 服务。
 
 {{< boilerplate before-you-begin-egress >}}
 
 *   [启用 Envoy 的访问日志](/zh/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
 
-## 部署 HTTPS 代理{#deploy-an-https-proxy}
+## 部署 HTTPS 代理  {#deploy-an-https-proxy}
 
-本例中为了模拟传统代理，在集群内部署了一个 HTTPS 代理。此外，为了模拟在集群外运行的更真实的代理，通过代理的 IP 地址而不是 Kubernetes 服务的域名来寻址代理的 pod。本例使用的是 [squid](http://www.squid-cache.org)，但是您可以使用任何支持 HTTP CONNECT 连接的 HTTPS 代理。
+本例中为了模拟传统代理，在集群内部署了一个 HTTPS 代理。此外，为了模拟在集群外运行的更真实的代理，
+通过代理的 IP 地址而不是 Kubernetes 服务的域名来寻址代理的 Pod。本例使用的是
+[squid](http://www.squid-cache.org)，但是您可以使用任何支持 HTTP CONNECT 连接的 HTTPS 代理。
 
-1. 为 HTTPS 代理创建一个命名空间，而不标记为用于 SideCar 注入。如果没有标签，则在新命名空间中 SideCar 注入是不可用的，因此 Istio 将无法控制那里的流量。您需要在集群之外通过这种行为来模拟代理。
+1. 为 HTTPS 代理创建一个命名空间，而不打上 Sidecar 注入所用的标签。如果没有此标签，则在新命名空间中
+   SideCar 注入是被禁用的，因此 Istio 将无法控制这个命名空间的流量。您需要在集群之外通过这种行为来模拟代理。
 
     {{< text bash >}}
     $ kubectl create namespace external
@@ -44,7 +52,8 @@ test: yes
     EOF
     {{< /text >}}
 
-1. 创建 Kubernetes [ConfigMap](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-pod-configmap/) 以保存代理的配置：
+1. 创建 Kubernetes [ConfigMap](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-pod-configmap/)
+   以保存代理的配置：
 
     {{< text bash >}}
     $ kubectl create configmap proxy-configmap -n external --from-file=squid.conf=./proxy.conf
@@ -84,13 +93,14 @@ test: yes
     EOF
     {{< /text >}}
 
-1. 在 `external` 命名空间中部署 [sleep]({{< github_tree >}}/samples/sleep) 示例，以测试到代理的通信量，而不进行 Istio 流量控制。
+1. 在 `external` 命名空间中部署 [sleep]({{< github_tree >}}/samples/sleep) 示例，以测试到代理的通信量，
+   而不进行 Istio 流量控制。
 
     {{< text bash >}}
     $ kubectl apply -n external -f @samples/sleep/sleep.yaml@
     {{< /text >}}
 
-1. 获取代理 pod 的 IP 地址并定义 `PROXY_IP` 环境变量来存储它：
+1. 获取代理 Pod 的 IP 地址并定义 `PROXY_IP` 环境变量来存储它：
 
     {{< text bash >}}
     $ export PROXY_IP=$(kubectl get pod -n external -l app=squid -o jsonpath={.items..podIP})
@@ -102,7 +112,7 @@ test: yes
     $ export PROXY_PORT=3128
     {{< /text >}}
 
-1. 从 `external` 命名空间中的 sleep pod 通过代理向外部服务发送请求：
+1. 从 `external` 命名空间中的 sleep Pod 通过代理向外部服务发送请求：
 
     {{< text bash >}}
     $ kubectl exec -it $(kubectl get pod -n external -l app=sleep -o jsonpath={.items..metadata.name}) -n external -- sh -c "HTTPS_PROXY=$PROXY_IP:$PROXY_PORT curl https://en.wikipedia.org/wiki/Main_Page" | grep -o "<title>.*</title>"
@@ -121,11 +131,12 @@ test: yes
 * 您部署了 HTTPS 代理。
 * 您使用 curl 通过代理访问 wikipedia.org 外部服务。
 
-下一步，您必须配置 Istio 启用的 pod 的流量到 HTTPS 代理。
+下一步，您必须配置 Istio 启用的 Pod 的流量到 HTTPS 代理。
 
-## 配置流量到外部 HTTPS 代理{#configure-traffic-to-external-https-proxy}
+## 配置流量到外部 HTTPS 代理  {#configure-traffic-to-external-https-proxy}
 
-1. 为 HTTPS 代理定义 TCP（不是 HTTP！）服务入口。尽管应用程序使用 HTTP CONNECT 方法与 HTTPS 代理建立连接，但必须为 TCP 通信而不是 HTTP 通信配置代理。一旦建立了连接，代理就简单地充当 TCP 隧道。
+1. 为 HTTPS 代理定义 TCP（不是 HTTP！）服务入口。尽管应用程序使用 HTTP CONNECT 方法与
+   HTTPS 代理建立连接，但必须为 TCP 通信而不是 HTTP 通信配置代理。一旦建立了连接，代理就简单地充当 TCP 隧道。
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -146,14 +157,14 @@ test: yes
     EOF
     {{< /text >}}
 
-1. 从 `external` 命名空间中的 sleep pod 发送请求。因为 sleep pod 有 Sidecar，可以让 Istio 控制其流量。
+1. 从 `external` 命名空间中的 sleep Pod 发送请求。因为 sleep Pod 有 Sidecar，可以让 Istio 控制其流量。
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- sh -c "HTTPS_PROXY=$PROXY_IP:$PROXY_PORT curl https://en.wikipedia.org/wiki/Main_Page" | grep -o "<title>.*</title>"
     <title>Wikipedia, the free encyclopedia</title>
     {{< /text >}}
 
-1. 查看您的请求的 Istio SideCar 代理的日志：
+1. 查看您的请求的 Istio Sidecar 代理的日志：
 
     {{< text bash >}}
     $ kubectl logs $SOURCE_POD -c istio-proxy
@@ -167,16 +178,17 @@ test: yes
     1544160065.248    228 172.30.109.89 TCP_TUNNEL/200 87633 CONNECT en.wikipedia.org:443 - HIER_DIRECT/91.198.174.192 -
     {{< /text >}}
 
-## 理解原理{#understanding-what-happened}
+## 理解原理  {#understanding-what-happened}
 
 在本例中，您采取了以下步骤：
 
 1. 部署了一个 HTTPS 代理来模拟外部代理。
-1. 创建了一个 TCP 服务入口，用作引导 Istio 控制的流量 到外部代理。
+1. 创建了一个 TCP 服务入口，用来将 Istio 控制的流量引导到外部代理。
 
-请注意，您不能为通过外部代理访问的外部服务创建服务入口，例如 wikipedia.org。这是因为从 Istio 的角度来看，请求只发送到外部代理；Istio 并不知道外部代理会进一步转发请求。
+请注意，您不能为通过外部代理访问的外部服务创建服务入口，例如 wikipedia.org。
+这是因为从 Istio 的角度来看，请求只发送到外部代理；Istio 并不知道外部代理会进一步转发请求。
 
-## 清理{#cleanup}
+## 清理  {#cleanup}
 
 1. 关闭 [sleep]({{< github_tree >}}/samples/sleep) 服务：
 

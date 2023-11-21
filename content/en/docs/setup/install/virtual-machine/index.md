@@ -171,6 +171,12 @@ Install Istio and expose the control plane on cluster so that your virtual machi
     $ kubectl apply -n istio-system -f @samples/multicluster/expose-services.yaml@
     {{< /text >}}
 
+    Ensure to label the istio-system namespace with the defined cluster network:
+
+    {{< text bash >}}
+    $ kubectl label namespace istio-system topology.istio.io/network="${CLUSTER_NETWORK}"
+    {{< /text >}}
+
     {{< /tab >}}
 
     {{< /tabset >}}

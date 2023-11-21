@@ -308,8 +308,8 @@ spec:
 
 {{< warning >}}
 Configuring internal mesh traffic using the Gateway API is an
-[experimental feature](https://gateway-api.sigs.k8s.io/concepts/versioning/#release-channels-eg-experimental-standard)
-currently under development and pending [upstream agreement](https://gateway-api.sigs.k8s.io/contributing/gamma/).
+[experimental feature](https://gateway-api.sigs.k8s.io/geps/overview/#status)
+currently under development.
 {{< /warning >}}
 
 The Gateway API can also be used to configure mesh traffic.
@@ -334,7 +334,7 @@ spec:
         add:
         - name: my-added-header
           value: added-value
-  - backendRefs:
+    backendRefs:
     - name: example
       port: 80
 {{< /text >}}

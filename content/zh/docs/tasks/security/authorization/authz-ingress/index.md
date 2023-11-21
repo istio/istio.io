@@ -129,7 +129,7 @@ Kubernetes 的 `Ingress` 资源也必须由 Ingress 控制器支持，该控制�
 |DO DOKS        | Load Balancer                 | Network
 
 {{< tip >}}
-您可以指示 AWS EKS 在网关服务上创建带有注解的的 Network Load Balancer：
+您可以指示 AWS EKS 在网关服务上创建带有注解的 Network Load Balancer：
 
 {{< tabset category-name="config-api" >}}
 
@@ -178,67 +178,14 @@ spec:
 ### TCP/UDP 代理负载均衡器 {#tcp-proxy}
 
 如果您使用的是 TCP/UDP 代理外部负载均衡器 (AWS Classic ELB)，
-它可以使用[代理协议](https://www.haproxy.com/blog/haproxy/proxy-protocol/)
-将原始客户端 IP 地址嵌入到分组数据中。外部负载均衡器和 Istio Ingress 网关都必须支持代理协议才能工作。
-在 Istio 中，您可以通过如下所示的 `EnvoyFilter` 启用：
+它可以使用 [PROXY 协议](https://www.haproxy.com/blog/haproxy/proxy-protocol/)
+将原始客户端 IP 地址嵌入到分组数据中。外部负载均衡器和 Istio Ingress 网关都必须支持 PROXY 协议才能工作。
+
+以下是一个样例配置，显示了如何在支持 PROXY 协议的 AWS EKS 上部署 Ingress Gateway：
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio APIs" category-value="istio-apis" >}}
-
-{{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
-kind: EnvoyFilter
-metadata:
-  name: proxy-protocol
-  namespace: istio-system
-spec:
-  configPatches:
-  - applyTo: LISTENER_FILTER
-    patch:
-      operation: INSERT_FIRST
-      value:
-        name: proxy_protocol
-        typed_config:
-          "@type": "type.googleapis.com/envoy.extensions.filters.listener.proxy_protocol.v3.ProxyProtocol"
-  workloadSelector:
-    labels:
-      istio: ingressgateway
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< tab name="Gateway API" category-value="gateway-api" >}}
-
-{{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
-kind: EnvoyFilter
-metadata:
-  name: proxy-protocol
-  namespace: foo
-spec:
-  configPatches:
-  - applyTo: LISTENER_FILTER
-    patch:
-      operation: INSERT_FIRST
-      value:
-        name: proxy_protocol
-        typed_config:
-          "@type": "type.googleapis.com/envoy.extensions.filters.listener.proxy_protocol.v3.ProxyProtocol"
-  workloadSelector:
-    labels:
-      istio.io/gateway-name: httpbin-gateway
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< /tabset >}}
-
-以下是一个示例配置，展示了如何使 AWS EKS 上的 Ingress 网关支持代理协议：
-
-{{< tabset category-name="config-api" >}}
-
-{{< tab name="Istio APIs" category-value="istio-apis" >}}
+{{< tab name="Istio API" category-value="istio-apis" >}}
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha1
@@ -247,6 +194,9 @@ spec:
   meshConfig:
     accessLogEncoding: JSON
     accessLogFile: /dev/stdout
+    defaultConfig:
+      gatewayTopology:
+        proxyProtocol: {}
   components:
     ingressGateways:
     - enabled: true
@@ -271,11 +221,11 @@ metadata:
   name: httpbin-gateway
   annotations:
     service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
+    proxy.istio.io/config: '{"gatewayTopology" : { "proxyProtocol": {} }}'
 spec:
   gatewayClassName: istio
   ...
 ---
-
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
@@ -309,7 +259,7 @@ kube-proxy 并阻止其将流量发送到其他节点，使用 `externalTrafficP
 有关更多信息，请参阅[服务源 IP `Type=NodePort`](https://kubernetes.io/zh-cn/docs/tutorials/services/source-ip/#source-ip-for-services-with-type-nodeport)。
 {{< /warning >}}
 
-使用以下命令更新 Ingress 网关以设置 `exteralTrafficPolicy：Local` 以保留 Ingress 网关上的原始客户端源 IP：
+使用以下命令更新 Ingress 网关以设置 `externalTrafficPolicy: Local` 以保留 Ingress 网关上的原始客户端源 IP：
 
 {{< tabset category-name="config-api" >}}
 
@@ -352,18 +302,18 @@ spec:
 
 ## 基于 IP 的允许列表和拒绝列表 {#ip-based-allow-list-and-deny-list}
 
-**何时使用 `ipBlocks` 与 `emoteIpBlocks`:** 如果您使用 X-Forwarded-For HTTP 头部
-或代理协议来确定原始客户端 IP 地址，则应在 `AuthorizationPolicy` 中使用 `emoteIpBlocks`。
-如果您使用的是 `ExtraalTrafficPolicy：Local`，那么您的 `AuthorizationPolicy` 中应该使用
+**何时使用 `ipBlocks` 与 `remoteIpBlocks`:** 如果您使用 X-Forwarded-For HTTP 头部
+或 PROXY 协议来确定原始客户端 IP 地址，则应在 `AuthorizationPolicy` 中使用 `remoteIpBlocks`。
+如果您使用的是 `externalTrafficPolicy: Local`，那么您的 `AuthorizationPolicy` 中应该使用
 `ipBlocks`。
 
 | 负载均衡器类型 | 客户端源 IP   | `ipBlocks` 与 `remoteIpBlocks`
 --------------------|----------------------|---------------------------
-| TCP Proxy         | Proxy Protocol       | `remoteIpBlocks`
+| TCP Proxy         | PROXY Protocol       | `remoteIpBlocks`
 | Network           | packet source address| `ipBlocks`
 | HTTP/HTTPS        | X-Forwarded-For      | `remoteIpBlocks`
 
-* 以下命令为创建授权策略`Inress-Policy` Istio Ingress 网关。
+* 以下命令为创建授权策略`ingress-policy` Istio Ingress 网关。
   以下策略将 `action` 字段设置为 `ALLOW` 以允许 `ipBlocks` 中指定的 IP 地址访问 Ingress 网关。
   不在列表中的 IP 地址将被拒绝。`ipBlocks` 支持单 IP 地址和 CIDR 表示法。
 
@@ -427,9 +377,10 @@ metadata:
   name: ingress-policy
   namespace: foo
 spec:
-  selector:
-    matchLabels:
-      istio.io/gateway-name: httpbin-gateway
+  targetRef:
+    kind: Gateway
+    group: gateway.networking.k8s.io
+    name: httpbin-gateway
   action: ALLOW
   rules:
   - from:
@@ -448,9 +399,10 @@ metadata:
   name: ingress-policy
   namespace: foo
 spec:
-  selector:
-    matchLabels:
-      istio.io/gateway-name: httpbin-gateway
+  targetRef:
+    kind: Gateway
+    group: gateway.networking.k8s.io
+    name: httpbin-gateway
   action: ALLOW
   rules:
   - from:
@@ -512,7 +464,7 @@ $ CLIENT_IP=$(kubectl get pods -n foo -o name -l istio.io/gateway-name=httpbin-g
 
 {{< /tabset >}}
 
-* 更新 `inress-policy` 以包含您的客户端 IP 地址:
+* 更新 `ingress-policy` 以包含您的客户端 IP 地址:
 
 {{< tabset category-name="config-api" >}}
 
@@ -574,9 +526,10 @@ metadata:
   name: ingress-policy
   namespace: foo
 spec:
-  selector:
-    matchLabels:
-      istio.io/gateway-name: httpbin-gateway
+  targetRef:
+    kind: Gateway
+    group: gateway.networking.k8s.io
+    name: httpbin-gateway
   action: ALLOW
   rules:
   - from:
@@ -595,9 +548,10 @@ metadata:
   name: ingress-policy
   namespace: foo
 spec:
-  selector:
-    matchLabels:
-      istio.io/gateway-name: httpbin-gateway
+  targetRef:
+    kind: Gateway
+    group: gateway.networking.k8s.io
+    name: httpbin-gateway
   action: ALLOW
   rules:
   - from:
@@ -617,7 +571,7 @@ EOF
     200
     {{< /text >}}
 
-* 更新 `Inress-Policy` 授权策略，将 `action` 键设置为 `DENY`，
+* 更新 `ingress-policy` 授权策略，将 `action` 键设置为 `DENY`，
   禁止 `ipBlocks` 中指定的 IP 地址访问 Ingress 网关：
 
 {{< tabset category-name="config-api" >}}
@@ -680,9 +634,10 @@ metadata:
   name: ingress-policy
   namespace: foo
 spec:
-  selector:
-    matchLabels:
-      istio.io/gateway-name: httpbin-gateway
+  targetRef:
+    kind: Gateway
+    group: gateway.networking.k8s.io
+    name: httpbin-gateway
   action: DENY
   rules:
   - from:
@@ -701,9 +656,10 @@ metadata:
   name: ingress-policy
   namespace: foo
 spec:
-  selector:
-    matchLabels:
-      istio.io/gateway-name: httpbin-gateway
+  targetRef:
+    kind: Gateway
+    group: gateway.networking.k8s.io
+    name: httpbin-gateway
   action: DENY
   rules:
   - from:

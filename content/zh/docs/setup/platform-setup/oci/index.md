@@ -45,7 +45,7 @@ $ oci ce cluster create \
 
 从您的本地机器集群[安装 `kubectl`][kubectl] 和 [OCICLI][OCICLI](`OCI`) 接入 OKE 集群。
 
-使用以下 OCI CLI 命令创建或更新 `kubecconfig` 文件包括一个 `oci` 命令，
+使用以下 OCI CLI 命令创建或更新 `kubeconfig` 文件包括一个 `oci` 命令，
 它可以动态地生成和插入一个短期的认证令牌允许 `kubectl` 访问集群：
 
 {{< text bash >}}
@@ -57,7 +57,7 @@ $ oci ce cluster create-kubeconfig \
 {{< /text >}}
 
 {{< tip >}}
-虽然一个 OKE 集群可能暴露多个端点，但只会攻击 `kubecconfig` 文件中的那个端点。
+虽然一个 OKE 集群可能暴露多个端点，但只会攻击 `kubeconfig` 文件中的那个端点。
 {{< /tip >}}
 
 `kube-endpoint` 支持的值是 `PUBLIC_ENDPOINT` 或 `PRIVATE_ENDPOINT`。

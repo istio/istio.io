@@ -180,8 +180,8 @@ $ kubectl delete service my-httpbin
       name: my-wikipedia
     subsets:
       - addresses:
-          - ip: 91.198.174.192
           - ip: 198.35.26.96
+          - ip: 208.80.153.224
         ports:
           - port: 443
             name: tls

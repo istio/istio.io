@@ -9,4 +9,4 @@ weight: 80
 [指南](/zh/docs/examples/)，
 和[完整的参考文档](/zh/docs/reference/)。
 
-详细的开发人员级别文档保留在我们的 [Wiki](https://github.com/istio/istio/wiki)
+详细的开发人员级别文档保留在我们的 [Wiki](https://github.com/istio/istio/wiki)。

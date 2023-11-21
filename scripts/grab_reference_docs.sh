@@ -60,7 +60,6 @@ COMP_OUTPUT_DIR="${ROOTDIR}/content/en/docs/reference/commands"
 COMP_OUTPUT_DIR_ZH="${ROOTDIR}/content/zh/docs/reference/commands"
 
 export GOOS=linux
-export GOARCH=amd64
 
 echo "WORK_DIR =" "${WORK_DIR}"
 
@@ -158,6 +157,7 @@ handle_components() {
 
         go build -o "${COMP_NAME}"
         mkdir -p "${COMP_OUTPUT_DIR}/${COMP_NAME}"
+        mkdir -p "${COMP_OUTPUT_DIR_ZH}/${COMP_NAME}"
         "./${COMP_NAME}" collateral -o "${COMP_OUTPUT_DIR}/${COMP_NAME}" --html_fragment_with_front_matter
         cp "${COMP_OUTPUT_DIR}/${COMP_NAME}/${COMP_NAME}.html" "${COMP_OUTPUT_DIR}/${COMP_NAME}/index.html"
         mv "${COMP_OUTPUT_DIR}/${COMP_NAME}/${COMP_NAME}.html" "${COMP_OUTPUT_DIR_ZH}/${COMP_NAME}/index.html"

@@ -61,7 +61,7 @@ Bookinfo 应用中的几个微服务是由不同的语言编写的。
 ### 启动应用服务{#start-the-application-services}
 
 {{< tip >}}
-如果运行的是 GKE，请确您的集群具有至少四个标准 GKE 节点。如果使用的是 Minikube，应该有 4G 以上的内存。
+如果运行的是 GKE，请确保您的集群至少具有四个标准 GKE 节点。如果使用的是 Minikube，应该有 4G 以上的内存。
 {{< /tip >}}
 
 1. 进入 Istio 安装目录。

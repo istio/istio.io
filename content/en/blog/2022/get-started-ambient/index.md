@@ -228,7 +228,7 @@ Using the Kubernetes Gateway API, you can deploy a waypoint proxy for the `produ
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: gateway.networking.k8s.io/v1alpha2
+apiVersion: gateway.networking.k8s.io/v1beta1
 kind: Gateway
 metadata:
  name: productpage
@@ -326,7 +326,7 @@ Deploy a waypoint proxy for the `review` service, using the `bookinfo-review` se
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: gateway.networking.k8s.io/v1alpha2
+apiVersion: gateway.networking.k8s.io/v1beta1
 kind: Gateway
 metadata:
  name: reviews

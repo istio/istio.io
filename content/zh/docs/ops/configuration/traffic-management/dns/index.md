@@ -41,7 +41,7 @@ $ curl example.com -v
 
 如果客户端无法解析 DNS 请求，在 Istio 收到请求之前就会终止。
 这意味着，即使一个请求发送到一个 Istio 已知的主机名（例如，通过
-`VirtualService` 配置），但是无法通过 DNS 解析，该请求也会失败。
+`ServiceEntry` 配置），但是无法通过 DNS 解析，该请求也会失败。
 不过 Istio 的 [DNS 代理](#dns-proxing)可以改变这种行为。
 
 一旦 Istio 确定了预期的目的地，它必须选择要发送到的地址。由于
@@ -54,7 +54,7 @@ Istio 的高级[负载均衡能力](/zh/docs/concepts/traffic-management/#load-b
   和[无头服务](https://kubernetes.io/zh-cn/docs/concepts/services-networking/service/#headless-services)。
 * 在一组静态 IP 地址上进行负载均衡。这种情况适用于 `resolution: STATIC`
   类型的 `ServiceEntry`，这将使用 `spec.endpoints` 中的所有地址，
-  或者对于标准 `Service` 将使用其所有 `Endpoint` 地址。
+  或者对于标准 `Services` 将使用其所有 `Endpoints` 地址。
 * 使用 DNS 定期解析地址，并在所有结果中进行负载均衡。这种情况适用于
   `resolution: DNS` 类型的 `ServiceEntry`。
 
@@ -75,7 +75,7 @@ Istio 代理从不执行同步 DNS 请求。配置 `resolution: DNS`
 的网格而言，尤其是在使用较低 `TTL` 时，可能会导致 DNS 服务器的负载很高。
 在这些情况下，以下行为有助于减轻负载：
 
-* 将 `ServiceEntry` 切换为 `resolution: NONE` 类型以完全避免代理 DNS 查找，
+* 将 `ServiceEntries` 切换为 `resolution: NONE` 类型以完全避免代理 DNS 查找，
   这适用于许多使用场景。
 * 如果您可以控制正在解析的域，请适当增加它们的 TTL。
 * 如果您的 `ServiceEntry` 只有少量工作负载，请使用 `exportTo`
@@ -85,7 +85,7 @@ Istio 代理从不执行同步 DNS 请求。配置 `resolution: DNS`
 
 Istio 提供了[代理 DNS 请求](/zh/docs/ops/configuration/traffic-management/dns-proxy/)的功能。
 这允许 Istio 捕获客户端发送的 DNS 请求并直接返回响应。这可以改善 DNS 延迟，
-减少负载，并解决了 `ServiceEntry` 无法通过 `kube-dns` 解析的问题。
+减少负载，并解决了 `ServiceEntries` 无法通过 `kube-dns` 解析的问题。
 
 请注意，此代理仅适用于用户应用程序发送的 DNS 请求；当使用 `resolution: DNS`
-类型的 `ServiceEntry` 时，DNS 代理对 Istio 代理的 DNS 解析没有影响。
+类型的 `ServiceEntries` 时，DNS 代理对 Istio 代理的 DNS 解析没有影响。

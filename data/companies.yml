@@ -144,7 +144,7 @@ integrations:
       - "Casbin's Envoy middleware can be used to integrate Istio with a gRPC server to perform role based authorization of users."
   - name: "Cilium"
     logo: "/logos/cilium.svg"
-    url: "https://docs.cilium.io/en/latest/gettingstarted/istio/"
+    url: "https://docs.cilium.io/en/latest/network/servicemesh/istio/"
     description: "Cilium transparently secures network connectivity between application services deployed on Kubernetes."
     details:
       - "Cilium’s Istio integration allows Cilium to enforce HTTP L7 network policies for mTLS protected traffic within the Istio sidecar proxies."
@@ -556,6 +556,9 @@ users:
   - name: "Wayfair"
     logo: "/logos/wayfair.svg"
     url: "https://www.wayfair.com/"
+  - name: "Wehkamp"
+    logo: "/logos/wehkamp.svg"
+    url: "https://www.wehkamp.nl/"
   - name: "WeRoad"
     logo: "/logos/weroad.svg"
     url: "https://www.weroad.co.uk/"

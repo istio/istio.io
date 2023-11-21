@@ -106,6 +106,16 @@ $ helm install istio-ingressgateway istio/gateway -n istio-ingress
 Helm 代码仓库中的 [README](https://artifacthub.io/packages/helm/istio-official/gateway)
 包含了更多使用信息。
 
+{{< tip >}}
+
+在一个 OpenShift 集群中部署网关时，请使用 `openshift-values.yaml` 文件覆盖默认值，例如：
+
+{{< text bash >}}
+$ helm install istio-ingressgateway istio/gateway -n istio-ingress -f @manifests/charts/gateway/openshift-values.yaml@
+{{< /text >}}
+
+{{< /tip >}}
+
 {{< /tab >}}
 
 {{< tab name="Kubernetes YAML" category-value="yaml" >}}
