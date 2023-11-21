@@ -95,7 +95,7 @@ archive_old_release() {
         s/^archive_search_refinement: .*$/archive_search_refinement: \"V${PREV_MINOR}\"/
     " data/args.yml
 
-    sed -i "s/^disableAliases = true$/disableAliases = false/" config.toml
+    sed -i "s/^disableAliases = true$/disableAliases = false/" hugo.toml
 
     if [[ $(git status --porcelain) ]]; then # for idempotence
         git add -u

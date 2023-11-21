@@ -328,7 +328,7 @@ No
 <td><code><a href="#VmConfig">VmConfig</a></code></td>
 <td>
 <p>Configuration for a Wasm VM.
-more details can be found <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/wasm/v3/wasm.proto#extensions-wasm-v3-vmconfig">here</a>.</p>
+More details can be found <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/wasm/v3/wasm.proto#extensions-wasm-v3-vmconfig">here</a>.</p>
 
 </td>
 <td>
@@ -497,15 +497,21 @@ No
 </section>
 <h2 id="PluginType">PluginType</h2>
 <section>
-<p>PluginType indicates the type of Wasm Extension to be used.
-There are two types of Extensions: <code>HTTP</code> and <code>NETWORK</code>.
-HTTP Extension work at &ldquo;Layer 7&rdquo;(for example as an HTTP filters in Envoy).
-The detailed HTTP interface for can be found at [C++] (<a href="https://github.com/proxy-wasm/proxy-wasm-cpp-host/blob/b7e690703c7f26707438a2f1ebd7c197bc8f0296/include/proxy-wasm/context_interface.h#L199">https://github.com/proxy-wasm/proxy-wasm-cpp-host/blob/b7e690703c7f26707438a2f1ebd7c197bc8f0296/include/proxy-wasm/context_interface.h#L199</a>)
-and [Rust] (<a href="https://github.com/proxy-wasm/proxy-wasm-rust-sdk/blob/6b47aec926bc29971c727471d6f4c972ec407c7f/src/traits.rs#L309)">https://github.com/proxy-wasm/proxy-wasm-rust-sdk/blob/6b47aec926bc29971c727471d6f4c972ec407c7f/src/traits.rs#L309)</a>.
-NETWORK Extension work at &ldquo;Layer 4&rdquo;(for example, as a network filter in Envoy).
-The detailed NETWORK interface for can be found at [C++] (<a href="https://github.com/proxy-wasm/proxy-wasm-cpp-host/blob/b7e690703c7f26707438a2f1ebd7c197bc8f0296/include/proxy-wasm/context_interface.h#L257">https://github.com/proxy-wasm/proxy-wasm-cpp-host/blob/b7e690703c7f26707438a2f1ebd7c197bc8f0296/include/proxy-wasm/context_interface.h#L257</a>)
-and [Rust] (<a href="https://github.com/proxy-wasm/proxy-wasm-rust-sdk/blob/6b47aec926bc29971c727471d6f4c972ec407c7f/src/traits.rs#L257)">https://github.com/proxy-wasm/proxy-wasm-rust-sdk/blob/6b47aec926bc29971c727471d6f4c972ec407c7f/src/traits.rs#L257)</a>.
-The NETWORK Extension can be applied to HTTP traffic as well.</p>
+<p>PluginType indicates the type of Wasm extension to be used.
+There are two types of extensions: <code>HTTP</code> and <code>NETWORK</code>.</p>
+<p>The <code>HTTP</code> extension works at Layer 7 (for example, as an HTTP filter in Envoy).
+The detailed HTTP interface can be found here:</p>
+<ul>
+<li><a href="https://github.com/proxy-wasm/proxy-wasm-cpp-host/blob/b7e690703c7f26707438a2f1ebd7c197bc8f0296/include/proxy-wasm/context_interface.h#L199">C++</a></li>
+<li><a href="https://github.com/proxy-wasm/proxy-wasm-rust-sdk/blob/6b47aec926bc29971c727471d6f4c972ec407c7f/src/traits.rs#L309">Rust</a></li>
+</ul>
+<p>The <code>NETWORK</code> extension works at Layer 4 (for example, as a network filter in Envoy).
+The detailed <code>NETWORK</code> interface can be found here:</p>
+<ul>
+<li><a href="https://github.com/proxy-wasm/proxy-wasm-cpp-host/blob/b7e690703c7f26707438a2f1ebd7c197bc8f0296/include/proxy-wasm/context_interface.h#L257">C++</a></li>
+<li><a href="https://github.com/proxy-wasm/proxy-wasm-rust-sdk/blob/6b47aec926bc29971c727471d6f4c972ec407c7f/src/traits.rs#L257">Rust</a></li>
+</ul>
+<p>The <code>NETWORK</code> extension can be applied to HTTP traffic as well.</p>
 
 <table class="enum-values">
 <thead>

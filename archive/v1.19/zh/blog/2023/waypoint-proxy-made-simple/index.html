@@ -1,0 +1,166 @@
+<!doctype html><html lang=zh itemscope itemtype=https://schema.org/WebPage><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=theme-color content="#466BB0"><meta name=title content="Istio Ambient Waypoint Proxy 让一切变得简单"><meta name=description content="为简化和可扩展性引入全新的面向目的地的 Waypoint Proxy。"><meta name=author content="Lin Sun (Solo.io), John Howard (Google)"><meta name=keywords content="microservices,services,mesh,istio,ambient,waypoint"><meta property="og:title" content="Istio Ambient Waypoint Proxy 让一切变得简单"><meta property="og:type" content="website"><meta property="og:description" content="为简化和可扩展性引入全新的面向目的地的 Waypoint Proxy。"><meta property="og:url" content="/v1.19/zh/blog/2023/waypoint-proxy-made-simple/"><meta property="og:image" content="https://raw.githubusercontent.com/istio/istio.io/master/static/img/istio-social.svg"><meta property="og:image:alt" content="Istio Logo"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="600"><meta property="og:site_name" content="Istio"><meta name=twitter:card content="summary"><meta name=twitter:site content="@IstioMesh"><title>Istioldie 1.19 / Istio Ambient Waypoint Proxy 让一切变得简单</title><script async src="https://www.googletagmanager.com/gtag/js?id=UA-98480406-2"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","UA-98480406-2")</script><link rel=alternate type=application/rss+xml title="Istio Blog" href=/v1.19/blog/feed.xml><link rel=alternate type=application/rss+xml title="Istio News" href=/v1.19/news/feed.xml><link rel=alternate type=application/rss+xml title="Istio Blog and News" href=/v1.19/feed.xml><link rel="shortcut icon" href=/v1.19/favicons/favicon.ico><link rel=apple-touch-icon href=/v1.19/favicons/apple-touch-icon-180x180.png sizes=180x180><link rel=icon type=image/png href=/v1.19/favicons/favicon-16x16.png sizes=16x16><link rel=icon type=image/png href=/v1.19/favicons/favicon-32x32.png sizes=32x32><link rel=icon type=image/png href=/v1.19/favicons/android-36x36.png sizes=36x36><link rel=icon type=image/png href=/v1.19/favicons/android-48x48.png sizes=48x48><link rel=icon type=image/png href=/v1.19/favicons/android-72x72.png sizes=72x72><link rel=icon type=image/png href=/v1.19/favicons/android-96x96.png sizes=96xW96><link rel=icon type=image/png href=/v1.19/favicons/android-144x144.png sizes=144x144><link rel=icon type=image/png href=/v1.19/favicons/android-192x192.png sizes=192x192><link rel=icon type=image/svg+xml href=/v1.19/favicons/favicon.svg><link rel=icon type=image/png href=/v1.19/favicons/favicon.png><link rel=mask-icon href=/v1.19/favicons/safari-pinned-tab.svg color=#466bb0><link rel=manifest href=/v1.19/manifest.json><meta name=apple-mobile-web-app-title content="Istio"><meta name=application-name content="Istio"><meta name=msapplication-config content="/browserconfig.xml"><meta name=msapplication-TileColor content="#466BB0"><meta name=theme-color content="#466BB0"><link rel=stylesheet href=/v1.19/css/all.css><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap"><script src=/v1.19/js/themes_init.min.js></script></head><body class="language-unknown archive-site"><script>const branchName="release-1.19",docTitle="Istio Ambient Waypoint Proxy 让一切变得简单",iconFile="/v1.19/img/icons.svg",buttonCopy="复制到剪切板",buttonPrint="打印",buttonDownload="下载"</script><script src="https://www.google.com/cse/brand?form=search-form" defer></script>
+<script src=/v1.19/js/all.min.js data-manual defer></script><header class=main-navigation><nav class="main-navigation-wrapper container-l"><div class=main-navigation-header><a id=brand href=/v1.19/zh/ aria-label=logotype><span class=logo><svg xmlns="http://www.w3.org/2000/svg" width="128" height="60" viewBox="0 0 128 60"><path d="M58.434 48.823A.441.441.0 0158.3 48.497V22.583a.444.444.0 01.134-.326.446.446.0 01.327-.134h3.527a.447.447.0 01.325.134.447.447.0 01.134.326v25.914a.443.443.0 01-.134.326.444.444.0 01-.325.134h-3.527a.444.444.0 01-.327-.134z"/><path d="m70.969 48.477a6.556 6.556.0 01-2.818-1.955 4.338 4.338.0 01-1-2.78v-.345a.443.443.0 01.134-.326.444.444.0 01.326-.135h3.374a.444.444.0 01.326.135.445.445.0 01.134.326v.077a2.014 2.014.0 001.054 1.667 4.672 4.672.0 002.664.709 4.446 4.446.0 002.492-.633 1.862 1.862.0 00.958-1.591 1.426 1.426.0 00-.786-1.322 12.7 12.7.0 00-2.549-.939l-1.457-.46a21.526 21.526.0 01-3.3-1.227 6.57 6.57.0 01-2.262-1.783 4.435 4.435.0 01-.92-2.894 5.081 5.081.0 012.109-4.275 8.993 8.993.0 015.558-1.591 10.445 10.445.0 014.1.748 6.3 6.3.0 012.722 2.07 5 5 0 01.958 3.009.441.441.0 01-.134.326.441.441.0 01-.325.134h-3.258a.441.441.0 01-.326-.134.443.443.0 01-.134-.326 1.974 1.974.0 00-.978-1.667 4.647 4.647.0 00-2.665-.671 4.741 4.741.0 00-2.435.556 1.724 1.724.0 00-.938 1.553 1.512 1.512.0 00.9 1.4 15.875 15.875.0 003.01 1.055l.843.229a27.368 27.368.0 013.412 1.246 6.67 6.67.0 012.338 1.763 4.387 4.387.0 01.958 2.933 4.988 4.988.0 01-2.146 4.275 9.543 9.543.0 01-5.712 1.552 11.626 11.626.0 01-4.227-.709z"/><path d="m97.039 32.837a.443.443.0 01-.326.135h-3.911a.169.169.0 00-.191.192v9.239a2.951 2.951.0 00.632 2.108 2.7 2.7.0 002.013.652h1.15a.444.444.0 01.325.134.441.441.0 01.134.326v2.875a.471.471.0 01-.459.5l-1.994.039a8 8 0 01-4.524-1.035q-1.495-1.035-1.533-3.91V33.166A.17.17.0 0088.164 32.974H85.978A.441.441.0 0185.652 32.839.441.441.0 0185.518 32.513V29.83a.441.441.0 01.134-.326.444.444.0 01.326-.135h2.186a.169.169.0 00.191-.192v-4.485a.438.438.0 01.134-.326.44.44.0 01.325-.134h3.336a.443.443.0 01.325.134.442.442.0 01.135.326v4.485a.169.169.0 00.191.192h3.911a.446.446.0 01.326.135.446.446.0 01.134.326v2.683a.446.446.0 01-.133.324z"/><path d="m101.694 25.917a2.645 2.645.0 01-.767-1.955 2.65 2.65.0 01.767-1.955 2.65 2.65.0 011.955-.767 2.65 2.65.0 011.955.767 2.652 2.652.0 01.767 1.955 2.647 2.647.0 01-.767 1.955 2.646 2.646.0 01-1.955.767 2.645 2.645.0 01-1.955-.767zm-.211 22.906a.441.441.0 01-.134-.326V29.79a.444.444.0 01.134-.326.446.446.0 01.326-.134h3.527a.446.446.0 01.326.134.445.445.0 01.134.326v18.707a.443.443.0 01-.134.326.443.443.0 01-.326.134h-3.527a.443.443.0 01-.326-.134z"/><path d="m114.019 47.734a8.1 8.1.0 01-3.047-4.255 14.439 14.439.0 01-.652-4.37 14.3 14.3.0 01.614-4.371A7.869 7.869.0 01114 30.56a9.072 9.072.0 015.252-1.5 8.543 8.543.0 015.041 1.5 7.985 7.985.0 013.009 4.14 12.439 12.439.0 01.69 4.37 13.793 13.793.0 01-.651 4.37 8.255 8.255.0 01-3.028 4.275 8.475 8.475.0 01-5.1 1.553 8.754 8.754.0 01-5.194-1.534zm7.629-3.1a4.536 4.536.0 001.476-2.262 11.335 11.335.0 00.383-3.221 10.618 10.618.0 00-.383-3.22 4.169 4.169.0 00-1.457-2.243 4.066 4.066.0 00-2.531-.785 3.942 3.942.0 00-2.453.785 4.376 4.376.0 00-1.5 2.243 11.839 11.839.0 00-.383 3.22 11.84 11.84.0 00.383 3.221 4.222 4.222.0 001.476 2.262 4.075 4.075.0 002.549.8 3.8 3.8.0 002.44-.809z"/><path d="m15.105 32.057v15.565a.059.059.0 01-.049.059L.069 50.25A.06.06.0 01.005 50.167l14.987-33.47a.06.06.0 01.114.025z"/><path d="m17.631 23.087v24.6a.06.06.0 00.053.059l22.449 2.507a.06.06.0 00.061-.084L17.745.032a.06.06.0 00-.114.024z"/><path d="m39.961 52.548-24.833 7.45a.062.062.0 01-.043.0L.079 52.548a.059.059.0 01.026-.113h39.839a.06.06.0 01.017.113z"/></svg></span></a><button id=hamburger class=main-navigation-toggle aria-label="Open navigation"><svg class="icon menu-hamburger"><use xlink:href="/v1.19/img/icons.svg#menu-hamburger"/></svg></button>
+<button id=menu-close class=main-navigation-toggle aria-label="Close navigation"><svg class="icon menu-close"><use xlink:href="/v1.19/img/icons.svg#menu-close"/></svg></button></div><div id=header-links class=main-navigation-links-wrapper><ul class=main-navigation-links><li class=main-navigation-links-item><a class="main-navigation-links-link has-dropdown"><span>关于</span><svg class="icon dropdown-arrow"><use xlink:href="/v1.19/img/icons.svg#dropdown-arrow"/></svg></a><ul class=main-navigation-links-dropdown><li class=main-navigation-links-dropdown-item><a href=/v1.19/zh/about/service-mesh class=main-navigation-links-link>服务网格</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.19/zh/about/solutions class=main-navigation-links-link>解决方案</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.19/zh/about/case-studies class=main-navigation-links-link>案例学习</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.19/zh/about/ecosystem class=main-navigation-links-link>生态系统</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.19/zh/about/deployment class=main-navigation-links-link>部署</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.19/zh/about/faq class=main-navigation-links-link>FAQ</a></li></ul></li><li class=main-navigation-links-item><a href=/v1.19/zh/blog/ class=main-navigation-links-link><span>博客</span></a></li><li class=main-navigation-links-item><a href=/v1.19/zh/news/ class=main-navigation-links-link><span>新闻</span></a></li><li class=main-navigation-links-item><a href=/v1.19/zh/get-involved/ class=main-navigation-links-link><span>加入我们</span></a></li><li class=main-navigation-links-item><a href=/v1.19/zh/docs/ class=main-navigation-links-link><span>文档</span></a></li></ul><div class=main-navigation-footer><button id=search-show class=search-show title='搜索 istio.io' aria-label=搜索><svg class="icon magnifier"><use xlink:href="/v1.19/img/icons.svg#magnifier"/></svg></button>
+<a href=/v1.19/zh/docs/setup/getting-started class="btn btn--primary" id=try-istio>试用 Istio</a></div></div><form id=search-form class=search name=cse role=search><input type=hidden name=cx value=002184991200833970123:iwwf17ikgf4>
+<input type=hidden name=ie value=utf-8>
+<input type=hidden name=hl value=zh>
+<input type=hidden id=search-page-url value=/zh/search>
+<input id=search-textbox class="search-textbox form-control" name=q type=search aria-label='搜索 istio.io' placeholder=搜索>
+<button id=search-close title=取消搜索 type=reset aria-label=取消搜索><svg class="icon menu-close"><use xlink:href="/v1.19/img/icons.svg#menu-close"/></svg></button></form></nav></header><div class=banner-container></div><article class=post itemscope itemtype=http://schema.org/BlogPosting><div class=header-content><h1>Istio Ambient Waypoint Proxy 让一切变得简单</h1><p>为简化和可扩展性引入全新的面向目的地的 Waypoint Proxy。</p></div><p class=post-author>Mar 31, 2023 <span>|</span> By Lin Sun - Solo.io, John Howard - Google</p><div><p>Ambient 将 Istio 的功能分为两个不同层级，一个是具备安全机制的 Overlay 层，另一个是 L7 处理层。
+Waypoint Proxy 是一个基于 Envoy 的可选组件，为其管理的工作负载进行 L7 处理。
+自 2022 年<a href=/v1.19/zh/blog/2022/introducing-ambient-mesh/>首次发布 Ambient</a> 以来，
+我们在简化 Waypoint 配置、可调试性和可扩展性方面做了许多重大变更。</p><h2 id=architecture-of-waypoint-proxies>Waypoint Proxy 的架构</h2><p>与 Sidecar 类似，Waypoint Proxy 也是基于 Envoy 的，由 Istio 动态配置以服务于您的应用程序配置。
+Waypoint Proxy 的独特之处在于它按照每个命名空间（默认）或每个服务账户来运行。
+通过在应用程序 Pod 之外运行，Waypoint Proxy 可以独立于应用程序安装、升级和扩展，并降低运营成本。</p><figure style=width:100%><div class=wrapper-with-intrinsic-ratio style=padding-bottom:43.82191095547774%><a data-skipendnotes=true href=/v1.19/zh/blog/2023/waypoint-proxy-made-simple/waypoint-architecture.png title="Waypoint 架构"><img class=element-to-stretch src=/v1.19/zh/blog/2023/waypoint-proxy-made-simple/waypoint-architecture.png alt="Waypoint 架构"></a></div><figcaption>Waypoint 架构</figcaption></figure><p>Waypoint Proxy 是使用 Kubernetes Gateway 资源以声明方式部署的，也可以使用以下 <code>istioctl</code> 命令来部署：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ istioctl experimental waypoint generate
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: Gateway
+metadata:
+  name: namespace
+spec:
+  gatewayClassName: istio-waypoint
+  listeners:
+  - name: mesh
+    port: 15008
+    protocol: HBONE
+</code></pre><p>Istiod 将监控这些资源并自动为用户部署和管理相应的 Waypoint Proxy。</p><h2 id=shift-source-proxy-configuration-to-destination-proxy>将源代理配置转移到目的地代理</h2><p>在现有的 Sidecar 架构中，大多数流量形态（例如<a href=/v1.19/zh/docs/tasks/traffic-management/request-routing/>请求路由</a>
+或<a href=/v1.19/zh/docs/tasks/traffic-management/traffic-shifting/>流量转移</a>或
+<a href=/v1.19/zh/docs/tasks/traffic-management/fault-injection/>故障注入</a>）策略由源（客户端）代理实现，
+而大多数安全策略由目标（服务器）代理实现。这导致了一些担忧：</p><ul><li>扩缩：每个源 Sidecar 都需要知道关于网格中每个其他目的地的信息。这是一个多项式扩缩问题。
+更糟糕的是，如果任何目标配置发生变化，我们需要立即通知所有 Sidecar。</li><li>调试：因为策略执行在客户端和服务器 Sidecar 之间分开，所以在故障排除时很难理解系统的行为。</li><li>混合环境：如果有这样一个系统，不是所有客户端都属于网格，那可能就会得到不一致的行为。
+例如，非网格客户端不会遵守金丝雀部署策略，从而导致意外的流量分配。</li><li>所有权和归属：理想情况下，在一个命名空间中编写的策略应该只影响在同一命名空间中运行的代理所做的工作。
+然而，在这个模型中，它是由每个 Sidecar 分发和执行的。
+尽管 Istio 已围绕此约束进行设计以确保其安全，但它仍然不是最佳选择。</li></ul><p>在 Ambient 中，所有策略都由目的地 Waypoint 强制执行。
+在许多方面，Waypoint 充当进入命名空间（默认范围）或服务账户的网关。
+Istio 强制所有进入命名空间的流量都经过 Waypoint，然后该 Waypoint 执行该命名空间的所有策略。
+因此，每个 Waypoint 只需要了解其自己命名空间的配置。</p><p>特别是可扩展性问题，对于在大型集群中运行的用户来说是一个困扰。
+如果我们把它形象化，我们就可以看到新架构有多大的改进。</p><p>考虑一个简单的部署，我们有 2 个命名空间，每个命名空间有 2 个（彩色编码的）部署。
+为 Sidecar 编程所需的 Envoy (XDS) 配置显示为圆圈：</p><figure style=width:70%><div class=wrapper-with-intrinsic-ratio style=padding-bottom:100.94043887147335%><a data-skipendnotes=true href=/v1.19/zh/blog/2023/waypoint-proxy-made-simple/sidecar-config.png title="Every sidecar has configuration about all other sidecars"><img class=element-to-stretch src=/v1.19/zh/blog/2023/waypoint-proxy-made-simple/sidecar-config.png alt="Every sidecar has configuration about all other sidecars"></a></div><figcaption>Every sidecar has configuration about all other sidecars</figcaption></figure><p>在 Sidecar 模型中，我们有 4 个工作负载，每个工作负载有 4 组配置。
+如果这些配置中的任何一个发生更改，则所有这些配置都需要更新。总共分发了 16 个配置。</p><p>然而，在 Waypoint 架构中，配置得到了极大的简化：</p><figure style=width:70%><div class=wrapper-with-intrinsic-ratio style=padding-bottom:60%><a data-skipendnotes=true href=/v1.19/zh/blog/2023/waypoint-proxy-made-simple/waypoint-config.png title="Each waypoint only has configuration for its own namespace"><img class=element-to-stretch src=/v1.19/zh/blog/2023/waypoint-proxy-made-simple/waypoint-config.png alt="Each waypoint only has configuration for its own namespace"></a></div><figcaption>Each waypoint only has configuration for its own namespace</figcaption></figure><p>在这里，我们看到一个非常不同的情况。我们只有 2 个 Waypoint Proxy，
+因为每个 Waypoint Proxy 都能为整个命名空间提供服务，而且每个 Waypoint Proxy 只需要为自己的命名空间配置。
+总的来说，即使对于一个简单的例子，我们发送的配置量也只有总量的 25%。</p><p>如果我们将每个命名空间扩容到 25 个 Deployment，每个 Deployment 有 10 个 Pod，
+每个 Waypoint Deployment 有 2 个 Pod 以实现高可用性，那么数值就更加惊人了。
+如下表所示，Waypoint 配置分发只需要 Sidecar 配置分发的 0.8%！</p><table><thead><tr><th>配置分发</th><th>命名空间 1</th><th>命名空间 2</th><th>总计</th></tr></thead><tbody><tr><td>Sidecars</td><td>25 configurations * 250 sidecars</td><td>25 configurations * 250 sidecars</td><td>12500</td></tr><tr><td>Waypoints</td><td>25 configurations * 2 waypoints</td><td>25 configurations * 2 waypoints</td><td>100</td></tr><tr><td>Waypoints / Sidecars</td><td>0.8%</td><td>0.8%</td><td>0.8%</td></tr></tbody></table><p>虽然我们使用命名空间范围的 Waypoint Proxy 来说明上面的简化，
+但当您将其应用于服务账户 Waypoint Proxy 时，简化是相似的。</p><p>这样减少配置意味着控制平面和数据平面更低的资源使用率（CPU、RAM 和网络带宽）。
+虽然如今的用户可以通过在 Istio 网络资源或 <a href=/v1.19/zh/docs/reference/config/networking/sidecar/>Sidecar</a> API
+中谨慎使用 <code>exportTo</code> 来看到类似的改进，但在 Ambient 模式下不再需要这样做，这就使得扩缩容轻而易举。</p><h2 id=what-if-my-destination-doesnt-have-waypoint-proxy>如果我的目的地没有 Waypoint Proxy 怎么办？</h2><p>Ambient 模式的设计围绕这样一个假设，即大多数配置最好由服务生产者而不是服务消费者实施。
+然而，情况并非总是如此，有时我们需要为无法控制的目的地配置流量管理。
+一个常见的例子是连接到具有改进弹性的外部服务，以处理偶尔的连接问题（例如为调用添加超时 example.com）。</p><p>这是社区中正在积极开发的一个领域，我们在其中设计如何将流量路由到您的出口网关，
+以及您如何使用所需的策略配置出口网关。留意这方面的未来博客文章！</p><h2 id=a-deep-dive-of-waypoint-configuration>对 Waypoint 配置的深入研究</h2><p>假设您已遵循 <a href=/v1.19/zh/docs/ops/ambient/getting-started/>Ambient 入门指南</a>
+以及<a href=/v1.19/zh/docs/ops/ambient/getting-started/#control>控制流量章节</a>的说明，
+您已经为 bookinfo-reviews 服务账户部署了一个 Waypoint Proxy，
+将 90% 的流量引导至 review v1，将 10% 的流量引导至 review v2。</p><p>使用 <code>istioctl</code> 检索 <code>reviews</code> Waypoint Proxy 的监听器：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ istioctl proxy-config listener deploy/bookinfo-reviews-istio-waypoint --waypoint
+LISTENER              CHAIN                                                 MATCH                                         DESTINATION
+envoy://connect_originate                                                       ALL                                           Cluster: connect_originate
+envoy://main_internal inbound-vip|9080||reviews.default.svc.cluster.local-http  ip=10.96.104.108 -&gt; port=9080                 Inline Route: /*
+envoy://main_internal direct-tcp                                            ip=10.244.2.14 -&gt; ANY                         Cluster: encap
+envoy://main_internal direct-tcp                                            ip=10.244.1.6 -&gt; ANY                          Cluster: encap
+envoy://main_internal direct-tcp                                            ip=10.244.2.11 -&gt; ANY                         Cluster: encap
+envoy://main_internal direct-http                                           ip=10.244.2.11 -&gt; application-protocol=&#39;h2c&#39;  Cluster: encap
+envoy://main_internal direct-http                                           ip=10.244.2.11 -&gt; application-protocol=&#39;http/1.1&#39; Cluster: encap
+envoy://main_internal direct-http                                           ip=10.244.2.14 -&gt; application-protocol=&#39;http/1.1&#39; Cluster: encap
+envoy://main_internal direct-http                                           ip=10.244.2.14 -&gt; application-protocol=&#39;h2c&#39;  Cluster: encap
+envoy://main_internal direct-http                                           ip=10.244.1.6 -&gt; application-protocol=&#39;h2c&#39;   Cluster: encap
+envoy://main_internal direct-http                                           ip=10.244.1.6 -&gt; application-protocol=&#39;http/1.1&#39;  Cluster: encap
+envoy://connect_terminate default                                               ALL                                           Inline Route:
+</code></pre><p>对于到达端口的请求 <code>15008</code>，默认情况下是 Istio 的入站 <span class=term data-title=HBONE data-body='<p>基于 HTTP 的上层网络环境（HTTP-Based Overlay Network Environment，HBONE）
+是在 Istio 组件之间使用的安全隧道化协议。在 HBONE 中，用户流量通过
+<a href="/zh/docs/reference/glossary/#mutual-tls-authentication">mTLS 身份验证</a>加密的
+HTTP <code>CONNECT</code> 隧道进行安全的隧道传输。</p>
+'>HBONE</span> 端口，
+Waypoint Proxy 终止 HBONE 连接并将请求转发给 <code>main_internal</code> 监听器以执行任何工作负载策略，例如 AuthorizationPolicy。
+如果您不熟悉<a href=https://www.envoyproxy.io/docs/envoy/latest/configuration/other_features/internal_listener>内部监听器</a>，
+它们是 Envoy 监听器，无需使用系统网络 API 即可接受用户空间连接。
+上述添加到 <code>istioctl proxy-config</code> 命令的 <code>--waypoint</code> 参数指示它显示 <code>main_internal</code> 监听器、过滤链、链匹配和目的地详情。</p><p>注意 <code>10.96.104.108</code> 是 reviews 的服务 VIP，<code>10.244.x.x</code> 是 reviews 服务的 v1/v2/v3 Pod IP，
+您可以使用 <code>kubectl get svc,pod -o wide</code> 命令查看集群信息。
+对于明文或 HBONE 终止的入站流量，它将在服务 VIP 和端口 9080 上进行匹配以供审查或通过
+Pod IP 地址和应用协议（<code>ANY</code>、<code>h2c</code>、<code>http/1.1</code>）进行匹配。</p><p>检查集群的 <code>reviews</code> Waypoint Proxy，您将获得 <code>main_internal</code> 集群以及一些入站集群。
+除了用于基础设施的集群之外，唯一创建的 Envoy 集群是为在同一服务账户中运行的服务和 Pod 创建的。
+没有为在别处运行的服务或 Pod 创建集群。</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ istioctl proxy-config clusters deploy/bookinfo-reviews-istio-waypoint
+SERVICE FQDN                         PORT SUBSET  DIRECTION   TYPE         DESTINATION RULE
+agent                                -    -       -           STATIC
+connect_originate                    -    -       -           ORIGINAL_DST
+encap                                -    -       -           STATIC
+kubernetes.default.svc.cluster.local 443  tcp     inbound-vip EDS
+main_internal                        -    -       -           STATIC
+prometheus_stats                     -    -       -           STATIC
+reviews.default.svc.cluster.local    9080 http    inbound-vip EDS
+reviews.default.svc.cluster.local    9080 http/v1 inbound-vip EDS
+reviews.default.svc.cluster.local    9080 http/v2 inbound-vip EDS
+reviews.default.svc.cluster.local    9080 http/v3 inbound-vip EDS
+sds-grpc                             -    -       -           STATIC
+xds-grpc                             -    -       -           STATIC
+zipkin                               -    -       -           STRICT_DNS
+</code></pre><p>请注意，列表中没有 <code>outbound</code> 集群，您可以使用
+<code>istioctl proxy-config cluster deploy/bookinfo-reviews-istio-waypoint --direction outbound</code> 来确认!
+最棒的是，您不需要在任何其他 bookinfo 服务上配置 <code>exportTo</code>
+（例如 <code>productpage</code> 或 <code>ratings</code> 服务）。换句话说，<code>reviews</code> Waypoint
+不会感知到任何不必要的集群，不需要您进行任何额外的手动配置。</p><p>显示 <code>reviews</code> Waypoint Proxy 的路由列表：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ istioctl proxy-config routes deploy/bookinfo-reviews-istio-waypoint
+NAME                                                    DOMAINS MATCH              VIRTUAL SERVICE
+encap                                                   *       /*
+inbound-vip|9080|http|reviews.default.svc.cluster.local *       /*                 reviews.default
+default
+</code></pre><p>回想一下，您没有在 Istio 网络资源上配置任何 Sidecar 资源，也未执行 <code>exportTo</code> 配置。
+然而，您部署了 <code>bookinfo-productpage</code> 路由来配置 Ingress 网关以路由到 <code>productpage</code>，
+但 <code>reviews</code> Waypoint 还未感知到此类不相关的路由。</p><p>在显示 <code>inbound-vip|9080|http|reviews.default.svc.cluster.local</code> 路由的详情时，
+您会看到基于权重的路由配置将 90% 的流量引导到 <code>reviews</code> v1，将 10% 的流量引导到 <code>reviews</code> v2，
+还能看到 Istio 的一些默认重试和超时配置。如前所述，这证实了流量和弹性策略已从来源转移到面向目的地的 Waypoint。</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ istioctl proxy-config routes deploy/bookinfo-reviews-istio-waypoint --name &#34;inbound-vip|9080|http|reviews.default.svc.cluster.local&#34; -o yaml
+- name: inbound-vip|9080|http|reviews.default.svc.cluster.local
+ validateClusters: false
+ virtualHosts:
+ - domains:
+   - &#39;*&#39;
+   name: inbound|http|9080
+   routes:
+   - decorator:
+       operation: reviews:9080/*
+     match:
+       prefix: /
+     metadata:
+       filterMetadata:
+         istio:
+           config: /apis/networking.istio.io/v1alpha3/namespaces/default/virtual-service/reviews
+     route:
+       maxGrpcTimeout: 0s
+       retryPolicy:
+         hostSelectionRetryMaxAttempts: &#34;5&#34;
+         numRetries: 2
+         retriableStatusCodes:
+         - 503
+         retryHostPredicate:
+         - name: envoy.retry_host_predicates.previous_hosts
+           typedConfig:
+             &#39;@type&#39;: type.googleapis.com/envoy.extensions.retry.host.previous_hosts.v3.PreviousHostsPredicate
+         retryOn: connect-failure,refused-stream,unavailable,cancelled,retriable-status-codes
+       timeout: 0s
+       weightedClusters:
+         clusters:
+         - name: inbound-vip|9080|http/v1|reviews.default.svc.cluster.local
+           weight: 90
+         - name: inbound-vip|9080|http/v2|reviews.default.svc.cluster.local
+           weight: 10
+</code></pre><p>查看 <code>reviews</code> Waypoint Proxy 的端点：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ istioctl proxy-config endpoints deploy/bookinfo-reviews-istio-waypoint
+ENDPOINT                                            STATUS  OUTLIER CHECK CLUSTER
+127.0.0.1:15000                                     HEALTHY OK            prometheus_stats
+127.0.0.1:15020                                     HEALTHY OK            agent
+envoy://connect_originate/                          HEALTHY OK            encap
+envoy://connect_originate/10.244.1.6:9080           HEALTHY OK            inbound-vip|9080|http/v2|reviews.default.svc.cluster.local
+envoy://connect_originate/10.244.1.6:9080           HEALTHY OK            inbound-vip|9080|http|reviews.default.svc.cluster.local
+envoy://connect_originate/10.244.2.11:9080          HEALTHY OK            inbound-vip|9080|http/v1|reviews.default.svc.cluster.local
+envoy://connect_originate/10.244.2.11:9080          HEALTHY OK            inbound-vip|9080|http|reviews.default.svc.cluster.local
+envoy://connect_originate/10.244.2.14:9080          HEALTHY OK            inbound-vip|9080|http/v3|reviews.default.svc.cluster.local
+envoy://connect_originate/10.244.2.14:9080          HEALTHY OK            inbound-vip|9080|http|reviews.default.svc.cluster.local
+envoy://main_internal/                              HEALTHY OK            main_internal
+unix://./etc/istio/proxy/XDS                        HEALTHY OK            xds-grpc
+unix://./var/run/secrets/workload-spiffe-uds/socket HEALTHY OK            sds-grpc
+</code></pre><p>请注意，即使您在 <code>default</code> 和 <code>istio-system</code> 命名空间中还有一些其他服务，
+您也不会获得除 reviews 之外与任何服务相关的任何端点。</p><h2 id=wrapping-up>结束语</h2><p>我们对专注于面向目的地的 Waypoint Proxy 的 Waypoint 简化感到非常兴奋。
+这是朝着简化 Istio 的可用性、可扩展性和可调试性迈出的重要一步，
+这些是 Istio Roadmap 的重中之重。请跟随<a href=/v1.19/zh/docs/ops/ambient/getting-started/>入门指南</a>试用
+Ambient Alpha 构建并体验简化的 Waypoint Proxy！</p></div><nav class=pagenav><div class=left><a title="Istio 搭配其他工具确保 3 到 7 层网络安全。" href=/v1.19/zh/blog/2023/network-security-splunk/ class=next-link><svg class="icon left-arrow"><use xlink:href="/v1.19/img/icons.svg#left-arrow"/></svg>基于 Splunk 的全面网络安全</a></div><div class=right><a title="将 POD 流量重定向至每节点 ztunnel 代理的另一种方法。" href=/v1.19/zh/blog/2023/ambient-ebpf-redirection/ class=next-link>Istio ambient 模式中使用 eBPF 进行流量重定向<svg class="icon right-arrow"><use xlink:href="/v1.19/img/icons.svg#right-arrow"/></svg></a></div></nav></article><footer class=footer><div class="footer-wrapper container-l"><div class="user-links footer-links"><a class=channel title='Istio 的代码在 GitHub 上开发' href=https://github.com/istio/community aria-label=GitHub><svg class="icon github"><use xlink:href="/v1.19/img/icons.svg#github"/></svg></a><a class=channel title='如果您想深入了解 Istio 的技术细节，请查看我们日益完善的设计文档' href=https://groups.google.com/forum/#!forum/istio-team-drive-access aria-label="team drive"><svg class="icon drive"><use xlink:href="/v1.19/img/icons.svg#drive"/></svg></a><a class=channel title='在 Slack 上与 Istio 社区交互讨论开发问题（仅限邀请）' href=https://slack.istio.io aria-label=slack><svg class="icon slack"><use xlink:href="/v1.19/img/icons.svg#slack"/></svg></a><a class=channel title='Stack Overflow 中列举了针对实际问题以及部署、配置和使用 Istio 的各项回答' href=https://stackoverflow.com/questions/tagged/istio aria-label="Stack Overflow"><svg class="icon stackoverflow"><use xlink:href="/v1.19/img/icons.svg#stackoverflow"/></svg></a><a class=channel title='关注我们的 Twitter 来获取最新信息' href=https://twitter.com/IstioMesh aria-label=Twitter><svg class="icon twitter"><use xlink:href="/v1.19/img/icons.svg#twitter"/></svg></a></div><hr class=footer-separator role=separator><div class="info footer-info"><a class=logo href=/v1.19/zh/ aria-label=logotype><svg xmlns="http://www.w3.org/2000/svg" width="128" height="60" viewBox="0 0 128 60"><path d="M58.434 48.823A.441.441.0 0158.3 48.497V22.583a.444.444.0 01.134-.326.446.446.0 01.327-.134h3.527a.447.447.0 01.325.134.447.447.0 01.134.326v25.914a.443.443.0 01-.134.326.444.444.0 01-.325.134h-3.527a.444.444.0 01-.327-.134z"/><path d="m70.969 48.477a6.556 6.556.0 01-2.818-1.955 4.338 4.338.0 01-1-2.78v-.345a.443.443.0 01.134-.326.444.444.0 01.326-.135h3.374a.444.444.0 01.326.135.445.445.0 01.134.326v.077a2.014 2.014.0 001.054 1.667 4.672 4.672.0 002.664.709 4.446 4.446.0 002.492-.633 1.862 1.862.0 00.958-1.591 1.426 1.426.0 00-.786-1.322 12.7 12.7.0 00-2.549-.939l-1.457-.46a21.526 21.526.0 01-3.3-1.227 6.57 6.57.0 01-2.262-1.783 4.435 4.435.0 01-.92-2.894 5.081 5.081.0 012.109-4.275 8.993 8.993.0 015.558-1.591 10.445 10.445.0 014.1.748 6.3 6.3.0 012.722 2.07 5 5 0 01.958 3.009.441.441.0 01-.134.326.441.441.0 01-.325.134h-3.258a.441.441.0 01-.326-.134.443.443.0 01-.134-.326 1.974 1.974.0 00-.978-1.667 4.647 4.647.0 00-2.665-.671 4.741 4.741.0 00-2.435.556 1.724 1.724.0 00-.938 1.553 1.512 1.512.0 00.9 1.4 15.875 15.875.0 003.01 1.055l.843.229a27.368 27.368.0 013.412 1.246 6.67 6.67.0 012.338 1.763 4.387 4.387.0 01.958 2.933 4.988 4.988.0 01-2.146 4.275 9.543 9.543.0 01-5.712 1.552 11.626 11.626.0 01-4.227-.709z"/><path d="m97.039 32.837a.443.443.0 01-.326.135h-3.911a.169.169.0 00-.191.192v9.239a2.951 2.951.0 00.632 2.108 2.7 2.7.0 002.013.652h1.15a.444.444.0 01.325.134.441.441.0 01.134.326v2.875a.471.471.0 01-.459.5l-1.994.039a8 8 0 01-4.524-1.035q-1.495-1.035-1.533-3.91V33.166A.17.17.0 0088.164 32.974H85.978A.441.441.0 0185.652 32.839.441.441.0 0185.518 32.513V29.83a.441.441.0 01.134-.326.444.444.0 01.326-.135h2.186a.169.169.0 00.191-.192v-4.485a.438.438.0 01.134-.326.44.44.0 01.325-.134h3.336a.443.443.0 01.325.134.442.442.0 01.135.326v4.485a.169.169.0 00.191.192h3.911a.446.446.0 01.326.135.446.446.0 01.134.326v2.683a.446.446.0 01-.133.324z"/><path d="m101.694 25.917a2.645 2.645.0 01-.767-1.955 2.65 2.65.0 01.767-1.955 2.65 2.65.0 011.955-.767 2.65 2.65.0 011.955.767 2.652 2.652.0 01.767 1.955 2.647 2.647.0 01-.767 1.955 2.646 2.646.0 01-1.955.767 2.645 2.645.0 01-1.955-.767zm-.211 22.906a.441.441.0 01-.134-.326V29.79a.444.444.0 01.134-.326.446.446.0 01.326-.134h3.527a.446.446.0 01.326.134.445.445.0 01.134.326v18.707a.443.443.0 01-.134.326.443.443.0 01-.326.134h-3.527a.443.443.0 01-.326-.134z"/><path d="m114.019 47.734a8.1 8.1.0 01-3.047-4.255 14.439 14.439.0 01-.652-4.37 14.3 14.3.0 01.614-4.371A7.869 7.869.0 01114 30.56a9.072 9.072.0 015.252-1.5 8.543 8.543.0 015.041 1.5 7.985 7.985.0 013.009 4.14 12.439 12.439.0 01.69 4.37 13.793 13.793.0 01-.651 4.37 8.255 8.255.0 01-3.028 4.275 8.475 8.475.0 01-5.1 1.553 8.754 8.754.0 01-5.194-1.534zm7.629-3.1a4.536 4.536.0 001.476-2.262 11.335 11.335.0 00.383-3.221 10.618 10.618.0 00-.383-3.22 4.169 4.169.0 00-1.457-2.243 4.066 4.066.0 00-2.531-.785 3.942 3.942.0 00-2.453.785 4.376 4.376.0 00-1.5 2.243 11.839 11.839.0 00-.383 3.22 11.84 11.84.0 00.383 3.221 4.222 4.222.0 001.476 2.262 4.075 4.075.0 002.549.8 3.8 3.8.0 002.44-.809z"/><path d="m15.105 32.057v15.565a.059.059.0 01-.049.059L.069 50.25A.06.06.0 01.005 50.167l14.987-33.47a.06.06.0 01.114.025z"/><path d="m17.631 23.087v24.6a.06.06.0 00.053.059l22.449 2.507a.06.06.0 00.061-.084L17.745.032a.06.06.0 00-.114.024z"/><path d="m39.961 52.548-24.833 7.45a.062.062.0 01-.043.0L.079 52.548a.059.059.0 01.026-.113h39.839a.06.06.0 01.017.113z"/></svg></a><div class=footer-languages><a tabindex=-1 lang=en id=switch-lang-en class=footer-languages-item>English</a>
+<a tabindex=-1 lang=zh id=switch-lang-zh class="footer-languages-item active"><svg class="icon tick"><use xlink:href="/v1.19/img/icons.svg#tick"/></svg>中文</a></div></div><ul class=footer-policies><li class=footer-policies-item><a class=footer-policies-link href=https://www.linuxfoundation.org/legal/terms>条款</a> |
+<a class=footer-policies-link href=https://www.linuxfoundation.org/legal/privacy-policy>隐私政策</a> |
+<a class=footer-policies-link href=https://github.com/istio/istio.io/edit/release-1.19/content/zh/blog/2023/waypoint-proxy-made-simple/index.md>在 GitHub 上编辑此页</a></li></ul><div class=footer-base><span class=footer-base-copyright>&copy; 2023 the Istio Authors.</span>
+<span class=footer-base-version>部分内容可能滞后于英文版本，同步工作正在进行中<br>版本
+Istio 归档
+1.19.4</span><ul class=footer-base-releases><li class=footer-base-releases-item><a tabindex=-1 class=footer-base-releases-link onclick='return navigateToUrlOrRoot("https://istio.io/blog/2023/waypoint-proxy-made-simple/"),!1'>当前版本</a></li><li class=footer-base-releases-item><a tabindex=-1 class=footer-base-releases-link onclick='return navigateToUrlOrRoot("https://preliminary.istio.io/blog/2023/waypoint-proxy-made-simple/"),!1'>下个版本</a></li><li class=footer-base-releases-item><a tabindex=-1 class=footer-base-releases-link href=https://istio.io/archive>旧版本</a></li></ul></div></div></footer><script src=https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js defer></script><div id=scroll-to-top-container aria-hidden=true><button id=scroll-to-top title=回到顶部 tabindex=-1><svg class="icon top"><use xlink:href="/v1.19/img/icons.svg#top"/></svg></button></div></body></html>

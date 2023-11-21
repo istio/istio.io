@@ -1,0 +1,167 @@
+<!doctype html><html lang=en itemscope itemtype=https://schema.org/WebPage><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=theme-color content="#466BB0"><meta name=title content="Using Accelerated Offload Connection Load Balancing in Istio"><meta name=description content="Accelerate connection balancing using DLB connection balancing configuration in Istio gateways."><meta name=author content="Loong Dai (Intel)"><meta name=keywords content="microservices,services,mesh,Istio,DLB,gateways"><meta property="og:title" content="Using Accelerated Offload Connection Load Balancing in Istio"><meta property="og:type" content="website"><meta property="og:description" content="Accelerate connection balancing using DLB connection balancing configuration in Istio gateways."><meta property="og:url" content="/v1.19/blog/2023/dlb-connection-balancing/"><meta property="og:image" content="https://raw.githubusercontent.com/istio/istio.io/master/static/img/istio-social.svg"><meta property="og:image:alt" content="Istio Logo"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="600"><meta property="og:site_name" content="Istio"><meta name=twitter:card content="summary"><meta name=twitter:site content="@IstioMesh"><title>Istioldie 1.19 / Using Accelerated Offload Connection Load Balancing in Istio</title><script async src="https://www.googletagmanager.com/gtag/js?id=UA-98480406-2"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","UA-98480406-2")</script><link rel=alternate type=application/rss+xml title="Istio Blog" href=/v1.19/blog/feed.xml><link rel=alternate type=application/rss+xml title="Istio News" href=/v1.19/news/feed.xml><link rel=alternate type=application/rss+xml title="Istio Blog and News" href=/v1.19/feed.xml><link rel="shortcut icon" href=/v1.19/favicons/favicon.ico><link rel=apple-touch-icon href=/v1.19/favicons/apple-touch-icon-180x180.png sizes=180x180><link rel=icon type=image/png href=/v1.19/favicons/favicon-16x16.png sizes=16x16><link rel=icon type=image/png href=/v1.19/favicons/favicon-32x32.png sizes=32x32><link rel=icon type=image/png href=/v1.19/favicons/android-36x36.png sizes=36x36><link rel=icon type=image/png href=/v1.19/favicons/android-48x48.png sizes=48x48><link rel=icon type=image/png href=/v1.19/favicons/android-72x72.png sizes=72x72><link rel=icon type=image/png href=/v1.19/favicons/android-96x96.png sizes=96xW96><link rel=icon type=image/png href=/v1.19/favicons/android-144x144.png sizes=144x144><link rel=icon type=image/png href=/v1.19/favicons/android-192x192.png sizes=192x192><link rel=icon type=image/svg+xml href=/v1.19/favicons/favicon.svg><link rel=icon type=image/png href=/v1.19/favicons/favicon.png><link rel=mask-icon href=/v1.19/favicons/safari-pinned-tab.svg color=#466bb0><link rel=manifest href=/v1.19/manifest.json><meta name=apple-mobile-web-app-title content="Istio"><meta name=application-name content="Istio"><meta name=msapplication-config content="/browserconfig.xml"><meta name=msapplication-TileColor content="#466BB0"><meta name=theme-color content="#466BB0"><link rel=stylesheet href=/v1.19/css/all.css><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap"><script src=/v1.19/js/themes_init.min.js></script></head><body class="language-unknown archive-site"><script>const branchName="release-1.19",docTitle="Using Accelerated Offload Connection Load Balancing in Istio",iconFile="/v1.19/img/icons.svg",buttonCopy="Copy to clipboard",buttonPrint="Print",buttonDownload="Download"</script><script src="https://www.google.com/cse/brand?form=search-form" defer></script>
+<script src=/v1.19/js/all.min.js data-manual defer></script><header class=main-navigation><nav class="main-navigation-wrapper container-l"><div class=main-navigation-header><a id=brand href=/v1.19/ aria-label=logotype><span class=logo><svg xmlns="http://www.w3.org/2000/svg" width="128" height="60" viewBox="0 0 128 60"><path d="M58.434 48.823A.441.441.0 0158.3 48.497V22.583a.444.444.0 01.134-.326.446.446.0 01.327-.134h3.527a.447.447.0 01.325.134.447.447.0 01.134.326v25.914a.443.443.0 01-.134.326.444.444.0 01-.325.134h-3.527a.444.444.0 01-.327-.134z"/><path d="m70.969 48.477a6.556 6.556.0 01-2.818-1.955 4.338 4.338.0 01-1-2.78v-.345a.443.443.0 01.134-.326.444.444.0 01.326-.135h3.374a.444.444.0 01.326.135.445.445.0 01.134.326v.077a2.014 2.014.0 001.054 1.667 4.672 4.672.0 002.664.709 4.446 4.446.0 002.492-.633 1.862 1.862.0 00.958-1.591 1.426 1.426.0 00-.786-1.322 12.7 12.7.0 00-2.549-.939l-1.457-.46a21.526 21.526.0 01-3.3-1.227 6.57 6.57.0 01-2.262-1.783 4.435 4.435.0 01-.92-2.894 5.081 5.081.0 012.109-4.275 8.993 8.993.0 015.558-1.591 10.445 10.445.0 014.1.748 6.3 6.3.0 012.722 2.07 5 5 0 01.958 3.009.441.441.0 01-.134.326.441.441.0 01-.325.134h-3.258a.441.441.0 01-.326-.134.443.443.0 01-.134-.326 1.974 1.974.0 00-.978-1.667 4.647 4.647.0 00-2.665-.671 4.741 4.741.0 00-2.435.556 1.724 1.724.0 00-.938 1.553 1.512 1.512.0 00.9 1.4 15.875 15.875.0 003.01 1.055l.843.229a27.368 27.368.0 013.412 1.246 6.67 6.67.0 012.338 1.763 4.387 4.387.0 01.958 2.933 4.988 4.988.0 01-2.146 4.275 9.543 9.543.0 01-5.712 1.552 11.626 11.626.0 01-4.227-.709z"/><path d="m97.039 32.837a.443.443.0 01-.326.135h-3.911a.169.169.0 00-.191.192v9.239a2.951 2.951.0 00.632 2.108 2.7 2.7.0 002.013.652h1.15a.444.444.0 01.325.134.441.441.0 01.134.326v2.875a.471.471.0 01-.459.5l-1.994.039a8 8 0 01-4.524-1.035q-1.495-1.035-1.533-3.91V33.166A.17.17.0 0088.164 32.974H85.978A.441.441.0 0185.652 32.839.441.441.0 0185.518 32.513V29.83a.441.441.0 01.134-.326.444.444.0 01.326-.135h2.186a.169.169.0 00.191-.192v-4.485a.438.438.0 01.134-.326.44.44.0 01.325-.134h3.336a.443.443.0 01.325.134.442.442.0 01.135.326v4.485a.169.169.0 00.191.192h3.911a.446.446.0 01.326.135.446.446.0 01.134.326v2.683a.446.446.0 01-.133.324z"/><path d="m101.694 25.917a2.645 2.645.0 01-.767-1.955 2.65 2.65.0 01.767-1.955 2.65 2.65.0 011.955-.767 2.65 2.65.0 011.955.767 2.652 2.652.0 01.767 1.955 2.647 2.647.0 01-.767 1.955 2.646 2.646.0 01-1.955.767 2.645 2.645.0 01-1.955-.767zm-.211 22.906a.441.441.0 01-.134-.326V29.79a.444.444.0 01.134-.326.446.446.0 01.326-.134h3.527a.446.446.0 01.326.134.445.445.0 01.134.326v18.707a.443.443.0 01-.134.326.443.443.0 01-.326.134h-3.527a.443.443.0 01-.326-.134z"/><path d="m114.019 47.734a8.1 8.1.0 01-3.047-4.255 14.439 14.439.0 01-.652-4.37 14.3 14.3.0 01.614-4.371A7.869 7.869.0 01114 30.56a9.072 9.072.0 015.252-1.5 8.543 8.543.0 015.041 1.5 7.985 7.985.0 013.009 4.14 12.439 12.439.0 01.69 4.37 13.793 13.793.0 01-.651 4.37 8.255 8.255.0 01-3.028 4.275 8.475 8.475.0 01-5.1 1.553 8.754 8.754.0 01-5.194-1.534zm7.629-3.1a4.536 4.536.0 001.476-2.262 11.335 11.335.0 00.383-3.221 10.618 10.618.0 00-.383-3.22 4.169 4.169.0 00-1.457-2.243 4.066 4.066.0 00-2.531-.785 3.942 3.942.0 00-2.453.785 4.376 4.376.0 00-1.5 2.243 11.839 11.839.0 00-.383 3.22 11.84 11.84.0 00.383 3.221 4.222 4.222.0 001.476 2.262 4.075 4.075.0 002.549.8 3.8 3.8.0 002.44-.809z"/><path d="m15.105 32.057v15.565a.059.059.0 01-.049.059L.069 50.25A.06.06.0 01.005 50.167l14.987-33.47a.06.06.0 01.114.025z"/><path d="m17.631 23.087v24.6a.06.06.0 00.053.059l22.449 2.507a.06.06.0 00.061-.084L17.745.032a.06.06.0 00-.114.024z"/><path d="m39.961 52.548-24.833 7.45a.062.062.0 01-.043.0L.079 52.548a.059.059.0 01.026-.113h39.839a.06.06.0 01.017.113z"/></svg></span></a><button id=hamburger class=main-navigation-toggle aria-label="Open navigation"><svg class="icon menu-hamburger"><use xlink:href="/v1.19/img/icons.svg#menu-hamburger"/></svg></button>
+<button id=menu-close class=main-navigation-toggle aria-label="Close navigation"><svg class="icon menu-close"><use xlink:href="/v1.19/img/icons.svg#menu-close"/></svg></button></div><div id=header-links class=main-navigation-links-wrapper><ul class=main-navigation-links><li class=main-navigation-links-item><a class="main-navigation-links-link has-dropdown"><span>About</span><svg class="icon dropdown-arrow"><use xlink:href="/v1.19/img/icons.svg#dropdown-arrow"/></svg></a><ul class=main-navigation-links-dropdown><li class=main-navigation-links-dropdown-item><a href=/v1.19/about/service-mesh class=main-navigation-links-link>Service mesh</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.19/about/solutions class=main-navigation-links-link>Solutions</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.19/about/case-studies class=main-navigation-links-link>Case studies</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.19/about/ecosystem class=main-navigation-links-link>Ecosystem</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.19/about/deployment class=main-navigation-links-link>Deployment</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.19/about/faq class=main-navigation-links-link>FAQ</a></li></ul></li><li class=main-navigation-links-item><a href=/v1.19/blog/ class=main-navigation-links-link><span>Blog</span></a></li><li class=main-navigation-links-item><a href=/v1.19/news/ class=main-navigation-links-link><span>News</span></a></li><li class=main-navigation-links-item><a href=/v1.19/get-involved/ class=main-navigation-links-link><span>Get involved</span></a></li><li class=main-navigation-links-item><a href=/v1.19/docs/ class=main-navigation-links-link><span>Documentation</span></a></li></ul><div class=main-navigation-footer><button id=search-show class=search-show title='Search this site' aria-label=Search><svg class="icon magnifier"><use xlink:href="/v1.19/img/icons.svg#magnifier"/></svg></button>
+<a href=/v1.19/docs/setup/getting-started class="btn btn--primary" id=try-istio>Try Istio</a></div></div><form id=search-form class=search name=cse role=search><input type=hidden name=cx value=002184991200833970123:iwwf17ikgf4>
+<input type=hidden name=ie value=utf-8>
+<input type=hidden name=hl value=en>
+<input type=hidden id=search-page-url value=/search>
+<input id=search-textbox class="search-textbox form-control" name=q type=search aria-label='Search this site' placeholder=Search>
+<button id=search-close title='Cancel search' type=reset aria-label='Cancel search'><svg class="icon menu-close"><use xlink:href="/v1.19/img/icons.svg#menu-close"/></svg></button></form></nav></header><div class=banner-container><a href=/v1.19/news/releases/1.19.x/announcing-1.19.4/ class=banner data-title="Latest Release-2023-11-13 00:00:00 +0000 UTC" data-period-start=1699833600000 data-period-end=1700438400000 data-max-impressions=3 data-timeout><div class=content><p>Istio 1.19.4 is now available! Click here to learn more</p></div><div class=frame></div></a></div><article class=post itemscope itemtype=http://schema.org/BlogPosting><div class=header-content><h1>Using Accelerated Offload Connection Load Balancing in Istio</h1><p>Accelerate connection balancing using DLB connection balancing configuration in Istio gateways.</p></div><p class=post-author>Aug 8, 2023 <span>|</span> By Loong Dai - Intel</p><div><h2 id=what-is-connection-load-balancing>What is connection load balancing?</h2><p>Load balancing is a core networking solution used to distribute traffic across multiple servers in a server farm.
+Load balancers improve application availability and responsiveness and prevent server overload. Each load balancer
+sits between client devices and backend servers, receiving and then distributing incoming requests to any available server capable of fulfilling them.</p><p>For a common web server, it usually has multiple workers (processors or threads). If many clients connect to
+a single worker, this worker becomes busy and brings long tail latency while other workers run in the free state,
+affecting the performance of the web server. Connection load balancing is the solution for this situation,
+which is also known as connection balancing.</p><h2 id=what-does-istio-do-for-connection-load-balancing>What does Istio do for connection load balancing?</h2><p>Istio uses Envoy as the data plane.</p><p>Envoy provides a connection load balancing implementation called Exact connection balancer. As its name says, a lock is held during balancing so that connection counts are nearly exactly balanced between workers. It is &ldquo;nearly&rdquo; exact in the sense that a connection might close in parallel thus making the counts incorrect, but this should be rectified on the next accept. This balancer sacrifices accept throughput for accuracy and should be used when there are a small number of connections that rarely cycle, e.g., service mesh gRPC egress.</p><p>Obviously, it is not suitable for an ingress gateway since an ingress gateway accepts thousands of connections within a short time, and the resource cost from the lock brings a big drop in throughput.</p><p>Now, Envoy has integrated Intel® Dynamic Load Balancing (Intel®DLB) connection load balancing to accelerate in high connection count cases like ingress gateway.</p><h2 id=how-intel-dynamic-load-balancing-accelerates-connection-load-balancing-in-envoy>How Intel® Dynamic Load Balancing accelerates connection load balancing in Envoy</h2><p>Intel DLB is a hardware managed system of queues and arbiters connecting producers and consumers. It is a PCI device envisaged to live in the server CPU <a href=https://en.wikipedia.org/wiki/Uncore>uncore</a> and can interact with software running on cores, and potentially with other devices.</p><p>Intel DLB implements the following load balancing features:</p><ul><li>Offloads queue management from software — useful where there are significant queuing-based costs.<ul><li>Especially with multi-producer / multi-consumer scenarios and enqueue batching to multiple destinations.</li><li>The overhead locks are required to access shared queues in the software. Intel DLB implements lock-free access to shared queues.</li></ul></li><li>Dynamic, flow aware load balancing and reordering.<ul><li>Ensures equal distribution of tasks and better CPU core utilization. Can provide flow-based atomicity if required.</li><li>Distributes high bandwidth flows across many cores without loss of packet order.</li><li>Better determinism and avoids excessive queuing latencies.</li><li>Uses less IO memory footprint and saves DDR Bandwidth.</li></ul></li><li>Priority queuing (up to 8 levels) — allows for QOS.<ul><li>Lower latency for traffic that is latency sensitive.</li><li>Optional delay measurements in the packets.</li></ul></li><li>Scalability<ul><li>Allows dynamic sizing of applications, seamless scale up/down.</li><li>Power aware; application can drop workers to lower power state in cases of lighter load.</li></ul></li></ul><p>There are three types of load balancing queues:</p><ul><li>Unordered: For multiple producers and consumers. The order of tasks is not important, and each task is assigned to the processor core with the lowest current load.</li><li>Ordered: For multiple producers and consumers where the order of tasks is important. When multiple tasks are processed by multiple processor cores, they must be rearranged in the original order.</li><li>Atomic: For multiple producers and consumers, where tasks are grouped according to certain rules. These tasks are processed using the same set of resources and the order of tasks within the same group is important.</li></ul><p>An ingress gateway is expected to process as much data as possible as quickly as possible, so Intel DLB connection load balancing uses an unordered queue.</p><h2 id=how-to-use-intel-dlb-connection-load-balancing-in-istio>How to use Intel DLB connection load balancing in Istio</h2><p>With the 1.17 release, Istio officially supports Intel DLB connection load balancing.</p><p>The following steps show how to use Intel DLB connection load balancing in an Istio <a href=/v1.19/docs/tasks/traffic-management/ingress/ingress-control/>Ingress Gateway</a> in an SPR (Sapphire Rapids) machine, assuming the Kubernetes cluster is running.</p><h3 id=step-1-prepare-dlb-environment>Step 1: Prepare DLB environment</h3><p>Install the Intel DLB driver by following <a href=https://www.intel.com/content/www/us/en/download/686372/intel-dynamic-load-balancer.html>the instructions on the Intel DLB driver official site</a>.</p><p>Install the Intel DLB device plugin with the following command:</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl apply -k https://github.com/intel/intel-device-plugins-for-kubernetes/deployments/dlb_plugin?ref=v0.26.0
+</code></pre><p>For more details about the Intel DLB device plugin, please refer to <a href=https://www.envoyproxy.io/docs/envoy/latest/configuration/other_features/dlb#config-connection-balance-dlb>Intel DLB device plugin homepage</a>.</p><p>You can check the Intel DLB device resource:</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl describe nodes | grep dlb.intel.com/pf
+  dlb.intel.com/pf:   2
+  dlb.intel.com/pf:   2
+...
+</code></pre><h3 id=step-2-download-istio>Step 2: Download Istio</h3><p>In this blog we use 1.17.2. Let’s download the installation:</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.17.2 TARGET_ARCH=x86_64 sh -
+$ cd istio-1.17.2
+$ export PATH=$PWD/bin:$PATH
+</code></pre><div><aside class="callout tip"><div class=type><svg class="large-icon"><use xlink:href="/v1.19/img/icons.svg#callout-tip"/></svg></div><div class=content>All following actions will be done under this directory.</div></aside></div><p>You can check the version is 1.17.2:</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ istioctl version
+no running Istio pods in &#34;istio-system&#34;
+1.17.2
+</code></pre><h3 id=step-3-install-istio>Step 3: Install Istio</h3><p>Create an install configuration for Istio, notice that we assign 4 CPUs and 1 DLB device to ingress gateway and set concurrency as 4, which is equal to the CPU number.</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ cat &gt; config.yaml &lt;&lt; EOF
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  profile: default
+  components:
+    ingressGateways:
+    - enabled: true
+      name: istio-ingressgateway
+      k8s:
+        overlays:
+          - kind: Deployment
+            name: istio-ingressgateway
+        podAnnotations:
+          proxy.istio.io/config: |
+            concurrency: 4
+        resources:
+          requests:
+            cpu: 4000m
+            memory: 4096Mi
+            dlb.intel.com/pf: &#39;1&#39;
+          limits:
+            cpu: 4000m
+            memory: 4096Mi
+            dlb.intel.com/pf: &#39;1&#39;
+        hpaSpec:
+          maxReplicas: 1
+          minReplicas: 1
+  values:
+    telemetry:
+      enabled: false
+EOF
+</code></pre><p>Use <code>istioctl</code> to install:</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ istioctl install -f config.yaml --set values.gateways.istio-ingressgateway.runAsRoot=true -y
+✔ Istio core installed
+✔ Istiod installed
+✔ Ingress gateways installed
+✔ Installation complete                                                                                                                                                                                                                                                                       Making this installation the default for injection and validation.
+
+Thank you for installing Istio 1.17.  Please take a few minutes to tell us about your install/upgrade experience!  https://forms.gle/hMHGiwZHPU7UQRWe9
+</code></pre><h3 id=step-4-setup-backend-service>Step 4: Setup Backend Service</h3><p>Since we want to use DLB connection load balancing in Istio ingress gateway, we need to create a backend service first.</p><p>We&rsquo;ll use an Istio-provided sample to test, <a href=https://github.com/istio/istio/tree/release-1.19/release-1.17/samples/httpbin>httpbin</a>.</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl apply -f samples/httpbin/httpbin.yaml
+$ kubectl apply -f - &lt;&lt;EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: httpbin-gateway
+spec:
+  # The selector matches the ingress gateway pod labels.
+  # If you installed Istio using Helm following the standard documentation, this would be &#34;istio=ingress&#34;
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - &#34;httpbin.example.com&#34;
+EOF
+$ kubectl apply -f - &lt;&lt;EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: httpbin
+spec:
+  hosts:
+  - &#34;httpbin.example.com&#34;
+  gateways:
+  - httpbin-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /status
+    - uri:
+        prefix: /delay
+    route:
+    - destination:
+        port:
+          number: 8000
+        host: httpbin
+EOF
+</code></pre><p>You have now created a virtual service configuration for the httpbin service containing two route rules that allow traffic for paths /status and /delay.</p><p>The gateways list specifies that only requests through your httpbin-gateway are allowed. All other external requests will be rejected with a 404 response.</p><h3 id=step-5-enable-dlb-connection-load-balancing>Step 5: Enable DLB Connection Load Balancing</h3><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl apply -f - &lt;&lt;EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: dlb
+  namespace: istio-system
+spec:
+  workloadSelector:
+    labels:
+      istio: ingressgateway
+  configPatches:
+  - applyTo: LISTENER
+    match:
+      context: GATEWAY
+    patch:
+      operation: MERGE
+      value:
+        connection_balance_config:
+            extend_balance:
+              name: envoy.network.connection_balance.dlb
+              typed_config:
+                &#34;@type&#34;: type.googleapis.com/envoy.extensions.network.connection_balance.dlb.v3alpha.Dlb
+EOF
+</code></pre><p>It is expected that if you check the log of ingress gateway pod <code>istio-ingressgateway-xxxx</code> you will see log entries similar to:</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ export POD=&#34;$(kubectl get pods -n istio-system | grep gateway | awk &#39;{print $1}&#39;)&#34;
+$ kubectl logs -n istio-system ${POD} | grep dlb
+2023-05-05T06:16:36.921299Z     warning envoy config external/envoy/contrib/network/connection_balance/dlb/source/connection_balancer_impl.cc:46        dlb device 0 is not found, use dlb device 3 instead     thread=35
+</code></pre><p>Envoy will auto detect and choose the DLB device.</p><h3 id=step-6-test>Step 6: Test</h3><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ export HOST=&#34;&lt;YOUR-HOST-IP&gt;&#34;
+$ export PORT=&#34;$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath=&#39;{.spec.ports[?(@.name==&#34;http2&#34;)].nodePort}&#39;)&#34;
+$ curl -s -I -HHost:httpbin.example.com &#34;http://${HOST}:${PORT}/status/200&#34;
+HTTP/1.1 200 OK
+server: istio-envoy
+...
+</code></pre><p>Note that you use the <code>-H</code> flag to set the Host HTTP header to <code>httpbin.example.com</code> since now you have no DNS binding for that host and are simply sending your request to the ingress IP.</p><p>You can also add the DNS binding in <code>/etc/hosts</code> and remove <code>-H</code> flag:</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ echo &#34;$HOST httpbin.example.com&#34; &gt;&gt; /etc/hosts
+$ curl -s -I &#34;http://httpbin.example.com:${PORT}/status/200&#34;
+HTTP/1.1 200 OK
+server: istio-envoy
+...
+</code></pre><p>Access any other URL that has not been explicitly exposed. You should see an HTTP 404 error:</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ curl -s -I -HHost:httpbin.example.com &#34;http://${HOST}:${PORT}/headers&#34;
+HTTP/1.1 404 Not Found
+...
+</code></pre><p>You can turn on debug log level to see more DLB related logs:</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ istioctl pc log ${POD}.istio-system --level debug
+istio-ingressgateway-665fdfbf95-2j8px.istio-system:
+active loggers:
+  admin: debug
+  alternate_protocols_cache: debug
+  aws: debug
+  assert: debug
+  backtrace: debug
+...
+</code></pre><p>Run <code>curl</code> to send one request and you will see something like below:</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl logs -n istio-system ${POD} | grep dlb
+2023-05-05T06:16:36.921299Z     warning envoy config external/envoy/contrib/network/connection_balance/dlb/source/connection_balancer_impl.cc:46        dlb device 0 is not found, use dlb device 3 instead     thread=35
+2023-05-05T06:37:45.974241Z     debug   envoy connection external/envoy/contrib/network/connection_balance/dlb/source/connection_balancer_impl.cc:269   worker_3 dlb send fd 45 thread=47
+2023-05-05T06:37:45.974427Z     debug   envoy connection external/envoy/contrib/network/connection_balance/dlb/source/connection_balancer_impl.cc:286   worker_0 get dlb event 1        thread=46
+2023-05-05T06:37:45.974453Z     debug   envoy connection external/envoy/contrib/network/connection_balance/dlb/source/connection_balancer_impl.cc:303   worker_0 dlb recv 45    thread=46
+2023-05-05T06:37:45.975215Z     debug   envoy connection external/envoy/contrib/network/connection_balance/dlb/source/connection_balancer_impl.cc:283   worker_0 dlb receive none, skip thread=46
+</code></pre><p>For more details about Istio Ingress Gateway, please refer to <a href=/v1.19/docs/tasks/traffic-management/ingress/ingress-control/>Istio Ingress Gateway Official Doc</a>.</p></div><nav class=pagenav><div class=left><a title="Demoing the new SidecarContainers feature with Istio." href=/v1.19/blog/2023/native-sidecars/ class=next-link><svg class="icon left-arrow"><use xlink:href="/v1.19/img/icons.svg#left-arrow"/></svg>Kubernetes Native Sidecars in Istio</a></div><div class=right><a title href=/v1.19/blog/2023/istio-graduates-within-cncf/ class=next-link>Announcing Istio's graduation within the CNCF<svg class="icon right-arrow"><use xlink:href="/v1.19/img/icons.svg#right-arrow"/></svg></a></div></nav></article><footer class=footer><div class="footer-wrapper container-l"><div class="user-links footer-links"><a class=channel title='GitHub is where development takes place on Istio code' href=https://github.com/istio/community aria-label=GitHub><svg class="icon github"><use xlink:href="/v1.19/img/icons.svg#github"/></svg></a><a class=channel title="Access our team drive if you'd like to take a look at the Istio technical design documents" href=https://groups.google.com/forum/#!forum/istio-team-drive-access aria-label="team drive"><svg class="icon drive"><use xlink:href="/v1.19/img/icons.svg#drive"/></svg></a><a class=channel title='Interactively discuss issues with the Istio community on Slack' href=https://slack.istio.io aria-label=slack><svg class="icon slack"><use xlink:href="/v1.19/img/icons.svg#slack"/></svg></a><a class=channel title='Stack Overflow is where you can ask questions and find curated answers on deploying, configuring, and using Istio' href=https://stackoverflow.com/questions/tagged/istio aria-label="Stack Overflow"><svg class="icon stackoverflow"><use xlink:href="/v1.19/img/icons.svg#stackoverflow"/></svg></a><a class=channel title='Follow us on Twitter to get the latest news' href=https://twitter.com/IstioMesh aria-label=Twitter><svg class="icon twitter"><use xlink:href="/v1.19/img/icons.svg#twitter"/></svg></a></div><hr class=footer-separator role=separator><div class="info footer-info"><a class=logo href=/v1.19/ aria-label=logotype><svg xmlns="http://www.w3.org/2000/svg" width="128" height="60" viewBox="0 0 128 60"><path d="M58.434 48.823A.441.441.0 0158.3 48.497V22.583a.444.444.0 01.134-.326.446.446.0 01.327-.134h3.527a.447.447.0 01.325.134.447.447.0 01.134.326v25.914a.443.443.0 01-.134.326.444.444.0 01-.325.134h-3.527a.444.444.0 01-.327-.134z"/><path d="m70.969 48.477a6.556 6.556.0 01-2.818-1.955 4.338 4.338.0 01-1-2.78v-.345a.443.443.0 01.134-.326.444.444.0 01.326-.135h3.374a.444.444.0 01.326.135.445.445.0 01.134.326v.077a2.014 2.014.0 001.054 1.667 4.672 4.672.0 002.664.709 4.446 4.446.0 002.492-.633 1.862 1.862.0 00.958-1.591 1.426 1.426.0 00-.786-1.322 12.7 12.7.0 00-2.549-.939l-1.457-.46a21.526 21.526.0 01-3.3-1.227 6.57 6.57.0 01-2.262-1.783 4.435 4.435.0 01-.92-2.894 5.081 5.081.0 012.109-4.275 8.993 8.993.0 015.558-1.591 10.445 10.445.0 014.1.748 6.3 6.3.0 012.722 2.07 5 5 0 01.958 3.009.441.441.0 01-.134.326.441.441.0 01-.325.134h-3.258a.441.441.0 01-.326-.134.443.443.0 01-.134-.326 1.974 1.974.0 00-.978-1.667 4.647 4.647.0 00-2.665-.671 4.741 4.741.0 00-2.435.556 1.724 1.724.0 00-.938 1.553 1.512 1.512.0 00.9 1.4 15.875 15.875.0 003.01 1.055l.843.229a27.368 27.368.0 013.412 1.246 6.67 6.67.0 012.338 1.763 4.387 4.387.0 01.958 2.933 4.988 4.988.0 01-2.146 4.275 9.543 9.543.0 01-5.712 1.552 11.626 11.626.0 01-4.227-.709z"/><path d="m97.039 32.837a.443.443.0 01-.326.135h-3.911a.169.169.0 00-.191.192v9.239a2.951 2.951.0 00.632 2.108 2.7 2.7.0 002.013.652h1.15a.444.444.0 01.325.134.441.441.0 01.134.326v2.875a.471.471.0 01-.459.5l-1.994.039a8 8 0 01-4.524-1.035q-1.495-1.035-1.533-3.91V33.166A.17.17.0 0088.164 32.974H85.978A.441.441.0 0185.652 32.839.441.441.0 0185.518 32.513V29.83a.441.441.0 01.134-.326.444.444.0 01.326-.135h2.186a.169.169.0 00.191-.192v-4.485a.438.438.0 01.134-.326.44.44.0 01.325-.134h3.336a.443.443.0 01.325.134.442.442.0 01.135.326v4.485a.169.169.0 00.191.192h3.911a.446.446.0 01.326.135.446.446.0 01.134.326v2.683a.446.446.0 01-.133.324z"/><path d="m101.694 25.917a2.645 2.645.0 01-.767-1.955 2.65 2.65.0 01.767-1.955 2.65 2.65.0 011.955-.767 2.65 2.65.0 011.955.767 2.652 2.652.0 01.767 1.955 2.647 2.647.0 01-.767 1.955 2.646 2.646.0 01-1.955.767 2.645 2.645.0 01-1.955-.767zm-.211 22.906a.441.441.0 01-.134-.326V29.79a.444.444.0 01.134-.326.446.446.0 01.326-.134h3.527a.446.446.0 01.326.134.445.445.0 01.134.326v18.707a.443.443.0 01-.134.326.443.443.0 01-.326.134h-3.527a.443.443.0 01-.326-.134z"/><path d="m114.019 47.734a8.1 8.1.0 01-3.047-4.255 14.439 14.439.0 01-.652-4.37 14.3 14.3.0 01.614-4.371A7.869 7.869.0 01114 30.56a9.072 9.072.0 015.252-1.5 8.543 8.543.0 015.041 1.5 7.985 7.985.0 013.009 4.14 12.439 12.439.0 01.69 4.37 13.793 13.793.0 01-.651 4.37 8.255 8.255.0 01-3.028 4.275 8.475 8.475.0 01-5.1 1.553 8.754 8.754.0 01-5.194-1.534zm7.629-3.1a4.536 4.536.0 001.476-2.262 11.335 11.335.0 00.383-3.221 10.618 10.618.0 00-.383-3.22 4.169 4.169.0 00-1.457-2.243 4.066 4.066.0 00-2.531-.785 3.942 3.942.0 00-2.453.785 4.376 4.376.0 00-1.5 2.243 11.839 11.839.0 00-.383 3.22 11.84 11.84.0 00.383 3.221 4.222 4.222.0 001.476 2.262 4.075 4.075.0 002.549.8 3.8 3.8.0 002.44-.809z"/><path d="m15.105 32.057v15.565a.059.059.0 01-.049.059L.069 50.25A.06.06.0 01.005 50.167l14.987-33.47a.06.06.0 01.114.025z"/><path d="m17.631 23.087v24.6a.06.06.0 00.053.059l22.449 2.507a.06.06.0 00.061-.084L17.745.032a.06.06.0 00-.114.024z"/><path d="m39.961 52.548-24.833 7.45a.062.062.0 01-.043.0L.079 52.548a.059.059.0 01.026-.113h39.839a.06.06.0 01.017.113z"/></svg></a><div class=footer-languages><a tabindex=-1 lang=en id=switch-lang-en class="footer-languages-item active"><svg class="icon tick"><use xlink:href="/v1.19/img/icons.svg#tick"/></svg>English</a>
+<a tabindex=-1 lang=zh id=switch-lang-zh class=footer-languages-item>中文</a></div></div><ul class=footer-policies><li class=footer-policies-item><a class=footer-policies-link href=https://www.linuxfoundation.org/legal/terms>Terms and Conditions</a> |
+<a class=footer-policies-link href=https://www.linuxfoundation.org/legal/privacy-policy>Privacy policy</a> |
+<a class=footer-policies-link href=https://github.com/istio/istio.io/edit/release-1.19/content/en/blog/2023/dlb-connection-balancing/index.md>Edit this Page on GitHub</a></li></ul><div class=footer-base><span class=footer-base-copyright>&copy; 2023 the Istio Authors.</span>
+<span class=footer-base-version>Version
+Archive
+1.19.4</span><ul class=footer-base-releases><li class=footer-base-releases-item><a tabindex=-1 class=footer-base-releases-link onclick='return navigateToUrlOrRoot("https://istio.io/blog/2023/dlb-connection-balancing/"),!1'>current release</a></li><li class=footer-base-releases-item><a tabindex=-1 class=footer-base-releases-link onclick='return navigateToUrlOrRoot("https://preliminary.istio.io/blog/2023/dlb-connection-balancing/"),!1'>next release</a></li><li class=footer-base-releases-item><a tabindex=-1 class=footer-base-releases-link href=https://istio.io/archive>older releases</a></li></ul></div></div></footer><div id=scroll-to-top-container aria-hidden=true><button id=scroll-to-top title='Back to top' tabindex=-1><svg class="icon top"><use xlink:href="/v1.19/img/icons.svg#top"/></svg></button></div></body></html>

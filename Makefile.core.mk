@@ -27,7 +27,7 @@ export IN_BUILD_CONTAINER := $(IN_BUILD_CONTAINER)
 
 # ISTIO_IMAGE_VERSION stores the prefix used by default for the Docker images for Istio.
 # For example, a value of 1.6-alpha will assume a default TAG value of 1.6-dev.<SHA>
-ISTIO_IMAGE_VERSION ?= 1.20-alpha
+ISTIO_IMAGE_VERSION ?= 1.21-alpha
 export ISTIO_IMAGE_VERSION
 
 # Determine the SHA for the Istio dependency by parsing the go.mod file.
@@ -77,7 +77,7 @@ baseurl := "$(URL)"
 endif
 
 # Which branch of the Istio source code do we fetch stuff from
-export SOURCE_BRANCH_NAME ?= release-1.20
+export SOURCE_BRANCH_NAME ?= master
 
 site:
 	@scripts/gen_site.sh
@@ -85,9 +85,11 @@ site:
 snips:
 	@scripts/gen_snips.sh
 
+# Force locale, since macOS and Linux use different locales. Otherwise updates from macOS users will
+# fail make gen-check with an incorrect (for the pipeline) .spelling.
 format-spelling:
 	@echo "Sorting the .spelling file..."
-	@sort .spelling --ignore-case -o .spelling
+	@LC_ALL=C sort .spelling --ignore-case -o .spelling
 	@echo ".spelling file sorted."
 
 gen: tidy-go format-go update-gateway-version snips format-spelling

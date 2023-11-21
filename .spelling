@@ -20,6 +20,7 @@
 1.19.x
 1.2.x
 1.2.x.
+1.20.x
 1.23.x
 1.24.0
 1.24.x
@@ -27,6 +28,7 @@
 1.26.x
 1.27.3
 1.27.x
+1.28.x
 1.3.x
 1.3.x.
 1.4.x
@@ -50,6 +52,7 @@
 18x
 1ms
 1qps
+1s
 1xx
 2.5s
 2010s
@@ -113,6 +116,7 @@ analytics
 Anantheswaran
 ANDed
 Angaluri
+Aniszczyk
 Ansari
 Ansible
 Ant
@@ -127,6 +131,7 @@ AppOptics
 AppSwitch
 appswitch
 architected
+architecting
 ArgoCD
 args.yaml
 Arielli
@@ -139,6 +144,7 @@ attestors
 AttributeGen
 Auth0
 AuthenticationPolicy
+Authn
 AuthorizationPolicy
 authorizer
 AuthPolicy
@@ -240,6 +246,7 @@ conformant
 CONNECT-IP
 CONNECT-UDP
 containerID
+Contribfest
 ControlZ
 Coraza
 CoreDNS
@@ -378,6 +385,7 @@ dev
 Devirtualization
 devirtualization
 devops
+DevRev
 devstats
 Dhir
 Dhiyaulhaq
@@ -408,6 +416,7 @@ eBPF
 ECR
 edition.cnn.com
 Eitan
+Ekansh
 Elasticsearch
 embeddable
 emojis
@@ -427,6 +436,7 @@ ExecAction
 executables
 Exfiltrating
 exfiltration
+Expedia
 ext-authz
 extensionProviders
 ExternalName
@@ -474,6 +484,7 @@ git
 GitHub
 GitOps
 GKE
+glibc
 Gloo
 GlueCon
 Gmail
@@ -618,8 +629,10 @@ JWT_RULE
 k3d
 k3s
 k6
+K8gb
 k8s
 Kafka
+Karim
 katacoda
 Kaul
 Keates
@@ -630,6 +643,7 @@ Kenan
 key.pem
 Keycloak
 Khaliq
+Khushboo
 Kiali
 Kibana
 Knative
@@ -661,6 +675,7 @@ kyzy
 L3-4
 L4-L6
 L4-only
+Lakhani
 Landow
 learnings
 Leggett
@@ -686,12 +701,14 @@ Loki
 lookups
 loopback
 Lua
+Lukonde
 Luyao
 Lyft
 macOS
 maintainership
 Mandar
 Manolache
+Mansing
 Marshalers
 Mattix
 MB
@@ -725,6 +742,7 @@ misconfigured
 misordered
 Mitigations
 mitigations
+Mittal
 MongoDB
 mongodb
 MOSN
@@ -736,6 +754,7 @@ Multicluster
 multicluster
 mutex
 mutual-tls
+Mwila
 myapp
 MySQL
 mysql
@@ -760,6 +779,7 @@ NICs
 NiFi
 Nikhita
 Ning
+Nirupama
 NLBs
 no-brainer
 Node.js
@@ -811,6 +831,7 @@ Ostrowski
 otel-collector
 outsized
 overridden
+Ovidiu
 p50
 p99
 PaaS
@@ -914,6 +935,7 @@ remoteIpBlocks
 repo
 repurposed
 requires_any
+Reskill
 resources.limits.cpu
 resources.limits.memory
 resources.request.cpu
@@ -934,7 +956,9 @@ RPCs
 runtime
 runtimes
 sa
+SaaS
 Salesforce
+Salmond
 sandboxed
 sandboxing
 sayin
@@ -963,6 +987,7 @@ Shamsher
 sharded
 Sharding
 sharding
+Shaughnessy
 Shi
 Shilin
 Shivanshu
@@ -989,6 +1014,7 @@ SolarWinds
 Solo.io
 Solo.io.
 SongYang
+Speedscale
 SPIFFE
 SPIFFE-compliant
 Splunk
@@ -997,6 +1023,7 @@ SREs
 Srihari
 Srinath
 Stackdriver
+Stackgenie
 Standard_D4ds_v5
 stateful
 Statsd
@@ -1058,6 +1085,7 @@ touchpoints
 tradeoff
 tradeoffs
 TrafficPolicy
+Trivedi
 Trulia
 trustability
 tunneling
@@ -1180,6 +1208,7 @@ x86
 xDS
 Xeon
 Xia
+Xiangfeng
 Xiao
 Xiaopeng
 Xie
