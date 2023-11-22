@@ -8,47 +8,51 @@ keywords: [traffic-management,gateway,mesh,mtls,egress,remote]
 
 If you are using Istio to handle application originated outbound traffic, you are probably familiar with the concept of
 egress gateways. Those are specific in a way that they are terminating and routing mesh application originated traffic
-and not exposing their services to the external world. This is a useful feature if your system is operating in a restricted 
+and not exposing their services to the external world. This is a useful feature if your system is operating in a restricted
 environment and you want to control what can be reached on the public internet from your mesh.
 
 ## Background
+
 The use-case is documented in the official Istio docs until 1.13, but parts related to arbitrary target domains got removed
 as it caused unfortunate confusions.
 However, the old solution was still usable until now, when Istio 1.20 dropped some code from Envoy which made the approach work.
 This post attempts to describe how we resolved the issue and fill the gap with an as-similar-as-possible approach. We will use
 generic and Istio version independent components and Envoy features. That should allow users of the old solution to seamlessly
-migrate before their systems are facing the breking changes in the old solution.
+migrate before their systems are facing the breaking changes in the old solution.
 
 ## Problem to solve
+
 The currently documented egress traffic routing use-cases are all building on the assumption that the target of the traffic
 (the hostname) is statically determined by a `VirtualService`, that tells Envoy in the egress gateway pod where to TCP proxy
-the matching outbound connections. You can use multiple and even wildcard DNS names to match the routing criteria, but you 
+the matching outbound connections. You can use multiple and even wildcard DNS names to match the routing criteria, but you
 are not able to route the traffic exactly where the application wanted to. For example you can match traffic that targets
-`*.foo.com`, but you can direct everything into a single final target, i.e. `bar.foo.com`. If there would be a 
+`*.foo.com`, but you can direct everything into a single final target, i.e. `bar.foo.com`. If there would be a
 service on `api.foo.com` that is not hosted by the same server as `bar.foo.com`, your traffic to that arbitrary host will
 fail. In fact the connection would go to `bar.foo.com` servers, while the target hostname in the TLS handshake and the
-HTTP payload would contain `api.foo.com`, which may not be served by the same servers. 
+HTTP payload would contain `api.foo.com`, which may not be served by the same servers.
 The solution on high level is to inspect the original server name (SNI extension) in the application TLS handshake (that is sent
 in plain-text, so no TLS termination or other man-in-the-middle operation is needed) in every new connection and use it as
 a target dynamically to TCP proxy the traffic when leaves the gateway.
 
 ## Further security measures
+
 Now that we are restricting the traffic, we should be able to lock down the egress gateways in a way, that they can be used
 only from within the mesh. This is achieved by enforcing the `ISTIO_MUTUAL` or mTLS peer authentication between the application
 sidecar and the gateway. That means, there will be two layers of TLS on the application L7 payload. One that is the application
-originated end-to-end TLS session terminated by the final remote target, and another one that is the istio mTLS session.
+originated end-to-end TLS session terminated by the final remote target, and another one that is the Istio mTLS session.
 
 Also, in order to mitigate application pod corruption, not only the application sidecar performs hostname list checks, but
 the gateway as well. So that any compromised application pod can only still access the allowed targets, nothing more.
 
 ## Low-level Envoy programming to the rescue
+
 Recent Envoy releases implements a specific, dynamic TCP forward proxy solution that is using the SNI header on a per
 connection basis to determine the target. While `VirtualService` cannot express the target like this, we are able to use
 `EnvoyFilter`s to alter the Istio generated routing instructions to match the needs.
 
 The idea is to create a custom `Gateway` instance in the egress gateway pod(s) to listen for the outbound traffic. With
 a `DestinationRule` and a `VirtualService` we can instruct the application sidecars to route the traffic (to a selected
-list of hostnames) to that `Gateway`, using istio mTLS. On the gateway pod side we build the SNI forwarder with the mentioned
+list of hostnames) to that `Gateway`, using Istio mTLS. On the gateway pod side we build the SNI forwarder with the mentioned
 `EnvoyFilter`s by introducing internal Envoy listeners and clusters that will make it happen. The last thing is to patch the
 internal destination of the gateway implemented TCP proxy to the internal SNI forwarder.
 
@@ -154,7 +158,7 @@ items:
           number: 8443
           name: tls-egress
           protocol: TLS
-        hosts: 
+        hosts:
           - "*"
         tls:
           mode: ISTIO_MUTUAL
@@ -175,7 +179,7 @@ items:
         - gateways:
           - mesh
           port: 443
-          sniHosts: 
+          sniHosts:
             - "*.foo.com"
         route:
         - destination:
@@ -222,7 +226,7 @@ items:
       name: wildcard
       namespace: istio-system
     spec:
-      hosts: 
+      hosts:
         - "*.foo.com"
       ports:
       - number: 443
@@ -342,7 +346,7 @@ items:
               cluster: sni_cluster
 {{< /text >}}
 
-The solution scales easily. You can pick up multiple domain names to the list, and they are allowlisted as soon as you roll it out!
+The solution scales easily. You can pick up multiple domain names to the list, and they are allow-listed as soon as you roll it out!
 No need to set up per domain `VirtualService`s or other routing details. Beware the list appears at multiple places, so if you use
 some tooling for CI/CD (i.e. Kustomize), the domain name list is better to be extracted to a single place, from where you render into the final
 places.
