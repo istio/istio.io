@@ -69,7 +69,7 @@ Rob Salmond 和 Andrea Ma 因其在 Istio 社区做出的无私贡献而得享�
 随后在来自 Speedscale 的 Kush Mansing 进行的闪电演讲中，
 展示了在 Istio 中[使用任意代码运行服务带来的影响](https://www.youtube.com/watch?v=G6Y9JLnej0o)。
 我们还有来自 University of Washington 的博士生 Xiangfeng Zhu 的[闪电演讲](https://www.youtube.com/watch?v=lHUXvtSWdtQ)，
-他是来自华盛顿大学的博士生，在演讲中展示了一种用于分析和预测 Istio 性能开销的工具 。
+他在其中展示了一个用于分析和预测 Istio 的性能开销的工具。
 
 来自 Kiali 的维护者 Jay Shaughnessy 和 Nick Fox 的[演讲](https://www.youtube.com/watch?v=MX-Sym2EkGI)非常有趣，
 其中演示了许多使用 Kiali 高级方法更好地对 Istio 进行调试的用例。
