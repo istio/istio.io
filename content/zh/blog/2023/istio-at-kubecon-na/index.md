@@ -72,9 +72,9 @@ Rob Salmond 和 Andrea Ma 因其在 Istio 社区做出的无私贡献而得享�
 他在其中展示了一个用于分析和预测 Istio 的性能开销的工具。
 
 来自 Kiali 的维护者 Jay Shaughnessy 和 Nick Fox 的[演讲](https://www.youtube.com/watch?v=MX-Sym2EkGI)非常有趣，
-其中演示了许多使用 Kiali 高级方法更好地对 Istio 进行调试的用例。
+因为它展示了许多使用 Kiali 进行更好的 Istio 用例调试的高级方法。
 来自 Zeta 的 Ekansh Gupta 和来自 Reskill 的 Nirupama Singh
-发表了另一场[最终用户演讲，解释了在生产部署中升级 Istio 时的最佳实践](https://www.youtube.com/watch?v=dl0sESwwm9c)。
+发表了另一场[最终用户演讲，解释了在生产部署中升级 Istio 的最佳实践](https://www.youtube.com/watch?v=dl0sESwwm9c)。
 
 Istio 多集群始终是一个热门话题，来自 AWS 的 Lukonde Mwila 和 Ovidiu
 在[桥接多集群网格之间的信任](https://www.youtube.com/watch?v=FIVmVIJlLVw)演讲中明确了这一点。
@@ -129,7 +129,7 @@ KubeCon + CloudNativeCon 第一天的主题演讲首秀是来自 Mitch Connors �
     alt="2023 北美 KubeCon 上的 Contribfest Istio 研讨会"
     >}}
 
-来自三个 CNCF 服务网格项目的维护者们牵头主持了备受期待的[服务网格之战的伤痕：技术、时机和权衡](https://sched.co/1R2ts)小组讨论，吸引了大批观众，
+来自三个 CNCF 服务网格项目的维护者们牵头主持了备受期待的[服务网格战痕：技术、时机和权衡](https://sched.co/1R2ts)小组讨论，吸引了大批观众，
 并进行了很多有趣的讨论。
 
 {{< image width="75%"
@@ -145,7 +145,7 @@ KubeCon + CloudNativeCon 第一天的主题演讲首秀是来自 Mitch Connors �
 * [通过功能门控理清服务网格](https://sched.co/1R2v6)
 * [服务网格中的证书风格：原因和方法！](https://sched.co/1R2wC)
 
-Istio 在项目展馆设有一个展台，被询问的大多数问题都与 Ambient 网格生产准备就绪的时间表有关。
+Istio 在项目展馆设有一个展台，大多数问题都围绕着 Ambient 何时准备好投入生产。
 
 {{< image width="75%"
     link="./istio-booth-1.jpg"
