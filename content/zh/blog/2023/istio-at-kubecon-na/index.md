@@ -171,7 +171,7 @@ Stackgenie 和 Tetrate 赞助的、供大家免费领取的新款 Istio T 恤！
     >}}
 
 衷心感谢我们的白金赞助商 Google Cloud 对北美 Istio Day 的支持！
-最后且重要的一点是，我们要感谢 Istio Day 技术程序委员会成员，感谢他们的辛勤工作和支持！
+最后且重要的一点是，我们要感谢 Istio Day 程序委员会成员，感谢他们的辛勤工作和支持！
 
 [2024 年 3 月巴黎见！](https://events.linuxfoundation.org/kubecon-cloudnativecon-europe/co-located-events/istio-day/)
 
