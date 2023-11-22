@@ -25,7 +25,7 @@ Istio Day 活动以 Program Committee（程序委员会）主席 Faseela K 和 Z
 两位主席首先肯定并认可了所有社区贡献者、维护者、发布经理以及用户们所完成的日常工作，
 并为 Istio 最杰出的贡献者和社区大咖们颁发了一些奖项。
 Rob Salmond 和 Andrea Ma 因其在 Istio 社区做出的无私贡献而得享赞誉，
-还在大屏上展示了过去 6 个月内排名前 20 的贡献者名单。
+过去 6 个月中的前 20 名贡献者也被点名表扬。
 
 {{< image width="75%"
     link="./top-contributors-1.jpg"
@@ -64,11 +64,11 @@ Rob Salmond 和 Andrea Ma 因其在 Istio 社区做出的无私贡献而得享�
     caption="Istio Day 的丰富会议内容"
     >}}
 
-在随后与来自 Microsoft 的 Jackie Elliot 的更加关注安全性的会谈活动中，
-深入研究了 [Istio 身份](https://www.youtube.com/watch?v=QjmUDNXyckQ)，
+此次活动在随后的演讲中更加关注安全性，首先是来自 Microsoft 的 Jackie Elliot
+深入研究了 [Istio 身份认证](https://www.youtube.com/watch?v=QjmUDNXyckQ)，
 随后在来自 Speedscale 的 Kush Mansing 进行的闪电演讲中，
-展示了在 Istio 中[使用肆意代码运行服务带来的影响](https://www.youtube.com/watch?v=G6Y9JLnej0o)。
-我们接着进行了[来自 Xiangfeng Zhu 的闪电演讲](https://www.youtube.com/watch?v=lHUXvtSWdtQ)，
+展示了在 Istio 中[使用任意代码运行服务带来的影响](https://www.youtube.com/watch?v=G6Y9JLnej0o)。
+我们还有来自 University of Washington 的博士生 Xiangfeng Zhu 的[闪电演讲](https://www.youtube.com/watch?v=lHUXvtSWdtQ)，
 他是来自华盛顿大学的博士生，在演讲中展示了一种用于分析和预测 Istio 性能开销的工具 。
 
 来自 Kiali 的维护者 Jay Shaughnessy 和 Nick Fox 的[演讲](https://www.youtube.com/watch?v=MX-Sym2EkGI)非常有趣，
