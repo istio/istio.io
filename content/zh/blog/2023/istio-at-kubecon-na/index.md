@@ -21,7 +21,7 @@ keywords: [Istio Day,IstioCon,Istio,conference,KubeCon,CloudNativeCon]
     alt="2023 北美 Istio Day 欢迎标牌"
     >}}
 
-Istio Day 活动以 Program Committee（技术程序委员会）主席 Faseela K 和 Zack Butcher 的开幕致辞拉开帷幕。
+Istio Day 活动以 Program Committee（程序委员会）主席 Faseela K 和 Zack Butcher 的开幕致辞拉开帷幕。
 两位主席首先肯定并认可了所有社区贡献者、维护者、发布经理以及用户们所完成的日常工作，
 并为 Istio 最杰出的贡献者和社区大咖们颁发了一些奖项。
 Rob Salmond 和 Andrea Ma 因其在 Istio 社区做出的无私贡献而得享赞誉，
