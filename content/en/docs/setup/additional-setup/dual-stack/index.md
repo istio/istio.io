@@ -46,8 +46,6 @@ spec:
       env:
         ISTIO_DUAL_STACK: "true"
     # The below values are optional and can be used based on your requirements
-    global:
-      ipFamilyPolicy: RequireDualStack
     gateways:
       istio-ingressgateway:
         ipFamilyPolicy: RequireDualStack
@@ -69,8 +67,6 @@ values:
     env:
       ISTIO_DUAL_STACK: "true"
   # The below values are optional and can be used based on your requirements
-  global:
-    ipFamilyPolicy: RequireDualStack
   gateways:
     istio-ingressgateway:
       ipFamilyPolicy: RequireDualStack
@@ -83,7 +79,7 @@ values:
 {{< tab name="Istioctl" category-value="istioctl" >}}
 
 {{< text bash >}}
-$ istioctl install --set values.pilot.env.ISTIO_DUAL_STACK=true --set meshConfig.defaultConfig.proxyMetadata.ISTIO_DUAL_STACK="true" --set values.global.ipFamilyPolicy=RequireDualStack --set values.gateways.istio-ingressgateway.ipFamilyPolicy=RequireDualStack --set values.gateways.istio-egressgateway.ipFamilyPolicy=RequireDualStack -y
+$ istioctl install --set values.pilot.env.ISTIO_DUAL_STACK=true --set meshConfig.defaultConfig.proxyMetadata.ISTIO_DUAL_STACK="true" --set values.gateways.istio-ingressgateway.ipFamilyPolicy=RequireDualStack --set values.gateways.istio-egressgateway.ipFamilyPolicy=RequireDualStack -y
 {{< /text >}}
 
 {{< /tab >}}
