@@ -182,6 +182,7 @@ spec:
     - "*.wikipedia.org"
   gateways:
   - mesh
+  - egressgateway
   tls:
   - match:
     - gateways:
@@ -193,29 +194,17 @@ spec:
     - destination:
         host: egressgateway.istio-egress.svc.cluster.local
         subset: wildcard
-
----
 # Dummy routing instruction. If omitted, no reference will point to the Gateway
 # definition, and istiod will optimise the whole new listener out.
-  apiVersion: networking.istio.io/v1alpha3
-  kind: VirtualService
-  metadata:
-    name: direct-wildcard-through-egress-gateway2
-    namespace: istio-system
-  spec:
-    hosts:
-      - "*"
-    gateways:
-    - egressgateway
-    tcp:
-    - match:
-      - gateways:
-        - egressgateway
-        port: 8443
-      route:
-      - destination:
-          host: "dummy.local"
-        weight: 100
+  tcp:
+  - match:
+    - gateways:
+      - egressgateway
+      port: 8443
+    route:
+    - destination:
+        host: "dummy.local"
+      weight: 100
 
 ---
 # Instruct sidecars to use Istio mTLS when sending traffic to the egress gateway
