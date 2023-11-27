@@ -26,7 +26,7 @@ The currently documented egress traffic routing use-cases are all building on th
 (the hostname) is statically determined by a `VirtualService`, that tells Envoy in the egress gateway pod where to TCP proxy
 the matching outbound connections. You can use multiple and even wildcard DNS names to match the routing criteria, but you
 are not able to route the traffic exactly where the application wanted to. For example you can match traffic that targets
-`*.wikipedia.org`, but you can direct everything into a single final target, i.e. `en.wikipedia.org`. If there would be a
+`*.wikipedia.org`, but you can direct everything into a single final target, i.e. `en.wikipedia.org`. If there is a
 service on `anyservice.wikipedia.org` that is not hosted by the same server(s) as `en.wikipedia.org`, your traffic to that
 arbitrary host will fail. In fact the connection would go to `en.wikipedia.org` servers, while the target hostname in the
 TLS handshake and the HTTP payload would contain `anyservice.wikipedia.org`, which may not be served by the same servers.
