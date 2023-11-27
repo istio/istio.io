@@ -2,7 +2,7 @@
 title: Support for Istio 1.18 ends on December 26, 2023
 subtitle: Support Announcement
 description: Upcoming Istio 1.18 end of life announcement.
-publishdate: 2023-09-27
+publishdate: 2023-11-29
 ---
 
 According to Istio's [support policy](/docs/releases/supported-releases#support-policy), minor releases like 1.18 are supported until six weeks after the N+2 minor release (1.20 in this case). [Istio 1.20 was released on November 14th, 2023](/news/releases/1.20.x/announcing-1.20/), and support for 1.18 will end on December 26th, 2023.
