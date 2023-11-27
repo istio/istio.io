@@ -27,7 +27,7 @@ networking:
 EOF
 {{< /text >}}
 
-To enable dual-stack for Istio, you will need to modify your `IstioOperator` or Helm values overrides files with the following configuration.
+To enable dual-stack for Istio, you will need to modify your `IstioOperator` or Helm values with the following configuration.
 
 {{< tabset category-name="dualstack" >}}
 
@@ -104,7 +104,7 @@ $ istioctl install --set values.pilot.env.ISTIO_DUAL_STACK=true --set meshConfig
     $ kubectl create namespace ipv6
     {{< /text >}}
 
-1. Enable sidecar injection on all of those namespaces as well as the default namespace:
+1. Enable sidecar injection on all of those namespaces as well as the `default` namespace:
 
     {{< text bash >}}
     $ kubectl label --overwrite namespace default istio-injection=enabled
@@ -121,13 +121,13 @@ $ istioctl install --set values.pilot.env.ISTIO_DUAL_STACK=true --set meshConfig
     $ kubectl apply --namespace ipv6 -f @samples/tcp-echo/tcp-echo-ipv6.yaml
     {{< /text >}}
 
-1. Create sleep deployment in the default namespace:
+1. Apply the `sleep` deployment in the `default` namespace:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/sleep/sleep.yaml
     {{< /text >}}
 
-1. Verify the traffic:
+1. Verify the traffic reaches the pods:
 
     {{< text bash >}}
     $ kubectl exec -it "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo dualstack | nc tcp-echo.dual-stack 9000"
@@ -138,7 +138,7 @@ $ istioctl install --set values.pilot.env.ISTIO_DUAL_STACK=true --set meshConfig
     hello ipv6
     {{< /text >}}
 
-1. Verify the envoy listeners
+1. Verify the envoy listeners:
 
     {{< text bash >}}
     $ istioctl proxy-config listeners "$(kubectl get pod -n dual-stack -l app=tcp-echo -o jsonpath='{.items[0].metadata.name}')" -n dual-stack --port 9000
