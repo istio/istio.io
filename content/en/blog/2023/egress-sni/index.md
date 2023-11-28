@@ -13,7 +13,7 @@ environment and you want to control what can be reached on the public internet f
 
 ## Background
 
-The use-case of configuring an egress gateway to handle arbitrary wildcard domains had been included in the [official Istio docs](https://istio.io/v1.13/docs/tasks/traffic-management/egress/wildcard-egress-hosts/#wildcard-configuration-for-arbitrary-domains) up until version 1.13, but was subsequently removed because the documented solution was not officially supported or recommended and was subject to breakage in future versions of Istio.
+The use-case of configuring an egress gateway to handle arbitrary wildcard domains had been included in the [official Istio docs](/docs/tasks/traffic-management/egress/wildcard-egress-hosts/#wildcard-configuration-for-arbitrary-domains) up until version 1.13, but was subsequently removed because the documented solution was not officially supported or recommended and was subject to breakage in future versions of Istio.
 Nevertheless, the old solution was still usable with Istio versions before 1.20. Istio 1.20, however, dropped some Envoy functionality that was required for the approach to work.
 
 This post attempts to describe how we resolved the issue and filled the gap with a similar approach using Istio version-independent components and Envoy features, but without the need for a separate Nginx SNI proxy.
