@@ -581,6 +581,12 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>If enabled, mesh will support certificates signed by more than one trustAnchor for ISTIO_MUTUAL mTLS</td>
 </tr>
 <tr>
+<td><code>ISTIO_OUTBOUND_IPV4_LOOPBACK_CIDR</code></td>
+<td>String</td>
+<td><code>127.0.0.1/32</code></td>
+<td>IPv4 CIDR range used to identify outbound traffic on loopback interface intended for application container</td>
+</tr>
+<tr>
 <td><code>ISTIO_OUTBOUND_OWNER_GROUPS</code></td>
 <td>String</td>
 <td><code>*</code></td>
