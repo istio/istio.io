@@ -11,9 +11,7 @@ Egress gateways can be used to monitor and forward traffic from mesh-internal ap
 This is a useful feature if your system is operating in a restricted
 environment and you want to control what can be reached on the public internet from your mesh.
 
-## Background
-
-The use-case of configuring an egress gateway to handle arbitrary wildcard domains had been included in the [official Istio docs](/docs/tasks/traffic-management/egress/wildcard-egress-hosts/#wildcard-configuration-for-arbitrary-domains) up until version 1.13, but was subsequently removed because the documented solution was not officially supported or recommended and was subject to breakage in future versions of Istio.
+The use-case of configuring an egress gateway to handle arbitrary wildcard domains had been included in the [official Istio docs](https://archive.istio.io/v1.13/docs/tasks/traffic-management/egress/wildcard-egress-hosts/#wildcard-configuration-for-arbitrary-domains) up until version 1.13, but was subsequently removed because the documented solution was not officially supported or recommended and was subject to breakage in future versions of Istio.
 Nevertheless, the old solution was still usable with Istio versions before 1.20. Istio 1.20, however, dropped some Envoy functionality that was required for the approach to work.
 
 This post attempts to describe how we resolved the issue and filled the gap with a similar approach using Istio version-independent components and Envoy features, but without the need for a separate Nginx SNI proxy.
@@ -21,47 +19,49 @@ Our approach allows users of the old solution to seamlessly migrate configuratio
 
 ## Problem to solve
 
-The currently documented egress traffic routing use-cases are all building on the assumption that the target of the traffic
-(the hostname) is statically determined by a `VirtualService`, that tells Envoy in the egress gateway pod where to TCP proxy
-the matching outbound connections. You can use multiple and even wildcard DNS names to match the routing criteria, but you
-are not able to route the traffic exactly where the application wanted to. For example you can match traffic that targets
-`*.wikipedia.org`, but you can direct everything into a single final target, i.e. `en.wikipedia.org`. If there is a
-service on `anyservice.wikipedia.org` that is not hosted by the same server(s) as `en.wikipedia.org`, your traffic to that
-arbitrary host will fail. In fact the connection would go to `en.wikipedia.org` servers, while the target hostname in the
-TLS handshake and the HTTP payload would contain `anyservice.wikipedia.org`, which may not be served by the same servers.
-The solution on high level is to inspect the original server name (SNI extension) in the application TLS handshake (that is sent
-in plain-text, so no TLS termination or other man-in-the-middle operation is needed) in every new connection and use it as
-a target dynamically to TCP proxy the traffic when leaves the gateway.
+The currently documented egress gateway use-cases rely on the fact that the target of the traffic
+(the hostname) is statically configured in a `VirtualService`, telling Envoy in the egress gateway pod where to TCP proxy
+the matching outbound connections. You can use multiple, and even wildcard, DNS names to match the routing criteria, but you
+are not able to route the traffic to the exact location specified in the application request. For example you can match traffic for targets
+`*.wikipedia.org`, but you then need to forward the traffic to a single final target, e.g., `en.wikipedia.org`. If there is another
+service, e.g., `anyservice.wikipedia.org`, that is not hosted by the same server(s) as `en.wikipedia.org`, traffic to that host will fail because, even though the target hostname in the
+TLS handshake of the HTTP payload contains `anyservice.wikipedia.org`, the `en.wikipedia.org` servers will not be be able to serve the request.
+
+The solution to this problem at a high level is to inspect the original server name (SNI extension) in the application TLS handshake (which is sent
+in plain-text, so no TLS termination or other man-in-the-middle operation is needed) in every new gateway connection and use it as
+the target to dynamically TCP proxy the traffic leaving the gateway.
 
 ## Further security measures
 
-Now that we are restricting the traffic, we should be able to lock down the egress gateways in a way, that they can be used
-only from within the mesh. This is achieved by enforcing the `ISTIO_MUTUAL` or mTLS peer authentication between the application
-sidecar and the gateway. That means, there will be two layers of TLS on the application L7 payload. One that is the application
+When restricting egress traffic via egress gateways, we need to lock down the egress gateways so that they can only be used
+by clients within the mesh. This is achieved by enforcing `ISTIO_MUTUAL` (mTLS peer authentication) between the application
+sidecar and the gateway. That means that there will be two layers of TLS on the application L7 payload. One that is the application
 originated end-to-end TLS session terminated by the final remote target, and another one that is the Istio mTLS session.
 
-Also, in order to mitigate application pod corruption, not only the application sidecar performs hostname list checks, but
-the gateway as well. So that any compromised application pod can only still access the allowed targets, nothing more.
+Another thing to keep in mind is that in order to mitigate any potential application pod corruption, the application sidecar and the gateway should both perform hostname list checks.
+This way, any compromised application pod will still only be able to access the allowed targets and nothing more.
 
 ## Low-level Envoy programming to the rescue
 
-Recent Envoy releases implements a specific, dynamic TCP forward proxy solution that is using the SNI header on a per
-connection basis to determine the target. While `VirtualService` cannot express the target like this, we are able to use
-`EnvoyFilter`s to alter the Istio generated routing instructions to match the needs.
+Recent Envoy releases include a dynamic TCP forward proxy solution that uses the SNI header on a per-
+connection basis to determine the target of an application request. While an Istio `VirtualService` cannot configure a target like this, we are able to use
+`EnvoyFilter`s to alter the Istio generated routing instructions so that the SNI header is used to determine the target.
 
-The idea is to create a custom `Gateway` instance in the egress gateway pod(s) to listen for the outbound traffic. With
-a `DestinationRule` and a `VirtualService` we can instruct the application sidecars to route the traffic (to a selected
-list of hostnames) to that `Gateway`, using Istio mTLS. On the gateway pod side we build the SNI forwarder with the mentioned
-`EnvoyFilter`s by introducing internal Envoy listeners and clusters that will make it happen. The last thing is to patch the
-internal destination of the gateway implemented TCP proxy to the internal SNI forwarder.
+To make it all work, we start by configuring a custom egress gateway to listen for the outbound traffic. Using
+a `DestinationRule` and a `VirtualService` we instruct the application sidecars to route the traffic (for a selected
+list of hostnames) to that gateway, using Istio mTLS. On the gateway pod side we build the SNI forwarder with the
+`EnvoyFilter`s, mentioned above, introducing internal Envoy listeners and clusters to make it all work. Finally, we patch the
+internal destination of the gateway-implemented TCP proxy to the internal SNI forwarder.
 
-## Solution
+The end-to-end request flow is shown in the following diagram:
 
 {{< image width="90%" link="./egress-sni-flow.png" alt="Egress SNI routing with arbitrary domain names" title="Egress SNI routing with arbitrary domain names" caption="Egress SNI routing with arbitrary domain names" >}}
 
-In order to deploy the sample configuration, create the `istio-egress` namespace and deploy the gateway along with some RBAC
-and it's `Service`. We use the gateway injection method in the example. Depending on your install method, you may want to
-deploy it differently (for example through an `IstioOperator` CR, or through Helm).
+## Deploy the sample
+
+In order to deploy the sample configuration, start by creating the `istio-egress` namespace and then use the following YAML to deploy an egress gateway, along with some RBAC
+and its `Service`. We use the gateway injection method to create the gateway in this example but, depending on your install method, you may want to
+deploy it differently (for example, using an `IstioOperator` CR or using Helm).
 
 {{< text yaml >}}
 # New k8s cluster service to put egressgateway into the Service Registry,
