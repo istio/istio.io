@@ -249,16 +249,16 @@ wildcard domains introduces a challenge for Istio gateways; an Istio gateway can
 to predefined hosts, predefined IP addresses, or to the original destination IP address of the request.
 
 In the previous section you configured the virtual service to direct traffic to the predefined host `www.wikipedia.org`.
-In the general case, however, you don't know the host or IP address of an arbitrary host received in a request,
-which leaves the original desitination address of the request as the only value with which to route the request.
-However, when using an egress gateway, the original destination address of the request is lost since the original
+In the general case, however, you don't know the host or IP address that can serve an arbitrary host received in a
+request, which leaves the original desitination address of the request as the only value with which to route the request.
+Unfortunately, when using an egress gateway, the original destination address of the request is lost since the original
 request is redirected to the gateway, causing the destination IP address to become the IP address of the gateway.
 
-Although not as easily, you can use [Envoy filters](/docs/reference/config/networking/envoy-filter/)
-to configure a gateway to support arbitrary domains by using the [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication)
-value in an HTTPS, or any TLS, request to identify the original destination to which to route the request. Some examples of
-how you can configure this can be found in [EnvoyFilter samples](https://github.com/istio/istio/wiki/EnvoyFilter-Samples#envoyfilter)
-as well as in [configuring an egress gateway for arbitrary domains](link_to_Gergo's_blog).
+Although not as easily and somewhat fragile as it relies on Istio implementation details, you can use
+[Envoy filters](/docs/reference/config/networking/envoy-filter/) to configure a gateway to support arbitrary domains
+by using the [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) value in an HTTPS, or any TLS, request to
+identify the original destination to which to route the request. One example of this configuration approach can be
+found in [routing egress traffic to wildcard destinations](/blog/2023/egress-sni/).
 
 ## Cleanup
 
