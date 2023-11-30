@@ -109,7 +109,7 @@
      class="fa63d417-f2ec-400c-87e0-6baf8392cc5e"
      transform="translate(176.13,111.42)"
      id="text6"
-     style="font-size:12px">Service A</text>
+     style="font-size:14px">Service A</text>
   <circle
      cx="151.04"
      cy="106.9"
@@ -259,7 +259,7 @@
      class="fa63d417-f2ec-400c-87e0-6baf8392cc5e"
      transform="translate(490.15,111.42)"
      id="text22"
-     style="font-size:12px">Service B</text>
+     style="font-size:14px">Service B</text>
   <circle
      cx="465.16"
      cy="106.9"
