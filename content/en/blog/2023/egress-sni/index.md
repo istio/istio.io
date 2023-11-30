@@ -1,6 +1,6 @@
 ---
-title: "Routing egress traffic to wildcard destinations"  
-description: "A generic approach to set up egress gateways that can route traffic to a restricted set of target remote hosts dynamically, including wildcard domains."  
+title: "Routing egress traffic to wildcard destinations"
+description: "A generic approach to set up egress gateways that can route traffic to a restricted set of target remote hosts dynamically, including wildcard domains."
 publishdate: 2023-12-01
 attribution: "Gergő Huszty (IBM)"
 keywords: [traffic-management,gateway,mesh,mtls,egress,remote]
