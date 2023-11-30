@@ -1,7 +1,7 @@
 ---
-title: "[WIP] Routing HTTPS/TLS traffic to arbitrary remote destinations"
-description: "A generic approach to set up egress gateways and use them to route traffic to a restricted set of target remote hosts dynamically, supporting wildcard domains."
-publishdate: 2023-12-10
+title: "Routing egress traffic to wildcard destinations"  
+description: "A generic approach to set up egress gateways that can route traffic to a restricted set of target remote hosts dynamically, including wildcard domains."  
+publishdate: 2023-12-01
 attribution: "Gergő Huszty (IBM)"
 keywords: [traffic-management,gateway,mesh,mtls,egress,remote]
 ---
