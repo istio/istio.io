@@ -254,7 +254,7 @@ request, which leaves the original destination address of the request as the onl
 Unfortunately, when using an egress gateway, the original destination address of the request is lost since the original
 request is redirected to the gateway, causing the destination IP address to become the IP address of the gateway.
 
-Although not as easily and somewhat fragile as it relies on Istio implementation details, you can use
+Although not as easy and somewhat fragile as it relies on Istio implementation details, you can use
 [Envoy filters](/docs/reference/config/networking/envoy-filter/) to configure a gateway to support arbitrary domains
 by using the [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) value in an HTTPS, or any TLS, request to
 identify the original destination to which to route the request. One example of this configuration approach can be
