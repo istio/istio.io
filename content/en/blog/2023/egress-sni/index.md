@@ -24,14 +24,12 @@ The currently documented egress gateway use-cases rely on the fact that the targ
 the matching outbound connections. You can use multiple, and even wildcard, DNS names to match the routing criteria, but you
 are not able to route the traffic to the exact location specified in the application request. For example you can match traffic for targets
 `*.wikipedia.org`, but you then need to forward the traffic to a single final target, e.g., `en.wikipedia.org`. If there is another
-service, e.g., `anyservice.wikipedia.org`, that is not hosted by the same server(s) as `en.wikipedia.org`, traffic to that host will fail because, even though the target hostname in the
+service, e.g., `anyservice.wikipedia.org`, that is not hosted by the same server(s) as `en.wikipedia.org`, the traffic to that host will fail. This is because, even though the target hostname in the
 TLS handshake of the HTTP payload contains `anyservice.wikipedia.org`, the `en.wikipedia.org` servers will not be be able to serve the request.
 
 The solution to this problem at a high level is to inspect the original server name (SNI extension) in the application TLS handshake (which is sent
 in plain-text, so no TLS termination or other man-in-the-middle operation is needed) in every new gateway connection and use it as
 the target to dynamically TCP proxy the traffic leaving the gateway.
-
-## Further security measures
 
 When restricting egress traffic via egress gateways, we need to lock down the egress gateways so that they can only be used
 by clients within the mesh. This is achieved by enforcing `ISTIO_MUTUAL` (mTLS peer authentication) between the application
@@ -60,7 +58,7 @@ The end-to-end request flow is shown in the following diagram:
 ## Deploy the sample
 
 In order to deploy the sample configuration, start by creating the `istio-egress` namespace and then use the following YAML to deploy an egress gateway, along with some RBAC
-and its `Service`. We use the gateway injection method to create the gateway in this example but, depending on your install method, you may want to
+and its `Service`. We use the gateway injection method to create the gateway in this example. Depending on your install method, you may want to
 deploy it differently (for example, using an `IstioOperator` CR or using Helm).
 
 {{< text yaml >}}
@@ -144,7 +142,7 @@ subjects:
   name: default
 {{< /text >}}
 
-Verify if your gateway `Pod` is started up fine. If so, deploy the main part of the egress routing configuration:
+Verify the gateway pod is up and running in the `istio-egress` namespace and then apply the following YAML to configure the gateway routing:
 
 {{< text yaml >}}
 # Define a new listener that enforces Istio mTLS on inbound connections.
@@ -352,27 +350,29 @@ spec:
           cluster: sni_cluster
 {{< /text >}}
 
-Check the logs of `istiod` and the gateway pod for any errors of warnings. If all goes well, your mesh sidecars are now routing
-`*.wikipedia.org` towards your gateway pod, while the gateway pod is routing to the exact remote host based on the application
+Check the `istiod` and gateway logs for any errors or warnings. If all went well, your mesh sidecars are now routing
+`*.wikipedia.org` requests to your gateway pod while the gateway pod is then forwarding them to the exact remote host specified in the application
 request.
 
-## Testing
+## Try it out
 
-Following other examples, we will use the sleep pod. Assuming there is automatic sidecar injection in your default namespace, deploy
-the test app:
+Following other Istio egress examples, we will use the
+[sleep]({{< github_tree >}}/samples/sleep) pod as a test source for sending requests.
+Assuming automatic sidecar injection is enabled in your default namespace, deploy
+the test app using the following command:
 
 {{< text bash >}}
 $ kubectl apply -f {{< github_file >}}/samples/sleep/sleep.yaml
 {{< /text >}}
 
-Get your pod and gateway name:
+Get your sleep and gateway pods:
 
 {{< text bash >}}
 $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
 $ export GATEWAY_POD=$(kubectl get pod -n istio-egress -l istio=egressgateway -o jsonpath={.items..metadata.name})
 {{< /text >}}
 
-Test that you are able to connect to a `wikipedia.org` site:
+Run the following command to confirm that you are able to connect to the `wikipedia.org` site:
 
 {{< text bash >}}
 $ kubectl exec "$SOURCE_POD" -c sleep -- sh -c 'curl -s https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"; curl -s https://de.wikipedia.org/wiki/Wikipedia:Hauptseite | grep -o "<title>.*</title>"'
@@ -380,16 +380,18 @@ $ kubectl exec "$SOURCE_POD" -c sleep -- sh -c 'curl -s https://en.wikipedia.org
 <title>Wikipedia – Die freie Enzyklopädie</title>
 {{< /text >}}
 
-We could reach both English and German Wikipedia, great! To have something to compare, let's check another site:
+We could reach both English and German `wikipedia.org` subdomains, great!
+
+Normally, in a production environment, we would [block external requests](/docs/tasks/traffic-management/egress/egress-control/#change-to-the-blocking-by-default-policy) that are not configured to redirect through the egress gateway, but since we didn't do that in our test environment, let's access another external site for comparison:
 
 {{< text bash >}}
 $ kubectl exec "$SOURCE_POD" -c sleep -- sh -c 'curl -s https://cloud.ibm.com/login | grep -o "<title>.*</title>"'
 <title>IBM Cloud</title>
 {{< /text >}}
 
-Now that we turned on access logging globally (with the `Telemetry` CR in the manifest), we can double-check what happened in the proxies.
+Since we have access logging turned on globally (with the `Telemetry` CR in the manifest), we can now inspect the logs to see how the above requests were handled by the proxies.
 
-First, check the gateway:
+First, check the gateway logs:
 
 {{< text bash >}}
 $ kubectl logs -n istio-egress $GATEWAY_POD
@@ -400,10 +402,10 @@ $ kubectl logs -n istio-egress $GATEWAY_POD
 [2023-11-24T13:21:53.000Z] "- - -" 0 - - - "-" 1539 93646 50 - "-" "-" "-" "-" "envoy://sni_listener/" sni_cluster envoy://internal_client_address/ 172.17.5.170:8443 172.17.34.35:55108 outbound_.443_.wildcard_.egressgateway.istio-egress.svc.cluster.local -
 {{< /text >}}
 
-There are four log entries, representing two of the three curl requests. Each pair shows how a single request is flowing through the envoy traffic processing pipeline twice.
-They are printed in reverse order, but we can see the 2nd and the 4th line saying connection arrived to the gateway service and passed through the internal `sni_cluster` target.
-The 1st and 3rd line shows the final target is determined from the inner SNI header. This is the one set by the original application.
-Then it is forwarded to `dynamic_forward_proxy_cluster` which is the final entity in envoy that is talking to the final remote target.
+There are four log entries, representing two of our three curl requests. Each pair shows how a single request flows through the envoy traffic processing pipeline.
+They are printed in reverse order, but we can see the 2nd and the 4th line show that the requests arrived at the gateway service and were passed through the internal `sni_cluster` target.
+The 1st and 3rd line show that the final target is determined from the inner SNI header, i.e., the target host set by the application.
+The request is forwarded to `dynamic_forward_proxy_cluster` which finally sends on the request from Envoy to the remote target.
 
 Great, but where is the third request to IBM Cloud? Let's check the sidecar logs:
 
@@ -415,27 +417,25 @@ $ kubectl logs $SOURCE_POD -c istio-proxy
 [2023-11-24T13:21:55.197Z] "- - -" 0 - - - "-" 805 15199 158 - "-" "-" "-" "-" "104.102.54.251:443" PassthroughCluster 172.17.34.35:45584 104.102.54.251:443 172.17.34.35:45582 cloud.ibm.com -
 {{< /text >}}
 
-As you can see, Wikipedia requests were sent through the gateway, while the request towards IBM Cloud went straight out from the application pod to the internet. This is indicated with the `PassthroughCluster` log.
+As you can see, Wikipedia requests were sent through the gateway while the request to IBM Cloud went straight out from the application pod to the internet, as indicated by the `PassthroughCluster` log.
 
 ## Conclusion
 
-We implemented a selective routing for egress HTTPS/TLS traffic with egress gateways, supporting arbitrary and wildcard domain names. Of course the example
-can be extended with HA requirements (i.e. with adding zone aware gateway `Deployment`s, etc.). From here you are free to restrict the direct external
-network access of your application, for example with network policies that denies traffic to tcp port 443 in the application namespace.
-Once that is in place, the application cannot directly talk to the public network, only through the gateway, which is limited to a predefined set of remote hostnames.
+We implemented controlled routing for egress HTTPS/TLS traffic using egress gateways, supporting arbitrary and wildcard domain names. In a production environment, the example shown in this post
+would be extended to support HA requirements (e.g., adding zone aware gateway `Deployment`s, etc.) and to restrict the direct external
+network access of your application so that the application can only access the public network through the gateway, which is limited to a predefined set of remote hostnames.
 
-The solution scales easily. You can pick up multiple domain names to the list, and they are allow-listed as soon as you roll it out!
-No need to set up per domain `VirtualService`s or other routing details. Beware the list appears at multiple places, so if you use
-some tooling for CI/CD (i.e. Kustomize), the domain name list is better to be extracted to a single place, from where you render into the final
-places.
+The solution scales easily. You can include multiple domain names in the configuration, and they will be allow-listed as soon as you roll it out!
+No need to configure per domain `VirtualService`s or other routing details. Be careful, however, as the domain names are listed in multiple places in the config. If you use
+tooling for CI/CD (e.g., Kustomize), it's best to extract the domain name list into a single place from which you can render into the required configuration resources.
 
-That was all! I hope it was helpful.
-If you are an existing user of the previous nginx based solution,
-you are now free to migrate to this approach before upgrading to Istio 1.20, which would disrupt your current setup.
+That's all! I hope this was helpful.
+If you're an existing user of the previous Nginx-based solution,
+you can now migrate to this approach before upgrading to Istio 1.20, which will otherwise disrupt your current setup.
 
 Happy SNI routing!
 
 ## References
 
 * [Envoy docs for the SNI forwarder](https://www.envoyproxy.io/docs/envoy/latest/configuration/listeners/network_filters/sni_dynamic_forward_proxy_filter)
-* [Previous solution with nginx as an SNI proxy container in the gateway](/docs/tasks/traffic-management/egress/wildcard-egress-hosts/#wildcard-configuration-for-arbitrary-domains)
+* [Previous solution with Nginx as an SNI proxy container in the gateway](https://archive.istio.io/v1.13/docs/tasks/traffic-management/egress/wildcard-egress-hosts/#wildcard-configuration-for-arbitrary-domains)
