@@ -250,7 +250,7 @@ to predefined hosts, predefined IP addresses, or to the original destination IP 
 
 In the previous section you configured the virtual service to direct traffic to the predefined host `www.wikipedia.org`.
 In the general case, however, you don't know the host or IP address that can serve an arbitrary host received in a
-request, which leaves the original desitination address of the request as the only value with which to route the request.
+request, which leaves the original destination address of the request as the only value with which to route the request.
 Unfortunately, when using an egress gateway, the original destination address of the request is lost since the original
 request is redirected to the gateway, causing the destination IP address to become the IP address of the gateway.
 
