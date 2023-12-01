@@ -78,6 +78,13 @@ function count_by_pod() {
   curl -G -s "http://$loki_address:3100/loki/api/v1/query_range" --data-urlencode "query={namespace=\"$namespace\", pod=\"$name\"}" | jq '.data.result[0].values | length'
 }
 
+function count_by_pod2() {
+  local namespace="$1"
+  local name="$2"
+  local loki_address=$(kubectl get svc loki-elb -n istio-system -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+  curl -G -s "http://$loki_address:3100/loki/api/v1/query_range" --data-urlencode "query={namespace=\"$namespace\", pod=\"$name\"}" | jq '.data.result'
+}
+
 count_sleep_pod() {
   local pod=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
   count_by_pod default $pod
@@ -86,6 +93,14 @@ count_sleep_pod() {
 count_httpbin_pod() {
   local pod=$(kubectl get pod -l app=httpbin -o jsonpath={.items..metadata.name})
   count_by_pod default $pod
+}
+
+count_httpbin_pod2() {
+  local namespace="$1"
+  local name="$2"
+  local pod=$(kubectl get pod -l app=httpbin -o jsonpath={.items..metadata.name})
+  local loki_address=$(kubectl get svc loki-elb -n istio-system -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+  curl -G -s "http://$loki_address:3100/loki/api/v1/query_range" --data-urlencode "query={namespace=\"$namespace\", pod=\"$name\"}" | jq '.data.result'
 }
 
 httpbin_replicas(){
@@ -113,7 +128,7 @@ rollout_restart_pods
 send_httpbin_requests "status/200"
 
 _verify_same count_sleep_pod "10"
-_verify_same count_httpbin_pod "10"
+_verify_same count_httpbin_pod2 "10"
 
 # disable access log for sleep pod
 snip_get_started_with_telemetry_api_2
