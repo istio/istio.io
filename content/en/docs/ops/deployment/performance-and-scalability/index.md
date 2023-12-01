@@ -108,7 +108,8 @@ proxy. In the default configuration of Istio {{< istio_release_name >}} (i.e. Is
 the two proxies add about 0.228 ms and 0.298 ms to the 90th and 99th percentile latency, respectively, over the baseline data plane latency.
 We obtained these results using the [Istio benchmarks](https://github.com/istio/tools/tree/{{< source_branch_name >}}/perf/benchmark)
 for the `http/1.1` protocol, with a 1 kB payload at 1000 requests per second using 2,4,8,16,32,64 client connections, 2 proxy workers and mutual TLS enabled.
-Note:  Different hardware will results in differnt values.
+
+Note: Different hardware will give different values.
 
 <img width="90%"
     src="latency-p90-fortio-with-uniform.svg"
