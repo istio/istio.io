@@ -25,7 +25,7 @@ the matching outbound connections. You can use multiple, and even wildcard, DNS 
 are not able to route the traffic to the exact location specified in the application request. For example you can match traffic for targets
 `*.wikipedia.org`, but you then need to forward the traffic to a single final target, e.g., `en.wikipedia.org`. If there is another
 service, e.g., `anyservice.wikipedia.org`, that is not hosted by the same server(s) as `en.wikipedia.org`, the traffic to that host will fail. This is because, even though the target hostname in the
-TLS handshake of the HTTP payload contains `anyservice.wikipedia.org`, the `en.wikipedia.org` servers will not be be able to serve the request.
+TLS handshake of the HTTP payload contains `anyservice.wikipedia.org`, the `en.wikipedia.org` servers will not be able to serve the request.
 
 The solution to this problem at a high level is to inspect the original server name (SNI extension) in the application TLS handshake (which is sent
 in plain-text, so no TLS termination or other man-in-the-middle operation is needed) in every new gateway connection and use it as
