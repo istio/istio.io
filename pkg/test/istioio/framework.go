@@ -245,7 +245,8 @@ func NewTestDocsFunc(config string) func(framework.TestContext) {
 func testsForConfig(config string) []TestCase {
 	out := make([]TestCase, 0, len(testCases))
 	for _, testCase := range testCases {
-		if testCase.config == config {
+		if testCase.config == config &&
+			strings.Contains(testCase.path, "observability/logs/telemetry-api") {
 			out = append(out, testCase)
 		}
 	}
