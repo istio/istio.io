@@ -194,7 +194,25 @@ configuration will be applied to all workload instances in the same
 namespace. If the <code>WasmPlugin</code> is present in the config root
 namespace, it will be applied to all applicable workloads in any
 namespace.</p>
-<p>At most one of the selector and targetRef can be set.</p>
+<p>At most, only one of the selector or targetRef can be set for a given policy.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="WasmPlugin-targetRef">
+<td><code>targetRef</code></td>
+<td><code><a href="/zh/docs/reference/config/type/workload-selector/#PolicyTargetReference">PolicyTargetReference</a></code></td>
+<td>
+<p>Optional. The targetRef specifies the gateway the policy should be
+applied to. The targeted resource specified will determine which
+workloads the WasmPlugin applies to. The targeted resource must be
+a <code>Gateway</code> in the group <code>gateway.networking.k8s.io</code>. The gateway
+must be in the same namespace as the policy.</p>
+<p>If the <code>targetRef</code> is not set, the policy is applied as defined by the selector.
+At most, only one of the selector or targetRef can be set for a given policy.
+Waypoint proxies will not respect selectors even if they match.</p>
 
 </td>
 <td>
