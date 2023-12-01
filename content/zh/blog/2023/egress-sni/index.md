@@ -11,7 +11,7 @@ keywords: [traffic-management,gateway,mesh,mtls,egress,remote]
 如果您的系统在受限环境中运行并且您想要控制从网格可以被访问的公共互联网内容，那么这是一个有用的功能。
 
 配置出口网关来处理任意通配符域的用例已包含在截止至
-1.13 版的[官方 Istio 文档](https://istio.io/v1.13/zh/docs/tasks/traffic-management/egress/wildcard-egress-hosts/#wildcard-configuration-for-arbitrary-domains)中，
+1.13 版的[官方 Istio 文档](https://archive.istio.io/v1.13/zh/docs/tasks/traffic-management/egress/wildcard-egress-hosts/#wildcard-configuration-for-arbitrary-domains)中，
 但随后已被删除，因为记录的解决方案未得到官方支持或推荐，
 并且在 Istio 的未来版本中可能会被破坏。尽管如此，
 旧的解决方案仍然可以在 1.20 之前的 Istio 版本中使用。
