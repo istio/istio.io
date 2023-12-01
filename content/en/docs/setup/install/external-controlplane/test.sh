@@ -60,7 +60,11 @@ echo y | snip_set_up_the_remote_config_cluster_3
 
 _verify_like snip_set_up_the_remote_config_cluster_4 "$snip_set_up_the_remote_config_cluster_4_out"
 
-_verify_like snip_set_up_the_remote_config_cluster_5 "$snip_set_up_the_remote_config_cluster_5_out"
+mod_snip_set_up_the_remote_config_cluster_5() {
+    out=$(snip_set_up_the_remote_config_cluster_5 | grep -v metallb)
+    echo "$out"
+}
+_verify_like mod_snip_set_up_the_remote_config_cluster_5 "$snip_set_up_the_remote_config_cluster_5_out"
 
 # Install istiod on the external cluster.
 
@@ -96,7 +100,7 @@ echo y | snip_enable_gateways_1
 # And egress with helm
 _rewrite_helm_repo snip_enable_gateways_4
 
-_verify_same kubectl_get_egress_gateway_for_remote_cluster "Running" 
+_verify_same kubectl_get_egress_gateway_for_remote_cluster "Running"
 
 if [ "$GATEWAY_API" == "true" ]; then
   snip_configure_and_test_an_ingress_gateway_4
