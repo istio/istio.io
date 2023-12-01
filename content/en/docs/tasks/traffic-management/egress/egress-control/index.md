@@ -69,15 +69,14 @@ You can then decide to [configure access to external services](#controlled-acces
     with the `meshConfig.outboundTrafficPolicy.mode` option set to `ALLOW_ANY`. Unless you explicitly
     set it to `REGISTRY_ONLY` mode when you installed Istio, it is probably enabled by default.
 
-    Run the following command to verify that `meshConfig.outboundTrafficPolicy.mode` option is set to `ALLOW_ANY`
-    or is omitted:
+    If you are unsure, you can run the following command to display your mesh config:
 
     {{< text bash >}}
-    $ kubectl get istiooperator installed-state -n istio-system -o jsonpath='{.spec.meshConfig.outboundTrafficPolicy.mode}'
-    ALLOW_ANY
+    $ kubectl get configmap istio -n istio-system -o yaml
     {{< /text >}}
 
-    You should either see `ALLOW_ANY` or no output (default `ALLOW_ANY`).
+    Unless you see an explicit setting of `meshConfig.outboundTrafficPolicy.mode` with value `REGISTRY_ONLY`,
+    you can be sure the option is set to `ALLOW_ANY`, which is the only other possible value and the default.
 
     {{< tip >}}
     If you have explicitly configured `REGISTRY_ONLY` mode, you can change it
