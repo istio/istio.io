@@ -226,6 +226,28 @@ $ kubectl delete virtualservice direct-wikipedia-through-egress-gateway
 $ kubectl delete destinationrule egressgateway-for-wikipedia
 {{< /text >}}
 
+## Wildcard configuration for arbitrary domains
+## 任意域的 wildcard 配置  {#wildcard-configuration-for-arbitrary-domains}
+
+The configuration in the previous section worked because all the `*.wikipedia.org` sites can be served by any one of the `wikipedia.org` servers. However, this is not always the case. For example, you may want to configure egress control for access to more general wildcard domains like `*.com` or `*.org`. Configuring traffic to arbitrary wildcard domains introduces a challenge for Istio gateways; an Istio gateway can only be configured to route traffic to predefined hosts, predefined IP addresses, or to the original destination IP address of the request.
+上一节中的配置是有效的，因为所有 `*.wikipedia.org` 站点都可以由任何一个 `wikipedia.org` 服务器提供服务。
+然而，实际情况并非总是如此。例如，您可能想要配置出口控制以访问更通用的通配符域，
+例如 `*.com` 或 `*.org`。配置任意 wildcard 域的流量给 Istio 网关带来了挑战；
+Istio 网关只能配置为将流量路由到预定义的主机、预定义的 IP 地址或请求的原始目标 IP 地址。
+
+In the previous section you configured the virtual service to direct traffic to the predefined host `www.wikipedia.org`. In the general case, however, you don't know the host or IP address that can serve an arbitrary host received in a request, which leaves the original destination address of the request as the only value with which to route the request. Unfortunately, when using an egress gateway, the original destination address of the request is lost since the original request is redirected to the gateway, causing the destination IP address to become the IP address of the gateway.
+在上一节中，您配置了虚拟服务用于将流量定向到预定义主机 `www.wikipedia.org`。
+然而，在一般情况下，您不知道可以为请求中收到的任意主机提供服务的主机或 IP 地址，
+这使得请求的原始目标地址成为路由请求的唯一值。不幸的是，当使用出口网关时，
+由于原始请求被重定向到网关，因此请求的原始目标地址丢失，导致目标 IP 地址变成网关的 IP 地址。
+
+Although not as easy and somewhat fragile as it relies on Istio implementation details, you can use [Envoy filters](/docs/reference/config/networking/envoy-filter/) to configure a gateway to support arbitrary domains by using the [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) value in an HTTPS, or any TLS, request to identify the original destination to which to route the request. One example of this configuration approach can be found in [routing egress traffic to wildcard destinations](/blog/2023/egress-sni/).
+虽然不像依赖 Istio 实现细节那么简单且有些脆弱，但您可以使用
+[Envoy 过滤器](/zh/docs/reference/config/networking/envoy-filter/)通过使用
+[SNI](https://en.wikipedia.org/wiki/Server_Name_Indication)
+配置网关以支持任意域 HTTPS 或任何 TLS 请求中的值，用于标识将请求路由到的原始目的地。
+这种配置方法的一个示例可以在[将出口流量路由到通配符目的地](/blog/2023/egress-sni/)中找到。
+
 ## 清除  {#cleanup}
 
 * 关闭 [sleep]({{< github_tree >}}/samples/sleep) 服务：
