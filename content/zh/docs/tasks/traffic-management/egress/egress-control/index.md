@@ -69,8 +69,8 @@ Istio 代理允许调用未知的服务。如果这个选项设置为 `REGISTRY_
     $ kubectl get configmap istio -n istio-system -o yaml
     {{< /text >}}
 
-    除非您看到 `meshConfig.outboundTrafficPolicy.mode` 被显式设置为 `REGISTRY_ONLY` 值，
-    否则您可以确定该选项被设置为 `ALLOW_ANY`，这是唯一的其他可能值和默认值。
+    除非您看到 `meshConfig.outboundTrafficPolicy.mode` 的值被显式设置为 `REGISTRY_ONLY`，
+    否则您可以确定该选项被设置为 `ALLOW_ANY`，这是唯一可能的值，也是默认值。
 
     {{< tip >}}
     如果您显式地设置了 `REGISTRY_ONLY` 模式，例如，通过使用更改后的设置重新运行原始的
