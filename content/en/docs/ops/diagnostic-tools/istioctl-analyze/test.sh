@@ -103,7 +103,6 @@ kubectl label namespace default istio-injection-
 kubectl delete ns frod
 kubectl delete deployment my-deployment
 kubectl delete vs ratings
-# Delete the Istio this test installed - Don't remove the metallb validatingwebhookconfiguration
-kubectl get validatingwebhookconfigurations -o custom-columns=NAME:.metadata.name --no-headers | grep -v metallb | xargs kubectl delete validatingwebhookconfigurations
-kubectl get mutatingwebhookconfigurations -o custom-columns=NAME:.metadata.name --no-headers | xargs kubectl delete mutatingwebhookconfigurations
+# Delete the Istio this test installed
+istioctl uninstall -y --purge
 kubectl delete ns istio-system
