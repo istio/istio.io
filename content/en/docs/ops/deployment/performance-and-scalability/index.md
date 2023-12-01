@@ -110,13 +110,13 @@ We obtained these results using the [Istio benchmarks](https://github.com/istio/
 for the `http/1.1` protocol, with a 1 kB payload at 1000 requests per second using 2,4,8,16,32,64 client connections, 2 proxy workers and mutual TLS enabled.
 
 <img width="90%"
-    link="latency_p90_fortio_with_uniform.svg"
+    src="latency_p90_fortio_with_uniform.svg"
     alt="P90 latency vs client connections"
     caption="P90 latency vs client connections"
 />
 
 <img width="90%"
-    link="latency_p99_fortio_with_uniform.svg"
+    src="latency_p99_fortio_with_uniform.svg"
     alt="P99 latency vs client connections"
     caption="P99 latency vs client connections"
 />
