@@ -96,11 +96,9 @@ count_httpbin_pod() {
 }
 
 count_httpbin_pod2() {
-  local namespace="$1"
-  local name="$2"
   local pod=$(kubectl get pod -l app=httpbin -o jsonpath={.items..metadata.name})
   local loki_address=$(kubectl get svc loki-elb -n istio-system -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-  curl -G -s "http://$loki_address:3100/loki/api/v1/query_range" --data-urlencode "query={namespace=\"$namespace\", pod=\"$name\"}" | jq '.data.result'
+  curl -G -s "http://$loki_address:3100/loki/api/v1/query_range" --data-urlencode "query={namespace=\"default\", pod=\"$pod\"}" | jq '.data.result'
 }
 
 httpbin_replicas(){
