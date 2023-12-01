@@ -88,11 +88,16 @@ count_httpbin_pod() {
   count_by_pod default $pod
 }
 
+httpbin_replicas(){
+  kubectl get po -l app=httpbin | grep -c httpbin
+}
+
 rollout_restart_pods() {
   kubectl rollout restart deploy/sleep
   kubectl rollout restart deploy/httpbin
   _wait_for_deployment default sleep
   _wait_for_deployment default httpbin
+  _verify_same httpbin_replicas "1"
 }
 
 send_httpbin_requests "status/200"
