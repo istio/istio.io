@@ -31,7 +31,7 @@ The Istio data plane components, the Envoy proxies, handle data flowing through
 the system. The Istio control plane component, Istiod, configures
 the data plane. The data plane and control plane have distinct performance concerns.
 
-## Performance summary for Istio 1.19
+## Performance summary for Istio 1.20
 
 The [Istio load tests](https://github.com/istio/tools/tree/{{< source_branch_name >}}/perf/load) mesh consists
 of **1000** services and **2000** sidecars with 70,000 mesh-wide requests per second.
@@ -78,7 +78,7 @@ The latency, throughput, and the proxies' CPU and memory consumption are measure
 ### CPU and memory
 
 Since the sidecar proxy performs additional work on the data path, it consumes CPU
-and memory. In Istio 1.19, a proxy consumes about 0.5 vCPU per 1000
+and memory. In Istio 1.20, a proxy consumes about 0.5 vCPU per 1000
 requests per second.
 
 The memory consumption of the proxy depends on the total configuration state the proxy holds.
@@ -101,7 +101,7 @@ is busy handling the request, the worker won't start handling the next request
 immediately. This process adds to the queue wait time of the next request and affects
 average and tail latencies. The actual tail latency depends on the traffic pattern.
 
-### Latency for Istio 1.19
+### Latency for Istio 1.20
 
 Inside the mesh, a request traverses the client-side proxy and then the server-side
 proxy. In the default configuration of Istio {{< istio_release_name >}} (i.e. Istio with telemetry v2),
