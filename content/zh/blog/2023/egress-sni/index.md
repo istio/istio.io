@@ -448,7 +448,6 @@ $ kubectl logs $SOURCE_POD -c istio-proxy
 
 请开心的使用 SNI 路由！
 
-## References
 ## 参考 {#references}
 
 * [SNI 转发器的 Envoy 文档](https://www.envoyproxy.io/docs/envoy/latest/configuration/listeners/network_filters/sni_dynamic_forward_proxy_filter)
