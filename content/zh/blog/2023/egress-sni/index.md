@@ -10,10 +10,10 @@ keywords: [traffic-management,gateway,mesh,mtls,egress,remote]
 出口网关可用于监控和转发来自网格内应用程序的流量至网格外部的位置。
 如果您的系统在受限环境中运行并且您想控制从您的网格访问公共互联网的内容，那么这是一个有用的功能。
 
-配置出口网关来处理任意通配符域的用例已包含在截止至
-1.13 版的[官方 Istio 文档](https://archive.istio.io/v1.13/zh/docs/tasks/traffic-management/egress/wildcard-egress-hosts/#wildcard-configuration-for-arbitrary-domains)中，
+在[官方 Istio 文档](https://archive.istio.io/v1.13/zh/docs/tasks/traffic-management/egress/wildcard-egress-hosts/#wildcard-configuration-for-arbitrary-domains)中，
+配置出口网关以处理任意通配符域名的用例一直包含至 1.13 版本，
 但随后因为记录的解决方案未得到官方支持或推荐，
-并且在 Istio 的未来版本中可能会被破坏。尽管如此，
+并可能在未来的 Istio 版本中出现问题而被移除。尽管如此，
 旧的解决方案仍然可以在 1.20 之前的 Istio 版本中使用。
 然而，在 Istio 1.20 中放弃了一些该方法所需的 Envoy 的功能。
 
@@ -34,7 +34,7 @@ keywords: [traffic-management,gateway,mesh,mtls,egress,remote]
 `en.wikipedia.org` 服务器也无法响应该请求。
 
 此问题的高级解决方案是在每个新的网关连接中检查应用程序 TLS
-握手（以明文形式发送，因此不需要 TLS 终止或其他中间人操作）
+握手中的原始服务器名称（SNI扩展）（该信息以明文发送，因此不需要TLS终止或其他中间人操作），
 并将其用作动态 TCP 代理离开网关的流量的目标。
 
 当通过出口网关进行出口流量限制时，我们需要锁定出口网关，以便它们只能由网格内的客户端使用。
