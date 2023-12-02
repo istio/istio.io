@@ -1,0 +1,189 @@
+<!doctype html><html lang=zh itemscope itemtype=https://schema.org/WebPage><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=theme-color content="#466BB0"><meta name=title content="Kubernetes Gateway API 入门"><meta name=description content="使用 Gateway API 为 Kubernetes 集群配置入口流量。"><meta name=author content="Frank Budinsky (IBM)"><meta name=keywords content="microservices,services,mesh,traffic-management,gateway,gateway-api,api,gamma,sig-network"><meta property="og:title" content="Kubernetes Gateway API 入门"><meta property="og:type" content="website"><meta property="og:description" content="使用 Gateway API 为 Kubernetes 集群配置入口流量。"><meta property="og:url" content="/v1.19/zh/blog/2022/getting-started-gtwapi/"><meta property="og:image" content="https://raw.githubusercontent.com/istio/istio.io/master/static/img/istio-social.svg"><meta property="og:image:alt" content="Istio Logo"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="600"><meta property="og:site_name" content="Istio"><meta name=twitter:card content="summary"><meta name=twitter:site content="@IstioMesh"><title>Istioldie 1.19 / Kubernetes Gateway API 入门</title><script async src="https://www.googletagmanager.com/gtag/js?id=UA-98480406-2"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","UA-98480406-2")</script><link rel=alternate type=application/rss+xml title="Istio Blog" href=/v1.19/blog/feed.xml><link rel=alternate type=application/rss+xml title="Istio News" href=/v1.19/news/feed.xml><link rel=alternate type=application/rss+xml title="Istio Blog and News" href=/v1.19/feed.xml><link rel="shortcut icon" href=/v1.19/favicons/favicon.ico><link rel=apple-touch-icon href=/v1.19/favicons/apple-touch-icon-180x180.png sizes=180x180><link rel=icon type=image/png href=/v1.19/favicons/favicon-16x16.png sizes=16x16><link rel=icon type=image/png href=/v1.19/favicons/favicon-32x32.png sizes=32x32><link rel=icon type=image/png href=/v1.19/favicons/android-36x36.png sizes=36x36><link rel=icon type=image/png href=/v1.19/favicons/android-48x48.png sizes=48x48><link rel=icon type=image/png href=/v1.19/favicons/android-72x72.png sizes=72x72><link rel=icon type=image/png href=/v1.19/favicons/android-96x96.png sizes=96xW96><link rel=icon type=image/png href=/v1.19/favicons/android-144x144.png sizes=144x144><link rel=icon type=image/png href=/v1.19/favicons/android-192x192.png sizes=192x192><link rel=icon type=image/svg+xml href=/v1.19/favicons/favicon.svg><link rel=icon type=image/png href=/v1.19/favicons/favicon.png><link rel=mask-icon href=/v1.19/favicons/safari-pinned-tab.svg color=#466bb0><link rel=manifest href=/v1.19/manifest.json><meta name=apple-mobile-web-app-title content="Istio"><meta name=application-name content="Istio"><meta name=msapplication-config content="/browserconfig.xml"><meta name=msapplication-TileColor content="#466BB0"><meta name=theme-color content="#466BB0"><link rel=stylesheet href=/v1.19/css/all.css><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap"><script src=/v1.19/js/themes_init.min.js></script></head><body class="language-unknown archive-site"><script>const branchName="release-1.19",docTitle="Kubernetes Gateway API 入门",iconFile="/v1.19/img/icons.svg",buttonCopy="复制到剪切板",buttonPrint="打印",buttonDownload="下载"</script><script src="https://www.google.com/cse/brand?form=search-form" defer></script>
+<script src=/v1.19/js/all.min.js data-manual defer></script><header class=main-navigation><nav class="main-navigation-wrapper container-l"><div class=main-navigation-header><a id=brand href=/v1.19/zh/ aria-label=logotype><span class=logo><svg xmlns="http://www.w3.org/2000/svg" width="128" height="60" viewBox="0 0 128 60"><path d="M58.434 48.823A.441.441.0 0158.3 48.497V22.583a.444.444.0 01.134-.326.446.446.0 01.327-.134h3.527a.447.447.0 01.325.134.447.447.0 01.134.326v25.914a.443.443.0 01-.134.326.444.444.0 01-.325.134h-3.527a.444.444.0 01-.327-.134z"/><path d="m70.969 48.477a6.556 6.556.0 01-2.818-1.955 4.338 4.338.0 01-1-2.78v-.345a.443.443.0 01.134-.326.444.444.0 01.326-.135h3.374a.444.444.0 01.326.135.445.445.0 01.134.326v.077a2.014 2.014.0 001.054 1.667 4.672 4.672.0 002.664.709 4.446 4.446.0 002.492-.633 1.862 1.862.0 00.958-1.591 1.426 1.426.0 00-.786-1.322 12.7 12.7.0 00-2.549-.939l-1.457-.46a21.526 21.526.0 01-3.3-1.227 6.57 6.57.0 01-2.262-1.783 4.435 4.435.0 01-.92-2.894 5.081 5.081.0 012.109-4.275 8.993 8.993.0 015.558-1.591 10.445 10.445.0 014.1.748 6.3 6.3.0 012.722 2.07 5 5 0 01.958 3.009.441.441.0 01-.134.326.441.441.0 01-.325.134h-3.258a.441.441.0 01-.326-.134.443.443.0 01-.134-.326 1.974 1.974.0 00-.978-1.667 4.647 4.647.0 00-2.665-.671 4.741 4.741.0 00-2.435.556 1.724 1.724.0 00-.938 1.553 1.512 1.512.0 00.9 1.4 15.875 15.875.0 003.01 1.055l.843.229a27.368 27.368.0 013.412 1.246 6.67 6.67.0 012.338 1.763 4.387 4.387.0 01.958 2.933 4.988 4.988.0 01-2.146 4.275 9.543 9.543.0 01-5.712 1.552 11.626 11.626.0 01-4.227-.709z"/><path d="m97.039 32.837a.443.443.0 01-.326.135h-3.911a.169.169.0 00-.191.192v9.239a2.951 2.951.0 00.632 2.108 2.7 2.7.0 002.013.652h1.15a.444.444.0 01.325.134.441.441.0 01.134.326v2.875a.471.471.0 01-.459.5l-1.994.039a8 8 0 01-4.524-1.035q-1.495-1.035-1.533-3.91V33.166A.17.17.0 0088.164 32.974H85.978A.441.441.0 0185.652 32.839.441.441.0 0185.518 32.513V29.83a.441.441.0 01.134-.326.444.444.0 01.326-.135h2.186a.169.169.0 00.191-.192v-4.485a.438.438.0 01.134-.326.44.44.0 01.325-.134h3.336a.443.443.0 01.325.134.442.442.0 01.135.326v4.485a.169.169.0 00.191.192h3.911a.446.446.0 01.326.135.446.446.0 01.134.326v2.683a.446.446.0 01-.133.324z"/><path d="m101.694 25.917a2.645 2.645.0 01-.767-1.955 2.65 2.65.0 01.767-1.955 2.65 2.65.0 011.955-.767 2.65 2.65.0 011.955.767 2.652 2.652.0 01.767 1.955 2.647 2.647.0 01-.767 1.955 2.646 2.646.0 01-1.955.767 2.645 2.645.0 01-1.955-.767zm-.211 22.906a.441.441.0 01-.134-.326V29.79a.444.444.0 01.134-.326.446.446.0 01.326-.134h3.527a.446.446.0 01.326.134.445.445.0 01.134.326v18.707a.443.443.0 01-.134.326.443.443.0 01-.326.134h-3.527a.443.443.0 01-.326-.134z"/><path d="m114.019 47.734a8.1 8.1.0 01-3.047-4.255 14.439 14.439.0 01-.652-4.37 14.3 14.3.0 01.614-4.371A7.869 7.869.0 01114 30.56a9.072 9.072.0 015.252-1.5 8.543 8.543.0 015.041 1.5 7.985 7.985.0 013.009 4.14 12.439 12.439.0 01.69 4.37 13.793 13.793.0 01-.651 4.37 8.255 8.255.0 01-3.028 4.275 8.475 8.475.0 01-5.1 1.553 8.754 8.754.0 01-5.194-1.534zm7.629-3.1a4.536 4.536.0 001.476-2.262 11.335 11.335.0 00.383-3.221 10.618 10.618.0 00-.383-3.22 4.169 4.169.0 00-1.457-2.243 4.066 4.066.0 00-2.531-.785 3.942 3.942.0 00-2.453.785 4.376 4.376.0 00-1.5 2.243 11.839 11.839.0 00-.383 3.22 11.84 11.84.0 00.383 3.221 4.222 4.222.0 001.476 2.262 4.075 4.075.0 002.549.8 3.8 3.8.0 002.44-.809z"/><path d="m15.105 32.057v15.565a.059.059.0 01-.049.059L.069 50.25A.06.06.0 01.005 50.167l14.987-33.47a.06.06.0 01.114.025z"/><path d="m17.631 23.087v24.6a.06.06.0 00.053.059l22.449 2.507a.06.06.0 00.061-.084L17.745.032a.06.06.0 00-.114.024z"/><path d="m39.961 52.548-24.833 7.45a.062.062.0 01-.043.0L.079 52.548a.059.059.0 01.026-.113h39.839a.06.06.0 01.017.113z"/></svg></span></a><button id=hamburger class=main-navigation-toggle aria-label="Open navigation"><svg class="icon menu-hamburger"><use xlink:href="/v1.19/img/icons.svg#menu-hamburger"/></svg></button>
+<button id=menu-close class=main-navigation-toggle aria-label="Close navigation"><svg class="icon menu-close"><use xlink:href="/v1.19/img/icons.svg#menu-close"/></svg></button></div><div id=header-links class=main-navigation-links-wrapper><ul class=main-navigation-links><li class=main-navigation-links-item><a class="main-navigation-links-link has-dropdown"><span>关于</span><svg class="icon dropdown-arrow"><use xlink:href="/v1.19/img/icons.svg#dropdown-arrow"/></svg></a><ul class=main-navigation-links-dropdown><li class=main-navigation-links-dropdown-item><a href=/v1.19/zh/about/service-mesh class=main-navigation-links-link>服务网格</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.19/zh/about/solutions class=main-navigation-links-link>解决方案</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.19/zh/about/case-studies class=main-navigation-links-link>案例学习</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.19/zh/about/ecosystem class=main-navigation-links-link>生态系统</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.19/zh/about/deployment class=main-navigation-links-link>部署</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.19/zh/about/faq class=main-navigation-links-link>FAQ</a></li></ul></li><li class=main-navigation-links-item><a href=/v1.19/zh/blog/ class=main-navigation-links-link><span>博客</span></a></li><li class=main-navigation-links-item><a href=/v1.19/zh/news/ class=main-navigation-links-link><span>新闻</span></a></li><li class=main-navigation-links-item><a href=/v1.19/zh/get-involved/ class=main-navigation-links-link><span>加入我们</span></a></li><li class=main-navigation-links-item><a href=/v1.19/zh/docs/ class=main-navigation-links-link><span>文档</span></a></li></ul><div class=main-navigation-footer><button id=search-show class=search-show title='搜索 istio.io' aria-label=搜索><svg class="icon magnifier"><use xlink:href="/v1.19/img/icons.svg#magnifier"/></svg></button>
+<a href=/v1.19/zh/docs/setup/getting-started class="btn btn--primary" id=try-istio>试用 Istio</a></div></div><form id=search-form class=search name=cse role=search><input type=hidden name=cx value=002184991200833970123:iwwf17ikgf4>
+<input type=hidden name=ie value=utf-8>
+<input type=hidden name=hl value=zh>
+<input type=hidden id=search-page-url value=/zh/search>
+<input id=search-textbox class="search-textbox form-control" name=q type=search aria-label='搜索 istio.io' placeholder=搜索>
+<button id=search-close title=取消搜索 type=reset aria-label=取消搜索><svg class="icon menu-close"><use xlink:href="/v1.19/img/icons.svg#menu-close"/></svg></button></form></nav></header><div class=banner-container></div><article class=post itemscope itemtype=http://schema.org/BlogPosting><div class=header-content><h1>Kubernetes Gateway API 入门</h1><p>使用 Gateway API 为 Kubernetes 集群配置入口流量。</p></div><p class=post-author>Dec 14, 2022 <span>|</span> By Frank Budinsky - IBM</p><div><p>无论您使用 Istio 或其他服务网格运行 Kubernetes 应用程序服务，
+还是仅在 Kubernetes 集群中使用普通服务，
+您都需要为集群外部的客户端提供对应用程序服务的访问方式。
+如果您使用的是普通 Kubernetes 集群，可能正在使用 Kubernetes
+<a href=https://kubernetes.io/zh-cn/docs/concepts/services-networking/ingress/>Ingress</a> 资源来配置入口流量。</p><p>一段时间以来，人们都知道 Kubernetes Ingress 资源存在重大缺陷，
+尤其是在使用它为大型应用程序配置入口流量以及使用除 HTTP 外的其他协议时问题更为突出。
+其中一个问题是它在单个资源中同时配置了客户端 L4-L6 属性（例如端口、TLS 等）和服务端
+L7 路由，而对于大型应用程序的配置应该由不同的团队在不同的命名空间中进行管理。
+此外，通过尝试在不同的 HTTP 代理之间找到共同点，使得 Ingress 只能支持最基本的
+HTTP 路由，并且最终会将先进代理的所有其他功能配置推入到不可移植的注解中。</p><p>为了克服 Ingress 的缺点，Istio 曾引入自己用于入口流量管理的配置 API。
+基于 Istio 的 API，客户端表达式是使用 Istio Gateway 资源进行定义的，
+对于被转移到 VirtualService 的 L7 流量，不巧的是，
+它也是使用与在网格内服务之间路由流量相同的配置资源。
+尽管 Istio API 为大型应用程序的入口流量管理提供了一个很好的解决方案，
+但不幸的是它是一个仅支持 Istio 的 API。如果您使用不同的服务网格实现，
+或者环境中根本没有服务网格，那您就不走运了。</p><h2 id=enter-gateway-api>了解 Gateway API</h2><p>拿最近<a href=https://kubernetes.io/blog/2022/07/13/gateway-api-graduates-to-beta/>升级到 Beta 版</a>的
+<a href=https://gateway-api.sigs.k8s.io/>Gateway API</a> 来说，
+围绕全新的 Kubernetes 流量管理 API，其具有非常多可圈可点的内容。
+Gateway API 提供了一套用于入口流量控制的 Kubernetes 配置资源，
+与 Istio 的 API 一样，它克服了 Ingress 的缺点，但与 Istio 不同的是，
+它是具有广泛行业协议的标准 Kubernetes API。包括正在开发中的 Istio Beta 版 API
+的<a href=https://gateway-api.sigs.k8s.io/implementations/>几个实现</a>，
+所以现在可能是开始思考如何将入口流量配置从 Kubernetes Ingress
+或 Istio Gateway/VirtualService 转移到新的 Gateway API 的天赐良机。</p><p>无论您是否已经使用或计划使用 Istio 来管理服务网格，Gateway API
+的 Istio 实现都可以开始被轻松地用于集群的入口控制。由于 Gateway API
+本身仍然是 Beta 版的原因，其在 Istio 中的实现也处于 Beta 版，
+但由于在其幕后使用了与 Istio 相同且久经考验的内部资源来实现相关配置
+Istio 中的 Gateway API 实现也是非常健壮的。</p><h2 id=gateway-api-quick-start>Gateway API 快速入门</h2><p>要开始使用 Gateway API，您需要先下载它的 CRD，至少目前为止大多数
+Kubernetes 集群都没有默认安装这些 CRD：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl get crd gateways.gateway.networking.k8s.io &amp;&gt; /dev/null || \
+  { kubectl kustomize &#34;github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.8.0&#34; | kubectl apply -f -; }
+</code></pre><p>安装了这些 CRD 后，您可以使用它们创建 Gateway API 资源来配置入口流量，
+但是为了使这些资源正常工作，集群中还需要运行网关控制器。
+您可以通过使用简单地最小化配置文件安装 Istio 来启用 Istio 的网关控制器实现：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ curl -L https://istio.io/downloadIstio | sh -
+$ cd istio-1.19.4
+$ ./bin/istioctl install --set profile=minimal -y
+</code></pre><p>现在，您的集群已经通过名为 <code>istio.io/gateway-controller</code> 的 Istio
+网关控制器实现了 Gateway API 的全部功能，并可以随时使用它们。</p><h3 id=deploy-a-kubernetes-target-service>在 Kubernetes 中部署一个目标服务</h3><p>为了试用 Gateway API，我们将使用 Istio
+<a href=https://github.com/istio/istio/tree/release-1.19/samples/helloworld>helloworld 示例程序</a>作为入口目标服务，
+但是仅仅作为一个简单的 Kubernetes 服务运行，并不启用 Sidecar 注入。
+因为我们只打算使用 Gateway API 来控制进入“Kubernetes 集群”的入口流量，
+所以目标服务在网格内部或外部运行都没有区别。</p><p>我们将使用以下命令部署 helloworld 服务：</p><div><a data-skipendnotes=true style=display:none href=https://raw.githubusercontent.com/istio/istio/release-1.19/samples/helloworld/helloworld.yaml>Zip</a><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl create ns sample
+$ kubectl apply -f @samples/helloworld/helloworld.yaml@ -n sample
+</code></pre></div><p>helloworld 服务背后包括两个不同的版本（<code>v1</code> 和 <code>v2</code>）的部署。
+我们可以使用以下命令确认它们是否都在运行中：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl get pod -n sample
+NAME                             READY   STATUS    RESTARTS   AGE
+helloworld-v1-776f57d5f6-s7zfc   1/1     Running   0          10s
+helloworld-v2-54df5f84b-9hxgww   1/1     Running   0          10s
+</code></pre><h3 id=configure-the-helloworld-ingress-traffic>配置 helloworld 入口流量</h3><p>随着 helloworld 服务的启动和运行，我们现在可以使用
+Gateway API 为其配置入口流量。</p><p>入口端点是使用 <a href=https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1beta1.Gateway>Gateway</a>
+资源定义的：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl create namespace sample-ingress
+$ kubectl apply -f - &lt;&lt;EOF
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: Gateway
+metadata:
+  name: sample-gateway
+  namespace: sample-ingress
+spec:
+  gatewayClassName: istio
+  listeners:
+  - name: http
+    hostname: &#34;*.sample.com&#34;
+    port: 80
+    protocol: HTTP
+    allowedRoutes:
+      namespaces:
+        from: All
+EOF
+</code></pre><p>控制器会实现通过 <a href=https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io%2fv1beta1.GatewayClass>GatewayClass</a>
+选择的一个 Gateway 资源。集群中必须至少定义一个 GatewayClass
+才能具有 Gateway 的功能。在我们的例子中，我们选择 Istio 的网关控制器，
+<code>istio.io/gateway-controller</code>，通过在 Gateway 中使用
+<code>gatewayClassName: istio</code> 设置引用其关联的（名为 <code>istio</code>）GatewayClass。</p><p>请注意，与 Ingress 不同，Kubernetes Gateway 不包含对目标服务
+helloworld 的任何引用。使用 Gateway API 后，服务路由被定义在单独的配置资源中，
+这些配置资源会附加到 Gateway 中，用于将流量子集定向到特定服务，例如我们示例中的
+helloworld。这种分离允许我们在不同的命名空间中定义 Gateway 和路由，
+并可以由不同的团队进行管理。至此，在扮演集群操作员的角色时，我们在
+<code>sample-ingress</code> 命名空间中应用了 Gateway。接下来，我们将代表应用程序开发人员在
+与 helloworld 服务相同的 <code>sample</code> 命名空间中添加路由。</p><p>因为 Gateway 资源的所有权归于集群操作员，它可以很好地用于为多个团队的服务提供入口，
+在我们的例子中不仅仅是 helloworld 服务。为了强调这一点，
+我们在 Gateway 中将主机名设置为 <code>*.sample.com</code>，允许附加多个基于子域名的路由。</p><p>在应用 Gateway 资源后，我们需要等待它就绪，然后再获取它的外部地址：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl wait -n sample-ingress --for=condition=programmed gateway sample-gateway
+$ export INGRESS_HOST=$(kubectl get -n sample-ingress gateway sample-gateway -o jsonpath=&#39;{.status.addresses[0].value}&#39;)
+</code></pre><p>接下来，我们将 <a href=https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io%2fv1beta1.HTTPRoute>HTTPRoute</a>
+附加到 <code>sample-gateway</code>（即，使用 <code>parentRefs</code>
+字段）暴露流量并将其路由到 helloworld 服务：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl apply -n sample -f - &lt;&lt;EOF
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: HTTPRoute
+metadata:
+  name: helloworld
+spec:
+  parentRefs:
+  - name: sample-gateway
+    namespace: sample-ingress
+  hostnames: [&#34;helloworld.sample.com&#34;]
+  rules:
+  - matches:
+    - path:
+        type: Exact
+        value: /hello
+    backendRefs:
+    - name: helloworld
+      port: 5000
+EOF
+</code></pre><p>在这里，我们将 helloworld 服务的 <code>/hello</code> 路径暴露给集群外部的客户端，
+特别通过主机 <code>helloworld.sample.com</code> 进行访问。您可以使用 curl 命令确认
+helloworld 示例是否可以访问：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ for run in {1..10}; do curl -HHost:helloworld.sample.com http://$INGRESS_HOST/hello; done
+Hello version: v1, instance: helloworld-v1-78b9f5c87f-2sskj
+Hello version: v2, instance: helloworld-v2-54dddc5567-2lm7b
+Hello version: v1, instance: helloworld-v1-78b9f5c87f-2sskj
+Hello version: v2, instance: helloworld-v2-54dddc5567-2lm7b
+Hello version: v2, instance: helloworld-v2-54dddc5567-2lm7b
+Hello version: v1, instance: helloworld-v1-78b9f5c87f-2sskj
+Hello version: v1, instance: helloworld-v1-78b9f5c87f-2sskj
+Hello version: v2, instance: helloworld-v2-54dddc5567-2lm7b
+Hello version: v1, instance: helloworld-v1-78b9f5c87f-2sskj
+Hello version: v2, instance: helloworld-v2-54dddc5567-2lm7b
+</code></pre><p>由于在路由规则中没有配置版本路由，您应该会看到流量会被平均分配，
+大约一半由 <code>helloworld-v1</code> 处理，另一半由 <code>helloworld-v2</code> 处理。</p><h3 id=configure-weight-based-version-routing>配置基于权重的版本路由</h3><p>在其他“流量调整”功能中，您可以使用 Gateway API
+将所有流量发送到其中一个版本或根据请求百分比拆分流量。例如，
+您可以使用以下规则分配 helloworld 流量中的 90% 到 <code>v1</code>，10% 到 <code>v2</code>：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl apply -n sample -f - &lt;&lt;EOF
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: HTTPRoute
+metadata:
+  name: helloworld
+spec:
+  parentRefs:
+  - name: sample-gateway
+    namespace: sample-ingress
+  hostnames: [&#34;helloworld.sample.com&#34;]
+  rules:
+  - matches:
+    - path:
+        type: Exact
+        value: /hello
+    backendRefs:
+    - name: helloworld-v1
+      port: 5000
+      weight: 90
+    - name: helloworld-v2
+      port: 5000
+      weight: 10
+EOF
+</code></pre><p>Gateway API 依赖于路由目标的版本特定后端服务定义，
+在此示例程序中它们是 <code>helloworld-v1</code> 和 <code>helloworld-v2</code>。helloworld
+示例程序已经包含 helloworld 服务的 <code>v1</code> 和 <code>v2</code> 版本的定义，
+我们只需要运行以下命令来启用它们：</p><div><a data-skipendnotes=true style=display:none href=https://raw.githubusercontent.com/istio/istio/release-1.19/samples/helloworld/gateway-api/helloworld-versions.yaml>Zip</a><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl apply -n sample -f @samples/helloworld/gateway-api/helloworld-versions.yaml@
+</code></pre></div><p>现在，我们可以再次运行之前的 curl 命令：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ for run in {1..10}; do curl -HHost:helloworld.sample.com http://$INGRESS_HOST/hello; done
+Hello version: v1, instance: helloworld-v1-78b9f5c87f-2sskj
+Hello version: v1, instance: helloworld-v1-78b9f5c87f-2sskj
+Hello version: v1, instance: helloworld-v1-78b9f5c87f-2sskj
+Hello version: v1, instance: helloworld-v1-78b9f5c87f-2sskj
+Hello version: v1, instance: helloworld-v1-78b9f5c87f-2sskj
+Hello version: v1, instance: helloworld-v1-78b9f5c87f-2sskj
+Hello version: v1, instance: helloworld-v1-78b9f5c87f-2sskj
+Hello version: v1, instance: helloworld-v1-78b9f5c87f-2sskj
+Hello version: v2, instance: helloworld-v2-54dddc5567-2lm7b
+Hello version: v1, instance: helloworld-v1-78b9f5c87f-2sskj
+</code></pre><p>这次我们看到，现在 10 个请求中大约有 9 个由 <code>helloworld-v1</code> 处理，
+而 10 个请求中只有 1 个由 <code>helloworld-v2</code> 处理。</p><h2 id=gateway-api-for-internal-mesh-traffic>用于网格内部流量的 Gateway API</h2><p>您可能已经注意到，我们一直在谈论的 Gateway API 只是作为入口配置 API，
+通常称为南北流量管理，而不是用于集群内服务到服务（也称之为东西）流量管理的 API。</p><p>如果您正在使用服务网格，则非常希望使用相同的 API
+资源来配置入口流量路由和服务内部流量，类似于 Istio 使用相同的
+VirtualService 为两者配置路由规则的方式。幸运的是，
+Kubernetes Gateway API 正在努力添加这种支持。尽管 Gateway API 不像 Ingress
+入口流量那样成熟，但一项被称为<a href=https://gateway-api.sigs.k8s.io/contributing/gamma/>用于网格管理和管控的 Gateway API（GAMMA）</a>的计划正在为实现这一目标努力着，
+Istio <a href=/v1.19/zh/blog/2022/gateway-api-beta/>在未来</a>打算让 Gateway API
+成为其所有流量管理的默认 API。</p><p>首个重要的<a href=https://gateway-api.sigs.k8s.io/geps/gep-1426/>网关增强提案（GEP）</a> 最近已被接受，
+实际上也已经可以在 Istio 中使用。要试用它，您需要使用 Gateway API
+的<a href=https://gateway-api.sigs.k8s.io/concepts/versioning/#release-channels-eg-experimental-standard>实验版</a> CRD，
+而不是我们上面安装的标准 Beta 版本。查看 Istio
+<a href=/v1.19/zh/docs/tasks/traffic-management/request-routing/>请求路由任务</a>来开始您的使用。</p><h2 id=summary>总结</h2><p>在本文中，我们了解了如何使用 Istio 轻量级最小化安装来提供用于集群入口流量控制的新
+Kubernetes Gateway API 的 Beta 版的实现。对于 Istio 用户，
+该 Istio 实现还允许您开始尝试 Gateway API 对网格内东西向流量管理的实验性支持。</p><p>Istio 的大部分文档，包括所有 <a href=/v1.19/zh/docs/tasks/traffic-management/ingress/>Ingress 任务</a>以及一些网格内部流量管理任务，
+都已经支持并行使用 Gateway API 或 Istio 配置 API 进行流量配置。
+查看 <a href=/v1.19/zh/docs/tasks/traffic-management/ingress/gateway-api/>Gateway API 任务</a>以获取有关
+Istio 中 Gateway API 实现的更多信息。</p></div><nav class=pagenav><div class=left></div><div class=right><a title="宣布最新的 Istio 指导委员会成员。" href=/v1.19/zh/blog/2022/steering-election-results/ class=next-link>2022 年 Istio 指导委员会选举结果<svg class="icon right-arrow"><use xlink:href="/v1.19/img/icons.svg#right-arrow"/></svg></a></div></nav></article><footer class=footer><div class="footer-wrapper container-l"><div class="user-links footer-links"><a class=channel title='Istio 的代码在 GitHub 上开发' href=https://github.com/istio/community aria-label=GitHub><svg class="icon github"><use xlink:href="/v1.19/img/icons.svg#github"/></svg></a><a class=channel title='如果您想深入了解 Istio 的技术细节，请查看我们日益完善的设计文档' href=https://groups.google.com/forum/#!forum/istio-team-drive-access aria-label="team drive"><svg class="icon drive"><use xlink:href="/v1.19/img/icons.svg#drive"/></svg></a><a class=channel title='在 Slack 上与 Istio 社区交互讨论开发问题（仅限邀请）' href=https://slack.istio.io aria-label=slack><svg class="icon slack"><use xlink:href="/v1.19/img/icons.svg#slack"/></svg></a><a class=channel title='Stack Overflow 中列举了针对实际问题以及部署、配置和使用 Istio 的各项回答' href=https://stackoverflow.com/questions/tagged/istio aria-label="Stack Overflow"><svg class="icon stackoverflow"><use xlink:href="/v1.19/img/icons.svg#stackoverflow"/></svg></a><a class=channel title='关注我们的 Twitter 来获取最新信息' href=https://twitter.com/IstioMesh aria-label=Twitter><svg class="icon twitter"><use xlink:href="/v1.19/img/icons.svg#twitter"/></svg></a></div><hr class=footer-separator role=separator><div class="info footer-info"><a class=logo href=/v1.19/zh/ aria-label=logotype><svg xmlns="http://www.w3.org/2000/svg" width="128" height="60" viewBox="0 0 128 60"><path d="M58.434 48.823A.441.441.0 0158.3 48.497V22.583a.444.444.0 01.134-.326.446.446.0 01.327-.134h3.527a.447.447.0 01.325.134.447.447.0 01.134.326v25.914a.443.443.0 01-.134.326.444.444.0 01-.325.134h-3.527a.444.444.0 01-.327-.134z"/><path d="m70.969 48.477a6.556 6.556.0 01-2.818-1.955 4.338 4.338.0 01-1-2.78v-.345a.443.443.0 01.134-.326.444.444.0 01.326-.135h3.374a.444.444.0 01.326.135.445.445.0 01.134.326v.077a2.014 2.014.0 001.054 1.667 4.672 4.672.0 002.664.709 4.446 4.446.0 002.492-.633 1.862 1.862.0 00.958-1.591 1.426 1.426.0 00-.786-1.322 12.7 12.7.0 00-2.549-.939l-1.457-.46a21.526 21.526.0 01-3.3-1.227 6.57 6.57.0 01-2.262-1.783 4.435 4.435.0 01-.92-2.894 5.081 5.081.0 012.109-4.275 8.993 8.993.0 015.558-1.591 10.445 10.445.0 014.1.748 6.3 6.3.0 012.722 2.07 5 5 0 01.958 3.009.441.441.0 01-.134.326.441.441.0 01-.325.134h-3.258a.441.441.0 01-.326-.134.443.443.0 01-.134-.326 1.974 1.974.0 00-.978-1.667 4.647 4.647.0 00-2.665-.671 4.741 4.741.0 00-2.435.556 1.724 1.724.0 00-.938 1.553 1.512 1.512.0 00.9 1.4 15.875 15.875.0 003.01 1.055l.843.229a27.368 27.368.0 013.412 1.246 6.67 6.67.0 012.338 1.763 4.387 4.387.0 01.958 2.933 4.988 4.988.0 01-2.146 4.275 9.543 9.543.0 01-5.712 1.552 11.626 11.626.0 01-4.227-.709z"/><path d="m97.039 32.837a.443.443.0 01-.326.135h-3.911a.169.169.0 00-.191.192v9.239a2.951 2.951.0 00.632 2.108 2.7 2.7.0 002.013.652h1.15a.444.444.0 01.325.134.441.441.0 01.134.326v2.875a.471.471.0 01-.459.5l-1.994.039a8 8 0 01-4.524-1.035q-1.495-1.035-1.533-3.91V33.166A.17.17.0 0088.164 32.974H85.978A.441.441.0 0185.652 32.839.441.441.0 0185.518 32.513V29.83a.441.441.0 01.134-.326.444.444.0 01.326-.135h2.186a.169.169.0 00.191-.192v-4.485a.438.438.0 01.134-.326.44.44.0 01.325-.134h3.336a.443.443.0 01.325.134.442.442.0 01.135.326v4.485a.169.169.0 00.191.192h3.911a.446.446.0 01.326.135.446.446.0 01.134.326v2.683a.446.446.0 01-.133.324z"/><path d="m101.694 25.917a2.645 2.645.0 01-.767-1.955 2.65 2.65.0 01.767-1.955 2.65 2.65.0 011.955-.767 2.65 2.65.0 011.955.767 2.652 2.652.0 01.767 1.955 2.647 2.647.0 01-.767 1.955 2.646 2.646.0 01-1.955.767 2.645 2.645.0 01-1.955-.767zm-.211 22.906a.441.441.0 01-.134-.326V29.79a.444.444.0 01.134-.326.446.446.0 01.326-.134h3.527a.446.446.0 01.326.134.445.445.0 01.134.326v18.707a.443.443.0 01-.134.326.443.443.0 01-.326.134h-3.527a.443.443.0 01-.326-.134z"/><path d="m114.019 47.734a8.1 8.1.0 01-3.047-4.255 14.439 14.439.0 01-.652-4.37 14.3 14.3.0 01.614-4.371A7.869 7.869.0 01114 30.56a9.072 9.072.0 015.252-1.5 8.543 8.543.0 015.041 1.5 7.985 7.985.0 013.009 4.14 12.439 12.439.0 01.69 4.37 13.793 13.793.0 01-.651 4.37 8.255 8.255.0 01-3.028 4.275 8.475 8.475.0 01-5.1 1.553 8.754 8.754.0 01-5.194-1.534zm7.629-3.1a4.536 4.536.0 001.476-2.262 11.335 11.335.0 00.383-3.221 10.618 10.618.0 00-.383-3.22 4.169 4.169.0 00-1.457-2.243 4.066 4.066.0 00-2.531-.785 3.942 3.942.0 00-2.453.785 4.376 4.376.0 00-1.5 2.243 11.839 11.839.0 00-.383 3.22 11.84 11.84.0 00.383 3.221 4.222 4.222.0 001.476 2.262 4.075 4.075.0 002.549.8 3.8 3.8.0 002.44-.809z"/><path d="m15.105 32.057v15.565a.059.059.0 01-.049.059L.069 50.25A.06.06.0 01.005 50.167l14.987-33.47a.06.06.0 01.114.025z"/><path d="m17.631 23.087v24.6a.06.06.0 00.053.059l22.449 2.507a.06.06.0 00.061-.084L17.745.032a.06.06.0 00-.114.024z"/><path d="m39.961 52.548-24.833 7.45a.062.062.0 01-.043.0L.079 52.548a.059.059.0 01.026-.113h39.839a.06.06.0 01.017.113z"/></svg></a><div class=footer-languages><a tabindex=-1 lang=en id=switch-lang-en class=footer-languages-item>English</a>
+<a tabindex=-1 lang=zh id=switch-lang-zh class="footer-languages-item active"><svg class="icon tick"><use xlink:href="/v1.19/img/icons.svg#tick"/></svg>中文</a></div></div><ul class=footer-policies><li class=footer-policies-item><a class=footer-policies-link href=https://www.linuxfoundation.org/legal/terms>条款</a> |
+<a class=footer-policies-link href=https://www.linuxfoundation.org/legal/privacy-policy>隐私政策</a> |
+<a class=footer-policies-link href=https://github.com/istio/istio.io/edit/release-1.19/content/zh/blog/2022/getting-started-gtwapi/index.md>在 GitHub 上编辑此页</a></li></ul><div class=footer-base><span class=footer-base-copyright>&copy; 2023 the Istio Authors.</span>
+<span class=footer-base-version>部分内容可能滞后于英文版本，同步工作正在进行中<br>版本
+Istio 归档
+1.19.4</span><ul class=footer-base-releases><li class=footer-base-releases-item><a tabindex=-1 class=footer-base-releases-link onclick='return navigateToUrlOrRoot("https://istio.io/blog/2022/getting-started-gtwapi/"),!1'>当前版本</a></li><li class=footer-base-releases-item><a tabindex=-1 class=footer-base-releases-link onclick='return navigateToUrlOrRoot("https://preliminary.istio.io/blog/2022/getting-started-gtwapi/"),!1'>下个版本</a></li><li class=footer-base-releases-item><a tabindex=-1 class=footer-base-releases-link href=https://istio.io/archive>旧版本</a></li></ul></div></div></footer><div id=scroll-to-top-container aria-hidden=true><button id=scroll-to-top title=回到顶部 tabindex=-1><svg class="icon top"><use xlink:href="/v1.19/img/icons.svg#top"/></svg></button></div></body></html>

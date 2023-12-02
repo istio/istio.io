@@ -19,7 +19,7 @@ keywords: [contribute]
 1. 将您的贡献提交到 [GitHub 存储库](https://github.com/istio/istio.io)。
 1. 执行[审核流程](/zh/about/contribute/review)，直到您的贡献被合并。
 
-## 确定受众和信息的预期用途{#identify-the-audience-and-intended-use}
+## 确定受众和信息的预期用途   {#identify-the-audience-and-intended-use}
 
 好的文档需要从了解读者的阅读目的，知识面以及希望他们如何处理这些信息开始。否则，您无法确定要提供的信息的范围和深度、
 理想结构和必要的支持信息。以下示例描述如何在实际操作中践行该准则：
@@ -38,9 +38,11 @@ keywords: [contribute]
 
 要避免的最重要也是最常见的错误，是简单地向读者提供您拥有的所有信息，因为您不确定他们需要什么信息。
 
-如果您需要帮助特定内容的受众，我们很乐意在[文档工作组](https://github.com/istio/community/blob/master/WORKING-GROUPS.md#istio-working-groups)每两周一次的会议上帮助您并回答您的所有问题。
+如果您需要帮助特定内容的受众，我们很乐意在
+[文档工作组](https://github.com/istio/community/blob/master/WORKING-GROUPS.md#istio-working-groups)
+每两周一次的会议上帮助您并回答您的所有问题。
 
-## 内容类型{#content-types}
+## 内容类型  {#content-types}
 
 了解受众和所提供信息的预期用途后，您可以选择最能满足他们需求的内容类型。为了方便您选择，
 下表提供了受支持的内容类型、预期受众及每种类型文档的实施目标：
@@ -125,13 +127,13 @@ keywords: [contribute]
     </tr>
   </table>
 
-## 命名标题{#choosing-a-title}
+## 命名标题  {#choosing-a-title}
 
 为您的主题选择一个标题，该标题具有您希望搜索引擎查找的关键字。Istio 中的所有内容文件都被命名为 `index.md`，
 但是每个内容文件都存放在用标题关键字命名的文件夹中，并用连字符分隔，所有字母均小写。文件夹名称应尽可能短，
 以使交叉引用更易于创建和维护。
 
-## 将您的贡献提交到 GitHub{#submit-your-contribution-to-GitHub}
+## 将您的贡献提交到 GitHub  {#submit-your-contribution-to-GitHub}
 
 如果您不熟悉 GitHub，请参阅[使用 GitHub 参与社区活动](/zh/about/contribute/github)，以了解如何提交文档更改。
 

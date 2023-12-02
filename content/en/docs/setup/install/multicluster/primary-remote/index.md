@@ -16,6 +16,13 @@ Before proceeding, be sure to complete the steps under
 [before you begin](/docs/setup/install/multicluster/before-you-begin).
 
 {{< boilerplate multi-cluster-with-metallb >}}
+{{< warning >}}
+These instructions are not suitable for AWS EKS primary cluster deployment.
+The reason behind this incompatibility is that AWS Load Balancers (LB) are
+presented as Fully Qualified Domain Names (FQDN), while the remote cluster
+utilizes the Kubernetes service type 'ExternalName'. However, the 'ExternalName'
+type exclusively supports IP addresses and does not accommodate FQDNs.
+{{< /warning >}}
 
 In this configuration, cluster `cluster1` will observe the API Servers in
 both clusters for endpoints. In this way, the control plane will be able to

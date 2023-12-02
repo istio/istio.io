@@ -57,7 +57,7 @@ Istio authentication uses [Kubernetes service accounts](https://kubernetes.io/do
 
 ### Communication security
 
-Service-to-service communication is tunneled through high performance client side and server side [Envoy](https://envoyproxy.github.io/envoy/) proxies. The communication between the proxies is secured using mutual TLS. The benefit of using mutual TLS is that the service identity is not expressed as a bearer token that can be stolen or replayed from another source. Istio authentication also introduces the concept of Secure Naming to protect from a server spoofing attacks - the client side proxy verifies that the authenticated server's service account is allowed to run the named service.
+Service-to-service communication is tunneled through high performance client side and server side {{<gloss envoy>}}Envoy{{</gloss>}} proxies. The communication between the proxies is secured using mutual TLS. The benefit of using mutual TLS is that the service identity is not expressed as a bearer token that can be stolen or replayed from another source. Istio authentication also introduces the concept of Secure Naming to protect from a server spoofing attacks - the client side proxy verifies that the authenticated server's service account is allowed to run the named service.
 
 ### Key management and distribution
 

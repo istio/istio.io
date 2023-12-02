@@ -1,0 +1,185 @@
+<!doctype html><html lang=zh itemscope itemtype=https://schema.org/WebPage><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=theme-color content="#466BB0"><meta name=title content="在 Istio 中使用硬件卸载加速连接负载均衡"><meta name=description content="在 Istio 网关中使用 DLB 加速连接负载均衡。"><meta name=author content="Loong Dai (Intel); Translated by Michael Yao (DaoCloud)"><meta name=keywords content="microservices,services,mesh,Istio,DLB,gateways"><meta property="og:title" content="在 Istio 中使用硬件卸载加速连接负载均衡"><meta property="og:type" content="website"><meta property="og:description" content="在 Istio 网关中使用 DLB 加速连接负载均衡。"><meta property="og:url" content="/v1.19/zh/blog/2023/dlb-connection-balancing/"><meta property="og:image" content="https://raw.githubusercontent.com/istio/istio.io/master/static/img/istio-social.svg"><meta property="og:image:alt" content="Istio Logo"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="600"><meta property="og:site_name" content="Istio"><meta name=twitter:card content="summary"><meta name=twitter:site content="@IstioMesh"><title>Istioldie 1.19 / 在 Istio 中使用硬件卸载加速连接负载均衡</title><script async src="https://www.googletagmanager.com/gtag/js?id=UA-98480406-2"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","UA-98480406-2")</script><link rel=alternate type=application/rss+xml title="Istio Blog" href=/v1.19/blog/feed.xml><link rel=alternate type=application/rss+xml title="Istio News" href=/v1.19/news/feed.xml><link rel=alternate type=application/rss+xml title="Istio Blog and News" href=/v1.19/feed.xml><link rel="shortcut icon" href=/v1.19/favicons/favicon.ico><link rel=apple-touch-icon href=/v1.19/favicons/apple-touch-icon-180x180.png sizes=180x180><link rel=icon type=image/png href=/v1.19/favicons/favicon-16x16.png sizes=16x16><link rel=icon type=image/png href=/v1.19/favicons/favicon-32x32.png sizes=32x32><link rel=icon type=image/png href=/v1.19/favicons/android-36x36.png sizes=36x36><link rel=icon type=image/png href=/v1.19/favicons/android-48x48.png sizes=48x48><link rel=icon type=image/png href=/v1.19/favicons/android-72x72.png sizes=72x72><link rel=icon type=image/png href=/v1.19/favicons/android-96x96.png sizes=96xW96><link rel=icon type=image/png href=/v1.19/favicons/android-144x144.png sizes=144x144><link rel=icon type=image/png href=/v1.19/favicons/android-192x192.png sizes=192x192><link rel=icon type=image/svg+xml href=/v1.19/favicons/favicon.svg><link rel=icon type=image/png href=/v1.19/favicons/favicon.png><link rel=mask-icon href=/v1.19/favicons/safari-pinned-tab.svg color=#466bb0><link rel=manifest href=/v1.19/manifest.json><meta name=apple-mobile-web-app-title content="Istio"><meta name=application-name content="Istio"><meta name=msapplication-config content="/browserconfig.xml"><meta name=msapplication-TileColor content="#466BB0"><meta name=theme-color content="#466BB0"><link rel=stylesheet href=/v1.19/css/all.css><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap"><script src=/v1.19/js/themes_init.min.js></script></head><body class="language-unknown archive-site"><script>const branchName="release-1.19",docTitle="在 Istio 中使用硬件卸载加速连接负载均衡",iconFile="/v1.19/img/icons.svg",buttonCopy="复制到剪切板",buttonPrint="打印",buttonDownload="下载"</script><script src="https://www.google.com/cse/brand?form=search-form" defer></script>
+<script src=/v1.19/js/all.min.js data-manual defer></script><header class=main-navigation><nav class="main-navigation-wrapper container-l"><div class=main-navigation-header><a id=brand href=/v1.19/zh/ aria-label=logotype><span class=logo><svg xmlns="http://www.w3.org/2000/svg" width="128" height="60" viewBox="0 0 128 60"><path d="M58.434 48.823A.441.441.0 0158.3 48.497V22.583a.444.444.0 01.134-.326.446.446.0 01.327-.134h3.527a.447.447.0 01.325.134.447.447.0 01.134.326v25.914a.443.443.0 01-.134.326.444.444.0 01-.325.134h-3.527a.444.444.0 01-.327-.134z"/><path d="m70.969 48.477a6.556 6.556.0 01-2.818-1.955 4.338 4.338.0 01-1-2.78v-.345a.443.443.0 01.134-.326.444.444.0 01.326-.135h3.374a.444.444.0 01.326.135.445.445.0 01.134.326v.077a2.014 2.014.0 001.054 1.667 4.672 4.672.0 002.664.709 4.446 4.446.0 002.492-.633 1.862 1.862.0 00.958-1.591 1.426 1.426.0 00-.786-1.322 12.7 12.7.0 00-2.549-.939l-1.457-.46a21.526 21.526.0 01-3.3-1.227 6.57 6.57.0 01-2.262-1.783 4.435 4.435.0 01-.92-2.894 5.081 5.081.0 012.109-4.275 8.993 8.993.0 015.558-1.591 10.445 10.445.0 014.1.748 6.3 6.3.0 012.722 2.07 5 5 0 01.958 3.009.441.441.0 01-.134.326.441.441.0 01-.325.134h-3.258a.441.441.0 01-.326-.134.443.443.0 01-.134-.326 1.974 1.974.0 00-.978-1.667 4.647 4.647.0 00-2.665-.671 4.741 4.741.0 00-2.435.556 1.724 1.724.0 00-.938 1.553 1.512 1.512.0 00.9 1.4 15.875 15.875.0 003.01 1.055l.843.229a27.368 27.368.0 013.412 1.246 6.67 6.67.0 012.338 1.763 4.387 4.387.0 01.958 2.933 4.988 4.988.0 01-2.146 4.275 9.543 9.543.0 01-5.712 1.552 11.626 11.626.0 01-4.227-.709z"/><path d="m97.039 32.837a.443.443.0 01-.326.135h-3.911a.169.169.0 00-.191.192v9.239a2.951 2.951.0 00.632 2.108 2.7 2.7.0 002.013.652h1.15a.444.444.0 01.325.134.441.441.0 01.134.326v2.875a.471.471.0 01-.459.5l-1.994.039a8 8 0 01-4.524-1.035q-1.495-1.035-1.533-3.91V33.166A.17.17.0 0088.164 32.974H85.978A.441.441.0 0185.652 32.839.441.441.0 0185.518 32.513V29.83a.441.441.0 01.134-.326.444.444.0 01.326-.135h2.186a.169.169.0 00.191-.192v-4.485a.438.438.0 01.134-.326.44.44.0 01.325-.134h3.336a.443.443.0 01.325.134.442.442.0 01.135.326v4.485a.169.169.0 00.191.192h3.911a.446.446.0 01.326.135.446.446.0 01.134.326v2.683a.446.446.0 01-.133.324z"/><path d="m101.694 25.917a2.645 2.645.0 01-.767-1.955 2.65 2.65.0 01.767-1.955 2.65 2.65.0 011.955-.767 2.65 2.65.0 011.955.767 2.652 2.652.0 01.767 1.955 2.647 2.647.0 01-.767 1.955 2.646 2.646.0 01-1.955.767 2.645 2.645.0 01-1.955-.767zm-.211 22.906a.441.441.0 01-.134-.326V29.79a.444.444.0 01.134-.326.446.446.0 01.326-.134h3.527a.446.446.0 01.326.134.445.445.0 01.134.326v18.707a.443.443.0 01-.134.326.443.443.0 01-.326.134h-3.527a.443.443.0 01-.326-.134z"/><path d="m114.019 47.734a8.1 8.1.0 01-3.047-4.255 14.439 14.439.0 01-.652-4.37 14.3 14.3.0 01.614-4.371A7.869 7.869.0 01114 30.56a9.072 9.072.0 015.252-1.5 8.543 8.543.0 015.041 1.5 7.985 7.985.0 013.009 4.14 12.439 12.439.0 01.69 4.37 13.793 13.793.0 01-.651 4.37 8.255 8.255.0 01-3.028 4.275 8.475 8.475.0 01-5.1 1.553 8.754 8.754.0 01-5.194-1.534zm7.629-3.1a4.536 4.536.0 001.476-2.262 11.335 11.335.0 00.383-3.221 10.618 10.618.0 00-.383-3.22 4.169 4.169.0 00-1.457-2.243 4.066 4.066.0 00-2.531-.785 3.942 3.942.0 00-2.453.785 4.376 4.376.0 00-1.5 2.243 11.839 11.839.0 00-.383 3.22 11.84 11.84.0 00.383 3.221 4.222 4.222.0 001.476 2.262 4.075 4.075.0 002.549.8 3.8 3.8.0 002.44-.809z"/><path d="m15.105 32.057v15.565a.059.059.0 01-.049.059L.069 50.25A.06.06.0 01.005 50.167l14.987-33.47a.06.06.0 01.114.025z"/><path d="m17.631 23.087v24.6a.06.06.0 00.053.059l22.449 2.507a.06.06.0 00.061-.084L17.745.032a.06.06.0 00-.114.024z"/><path d="m39.961 52.548-24.833 7.45a.062.062.0 01-.043.0L.079 52.548a.059.059.0 01.026-.113h39.839a.06.06.0 01.017.113z"/></svg></span></a><button id=hamburger class=main-navigation-toggle aria-label="Open navigation"><svg class="icon menu-hamburger"><use xlink:href="/v1.19/img/icons.svg#menu-hamburger"/></svg></button>
+<button id=menu-close class=main-navigation-toggle aria-label="Close navigation"><svg class="icon menu-close"><use xlink:href="/v1.19/img/icons.svg#menu-close"/></svg></button></div><div id=header-links class=main-navigation-links-wrapper><ul class=main-navigation-links><li class=main-navigation-links-item><a class="main-navigation-links-link has-dropdown"><span>关于</span><svg class="icon dropdown-arrow"><use xlink:href="/v1.19/img/icons.svg#dropdown-arrow"/></svg></a><ul class=main-navigation-links-dropdown><li class=main-navigation-links-dropdown-item><a href=/v1.19/zh/about/service-mesh class=main-navigation-links-link>服务网格</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.19/zh/about/solutions class=main-navigation-links-link>解决方案</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.19/zh/about/case-studies class=main-navigation-links-link>案例学习</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.19/zh/about/ecosystem class=main-navigation-links-link>生态系统</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.19/zh/about/deployment class=main-navigation-links-link>部署</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.19/zh/about/faq class=main-navigation-links-link>FAQ</a></li></ul></li><li class=main-navigation-links-item><a href=/v1.19/zh/blog/ class=main-navigation-links-link><span>博客</span></a></li><li class=main-navigation-links-item><a href=/v1.19/zh/news/ class=main-navigation-links-link><span>新闻</span></a></li><li class=main-navigation-links-item><a href=/v1.19/zh/get-involved/ class=main-navigation-links-link><span>加入我们</span></a></li><li class=main-navigation-links-item><a href=/v1.19/zh/docs/ class=main-navigation-links-link><span>文档</span></a></li></ul><div class=main-navigation-footer><button id=search-show class=search-show title='搜索 istio.io' aria-label=搜索><svg class="icon magnifier"><use xlink:href="/v1.19/img/icons.svg#magnifier"/></svg></button>
+<a href=/v1.19/zh/docs/setup/getting-started class="btn btn--primary" id=try-istio>试用 Istio</a></div></div><form id=search-form class=search name=cse role=search><input type=hidden name=cx value=002184991200833970123:iwwf17ikgf4>
+<input type=hidden name=ie value=utf-8>
+<input type=hidden name=hl value=zh>
+<input type=hidden id=search-page-url value=/zh/search>
+<input id=search-textbox class="search-textbox form-control" name=q type=search aria-label='搜索 istio.io' placeholder=搜索>
+<button id=search-close title=取消搜索 type=reset aria-label=取消搜索><svg class="icon menu-close"><use xlink:href="/v1.19/img/icons.svg#menu-close"/></svg></button></form></nav></header><div class=banner-container></div><article class=post itemscope itemtype=http://schema.org/BlogPosting><div class=header-content><h1>在 Istio 中使用硬件卸载加速连接负载均衡</h1><p>在 Istio 网关中使用 DLB 加速连接负载均衡。</p></div><p class=post-author>Aug 8, 2023 <span>|</span> By Loong Dai - Intel; Translated by Michael Yao - DaoCloud</p><div><h2 id=what-is-connection-load-balancing>什么是连接负载均衡？</h2><p>负载均衡是一种核心网络解决方案，用于在服务器群中分配流量到多台服务器上。
+负载均衡器提高了应用程序的可用性和响应性，并防止服务器超载。
+每个负载均衡器位于客户设备和后端服务器之间，接收并将传入的请求分发给任何可满足这些请求的可用服务器。</p><p>对于一个常见的 Web 服务器，通常会有多个工作进程（处理器或线程）。
+如果许多客户端连接到单个工作进程，该工作进程将变得繁忙，并带来长尾延迟，
+而其他空闲状态的工作进程则无法运行，影响了 Web 服务器的性能。
+连接负载均衡是解决这种情况的方法，也被称为连接均衡。</p><h2 id=what-does-istio-do-for-connection-load-balancing>Istio 为连接负载均衡做了什么？</h2><p>Istio 使用 Envoy 作为数据平面。</p><p>Envoy 提供了一个名为 Exact 连接均衡的连接负载均衡实现。
+顾名思义，它在均衡期间会持有一个锁，以使连接计数在工作进程之间几乎完全均衡。
+在某种程度上，这个均衡是“几乎”精确的，因为连接可能会并行关闭，从而使计数不正确，
+但这应该在下一次接收时得到纠正。这种负载均衡器在接受吞吐量上牺牲了一些精度，
+应该在服务网格 gRPC Egress 这类连接数较少且很少循环的情况下使用。</p><p>显然，它不适用于入口网关，因为入口网关在短时间内接受数千个连接，锁带来的资源成本会导致吞吐量大幅下降。</p><p>现在，Envoy 已经集成了 Intel® Dynamic Load Balancing (Intel®DLB) 连接负载均衡，
+以加速在入口网关等高连接数场景中的负载均衡。</p><h2 id=how-intel-dlb-accelerate-in-envoy>Intel® Dynamic Load Balancing 如何加速 Envoy 中的连接负载均衡</h2><p>Intel DLB 是一个硬件管理的队列和仲裁器系统，连接生产者和消费者。
+它是一个 PCI 设备，预期安装在服务器 CPU 的 <a href=https://zh.wikipedia.org/wiki/Uncore>Uncore</a> 中，
+并且可以与运行在核心上的软件交互，也可以与其他设备交互。</p><p>Intel DLB 实现了以下负载均衡功能：</p><ul><li>从软件中卸载队列管理 —— 在存在重要的基于排队成本的情况下有用。<ul><li>特别适用于多生产者/多消费者场景和将任务批量排队到多个目的地的情况。</li><li>在软件中访问共享队列需要使用锁。Intel DLB 实现了无锁访问共享队列。</li></ul></li><li>动态的、流感知的负载均衡和重新排序。<ul><li>确保任务均匀分配并更好地利用 CPU 核心。可以在需要的情况下提供基于流的原子性。</li><li>在不丢失报文顺序的情况下，将高带宽流量分布到多个核心中。</li><li>更好的确定性，避免过多的排队延迟。</li><li>使用更少的 IO 内存占用和节省 DDR 带宽。</li></ul></li><li>优先级排队（最多 8 个级别）—— 允许 QOS。<ul><li>对于延迟敏感的流量，可以实现较低的延迟。</li><li>报文中可选的延迟测量。</li></ul></li><li>可扩展性<ul><li>允许动态调整应用程序的大小，无缝缩放。</li><li>功耗感知；应用程序可以在负载较轻的情况下将工作进程降低到较低功耗状态。</li></ul></li></ul><p>负载均衡队列有三种类型：</p><ul><li>无序：适用于多个生产者和消费者。任务的顺序不重要，
+每个任务都分配给负载最小的处理器核心。</li><li>有序：适用于多个生产者和消费者，任务的顺序很重要。
+当多个任务由多个处理器核心处理时，它们必须按照原始顺序重新排列。</li><li>原子：适用于多个生产者和消费者，任务按照一定的规则分组。
+这些任务使用相同的资源集进行处理，并且组内任务的顺序很重要。</li></ul><p>入口网关被期望尽快地处理尽可能多的数据，因此 Intel DLB 连接负载均衡使用无序队列。</p><h2 id=how-to-use-intel-dlb-in-istio>如何在 Istio 中使用 Intel DLB 连接负载均衡</h2><p>在 1.17 版本发布中，Istio 正式支持 Intel DLB 连接负载均衡。</p><p>以下步骤展示了如何在 Istio
+<a href=/v1.19/zh/docs/tasks/traffic-management/ingress/ingress-control/>入口网关</a>中使用
+Intel DLB 连接负载均衡，在一个 Kubernetes 集群正常运行的 SPR（Sapphire Rapids）机器上。</p><h3 id=prepare-dlb-env>第 1 步：准备 DLB 环境</h3><p>按照 <a href=https://www.intel.com/content/www/us/en/download/686372/intel-dynamic-load-balancer.html>Intel DLB 驱动程序官网的指示说明</a>安装 Intel DLB 驱动程序。</p><p>使用以下命令安装 Intel DLB 设备插件：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl apply -k https://github.com/intel/intel-device-plugins-for-kubernetes/deployments/dlb_plugin?ref=v0.26.0
+</code></pre><p>有关 Intel DLB 设备插件的更多细节，请参阅
+<a href=https://www.envoyproxy.io/docs/envoy/latest/configuration/other_features/dlb#config-connection-balance-dlb>Intel DLB 设备插件主页</a>。</p><p>您可以查看 Intel DLB 设备资源：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl describe nodes | grep dlb.intel.com/pf
+  dlb.intel.com/pf:   2
+  dlb.intel.com/pf:   2
+...
+</code></pre><h3 id=download-istio>第 2 步：下载 Istio</h3><p>在这篇博文中，我们使用 Istio 1.17.2。先下载安装包：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.17.2 TARGET_ARCH=x86_64 sh -
+$ cd istio-1.17.2
+$ export PATH=$PWD/bin:$PATH
+</code></pre><div><aside class="callout tip"><div class=type><svg class="large-icon"><use xlink:href="/v1.19/img/icons.svg#callout-tip"/></svg></div><div class=content>以下所有操作都将在此目录内进行。</div></aside></div><p>您可以看到版本是 1.17.2：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ istioctl version
+no running Istio pods in &#34;istio-system&#34;
+1.17.2
+</code></pre><h3 id=install-istio>第 3 步：安装 Istio</h3><p>为 Istio 创建一个安装配置，注意我们为入口网关分配了 4 个 CPU 和 1 个 DLB 设备，
+并将并发数设置为与 CPU 数量相等的 4。</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ cat &gt; config.yaml &lt;&lt; EOF
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  profile: default
+  components:
+    ingressGateways:
+    - enabled: true
+      name: istio-ingressgateway
+      k8s:
+        overlays:
+          - kind: Deployment
+            name: istio-ingressgateway
+        podAnnotations:
+          proxy.istio.io/config: |
+            concurrency: 4
+        resources:
+          requests:
+            cpu: 4000m
+            memory: 4096Mi
+            dlb.intel.com/pf: &#39;1&#39;
+          limits:
+            cpu: 4000m
+            memory: 4096Mi
+            dlb.intel.com/pf: &#39;1&#39;
+        hpaSpec:
+          maxReplicas: 1
+          minReplicas: 1
+  values:
+    telemetry:
+      enabled: false
+EOF
+</code></pre><p>使用 <code>istioctl</code> 安装：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ istioctl install -f config.yaml --set values.gateways.istio-ingressgateway.runAsRoot=true -y
+✔ Istio core installed
+✔ Istiod installed
+✔ Ingress gateways installed
+✔ Installation complete                                                                                                                                                                                                                                                                       Making this installation the default for injection and validation.
+
+Thank you for installing Istio 1.17.  Please take a few minutes to tell us about your install/upgrade experience!  https://forms.gle/hMHGiwZHPU7UQRWe9
+</code></pre><h3 id=setup-backend-service>第 4 步：设置后端服务</h3><p>因为我们想在 Istio 入口网关中使用 DLB 连接负载均衡，所以需要先创建一个后端服务。</p><p>我们将使用 Istio 附带的样例 <a href=https://github.com/istio/istio/tree/release-1.19/release-1.17/samples/httpbin>httpbin</a> 进行测试。</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl apply -f samples/httpbin/httpbin.yaml
+$ kubectl apply -f - &lt;&lt;EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: httpbin-gateway
+spec:
+  # 选择器与入口网关 Pod 标签进行匹配。
+  # 如果您参照标准文档已使用 Helm 安装了 Istio，此项将为 &#34;istio=ingress&#34;
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - &#34;httpbin.example.com&#34;
+EOF
+$ kubectl apply -f - &lt;&lt;EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: httpbin
+spec:
+  hosts:
+  - &#34;httpbin.example.com&#34;
+  gateways:
+  - httpbin-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /status
+    - uri:
+        prefix: /delay
+    route:
+    - destination:
+        port:
+          number: 8000
+        host: httpbin
+EOF
+</code></pre><p>您现在已经为 httpbin 服务创建了一个包含两个路由规则的虚拟服务配置，
+这些路由规则允许针对路径 /status 和 /delay 的流量通过。</p><p>gateways 列表指定只有通过 httpbin-gateway 的请求才被允许。
+所有其他外部请求将会被拒绝，并返回 404 响应。</p><h3 id=enable-dlb-connection-load-balancing>第 5 步：启用 DLB 连接负载均衡</h3><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl apply -f - &lt;&lt;EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: dlb
+  namespace: istio-system
+spec:
+  workloadSelector:
+    labels:
+      istio: ingressgateway
+  configPatches:
+  - applyTo: LISTENER
+    match:
+      context: GATEWAY
+    patch:
+      operation: MERGE
+      value:
+        connection_balance_config:
+            extend_balance:
+              name: envoy.network.connection_balance.dlb
+              typed_config:
+                &#34;@type&#34;: type.googleapis.com/envoy.extensions.network.connection_balance.dlb.v3alpha.Dlb
+EOF
+</code></pre><p>如果您检查入口网关 Pod <code>istio-ingressgateway-xxxx</code> 的日志，您将看到类似以下的日志条目：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ export POD=&#34;$(kubectl get pods -n istio-system | grep gateway | awk &#39;{print $1}&#39;)&#34;
+$ kubectl logs -n istio-system ${POD} | grep dlb
+2023-05-05T06:16:36.921299Z     warning envoy config external/envoy/contrib/network/connection_balance/dlb/source/connection_balancer_impl.cc:46        dlb device 0 is not found, use dlb device 3 instead     thread=35
+</code></pre><p>Envoy 将自动检测并选择 DLB 设备。</p><h3 id=test>第 6 步：测试</h3><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ export HOST=&#34;&lt;YOUR-HOST-IP&gt;&#34;
+$ export PORT=&#34;$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath=&#39;{.spec.ports[?(@.name==&#34;http2&#34;)].nodePort}&#39;)&#34;
+$ curl -s -I -HHost:httpbin.example.com &#34;http://${HOST}:${PORT}/status/200&#34;
+HTTP/1.1 200 OK
+server: istio-envoy
+...
+</code></pre><p>请注意，您可以使用 <code>-H</code> 标志将 Host HTTP 头设置为 <code>httpbin.example.com</code>，
+因为现在您还没有为该主机绑定 DNS，所以只是将请求发送到入口 IP。</p><p>您也可以在 <code>/etc/hosts</code> 中添加 DNS 绑定并移除 <code>-H</code> 标志：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ echo &#34;$HOST httpbin.example.com&#34; &gt;&gt; /etc/hosts
+$ curl -s -I &#34;http://httpbin.example.com:${PORT}/status/200&#34;
+HTTP/1.1 200 OK
+server: istio-envoy
+...
+</code></pre><p>访问还未显式暴露的任何其他 URL，您应看到一个 HTTP 404 错误：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ curl -s -I -HHost:httpbin.example.com &#34;http://${HOST}:${PORT}/headers&#34;
+HTTP/1.1 404 Not Found
+...
+</code></pre><p>您可以打开调试日志级别以查看更多 DLB 相关的日志：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ istioctl pc log ${POD}.istio-system --level debug
+istio-ingressgateway-665fdfbf95-2j8px.istio-system:
+active loggers:
+  admin: debug
+  alternate_protocols_cache: debug
+  aws: debug
+  assert: debug
+  backtrace: debug
+...
+</code></pre><p>运行 <code>curl</code> 发送一个请求，您将看到类似以下的信息：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl logs -n istio-system ${POD} | grep dlb
+2023-05-05T06:16:36.921299Z     warning envoy config external/envoy/contrib/network/connection_balance/dlb/source/connection_balancer_impl.cc:46        dlb device 0 is not found, use dlb device 3 instead     thread=35
+2023-05-05T06:37:45.974241Z     debug   envoy connection external/envoy/contrib/network/connection_balance/dlb/source/connection_balancer_impl.cc:269   worker_3 dlb send fd 45 thread=47
+2023-05-05T06:37:45.974427Z     debug   envoy connection external/envoy/contrib/network/connection_balance/dlb/source/connection_balancer_impl.cc:286   worker_0 get dlb event 1        thread=46
+2023-05-05T06:37:45.974453Z     debug   envoy connection external/envoy/contrib/network/connection_balance/dlb/source/connection_balancer_impl.cc:303   worker_0 dlb recv 45    thread=46
+2023-05-05T06:37:45.975215Z     debug   envoy connection external/envoy/contrib/network/connection_balance/dlb/source/connection_balancer_impl.cc:283   worker_0 dlb receive none, skip thread=46
+</code></pre><p>有关 Istio 入口网关的更多细节，请访问
+<a href=/v1.19/zh/docs/tasks/traffic-management/ingress/ingress-control/>Istio 入口网关官方文档</a>。</p></div><nav class=pagenav><div class=left><a title="使用 Istio 演示新的 SidecarContainers 功能。" href=/v1.19/zh/blog/2023/native-sidecars/ class=next-link><svg class="icon left-arrow"><use xlink:href="/v1.19/img/icons.svg#left-arrow"/></svg>在 Istio 中使用 Kubernetes 原生 Sidecar</a></div><div class=right><a title href=/v1.19/zh/blog/2023/istio-graduates-within-cncf/ class=next-link>Istio 正式从 CNCF 毕业的公告<svg class="icon right-arrow"><use xlink:href="/v1.19/img/icons.svg#right-arrow"/></svg></a></div></nav></article><footer class=footer><div class="footer-wrapper container-l"><div class="user-links footer-links"><a class=channel title='Istio 的代码在 GitHub 上开发' href=https://github.com/istio/community aria-label=GitHub><svg class="icon github"><use xlink:href="/v1.19/img/icons.svg#github"/></svg></a><a class=channel title='如果您想深入了解 Istio 的技术细节，请查看我们日益完善的设计文档' href=https://groups.google.com/forum/#!forum/istio-team-drive-access aria-label="team drive"><svg class="icon drive"><use xlink:href="/v1.19/img/icons.svg#drive"/></svg></a><a class=channel title='在 Slack 上与 Istio 社区交互讨论开发问题（仅限邀请）' href=https://slack.istio.io aria-label=slack><svg class="icon slack"><use xlink:href="/v1.19/img/icons.svg#slack"/></svg></a><a class=channel title='Stack Overflow 中列举了针对实际问题以及部署、配置和使用 Istio 的各项回答' href=https://stackoverflow.com/questions/tagged/istio aria-label="Stack Overflow"><svg class="icon stackoverflow"><use xlink:href="/v1.19/img/icons.svg#stackoverflow"/></svg></a><a class=channel title='关注我们的 Twitter 来获取最新信息' href=https://twitter.com/IstioMesh aria-label=Twitter><svg class="icon twitter"><use xlink:href="/v1.19/img/icons.svg#twitter"/></svg></a></div><hr class=footer-separator role=separator><div class="info footer-info"><a class=logo href=/v1.19/zh/ aria-label=logotype><svg xmlns="http://www.w3.org/2000/svg" width="128" height="60" viewBox="0 0 128 60"><path d="M58.434 48.823A.441.441.0 0158.3 48.497V22.583a.444.444.0 01.134-.326.446.446.0 01.327-.134h3.527a.447.447.0 01.325.134.447.447.0 01.134.326v25.914a.443.443.0 01-.134.326.444.444.0 01-.325.134h-3.527a.444.444.0 01-.327-.134z"/><path d="m70.969 48.477a6.556 6.556.0 01-2.818-1.955 4.338 4.338.0 01-1-2.78v-.345a.443.443.0 01.134-.326.444.444.0 01.326-.135h3.374a.444.444.0 01.326.135.445.445.0 01.134.326v.077a2.014 2.014.0 001.054 1.667 4.672 4.672.0 002.664.709 4.446 4.446.0 002.492-.633 1.862 1.862.0 00.958-1.591 1.426 1.426.0 00-.786-1.322 12.7 12.7.0 00-2.549-.939l-1.457-.46a21.526 21.526.0 01-3.3-1.227 6.57 6.57.0 01-2.262-1.783 4.435 4.435.0 01-.92-2.894 5.081 5.081.0 012.109-4.275 8.993 8.993.0 015.558-1.591 10.445 10.445.0 014.1.748 6.3 6.3.0 012.722 2.07 5 5 0 01.958 3.009.441.441.0 01-.134.326.441.441.0 01-.325.134h-3.258a.441.441.0 01-.326-.134.443.443.0 01-.134-.326 1.974 1.974.0 00-.978-1.667 4.647 4.647.0 00-2.665-.671 4.741 4.741.0 00-2.435.556 1.724 1.724.0 00-.938 1.553 1.512 1.512.0 00.9 1.4 15.875 15.875.0 003.01 1.055l.843.229a27.368 27.368.0 013.412 1.246 6.67 6.67.0 012.338 1.763 4.387 4.387.0 01.958 2.933 4.988 4.988.0 01-2.146 4.275 9.543 9.543.0 01-5.712 1.552 11.626 11.626.0 01-4.227-.709z"/><path d="m97.039 32.837a.443.443.0 01-.326.135h-3.911a.169.169.0 00-.191.192v9.239a2.951 2.951.0 00.632 2.108 2.7 2.7.0 002.013.652h1.15a.444.444.0 01.325.134.441.441.0 01.134.326v2.875a.471.471.0 01-.459.5l-1.994.039a8 8 0 01-4.524-1.035q-1.495-1.035-1.533-3.91V33.166A.17.17.0 0088.164 32.974H85.978A.441.441.0 0185.652 32.839.441.441.0 0185.518 32.513V29.83a.441.441.0 01.134-.326.444.444.0 01.326-.135h2.186a.169.169.0 00.191-.192v-4.485a.438.438.0 01.134-.326.44.44.0 01.325-.134h3.336a.443.443.0 01.325.134.442.442.0 01.135.326v4.485a.169.169.0 00.191.192h3.911a.446.446.0 01.326.135.446.446.0 01.134.326v2.683a.446.446.0 01-.133.324z"/><path d="m101.694 25.917a2.645 2.645.0 01-.767-1.955 2.65 2.65.0 01.767-1.955 2.65 2.65.0 011.955-.767 2.65 2.65.0 011.955.767 2.652 2.652.0 01.767 1.955 2.647 2.647.0 01-.767 1.955 2.646 2.646.0 01-1.955.767 2.645 2.645.0 01-1.955-.767zm-.211 22.906a.441.441.0 01-.134-.326V29.79a.444.444.0 01.134-.326.446.446.0 01.326-.134h3.527a.446.446.0 01.326.134.445.445.0 01.134.326v18.707a.443.443.0 01-.134.326.443.443.0 01-.326.134h-3.527a.443.443.0 01-.326-.134z"/><path d="m114.019 47.734a8.1 8.1.0 01-3.047-4.255 14.439 14.439.0 01-.652-4.37 14.3 14.3.0 01.614-4.371A7.869 7.869.0 01114 30.56a9.072 9.072.0 015.252-1.5 8.543 8.543.0 015.041 1.5 7.985 7.985.0 013.009 4.14 12.439 12.439.0 01.69 4.37 13.793 13.793.0 01-.651 4.37 8.255 8.255.0 01-3.028 4.275 8.475 8.475.0 01-5.1 1.553 8.754 8.754.0 01-5.194-1.534zm7.629-3.1a4.536 4.536.0 001.476-2.262 11.335 11.335.0 00.383-3.221 10.618 10.618.0 00-.383-3.22 4.169 4.169.0 00-1.457-2.243 4.066 4.066.0 00-2.531-.785 3.942 3.942.0 00-2.453.785 4.376 4.376.0 00-1.5 2.243 11.839 11.839.0 00-.383 3.22 11.84 11.84.0 00.383 3.221 4.222 4.222.0 001.476 2.262 4.075 4.075.0 002.549.8 3.8 3.8.0 002.44-.809z"/><path d="m15.105 32.057v15.565a.059.059.0 01-.049.059L.069 50.25A.06.06.0 01.005 50.167l14.987-33.47a.06.06.0 01.114.025z"/><path d="m17.631 23.087v24.6a.06.06.0 00.053.059l22.449 2.507a.06.06.0 00.061-.084L17.745.032a.06.06.0 00-.114.024z"/><path d="m39.961 52.548-24.833 7.45a.062.062.0 01-.043.0L.079 52.548a.059.059.0 01.026-.113h39.839a.06.06.0 01.017.113z"/></svg></a><div class=footer-languages><a tabindex=-1 lang=en id=switch-lang-en class=footer-languages-item>English</a>
+<a tabindex=-1 lang=zh id=switch-lang-zh class="footer-languages-item active"><svg class="icon tick"><use xlink:href="/v1.19/img/icons.svg#tick"/></svg>中文</a></div></div><ul class=footer-policies><li class=footer-policies-item><a class=footer-policies-link href=https://www.linuxfoundation.org/legal/terms>条款</a> |
+<a class=footer-policies-link href=https://www.linuxfoundation.org/legal/privacy-policy>隐私政策</a> |
+<a class=footer-policies-link href=https://github.com/istio/istio.io/edit/release-1.19/content/zh/blog/2023/dlb-connection-balancing/index.md>在 GitHub 上编辑此页</a></li></ul><div class=footer-base><span class=footer-base-copyright>&copy; 2023 the Istio Authors.</span>
+<span class=footer-base-version>部分内容可能滞后于英文版本，同步工作正在进行中<br>版本
+Istio 归档
+1.19.4</span><ul class=footer-base-releases><li class=footer-base-releases-item><a tabindex=-1 class=footer-base-releases-link onclick='return navigateToUrlOrRoot("https://istio.io/blog/2023/dlb-connection-balancing/"),!1'>当前版本</a></li><li class=footer-base-releases-item><a tabindex=-1 class=footer-base-releases-link onclick='return navigateToUrlOrRoot("https://preliminary.istio.io/blog/2023/dlb-connection-balancing/"),!1'>下个版本</a></li><li class=footer-base-releases-item><a tabindex=-1 class=footer-base-releases-link href=https://istio.io/archive>旧版本</a></li></ul></div></div></footer><div id=scroll-to-top-container aria-hidden=true><button id=scroll-to-top title=回到顶部 tabindex=-1><svg class="icon top"><use xlink:href="/v1.19/img/icons.svg#top"/></svg></button></div></body></html>

@@ -8,7 +8,7 @@ layout: protoc-gen-docs
 generator: protoc-gen-docs
 schema: istio.networking.v1alpha3.DestinationRule
 aliases: [/docs/reference/config/networking/v1alpha3/destination-rule]
-number_of_entries: 23
+number_of_entries: 25
 ---
 <p><code>DestinationRule</code> defines policies that apply to traffic intended for a
 service after routing has occurred. These rules specify configuration
@@ -368,6 +368,17 @@ No
 <p>Configuration of tunneling TCP over other transport or application layers
 for the host configured in the DestinationRule.
 Tunnel settings can be applied to TCP or TLS routes and can&rsquo;t be applied to HTTP routes.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="TrafficPolicy-proxy_protocol">
+<td><code>proxyProtocol</code></td>
+<td><code><a href="#TrafficPolicy-ProxyProtocol">ProxyProtocol</a></code></td>
+<td>
+<p>The upstream PROXY protocol settings.</p>
 
 </td>
 <td>
@@ -1436,6 +1447,33 @@ Yes
 </tbody>
 </table>
 </section>
+<h2 id="TrafficPolicy-ProxyProtocol">TrafficPolicy.ProxyProtocol</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="TrafficPolicy-ProxyProtocol-version">
+<td><code>version</code></td>
+<td><code><a href="#TrafficPolicy-ProxyProtocol-VERSION">VERSION</a></code></td>
+<td>
+<p>The PROXY protocol version to use. See <a href="https://www.haproxy.org/download/2.1/doc/proxy-protocol.txt">https://www.haproxy.org/download/2.1/doc/proxy-protocol.txt</a> for details.
+By default it is <code>V1</code>.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
 <h2 id="LoadBalancerSettings-ConsistentHashLB">LoadBalancerSettings.ConsistentHashLB</h2>
 <section>
 <p>Consistent Hash-based load balancing can be used to provide soft
@@ -2002,6 +2040,33 @@ No
 </td>
 <td>
 No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="TrafficPolicy-ProxyProtocol-VERSION">TrafficPolicy.ProxyProtocol.VERSION</h2>
+<section>
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="TrafficPolicy-ProxyProtocol-VERSION-V1">
+<td><code>V1</code></td>
+<td>
+<p>⁣PROXY protocol version 1. Human readable format.</p>
+
+</td>
+</tr>
+<tr id="TrafficPolicy-ProxyProtocol-VERSION-V2">
+<td><code>V2</code></td>
+<td>
+<p>⁣PROXY protocol version 2. Binary format.</p>
+
 </td>
 </tr>
 </tbody>

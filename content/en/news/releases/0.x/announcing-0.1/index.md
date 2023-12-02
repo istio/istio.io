@@ -16,7 +16,7 @@ aliases:
 ---
 
 Google, IBM, and Lyft are proud to announce the first public release of [Istio](/): an open source project that provides a uniform way to connect, secure, manage and monitor microservices. Our current release is targeted at the [Kubernetes](https://kubernetes.io/) environment; we intend to add support for other environments such as virtual machines and Cloud Foundry in the coming months.
-Istio adds traffic management to microservices and creates a basis for value-add capabilities like security, monitoring, routing, connectivity management and policy.  The software is built using the battle-tested [Envoy](https://envoyproxy.github.io/envoy/) proxy from Lyft, and gives visibility and control over traffic *without requiring any changes to application code*. Istio gives CIOs a powerful tool to enforce security, policy and compliance requirements across the enterprise.
+Istio adds traffic management to microservices and creates a basis for value-add capabilities like security, monitoring, routing, connectivity management and policy.  The software is built using the battle-tested {{<gloss envoy>}}Envoy{{</gloss>}} proxy from Lyft, and gives visibility and control over traffic *without requiring any changes to application code*. Istio gives CIOs a powerful tool to enforce security, policy and compliance requirements across the enterprise.
 
 ## Background
 

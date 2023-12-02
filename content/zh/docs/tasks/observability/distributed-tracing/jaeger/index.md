@@ -47,7 +47,7 @@ $ istioctl dashboard jaeger
 
     {{< boilerplate trace-generation >}}
 
-1. 从仪表盘左边面板的 **Service** 下拉列表中选择 `productpage` 并点击
+1. 从仪表盘左边面板的 **Service** 下拉列表中选择 `productpage.default` 并点击
     **Find Traces**：
 
     {{< image link="./istio-tracing-list.png" caption="Tracing Dashboard" >}}

@@ -1,5 +1,5 @@
 ---
-title: Announcing Istio 1.19.0
+title: 发布 Istio 1.19.0
 linktitle: 1.19.0
 subtitle: 大版本更新
 description: Istio 1.19 发布公告。

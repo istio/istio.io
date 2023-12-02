@@ -8,8 +8,10 @@ owner: istio/wg-networking-maintainers
 test: n/a
 ---
 
-Istio 非常重要的一个功能是能够锁定并且保护网格内的来往流量。然而配置 TLS 设置可能会令人困惑，并且是配置错误的常见来源。这篇文章尝试去说明在 Istio 内发送请求时，其涉及到的各种相关联系，以及怎样去配置其 TLS 的相关设置。
-参考[TLS 配置错误](/zh/docs/ops/common-problems/network-issues/#tls-configuration-mistakes)，该文章总结了一些 TLS 配置的常见问题。
+Istio 非常重要的一个功能是能够锁定并且保护网格内的来往流量。然而配置 TLS 设置可能会令人困惑，并且是配置错误的常见来源。
+这篇文章尝试去说明在 Istio 内发送请求时，其涉及到的各种相关联系，以及怎样去配置其 TLS 的相关设置。
+参考 [TLS 配置错误](/zh/docs/ops/common-problems/network-issues/#tls-configuration-mistakes)，
+该文章总结了一些 TLS 配置的常见问题。
 
 ## Sidecars
 
@@ -26,8 +28,9 @@ Sidecar 流量有各种相关的连接，让我们一个个把它们分解开。
     这是被 Sidecar 捕获的来自外部客户端的流量。
     如果客户端在网格外面，该流量可能被 Istio 双向 TLS 加密。
     Sidecar 默认配置 `PERMISSIVE` （宽容）模式：接受 mTLS 和 non-mTLS 的流量。
-    该模式能够变更为 `STRICT` （严格）模式，该模式下的流量流量必须是 mTLS；或者变更为 `DISABLE` （禁用）模式，该模式下的流量必须为明文。
-    mTLS 模式使用 [`PeerAuthentication` 资源](/zh/docs/reference/config/security/peer_authentication/) 配置。
+    该模式能够变更为 `STRICT` （严格）模式，该模式下的流量流量必须是 mTLS；或者变更为 `DISABLE` （禁用）模式，
+    该模式下的流量必须为明文。mTLS 模式使用
+    [`PeerAuthentication` 资源](/zh/docs/reference/config/security/peer_authentication/)配置。
 
 1. **内部入站流量**
     这是从 Sidecar 流出并引入您的应用服务的流量。流量会保持原样转发。
@@ -37,13 +40,13 @@ Sidecar 流量有各种相关的连接，让我们一个个把它们分解开。
 1. **内部出站流量**
     这是被 Sidecar 拦截的来自您的应用服务的流量。
     您的应用可能发送明文或者 TLS 的流量。
-    如果 [自动选择协议](/zh/docs/ops/configuration/traffic-management/protocol-selection/#automatic-protocol-selection) 已开启，Istio 将能够自动地选择协议。
+    如果[自动选择协议](/zh/docs/ops/configuration/traffic-management/protocol-selection/#automatic-protocol-selection)已开启，Istio 将能够自动地选择协议。
     否则您可以在目标服务内使用端口名[手动指定协议](/zh/docs/ops/configuration/traffic-management/protocol-selection/#explicit-protocol-selection)。
 
 1. **外部出站流量**
     这是离开 Sidecar 到一些外部目标的流量。流量会报错原样转发，也可以启动一个 TLS 连接（mTLS 或者标准 TLS）。
     这可以通过 [`DestinationRule` 资源](/zh/docs/reference/config/networking/destination-rule/)中的 `trafficPolicy` 来控制使用的 TLS 模式。
-    模式设置为 `DISABLE` 将发生明文，而 `SIMPLE`，`MUTUAL`，和 `ISTIO_MUTUAL` 模式将会发起一个 TLS 连接。
+    模式设置为 `DISABLE` 将发生明文，而 `SIMPLE`、`MUTUAL` 和 `ISTIO_MUTUAL` 模式将会发起一个 TLS 连接。
 
 关键要点是：
 
@@ -58,7 +61,8 @@ Sidecar 流量有各种相关的连接，让我们一个个把它们分解开。
 在可能的情况下，只将明文发送到不属于网格的工作负载（即没有 Sidecar 的工作负载）。
 
 Istio 通过名为“自动 mTLS”的功能使得配置更改容易。自动 mTLS 将原理如下：
-如果在 `DestinationRule` 中没有明确配置 TLS 设置，Sidecar 将会自动选择是否发送 [Istio 双向 TLS](/zh/about/faq/#difference-between-mutual-and-istio-mutual)。
+如果在 `DestinationRule` 中没有明确配置 TLS 设置，Sidecar 将会自动选择是否发送
+[Istio 双向 TLS](/zh/about/faq/#difference-between-mutual-and-istio-mutual)。
 这意味着没有任何配置，所有网格内部的流量将会被 mTLS 加密。
 
 ## 网关{#gateways}

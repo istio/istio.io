@@ -199,7 +199,25 @@ spec:
 <p>Optional. The selector decides where to apply the Telemetry policy.
 If not set, the Telemetry policy will be applied to all workloads in the
 same namespace as the Telemetry policy.</p>
-<p>At most one of the selector and targetRef can be set.</p>
+<p>At most, only one of the selector or targetRef can be set for a given policy.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Telemetry-targetRef">
+<td><code>targetRef</code></td>
+<td><code><a href="/zh/docs/reference/config/type/workload-selector/#PolicyTargetReference">PolicyTargetReference</a></code></td>
+<td>
+<p>Optional. The targetRef specifies the gateway the policy should be
+applied to. The targeted resource specified will determine which
+workloads the telemetry policy applies to. The targeted resource
+must be a k8s gateway. The resource must be in the same namespace as
+the Telemetry policy.</p>
+<p>If not set, the policy is applied as defined by the selector.
+At most, only one of the selector or targetRef can be set for a given policy.
+Waypoint proxies will not respect selectors even if they match.</p>
 
 </td>
 <td>
@@ -727,7 +745,7 @@ No
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 </tbody>
@@ -753,7 +771,7 @@ No
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 <tr id="Tracing-Environment-default_value">
@@ -791,7 +809,7 @@ No
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 <tr id="Tracing-RequestHeader-default_value">
@@ -914,6 +932,7 @@ No
 <ul>
 <li><code>response.code &gt;= 400</code></li>
 <li><code>connection.mtls &amp;&amp; request.url_path.contains('v1beta3')</code></li>
+<li><code>!has(request.useragent) || !(request.useragent.startsWith(&quot;Amazon-Route53-Health-Check-Service&quot;))</code></li>
 </ul>
 
 </td>
