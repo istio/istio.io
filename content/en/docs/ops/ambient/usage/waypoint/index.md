@@ -13,6 +13,14 @@ Please **do not run ambient in production** and be sure to thoroughly review the
 In particular, there are known performance, stability, and security issues in the `alpha` release. There are also functional caveats some of which are listed in the [Caveats section](#caveats) of this guide. There are also planned breaking changes, including some that will prevent upgrades. These are all limitations that will be addressed before graduation to `beta`. The current version of this guide is meant to assist early deployments and testing of the alpha version of `ambient`. The guide will continue to get updated as `ambient` itself evolves from alpha to beta status and beyond. 
 {{< /warning >}}
 
+## Introduction
+
+This guide provides instructions on how to set up and use the Waypoint proxy layer in Istio Ambient Mesh.
+
+Istio Ambient Mesh is a new way to deploy and manage microservices. In Ambient Mesh, workloads are no longer required to run sidecar proxies to participate in the service mesh. Ambient splits Istio’s functionality into two distinct layers, a secure overlay layer and a Layer 7 processing layer.
+
+Ztunnel proxy is used to handle L3 and L4 networking functions, such as mTLS authentication and L4 authorization. For workloads that require L7 networking features, such as HTTP load balancing and fault injection, a waypoint proxy can be deployed. The waypoint proxy is an optional component that is Envoy-based and is responsible for terminating workload HTTP traffic and parsing workload HTTP headers. They also enforce L7 policies and collect L7 metrics.
+
 {{<tip>}}
 
 <!-- Pre-requisites & Supported Topologies -->
@@ -24,26 +32,13 @@ Before you begin, make sure that you have already read the [Ztunnel Networking s
 
 {{</tip>}}
 
-<!-- to include in future: 
-1. The waypoint proxy can be deployed to scale dynamically using HPAs.
-2. L7 traffic routing is handled via the Waypoint proxy. The waypoint proxy is currently based on Envoy. The waypoint proxy can be deployed to scale dynamically using HPAs.
- -->
-
-## Introduction
-
-This guide provides instructions on how to set up and use the Waypoint proxy layer in Istio Ambient Mesh.
-
-Istio Ambient Mesh is a new way to deploy and manage microservices. In Ambient Mesh, workloads are no longer required to run sidecar proxies to participate in the service mesh. Ambient splits Istio’s functionality into two distinct layers, a secure overlay layer and a Layer 7 processing layer.
-
-Ztunnel proxy is used to handle L3 and L4 networking functions, such as mTLS authentication and L4 authorization. For workloads that require L7 networking features, such as HTTP load balancing and fault injection, a waypoint proxy can be deployed. The waypoint proxy is an optional component that is Envoy-based and is responsible for terminating workload HTTP traffic and parsing workload HTTP headers. They also enforce L7 policies and collect L7 metrics.
-
 This guide describes the functionality and usage of the waypoint proxy and L7 networking functions using Istio Ambient Mesh. We use a sample user journey to describe these functions hence it would be useful to go through this guide in sequence. However we provide links to the sections below in case the reader would like to jump to the appropriate section.
 
 * [Introduction](#introduction)
-* [Deciding if you need A Waypoint proxy](#deciding-if-you-need-a-waypoint-proxy)
+* [Deciding if you need A Waypoint Proxy](#deciding-if-you-need-a-waypoint-proxy)
 * [Current Challenges](#current-challenges)
-* [Differences between Sidecar Mode and Ambient Mode for Waypoint Proxy](#differences)
-* [Deciding the scope of your Waypoint proxy](#differences-between-sidecar-mode-and-ambient-mode-for-waypoint-proxy)
+<!-- * [Differences between Sidecar Mode and Ambient Mode for Waypoint Proxy](#differences) -->
+* [Deciding the scope of your Waypoint Proxy](#Deciding-the-scope-of-your-Waypoint-Proxy)
 * [Functional Overview](#functional-overview)
 * [Deploying an Application](#deploying-an-application)
 * [Configuring Waypoint proxy](#configuring-waypoint-proxy)
@@ -51,30 +46,37 @@ This guide describes the functionality and usage of the waypoint proxy and L7 ne
 * [L7 Fault Injection](#l7-fault-injection)
 * [L7 Observability](#l7-observability)
 * [L7 Authorization Policy](#l7-authorization-policy)
+* [Co-existence of Ambient/ L7 with Side car proxies](#Co-existence-of-Ambient/-L7-with-Side-car-proxies)
 * [Control Traffic towards Waypoint Proxy](##control-traffic-towards-waypoint-proxy)
 * [Remove Waypoint proxy layer](#remove-waypoint-proxy-layer)
 
-## Deciding if you need A Waypoint proxy
+# Deciding if you need A Waypoint proxy
 
-<<addition of a paragraph>>
+It's possible that the features offered by the secure overlay doesn’t meet your requirements. For instance, you need a rich Layer 7 authorization policy that sets up access based on a certain method and path. Alternatively you may like to conduct a canary test on the updated version of your service or introduce a new version without affecting current traffic. Or, you would like to receive metrics, HTTP access logs, and distributed tracing for some of your services. In order to accomplish these common cases, we'll go over how you can choose to enforce L7 processing with ambient mesh in this section.
 
-### Benefits of using the waypoint proxy and L7 networking features
+## Benefits of using the waypoint proxy and L7 networking features
+
+In summary, the waypoint proxy approach for the L7 processing layer offers the following three main advantages:
+
+- Security - Rich L7 authorization policy
+- Observability - HTTP metrics, access logs, and tracing
+- Traffic management - Dark launch, canary test
 
 The waypoint proxy and L7 networking features provide a number of benefits, including:
 
-1. Improved performance and scalability: Waypoint proxies are designed to be lightweight and efficient, which can improve the performance and scalability of your microservices architecture.
-2. Increased flexibility: The waypoint proxy allows you to implement a wide range of L7 networking features, such as HTTP load balancing, fault injection, and observability.
-3. Simplified operations: By deploying a waypoint proxy, you can simplify the operation of your microservices architecture by reducing the number of components that need to be managed.
+- Improved performance and scalability: Waypoint proxies are designed to be lightweight and efficient, which can improve the performance and scalability of your microservices architecture.
+- Increased flexibility: The waypoint proxy allows you to implement a wide range of L7 networking features, such as HTTP load balancing, fault injection, and observability.
+- Simplified operations: By deploying a waypoint proxy, you can simplify the operation of your microservices architecture by reducing the number of components that need to be managed.
 
-### When to use the waypoint proxy and L7 networking features
+## When to use the waypoint proxy and L7 networking features
 
 You should consider using the waypoint proxy and L7 networking features if your microservices architecture requires any of the following:
 
-1. L7 load balancing and routing: You need to distribute traffic across multiple instances of a workload based on factors such as request path, header values, or cookies.
-2. Waypoint provides a variety of L7 load balancing and routing algorithms, including round robin, weighted round robin, and least connections. It also supports path-based routing and other advanced routing rules.
-3. L7 fault injection: You need to simulate faults in your microservices architecture such as delays, errors, and circuit breaks to test its resilience and prepare for real-world failures.
-4. Rate limiting: You need to protect workloads against denial-of-service attacks and improve performance.
-5. L7 observability: You need to collect metrics and traces from your microservices architecture to monitor its performance and troubleshoot problems.
+- L7 load balancing and routing: You need to distribute traffic across multiple instances of a workload based on factors such as request path, header values, or cookies.
+Waypoint provides a variety of L7 load balancing and routing algorithms, including round robin, weighted round robin, and least connections. It also supports path-based routing and other advanced routing rules.
+- L7 fault injection: You need to simulate faults in your microservices architecture such as delays, errors, and circuit breaks to test its resilience and prepare for real-world failures.
+- Rate limiting: You need to protect workloads against denial-of-service attacks and improve performance.
+- L7 observability: You need to collect metrics and traces from your microservices architecture to monitor its performance and troubleshoot problems.
 
 ### Getting started with the waypoint proxy and L7 networking features
 
@@ -82,45 +84,234 @@ To get started with the waypoint proxy and L7 networking features, you will need
 
 This guide will provide more detailed instructions on how to deploy and configure the waypoint proxy and L7 networking features.
 
-## Current Challenges
+# Current Challenges: #current-challenges
 
-<<TODO>>
+<<Need to work more>>
 
-### Environment used for this guide
+Waypoint only supports Ambient workloads. It does not support sidecar proxy workloads. In addition to this general caveats, there are also some specific caveats to be aware of when using Waypoint with certain protocols:
 
-For the examples in this guide, we used a deployment of Istio version `1.19.0`` on a `kinD` cluster of version `0.20.0 running Kubernetes version `1.27.3`. However these should also work on any Kubernetes cluster at version `1.24.0` or later and Istio version `1.18.0` or later. It would be recommended to have a cluster with more than 1 worker node in order to fully exercise the examples described in this guide. Refer to the installation user guide or Getting started guide information on installing Istio in ambient mode on a Kubernetes cluster.
+- HTTP: Waypoint does not support all HTTP features, such as HTTP/2 and chunked encoding.
+- gRPC: Waypoint does not support all gRPC features, such as HTTP/2 transport and protocol multiplexing.
+- WebSocket: Waypoint does not support WebSocket.
 
-## Differences between Sidecar Mode and Ambient Mode for Waypoint Proxy
+Despite these caveats, Waypoint is a powerful tool for enabling L7 networking and services for Istio Ambient workloads. It is a good choice for users who are looking for a way to run microservices-based applications in Ambient mode.
 
-## Deciding the scope of your Waypoint proxy
+Here is a table summarizing the caveats of Waypoint:
 
-<!-- The  two-layer  architecture  also  enables  a  more  granular  transition
-from no mesh or sidecar to the secure overlay layer (on a pod level,
-namespace  level,  or  mesh  level)  to  the  L7  processing  layer  (on  a
-service account level or namespace level). -->
+| Caveat | Description |
+| ------------- | ------------- |
+| Maturity | Waypoint is still under development |
+| Features | Waypoint only supports L7 load balancing and routing |
+|Integration | Waypoint is not yet fully integrated with the Istio control plane | Support | Waypoint only supports Ambient workloads | HTTP | Waypoint does not support all HTTP features | 
+gRPC | Waypoint does not support all gRPC features | Websocket | Waypoint does not support WebSocket |
 
-<< per workload level or Namespace or service account >>
+In addition to these caveats, it is also important to note that Waypoint is a new feature, and it is not yet as mature as Istio's sidecar proxy. As a result, users may experience some performance or stability issues when using Waypoint. However, the Ambient mesh team is actively working to address these issues, and they are committed to making Waypoint a production-ready feature.
 
-In ambient, all policies are enforced by the destination waypoint. In many ways, the waypoint acts as a gateway into the namespace (default scope) or service account. Istio enforces that all traffic coming into the namespace goes through the waypoint, which then enforces all policies for that namespace. Because of this, each waypoint only needs to know about configuration for its own namespace
+Overall, Waypoint is a powerful tool for enabling L7 networking and services for Istio Ambient workloads. However, users should be aware of the caveats and limitations listed above before deploying Waypoint in production.
+
+## Environment used for this guide
+
+For the examples in this guide, we used a deployment of Istio version `1.19.0` on a `kinD` cluster of version `0.20.0` running Kubernetes version `1.27.3`. However these should also work on any Kubernetes cluster at version `1.24.0` or later and Istio version `1.18.0` or later. It would be recommended to have a cluster with more than 1 worker node in order to fully exercise the examples described in this guide. Refer to the [Installation user](https://deploy-preview-13635--preliminary-istio.netlify.app/latest/docs/ops/ambient/usage/install/) guide or [Getting started guide](https://deploy-preview-13635--preliminary-istio.netlify.app/latest/docs/ops/ambient/getting-started/) on installing Istio in ambient mode on a Kubernetes cluster.
+
+# Deciding the scope of your Waypoint proxy
+
+Waypoint proxies can be deployed at the namespace or service account level. The scope you choose depends on your specific needs and requirements.
+
+## Namespace-level scope
+
+Deploying Waypoint proxies at the namespace level provides a number of benefits, including:
+- Simplified policy management: Policies are enforced at the namespace level, so you only need to define them once for all workloads in the namespace.
+- Improved performance: Waypoint proxies can cache routing and policy information, which can improve performance for workloads in the namespace.
+- Increased security: Waypoint proxies can enforce authorization policies at the namespace level, which can help to protect your workloads from unauthorized access.
+
+However, deploying Waypoint proxies at the namespace level also has some drawbacks, including:
+- Limited granularity: You cannot apply different policies to different workloads in the same namespace.
+- Increased resource consumption: Each namespace will require its own Waypoint proxy, which can consume more resources.
+
+## Service account-level scope
+
+Deploying Waypoint proxies at the service account level provides a number of benefits, including:
+- Increased granularity: You can apply different policies to different workloads based on their service account.
+- Reduced resource consumption: You only need to deploy a Waypoint proxy for each service account that has workloads that require L7 routing or policy enforcement.
+
+However, deploying Waypoint proxies at the service account level also has some drawbacks, including:
+
+- Increased complexity: Managing policies at the service account level can be more complex, especially if you have a large number of service accounts.
+- Reduced caching: Waypoint proxies cannot cache routing and policy information at the service account level, which can reduce performance.
+
+## How to choose the right scope for your Waypoint proxies
+
+The best scope for your Waypoint proxies will depend on your specific needs and requirements. If you have a simple application with a small number of workloads, then namespace-level scope may be a good choice. However, if you have a more complex application with a large number of workloads or if you need to apply different policies to different workloads, then service account-level scope may be a better choice.
+
+Here are some factors to consider when choosing the scope for your Waypoint proxies:
+- The number of workloads in your application
+- The complexity of your application
+- The need to apply different policies to different workloads
+- The performance requirements of your application
+- The resource requirements of your application
+
+# Functional Overview
+
+The functional behaviour of the waypoint proxy is dynamically configured by Istio to serve your applications configurations. This section takes a brief look at these functional aspects - detailed description of the internal design of the waypoint proxy is out of scope for this guide. The detailed functional overview from the Secure Overlay Networking was already discussed in the [Ztunnel L4 Networking Guide](https://deploy-preview-13635--preliminary-istio.netlify.app/latest/docs/ops/ambient/usage/ztunnel/#functionaloverview) hence this section only focuses on functionalities and features that Waypoint Proxy provides.
+
+<<image>>
+
+What is unique about the waypoint proxy is that it runs either per-namespace (default) or per-service account. By running outside of the application pod, a waypoint proxy can install, upgrade, and scale independently from the application pod, providing a centralized approach to managing L7 traffic and enforcing policies as well as reduce operational costs.
+
+Upon deployment of a gateway resource using the `kubectl apply` command, Istio's control plane, IstioD, assumes the role of the Waypoint controller. Recognizing the gateway resource with the "istio.io/waypoint" gateway class name, istiod automatically deploys the Waypoint proxy based on the specified configuration in the gateway resource.
+
+The waypoint proxy's data plane operates at Layer 7, enabling it to fully parse connections into individual requests and apply policies based on request properties such as headers and credentials. This granular control over L7 traffic extends to a comprehensive suite of capabilities, including:
+- HTTP 1.x, 2, or 3
+- Request routing
+- Advanced load balancing
+- Request mirroring
+- Fault injection
+- Request retries
+- gRPC-specific capabilities
+
+Waypoint proxies are deployed either per-namespace or per-service account, providing granular control over L7 traffic management. This deployment model allows for independent scaling of waypoint proxies based on the request load for individual workloads. Unlike the traditional sidecar deployment approach, waypoint proxies can be scaled independently to better fit the incoming traffic for a service and match the actual workload usage, optimizing resource utilization and improving performance. You can think of these waypoint proxies as individual gateways per workload type as shown here - 
+
+<<image>>
+
+The deployment of waypoint proxies can be handled by namespace owners, platform operators, or automated systems. Once a waypoint proxy is deployed, and a corresponding L7 policy is configured for a destination represented by the waypoint proxy, the secure overlay layer ensures that connection is routed to the correct L7 waypoint proxy for processing and policy enforcement as shown here - 
+
+<<image>>
+
+Tenancy for Layer 7 capabilities in the Istio ambient mesh is similar to the sidecar deployment model. L7 capabilities are not shared across multiple identities within a single L7 proxy. Each application has its own dedicated waypoint proxy, ensuring isolation of configuration and extensions (plug-ins, extensions, etc.) specific to individual workloads. This isolation prevents interference between workloads and facilitates independent management of L7 configurations.
+
+Functionally, the Waypoint proxy resembles the sidecar proxy but operates independently of application pods. It has its own CA client and XDS client, enabling secure communication with istioD. To obtain its identity certificate, the Waypoint proxy establishes a secure connection with istioD, requesting certification. Upon validating the presented token, istioD signs the Waypoint proxy's certificate, granting it access to the Istio control plane.
+
+Subsequently, the Waypoint proxy initiates communication with istioD, requesting XDS configuration to govern its operation. This configuration defines the L7 routing rules, policy enforcement mechanisms, and other parameters essential for managing L7 traffic.
+
+In essence, the Waypoint proxy serves as an L7 traffic management hub, decoupled from application pods and centrally managed by istioD. This architecture simplifies L7 configuration and policy enforcement, enabling efficient and scalable L7 services within Istio Ambient deployments as shown in the figure - 
+
+<<image>>
+
+## Destination Only Waypoint
+
+In contrast to traditional sidecar proxies, which reside alongside application pods, Waypoint proxies operate solely on the server-side, acting as reverse proxies for L7 traffic. This approach streamlines L7 traffic management by centralising policy enforcement to the destination workload's namespace or service account.
+
+When a request originates from an application pod, it bypasses the client-side Waypoint proxy and directly reaches the server-side Waypoint proxy associated with the destination workload's namespace or service account. Istio enforces that all traffic coming into the namespace goes through the waypoint, which then enforces all policies for that namespace. Because of this, each waypoint only needs to know about configuration for its own namespace. Thus Waypoint proxy assumes responsibility for enforcing all L7 policies and routing rules applicable to the destination workload.
+
+<<image>>
+
+Destination-only Waypoint simplifies the configuration process by eliminating the need for sidecar proxies and "exportTo" configurations. Waypoint proxies only need to be aware of the endpoints, pods, and workloads within their respective namespaces or service accounts. This streamlined approach reduces the complexity of L7 management and enables a more efficient use of resources.
+
+<<image>>
+
+- **Policy Enforcement**: In traditional Istio deployments, both source-side and destination-side policies were employed, which often led to confusion for users regarding policy enforcement and troubleshooting. Destination-only Waypoint simplifies this process by enforcing all policies exclusively at the destination workload's namespace or service account. This centralized approach eliminates the need to track policies across multiple locations, making it easier to understand, manage, and troubleshoot L7 security configurations.
+
+<<image>>
+
+- **Mixed Environment**: In a mixed environment where clients may reside inside or outside the Istio mesh, destination-only Waypoint ensures consistent policy enforcement regardless of the client's location. Since all policies are applied at the destination workload, users can be confident that security measures are consistently applied to all incoming traffic.
+
+<<image>>
+
+## Handling Destinations without Waypoint Proxies
+
+While destination-only Waypoint offers centralized policy enforcement and simplified configuration, there may be instances where the destination workload doesn't have a waypoint proxy deployed. This could arise when connecting to external services beyond the control of the Istio mesh.
+
+To address this scenario, the Istio community is actively developing mechanisms to route traffic to the egress gateway and enable policy enforcement for destinations without waypoint proxies. This functionality will allow users to configure resilience-enhancing policies, such as timeouts, for external services.
+
+Please stay tuned for future blog posts and documentation updates that will provide detailed information on this evolving feature.
+
+# Deploying an Application
+
+When someone with Istio admin privileges sets up Istio mesh, it becomes available for all users in specific namespaces. The examples below shows how Istio can be used transparently once it's successfully deployed in ambient mode and the namespaces are annotated accordingly.
+
+## Basic application deployment without Ambient
+
+In this guide, we'll work with the sample [bookinfo application](https://istio.io/latest/docs/examples/bookinfo/) that comes with Istio. If you've downloaded Istio, you already have it. In ambient mode, deploying apps to your Kubernetes cluster is just like doing it without Istio. You can have your apps running in the cluster before turning on ambient mesh. They can seamlessly join the mesh without any need for restarting or reconfiguring.
+
+{{< warning >}} 
+Make sure the default namespace does not include the label `istio-injection=enabled` because when using ambient you do not want Istio to inject sidecars into the application pods.
+ {{</ warning >}}
+
+1. Deploy Sample Services
+
+{{< text bash >}}
+$ kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
+{{< /text >}}
+
+{{< text bash >}}
+$ kubectl apply -f samples/sleep/sleep.yaml
+$ kubectl apply -f samples/sleep/notsleep.yaml
+{{< /text >}}
+
+2. Deploy an Ingress Gateway and a Virtual Service - 
+This allows you to access the bookinfo app from outside the cluster
+
+{{< tip >}}
+To get IP address assignment for `Loadbalancer` service types in `kinD`, you may need to install a tool like [MetalLB](https://metallb.universe.tf/). Please consult [this guide](https://kind.sigs.k8s.io/docs/user/loadbalancer/) for more information.
+{{< /tip >}}
+
+{{< tabset category-name="config-api" >}}
+
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
+
+Create an Istio [Gateway](/docs/reference/config/networking/gateway/) and
+[VirtualService](/docs/reference/config/networking/virtual-service/):
+
+{{< text bash >}}
+$ kubectl apply -f @samples/bookinfo/networking/bookinfo-gateway.yaml@
+{{< /text >}}
+
+Set the environment variables for the Istio ingress gateway:
+
+{{< text bash >}}
+$ export GATEWAY_HOST=istio-ingressgateway.istio-system
+$ export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/istio-ingressgateway-service-account
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+Create a [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io%2fv1beta1.Gateway)
+and [HTTPRoute](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1beta1.HTTPRoute):
+
+{{< text bash >}}
+$ sed -e 's/from: Same/from: All/'\
+      -e '/^  name: bookinfo-gateway/a\
+  namespace: istio-system\
+'     -e '/^  - name: bookinfo-gateway/a\
+    namespace: istio-system\
+' @samples/bookinfo/gateway-api/bookinfo-gateway.yaml@ | kubectl apply -f -
+{{< /text >}}
+
+Set the environment variables for the Kubernetes gateway:
+
+{{< text bash >}}
+$ kubectl wait --for=condition=programmed gtw/bookinfo-gateway -n istio-system
+$ export GATEWAY_HOST=bookinfo-gateway-istio.istio-system
+$ export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/bookinfo-gateway-istio
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
 
 
-#### Additional Notes
+3. Test your bookinfo application, it should work with or without the gateway:
 
-* The Waypoint Proxy layer can coexist with sidecar proxies in the same cluster. This allows you to use Waypoint proxy for services that require L7 functionality and sidecar proxies for services that do not.
-* Waypoint proxy is implemented using Envoy. This means that you can use all of the features of Envoy in your Waypoint Proxies.
-* Waypoint proxy is still under development, but it is already a powerful tool for managing L7 traffic in Istio Ambient Mesh.
+    {{< text syntax=bash snip_id=verify_traffic_sleep_to_ingress >}}
+    $ kubectl exec deploy/sleep -- curl -s "http://$GATEWAY_HOST/productpage" | grep -o "<title>.*</title>"
+    <title>Simple Bookstore App</title>
+    {{< /text >}}
 
-For the examples in this guide, we used a deployment of Istio Ambient on a `kinD` cluster, although these should apply for any Kubernetes cluster version 1.18.0 or later. Refer to the Getting started guide on how to download the `istioctl` client and how to deploy a `kinD` cluster. It would be recommended to have a cluster with more than 1 worker node in order to fully exercise the examples described in this guide. 
+    {{< text syntax=bash snip_id=verify_traffic_sleep_to_productpage >}}
+    $ kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
+    <title>Simple Bookstore App</title>
+    {{< /text >}}
 
-## Functional Overview
+    {{< text syntax=bash snip_id=verify_traffic_notsleep_to_productpage >}}
+    $ kubectl exec deploy/notsleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
+    <title>Simple Bookstore App</title>
+    {{< /text >}}
 
-<<A figure showing an architecture summary of Waypoint proxy.>>
+## Enabling Ambient Mesh
 
-<<TODO>>
-
-## Deploying an Application
-
-Lets first deploy a sample application composed of four separate microservices used to demonstrate various L7 feature without making it part of the Istio ambient mesh. We can pick from the apps in the samples folder of the istio repository. Execute the following examples from the top of a local Istio repository or istio folder created by downloading the istioctl client as described in istio guides.
+<!-- Lets first deploy a sample application composed of four separate microservices used to demonstrate various L7 feature without making it part of the Istio ambient mesh. We can pick from the apps in the samples folder of the istio repository. Execute the following examples from the top of a local Istio repository or istio folder created by downloading the istioctl client as described in istio guides.
 
 {{< text bash >}}
 $ code for bookinfo
@@ -450,4 +641,4 @@ If you installed the Gateway API CRDs for Waypoint proxy, remove them:
 
 {{< text bash >}}
 $ kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref={{< k8s_gateway_api_version >}}" | kubectl delete -f -
-{{< /text >}}
+{{< /text >}} -->
