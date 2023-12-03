@@ -1,1 +1,206 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 773.19 584.32"><defs><style>.a898c3a8-e4f1-42b3-ab4c-53464259dba1,.ab8f4c5f-abbd-419a-b2f9-be359bf77f4a,.b03e2be6-f80d-46bc-a444-12b614e430fd,.b2ddb76a-9f78-421a-b82c-637fe18816e2,.b96e14af-acda-4a46-a38c-736421bf2a0a{fill:none}.a898c3a8-e4f1-42b3-ab4c-53464259dba1,.b03e2be6-f80d-46bc-a444-12b614e430fd,.b96e14af-acda-4a46-a38c-736421bf2a0a{stroke-linejoin:round}.acd1fcb7-c7dd-459b-8dd4-430b2db5ec69,.bfc0c7ce-22cb-46e8-ac34-44feb6607930{font-family:Roboto-Regular,Roboto}.acd1fcb7-c7dd-459b-8dd4-430b2db5ec69{font-size:14.62px}.a898c3a8-e4f1-42b3-ab4c-53464259dba1{stroke:#666;stroke-width:2px}.ab8f4c5f-abbd-419a-b2f9-be359bf77f4a,.b96e14af-acda-4a46-a38c-736421bf2a0a{stroke-width:2px}.be101bb0-46dd-4b66-8766-88a0c553d283{fill:#e6e6e6}.af9ad130-8077-486c-b6b3-d263c2e9a34f{fill:#fff}.b03e2be6-f80d-46bc-a444-12b614e430fd{stroke:#e905ee;stroke-width:3px}.a4b0ffe2-51af-409d-873d-f24bd234c7c2,.bfc0c7ce-22cb-46e8-ac34-44feb6607930{font-size:15.75px}.af5b2a71-57e2-4b57-b893-8ffdb67d0ce1{letter-spacing:.01em}.b904c8fb-5cd7-4c6f-88d9-d8ed5b63d8f6{fill:#757575}.ab8f4c5f-abbd-419a-b2f9-be359bf77f4a,.b96e14af-acda-4a46-a38c-736421bf2a0a{stroke:#fff}.ab8f4c5f-abbd-419a-b2f9-be359bf77f4a{stroke-linecap:round;stroke-miterlimit:10}.b2ddb76a-9f78-421a-b82c-637fe18816e2{stroke-miterlimit:10}.fedf45f0-49d3-404f-b3da-f996dd6408d8{fill:#e5e5e4}.a4b0ffe2-51af-409d-873d-f24bd234c7c2{font-family:GoogleSans-Regular,Google Sans;letter-spacing:-.02em}.b483b729-8610-44b7-a133-80d0add2e607{letter-spacing:-.01em}.eddc2f64-ddab-46da-98d1-25b07bf4a597{letter-spacing:-.02em}.befe19ab-abba-4bda-80a4-13ad1e3d0876{letter-spacing:0}.a6b151db-f556-4f37-98ec-43f98b330f6a{fill:#486baf}.b2ddb76a-9f78-421a-b82c-637fe18816e2{stroke:#090;stroke-width:4px}.b42052a5-2e53-4e83-8d53-a80391206675{fill:#090}</style></defs><g id="aff93e7e-4d2a-468a-8c79-fd0c6e3dc8e1" data-name="multi-net"><rect x=".5" y="13.7" width="772.19" height="570.13" rx="10" stroke-linejoin="round" stroke="#466bb0" stroke-dasharray="10.03 10.03" fill="none"/><text transform="translate(.48 10.27)" font-family="Roboto-Regular,Roboto" font-size="12">Istio Mesh</text><text class="acd1fcb7-c7dd-459b-8dd4-430b2db5ec69" transform="translate(88.02 91.34)">Network 1</text><rect class="a898c3a8-e4f1-42b3-ab4c-53464259dba1" x="88.1" y="94.72" width="278.68" height="423.97" rx="10"/><text class="acd1fcb7-c7dd-459b-8dd4-430b2db5ec69" transform="translate(406.33 91.34)">Network 2</text><rect class="a898c3a8-e4f1-42b3-ab4c-53464259dba1" x="406.41" y="94.72" width="278.68" height="423.97" rx="10"/><rect class="be101bb0-46dd-4b66-8766-88a0c553d283" x="434.54" y="118.87" width="222.33" height="80.99" rx="3"/><rect class="af9ad130-8077-486c-b6b3-d263c2e9a34f" x="444.27" y="128.99" width="60.74" height="60.74" rx="3"/><path class="b03e2be6-f80d-46bc-a444-12b614e430fd" d="M489.56 167.97v-17.21l-14.92-8.61-14.91 8.61v17.21l14.91 8.6 14.92-8.6z"/><rect class="af9ad130-8077-486c-b6b3-d263c2e9a34f" x="515.14" y="128.99" width="131.61" height="60.74" rx="3"/><text class="bfc0c7ce-22cb-46e8-ac34-44feb6607930" transform="translate(574.14 164.81)">Se<tspan class="af5b2a71-57e2-4b57-b893-8ffdb67d0ce1" x="17.69" y="0">r</tspan><tspan x="23.15" y="0">vice A</tspan></text><circle class="b904c8fb-5cd7-4c6f-88d9-d8ed5b63d8f6" cx="545.51" cy="159.36" r="20.25"/><path class="b96e14af-acda-4a46-a38c-736421bf2a0a" d="M538.32 152.04h14.39v14.39h-14.39z"/><path class="ab8f4c5f-abbd-419a-b2f9-be359bf77f4a" d="M540.98 152.04v-3.47M545.51 152.04v-3.47M550.04 152.04v-3.47M540.98 170.15v-3.46M545.51 170.15v-3.46M550.04 170.15v-3.46M538.18 163.89h-3.46M538.18 159.36h-3.46M538.18 154.83h-3.46M556.3 163.89h-3.46M556.3 159.36h-3.46M556.3 154.83h-3.46"/><rect class="af9ad130-8077-486c-b6b3-d263c2e9a34f" x="542.31" y="156.03" width="6.39" height="6.39" rx="2"/><rect class="be101bb0-46dd-4b66-8766-88a0c553d283" x="116.23" y="118.87" width="222.33" height="80.99" rx="3"/><rect class="af9ad130-8077-486c-b6b3-d263c2e9a34f" x="125.96" y="128.99" width="131.61" height="60.74" rx="3"/><text class="bfc0c7ce-22cb-46e8-ac34-44feb6607930" transform="translate(184.96 164.81)">Se<tspan class="af5b2a71-57e2-4b57-b893-8ffdb67d0ce1" x="17.69" y="0">r</tspan><tspan x="23.15" y="0">vice A</tspan></text><circle class="b904c8fb-5cd7-4c6f-88d9-d8ed5b63d8f6" cx="156.33" cy="159.36" r="20.25"/><path class="b96e14af-acda-4a46-a38c-736421bf2a0a" d="M149.14 152.04h14.39v14.39h-14.39z"/><path class="ab8f4c5f-abbd-419a-b2f9-be359bf77f4a" d="M151.8 152.04v-3.47M156.33 152.04v-3.47M160.86 152.04v-3.47M151.8 170.15v-3.46M156.33 170.15v-3.46M160.86 170.15v-3.46M149 163.89h-3.46M149 159.36h-3.46M149 154.83h-3.46M167.12 163.89h-3.46M167.12 159.36h-3.46M167.12 154.83h-3.46"/><rect class="af9ad130-8077-486c-b6b3-d263c2e9a34f" x="153.13" y="156.03" width="6.39" height="6.39" rx="2"/><rect class="af9ad130-8077-486c-b6b3-d263c2e9a34f" x="267.7" y="128.99" width="60.74" height="60.74" rx="3"/><path class="b03e2be6-f80d-46bc-a444-12b614e430fd" d="M312.99 167.97v-17.21l-14.92-8.61-14.92 8.61v17.21l14.92 8.6 14.92-8.6z"/><rect class="be101bb0-46dd-4b66-8766-88a0c553d283" x="434.54" y="410.86" width="222.33" height="80.99" rx="3"/><rect class="af9ad130-8077-486c-b6b3-d263c2e9a34f" x="444.27" y="420.98" width="60.74" height="60.74" rx="3"/><path class="b03e2be6-f80d-46bc-a444-12b614e430fd" d="M489.56 459.96v-17.21l-14.92-8.61-14.91 8.61v17.21l14.91 8.6 14.92-8.6z"/><rect class="af9ad130-8077-486c-b6b3-d263c2e9a34f" x="515.14" y="420.98" width="131.61" height="60.74" rx="3"/><text class="bfc0c7ce-22cb-46e8-ac34-44feb6607930" transform="translate(574.37 456.8)">Se<tspan class="af5b2a71-57e2-4b57-b893-8ffdb67d0ce1" x="17.69" y="0">r</tspan><tspan x="23.15" y="0">vice B</tspan></text><circle class="b904c8fb-5cd7-4c6f-88d9-d8ed5b63d8f6" cx="545.51" cy="451.35" r="20.25"/><path class="b96e14af-acda-4a46-a38c-736421bf2a0a" d="M538.32 444.02h14.39v14.39h-14.39z"/><path class="ab8f4c5f-abbd-419a-b2f9-be359bf77f4a" d="M540.98 444.02v-3.46M545.51 444.02v-3.46M550.04 444.02v-3.46M540.98 462.14v-3.46M545.51 462.14v-3.46M550.04 462.14v-3.46M538.18 455.88h-3.46M538.18 451.35h-3.46M538.18 446.82h-3.46M556.3 455.88h-3.46M556.3 451.35h-3.46M556.3 446.82h-3.46"/><rect class="af9ad130-8077-486c-b6b3-d263c2e9a34f" x="542.31" y="448.02" width="6.39" height="6.39" rx="2"/><rect class="be101bb0-46dd-4b66-8766-88a0c553d283" x="116.23" y="410.86" width="222.33" height="80.99" rx="3"/><rect class="af9ad130-8077-486c-b6b3-d263c2e9a34f" x="125.96" y="420.98" width="131.61" height="60.74" rx="3"/><text class="bfc0c7ce-22cb-46e8-ac34-44feb6607930" transform="translate(185.19 456.8)">Se<tspan class="af5b2a71-57e2-4b57-b893-8ffdb67d0ce1" x="17.69" y="0">r</tspan><tspan x="23.15" y="0">vice B</tspan></text><circle class="b904c8fb-5cd7-4c6f-88d9-d8ed5b63d8f6" cx="156.33" cy="451.35" r="20.25"/><path class="b96e14af-acda-4a46-a38c-736421bf2a0a" d="M149.14 444.02h14.39v14.39h-14.39z"/><path class="ab8f4c5f-abbd-419a-b2f9-be359bf77f4a" d="M151.8 444.02v-3.46M156.33 444.02v-3.46M160.86 444.02v-3.46M151.8 462.14v-3.46M156.33 462.14v-3.46M160.86 462.14v-3.46M149 455.88h-3.46M149 451.35h-3.46M149 446.82h-3.46M167.12 455.88h-3.46M167.12 451.35h-3.46M167.12 446.82h-3.46"/><rect class="af9ad130-8077-486c-b6b3-d263c2e9a34f" x="153.13" y="448.02" width="6.39" height="6.39" rx="2"/><rect class="af9ad130-8077-486c-b6b3-d263c2e9a34f" x="267.7" y="420.98" width="60.74" height="60.74" rx="3"/><path class="b03e2be6-f80d-46bc-a444-12b614e430fd" d="M312.99 459.96v-17.21l-14.92-8.61-14.92 8.61v17.21l14.92 8.6 14.92-8.6z"/><rect class="fedf45f0-49d3-404f-b3da-f996dd6408d8" x="28.68" y="245.94" width="118.84" height="118.84" rx="3"/><rect class="af9ad130-8077-486c-b6b3-d263c2e9a34f" x="38.58" y="325.16" width="99.03" height="29.71" rx="3"/><text class="a4b0ffe2-51af-409d-873d-f24bd234c7c2" transform="translate(56.64 345.35)">G<tspan class="b483b729-8610-44b7-a133-80d0add2e607" x="12.57" y="0">a</tspan><tspan class="eddc2f64-ddab-46da-98d1-25b07bf4a597" x="20.77" y="0">t</tspan><tspan class="b483b729-8610-44b7-a133-80d0add2e607" x="26.19" y="0">ewa</tspan><tspan class="befe19ab-abba-4bda-80a4-13ad1e3d0876" x="55.18" y="0">y</tspan></text><rect class="af9ad130-8077-486c-b6b3-d263c2e9a34f" x="58.39" y="255.84" width="59.42" height="59.42" rx="3"/><path class="b03e2be6-f80d-46bc-a444-12b614e430fd" d="M102.69 293.97v-16.84l-14.59-8.42-14.59 8.42v16.84l14.59 8.42 14.59-8.42z"/><path id="adbe458d-24f6-4f9b-99be-76fddc14b84e" data-name="background" class="a6b151db-f556-4f37-98ec-43f98b330f6a" d="M33.79 245.94h22.5v22.5h-22.5z"/><path id="b121e864-2885-4501-bb49-e41765f5e803" data-name="hull" class="af9ad130-8077-486c-b6b3-d263c2e9a34f" d="M38.29 264.78h13.5l-8.43 2.53-5.07-2.53z"/><path id="ecae613a-9ad1-40fa-b60f-d0f56f912847" data-name="mainsail" class="af9ad130-8077-486c-b6b3-d263c2e9a34f" d="M38.29 263.94l5.07-.85v-9.28l-5.07 10.13z"/><path id="a712b093-5c3c-4d6f-a997-234284dd50b8" data-name="headsail" class="af9ad130-8077-486c-b6b3-d263c2e9a34f" d="M44.2 263.09l7.59.85-7.59-16.88v16.03z"/><rect class="fedf45f0-49d3-404f-b3da-f996dd6408d8" x="625.67" y="245.94" width="118.84" height="118.84" rx="3"/><rect class="af9ad130-8077-486c-b6b3-d263c2e9a34f" x="635.58" y="325.16" width="99.03" height="29.71" rx="3"/><text class="a4b0ffe2-51af-409d-873d-f24bd234c7c2" transform="translate(653.63 345.35)">G<tspan class="b483b729-8610-44b7-a133-80d0add2e607" x="12.57" y="0">a</tspan><tspan class="eddc2f64-ddab-46da-98d1-25b07bf4a597" x="20.77" y="0">t</tspan><tspan class="b483b729-8610-44b7-a133-80d0add2e607" x="26.19" y="0">ewa</tspan><tspan class="befe19ab-abba-4bda-80a4-13ad1e3d0876" x="55.18" y="0">y</tspan></text><rect class="af9ad130-8077-486c-b6b3-d263c2e9a34f" x="655.38" y="255.84" width="59.42" height="59.42" rx="3"/><path class="b03e2be6-f80d-46bc-a444-12b614e430fd" d="M699.68 293.97v-16.84l-14.59-8.42-14.59 8.42v16.84l14.59 8.42 14.59-8.42z"/><path id="a4cf8d2b-635a-43f8-9385-be8446ee704e" data-name="background" class="a6b151db-f556-4f37-98ec-43f98b330f6a" d="M630.79 245.94h22.5v22.5h-22.5z"/><path id="e2ef4d99-63f0-4338-8d54-add5edc78318" data-name="hull" class="af9ad130-8077-486c-b6b3-d263c2e9a34f" d="M635.29 264.78h13.5l-8.44 2.53-5.06-2.53z"/><path id="a48cffe7-b7ec-4d7e-b6f0-14ee2df15855" data-name="mainsail" class="af9ad130-8077-486c-b6b3-d263c2e9a34f" d="M635.29 263.94l5.06-.85v-9.28l-5.06 10.13z"/><path id="f4495752-9c5e-4c98-9d30-6a3bf21d51fd" data-name="headsail" class="af9ad130-8077-486c-b6b3-d263c2e9a34f" d="M641.19 263.09l7.6.85-7.6-16.88v16.03z"/><path class="b2ddb76a-9f78-421a-b82c-637fe18816e2" d="M474.64 196.91V413.8"/><path class="b42052a5-2e53-4e83-8d53-a80391206675" d="M469.66 198.37l4.98-8.63 4.99 8.63h-9.97zM469.66 412.34l4.98 8.64 4.99-8.64h-9.97z"/><path class="b2ddb76a-9f78-421a-b82c-637fe18816e2" d="M298.07 196.91V413.8"/><path class="b42052a5-2e53-4e83-8d53-a80391206675" d="M293.08 198.37l4.99-8.63 4.99 8.63h-9.98zM293.08 412.34l4.99 8.64 4.99-8.64h-9.98z"/><path class="b2ddb76a-9f78-421a-b82c-637fe18816e2" d="M124.98 285.55h173.09"/><path class="b42052a5-2e53-4e83-8d53-a80391206675" d="M126.44 290.54l-8.63-4.99 8.63-4.99v9.98z"/><path class="b2ddb76a-9f78-421a-b82c-637fe18816e2" d="M474.64 285.55h173.57"/><path class="b42052a5-2e53-4e83-8d53-a80391206675" d="M646.75 290.54l8.63-4.99-8.63-4.99v9.98z"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 773.19 584.32">
+	<defs>
+		<style>
+			.a898c3a8-e4f1-42b3-ab4c-53464259dba1,.ab8f4c5f-abbd-419a-b2f9-be359bf77f4a,.b03e2be6-f80d-46bc-a444-12b614e430fd,.b2ddb76a-9f78-421a-b82c-637fe18816e2,.b96e14af-acda-4a46-a38c-736421bf2a0a{fill:none}.a898c3a8-e4f1-42b3-ab4c-53464259dba1,.b03e2be6-f80d-46bc-a444-12b614e430fd,.b96e14af-acda-4a46-a38c-736421bf2a0a{stroke-linejoin:round}.acd1fcb7-c7dd-459b-8dd4-430b2db5ec69,.bfc0c7ce-22cb-46e8-ac34-44feb6607930{font-family:Roboto-Regular,Roboto}.acd1fcb7-c7dd-459b-8dd4-430b2db5ec69{font-size:14.62px}.a898c3a8-e4f1-42b3-ab4c-53464259dba1{stroke:#666;stroke-width:2px}.ab8f4c5f-abbd-419a-b2f9-be359bf77f4a,.b96e14af-acda-4a46-a38c-736421bf2a0a{stroke-width:2px}.be101bb0-46dd-4b66-8766-88a0c553d283{fill:#e6e6e6}.af9ad130-8077-486c-b6b3-d263c2e9a34f{fill:#fff}.b03e2be6-f80d-46bc-a444-12b614e430fd{stroke:#e905ee;stroke-width:3px}.a4b0ffe2-51af-409d-873d-f24bd234c7c2,.bfc0c7ce-22cb-46e8-ac34-44feb6607930{font-size:15.75px}.af5b2a71-57e2-4b57-b893-8ffdb67d0ce1{letter-spacing:.01em}.b904c8fb-5cd7-4c6f-88d9-d8ed5b63d8f6{fill:#757575}.ab8f4c5f-abbd-419a-b2f9-be359bf77f4a,.b96e14af-acda-4a46-a38c-736421bf2a0a{stroke:#fff}.ab8f4c5f-abbd-419a-b2f9-be359bf77f4a{stroke-linecap:round;stroke-miterlimit:10}.b2ddb76a-9f78-421a-b82c-637fe18816e2{stroke-miterlimit:10}.fedf45f0-49d3-404f-b3da-f996dd6408d8{fill:#e5e5e4}.a4b0ffe2-51af-409d-873d-f24bd234c7c2{font-family:GoogleSans-Regular,Google
+			Sans;letter-spacing:-.02em}.b483b729-8610-44b7-a133-80d0add2e607{letter-spacing:-.01em}.eddc2f64-ddab-46da-98d1-25b07bf4a597{letter-spacing:-.02em}.befe19ab-abba-4bda-80a4-13ad1e3d0876{letter-spacing:0}.a6b151db-f556-4f37-98ec-43f98b330f6a{fill:#486baf}.b2ddb76a-9f78-421a-b82c-637fe18816e2{stroke:#090;stroke-width:4px}.b42052a5-2e53-4e83-8d53-a80391206675{fill:#090}
+		</style>
+	</defs>
+	<g id="aff93e7e-4d2a-468a-8c79-fd0c6e3dc8e1" data-name="multi-net">
+		<rect x=".5" y="13.7" width="772.19" height="570.13" rx="10" stroke-linejoin="round"
+		stroke="#466bb0" stroke-dasharray="10.03 10.03" fill="none" />
+		<text transform="translate(.48 10.27)" font-family="Roboto-Regular,Roboto"
+		font-size="12">
+			Istio 网格
+		</text>
+		<text class="acd1fcb7-c7dd-459b-8dd4-430b2db5ec69" transform="translate(88.02 91.34)">
+			网络 1
+		</text>
+		<rect class="a898c3a8-e4f1-42b3-ab4c-53464259dba1" x="88.1" y="94.72"
+		width="278.68" height="423.97" rx="10" />
+		<text class="acd1fcb7-c7dd-459b-8dd4-430b2db5ec69" transform="translate(406.33 91.34)">
+			网络 2
+		</text>
+		<rect class="a898c3a8-e4f1-42b3-ab4c-53464259dba1" x="406.41" y="94.72"
+		width="278.68" height="423.97" rx="10" />
+		<rect class="be101bb0-46dd-4b66-8766-88a0c553d283" x="434.54" y="118.87"
+		width="222.33" height="80.99" rx="3" />
+		<rect class="af9ad130-8077-486c-b6b3-d263c2e9a34f" x="444.27" y="128.99"
+		width="60.74" height="60.74" rx="3" />
+		<path class="b03e2be6-f80d-46bc-a444-12b614e430fd" d="M489.56 167.97v-17.21l-14.92-8.61-14.91 8.61v17.21l14.91 8.6 14.92-8.6z"
+		/>
+		<rect class="af9ad130-8077-486c-b6b3-d263c2e9a34f" x="515.14" y="128.99"
+		width="131.61" height="60.74" rx="3" />
+		<text class="bfc0c7ce-22cb-46e8-ac34-44feb6607930" transform="translate(574.14 164.81)">
+			Se
+			<tspan class="af5b2a71-57e2-4b57-b893-8ffdb67d0ce1" x="17.69" y="0">
+				r
+			</tspan>
+			<tspan x="23.15" y="0">
+				vice A
+			</tspan>
+		</text>
+		<circle class="b904c8fb-5cd7-4c6f-88d9-d8ed5b63d8f6" cx="545.51" cy="159.36"
+		r="20.25" />
+		<path class="b96e14af-acda-4a46-a38c-736421bf2a0a" d="M538.32 152.04h14.39v14.39h-14.39z"
+		/>
+		<path class="ab8f4c5f-abbd-419a-b2f9-be359bf77f4a" d="M540.98 152.04v-3.47M545.51 152.04v-3.47M550.04 152.04v-3.47M540.98 170.15v-3.46M545.51 170.15v-3.46M550.04 170.15v-3.46M538.18 163.89h-3.46M538.18 159.36h-3.46M538.18 154.83h-3.46M556.3 163.89h-3.46M556.3 159.36h-3.46M556.3 154.83h-3.46"
+		/>
+		<rect class="af9ad130-8077-486c-b6b3-d263c2e9a34f" x="542.31" y="156.03"
+		width="6.39" height="6.39" rx="2" />
+		<rect class="be101bb0-46dd-4b66-8766-88a0c553d283" x="116.23" y="118.87"
+		width="222.33" height="80.99" rx="3" />
+		<rect class="af9ad130-8077-486c-b6b3-d263c2e9a34f" x="125.96" y="128.99"
+		width="131.61" height="60.74" rx="3" />
+		<text class="bfc0c7ce-22cb-46e8-ac34-44feb6607930" transform="translate(184.96 164.81)">
+			Se
+			<tspan class="af5b2a71-57e2-4b57-b893-8ffdb67d0ce1" x="17.69" y="0">
+				r
+			</tspan>
+			<tspan x="23.15" y="0">
+				vice A
+			</tspan>
+		</text>
+		<circle class="b904c8fb-5cd7-4c6f-88d9-d8ed5b63d8f6" cx="156.33" cy="159.36"
+		r="20.25" />
+		<path class="b96e14af-acda-4a46-a38c-736421bf2a0a" d="M149.14 152.04h14.39v14.39h-14.39z"
+		/>
+		<path class="ab8f4c5f-abbd-419a-b2f9-be359bf77f4a" d="M151.8 152.04v-3.47M156.33 152.04v-3.47M160.86 152.04v-3.47M151.8 170.15v-3.46M156.33 170.15v-3.46M160.86 170.15v-3.46M149 163.89h-3.46M149 159.36h-3.46M149 154.83h-3.46M167.12 163.89h-3.46M167.12 159.36h-3.46M167.12 154.83h-3.46"
+		/>
+		<rect class="af9ad130-8077-486c-b6b3-d263c2e9a34f" x="153.13" y="156.03"
+		width="6.39" height="6.39" rx="2" />
+		<rect class="af9ad130-8077-486c-b6b3-d263c2e9a34f" x="267.7" y="128.99"
+		width="60.74" height="60.74" rx="3" />
+		<path class="b03e2be6-f80d-46bc-a444-12b614e430fd" d="M312.99 167.97v-17.21l-14.92-8.61-14.92 8.61v17.21l14.92 8.6 14.92-8.6z"
+		/>
+		<rect class="be101bb0-46dd-4b66-8766-88a0c553d283" x="434.54" y="410.86"
+		width="222.33" height="80.99" rx="3" />
+		<rect class="af9ad130-8077-486c-b6b3-d263c2e9a34f" x="444.27" y="420.98"
+		width="60.74" height="60.74" rx="3" />
+		<path class="b03e2be6-f80d-46bc-a444-12b614e430fd" d="M489.56 459.96v-17.21l-14.92-8.61-14.91 8.61v17.21l14.91 8.6 14.92-8.6z"
+		/>
+		<rect class="af9ad130-8077-486c-b6b3-d263c2e9a34f" x="515.14" y="420.98"
+		width="131.61" height="60.74" rx="3" />
+		<text class="bfc0c7ce-22cb-46e8-ac34-44feb6607930" transform="translate(574.37 456.8)">
+			Se
+			<tspan class="af5b2a71-57e2-4b57-b893-8ffdb67d0ce1" x="17.69" y="0">
+				r
+			</tspan>
+			<tspan x="23.15" y="0">
+				vice B
+			</tspan>
+		</text>
+		<circle class="b904c8fb-5cd7-4c6f-88d9-d8ed5b63d8f6" cx="545.51" cy="451.35"
+		r="20.25" />
+		<path class="b96e14af-acda-4a46-a38c-736421bf2a0a" d="M538.32 444.02h14.39v14.39h-14.39z"
+		/>
+		<path class="ab8f4c5f-abbd-419a-b2f9-be359bf77f4a" d="M540.98 444.02v-3.46M545.51 444.02v-3.46M550.04 444.02v-3.46M540.98 462.14v-3.46M545.51 462.14v-3.46M550.04 462.14v-3.46M538.18 455.88h-3.46M538.18 451.35h-3.46M538.18 446.82h-3.46M556.3 455.88h-3.46M556.3 451.35h-3.46M556.3 446.82h-3.46"
+		/>
+		<rect class="af9ad130-8077-486c-b6b3-d263c2e9a34f" x="542.31" y="448.02"
+		width="6.39" height="6.39" rx="2" />
+		<rect class="be101bb0-46dd-4b66-8766-88a0c553d283" x="116.23" y="410.86"
+		width="222.33" height="80.99" rx="3" />
+		<rect class="af9ad130-8077-486c-b6b3-d263c2e9a34f" x="125.96" y="420.98"
+		width="131.61" height="60.74" rx="3" />
+		<text class="bfc0c7ce-22cb-46e8-ac34-44feb6607930" transform="translate(185.19 456.8)">
+			Se
+			<tspan class="af5b2a71-57e2-4b57-b893-8ffdb67d0ce1" x="17.69" y="0">
+				r
+			</tspan>
+			<tspan x="23.15" y="0">
+				vice B
+			</tspan>
+		</text>
+		<circle class="b904c8fb-5cd7-4c6f-88d9-d8ed5b63d8f6" cx="156.33" cy="451.35"
+		r="20.25" />
+		<path class="b96e14af-acda-4a46-a38c-736421bf2a0a" d="M149.14 444.02h14.39v14.39h-14.39z"
+		/>
+		<path class="ab8f4c5f-abbd-419a-b2f9-be359bf77f4a" d="M151.8 444.02v-3.46M156.33 444.02v-3.46M160.86 444.02v-3.46M151.8 462.14v-3.46M156.33 462.14v-3.46M160.86 462.14v-3.46M149 455.88h-3.46M149 451.35h-3.46M149 446.82h-3.46M167.12 455.88h-3.46M167.12 451.35h-3.46M167.12 446.82h-3.46"
+		/>
+		<rect class="af9ad130-8077-486c-b6b3-d263c2e9a34f" x="153.13" y="448.02"
+		width="6.39" height="6.39" rx="2" />
+		<rect class="af9ad130-8077-486c-b6b3-d263c2e9a34f" x="267.7" y="420.98"
+		width="60.74" height="60.74" rx="3" />
+		<path class="b03e2be6-f80d-46bc-a444-12b614e430fd" d="M312.99 459.96v-17.21l-14.92-8.61-14.92 8.61v17.21l14.92 8.6 14.92-8.6z"
+		/>
+		<rect class="fedf45f0-49d3-404f-b3da-f996dd6408d8" x="28.68" y="245.94"
+		width="118.84" height="118.84" rx="3" />
+		<rect class="af9ad130-8077-486c-b6b3-d263c2e9a34f" x="38.58" y="325.16"
+		width="99.03" height="29.71" rx="3" />
+		<text class="a4b0ffe2-51af-409d-873d-f24bd234c7c2" transform="translate(56.64 345.35)">
+			G
+			<tspan class="b483b729-8610-44b7-a133-80d0add2e607" x="12.57" y="0">
+				a
+			</tspan>
+			<tspan class="eddc2f64-ddab-46da-98d1-25b07bf4a597" x="20.77" y="0">
+				t
+			</tspan>
+			<tspan class="b483b729-8610-44b7-a133-80d0add2e607" x="26.19" y="0">
+				ewa
+			</tspan>
+			<tspan class="befe19ab-abba-4bda-80a4-13ad1e3d0876" x="55.18" y="0">
+				y
+			</tspan>
+		</text>
+		<rect class="af9ad130-8077-486c-b6b3-d263c2e9a34f" x="58.39" y="255.84"
+		width="59.42" height="59.42" rx="3" />
+		<path class="b03e2be6-f80d-46bc-a444-12b614e430fd" d="M102.69 293.97v-16.84l-14.59-8.42-14.59 8.42v16.84l14.59 8.42 14.59-8.42z"
+		/>
+		<path id="adbe458d-24f6-4f9b-99be-76fddc14b84e" data-name="background"
+		class="a6b151db-f556-4f37-98ec-43f98b330f6a" d="M33.79 245.94h22.5v22.5h-22.5z"
+		/>
+		<path id="b121e864-2885-4501-bb49-e41765f5e803" data-name="hull" class="af9ad130-8077-486c-b6b3-d263c2e9a34f"
+		d="M38.29 264.78h13.5l-8.43 2.53-5.07-2.53z" />
+		<path id="ecae613a-9ad1-40fa-b60f-d0f56f912847" data-name="mainsail" class="af9ad130-8077-486c-b6b3-d263c2e9a34f"
+		d="M38.29 263.94l5.07-.85v-9.28l-5.07 10.13z" />
+		<path id="a712b093-5c3c-4d6f-a997-234284dd50b8" data-name="headsail" class="af9ad130-8077-486c-b6b3-d263c2e9a34f"
+		d="M44.2 263.09l7.59.85-7.59-16.88v16.03z" />
+		<rect class="fedf45f0-49d3-404f-b3da-f996dd6408d8" x="625.67" y="245.94"
+		width="118.84" height="118.84" rx="3" />
+		<rect class="af9ad130-8077-486c-b6b3-d263c2e9a34f" x="635.58" y="325.16"
+		width="99.03" height="29.71" rx="3" />
+		<text class="a4b0ffe2-51af-409d-873d-f24bd234c7c2" transform="translate(653.63 345.35)">
+			G
+			<tspan class="b483b729-8610-44b7-a133-80d0add2e607" x="12.57" y="0">
+				a
+			</tspan>
+			<tspan class="eddc2f64-ddab-46da-98d1-25b07bf4a597" x="20.77" y="0">
+				t
+			</tspan>
+			<tspan class="b483b729-8610-44b7-a133-80d0add2e607" x="26.19" y="0">
+				ewa
+			</tspan>
+			<tspan class="befe19ab-abba-4bda-80a4-13ad1e3d0876" x="55.18" y="0">
+				y
+			</tspan>
+		</text>
+		<rect class="af9ad130-8077-486c-b6b3-d263c2e9a34f" x="655.38" y="255.84"
+		width="59.42" height="59.42" rx="3" />
+		<path class="b03e2be6-f80d-46bc-a444-12b614e430fd" d="M699.68 293.97v-16.84l-14.59-8.42-14.59 8.42v16.84l14.59 8.42 14.59-8.42z"
+		/>
+		<path id="a4cf8d2b-635a-43f8-9385-be8446ee704e" data-name="background"
+		class="a6b151db-f556-4f37-98ec-43f98b330f6a" d="M630.79 245.94h22.5v22.5h-22.5z"
+		/>
+		<path id="e2ef4d99-63f0-4338-8d54-add5edc78318" data-name="hull" class="af9ad130-8077-486c-b6b3-d263c2e9a34f"
+		d="M635.29 264.78h13.5l-8.44 2.53-5.06-2.53z" />
+		<path id="a48cffe7-b7ec-4d7e-b6f0-14ee2df15855" data-name="mainsail" class="af9ad130-8077-486c-b6b3-d263c2e9a34f"
+		d="M635.29 263.94l5.06-.85v-9.28l-5.06 10.13z" />
+		<path id="f4495752-9c5e-4c98-9d30-6a3bf21d51fd" data-name="headsail" class="af9ad130-8077-486c-b6b3-d263c2e9a34f"
+		d="M641.19 263.09l7.6.85-7.6-16.88v16.03z" />
+		<path class="b2ddb76a-9f78-421a-b82c-637fe18816e2" d="M474.64 196.91V413.8"
+		/>
+		<path class="b42052a5-2e53-4e83-8d53-a80391206675" d="M469.66 198.37l4.98-8.63 4.99 8.63h-9.97zM469.66 412.34l4.98 8.64 4.99-8.64h-9.97z"
+		/>
+		<path class="b2ddb76a-9f78-421a-b82c-637fe18816e2" d="M298.07 196.91V413.8"
+		/>
+		<path class="b42052a5-2e53-4e83-8d53-a80391206675" d="M293.08 198.37l4.99-8.63 4.99 8.63h-9.98zM293.08 412.34l4.99 8.64 4.99-8.64h-9.98z"
+		/>
+		<path class="b2ddb76a-9f78-421a-b82c-637fe18816e2" d="M124.98 285.55h173.09"
+		/>
+		<path class="b42052a5-2e53-4e83-8d53-a80391206675" d="M126.44 290.54l-8.63-4.99 8.63-4.99v9.98z"
+		/>
+		<path class="b2ddb76a-9f78-421a-b82c-637fe18816e2" d="M474.64 285.55h173.57"
+		/>
+		<path class="b42052a5-2e53-4e83-8d53-a80391206675" d="M646.75 290.54l8.63-4.99-8.63-4.99v9.98z"
+		/>
+	</g>
+</svg>
