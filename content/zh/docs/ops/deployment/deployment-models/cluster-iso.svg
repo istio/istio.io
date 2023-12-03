@@ -46,7 +46,7 @@
     <text
        class="eba8737b-3158-4261-bd4b-15bf9c547623"
        transform="translate(0.48,11.88)"
-       id="text1">Istio 网格：Business Unit 1</text>
+       id="text1">Istio 网格: Business Unit 1</text>
     <rect
        class="e3b9ca9a-06ae-48b0-b237-aaedb6f3ba49"
        x="417.09"
@@ -58,7 +58,7 @@
     <text
        class="eba8737b-3158-4261-bd4b-15bf9c547623"
        transform="translate(417.07,11.88)"
-       id="text2">Istio 网格：Business Unit 2</text>
+       id="text2">Istio 网格: Business Unit 2</text>
     <rect
        class="a60c984d-4186-4bf1-8def-99b5e7f6596a"
        x="25.57"
