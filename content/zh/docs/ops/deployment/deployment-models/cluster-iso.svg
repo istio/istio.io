@@ -70,11 +70,7 @@
     <text
        class="eba8737b-3158-4261-bd4b-15bf9c547623"
        transform="translate(25.79,69.95)"
-       id="text5">集群:<tspan
-   class="bb07927b-b2ed-46ea-8067-d8344a380c6b"
-   x="50.220001"
-   y="0"
-   id="tspan4">Team-1</tspan></text>
+       id="text5">集群：Team-1</text>
     <rect
        class="a60c984d-4186-4bf1-8def-99b5e7f6596a"
        x="437.26"
@@ -86,15 +82,11 @@
     <text
        class="eba8737b-3158-4261-bd4b-15bf9c547623"
        transform="translate(437.48,69.95)"
-       id="text8">集群:<tspan
-   class="bb07927b-b2ed-46ea-8067-d8344a380c6b"
-   x="50.220001"
-   y="0"
-   id="tspan7">Team-2</tspan></text>
+       id="text8">集群：Team-2</text>
     <text
        class="eba8737b-3158-4261-bd4b-15bf9c547623"
        transform="translate(55.67,116.15)"
-       id="text9">命名空间: bar</text>
+       id="text9">命名空间：bar</text>
     <rect
        class="b5667360-ca4a-473f-875a-8ab2d14a0c62"
        x="55.75"
@@ -106,7 +98,7 @@
     <text
        class="eba8737b-3158-4261-bd4b-15bf9c547623"
        transform="translate(461.27,116.15)"
-       id="text10">命名空间: foo</text>
+       id="text10">命名空间：foo</text>
     <rect
        class="b5667360-ca4a-473f-875a-8ab2d14a0c62"
        x="461.35"
