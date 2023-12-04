@@ -111,17 +111,20 @@ for the `http/1.1` protocol, with a 1 kB payload at 1000 requests per second usi
 
 Note: Different hardware will give different values.
 
-<img width="90%"
+<br><img width="90%" style="display: block; margin: auto;"
     src="latency-p90-fortio-with-uniform.svg"
     alt="P90 latency vs client connections"
     caption="P90 latency vs client connections"
 />
+<p><h2 style="text-align: center;"> P90 latency vs client connections </h2></p><br>
 
-<img width="90%"
+
+<img width="90%" style="display: block; margin: auto;"
     src="latency-p99-fortio-with-uniform.svg"
     alt="P99 latency vs client connections"
     caption="P99 latency vs client connections"
 />
+<p><h2 style="text-align: center;"> P99 latency vs client connections </h2></p>
 
 - `no_mesh` Client pod directly calls the server pod, no sidecars are present.
 - `istio_with_stats` Client and server sidecars are present with telemetry configured by default. This is the default Istio configuration.
