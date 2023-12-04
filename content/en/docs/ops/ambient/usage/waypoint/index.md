@@ -19,7 +19,7 @@ This guide provides instructions on how to set up and use the Waypoint proxy lay
 
 Istio Ambient Mesh is a new way to deploy and manage microservices. In Ambient Mesh, workloads are no longer required to run sidecar proxies to participate in the service mesh. Ambient splits Istio’s functionality into two distinct layers, a secure overlay layer and a Layer 7 processing layer.
 
-Ztunnel proxy is used to handle L3 and L4 networking functions, such as mTLS authentication and L4 authorization. For workloads that require L7 networking features, such as HTTP load balancing and fault injection, a waypoint proxy can be deployed. The waypoint proxy is an optional component that is Envoy-based and is responsible for terminating workload HTTP traffic and parsing workload HTTP headers. They also enforce L7 policies and collect L7 metrics.
+Ztunnel is used to handle L3 and L4 networking functions, such as mTLS authentication and L4 authorization. The waypoint proxy is an optional component that is Envoy-based and is responsible for L7 service mesh functionalities. For workloads that require L7 networking features, such as HTTP load balancing and fault injection, a waypoint proxy must be deployed.  It can also enforce L7 policies and collect L7 metrics.
 
 {{<tip>}}
 
@@ -28,7 +28,6 @@ Ztunnel proxy is used to handle L3 and L4 networking functions, such as mTLS aut
 Before you begin, make sure that you have already read the [Ztunnel Networking sub-guide](../ztunnel/). This guide assumes that you have the following prerequisites in place:
 1. Istio Ambient Mesh installed and configured
 2. Ztunnel proxy is installed and running
-3. Mutual TLS (mTLS) enabled and configured
 
 {{</tip>}}
 
@@ -56,17 +55,12 @@ It's possible that the features offered by the secure overlay doesn’t meet you
 
 ### Benefits of using the waypoint proxy and L7 networking features
 
-In summary, the waypoint proxy approach for the L7 processing layer offers the following three main advantages:
+In summary, the waypoint proxy approach for the L7 processing layer offers the following four main advantages:
 
+- Traffic Resiliency - Timeout and retry, circuit breaking
 - Security - Rich L7 authorization policy
 - Observability - HTTP metrics, access logs, and tracing
 - Traffic management - Dark launch, canary test
-
-The waypoint proxy and L7 networking features provide a number of benefits, including:
-
-- Improved performance and scalability: Waypoint proxies are designed to be lightweight and efficient, which can improve the performance and scalability of your microservices architecture.
-- Increased flexibility: The waypoint proxy allows you to implement a wide range of L7 networking features, such as HTTP load balancing, fault injection, and observability.
-- Simplified operations: By deploying a waypoint proxy, you can simplify the operation of your microservices architecture by reducing the number of components that need to be managed.
 
 ### When to use the waypoint proxy and L7 networking features
 
@@ -77,6 +71,7 @@ Waypoint provides a variety of L7 load balancing and routing algorithms, includi
 - L7 fault injection: You need to simulate faults in your microservices architecture such as delays, errors, and circuit breaks to test its resilience and prepare for real-world failures.
 - Rate limiting: You need to protect workloads against denial-of-service attacks and improve performance.
 - L7 observability: You need to collect metrics and traces from your microservices architecture to monitor its performance and troubleshoot problems.
+- Rich Authz Policy: Enforce granular authorization control and manage authorization policies centrally as well as enhanced Security
 
 ### Getting started with the waypoint proxy and L7 networking features
 
@@ -86,53 +81,21 @@ This guide will provide more detailed instructions on how to deploy and configur
 
 ## Current Challenges
 
-Unlike Ztunnel proxies, Waypoint proxies are not automatically installed with Istio ambient mesh. Waypoint proxies are deployed declaratively using Kubernetes Gateway resources or the helpful `istioctl` command. The minimum Istio version required for Istio ambient mode is `1.18.0`. In general Istio in ambient mode supports the existing Istio APIs that are supported in sidecar proxy mode. Since the ambient functionality is currently at an alpha release level, the following is a list of feature restrictions or caveats in the current release of Istio's ambient functionality (as of the `1.19.0` release). These restrictions are expected to be addressed/removed in future software releases as ambient graduates to beta and eventually General Availability.
+Unlike Ztunnel proxies, Waypoint proxies are not automatically installed with Istio ambient mesh. Waypoint proxies are deployed declaratively using Kubernetes Gateway resources or the helpful `istioctl` command. The minimum Istio version required for Istio ambient mode is `1.18.0`. In general Istio in ambient mode supports the existing Istio APIs that are supported in sidecar proxy mode. Since the ambient functionality is currently at an alpha release level, the following is a list of feature restrictions or caveats in the current release of Istio's ambient functionality (as of the `1.20.0` release). These restrictions are expected to be addressed/removed in future software releases as ambient graduates to beta and eventually General Availability.
 
-1. **Kubernetes only:** Istio in ambient mode is currently limited to deployment on Kubernetes clusters, excluding non-Kubernetes endpoints like virtual machines.
+1. **`PeerAuthentication` Limitations:** As of now, not all components (i.e. Waypoint proxies), support the `PeerAuthentication` resource in Istio Ambient mode. Hence it is recommended to use the `STRICT` mTLS mode currently, this caveat shall be addressed as the feature moves toward beta status.
 
-2. **Single Cluster Support:** Multi-cluster deployments are not supported in Istio ambient mode; only single-cluster configurations are currently viable.
-
-3. **K8s CNI Restrictions:** Istio in ambient mode does not currently work with every Kubernetes CNI implementation. Additionally, with some plugins, certain CNI functions (in particular Kubernetes `NetworkPolicy` and Kubernetes Service Load balancing features) may get transparently bypassed in the presence of Istio ambient mode. The exact set of supported CNI plugins as well as any CNI feature caveats are currently under test and will be formally documented as Istio's ambient mode approaches the beta release.
-
-4. **TCP/IPv4 only:** In the current release, TCP over IPv4 is the only protocol supported for transport on an Istio secure overlay tunnel (this includes protocols such as HTTP that run between application layer endpoints on top of the TCP/ IPv4 connection).
-
-5. **No Dynamic switching to Ambient mode:** Enabling ambient mode is only possible during the deployment of a new Istio mesh control plane using an ambient profile or helm configuration. An existing Istio mesh deployed using a pre-ambient profile for instance can not be dynamically switched to also enable ambient mode operation.
-
-6. **Restrictions with Istio `PeerAuthentication`:** as of the time of writing, the `PeerAuthentication` resource is not supported by all components (i.e. waypoint proxies) in Istio ambient mode. Hence it is recommended to only use the `STRICT` mTLS mode currently. Like many of the other alpha stage caveats, this shall be addressed as the feature moves toward beta status.
-
-6. **`PeerAuthentication` Limitations:** As of now, not all components (i.e. Waypoint proxies), support the `PeerAuthentication` resource in Istio Ambient mode. Hence it is recommended to use the `STRICT` mTLS mode currently, this caveat shall be addressed as the feature moves toward beta status.
-
-7. **istioctl CLI Gaps:** Minor functional gaps may exist in the Istio CLI's output displays related to ambient mode. These will be addressed as the feature matures.
-
-In addition to this general caveats, there are also some specific caveats to be aware of when using Waypoint with certain protocols:
-
-- Waypoint only supports Ambient workloads. It does not support sidecar proxy workloads. 
-- HTTP: Waypoint does not support all HTTP features, such as HTTP/2 and chunked encoding.
-- gRPC: Waypoint does not support all gRPC features, such as HTTP/2 transport and protocol multiplexing.
-- WebSocket: Waypoint does not support WebSocket.
+2. **No HTTP/3 support**: Waypoint supports HTTP/2, but there are some limitations with HTTP/3 support when using HBONE (HTTP-Based Overlay Network Encapsulation). HBONE is currently limited to HTTP/2 transport, so while Waypoint can handle HTTP/2 traffic, it cannot yet fully support HTTP/3
 
 Despite these caveats, Waypoint is a powerful tool for enabling L7 networking and services for Istio Ambient workloads. It is a good choice for users who are looking for a way to run microservices-based applications in Ambient mode.
 
-Here is a table summarizing the caveats of Waypoint:
-
-| Caveat | Description |
-| ------------- | ------------- |
-| Maturity | Waypoint is still under development |
-| Features | Waypoint only supports L7 load balancing and routing |
-|Integration | Waypoint is not yet fully integrated with the Istio control plane | Support | Waypoint only supports Ambient workloads | HTTP | Waypoint does not support all HTTP features | 
-gRPC | Waypoint does not support all gRPC features | Websocket | Waypoint does not support WebSocket |
-
-In addition to these caveats, it is also important to note that Waypoint is a new feature, and it is not yet as mature as Istio's sidecar proxy. As a result, users may experience some performance or stability issues when using Waypoint. However, the Ambient mesh team is actively working to address these issues, and they are committed to making Waypoint a production-ready feature.
-
-Overall, Waypoint is a powerful tool for enabling L7 networking and services for Istio Ambient workloads. However, users should be aware of the caveats and limitations listed above before deploying Waypoint in production.
-
 ### Environment used for this guide
 
-For the examples in this guide, we used a deployment of Istio version `1.19.0` on a `kinD` cluster of version `0.20.0` running Kubernetes version `1.27.3`. However these should also work on any Kubernetes cluster at version `1.24.0` or later and Istio version `1.18.0` or later. It would be recommended to have a cluster with more than 1 worker node in order to fully exercise the examples described in this guide. Refer to the [Installation user](https://deploy-preview-13635--preliminary-istio.netlify.app/latest/docs/ops/ambient/usage/install/) guide or [Getting started guide](https://deploy-preview-13635--preliminary-istio.netlify.app/latest/docs/ops/ambient/getting-started/) on installing Istio in ambient mode on a Kubernetes cluster.
+For the environment used in this guide, refer to the [Installation user](../install/) guide or [L4 Networking & mTLS with Ztunnel](../ztunnel/) guide on installing Istio in ambient mode on a Kubernetes cluster.
 
 ## Deciding the scope of your Waypoint proxy
 
-Waypoint proxies can be deployed at the namespace or service account level. The scope you choose depends on your specific needs and requirements.
+Waypoint proxies can be deployed at the namespace(default) or service account level. The scope you choose depends on your specific needs and requirements.
 
 ### Namespace-level scope
 
