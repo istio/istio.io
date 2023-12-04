@@ -50,11 +50,11 @@ This guide describes the functionality and usage of the waypoint proxy and L7 ne
 * [Control Traffic towards Waypoint Proxy](##control-traffic-towards-waypoint-proxy)
 * [Remove Waypoint proxy layer](#remove-waypoint-proxy-layer)
 
-# Deciding if you need A Waypoint proxy
+## Deciding if you need A Waypoint proxy
 
 It's possible that the features offered by the secure overlay doesn’t meet your requirements. For instance, you need a rich Layer 7 authorization policy that sets up access based on a certain method and path. Alternatively you may like to conduct a canary test on the updated version of your service or introduce a new version without affecting current traffic. Or, you would like to receive metrics, HTTP access logs, and distributed tracing for some of your services. In order to accomplish these common cases, we'll go over how you can choose to enforce L7 processing with ambient mesh in this section.
 
-## Benefits of using the waypoint proxy and L7 networking features
+### Benefits of using the waypoint proxy and L7 networking features
 
 In summary, the waypoint proxy approach for the L7 processing layer offers the following three main advantages:
 
@@ -68,7 +68,7 @@ The waypoint proxy and L7 networking features provide a number of benefits, incl
 - Increased flexibility: The waypoint proxy allows you to implement a wide range of L7 networking features, such as HTTP load balancing, fault injection, and observability.
 - Simplified operations: By deploying a waypoint proxy, you can simplify the operation of your microservices architecture by reducing the number of components that need to be managed.
 
-## When to use the waypoint proxy and L7 networking features
+### When to use the waypoint proxy and L7 networking features
 
 You should consider using the waypoint proxy and L7 networking features if your microservices architecture requires any of the following:
 
@@ -84,7 +84,7 @@ To get started with the waypoint proxy and L7 networking features, you will need
 
 This guide will provide more detailed instructions on how to deploy and configure the waypoint proxy and L7 networking features.
 
-# Current Challenges
+## Current Challenges
 
 Unlike Ztunnel proxies, Waypoint proxies are not automatically installed with Istio ambient mesh. Waypoint proxies are deployed declaratively using Kubernetes Gateway resources or the helpful `istioctl` command. The minimum Istio version required for Istio ambient mode is `1.18.0`. In general Istio in ambient mode supports the existing Istio APIs that are supported in sidecar proxy mode. Since the ambient functionality is currently at an alpha release level, the following is a list of feature restrictions or caveats in the current release of Istio's ambient functionality (as of the `1.19.0` release). These restrictions are expected to be addressed/removed in future software releases as ambient graduates to beta and eventually General Availability.
 
@@ -126,15 +126,15 @@ In addition to these caveats, it is also important to note that Waypoint is a ne
 
 Overall, Waypoint is a powerful tool for enabling L7 networking and services for Istio Ambient workloads. However, users should be aware of the caveats and limitations listed above before deploying Waypoint in production.
 
-## Environment used for this guide
+### Environment used for this guide
 
 For the examples in this guide, we used a deployment of Istio version `1.19.0` on a `kinD` cluster of version `0.20.0` running Kubernetes version `1.27.3`. However these should also work on any Kubernetes cluster at version `1.24.0` or later and Istio version `1.18.0` or later. It would be recommended to have a cluster with more than 1 worker node in order to fully exercise the examples described in this guide. Refer to the [Installation user](https://deploy-preview-13635--preliminary-istio.netlify.app/latest/docs/ops/ambient/usage/install/) guide or [Getting started guide](https://deploy-preview-13635--preliminary-istio.netlify.app/latest/docs/ops/ambient/getting-started/) on installing Istio in ambient mode on a Kubernetes cluster.
 
-# Deciding the scope of your Waypoint proxy
+## Deciding the scope of your Waypoint proxy
 
 Waypoint proxies can be deployed at the namespace or service account level. The scope you choose depends on your specific needs and requirements.
 
-## Namespace-level scope
+### Namespace-level scope
 
 Deploying Waypoint proxies at the namespace level provides a number of benefits, including:
 - Simplified policy management: Policies are enforced at the namespace level, so you only need to define them once for all workloads in the namespace.
@@ -145,7 +145,7 @@ However, deploying Waypoint proxies at the namespace level also has some drawbac
 - Limited granularity: You cannot apply different policies to different workloads in the same namespace.
 - Increased resource consumption: Each namespace will require its own Waypoint proxy, which can consume more resources.
 
-## Service account-level scope
+### Service account-level scope
 
 Deploying Waypoint proxies at the service account level provides a number of benefits, including:
 - Increased granularity: You can apply different policies to different workloads based on their service account.
@@ -156,7 +156,7 @@ However, deploying Waypoint proxies at the service account level also has some d
 - Increased complexity: Managing policies at the service account level can be more complex, especially if you have a large number of service accounts.
 - Reduced caching: Waypoint proxies cannot cache routing and policy information at the service account level, which can reduce performance.
 
-## How to choose the right scope for your Waypoint proxies
+### How to choose the right scope for your Waypoint proxies
 
 The best scope for your Waypoint proxies will depend on your specific needs and requirements. If you have a simple application with a small number of workloads, then namespace-level scope may be a good choice. However, if you have a more complex application with a large number of workloads or if you need to apply different policies to different workloads, then service account-level scope may be a better choice.
 
@@ -167,7 +167,7 @@ Here are some factors to consider when choosing the scope for your Waypoint prox
 - The performance requirements of your application
 - The resource requirements of your application
 
-# Functional Overview
+## Functional Overview
 
 The functional behaviour of the waypoint proxy is dynamically configured by Istio to serve your applications configurations. This section takes a brief look at these functional aspects - detailed description of the internal design of the waypoint proxy is out of scope for this guide. The detailed functional overview from the Secure Overlay Networking was already discussed in the [Ztunnel L4 Networking Guide](https://deploy-preview-13635--preliminary-istio.netlify.app/latest/docs/ops/ambient/usage/ztunnel/#functionaloverview) hence this section only focuses on functionalities and features that Waypoint Proxy provides.
 
@@ -216,7 +216,7 @@ link="waypoint-architecture-deep-dive.svg"
 caption="Waypoint Architecture Deep Dive"
 >}}
 
-## Destination Only Waypoint
+### Destination Only Waypoint
 
 In contrast to traditional sidecar proxies, which reside alongside application pods, Waypoint proxies operate solely on the server-side, acting as reverse proxies for L7 traffic. This approach streamlines L7 traffic management by centralising policy enforcement to the destination workload's namespace or service account.
 
@@ -248,7 +248,7 @@ link="mixed-environment.svg"
 caption="Waypoint Proxies"
 >}}
 
-## Handling Destinations without Waypoint Proxies
+### Handling Destinations without Waypoint Proxies
 
 While destination-only Waypoint offers centralized policy enforcement and simplified configuration, there may be instances where the destination workload doesn't have a waypoint proxy deployed. This could arise when connecting to external services beyond the control of the Istio mesh.
 
@@ -256,10 +256,10 @@ To address this scenario, the Istio community is actively developing mechanisms 
 
 Please stay tuned for future blog posts and documentation updates that will provide detailed information on this evolving feature.
 
-# Deploying an Application
+## Deploying an Application
 
 When someone with Istio admin privileges sets up Istio mesh, it becomes available for all users in specific namespaces. The examples below shows how Istio can be used transparently once it's successfully deployed in ambient mode and the namespaces are annotated accordingly.
 
-## Basic application deployment without Ambient
+### Basic application deployment without Ambient
 
 This section is Under Construction...
