@@ -84,12 +84,29 @@ To get started with the waypoint proxy and L7 networking features, you will need
 
 This guide will provide more detailed instructions on how to deploy and configure the waypoint proxy and L7 networking features.
 
-# Current Challenges: #current-challenges
+# Current Challenges
 
-<<Need to work more>>
+Unlike Ztunnel proxies, Waypoint proxies are not automatically installed with Istio ambient mesh. Waypoint proxies are deployed declaratively using Kubernetes Gateway resources or the helpful `istioctl` command. The minimum Istio version required for Istio ambient mode is `1.18.0`. In general Istio in ambient mode supports the existing Istio APIs that are supported in sidecar proxy mode. Since the ambient functionality is currently at an alpha release level, the following is a list of feature restrictions or caveats in the current release of Istio's ambient functionality (as of the `1.19.0` release). These restrictions are expected to be addressed/removed in future software releases as ambient graduates to beta and eventually General Availability.
 
-Waypoint only supports Ambient workloads. It does not support sidecar proxy workloads. In addition to this general caveats, there are also some specific caveats to be aware of when using Waypoint with certain protocols:
+1. **Kubernetes only:** Istio in ambient mode is currently limited to deployment on Kubernetes clusters, excluding non-Kubernetes endpoints like virtual machines.
 
+2. **Single Cluster Support:** Multi-cluster deployments are not supported in Istio ambient mode; only single-cluster configurations are currently viable.
+
+3. **K8s CNI Restrictions:** Istio in ambient mode does not currently work with every Kubernetes CNI implementation. Additionally, with some plugins, certain CNI functions (in particular Kubernetes `NetworkPolicy` and Kubernetes Service Load balancing features) may get transparently bypassed in the presence of Istio ambient mode. The exact set of supported CNI plugins as well as any CNI feature caveats are currently under test and will be formally documented as Istio's ambient mode approaches the beta release.
+
+4. **TCP/IPv4 only:** In the current release, TCP over IPv4 is the only protocol supported for transport on an Istio secure overlay tunnel (this includes protocols such as HTTP that run between application layer endpoints on top of the TCP/ IPv4 connection).
+
+5. **No Dynamic switching to Ambient mode:** Enabling ambient mode is only possible during the deployment of a new Istio mesh control plane using an ambient profile or helm configuration. An existing Istio mesh deployed using a pre-ambient profile for instance can not be dynamically switched to also enable ambient mode operation.
+
+6. **Restrictions with Istio `PeerAuthentication`:** as of the time of writing, the `PeerAuthentication` resource is not supported by all components (i.e. waypoint proxies) in Istio ambient mode. Hence it is recommended to only use the `STRICT` mTLS mode currently. Like many of the other alpha stage caveats, this shall be addressed as the feature moves toward beta status.
+
+6. **`PeerAuthentication` Limitations:** As of now, not all components (i.e. Waypoint proxies), support the `PeerAuthentication` resource in Istio Ambient mode. Hence it is recommended to use the `STRICT` mTLS mode currently, this caveat shall be addressed as the feature moves toward beta status.
+
+7. **istioctl CLI Gaps:** Minor functional gaps may exist in the Istio CLI's output displays related to ambient mode. These will be addressed as the feature matures.
+
+In addition to this general caveats, there are also some specific caveats to be aware of when using Waypoint with certain protocols:
+
+- Waypoint only supports Ambient workloads. It does not support sidecar proxy workloads. 
 - HTTP: Waypoint does not support all HTTP features, such as HTTP/2 and chunked encoding.
 - gRPC: Waypoint does not support all gRPC features, such as HTTP/2 transport and protocol multiplexing.
 - WebSocket: Waypoint does not support WebSocket.
