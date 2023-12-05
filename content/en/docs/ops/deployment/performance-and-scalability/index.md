@@ -118,7 +118,6 @@ Note: Different hardware will give different values.
 />
 <p><h2 style="text-align: center;"> P90 latency vs client connections </h2></p><br>
 
-
 <img width="90%" style="display: block; margin: auto;"
     src="latency-p99-fortio-with-uniform.svg"
     alt="P99 latency vs client connections"
