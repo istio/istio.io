@@ -63,14 +63,14 @@ Istio 代理允许调用未知的服务。如果这个选项设置为 `REGISTRY_
 1. 要查看这种方法的实际效果，您需要确保 Istio 的安装配置了 `meshConfig.outboundTrafficPolicy.mode`
    选项为 `ALLOW_ANY`。它在默认情况下是开启的，除非您在安装 Istio 时显式地将它设置为 `REGISTRY_ONLY`。
 
-    运行以下命令以确认 `meshConfig.outboundTrafficPolicy.mode` 设置为 `ALLOW_ANY` 或被省略：
+    如果您不确定，可以运行以下命令来显示您的网格配置：
 
     {{< text bash >}}
-    $ kubectl get istiooperator installed-state -n istio-system -o jsonpath='{.spec.meshConfig.outboundTrafficPolicy.mode}'
-    ALLOW_ANY
+    $ kubectl get configmap istio -n istio-system -o yaml
     {{< /text >}}
 
-    您应该看到 `ALLOW_ANY` 或没有任何输出（默认为 `ALLOW_ANY`）。
+    除非您看到 `meshConfig.outboundTrafficPolicy.mode` 的值被显式设置为 `REGISTRY_ONLY`，
+    否则您可以确定该选项被设置为 `ALLOW_ANY`，这是唯一可能的值，也是默认值。
 
     {{< tip >}}
     如果您显式地设置了 `REGISTRY_ONLY` 模式，例如，通过使用更改后的设置重新运行原始的
