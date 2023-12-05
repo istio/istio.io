@@ -5,7 +5,7 @@
    viewBox="0 0 1621 709"
    version="1.1"
    id="svg17"
-   sodipodi:docname="test.svg"
+   sodipodi:docname="egress-sni-flow.svg"
    inkscape:version="1.3 (0e150ed, 2023-07-21)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -23,14 +23,14 @@
      inkscape:pageopacity="0.0"
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
-     inkscape:zoom="0.94147927"
-     inkscape:cx="1310.1722"
-     inkscape:cy="432.29842"
-     inkscape:window-width="1920"
-     inkscape:window-height="1027"
+     inkscape:zoom="0.66572638"
+     inkscape:cx="532.50106"
+     inkscape:cy="371.0233"
+     inkscape:window-width="1328"
+     inkscape:window-height="451"
      inkscape:window-x="0"
      inkscape:window-y="25"
-     inkscape:window-maximized="1"
+     inkscape:window-maximized="0"
      inkscape:current-layer="页面-1" />
   <title
      id="title1">未命名</title>
@@ -74,24 +74,6 @@
          x="72"
          y="210"
          id="tspan3">Application Pod</tspan></text>
-    <text
-       id="Inner-TLS"
-       font-family="ArialMT, Arial"
-       font-size="25"
-       font-weight="normal"
-       fill="#070707"><tspan
-         x="362"
-         y="373"
-         id="tspan4">Inner TLS</tspan></text>
-    <text
-       id="Outer,-Istio-mTLS-se"
-       font-family="ArialMT, Arial"
-       font-size="25"
-       font-weight="normal"
-       fill="#070707"><tspan
-         x="482"
-         y="565"
-         id="tspan5">Outer, Istio mTLS session</tspan></text>
     <text
        id="Sidecar-proxy-contai"
        font-family="ArialMT, Arial"
