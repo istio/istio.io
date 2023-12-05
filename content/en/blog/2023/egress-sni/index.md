@@ -55,15 +55,15 @@ The end-to-end request flow is shown in the following diagram:
 
 {{< image width="90%" link="./egress-sni-flow.svg" alt="Egress SNI routing with arbitrary domain names" title="Egress SNI routing with arbitrary domain names" caption="Egress SNI routing with arbitrary domain names" >}}
 
-In this diagram, egress HTTPS/TLS routes with Istio for arbitrary domain names, using SNI as a routing key.
+This diagram shows an egress HTTPS request to `en.wikipedia.org` using SNI as a routing key.
 
-* Inner TLS, application connection to final destination
+* Application container
 
     Application originates HTTP/TLS connection towards the final destination.
     Puts destination’s hostname into the SNI header. This TLS session is not
     decrypted inside the mesh. Only SNI header is inspected (as it is in cleartext).
 
-* Outer, Istio mTLS session
+* Sidecar proxy
 
     Sidecar intercepts traffic to matching hostnames in the SNI header from the application originated TLS sessions.
     Based on the VirtualService, the traffic is routed to the egress gateway while wrapping original traffic into
