@@ -238,7 +238,7 @@ Istio 网关只能将流量路由配置到预定义的主机、预定义的 IP �
 这使得请求的原始目标地址成为路由请求的唯一值。不幸的是，当使用出口网关时，
 由于原始请求被重定向到网关，因此请求的原始目标地址丢失，导致目标 IP 地址变成网关的 IP 地址。
 
-虽然不像依赖 Istio 实现细节那么简单且有些脆弱，但您可以使用
+尽管这样做并不简单且有些脆弱，因为它依赖于 Istio 实现细节，但您可以使用
 [Envoy 过滤器](/zh/docs/reference/config/networking/envoy-filter/)通过使用
 [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication)
 配置网关以支持任意域 HTTPS 或任何 TLS 请求中的值，用于标识将请求路由到的原始目的地。
