@@ -9,8 +9,7 @@ test: no
 {{< warning >}}
 Ambient is currently in [alpha status](/docs/releases/feature-stages/#feature-phase-definitions).
 
-Please **do not run ambient in production** and be sure to thoroughly review the [feature phase definitions](/docs/releases/feature-stages/#feature-phase-definitions) before use.
-In particular, there are known performance, stability, and security issues in the `alpha` release. There are also functional caveats some of which are listed in the [Caveats section](#caveats) of this guide. There are also planned breaking changes, including some that will prevent upgrades. These are all limitations that will be addressed before graduation to `beta`. The current version of this guide is meant to assist early deployments and testing of the alpha version of `ambient`. The guide will continue to get updated as `ambient` itself evolves from alpha to beta status and beyond. 
+Please **do not run ambient in production** and be sure to thoroughly review the [feature phase definitions](/docs/releases/feature-stages/#feature-phase-definitions) before use. In particular, there are known performance, stability, and security issues in the `alpha` release. There are also functional caveats some of which are listed in the [Caveats section](#caveats) of this guide. There are also planned breaking changes, including some that will prevent upgrades. These are all limitations that will be addressed before graduation to `beta`. The current version of this guide is meant to assist early deployments and testing of the alpha version of `ambient`. The guide will continue to get updated as `ambient` itself evolves from alpha to beta status and beyond.
 {{< /warning >}}
 
 ## Introduction
@@ -57,21 +56,21 @@ It's possible that the features offered by the secure overlay doesn’t meet you
 
 In summary, the waypoint proxy approach for the L7 processing layer offers the following four main advantages:
 
-- Traffic Resiliency - Timeout and retry, circuit breaking
-- Security - Rich L7 authorization policy
-- Observability - HTTP metrics, access logs, and tracing
-- Traffic management - Dark launch, canary test
+* Traffic Resiliency - Timeout and retry, circuit breaking
+* Security - Rich L7 authorization policy
+* Observability - HTTP metrics, access logs, and tracing
+* Traffic management - Dark launch, canary test
 
 ### When to use the waypoint proxy and L7 networking features
 
 You should consider using the waypoint proxy and L7 networking features if your microservices architecture requires any of the following:
 
-- L7 load balancing and routing: You need to distribute traffic across multiple instances of a workload based on factors such as request path, header values, or cookies.
+* L7 load balancing and routing: You need to distribute traffic across multiple instances of a workload based on factors such as request path, header values, or cookies.
 Waypoint provides a variety of L7 load balancing and routing algorithms, including round robin, weighted round robin, and least connections. It also supports path-based routing and other advanced routing rules.
-- L7 fault injection: You need to simulate faults in your microservices architecture such as delays, errors, and circuit breaks to test its resilience and prepare for real-world failures.
-- Rate limiting: You need to protect workloads against denial-of-service attacks and improve performance.
-- L7 observability: You need to collect metrics and traces from your microservices architecture to monitor its performance and troubleshoot problems.
-- Rich Authz Policy: Enforce granular authorization control and manage authorization policies centrally as well as enhanced Security
+* L7 fault injection: You need to simulate faults in your microservices architecture such as delays, errors, and circuit breaks to test its resilience and prepare for real-world failures.
+* Rate limiting: You need to protect workloads against denial-of-service attacks and improve performance.
+* L7 observability: You need to collect metrics and traces from your microservices architecture to monitor its performance and troubleshoot problems.
+* Rich Authz Policy: Enforce granular authorization control and manage authorization policies centrally as well as enhanced Security
 
 ### Getting started with the waypoint proxy and L7 networking features
 
@@ -85,7 +84,7 @@ Unlike Ztunnel proxies, Waypoint proxies are not automatically installed with Is
 
 1. **`PeerAuthentication` Limitations:** As of now, not all components (i.e. Waypoint proxies), support the `PeerAuthentication` resource in Istio Ambient mode. Hence it is recommended to use the `STRICT` mTLS mode currently, this caveat shall be addressed as the feature moves toward beta status.
 
-2. **No HTTP/3 support**: Waypoint supports HTTP/2, but there are some limitations with HTTP/3 support when using HBONE (HTTP-Based Overlay Network Encapsulation). HBONE is currently limited to HTTP/2 transport, so while Waypoint can handle HTTP/2 traffic, it cannot yet fully support HTTP/3
+1. **No HTTP/3 support:** Waypoint supports HTTP/2, but there are some limitations with HTTP/3 support when using HBONE (HTTP-Based Overlay Network Encapsulation). HBONE is currently limited to HTTP/2 transport, so while Waypoint can handle HTTP/2 traffic, it cannot yet fully support HTTP/3.
 
 Despite these caveats, Waypoint is a powerful tool for enabling L7 networking and services for Istio Ambient workloads. It is a good choice for users who are looking for a way to run microservices-based applications in Ambient mode.
 
@@ -116,23 +115,23 @@ Deploying Waypoint proxies at the service account level provides a number of ben
 
 However, deploying Waypoint proxies at the service account level also has some drawbacks, including:
 
-- Increased complexity: Managing policies at the service account level can be more complex, especially if you have a large number of service accounts.
-- Reduced caching: Waypoint proxies cannot cache routing and policy information at the service account level, which can reduce performance.
+* Increased complexity: Managing policies at the service account level can be more complex, especially if you have a large number of service accounts.
+* Reduced caching: Waypoint proxies cannot cache routing and policy information at the service account level, which can reduce performance.
 
 ### How to choose the right scope for your Waypoint proxies
 
 The best scope for your Waypoint proxies will depend on your specific needs and requirements. If you have a simple application with a small number of workloads, then namespace-level scope may be a good choice. However, if you have a more complex application with a large number of workloads or if you need to apply different policies to different workloads, then service account-level scope may be a better choice.
 
 Here are some factors to consider when choosing the scope for your Waypoint proxies:
-- The number of workloads in your application
-- The complexity of your application
-- The need to apply different policies to different workloads
-- The performance requirements of your application
-- The resource requirements of your application
+* The number of workloads in your application
+* The complexity of your application
+* The need to apply different policies to different workloads
+* The performance requirements of your application
+* The resource requirements of your application
 
 ## Functional Overview
 
-The functional behaviour of the waypoint proxy is dynamically configured by Istio to serve your applications configurations. This section takes a brief look at these functional aspects - detailed description of the internal design of the waypoint proxy is out of scope for this guide. The detailed functional overview from the Secure Overlay Networking was already discussed in the [Ztunnel L4 Networking Guide](https://deploy-preview-13635--preliminary-istio.netlify.app/latest/docs/ops/ambient/usage/ztunnel/#functionaloverview) hence this section only focuses on functionalities and features that Waypoint Proxy provides.
+The functional behavior of the waypoint proxy is dynamically configured by Istio to serve your applications configurations. This section takes a brief look at these functional aspects - detailed description of the internal design of the waypoint proxy is out of scope for this guide. The detailed functional overview from the Secure Overlay Networking was already discussed in the [Ztunnel L4 Networking Guide](https://deploy-preview-13635--preliminary-istio.netlify.app/latest/docs/ops/ambient/usage/ztunnel/#functionaloverview) hence this section only focuses on functionalities and features that Waypoint Proxy provides.
 
 {{< image width="100%"
 link="waypoint-architecture.png"
@@ -152,14 +151,14 @@ The waypoint proxy's data plane operates at Layer 7, enabling it to fully parse 
 - Request retries
 - gRPC-specific capabilities
 
-Waypoint proxies are deployed either per-namespace or per-service account, providing granular control over L7 traffic management. This deployment model allows for independent scaling of waypoint proxies based on the request load for individual workloads. Unlike the traditional sidecar deployment approach, waypoint proxies can be scaled independently to better fit the incoming traffic for a service and match the actual workload usage, optimizing resource utilization and improving performance. You can think of these waypoint proxies as individual gateways per workload type as shown here - 
+Waypoint proxies are deployed either per-namespace or per-service account, providing granular control over L7 traffic management. This deployment model allows for independent scaling of waypoint proxies based on the request load for individual workloads. Unlike the traditional sidecar deployment approach, waypoint proxies can be scaled independently to better fit the incoming traffic for a service and match the actual workload usage, optimizing resource utilization and improving performance. You can think of these waypoint proxies as individual gateways per workload type as shown here -
 
 {{< image width="100%"
 link="waypoint-gateway-architecture.svg"
-caption="The waypoint proxy is deployed per service account/ workload identity and can be thought of as a “gateway per workload”"
+caption="The waypoint proxy is deployed per service account/ workload identity and can be thought of as a 'gateway per workload'"
 >}}
 
-The deployment of waypoint proxies can be handled by namespace owners, platform operators, or automated systems. Once a waypoint proxy is deployed, and a corresponding L7 policy is configured for a destination represented by the waypoint proxy, the secure overlay layer ensures that connection is routed to the correct L7 waypoint proxy for processing and policy enforcement as shown here - 
+The deployment of waypoint proxies can be handled by namespace owners, platform operators, or automated systems. Once a waypoint proxy is deployed, and a corresponding L7 policy is configured for a destination represented by the waypoint proxy, the secure overlay layer ensures that connection is routed to the correct L7 waypoint proxy for processing and policy enforcement as shown here -
 
 {{< image width="100%"
 link="waypoint-traffic-flow.svg"
@@ -172,7 +171,7 @@ Functionally, the Waypoint proxy resembles the sidecar proxy but operates indepe
 
 Subsequently, the Waypoint proxy initiates communication with istioD, requesting XDS configuration to govern its operation. This configuration defines the L7 routing rules, policy enforcement mechanisms, and other parameters essential for managing L7 traffic.
 
-In essence, the Waypoint proxy serves as an L7 traffic management hub, decoupled from application pods and centrally managed by istioD. This architecture simplifies L7 configuration and policy enforcement, enabling efficient and scalable L7 services within Istio Ambient deployments as shown in the figure - 
+In essence, the Waypoint proxy serves as an L7 traffic management hub, decoupled from application pods and centrally managed by istioD. This architecture simplifies L7 configuration and policy enforcement, enabling efficient and scalable L7 services within Istio Ambient deployments as shown in the figure -
 
 {{< image width="100%"
 link="waypoint-architecture-deep-dive.svg"
@@ -181,7 +180,7 @@ caption="Waypoint Architecture Deep Dive"
 
 ### Destination Only Waypoint
 
-In contrast to traditional sidecar proxies, which reside alongside application pods, Waypoint proxies operate solely on the server-side, acting as reverse proxies for L7 traffic. This approach streamlines L7 traffic management by centralising policy enforcement to the destination workload's namespace or service account.
+In contrast to traditional sidecar proxies, which reside alongside application pods, Waypoint proxies operate solely on the server-side, acting as reverse proxies for L7 traffic. This approach streamlines L7 traffic management by centralizing policy enforcement to the destination workload's namespace or service account.
 
 When a request originates from an application pod, it bypasses the client-side Waypoint proxy and directly reaches the server-side Waypoint proxy associated with the destination workload's namespace or service account. Istio enforces that all traffic coming into the namespace goes through the waypoint, which then enforces all policies for that namespace. Because of this, each waypoint only needs to know about configuration for its own namespace. Thus Waypoint proxy assumes responsibility for enforcing all L7 policies and routing rules applicable to the destination workload.
 
@@ -190,21 +189,21 @@ link="destinationonly.svg"
 caption="Waypoint Proxies"
 >}}
 
-Destination-only Waypoint simplifies the configuration process by eliminating the need for sidecar proxies and "exportTo" configurations. Waypoint proxies only need to be aware of the endpoints, pods, and workloads within their respective namespaces or service accounts. This streamlined approach reduces the complexity of L7 management and enables a more efficient use of resources.
+Destination-only Waypoint simplifies the configuration process by eliminating the need for sidecar proxies and `exportTo` configurations. Waypoint proxies only need to be aware of the endpoints, pods, and workloads within their respective namespaces or service accounts. This streamlined approach reduces the complexity of L7 management and enables a more efficient use of resources.
 
 {{< image width="100%"
 link="destination-only-waypoint.svg"
 caption="Waypoint Proxies"
 >}}
 
-- **Policy Enforcement**: In traditional Istio deployments, both source-side and destination-side policies were employed, which often led to confusion for users regarding policy enforcement and troubleshooting. Destination-only Waypoint simplifies this process by enforcing all policies exclusively at the destination workload's namespace or service account. This centralized approach eliminates the need to track policies across multiple locations, making it easier to understand, manage, and troubleshoot L7 security configurations.
+* **Policy Enforcement**: In traditional Istio deployments, both source-side and destination-side policies were employed, which often led to confusion for users regarding policy enforcement and troubleshooting. Destination-only Waypoint simplifies this process by enforcing all policies exclusively at the destination workload's namespace or service account. This centralized approach eliminates the need to track policies across multiple locations, making it easier to understand, manage, and troubleshoot L7 security configurations.
 
 {{< image width="100%"
 link="policies-enforced (1).svg"
 caption="Policy Enforced on Destination Waypoint"
 >}}
 
-- **Mixed Environment**: In a mixed environment where clients may reside inside or outside the Istio mesh, destination-only Waypoint ensures consistent policy enforcement regardless of the client's location. Since all policies are applied at the destination workload, users can be confident that security measures are consistently applied to all incoming traffic.
+* **Mixed Environment**: In a mixed environment where clients may reside inside or outside the Istio mesh, destination-only Waypoint ensures consistent policy enforcement regardless of the client's location. Since all policies are applied at the destination workload, users can be confident that security measures are consistently applied to all incoming traffic.
 
 {{< image width="100%"
 link="mixed-environment.svg"
@@ -225,4 +224,4 @@ When someone with Istio admin privileges sets up Istio mesh, it becomes availabl
 
 ### Basic application deployment without Ambient
 
-This section is Under Construction...
+This section is Under Construction.
