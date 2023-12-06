@@ -79,7 +79,7 @@ keywords: [traffic-management,gateway,mesh,mtls,egress,remote]
 
 * 网格监听器
 
-    在网关中创建一个专用侦听器，用于对 Istio mTLS 流量进行相互身份验证。
+    在网关中创建一个专用侦听器，用于对 Istio mTLS 流量进行双向身份验证。
     外部 Istio mTLS 终止后，它会通过 TCP 代理无条件地将内部 TLS 流量发送到同一网关中的其他（内部）侦听器。
 
 * SNI 转发器
