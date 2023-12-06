@@ -4,7 +4,7 @@ description: Install and use Istio in Dual-Stack mode running on a Dual-Stack Ku
 weight: 70
 keywords: [dual-stack]
 owner: istio/wg-networking-maintainers
-test: no
+test: yes
 ---
 
 {{< boilerplate experimental >}}
@@ -18,7 +18,7 @@ test: no
 
 If you want to use `kind` for your test, you can set up a dual stack cluster with the following command:
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=none >}}
 $ kind create cluster --name istio-ds --config - <<EOF
 kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
@@ -33,7 +33,7 @@ To enable dual-stack for Istio, you will need to modify your `IstioOperator` or 
 
 {{< tab name="IstioOperator" category-value="iop" >}}
 
-{{< text yaml >}}
+{{< text syntax=yaml snip_id=none >}}
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -57,7 +57,7 @@ spec:
 
 {{< tab name="Helm" category-value="helm" >}}
 
-{{< text yaml >}}
+{{< text syntax=yaml snip_id=none >}}
 meshConfig:
   defaultConfig:
     proxyMetadata:
@@ -78,7 +78,7 @@ values:
 
 {{< tab name="Istioctl" category-value="istioctl" >}}
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=none >}}
 $ istioctl install --set values.pilot.env.ISTIO_DUAL_STACK=true --set meshConfig.defaultConfig.proxyMetadata.ISTIO_DUAL_STACK="true" --set values.gateways.istio-ingressgateway.ipFamilyPolicy=RequireDualStack --set values.gateways.istio-egressgateway.ipFamilyPolicy=RequireDualStack -y
 {{< /text >}}
 
@@ -109,40 +109,50 @@ $ istioctl install --set values.pilot.env.ISTIO_DUAL_STACK=true --set meshConfig
     $ kubectl label --overwrite namespace ipv6 istio-injection=enabled
     {{< /text >}}
 
-1. Create `tcp-echo` deployments in the namespaces:
+1. Create [tcp-echo]({{< github_tree >}}/samples/tcp-echo) deployments in the namespaces:
 
     {{< text bash >}}
-    $ kubectl apply --namespace dual-stack -f @samples/tcp-echo/tcp-echo-dual-stack.yaml
-    $ kubectl apply --namespace ipv4 -f @samples/tcp-echo/tcp-echo-ipv4.yaml
-    $ kubectl apply --namespace ipv6 -f @samples/tcp-echo/tcp-echo-ipv6.yaml
+    $ kubectl apply --namespace dual-stack -f @samples/tcp-echo/tcp-echo-dual-stack.yaml@
+    $ kubectl apply --namespace ipv4 -f @samples/tcp-echo/tcp-echo-ipv4.yaml@
+    $ kubectl apply --namespace ipv6 -f @samples/tcp-echo/tcp-echo-ipv6.yaml@
     {{< /text >}}
 
-1. Apply the `sleep` deployment in the `default` namespace:
+1. Deploy the [sleep]({{< github_tree >}}/samples/sleep) sample app to use as a test source for sending requests.
 
     {{< text bash >}}
-    $ kubectl apply -f @samples/sleep/sleep.yaml
+    $ kubectl apply -f @samples/sleep/sleep.yaml@
     {{< /text >}}
 
-1. Verify the traffic reaches the pods:
+1. Verify the traffic reaches the dual-stack pods:
 
     {{< text bash >}}
-    $ kubectl exec -it "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo dualstack | nc tcp-echo.dual-stack 9000"
+    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo dualstack | nc tcp-echo.dual-stack 9000"
     hello dualstack
-    $ kubectl exec -it "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo ipv4 | nc tcp-echo.ipv4 9000"
+    {{< /text >}}
+
+1. Verify the traffic reaches the IPv4 pods:
+
+    {{< text bash >}}
+    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo ipv4 | nc tcp-echo.ipv4 9000"
     hello ipv4
-    $ kubectl exec -it "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo ipv6 | nc tcp-echo.ipv6 9000"
+    {{< /text >}}
+
+1. Verify the traffic reaches the IPv6 pods:
+
+    {{< text bash >}}
+    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo ipv6 | nc tcp-echo.ipv6 9000"
     hello ipv6
     {{< /text >}}
 
 1. Verify the envoy listeners:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=none >}}
     $ istioctl proxy-config listeners "$(kubectl get pod -n dual-stack -l app=tcp-echo -o jsonpath='{.items[0].metadata.name}')" -n dual-stack --port 9000
     {{< /text >}}
 
     You will see listeners are now bound to multiple addresses, but only for dual stack services. Other services will only be listening on a single IP address.
 
-    {{< text json >}}
+    {{< text syntax=json snip_id=none >}}
         "name": "fd00:10:96::f9fc_9000",
         "address": {
             "socketAddress": {
@@ -164,7 +174,7 @@ $ istioctl install --set values.pilot.env.ISTIO_DUAL_STACK=true --set meshConfig
 
 1. Verify virtual inbound addresses are configured to listen on both `0.0.0.0` and `[::]`.
 
-    {{< text json >}}
+    {{< text syntax=json snip_id=none >}}
     "name": "virtualInbound",
     "address": {
         "socketAddress": {
@@ -186,7 +196,7 @@ $ istioctl install --set values.pilot.env.ISTIO_DUAL_STACK=true --set meshConfig
 
 1. Verify envoy endpoints are configured to route to both IPv4 and IPv6:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=none >}}
     $ istioctl proxy-config endpoints "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" --port 9000
     ENDPOINT                 STATUS      OUTLIER CHECK     CLUSTER
     10.244.0.19:9000         HEALTHY     OK                outbound|9000||tcp-echo.ipv4.svc.cluster.local
@@ -196,3 +206,12 @@ $ istioctl install --set values.pilot.env.ISTIO_DUAL_STACK=true --set meshConfig
     {{< /text >}}
 
 Now you can experiment with dual-stack services in your environment!
+
+## Cleanup
+
+1. Cleanup application namespaces and deployments
+
+    {{< text bash >}}
+    $ kubectl delete -f @samples/sleep/sleep.yaml@
+    $ kubectl delete ns dual-stack ipv4 ipv6
+    {{< /text >}}
