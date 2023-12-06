@@ -1133,15 +1133,15 @@ No
 <td><code>insecureSkipVerify</code></td>
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></code></td>
 <td>
-<p>InsecureSkipVerify specifies whether the proxy should skip verifying the
+<p><code>insecureSkipVerify</code> specifies whether the proxy should skip verifying the
 CA signature and SAN for the server certificate corresponding to the host.
 This flag should only be set if global CA signature verification is
-enabled, <code>VerifyCertAtClient</code> environmental variable is set to <code>true</code>,
+enabled, <code>VERIFY_CERTIFICATE_AT_CLIENT</code> environmental variable is set to <code>true</code>,
 but no verification is desired for a specific host. If enabled with or
-without <code>VerifyCertAtClient</code> enabled, verification of the CA signature and
+without <code>VERIFY_CERTIFICATE_AT_CLIENT</code> enabled, verification of the CA signature and
 SAN will be skipped.</p>
-<p><code>InsecureSkipVerify</code> is <code>false</code> by default.
-<code>VerifyCertAtClient</code> is <code>false</code> by default in Istio version 1.9 but will
+<p><code>insecureSkipVerify</code> is <code>false</code> by default.
+<code>VERIFY_CERTIFICATE_AT_CLIENT</code> is <code>false</code> by default in Istio version 1.9 but will
 be <code>true</code> by default in a later version where, going forward, it will be
 enabled by default.</p>
 
