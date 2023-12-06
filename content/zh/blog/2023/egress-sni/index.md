@@ -68,20 +68,17 @@ keywords: [traffic-management,gateway,mesh,mtls,egress,remote]
 
 * 应用程序容器
 
-    Application originates HTTP/TLS connection towards the final destination. Puts destination’s hostname into the SNI header. This TLS session is not decrypted inside the mesh. Only SNI header is inspected (as it is in cleartext).
     应用程序向最终目的地发起 HTTP/TLS 连接。将目标主机名放入 SNI 标头中。
     此 TLS 会话不会在网格内部被解密。仅 SNI 标头被检查（因为它是明文形式）。
 
 * Sidecar 代理
 
-    Sidecar intercepts traffic to matching hostnames in the SNI header from the application originated TLS sessions. Based on the VirtualService, the traffic is routed to the egress gateway while wrapping original traffic into Istio mTLS as well. Outer TLS session has the gateway Service address in the SNI header.
     Sidecar 拦截来自应用程序发起的 TLS 会话的 SNI 标头中匹配主机名的流量。
     基于 VirtualService，流量被路由到出口网关，同时将原始流量包装到 Istio mTLS 中。
     外部 TLS 会话具有包含在 SNI 标头中的网关 Service 地址。
 
 * 网格监听器
 
-    A dedicated listener is created in the Gateway that mutually authenticates the Istio mTLS traffic. After the outer Istio mTLS termination, it unconditionally sends the inner TLS traffic with a TCP proxy to the other (internal) listener in the same Gateway.
     在网关中创建一个专用侦听器，用于对 Istio mTLS 流量进行相互身份验证。
     外部 Istio mTLS 终止后，它会通过 TCP 代理无条件地将内部 TLS 流量发送到同一网关中的其他（内部）侦听器。
 
