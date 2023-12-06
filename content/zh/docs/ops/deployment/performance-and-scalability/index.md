@@ -72,19 +72,9 @@ Kubernetes 环境和用户编写的配置文件。
 
 ### CPU 和内存 {#CPU-and-memory}
 
-<!--
-Since the sidecar proxy performs additional work on the data path, it consumes CPU
-and memory. In Istio 1.19, a proxy consumes about 0.5 vCPU per 1000
-requests per second.
--->
 由于 sidecar 代理在数据路径上执行额外的工作，它需要消耗 CPU 和内存。
 以 Istio 1.19 举例，1000 QPS 会使用大约 0.5 vCPU。
 
-<!--
-The memory consumption of the proxy depends on the total configuration state the proxy holds.
-A large number of listeners, clusters, and routes can increase memory usage.
-In a large namespace with [namespace isolation](/zh/docs/reference/config/networking/sidecar/) enabled, the proxy consumes approximately 50 MB of memory.
--->
 代理的内存消耗取决于它的总体配置状态。大量的监听器、集群和路由会增加内存使用量。
 在启用了[命名空间隔离](/zh/docs/reference/config/networking/sidecar/)的大型命名空间中，
 代理消耗大约 50 MB 的内存。
@@ -93,20 +83,9 @@ In a large namespace with [namespace isolation](/zh/docs/reference/config/networ
 
 ### 延迟 {#latency}
 
-<!--
-Since Istio injects a sidecar proxy on the data path, latency is an important consideration. Every feature Istio adds also adds to the path length inside the proxy and potentially affects latency.
--->
 由于 Istio 在数据路径上注入了一个 Sidecar 代理，因此延迟是一个重要的考虑因素。
 Istio 添加的每个功能也会增加代理内部的路径长度，并可能影响延迟。
 
-<!--
-The Envoy proxy collects raw telemetry data after a response is sent to the
-client. The time spent collecting raw telemetry for a request does not contribute
-to the total time taken to complete that request. However, since the worker
-is busy handling the request, the worker won't start handling the next request
-immediately. This process adds to the queue wait time of the next request and affects
-average and tail latencies. The actual tail latency depends on the traffic pattern.
--->
 Envoy 代理在向客户端发送响应后收集原始遥测数据。
 为请求收集原始遥测数据所花费的时间不计入完成该请求所花费的总时间。
 但由于 worker 正忙于处理请求，它不会立即开始下一个请求的处理。
@@ -137,10 +116,6 @@ Envoy 代理在向客户端发送响应后收集原始遥测数据。
 />
 <p><h2 style="text-align: center;"> P99 延迟 vs 客户端连接 </h2></p>
 
-<!--
-- `no_mesh` Client pod directly calls the server pod, no sidecars are present.
-- `istio_with_stats` Client and server sidecars are present with telemetry configured by default. This is the default Istio configuration.
--->
 - `no_mesh` 客户端 Pod 直接调用服务器 Pod，不存在 Sidecar。
 - `istio_with_stats` 默认情况下，客户端和服务器的 Sidecar 都带有遥测配置。这是默认的 Istio 配置。
 
