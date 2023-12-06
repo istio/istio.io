@@ -230,7 +230,7 @@ $ kubectl delete destinationrule egressgateway-for-wikipedia
 
 上一节中的配置之所以有效，是因为所有 `*.wikipedia.org` 站点都可能由任何一个 `wikipedia.org` 服务器提供服务。
 然而，实际情况并非总是如此。例如，您可能想要配置出口控制以访问更通用的 wildcard 域，
-例如 `*.com` 或 `*.org`。配置任意 wildcard 域的流量给 Istio 网关带来了挑战；
+例如 `*.com` 或 `*.org`。为任意 wildcard 域名配置流量给 Istio 网关带来了挑战；
 Istio 网关只能将流量路由配置到预定义的主机、预定义的 IP 地址或请求的原始目标 IP 地址。
 
 在上一节中，您配置了虚拟服务用于将流量定向预定义主机 `www.wikipedia.org`。
