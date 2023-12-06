@@ -134,6 +134,8 @@ _rewrite_helm_repo() {
   cmd="$(type "${1:?snip}" | sed '1,3d;$d')"
   cmd="$(echo "${cmd}" | sed 's|istio/base|manifests/charts/base|')"
   cmd="$(echo "${cmd}" | sed 's|istio/istiod|manifests/charts/istio-control/istio-discovery|')"
+  cmd="$(echo "${cmd}" | sed 's|istio/cni|manifests/charts/istio-cni|')"
+  cmd="$(echo "${cmd}" | sed 's|istio/ztunnel|manifests/charts/ztunnel|')"
   cmd="$(echo "${cmd}" | sed 's|istio/gateway|manifests/charts/gateway|')"
   cmd="$(echo "${cmd}" | sed -E "s|(helm[[:space:]]+[^[:space:]]+)|\1 --set global.tag=${ISTIO_IMAGE_VERSION=SHOULD_BE_SET}.${ISTIO_LONG_SHA=latest}|g")"
   eval "${cmd}"
