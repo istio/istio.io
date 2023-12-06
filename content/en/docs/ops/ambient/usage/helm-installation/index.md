@@ -167,7 +167,6 @@ If you installed the gateway(s) for this revision using in-place upgrades, you m
 Removing the previous revision and its tags will not automatically revert the previously upgraded gateway(s).
 
 ### (Optional) Deleting CRDs installed by Istio
-
 Deleting CRDs removes any Istio resources you have created in your cluster. 
 To delete Istio CRDs installed in your cluster:
 
