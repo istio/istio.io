@@ -62,7 +62,32 @@ keywords: [traffic-management,gateway,mesh,mtls,egress,remote]
 
 端到端的请求流程如下图所示：
 
-{{< image width="90%" link="./egress-sni-flow.png" alt="具有任意域名的出口 SNI 路由" title="有任意域名的出口 SNI 路由" caption="有任意域名的出口 SNI 路由" >}}
+{{< image width="90%" link="./egress-sni-flow.svg" alt="具有任意域名的出口 SNI 路由" title="有任意域名的出口 SNI 路由" caption="有任意域名的出口 SNI 路由" >}}
+
+此图展示了通过 SNI 作为路由转发器向 `en.wikipedia.org` 发起出口 HTTPS 请求。
+
+* 应用程序容器
+
+    应用程序向最终目的地发起 HTTP/TLS 连接。将目标主机名放入 SNI 标头中。
+    此 TLS 会话不会在网格内部被解密。仅 SNI 标头被检查（因为它是明文形式）。
+
+* Sidecar 代理
+
+    Sidecar 拦截来自应用程序发起的 TLS 会话的 SNI 标头中匹配主机名的流量。
+    基于 VirtualService，流量被路由到出口网关，同时将原始流量包装到 Istio mTLS 中。
+    外部 TLS 会话具有包含在 SNI 标头中的网关 Service 地址。
+
+* 网格侦听器
+
+    在网关中创建一个专用侦听器，用于对 Istio mTLS 流量进行双向身份验证。
+    外部 Istio mTLS 终止后，它会通过 TCP 代理无条件地将内部 TLS 流量发送到同一网关中的其他（内部）侦听器。
+
+* SNI 转发器
+
+    具有 SNI 转发器的另一个侦听器对原始 TLS 会话执行新的 TLS 标头检查。
+    如果内部 SNI 主机名与允许的域名（包括通配符）匹配，则 TCP 会将流量代理到目的地，
+    并从每个连接的标头中读取。该侦听器位于 Envoy 内部（允许其重新启动流量处理以查看内部 SNI 值），
+    因此任何 Pod（网格内部或外部）都无法直接连接到它。该侦听器是 100% 通过 EnvoyFilter 手动配置的。
 
 ## 部署示例 {#deploy-the-sample}
 
@@ -156,7 +181,7 @@ subjects:
 然后应用以下 YAML 来配置网关路由：
 
 {{< text yaml >}}
-# 定义一个新的监听器，对入站连接强制执行 Istio mTLS。
+# 定义一个新的侦听器，对入站连接强制执行 Istio mTLS。
 # 这里是 Sidecar 路由应用程序流量的地方，并封装到 Istio mTLS 中。
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
