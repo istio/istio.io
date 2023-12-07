@@ -51,7 +51,7 @@ snip_show_components() {
 helm list -n istio-system
 }
 
-snip_check_deployments() {
+snip_check_pods() {
 kubectl get pods -n istio-system
 }
 

@@ -77,7 +77,7 @@ $ helm show values istio/istiod
 
 ## Verifying the Installation
 
-### Verifying the deployments status
+### Verifying the workload status
 
 After installing all the components, you can check the Helm deployment status with:
 
@@ -87,7 +87,7 @@ $ helm list -n istio-system
 
 You can check the status of the deployed pods with:
 
-{{< text syntax=bash snip_id=check_deployments >}}
+{{< text syntax=bash snip_id=check_pods >}}
 $ kubectl get pods -n istio-system
 {{< /text >}}
 
