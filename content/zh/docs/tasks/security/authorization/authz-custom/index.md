@@ -140,7 +140,7 @@ spec:
             port: "4180" # oauth2-proxy 使用的默认端口
             includeRequestHeadersInCheck: ["authorization", "cookie"] # 检查请求中发送到 oauth2-proxy 的标头
             headersToUpstreamOnAllow: ["authorization", "path", "x-auth-request-user", "x-auth-request-email", "x-auth-request-access-token"] # 请求被允许时发送到后端应用程序的标头
-            headersToDownstreamOnAllow: ["content-type", "set-cookie"] # 请求被允许时发送回客户端的标头
+            headersToDownstreamOnAllow: ["set-cookie"] # 请求被允许时发送回客户端的标头
             headersToDownstreamOnDeny: ["content-type", "set-cookie"] # 请求被拒绝时发送回客户端的标头
     {{< /text >}}
 

@@ -29,11 +29,11 @@ Istio 致力于用最小的资源开销实现最大的便易性，旨在支持�
 Istio 的数据平面组件 Envoy 代理用来处理通过系统的数据流。控制平面组件如
 Pilot、Galley 和 Citadel 负责配置数据平面。数据平面和控制平面有不同的性能关注点。
 
-## Istio 1.19 性能总结 {#performance-summary-for-Istio}
+## Istio 1.20 性能总结 {#performance-summary-for-Istio}
 
 [Istio 负载测试](https://github.com/istio/tools/tree/master/perf/load)网格包含了
 **1000** 个服务和 **2000** 个 Sidecar，全网格范围内，QPS 为 70,000。
-在使用 Istio 1.19 运行测试后，我们得到了如下结果：
+在使用 Istio 1.20 运行测试后，我们得到了如下结果：
 
 ## 控制平面性能 {#control-plane-performance}
 
@@ -72,19 +72,9 @@ Kubernetes 环境和用户编写的配置文件。
 
 ### CPU 和内存 {#CPU-and-memory}
 
-<!--
-Since the sidecar proxy performs additional work on the data path, it consumes CPU
-and memory. In Istio 1.19, a proxy consumes about 0.5 vCPU per 1000
-requests per second.
--->
 由于 sidecar 代理在数据路径上执行额外的工作，它需要消耗 CPU 和内存。
 以 Istio 1.19 举例，1000 QPS 会使用大约 0.5 vCPU。
 
-<!--
-The memory consumption of the proxy depends on the total configuration state the proxy holds.
-A large number of listeners, clusters, and routes can increase memory usage.
-In a large namespace with [namespace isolation](/zh/docs/reference/config/networking/sidecar/) enabled, the proxy consumes approximately 50 MB of memory.
--->
 代理的内存消耗取决于它的总体配置状态。大量的监听器、集群和路由会增加内存使用量。
 在启用了[命名空间隔离](/zh/docs/reference/config/networking/sidecar/)的大型命名空间中，
 代理消耗大约 50 MB 的内存。
@@ -93,57 +83,39 @@ In a large namespace with [namespace isolation](/zh/docs/reference/config/networ
 
 ### 延迟 {#latency}
 
-<!--
-Since Istio injects a sidecar proxy on the data path, latency is an important consideration. Every feature Istio adds also adds to the path length inside the proxy and potentially affects latency.
--->
 由于 Istio 在数据路径上注入了一个 Sidecar 代理，因此延迟是一个重要的考虑因素。
 Istio 添加的每个功能也会增加代理内部的路径长度，并可能影响延迟。
 
-<!--
-The Envoy proxy collects raw telemetry data after a response is sent to the
-client. The time spent collecting raw telemetry for a request does not contribute
-to the total time taken to complete that request. However, since the worker
-is busy handling the request, the worker won't start handling the next request
-immediately. This process adds to the queue wait time of the next request and affects
-average and tail latencies. The actual tail latency depends on the traffic pattern.
--->
 Envoy 代理在向客户端发送响应后收集原始遥测数据。
 为请求收集原始遥测数据所花费的时间不计入完成该请求所花费的总时间。
 但由于 worker 正忙于处理请求，它不会立即开始下一个请求的处理。
 此过程会增加下一个请求的队列等待时间，并影响平均延迟和尾延迟。
 实际的尾部延迟取决于流量模式。
 
-### Istio 1.19 的延迟 {#latency-for-Istio}
+### Istio 1.20 的延迟 {#latency-for-Istio}
 
-<!--
-Inside the mesh, a request traverses the client-side proxy and then the server-side
-proxy. In the default configuration of Istio 1.19 (i.e. Istio with telemetry v2),
-the two proxies add about 1.7 ms and 2.7 ms to the 90th and 99th percentile latency, respectively, over the baseline data plane latency.
-We obtained these results using the [Istio benchmarks](https://github.com/istio/tools/tree/{{< source_branch_name >}}/perf/benchmark)
-for the `http/1.1` protocol, with a 1 kB payload at 1000 requests per second using 16 client connections, 2 proxy workers and mutual TLS enabled.
--->
 在网格内部，请求会依次遍历客户端和服务器端代理。在 Istio 1.19
 的默认配置中（即带有遥测 v2 的 Istio），两个代理分别在基线数据平面延迟的 90 和 99
-分位延迟上增加约 1.31 和 1.58 毫秒。我们使用 `http/1.1` 协议的
+分位延迟上增加约 0.228 和 0.298 毫秒。我们使用 `http/1.1` 协议的
 [Istio 基准测试](https://github.com/istio/tools/tree/{{< source_branch_name >}}/perf/benchmark)获得了这些结果，
-测试标准是每秒 1000 请求，负载为 1KB，使用了 16 个客户端连接和 2 个代理 worker 并启用双向 TLS。
+测试标准是每秒 1000 请求，负载为 1KB，使用了 2、4、8、16、32、64 个客户端连接和 2 个代理 worker 并启用双向 TLS。
 
-{{< image width="90%"
-    link="latency_p90_fortio_with_jitter.svg"
+注意：不同的硬件会给出不同的值。
+
+<br><img width="90%" style="display: block; margin: auto;"
+    src="latency-p90-fortio-with-uniform.svg"
     alt="P90 延迟 vs 客户端连接"
     caption="P90 延迟 vs 客户端连接"
->}}
+/>
+<p><h2 style="text-align: center;"> P90 延迟 vs 客户端连接 </h2></p><br>
 
-{{< image width="90%"
-    link="latency_p99_fortio_with_jitter.svg"
+<img width="90%" style="display: block; margin: auto;"
+    src="latency-p99-fortio-with-uniform.svg"
     alt="P99 延迟 vs 客户端连接"
     caption="P99 延迟 vs 客户端连接"
->}}
+/>
+<p><h2 style="text-align: center;"> P99 延迟 vs 客户端连接 </h2></p>
 
-<!--
-- `no_mesh` Client pod directly calls the server pod, no sidecars are present.
-- `istio_with_stats` Client and server sidecars are present with telemetry configured by default. This is the default Istio configuration.
--->
 - `no_mesh` 客户端 Pod 直接调用服务器 Pod，不存在 Sidecar。
 - `istio_with_stats` 默认情况下，客户端和服务器的 Sidecar 都带有遥测配置。这是默认的 Istio 配置。
 

@@ -59,6 +59,8 @@ istioctl install --set profile=demo \
                  --set meshConfig.outboundTrafficPolicy.mode=REGISTRY_ONLY --set values.global.proxy.includeIPRanges="$IP_RANGE" -y
 _wait_for_deployment istio-system istiod
 
+_verify_contains snip_envoy_passthrough_to_external_services_1 "REGISTRY_ONLY"
+
 # Restart the sleep service
 snip_cleanup_1
 snip_before_you_begin_1

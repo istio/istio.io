@@ -402,5 +402,6 @@ features:
       checklist: features/dual-stack-support.md
       maturity: Experimental 
       maturityNotes: Dual Stack IPv4 and IPv6 is supported.
+      link: "https://istio.io/latest/docs/setup/additional-setup/dual-stack/"
       nextExpectedPromotion: ""
     area: Core

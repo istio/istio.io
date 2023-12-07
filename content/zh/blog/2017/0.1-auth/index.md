@@ -55,7 +55,7 @@ Istio Auth 使用了 [Kubernetes 服务帐户](https://kubernetes.io/zh-cn/docs/
 
 ### 通信安全{#communication-security}
 
-服务间通信基于高性能客户端和服务器端 [Envoy](https://envoyproxy.github.io/envoy/) 代理的传输隧道。代理之间的通信使用双向 TLS 来进行保护。使用双向 TLS 的好处是服务身份不会被替换为从源窃取或重放攻击的令牌。Istio Auth 还引入了安全命名的概念，以防止服务器欺骗攻击 - 客户端代理验证允许验证特定服务的授权的服务帐户。
+服务间通信基于高性能客户端和服务器端 {{<gloss envoy>}}Envoy{{</gloss>}} 代理的传输隧道。代理之间的通信使用双向 TLS 来进行保护。使用双向 TLS 的好处是服务身份不会被替换为从源窃取或重放攻击的令牌。Istio Auth 还引入了安全命名的概念，以防止服务器欺骗攻击 - 客户端代理验证允许验证特定服务的授权的服务帐户。
 
 ### 密钥管理和分配{#key-management-and-distribution}
 

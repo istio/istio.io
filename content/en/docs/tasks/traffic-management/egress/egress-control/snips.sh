@@ -33,12 +33,8 @@ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items..metadata.
 }
 
 snip_envoy_passthrough_to_external_services_1() {
-kubectl get istiooperator installed-state -n istio-system -o jsonpath='{.spec.meshConfig.outboundTrafficPolicy.mode}'
+kubectl get configmap istio -n istio-system -o yaml
 }
-
-! read -r -d '' snip_envoy_passthrough_to_external_services_1_out <<\ENDSNIP
-ALLOW_ANY
-ENDSNIP
 
 snip_envoy_passthrough_to_external_services_3() {
 kubectl exec "$SOURCE_POD" -c sleep -- curl -sSI https://www.google.com | grep  "HTTP/"; kubectl exec "$SOURCE_POD" -c sleep -- curl -sI https://edition.cnn.com | grep "HTTP/"

@@ -116,7 +116,10 @@ As noted earlier, some ambient functions may change as the project moves to beta
 
 It was noted earlier that traffic is always sent to a destination pod by first sending it to the ztunnel proxy on the same node as the destination pod. But what if the sender is either completely outside the Istio ambient mesh and hence does not initiate HBONE tunnels to the destination ztunnel first? What if the sender is malicious and trying to send traffic directly to an ambient pod destination, bypassing the destination ztunnel proxy?
 
-There are two scenarios here both of which are depicted in the following figure. In the first scenario, traffic stream B1 is being received by node W2 outside of any HBONE tunnel and addressed directly to ambient pod S1's IP address for some reason (maybe because the traffic source is not an ambient pod). As shown in the figure, the ztunnel traffic redirection logic will intercept such traffic and redirect it via the local ztunnel proxy for destination side proxy processing and possible filtering based on AuthorizationPolicy prior to sending it into pod S1. In the second scenario, traffic stream G1 is being received by the ztunnel proxy of node W2 (possibly over an HBONE tunnel) but the ztunnel proxy checks that the destination service requires waypoint processing and yet the source sending this traffic is not a waypoint or is not associated with this destination service. In this case. again the ztunnel proxy hairpins the traffic towards one of the waypoints associated with the destination service from where it can then be delivered to any pod implementing the destination service (possibly to pod S1 itself as shown in the figure).
+There are two scenarios here, both of which are depicted in the following figure:
+
+1. Traffic stream B1 is being received by node W2 outside of any HBONE tunnel and directly addressed to ambient pod S1's IP address for some reason (possibly because the traffic source is not an ambient pod). As shown in the figure, the ztunnel traffic redirection logic intercepts such traffic and redirects it via the local ztunnel proxy for destination-side proxy processing and possible filtering based on AuthorizationPolicy prior to sending it into pod S1.
+1. Traffic stream G1 is being received by the ztunnel proxy of node W2 (possibly over an HBONE tunnel). However, the ztunnel proxy checks that the destination service requires waypoint processing and yet the source sending this traffic is not a waypoint or is not associated with this destination service. In this case, the ztunnel proxy hairpins the traffic towards one of the waypoints associated with the destination service from where it can then be delivered to any pod implementing the destination service (possibly to pod S1 itself, as shown in the figure).
 
 {{< image width="100%"
 link="ztunnel-hairpin.png"
@@ -293,14 +296,19 @@ $ kubectl -n istio-system logs -l app=ztunnel | grep -E "inbound|outbound"
 --snip--
 {{< /text >}}
 
-These log messages confirm the traffic indeed used the ztunnel proxy in the datapath. Additional fine grained monitoring can be done by checking logs on the specific ztunnel proxy instances that are on the same nodes as the source and destination pods of traffic. If these logs are not seen, then a possibility is that traffic redirection may not be working correctly. Detailed description of monitoring and troubleshooting of the traffic redirection logic is out of scope for this guide. Note that as mentioned previously, with ambient traffic always traverses the ztunnel pod even when the source and destination of the traffic are on the same compute node.
+These log messages confirm the traffic indeed used the ztunnel proxy in the datapath. Additional fine-grained monitoring can be done by checking logs on the specific ztunnel proxy instances that are on the same nodes as the source and destination pods of traffic. If these logs are not seen, then a possibility is that traffic redirection may not be working correctly. Detailed description of monitoring and troubleshooting of the traffic redirection logic is out of scope for this guide. Note that as mentioned previously, with ambient traffic always traverses the ztunnel pod even when the source and destination of the traffic are on the same compute node.
 
 ### Monitoring and Telemetry via Prometheus, Grafana, Kiali
 
 In addition to checking ztunnel logs and other monitoring options noted above, one can also use normal Istio monitoring and telemetry functions to monitor application traffic within an Istio Ambient mesh.
-The use of Istio in ambient mode does not change this behavior. Since this functionality is largely unchanged in Istio ambient mode from Istio sidecar mode, these details are not repeated in this guide. Please refer to [Prometheus](/docs/ops/integrations/prometheus/#installation) and [Kiali](/docs/ops/integrations/kiali/#installation) for information on installation of Prometheus and Kiali services and dashboards as well as the standard Istio metrics and telemetry documentation (such as [here](/docs/reference/config/metrics/) and [here](/docs/tasks/observability/metrics/querying-metrics/)) for additional details.
+The use of Istio in ambient mode does not change this behavior. Since this functionality is largely unchanged in Istio ambient mode from Istio sidecar mode, these details are not repeated in this guide. Please refer to:
 
-One point to note is that in case of a service that is only using ztunnel and L4 networking, the Istio metrics reported will currently only be the L4/ TCP metrics (namely `istio_tcp_sent_bytes_total`, `istio_tcp_received_bytes_total`, `istio_tcp_connections_opened_total`, `istio_tcp_connections_closed_total`). The full set of Istio and Envoy metrics will be reported when a Waypoint proxy is involved.
+* [Prometheus installation](/docs/ops/integrations/prometheus/#installation)
+* [Kiali installation](/docs/ops/integrations/kiali/#installation)
+* [Istio metrics](/docs/reference/config/metrics/)
+* [Querying Metrics from Prometheus](/docs/tasks/observability/metrics/querying-metrics/)
+
+One point to note is that in case of a service that is only using ztunnel and L4 networking, the Istio metrics reported will currently only be the L4 TCP metrics (namely `istio_tcp_sent_bytes_total`, `istio_tcp_received_bytes_total`, `istio_tcp_connections_opened_total`, `istio_tcp_connections_closed_total`). The full set of Istio and Envoy metrics will be reported when a Waypoint proxy is involved.
 
 ### Verifying ztunnel load balancing
 
@@ -345,17 +353,18 @@ This is a round robin load balancing algorithm and is separate from and independ
 
 ### Pod selection logic for ambient and sidecar modes
 
-Istio with sidecar proxies can co-exist with ambient based node level proxies within the same compute cluster. It is important to ensure that the same pod or namespace does not get configured to use both a sidecar proxy and an ambient node-level proxy. However if this does occur, currently sidecar injection takes precedence for such a pod or namespace.
+Istio with sidecar proxies can co-exist with ambient based node level proxies within the same compute cluster. It is important to ensure that the same pod or namespace does not get configured to use both a sidecar proxy and an ambient node-level proxy. However, if this does occur, currently sidecar injection takes precedence for such a pod or namespace.
 
 Note that two pods within the same namespace could in theory be set to use different modes by labeling individual pods separately from the namespace label, however this is not recommended. For most common use cases it is recommended that a single mode be used for all pods within a single namespace.
 
-The exact logic to determine whether a pod is setup to use ambient mode is as follows.
+The exact logic to determine whether a pod is set up to use ambient mode is as follows.
 
 1. The `istio-cni` plugin configuration exclude list configured in `cni.values.excludeNamespaces` is used to skip namespaces in the exclude list.
 1. `ambient` mode is used for a pod if
-- The namespace has label `istio.io/dataplane-mode=ambient`
-- The annotation `sidecar.istio.io/status` is not present on the pod
-- `ambient.istio.io/redirection` is not `disabled`
+
+    * The namespace has label `istio.io/dataplane-mode=ambient`
+    * The annotation `sidecar.istio.io/status` is not present on the pod
+    * `ambient.istio.io/redirection` is not `disabled`
 
 The simplest option to avoid a configuration conflict is for a user to ensure that for each namespace, it either has the label for sidecar injection (`istio-injection=enabled`) or for ambient data plane mode (`istio.io/dataplane-mode=ambient`) but never both.
 
@@ -408,7 +417,7 @@ $ kubectl logs ds/ztunnel -n istio-system  | grep -E RBAC
 {{< /text >}}
 
 {{< warning >}}
-If an `AuthorizationPolicy` has been configured that requires any traffic processing beyond L4, and if no waypoint proxies are configured for the destination of the traffic, then ztunnel proxy will simply drop all traffic as a defensive move. Hence check to ensure that either all rules involve L4 processing only or else if non-L4 rules are unavoidable, then waypoint proxies are also configured to handle policy enforcement.
+If an `AuthorizationPolicy` has been configured that requires any traffic processing beyond L4, and if no waypoint proxies are configured for the destination of the traffic, then ztunnel proxy will simply drop all traffic as a defensive move. Hence, check to ensure that either all rules involve L4 processing only or else if non-L4 rules are unavoidable, then waypoint proxies are also configured to handle policy enforcement.
 {{< /warning >}}
 
 As an example, modify the `AuthorizationPolicy` to include a check for the HTTP GET method as shown below. Now notice that both `sleep` and `notsleep` pods are blocked from sending traffic to the destination `httpbin` service.
@@ -463,7 +472,7 @@ In the use cases so far, the traffic source and destination pods are both ambien
 
 ### East-West non-mesh pod to ambient mesh pod (and use of PeerAuthentication resource) {#ewnonmesh}
 
-In the example below, the same `httpbin` service which has already been setup in the prior examples is accessed via client `sleep` pods that are running in a separate namespace that is not part of the Istio mesh. This example shows that East-west traffic between ambient mesh pods and non mesh pods is seamlessly supported. Note that as described previously, this use case leverages the traffic hair-pinning capability of ambient. Since the non-mesh pods initiate traffic directly to the backend pods without going through HBONE or ztunnel, at the destination node, traffic is redirected via the ztunnel proxy at the destination node to ensure that ambient authorization policy is applied (this can be verified by viewing logs of the appropriate ztunnel proxy pod on the destination node; the logs are not shown in the example snippet below for simplicity).
+In the example below, the same `httpbin` service which has already been set up in the prior examples is accessed via client `sleep` pods that are running in a separate namespace that is not part of the Istio mesh. This example shows that East-west traffic between ambient mesh pods and non mesh pods is seamlessly supported. Note that as described previously, this use case leverages the traffic hair-pinning capability of ambient. Since the non-mesh pods initiate traffic directly to the backend pods without going through HBONE or ztunnel, at the destination node, traffic is redirected via the ztunnel proxy at the destination node to ensure that ambient authorization policy is applied (this can be verified by viewing logs of the appropriate ztunnel proxy pod on the destination node; the logs are not shown in the example snippet below for simplicity).
 
 {{< text bash >}}
 $ kubectl create namespace client-a
@@ -540,17 +549,17 @@ $ kubectl exec deploy/sleep -n client-b  -- curl httpbin.ambient-demo.svc.cluste
     <title>httpbin.org</title>
 {{< /text >}}
 
-Again, it can further be verified from viewing the logs of the ztunnel pod (not shown in the example) at the destination node that traffic does in fact use the HBONE and CONNECT based path from the sidecar proxy based source client pod to the ambient based destination service pod. Additionally not shown but it can also be verified that unlike the previous subsection, in this case even if you apply a `PeerAuthentication` resource to the namespace tagged for ambient mode, communication continues between client and service pods since both use the HBONE control and data planes relying on mTLS.
+Again, it can further be verified from viewing the logs of the ztunnel pod (not shown in the example) at the destination node that traffic does in fact use the HBONE and CONNECT based path from the sidecar proxy based source client pod to the ambient based destination service pod. Additionally, although not shown, it can also be verified that unlike the previous subsection, in this case even if you apply a `PeerAuthentication` resource to the namespace tagged for ambient mode, communication continues between client and service pods since both use the HBONE control and data planes relying on mTLS.
 
 ### North-South Ingress Gateway to ambient backend pods {#nsingress2ambient}
 
-This section describes a use case for North-South traffic with an Istio Gateway exposing the httpbin service via the Kubernetes Gateway API. The gateway itself is running in a non-Ambient namespace and may be an existing gateway that is also exposing other services that are provided by non-ambient pods. Hence this example shows that ambient workloads can also interoperate with Istio gateways that need not themselves be running in namespaces tagged for ambient mode of operation.
+This section describes a use case for North-South traffic with an Istio Gateway exposing the httpbin service via the Kubernetes Gateway API. The gateway itself is running in a non-Ambient namespace and may be an existing gateway that is also exposing other services that are provided by non-ambient pods. Hence, this example shows that ambient workloads can also interoperate with Istio gateways that need not themselves be running in namespaces tagged for ambient mode of operation.
 
 For this example, you can use `metallb` to provide a load balancer service on an IP addresses that is reachable from outside the cluster. The same example also works with other forms of North-South load balancing options. The example below assumes that you have already installed `metallb` in this cluster to provide the load balancer service including a pool of IP addresses for `metallb` to use for exposing services externally. Refer to the [`metallb` guide for kind](https://kind.sigs.k8s.io/docs/user/loadbalancer/) for instructions on setting up `metallb` on kind clusters or refer to the instructions from the [`metallb` documentation](https://metallb.universe.tf/installation/) appropriate for your environment.
 
 This example uses the Kubernetes Gateway API for configuring the N-S gateway. Since this API is not currently provided as default in Kubernetes and kind distributions, you have to install the API CRDs first as shown in the example.
 
-An instance of `Gateway` using the Kubernetes Gateway API CRDs will then be deployed to leverage this `metallb` load balancer service. The instance of Gateway runs in the istio-system namespace in this example to represent an existing Gateway running in a non-ambient namespace. Finally an `HTTPRoute` will be provisioned with a backend reference pointing to the existing httpbin service that is running on an ambient pod in the ambient-demo namespace.
+An instance of `Gateway` using the Kubernetes Gateway API CRDs will then be deployed to leverage this `metallb` load balancer service. The instance of Gateway runs in the istio-system namespace in this example to represent an existing Gateway running in a non-ambient namespace. Finally, an `HTTPRoute` will be provisioned with a backend reference pointing to the existing httpbin service that is running on an ambient pod in the ambient-demo namespace.
 
 {{< text bash >}}
 $ kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
@@ -617,4 +626,4 @@ $ curl  "$INGRESS_HOST" -s | grep title -m 1
     <title>httpbin.org</title>
 {{< /text >}}
 
-These examples illustrate multiple options for interoperability between ambient pods and non-ambient endpoints (which can be either Kubernetes application pods or Istio gateway pods with both Istio native gateways and Kubernetes Gateway API instances). Interoperability is also supported between Istio ambient pods and Istio Egress Gateways as well as scenarios where the ambient pods run the client-side of an application with the service side running outside of the mesh of on a mesh pod that uses the sidecar proxy mode. Hence users have multiple options for seamlessly integrating ambient and non-ambient workloads within the same Istio mesh, allowing for phased introduction of ambient capability as best suits the needs of Istio mesh deployments and operations.
+These examples illustrate multiple options for interoperability between ambient pods and non-ambient endpoints (which can be either Kubernetes application pods or Istio gateway pods with both Istio native gateways and Kubernetes Gateway API instances). Interoperability is also supported between Istio ambient pods and Istio Egress Gateways as well as scenarios where the ambient pods run the client-side of an application with the service side running outside of the mesh of on a mesh pod that uses the sidecar proxy mode. Hence, users have multiple options for seamlessly integrating ambient and non-ambient workloads within the same Istio mesh, allowing for phased introduction of ambient capability as best suits the needs of Istio mesh deployments and operations.

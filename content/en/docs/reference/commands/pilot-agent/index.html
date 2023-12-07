@@ -393,6 +393,11 @@ to enable it.  You can execute the following once:</p>
 </thead>
 <tbody>
 <tr>
+<td><code>--capture-all-dns</code></td>
+<td></td>
+<td>Instead of only capturing DNS traffic to DNS server IP, capture all DNS traffic at port 53. This setting is only effective when redirect dns is enabled. </td>
+</tr>
+<tr>
 <td><code>--dry-run</code></td>
 <td><code>-n</code></td>
 <td>Do not call any external dependencies like iptables. </td>
@@ -1447,6 +1452,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>If enabled, mesh will support certificates signed by more than one trustAnchor for ISTIO_MUTUAL mTLS</td>
 </tr>
 <tr>
+<td><code>ISTIO_OUTBOUND_IPV4_LOOPBACK_CIDR</code></td>
+<td>String</td>
+<td><code>127.0.0.1/32</code></td>
+<td>IPv4 CIDR range used to identify outbound traffic on loopback interface intended for application container</td>
+</tr>
+<tr>
 <td><code>ISTIO_OUTBOUND_OWNER_GROUPS</code></td>
 <td>String</td>
 <td><code>*</code></td>
@@ -2073,6 +2084,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>String</td>
 <td><code></code></td>
 <td>Additional config map to load for shared MeshConfig settings. The standard mesh config will take precedence.</td>
+</tr>
+<tr>
+<td><code>STACKDRIVER_AUDIT_LOG</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, StackDriver audit logging will be enabled.</td>
 </tr>
 <tr>
 <td><code>TOKEN_AUDIENCES</code></td>
