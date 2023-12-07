@@ -4,7 +4,7 @@ description: 在双栈 Kubernetes 集群上以双栈模式安装和使用 Istio�
 weight: 70
 keywords: [dual-stack]
 owner: istio/wg-networking-maintainers
-test: no
+test: yes
 ---
 
 {{< boilerplate experimental >}}
@@ -18,7 +18,7 @@ test: no
 
 如果您想使用 `kind` 进行测试，可以使用以下命令建立双栈集群：
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=none >}}
 $ kind create cluster --name istio-ds --config - <<EOF
 kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
@@ -33,7 +33,7 @@ EOF
 
 {{< tab name="IstioOperator" category-value="iop" >}}
 
-{{< text yaml >}}
+{{< text syntax=yaml snip_id=none >}}
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -57,7 +57,7 @@ spec:
 
 {{< tab name="Helm" category-value="helm" >}}
 
-{{< text yaml >}}
+{{< text syntax=yaml snip_id=none >}}
 meshConfig:
   defaultConfig:
     proxyMetadata:
@@ -78,7 +78,7 @@ values:
 
 {{< tab name="Istioctl" category-value="istioctl" >}}
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=none >}}
 $ istioctl install --set values.pilot.env.ISTIO_DUAL_STACK=true --set meshConfig.defaultConfig.proxyMetadata.ISTIO_DUAL_STACK="true" --set values.gateways.istio-ingressgateway.ipFamilyPolicy=RequireDualStack --set values.gateways.istio-egressgateway.ipFamilyPolicy=RequireDualStack -y
 {{< /text >}}
 
@@ -109,40 +109,50 @@ $ istioctl install --set values.pilot.env.ISTIO_DUAL_STACK=true --set meshConfig
     $ kubectl label --overwrite namespace ipv6 istio-injection=enabled
     {{< /text >}}
 
-1. 在命名空间中创建 `tcp-echo` 部署：
+1. 在命名空间中创建 [tcp-echo]({{< github_tree >}}/samples/tcp-echo) 部署：
 
     {{< text bash >}}
-    $ kubectl apply --namespace dual-stack -f @samples/tcp-echo/tcp-echo-dual-stack.yaml
-    $ kubectl apply --namespace ipv4 -f @samples/tcp-echo/tcp-echo-ipv4.yaml
-    $ kubectl apply --namespace ipv6 -f @samples/tcp-echo/tcp-echo-ipv6.yaml
+    $ kubectl apply --namespace dual-stack -f @samples/tcp-echo/tcp-echo-dual-stack.yaml@
+    $ kubectl apply --namespace ipv4 -f @samples/tcp-echo/tcp-echo-ipv4.yaml@
+    $ kubectl apply --namespace ipv6 -f @samples/tcp-echo/tcp-echo-ipv6.yaml@
     {{< /text >}}
 
-1. 在 `default` 命名空间中应用 `sleep` 部署：
+1. 部署 [sleep]({{< github_tree >}}/samples/sleep) 示例应用程序以用作发送请求的测试源。
 
     {{< text bash >}}
-    $ kubectl apply -f @samples/sleep/sleep.yaml
+    $ kubectl apply -f @samples/sleep/sleep.yaml@
     {{< /text >}}
 
-1. 验证到达 Pod 的流量：
+1. 验证到达双栈 Pod 的流量：
 
     {{< text bash >}}
-    $ kubectl exec -it "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo dualstack | nc tcp-echo.dual-stack 9000"
+    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo dualstack | nc tcp-echo.dual-stack 9000"
     hello dualstack
-    $ kubectl exec -it "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo ipv4 | nc tcp-echo.ipv4 9000"
+    {{< /text >}}
+
+1. 验证到达 IPv4 Pod 的流量：
+
+    {{< text bash >}}
+    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo ipv4 | nc tcp-echo.ipv4 9000"
     hello ipv4
-    $ kubectl exec -it "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo ipv6 | nc tcp-echo.ipv6 9000"
+    {{< /text >}}
+
+1. 验证到达 IPv6 Pod 的流量：
+
+    {{< text bash >}}
+    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo ipv6 | nc tcp-echo.ipv6 9000"
     hello ipv6
     {{< /text >}}
 
-1. 验证 Envoy 监听器：
+1. 验证 Envoy 侦听器：
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=none >}}
     $ istioctl proxy-config listeners "$(kubectl get pod -n dual-stack -l app=tcp-echo -o jsonpath='{.items[0].metadata.name}')" -n dual-stack --port 9000
     {{< /text >}}
 
     您将看到侦听器现在绑定到多个地址，但仅限于双堆栈服务。其他服务将仅侦听单个 IP 地址。
 
-    {{< text json >}}
+    {{< text syntax=json snip_id=none >}}
         "name": "fd00:10:96::f9fc_9000",
         "address": {
             "socketAddress": {
@@ -164,7 +174,7 @@ $ istioctl install --set values.pilot.env.ISTIO_DUAL_STACK=true --set meshConfig
 
 1. 验证虚拟入站地址是否配置为同时侦听 `0.0.0.0` 和 `[::]`。
 
-    {{< text json >}}
+    {{< text syntax=json snip_id=none >}}
     "name": "virtualInbound",
     "address": {
         "socketAddress": {
@@ -186,7 +196,7 @@ $ istioctl install --set values.pilot.env.ISTIO_DUAL_STACK=true --set meshConfig
 
 1. 验证 Envoy 端点是否被配置为同时路由到 IPv4 和 IPv6：
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=none >}}
     $ istioctl proxy-config endpoints "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" --port 9000
     ENDPOINT                 STATUS      OUTLIER CHECK     CLUSTER
     10.244.0.19:9000         HEALTHY     OK                outbound|9000||tcp-echo.ipv4.svc.cluster.local
@@ -196,3 +206,12 @@ $ istioctl install --set values.pilot.env.ISTIO_DUAL_STACK=true --set meshConfig
     {{< /text >}}
 
 现在您可以在您的环境中试验双栈服务！
+
+## 清理 {#cleanup}
+
+1. 清理应用程序命名空间和部署
+
+    {{< text bash >}}
+    $ kubectl delete -f @samples/sleep/sleep.yaml@
+    $ kubectl delete ns dual-stack ipv4 ipv6
+    {{< /text >}}
