@@ -121,7 +121,7 @@ remove_toc_prefix: 'install-cni '
 </tr>
 <tr>
 <td><code>--repair-broken-pod-label-key &lt;string&gt;</code></td>
-<td>The key portion of the label which will be set by the ace repair if label pods is true  (default `cni.istio.io/uninitialized`)</td>
+<td>The key portion of the label which will be set by the race repair if label pods is true  (default `cni.istio.io/uninitialized`)</td>
 </tr>
 <tr>
 <td><code>--repair-broken-pod-label-value &lt;string&gt;</code></td>
@@ -1417,7 +1417,7 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td><code>REPAIR_BROKEN_POD_LABEL_KEY</code></td>
 <td>String</td>
 <td><code>cni.istio.io/uninitialized</code></td>
-<td>The key portion of the label which will be set by the ace repair if label pods is true</td>
+<td>The key portion of the label which will be set by the race repair if label pods is true</td>
 </tr>
 <tr>
 <td><code>REPAIR_BROKEN_POD_LABEL_VALUE</code></td>
