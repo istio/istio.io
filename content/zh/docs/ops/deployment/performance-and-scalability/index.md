@@ -31,7 +31,7 @@ Pilot、Galley 和 Citadel 负责配置数据平面。数据平面和控制平�
 
 ## Istio 1.20 性能总结 {#performance-summary-for-Istio}
 
-[Istio 负载测试](https://github.com/istio/tools/tree/master/perf/load)网格包含了
+[Istio 负载测试](https://github.com/istio/tools/tree/{{< source_branch_name >}}/perf/load)网格包含了
 **1000** 个服务和 **2000** 个 Sidecar，全网格范围内，QPS 为 70,000。
 在使用 Istio 1.20 运行测试后，我们得到了如下结果：
 
