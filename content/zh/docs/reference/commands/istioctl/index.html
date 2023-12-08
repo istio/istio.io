@@ -474,9 +474,9 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 <td>Set a specific directory for output archive file.  (default ``)</td>
 </tr>
 <tr>
-<td><code>--rps-limit &lt;int&gt;</code></td>
+<td><code>--rq-concurrency &lt;int&gt;</code></td>
 <td></td>
-<td>Requests per second limit to the Kubernetes API server, defaults to 10.A higher limit can make bug report collection much faster.  (default `0`)</td>
+<td>Set the concurrency limit of requests to the Kubernetes API server, defaults to 32.  (default `0`)</td>
 </tr>
 <tr>
 <td><code>--start-time &lt;string&gt;</code></td>
@@ -594,9 +594,9 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 <td>Set a specific directory for output archive file.  (default ``)</td>
 </tr>
 <tr>
-<td><code>--rps-limit &lt;int&gt;</code></td>
+<td><code>--rq-concurrency &lt;int&gt;</code></td>
 <td></td>
-<td>Requests per second limit to the Kubernetes API server, defaults to 10.A higher limit can make bug report collection much faster.  (default `0`)</td>
+<td>Set the concurrency limit of requests to the Kubernetes API server, defaults to 32.  (default `0`)</td>
 </tr>
 <tr>
 <td><code>--short</code></td>
@@ -5968,6 +5968,11 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Kubernetes namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>Output format for tag description (available formats: table,json)  (default `table`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
