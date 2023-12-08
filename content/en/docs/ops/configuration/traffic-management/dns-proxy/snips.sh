@@ -63,7 +63,9 @@ kubectl exec deploy/sleep -- curl -sS -v address.internal
 }
 
 ! read -r -d '' snip_dns_capture_in_action_3_out <<\ENDSNIP
-* processing: address.internal
+* Host address.internal:80 was resolved.
+* IPv6: (none)
+* IPv4: 198.51.100.1
 *   Trying 198.51.100.1:80...
 ENDSNIP
 

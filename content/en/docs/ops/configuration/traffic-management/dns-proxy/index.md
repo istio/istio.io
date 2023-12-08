@@ -88,7 +88,9 @@ Without the DNS capture, a request to `address.internal` would likely fail to re
 
 {{< text bash >}}
 $ kubectl exec deploy/sleep -- curl -sS -v address.internal
-* processing: address.internal
+* Host address.internal:80 was resolved.
+* IPv6: (none)
+* IPv4: 198.51.100.1
 *   Trying 198.51.100.1:80...
 {{< /text >}}
 
