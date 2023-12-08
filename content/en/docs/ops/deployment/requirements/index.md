@@ -68,8 +68,8 @@ To be part of a mesh, Kubernetes pods must satisfy the following requirements:
   These labels add contextual information to the metrics and telemetry that Istio collects.
   Each of these values are read from multiple labels ordered from highest to lowest precedence:
 
-    - Application name: `service.istio.io/canonical-name`, `app.kubernetes.io/name`, or `app`.
-    - Application version: `service.istio.io/canonical-revision`, `app.kubernetes.io/version`, or `version`.
+    - Application name: `service.istio.io/canonical-name`, `app.kubernetes.io/name` or `app`.
+    - Application version: `service.istio.io/canonical-revision`, `app.kubernetes.io/version` or `version`.
 
 - **Named service ports**: Service ports may optionally be named to explicitly specify a protocol.
   See [Protocol Selection](/docs/ops/configuration/traffic-management/protocol-selection/) for
@@ -93,7 +93,7 @@ To avoid port conflicts with sidecars, applications should not use any of the po
 | 15006 | TCP | Envoy inbound | No |
 | 15008 | H2 | HBONE mTLS tunnel port | No |
 | 15009 | H2C | HBONE port for secure networks | No |
-| 15020 | HTTP | Merged Prometheus telemetry from Istio agent, Envoy, and application | No |
+| 15020 | HTTP | Merged Prometheus telemetry from Istio agent, Envoy and application | No |
 | 15021 | HTTP | Health checks | No |
 | 15053 | DNS  | DNS port, if capture is enabled | Yes |
 | 15090 | HTTP | Envoy Prometheus telemetry | No |
