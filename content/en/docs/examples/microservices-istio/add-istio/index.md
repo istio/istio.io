@@ -39,8 +39,8 @@ disrupt your application, it continues to run and serve user requests.
     to work. Istio was added without changing the code of the
     original application.
 
-1.  Check the the `productpage`'s pods and see that now each replica has two
-    containers. The first container is the microservice itself and the second one
+1.  Check the `productpage`'s pods and see that now each replica has two containers.
+    The first container is the microservice itself and the second one
     is the sidecar proxy attached to it:
 
     {{< text bash >}}
