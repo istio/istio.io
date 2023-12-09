@@ -412,6 +412,25 @@ the selector will additionally match with workloads in all namespaces.</p>
 No
 </td>
 </tr>
+<tr id="RequestAuthentication-targetRef">
+<td><code>targetRef</code></td>
+<td><code><a href="/zh/docs/reference/config/type/workload-selector/#PolicyTargetReference">PolicyTargetReference</a></code></td>
+<td>
+<p>Optional. The targetRef specifies the gateway the policy should be
+applied to. The targeted resource specified will determine which
+workloads the request authentication policy to. The targeted resource
+must be a <code>Gateway</code> in the group <code>gateway.networking.k8s.io</code>. The
+gateway must be in the same namespace as the request authentication
+policy.</p>
+<p>If not set, the policy is applied as defined by the selector.
+At most one of the selector and targetRef can be set.
+Waypoint proxies will not respect selectors even if they match.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 <tr id="RequestAuthentication-jwt_rules">
 <td><code>jwtRules</code></td>
 <td><code><a href="/zh/docs/reference/config/security/jwt/#JWTRule">JWTRule[]</a></code></td>
