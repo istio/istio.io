@@ -45,4 +45,4 @@ This release note describes what’s different between Istio 1.20.0 and 1.20.1.
 
 ## Security update
 
-There are no security updates in this release.
+- Changes to Istio CNI Permissions as described in [`ISTIO-SECURITY-2023-005`](/news/security/istio-security-2023-005).
