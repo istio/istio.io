@@ -23,7 +23,7 @@ This release note describes what’s different between Istio 1.18.5 and 1.18.6. 
 - **Fixed** an issue where using a Sidecar resource using `IstioIngressListener.defaultEndpoint` cannot use [::1]:PORT if the default IP addressing is not IPv6.
   ([Issue #47412](https://github.com/istio/istio/issues/47412))
 
-- **Fixed** an issue where `istioctl proxy-config` fails to process a config dump from file if EDS endpoints were not provided.
+- **Fixed** an issue where `istioctl proxy-config` fails to process a config dump from a file if EDS endpoints were not provided.
   ([Issue #47505](https://github.com/istio/istio/issues/47505))
 
 - **Fixed** VirtualService http header present match does not work with `header-name: {}` set.
