@@ -26,7 +26,7 @@ This release note describes what’s different between Istio 1.18.5 and 1.18.6. 
 - **Fixed** an issue where `istioctl proxy-config` fails to process a config dump from a file if EDS endpoints were not provided.
   ([Issue #47505](https://github.com/istio/istio/issues/47505))
 
-- **Fixed** VirtualService http header present match does not work with `header-name: {}` set.
+- **Fixed** an issue where `VirtualService` HTTP header present match was not working when `header-name: {}` was set.
   ([Issue #47341](https://github.com/istio/istio/issues/47341))
 
 - **Fixed** a null traversal issue when using `datadog` or `stackdriver` with no tracing options.
