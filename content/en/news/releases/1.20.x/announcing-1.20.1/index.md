@@ -22,7 +22,7 @@ This release note describes what’s different between Istio 1.20.0 and 1.20.1.
 - **Fixed** an issue where custom injection of the `istio-proxy` container was not working on OpenShift, due to how
   OpenShift sets the pod's `SecurityContext.RunAs` field.
 
-- **Fixed** an issue where `VirtualService` HTTP header present match did not work with `header-name: {}` set.
+- **Fixed** an issue where `VirtualService` HTTP header present match was not working when `header-name: {}` was set.
   ([Issue #47341](https://github.com/istio/istio/issues/47341))
 
 - **Fixed** multi-cluster leader election not being able to prioritize local over remote leaders.
