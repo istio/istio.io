@@ -213,7 +213,7 @@ which detects if traffic redirection is set up correctly, and blocks the pod sta
 The CNI DaemonSet will detect and evict any pod stuck in such state. When the new pod starts up, it should have traffic redirection set up properly.
 This mitigation is enabled by default and can be turned off by setting `values.cni.repair.enabled` to false.
 
-This repair capability can be further configured with different RBAC permissions to help mitigate the theoretical attack vector detailed in [ISTIO-SECURITY-2023-005](news/security/istio-security-2023-005/).  By setting the below fields to true/false as required, you can select the Kubernetes RBAC permissions granted to the Istio CNI.
+This repair capability can be further configured with different RBAC permissions to help mitigate the theoretical attack vector detailed in [`ISTIO-SECURITY-2023-005`](/news/security/istio-security-2023-005/) .  By setting the below fields to true/false as required, you can select the Kubernetes RBAC permissions granted to the Istio CNI.
 
 |Configuration                    | Roles       | Notes
 |---------------------------------|-------------|--------------------------
