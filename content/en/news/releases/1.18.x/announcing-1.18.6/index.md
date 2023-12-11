@@ -29,7 +29,7 @@ This release note describes what’s different between Istio 1.18.5 and 1.18.6. 
 - **Fixed** VirtualService http header present match does not work with `header-name: {}` set.
   ([Issue #47341](https://github.com/istio/istio/issues/47341))
 
-- **Fixed** Null traversal issue when using `datadog` or `stackdriver` with no tracing options.
+- **Fixed** a null traversal issue when using `datadog` or `stackdriver` with no tracing options.
   ([Issue #45855](https://github.com/istio/istio/issues/45855))
 
 - **Fixed** multi-cluster leader election not being able to prioritize local over remote leaders.
