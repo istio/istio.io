@@ -7,18 +7,18 @@ const vertexShader = `
       uniform float u_pointsize;
       uniform float u_transformation_amp_1;
       uniform float u_transformation_freq_1;
-      uniform float u_spd_1;
+      uniform float u_transformation_speed_1;
       uniform float u_transformation_amp_2;
       uniform float u_transformation_freq_2;
-      uniform float u_spd_2;
+      uniform float u_transformation_speed_2;
   
       void main() {
         // Initialize position with the vertex's original position
         vec3 pos = position;
         
         // Apply two sinusoidal transformations to the z-coordinate of the position
-        pos.z += sin(pos.x * u_transformation_freq_1 + u_time * u_spd_1) * u_transformation_amp_1;
-        pos.z += cos(pos.y * u_transformation_freq_2 - u_time * u_spd_2 * 0.6) * u_transformation_amp_2;
+        pos.z += sin(pos.x * u_transformation_freq_1 + u_time * u_transformation_speed_1) * u_transformation_amp_1;
+        pos.z += cos(pos.y * u_transformation_freq_2 - u_time * u_transformation_speed_2 * 0.6) * u_transformation_amp_2;
         
         // Adjust the point size based on the absolute z-coordinate
         gl_PointSize = u_pointsize  + abs(pos.z) * 6.0;
@@ -166,12 +166,12 @@ const uniforms = {
     // Parameters for the wave1 animation
     u_transformation_freq_1: { value: 3.0 },
     u_transformation_amp_1: { value: 0.8 },
-    u_spd_1: { value: 0.30 },
+    u_transformation_speed_1: { value: 0.30 },
 
     // Parameters for the wave2 animation
     u_transformation_freq_2: { value: 2.0 },
     u_transformation_amp_2: { value: 0.7 },
-    u_spd_2: { value: 0.25 },
+    u_transformation_speed_2: { value: 0.25 },
 };
 
 // Define the app object containing shaders and scene initialization
