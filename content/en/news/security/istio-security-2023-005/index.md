@@ -1,8 +1,8 @@
 ---
 title: ISTIO-SECURITY-2023-005
 subtitle: Security Bulletin
-description: Changes to Istio CNI RBAC permissions
-cves: None
+description: Changes to Istio CNI RBAC permissions.
+cves: []
 cvss: N/A
 vector: N/A
 releases: ["All releases prior to 1.18.0", "1.18.0 to 1.18.5", "1.19.0 to 1.19.4", "1.20.0"]
