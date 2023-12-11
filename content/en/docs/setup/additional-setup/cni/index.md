@@ -218,7 +218,7 @@ This repair capability can be further configured with different RBAC permissions
 |Configuration                    | Roles       | Notes
 |---------------------------------|-------------|--------------------------
 |`values.cni.repair.deletePods`   | DELETE pods | Default in 1.20 and older
-|`values.cni.repair.labelPods`    | UPDATE pods | 
+|`values.cni.repair.labelPods`    | UPDATE pods |
 |`values.cni.repair.repairPods`   | None        | Default in 1.21 and newer
 
 ### Traffic redirection parameters
