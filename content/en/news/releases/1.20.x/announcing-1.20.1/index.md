@@ -37,7 +37,7 @@ This release note describes what’s different between Istio 1.20.0 and 1.20.1.
 - **Fixed** a memory leak when a `ServiceEntry` was removed.
   ([Issue #47893](https://github.com/istio/istio/issues/47893))
 
-- **Improved** `istioctl bug-report` performance by reducing the amount of calls to the Kubernetes API. The included
+- **Improved** `istioctl bug-report` performance by reducing the number of calls to the Kubernetes API. The included
   pod/node details in the report remain comprehensive but will be presented differently.
 
 - **Removed** the `--rps-limit` flag for `istioctl bug-report` and **added** the `--rq-concurrency` flag.
