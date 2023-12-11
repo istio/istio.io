@@ -22,7 +22,7 @@ An additional option can further mitigate any potential attacks, by completely r
 |Configuration                    | Roles       | Notes
 |---------------------------------|-------------|--------------------------
 |`values.cni.repair.deletePods`   | DELETE pods | Default in 1.20 and older
-|`values.cni.repair.labelPods`    | UPDATE pods | 
+|`values.cni.repair.labelPods`    | UPDATE pods |
 |`values.cni.repair.repairPods`   | None        | Default in 1.21 and newer
 
 The Istio Security Committee would like to thank `Yuval Avrahami` for disclosing this issue and working with us on the resolution.
