@@ -40,7 +40,7 @@ This release note describes what’s different between Istio 1.20.0 and 1.20.1.
 - **Improved** `istioctl bug-report` performance by reducing the amount of calls to the Kubernetes API. The included
   pod/node details in the report remain comprehensive but will be presented differently.
 
-- **Removed** `--rps-limit` flag for `istioctl bug-report` and **added** `--rq-concurrency` flag.
+- **Removed** the `--rps-limit` flag for `istioctl bug-report` and **added** the `--rq-concurrency` flag.
   This change enables the bug reporter to limit request concurrency rather than the request rate to the Kubernetes API.
 
 ## Security update
