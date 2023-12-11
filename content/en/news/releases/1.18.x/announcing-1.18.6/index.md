@@ -20,7 +20,7 @@ This release note describes what’s different between Istio 1.18.5 and 1.18.6. 
 - **Fixed** DNS Proxy resolution for wildcard `ServiceEntry` with the search domain suffix for glibc-based containers.
   ([Issue #47264](https://github.com/istio/istio/issues/47264)),([Issue #31250](https://github.com/istio/istio/issues/31250)),([Issue #33360](https://github.com/istio/istio/issues/33360)),([Issue #30531](https://github.com/istio/istio/issues/30531)),([Issue #38484](https://github.com/istio/istio/issues/38484))
 
-- **Fixed** an issue where using a Sidecar resource using `IstioIngressListener.defaultEndpoint` cannot use [::1]:PORT if the default IP addressing is not IPv6.
+- **Fixed** an issue where using a sidecar resource using `IstioIngressListener.defaultEndpoint` cannot use [::1]:PORT if the default IP addressing is not IPv6.
   ([Issue #47412](https://github.com/istio/istio/issues/47412))
 
 - **Fixed** an issue where `istioctl proxy-config` fails to process a config dump from a file if EDS endpoints were not provided.
