@@ -17,8 +17,8 @@ This release note describes what’s different between Istio 1.18.5 and 1.18.6. 
 
 - **Improved** `iptables` locking. The new implementation uses `iptables` builtin lock waiting when needed, and disables locking entirely when not needed.
 
-- **Fixed** DNS Proxy resolution for wildcard ServiceEntry with the search domain suffix for glibc based containers.
-  ([Issue #47290](https://github.com/istio/istio/issues/47290)),([Issue #47264](https://github.com/istio/istio/issues/47264)),([Issue #31250](https://github.com/istio/istio/issues/31250)),([Issue #33360](https://github.com/istio/istio/issues/33360)),([Issue #30531](https://github.com/istio/istio/issues/30531)),([Issue #38484](https://github.com/istio/istio/issues/38484))
+- **Fixed** DNS Proxy resolution for wildcard `ServiceEntry` with the search domain suffix for glibc-based containers.
+  ([Issue #47264](https://github.com/istio/istio/issues/47264)),([Issue #31250](https://github.com/istio/istio/issues/31250)),([Issue #33360](https://github.com/istio/istio/issues/33360)),([Issue #30531](https://github.com/istio/istio/issues/30531)),([Issue #38484](https://github.com/istio/istio/issues/38484))
 
 - **Fixed** an issue where using a Sidecar resource using `IstioIngressListener.defaultEndpoint` cannot use [::1]:PORT if the default IP addressing is not IPv6.
   ([Issue #47412](https://github.com/istio/istio/issues/47412))
