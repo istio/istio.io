@@ -22,7 +22,7 @@ This release note describes what’s different between Istio 1.20.0 and 1.20.1.
 - **Fixed** an issue where custom injection of the `istio-proxy` container was not working on OpenShift, due to how
   OpenShift sets pod's `SecurityContext.RunAs` field.
 
-- **Fixed** an issue where VirtualService HTTP header present match did not work with `header-name: {}` set.
+- **Fixed** an issue where `VirtualService` HTTP header present match did not work with `header-name: {}` set.
   ([Issue #47341](https://github.com/istio/istio/issues/47341))
 
 - **Fixed** multi-cluster leader election cannot prioritize local over remote leader.
@@ -36,6 +36,12 @@ This release note describes what’s different between Istio 1.20.0 and 1.20.1.
 
 - **Fixed** a memory leak when a `ServiceEntry` was removed.
   ([Issue #47893](https://github.com/istio/istio/issues/47893))
+
+- **Improved** `istioctl bug-report` performance by reducing the amount of calls to the Kubernetes API. The included
+  pod/node details in the report remain comprehensive but will be presented differently.
+
+- **Removed** `--rps-limit` flag for `istioctl bug-report` and **added** `--rq-concurrency` flag.
+  This change enables the bug reporter to limit request concurrency rather than the request rate to the Kubernetes API.
 
 # Security update
 
