@@ -7,7 +7,7 @@ publishdate: 2023-12-11
 release: 1.18.6
 ---
 
-This release implements the security updates described our Dec 11th post, [`ISTIO-SECURITY-2023-005`](/news/security/istio-security-2023-005) along with bug fixes to improve robustness.
+This release implements the security updates described in our Dec 11th post, [`ISTIO-SECURITY-2023-005`](/news/security/istio-security-2023-005) along with bug fixes to improve robustness.
 
 This release note describes what’s different between Istio 1.18.5 and 1.18.6. This is the last planned release for Istio 1.18, for more details see our Nov 29th [end of support announcement](/news/support/announcing-1.18-eol/)
 
