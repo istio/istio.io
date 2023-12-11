@@ -32,7 +32,7 @@ This release note describes what’s different between Istio 1.18.5 and 1.18.6. 
 - **Fixed** Null traversal issue when using `datadog` or `stackdriver` with no tracing options.
   ([Issue #45855](https://github.com/istio/istio/issues/45855))
 
-- **Fixed** multi-cluster leader election cannot prioritize local over remote leader.
+- **Fixed** multi-cluster leader election not being able to prioritize local over remote leaders.
   ([Issue #47901](https://github.com/istio/istio/issues/47901))
 
 - **Fixed** clients being able to communicate with hosts defined in ServiceEntries over IPv6 when installed in dual-stack mode.
