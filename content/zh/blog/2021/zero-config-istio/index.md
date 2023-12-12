@@ -27,7 +27,7 @@ Istio 自动为网格中的所有服务通信生成详细的遥测数据。这�
 
 所有这些功能都是由 Istio 添加的，无需任何配置。 也可以与 Prometheus, Grafana, Jaeger, Zipkin, and Kiali 等工具 [集成（Integrations）](/zh/docs/ops/integrations/) 使用。
 
-有关 Istio 提供的可观测性的更多信息，请查看 [可观测性概述（observability overview）](/zh/docs/concepts/observability/)。
+有关 Istio 提供的可观测性的更多信息，请查看[可观测性概述（observability overview）](/zh/docs/concepts/observability/)。
 
 ## 流量管理 {#traffic-management}
 
