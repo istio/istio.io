@@ -92,7 +92,7 @@ format-spelling:
 	@LC_ALL=C sort .spelling --ignore-case -o .spelling
 	@echo ".spelling file sorted."
 
-gen: tidy-go format-go update-gateway-version snips format-spelling
+gen: tidy-go format-go snips format-spelling
 
 gen-check: gen check-clean-repo check-localization
 
