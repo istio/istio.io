@@ -29,5 +29,5 @@ ENDSNIP
 ENDSNIP
 
 ! read -r -d '' bpsnip_args_istio_full_version <<\ENDSNIP
-1.20.0
+1.20.1
 ENDSNIP
