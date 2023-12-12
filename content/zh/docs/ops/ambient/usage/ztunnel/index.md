@@ -444,7 +444,7 @@ Istio Sidecar 模式基本没有变化，因此本指南中不再重复这些细
 `istio_tcp_connections_filled_total`）。
 当涉及 Waypoint 代理时，将报告全套 Istio 和 Envoy 指标。
 
-### 验证 ztunnel 负载平衡  {#verifying-ztunnel-load-balancing}
+### 验证 ztunnel 负载均衡  {#verifying-ztunnel-load-balancing}
 
 如果目标是具有多个端点的服务，ztunnel 代理会自动执行客户端负载均衡。
 无需额外配置。ztunnel 负载均衡算法是内部固定的 L4 循环算法，

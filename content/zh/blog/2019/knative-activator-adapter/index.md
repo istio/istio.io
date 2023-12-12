@@ -44,7 +44,7 @@ Mixer 的进程外适配器使开发人员可以使用任何编程语言，并�
 然后 Mixer 调用您的适配器，该适配器使用 Knative 原有的协议触发 Knative Autoscaler。
 
 {{< idea >}}
-通过使用这种设计，您不需要处理缓存，重试和负载平衡的问题，因为 Istio 代理已经处理了这些问题。
+通过使用这种设计，您不需要处理缓存，重试和负载均衡的问题，因为 Istio 代理已经处理了这些问题。
 {{< /idea >}}
 
 Istio 的 Mixer 适配器模式使得我们可以用更简单的方式实现原本复杂并且基于网络的应用逻辑，如 [Knative 适配器](https://github.com/zachidan/istio-kactivator) 中所示。
