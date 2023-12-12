@@ -50,7 +50,6 @@ This release note describes what’s different between Istio 1.18.5 and 1.18.6. 
 - **Fixed** a memory leak when a `ServiceEntry` is removed.
   ([Issue #47893](https://github.com/istio/istio/issues/47893))
 
-
 ## Security update
 
 - Changes to Istio CNI Permissions as described in [`ISTIO-SECURITY-2023-005`](/news/security/istio-security-2023-005).
