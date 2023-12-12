@@ -21,7 +21,7 @@ An additional option can further mitigate any potential attacks, by completely r
 
 |Configuration                    | Roles       | Behavior on Error                                                                                                                           | Notes
 |---------------------------------|-------------|-----------------------------------------------------------------------------------------------------------------------------------------------|-------
-|`values.cni.repair.deletePods`   | DELETE pods | Pods are deleted, when rescheduled they will have the correct configuration       .                                                           | Default in 1.20 and older
+|`values.cni.repair.deletePods`   | DELETE pods | Pods are deleted, when rescheduled they will have the correct configuration.                                                                  | Default in 1.20 and older
 |`values.cni.repair.labelPods`    | UPDATE pods | Pods are only labeled.  User will need to take manual action to resolve.                                                                      |
 |`values.cni.repair.repairPods`   | None        | Pods are dynamically reconfigured to have appropriate configuration. When the container restarts, the pod will continue normal execution.     | Default in 1.21 and newer
 
