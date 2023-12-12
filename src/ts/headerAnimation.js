@@ -78,9 +78,9 @@ function createRenderer(rendererProps = {}) {
     const container = document.getElementById("banner");
     const renderer = new THREE.WebGLRenderer({ ...rendererProps, alpha: true });
     renderer.domElement.id = "banner-animation";
+    renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(container.offsetWidth, container.offsetHeight);
     renderer.setClearColor(0xffffff, 0);
-    renderer.setPixelRatio(window.devicePixelRatio);
     renderer.domElement.id = "banner-animation";
     return renderer;
 }
