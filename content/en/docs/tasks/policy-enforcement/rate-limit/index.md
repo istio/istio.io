@@ -32,7 +32,7 @@ the global rate limiting service.
 In this task you will configure Envoy to rate limit traffic to a specific path of a service
 using both global and local rate limits.
 
-### Global rate limit
+## Global rate limit
 
 Envoy can be used to [set up global rate limits](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/other_features/global_rate_limiting) for your mesh.
 Global rate limiting in Envoy uses a gRPC API for requesting quota from a rate limiting service.
@@ -50,7 +50,7 @@ backend, is used below.
       name: ratelimit-config
     data:
       config.yaml: |
-        domain: productpage-ratelimit
+        domain: ratelimit
         descriptors:
           - key: PATH
             value: "/productpage"
@@ -107,7 +107,7 @@ backend, is used below.
               typed_config:
                 "@type": type.googleapis.com/envoy.extensions.filters.http.ratelimit.v3.RateLimit
                 # domain can be anything! Match it to the ratelimter service config
-                domain: productpage-ratelimit
+                domain: ratelimit
                 failure_mode_deny: true
                 timeout: 10s
                 rate_limit_service:
@@ -121,7 +121,7 @@ backend, is used below.
 
 1. Apply another `EnvoyFilter` to the `ingressgateway` that defines the route configuration on which to rate limit.
     This adds [rate limit actions](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/route/v3/route_components.proto#envoy-v3-api-msg-config-route-v3-ratelimit)
-    for any route from a virtual host named `*.80`.
+    for any route from a virtual host named `bookinfo.com:80`.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -140,7 +140,7 @@ backend, is used below.
             context: GATEWAY
             routeConfiguration:
               vhost:
-                name: ""
+                name: "bookinfo.com:80"
                 route:
                   action: ANY
           patch:
@@ -155,7 +155,93 @@ backend, is used below.
     EOF
     {{< /text >}}
 
-### Local rate limit
+HERE !!! -------------------------------------------------------------------------------------------
+
+### Global rate limit advanced case
+
+This example matches paths with regex and defines a ratelimit action based on each one using httpbin and the same PATH descriptor as in the previous case.
+
+1. Add a new rule to the ratelimit configuration to limit all /delay/* matches to 2 req/min:
+
+ADD KUBECTL PATCH ADDING A NEW DESCRIPTOR KEY: PATH + DESCRIPTOR: delay
+
+2. Modify the httpbin VirtualService so it matches the /delay prefix and name the route:
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: networking.istio.io/v1beta1
+    kind: VirtualService
+    metadata:
+      name: httpbin
+      namespace: httpbin
+    spec:
+      gateways:
+      - httpbin-gateway
+      hosts:
+      - 'httpbin.com'
+      http:
+      - route:
+        - destination:
+            host: httpbin
+            port:
+              number: 8000
+        match:
+          - uri:
+              prefix: /delay
+        name: delay
+      - route:
+        - destination:
+            host: httpbin
+            port:
+              number: 8000
+    EOF
+    {{< /text >}}
+
+
+3. Modify Gateway resources for bookinfo and httpbin so each listens to their particular host:
+
+ADD PATCH COMMAND FOR EACH RESOURCE TO CHANGE HOST: "*" TO EACH ONE'S HOST.
+
+4. Apply an EnvoyFilter to add the rate_limits action at the route level:
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: EnvoyFilter
+    metadata:
+      name: filter-ratelimit-svc-delay
+      namespace: istio-ingress
+    spec:
+      workloadSelector:
+        labels:
+          istio: ingressgateway
+      configPatches:
+        - applyTo: HTTP_ROUTE
+          match:
+            context: GATEWAY
+            routeConfiguration:
+              vhost:
+                name: "httpbin.com:80"
+                route:
+                  name: "delay"
+          patch:
+            operation: MERGE
+            value:
+              route:
+                rate_limits:
+                - actions:
+                  - header_value_match:
+                      descriptor_key: "PATH"
+                      descriptor_value: "delay"
+                      headers:
+                        - name: ":path"
+                          safe_regex_match:
+                            google_re2: {}
+                            regex: "/delay.*"
+    {{< /text >}}
+
+
+## Local rate limit
 
 Envoy supports [local rate limiting](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/other_features/local_rate_limiting#arch-overview-local-rate-limit) of L4 connections and HTTP requests.
 This allows you to apply rate limits at the instance level, in the proxy itself, without calling any other service.
@@ -310,11 +396,15 @@ EOF
 
 ### Verify global rate limit
 
-Send traffic to the Bookinfo sample. Visit `http://$GATEWAY_URL/productpage` in your web
-browser or issue the following command:
+Send traffic to the Bookinfo and Httpin samples. Issue the following commands:
 
 {{< text bash >}}
-$ curl -s "http://$GATEWAY_URL/productpage" -o /dev/null -w "%{http_code}\n"
+$ curl -s "http://$GATEWAY_URL/productpage" -H"host: bookinfo.com" -o /dev/null -w "%{http_code}\n"
+429
+{{< /text >}}
+
+{{< text bash >}}
+$ curl -s "http://$GATEWAY_URL/delay/1" -H"host: httpbin.com" -o /dev/null -w "%{http_code}\n"
 429
 {{< /text >}}
 
@@ -322,7 +412,8 @@ $ curl -s "http://$GATEWAY_URL/productpage" -o /dev/null -w "%{http_code}\n"
 `$GATEWAY_URL` is the value set in the [Bookinfo](/docs/examples/bookinfo/) example.
 {{< /tip >}}
 
-You will see the first request go through but every following request within a minute will get a 429 response.
+For Bookinfo, you will see the first request go through but every following request within a minute will get a 429 response. And for httpbin you will need to hit twice, with any delay, until you get the 429 response within a minute.
+
 
 ### Verify local rate limit
 
