@@ -6,7 +6,7 @@ cves: []
 cvss: N/A
 vector: N/A
 releases: ["All releases prior to 1.18.0", "1.18.0 to 1.18.5", "1.19.0 to 1.19.4", "1.20.0"]
-publishdate: 2023-12-11
+publishdate: 2023-12-12
 keywords: [CVE]
 skip_seealso: true
 ---
