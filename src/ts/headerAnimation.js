@@ -21,7 +21,7 @@ const vertexShader = `
         pos.z += cos(pos.y * u_transformation_freq_2 - u_time * u_transformation_speed_2 * 0.6) * u_transformation_amp_2;
         
         // Adjust the point size based on the absolute z-coordinate
-        gl_PointSize = u_pointsize  + abs(pos.z) * 6.0;
+        gl_PointSize = max(u_pointsize + abs(pos.z) * 6.0, 0.0);
         
         // Apply model-view and projection transformations to the position
         vec4 mvm = modelViewMatrix * vec4(pos, 1.0);
@@ -48,7 +48,8 @@ const fragmentShader = `
         }
   
         // Calculate alpha (transparency) based on the depth of the fragment
-        float alpha = 1.0 - gl_FragCoord.z / 1.10;
+        float alpha = 1.0 - gl_FragCoord.z * 1.095;
+        alpha = clamp(alpha, 0.0, 1.0);
 
         // Set the final fragment color with a blue tone and transparency
         gl_FragColor = vec4(vec3(0.42, 0.635, 0.835), alpha);
@@ -166,12 +167,12 @@ const uniforms = {
     // Parameters for the wave1 animation
     u_transformation_freq_1: { value: 3.0 },
     u_transformation_amp_1: { value: 0.8 },
-    u_transformation_speed_1: { value: 0.30 },
+    u_transformation_speed_1: { value: 0.25 },
 
     // Parameters for the wave2 animation
     u_transformation_freq_2: { value: 2.0 },
     u_transformation_amp_2: { value: 0.7 },
-    u_transformation_speed_2: { value: 0.25 },
+    u_transformation_speed_2: { value: 0.20 },
 };
 
 // Define the app object containing shaders and scene initialization
