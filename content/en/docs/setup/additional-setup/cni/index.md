@@ -215,11 +215,11 @@ This mitigation is enabled by default and can be turned off by setting `values.c
 
 This repair capability can be further configured with different RBAC permissions to help mitigate the theoretical attack vector detailed in [`ISTIO-SECURITY-2023-005`](/news/security/istio-security-2023-005/).  By setting the below fields to true/false as required, you can select the Kubernetes RBAC permissions granted to the Istio CNI.
 
-|Configuration                    | Roles       | Notes
-|---------------------------------|-------------|--------------------------
-|`values.cni.repair.deletePods`   | DELETE pods | Default in 1.20 and older
-|`values.cni.repair.labelPods`    | UPDATE pods |
-|`values.cni.repair.repairPods`   | None        | Default in 1.21 and newer
+|Configuration                    | Roles       | Behavior on Error                                                                                                                           | Notes
+|---------------------------------|-------------|-----------------------------------------------------------------------------------------------------------------------------------------------|-------
+|`values.cni.repair.deletePods`   | DELETE pods | Pods are deleted, when rescheduled they will have the correct configuration       .                                                           | Default in 1.20 and older
+|`values.cni.repair.labelPods`    | UPDATE pods | Pods are only labeled.  User will need to take manual action to resolve.                                                                      |
+|`values.cni.repair.repairPods`   | None        | Pods are dynamically reconfigured to have appropriate configuration. When the container restarts, the pod will continue normal execution.     | Default in 1.21 and newer
 
 ### Traffic redirection parameters
 
