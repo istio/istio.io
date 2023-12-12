@@ -13,7 +13,7 @@ This release note describes what’s different between Istio 1.18.5 and 1.18.6. 
 
 {{< relnote >}}
 
-# Changes
+## Changes
 
 - **Improved** `iptables` locking. The new implementation uses `iptables` builtin lock waiting when needed, and disables locking entirely when not needed.
 
@@ -47,8 +47,11 @@ This release note describes what’s different between Istio 1.18.5 and 1.18.6. 
 - **Fixed** a memory leak when `WorkloadEntries` change their IP address.
   ([Issue #47893](https://github.com/istio/istio/issues/47893))
 
-- **Fixed** a memory leak when a `ServiceEntry` is removed. 
+- **Fixed** a memory leak when a `ServiceEntry` is removed.
   ([Issue #47893](https://github.com/istio/istio/issues/47893))
 
-# Security update
+
+## Security update
+
 - Changes to Istio CNI Permissions as described in [`ISTIO-SECURITY-2023-005`](/news/security/istio-security-2023-005).
+
