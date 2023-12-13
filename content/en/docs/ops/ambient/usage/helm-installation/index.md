@@ -95,9 +95,8 @@ $ kubectl get pods -n istio-system
 
 After installing ambient with Helm, you can follow
 [Deploy the sample application](/docs/ops/ambient/getting-started/#bookinfo)
-guide to deploy the sample application and ingress gateways, and follow the
-[Adding your application to ambient](/docs/ops/ambient/getting-started/#addtoambient)
-to add your application to ambient.
+guide to deploy the sample application and ingress gateways, and then you can
+[add your application to ambient](/docs/ops/ambient/getting-started/#addtoambient).
 
 ## Uninstall
 
