@@ -182,7 +182,7 @@ before evaluating against the authorization policies and routing the requests:
 
 {{< tip >}}
 The configuration is specified via the [`pathNormalization`](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ProxyPathNormalization)
-field in the the [mesh config](/docs/reference/config/istio.mesh.v1alpha1/).
+field in the [mesh config](/docs/reference/config/istio.mesh.v1alpha1/).
 {{< /tip >}}
 
 To emphasize, the normalization algorithms are conducted in the following order:
