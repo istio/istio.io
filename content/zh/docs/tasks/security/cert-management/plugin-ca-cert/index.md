@@ -20,7 +20,7 @@ Istio CA 签发中间证书。Istio CA 可以使用管理员指定的证书和�
 
 {{< image width="50%"
     link="ca-hierarchy.svg"
-    caption="CA Hierarchy"
+    caption="CA 层次结构"
     >}}
 
 本任务介绍如何生成和插入 Istio CA 的证书和密钥。这些步骤可以重复进行，
@@ -79,8 +79,8 @@ Istio CA 签发中间证书。Istio CA 可以使用管理员指定的证书和�
 
     如果您正在离线机器上进行此操作，请将生成的目录复制到可以访问集群的机器上。
 
-1. 在每个集群中，创建一个私密 `cacerts`，包括所有输入文件 `ca-cert.pem`，
-   `ca-key.pem`，`root-cert.pem` 和 `cert-chain.pem`。例如，在 `cluster1` 集群上：
+1. 在每个集群中，创建一个 `cacerts` Secret 包含所有输入文件 `ca-cert.pem`、
+   `ca-key.pem`、`root-cert.pem` 和 `cert-chain.pem`。例如，在 `cluster1` 集群上：
 
     {{< text bash >}}
     $ kubectl create namespace istio-system
@@ -117,7 +117,7 @@ Istio CA 签发中间证书。Istio CA 可以使用管理员指定的证书和�
     $ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml) -n foo
     {{< /text >}}
 
-1. 为 `foo` 命名空间中的工作负载部署一个策略，使其只接受相互的 TLS 流量。
+1. 为 `foo` 命名空间中的工作负载部署一个策略，使其只接受双向 TLS 流量。
 
     {{< text bash >}}
     $ kubectl apply -n foo -f - <<EOF
@@ -135,14 +135,14 @@ Istio CA 签发中间证书。Istio CA 可以使用管理员指定的证书和�
 
 本节中，验证工作负载证书是否已通过插入到 CA 中的证书签署。验证的前提要求机器上安装有 `openssl`。
 
-1. 在检索 `httpbin` 的证书链之前，请等待 20 秒使mTLS策略生效。由于本例中使用的 CA 证书是自签的，
+1. 在检索 `httpbin` 的证书链之前，请等待 20 秒使 mTLS 策略生效。由于本例中使用的 CA 证书是自签的，
    所以可以预料 openssl 命令返回 `verify error:num=19:self signed certificate in certificate chain`。
 
     {{< text bash >}}
     $ sleep 20; kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c istio-proxy -n foo -- openssl s_client -showcerts -connect httpbin.foo:8000 > httpbin-proxy-cert.txt
     {{< /text >}}
 
-1. 解析证书链上的证书。
+1. 解析证书链上的证书：
 
     {{< text bash >}}
     $ sed -n '/-----BEGIN CERTIFICATE-----/{:start /-----END CERTIFICATE-----/!{N;b start};/.*/p}' httpbin-proxy-cert.txt > certs.pem
