@@ -64,7 +64,7 @@ PEP 用 Envoy 实现。下图显示了架构。
     caption="安全架构"
     >}}
 
-在接下来的部分中，我们将详细介绍 Istio 安全功能。
+下文将详细介绍 Istio 安全功能。
 
 ## Istio 身份 {#istio-identity}
 
