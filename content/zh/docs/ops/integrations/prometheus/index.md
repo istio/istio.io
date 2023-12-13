@@ -124,7 +124,7 @@ Chart 提供的配置。
   您现有的收集配置仍然可以使用。否则需要将 Prometheus
   配置为[使用 Istio 证书收集](#tls-settings)。
 
-#### TLS 设置 {#TLS-settings}
+#### TLS 设置 {#tls-settings}
 
 控制平面，网关和 Envoy Sidecar 指标将会作为明文被收集。
 但是，应用程序指标将遵循为工作负载配置的任何
