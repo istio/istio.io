@@ -147,11 +147,16 @@ installed above.
     {{< text syntax=bash snip_id=delete_base >}}
     $ helm delete istio-base -n istio-system
     {{< /text >}}
+
 1. Delete CRDs Installed by Istio (Optional)
 
-{{< text syntax=bash >}}
-$ kubectl get crd -oname | grep --color=never 'istio.io' | xargs kubectl delete
-{{< /text >}}
+    {{< warning >}}
+    This will delete all created Istio resources.
+    {{< /warning >}}
+
+    {{< text syntax=bash >}}
+    $ kubectl get crd -oname | grep --color=never 'istio.io' | xargs kubectl delete
+    {{< /text >}}
 
 1. Delete the `istio-system` namespace:
 
