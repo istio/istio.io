@@ -15,7 +15,7 @@ test: n/a
 
 ## 安装 {#installation}
 
-### 选项1：快速开始 {#option-1-quick-start}
+### 选项 1：快速开始 {#option-1-quick-start}
 
 Istio 提供了一个简单地安装示例来快速安装、运行 Prometheus：
 
@@ -31,7 +31,7 @@ $ kubectl apply -f {{< github_file >}}/samples/addons/prometheus.yaml
 需要获取历史数据。
 {{< /warning >}}
 
-### 选项2：自定义安装 {option-2-customizable-install}
+### 选项 2：自定义安装 {#option-2-customizable-install}
 
 阅读 [Prometheus 文档](https://www.prometheus.io/)来在您的环境中安装、
 部署 Prometheus。阅读 [Configuration](#configuration)
@@ -85,7 +85,7 @@ Chart 提供的配置。
 如果需要，可以在 Pod 上添加 `prometheus.istio.io/merge-metrics: "false"`
 来禁用此功能。
 
-### 选项2：自定义收集配置 {#option-2-customized-scraping-configurations}
+### 选项 2：自定义收集配置 {#option-2-customized-scraping-configurations}
 
 要将现有的 Prometheus 示例配置为抓取 Istio 生成的统计信息，需要增加一些 Job。
 
