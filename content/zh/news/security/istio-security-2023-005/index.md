@@ -15,7 +15,7 @@ skip_seealso: true
 
 Istio 安全委员会最近意识到一种潜在情况，即 Istio CNI
 由于其高级别权限而可能被用作已受感染节点的攻击媒介。该载体涉及在受感染的节点上滥用
-`istio-cni-repair-role` `ClusterRole`，将危害范围从本地至节点扩大到集群范围。
+`istio-cni-repair-role` `ClusterRole`，将危害范围从本地节点扩大到集群范围。
 
 因此，Istio 维护者正在逐步推出对上述 `ClusterRole` 的变更，
 以减少关闭此潜在攻击载体的权限。在补丁版本中，
