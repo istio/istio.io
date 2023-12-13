@@ -27,8 +27,8 @@ Istio 安全委员会最近意识到一种潜在情况，即 Istio CNI
 
 | 配置                             | 角色         | 错误时的行为                                      | 备注              |
 |--------------------------------|------------|---------------------------------------------|-----------------|
-| `values.cni.repair.deletePods` | DELETE Pod | Pod 已被删除，重新调度后它们将具有正确的配置。                   | 1.20 及更早版本中的默认值 |
-| `values.cni.repair.labelPods`  | UPDATE Pod | Pod 仅带有标签。用户需要采取手动操作来解决。                    |                 |
+| `values.cni.repair.deletePods` | DELETE Pod | Pod 将被删除，重新调度后它们将具有正确的配置。                   | 1.20 及更早版本中的默认值 |
+| `values.cni.repair.labelPods`  | UPDATE Pod | 只对 Pod 打标签。用户需要采取手动操作来解决问题。                    |                 |
 | `values.cni.repair.repairPods` | 无          | Pod 会动态的被重新配置以具有适当的配置。当容器重新启动时，Pod 将继续正常执行。 | 1.21 及更高版本中的默认值 |
 
 Istio 安全委员会感谢 `Yuval Avrahami` 披露此问题并与我们合作制定解决方案。
