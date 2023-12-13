@@ -7,8 +7,8 @@ publishdate: 2023-12-12
 release: 1.18.6
 ---
 
-本次发布修复了 12 月 12 日公布的 [`ISTIO-SECURITY-2023-005`](/zh/news/security/istio-security-2023-005)
-中阐述的安全更新和漏洞，提高了稳健性。
+本次发布实现了 12 月 12 日公布的安全更新 [`ISTIO-SECURITY-2023-005`](/zh/news/security/istio-security-2023-005)
+并修复了一些错误，提高了稳健性。
 
 本发布说明描述了 Istio 1.18.5 和 Istio 1.18.6 之间的不同之处。
 本次发布是 Istio 1.18 计划的最后一个版本，
@@ -42,7 +42,7 @@ release: 1.18.6
 - **修复** 修复了在没有追踪选项的情况下使用 `datadog` 或 `stackdriver` 时的空遍历问题。
   ([Issue #45855](https://github.com/istio/istio/issues/45855))
 
-- **修复** 修复了多集群领导选举时不能让主领导优先从领导的问题。
+- **修复** 修复了多集群领导者选举时未优先考虑本地领导者而考虑远程领导者的问题。
   ([Issue #47901](https://github.com/istio/istio/issues/47901))
 
 - **修复** 修复了在双栈模式下安装时客户端能够通过 IPv6 与 ServiceEntries 中定义的主机通信的问题。
