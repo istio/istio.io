@@ -1,5 +1,5 @@
 ---
-title: Installing Ambient Mesh with Helm
+title: Install with Helm
 description: How to install Ambient Mesh with Helm.
 weight: 4
 owner: istio/wg-environments-maintainers
