@@ -34,7 +34,7 @@ $ kubectl apply -f {{< github_file >}}/samples/addons/prometheus.yaml
 ### 选项 2：自定义安装 {#option-2-customizable-install}
 
 阅读 [Prometheus 文档](https://www.prometheus.io/)来在您的环境中安装、
-部署 Prometheus。阅读 [Configuration](#configuration)
+部署 Prometheus。阅读[配置](#configuration)
 来了解更多关于配置、部署 Prometheus 抓取更多 Istio 指标的信息。
 
 ## 配置 {#configuration}
