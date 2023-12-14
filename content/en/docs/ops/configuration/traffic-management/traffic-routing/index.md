@@ -30,8 +30,8 @@ In traffic routing in Istio, there are two primary phases:
 
 Standard Kubernetes networking has these same concepts, too, but they are much simpler and generally hidden.
 When a `Service` is created, there is typically an associated frontend -- the automatically created DNS name (such as `http.ns.svc.cluster.local`),
-and an automatically create IP address to represent the service (the `ClusterIP`).
-Similarly, a backend is also create - the `Endpoints` or `EndpointSlice` - which represents all of the `Pod`s selected by the service.
+and an automatically created IP address to represent the service (the `ClusterIP`).
+Similarly, a backend is also created - the `Endpoints` or `EndpointSlice` - which represents all of the `Pod`s selected by the service.
 
 ## Protocols
 
