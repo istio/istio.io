@@ -86,10 +86,10 @@ snip_delete_base() {
 helm delete istio-base -n istio-system
 }
 
-snip_delete_system_namespace() {
-kubectl delete namespace istio-system
+snip_uninstall_7() {
+kubectl get crd -oname | grep --color=never 'istio.io' | xargs kubectl delete
 }
 
-snip_optional_deleting_crds_installed_by_istio_1() {
-kubectl get crd -oname | grep --color=never 'istio.io' | xargs kubectl delete
+snip_delete_system_namespace() {
+kubectl delete namespace istio-system
 }
