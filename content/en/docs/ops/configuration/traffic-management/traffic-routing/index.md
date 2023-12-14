@@ -20,7 +20,7 @@ This document describes low level implementation details. For a higher level ove
 
 In traffic routing in Istio, there are two primary phases:
 
-* The "fronted" refers to how we match the type of traffic we are handling.
+* The "frontend" refers to how we match the type of traffic we are handling.
   This is necessary to identify which backend to route traffic to, and which policies to apply.
   For example, we may read the `Host` header of `http.ns.svc.cluster.local` and identify the request is intended for the `http` Service.
   More information on how this matching works can be found below.
@@ -31,7 +31,7 @@ In traffic routing in Istio, there are two primary phases:
 Standard Kubernetes networking has these same concepts, too, but they are much simpler and generally hidden.
 When a `Service` is created, there is typically an associated frontend -- the automatically created DNS name (such as `http.ns.svc.cluster.local`),
 and an automatically created IP address to represent the service (the `ClusterIP`).
-Similarly, a backend is also created - the `Endpoints` or `EndpointSlice` - which represents all of the `Pod`s selected by the service.
+Similarly, a backend is also created - the `Endpoints` or `EndpointSlice` - which represents all of the pods selected by the service.
 
 ## Protocols
 
@@ -138,7 +138,7 @@ as an _additional_ match to the [TLS](#tls) or [HTTP](#http) matching.
 If not, there will be no changes, so it will be handled as [unmatched traffic](#unmatched-traffic).
 
 An `ExternalName` service can never be a [backend](#frontends-and-backends) on its own.
-Instead, it is only ever adding additional [frontend](#frontends-and-backends) matches to existing Services.
+Instead, it is only ever used as additional [frontend](#frontends-and-backends) matches to existing Services.
 If one is explicitly used as a backend, such as in a `VirtualService` destination, the same aliasing applies.
 That is, if `alias.default.svc.cluster.local` is set as the destination, then requests will go to the `concrete.example.com`.
 If that hostname is not known to Istio, the requests will fail; in this case, a `ServiceEntry` for `concrete.example.com` would make this configuration work.
