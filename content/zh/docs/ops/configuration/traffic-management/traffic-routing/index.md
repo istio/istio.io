@@ -32,8 +32,8 @@ Istio 的目标之一是充当可以投入到现有集群中的“透明代理�
   但是，这个选择并不总是那么简单；Istio 允许通过 `VirtualService` 路由规则自定义此逻辑。
 
 标准的 Kubernetes 网络也具有相同的概念，但它们要简单得多，通常是隐藏的。
-当创建一个 `Service` 时，通常会有一个关联的前端 - 自动创建的 DNS 名称
-（例如 `http.ns.svc.cluster.local`），以及表示该服务的自动创建的 IP 地址（`ClusterIP`）。
+当创建一个 `Service` 时，通常会有一个关联的前端 - 自动被创建的 DNS 名称
+（例如 `http.ns.svc.cluster.local`），以及表示该服务的自动被创建的 IP 地址（`ClusterIP`）。
 类似地，还会创建一个后端（`Endpoints` 或 `EndpointSlice`），它表示由服务选择的所有 Pod。
 
 ## 协议 {#protocols}
