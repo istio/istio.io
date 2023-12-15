@@ -108,7 +108,7 @@ Kubernetes `1.27.3` 集群内的 Istio `1.19.0` 版本中运行。
 
 Ambient 功能所需的最低 Istio 版本是 1.18.0，所需的最低 Kubernetes 版本是 `1.24.0`。
 下面的示例需要一个具有超过 1 个工作节点的集群，以便解释跨节点流量的运行方式。
-请参阅[安装用户指南](/zh/docs/ops/ambient/usage/install/)或[入门指南](/zh/docs/ops/ambient/getting-started/)，
+请参阅[安装用户指南](/zh/docs/ops/ambient/install/)或[入门指南](/zh/docs/ops/ambient/getting-started/)，
 了解关于在 Kubernetes 集群中安装 Ambient 模式 Istio 的信息。
 
 ## 功能概述  {#functionaloverview}
