@@ -69,7 +69,8 @@ spec:
   http:
   - fault:
       delay:
-        percent: 100
+        percentage:
+          value: 100
         fixedDelay: 2s
     route:
     - destination:
@@ -90,7 +91,8 @@ spec:
   http:
   - fault:
       delay:
-        percent: 100
+        percentage:
+          value: 100
         fixedDelay: 2s
     route:
     - destination:
