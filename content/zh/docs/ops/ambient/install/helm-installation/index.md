@@ -25,14 +25,14 @@ test: yes
     $ helm repo update
     {{< /text >}}
 
-有关命令文档，请参阅 [Helm 仓库](https://helm.sh/docs/helm/helm_repo/)。
+**有关 Helm 命令文档，请参阅 [Helm 仓库](https://helm.sh/docs/helm/helm_repo/)。**
 
 ## 安装组件 {#installing-the-components}
 
 ### 安装基础组件 {#installing-the-base-component}
 
 `base` Chart 包含设置 Istio 所需的基本 CRD 和集群角色。
-需要在任何其他 Istio 组件之前被安装。
+需要先安装此 Chart，才能安装任何其他 Istio 组件。
 
 {{< text syntax=bash snip_id=install_base >}}
 $ helm install istio-base istio/base -n istio-system --create-namespace
@@ -108,7 +108,7 @@ $ kubectl get pods -n istio-system
     istiod     istio-system 1        ... ... ... ... deployed istiod-1.0.0 1.0.0
     {{< /text >}}
 
-1.（可选）删除所有 Istio 网关 Chart 安装：
+1.（可选）删除所有 Istio 网关 Chart 安装文件：
 
     {{< text syntax=bash >}}
     $ helm delete istio-ingress -n istio-ingress
