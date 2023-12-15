@@ -25,11 +25,11 @@ test: yes
     $ helm repo update
     {{< /text >}}
 
-**有关 Helm 命令文档，请参阅 [Helm 仓库](https://helm.sh/docs/helm/helm_repo/)。**
+*有关 Helm 命令文档，请参阅 [Helm 仓库](https://helm.sh/docs/helm/helm_repo/)。*
 
 ## 安装组件 {#installing-the-components}
 
-### 安装基础组件 {#installing-the-base-component}
+### 安装 base 组件 {#installing-the-base-component}
 
 `base` Chart 包含设置 Istio 所需的基本 CRD 和集群角色。
 需要先安装此 Chart，才能安装任何其他 Istio 组件。
@@ -48,9 +48,9 @@ $ helm install istio-cni istio/cni -n istio-system \
   -f @manifests/charts/istio-cni/ambient-values.yaml@
 {{< /text >}}
 
-### 安装发现组件 {#installing-the-discovery-component}
+### 安装 discovery 组件 {#installing-the-discovery-component}
 
-`istiod` Chart 会安装 Istiod 的修订版。Istiod 是控制平面组件，用于管理和配置代理并在网格内进行流量路由。
+`istiod` Chart 会安装 Istiod 的修订版。Istiod 是控制平面组件，用于管理和配置代理，以在网格内进行流量路由。
 
 {{< text syntax=bash snip_id=install_discovery >}}
 $ helm install istiod istio/istiod --namespace istio-system \
@@ -127,13 +127,13 @@ $ kubectl get pods -n istio-system
     $ helm delete ztunnel -n istio-system
     {{< /text >}}
 
-1. 删除 Istio 发现 Chart：
+1. 删除 Istio discovery Chart：
 
     {{< text syntax=bash snip_id=delete_discovery >}}
     $ helm delete istiod -n istio-system
     {{< /text >}}
 
-1. 删除 Istio 基础 Chart：
+1. 删除 Istio base Chart：
 
     {{< tip >}}
     根据设计，通过 Helm 删除 Chart 不会删除通过 Chart 安装的自定义资源定义（CRD）。
