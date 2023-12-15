@@ -25,7 +25,7 @@ test: yes
     $ helm repo update
     {{< /text >}}
 
-*有关 Helm 命令文档，请参阅 [Helm 仓库](https://helm.sh/docs/helm/helm_repo/)。*
+有关 Helm 命令文档，请参阅 [Helm 仓库](https://helm.sh/docs/helm/helm_repo/)。
 
 ## 安装组件 {#installing-the-components}
 
