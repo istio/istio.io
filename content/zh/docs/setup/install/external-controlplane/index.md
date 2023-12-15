@@ -47,7 +47,7 @@ Ingress Gateway 也安装在 `istio-system` 命名空间中，以提供对外部
 ### API Server 访问  {#API-server-access}
 
 外部控制平面集群必须可以访问从集群中的 Kubernetes API Server。
-许多云提供商通过网络负载平衡器（NLB）公开访问 API Server。
+许多云提供商通过网络负载均衡器（NLB）公开访问 API Server。
 如果无法直接访问 API Server，则需要修改安装过程以启用访问权限。
 例如，在[多集群配置](#adding-clusters)中使用的[东西向](https://en.wikipedia.org/wiki/East-west_traffic)
 Gateway 也可以用于启用对 API Server 的访问。

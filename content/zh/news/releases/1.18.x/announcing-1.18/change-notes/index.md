@@ -221,7 +221,7 @@ weight: 20
   ([Issue #43655](https://github.com/istio/istio/issues/43655))
 
 - **新增** 新增了可以将 `istio.io/rev` 注解注入到 Sidecar
-  和网关以实现多版本可观察性的能力。
+  和网关以实现多版本可观测性的能力。
 
 - **新增** 新增了可以自动将 GOMEMLIMIT 设置为 `istiod`，用于降低发生内存不足所带来的风险。
   ([Issue #40676](https://github.com/istio/istio/issues/40676))

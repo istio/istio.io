@@ -1,7 +1,7 @@
 ---
 title: "T-Mobile"
 linkTitle: "T-Mobile"
-quote: "拥有可以立即被用户采用的通用可观察性工具会产生多大的影响，我再怎么强调也不为过。"
+quote: "拥有可以立即被用户采用的通用可观测性工具会产生多大的影响，我再怎么强调也不为过。"
 author:
     name: "Joe Searcy"
     image: "/img/authors/joe-searcy.jpg"

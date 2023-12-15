@@ -21,9 +21,9 @@ aliases:
 
 去年，我们发现 Istio 的生态系统有了大幅增长。
 [Envoy](https://www.envoyproxy.io/) 继续保持惊人的增长，并增加了许多对服务网格生产质量至关重要的功能。
-诸如 [Datadog](https://www.datadoghq.com/)、[SolarWinds](https://www.solarwinds.com/)、[Sysdig](https://sysdig.com/blog/monitor-istio/)、[Google Stackdriver](https://cloud.google.com/stackdriver/) 和 [Amazon CloudWatch](https://aws.amazon.com/cloudwatch/) 之类的可观察性提供商已经编写了将 Istio 与他们的产品集成的插件。
+诸如 [Datadog](https://www.datadoghq.com/)、[SolarWinds](https://www.solarwinds.com/)、[Sysdig](https://sysdig.com/blog/monitor-istio/)、[Google Stackdriver](https://cloud.google.com/stackdriver/) 和 [Amazon CloudWatch](https://aws.amazon.com/cloudwatch/) 之类的可观测性提供商已经编写了将 Istio 与他们的产品集成的插件。
 [Tigera](https://www.tigera.io/resources/using-network-policy-concert-istio-2/)、[Aporeto](https://www.aporeto.com/)、[Cilium](https://cilium.io/) 和 [Styra](https://styra.com/) 为我们的策略执行和网络功能构建了扩展。
-[Red Hat](https://www.redhat.com/en) 构建了 [Kiali](https://www.kiali.io)，以围绕网格管理和可观察性提供不错的用户体验。
+[Red Hat](https://www.redhat.com/en) 构建了 [Kiali](https://www.kiali.io)，以围绕网格管理和可观测性提供不错的用户体验。
 [Cloud Foundry](https://www.cloudfoundry.org/) 基于 Istio 的下一代流量路由栈，
 最近宣布的 [Knative](https://github.com/knative/docs) serverless 项目也在做同样的事情，并且 [Apigee](https://apigee.com/) 宣布他们计划在其 API 管理中使用它。
 这些只是社区去年添加集成中的一部分。

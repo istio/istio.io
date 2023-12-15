@@ -60,7 +60,7 @@ Auto Trader 已与 Google 合作，因此知道 Google 是 Istio 的强大支持
 
 ## 结果：现象可观测性 {#results-phenomenal-observability}
 
-Istio 使 Auto Trader 有信心将所有应用程序部署到公有云。随着可观察性的提高，
+Istio 使 Auto Trader 有信心将所有应用程序部署到公有云。随着可观测性的提高，
 他们现在有了一种新的方式来管理和考虑基础结构。他们突然对性能和安全性有了洞察力，
 与此同时 Istio 正在帮助他们发现一直存在的未被发现的漏洞。
 
