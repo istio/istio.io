@@ -1754,6 +1754,24 @@ is reached the connection will be closed. Duration must be at least 1ms.</p>
 No
 </td>
 </tr>
+<tr id="ConnectionPoolSettings-TCPSettings-idle_timeout">
+<td><code>idleTimeout</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
+<td>
+<p>The idle timeout for TCP connections.
+The idle timeout is defined as the period in which there are no bytes sent or received on either
+the upstream or downstream connection.
+If not set, the default idle timeout is 1 hour. If set to 0s, the timeout will be disabled.
+Idle timeout is not configured per each cluster individually when weighted destinations are used,
+because idleTimeout is a property of a listener, not a cluster. In that case, idleTimeout
+specified in a destination rule for the first weighted route is configured in the listener,
+which means also for all weighted routes.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 </tbody>
 </table>
 </section>
