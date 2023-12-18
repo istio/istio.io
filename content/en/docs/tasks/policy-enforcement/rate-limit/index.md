@@ -36,11 +36,10 @@ using both global and local rate limits.
 
 Envoy can be used to [set up global rate limits](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/other_features/global_rate_limiting) for your mesh.
 Global rate limiting in Envoy uses a gRPC API for requesting quota from a rate limiting service.
-A [reference implementation](https://github.com/envoyproxy/ratelimit) of the API, written in Go with a Redis
-backend, is used below.
+A [reference implementation](https://github.com/envoyproxy/ratelimit) of the API, written in Go with a Redis backend, is used below.
 
 1. Use the following configmap to [configure the reference implementation](https://github.com/envoyproxy/ratelimit#configuration)
-    to rate limit requests to the path `/productpage` at 1 req/min and all other requests at 100 req/min.
+    to rate limit requests to the path `/productpage` at 1 req/min, a value `api` for the coming advanced example, and all other requests at 100 req/min.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -57,6 +56,11 @@ backend, is used below.
             rate_limit:
               unit: minute
               requests_per_unit: 1
+          - key: PATH
+            value: "api"
+            rate_limit:
+              unit: minute
+              requests_per_unit: 2
           - key: PATH
             rate_limit:
               unit: minute
@@ -140,7 +144,7 @@ backend, is used below.
             context: GATEWAY
             routeConfiguration:
               vhost:
-                name: "bookinfo.com:80"
+                name: ""
                 route:
                   action: ANY
           patch:
@@ -155,61 +159,32 @@ backend, is used below.
     EOF
     {{< /text >}}
 
-HERE !!! -------------------------------------------------------------------------------------------
-
 ### Global rate limit advanced case
 
-This example matches paths with regex and defines a ratelimit action based on each one using httpbin and the same PATH descriptor as in the previous case.
+This example uses regex to match `/api/*` `uri` and defines a rate limit action inserted at the route level using the VirtualService http name. The PATH value `api` inserted in the prior example comes into play.
 
-1. Add a new rule to the ratelimit configuration to limit all /delay/* matches to 2 req/min:
-
-ADD KUBECTL PATCH ADDING A NEW DESCRIPTOR KEY: PATH + DESCRIPTOR: delay
-
-2. Modify the httpbin VirtualService so it matches the /delay prefix and name the route:
+1. Delete the prefix `/api/v1/products` from bookinfo VirtualService:
 
     {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1beta1
-    kind: VirtualService
-    metadata:
-      name: httpbin
-      namespace: httpbin
-    spec:
-      gateways:
-      - httpbin-gateway
-      hosts:
-      - 'httpbin.com'
-      http:
-      - route:
-        - destination:
-            host: httpbin
-            port:
-              number: 8000
-        match:
-          - uri:
-              prefix: /delay
-        name: delay
-      - route:
-        - destination:
-            host: httpbin
-            port:
-              number: 8000
-    EOF
+    $ kubectl patch vs bookinfo --type=json -p='
+    [{"op": "remove", "path": "/spec/http/0/match/4"}]'
     {{< /text >}}
 
+1. Add a new section with the named route in the same manifest:
 
-3. Modify Gateway resources for bookinfo and httpbin so each listens to their particular host:
+    {{< text bash >}}
+    $ kubectl patch vs bookinfo --type=json -p='
+    [{"op": "add", "path": "/spec/http/1", "value": {"match": [{"uri": {"prefix": "/api/v1/products"}}], "route": [{"destination": {"host": "productpage", "port": {"number": 9080}}}], "name": "api"}}]'
+    {{< /text >}}
 
-ADD PATCH COMMAND FOR EACH RESOURCE TO CHANGE HOST: "*" TO EACH ONE'S HOST.
-
-4. Apply an EnvoyFilter to add the rate_limits action at the route level:
+1. Apply an EnvoyFilter to add the rate limits action at the route level on any 1 to 99 product:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1alpha3
     kind: EnvoyFilter
     metadata:
-      name: filter-ratelimit-svc-delay
+      name: filter-ratelimit-svc-api
       namespace: istio-ingress
     spec:
       workloadSelector:
@@ -221,9 +196,9 @@ ADD PATCH COMMAND FOR EACH RESOURCE TO CHANGE HOST: "*" TO EACH ONE'S HOST.
             context: GATEWAY
             routeConfiguration:
               vhost:
-                name: "httpbin.com:80"
+                name: "*:80"
                 route:
-                  name: "delay"
+                  name: "api"
           patch:
             operation: MERGE
             value:
@@ -232,14 +207,13 @@ ADD PATCH COMMAND FOR EACH RESOURCE TO CHANGE HOST: "*" TO EACH ONE'S HOST.
                 - actions:
                   - header_value_match:
                       descriptor_key: "PATH"
-                      descriptor_value: "delay"
+                      descriptor_value: "api"
                       headers:
                         - name: ":path"
                           safe_regex_match:
                             google_re2: {}
-                            regex: "/delay.*"
+                            regex: "/api/v1/products/[1-9]{1,2}"
     {{< /text >}}
-
 
 ## Local rate limit
 
@@ -396,15 +370,18 @@ EOF
 
 ### Verify global rate limit
 
-Send traffic to the Bookinfo and Httpin samples. Issue the following commands:
+Send traffic to the Bookinfo sample. Visit `http://$GATEWAY_URL/productpage` in your web browser or issue the following command:
 
 {{< text bash >}}
-$ curl -s "http://$GATEWAY_URL/productpage" -H"host: bookinfo.com" -o /dev/null -w "%{http_code}\n"
+$ for i in {1..2}; do curl -s "http://$GATEWAY_URL/productpage" -o /dev/null -w "%{http_code}\n"; sleep 3; done
+200
 429
 {{< /text >}}
 
 {{< text bash >}}
-$ curl -s "http://$GATEWAY_URL/delay/1" -H"host: httpbin.com" -o /dev/null -w "%{http_code}\n"
+$ for i in {1..3}; do curl -s "http://$GATEWAY_URL/api/v1/products/${i}" -o /dev/null -w "%{http_code}\n"; sleep 3; done
+200
+200
 429
 {{< /text >}}
 
@@ -412,8 +389,7 @@ $ curl -s "http://$GATEWAY_URL/delay/1" -H"host: httpbin.com" -o /dev/null -w "%
 `$GATEWAY_URL` is the value set in the [Bookinfo](/docs/examples/bookinfo/) example.
 {{< /tip >}}
 
-For Bookinfo, you will see the first request go through but every following request within a minute will get a 429 response. And for httpbin you will need to hit twice, with any delay, until you get the 429 response within a minute.
-
+For `/productpage`, you will see the first request go through but every following request within a minute will get a 429 response. And for `/api/v1/products/*` you will need to hit twice, with any number in between 1-99, until you get the 429 response within a minute.
 
 ### Verify local rate limit
 
@@ -433,6 +409,7 @@ You should see no more than 10 req/min go through per `productpage` instance.
 {{< text bash >}}
 $ kubectl delete envoyfilter filter-ratelimit -nistio-system
 $ kubectl delete envoyfilter filter-ratelimit-svc -nistio-system
+$ kubectl delete envoyfilter filter-ratelimit-svc -nistio-system-api
 $ kubectl delete envoyfilter filter-local-ratelimit-svc -nistio-system
 $ kubectl delete cm ratelimit-config
 $ kubectl delete -f @samples/ratelimit/rate-limit-service.yaml@
