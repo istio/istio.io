@@ -166,15 +166,13 @@ This example uses regex to match `/api/*` `uri` and defines a rate limit action 
 1. Delete the prefix `/api/v1/products` from bookinfo VirtualService:
 
     {{< text bash >}}
-    $ kubectl patch vs bookinfo --type=json -p='
-    [{"op": "remove", "path": "/spec/http/0/match/4"}]'
+    $ kubectl patch vs bookinfo --type=json -p='[{"op": "remove", "path": "/spec/http/0/match/4"}]'
     {{< /text >}}
 
 1. Add a new section with the named route in the same manifest:
 
     {{< text bash >}}
-    $ kubectl patch vs bookinfo --type=json -p='
-    [{"op": "add", "path": "/spec/http/1", "value": {"match": [{"uri": {"prefix": "/api/v1/products"}}], "route": [{"destination": {"host": "productpage", "port": {"number": 9080}}}], "name": "api"}}]'
+    $ kubectl patch vs bookinfo --type=json -p='[{"op": "add", "path": "/spec/http/1", "value": {"match": [{"uri": {"prefix": "/api/v1/products"}}], "route": [{"destination": {"host": "productpage", "port": {"number": 9080}}}], "name": "api"}}]'
     {{< /text >}}
 
 1. Apply an EnvoyFilter to add the rate limits action at the route level on any 1 to 99 product:
@@ -213,6 +211,7 @@ This example uses regex to match `/api/*` `uri` and defines a rate limit action 
                           safe_regex_match:
                             google_re2: {}
                             regex: "/api/v1/products/[1-9]{1,2}"
+    EOF
     {{< /text >}}
 
 ## Local rate limit

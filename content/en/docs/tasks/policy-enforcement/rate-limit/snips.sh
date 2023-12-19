@@ -36,6 +36,11 @@ data:
           unit: minute
           requests_per_unit: 1
       - key: PATH
+        value: "api"
+        rate_limit:
+          unit: minute
+          requests_per_unit: 2
+      - key: PATH
         rate_limit:
           unit: minute
           requests_per_unit: 100
@@ -118,6 +123,51 @@ spec:
               - request_headers:
                   header_name: ":path"
                   descriptor_key: "PATH"
+EOF
+}
+
+snip_global_rate_limit_advanced_case_1() {
+kubectl patch vs bookinfo --type=json -p='[{"op": "remove", "path": "/spec/http/0/match/4"}]'
+}
+
+snip_global_rate_limit_advanced_case_2() {
+kubectl patch vs bookinfo --type=json -p='[{"op": "add", "path": "/spec/http/1", "value": {"match": [{"uri": {"prefix": "/api/v1/products"}}], "route": [{"destination": {"host": "productpage", "port": {"number": 9080}}}], "name": "api"}}]'
+}
+
+snip_global_rate_limit_advanced_case_3() {
+kubectl apply -f - <<EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: filter-ratelimit-svc-api
+  namespace: istio-ingress
+spec:
+  workloadSelector:
+    labels:
+      istio: ingressgateway
+  configPatches:
+    - applyTo: HTTP_ROUTE
+      match:
+        context: GATEWAY
+        routeConfiguration:
+          vhost:
+            name: "*:80"
+            route:
+              name: "api"
+      patch:
+        operation: MERGE
+        value:
+          route:
+            rate_limits:
+            - actions:
+              - header_value_match:
+                  descriptor_key: "PATH"
+                  descriptor_value: "api"
+                  headers:
+                    - name: ":path"
+                      safe_regex_match:
+                        google_re2: {}
+                        regex: "/api/v1/products/[1-9]{1,2}"
 EOF
 }
 
@@ -250,10 +300,21 @@ EOF
 }
 
 snip_verify_global_rate_limit_1() {
-curl -s "http://$GATEWAY_URL/productpage" -o /dev/null -w "%{http_code}\n"
+for i in {1..2}; do curl -s "http://$GATEWAY_URL/productpage" -o /dev/null -w "%{http_code}\n"; sleep 3; done
 }
 
 ! read -r -d '' snip_verify_global_rate_limit_1_out <<\ENDSNIP
+200
+429
+ENDSNIP
+
+snip_verify_global_rate_limit_2() {
+for i in {1..3}; do curl -s "http://$GATEWAY_URL/api/v1/products/${i}" -o /dev/null -w "%{http_code}\n"; sleep 3; done
+}
+
+! read -r -d '' snip_verify_global_rate_limit_2_out <<\ENDSNIP
+200
+200
 429
 ENDSNIP
 
@@ -268,6 +329,7 @@ ENDSNIP
 snip_cleanup_1() {
 kubectl delete envoyfilter filter-ratelimit -nistio-system
 kubectl delete envoyfilter filter-ratelimit-svc -nistio-system
+kubectl delete envoyfilter filter-ratelimit-svc -nistio-system-api
 kubectl delete envoyfilter filter-local-ratelimit-svc -nistio-system
 kubectl delete cm ratelimit-config
 kubectl delete -f samples/ratelimit/rate-limit-service.yaml
