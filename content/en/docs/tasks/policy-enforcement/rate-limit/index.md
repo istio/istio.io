@@ -183,7 +183,7 @@ This example uses regex to match `/api/*` `uri` and defines a rate limit action 
     kind: EnvoyFilter
     metadata:
       name: filter-ratelimit-svc-api
-      namespace: istio-ingress
+      namespace: istio-system
     spec:
       workloadSelector:
         labels:

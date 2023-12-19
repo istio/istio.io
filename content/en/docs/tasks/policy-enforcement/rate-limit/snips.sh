@@ -140,7 +140,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
 metadata:
   name: filter-ratelimit-svc-api
-  namespace: istio-ingress
+  namespace: istio-system
 spec:
   workloadSelector:
     labels:
