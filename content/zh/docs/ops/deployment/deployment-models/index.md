@@ -422,11 +422,9 @@ Istio 支持两种类型的租赁模型：
 
 ### 命名空间租赁{#namespace-tenancy}
 
-A cluster can be shared across multiple teams, each using a different namespace. You can grant a team permission to deploy its workloads only to a given namespace or set of namespaces.
 集群可以在多个团队之间被共享，每个团队使用不同的命名空间。
 您可以授予团队权限仅将其工作负载部署到给定命名空间或一组命名空间。
 
-By default, services from multiple namespaces can communicate with each other, but you can increase isolation by selectively choosing which services to expose to other namespaces. You can configure authorization policies for exposed services to restrict access to only the appropriate callers.
 默认情况下，来自多个命名空间的服务可以相互通信，
 但您可以有选择地向其他命名空间公开哪些服务来增强隔离性。
 您可以为公开的服务配置授权策略，以将访问仅限制为适当的调用者。
