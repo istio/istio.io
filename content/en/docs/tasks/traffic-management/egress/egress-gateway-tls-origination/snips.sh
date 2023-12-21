@@ -396,7 +396,7 @@ spec:
         mode: MUTUAL
         credentialName: client-credential # this must match the secret created earlier to hold client certs
         sni: my-nginx.mesh-external.svc.cluster.local
-        # subjectAltNames: # can be enabled if the certificates were generated with SAN as specified in previous section
+        # subjectAltNames: # can be enabled if the certificate was generated with SAN as specified in previous section
         # - my-nginx.mesh-external.svc.cluster.local
 EOF
 }
