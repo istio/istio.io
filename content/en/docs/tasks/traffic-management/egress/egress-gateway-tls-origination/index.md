@@ -268,6 +268,30 @@ For this task you can use your favorite tool to generate certificates and keys. 
     $ openssl x509 -req -sha256 -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 0 -in my-nginx.mesh-external.svc.cluster.local.csr -out my-nginx.mesh-external.svc.cluster.local.crt
     {{< /text >}}
 
+    Optionally, you can add `SubjectAltNames` to the certificate if you want to enable SAN validation for the destination. For example:
+
+    {{< text syntax=bash snip_id=none >}}
+    $ cat > san.conf <<EOF
+    [req]
+    distinguished_name = req_distinguished_name
+    req_extensions = v3_req
+    x509_extensions = v3_req
+    prompt = no
+    [req_distinguished_name]
+    countryName = US
+    [v3_req]
+    keyUsage = critical, digitalSignature, keyEncipherment
+    extendedKeyUsage = serverAuth, clientAuth
+    basicConstraints = critical, CA:FALSE
+    subjectAltName = critical, @alt_names
+    [alt_names]
+    DNS = my-nginx.mesh-external.svc.cluster.local
+    EOF
+    $
+    $ openssl req -out my-nginx.mesh-external.svc.cluster.local.csr -newkey rsa:4096 -nodes -keyout my-nginx.mesh-external.svc.cluster.local.key -subj "/CN=my-nginx.mesh-external.svc.cluster.local/O=some organization" -config san.conf
+    $ openssl x509 -req -sha256 -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 0 -in my-nginx.mesh-external.svc.cluster.local.csr -out my-nginx.mesh-external.svc.cluster.local.crt -extfile san.conf -extensions v3_req
+    {{< /text >}}
+
 1.  Generate client certificate and private key:
 
     {{< text bash >}}
@@ -516,6 +540,8 @@ to hold the configuration of the NGINX server:
             mode: MUTUAL
             credentialName: client-credential # this must match the secret created earlier to hold client certs
             sni: my-nginx.mesh-external.svc.cluster.local
+            # subjectAltNames: # can be enabled if the certificate was generated with SAN as specified in previous section
+            # - my-nginx.mesh-external.svc.cluster.local
     EOF
     {{< /text >}}
 
