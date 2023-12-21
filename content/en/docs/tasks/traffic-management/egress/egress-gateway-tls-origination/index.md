@@ -268,7 +268,7 @@ For this task you can use your favorite tool to generate certificates and keys. 
     $ openssl x509 -req -sha256 -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 0 -in my-nginx.mesh-external.svc.cluster.local.csr -out my-nginx.mesh-external.svc.cluster.local.crt
     {{< /text >}}
 
-    Optionally, the above steps can be modified to add `SubjectAltNames` to the certificate, if you want to enable SAN validation for the destination. For this, please follow the steps below:
+    Optionally, you can add `SubjectAltNames` to the certificate if you want to enable SAN validation for the destination. For example:
 
     {{< text syntax=bash snip_id=none >}}
     $ cat > san.conf <<EOF
@@ -540,7 +540,7 @@ to hold the configuration of the NGINX server:
             mode: MUTUAL
             credentialName: client-credential # this must match the secret created earlier to hold client certs
             sni: my-nginx.mesh-external.svc.cluster.local
-            # subjectAltNames: # can be enabled if the certificates were generated with SAN as specified in previous section
+            # subjectAltNames: # can be enabled if the certificate was generated with SAN as specified in previous section
             # - my-nginx.mesh-external.svc.cluster.local
     EOF
     {{< /text >}}
