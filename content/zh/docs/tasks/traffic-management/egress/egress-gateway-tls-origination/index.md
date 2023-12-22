@@ -584,7 +584,6 @@ $ kubectl delete destinationrule egressgateway-for-cnn
             sni: my-nginx.mesh-external.svc.cluster.local
             # subjectAltNames: # 如果证书是同意上一节中指定的 SAN 生成的，则可以被启用
             # - my-nginx.mesh-external.svc.cluster.local
- 
     EOF
     {{< /text >}}
 
