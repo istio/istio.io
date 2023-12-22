@@ -582,7 +582,7 @@ $ kubectl delete destinationrule egressgateway-for-cnn
             mode: MUTUAL
             credentialName: client-credential # 这必须与之前创建的用于保存客户端证书的 Secret 相匹配
             sni: my-nginx.mesh-external.svc.cluster.local
-            # subjectAltNames: # 如果证书是同意上一节中指定的 SAN 生成的，则可以被启用
+            # subjectAltNames: # 如果证书是随着上一节中指定的 SAN 生成的，则可以被启用
             # - my-nginx.mesh-external.svc.cluster.local
     EOF
     {{< /text >}}
