@@ -1314,8 +1314,8 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <tr>
 <td><code>PILOT_MAX_REQUESTS_PER_SECOND</code></td>
 <td>Floating-Point</td>
-<td><code>25</code></td>
-<td>Limits the number of incoming XDS requests per second. On larger machines this can be increased to handle more proxies concurrently.</td>
+<td><code>0</code></td>
+<td>Limits the number of incoming XDS requests per second. On larger machines this can be increased to handle more proxies concurrently. If set to 0 or unset, the max will be automatically determined based on the machine size</td>
 </tr>
 <tr>
 <td><code>PILOT_MULTI_NETWORK_DISCOVER_GATEWAY_API</code></td>
@@ -1338,8 +1338,8 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <tr>
 <td><code>PILOT_PUSH_THROTTLE</code></td>
 <td>Integer</td>
-<td><code>100</code></td>
-<td>Limits the number of concurrent pushes allowed. On larger machines this can be increased for faster pushes</td>
+<td><code>0</code></td>
+<td>Limits the number of concurrent pushes allowed. On larger machines this can be increased for faster pushes. If set to 0 or unset, the max will be automatically determined based on the machine size</td>
 </tr>
 <tr>
 <td><code>PILOT_REMOTE_CLUSTER_TIMEOUT</code></td>
