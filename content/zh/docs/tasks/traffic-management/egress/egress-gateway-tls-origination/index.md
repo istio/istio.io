@@ -266,6 +266,30 @@ $ kubectl delete destinationrule egressgateway-for-cnn
     $ openssl x509 -req -sha256 -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 0 -in my-nginx.mesh-external.svc.cluster.local.csr -out my-nginx.mesh-external.svc.cluster.local.crt
     {{< /text >}}
 
+    或者，如果您想要为目标启用 SAN 验证，您可以将 `SubjectAltNames` 添加到证书中。例如：
+
+    {{< text syntax=bash snip_id=none >}}
+    $ cat > san.conf <<EOF
+    [req]
+    distinguished_name = req_distinguished_name
+    req_extensions = v3_req
+    x509_extensions = v3_req
+    prompt = no
+    [req_distinguished_name]
+    countryName = US
+    [v3_req]
+    keyUsage = critical, digitalSignature, keyEncipherment
+    extendedKeyUsage = serverAuth, clientAuth
+    basicConstraints = critical, CA:FALSE
+    subjectAltName = critical, @alt_names
+    [alt_names]
+    DNS = my-nginx.mesh-external.svc.cluster.local
+    EOF
+    $
+    $ openssl req -out my-nginx.mesh-external.svc.cluster.local.csr -newkey rsa:4096 -nodes -keyout my-nginx.mesh-external.svc.cluster.local.key -subj "/CN=my-nginx.mesh-external.svc.cluster.local/O=some organization" -config san.conf
+    $ openssl x509 -req -sha256 -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 0 -in my-nginx.mesh-external.svc.cluster.local.csr -out my-nginx.mesh-external.svc.cluster.local.crt -extfile san.conf -extensions v3_req
+    {{< /text >}}
+
 1. 生成客户端证书和私钥：
 
     {{< text bash >}}
@@ -558,6 +582,8 @@ $ kubectl delete destinationrule egressgateway-for-cnn
             mode: MUTUAL
             credentialName: client-credential # 这必须与之前创建的用于保存客户端证书的 Secret 相匹配
             sni: my-nginx.mesh-external.svc.cluster.local
+            # subjectAltNames: # 如果证书是随着上一节中指定的 SAN 生成的，则可以被启用
+            # - my-nginx.mesh-external.svc.cluster.local
     EOF
     {{< /text >}}
 
