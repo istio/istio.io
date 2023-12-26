@@ -87,7 +87,7 @@ spec:
 Make sure you are using the selector field for sidecar or Istio gateway pods, and use the `targetRef` field for
 Kubernetes Gateway pods. Otherwise, the policy will not be effective.
 
-One correct example is:
+Here is an example:
 
 {{< text yaml >}}
 apiVersion: telemetry.istio.io/v1alpha1
