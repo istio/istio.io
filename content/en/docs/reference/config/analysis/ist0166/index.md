@@ -39,7 +39,7 @@ spec:
     name: istio-proxy
 {{< /text >}}
 
-and your policy has a selector like:
+and your policy has a `selector` like:
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1
@@ -61,7 +61,7 @@ spec:
       methods: ["POST"]
 {{< /text >}}
 
-However, if you have both `targetRef` and selector used in the policy, this message will be ignored.
+However, if you have both `targetRef` and `selector` used in the policy, this message will be ignored.
 For example:
 
 {{< text yaml >}}
@@ -84,7 +84,7 @@ spec:
 
 ## How to resolve
 
-Make sure you are using the selector field for sidecar or Istio gateway pods, and use the `targetRef` field for
+Make sure you are using the `selector` field for sidecars or Istio gateway pods, and use the `targetRef` field for
 Kubernetes Gateway pods. Otherwise, the policy will not be effective.
 
 Here is an example:
