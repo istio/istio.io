@@ -9,9 +9,10 @@ test: no
 如果这两个资源各自指定的双向 TLS 模式不兼容，则它们会冲突。
 此冲突意味着与目标规则匹配的到达指定主机的流量将被拒绝。
 
-此消息仅会在不使用[自动双向 TLS](/zh/docs/tasks/security/authentication/auto-mtls/) 的服务网格上发生。
+此消息仅会在不使用[自动双向 TLS](/zh/docs/tasks/security/authentication/auto-mtls/)
+的服务网格上发生。
 
-## 示例{#an-example}
+## 示例 {#an-example}
 
 考虑使用以下 `MeshPolicy` 的 Istio 网格：
 
@@ -45,7 +46,7 @@ spec:
       mode: ISTIO_MUTUAL
 {{< /text >}}
 
-## 哪些目标规则和策略与服务有关{#which-destination-rules-and-policies-are-relevant-to-a-service}
+## 哪些目标规则和策略与服务有关 {#which-destination-rules-and-policies-are-relevant-to-a-service}
 
 为了有效解决双向 TLS 冲突，加深对目标规则和策略是如何影响到达服务的流量的理解会很有帮助。
 考虑一个在 `my-namespace` 命名空间中的 `my-service` 示例服务。
@@ -68,9 +69,9 @@ spec:
 
 最后请注意，遵循这些规则时，Istio 不会应用任何继承概念。第一个符合匹配条件的资源将被使用。
 
-## 如何处理{#how-to-resolve}
+## 如何处理 {#how-to-resolve}
 
-检查输出信息，您将看到类似下面的信息：
+检查输出的消息，您将看到类似下面的消息：
 
 {{< text plain >}}
 Error [IST0113] (DestinationRule default-rule.istio-system) A DestinationRule

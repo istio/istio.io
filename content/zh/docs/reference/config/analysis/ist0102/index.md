@@ -5,7 +5,9 @@ owner: istio/wg-user-experience-maintainers
 test: no
 ---
 
-当命名空间缺少[注解](/zh/docs/reference/config/annotations/)来标记命名空间是否自动注入时会出现此错误，例如 `sidecar.istio.io/inject` 。
+当命名空间缺少 `sidecar.istio.io/inject`
+这类[注解](/zh/docs/reference/config/annotations/)来标记命名空间是否自动注入时，
+会出现此错误消息。
 
 例如，您可能看到以下错误：
 
