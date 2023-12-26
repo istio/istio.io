@@ -5,8 +5,8 @@ owner: istio/wg-user-experience-maintainers
 test: no
 ---
 
-当 Istio 资源引用另一个不存在的资源时，会触发此消息。
-当 Istio 尝试查找引用的资源但找不到时，将导致此错误。
+当 Istio 资源引用另一个不存在的资源时，会出现此消息。
+这会导致 Istio 尝试查找引用的资源但找不到这类的错误。
 
 例如，您会收到这个错误提示：
 
