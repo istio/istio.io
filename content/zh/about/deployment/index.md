@@ -16,7 +16,7 @@ doc_type: about
 您已经决定要使用 Istio。欢迎来到服务网格的世界。祝贺您，您拥有了一个伟大的伙伴！
 
 如果您没用过 Istio，可能要在测试环境中进行试用，请参阅我们的[入门指南](/zh/docs/setup/getting-started/)。
-这将使您对**流量管理**、**安全**和**可观察性**功能有所了解。
+这将使您对**流量管理**、**安全**和**可观测性**功能有所了解。
 
 ## 自己动手，还是带个向导？ {#do-it-yourself-or-bring-a-guide}
 
@@ -55,7 +55,7 @@ Istio 还是许多商业服务管理产品的引擎，专家团队随时准备�
 
 现在也是考虑要使用哪些集成的好时机：我们推荐[设置 Prometheus](/zh/docs/ops/integrations/prometheus/#Configuration)
 用于服务监控，并使用[与外部服务器的分层联合](/zh/docs/ops/best-practices/observability/)。
-如果您的公司的可观察性堆栈是由不同的团队运行的，现在是让他们加入的时候了。
+如果您的公司的可观测性堆栈是由不同的团队运行的，现在是让他们加入的时候了。
 
 ## 第一天，将服务添加到网格中 {#adding-services-to-the-mesh-on-day1}
 

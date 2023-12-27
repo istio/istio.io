@@ -24,7 +24,7 @@ weight: 53
 
 使用 Istio 实施内部平台的决定彻底改变了 WP Engine 发布软件的方式，
 最大限度地减少了工程师在构建应用程序时必须考虑的常见横切关注点。
-实施此平台提高了服务之间的一致性，减少了整个组织的运营开销，并增强了此运行时环境的安全性和可观察性。
+实施此平台提高了服务之间的一致性，减少了整个组织的运营开销，并增强了此运行时环境的安全性和可观测性。
 在 [IstioCon 2022 的演讲中](https://events.istio.io/istiocon-2022/sessions/how-wp-engine-uses-istio/)，
 Rahul Dhir Rahul Dhir 讨论了 WP Engine 与 Istio 构建平台的历程，以及它的好处是如何推动他们的业务向前发展的。
 

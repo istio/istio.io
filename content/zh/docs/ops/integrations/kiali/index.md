@@ -7,7 +7,7 @@ owner: istio/wg-environments-maintainers
 test: no
 ---
 [Kiali](https://kiali.io/) 是具有服务网格配置和验证功能的 Istio
-可观察性的控制台。通过监视流量来推断拓扑和错误报告，它可以帮助您了解服务网格的结构和运行状态。
+可观测性的控制台。通过监视流量来推断拓扑和错误报告，它可以帮助您了解服务网格的结构和运行状态。
 Kiali 提供了详细的的指标并与 Grafana 进行基础集成，可以用于高级查询。通过与
 [Jaeger](/zh/docs/ops/integrations/jaeger) 来提供分布式链路追踪功能。
 

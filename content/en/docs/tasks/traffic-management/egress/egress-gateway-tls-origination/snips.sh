@@ -192,7 +192,7 @@ openssl req -out my-nginx.mesh-external.svc.cluster.local.csr -newkey rsa:2048 -
 openssl x509 -req -sha256 -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 0 -in my-nginx.mesh-external.svc.cluster.local.csr -out my-nginx.mesh-external.svc.cluster.local.crt
 }
 
-snip_generate_client_and_server_certificates_and_keys_3() {
+snip_generate_client_and_server_certificates_and_keys_4() {
 openssl req -out client.example.com.csr -newkey rsa:2048 -nodes -keyout client.example.com.key -subj "/CN=client.example.com/O=client organization"
 openssl x509 -req -sha256 -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 1 -in client.example.com.csr -out client.example.com.crt
 }
@@ -396,6 +396,8 @@ spec:
         mode: MUTUAL
         credentialName: client-credential # this must match the secret created earlier to hold client certs
         sni: my-nginx.mesh-external.svc.cluster.local
+        # subjectAltNames: # can be enabled if the certificate was generated with SAN as specified in previous section
+        # - my-nginx.mesh-external.svc.cluster.local
 EOF
 }
 
