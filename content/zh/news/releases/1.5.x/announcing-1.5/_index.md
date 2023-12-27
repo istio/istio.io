@@ -53,7 +53,7 @@ Istio 一直都是可扩展性最好的服务网格，其 Mixer 插件允许自�
 
 想要更深入地了解 Istio 的安全性及其可防范的威胁，请留意未来几天的博客文章。
 
-## 更好的可观察性{#better-observability}
+## 更好的可观测性{#better-observability}
 
 我们将继续努力，使 Istio 成为您分布式应用的最佳选择。Telemetry v2 现在会报告原生 TCP 连接（除了 HTTP）的度量标准，并且我们通过在遥测和日志中添加响应状态代码来增强了对 gRPC 工作负载的支持。现在默认使用 Telemetry v2。
 

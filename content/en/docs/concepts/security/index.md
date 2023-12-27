@@ -552,7 +552,7 @@ specification. If a request doesn't match a policy in one of the layers, the che
 
 The following graph shows the policy precedence in detail:
 
-{{< image width="50%" link="./authz-eval.png" caption="Authorization Policy Precedence">}}
+{{< image width="50%" link="./authz-eval.svg" caption="Authorization Policy Precedence">}}
 
 When you apply multiple authorization policies to the same workload, Istio applies them additively.
 

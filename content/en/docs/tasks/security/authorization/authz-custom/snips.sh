@@ -100,7 +100,7 @@ data:
         port: "4180" # The default port used by oauth2-proxy.
         includeRequestHeadersInCheck: ["authorization", "cookie"] # headers sent to the oauth2-proxy in the check request.
         headersToUpstreamOnAllow: ["authorization", "path", "x-auth-request-user", "x-auth-request-email", "x-auth-request-access-token"] # headers sent to backend application when request is allowed.
-        headersToDownstreamOnAllow: ["content-type", "set-cookie"] # headers sent back to the client when request is allowed.
+        headersToDownstreamOnAllow: ["set-cookie"] # headers sent back to the client when request is allowed.
         headersToDownstreamOnDeny: ["content-type", "set-cookie"] # headers sent back to the client when request is denied.
 ENDSNIP
 

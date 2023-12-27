@@ -48,7 +48,7 @@ https://docs.google.com/spreadsheets/d/1Nbjat-juyQ8AWhkq3njLckmHM8TRL4O-sjm9Bfr9
 
 {{< features section="Traffic Management" >}}
 
-### 可观察性  {#observability}
+### 可观测性  {#observability}
 
 {{< features section="Observability" >}}
 

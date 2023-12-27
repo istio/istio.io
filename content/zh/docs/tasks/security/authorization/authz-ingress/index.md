@@ -283,7 +283,7 @@ $ kubectl patch svc httpbin-gateway-istio -n foo -p '{"spec":{"externalTrafficPo
 
 ### HTTP/HTTPS 负载均衡 {#http-https}
 
-如果您使用的是 HTTP/HTTPS 外部负载平衡器 (AWS、ALB、GCP)，它可以将原始客户端 IP 地址放在
+如果您使用的是 HTTP/HTTPS 外部负载均衡器 (AWS、ALB、GCP)，它可以将原始客户端 IP 地址放在
 X-Forwarded-For 报头中。通过一些配置，Istio 可以从该报头中提取客户端 IP 地址。
 请参阅[配置网关网络拓扑](/zh/docs/ops/configuration/traffic-management/network-topologies/)。
 在 Kubernetes 面前使用单个负载均衡的快速示例：

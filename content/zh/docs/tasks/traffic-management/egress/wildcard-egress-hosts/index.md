@@ -226,6 +226,24 @@ $ kubectl delete virtualservice direct-wikipedia-through-egress-gateway
 $ kubectl delete destinationrule egressgateway-for-wikipedia
 {{< /text >}}
 
+## 任意域的 wildcard 配置  {#wildcard-configuration-for-arbitrary-domains}
+
+上一节中的配置之所以有效，是因为所有 `*.wikipedia.org` 站点都可能由任何一个 `wikipedia.org` 服务器提供服务。
+然而，实际情况并非总是如此。例如，您可能想要配置出口控制以访问更通用的 wildcard 域，
+例如 `*.com` 或 `*.org`。为任意 wildcard 域名配置流量给 Istio 网关带来了挑战；
+Istio 网关只能将流量路由配置到预定义的主机、预定义的 IP 地址或请求的原始目标 IP 地址。
+
+在上一节中，您配置了虚拟服务用于将流量定向预定义主机 `www.wikipedia.org`。
+然而，在一般情况下，您不知道可以为请求中收到的任意主机提供服务的主机或 IP 地址，
+这使得请求的原始目标地址成为路由请求的唯一值。不幸的是，当使用出口网关时，
+由于原始请求被重定向到网关，因此请求的原始目标地址丢失，导致目标 IP 地址变成网关的 IP 地址。
+
+尽管这样做并不简单且有些脆弱，因为它依赖于 Istio 实现细节，但您可以使用
+[Envoy 过滤器](/zh/docs/reference/config/networking/envoy-filter/)通过使用
+[SNI](https://en.wikipedia.org/wiki/Server_Name_Indication)
+配置网关以支持任意域 HTTPS 或任何 TLS 请求中的值，用于标识将请求路由到的原始目的地。
+这种配置方法的一个示例可以在[将出口流量路由至通配符目的地](/zh/blog/2023/egress-sni/)中找到。
+
 ## 清除  {#cleanup}
 
 * 关闭 [sleep]({{< github_tree >}}/samples/sleep) 服务：

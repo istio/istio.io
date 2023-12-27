@@ -36,6 +36,8 @@ Server First 协议，如 MySQL，不兼容自动协议选择。
 - 通过端口名称配置：`name: <protocol>[-<suffix>]`。
 - 在版本 1.18+ 的Kubernetes，通过 `appProtocol` 字段配置：`appProtocol: <protocol>`。
 
+如果两者都被定义了，则 `appProtocol` 优先级高于端口名称。
+
 请注意，由于网关可能终止 TLS 而协议可能被协商，因此网关的行为在某些情况下可能会有所不同。
 
 支持以下协议：
