@@ -5,9 +5,10 @@ owner: istio/wg-user-experience-maintainers
 test: no
 ---
 
-This message occurs when a namespace is missing the `istio-injection` and `istio.io/rev`
-labels or when the `.values.sidecarInjectorWebhook.enableNamespacesByDefault` is not
-enabled to indicate whether the namespace should be auto-injected with the sidecar.
+This message occurs when a namespace is missing either the `istio-injection` label,
+which enables/disables sidecar injection, or the `istio.io/rev` label,
+which specifies the Istio control plane revision for the sidecar, or when
+`.values.sidecarInjectorWebhook.enableNamespacesByDefault` is not enabled.
 
 For example, you receive this error:
 
