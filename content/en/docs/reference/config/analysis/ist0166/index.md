@@ -18,7 +18,7 @@ Warning [IST0166] (AuthorizationPolicy default/ap-ineffective testdata/k8sgatewa
 Kubernetes Gateway bookinfo-gateway. Use the TargetRef field instead.
 {{< /text >}}
 
-when your policy's selector is matching to a Kubernetes Gateway.
+when your policy's selector matches a Kubernetes Gateway.
 
 For example, when you have a Kubernetes Gateway pod like:
 
@@ -39,7 +39,7 @@ spec:
     name: istio-proxy
 {{< /text >}}
 
-and your policy has a `selector` like:
+And there is an `AuthorizationPolicy` with a `selector` like:
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1
@@ -61,8 +61,7 @@ spec:
       methods: ["POST"]
 {{< /text >}}
 
-However, if you have both `targetRef` and `selector` used in the policy, this message will be ignored.
-For example:
+If you have both `targetRef` and `selector` in the policy, this message will not occur. For example:
 
 {{< text yaml >}}
 apiVersion: telemetry.istio.io/v1alpha1
@@ -84,8 +83,8 @@ spec:
 
 ## How to resolve
 
-Make sure you are using the `selector` field for sidecars or Istio gateway pods, and use the `targetRef` field for
-Kubernetes Gateway pods. Otherwise, the policy will not be effective.
+Make sure you are using the `selector` field for sidecars or Istio Gateway pods, and use the `targetRef` field for
+Kubernetes Gateway pods. Otherwise, the policy will not be applied.
 
 Here is an example:
 
