@@ -269,7 +269,7 @@ spec:
   mtls:
     mode: STRICT
   portLevelMtls:
-    80:
+    8080:
       mode: DISABLE
 EOF
 {{< /text >}}
