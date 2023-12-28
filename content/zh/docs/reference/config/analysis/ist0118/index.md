@@ -41,7 +41,7 @@ spec:
 - 如果您知道 Service 端口的协议，将端口重命名为 `<protocol>[-<suffix>]` 格式就行；
 - 如果您不知道 Service 端口的协议，您需要[从 Prometheus 查询指标](/zh/docs/tasks/observability/metrics/querying-metrics/)
     - 查询 `istio_requests_total{reporter="destination",destination_service_name="SERVICE_NAME",response_code="200"}[TIME_RANGE]`。
-      如果您使用 Mixer v2 版本，也可以查询
+      如果您使用遥测指标覆盖，也可以查询
       `istio_requests_total{reporter="destination",destination_service_name="SERVICE_NAME",response_code="200",destination_port="TARGET_PORT"}[TIME_RANGE]`。
     - 如果有输出，您可以从记录中找到 `request_protocol`。例如，
       如果 `request_protocol` 是 `http`，则将端口重命名为 `http-foo`；
