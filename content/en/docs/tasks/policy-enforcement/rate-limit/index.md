@@ -10,9 +10,9 @@ test: yes
 This task shows you how to use Envoy's native rate limiting to dynamically limit the traffic to an Istio
 service. In this task, you will apply a global rate-limit for the `productpage` service through ingress gateway that allows
 1 requests per minute across all instances of the service. Additionally, you will apply a local rate-limit for each
-individual `productpage` instance that will allow 10 requests per minute. In this way, you will ensure that the `productpage`
+individual `productpage` instance that will allow 4 requests per minute. In this way, you will ensure that the `productpage`
 service handles a maximum of 1 request per minute through the ingress gateway, but each `productpage` instance can handle
-up to 10 requests per minute, allowing for any in-mesh traffic.
+up to 4 requests per minute, allowing for any in-mesh traffic.
 
 ## Before you begin
 
@@ -222,7 +222,7 @@ This allows you to apply rate limits at the instance level, in the proxy itself,
 The following `EnvoyFilter` enables local rate limiting for any traffic through the `productpage` service.
 The `HTTP_FILTER` patch inserts the `envoy.filters.http.local_ratelimit` [local envoy filter](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/local_rate_limit_filter#config-http-filters-local-rate-limit)
 into the HTTP connection manager filter chain. The local rate limit filter's [token bucket](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/http/local_ratelimit/v3/local_rate_limit.proto#envoy-v3-api-field-extensions-filters-http-local-ratelimit-v3-localratelimit-token-bucket)
-is configured to allow 10 requests/min. The filter is also configured to add an `x-local-rate-limit`
+is configured to allow 4 requests/min. The filter is also configured to add an `x-local-rate-limit`
 response header to requests that are blocked.
 
 {{< tip >}}
@@ -270,8 +270,8 @@ spec:
             value:
               stat_prefix: http_local_rate_limiter
               token_bucket:
-                max_tokens: 10
-                tokens_per_fill: 10
+                max_tokens: 4
+                tokens_per_fill: 4
                 fill_interval: 60s
               filter_enabled:
                 runtime_key: local_rate_limit_enabled
@@ -293,7 +293,7 @@ EOF
 
 The above configuration applies local rate limiting to all vhosts/routes. Alternatively, you can restrict it to a specific route.
 
-The following `EnvoyFilter` enables local rate limiting for any traffic to port 80 of the `productpage` service.
+The following `EnvoyFilter` enables local rate limiting for any traffic to port 9080 of the `productpage` service.
 Unlike the previous configuration, there is no `token_bucket` included in the `HTTP_FILTER` patch.
 The `token_bucket` is instead defined in the second (`HTTP_ROUTE`) patch which includes a `typed_per_filter_config` for the `envoy.filters.http.local_ratelimit`
 local envoy filter, for routes to virtual host `inbound|http|9080`.
@@ -344,8 +344,8 @@ spec:
               value:
                 stat_prefix: http_local_rate_limiter
                 token_bucket:
-                  max_tokens: 10
-                  tokens_per_fill: 10
+                  max_tokens: 4
+                  tokens_per_fill: 4
                   fill_interval: 60s
                 filter_enabled:
                   runtime_key: local_rate_limit_enabled
@@ -393,15 +393,20 @@ For `/productpage`, you will see the first request go through but every followin
 ### Verify local rate limit
 
 Although the global rate limit at the ingress gateway limits requests to the `productpage` service at 1 req/min,
-the local rate limit for `productpage` instances allows 10 req/min.
+the local rate limit for `productpage` instances allows 4 req/min.
 To confirm this, send internal `productpage` requests, from the `ratings` pod, using the following `curl` command:
 
 {{< text bash >}}
-$ kubectl exec "$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')" -c ratings -- curl -s productpage:9080/productpage -o /dev/null -w "%{http_code}\n"
+$ kubectl exec "$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')" -c ratings -- bash -c 'for i in {1..5}; do curl -s productpage:9080/productpage -o /dev/null -w "%{http_code}\n"; sleep 1; done'
+
+200
+200
+200
+200
 429
 {{< /text >}}
 
-You should see no more than 10 req/min go through per `productpage` instance.
+You should see no more than 4 req/min go through per `productpage` instance.
 
 ## Cleanup
 
