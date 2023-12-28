@@ -413,7 +413,7 @@ You should see no more than 4 req/min go through per `productpage` instance.
 {{< text bash >}}
 $ kubectl delete envoyfilter filter-ratelimit -nistio-system
 $ kubectl delete envoyfilter filter-ratelimit-svc -nistio-system
-$ kubectl delete envoyfilter filter-ratelimit-svc -nistio-system-api
+$ kubectl delete envoyfilter filter-ratelimit-svc-api -nistio-system
 $ kubectl delete envoyfilter filter-local-ratelimit-svc -nistio-system
 $ kubectl delete cm ratelimit-config
 $ kubectl delete -f @samples/ratelimit/rate-limit-service.yaml@
