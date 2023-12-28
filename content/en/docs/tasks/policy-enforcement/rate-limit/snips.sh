@@ -211,8 +211,8 @@ spec:
             value:
               stat_prefix: http_local_rate_limiter
               token_bucket:
-                max_tokens: 10
-                tokens_per_fill: 10
+                max_tokens: 4
+                tokens_per_fill: 4
                 fill_interval: 60s
               filter_enabled:
                 runtime_key: local_rate_limit_enabled
@@ -278,8 +278,8 @@ spec:
               value:
                 stat_prefix: http_local_rate_limiter
                 token_bucket:
-                  max_tokens: 10
-                  tokens_per_fill: 10
+                  max_tokens: 4
+                  tokens_per_fill: 4
                   fill_interval: 60s
                 filter_enabled:
                   runtime_key: local_rate_limit_enabled
@@ -319,10 +319,15 @@ for i in {1..3}; do curl -s "http://$GATEWAY_URL/api/v1/products/${i}" -o /dev/n
 ENDSNIP
 
 snip_verify_local_rate_limit_1() {
-kubectl exec "$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')" -c ratings -- curl -s productpage:9080/productpage -o /dev/null -w "%{http_code}\n"
+kubectl exec "$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')" -c ratings -- bash -c 'for i in {1..5}; do curl -s productpage:9080/productpage -o /dev/null -w "%{http_code}\n"; sleep 1; done'
 }
 
 ! read -r -d '' snip_verify_local_rate_limit_1_out <<\ENDSNIP
+
+200
+200
+200
+200
 429
 ENDSNIP
 
