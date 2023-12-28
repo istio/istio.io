@@ -8,10 +8,9 @@ test: n/a
 当 `AuthorizationPolicy`、`RequestAuthentication`、`Telemetry` 或 `WasmPlugin`
 这类策略中的工作负载选择器没有有效指向任何 Kubernetes Gateway Pod 目标时，会出现此消息。
 
-## 示例 {#Example}
+## 示例 {#example}
 
-当您的策略选择器匹配到某个 Kubernetes Gateway 时，
-您将收到类似的消息：
+当您的策略选择器匹配到某个 Kubernetes Gateway 时，您将收到类似的消息：
 
 {{< text plain >}}
 Warning [IST0166] (AuthorizationPolicy default/ap-ineffective testdata/k8sgateway-selector.yaml:47) Ineffective selector on
