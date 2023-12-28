@@ -6,7 +6,7 @@ test: n/a
 ---
 
 当 `AuthorizationPolicy`、`RequestAuthentication`、`Telemetry` 或 `WasmPlugin`
-这类策略中的工作负载选择器在 Kubernetes Gateway 中没有有效指向任何 Pod 目标时，会出现此消息。
+这类策略中的工作负载选择器没有有效指向任何 Kubernetes Gateway Pod 目标时，会出现此消息。
 
 ## 示例 {#Example}
 
