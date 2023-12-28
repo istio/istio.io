@@ -60,7 +60,7 @@ _verify_same snip_verify_global_rate_limit_2 "$snip_verify_global_rate_limit_2_o
 snip_local_rate_limit_2
 
 # verify local ratelimit
-_verify_same snip_verify_local_rate_limit_1 "$snip_verify_global_rate_limit_1_out"
+_verify_same snip_verify_local_rate_limit_1 "$snip_verify_local_rate_limit_1_out"
 
 # @cleanup
 snip_cleanup_1
