@@ -151,7 +151,7 @@ spec:
         context: GATEWAY
         routeConfiguration:
           vhost:
-            name: "*:80"
+            name: "*:8080"
             route:
               name: "api"
       patch:

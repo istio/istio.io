@@ -194,7 +194,7 @@ This example uses regex to match `/api/*` `uri` and defines a rate limit action 
             context: GATEWAY
             routeConfiguration:
               vhost:
-                name: "*:80"
+                name: "*:8080"
                 route:
                   name: "api"
           patch:
