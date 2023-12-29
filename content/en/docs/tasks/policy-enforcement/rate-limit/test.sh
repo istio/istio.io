@@ -45,10 +45,8 @@ snip_global_rate_limit_4
 
 # name route
 snip_global_rate_limit_advanced_case_1
-snip_global_rate_limit_advanced_case_2
-
 # apply global ratelimit advanced case envoyfilter
-snip_global_rate_limit_advanced_case_3
+snip_global_rate_limit_advanced_case_2
 
 # verify global ratelimit
 _verify_same snip_verify_global_rate_limit_1 "$snip_verify_global_rate_limit_1_out"

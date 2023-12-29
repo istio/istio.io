@@ -127,14 +127,42 @@ EOF
 }
 
 snip_global_rate_limit_advanced_case_1() {
-kubectl patch vs bookinfo --type=json -p='[{"op": "remove", "path": "/spec/http/0/match/4"}]'
+kubectl patch -f - <<EOF
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: bookinfo
+spec:
+  gateways:
+  - bookinfo-gateway
+  hosts:
+  - '*'
+  http:
+  - match:
+    - uri:
+        prefix: /static
+    - uri:
+        exact: /login
+    - uri:
+        exact: /logout
+    route:
+    - destination:
+        host: productpage
+        port:
+          number: 9080
+  - match:
+    - uri:
+        prefix: /api/v1/products
+    route:
+    - destination:
+        host: productpage
+        port:
+          number: 9080
+    name: api
+EOF
 }
 
 snip_global_rate_limit_advanced_case_2() {
-kubectl patch vs bookinfo --type=json -p='[{"op": "add", "path": "/spec/http/1", "value": {"match": [{"uri": {"prefix": "/api/v1/products"}}], "route": [{"destination": {"host": "productpage", "port": {"number": 9080}}}], "name": "api"}}]'
-}
-
-snip_global_rate_limit_advanced_case_3() {
 kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
