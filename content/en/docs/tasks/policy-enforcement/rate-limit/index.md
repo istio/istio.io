@@ -163,17 +163,44 @@ A [reference implementation](https://github.com/envoyproxy/ratelimit) of the API
 
 This example uses regex to match `/api/*` `uri` and defines a rate limit action inserted at the route level using the VirtualService http name. The PATH value `api` inserted in the prior example comes into play.
 
-1. Delete the prefix `/api/v1/products` from bookinfo VirtualService:
+1. Change VirtualService so the prefix `/api/v1/products` is moved to a named route
+called `api`:
 
-    {{< text bash >}}
-    $ kubectl patch vs bookinfo --type=json -p='[{"op": "remove", "path": "/spec/http/0/match/4"}]'
-    {{< /text >}}
-
-1. Add a new section with the named route in the same manifest:
-
-    {{< text bash >}}
-    $ kubectl patch vs bookinfo --type=json -p='[{"op": "add", "path": "/spec/http/1", "value": {"match": [{"uri": {"prefix": "/api/v1/products"}}], "route": [{"destination": {"host": "productpage", "port": {"number": 9080}}}], "name": "api"}}]'
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl patch -f - <<EOF
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: bookinfo
+spec:
+  gateways:
+  - bookinfo-gateway
+  hosts:
+  - '*'
+  http:
+  - match:
+    - uri:
+        prefix: /static
+    - uri:
+        exact: /login
+    - uri:
+        exact: /logout
+    route:
+    - destination:
+        host: productpage
+        port:
+          number: 9080
+  - match:
+    - uri:
+        prefix: /api/v1/products
+    route:
+    - destination:
+        host: productpage
+        port:
+          number: 9080
+    name: api
+EOF
+{{< /text >}}
 
 1. Apply an EnvoyFilter to add the rate limits action at the route level on any 1 to 99 product:
 
