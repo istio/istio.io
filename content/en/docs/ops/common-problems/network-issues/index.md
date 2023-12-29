@@ -432,7 +432,10 @@ To fix this problem, you should switch the virtual service to specify `http` rou
 spec:
   ...
   http:
-  - match: ...
+  - match:
+    - headers:
+        ":authority":
+          regex: "*.example.com"
 {{< /text >}}
 
 #### Gateway with TLS passthrough
