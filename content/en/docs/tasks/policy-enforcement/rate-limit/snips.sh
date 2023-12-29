@@ -127,7 +127,7 @@ EOF
 }
 
 snip_global_rate_limit_advanced_case_1() {
-kubectl patch -f - <<EOF
+kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:

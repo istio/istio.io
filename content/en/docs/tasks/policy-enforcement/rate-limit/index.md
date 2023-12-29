@@ -167,7 +167,7 @@ This example uses regex to match `/api/*` `uri` and defines a rate limit action 
 called `api`:
 
 {{< text bash >}}
-$ kubectl patch -f - <<EOF
+$ kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
