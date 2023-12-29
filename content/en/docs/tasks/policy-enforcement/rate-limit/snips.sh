@@ -140,6 +140,8 @@ spec:
   http:
   - match:
     - uri:
+        exact: /productpage
+    - uri:
         prefix: /static
     - uri:
         exact: /login
