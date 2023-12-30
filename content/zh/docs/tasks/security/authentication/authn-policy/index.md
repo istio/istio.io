@@ -253,7 +253,7 @@ command terminated with exit code 56
 {{< /text >}}
 
 要优化每个端口的双向 TLS 设置，您必须配置 `portLevelMtls` 字段。
-例如，以下对等认证策略要求在除 `80` 端口以外的所有端口上都使用双向 TLS：
+例如，以下对等认证策略要求在除 `8080` 端口以外的所有端口上都使用双向 TLS：
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n bar -f -
