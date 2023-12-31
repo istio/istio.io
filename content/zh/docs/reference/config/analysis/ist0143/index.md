@@ -41,7 +41,7 @@ spec:
 - Node.js：`http.createServer().listen(8080, "localhost");`
 - Python：`socket.socket().bind(("localhost", 8083))`
 
-## 解决方案 {#how-to-resolve}
+## 如何修复 {#how-to-resolve}
 
 如果您不打算将应用程序暴露给其他 Pod，请从 `Service` 中移除该端口。
 
