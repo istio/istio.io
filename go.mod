@@ -11,7 +11,7 @@ replace github.com/imdario/mergo => github.com/imdario/mergo v0.3.5
 require (
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2
 	golang.org/x/sync v0.5.0
-	istio.io/istio v0.0.0-20231216030037-4ef3e8e9b66f
+	istio.io/istio v0.0.0-20231228041329-b30e8f559f07
 	k8s.io/apimachinery v0.29.0
 	k8s.io/client-go v0.29.0
 )
@@ -45,7 +45,7 @@ require (
 	github.com/docker/docker v24.0.7+incompatible // indirect
 	github.com/docker/docker-credential-helpers v0.8.0 // indirect
 	github.com/emicklei/go-restful/v3 v3.11.0 // indirect
-	github.com/envoyproxy/go-control-plane v0.11.2-0.20231209013151-42a65e415d60 // indirect
+	github.com/envoyproxy/go-control-plane v0.11.2-0.20231222064825-e636347c3af7 // indirect
 	github.com/envoyproxy/protoc-gen-validate v1.0.2 // indirect
 	github.com/evanphx/json-patch v5.7.0+incompatible // indirect
 	github.com/evanphx/json-patch/v5 v5.7.0 // indirect
@@ -174,7 +174,7 @@ require (
 	go.uber.org/mock v0.3.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	go.uber.org/zap v1.26.0 // indirect
-	golang.org/x/crypto v0.16.0 // indirect
+	golang.org/x/crypto v0.17.0 // indirect
 	golang.org/x/exp v0.0.0-20231206192017-f3f8817b8deb // indirect
 	golang.org/x/mod v0.14.0 // indirect
 	golang.org/x/net v0.19.0 // indirect
@@ -197,7 +197,7 @@ require (
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	helm.sh/helm/v3 v3.13.3 // indirect
-	istio.io/api v1.19.0-alpha.1.0.20231216012637-258dcfe4fd3d // indirect
+	istio.io/api v1.19.0-alpha.1.0.20231218173149-89a175a4b2c2 // indirect
 	istio.io/client-go v1.20.0-beta.0 // indirect
 	k8s.io/api v0.29.0 // indirect
 	k8s.io/apiextensions-apiserver v0.29.0 // indirect
@@ -209,7 +209,7 @@ require (
 	k8s.io/kubectl v0.29.0 // indirect
 	k8s.io/utils v0.0.0-20231127182322-b307cd553661 // indirect
 	sigs.k8s.io/controller-runtime v0.16.3 // indirect
-	sigs.k8s.io/gateway-api v1.0.1-0.20231204134048-c7da42e6eafc // indirect
+	sigs.k8s.io/gateway-api v1.0.1-0.20231220195632-8b6ff014127f // indirect
 	sigs.k8s.io/json v0.0.0-20221116044647-bc3834ca7abd // indirect
 	sigs.k8s.io/kustomize/api v0.13.5-0.20230601165947-6ce0bf390ce3 // indirect
 	sigs.k8s.io/kustomize/kyaml v0.15.0 // indirect
