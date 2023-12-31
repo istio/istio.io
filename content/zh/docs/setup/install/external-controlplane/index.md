@@ -29,7 +29,7 @@ test: yes
 虽然外部控制平面的配置和管理是由外部集群中的网格操作员完成的，
 但连接到外部控制平面的第一个从集群充当了网格本身的配置集群。除了网状服务本身之外，
 网格管理员还将使用配置集群来配置网状资源（Gateway、虚拟服务等）。外部控制平面将从
-Kubernetes API 服务器远程访问此配置，如上图所示。
+Kubernetes API Server 远程访问此配置，如上图所示。
 
 ## 准备开始  {#before-you-begin}
 
@@ -42,15 +42,15 @@ Kubernetes API 服务器远程访问此配置，如上图所示。
 Ingress Gateway 也安装在 `istio-system` 命名空间中，以提供对外部控制平面的跨集群访问。
 
 第二个集群是将运行网格应用程序工作负载的{{< gloss "remote cluster">}}从集群{{< /gloss >}}。
-它的 Kubernetes API 服务器还提供了外部控制平面（Istiod）用来配置工作负载代理的网状配置。
+它的 Kubernetes API Server 还提供了外部控制平面（Istiod）用来配置工作负载代理的网状配置。
 
-### API 服务器访问  {#API-server-access}
+### API Server 访问  {#API-server-access}
 
-外部控制平面集群必须可以访问从集群中的 Kubernetes API 服务器。
-许多云提供商通过网络负载均衡器（NLB）公开访问 API 服务器。
-如果无法直接访问 API 服务器，则需要修改安装过程以启用访问权限。例如，
-在[多集群配置](#adding-clusters)中使用的[东西向](https://en.wikipedia.org/wiki/East-west_traffic)
-Gateway 也可以用于启用对 API 服务器的访问。
+外部控制平面集群必须可以访问从集群中的 Kubernetes API Server。
+许多云提供商通过网络负载均衡器（NLB）公开访问 API Server。
+如果无法直接访问 API Server，则需要修改安装过程以启用访问权限。
+例如，在[多集群配置](#adding-clusters)中使用的[东西向](https://en.wikipedia.org/wiki/East-west_traffic)
+Gateway 也可以用于启用对 API Server 的访问。
 
 ### 环境变量  {#environment-variables}
 
