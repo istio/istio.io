@@ -58,18 +58,18 @@ Gateway 也可以用于启用对 API Server 的访问。
 
 变量名称 | 描述
 -------- | -----------
-`CTX_EXTERNAL_CLUSTER` | 默认 [Kubernetes 配置文件](https://kubernetes.io/zh-cn/docs/tasks/access-application-cluster/configure-access-multiple-clusters/) 中的上下文名称，用于访问外部控制平面集群。
-`CTX_REMOTE_CLUSTER` | 默认 [Kubernetes 配置文件](https://kubernetes.io/zh-cn/docs/tasks/access-application-cluster/configure-access-multiple-clusters/) 中的上下文名称，用于访问从集群。
+`CTX_EXTERNAL_CLUSTER` | 默认 [Kubernetes 配置文件](https://kubernetes.io/zh-cn/docs/tasks/access-application-cluster/configure-access-multiple-clusters/)中的上下文名称，用于访问外部控制平面集群。
+`CTX_REMOTE_CLUSTER` | 默认 [Kubernetes 配置文件](https://kubernetes.io/zh-cn/docs/tasks/access-application-cluster/configure-access-multiple-clusters/)中的上下文名称，用于访问从集群。
 `REMOTE_CLUSTER_NAME` | 从集群的名称。
-`EXTERNAL_ISTIOD_ADDR` | 外部控制平面集群上的 Ingress Gateway 的主机名。 从集群使用它来访问外部控制平面。
-`SSL_SECRET_NAME` | 拥有外部控制平面集群上 Ingress Gateway 的 TLS 证书的密钥名称。
+`EXTERNAL_ISTIOD_ADDR` | 外部控制平面集群上的 Ingress Gateway 的主机名。从集群使用它来访问外部控制平面。
+`SSL_SECRET_NAME` | 拥有外部控制平面集群上 Ingress Gateway 的 TLS 证书的 Secret 名称。
 
 立即设置 `CTX_EXTERNAL_CLUSTER`、`CTX_REMOTE_CLUSTER` 和 `REMOTE_CLUSTER_NAME`。稍后将设置其他变量。
 
 {{< text syntax=bash snip_id=none >}}
-$ export CTX_EXTERNAL_CLUSTER=<your external cluster context>
-$ export CTX_REMOTE_CLUSTER=<your remote cluster context>
-$ export REMOTE_CLUSTER_NAME=<your remote cluster name>
+$ export CTX_EXTERNAL_CLUSTER=<您的外部集群上下文>
+$ export CTX_REMOTE_CLUSTER=<您的从集群上下文>
+$ export REMOTE_CLUSTER_NAME=<您的从集群名称>
 {{< /text >}}
 
 ## 集群配置  {#cluster-configuration}
@@ -134,12 +134,13 @@ Webhook、ConfigMap 和 Secret，以便使用外部控制平面。
     {{< /tip >}}
 
 1. 使用带有 TLS 的公共主机名配置您的环境来暴露 Istio Ingress Gateway 服务。
+
    将 `EXTERNAL_ISTIOD_ADDR` 环境变量设置为主机名，将 `SSL_SECRET_NAME`
-   环境变量设置为包含 TLS 证书的密钥：
+   环境变量设置为包含 TLS 证书的 Secret：
 
     {{< text syntax=bash snip_id=none >}}
-    $ export EXTERNAL_ISTIOD_ADDR=<your external istiod host>
-    $ export SSL_SECRET_NAME=<your external istiod secret>
+    $ export EXTERNAL_ISTIOD_ADDR=<您的外部 istiod 主机>
+    $ export SSL_SECRET_NAME=<您的外部 istiod secret>
     {{< /text >}}
 
     这些说明假定您使用具有正确签名的 DNS 证书的主机名公开外部集群的 Gateway，因为这是生产环境中推荐的方法。
@@ -259,9 +260,9 @@ Webhook、ConfigMap 和 Secret，以便使用外部控制平面。
     {{< /text >}}
 
 1. 创建 Istio 配置以在外部集群的 `external-istiod` 命名空间中安装控制平面。
-    请注意，istiod 配置为使用本地安装的 `istio` configmap，并且 `SHARED_MESH_CONFIG` 环境变量设置为 `istio`。
-    这指示 istiod 将网格管理员在配置集群的 configmap 中设置的值与网格操作员在本地 configmap 中设置的值合并，
-    如果有任何冲突，这将优先考虑：
+    请注意，istiod 配置为使用本地安装的 `istio` ConfigMap，并且 `SHARED_MESH_CONFIG`
+    环境变量设置为 `istio`。这指示 istiod 将网格管理员在配置集群的 ConfigMap
+    中设置的值与网格操作员在本地 ConfigMap 中设置的值合并，如果有任何冲突，这将优先考虑：
 
     {{< text syntax=bash snip_id=get_external_istiod_iop >}}
     $ cat <<EOF > external-istiod.yaml
@@ -626,7 +627,7 @@ $ kubectl get crd gateways.gateway.networking.k8s.io --context="${CTX_REMOTE_CLU
 
 {{< /tabset >}}
 
-1. 在 Ingress Gateway 上暴露 `helloworld` 应用：
+2) 在 Ingress Gateway 上暴露 `helloworld` 应用：
 
 {{< tabset category-name="config-api" >}}
 
@@ -648,7 +649,7 @@ $ kubectl apply -f @samples/helloworld/gateway-api/helloworld-gateway.yaml@ -n s
 
 {{< /tabset >}}
 
-1. 设置 `GATEWAY_URL` 环境变量（有关详细信息，请参阅[确定 Ingress 的 IP 和端口](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)）：
+3) 设置 `GATEWAY_URL` 环境变量（有关详细信息，请参阅[确定 Ingress 的 IP 和端口](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)）：
 
 {{< tabset category-name="config-api" >}}
 
@@ -674,7 +675,7 @@ $ export GATEWAY_URL=$INGRESS_HOST:80
 
 {{< /tabset >}}
 
-1. 确认您可以通过 Ingress Gateway 访问 `helloworld` 应用：
+4) 确认您可以通过 Ingress Gateway 访问 `helloworld` 应用：
 
     {{< text bash >}}
     $ curl -s "http://${GATEWAY_URL}/hello"
@@ -698,11 +699,11 @@ $ export GATEWAY_URL=$INGRESS_HOST:80
 要继续的话，您需要另一个 Kubernetes 集群作为网格的第二个从集群。将以下环境变量设置为集群的上下文名称和集群名称：
 
 {{< text syntax=bash snip_id=none >}}
-$ export CTX_SECOND_CLUSTER=<your second remote cluster context>
-$ export SECOND_CLUSTER_NAME=<your second remote cluster name>
+$ export CTX_SECOND_CLUSTER=<您的第二个从集群上下文>
+$ export SECOND_CLUSTER_NAME=<您的第二个从集群名称>
 {{< /text >}}
 
-### 注册新集  {#register-the-new-cluster}
+### 注册新集群  {#register-the-new-cluster}
 
 1. 创建远程 Istio 安装配置，它安装使用外部控制平面注入器的注入 Webhook，而不是本地部署的注入器：
 
@@ -744,7 +745,7 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
     {{< /text >}}
 
     `topology.istio.io/controlPlaneClusters` 注解指定了应该管理这个从集群的外部控制平面的集群 ID。
-    注意这是第一个远程（config）集群的名称，之前在外部集群安装时用于设置外部控制平面的集群 ID。
+    注意这是第一个从（配置）集群的名称，之前在外部集群安装时用于设置外部控制平面的集群 ID。
 
 1. 在从集群上安装配置：
 
@@ -872,7 +873,7 @@ $ kubectl delete ns istio-system external-istiod --context="${CTX_EXTERNAL_CLUST
 $ rm controlplane-gateway.yaml external-istiod.yaml external-istiod-gw.yaml
 {{< /text >}}
 
-清理远程配置集群：
+清理从配置集群：
 
 {{< text bash >}}
 $ kubectl delete ns sample --context="${CTX_REMOTE_CLUSTER}"
