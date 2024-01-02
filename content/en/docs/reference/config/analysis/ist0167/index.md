@@ -29,7 +29,7 @@ ambient mode, meaning that the policy specified in the `Sidecar` resource does n
 
 ## How to resolve
 
-To resolve this issue, you first need to check the reason. Currenly the policy is ineffective for the following
+To resolve this issue, you first need to check the reason. Currently, the policy is ineffective for the following
 reasons:
 
 1. The `Sidecar` resource is targeting a workload or namespace which is in ambient mode.
