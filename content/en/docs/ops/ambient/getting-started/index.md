@@ -16,7 +16,6 @@ others specified by the
 [platform-specific setup instructions](/docs/setup/platform-setup/).
 
 {{< warning >}}
-Ambient is currently in [alpha status](/docs/releases/feature-stages/#feature-phase-definitions).
 Note that Ambient currently requires the use of [istio-cni](/docs/setup/additional-setup/cni) to configure Kubernetes nodes.
 `istio-cni` ambient mode does **not** currently support types of cluster CNI (namely, CNI implementations that do not use `veth` devices, such as [Minikube's](https://kubernetes.io/docs/tasks/tools/install-minikube/) `bridge` mode)
 {{< /warning >}}
