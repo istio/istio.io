@@ -10,7 +10,7 @@ policy's configuration not correctly targeting any workloads, namespaces in your
 
 ## Example
 
-You might encounter a message like this:
+You will receive a message like this:
 
 {{< text plain >}}
 Warning [IST0167] (Sidecar ns-ambient/namespace-scoped testdata/sidecar-default-selector.yaml:84) The policy has no
