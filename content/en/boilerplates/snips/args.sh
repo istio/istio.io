@@ -21,7 +21,7 @@
 ####################################################################################################
 
 ! read -r -d '' bpsnip_args_gateway_api_version <<\ENDSNIP
-c7da42e6eafc78ae52c9e952844d96b595e845e7
+8b6ff014127f13e366a2ed04383eee7645ab24a3
 ENDSNIP
 
 ! read -r -d '' bpsnip_args_istio_previous_version <<\ENDSNIP
