@@ -27,4 +27,4 @@ This release note describes what’s different between Istio 1.18.6 and 1.18.7.
 - **Fixed** an issue where installing with Stackdriver and using custom configurations would prevent Stackdriver from being
   enabled.
 
-- **Fixed** an issue where long-lived connections(TCP bytes and gRPC) could result in a proxy memory leak.
+- **Fixed** an issue where long-lived connections (TCP bytes and gRPC) could result in a proxy memory leak.
