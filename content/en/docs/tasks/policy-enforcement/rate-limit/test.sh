@@ -43,15 +43,22 @@ echo "*** GATEWAY_URL = $GATEWAY_URL ***"
 snip_global_rate_limit_3
 snip_global_rate_limit_4
 
+# name route
+snip_global_rate_limit_advanced_case_1
+# apply global ratelimit advanced case envoyfilter
+snip_global_rate_limit_advanced_case_2
+
 # verify global ratelimit
 _verify_same snip_verify_global_rate_limit_1 "$snip_verify_global_rate_limit_1_out"
 
+# verify global ratelimit advanced case
+_verify_same snip_verify_global_rate_limit_2 "$snip_verify_global_rate_limit_2_out"
 
 # apply local ratelimit envoyfilter
 snip_local_rate_limit_2
 
 # verify local ratelimit
-_verify_same snip_verify_local_rate_limit_1 "$snip_verify_global_rate_limit_1_out"
+_verify_same snip_verify_local_rate_limit_1 "$snip_verify_local_rate_limit_1_out"
 
 # @cleanup
 snip_cleanup_1
