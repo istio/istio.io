@@ -37,6 +37,7 @@ Envoy 中的全局速率限制使用 gRPC API 向速率限制服务请求配额�
 1. 参考下面的 ConfigMap [配置限流规则](https://github.com/envoyproxy/ratelimit#configuration)，
    将 `/productpage` 的限制速率为每分钟 1 次，用于后续高级示例的 `api` 值，
    并将其他所有请求的限制速率为每分钟 100 次。
+
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: v1
