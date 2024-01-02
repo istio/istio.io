@@ -37,7 +37,7 @@ spec:
               name: "envoy.filters.http.router"
     patch:
       operation: REPLACE
-      value: # Lua filter specification
+      value: # Lua 过滤器规范
        name: envoy.lua
        typed_config:
           "@type": "type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua"
