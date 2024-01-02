@@ -7,16 +7,9 @@ test: n/a
 
 当为外部控制平面上的入口网关提供的地址无效时，会出现此消息。
 该地址可能因多种原因而无效，包括：主机名地址格式错误、
-主机名无法通过 DNS 查询解析为 IP 地址，或者主机名解析为零个 IP 地址。
+主机名无法通过 DNS 查询解析为 IP 地址或者主机名解析出的 IP 地址数为零。
 
 ## 示例  {#example}
-
-您将收到此消息：
-
-{{< text plain >}}
-Warning [IST0163] (MutatingWebhookConfiguration istio-sidecar-injector-external-istiod testing.yml:28) The hostname () that was provided for the webhook (rev.namespace.sidecar-injector.istio.io) to reach the ingress gateway on the external control plane cluster is blank. Traffic may not flow properly.
-Warning [IST0163] (ValidatingWebhookConfiguration istio-validator-external-istiod testing.yml:1) The hostname () that was provided for the webhook (rev.validation.istio.io) to reach the ingress gateway on the external control plane cluster is blank. Traffic may not flow properly.
-{{< /text >}}
 
 当集群的 `ValidatingWebhookConfiguration` 和 `MutatingWebhookConfiguration`
 （为清楚起见而缩短）缺少 Webhook URL 时：
@@ -87,7 +80,8 @@ webhooks:
 您将收到此消息：
 
 {{< text plain >}}
-Warning [IST0163] (ValidatingWebhookConfiguration istio-validator-external-istiod testing.yml:1) The hostname (https://thisisnotarealdomainname.com:15017/validate) that was provided for the webhook (rev.validation.istio.io) to reach the ingress gateway on the external control plane cluster cannot be resolved via a DNS lookup. Traffic may not flow properly.
+Warning [IST0163] (MutatingWebhookConfiguration istio-sidecar-injector-external-istiod testing.yml:28) The hostname () that was provided for the webhook (rev.namespace.sidecar-injector.istio.io) to reach the ingress gateway on the external control plane cluster is blank. Traffic may not flow properly.
+Warning [IST0163] (ValidatingWebhookConfiguration istio-validator-external-istiod testing.yml:1) The hostname () that was provided for the webhook (rev.validation.istio.io) to reach the ingress gateway on the external control plane cluster is blank. Traffic may not flow properly.
 {{< /text >}}
 
 当集群的 `ValidatingWebhookConfiguration` 和 `MutatingWebhookConfiguration`
@@ -156,7 +150,13 @@ webhooks:
   name: object.sidecar-injector.istio.io
 {{< /text >}}
 
-## 如何解决  {#how-to-resolve}
+您将收到此消息：
+
+{{< text plain >}}
+Warning [IST0163] (ValidatingWebhookConfiguration istio-validator-external-istiod testing.yml:1) The hostname (https://thisisnotarealdomainname.com:15017/validate) that was provided for the webhook (rev.validation.istio.io) to reach the ingress gateway on the external control plane cluster cannot be resolved via a DNS lookup. Traffic may not flow properly.
+{{< /text >}}
+
+## 如何修复  {#how-to-resolve}
 
 有多种方法可以解决这些无效配置，具体取决于配置无效的原因。
 
