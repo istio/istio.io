@@ -17,8 +17,8 @@ Kubernetes 版本 ({{< supported_kubernetes_versions >}})。
 
 {{< warning >}}
 请注意，Ambient 目前需要使用 [istio-cni](/zh/docs/setup/additional-setup/cni)
-来配置 Kubernetes 节点。`istio-cni` Ambient
-模式当前**不可以**支持集群 CNI 类型（即不可以使用 `veth` 设备的 CNI 实现，
+来配置 Kubernetes 节点。`istio-cni` 的 Ambient
+模式当前**不可以**支持某些类型的集群 CNI（如不使用 `veth` 设备的 CNI 实现，
 例如 [Minikube 的](https://kubernetes.io/docs/tasks/tools/install-minikube/) `bridge` 模式）
 {{< /warning >}}
 
