@@ -15,7 +15,7 @@ This release note describes what’s different between Istio 1.18.6 and 1.18.7.
 
 ## Changes
 
-- **Fixed** a bug where overlapping wildcard hosts in a `VirtualService` produces  incorrect routing configurations
+- **Fixed** a bug where overlapping wildcard hosts in a `VirtualService` produces incorrect routing configurations
   when wildcard services were selected (e.g. in `ServiceEntry`).
   ([Issue #45415](https://github.com/istio/istio/issues/45415))
 
