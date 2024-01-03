@@ -36,7 +36,7 @@ Envoy 中的全局速率限制使用 gRPC API 向速率限制服务请求配额�
 
 1. 参考下面的 ConfigMap [配置限流规则](https://github.com/envoyproxy/ratelimit#configuration)，
    将 `/productpage` 的限制速率为每分钟 1 次，用于后续高级示例的 `api` 值，
-   并将其他所有请求的限制速率为每分钟 100 次。
+   并将其他所有请求的速率限制为每分钟 100 次。
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -159,7 +159,7 @@ Envoy 中的全局速率限制使用 gRPC API 向速率限制服务请求配额�
 ### 全局速率限制高级示例  {#global-rate-limit-advanced-case}
 
 此示例使用正则表达式来匹配 `/api/*` `uri`
-并使用 VirtualService http 名称定义在路由级别插入的速率限制操作。
+并使用 VirtualService http 名称来定义在路由级别插入的速率限制操作。
 前面示例中插入的 PATH 值 `api` 开始发挥作用。
 
 1. 更改 VirtualService，前缀 `/api/v1/products` 被移动到名为 `api` 的路由中：
@@ -202,7 +202,7 @@ spec:
 EOF
 {{< /text >}}
 
-1. 应用 EnvoyFilter 在任意 1 到 99 产品中的路由级别添加速率限制操作：
+1. 应用 EnvoyFilter 在结果为 1 到 99 的任一路由级别添加速率限制操作：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
