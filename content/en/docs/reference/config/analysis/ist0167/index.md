@@ -6,7 +6,7 @@ test: n/a
 ---
 
 This message occurs when a policy applied in your Istio service mesh has no impact. This might be due to the
-policy's configuration not correctly targeting any workloads, namespaces in your service mesh.
+policy's configuration not correctly targeting any workloads or namespaces in your service mesh.
 
 ## Example
 
