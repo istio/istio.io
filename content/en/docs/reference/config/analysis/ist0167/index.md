@@ -24,7 +24,7 @@ Warning [IST0167] (Sidecar ns-ambient/pod-scoped testdata/sidecar-default-select
 selected workload is in ambient mode, the policy has no impact.
 {{< /text >}}
 
-These messages indicate that the `Sidecar` resource in the example is targeting a workload or namespace which is in
+These messages indicate that the `Sidecar` resource is targeting a workload or namespace which is in
 ambient mode, meaning that the policy specified in the `Sidecar` resource does not have any effect.
 
 ## How to resolve
