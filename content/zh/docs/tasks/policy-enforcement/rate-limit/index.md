@@ -164,43 +164,43 @@ Envoy 中的全局速率限制使用 gRPC API 向速率限制服务请求配额�
 
 1. 更改 VirtualService，前缀 `/api/v1/products` 被移动到名为 `api` 的路由中：
 
-{{< text bash >}}
-$ kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1beta1
-kind: VirtualService
-metadata:
-  name: bookinfo
-spec:
-  gateways:
-  - bookinfo-gateway
-  hosts:
-  - '*'
-  http:
-  - match:
-    - uri:
-        exact: /productpage
-    - uri:
-        prefix: /static
-    - uri:
-        exact: /login
-    - uri:
-        exact: /logout
-    route:
-    - destination:
-        host: productpage
-        port:
-          number: 9080
-  - match:
-    - uri:
-        prefix: /api/v1/products
-    route:
-    - destination:
-        host: productpage
-        port:
-          number: 9080
-    name: api
-EOF
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: networking.istio.io/v1beta1
+    kind: VirtualService
+    metadata:
+      name: bookinfo
+    spec:
+      gateways:
+      - bookinfo-gateway
+      hosts:
+      - '*'
+      http:
+      - match:
+        - uri:
+            exact: /productpage
+        - uri:
+            prefix: /static
+        - uri:
+            exact: /login
+        - uri:
+            exact: /logout
+        route:
+        - destination:
+            host: productpage
+            port:
+              number: 9080
+      - match:
+        - uri:
+            prefix: /api/v1/products
+        route:
+        - destination:
+            host: productpage
+            port:
+              number: 9080
+        name: api
+    EOF
+    {{< /text >}}
 
 1. 应用 EnvoyFilter 在结果为 1 到 99 的任一路由级别添加速率限制操作：
 
