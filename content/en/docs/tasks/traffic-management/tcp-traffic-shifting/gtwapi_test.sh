@@ -18,7 +18,7 @@
 source "tests/util/gateway-api.sh"
 install_gateway_api_crds
 
-# @setup profile=none
+# @setup profile=minimal
 source "content/en/boilerplates/snips/gateway-api-experimental.sh"
 bpsnip_gateway_api_experimental_enable_alpha_crds
 source "content/en/docs/tasks/traffic-management/tcp-traffic-shifting/test.sh"
@@ -27,6 +27,5 @@ source "content/en/docs/tasks/traffic-management/tcp-traffic-shifting/test.sh"
 snip_cleanup_2
 snip_cleanup_3
 
-istioctl uninstall --purge -y
-kubectl delete ns istio-system
+kubectl delete istiooperators installed-state -n istio-system
 remove_gateway_api_crds
