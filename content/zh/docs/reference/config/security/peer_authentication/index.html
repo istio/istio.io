@@ -97,8 +97,10 @@ spec:
 <td><code>selector</code></td>
 <td><code><a href="/zh/docs/reference/config/type/workload-selector/#WorkloadSelector">WorkloadSelector</a></code></td>
 <td>
-<p>The selector determines the workloads to apply the ChannelAuthentication on.
-If not set, the policy will be applied to all workloads in the same namespace as the policy.</p>
+<p>The selector determines the workloads to apply the PeerAuthentication on. The selector will match with workloads in the
+same namespace as the policy. If the policy is in the root namespace, the selector will additionally match with workloads in all namespace.</p>
+<p>If not set, the policy will be applied to all workloads in the same namespace as the policy. If it is in the root namespace, it would be applied
+to all workloads in the mesh.</p>
 
 </td>
 <td>
