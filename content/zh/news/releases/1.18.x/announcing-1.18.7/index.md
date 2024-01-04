@@ -15,8 +15,8 @@ release: 1.18.7
 
 ## 变更 {#changes}
 
-- **修复** 修复了一个当选择通配符服务时（例如在 `ServiceEntry` 中），
-  `VirtualService` 中重叠的通配符主机会产生不正确的路由配置的错误。
+- **修复** 修复了（例如在 `ServiceEntry` 中）通过通配符选中多个服务时，
+  `VirtualService` 中因通配符造成的重叠主机会产生不正确路由配置的错误。
   ([Issue #45415](https://github.com/istio/istio/issues/45415))
 
 - **修复** 修复了 `istioctl proxy-config ecds` 未显示所有 `EcdsConfigDump` 的问题。
@@ -26,4 +26,4 @@ release: 1.18.7
 
 - **修复** 修复了使用 Stackdriver 安装并使用自定义配置会阻止 Stackdriver 被启用的问题。
 
-- **修复** 修复了长连接、TCP 字节和 gRPC 可能导致代理内存泄漏的问题。
+- **修复** 修复了生命期长的连接、TCP 字节和 gRPC 可能导致代理内存泄漏的问题。
