@@ -87,4 +87,4 @@ Istio 的数据面基于 [Envoy](https://github.com/envoyproxy/envoy)。
 | 1.18.x        | release/v1.26        |
 
 您可以在 [`istio/proxy`](https://github.com/istio/proxy/blob/master/WORKSPACE#L38)
-中找到被 Istio 使用的准确 Envoy 提交。
+中准确找到 Istio 所使用的 Envoy Commit。
