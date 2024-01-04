@@ -68,7 +68,10 @@ A [reference implementation](https://github.com/envoyproxy/ratelimit) of the API
     EOF
     {{< /text >}}
 
-1. Create a global rate limit service which implements Envoy's [rate limit service protocol](https://www.envoyproxy.io/docs/envoy/latest/api-v3/service/ratelimit/v3/rls.proto). As a reference, a demo configuration can be found [here]({{< github_blob >}}/samples/ratelimit/rate-limit-service.yaml), which is based on a [reference implementation](https://github.com/envoyproxy/ratelimit) provided by Envoy.
+1. Create a global rate limit service which implements Envoy's
+  [rate limit service protocol](https://www.envoyproxy.io/docs/envoy/latest/api-v3/service/ratelimit/v3/rls.proto).
+  As a reference, a demo configuration can be found [here]({{< github_blob >}}/samples/ratelimit/rate-limit-service.yaml),
+  which is based on a [reference implementation](https://github.com/envoyproxy/ratelimit) provided by Envoy.
 
     {{< text bash >}}
     $ kubectl apply -f @samples/ratelimit/rate-limit-service.yaml@
@@ -76,9 +79,10 @@ A [reference implementation](https://github.com/envoyproxy/ratelimit) of the API
 
 1. Apply an `EnvoyFilter` to the `ingressgateway` to enable global rate limiting using Envoy's global rate limit filter.
 
-    The patch inserts the
-    `envoy.filters.http.ratelimit` [global envoy filter](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/http/ratelimit/v3/rate_limit.proto#envoy-v3-api-msg-extensions-filters-http-ratelimit-v3-ratelimit) filter into the `HTTP_FILTER` chain.
-    The `rate_limit_service` field specifies the external rate limit service, `outbound|8081||ratelimit.default.svc.cluster.local` in this case.
+    The patch inserts the `envoy.filters.http.ratelimit`
+    [global envoy filter](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/http/ratelimit/v3/rate_limit.proto#envoy-v3-api-msg-extensions-filters-http-ratelimit-v3-ratelimit)
+    into the `HTTP_FILTER` chain. The `rate_limit_service` field specifies the external rate limit service,
+    `outbound|8081||ratelimit.default.svc.cluster.local` in this case.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -161,48 +165,48 @@ A [reference implementation](https://github.com/envoyproxy/ratelimit) of the API
 
 ### Global rate limit advanced case
 
-This example uses regex to match `/api/*` `uri` and defines a rate limit action inserted at the route level using the VirtualService http name. The PATH value `api` inserted in the prior example comes into play.
+This example uses regex to match `/api/*` `uri` and defines a rate limit action inserted at the route level
+using the VirtualService http name. The PATH value `api` inserted in the prior example comes into play.
 
-1. Change VirtualService so the prefix `/api/v1/products` is moved to a named route
-called `api`:
+1. Change VirtualService so the prefix `/api/v1/products` is moved to a route called `api`:
 
-{{< text bash >}}
-$ kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1beta1
-kind: VirtualService
-metadata:
-  name: bookinfo
-spec:
-  gateways:
-  - bookinfo-gateway
-  hosts:
-  - '*'
-  http:
-  - match:
-    - uri:
-        exact: /productpage
-    - uri:
-        prefix: /static
-    - uri:
-        exact: /login
-    - uri:
-        exact: /logout
-    route:
-    - destination:
-        host: productpage
-        port:
-          number: 9080
-  - match:
-    - uri:
-        prefix: /api/v1/products
-    route:
-    - destination:
-        host: productpage
-        port:
-          number: 9080
-    name: api
-EOF
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: networking.istio.io/v1beta1
+    kind: VirtualService
+    metadata:
+      name: bookinfo
+    spec:
+      gateways:
+      - bookinfo-gateway
+      hosts:
+      - '*'
+      http:
+      - match:
+        - uri:
+            exact: /productpage
+        - uri:
+            prefix: /static
+        - uri:
+            exact: /login
+        - uri:
+            exact: /logout
+        route:
+        - destination:
+            host: productpage
+            port:
+              number: 9080
+      - match:
+        - uri:
+            prefix: /api/v1/products
+        route:
+        - destination:
+            host: productpage
+            port:
+              number: 9080
+        name: api
+    EOF
+    {{< /text >}}
 
 1. Apply an EnvoyFilter to add the rate limits action at the route level on any 1 to 99 product:
 
@@ -249,8 +253,10 @@ Envoy supports [local rate limiting](https://www.envoyproxy.io/docs/envoy/latest
 This allows you to apply rate limits at the instance level, in the proxy itself, without calling any other service.
 
 The following `EnvoyFilter` enables local rate limiting for any traffic through the `productpage` service.
-The `HTTP_FILTER` patch inserts the `envoy.filters.http.local_ratelimit` [local envoy filter](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/local_rate_limit_filter#config-http-filters-local-rate-limit)
-into the HTTP connection manager filter chain. The local rate limit filter's [token bucket](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/http/local_ratelimit/v3/local_rate_limit.proto#envoy-v3-api-field-extensions-filters-http-local-ratelimit-v3-localratelimit-token-bucket)
+The `HTTP_FILTER` patch inserts the `envoy.filters.http.local_ratelimit`
+[local envoy filter](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/local_rate_limit_filter#config-http-filters-local-rate-limit)
+into the HTTP connection manager filter chain. The local rate limit filter's
+[token bucket](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/http/local_ratelimit/v3/local_rate_limit.proto#envoy-v3-api-field-extensions-filters-http-local-ratelimit-v3-localratelimit-token-bucket)
 is configured to allow 4 requests/min. The filter is also configured to add an `x-local-rate-limit`
 response header to requests that are blocked.
 
@@ -324,8 +330,8 @@ The above configuration applies local rate limiting to all vhosts/routes. Altern
 
 The following `EnvoyFilter` enables local rate limiting for any traffic to port 9080 of the `productpage` service.
 Unlike the previous configuration, there is no `token_bucket` included in the `HTTP_FILTER` patch.
-The `token_bucket` is instead defined in the second (`HTTP_ROUTE`) patch which includes a `typed_per_filter_config` for the `envoy.filters.http.local_ratelimit`
-local envoy filter, for routes to virtual host `inbound|http|9080`.
+The `token_bucket` is instead defined in the second (`HTTP_ROUTE`) patch which includes a `typed_per_filter_config` for the
+`envoy.filters.http.local_ratelimit` local envoy filter, for routes to virtual host `inbound|http|9080`.
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -417,7 +423,9 @@ $ for i in {1..3}; do curl -s "http://$GATEWAY_URL/api/v1/products/${i}" -o /dev
 `$GATEWAY_URL` is the value set in the [Bookinfo](/docs/examples/bookinfo/) example.
 {{< /tip >}}
 
-For `/productpage`, you will see the first request go through but every following request within a minute will get a 429 response. And for `/api/v1/products/*` you will need to hit twice, with any number in between 1-99, until you get the 429 response within a minute.
+For `/productpage`, you will see the first request go through but every following request within
+a minute will get a 429 response. And for `/api/v1/products/*` you will need to hit twice,
+with any number in between 1-99, until you get the 429 response within a minute.
 
 ### Verify local rate limit
 
