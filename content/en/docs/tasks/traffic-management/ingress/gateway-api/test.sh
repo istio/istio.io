@@ -19,8 +19,6 @@ set -e
 set -u
 set -o pipefail
 
-source "tests/util/samples.sh"
-
 # @setup profile=none
 
 # install Service API CRDs
