@@ -352,7 +352,7 @@ More details and examples can be found in other [traffic management tasks](/docs
     $ kubectl delete ns istio-ingress
     {{< /text >}}
 
- 1. Uninstall Istio:
+1. Uninstall Istio:
 
     {{< text bash >}}
     $ istioctl uninstall -y --purge
