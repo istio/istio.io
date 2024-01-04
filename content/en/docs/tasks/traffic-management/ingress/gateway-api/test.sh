@@ -30,7 +30,8 @@ snip_setup_1
 snip_setup_2
 _wait_for_deployment istio-system istiod
 
-startup_httpbin_sample
+snip_configuring_a_gateway_1
+_wait_for_deployment default httpbin
 
 # setup the Gateway and GatewayClass
 snip_configuring_a_gateway_2
@@ -52,6 +53,6 @@ snip_configuring_a_gateway_6
 _verify_elided snip_configuring_a_gateway_7 "$snip_configuring_a_gateway_7_out"
 
 # @cleanup
-cleanup_httpbin_sample
 snip_cleanup_1
 snip_cleanup_2
+snip_cleanup_3
