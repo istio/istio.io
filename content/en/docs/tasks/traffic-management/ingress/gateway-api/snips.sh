@@ -241,11 +241,14 @@ snip_cleanup_1() {
 kubectl delete -f samples/httpbin/httpbin.yaml
 kubectl delete httproute http
 kubectl delete gateways.gateway.networking.k8s.io gateway -n istio-ingress
-istioctl uninstall -y --purge
-kubectl delete ns istio-system
 kubectl delete ns istio-ingress
 }
 
 snip_cleanup_2() {
+istioctl uninstall -y --purge
+kubectl delete ns istio-system
+}
+
+snip_cleanup_3() {
 kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=8b6ff014127f13e366a2ed04383eee7645ab24a3" | kubectl delete -f -
 }
