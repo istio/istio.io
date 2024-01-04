@@ -343,7 +343,7 @@ More details and examples can be found in other [traffic management tasks](/docs
 
 ## Cleanup
 
-1. Uninstall the `httpbin` sample and gateway:
+1. Remove the `httpbin` sample and gateway:
 
     {{< text bash >}}
     $ kubectl delete -f @samples/httpbin/httpbin.yaml@
