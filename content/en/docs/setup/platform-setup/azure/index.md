@@ -42,17 +42,13 @@ For the `az` cli option, complete `az login` authentication OR use cloud shell, 
     $ az aks get-versions --location "my location" --query "orchestrators[].orchestratorVersion"
     {{< /text >}}
 
-    {{< warning >}}
-    At the time of this document update, the minimum supported AKS Kubernetes version is 1.24.9
-    {{< /warning >}}
-
 1. Create the resource group and deploy the AKS cluster
 
-    Replace `myResourceGroup` and `myAKSCluster` with desired names, `my location` using the value from step 1, `1.10.5` if not supported in the region, and then execute:
+    Replace `myResourceGroup` and `myAKSCluster` with desired names, `my location` using the value from step 1, `1.28.3` if not supported in the region, and then execute:
 
     {{< text bash >}}
     $ az group create --name myResourceGroup --location "my location"
-    $ az aks create --resource-group myResourceGroup --name myAKSCluster --node-count 3 --kubernetes-version 1.10.5 --generate-ssh-keys
+    $ az aks create --resource-group myResourceGroup --name myAKSCluster --node-count 3 --kubernetes-version 1.28.3 --generate-ssh-keys
     {{< /text >}}
 
 1. Get the AKS `kubeconfig` credentials
