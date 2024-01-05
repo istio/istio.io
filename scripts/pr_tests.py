@@ -34,12 +34,12 @@ def get_script_dependencies(script_path, folder_prefix):
     return dependencies
 
 
-def get_script_dependencies_graph(folder_prefix, file_suffix="test.sh"):
-    matching_files = [os.path.join(root, file_name) for root, _, files in os.walk(folder_prefix) for file_name in files if file_name.endswith(file_suffix)]
+def get_script_dependencies_graph(path_prefix, file_suffix="test.sh"):
+    matching_files = [os.path.join(root, file_name) for root, _, files in os.walk(path_prefix) for file_name in files if file_name.endswith(file_suffix)]
     package_dependencies = {}
 
     for file in matching_files:
-        dependencies = get_script_dependencies(file, folder_prefix)
+        dependencies = get_script_dependencies(file, path_prefix)
         for dep in dependencies:
             dep = os.path.dirname(dep)
             package_dependencies.setdefault(dep, set()).add(os.path.dirname(file))
