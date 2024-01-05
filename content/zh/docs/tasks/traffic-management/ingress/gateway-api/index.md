@@ -345,12 +345,18 @@ spec:
 
 ## 清理  {#cleanup}
 
-1. 卸载 Istio 和 `httpbin` 示例：
+1. 删除 `httpbin` 示例和网关：
 
     {{< text bash >}}
     $ kubectl delete -f @samples/httpbin/httpbin.yaml@
     $ kubectl delete httproute http
     $ kubectl delete gateways.gateway.networking.k8s.io gateway -n istio-ingress
+    $ kubectl delete ns istio-ingress
+    {{< /text >}}
+
+1. 卸载 Istio：
+
+    {{< text bash >}}
     $ istioctl uninstall -y --purge
     $ kubectl delete ns istio-system
     $ kubectl delete ns istio-ingress
