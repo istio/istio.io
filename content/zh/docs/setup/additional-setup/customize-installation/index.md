@@ -98,7 +98,7 @@ spec:
 1. [节点选择器](https://kubernetes.io/zh-cn/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector)
 1. [亲和性与反亲和性](https://kubernetes.io/zh-cn/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity)
 1. [服务（Service）](https://kubernetes.io/zh-cn/docs/concepts/services-networking/service/)
-1. [容忍](https://kubernetes.io/zh/docs/concepts/scheduling-eviction/taint-and-toleration)
+1. [容忍度](https://kubernetes.io/zh/docs/concepts/scheduling-eviction/taint-and-toleration)
 1. [策略](https://kubernetes.io/zh-cn/docs/concepts/workloads/controllers/deployment/)
 1. [环境变量](https://kubernetes.io/zh-cn/docs/tasks/inject-data-application/define-environment-variable-container/)
 1. [Pod 安全性上下文](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod)
@@ -226,7 +226,7 @@ spec:
 
 ### 定制外部 Chart 和配置项 {#customizing-external-charts-and-profiles}
 
-`istioctl` 的 `install`、 `manifest generate` 和 `profile` 命令可以使用以下任意源来生成 Chart 和 配置档：
+`istioctl` 的 `install`、 `manifest generate` 和 `profile` 命令可以使用以下任意源来生成 Chart 和配置项：
 
 - 内置的 Chart。如果没有设置 `--manifests`，则用 default。
   内置的 Chart 和 Istio `.tgz` 发行包内 `manifests/` 目录下的内容相同。
