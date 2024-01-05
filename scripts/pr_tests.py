@@ -25,7 +25,7 @@ def get_script_dependencies(script_path, folder_prefix):
     with open(script_path, 'r') as script_file:
         script_content = script_file.read()
 
-        # Using regular expression to find 'source' or '.' followed by a script name
+        # Using regular expression to find 'source' followed by a script path
         pattern = r'^source\s+["\']?(.+?)["\']?$'
         matches = (match for match in re.findall(pattern, script_content, re.MULTILINE) if match.startswith(folder_prefix))
         dependencies.update(matches)
