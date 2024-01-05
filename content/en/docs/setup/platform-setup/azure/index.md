@@ -24,7 +24,7 @@ You can deploy a Kubernetes cluster to Azure via [AKS](https://azure.microsoft.c
 
 ## AKS
 
-You can create an AKS cluster via numerous means such as [the az cli](https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough), [az cli with Bicep](https://learn.microsoft.com/en-us/azure/aks/learn/quick-kubernetes-deploy-bicep?tabs=azure-cli), or [Terraform](https://learn.microsoft.com/en-us/azure/aks/learn/quick-kubernetes-deploy-terraform?tabs=bash)
+You can create an AKS cluster via numerous means such as [the az cli](https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough), [the Azure portal](https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough-portal), [az cli with Bicep](https://learn.microsoft.com/en-us/azure/aks/learn/quick-kubernetes-deploy-bicep?tabs=azure-cli), or [Terraform](https://learn.microsoft.com/en-us/azure/aks/learn/quick-kubernetes-deploy-terraform?tabs=bash)
 
 For the `az` cli option, complete `az login` authentication OR use cloud shell, then run the following commands below.
 
