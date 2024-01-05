@@ -7,7 +7,7 @@ publishdate: 2024-01-05
 release: 1.19.6
 ---
 
-This release note describes what’s different between Istio 1.19.5 and 1.19.5.
+This release note describes what’s different between Istio 1.19.5 and 1.19.6.
 
 {{< relnote >}}
 
