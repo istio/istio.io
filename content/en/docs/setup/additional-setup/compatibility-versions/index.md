@@ -9,9 +9,9 @@ test: n/a
 
 With each new version of Istio, there may be some intentional behavioral changes.
 These can be to improve security, fix incorrect behavior, or otherwise improve Istio for users.
-Generally, these types of changes impact only edge cases
+Generally, these types of changes impact only edge cases.
 
-While beneficial on the long term, each behavioral change introduces risk for during upgrades.
+While beneficial on the long term, each behavioral change introduces risk during upgrades.
 Historically, when upgrading users should read the release notes for any behavioral changes and determine if they are impacted; this can be tedious and error prone.
 
 Compatibility versions give users an additional option, allowing release versions to be decoupled from behavioral changes.
@@ -25,14 +25,14 @@ To use a compatibility version, simple set the `compatibilityVersion` field.
 {{< tab name="IstioOperator" category-value="iop" >}}
 
 {{< text shell >}}
-$ helm install ... --set compatibilityVersion={{< istio_previous_version >}}
+$ istioctl install --set values.compatibilityVersion={{< istio_previous_version >}}
 {{< /text >}}
 
 {{< /tab >}}
 {{< tab name="Helm" category-value="helm" >}}
 
 {{< text shell >}}
-$ istioctl install --set values.compatibilityVersion={{< istio_previous_version >}}
+$ helm install ... --set compatibilityVersion={{< istio_previous_version >}}
 {{< /text >}}
 
 {{< /tab >}}
@@ -42,6 +42,7 @@ $ istioctl install --set values.compatibilityVersion={{< istio_previous_version 
 
 Compatibility versions are recommended to be used only when an incompatibility is found, rather than as the default.
 Each compatibility version will only persist for a few releases, so eventually you will need to migrate to the new behavior.
+Currently, each compatibility version is intended to remain for at least two versions, though this is subject to change.
 
 To help detect if a compatibility version should be used, `istioctl x precheck` can be used with the `--from-version` flag.
 For instance, if you are upgrading from version {{< istio_previous_version >}}:
