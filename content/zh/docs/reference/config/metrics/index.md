@@ -19,9 +19,9 @@ aliases:
 
 ## 指标 {#metrics}
 
-对于 HTTP、HTTP/2 和 GRPC 通信，Istio 生成以下指标：
+对于 HTTP、HTTP/2 和 gRPC 通信，Istio 生成以下指标：
 
-* **请求数** (`istio_requests_total`)：这都是一个 `COUNTER` 类型的指标，
+* **请求数** (`istio_requests_total`)：这是一个 `COUNTER` 类型的指标，
   用于记录 Istio 代理处理的总请求数。
 
 * **请求时长** (`istio_request_duration_milliseconds`)：这是一个 `DISTRIBUTION`
