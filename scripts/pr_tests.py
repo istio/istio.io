@@ -20,6 +20,7 @@ import os
 import re
 from github import Github
 
+
 def get_script_dependencies(script_path, folder_prefix):
     dependencies = set()
     with open(script_path, 'r') as script_file:
@@ -32,6 +33,7 @@ def get_script_dependencies(script_path, folder_prefix):
 
     return dependencies
 
+
 def get_script_dependencies_graph(folder_prefix):
     matching_files = [os.path.join(root, file_name) for root, _, files in os.walk(folder_prefix) for file_name in files if file_name.endswith(".sh")]
     package_dependencies = {}
@@ -43,6 +45,7 @@ def get_script_dependencies_graph(folder_prefix):
             package_dependencies.setdefault(dep, set()).add(os.path.dirname(file))
 
     return package_dependencies
+
 
 istio_doc_repo = "istio/istio.io"
 doc_file_prefix = "content/en/docs/"
@@ -88,7 +91,7 @@ try:
                             to_add = script_dependencies[el] - checked
                             to_check.update(to_add)
                             test_paths.update(map(lambda file_path: file_path[len(doc_file_prefix):].rsplit('/', 1)[0], to_add))
-                        
+
             elif filename == istio_go_dependency or \
                     filename.startswith(test_framework_pkg) or \
                     filename.startswith(test_framework_util) or \
