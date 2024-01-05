@@ -102,6 +102,7 @@ spec:
 1. [Strategy](https://kubernetes.io/zh-cn/docs/concepts/workloads/controllers/deployment/)
 1. [Env](https://kubernetes.io/zh-cn/docs/tasks/inject-data-application/define-environment-variable-container/)
 1. [Pod security context](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod)
+1. [Volumes and volume mounts](https://kubernetes.io/zh-cn/docs/concepts/storage/volumes/)
 
 所有这些 Kubernetes 设置均使用 Kubernetes API 定义，因此可以参考
 [Kubernetes 文档](https://kubernetes.io/zh-cn/docs/concepts/)
