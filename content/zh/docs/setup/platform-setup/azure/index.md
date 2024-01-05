@@ -21,15 +21,15 @@ Azure 为 Azure Kubernetes Service (AKS) 提供了
 {{< /tip >}}
 
 您可以通过完全支持 Istio 的 [AKS](https://azure.microsoft.com/zh-cn/services/kubernetes-service/)
-或者[用于自管理 Kubernetes 或 AKS 的 Azure 集群 API 提供程序（CAPZ）](https://capz.sigs.k8s.io/)部署一个 Kubernetes 集群到 Azure 上。
+或者[自托管 Kubernetes 或 AKS 所用的 Azure 集群 API 提供程序（CAPZ）](https://capz.sigs.k8s.io/)部署一个 Kubernetes 集群到 Azure 上。
 
 ## AKS
 
 您可以通过多种方式创建 AKS 群集，例如
 [az cli](https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough)、
-[Azure 门户](https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough-portal)、
+[Azure 门户](https://docs.microsoft.com/zh-cn/azure/aks/kubernetes-walkthrough-portal)、
 [az cli with Bicep](https://learn.microsoft.com/en-us/azure/aks/learn/quick-kubernetes-deploy-bicep?tabs=azure-cli)
-或 [Terraform](https://learn.microsoft.com/en-us/azure/aks/learn/quick-kubernetes-deploy-terraform?tabs=bash)。
+或 [Terraform](https://learn.microsoft.com/zh-cn/azure/aks/learn/quick-kubernetes-deploy-terraform?tabs=bash)。
 
 对于 `az` cli 的选项，完成 `az login` 认证，或者使用 cloud shell 运行下面的命令。
 
