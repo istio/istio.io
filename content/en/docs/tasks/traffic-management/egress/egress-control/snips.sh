@@ -19,6 +19,7 @@
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
 #          docs/tasks/traffic-management/egress/egress-control/index.md
 ####################################################################################################
+source "content/en/boilerplates/snips/gateway-api-experimental.sh"
 
 snip_before_you_begin_1() {
 kubectl apply -f samples/sleep/sleep.yaml
@@ -156,21 +157,45 @@ metadata:
   name: httpbin-ext
 spec:
   hosts:
-    - httpbin.org
+  - httpbin.org
   http:
   - timeout: 3s
     route:
-      - destination:
-          host: httpbin.org
-        weight: 100
+    - destination:
+        host: httpbin.org
+      weight: 100
 EOF
 }
 
 snip_manage_traffic_to_external_services_3() {
+kubectl apply -f - <<EOF
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: httpbin-ext
+spec:
+  parentRefs:
+  - kind: ServiceEntry
+    group: networking.istio.io
+    name: httpbin-ext
+  hostnames:
+  - httpbin.org
+  rules:
+  - timeouts:
+      request: 3s
+    backendRefs:
+    - kind: Hostname
+      group: networking.istio.io
+      name: httpbin.org
+      port: 80
+EOF
+}
+
+snip_manage_traffic_to_external_services_4() {
 kubectl exec "$SOURCE_POD" -c sleep -- time curl -o /dev/null -sS -w "%{http_code}\n" http://httpbin.org/delay/5
 }
 
-! read -r -d '' snip_manage_traffic_to_external_services_3_out <<\ENDSNIP
+! read -r -d '' snip_manage_traffic_to_external_services_4_out <<\ENDSNIP
 504
 real    0m3.149s
 user    0m0.004s
@@ -180,6 +205,11 @@ ENDSNIP
 snip_cleanup_the_controlled_access_to_external_services_1() {
 kubectl delete serviceentry httpbin-ext google
 kubectl delete virtualservice httpbin-ext --ignore-not-found=true
+}
+
+snip_cleanup_the_controlled_access_to_external_services_2() {
+kubectl delete serviceentry httpbin-ext
+kubectl delete httproute httpbin-ext --ignore-not-found=true
 }
 
 snip_ibm_cloud_private_1() {
