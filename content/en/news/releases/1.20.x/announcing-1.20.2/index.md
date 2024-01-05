@@ -11,7 +11,7 @@ This release note describes what’s different between Istio 1.20.1 and 1.20.2.
 
 {{< relnote >}}
 
-# Changes
+## Changes
 
 - **Added** configurable scaling behavior for Gateway HPA in helm chart
   ([usage]( https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/#configurable-scaling-behavior))
