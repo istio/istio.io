@@ -562,7 +562,7 @@ The following example selects any namespace that matches either below:</p>
         - cassandra
         - spark
 </code></pre>
-<p>Refer to the <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors">kubernetes selector docs</a>
+<p>Refer to the <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors">Kubernetes selector docs</a>
 for additional detail on selector semantics.</p>
 
 </td>
@@ -610,17 +610,18 @@ No
 <td><code><a href="#MeshConfig-TLSConfig">TLSConfig</a></code></td>
 <td>
 <p>The below configuration parameters can be used to specify TLSConfig for mesh traffic.
-For example, a user could enable min TLS version for ISTIO_MUTUAL traffic and specify a curve for non ISTIO_MUTUAL traffic like below:
-meshConfig:
-meshMTLS:
-minProtocolVersion: TLSV1_3
-tlsDefaults:
-Note: applicable only for non ISTIO_MUTUAL scenarios
-ecdhCurves:
-- P-256
-- P-512</p>
-<p>Configuration of mTLS for traffic between workloads with ISTIO_MUTUAL TLS traffic.
-Note: Mesh mTLS does not respect ECDH curves.</p>
+For example, a user could enable min TLS version for ISTIO_MUTUAL traffic and specify a curve for non ISTIO_MUTUAL traffic like below:</p>
+<pre><code class="language-yaml">meshConfig:
+  meshMTLS:
+    minProtocolVersion: TLSV1_3
+  tlsDefaults:
+    Note: applicable only for non ISTIO_MUTUAL scenarios
+    ecdhCurves:
+      - P-256
+      - P-512
+</code></pre>
+<p>Configuration of mTLS for traffic between workloads with ISTIO_MUTUAL TLS traffic.</p>
+<p>Note: Mesh mTLS does not respect ECDH curves.</p>
 
 </td>
 <td>
@@ -1136,8 +1137,8 @@ No
 <td><code>string[]</code></td>
 <td>
 <p>Optional: If specified, the TLS connection will only support the specified ECDH curves for the DH key exchange.
-If not specified, the default curves enforced by envoy will be used. For details about the default curves, refer to
-<a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/transport_sockets/tls/v3/common.proto">Ecdh Curves</a></p>
+If not specified, the default curves enforced by Envoy will be used. For details about the default curves, refer to
+<a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/transport_sockets/tls/v3/common.proto">Ecdh Curves</a>.</p>
 
 </td>
 <td>
@@ -1149,13 +1150,14 @@ No
 <td><code>string[]</code></td>
 <td>
 <p>Optional: If specified, the TLS connection will only support the specified cipher list when negotiating TLS 1.0-1.2.
-If not specified, the following cipher suites will be used:
-ECDHE-ECDSA-AES256-GCM-SHA384
+If not specified, the following cipher suites will be used:</p>
+<pre><code>ECDHE-ECDSA-AES256-GCM-SHA384
 ECDHE-RSA-AES256-GCM-SHA384
 ECDHE-ECDSA-AES128-GCM-SHA256
 ECDHE-RSA-AES128-GCM-SHA256
 AES256-GCM-SHA384
-AES128-GCM-SHA256</p>
+AES128-GCM-SHA256
+</code></pre>
 
 </td>
 <td>
@@ -1254,8 +1256,8 @@ No
 <td><code>bool</code></td>
 <td>
 <p>If true, the body sent to the external authorization service in the gRPC authorization request is set with raw bytes
-in the raw_body field (<a href="https://github.com/envoyproxy/envoy/blame/cffb095d59d7935abda12b9509bcd136808367bb/api/envoy/service/auth/v3/attribute_context.proto#L153)">https://github.com/envoyproxy/envoy/blame/cffb095d59d7935abda12b9509bcd136808367bb/api/envoy/service/auth/v3/attribute_context.proto#L153)</a>.
-Otherwise, it will be filled with UTF-8 string in the body field (<a href="https://github.com/envoyproxy/envoy/blame/cffb095d59d7935abda12b9509bcd136808367bb/api/envoy/service/auth/v3/attribute_context.proto#L147)">https://github.com/envoyproxy/envoy/blame/cffb095d59d7935abda12b9509bcd136808367bb/api/envoy/service/auth/v3/attribute_context.proto#L147)</a>.
+in the <a href="https://github.com/envoyproxy/envoy/blame/cffb095d59d7935abda12b9509bcd136808367bb/api/envoy/service/auth/v3/attribute_context.proto#L153">raw_body field</a>.
+Otherwise, it will be filled with UTF-8 string in the <a href="https://github.com/envoyproxy/envoy/blame/cffb095d59d7935abda12b9509bcd136808367bb/api/envoy/service/auth/v3/attribute_context.proto#L147">body field</a>.
 This field only works with the envoy_ext_authz_grpc provider and has no effect for the envoy_ext_authz_http provider.</p>
 
 </td>
@@ -1378,8 +1380,9 @@ Note that in addition to the headers specified here following headers are includ
 request can include the buffered client request body (controlled by include_request_body_in_check setting),
 consequently the value of Content-Length of the authorization request reflects the size of its payload size.</li>
 </ol>
-<p>Exact, prefix and suffix matches are supported (similar to the authorization policy rule syntax except the presence match
-<a href="/latest/docs/reference/config/security/authorization-policy/#Rule)">https://istio.io/latest/docs/reference/config/security/authorization-policy/#Rule)</a>:</p>
+<p>Exact, prefix and suffix matches are supported (similar to the
+<a href="/latest/docs/reference/config/security/authorization-policy/#Rule">authorization policy rule syntax</a>
+except the presence match):</p>
 <ul>
 <li>Exact match: &ldquo;abc&rdquo; will match on value &ldquo;abc&rdquo;.</li>
 <li>Prefix match: &ldquo;abc*&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;abcd&rdquo;.</li>
@@ -1423,8 +1426,9 @@ No
 forwarded to the upstream when the authorization check result is allowed (HTTP code 200).
 If not specified, the original request will not be modified and forwarded to backend as-is.
 Note, any existing headers will be overridden.</p>
-<p>Exact, prefix and suffix matches are supported (similar to the authorization policy rule syntax except the presence match
-<a href="/latest/docs/reference/config/security/authorization-policy/#Rule)">https://istio.io/latest/docs/reference/config/security/authorization-policy/#Rule)</a>:</p>
+<p>Exact, prefix and suffix matches are supported (similar to the
+<a href="/latest/docs/reference/config/security/authorization-policy/#Rule">authorization policy rule syntax</a>
+except the presence match):</p>
 <ul>
 <li>Exact match: &ldquo;abc&rdquo; will match on value &ldquo;abc&rdquo;.</li>
 <li>Prefix match: &ldquo;abc*&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;abcd&rdquo;.</li>
@@ -1447,8 +1451,9 @@ the downstream.
 When a header is included in this list, <em>Path</em>, <em>Status</em>, <em>Content-Length</em>, <em>WWWAuthenticate</em> and <em>Location</em> are
 automatically added.
 Note, the body from the authorization service is always included in the response to downstream.</p>
-<p>Exact, prefix and suffix matches are supported (similar to the authorization policy rule syntax except the presence match
-<a href="/latest/docs/reference/config/security/authorization-policy/#Rule)">https://istio.io/latest/docs/reference/config/security/authorization-policy/#Rule)</a>:</p>
+<p>Exact, prefix and suffix matches are supported (similar to the
+<a href="/latest/docs/reference/config/security/authorization-policy/#Rule">authorization policy rule syntax</a>
+except the presence match):</p>
 <ul>
 <li>Exact match: &ldquo;abc&rdquo; will match on value &ldquo;abc&rdquo;.</li>
 <li>Prefix match: &ldquo;abc*&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;abcd&rdquo;.</li>
@@ -1468,8 +1473,9 @@ No
 check result is allowed (HTTP code 200).
 If not specified, the original response will not be modified and forwarded to downstream as-is.
 Note, any existing headers will be overridden.</p>
-<p>Exact, prefix and suffix matches are supported (similar to the authorization policy rule syntax except the presence match
-<a href="/latest/docs/reference/config/security/authorization-policy/#Rule)">https://istio.io/latest/docs/reference/config/security/authorization-policy/#Rule)</a>:</p>
+<p>Exact, prefix and suffix matches are supported (similar to the
+<a href="/latest/docs/reference/config/security/authorization-policy/#Rule">authorization policy rule syntax</a>
+except the presence match):</p>
 <ul>
 <li>Exact match: &ldquo;abc&rdquo; will match on value &ldquo;abc&rdquo;.</li>
 <li>Prefix match: &ldquo;abc*&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;abcd&rdquo;.</li>
@@ -2592,7 +2598,7 @@ address to the X-Forwarded-For (XFF) address and set the
 X-Envoy-External-Address header to the trusted client address before
 forwarding it to the upstream services in the cluster.
 The default value of num_trusted_proxies is 0.
-See [Envoy XFF] (<a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#config-http-conn-man-headers-x-forwarded-for">https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#config-http-conn-man-headers-x-forwarded-for</a>)
+See <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#config-http-conn-man-headers-x-forwarded-for">Envoy XFF</a>
 header handling for more details.</p>
 
 </td>
