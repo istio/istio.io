@@ -126,7 +126,9 @@ $ diff \
    <(kubectl --context="${CTX_CLUSTER2}" -n istio-system get secret cacerts -ojsonpath='{.data.root-cert\.pem}')
 {{< /text >}}
 
-如果根证书不匹配或密钥根本不存在，您可以按照[插件 CA 证书](/zh/docs/tasks/security/cert-management/plugin-ca-cert/)指南进行操作，确保对每个集群都执行这些步骤。
+如果根证书不匹配或 Secret 根本不存在，
+您可以按照[插件 CA 证书](/zh/docs/tasks/security/cert-management/plugin-ca-cert/)指南进行操作，
+确保对每个集群都执行这些步骤。
 
 ### 逐步分析  {#step-by-step-diagnosis}
 
