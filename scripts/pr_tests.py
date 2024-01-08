@@ -90,8 +90,7 @@ try:
                         if el in script_dependencies:
                             to_add = script_dependencies[el] - checked
                             to_check.update(to_add)
-                            test_paths.update(map(lambda file_path: file_path[len(doc_file_prefix):].rsplit('/', 1)[0], to_add))
-
+                            test_paths.update(map(lambda file_path: file_path[len(doc_file_prefix):], to_add))
             elif filename == istio_go_dependency or \
                     filename.startswith(test_framework_pkg) or \
                     filename.startswith(test_framework_util) or \
