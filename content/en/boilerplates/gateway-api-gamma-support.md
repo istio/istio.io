@@ -11,7 +11,7 @@ i.e., not just ingress (north-south) traffic.
 Configuring internal mesh traffic is an
 [experimental feature](https://gateway-api.sigs.k8s.io/geps/overview/#status)
 of the Gateway API, currently under development.
-If using the Gateway API instructions, before proceeding make sure to:
+Before using the Gateway API instructions, make sure to:
 
 1) Install the **experimental version** of the Gateway API CRDs:
 

@@ -253,12 +253,13 @@ any other unintentional accesses.
 
 ### Manage traffic to external services
 
-Similar to inter-cluster requests, Istio
-[routing rules](/docs/concepts/traffic-management/#routing-rules)
-can also be set for external services that are accessed using `ServiceEntry` configurations.
+Similar to inter-cluster requests, routing rules
+can also be configured for external services that are accessed using `ServiceEntry` configurations.
 In this example, you set a timeout rule on calls to the `httpbin.org` service.
 
-1.  From inside the pod being used as the test source, make a _curl_ request to the `/delay` endpoint of the
+{{< boilerplate gateway-api-experimental >}}
+
+1)  From inside the pod being used as the test source, make a _curl_ request to the `/delay` endpoint of the
     httpbin.org external service:
 
     {{< text bash >}}
@@ -271,27 +272,63 @@ In this example, you set a timeout rule on calls to the `httpbin.org` service.
 
     The request should return 200 (OK) in approximately 5 seconds.
 
-1.  Use `kubectl` to set a 3s timeout on calls to the `httpbin.org` external service:
+2)  Use `kubectl` to set a 3s timeout on calls to the `httpbin.org` external service:
 
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: httpbin-ext
-    spec:
-      hosts:
-        - httpbin.org
-      http:
-      - timeout: 3s
-        route:
-          - destination:
-              host: httpbin.org
-            weight: 100
-    EOF
-    {{< /text >}}
+{{< tabset category-name="config-api" >}}
 
-1.  Wait a few seconds, then make the _curl_ request again:
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: httpbin-ext
+spec:
+  hosts:
+  - httpbin.org
+  http:
+  - timeout: 3s
+    route:
+    - destination:
+        host: httpbin.org
+      weight: 100
+EOF
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: httpbin-ext
+spec:
+  parentRefs:
+  - kind: ServiceEntry
+    group: networking.istio.io
+    name: httpbin-ext
+  hostnames:
+  - httpbin.org
+  rules:
+  - timeouts:
+      request: 3s
+    backendRefs:
+    - kind: Hostname
+      group: networking.istio.io
+      name: httpbin.org
+      port: 80
+EOF
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
+3)  Wait a few seconds, then make the _curl_ request again:
 
     {{< text bash >}}
     $ kubectl exec "$SOURCE_POD" -c sleep -- time curl -o /dev/null -sS -w "%{http_code}\n" http://httpbin.org/delay/5
@@ -306,10 +343,27 @@ In this example, you set a timeout rule on calls to the `httpbin.org` service.
 
 ### Cleanup the controlled access to external services
 
+{{< tabset category-name="config-api" >}}
+
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
+
 {{< text bash >}}
 $ kubectl delete serviceentry httpbin-ext google
 $ kubectl delete virtualservice httpbin-ext --ignore-not-found=true
 {{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text bash >}}
+$ kubectl delete serviceentry httpbin-ext
+$ kubectl delete httproute httpbin-ext --ignore-not-found=true
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
 
 ## Direct access to external services
 
