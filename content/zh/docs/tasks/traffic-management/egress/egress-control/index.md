@@ -243,7 +243,7 @@ Istio 代理允许调用未知的服务。如果这个选项设置为 `REGISTRY_
 
 ### 管理到外部服务的流量 {#manage-traffic-to-external-services}
 
-与集群间请求类似，可以通过 `ServiceEntry` 配置为外部服务配置路由规则。
+与集群间请求类似，可以为使用 `ServiceEntry` 配置访问的外部服务设置路由规则。
 在本示例中，您将设置对 `httpbin.org` 服务访问的超时规则。
 
 {{< boilerplate gateway-api-experimental >}}
