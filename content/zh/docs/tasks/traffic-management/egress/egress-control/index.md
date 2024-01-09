@@ -243,9 +243,10 @@ Istio 代理允许调用未知的服务。如果这个选项设置为 `REGISTRY_
 
 ### 管理到外部服务的流量 {#manage-traffic-to-external-services}
 
-与集群内的请求相似，也可以为使用 `ServiceEntry` 配置访问的外部服务设置
-[Istio 路由规则](/zh/docs/concepts/traffic-management/#routing-rules)。
+与集群间请求类似，可以为使用 `ServiceEntry` 配置访问的外部服务设置路由规则。
 在本示例中，您将设置对 `httpbin.org` 服务访问的超时规则。
+
+{{< boilerplate gateway-api-experimental >}}
 
 1. 从用作测试源的 Pod 内部，向外部服务 `httpbin.org` 的 `/delay`
    endpoint 发出 **curl** 请求：
@@ -262,23 +263,59 @@ Istio 代理允许调用未知的服务。如果这个选项设置为 `REGISTRY_
 
 1. 退出测试源 Pod，使用 `kubectl` 设置调用外部服务 `httpbin.org` 的超时时间为 3 秒。
 
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: httpbin-ext
-    spec:
-      hosts:
-        - httpbin.org
-      http:
-      - timeout: 3s
-        route:
-          - destination:
-              host: httpbin.org
-            weight: 100
-    EOF
-    {{< /text >}}
+{{< tabset category-name="config-api" >}}
+
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: httpbin-ext
+spec:
+  hosts:
+  - httpbin.org
+  http:
+  - timeout: 3s
+    route:
+    - destination:
+        host: httpbin.org
+      weight: 100
+EOF
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: httpbin-ext
+spec:
+  parentRefs:
+  - kind: ServiceEntry
+    group: networking.istio.io
+    name: httpbin-ext
+  hostnames:
+  - httpbin.org
+  rules:
+  - timeouts:
+      request: 3s
+    backendRefs:
+    - kind: Hostname
+      group: networking.istio.io
+      name: httpbin.org
+      port: 80
+EOF
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
 
 1. 几秒后，重新发出 **curl** 请求：
 
@@ -295,10 +332,27 @@ Istio 代理允许调用未知的服务。如果这个选项设置为 `REGISTRY_
 
 ### 清理对外部服务的受控访问 {#cleanup-the-controlled-access-to-external-services}
 
+{{< tabset category-name="config-api" >}}
+
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
+
 {{< text bash >}}
 $ kubectl delete serviceentry httpbin-ext google
 $ kubectl delete virtualservice httpbin-ext --ignore-not-found=true
 {{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text bash >}}
+$ kubectl delete serviceentry httpbin-ext
+$ kubectl delete httproute httpbin-ext --ignore-not-found=true
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
 
 ## 直接访问外部服务 {#direct-access-to-external-services}
 
