@@ -3,7 +3,7 @@ title: Announcing Istio 1.20.2
 linktitle: 1.20.2
 subtitle: Patch Release
 description: Istio 1.20.2 patch release.
-publishdate: 2024-01-08
+publishdate: 2024-01-09
 release: 1.20.2
 ---
 
