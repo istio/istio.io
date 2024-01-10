@@ -332,38 +332,6 @@ spec:
             ads: {}
           type_urls: [&quot;type.googleapis.com/envoy.extensions.filters.http.wasm.v3.Wasm&quot;]
 </code></pre>
-<p>The following example adds a Wasm service extension for all proxies using a locally available Wasm file.
-The singleton Wasm extension is used to maintain a shared state between workers executing Wasm filters.
-For example, a local rate limit extension would rely on a singleton to limit requests across all workers.
-As another example, an authorization Wasm extension can use a singleton to maintain a database of accounts.</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
-kind: EnvoyFilter
-metadata:
-  name: wasm-service
-  namespace: myns
-spec:
-  configPatches:
-  - applyTo: BOOTSTRAP
-    patch:
-      operation: MERGE
-      value:
-        bootstrap_extensions:
-        - name: envoy.bootstrap.wasm
-          typed_config:
-            &quot;@type&quot;: type.googleapis.com/envoy.extensions.wasm.v3.WasmService
-            singleton: true
-            config:
-              name: my_plugin
-              configuration:
-                &quot;@type&quot;: type.googleapis.com/google.protobuf.StringValue
-                value: |
-                  {}
-              vm_config:
-                runtime: &quot;envoy.wasm.runtime.v8&quot;
-                code:
-                  local:
-                    filename: &quot;/etc/envoy_filter_http_wasm_example.wasm&quot;
-</code></pre>
 <p>The following example inserts an <code>envoy.filters.listener.proxy_protocol</code> listener filter before the <code>envoy.filters.listener.tls_inspector</code>.</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
@@ -1472,7 +1440,7 @@ is only supported by HTTP filters.</p>
 <tr id="EnvoyFilter-ApplyTo-BOOTSTRAP">
 <td><code>BOOTSTRAP</code></td>
 <td>
-<p>Applies the patch to bootstrap configuration.</p>
+<p>DEPRECATED. Applies the patch to bootstrap configuration.</p>
 
 </td>
 </tr>
