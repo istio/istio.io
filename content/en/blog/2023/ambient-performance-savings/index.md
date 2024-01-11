@@ -33,7 +33,7 @@ Looking at [total CPU and memory consumption numbers](#a-closer-look), we see th
 
 ## Where the Savings Are Coming From
 
-Ambient mesh was designed to minimize resource requirements for users in their Kubernetes clusters. To explain how ambient does this, we must first clarify allocation versus utilization. When deploying a Kubernetes cluster, nodes determine the overall capacity of the cluster and customer deployments, and pods are an allocation of that capacity. Utilization is a measure of how well this is done. As an architecture, sidecars interfere with effective utilization as they:
+Ambient mesh was designed to minimize resource requirements for users in their Kubernetes clusters. To explain how ambient does this, we must first clarify _allocation_ versus _utilization_. When deploying a Kubernetes cluster, nodes determine the overall capacity of the cluster and customer deployments, and pods are an allocation of that capacity. Utilization is a measure of how well this is done. As an architecture, sidecars interfere with effective utilization as they:
 
 - Define a high minimum for allocation at any scale
 - Can strand capacity by reserving more than is needed
