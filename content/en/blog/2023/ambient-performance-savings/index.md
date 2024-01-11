@@ -29,7 +29,7 @@ There are significant savings across the board for all ambient scenarios when co
     caption="Total Memory and CPU: Consumption and Allocation"
     >}}
 
-Looking at [total CPU and memory consumption numbers](#a-closer-look), we have to remember that in the [ambient architecture](/blog/2022/introducing-ambient-mesh/), there are no sidecar containers for every application pod in the mesh. The result is that memory usage of Istio’s dataplane in the ztunnel-only ambient scenario sees *more than 99% savings* compared to sidecar scenarios, and still 89% savings when waypoints are added. Looking at CPU, ztunnel once again sees 82% savings compared to the sidecar scenario, and 40% savings when waypoints are deployed.
+Looking at [total CPU and memory consumption numbers](#a-closer-look), we see that we can remove the allocations required for a sidecar container in every application pod in the mesh. The result is that memory usage of Istio’s dataplane in the ztunnel-only ambient scenario sees *more than 99% savings* compared to sidecar scenarios, and still 89% savings when waypoints are added. Looking at CPU, ztunnel once again sees 82% savings compared to the sidecar scenario, and 40% savings when waypoints are deployed.
 
 ## Where the Savings Are Coming From
 
