@@ -22,7 +22,7 @@ Our test scenario deploys four instances of the [Online Boutique](https://github
 - Ambient with L4 ztunnel only
 - Ambient with L4 ztunnel and L7 waypoint proxies (one per namespace, scaled to 3 replicas)
 
-Spoilers! There are significant savings across the board for all ambient scenarios when compared to sidecars – up to 99% savings with only L4 and 89% with L4+L7.
+There are significant savings across the board for all ambient scenarios when compared to sidecars – up to 99% savings with only L4 and 89% with L4+L7.
 
 {{< image width="100%"
     link="savings.png"
