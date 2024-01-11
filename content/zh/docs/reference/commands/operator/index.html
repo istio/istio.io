@@ -843,12 +843,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>If enabled, for a headless service/stateful set in Kubernetes, pilot will generate an outbound listener for each pod in a headless service. This feature should be disabled if headless services have a large number of pods.</td>
 </tr>
 <tr>
-<td><code>PILOT_ENABLE_INBOUND_PASSTHROUGH</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If enabled, inbound clusters will be configured as ORIGINAL_DST clusters. When disabled, requests are always sent to localhost. The primary implication of this is that when enabled, binding to POD_IP will work while localhost will not; when disable, bind to POD_IP will not work, while localhost will. The enabled behavior matches the behavior without Istio enabled at all; this flag exists only for backwards compatibility. Regardless of this setting, the configuration can be overridden with the Sidecar.Ingress.DefaultEndpoint configuration.</td>
-</tr>
-<tr>
 <td><code>PILOT_ENABLE_K8S_SELECT_WORKLOAD_ENTRIES</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
