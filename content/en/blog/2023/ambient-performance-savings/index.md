@@ -114,8 +114,9 @@ We can literally put a dollar amount on the savings ambient brings.
 
 ## Test It Out
 
-In comparison to what most users run Istio with in production, this test cluster is tiny. However, we expect even more savings with larger clusters and when more services are deployed. We encourage everyone to see what the savings with Istio ambient mesh looks like in their environments. Also note that these scripts have been pushed to GitHub so feel free to check them out [here](https://github.com/solo-io/ambient-performance/tree/boutique-demo). For tracking CPU and memory usage throughout the test scenarios, versions of [Prometheus](https://prometheus.io/), [node-exporter](https://prometheus.io/docs/guides/node-exporter/), and [Grafana](https://grafana.com/) are installed. A custom Grafana dashboard was created for observing relevant data, which can be found and imported from GitHub [here](https://github.com/solo-io/ambient-performance/blob/boutique-demo/dashboard/ambient-performance-analysis.json).
+For this example, we have used a small test cluster.  However, we expect the savings to scale to larger clusters and those with more services deployed. We encourage you to see what the savings with Istio ambient mesh would be in your own environments, and will be doing performance tests at large scale as we move towards production readiness.
 
+The scripts used here are [available on GitHub](https://github.com/solo-io/ambient-performance/tree/boutique-demo). For tracking CPU and memory usage throughout the test scenarios, [Prometheus](https://prometheus.io/), [node-exporter](https://prometheus.io/docs/guides/node-exporter/), and [Grafana](https://grafana.com/) are installed. [A custom Grafana dashboard](https://github.com/solo-io/ambient-performance/blob/boutique-demo/dashboard/ambient-performance-analysis.json) was created for observing relevant data.
 ## Conclusion
 
 Ka-ching. These results were collected with an alpha version of ambient, which is now [merged into the main branch](/blog/2023/ambient-merged-istio-main/) and included in Istio 1.18.
