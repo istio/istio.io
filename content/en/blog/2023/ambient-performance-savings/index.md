@@ -6,11 +6,13 @@ attribution: "Greg Hanson - Solo.io"
 keywords: [istio,ambient,waypoint,ztunnel]
 ---
 
-Istio Ambient Mesh is the new Istio data plane without requiring sidecars, refer to the [announcement](/blog/2022/introducing-ambient-mesh/) for more details. Istio Ambient Mesh is included in [Istio 1.18](https://github.com/istio/istio/releases/tag/1.18.0) but is still considered to be in [alpha feature status](/docs/releases/feature-stages/#feature-phase-definitions).
+Last year the Istio community announced [ambient mesh](/blog/2022/introducing-ambient-mesh/), a new data plane mode which replaces sidecar proxies with per-namespace proxies.
 
-Sidecars have been a staple of Istio’s architecture since day one and are responsible for the majority of features available in Istio today. However, sidecars require the injection of an additional container to each Kubernetes pod resource, each of which needs allocated resources from the pod.
+[Sidecars](/docs/reference/glossary/#sidecar) have been a staple of Istio’s architecture since day one, and are the way that most of Istio's features are provided today.  However, sidecars require the injection of an additional container to each Kubernetes `Pod` resource, and each sidecar container requires resources be allocated to it.
 
-Many of you are familiar with the simplified operation brought by the Istio ambient architecture. Let’s explore how ambient mesh cuts the service mesh costs typically associated with sidecars.
+Ambient mesh was released in [alpha](/docs/releases/feature-stages/#feature-phase-definitions) in [Istio 1.18](/news/releases/1.18.x/announcing-1.18/). This makes it easy to install, test, and to preview what it will mean for you when it's production-ready.
+
+Aside from the many other benefits of ambient mesh, the simple fact you no longer have to run as many proxies means that you can expect resource (and thus cost) savings. As you will see, these can be very substantial.
 
 ## Check Out the Savings
 
