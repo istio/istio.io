@@ -135,80 +135,161 @@ First create a `ServiceEntry` to allow direct traffic to an external service.
 1.  Create an egress `Gateway` for _edition.cnn.com_, port 80, and a destination rule for
     traffic directed to the egress gateway.
 
-    {{< tip >}}
-    To direct multiple hosts through an egress gateway, you can include a list of hosts, or use `*` to match all, in the `Gateway`.
-    The `subset` field in the `DestinationRule` should be reused for the additional hosts.
-    {{< /tip >}}
+{{< tabset category-name="config-api" >}}
 
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: Gateway
-    metadata:
-      name: istio-egressgateway
-    spec:
-      selector:
-        istio: egressgateway
-      servers:
-      - port:
-          number: 80
-          name: http
-          protocol: HTTP
-        hosts:
-        - edition.cnn.com
-    ---
-    apiVersion: networking.istio.io/v1alpha3
-    kind: DestinationRule
-    metadata:
-      name: egressgateway-for-cnn
-    spec:
-      host: istio-egressgateway.istio-system.svc.cluster.local
-      subsets:
-      - name: cnn
-    EOF
-    {{< /text >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
-1.  Define a `VirtualService` to direct traffic from the sidecars to the egress gateway and from the egress gateway
+{{< tip >}}
+To direct multiple hosts through an egress gateway, you can include a list of hosts, or use `*` to match all, in the `Gateway`.
+The `subset` field in the `DestinationRule` should be reused for the additional hosts.
+{{< /tip >}}
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: istio-egressgateway
+spec:
+  selector:
+    istio: egressgateway
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - edition.cnn.com
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: egressgateway-for-cnn
+spec:
+  host: istio-egressgateway.istio-system.svc.cluster.local
+  subsets:
+  - name: cnn
+EOF
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: cnn-egress-gateway
+  annotations:
+    networking.istio.io/service-type: ClusterIP
+spec:
+  gatewayClassName: istio
+  listeners:
+  - name: http
+    hostname: edition.cnn.com
+    port: 80
+    protocol: HTTP
+    allowedRoutes:
+      namespaces:
+        from: Same
+EOF
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
+4)  Define a `VirtualService` to direct traffic from the sidecars to the egress gateway and from the egress gateway
     to the external service:
 
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: direct-cnn-through-egress-gateway
-    spec:
-      hosts:
-      - edition.cnn.com
-      gateways:
-      - istio-egressgateway
-      - mesh
-      http:
-      - match:
-        - gateways:
-          - mesh
-          port: 80
-        route:
-        - destination:
-            host: istio-egressgateway.istio-system.svc.cluster.local
-            subset: cnn
-            port:
-              number: 80
-          weight: 100
-      - match:
-        - gateways:
-          - istio-egressgateway
-          port: 80
-        route:
-        - destination:
-            host: edition.cnn.com
-            port:
-              number: 80
-          weight: 100
-    EOF
-    {{< /text >}}
+{{< tabset category-name="config-api" >}}
 
-1.  Resend the HTTP request to [http://edition.cnn.com/politics](https://edition.cnn.com/politics).
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: direct-cnn-through-egress-gateway
+spec:
+  hosts:
+  - edition.cnn.com
+  gateways:
+  - istio-egressgateway
+  - mesh
+  http:
+  - match:
+    - gateways:
+      - mesh
+      port: 80
+    route:
+    - destination:
+        host: istio-egressgateway.istio-system.svc.cluster.local
+        subset: cnn
+        port:
+          number: 80
+      weight: 100
+  - match:
+    - gateways:
+      - istio-egressgateway
+      port: 80
+    route:
+    - destination:
+        host: edition.cnn.com
+        port:
+          number: 80
+      weight: 100
+EOF
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: direct-cnn-to-egress-gateway
+spec:
+  parentRefs:
+  - kind: ServiceEntry
+    group: networking.istio.io
+    name: cnn
+  hostnames:
+  - edition.cnn.com
+  rules:
+  - backendRefs:
+    - name: cnn-egress-gateway-istio
+      port: 80
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: forward-cnn-from-egress-gateway
+spec:
+  parentRefs:
+  - name: cnn-egress-gateway
+  hostnames:
+  - edition.cnn.com
+  rules:
+  - backendRefs:
+    - kind: Hostname
+      group: networking.istio.io
+      name: edition.cnn.com
+      port: 80
+EOF
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
+5)  Resend the HTTP request to [http://edition.cnn.com/politics](https://edition.cnn.com/politics).
 
     {{< text bash >}}
     $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
@@ -225,32 +306,76 @@ First create a `ServiceEntry` to allow direct traffic to an external service.
 
     The output should be the same as in the step 2.
 
-1.  Check the log of the `istio-egressgateway` pod for a line corresponding to our request.
-    If Istio is deployed in the `istio-system` namespace, the command to print the log is:
+6)  Check the log of the egress gateway pod for a line corresponding to our request.
 
-    {{< text bash >}}
-    $ kubectl logs -l istio=egressgateway -c istio-proxy -n istio-system | tail
-    {{< /text >}}
+{{< tabset category-name="config-api" >}}
 
-    You should see a line similar to the following:
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
-    {{< text plain >}}
-    [2019-09-03T20:57:49.103Z] "GET /politics HTTP/2" 301 - "-" "-" 0 0 90 89 "10.244.2.10" "curl/7.64.0" "ea379962-9b5c-4431-ab66-f01994f5a5a5" "edition.cnn.com" "151.101.65.67:80" outbound|80||edition.cnn.com - 10.244.1.5:80 10.244.2.10:50482 edition.cnn.com -
-    {{< /text >}}
+If Istio is deployed in the `istio-system` namespace, the command to print the log is:
 
-    Note that you only redirected the traffic from port 80 to the egress gateway. The HTTPS traffic to port 443
-    went directly to _edition.cnn.com_.
+{{< text bash >}}
+$ kubectl logs -l istio=egressgateway -c istio-proxy -n istio-system | tail
+{{< /text >}}
+
+You should see a line similar to the following:
+
+{{< text plain >}}
+[2019-09-03T20:57:49.103Z] "GET /politics HTTP/2" 301 - "-" "-" 0 0 90 89 "10.244.2.10" "curl/7.64.0" "ea379962-9b5c-4431-ab66-f01994f5a5a5" "edition.cnn.com" "151.101.65.67:80" outbound|80||edition.cnn.com - 10.244.1.5:80 10.244.2.10:50482 edition.cnn.com -
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+Access the log corresponding to the egress gateway using the Istio-generated pod label:
+
+{{< text bash >}}
+$ kubectl logs -l istio.io/gateway-name=cnn-egress-gateway -c istio-proxy | tail
+{{< /text >}}
+
+You should see a line similar to the following:
+
+{{< text plain >}}
+[2024-01-09T15:35:47.283Z] "GET /politics HTTP/1.1" 301 - via_upstream - "-" 0 0 2 2 "172.30.239.55" "curl/7.87.0-DEV" "6c01d65f-a157-97cd-8782-320a40026901" "edition.cnn.com" "151.101.195.5:80" outbound|80||edition.cnn.com 172.30.239.16:55636 172.30.239.16:80 172.30.239.55:59224 - default.forward-cnn-from-egress-gateway.0
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
+Note that you only redirected the HTTP traffic from port 80 through the egress gateway.
+The HTTPS traffic to port 443 went directly to _edition.cnn.com_.
 
 ### Cleanup HTTP gateway
 
 Remove the previous definitions before proceeding to the next step:
 
+{{< tabset category-name="config-api" >}}
+
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
+
 {{< text bash >}}
-$ kubectl delete gateway istio-egressgateway
 $ kubectl delete serviceentry cnn
+$ kubectl delete gateway istio-egressgateway
 $ kubectl delete virtualservice direct-cnn-through-egress-gateway
 $ kubectl delete destinationrule egressgateway-for-cnn
 {{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text bash >}}
+$ kubectl delete serviceentry cnn
+$ kubectl delete gtw cnn-egress-gateway
+$ kubectl delete httproute direct-cnn-to-egress-gateway
+$ kubectl delete httproute forward-cnn-from-egress-gateway
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
 
 ## Egress gateway for HTTPS traffic
 
@@ -289,78 +414,145 @@ You need to specify port 443 with protocol `TLS` in a corresponding `ServiceEntr
 1.  Create an egress `Gateway` for _edition.cnn.com_, a destination rule and a virtual service
     to direct the traffic through the egress gateway and from the egress gateway to the external service.
 
-    {{< tip >}}
-    To direct multiple hosts through an egress gateway, you can include a list of hosts, or use `*` to match all, in the `Gateway`.
-    The `subset` field in the `DestinationRule` should be reused for the additional hosts.
-    {{< /tip >}}
+{{< tabset category-name="config-api" >}}
 
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: Gateway
-    metadata:
-      name: istio-egressgateway
-    spec:
-      selector:
-        istio: egressgateway
-      servers:
-      - port:
-          number: 443
-          name: tls
-          protocol: TLS
-        hosts:
-        - edition.cnn.com
-        tls:
-          mode: PASSTHROUGH
-    ---
-    apiVersion: networking.istio.io/v1alpha3
-    kind: DestinationRule
-    metadata:
-      name: egressgateway-for-cnn
-    spec:
-      host: istio-egressgateway.istio-system.svc.cluster.local
-      subsets:
-      - name: cnn
-    ---
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: direct-cnn-through-egress-gateway
-    spec:
-      hosts:
-      - edition.cnn.com
-      gateways:
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
+
+{{< tip >}}
+To direct multiple hosts through an egress gateway, you can include a list of hosts, or use `*` to match all, in the `Gateway`.
+The `subset` field in the `DestinationRule` should be reused for the additional hosts.
+{{< /tip >}}
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: istio-egressgateway
+spec:
+  selector:
+    istio: egressgateway
+  servers:
+  - port:
+      number: 443
+      name: tls
+      protocol: TLS
+    hosts:
+    - edition.cnn.com
+    tls:
+      mode: PASSTHROUGH
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: egressgateway-for-cnn
+spec:
+  host: istio-egressgateway.istio-system.svc.cluster.local
+  subsets:
+  - name: cnn
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: direct-cnn-through-egress-gateway
+spec:
+  hosts:
+  - edition.cnn.com
+  gateways:
+  - mesh
+  - istio-egressgateway
+  tls:
+  - match:
+    - gateways:
       - mesh
+      port: 443
+      sniHosts:
+      - edition.cnn.com
+    route:
+    - destination:
+        host: istio-egressgateway.istio-system.svc.cluster.local
+        subset: cnn
+        port:
+          number: 443
+  - match:
+    - gateways:
       - istio-egressgateway
-      tls:
-      - match:
-        - gateways:
-          - mesh
-          port: 443
-          sniHosts:
-          - edition.cnn.com
-        route:
-        - destination:
-            host: istio-egressgateway.istio-system.svc.cluster.local
-            subset: cnn
-            port:
-              number: 443
-      - match:
-        - gateways:
-          - istio-egressgateway
-          port: 443
-          sniHosts:
-          - edition.cnn.com
-        route:
-        - destination:
-            host: edition.cnn.com
-            port:
-              number: 443
-          weight: 100
-    EOF
-    {{< /text >}}
+      port: 443
+      sniHosts:
+      - edition.cnn.com
+    route:
+    - destination:
+        host: edition.cnn.com
+        port:
+          number: 443
+      weight: 100
+EOF
+{{< /text >}}
 
-1.  Send an HTTPS request to [https://edition.cnn.com/politics](https://edition.cnn.com/politics).
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: cnn-egress-gateway
+  annotations:
+    networking.istio.io/service-type: ClusterIP
+spec:
+  gatewayClassName: istio
+  listeners:
+  - name: tls
+    hostname: edition.cnn.com
+    port: 443
+    protocol: TLS
+    tls:
+      mode: Passthrough
+    allowedRoutes:
+      namespaces:
+        from: Same
+---
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: TLSRoute
+metadata:
+  name: direct-cnn-to-egress-gateway
+spec:
+  parentRefs:
+  - kind: ServiceEntry
+    group: networking.istio.io
+    name: cnn
+  hostnames:
+  - edition.cnn.com
+  rules:
+  - backendRefs:
+    - name: cnn-egress-gateway-istio
+      port: 443
+---
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: TLSRoute
+metadata:
+  name: forward-cnn-from-egress-gateway
+spec:
+  parentRefs:
+  - name: cnn-egress-gateway
+  hostnames:
+  - edition.cnn.com
+  rules:
+  - backendRefs:
+    - kind: Hostname
+      group: networking.istio.io
+      name: edition.cnn.com
+      port: 443
+EOF
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
+4)  Send an HTTPS request to [https://edition.cnn.com/politics](https://edition.cnn.com/politics).
     The output should be the same as before.
 
     {{< text bash >}}
@@ -371,20 +563,49 @@ You need to specify port 443 with protocol `TLS` in a corresponding `ServiceEntr
     ...
     {{< /text >}}
 
-1.  Check the log of the egress gateway's proxy. If Istio is deployed in the `istio-system` namespace, the command to
-    print the log is:
+5)  Check the log of the egress gateway's proxy.
 
-    {{< text bash >}}
-    $ kubectl logs -l istio=egressgateway -n istio-system
-    {{< /text >}}
+{{< tabset category-name="config-api" >}}
 
-    You should see a line similar to the following:
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
-    {{< text plain >}}
-    [2019-01-02T11:46:46.981Z] "- - -" 0 - 627 1879689 44 - "-" "-" "-" "-" "151.101.129.67:443" outbound|443||edition.cnn.com 172.30.109.80:41122 172.30.109.80:443 172.30.109.112:59970 edition.cnn.com
-    {{< /text >}}
+If Istio is deployed in the `istio-system` namespace, the command to print the log is:
+
+{{< text bash >}}
+$ kubectl logs -l istio=egressgateway -n istio-system
+{{< /text >}}
+
+You should see a line similar to the following:
+
+{{< text plain >}}
+[2019-01-02T11:46:46.981Z] "- - -" 0 - 627 1879689 44 - "-" "-" "-" "-" "151.101.129.67:443" outbound|443||edition.cnn.com 172.30.109.80:41122 172.30.109.80:443 172.30.109.112:59970 edition.cnn.com
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+Access the log corresponding to the egress gateway using the Istio-generated pod label:
+
+{{< text bash >}}
+$ kubectl logs -l istio.io/gateway-name=cnn-egress-gateway -c istio-proxy | tail
+{{< /text >}}
+
+You should see a line similar to the following:
+
+{{< text plain >}}
+[2024-01-11T21:09:42.835Z] "- - -" 0 - - - "-" 839 2504306 231 - "-" "-" "-" "-" "151.101.195.5:443" outbound|443||edition.cnn.com 172.30.239.8:34470 172.30.239.8:443 172.30.239.15:43956 edition.cnn.com -
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
 
 ### Cleanup HTTPS gateway
+
+{{< tabset category-name="config-api" >}}
+
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text bash >}}
 $ kubectl delete serviceentry cnn
@@ -392,6 +613,21 @@ $ kubectl delete gateway istio-egressgateway
 $ kubectl delete virtualservice direct-cnn-through-egress-gateway
 $ kubectl delete destinationrule egressgateway-for-cnn
 {{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text bash >}}
+$ kubectl delete serviceentry cnn
+$ kubectl delete gtw cnn-egress-gateway
+$ kubectl delete tlsroute direct-cnn-to-egress-gateway
+$ kubectl delete tlsroute forward-cnn-from-egress-gateway
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
 
 ## Additional security considerations
 
