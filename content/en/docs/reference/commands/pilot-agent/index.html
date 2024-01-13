@@ -23,11 +23,11 @@ remove_toc_prefix: 'pilot-agent '
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, deltaadsc, dns, gateway, gcecred, googleca, googlecas, grpcgen, healthcheck, ingress status, iptables, klog, kube, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, status, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, dns, gcecred, googleca, googlecas, grpcgen, healthcheck, iptables, klog, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, deltaadsc, dns, gateway, gcecred, googleca, googlecas, grpcgen, healthcheck, ingress status, iptables, klog, kube, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, status, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, dns, gcecred, googleca, googlecas, grpcgen, healthcheck, iptables, klog, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -47,7 +47,7 @@ remove_toc_prefix: 'pilot-agent '
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, deltaadsc, dns, gateway, gcecred, googleca, googlecas, grpcgen, healthcheck, ingress status, iptables, klog, kube, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, status, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, dns, gcecred, googleca, googlecas, grpcgen, healthcheck, iptables, klog, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -77,11 +77,11 @@ See each sub-command&#39;s help for details on how to use the generated script.
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, deltaadsc, dns, gateway, gcecred, googleca, googlecas, grpcgen, healthcheck, ingress status, iptables, klog, kube, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, status, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, dns, gcecred, googleca, googlecas, grpcgen, healthcheck, iptables, klog, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, deltaadsc, dns, gateway, gcecred, googleca, googlecas, grpcgen, healthcheck, ingress status, iptables, klog, kube, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, status, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, dns, gcecred, googleca, googlecas, grpcgen, healthcheck, iptables, klog, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -101,7 +101,7 @@ See each sub-command&#39;s help for details on how to use the generated script.
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, deltaadsc, dns, gateway, gcecred, googleca, googlecas, grpcgen, healthcheck, ingress status, iptables, klog, kube, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, status, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, dns, gcecred, googleca, googlecas, grpcgen, healthcheck, iptables, klog, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -142,11 +142,11 @@ If it is not installed already, you can install it via your OS&#39;s package man
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, deltaadsc, dns, gateway, gcecred, googleca, googlecas, grpcgen, healthcheck, ingress status, iptables, klog, kube, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, status, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, dns, gcecred, googleca, googlecas, grpcgen, healthcheck, iptables, klog, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, deltaadsc, dns, gateway, gcecred, googleca, googlecas, grpcgen, healthcheck, ingress status, iptables, klog, kube, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, status, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, dns, gcecred, googleca, googlecas, grpcgen, healthcheck, iptables, klog, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -166,7 +166,7 @@ If it is not installed already, you can install it via your OS&#39;s package man
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, deltaadsc, dns, gateway, gcecred, googleca, googlecas, grpcgen, healthcheck, ingress status, iptables, klog, kube, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, status, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, dns, gcecred, googleca, googlecas, grpcgen, healthcheck, iptables, klog, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -206,11 +206,11 @@ If it is not installed already, you can install it via your OS&#39;s package man
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, deltaadsc, dns, gateway, gcecred, googleca, googlecas, grpcgen, healthcheck, ingress status, iptables, klog, kube, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, status, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, dns, gcecred, googleca, googlecas, grpcgen, healthcheck, iptables, klog, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, deltaadsc, dns, gateway, gcecred, googleca, googlecas, grpcgen, healthcheck, ingress status, iptables, klog, kube, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, status, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, dns, gcecred, googleca, googlecas, grpcgen, healthcheck, iptables, klog, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -230,7 +230,7 @@ If it is not installed already, you can install it via your OS&#39;s package man
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, deltaadsc, dns, gateway, gcecred, googleca, googlecas, grpcgen, healthcheck, ingress status, iptables, klog, kube, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, status, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, dns, gcecred, googleca, googlecas, grpcgen, healthcheck, iptables, klog, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -269,11 +269,11 @@ to your powershell profile.
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, deltaadsc, dns, gateway, gcecred, googleca, googlecas, grpcgen, healthcheck, ingress status, iptables, klog, kube, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, status, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, dns, gcecred, googleca, googlecas, grpcgen, healthcheck, iptables, klog, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, deltaadsc, dns, gateway, gcecred, googleca, googlecas, grpcgen, healthcheck, ingress status, iptables, klog, kube, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, status, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, dns, gcecred, googleca, googlecas, grpcgen, healthcheck, iptables, klog, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -293,7 +293,7 @@ to your powershell profile.
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, deltaadsc, dns, gateway, gcecred, googleca, googlecas, grpcgen, healthcheck, ingress status, iptables, klog, kube, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, status, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, dns, gcecred, googleca, googlecas, grpcgen, healthcheck, iptables, klog, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -339,11 +339,11 @@ to enable it.  You can execute the following once:</p>
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, deltaadsc, dns, gateway, gcecred, googleca, googlecas, grpcgen, healthcheck, ingress status, iptables, klog, kube, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, status, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, dns, gcecred, googleca, googlecas, grpcgen, healthcheck, iptables, klog, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, deltaadsc, dns, gateway, gcecred, googleca, googlecas, grpcgen, healthcheck, ingress status, iptables, klog, kube, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, status, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, dns, gcecred, googleca, googlecas, grpcgen, healthcheck, iptables, klog, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -363,7 +363,7 @@ to enable it.  You can execute the following once:</p>
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, deltaadsc, dns, gateway, gcecred, googleca, googlecas, grpcgen, healthcheck, ingress status, iptables, klog, kube, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, status, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, dns, gcecred, googleca, googlecas, grpcgen, healthcheck, iptables, klog, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -420,12 +420,12 @@ to enable it.  You can execute the following once:</p>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, deltaadsc, dns, gateway, gcecred, googleca, googlecas, grpcgen, healthcheck, ingress status, iptables, klog, kube, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, status, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, dns, gcecred, googleca, googlecas, grpcgen, healthcheck, iptables, klog, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, deltaadsc, dns, gateway, gcecred, googleca, googlecas, grpcgen, healthcheck, ingress status, iptables, klog, kube, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, status, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, dns, gcecred, googleca, googlecas, grpcgen, healthcheck, iptables, klog, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -450,7 +450,7 @@ to enable it.  You can execute the following once:</p>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, deltaadsc, dns, gateway, gcecred, googleca, googlecas, grpcgen, healthcheck, ingress status, iptables, klog, kube, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, status, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, dns, gcecred, googleca, googlecas, grpcgen, healthcheck, iptables, klog, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -610,12 +610,12 @@ to enable it.  You can execute the following once:</p>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, deltaadsc, dns, gateway, gcecred, googleca, googlecas, grpcgen, healthcheck, ingress status, iptables, klog, kube, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, status, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, dns, gcecred, googleca, googlecas, grpcgen, healthcheck, iptables, klog, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, deltaadsc, dns, gateway, gcecred, googleca, googlecas, grpcgen, healthcheck, ingress status, iptables, klog, kube, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, status, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, dns, gcecred, googleca, googlecas, grpcgen, healthcheck, iptables, klog, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -640,7 +640,7 @@ to enable it.  You can execute the following once:</p>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, deltaadsc, dns, gateway, gcecred, googleca, googlecas, grpcgen, healthcheck, ingress status, iptables, klog, kube, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, status, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, dns, gcecred, googleca, googlecas, grpcgen, healthcheck, iptables, klog, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -720,11 +720,11 @@ to enable it.  You can execute the following once:</p>
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, deltaadsc, dns, gateway, gcecred, googleca, googlecas, grpcgen, healthcheck, ingress status, iptables, klog, kube, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, status, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, dns, gcecred, googleca, googlecas, grpcgen, healthcheck, iptables, klog, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, deltaadsc, dns, gateway, gcecred, googleca, googlecas, grpcgen, healthcheck, ingress status, iptables, klog, kube, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, status, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, dns, gcecred, googleca, googlecas, grpcgen, healthcheck, iptables, klog, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -744,7 +744,7 @@ to enable it.  You can execute the following once:</p>
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, deltaadsc, dns, gateway, gcecred, googleca, googlecas, grpcgen, healthcheck, ingress status, iptables, klog, kube, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, status, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, dns, gcecred, googleca, googlecas, grpcgen, healthcheck, iptables, klog, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -814,11 +814,11 @@ to enable it.  You can execute the following once:</p>
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, deltaadsc, dns, gateway, gcecred, googleca, googlecas, grpcgen, healthcheck, ingress status, iptables, klog, kube, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, status, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, dns, gcecred, googleca, googlecas, grpcgen, healthcheck, iptables, klog, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, deltaadsc, dns, gateway, gcecred, googleca, googlecas, grpcgen, healthcheck, ingress status, iptables, klog, kube, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, status, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, dns, gcecred, googleca, googlecas, grpcgen, healthcheck, iptables, klog, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -838,7 +838,7 @@ to enable it.  You can execute the following once:</p>
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, deltaadsc, dns, gateway, gcecred, googleca, googlecas, grpcgen, healthcheck, ingress status, iptables, klog, kube, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, status, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, dns, gcecred, googleca, googlecas, grpcgen, healthcheck, iptables, klog, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -871,12 +871,12 @@ to enable it.  You can execute the following once:</p>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, deltaadsc, dns, gateway, gcecred, googleca, googlecas, grpcgen, healthcheck, ingress status, iptables, klog, kube, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, status, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, dns, gcecred, googleca, googlecas, grpcgen, healthcheck, iptables, klog, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, deltaadsc, dns, gateway, gcecred, googleca, googlecas, grpcgen, healthcheck, ingress status, iptables, klog, kube, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, status, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, dns, gcecred, googleca, googlecas, grpcgen, healthcheck, iptables, klog, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -901,7 +901,7 @@ to enable it.  You can execute the following once:</p>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, deltaadsc, dns, gateway, gcecred, googleca, googlecas, grpcgen, healthcheck, ingress status, iptables, klog, kube, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, status, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, dns, gcecred, googleca, googlecas, grpcgen, healthcheck, iptables, klog, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -943,11 +943,11 @@ to enable it.  You can execute the following once:</p>
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, deltaadsc, dns, gateway, gcecred, googleca, googlecas, grpcgen, healthcheck, ingress status, iptables, klog, kube, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, status, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, dns, gcecred, googleca, googlecas, grpcgen, healthcheck, iptables, klog, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, deltaadsc, dns, gateway, gcecred, googleca, googlecas, grpcgen, healthcheck, ingress status, iptables, klog, kube, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, status, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, dns, gcecred, googleca, googlecas, grpcgen, healthcheck, iptables, klog, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -967,7 +967,7 @@ to enable it.  You can execute the following once:</p>
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, deltaadsc, dns, gateway, gcecred, googleca, googlecas, grpcgen, healthcheck, ingress status, iptables, klog, kube, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, status, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, authn, authorization, ca, cache, citadelclient, controllers, default, delta, dns, gcecred, googleca, googlecas, grpcgen, healthcheck, iptables, klog, mockcred, model, monitoring, retry, sds, security, serviceentry, spiffe, stsclient, stsserver, token, trustBundle, validation, wasm, wle, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -1498,12 +1498,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>The JWT validation policy.</td>
 </tr>
 <tr>
-<td><code>K8S_INGRESS_NS</code></td>
-<td>String</td>
-<td><code>istio-system</code></td>
-<td></td>
-</tr>
-<tr>
 <td><code>KUBERNETES_SERVICE_HOST</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -1996,12 +1990,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Whether to generate PKCS#8 private keys</td>
 </tr>
 <tr>
-<td><code>PLATFORM</code></td>
-<td>String</td>
-<td><code></code></td>
-<td>Platform where Istio is deployed. Possible values are &#34;openshift&#34; and &#34;gcp&#34;</td>
-</tr>
-<tr>
 <td><code>POD_NAME</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -2231,7 +2219,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <tr><td><code>auto_registration_unregister_total</code></td><td><code>Sum</code></td><td>Total number of unregistrations.</td></tr>
 <tr><td><code>auto_registration_updates_total</code></td><td><code>Sum</code></td><td>Total number of auto registration updates.</td></tr>
 <tr><td><code>cert_expiry_seconds</code></td><td><code>LastValue</code></td><td>The time remaining, in seconds, before the certificate chain will expire. A negative value indicates the cert is expired.</td></tr>
-<tr><td><code>controller_sync_errors_total</code></td><td><code>Sum</code></td><td>Total number of errorMetric syncing controllers.</td></tr>
 <tr><td><code>dns_requests_total</code></td><td><code>Sum</code></td><td>Total number of DNS requests.</td></tr>
 <tr><td><code>dns_upstream_failures_total</code></td><td><code>Sum</code></td><td>Total number of DNS failures.</td></tr>
 <tr><td><code>dns_upstream_request_duration_seconds</code></td><td><code>Distribution</code></td><td>Total time in seconds Istio takes to get DNS response from upstream.</td></tr>
@@ -2241,7 +2228,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <tr><td><code>istio_build</code></td><td><code>LastValue</code></td><td>Istio component build info</td></tr>
 <tr><td><code>istiod_connection_failures</code></td><td><code>Sum</code></td><td>The total number of connection failures to Istiod</td></tr>
 <tr><td><code>istiod_connection_terminations</code></td><td><code>Sum</code></td><td>The total number of connection errors to Istiod</td></tr>
-<tr><td><code>istiod_managed_clusters</code></td><td><code>LastValue</code></td><td>Number of clusters managed by istiod</td></tr>
 <tr><td><code>num_failed_outgoing_requests</code></td><td><code>Sum</code></td><td>Number of failed outgoing requests (e.g. to a token exchange server, CA, etc.)</td></tr>
 <tr><td><code>num_file_secret_failures_total</code></td><td><code>Sum</code></td><td>Number of times secret generation failed for files</td></tr>
 <tr><td><code>num_file_watcher_failures_total</code></td><td><code>Sum</code></td><td>Number of times file watcher failed to add watchers</td></tr>
@@ -2260,10 +2246,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <tr><td><code>pilot_inbound_updates</code></td><td><code>Sum</code></td><td>Total number of updates received by pilot.</td></tr>
 <tr><td><code>pilot_jwks_resolver_network_fetch_fail_total</code></td><td><code>Sum</code></td><td>Total number of failed network fetch by pilot jwks resolver</td></tr>
 <tr><td><code>pilot_jwks_resolver_network_fetch_success_total</code></td><td><code>Sum</code></td><td>Total number of successfully network fetch by pilot jwks resolver</td></tr>
-<tr><td><code>pilot_k8s_cfg_events</code></td><td><code>Sum</code></td><td>Events from k8s config.</td></tr>
-<tr><td><code>pilot_k8s_endpoints_pending_pod</code></td><td><code>LastValue</code></td><td>Number of endpoints that do not currently have any corresponding pods.</td></tr>
-<tr><td><code>pilot_k8s_endpoints_with_no_pods</code></td><td><code>Sum</code></td><td>Endpoints that does not have any corresponding pods.</td></tr>
-<tr><td><code>pilot_k8s_reg_events</code></td><td><code>Sum</code></td><td>Events from k8s registry.</td></tr>
 <tr><td><code>pilot_no_ip</code></td><td><code>LastValue</code></td><td>Pods not found in the endpoint table, possibly invalid.</td></tr>
 <tr><td><code>pilot_proxy_convergence_time</code></td><td><code>Distribution</code></td><td>Delay in seconds between config change and a proxy receiving all required configuration.</td></tr>
 <tr><td><code>pilot_proxy_queue_time</code></td><td><code>Distribution</code></td><td>Time in seconds, a proxy is in the push queue before being dequeued.</td></tr>
@@ -2292,23 +2274,14 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <tr><td><code>pilot_xds_send_time</code></td><td><code>Distribution</code></td><td>Total time in seconds Pilot takes to send generated configuration.</td></tr>
 <tr><td><code>pilot_xds_write_timeout</code></td><td><code>Sum</code></td><td>Pilot XDS response write timeouts.</td></tr>
 <tr><td><code>provider_lookup_cluster_failures</code></td><td><code>Sum</code></td><td>Number of times a cluster lookup failed</td></tr>
-<tr><td><code>remote_cluster_sync_timeouts_total</code></td><td><code>Sum</code></td><td>Number of times remote clusters took too long to sync, causing slow startup that excludes remote clusters.</td></tr>
 <tr><td><code>scrape_failures_total</code></td><td><code>Sum</code></td><td>The total number of failed scrapes.</td></tr>
 <tr><td><code>scrapes_total</code></td><td><code>Sum</code></td><td>The total number of scrapes.</td></tr>
-<tr><td><code>sidecar_injection_failure_total</code></td><td><code>Sum</code></td><td>Total number of failed sidecar injection requests.</td></tr>
-<tr><td><code>sidecar_injection_requests_total</code></td><td><code>Sum</code></td><td>Total number of sidecar injection requests.</td></tr>
-<tr><td><code>sidecar_injection_skip_total</code></td><td><code>Sum</code></td><td>Total number of skipped sidecar injection requests.</td></tr>
-<tr><td><code>sidecar_injection_success_total</code></td><td><code>Sum</code></td><td>Total number of successful sidecar injection requests.</td></tr>
-<tr><td><code>sidecar_injection_time_seconds</code></td><td><code>Distribution</code></td><td>Total time taken for injection in seconds.</td></tr>
 <tr><td><code>startup_duration_seconds</code></td><td><code>LastValue</code></td><td>The time from the process starting to being marked ready.</td></tr>
 <tr><td><code>wasm_cache_entries</code></td><td><code>LastValue</code></td><td>number of Wasm remote fetch cache entries.</td></tr>
 <tr><td><code>wasm_cache_lookup_count</code></td><td><code>Sum</code></td><td>number of Wasm remote fetch cache lookups.</td></tr>
 <tr><td><code>wasm_config_conversion_count</code></td><td><code>Sum</code></td><td>number of Wasm config conversion count and results, including success, no remote load, marshal failure, remote fetch failure, miss remote fetch hint.</td></tr>
 <tr><td><code>wasm_config_conversion_duration</code></td><td><code>Distribution</code></td><td>Total time in milliseconds istio-agent spends on converting remote load in Wasm config.</td></tr>
 <tr><td><code>wasm_remote_fetch_count</code></td><td><code>Sum</code></td><td>number of Wasm remote fetches and results, including success, download failure, and checksum mismatch.</td></tr>
-<tr><td><code>webhook_patch_attempts_total</code></td><td><code>Sum</code></td><td>Webhook patching attempts</td></tr>
-<tr><td><code>webhook_patch_failures_total</code></td><td><code>Sum</code></td><td>Webhook patching total failures</td></tr>
-<tr><td><code>webhook_patch_retries_total</code></td><td><code>Sum</code></td><td>Webhook patching retries</td></tr>
 <tr><td><code>xds_cache_dependent_config_size</code></td><td><code>LastValue</code></td><td>Current size of dependent configs</td></tr>
 <tr><td><code>xds_cache_evictions</code></td><td><code>Sum</code></td><td>Total number of xds cache evictions.</td></tr>
 <tr><td><code>xds_cache_reads</code></td><td><code>Sum</code></td><td>Total number of xds cache xdsCacheReads.</td></tr>

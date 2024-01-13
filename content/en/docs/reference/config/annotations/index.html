@@ -11,315 +11,1053 @@ weight: 60
 This page presents the various resource <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/">annotations</a> that
 Istio supports to control its behavior.
 </p>
-
+<h2 id="GalleyAnalyzeSuppress">galley.istio.io/analyze-suppress</h2>
 <table class="annotations">
-  <thead>
-    <tr>
-      <th>Annotation Name</th>
-      <th>Feature Status</th>
-      <th>Resource Types</th>
-      <th>Description</th>
-    </tr>
-  </thead>
   <tbody>
     <tr>
+      <th>Name</th>
       <td><code>galley.istio.io/analyze-suppress</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Any]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>A comma separated list of configuration analysis message codes to suppress when Istio analyzers are run. For example, to suppress reporting of IST0103 (PodMissingProxy) and IST0108 (UnknownAnnotation) on a resource, apply the annotation 'galley.istio.io/analyze-suppress=IST0108,IST0103'. If the value is '*', then all configuration analysis messages are suppressed.</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="InjectTemplates">inject.istio.io/templates</h2>
+<table class="annotations">
+  <tbody>
     <tr>
+      <th>Name</th>
       <td><code>inject.istio.io/templates</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>The name of the inject template(s) to use, as a comma separate list. See https://istio.io/latest/docs/setup/additional-setup/sidecar-injection/#custom-templates-experimental for more information.</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="OperatorInstallChartOwner">install.operator.istio.io/chart-owner</h2>
+<table class="annotations">
+  <tbody>
     <tr>
+      <th>Name</th>
       <td><code>install.operator.istio.io/chart-owner</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Any]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>Represents the name of the chart used to create this resource.</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="OperatorInstallOwnerGeneration">install.operator.istio.io/owner-generation</h2>
+<table class="annotations">
+  <tbody>
     <tr>
+      <th>Name</th>
       <td><code>install.operator.istio.io/owner-generation</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Any]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>Represents the generation to which the resource was last reconciled.</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="OperatorInstallVersion">install.operator.istio.io/version</h2>
+<table class="annotations">
+  <tbody>
     <tr>
+      <th>Name</th>
       <td><code>install.operator.istio.io/version</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Any]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>Represents the Istio version associated with the resource</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="IoIstioDryRun">istio.io/dry-run</h2>
+<table class="annotations">
+  <tbody>
     <tr>
+      <th>Name</th>
       <td><code>istio.io/dry-run</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[AuthorizationPolicy]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>Specifies whether or not the given resource is in dry-run mode. See https://istio.io/latest/docs/tasks/security/authorization/authz-dry-run/ for more information.</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="IoIstioRev">istio.io/rev</h2>
+<table class="annotations">
+  <tbody>
     <tr>
+      <th>Name</th>
       <td><code>istio.io/rev</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>Specifies a control plane revision to which a given proxy is connected. This annotation is added automatically, not set by a user. In contrary to the label istio.io/rev, it represents the actual revision, not the requested revision.</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="IoKubernetesIngressClass">kubernetes.io/ingress.class</h2>
+<table class="annotations">
+  <tbody>
     <tr>
+      <th>Name</th>
       <td><code>kubernetes.io/ingress.class</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Stable</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Ingress]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>Annotation on an Ingress resources denoting the class of controllers responsible for it.</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="NetworkingExportTo">networking.istio.io/exportTo</h2>
+<table class="annotations">
+  <tbody>
     <tr>
+      <th>Name</th>
       <td><code>networking.istio.io/exportTo</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Service]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>Specifies the namespaces to which this service should be exported to. A value of '*' indicates it is reachable within the mesh '.' indicates it is reachable within its namespace.</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="PrometheusMergeMetrics">prometheus.istio.io/merge-metrics</h2>
+<table class="annotations">
+  <tbody>
     <tr>
+      <th>Name</th>
       <td><code>prometheus.istio.io/merge-metrics</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>Specifies if application Prometheus metric will be merged with Envoy metrics for this workload.</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="ProxyConfig">proxy.istio.io/config</h2>
+<table class="annotations">
+  <tbody>
     <tr>
+      <th>Name</th>
       <td><code>proxy.istio.io/config</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Beta</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>Overrides for the proxy configuration for this specific proxy. Available options can be found at https://istio.io/docs/reference/config/istio.mesh.v1alpha1/#ProxyConfig.</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="SidecarStatusReadinessApplicationPorts">readiness.status.sidecar.istio.io/applicationPorts</h2>
+<table class="annotations">
+  <tbody>
     <tr>
+      <th>Name</th>
       <td><code>readiness.status.sidecar.istio.io/applicationPorts</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>Specifies the list of ports exposed by the application container. Used by the Envoy sidecar readiness probe to determine that Envoy is configured and ready to receive traffic.</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="SidecarStatusReadinessFailureThreshold">readiness.status.sidecar.istio.io/failureThreshold</h2>
+<table class="annotations">
+  <tbody>
     <tr>
+      <th>Name</th>
       <td><code>readiness.status.sidecar.istio.io/failureThreshold</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>Specifies the failure threshold for the Envoy sidecar readiness probe.</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="SidecarStatusReadinessInitialDelaySeconds">readiness.status.sidecar.istio.io/initialDelaySeconds</h2>
+<table class="annotations">
+  <tbody>
     <tr>
+      <th>Name</th>
       <td><code>readiness.status.sidecar.istio.io/initialDelaySeconds</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>Specifies the initial delay (in seconds) for the Envoy sidecar readiness probe.</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="SidecarStatusReadinessPeriodSeconds">readiness.status.sidecar.istio.io/periodSeconds</h2>
+<table class="annotations">
+  <tbody>
     <tr>
+      <th>Name</th>
       <td><code>readiness.status.sidecar.istio.io/periodSeconds</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>Specifies the period (in seconds) for the Envoy sidecar readiness probe.</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="SidecarAgentLogLevel">sidecar.istio.io/agentLogLevel</h2>
+<table class="annotations">
+  <tbody>
     <tr>
+      <th>Name</th>
       <td><code>sidecar.istio.io/agentLogLevel</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>Specifies the log output level for pilot-agent.</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="SidecarBootstrapOverride">sidecar.istio.io/bootstrapOverride</h2>
+<table class="annotations">
+  <tbody>
     <tr>
+      <th>Name</th>
       <td><code>sidecar.istio.io/bootstrapOverride</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>Specifies an alternative Envoy bootstrap configuration file.</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="SidecarComponentLogLevel">sidecar.istio.io/componentLogLevel</h2>
+<table class="annotations">
+  <tbody>
     <tr>
+      <th>Name</th>
       <td><code>sidecar.istio.io/componentLogLevel</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>Specifies the component log level for Envoy.</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="SidecarControlPlaneAuthPolicy">sidecar.istio.io/controlPlaneAuthPolicy</h2>
+<table class="annotations">
+  <tbody>
     <tr class="deprecated">
+      <th>Name</th>
       <td><code>sidecar.istio.io/controlPlaneAuthPolicy</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Deprecated</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>Specifies the auth policy used by the Istio control plane. If NONE, traffic will not be encrypted. If MUTUAL_TLS, traffic between Envoy sidecar will be wrapped into mutual TLS connections.</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="SidecarDiscoveryAddress">sidecar.istio.io/discoveryAddress</h2>
+<table class="annotations">
+  <tbody>
     <tr class="deprecated">
+      <th>Name</th>
       <td><code>sidecar.istio.io/discoveryAddress</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Deprecated</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>Specifies the XDS discovery address to be used by the Envoy sidecar.</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="SidecarEnableCoreDump">sidecar.istio.io/enableCoreDump</h2>
+<table class="annotations">
+  <tbody>
     <tr>
+      <th>Name</th>
       <td><code>sidecar.istio.io/enableCoreDump</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>Specifies whether or not an Envoy sidecar should enable core dump.</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="SidecarExtraStatTags">sidecar.istio.io/extraStatTags</h2>
+<table class="annotations">
+  <tbody>
     <tr class="deprecated">
+      <th>Name</th>
       <td><code>sidecar.istio.io/extraStatTags</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Deprecated</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>An additional list of tags to extract from the in-proxy Istio Wasm telemetry. Each additional tag needs to be present in this list.</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="SidecarInject">sidecar.istio.io/inject</h2>
+<table class="annotations">
+  <tbody>
     <tr class="deprecated">
+      <th>Name</th>
       <td><code>sidecar.istio.io/inject</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Deprecated</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>Specifies whether or not an Envoy sidecar should be automatically injected into the workload. Deprecated in favor of `sidecar.istio.io/inject` label.</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="SidecarInterceptionMode">sidecar.istio.io/interceptionMode</h2>
+<table class="annotations">
+  <tbody>
     <tr>
+      <th>Name</th>
       <td><code>sidecar.istio.io/interceptionMode</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>Specifies the mode used to redirect inbound connections to Envoy (REDIRECT or TPROXY).</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="SidecarLogLevel">sidecar.istio.io/logLevel</h2>
+<table class="annotations">
+  <tbody>
     <tr>
+      <th>Name</th>
       <td><code>sidecar.istio.io/logLevel</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>Specifies the log level for Envoy.</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="SidecarProxyCPU">sidecar.istio.io/proxyCPU</h2>
+<table class="annotations">
+  <tbody>
     <tr>
+      <th>Name</th>
       <td><code>sidecar.istio.io/proxyCPU</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>Specifies the requested CPU setting for the Envoy sidecar.</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="SidecarProxyCPULimit">sidecar.istio.io/proxyCPULimit</h2>
+<table class="annotations">
+  <tbody>
     <tr>
+      <th>Name</th>
       <td><code>sidecar.istio.io/proxyCPULimit</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>Specifies the CPU limit for the Envoy sidecar.</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="SidecarProxyImage">sidecar.istio.io/proxyImage</h2>
+<table class="annotations">
+  <tbody>
     <tr>
+      <th>Name</th>
       <td><code>sidecar.istio.io/proxyImage</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>Specifies the Docker image to be used by the Envoy sidecar.</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="SidecarProxyImageType">sidecar.istio.io/proxyImageType</h2>
+<table class="annotations">
+  <tbody>
     <tr>
+      <th>Name</th>
       <td><code>sidecar.istio.io/proxyImageType</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>Specifies the Docker image type to be used by the Envoy sidecar. Istio publishes debug and distroless image types for every release tag.</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="SidecarProxyMemory">sidecar.istio.io/proxyMemory</h2>
+<table class="annotations">
+  <tbody>
     <tr>
+      <th>Name</th>
       <td><code>sidecar.istio.io/proxyMemory</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>Specifies the requested memory setting for the Envoy sidecar.</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="SidecarProxyMemoryLimit">sidecar.istio.io/proxyMemoryLimit</h2>
+<table class="annotations">
+  <tbody>
     <tr>
+      <th>Name</th>
       <td><code>sidecar.istio.io/proxyMemoryLimit</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>Specifies the memory limit for the Envoy sidecar.</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="SidecarRewriteAppHTTPProbers">sidecar.istio.io/rewriteAppHTTPProbers</h2>
+<table class="annotations">
+  <tbody>
     <tr>
+      <th>Name</th>
       <td><code>sidecar.istio.io/rewriteAppHTTPProbers</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>Rewrite HTTP readiness and liveness probes to be redirected to the Envoy sidecar.</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="SidecarStatsHistogramBuckets">sidecar.istio.io/statsHistogramBuckets</h2>
+<table class="annotations">
+  <tbody>
     <tr>
+      <th>Name</th>
       <td><code>sidecar.istio.io/statsHistogramBuckets</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>Specifies the custom histogram buckets with a prefix matcher to separate the Istio mesh metrics from the Envoy stats, e.g. `{"istiocustom":[1,5,10,50,100,500,1000,5000,10000],"cluster.xds-grpc":[1,5,10,25,50,100,250,500,1000,2500,5000,10000]}`. Default buckets are `[0.5,1,5,10,25,50,100,250,500,1000,2500,5000,10000,30000,60000,300000,600000,1800000,3600000]`.</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="SidecarStatsInclusionPrefixes">sidecar.istio.io/statsInclusionPrefixes</h2>
+<table class="annotations">
+  <tbody>
     <tr class="deprecated">
+      <th>Name</th>
       <td><code>sidecar.istio.io/statsInclusionPrefixes</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Deprecated</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>Specifies the comma separated list of prefixes of the stats to be emitted by Envoy.</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="SidecarStatsInclusionRegexps">sidecar.istio.io/statsInclusionRegexps</h2>
+<table class="annotations">
+  <tbody>
     <tr class="deprecated">
+      <th>Name</th>
       <td><code>sidecar.istio.io/statsInclusionRegexps</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Deprecated</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>Specifies the comma separated list of regexes the stats should match to be emitted by Envoy.</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="SidecarStatsInclusionSuffixes">sidecar.istio.io/statsInclusionSuffixes</h2>
+<table class="annotations">
+  <tbody>
     <tr class="deprecated">
+      <th>Name</th>
       <td><code>sidecar.istio.io/statsInclusionSuffixes</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Deprecated</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>Specifies the comma separated list of suffixes of the stats to be emitted by Envoy.</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="SidecarStatus">sidecar.istio.io/status</h2>
+<table class="annotations">
+  <tbody>
     <tr>
+      <th>Name</th>
       <td><code>sidecar.istio.io/status</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>Generated by Envoy sidecar injection that indicates the status of the operation. Includes a version hash of the executed template, as well as names of injected resources.</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="SidecarUserVolume">sidecar.istio.io/userVolume</h2>
+<table class="annotations">
+  <tbody>
     <tr>
+      <th>Name</th>
       <td><code>sidecar.istio.io/userVolume</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>Specifies one or more user volumes (as a JSON array) to be added to the Envoy sidecar.</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="SidecarUserVolumeMount">sidecar.istio.io/userVolumeMount</h2>
+<table class="annotations">
+  <tbody>
     <tr>
+      <th>Name</th>
       <td><code>sidecar.istio.io/userVolumeMount</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>Specifies one or more user volume mounts (as a JSON array) to be added to the Envoy sidecar.</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="SidecarStatusPort">status.sidecar.istio.io/port</h2>
+<table class="annotations">
+  <tbody>
     <tr>
+      <th>Name</th>
       <td><code>status.sidecar.istio.io/port</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>Specifies the HTTP status Port for the Envoy sidecar. If zero, the sidecar will not provide status.</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="TopologyControlPlaneClusters">topology.istio.io/controlPlaneClusters</h2>
+<table class="annotations">
+  <tbody>
     <tr>
+      <th>Name</th>
       <td><code>topology.istio.io/controlPlaneClusters</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Namespace]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>A comma-separated list of clusters (or * for any) running istiod that should attempt leader election for a remote cluster thats system namespace includes this annotation. Istiod will not attempt to lead unannotated remote clusters.</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="TrafficNodeSelector">traffic.istio.io/nodeSelector</h2>
+<table class="annotations">
+  <tbody>
     <tr>
+      <th>Name</th>
       <td><code>traffic.istio.io/nodeSelector</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Stable</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Service]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>This annotation is a set of node-labels (key1=value,key2=value). If the annotated Service is of type NodePort and is a multi-network gateway (see topology.istio.io/network), the addresses for selected nodes will be used for cross-network communication.</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="SidecarTrafficExcludeInboundPorts">traffic.sidecar.istio.io/excludeInboundPorts</h2>
+<table class="annotations">
+  <tbody>
     <tr>
+      <th>Name</th>
       <td><code>traffic.sidecar.istio.io/excludeInboundPorts</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>A comma separated list of inbound ports to be excluded from redirection to Envoy. Only applies when all inbound traffic (i.e. '*') is being redirected.</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="SidecarTrafficExcludeInterfaces">traffic.sidecar.istio.io/excludeInterfaces</h2>
+<table class="annotations">
+  <tbody>
     <tr>
+      <th>Name</th>
       <td><code>traffic.sidecar.istio.io/excludeInterfaces</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>A comma separated list of interfaces to be excluded from Istio traffic capture</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="SidecarTrafficExcludeOutboundIPRanges">traffic.sidecar.istio.io/excludeOutboundIPRanges</h2>
+<table class="annotations">
+  <tbody>
     <tr>
+      <th>Name</th>
       <td><code>traffic.sidecar.istio.io/excludeOutboundIPRanges</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>A comma separated list of IP ranges in CIDR form to be excluded from redirection. Only applies when all outbound traffic (i.e. '*') is being redirected.</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="SidecarTrafficExcludeOutboundPorts">traffic.sidecar.istio.io/excludeOutboundPorts</h2>
+<table class="annotations">
+  <tbody>
     <tr>
+      <th>Name</th>
       <td><code>traffic.sidecar.istio.io/excludeOutboundPorts</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>A comma separated list of outbound ports to be excluded from redirection to Envoy.</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="SidecarTrafficIncludeInboundPorts">traffic.sidecar.istio.io/includeInboundPorts</h2>
+<table class="annotations">
+  <tbody>
     <tr>
+      <th>Name</th>
       <td><code>traffic.sidecar.istio.io/includeInboundPorts</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>A comma separated list of inbound ports for which traffic is to be redirected to Envoy. The wildcard character '*' can be used to configure redirection for all ports. An empty list will disable all inbound redirection.</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="SidecarTrafficIncludeOutboundIPRanges">traffic.sidecar.istio.io/includeOutboundIPRanges</h2>
+<table class="annotations">
+  <tbody>
     <tr>
+      <th>Name</th>
       <td><code>traffic.sidecar.istio.io/includeOutboundIPRanges</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>A comma separated list of IP ranges in CIDR form to redirect to Envoy (optional). The wildcard character '*' can be used to redirect all outbound traffic. An empty list will disable all outbound redirection.</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="SidecarTrafficIncludeOutboundPorts">traffic.sidecar.istio.io/includeOutboundPorts</h2>
+<table class="annotations">
+  <tbody>
     <tr>
+      <th>Name</th>
       <td><code>traffic.sidecar.istio.io/includeOutboundPorts</code></td>
-      <td>Alpha</td>
-      <td>[Pod]</td>
-      <td>A comma separated list of outbound ports for which traffic is to be redirected to Envoy, regardless of the destination IP.</td>
     </tr>
     <tr>
-      <td><code>traffic.sidecar.istio.io/kubevirtInterfaces</code></td>
+      <th>Feature Status</th>
       <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
+      <td>A comma separated list of outbound ports for which traffic is to be redirected to Envoy, regardless of the destination IP.</td>
+    </tr>
+  </tbody>
+</table>
+<h2 id="SidecarTrafficKubevirtInterfaces">traffic.sidecar.istio.io/kubevirtInterfaces</h2>
+<table class="annotations">
+  <tbody>
+    <tr>
+      <th>Name</th>
+      <td><code>traffic.sidecar.istio.io/kubevirtInterfaces</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
+      <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
+      <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>A comma separated list of virtual interfaces whose inbound traffic (from VM) will be treated as outbound.</td>
-    </tr></tbody>
+    </tr>
+  </tbody>
 </table>
