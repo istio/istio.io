@@ -393,7 +393,7 @@ Remove the previous definitions before proceeding to the next step:
 
 {{< text bash >}}
 $ kubectl delete serviceentry cnn
-$ kubectl delete gateway istio-egressgateway
+$ kubectl delete gw istio-egressgateway
 $ kubectl delete virtualservice direct-cnn-through-egress-gateway
 $ kubectl delete destinationrule egressgateway-for-cnn
 {{< /text >}}
@@ -645,7 +645,7 @@ You should see a line similar to the following:
 
 {{< text bash >}}
 $ kubectl delete serviceentry cnn
-$ kubectl delete gateway istio-egressgateway
+$ kubectl delete gw istio-egressgateway
 $ kubectl delete virtualservice direct-cnn-through-egress-gateway
 $ kubectl delete destinationrule egressgateway-for-cnn
 {{< /text >}}

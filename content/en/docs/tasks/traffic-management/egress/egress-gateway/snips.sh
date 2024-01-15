@@ -237,7 +237,7 @@ ENDSNIP
 
 snip_cleanup_http_gateway_1() {
 kubectl delete serviceentry cnn
-kubectl delete gateway istio-egressgateway
+kubectl delete gw istio-egressgateway
 kubectl delete virtualservice direct-cnn-through-egress-gateway
 kubectl delete destinationrule egressgateway-for-cnn
 }
@@ -427,7 +427,7 @@ ENDSNIP
 
 snip_cleanup_https_gateway_1() {
 kubectl delete serviceentry cnn
-kubectl delete gateway istio-egressgateway
+kubectl delete gw istio-egressgateway
 kubectl delete virtualservice direct-cnn-through-egress-gateway
 kubectl delete destinationrule egressgateway-for-cnn
 }
