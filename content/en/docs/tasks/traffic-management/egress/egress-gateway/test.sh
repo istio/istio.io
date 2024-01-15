@@ -42,6 +42,7 @@ _verify_contains snip_egress_gateway_for_http_traffic_2 "HTTP/2 200"
 if [ "$GATEWAY_API" == "true" ]; then
     snip_egress_gateway_for_http_traffic_4
     snip_egress_gateway_for_http_traffic_6
+    _wait_for_gateway default cnn-egress-gateway
 else
     snip_egress_gateway_for_http_traffic_3
     _wait_for_istio gateway default istio-egressgateway
@@ -76,7 +77,8 @@ _verify_contains snip_egress_gateway_for_https_traffic_2 "HTTP/2 200"
 
 # Gateway Passthrough and routes
 if [ "$GATEWAY_API" == "true" ]; then
-    snip_egress_gateway_for_https_traffic_5
+    snip_egress_gateway_for_https_traffic_4
+    _wait_for_gateway default cnn-egress-gateway
 else
     snip_egress_gateway_for_https_traffic_3
     _wait_for_istio gateway default istio-egressgateway
@@ -95,11 +97,11 @@ else
 fi
 
 # cleanup https
-if [ "$GATEWAY_API" == "true" ]; then
-    snip_cleanup_https_gateway_2
-else
-    snip_cleanup_https_gateway_1
-fi
+#if [ "$GATEWAY_API" == "true" ]; then
+#    snip_cleanup_https_gateway_2
+#else
+#    snip_cleanup_https_gateway_1
+#fi
 
 ### Kubernetes netowkring policy test
 
