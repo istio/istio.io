@@ -6,11 +6,10 @@
 {{< /tip >}}
 
 {{< warning >}}
-Note that this document uses the Gateway API to configure internal mesh (east-west) traffic,
-i.e., not just ingress (north-south) traffic.
-Configuring internal mesh traffic is an
-[experimental feature](https://gateway-api.sigs.k8s.io/geps/overview/#status)
-of the Gateway API, currently under development.
+This document configures internal mesh (east-west) traffic
+that requires Gateway API features that are either
+[experimental](https://gateway-api.sigs.k8s.io/geps/overview/#status)
+or Istio specific.
 Before using the Gateway API instructions, make sure to:
 
 1) Install the **experimental version** of the Gateway API CRDs:
