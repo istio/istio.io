@@ -40,7 +40,7 @@ _verify_contains snip_egress_gateway_for_http_traffic_2 "HTTP/2 200"
 
 # Create Gateway and Routes
 if [ "$GATEWAY_API" == "true" ]; then
-    snip_egress_gateway_for_https_traffic_4
+    snip_egress_gateway_for_http_traffic_4
     snip_egress_gateway_for_http_traffic_6
 else
     snip_egress_gateway_for_http_traffic_3
