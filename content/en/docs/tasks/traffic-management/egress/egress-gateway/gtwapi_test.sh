@@ -18,7 +18,7 @@
 source "tests/util/gateway-api.sh"
 install_gateway_api_crds
 
-# @setup profile=default
+# @setup profile=demo
 source "content/en/docs/tasks/traffic-management/egress/egress-gateway/test.sh"
 
 # @cleanup
