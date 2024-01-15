@@ -42,14 +42,14 @@ _wait_for_istio gateway default istio-egressgateway
 _wait_for_istio destinationrule default egressgateway-for-cnn
 
 # Create VS
-snip_egress_gateway_for_http_traffic_4
+snip_egress_gateway_for_http_traffic_5
 _wait_for_istio virtualservice default direct-cnn-through-egress-gateway
 
 # Verify successful curl
-_verify_contains snip_egress_gateway_for_http_traffic_5 "HTTP/2 200"
+_verify_contains snip_egress_gateway_for_http_traffic_7 "HTTP/2 200"
 
 # Verify routing through gateway
-_verify_contains snip_egress_gateway_for_http_traffic_6 "GET /politics HTTP/2"
+_verify_contains snip_egress_gateway_for_http_traffic_8 "GET /politics HTTP/2"
 
 # cleanup http task
 snip_cleanup_http_gateway_1
@@ -67,10 +67,10 @@ _wait_for_istio destinationrule default egressgateway-for-cnn
 _wait_for_istio virtualservice default direct-cnn-through-egress-gateway
 
 # Verify successful curl
-_verify_contains snip_egress_gateway_for_https_traffic_4 "HTTP/2 200"
+_verify_contains snip_egress_gateway_for_https_traffic_5 "HTTP/2 200"
 
 # Verify gateway routing
-_verify_contains snip_egress_gateway_for_https_traffic_5 "outbound|443||edition.cnn.com"
+_verify_contains snip_egress_gateway_for_https_traffic_6 "outbound|443||edition.cnn.com"
 
 # cleanup https
 snip_cleanup_https_gateway_1
@@ -88,35 +88,35 @@ _verify_contains snip_apply_kubernetes_network_policies_4 "200"
 
 # label
 snip_apply_kubernetes_network_policies_5
-snip_apply_kubernetes_network_policies_6
-
-# Apply kubernetes network policy
 snip_apply_kubernetes_network_policies_7
 
+# Apply kubernetes network policy
+snip_apply_kubernetes_network_policies_8
+
 # Verify failure
-#_verify_contains snip_apply_kubernetes_network_policies_8 "port 443 failed: Connection timed out"
+#_verify_contains snip_apply_kubernetes_network_policies_10 "port 443 failed: Connection timed out"
 # TODO: ^^^ this check fails as the test cluster doesn't have a network plugin
 # installed which can enforce network policies.
 
 # Enable sidecar injection
-snip_apply_kubernetes_network_policies_9
+snip_apply_kubernetes_network_policies_11
 
 # Delete older sleep and reapply
-snip_apply_kubernetes_network_policies_10
+snip_apply_kubernetes_network_policies_12
 _wait_for_deployment test-egress sleep
 
 # verify containers
-_verify_contains snip_apply_kubernetes_network_policies_11 "sleep istio-proxy"
+_verify_contains snip_apply_kubernetes_network_policies_13 "sleep istio-proxy"
 
 # configure DR
-snip_apply_kubernetes_network_policies_12
+snip_apply_kubernetes_network_policies_14
 _wait_for_istio destinationrule test-egress egressgateway-for-cnn
 
 # Verify 200 response
-_verify_contains snip_apply_kubernetes_network_policies_13 "200"
+_verify_contains snip_apply_kubernetes_network_policies_16 "200"
 
 # Verify routing through gateway
-_verify_contains snip_apply_kubernetes_network_policies_14 "outbound|443||edition.cnn.com"
+_verify_contains snip_apply_kubernetes_network_policies_17 "outbound|443||edition.cnn.com"
 
 # @cleanup
 snip_cleanup_http_gateway_1

@@ -83,7 +83,7 @@ controlled way.
 
 {{< tip >}}
 Egress gateways are [deployed automatically](/docs/tasks/traffic-management/ingress/gateway-api/#deployment-methods)
-when uisng Gateway API to configure them. You can skip this section if you are using the `Gateway API` instructions
+when using Gateway API to configure them. You can skip this section if you are using the `Gateway API` instructions
 in the following sections.
 {{< /tip >}}
 
