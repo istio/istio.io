@@ -43,6 +43,7 @@ if [ "$GATEWAY_API" == "true" ]; then
     snip_egress_gateway_for_http_traffic_4
     snip_egress_gateway_for_http_traffic_6
     _wait_for_gateway default cnn-egress-gateway
+    sleep 10 # TODO: remove this delay once we can reliably detect route rules have propogated
 else
     snip_egress_gateway_for_http_traffic_3
     _wait_for_istio gateway default istio-egressgateway
@@ -79,6 +80,7 @@ _verify_contains snip_egress_gateway_for_https_traffic_2 "HTTP/2 200"
 if [ "$GATEWAY_API" == "true" ]; then
     snip_egress_gateway_for_https_traffic_4
     _wait_for_gateway default cnn-egress-gateway
+    sleep 10 # TODO: remove this delay once we can reliably detect route rules have propogated
 else
     snip_egress_gateway_for_https_traffic_3
     _wait_for_istio gateway default istio-egressgateway
