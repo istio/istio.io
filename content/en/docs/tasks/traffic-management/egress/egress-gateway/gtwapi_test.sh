@@ -26,3 +26,4 @@ snip_cleanup_http_gateway_2
 snip_cleanup_https_gateway_2
 snip_cleanup_network_policies_2
 snip_cleanup_1
+remove_gateway_api_crds
