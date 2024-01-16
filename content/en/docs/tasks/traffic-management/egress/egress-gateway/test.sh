@@ -93,7 +93,7 @@ _verify_contains snip_egress_gateway_for_https_traffic_5 "HTTP/2 200"
 
 # Verify gateway routing
 if [ "$GATEWAY_API" == "true" ]; then
-    _verify_contains snip_egress_gateway_for_https_traffic_7 "outbound|443||edition.cnn.com"
+    _verify_contains snip_egress_gateway_for_https_traffic_8 "outbound|443||edition.cnn.com"
 else
     _verify_contains snip_egress_gateway_for_https_traffic_6 "outbound|443||edition.cnn.com"
 fi
