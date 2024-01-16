@@ -43,6 +43,7 @@ if [ "$GATEWAY_API" == "true" ]; then
     snip_egress_gateway_for_http_traffic_4
     snip_egress_gateway_for_http_traffic_6
     _wait_for_gateway default cnn-egress-gateway
+    sleep 30 # TODO: remove this delay once we can reliably detect route rules have propogated
 else
     snip_egress_gateway_for_http_traffic_3
     _wait_for_istio gateway default istio-egressgateway
@@ -57,12 +58,7 @@ _verify_contains snip_egress_gateway_for_http_traffic_7 "HTTP/2 200"
 
 # Verify routing through gateway
 if [ "$GATEWAY_API" == "true" ]; then
-    {
-        _verify_contains snip_egress_gateway_for_http_traffic_10 "outbound|80||edition.cnn.com"
-    } || { # retry the request once if failed?
-        _verify_contains snip_egress_gateway_for_http_traffic_7 "HTTP/2 200"
-        _verify_contains snip_egress_gateway_for_http_traffic_10 "outbound|80||edition.cnn.com"
-    }
+    _verify_contains snip_egress_gateway_for_http_traffic_10 "outbound|80||edition.cnn.com"
 else
     _verify_contains snip_egress_gateway_for_http_traffic_8 "outbound|80||edition.cnn.com"
 fi
@@ -84,6 +80,7 @@ _verify_contains snip_egress_gateway_for_https_traffic_2 "HTTP/2 200"
 if [ "$GATEWAY_API" == "true" ]; then
     snip_egress_gateway_for_https_traffic_4
     _wait_for_gateway default cnn-egress-gateway
+    sleep 30 # TODO: remove this delay once we can reliably detect route rules have propogated
 else
     snip_egress_gateway_for_https_traffic_3
     _wait_for_istio gateway default istio-egressgateway
@@ -96,12 +93,7 @@ _verify_contains snip_egress_gateway_for_https_traffic_5 "HTTP/2 200"
 
 # Verify gateway routing
 if [ "$GATEWAY_API" == "true" ]; then
-    {
-        _verify_contains snip_egress_gateway_for_https_traffic_8 "outbound|443||edition.cnn.com"
-    } || { # retry the request once if failed?
-        _verify_contains snip_egress_gateway_for_https_traffic_5 "HTTP/2 200"
-        _verify_contains snip_egress_gateway_for_https_traffic_8 "outbound|443||edition.cnn.com"
-    }
+    _verify_contains snip_egress_gateway_for_https_traffic_8 "outbound|443||edition.cnn.com"
 else
     _verify_contains snip_egress_gateway_for_https_traffic_6 "outbound|443||edition.cnn.com"
 fi
