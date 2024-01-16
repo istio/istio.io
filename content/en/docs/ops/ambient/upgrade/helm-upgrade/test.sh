@@ -18,32 +18,25 @@ set -u
 
 set -o pipefail
 
+source "content/en/docs/ops/ambient/upgrade/helm-upgrade/common.sh"
+
 # @setup profile=none
+_install_istio_ambient_helm
 
-snip_configure_helm
-_rewrite_helm_repo snip_install_base
+snip_update_helm
+snip_istioctl_precheck
+snip_manual_crd_upgrade
 
-_rewrite_helm_repo snip_install_discovery
+_rewrite_helm_repo snip_upgrade_base
+_rewrite_helm_repo snip_upgrade_istiod
 _wait_for_deployment istio-system istiod
-
-_rewrite_helm_repo snip_install_cni
-_wait_for_daemonset istio-system istio-cni-node
-
-_rewrite_helm_repo snip_install_ztunnel
+_rewrite_helm_repo snip_upgrade_ztunnel
 _wait_for_daemonset istio-system ztunnel
-
-_rewrite_helm_repo snip_install_ingress
+_rewrite_helm_repo snip_upgrade_cni
+_wait_for_daemonset istio-system istio-cni-node
+_rewrite_helm_repo snip_upgrade_gateway
 _wait_for_deployment istio-ingress istio-ingress
 
-# shellcheck disable=SC2154
-_verify_contains snip_check_pods "istiod"
-_verify_contains snip_check_pods "istio-cni-node"
-_verify_contains snip_check_pods "ztunnel"
 
 # @cleanup
-snip_delete_cni
-snip_delete_ztunnel
-snip_delete_discovery
-snip_delete_base
-snip_delete_system_namespace
-snip_delete_ingress
+_remove_istio_ambient_helm

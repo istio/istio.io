@@ -41,6 +41,10 @@ snip_install_ztunnel() {
 helm install ztunnel istio/ztunnel -n istio-system
 }
 
+snip_install_ingress() {
+helm install istio-ingress istio/gateway -n istio-ingress --wait --create-namespace
+}
+
 snip_configuration_1() {
 helm show values istio/istiod
 }
@@ -63,7 +67,7 @@ istio-base istio-system 1        ... ... ... ... deployed base-1.0.0   1.0.0
 istiod     istio-system 1        ... ... ... ... deployed istiod-1.0.0 1.0.0
 ENDSNIP
 
-snip_uninstall_2() {
+snip_delete_ingress() {
 helm delete istio-ingress -n istio-ingress
 kubectl delete namespace istio-ingress
 }
@@ -84,7 +88,7 @@ snip_delete_base() {
 helm delete istio-base -n istio-system
 }
 
-snip_uninstall_7() {
+snip_delete_crds() {
 kubectl get crd -oname | grep --color=never 'istio.io' | xargs kubectl delete
 }
 
