@@ -58,7 +58,7 @@ Istio 允许运维人员在每个工作负载实例上选择生成和收集哪�
 
 [Envoy 文档](https://www.envoyproxy.io/docs/envoy/latest/)包括了
 [Envoy 统计信息收集](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/observability/statistics.html?highlight=statistics)的详细说明。
-[Envoy 统计](/zh/docs/ops/diagnostic-tools/proxy-cmd/)里的操作手册提供了有关控制代理级别指标生成的更多信息。
+[Envoy 统计](/zh/docs/ops/configuration/telemetry/envoy-stats/)里的操作手册提供了有关控制代理级别指标生成的更多信息。
 
 代理级别指标的例子：
 

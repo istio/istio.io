@@ -171,7 +171,7 @@ CNI 组件可以使用一个 `IstioOperator` 资源与控制平面一起升级�
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
-  profile: empty # Do not include other components
+  profile: empty # 不包含其他组件
   components:
     cni:
       enabled: true
@@ -183,7 +183,7 @@ spec:
 {{< /text >}}
 
 在启用 CNI 组件的情况下安装修订的控制平面时，需要设置 `values.istio_cni.enabled`，
-这样 Sidecar 注入程序就不会注入 `istio-init` 初始化容器。
+这样 Sidecar 注入程序就不会注入 `istio-init` 这个 Init 容器。
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha1
@@ -207,9 +207,19 @@ Istio CNI DaemonSet 在每个节点上安装 CNI 网络插件。
 应用 Pod 有可能在这个时间间隔内启动，而 `kubelet` 不了解 Istio CNI 插件。
 结果应用 Pod 在没有 Istio 流量重定向的情况下启动并绕过了 Istio Sidecar。
 
-为了缓解应用 Pod 和 Istio CNI DaemonSet 之间的竞争，添加了一个 `istio-validation` 初始化容器作为 Sidecar 注入的一部分。
+为了缓解应用 Pod 和 Istio CNI DaemonSet 之间的竞争，添加了 `istio-validation` Init 容器作为 Sidecar 注入的一部分。
 该容器会检测流量重定向是否设置正确，如果不正确则阻止 Pod 启动。CNI DaemonSet 将检测并驱逐任何卡在这种状态下的 Pod。
 当新的 Pod 启动时，它应该正确设置流量重定向。此缓解措施默认被启用，可以通过将 `values.cni.repair.enabled` 设置为 false 来关闭。
+
+这种修复能力可以进一步配置不同的 RBAC 权限，以帮助缓解
+[`ISTIO-SECURITY-2023-005`](/zh/news/security/istio-security-2023-005/)
+中详述的理论攻击向量。根据实际需要将以下字段设置为 true/false，您可以选择向 Istio CNI 授予 Kubernetes RBAC 权限。
+
+| 配置 | 作用 | 出错时的行为 | 备注
+| --- | ---- | ------ | ---
+|`values.cni.repair.deletePods` | 删除 Pod | 删除 Pod，当 Pod 被重新调度时具有正确的配置。 | 1.20 及更早版本中的默认设置
+|`values.cni.repair.labelPods` | 更新 Pod | 仅对 Pod 进行打标签。用户将需要采取手动操作来修复。 |
+|`values.cni.repair.repairPods` | 无 | 动态重新配置 Pod 以具有适当的配置。当容器重新启动时，Pod 将继续正常执行。 | 1.21 及更高版本中的默认设置
 
 ### 流量重定向参数 {#traffic-redirection-parameters}
 
@@ -217,32 +227,32 @@ Istio CNI DaemonSet 在每个节点上安装 CNI 网络插件。
 您可以使用与正常情况相同的 Pod 注解来调整流量重定向参数，例如要包含或排除在重定向之外的端口和 IP 范围。
 有关可用参数，请参阅[资源注解](/zh/docs/reference/config/annotations)。
 
-### 和应用的初始化容器的兼容性 {#compatibility-with-application-init-containers}
+### 与应用的 Init 容器的兼容性 {#compatibility-with-application-init-containers}
 
 Istio CNI 插件可能会导致与任何应用 `initContainers` 的网络连通性问题。
 使用 Istio CNI 时，`kubelet` 会通过以下步骤启动一个注入的 Pod：
 
 1. Istio CNI 插件在 Pod 内设置流量重定向到 Istio Sidecar。
-1. 等待所有的初始化容器成功执行完毕。
+1. 等待所有的 Init 容器成功执行完毕。
 1. Istio Sidecar 跟随 Pod 的其它容器一起启动。
 
-初始化容器在 Sidecar 启动之前执行，这会导致在它们执行期间会有流量丢失。
+Init 容器在 Sidecar 启动之前执行，这会导致在它们执行期间会有流量丢失。
 可以用以下的一种或所有设置来防止流量丢失：
 
-1. 使用 `runAsUser` 讲过初始化容器的 `uid` 设置为 `1337`。
-  `1337` 是 [Sidecar 代理使用的 `uid`](/zh/docs/ops/deployment/requirements/#pod-requirements)。
+1. 使用 `runAsUser` 将 Init 容器的 `uid` 设置为 `1337`。
+   `1337` 是 [Sidecar 代理使用的 `uid`](/zh/docs/ops/deployment/requirements/#pod-requirements)。
    这个 `uid` 发送的流量并非通过 Istio 的 `iptables` 规则进行捕获。
    应用容器流量仍将像往常一样被捕获。
-1. 设置 `traffic.sidecar.istio.io/excludeOutboundIPRanges` 注解来禁止重定向流量到任何与初始化容器有通信的 CIDR。
-1. 设置 `traffic.sidecar.istio.io/excludeOutboundPorts` 注解来禁止重定向流量到初始化容器所用到的出站端口。
+1. 设置 `traffic.sidecar.istio.io/excludeOutboundIPRanges` 注解来禁止重定向流量到任何与 Init 容器有通信的 CIDR。
+1. 设置 `traffic.sidecar.istio.io/excludeOutboundPorts` 注解来禁止重定向流量到 Init 容器所用到的出站端口。
 
 {{< tip >}}
 如果启用了 [DNS 代理](/zh/docs/ops/configuration/traffic-management/dns-proxy/)，
-您必须使用 `runAsUser 1337` 解决方法，并且初始化容器将流量发送到需要 DNS 解析的主机名。
+您必须使用 `runAsUser 1337` 解决方法，并且 Init 容器将流量发送到需要 DNS 解析的主机名。
 {{< /tip >}}
 
 {{< warning >}}
-请谨慎使用流量捕获排除法，因为 IP/端口排除注解不仅适用于初始化容器流量，还适用于应用容器流量。
+请谨慎使用流量捕获排除法，因为 IP/端口排除注解不仅适用于 Init 容器流量，还适用于应用容器流量。
 即发送到配置的 IP/端口的应用流量将绕过 Istio Sidecar。
 {{< /warning >}}
 

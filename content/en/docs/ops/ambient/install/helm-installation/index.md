@@ -45,8 +45,7 @@ The **CNI** chart installs the Istio CNI Plugin. It is responsible for detecting
 and configuring the traffic redirection between the ztunnel DaemonSet, which will be installed later.
 
 {{< text syntax=bash snip_id=install_cni >}}
-$ helm install istio-cni istio/cni -n istio-system \
-  -f @manifests/charts/istio-cni/ambient-values.yaml@
+$ helm install istio-cni istio/cni -n istio-system --set profile=ambient
 {{< /text >}}
 
 ### Installing the discovery Component
@@ -55,8 +54,7 @@ The `istiod` chart installs a revision of Istiod. Istiod is the control plane co
 configures the proxies to route traffic within the mesh.
 
 {{< text syntax=bash snip_id=install_discovery >}}
-$ helm install istiod istio/istiod --namespace istio-system \
-  -f @manifests/charts/istio-control/istio-discovery/ambient-values.yaml@
+$ helm install istiod istio/istiod --namespace istio-system --set profile=ambient
 {{< /text >}}
 
 ### Installing the ztunnel component
