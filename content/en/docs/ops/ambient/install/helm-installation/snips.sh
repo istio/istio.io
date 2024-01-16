@@ -30,13 +30,11 @@ helm install istio-base istio/base -n istio-system --create-namespace
 }
 
 snip_install_cni() {
-helm install istio-cni istio/cni -n istio-system \
-  -f manifests/charts/istio-cni/ambient-values.yaml
+helm install istio-cni istio/cni -n istio-system --set profile=ambient
 }
 
 snip_install_discovery() {
-helm install istiod istio/istiod --namespace istio-system \
-  -f manifests/charts/istio-control/istio-discovery/ambient-values.yaml
+helm install istiod istio/istiod --namespace istio-system --set profile=ambient
 }
 
 snip_install_ztunnel() {
