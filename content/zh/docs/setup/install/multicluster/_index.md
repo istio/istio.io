@@ -14,20 +14,20 @@ content_above: true
 test: table-of-contents
 owner: istio/wg-environments-maintainers
 ---
-按照本指南安装跨多个集群（{{< gloss "cluster" >}}clusters{{< /gloss >}}） 的
-Istio 服务网格（{{< gloss >}}service mesh{{< /gloss >}}）。
+按照本指南安装跨多个{{< gloss "cluster" >}}集群{{< /gloss >}}的
+Istio {{< gloss "service mesh" >}}服务网格{{< /gloss >}}。
 
-本指南的内容涵盖了创建多集群（{{< gloss >}}multicluster{{< /gloss >}}） 网格时最常见的一些问题。
+本指南的内容涵盖了创建{{< gloss "multicluster" >}}多集群{{< /gloss >}}网格时最常见的一些问题。
 
-- [网络拓扑](/zh/docs/ops/deployment/deployment-models#network-models):
+- [网络拓扑](/zh/docs/ops/deployment/deployment-models#network-models)：
   一或二个网络
 
-- [控制平面拓扑](/zh/docs/ops/deployment/deployment-models#control-plane-models):
-  多主集群（ {{< gloss "primary cluster" >}}primary clusters{{< /gloss >}}）,
-  主从集群（{{< gloss >}}remote cluster{{< /gloss >}}）
+- [控制平面拓扑](/zh/docs/ops/deployment/deployment-models#control-plane-models)：
+  多{{< gloss "primary cluster" >}}主集群{{< /gloss >}}、
+  主{{< gloss "remote cluster" >}}从集群{{< /gloss >}}
 
 {{< tip >}}
 对于跨两个以上集群的网格，您可以扩展本指南的步骤，以配置更复杂的拓扑结构。
 
-更多信息，参见[部署模型](/zh/docs/ops/deployment/deployment-models)
+更多信息，参见[部署模型](/zh/docs/ops/deployment/deployment-models)。
 {{< /tip >}}
