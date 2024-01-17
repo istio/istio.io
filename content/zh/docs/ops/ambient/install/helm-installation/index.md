@@ -44,8 +44,7 @@ $ helm install istio-base istio/base -n istio-system --create-namespace
 并对稍后将安装的 ztunnel DaemonSet 之间的流量重定向进行配置。
 
 {{< text syntax=bash snip_id=install_cni >}}
-$ helm install istio-cni istio/cni -n istio-system \
-  -f @manifests/charts/istio-cni/ambient-values.yaml@
+$ helm install istio-cni istio/cni -n istio-system --set profile=ambient
 {{< /text >}}
 
 ### 安装 discovery 组件 {#installing-the-discovery-component}
@@ -53,8 +52,7 @@ $ helm install istio-cni istio/cni -n istio-system \
 `istiod` Chart 会安装 Istiod 的修订版。Istiod 是控制平面组件，用于管理和配置代理，以在网格内进行流量路由。
 
 {{< text syntax=bash snip_id=install_discovery >}}
-$ helm install istiod istio/istiod --namespace istio-system \
-  -f @manifests/charts/istio-control/istio-discovery/ambient-values.yaml@
+$ helm install istiod istio/istiod --namespace istio-system --set profile=ambient
 {{< /text >}}
 
 ### 安装 ztunnel 组件 {#installing-the-ztunnel-component}
