@@ -6382,12 +6382,6 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>The cert signer domain info</td>
 </tr>
 <tr>
-<td><code>CLOUD_PLATFORM</code></td>
-<td>String</td>
-<td><code></code></td>
-<td>Cloud Platform on which proxy is running, if not specified, Istio will try to discover the platform. Valid platform values are aws, azure, gcp, none</td>
-</tr>
-<tr>
 <td><code>CLUSTER_ID</code></td>
 <td>String</td>
 <td><code>Kubernetes</code></td>
@@ -6508,18 +6502,6 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>If this is set to true, one Istiod will control remote clusters including CA.</td>
 </tr>
 <tr>
-<td><code>GCP_METADATA</code></td>
-<td>String</td>
-<td><code></code></td>
-<td>Pipe separated GCP metadata, schemed as PROJECT_ID|PROJECT_NUMBER|CLUSTER_NAME|CLUSTER_ZONE</td>
-</tr>
-<tr>
-<td><code>GCP_QUOTA_PROJECT</code></td>
-<td>String</td>
-<td><code></code></td>
-<td>Allows specification of a quota project to be used in requests to GCP APIs.</td>
-</tr>
-<tr>
 <td><code>GRPC_KEEPALIVE_INTERVAL</code></td>
 <td>Time Duration</td>
 <td><code>30s</code></td>
@@ -6530,12 +6512,6 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Time Duration</td>
 <td><code>10s</code></td>
 <td>gRPC Keepalive Timeout</td>
-</tr>
-<tr>
-<td><code>HTTP_STRIP_FRAGMENT_FROM_PATH_UNSAFE_IF_DISABLED</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td></td>
 </tr>
 <tr>
 <td><code>INBOUND_INTERCEPTION_MODE</code></td>
@@ -6620,12 +6596,6 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, Istio agent will intercept ECDS resource update, downloads Wasm module, and replaces Wasm module remote load with downloaded local module file.</td>
-</tr>
-<tr>
-<td><code>ISTIO_BOOTSTRAP</code></td>
-<td>String</td>
-<td><code></code></td>
-<td></td>
 </tr>
 <tr>
 <td><code>ISTIO_DELTA_XDS</code></td>
@@ -7396,11 +7366,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <tr><td><code>sidecar_injection_time_seconds</code></td><td><code>Distribution</code></td><td>Total time taken for injection in seconds.</td></tr>
 <tr><td><code>startup_duration_seconds</code></td><td><code>LastValue</code></td><td>The time from the process starting to being marked ready.</td></tr>
 <tr><td><code>version</code></td><td><code>LastValue</code></td><td>Version of operator binary</td></tr>
-<tr><td><code>wasm_cache_entries</code></td><td><code>LastValue</code></td><td>number of Wasm remote fetch cache entries.</td></tr>
-<tr><td><code>wasm_cache_lookup_count</code></td><td><code>Sum</code></td><td>number of Wasm remote fetch cache lookups.</td></tr>
-<tr><td><code>wasm_config_conversion_count</code></td><td><code>Sum</code></td><td>number of Wasm config conversion count and results, including success, no remote load, marshal failure, remote fetch failure, miss remote fetch hint.</td></tr>
-<tr><td><code>wasm_config_conversion_duration</code></td><td><code>Distribution</code></td><td>Total time in milliseconds istio-agent spends on converting remote load in Wasm config.</td></tr>
-<tr><td><code>wasm_remote_fetch_count</code></td><td><code>Sum</code></td><td>number of Wasm remote fetches and results, including success, download failure, and checksum mismatch.</td></tr>
 <tr><td><code>webhook_patch_attempts_total</code></td><td><code>Sum</code></td><td>Webhook patching attempts</td></tr>
 <tr><td><code>webhook_patch_failures_total</code></td><td><code>Sum</code></td><td>Webhook patching total failures</td></tr>
 <tr><td><code>webhook_patch_retries_total</code></td><td><code>Sum</code></td><td>Webhook patching retries</td></tr>

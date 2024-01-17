@@ -3373,6 +3373,19 @@ The duration needs to be set to a value greater than or equal to 1 millisecond.<
 No
 </td>
 </tr>
+<tr id="PrivateKeyProvider-CryptoMb-fallback">
+<td><code>fallback</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></code></td>
+<td>
+<p>If the private key provider isn’t available (eg. the required hardware capability doesn’t existed)
+Envoy will fallback to the BoringSSL default implementation when the fallback is true.
+The default value is false.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -3398,6 +3411,19 @@ No
 Having a small value leads to quicker answers from the hardware but causes more polling loop spins,
 leading to potentially larger CPU usage.
 The duration needs to be set to a value greater than or equal to 1 millisecond.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="PrivateKeyProvider-QAT-fallback">
+<td><code>fallback</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></code></td>
+<td>
+<p>If the private key provider isn’t available (eg. the required hardware capability doesn’t existed)
+Envoy will fallback to the BoringSSL default implementation when the fallback is true.
+The default value is false.</p>
 
 </td>
 <td>
