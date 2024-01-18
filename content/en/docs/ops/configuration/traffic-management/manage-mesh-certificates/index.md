@@ -25,9 +25,6 @@ the [Plugin CA Certificates](/docs/tasks/security/cert-management/plugin-ca-cert
 When Istio is installed without a root CA certificate, istiod will generate a self-signed
 CA certificate using RSA 2048.
 
-Istiod will also create a certificate for the istiod service derived from the root CA,
-regardless of whether it was created by istiod itself or plugged in.
-
 To make this change, you will need to modify either the IOP file provided to
 istioctl or the values file used during the Helm installation of the istio-discovery chart.
 
