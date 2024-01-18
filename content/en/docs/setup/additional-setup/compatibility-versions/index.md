@@ -19,7 +19,7 @@ For instance, you can install Istio {{< istio_version >}}, but configure it to b
 
 ## Using compatibility versions
 
-To use a compatibility version, simple set the `compatibilityVersion` field.
+To use a compatibility version, simply set the `compatibilityVersion` field.
 
 {{< tabset category-name="install" >}}
 {{< tab name="IstioOperator" category-value="iop" >}}
