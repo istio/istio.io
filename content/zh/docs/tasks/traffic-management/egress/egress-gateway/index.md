@@ -67,7 +67,8 @@ Egress Gateway 节点，用它引导所有的出站流量，可以使应用节�
     并且客户端请求将失败。
     {{< /warning >}}
 
-*   如果尚未启用，则[启用 Envoy 的访问日志](/zh/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)。例如，使用 `istioctl`：
+*   如果尚未启用，则[启用 Envoy 的访问日志](/zh/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)。
+    例如，使用 `istioctl`：
 
     {{< text bask >}}
     $ istioctl install <flags-you-used-to-install-Istio> --set meshConfig.accessLogFile=/dev/stdout
@@ -670,7 +671,7 @@ Istio 只是通过 Sidecar 代理实现了这种流向。攻击者只要绕过 S
 出于安全考虑，集群管理员和云供应商必须确保网格所有的出站流量都要经过 Egress Gateway。
 这需要通过 Istio 之外的机制来满足这一要求。例如，集群管理员可以配置防火墙，
 拒绝 Egress Gateway 以外的所有流量。
-[Kubernetes 网络策略](https://kubernetes.io/zh-cn/docs/concepts/services-networking/network-policies/) 也能禁止所有不是从
+[Kubernetes 网络策略](https://kubernetes.io/zh-cn/docs/concepts/services-networking/network-policies/)也能禁止所有不是从
 Egress Gateway 发起的出站流量（[下一节](#apply-Kubernetes-network-policies)有一个这样的例子）。
 此外，集群管理员和云供应商还可以对网络进行限制，让运行应用的节点只能通过 gateway 来访问外部网络。
 要实现这一限制，可以只给 gateway Pod 分配公网 IP，并且可以配置 NAT 设备，
@@ -678,7 +679,7 @@ Egress Gateway 发起的出站流量（[下一节](#apply-Kubernetes-network-pol
 
 ## 应用 Kubernetes 网络策略 {#apply-Kubernetes-network-policies}
 
-本节中展示了如何创建 [Kubernetes 网络策略](https://kubernetes.io/zh-cn/docs/concepts/services-networking/network-policies/) 来阻止绕过
+本节中展示了如何创建 [Kubernetes 网络策略](https://kubernetes.io/zh-cn/docs/concepts/services-networking/network-policies/)来阻止绕过
 Egress Gateway 的出站流量。为了测试网络策略，首先创建一个 `test-egress` 命名空间，
 并在其中部署 [sleep]({{< github_tree >}}/samples/sleep) 示例应用，
 然后尝试发送一个会通过安全网关的外部服务请求。
@@ -750,7 +751,7 @@ $ kubectl label namespace default gateway=true
     {{< /text >}}
 
 8) 创建一个 `NetworkPolicy`，来限制 `test-egress` 命名空间的出站流量，
-   只允许目标为控制平面、网关和 `kube-system` DNS 服务（端口 53）的所有请求。
+    只允许目标为控制平面、网关和 `kube-system` DNS 服务（端口 53）的所有请求。
 
     {{< warning >}}
     [网络政策](https://kubernetes.io/zh-cn/docs/concepts/services-networking/network-policies/)由
