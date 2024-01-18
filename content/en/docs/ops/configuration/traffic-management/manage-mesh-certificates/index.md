@@ -17,11 +17,8 @@ a daunting task for most users.
 
 This document is only intended to be used for in-mesh communication. For managing certificates at
 your Gateway, see the [Secure Gateways](/docs/tasks/traffic-management/ingress/secure-ingress/) document.
-For managing the CA, certificated istiod is used to generate workload certificates. For details, see
+For managing the CA used by istiod to generate workload certificates, see
 the [Plugin CA Certificates](/docs/tasks/security/cert-management/plugin-ca-cert/) document.
-
-It is recommended to use a more reliable tool, such as [cert-manager](/docs/ops/integrations/certmanager/)
-or a managed offering provided by a cloud vendor, to effectively manage and issue certificates.
 
 ## istiod
 
