@@ -49,7 +49,6 @@ spec:
     pilot:
       env:
         CITADEL_SELF_SIGNED_CA_RSA_KEY_SIZE: 4096
-        <key>: <value>
 {{< /text >}}
 
 {{< /tab >}}
@@ -60,7 +59,6 @@ spec:
 pilot:
   env:
     CITADEL_SELF_SIGNED_CA_RSA_KEY_SIZE: 4096
-    <key>: <value>
 {{< /text >}}
 
 {{< /tab >}}
