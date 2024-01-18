@@ -89,7 +89,7 @@ $ kubectl get pod "$LIVENESS_POD" -n istio-io-health-rewrite -o json | jq '.spec
 }
 {{< /text >}}
 
-The original `livenessProve` path is now mapped against the new path in the sidecar container environment variable `ISTIO_KUBE_APP_PROBERS`:
+The original `livenessProbe` path is now mapped against the new path in the sidecar container environment variable `ISTIO_KUBE_APP_PROBERS`:
 
 {{< text bash json >}}
 $ kubectl get pod "$LIVENESS_POD" -n istio-io-health-rewrite -o=jsonpath="{.spec.containers[1].env[?(@.name=='ISTIO_KUBE_APP_PROBERS')]}"
