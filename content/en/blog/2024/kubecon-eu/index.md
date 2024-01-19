@@ -10,7 +10,7 @@ There will be lots of Istio-related activity at KubeCon + CloudNativeCon Europe 
 
 {{< image width="75%"
     link="./KubeConParis.png"
-    alt="KubeCon + CloudNativeCon Europe, March 19-22, 2024, Paris, France. #kubecon"
+    alt="KubeCon + CloudNativeCon Europe, March 19-22, 2024, Paris, France. #KubeCon"
     >}}
 
 - Come to the [Istio Day](https://events.linuxfoundation.org/kubecon-cloudnativecon-europe/co-located-events/istio-day/) co-located event
@@ -28,7 +28,7 @@ https://colocatedeventseu2024.sched.com/event/1YFj0/platform-building-blocks-how
 
 - Attend the Maintainers' Track session (details coming soon)
 
-- Get involved with Istio at the ContribFest (details coming soon)
+- Get involved with Istio at the Contribfest (details coming soon)
 
 - Come and have a chat at the Istio kiosk in the Project Pavilion throughout the event
 
