@@ -40,7 +40,7 @@ $ helm install ... --set compatibilityVersion={{< istio_previous_version >}}
 {{< /tab >}}
 {{< /tabset >}}
 
-## 什么时候应该使用兼容性版本？ {#when-should-i-use-compatibility-versions}
+## 什么时候应该使用兼容版本？ {#when-should-i-use-compatibility-versions}
 
 建议仅在发现不兼容时才使用兼容版本，而不是默认使用。
 每个兼容版本只会持续两三个发布版本，因此最终您将需要迁移到新的行为。
