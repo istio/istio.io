@@ -2469,6 +2469,11 @@ calculated over a time interval of 1 minute.
 <td>Kubernetes configuration context  (default ``)</td>
 </tr>
 <tr>
+<td><code>--from-version &lt;string&gt;</code></td>
+<td><code>-f</code></td>
+<td>check changes since the provided version  (default ``)</td>
+</tr>
+<tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
 <td><code>-i</code></td>
 <td>Istio system namespace  (default `istio-system`)</td>
@@ -2516,6 +2521,9 @@ calculated over a time interval of 1 minute.
 
   # Check only a single namespace
   istioctl x precheck --namespace default
+
+  # Check for behavioral changes since a specific version
+  istioctl x precheck --from-version 1.10
 </code></pre>
 <h2 id="istioctl-experimental-proxy-status">istioctl experimental proxy-status</h2>
 <p>
