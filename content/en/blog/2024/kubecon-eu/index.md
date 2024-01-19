@@ -1,9 +1,9 @@
 ---
 title: "Istio in Paris! See you at KubeCon Europe 2024"
 description: Amazing lineup of Istio activities at KubeCon + CloudNativeCon.
-publishdate: 2023-01-27
+publishdate: 2024-01-19
 attribution: "Istio Steering Committee"
-keywords: [Istio Day,IstioCon,Istio,conference,KubeCon,CloudNativeCon]
+keywords: [Istio Day,Istio,conference,KubeCon,CloudNativeCon]
 ---
 
 There will be lots of Istio-related activity at KubeCon + CloudNativeCon Europe in Paris! We'll keep this page updated with more details as they are published.
