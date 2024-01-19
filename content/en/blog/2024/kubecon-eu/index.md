@@ -13,7 +13,7 @@ There will be lots of Istio-related activity at KubeCon + CloudNativeCon Europe 
     alt="KubeCon + CloudNativeCon Europe, March 19-22, 2024, Paris, France. #kubecon"
     >}}
 
-- Come to the [IstioDay](https://events.linuxfoundation.org/kubecon-cloudnativecon-europe/co-located-events/istio-day/) co-located event
+- Come to the [Istio Day](https://events.linuxfoundation.org/kubecon-cloudnativecon-europe/co-located-events/istio-day/) co-located event
 
 - Attend the co-located ObservabilityDay session related to Istio: [A Practical Guide on How to Monitor and Compare Service Mesh Infrastructure Costs - Lin Sun, Solo.io](https://colocatedeventseu2024.sched.com/event/1YFf2/cl-lightning-talk-a-practical-guide-on-how-to-monitor-and-compare-service-mesh-infrastructure-costs-lin-sun-soloio?iframe=no)
 
