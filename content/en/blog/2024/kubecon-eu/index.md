@@ -15,7 +15,7 @@ There will be lots of Istio-related activity at KubeCon + CloudNativeCon Europe 
 
 - Come to the [Istio Day](https://events.linuxfoundation.org/kubecon-cloudnativecon-europe/co-located-events/istio-day/) co-located event
 
-- Attend the co-located ObservabilityDay session related to Istio: [A Practical Guide on How to Monitor and Compare Service Mesh Infrastructure Costs - Lin Sun, Solo.io](https://colocatedeventseu2024.sched.com/event/1YFf2/cl-lightning-talk-a-practical-guide-on-how-to-monitor-and-compare-service-mesh-infrastructure-costs-lin-sun-soloio?iframe=no)
+- Attend the co-located Observability Day session related to Istio: [A Practical Guide on How to Monitor and Compare Service Mesh Infrastructure Costs - Lin Sun, Solo.io](https://colocatedeventseu2024.sched.com/event/1YFf2/cl-lightning-talk-a-practical-guide-on-how-to-monitor-and-compare-service-mesh-infrastructure-costs-lin-sun-soloio?iframe=no)
 
 - Attend the co-located Multi-TenancyCon session related to Istio: Lightning Talk: [Establishing Trust Between Microservices in a Multi Tenant Cloud - Abhay Baiju & Shambhavi Sarin, Swiggy](https://colocatedeventseu2024.sched.com/event/1YFgl/cl-lightning-talk-establishing-trust-between-microservices-in-a-multi-tenant-cloud-abhay-baiju-shambhavi-sarin-swiggy?iframe=no)
 
