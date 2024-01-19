@@ -11,63 +11,171 @@ weight: 60
 This page presents the various resource <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/">labels</a> that
 Istio supports to control its behavior.
 </p>
-
+<h2 id="IoIstioRev">istio.io/rev</h2>
 <table class="annotations">
-  <thead>
-    <tr>
-      <th>Label Name</th>
-      <th>Feature Status</th>
-      <th>Resource Types</th>
-      <th>Description</th>
-    </tr>
-  </thead>
   <tbody>
     <tr>
+      <th>Name</th>
       <td><code>istio.io/rev</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Namespace]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>Istio control plane revision associated with the resource; e.g. `canary`</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="NetworkingGatewayPort">networking.istio.io/gatewayPort</h2>
+<table class="annotations">
+  <tbody>
     <tr>
+      <th>Name</th>
       <td><code>networking.istio.io/gatewayPort</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Service]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>IstioGatewayPortLabel overrides the default 15443 value to use for a multi-network gateway's port</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="ServiceCanonicalName">service.istio.io/canonical-name</h2>
+<table class="annotations">
+  <tbody>
     <tr>
+      <th>Name</th>
       <td><code>service.istio.io/canonical-name</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>The name of the canonical service a workload belongs to</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="ServiceCanonicalRevision">service.istio.io/canonical-revision</h2>
+<table class="annotations">
+  <tbody>
     <tr>
+      <th>Name</th>
       <td><code>service.istio.io/canonical-revision</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>The name of a revision within a canonical service that the workload belongs to</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="SidecarInject">sidecar.istio.io/inject</h2>
+<table class="annotations">
+  <tbody>
     <tr>
+      <th>Name</th>
       <td><code>sidecar.istio.io/inject</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Beta</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>Specifies whether or not an Envoy sidecar should be automatically injected into the workload.</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="TopologyCluster">topology.istio.io/cluster</h2>
+<table class="annotations">
+  <tbody>
     <tr>
+      <th>Name</th>
       <td><code>topology.istio.io/cluster</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
       <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>This label is applied to a workload internally that identifies the Kubernetes cluster containing the workload. The cluster ID is specified during Istio installation for each cluster via `values.global.multiCluster.clusterName`. It should be noted that this is only used internally within Istio and is not an actual label on workload pods. If a pod contains this label, it will be overridden by Istio internally with the cluster ID specified during Istio installation. This label provides a way to select workloads by cluster when using DestinationRules. For example, a service owner could create a DestinationRule containing a subset per cluster and then use these subsets to control traffic flow to each cluster independently.</td>
     </tr>
+  </tbody>
+</table>
+<h2 id="TopologyNetwork">topology.istio.io/network</h2>
+<table class="annotations">
+  <tbody>
     <tr>
+      <th>Name</th>
       <td><code>topology.istio.io/network</code></td>
-      <td>Beta</td>
-      <td>[Namespace Pod Service]</td>
-      <td>A label used to identify the network for one or more pods. This is used<br>internally by Istio to group pods resident in the same L3 domain/network.<br>Istio assumes that pods in the same network are directly reachable from<br>one another. When pods are in different networks, an Istio Gateway<br>(e.g. east-west gateway) is typically used to establish connectivity<br>(with AUTO_PASSTHROUGH mode). This label can be applied to the following<br>resources to help automate Istio's multi-network configuration.<br><br>* Istio System Namespace: Applying this label to the system namespace<br>  establishes a default network for pods managed by the control plane.<br>  This is typically configured during control plane installation using an<br>  admin-specified value.<br><br>* Pod: Applying this label to a pod allows overriding the default network<br>  on a per-pod basis. This is typically applied to the pod via webhook<br>  injection, but can also be manually specified on the pod by the service<br>  owner. The Istio installation in each cluster configures webhook injection<br>  using an admin-specified value.<br><br>* Gateway Service: Applying this label to the Service for an Istio Gateway,<br>  indicates that Istio should use this service as the gateway for the<br>  network, when configuring cross-network traffic. Istio will configure<br>  pods residing outside of the network to access the Gateway service<br>  via `spec.externalIPs`, `status.loadBalancer.ingress[].ip`, or in the case<br>  of a NodePort service, the Node's address. The label is configured when<br>  installing the gateway (e.g. east-west gateway) and should match either<br>  the default network for the control plane (as specified by the Istio System<br>  Namespace label) or the network of the targeted pods.</td>
     </tr>
     <tr>
-      <td><code>topology.istio.io/subzone</code></td>
+      <th>Feature Status</th>
       <td>Beta</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
+      <td>[Namespace Pod Service]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
+      <td>A label used to identify the network for one or more pods. This is used<br>internally by Istio to group pods resident in the same L3 domain/network.<br>Istio assumes that pods in the same network are directly reachable from<br>one another. When pods are in different networks, an Istio Gateway<br>(e.g. east-west gateway) is typically used to establish connectivity<br>(with AUTO_PASSTHROUGH mode). This label can be applied to the following<br>resources to help automate Istio's multi-network configuration.<br><br>* Istio System Namespace: Applying this label to the system namespace<br>  establishes a default network for pods managed by the control plane.<br>  This is typically configured during control plane installation using an<br>  admin-specified value.<br><br>* Pod: Applying this label to a pod allows overriding the default network<br>  on a per-pod basis. This is typically applied to the pod via webhook<br>  injection, but can also be manually specified on the pod by the service<br>  owner. The Istio installation in each cluster configures webhook injection<br>  using an admin-specified value.<br><br>* Gateway Service: Applying this label to the Service for an Istio Gateway,<br>  indicates that Istio should use this service as the gateway for the<br>  network, when configuring cross-network traffic. Istio will configure<br>  pods residing outside of the network to access the Gateway service<br>  via `spec.externalIPs`, `status.loadBalancer.ingress[].ip`, or in the case<br>  of a NodePort service, the Node's address. The label is configured when<br>  installing the gateway (e.g. east-west gateway) and should match either<br>  the default network for the control plane (as specified by the Istio System<br>  Namespace label) or the network of the targeted pods.</td>
+    </tr>
+  </tbody>
+</table>
+<h2 id="TopologySubzone">topology.istio.io/subzone</h2>
+<table class="annotations">
+  <tbody>
+    <tr>
+      <th>Name</th>
+      <td><code>topology.istio.io/subzone</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
+      <td>Beta</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
       <td>[Node]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
       <td>User-provided node label for identifying the locality subzone of a workload. This allows admins to specify a more granular level of locality than what is offered by default with Kubernetes regions and zones.</td>
-    </tr></tbody>
+    </tr>
+  </tbody>
 </table>
