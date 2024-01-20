@@ -11,7 +11,7 @@ keywords: [Istio Day,Istio,conference,KubeCon,CloudNativeCon]
 
 {{< image width="75%"
     link="./KubeConParis.png"
-    alt="KubeCon + CloudNativeCon Europe，2024 年 3 月 19 日至 22 日，法国巴黎。 #KubeCon"
+    alt="KubeCon + CloudNativeCon Europe，2024 年 3 月 19 日至 22 日，法国巴黎。#KubeCon"
     >}}
 
 - 来参加 [Istio Day](https://events.linuxfoundation.org/kubecon-cloudnativecon-europe/co-located-events/istio-day/) 同场活动
