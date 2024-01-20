@@ -2953,14 +2953,19 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
+<tr>
+<td><code>--wait</code></td>
+<td><code>-w</code></td>
+<td>Wait for the waypoint to be ready </td>
+</tr>
 </tbody>
 </table>
 <h3 id="istioctl-experimental-waypoint-apply Examples">Examples</h3>
 <pre class="language-bash"><code>  # Apply a waypoint to the current namespace
   istioctl x waypoint apply
 
-  # Apply a waypoint to a specific namespace for a specific service account
-  istioctl x waypoint apply --service-account something --namespace default
+  # Apply a waypoint to a specific namespace for a specific service account and wait for it to be ready
+  istioctl x waypoint apply --service-account something --namespace default --wait
 </code></pre>
 <h2 id="istioctl-experimental-waypoint-delete">istioctl experimental waypoint delete</h2>
 <p>Delete a waypoint configuration from the cluster</p>
@@ -3015,11 +3020,11 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <h3 id="istioctl-experimental-waypoint-delete Examples">Examples</h3>
 <pre class="language-bash"><code>  # Delete a waypoint from the default namespace
   istioctl x waypoint delete
-  
+
   # Delete a waypoint from a specific namespace for a specific service account
   istioctl x waypoint delete --service-account something --namespace default
 
-  # Delete a waypoint by name, which can obtain from istioctl x waypoint list 
+  # Delete a waypoint by name, which can obtain from istioctl x waypoint list
   istioctl x waypoint delete waypoint-name --namespace default
 
   # Delete several waypoints by name
