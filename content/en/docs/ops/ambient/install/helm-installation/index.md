@@ -80,7 +80,7 @@ See [Installing Gateways](/docs/setup/additional-setup/gateway/) for in-depth do
 
 ## Configuration
 
-To view support configuration options and documentation, run:
+To view supported configuration options and documentation, run:
 
 {{< text syntax=bash >}}
 $ helm show values istio/istiod

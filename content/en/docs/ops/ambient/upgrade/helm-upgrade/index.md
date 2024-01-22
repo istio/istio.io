@@ -102,7 +102,7 @@ $ helm upgrade istio-ingress istio/gateway -n istio-ingress
 
 ## Configuration
 
-To view support configuration options and documentation, run:
+To view supported configuration options and documentation, run:
 
 {{< text syntax=bash snip_id=show_istiod_values >}}
 $ helm show values istio/istiod
