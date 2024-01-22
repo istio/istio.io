@@ -78,7 +78,7 @@ Node cordoning and blue/green node pools are recommended to mitigate blast radiu
 $ helm upgrade ztunnel istio/ztunnel -n istio-system
 {{< /text >}}
 
-### Upgrading the CNI Component
+### Upgrade the CNI Component
 
 The Istio CNI agent is responsible for detecting the pods that belong to the ambient mesh, and configuring the traffic redirection between pods and the ztunnel DaemonSet. It is not part of the data plane or control plane.
 
