@@ -110,7 +110,7 @@ $ helm show values istio/istiod
 
 ## Verifying the Installation
 
-### Verifying the workload status
+### Verify the workload status
 
 After installing all the components, you can check the Helm deployment status with:
 
