@@ -1,6 +1,6 @@
 ---
-title: Wildcard 主机的 egress
-description: 描述如何开启通用域中一组主机的 egress，无需单独配置每一台主机。
+title: Wildcard 主机的 Egress
+description: 描述如何开启通用域中一组主机的 Egress，无需单独配置每一台主机。
 keywords: [traffic-management,egress]
 weight: 50
 aliases:
@@ -248,9 +248,9 @@ Istio 网关只能将流量路由配置到预定义的主机、预定义的 IP �
 
 * 关闭 [sleep]({{< github_tree >}}/samples/sleep) 服务：
 
-{{< text bash >}}
-$ kubectl delete -f @samples/sleep/sleep.yaml@
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl delete -f @samples/sleep/sleep.yaml@
+    {{< /text >}}
 
 * 从您的集群中卸载 Istio：
 
