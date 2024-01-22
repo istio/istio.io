@@ -354,7 +354,7 @@ command terminated with exit code 56
 为 `productpage` 服务部署 waypoint proxy：
 
 {{< text bash >}}
-$ istioctl x waypoint apply --service-account bookinfo-productpage
+$ istioctl x waypoint apply --service-account bookinfo-productpage --wait
 waypoint default/bookinfo-productpage applied
 {{< /text >}}
 
@@ -425,7 +425,7 @@ $ kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<titl
 因此转到评审服务的所有流量都将通过 waypoint proxy 进行协调。
 
 {{< text bash >}}
-$ istioctl x waypoint apply --service-account bookinfo-reviews
+$ istioctl x waypoint apply --service-account bookinfo-reviews --wait
 waypoint default/bookinfo-reviews applied
 {{< /text >}}
 
