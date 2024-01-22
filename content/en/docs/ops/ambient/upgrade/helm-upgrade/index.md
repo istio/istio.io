@@ -4,6 +4,7 @@ description: How to upgrade Ambient Mesh with Helm.
 weight: 5
 owner: istio/wg-environments-maintainers
 test: yes
+status: Experimental
 ---
 
 Follow this guide to upgrade and configure ambient mesh using
