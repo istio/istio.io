@@ -92,7 +92,7 @@ Upgrading the Istio CNI agent will reconfigure networking on the node, and as su
 $ helm upgrade istio-cni istio/cni -n istio-system
 {{< /text >}}
 
-### (Optional) Upgrading the Gateway component
+### (Optional) Upgrade the Gateway component
 
 Gateway components manage east-west and north-south dataplane traffic between ambient mesh boundaries, as well as some aspects of the L7 dataplane.
 
