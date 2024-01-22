@@ -52,7 +52,7 @@ $ helm install ... --set compatibilityVersion={{< istio_previous_version >}}
 
 {{< text shell >}}
 $ istioctl x precheck --from-version {{< istio_previous_version >}}
-Warning [IST0168] (DestinationRule default/tls) The configuration "ENABLE_AUTO_SNI" changed in release 1.20: previously, no SNI would be set; now it will be automatically set. Or, install with `--set compatibility-version=1.20` to retain the old default.
+Warning [IST0168] (DestinationRule default/tls) The configuration "ENABLE_AUTO_SNI" changed in release 1.20: previously, no SNI would be set; now it will be automatically set. Or, install with `--set compatibilityVersion=1.20` to retain the old default.
 Error: Issues found when checking the cluster. Istio may not be safe to install or upgrade.
 See https://istio.io/v1.21/docs/reference/config/analysis for more information about causes and resolutions.
 {{< /text >}}
