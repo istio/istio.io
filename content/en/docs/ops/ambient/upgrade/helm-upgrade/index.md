@@ -108,7 +108,7 @@ To view support configuration options and documentation, run:
 $ helm show values istio/istiod
 {{< /text >}}
 
-## Verifying the Installation
+## Verify the Installation
 
 ### Verify the workload status
 
