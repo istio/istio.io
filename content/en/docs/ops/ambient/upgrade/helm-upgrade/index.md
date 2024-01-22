@@ -57,7 +57,7 @@ $ istioctl x precheck
     $ helm upgrade istio-base manifests/charts/base -n istio-system --skip-crds
     {{< /text >}}
 
-### Upgrading the Istio discovery Component
+### Upgrade the Istio discovery Component
 
 Istiod is the control plane component that manages and configures the proxies to route traffic within the ambient mesh.
 
