@@ -14,7 +14,9 @@ Follow this guide to upgrade and configure ambient mesh using
 {{< boilerplate ambient-alpha-warning >}}
 
 {{< warning >}}
-`Ambient` does not currently support canary upgrades of the dataplane. This means that ambient mesh dataplane upgrades will disrupt application pod traffic. Node cordoning and blue/green node pools are recommended to mitigate blast radius risk during production upgrades. See your Kubernetes provider documentation for details.
+In contrast to sidecar mode, `Ambient` supports moving application pods to an upgraded data plane without a mandatory restart or reschedule of running application pods. However, upgrading the data plane **will** briefly disrupt all workload traffic on the upgraded node, and ambient does not currently support canary upgrades of the data plane.
+
+Node cordoning and blue/green node pools are recommended to control blast radius of application pod traffic disruption during production upgrades. See your Kubernetes provider documentation for details.
 {{< /warning >}}
 
 ## Prerequisites
