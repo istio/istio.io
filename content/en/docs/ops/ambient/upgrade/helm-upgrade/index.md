@@ -65,7 +65,7 @@ Istiod is the control plane component that manages and configures the proxies to
 $ helm upgrade istiod istio/istiod -n istio-system
 {{< /text >}}
 
-### Upgrading the ztunnel component
+### Upgrade the ztunnel component
 
 The ztunnel DaemonSet is the L4 node-proxy component of ambient.
 
