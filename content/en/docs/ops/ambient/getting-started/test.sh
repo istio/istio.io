@@ -75,6 +75,7 @@ _verify_contains snip_l4_authorization_policy_3 "$snip_l4_authorization_policy_3
 _verify_failure snip_l4_authorization_policy_4
 
 _verify_contains snip_l7_authorization_policy_1 "$snip_l7_authorization_policy_1_out"
+_verify_contains snip_l7_authorization_policy_2 "Resource programmed, assigned to service"
 snip_l7_authorization_policy_3
 _verify_contains snip_l7_authorization_policy_4 "$snip_l7_authorization_policy_4_out"
 _verify_contains snip_l7_authorization_policy_5 "$snip_l7_authorization_policy_5_out"
