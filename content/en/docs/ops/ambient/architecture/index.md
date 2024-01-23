@@ -1,7 +1,7 @@
 ---
 title: Ambient Mesh Architecture
 description: Deep dive into ambient mesh architecture.
-weight: 3
+weight: 20
 owner: istio/wg-networking-maintainers
 test: n/a
 ---

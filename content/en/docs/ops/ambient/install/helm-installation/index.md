@@ -65,9 +65,22 @@ The `ztunnel` chart installs the ztunnel DaemonSet, which is the node-proxy comp
 $ helm install ztunnel istio/ztunnel -n istio-system
 {{< /text >}}
 
+### (Optional) Install an ingress gateway
+
+{{< warning >}}
+The namespace the gateway is deployed in must not have a `istio-injection=disabled` label.
+See [Controlling the injection policy](/docs/setup/additional-setup/sidecar-injection/#controlling-the-injection-policy) for more info.
+{{< /warning >}}
+
+{{< text syntax=bash snip_id=install_ingress >}}
+$ helm install istio-ingress istio/gateway -n istio-ingress --wait --create-namespace
+{{< /text >}}
+
+See [Installing Gateways](/docs/setup/additional-setup/gateway/) for in-depth documentation on gateway installation.
+
 ## Configuration
 
-To view support configuration options and documentation, run:
+To view supported configuration options and documentation, run:
 
 {{< text syntax=bash >}}
 $ helm show values istio/istiod
@@ -112,7 +125,7 @@ installed above.
 
 1. (Optional) Delete any Istio gateway chart installations:
 
-    {{< text syntax=bash >}}
+    {{< text syntax=bash snip_id=delete_ingress >}}
     $ helm delete istio-ingress -n istio-ingress
     $ kubectl delete namespace istio-ingress
     {{< /text >}}
@@ -152,7 +165,7 @@ installed above.
     This will delete all created Istio resources.
     {{< /warning >}}
 
-    {{< text syntax=bash >}}
+    {{< text syntax=bash snip_id=delete_crds >}}
     $ kubectl get crd -oname | grep --color=never 'istio.io' | xargs kubectl delete
     {{< /text >}}
 
