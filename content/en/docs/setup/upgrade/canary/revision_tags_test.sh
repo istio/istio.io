@@ -54,8 +54,7 @@ snip_usage_7
 _verify_not_contains snip_usage_8 "istiod-$previousVersionRevision1"
 _verify_contains snip_usage_8 "istiod-$fullVersionRevision"
 
+# @cleanup
 snip_cleanup_1
 istioctl uninstall --purge -y
-snip_cleanup_3
-
-# @cleanup
+#snip_cleanup_3
