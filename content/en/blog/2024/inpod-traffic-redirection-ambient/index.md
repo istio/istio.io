@@ -63,7 +63,9 @@ basic problem, as there is no standardized way to safely chain/extend arbitrary 
 
 With sidecar data plane mode, it is intuitive to configure traffic redirection between sidecar and application pod within
 the pod network namespace. One day, a light-bulb moment arrived - why not mimic sidecars and configure the redirection in
-the application network space? While this sounds a crazy simple thought, is this technically possible when ztunnel runs
+the application network namespace? 
+
+While this sounds like a "crazy simple" thought, is this even possible, given ztunnel runs
 in the Istio’s system namespace? After a lot of research, we realized a Linux process running in one network namespace
 could create and own listening sockets within another network namespace, which is a basic Linux socket capability.
 However, to make this work and cover all pod lifecycle scenarios we had to make architectural changes to the ztunnel
