@@ -19,7 +19,7 @@ platforms regardless of their preferred CNIs.
 
 ## How did we get here?
 
-### Istio and CNI - What’s The Relationship?
+### Service meshes and CNIs: it's complicated
 
 Istio is a service mesh, and service meshes by definition are not *CNI implementations* - service meshes build on top of the
 low-level, standards-compliant CNI implementation present in Kubernetes clusters to offer the high-level policy and security
