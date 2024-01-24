@@ -12,7 +12,7 @@ Our Alpha was focused on proving out the value of the ambient model, under limit
 Through GitHub issues and Slack discussions, we heard our users wanted to be able to use ambient mode in [minikube](https://github.com/istio/istio/issues/46163) and [Docker Desktop](https://github.com/istio/istio/issues/47436), with CNI implementations like [Cilium](https://github.com/istio/istio/issues/44198) and [Calico](https://github.com/istio/istio/issues/40973), and on services like [OpenShift](https://github.com/istio/istio/issues/42341) and [Amazon EKS](https://github.com/istio/istio/issues/42340).
 Getting broad support for Kubernetes anywhere has become the No. 1 requirement for ambient mesh moving to Beta — people have come to expect Istio to work on any Kubernetes platform and with any Container Network Interface (CNI) layer. After all, Ambient wouldn’t be ambient without being all around you!
 
-At Solo, we had been working hard for 9 months on an innovative internal solution to solve this and we had decided
+At Solo, we've been integrating ambient mode into our Gloo Mesh product, and came up with an innovative solution to this problem. We had decided
 to [upstream](https://github.com/istio/istio/issues/48212) our changes in late 2023 to help Ambient reach beta faster
 so more users can operate ambient in Istio 1.21 or newer and enjoy the benefits of ambient sidecar-less mesh in their
 platforms regardless of their preferred CNIs.
