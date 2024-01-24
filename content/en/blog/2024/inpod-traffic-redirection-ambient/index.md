@@ -66,7 +66,7 @@ the pod network namespace. One day, a light-bulb moment arrived - why not mimic 
 the application network namespace? 
 
 While this sounds like a "crazy simple" thought, is this even possible, given ztunnel runs
-in the Istio’s system namespace? After a lot of research, we realized a Linux process running in one network namespace
+in the Istio system namespace? After some research, we discovered a Linux process running in one network namespace
 could create and own listening sockets within another network namespace, which is a basic Linux socket capability.
 However, to make this work and cover all pod lifecycle scenarios we had to make architectural changes to the ztunnel
 as well as to the istio-cni agent.
