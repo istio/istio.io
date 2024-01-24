@@ -14,9 +14,7 @@ Our Alpha was focused on proving out the value of the ambient model, under limit
 for [minikube](https://github.com/istio/istio/issues/46163), [Cilium CNI](https://github.com/istio/istio/issues/44198),
 [Calico CNI](https://github.com/istio/istio/issues/40973), [Docker Desktop for Kubernetes](https://github.com/istio/istio/issues/47436), [OpenShift](https://github.com/istio/istio/issues/42341),
 [AWS Cloud](https://github.com/istio/istio/issues/42340) etc. This has become the No. 1 requirement for Ambient
-Beta - support Ambient to work with any Platforms or CNIs, maintaining Istio’s existing broad and general compatibility
-with various Kubernetes platforms with different Container Network Interface(CNI) layers. After all,
-Ambient wouldn’t be ambient without being able to run everywhere with any CNIs.
+Getting broad support for Kubernetes anywhere has become the No. 1 requirement for ambient mesh moving to Beta — people have come to expect Istio to work on any Kubernetes platform and with any Container Network Interface (CNI) layer. After all, Ambient wouldn’t be ambient without being all around you!
 
 At Solo, we had been working hard for 9 months on an innovative internal solution to solve this and we had decided
 to [upstream](https://github.com/istio/istio/issues/48212) our changes in late 2023 to help Ambient reach beta faster
