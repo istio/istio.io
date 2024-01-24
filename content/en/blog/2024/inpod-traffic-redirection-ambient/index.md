@@ -21,7 +21,7 @@ Ambient wouldn’t be ambient without being able to run everywhere with any CNIs
 
 At Solo, we had been working hard for 9 months on an innovative internal solution to solve this and we had decided
 to [upstream](https://github.com/istio/istio/issues/48212) our changes in late 2023 to help Ambient reach beta faster
-so more users can operate ambient in Istio 1.21 or newer and enjoy the benefits of ambient sidecarless mesh in their
+so more users can operate ambient in Istio 1.21 or newer and enjoy the benefits of ambient sidecar-less mesh in their
 platforms regardless of their preferred CNIs.
 
 # How do we get here?
@@ -32,7 +32,7 @@ Istio is a service mesh, and service meshes by definition are not *CNI implement
 low-level, standards-compliant CNI implementation present in Kubernetes clusters to offer the high-level policy and security
 controls users need at scale.
 
-Basically, before you can do things like secure pod traffic with mTLS and apply lots of high-level authN and authZ policy
+Basically, before you can do things like secure pod traffic with mTLS and apply lots of high-level authentication and authorization policy
 at the service mesh layer, you must have a functional Kubernetes cluster with a functional CNI implementation, to make sure the
 basic networking pathways are set up so that packets can get from one pod to another (and from one node to another) in
 your cluster.
@@ -43,12 +43,12 @@ to, for maximum compatibility with managed offerings, cross-vendor support, and 
 ## Traffic redirection in ambient alpha
 
 The [Istio-cni](/docs/setup/additional-setup/cni/) component is an optional component in the sidecar data plane mode,
-commonly used to remove the [requirement for the NET_ADMIN and NET_RAW capabilities](/docs/ops/deployment/requirements/) for
+commonly used to remove the [requirement for the `NET_ADMIN` and `NET_RAW` capabilities](/docs/ops/deployment/requirements/) for
 users deploying pods into the Istio mesh. With the launch of ambient, istio-cni has become a required component for ambient
 data plane mode. Whenever pods are added to ambient mesh, the istio-cni component configures traffic redirection for all
 incoming and outgoing traffic between the application pods and their co-located [ztunnel](/blog/2023/rust-based-ztunnel/) on
 the node via the node-level network namespace. The key difference between sidecar and ambient on the traffic redirection is
-the redirection in ambient is across network namespaces, from the application namespace to the istio’s system namespace
+the redirection in ambient is across network namespaces, from the application namespace to the Istio’s system namespace
 where ztunnel typically runs.
 
 As we tested more broadly in multiple Kubernetes environments which many of them have its default CNI, it became clear that
@@ -67,7 +67,7 @@ routing/networking rules in the node-level network namespace. We realized any eB
 basic problem, as there is no standardized way to safely chain/extend arbitrary eBPF programs at this time.
 
 With sidecar data plane mode, it is intuitive to configure traffic redirection between sidecar and application pod within
-the pod network namespace. One day, a lightbulb moment arrived - why not mimic sidecars and configure the redirection in
+the pod network namespace. One day, a light-bulb moment arrived - why not mimic sidecars and configure the redirection in
 the application network space? While this sounds a crazy simple thought, is this technically possible when ztunnel runs
 in the Istio’s system namespace? After a lot of research, we realized a Linux process running in one network namespace
 could create and own listening sockets within another network namespace, which is a basic Linux socket capability.
@@ -76,7 +76,7 @@ as well as to the istio-cni agent.
 
 ## Traffic redirection in ambient now
 
-After sufficient prototyping and validating that the innovative approach does work for all the kubernetes platforms we have
+After sufficient prototyping and validating that the innovative approach does work for all the Kubernetes platforms we have
 access to, we built the confidence of the work and contributed to upstream to switch to this new traffic redirection
 model - an *in-Pod* traffic redirection mechanism between workload pods and the ztunnel node proxy component that has
 been built from the ground up to be highly compatible with all major cloud providers and CNIs.  
@@ -122,7 +122,7 @@ accomplish this - as long as packets get where they’re supposed to be, Kuberne
 
 ## Istio ambient traffic redirection: why did we drop the previous model?
 
-In Istio ambient, every node has a minimum of two containers running under Daemonsets:
+In Istio ambient, every node has a minimum of two containers running as Kubernetes Daemonset:
 - An efficient ztunnel which handles mesh traffic proxying duties, and L4 policy enforcement.
 - A CNI node agent that handles enrolling new and existing pods into the ambient mesh.
 
@@ -140,7 +140,7 @@ namespace) for proxying to the destination pod, with the return trip being simil
 This model worked well enough as a placeholder for the initial Ambient launch, but as mentioned, it has a fundamental
 problem - there are many CNI implementations, and in Linux there are many fundamentally different and incompatible ways
 in which you can configure how packets get from one network namespace to another. You can use tunnels, overlay networks,
-you can go through the host network namespace, or you can bypass it. You can go through the Linux userspace networking stack,
+you can go through the host network namespace, or you can bypass it. You can go through the Linux user space networking stack,
 or you can skip it and shuttle packets back and forth in the kernel space stack, etc etc. And for every possible approach,
 there’s probably a CNI implementation out there that makes use of it.
 
