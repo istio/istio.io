@@ -8,8 +8,8 @@ status: Experimental
 ---
 
 根据本指南使用 [Helm](https://helm.sh/docs/) 升级和配置 Ambient Mesh。
-本指南假设您已经使用之前的 Istio 次要版本或补丁版本
-[通过 Helm 安装](/zh/docs/ops/ambient/install/helm-installation/)了 Ambient Mesh。
+本指南假设您已经[通过 Helm 安装](/zh/docs/ops/ambient/install/helm-installation/)了
+Istio 的一个较早的次要版本或补丁版本的 Ambient Mesh。
 
 {{< boilerplate ambient-alpha-warning >}}
 
@@ -19,7 +19,7 @@ status: Experimental
 但是，升级数据平面**将**短暂中断被升级节点上的所有工作负载流量，
 并且 Ambient 当前不支持数据平面的金丝雀升级。
 
-建议使用节点封锁和蓝/绿节点池来控制生产环境升级期间应用程序 Pod 流量中断的爆炸半径。
+建议使用节点封锁和蓝/绿节点池来控制生产环境升级期间应用程序 Pod 流量中断的影响范围。
 有关详细信息，请参阅您的 Kubernetes 提供商文档。
 {{< /warning >}}
 
@@ -67,7 +67,7 @@ $ istioctl x precheck
 
 ### 升级 Istio Discovery 组件 {#upgrade-the-istio-discovery-component}
 
-Istiod 是管理和配置代理的控制平面组件，在 Ambient Mesh 内路由流量。
+Istiod 是管理和配置代理以在 ambient mesh 中路由流量的控制平面组件。
 
 {{< text syntax=bash snip_id=upgrade_istiod >}}
 $ helm upgrade istiod istio/istiod -n istio-system
@@ -79,7 +79,7 @@ ztunnel DaemonSet 是 Ambient 中的 L4 节点代理组件。
 
 {{< warning >}}
 就地升级 ztunnel 将短暂中断节点上的所有 Ambient Mesh 流量。
-建议使用节点封锁和蓝/绿节点池来减轻生产环境升级期间的爆炸半径风险。
+建议使用节点封锁和蓝/绿节点池来减轻生产环境升级期间的影响范围。
 有关详细信息，请参阅您的 Kubernetes 提供商文档。
 {{< /warning >}}
 
@@ -99,7 +99,7 @@ Istio CNI Agent 1.x 版本兼容控制平面 1.x-1、1.x 以及 1.x+1 版本，
 
 {{< warning >}}
 升级 Istio CNI Agent 将重新配置节点上的网络，因此会暂时中断节点流量。
-为了在 Istio CNI Agent 升级期间管理应用程序 Pod 的爆炸半径，建议使用节点警戒线。
+为了控制 Istio CNI Agent 升级期间影响应用程序 Pod 的范围，建议使用节点警戒线。
 {{< /warning >}}
 
 {{< text syntax=bash snip_id=upgrade_cni >}}
