@@ -114,9 +114,9 @@ might (depending on how networking was set up):
 - From there, finally be redirected into the target pod’s network namespace (and processed by any rules there).
 
 
-In Kubernetes, the [CRI](https://kubernetes.io/docs/concepts/architecture/cri/) (container runtime interface) is responsible for talking to the Linux kernel, creating network namespaces
-for new “pods”, and starting processes within them. The CRI then invokes the [CNI](https://github.com/containernetworking/cni) (container networking interface), which is
-responsible for “wiring up” the networking rules in the various Linux network namespaces, so that packets leaving and
+In Kubernetes, the [CRI](https://kubernetes.io/docs/concepts/architecture/cri/) (container *runtime* interface) is responsible for talking to the Linux kernel, creating network namespaces
+for new “pods”, and starting processes within them. The CRI then invokes the [CNI](https://github.com/containernetworking/cni) (container *networking* interface),
+which is responsible for “wiring up” the networking rules in the various Linux network namespaces, so that packets leaving and
 entering the new pod can get where they’re supposed to go. It doesn’t matter much what topology or mechanism the CNI uses to
 accomplish this - as long as packets get where they’re supposed to be, Kubernetes works and everyone is happy.
 
@@ -127,7 +127,7 @@ In Istio ambient, every node has a minimum of two containers running under Daemo
 - A CNI node agent that handles enrolling new and existing pods into the ambient mesh.
 
 In the previous ambient model, this is how mesh enrollment worked:
-- A Kubernetes pod (existing or newly-started), with its namespace labeled with istio.io/dataplane-mode=enabled indicating it should
+- A Kubernetes pod (existing or newly-started), with its namespace labeled with `istio.io/dataplane-mode=enabled` indicating it should
 be included in the ambient mesh, is detected by the istio-cni node agent.
 - The istio-cni node agent then establishes network redirection rules in the top-level node network namespace, such that
 packets entering or leaving the enrolled pod would be intercepted and redirected to that node’s ztunnel on the relevant
@@ -157,12 +157,12 @@ every “popular” CNI?
 In the current ambient model, this is how mesh enrollment works:
 - A Kubernetes pod (existing or newly-started), with labels indicating it should be enrolled in the ambient mesh, is detected by
 the istio-cni node agent.
-  - If a new pod is started that should be enrolled, a standard CNI plugin (as installed and managed by the istio-cni agent)
+  - If a *new* pod is started that should be enrolled, a standard CNI plugin (as installed and managed by the istio-cni agent)
 is triggered by the CRI, used to push a new pod event to the node’s istio-cni agent, and block pod startup until redirection
 is established. Since CNI plugins are invoked by the CRI as early as possible in the Kubernetes pod creation process,
 this ensures that we can establish traffic redirection early enough to prevent traffic escaping during startup,
 without relying on things like init containers.
-  - If an already-running pod becomes eligible for ambient enrollment, the istio-cni node agent’s Kubernetes API watcher
+  - If an *already-running* pod becomes eligible for ambient enrollment, the istio-cni node agent’s Kubernetes API watcher
 triggers a new pod event, and redirection is configured in the same manner.
 - The istio-cni node agent hops into the pod’s network namespace and establishes network redirection rules inside the pod
 network namespace, such that packets entering and leaving the pod are intercepted and transparently redirected to local
@@ -210,8 +210,8 @@ where that is necessary:
 
 The end result of the new ambient capture model is that all traffic capture and redirection happens inside the pod’s network
 namespace. To the node, the CNI, and everything else, it “looks like” there is a sidecar proxy inside the pod, even though
-there is, as before, no sidecar proxy running in the pod at all. Remember that the job of CNI implementations is to get
-packets to and from the pod. By design and by the CNI spec, they do not care what happens to packets after that point.
+there is, as before, **no sidecar proxy running in the pod** at all. Remember that the job of CNI implementations is to get
+packets **to and from** the pod. By design and by the CNI spec, they do not care what happens to packets after that point.
 
 This approach automatically eliminates conflicts with a wide range of CNI and NetworkPolicy implementations, and drastically
 improves Istio ambient mesh compatibility with all major managed Kubernetes offerings across all major CNIs.
