@@ -198,7 +198,7 @@ where that is necessary:
 
 {{< image width="100%"
     link="./traffic-flows-plaintext.png"
-    alt="traffic flows between meshed pods"
+    alt="Plain text traffic flow between meshed pods"
     >}}
 
 ### Istio Ambient Traffic Redirection: What This Gets Us
