@@ -7,25 +7,26 @@ test: yes
 status: Experimental
 ---
 
-根据本指南可以使用 [Helm](https://helm.sh/docs/) 升级和配置 Ambient Mesh。
-本指南假设您已经使用之前的 Istio 次要版本或补丁版本执行了
-Ambient Mesh [使用 Helm 安装](/zh/docs/ops/ambient/install/helm-installation/)。
+根据本指南使用 [Helm](https://helm.sh/docs/) 升级和配置 Ambient Mesh。
+本指南假设您已经使用之前的 Istio 次要版本或补丁版本
+[通过 Helm 安装](/zh/docs/ops/ambient/install/helm-installation/)了 Ambient Mesh。
 
 {{< boilerplate ambient-alpha-warning >}}
 
 {{< warning >}}
-与 Sidecar 模式相反，`Ambient` 支持将应用程序 Pod 移动到已经升级的数据平面，
+与 Sidecar 模式相比，`Ambient` 支持将应用程序 Pod 移动到已升级的数据平面，
 而无需强制重新启动或重新编排正在运行的应用程序 Pod。
 但是，升级数据平面**将**短暂中断被升级节点上的所有工作负载流量，
 并且 Ambient 当前不支持数据平面的金丝雀升级。
 
 建议使用节点封锁和蓝/绿节点池来控制生产环境升级期间应用程序 Pod 流量中断的爆炸半径。
-有关详细信息，请参阅 Kubernetes 提供商文档。
+有关详细信息，请参阅您的 Kubernetes 提供商文档。
 {{< /warning >}}
 
 ## 先决条件 {#prerequisites}
 
-1. 按照[使用 Helm 安装](/zh/docs/ops/ambient/install/helm-installation/)并满足该指南中的所有先决条件，通过 Helm 安装 Ambient Mesh。
+1. 按照[使用 Helm 安装](/zh/docs/ops/ambient/install/helm-installation/)并满足该指南中的所有先决条件，
+   通过 Helm 安装 Ambient Mesh。
 
 1. 更新 Helm 仓库：
 
@@ -35,9 +36,9 @@ Ambient Mesh [使用 Helm 安装](/zh/docs/ops/ambient/install/helm-installation
 
 ## 就地升级 {#in-place-upgrade}
 
-您可以使用 Helm 升级工作流程在集群中执行 Istio 就地升级。
+您可以使用 Helm 升级工作流程在集群中就地升级 Istio。
 
-在升级 Istio 之前，建议运行 `istioctl x precheck` 命令以确保升级与您的环境兼容。
+在升级 Istio 之前，建议先运行 `istioctl x precheck` 命令以确保升级与您的环境兼容。
 
 {{< text syntax=bash snip_id=istioctl_precheck >}}
 $ istioctl x precheck
@@ -52,21 +53,21 @@ $ istioctl x precheck
 
 ### 手动升级 CRD 和 Istio Base Chart {#manually-upgrade-the-crds-and-istio-base-chart}
 
-1. 升级 Kubernetes 自定义资源定义 ({{< gloss >}}CRDs{{</ gloss >}})：
+1. 升级 Kubernetes 自定义资源定义 ({{< gloss "crd" >}}CRD{{</ gloss >}})：
 
     {{< text syntax=bash snip_id=manual_crd_upgrade >}}
     $ kubectl apply -f manifests/charts/base/crds
     {{< /text >}}
 
-1. 升级 Istio base Chart：
+1. 升级 Istio Base Chart：
 
     {{< text syntax=bash snip_id=upgrade_base >}}
     $ helm upgrade istio-base manifests/charts/base -n istio-system --skip-crds
     {{< /text >}}
 
-### 升级 Istio discovery 组件 {#upgrade-the-istio-discovery-component}
+### 升级 Istio Discovery 组件 {#upgrade-the-istio-discovery-component}
 
-Istiod 是控制平面组件，用于管理和配置代理以在 Ambient Mesh 内路由流量。
+Istiod 是管理和配置代理的控制平面组件，在 Ambient Mesh 内路由流量。
 
 {{< text syntax=bash snip_id=upgrade_istiod >}}
 $ helm upgrade istiod istio/istiod -n istio-system
@@ -79,7 +80,7 @@ ztunnel DaemonSet 是 Ambient 中的 L4 节点代理组件。
 {{< warning >}}
 就地升级 ztunnel 将短暂中断节点上的所有 Ambient Mesh 流量。
 建议使用节点封锁和蓝/绿节点池来减轻生产环境升级期间的爆炸半径风险。
-有关详细信息，请参阅 Kubernetes 提供商文档。
+有关详细信息，请参阅您的 Kubernetes 提供商文档。
 {{< /warning >}}
 
 {{< text syntax=bash snip_id=upgrade_ztunnel >}}
@@ -88,17 +89,17 @@ $ helm upgrade ztunnel istio/ztunnel -n istio-system
 
 ### 升级 CNI 组件 {#upgrade-the-cni-component}
 
-Istio CNI 代理负责检测属于 Ambient Mesh 的 Pod，
+Istio CNI Agent 负责检测属于 Ambient Mesh 的 Pod，
 并配置 Pod 和 ztunnel DaemonSet 之间的流量重定向。
-它不是数据平面或控制平面的一部分。
+Istio CNI Agent 不是数据平面或控制平面的一部分。
 
 Istio CNI Agent 1.x 版本兼容控制平面 1.x-1、1.x 以及 1.x+1 版本，
 这意味着 Istio CNI Agent 和 Istio 控制平面能够以任何先后顺序独立升级。
 只要它们的版本差异在一个小版本之内。
 
 {{< warning >}}
-升级 Istio CNI 代理将重新配置节点上的网络，因此会暂时中断节点流量。
-为了在 Istio CNI 代理升级期间管理应用程序 Pod 的爆炸半径，建议使用节点警戒线。
+升级 Istio CNI Agent 将重新配置节点上的网络，因此会暂时中断节点流量。
+为了在 Istio CNI Agent 升级期间管理应用程序 Pod 的爆炸半径，建议使用节点警戒线。
 {{< /warning >}}
 
 {{< text syntax=bash snip_id=upgrade_cni >}}
