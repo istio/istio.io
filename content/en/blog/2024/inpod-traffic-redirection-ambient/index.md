@@ -35,7 +35,7 @@ to, for maximum compatibility with managed offerings, cross-vendor support, and 
 
 ### Traffic redirection in ambient alpha
 
-The [Istio-cni](/docs/setup/additional-setup/cni/) component is an optional component in the sidecar data plane mode,
+The [istio-cni](/docs/setup/additional-setup/cni/) component is an optional component in the sidecar data plane mode,
 commonly used to remove the [requirement for the `NET_ADMIN` and `NET_RAW` capabilities](/docs/ops/deployment/requirements/) for
 users deploying pods into the Istio mesh. With the launch of ambient, istio-cni has become a required component for ambient
 data plane mode. Whenever pods are added to ambient mesh, the istio-cni component configures traffic redirection for all
