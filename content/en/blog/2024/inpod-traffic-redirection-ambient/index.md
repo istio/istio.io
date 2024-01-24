@@ -11,9 +11,7 @@ keywords: [Ambient,Istio,CNI,ztunnel,traffic]
 The Istio project [announced its innovative new ambient mode](/blog/2022/introducing-ambient-mesh/) in 2022, and [released an Alpha implementation](/news/releases/1.18.x/announcing-1.18/#ambient-mesh) in early 2023.
 
 Our Alpha was focused on proving out the value of the ambient model, under limited conditions, which it certainly has done. However, the conditions were quite limited. Ambient mode relies on transparently redirecting traffic, and the initial mechanism we used to do that conflicted with many CNI and networking implementations.
-for [minikube](https://github.com/istio/istio/issues/46163), [Cilium CNI](https://github.com/istio/istio/issues/44198),
-[Calico CNI](https://github.com/istio/istio/issues/40973), [Docker Desktop for Kubernetes](https://github.com/istio/istio/issues/47436), [OpenShift](https://github.com/istio/istio/issues/42341),
-[AWS Cloud](https://github.com/istio/istio/issues/42340) etc. This has become the No. 1 requirement for Ambient
+Through GitHub issues and Slack discussions, we heard our users wanted to be able to use ambient mode in [minikube](https://github.com/istio/istio/issues/46163) and [Docker Desktop](https://github.com/istio/istio/issues/47436), with CNI implementations like [Cilium](https://github.com/istio/istio/issues/44198) and [Calico](https://github.com/istio/istio/issues/40973), and on services like [OpenShift](https://github.com/istio/istio/issues/42341) and [Amazon EKS](https://github.com/istio/istio/issues/42340).
 Getting broad support for Kubernetes anywhere has become the No. 1 requirement for ambient mesh moving to Beta — people have come to expect Istio to work on any Kubernetes platform and with any Container Network Interface (CNI) layer. After all, Ambient wouldn’t be ambient without being all around you!
 
 At Solo, we had been working hard for 9 months on an innovative internal solution to solve this and we had decided
