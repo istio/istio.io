@@ -9,16 +9,12 @@ exclude k8s.io/kubernetes v1.13.0
 replace github.com/imdario/mergo => github.com/imdario/mergo v0.3.5
 
 require (
-	github.com/envoyproxy/go-control-plane v0.12.1-0.20240117015050-472addddff92
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2
 	golang.org/x/sync v0.6.0
-<<<<<<< HEAD
 	istio.io/istio v0.0.0-20240121014849-e1e2c059ed97
-=======
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20240116215550-a9fa1716bcac
 	google.golang.org/grpc v1.60.1
 	istio.io/istio v0.0.0-20240124190011-c86987e25610
->>>>>>> 4424f4453 (prepare for v1.21 as Istio source is already branched)
 	k8s.io/apimachinery v0.29.0
 	k8s.io/client-go v0.29.0
 )
@@ -48,9 +44,13 @@ require (
 	github.com/decred/dcrd/dcrec/secp256k1/v4 v4.2.0 // indirect
 	github.com/emicklei/go-restful/v3 v3.11.2 // indirect
 <<<<<<< HEAD
+<<<<<<< HEAD
 	github.com/envoyproxy/go-control-plane v0.12.1-0.20240110143027-302200d28d13 // indirect
 =======
 >>>>>>> 4424f4453 (prepare for v1.21 as Istio source is already branched)
+=======
+	github.com/envoyproxy/go-control-plane v0.12.1-0.20240117015050-472addddff92 // indirect
+>>>>>>> 078a42a20 (Run make clean gen)
 	github.com/envoyproxy/protoc-gen-validate v1.0.2 // indirect
 	github.com/evanphx/json-patch v5.7.0+incompatible // indirect
 	github.com/evanphx/json-patch/v5 v5.7.0 // indirect
@@ -187,6 +187,8 @@ require (
 	google.golang.org/appengine v1.6.8 // indirect
 	google.golang.org/genproto v0.0.0-20240116215550-a9fa1716bcac // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20240116215550-a9fa1716bcac // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20240116215550-a9fa1716bcac // indirect
+	google.golang.org/grpc v1.60.1 // indirect
 	google.golang.org/protobuf v1.32.0 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
