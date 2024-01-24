@@ -104,7 +104,7 @@ active processes, and allow you to create rules about what things within a given
 applied to them - they simply operate at a much lower level.
 
 When a process running within a network namespace creates a TCP packet outward bound for something else, the packet must be
-processed by any local rules within the local network namespace first, then “leave” the local network namespace, passing
+processed by any local rules within the local network namespace first, then leave the local network namespace, passing
 into another one.
 
 For example, in plain Kubernetes without any mesh installed, a pod might create a packet and send it to another pod, and
@@ -186,7 +186,7 @@ Here’s a basic diagram showing the pod enrollment flow:
 
 Once the enrollment is completed, traffic to and from pods in the mesh will be fully encrypted by default, as always with Istio.
 
-Traffic will now enter and leave the pod network namespace as encrypted traffic - it will *look like* every ambient-enrolled
+Traffic will now enter and leave the pod network namespace as encrypted traffic - it will look like every ambient-enrolled
 pod has the ability to enforce mesh policy and securely encrypt traffic, even though the user application running in the pod
 has no awareness of either.
 
@@ -208,7 +208,7 @@ where that is necessary:
 ### Istio Ambient Traffic Redirection: What This Gets Us
 
 The end result of the new ambient capture model is that all traffic capture and redirection happens inside the pod’s network
-namespace. To the node, the CNI, and everything else, it “looks like” there is a sidecar proxy inside the pod, even though
+namespace. To the node, the CNI, and everything else, it looks like there is a sidecar proxy inside the pod, even though
 there is, as before, **no sidecar proxy running in the pod** at all. Remember that the job of CNI implementations is to get
 packets **to and from** the pod. By design and by the CNI spec, they do not care what happens to packets after that point.
 
