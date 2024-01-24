@@ -146,6 +146,8 @@ github.com/envoyproxy/go-control-plane v0.9.1-0.20191026205805-5f8ba28d4473/go.m
 github.com/envoyproxy/go-control-plane v0.9.4/go.mod h1:6rpuAdCZL397s3pYoYcLgu1mIlRU8Am5FuJP05cCM98=
 github.com/envoyproxy/go-control-plane v0.12.1-0.20240110143027-302200d28d13 h1:PxwU0hvRkbf2nBt4NGgt+He9EA/Oq5+AbZ35CL2SeXk=
 github.com/envoyproxy/go-control-plane v0.12.1-0.20240110143027-302200d28d13/go.mod h1:ZBTaoJ23lqITozF0M6G4/IragXCQKCnYbmlmtHvwRG0=
+github.com/envoyproxy/go-control-plane v0.12.1-0.20240117015050-472addddff92 h1:/3bsjkhOTh0swUKDBxL1+3MrXCxrf/sEEMseiIEJg00=
+github.com/envoyproxy/go-control-plane v0.12.1-0.20240117015050-472addddff92/go.mod h1:ZBTaoJ23lqITozF0M6G4/IragXCQKCnYbmlmtHvwRG0=
 github.com/envoyproxy/protoc-gen-validate v0.1.0/go.mod h1:iSmxcyjqTsJpI2R4NaDN7+kN2VEUnK/pcBlmesArF7c=
 github.com/envoyproxy/protoc-gen-validate v1.0.2 h1:QkIBuU5k+x7/QXPvPPnWXWlCdaBFApVqftFV6k087DA=
 github.com/envoyproxy/protoc-gen-validate v1.0.2/go.mod h1:GpiZQP3dDbg4JouG/NNS7QWXpgx6x8QiMKdmN72jogE=
@@ -937,6 +939,12 @@ istio.io/client-go v1.20.0-beta.0 h1:44imNMp+O70gOhVCQgQQnCsBVJHHjbDHAMjTt1BJjrY
 istio.io/client-go v1.20.0-beta.0/go.mod h1:oIxBb0bKB6J+sibL0oiWEJq7AQEjmJyqGlAmzYqEimE=
 istio.io/istio v0.0.0-20240121014849-e1e2c059ed97 h1:ZCQQu5LnirzVputZDPjfqymEOcCkMhBxcdOhwX/nF1w=
 istio.io/istio v0.0.0-20240121014849-e1e2c059ed97/go.mod h1:NKS4qGxRtTsSSwNrje+jvEfm5BJttGX03dsp5ao020Y=
+istio.io/api v1.19.0-alpha.1.0.20240124103410-7e1d52e5ea67 h1:5D/C/x/BYmHL8TWXQjILsfeoRyTqucIA61Z3POykEg8=
+istio.io/api v1.19.0-alpha.1.0.20240124103410-7e1d52e5ea67/go.mod h1:TFCMUCAHRjxBv1CsIsFCsYHPHi4axVI4vdIzVr8eFjY=
+istio.io/client-go v1.20.0-beta.0 h1:44imNMp+O70gOhVCQgQQnCsBVJHHjbDHAMjTt1BJjrY=
+istio.io/client-go v1.20.0-beta.0/go.mod h1:oIxBb0bKB6J+sibL0oiWEJq7AQEjmJyqGlAmzYqEimE=
+istio.io/istio v0.0.0-20240124190011-c86987e25610 h1:acei915K1cw4wJLfjEWnEoDC3Q93BQp0a8JoO0nfuZ0=
+istio.io/istio v0.0.0-20240124190011-c86987e25610/go.mod h1:NfmidT3+kcjte2X28DMNMIqpfo17R9Hnrj7qNgnRiC4=
 k8s.io/api v0.18.2/go.mod h1:SJCWI7OLzhZSvbY7U8zwNl9UA4o1fizoug34OV/2r78=
 k8s.io/api v0.18.4/go.mod h1:lOIQAKYgai1+vz9J7YcDZwC26Z0zQewYOGWdyIPUUQ4=
 k8s.io/api v0.29.0 h1:NiCdQMY1QOp1H8lfRyeEf8eOwV6+0xA6XEE44ohDX2A=

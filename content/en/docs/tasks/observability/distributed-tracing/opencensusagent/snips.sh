@@ -173,7 +173,7 @@ killall istioctl
 }
 
 snip_cleanup_2() {
-kubectl delete -f https://raw.githubusercontent.com/istio/istio/master/samples/addons/jaeger.yaml
+kubectl delete -f https://raw.githubusercontent.com/istio/istio/release-1.21/samples/addons/jaeger.yaml
 }
 
 snip_cleanup_3() {
