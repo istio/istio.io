@@ -190,7 +190,7 @@ Here’s a diagram to illustrate how encrypted traffic flows between meshed pods
 
 {{< image width="100%"
     link="./traffic-flows-between-mesh-pods.png"
-    alt="traffic flows between meshed pods"
+    alt="HBONE traffic flows between meshed pods"
     >}}
 
 And, as before, unencrypted plaintext traffic from outside the mesh can still be handled and policy enforced, for use cases
