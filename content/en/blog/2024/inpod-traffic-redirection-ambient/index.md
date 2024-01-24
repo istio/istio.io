@@ -6,7 +6,7 @@ attribution: "Ben Leggett (Solo.io), Yuval Kohavi (Solo.io), Lin Sun (Solo.io)"
 keywords: [Ambient,Istio,CNI,ztunnel,traffic]
 ---
 
-# Introduction
+## Introduction
 
 Since the initial [launch](/blog/2022/introducing-ambient-mesh/) of ambient in 2022 and ambient reaching
 [Alpha](/news/releases/1.18.x/announcing-1.18/#ambient-mesh) status in early 2023 , the Istio community has
@@ -24,9 +24,9 @@ to [upstream](https://github.com/istio/istio/issues/48212) our changes in late 2
 so more users can operate ambient in Istio 1.21 or newer and enjoy the benefits of ambient sidecar-less mesh in their
 platforms regardless of their preferred CNIs.
 
-# How do we get here?
+## How do we get here?
 
-## Istio and CNI - What’s The Relationship?
+### Istio and CNI - What’s The Relationship?
 
 Istio is a service mesh, and service meshes by definition are not *CNI implementations* - service meshes build on top of the
 low-level, standards-compliant CNI implementation present in Kubernetes clusters to offer the high-level policy and security
@@ -40,7 +40,7 @@ your cluster.
 Though some service meshes may also ship and require their own in-house CNI implementation, the Istio project has chosen not
 to, for maximum compatibility with managed offerings, cross-vendor support, and composability with the broader CNCF ecosystem.
 
-## Traffic redirection in ambient alpha
+### Traffic redirection in ambient alpha
 
 The [Istio-cni](/docs/setup/additional-setup/cni/) component is an optional component in the sidecar data plane mode,
 commonly used to remove the [requirement for the `NET_ADMIN` and `NET_RAW` capabilities](/docs/ops/deployment/requirements/) for
@@ -58,7 +58,7 @@ during the alpha stage was not going to meet our requirements. The following cha
 from istio-cni, whether it is with eBPF or iptables.
 - If users deploy a network policy for the default CNI, the network policy may not be enforced when istio-cni is deployed.
 
-## Thought process on solving the challenges
+### Thought process on solving the challenges
 
 At Solo, we have been brainstorming a lot on these top challenges in Ambient. We realized that applying any traffic
 routing/networking rules in the node-level network namespace invites unresolvable conflicts/incompatibilities with
@@ -74,12 +74,12 @@ could create and own listening sockets within another network namespace, which i
 However, to make this work and cover all pod lifecycle scenarios we had to make architectural changes to the ztunnel
 as well as to the istio-cni agent.
 
-## Traffic redirection in ambient now
+### Traffic redirection in ambient now
 
 After sufficient prototyping and validating that the innovative approach does work for all the Kubernetes platforms we have
 access to, we built the confidence of the work and contributed to upstream to switch to this new traffic redirection
 model - an *in-Pod* traffic redirection mechanism between workload pods and the ztunnel node proxy component that has
-been built from the ground up to be highly compatible with all major cloud providers and CNIs.  
+been built from the ground up to be highly compatible with all major cloud providers and CNIs.
 
 The key innovation is to deliver the pod’s network namespace to the ztunnel so that ztunnel can start its redirection
 sockets inside the pod’s network namespace, while still running outside the pod. With this approach, the traffic redirection
@@ -87,17 +87,17 @@ between ztunnel and application pods happens in a way that’s very similar to s
 strictly invisible to any Kubernetes CNI. Network policy from any Kubernetes CNIs can continue to be enforced,
 regardless of whether the CNI uses eBPF or iptables, there is no conflict between the in-Pod traffic redirection and the CNI.
 
-# Technical deep dive of in-pod traffic redirection
+## Technical deep dive of in-pod traffic redirection
 
-First, let’s go over the basics of how a packet travels between pods in Kubernetes. 
+First, let’s go over the basics of how a packet travels between pods in Kubernetes.
 
-## Linux, Kubernetes, and CNI  - What’s A Network Namespace, And Why Does It Matter?
+### Linux, Kubernetes, and CNI  - What’s A Network Namespace, And Why Does It Matter?
 
-In Linux, a “container” is simply one or more Linux processes running within isolated namespaces, and a Linux namespace
+In Linux, a *container* is simply one or more Linux processes running within isolated namespaces, and a Linux namespace
 is simply a kernel flag that controls what processes running within that namespace are able to see. For instance, if you
 create a new Linux network namespace and run a process inside it, that process can only see the networking rules created
 within that network namespace, and not any created outside of it - even though everything running on that machine is still
-sharing one Linux networking stack. 
+sharing one Linux networking stack.
 
 Linux namespaces are conceptually a lot like Kubernetes namespaces - logical labels that organize and isolate different
 active processes, and allow you to create rules about what things within a given namespace can see and what rules are
@@ -105,24 +105,23 @@ applied to them - they simply operate at a much lower level.
 
 When a process running within a network namespace creates a TCP packet outward bound for something else, the packet must be
 processed by any local rules within the local network namespace first, then “leave” the local network namespace, passing
-into another one. 
+into another one.
 
-For example, in plain Kubernetes without any mesh installed, a pod might create a packet and send it to another pod, and the packet
-might (depending on how networking was set up):  
+For example, in plain Kubernetes without any mesh installed, a pod might create a packet and send it to another pod, and
+the packet might (depending on how networking was set up):
 - Be processed by any rules within the source pod’s network namespace.
 - Leave the source pod network namespace, and bubble up into the node’s network namespace where it is processed by any rules in that namespace.
 - From there, finally be redirected into the target pod’s network namespace (and processed by any rules there).
 
-
 In Kubernetes, the [CRI](https://kubernetes.io/docs/concepts/architecture/cri/) (container *runtime* interface) is responsible for talking to the Linux kernel, creating network namespaces
-for new “pods”, and starting processes within them. The CRI then invokes the [CNI](https://github.com/containernetworking/cni) (container *networking* interface),
-which is responsible for “wiring up” the networking rules in the various Linux network namespaces, so that packets leaving and
+for new pods, and starting processes within them. The CRI then invokes the [CNI](https://github.com/containernetworking/cni) (container *networking* interface),
+which is responsible for wiring up the networking rules in the various Linux network namespaces, so that packets leaving and
 entering the new pod can get where they’re supposed to go. It doesn’t matter much what topology or mechanism the CNI uses to
 accomplish this - as long as packets get where they’re supposed to be, Kubernetes works and everyone is happy.
 
-## Istio ambient traffic redirection: why did we drop the previous model?
+### Istio ambient traffic redirection: why did we drop the previous model?
 
-In Istio ambient, every node has a minimum of two containers running as Kubernetes Daemonset:
+In Istio ambient, every node has a minimum of two containers running as Kubernetes DaemonSet:
 - An efficient ztunnel which handles mesh traffic proxying duties, and L4 policy enforcement.
 - A CNI node agent that handles enrolling new and existing pods into the ambient mesh.
 
@@ -150,9 +149,9 @@ node network namespace would need a different redirection implementation. And ev
 have unavoidable and potentially unresolvable problems with conflicting node-level rules - do we intercept before the CNI,
 or after? Will some CNIs break if we do one, or the other, and they aren’t expecting that? Where and when is NetworkPolicy
 enforced, since NetworkPolicy must be enforced in the node network namespace? Do we need lots of code to special-case
-every “popular” CNI?
+every popular CNI?
 
-## Istio Ambient Traffic Redirection: The Current Model
+### Istio Ambient Traffic Redirection: The Current Model
 
 In the current ambient model, this is how mesh enrollment works:
 - A Kubernetes pod (existing or newly-started), with labels indicating it should be enrolled in the ambient mesh, is detected by
@@ -178,7 +177,7 @@ at creation time.
 - Once the in-pod redirect rules are in place and the ztunnel has established the listen ports, the pod is enrolled in the
 mesh and traffic begins flowing thru the node-local ztunnel, as before.
 
-Here’s a basic diagram showing the pod enrollment flow: 
+Here’s a basic diagram showing the pod enrollment flow:
 
 {{< image width="100%"
     link="./pod-enrollment.png"
@@ -187,7 +186,7 @@ Here’s a basic diagram showing the pod enrollment flow:
 
 Once the enrollment is completed, traffic to and from pods in the mesh will be fully encrypted by default, as always with Istio.
 
-Traffic will now enter and leave the pod network namespace as encrypted traffic - it will “look like” every ambient-enrolled
+Traffic will now enter and leave the pod network namespace as encrypted traffic - it will *look like* every ambient-enrolled
 pod has the ability to enforce mesh policy and securely encrypt traffic, even though the user application running in the pod
 has no awareness of either.
 
@@ -206,7 +205,7 @@ where that is necessary:
     alt="traffic flows between meshed pods"
     >}}
 
-## Istio Ambient Traffic Redirection: What This Gets Us
+### Istio Ambient Traffic Redirection: What This Gets Us
 
 The end result of the new ambient capture model is that all traffic capture and redirection happens inside the pod’s network
 namespace. To the node, the CNI, and everything else, it “looks like” there is a sidecar proxy inside the pod, even though
@@ -216,7 +215,7 @@ packets **to and from** the pod. By design and by the CNI spec, they do not care
 This approach automatically eliminates conflicts with a wide range of CNI and NetworkPolicy implementations, and drastically
 improves Istio ambient mesh compatibility with all major managed Kubernetes offerings across all major CNIs.
 
-# Wrapping Up
+## Wrapping Up
 
 With gracious support from the community on testing the change with various Kubernetes platforms and CNIs, and many rounds
 of reviews from Istio maintainers, we are glad the [ztunnel](https://github.com/istio/ztunnel/pull/747) and [istio-cni](https://github.com/istio/istio/pull/48253) PRs merged to Istio 1.21 so our users
