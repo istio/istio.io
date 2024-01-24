@@ -48,7 +48,9 @@ where ztunnel typically runs.
 
 As we tested more broadly in multiple Kubernetes environments which many of them have its default CNI, it became clear that
 the host network based traffic redirection mechanism we had been using for Istio ambient traffic capture and redirection
-during the alpha stage was not going to meet our requirements. The following challenges were identified:
+during the alpha stage was not going to meet our requirements. 
+
+These are the two biggest challenges with the host-based approach:
 - The default CNI’s node-level networking configuration could interfere with the node-level networking configuration
 from istio-cni, whether it is with eBPF or iptables.
 - If users deploy a network policy for the default CNI, the network policy may not be enforced when istio-cni is deployed.
