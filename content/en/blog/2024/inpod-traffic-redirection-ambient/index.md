@@ -55,7 +55,7 @@ from istio-cni, whether it is with eBPF or iptables.
 
 ### Addressing the challenges
 
-At Solo, we have been brainstorming a lot on these top challenges in Ambient. We realized that applying any traffic
+Applying any traffic
 routing/networking rules in the node-level network namespace invites unresolvable conflicts/incompatibilities with
 CNIs (which might use a wide variety of fundamentally networking topologies on the node) - they *must* configure traffic
 routing/networking rules in the node-level network namespace. We realized any eBPF implementation would have the same
