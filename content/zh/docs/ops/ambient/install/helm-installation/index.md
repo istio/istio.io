@@ -63,9 +63,23 @@ $ helm install istiod istio/istiod --namespace istio-system --set profile=ambien
 $ helm install ztunnel istio/ztunnel -n istio-system
 {{< /text >}}
 
+### （可选）安装入口网关 {#optional-install-an-ingress-gateway}
+
+{{< warning >}}
+部署网关的命名空间不得具有 `istio-injection=disabled` 标签。
+有关更多信息，请参阅[控制注入策略](/zh/docs/setup/additional-setup/sidecar-injection/#controlling-the-injection-policy)。
+{{< /warning >}}
+
+{{< text syntax=bash snip_id=install_ingress >}}
+$ helm install istio-ingress istio/gateway -n istio-ingress --wait --create-namespace
+{{< /text >}}
+
+有关网关安装的详细文档，
+请参阅[安装 Gateway](/zh/docs/setup/additional-setup/gateway/)。
+
 ## 配置 {#configuration}
 
-要查看支持的配置选项和文档，请运行：
+要查看已被支持的配置选项和文档，请运行：
 
 {{< text syntax=bash >}}
 $ helm show values istio/istiod
@@ -108,7 +122,7 @@ $ kubectl get pods -n istio-system
 
 1.（可选）删除所有 Istio 网关 Chart 安装文件：
 
-    {{< text syntax=bash >}}
+    {{< text syntax=bash snip_id=delete_ingress >}}
     $ helm delete istio-ingress -n istio-ingress
     $ kubectl delete namespace istio-ingress
     {{< /text >}}
@@ -147,7 +161,7 @@ $ kubectl get pods -n istio-system
     这将删除所有已创建的 Istio 资源。
     {{< /warning >}}
 
-    {{< text syntax=bash >}}
+    {{< text syntax=bash snip_id=delete_crds >}}
     $ kubectl get crd -oname | grep --color=never 'istio.io' | xargs kubectl delete
     {{< /text >}}
 
