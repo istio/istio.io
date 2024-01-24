@@ -63,7 +63,7 @@ CNIs (which might use a wide variety of fundamentally networking topologies on t
 routing/networking rules in the node-level network namespace. We realized any eBPF implementation would have the same
 basic problem, as there is no standardized way to safely chain/extend arbitrary eBPF programs at this time.
 
-With sidecar data plane mode, it is intuitive to configure traffic redirection between sidecar and application pod within
+In sidecar mode, it is trivial to configure traffic redirection between sidecar and application pod, as both operate within
 the pod network namespace. One day, a light-bulb moment arrived - why not mimic sidecars and configure the redirection in
 the application network namespace? 
 
