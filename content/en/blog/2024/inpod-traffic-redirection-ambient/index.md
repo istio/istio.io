@@ -17,7 +17,7 @@ to [upstream](https://github.com/istio/istio/issues/48212) our changes in late 2
 so more users can operate ambient in Istio 1.21 or newer and enjoy the benefits of ambient sidecar-less mesh in their
 platforms regardless of their preferred CNIs.
 
-## How do we get here?
+## How did we get here?
 
 ### Istio and CNI - What’s The Relationship?
 
