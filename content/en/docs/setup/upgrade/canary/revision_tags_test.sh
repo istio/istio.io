@@ -55,8 +55,7 @@ _verify_not_contains snip_usage_8 "istiod-$previousVersionRevision1"
 _verify_contains snip_usage_8 "istiod-$fullVersionRevision"
 
 # @cleanup
+snip_cleanup_1
 snip_uninstall_old_control_plane_1
-kubectl delete mutatingwebhookconfiguration istio-revision-tag-prod-canary
-kubectl delete mutatingwebhookconfiguration istio-revision-tag-prod-stable
 istioctl uninstall --purge -y
-snip_cleanup_2
+snip_cleanup_3
