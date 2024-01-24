@@ -64,7 +64,7 @@ routing/networking rules in the node-level network namespace. We realized any eB
 basic problem, as there is no standardized way to safely chain/extend arbitrary eBPF programs at this time.
 
 In sidecar mode, it is trivial to configure traffic redirection between sidecar and application pod, as both operate within
-the pod network namespace. One day, a light-bulb moment arrived - why not mimic sidecars and configure the redirection in
+the pod's network namespace. This led to a light-bulb moment: why not mimic sidecars, and configure the redirection in
 the application network namespace? 
 
 While this sounds like a "crazy simple" thought, is this even possible, given ztunnel runs
