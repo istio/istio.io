@@ -40,7 +40,7 @@ commonly used to remove the [requirement for the `NET_ADMIN` and `NET_RAW` capab
 users deploying pods into the mesh. 
 
 istio-cni is a required component in the ambient
-data plane mode. Whenever pods are added to ambient mesh, the istio-cni component configures traffic redirection for all
+data plane mode. Whenever pods are added to an ambient mesh, the istio-cni component configures traffic redirection for all
 incoming and outgoing traffic between the application pods and their co-located [ztunnel](/blog/2023/rust-based-ztunnel/) on
 the node via the node-level network namespace. The key difference between sidecar and ambient on the traffic redirection is
 the redirection in ambient is across network namespaces, from the application namespace to the Istio’s system namespace
