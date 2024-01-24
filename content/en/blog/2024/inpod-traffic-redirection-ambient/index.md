@@ -164,7 +164,7 @@ proxy listening [ports](https://github.com/istio/ztunnel/blob/master/ARCHITECTUR
 listening ports inside the pod’s network namespace, (on 15008, 15006, and 15001), and provides ztunnel with a low-level
 Linux [file descriptor](https://en.wikipedia.org/wiki/File_descriptor) representing the pod’s network namespace.
   - While typically sockets are created within a Linux network namespace by the process actually running inside that
-network namespace, it is perfectly possible leverage Linux’s low-level socket API to allow a process running in one
+network namespace, it is perfectly possible to leverage Linux’s low-level socket API to allow a process running in one
 network namespace to create listening sockets in another network namespace, assuming the target network namespace is known
 at creation time.
 - The node-local ztunnel internally spins up a new proxy instance and listen port set, dedicated to the newly-enrolled pod.
