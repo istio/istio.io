@@ -53,7 +53,7 @@ during the alpha stage was not going to meet our requirements. The following cha
 from istio-cni, whether it is with eBPF or iptables.
 - If users deploy a network policy for the default CNI, the network policy may not be enforced when istio-cni is deployed.
 
-### Thought process on solving the challenges
+### Addressing the challenges
 
 At Solo, we have been brainstorming a lot on these top challenges in Ambient. We realized that applying any traffic
 routing/networking rules in the node-level network namespace invites unresolvable conflicts/incompatibilities with
