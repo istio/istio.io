@@ -1,6 +1,6 @@
 ---
 title: "Design Istio Ambient to Work with Any Platforms and CNIs"
-description: An innovative traffic redirection mechanism between workload pods and ztunnel
+description: An innovative traffic redirection mechanism between workload pods and ztunnel.
 publishdate: 2024-01-26
 attribution: "Ben Leggett (Solo.io), Yuval Kohavi (Solo.io), Lin Sun (Solo.io)"
 keywords: [Ambient,Istio,CNI,ztunnel,traffic]
