@@ -166,10 +166,10 @@ without relying on things like init containers.
 triggers a new pod event, and redirection is configured in the same manner.
 - The istio-cni node agent hops into the pod’s network namespace and establishes network redirection rules inside the pod
 network namespace, such that packets entering and leaving the pod are intercepted and transparently redirected to local
-proxy listening ports (15008, 15006, 15001).
+proxy listening [ports](https://github.com/istio/ztunnel/blob/master/ARCHITECTURE.md#ports) (15008, 15006, 15001).
 - The istio-cni node agent then informs the node ztunnel over a Unix domain socket that it should establish local proxy
 listening ports inside the pod’s network namespace, (on 15008, 15006, and 15001), and provides ztunnel with a low-level
-Linux file descriptor representing the pod’s network namespace.
+Linux [file descriptor](https://en.wikipedia.org/wiki/File_descriptor) representing the pod’s network namespace.
 - - While typically sockets are created within a Linux network namespace by the process actually running inside that
 network namespace, it is perfectly possible leverage Linux’s low-level socket API to allow a process running in one
 network namespace to create listening sockets in another network namespace, assuming the target network namespace is known
@@ -226,5 +226,5 @@ Calico and Cilium, as well as platforms like OpenShift, with solid results. We a
 move Istio Ambient forward to run everywhere with this innovative “in-Pod'' traffic redirection approach between ztunnel
 and users’ application pods. With this top technical hurdle to ambient beta resolved, we can't wait to work with the
 rest of the Istio community to get ambient to beta soon! To learn more about ambient’s beta progress, join us in
-the #ambient and #ambient-dev channel in Istio’s slack, or attend the weekly ambient contributor meeting on Wednesdays,
-or check out the ambient beta project board and help us fix something!
+the #ambient and #ambient-dev channel in Istio’s [slack](https://slack.istio.io), or attend the weekly ambient contributor [meeting](https://github.com/istio/community/blob/master/WORKING-GROUPS.md#working-group-meetings) on Wednesdays,
+or check out the ambient beta [project board](https://github.com/orgs/istio/projects/9/views/3?filterQuery=beta) and help us fix something!
