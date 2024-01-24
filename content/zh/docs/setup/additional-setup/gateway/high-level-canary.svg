@@ -9,14 +9,14 @@
    id="svg11"
    sodipodi:docname="high-level-canary.svg"
    inkscape:version="1.3 (0e150ed, 2023-07-21)"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  <defs
+    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns:xhtml="http://www.w3.org/1999/xhtml">
+    <defs
      id="defs11" />
-  <sodipodi:namedview
+    <sodipodi:namedview
      id="namedview11"
      pagecolor="#ffffff"
      bordercolor="#000000"
@@ -35,9 +35,9 @@
      inkscape:window-y="25"
      inkscape:window-maximized="0"
      inkscape:current-layer="svg11" />
-  <g
+    <g
      id="g11">
-    <rect
+        <rect
        width="200"
        height="140"
        x="0"
@@ -46,36 +46,36 @@
        stroke="#000"
        pointer-events="all"
        id="rect1" />
-    <g
+        <g
        transform="translate(-0.5 -0.5)"
        id="g1">
-      <switch
+            <switch
          id="switch1">
-        <foreignObject
+                <foreignObject
            style="overflow:visible;text-align:left"
            width="100%"
            height="100%"
            pointer-events="none"
            requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
-          <xhtml:div
+                    <xhtml:div
              style="display:flex;align-items:unsafe flex-start;justify-content:unsafe flex-start;width:198px;height:1px;padding-top:297px;margin-left:2px">
-            <xhtml:div
+                        <xhtml:div
                style="box-sizing:border-box;font-size:0;text-align:left">
-              <xhtml:div
+                            <xhtml:div
                  style="display:inline-block;font-size:12px;font-family:Helvetica;color:#000;line-height:1.2;pointer-events:all;white-space:normal;word-wrap:normal">istio-ingress Deployment</xhtml:div>
-            </xhtml:div>
-          </xhtml:div>
-        </foreignObject>
-        <text
+                        </xhtml:div>
+                    </xhtml:div>
+                </foreignObject>
+                <text
            x="2"
            y="309"
            fill="#000"
            font-family="Helvetica"
            font-size="12"
            id="text1">istio-ingress Deployment</text>
-      </switch>
-    </g>
-    <rect
+            </switch>
+        </g>
+        <rect
        width="150"
        height="60"
        x="25"
@@ -86,36 +86,36 @@
        rx="9"
        ry="9"
        id="rect2" />
-    <g
+        <g
        transform="translate(-0.5 -0.5)"
        id="g2">
-      <switch
+            <switch
          id="switch2">
-        <foreignObject
+                <foreignObject
            style="overflow:visible;text-align:left"
            width="100%"
            height="100%"
            pointer-events="none"
            requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
-          <xhtml:div
+                    <xhtml:div
              style="display:flex;align-items:unsafe center;justify-content:unsafe center;width:148px;height:1px;padding-top:370px;margin-left:26px">
-            <xhtml:div
+                        <xhtml:div
                style="box-sizing:border-box;font-size:0;text-align:center">
-              <xhtml:div
+                            <xhtml:div
                  style="display:inline-block;font-size:12px;font-family:Helvetica;color:#000;line-height:1.2;pointer-events:all;white-space:normal;word-wrap:normal">
-                <xhtml:font>
-                  <xhtml:span
+                                <xhtml:font>
+                                    <xhtml:span
                      style="font-size:16px">istio-ingress Pod</xhtml:span>
-                  <xhtml:br />
-                  <xhtml:font
+                                    <xhtml:br />
+                                    <xhtml:font
                      style="font-size:11px">revision=default</xhtml:font>
-                  <xhtml:br />
-                </xhtml:font>
-              </xhtml:div>
-            </xhtml:div>
-          </xhtml:div>
-        </foreignObject>
-        <text
+                                    <xhtml:br />
+                                </xhtml:font>
+                            </xhtml:div>
+                        </xhtml:div>
+                    </xhtml:div>
+                </foreignObject>
+                <text
            x="100"
            y="374"
            fill="#000"
@@ -123,23 +123,23 @@
            font-size="12"
            text-anchor="middle"
            id="text2">istio-ingress Pod...</text>
-      </switch>
-    </g>
-    <path
+            </switch>
+        </g>
+        <path
        fill="none"
        stroke="#000"
        stroke-miterlimit="10"
        d="M 100 210 L 100 283.63"
        pointer-events="stroke"
        id="path2" />
-    <path
+        <path
        fill="#000"
        stroke="#000"
        stroke-miterlimit="10"
        d="M 100 288.88 L 96.5 281.88 L 100 283.63 L 103.5 281.88 Z"
        pointer-events="all"
        id="path3" />
-    <rect
+        <rect
        width="170"
        height="60"
        x="15"
@@ -150,31 +150,33 @@
        rx="9"
        ry="9"
        id="rect3" />
-    <g
+        <g
        transform="translate(-0.5 -0.5)"
        id="g3">
-      <switch
+            <switch
          id="switch3">
-        <foreignObject
+                <foreignObject
            style="overflow:visible;text-align:left"
            width="100%"
            height="100%"
            pointer-events="none"
            requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
-          <xhtml:div
+                    <xhtml:div
              style="display:flex;align-items:unsafe center;justify-content:unsafe center;width:168px;height:1px;padding-top:180px;margin-left:16px">
-            <xhtml:div
+                        <xhtml:div
                style="box-sizing:border-box;font-size:0;text-align:center">
-              <xhtml:div
+                            <xhtml:div
                  style="display:inline-block;font-size:12px;font-family:Helvetica;color:#000;line-height:1.2;pointer-events:all;white-space:normal;word-wrap:normal">
-                <xhtml:font
-                   style="font-size:16px">istio-ingress<xhtml:br />
-Service</xhtml:font>
-              </xhtml:div>
-            </xhtml:div>
-          </xhtml:div>
-        </foreignObject>
-        <text
+                                <xhtml:font
+                   style="font-size:16px">istio-ingress
+                                    <xhtml:br />
+Service
+                                </xhtml:font>
+                            </xhtml:div>
+                        </xhtml:div>
+                    </xhtml:div>
+                </foreignObject>
+                <text
            x="100"
            y="184"
            fill="#000"
@@ -182,9 +184,9 @@ Service</xhtml:font>
            font-size="12"
            text-anchor="middle"
            id="text3">istio-ingress...</text>
-      </switch>
-    </g>
-    <rect
+            </switch>
+        </g>
+        <rect
        width="200"
        height="140"
        x="220"
@@ -193,36 +195,36 @@ Service</xhtml:font>
        stroke="#000"
        pointer-events="all"
        id="rect4" />
-    <g
+        <g
        transform="translate(-0.5 -0.5)"
        id="g4">
-      <switch
+            <switch
          id="switch4">
-        <foreignObject
+                <foreignObject
            style="overflow:visible;text-align:left"
            width="100%"
            height="100%"
            pointer-events="none"
            requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
-          <xhtml:div
+                    <xhtml:div
              style="display:flex;align-items:unsafe flex-start;justify-content:unsafe flex-start;width:198px;height:1px;padding-top:297px;margin-left:222px">
-            <xhtml:div
+                        <xhtml:div
                style="box-sizing:border-box;font-size:0;text-align:left">
-              <xhtml:div
+                            <xhtml:div
                  style="display:inline-block;font-size:12px;font-family:Helvetica;color:#000;line-height:1.2;pointer-events:all;white-space:normal;word-wrap:normal">istio-ingress-canary Deployment</xhtml:div>
-            </xhtml:div>
-          </xhtml:div>
-        </foreignObject>
-        <text
+                        </xhtml:div>
+                    </xhtml:div>
+                </foreignObject>
+                <text
            x="222"
            y="309"
            fill="#000"
            font-family="Helvetica"
            font-size="12"
            id="text4">istio-ingress-canary Deployment</text>
-      </switch>
-    </g>
-    <rect
+            </switch>
+        </g>
+        <rect
        width="150"
        height="60"
        x="245"
@@ -233,36 +235,36 @@ Service</xhtml:font>
        rx="9"
        ry="9"
        id="rect5" />
-    <g
+        <g
        transform="translate(-0.5 -0.5)"
        id="g5">
-      <switch
+            <switch
          id="switch5">
-        <foreignObject
+                <foreignObject
            style="overflow:visible;text-align:left"
            width="100%"
            height="100%"
            pointer-events="none"
            requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
-          <xhtml:div
+                    <xhtml:div
              style="display:flex;align-items:unsafe center;justify-content:unsafe center;width:148px;height:1px;padding-top:370px;margin-left:246px">
-            <xhtml:div
+                        <xhtml:div
                style="box-sizing:border-box;font-size:0;text-align:center">
-              <xhtml:div
+                            <xhtml:div
                  style="display:inline-block;font-size:12px;font-family:Helvetica;color:#000;line-height:1.2;pointer-events:all;white-space:normal;word-wrap:normal">
-                <xhtml:font>
-                  <xhtml:span
+                                <xhtml:font>
+                                    <xhtml:span
                      style="font-size:16px">istio-ingress Pod</xhtml:span>
-                  <xhtml:br />
-                  <xhtml:font
+                                    <xhtml:br />
+                                    <xhtml:font
                      style="font-size:11px">revision=canary</xhtml:font>
-                  <xhtml:br />
-                </xhtml:font>
-              </xhtml:div>
-            </xhtml:div>
-          </xhtml:div>
-        </foreignObject>
-        <text
+                                    <xhtml:br />
+                                </xhtml:font>
+                            </xhtml:div>
+                        </xhtml:div>
+                    </xhtml:div>
+                </foreignObject>
+                <text
            x="320"
            y="374"
            fill="#000"
@@ -270,23 +272,23 @@ Service</xhtml:font>
            font-size="12"
            text-anchor="middle"
            id="text5">istio-ingress Pod...</text>
-      </switch>
-    </g>
-    <path
+            </switch>
+        </g>
+        <path
        fill="none"
        stroke="#000"
        stroke-miterlimit="10"
        d="M 320 210 L 320 283.63"
        pointer-events="stroke"
        id="path5" />
-    <path
+        <path
        fill="#000"
        stroke="#000"
        stroke-miterlimit="10"
        d="M 320 288.88 L 316.5 281.88 L 320 283.63 L 323.5 281.88 Z"
        pointer-events="all"
        id="path6" />
-    <rect
+        <rect
        width="170"
        height="60"
        x="235"
@@ -297,30 +299,30 @@ Service</xhtml:font>
        rx="9"
        ry="9"
        id="rect6" />
-    <g
+        <g
        transform="translate(-0.5 -0.5)"
        id="g6">
-      <switch
+            <switch
          id="switch6">
-        <foreignObject
+                <foreignObject
            style="overflow:visible;text-align:left"
            width="100%"
            height="100%"
            pointer-events="none"
            requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
-          <xhtml:div
+                    <xhtml:div
              style="display:flex;align-items:unsafe center;justify-content:unsafe center;width:168px;height:1px;padding-top:180px;margin-left:236px">
-            <xhtml:div
+                        <xhtml:div
                style="box-sizing:border-box;font-size:0;text-align:center">
-              <xhtml:div
+                            <xhtml:div
                  style="display:inline-block;font-size:12px;font-family:Helvetica;color:#000;line-height:1.2;pointer-events:all;white-space:normal;word-wrap:normal">
-                <xhtml:font
+                                <xhtml:font
                    style="font-size:16px">istio-ingress-canary Service</xhtml:font>
-              </xhtml:div>
-            </xhtml:div>
-          </xhtml:div>
-        </foreignObject>
-        <text
+                            </xhtml:div>
+                        </xhtml:div>
+                    </xhtml:div>
+                </foreignObject>
+                <text
            x="320"
            y="184"
            fill="#000"
@@ -328,37 +330,37 @@ Service</xhtml:font>
            font-size="12"
            text-anchor="middle"
            id="text6">istio-ingress-canary Service</text>
-      </switch>
-    </g>
-    <path
+            </switch>
+        </g>
+        <path
        fill="none"
        stroke="#000"
        stroke-miterlimit="10"
        d="M 220 60 L 220 105 L 100 105 L 100 143.63"
        pointer-events="stroke"
        id="path7" />
-    <path
+        <path
        fill="#000"
        stroke="#000"
        stroke-miterlimit="10"
        d="M 100 148.88 L 96.5 141.88 L 100 143.63 L 103.5 141.88 Z"
        pointer-events="all"
        id="path8" />
-    <path
+        <path
        fill="none"
        stroke="#000"
        stroke-miterlimit="10"
        d="M 220 60 L 220 105 L 320 105 L 320 143.63"
        pointer-events="stroke"
        id="path9" />
-    <path
+        <path
        fill="#000"
        stroke="#000"
        stroke-miterlimit="10"
        d="M 320 148.88 L 316.5 141.88 L 320 143.63 L 323.5 141.88 Z"
        pointer-events="all"
        id="path10" />
-    <rect
+        <rect
        width="260"
        height="60"
        x="90"
@@ -369,29 +371,32 @@ Service</xhtml:font>
        rx="9"
        ry="9"
        id="rect10" />
-    <g
+        <g
        transform="translate(-0.5 -0.5)"
        id="g10">
-      <switch
+            <switch
          id="switch10">
-        <foreignObject
+                <foreignObject
            style="overflow:visible;text-align:left"
            width="100%"
            height="100%"
            pointer-events="none"
            requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
-          <xhtml:div
+                    <xhtml:div
              style="display:flex;align-items:unsafe center;justify-content:unsafe center;width:258px;height:1px;padding-top:30px;margin-left:91px">
-            <xhtml:div
+                        <xhtml:div
                style="box-sizing:border-box;font-size:0;text-align:center">
-              <xhtml:div
-                 style="display:inline-block;font-size:12px;font-family:Helvetica;color:#000;line-height:1.2;pointer-events:all;white-space:normal;word-wrap:normal">External Load Balancer<xhtml:br />
-OR<xhtml:br />
-DNS configuration</xhtml:div>
-            </xhtml:div>
-          </xhtml:div>
-        </foreignObject>
-        <text
+                            <xhtml:div
+                 style="display:inline-block;font-size:12px;font-family:Helvetica;color:#000;line-height:1.2;pointer-events:all;white-space:normal;word-wrap:normal">外部负载均衡
+                                <xhtml:br />
+或
+                                <xhtml:br />
+DNS 配置
+                            </xhtml:div>
+                        </xhtml:div>
+                    </xhtml:div>
+                </foreignObject>
+                <text
            x="220"
            y="34"
            fill="#000"
@@ -399,7 +404,7 @@ DNS configuration</xhtml:div>
            font-size="12"
            text-anchor="middle"
            id="text10">External Load Balancer...</text>
-      </switch>
+            </switch>
+        </g>
     </g>
-  </g>
 </svg>
