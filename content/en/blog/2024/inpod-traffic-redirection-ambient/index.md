@@ -6,8 +6,6 @@ attribution: "Ben Leggett (Solo.io), Yuval Kohavi (Solo.io), Lin Sun (Solo.io)"
 keywords: [Ambient,Istio,CNI,ztunnel,traffic]
 ---
 
-## Introduction
-
 The Istio project [announced its innovative new ambient mode](/blog/2022/introducing-ambient-mesh/) in 2022, and [released an Alpha implementation](/news/releases/1.18.x/announcing-1.18/#ambient-mesh) in early 2023.
 
 Our Alpha was focused on proving out the value of the ambient model, under limited conditions, which it certainly has done. However, the conditions were quite limited. Ambient mode relies on transparently redirecting traffic, and the initial mechanism we used to do that conflicted with many CNI and networking implementations.
