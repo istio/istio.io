@@ -57,4 +57,6 @@ _verify_contains snip_usage_8 "istiod-$fullVersionRevision"
 # @cleanup
 snip_cleanup_1
 istioctl uninstall --purge -y
-#snip_cleanup_3
+snip_cleanup_3
+kubectl get validatingwebhookconfiguration --no-headers=true | awk '/^istio/ {print $1}' | xargs kubectl delete validatingwebhookconfiguration
+kubectl get mutatingwebhookconfiguration --no-headers=true | awk '/^istio/ {print $1}' | xargs kubectl delete mutatingwebhookconfiguration
