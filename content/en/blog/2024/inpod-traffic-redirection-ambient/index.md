@@ -41,10 +41,12 @@ the pod's node, via the node-level network namespace. The key difference between
 
 As we tested more broadly in multiple Kubernetes environments which many of them have its default CNI, it became clear that capturing and redirecting pod traffic in the node network namespace, as we were during ambient alpha, was not going to meet our requirements. 
 
-These are the two biggest challenges with the host-based approach:
-- The default CNI’s node-level networking configuration could interfere with the node-level networking configuration
-from istio-cni, whether it is with eBPF or iptables.
-- If users deploy a network policy for the default CNI, the network policy may not be enforced when istio-cni is deployed.
+The fundamental problem with this approach (redirecting traffic in the node network namespace) is that this is precisely the same spot where the cluster's primary CNI implementation *must* configure traffic routing/networking rules. This created inevitable conflicts, most critically: 
+
+- The primary CNI implementation's basic node-level networking configuration could interfere with the node-level ambient networking configuration from Istio's CNI extension, causing traffic disruption and other conflicts.
+- If users deployed a network policy to be enforced by the primary CNI implementation, the network policy might not be enforced when the Istio CNI extension is deployed (depending on how the primary CNI implementation enforces NetworkPolicy)
+
+While we could design around this on a case-by-case basis for _some_ primary CNI implementations, we could not sustainably do so for _all_ of them that we wanted to support. We considered eBPF, but realized any eBPF implementation would have the same basic problem, as there is no standardized way to safely chain/extend arbitrary eBPF programs at this time, and we would still potentially have a hard time supporting non-eBPF CNIs with this approach.
 
 ### Addressing the challenges
 
