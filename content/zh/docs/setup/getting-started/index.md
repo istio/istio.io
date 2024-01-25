@@ -12,6 +12,7 @@ owner: istio/wg-environments-maintainers
 ---
 
 {{< tip >}}
+{{< boilerplate gateway-api-future >}}
 如果您想从 Gateway API 开始使用 Istio，
 请参阅[后续入门说明](/zh/docs/setup/additional-setup/getting-started/)而不是以下内容。
 {{< /tip >}}

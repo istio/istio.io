@@ -10,6 +10,8 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
+除了它自己的流量管理 API 之外，
+{{< boilerplate gateway-api-future >}}
 本文描述 Istio 和 Kubernetes API 之间的差异，并提供了一个简单的例子，
 向您演示如何配置 Istio 以使用 Gateway API 在服务网格集群外部暴露服务。
 请注意，这些 API 是 Kubernetes [Service](https://kubernetes.io/zh-cn/docs/concepts/services-networking/service/)
