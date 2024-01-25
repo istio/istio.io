@@ -147,8 +147,7 @@ the istio-cni node agent.
   - If a *new* pod is started that should be enrolled, a CNI plugin (as installed and managed by the istio-cni agent)
 
 is triggered by the CRI. This plugin is used to push a new pod event to the node’s `istio-cni` agent, and block pod startup until the agent successfully configures redirection. Since CNI plugins are invoked by the CRI as early as possible in the Kubernetes pod creation process, this ensures that we can establish traffic redirection early enough to prevent traffic escaping during startup, without relying on things like init containers.
-  - If an *already-running* pod becomes eligible for ambient enrollment, the istio-cni node agent’s Kubernetes API watcher
-triggers a new pod event, and redirection is configured in the same manner.
+  - If an *already-running* pod becomes eligible for ambient enrollment, the `istio-cni` node agent’s Kubernetes API watcher detects this, and redirection is configured in the same manner.
 - The istio-cni node agent hops into the pod’s network namespace and establishes network redirection rules inside the pod
 network namespace, such that packets entering and leaving the pod are intercepted and transparently redirected to local
 proxy listening [ports](https://github.com/istio/ztunnel/blob/master/ARCHITECTURE.md#ports) (15008, 15006, 15001).
