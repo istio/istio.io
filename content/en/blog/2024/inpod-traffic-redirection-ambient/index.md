@@ -6,7 +6,7 @@ attribution: "Ben Leggett (Solo.io), Yuval Kohavi (Solo.io), Lin Sun (Solo.io)"
 keywords: [Ambient,Istio,CNI,ztunnel,traffic]
 ---
 
-The Istio project [announced its innovative new ambient mode](/blog/2022/introducing-ambient-mesh/) in 2022, and [released an Alpha implementation](/news/releases/1.18.x/announcing-1.18/#ambient-mesh) in early 2023.
+The Istio project [announced ambient mesh - it's new sidecar-less dataplane mode](/blog/2022/introducing-ambient-mesh/) in 2022, and [released an Alpha implementation](/news/releases/1.18.x/announcing-1.18/#ambient-mesh) in early 2023.
 
 Our Alpha was focused on proving out the value of the ambient model, under limited conditions, which it certainly has done. However, the conditions were quite limited. Ambient mode relies on transparently redirecting traffic, and the initial mechanism we used to do that conflicted several categories of 3rd-party CNI implementations.
 Through GitHub issues and Slack discussions, we heard our users wanted to be able to use ambient mode in [minikube](https://github.com/istio/istio/issues/46163) and [Docker Desktop](https://github.com/istio/istio/issues/47436), with CNI implementations like [Cilium](https://github.com/istio/istio/issues/44198) and [Calico](https://github.com/istio/istio/issues/40973), and on services that ship in-house CNI implementations like [OpenShift](https://github.com/istio/istio/issues/42341) and [Amazon EKS](https://github.com/istio/istio/issues/42340).
