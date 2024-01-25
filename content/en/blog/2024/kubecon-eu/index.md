@@ -19,7 +19,7 @@ There will be lots of Istio-related activity at KubeCon + CloudNativeCon Europe 
     - [Keynote: Platform Building Blocks: How to Build ML Infrastructure with CNCF Projects](https://sched.co/1YhIv)
     - [What Not Do When You're Updating Istio in a Critical Environment?](https://sched.co/1YeQk)
     - [Comparing Sidecar-Less Service Mesh from Cilium and Istio](https://sched.co/1YeRx)
-    - [Next-Level Security: Implementing MTLS in Istio Multi-Cluster Environments Using SPIRE](https://sched.co/1YeSP)
+    - [Next-Level Security: Implementing mTLS in Istio Multi-Cluster Environments Using SPIRE](https://sched.co/1YeSP)
     - [Scaling Service Mesh: Self Service Beyond 300 Clusters](https://sched.co/1YeSt)
     - [Lightning Talk: Help! My Envoy Sidecar Is Consuming `8GBs` of Memory!](https://sched.co/1YeLI)
     - [Poster Session: Kubernetes in the Confidential Computing Marvels: Unlocking SMPC Across Multi-Cloud Clusters](https://sched.co/1YhDv)
