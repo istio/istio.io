@@ -139,7 +139,7 @@ or after? Will some CNIs break if we do one, or the other, and they aren’t exp
 enforced, since NetworkPolicy must be enforced in the node network namespace? Do we need lots of code to special-case
 every popular CNI?
 
-### Istio Ambient Traffic Redirection: The Current Model
+### Istio Ambient Traffic Redirection: The New Model
 
 In the current ambient model, this is how mesh enrollment works:
 - A Kubernetes pod (existing or newly-started), with labels indicating it should be enrolled in the ambient mesh, is detected by
