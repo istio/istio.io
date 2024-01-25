@@ -210,7 +210,7 @@ command terminated with exit code 56
 ENDSNIP
 
 snip_l7_authorization_policy_1() {
-istioctl x waypoint apply --service-account bookinfo-productpage
+istioctl x waypoint apply --service-account bookinfo-productpage --wait
 }
 
 ! read -r -d '' snip_l7_authorization_policy_1_out <<\ENDSNIP
@@ -286,7 +286,7 @@ kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<title>
 ENDSNIP
 
 snip_control_traffic_1() {
-istioctl x waypoint apply --service-account bookinfo-reviews
+istioctl x waypoint apply --service-account bookinfo-reviews --wait
 }
 
 ! read -r -d '' snip_control_traffic_1_out <<\ENDSNIP
