@@ -121,7 +121,7 @@ packets entering or leaving the enrolled pod would be intercepted and redirected
 proxy ports (15008, 15006, or 15001).
 
 This means that for a packet created by a mesh-enrolled pod, that packet would leave that source pod, enter the node’s
-top-level network namespace, and then be intercepted and redirected to that node’s ztunnel (running in its own network
+top-level network namespace, and then ideally would be intercepted and redirected to that node’s ztunnel (running in its own network
 namespace) for proxying to the destination pod, with the return trip being similar.
 
 This model worked well enough as a placeholder for the initial Ambient launch, but as mentioned, it has a fundamental
