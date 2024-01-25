@@ -124,7 +124,7 @@ This means that for a packet created by a mesh-enrolled pod, that packet would l
 top-level network namespace, and then ideally would be intercepted and redirected to that node’s ztunnel (running in its own network
 namespace) for proxying to the destination pod, with the return trip being similar.
 
-This model worked well enough as a placeholder for the initial Ambient launch, but as mentioned, it has a fundamental
+This model worked well enough as a placeholder for the initial ambient mesh alpha implementation, but as mentioned, it has a fundamental
 problem - there are many CNI implementations, and in Linux there are many fundamentally different and incompatible ways
 in which you can configure how packets get from one network namespace to another. You can use tunnels, overlay networks,
 you can go through the host network namespace, or you can bypass it. You can go through the Linux user space networking stack,
