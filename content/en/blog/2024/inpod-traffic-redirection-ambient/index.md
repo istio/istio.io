@@ -50,11 +50,7 @@ While we could design around this on a case-by-case basis for _some_ primary CNI
 
 ### Addressing the challenges
 
-Applying any traffic
-routing/networking rules in the node-level network namespace invites unresolvable conflicts/incompatibilities with
-CNIs (which might use a wide variety of fundamentally networking topologies on the node) - they *must* configure traffic
-routing/networking rules in the node-level network namespace. We realized any eBPF implementation would have the same
-basic problem, as there is no standardized way to safely chain/extend arbitrary eBPF programs at this time.
+A new solution was necessary - doing redirection of any sort in the node's network namespace would create unavoidable conflicts, unless we compromised our compatibility requirements.
 
 In sidecar mode, it is trivial to configure traffic redirection between sidecar and application pod, as both operate within
 the pod's network namespace. This led to a light-bulb moment: why not mimic sidecars, and configure the redirection in
