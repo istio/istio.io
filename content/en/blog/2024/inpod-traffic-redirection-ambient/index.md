@@ -162,7 +162,7 @@ network namespace, it is perfectly possible to leverage Linux’s low-level sock
 network namespace to create listening sockets in another network namespace, assuming the target network namespace is known
 at creation time.
 - The node-local ztunnel internally spins up a new proxy instance and listen port set, dedicated to the newly-enrolled pod.
-- Once the in-pod redirect rules are in place and the ztunnel has established the listen ports, the pod is enrolled in the
+- Once the in-Pod redirect rules are in place and the ztunnel has established the listen ports, the pod is enrolled in the
 mesh and traffic begins flowing thru the node-local ztunnel, as before.
 
 Here’s a basic diagram showing the pod enrollment flow:
