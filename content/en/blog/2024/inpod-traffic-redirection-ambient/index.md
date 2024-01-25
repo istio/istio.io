@@ -120,7 +120,7 @@ be included in the ambient mesh, is detected by the istio-cni node agent.
 packets entering or leaving the enrolled pod would be intercepted and redirected to that node’s ztunnel on the relevant
 proxy ports (15008, 15006, or 15001).
 
-This meant that for a packet created by a mesh-enrolled pod, that packet would leave that source pod, enter the node’s
+This means that for a packet created by a mesh-enrolled pod, that packet would leave that source pod, enter the node’s
 top-level network namespace, and then be intercepted and redirected to that node’s ztunnel (running in its own network
 namespace) for proxying to the destination pod, with the return trip being similar.
 
