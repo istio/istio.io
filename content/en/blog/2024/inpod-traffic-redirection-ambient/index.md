@@ -127,7 +127,7 @@ namespace) for proxying to the destination pod, with the return trip being simil
 This model worked well enough as a placeholder for the initial ambient mesh alpha implementation, but as mentioned, it has a fundamental
 problem - there are many CNI implementations, and in Linux there are many fundamentally different and incompatible ways
 in which you can configure how packets get from one network namespace to another. You can use tunnels, overlay networks,
-you can go through the host network namespace, or you can bypass it. You can go through the Linux user space networking stack,
+go through the host network namespace, or bypass it. You can go through the Linux user space networking stack,
 or you can skip it and shuttle packets back and forth in the kernel space stack, etc etc. For every possible approach,
 there’s probably a CNI implementation out there that makes use of it.
 
