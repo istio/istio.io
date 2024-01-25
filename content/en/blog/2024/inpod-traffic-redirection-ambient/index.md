@@ -46,7 +46,7 @@ The fundamental problem with this approach (redirecting traffic in the node netw
 - The primary CNI implementation's basic node-level networking configuration could interfere with the node-level ambient networking configuration from Istio's CNI extension, causing traffic disruption and other conflicts.
 - If users deployed a network policy to be enforced by the primary CNI implementation, the network policy might not be enforced when the Istio CNI extension is deployed (depending on how the primary CNI implementation enforces NetworkPolicy)
 
-While we could design around this on a case-by-case basis for _some_ primary CNI implementations, we could not sustainably do so for _all_ of them that we wanted to support. We considered eBPF, but realized any eBPF implementation would have the same basic problem, as there is no standardized way to safely chain/extend arbitrary eBPF programs at this time, and we would still potentially have a hard time supporting non-eBPF CNIs with this approach.
+While we could design around this on a case-by-case basis for _some_ primary CNI implementations, we could not sustainably approach universal CNI support. We considered eBPF, but realized any eBPF implementation would have the same basic problem, as there is no standardized way to safely chain/extend arbitrary eBPF programs at this time, and we would still potentially have a hard time supporting non-eBPF CNIs with this approach.
 
 ### Addressing the challenges
 
