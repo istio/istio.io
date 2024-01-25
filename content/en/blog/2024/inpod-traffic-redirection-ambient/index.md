@@ -206,4 +206,4 @@ move Istio ambient forward to run everywhere with this innovative in-Pod traffic
 and users’ application pods. With this top technical hurdle to ambient beta resolved, we can't wait to work with the
 rest of the Istio community to get ambient to beta soon! To learn more about ambient’s beta progress, join us in
 the #ambient and #ambient-dev channel in Istio’s [slack](https://slack.istio.io), or attend the [weekly ambient contributor meeting](https://github.com/istio/community/blob/master/WORKING-GROUPS.md#working-group-meetings) on Wednesdays,
-or check out the ambient beta [project board](https://github.com/orgs/istio/projects/9/views/3?filterQuery=beta) and help us fix something!
+or check out the ambient mesh beta [project board](https://github.com/orgs/istio/projects/9/views/3?filterQuery=beta) and help us fix something!
