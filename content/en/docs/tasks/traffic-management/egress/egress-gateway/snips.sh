@@ -178,8 +178,6 @@ spec:
   - kind: ServiceEntry
     group: networking.istio.io
     name: cnn
-  hostnames:
-  - edition.cnn.com
   rules:
   - backendRefs:
     - name: cnn-egress-gateway-istio
@@ -373,8 +371,6 @@ spec:
   - kind: ServiceEntry
     group: networking.istio.io
     name: cnn
-  hostnames:
-  - edition.cnn.com
   rules:
   - backendRefs:
     - name: cnn-egress-gateway-istio
