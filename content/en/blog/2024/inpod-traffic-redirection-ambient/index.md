@@ -22,10 +22,7 @@ Istio is a service mesh, and all service meshes by strict definition are not *CN
 
 This primary CNI implementation may be provided by your cloud provider (AKS, GKE, and EKS all ship their own), or by third-party CNI implementations like Calico. Some service meshes may also ship bundled with their own primary CNI implementation, which they explicitly require to function. 
 
-Basically, before you can do things like secure pod traffic with mTLS and apply lots of high-level authentication and authorization policy
-at the service mesh layer, you must have a functional Kubernetes cluster with a functional CNI implementation, to make sure the
-basic networking pathways are set up so that packets can get from one pod to another (and from one node to another) in
-your cluster.
+Basically, before you can do things like secure pod traffic with mTLS and apply of high-level authentication and authorization policy at the service mesh layer, you must have a functional Kubernetes cluster with a functional CNI implementation, to make sure the basic networking pathways are set up so that packets can get from one pod to another (and from one node to another) in your cluster.
 
 Though some service meshes may also ship and require their own in-house CNI implementation, the Istio project has chosen not
 to, for maximum compatibility with managed offerings, cross-vendor support, and composability with the broader CNCF ecosystem.
