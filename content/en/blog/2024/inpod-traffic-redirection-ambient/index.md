@@ -109,7 +109,7 @@ accomplish this - as long as packets get where they’re supposed to be, Kuberne
 
 ### Istio ambient traffic redirection: why did we drop the previous model?
 
-In Istio ambient, every node has a minimum of two containers running as Kubernetes DaemonSet:
+In Istio ambient mesh, every node has a minimum of two containers running as Kubernetes DaemonSets:
 - An efficient ztunnel which handles mesh traffic proxying duties, and L4 policy enforcement.
 - A CNI node agent that handles enrolling new and existing pods into the ambient mesh.
 
