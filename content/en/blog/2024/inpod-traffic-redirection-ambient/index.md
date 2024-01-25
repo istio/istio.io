@@ -64,8 +64,8 @@ as well as the istio-cni agent.
 
 ### Traffic redirection in ambient now
 
-After sufficient prototyping and validating that the innovative approach does work for all the Kubernetes platforms we have
-access to, we built the confidence of the work and contributed to upstream to switch to this new traffic redirection
+After prototyping and sufficiently validating that this innovative approach does work for all the Kubernetes platforms we have
+access to, we built confidence in the work and decided to contribute this new traffic redirection
 model - an *in-Pod* traffic redirection mechanism between workload pods and the ztunnel node proxy component that has
 been built from the ground up to be highly compatible with all major cloud providers and CNIs.
 
