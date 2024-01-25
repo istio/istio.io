@@ -210,7 +210,7 @@ of reviews from Istio maintainers, we are glad the [ztunnel](https://github.com/
 can start running ambient on any Kubernetes platforms with any CNIs in Istio 1.21 or newer. We’ve tested this with Google,
 Microsoft, and AWS’s managed Kubernetes offerings and all the CNI implementations they offer, as well as with 3rd-party CNIs like
 Calico and Cilium, as well as platforms like OpenShift, with solid results. We are extremely excited that we are able to
-move Istio Ambient forward to run everywhere with this innovative in-Pod traffic redirection approach between ztunnel
+move Istio ambient forward to run everywhere with this innovative in-Pod traffic redirection approach between ztunnel
 and users’ application pods. With this top technical hurdle to ambient beta resolved, we can't wait to work with the
 rest of the Istio community to get ambient to beta soon! To learn more about ambient’s beta progress, join us in
 the #ambient and #ambient-dev channel in Istio’s [slack](https://slack.istio.io), or attend the weekly ambient contributor [meeting](https://github.com/istio/community/blob/master/WORKING-GROUPS.md#working-group-meetings) on Wednesdays,
