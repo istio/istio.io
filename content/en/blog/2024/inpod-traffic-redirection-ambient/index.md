@@ -101,7 +101,7 @@ the packet might (depending on how networking was set up):
 - Leave the source pod network namespace, and bubble up into the node’s network namespace where it is processed by any rules in that namespace.
 - From there, finally be redirected into the target pod’s network namespace (and processed by any rules there).
 
-In Kubernetes, the [CRI](https://kubernetes.io/docs/concepts/architecture/cri/) (Container *Runtime* Interface) is responsible for talking to the Linux kernel, creating network namespaces
+In Kubernetes, the [Container *Runtime* Interface (CRI)](https://kubernetes.io/docs/concepts/architecture/cri/) is responsible for talking to the Linux kernel, creating network namespaces
 for new pods, and starting processes within them. The CRI then invokes the [CNI](https://github.com/containernetworking/cni) (Container *Networking* Interface),
 which is responsible for wiring up the networking rules in the various Linux network namespaces, so that packets leaving and
 entering the new pod can get where they’re supposed to go. It doesn’t matter much what topology or mechanism the CNI uses to
