@@ -39,9 +39,7 @@ data plane mode. Whenever pods are added to an ambient mesh, the istio-cni compo
 incoming and outgoing traffic between the pods and the [ztunnel](/blog/2023/rust-based-ztunnel/) running on
 the pod's node, via the node-level network namespace. The key difference between the sidecar mechanism and the ambient alpha mechanism is that in the latter, pod traffic was redirected out of the pod network namespace, and into the ztunnel network namespace - necessarily passing through the node's network namespace on the way, which is where the bulk of the traffic redirection rules to achieve this were implemented.
 
-As we tested more broadly in multiple Kubernetes environments which many of them have its default CNI, it became clear that
-the host network based traffic redirection mechanism we had been using for Istio ambient traffic capture and redirection
-during the alpha stage was not going to meet our requirements. 
+As we tested more broadly in multiple Kubernetes environments which many of them have its default CNI, it became clear that capturing and redirecting pod traffic in the node network namespace, as we were during ambient alpha, was not going to meet our requirements. 
 
 These are the two biggest challenges with the host-based approach:
 - The default CNI’s node-level networking configuration could interfere with the node-level networking configuration
