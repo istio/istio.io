@@ -131,7 +131,7 @@ you can go through the host network namespace, or you can bypass it. You can go 
 or you can skip it and shuttle packets back and forth in the kernel space stack, etc etc. And for every possible approach,
 there’s probably a CNI implementation out there that makes use of it.
 
-Which meant that with the previous redirection approach, there were lots of CNI implementations Ambient simply wouldn’t
+Which meant that with the previous redirection approach, there were a lot of CNI implementations ambient simply wouldn’t
 work with, given its reliance on node network namespace packet redirection - any CNI that didn’t route packets thru the
 node network namespace would need a different redirection implementation. And even for CNIs that did do this, we would
 have unavoidable and potentially unresolvable problems with conflicting node-level rules - do we intercept before the CNI,
