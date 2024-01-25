@@ -113,7 +113,7 @@ In Istio ambient, every node has a minimum of two containers running as Kubernet
 - An efficient ztunnel which handles mesh traffic proxying duties, and L4 policy enforcement.
 - A CNI node agent that handles enrolling new and existing pods into the ambient mesh.
 
-In the previous ambient model, this is how mesh enrollment worked:
+In the previous ambient mesh implementation, this is how mesh enrollment worked:
 - A Kubernetes pod (existing or newly-started), with its namespace labeled with `istio.io/dataplane-mode=enabled` indicating it should
 be included in the ambient mesh, is detected by the istio-cni node agent.
 - The istio-cni node agent then establishes network redirection rules in the top-level node network namespace, such that
