@@ -48,7 +48,7 @@ spec:
       app: httpbin
   jwtRules:
   - issuer: "testing@secure.istio.io"
-    jwksUri: "https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/jwks.json"
+    jwksUri: "https://raw.githubusercontent.com/istio/istio/release-1.21/security/tools/jwt/samples/jwks.json"
     outputClaimToHeaders:
     - header: "x-jwt-claim-foo"
       claim: "foo"
@@ -64,7 +64,7 @@ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadat
 ENDSNIP
 
 snip_allow_requests_with_valid_jwt_and_listtyped_claims_3() {
-TOKEN=$(curl https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/demo.jwt -s) && echo "$TOKEN" | cut -d '.' -f2 - | base64 --decode -
+TOKEN=$(curl https://raw.githubusercontent.com/istio/istio/release-1.21/security/tools/jwt/samples/demo.jwt -s) && echo "$TOKEN" | cut -d '.' -f2 - | base64 --decode -
 }
 
 ! read -r -d '' snip_allow_requests_with_valid_jwt_and_listtyped_claims_3_out <<\ENDSNIP
