@@ -190,10 +190,7 @@ where that is necessary:
 
 ### Istio Ambient Traffic Redirection: What This Gets Us
 
-The end result of the new ambient capture model is that all traffic capture and redirection happens inside the pod’s network
-namespace. To the node, the CNI, and everything else, it looks like there is a sidecar proxy inside the pod, even though
-there is, as before, **no sidecar proxy running in the pod** at all. Remember that the job of CNI implementations is to get
-packets **to and from** the pod. By design and by the CNI spec, they do not care what happens to packets after that point.
+The end result of the new ambient capture model is that all traffic capture and redirection happens inside the pod’s network namespace. To the node, the CNI, and everything else, it looks like there is a sidecar proxy inside the pod, even though there is **no sidecar proxy running in the pod** at all. Remember that the job of CNI implementations is to get packets **to and from** the pod. By design and by the CNI spec, they do not care what happens to packets after that point.
 
 This approach automatically eliminates conflicts with a wide range of CNI and NetworkPolicy implementations, and drastically
 improves Istio ambient mesh compatibility with all major managed Kubernetes offerings across all major CNIs.
