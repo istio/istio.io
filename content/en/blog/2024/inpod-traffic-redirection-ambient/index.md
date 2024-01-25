@@ -144,7 +144,7 @@ every popular CNI?
 In the current ambient model, this is how mesh enrollment works:
 - A Kubernetes pod (existing or newly-started), with labels indicating it should be enrolled in the ambient mesh, is detected by
 the istio-cni node agent.
-  - If a *new* pod is started that should be enrolled, a standard CNI plugin (as installed and managed by the istio-cni agent)
+  - If a *new* pod is started that should be enrolled, a CNI plugin (as installed and managed by the istio-cni agent)
 is triggered by the CRI, used to push a new pod event to the node’s istio-cni agent, and block pod startup until redirection
 is established. Since CNI plugins are invoked by the CRI as early as possible in the Kubernetes pod creation process,
 this ensures that we can establish traffic redirection early enough to prevent traffic escaping during startup,
