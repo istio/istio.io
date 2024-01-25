@@ -16,9 +16,9 @@ test: n/a
 然后根据您的特定需求进一步[自定义配置文件](/zh/docs/setup/additional-setup/customize-installation/)。
 当前提供以下几种内置配置文件：
 
-1. **default**：根据 [`IstioOperator` API](/zh/docs/reference/config/istio.operator.v1alpha1/) 的默认设置启动组件。
-    建议用于生产部署和 [Multicluster Mesh](/zh/docs/ops/deployment/deployment-models/#multiple-clusters)
-    中的 {{< gloss "primary cluster" >}}Primary Cluster{{< /gloss >}}。
+1. **default**：根据 [`IstioOperator` API](/zh/docs/reference/config/istio.operator.v1alpha1/) 的默认设置来启用组件。
+    建议用于生产部署和[多集群网格](/zh/docs/ops/deployment/deployment-models/#multiple-clusters)
+    中的{{< gloss "primary cluster" >}}主集群{{< /gloss >}}。
 
     您可以运行 `istioctl profile dump` 命令来查看默认设置。
 
@@ -31,20 +31,20 @@ test: n/a
     {{< /warning >}}
 
 1. **minimal**：与默认配置文件相同，但只安装了控制平面组件。
-    它允许您使用 [Separate Profile](/zh/docs/setup/additional-setup/gateway/#deploying-a-gateway)
+    它允许您使用[单独的配置文件](/zh/docs/setup/additional-setup/gateway/#deploying-a-gateway)
     配置控制平面和数据平面组件（例如 Gateway）。
 
-1. **remote**：用于配置一个 {{< gloss >}}Remote Cluster{{< /gloss >}}，
-    这个从集群由 {{< gloss >}}External Control Plane{{< /gloss >}} 管理，
-    或者由 [Multicluster Mesh](/zh/docs/ops/deployment/deployment-models/#multiple-clusters) 的
-    {{< gloss >}}Primary Cluster{{< /gloss >}} 中的控制平面管理。
+1. **remote**：用于配置一个{{< gloss "remote cluster" >}}从集群{{< /gloss >}}，
+    这个从集群由{{< gloss "external control plane" >}}外部控制平面{{< /gloss >}}管理，
+    或者由[多集群网格](/zh/docs/ops/deployment/deployment-models/#multiple-clusters)的
+    {{< gloss "primary cluster" >}}主集群{{< /gloss >}}中的控制平面管理。
 
 1. **empty**：不部署任何内容。可以作为自定义配置的基本配置文件。
 
 1. **preview**：预览文件包含的功能都属于实验性阶段。该配置文件是为了探索 Istio 的新功能。
     确保稳定性、安全性和性能（使用风险需自负）。
 
-1. **ambient**：Ambient 配置文件旨在帮助您开始使用[Ambient Mesh](/zh/docs/ops/ambient)。
+1. **ambient**：Ambient 配置文件旨在帮助您开始使用 [Ambient Mesh](/zh/docs/ops/ambient)。
 
     {{< boilerplate ambient-alpha-warning >}}
 
