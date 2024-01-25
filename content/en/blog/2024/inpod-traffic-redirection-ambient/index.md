@@ -134,7 +134,7 @@ there’s probably a CNI implementation out there that makes use of it.
 Which meant that with the previous redirection approach, there were a lot of CNI implementations ambient simply wouldn’t
 work with. Given its reliance on node network namespace packet redirection - any CNI that didn’t route packets thru the
 node network namespace would need a different redirection implementation. And even for CNIs that did do this, we would
-have unavoidable and potentially unresolvable problems with conflicting node-level rules - do we intercept before the CNI,
+have unavoidable and potentially unresolvable problems with conflicting node-level rules. Do we intercept before the CNI,
 or after? Will some CNIs break if we do one, or the other, and they aren’t expecting that? Where and when is NetworkPolicy
 enforced, since NetworkPolicy must be enforced in the node network namespace? Do we need lots of code to special-case
 every popular CNI?
