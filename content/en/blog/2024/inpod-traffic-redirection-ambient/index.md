@@ -148,9 +148,7 @@ the istio-cni node agent.
 
 is triggered by the CRI. This plugin is used to push a new pod event to the node’s `istio-cni` agent, and block pod startup until the agent successfully configures redirection. Since CNI plugins are invoked by the CRI as early as possible in the Kubernetes pod creation process, this ensures that we can establish traffic redirection early enough to prevent traffic escaping during startup, without relying on things like init containers.
   - If an *already-running* pod becomes eligible for ambient enrollment, the `istio-cni` node agent’s Kubernetes API watcher detects this, and redirection is configured in the same manner.
-- The istio-cni node agent hops into the pod’s network namespace and establishes network redirection rules inside the pod
-network namespace, such that packets entering and leaving the pod are intercepted and transparently redirected to local
-proxy listening [ports](https://github.com/istio/ztunnel/blob/master/ARCHITECTURE.md#ports) (15008, 15006, 15001).
+- The istio-cni node agent hops into the pod’s network namespace and establishes network redirection rules inside the pod network namespace, such that packets entering and leaving the pod are intercepted and transparently redirected to the node-local ztunnel proxy instance listening on [well-known ports](https://github.com/istio/ztunnel/blob/master/ARCHITECTURE.md#ports) (15008, 15006, 15001).
 - The istio-cni node agent then informs the node ztunnel over a Unix domain socket that it should establish local proxy
 listening ports inside the pod’s network namespace, (on 15008, 15006, and 15001), and provides ztunnel with a low-level
 Linux [file descriptor](https://en.wikipedia.org/wiki/File_descriptor) representing the pod’s network namespace.
