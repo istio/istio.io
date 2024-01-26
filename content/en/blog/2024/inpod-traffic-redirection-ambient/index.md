@@ -112,7 +112,7 @@ accomplish this - as long as packets get where they’re supposed to be, Kuberne
 
 In Istio ambient mesh, every node has a minimum of two containers running as Kubernetes DaemonSets:
 - An efficient ztunnel which handles mesh traffic proxying duties, and L4 policy enforcement.
-- A CNI node agent that handles enrolling new and existing pods into the ambient mesh.
+- A CNI node agent that handles adding new and existing pods into the ambient mesh.
 
 In the previous ambient mesh implementation, this is how mesh enrollment worked:
 - The `istio-cni` node agent detects an existing or newly-started Kubernetes pod with its namespace labeled with `istio.io/dataplane-mode=enabled`, indicating that it should be included in the ambient mesh.
