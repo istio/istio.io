@@ -7,10 +7,7 @@ owner: istio/wg-environments-maintainers
 test: no
 ---
 
-The `istioctl upgrade` command performs an upgrade of Istio. Before performing
-the upgrade, it checks that the Istio installation meets the upgrade eligibility
-criteria. Also, it alerts the user if it detects any changes in the profile
-default values between Istio versions.
+The `istioctl upgrade` command performs an upgrade of Istio.
 
 {{< tip >}}
 [Canary Upgrade](/docs/setup/upgrade/canary/) is safer than doing an in-place upgrade and is the recommended upgrade method.
@@ -114,6 +111,4 @@ You can use `istioctl upgrade` to downgrade to a lower version of Istio. The ste
 identical to the upgrade process described in the previous section, only using the `istioctl` binary corresponding
 to the lower version (e.g., 1.6.5). When completed, Istio will be restored to the previously installed version.
 
-Alternatively, `istioctl install` can be used to install an older version of the Istio control plane, but is not recommended
-because it does not perform any checks. For example, default values applied to the cluster for a configuration
-profile may change without warning.
+Alternatively, `istioctl install` can be used to install an older version of the Istio control plane.
