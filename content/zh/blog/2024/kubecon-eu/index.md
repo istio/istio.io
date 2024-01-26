@@ -45,6 +45,6 @@ keywords: [Istio Day,Istio,conference,KubeCon,CloudNativeCon]
 
 - 参加 Istio [维护者跟踪会议](https://kccnceu2024.sched.com/event/1YhhS/istio-project-update-eric-van-norman-ibm-zhonghu-xu-huawei)
 
-- 整个活动期间，请在项目馆的 Istio 信息亭进行沟通。
+- 整个活动期间，欢迎来项目馆的 Istio 展台进行沟通。
 
-很快在巴黎见！
+巴黎不见不散！
