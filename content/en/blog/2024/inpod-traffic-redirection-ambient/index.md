@@ -138,7 +138,7 @@ every popular CNI?
 
 ### Istio Ambient Traffic Redirection: The New Model
 
-In the current ambient model, this is how mesh enrollment works:
+In the new ambient model, this is how mesh enrollment works:
 - A Kubernetes pod (existing or newly-started), with labels indicating it should be enrolled in the ambient mesh, is detected by
 the istio-cni node agent.
   - If a *new* pod is started that should be enrolled, a CNI plugin (as installed and managed by the istio-cni agent)
