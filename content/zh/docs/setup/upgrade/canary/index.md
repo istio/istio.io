@@ -256,7 +256,7 @@ $ istioctl uninstall --revision=canary -y
 
 ## 清理 {#cleanup}
 
-1. 清理已创建的修订版本标签:
+1. 清理已创建的修订版本标签：
 
    {{< text bash >}}
    $ istioctl tag remove prod-stable
