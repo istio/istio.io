@@ -256,6 +256,13 @@ $ istioctl uninstall --revision=canary -y
 
 ## 清理 {#cleanup}
 
+1. 清理已创建的修订版本标签：
+
+    {{< text bash >}}
+    $ istioctl tag remove prod-stable
+    $ istioctl tag remove prod-canary
+    {{< /text >}}
+
 1. 清理用于金丝雀升级的命名空间与修订标签的例子：
 
     {{< text bash >}}
