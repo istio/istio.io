@@ -99,7 +99,7 @@ First, let’s go over the basics of how a packet travels between pods in Kubern
 
 In Linux, a *container* is one or more Linux processes running within isolated Linux namespaces. A Linux namespace
 is simply a kernel flag that controls what processes running within that namespace are able to see. For instance, if you
-create a new Linux network namespace and run a process inside it, that process can only see the networking rules created
+create a new Linux network namespace via `ip netns add my-linux-netns` and run a process inside it, that process can only see the networking rules created
 within that network namespace, and not any created outside of it - even though everything running on that machine is still
 sharing one Linux networking stack.
 
