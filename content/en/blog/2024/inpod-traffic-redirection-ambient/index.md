@@ -36,7 +36,9 @@ incompatibilities due to the wildly varying mechanisms each CNI implementation m
 
 To avoid this, the Istio project has chosen not to ship or require their own primary CNI implementation, or even require a "preferred" CNI
 implementation - instead choosing to support CNI chaining with the widest possible ecosystem of CNI implementations, and ensuring maximum
-compatibility with managed offerings, cross-vendor support, and composability with the broader CNCF ecosystem.
+compatibility with managed offerings, cross-vendor support, and composability with the broader CNCF ecosystem. Don't confuse the full CNI
+implementation that provides network policy enforcement with the `istio-cni` component that merely sets up traffic redirection for the
+application pod, which we will cover next.
 
 ### Traffic redirection in ambient alpha
 
