@@ -107,7 +107,7 @@ which is responsible for wiring up the networking rules in the various Linux net
 entering the new pod can get where they’re supposed to go. It doesn’t matter much what topology or mechanism the CNI uses to
 accomplish this - as long as packets get where they’re supposed to be, Kubernetes works and everyone is happy.
 
-### Istio ambient traffic redirection: why did we drop the previous model?
+### Why did we drop the previous model?
 
 In Istio ambient mesh, every node has a minimum of two containers running as Kubernetes DaemonSets:
 - An efficient ztunnel which handles mesh traffic proxying duties, and L4 policy enforcement.
