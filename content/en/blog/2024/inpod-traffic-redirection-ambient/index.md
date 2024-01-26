@@ -6,13 +6,23 @@ attribution: "Ben Leggett (Solo.io), Yuval Kohavi (Solo.io), Lin Sun (Solo.io)"
 keywords: [Ambient,Istio,CNI,ztunnel,traffic]
 ---
 
-The Istio project [announced ambient mesh - its new sidecar-less dataplane mode](/blog/2022/introducing-ambient-mesh/) in 2022, and [released an Alpha implementation](/news/releases/1.18.x/announcing-1.18/#ambient-mesh) in early 2023.
+The Istio project [announced ambient mesh - its new sidecar-less dataplane mode](/blog/2022/introducing-ambient-mesh/) in 2022,
+and [released an Alpha implementation](/news/releases/1.18.x/announcing-1.18/#ambient-mesh) in early 2023.
 
-Our Alpha was focused on proving out the value of the ambient model, under limited conditions, which it certainly has done. However, the conditions were quite limited. Ambient mode relies on transparently redirecting traffic, and the initial mechanism we used to do that conflicted with several categories of 3rd-party Container Networking Interface (CNI) implementations.
-Through GitHub issues and Slack discussions, we heard our users wanted to be able to use ambient mode in [minikube](https://github.com/istio/istio/issues/46163) and [Docker Desktop](https://github.com/istio/istio/issues/47436), with CNI implementations like [Cilium](https://github.com/istio/istio/issues/44198) and [Calico](https://github.com/istio/istio/issues/40973), and on services that ship in-house CNI implementations like [OpenShift](https://github.com/istio/istio/issues/42341) and [Amazon EKS](https://github.com/istio/istio/issues/42340).
-Getting broad support for Kubernetes anywhere has become the No. 1 requirement for ambient mesh moving to Beta — people have come to expect Istio to work on any Kubernetes platform and with any CNI implementation. After all, ambient wouldn’t be ambient without being all around you!
+Our Alpha was focused on proving out the value of the ambient model, under limited conditions, which it certainly has done.
+However, the conditions were quite limited. Ambient mode relies on transparently redirecting traffic, and the initial
+mechanism we used to do that conflicted with several categories of 3rd-party Container Networking Interface (CNI) implementations.
+Through GitHub issues and Slack discussions, we heard our users wanted to be able to use ambient mode in [minikube](https://github.com/istio/istio/issues/46163)
+and [Docker Desktop](https://github.com/istio/istio/issues/47436), with CNI implementations like [Cilium](https://github.com/istio/istio/issues/44198) and [Calico](https://github.com/istio/istio/issues/40973),
+and on services that ship in-house CNI implementations
+like [OpenShift](https://github.com/istio/istio/issues/42341) and [Amazon EKS](https://github.com/istio/istio/issues/42340).
+Getting broad support for Kubernetes anywhere has become the No. 1 requirement for ambient mesh moving to Beta — people have come to expect Istio to
+work on any Kubernetes platform and with any CNI implementation. After all, ambient wouldn’t be ambient without being all around you!
 
-At Solo, we've been integrating ambient mode into our Gloo Mesh product, and came up with an innovative solution to this problem. We decided to [upstream](https://github.com/istio/istio/issues/48212) our changes in late 2023 to help ambient reach beta faster, so more users can operate ambient in Istio 1.21 or newer, and enjoy the benefits of ambient sidecar-less mesh in their platforms regardless of their existing or preferred CNI implementation.
+At Solo, we've been integrating ambient mode into our Gloo Mesh product, and came up with an innovative solution to this problem.
+We decided to [upstream](https://github.com/istio/istio/issues/48212) our changes in late 2023 to help ambient reach beta faster,
+so more users can operate ambient in Istio 1.21 or newer, and enjoy the benefits of ambient sidecar-less mesh in their platforms
+regardless of their existing or preferred CNI implementation.
 
 ## How did we get here?
 
@@ -145,7 +155,7 @@ This model worked well enough as a placeholder for the initial ambient mesh alph
 problem - there are many CNI implementations, and in Linux there are many fundamentally different and incompatible ways
 in which you can configure how packets get from one network namespace to another. You can use tunnels, overlay networks,
 go through the host network namespace, or bypass it. You can go through the Linux user space networking stack,
-or you can skip it and shuttle packets back and forth in the kernel space stack, etc etc. For every possible approach,
+or you can skip it and shuttle packets back and forth in the kernel space stack, etc. For every possible approach,
 there’s probably a CNI implementation out there that makes use of it.
 
 Which meant that with the previous redirection approach, there were a lot of CNI implementations ambient simply wouldn’t
@@ -164,7 +174,8 @@ In the new ambient model, this is how application pod is added to the ambient me
   This plugin is used to push a new pod event to the node’s `istio-cni` agent, and block pod startup until the agent successfully configures
   redirection. Since CNI plugins are invoked by the CRI as early as possible in the Kubernetes pod creation process, this ensures that we can
   establish traffic redirection early enough to prevent traffic escaping during startup, without relying on things like init containers.
-  - If an *already-running* pod becomes added to the ambient mesh, the `istio-cni` node agent’s Kubernetes API watcher detects this, and redirection is configured in the same manner.
+  - If an *already-running* pod becomes added to the ambient mesh, a new pod event is triggered. The `istio-cni` node agent’s Kubernetes
+  API watcher detects this, and redirection is configured in the same manner.
 - The `istio-cni` node agent hops into the pod’s network namespace and establishes network redirection rules inside the pod network namespace, such that packets entering and leaving the pod are intercepted and transparently redirected to the node-local ztunnel proxy instance listening on [well-known ports](https://github.com/istio/ztunnel/blob/master/ARCHITECTURE.md#ports) (15008, 15006, 15001).
 - The `istio-cni` node agent then informs the node ztunnel over a Unix domain socket that it should establish local proxy
 listening ports inside the pod’s network namespace, (on 15008, 15006, and 15001), and provides ztunnel with a low-level
@@ -207,7 +218,10 @@ where that is necessary:
 
 ### Istio Ambient Traffic Redirection: What This Gets Us
 
-The end result of the new ambient capture model is that all traffic capture and redirection happens inside the pod’s network namespace. To the node, the CNI, and everything else, it looks like there is a sidecar proxy inside the pod, even though there is **no sidecar proxy running in the pod** at all. Remember that the job of CNI implementations is to get packets **to and from** the pod. By design and by the CNI spec, they do not care what happens to packets after that point.
+The end result of the new ambient capture model is that all traffic capture and redirection happens inside the pod’s network namespace.
+To the node, the CNI, and everything else, it looks like there is a sidecar proxy inside the pod, even though there is **no sidecar proxy running in the pod**
+at all. Remember that the job of CNI implementations is to get packets **to and from** the pod. By design and by the CNI spec, they
+do not care what happens to packets after that point.
 
 This approach automatically eliminates conflicts with a wide range of CNI and NetworkPolicy implementations, and drastically
 improves Istio ambient mesh compatibility with all major managed Kubernetes offerings across all major CNIs.
