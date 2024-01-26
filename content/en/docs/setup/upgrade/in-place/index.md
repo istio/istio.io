@@ -7,24 +7,16 @@ owner: istio/wg-environments-maintainers
 test: no
 ---
 
-The `istioctl upgrade` command performs an upgrade of Istio. Before performing
-the upgrade, it checks that the Istio installation meets the upgrade eligibility
-criteria. Also, it alerts the user if it detects any changes in the profile
-default values between Istio versions.
+The `istioctl install` command can perform an upgrade of Istio.
 
 {{< tip >}}
 [Canary Upgrade](/docs/setup/upgrade/canary/) is safer than doing an in-place upgrade and is the recommended upgrade method.
 {{< /tip >}}
 
-The upgrade command can also perform a downgrade of Istio.
+The `install` command can also perform a downgrade of Istio.
 
-See the [`istioctl` upgrade reference](/docs/reference/commands/istioctl/#istioctl-upgrade)
+See the [`istioctl` install reference](/docs/reference/commands/istioctl/#istioctl-install)
 for all the options provided by the `istioctl upgrade` command.
-
-{{< warning >}}
-`istioctl upgrade` is for in-place upgrade and not compatible with installations done with
-the `--revision` flag. Upgrades of such installations will fail with an error.
-{{< /warning >}}
 
 ## Upgrade prerequisites
 
@@ -67,13 +59,13 @@ can be found in the `bin/` subdirectory of the downloaded package.
 1. Begin the upgrade by running this command:
 
     {{< text bash >}}
-    $ istioctl upgrade
+    $ istioctl install
     {{< /text >}}
 
     {{< warning >}}
     If you installed Istio using the `-f` flag, for example
     `istioctl install -f <IstioOperator-custom-resource-definition-file>`,
-    then you must provide the same `-f` flag value to the `istioctl upgrade` command.
+    then you must provide the same `-f` flag value to the `istioctl install` command.
     {{< /warning >}}
 
     If you installed Istio using `--set` flags, ensure that you pass the same `--set` flags to upgrade,
@@ -110,10 +102,6 @@ Before you begin the downgrade process, check the following prerequisites:
 
 ## Steps to downgrade to a lower Istio version
 
-You can use `istioctl upgrade` to downgrade to a lower version of Istio. The steps are
+You can use `istioctl install` to downgrade to a lower version of Istio. The steps are
 identical to the upgrade process described in the previous section, only using the `istioctl` binary corresponding
 to the lower version (e.g., 1.6.5). When completed, Istio will be restored to the previously installed version.
-
-Alternatively, `istioctl install` can be used to install an older version of the Istio control plane, but is not recommended
-because it does not perform any checks. For example, default values applied to the cluster for a configuration
-profile may change without warning.
