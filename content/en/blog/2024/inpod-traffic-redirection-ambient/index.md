@@ -18,7 +18,8 @@ At Solo, we've been integrating ambient mode into our Gloo Mesh product, and cam
 
 ### Service meshes and CNIs: it's complicated
 
-Istio is a service mesh, and all service meshes by strict definition are not *CNI implementations* - service meshes require a [spec-compliant, primary CNI implementation](https://www.cni.dev/docs/spec/#overview-1) to be present in every Kubernetes cluster, and rest on top of that. 
+Istio is a service mesh, and all service meshes by strict definition are not *CNI implementations* - service meshes require a
+[spec-compliant, primary CNI implementation](https://www.cni.dev/docs/spec/#overview-1) to be present in every Kubernetes cluster, and rest on top of that. 
 
 This primary CNI implementation may be provided by your cloud provider (AKS, GKE, and EKS all ship their own), or by third-party CNI implementations like Calico and Cilium. Some service meshes may also ship bundled with their own primary CNI implementation, which they explicitly require to function. 
 
@@ -32,14 +33,16 @@ To avoid this, the Istio project has chosen not to ship or require their own pri
 
 The [istio-cni](/docs/setup/additional-setup/cni/) component is an optional component in the sidecar data plane mode,
 commonly used to remove the [requirement for the `NET_ADMIN` and `NET_RAW` capabilities](/docs/ops/deployment/requirements/) for
-users deploying pods into the mesh. 
-
-istio-cni is a required component in the ambient
-data plane mode. Whenever pods are added to an ambient mesh, the istio-cni component configures traffic redirection for all
+users deploying pods into the mesh. `istio-cni` is a required component in the ambient
+data plane mode. Whenever pods are added to an ambient mesh, the `istio-cni` component configures traffic redirection for all
 incoming and outgoing traffic between the pods and the [ztunnel](/blog/2023/rust-based-ztunnel/) running on
-the pod's node, via the node-level network namespace. The key difference between the sidecar mechanism and the ambient alpha mechanism is that in the latter, pod traffic was redirected out of the pod network namespace, and into the ztunnel network namespace - necessarily passing through the node's network namespace on the way, which is where the bulk of the traffic redirection rules to achieve this were implemented.
+the pod's node, via the node-level network namespace. The key difference between the sidecar mechanism and the ambient alpha mechanism
+is that in the latter, pod traffic was redirected out of the pod network namespace, and into the ztunnel network namespace - necessarily
+passing through the node's network namespace on the way, which is where the bulk of the traffic redirection rules to achieve this were implemented.
 
-As we tested more broadly in multiple Kubernetes environments, which have their own default CNI, it became clear that capturing and redirecting pod traffic in the node network namespace, as we were during alpha development, was not going to meet our requirements. It was evident that achieving our goals in a generic manner across these diverse environments was not possible in this approach.
+As we tested more broadly in multiple Kubernetes environments, which have their own default CNI, it became clear that capturing and
+redirecting pod traffic in the node network namespace, as we were during alpha development, was not going to meet our requirements.
+It was evident that achieving our goals in a generic manner across these diverse environments was not possible in this approach.
 
 The fundamental problem with this approach (redirecting traffic in the node network namespace) is that this is precisely the same spot where the cluster's primary CNI implementation *must* configure traffic routing/networking rules. This created inevitable conflicts, most critically: 
 
@@ -64,7 +67,7 @@ as well as the istio-cni agent.
 
 After prototyping and sufficiently validating that this innovative approach does work for all the Kubernetes platforms we have
 access to, we built confidence in the work and decided to contribute this new traffic redirection
-model - an *in-Pod* traffic redirection mechanism between workload pods and the ztunnel node proxy component that has
+model. An *in-Pod* traffic redirection mechanism between workload pods and the ztunnel node proxy component that has
 been built from the ground up to be highly compatible with all major cloud providers and CNIs.
 
 The key innovation is to deliver the pod’s network namespace to the ztunnel so that ztunnel can start its redirection
