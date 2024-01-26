@@ -16,7 +16,7 @@ The `istioctl install` command can perform an upgrade of Istio.
 The `install` command can also perform a downgrade of Istio.
 
 See the [`istioctl` install reference](/docs/reference/commands/istioctl/#istioctl-install)
-for all the options provided by the `istioctl upgrade` command.
+for all the options provided by the `istioctl install` command.
 
 ## Upgrade prerequisites
 
