@@ -139,8 +139,7 @@ every popular CNI?
 ### Istio Ambient Traffic Redirection: The New Model
 
 In the new ambient model, this is how mesh enrollment works:
-- A Kubernetes pod (existing or newly-started), with labels indicating it should be enrolled in the ambient mesh, is detected by
-the istio-cni node agent.
+- The `istio-cni` node agent detects a Kubernetes pod (existing or newly-started) with its namespace labeled with `istio.io/dataplane-mode=enabled`, indicating that it should be included in the ambient mesh.
   - If a *new* pod is started that should be enrolled, a CNI plugin (as installed and managed by the istio-cni agent)
 
 is triggered by the CRI. This plugin is used to push a new pod event to the node’s `istio-cni` agent, and block pod startup until the agent successfully configures redirection. Since CNI plugins are invoked by the CRI as early as possible in the Kubernetes pod creation process, this ensures that we can establish traffic redirection early enough to prevent traffic escaping during startup, without relying on things like init containers.
