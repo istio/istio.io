@@ -79,7 +79,7 @@ First, let’s go over the basics of how a packet travels between pods in Kubern
 
 ### Linux, Kubernetes, and CNI  - What’s A Network Namespace, And Why Does It Matter?
 
-In Linux, a *container* is simply one or more Linux processes running within isolated namespaces, and a Linux namespace
+In Linux, a *container* is one or more Linux processes running within isolated Linux namespaces. A Linux namespace
 is simply a kernel flag that controls what processes running within that namespace are able to see. For instance, if you
 create a new Linux network namespace and run a process inside it, that process can only see the networking rules created
 within that network namespace, and not any created outside of it - even though everything running on that machine is still
