@@ -21,13 +21,22 @@ At Solo, we've been integrating ambient mode into our Gloo Mesh product, and cam
 Istio is a service mesh, and all service meshes by strict definition are not *CNI implementations* - service meshes require a
 [spec-compliant, primary CNI implementation](https://www.cni.dev/docs/spec/#overview-1) to be present in every Kubernetes cluster, and rest on top of that. 
 
-This primary CNI implementation may be provided by your cloud provider (AKS, GKE, and EKS all ship their own), or by third-party CNI implementations like Calico and Cilium. Some service meshes may also ship bundled with their own primary CNI implementation, which they explicitly require to function. 
+This primary CNI implementation may be provided by your cloud provider (AKS, GKE, and EKS all ship their own), or by third-party CNI
+implementations like Calico and Cilium. Some service meshes may also ship bundled with their own primary CNI implementation, which they
+explicitly require to function.
 
-Basically, before you can do things like secure pod traffic with mTLS and apply of high-level authentication and authorization policy at the service mesh layer, you must have a functional Kubernetes cluster with a functional CNI implementation, to make sure the basic networking pathways are set up so that packets can get from one pod to another (and from one node to another) in your cluster.
+Basically, before you can do things like secure pod traffic with mTLS and apply of high-level authentication and authorization policy at the
+service mesh layer, you must have a functional Kubernetes cluster with a functional CNI implementation, to make sure the basic networking
+pathways are set up so that packets can get from one pod to another (and from one node to another) in your cluster.
 
-Though some service meshes may also ship and require their own in-house primary CNI implementation, and it is sometimes possible to run two primary CNI implementations in parallel within the same cluster (for instance, one shipped by the cloud provider, and a 3rd-party implementation), in practice this introduces a whole host of compatibility issues, strange behaviors, reduced featuresets, and some incompatibilities due to the wildly varying mechanisms each CNI implementation might employ internally.
+Though some service meshes may also ship and require their own in-house primary CNI implementation, and it is sometimes possible to run two
+primary CNI implementations in parallel within the same cluster (for instance, one shipped by the cloud provider, and a 3rd-party
+implementation), in practice this introduces a whole host of compatibility issues, strange behaviors, reduced featuresets, and some
+incompatibilities due to the wildly varying mechanisms each CNI implementation might employ internally.
 
-To avoid this, the Istio project has chosen not to ship or require their own primary CNI implementation, or even require a "preferred" CNI implementation - instead choosing to support CNI chaining with the widest possible ecosystem of CNI implementations, and ensuring maximum compatibility with managed offerings, cross-vendor support, and composability with the broader CNCF ecosystem.
+To avoid this, the Istio project has chosen not to ship or require their own primary CNI implementation, or even require a "preferred" CNI
+implementation - instead choosing to support CNI chaining with the widest possible ecosystem of CNI implementations, and ensuring maximum
+compatibility with managed offerings, cross-vendor support, and composability with the broader CNCF ecosystem.
 
 ### Traffic redirection in ambient alpha
 
@@ -37,33 +46,39 @@ users deploying pods into the mesh. `istio-cni` is a required component in the a
 data plane mode. Whenever pods are added to an ambient mesh, the `istio-cni` component configures traffic redirection for all
 incoming and outgoing traffic between the pods and the [ztunnel](/blog/2023/rust-based-ztunnel/) running on
 the pod's node, via the node-level network namespace. The key difference between the sidecar mechanism and the ambient alpha mechanism
-is that in the latter, pod traffic was redirected out of the pod network namespace, and into the ztunnel network namespace - necessarily
-passing through the node's network namespace on the way, which is where the bulk of the traffic redirection rules to achieve this were implemented.
+is that in the latter, pod traffic was redirected out of the pod network namespace, and into the co-located ztunnel pod network namespace - necessarily
+passing through the host network namespace on the way, which is where the bulk of the traffic redirection rules to achieve this were implemented.
 
 As we tested more broadly in multiple Kubernetes environments, which have their own default CNI, it became clear that capturing and
-redirecting pod traffic in the node network namespace, as we were during alpha development, was not going to meet our requirements.
+redirecting pod traffic in the host network namespace, as we were during alpha development, was not going to meet our requirements.
 It was evident that achieving our goals in a generic manner across these diverse environments was not possible in this approach.
 
-The fundamental problem with this approach (redirecting traffic in the node network namespace) is that this is precisely the same spot where the cluster's primary CNI implementation *must* configure traffic routing/networking rules. This created inevitable conflicts, most critically: 
+The fundamental problem with this approach (redirecting traffic in the host network namespace) is that this is precisely the same spot where
+the cluster's primary CNI implementation *must* configure traffic routing/networking rules. This created inevitable conflicts, most critically: 
 
-- The primary CNI implementation's basic node-level networking configuration could interfere with the node-level ambient networking configuration from Istio's CNI extension, causing traffic disruption and other conflicts.
-- If users deployed a network policy to be enforced by the primary CNI implementation, the network policy might not be enforced when the Istio CNI extension is deployed (depending on how the primary CNI implementation enforces NetworkPolicy)
+- The primary CNI implementation's basic host-level networking configuration could interfere with the host-level ambient networking configuration from Istio's CNI extension, causing traffic disruption and other conflicts.
+- If users deployed a network policy to be enforced by the primary CNI implementation, the network policy might not be enforced when the
+Istio CNI extension is deployed (depending on how the primary CNI implementation enforces NetworkPolicy)
 
-While we could design around this on a case-by-case basis for _some_ primary CNI implementations, we could not sustainably approach universal CNI support. We considered eBPF, but realized any eBPF implementation would have the same basic problem, as there is no standardized way to safely chain/extend arbitrary eBPF programs at this time, and we would still potentially have a hard time supporting non-eBPF CNIs with this approach.
+While we could design around this on a case-by-case basis for _some_ primary CNI implementations, we could not sustainably approach
+universal CNI support. We considered eBPF, but realized any eBPF implementation would have the same basic problem, as there is no
+standardized way to safely chain/extend arbitrary eBPF programs at this time, and we would still potentially have a hard time supporting
+non-eBPF CNIs with this approach.
 
 ### Addressing the challenges
 
-A new solution was necessary - doing redirection of any sort in the node's network namespace would create unavoidable conflicts, unless we compromised our compatibility requirements.
+A new solution was necessary - doing redirection of any sort in the node's network namespace would create unavoidable conflicts,
+unless we compromised our compatibility requirements.
 
 In sidecar mode, it is trivial to configure traffic redirection between the sidecar and application pod, as both operate within
 the pod's network namespace. This led to a light-bulb moment: why not mimic sidecars, and configure the redirection in
-the application network namespace? 
+the application pod's network namespace? 
 
 While this sounds like a "crazy simple" thought, is this even possible, given ztunnel runs
 in the Istio system namespace? After some research, we discovered a Linux process running in one network namespace
 could create and own listening sockets within another network namespace, which is a basic Linux socket capability.
 However, to make this work, and cover all pod lifecycle scenarios we had to make architectural changes to the ztunnel
-as well as the istio-cni agent.
+as well as the `istio-cni`` agent.
 
 After prototyping and sufficiently validating that this innovative approach does work for all the Kubernetes platforms we have
 access to, we built confidence in the work and decided to contribute this new traffic redirection
