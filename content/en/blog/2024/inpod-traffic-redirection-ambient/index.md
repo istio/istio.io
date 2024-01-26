@@ -230,8 +230,8 @@ improves Istio ambient mesh compatibility with all major managed Kubernetes offe
 
 With gracious support from the community on testing the change with various Kubernetes platforms and CNIs, and many rounds
 of reviews from Istio maintainers, we are glad the [ztunnel](https://github.com/istio/ztunnel/pull/747) and [istio-cni](https://github.com/istio/istio/pull/48253) PRs merged to Istio 1.21 so our users
-can start running ambient mesh on any Kubernetes platforms with any CNIs in Istio 1.21 or newer. We’ve tested this with Google,
-Microsoft, and AWS’s managed Kubernetes offerings and all the CNI implementations they offer, as well as with 3rd-party CNIs like
+can start running ambient mesh on any Kubernetes platforms with any CNIs in Istio 1.21 or newer. We’ve tested this with GKE,
+AKS, and EKS and all the CNI implementations they offer, as well as with 3rd-party CNIs like
 Calico and Cilium, as well as platforms like OpenShift, with solid results. We are extremely excited that we are able to
 move Istio ambient forward to run everywhere with this innovative in-Pod traffic redirection approach between ztunnel
 and users’ application pods. With this top technical hurdle to ambient beta resolved, we can't wait to work with the
