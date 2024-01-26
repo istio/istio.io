@@ -93,11 +93,11 @@ between ztunnel and application pods happens in a way that’s very similar to s
 strictly invisible to any Kubernetes CNI. Network policy from any Kubernetes CNIs can continue to be enforced,
 regardless of whether the CNI uses eBPF or iptables, there is no conflict between the in-Pod traffic redirection and the CNI.
 
-## Technical deep dive of in-pod traffic redirection
+## Technical deep dive of in-Pod traffic redirection
 
 First, let’s go over the basics of how a packet travels between pods in Kubernetes.
 
-### Linux, Kubernetes, and CNI  - What’s A Network Namespace, And Why Does It Matter?
+### Linux, Kubernetes, and CNI  - what’s a network namespace, and why does it matter?
 
 In Linux, a *container* is one or more Linux processes running within isolated Linux namespaces. A Linux namespace
 is simply a kernel flag that controls what processes running within that namespace are able to see. For instance, if you
@@ -131,14 +131,14 @@ In Istio ambient mesh, every node has a minimum of two containers running as Kub
 - An efficient ztunnel which handles mesh traffic proxying duties, and L4 policy enforcement.
 - A CNI node agent that handles adding new and existing pods into the ambient mesh.
 
-In the previous ambient mesh implementation, this is how mesh enrollment worked:
+In the previous ambient mesh implementation, this is how application pod is added to the ambient mesh:
 - The `istio-cni` node agent detects an existing or newly-started Kubernetes pod with its namespace labeled with `istio.io/dataplane-mode=enabled`, indicating that it should be included in the ambient mesh.
-- The `istio-cni` node agent then establishes network redirection rules in the top-level node network namespace, such that
-packets entering or leaving the enrolled pod would be intercepted and redirected to that node’s ztunnel on the relevant
+- The `istio-cni` node agent then establishes network redirection rules in the host network namespace, such that
+packets entering or leaving the application pod  would be intercepted and redirected to that node’s ztunnel on the relevant
 proxy ports (15008, 15006, or 15001).
 
-This means that for a packet created by a mesh-enrolled pod, that packet would leave that source pod, enter the node’s
-top-level network namespace, and then ideally would be intercepted and redirected to that node’s ztunnel (running in its own network
+This means that for a packet created by a pod in the ambient mesh, that packet would leave that source pod, enter the node’s
+host network namespace, and then ideally would be intercepted and redirected to that node’s ztunnel (running in its own network
 namespace) for proxying to the destination pod, with the return trip being similar.
 
 This model worked well enough as a placeholder for the initial ambient mesh alpha implementation, but as mentioned, it has a fundamental
@@ -149,21 +149,24 @@ or you can skip it and shuttle packets back and forth in the kernel space stack,
 there’s probably a CNI implementation out there that makes use of it.
 
 Which meant that with the previous redirection approach, there were a lot of CNI implementations ambient simply wouldn’t
-work with. Given its reliance on node network namespace packet redirection - any CNI that didn’t route packets thru the
-node network namespace would need a different redirection implementation. And even for CNIs that did do this, we would
-have unavoidable and potentially unresolvable problems with conflicting node-level rules. Do we intercept before the CNI,
+work with. Given its reliance on host network namespace packet redirection - any CNI that didn’t route packets thru the
+host network namespace would need a different redirection implementation. And even for CNIs that did do this, we would
+have unavoidable and potentially unresolvable problems with conflicting host-level rules. Do we intercept before the CNI,
 or after? Will some CNIs break if we do one, or the other, and they aren’t expecting that? Where and when is NetworkPolicy
-enforced, since NetworkPolicy must be enforced in the node network namespace? Do we need lots of code to special-case
+enforced, since NetworkPolicy must be enforced in the host network namespace? Do we need lots of code to special-case
 every popular CNI?
 
 ### Istio Ambient Traffic Redirection: The New Model
 
-In the new ambient model, this is how mesh enrollment works:
+In the new ambient model, this is how application pod is added to the ambient mesh:
 - The `istio-cni` node agent detects a Kubernetes pod (existing or newly-started) with its namespace labeled with `istio.io/dataplane-mode=enabled`, indicating that it should be included in the ambient mesh.
-  - If a *new* pod is started that should be added, a CNI plugin (as installed and managed by the istio-cni agent) is triggered by the CRI. This plugin is used to push a new pod event to the node’s `istio-cni` agent, and block pod startup until the agent successfully configures redirection. Since CNI plugins are invoked by the CRI as early as possible in the Kubernetes pod creation process, this ensures that we can establish traffic redirection early enough to prevent traffic escaping during startup, without relying on things like init containers.
-  - If an *already-running* pod becomes eligible for ambient enrollment, the `istio-cni` node agent’s Kubernetes API watcher detects this, and redirection is configured in the same manner.
-- The istio-cni node agent hops into the pod’s network namespace and establishes network redirection rules inside the pod network namespace, such that packets entering and leaving the pod are intercepted and transparently redirected to the node-local ztunnel proxy instance listening on [well-known ports](https://github.com/istio/ztunnel/blob/master/ARCHITECTURE.md#ports) (15008, 15006, 15001).
-- The istio-cni node agent then informs the node ztunnel over a Unix domain socket that it should establish local proxy
+  - If a *new* pod is started that should be added to the ambient mesh, a CNI plugin (as installed and managed by the istio-cni agent) is triggered by the CRI.
+  This plugin is used to push a new pod event to the node’s `istio-cni` agent, and block pod startup until the agent successfully configures
+  redirection. Since CNI plugins are invoked by the CRI as early as possible in the Kubernetes pod creation process, this ensures that we can
+  establish traffic redirection early enough to prevent traffic escaping during startup, without relying on things like init containers.
+  - If an *already-running* pod becomes added to the ambient mesh, the `istio-cni` node agent’s Kubernetes API watcher detects this, and redirection is configured in the same manner.
+- The `istio-cni` node agent hops into the pod’s network namespace and establishes network redirection rules inside the pod network namespace, such that packets entering and leaving the pod are intercepted and transparently redirected to the node-local ztunnel proxy instance listening on [well-known ports](https://github.com/istio/ztunnel/blob/master/ARCHITECTURE.md#ports) (15008, 15006, 15001).
+- The `istio-cni` node agent then informs the node ztunnel over a Unix domain socket that it should establish local proxy
 listening ports inside the pod’s network namespace, (on 15008, 15006, and 15001), and provides ztunnel with a low-level
 Linux [file descriptor](https://en.wikipedia.org/wiki/File_descriptor) representing the pod’s network namespace.
   - While typically sockets are created within a Linux network namespace by the process actually running inside that
@@ -174,24 +177,24 @@ at creation time.
 - Once the in-Pod redirect rules are in place and the ztunnel has established the listen ports, the pod is added in the
 mesh and traffic begins flowing thru the node-local ztunnel, as before.
 
-Here’s a basic diagram showing the pod enrollment flow:
+Here’s a basic diagram showing the flow of application pod being added to the ambient mesh:
 
 {{< image width="100%"
-    link="./pod-enrollment.png"
-    alt="pod enrollment flow"
+    link="./pod-added-to-ambient.png"
+    alt="pod added to the ambient mesh flow"
     >}}
 
-Once the enrollment is completed, traffic to and from pods in the mesh will be fully encrypted by default, as always with Istio.
+Once the pod is successfully added to the ambient mesh, traffic to and from pods in the mesh will be fully encrypted with mTLS by default, as always with Istio.
 
-Traffic will now enter and leave the pod network namespace as encrypted traffic - it will look like every ambient-enrolled
+Traffic will now enter and leave the pod network namespace as encrypted traffic - it will look like every pod in ambient
 pod has the ability to enforce mesh policy and securely encrypt traffic, even though the user application running in the pod
 has no awareness of either.
 
-Here’s a diagram to illustrate how encrypted traffic flows between meshed pods in the current ambient model:
+Here’s a diagram to illustrate how encrypted traffic flows between pods in the ambient mesh in the new ambient model:
 
 {{< image width="100%"
-    link="./traffic-flows-between-mesh-pods.png"
-    alt="HBONE traffic flows between meshed pods"
+    link="./traffic-flows-between-pods-in-ambient.png"
+    alt="HBONE traffic flows between pods in the ambient mesh"
     >}}
 
 And, as before, unencrypted plaintext traffic from outside the mesh can still be handled and policy enforced, for use cases
