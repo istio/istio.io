@@ -100,6 +100,6 @@ Istio 的升级指令同样可以执行回退操作。
 ## 回退版本操作步骤  {#steps-to-downgrade-to-a-lower-Istio-version}
 
 您可以使用 `istioctl upgrade` 来回退 Istio 到低版本。回退步骤与上一步中所述的升级过程相同，
-不过需要使用较低版本（例如 1.6.5) 的 `istioctl` 二进制文件。完成后，Istio 将会更新到低版本。
+不过需要使用较低版本（例如 1.6.5）的 `istioctl` 二进制文件。完成后，Istio 将会更新到低版本。
 
 另外，`istioctl install` 可用于安装旧版 `istio` 的控制平面。
