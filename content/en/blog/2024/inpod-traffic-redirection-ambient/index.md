@@ -113,7 +113,7 @@ In Istio ambient mesh, every node has a minimum of two containers running as Kub
 
 In the previous ambient mesh implementation, this is how mesh enrollment worked:
 - The `istio-cni` node agent detects an existing or newly-started Kubernetes pod with its namespace labeled with `istio.io/dataplane-mode=enabled`, indicating that it should be included in the ambient mesh.
-- The istio-cni node agent then establishes network redirection rules in the top-level node network namespace, such that
+- The `istio-cni` node agent then establishes network redirection rules in the top-level node network namespace, such that
 packets entering or leaving the enrolled pod would be intercepted and redirected to that node’s ztunnel on the relevant
 proxy ports (15008, 15006, or 15001).
 
