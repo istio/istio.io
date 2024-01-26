@@ -7,9 +7,7 @@ owner: istio/wg-environments-maintainers
 test: no
 ---
 
-通过 `istioctl upgrade` 命令对 Istio 进行升级。在开始升级之前，
-该命令会自动检查 Istio 的安装是否满足升级需求。同时，如果该命令检测到
-Istio 与当前版本的配置文件默认值存在变动时，会警告用户。
+通过 `istioctl upgrade` 命令对 Istio 进行升级。
 
 {{< tip >}}
 [金丝雀升级](/zh/docs/setup/upgrade/canary/)比原地升级更安全，是推荐的升级方法。
@@ -104,6 +102,4 @@ Istio 的升级指令同样可以执行回退操作。
 您可以使用 `istioctl upgrade` 来回退 Istio 到低版本。回退步骤与上一步中所述的升级过程相同，
 不过需要使用较低版本（例如 1.6.5) 的 `istioctl` 二进制文件。完成后，Istio 将会更新到低版本。
 
-另外，`istioctl install` 可用于安装旧版 `istio` 的控制平面，但是不建议这样使用，
-因为这个过程不会执行任何检查。例如，用于配置集群的配置文件的某些默认值可能会发生变动，
-但是不会发出任何警告。
+另外，`istioctl install` 可用于安装旧版 `istio` 的控制平面。
