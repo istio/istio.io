@@ -1,5 +1,5 @@
 # The primary Istio version identifier the docs describe, used throughout the site
-version: "1.21"
+version: "1.22"
 
 # The full Istio version identifier the docs describe
 full_version: "1.21.0"
