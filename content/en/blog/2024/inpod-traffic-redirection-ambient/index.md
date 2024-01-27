@@ -29,7 +29,7 @@ regardless of their existing or preferred CNI implementation.
 ### Service meshes and CNIs: it's complicated
 
 Istio is a service mesh, and all service meshes by strict definition are not *CNI implementations* - service meshes require a
-[spec-compliant, primary CNI implementation](https://www.cni.dev/docs/spec/#overview-1) to be present in every Kubernetes cluster, and rest on top of that. 
+[spec-compliant, primary CNI implementation](https://www.cni.dev/docs/spec/#overview-1) to be present in every Kubernetes cluster, and rest on top of that.
 
 This primary CNI implementation may be provided by your cloud provider (AKS, GKE, and EKS all ship their own), or by third-party CNI
 implementations like Calico and Cilium. Some service meshes may also ship bundled with their own primary CNI implementation, which they
@@ -66,7 +66,7 @@ redirecting pod traffic in the host network namespace, as we were during alpha d
 It was evident that achieving our goals in a generic manner across these diverse environments was not possible in this approach.
 
 The fundamental problem with this approach (redirecting traffic in the host network namespace) is that this is precisely the same spot where
-the cluster's primary CNI implementation *must* configure traffic routing/networking rules. This created inevitable conflicts, most critically: 
+the cluster's primary CNI implementation *must* configure traffic routing/networking rules. This created inevitable conflicts, most critically:
 
 - The primary CNI implementation's basic host-level networking configuration could interfere with the host-level ambient networking configuration from Istio's CNI extension, causing traffic disruption and other conflicts.
 - If users deployed a network policy to be enforced by the primary CNI implementation, the network policy might not be enforced when the
@@ -84,7 +84,7 @@ unless we compromised our compatibility requirements.
 
 In sidecar mode, it is trivial to configure traffic redirection between the sidecar and application pod, as both operate within
 the pod's network namespace. This led to a light-bulb moment: why not mimic sidecars, and configure the redirection in
-the application pod's network namespace? 
+the application pod's network namespace?
 
 While this sounds like a "crazy simple" thought, is this even possible, given ztunnel runs
 in the Istio system namespace? After some research, we discovered a Linux process running in one network namespace
