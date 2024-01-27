@@ -41,7 +41,7 @@ pathways are set up so that packets can get from one pod to another (and from on
 
 Though some service meshes may also ship and require their own in-house primary CNI implementation, and it is sometimes possible to run two
 primary CNI implementations in parallel within the same cluster (for instance, one shipped by the cloud provider, and a 3rd-party
-implementation), in practice this introduces a whole host of compatibility issues, strange behaviors, reduced featuresets, and some
+implementation), in practice this introduces a whole host of compatibility issues, strange behaviors, reduced feature sets, and some
 incompatibilities due to the wildly varying mechanisms each CNI implementation might employ internally.
 
 To avoid this, the Istio project has chosen not to ship or require their own primary CNI implementation, or even require a "preferred" CNI
@@ -111,8 +111,8 @@ First, let’s go over the basics of how a packet travels between pods in Kubern
 
 In Linux, a *container* is one or more Linux processes running within isolated Linux namespaces. A Linux namespace
 is simply a kernel flag that controls what processes running within that namespace are able to see. For instance, if you
-create a new Linux network namespace via `ip netns add my-linux-netns` and run a process inside it, that process can only see the networking rules created
-within that network namespace, and not any created outside of it - even though everything running on that machine is still
+create a new Linux network namespace via the `ip netns add my-linux-netns` command and run a process inside it, that process can only see the networking rules created
+within that network namespace. It can not see any network rules created outside of it - even though everything running on that machine is still
 sharing one Linux networking stack.
 
 Linux namespaces are conceptually a lot like Kubernetes namespaces - logical labels that organize and isolate different
