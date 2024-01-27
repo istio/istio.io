@@ -32,6 +32,10 @@ remove_toc_prefix: 'install-cni '
 <td>Name of the CNI configuration file  (default ``)</td>
 </tr>
 <tr>
+<td><code>--cni-event-address &lt;string&gt;</code></td>
+<td>The UDS server address which CNI plugin will forward ambient pod creation events to  (default `/var/run/istio-cni/pluginevent.sock`)</td>
+</tr>
+<tr>
 <td><code>--cni-net-dir &lt;string&gt;</code></td>
 <td>Directory on the host where CNI network plugins are installed  (default `/etc/cni/net.d`)</td>
 </tr>
@@ -50,10 +54,6 @@ remove_toc_prefix: 'install-cni '
 <tr>
 <td><code>--ctrlz_port &lt;uint16&gt;</code></td>
 <td>The IP port to use for the ControlZ introspection facility  (default `9876`)</td>
-</tr>
-<tr>
-<td><code>--ebpf-enabled</code></td>
-<td>Whether ebpf redirection is enabled </td>
 </tr>
 <tr>
 <td><code>--kube-ca-file &lt;string&gt;</code></td>
@@ -81,11 +81,11 @@ remove_toc_prefix: 'install-cni '
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, ambient, cni, controllers, default, ebpf, install, iptables, klog, model, monitoring, repair, spiffe, trustBundle, validation]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, ambient, cni, controllers, default, install, iptables, klog, model, monitoring, repair, spiffe, trustBundle, validation]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, ambient, cni, controllers, default, ebpf, install, iptables, klog, model, monitoring, repair, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, ambient, cni, controllers, default, install, iptables, klog, model, monitoring, repair, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -105,7 +105,7 @@ remove_toc_prefix: 'install-cni '
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, ambient, cni, controllers, default, ebpf, install, iptables, klog, model, monitoring, repair, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, ambient, cni, controllers, default, install, iptables, klog, model, monitoring, repair, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -171,6 +171,10 @@ remove_toc_prefix: 'install-cni '
 <td><code>--skip-tls-verify</code></td>
 <td>Whether to use insecure TLS in kubeconfig file </td>
 </tr>
+<tr>
+<td><code>--ztunnel-uds-address &lt;string&gt;</code></td>
+<td>The UDS server address which ztunnel will connect to  (default `/var/run/ztunnel/ztunnel.sock`)</td>
+</tr>
 </tbody>
 </table>
 <h2 id="install-cni-completion">install-cni completion</h2>
@@ -199,11 +203,11 @@ See each sub-command&#39;s help for details on how to use the generated script.
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, ambient, cni, controllers, default, ebpf, install, iptables, klog, model, monitoring, repair, spiffe, trustBundle, validation]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, ambient, cni, controllers, default, install, iptables, klog, model, monitoring, repair, spiffe, trustBundle, validation]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, ambient, cni, controllers, default, ebpf, install, iptables, klog, model, monitoring, repair, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, ambient, cni, controllers, default, install, iptables, klog, model, monitoring, repair, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -223,7 +227,7 @@ See each sub-command&#39;s help for details on how to use the generated script.
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, ambient, cni, controllers, default, ebpf, install, iptables, klog, model, monitoring, repair, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, ambient, cni, controllers, default, install, iptables, klog, model, monitoring, repair, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -268,11 +272,11 @@ If it is not installed already, you can install it via your OS&#39;s package man
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, ambient, cni, controllers, default, ebpf, install, iptables, klog, model, monitoring, repair, spiffe, trustBundle, validation]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, ambient, cni, controllers, default, install, iptables, klog, model, monitoring, repair, spiffe, trustBundle, validation]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, ambient, cni, controllers, default, ebpf, install, iptables, klog, model, monitoring, repair, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, ambient, cni, controllers, default, install, iptables, klog, model, monitoring, repair, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -292,7 +296,7 @@ If it is not installed already, you can install it via your OS&#39;s package man
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, ambient, cni, controllers, default, ebpf, install, iptables, klog, model, monitoring, repair, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, ambient, cni, controllers, default, install, iptables, klog, model, monitoring, repair, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -336,11 +340,11 @@ If it is not installed already, you can install it via your OS&#39;s package man
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, ambient, cni, controllers, default, ebpf, install, iptables, klog, model, monitoring, repair, spiffe, trustBundle, validation]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, ambient, cni, controllers, default, install, iptables, klog, model, monitoring, repair, spiffe, trustBundle, validation]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, ambient, cni, controllers, default, ebpf, install, iptables, klog, model, monitoring, repair, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, ambient, cni, controllers, default, install, iptables, klog, model, monitoring, repair, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -360,7 +364,7 @@ If it is not installed already, you can install it via your OS&#39;s package man
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, ambient, cni, controllers, default, ebpf, install, iptables, klog, model, monitoring, repair, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, ambient, cni, controllers, default, install, iptables, klog, model, monitoring, repair, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -403,11 +407,11 @@ to your powershell profile.
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, ambient, cni, controllers, default, ebpf, install, iptables, klog, model, monitoring, repair, spiffe, trustBundle, validation]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, ambient, cni, controllers, default, install, iptables, klog, model, monitoring, repair, spiffe, trustBundle, validation]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, ambient, cni, controllers, default, ebpf, install, iptables, klog, model, monitoring, repair, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, ambient, cni, controllers, default, install, iptables, klog, model, monitoring, repair, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -427,7 +431,7 @@ to your powershell profile.
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, ambient, cni, controllers, default, ebpf, install, iptables, klog, model, monitoring, repair, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, ambient, cni, controllers, default, install, iptables, klog, model, monitoring, repair, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -477,11 +481,11 @@ to enable it.  You can execute the following once:</p>
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, ambient, cni, controllers, default, ebpf, install, iptables, klog, model, monitoring, repair, spiffe, trustBundle, validation]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, ambient, cni, controllers, default, install, iptables, klog, model, monitoring, repair, spiffe, trustBundle, validation]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, ambient, cni, controllers, default, ebpf, install, iptables, klog, model, monitoring, repair, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, ambient, cni, controllers, default, install, iptables, klog, model, monitoring, repair, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -501,7 +505,7 @@ to enable it.  You can execute the following once:</p>
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, ambient, cni, controllers, default, ebpf, install, iptables, klog, model, monitoring, repair, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, ambient, cni, controllers, default, install, iptables, klog, model, monitoring, repair, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -544,12 +548,12 @@ to enable it.  You can execute the following once:</p>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, ambient, cni, controllers, default, ebpf, install, iptables, klog, model, monitoring, repair, spiffe, trustBundle, validation]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [all, ambient, cni, controllers, default, install, iptables, klog, model, monitoring, repair, spiffe, trustBundle, validation]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, ambient, cni, controllers, default, ebpf, install, iptables, klog, model, monitoring, repair, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [all, ambient, cni, controllers, default, install, iptables, klog, model, monitoring, repair, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -574,7 +578,7 @@ to enable it.  You can execute the following once:</p>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, ambient, cni, controllers, default, ebpf, install, iptables, klog, model, monitoring, repair, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [all, ambient, cni, controllers, default, install, iptables, klog, model, monitoring, repair, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -642,6 +646,12 @@ These environment variables affect the behavior of the <code>install-cni</code> 
 <td>Name of the CNI configuration file</td>
 </tr>
 <tr>
+<td><code>CNI_EVENT_ADDRESS</code></td>
+<td>String</td>
+<td><code>/var/run/istio-cni/pluginevent.sock</code></td>
+<td>The UDS server address which CNI plugin will forward ambient pod creation events to</td>
+</tr>
+<tr>
 <td><code>CNI_NETWORK_CONFIG</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -664,12 +674,6 @@ These environment variables affect the behavior of the <code>install-cni</code> 
 <td>String</td>
 <td><code></code></td>
 <td>If provided, StdoutStubDependencies will write the input from stdin to the given file.</td>
-</tr>
-<tr>
-<td><code>EBPF_ENABLED</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>Whether ebpf redirection is enabled</td>
 </tr>
 <tr>
 <td><code>ENABLE_AUTO_SNI</code></td>
@@ -786,9 +790,9 @@ These environment variables affect the behavior of the <code>install-cni</code> 
 <td>If this is set to true, one Istiod will control remote clusters including CA.</td>
 </tr>
 <tr>
-<td><code>HOST_IP</code></td>
+<td><code>HOST_PROBE_SNAT_IP</code></td>
 <td>String</td>
-<td><code></code></td>
+<td><code>169.254.7.127</code></td>
 <td></td>
 </tr>
 <tr>
@@ -1599,6 +1603,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td><code>true</code></td>
 <td>If true, will authenticate XDS clients.</td>
 </tr>
+<tr>
+<td><code>ZTUNNEL_UDS_ADDRESS</code></td>
+<td>String</td>
+<td><code>/var/run/ztunnel/ztunnel.sock</code></td>
+<td>The UDS server address which ztunnel will connect to</td>
+</tr>
 </tbody>
 </table>
 <h2 id="metrics">Exported metrics</h2>
@@ -1613,6 +1623,7 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <tr><td><code>istio_cni_install_ready</code></td><td><code>LastValue</code></td><td>Whether the CNI plugin installation is ready or not</td></tr>
 <tr><td><code>istio_cni_installs_total</code></td><td><code>Sum</code></td><td>Total number of CNI plugins installed by the Istio CNI installer</td></tr>
 <tr><td><code>istio_cni_repair_pods_repaired_total</code></td><td><code>Sum</code></td><td>Total number of pods repaired by repair controller</td></tr>
+<tr><td><code>nodeagent_reconcile_events_total</code></td><td><code>Sum</code></td><td>The total number of node agent reconcile events.</td></tr>
 <tr><td><code>pilot_conflict_inbound_listener</code></td><td><code>LastValue</code></td><td>Number of conflicting inbound listeners.</td></tr>
 <tr><td><code>pilot_conflict_outbound_listener_tcp_over_current_tcp</code></td><td><code>LastValue</code></td><td>Number of conflicting tcp listeners with current tcp listener.</td></tr>
 <tr><td><code>pilot_destrule_subsets</code></td><td><code>LastValue</code></td><td>Duplicate subsets across destination rules for same host</td></tr>
@@ -1631,5 +1642,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <tr><td><code>xds_cache_evictions</code></td><td><code>Sum</code></td><td>Total number of xds cache evictions.</td></tr>
 <tr><td><code>xds_cache_reads</code></td><td><code>Sum</code></td><td>Total number of xds cache xdsCacheReads.</td></tr>
 <tr><td><code>xds_cache_size</code></td><td><code>LastValue</code></td><td>Current size of xds cache</td></tr>
+<tr><td><code>ztunnel_connected</code></td><td><code>LastValue</code></td><td>number of connections to ztunnel</td></tr>
 </tbody>
 </table>
