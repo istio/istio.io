@@ -44,7 +44,7 @@ primary CNI implementations in parallel within the same cluster (for instance, o
 implementation), in practice this introduces a whole host of compatibility issues, strange behaviors, reduced feature sets, and some
 incompatibilities due to the wildly varying mechanisms each CNI implementation might employ internally.
 
-To avoid this, the Istio project has chosen not to ship or require their own primary CNI implementation, or even require a "preferred" CNI
+To avoid this, the Istio project has chosen not to ship or require our own primary CNI implementation, or even require a "preferred" CNI
 implementation - instead choosing to support CNI chaining with the widest possible ecosystem of CNI implementations, and ensuring maximum
 compatibility with managed offerings, cross-vendor support, and composability with the broader CNCF ecosystem.
 
