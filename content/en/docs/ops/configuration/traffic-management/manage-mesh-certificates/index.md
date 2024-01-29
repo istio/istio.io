@@ -25,7 +25,7 @@ the [Plugin CA Certificates](/docs/tasks/security/cert-management/plugin-ca-cert
 When Istio is installed without a root CA certificate, istiod will generate a self-signed
 CA certificate using RSA 2048.
 
-To make this change, you will need to modify either the IOP file provided to
+To change the self-signed CA certificate's bit length, you will need to modify either the IstioOperator manifest provided to
 istioctl or the values file used during the Helm installation of the istio-discovery chart.
 
 {{< tip >}}
