@@ -11,7 +11,7 @@ test: n/a
 {{< boilerplate experimental >}}
 
 Many users need to manage the types of the certificates used within their environment. For example,
-some users require the use of Elliptical Curve Cryptography (ECC) while others may need need a
+some users require the use of Elliptical Curve Cryptography (ECC) while others may need to use a
 stronger bit length for RSA certificates. Configuring certificates within your environment can be
 a daunting task for most users.
 
