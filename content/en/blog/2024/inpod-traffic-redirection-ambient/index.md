@@ -1,7 +1,7 @@
 ---
 title: "Maturing Istio Ambient: Compatibility Across Various Kubernetes Providers and CNIs"
 description: An innovative traffic redirection mechanism between workload pods and ztunnel.
-publishdate: 2024-01-26
+publishdate: 2024-01-29
 attribution: "Ben Leggett (Solo.io), Yuval Kohavi (Solo.io), Lin Sun (Solo.io)"
 keywords: [Ambient,Istio,CNI,ztunnel,traffic]
 ---
