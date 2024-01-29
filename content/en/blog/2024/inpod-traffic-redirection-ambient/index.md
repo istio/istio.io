@@ -63,8 +63,7 @@ is that in the latter, pod traffic was redirected out of the pod network namespa
 As we tested more broadly in multiple real-world Kubernetes environments, which have their own default CNI, it became clear that capturing and
 redirecting pod traffic in the host network namespace, as we were during alpha development, was not going to meet our requirements. Achieving our goals in a generic manner across these diverse environments was simply not feasible with this approach.
 
-The fundamental problem with this approach (redirecting traffic in the host network namespace) is that this is precisely the same spot where
-the cluster's primary CNI implementation *must* configure traffic routing/networking rules. This created inevitable conflicts, most critically:
+The fundamental problem with redirecting traffic in the host network namespace is that this is precisely the same spot where the cluster's primary CNI implementation *must* configure traffic routing/networking rules. This created inevitable conflicts, most critically:
 
 - The primary CNI implementation's basic host-level networking configuration could interfere with the host-level ambient networking configuration from Istio's CNI extension, causing traffic disruption and other conflicts.
 - If users deployed a network policy to be enforced by the primary CNI implementation, the network policy might not be enforced when the
