@@ -188,7 +188,7 @@ mesh and traffic begins flowing thru the node-local ztunnel, as before.
 Here’s a basic diagram showing the flow of application pod being added to the ambient mesh:
 
 {{< image width="100%"
-    link="./pod-added-to-ambient.png"
+    link="./pod-added-to-ambient.svg"
     alt="pod added to the ambient mesh flow"
     >}}
 
@@ -201,7 +201,7 @@ has no awareness of either.
 Here’s a diagram to illustrate how encrypted traffic flows between pods in the ambient mesh in the new ambient model:
 
 {{< image width="100%"
-    link="./traffic-flows-between-pods-in-ambient.png"
+    link="./traffic-flows-between-pods-in-ambient.svg"
     alt="HBONE traffic flows between pods in the ambient mesh"
     >}}
 
@@ -209,7 +209,7 @@ And, as before, unencrypted plaintext traffic from outside the mesh can still be
 where that is necessary:
 
 {{< image width="100%"
-    link="./traffic-flows-plaintext.png"
+    link="./traffic-flows-plaintext.svg"
     alt="Plain text traffic flow between meshed pods"
     >}}
 
