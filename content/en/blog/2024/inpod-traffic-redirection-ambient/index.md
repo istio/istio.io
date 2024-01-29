@@ -61,8 +61,7 @@ the pod's node, via the node-level network namespace. The key difference between
 is that in the latter, pod traffic was redirected out of the pod network namespace, and into the co-located ztunnel pod network namespace - necessarily passing through the host network namespace on the way, which is where the bulk of the traffic redirection rules to achieve this were implemented.
 
 As we tested more broadly in multiple real-world Kubernetes environments, which have their own default CNI, it became clear that capturing and
-redirecting pod traffic in the host network namespace, as we were during alpha development, was not going to meet our requirements.
-It was evident that achieving our goals in a generic manner across these diverse environments was not possible in this approach.
+redirecting pod traffic in the host network namespace, as we were during alpha development, was not going to meet our requirements. Achieving our goals in a generic manner across these diverse environments was simply not feasible with this approach.
 
 The fundamental problem with this approach (redirecting traffic in the host network namespace) is that this is precisely the same spot where
 the cluster's primary CNI implementation *must* configure traffic routing/networking rules. This created inevitable conflicts, most critically:
