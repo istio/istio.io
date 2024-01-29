@@ -60,7 +60,7 @@ incoming and outgoing traffic between the pods and the [ztunnel](/blog/2023/rust
 the pod's node, via the node-level network namespace. The key difference between the sidecar mechanism and the ambient alpha mechanism
 is that in the latter, pod traffic was redirected out of the pod network namespace, and into the co-located ztunnel pod network namespace - necessarily passing through the host network namespace on the way, which is where the bulk of the traffic redirection rules to achieve this were implemented.
 
-As we tested more broadly in multiple Kubernetes environments, which have their own default CNI, it became clear that capturing and
+As we tested more broadly in multiple real-world Kubernetes environments, which have their own default CNI, it became clear that capturing and
 redirecting pod traffic in the host network namespace, as we were during alpha development, was not going to meet our requirements.
 It was evident that achieving our goals in a generic manner across these diverse environments was not possible in this approach.
 
