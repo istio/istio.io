@@ -132,8 +132,7 @@ the packet might (depending on how networking was set up):
 In Kubernetes, the [Container *Runtime* Interface (CRI)](https://kubernetes.io/docs/concepts/architecture/cri/) is responsible for talking to the Linux kernel, creating network namespaces
 for new pods, and starting processes within them. The CRI then invokes the [Container *Networking* Interface (CNI)](https://github.com/containernetworking/cni),
 which is responsible for wiring up the networking rules in the various Linux network namespaces, so that packets leaving and
-entering the new pod can get where they’re supposed to go. It doesn’t matter much what topology or mechanism the CNI uses to
-accomplish this - as long as packets get where they’re supposed to be, Kubernetes works and everyone is happy.
+entering the new pod can get where they’re supposed to go. It doesn’t matter much to Kubernetes or the container runtime what topology or mechanism the CNI uses to accomplish this - as long as packets get where they’re supposed to be, Kubernetes works and everyone is happy.
 
 ### Why did we drop the previous model?
 
