@@ -65,7 +65,7 @@ pilot:
 ## Sidecars
 
 Since sidecars manage their own certificates for in-mesh communication, the sidecars
-are responsible for managing their private keys and generated CSRs. The sidecar
+are responsible for managing their private keys and generated Certificate Signing Request (CSRs). The sidecar
 injector needs to be modified to inject the environment variables to be used for
 this purpose.
 
