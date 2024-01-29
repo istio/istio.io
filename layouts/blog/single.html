@@ -1,37 +1,69 @@
 {{ define "main" }}
-    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-      <div class="header-content">
-        <h1>{{ .Params.title }}</h1>
-        <p>{{ .Params.description }}</p>
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <div class="header-content">
+    <h1>{{ .Params.title }}</h1>
+    <p>{{ .Params.description }}</p>
+  </div>
+  <p class="post-author">
+    {{ (.Params.publishdate).Format "Jan 2, 2006" }} <span> | </span> By {{
+    replace (replace .Params.attribution "(" "- ") ")" "" }}
+  </p>
+  {{ if .Page.Params.target_release }} {{ $page_parts := split
+  .Page.Params.target_release "." }} {{ $page_version := int (index $page_parts
+  0) }} {{ $page_revision := int (index $page_parts 1) }} {{
+  $page_normalized_version := add (add (mul $page_version 1000000) (mul
+  $page_revision 1000)) 0 }} {{ $site_parts := split .Site.Data.args.version "."
+  }} {{ $site_version := int (index $site_parts 0) }} {{ $site_revision := int
+  (index $site_parts 1) }} {{ $site_normalized_version := add (add (mul
+  $site_version 1000000) (mul $site_revision 1000)) 0 }} {{ if gt
+  $site_normalized_version $page_normalized_version }}
+  <div>
+    <aside class="callout warning">
+      <div class="type">
+        {{- partial "large_icon.html" "callout-warning" -}}
       </div>
-      <p class="post-author">{{ (.Params.publishdate).Format "Jan 2, 2006" }} <span> | </span> By {{ replace (replace .Params.attribution "(" "- ") ")" "" }}</p>
-      {{ if .Page.Params.target_release }}
-          {{ $page_parts := split .Page.Params.target_release "." }}
-          {{ $page_version := int (index $page_parts 0) }}
-          {{ $page_revision := int (index $page_parts 1) }}
-          {{ $page_normalized_version := add (add (mul $page_version 1000000) (mul $page_revision 1000)) 0 }}
-
-          {{ $site_parts := split .Site.Data.args.version "." }}
-          {{ $site_version := int (index $site_parts 0) }}
-          {{ $site_revision := int (index $site_parts 1) }}
-          {{ $site_normalized_version := add (add (mul $site_version 1000000) (mul $site_revision 1000)) 0 }}
-
-          {{ if gt $site_normalized_version $page_normalized_version }}
-              <div>
-                  <aside class="callout warning">
-                      <div class="type">
-                          {{- partial "large_icon.html" "callout-warning" -}}
-                      </div>
-                      <div class="content">
-                          {{ printf (i18n "target_release") .Page.Params.target_release }}
-                      </div>
-                  </aside>
-              </div>
-          {{ end }}
-      {{ end }}
-      <div>
-        {{ .Content }}
+      <div class="content">
+        {{ printf (i18n "target_release") .Page.Params.target_release }}
       </div>
-      {{ partial "posts_navigation.html" . }}
-    </article>
+    </aside>
+  </div>
+  {{ end }} {{ end }}
+  <div>{{ .Content }}</div>
+  <div class="social-share">
+    <p class="social-share__title"><h4>SHARE</h4></p>
+    <div class="social-share__wrapper">
+      <a
+        href="https://www.linkedin.com/shareArticle?mini=true&url={{ .Permalink }}"
+        target="_blank"
+      >
+        <img
+          src="https://img.icons8.com/ios-glyphs/60/000000/linkedin.png"
+          style="width: 50px; height: 50px"
+          alt="linkedin"
+        />
+      </a>
+      <a
+        href="https://twitter.com/intent/tweet?text={{ .Title }}&url={{ .Permalink }}"
+        target="_blank"
+      >
+        <img
+          src="https://img.icons8.com/ios/50/twitterx--v2.png"
+          style="width: 50px; height: 50px"
+          alt="twitterx--v2"
+        />
+      </a>
+      <a
+        href="https://www.facebook.com/sharer/sharer.php?u={{ .Permalink }}"
+        target="_blank"
+      >
+        <img
+          src="https://img.icons8.com/ios-filled/50/000000/facebook-new.png"
+          style="width: 50px; height: 50px"
+          alt="facebook-new"
+        />
+      </a>
+    </div>
+  </div>
+  {{ partial "posts_navigation.html" . }}
+</article>
 {{ end }}
