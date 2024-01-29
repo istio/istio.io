@@ -101,7 +101,7 @@ The key innovation is to deliver the pod’s network namespace to the ztunnel so
 sockets inside the pod’s network namespace, while still running outside the pod. With this approach, the traffic redirection
 between ztunnel and application pods happens in a way that’s very similar to sidecars and application pods today and is
 strictly invisible to any Kubernetes CNI. Network policy from any Kubernetes CNIs can continue to be enforced,
-regardless of whether the CNI uses eBPF or iptables, there is no conflict between the in-Pod traffic redirection and the CNI.
+regardless of whether the CNI uses eBPF or iptables, without any conflict.
 
 ## Technical deep dive of in-Pod traffic redirection
 
