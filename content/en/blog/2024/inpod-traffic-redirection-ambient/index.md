@@ -83,11 +83,8 @@ In sidecar mode, it is trivial to configure traffic redirection between the side
 the pod's network namespace. This led to a light-bulb moment: why not mimic sidecars, and configure the redirection in
 the application pod's network namespace?
 
-While this sounds like a "crazy simple" thought, is this even possible, given ztunnel runs
-in the Istio system namespace? After some research, we discovered a Linux process running in one network namespace
-could create and own listening sockets within another network namespace, which is a basic Linux socket capability.
-However, to make this work, and cover all pod lifecycle scenarios we had to make architectural changes to the ztunnel
-as well as the `istio-cni` agent.
+While this sounds like a "simple" thought, how would this even be possible? A critical requirement of ambient is that ztunnel must run outside application pods, in the Istio system namespace. After some research, we discovered a Linux process running in one network namespace could create and own listening sockets within another network namespace. This is a basic capability of the Linux socket API.
+However, to make this work operationally and cover all pod lifecycle scenarios, we had to make architectural changes to the ztunnel as well as to the `istio-cni` node agent.
 
 After prototyping and sufficiently validating that this innovative approach does work for all the Kubernetes platforms we have
 access to, we built confidence in the work and decided to contribute this new traffic redirection
