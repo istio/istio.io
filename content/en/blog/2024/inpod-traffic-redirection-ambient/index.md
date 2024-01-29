@@ -7,7 +7,7 @@ keywords: [Ambient,Istio,CNI,ztunnel,traffic]
 ---
 
 The Istio project [announced ambient mesh - its new sidecar-less dataplane mode](/blog/2022/introducing-ambient-mesh/) in 2022,
-and [released an Alpha implementation](/news/releases/1.18.x/announcing-1.18/#ambient-mesh) in early 2023.
+and [released an alpha implementation](/news/releases/1.18.x/announcing-1.18/#ambient-mesh) in early 2023.
 
 Our Alpha was focused on proving out the value of the ambient data plane mode under limited configurations and environments.
 However, the conditions were quite limited. Ambient mode relies on transparently redirecting traffic between workload pods and [ztunnel](/blog/2023/rust-based-ztunnel/), and the initial
