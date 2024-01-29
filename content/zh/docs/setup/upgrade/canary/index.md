@@ -26,7 +26,7 @@ $ istioctl x precheck
 
 {{< idea >}}
 当使用基于版本的升级时，支持跨越两个小版本（例如，直接从版本 `1.15` 到 `1.17`）。
-这与原地升级相反，原地升级需要升级到每个中间次要版本释放。
+这与原地升级不同，原地升级要求必须升级到每一个中间的小版本。
 {{< /idea >}}
 
 ## 控制平面 {#control-plane}
@@ -162,7 +162,7 @@ $ istioctl proxy-status | grep "\.test-ns "
     $ kubectl label ns app-ns-3 istio.io/rev=prod-canary
     {{< /text >}}
 
-1. 在每个命名空间中部署一个休眠 Pod 示例:
+1. 在每个命名空间中部署一个 sleep Pod 示例:
 
     {{< text bash >}}
     $ kubectl apply -n app-ns-1 -f samples/sleep/sleep.yaml
@@ -255,6 +255,13 @@ $ istioctl uninstall --revision=canary -y
 {{< /tip >}}
 
 ## 清理 {#cleanup}
+
+1. 清理已创建的修订版本标签：
+
+    {{< text bash >}}
+    $ istioctl tag remove prod-stable
+    $ istioctl tag remove prod-canary
+    {{< /text >}}
 
 1. 清理用于金丝雀升级的命名空间与修订标签的例子：
 

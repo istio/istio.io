@@ -288,8 +288,6 @@ spec:
   - kind: ServiceEntry
     group: networking.istio.io
     name: cnn
-  hostnames:
-  - edition.cnn.com
   rules:
   - backendRefs:
     - name: cnn-egress-gateway-istio
@@ -553,8 +551,6 @@ spec:
   - kind: ServiceEntry
     group: networking.istio.io
     name: cnn
-  hostnames:
-  - edition.cnn.com
   rules:
   - backendRefs:
     - name: cnn-egress-gateway-istio
@@ -979,7 +975,7 @@ $ kubectl delete namespace test-egress
 
 {{< /tabset >}}
 
-1. 请参考[清理 HTTPS Gateway](#cleanup-https-gateway) 一节的内容。
+2) 请参考[清理 HTTPS Gateway](#cleanup-https-gateway) 一节的内容。
 
 ## 故障排除 {#troubleshooting}
 

@@ -346,7 +346,7 @@ Using the Kubernetes Gateway API, you can deploy a {{< gloss "waypoint" >}}waypo
 Deploy a waypoint proxy for the `productpage` service:
 
 {{< text bash >}}
-$ istioctl x waypoint apply --service-account bookinfo-productpage
+$ istioctl x waypoint apply --service-account bookinfo-productpage --wait
 waypoint default/bookinfo-productpage applied
 {{< /text >}}
 
@@ -416,7 +416,7 @@ $ kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<titl
 Deploy a waypoint proxy for the review service, using the `bookinfo-review` service account, so that any traffic going to the review service will be mediated by the waypoint proxy.
 
 {{< text bash >}}
-$ istioctl x waypoint apply --service-account bookinfo-reviews
+$ istioctl x waypoint apply --service-account bookinfo-reviews --wait
 waypoint default/bookinfo-reviews applied
 {{< /text >}}
 
