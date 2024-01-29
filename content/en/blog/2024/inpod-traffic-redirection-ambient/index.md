@@ -16,7 +16,7 @@ Through GitHub issues and Slack discussions, we heard our users wanted to be abl
 and [Docker Desktop](https://github.com/istio/istio/issues/47436), with CNI implementations like [Cilium](https://github.com/istio/istio/issues/44198) and [Calico](https://github.com/istio/istio/issues/40973),
 and on services that ship in-house CNI implementations
 like [OpenShift](https://github.com/istio/istio/issues/42341) and [Amazon EKS](https://github.com/istio/istio/issues/42340).
-Getting broad support for Kubernetes anywhere has become the No. 1 requirement for ambient mesh moving to Beta — people have come to expect Istio to
+Getting broad support for Kubernetes anywhere has become the No. 1 requirement for ambient mesh moving to beta — people have come to expect Istio to
 work on any Kubernetes platform and with any CNI implementation. After all, ambient wouldn’t be ambient without being all around you!
 
 At Solo, we've been integrating ambient mode into our Gloo Mesh product, and came up with an innovative solution to this problem.
