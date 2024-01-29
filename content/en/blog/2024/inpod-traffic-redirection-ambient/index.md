@@ -90,7 +90,7 @@ While this sounds like a "crazy simple" thought, is this even possible, given zt
 in the Istio system namespace? After some research, we discovered a Linux process running in one network namespace
 could create and own listening sockets within another network namespace, which is a basic Linux socket capability.
 However, to make this work, and cover all pod lifecycle scenarios we had to make architectural changes to the ztunnel
-as well as the `istio-cni`` agent.
+as well as the `istio-cni` agent.
 
 After prototyping and sufficiently validating that this innovative approach does work for all the Kubernetes platforms we have
 access to, we built confidence in the work and decided to contribute this new traffic redirection
