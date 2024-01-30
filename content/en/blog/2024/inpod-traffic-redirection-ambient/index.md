@@ -89,7 +89,7 @@ However, to make this work operationally and cover all pod lifecycle scenarios, 
 After prototyping and sufficiently validating that this novel approach does work for all the Kubernetes platforms we have access to, we built confidence in the work and decided to contribute to upstream this new traffic redirection
 model, an *in-Pod* traffic redirection mechanism between workload pods and the ztunnel node proxy component that has been built from the ground up to be highly compatible with all major cloud providers and CNIs.
 
-The key innovation is to deliver the pod’s network namespace to the ztunnel so that ztunnel can start its redirection
+The key innovation is to deliver the pod’s network namespace to the co-located ztunnel so that ztunnel can start its redirection
 sockets _inside_ the pod’s network namespace, while still running outside the pod. With this approach, the traffic redirection
 between ztunnel and application pods happens in a way that’s very similar to sidecars and application pods today and is
 strictly invisible to any Kubernetes primary CNI operating in the node network namespace. Network policy can continue to be enforced and managed by any Kubernetes primary CNI,
