@@ -160,7 +160,7 @@ every popular CNI?
 
 In the new ambient model, this is how application pod is added to the ambient mesh:
 - The `istio-cni` node agent detects a Kubernetes pod (existing or newly-started) with its namespace labeled with `istio.io/dataplane-mode=ambient`, indicating that it should be included in the ambient mesh.
-  - If a *new* pod is started that should be added to the ambient mesh, a CNI plugin (as installed and managed by the istio-cni agent) is triggered by the CRI.
+  - If a *new* pod is started that should be added to the ambient mesh, a CNI plugin (as installed and managed by the `istio-cni` agent) is triggered by the CRI.
   This plugin is used to push a new pod event to the node’s `istio-cni` agent, and block pod startup until the agent successfully configures
   redirection. Since CNI plugins are invoked by the CRI as early as possible in the Kubernetes pod creation process, this ensures that we can
   establish traffic redirection early enough to prevent traffic escaping during startup, without relying on things like init containers.
