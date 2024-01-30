@@ -205,7 +205,7 @@ where that is necessary:
     alt="Plain text traffic flow between meshed pods"
     >}}
 
-### Istio Ambient Traffic Redirection: What This Gets Us
+### Istio ambient traffic redirection: what this gets us
 
 The end result of the new ambient capture model is that all traffic capture and redirection happens inside the pod’s network namespace.
 To the node, the CNI, and everything else, it looks like there is a sidecar proxy inside the pod, even though there is **no sidecar proxy running in the pod**
