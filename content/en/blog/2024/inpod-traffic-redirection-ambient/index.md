@@ -86,8 +86,8 @@ the application pod's network namespace?
 While this sounds like a "simple" thought, how would this even be possible? A critical requirement of ambient is that ztunnel must run outside application pods, in the Istio system namespace. After some research, we discovered a Linux process running in one network namespace could create and own listening sockets within another network namespace. This is a basic capability of the Linux socket API.
 However, to make this work operationally and cover all pod lifecycle scenarios, we had to make architectural changes to the ztunnel as well as to the `istio-cni` node agent.
 
-After prototyping and sufficiently validating that this novel approach does work for all the Kubernetes platforms we have access to, we built confidence in the work and decided to contribute this new traffic redirection
-model. An *in-Pod* traffic redirection mechanism between workload pods and the ztunnel node proxy component that has been built from the ground up to be highly compatible with all major cloud providers and CNIs.
+After prototyping and sufficiently validating that this novel approach does work for all the Kubernetes platforms we have access to, we built confidence in the work and decided to contribute to upstream this new traffic redirection
+model, an *in-Pod* traffic redirection mechanism between workload pods and the ztunnel node proxy component that has been built from the ground up to be highly compatible with all major cloud providers and CNIs.
 
 The key innovation is to deliver the pod’s network namespace to the ztunnel so that ztunnel can start its redirection
 sockets _inside_ the pod’s network namespace, while still running outside the pod. With this approach, the traffic redirection
