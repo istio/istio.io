@@ -225,6 +225,7 @@ cluster2
 ClusterSPIFFEID
 CNCF-hosted
 CNI
+CNIs
 cnn.com
 codec
 codelab
@@ -357,6 +358,7 @@ cyber
 cybersecurity
 D2iQ
 DaemonSet
+DaemonSets
 DaoCloud
 Datadog
 datapath
