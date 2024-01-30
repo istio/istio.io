@@ -109,7 +109,6 @@ Ambient 的一个关键要求是 ztunnel 必须在应用程序 Pod 外部的 Ist
 流量重定向机制模式贡献到上游，该机制是从头开始建立的，
 与所有主要云提供商和 CNI 高度兼容。
 
-The key innovation is to deliver the pod’s network namespace to the co-located ztunnel so that ztunnel can start its redirection sockets _inside_ the pod’s network namespace, while still running outside the pod. With this approach, the traffic redirection between ztunnel and application pods happens in a way that’s very similar to sidecars and application pods today and is strictly invisible to any Kubernetes primary CNI operating in the node network namespace. Network policy can continue to be enforced and managed by any Kubernetes primary CNI, regardless of whether the CNI uses eBPF or iptables, without any conflict.
 关键的创新是将 Pod 的网络命名空间传递到同位的 ztunnel，
 以便 ztunnel 可以在 Pod 的网络命名空间内部启动其重定向套接字，同时仍然在 Pod 外部运行。
 通过这种方法，ztunnel 和应用程序 Pod 之间的流量重定向的方式与当今的 Sidecar 和应用程序 Pod 非常相似，
