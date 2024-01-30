@@ -6,7 +6,7 @@ keywords: [telemetry,tracing,opentelemetry,span,port-forwarding]
 aliases:
  - /docs/tasks/telemetry/distributed-tracing/opentelemetry/
 owner: istio/wg-policies-and-telemetry-maintainers
-test: yes
+test: no
 ---
 
 After completing this task, you will understand how to have your application participate in tracing with [OpenTelemetry](https://www.opentelemetry.io/), regardless of the language, framework, or platform you use to build your application.
