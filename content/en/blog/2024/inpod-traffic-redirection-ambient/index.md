@@ -215,7 +215,7 @@ do not care what happens to packets after that point.
 This approach automatically eliminates conflicts with a wide range of CNI and NetworkPolicy implementations, and drastically
 improves Istio ambient mesh compatibility with all major managed Kubernetes offerings across all major CNIs.
 
-## Wrapping Up
+## Wrapping up
 
 Thanks to significant amounts of effort from our lovely community in testing the change with a large variety of Kubernetes platforms and CNIs, and many rounds of reviews from Istio maintainers, we are glad to announce that the [ztunnel](https://github.com/istio/ztunnel/pull/747) and [istio-cni](https://github.com/istio/istio/pull/48253) PRs implementing this feature merged to Istio 1.21 and are enabled by default for ambient, so Istio users can start running ambient mesh on any Kubernetes platforms with any CNIs in Istio 1.21 or newer. We’ve tested this with GKE,
 AKS, and EKS and all the CNI implementations they offer, as well as with 3rd-party CNIs like
