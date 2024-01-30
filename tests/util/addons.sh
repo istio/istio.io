@@ -42,6 +42,9 @@ function _deploy_and_wait_for_addons() {
                  _wait_for_deployment istio-system skywalking-oap
                  _wait_for_deployment istio-system skywalking-ui
                  ;;
+    otel-collector) kubectl apply -f samples/open-telemetry/otel.yaml
+                 _wait_for_deployment istio-system opentelemetry-collector
+                 ;;
     *)           echo "unknown parameter $arg"
                  exit 1
     esac
@@ -64,6 +67,8 @@ function _undeploy_addons() {
     prometheus)  kubectl delete -f samples/addons/prometheus.yaml
                   ;;
     skywalking)  kubectl delete -f samples/addons/extras/skywalking.yaml
+                  ;;
+    otel-collector)  kubectl delete -f samples/open-telemetry/otel.yaml
                   ;;
     *)            echo "unknown parameter $arg"
                   exit 1
