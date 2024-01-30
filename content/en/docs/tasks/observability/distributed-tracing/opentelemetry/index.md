@@ -24,14 +24,14 @@ for both scenarios.
 1.  Create a namespace for the Collector:
 
 {{< text bash >}}
-kubectl create namespace otel-collector
+$ kubectl create namespace otel-collector
 {{< /text >}}
 
-2.  Deploy the OpenTelemetry Collector. You can use this example configuration as an starting point:
-[otel.yaml](https://github.com/istio/istio/blob/master/samples/open-telemetry/otel.yaml)
+1.  Deploy the OpenTelemetry Collector. You can use this example configuration as an starting point:
+[`otel.yaml`]({{< github_blob >}}/samples/open-telemetry/otel.yaml)
 
 {{< text bash >}}
-kubectl -n otel-collector apply -f otel.yaml
+$ kubectl -n otel-collector apply -f otel.yaml
 {{< /text >}}
 
 ## Installation
@@ -88,7 +88,7 @@ kubectl label namespace default istio-injection=enabled
 
 {{< tip >}}
 You can also send traces directly to your tracing back-end of choice via HTTP, without needing a Collector.
-For that, you will need to first define a [ServiceEntry](https://istio.io/latest/docs/reference/config/networking/service-entry/).
+For that, you will need to first define a [ServiceEntry](/docs/reference/config/networking/service-entry/).
 {{< /tip >}}
 
 ## Enable tracing for mesh via Telemetry API
@@ -121,12 +121,12 @@ Deploy the [Bookinfo](/docs/examples/bookinfo/#deploying-the-application) sample
 ## Generating traces using the Bookinfo sample
 
 1.  When the Bookinfo application is up and running, access `http://$GATEWAY_URL/productpage`
-one or more timesto generate trace information.
+one or more times to generate trace information.
 
-2.  You can look at the Collector logs to verify traces are arriving.
+1.  You can look at the Collector logs to verify traces are arriving.
 The Collector logs will contain something like:
 
-{{< text bash >}}
+{{< text yaml >}}
 Resource SchemaURL:
 Resource labels:
      -> service.name: STRING(productpage.default)
@@ -176,6 +176,6 @@ Attributes:
     $ killall istioctl
     {{< /text >}}
 
-2.  If you are not planning to explore any follow-on tasks, refer to the
+1.  If you are not planning to explore any follow-on tasks, refer to the
     [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
     to shutdown the application.
