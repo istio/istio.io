@@ -12,7 +12,7 @@ test: yes
 After completing this task, you will understand how to have your application participate in tracing with [OpenTelemetry](https://www.opentelemetry.io/), regardless of the language, framework, or platform you use to build your application.
 
 This task uses the [Bookinfo](/docs/examples/bookinfo/) sample as the example application and the
-[OpenTelemetry collector](https://opentelemetry.io/docs/collector/) as the receiver of traces.
+[OpenTelemetry Collector](https://opentelemetry.io/docs/collector/) as the receiver of traces.
 
 To learn how Istio handles tracing, visit this task's [overview](../overview/).
 
@@ -21,7 +21,7 @@ for both scenarios.
 
 ## Deploy OpenTelemetry Collector
 
-1.  Create a namespace for the collector:
+1.  Create a namespace for the Collector:
 
 {{< text bash >}}
 kubectl create namespace otel-collector
@@ -87,7 +87,7 @@ kubectl label namespace default istio-injection=enabled
 {{< /text >}}
 
 {{< tip >}}
-You can also send traces directly to your tracing back-end of choice via HTTP, without needing a collector.
+You can also send traces directly to your tracing back-end of choice via HTTP, without needing a Collector.
 For that, you will need to first define a [ServiceEntry](https://istio.io/latest/docs/reference/config/networking/service-entry/).
 {{< /tip >}}
 
@@ -123,8 +123,8 @@ Deploy the [Bookinfo](/docs/examples/bookinfo/#deploying-the-application) sample
 1.  When the Bookinfo application is up and running, access `http://$GATEWAY_URL/productpage`
 one or more timesto generate trace information.
 
-2.  You can look at the collector logs to verify traces are arriving.
-The collector logs will contain something like:
+2.  You can look at the Collector logs to verify traces are arriving.
+The Collector logs will contain something like:
 
 {{< text bash >}}
 Resource SchemaURL:
