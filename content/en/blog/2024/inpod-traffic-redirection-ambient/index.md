@@ -187,8 +187,7 @@ Here’s a basic diagram showing the flow of application pod being added to the 
 
 Once the pod is successfully added to the ambient mesh, traffic to and from pods in the mesh will be fully encrypted with mTLS by default, as always with Istio.
 
-Traffic will now enter and leave the pod network namespace as encrypted traffic - it will look like every pod in ambient
-pod has the ability to enforce mesh policy and securely encrypt traffic, even though the user application running in the pod
+Traffic will now enter and leave the pod network namespace as encrypted traffic - it will look like every pod in the ambient mesh has the ability to enforce mesh policy and securely encrypt traffic, even though the user application running in the pod
 has no awareness of either.
 
 Here’s a diagram to illustrate how encrypted traffic flows between pods in the ambient mesh in the new ambient model:
