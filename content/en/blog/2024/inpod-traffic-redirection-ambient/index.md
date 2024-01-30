@@ -156,7 +156,7 @@ or after? Will some CNIs break if we do one, or the other, and they aren’t exp
 enforced, since NetworkPolicy must be enforced in the host network namespace? Do we need lots of code to special-case
 every popular CNI?
 
-### Istio Ambient Traffic Redirection: The New Model
+### Istio ambient traffic redirection: the new model
 
 In the new ambient model, this is how application pod is added to the ambient mesh:
 - The `istio-cni` node agent detects a Kubernetes pod (existing or newly-started) with its namespace labeled with `istio.io/dataplane-mode=ambient`, indicating that it should be included in the ambient mesh.
