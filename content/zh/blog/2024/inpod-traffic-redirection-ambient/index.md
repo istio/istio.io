@@ -10,16 +10,16 @@ Istio 项目于 2022 年[宣布推出一种全新的无 Sidecar 数据平面模�
 并于 2023 年初[发布了 Alpha 版实现](/zh/news/releases/1.18.x/announcing-1.18/#ambient-mesh)。
 
 Alpha 版的重点是在有限的配置和环境下证明 Ambient 数据平面模式的价值。
-然而，当时的条件十分有限。Ambient 模式依赖于在工作负载 Pod 和
-[ztunnel](/zh/blog/2023/rust-based-ztunnel/) 之间以透明方式重定向流量，
+然而，当时的条件十分有限。Ambient 模式依赖于透明地重定向在工作负载 Pod 和
+[ztunnel](/zh/blog/2023/rust-based-ztunnel/) 之间的流量，
 然而，最初为此使用的机制与多种第三方容器网络接口（CNI）实现相冲突。
-我们在 GitHub Issue 和 Slack 上反复讨论，当时用户希望能够在
+通过 GitHub Issue 和 Slack 的讨论，我们发现用户希望能够在
 [minikube](https://github.com/istio/istio/issues/46163) 和
 [Docker Desktop](https://github.com/istio/istio/issues/47436) 上使用 Ambient 模式，
 希望使用 [Cilium](https://github.com/istio/istio/issues/44198)
 和 [Calico](https://github.com/istio/istio/issues/40973) 等 CNI 实现，
 还希望能够支持在 [OpenShift](https://github.com/istio/istio/issues/42341)
-和 [Amazon EKS](https://github.com/istio/istio/issues/42340) 等专用 CNI 实现上运行的服务。
+和 [Amazon EKS](https://github.com/istio/istio/issues/42340) 等使用内部 CNI 实现上运行的服务。
 在各种场景下广泛支持 Kubernetes 已成为 Ambient 网格进阶至 Beta
 的首要需求，也就是说人们期望 Istio 能够在任意 Kubernetes 平台和任何 CNI 实现中工作。
 毕竟，如果 Ambient 不能随处可用，那么 Ambient 就不能被称为 Ambient！
@@ -47,12 +47,12 @@ Istio 是一种服务网格，而所有服务网格严格意义上来说都不�
 以确保设置基本网络路径以便数据包可以从集群中的一个 Pod 发送到另一个 Pod（以及从一个节点发送到另一个节点）。
 
 尽管某些服务网格也可能提供并需要自己的内部主要 CNI 实现，
-但有时可以在同一集群内并行运行两个主要 CNI 实现（例如，一个由云提供商提供，另一个由第三个实现），
-实际上，这会引入一系列兼容性问题、奇怪的行为、功能集减少以及由于每个
-CNI 内部实现可能采用的很大机制差异而导致的一些不兼容性。
+而且有时可以在同一集群内并行运行两个主要 CNI 实现（例如，一个由云提供商提供，另一个由第三方实现），
+但实际上，这会引入一系列兼容性问题、奇怪的行为、功能集减少以及由于每个
+CNI 实现可能内部使用的机制差异而导致的一些不兼容性。
 
-为了避免这种情况，Istio 项目选择不发布或要求我们提供自己的主要 CNI 实现，
-甚至不需要“首选” CNI 实现 - 而是选择使用尽可能广泛的 CNI 实现生态系统来支持 CNI 链，
+为了避免这些问题，Istio 项目选择不发布或要求我们自己的主要 CNI 实现，
+甚至不需要“首选” CNI 实现 - 而是选择支持 CNI 链接与使用尽可能广泛的 CNI 实现生态系统，
 并确保与托管产品、跨供应商支持以及与更广泛的 CNCF 生态系统的可组合性。
 
 ### Ambient Alpha 版中的流量重定向 {#traffic-redirection-in-ambient-alpha}
@@ -68,7 +68,7 @@ CNI 内部实现可能采用的很大机制差异而导致的一些不兼容性�
 之间的所有传入和传出流量通过节点级网络命名空间配置流量重定向。
 Sidecar 机制和 Ambient Alpha 版机制之间的主要区别在于，在后者中，
 当 Pod 流量被重定向出 Pod 网络命名空间，并进入同位 ztunnel Pod
-网络命名空间时 - 途中必然经过主机网络命名空间，这是为实现批量流量重定向规则这一目标而实施的。
+网络命名空间时 - 途中必然经过主机网络命名空间，这是实现此目标的批量流量重定向规则所在的地方。
 
 当我们在多个具有自己的默认 CNI 的真实 Kubernetes 环境中进行更广泛的测试时，
 很明显，在主机网络命名空间中捕获和重定向 Pod 流量（就像我们在 Alpha 版开发期间相同）无法满足我们的要求。
@@ -81,7 +81,7 @@ Sidecar 机制和 Ambient Alpha 版机制之间的主要区别在于，在后者
 - 主要 CNI 实现的基本主机级网络配置可能会干扰 Istio 的 CNI
   扩展的主机级 Ambient 网络配置，从而导致流量中断和其他冲突。
 - 如果用户部署了由主要 CNI 实现强制执行的网络策略，
-  则在部署 Istio CNI 扩展时可能不会强制执行网络策略（取决于主要 CNI 实现如何强制执行 NetworkPolicy）
+  则在部署 Istio CNI 扩展时可能不会强制执行网络策略（取决于主要 CNI 实现如何执行 NetworkPolicy）
 
 虽然我们可以根据具体情况针对**某些**主要 CNI 实现进行设计，
 但我们无法可持续地实现通用 CNI 支持。我们考虑过 eBPF，
@@ -112,9 +112,9 @@ Ambient 的一个关键要求是 ztunnel 必须在应用程序 Pod 外部的 Ist
 关键的创新是将 Pod 的网络命名空间传递到同位的 ztunnel，
 以便 ztunnel 可以在 Pod 的网络命名空间内部启动其重定向套接字，同时仍然在 Pod 外部运行。
 通过这种方法，ztunnel 和应用程序 Pod 之间的流量重定向的方式与当今的 Sidecar 和应用程序 Pod 非常相似，
-并且对于在节点网络命名空间中运行的任何 Kubernetes 主要 CNI 都是严格不可见的。
+并且对于在节点网络命名空间中运行的任何 Kubernetes 主要 CNI 完全不可见。
 网络策略可以继续由任何 Kubernetes 主要 CNI 执行和管理，
-无论 CNI 使用 eBPF 还是 iptables，都不会发生任何冲突。
+无论 CNI 是否使用 eBPF 或 iptables，都不会发生任何冲突。
 
 ## in-Pod 流量重定向的技术深入探讨 {#technical-deep-dive-of-in-pod-traffic-redirection}
 
@@ -129,7 +129,7 @@ Linux 命名空间只是一个内核标志，用于控制在该命名空间内�
 它看不到在其外部创建的任何网络规则 - 即使该计算机上运行的所有内容仍然共享一个 Linux 网络堆栈。
 
 Linux 命名空间在概念上很像 Kubernetes 命名空间 - 组织和隔离不同活动进程的逻辑标签，
-并允许您创建关于给定命名空间内的事物可以看到的规则以及对它们应用什么规则 - 它们只能以非常低的等级运行。
+并允许您创建关于给定命名空间内的事物可以看到的规则以及对它们应用什么规则 - 它们只是在更低的层次上运行。
 
 当在网络命名空间内运行的进程创建向外发送其他内容的 TCP 数据包时，
 该数据包必须首先由本地网络命名空间内的任何本地规则进行处理，
@@ -153,12 +153,12 @@ Kubernetes 正常工作，所有人都高兴。
 ### 为什么我们放弃之前的模式？ {#why-did-we-drop-the-previous-model}
 
 在 Istio Ambient 网格中，每个节点至少有两个作为 Kubernetes DaemonSet 运行的容器：
-- 高效的 ztunnel，可作为网格流量代理职责和 L4 策略执行。
+- 一个高效的 ztunnel，可作为网格流量代理职责和 L4 策略执行。
 - 一个 `istio-cni` 节点代理，负责将新的和现有的 Pod 添加到 Ambient 网格中。
 
 在之前的 Ambient 网格实现中，应用程序 Pod 被添加到 Ambient 网格的方式如下：
 - `istio-cni` 节点代理检测现有或新启动的 Kubernetes Pod，
-  其命名空间被标记为 `istio.io/dataplane-mode=ambient`，表明它应包含在 Ambient 网格中。
+  其命名空间被标记为 `istio.io/dataplane-mode=ambient`，表明它应被包含在 Ambient 网格中。
 - 然后，`istio-cni` 节点代理在主机网络命名空间中建立网络重定向规则，
   以便拦截进入或离开应用程序 Pod 的数据包，
   并将其重定向到相关代理[端口](https://github.com/istio/ztunnel/blob/master/ARCHITECTURE.md#ports)（15008、15006 或 15001）。
@@ -171,8 +171,8 @@ Kubernetes 正常工作，所有人都高兴。
 但正如前面提到的，它有一个基本问题 - 具有许多 CNI 实现，并且在 Linux 中，
 有许多根本不同且不兼容的方法，您可以使用在其中配置数据包的方式从一个网络名称空间到另一个网络名称空间。
 您可以使用隧道、全覆盖网络、通过主机网络命名空间或绕过它。
-您可以浏览 Linux 用户空间网络堆栈，也可以跳过它并在内核空间堆栈中来回传输数据包，等等。
-对于每种可能的方法，也许都有一个利用它的 CNI 实现。
+您可以通过 Linux 用户空间网络堆栈进行数据包处理，也可以跳过它并在内核空间堆栈中来回传输数据包，等等。
+对于每种可能的方法，也许都有一个 CNI 实现在使用它。
 
 这意味着使用之前的重定向方法，有很多 CNI 实现根本无法与 Ambient 配合使用。
 鉴于其对主机网络命名空间数据包重定向的依赖 - 任何不通过主机网络命名空间路由数据包的 CNI 都需要不同的重定向实现。
@@ -189,8 +189,8 @@ Kubernetes 正常工作，所有人都高兴。
   - 如果启动了一个应添加到 Ambient 网格中的**新** Pod，
     则 CRI 会触发 CNI 插件（由 `istio-cni` 代理安装和管理）。
     该插件用于将新的 Pod 事件推送到节点的 `istio-cni` 代理，
-    并阻止 Pod 启动，直到代理成功配置重定向。由于 CNI 插件在 Kubernetes Pod 创建过程中尽可能早的被 CRI 调用，
-    这确保了我们可以尽早建立流量重定向，以防止启动期间流量逃逸，而无需依赖初始化容器之类的机制。
+    并阻止 Pod 启动，直到代理成功配置重定向。由于 CNI 插件由 CRI 尽早在 Kubernetes Pod 创建过程中调用，
+    这确保了我们可以足够早地建立流量重定向，以防止启动期间流量逃逸，而无需依赖初始化容器之类的机制。
   - 如果**已经运行**的 Pod 被添加到 Ambient 网格中，则会触发新的 Pod 事件。
     `istio-cni` 节点代理的 Kubernetes API 观察程序会检测到这一点，并以相同的方式配置重定向。
 - `istio-cni` 节点代理进入 Pod 的网络命名空间，
