@@ -44,7 +44,7 @@ which you can pass to the `istioctl install -f` command.
 
 In this example, traces will be exported via OTLP/gRPC to the OpenTelemetry Collector.
 
-    {{< text syntax=bash snip_id=mesh_grpc_exporter >}}
+    {{< text syntax=bash snip_id=none >}}
     $ cat <<EOF > ./tracing-grpc.yaml
     apiVersion: install.istio.io/v1alpha1
     kind: IstioOperator
@@ -173,10 +173,22 @@ Deploy the [Bookinfo](/docs/examples/bookinfo/#deploying-the-application) sample
 
 ## Cleanup
 
-1.  Remove any `istioctl` processes that may still be running using control-C or:
+1.  Remove the telemetry
 
-    {{< text bash >}}
-    $ killall istioctl
+    {{< text syntax=bash snip_id=cleanup_telemetry >}}
+    $ kubectl delete telemetry otel-demo
+    {{< /text >}}
+
+1.  Uninstall Istio from the cluster:
+
+    {{< text syntax=bash snip_id=cleanup_istio >}}
+    $ istioctl uninstall --purge --skip-confirmation
+    {{< /text >}}
+
+1.  Uninstall the OpenTelemetry Collector:
+
+    {{< text syntax=bash snip_id=cleanup_collector >}}
+    $ kubectl delete -f @samples/open-telemetry/otel.yaml@ -n istio-system
     {{< /text >}}
 
 1.  If you are not planning to explore any follow-on tasks, refer to the

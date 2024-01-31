@@ -146,8 +146,7 @@ _verify_same count_sleep_pod "10"
 cleanup_sleep_sample
 cleanup_httpbin_sample
 
-snip_cleanup_1
-snip_cleanup_2
-snip_cleanup_3
-
+snip_cleanup_telemetry
+snip_cleanup_istio
+snip_cleanup_collector
 kubectl delete ns istio-system

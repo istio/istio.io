@@ -23,9 +23,12 @@ source "tests/util/samples.sh"
 source "tests/util/addons.sh"
 
 _deploy_and_wait_for_addons zipkin
-_deploy_and_wait_for_addons otel-collector
 
-# @setup with OpenTelemetry Tracing Extension configured to export via HTTP
+# Start the otel collector sample
+bpsnip_start_otel_collector_service__1
+_wait_for_deployment istio-system opentelemetry-collector
+
+# Setup with OpenTelemetry Tracing Extension configured to export via HTTP
 snip_mesh_http_exporter
 
 # Enable OTel Tracing extension via Telememetry API
@@ -47,12 +50,10 @@ function access_jaeger_by_port_forward() {
 }
 
 _verify_same access_jaeger_by_port_forward "200"
-pgrep istioctl | xargs kill
 
 # @cleanup
-# TODO: Fix issue of killing twice (https://github.com/istio/istio.io/issues/8014)
-pgrep istioctl | xargs kill
 cleanup_bookinfo_sample
-
-_undeploy_addons jaeger
-_undeploy_addons otel-collector
+snip_cleanup_1
+snip_cleanup_2
+snip_cleanup_3
+kubectl delete ns istio-system

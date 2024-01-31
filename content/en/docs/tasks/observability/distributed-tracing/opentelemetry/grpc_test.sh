@@ -22,11 +22,13 @@ set -o pipefail
 source "tests/util/samples.sh"
 source "tests/util/addons.sh"
 
-_deploy_and_wait_for_addons zipkin
-_deploy_and_wait_for_addons otel-collector
+# @setup profile=default
 
-# @setup with OpenTelemetry Tracing Extension configured to export via gRPC
-snip_mesh_grpc_exporter
+_deploy_and_wait_for_addons zipkin
+
+# Start the otel collector sample
+bpsnip_start_otel_collector_service__1
+_wait_for_deployment istio-system opentelemetry-collector
 
 # Enable OTel Tracing extension via Telememetry API
 snip_enable_telemetry
@@ -47,12 +49,10 @@ function access_jaeger_by_port_forward() {
 }
 
 _verify_same access_jaeger_by_port_forward "200"
-pgrep istioctl | xargs kill
 
 # @cleanup
-# TODO: Fix issue of killing twice (https://github.com/istio/istio.io/issues/8014)
-pgrep istioctl | xargs kill
 cleanup_bookinfo_sample
-
-_undeploy_addons jaeger
-_undeploy_addons otel-collector
+snip_cleanup_1
+snip_cleanup_2
+snip_cleanup_3
+kubectl delete ns istio-system
