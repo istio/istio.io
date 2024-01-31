@@ -167,7 +167,7 @@ caption="Traffic will flow through L7 waypoint proxies when there are L7 policie
 
 Tenancy for Layer 7 capabilities in the Istio ambient mesh is similar to the sidecar deployment model. L7 capabilities are not shared across multiple identities within a single L7 proxy. Each application has its own dedicated waypoint proxy, ensuring isolation of configuration and extensions (plug-ins, extensions, etc.) specific to individual workloads. This isolation prevents interference between workloads and facilitates independent management of L7 configurations.
 
-Functionally, the waypoint proxy resembles the sidecar proxy but operates independently of application pods. It has its own CA client and XDS client, enabling secure communication with istioD. To obtain its identity certificate, the Waypoint proxy establishes a secure connection with istioD, requesting certification. Upon validating the presented token, istioD signs the Waypoint proxy's certificate, granting it access to the Istio control plane.
+Functionally, the waypoint proxy resembles the sidecar proxy but operates independently of application pods. It has its own CA client and XDS client, enabling secure communication with istiod. To obtain its identity certificate, the Waypoint proxy establishes a secure connection with istiod, requesting certification. Upon validating the presented token, istiod signs the Waypoint proxy's certificate, granting it access to the Istio control plane.
 
 Subsequently, the waypoint proxy initiates communication with istioD, requesting XDS configuration to govern its operation. This configuration defines the L7 routing rules, policy enforcement mechanisms, and other parameters essential for managing L7 traffic.
 
