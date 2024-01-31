@@ -76,7 +76,7 @@ The ztunnel DaemonSet is the L4 node-proxy component of ambient.
 As ambient is not yet stable, the following statement is not a compatibility guarantee and is subject to change, or removal. Prior to reaching stable status, this component and/or the control plane may receive breaking changes that prevent compatibility between minor versions.
 {{< /warning >}}
 
-The ztunnel at version 1.x is generally compatible with control plane at version 1.x-1, 1.x, and 1.x+1, which means the ztunnel DaemonSet and the Istio control plane can be upgraded independently and in any order, as long as their version difference is within one minor version.
+The ztunnel at version 1.x is generally compatible with control plane at version 1.x+1 and 1.x, which means the control plane must be upgraded before ztunnel, as long as their version difference is within one minor version.
 
 {{< warning >}}
 Upgrading ztunnel in-place will briefly disrupt all ambient mesh traffic on the node.
@@ -95,7 +95,7 @@ The Istio CNI agent is responsible for detecting pods added to the ambient mesh,
 As ambient is not yet stable, the following statement is not a compatibility guarantee and is subject to change, or removal. Prior to reaching stable status, this component and/or the control plane may receive breaking changes that prevent compatibility between minor versions.
 {{< /warning >}}
 
-The Istio CNI agent at version 1.x is generally compatible with control plane at version 1.x-1, 1.x, and 1.x+1, which means the Istio CNI agent and the Istio control plane can be upgraded independently and in any order, as long as their version difference is within one minor version.
+The CNI at version 1.x is generally compatible with control plane at version 1.x+1 and 1.x, which means the control plane must be upgraded before Istio CNI, as long as their version difference is within one minor version.
 
 {{< warning >}}
 Upgrading the Istio CNI agent to a compatible version in-place will not disrupt networking for running pods already successfully added to ambient mesh, but no ambient-captured pods will be successfully scheduled (or rescheduled) on the node until the upgrade is complete and the upgraded Istio CNI agent on the node passes readiness checks. If this is a significant disruption concern, or stricter blast radius controls are desired for CNI upgrades, node taints and/or node cordons are recommended.
