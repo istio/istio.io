@@ -8,15 +8,18 @@
     {{ (.Params.publishdate).Format "Jan 2, 2006" }} <span> | </span> By {{
     replace (replace .Params.attribution "(" "- ") ")" "" }}
   </p>
-  {{ if .Page.Params.target_release }} {{ $page_parts := split
-  .Page.Params.target_release "." }} {{ $page_version := int (index $page_parts
-  0) }} {{ $page_revision := int (index $page_parts 1) }} {{
-  $page_normalized_version := add (add (mul $page_version 1000000) (mul
-  $page_revision 1000)) 0 }} {{ $site_parts := split .Site.Data.args.version "."
-  }} {{ $site_version := int (index $site_parts 0) }} {{ $site_revision := int
-  (index $site_parts 1) }} {{ $site_normalized_version := add (add (mul
-  $site_version 1000000) (mul $site_revision 1000)) 0 }} {{ if gt
-  $site_normalized_version $page_normalized_version }}
+   {{ if .Page.Params.target_release }}
+      {{ $page_parts := split .Page.Params.target_release "." }}
+      {{ $page_version := int (index $page_parts 0) }}
+      {{ $page_revision := int (index $page_parts 1) }}
+      {{ $page_normalized_version := add (add (mul $page_version 1000000) (mul $page_revision 1000)) 0 }}
+
+      {{ $site_parts := split .Site.Data.args.version "." }}
+      {{ $site_version := int (index $site_parts 0) }}
+      {{ $site_revision := int (index $site_parts 1) }}
+      {{ $site_normalized_version := add (add (mul $site_version 1000000) (mul $site_revision 1000)) 0 }}
+
+      {{ if gt $site_normalized_version $page_normalized_version }}
   <div>
     <aside class="callout warning">
       <div class="type">
@@ -29,7 +32,6 @@
   </div>
   {{ end }} {{ end }}
   <div>{{ .Content }}</div>
-  <div class="social-share">
     <p class="social-share__title"><h4>SHARE</h4></p>
     <div class="social-share__wrapper">
       <a
@@ -37,7 +39,7 @@
         target="_blank"
       >
         <img
-          src="https://img.icons8.com/ios-glyphs/60/000000/linkedin.png"
+          src="/img/social/linkedin.svg"
           style="width: 50px; height: 50px"
           alt="Share to LinkedIn"
         />
@@ -47,7 +49,7 @@
         target="_blank"
       >
         <img
-          src="https://img.icons8.com/ios/50/twitterx--v2.png"
+          src="/img/social/twitterx.svg"
           style="width: 50px; height: 50px"
           alt="Share to X"
         />
@@ -57,12 +59,11 @@
         target="_blank"
       >
         <img
-          src="https://img.icons8.com/ios-filled/50/000000/facebook-new.png"
+          src="/img/social/facebook.svg"
           style="width: 50px; height: 50px"
           alt="Share to Facebook"
-        />
+        />{{ partial "icon.html" "facebook" }}
       </a>
-    </div>
   </div>
   {{ partial "posts_navigation.html" . }}
 </article>
