@@ -6,7 +6,7 @@ keywords: [telemetry,tracing,opentelemetry,span,port-forwarding]
 aliases:
  - /docs/tasks/telemetry/distributed-tracing/opentelemetry/
 owner: istio/wg-policies-and-telemetry-maintainers
-test: no
+test: yes
 ---
 
 After completing this task, you will understand how to have your application participate in tracing with [OpenTelemetry](https://www.opentelemetry.io/), regardless of the language, framework, or platform you use to build your application.
@@ -23,14 +23,14 @@ for both scenarios.
 
 1.  Create a namespace for the Collector:
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=none >}}
 $ kubectl create namespace otel-collector
 {{< /text >}}
 
 1.  Deploy the OpenTelemetry Collector. You can use this example configuration as an starting point:
 [`otel.yaml`]({{< github_blob >}}/samples/open-telemetry/otel.yaml)
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=none >}}
 $ kubectl -n otel-collector apply -f otel.yaml
 {{< /text >}}
 
@@ -44,12 +44,13 @@ which you can pass to the `istioctl install -f` command.
 
 In this example, traces will be exported via OTLP/gRPC to the OpenTelemetry Collector.
 
-{{< text bash >}}
-$ cat <<'EOF' > tracing.yaml
+{{< text syntax=bash snip_id=mesh_grpc_exporter >}}
+$ cat <<EOF > ./tracing-grpc.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
   meshConfig:
+    enableTracing: true
     extensionProviders:
     - name: otel-tracing
       opentelemetry:
@@ -57,19 +58,20 @@ spec:
         service: opentelemetry-collector.otel-collector.svc.cluster.local
 EOF
 $ istioctl install -f ./tracing.yaml --skip-confirmation
-kubectl label namespace default istio-injection=enabled
+$ kubectl label namespace default istio-injection=enabled
 {{< /text >}}
 
 ### Exporting via HTTP
 
 In this example, traces will be exported via OTLP/HTTP to the OpenTelemetry Collector.
 
-{{< text bash >}}
-$ cat <<'EOF' > tracing.yaml
+{{< text syntax=bash snip_id=mesh_http_exporter >}}
+$ cat <<EOF > ./tracing-http.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
   meshConfig:
+    enableTracing: true
     extensionProviders:
     - name: otel-tracing
       opentelemetry:
@@ -83,7 +85,7 @@ spec:
             value: "some-value"
 EOF
 $ istioctl install -f ./tracing.yaml --skip-confirmation
-kubectl label namespace default istio-injection=enabled
+$ kubectl label namespace default istio-injection=enabled
 {{< /text >}}
 
 {{< tip >}}
@@ -95,7 +97,7 @@ For that, you will need to first define a [ServiceEntry](/docs/reference/config/
 
 Enable tracing by applying the following configuration:
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=enable_telemetry >}}
 $ kubectl apply -f - <<EOF
 apiVersion: telemetry.istio.io/v1alpha1
 kind: Telemetry
@@ -126,7 +128,7 @@ one or more times to generate trace information.
 1.  You can look at the Collector logs to verify traces are arriving.
 The Collector logs will contain something like:
 
-{{< text yaml >}}
+{{< text syntax=yaml snip_id=none >}}
 Resource SchemaURL:
 Resource labels:
      -> service.name: STRING(productpage.default)
