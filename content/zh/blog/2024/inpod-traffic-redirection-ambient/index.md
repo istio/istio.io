@@ -1,46 +1,46 @@
 ---
-title: "趋于成熟的 Istio Ambient：各类 Kubernetes 供应商和 CNI 之间的兼容性"
+title: "趋于成熟的 Istio Ambient：与 Kubernetes 各供应商和各类 CNI 的兼容性"
 description: 工作负载 Pod 和 ztunnel 之间的创新流量重定向机制。
 publishdate: 2024-01-29
 attribution: "Ben Leggett (Solo.io), Yuval Kohavi (Solo.io), Lin Sun (Solo.io); Translated by Wilson Wu (DaoCloud)"
 keywords: [Ambient,Istio,CNI,ztunnel,traffic]
 ---
 
-Istio 项目于 2022 年[宣布推出 Ambient 网格 - 其全新的无 Sidecar 数据平面模式](/zh/blog/2022/introducing-ambient-mesh/)，
+Istio 项目于 2022 年[宣布推出一种全新的无 Sidecar 数据平面模式：Ambient 网格](/zh/blog/2022/introducing-ambient-mesh/)，
 并于 2023 年初[发布了 Alpha 版实现](/zh/news/releases/1.18.x/announcing-1.18/#ambient-mesh)。
 
-我们的 Alpha 版重点是在有限的配置和环境下证明 Ambient 数据平面模式的价值。
-然而，当时的条件十分有限。Ambient 模式依赖于透明地重定向工作负载
-Pod 和 [ztunnel](/zh/blog/2023/rust-based-ztunnel/) 之间的流量，
-然而，我们最初使用的机制与多个类别的第三方容器网络接口（CNI）实现相冲突。
-通过 GitHub Issue 和 Slack 讨论，我们听说用户希望能够在
+Alpha 版的重点是在有限的配置和环境下证明 Ambient 数据平面模式的价值。
+然而，当时的条件十分有限。Ambient 模式依赖于在工作负载 Pod 和
+[ztunnel](/zh/blog/2023/rust-based-ztunnel/) 之间以透明方式重定向流量，
+然而，最初为此使用的机制与多种第三方容器网络接口（CNI）实现相冲突。
+我们在 GitHub Issue 和 Slack 上反复讨论，当时用户希望能够在
 [minikube](https://github.com/istio/istio/issues/46163) 和
-[Docker 桌面版](https://github.com/istio/istio/issues/47436)，
-还有例如 [Cilium](https://github.com/istio/istio/issues/44198)
-和 [Calico](https://github.com/istio/istio/issues/40973) 的 CNI 实现，
-以及提供内部 CNI 实现的服务，例如 [OpenShift](https://github.com/istio/istio/issues/42341)
-和 [Amazon EKS](https://github.com/istio/istio/issues/42340) 中使用 Ambient 模式。
-在任意 Kubernetes 中提供广泛支持已经成为 Ambient 网格转向 Beta
-版的首要要求 - 人们开始期望 Istio 能够在任意 Kubernetes 平台和任何 CNI 实现中工作。
+[Docker Desktop](https://github.com/istio/istio/issues/47436) 上使用 Ambient 模式，
+希望使用 [Cilium](https://github.com/istio/istio/issues/44198)
+和 [Calico](https://github.com/istio/istio/issues/40973) 等 CNI 实现，
+还希望能够支持在 [OpenShift](https://github.com/istio/istio/issues/42341)
+和 [Amazon EKS](https://github.com/istio/istio/issues/42340) 等专用 CNI 实现上运行的服务。
+在各种场景下广泛支持 Kubernetes 已成为 Ambient 网格进阶至 Beta
+的首要需求，也就是说人们期望 Istio 能够在任意 Kubernetes 平台和任何 CNI 实现中工作。
 毕竟，如果 Ambient 不能随处可用，那么 Ambient 就不能被称为 Ambient！
 
-在 Solo 公司，我们一直在将 Ambient 模式集成到 Gloo Mesh 产品中，
-并针对这个问题提出了创新的解决方案。我们决定在
-2023 年末将我们的修改发布到[上游](https://github.com/istio/istio/issues/48212)，
-以帮助 Ambient 更快地达到 Beta 版，以便更多用户可以在 Istio 1.21 或更高版本中操作 Ambient，
-并在其平台中享受 Ambient 无 Sidecar 网格的优势，无论其现有或首选的 CNI 是如何实现的。
+在 Solo 公司，我们已将 Ambient 模式集成到 Gloo Mesh 产品中，
+并针对这个难题提出了创新的解决方案。我们决定在
+2023 年末将我们的修改提交到[上游](https://github.com/istio/istio/issues/48212)，
+以帮助 Ambient 更快进阶至 Beta，让更多用户可以在 Istio 1.21 或更高版本中用上 Ambient，
+并在他们各自的平台中体验 Ambient 这种无 Sidecar 网格的优势，不用再操心现有的 CNI 或首选的 CNI 是什么。
 
-## 我们是如何到达这里的？ {#how-did-we-get-here}
+## 回首来时路，披荆斩棘 {#how-did-we-get-here}
 
-### 服务网格和 CNI：非常复杂 {#service-meshes-and-cnis-its-complicated}
+### 服务网格和 CNI：错综复杂 {#service-meshes-and-cnis-its-complicated}
 
 Istio 是一种服务网格，而所有服务网格严格意义上来说都不是
-**CNI 实现** - 服务网格依赖[符合规范的主要 CNI 实现](https://www.cni.dev/docs/spec/#overview-1)存在于每个
-Kubernetes 集群中，并以此为基础。
+**CNI 实现** ，服务网格想要在所有 Kubernetes 集群运行，
+底层需要一个[合规的主要 CNI 实现](https://www.cni.dev/docs/spec/#overview-1)。
 
-此主要 CNI 实现可能由您的云供应商（AKS、GKE 和 EKS 都自带）提供，
+这个主要 CNI 实现可能由您的云供应商（AKS、GKE 和 EKS 自己）提供，
 也可能由 Calico 和 Cilium 等第三方 CNI 实现提供。
-一些服务网格还可能与它们自己的主要 CNI 实现捆绑在一起，它们明确要求这些实现才能够正常运行。
+某些服务网格还可能捆绑了他们自己的主要 CNI 实现，他们明确要求只有这些实现才能让网格正常运行。
 
 基本上，在使用 mTLS 保护 Pod 流量并在服务网格层应用高级身份验证和授权策略等操作之前，
 您必须拥有一个具有功能性 CNI 实现的功能性 Kubernetes 集群，
