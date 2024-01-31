@@ -19,7 +19,7 @@ weight: 10
 
     缺点:
 
-    - 需要维护多个 Istio minor 版本的二进制文件。
+    - 需要维护多个 Istio 次要版本的二进制文件。
     - `istioctl` 命令可能根据您的运行环境设置诸如 `JWT_POLICY` 之类的值，从而能够在不同的 Kubernetes 环境中进行不同的安装。
 
 1. [使用 Istio Operator 安装](/zh/docs/setup/install/operator/)
