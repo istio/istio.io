@@ -44,7 +44,7 @@ This guide describes the functionality and usage of the waypoint proxy and L7 ne
 * [L7 fault injection](#l7-fault-injection)
 * [L7 observability](#l7-observability)
 * [L7 authorization policy](#l7-authorization-policy)
-* [Co-existence of ambient/ L7 with Side car proxies](#Co-existence-of-ambient/-L7-with-side-car-proxies)
+* [Co-existence of ambient/ L7 with Sidecar proxies](#Co-existence-of-ambient/-L7-with-side-car-proxies)
 * [Control traffic towards waypoint proxy](##control-traffic-towards-waypoint-proxy)
 * [Remove waypoint proxy layer](#remove-waypoint-proxy-layer)
 
