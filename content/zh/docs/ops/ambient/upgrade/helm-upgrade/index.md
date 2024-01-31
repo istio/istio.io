@@ -95,7 +95,7 @@ Istio CNI Agent 不是数据平面或控制平面的一部分。
 
 Istio CNI Agent 1.x 版本兼容控制平面 1.x-1、1.x 以及 1.x+1 版本，
 这意味着 Istio CNI Agent 和 Istio 控制平面能够以任何先后顺序独立升级。
-只要它们的版本差异在一个小版本之内。
+只要它们的版本差异在一个次要版本之内。
 
 {{< warning >}}
 升级 Istio CNI Agent 将重新配置节点上的网络，因此会暂时中断节点流量。

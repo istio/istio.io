@@ -6,7 +6,7 @@ publishdate: 2022-06-27
 ---
 
 根据 Istio 的[支持政策](/zh/docs/releases/supported-releases#support-policy)，
-针对 1.12 这类小版本的支持将持续到 N+2 小版本（在本例中为 1.14）发布后的六周。
+针对 1.12 这类次要版本的支持将持续到 N+2 次要版本（在本例中为 1.14）发布后的六周。
 [Istio 1.14 于 6 月 1 日发布](/zh/news/releases/1.14.x/announcing-1.14/)，
 所以对 1.12 的支持于 2022 年 7 月 12 日结束。
 
