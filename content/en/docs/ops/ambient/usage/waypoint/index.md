@@ -140,7 +140,7 @@ caption="Waypoint architecture"
 
 What is unique about the waypoint proxy is that it runs either per-namespace (default) or per-service account. By running outside of the application pod, a waypoint proxy can install, upgrade, and scale independently from the application pod, providing a centralized approach to managing L7 traffic and enforcing policies as well as reduce operational costs.
 
-Upon deployment of a gateway resource using the `kubectl apply` command, Istio's control plane, IstioD, assumes the role of the waypoint controller. Recognizing the gateway resource with the "istio.io/waypoint" gateway class name, istiod automatically deploys the waypoint proxy based on the specified configuration in the gateway resource.
+Upon deployment of a gateway resource using the `kubectl apply` command, Istio's control plane, istiod, assumes the role of the waypoint controller. Recognizing the gateway resource with the "istio.io/waypoint" gateway class name, istiod automatically deploys the waypoint proxy based on the specified configuration in the gateway resource.
 
 The waypoint proxy's data plane operates at Layer 7, enabling it to fully parse connections into individual requests and apply policies based on request properties such as headers and credentials. This granular control over L7 traffic extends to a comprehensive suite of capabilities, including:
 - HTTP 1.x, 2, or 3
