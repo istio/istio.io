@@ -90,7 +90,7 @@ Despite these caveats, waypoint is a powerful tool for enabling L7 networking an
 
 ### Environment used for this guide
 
-For the environment used in this guide, refer to the [Installation user](../../install/) guide or [L4 Networking & mTLS with Ztunnel](../ztunnel/) guide on installing Istio in ambient mode on a Kubernetes cluster.
+For the environment used in this guide, refer to the [Installation user](../../install/) guide or [L4 Networking & mTLS with ztunnel](../ztunnel/) guide on installing Istio in ambient mode on a Kubernetes cluster.
 
 ## Deciding the scope of your waypoint proxy
 
