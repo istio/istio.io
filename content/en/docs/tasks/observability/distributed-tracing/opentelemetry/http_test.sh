@@ -22,6 +22,8 @@ set -o pipefail
 source "tests/util/samples.sh"
 source "tests/util/addons.sh"
 
+# @setup profile=demo
+
 _deploy_and_wait_for_addons zipkin
 
 # Start the otel collector sample

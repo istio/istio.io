@@ -22,7 +22,7 @@ set -o pipefail
 source "tests/util/samples.sh"
 source "tests/util/addons.sh"
 
-# @setup profile=default
+# @setup profile=demo
 
 _deploy_and_wait_for_addons zipkin
 
