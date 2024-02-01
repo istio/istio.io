@@ -73,6 +73,12 @@ $ helm upgrade istiod istio/istiod -n istio-system
 The ztunnel DaemonSet is the L4 node-proxy component of ambient.
 
 {{< warning >}}
+As ambient is not yet stable, the following statement is not a compatibility guarantee and is subject to change, or removal. Prior to reaching stable status, this component and/or the control plane may receive breaking changes that prevent compatibility between minor versions.
+{{< /warning >}}
+
+The ztunnel at version 1.x is generally compatible with control plane at version 1.x+1 and 1.x, which means the control plane must be upgraded before ztunnel, as long as their version difference is within one minor version.
+
+{{< warning >}}
 Upgrading ztunnel in-place will briefly disrupt all ambient mesh traffic on the node.
 Node cordoning and blue/green node pools are recommended to mitigate blast radius risk during production upgrades. See your Kubernetes provider documentation for details.
 {{< /warning >}}
@@ -83,12 +89,16 @@ $ helm upgrade ztunnel istio/ztunnel -n istio-system
 
 ### Upgrade the CNI Component
 
-The Istio CNI agent is responsible for detecting the pods that belong to the ambient mesh, and configuring the traffic redirection between pods and the ztunnel DaemonSet. It is not part of the data plane or control plane.
-
-The Istio CNI agent at version 1.x is compatible with control plane at version 1.x-1, 1.x, and 1.x+1, which means the Istio CNI agent and the Istio control plane can be upgraded independently and in any order, as long as their version difference is within one minor version.
+The Istio CNI agent is responsible for detecting pods added to the ambient mesh, informing ztunnel that proxy ports should be established within added pods, and configuring traffic redirection within the pod network namespace. It is not part of the data plane or control plane.
 
 {{< warning >}}
-Upgrading the Istio CNI agent will reconfigure networking on the node, and as such will momentarily disrupt node traffic. To manage blast radius to application pods during Istio CNI agent upgrade, node cordons are recommended.
+As ambient is not yet stable, the following statement is not a compatibility guarantee and is subject to change, or removal. Prior to reaching stable status, this component and/or the control plane may receive breaking changes that prevent compatibility between minor versions.
+{{< /warning >}}
+
+The CNI at version 1.x is generally compatible with control plane at version 1.x+1 and 1.x, which means the control plane must be upgraded before Istio CNI, as long as their version difference is within one minor version.
+
+{{< warning >}}
+Upgrading the Istio CNI agent to a compatible version in-place will not disrupt networking for running pods already successfully added to ambient mesh, but no ambient-captured pods will be successfully scheduled (or rescheduled) on the node until the upgrade is complete and the upgraded Istio CNI agent on the node passes readiness checks. If this is a significant disruption concern, or stricter blast radius controls are desired for CNI upgrades, node taints and/or node cordons are recommended.
 {{< /warning >}}
 
 {{< text syntax=bash snip_id=upgrade_cni >}}
