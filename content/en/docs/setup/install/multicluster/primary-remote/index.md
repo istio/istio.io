@@ -106,6 +106,13 @@ $ kubectl apply --context="${CTX_CLUSTER1}" -n istio-system -f \
     @samples/multicluster/expose-istiod.yaml@
 {{< /text >}}
 
+{{< warning >}}
+If the control-plane was installed with a revision `rev`, run
+{{< text bash >}}
+$ sed 's/{{.Revision}}/rev/g' @samples/multicluster/expose-istiod-rev.yaml.tmpl | kubectl apply -n istio-system -f -
+{{< /text >}}
+{{< /warning >}}
+
 ## Set the control plane cluster for `cluster2`
 
 We need identify the external control plane cluster that should manage `cluster2` by annotating the
