@@ -27,8 +27,8 @@ source "tests/util/addons.sh"
 _deploy_and_wait_for_addons zipkin
 
 # Start the otel collector sample
-bpsnip_start_otel_collector_service__1
-_wait_for_deployment istio-system opentelemetry-collector
+bpsnip_deploy_otel_collector_service_own_namespace__2
+_wait_for_deployment otel-collector opentelemetry-collector
 
 # Enable OTel Tracing extension via Telememetry API
 snip_enable_telemetry
@@ -55,4 +55,3 @@ cleanup_bookinfo_sample
 snip_cleanup_telemetry
 snip_cleanup_istio
 snip_cleanup_collector
-kubectl delete ns istio-system

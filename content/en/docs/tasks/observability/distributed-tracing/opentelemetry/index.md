@@ -21,18 +21,7 @@ traces via gRPC.
 
 ## Deploy the OpenTelemetry Collector
 
-1.  Create a namespace for the Collector:
-
-    {{< text syntax=bash snip_id=none >}}
-    $ kubectl create namespace otel-collector
-    {{< /text >}}
-
-1.  Deploy the OpenTelemetry Collector. You can use this example configuration as a starting point:
-    [`otel.yaml`]({{< github_blob >}}/samples/open-telemetry/otel.yaml)
-
-    {{< text syntax=bash snip_id=none >}}
-    $ kubectl -n otel-collector apply -f otel.yaml
-    {{< /text >}}
+{{< boilerplate deploy-otel-collector-service-own-namespace >}}
 
 ## Installation
 
@@ -141,22 +130,22 @@ Deploy the [Bookinfo](/docs/examples/bookinfo/#deploying-the-application) sample
 
 ## Cleanup
 
-1.  Remove the telemetry
+1.  Remove the Telemetry resource:
 
     {{< text syntax=bash snip_id=cleanup_telemetry >}}
     $ kubectl delete telemetry otel-demo
     {{< /text >}}
 
-1.  Uninstall Istio from the cluster:
+1.  Remove any `istioctl` processes that may still be running using control-C or:
 
     {{< text syntax=bash snip_id=cleanup_istio >}}
-    $ istioctl uninstall --purge --skip-confirmation
+    $ killall istioctl
     {{< /text >}}
 
 1.  Uninstall the OpenTelemetry Collector:
 
     {{< text syntax=bash snip_id=cleanup_collector >}}
-    $ kubectl delete -f @samples/open-telemetry/otel.yaml@ -n istio-system
+    $ kubectl delete -f @samples/open-telemetry/otel.yaml@ -n otel-collector
     {{< /text >}}
 
 1.  If you are not planning to explore any follow-on tasks, refer to the
