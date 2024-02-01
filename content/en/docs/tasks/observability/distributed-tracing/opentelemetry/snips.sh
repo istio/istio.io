@@ -20,29 +20,6 @@
 #          docs/tasks/observability/distributed-tracing/opentelemetry/index.md
 ####################################################################################################
 
-snip_mesh_http_exporter() {
-cat <<EOF > ./tracing-http.yaml
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  meshConfig:
-    enableTracing: true
-    extensionProviders:
-    - name: otel-tracing
-      opentelemetry:
-        port: 4318
-        service: opentelemetry-collector.otel-collector.svc.cluster.local
-        http:
-          path: "v1/traces"
-          timeout: 10s
-          headers:
-          - name: "my-custom-header"
-            value: "some-value"
-EOF
-istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true -f ./tracing.yaml --skip-confirmation
-kubectl label namespace default istio-injection=enabled
-}
-
 snip_enable_telemetry() {
 kubectl apply -f - <<EOF
 apiVersion: telemetry.istio.io/v1alpha1

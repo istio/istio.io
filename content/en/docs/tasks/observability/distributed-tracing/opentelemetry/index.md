@@ -17,7 +17,7 @@ This task uses the [Bookinfo](/docs/examples/bookinfo/) sample as the example ap
 To learn how Istio handles tracing, visit this task's [overview](../overview/).
 
 Istio can be configured to export [OpenTelemetry Protocol (OTLP)](https://opentelemetry.io/docs/specs/otel/protocol/)
-traces via gRPC and HTTP. Below you will find instructions for both scenarios.
+traces via gRPC.
 
 ## Deploy the OpenTelemetry Collector
 
@@ -60,38 +60,6 @@ In this example, traces will be exported via OTLP/gRPC to the OpenTelemetry Coll
     $ istioctl install -f ./tracing.yaml --skip-confirmation
     $ kubectl label namespace default istio-injection=enabled
     {{< /text >}}
-
-### Exporting via HTTP
-
-In this example, traces will be exported via OTLP/HTTP to the OpenTelemetry Collector.
-
-    {{< text syntax=bash snip_id=mesh_http_exporter >}}
-    $ cat <<EOF > ./tracing-http.yaml
-    apiVersion: install.istio.io/v1alpha1
-    kind: IstioOperator
-    spec:
-      meshConfig:
-        enableTracing: true
-        extensionProviders:
-        - name: otel-tracing
-          opentelemetry:
-            port: 4318
-            service: opentelemetry-collector.otel-collector.svc.cluster.local
-            http:
-              path: "v1/traces"
-              timeout: 10s
-              headers:
-              - name: "my-custom-header"
-                value: "some-value"
-    EOF
-    $ istioctl install -f ./tracing.yaml --skip-confirmation
-    $ kubectl label namespace default istio-injection=enabled
-    {{< /text >}}
-
-{{< tip >}}
-You can also send traces directly to your tracing back-end of choice via HTTP, without needing a Collector.
-For that, you will need to first define a [ServiceEntry](/docs/reference/config/networking/service-entry/).
-{{< /tip >}}
 
 ## Enable tracing for mesh via Telemetry API
 
