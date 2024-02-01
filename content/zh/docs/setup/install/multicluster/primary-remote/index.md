@@ -104,9 +104,11 @@ $ kubectl apply --context="${CTX_CLUSTER1}" -f \
 
 {{< warning >}}
 如果控制面指定了版本 `rev`, 需要执行
+
 {{< text bash >}}
 $ sed 's/{{.Revision}}/rev/g' @samples/multicluster/expose-istiod-rev.yaml.tmpl | kubectl apply -n istio-system -f -
 {{< /text >}}
+
 {{< /warning >}}
 
 ## 设置集群 `cluster2` 的控制平面 {#set-the-control-plane-cluster-for-cluster2}
