@@ -141,7 +141,10 @@
         .show-item {
             display: flex;
         }
+        
     }
+
+    
 
     .news-list {
         .post-card {
@@ -214,6 +217,14 @@
             color: $primaryColor;
             font-size: $font-size--l;
         }
+    }
+
+    .social-share__icon {
+        width: 50px;
+    }
+
+    img {
+        width: 50px;
     }
 
     .next-link {
