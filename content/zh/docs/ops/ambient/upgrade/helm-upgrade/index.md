@@ -78,6 +78,14 @@ $ helm upgrade istiod istio/istiod -n istio-system
 ztunnel DaemonSet 是 Ambient 中的 L4 节点代理组件。
 
 {{< warning >}}
+由于 Ambient 尚未稳定，以下声明不是兼容性保证，后续可能会变更或移除。
+在达到稳定状态之前，此组件和/或控制平面可能会有破坏性变更，使得次要版本之间互不兼容。
+{{< /warning >}}
+
+只要 ztunnel 的版本差距不超过一个次要版本，1.x 版本总体上与 1.x+1 和 1.x 版本的控制平面兼容，
+这意味着必须先升级控制平面，再升级 ztunnel。
+
+{{< warning >}}
 就地升级 ztunnel 将短暂中断节点上的所有 Ambient Mesh 流量。
 建议使用节点封锁和蓝/绿节点池来减轻生产环境升级期间的影响范围。
 有关详细信息，请参阅您的 Kubernetes 提供商文档。
@@ -89,17 +97,23 @@ $ helm upgrade ztunnel istio/ztunnel -n istio-system
 
 ### 升级 CNI 组件 {#upgrade-the-cni-component}
 
-Istio CNI Agent 负责检测属于 Ambient Mesh 的 Pod，
-并配置 Pod 和 ztunnel DaemonSet 之间的流量重定向。
-Istio CNI Agent 不是数据平面或控制平面的一部分。
-
-Istio CNI Agent 1.x 版本兼容控制平面 1.x-1、1.x 以及 1.x+1 版本，
-这意味着 Istio CNI Agent 和 Istio 控制平面能够以任何先后顺序独立升级。
-只要它们的版本差异在一个次要版本之内。
+Istio CNI 代理负责检测添加到 Ambient 网格的 Pod，
+通知 ztunnel 应在添加的 Pod 内建立代理端口，并在 Pod 网络命名空间内配置流量重定向。
+它不是数据平面或控制平面的一部分。
 
 {{< warning >}}
-升级 Istio CNI Agent 将重新配置节点上的网络，因此会暂时中断节点流量。
-为了控制 Istio CNI Agent 升级期间影响应用程序 Pod 的范围，建议使用节点警戒线。
+由于 Ambient 尚未稳定，以下声明不具备兼容性保证，可能会变更或移除。
+在达到稳定状态之前，该组件和/或控制平面可能会受到破坏性变更，从而阻碍次要版本之间的兼容性。
+{{< /warning >}}
+
+CNI 1.x 版本通常与 1.x+1 和 1.x 版本的控制平面兼容，
+这意味着控制平面必须在 Istio CNI 之前升级，需要它们之前的版本差异在一个次要版本之内。
+
+{{< warning >}}
+将 Istio CNI 代理就地升级到兼容版本不会中断已成功添加到 Ambient 网格中正在运行 Pod 的网络，
+但在节点上 Istio CNI 代理成功升级并完成就绪检查之前，
+不会有任何 Ambient 捕获的 Pod 可以在节点上被成功调度（或重新调度）。
+如果这是一个重大的中断问题，或者需要对 CNI 升级进行更严格的影响范围控制，则建议使用节点污染和/或节点警戒线。
 {{< /warning >}}
 
 {{< text syntax=bash snip_id=upgrade_cni >}}
