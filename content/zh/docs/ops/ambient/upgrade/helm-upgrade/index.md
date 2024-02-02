@@ -78,12 +78,12 @@ $ helm upgrade istiod istio/istiod -n istio-system
 ztunnel DaemonSet 是 Ambient 中的 L4 节点代理组件。
 
 {{< warning >}}
-由于 Ambient 尚未稳定，以下声明不具备兼容性保证，可能会变更或移除。
-在达到稳定状态之前，该组件和/或控制平面可能会受到破坏性变更，从而阻碍次要版本之间的兼容性。
+由于 Ambient 尚未稳定，以下声明不是兼容性保证，后续可能会变更或移除。
+在达到稳定状态之前，此组件和/或控制平面可能会有破坏性变更，使得次要版本之间互不兼容。
 {{< /warning >}}
 
-ztunnel 1.x 版本总体上与 1.x+1 和 1.x 版本的控制平面兼容，
-这意味着控制平面必须先于 ztunnel 升级，需要它们之前的版本差异在一个次要版本之内。
+只要 ztunnel 的版本差距不超过一个次要版本，1.x 版本总体上与 1.x+1 和 1.x 版本的控制平面兼容，
+这意味着必须先升级控制平面，再升级 ztunnel。
 
 {{< warning >}}
 就地升级 ztunnel 将短暂中断节点上的所有 Ambient Mesh 流量。
