@@ -56,8 +56,8 @@ helm ls -n istio-system
 ! read -r -d '' snip_show_components_out <<\ENDSNIP
 NAME            NAMESPACE       REVISION    UPDATED         STATUS      CHART           APP VERSION
 istio-base      istio-system    1           ... ... ... ... deployed    base-1.0.0      1.0.0
-istio-cni       istio-system    1           ... ... ... ...	deployed    cni-1.0.0       1.0.0
-istiod          istio-system    1           ... ... ... ...	deployed    istiod-1.0.0    1.0.0
+istio-cni       istio-system    1           ... ... ... ... deployed    cni-1.0.0       1.0.0
+istiod          istio-system    1           ... ... ... ... deployed    istiod-1.0.0    1.0.0
 ztunnel         istio-system    1           ... ... ... ... deployed    ztunnel-1.0.0   1.0.0
 ENDSNIP
 
@@ -79,8 +79,8 @@ helm ls -n istio-system
 ! read -r -d '' snip_uninstall_1_out <<\ENDSNIP
 NAME            NAMESPACE       REVISION    UPDATED         STATUS      CHART           APP VERSION
 istio-base      istio-system    1           ... ... ... ... deployed    base-1.0.0      1.0.0
-istio-cni       istio-system    1           ... ... ... ...	deployed    cni-1.0.0       1.0.0
-istiod          istio-system    1           ... ... ... ...	deployed    istiod-1.0.0    1.0.0
+istio-cni       istio-system    1           ... ... ... ... deployed    cni-1.0.0       1.0.0
+istiod          istio-system    1           ... ... ... ... deployed    istiod-1.0.0    1.0.0
 ztunnel         istio-system    1           ... ... ... ... deployed    ztunnel-1.0.0   1.0.0
 ENDSNIP
 

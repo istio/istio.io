@@ -96,8 +96,8 @@ After installing all the components, you can check the Helm deployment status wi
 $ helm ls -n istio-system
 NAME            NAMESPACE       REVISION    UPDATED         STATUS      CHART           APP VERSION
 istio-base      istio-system    1           ... ... ... ... deployed    base-1.0.0      1.0.0
-istio-cni       istio-system    1           ... ... ... ...	deployed    cni-1.0.0       1.0.0
-istiod          istio-system    1           ... ... ... ...	deployed    istiod-1.0.0    1.0.0
+istio-cni       istio-system    1           ... ... ... ... deployed    cni-1.0.0       1.0.0
+istiod          istio-system    1           ... ... ... ... deployed    istiod-1.0.0    1.0.0
 ztunnel         istio-system    1           ... ... ... ... deployed    ztunnel-1.0.0   1.0.0
 {{< /text >}}
 
@@ -129,8 +129,8 @@ installed above.
     $ helm ls -n istio-system
     NAME            NAMESPACE       REVISION    UPDATED         STATUS      CHART           APP VERSION
     istio-base      istio-system    1           ... ... ... ... deployed    base-1.0.0      1.0.0
-    istio-cni       istio-system    1           ... ... ... ...	deployed    cni-1.0.0       1.0.0
-    istiod          istio-system    1           ... ... ... ...	deployed    istiod-1.0.0    1.0.0
+    istio-cni       istio-system    1           ... ... ... ... deployed    cni-1.0.0       1.0.0
+    istiod          istio-system    1           ... ... ... ... deployed    istiod-1.0.0    1.0.0
     ztunnel         istio-system    1           ... ... ... ... deployed    ztunnel-1.0.0   1.0.0
     {{< /text >}}
 
