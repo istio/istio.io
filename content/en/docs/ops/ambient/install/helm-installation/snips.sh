@@ -50,21 +50,38 @@ helm show values istio/istiod
 }
 
 snip_show_components() {
-helm list -n istio-system
+helm ls -n istio-system
 }
+
+! read -r -d '' snip_show_components_out <<\ENDSNIP
+NAME            NAMESPACE       REVISION    UPDATED         STATUS      CHART           APP VERSION
+istio-base      istio-system    1           ... ... ... ... deployed    base-1.0.0      1.0.0
+istio-cni       istio-system    1           ... ... ... ... deployed    cni-1.0.0       1.0.0
+istiod          istio-system    1           ... ... ... ... deployed    istiod-1.0.0    1.0.0
+ztunnel         istio-system    1           ... ... ... ... deployed    ztunnel-1.0.0   1.0.0
+ENDSNIP
 
 snip_check_pods() {
 kubectl get pods -n istio-system
 }
+
+! read -r -d '' snip_check_pods_out <<\ENDSNIP
+NAME                             READY   STATUS    RESTARTS   AGE
+istio-cni-node-g97z5             1/1     Running   0          10m
+istiod-5f4c75464f-gskxf          1/1     Running   0          10m
+ztunnel-c2z4s                    1/1     Running   0          10m
+ENDSNIP
 
 snip_uninstall_1() {
 helm ls -n istio-system
 }
 
 ! read -r -d '' snip_uninstall_1_out <<\ENDSNIP
-NAME       NAMESPACE    REVISION UPDATED         STATUS   CHART        APP VERSION
-istio-base istio-system 1        ... ... ... ... deployed base-1.0.0   1.0.0
-istiod     istio-system 1        ... ... ... ... deployed istiod-1.0.0 1.0.0
+NAME            NAMESPACE       REVISION    UPDATED         STATUS      CHART           APP VERSION
+istio-base      istio-system    1           ... ... ... ... deployed    base-1.0.0      1.0.0
+istio-cni       istio-system    1           ... ... ... ... deployed    cni-1.0.0       1.0.0
+istiod          istio-system    1           ... ... ... ... deployed    istiod-1.0.0    1.0.0
+ztunnel         istio-system    1           ... ... ... ... deployed    ztunnel-1.0.0   1.0.0
 ENDSNIP
 
 snip_delete_ingress() {
