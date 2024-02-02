@@ -113,7 +113,7 @@ $ kubectl apply --context="${CTX_CLUSTER1}" -n istio-system -f \
 If the control-plane was installed with a revision `rev`, use the following command instead:
 
 {{< text bash >}}
-$ sed 's/{{.Revision}}/rev/g' @samples/multicluster/expose-istiod-rev.yaml.tmpl | kubectl apply --context="${CTX_CLUSTER1}" -n istio-system -f -
+$ sed 's/{{.Revision}}/rev/g' @samples/multicluster/expose-istiod-rev.yaml.tmpl@ | kubectl apply --context="${CTX_CLUSTER1}" -n istio-system -f -
 {{< /text >}}
 
 {{< /warning >}}

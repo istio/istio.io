@@ -106,7 +106,7 @@ $ kubectl apply --context="${CTX_CLUSTER1}" -f \
 如果控制面指定了版本 `rev`, 需要改为执行
 
 {{< text bash >}}
-$ sed 's/{{.Revision}}/rev/g' @samples/multicluster/expose-istiod-rev.yaml.tmpl | kubectl apply --context="${CTX_CLUSTER1}" -n istio-system -f -
+$ sed 's/{{.Revision}}/rev/g' @samples/multicluster/expose-istiod-rev.yaml.tmpl@ | kubectl apply --context="${CTX_CLUSTER1}" -n istio-system -f -
 {{< /text >}}
 
 {{< /warning >}}
