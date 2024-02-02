@@ -423,17 +423,17 @@
       text-anchor="middle" style="white-space: pre;" direction="ltr" dominant-baseline="text-before-edge">3</text></g>
   <g transform="translate(1629.974998474121 910) rotate(0 80.13333129882812 64.39999999999998)"><text
       x="80.13333129882812" y="0" font-family="Helvetica, Segoe UI Emoji" font-size="28px" fill="#2f9e44"
-      text-anchor="middle" style="white-space: pre;" direction="ltr" dominant-baseline="text-before-edge">    从 15008 
+      text-anchor="middle" style="white-space: pre;" direction="ltr" dominant-baseline="text-before-edge">      在端口 15008 
     </text><text x="80.13333129882812" y="32.199999999999996" font-family="Helvetica, Segoe UI Emoji" font-size="28px"
       fill="#2f9e44" text-anchor="middle" style="white-space: pre;" direction="ltr"
-      dominant-baseline="text-before-edge">以 HBONE 方式</text><text x="80.13333129882812" y="64.39999999999999"
+      dominant-baseline="text-before-edge">上作为 HBONE</text><text x="80.13333129882812" y="64.39999999999999"
       font-family="Helvetica, Segoe UI Emoji" font-size="28px" fill="#2f9e44" text-anchor="middle"
-      style="white-space: pre;" direction="ltr" dominant-baseline="text-before-edge">离开 Pod</text><text
+      style="white-space: pre;" direction="ltr" dominant-baseline="text-before-edge">保留 Pod</text><text
       x="80.13333129882812" y="96.6" font-family="Helvetica, Segoe UI Emoji" font-size="28px" fill="#2f9e44"
-      text-anchor="middle" style="white-space: pre;" direction="ltr" dominant-baseline="text-before-edge">（目标 5151）</text></g>
+      text-anchor="middle" style="white-space: pre;" direction="ltr" dominant-baseline="text-before-edge">（目标端口 5151）</text></g>
   <g transform="translate(57.875 1272) rotate(0 921.5 82.79999999999995)"><text x="0" y="0"
       font-family="Helvetica, Segoe UI Emoji" font-size="36px" fill="#1e1e1e" text-anchor="start"
-      style="white-space: pre;" direction="ltr" dominant-baseline="text-before-edge">- 通过本地 ztunnel 进入或离开 Pod “hairpin”的所有内容</text><text x="0" y="41.4" font-family="Helvetica, Segoe UI Emoji"
+      style="white-space: pre;" direction="ltr" dominant-baseline="text-before-edge">- 通过本地 ztunnel 嗅探进出 Pod 的所有流量</text><text x="0" y="41.4" font-family="Helvetica, Segoe UI Emoji"
       font-size="36px" fill="#1e1e1e" text-anchor="start" style="white-space: pre;" direction="ltr"
       dominant-baseline="text-before-edge">- 所有重定向都发生在 Pod 内 - 主机端没有任何重定向</text><text x="0" y="82.8" font-family="Helvetica, Segoe UI Emoji" font-size="36px" fill="#1e1e1e"
       text-anchor="start" style="white-space: pre;" direction="ltr" dominant-baseline="text-before-edge">- 对于 CNI（和 Pod）来说，看起来就像旧的 Sidecar，但实际上没有添加 Sidecar - “带有长长薅草的 Sidecar”</text><text x="0" y="124.19999999999999" font-family="Helvetica, Segoe UI Emoji" font-size="36px"
