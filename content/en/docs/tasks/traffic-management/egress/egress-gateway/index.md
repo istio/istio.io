@@ -385,6 +385,17 @@ You should see a line similar to the following:
 [2024-01-09T15:35:47.283Z] "GET /politics HTTP/1.1" 301 - via_upstream - "-" 0 0 2 2 "172.30.239.55" "curl/7.87.0-DEV" "6c01d65f-a157-97cd-8782-320a40026901" "edition.cnn.com" "151.101.195.5:80" outbound|80||edition.cnn.com 172.30.239.16:55636 172.30.239.16:80 172.30.239.55:59224 - default.forward-cnn-from-egress-gateway.0
 {{< /text >}}
 
+{{< tip >}}
+If [mutual TLS Authentication](/docs/tasks/security/authentication/authn-policy/) is enabled, and you have issues connecting to the egress gateway, run the following command to verify the if the certificate is correct:
+
+{{< text bash >}}
+$ istioctl pc secret "$(kubectl get pod -l istio.io/gateway-name=cnn-egress-gateway  -o jsonpath='{.items[0].metadata.name}')" -ojson | jq '[.dynamicActiveSecrets[] | select(.name == "default")][0].secret.tlsCertificate.certificateChain.inlineBytes' -r | base64 -d | openssl x509 -text -noout | grep 'Subject Alternative Name' -A 1
+        X509v3 Subject Alternative Name: critical
+            URI:spiffe://cluster.local/ns/istio-system/sa/istio-egressgateway-service-account
+{{< /text >}}
+
+{{< /tip >}}
+
 {{< /tab >}}
 
 {{< /tabset >}}
