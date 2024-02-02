@@ -92,13 +92,22 @@ $ helm show values istio/istiod
 安装所有组件后，您可以使用以下命令检查 Helm 部署状态：
 
 {{< text syntax=bash snip_id=show_components >}}
-$ helm list -n istio-system
+$ helm ls -n istio-system
+NAME            NAMESPACE       REVISION    UPDATED         STATUS      CHART           APP VERSION
+istio-base      istio-system    1           ... ... ... ... deployed    base-1.0.0      1.0.0
+istio-cni       istio-system    1           ... ... ... ... deployed    cni-1.0.0       1.0.0
+istiod          istio-system    1           ... ... ... ... deployed    istiod-1.0.0    1.0.0
+ztunnel         istio-system    1           ... ... ... ... deployed    ztunnel-1.0.0   1.0.0
 {{< /text >}}
 
 您可以使用以下命令检查已部署的 Pod 状态：
 
 {{< text syntax=bash snip_id=check_pods >}}
 $ kubectl get pods -n istio-system
+NAME                             READY   STATUS    RESTARTS   AGE
+istio-cni-node-g97z5             1/1     Running   0          10m
+istiod-5f4c75464f-gskxf          1/1     Running   0          10m
+ztunnel-c2z4s                    1/1     Running   0          10m
 {{< /text >}}
 
 ### 使用示例应用程序进行验证 {#verifying-with-the-sample-application}
@@ -115,9 +124,11 @@ $ kubectl get pods -n istio-system
 
     {{< text syntax=bash >}}
     $ helm ls -n istio-system
-    NAME       NAMESPACE    REVISION UPDATED         STATUS   CHART        APP VERSION
-    istio-base istio-system 1        ... ... ... ... deployed base-1.0.0   1.0.0
-    istiod     istio-system 1        ... ... ... ... deployed istiod-1.0.0 1.0.0
+    NAME            NAMESPACE       REVISION    UPDATED         STATUS      CHART           APP VERSION
+    istio-base      istio-system    1           ... ... ... ... deployed    base-1.0.0      1.0.0
+    istio-cni       istio-system    1           ... ... ... ... deployed    cni-1.0.0       1.0.0
+    istiod          istio-system    1           ... ... ... ... deployed    istiod-1.0.0    1.0.0
+    ztunnel         istio-system    1           ... ... ... ... deployed    ztunnel-1.0.0   1.0.0
     {{< /text >}}
 
 1.（可选）删除所有 Istio 网关 Chart 安装文件：
