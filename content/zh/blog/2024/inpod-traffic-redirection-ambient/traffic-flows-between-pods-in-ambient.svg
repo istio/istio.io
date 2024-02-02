@@ -436,7 +436,7 @@
       style="white-space: pre;" direction="ltr" dominant-baseline="text-before-edge">- 通过本地 ztunnel 嗅探进出 Pod 的所有流量</text><text x="0" y="41.4" font-family="Helvetica, Segoe UI Emoji"
       font-size="36px" fill="#1e1e1e" text-anchor="start" style="white-space: pre;" direction="ltr"
       dominant-baseline="text-before-edge">- 所有重定向都发生在 Pod 内 - 主机端没有任何重定向</text><text x="0" y="82.8" font-family="Helvetica, Segoe UI Emoji" font-size="36px" fill="#1e1e1e"
-      text-anchor="start" style="white-space: pre;" direction="ltr" dominant-baseline="text-before-edge">- 对于 CNI（和 Pod）来说，看起来就像旧的 Sidecar，但实际上没有添加 Sidecar - “带有长长薅草的 Sidecar”</text><text x="0" y="124.19999999999999" font-family="Helvetica, Segoe UI Emoji" font-size="36px"
+      text-anchor="start" style="white-space: pre;" direction="ltr" dominant-baseline="text-before-edge">- 对于 CNI（和 Pod）来说，看起来就像旧的 Sidecar，但实际上没有添加 Sidecar - “一种不显而易见的 Sidecar”</text><text x="0" y="124.19999999999999" font-family="Helvetica, Segoe UI Emoji" font-size="36px"
       fill="#1e1e1e" text-anchor="start" style="white-space: pre;" direction="ltr"
       dominant-baseline="text-before-edge"></text></g>
   <g transform="translate(931.5333328247068 416.5) rotate(34.298316000278675 74.71666717529297 32.19999999999999)"><text
