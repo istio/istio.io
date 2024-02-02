@@ -243,7 +243,7 @@ kubectl logs -l istio.io/gateway-name=cnn-egress-gateway -c istio-proxy | tail
 ENDSNIP
 
 snip_egress_gateway_for_http_traffic_13() {
-istioctl pc secret "$(kubectl get pod -l istio.io/gateway-name=cnn-egress-gateway  -o jsonpath='{.items[0].metadata.name}')" -ojson | jq '[.dynamicActiveSecrets[] | select(.name == "default")][0].secret.tlsCertificate.certificateChain.inlineBytes' -r | base64 -d | openssl x509 -text -noout | grep 'Subject Alternative Name' -A 1
+istioctl pc secret "$(kubectl get pod -l istio.io/gateway-name=cnn-egress-gateway -o jsonpath='{.items[0].metadata.name}')" -ojson | jq '[.dynamicActiveSecrets[] | select(.name == "default")][0].secret.tlsCertificate.certificateChain.inlineBytes' -r | base64 -d | openssl x509 -text -noout | grep 'Subject Alternative Name' -A 1
 }
 
 ! read -r -d '' snip_egress_gateway_for_http_traffic_13_out <<\ENDSNIP

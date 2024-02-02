@@ -359,7 +359,7 @@ You should see a line similar to the following:
 {{< /text >}}
 
 {{< tip >}}
-If [mutual TLS Authentication](/docs/tasks/security/authentication/authn-policy/) is enabled, and you have issues connecting to the egress gateway, run the following command to verify the if the certificate is correct:
+If [mutual TLS Authentication](/docs/tasks/security/authentication/authn-policy/) is enabled, and you have issues connecting to the egress gateway, run the following command to verify the certificate is correct:
 
 {{< text bash >}}
 $ istioctl pc secret -n istio-system "$(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}')" -ojson | jq '[.dynamicActiveSecrets[] | select(.name == "default")][0].secret.tlsCertificate.certificateChain.inlineBytes' -r | base64 -d | openssl x509 -text -noout | grep 'Subject Alternative Name' -A 1
@@ -386,10 +386,10 @@ You should see a line similar to the following:
 {{< /text >}}
 
 {{< tip >}}
-If [mutual TLS Authentication](/docs/tasks/security/authentication/authn-policy/) is enabled, and you have issues connecting to the egress gateway, run the following command to verify the if the certificate is correct:
+If [mutual TLS Authentication](/docs/tasks/security/authentication/authn-policy/) is enabled, and you have issues connecting to the egress gateway, run the following command to verify the certificate is correct:
 
 {{< text bash >}}
-$ istioctl pc secret "$(kubectl get pod -l istio.io/gateway-name=cnn-egress-gateway  -o jsonpath='{.items[0].metadata.name}')" -ojson | jq '[.dynamicActiveSecrets[] | select(.name == "default")][0].secret.tlsCertificate.certificateChain.inlineBytes' -r | base64 -d | openssl x509 -text -noout | grep 'Subject Alternative Name' -A 1
+$ istioctl pc secret "$(kubectl get pod -l istio.io/gateway-name=cnn-egress-gateway -o jsonpath='{.items[0].metadata.name}')" -ojson | jq '[.dynamicActiveSecrets[] | select(.name == "default")][0].secret.tlsCertificate.certificateChain.inlineBytes' -r | base64 -d | openssl x509 -text -noout | grep 'Subject Alternative Name' -A 1
         X509v3 Subject Alternative Name: critical
             URI:spiffe://cluster.local/ns/istio-system/sa/istio-egressgateway-service-account
 {{< /text >}}
