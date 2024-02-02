@@ -144,7 +144,7 @@
       font-family="Helvetica, Segoe UI Emoji" font-size="36px" fill="#1e1e1e" text-anchor="start"
       style="white-space: pre;" direction="ltr" dominant-baseline="text-before-edge">职责：</text><text x="0" y="41.4"
       font-family="Helvetica, Segoe UI Emoji" font-size="36px" fill="#1e1e1e" text-anchor="start"
-      style="white-space: pre;" direction="ltr" dominant-baseline="text-before-edge">- istio-cni 节点代理监视被标记为 Ambient 的新 Pod</text><text x="0" y="82.8" font-family="Helvetica, Segoe UI Emoji" font-size="36px" fill="#1e1e1e"
+      style="white-space: pre;" direction="ltr" dominant-baseline="text-before-edge">- Istio-cni 节点代理监视为 Ambient 打了标签的新 Pod</text><text x="0" y="82.8" font-family="Helvetica, Segoe UI Emoji" font-size="36px" fill="#1e1e1e"
       text-anchor="start" style="white-space: pre;" direction="ltr" dominant-baseline="text-before-edge">- istio-cni 设置 Pod 内 iptables 重定向规则</text><text x="0" y="124.19999999999999" font-family="Helvetica, Segoe UI Emoji"
       font-size="36px" fill="#1e1e1e" text-anchor="start" style="white-space: pre;" direction="ltr"
       dominant-baseline="text-before-edge">- ztunnel 拥有套接字并订阅 istio-cni 代理事件</text></g>

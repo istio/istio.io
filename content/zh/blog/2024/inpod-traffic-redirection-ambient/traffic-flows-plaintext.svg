@@ -428,7 +428,7 @@
       text-anchor="middle" style="white-space: pre;" direction="ltr" dominant-baseline="text-before-edge">以明文离开 Pod</text></g>
   <g transform="translate(67.375 1266.6761081726218) rotate(0 921.5 82.79999999999995)"><text x="0" y="0"
       font-family="Helvetica, Segoe UI Emoji" font-size="36px" fill="#1e1e1e" text-anchor="start"
-      style="white-space: pre;" direction="ltr" dominant-baseline="text-before-edge">- 通过本地 ztunnel 进入或离开 Pod “hairpin”的所有内容</text><text x="0" y="41.4" font-family="Helvetica, Segoe UI Emoji"
+      style="white-space: pre;" direction="ltr" dominant-baseline="text-before-edge">- 通过本地 ztunnel 嗅探进出 Pod 的所有流量</text><text x="0" y="41.4" font-family="Helvetica, Segoe UI Emoji"
       font-size="36px" fill="#1e1e1e" text-anchor="start" style="white-space: pre;" direction="ltr"
       dominant-baseline="text-before-edge">- 所有重定向都发生在 Pod 内 - 主机端没有任何重定向</text><text
       x="0" y="82.8" font-family="Helvetica, Segoe UI Emoji" font-size="36px" fill="#1e1e1e" text-anchor="start"
