@@ -58,10 +58,32 @@ _verify_contains snip_egress_gateway_for_http_traffic_7 "HTTP/2 200"
 
 # Verify routing through gateway
 if [ "$GATEWAY_API" == "true" ]; then
-    _verify_contains snip_egress_gateway_for_http_traffic_10 "outbound|80||edition.cnn.com"
+    _verify_contains snip_egress_gateway_for_http_traffic_11 "outbound|80||edition.cnn.com"
 else
     _verify_contains snip_egress_gateway_for_http_traffic_8 "outbound|80||edition.cnn.com"
 fi
+
+# Verify the certificate is correct if mTLS is enabled
+set +e  # Don't exit on failure
+kubectl apply -f - <<EOF
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: "default"
+  namespace: "istio-system"
+spec:
+  mtls:
+    mode: STRICT
+EOF
+set -e  # Exit on failure
+if [ "$GATEWAY_API" == "true" ]; then
+    _verify_contains snip_egress_gateway_for_http_traffic_13 "X509v3 Subject Alternative Name"
+    _verify_contains snip_egress_gateway_for_http_traffic_13 "URI:spiffe://cluster.local/ns/istio-system/sa/istio-egressgateway-service-account"
+else
+    _verify_contains snip_egress_gateway_for_http_traffic_10 "X509v3 Subject Alternative Name"
+    _verify_contains snip_egress_gateway_for_http_traffic_10 "URI:spiffe://cluster.local/ns/istio-system/sa/istio-egressgateway-service-account"
+fi
+kubectl delete peerauthentication -n istio-system default
 
 # cleanup http task
 if [ "$GATEWAY_API" == "true" ]; then
