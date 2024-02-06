@@ -77,11 +77,9 @@ spec:
 EOF
 set -e  # Exit on failure
 if [ "$GATEWAY_API" == "true" ]; then
-    _verify_contains snip_egress_gateway_for_http_traffic_13 "X509v3 Subject Alternative Name"
-    _verify_contains snip_egress_gateway_for_http_traffic_13 "URI:spiffe://cluster.local/ns/default/sa/cnn-egress-gateway-istio"
+    _verify_contains snip_egress_gateway_for_http_traffic_13 "$snip_egress_gateway_for_http_traffic_13_out"
 else
-    _verify_contains snip_egress_gateway_for_http_traffic_10 "X509v3 Subject Alternative Name"
-    _verify_contains snip_egress_gateway_for_http_traffic_10 "URI:spiffe://cluster.local/ns/istio-system/sa/istio-egressgateway-service-account"
+    _verify_contains snip_egress_gateway_for_http_traffic_10 "$snip_egress_gateway_for_http_traffic_10_out"
 fi
 kubectl delete peerauthentication -n istio-system default
 
