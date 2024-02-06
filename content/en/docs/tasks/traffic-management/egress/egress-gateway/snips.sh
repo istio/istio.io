@@ -230,8 +230,8 @@ istioctl pc secret -n istio-system "$(kubectl get pod -l istio=egressgateway -n 
 }
 
 ! read -r -d '' snip_egress_gateway_for_http_traffic_10_out <<\ENDSNIP
-        X509v3 Subject Alternative Name: critical
-            URI:spiffe://cluster.local/ns/istio-system/sa/istio-egressgateway-service-account
+            X509v3 Subject Alternative Name: critical
+                URI:spiffe://cluster.local/ns/istio-system/sa/istio-egressgateway-service-account
 ENDSNIP
 
 snip_egress_gateway_for_http_traffic_11() {
@@ -247,8 +247,8 @@ istioctl pc secret "$(kubectl get pod -l istio.io/gateway-name=cnn-egress-gatewa
 }
 
 ! read -r -d '' snip_egress_gateway_for_http_traffic_13_out <<\ENDSNIP
-        X509v3 Subject Alternative Name: critical
-            URI:spiffe://cluster.local/ns/default/sa/cnn-egress-gateway-istio
+            X509v3 Subject Alternative Name: critical
+                URI:spiffe://cluster.local/ns/default/sa/cnn-egress-gateway-istio
 ENDSNIP
 
 snip_cleanup_http_gateway_1() {

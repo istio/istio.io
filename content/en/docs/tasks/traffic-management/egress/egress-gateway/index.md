@@ -363,8 +363,8 @@ If [mutual TLS Authentication](/docs/tasks/security/authentication/authn-policy/
 
 {{< text bash >}}
 $ istioctl pc secret -n istio-system "$(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}')" -ojson | jq '[.dynamicActiveSecrets[] | select(.name == "default")][0].secret.tlsCertificate.certificateChain.inlineBytes' -r | base64 -d | openssl x509 -text -noout | grep 'Subject Alternative Name' -A 1
-        X509v3 Subject Alternative Name: critical
-            URI:spiffe://cluster.local/ns/istio-system/sa/istio-egressgateway-service-account
+            X509v3 Subject Alternative Name: critical
+                URI:spiffe://cluster.local/ns/istio-system/sa/istio-egressgateway-service-account
 {{< /text >}}
 
 {{< /tip >}}
@@ -390,8 +390,8 @@ If [mutual TLS Authentication](/docs/tasks/security/authentication/authn-policy/
 
 {{< text bash >}}
 $ istioctl pc secret "$(kubectl get pod -l istio.io/gateway-name=cnn-egress-gateway -o jsonpath='{.items[0].metadata.name}')" -ojson | jq '[.dynamicActiveSecrets[] | select(.name == "default")][0].secret.tlsCertificate.certificateChain.inlineBytes' -r | base64 -d | openssl x509 -text -noout | grep 'Subject Alternative Name' -A 1
-        X509v3 Subject Alternative Name: critical
-            URI:spiffe://cluster.local/ns/default/sa/cnn-egress-gateway-istio
+            X509v3 Subject Alternative Name: critical
+                URI:spiffe://cluster.local/ns/default/sa/cnn-egress-gateway-istio
 {{< /text >}}
 
 {{< /tip >}}
