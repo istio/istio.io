@@ -63,25 +63,11 @@ else
     _verify_contains snip_egress_gateway_for_http_traffic_8 "outbound|80||edition.cnn.com"
 fi
 
-# Verify the certificate is correct if mTLS is enabled
-set +e  # Don't exit on failure
-kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
-kind: PeerAuthentication
-metadata:
-  name: "default"
-  namespace: "istio-system"
-spec:
-  mtls:
-    mode: STRICT
-EOF
-set -e  # Exit on failure
 if [ "$GATEWAY_API" == "true" ]; then
-    _verify_contains snip_egress_gateway_for_http_traffic_13 "$snip_egress_gateway_for_http_traffic_13_out"
+    _verify_same snip_egress_gateway_for_http_traffic_13 "$snip_egress_gateway_for_http_traffic_13_out"
 else
-    _verify_contains snip_egress_gateway_for_http_traffic_10 "$snip_egress_gateway_for_http_traffic_10_out"
+    _verify_same snip_egress_gateway_for_http_traffic_10 "$snip_egress_gateway_for_http_traffic_10_out"
 fi
-kubectl delete peerauthentication -n istio-system default
 
 # cleanup http task
 if [ "$GATEWAY_API" == "true" ]; then
