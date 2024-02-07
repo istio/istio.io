@@ -58,9 +58,11 @@ _verify_contains snip_egress_gateway_for_http_traffic_7 "HTTP/2 200"
 
 # Verify routing through gateway
 if [ "$GATEWAY_API" == "true" ]; then
-    _verify_contains snip_egress_gateway_for_http_traffic_10 "outbound|80||edition.cnn.com"
+    _verify_contains snip_egress_gateway_for_http_traffic_11 "outbound|80||edition.cnn.com"
+    _verify_contains snip_egress_gateway_for_http_traffic_13 "$snip_egress_gateway_for_http_traffic_13_out"
 else
     _verify_contains snip_egress_gateway_for_http_traffic_8 "outbound|80||edition.cnn.com"
+    _verify_contains snip_egress_gateway_for_http_traffic_10 "$snip_egress_gateway_for_http_traffic_10_out"
 fi
 
 # cleanup http task

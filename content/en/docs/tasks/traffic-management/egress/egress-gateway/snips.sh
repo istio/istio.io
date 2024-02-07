@@ -226,11 +226,29 @@ kubectl logs -l istio=egressgateway -c istio-proxy -n istio-system | tail
 ENDSNIP
 
 snip_egress_gateway_for_http_traffic_10() {
+istioctl pc secret -n istio-system "$(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}')" -ojson | jq '[.dynamicActiveSecrets[] | select(.name == "default")][0].secret.tlsCertificate.certificateChain.inlineBytes' -r | base64 -d | openssl x509 -text -noout | grep 'Subject Alternative Name' -A 1
+}
+
+! read -r -d '' snip_egress_gateway_for_http_traffic_10_out <<\ENDSNIP
+            X509v3 Subject Alternative Name: critical
+                URI:spiffe://cluster.local/ns/istio-system/sa/istio-egressgateway-service-account
+ENDSNIP
+
+snip_egress_gateway_for_http_traffic_11() {
 kubectl logs -l istio.io/gateway-name=cnn-egress-gateway -c istio-proxy | tail
 }
 
-! read -r -d '' snip_egress_gateway_for_http_traffic_11 <<\ENDSNIP
+! read -r -d '' snip_egress_gateway_for_http_traffic_12 <<\ENDSNIP
 [2024-01-09T15:35:47.283Z] "GET /politics HTTP/1.1" 301 - via_upstream - "-" 0 0 2 2 "172.30.239.55" "curl/7.87.0-DEV" "6c01d65f-a157-97cd-8782-320a40026901" "edition.cnn.com" "151.101.195.5:80" outbound|80||edition.cnn.com 172.30.239.16:55636 172.30.239.16:80 172.30.239.55:59224 - default.forward-cnn-from-egress-gateway.0
+ENDSNIP
+
+snip_egress_gateway_for_http_traffic_13() {
+istioctl pc secret "$(kubectl get pod -l istio.io/gateway-name=cnn-egress-gateway -o jsonpath='{.items[0].metadata.name}')" -ojson | jq '[.dynamicActiveSecrets[] | select(.name == "default")][0].secret.tlsCertificate.certificateChain.inlineBytes' -r | base64 -d | openssl x509 -text -noout | grep 'Subject Alternative Name' -A 1
+}
+
+! read -r -d '' snip_egress_gateway_for_http_traffic_13_out <<\ENDSNIP
+            X509v3 Subject Alternative Name: critical
+                URI:spiffe://cluster.local/ns/default/sa/cnn-egress-gateway-istio
 ENDSNIP
 
 snip_cleanup_http_gateway_1() {
@@ -624,41 +642,6 @@ kubectl label namespace istio-system istio-
 kubectl label namespace default gateway-
 kubectl delete namespace test-egress
 }
-
-snip_troubleshooting_1() {
-kubectl exec -i -n istio-system "$(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}')"  -- cat /etc/certs/cert-chain.pem | openssl x509 -text -noout  | grep 'Subject Alternative Name' -A 1
-}
-
-! read -r -d '' snip_troubleshooting_1_out <<\ENDSNIP
-        X509v3 Subject Alternative Name:
-            URI:spiffe://cluster.local/ns/istio-system/sa/istio-egressgateway-service-account
-ENDSNIP
-
-snip_troubleshooting_2() {
-kubectl exec "$SOURCE_POD" -c sleep -- openssl s_client -connect edition.cnn.com:443 -servername edition.cnn.com
-}
-
-! read -r -d '' snip_troubleshooting_2_out <<\ENDSNIP
-CONNECTED(00000003)
-...
-Certificate chain
- 0 s:/C=US/ST=California/L=San Francisco/O=Fastly, Inc./CN=turner-tls.map.fastly.net
-   i:/C=BE/O=GlobalSign nv-sa/CN=GlobalSign CloudSSL CA - SHA256 - G3
- 1 s:/C=BE/O=GlobalSign nv-sa/CN=GlobalSign CloudSSL CA - SHA256 - G3
-   i:/C=BE/O=GlobalSign nv-sa/OU=Root CA/CN=GlobalSign Root CA
- ---
- Server certificate
- -----BEGIN CERTIFICATE-----
-...
-ENDSNIP
-
-snip_troubleshooting_3() {
-kubectl exec "$(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}')" -c istio-proxy -n istio-system -- pilot-agent request GET stats | grep edition.cnn.com.upstream_cx_total
-}
-
-! read -r -d '' snip_troubleshooting_3_out <<\ENDSNIP
-cluster.outbound|443||edition.cnn.com.upstream_cx_total: 2
-ENDSNIP
 
 snip_cleanup_1() {
 kubectl delete -f samples/sleep/sleep.yaml

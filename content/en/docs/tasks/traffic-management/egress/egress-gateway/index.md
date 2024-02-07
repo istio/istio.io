@@ -358,6 +358,17 @@ You should see a line similar to the following:
 [2019-09-03T20:57:49.103Z] "GET /politics HTTP/2" 301 - "-" "-" 0 0 90 89 "10.244.2.10" "curl/7.64.0" "ea379962-9b5c-4431-ab66-f01994f5a5a5" "edition.cnn.com" "151.101.65.67:80" outbound|80||edition.cnn.com - 10.244.1.5:80 10.244.2.10:50482 edition.cnn.com -
 {{< /text >}}
 
+{{< tip >}}
+If [mutual TLS Authentication](/docs/tasks/security/authentication/authn-policy/) is enabled, and you have issues connecting to the egress gateway, run the following command to verify the certificate is correct:
+
+{{< text bash >}}
+$ istioctl pc secret -n istio-system "$(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}')" -ojson | jq '[.dynamicActiveSecrets[] | select(.name == "default")][0].secret.tlsCertificate.certificateChain.inlineBytes' -r | base64 -d | openssl x509 -text -noout | grep 'Subject Alternative Name' -A 1
+            X509v3 Subject Alternative Name: critical
+                URI:spiffe://cluster.local/ns/istio-system/sa/istio-egressgateway-service-account
+{{< /text >}}
+
+{{< /tip >}}
+
 {{< /tab >}}
 
 {{< tab name="Gateway API" category-value="gateway-api" >}}
@@ -373,6 +384,17 @@ You should see a line similar to the following:
 {{< text plain >}}
 [2024-01-09T15:35:47.283Z] "GET /politics HTTP/1.1" 301 - via_upstream - "-" 0 0 2 2 "172.30.239.55" "curl/7.87.0-DEV" "6c01d65f-a157-97cd-8782-320a40026901" "edition.cnn.com" "151.101.195.5:80" outbound|80||edition.cnn.com 172.30.239.16:55636 172.30.239.16:80 172.30.239.55:59224 - default.forward-cnn-from-egress-gateway.0
 {{< /text >}}
+
+{{< tip >}}
+If [mutual TLS Authentication](/docs/tasks/security/authentication/authn-policy/) is enabled, and you have issues connecting to the egress gateway, run the following command to verify the certificate is correct:
+
+{{< text bash >}}
+$ istioctl pc secret "$(kubectl get pod -l istio.io/gateway-name=cnn-egress-gateway -o jsonpath='{.items[0].metadata.name}')" -ojson | jq '[.dynamicActiveSecrets[] | select(.name == "default")][0].secret.tlsCertificate.certificateChain.inlineBytes' -r | base64 -d | openssl x509 -text -noout | grep 'Subject Alternative Name' -A 1
+            X509v3 Subject Alternative Name: critical
+                URI:spiffe://cluster.local/ns/default/sa/cnn-egress-gateway-istio
+{{< /text >}}
+
+{{< /tip >}}
 
 {{< /tab >}}
 
@@ -984,42 +1006,6 @@ $ kubectl delete namespace test-egress
 {{< /tabset >}}
 
 2)  Follow the steps in the [Cleanup HTTPS gateway](#cleanup-https-gateway) section.
-
-## Troubleshooting
-
-1.  If [mutual TLS Authentication](/docs/tasks/security/authentication/authn-policy/) is enabled, verify the correct certificate of the
-    egress gateway:
-
-    {{< text bash >}}
-    $ kubectl exec -i -n istio-system "$(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}')"  -- cat /etc/certs/cert-chain.pem | openssl x509 -text -noout  | grep 'Subject Alternative Name' -A 1
-            X509v3 Subject Alternative Name:
-                URI:spiffe://cluster.local/ns/istio-system/sa/istio-egressgateway-service-account
-    {{< /text >}}
-
-1.  For HTTPS traffic (TLS originated by the application), test the traffic flow by using the _openssl_ command.
-    _openssl_ has an explicit option for setting the SNI, namely `-servername`.
-
-    {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- openssl s_client -connect edition.cnn.com:443 -servername edition.cnn.com
-    CONNECTED(00000003)
-    ...
-    Certificate chain
-     0 s:/C=US/ST=California/L=San Francisco/O=Fastly, Inc./CN=turner-tls.map.fastly.net
-       i:/C=BE/O=GlobalSign nv-sa/CN=GlobalSign CloudSSL CA - SHA256 - G3
-     1 s:/C=BE/O=GlobalSign nv-sa/CN=GlobalSign CloudSSL CA - SHA256 - G3
-       i:/C=BE/O=GlobalSign nv-sa/OU=Root CA/CN=GlobalSign Root CA
-     ---
-     Server certificate
-     -----BEGIN CERTIFICATE-----
-    ...
-    {{< /text >}}
-
-    If you get the certificate as in the output above, your traffic is routed correctly. Check the statistics of the egress gateway's proxy and see a counter that corresponds to your requests (sent by _openssl_ and _curl_) to _edition.cnn.com_.
-
-    {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}')" -c istio-proxy -n istio-system -- pilot-agent request GET stats | grep edition.cnn.com.upstream_cx_total
-    cluster.outbound|443||edition.cnn.com.upstream_cx_total: 2
-    {{< /text >}}
 
 ## Cleanup
 
