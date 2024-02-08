@@ -2,9 +2,9 @@
 title: ISTIO-SECURITY-2024-001
 subtitle: Security Bulletin
 description: CVEs reported by Envoy.
-cves: [CVE-2024-23325, CVE-2024-23327, CVE-2024-23324, CVE-2024-23323, CVE-2024-23322]
+cves: [CVE-2024-23322, CVE-2024-23323, CVE-2024-23324, CVE-2024-23325, CVE-2024-23327]
 cvss: "8.6"
-vector: "**TODO**"
+vector: "Unknown"
 releases: ["All releases prior to 1.19.0", "1.19.0 to 1.19.6", "1.20.0 to 1.20.2"]
 publishdate: 2024-02-08
 keywords: [CVE]
@@ -16,6 +16,8 @@ skip_seealso: true
 ## CVE
 
 ### Envoy CVEs
+
+**Note**: At the time of publishing, the below security advisories have not yet been published, but should be published shortly.
 
 - __[CVE-2024-23322](https://github.com/envoyproxy/envoy/security/advisories/GHSA-6p83-mfmh-qv38)__: (CVSS Score 7.5, High): Envoy crashes when idle and request per try timeout occur within the backoff interval.
 - __[CVE-2024-23323](https://github.com/envoyproxy/envoy/security/advisories/GHSA-x278-4w4x-r7ch)__: (CVSS Score 4.3, Moderate): Excessive CPU usage when URI template matcher is configured using regex.
