@@ -6,7 +6,7 @@ cves: [CVE-2024-23322, CVE-2024-23323, CVE-2024-23324, CVE-2024-23325, CVE-2024-
 cvss: "8.6"
 vector: "Unknown"
 releases: ["All releases prior to 1.19.0", "1.19.0 to 1.19.6", "1.20.0 to 1.20.2"]
-publishdate: 2024-02-08
+publishdate: 2024-02-09
 keywords: [CVE]
 skip_seealso: true
 ---
