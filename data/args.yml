@@ -2,7 +2,7 @@
 version: "1.20"
 
 # The full Istio version identifier the docs describe
-full_version: "1.20.2"
+full_version: "1.20.3"
 
 # The previous Istio version identifier the docs describe, used for upgrade documentation
 previous_version: "1.19"
@@ -43,10 +43,10 @@ archive_analytics_id: "UA-98480406-2"
 
 # The list of supported languages. Not every content available is translated
 supported_languages:
-  - name: "English"
-    code: "en"
-  - name: "中文"
-    code: "zh"
+- name: "English"
+  code: "en"
+- name: "中文"
+  code: "zh"
 
 # Kubernetes Gateway API
 k8s_gateway_api_version: "v1.0.0"
