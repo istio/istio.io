@@ -58,6 +58,10 @@ kubectl apply --context="${CTX_CLUSTER1}" -n istio-system -f \
     samples/multicluster/expose-istiod.yaml
 }
 
+snip_expose_the_control_plane_in_cluster1_2() {
+sed 's/{{.Revision}}/rev/g' samples/multicluster/expose-istiod-rev.yaml.tmpl | kubectl apply --context="${CTX_CLUSTER1}" -n istio-system -f -
+}
+
 snip_set_the_control_plane_cluster_for_cluster2_1() {
 kubectl --context="${CTX_CLUSTER2}" create namespace istio-system
 kubectl --context="${CTX_CLUSTER2}" annotate namespace istio-system topology.istio.io/controlPlaneClusters=cluster1
