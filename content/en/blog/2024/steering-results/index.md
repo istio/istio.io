@@ -69,6 +69,7 @@ We will therefore be voting on a change to our Charter which will move our Commu
 
 Following these changes, we now have representation from nine companies:
 
+{{< centered_block >}}
 Name | Company | Profile | Seat type
 ---|---|---|---
 TBD | Red Hat | TBD | Contribution seat
@@ -84,6 +85,7 @@ Keith Mattix | Microsoft | [`keithmattix`](https://github.com/keithmattix) | Com
 Justin Pettit | Google | [`justinpettit`](https://github.com/justinpettit) | Contribution seat
 Lin Sun | Solo.io | [`linsun`](https://github.com/linsun) | Contribution seat
 Zhonghu Xu | Huawei | [`hzxuzhonghu`](https://github.com/hzxuzhonghu) | Contribution seat
+{{< /centered_block >}}
 
 Our sincerest thanks to Ameer Abbas, April Kyle Nassi, Cale Rath and Chaomeng Zhang, whose terms have come to an end.
 
