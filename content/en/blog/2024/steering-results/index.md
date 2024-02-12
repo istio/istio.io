@@ -67,7 +67,7 @@ We will therefore be voting on a change to our Charter which will move our Commu
 
 ## The full group
 
-Following these changes, we have now have representation from nine companies:
+Following these changes, we now have representation from nine companies:
 
 Name | Company | Profile | Seat type
 ---|---|---|---
