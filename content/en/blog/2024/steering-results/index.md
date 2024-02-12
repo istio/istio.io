@@ -16,7 +16,7 @@ We are pleased to share the result of this year's calculation, and changes to ou
 
 ## Contribution seats
 
-The calculation for the 2024-2025 term brings the most diverse set of company representation ever in the Contribution Seats, with five companies[^ibm-red-hat] represented:
+The calculation for the 2024-2025 term brings the most diverse set of company representation ever in the Contribution Seats, with five companies[^1] represented:
 
 {{< centered_block >}}
 <table style="display: table">
@@ -55,7 +55,7 @@ The full allocation can be seen in our [formula spreadsheet](https://docs.google
 
 ## Community seats
 
-As a result of this year's calculation, two of our Community Seat holders move to Contribution Seats. This creates two extra vacancies, which are allocated to the runners-up of our last election[^daocloud].
+As a result of this year's calculation, two of our Community Seat holders move to Contribution Seats. This creates two extra vacancies, which are allocated to the runners-up of our last election[^2].
 
 We are pleased to welcome our two newest Community Seat holders, Mitch Connors from Aviatrix and Keith Mattix from Microsoft. Both are highly active maintainers and leaders in the project, and we are delighted to have them join the Steering Committee.
 
@@ -72,22 +72,22 @@ Following these changes, we now have representation from nine companies:
 Name | Company | Profile | Seat type
 ---|---|---|---
 TBD | Red Hat | TBD | Contribution seat
-Craig Box | Solo.io | [craigbox](https://github.com/craigbox) | Contribution seat
-Rob Cernich | Red Hat | [rcernich](https://github.com/rcernich) | Contribution seat
-Mitch Connors | Aviatrix | [therealmitchconnors](https://github.com/therealmitchconnors) | Community seat
-Iris (Shaojun) Ding | Intel | [irisdingbj](https://github.com/irisdingbj) | Community seat
-Cameron Etezadi | Google | [cetezadi](https://github.com/cetezadi) | Contribution seat
-John Howard | Google | [howardjohn](https://github.com/howardjohn) | Contribution seat
-Faseela K | Ericsson Software Technology | [kfaseela](https://github.com/kfaseela) | Community seat
-Kebe Liu | DaoCloud | [kebe7jun](https://github.com/kebe7jun) | Contribution seat
-Keith Mattix | Microsoft | [keithmattix](https://github.com/keithmattix) | Community seat
-Justin Pettit | Google | [justinpettit](https://github.com/justinpettit) | Contribution seat
-Lin Sun | Solo.io | [linsun](https://github.com/linsun) | Contribution seat
-Zhonghu Xu | Huawei | [hzxuzhonghu](https://github.com/hzxuzhonghu) | Contribution seat
+Craig Box | Solo.io | [`craigbox`](https://github.com/craigbox) | Contribution seat
+Rob Cernich | Red Hat | [`rcernich`](https://github.com/rcernich) | Contribution seat
+Mitch Connors | Aviatrix | [`therealmitchconnors`](https://github.com/therealmitchconnors) | Community seat
+Iris (Shaojun) Ding | Intel | [`irisdingbj`](https://github.com/irisdingbj) | Community seat
+Cameron Etezadi | Google | [`cetezadi`](https://github.com/cetezadi) | Contribution seat
+John Howard | Google | [`howardjohn`](https://github.com/howardjohn) | Contribution seat
+Faseela K | Ericsson Software Technology | [`kfaseela`](https://github.com/kfaseela) | Community seat
+Kebe Liu | DaoCloud | [`kebe7jun`](https://github.com/kebe7jun) | Contribution seat
+Keith Mattix | Microsoft | [`keithmattix`](https://github.com/keithmattix) | Community seat
+Justin Pettit | Google | [`justinpettit`](https://github.com/justinpettit) | Contribution seat
+Lin Sun | Solo.io | [`linsun`](https://github.com/linsun) | Contribution seat
+Zhonghu Xu | Huawei | [`hzxuzhonghu`](https://github.com/hzxuzhonghu) | Contribution seat
 
 Our sincerest thanks to Ameer Abbas, April Kyle Nassi, Cale Rath and Chaomeng Zhang, whose terms have come to an end.
 
 The Steering Committee wishes to thank its members, old and new, and looks forward to continue to grow and improve Istio as a successful and sustainable open source project. We encourage everyone to get involved in the Istio community by contributing, voting, and helping us shape the future of cloud native networking.
 
-[^ibm-red-hat]: [Our Steering Committee charter](https://github.com/istio/community/blob/master/steering/CHARTER.md#membership-and-voting) considers groups of companies as one, for the purposes of allocation of seats. This means we group IBM and Red Hat together as a single entity.
-[^daocloud]: The first runner-up from the election was Kebe Liu from DaoCloud, who will join with their newly allocated Contribution Seat.
+[^1]: [Our Steering Committee charter](https://github.com/istio/community/blob/master/steering/CHARTER.md#membership-and-voting) considers groups of companies as one, for the purposes of allocation of seats. This means we group IBM and Red Hat together as a single entity.
+[^2]: The first runner-up from the election was Kebe Liu from DaoCloud, who will join with their newly allocated Contribution Seat.
