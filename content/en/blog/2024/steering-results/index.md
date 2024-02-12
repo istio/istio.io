@@ -87,7 +87,7 @@ Zhonghu Xu | Huawei | [hzxuzhonghu](https://github.com/hzxuzhonghu) | Contributi
 
 Our sincerest thanks to Ameer Abbas, April Kyle Nassi, Cale Rath and Chaomeng Zhang, whose terms have come to an end.
 
-The Steering Committee wishes to thank its members, old and new, and looks forward to working with them to continue to grow and improve Istio as a successful and sustainable open source project. We encourage everyone to get involved in the Istio community, contribute, vote, and help us shape the future of cloud native networking.
+The Steering Committee wishes to thank its members, old and new, and looks forward to continue to grow and improve Istio as a successful and sustainable open source project. We encourage everyone to get involved in the Istio community by contributing, voting, and helping us shape the future of cloud native networking.
 
 [^ibm-red-hat]: [Our Steering Committee charter](https://github.com/istio/community/blob/master/steering/CHARTER.md#membership-and-voting) considers groups of companies as one, for the purposes of allocation of seats. This means we group IBM and Red Hat together as a single entity.
 [^daocloud]: The first runner-up from the election was Kebe Liu from DaoCloud, who will join with their newly allocated Contribution Seat.
