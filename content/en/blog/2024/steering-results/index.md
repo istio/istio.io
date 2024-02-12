@@ -61,7 +61,7 @@ We are pleased to welcome our two newest Community Seat holders, Mitch Connors f
 
 ## Proposed changes to election timing
 
-Our charter currently allocates Contribution Seats in February and holds the Community Seat election in July. We previously [anticipated a situation](https://github.com/istio/community/pull/609#issuecomment-877302152) where people would change seat type mid-term, and this has now come to pass.
+Our charter currently allocates Contribution Seats in February and holds the Community Seat election in July. We previously [anticipated a situation](https://github.com/istio/community/pull/609#issuecomment-877302152) where people would change seat types mid-term, and this has now come to pass.
 
 We will therefore be voting on a change to our Charter which will move our Community Seat elections to February, to be held immediately after the allocation of Community Seats. It is our intention that the next annual election be held in February 2025.
 
