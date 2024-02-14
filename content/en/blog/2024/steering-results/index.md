@@ -72,7 +72,6 @@ Following these changes, we now have representation from nine companies:
 {{< centered_block >}}
 Name | Company | Profile | Seat type
 ---|---|---|---
-TBD | Red Hat | TBD | Contribution seat
 Craig Box | Solo.io | [`craigbox`](https://github.com/craigbox) | Contribution seat
 Rob Cernich | Red Hat | [`rcernich`](https://github.com/rcernich) | Contribution seat
 Mitch Connors | Aviatrix | [`therealmitchconnors`](https://github.com/therealmitchconnors) | Community seat
@@ -81,6 +80,7 @@ Cameron Etezadi | Google | [`cetezadi`](https://github.com/cetezadi) | Contribut
 John Howard | Google | [`howardjohn`](https://github.com/howardjohn) | Contribution seat
 Faseela K | Ericsson Software Technology | [`kfaseela`](https://github.com/kfaseela) | Community seat
 Kebe Liu | DaoCloud | [`kebe7jun`](https://github.com/kebe7jun) | Contribution seat
+Jamie Longmuir | Red Hat | [`longmuir`](https://github.com/longmuir) | Contribution seat
 Keith Mattix | Microsoft | [`keithmattix`](https://github.com/keithmattix) | Community seat
 Justin Pettit | Google | [`justinpettit`](https://github.com/justinpettit) | Contribution seat
 Lin Sun | Solo.io | [`linsun`](https://github.com/linsun) | Contribution seat
