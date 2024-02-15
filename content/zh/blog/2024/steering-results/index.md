@@ -82,7 +82,6 @@ Istio 指导委员会（Steering Committee）负责总体监督该项目的管�
 {{< centered_block >}}
 姓名 | 公司 | 介绍 | 席位类型
 ---|---|---|---
-待定 | Red Hat（红帽） | 待定 | 贡献席位
 Craig Box | Solo.io | [`craigbox`](https://github.com/craigbox) | 贡献席位
 Rob Cernich | Red Hat（红帽） | [`rcernich`](https://github.com/rcernich) | 贡献席位
 Mitch Connors | Aviatrix | [`therealmitchconnors`](https://github.com/therealmitchconnors) | 社区席位
@@ -92,6 +91,7 @@ John Howard | Google（谷歌） | [`howardjohn`](https://github.com/howardjohn)
 Faseela K | Ericsson Software Technology（爱立信软件科技） | [`kfaseela`](https://github.com/kfaseela) | Community seat
 Kebe Liu（刘齐均） | DaoCloud（道客） | [`kebe7jun`](https://github.com/kebe7jun) | 贡献席位
 Keith Mattix | Microsoft（微软） | [`keithmattix`](https://github.com/keithmattix) | 社区席位
+Jamie Longmuir | Red Hat（红帽） | [`longmuir`](https://github.com/longmuir) | 贡献席位
 Justin Pettit | Google（谷歌） | [`justinpettit`](https://github.com/justinpettit) | 贡献席位
 Lin Sun | Solo.io | [`linsun`](https://github.com/linsun) | 贡献席位
 Zhonghu Xu（徐中虎） | Huawei（华为） | [`hzxuzhonghu`](https://github.com/hzxuzhonghu) | 贡献席位
