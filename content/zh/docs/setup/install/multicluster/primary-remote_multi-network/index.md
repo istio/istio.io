@@ -7,9 +7,9 @@ test: yes
 owner: istio/wg-environments-maintainers
 ---
 
-按照本指南，在 `cluster1` 主集群（{{< gloss >}}primary cluster{{< /gloss >}}）
+按照本指南，在 `cluster1` {{< gloss "primary cluster" >}}主集群{{< /gloss >}}
 安装 Istio 控制平面，并配置 `cluster2`
-从集群（{{< gloss >}}remote cluster{{< /gloss >}}）指向 `cluster1` 的控制平面。
+{{< gloss "remote cluster" >}}从集群{{< /gloss >}}指向 `cluster1` 的控制平面。
 集群 `cluster1` 在 `network1` 网络上，而集群 `cluster2` 在 `network2` 网络上。
 所以跨集群边界的 Pod 之间，网络不能直接连通。
 
@@ -66,7 +66,8 @@ $ istioctl install --set values.pilot.env.EXTERNAL_ISTIOD=true --context="${CTX_
 请注意，`values.pilot.env.EXTERNAL_ISTIOD` 设置为 `true`。
 这将启用安装在 `cluster1` 上的控制平面，使其也用作其他从集群的外部控制平面。
 启用此特性后，`istiod` 将尝试获取领导选举锁，
-并因此管理[适当注解的](#set-the-control-plane-cluster-for-cluster2)且将接入的从集群（此处为 `cluster2`）。
+并因此管理将附加到它的并且带有[适当注解的](#set-the-control-plane-cluster-for-cluster2)从集群
+（本例中为 `cluster2`）。
 
 ## 在 `cluster1` 安装东西向网关 {#install-the-east-west-gateway-in-cluster1}
 
@@ -105,7 +106,7 @@ $ kubectl apply --context="${CTX_CLUSTER1}" -n istio-system -f \
 {{< /text >}}
 
 {{< warning >}}
-如果控制面指定了版本 `rev`, 需要改为执行
+如果控制平面指定了版本 `rev`，需要改为执行以下命令：
 
 {{< text bash >}}
 $ sed 's/{{.Revision}}/rev/g' @samples/multicluster/expose-istiod-rev.yaml.tmpl@ | kubectl apply --context="${CTX_CLUSTER1}" -n istio-system -f -
