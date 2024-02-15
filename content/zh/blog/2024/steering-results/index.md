@@ -60,7 +60,7 @@ Istio 指导委员会（Steering Committee）负责总体监督该项目的管�
 ## 社区席位 {#community-seats}
 
 根据今年的计算结果，我们的两个社区席位持有人转为贡献席位。
-这会产生两个额外的空缺，分配给我们上次选举中的亚军[^2]。
+这会产生两个额外的空缺，这个空缺分配给我们上次选举中的第二名[^2]。
 
 我们很高兴地欢迎两位最新的社区席位持有人，
 来自 Aviatrix 的 Mitch Connors 和来自 Microsoft（微软）的 Keith Mattix。
@@ -104,4 +104,4 @@ Chaomeng Zhang（张超盟）表示衷心感谢，他们的任期已经圆满结
 我们鼓励每个人通过贡献、投票来参与 Istio 社区，并帮助我们塑造云原生网络的未来。
 
 [^1]：[我们的指导委员会章程](https://github.com/istio/community/blob/master/steering/CHARTER.md#membership-and-voting)将公司团体视为一个整体，以此为目的进行席位分配。这意味着我们将 IBM 和 Red Hat 合并为一个实体。
-[^2]：本次选举的亚军是来自 DaoCloud 的 Kebe Liu（刘齐均），他将带着新分配的贡献席位加入。
+[^2]：本次选举的第二名是来自 DaoCloud 的 Kebe Liu（刘齐均），他将带着新分配的贡献席位加入。
