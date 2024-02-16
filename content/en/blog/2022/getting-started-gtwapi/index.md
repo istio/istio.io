@@ -103,7 +103,7 @@ helloworld-v2-54df5f84b-9hxgww   1/1     Running   0          10s
 With the helloworld service up and running, we can now use the Gateway API to configure ingress traffic for it.
 
 The ingress entry point is defined using a
-[Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1beta1.Gateway) resource:
+[Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.Gateway) resource:
 
 {{< text bash >}}
 $ kubectl create namespace sample-ingress
