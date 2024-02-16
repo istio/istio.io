@@ -88,7 +88,7 @@ Mitch Connors | Aviatrix | [`therealmitchconnors`](https://github.com/therealmit
 Iris (Shaojun) Ding（丁少君） | Intel（英特尔） | [`irisdingbj`](https://github.com/irisdingbj) | 社区席位
 Cameron Etezadi | Google（谷歌） | [`cetezadi`](https://github.com/cetezadi) | 贡献席位
 John Howard | Google（谷歌） | [`howardjohn`](https://github.com/howardjohn) | 贡献席位
-Faseela K | Ericsson Software Technology（爱立信软件科技） | [`kfaseela`](https://github.com/kfaseela) | Community seat
+Faseela K | Ericsson Software Technology（爱立信软件科技） | [`kfaseela`](https://github.com/kfaseela) | 社区席位
 Kebe Liu（刘齐均） | DaoCloud（道客） | [`kebe7jun`](https://github.com/kebe7jun) | 贡献席位
 Keith Mattix | Microsoft（微软） | [`keithmattix`](https://github.com/keithmattix) | 社区席位
 Jamie Longmuir | Red Hat（红帽） | [`longmuir`](https://github.com/longmuir) | 贡献席位
