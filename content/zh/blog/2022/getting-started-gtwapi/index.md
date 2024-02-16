@@ -98,7 +98,7 @@ helloworld-v2-54df5f84b-9hxgww   1/1     Running   0          10s
 随着 helloworld 服务的启动和运行，我们现在可以使用
 Gateway API 为其配置入口流量。
 
-入口端点是使用 [Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1beta1.Gateway)
+入口端点是使用 [Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.Gateway)
 资源定义的：
 
 {{< text bash >}}
