@@ -64,13 +64,19 @@ Follow the [Kiali installation](/docs/ops/integrations/kiali/#installation) docu
     The **Overview** page displays all the namespaces that have services in your mesh.
     The following screenshot shows a similar page:
 
-    {{< image width="75%" link="./kiali-overview.png" caption="Example Overview" >}}
+    {{< image width="75%"
+        link="./kiali-overview.png"
+        caption="Example Overview"
+        >}}
 
 1.  To view a namespace graph, Select the `Graph` option in the kebab menu of the Bookinfo overview card. The kebab menu
     is at the top right of card and looks like 3 vertical dots. Click it to see the available options.
     The page looks similar to:
 
-    {{< image width="75%" link="./kiali-graph.png" caption="Example Graph" >}}
+    {{< image width="75%"
+        link="./kiali-graph.png"
+        caption="Example Graph"
+        >}}
 
 1.  The graph represents traffic flowing through the service mesh for a period of time. It is generated using
     Istio telemetry.
@@ -86,24 +92,36 @@ Follow the [Kiali installation](/docs/ops/integrations/kiali/#installation) docu
         The following example shows a single **reviews** node representing the three versions
         of the reviews app. Note that the `Show Service Nodes` Display option has been disabled.
 
-        {{< image width="75%" link="./kiali-app.png" caption="Example App Graph" >}}
+        {{< image width="75%"
+            link="./kiali-app.png"
+            caption="Example App Graph"
+            >}}
 
     *   The **Versioned App** graph type shows a node for each version of an app,
         but all versions of a particular app are grouped together. The following example
         shows the **reviews** group box that contains the three nodes that represents the
         three versions of the reviews app.
 
-        {{< image width="75%" link="./kiali-versionedapp.png" caption="Example Versioned App Graph" >}}
+        {{< image width="75%"
+            link="./kiali-versionedapp.png"
+            caption="Example Versioned App Graph"
+            >}}
 
     *   The **Workload** graph type shows a node for each workload in your service mesh.
         This graph type does not require you to use the `app` and `version` labels so if you
         opt to not use those labels on your components, this may be your graph type of choice.
 
-        {{< image width="70%" link="./kiali-workload.png" caption="Example Workload Graph" >}}
+        {{< image width="70%"
+            link="./kiali-workload.png"
+            caption="Example Workload Graph"
+            >}}
 
     *   The **Service** graph type shows a high-level aggregation of service traffic in your mesh.
 
-        {{< image width="70%" link="./kiali-service-graph.png" caption="Example Service Graph" >}}
+        {{< image width="70%"
+            link="./kiali-service-graph.png"
+            caption="Example Service Graph"
+            >}}
 
 ## Examining Istio configuration
 
@@ -111,7 +129,10 @@ Follow the [Kiali installation](/docs/ops/integrations/kiali/#installation) docu
     **Istio Config**.
     The following screenshot shows **Services** information for the Bookinfo namespace:
 
-    {{< image width="80%" link="./kiali-services.png" caption="Example Details" >}}
+    {{< image width="80%"
+        link="./kiali-services.png"
+        caption="Example Details"
+        >}}
 
 ## Traffic Shifting
 
@@ -126,29 +147,44 @@ request traffic to route to two or more workloads.
     *   Make sure you have enabled the Show **Service Nodes** **Display** option
         to view the service nodes in the graph.
 
-    {{< image width="80%" link="./kiali-wiz0-graph-options.png" caption="Bookinfo Graph Options" >}}
+    {{< image width="80%"
+        link="./kiali-wiz0-graph-options.png"
+        caption="Bookinfo Graph Options"
+        >}}
 
 1.  Focus on the `ratings` service within the `bookinfo` graph by clicking on the `ratings` service (triangle) node.
     Notice the `ratings` service traffic is evenly distributed to the two `ratings` workloads `v1` and `v2`
     (50% of requests are routed to each workload).
 
-    {{< image width="80%" link="./kiali-wiz1-graph-ratings-percent.png" caption="Graph Showing Percentage of Traffic" >}}
+    {{< image width="80%"
+        link="./kiali-wiz1-graph-ratings-percent.png"
+        caption="Graph Showing Percentage of Traffic"
+        >}}
 
 1.  Click the **ratings** link found in the side panel to go to the detail view for the `ratings` service.  This
     could also be done by secondary-click on the `ratings` service node, and selecting `Details` from the context menu.
 
 1.  From the **Actions** drop down menu, select **Traffic Shifting** to access the traffic shifting wizard.
 
-    {{< image width="80%" link="./kiali-wiz2-ratings-service-action-menu.png" caption="Service Actions Menu" >}}
+    {{< image width="80%"
+        link="./kiali-wiz2-ratings-service-action-menu.png"
+        caption="Service Actions Menu"
+        >}}
 
 1.  Drag the sliders to specify the percentage of traffic to route to each workload.
     For `ratings-v1`, set it to 10%; for `ratings-v2` set it to 90%.
 
-    {{< image width="80%" link="./kiali-wiz3-traffic-shifting-wizard.png" caption="Weighted Routing Wizard" >}}
+    {{< image width="80%"
+        link="./kiali-wiz3-traffic-shifting-wizard.png"
+        caption="Weighted Routing Wizard"
+        >}}
 
 1.  Click the **Preview** button to view the YAML that will be generated by the wizard.
 
-    {{< image width="80%" link="./kiali-wiz3b-traffic-shifting-wizard-preview.png" caption="Routing Wizard Preview" >}}
+    {{< image width="80%"
+        link="./kiali-wiz3b-traffic-shifting-wizard-preview.png"
+        caption="Routing Wizard Preview"
+        >}}
 
 1.  Click the **Create** button and confirm to apply the new traffic settings.
 
@@ -166,7 +202,10 @@ request traffic to route to two or more workloads.
     thus confirming the fact that your new traffic route is successfully routing 90% of all traffic
     requests to `ratings-v2`.
 
-    {{< image width="80%" link="./kiali-wiz4-traffic-shifting-90-10.png" caption="90% Ratings Traffic Routed to ratings-v2" >}}
+    {{< image width="80%"
+        link="./kiali-wiz4-traffic-shifting-90-10.png"
+        caption="90% Ratings Traffic Routed to ratings-v2"
+        >}}
 
 ## Validating Istio configuration
 
@@ -190,13 +229,19 @@ Force an invalid configuration of a service port name to see how Kiali reports a
 
 1.  Notice the error icon displayed in the **Configuration** column of the `details` row.
 
-    {{< image width="80%" link="./kiali-validate1-list.png" caption="Services List Showing Invalid Configuration" >}}
+    {{< image width="80%"
+        link="./kiali-validate1-list.png"
+        caption="Services List Showing Invalid Configuration"
+        >}}
 
 1.  Click the **details** link in the **Name** column to navigate to the service details view.
 
 1.  Hover over the error icon to display a tool tip describing the error.
 
-    {{< image width="80%" link="./kiali-validate2-errormsg.png" caption="Service Details Describing the Invalid Configuration" >}}
+    {{< image width="80%"
+        link="./kiali-validate2-errormsg.png"
+        caption="Service Details Describing the Invalid Configuration"
+        >}}
 
 1.  Change the port name back to `http` to correct the configuration and return `bookinfo` back to its normal state.
 
@@ -204,7 +249,10 @@ Force an invalid configuration of a service port name to see how Kiali reports a
     $ kubectl patch service details -n bookinfo --type json -p '[{"op":"replace","path":"/spec/ports/0/name", "value":"http"}]'
     {{< /text >}}
 
-    {{< image width="80%" link="./kiali-validate3-ok.png" caption="Service Details Showing Valid Configuration" >}}
+    {{< image width="80%"
+        link="./kiali-validate3-ok.png"
+        caption="Service Details Showing Valid Configuration"
+        >}}
 
 ## Viewing and editing Istio configuration YAML
 
@@ -222,18 +270,27 @@ Kiali provides a YAML editor for viewing and editing Istio configuration resourc
 
 1.  Notice the error icon that alerts you to a configuration problem.
 
-    {{< image width="80%" link="./kiali-istioconfig0-errormsgs.png" caption="Istio Config List Incorrect Configuration" >}}
+    {{< image width="80%"
+        link="./kiali-istioconfig0-errormsgs.png"
+        caption="Istio Config List Incorrect Configuration"
+        >}}
 
 1.  Click the error icon in the **Configuration** column of the `bookinfo` row to navigate to the `bookinfo` virtual service view.
 
 1.  The **YAML** tab is preselected. Notice the color highlights and icons on the rows that have validation check notifications associated with them.
 
-    {{< image width="80%" link="./kiali-istioconfig3-details-yaml1.png" caption="YAML Editor Showing Validation Notifications" >}}
+    {{< image width="80%"
+        link="./kiali-istioconfig3-details-yaml1.png"
+        caption="YAML Editor Showing Validation Notifications"
+        >}}
 
 1.  Hover over the red icon to view the tool tip message that informs you of the validation check that triggered the error.
     For more details on the cause of the error and how to resolve it, look up the validation error message on the [Kiali Validations page](https://kiali.io/docs/features/validations/).
 
-    {{< image width="80%" link="./kiali-istioconfig3-details-yaml3.png" caption="YAML Editor Showing Error Tool Tip" >}}
+    {{< image width="80%"
+        link="./kiali-istioconfig3-details-yaml3.png"
+        caption="YAML Editor Showing Error Tool Tip"
+        >}}
 
 1.  Reset the virtual service `bookinfo` back to its original state.
 
@@ -257,6 +314,6 @@ If you are not planning any follow-up tasks, remove the Bookinfo sample applicat
 
 1. To remove Kiali from a Kubernetes environment:
 
-{{< text bash >}}
-$ kubectl delete -f {{< github_file >}}/samples/addons/kiali.yaml
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl delete -f {{< github_file >}}/samples/addons/kiali.yaml
+    {{< /text >}}
