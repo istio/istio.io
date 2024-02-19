@@ -21,7 +21,7 @@ test: yes
 
 * 部署 [Bookinfo](/zh/docs/examples/bookinfo/#deploying-the-application) 样例应用。
 
-## 配置跟踪{#configure-tracing}
+## 配置跟踪 {#configure-tracing}
 
 如果您使用了 `IstioOperator` CR 来安装 Istio，请添加以下字段到您的配置：
 
@@ -50,11 +50,11 @@ spec:
 * B3
 * gRPC 的二进制链路头
 * [W3C Trace Context](https://www.w3.org/TR/trace-context/)
-* 和云链路上下文（Cloud Trace Context）。
+* 云链路上下文（Cloud Trace Context）。
 
 如果您提供多个值，代理将尝试以指定的顺序读取链路头，使用第一个成功解析的头并写入所有头。
 这允许使用不同头的服务之间具有互操作性，例如在同一个链路中，一个服务传播 B3 头，
-一个服务传播 W3C Trace Context 头。 在本例中，我们仅使用 W3C Trace Context。
+一个服务传播 W3C Trace Context 头。在本例中，我们仅使用 W3C Trace Context。
 
 在默认的配置文件中，采样率为 1%。
 使用 [Telemetry API](/zh/docs/tasks/observability/telemetry/) 将其提高到 100%：
@@ -72,7 +72,7 @@ spec:
 EOF
 {{< /text >}}
 
-## 部署 OpenTelemetry Collector{#deploy-otel-collector}
+## 部署 OpenTelemetry Collector {#deploy-otel-collector}
 
 OpenTelemetry Collector 支持默认将链路导出到核心分发中的[几个后端](https://github.com/open-telemetry/opentelemetry-collector/blob/master/exporter/README.md#general-information)。
 其他后端可用于 OpenTelemetry Collector 的[贡献分发](https://github.com/open-telemetry/opentelemetry-collector-contrib)中。
@@ -100,7 +100,7 @@ data:
         check_interval: 5s
     exporters:
       zipkin:
-        # Export via zipkin for easy querying
+        # 通过 zipkin 导出以简化查询
         endpoint: http://zipkin.istio-system.svc:9411/api/v2/spans
       logging:
         loglevel: debug
@@ -186,18 +186,18 @@ spec:
 EOF
 {{< /text >}}
 
-## 访问仪表板{#accessing-dashboard}
+## 访问仪表板 {#accessing-dashboard}
 
 [远程访问遥测插件](/zh/docs/tasks/observability/gateways)详细说明了如何配置通过 Gateway 访问 Istio 插件。
 
 对于测试（和临时访问），您也可以使用端口转发。
-使用以下命令，假设您已将 Jaeger 部署到 `istio-system` 命名空间：
+假设您已将 Jaeger 部署到 `istio-system` 命名空间，可使用以下命令：
 
 {{< text bash >}}
 $ istioctl dashboard jaeger
 {{< /text >}}
 
-## 使用 Bookinfo 样例生成链路{#generating-tarces-using-bookinfo}
+## 使用 Bookinfo 样例生成链路 {#generating-tarces-using-bookinfo}
 
 1.  当 Bookinfo 应用启动且运行时，访问一次或多次 `http://$GATEWAY_URL/productpage` 以生成链路信息。
 
@@ -205,11 +205,11 @@ $ istioctl dashboard jaeger
 
 1.  从仪表板的左侧窗格中，从 **Service** 下拉列表中选择 `productpage.default` 并点击 **Find Traces**：
 
-    {{< image link="./istio-tracing-list.png" caption="Tracing Dashboard" >}}
+    {{< image link="./istio-tracing-list.png" caption="跟踪仪表板" >}}
 
-1.  点击顶部最近的链路，查看与 `/productpage` 最近请求对应的详情：
+1.  在顶部点击最近的链路，查看与 `/productpage` 最近请求对应的详情：
 
-    {{< image link="./istio-tracing-details.png" caption="Detailed Trace View" >}}
+    {{< image link="./istio-tracing-details.png" caption="详细的链路视图" >}}
 
 1.  链路由一组 span 组成，每个 span 对应在执行 `/productpage` 期间调用的一个 Bookinfo 服务，
     或对应 `istio-ingressgateway` 这种内部 Istio 组件。
@@ -220,7 +220,7 @@ $ istioctl dashboard jaeger
 $ kubectl -n istio-system logs deploy/opentelemetry-collector
 {{< /text >}}
 
-## 清理{#cleanup}
+## 清理 {#cleanup}
 
 1.  使用 Ctrl-C 或以下命令移除可能仍在运行的所有 `istioctl` 进程：
 
