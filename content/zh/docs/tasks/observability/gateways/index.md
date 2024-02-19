@@ -534,7 +534,7 @@ test: yes
 
 ## 清理 {#cleanup}
 
-* 移除所有相关的网关：
+* 移除所有相关的 Gateway：
 
     {{< text bash >}}
     $ kubectl -n istio-system delete gateway grafana-gateway kiali-gateway prometheus-gateway tracing-gateway
@@ -544,7 +544,7 @@ test: yes
     gateway.networking.istio.io "tracing-gateway" deleted
     {{< /text >}}
 
-* 移除所有相关的 virtualservice：
+* 移除所有相关的 Virtual Service：
 
     {{< text bash >}}
     $ kubectl -n istio-system delete virtualservice grafana-vs kiali-vs prometheus-vs tracing-vs
@@ -554,7 +554,7 @@ test: yes
     virtualservice.networking.istio.io "tracing-vs" deleted
     {{< /text >}}
 
-* 移除所有相关的 destinationrule：
+* 移除所有相关的 Destination Rule：
 
     {{< text bash >}}
     $ kubectl -n istio-system delete destinationrule grafana kiali prometheus tracing
