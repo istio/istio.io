@@ -104,8 +104,8 @@ Egress Gateway 节点，用它引导所有的出站流量，可以使应用节�
 
     {{< text syntax=bash snip_id=none >}}
     $ istioctl install <flags-you-used-to-install-Istio> \
-                       --set components.egressGateways[0].name=istio-egressgateway \
-                       --set components.egressGateways[0].enabled=true
+                       --set "components.egressGateways[0].name=istio-egressgateway" \
+                       --set "components.egressGateways[0].enabled=true"
     {{< /text >}}
 
 ## 定义 Egress gateway 并引导 HTTP 流量 {#egress-gateway-for-http-traffic}

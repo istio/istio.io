@@ -109,8 +109,8 @@ in the following sections.
 
     {{< text syntax=bash snip_id=none >}}
     $ istioctl install <flags-you-used-to-install-Istio> \
-                       --set components.egressGateways[0].name=istio-egressgateway \
-                       --set components.egressGateways[0].enabled=true
+                       --set "components.egressGateways[0].name=istio-egressgateway" \
+                       --set "components.egressGateways[0].enabled=true"
     {{< /text >}}
 
 ## Egress gateway for HTTP traffic
