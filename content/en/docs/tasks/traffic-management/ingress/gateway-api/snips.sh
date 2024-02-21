@@ -200,7 +200,7 @@ spec:
   selector:
     # Match the generated Deployment by label
     matchLabels:
-      istio.io/gateway-name: gateway
+      gateway.networking.k8s.io/gateway-name: gateway
 ENDSNIP
 
 ! read -r -d '' snip_manual_deployment_1 <<\ENDSNIP

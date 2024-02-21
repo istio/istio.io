@@ -231,7 +231,7 @@ Resource attachment is currently experimental.
 
 Resources can be *attached* to a `Gateway` to customize it.
 However, most Kubernetes resources do not currently support attaching directly to a `Gateway`, but they can be attached to the corresponding generated `Deployment` and `Service` instead.
-This is easily done because both of these resources are generated with name `<gateway name>-<gateway class name>` and with a label `istio.io/gateway-name: <gateway name>`.
+This is easily done because both of these resources are generated with name `<gateway name>-<gateway class name>` and with a label `gateway.networking.k8s.io/gateway-name: <gateway name>`.
 
 For example, to deploy a `Gateway` with a `HorizontalPodAutoscaler` and `PodDisruptionBudget`:
 
@@ -281,7 +281,7 @@ spec:
   selector:
     # Match the generated Deployment by label
     matchLabels:
-      istio.io/gateway-name: gateway
+      gateway.networking.k8s.io/gateway-name: gateway
 {{< /text >}}
 
 ### Manual Deployment
