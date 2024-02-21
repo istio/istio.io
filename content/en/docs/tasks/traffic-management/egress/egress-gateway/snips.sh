@@ -235,7 +235,7 @@ istioctl pc secret -n istio-system "$(kubectl get pod -l istio=egressgateway -n 
 ENDSNIP
 
 snip_egress_gateway_for_http_traffic_11() {
-kubectl logs -l istio.io/gateway-name=cnn-egress-gateway -c istio-proxy | tail
+kubectl logs -l gateway.networking.k8s.io/gateway-name=cnn-egress-gateway -c istio-proxy | tail
 }
 
 ! read -r -d '' snip_egress_gateway_for_http_traffic_12 <<\ENDSNIP
@@ -243,7 +243,7 @@ kubectl logs -l istio.io/gateway-name=cnn-egress-gateway -c istio-proxy | tail
 ENDSNIP
 
 snip_egress_gateway_for_http_traffic_13() {
-istioctl pc secret "$(kubectl get pod -l istio.io/gateway-name=cnn-egress-gateway -o jsonpath='{.items[0].metadata.name}')" -ojson | jq '[.dynamicActiveSecrets[] | select(.name == "default")][0].secret.tlsCertificate.certificateChain.inlineBytes' -r | base64 -d | openssl x509 -text -noout | grep 'Subject Alternative Name' -A 1
+istioctl pc secret "$(kubectl get pod -l gateway.networking.k8s.io/gateway-name=cnn-egress-gateway -o jsonpath='{.items[0].metadata.name}')" -ojson | jq '[.dynamicActiveSecrets[] | select(.name == "default")][0].secret.tlsCertificate.certificateChain.inlineBytes' -r | base64 -d | openssl x509 -text -noout | grep 'Subject Alternative Name' -A 1
 }
 
 ! read -r -d '' snip_egress_gateway_for_http_traffic_13_out <<\ENDSNIP
@@ -432,7 +432,7 @@ kubectl logs -l istio=egressgateway -n istio-system
 ENDSNIP
 
 snip_egress_gateway_for_https_traffic_8() {
-kubectl logs -l istio.io/gateway-name=cnn-egress-gateway -c istio-proxy | tail
+kubectl logs -l gateway.networking.k8s.io/gateway-name=cnn-egress-gateway -c istio-proxy | tail
 }
 
 ! read -r -d '' snip_egress_gateway_for_https_traffic_9 <<\ENDSNIP
@@ -618,7 +618,7 @@ kubectl logs -l istio=egressgateway -n istio-system
 ENDSNIP
 
 snip_apply_kubernetes_network_policies_19() {
-kubectl logs -l istio.io/gateway-name=cnn-egress-gateway -c istio-proxy | tail
+kubectl logs -l gateway.networking.k8s.io/gateway-name=cnn-egress-gateway -c istio-proxy | tail
 }
 
 ! read -r -d '' snip_apply_kubernetes_network_policies_20 <<\ENDSNIP
