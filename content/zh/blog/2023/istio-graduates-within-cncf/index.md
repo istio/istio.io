@@ -27,9 +27,9 @@ Istio 作为[活跃度排名第三的 CNCF 项目](https://all.devstats.cncf.io/
 [数十家公司的持续贡献](https://istio.devstats.cncf.io/d/5/companies-table?orgId=1&var-period_name=Last%20year&var-metric=prs)，
 在服务网格领域没有比 Istio 更好的选择。
 
-我们邀请 Istio 社区为[即将举行的虚拟 IstioCon 2023 提交演讲话题]((https://sessionize.com/istiocon-2023))，
+我们邀请 Istio 社区为[即将举行的虚拟 IstioCon 2023 提交演讲话题](https://sessionize.com/istiocon-2023)，
 这是与 KubeCon China 在上海同一个地点举办的
-[全天候现场活动]((https://www.lfasiallc.com/kubecon-cloudnativecon-open-source-summit-china/co-located-events/istiocon-call-for-proposals-cn/#preparing-to-submit-your-proposal-cn))，
+[全天候现场活动](https://www.lfasiallc.com/kubecon-cloudnativecon-open-source-summit-china/co-located-events/istiocon-call-for-proposals-cn/#preparing-to-submit-your-proposal-cn)，
 您也可以参加 KubeCon NA 在芝加哥同一个地点举办的
 [Istio Day](https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america/co-located-events/istio-day/#call-for-proposals)。
 
