@@ -16,7 +16,7 @@ Istio 可以在这里提供帮助。随着 [Istio 0.5](/zh/news/releases/0.x/ann
 apiVersion: config.istio.io/v1alpha2
 kind: RouteRule
 metadata:
-  name: mirror-traffic-to-httbin-v2
+  name: mirror-traffic-to-httpbin-v2
 spec:
   destination:
     name: httpbin
