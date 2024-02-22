@@ -193,7 +193,7 @@ keywords: [traffic-management,ingress,https,http]
 
 1. 根据[确定入口网关的 IP 和端口](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-i-p-and-ports)中的命令，设置 `SECURE_INGRESS_PORT` 和 `INGRESS_HOST` 两个环境变量。
 
-1. 在上一步中分别把 IP 和端口存储到了环境变量 `$INGRESS_HOST` 和 `$INGRESS_PORT` 中，现在可以用这个 IP 和端口访问 `httbin.org` 服务。访问 `httpbin.org` 服务的 `/status/418` 路径，会返回 [418 我是一个茶壶](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/418)的 HTTP 状态码。
+1. 在上一步中分别把 IP 和端口存储到了环境变量 `$INGRESS_HOST` 和 `$INGRESS_PORT` 中，现在可以用这个 IP 和端口访问 `httpbin.org` 服务。访问 `httpbin.org` 服务的 `/status/418` 路径，会返回 [418 我是一个茶壶](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/418)的 HTTP 状态码。
 
     {{< text bash >}}
     $ curl $INGRESS_HOST:$INGRESS_PORT/status/418 -Hhost:httpbin.org
