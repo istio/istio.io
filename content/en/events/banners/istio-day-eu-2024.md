@@ -7,4 +7,3 @@ link: https://events.linuxfoundation.org/kubecon-cloudnativecon-europe/co-locate
 
 Join us for Istio Day Europe, a KubeCon + CloudNativeCon Europe CNCF-hosted Co-located Event.
 Register now! 19 March 2024 | Paris, France
-
