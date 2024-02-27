@@ -308,9 +308,7 @@ kubectl exec deploy/sleep -- sh -c "for i in \$(seq 1 100); do curl -s http://$G
 }
 
 snip_uninstall_1() {
-kubectl delete authorizationpolicy productpage-viewer
-istioctl x waypoint delete --service-account bookinfo-reviews
-istioctl x waypoint delete --service-account bookinfo-productpage
+istioctl x waypoint delete --all
 istioctl uninstall -y --purge
 kubectl delete namespace istio-system
 }
