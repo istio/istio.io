@@ -170,7 +170,7 @@ EOF
 
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
-首先，创建一个 [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io%2fv1beta1.Gateway)：
+首先，创建一个 [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.Gateway)：
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
@@ -554,7 +554,7 @@ EOF
 
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
-因为 Kubernetes Gateway API 目前不支持 [Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io%2fv1beta1.Gateway)
+因为 Kubernetes Gateway API 目前不支持 [Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.Gateway)
 中的双向 TLS 终止，所以我们使用 Istio 特定的选项 `gateway.istio.io/tls-terminate-mode: MUTUAL` 来配置它：
 
 {{< text bash >}}

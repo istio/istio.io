@@ -122,7 +122,7 @@ spec:
 EOF
 {{< /text >}}
 
-控制器会实现通过 [GatewayClass](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io%2fv1beta1.GatewayClass)
+控制器会实现通过 [GatewayClass](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.GatewayClass)
 选择的一个 Gateway 资源。集群中必须至少定义一个 GatewayClass
 才能具有 Gateway 的功能。在我们的例子中，我们选择 Istio 的网关控制器，
 `istio.io/gateway-controller`，通过在 Gateway 中使用
@@ -147,7 +147,7 @@ $ kubectl wait -n sample-ingress --for=condition=programmed gateway sample-gatew
 $ export INGRESS_HOST=$(kubectl get -n sample-ingress gateway sample-gateway -o jsonpath='{.status.addresses[0].value}')
 {{< /text >}}
 
-接下来，我们将 [HTTPRoute](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io%2fv1beta1.HTTPRoute)
+接下来，我们将 [HTTPRoute](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.HTTPRoute)
 附加到 `sample-gateway`（即，使用 `parentRefs`
 字段）暴露流量并将其路由到 helloworld 服务：
 
