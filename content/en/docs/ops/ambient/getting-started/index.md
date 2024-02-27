@@ -452,12 +452,10 @@ $ kubectl exec deploy/sleep -- sh -c "for i in \$(seq 1 100); do curl -s http://
 
 ## Uninstall {#uninstall}
 
-To remove the `productpage-viewer` authorization policy, waypoint proxies and uninstall Istio:
+To remove waypoint proxies, installed policies, and uninstall Istio:
 
 {{< text bash >}}
-$ kubectl delete authorizationpolicy productpage-viewer
-$ istioctl x waypoint delete --service-account bookinfo-reviews
-$ istioctl x waypoint delete --service-account bookinfo-productpage
+$ istioctl x waypoint delete --all
 $ istioctl uninstall -y --purge
 $ kubectl delete namespace istio-system
 {{< /text >}}
