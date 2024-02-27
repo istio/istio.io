@@ -460,8 +460,6 @@ $ kubectl exec deploy/sleep -- sh -c "for i in \$(seq 1 100); do curl -s http://
 
 ## 卸载 {#uninstall}
 
-若要移除 `productpage-viewer` 鉴权策略、waypoint proxy 并卸载 Istio：
-To remove waypoint proxies, installed policies, and uninstall Istio:
 要删除 waypoint 代理、已安装的策略并卸载 Istio：
 
 {{< text bash >}}
