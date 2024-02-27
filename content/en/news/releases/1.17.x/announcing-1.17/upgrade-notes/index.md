@@ -13,7 +13,7 @@ Users upgrading from 1.15.x to Istio 1.17 should also reference the [1.16 change
 
 ## Gateway naming scheme updated
 
-If you are using the [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io%2fv1beta1.Gateway)
+If you are using the [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.Gateway)
 to manage your Istio gateways, the names of the `Kubernetes Deployment` and `Service` has been modified. The default `Service Account` used has also switched to use its own token. To continue using the old convention during upgrades, the `gateway.istio.io/name-override` and `gateway.istio.io/service-account` annotations can be used.
 
 ## Client-go auth plugins removed

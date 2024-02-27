@@ -169,7 +169,7 @@ EOF
 
 snip_manage_traffic_to_external_services_3() {
 kubectl apply -f - <<EOF
-apiVersion: gateway.networking.k8s.io/v1
+apiVersion: gateway.networking.k8s.io/v1beta1
 kind: HTTPRoute
 metadata:
   name: httpbin-ext

@@ -14,7 +14,7 @@ weight: 20
 
 ## 更新了 Gateway 命名方案{#gateway-naming-scheme-updated}
 
-如果您使用 [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io%2fv1beta1.Gateway)
+如果您使用 [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.Gateway)
 来管理 Istio Gateway，`Kubernetes Deployment` 和 `Service` 的名称将被修改。
 使用的默认 `Service Account` 也已切换为使用自己的令牌。
 要在升级期间继续使用旧的约定，可以使用注解 `gateway.istio.io/name-override` 和 `gateway.istio.io/service-account`。
