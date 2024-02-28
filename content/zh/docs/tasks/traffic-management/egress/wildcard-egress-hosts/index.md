@@ -80,7 +80,7 @@ $ istioctl install --set profile=minimal -y \
     $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
     {{< /text >}}
 
-## 配置流向 Wildcard 主机的引导流量   {#configure-direct-traffic-to-a-wildcard-host}
+## 引导流量流向 Wildcard 主机  {#configure-direct-traffic-to-a-wildcard-host}
 
 访问通用域中一组主机的第一个也是最简单的方法，是使用一个 wildcard 主机配置一个简单的 `ServiceEntry`，
 直接从 Sidecar 调用服务。当直接调用服务时（譬如：不是通过一个 Egress 网关），一个 wildcard
