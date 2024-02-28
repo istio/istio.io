@@ -36,7 +36,7 @@ $ istioctl install --set profile=demo --set meshConfig.outboundTrafficPolicy.mod
 
 {{< tip >}}
 您可以在 `demo` 配置文件以外的 Istio 配置上运行此任务，
-只要您确保 [部署 Istio Egress 网关](/zh/docs/tasks/traffic-management/egress/egress-gateway/#deploy-Istio-egress-gateway)。
+只要您确保[部署 Istio Egress 网关](/zh/docs/tasks/traffic-management/egress/egress-gateway/#deploy-Istio-egress-gateway)。
 [开启 Envoy 的访问日志](/zh/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)和
 [应用默认阻止出站流量策略](/zh/docs/tasks/traffic-management/egress/egress-control/#change-to-the-blocking-by-default-policy)
 {{< /tip >}}
@@ -121,13 +121,13 @@ $ istioctl install --set profile=minimal -y \
     <title>Wikipedia – Die freie Enzyklopädie</title>
     {{< /text >}}
 
-### 清理到 Wildcard 主机的引导流量  {#cleanup-direct-traffic-to-a-wildcard-host}
+### 清理将流量引导至 Wildcard 主机的规则  {#cleanup-direct-traffic-to-a-wildcard-host}
 
 {{< text bash >}}
 $ kubectl delete serviceentry wikipedia
 {{< /text >}}
 
-## 配置到 Wildcard 主机的 Egress 网关流量 {#configure-egress-gateway-traffic-to-a-wildcard-host}
+## 配置到 Wildcard 主机的 Egress 网关流量规则 {#configure-egress-gateway-traffic-to-a-wildcard-host}
 
 当一台唯一的服务器为所有 wildcard 主机提供服务时，基于 Egress 网关访问 wildcard 主机的配置与普通主机类似，
 除了：配置的路由目标不能与配置的主机相同，如：wildcard 主机，需要配置为通用域集合的唯一服务器主机。
