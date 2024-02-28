@@ -21,6 +21,8 @@
 1.2.x
 1.2.x.
 1.20.x
+1.20.x.
+1.21.x
 1.23.x
 1.24.0
 1.24.x
@@ -243,6 +245,7 @@ config
 ConfigMap
 configmap
 configmaps
+configs
 configurability
 conformant
 CONNECT-IP
@@ -1150,6 +1153,7 @@ v1.55
 v1.55.1
 v1.7.4
 v1.7.6_coreos.0
+v1.79.0.
 v1.9
 v1alpha1
 v1alpha3
@@ -1168,6 +1172,7 @@ vCPUs
 Vennam
 versioned
 versioning
+veth
 veth-pair
 vhost
 vhosts
