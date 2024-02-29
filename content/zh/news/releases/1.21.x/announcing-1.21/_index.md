@@ -6,8 +6,8 @@ description: Istio 1.21 发布公告。
 publishdate: 2024-02-28
 release: 1.21.0
 aliases:
-- /news/announcing-1.21
-- /news/announcing-1.21.0
+- /zh/news/announcing-1.21
+- /zh/news/announcing-1.21.0
 ---
 
 我们很高兴地宣布 Istio 1.21 发布。这是 2024 年的第一个 Istio 版本。
