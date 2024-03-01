@@ -13,7 +13,7 @@ Distributed tracing enables users to track a request through mesh that is distri
 This allows a deeper understanding about request latency, serialization and parallelism via visualization.
 
 Istio leverages [Envoy's distributed tracing](https://www.envoyproxy.io/docs/envoy/v1.12.0/intro/arch_overview/observability/tracing) feature to provide tracing integration out of the box.
-Specifically, Istio provides options to install various tracing backends and configure proxies to send trace spans to them automatically. See [Zipkin](/docs/tasks/observability/distributed-tracing/zipkin/), [Jaeger](/docs/tasks/observability/distributed-tracing/jaeger/), [Lightstep](/docs/tasks/observability/distributed-tracing/lightstep/), and [OpenCensus Agent](/docs/tasks/observability/distributed-tracing/opencensusagent/) task docs about how Istio works with those tracing systems.
+Specifically, Istio provides options to install various tracing backends and configure proxies to send trace spans to them automatically. See [Zipkin](/docs/tasks/observability/distributed-tracing/zipkin/), [Jaeger](/docs/tasks/observability/distributed-tracing/jaeger/), and [OpenCensus Agent](/docs/tasks/observability/distributed-tracing/opencensusagent/) task docs about how Istio works with those tracing systems.
 
 ## Trace context propagation
 
@@ -40,10 +40,6 @@ For Datadog, the following headers should be forwarded. Forwarding these is hand
 * `x-datadog-trace-id`.
 * `x-datadog-parent-id`.
 * `x-datadog-sampling-priority`.
-
-For Lightstep, the OpenTracing span context header should be forwarded:
-
-* `x-ot-span-context`
 
 For Stackdriver and OpenCensus Agent, you can choose to use any one of the following headers instead of the B3 multi-header format.
 
