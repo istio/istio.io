@@ -103,7 +103,7 @@ Follow these steps if you're using the Public or Developer Mode Satellites, or i
           sampling: 100
           tlsSettings
             mode: "SIMPLE"
-            # Specifying ca certificate here will moute `lightstep.cacert` secret volume
+            # Specifying ca certificate here will mount `lightstep.cacert` secret volume
             # at all sidecars by default.
             caCertificates="/etc/lightstep/cacert.pem"
     components:
@@ -133,11 +133,11 @@ Follow these steps if you're using the Public or Developer Mode Satellites, or i
 
 1. Follow the [instructions to deploy the Bookinfo sample application](/docs/examples/bookinfo/#deploying-the-application).
 
-1.  Follow the [instructions to create an ingress gateway for the Bookinfo application](/docs/examples/bookinfo/#determine-the-ingress-ip-and-port).
+1. Follow the [instructions to create an ingress gateway for the Bookinfo application](/docs/examples/bookinfo/#determine-the-ingress-ip-and-port).
 
-1.  To verify the previous step's success, confirm that you set `GATEWAY_URL` environment variable in your shell.
+1. To verify the previous step's success, confirm that you set `GATEWAY_URL` environment variable in your shell.
 
-1.  Send traffic to the sample application.
+1. Send traffic to the sample application.
 
     {{< text bash >}}
     $ curl http://$GATEWAY_URL/productpage
