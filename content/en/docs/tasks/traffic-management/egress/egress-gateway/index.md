@@ -168,8 +168,7 @@ First create a `ServiceEntry` to allow direct traffic to an external service.
     [TLS Origination for Egress Traffic](/docs/tasks/traffic-management/egress/egress-tls-origination/) example,
     without TLS origination.
 
-1.  Create an egress `Gateway` for _edition.cnn.com_, port 80, and a destination rule for
-    traffic directed to the egress gateway.
+1.  Create a `Gateway` for egress traffic to _edition.cnn.com_ port 80.
 
 {{< tabset category-name="config-api" >}}
 
@@ -467,8 +466,8 @@ You need to specify port 443 with protocol `TLS` in a corresponding `ServiceEntr
     ...
     {{< /text >}}
 
-1.  Create an egress `Gateway` for _edition.cnn.com_, a destination rule and a virtual service
-    to direct the traffic through the egress gateway and from the egress gateway to the external service.
+1.  Create an egress `Gateway` for _edition.cnn.com_ and route rules to direct the traffic
+    through the egress gateway and from the egress gateway to the external service.
 
 {{< tabset category-name="config-api" >}}
 
