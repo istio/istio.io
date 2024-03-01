@@ -12,7 +12,7 @@ aliases:
 
 ## 流量治理 {#traffic-management}
 
-- **改进** 对 pilot-agent 从容器中的探测设置返回 HTTP 探测正文和状态码做出改进。
+- **改进** 对 pilot-agent 从容器中的探针设置返回 HTTP 探针本体和状态码做出改进。
 
 - **改进** 改进了对 `ExternalName` 服务的支持。
   有关详细信息，请参阅升级说明。
