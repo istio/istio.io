@@ -62,7 +62,7 @@ aliases:
 - **新增** 对 `Sidecar` API 添加了连接池设置，以便为网格中的 Sidecar 配置入站连接池。
   之前，`DestinationRule` 的连接池设置适用于客户端和服务器 Sidecar。
   使用更新后的 `Sidecar` API，现在可以在网格中与客户端分开配置服务器的连接池。
-  ([参考](https://istio.io/latest/docs/reference/config/networking/sidecar/#Sidecar-inbound_connection_pool))
+  ([参考](https://istio.io/latest/zh/docs/reference/config/networking/sidecar/#Sidecar-inbound_connection_pool))
   ([Issue #32130](https://github.com/istio/istio/issues/32130))、
   ([Issue #41235](https://github.com/istio/istio/issues/41235))
 
