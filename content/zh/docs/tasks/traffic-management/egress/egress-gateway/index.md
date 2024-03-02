@@ -161,8 +161,7 @@ Egress Gateway 节点，用它引导所有的出站流量，可以使应用节�
     输出结果应该与[发起 TLS 的 Egress 流量](/zh/docs/tasks/traffic-management/egress/egress-tls-origination/)中示例中的输出结果相同，
     都还没有发起 TLS。
 
-1. 为 `edition.cnn.com` 端口 80 创建 Egress `Gateway`。并为指向
-   Egress Gateway 的流量创建一个目标规则。
+1. 为 `edition.cnn.com` 端口 80 的出口流量创建一个 `Gateway`。
 
 {{< tabset category-name="config-api" >}}
 
@@ -462,9 +461,8 @@ $ kubectl delete httproute forward-cnn-from-egress-gateway
     ...
     {{< /text >}}
 
-1. 为 `edition.cnn.com` 创建一个 Egress `Gateway`。除此之外还需要创建一个
-   目标规则和一个虚拟服务，用来引导流量通过 Egress Gateway，
-   并通过 Egress Gateway 与外部服务通信。
+1. 为 `edition.cnn.com` 创建 Egress `Gateway` 以及路由规则，
+   用来引导流量通过 Egress Gateway，并通过 Egress Gateway 与外部服务通信。
 
 {{< tabset category-name="config-api" >}}
 
