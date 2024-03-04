@@ -12,26 +12,26 @@ aliases:
 
 ## 流量治理 {#traffic-management}
 
-- **改进** 对 pilot-agent 从容器中的探针设置返回 HTTP 探针本体和状态码做出改进。
+- **改进** 改进了 pilot-agent ，使其能从容器中的探针设置返回 HTTP 探针的响应体和状态码。
 
 - **改进** 改进了对 `ExternalName` 服务的支持。
   有关详细信息，请参阅升级说明。
 
 - **改进** 改进了变量 `PILOT_MAX_REQUESTS_PER_SECOND`（限制传入请求的速率，之前默认为 25.0）
   和 `PILOT_PUSH_THROTTLE`（限制并发响应数量，之前默认为 100），
-  如果没有明确配置则自动随 istiod 所进行的 CPU 大小进行扩展。
+  如果没有明确配置则自动随 Istiod 所运行的 CPU 大小进行扩展。
 
 - **新增** 添加了在各种防火墙规则中配置 `istio-iptables` 使用 IPv4 环回 CIDR 的功能。
   ([Issue #47211](https://github.com/istio/istio/issues/47211))
 
 - **新增** 添加了当设置网络拓扑之前将工作负载添加到 Ambient 网格，自动设置工作负载默认网络的支持。
   之前，当您在 Istio 根命名空间上设置 `topology.istio.io/network` 时，
-  您需要手动部署 Ambient 工作负载以使网络变更生效。
+  您需要手动重新部署 Ambient 工作负载以使网络变更生效。
   现在，即使 Ambient 工作负载没有网络标签，网络也会自动被更新。
   请注意，如果您的 ztunnel 与您在 Istio 根命名空间的 `topology.istio.io/network`
   标签中设置的网络不在同一网络中，则您的 Ambient 工作负载将无法相互通信。
 
-- **新增** 添加了网关部署控制器上的命名空间发现选择器支持。
+- **新增** 添加了网关部署控制器上的命名空间发现选择器 `discoverySelectors` 支持。
   它受到 `ENABLE_ENHANCED_RESOURCE_SCOPING` 的保护。
   启用后，网关控制器将仅监视与选择器匹配的 k8s 网关。
   请注意，它将影响网关和 waypoint 部署。
@@ -88,7 +88,7 @@ aliases:
   自动注册 `WorkloadEntry` 资源清理缓慢的问题。
   ([Issue #44640](https://github.com/istio/istio/issues/44640))
 
-- **修复** 修复了 Istio 在扩展时对 `StatefulSets` / 无头`Service` 端点执行额外的 XDS 推送的问题。
+- **修复** 修复了 Istio 在扩展时对 `StatefulSets` / 无头`Service` 端点执行额外的 xDS 推送的问题。
   ([Issue #48207](https://github.com/istio/istio/issues/48207))
 
 - **修复** 修复了删除远程集群或轮换 `kubeConfig` 时导致内存泄漏的问题。
@@ -107,7 +107,7 @@ aliases:
 - **修复** 修复了更新服务的 `targetPort` 不会触发 xDS 推送的问题。
   ([Issue #48580](https://github.com/istio/istio/issues/48580))
 
-- **修复** 修复了在没有配置更改时不必要执行集群内分析的问题。
+- **修复** 修复了在没有配置更改时不必要地执行集群内分析的问题。
   ([Issue #48665](https://github.com/istio/istio/issues/48665))
 
 - **修复** 修复了一个错误，该错误会导致没有关联服务（包括同一命名空间内的所有服务）的 Pod 错误生成配置。
@@ -203,7 +203,7 @@ aliases:
 
 ## 安装 {#installation}
 
-- **改进** 如果 Envoy 进程提前终止，改进了优雅终止逻辑。
+- **改进** 如果 Envoy 进程提前终止，则停止优雅终止逻辑。
   ([Issue #36686](https://github.com/istio/istio/issues/36686))
 
 - **更新** 更新了 Kiali 插件至版本 v1.79.0。
@@ -214,14 +214,14 @@ aliases:
 - **新增** 在 Gateway Chart 中添加了 `allocateLoadBalancerNodePorts` 配置选项。
   ([Issue #48751](https://github.com/istio/istio/issues/48751))
 
-- **新增** 添加了一条消息，指示默认 Webhook 从修订安装转变为默认安装。
+- **新增** Webhook 从修订安装转变为默认安装时，添加一条消息指示。
   ([Issue #48643](https://github.com/istio/istio/issues/48643))
 
-- **新增** 向 istiod 部署中添加了 `affinity` 字段。该字段用于控制 istiod Pod 的调度。
+- **新增** 向 Istiod 部署中添加了 `affinity` 字段。该字段用于控制 Istiod Pod 的调度。
 
-- **新增** 向 istiod 部署中添加了 `tolerations` 字段。该字段用于控制 istiod Pod 的调度。
+- **新增** 向 Istiod 部署中添加了 `tolerations` 字段。该字段用于控制 Istiod Pod 的调度。
 
-- **新增** 添加了对 Helm 安装“配置文件”的支持。尝试使用 `--set profile=demo`！
+- **新增** 添加了对 Helm 安装的 `profiles` 的支持。尝试使用 `--set profile=demo`！
   ([Issue #47838](https://github.com/istio/istio/issues/47838))
 
 - **新增** 向 ztunnel DaemonSet 模板添加了设置
@@ -241,8 +241,8 @@ aliases:
   它将尝试继续运行。特别指出，这修复了在 Bottlerocket 节点上运行 Istio 的问题。
   ([Issue #48746](https://github.com/istio/istio/issues/48746))
 
-- **修复** 修复了 `istio-proxy` 容器的自定义注入在 OpenShift 上不起作用的问题，
-  由于 OpenShift 对 Pod 的 `SecurityContext.RunAs` 字段设置方式导致。
+- **修复** 修复了在 OpenShift 上自定义注入`istio-proxy` 容器不起作用的问题，
+  是由于 OpenShift 对 Pod 的 `SecurityContext.RunAs` 字段设置方式导致。
 
 - **修复** 修复了 OpenShift 上 ztunnel Pod 的 veth 查找问题，
   其中默认 CNI 不会为每个 veth 接口创建路由。
@@ -259,16 +259,16 @@ aliases:
   可以通过稳定的 `istioctl tag list` 命令检查修订。
 
 - **移除** 移除了运行 `istioctl install` 时创建的 `installed-state` `IstioOperator`。
-  之前这仅提供了已安装内容的快照。然而，它是一个常见的混乱来源（因为用户会更改它，但什么也不会发生），
+  之前这仅提供了已安装内容的快照。然而，它是一个常见的混淆来源（因为用户会更改它，但什么也不会发生），
   并且不能可靠地代表当前状态。由于这些用途不再需要 `IstioOperator`，
   `istioctl install` 和 `helm install` 不再安装`IstioOperator` CRD。
-  请注意，这仅影响 `istioctl install`，而不影响集群内的 Operator。
+  请注意，这仅影响 `istioctl install`，而不影响 in-cluster Operator。
 
 ## istioctl
 
 - **改进** 改进了注入器列表以排除 Ambient 命名空间。
 
-- **改进** 通过减少对 k8s API 的调用量，改进了 `bug-report` 性能。
+- **改进** 通过减少对 k8s API 的调用量，改进了 `istioctl bug-report` 性能。
   报告中包含的 Pod / 节点详细信息看起来会有所不同，但包含相同的信息。
 
 - **改进** 改进了 `istioctl bug-report` 按照创建日期对收集的事件进行排序。
@@ -291,7 +291,7 @@ aliases:
 
 - **新增** 添加了引导程序摘要到所有配置转储的摘要中。
 
-- **新增** 添加了一些可以选择 Pod 命令的 Kubernetes Pod 完整功能，
+- **新增** 对某些可以选择 pod 的命令的 Kubernetes pod 的自动补全，
   例如 `istioctl proxy-status <pod>`。
 
 - **新增** 为 `istioctl experimental waypoint apply`
@@ -324,7 +324,7 @@ aliases:
 - **修复** 修复了 `analyze` 在分析包含集群中已存在资源的文件时无法正常工作的问题。
   ([Issue #44844](https://github.com/istio/istio/issues/44844))
 
-- **修复** 修复了 `analyze` 报告空文件错误的问题。
+- **修复** 修复了当分析的文件中没有内容时 `analyze` 报告错误的问题。
   ([Issue #45653](https://github.com/istio/istio/issues/45653))
 
 - **修复** 修复了外部控制平面分析器在某些远程控制平面设置中无法工作的问题。
