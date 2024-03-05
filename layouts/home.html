@@ -15,7 +15,13 @@
         </div>
     </main>
 {{ else }}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.159.0/three.min.js" integrity="sha512-OviGQIoFPxWNbGybQNprasilCxjtXNGCjnaZQvDeCT0lSPwJXd5TC3usI/jsWepKW9lZLZ1ob1q/Vy4MnlTt7g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@v0.162.0/build/three.module.js"
+        }
+    }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/js/splide.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/css/splide.min.css">
     <script>
@@ -31,6 +37,6 @@
 
     {{ .Content }}
     
-    <script src="/js/headerAnimation.min.js"></script>
+    <script type="module" src="/js/headerAnimation.min.js"></script>
 {{ end }}
 {{ end }}

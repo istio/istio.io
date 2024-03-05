@@ -1,3 +1,5 @@
+import * as THREE from 'three';
+
 // Vertex shader for the points animation
 const vertexShader = `
       #define PI 3.14159265359
