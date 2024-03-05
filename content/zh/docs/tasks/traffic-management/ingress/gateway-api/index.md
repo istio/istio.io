@@ -48,7 +48,7 @@ Gateway API 与 Istio API（如 Gateway 和 VirtualService）有很多相似之�
 以构建标准化的，独立于供应商的 API。
 这些 API 通常与 Istio Gateway 和 VirtualService 具有相同的用途，但有一些关键的区别：
 
-* Istio API 中的 `Gateway` *仅配置已部署*的现有网关 Deployment/Service，
+* Istio API 中的 `Gateway` **仅配置**[已部署](/zh/docs/setup/additional-setup/gateway/)的现有网关 Deployment/Service，
   而在 Gateway API 中的 `Gateway` 资源*不仅配置也会部署*网关。
   有关更多信息，请参阅具体[部署方法](#deployment-methods)。
 * 在 Istio `VirtualService` 中，所有协议都在单一的资源中配置，
