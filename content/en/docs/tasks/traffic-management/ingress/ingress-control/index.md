@@ -130,7 +130,7 @@ for more details.
 
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
-Create a [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io%2fv1beta1.Gateway):
+Create a [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.Gateway):
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -192,7 +192,7 @@ spec:
 EOF
 {{< /text >}}
 
-You have now created an [HTTP Route](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io%2fv1beta1.HTTPRoute)
+You have now created an [HTTP Route](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.HTTPRoute)
 configuration for the `httpbin` service containing two route rules that allow traffic for paths `/status` and
 `/delay`.
 

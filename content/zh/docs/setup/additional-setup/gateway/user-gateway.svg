@@ -8,14 +8,14 @@
    id="svg8"
    sodipodi:docname="user-gateway.svg"
    inkscape:version="1.3 (0e150ed, 2023-07-21)"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  <defs
+    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns:xhtml="http://www.w3.org/1999/xhtml">
+    <defs
      id="defs8" />
-  <sodipodi:namedview
+    <sodipodi:namedview
      id="namedview8"
      pagecolor="#ffffff"
      bordercolor="#000000"
@@ -34,9 +34,9 @@
      inkscape:window-y="25"
      inkscape:window-maximized="0"
      inkscape:current-layer="svg8" />
-  <g
+    <g
      id="g8">
-    <rect
+        <rect
        width="420"
        height="240"
        x="0"
@@ -45,64 +45,64 @@
        stroke="#000"
        pointer-events="all"
        id="rect1" />
-    <g
+        <g
        transform="translate(-0.5 -0.5)"
        id="g1">
-      <switch
+            <switch
          id="switch1">
-        <foreignObject
+                <foreignObject
            style="overflow:visible;text-align:left"
            width="100%"
            height="100%"
            pointer-events="none"
            requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
-          <xhtml:div
+                    <xhtml:div
              style="display:flex;align-items:unsafe flex-start;justify-content:unsafe flex-start;width:418px;height:1px;padding-top:7px;margin-left:2px">
-            <xhtml:div
+                        <xhtml:div
                style="box-sizing:border-box;font-size:0;text-align:left">
-              <xhtml:div
-                 style="display:inline-block;font-size:12px;font-family:Helvetica;color:#000;line-height:1.2;pointer-events:all;white-space:normal;word-wrap:normal">app1 namespace</xhtml:div>
-            </xhtml:div>
-          </xhtml:div>
-        </foreignObject>
-        <text
+                            <xhtml:div
+                 style="display:inline-block;font-size:12px;font-family:Helvetica;color:#000;line-height:1.2;pointer-events:all;white-space:normal;word-wrap:normal">app1 命名空间</xhtml:div>
+                        </xhtml:div>
+                    </xhtml:div>
+                </foreignObject>
+                <text
            x="2"
            y="19"
            fill="#000"
            font-family="Helvetica"
            font-size="12"
            id="text1">app1 namespace</text>
-      </switch>
-    </g>
-    <path
+            </switch>
+        </g>
+        <path
        fill="none"
        stroke="#000"
        stroke-miterlimit="10"
        d="M 280 120 L 280 143.63"
        pointer-events="stroke"
        id="path1" />
-    <path
+        <path
        fill="#000"
        stroke="#000"
        stroke-miterlimit="10"
        d="M 280 148.88 L 276.5 141.88 L 280 143.63 L 283.5 141.88 Z"
        pointer-events="all"
        id="path2" />
-    <path
+        <path
        fill="none"
        stroke="#000"
        stroke-miterlimit="10"
        d="M 220 90 L 166.37 90"
        pointer-events="stroke"
        id="path3" />
-    <path
+        <path
        fill="#000"
        stroke="#000"
        stroke-miterlimit="10"
        d="M 161.12 90 L 168.12 86.5 L 166.37 90 L 168.12 93.5 Z"
        pointer-events="all"
        id="path4" />
-    <rect
+        <rect
        width="120"
        height="60"
        x="220"
@@ -113,30 +113,30 @@
        rx="9"
        ry="9"
        id="rect4" />
-    <g
+        <g
        transform="translate(-0.5 -0.5)"
        id="g4">
-      <switch
+            <switch
          id="switch4">
-        <foreignObject
+                <foreignObject
            style="overflow:visible;text-align:left"
            width="100%"
            height="100%"
            pointer-events="none"
            requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
-          <xhtml:div
+                    <xhtml:div
              style="display:flex;align-items:unsafe center;justify-content:unsafe center;width:118px;height:1px;padding-top:90px;margin-left:221px">
-            <xhtml:div
+                        <xhtml:div
                style="box-sizing:border-box;font-size:0;text-align:center">
-              <xhtml:div
+                            <xhtml:div
                  style="display:inline-block;font-size:12px;font-family:Helvetica;color:#000;line-height:1.2;pointer-events:all;white-space:normal;word-wrap:normal">
-                <xhtml:font
+                                <xhtml:font
                    style="font-size:16px">Gateway</xhtml:font>
-              </xhtml:div>
-            </xhtml:div>
-          </xhtml:div>
-        </foreignObject>
-        <text
+                            </xhtml:div>
+                        </xhtml:div>
+                    </xhtml:div>
+                </foreignObject>
+                <text
            x="280"
            y="94"
            fill="#000"
@@ -144,9 +144,9 @@
            font-size="12"
            text-anchor="middle"
            id="text4">Gateway</text>
-      </switch>
-    </g>
-    <rect
+            </switch>
+        </g>
+        <rect
        width="120"
        height="60"
        x="220"
@@ -157,30 +157,30 @@
        rx="9"
        ry="9"
        id="rect5" />
-    <g
+        <g
        transform="translate(-0.5 -0.5)"
        id="g5">
-      <switch
+            <switch
          id="switch5">
-        <foreignObject
+                <foreignObject
            style="overflow:visible;text-align:left"
            width="100%"
            height="100%"
            pointer-events="none"
            requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
-          <xhtml:div
+                    <xhtml:div
              style="display:flex;align-items:unsafe center;justify-content:unsafe center;width:118px;height:1px;padding-top:180px;margin-left:221px">
-            <xhtml:div
+                        <xhtml:div
                style="box-sizing:border-box;font-size:0;text-align:center">
-              <xhtml:div
+                            <xhtml:div
                  style="display:inline-block;font-size:12px;font-family:Helvetica;color:#000;line-height:1.2;pointer-events:all;white-space:normal;word-wrap:normal">
-                <xhtml:font
+                                <xhtml:font
                    style="font-size:16px">Deployment</xhtml:font>
-              </xhtml:div>
-            </xhtml:div>
-          </xhtml:div>
-        </foreignObject>
-        <text
+                            </xhtml:div>
+                        </xhtml:div>
+                    </xhtml:div>
+                </foreignObject>
+                <text
            x="280"
            y="184"
            fill="#000"
@@ -188,9 +188,9 @@
            font-size="12"
            text-anchor="middle"
            id="text5">Deployment</text>
-      </switch>
-    </g>
-    <rect
+            </switch>
+        </g>
+        <rect
        width="120"
        height="60"
        x="40"
@@ -201,30 +201,30 @@
        rx="9"
        ry="9"
        id="rect6" />
-    <g
+        <g
        transform="translate(-0.5 -0.5)"
        id="g6">
-      <switch
+            <switch
          id="switch6">
-        <foreignObject
+                <foreignObject
            style="overflow:visible;text-align:left"
            width="100%"
            height="100%"
            pointer-events="none"
            requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
-          <xhtml:div
+                    <xhtml:div
              style="display:flex;align-items:unsafe center;justify-content:unsafe center;width:118px;height:1px;padding-top:90px;margin-left:41px">
-            <xhtml:div
+                        <xhtml:div
                style="box-sizing:border-box;font-size:0;text-align:center">
-              <xhtml:div
+                            <xhtml:div
                  style="display:inline-block;font-size:12px;font-family:Helvetica;color:#000;line-height:1.2;pointer-events:all;white-space:normal;word-wrap:normal">
-                <xhtml:font
+                                <xhtml:font
                    style="font-size:16px">Certificate</xhtml:font>
-              </xhtml:div>
-            </xhtml:div>
-          </xhtml:div>
-        </foreignObject>
-        <text
+                            </xhtml:div>
+                        </xhtml:div>
+                    </xhtml:div>
+                </foreignObject>
+                <text
            x="100"
            y="94"
            fill="#000"
@@ -232,23 +232,23 @@
            font-size="12"
            text-anchor="middle"
            id="text6">Certificate</text>
-      </switch>
-    </g>
-    <path
+            </switch>
+        </g>
+        <path
        fill="none"
        stroke="#000"
        stroke-miterlimit="10"
        d="M 130 150 L 130 140 L 250 140 L 250 126.37"
        pointer-events="stroke"
        id="path6" />
-    <path
+        <path
        fill="#000"
        stroke="#000"
        stroke-miterlimit="10"
        d="M 250 121.12 L 253.5 128.12 L 250 126.37 L 246.5 128.12 Z"
        pointer-events="all"
        id="path7" />
-    <rect
+        <rect
        width="120"
        height="60"
        x="40"
@@ -259,30 +259,30 @@
        rx="9"
        ry="9"
        id="rect7" />
-    <g
+        <g
        transform="translate(-0.5 -0.5)"
        id="g7">
-      <switch
+            <switch
          id="switch7">
-        <foreignObject
+                <foreignObject
            style="overflow:visible;text-align:left"
            width="100%"
            height="100%"
            pointer-events="none"
            requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
-          <xhtml:div
+                    <xhtml:div
              style="display:flex;align-items:unsafe center;justify-content:unsafe center;width:118px;height:1px;padding-top:180px;margin-left:41px">
-            <xhtml:div
+                        <xhtml:div
                style="box-sizing:border-box;font-size:0;text-align:center">
-              <xhtml:div
+                            <xhtml:div
                  style="display:inline-block;font-size:12px;font-family:Helvetica;color:#000;line-height:1.2;pointer-events:all;white-space:normal;word-wrap:normal">
-                <xhtml:font
+                                <xhtml:font
                    style="font-size:16px">VirtualService</xhtml:font>
-              </xhtml:div>
-            </xhtml:div>
-          </xhtml:div>
-        </foreignObject>
-        <text
+                            </xhtml:div>
+                        </xhtml:div>
+                    </xhtml:div>
+                </foreignObject>
+                <text
            x="100"
            y="184"
            fill="#000"
@@ -290,7 +290,7 @@
            font-size="12"
            text-anchor="middle"
            id="text7">VirtualService</text>
-      </switch>
+            </switch>
+        </g>
     </g>
-  </g>
 </svg>

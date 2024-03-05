@@ -16,9 +16,28 @@ To understand what is happening in your mesh, it is important to understand how 
 This document describes low level implementation details. For a higher level overview, check out the traffic management [Concepts](/docs/concepts/traffic-management/) or [Tasks](/docs/tasks/traffic-management/).
 {{< /warning >}}
 
+## Frontends and backends
+
+In traffic routing in Istio, there are two primary phases:
+
+* The "frontend" refers to how we match the type of traffic we are handling.
+  This is necessary to identify which backend to route traffic to, and which policies to apply.
+  For example, we may read the `Host` header of `http.ns.svc.cluster.local` and identify the request is intended for the `http` Service.
+  More information on how this matching works can be found below.
+* The "backend" refers to where we send traffic once we have matched it.
+  Using the example above, after identifying the request as targeting the `http` Service, we would send it to an endpoint in that Service.
+  However, this selection is not always so simple; Istio allows customization of this logic, through `VirtualService` routing rules.
+
+Standard Kubernetes networking has these same concepts, too, but they are much simpler and generally hidden.
+When a `Service` is created, there is typically an associated frontend -- the automatically created DNS name (such as `http.ns.svc.cluster.local`),
+and an automatically created IP address to represent the service (the `ClusterIP`).
+Similarly, a backend is also created - the `Endpoints` or `EndpointSlice` - which represents all of the pods selected by the service.
+
 ## Protocols
 
 Unlike Kubernetes, Istio has the ability to process application level protocols such as HTTP and TLS.
+This allows for different types of [frontend](#frontends-and-backends) matching than is available in Kubernetes.
+
 In general, there are three classes of protocols Istio understands:
 
 * HTTP, which includes HTTP/1.1, HTTP/2, and gRPC. Note that this does not include TLS encrypted traffic (HTTPS).
@@ -85,6 +104,7 @@ Instead, the DNS response will contain the IP addresses of each endpoint (i.e. t
 
 In general, Istio does not configure listeners for each Pod IP, as it works at the Service level.
 However, to support headless services, listeners are set up for each IP:Port pair in the headless service.
+An exception to this is for protocols declared as HTTP, which will match traffic by the `Host` header.
 
 {{< warning >}}
 Without Istio, the `ports` field of a headless service is not strictly required because requests go directly to pod IPs, which can accept traffic on all ports.
@@ -95,15 +115,33 @@ However, with Istio the port must be declared in the Service, or it will [not be
 
 An [ExternalName Service](https://kubernetes.io/docs/concepts/services-networking/service/#externalname) is essentially just a DNS alias.
 
-Because there is no `ClusterIP` nor pod IPs to match on, for TCP ExternalName Services, all IPs on the port will be matched.
-This may prevent [unmatched traffic](#unmatched-traffic) on the same port from being forwarded correctly.
-As such, it is best to avoid these where possible, or use dedicated ports when needed.
-HTTP and TLS do not share this constraint, as routing is done based on the hostname/SNI.
+To make things more concrete, consider the following example:
 
-{{< warning >}}
-Without Istio, the `ports` field of an ExternalName service is not required because the Service only represents a DNS entry.
-However, with Istio the port must be declared in the Service, or it will [not be matched](#unmatched-traffic).
-{{< /warning >}}
+{{< text yaml >}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: alias
+spec:
+  type: ExternalName
+  externalName: concrete.example.com
+{{< /text >}}
+
+Because there is no `ClusterIP` nor pod IPs to match on, for TCP traffic there are no changes at all to traffic matching in Istio.
+When Istio receives the request, they will see the IP for `concrete.example.com`.
+If this is a service Istio knows about, it will be routed as described [above](#tcp).
+If not, it will be handled as [unmatched traffic](#unmatched-traffic)
+
+For HTTP and TLS, which match on hostname, things are a bit different.
+If the target service (`concrete.example.com`) is a service Istio knows about, then the alias hostname (`alias.default.svc.cluster.local`) will be added
+as an _additional_ match to the [TLS](#tls) or [HTTP](#http) matching.
+If not, there will be no changes, so it will be handled as [unmatched traffic](#unmatched-traffic).
+
+An `ExternalName` service can never be a [backend](#frontends-and-backends) on its own.
+Instead, it is only ever used as additional [frontend](#frontends-and-backends) matches to existing Services.
+If one is explicitly used as a backend, such as in a `VirtualService` destination, the same aliasing applies.
+That is, if `alias.default.svc.cluster.local` is set as the destination, then requests will go to the `concrete.example.com`.
+If that hostname is not known to Istio, the requests will fail; in this case, a `ServiceEntry` for `concrete.example.com` would make this configuration work.
 
 ### ServiceEntry
 

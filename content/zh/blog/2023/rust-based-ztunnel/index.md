@@ -1,5 +1,5 @@
 ---
-title: “为 Istio 环境服务网格引入基于 Rust 的 Ztunnel"
+title: "为 Istio 环境服务网格引入基于 Rust 的 Ztunnel"
 description: 专门为 Istio Ambient Mesh 构建的每节点代理。
 publishdate: 2023-02-28
 attribution: "Lin Sun (Solo.io), John Howard (Google)"

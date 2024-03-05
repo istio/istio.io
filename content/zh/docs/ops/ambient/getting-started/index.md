@@ -15,6 +15,13 @@ Kubernetes 版本 ({{< supported_kubernetes_versions >}})。
 您可以使用 [Minikube](https://kubernetes.io/zh-cn/docs/tasks/tools/install-minikube/)
 或[特定平台搭建指南](/zh/docs/setup/platform-setup/)中指定的所有受支持的平台。
 
+{{< warning >}}
+请注意，Ambient 目前需要使用 [istio-cni](/zh/docs/setup/additional-setup/cni)
+来配置 Kubernetes 节点。`istio-cni` 的 Ambient
+模式当前**不可以**支持某些类型的集群 CNI（如不使用 `veth` 设备的 CNI 实现，
+例如 [Minikube 的](https://kubernetes.io/docs/tasks/tools/install-minikube/) `bridge` 模式）
+{{< /warning >}}
+
 参照以下步骤开始使用 Ambient：
 
 1. [下载和安装](#download)
@@ -210,8 +217,8 @@ $ export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/istio-ingressgateway-service
 
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
-创建 [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io%2fv1beta1.Gateway)
-和 [HTTPRoute](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1beta1.HTTPRoute)，
+创建 [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.Gateway)
+和 [HTTPRoute](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.HTTPRoute)，
 这样您可以从集群外访问 bookinfo 应用：
 
 {{< text bash >}}
@@ -347,7 +354,7 @@ command terminated with exit code 56
 为 `productpage` 服务部署 waypoint proxy：
 
 {{< text bash >}}
-$ istioctl x waypoint apply --service-account bookinfo-productpage
+$ istioctl x waypoint apply --service-account bookinfo-productpage --wait
 waypoint default/bookinfo-productpage applied
 {{< /text >}}
 
@@ -418,7 +425,7 @@ $ kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<titl
 因此转到评审服务的所有流量都将通过 waypoint proxy 进行协调。
 
 {{< text bash >}}
-$ istioctl x waypoint apply --service-account bookinfo-reviews
+$ istioctl x waypoint apply --service-account bookinfo-reviews --wait
 waypoint default/bookinfo-reviews applied
 {{< /text >}}
 
@@ -454,12 +461,10 @@ $ kubectl exec deploy/sleep -- sh -c "for i in \$(seq 1 100); do curl -s http://
 
 ## 卸载 {#uninstall}
 
-若要移除 `productpage-viewer` 鉴权策略、waypoint proxy 并卸载 Istio：
+要删除 waypoint 代理、已安装的策略并卸载 Istio：
 
 {{< text bash >}}
-$ kubectl delete authorizationpolicy productpage-viewer
-$ istioctl x waypoint delete --service-account bookinfo-reviews
-$ istioctl x waypoint delete --service-account bookinfo-productpage
+$ istioctl x waypoint delete --all
 $ istioctl uninstall -y --purge
 $ kubectl delete namespace istio-system
 {{< /text >}}

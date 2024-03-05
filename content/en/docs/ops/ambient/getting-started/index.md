@@ -16,7 +16,6 @@ others specified by the
 [platform-specific setup instructions](/docs/setup/platform-setup/).
 
 {{< warning >}}
-Ambient is currently in [alpha status](/docs/releases/feature-stages/#feature-phase-definitions).
 Note that Ambient currently requires the use of [istio-cni](/docs/setup/additional-setup/cni) to configure Kubernetes nodes.
 `istio-cni` ambient mode does **not** currently support types of cluster CNI (namely, CNI implementations that do not use `veth` devices, such as [Minikube's](https://kubernetes.io/docs/tasks/tools/install-minikube/) `bridge` mode)
 {{< /warning >}}
@@ -212,8 +211,8 @@ $ export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/istio-ingressgateway-service
 
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
-Create a [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io%2fv1beta1.Gateway)
-and [HTTPRoute](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1beta1.HTTPRoute):
+Create a [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.Gateway)
+and [HTTPRoute](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.HTTPRoute):
 
 {{< text bash >}}
 $ sed -e 's/from: Same/from: All/'\
@@ -347,7 +346,7 @@ Using the Kubernetes Gateway API, you can deploy a {{< gloss "waypoint" >}}waypo
 Deploy a waypoint proxy for the `productpage` service:
 
 {{< text bash >}}
-$ istioctl x waypoint apply --service-account bookinfo-productpage
+$ istioctl x waypoint apply --service-account bookinfo-productpage --wait
 waypoint default/bookinfo-productpage applied
 {{< /text >}}
 
@@ -417,7 +416,7 @@ $ kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<titl
 Deploy a waypoint proxy for the review service, using the `bookinfo-review` service account, so that any traffic going to the review service will be mediated by the waypoint proxy.
 
 {{< text bash >}}
-$ istioctl x waypoint apply --service-account bookinfo-reviews
+$ istioctl x waypoint apply --service-account bookinfo-reviews --wait
 waypoint default/bookinfo-reviews applied
 {{< /text >}}
 
@@ -453,12 +452,10 @@ $ kubectl exec deploy/sleep -- sh -c "for i in \$(seq 1 100); do curl -s http://
 
 ## Uninstall {#uninstall}
 
-To remove the `productpage-viewer` authorization policy, waypoint proxies and uninstall Istio:
+To remove waypoint proxies, installed policies, and uninstall Istio:
 
 {{< text bash >}}
-$ kubectl delete authorizationpolicy productpage-viewer
-$ istioctl x waypoint delete --service-account bookinfo-reviews
-$ istioctl x waypoint delete --service-account bookinfo-productpage
+$ istioctl x waypoint delete --all
 $ istioctl uninstall -y --purge
 $ kubectl delete namespace istio-system
 {{< /text >}}

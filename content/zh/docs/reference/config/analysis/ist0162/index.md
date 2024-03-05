@@ -60,9 +60,9 @@ spec:
     targetPort: 8443
 {{< /text >}}
 
-在此示例中，`GatewayPortNotDefinedOnService` 消息出现，
-因为此配置使用了端口 `8004`，但默认的 `IngressGateway`
-（名称为 `istio-ingressgateway`）只定义了目标端口 15021、8080 和 8443。
+在此示例中，因为配置使用了端口 `8004`，但默认的 `IngressGateway`
+（名称为 `istio-ingressgateway`）只定义了目标端口 15021、8080 和 8443，
+所以 `GatewayPortNotDefinedOnService` 消息出现。
 
 要解决此问题，请更改网关配置以使用工作负载上的有效端口，然后重试。
 

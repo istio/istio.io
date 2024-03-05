@@ -18,7 +18,7 @@ test: n/a
 1. TLS 配置引用了 `credentialName`。
 
 1. 未找到具有指定 `credentialName` 的 Secret，
-或者在找到的 Secret 中发现无效 TLS 证书。
+   或者在找到的 Secret 中发现无效 TLS 证书。
 
 要解决此问题，请确保具有指定 `credentialName` 的 Secret
 存在于与 Gateway 工作负载相同的命名空间中，
@@ -36,4 +36,4 @@ $ kubectl create secret tls my-tls-secret --cert=path/to/cert.pem --key=path/to/
 并更新文件路径以指向正确的证书和密钥文件。
 
 如果 Secret 存在但其中的 TLS 证书无效，
-请使用正确的 TLS 证书和私钥更新 Secret。
+请使用正确的 TLS 证书和私钥来更新 Secret。

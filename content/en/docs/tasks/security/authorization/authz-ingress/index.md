@@ -63,7 +63,7 @@ $ kubectl wait --for=condition=programmed gtw -n foo httpbin-gateway
 Turn on RBAC debugging in Envoy for the ingress gateway:
 
 {{< text bash >}}
-$ kubectl get pods -n foo -o name -l istio.io/gateway-name=httpbin-gateway | sed 's|pod/||' | while read -r pod; do istioctl proxy-config log "$pod" -n foo --level rbac:debug; done
+$ kubectl get pods -n foo -o name -l gateway.networking.k8s.io/gateway-name=httpbin-gateway | sed 's|pod/||' | while read -r pod; do istioctl proxy-config log "$pod" -n foo --level rbac:debug; done
 {{< /text >}}
 
 Set the `INGRESS_PORT` and `INGRESS_HOST` environment variables:
@@ -438,14 +438,14 @@ $ CLIENT_IP=$(kubectl get pods -n istio-system -o name -l istio=ingressgateway |
 ***ipBlocks:***
 
 {{< text bash >}}
-$ CLIENT_IP=$(kubectl get pods -n foo -o name -l istio.io/gateway-name=httpbin-gateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n foo | grep remoteIP; done | tail -1 | awk -F, '{print $3}' | awk -F: '{print $2}' | sed 's/ //') && echo "$CLIENT_IP"
+$ CLIENT_IP=$(kubectl get pods -n foo -o name -l gateway.networking.k8s.io/gateway-name=httpbin-gateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n foo | grep remoteIP; done | tail -1 | awk -F, '{print $3}' | awk -F: '{print $2}' | sed 's/ //') && echo "$CLIENT_IP"
 192.168.10.15
 {{< /text >}}
 
 ***remoteIpBlocks:***
 
 {{< text bash >}}
-$ CLIENT_IP=$(kubectl get pods -n foo -o name -l istio.io/gateway-name=httpbin-gateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n foo | grep remoteIP; done | tail -1 | awk -F, '{print $4}' | awk -F: '{print $2}' | sed 's/ //') && echo "$CLIENT_IP"
+$ CLIENT_IP=$(kubectl get pods -n foo -o name -l gateway.networking.k8s.io/gateway-name=httpbin-gateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n foo | grep remoteIP; done | tail -1 | awk -F, '{print $4}' | awk -F: '{print $2}' | sed 's/ //') && echo "$CLIENT_IP"
 192.168.10.15
 {{< /text >}}
 
@@ -687,7 +687,7 @@ $ kubectl get pods -n istio-system -o name -l istio=ingressgateway | sed 's|pod/
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
 {{< text bash >}}
-$ kubectl get pods -n foo -o name -l istio.io/gateway-name=httpbin-gateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n foo; done
+$ kubectl get pods -n foo -o name -l gateway.networking.k8s.io/gateway-name=httpbin-gateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n foo; done
 {{< /text >}}
 
 {{< /tab >}}

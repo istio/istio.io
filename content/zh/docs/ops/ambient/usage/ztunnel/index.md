@@ -6,17 +6,7 @@ owner: istio/wg-networking-maintainers
 test: no
 ---
 
-{{< warning >}}
-`Ambient` 目前处于 [Alpha 状态](/zh/docs/releases/feature-stages/#feature-phase-definitions)。
-
-请**不要在生产环境中运行 Ambient**，
-并确保在使用前仔细检查[功能阶段定义](/zh/docs/releases/feature-stages/#feature-phase-definitions)。
-特别是，`alpha` 版本中存在已知的性能、稳定性和安全问题。
-还有一些功能性注意事项，其中一些已在本指南的[注意事项部分](#caveats)中列出。
-以及计划中的重大变更，其中一些会影响升级。这些都是在升级到 `beta`
-版之前将要解决的限制。当前版本的指南旨在帮助对 Ambient 的 Alpha 版本进行早期部署和测试。
-随着 Ambient 状态从 Alpha 发展到 Beta 及以后，本指南将随之进行更新。
-{{< /warning >}}
+{{< boilerplate ambient-alpha-warning >}}
 
 ## 简介  {#introsection}
 
@@ -108,7 +98,7 @@ Kubernetes `1.27.3` 集群内的 Istio `1.19.0` 版本中运行。
 
 Ambient 功能所需的最低 Istio 版本是 1.18.0，所需的最低 Kubernetes 版本是 `1.24.0`。
 下面的示例需要一个具有超过 1 个工作节点的集群，以便解释跨节点流量的运行方式。
-请参阅[安装用户指南](/zh/docs/ops/ambient/usage/install/)或[入门指南](/zh/docs/ops/ambient/getting-started/)，
+请参阅[安装用户指南](/zh/docs/ops/ambient/install/)或[入门指南](/zh/docs/ops/ambient/getting-started/)，
 了解关于在 Kubernetes 集群中安装 Ambient 模式 Istio 的信息。
 
 ## 功能概述  {#functionaloverview}
@@ -444,7 +434,7 @@ Istio Sidecar 模式基本没有变化，因此本指南中不再重复这些细
 `istio_tcp_connections_filled_total`）。
 当涉及 Waypoint 代理时，将报告全套 Istio 和 Envoy 指标。
 
-### 验证 ztunnel 负载平衡  {#verifying-ztunnel-load-balancing}
+### 验证 ztunnel 负载均衡  {#verifying-ztunnel-load-balancing}
 
 如果目标是具有多个端点的服务，ztunnel 代理会自动执行客户端负载均衡。
 无需额外配置。ztunnel 负载均衡算法是内部固定的 L4 循环算法，

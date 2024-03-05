@@ -10,6 +10,8 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
+除了它自己的流量管理 API 之外，
+{{< boilerplate gateway-api-future >}}
 本文描述 Istio 和 Kubernetes API 之间的差异，并提供了一个简单的例子，
 向您演示如何配置 Istio 以使用 Gateway API 在服务网格集群外部暴露服务。
 请注意，这些 API 是 Kubernetes [Service](https://kubernetes.io/zh-cn/docs/concepts/services-networking/service/)
@@ -234,7 +236,7 @@ Gateway API 与 Istio API（如 Gateway 和 VirtualService）有很多相似之�
 然而，大多数 Kubernetes 资源目前不支持直接附加到 `Gateway`，
 但这些资源可以转为直接被附加到相应生成的 `Deployment` 和 `Service`。
 这个操作比较简单，因为这两种资源被生成时名称为 `<gateway name>-<gateway class name>`
-且带有标签 `istio.io/gateway-name: <gateway name>`。
+且带有标签 `gateway.networking.k8s.io/gateway-name: <gateway name>`。
 
 例如，参照以下部署类别为 `HorizontalPodAutoscaler` 和 `PodDisruptionBudget` 的 `Gateway`：
 
@@ -284,7 +286,7 @@ spec:
   selector:
     # 通过标签匹配生成的 Deployment
     matchLabels:
-      istio.io/gateway-name: gateway
+      gateway.networking.k8s.io/gateway-name: gateway
 {{< /text >}}
 
 ### 手动部署  {#manual-deployment}
@@ -345,12 +347,18 @@ spec:
 
 ## 清理  {#cleanup}
 
-1. 卸载 Istio 和 `httpbin` 示例：
+1. 删除 `httpbin` 示例和网关：
 
     {{< text bash >}}
     $ kubectl delete -f @samples/httpbin/httpbin.yaml@
     $ kubectl delete httproute http
     $ kubectl delete gateways.gateway.networking.k8s.io gateway -n istio-ingress
+    $ kubectl delete ns istio-ingress
+    {{< /text >}}
+
+1. 卸载 Istio：
+
+    {{< text bash >}}
     $ istioctl uninstall -y --purge
     $ kubectl delete ns istio-system
     $ kubectl delete ns istio-ingress

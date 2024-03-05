@@ -1133,15 +1133,15 @@ No
 <td><code>insecureSkipVerify</code></td>
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></code></td>
 <td>
-<p>InsecureSkipVerify specifies whether the proxy should skip verifying the
+<p><code>insecureSkipVerify</code> specifies whether the proxy should skip verifying the
 CA signature and SAN for the server certificate corresponding to the host.
 This flag should only be set if global CA signature verification is
-enabled, <code>VerifyCertAtClient</code> environmental variable is set to <code>true</code>,
+enabled, <code>VERIFY_CERTIFICATE_AT_CLIENT</code> environmental variable is set to <code>true</code>,
 but no verification is desired for a specific host. If enabled with or
-without <code>VerifyCertAtClient</code> enabled, verification of the CA signature and
+without <code>VERIFY_CERTIFICATE_AT_CLIENT</code> enabled, verification of the CA signature and
 SAN will be skipped.</p>
-<p><code>InsecureSkipVerify</code> is <code>false</code> by default.
-<code>VerifyCertAtClient</code> is <code>false</code> by default in Istio version 1.9 but will
+<p><code>insecureSkipVerify</code> is <code>false</code> by default.
+<code>VERIFY_CERTIFICATE_AT_CLIENT</code> is <code>false</code> by default in Istio version 1.9 but will
 be <code>true</code> by default in a later version where, going forward, it will be
 enabled by default.</p>
 
@@ -1754,6 +1754,24 @@ is reached the connection will be closed. Duration must be at least 1ms.</p>
 No
 </td>
 </tr>
+<tr id="ConnectionPoolSettings-TCPSettings-idle_timeout">
+<td><code>idleTimeout</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
+<td>
+<p>The idle timeout for TCP connections.
+The idle timeout is defined as the period in which there are no bytes sent or received on either
+the upstream or downstream connection.
+If not set, the default idle timeout is 1 hour. If set to 0s, the timeout will be disabled.
+Idle timeout is not configured per each cluster individually when weighted destinations are used,
+because idleTimeout is a property of a listener, not a cluster. In that case, idleTimeout
+specified in a destination rule for the first weighted route is configured in the listener,
+which means also for all weighted routes.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -1858,6 +1876,18 @@ No
 <p>If set to true, client protocol will be preserved while initiating connection to backend.
 Note that when this is set to true, h2_upgrade_policy will be ineffective i.e. the client
 connections will not be upgraded to http2.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ConnectionPoolSettings-HTTPSettings-max_concurrent_streams">
+<td><code>maxConcurrentStreams</code></td>
+<td><code>int32</code></td>
+<td>
+<p>The maximum number of concurrent streams allowed for a peer on one HTTP/2 connection.
+Defaults to 2^31-1.</p>
 
 </td>
 <td>

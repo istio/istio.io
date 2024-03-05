@@ -28,7 +28,8 @@ test: yes
     [启用 Envoy 的访问记录](/zh/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)。
 
 *   部署 [sleep]({{< github_tree >}}/samples/sleep) 这个示例应用，用作发送请求的测试源。
-    如果您启用了[自动注入 Sidecar](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)，使用以下的命令来部署示例应用：
+    如果您启用了[自动注入 Sidecar](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)，
+    使用以下的命令来部署示例应用：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/sleep/sleep.yaml@
@@ -243,11 +244,12 @@ Istio 代理允许调用未知的服务。如果这个选项设置为 `REGISTRY_
 
 ### 管理到外部服务的流量 {#manage-traffic-to-external-services}
 
-与集群内的请求相似，也可以为使用 `ServiceEntry` 配置访问的外部服务设置
-[Istio 路由规则](/zh/docs/concepts/traffic-management/#routing-rules)。
+与集群间请求类似，可以为使用 `ServiceEntry` 配置访问的外部服务设置路由规则。
 在本示例中，您将设置对 `httpbin.org` 服务访问的超时规则。
 
-1. 从用作测试源的 Pod 内部，向外部服务 `httpbin.org` 的 `/delay`
+{{< boilerplate gateway-api-gamma-support >}}
+
+1) 从用作测试源的 Pod 内部，向外部服务 `httpbin.org` 的 `/delay`
    endpoint 发出 **curl** 请求：
 
     {{< text bash >}}
@@ -260,27 +262,63 @@ Istio 代理允许调用未知的服务。如果这个选项设置为 `REGISTRY_
 
     这个请求大约在 5 秒内返回 200 (OK)。
 
-1. 退出测试源 Pod，使用 `kubectl` 设置调用外部服务 `httpbin.org` 的超时时间为 3 秒。
+2) 使用 `kubectl` 设置调用外部服务 `httpbin.org` 的超时时间为 3 秒。
 
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: httpbin-ext
-    spec:
-      hosts:
-        - httpbin.org
-      http:
-      - timeout: 3s
-        route:
-          - destination:
-              host: httpbin.org
-            weight: 100
-    EOF
-    {{< /text >}}
+{{< tabset category-name="config-api" >}}
 
-1. 几秒后，重新发出 **curl** 请求：
+{{< tab name="Istio API" category-value="istio-apis" >}}
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: httpbin-ext
+spec:
+  hosts:
+  - httpbin.org
+  http:
+  - timeout: 3s
+    route:
+    - destination:
+        host: httpbin.org
+      weight: 100
+EOF
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: httpbin-ext
+spec:
+  parentRefs:
+  - kind: ServiceEntry
+    group: networking.istio.io
+    name: httpbin-ext
+  hostnames:
+  - httpbin.org
+  rules:
+  - timeouts:
+      request: 3s
+    backendRefs:
+    - kind: Hostname
+      group: networking.istio.io
+      name: httpbin.org
+      port: 80
+EOF
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
+3) 几秒后，重新发出 **curl** 请求：
 
     {{< text bash >}}
     $ kubectl exec "$SOURCE_POD" -c sleep -- time curl -o /dev/null -sS -w "%{http_code}\n" http://httpbin.org/delay/5
@@ -295,10 +333,27 @@ Istio 代理允许调用未知的服务。如果这个选项设置为 `REGISTRY_
 
 ### 清理对外部服务的受控访问 {#cleanup-the-controlled-access-to-external-services}
 
+{{< tabset category-name="config-api" >}}
+
+{{< tab name="Istio API" category-value="istio-apis" >}}
+
 {{< text bash >}}
 $ kubectl delete serviceentry httpbin-ext google
 $ kubectl delete virtualservice httpbin-ext --ignore-not-found=true
 {{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text bash >}}
+$ kubectl delete serviceentry httpbin-ext
+$ kubectl delete httproute httpbin-ext --ignore-not-found=true
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
 
 ## 直接访问外部服务 {#direct-access-to-external-services}
 
@@ -440,7 +495,7 @@ $ kubectl describe pod kube-apiserver -n kube-system | grep 'service-cluster-ip-
 {{< /warning >}}
 
 使用平台的 IP 范围更新 `istio-sidecar-injector` 的配置。比如，如果 IP 范围是
-10.0.0.1&#47;24，则使用一下命令：
+10.0.0.1&#47;24，则使用以下命令：
 
 {{< text syntax=bash snip_id=none >}}
 $ istioctl install <flags-you-used-to-install-Istio> --set values.global.proxy.includeIPRanges="10.0.0.1/24"

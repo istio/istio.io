@@ -269,12 +269,12 @@ to enable it.  You can execute the following once:</p>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, delta, file, gateway, grpcgen, ingress status, klog, kube, model, monitor, monitoring, pkica, pkira, processing, retry, rootcertrotator, secretcontroller, security, serverca, serviceentry, spiffe, status, trustBundle, validation, validationController, validationServer, wasm, wle]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, delta, deltaadsc, file, gateway, grpcgen, ingress status, klog, kube, model, monitor, monitoring, pkica, pkira, processing, retry, rootcertrotator, secretcontroller, security, serverca, serviceentry, spiffe, status, trustBundle, validation, validationController, validationServer, wasm, wle]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, delta, file, gateway, grpcgen, ingress status, klog, kube, model, monitor, monitoring, pkica, pkira, processing, retry, rootcertrotator, secretcontroller, security, serverca, serviceentry, spiffe, status, trustBundle, validation, validationController, validationServer, wasm, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, delta, deltaadsc, file, gateway, grpcgen, ingress status, klog, kube, model, monitor, monitoring, pkica, pkira, processing, retry, rootcertrotator, secretcontroller, security, serverca, serviceentry, spiffe, status, trustBundle, validation, validationController, validationServer, wasm, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -299,7 +299,7 @@ to enable it.  You can execute the following once:</p>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, delta, file, gateway, grpcgen, ingress status, klog, kube, model, monitor, monitoring, pkica, pkira, processing, retry, rootcertrotator, secretcontroller, security, serverca, serviceentry, spiffe, status, trustBundle, validation, validationController, validationServer, wasm, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, delta, deltaadsc, file, gateway, grpcgen, ingress status, klog, kube, model, monitor, monitoring, pkica, pkira, processing, retry, rootcertrotator, secretcontroller, security, serverca, serviceentry, spiffe, status, trustBundle, validation, validationController, validationServer, wasm, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -350,8 +350,8 @@ to enable it.  You can execute the following once:</p>
 <td><code>--tls-cipher-suites &lt;stringSlice&gt;</code></td>
 <td></td>
 <td>Comma-separated list of cipher suites for istiod TLS server. If omitted, the default Go cipher suites will be used. 
-Preferred values: TLS_AES_128_GCM_SHA256, TLS_AES_256_GCM_SHA384, TLS_CHACHA20_POLY1305_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA, TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256, TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA, TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256, TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA, TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA, TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256, TLS_RSA_WITH_AES_128_CBC_SHA, TLS_RSA_WITH_AES_128_GCM_SHA256, TLS_RSA_WITH_AES_256_CBC_SHA, TLS_RSA_WITH_AES_256_GCM_SHA384. 
-Insecure values: TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_RC4_128_SHA, TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA, TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_RSA_WITH_RC4_128_SHA, TLS_RSA_WITH_3DES_EDE_CBC_SHA, TLS_RSA_WITH_AES_128_CBC_SHA256, TLS_RSA_WITH_RC4_128_SHA.  (default `[]`)</td>
+Preferred values: TLS_AES_128_GCM_SHA256, TLS_AES_256_GCM_SHA384, TLS_CHACHA20_POLY1305_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA, TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256, TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA, TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256, TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA, TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA, TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256. 
+Insecure values: TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_RC4_128_SHA, TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA, TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_RSA_WITH_RC4_128_SHA, TLS_RSA_WITH_3DES_EDE_CBC_SHA, TLS_RSA_WITH_AES_128_CBC_SHA, TLS_RSA_WITH_AES_128_CBC_SHA256, TLS_RSA_WITH_AES_128_GCM_SHA256, TLS_RSA_WITH_AES_256_CBC_SHA, TLS_RSA_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_RC4_128_SHA.  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--tlsCertFile &lt;string&gt;</code></td>
@@ -491,6 +491,24 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>Defines the cluster and service registry that this Istiod instance belongs to</td>
 </tr>
 <tr>
+<td><code>COMPLIANCE_POLICY</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>If set, applies policy-specific restrictions over all existing TLS
+settings, including in-mesh mTLS and external TLS. Valid values are:
+
+* &#39;&#39; or unset places no additional restrictions.
+* &#39;fips-140-2&#39; which enforces a version of the TLS protocol and a subset
+of cipher suites overriding any user preferences or defaults for all runtime
+components, including Envoy, gRPC Go SDK, and gRPC C++ SDK.
+
+WARNING: Setting compliance policy in the control plane is a necessary but
+not a sufficient requirement to achieve compliance. There are additional
+steps necessary to claim compliance, including using the validated
+cryptograhic modules (please consult
+https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fips-140-2).</td>
+</tr>
+<tr>
 <td><code>DEFAULT_WORKLOAD_CERT_TTL</code></td>
 <td>Time Duration</td>
 <td><code>24h0m0s</code></td>
@@ -499,7 +517,7 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <tr>
 <td><code>ENABLE_AUTO_SNI</code></td>
 <td>Boolean</td>
-<td><code>false</code></td>
+<td><code>true</code></td>
 <td>If enabled, automatically set SNI when `DestinationRules` do not specify the same</td>
 </tr>
 <tr>
@@ -584,7 +602,7 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td><code>ENABLE_OTEL_BUILTIN_RESOURCE_LABELS</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
-<td>If enabled, envoy will send builtin lables(e.g. node_name) via OTel sink.</td>
+<td>If enabled, envoy will send builtin labels(e.g. node_name) via OTel sink.</td>
 </tr>
 <tr>
 <td><code>ENABLE_PROBE_KEEPALIVE_CONNECTIONS</code></td>
@@ -858,7 +876,7 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td><code>MCS_API_VERSION</code></td>
 <td>String</td>
 <td><code>v1alpha1</code></td>
-<td>The version to be used for the Kubernets Multi-Cluster Services (MCS) API.</td>
+<td>The version to be used for the Kubernetes Multi-Cluster Services (MCS) API.</td>
 </tr>
 <tr>
 <td><code>METRIC_GRACEFUL_DELETION_INTERVAL</code></td>
@@ -885,6 +903,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>If set, uses a native implementation of the HTTP metadata exchange filter</td>
 </tr>
 <tr>
+<td><code>PERSIST_OLDEST_FIRST_HEURISTIC_FOR_VIRTUAL_SERVICE_HOST_MATCHING</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, istiod will persist the oldest first heuristic for subtly conflicting traffic policy selection(such as with overlapping wildcard hosts)</td>
+</tr>
+<tr>
 <td><code>PILOT_ALLOW_SIDECAR_SERVICE_INBOUND_LISTENER_MERGE</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -901,6 +925,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>String</td>
 <td><code>istiod</code></td>
 <td>The provider of Pilot DNS certificate.</td>
+</tr>
+<tr>
+<td><code>PILOT_CONVERT_SIDECAR_SCOPE_CONCURRENCY</code></td>
+<td>Integer</td>
+<td><code>1</code></td>
+<td>Used to adjust the concurrency of SidecarScope conversions. When istiod is deployed on a multi-core CPU server, increasing this value will help to use the CPU to accelerate configuration push, but it also means that istiod will consume more CPU resources.</td>
 </tr>
 <tr>
 <td><code>PILOT_DEBOUNCE_AFTER</code></td>
@@ -1021,12 +1051,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, for a headless service/stateful set in Kubernetes, pilot will generate an outbound listener for each pod in a headless service. This feature should be disabled if headless services have a large number of pods.</td>
-</tr>
-<tr>
-<td><code>PILOT_ENABLE_INBOUND_PASSTHROUGH</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If enabled, inbound clusters will be configured as ORIGINAL_DST clusters. When disabled, requests are always sent to localhost. The primary implication of this is that when enabled, binding to POD_IP will work while localhost will not; when disable, bind to POD_IP will not work, while localhost will. The enabled behavior matches the behavior without Istio enabled at all; this flag exists only for backwards compatibility. Regardless of this setting, the configuration can be overridden with the Sidecar.Ingress.DefaultEndpoint configuration.</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_K8S_SELECT_WORKLOAD_ENTRIES</code></td>
@@ -1169,8 +1193,8 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <tr>
 <td><code>PILOT_MAX_REQUESTS_PER_SECOND</code></td>
 <td>Floating-Point</td>
-<td><code>25</code></td>
-<td>Limits the number of incoming XDS requests per second. On larger machines this can be increased to handle more proxies concurrently.</td>
+<td><code>0</code></td>
+<td>Limits the number of incoming XDS requests per second. On larger machines this can be increased to handle more proxies concurrently. If set to 0 or unset, the max will be automatically determined based on the machine size</td>
 </tr>
 <tr>
 <td><code>PILOT_MULTI_NETWORK_DISCOVER_GATEWAY_API</code></td>
@@ -1193,8 +1217,8 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <tr>
 <td><code>PILOT_PUSH_THROTTLE</code></td>
 <td>Integer</td>
-<td><code>100</code></td>
-<td>Limits the number of concurrent pushes allowed. On larger machines this can be increased for faster pushes</td>
+<td><code>0</code></td>
+<td>Limits the number of concurrent pushes allowed. On larger machines this can be increased for faster pushes. If set to 0 or unset, the max will be automatically determined based on the machine size</td>
 </tr>
 <tr>
 <td><code>PILOT_REMOTE_CLUSTER_TIMEOUT</code></td>
@@ -1341,6 +1365,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Additional config map to load for shared MeshConfig settings. The standard mesh config will take precedence.</td>
 </tr>
 <tr>
+<td><code>STACKDRIVER_AUDIT_LOG</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, StackDriver audit logging will be enabled.</td>
+</tr>
+<tr>
 <td><code>TOKEN_AUDIENCES</code></td>
 <td>String</td>
 <td><code>istio-ca</code></td>
@@ -1397,7 +1427,7 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <tr>
 <td><code>VERIFY_CERTIFICATE_AT_CLIENT</code></td>
 <td>Boolean</td>
-<td><code>false</code></td>
+<td><code>true</code></td>
 <td>If enabled, certificates received by the proxy will be verified against the OS CA certificate bundle.</td>
 </tr>
 <tr>

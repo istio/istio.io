@@ -22,7 +22,7 @@
 
 snip_download_and_install_2() {
 kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
-  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=004e14bfe016cbbe6aaecd0489558326ea244de5" | kubectl apply -f -; }
+  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=444631bfe06f3bcca5d0eadf1857eac1d369421d" | kubectl apply -f -; }
 }
 
 snip_download_and_install_3() {
@@ -210,7 +210,7 @@ command terminated with exit code 56
 ENDSNIP
 
 snip_l7_authorization_policy_1() {
-istioctl x waypoint apply --service-account bookinfo-productpage
+istioctl x waypoint apply --service-account bookinfo-productpage --wait
 }
 
 ! read -r -d '' snip_l7_authorization_policy_1_out <<\ENDSNIP
@@ -286,7 +286,7 @@ kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<title>
 ENDSNIP
 
 snip_control_traffic_1() {
-istioctl x waypoint apply --service-account bookinfo-reviews
+istioctl x waypoint apply --service-account bookinfo-reviews --wait
 }
 
 ! read -r -d '' snip_control_traffic_1_out <<\ENDSNIP
@@ -308,9 +308,7 @@ kubectl exec deploy/sleep -- sh -c "for i in \$(seq 1 100); do curl -s http://$G
 }
 
 snip_uninstall_1() {
-kubectl delete authorizationpolicy productpage-viewer
-istioctl x waypoint delete --service-account bookinfo-reviews
-istioctl x waypoint delete --service-account bookinfo-productpage
+istioctl x waypoint delete --all
 istioctl uninstall -y --purge
 kubectl delete namespace istio-system
 }
@@ -325,5 +323,5 @@ kubectl delete -f samples/sleep/notsleep.yaml
 }
 
 snip_uninstall_4() {
-kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=004e14bfe016cbbe6aaecd0489558326ea244de5" | kubectl delete -f -
+kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=444631bfe06f3bcca5d0eadf1857eac1d369421d" | kubectl delete -f -
 }

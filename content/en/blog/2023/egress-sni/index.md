@@ -53,7 +53,35 @@ internal destination of the gateway-implemented TCP proxy to the internal SNI fo
 
 The end-to-end request flow is shown in the following diagram:
 
-{{< image width="90%" link="./egress-sni-flow.png" alt="Egress SNI routing with arbitrary domain names" title="Egress SNI routing with arbitrary domain names" caption="Egress SNI routing with arbitrary domain names" >}}
+{{< image width="90%" link="./egress-sni-flow.svg" alt="Egress SNI routing with arbitrary domain names" title="Egress SNI routing with arbitrary domain names" caption="Egress SNI routing with arbitrary domain names" >}}
+
+This diagram shows an egress HTTPS request to `en.wikipedia.org` using SNI as a routing key.
+
+* Application container
+
+    Application originates HTTP/TLS connection towards the final destination.
+    Puts destination’s hostname into the SNI header. This TLS session is not
+    decrypted inside the mesh. Only SNI header is inspected (as it is in cleartext).
+
+* Sidecar proxy
+
+    Sidecar intercepts traffic to matching hostnames in the SNI header from the application originated TLS sessions.
+    Based on the VirtualService, the traffic is routed to the egress gateway while wrapping original traffic into
+    Istio mTLS as well. Outer TLS session has the gateway Service address in the SNI header.
+
+* Mesh listener
+
+    A dedicated listener is created in the Gateway that mutually authenticates the Istio mTLS traffic.
+    After the outer Istio mTLS termination, it unconditionally sends the inner TLS traffic with a TCP proxy
+    to the other (internal) listener in the same Gateway.
+
+* SNI forwarder
+
+    Another listener with SNI forwarder performs a new TLS header inspection for the original TLS session.
+    If the inner SNI hostname matches the allowed domain names (including wildcards), it TCP proxies the
+    traffic to the destination, read from the header per connection. This listener is internal to Envoy
+    (allowing it to restart traffic processing to see the inner SNI value), so that no pods (inside or outside the mesh)
+    can connect to it directly. This listener is 100% manually configured through EnvoyFilter.
 
 ## Deploy the sample
 

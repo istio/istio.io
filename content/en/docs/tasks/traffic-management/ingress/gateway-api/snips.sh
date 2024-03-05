@@ -22,7 +22,7 @@
 
 snip_setup_1() {
 kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
-  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=004e14bfe016cbbe6aaecd0489558326ea244de5" | kubectl apply -f -; }
+  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=444631bfe06f3bcca5d0eadf1857eac1d369421d" | kubectl apply -f -; }
 }
 
 snip_setup_2() {
@@ -200,7 +200,7 @@ spec:
   selector:
     # Match the generated Deployment by label
     matchLabels:
-      istio.io/gateway-name: gateway
+      gateway.networking.k8s.io/gateway-name: gateway
 ENDSNIP
 
 ! read -r -d '' snip_manual_deployment_1 <<\ENDSNIP
@@ -241,11 +241,14 @@ snip_cleanup_1() {
 kubectl delete -f samples/httpbin/httpbin.yaml
 kubectl delete httproute http
 kubectl delete gateways.gateway.networking.k8s.io gateway -n istio-ingress
-istioctl uninstall -y --purge
-kubectl delete ns istio-system
 kubectl delete ns istio-ingress
 }
 
 snip_cleanup_2() {
-kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=004e14bfe016cbbe6aaecd0489558326ea244de5" | kubectl delete -f -
+istioctl uninstall -y --purge
+kubectl delete ns istio-system
+}
+
+snip_cleanup_3() {
+kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=444631bfe06f3bcca5d0eadf1857eac1d369421d" | kubectl delete -f -
 }

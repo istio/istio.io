@@ -1,7 +1,7 @@
 ---
 title: Ambient Mesh 架构
 description: 深入了解 Ambient Mesh 架构。
-weight: 3
+weight: 20
 owner: istio/wg-networking-maintainers
 test: n/a
 ---

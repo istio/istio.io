@@ -6,11 +6,7 @@ owner: istio/wg-networking-maintainers
 test: no
 ---
 
-{{< warning >}}
-`Ambient` is currently in [alpha status](/docs/releases/feature-stages/#feature-phase-definitions).
-
-Please **do not run ambient in production** and be sure to thoroughly review the [feature phase definitions](/docs/releases/feature-stages/#feature-phase-definitions) before use. In particular, there are known performance, stability, and security issues in the `alpha` release. There are also functional caveats some of which are listed in the [Caveats section](#caveats) of this guide. There are also planned breaking changes, including some that will prevent upgrades. These are all limitations that will be addressed before graduation to `beta`. The current version of this guide is meant to assist early deployments and testing of the alpha version of ambient. This guide will be updated as ambient itself evolves from alpha to beta status and beyond.
-{{< /warning >}}
+{{< boilerplate ambient-alpha-warning >}}
 
 ## Introduction {#introsection}
 
@@ -61,7 +57,7 @@ Ztunnel proxies are automatically installed when one of the supported installati
 
 The examples in this guide used a deployment of Istio version `1.19.0` on a `kind` cluster of version `0.20.0` running Kubernetes version `1.27.3`.
 
-The minimum Istio version needed for ambient functions is 1.18.0 and the minimum Kubernetes version needed is `1.24.0`. The examples below require a cluster with more than 1 worker node in order to explain how cross-node traffic operates. Refer to the [installation user guide](/docs/ops/ambient/usage/install/) or [getting started guide](/docs/ops/ambient/getting-started/) for information on installing Istio in ambient mode on a Kubernetes cluster.
+The minimum Istio version needed for ambient functions is 1.18.0 and the minimum Kubernetes version needed is `1.24.0`. The examples below require a cluster with more than 1 worker node in order to explain how cross-node traffic operates. Refer to the [installation user guide](/docs/ops/ambient/install/) or [getting started guide](/docs/ops/ambient/getting-started/) for information on installing Istio in ambient mode on a Kubernetes cluster.
 
 ## Functional Overview {#functionaloverview}
 

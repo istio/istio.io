@@ -85,7 +85,7 @@ WeaveWorks 的 [Weave Cloud](https://www.weave.works/blog/istio-weave-cloud/) �
 - 使用单个命令将 Istio 安装到 Kubernetes namespace 中。
 - 将 Envoy proxy 半自动注入至 Kubernetes Pod 中。
 - 使用 iptables 自动捕获 Kubernetes Pod 的流量。
-- 针对 HTTP，gRPC 和 TCP 流量的集群内负载平衡。
+- 针对 HTTP，gRPC 和 TCP 流量的集群内负载均衡。
 - 支持超时，预算重试和熔断器。
 - Istio 集成的 Kubernetes Ingress 支持（Istio 充当 Ingress Controller）。
 - 细粒度的流量路由控件，包括 A/B 测试，金丝雀，红/黑部署。

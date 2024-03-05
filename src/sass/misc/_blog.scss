@@ -157,10 +157,27 @@
     max-width: 100%;
     margin: 0 auto;
     padding: 0 1.25em;
+
     @media (min-width: $bp-md) {
         max-width: 754px;
         padding: 0;
     }
+
+    @media (min-width: $bp-lg) {
+        max-width: 994px;
+        padding: 0;
+    }
+
+    @media (min-width: $bp-xxl) {
+        max-width: 1354px;
+        padding: 0;
+    }
+
+    @media (min-width: $bp-xl) {
+        max-width: 1174px;
+        padding: 0;
+    }
+
     // TODO : consider changing font size back to 1rem
 
     p, li {

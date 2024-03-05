@@ -64,7 +64,7 @@ PEP 用 Envoy 实现。下图显示了架构。
     caption="安全架构"
     >}}
 
-在接下来的部分中，我们将详细介绍 Istio 安全功能。
+下文将详细介绍 Istio 安全功能。
 
 ## Istio 身份 {#istio-identity}
 
@@ -461,7 +461,7 @@ Istio 按以下顺序检查层中的匹配策略：`CUSTOM`、`DENY`，
 
 下图详细显示了策略优先级：
 
-{{< image width="50%" link="./authz-eval.png" caption="授权策略优先级">}}
+{{< image width="50%" link="./authz-eval.svg" caption="授权策略优先级">}}
 
 当您将多个授权策略应用于同一工作负载时，Istio 会累加地应用它们。
 

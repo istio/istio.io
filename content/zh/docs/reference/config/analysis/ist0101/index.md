@@ -5,15 +5,16 @@ owner: istio/wg-user-experience-maintainers
 test: no
 ---
 
-当一个 Istio 资源引用另一个不存在的资源时，会触发此消息。当 Istio 试图查找引用的资源，但是找不到它时，这将导致错误。
+当 Istio 资源引用另一个不存在的资源时，会出现此消息。
+这会导致 Istio 尝试查找引用的资源但找不到这类的错误。
 
-例如，您收到这个错误:
+例如，您会收到这个错误提示：
 
 {{< text plain >}}
 Error [IST0101] (VirtualService httpbin.default) Referenced gateway not found: "httpbin-gateway-bogus"
 {{< /text >}}
 
-在这个例子中, `VirtualService` 指向一个不存在的网关:
+在以下例子中，`VirtualService` 指向了一个不存在的网关：
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -39,7 +40,7 @@ spec:
   hosts:
   - "*"
   gateways:
-  - httpbin-gateway-bogus #  Should have been "httpbin-gateway"
+  - httpbin-gateway-bogus # 应该是 "httpbin-gateway"
   http:
   - route:
     - destination:

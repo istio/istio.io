@@ -92,7 +92,7 @@ $ kubectl get pod "$LIVENESS_POD" -n istio-io-health-rewrite -o json | jq '.spec
 }
 {{< /text >}}
 
-原来的 `livenessProve` 路径现在被映射到 Sidecar 容器环境变量 `ISTIO_KUBE_APP_PROBERS` 中的新路径：
+原来的 `livenessProbe` 路径现在被映射到 Sidecar 容器环境变量 `ISTIO_KUBE_APP_PROBERS` 中的新路径：
 
 {{< text bash json >}}
 $ kubectl get pod "$LIVENESS_POD" -n istio-io-health-rewrite -o=jsonpath="{.spec.containers[1].env[?(@.name=='ISTIO_KUBE_APP_PROBERS')]}"

@@ -88,7 +88,7 @@ test: yes
     $ kubectl create configmap nginx-configmap --from-file=nginx.conf=./nginx.conf
     {{< /text >}}
 
-1. 部署 NGINX 服务
+1. 部署 NGINX 服务：
 
     {{< text bash >}}
     $ cat <<EOF | istioctl kube-inject -f - | kubectl apply -f -
@@ -186,7 +186,7 @@ test: yes
       name: mygateway
     spec:
       selector:
-        istio: ingressgateway # use istio default ingress gateway
+        istio: ingressgateway # 使用 istio 默认的入口网关
       servers:
       - port:
           number: 443
@@ -229,7 +229,7 @@ test: yes
    `SECURE_INGRESS_PORT` 和 `INGRESS_HOST`。
 
 1. 从集群外访问 NGINX 服务。注意，服务端返回了正确的证书，
-   并且该证书已成功验证（输出了 _SSL certificate verify ok_）。
+   并且该证书已成功验证（输出了 **SSL certificate verify ok**）。
 
     {{< text bash >}}
     $ curl -v --resolve "nginx.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST" --cacert example.com.crt "https://nginx.example.com:$SECURE_INGRESS_PORT"

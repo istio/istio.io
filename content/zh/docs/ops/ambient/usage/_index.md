@@ -1,7 +1,7 @@
 ---
 title: Ambient Mesh 用户指南
 description: 如何使用 Ambient Mesh。
-weight: 2
+weight: 15
 owner: istio/wg-networking-maintainers
 test: n/a
 ---

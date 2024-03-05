@@ -8,7 +8,7 @@ aliases:
 ---
 
 根据 Istio 的[支持政策](/zh/docs/releases/supported-releases#supported-releases/)，
-针对 1.11 这类小版本的支持将持续到 N+2 小版本（在本例中为 1.13）发布后的六周。
+针对 1.11 这类次要版本的支持将持续到 N+2 次要版本（在本例中为 1.13）发布后的六周。
 [Istio 1.13 于 2023 年 2 月 11 日发布](/zh/news/releases/1.13.x/announcing-1.13/)，
 所以对 1.11 的支持将于 2022 年 3 月 25 日结束。
 
