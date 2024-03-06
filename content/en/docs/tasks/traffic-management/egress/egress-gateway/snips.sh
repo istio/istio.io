@@ -29,7 +29,7 @@ snip_before_you_begin_2() {
 export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
 }
 
-! read -r -d '' snip_before_you_begin_3 <<\ENDSNIP
+! IFS= read -r -d '' snip_before_you_begin_3 <<\ENDSNIP
 $ istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true <flags-you-used-to-install-Istio> --set meshConfig.accessLogFile=/dev/stdout
 ENDSNIP
 
@@ -37,7 +37,7 @@ snip_deploy_istio_egress_gateway_1() {
 kubectl get pod -l istio=egressgateway -n istio-system
 }
 
-! read -r -d '' snip_deploy_istio_egress_gateway_2 <<\ENDSNIP
+! IFS= read -r -d '' snip_deploy_istio_egress_gateway_2 <<\ENDSNIP
 spec:
   components:
     egressGateways:
@@ -221,7 +221,7 @@ snip_egress_gateway_for_http_traffic_8() {
 kubectl logs -l istio=egressgateway -c istio-proxy -n istio-system | tail
 }
 
-! read -r -d '' snip_egress_gateway_for_http_traffic_9 <<\ENDSNIP
+! IFS= read -r -d '' snip_egress_gateway_for_http_traffic_9 <<\ENDSNIP
 [2019-09-03T20:57:49.103Z] "GET /politics HTTP/2" 301 - "-" "-" 0 0 90 89 "10.244.2.10" "curl/7.64.0" "ea379962-9b5c-4431-ab66-f01994f5a5a5" "edition.cnn.com" "151.101.65.67:80" outbound|80||edition.cnn.com - 10.244.1.5:80 10.244.2.10:50482 edition.cnn.com -
 ENDSNIP
 
@@ -238,7 +238,7 @@ snip_egress_gateway_for_http_traffic_11() {
 kubectl logs -l gateway.networking.k8s.io/gateway-name=cnn-egress-gateway -c istio-proxy | tail
 }
 
-! read -r -d '' snip_egress_gateway_for_http_traffic_12 <<\ENDSNIP
+! IFS= read -r -d '' snip_egress_gateway_for_http_traffic_12 <<\ENDSNIP
 [2024-01-09T15:35:47.283Z] "GET /politics HTTP/1.1" 301 - via_upstream - "-" 0 0 2 2 "172.30.239.55" "curl/7.87.0-DEV" "6c01d65f-a157-97cd-8782-320a40026901" "edition.cnn.com" "151.101.195.5:80" outbound|80||edition.cnn.com 172.30.239.16:55636 172.30.239.16:80 172.30.239.55:59224 - default.forward-cnn-from-egress-gateway.0
 ENDSNIP
 
@@ -427,7 +427,7 @@ snip_egress_gateway_for_https_traffic_6() {
 kubectl logs -l istio=egressgateway -n istio-system
 }
 
-! read -r -d '' snip_egress_gateway_for_https_traffic_7 <<\ENDSNIP
+! IFS= read -r -d '' snip_egress_gateway_for_https_traffic_7 <<\ENDSNIP
 [2019-01-02T11:46:46.981Z] "- - -" 0 - 627 1879689 44 - "-" "-" "-" "-" "151.101.129.67:443" outbound|443||edition.cnn.com 172.30.109.80:41122 172.30.109.80:443 172.30.109.112:59970 edition.cnn.com
 ENDSNIP
 
@@ -435,7 +435,7 @@ snip_egress_gateway_for_https_traffic_8() {
 kubectl logs -l gateway.networking.k8s.io/gateway-name=cnn-egress-gateway -c istio-proxy | tail
 }
 
-! read -r -d '' snip_egress_gateway_for_https_traffic_9 <<\ENDSNIP
+! IFS= read -r -d '' snip_egress_gateway_for_https_traffic_9 <<\ENDSNIP
 [2024-01-11T21:09:42.835Z] "- - -" 0 - - - "-" 839 2504306 231 - "-" "-" "-" "-" "151.101.195.5:443" outbound|443||edition.cnn.com 172.30.239.8:34470 172.30.239.8:443 172.30.239.15:43956 edition.cnn.com -
 ENDSNIP
 
@@ -613,7 +613,7 @@ snip_apply_kubernetes_network_policies_17() {
 kubectl logs -l istio=egressgateway -n istio-system
 }
 
-! read -r -d '' snip_apply_kubernetes_network_policies_18 <<\ENDSNIP
+! IFS= read -r -d '' snip_apply_kubernetes_network_policies_18 <<\ENDSNIP
 [2020-03-06T18:12:33.101Z] "- - -" 0 - "-" "-" 906 1352475 35 - "-" "-" "-" "-" "151.101.193.67:443" outbound|443||edition.cnn.com 172.30.223.53:39460 172.30.223.53:443 172.30.223.58:38138 edition.cnn.com -
 ENDSNIP
 
@@ -621,7 +621,7 @@ snip_apply_kubernetes_network_policies_19() {
 kubectl logs -l gateway.networking.k8s.io/gateway-name=cnn-egress-gateway -c istio-proxy | tail
 }
 
-! read -r -d '' snip_apply_kubernetes_network_policies_20 <<\ENDSNIP
+! IFS= read -r -d '' snip_apply_kubernetes_network_policies_20 <<\ENDSNIP
 [2024-01-12T19:54:01.821Z] "- - -" 0 - - - "-" 839 2504837 46 - "-" "-" "-" "-" "151.101.67.5:443" outbound|443||edition.cnn.com 172.30.239.60:49850 172.30.239.60:443 172.30.239.21:36512 edition.cnn.com -
 ENDSNIP
 

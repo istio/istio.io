@@ -22,7 +22,7 @@
 source "content/en/boilerplates/snips/before-you-begin-egress.sh"
 source "content/en/boilerplates/snips/start-httpbin-service.sh"
 
-! read -r -d '' snip_using_telemetry_api_1 <<\ENDSNIP
+! IFS= read -r -d '' snip_using_telemetry_api_1 <<\ENDSNIP
 apiVersion: telemetry.istio.io/v1alpha1
 kind: Telemetry
 metadata:
@@ -34,13 +34,13 @@ spec:
       - name: envoy
 ENDSNIP
 
-! read -r -d '' snip_using_mesh_config_1 <<\ENDSNIP
+! IFS= read -r -d '' snip_using_mesh_config_1 <<\ENDSNIP
 spec:
   meshConfig:
     accessLogFile: /dev/stdout
 ENDSNIP
 
-! read -r -d '' snip_default_access_log_format_1 <<\ENDSNIP
+! IFS= read -r -d '' snip_default_access_log_format_1 <<\ENDSNIP
 [%START_TIME%] \"%REQ(:METHOD)% %REQ(X-ENVOY-ORIGINAL-PATH?:PATH)% %PROTOCOL%\" %RESPONSE_CODE% %RESPONSE_FLAGS% %RESPONSE_CODE_DETAILS% %CONNECTION_TERMINATION_DETAILS%
 \"%UPSTREAM_TRANSPORT_FAILURE_REASON%\" %BYTES_RECEIVED% %BYTES_SENT% %DURATION% %RESP(X-ENVOY-UPSTREAM-SERVICE-TIME)% \"%REQ(X-FORWARDED-FOR)%\" \"%REQ(USER-AGENT)%\" \"%REQ(X-REQUEST-ID)%\"
 \"%REQ(:AUTHORITY)%\" \"%UPSTREAM_HOST%\" %UPSTREAM_CLUSTER% %UPSTREAM_LOCAL_ADDRESS% %DOWNSTREAM_LOCAL_ADDRESS% %DOWNSTREAM_REMOTE_ADDRESS% %REQUESTED_SERVER_NAME% %ROUTE_NAME%\n

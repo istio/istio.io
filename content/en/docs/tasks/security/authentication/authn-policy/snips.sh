@@ -192,7 +192,7 @@ command terminated with exit code 56
 sleep.legacy to httpbin.legacy: 200
 ENDSNIP
 
-! read -r -d '' snip_enable_mutual_tls_per_workload_3 <<\ENDSNIP
+! IFS= read -r -d '' snip_enable_mutual_tls_per_workload_3 <<\ENDSNIP
 ...
 sleep.legacy to httpbin.bar: 000
 command terminated with exit code 56

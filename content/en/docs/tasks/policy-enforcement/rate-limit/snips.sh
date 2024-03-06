@@ -201,7 +201,7 @@ spec:
 EOF
 }
 
-! read -r -d '' snip_local_rate_limit_1 <<\ENDSNIP
+! IFS= read -r -d '' snip_local_rate_limit_1 <<\ENDSNIP
 template:
   metadata:
     annotations:

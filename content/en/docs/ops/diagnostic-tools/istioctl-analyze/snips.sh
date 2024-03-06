@@ -24,7 +24,7 @@ snip_analyze_all_namespaces() {
 istioctl analyze --all-namespaces
 }
 
-! read -r -d '' snip_analyze_all_namespace_sample_response <<\ENDSNIP
+! IFS= read -r -d '' snip_analyze_all_namespace_sample_response <<\ENDSNIP
 Info [IST0102] (Namespace default) The namespace is not enabled for Istio injection. Run 'kubectl label namespace default istio-injection=enabled' to enable it, or 'kubectl label namespace default istio-injection=disabled' to explicitly mark it as not needing injection.
 ENDSNIP
 
@@ -63,7 +63,7 @@ snip_analyze_all_networking_yaml_no_kube() {
 istioctl analyze --use-kube=false samples/bookinfo/networking/*.yaml
 }
 
-! read -r -d '' snip_vs_yaml_with_status <<\ENDSNIP
+! IFS= read -r -d '' snip_vs_yaml_with_status <<\ENDSNIP
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 ...

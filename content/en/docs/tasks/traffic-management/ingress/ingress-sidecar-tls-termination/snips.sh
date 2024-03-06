@@ -76,7 +76,7 @@ kubectl -n test create secret generic httpbin-mtls-termination-cacert --from-fil
 kubectl -n test create secret tls httpbin-mtls-termination --cert ./httpbin.test.svc.cluster.local.crt --key ./httpbin.test.svc.cluster.local.key
 }
 
-! read -r -d '' snip_deploy_the_httpbin_test_service_1 <<\ENDSNIP
+! IFS= read -r -d '' snip_deploy_the_httpbin_test_service_1 <<\ENDSNIP
 sidecar.istio.io/userVolume: '{"tls-secret":{"secret":{"secretName":"httpbin-mtls-termination","optional":true}},"tls-ca-secret":{"secret":{"secretName":"httpbin-mtls-termination-cacert"}}}'
 sidecar.istio.io/userVolumeMount: '{"tls-secret":{"mountPath":"/etc/istio/tls-certs/","readOnly":true},"tls-ca-secret":{"mountPath":"/etc/istio/tls-ca-certs/","readOnly":true}}'
 ENDSNIP

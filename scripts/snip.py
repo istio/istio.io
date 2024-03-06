@@ -127,7 +127,7 @@ with open(markdown, 'rt', encoding='utf-8') as mdfile:
             if kind == "bash":
                 script = "\n%s() {\n" % id
             else:
-                script = "\n! read -r -d '' %s <<\ENDSNIP\n" % id
+                script = "\n! IFS= read -r -d '' %s <<\ENDSNIP\n" % id
             current_snip = {"start": linenum, "id": id, "kind": kind, "indent": indent, "script": ["", script]}
             snippets.append(current_snip)
             continue

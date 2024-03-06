@@ -24,7 +24,7 @@ snip_install_spire_with_controller_manager() {
 kubectl apply -f samples/security/spire/spire-quickstart.yaml
 }
 
-! read -r -d '' snip_spire_ca_integration_prerequisites_1 <<\ENDSNIP
+! IFS= read -r -d '' snip_spire_ca_integration_prerequisites_1 <<\ENDSNIP
 socket_path = "/run/secrets/workload-spiffe-uds/socket"
 ENDSNIP
 

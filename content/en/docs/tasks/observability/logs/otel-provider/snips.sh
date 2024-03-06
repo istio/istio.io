@@ -23,7 +23,7 @@ source "content/en/boilerplates/snips/before-you-begin-egress.sh"
 source "content/en/boilerplates/snips/start-httpbin-service.sh"
 source "content/en/boilerplates/snips/start-otel-collector-service.sh"
 
-! read -r -d '' snip_enable_envoys_access_logging_1 <<\ENDSNIP
+! IFS= read -r -d '' snip_enable_envoys_access_logging_1 <<\ENDSNIP
 extensionProviders:
 - name: otel
   envoyOtelAls:
@@ -31,7 +31,7 @@ extensionProviders:
     port: 4317
 ENDSNIP
 
-! read -r -d '' snip_enable_envoys_access_logging_2 <<\ENDSNIP
+! IFS= read -r -d '' snip_enable_envoys_access_logging_2 <<\ENDSNIP
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -73,7 +73,7 @@ spec:
 EOF
 }
 
-! read -r -d '' snip_using_mesh_config_1 <<\ENDSNIP
+! IFS= read -r -d '' snip_using_mesh_config_1 <<\ENDSNIP
 spec:
   meshConfig:
     accessLogFile: /dev/stdout
@@ -88,7 +88,7 @@ spec:
       - otel
 ENDSNIP
 
-! read -r -d '' snip_default_access_log_format_1 <<\ENDSNIP
+! IFS= read -r -d '' snip_default_access_log_format_1 <<\ENDSNIP
 [%START_TIME%] \"%REQ(:METHOD)% %REQ(X-ENVOY-ORIGINAL-PATH?:PATH)% %PROTOCOL%\" %RESPONSE_CODE% %RESPONSE_FLAGS% %RESPONSE_CODE_DETAILS% %CONNECTION_TERMINATION_DETAILS%
 \"%UPSTREAM_TRANSPORT_FAILURE_REASON%\" %BYTES_RECEIVED% %BYTES_SENT% %DURATION% %RESP(X-ENVOY-UPSTREAM-SERVICE-TIME)% \"%REQ(X-FORWARDED-FOR)%\" \"%REQ(USER-AGENT)%\" \"%REQ(X-REQUEST-ID)%\"
 \"%REQ(:AUTHORITY)%\" \"%UPSTREAM_HOST%\" %UPSTREAM_CLUSTER% %UPSTREAM_LOCAL_ADDRESS% %DOWNSTREAM_LOCAL_ADDRESS% %DOWNSTREAM_REMOTE_ADDRESS% %REQUESTED_SERVER_NAME% %ROUTE_NAME%\n

@@ -84,7 +84,7 @@ snip_collecting_new_telemetry_data_10() {
 istioctl dashboard prometheus
 }
 
-! read -r -d '' snip_collecting_new_telemetry_data_11 <<\ENDSNIP
+! IFS= read -r -d '' snip_collecting_new_telemetry_data_11 <<\ENDSNIP
 istio_tcp_connections_opened_total{
 destination_version="v1",
 instance="172.17.0.18:42422",
@@ -93,7 +93,7 @@ canonical_service_name="ratings-v2",
 canonical_service_revision="v2"}
 ENDSNIP
 
-! read -r -d '' snip_collecting_new_telemetry_data_12 <<\ENDSNIP
+! IFS= read -r -d '' snip_collecting_new_telemetry_data_12 <<\ENDSNIP
 istio_tcp_connections_closed_total{
 destination_version="v1",
 instance="172.17.0.18:42422",

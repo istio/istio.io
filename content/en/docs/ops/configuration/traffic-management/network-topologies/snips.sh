@@ -100,7 +100,7 @@ curl -s -H 'X-Forwarded-For: 56.5.6.7, 72.9.5.6, 98.1.2.3' "$GATEWAY_URL/get?sho
 }
 ENDSNIP
 
-! read -r -d '' snip_proxy_protocol_2 <<\ENDSNIP
+! IFS= read -r -d '' snip_proxy_protocol_2 <<\ENDSNIP
 metadata:
   annotations:
     "proxy.istio.io/config": '{"gatewayTopology" : { "proxyProtocol": {} }}'

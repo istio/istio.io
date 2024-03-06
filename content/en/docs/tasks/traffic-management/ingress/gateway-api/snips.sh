@@ -142,7 +142,7 @@ curl -s -HHost:httpbin.example.com "http://$INGRESS_HOST/headers"
 ...
 ENDSNIP
 
-! read -r -d '' snip_automated_deployment_1 <<\ENDSNIP
+! IFS= read -r -d '' snip_automated_deployment_1 <<\ENDSNIP
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: Gateway
 metadata:
@@ -154,7 +154,7 @@ spec:
 ...
 ENDSNIP
 
-! read -r -d '' snip_resource_attachment_and_scaling_1 <<\ENDSNIP
+! IFS= read -r -d '' snip_resource_attachment_and_scaling_1 <<\ENDSNIP
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: Gateway
 metadata:
@@ -203,7 +203,7 @@ spec:
       gateway.networking.k8s.io/gateway-name: gateway
 ENDSNIP
 
-! read -r -d '' snip_manual_deployment_1 <<\ENDSNIP
+! IFS= read -r -d '' snip_manual_deployment_1 <<\ENDSNIP
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: Gateway
 metadata:
@@ -215,7 +215,7 @@ spec:
 ...
 ENDSNIP
 
-! read -r -d '' snip_mesh_traffic_1 <<\ENDSNIP
+! IFS= read -r -d '' snip_mesh_traffic_1 <<\ENDSNIP
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: HTTPRoute
 metadata:

@@ -62,7 +62,7 @@ HTTP/1.1 404 Not Found
 ...
 ENDSNIP
 
-! read -r -d '' snip_specifying_ingressclass_1 <<\ENDSNIP
+! IFS= read -r -d '' snip_specifying_ingressclass_1 <<\ENDSNIP
 apiVersion: networking.k8s.io/v1
 kind: IngressClass
 metadata:

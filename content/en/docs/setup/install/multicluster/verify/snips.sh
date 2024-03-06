@@ -103,7 +103,7 @@ kubectl exec --context="${CTX_CLUSTER1}" -n sample -c sleep \
     -- curl -sS helloworld.sample:5000/hello
 }
 
-! read -r -d '' snip_verifying_crosscluster_traffic_2 <<\ENDSNIP
+! IFS= read -r -d '' snip_verifying_crosscluster_traffic_2 <<\ENDSNIP
 Hello version: v2, instance: helloworld-v2-758dd55874-6x4t8
 Hello version: v1, instance: helloworld-v1-86f77cd7bd-cpxhv
 ...
@@ -116,7 +116,7 @@ kubectl exec --context="${CTX_CLUSTER2}" -n sample -c sleep \
     -- curl -sS helloworld.sample:5000/hello
 }
 
-! read -r -d '' snip_verifying_crosscluster_traffic_4 <<\ENDSNIP
+! IFS= read -r -d '' snip_verifying_crosscluster_traffic_4 <<\ENDSNIP
 Hello version: v2, instance: helloworld-v2-758dd55874-6x4t8
 Hello version: v1, instance: helloworld-v1-86f77cd7bd-cpxhv
 ...

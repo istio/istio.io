@@ -20,7 +20,7 @@
 #          docs/setup/additional-setup/gateway/index.md
 ####################################################################################################
 
-! read -r -d '' snip_deploying_a_gateway_1 <<\ENDSNIP
+! IFS= read -r -d '' snip_deploying_a_gateway_1 <<\ENDSNIP
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 metadata:
@@ -57,7 +57,7 @@ snip_deploying_a_gateway_4() {
 helm install istio-ingressgateway istio/gateway -n istio-ingress -f manifests/charts/gateway/openshift-values.yaml
 }
 
-! read -r -d '' snip_deploying_a_gateway_5 <<\ENDSNIP
+! IFS= read -r -d '' snip_deploying_a_gateway_5 <<\ENDSNIP
 apiVersion: v1
 kind: Service
 metadata:
@@ -139,7 +139,7 @@ kubectl create namespace istio-ingress
 kubectl apply -f ingress.yaml
 }
 
-! read -r -d '' snip_gateway_selectors_1 <<\ENDSNIP
+! IFS= read -r -d '' snip_gateway_selectors_1 <<\ENDSNIP
 apiVersion: networking.istio.io/v1beta1
 kind: Gateway
 metadata:
@@ -150,7 +150,7 @@ spec:
 ...
 ENDSNIP
 
-! read -r -d '' snip_canary_upgrade_advanced_1 <<\ENDSNIP
+! IFS= read -r -d '' snip_canary_upgrade_advanced_1 <<\ENDSNIP
 apiVersion: apps/v1
 kind: Deployment
 metadata:

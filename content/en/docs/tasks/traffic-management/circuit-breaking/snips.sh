@@ -146,7 +146,7 @@ Response Body/Total Sizes : count 20 avg 729.9 +/- 205.4 min 241 max 817 sum 145
 All done 20 calls (plus 0 warmup) 5.687 ms avg, 334.2 qps
 ENDSNIP
 
-! read -r -d '' snip_tripping_the_circuit_breaker_2 <<\ENDSNIP
+! IFS= read -r -d '' snip_tripping_the_circuit_breaker_2 <<\ENDSNIP
 Code 200 : 17 (85.0 %)
 Code 503 : 3 (15.0 %)
 ENDSNIP
@@ -205,7 +205,7 @@ Response Body/Total Sizes : count 30 avg 451.86667 +/- 277.1 min 241 max 817 sum
 All done 30 calls (plus 0 warmup) 4.000 ms avg, 577.0 qps
 ENDSNIP
 
-! read -r -d '' snip_tripping_the_circuit_breaker_4 <<\ENDSNIP
+! IFS= read -r -d '' snip_tripping_the_circuit_breaker_4 <<\ENDSNIP
 Code 200 : 11 (36.7 %)
 Code 503 : 19 (63.3 %)
 ENDSNIP

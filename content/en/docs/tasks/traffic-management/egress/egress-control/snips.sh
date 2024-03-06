@@ -46,7 +46,7 @@ HTTP/2 200
 HTTP/2 200
 ENDSNIP
 
-! read -r -d '' snip_change_to_the_blockingbydefault_policy_1 <<\ENDSNIP
+! IFS= read -r -d '' snip_change_to_the_blockingbydefault_policy_1 <<\ENDSNIP
 spec:
   meshConfig:
     outboundTrafficPolicy:
@@ -216,7 +216,7 @@ snip_ibm_cloud_private_1() {
 grep service_cluster_ip_range cluster/config.yaml
 }
 
-! read -r -d '' snip_ibm_cloud_private_2 <<\ENDSNIP
+! IFS= read -r -d '' snip_ibm_cloud_private_2 <<\ENDSNIP
 service_cluster_ip_range: 10.0.0.1/24
 ENDSNIP
 

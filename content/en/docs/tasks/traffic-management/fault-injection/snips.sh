@@ -60,7 +60,7 @@ spec:
         subset: v1
 ENDSNIP
 
-! read -r -d '' snip_testing_the_delay_configuration_1 <<\ENDSNIP
+! IFS= read -r -d '' snip_testing_the_delay_configuration_1 <<\ENDSNIP
 Sorry, product reviews are currently unavailable for this book.
 ENDSNIP
 

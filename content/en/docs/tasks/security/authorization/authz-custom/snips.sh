@@ -53,7 +53,7 @@ kubectl logs "$(kubectl get pod -l app=ext-authz -n foo -o jsonpath={.items..met
 2021/01/07 22:55:47 Starting gRPC server at [::]:9000
 ENDSNIP
 
-! read -r -d '' snip_deploy_the_external_authorizer_3 <<\ENDSNIP
+! IFS= read -r -d '' snip_deploy_the_external_authorizer_3 <<\ENDSNIP
 apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:
@@ -74,7 +74,7 @@ snip_define_the_external_authorizer_1() {
 kubectl edit configmap istio -n istio-system
 }
 
-! read -r -d '' snip_define_the_external_authorizer_2 <<\ENDSNIP
+! IFS= read -r -d '' snip_define_the_external_authorizer_2 <<\ENDSNIP
 data:
   mesh: |-
     # Add the following content to define the external authorizers.
@@ -90,7 +90,7 @@ data:
         includeRequestHeadersInCheck: ["x-ext-authz"]
 ENDSNIP
 
-! read -r -d '' snip_define_the_external_authorizer_3 <<\ENDSNIP
+! IFS= read -r -d '' snip_define_the_external_authorizer_3 <<\ENDSNIP
 data:
   mesh: |-
     extensionProviders:

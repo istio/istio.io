@@ -57,7 +57,7 @@ curl "$INGRESS_HOST:$INGRESS_PORT"/headers -s -o /dev/null -w "%{http_code}\n"
 200
 ENDSNIP
 
-! read -r -d '' snip_source_ip_address_of_the_original_client_1 <<\ENDSNIP
+! IFS= read -r -d '' snip_source_ip_address_of_the_original_client_1 <<\ENDSNIP
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -75,7 +75,7 @@ spec:
           service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
 ENDSNIP
 
-! read -r -d '' snip_source_ip_address_of_the_original_client_2 <<\ENDSNIP
+! IFS= read -r -d '' snip_source_ip_address_of_the_original_client_2 <<\ENDSNIP
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: Gateway
 metadata:
@@ -87,7 +87,7 @@ spec:
   ...
 ENDSNIP
 
-! read -r -d '' snip_tcpudp_proxy_load_balancer_1 <<\ENDSNIP
+! IFS= read -r -d '' snip_tcpudp_proxy_load_balancer_1 <<\ENDSNIP
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -110,7 +110,7 @@ spec:
         ...
 ENDSNIP
 
-! read -r -d '' snip_tcpudp_proxy_load_balancer_2 <<\ENDSNIP
+! IFS= read -r -d '' snip_tcpudp_proxy_load_balancer_2 <<\ENDSNIP
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: Gateway
 metadata:
@@ -143,7 +143,7 @@ snip_network_load_balancer_2() {
 kubectl patch svc httpbin-gateway-istio -n foo -p '{"spec":{"externalTrafficPolicy":"Local"}}'
 }
 
-! read -r -d '' snip_httphttps_load_balancer_1 <<\ENDSNIP
+! IFS= read -r -d '' snip_httphttps_load_balancer_1 <<\ENDSNIP
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:

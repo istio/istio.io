@@ -37,19 +37,19 @@ snip_querying_istio_metrics_3() {
 istioctl dashboard prometheus
 }
 
-! read -r -d '' snip_querying_istio_metrics_4 <<\ENDSNIP
+! IFS= read -r -d '' snip_querying_istio_metrics_4 <<\ENDSNIP
 istio_requests_total
 ENDSNIP
 
-! read -r -d '' snip_querying_istio_metrics_5 <<\ENDSNIP
+! IFS= read -r -d '' snip_querying_istio_metrics_5 <<\ENDSNIP
 istio_requests_total{destination_service="productpage.default.svc.cluster.local"}
 ENDSNIP
 
-! read -r -d '' snip_querying_istio_metrics_6 <<\ENDSNIP
+! IFS= read -r -d '' snip_querying_istio_metrics_6 <<\ENDSNIP
 istio_requests_total{destination_service="reviews.default.svc.cluster.local", destination_version="v3"}
 ENDSNIP
 
-! read -r -d '' snip_querying_istio_metrics_7 <<\ENDSNIP
+! IFS= read -r -d '' snip_querying_istio_metrics_7 <<\ENDSNIP
 rate(istio_requests_total{destination_service=~"productpage.*", response_code="200"}[5m])
 ENDSNIP
 
