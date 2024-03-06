@@ -179,9 +179,14 @@ istioctl uninstall --revision=canary -y
 }
 
 snip_cleanup_1() {
-kubectl delete ns istio-system test-ns
+istioctl tag remove prod-stable
+istioctl tag remove prod-canary
 }
 
 snip_cleanup_2() {
+kubectl delete ns istio-system test-ns
+}
+
+snip_cleanup_3() {
 kubectl delete ns istio-system app-ns-1 app-ns-2 app-ns-3
 }
