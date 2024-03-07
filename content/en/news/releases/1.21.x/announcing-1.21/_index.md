@@ -91,7 +91,7 @@ Ambient mode is scheduled to move to Beta in the upcoming Istio 1.22.
 
 ## Upgrading to 1.21
 
-We would like to hear from you regarding your experience upgrading to Istio 1.20. You can provide feedback
+We would like to hear from you regarding your experience upgrading to Istio 1.21. You can provide feedback
 in the #release-1.21 channel in our [Slack workspace](https://slack.istio.io/).
 
 Would you like to contribute directly to Istio? Find and join one of
