@@ -1,6 +1,6 @@
 ---
 title: ZTunnel Inpod traffic redirection 
-description: User guide for details on the ZTunnel inpod traffic redirection function.
+description: Understand how traffic moves between pods and the ztunnel node agent.
 weight: 2
 owner: istio/wg-networking-maintainers
 test: no
