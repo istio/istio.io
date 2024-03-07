@@ -7,7 +7,7 @@ test: yes
 ---
 
 This guide shows you how to install Istio in ambient mode with Helm.
-Aside from following the demo in [Getting Started with Ambient Mesh](/docs/ops/ambient/getting-started/),
+Aside from following the demo in [Getting Started with Ambient Mode](/docs/ops/ambient/getting-started/),
 we encourage the use of Helm to install Istio for use in ambient mode. Helm helps you manage components separately, and you can easily upgrade the components to the latest version.
 
 ## Prerequisites
