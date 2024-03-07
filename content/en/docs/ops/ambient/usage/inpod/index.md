@@ -61,7 +61,10 @@ Here’s a diagram to illustrate how encrypted traffic flows between pods in the
 
 If Istio Ambient traffic is not working correctly, there are some quick checks that can be made to help narrow down the problem.  In order to observe inpod traffic redirection in action, first follow the steps described in the [ztunnel L4 networking guide](/docs/ops/ambient/usage/ztunnel) including deployment of istio ambient mesh on a Kubernetes Kind cluster and the deployment of the `httpbin` and `sleep` deployments in the namespaced tagged for ambient operation as described in that guide. Once it is verified that the application is successfully running in the ambient mesh, use the following steps to observe the inpod traffic redirection.
 
-In order to confirm that the mesh is using Inpod redirection, once Ambient has been enabled in an application pod, check the ztunnel proxy logs. As shown in the example below, the ztunnel logs related to inpod indicate that inpod mode is enabled and ztunnel proxy has received the netns information about an ambient application pod and has started proxying for it. 
+
+1.  Check the ztunnel proxy logs
+
+When an application pod is part of the ambient mode you can check the ztunnel proxy logs to confirm the mesh uses inpod redirection. As shown in the example below, the ztunnel logs related to inpod indicate that inpod mode is enabled and ztunnel proxy has received the network namespace (netns) information about an ambient application pod and has started proxying for it. 
 
 {{< text bash >}}
 $ kubectl logs ds/ztunnel -n istio-system  | grep inpod
