@@ -31,8 +31,7 @@ snip_before_you_begin_2() {
 istioctl proxy-config log deploy/httpbin.foo --level "rbac:debug" | grep rbac
 }
 
-! IFS=$'
-' read -r -d '' snip_before_you_begin_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_before_you_begin_2_out <<\ENDSNIP
 rbac: debug
 ENDSNIP
 
@@ -40,8 +39,7 @@ snip_before_you_begin_3() {
 kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n"
 }
 
-! IFS=$'
-' read -r -d '' snip_before_you_begin_3_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_before_you_begin_3_out <<\ENDSNIP
 200
 ENDSNIP
 
@@ -73,8 +71,7 @@ snip_create_dryrun_policy_3() {
 for i in {1..20}; do kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl http://httpbin.foo:8000/headers -H "X-B3-Sampled: 1" -s -o /dev/null -w "%{http_code}\n"; done
 }
 
-! IFS=$'
-' read -r -d '' snip_create_dryrun_policy_3_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_create_dryrun_policy_3_out <<\ENDSNIP
 200
 200
 200
@@ -85,8 +82,7 @@ snip_check_dryrun_result_in_proxy_log_1() {
 kubectl logs "$(kubectl -n foo -l app=httpbin get pods -o jsonpath={.items..metadata.name})" -c istio-proxy -n foo | grep "shadow denied"
 }
 
-! IFS=$'
-' read -r -d '' snip_check_dryrun_result_in_proxy_log_1_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_check_dryrun_result_in_proxy_log_1_out <<\ENDSNIP
 2021-11-19T20:20:48.733099Z debug envoy rbac shadow denied, matched policy ns[foo]-policy[deny-path-headers]-rule[0]
 2021-11-19T20:21:45.502199Z debug envoy rbac shadow denied, matched policy ns[foo]-policy[deny-path-headers]-rule[0]
 2021-11-19T20:22:33.065348Z debug envoy rbac shadow denied, matched policy ns[foo]-policy[deny-path-headers]-rule[0]
@@ -97,13 +93,11 @@ snip_check_dryrun_result_in_metric_using_prometheus_1() {
 istioctl dashboard prometheus
 }
 
-! IFS=$'
-' read -r -d '' snip_check_dryrun_result_in_metric_using_prometheus_2 <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_check_dryrun_result_in_metric_using_prometheus_2 <<\ENDSNIP
 envoy_http_inbound_0_0_0_0_80_rbac{authz_dry_run_action="deny",authz_dry_run_result="denied"}
 ENDSNIP
 
-! IFS=$'
-' read -r -d '' snip_check_dryrun_result_in_metric_using_prometheus_3 <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_check_dryrun_result_in_metric_using_prometheus_3 <<\ENDSNIP
 envoy_http_inbound_0_0_0_0_80_rbac{app="httpbin",authz_dry_run_action="deny",authz_dry_run_result="denied",instance="10.44.1.11:15020",istio_io_rev="default",job="kubernetes-pods",kubernetes_namespace="foo",kubernetes_pod_name="httpbin-74fb669cc6-95qm8",pod_template_hash="74fb669cc6",security_istio_io_tlsMode="istio",service_istio_io_canonical_name="httpbin",service_istio_io_canonical_revision="v1",version="v1"}  20
 ENDSNIP
 
@@ -111,8 +105,7 @@ snip_check_dryrun_result_in_tracing_using_zipkin_1() {
 istioctl dashboard zipkin
 }
 
-! IFS=$'
-' read -r -d '' snip_check_dryrun_result_in_tracing_using_zipkin_2 <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_check_dryrun_result_in_tracing_using_zipkin_2 <<\ENDSNIP
 istio.authorization.dry_run.deny_policy.name: ns[foo]-policy[deny-path-headers]-rule[0]
 istio.authorization.dry_run.deny_policy.result: denied
 ENDSNIP

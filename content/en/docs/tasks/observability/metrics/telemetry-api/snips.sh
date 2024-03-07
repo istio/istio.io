@@ -20,8 +20,7 @@
 #          docs/tasks/observability/metrics/telemetry-api/index.md
 ####################################################################################################
 
-! IFS=$'
-' read -r -d '' snip_before_you_begin_1 <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_before_you_begin_1 <<\ENDSNIP
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -32,8 +31,7 @@ spec:
         enabled: false
 ENDSNIP
 
-! IFS=$'
-' read -r -d '' snip_override_metrics_1 <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_override_metrics_1 <<\ENDSNIP
 apiVersion: telemetry.istio.io/v1alpha1
 kind: Telemetry
 metadata:
@@ -52,8 +50,7 @@ spec:
               operation: REMOVE
 ENDSNIP
 
-! IFS=$'
-' read -r -d '' snip_override_metrics_2 <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_override_metrics_2 <<\ENDSNIP
 apiVersion: telemetry.istio.io/v1alpha1
 kind: Telemetry
 metadata:
@@ -78,8 +75,7 @@ spec:
         - name: prometheus
 ENDSNIP
 
-! IFS=$'
-' read -r -d '' snip_disable_metrics_1 <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_disable_metrics_1 <<\ENDSNIP
 apiVersion: telemetry.istio.io/v1alpha1
 kind: Telemetry
 metadata:
@@ -96,8 +92,7 @@ spec:
             metric: ALL_METRICS
 ENDSNIP
 
-! IFS=$'
-' read -r -d '' snip_disable_metrics_2 <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_disable_metrics_2 <<\ENDSNIP
 apiVersion: telemetry.istio.io/v1alpha1
 kind: Telemetry
 metadata:
@@ -114,8 +109,7 @@ spec:
             metric: REQUEST_COUNT
 ENDSNIP
 
-! IFS=$'
-' read -r -d '' snip_disable_metrics_3 <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_disable_metrics_3 <<\ENDSNIP
 apiVersion: telemetry.istio.io/v1alpha1
 kind: Telemetry
 metadata:
@@ -132,8 +126,7 @@ spec:
             metric: REQUEST_COUNT
 ENDSNIP
 
-! IFS=$'
-' read -r -d '' snip_disable_metrics_4 <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_disable_metrics_4 <<\ENDSNIP
 apiVersion: telemetry.istio.io/v1alpha1
 kind: Telemetry
 metadata:

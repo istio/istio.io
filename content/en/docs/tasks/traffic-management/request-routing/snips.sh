@@ -48,8 +48,7 @@ snip_route_to_version_1_3() {
 kubectl get virtualservices -o yaml
 }
 
-! IFS=$'
-' read -r -d '' snip_route_to_version_1_3_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_route_to_version_1_3_out <<\ENDSNIP
 - apiVersion: networking.istio.io/v1beta1
   kind: VirtualService
   ...
@@ -104,8 +103,7 @@ snip_route_to_version_1_5() {
 kubectl get httproute reviews -o yaml
 }
 
-! IFS=$'
-' read -r -d '' snip_route_to_version_1_5_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_route_to_version_1_5_out <<\ENDSNIP
 ...
 spec:
   parentRefs:
@@ -155,8 +153,7 @@ snip_route_based_on_user_identity_2() {
 kubectl get virtualservice reviews -o yaml
 }
 
-! IFS=$'
-' read -r -d '' snip_route_based_on_user_identity_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_route_based_on_user_identity_2_out <<\ENDSNIP
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 ...

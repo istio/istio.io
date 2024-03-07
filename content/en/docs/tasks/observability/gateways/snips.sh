@@ -90,8 +90,7 @@ spec:
 EOF
 }
 
-! IFS=$'
-' read -r -d '' snip_option_1_secure_access_https_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_option_1_secure_access_https_2_out <<\ENDSNIP
 gateway.networking.istio.io/grafana-gateway created
 virtualservice.networking.istio.io/grafana-vs created
 destinationrule.networking.istio.io/grafana created
@@ -149,8 +148,7 @@ spec:
 EOF
 }
 
-! IFS=$'
-' read -r -d '' snip_option_1_secure_access_https_3_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_option_1_secure_access_https_3_out <<\ENDSNIP
 gateway.networking.istio.io/kiali-gateway created
 virtualservice.networking.istio.io/kiali-vs created
 destinationrule.networking.istio.io/kiali created
@@ -208,8 +206,7 @@ spec:
 EOF
 }
 
-! IFS=$'
-' read -r -d '' snip_option_1_secure_access_https_4_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_option_1_secure_access_https_4_out <<\ENDSNIP
 gateway.networking.istio.io/prometheus-gateway created
 virtualservice.networking.istio.io/prometheus-vs created
 destinationrule.networking.istio.io/prometheus created
@@ -267,8 +264,7 @@ spec:
 EOF
 }
 
-! IFS=$'
-' read -r -d '' snip_option_1_secure_access_https_5_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_option_1_secure_access_https_5_out <<\ENDSNIP
 gateway.networking.istio.io/tracing-gateway created
 virtualservice.networking.istio.io/tracing-vs created
 destinationrule.networking.istio.io/tracing created
@@ -323,8 +319,7 @@ spec:
 EOF
 }
 
-! IFS=$'
-' read -r -d '' snip_option_2_insecure_access_http_1_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_option_2_insecure_access_http_1_out <<\ENDSNIP
 gateway.networking.istio.io/grafana-gateway created
 virtualservice.networking.istio.io/grafana-vs created
 destinationrule.networking.istio.io/grafana created
@@ -379,8 +374,7 @@ spec:
 EOF
 }
 
-! IFS=$'
-' read -r -d '' snip_option_2_insecure_access_http_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_option_2_insecure_access_http_2_out <<\ENDSNIP
 gateway.networking.istio.io/kiali-gateway created
 virtualservice.networking.istio.io/kiali-vs created
 destinationrule.networking.istio.io/kiali created
@@ -435,8 +429,7 @@ spec:
 EOF
 }
 
-! IFS=$'
-' read -r -d '' snip_option_2_insecure_access_http_3_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_option_2_insecure_access_http_3_out <<\ENDSNIP
 gateway.networking.istio.io/prometheus-gateway created
 virtualservice.networking.istio.io/prometheus-vs created
 destinationrule.networking.istio.io/prometheus created
@@ -491,8 +484,7 @@ spec:
 EOF
 }
 
-! IFS=$'
-' read -r -d '' snip_option_2_insecure_access_http_4_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_option_2_insecure_access_http_4_out <<\ENDSNIP
 gateway.networking.istio.io/tracing-gateway created
 virtualservice.networking.istio.io/tracing-vs created
 destinationrule.networking.istio.io/tracing created
@@ -502,8 +494,7 @@ snip_cleanup_1() {
 kubectl -n istio-system delete gateway grafana-gateway kiali-gateway prometheus-gateway tracing-gateway
 }
 
-! IFS=$'
-' read -r -d '' snip_cleanup_1_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_cleanup_1_out <<\ENDSNIP
 gateway.networking.istio.io "grafana-gateway" deleted
 gateway.networking.istio.io "kiali-gateway" deleted
 gateway.networking.istio.io "prometheus-gateway" deleted
@@ -514,8 +505,7 @@ snip_cleanup_2() {
 kubectl -n istio-system delete virtualservice grafana-vs kiali-vs prometheus-vs tracing-vs
 }
 
-! IFS=$'
-' read -r -d '' snip_cleanup_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_cleanup_2_out <<\ENDSNIP
 virtualservice.networking.istio.io "grafana-vs" deleted
 virtualservice.networking.istio.io "kiali-vs" deleted
 virtualservice.networking.istio.io "prometheus-vs" deleted
@@ -526,8 +516,7 @@ snip_cleanup_3() {
 kubectl -n istio-system delete destinationrule grafana kiali prometheus tracing
 }
 
-! IFS=$'
-' read -r -d '' snip_cleanup_3_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_cleanup_3_out <<\ENDSNIP
 destinationrule.networking.istio.io "grafana" deleted
 destinationrule.networking.istio.io "kiali" deleted
 destinationrule.networking.istio.io "prometheus" deleted

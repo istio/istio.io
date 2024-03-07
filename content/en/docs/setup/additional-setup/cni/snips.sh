@@ -40,8 +40,7 @@ snip_installing_with_helm_1() {
  helm install istiod istio/istiod -n istio-system --set values.istio_cni.enabled=true --wait
 }
 
-! IFS=$'
-' read -r -d '' snip_hosted_kubernetes_settings_1 <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_hosted_kubernetes_settings_1 <<\ENDSNIP
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -58,8 +57,7 @@ snip_hosted_kubernetes_settings_2() {
 istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --set profile=openshift
 }
 
-! IFS=$'
-' read -r -d '' snip_upgrade_1 <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_upgrade_1 <<\ENDSNIP
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -74,8 +72,7 @@ spec:
         - kube-system
 ENDSNIP
 
-! IFS=$'
-' read -r -d '' snip_upgrade_2 <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_upgrade_2 <<\ENDSNIP
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:

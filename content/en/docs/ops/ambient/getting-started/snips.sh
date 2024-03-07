@@ -37,8 +37,7 @@ snip_download_and_install_7() {
 kubectl get pods -n istio-system
 }
 
-! IFS=$'
-' read -r -d '' snip_download_and_install_7_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_download_and_install_7_out <<\ENDSNIP
 NAME                                    READY   STATUS    RESTARTS   AGE
 istio-cni-node-n9tcd                    1/1     Running   0          57s
 istio-ingressgateway-5b79b5bb88-897lp   1/1     Running   0          57s
@@ -50,8 +49,7 @@ snip_download_and_install_8() {
 kubectl get daemonset -n istio-system
 }
 
-! IFS=$'
-' read -r -d '' snip_download_and_install_8_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_download_and_install_8_out <<\ENDSNIP
 NAME             DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
 istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   70s
 ztunnel          1         1         1       1            1           kubernetes.io/os=linux   82s
@@ -61,8 +59,7 @@ snip_download_and_install_9() {
 kubectl get pods -n istio-system
 }
 
-! IFS=$'
-' read -r -d '' snip_download_and_install_9_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_download_and_install_9_out <<\ENDSNIP
 NAME                                    READY   STATUS    RESTARTS   AGE
 istio-cni-node-n9tcd                    1/1     Running   0          57s
 istiod-69d4d646cd-26cth                 1/1     Running   0          67s
@@ -73,8 +70,7 @@ snip_download_and_install_10() {
 kubectl get daemonset -n istio-system
 }
 
-! IFS=$'
-' read -r -d '' snip_download_and_install_10_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_download_and_install_10_out <<\ENDSNIP
 NAME             DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
 istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   70s
 ztunnel          1         1         1       1            1           kubernetes.io/os=linux   82s
@@ -117,8 +113,7 @@ snip_verify_traffic_sleep_to_ingress() {
 kubectl exec deploy/sleep -- curl -s "http://$GATEWAY_HOST/productpage" | grep -o "<title>.*</title>"
 }
 
-! IFS=$'
-' read -r -d '' snip_verify_traffic_sleep_to_ingress_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_verify_traffic_sleep_to_ingress_out <<\ENDSNIP
 <title>Simple Bookstore App</title>
 ENDSNIP
 
@@ -126,8 +121,7 @@ snip_verify_traffic_sleep_to_productpage() {
 kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
 }
 
-! IFS=$'
-' read -r -d '' snip_verify_traffic_sleep_to_productpage_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_verify_traffic_sleep_to_productpage_out <<\ENDSNIP
 <title>Simple Bookstore App</title>
 ENDSNIP
 
@@ -135,8 +129,7 @@ snip_verify_traffic_notsleep_to_productpage() {
 kubectl exec deploy/notsleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
 }
 
-! IFS=$'
-' read -r -d '' snip_verify_traffic_notsleep_to_productpage_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_verify_traffic_notsleep_to_productpage_out <<\ENDSNIP
 <title>Simple Bookstore App</title>
 ENDSNIP
 
@@ -148,8 +141,7 @@ snip_adding_your_application_to_the_ambient_mesh_2() {
 kubectl exec deploy/sleep -- curl -s "http://$GATEWAY_HOST/productpage" | grep -o "<title>.*</title>"
 }
 
-! IFS=$'
-' read -r -d '' snip_adding_your_application_to_the_ambient_mesh_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_adding_your_application_to_the_ambient_mesh_2_out <<\ENDSNIP
 <title>Simple Bookstore App</title>
 ENDSNIP
 
@@ -157,8 +149,7 @@ snip_adding_your_application_to_the_ambient_mesh_3() {
 kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
 }
 
-! IFS=$'
-' read -r -d '' snip_adding_your_application_to_the_ambient_mesh_3_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_adding_your_application_to_the_ambient_mesh_3_out <<\ENDSNIP
 <title>Simple Bookstore App</title>
 ENDSNIP
 
@@ -166,8 +157,7 @@ snip_adding_your_application_to_the_ambient_mesh_4() {
 kubectl exec deploy/notsleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
 }
 
-! IFS=$'
-' read -r -d '' snip_adding_your_application_to_the_ambient_mesh_4_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_adding_your_application_to_the_ambient_mesh_4_out <<\ENDSNIP
 <title>Simple Bookstore App</title>
 ENDSNIP
 
@@ -197,8 +187,7 @@ snip_layer_4_authorization_policy_2() {
 kubectl exec deploy/sleep -- curl -s "http://$GATEWAY_HOST/productpage" | grep -o "<title>.*</title>"
 }
 
-! IFS=$'
-' read -r -d '' snip_layer_4_authorization_policy_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_layer_4_authorization_policy_2_out <<\ENDSNIP
 <title>Simple Bookstore App</title>
 ENDSNIP
 
@@ -207,8 +196,7 @@ snip_layer_4_authorization_policy_3() {
 kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
 }
 
-! IFS=$'
-' read -r -d '' snip_layer_4_authorization_policy_3_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_layer_4_authorization_policy_3_out <<\ENDSNIP
 <title>Simple Bookstore App</title>
 ENDSNIP
 
@@ -217,8 +205,7 @@ snip_layer_4_authorization_policy_4() {
 kubectl exec deploy/notsleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
 }
 
-! IFS=$'
-' read -r -d '' snip_layer_4_authorization_policy_4_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_layer_4_authorization_policy_4_out <<\ENDSNIP
 command terminated with exit code 56
 ENDSNIP
 
@@ -226,8 +213,7 @@ snip_layer_7_authorization_policy_1() {
 istioctl x waypoint apply --service-account bookinfo-productpage --wait
 }
 
-! IFS=$'
-' read -r -d '' snip_layer_7_authorization_policy_1_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_layer_7_authorization_policy_1_out <<\ENDSNIP
 waypoint default/bookinfo-productpage applied
 ENDSNIP
 
@@ -235,8 +221,7 @@ snip_layer_7_authorization_policy_2() {
 kubectl get gtw bookinfo-productpage -o yaml
 }
 
-! IFS=$'
-' read -r -d '' snip_layer_7_authorization_policy_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_layer_7_authorization_policy_2_out <<\ENDSNIP
 ...
 status:
   conditions:
@@ -278,8 +263,7 @@ snip_layer_7_authorization_policy_4() {
 kubectl exec deploy/sleep -- curl -s "http://$GATEWAY_HOST/productpage" -X DELETE
 }
 
-! IFS=$'
-' read -r -d '' snip_layer_7_authorization_policy_4_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_layer_7_authorization_policy_4_out <<\ENDSNIP
 RBAC: access denied
 ENDSNIP
 
@@ -288,8 +272,7 @@ snip_layer_7_authorization_policy_5() {
 kubectl exec deploy/notsleep -- curl -s http://productpage:9080/
 }
 
-! IFS=$'
-' read -r -d '' snip_layer_7_authorization_policy_5_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_layer_7_authorization_policy_5_out <<\ENDSNIP
 RBAC: access denied
 ENDSNIP
 
@@ -298,8 +281,7 @@ snip_layer_7_authorization_policy_6() {
 kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
 }
 
-! IFS=$'
-' read -r -d '' snip_layer_7_authorization_policy_6_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_layer_7_authorization_policy_6_out <<\ENDSNIP
 <title>Simple Bookstore App</title>
 ENDSNIP
 
@@ -307,8 +289,7 @@ snip_control_traffic_1() {
 istioctl x waypoint apply --service-account bookinfo-reviews --wait
 }
 
-! IFS=$'
-' read -r -d '' snip_control_traffic_1_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_control_traffic_1_out <<\ENDSNIP
 waypoint default/bookinfo-reviews applied
 ENDSNIP
 

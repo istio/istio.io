@@ -21,8 +21,7 @@
 ####################################################################################################
 source "content/en/boilerplates/snips/trace-generation.sh"
 
-! IFS=$'
-' read -r -d '' snip_configure_tracing_1 <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_configure_tracing_1 <<\ENDSNIP
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:

@@ -37,8 +37,7 @@ snip_install_istio_1() {
 istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --set profile=demo -y
 }
 
-! IFS=$'
-' read -r -d '' snip_install_istio_1_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_install_istio_1_out <<\ENDSNIP
 ✔ Istio core installed
 ✔ Istiod installed
 ✔ Egress gateways installed
@@ -50,8 +49,7 @@ snip_install_istio_2() {
 kubectl label namespace default istio-injection=enabled
 }
 
-! IFS=$'
-' read -r -d '' snip_install_istio_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_install_istio_2_out <<\ENDSNIP
 namespace/default labeled
 ENDSNIP
 
@@ -59,8 +57,7 @@ snip_deploy_the_sample_application_1() {
 kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
 }
 
-! IFS=$'
-' read -r -d '' snip_deploy_the_sample_application_1_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_deploy_the_sample_application_1_out <<\ENDSNIP
 service/details created
 serviceaccount/bookinfo-details created
 deployment.apps/details-v1 created
@@ -81,8 +78,7 @@ snip_deploy_the_sample_application_2() {
 kubectl get services
 }
 
-! IFS=$'
-' read -r -d '' snip_deploy_the_sample_application_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_deploy_the_sample_application_2_out <<\ENDSNIP
 NAME          TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
 details       ClusterIP   10.0.0.212      <none>        9080/TCP   29s
 kubernetes    ClusterIP   10.0.0.1        <none>        443/TCP    25m
@@ -95,8 +91,7 @@ snip_deploy_the_sample_application_3() {
 kubectl get pods
 }
 
-! IFS=$'
-' read -r -d '' snip_deploy_the_sample_application_3_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_deploy_the_sample_application_3_out <<\ENDSNIP
 NAME                              READY   STATUS    RESTARTS   AGE
 details-v1-558b8b4b76-2llld       2/2     Running   0          2m41s
 productpage-v1-6987489c74-lpkgl   2/2     Running   0          2m40s
@@ -110,8 +105,7 @@ snip_deploy_the_sample_application_4() {
 kubectl exec "$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')" -c ratings -- curl -sS productpage:9080/productpage | grep -o "<title>.*</title>"
 }
 
-! IFS=$'
-' read -r -d '' snip_deploy_the_sample_application_4_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_deploy_the_sample_application_4_out <<\ENDSNIP
 <title>Simple Bookstore App</title>
 ENDSNIP
 
@@ -119,8 +113,7 @@ snip_open_the_application_to_outside_traffic_1() {
 kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml
 }
 
-! IFS=$'
-' read -r -d '' snip_open_the_application_to_outside_traffic_1_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_open_the_application_to_outside_traffic_1_out <<\ENDSNIP
 gateway.networking.istio.io/bookinfo-gateway created
 virtualservice.networking.istio.io/bookinfo created
 ENDSNIP
@@ -129,8 +122,7 @@ snip_open_the_application_to_outside_traffic_2() {
 istioctl analyze
 }
 
-! IFS=$'
-' read -r -d '' snip_open_the_application_to_outside_traffic_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_open_the_application_to_outside_traffic_2_out <<\ENDSNIP
 ✔ No validation issues found when analyzing namespace: default.
 ENDSNIP
 
@@ -148,8 +140,7 @@ snip_determining_the_ingress_ip_and_ports_3() {
 echo "$INGRESS_HOST"
 }
 
-! IFS=$'
-' read -r -d '' snip_determining_the_ingress_ip_and_ports_3_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_determining_the_ingress_ip_and_ports_3_out <<\ENDSNIP
 127.0.0.1
 ENDSNIP
 
@@ -157,8 +148,7 @@ snip_determining_the_ingress_ip_and_ports_4() {
 echo "$INGRESS_PORT"
 }
 
-! IFS=$'
-' read -r -d '' snip_determining_the_ingress_ip_and_ports_4_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_determining_the_ingress_ip_and_ports_4_out <<\ENDSNIP
 80
 ENDSNIP
 
@@ -166,8 +156,7 @@ snip_determining_the_ingress_ip_and_ports_5() {
 echo "$SECURE_INGRESS_PORT"
 }
 
-! IFS=$'
-' read -r -d '' snip_determining_the_ingress_ip_and_ports_5_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_determining_the_ingress_ip_and_ports_5_out <<\ENDSNIP
 443
 ENDSNIP
 
@@ -175,8 +164,7 @@ snip_determining_the_ingress_ip_and_ports_6() {
 kubectl get svc istio-ingressgateway -n istio-system
 }
 
-! IFS=$'
-' read -r -d '' snip_determining_the_ingress_ip_and_ports_6_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_determining_the_ingress_ip_and_ports_6_out <<\ENDSNIP
 NAME                   TYPE           CLUSTER-IP       EXTERNAL-IP     PORT(S)                                      AGE
 istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121  80:31380/TCP,443:31390/TCP,31400:31400/TCP   17h
 ENDSNIP
@@ -226,8 +214,7 @@ snip_determining_the_ingress_ip_and_ports_16() {
 echo "$GATEWAY_URL"
 }
 
-! IFS=$'
-' read -r -d '' snip_determining_the_ingress_ip_and_ports_16_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_determining_the_ingress_ip_and_ports_16_out <<\ENDSNIP
 127.0.0.1:80
 ENDSNIP
 
@@ -240,8 +227,7 @@ kubectl apply -f samples/addons
 kubectl rollout status deployment/kiali -n istio-system
 }
 
-! IFS=$'
-' read -r -d '' snip_view_the_dashboard_1_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_view_the_dashboard_1_out <<\ENDSNIP
 Waiting for deployment "kiali" rollout to finish: 0 of 1 updated replicas are available...
 deployment "kiali" successfully rolled out
 ENDSNIP

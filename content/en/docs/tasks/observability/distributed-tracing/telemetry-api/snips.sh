@@ -68,8 +68,7 @@ spec:
 EOF
 }
 
-! IFS=$'
-' read -r -d '' snip_customizing_tracing_tags_1 <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_customizing_tracing_tags_1 <<\ENDSNIP
 apiVersion: telemetry.istio.io/v1alpha1
 kind: Telemetry
 metadata:
@@ -86,8 +85,7 @@ tracing:
           value: "zipkin"
 ENDSNIP
 
-! IFS=$'
-' read -r -d '' snip_customizing_tracing_tags_2 <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_customizing_tracing_tags_2 <<\ENDSNIP
 apiVersion: telemetry.istio.io/v1alpha1
 kind: Telemetry
 metadata:
@@ -105,8 +103,7 @@ spec:
             defaultValue: Kubernetes # optional
 ENDSNIP
 
-! IFS=$'
-' read -r -d '' snip_customizing_tracing_tags_3 <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_customizing_tracing_tags_3 <<\ENDSNIP
 apiVersion: telemetry.istio.io/v1alpha1
 kind: Telemetry
 metadata:
@@ -124,8 +121,7 @@ spec:
             defaultValue: <VALUE>      # optional
 ENDSNIP
 
-! IFS=$'
-' read -r -d '' snip_customizing_tracing_tag_length_1 <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_customizing_tracing_tag_length_1 <<\ENDSNIP
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:

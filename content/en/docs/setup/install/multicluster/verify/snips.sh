@@ -51,8 +51,7 @@ snip_deploy_helloworld_v1_2() {
 kubectl get pod --context="${CTX_CLUSTER1}" -n sample -l app=helloworld
 }
 
-! IFS=$'
-' read -r -d '' snip_deploy_helloworld_v1_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_deploy_helloworld_v1_2_out <<\ENDSNIP
 NAME                            READY     STATUS    RESTARTS   AGE
 helloworld-v1-86f77cd7bd-cpxhv  2/2       Running   0          40s
 ENDSNIP
@@ -67,8 +66,7 @@ snip_deploy_helloworld_v2_2() {
 kubectl get pod --context="${CTX_CLUSTER2}" -n sample -l app=helloworld
 }
 
-! IFS=$'
-' read -r -d '' snip_deploy_helloworld_v2_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_deploy_helloworld_v2_2_out <<\ENDSNIP
 NAME                            READY     STATUS    RESTARTS   AGE
 helloworld-v2-758dd55874-6x4t8  2/2       Running   0          40s
 ENDSNIP
@@ -84,8 +82,7 @@ snip_deploy_sleep_2() {
 kubectl get pod --context="${CTX_CLUSTER1}" -n sample -l app=sleep
 }
 
-! IFS=$'
-' read -r -d '' snip_deploy_sleep_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_deploy_sleep_2_out <<\ENDSNIP
 NAME                             READY   STATUS    RESTARTS   AGE
 sleep-754684654f-n6bzf           2/2     Running   0          5s
 ENDSNIP
@@ -94,8 +91,7 @@ snip_deploy_sleep_3() {
 kubectl get pod --context="${CTX_CLUSTER2}" -n sample -l app=sleep
 }
 
-! IFS=$'
-' read -r -d '' snip_deploy_sleep_3_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_deploy_sleep_3_out <<\ENDSNIP
 NAME                             READY   STATUS    RESTARTS   AGE
 sleep-754684654f-dzl9j           2/2     Running   0          5s
 ENDSNIP
@@ -107,8 +103,7 @@ kubectl exec --context="${CTX_CLUSTER1}" -n sample -c sleep \
     -- curl -sS helloworld.sample:5000/hello
 }
 
-! IFS=$'
-' read -r -d '' snip_verifying_crosscluster_traffic_2 <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_verifying_crosscluster_traffic_2 <<\ENDSNIP
 Hello version: v2, instance: helloworld-v2-758dd55874-6x4t8
 Hello version: v1, instance: helloworld-v1-86f77cd7bd-cpxhv
 ...
@@ -121,8 +116,7 @@ kubectl exec --context="${CTX_CLUSTER2}" -n sample -c sleep \
     -- curl -sS helloworld.sample:5000/hello
 }
 
-! IFS=$'
-' read -r -d '' snip_verifying_crosscluster_traffic_4 <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_verifying_crosscluster_traffic_4 <<\ENDSNIP
 Hello version: v2, instance: helloworld-v2-758dd55874-6x4t8
 Hello version: v1, instance: helloworld-v1-86f77cd7bd-cpxhv
 ...

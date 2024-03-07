@@ -32,8 +32,7 @@ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadat
     'echo "port 9000" | nc tcp-echo 9000' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
 }
 
-! IFS=$'
-' read -r -d '' snip_before_you_begin_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_before_you_begin_2_out <<\ENDSNIP
 hello port 9000
 connection succeeded
 ENDSNIP
@@ -44,8 +43,7 @@ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadat
     'echo "port 9001" | nc tcp-echo 9001' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
 }
 
-! IFS=$'
-' read -r -d '' snip_before_you_begin_3_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_before_you_begin_3_out <<\ENDSNIP
 hello port 9001
 connection succeeded
 ENDSNIP
@@ -57,8 +55,7 @@ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadat
     "echo \"port 9002\" | nc $TCP_ECHO_IP 9002" | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
 }
 
-! IFS=$'
-' read -r -d '' snip_before_you_begin_4_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_before_you_begin_4_out <<\ENDSNIP
 hello port 9002
 connection succeeded
 ENDSNIP
@@ -88,8 +85,7 @@ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadat
     'echo "port 9000" | nc tcp-echo 9000' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
 }
 
-! IFS=$'
-' read -r -d '' snip_configure_allow_authorization_policy_for_a_tcp_workload_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_configure_allow_authorization_policy_for_a_tcp_workload_2_out <<\ENDSNIP
 hello port 9000
 connection succeeded
 ENDSNIP
@@ -100,8 +96,7 @@ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadat
     'echo "port 9001" | nc tcp-echo 9001' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
 }
 
-! IFS=$'
-' read -r -d '' snip_configure_allow_authorization_policy_for_a_tcp_workload_3_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_configure_allow_authorization_policy_for_a_tcp_workload_3_out <<\ENDSNIP
 hello port 9001
 connection succeeded
 ENDSNIP
@@ -112,8 +107,7 @@ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadat
     "echo \"port 9002\" | nc $TCP_ECHO_IP 9002" | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
 }
 
-! IFS=$'
-' read -r -d '' snip_configure_allow_authorization_policy_for_a_tcp_workload_4_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_configure_allow_authorization_policy_for_a_tcp_workload_4_out <<\ENDSNIP
 connection rejected
 ENDSNIP
 
@@ -143,8 +137,7 @@ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadat
     'echo "port 9000" | nc tcp-echo 9000' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
 }
 
-! IFS=$'
-' read -r -d '' snip_configure_allow_authorization_policy_for_a_tcp_workload_6_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_configure_allow_authorization_policy_for_a_tcp_workload_6_out <<\ENDSNIP
 connection rejected
 ENDSNIP
 
@@ -154,8 +147,7 @@ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadat
     'echo "port 9001" | nc tcp-echo 9001' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
 }
 
-! IFS=$'
-' read -r -d '' snip_configure_allow_authorization_policy_for_a_tcp_workload_7_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_configure_allow_authorization_policy_for_a_tcp_workload_7_out <<\ENDSNIP
 connection rejected
 ENDSNIP
 
@@ -184,8 +176,7 @@ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadat
     'echo "port 9000" | nc tcp-echo 9000' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
 }
 
-! IFS=$'
-' read -r -d '' snip_configure_deny_authorization_policy_for_a_tcp_workload_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_configure_deny_authorization_policy_for_a_tcp_workload_2_out <<\ENDSNIP
 connection rejected
 ENDSNIP
 
@@ -195,8 +186,7 @@ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadat
     'echo "port 9001" | nc tcp-echo 9001' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
 }
 
-! IFS=$'
-' read -r -d '' snip_configure_deny_authorization_policy_for_a_tcp_workload_3_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_configure_deny_authorization_policy_for_a_tcp_workload_3_out <<\ENDSNIP
 connection rejected
 ENDSNIP
 
@@ -226,8 +216,7 @@ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadat
     'echo "port 9000" | nc tcp-echo 9000' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
 }
 
-! IFS=$'
-' read -r -d '' snip_configure_deny_authorization_policy_for_a_tcp_workload_5_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_configure_deny_authorization_policy_for_a_tcp_workload_5_out <<\ENDSNIP
 connection rejected
 ENDSNIP
 
@@ -237,8 +226,7 @@ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadat
     'echo "port 9001" | nc tcp-echo 9001' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
 }
 
-! IFS=$'
-' read -r -d '' snip_configure_deny_authorization_policy_for_a_tcp_workload_6_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_configure_deny_authorization_policy_for_a_tcp_workload_6_out <<\ENDSNIP
 hello port 9001
 connection succeeded
 ENDSNIP
