@@ -1,14 +1,15 @@
 ---
 title: 通过 Helm 安装
-description: 如何使用 Helm 安装 Ambient Mesh。
+description: 使用 Helm 在 Ambient 模式下安装 Istio。
 weight: 4
 owner: istio/wg-environments-maintainers
 test: yes
 ---
 
-本指南向您展示如何使用 Helm 安装 Ambient Mesh。
-除了 [Ambient Mesh 入门](/zh/docs/ops/ambient/getting-started/)中的演示之外，
-我们**鼓励**您依照本指南安装 Ambient Mesh。Helm 可以帮助您单独管理组件，您可以轻松地将组件升级到最新版本。
+本指南向您展示如何使用 Helm 在环境模式下安装 Istio。
+除了遵循[Ambient 模式入门](/zh/docs/ops/ambient/getting-started/)中的演示之外，
+我们鼓励使用 Helm 安装 Istio 使其在 Ambient 模式下运行。
+Helm 帮助您单独管理组件，您可以轻松地将组件升级到最新版本。
 
 ## 前提条件 {#prerequisites}
 
@@ -40,8 +41,8 @@ $ helm install istio-base istio/base -n istio-system --create-namespace
 
 ### 安装 CNI 组件 {#installing-the-cni-component}
 
-**CNI** Chart 会安装 Istio CNI 插件。它负责检测属于 Ambient Mesh 的 Pod，
-并对稍后将安装的 ztunnel DaemonSet 之间的流量重定向进行配置。
+`cni` Chart 将安装 Istio CNI 插件。它负责检测属于 Ambient 网格的 Pod，
+并配置 Pod 和 ztunnel 节点代理（稍后将安装）之间的流量重定向。
 
 {{< text syntax=bash snip_id=install_cni >}}
 $ helm install istio-cni istio/cni -n istio-system --set profile=ambient
@@ -57,13 +58,13 @@ $ helm install istiod istio/istiod --namespace istio-system --set profile=ambien
 
 ### 安装 ztunnel 组件 {#installing-the-ztunnel-component}
 
-`ztunnel` Chart 会安装 ztunnel DaemonSet，它是 Ambient 的节点代理组件。
+`ztunnel` Chart 会安装 ztunnel DaemonSet，它是 Istio Ambient 模式的节点代理组件。
 
 {{< text syntax=bash snip_id=install_ztunnel >}}
 $ helm install ztunnel istio/ztunnel -n istio-system
 {{< /text >}}
 
-### （可选）安装入口网关 {#optional-install-an-ingress-gateway}
+### 安装入口网关（可选） {#install-an-ingress-gateway-optional}
 
 {{< warning >}}
 部署网关的命名空间不得具有 `istio-injection=disabled` 标签。
@@ -112,9 +113,9 @@ ztunnel-c2z4s                    1/1     Running   0          10m
 
 ### 使用示例应用程序进行验证 {#verifying-with-the-sample-application}
 
-使用 Helm 安装 Ambient 后，
+使用 Helm 安装 Ambient 模式后，
 您可以按照[部署示例应用程序](/zh/docs/ops/ambient/getting-started/#bookinfo)指南部署示例应用程序和入口网关，
-然后您可以[将您的应用程序添加到 Ambient](/zh/docs/ops/ambient/getting-started/#addtoambient)。
+然后您可以[添加您的应用程序到 Ambient 网格中](/zh/docs/ops/ambient/getting-started/#addtoambient)。
 
 ## 卸载 {#uninstall}
 
