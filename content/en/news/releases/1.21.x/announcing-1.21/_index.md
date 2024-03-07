@@ -3,7 +3,7 @@ title: Announcing Istio 1.21.0
 linktitle: 1.21.0
 subtitle: Major Release
 description: Istio 1.21 Release Announcement.
-publishdate: 2024-03-08
+publishdate: 2024-03-11
 release: 1.21.0
 aliases:
 - /news/announcing-1.21
@@ -87,7 +87,7 @@ reduction - across many pods, this quickly adds up to cost savings.
 
 Our new [ambient mode](/blog/2022/introducing-ambient-mesh/) now works across all Kubernetes platforms and CNI implementations. Ambient mode has been tested with GKE, AKS, and EKS and all the CNI implementations they offer, 3rd-party CNIs like Calico and Cilium, and platforms like OpenShift, all with solid results. The engineering challenges behind this fix were described in [a recent blog post](/blog/2024/inpod-traffic-redirection-ambient/).
 
-Ambient mode is scheduled to move to Beta in the upcoming Istio 1.22.
+Ambient mode is targeted to move to Beta in the upcoming Istio 1.22.
 
 ## Upgrading to 1.21
 
