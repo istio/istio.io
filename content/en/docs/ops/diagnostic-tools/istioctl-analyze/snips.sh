@@ -24,7 +24,8 @@ snip_analyze_all_namespaces() {
 istioctl analyze --all-namespaces
 }
 
-! IFS= read -r -d '' snip_analyze_all_namespace_sample_response <<\ENDSNIP
+! IFS=$'
+' read -r -d '' snip_analyze_all_namespace_sample_response <<\ENDSNIP
 Info [IST0102] (Namespace default) The namespace is not enabled for Istio injection. Run 'kubectl label namespace default istio-injection=enabled' to enable it, or 'kubectl label namespace default istio-injection=disabled' to explicitly mark it as not needing injection.
 ENDSNIP
 
@@ -36,7 +37,8 @@ snip_try_with_fixed_namespace() {
 istioctl analyze --namespace default
 }
 
-! IFS= read -r -d '' snip_try_with_fixed_namespace_out <<\ENDSNIP
+! IFS=$'
+' read -r -d '' snip_try_with_fixed_namespace_out <<\ENDSNIP
 ✔ No validation issues found when analyzing namespace: default.
 ENDSNIP
 
@@ -44,7 +46,8 @@ snip_analyze_sample_destrule() {
 istioctl analyze samples/bookinfo/networking/bookinfo-gateway.yaml samples/bookinfo/networking/destination-rule-all.yaml
 }
 
-! IFS= read -r -d '' snip_analyze_sample_destrule_out <<\ENDSNIP
+! IFS=$'
+' read -r -d '' snip_analyze_sample_destrule_out <<\ENDSNIP
 Error [IST0101] (Gateway default/bookinfo-gateway samples/bookinfo/networking/bookinfo-gateway.yaml:9) Referenced selector not found: "istio=ingressgateway"
 Error [IST0101] (VirtualService default/bookinfo samples/bookinfo/networking/bookinfo-gateway.yaml:41) Referenced host not found: "productpage"
 Error: Analyzers found issues when analyzing namespace: default.
@@ -63,7 +66,8 @@ snip_analyze_all_networking_yaml_no_kube() {
 istioctl analyze --use-kube=false samples/bookinfo/networking/*.yaml
 }
 
-! IFS= read -r -d '' snip_vs_yaml_with_status <<\ENDSNIP
+! IFS=$'
+' read -r -d '' snip_vs_yaml_with_status <<\ENDSNIP
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 ...
@@ -90,7 +94,8 @@ snip_analyze_k_frod() {
 istioctl analyze -k --namespace frod
 }
 
-! IFS= read -r -d '' snip_analyze_k_frod_out <<\ENDSNIP
+! IFS=$'
+' read -r -d '' snip_analyze_k_frod_out <<\ENDSNIP
 Info [IST0102] (Namespace frod) The namespace is not enabled for Istio injection. Run 'kubectl label namespace frod istio-injection=enabled' to enable it, or 'kubectl label namespace frod istio-injection=disabled' to explicitly mark it as not needing injection.
 ENDSNIP
 
@@ -98,7 +103,8 @@ snip_analyze_suppress0102() {
 istioctl analyze -k --namespace frod --suppress "IST0102=Namespace frod"
 }
 
-! IFS= read -r -d '' snip_analyze_suppress0102_out <<\ENDSNIP
+! IFS=$'
+' read -r -d '' snip_analyze_suppress0102_out <<\ENDSNIP
 ✔ No validation issues found when analyzing namespace: frod.
 ENDSNIP
 

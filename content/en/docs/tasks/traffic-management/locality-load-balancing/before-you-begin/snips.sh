@@ -76,7 +76,8 @@ kubectl get pod --context="${CTX_R1_Z1}" -n sample -l app="helloworld" \
   -l version="region1.zone1"
 }
 
-! IFS= read -r -d '' snip_wait_for_helloworld_pods_1_out <<\ENDSNIP
+! IFS=$'
+' read -r -d '' snip_wait_for_helloworld_pods_1_out <<\ENDSNIP
 NAME                                       READY   STATUS    RESTARTS   AGE
 helloworld-region1.zone1-86f77cd7b-cpxhv   2/2     Running   0          30s
 ENDSNIP
@@ -86,7 +87,8 @@ kubectl get pod --context="${CTX_R1_Z2}" -n sample -l app="helloworld" \
   -l version="region1.zone2"
 }
 
-! IFS= read -r -d '' snip_wait_for_helloworld_pods_2_out <<\ENDSNIP
+! IFS=$'
+' read -r -d '' snip_wait_for_helloworld_pods_2_out <<\ENDSNIP
 NAME                                       READY   STATUS    RESTARTS   AGE
 helloworld-region1.zone2-86f77cd7b-cpxhv   2/2     Running   0          30s
 ENDSNIP
@@ -96,7 +98,8 @@ kubectl get pod --context="${CTX_R2_Z3}" -n sample -l app="helloworld" \
   -l version="region2.zone3"
 }
 
-! IFS= read -r -d '' snip_wait_for_helloworld_pods_3_out <<\ENDSNIP
+! IFS=$'
+' read -r -d '' snip_wait_for_helloworld_pods_3_out <<\ENDSNIP
 NAME                                       READY   STATUS    RESTARTS   AGE
 helloworld-region2.zone3-86f77cd7b-cpxhv   2/2     Running   0          30s
 ENDSNIP
@@ -106,7 +109,8 @@ kubectl get pod --context="${CTX_R3_Z4}" -n sample -l app="helloworld" \
   -l version="region3.zone4"
 }
 
-! IFS= read -r -d '' snip_wait_for_helloworld_pods_4_out <<\ENDSNIP
+! IFS=$'
+' read -r -d '' snip_wait_for_helloworld_pods_4_out <<\ENDSNIP
 NAME                                       READY   STATUS    RESTARTS   AGE
 helloworld-region3.zone4-86f77cd7b-cpxhv   2/2     Running   0          30s
 ENDSNIP

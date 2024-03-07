@@ -54,7 +54,8 @@ kubectl exec "$SLEEP" -c sleep -n istio-io-tcp-traffic-shifting -- sh -c "(date;
 done
 }
 
-! IFS= read -r -d '' snip_apply_weightbased_tcp_routing_4_out <<\ENDSNIP
+! IFS=$'
+' read -r -d '' snip_apply_weightbased_tcp_routing_4_out <<\ENDSNIP
 one Mon Nov 12 23:24:57 UTC 2022
 one Mon Nov 12 23:25:00 UTC 2022
 one Mon Nov 12 23:25:02 UTC 2022
@@ -80,7 +81,8 @@ snip_apply_weightbased_tcp_routing_7() {
 kubectl get virtualservice tcp-echo -o yaml -n istio-io-tcp-traffic-shifting
 }
 
-! IFS= read -r -d '' snip_apply_weightbased_tcp_routing_7_out <<\ENDSNIP
+! IFS=$'
+' read -r -d '' snip_apply_weightbased_tcp_routing_7_out <<\ENDSNIP
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
   ...
@@ -108,7 +110,8 @@ snip_apply_weightbased_tcp_routing_8() {
 kubectl get tcproute tcp-echo -o yaml -n istio-io-tcp-traffic-shifting
 }
 
-! IFS= read -r -d '' snip_apply_weightbased_tcp_routing_8_out <<\ENDSNIP
+! IFS=$'
+' read -r -d '' snip_apply_weightbased_tcp_routing_8_out <<\ENDSNIP
 apiVersion: gateway.networking.k8s.io/v1alpha2
 kind: TCPRoute
   ...
@@ -140,7 +143,8 @@ kubectl exec "$SLEEP" -c sleep -n istio-io-tcp-traffic-shifting -- sh -c "(date;
 done
 }
 
-! IFS= read -r -d '' snip_apply_weightbased_tcp_routing_9_out <<\ENDSNIP
+! IFS=$'
+' read -r -d '' snip_apply_weightbased_tcp_routing_9_out <<\ENDSNIP
 one Mon Nov 12 23:38:45 UTC 2022
 two Mon Nov 12 23:38:47 UTC 2022
 one Mon Nov 12 23:38:50 UTC 2022

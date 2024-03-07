@@ -48,7 +48,8 @@ snip_install_the_eastwest_gateway_in_cluster1_2() {
 kubectl --context="${CTX_CLUSTER1}" get svc istio-eastwestgateway -n istio-system
 }
 
-! IFS= read -r -d '' snip_install_the_eastwest_gateway_in_cluster1_2_out <<\ENDSNIP
+! IFS=$'
+' read -r -d '' snip_install_the_eastwest_gateway_in_cluster1_2_out <<\ENDSNIP
 NAME                    TYPE           CLUSTER-IP    EXTERNAL-IP    PORT(S)   AGE
 istio-eastwestgateway   LoadBalancer   10.80.6.124   34.75.71.237   ...       51s
 ENDSNIP

@@ -30,7 +30,8 @@ snip_before_you_begin_2() {
 kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl http://httpbin.foo:8000/ip -sS -o /dev/null -w "%{http_code}\n"
 }
 
-! IFS= read -r -d '' snip_before_you_begin_2_out <<\ENDSNIP
+! IFS=$'
+' read -r -d '' snip_before_you_begin_2_out <<\ENDSNIP
 200
 ENDSNIP
 
@@ -57,7 +58,8 @@ snip_explicitly_deny_a_request_2() {
 kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/get" -X GET -sS -o /dev/null -w "%{http_code}\n"
 }
 
-! IFS= read -r -d '' snip_explicitly_deny_a_request_2_out <<\ENDSNIP
+! IFS=$'
+' read -r -d '' snip_explicitly_deny_a_request_2_out <<\ENDSNIP
 403
 ENDSNIP
 
@@ -65,7 +67,8 @@ snip_explicitly_deny_a_request_3() {
 kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/post" -X POST -sS -o /dev/null -w "%{http_code}\n"
 }
 
-! IFS= read -r -d '' snip_explicitly_deny_a_request_3_out <<\ENDSNIP
+! IFS=$'
+' read -r -d '' snip_explicitly_deny_a_request_3_out <<\ENDSNIP
 200
 ENDSNIP
 
@@ -95,7 +98,8 @@ snip_explicitly_deny_a_request_5() {
 kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/get" -X GET -H "x-token: admin" -sS -o /dev/null -w "%{http_code}\n"
 }
 
-! IFS= read -r -d '' snip_explicitly_deny_a_request_5_out <<\ENDSNIP
+! IFS=$'
+' read -r -d '' snip_explicitly_deny_a_request_5_out <<\ENDSNIP
 200
 ENDSNIP
 
@@ -103,7 +107,8 @@ snip_explicitly_deny_a_request_6() {
 kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/get" -X GET -H "x-token: guest" -sS -o /dev/null -w "%{http_code}\n"
 }
 
-! IFS= read -r -d '' snip_explicitly_deny_a_request_6_out <<\ENDSNIP
+! IFS=$'
+' read -r -d '' snip_explicitly_deny_a_request_6_out <<\ENDSNIP
 403
 ENDSNIP
 
@@ -130,7 +135,8 @@ snip_explicitly_deny_a_request_8() {
 kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/ip" -X GET -H "x-token: guest" -s -o /dev/null -w "%{http_code}\n"
 }
 
-! IFS= read -r -d '' snip_explicitly_deny_a_request_8_out <<\ENDSNIP
+! IFS=$'
+' read -r -d '' snip_explicitly_deny_a_request_8_out <<\ENDSNIP
 403
 ENDSNIP
 
@@ -138,7 +144,8 @@ snip_explicitly_deny_a_request_9() {
 kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/ip" -X GET -H "x-token: admin" -s -o /dev/null -w "%{http_code}\n"
 }
 
-! IFS= read -r -d '' snip_explicitly_deny_a_request_9_out <<\ENDSNIP
+! IFS=$'
+' read -r -d '' snip_explicitly_deny_a_request_9_out <<\ENDSNIP
 200
 ENDSNIP
 
@@ -146,7 +153,8 @@ snip_explicitly_deny_a_request_10() {
 kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/get" -X GET -H "x-token: admin" -s -o /dev/null -w "%{http_code}\n"
 }
 
-! IFS= read -r -d '' snip_explicitly_deny_a_request_10_out <<\ENDSNIP
+! IFS=$'
+' read -r -d '' snip_explicitly_deny_a_request_10_out <<\ENDSNIP
 403
 ENDSNIP
 

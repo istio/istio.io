@@ -53,11 +53,13 @@ snip_before_you_begin_7() {
 curl "$INGRESS_HOST:$INGRESS_PORT"/headers -s -o /dev/null -w "%{http_code}\n"
 }
 
-! IFS= read -r -d '' snip_before_you_begin_7_out <<\ENDSNIP
+! IFS=$'
+' read -r -d '' snip_before_you_begin_7_out <<\ENDSNIP
 200
 ENDSNIP
 
-! IFS= read -r -d '' snip_source_ip_address_of_the_original_client_1 <<\ENDSNIP
+! IFS=$'
+' read -r -d '' snip_source_ip_address_of_the_original_client_1 <<\ENDSNIP
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -75,7 +77,8 @@ spec:
           service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
 ENDSNIP
 
-! IFS= read -r -d '' snip_source_ip_address_of_the_original_client_2 <<\ENDSNIP
+! IFS=$'
+' read -r -d '' snip_source_ip_address_of_the_original_client_2 <<\ENDSNIP
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: Gateway
 metadata:
@@ -87,7 +90,8 @@ spec:
   ...
 ENDSNIP
 
-! IFS= read -r -d '' snip_tcpudp_proxy_load_balancer_1 <<\ENDSNIP
+! IFS=$'
+' read -r -d '' snip_tcpudp_proxy_load_balancer_1 <<\ENDSNIP
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -110,7 +114,8 @@ spec:
         ...
 ENDSNIP
 
-! IFS= read -r -d '' snip_tcpudp_proxy_load_balancer_2 <<\ENDSNIP
+! IFS=$'
+' read -r -d '' snip_tcpudp_proxy_load_balancer_2 <<\ENDSNIP
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: Gateway
 metadata:
@@ -143,7 +148,8 @@ snip_network_load_balancer_2() {
 kubectl patch svc httpbin-gateway-istio -n foo -p '{"spec":{"externalTrafficPolicy":"Local"}}'
 }
 
-! IFS= read -r -d '' snip_httphttps_load_balancer_1 <<\ENDSNIP
+! IFS=$'
+' read -r -d '' snip_httphttps_load_balancer_1 <<\ENDSNIP
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -237,7 +243,8 @@ snip_ipbased_allow_list_and_deny_list_5() {
 curl "$INGRESS_HOST:$INGRESS_PORT"/headers -s -o /dev/null -w "%{http_code}\n"
 }
 
-! IFS= read -r -d '' snip_ipbased_allow_list_and_deny_list_5_out <<\ENDSNIP
+! IFS=$'
+' read -r -d '' snip_ipbased_allow_list_and_deny_list_5_out <<\ENDSNIP
 403
 ENDSNIP
 
@@ -245,7 +252,8 @@ snip_ipbased_allow_list_and_deny_list_6() {
 CLIENT_IP=$(kubectl get pods -n istio-system -o name -l istio=ingressgateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n istio-system | grep remoteIP; done | tail -1 | awk -F, '{print $3}' | awk -F: '{print $2}' | sed 's/ //') && echo "$CLIENT_IP"
 }
 
-! IFS= read -r -d '' snip_ipbased_allow_list_and_deny_list_6_out <<\ENDSNIP
+! IFS=$'
+' read -r -d '' snip_ipbased_allow_list_and_deny_list_6_out <<\ENDSNIP
 192.168.10.15
 ENDSNIP
 
@@ -253,7 +261,8 @@ snip_ipbased_allow_list_and_deny_list_7() {
 CLIENT_IP=$(kubectl get pods -n istio-system -o name -l istio=ingressgateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n istio-system | grep remoteIP; done | tail -1 | awk -F, '{print $4}' | awk -F: '{print $2}' | sed 's/ //') && echo "$CLIENT_IP"
 }
 
-! IFS= read -r -d '' snip_ipbased_allow_list_and_deny_list_7_out <<\ENDSNIP
+! IFS=$'
+' read -r -d '' snip_ipbased_allow_list_and_deny_list_7_out <<\ENDSNIP
 192.168.10.15
 ENDSNIP
 
@@ -261,7 +270,8 @@ snip_ipbased_allow_list_and_deny_list_8() {
 CLIENT_IP=$(kubectl get pods -n foo -o name -l gateway.networking.k8s.io/gateway-name=httpbin-gateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n foo | grep remoteIP; done | tail -1 | awk -F, '{print $3}' | awk -F: '{print $2}' | sed 's/ //') && echo "$CLIENT_IP"
 }
 
-! IFS= read -r -d '' snip_ipbased_allow_list_and_deny_list_8_out <<\ENDSNIP
+! IFS=$'
+' read -r -d '' snip_ipbased_allow_list_and_deny_list_8_out <<\ENDSNIP
 192.168.10.15
 ENDSNIP
 
@@ -269,7 +279,8 @@ snip_ipbased_allow_list_and_deny_list_9() {
 CLIENT_IP=$(kubectl get pods -n foo -o name -l gateway.networking.k8s.io/gateway-name=httpbin-gateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n foo | grep remoteIP; done | tail -1 | awk -F, '{print $4}' | awk -F: '{print $2}' | sed 's/ //') && echo "$CLIENT_IP"
 }
 
-! IFS= read -r -d '' snip_ipbased_allow_list_and_deny_list_9_out <<\ENDSNIP
+! IFS=$'
+' read -r -d '' snip_ipbased_allow_list_and_deny_list_9_out <<\ENDSNIP
 192.168.10.15
 ENDSNIP
 
@@ -355,7 +366,8 @@ snip_ipbased_allow_list_and_deny_list_14() {
 curl "$INGRESS_HOST:$INGRESS_PORT"/headers -s -o /dev/null -w "%{http_code}\n"
 }
 
-! IFS= read -r -d '' snip_ipbased_allow_list_and_deny_list_14_out <<\ENDSNIP
+! IFS=$'
+' read -r -d '' snip_ipbased_allow_list_and_deny_list_14_out <<\ENDSNIP
 200
 ENDSNIP
 
@@ -441,7 +453,8 @@ snip_ipbased_allow_list_and_deny_list_19() {
 curl "$INGRESS_HOST:$INGRESS_PORT"/headers -s -o /dev/null -w "%{http_code}\n"
 }
 
-! IFS= read -r -d '' snip_ipbased_allow_list_and_deny_list_19_out <<\ENDSNIP
+! IFS=$'
+' read -r -d '' snip_ipbased_allow_list_and_deny_list_19_out <<\ENDSNIP
 403
 ENDSNIP
 

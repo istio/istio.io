@@ -47,7 +47,8 @@ snip_configuring_ingress_using_an_ingress_resource_2() {
 curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/status/200"
 }
 
-! IFS= read -r -d '' snip_configuring_ingress_using_an_ingress_resource_2_out <<\ENDSNIP
+! IFS=$'
+' read -r -d '' snip_configuring_ingress_using_an_ingress_resource_2_out <<\ENDSNIP
 HTTP/1.1 200 OK
 server: istio-envoy
 ...
@@ -57,12 +58,14 @@ snip_configuring_ingress_using_an_ingress_resource_3() {
 curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/headers"
 }
 
-! IFS= read -r -d '' snip_configuring_ingress_using_an_ingress_resource_3_out <<\ENDSNIP
+! IFS=$'
+' read -r -d '' snip_configuring_ingress_using_an_ingress_resource_3_out <<\ENDSNIP
 HTTP/1.1 404 Not Found
 ...
 ENDSNIP
 
-! IFS= read -r -d '' snip_specifying_ingressclass_1 <<\ENDSNIP
+! IFS=$'
+' read -r -d '' snip_specifying_ingressclass_1 <<\ENDSNIP
 apiVersion: networking.k8s.io/v1
 kind: IngressClass
 metadata:

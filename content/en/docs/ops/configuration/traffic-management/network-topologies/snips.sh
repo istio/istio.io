@@ -38,7 +38,8 @@ snip_create_httpbin_namespace() {
 kubectl create namespace httpbin
 }
 
-! IFS= read -r -d '' snip_create_httpbin_namespace_out <<\ENDSNIP
+! IFS=$'
+' read -r -d '' snip_create_httpbin_namespace_out <<\ENDSNIP
 namespace/httpbin created
 ENDSNIP
 
@@ -46,7 +47,8 @@ snip_label_httpbin_namespace() {
 kubectl label --overwrite namespace httpbin istio-injection=enabled
 }
 
-! IFS= read -r -d '' snip_label_httpbin_namespace_out <<\ENDSNIP
+! IFS=$'
+' read -r -d '' snip_label_httpbin_namespace_out <<\ENDSNIP
 namespace/httpbin labeled
 ENDSNIP
 
@@ -75,7 +77,8 @@ snip_curl_xff_headers() {
 curl -s -H 'X-Forwarded-For: 56.5.6.7, 72.9.5.6, 98.1.2.3' "$GATEWAY_URL/get?show_env=true"
 }
 
-! IFS= read -r -d '' snip_curl_xff_headers_out <<\ENDSNIP
+! IFS=$'
+' read -r -d '' snip_curl_xff_headers_out <<\ENDSNIP
 {
 "args": {
   "show_env": "true"
@@ -100,7 +103,8 @@ curl -s -H 'X-Forwarded-For: 56.5.6.7, 72.9.5.6, 98.1.2.3' "$GATEWAY_URL/get?sho
 }
 ENDSNIP
 
-! IFS= read -r -d '' snip_proxy_protocol_2 <<\ENDSNIP
+! IFS=$'
+' read -r -d '' snip_proxy_protocol_2 <<\ENDSNIP
 metadata:
   annotations:
     "proxy.istio.io/config": '{"gatewayTopology" : { "proxyProtocol": {} }}'

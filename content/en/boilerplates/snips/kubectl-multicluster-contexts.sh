@@ -24,7 +24,8 @@ bpsnip_kubectl_multicluster_contexts__1() {
 kubectl config get-contexts
 }
 
-! IFS= read -r -d '' bpsnip_kubectl_multicluster_contexts__1_out <<\ENDSNIP
+! IFS=$'
+' read -r -d '' bpsnip_kubectl_multicluster_contexts__1_out <<\ENDSNIP
 CURRENT   NAME       CLUSTER    AUTHINFO       NAMESPACE
 *         cluster1   cluster1   user@foo.com   default
           cluster2   cluster2   user@foo.com   default
@@ -36,6 +37,7 @@ export CTX_CLUSTER2=$(kubectl config view -o jsonpath='{.contexts[1].name}')
 echo "CTX_CLUSTER1 = ${CTX_CLUSTER1}, CTX_CLUSTER2 = ${CTX_CLUSTER2}"
 }
 
-! IFS= read -r -d '' bpsnip_kubectl_multicluster_contexts__2_out <<\ENDSNIP
+! IFS=$'
+' read -r -d '' bpsnip_kubectl_multicluster_contexts__2_out <<\ENDSNIP
 CTX_CLUSTER1 = cluster1, CTX_CLUSTER2 = cluster2
 ENDSNIP
