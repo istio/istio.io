@@ -1,6 +1,6 @@
 ---
-title: L4 Networking & mTLS with Ztunnel
-description: User guide for Istio Ambient L4 networking and mTLS using ztunnel proxy.
+title: Layer 4 Networking & mTLS with Ztunnel
+description: Understand and manage Istio's "zero-trust tunnel" proxy.
 weight: 2
 owner: istio/wg-networking-maintainers
 test: no
@@ -10,7 +10,7 @@ test: no
 
 ## Introduction {#introsection}
 
-This guide describes in-depth the functionality and usage of the ztunnel proxy and Layer-4 networking functions in Istio ambient mesh. To simply try out Istio ambient mesh, follow the [Ambient Quickstart](/docs/ops/ambient/getting-started/) instead. This guide follows a user journey and works through multiple examples to detail the design and architecture of Istio ambient. It is highly recommended to follow the topics linked below in sequence.
+This guide describes in-depth the functionality and usage of the ztunnel proxy and Layer 4 networking functions in Istio ambient mesh. To simply try out Istio ambient mesh, follow the [Ambient Quickstart](/docs/ops/ambient/getting-started/) instead. This guide follows a user journey and works through multiple examples to detail the design and architecture of Istio ambient. It is highly recommended to follow the topics linked below in sequence.
 
 * [Introduction](#introsection)
 * [Current Caveats](#caveats)

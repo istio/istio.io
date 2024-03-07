@@ -1,15 +1,14 @@
 ---
 title: Install with Helm
-description: How to install Ambient Mesh with Helm.
+description: Install Istio in Ambient mode with Helm.
 weight: 4
 owner: istio/wg-environments-maintainers
 test: yes
 ---
 
-This guide shows you how to install ambient mesh with Helm.
-Besides the demo in [Getting Started with Ambient Mesh](/docs/ops/ambient/getting-started/),
-we **encourage** you to follow this guide to install ambient mesh.
-Helm helps you manage components separately, and you can easily upgrade the components to the latest version.
+This guide shows you how to install Istio in ambient mode with Helm.
+Aside from following the demo in [Getting Started with Ambient Mesh](/docs/ops/ambient/getting-started/),
+we encourage the use of Helm to install Istio for use in ambient mode. Helm helps you manage components separately, and you can easily upgrade the components to the latest version.
 
 ## Prerequisites
 
@@ -28,9 +27,9 @@ Helm helps you manage components separately, and you can easily upgrade the comp
 
 *See [helm repo](https://helm.sh/docs/helm/helm_repo/) for command documentation.*
 
-## Installing the Components
+## Installing the components
 
-### Installing the base Component
+### Installing the base component
 
 The `base` chart contains the basic CRDs and cluster roles required to set up Istio.
 This should be installed prior to any other Istio component.
@@ -41,14 +40,13 @@ $ helm install istio-base istio/base -n istio-system --create-namespace
 
 ### Installing the CNI Component
 
-The **CNI** chart installs the Istio CNI Plugin. It is responsible for detecting the pods that belong to the ambient mesh,
-and configuring the traffic redirection between the ztunnel DaemonSet, which will be installed later.
+The `cni` chart installs the Istio CNI plugin. It is responsible for detecting the pods that belong to the ambient mesh, and configuring the traffic redirection between pods and the ztunnel node proxy (which will be installed later).
 
 {{< text syntax=bash snip_id=install_cni >}}
 $ helm install istio-cni istio/cni -n istio-system --set profile=ambient
 {{< /text >}}
 
-### Installing the discovery Component
+### Installing the discovery component
 
 The `istiod` chart installs a revision of Istiod. Istiod is the control plane component that manages and
 configures the proxies to route traffic within the mesh.
@@ -59,13 +57,13 @@ $ helm install istiod istio/istiod --namespace istio-system --set profile=ambien
 
 ### Installing the ztunnel component
 
-The `ztunnel` chart installs the ztunnel DaemonSet, which is the node-proxy component of ambient.
+The `ztunnel` chart installs the ztunnel DaemonSet, which is the node proxy component of Istio's ambient mode.
 
 {{< text syntax=bash snip_id=install_ztunnel >}}
 $ helm install ztunnel istio/ztunnel -n istio-system
 {{< /text >}}
 
-### (Optional) Install an ingress gateway
+### Install an ingress gateway (optional)
 
 {{< warning >}}
 The namespace the gateway is deployed in must not have a `istio-injection=disabled` label.
@@ -86,7 +84,7 @@ To view supported configuration options and documentation, run:
 $ helm show values istio/istiod
 {{< /text >}}
 
-## Verifying the Installation
+## Verifying the installation
 
 ### Verifying the workload status
 
@@ -111,12 +109,10 @@ istiod-5f4c75464f-gskxf          1/1     Running   0          10m
 ztunnel-c2z4s                    1/1     Running   0          10m
 {{< /text >}}
 
-### Verifying with the Sample Application
+### Verifying with the sample application
 
-After installing ambient with Helm, you can follow
-[Deploy the sample application](/docs/ops/ambient/getting-started/#bookinfo)
-guide to deploy the sample application and ingress gateways, and then you can
-[add your application to ambient](/docs/ops/ambient/getting-started/#addtoambient).
+After installing ambient mode with Helm, you can follow the [Deploy the sample application](/docs/ops/ambient/getting-started/#bookinfo) guide to deploy the sample application and ingress gateways, and then you can
+[add your application to the ambient mesh](/docs/ops/ambient/getting-started/#addtoambient).
 
 ## Uninstall
 
@@ -141,25 +137,25 @@ installed above.
     $ kubectl delete namespace istio-ingress
     {{< /text >}}
 
-1. Delete Istio CNI chart:
+1. Delete the Istio CNI chart:
 
     {{< text syntax=bash snip_id=delete_cni >}}
     $ helm delete istio-cni -n istio-system
     {{< /text >}}
 
-1. Delete Istio ztunnel chart:
+1. Delete the Istio ztunnel chart:
 
     {{< text syntax=bash snip_id=delete_ztunnel >}}
     $ helm delete ztunnel -n istio-system
     {{< /text >}}
 
-1. Delete Istio discovery chart:
+1. Delete the Istio discovery chart:
 
     {{< text syntax=bash snip_id=delete_discovery >}}
     $ helm delete istiod -n istio-system
     {{< /text >}}
 
-1. Delete Istio base chart:
+1. Delete the Istio base chart:
 
     {{< tip >}}
     By design, deleting a chart via Helm doesn't delete the installed Custom
@@ -170,7 +166,7 @@ installed above.
     $ helm delete istio-base -n istio-system
     {{< /text >}}
 
-1. Delete CRDs Installed by Istio (Optional)
+1. Delete CRDs installed by Istio (optional)
 
     {{< warning >}}
     This will delete all created Istio resources.
