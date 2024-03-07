@@ -15,7 +15,11 @@ This guide is a supplement to the [Istio Ambient L4 Networking guide](/docs/ops/
 In the context of Istio Ambient, the term traffic redirection refers to data plane functionality that intercepts traffic sent to and from endpoints that ambient enabled and the proxies that handle the core data path in the ambient mesb. Sometimes the term "traffic capture" is also used equivalently, in this guide we will stick with the term "traffic redirection". 
 
 {{< tip >}}
-Inpod traffic redirection is only supported from Istio version 1.21.0 onwards. Although Ambient mode has been supported in Istio since version 1.18.0, prior to 1.21.0 it used a different traffic redirection mechanism which had significant restrictions when used alongside various Kubernetes CNI plugins. Currently the prior traffic redirection is deprecated and the Inpod mechanism will be the new default mechanism going forward from 1.21.0 onwards. Content in this guide is limited to the functionality since version 1.21.0 only and it is strongly recommended that users deploy Ambient mode using Istio version 1.21.0 or later.
+{{< boilerplate ambient-alpha-warning >}}
+
+Inpod traffic redirection is shipped as the default ambient capture mechanism for Ambient from Istio version 1.21.0 onwards.
+
+Previous releases of Istio shipping alpha implementations of ambient used a different method, which has been removed and replaced.  As with all alpha features, no backwards compatibility is guaranteed, documentation only refers to the current implementation, and bugs should only be reported against the latest alpha release.
 {{< /tip >}}
 
 ### Inpod traffic redirection model
