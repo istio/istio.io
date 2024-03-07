@@ -57,7 +57,9 @@ Since the ambient functionality is currently at an alpha release level, the foll
 
 The examples in this guide used a deployment of Istio version `1.21.0` on a `kind` cluster of version `0.20.0` running Kubernetes version `1.27.3`.
 
-The recommended minimum Istio version needed for ambient functions is 1.21.0 and the minimum Kubernetes version needed is `1.24.0`. The examples below require a cluster with more than 1 worker node in order to explain how cross-node traffic operates. Refer to the [installation user guide](/docs/ops/ambient/install/) or [getting started guide](/docs/ops/ambient/getting-started/) for information on installing Istio in ambient mode on a Kubernetes cluster.
+As Istio Ambient is not yet stable, the most recent Istio release is the only recommended version for ambient use.
+
+The examples below require a cluster with more than 1 worker node in order to explain how cross-node traffic operates. Refer to the [installation user guide](/docs/ops/ambient/install/) or [getting started guide](/docs/ops/ambient/getting-started/) for information on installing Istio in ambient mode on a Kubernetes cluster.
 
 ## Functional Overview {#functionaloverview}
 
