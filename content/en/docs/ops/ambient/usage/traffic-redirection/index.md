@@ -74,7 +74,7 @@ inpod_mark: 1337
 2024-02-21T22:04:58.446444Z  INFO ztunnel::inpod::statemanager: pod WorkloadUid("1e054806-e667-4109-a5af-08b3e6ba0c42") received netns, starting proxy
 {{< /text >}}
 
-### Confirm the state of sockets
+#### Confirm the state of sockets
 
 Follow the steps below to confirm that the sockets on ports 15001, 15006, and 15008 are open and in the listening state.
 
