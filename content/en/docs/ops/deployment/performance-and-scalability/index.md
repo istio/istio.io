@@ -109,7 +109,7 @@ the two proxies add about 0.182 ms and 0.248 ms to the 90th and 99th percentile 
 We obtained these results using the [Istio benchmarks](https://github.com/istio/tools/tree/{{< source_branch_name >}}/perf/benchmark)
 for the `http/1.1` protocol, with a 1 kB payload at 1000 requests per second using 2,4,8,16,32,64 client connections, 2 proxy workers and mutual TLS enabled.
 
-Note: This testing was performed on the [`CNCF Community Infrastructure Lab`](https://github.com/cncf/cluster). Different hardware will give different values. 
+Note: This testing was performed on the [CNCF Community Infrastructure Lab](https://github.com/cncf/cluster). Different hardware will give different values. 
 
 <br><img width="90%" style="display: block; margin: auto;"
     src="istio-1.21.0-nighthawk-90.png"
