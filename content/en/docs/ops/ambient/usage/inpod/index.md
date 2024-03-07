@@ -32,7 +32,6 @@ The `istio-cni` node agent is informed of pod lifecycle events such as creation 
 The `istio-cni` node agent additionally installs a chained CNI plugin that is executed by the container runtime after the primary CNI plugin within that Kubernetes cluster executes. Its only purpose is to notify the `istio-cni` node agent when a new pod is created by the container runtime in a namespace that is already enrolled in ambient mode, and propagate the new pod context to the `istio-cni` node agent. 
 
 Once the `istio-cni` node agent is notified that a pod needs to be added to the ambient mesh (either from the CNI plugin, if the pod is brand-new, or from the Kubernetes API server, if the pod is already running but needs to be added), the following sequence of operations is performed:
-i
 - The `istio-cni` node agent enters the pod’s network namespace and establishes network redirection rules inside the pod network namespace, such that packets entering and leaving the pod are intercepted and transparently redirected to the node-local ztunnel proxy instance listening on [well-known ports](https://github.com/istio/ztunnel/blob/master/ARCHITECTURE.md#ports) (15008, 15006, 15001).
 - The `istio-cni` node agent then informs the node ztunnel over a Unix domain socket that it should establish local proxy
 listening ports inside the pod’s network namespace, (on 15008, 15006, and 15001), and provides ztunnel with a low-level
