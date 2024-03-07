@@ -85,7 +85,7 @@ reduction - across many pods, this quickly adds up to cost savings.
 
 ### Support for all CNIs in ambient mode
 
-Our new [ambient mode](/blog/2022/introducing-ambient-mesh/) now works across all Kubernetes platforms and CNI implementations, Ambient mode has been tested with GKE, AKS, and EKS and all the CNI implementations they offer, as well as with 3rd-party CNIs like Calico and Cilium, as well as platforms like OpenShift, with solid results. The engineering challenges behind this fix were described in [a recent blog post](/blog/2024/inpod-traffic-redirection-ambient/).
+Our new [ambient mode](/blog/2022/introducing-ambient-mesh/) now works across all Kubernetes platforms and CNI implementations. Ambient mode has been tested with GKE, AKS, and EKS and all the CNI implementations they offer, 3rd-party CNIs like Calico and Cilium, and platforms like OpenShift, all with solid results. The engineering challenges behind this fix were described in [a recent blog post](/blog/2024/inpod-traffic-redirection-ambient/).
 
 Ambient mode is scheduled to move to Beta in the upcoming Istio 1.22.
 
