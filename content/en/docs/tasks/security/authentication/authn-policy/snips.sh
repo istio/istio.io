@@ -41,7 +41,7 @@ snip_setup_2() {
 kubectl exec "$(kubectl get pod -l app=sleep -n bar -o jsonpath={.items..metadata.name})" -c sleep -n bar -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n"
 }
 
-! read -r -d '' snip_setup_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_setup_2_out <<\ENDSNIP
 200
 ENDSNIP
 
@@ -49,7 +49,7 @@ snip_setup_3() {
 for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl -s "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
 }
 
-! read -r -d '' snip_setup_3_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_setup_3_out <<\ENDSNIP
 sleep.foo to httpbin.foo: 200
 sleep.foo to httpbin.bar: 200
 sleep.foo to httpbin.legacy: 200
@@ -65,7 +65,7 @@ snip_setup_4() {
 kubectl get peerauthentication --all-namespaces
 }
 
-! read -r -d '' snip_setup_4_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_setup_4_out <<\ENDSNIP
 No resources found
 ENDSNIP
 
@@ -73,7 +73,7 @@ snip_setup_5() {
 kubectl get destinationrules.networking.istio.io --all-namespaces -o yaml | grep "host:"
 }
 
-! read -r -d '' snip_setup_5_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_setup_5_out <<\ENDSNIP
 
 ENDSNIP
 
@@ -81,7 +81,7 @@ snip_auto_mutual_tls_1() {
 kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl -s http://httpbin.foo:8000/headers -s | grep X-Forwarded-Client-Cert | sed 's/Hash=[a-z0-9]*;/Hash=<redacted>;/'
 }
 
-! read -r -d '' snip_auto_mutual_tls_1_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_auto_mutual_tls_1_out <<\ENDSNIP
     "X-Forwarded-Client-Cert": "By=spiffe://cluster.local/ns/foo/sa/httpbin;Hash=<redacted>;Subject=\"\";URI=spiffe://cluster.local/ns/foo/sa/sleep"
 ENDSNIP
 
@@ -89,7 +89,7 @@ snip_auto_mutual_tls_2() {
 kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl http://httpbin.legacy:8000/headers -s | grep X-Forwarded-Client-Cert
 }
 
-! read -r -d '' snip_auto_mutual_tls_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_auto_mutual_tls_2_out <<\ENDSNIP
 
 ENDSNIP
 
@@ -110,7 +110,7 @@ snip_globally_enabling_istio_mutual_tls_in_strict_mode_2() {
 for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
 }
 
-! read -r -d '' snip_globally_enabling_istio_mutual_tls_in_strict_mode_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_globally_enabling_istio_mutual_tls_in_strict_mode_2_out <<\ENDSNIP
 sleep.foo to httpbin.foo: 200
 sleep.foo to httpbin.bar: 200
 sleep.foo to httpbin.legacy: 200
@@ -145,7 +145,7 @@ snip_namespacewide_policy_2() {
 for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
 }
 
-! read -r -d '' snip_namespacewide_policy_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_namespacewide_policy_2_out <<\ENDSNIP
 sleep.foo to httpbin.foo: 200
 sleep.foo to httpbin.bar: 200
 sleep.foo to httpbin.legacy: 200
@@ -178,7 +178,7 @@ snip_enable_mutual_tls_per_workload_2() {
 for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
 }
 
-! read -r -d '' snip_enable_mutual_tls_per_workload_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_enable_mutual_tls_per_workload_2_out <<\ENDSNIP
 sleep.foo to httpbin.foo: 200
 sleep.foo to httpbin.bar: 200
 sleep.foo to httpbin.legacy: 200
@@ -192,7 +192,7 @@ command terminated with exit code 56
 sleep.legacy to httpbin.legacy: 200
 ENDSNIP
 
-! read -r -d '' snip_enable_mutual_tls_per_workload_3 <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_enable_mutual_tls_per_workload_3 <<\ENDSNIP
 ...
 sleep.legacy to httpbin.bar: 000
 command terminated with exit code 56
@@ -221,7 +221,7 @@ snip_enable_mutual_tls_per_workload_5() {
 for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
 }
 
-! read -r -d '' snip_enable_mutual_tls_per_workload_5_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_enable_mutual_tls_per_workload_5_out <<\ENDSNIP
 sleep.foo to httpbin.foo: 200
 sleep.foo to httpbin.bar: 200
 sleep.foo to httpbin.legacy: 200
@@ -254,7 +254,7 @@ snip_policy_precedence_2() {
 kubectl exec "$(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items..metadata.name})" -c sleep -n legacy -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n"
 }
 
-! read -r -d '' snip_policy_precedence_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_policy_precedence_2_out <<\ENDSNIP
 200
 ENDSNIP
 
@@ -281,7 +281,7 @@ snip_enduser_authentication_4() {
 curl "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"
 }
 
-! read -r -d '' snip_enduser_authentication_4_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_enduser_authentication_4_out <<\ENDSNIP
 200
 ENDSNIP
 
@@ -324,7 +324,7 @@ snip_enduser_authentication_7() {
 curl "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"
 }
 
-! read -r -d '' snip_enduser_authentication_7_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_enduser_authentication_7_out <<\ENDSNIP
 200
 ENDSNIP
 
@@ -332,7 +332,7 @@ snip_enduser_authentication_8() {
 curl --header "Authorization: Bearer deadbeef" "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"
 }
 
-! read -r -d '' snip_enduser_authentication_8_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_enduser_authentication_8_out <<\ENDSNIP
 401
 ENDSNIP
 
@@ -341,7 +341,7 @@ TOKEN=$(curl https://raw.githubusercontent.com/istio/istio/release-1.21/security
 curl --header "Authorization: Bearer $TOKEN" "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"
 }
 
-! read -r -d '' snip_enduser_authentication_9_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_enduser_authentication_9_out <<\ENDSNIP
 200
 ENDSNIP
 
@@ -358,7 +358,7 @@ TOKEN=$(python3 ./gen-jwt.py ./key.pem --expire 5)
 for i in $(seq 1 10); do curl --header "Authorization: Bearer $TOKEN" "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"; sleep 10; done
 }
 
-! read -r -d '' snip_enduser_authentication_12_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_enduser_authentication_12_out <<\ENDSNIP
 200
 200
 200
@@ -414,7 +414,7 @@ snip_require_a_valid_token_3() {
 curl "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"
 }
 
-! read -r -d '' snip_require_a_valid_token_3_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_require_a_valid_token_3_out <<\ENDSNIP
 403
 ENDSNIP
 
@@ -467,7 +467,7 @@ snip_require_valid_tokens_perpath_3() {
 curl "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"
 }
 
-! read -r -d '' snip_require_valid_tokens_perpath_3_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_require_valid_tokens_perpath_3_out <<\ENDSNIP
 403
 ENDSNIP
 
@@ -475,7 +475,7 @@ snip_require_valid_tokens_perpath_4() {
 curl "$INGRESS_HOST:$INGRESS_PORT/ip" -s -o /dev/null -w "%{http_code}\n"
 }
 
-! read -r -d '' snip_require_valid_tokens_perpath_4_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_require_valid_tokens_perpath_4_out <<\ENDSNIP
 200
 ENDSNIP
 

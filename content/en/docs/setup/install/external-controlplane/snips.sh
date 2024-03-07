@@ -54,7 +54,7 @@ snip_set_up_a_gateway_in_the_external_cluster_3() {
 kubectl get po -n istio-system --context="${CTX_EXTERNAL_CLUSTER}"
 }
 
-! read -r -d '' snip_set_up_a_gateway_in_the_external_cluster_3_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_set_up_a_gateway_in_the_external_cluster_3_out <<\ENDSNIP
 NAME                                   READY   STATUS    RESTARTS   AGE
 istio-ingressgateway-9d4c7f5c7-7qpzz   1/1     Running   0          29s
 istiod-68488cd797-mq8dn                1/1     Running   0          38s
@@ -64,7 +64,7 @@ snip_set_up_a_gateway_in_the_external_cluster_5() {
 echo "$EXTERNAL_ISTIOD_ADDR" "$SSL_SECRET_NAME"
 }
 
-! read -r -d '' snip_set_up_a_gateway_in_the_external_cluster_5_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_set_up_a_gateway_in_the_external_cluster_5_out <<\ENDSNIP
 myhost.example.com myhost-example-credential
 ENDSNIP
 
@@ -112,7 +112,7 @@ snip_set_up_the_remote_config_cluster_4() {
 kubectl get mutatingwebhookconfiguration --context="${CTX_REMOTE_CLUSTER}"
 }
 
-! read -r -d '' snip_set_up_the_remote_config_cluster_4_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_set_up_the_remote_config_cluster_4_out <<\ENDSNIP
 NAME                                     WEBHOOKS   AGE
 istio-sidecar-injector-external-istiod   4          6m24s
 ENDSNIP
@@ -121,7 +121,7 @@ snip_set_up_the_remote_config_cluster_5() {
 kubectl get validatingwebhookconfiguration --context="${CTX_REMOTE_CLUSTER}"
 }
 
-! read -r -d '' snip_set_up_the_remote_config_cluster_5_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_set_up_the_remote_config_cluster_5_out <<\ENDSNIP
 NAME                              WEBHOOKS   AGE
 istio-validator-external-istiod   1          6m53s
 istiod-default-validator          1          6m53s
@@ -225,7 +225,7 @@ snip_set_up_the_control_plane_in_the_external_cluster_6() {
 kubectl get po -n external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
 }
 
-! read -r -d '' snip_set_up_the_control_plane_in_the_external_cluster_6_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_set_up_the_control_plane_in_the_external_cluster_6_out <<\ENDSNIP
 NAME                      READY   STATUS    RESTARTS   AGE
 istiod-779bd6fdcf-bd6rg   1/1     Running   0          70s
 ENDSNIP
@@ -338,7 +338,7 @@ snip_deploy_a_sample_application_3() {
 kubectl get pod -n sample --context="${CTX_REMOTE_CLUSTER}"
 }
 
-! read -r -d '' snip_deploy_a_sample_application_3_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_deploy_a_sample_application_3_out <<\ENDSNIP
 NAME                             READY   STATUS    RESTARTS   AGE
 helloworld-v1-776f57d5f6-s7zfc   2/2     Running   0          10s
 sleep-64d7d56698-wqjnm           2/2     Running   0          9s
@@ -350,7 +350,7 @@ kubectl exec --context="${CTX_REMOTE_CLUSTER}" -n sample -c sleep \
     -- curl -sS helloworld.sample:5000/hello
 }
 
-! read -r -d '' snip_deploy_a_sample_application_4_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_deploy_a_sample_application_4_out <<\ENDSNIP
 Hello version: v1, instance: helloworld-v1-776f57d5f6-s7zfc
 ENDSNIP
 
@@ -404,7 +404,7 @@ snip_configure_and_test_an_ingress_gateway_1() {
 kubectl get pod -l app=istio-ingressgateway -n external-istiod --context="${CTX_REMOTE_CLUSTER}"
 }
 
-! read -r -d '' snip_configure_and_test_an_ingress_gateway_1_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_configure_and_test_an_ingress_gateway_1_out <<\ENDSNIP
 NAME                                    READY   STATUS    RESTARTS   AGE
 istio-ingressgateway-7bcd5c6bbd-kmtl4   1/1     Running   0          8m4s
 ENDSNIP
@@ -438,7 +438,7 @@ snip_configure_and_test_an_ingress_gateway_7() {
 curl -s "http://${GATEWAY_URL}/hello"
 }
 
-! read -r -d '' snip_configure_and_test_an_ingress_gateway_7_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_configure_and_test_an_ingress_gateway_7_out <<\ENDSNIP
 Hello version: v1, instance: helloworld-v1-776f57d5f6-s7zfc
 ENDSNIP
 
@@ -479,7 +479,7 @@ snip_register_the_new_cluster_5() {
 kubectl get mutatingwebhookconfiguration --context="${CTX_SECOND_CLUSTER}"
 }
 
-! read -r -d '' snip_register_the_new_cluster_5_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_register_the_new_cluster_5_out <<\ENDSNIP
 NAME                                     WEBHOOKS   AGE
 istio-sidecar-injector-external-istiod   4          4m13s
 ENDSNIP
@@ -514,7 +514,7 @@ snip_setup_eastwest_gateways_3() {
 kubectl --context="${CTX_REMOTE_CLUSTER}" get svc istio-eastwestgateway -n external-istiod
 }
 
-! read -r -d '' snip_setup_eastwest_gateways_3_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_setup_eastwest_gateways_3_out <<\ENDSNIP
 NAME                    TYPE           CLUSTER-IP    EXTERNAL-IP    PORT(S)   AGE
 istio-eastwestgateway   LoadBalancer   10.0.12.121   34.122.91.98   ...       51s
 ENDSNIP
@@ -523,7 +523,7 @@ snip_setup_eastwest_gateways_4() {
 kubectl --context="${CTX_SECOND_CLUSTER}" get svc istio-eastwestgateway -n external-istiod
 }
 
-! read -r -d '' snip_setup_eastwest_gateways_4_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_setup_eastwest_gateways_4_out <<\ENDSNIP
 NAME                    TYPE           CLUSTER-IP    EXTERNAL-IP    PORT(S)   AGE
 istio-eastwestgateway   LoadBalancer   10.0.12.121   34.122.91.99   ...       51s
 ENDSNIP
@@ -548,7 +548,7 @@ snip_validate_the_installation_3() {
 kubectl get pod -n sample --context="${CTX_SECOND_CLUSTER}"
 }
 
-! read -r -d '' snip_validate_the_installation_3_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_validate_the_installation_3_out <<\ENDSNIP
 NAME                            READY   STATUS    RESTARTS   AGE
 helloworld-v2-54df5f84b-9hxgw   2/2     Running   0          10s
 sleep-557747455f-wtdbr          2/2     Running   0          9s
@@ -560,7 +560,7 @@ kubectl exec --context="${CTX_SECOND_CLUSTER}" -n sample -c sleep \
     -- curl -sS helloworld.sample:5000/hello
 }
 
-! read -r -d '' snip_validate_the_installation_4_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_validate_the_installation_4_out <<\ENDSNIP
 Hello version: v2, instance: helloworld-v2-54df5f84b-9hxgw
 ENDSNIP
 
@@ -568,7 +568,7 @@ snip_validate_the_installation_5() {
 for i in {1..10}; do curl -s "http://${GATEWAY_URL}/hello"; done
 }
 
-! read -r -d '' snip_validate_the_installation_5_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_validate_the_installation_5_out <<\ENDSNIP
 Hello version: v1, instance: helloworld-v1-776f57d5f6-s7zfc
 Hello version: v2, instance: helloworld-v2-54df5f84b-9hxgw
 Hello version: v1, instance: helloworld-v1-776f57d5f6-s7zfc

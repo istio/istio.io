@@ -33,7 +33,7 @@ snip_installation_steps_4() {
 helm ls -n istio-system
 }
 
-! read -r -d '' snip_installation_steps_4_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_installation_steps_4_out <<\ENDSNIP
 NAME       NAMESPACE    REVISION UPDATED         STATUS   CHART        APP VERSION
 istio-base istio-system 1        ... ... ... ... deployed base-1.16.1  1.16.1
 ENDSNIP
@@ -46,7 +46,7 @@ snip_installation_steps_6() {
 helm ls -n istio-system
 }
 
-! read -r -d '' snip_installation_steps_6_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_installation_steps_6_out <<\ENDSNIP
 NAME       NAMESPACE    REVISION UPDATED         STATUS   CHART         APP VERSION
 istio-base istio-system 1        ... ... ... ... deployed base-1.16.1   1.16.1
 istiod     istio-system 1        ... ... ... ... deployed istiod-1.16.1 1.16.1
@@ -56,7 +56,7 @@ snip_installation_steps_7() {
 helm status istiod -n istio-system
 }
 
-! read -r -d '' snip_installation_steps_7_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_installation_steps_7_out <<\ENDSNIP
 NAME: istiod
 LAST DEPLOYED: Fri Jan 20 22:00:44 2023
 NAMESPACE: istio-system
@@ -91,7 +91,7 @@ snip_installation_steps_8() {
 kubectl get deployments -n istio-system --output wide
 }
 
-! read -r -d '' snip_installation_steps_8_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_installation_steps_8_out <<\ENDSNIP
 NAME     READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS   IMAGES                         SELECTOR
 istiod   1/1     1            1           10m   discovery    docker.io/istio/pilot:1.16.1   istio=pilot
 ENDSNIP
@@ -105,7 +105,7 @@ snip_helm_ls() {
 helm ls -n istio-system
 }
 
-! read -r -d '' snip_helm_ls_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_helm_ls_out <<\ENDSNIP
 NAME       NAMESPACE    REVISION UPDATED         STATUS   CHART        APP VERSION
 istio-base istio-system 1        ... ... ... ... deployed base-1.0.0   1.0.0
 istiod     istio-system 1        ... ... ... ... deployed istiod-1.0.0 1.0.0

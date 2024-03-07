@@ -31,7 +31,7 @@ snip_before_you_begin_2() {
 kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl http://httpbin.foo:8000/ip -sS -o /dev/null -w "%{http_code}\n"
 }
 
-! read -r -d '' snip_before_you_begin_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_before_you_begin_2_out <<\ENDSNIP
 200
 ENDSNIP
 
@@ -59,7 +59,7 @@ snip_allow_requests_with_valid_jwt_and_listtyped_claims_2() {
 kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -sS -o /dev/null -H "Authorization: Bearer invalidToken" -w "%{http_code}\n"
 }
 
-! read -r -d '' snip_allow_requests_with_valid_jwt_and_listtyped_claims_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_allow_requests_with_valid_jwt_and_listtyped_claims_2_out <<\ENDSNIP
 401
 ENDSNIP
 
@@ -67,7 +67,7 @@ snip_allow_requests_with_valid_jwt_and_listtyped_claims_3() {
 TOKEN=$(curl https://raw.githubusercontent.com/istio/istio/release-1.21/security/tools/jwt/samples/demo.jwt -s) && echo "$TOKEN" | cut -d '.' -f2 - | base64 --decode -
 }
 
-! read -r -d '' snip_allow_requests_with_valid_jwt_and_listtyped_claims_3_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_allow_requests_with_valid_jwt_and_listtyped_claims_3_out <<\ENDSNIP
 {"exp":4685989700,"foo":"bar","iat":1532389700,"iss":"testing@secure.istio.io","sub":"testing@secure.istio.io"}
 ENDSNIP
 
@@ -75,7 +75,7 @@ snip_allow_requests_with_valid_jwt_and_listtyped_claims_4() {
 kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -sS -o /dev/null -H "Authorization: Bearer $TOKEN" -w "%{http_code}\n"
 }
 
-! read -r -d '' snip_allow_requests_with_valid_jwt_and_listtyped_claims_4_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_allow_requests_with_valid_jwt_and_listtyped_claims_4_out <<\ENDSNIP
 200
 ENDSNIP
 
@@ -83,7 +83,7 @@ snip_allow_requests_with_valid_jwt_and_listtyped_claims_5() {
 kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -sS -H "Authorization: Bearer $TOKEN" | grep "X-Jwt-Claim-Foo" | sed -e 's/^[ \t]*//'
 }
 
-! read -r -d '' snip_allow_requests_with_valid_jwt_and_listtyped_claims_5_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_allow_requests_with_valid_jwt_and_listtyped_claims_5_out <<\ENDSNIP
 "X-Jwt-Claim-Foo": "bar"
 ENDSNIP
 

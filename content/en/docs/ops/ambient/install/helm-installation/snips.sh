@@ -53,7 +53,7 @@ snip_show_components() {
 helm ls -n istio-system
 }
 
-! read -r -d '' snip_show_components_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_show_components_out <<\ENDSNIP
 NAME            NAMESPACE       REVISION    UPDATED         STATUS      CHART           APP VERSION
 istio-base      istio-system    1           ... ... ... ... deployed    base-1.0.0      1.0.0
 istio-cni       istio-system    1           ... ... ... ... deployed    cni-1.0.0       1.0.0
@@ -65,7 +65,7 @@ snip_check_pods() {
 kubectl get pods -n istio-system
 }
 
-! read -r -d '' snip_check_pods_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_check_pods_out <<\ENDSNIP
 NAME                             READY   STATUS    RESTARTS   AGE
 istio-cni-node-g97z5             1/1     Running   0          10m
 istiod-5f4c75464f-gskxf          1/1     Running   0          10m
@@ -76,7 +76,7 @@ snip_uninstall_1() {
 helm ls -n istio-system
 }
 
-! read -r -d '' snip_uninstall_1_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_uninstall_1_out <<\ENDSNIP
 NAME            NAMESPACE       REVISION    UPDATED         STATUS      CHART           APP VERSION
 istio-base      istio-system    1           ... ... ... ... deployed    base-1.0.0      1.0.0
 istio-cni       istio-system    1           ... ... ... ... deployed    cni-1.0.0       1.0.0

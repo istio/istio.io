@@ -36,7 +36,7 @@ snip_before_you_begin_4() {
 openssl version -a | grep OpenSSL
 }
 
-! read -r -d '' snip_before_you_begin_4_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_before_you_begin_4_out <<\ENDSNIP
 OpenSSL 1.1.1g  21 Apr 2020
 ENDSNIP
 
@@ -64,7 +64,7 @@ snip_perform_tls_origination_with_an_egress_gateway_2() {
 kubectl exec "${SOURCE_POD}" -c sleep -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
 }
 
-! read -r -d '' snip_perform_tls_origination_with_an_egress_gateway_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_perform_tls_origination_with_an_egress_gateway_2_out <<\ENDSNIP
 HTTP/1.1 301 Moved Permanently
 ...
 location: https://edition.cnn.com/politics
@@ -166,7 +166,7 @@ snip_perform_tls_origination_with_an_egress_gateway_5() {
 kubectl exec "${SOURCE_POD}" -c sleep -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
 }
 
-! read -r -d '' snip_perform_tls_origination_with_an_egress_gateway_5_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_perform_tls_origination_with_an_egress_gateway_5_out <<\ENDSNIP
 HTTP/1.1 200 OK
 ...
 ENDSNIP
@@ -405,7 +405,7 @@ snip_configure_mutual_tls_origination_for_egress_traffic_5() {
 istioctl -n istio-system proxy-config secret deploy/istio-egressgateway | grep client-credential
 }
 
-! read -r -d '' snip_configure_mutual_tls_origination_for_egress_traffic_5_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_configure_mutual_tls_origination_for_egress_traffic_5_out <<\ENDSNIP
 kubernetes://client-credential            Cert Chain     ACTIVE     true           1                                          2024-06-04T12:46:28Z     2023-06-05T12:46:28Z
 kubernetes://client-credential-cacert     Cert Chain     ACTIVE     true           16491643791048004260                       2024-06-04T12:46:28Z     2023-06-05T12:46:28Z
 ENDSNIP
@@ -414,7 +414,7 @@ snip_configure_mutual_tls_origination_for_egress_traffic_6() {
 kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -sS http://my-nginx.mesh-external.svc.cluster.local
 }
 
-! read -r -d '' snip_configure_mutual_tls_origination_for_egress_traffic_6_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_configure_mutual_tls_origination_for_egress_traffic_6_out <<\ENDSNIP
 <!DOCTYPE html>
 <html>
 <head>

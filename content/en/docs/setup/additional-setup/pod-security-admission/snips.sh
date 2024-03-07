@@ -27,7 +27,7 @@ kubectl label --overwrite ns istio-system \
     pod-security.kubernetes.io/enforce-version=latest
 }
 
-! read -r -d '' snip_install_istio_with_psa_1_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_install_istio_with_psa_1_out <<\ENDSNIP
 namespace/istio-system labeled
 ENDSNIP
 
@@ -35,7 +35,7 @@ snip_install_istio_with_psa_2() {
 istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --set components.cni.enabled=true -y
 }
 
-! read -r -d '' snip_install_istio_with_psa_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_install_istio_with_psa_2_out <<\ENDSNIP
 ✔ Istio core installed
 ✔ Istiod installed
 ✔ Ingress gateways installed
@@ -49,7 +49,7 @@ kubectl label --overwrite ns default \
     pod-security.kubernetes.io/enforce-version=latest
 }
 
-! read -r -d '' snip_deploy_the_sample_application_1_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_deploy_the_sample_application_1_out <<\ENDSNIP
 namespace/default labeled
 ENDSNIP
 
@@ -57,7 +57,7 @@ snip_deploy_the_sample_application_2() {
 kubectl apply -f samples/bookinfo/platform/kube/bookinfo-psa.yaml
 }
 
-! read -r -d '' snip_deploy_the_sample_application_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_deploy_the_sample_application_2_out <<\ENDSNIP
 service/details created
 serviceaccount/bookinfo-details created
 deployment.apps/details-v1 created
@@ -78,7 +78,7 @@ snip_deploy_the_sample_application_3() {
 kubectl exec "$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')" -c ratings -- curl -sS productpage:9080/productpage | grep -o "<title>.*</title>"
 }
 
-! read -r -d '' snip_deploy_the_sample_application_3_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_deploy_the_sample_application_3_out <<\ENDSNIP
 <title>Simple Bookstore App</title>
 ENDSNIP
 

@@ -25,7 +25,7 @@ snip_viewing_the_istio_dashboard_1() {
 kubectl -n istio-system get svc prometheus
 }
 
-! read -r -d '' snip_viewing_the_istio_dashboard_1_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_viewing_the_istio_dashboard_1_out <<\ENDSNIP
 NAME         TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
 prometheus   ClusterIP   10.100.250.202   <none>        9090/TCP   103s
 ENDSNIP
@@ -34,7 +34,7 @@ snip_viewing_the_istio_dashboard_2() {
 kubectl -n istio-system get svc grafana
 }
 
-! read -r -d '' snip_viewing_the_istio_dashboard_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_viewing_the_istio_dashboard_2_out <<\ENDSNIP
 NAME      TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
 grafana   ClusterIP   10.103.244.103   <none>        3000/TCP   2m25s
 ENDSNIP

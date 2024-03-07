@@ -459,7 +459,7 @@ $ kubectl delete namespace istio-system
 The label to instruct Istio to automatically include applications in the `default` namespace to an ambient mesh is not removed by default. If no longer needed, use the following command to remove it:
 
 {{< text bash >}}
-$ kubectl label namespace default istio.io/dataplane-mode
+$ kubectl label namespace default istio.io/dataplane-mode-
 {{< /text >}}
 
 To delete the Bookinfo sample application and its configuration, see [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup).

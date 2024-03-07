@@ -20,14 +20,14 @@
 #          boilerplates/args.md
 ####################################################################################################
 
-! read -r -d '' bpsnip_args_gateway_api_version <<\ENDSNIP
+! IFS=$'\n' read -r -d '' bpsnip_args_gateway_api_version <<\ENDSNIP
 444631bfe06f3bcca5d0eadf1857eac1d369421d
 ENDSNIP
 
-! read -r -d '' bpsnip_args_istio_previous_version <<\ENDSNIP
+! IFS=$'\n' read -r -d '' bpsnip_args_istio_previous_version <<\ENDSNIP
 1.20
 ENDSNIP
 
-! read -r -d '' bpsnip_args_istio_full_version <<\ENDSNIP
+! IFS=$'\n' read -r -d '' bpsnip_args_istio_full_version <<\ENDSNIP
 1.21.0
 ENDSNIP

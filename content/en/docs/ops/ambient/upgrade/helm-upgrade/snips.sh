@@ -28,7 +28,7 @@ snip_istioctl_precheck() {
 istioctl x precheck
 }
 
-! read -r -d '' snip_istioctl_precheck_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_istioctl_precheck_out <<\ENDSNIP
 ✔ No issues found when checking the cluster. Istio is safe to install or upgrade!
   To get started, check out <https://istio.io/latest/docs/setup/getting-started/>
 ENDSNIP

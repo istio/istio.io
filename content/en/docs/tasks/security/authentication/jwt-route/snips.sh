@@ -30,7 +30,7 @@ snip_before_you_begin_2() {
 curl "$INGRESS_HOST:$INGRESS_PORT"/headers -s -o /dev/null -w "%{http_code}\n"
 }
 
-! read -r -d '' snip_before_you_begin_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_before_you_begin_2_out <<\ENDSNIP
 200
 ENDSNIP
 
@@ -82,7 +82,7 @@ snip_validating_ingress_routing_based_on_jwt_claims_1() {
 curl -s -I "http://$INGRESS_HOST:$INGRESS_PORT/headers"
 }
 
-! read -r -d '' snip_validating_ingress_routing_based_on_jwt_claims_1_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_validating_ingress_routing_based_on_jwt_claims_1_out <<\ENDSNIP
 HTTP/1.1 404 Not Found
 ...
 ENDSNIP
@@ -91,7 +91,7 @@ snip_validating_ingress_routing_based_on_jwt_claims_2() {
 curl -s -I "http://$INGRESS_HOST:$INGRESS_PORT/headers" -H "Authorization: Bearer some.invalid.token"
 }
 
-! read -r -d '' snip_validating_ingress_routing_based_on_jwt_claims_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_validating_ingress_routing_based_on_jwt_claims_2_out <<\ENDSNIP
 HTTP/1.1 401 Unauthorized
 ...
 ENDSNIP
@@ -100,7 +100,7 @@ snip_validating_ingress_routing_based_on_jwt_claims_3() {
 TOKEN_GROUP=$(curl https://raw.githubusercontent.com/istio/istio/release-1.21/security/tools/jwt/samples/groups-scope.jwt -s) && echo "$TOKEN_GROUP" | cut -d '.' -f2 - | base64 --decode
 }
 
-! read -r -d '' snip_validating_ingress_routing_based_on_jwt_claims_3_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_validating_ingress_routing_based_on_jwt_claims_3_out <<\ENDSNIP
 {"exp":3537391104,"groups":["group1","group2"],"iat":1537391104,"iss":"testing@secure.istio.io","scope":["scope1","scope2"],"sub":"testing@secure.istio.io"}
 ENDSNIP
 
@@ -108,7 +108,7 @@ snip_validating_ingress_routing_based_on_jwt_claims_4() {
 curl -s -I "http://$INGRESS_HOST:$INGRESS_PORT/headers" -H "Authorization: Bearer $TOKEN_GROUP"
 }
 
-! read -r -d '' snip_validating_ingress_routing_based_on_jwt_claims_4_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_validating_ingress_routing_based_on_jwt_claims_4_out <<\ENDSNIP
 HTTP/1.1 200 OK
 ...
 ENDSNIP
@@ -117,7 +117,7 @@ snip_validating_ingress_routing_based_on_jwt_claims_5() {
 TOKEN_NO_GROUP=$(curl https://raw.githubusercontent.com/istio/istio/release-1.21/security/tools/jwt/samples/demo.jwt -s) && echo "$TOKEN_NO_GROUP" | cut -d '.' -f2 - | base64 --decode
 }
 
-! read -r -d '' snip_validating_ingress_routing_based_on_jwt_claims_5_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_validating_ingress_routing_based_on_jwt_claims_5_out <<\ENDSNIP
 {"exp":4685989700,"foo":"bar","iat":1532389700,"iss":"testing@secure.istio.io","sub":"testing@secure.istio.io"}
 ENDSNIP
 
@@ -125,7 +125,7 @@ snip_validating_ingress_routing_based_on_jwt_claims_6() {
 curl -s -I "http://$INGRESS_HOST:$INGRESS_PORT/headers" -H "Authorization: Bearer $TOKEN_NO_GROUP"
 }
 
-! read -r -d '' snip_validating_ingress_routing_based_on_jwt_claims_6_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_validating_ingress_routing_based_on_jwt_claims_6_out <<\ENDSNIP
 HTTP/1.1 404 Not Found
 ...
 ENDSNIP

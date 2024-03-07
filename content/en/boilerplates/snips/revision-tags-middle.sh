@@ -24,7 +24,7 @@ bpsnip_revision_tags_middle__1() {
 istioctl tag list
 }
 
-! read -r -d '' bpsnip_revision_tags_middle__1_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' bpsnip_revision_tags_middle__1_out <<\ENDSNIP
 TAG         REVISION NAMESPACES
 default     1-20-1   ...
 prod-canary 1-21-0   ...

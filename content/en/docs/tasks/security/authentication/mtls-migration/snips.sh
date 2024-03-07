@@ -38,7 +38,7 @@ snip_set_up_the_cluster_3() {
 for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
 }
 
-! read -r -d '' snip_set_up_the_cluster_3_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_set_up_the_cluster_3_out <<\ENDSNIP
 sleep.foo to httpbin.foo: 200
 sleep.foo to httpbin.bar: 200
 sleep.bar to httpbin.foo: 200
@@ -51,7 +51,7 @@ snip_set_up_the_cluster_4() {
 kubectl get peerauthentication --all-namespaces
 }
 
-! read -r -d '' snip_set_up_the_cluster_4_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_set_up_the_cluster_4_out <<\ENDSNIP
 No resources found
 ENDSNIP
 
@@ -59,7 +59,7 @@ snip_set_up_the_cluster_5() {
 kubectl get destinationrule --all-namespaces
 }
 
-! read -r -d '' snip_set_up_the_cluster_5_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_set_up_the_cluster_5_out <<\ENDSNIP
 No resources found
 ENDSNIP
 
@@ -79,7 +79,7 @@ snip_lock_down_to_mutual_tls_by_namespace_2() {
 for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
 }
 
-! read -r -d '' snip_lock_down_to_mutual_tls_by_namespace_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_lock_down_to_mutual_tls_by_namespace_2_out <<\ENDSNIP
 sleep.foo to httpbin.foo: 200
 sleep.foo to httpbin.bar: 200
 sleep.bar to httpbin.foo: 200
@@ -93,7 +93,7 @@ snip_lock_down_to_mutual_tls_by_namespace_3() {
 kubectl exec -nfoo "$(kubectl get pod -nfoo -lapp=httpbin -ojsonpath={.items..metadata.name})" -c istio-proxy -- sudo tcpdump dst port 80  -A
 }
 
-! read -r -d '' snip_lock_down_to_mutual_tls_by_namespace_3_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_lock_down_to_mutual_tls_by_namespace_3_out <<\ENDSNIP
 tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
 listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
 ENDSNIP
@@ -123,6 +123,6 @@ snip_clean_up_the_example_2() {
 kubectl delete ns foo bar legacy
 }
 
-! read -r -d '' snip_clean_up_the_example_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_clean_up_the_example_2_out <<\ENDSNIP
 Namespaces foo bar legacy deleted.
 ENDSNIP

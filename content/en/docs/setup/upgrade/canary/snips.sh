@@ -26,7 +26,7 @@ snip_before_you_upgrade_1() {
 istioctl x precheck
 }
 
-! read -r -d '' snip_before_you_upgrade_1_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_before_you_upgrade_1_out <<\ENDSNIP
 ✔ No issues found when checking the cluster. Istio is safe to install or upgrade!
   To get started, check out https://istio.io/latest/docs/setup/getting-started/
 ENDSNIP
@@ -39,7 +39,7 @@ snip_control_plane_2() {
 kubectl get pods -n istio-system -l app=istiod
 }
 
-! read -r -d '' snip_control_plane_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_control_plane_2_out <<\ENDSNIP
 NAME                             READY   STATUS    RESTARTS   AGE
 istiod-1-20-1-bdf5948d5-htddg    1/1     Running   0          47s
 istiod-canary-84c8d4dcfb-skcfv   1/1     Running   0          25s
@@ -49,7 +49,7 @@ snip_control_plane_3() {
 kubectl get svc -n istio-system -l app=istiod
 }
 
-! read -r -d '' snip_control_plane_3_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_control_plane_3_out <<\ENDSNIP
 NAME            TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)                                 AGE
 istiod-1-20-1   ClusterIP   10.96.93.151     <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP   109s
 istiod-canary   ClusterIP   10.104.186.250   <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP   87s
@@ -59,7 +59,7 @@ snip_control_plane_4() {
 kubectl get mutatingwebhookconfigurations
 }
 
-! read -r -d '' snip_control_plane_4_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_control_plane_4_out <<\ENDSNIP
 NAME                            WEBHOOKS   AGE
 istio-sidecar-injector-1-20-1   2          2m16s
 istio-sidecar-injector-canary   2          114s
@@ -69,7 +69,7 @@ snip_data_plane_1() {
 istioctl proxy-status | grep "$(kubectl -n istio-system get pod -l app=istio-ingressgateway -o jsonpath='{.items..metadata.name}')" | awk '{print $10}'
 }
 
-! read -r -d '' snip_data_plane_1_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_data_plane_1_out <<\ENDSNIP
 istiod-canary-6956db645c-vwhsk
 ENDSNIP
 
@@ -126,7 +126,7 @@ snip_usage_5() {
 istioctl ps
 }
 
-! read -r -d '' snip_usage_5_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_usage_5_out <<\ENDSNIP
 NAME                                CLUSTER        CDS        LDS        EDS        RDS        ECDS         ISTIOD                             VERSION
 sleep-78ff5975c6-62pzf.app-ns-3     Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-1-21-0-7f6fc6cfd6-s8zfg     1.21.0
 sleep-78ff5975c6-8kxpl.app-ns-1     Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-1-20-1-bdf5948d5-n72r2      1.20.1
@@ -146,7 +146,7 @@ snip_usage_8() {
 istioctl ps
 }
 
-! read -r -d '' snip_usage_8_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_usage_8_out <<\ENDSNIP
 NAME                                                   CLUSTER        CDS        LDS        EDS        RDS          ECDS         ISTIOD                             VERSION
 sleep-5984f48bc7-kmj6x.app-ns-1                        Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-1-21-0-7f6fc6cfd6-jsktb     1.21.0
 sleep-78ff5975c6-jldk4.app-ns-3                        Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-1-21-0-7f6fc6cfd6-jsktb     1.21.0
@@ -169,7 +169,7 @@ snip_uninstall_old_control_plane_3() {
 kubectl get pods -n istio-system -l app=istiod
 }
 
-! read -r -d '' snip_uninstall_old_control_plane_3_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_uninstall_old_control_plane_3_out <<\ENDSNIP
 NAME                             READY   STATUS    RESTARTS   AGE
 istiod-canary-55887f699c-t8bh8   1/1     Running   0          27m
 ENDSNIP

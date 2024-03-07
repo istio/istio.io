@@ -47,7 +47,7 @@ snip_running_mysql_on_the_vm_4() {
 mysql -u root -ppassword test -e "select * from ratings;"
 }
 
-! read -r -d '' snip_running_mysql_on_the_vm_4_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_running_mysql_on_the_vm_4_out <<\ENDSNIP
 +----------+--------+
 | ReviewID | Rating |
 +----------+--------+
@@ -60,7 +60,7 @@ snip_running_mysql_on_the_vm_5() {
 mysql -u root -ppassword test -e  "update ratings set rating=1 where reviewid=1;select * from ratings;"
 }
 
-! read -r -d '' snip_running_mysql_on_the_vm_5_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_running_mysql_on_the_vm_5_out <<\ENDSNIP
 +----------+--------+
 | ReviewID | Rating |
 +----------+--------+
@@ -98,7 +98,7 @@ snip_reaching_kubernetes_services_from_the_virtual_machine_1() {
 curl productpage.bookinfo:9080
 }
 
-! read -r -d '' snip_reaching_kubernetes_services_from_the_virtual_machine_1_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_reaching_kubernetes_services_from_the_virtual_machine_1_out <<\ENDSNIP
 ...
     <title>Simple Bookstore App</title>
 ...

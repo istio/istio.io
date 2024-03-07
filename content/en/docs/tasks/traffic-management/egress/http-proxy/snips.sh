@@ -93,7 +93,7 @@ snip_deploy_an_https_proxy_8() {
 kubectl exec "$(kubectl get pod -n external -l app=sleep -o jsonpath={.items..metadata.name})" -n external -- sh -c "HTTPS_PROXY=$PROXY_IP:$PROXY_PORT curl https://en.wikipedia.org/wiki/Main_Page" | grep -o "<title>.*</title>"
 }
 
-! read -r -d '' snip_deploy_an_https_proxy_8_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_deploy_an_https_proxy_8_out <<\ENDSNIP
 <title>Wikipedia, the free encyclopedia</title>
 ENDSNIP
 
@@ -101,7 +101,7 @@ snip_deploy_an_https_proxy_9() {
 kubectl exec "$(kubectl get pod -n external -l app=squid -o jsonpath={.items..metadata.name})" -n external -- tail /var/log/squid/access.log
 }
 
-! read -r -d '' snip_deploy_an_https_proxy_9_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_deploy_an_https_proxy_9_out <<\ENDSNIP
 1544160065.248    228 172.30.109.89 TCP_TUNNEL/200 87633 CONNECT en.wikipedia.org:443 - HIER_DIRECT/91.198.174.192 -
 ENDSNIP
 
@@ -128,7 +128,7 @@ snip_configure_traffic_to_external_https_proxy_2() {
 kubectl exec "$SOURCE_POD" -c sleep -- sh -c "HTTPS_PROXY=$PROXY_IP:$PROXY_PORT curl https://en.wikipedia.org/wiki/Main_Page" | grep -o "<title>.*</title>"
 }
 
-! read -r -d '' snip_configure_traffic_to_external_https_proxy_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_configure_traffic_to_external_https_proxy_2_out <<\ENDSNIP
 <title>Wikipedia, the free encyclopedia</title>
 ENDSNIP
 
@@ -136,7 +136,7 @@ snip_configure_traffic_to_external_https_proxy_3() {
 kubectl logs "$SOURCE_POD" -c istio-proxy
 }
 
-! read -r -d '' snip_configure_traffic_to_external_https_proxy_3_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_configure_traffic_to_external_https_proxy_3_out <<\ENDSNIP
 [2018-12-07T10:38:02.841Z] "- - -" 0 - 702 87599 92 - "-" "-" "-" "-" "172.30.109.95:3128" outbound|3128||my-company-proxy.com 172.30.230.52:44478 172.30.109.95:3128 172.30.230.52:44476 -
 ENDSNIP
 
@@ -144,7 +144,7 @@ snip_configure_traffic_to_external_https_proxy_4() {
 kubectl exec "$(kubectl get pod -n external -l app=squid -o jsonpath={.items..metadata.name})" -n external -- tail /var/log/squid/access.log
 }
 
-! read -r -d '' snip_configure_traffic_to_external_https_proxy_4_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_configure_traffic_to_external_https_proxy_4_out <<\ENDSNIP
 1544160065.248    228 172.30.109.89 TCP_TUNNEL/200 87633 CONNECT en.wikipedia.org:443 - HIER_DIRECT/91.198.174.192 -
 ENDSNIP
 

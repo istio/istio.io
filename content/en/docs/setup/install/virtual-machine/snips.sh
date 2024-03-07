@@ -229,7 +229,7 @@ snip_verify_istio_works_successfully_4() {
 curl helloworld.sample.svc:5000/hello
 }
 
-! read -r -d '' snip_verify_istio_works_successfully_4_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_verify_istio_works_successfully_4_out <<\ENDSNIP
 Hello version: v1, instance: helloworld-v1-578dd69f69-fxwwk
 ENDSNIP
 

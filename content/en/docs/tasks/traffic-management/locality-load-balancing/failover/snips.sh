@@ -53,7 +53,7 @@ kubectl exec --context="${CTX_R1_Z1}" -n sample -c sleep \
   -- curl -sSL helloworld.sample:5000/hello
 }
 
-! read -r -d '' snip_verify_traffic_stays_in_region1zone1_1_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_verify_traffic_stays_in_region1zone1_1_out <<\ENDSNIP
 Hello version: region1.zone1, instance: helloworld-region1.zone1-86f77cd7b-cpxhv
 ENDSNIP
 
@@ -71,7 +71,7 @@ kubectl exec --context="${CTX_R1_Z1}" -n sample -c sleep \
   -- curl -sSL helloworld.sample:5000/hello
 }
 
-! read -r -d '' snip_failover_to_region1zone2_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_failover_to_region1zone2_2_out <<\ENDSNIP
 Hello version: region1.zone2, instance: helloworld-region1.zone2-86f77cd7b-cpxhv
 ENDSNIP
 
@@ -89,7 +89,7 @@ kubectl exec --context="${CTX_R1_Z1}" -n sample -c sleep \
   -- curl -sSL helloworld.sample:5000/hello
 }
 
-! read -r -d '' snip_failover_to_region2zone3_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_failover_to_region2zone3_2_out <<\ENDSNIP
 Hello version: region2.zone3, instance: helloworld-region2.zone3-86f77cd7b-cpxhv
 ENDSNIP
 
@@ -107,6 +107,6 @@ kubectl exec --context="${CTX_R1_Z1}" -n sample -c sleep \
   -- curl -sSL helloworld.sample:5000/hello
 }
 
-! read -r -d '' snip_failover_to_region3zone4_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_failover_to_region3zone4_2_out <<\ENDSNIP
 Hello version: region3.zone4, instance: helloworld-region3.zone4-86f77cd7b-cpxhv
 ENDSNIP
