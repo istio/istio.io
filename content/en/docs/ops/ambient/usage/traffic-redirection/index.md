@@ -31,15 +31,15 @@ The node agent additionally installs a chained CNI plugin that is executed by th
 
 Once the `istio-cni` node agent is notified that a pod needs to be added to the mesh (either from the CNI plugin, if the pod is brand new, or from the Kubernetes API server, if the pod is already running but needs to be added), the following sequence of operations is performed:
 
-  - `istio-cni` enters the pod’s network namespace and establishes network redirection rules, such that packets entering and leaving the pod are intercepted and transparently redirected to the node-local ztunnel proxy instance listening on [well-known ports](https://github.com/istio/ztunnel/blob/master/ARCHITECTURE.md#ports) (15008, 15006, 15001).
+- `istio-cni` enters the pod’s network namespace and establishes network redirection rules, such that packets entering and leaving the pod are intercepted and transparently redirected to the node-local ztunnel proxy instance listening on [well-known ports](https://github.com/istio/ztunnel/blob/master/ARCHITECTURE.md#ports) (15008, 15006, 15001).
 
-  - The `istio-cni` node agent then informs the ztunnel proxy, over a Unix domain socket, that it should establish local proxy listening ports inside the pod’s network namespace (on ports 15008, 15006, and 15001), and provides ztunnel with a low-level Linux [file descriptor](https://en.wikipedia.org/wiki/File_descriptor) representing the pod’s network namespace.
+- The `istio-cni` node agent then informs the ztunnel proxy, over a Unix domain socket, that it should establish local proxy listening ports inside the pod’s network namespace (on ports 15008, 15006, and 15001), and provides ztunnel with a low-level Linux [file descriptor](https://en.wikipedia.org/wiki/File_descriptor) representing the pod’s network namespace.
+s
+    - While typically sockets are created within a Linux network namespace by the process actually running inside that network namespace, it is perfectly possible to leverage Linux’s low-level socket API to allow a process running in one network namespace to create listening sockets in another network namespace, assuming the target network namespace is known at creation time.
 
-      - While typically sockets are created within a Linux network namespace by the process actually running inside that network namespace, it is perfectly possible to leverage Linux’s low-level socket API to allow a process running in one network namespace to create listening sockets in another network namespace, assuming the target network namespace is known at creation time.
+- The node-local ztunnel internally spins up a new proxy instance and listen port set, dedicated to the newly-added pod.
 
-  - The node-local ztunnel internally spins up a new proxy instance and listen port set, dedicated to the newly-added pod.
-
-  - Once the in-pod redirect rules are in place and the ztunnel has established the listen ports, the pod is added in the mesh and traffic begins flowing through the node-local ztunnel.
+- Once the in-pod redirect rules are in place and the ztunnel has established the listen ports, the pod is added in the mesh and traffic begins flowing through the node-local ztunnel.
 
 Traffic to and from pods in the mesh will be fully encrypted with mTLS by default.
 
