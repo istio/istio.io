@@ -13,10 +13,9 @@ This guide lets you quickly evaluate Istio's {{< gloss "ambient" >}}ambient mode
 example [Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) or
 others specified by the [platform-specific setup instructions](/docs/setup/platform-setup/).
 
-{{< warning >}}
-Note that Ambient currently requires the use of [istio-cni](/docs/setup/additional-setup/cni) to configure Kubernetes nodes.
-`istio-cni` ambient mode does **not** currently support types of cluster CNI (namely, CNI implementations that do not use `veth` devices, such as [Minikube's](https://kubernetes.io/docs/tasks/tools/install-minikube/) `bridge` mode)
-{{< /warning >}}
+{{< tip >}}
+Note that ambient mode currently requires the use of [istio-cni](/docs/setup/additional-setup/cni) to configure Kubernetes nodes, which must run as a privileged pod. Ambient mode is compatible with every major CNI that previously supported sidecar mode.
+{{< /tip >}}
 
 Follow these steps to get started with Istio's ambient mode:
 
