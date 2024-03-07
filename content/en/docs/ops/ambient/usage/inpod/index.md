@@ -26,7 +26,7 @@ Previous releases of Istio shipping alpha implementations of ambient used a diff
 
 The core design principle behind the new inpod traffic redirection function is that the ztunnel proxy has the ability to perform all its data path required functionality directly inside the linux network namespace of an ambient endpoint/ pod. This is achieved via a combination of new functionality added to the `istio-cni` node agent and the ztunnel proxy components from the 1.21.0 release onwards.  A key benefit of this model is that it enables Istio Ambient to work alongside any Kubernetes CNI plugin transparently and without impacting kubernetes networking features. 
 
-The following figure illustrates the sequence of steps that set this up when a new ambient pod is created or converted to ambient mode. 
+The following figure illustrates the sequence of events when a new workload pod is started in (or added to) an ambient-enabled namespace.
 
 {{< image width="100%"
 link="./pod-added-to-ambient.svg"
