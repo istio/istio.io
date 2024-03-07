@@ -47,7 +47,7 @@ Since the ambient functionality is currently at an alpha release level, the foll
 
 1. **TCP/IPv4 only:** In the current release, TCP over IPv4 is the only protocol supported for transport on an Istio secure overlay tunnel (this includes protocols such as HTTP that run between application layer endpoints on top of the TCP/ IPv4 connection).
 
-1. **No dynamic switching to ambient mode:** ambient mode can only be enabled on a new Istio mesh control plane that is deployed using ambient profile or ambient helm configuration. An existing Istio mesh deployed using a pre-ambient profile for instance can not be dynamically switched to also enable ambient mode operation.
+1. **Converting existing Istio deployments to ambient mode:** ambient mode can only be enabled on a new Istio mesh control plane that is deployed using ambient profile or ambient helm configuration. An existing Istio mesh deployed using a pre-ambient profile for instance can not be dynamically switched to also enable ambient mode operation.
 
 1. **Restrictions with Istio `PeerAuthentication`:** as of the time of writing, the `PeerAuthentication` resource is not supported by all components (i.e. waypoint proxies) in Istio ambient mode. Hence it is recommended to only use the `STRICT` mTLS mode currently. Like many of the other alpha stage caveats, this shall be addressed as the feature moves toward beta status.
 
