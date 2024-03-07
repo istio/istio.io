@@ -12,7 +12,7 @@ This guide is a supplement to the [Istio Ambient L4 Networking guide](/docs/ops/
 
 ## Ambient traffic redirection
 
-In the context of Istio Ambient, the term traffic redirection refers to data plane functionality that intercepts traffic sent to and from endpoints that ambient enabled and the proxies that handle the core data path in the ambient mesb. Sometimes the term "traffic capture" is also used equivalently, in this guide we will stick with the term "traffic redirection". 
+In the context of ambient mode, _traffic redirection_ refers to data plane functionality that intercepts traffic sent to and from ambient-enabled workloads, routing it through the node proxies that handle the core data path. Sometimes the term _traffic capture_ is also used.
 
 {{< tip >}}
 {{< boilerplate ambient-alpha-warning >}}
