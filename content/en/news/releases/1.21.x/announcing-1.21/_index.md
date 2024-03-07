@@ -3,7 +3,7 @@ title: Announcing Istio 1.21.0
 linktitle: 1.21.0
 subtitle: Major Release
 description: Istio 1.21 Release Announcement.
-publishdate: 2024-02-28
+publishdate: 2024-03-11
 release: 1.21.0
 aliases:
 - /news/announcing-1.21
@@ -13,7 +13,7 @@ aliases:
 We are pleased to announce the release of Istio 1.21. This is the first Istio release of 2024. We would like to thank the
 entire Istio community for helping get the 1.21.0 release published. We would like to thank the Release Managers for
 this release, `Aryan Gupta` from Google, `Jianpeng He` from Tetrate, and `Sumit Vij`. The release
-managers would specially like to thank the Test & Release WG lead Eric Van Norman (IBM) for his help and guidance
+managers would once again like to thank the Test & Release WG lead Eric Van Norman (IBM) for his help and guidance
 throughout the release cycle. We would also like to thank the maintainers of the Istio work groups and the broader Istio
 community for helping us throughout the release process with timely feedback, reviews, community testing and for all
 your support to help ensure a timely release.
@@ -82,3 +82,17 @@ This is especially important with the sidecar, because its deployed alongside ev
 workload. Coming in at 25% smaller, the sidecar image can be pulled faster improving pod
 startup times. Additionally, the reduced binary size typically results in a 5MB RAM
 reduction - across many pods, this quickly adds up to cost savings.
+
+### Support for all CNIs in ambient mode
+
+Our new [ambient mode](/blog/2022/introducing-ambient-mesh/) now works across all Kubernetes platforms and CNI implementations. Ambient mode has been tested with GKE, AKS, and EKS and all the CNI implementations they offer, 3rd-party CNIs like Calico and Cilium, and platforms like OpenShift, all with solid results. The engineering challenges behind this fix were described in [a recent blog post](/blog/2024/inpod-traffic-redirection-ambient/).
+
+Ambient mode is targeted to move to Beta in the upcoming Istio 1.22.
+
+## Upgrading to 1.21
+
+We would like to hear from you regarding your experience upgrading to Istio 1.21. You can provide feedback
+in the #release-1.21 channel in our [Slack workspace](https://slack.istio.io/).
+
+Would you like to contribute directly to Istio? Find and join one of
+our [Working Groups](https://github.com/istio/community/blob/master/WORKING-GROUPS.md) and help us improve.

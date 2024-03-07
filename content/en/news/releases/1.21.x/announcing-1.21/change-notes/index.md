@@ -3,7 +3,7 @@ title: Istio 1.21.0 Change Notes
 linktitle: 1.21.0
 subtitle: Minor Release
 description: Istio 1.21.0 release notes.
-publishdate: 2024-02-28
+publishdate: 2024-03-11
 release: 1.21.0
 weight: 10
 aliases:

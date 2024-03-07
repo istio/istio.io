@@ -2,7 +2,7 @@
 title: Istio 1.21 Upgrade Notes
 description: Important changes to consider when upgrading to Istio 1.21.x.
 weight: 20
-publishdate: 2024-02-28
+publishdate: 2024-03-11
 ---
 
 When you upgrade from Istio 1.20.x to Istio 1.21.0, you need to consider the changes on this page.
