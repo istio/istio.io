@@ -16,7 +16,7 @@ others specified by the
 [platform-specific setup instructions](/docs/setup/platform-setup/).
 
 {{< tip >}}
-Note that Ambient currently requires the use of [istio-cni](/docs/setup/additional-setup/cni) to configure Kubernetes nodes, which must run as a privileged pod. Ambient is compatible with every major CNI that previously supported sidecar mode.
+Note that ambient mode currently requires the use of [istio-cni](/docs/setup/additional-setup/cni) to configure Kubernetes nodes, which must run as a privileged pod. Ambient mode is compatible with every major CNI that previously supported sidecar mode.
 {{< /tip >}}
 
 Follow these steps to get started with ambient:
