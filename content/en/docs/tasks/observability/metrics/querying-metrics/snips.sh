@@ -24,7 +24,7 @@ snip_querying_istio_metrics_1() {
 kubectl -n istio-system get svc prometheus
 }
 
-! read -r -d '' snip_querying_istio_metrics_1_out <<\ENDSNIP
+! IFS= read -r -d '' snip_querying_istio_metrics_1_out <<\ENDSNIP
 NAME         TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
 prometheus   ClusterIP   10.109.160.254   <none>        9090/TCP   4m
 ENDSNIP

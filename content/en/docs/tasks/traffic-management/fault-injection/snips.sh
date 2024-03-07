@@ -33,7 +33,7 @@ snip_injecting_an_http_delay_fault_2() {
 kubectl get virtualservice ratings -o yaml
 }
 
-! read -r -d '' snip_injecting_an_http_delay_fault_2_out <<\ENDSNIP
+! IFS= read -r -d '' snip_injecting_an_http_delay_fault_2_out <<\ENDSNIP
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 ...
@@ -72,7 +72,7 @@ snip_injecting_an_http_abort_fault_2() {
 kubectl get virtualservice ratings -o yaml
 }
 
-! read -r -d '' snip_injecting_an_http_abort_fault_2_out <<\ENDSNIP
+! IFS= read -r -d '' snip_injecting_an_http_abort_fault_2_out <<\ENDSNIP
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 ...

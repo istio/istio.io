@@ -82,7 +82,7 @@ snip_configuring_a_gateway_4() {
 curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST/get"
 }
 
-! read -r -d '' snip_configuring_a_gateway_4_out <<\ENDSNIP
+! IFS= read -r -d '' snip_configuring_a_gateway_4_out <<\ENDSNIP
 HTTP/1.1 200 OK
 server: istio-envoy
 ...
@@ -92,7 +92,7 @@ snip_configuring_a_gateway_5() {
 curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST/headers"
 }
 
-! read -r -d '' snip_configuring_a_gateway_5_out <<\ENDSNIP
+! IFS= read -r -d '' snip_configuring_a_gateway_5_out <<\ENDSNIP
 HTTP/1.1 404 Not Found
 ...
 ENDSNIP
@@ -133,7 +133,7 @@ snip_configuring_a_gateway_7() {
 curl -s -HHost:httpbin.example.com "http://$INGRESS_HOST/headers"
 }
 
-! read -r -d '' snip_configuring_a_gateway_7_out <<\ENDSNIP
+! IFS= read -r -d '' snip_configuring_a_gateway_7_out <<\ENDSNIP
 {
   "headers": {
     "Accept": "*/*",

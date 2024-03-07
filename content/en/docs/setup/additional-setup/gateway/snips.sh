@@ -177,7 +177,7 @@ snip_canary_upgrade_advanced_2() {
 kubectl get endpoints -n istio-ingress -o "custom-columns=NAME:.metadata.name,PODS:.subsets[*].addresses[*].targetRef.name"
 }
 
-! read -r -d '' snip_canary_upgrade_advanced_2_out <<\ENDSNIP
+! IFS= read -r -d '' snip_canary_upgrade_advanced_2_out <<\ENDSNIP
 NAME                   PODS
 istio-ingressgateway   istio-ingressgateway-...,istio-ingressgateway-canary-...
 ENDSNIP

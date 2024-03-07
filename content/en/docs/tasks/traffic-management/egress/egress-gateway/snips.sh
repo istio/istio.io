@@ -69,7 +69,7 @@ snip_egress_gateway_for_http_traffic_2() {
 kubectl exec "$SOURCE_POD" -c sleep -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
 }
 
-! read -r -d '' snip_egress_gateway_for_http_traffic_2_out <<\ENDSNIP
+! IFS= read -r -d '' snip_egress_gateway_for_http_traffic_2_out <<\ENDSNIP
 ...
 HTTP/1.1 301 Moved Permanently
 ...
@@ -205,7 +205,7 @@ snip_egress_gateway_for_http_traffic_7() {
 kubectl exec "$SOURCE_POD" -c sleep -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
 }
 
-! read -r -d '' snip_egress_gateway_for_http_traffic_7_out <<\ENDSNIP
+! IFS= read -r -d '' snip_egress_gateway_for_http_traffic_7_out <<\ENDSNIP
 ...
 HTTP/1.1 301 Moved Permanently
 ...
@@ -229,7 +229,7 @@ snip_egress_gateway_for_http_traffic_10() {
 istioctl pc secret -n istio-system "$(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}')" -ojson | jq '[.dynamicActiveSecrets[] | select(.name == "default")][0].secret.tlsCertificate.certificateChain.inlineBytes' -r | base64 -d | openssl x509 -text -noout | grep 'Subject Alternative Name' -A 1
 }
 
-! read -r -d '' snip_egress_gateway_for_http_traffic_10_out <<\ENDSNIP
+! IFS= read -r -d '' snip_egress_gateway_for_http_traffic_10_out <<\ENDSNIP
             X509v3 Subject Alternative Name: critical
                 URI:spiffe://cluster.local/ns/istio-system/sa/istio-egressgateway-service-account
 ENDSNIP
@@ -246,7 +246,7 @@ snip_egress_gateway_for_http_traffic_13() {
 istioctl pc secret "$(kubectl get pod -l gateway.networking.k8s.io/gateway-name=cnn-egress-gateway -o jsonpath='{.items[0].metadata.name}')" -ojson | jq '[.dynamicActiveSecrets[] | select(.name == "default")][0].secret.tlsCertificate.certificateChain.inlineBytes' -r | base64 -d | openssl x509 -text -noout | grep 'Subject Alternative Name' -A 1
 }
 
-! read -r -d '' snip_egress_gateway_for_http_traffic_13_out <<\ENDSNIP
+! IFS= read -r -d '' snip_egress_gateway_for_http_traffic_13_out <<\ENDSNIP
             X509v3 Subject Alternative Name: critical
                 URI:spiffe://cluster.local/ns/default/sa/cnn-egress-gateway-istio
 ENDSNIP
@@ -286,7 +286,7 @@ snip_egress_gateway_for_https_traffic_2() {
 kubectl exec "$SOURCE_POD" -c sleep -- curl -sSL -o /dev/null -D - https://edition.cnn.com/politics
 }
 
-! read -r -d '' snip_egress_gateway_for_https_traffic_2_out <<\ENDSNIP
+! IFS= read -r -d '' snip_egress_gateway_for_https_traffic_2_out <<\ENDSNIP
 ...
 HTTP/2 200
 Content-Type: text/html; charset=utf-8
@@ -416,7 +416,7 @@ snip_egress_gateway_for_https_traffic_5() {
 kubectl exec "$SOURCE_POD" -c sleep -- curl -sSL -o /dev/null -D - https://edition.cnn.com/politics
 }
 
-! read -r -d '' snip_egress_gateway_for_https_traffic_5_out <<\ENDSNIP
+! IFS= read -r -d '' snip_egress_gateway_for_https_traffic_5_out <<\ENDSNIP
 ...
 HTTP/2 200
 Content-Type: text/html; charset=utf-8
@@ -465,7 +465,7 @@ snip_apply_kubernetes_network_policies_3() {
 kubectl get pod "$(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name})" -n test-egress
 }
 
-! read -r -d '' snip_apply_kubernetes_network_policies_3_out <<\ENDSNIP
+! IFS= read -r -d '' snip_apply_kubernetes_network_policies_3_out <<\ENDSNIP
 NAME                     READY     STATUS    RESTARTS   AGE
 sleep-776b7bcdcd-z7mc4   1/1       Running   0          18m
 ENDSNIP
@@ -474,7 +474,7 @@ snip_apply_kubernetes_network_policies_4() {
 kubectl exec "$(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name})" -n test-egress -c sleep -- curl -s -o /dev/null -w "%{http_code}\n"  https://edition.cnn.com/politics
 }
 
-! read -r -d '' snip_apply_kubernetes_network_policies_4_out <<\ENDSNIP
+! IFS= read -r -d '' snip_apply_kubernetes_network_policies_4_out <<\ENDSNIP
 200
 ENDSNIP
 
@@ -549,7 +549,7 @@ snip_apply_kubernetes_network_policies_10() {
 kubectl exec "$(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name})" -n test-egress -c sleep -- curl -v -sS https://edition.cnn.com/politics
 }
 
-! read -r -d '' snip_apply_kubernetes_network_policies_10_out <<\ENDSNIP
+! IFS= read -r -d '' snip_apply_kubernetes_network_policies_10_out <<\ENDSNIP
 Hostname was NOT found in DNS cache
   Trying 151.101.65.67...
   Trying 2a04:4e42:200::323...
@@ -576,7 +576,7 @@ snip_apply_kubernetes_network_policies_13() {
 kubectl get pod "$(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name})" -n test-egress -o jsonpath='{.spec.containers[*].name}'
 }
 
-! read -r -d '' snip_apply_kubernetes_network_policies_13_out <<\ENDSNIP
+! IFS= read -r -d '' snip_apply_kubernetes_network_policies_13_out <<\ENDSNIP
 sleep istio-proxy
 ENDSNIP
 
@@ -597,7 +597,7 @@ snip_apply_kubernetes_network_policies_15() {
 kubectl get pod "$(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name})" -n test-egress -o jsonpath='{.spec.containers[*].name}'
 }
 
-! read -r -d '' snip_apply_kubernetes_network_policies_15_out <<\ENDSNIP
+! IFS= read -r -d '' snip_apply_kubernetes_network_policies_15_out <<\ENDSNIP
 sleep istio-proxy
 ENDSNIP
 
@@ -605,7 +605,7 @@ snip_apply_kubernetes_network_policies_16() {
 kubectl exec "$(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name})" -n test-egress -c sleep -- curl -sS -o /dev/null -w "%{http_code}\n" https://edition.cnn.com/politics
 }
 
-! read -r -d '' snip_apply_kubernetes_network_policies_16_out <<\ENDSNIP
+! IFS= read -r -d '' snip_apply_kubernetes_network_policies_16_out <<\ENDSNIP
 200
 ENDSNIP
 

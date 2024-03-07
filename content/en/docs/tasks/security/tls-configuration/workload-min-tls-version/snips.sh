@@ -42,7 +42,7 @@ snip_check_the_tls_configuration_of_istio_workloads_2() {
 kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl http://httpbin.foo:8000/ip -sS -o /dev/null -w "%{http_code}\n"
 }
 
-! read -r -d '' snip_check_the_tls_configuration_of_istio_workloads_2_out <<\ENDSNIP
+! IFS= read -r -d '' snip_check_the_tls_configuration_of_istio_workloads_2_out <<\ENDSNIP
 200
 ENDSNIP
 

@@ -165,7 +165,7 @@ with open(markdown, 'rt', encoding='utf-8') as mdfile:
                         elif not current_snip["script"][-1].endswith("\\\n"):
                             # command output
                             if not output_started:
-                                current_snip["script"].append("}\n\n! read -r -d '' %s_out <<\ENDSNIP\n" % id)
+                                current_snip["script"].append("}\n\n! IFS= read -r -d '' %s_out <<\ENDSNIP\n" % id)
                                 output_started = True
                     while True:
                         match = githubfile.match(line)

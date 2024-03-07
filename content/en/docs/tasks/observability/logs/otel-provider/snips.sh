@@ -98,7 +98,7 @@ snip_test_the_access_log_1() {
 kubectl exec "$SOURCE_POD" -c sleep -- curl -sS -v httpbin:8000/status/418
 }
 
-! read -r -d '' snip_test_the_access_log_1_out <<\ENDSNIP
+! IFS= read -r -d '' snip_test_the_access_log_1_out <<\ENDSNIP
 ...
 < HTTP/1.1 418 Unknown
 < server: envoy
@@ -118,7 +118,7 @@ snip_test_the_access_log_2() {
 kubectl logs -l app=opentelemetry-collector -n istio-system
 }
 
-! read -r -d '' snip_test_the_access_log_2_out <<\ENDSNIP
+! IFS= read -r -d '' snip_test_the_access_log_2_out <<\ENDSNIP
 [2020-11-25T21:26:18.409Z] "GET /status/418 HTTP/1.1" 418 - via_upstream - "-" 0 135 3 1 "-" "curl/7.73.0-DEV" "84961386-6d84-929d-98bd-c5aee93b5c88" "httpbin:8000" "127.0.0.1:80" inbound|8000|| 127.0.0.1:41854 10.44.1.27:80 10.44.1.23:37652 outbound_.8000_._.httpbin.foo.svc.cluster.local default
 ENDSNIP
 
@@ -133,7 +133,7 @@ snip_disable_envoys_access_logging_1() {
 istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --set profile=default
 }
 
-! read -r -d '' snip_disable_envoys_access_logging_1_out <<\ENDSNIP
+! IFS= read -r -d '' snip_disable_envoys_access_logging_1_out <<\ENDSNIP
 ✔ Istio core installed
 ✔ Istiod installed
 ✔ Ingress gateways installed
