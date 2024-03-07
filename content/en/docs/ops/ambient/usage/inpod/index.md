@@ -6,12 +6,6 @@ owner: istio/wg-networking-maintainers
 test: no
 ---
 
-## Introduction {#introsection}
-
-This guide is a supplement to the [Istio Ambient L4 Networking guide](/docs/ops/ambient/usage/ztunnel) and provides additional detail on the traffic redirection mechanism between endpoints and ZTunnel proxies. It is recommended to read that guide prior to reading this one.
-
-## Ambient traffic redirection
-
 In the context of ambient mode, _traffic redirection_ refers to data plane functionality that intercepts traffic sent to and from ambient-enabled workloads, routing it through the node proxies that handle the core data path. Sometimes the term _traffic capture_ is also used.
 
 {{< tip >}}
