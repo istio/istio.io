@@ -37,7 +37,9 @@ Some use cases of Istio in ambient mode may be addressed solely via the L4 secur
 
 ## Current Caveats {#caveats}
 
-Ztunnel proxies are automatically installed when one of the supported installation methods is used to install Istio ambient mesh. The minimum Istio version required for Istio ambient mode is `1.21.0` (note: although Istio Ambient is functional since version 1.18.0, it is strongly recommended at this time to use version 1.21.0 or newer). In general Istio in ambient mode supports the existing Istio APIs that are supported in sidecar proxy mode. Since the ambient functionality is currently at an alpha release level, the following is a list of feature restrictions or caveats in the current release of Istio's ambient functionality (as of the `1.21.0` release). These restrictions are expected to be addressed/removed in future software releases as ambient graduates to beta and eventually General Availability. Note that if a version earlier than 1.21.0 is used, there will be additional restrictions not listed here. 
+{{< boilerplate ambient-alpha-warning >}}
+
+Since the ambient functionality is currently at an alpha release level, the following is a list of feature restrictions or caveats in ambient alpha. These restrictions are expected to be addressed/removed in future software releases as ambient graduates to beta and eventually General Availability. 
 
 1. **Kubernetes (K8s) only:** Istio in ambient mode is currently only supported for deployment on Kubernetes clusters. Deployment on non-Kubernetes endpoints such as virtual machines is not currently supported.
 
