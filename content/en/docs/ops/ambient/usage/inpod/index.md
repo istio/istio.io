@@ -77,7 +77,9 @@ inpod_mark: 1337
 2024-02-21T22:04:58.446444Z  INFO ztunnel::inpod::statemanager: pod WorkloadUid("1e054806-e667-4109-a5af-08b3e6ba0c42") received netns, starting proxy
 {{< /text >}}
 
-You should also be able to confirm that sockets are open and in listening state on ports 15001, 15006 and 15008 within an application's network namespace as follows.
+2. Confirm the state of sockets
+
+You can follow the steps below to confirm that the sockets on ports 15001, 15006, and 15008 are open and in the listening state.
 
 {{< text bash >}}
 $ kubectl debug $(kubectl get pod -l app=sleep -n ambient-demo -o jsonpath='{.items[0].metadata.name}') -it -n ambient-demo  --image nicolaka/netshoot  -- ss -ntlp
