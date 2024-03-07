@@ -39,15 +39,15 @@ Some use cases of Istio in ambient mode may be addressed solely via the L4 secur
 
 {{< boilerplate ambient-alpha-warning >}}
 
-Since the ambient functionality is currently at an alpha release level, the following is a list of feature restrictions or caveats in ambient alpha. These restrictions are expected to be addressed/removed in future software releases as ambient graduates to beta and eventually General Availability. 
+The following is a list of feature restrictions or caveats in ambient mode alpha. These restrictions are planned to be addressed or removed in future releases. 
 
-1. **Kubernetes (K8s) only:** Istio in ambient mode is currently only supported for deployment on Kubernetes clusters. Deployment on non-Kubernetes endpoints such as virtual machines is not currently supported.
+1. **Kubernetes only:** Istio in ambient mode is currently only supported for deployment on Kubernetes clusters. Deployment on non-Kubernetes endpoints such as virtual machines is not currently supported.
 
 1. **No Istio multi-cluster support:** Only single cluster deployments are currently supported for Istio ambient mode.
 
 1. **TCP/IPv4 only:** In the current release, TCP over IPv4 is the only protocol supported for transport on an Istio secure overlay tunnel (this includes protocols such as HTTP that run between application layer endpoints on top of the TCP/ IPv4 connection).
 
-1. **Converting existing Istio deployments to ambient mode:** ambient mode can only be enabled on a new Istio mesh control plane that is deployed using ambient profile or ambient helm configuration. An existing Istio mesh deployed using a pre-ambient profile for instance can not be dynamically switched to also enable ambient mode operation.
+1. **Cannot transparently convert existing Istio deployments to ambient mode:** Ambient mode can only be enabled on a new Istio mesh control plane that is deployed using the ambient `istioctl` profile or Helm configuration. An existing Istio mesh deployed using a sidecar profile cannot be dynamically switched to enable ambient mode.
 
 1. **Restrictions with Istio `PeerAuthentication`:** as of the time of writing, the `PeerAuthentication` resource is not supported by all components (i.e. waypoint proxies) in Istio ambient mode. Hence it is recommended to only use the `STRICT` mTLS mode currently. Like many of the other alpha stage caveats, this shall be addressed as the feature moves toward beta status.
 
@@ -57,7 +57,7 @@ Since the ambient functionality is currently at an alpha release level, the foll
 
 The examples in this guide used a deployment of Istio version `1.21.0` on a `kind` cluster of version `0.20.0` running Kubernetes version `1.27.3`.
 
-As Istio Ambient is not yet stable, the most recent Istio release is the only recommended version for ambient use.
+As ambient mode is not yet stable, the Istio authors request that you only test and file feedback on the most recent release.
 
 The examples below require a cluster with more than 1 worker node in order to explain how cross-node traffic operates. Refer to the [installation user guide](/docs/ops/ambient/install/) or [getting started guide](/docs/ops/ambient/getting-started/) for information on installing Istio in ambient mode on a Kubernetes cluster.
 
@@ -93,10 +93,10 @@ caption="Basic ztunnel L4-only datapath"
 
 The figure depicts ambient pod workloads running on two nodes W1 and W2 of a Kubernetes cluster. There is a single instance of the ztunnel proxy on each node. In this scenario, application client pods C1, C2 and C3 need to access a service provided by pod S1 and there is no requirement for advanced L7 features such as L7 traffic routing or L7 traffic management so no Waypoint proxy is needed.
 
-The figure shows that pods C1 and C2 running on node W1 connect with pod S1 running on node W2 and their TCP traffic is tunneled through HBONE tunnel instances that have been created by the ztunnel proxy pods of each node. Mutual TLS (mTLS) is used for encryption as well as mutual authentication of traffic being tunneled. SPIFFE identities are used to identify the workloads on each side of the connection. The term `HBONE` (for HTTP Based Overlay Network Encapsulation) is used in Istio ambient to refer to a technique for transparently and securely tunneling TCP packets encapsulated within HTTPS packets. For more details on the datapath including HBONE and the traffic redirection details, refer to the accompanying document [ztunnel datapath and inpod redirection](/docs/ops/ambient/usage/inpod). 
+The figure shows that pods C1 and C2 running on node W1 connect with pod S1 running on node W2 and their TCP traffic is tunneled through HBONE tunnel instances that have been created by the ztunnel proxy pods of each node. Mutual TLS (mTLS) is used for encryption as well as mutual authentication of traffic being tunneled. SPIFFE identities are used to identify the workloads on each side of the connection. The term `HBONE` (for HTTP Based Overlay Network Encapsulation) is used in Istio ambient to refer to a technique for transparently and securely tunneling TCP packets encapsulated within HTTPS packets. For more details on the datapath, including HBONE and the traffic redirection details, refer to the [ztunnel traffic redirection](/docs/ops/ambient/usage/traffic-redirection) guide. 
 
 {{< tip >}}
-Note: Although the figure shows the HBONE tunnels to be between the two ztunnel proxies, in the current implementation with the inpod redirection model (from istio 1.21.0 onwards), the tunnels are in fact between the source and destination pods and traffic is HBONE encapsulated and encrypted in the network namespace of the source pod itself and eventually decapsulated and decrypted in the network namespace of the destination pod on the destination worker node. The ztunnel proxy still logically handles both the control plane and data plane needed for HBONE transport, however it is able to do that from inside the network namespaces of the source and destination pods. This is explained in more detail in the document [ztunnel datapath and inpod redirection](/docs/ops/ambient/usage/inpod).
+Note: Although the figure shows the HBONE tunnels to be between the two ztunnel proxies, in the in-pod redirection implementation introduced in Istio 1.21.0 the tunnels are in fact between the source and destination pods. Traffic is HBONE encapsulated and encrypted in the network namespace of the source pod itself, and eventually decapsulated and decrypted in the network namespace of the destination pod on the destination worker node. The ztunnel proxy still logically handles both the control plane and data plane needed for HBONE transport, however it is able to do that from inside the network namespaces of the source and destination pods.
 {{< /tip >}}
 
 Note that the figure shows that local traffic - from pod C3 to destination pod S1 on worker node W2 - also traverses the local ztunnel proxy instance so that L4 traffic management functions such as L4 Authorization and L4 Telemetry are enforced identically on traffic, whether or not it crosses a node boundary.
@@ -137,7 +137,7 @@ link="hbone-packet.png"
 caption="HBONE L3 packet format"
 >}}
 
-Additional use cases of HBONE and HTTP tunneling (such as support for IPv6 and UDP packets) will be investigated in future as Istio ambient evolves. 
+Additional use cases of HBONE and HTTP tunneling (such as support for IPv6 and UDP packets) will be investigated in future as ambient mode evolves. 
 
 ## Deploying an Application {#deployapplication}
 
@@ -198,7 +198,7 @@ sleep-69cfb4968f-mhccl     1/1     Running   0          78m
 sleep-69cfb4968f-rhhhp     1/1     Running   0          78m
 {{< /text >}}
 
-Note that after ambient is enabled for the namespace, every application pod still only has 1 container, and the uptime of these pods indicates these were not restarted in order to enable ambient mode (unlike `sidecar` mode which does require pods to be restarted when sidecar proxies are injected). This results in better user experience and operational performance since ambient mode can seamlessly be enabled (or disabled) completely transparently as far as the application pods are concerned.
+Note that after ambient is enabled for the namespace, every application pod still only has 1 container, and the uptime of these pods indicates these were not restarted in order to enable ambient mode (unlike sidecar mode, which requires pods to be restarted when the sidecar proxies are injected). This results in better user experience and operational performance since ambient mode can seamlessly be enabled (or disabled) completely transparently as far as the application pods are concerned.
 
 Initiate a `curl` request again from one of the client pods to the service to verify that traffic continues to flow while ambient mode.
 
