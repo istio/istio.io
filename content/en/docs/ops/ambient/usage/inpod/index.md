@@ -89,7 +89,11 @@ LISTEN 0      128                *:15001            *:*
 LISTEN 0      128                *:15008            *:*
 {{< /text >}}
 
-In order to view the iptables rules setup inside one of the application pods, execute the command shown in the following example. The command output shows that additional Istio specific chains are added into the NAT and Mangle tables in netfilter/ iptables within the application pod's network namespace and traffic that is coming into the pod on TCP port 15008 or 15006 is redirected into the ztunnel proxy for ingress Ambient processing whereas traffic leaving the pod is redirected to ztunnel's port 15001 for egress processing prior to being sent out by ztunnel using HBONE encapsulation.
+3. Check the iptables rules setup
+
+To view the iptables rules setup inside one of the application pods, execute the command shown in the following example. 
+
+The command output shows that additional Istio-specific chains are added to the NAT and Mangle tables in netfilter/iptables within the application pod's network namespace. Traffic coming into the pod on TCP port 15008 or 15006 is redirected into the ztunnel proxy for ingress Ambient processing. The traffic leaving the pod is redirected to ztunnel's port 15001 for egress processing before being sent out by ztunnel using HBONE encapsulation.
 
 {{< text bash >}}
 $ kubectl debug $(kubectl get pod -l app=sleep -n ambient-demo -o jsonpath='{.items[0].metadata.name}') -it --image gcr.io/istio-release/base --profile=netadmin -n ambient-demo -- iptables-save
