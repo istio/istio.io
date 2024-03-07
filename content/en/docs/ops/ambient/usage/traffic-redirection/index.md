@@ -1,5 +1,5 @@
 ---
-title: Ztunnel traffic redirection 
+title: Ztunnel traffic redirection
 description: Understand how traffic is redirected between pods and the ztunnel node proxy.
 weight: 2
 owner: istio/wg-networking-maintainers
@@ -14,9 +14,9 @@ In the context of ambient mode, _traffic redirection_ refers to data plane funct
 The method described in this guide was first included in Istio version 1.21.0, and [replaces previous methods](/blog/2024/inpod-traffic-redirection-ambient/).
 {{< /tip >}}
 
-### Istio's in-pod traffic redirection model
+## Istio's in-pod traffic redirection model
 
-The core design principle underlying ambient mode's in-pod traffic redirection is that the ztunnel proxy has the ability to perform data path capture inside the Linux network namespace of the workload pod. This is achieved via a cooperation of functionality between the `istio-cni` node agent and the ztunnel node proxy. A key benefit of this model is that it enables Istio's ambient mode to work alongside any Kubernetes CNI plugin, transparently, and without impacting Kubernetes networking features. 
+The core design principle underlying ambient mode's in-pod traffic redirection is that the ztunnel proxy has the ability to perform data path capture inside the Linux network namespace of the workload pod. This is achieved via a cooperation of functionality between the `istio-cni` node agent and the ztunnel node proxy. A key benefit of this model is that it enables Istio's ambient mode to work alongside any Kubernetes CNI plugin, transparently, and without impacting Kubernetes networking features.
 
 The following figure illustrates the sequence of events when a new workload pod is started in (or added to) an ambient-enabled namespace.
 
@@ -25,9 +25,9 @@ link="./pod-added-to-ambient.svg"
 alt="pod added to the ambient mesh flow"
 >}}
 
-`istio-cni` is informed of pod lifecycle events such as creation and deletion, and also watches the underlying Kubernetes API server for events such as the ambient label being added to a pod or namespace. 
+`istio-cni` is informed of pod lifecycle events such as creation and deletion, and also watches the underlying Kubernetes API server for events such as the ambient label being added to a pod or namespace.
 
-The node agent additionally installs a chained CNI plugin that is executed by the container runtime after the primary CNI plugin within that Kubernetes cluster executes. Its only purpose is to notify `istio-cni` when a new pod is created by the container runtime in a namespace that is already enrolled in ambient mode, and propagate the new pod context to `istio-cni`. 
+The node agent additionally installs a chained CNI plugin that is executed by the container runtime after the primary CNI plugin within that Kubernetes cluster executes. Its only purpose is to notify `istio-cni` when a new pod is created by the container runtime in a namespace that is already enrolled in ambient mode, and propagate the new pod context to `istio-cni`.
 
 Once the `istio-cni` node agent is notified that a pod needs to be added to the mesh (either from the CNI plugin, if the pod is brand new, or from the Kubernetes API server, if the pod is already running but needs to be added), the following sequence of operations is performed:
 
@@ -40,7 +40,7 @@ Once the `istio-cni` node agent is notified that a pod needs to be added to the 
   - The node-local ztunnel internally spins up a new proxy instance and listen port set, dedicated to the newly-added pod.
 
   - Once the in-pod redirect rules are in place and the ztunnel has established the listen ports, the pod is added in the mesh and traffic begins flowing through the node-local ztunnel.
- 
+
 Traffic to and from pods in the mesh will be fully encrypted with mTLS by default.
 
 Data will now enter and leave the pod network namespace encrypted. Every pod in the mesh has the ability to enforce mesh policy and securely encrypt traffic, even though the user application running in the pod has no awareness of either.
@@ -52,13 +52,13 @@ Here’s a diagram to illustrate how encrypted traffic flows between pods in the
     alt="HBONE traffic flows between pods in the ambient mesh"
     >}}
 
-### Observing and debugging traffic redirection in ambient mode
+## Observing and debugging traffic redirection in ambient mode
 
 If traffic redirection is not working correctly in ambient mode, some quick checks can be made to help narrow down the problem. To demonstrate traffic redirection in action, first follow the steps described in the [ztunnel L4 networking guide](/docs/ops/ambient/usage/ztunnel), including deployment of Istio ambient mode on a Kubernetes Kind cluster and the deployment of `httpbin` and `sleep` in the namespace tagged for ambient mode. Once you have verified that the application is successfully running in the ambient mesh, you can use the following steps to observe the traffic redirection.
 
-#### Check the ztunnel proxy logs
+### Check the ztunnel proxy logs
 
-When an application pod is part of an ambient mesh, you can check the ztunnel proxy logs to confirm the mesh is redirecting traffic. As shown in the example below, the ztunnel logs related to `inpod` indicate that in-pod redirection mode is enabled, the proxy has received the network namespace (netns) information about an ambient application pod, and has started proxying for it. 
+When an application pod is part of an ambient mesh, you can check the ztunnel proxy logs to confirm the mesh is redirecting traffic. As shown in the example below, the ztunnel logs related to `inpod` indicate that in-pod redirection mode is enabled, the proxy has received the network namespace (netns) information about an ambient application pod, and has started proxying for it.
 
 {{< text bash >}}
 $ kubectl logs ds/ztunnel -n istio-system  | grep inpod
@@ -74,7 +74,7 @@ inpod_mark: 1337
 2024-02-21T22:04:58.446444Z  INFO ztunnel::inpod::statemanager: pod WorkloadUid("1e054806-e667-4109-a5af-08b3e6ba0c42") received netns, starting proxy
 {{< /text >}}
 
-#### Confirm the state of sockets
+### Confirm the state of sockets
 
 Follow the steps below to confirm that the sockets on ports 15001, 15006, and 15008 are open and in the listening state.
 
@@ -88,7 +88,7 @@ LISTEN 0      128                *:15001            *:*
 LISTEN 0      128                *:15008            *:*
 {{< /text >}}
 
-#### Check the iptables rules setup
+### Check the iptables rules setup
 
 To view the iptables rules setup inside one of the application pods, execute this command:
 
