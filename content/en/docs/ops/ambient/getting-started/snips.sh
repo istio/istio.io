@@ -133,35 +133,35 @@ kubectl exec deploy/notsleep -- curl -s http://productpage:9080/ | grep -o "<tit
 <title>Simple Bookstore App</title>
 ENDSNIP
 
-snip_adding_your_application_to_ambient_1() {
+snip_adding_your_application_to_the_ambient_mesh_1() {
 kubectl label namespace default istio.io/dataplane-mode=ambient
 }
 
-snip_adding_your_application_to_ambient_2() {
+snip_adding_your_application_to_the_ambient_mesh_2() {
 kubectl exec deploy/sleep -- curl -s "http://$GATEWAY_HOST/productpage" | grep -o "<title>.*</title>"
 }
 
-! read -r -d '' snip_adding_your_application_to_ambient_2_out <<\ENDSNIP
+! read -r -d '' snip_adding_your_application_to_the_ambient_mesh_2_out <<\ENDSNIP
 <title>Simple Bookstore App</title>
 ENDSNIP
 
-snip_adding_your_application_to_ambient_3() {
+snip_adding_your_application_to_the_ambient_mesh_3() {
 kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
 }
 
-! read -r -d '' snip_adding_your_application_to_ambient_3_out <<\ENDSNIP
+! read -r -d '' snip_adding_your_application_to_the_ambient_mesh_3_out <<\ENDSNIP
 <title>Simple Bookstore App</title>
 ENDSNIP
 
-snip_adding_your_application_to_ambient_4() {
+snip_adding_your_application_to_the_ambient_mesh_4() {
 kubectl exec deploy/notsleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
 }
 
-! read -r -d '' snip_adding_your_application_to_ambient_4_out <<\ENDSNIP
+! read -r -d '' snip_adding_your_application_to_the_ambient_mesh_4_out <<\ENDSNIP
 <title>Simple Bookstore App</title>
 ENDSNIP
 
-snip_l4_authorization_policy_1() {
+snip_layer_4_authorization_policy_1() {
 kubectl apply -f - <<EOF
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
@@ -182,46 +182,46 @@ spec:
 EOF
 }
 
-snip_l4_authorization_policy_2() {
+snip_layer_4_authorization_policy_2() {
 # this should succeed
 kubectl exec deploy/sleep -- curl -s "http://$GATEWAY_HOST/productpage" | grep -o "<title>.*</title>"
 }
 
-! read -r -d '' snip_l4_authorization_policy_2_out <<\ENDSNIP
+! read -r -d '' snip_layer_4_authorization_policy_2_out <<\ENDSNIP
 <title>Simple Bookstore App</title>
 ENDSNIP
 
-snip_l4_authorization_policy_3() {
+snip_layer_4_authorization_policy_3() {
 # this should succeed
 kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
 }
 
-! read -r -d '' snip_l4_authorization_policy_3_out <<\ENDSNIP
+! read -r -d '' snip_layer_4_authorization_policy_3_out <<\ENDSNIP
 <title>Simple Bookstore App</title>
 ENDSNIP
 
-snip_l4_authorization_policy_4() {
+snip_layer_4_authorization_policy_4() {
 # this should fail with a connection reset error code 56
 kubectl exec deploy/notsleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
 }
 
-! read -r -d '' snip_l4_authorization_policy_4_out <<\ENDSNIP
+! read -r -d '' snip_layer_4_authorization_policy_4_out <<\ENDSNIP
 command terminated with exit code 56
 ENDSNIP
 
-snip_l7_authorization_policy_1() {
+snip_layer_7_authorization_policy_1() {
 istioctl x waypoint apply --service-account bookinfo-productpage --wait
 }
 
-! read -r -d '' snip_l7_authorization_policy_1_out <<\ENDSNIP
+! read -r -d '' snip_layer_7_authorization_policy_1_out <<\ENDSNIP
 waypoint default/bookinfo-productpage applied
 ENDSNIP
 
-snip_l7_authorization_policy_2() {
+snip_layer_7_authorization_policy_2() {
 kubectl get gtw bookinfo-productpage -o yaml
 }
 
-! read -r -d '' snip_l7_authorization_policy_2_out <<\ENDSNIP
+! read -r -d '' snip_layer_7_authorization_policy_2_out <<\ENDSNIP
 ...
 status:
   conditions:
@@ -233,7 +233,7 @@ status:
     type: Programmed
 ENDSNIP
 
-snip_l7_authorization_policy_3() {
+snip_layer_7_authorization_policy_3() {
 kubectl apply -f - <<EOF
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
@@ -258,30 +258,30 @@ spec:
 EOF
 }
 
-snip_l7_authorization_policy_4() {
+snip_layer_7_authorization_policy_4() {
 # this should fail with an RBAC error because it is not a GET operation
 kubectl exec deploy/sleep -- curl -s "http://$GATEWAY_HOST/productpage" -X DELETE
 }
 
-! read -r -d '' snip_l7_authorization_policy_4_out <<\ENDSNIP
+! read -r -d '' snip_layer_7_authorization_policy_4_out <<\ENDSNIP
 RBAC: access denied
 ENDSNIP
 
-snip_l7_authorization_policy_5() {
+snip_layer_7_authorization_policy_5() {
 # this should fail with an RBAC error because the identity is not allowed
 kubectl exec deploy/notsleep -- curl -s http://productpage:9080/
 }
 
-! read -r -d '' snip_l7_authorization_policy_5_out <<\ENDSNIP
+! read -r -d '' snip_layer_7_authorization_policy_5_out <<\ENDSNIP
 RBAC: access denied
 ENDSNIP
 
-snip_l7_authorization_policy_6() {
+snip_layer_7_authorization_policy_6() {
 # this should continue to work
 kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
 }
 
-! read -r -d '' snip_l7_authorization_policy_6_out <<\ENDSNIP
+! read -r -d '' snip_layer_7_authorization_policy_6_out <<\ENDSNIP
 <title>Simple Bookstore App</title>
 ENDSNIP
 
@@ -314,7 +314,7 @@ kubectl delete namespace istio-system
 }
 
 snip_uninstall_2() {
-kubectl label namespace default istio.io/dataplane-mode-
+kubectl label namespace default istio.io/dataplane-mode
 }
 
 snip_uninstall_3() {
