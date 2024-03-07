@@ -1,14 +1,10 @@
 ---
-title: Ambient Mesh Architecture
-description: Deep dive into ambient mesh architecture.
+title: Ambient Mode Architecture
+description: A deep dive into the architecture of ambient mode.
 weight: 20
 owner: istio/wg-networking-maintainers
 test: n/a
 ---
-
-This page is under construction.
-
-## Differences from sidecar architecture
 
 ## Traffic routing
 
@@ -85,5 +81,3 @@ spec:
     - name: echo-v1
       port: 80
 {{< /text >}}
-
-## Security
