@@ -9,9 +9,7 @@ test: yes
 {{< boilerplate ambient-alpha-warning >}}
 
 This guide lets you quickly evaluate Istio's {{< gloss "ambient" >}}ambient mode{{< /gloss >}}. These steps require you to have a {{< gloss >}}cluster{{< /gloss >}} running a
-[supported version](/docs/releases/supported-releases#support-status-of-istio-releases) of Kubernetes ({{< supported_kubernetes_versions >}}). You can use any supported platform, for
-example [Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) or
-others specified by the [platform-specific setup instructions](/docs/setup/platform-setup/).
+[supported version](/docs/releases/supported-releases#support-status-of-istio-releases) of Kubernetes ({{< supported_kubernetes_versions >}}). You can install Istio ambient mode on [any supported Kubernetes platform](/docs/setup/platform-setup/), but this guide will assume the use of [kind](https://kind.sigs.k8s.io/) simplicity.
 
 {{< tip >}}
 Note that ambient mode currently requires the use of [istio-cni](/docs/setup/additional-setup/cni) to configure Kubernetes nodes, which must run as a privileged pod. Ambient mode is compatible with every major CNI that previously supported sidecar mode.
@@ -30,7 +28,7 @@ Follow these steps to get started with Istio's ambient mode:
 
 1.  Download the [latest version of Istio](/docs/setup/getting-started/#download) (v1.21.0 or later) with Alpha support for ambient mode.
 
-1.  If you don’t have a Kubernetes cluster, you can deploy one locally using `kind` with the following command:
+1.  For this guide, we will deploy a new local `kind` cluster with the following command:
 
     {{< text syntax=bash snip_id=none >}}
     $ kind create cluster --config=- <<EOF
