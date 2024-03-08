@@ -473,7 +473,7 @@ $ kubectl delete namespace istio-system
 如果不再需要此标签，请使用以下命令来移除：
 
 {{< text bash >}}
-$ kubectl label namespace default istio.io/dataplane-mode
+$ kubectl label namespace default istio.io/dataplane-mode-
 {{< /text >}}
 
 若要删除 Bookinfo 样例应用及其配置，请参阅 [Bookinfo 清理](/zh/docs/examples/bookinfo/#cleanup)。
