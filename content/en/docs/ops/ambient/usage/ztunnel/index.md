@@ -137,7 +137,7 @@ link="hbone-packet.png"
 caption="HBONE L3 packet format"
 >}}
 
-Additional use cases of HBONE and HTTP tunneling (such as support for IPv6 and UDP packets) will be investigated in future as ambient mode evolves.
+Additional use cases of HBONE and HTTP tunneling (such as support for IPv6 and UDP packets) will be investigated in the future as ambient mode evolves.
 
 ## Deploying an Application {#deployapplication}
 
