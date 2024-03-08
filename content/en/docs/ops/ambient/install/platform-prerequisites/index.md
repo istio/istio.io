@@ -16,7 +16,7 @@ This document covers any platform or environment specific prerequisites for inst
 `cni.exclusive = false` to properly support chaining. See https://docs.cilium.io/en/stable/helm-reference/ for more details.
 
 1. Due to how Cilium manages node identity and internally allow-lists node-level health probes to pods,
-applying default-DENY `NetworkPolicy` in a Cilium CNI install with Istio ambient mesh will cause `kubelet` health probes (which are by-default exempted from NetworkPolicy enforcement by Cilium) to be blocked.
+applying default-DENY `NetworkPolicy` in a Cilium CNI install underlying Istio in ambient mode, will cause `kubelet` health probes (which are by-default exempted from NetworkPolicy enforcement by Cilium) to be blocked.
 
     This can be resolved by applying the following `CiliumClusterWideNetworkPolicy`:
 
