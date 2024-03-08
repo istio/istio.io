@@ -15,12 +15,11 @@ Kubernetes 版本 ({{< supported_kubernetes_versions >}})。
 您可以使用 [Minikube](https://kubernetes.io/zh-cn/docs/tasks/tools/install-minikube/)
 或[特定平台搭建指南](/zh/docs/setup/platform-setup/)中指定的所有受支持的平台。
 
-{{< warning >}}
-请注意，Ambient 目前需要使用 [istio-cni](/zh/docs/setup/additional-setup/cni)
-来配置 Kubernetes 节点。`istio-cni` 的 Ambient
-模式当前**不可以**支持某些类型的集群 CNI（如不使用 `veth` 设备的 CNI 实现，
-例如 [Minikube 的](https://kubernetes.io/docs/tasks/tools/install-minikube/) `bridge` 模式）
-{{< /warning >}}
+{{< tip >}}
+请注意，Ambient 模式当前需要使用 [istio-cni](/zh/docs/setup/additional-setup/cni)
+来配置 Kubernetes 节点，该节点必须作为特权 Pod 运行。
+Ambient 模式与之前支持 Sidecar 模式的所有主流 CNI 兼容。
+{{< /tip >}}
 
 请按照以下步骤开始使用 Istio 的 Ambient 模式：
 
