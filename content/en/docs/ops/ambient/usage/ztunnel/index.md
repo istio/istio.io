@@ -57,7 +57,6 @@ The following is a list of feature restrictions or caveats in ambient mode alpha
 
 The examples in this guide used a deployment of Istio version `1.21.0` on a `kind` cluster of version `0.20.0` running Kubernetes version `1.27.3`.
 
-
 The examples below require a cluster with more than 1 worker node in order to explain how cross-node traffic operates. Refer to the [installation user guide](/docs/ops/ambient/install/) or [getting started guide](/docs/ops/ambient/getting-started/) for information on installing Istio in ambient mode on a Kubernetes cluster.
 
 ## Functional Overview {#functionaloverview}
