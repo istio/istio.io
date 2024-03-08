@@ -3,7 +3,7 @@ title: 发布 Istio 1.21.0
 linktitle: 1.21.0
 subtitle: 大版本更新
 description: Istio 1.21 发布公告。
-publishdate: 2024-02-28
+publishdate: 2024-03-11
 release: 1.21.0
 aliases:
 - /zh/news/announcing-1.21
@@ -14,7 +14,7 @@ aliases:
 我们要感谢整个 Istio 社区对 1.21.0 版本发布所作出的帮助。
 我们要感谢此版本的几位发布经理，来自 Google 的 `Aryan Gupta`、
 来自 Tetrate 的 `Jianpeng He` 及 `Sumit Vij`。
-这些发布经理们特别感谢测试和发布工作组负责人 Eric Van Norman（IBM）在整个发布周期中所提供的帮助和指导。
+这些发布经理们再次感谢测试和发布工作组负责人 Eric Van Norman（IBM）在整个发布周期中所提供的帮助和指导。
 我们还要感谢 Istio 工作组的维护者以及广大 Istio 社区，感谢他们在发布过程中提供及时反馈、
 审核和社区测试，以及在确保及时发布方面给予的全力支持。
 
@@ -53,7 +53,7 @@ See https://istio.io/v1.21/docs/reference/config/analysis for more information a
 causes and resolutions.
 {{< /text >}}
 
-在该版本中，以下变更被限制在兼容性版本之后：
+在该版本中，下列变更被限制在兼容性版本之后：
 * 对 `ExternalName` 服务的改进支持
 * `DestinationRule` 中 `SIMPLE` TLS 源的自动 SNI
 * `DestinationRule` 中 TLS 源的默认 TLS 验证
@@ -66,9 +66,27 @@ Istio 加入了 [Kubernetes](https://github.com/kubernetes/enhancements/blob/mas
 
 ### 缩减二进制大小 {#binary-size-reductions}
 
-随着每个版本的发布，Istio 都会变得更快、更可靠、更稳定，在本版本中也不例外。
+随着每个版本的发布，Istio 都会变得更快、更可靠、更稳定，在此版本中也不例外。
 在该版本中，二进制文件大小全面下降，二进制文件大约缩小了 10MB。
 
 这对于 Sidecar 来说尤其重要，因为它与每个工作负载一同部署。
 Sidecar 镜像体积缩小了 25%，可以更快地拉取，从而缩短 Pod 启动时间。
 此外，二进制文件的减小通常会使得 RAM 减少 5MB - 在多个 Pod 中，这些叠加可以快速节省成本。
+
+### 支持 Ambient 模式下的所有 CNI {#support-for-all-cnis-in-ambient-mode}
+
+我们新的 [Ambient 模式](/zh/blog/2022/introducing-ambient-mesh/)现在适用于所有 Kubernetes 平台和 CNI 实现。
+Ambient 模式已经使用 GKE、AKS 和 EKS 及其提供的所有 CNI 实现、
+Calico 和 Cilium 等第 3 方 CNI 以及 OpenShift 等平台进行了测试，
+所有这些都取得了可靠的结果。
+[最近的一篇博客文章](/zh/blog/2024/inpod-traffic-redirection-ambient/)描述了此修复背后的工程挑战。
+
+Ambient 模式的目标是在即将发布的 Istio 1.22 中迁移到 Beta。
+
+## 升级到 1.21 {#upgrading-to-1-21}
+
+我们希望了解您升级到 Istio 1.21 的体验。
+您可以在我们的 [Slack 工作区](https://slack.istio.io/)的 #release-1.21 频道中提供反馈。
+
+您想直接为 Istio 做出贡献吗？
+查找并加入我们的其中一个[工作组](https://github.com/istio/community/blob/master/WORKING-GROUPS.md)并帮助我们改进。
