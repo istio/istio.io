@@ -63,5 +63,5 @@ injected proxy container, when set.
 - **Fixed** a bug where specifying a URI regex `.*` match within a vs HTTP route does not short short-circuit the other HTTP
   routes behind.
 
-- **Fixed** an issue that `Endpoint` and `Service` in istiod-remote chart do not respect the revision value
+- **Fixed** an issue that `Endpoint` and `Service` in istiod-remote chart do not respect the revision value.
   ([Issue #47552](https://github.com/istio/istio/issues/47552))
