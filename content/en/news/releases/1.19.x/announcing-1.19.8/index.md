@@ -16,23 +16,23 @@ This release note describes what’s different between Istio 1.19.7 and 1.19.8.
 - **Added** an environment variable `COMPLIANCE_POLICY` to Istio components for
   enforcing TLS restriction for compliance with FIPS. When set to `fips-140-2`
   on the Istiod container, the Istio Proxy container, and all other Istio
-  components, TLS version is restricted to v1.2, the cipher suites to a subset
+  components, the TLS version is restricted to v1.2. The cipher suites are limited to a subset
   of `ECDHE-ECDSA-AES128-GCM-SHA256`, `ECDHE-RSA-AES128-GCM-SHA256`,
   `ECDHE-ECDSA-AES256-GCM-SHA384`, `ECDHE-RSA-AES256-GCM-SHA384`, and ECDH
   curves to `P-256`. These restrictions apply on the following data paths:
 
-  1. mTLS communication between Envoy proxies;
-  1. regular TLS on the downstream and the upstream of Envoy proxies (e.g. gateway);
-  1. Google gRPC side requests from Envoy proxies (e.g. Stackdriver extensions);
-  1. Istiod xDS server;
-  1. Istiod injection and validation webhook servers.
+    1. mTLS communication between Envoy proxies;
+    1. regular TLS on the downstream and the upstream of Envoy proxies (e.g. gateway);
+    1. Google gRPC side requests from Envoy proxies (e.g. Stackdriver extensions);
+    1. Istiod xDS server;
+    1. Istiod injection and validation webhook servers.
 
   The restrictions are not applied on the following data paths:
 
-  1. Istiod to Kubernetes API server;
-  1. JWK fetch from Istiod;
-  1. Wasm image and URL fetch from Istio Proxy containers;
-  1. ztunnel.
+    1. Istiod to Kubernetes API server;
+    1. JWK fetch from Istiod;
+    1. Wasm image and URL fetch from Istio Proxy containers;
+    1. ztunnel.
 
   Note that Istio injector will propagate the value of COMPLIANCE_POLICY to the
   injected proxy container, when set.
@@ -48,9 +48,9 @@ This release note describes what’s different between Istio 1.19.7 and 1.19.8.
 - **Fixed** an issue where `istioctl precheck` inaccurately reports the IST0141 message related to resource permissions.
   ([Issue #49379](https://github.com/istio/istio/issues/49379))
 
-- **Fixed** an issue that when using a delegate in a `VirtualService`, the effective `VirtualService` may not be consistent
-  with expectations due to a sorting error.
+- **Fixed** an issue that when using a delegate in a `VirtualService`, the effective `VirtualService` may not be
+  consistent with expectations due to a sorting error.
   ([Issue #49539](https://github.com/istio/istio/issues/49539))
 
-- **Fixed** a bug where specifying a URI regex `.*` match within a vs HTTP route does not short short-circuit the other HTTP
-  routes behind.
+- **Fixed** a bug where specifying a URI regex `.*` match within a vs HTTP route does not short short-circuit the other
+  HTTP routes behind.
