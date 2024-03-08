@@ -26,6 +26,8 @@ Follow these steps to get started with Istio's ambient mode:
 
 ## Download and install {#download}
 
+1.  Install [kind](https://kind.sigs.k8s.io/)
+
 1.  Download the [latest version of Istio](/docs/setup/getting-started/#download) (v1.21.0 or later) with Alpha support for ambient mode.
 
 1.  For this guide, we will deploy a new local `kind` cluster with the following command:
