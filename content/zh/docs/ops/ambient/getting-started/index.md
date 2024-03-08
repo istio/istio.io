@@ -16,7 +16,7 @@ Kubernetes 版本 ({{< supported_kubernetes_versions >}})。
 或[特定平台搭建指南](/zh/docs/setup/platform-setup/)中指定的所有受支持的平台。
 
 {{< tip >}}
-请注意，Ambient 模式当前需要使用 [istio-cni](/docs/setup/additional-setup/cni)
+请注意，Ambient 模式当前需要使用 [istio-cni](/zh/docs/setup/additional-setup/cni)
 来配置 Kubernetes 节点，该节点必须作为特权 Pod 运行。
 Ambient 模式与之前支持 Sidecar 模式的所有主流 CNI 兼容。
 {{< /tip >}}
