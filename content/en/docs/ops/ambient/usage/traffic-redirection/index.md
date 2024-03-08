@@ -27,7 +27,7 @@ alt="pod added to the ambient mesh flow"
 
 The `istio-cni` node agent responds to CNI events such as pod creation and deletion, and also watches the underlying Kubernetes API server for events such as the ambient label being added to a pod or namespace.
 
-The node agent additionally installs a chained CNI plugin that is executed by the container runtime after the primary CNI plugin within that Kubernetes cluster executes. Its only purpose is to notify `istio-cni` when a new pod is created by the container runtime in a namespace that is already enrolled in ambient mode, and propagate the new pod context to `istio-cni`.
+The `istio-cni` node agent additionally installs a chained CNI plugin that is executed by the container runtime after the primary CNI plugin within that Kubernetes cluster executes. Its only purpose is to notify the `istio-cni` node agent when a new pod is created by the container runtime in a namespace that is already enrolled in ambient mode, and propagate the new pod context to `istio-cni`.
 
 Once the `istio-cni` node agent is notified that a pod needs to be added to the mesh (either from the CNI plugin, if the pod is brand new, or from the Kubernetes API server, if the pod is already running but needs to be added), the following sequence of operations is performed:
 
