@@ -784,6 +784,7 @@ natively
 Neeraj
 netfilter
 netmask
+netns
 network1
 network2
 networking.istio.io
