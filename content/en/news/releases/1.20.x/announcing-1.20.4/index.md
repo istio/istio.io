@@ -4,7 +4,7 @@ linktitle: 1.20.4
 subtitle: Patch Release
 description: Istio 1.20.4 patch release.
 publishdate: 2024-03-12
-release: 1.20.3
+release: 1.20.4
 ---
 
 This release note describes what’s different between Istio 1.20.3 and 1.20.4.
