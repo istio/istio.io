@@ -1,6 +1,6 @@
 ---
-title: 使用 ztunnel 实现 L4 联网和 mTLS 
-description: Istio Ambient 使用 ztunnel 代理实现 L4 联网和 mTLS 的用户指南。
+title: 使用 ztunnel 实现 Layer 4 网络和 mTLS 
+description: 了解和管理 Istio 的“零信任隧道（zero-trust tunnel）”代理。
 weight: 2
 owner: istio/wg-networking-maintainers
 test: no
@@ -10,7 +10,7 @@ test: no
 
 ## 简介  {#introsection}
 
-本指南深入介绍了 Istio Ambient 网格中 ztunnel 代理和 4 层网络能力的功能和用法。
+本指南深入介绍了 Istio Ambient 网格中 ztunnel 代理和 Layer 4 网络能力的功能和用法。
 要简单地尝试 Istio Ambient 网格，请按照
 [Ambient 快速入门](/zh/docs/ops/ambient/getting-started/)进行操作。
 本指南遵循用户旅程并通过多个示例来详细介绍 Istio Ambient 的设计和架构。
