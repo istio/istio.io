@@ -59,30 +59,22 @@ Istio 在 Ambient 模式下的一些用例可以仅通过 L4 安全覆盖网络�
 
 ## 当前注意事项  {#caveats}
 
-当使用其中一种支持的安装方法安装 Istio Ambient 网格时，会自动安装 ztunnel 代理。
-Istio Ambient 模式所需的最低 Istio 版本是 `1.18.0`。
-一般来说，Ambient 模式下的 Istio 支持 Sidecar 代理模式下支持的现有 Istio API。
-由于 Ambient 功能当前处于 Alpha 版本级别，
-因此以下是 Istio Ambient 功能当前版本（自 `1.19.0` 版本起）中的功能限制或警告列表。
-预计在 Ambient 进入 Beta 版本并最终正式发布时，这些限制将被解决/移除。
+{{< boilerplate ambient-alpha-warning >}}
 
-1. **仅限 Kubernetes（K8s）：**目前仅支持 Istio Ambient 模式在 Kubernetes 集群上部署。
-   目前不支持在虚拟机等非 Kubernetes 端点上部署。
+以下是 Ambient 模式 Alpha 中的功能限制或警告列表。
+这些限制计划在未来版本中得到解决或删除。
+
+1. **仅限 Kubernetes：**目前仅支持 Ambient 模式下的 Istio 在 Kubernetes 集群上部署。
+   目前不支持在虚拟机等非 Kubernetes 端点中部署。
 
 1. **不支持 Istio 多集群：**Istio Ambient 模式当前仅支持单集群部署。
-
-1. **K8s CNI 限制：**Ambient 模式下的 Istio 目前不适用于所有 Kubernetes CNI 实现。
-   此外，对于某些插件，某些 CNI 功能（特别是 Kubernetes `NetworkPolicy` 和 Kubernetes 服务负载均衡功能）
-   可能会在 Istio Ambient 模式存在的情况下被透明绕过。
-   已被支持的 CNI 插件的明确集合以及任何 CNI 功能警告目前正在测试中，
-   并将在 Istio Ambient 模式接近 Beta 版本时正式提供文档。
 
 1. **仅限 TCP/IPv4：**在当前版本中，基于 IPv4 的 TCP 是
    Istio 安全覆盖隧道上唯一支持的传输协议（这包括在 TCP/IPv4 连接之上的应用程序层端点之间运行的 HTTP 等协议）。
 
-1. **无法动态切换到 Ambient 模式：**Ambient 模式只能在使用 Ambient 配置文件或
-   Ambient Helm 配置部署的新 Istio 网格控制平面上启用。
-   例如，使用 Pre-Ambient 配置文件部署的现有 Istio 网格无法被动态切换至同时启用 Ambient 模式的状态。
+1. **无法将现有 Istio 部署透明地转换为 Ambient 模式：**Ambient 模式只能在使用 Ambient `istioctl`
+   配置文件或 Helm 配置部署的新 Istio 网格控制平面上启用。
+   使用 Sidecar 配置文件部署的现有 Istio 网格当前无法动态切换以启用 Ambient 模式。
 
 1. **Istio `PeerAuthentication` 的限制：**截至撰写本文时，Istio Ambient 模式下的所有组件（即 Waypoint 代理）
    并不支持 `PeerAuthentication` 资源。因此，建议当前仅使用 `STRICT` mTLS 模式。
@@ -94,9 +86,8 @@ Istio Ambient 模式所需的最低 Istio 版本是 `1.18.0`。
 ### 本指南使用的环境  {#environment-used-for-this-guide}
 
 本指南中的示例在基于 `0.20.0` 版 `kind` 的
-Kubernetes `1.27.3` 集群内的 Istio `1.19.0` 版本中运行。
+Kubernetes `1.27.3` 集群内的 Istio `1.21.0` 版本中运行。
 
-Ambient 功能所需的最低 Istio 版本是 1.18.0，所需的最低 Kubernetes 版本是 `1.24.0`。
 下面的示例需要一个具有超过 1 个工作节点的集群，以便解释跨节点流量的运行方式。
 请参阅[安装用户指南](/zh/docs/ops/ambient/install/)或[入门指南](/zh/docs/ops/ambient/getting-started/)，
 了解关于在 Kubernetes 集群中安装 Ambient 模式 Istio 的信息。
@@ -144,11 +135,22 @@ Pod C1、C2 和 C3 需要访问由 Pod S1 提供的服务，并且不需要高�
 （例如 L7 流量路由或 L7 流量管理），因此不需要 Waypoint 代理。
 
 该图展示了在节点 W1 上运行的 Pod C1 和 C2 与在节点 W2 上运行的 Pod S1 连接，
-它们的 TCP 流量通过在每个节点的 ztunnel 代理 Pod 之间创建的单个共享 HBONE 隧道实例进行隧道传输。
+它们的 TCP 流量通过在每个节点的 ztunnel 代理 Pod 之间创建的 HBONE 隧道实例进行隧道传输。
 双向 TLS（mTLS）用于加密以及隧道流量的相互身份验证。SPIFFE 身份用于识别连接两端的工作负载。
 Istio Ambient 中使用的 `HBONE`（基于 HTTP 的覆盖网络封装：HTTP Based Overlay Network Encapsulation）概念是指一种透明、
 安全地隧道传输封装在 HTTPS 数据包中的 TCP 数据包的技术。
-以下小节提供了有关 HBONE 的一些简短附加说明。
+有关数据路径的更多详细信息，包括 HBONE 和流量重定向详细信息，
+请参阅 [ztunnel 流量重定向](/zh/docs/ops/ambient/usage/traffic-redirection)指南。
+
+{{< tip >}}
+注意：虽然图中显示 HBONE 隧道位于两个 ztunnel 代理之间，
+但在 Istio 1.21.0 中引入的 Pod 内重定向实现中，
+隧道实际上位于源 Pod 和目标 Pod 之间。
+流量在源 Pod 本身的网络命名空间中进行 HBONE 封装和加密，
+最终在目标工作节点上的目标 Pod 的网络命名空间中解封装和解密。
+ztunnel 代理仍然在逻辑上处理 HBONE 传输所需的控制平面和数据平面，
+但它能够从源 Pod 和目标 Pod 的网络命名空间内部执行此操作。
+{{< /tip >}}
 
 请注意，该图展示本地流量（从 Pod C3 到工作节点 W2 上的目标 Pod S1）
 无论是否跨越节点边界也会遍历本地 ztunnel 代理实例，
@@ -197,7 +199,7 @@ caption="ztunnel 流量 Hair-pinning"
 HBONE（HTTP Based Overlay Network Encapsulation，基于 HTTP 的覆盖网络封装）是 Istio 中特定的术语。
 它是指通过 [HTTP CONNECT](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/CONNECT)
 方法使用标准 HTTP 隧道来透明地传递应用程序数据包/字节流。
-在 Istio 的当前实现中，它仅通过使用 HTTP CONNECT 方法透明地隧道传输 TCP 数据包，
+在 Istio 的当前实现中，它通过使用 HTTP CONNECT 方法透明地隧道传输 TCP 数据包，
 使用 [HTTP/2](https://httpwg.org/specs/rfc7540.html)，
 并通过[双向 TLS](https://www.cloudflare.com/learning/access-management/what-is-mutual-tls/)
 提供加密和相互身份验证且 HBONE 隧道本身在 TCP 端口 15008 上运行。
@@ -208,12 +210,8 @@ link="hbone-packet.png"
 caption="HBONE L3 数据包格式"
 >}}
 
-未来 Istio Ambient 还可能利用作为
-[IETF MASQUE](https://ietf-wg-masque.github.io/)
-工作组中一部分开发的 CONNECT-UDP 和 CONNECT-IP 等新标准支持基于
-[HTTP/3（QUIC）](https://datatracker.ietf.org/doc/html/rfc9114)的传输，
-并将用于传输原生 IPv4、IPv6、UDP 等所有类型的 L3 和 L4 数据包。
-Istio Ambient 模式下的 HBONE 和 HTTP 隧道的此类附加用例目前还需进一步调研。
+随着 Ambient 模式的发展，未来将研究 HBONE 和 HTTP 隧道的其他用例
+（例如对 IPv6 和 UDP 数据包的支持）。
 
 ## 部署应用程序  {#deployapplication}
 
@@ -289,7 +287,7 @@ sleep-69cfb4968f-rhhhp     1/1     Running   0          78m
 
 请注意，为命名空间启用 Ambient 后，每个应用程序 Pod 仍然只有 1 个容器，
 并且这些 Pod 的正常运行时间表明这些 Pod 没有为了启用 Ambient 模式而被重新启动
-（与 `sidecar` 模式不同，当 Sidecar 代理被注入时，它会重新启动应用程序 Pod）。
+（与 Sidecar 模式不同，当 Sidecar 代理被注入时，它需要 Pod 被重启）。
 这会带来更好的用户体验和运维效率，因为就应用程序 Pod 而言，
 可以完全透明地无缝启用（或禁用）Ambient 模式。
 
@@ -395,7 +393,7 @@ $ kubectl exec -n istio-system deploy/istiod -- curl localhost:15014/debug/confi
 将一些流量从客户端 `sleep` Pod 发送到 `httpbin` 服务。
 
 {{< text bash >}}
-$ kubectl -n ambient-demo exec deploy/sleep -- sh -c 'for i in $(seq 1 10); do curl -s -I http://httpbin:8000/; done'
+$ kubectl -n ambient-demo exec deploy/sleep -- sh -c "for i in $(seq 1 10); do curl -s -I http://httpbin:8000/; done"
 HTTP/1.1 200 OK
 Server: gunicorn/19.9.0
 --snip--
@@ -460,7 +458,7 @@ deployment.apps/httpbin condition met
 {{< /text >}}
 
 {{< text bash >}}
-$ kubectl -n ambient-demo exec deploy/sleep -- sh -c 'for i in $(seq 1 10); do curl -s -I http://httpbin:8000/; done'
+$ kubectl -n ambient-demo exec deploy/sleep -- sh -c "for i in $(seq 1 10); do curl -s -I http://httpbin:8000/; done"
 {{< /text >}}
 
 {{< text bash >}}
