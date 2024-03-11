@@ -126,7 +126,7 @@ to conflicting inbound listeners error.
 - **Fixed** an issue occurs when using a delegate in a `VirtualService`, the effective `VirtualService` may not be consistent with expectations due to a sorting error.
 ([Issue #49539](https://github.com/istio/istio/issues/49539))
 
-- **Fixed** a bug when specify a `URI` regex `.*` match within a `VirtualService` http route, it does not short circuit the other http routes behind.
+- **Fixed** a bug where specifying a URI regex `.*` match within a `VirtualService` HTTP route did not short-circuit the subsequent HTTP routes.
 
 - **Fixed** sending stale name table when pure HTTP headless service endpoints changed.
 
