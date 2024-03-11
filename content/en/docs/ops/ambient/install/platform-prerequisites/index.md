@@ -1,6 +1,6 @@
 ---
 title: Platform-Specific Prerequisites
-description: Platform-Specific Prerequisites for Installing Istio Ambient Mode.
+description: Platform-specific prerequisites for installing Istio in ambient mode.
 weight: 4
 owner: istio/wg-environments-maintainers
 test: no
