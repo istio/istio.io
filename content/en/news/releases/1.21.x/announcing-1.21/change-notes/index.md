@@ -120,23 +120,29 @@ to conflicting inbound listeners error.
 - **Fixed** a memory leak when a `ServiceEntry` is removed.
 ([Issue #47893](https://github.com/istio/istio/issues/47893))
 
-- **Fixed** a bug when there are more than one services with same host name within the same namespace, a `STRICT_DNS cluster without endpoints` error could occur.
+- **Fixed** a bug when there is more than one service with the
+same host name within the same namespace, a
+`STRICT_DNS cluster without endpoints` error could occur.
 ([Issue #49489](https://github.com/istio/istio/issues/49489))
 
-- **Fixed** an issue occurs when using a delegate in a `VirtualService`, the effective `VirtualService` may not be consistent with expectations due to a sorting error.
+- **Fixed** an issue that when using a delegate in
+a `VirtualService`, the effective `VirtualService` may not
+be consistent with expectations due to a sorting error.
 ([Issue #49539](https://github.com/istio/istio/issues/49539))
 
 - **Fixed** a bug where specifying a URI regex `.*` match within a `VirtualService` HTTP route did not short-circuit the subsequent HTTP routes.
 
-- **Fixed** sending stale name table when pure HTTP headless service endpoints changed.
+- **Fixed** sending stale name table when pure HTTP headless service endpoints are changed.
 
-- **Fixed** a bug for IPv6 only clusters that prevented `ServiceEntry` based listeners from having correct `SNI` matches.
+- **Fixed** a bug for IPv6 only clusters that
+prevented ServiceEntry-based listeners from having correct
+SNI matches.
 ([Issue #49476](https://github.com/istio/istio/issues/49476))
 
-- **Fixed** an issue where the local client contained incorrect entries in the local `DNS` name table.
+- **Fixed** an issue where the local client contained incorrect entries in the local DNS name table.
 ([Issue #47340](https://github.com/istio/istio/issues/47340))
 
-- **Fixed** a bug where `VirtualServices` containing wildcard hosts that aren't present in the service registry are ignored
+- **Fixed** a bug where `VirtualService` containing wildcard hosts that aren't present in the service registry are ignored.
 ([Issue #49364](https://github.com/istio/istio/issues/49364))
 
 - **Upgraded** ambient traffic capture and redirection compatibility by switching to an in-pod mechanism.
@@ -171,13 +177,13 @@ subset of `ECDHE-ECDSA-AES128-GCM-SHA256`,`ECDHE-RSA-AES128-GCM-SHA256`,
 and ECDH curves to `P-256`.
 
     These restrictions apply on the following data paths:
-    * Google gRPC side requests from Envoy proxies
-  (e.g. Stackdriver extensions).
-    * Istiod injection and validation webhook servers.
-    * Istiod xDS server.
     * mTLS communication between Envoy proxies.
     * regular TLS on the downstream and the upstream of Envoy proxies
     (e.g. gateway)
+    * Google gRPC side requests from Envoy proxies
+      (e.g. Stackdriver extensions).
+    * Istiod xDS server.
+    * Istiod injection and validation webhook servers.
 
     The restrictions are not applied on the following data paths:
     * Istiod to Kubernetes API server.
