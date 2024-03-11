@@ -41,4 +41,4 @@ applying default-DENY `NetworkPolicy` in a Cilium CNI install underlying Istio i
         - "169.254.7.127/32"
     {{< /text >}}
 
-    Please see the [#49277](https://github.com/istio/istio/issues/49277) and [CiliumClusterWideNetworkPolicy](https://docs.cilium.io/en/stable/network/kubernetes/policy/#ciliumclusterwidenetworkpolicy) for more details.
+    Please see [issue #49277](https://github.com/istio/istio/issues/49277) and [CiliumClusterWideNetworkPolicy](https://docs.cilium.io/en/stable/network/kubernetes/policy/#ciliumclusterwidenetworkpolicy) for more details.
