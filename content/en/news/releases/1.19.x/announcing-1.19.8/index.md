@@ -52,5 +52,5 @@ This release note describes what’s different between Istio 1.19.7 and 1.19.8.
   consistent with expectations due to a sorting error.
   ([Issue #49539](https://github.com/istio/istio/issues/49539))
 
-- **Fixed** a bug where specifying a URI regex `.*` match within a vs HTTP route does not short short-circuit the other
-  HTTP routes behind.
+- **Fixed** a bug where specifying a URI regex `.*` match within a vs HTTP route did not short-circuit the subsequent
+  HTTP routes.
