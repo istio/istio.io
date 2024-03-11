@@ -15,7 +15,7 @@ The Istio Steering Committee is excited to unveil Izzy Dolphin, the Istio Indo-P
     alt="Izzy, the Istio Dolphin"
     >}}
 
-Istio stands on the shoulders of several other CNCF projects, including Kubernetes, Envoy, Prometheus, and Helm. Izzy is proud to join Phippy, Hazel and Captain Kube’s gang, taking cloud native to the masses.
+Istio stands on the shoulders of several other CNCF projects, including Kubernetes, Envoy, Prometheus, and Helm. Izzy is proud to join Phippy, Hazel, and Captain Kube’s gang, taking cloud native to the masses.
 
 {{< image width="75%"
     link="./phippy_and_family.png"
