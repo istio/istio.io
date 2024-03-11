@@ -30,7 +30,7 @@ Follow these steps to get started with Istio's ambient mode:
 
 1.  Download the [latest version of Istio](/docs/setup/getting-started/#download) (v1.21.0 or later) with Alpha support for ambient mode.
 
-1.  For this guide, we will deploy a new local `kind` cluster with the following command:
+1.  For this guide, you will deploy a new local `kind` cluster with the following command:
 
     {{< text syntax=bash snip_id=none >}}
     $ kind create cluster --config=- <<EOF
