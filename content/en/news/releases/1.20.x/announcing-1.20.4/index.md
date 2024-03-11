@@ -60,8 +60,8 @@ This release note describes what’s different between Istio 1.20.3 and 1.20.4.
   consistent with expectations due to a sorting error.
   ([Issue #49539](https://github.com/istio/istio/issues/49539))
 
-- **Fixed** a bug where specifying a URI regex `.*` match within a vs HTTP route did not short-circuit the subsequent
-  HTTP routes.
+- **Fixed** a bug where specifying a URI regex `.*` match within a `VirtualService` HTTP route did not short-circuit the
+  subsequent HTTP routes.
 
 - **Fixed** an issue where `Endpoint` and `Service` in the istiod-remote chart did not respect the revision value.
   ([Issue #47552](https://github.com/istio/istio/issues/47552))
