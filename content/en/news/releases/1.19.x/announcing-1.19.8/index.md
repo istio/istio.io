@@ -19,20 +19,20 @@ This release note describes what’s different between Istio 1.19.7 and 1.19.8.
   components, the TLS version is restricted to v1.2. The cipher suites are limited to a subset
   of `ECDHE-ECDSA-AES128-GCM-SHA256`, `ECDHE-RSA-AES128-GCM-SHA256`,
   `ECDHE-ECDSA-AES256-GCM-SHA384`, `ECDHE-RSA-AES256-GCM-SHA384`, and ECDH
-  curves to `P-256`. These restrictions apply on the following data paths:
+  curves to `P-256`.
 
-    1. mTLS communication between Envoy proxies;
-    1. regular TLS on the downstream and the upstream of Envoy proxies (e.g. gateway);
-    1. Google gRPC side requests from Envoy proxies (e.g. Stackdriver extensions);
-    1. Istiod xDS server;
-    1. Istiod injection and validation webhook servers.
+    These restrictions apply on the following data paths:
+    * mTLS communication between Envoy proxies;
+    * regular TLS on the downstream and the upstream of Envoy proxies (e.g. gateway);
+    * Google gRPC side requests from Envoy proxies (e.g. Stackdriver extensions);
+    * Istiod xDS server;
+    * Istiod injection and validation webhook servers.
 
-  The restrictions are not applied on the following data paths:
-
-    1. Istiod to Kubernetes API server;
-    1. JWK fetch from Istiod;
-    1. Wasm image and URL fetch from Istio Proxy containers;
-    1. ztunnel.
+    The restrictions are not applied on the following data paths:
+    * Istiod to Kubernetes API server;
+    * JWK fetch from Istiod;
+    * Wasm image and URL fetch from Istio Proxy containers;
+    * ztunnel.
 
   Note that Istio injector will propagate the value of `COMPLIANCE_POLICY` to the
   injected proxy container, when set.
