@@ -30,12 +30,12 @@ applying default-DENY `NetworkPolicy` in a Cilium CNI install underlying Istio i
     apiVersion: "cilium.io/v2"
     kind: CiliumClusterwideNetworkPolicy
     metadata:
-    name: "allow-ambient-hostprobes"
+      name: "allow-ambient-hostprobes"
     spec:
-    description: "Allows SNAT-ed kubelet health check probes into ambient pods"
-    endpointSelector: {}
-    ingress:
-    - fromCIDR:
+      description: "Allows SNAT-ed kubelet health check probes into ambient pods"
+      endpointSelector: {}
+      ingress:
+      - fromCIDR:
         - "169.254.7.127/32"
     {{< /text >}}
 
