@@ -34,7 +34,7 @@ This release note describes what’s different between Istio 1.20.3 and 1.20.4.
     1. Wasm image and URL fetch from Istio Proxy containers;
     1. ztunnel.
 
-  Note that Istio injector will propagate the value of COMPLIANCE_POLICY to the
+  Note that Istio injector will propagate the value of `COMPLIANCE_POLICY` to the
   injected proxy container, when set.
   ([Issue #49081](https://github.com/istio/istio/issues/49081))
 
