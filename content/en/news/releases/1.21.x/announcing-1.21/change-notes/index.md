@@ -120,7 +120,7 @@ to conflicting inbound listeners error.
 - **Fixed** a memory leak when a `ServiceEntry` is removed.
 ([Issue #47893](https://github.com/istio/istio/issues/47893))
 
-- **Fixed** a bug when there are more than one services with same host name within the same namespace, that could occur `STRICT_DNS cluster without endpoints` error.
+- **Fixed** a bug when there are more than one services with same host name within the same namespace, a `STRICT_DNS cluster without endpoints` error could occur.
 ([Issue #49489](https://github.com/istio/istio/issues/49489))
 
 - **Fixed** an issue occurs when using a delegate in a `VirtualService`, the effective `VirtualService` may not be consistent with expectations due to a sorting error.
