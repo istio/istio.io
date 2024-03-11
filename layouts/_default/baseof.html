@@ -34,7 +34,11 @@
         {{ if .Permalink }}
             <meta property="og:url" content="{{ .Permalink }}">
         {{ end }}
-        <meta property="og:image" content="https://raw.githubusercontent.com/istio/istio.io/master/static/img/istio-social.png">
+        {{ if .Page.Params.social_image }}
+            <meta property="og:image" content="@{{ .Page.Params.social_image | absURL }}">
+        {{ else }}
+            <meta property="og:image" content="https://raw.githubusercontent.com/istio/istio.io/master/static/img/istio-social.png">
+        {{ end }}
         <meta property="og:image:alt" content="The Istio sailboat logo">
         <meta property="og:image:width" content="4096">
         <meta property="og:image:height" content="2048">
@@ -43,7 +47,11 @@
         <!-- Twitter card -->
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:site" content="@IstioMesh">
-        <meta name="twitter:image" content="https://raw.githubusercontent.com/istio/istio.io/master/static/img/istio-social.png">
+        {{ if .Page.Params.social_image }}
+            <meta name="twitter:image" content="@{{ .Page.Params.social_image | absURL }}">
+        {{ else }}
+            <meta name="twitter:image" content="https://raw.githubusercontent.com/istio/istio.io/master/static/img/istio-social.png">
+        {{ end }}
         <meta name="twitter:image:alt" content="The Istio sailboat logo">
         {{ if .Page.Params.twitter }}
             <meta name="twitter:creator" content="@{{ .Page.Params.twitter }}">
