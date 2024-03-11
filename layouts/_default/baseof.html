@@ -34,8 +34,8 @@
         {{ if .Permalink }}
             <meta property="og:url" content="{{ .Permalink }}">
         {{ end }}
-        {{ if .Page.Params.social_image }}
-            <meta property="og:image" content="{{ .Page.Params.social_image.Permalink }}">
+        {{ with .Page.Params.social_image }}
+            <meta property="og:image" content="{{ .Permalink }}">
         {{ else }}
             <meta property="og:image" content="https://raw.githubusercontent.com/istio/istio.io/master/static/img/istio-social.png">
         {{ end }}
@@ -47,8 +47,8 @@
         <!-- Twitter card -->
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:site" content="@IstioMesh">
-        {{ if .Page.Params.social_image }}
-            <meta name="twitter:image" content="{{ .Page.Params.social_image.Permalink }}">
+        {{ with .Page.Params.social_image }}
+            <meta name="twitter:image" content="{{ .Permalink }}">
         {{ else }}
             <meta name="twitter:image" content="https://raw.githubusercontent.com/istio/istio.io/master/static/img/istio-social.png">
         {{ end }}
