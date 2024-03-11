@@ -9,6 +9,9 @@
     PYTHON_VERSION = "3.8"
     RUBY_VERSION = "3.0.6"
 
+[context.deploy-preview]
+    command = "hugo -b $DEPLOY_PRIME_URL"
+
 [[headers]]
   for = "/*"
   [headers.values]
