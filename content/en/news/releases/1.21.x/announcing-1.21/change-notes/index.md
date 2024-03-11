@@ -170,23 +170,22 @@ subset of `ECDHE-ECDSA-AES128-GCM-SHA256`,`ECDHE-RSA-AES128-GCM-SHA256`,
 `ECDHE-ECDSA-AES256-GCM-SHA384`, `ECDHE-RSA-AES256-GCM-SHA384`,
 and ECDH curves to `P-256`.
 
-These restrictions apply on the following data paths:
-* Google gRPC side requests from Envoy proxies
+    These restrictions apply on the following data paths:
+    * Google gRPC side requests from Envoy proxies
   (e.g. Stackdriver extensions).
-* Istiod injection and validation webhook servers.
-* Istiod xDS server.
-* mTLS communication between Envoy proxies.
-* regular TLS on the downstream and the upstream of Envoy proxies
+    * Istiod injection and validation webhook servers.
+    * Istiod xDS server.
+    * mTLS communication between Envoy proxies.
+    * regular TLS on the downstream and the upstream of Envoy proxies
     (e.g. gateway)
 
-The restrictions are not applied on the following data paths:
-* Istiod to Kubernetes API server.
-* JWK fetch from Istiod.
-* Wasm image and URL fetch from Istio Proxy containers.
-* ztunnel.
-Note that Istio injector will propagate the value
-of `COMPLIANCE_POLICY` to the injected proxy container, when set.
-([Issue #49081](https://github.com/istio/istio/issues/49081))
+    The restrictions are not applied on the following data paths:
+    * Istiod to Kubernetes API server.
+    * JWK fetch from Istiod.
+    * Wasm image and URL fetch from Istio Proxy containers.
+    * ztunnel.
+
+    Note that Istio injector will propagate the value of `COMPLIANCE_POLICY` to the injected proxy container, when set. ([Issue #49081](https://github.com/istio/istio/issues/49081))
 
 - **Added** the ability for waypoints to run as non-root.
 ([Issue #46592](https://github.com/istio/istio/issues/46592))
