@@ -12,7 +12,9 @@ This document covers any platform or environment specific prerequisites for inst
 
 ### Minikube
 
-1. If you are using [Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) with the [docker driver](https://minikube.sigs.k8s.io/docs/drivers/docker/), you may need to append `--set cni.cniNetnsDir="/var/run/docker/netns"` to the `helm install` command so that the Istio `cni-agent`node agent can correctly manage and capture pods on the node.
+1. If you are using [Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) with the [docker driver](https://minikube.sigs.k8s.io/docs/drivers/docker/),
+you may need to append `--set cni.cniNetnsDir="/var/run/docker/netns"` to the `helm install` command so that the Istio `cni-agent` node agent can correctly manage
+and capture pods on the node.
 
 ## CNI
 
