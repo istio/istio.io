@@ -9,7 +9,7 @@ test: no
 
 In order to program the service mesh, the Istio control plane (Istiod) reads a variety of configurations, including core Kubernetes types like `Service` and `Node`,
 and Istio's own types like `Gateway`.
-These are then sent the data plane (see [Architecture](/docs/ops/deployment/architecture/) for more information).
+These are then sent to the data plane (see [Architecture](/docs/ops/deployment/architecture/) for more information).
 
 By default, the control plane will read all configuration in all namespaces.
 Each proxy instance will receive configuration for all namespaces as well.
