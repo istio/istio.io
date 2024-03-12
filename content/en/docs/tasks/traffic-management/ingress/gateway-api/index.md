@@ -231,7 +231,7 @@ Resource attachment is currently experimental.
 
 Resources can be *attached* to a `Gateway` to customize it.
 However, most Kubernetes resources do not currently support attaching directly to a `Gateway`, but they can be attached to the corresponding generated `Deployment` and `Service` instead.
-This is easily done because both of these resources are generated with name `<gateway name>-<gateway class name>` and with a label `istio.io/gateway-name: <gateway name>`.
+This is easily done because both of these resources are generated with name `<gateway name>-<gateway class name>` and with a label `gateway.networking.k8s.io/gateway-name: <gateway name>`.
 
 For example, to deploy a `Gateway` with a `HorizontalPodAutoscaler` and `PodDisruptionBudget`:
 
@@ -281,7 +281,7 @@ spec:
   selector:
     # Match the generated Deployment by label
     matchLabels:
-      istio.io/gateway-name: gateway
+      gateway.networking.k8s.io/gateway-name: gateway
 {{< /text >}}
 
 ### Manual Deployment
@@ -343,15 +343,20 @@ More details and examples can be found in other [traffic management tasks](/docs
 
 ## Cleanup
 
-1. Uninstall Istio and the `httpbin` sample:
+1. Remove the `httpbin` sample and gateway:
 
     {{< text bash >}}
     $ kubectl delete -f @samples/httpbin/httpbin.yaml@
     $ kubectl delete httproute http
     $ kubectl delete gateways.gateway.networking.k8s.io gateway -n istio-ingress
+    $ kubectl delete ns istio-ingress
+    {{< /text >}}
+
+1. Uninstall Istio:
+
+    {{< text bash >}}
     $ istioctl uninstall -y --purge
     $ kubectl delete ns istio-system
-    $ kubectl delete ns istio-ingress
     {{< /text >}}
 
 1. Remove the Gateway API CRDs if they are no longer needed:

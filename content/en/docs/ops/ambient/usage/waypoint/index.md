@@ -1,6 +1,6 @@
 ---
-title: L7 Networking & Services with Waypoint
-description: User guide for Istio Ambient L7 networking and services using waypoint proxy.
+title: Layer 7 Networking & Services with Waypoint Proxies
+description: Gain the full set of Istio feature with optional waypoint proxies.
 weight: 2
 owner: istio/wg-networking-maintainers
 test: no
@@ -224,4 +224,4 @@ When someone with Istio admin privileges sets up Istio mesh, it becomes availabl
 
 ### Basic application deployment without ambient
 
-This section is Under Construction.
+This section is under construction.

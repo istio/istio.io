@@ -103,6 +103,7 @@ which allows the following settings to be changed. Use this list to identify the
 1. [Strategy](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
 1. [Env](https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/)
 1. [Pod security context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod)
+1. [Volumes and volume mounts](https://kubernetes.io/docs/concepts/storage/volumes/)
 
 All of these Kubernetes settings use the Kubernetes API definitions, so [Kubernetes documentation](https://kubernetes.io/docs/concepts/) can be used for reference.
 

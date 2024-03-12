@@ -56,7 +56,7 @@ spec:
   resolution: DNS
 {{< /text >}}
 
-## 解决方案 {#how-to-resolve}
+## 如何修复 {#how-to-resolve}
 
 请确保在 `protocol` 未设置或设置为 TCP 时，在 ServiceEntry 中设置 `addresses`。
 如果未设置 `addresses`，则将匹配 ServiceEntry 所定义的端口上的所有流量，与主机无关。

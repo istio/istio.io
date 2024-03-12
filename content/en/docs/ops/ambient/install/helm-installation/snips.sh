@@ -30,17 +30,19 @@ helm install istio-base istio/base -n istio-system --create-namespace
 }
 
 snip_install_cni() {
-helm install istio-cni istio/cni -n istio-system \
-  -f manifests/charts/istio-cni/ambient-values.yaml
+helm install istio-cni istio/cni -n istio-system --set profile=ambient
 }
 
 snip_install_discovery() {
-helm install istiod istio/istiod --namespace istio-system \
-  -f manifests/charts/istio-control/istio-discovery/ambient-values.yaml
+helm install istiod istio/istiod --namespace istio-system --set profile=ambient
 }
 
 snip_install_ztunnel() {
 helm install ztunnel istio/ztunnel -n istio-system
+}
+
+snip_install_ingress() {
+helm install istio-ingress istio/gateway -n istio-ingress --wait --create-namespace
 }
 
 snip_configuration_1() {
@@ -48,24 +50,41 @@ helm show values istio/istiod
 }
 
 snip_show_components() {
-helm list -n istio-system
+helm ls -n istio-system
 }
+
+! IFS=$'\n' read -r -d '' snip_show_components_out <<\ENDSNIP
+NAME            NAMESPACE       REVISION    UPDATED         STATUS      CHART           APP VERSION
+istio-base      istio-system    1           ... ... ... ... deployed    base-1.0.0      1.0.0
+istio-cni       istio-system    1           ... ... ... ... deployed    cni-1.0.0       1.0.0
+istiod          istio-system    1           ... ... ... ... deployed    istiod-1.0.0    1.0.0
+ztunnel         istio-system    1           ... ... ... ... deployed    ztunnel-1.0.0   1.0.0
+ENDSNIP
 
 snip_check_pods() {
 kubectl get pods -n istio-system
 }
 
+! IFS=$'\n' read -r -d '' snip_check_pods_out <<\ENDSNIP
+NAME                             READY   STATUS    RESTARTS   AGE
+istio-cni-node-g97z5             1/1     Running   0          10m
+istiod-5f4c75464f-gskxf          1/1     Running   0          10m
+ztunnel-c2z4s                    1/1     Running   0          10m
+ENDSNIP
+
 snip_uninstall_1() {
 helm ls -n istio-system
 }
 
-! read -r -d '' snip_uninstall_1_out <<\ENDSNIP
-NAME       NAMESPACE    REVISION UPDATED         STATUS   CHART        APP VERSION
-istio-base istio-system 1        ... ... ... ... deployed base-1.0.0   1.0.0
-istiod     istio-system 1        ... ... ... ... deployed istiod-1.0.0 1.0.0
+! IFS=$'\n' read -r -d '' snip_uninstall_1_out <<\ENDSNIP
+NAME            NAMESPACE       REVISION    UPDATED         STATUS      CHART           APP VERSION
+istio-base      istio-system    1           ... ... ... ... deployed    base-1.0.0      1.0.0
+istio-cni       istio-system    1           ... ... ... ... deployed    cni-1.0.0       1.0.0
+istiod          istio-system    1           ... ... ... ... deployed    istiod-1.0.0    1.0.0
+ztunnel         istio-system    1           ... ... ... ... deployed    ztunnel-1.0.0   1.0.0
 ENDSNIP
 
-snip_uninstall_2() {
+snip_delete_ingress() {
 helm delete istio-ingress -n istio-ingress
 kubectl delete namespace istio-ingress
 }
@@ -86,7 +105,7 @@ snip_delete_base() {
 helm delete istio-base -n istio-system
 }
 
-snip_uninstall_7() {
+snip_delete_crds() {
 kubectl get crd -oname | grep --color=never 'istio.io' | xargs kubectl delete
 }
 

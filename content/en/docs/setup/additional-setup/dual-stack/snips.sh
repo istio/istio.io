@@ -47,7 +47,7 @@ snip_verification_5() {
 kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo dualstack | nc tcp-echo.dual-stack 9000"
 }
 
-! read -r -d '' snip_verification_5_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_verification_5_out <<\ENDSNIP
 hello dualstack
 ENDSNIP
 
@@ -55,7 +55,7 @@ snip_verification_6() {
 kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo ipv4 | nc tcp-echo.ipv4 9000"
 }
 
-! read -r -d '' snip_verification_6_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_verification_6_out <<\ENDSNIP
 hello ipv4
 ENDSNIP
 
@@ -63,7 +63,7 @@ snip_verification_7() {
 kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo ipv6 | nc tcp-echo.ipv6 9000"
 }
 
-! read -r -d '' snip_verification_7_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_verification_7_out <<\ENDSNIP
 hello ipv6
 ENDSNIP
 

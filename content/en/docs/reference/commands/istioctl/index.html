@@ -2469,6 +2469,11 @@ calculated over a time interval of 1 minute.
 <td>Kubernetes configuration context  (default ``)</td>
 </tr>
 <tr>
+<td><code>--from-version &lt;string&gt;</code></td>
+<td><code>-f</code></td>
+<td>check changes since the provided version  (default ``)</td>
+</tr>
+<tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
 <td><code>-i</code></td>
 <td>Istio system namespace  (default `istio-system`)</td>
@@ -2516,6 +2521,9 @@ calculated over a time interval of 1 minute.
 
   # Check only a single namespace
   istioctl x precheck --namespace default
+
+  # Check for behavioral changes since a specific version
+  istioctl x precheck --from-version 1.10
 </code></pre>
 <h2 id="istioctl-experimental-proxy-status">istioctl experimental proxy-status</h2>
 <p>
@@ -2945,14 +2953,19 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
+<tr>
+<td><code>--wait</code></td>
+<td><code>-w</code></td>
+<td>Wait for the waypoint to be ready </td>
+</tr>
 </tbody>
 </table>
 <h3 id="istioctl-experimental-waypoint-apply Examples">Examples</h3>
 <pre class="language-bash"><code>  # Apply a waypoint to the current namespace
   istioctl x waypoint apply
 
-  # Apply a waypoint to a specific namespace for a specific service account
-  istioctl x waypoint apply --service-account something --namespace default
+  # Apply a waypoint to a specific namespace for a specific service account and wait for it to be ready
+  istioctl x waypoint apply --service-account something --namespace default --wait
 </code></pre>
 <h2 id="istioctl-experimental-waypoint-delete">istioctl experimental waypoint delete</h2>
 <p>Delete a waypoint configuration from the cluster</p>
@@ -3007,11 +3020,11 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <h3 id="istioctl-experimental-waypoint-delete Examples">Examples</h3>
 <pre class="language-bash"><code>  # Delete a waypoint from the default namespace
   istioctl x waypoint delete
-  
+
   # Delete a waypoint from a specific namespace for a specific service account
   istioctl x waypoint delete --service-account something --namespace default
 
-  # Delete a waypoint by name, which can obtain from istioctl x waypoint list 
+  # Delete a waypoint by name, which can obtain from istioctl x waypoint list
   istioctl x waypoint delete waypoint-name --namespace default
 
   # Delete several waypoints by name
@@ -6056,7 +6069,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
   istioctl uninstall --purge
 </code></pre>
 <h2 id="istioctl-upgrade">istioctl upgrade</h2>
-<p>The upgrade command is an alias for the install command that performs additional upgrade-related checks.</p>
+<p>The upgrade command is an alias for the install command</p>
 <pre class="language-bash"><code>istioctl upgrade [flags]
 </code></pre>
 <table class="command-flags">
@@ -6382,21 +6395,33 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>The cert signer domain info</td>
 </tr>
 <tr>
-<td><code>CLOUD_PLATFORM</code></td>
-<td>String</td>
-<td><code></code></td>
-<td>Cloud Platform on which proxy is running, if not specified, Istio will try to discover the platform. Valid platform values are aws, azure, gcp, none</td>
-</tr>
-<tr>
 <td><code>CLUSTER_ID</code></td>
 <td>String</td>
 <td><code>Kubernetes</code></td>
 <td>Defines the cluster and service registry that this Istiod instance belongs to</td>
 </tr>
 <tr>
+<td><code>COMPLIANCE_POLICY</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>If set, applies policy-specific restrictions over all existing TLS
+settings, including in-mesh mTLS and external TLS. Valid values are:
+
+* &#39;&#39; or unset places no additional restrictions.
+* &#39;fips-140-2&#39; which enforces a version of the TLS protocol and a subset
+of cipher suites overriding any user preferences or defaults for all runtime
+components, including Envoy, gRPC Go SDK, and gRPC C++ SDK.
+
+WARNING: Setting compliance policy in the control plane is a necessary but
+not a sufficient requirement to achieve compliance. There are additional
+steps necessary to claim compliance, including using the validated
+cryptograhic modules (please consult
+https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fips-140-2).</td>
+</tr>
+<tr>
 <td><code>ENABLE_AUTO_SNI</code></td>
 <td>Boolean</td>
-<td><code>false</code></td>
+<td><code>true</code></td>
 <td>If enabled, automatically set SNI when `DestinationRules` do not specify the same</td>
 </tr>
 <tr>
@@ -6508,18 +6533,6 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>If this is set to true, one Istiod will control remote clusters including CA.</td>
 </tr>
 <tr>
-<td><code>GCP_METADATA</code></td>
-<td>String</td>
-<td><code></code></td>
-<td>Pipe separated GCP metadata, schemed as PROJECT_ID|PROJECT_NUMBER|CLUSTER_NAME|CLUSTER_ZONE</td>
-</tr>
-<tr>
-<td><code>GCP_QUOTA_PROJECT</code></td>
-<td>String</td>
-<td><code></code></td>
-<td>Allows specification of a quota project to be used in requests to GCP APIs.</td>
-</tr>
-<tr>
 <td><code>GRPC_KEEPALIVE_INTERVAL</code></td>
 <td>Time Duration</td>
 <td><code>30s</code></td>
@@ -6530,12 +6543,6 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Time Duration</td>
 <td><code>10s</code></td>
 <td>gRPC Keepalive Timeout</td>
-</tr>
-<tr>
-<td><code>HTTP_STRIP_FRAGMENT_FROM_PATH_UNSAFE_IF_DISABLED</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td></td>
 </tr>
 <tr>
 <td><code>INBOUND_INTERCEPTION_MODE</code></td>
@@ -6620,12 +6627,6 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, Istio agent will intercept ECDS resource update, downloads Wasm module, and replaces Wasm module remote load with downloaded local module file.</td>
-</tr>
-<tr>
-<td><code>ISTIO_BOOTSTRAP</code></td>
-<td>String</td>
-<td><code></code></td>
-<td></td>
 </tr>
 <tr>
 <td><code>ISTIO_DELTA_XDS</code></td>
@@ -6740,12 +6741,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>The JWT validation policy.</td>
 </tr>
 <tr>
-<td><code>K8S_INGRESS_NS</code></td>
-<td>String</td>
-<td><code>istio-system</code></td>
-<td></td>
-</tr>
-<tr>
 <td><code>K_REVISION</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -6822,6 +6817,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>String</td>
 <td><code>istiod</code></td>
 <td>The provider of Pilot DNS certificate.</td>
+</tr>
+<tr>
+<td><code>PILOT_CONVERT_SIDECAR_SCOPE_CONCURRENCY</code></td>
+<td>Integer</td>
+<td><code>1</code></td>
+<td>Used to adjust the concurrency of SidecarScope conversions. When istiod is deployed on a multi-core CPU server, increasing this value will help to use the CPU to accelerate configuration push, but it also means that istiod will consume more CPU resources.</td>
 </tr>
 <tr>
 <td><code>PILOT_DEBOUNCE_AFTER</code></td>
@@ -6942,12 +6943,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, for a headless service/stateful set in Kubernetes, pilot will generate an outbound listener for each pod in a headless service. This feature should be disabled if headless services have a large number of pods.</td>
-</tr>
-<tr>
-<td><code>PILOT_ENABLE_INBOUND_PASSTHROUGH</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If enabled, inbound clusters will be configured as ORIGINAL_DST clusters. When disabled, requests are always sent to localhost. The primary implication of this is that when enabled, binding to POD_IP will work while localhost will not; when disable, bind to POD_IP will not work, while localhost will. The enabled behavior matches the behavior without Istio enabled at all; this flag exists only for backwards compatibility. Regardless of this setting, the configuration can be overridden with the Sidecar.Ingress.DefaultEndpoint configuration.</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_K8S_SELECT_WORKLOAD_ENTRIES</code></td>
@@ -7294,7 +7289,7 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <tr>
 <td><code>VERIFY_CERTIFICATE_AT_CLIENT</code></td>
 <td>Boolean</td>
-<td><code>false</code></td>
+<td><code>true</code></td>
 <td>If enabled, certificates received by the proxy will be verified against the OS CA certificate bundle.</td>
 </tr>
 <tr>
@@ -7402,11 +7397,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <tr><td><code>sidecar_injection_time_seconds</code></td><td><code>Distribution</code></td><td>Total time taken for injection in seconds.</td></tr>
 <tr><td><code>startup_duration_seconds</code></td><td><code>LastValue</code></td><td>The time from the process starting to being marked ready.</td></tr>
 <tr><td><code>version</code></td><td><code>LastValue</code></td><td>Version of operator binary</td></tr>
-<tr><td><code>wasm_cache_entries</code></td><td><code>LastValue</code></td><td>number of Wasm remote fetch cache entries.</td></tr>
-<tr><td><code>wasm_cache_lookup_count</code></td><td><code>Sum</code></td><td>number of Wasm remote fetch cache lookups.</td></tr>
-<tr><td><code>wasm_config_conversion_count</code></td><td><code>Sum</code></td><td>number of Wasm config conversion count and results, including success, no remote load, marshal failure, remote fetch failure, miss remote fetch hint.</td></tr>
-<tr><td><code>wasm_config_conversion_duration</code></td><td><code>Distribution</code></td><td>Total time in milliseconds istio-agent spends on converting remote load in Wasm config.</td></tr>
-<tr><td><code>wasm_remote_fetch_count</code></td><td><code>Sum</code></td><td>number of Wasm remote fetches and results, including success, download failure, and checksum mismatch.</td></tr>
 <tr><td><code>webhook_patch_attempts_total</code></td><td><code>Sum</code></td><td>Webhook patching attempts</td></tr>
 <tr><td><code>webhook_patch_failures_total</code></td><td><code>Sum</code></td><td>Webhook patching total failures</td></tr>
 <tr><td><code>webhook_patch_retries_total</code></td><td><code>Sum</code></td><td>Webhook patching retries</td></tr>

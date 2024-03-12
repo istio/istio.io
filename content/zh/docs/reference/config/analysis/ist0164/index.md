@@ -9,12 +9,6 @@ test: n/a
 
 ## 示例  {#example}
 
-您将收到此消息：
-
-{{< text plain >}}
-Info [IST0164] (MutatingWebhookConfiguration istio-sidecar-injector-external-istiod testing.yml:28) The address (https://999.999.999.999:5100/inject/cluster/your-cluster-name/net/network1) that was provided for the webhook (rev.namespace.sidecar-injector.istio.io) to reach the ingress gateway on the external control plane cluster is an IP address. This is not recommended for a production environment.
-{{< /text >}}
-
 当您的集群具有以下 `ValidatingWebhookConfiguration` 和
 `MutatingWebhookConfiguration`（为清楚起见而缩短）时：
 
@@ -81,7 +75,13 @@ webhooks:
   name: object.sidecar-injector.istio.io
 {{< /text >}}
 
-## 如何解决 {#how-to-resolve}
+您将收到此消息：
+
+{{< text plain >}}
+Info [IST0164] (MutatingWebhookConfiguration istio-sidecar-injector-external-istiod testing.yml:28) The address (https://999.999.999.999:5100/inject/cluster/your-cluster-name/net/network1) that was provided for the webhook (rev.namespace.sidecar-injector.istio.io) to reach the ingress gateway on the external control plane cluster is an IP address. This is not recommended for a production environment.
+{{< /text >}}
+
+## 如何修复 {#how-to-resolve}
 
 不建议在生产环境中为在外部控制平面中运行的入口网关使用
 IP 地址而不是主机名。

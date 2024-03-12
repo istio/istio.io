@@ -6,7 +6,7 @@ publishdate: 2023-09-27
 ---
 
 根据 Istio 的[支持政策](/zh/docs/releases/supported-releases#supported-releases/)，
-针对 1.17 这类小版本的支持将持续到 N+2 小版本（在本例中为 1.19）发布后的六周。
+针对 1.17 这类次要版本的支持将持续到 N+2 次要版本（在本例中为 1.19）发布后的六周。
 [Istio 1.19 于 2023 年 9 月 5 日发布](/zh/news/releases/1.19.x/announcing-1.19/)，
 所以对 1.17 的支持于 2023 年 10 月 27 日结束。
 

@@ -1,8 +1,6 @@
----
-title: Ambient Mesh Usage Guide
-description: How to use ambient mesh.
-weight: 2
+title: Ambient Mode User Guides
+description: How to configure a mesh in ambient mode.
+weight: 15
 owner: istio/wg-networking-maintainers
 test: n/a
 ---
-This page is under construction.

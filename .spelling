@@ -21,6 +21,8 @@
 1.2.x
 1.2.x.
 1.20.x
+1.20.x.
+1.21.x
 1.23.x
 1.24.0
 1.24.x
@@ -28,7 +30,6 @@
 1.26.x
 1.27.3
 1.27.x
-1.28.x
 1.3.x
 1.3.x.
 1.4.x
@@ -43,6 +44,7 @@
 1.8.x.
 1.9.x
 1.x
+1.x.
 10ms
 10s
 123456789012.my
@@ -127,6 +129,7 @@ Apigee
 APIs
 apiVersion
 Aporeto
+AppDeveloperCon
 AppOptics
 AppSwitch
 appswitch
@@ -184,6 +187,7 @@ Bookinfo
 bookinfo
 boolean
 BoringSSL
+Bottlerocket
 bring-your-own-CA
 bring-your-own-identity
 Brooks
@@ -225,6 +229,7 @@ cluster2
 ClusterSPIFFEID
 CNCF-hosted
 CNI
+CNIs
 cnn.com
 codec
 codelab
@@ -241,6 +246,7 @@ config
 ConfigMap
 configmap
 configmaps
+configs
 configurability
 conformant
 CONNECT-IP
@@ -350,6 +356,11 @@ CVE-2023-35942
 CVE-2023-35943
 CVE-2023-35944
 CVE-2023-35945
+CVE-2024-23322
+CVE-2024-23323
+CVE-2024-23324
+CVE-2024-23325
+CVE-2024-23327
 CVEs
 cves
 cvss
@@ -357,6 +368,7 @@ cyber
 cybersecurity
 D2iQ
 DaemonSet
+DaemonSets
 DaoCloud
 Datadog
 datapath
@@ -698,6 +710,7 @@ localhost
 Logics
 log_output_level
 Loki
+Longmuir
 lookups
 loopback
 Lua
@@ -747,6 +760,7 @@ MongoDB
 mongodb
 MOSN
 mTLS
+Multi-TenancyCon
 Multicast
 Multicloud
 multicloud
@@ -770,6 +784,7 @@ natively
 Neeraj
 netfilter
 netmask
+netns
 network1
 network2
 networking.istio.io
@@ -984,6 +999,7 @@ ServiceMeshCon
 ServiceMesher
 sha256
 Shamsher
+Shaojun
 sharded
 Sharding
 sharding
@@ -1131,11 +1147,16 @@ v0.14.0
 v0.8.0
 v1
 v1.21
+v1.21.0
+v1.26
+v1.27
+v1.28
 v1.29
 v1.55
 v1.55.1
 v1.7.4
 v1.7.6_coreos.0
+v1.79.0.
 v1.9
 v1alpha1
 v1alpha3
@@ -1154,6 +1175,7 @@ vCPUs
 Vennam
 versioned
 versioning
+veth
 veth-pair
 vhost
 vhosts

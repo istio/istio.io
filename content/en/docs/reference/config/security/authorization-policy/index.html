@@ -467,10 +467,10 @@ list of conditions. A match occurs when at least one source, one operation and a
 matches the request. An empty rule is always matched.</p>
 <p>Any string field in the rule supports Exact, Prefix, Suffix and Presence match:</p>
 <ul>
-<li>Exact match: &ldquo;abc&rdquo; will match on value &ldquo;abc&rdquo;.</li>
-<li>Prefix match: &ldquo;abc*&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;abcd&rdquo;.</li>
-<li>Suffix match: &ldquo;*abc&rdquo; will match on value &ldquo;abc&rdquo; and &ldquo;xabc&rdquo;.</li>
-<li>Presence match: &ldquo;*&rdquo; will match when value is not empty.</li>
+<li>Exact match: <code>abc</code> will match on value <code>abc</code>.</li>
+<li>Prefix match: <code>abc*</code> will match on value <code>abc</code> and <code>abcd</code>.</li>
+<li>Suffix match: <code>*abc</code> will match on value <code>abc</code> and <code>xabc</code>.</li>
+<li>Presence match: <code>*</code> will match when value is not empty.</li>
 </ul>
 
 <table class="message-fields">
@@ -487,7 +487,7 @@ matches the request. An empty rule is always matched.</p>
 <td><code>from</code></td>
 <td><code><a href="#Rule-From">From[]</a></code></td>
 <td>
-<p>Optional. from specifies the source of a request.</p>
+<p>Optional. <code>from</code> specifies the source of a request.</p>
 <p>If not set, any source is allowed.</p>
 
 </td>
@@ -499,7 +499,7 @@ No
 <td><code>to</code></td>
 <td><code><a href="#Rule-To">To[]</a></code></td>
 <td>
-<p>Optional. to specifies the operation of a request.</p>
+<p>Optional. <code>to</code> specifies the operation of a request.</p>
 <p>If not set, any operation is allowed.</p>
 
 </td>
@@ -511,7 +511,7 @@ No
 <td><code>when</code></td>
 <td><code><a href="#Condition">Condition[]</a></code></td>
 <td>
-<p>Optional. when specifies a list of additional conditions of a request.</p>
+<p>Optional. <code>when</code> specifies a list of additional conditions of a request.</p>
 <p>If not set, any condition is allowed.</p>
 
 </td>
@@ -526,8 +526,8 @@ No
 <section>
 <p>Source specifies the source identities of a request. Fields in the source are
 ANDed together.</p>
-<p>For example, the following source matches if the principal is &ldquo;admin&rdquo; or &ldquo;dev&rdquo;
-and the namespace is &ldquo;prod&rdquo; or &ldquo;test&rdquo; and the ip is not &ldquo;203.0.113.4&rdquo;.</p>
+<p>For example, the following source matches if the principal is <code>admin</code> or <code>dev</code>
+and the namespace is <code>prod</code> or <code>test</code> and the ip is not <code>203.0.113.4</code>.</p>
 <pre><code class="language-yaml">principals: [&quot;admin&quot;, &quot;dev&quot;]
 namespaces: [&quot;prod&quot;, &quot;test&quot;]
 notIpBlocks: [&quot;203.0.113.4&quot;]
@@ -621,8 +621,8 @@ No
 <td><code>ipBlocks</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>Optional. A list of IP blocks, populated from the source address of the IP packet. Single IP (e.g. &ldquo;203.0.113.4&rdquo;) and
-CIDR (e.g. &ldquo;203.0.113.0/24&rdquo;) are supported. This is the same as the <code>source.ip</code> attribute.</p>
+<p>Optional. A list of IP blocks, populated from the source address of the IP packet. Single IP (e.g. <code>203.0.113.4</code>) and
+CIDR (e.g. <code>203.0.113.0/24</code>) are supported. This is the same as the <code>source.ip</code> attribute.</p>
 <p>If not set, any IP is allowed.</p>
 
 </td>
@@ -645,11 +645,11 @@ No
 <td><code>remoteIpBlocks</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>Optional. A list of IP blocks, populated from X-Forwarded-For header or proxy protocol.
-To make use of this field, you must configure the numTrustedProxies field of the gatewayTopology under the meshConfig
+<p>Optional. A list of IP blocks, populated from <code>X-Forwarded-For</code> header or proxy protocol.
+To make use of this field, you must configure the <code>numTrustedProxies</code> field of the <code>gatewayTopology</code> under the <code>meshConfig</code>
 when you install Istio or using an annotation on the ingress gateway.  See the documentation here:
 <a href="/docs/ops/configuration/traffic-management/network-topologies/">Configuring Gateway Network Topology</a>.
-Single IP (e.g. &ldquo;203.0.113.4&rdquo;) and CIDR (e.g. &ldquo;203.0.113.0/24&rdquo;) are supported.
+Single IP (e.g. <code>203.0.113.4</code>) and CIDR (e.g. <code>203.0.113.0/24</code>) are supported.
 This is the same as the <code>remote.ip</code> attribute.</p>
 <p>If not set, any IP is allowed.</p>
 
@@ -676,8 +676,8 @@ No
 <section>
 <p>Operation specifies the operations of a request. Fields in the operation are
 ANDed together.</p>
-<p>For example, the following operation matches if the host has suffix &ldquo;.example.com&rdquo;
-and the method is &ldquo;GET&rdquo; or &ldquo;HEAD&rdquo; and the path doesn&rsquo;t have prefix &ldquo;/admin&rdquo;.</p>
+<p>For example, the following operation matches if the host has suffix <code>.example.com</code>
+and the method is <code>GET</code> or <code>HEAD</code> and the path doesn&rsquo;t have prefix <code>/admin</code>.</p>
 <pre><code class="language-yaml">hosts: [&quot;*.example.com&quot;]
 methods: [&quot;GET&quot;, &quot;HEAD&quot;]
 notPaths: [&quot;/admin*&quot;]
@@ -746,7 +746,7 @@ No
 <td><code>string[]</code></td>
 <td>
 <p>Optional. A list of methods as specified in the HTTP request.
-For gRPC service, this will always be &ldquo;POST&rdquo;.</p>
+For gRPC service, this will always be <code>POST</code>.</p>
 <p>If not set, any method is allowed. Must be used only with HTTP.</p>
 
 </td>
@@ -771,7 +771,7 @@ No
 <td>
 <p>Optional. A list of paths as specified in the HTTP request. See the <a href="/docs/reference/config/security/normalization/">Authorization Policy Normalization</a>
 for details of the path normalization.
-For gRPC service, this will be the fully-qualified name in the form of &ldquo;/package.service/method&rdquo;.</p>
+For gRPC service, this will be the fully-qualified name in the form of <code>/package.service/method</code>.</p>
 <p>If not set, any path is allowed. Must be used only with HTTP.</p>
 
 </td>
@@ -824,7 +824,7 @@ Yes
 <td><code>string[]</code></td>
 <td>
 <p>Optional. A list of allowed values for the attribute.
-Note: at least one of values or not_values must be set.</p>
+Note: at least one of <code>values</code> or <code>notValues</code> must be set.</p>
 
 </td>
 <td>
@@ -836,7 +836,7 @@ No
 <td><code>string[]</code></td>
 <td>
 <p>Optional. A list of negative match of values for the attribute.
-Note: at least one of values or not_values must be set.</p>
+Note: at least one of <code>values</code> or <code>notValues</code> must be set.</p>
 
 </td>
 <td>
@@ -974,7 +974,7 @@ the extension by specifying the name of the provider.
 One example use case of the extension is to integrate with a custom external authorization system to delegate
 the authorization decision to it.</p>
 <p>The following authorization policy applies to an ingress gateway and delegates the authorization check to a named extension
-&ldquo;my-custom-authz&rdquo; if the request path has prefix &ldquo;/admin/&rdquo;.</p>
+<code>my-custom-authz</code> if the request path has prefix <code>/admin/</code>.</p>
 <pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:

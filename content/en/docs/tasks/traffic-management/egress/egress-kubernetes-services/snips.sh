@@ -37,7 +37,7 @@ snip__4() {
 kubectl get pod "$SOURCE_POD_WITHOUT_ISTIO" -n without-istio
 }
 
-! read -r -d '' snip__4_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip__4_out <<\ENDSNIP
 NAME                     READY   STATUS    RESTARTS   AGE
 sleep-66c8d79ff5-8tqrl   1/1     Running   0          32s
 ENDSNIP
@@ -62,7 +62,7 @@ snip_kubernetes_externalname_service_to_access_an_external_service_2() {
 kubectl get svc my-httpbin
 }
 
-! read -r -d '' snip_kubernetes_externalname_service_to_access_an_external_service_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_kubernetes_externalname_service_to_access_an_external_service_2_out <<\ENDSNIP
 NAME         TYPE           CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
 my-httpbin   ExternalName   <none>       httpbin.org   80/TCP    4s
 ENDSNIP
@@ -71,7 +71,7 @@ snip_kubernetes_externalname_service_to_access_an_external_service_3() {
 kubectl exec "$SOURCE_POD_WITHOUT_ISTIO" -n without-istio -c sleep -- curl -sS my-httpbin.default.svc.cluster.local/headers
 }
 
-! read -r -d '' snip_kubernetes_externalname_service_to_access_an_external_service_3_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_kubernetes_externalname_service_to_access_an_external_service_3_out <<\ENDSNIP
 {
   "headers": {
     "Accept": "*/*",
@@ -99,7 +99,7 @@ snip_kubernetes_externalname_service_to_access_an_external_service_5() {
 kubectl exec "$SOURCE_POD" -c sleep -- curl -sS my-httpbin.default.svc.cluster.local/headers
 }
 
-! read -r -d '' snip_kubernetes_externalname_service_to_access_an_external_service_5_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_kubernetes_externalname_service_to_access_an_external_service_5_out <<\ENDSNIP
 {
   "headers": {
     "Accept": "*/*",
@@ -155,7 +155,7 @@ snip_use_a_kubernetes_service_with_endpoints_to_access_an_external_service_3() {
 kubectl get svc my-wikipedia
 }
 
-! read -r -d '' snip_use_a_kubernetes_service_with_endpoints_to_access_an_external_service_3_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_use_a_kubernetes_service_with_endpoints_to_access_an_external_service_3_out <<\ENDSNIP
 NAME           TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)   AGE
 my-wikipedia   ClusterIP   172.21.156.230   <none>        443/TCP   21h
 ENDSNIP
@@ -164,7 +164,7 @@ snip_use_a_kubernetes_service_with_endpoints_to_access_an_external_service_4() {
 kubectl exec "$SOURCE_POD_WITHOUT_ISTIO" -n without-istio -c sleep -- curl -sS --resolve en.wikipedia.org:443:"$(kubectl get service my-wikipedia -o jsonpath='{.spec.clusterIP}')" https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"
 }
 
-! read -r -d '' snip_use_a_kubernetes_service_with_endpoints_to_access_an_external_service_4_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_use_a_kubernetes_service_with_endpoints_to_access_an_external_service_4_out <<\ENDSNIP
 <title>Wikipedia, the free encyclopedia</title>
 ENDSNIP
 
@@ -186,7 +186,7 @@ snip_use_a_kubernetes_service_with_endpoints_to_access_an_external_service_6() {
 kubectl exec "$SOURCE_POD" -c sleep -- curl -sS --resolve en.wikipedia.org:443:"$(kubectl get service my-wikipedia -o jsonpath='{.spec.clusterIP}')" https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"
 }
 
-! read -r -d '' snip_use_a_kubernetes_service_with_endpoints_to_access_an_external_service_6_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_use_a_kubernetes_service_with_endpoints_to_access_an_external_service_6_out <<\ENDSNIP
 <title>Wikipedia, the free encyclopedia</title>
 ENDSNIP
 
@@ -194,7 +194,7 @@ snip_use_a_kubernetes_service_with_endpoints_to_access_an_external_service_7() {
 kubectl exec "$SOURCE_POD" -c sleep -- curl -sS -v --resolve en.wikipedia.org:443:"$(kubectl get service my-wikipedia -o jsonpath='{.spec.clusterIP}')" https://en.wikipedia.org/wiki/Main_Page -o /dev/null
 }
 
-! read -r -d '' snip_use_a_kubernetes_service_with_endpoints_to_access_an_external_service_7_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_use_a_kubernetes_service_with_endpoints_to_access_an_external_service_7_out <<\ENDSNIP
 * Added en.wikipedia.org:443:172.21.156.230 to DNS cache
 * Hostname en.wikipedia.org was found in DNS cache
 *   Trying 172.21.156.230...

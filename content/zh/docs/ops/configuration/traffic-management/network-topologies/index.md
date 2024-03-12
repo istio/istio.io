@@ -60,7 +60,7 @@ spec:
 
 应用程序依靠反向代理来转发请求中的客户端属性，如 `X-Forwarded-For` 请求头。
 然而由于 Istio 可以部署多样性的网络拓扑，您必须设置 Istio 网关代理上游的可信代理数量 `numTrustedProxies`，
-这样客户端地址才能被正确提取。因为这将控制入口网关在 `X-Envoy-Eternal-Address` 头中填充的值，
+这样客户端地址才能被正确提取。因为这将控制入口网关在 `X-Envoy-External-Address` 头中填充的值，
 该值可以被上游服务可靠地用于访问客户端的原始 IP 地址。
 
 例如，如果在 Istio Gateway 之前，有一个基于云的负载均衡和一个反向代理，可以设置 `numTrustedProxies` 为 `2`。
@@ -193,7 +193,7 @@ $ export GATEWAY_URL=$(kubectl get gateways.gateway.networking.k8s.io httpbin-ga
 
 上面的输出显示了 `httpbin` 工作负载收到的请求头。当 Istio Gateway 收到这个请求时，
 它将 `X-Envoy-External-Address` 头设置为您 curl 命令中 `X-Forwarded-For`
-头中的第二个到最后一个（`numTrustedProxies: 2`）地址。此外，Gateway 在将其转发到
+头中的倒数第二个地址（`numTrustedProxies: 2`）。此外，Gateway 在将其转发到
 `httpbin` 工作负载之前，会将自己的 IP 附加到 `X-Forwarded-For` 头中。
 
 ### 配置 X-Forwarded-Client-Cert 头  {#configuring-X-Forwarded-Client-Cert-headers}

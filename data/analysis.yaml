@@ -128,23 +128,7 @@ messages:
       - name: destPorts
         type: "[]int"
 
-  - name: "MTLSPolicyConflict"
-    code: IST0113
-    level: Error
-    description: "A DestinationRule and Policy are in conflict with regards to mTLS."
-    template: "A DestinationRule and Policy are in conflict with regards to mTLS for host %s. The DestinationRule %q specifies that mTLS must be %t but the Policy object %q specifies %s."
-    args:
-      - name: host
-        type: string
-      - name: destinationRuleName
-        type: string
-      - name: destinationRuleMTLSMode
-        type: bool
-      - name: policyName
-        type: string
-      - name: policyMTLSMode
-        type: string
-
+  # IST0113 RETIRED
   # IST0114 RETIRED
   # IST0115 RETIRED
 
@@ -176,21 +160,7 @@ messages:
       - name: targetPort
         type: string
 
-  - name: "JwtFailureDueToInvalidServicePortPrefix"
-    code: IST0119
-    level: Warning
-    description: "Authentication policy with JWT targets Service with invalid port specification."
-    template: "Authentication policy with JWT targets Service with invalid port specification (port: %d, name: %s, protocol: %s, targetPort: %s)."
-    args:
-      - name: port
-        type: int
-      - name: portName
-        type: string
-      - name: protocol
-        type: string
-      - name: targetPort
-        type: string
-
+  # IST0119 RETIRED
   # IST0120 RETIRED
   # IST0121 RETIRED
 
@@ -653,4 +623,34 @@ messages:
     template: "The policy has no impact: %s."
     args:
       - name: reason
+        type: string
+
+  - name: "UnknownUpgradeCompatibility"
+    code: IST0168
+    level: Warning
+    description: "We cannot automatically detect whether a change is fully compatible or not"
+    template: "The configuration %q changed in release %s, but compatibility cannot be automatically detected: %s. Or, install with `--set compatibilityVersion=%s` to retain the old default."
+    args:
+      - name: field
+        type: string
+      - name: release
+        type: string
+      - name: info
+        type: string
+      - name: compatVersion
+        type: string
+
+  - name: "UpdateIncompatibility"
+    code: IST0169
+    level: Warning
+    description: "The provided configuration object may be incompatible due to an upgrade"
+    template: "The configuration %q changed in release %s: %s. Or, install with `--set compatibilityVersion=%s` to retain the old default."
+    args:
+      - name: field
+        type: string
+      - name: release
+        type: string
+      - name: info
+        type: string
+      - name: compatVersion
         type: string

@@ -3,5 +3,7 @@ title: Data Plane
 test: n/a
 ---
 
-数据平面是网格的一部分，直接控制工作负载实例之间的通信。Istio 的数据平面使用智能
-[Envoy](/zh/docs/reference/glossary/#envoy) 代理部署成 Sidecar 去调节和控制服务网格中发送和接受的流量。
+数据平面模式是指[数据平面](/zh/docs/reference/glossary/#data-plane)使用的部署模式。
+Istio 目前支持三种模式：[Sidecar 模式](/zh/docs/reference/glossary/#sidecar)、
+[Ambient 模式](/zh/docs/reference/glossary/#ambient)和
+[无代理](/zh/docs/reference/glossary/#proxyless)。

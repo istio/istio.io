@@ -5,7 +5,9 @@ owner: istio/wg-user-experience-maintainers
 test: n/a
 ---
 
-当 `EnvoyFilter` 使用 `REMOVE` 操作并且 `ApplyTo` 设置为 `ROUTE_CONFIGURATION` 或 `HTTP_ROUTE` 时会出现此消息。这将导致 `REMOVE` 操作被忽略。目前只有 `MERGE` 操作可以用于 `ROUTE_CONFIGURATION`。
+当 `EnvoyFilter` 使用 `REMOVE` 操作并且 `ApplyTo` 设置为 `ROUTE_CONFIGURATION` 或
+`HTTP_ROUTE` 时会出现此消息。这将导致 `REMOVE` 操作被忽略。
+目前只有 `MERGE` 操作可以用于 `ROUTE_CONFIGURATION`。
 
 ## 示例 {#example}
 

@@ -8,7 +8,7 @@ test: yes
 ---
 
 请参阅本指南使用 [Helm](https://helm.sh/docs/) 升级和配置 Istio 网格。
-本指南假设您已经[使用 Helm 安装](/zh/docs/setup/install/helm)了 Istio 的前一个小版本或补丁版本。
+本指南假设您已经[使用 Helm 安装](/zh/docs/setup/install/helm)了 Istio 的前一个次要版本或补丁版本。
 
 {{< boilerplate helm-preamble >}}
 

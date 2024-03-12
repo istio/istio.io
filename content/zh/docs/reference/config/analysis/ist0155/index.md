@@ -28,7 +28,7 @@ spec:
     labels:
       app: reviews4
   configPatches:
-    # The first patch adds the Lua filter to the listener/http connection manager
+    # 第一个补丁将 Lua 过滤器添加到 listener/http 连接管理器
   - applyTo: HTTP_FILTER
     match:
       context: SIDECAR_OUTBOUND
@@ -43,7 +43,7 @@ spec:
               name: "envoy.filters.http.router"
     patch:
       operation: REPLACE
-      value: # Lua filter specification
+      value: # Lua 过滤器规范
        name: envoy.lua
        typed_config:
           "@type": "type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua"
@@ -76,7 +76,7 @@ spec:
       context: SIDECAR_OUTBOUND
     patch:
       operation: REPLACE
-      value: #Lua filter specification
+      value: # Lua 过滤器规范
        name: envoy.lua
        typed_config:
           "@type": "type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua"
@@ -95,7 +95,7 @@ spec:
             end
 {{< /text >}}
 
-## 如何解决  {#how-to-resolve}
+## 如何修复  {#how-to-resolve}
 
 因为 `REPLACE` 的相关操作是与 `proxyVersion` 一起使用，
 所以添加 `priority` 可以解决这个问题：
@@ -112,7 +112,7 @@ spec:
       app: reviews4
   priority: 10
   configPatches:
-    # The first patch adds the Lua filter to the listener/http connection manager
+    # 第一个补丁将 Lua 过滤器添加到 listener/http 连接管理器
   - applyTo: HTTP_FILTER
     match:
       context: SIDECAR_OUTBOUND
@@ -127,7 +127,7 @@ spec:
               name: "envoy.filters.http.router"
     patch:
       operation: REPLACE
-      value: # Lua filter specification
+      value: # Lua 过滤器规范
        name: envoy.lua
        typed_config:
           "@type": "type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua"

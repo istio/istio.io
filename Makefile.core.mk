@@ -77,7 +77,7 @@ baseurl := "$(URL)"
 endif
 
 # Which branch of the Istio source code do we fetch stuff from
-export SOURCE_BRANCH_NAME ?= master
+export SOURCE_BRANCH_NAME ?= release-1.21
 
 site:
 	@scripts/gen_site.sh
@@ -129,7 +129,7 @@ lint-md: clean_public build_nominify
 	@SKIP_LINK_CHECK=true scripts/lint_site.sh en
 
 serve: site
-	@hugo serve --baseURL "http://${ISTIO_SERVE_DOMAIN}:1313/latest/" --bind 0.0.0.0 --disableFastRender
+	@hugo serve --baseURL "http://${ISTIO_SERVE_DOMAIN}:1313/latest/" --bind 0.0.0.0 --watch --disableFastRender
 
 archive-version:
 	@scripts/archive_version.sh

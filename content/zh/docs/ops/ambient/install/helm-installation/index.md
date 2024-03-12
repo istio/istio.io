@@ -1,14 +1,15 @@
 ---
 title: 通过 Helm 安装
-description: 如何使用 Helm 安装 Ambient Mesh。
+description: 使用 Helm 在 Ambient 模式下安装 Istio。
 weight: 4
 owner: istio/wg-environments-maintainers
 test: yes
 ---
 
-本指南向您展示如何使用 Helm 安装 Ambient Mesh。
-除了 [Ambient Mesh 入门](/zh/docs/ops/ambient/getting-started/)中的演示之外，
-我们**鼓励**您依照本指南安装 Ambient Mesh。Helm 可以帮助您单独管理组件，您可以轻松地将组件升级到最新版本。
+本指南向您展示如何使用 Helm 在环境模式下安装 Istio。
+除了遵循[Ambient 模式入门](/zh/docs/ops/ambient/getting-started/)中的演示之外，
+我们鼓励使用 Helm 安装 Istio 使其在 Ambient 模式下运行。
+Helm 帮助您单独管理组件，您可以轻松地将组件升级到最新版本。
 
 ## 前提条件 {#prerequisites}
 
@@ -40,12 +41,11 @@ $ helm install istio-base istio/base -n istio-system --create-namespace
 
 ### 安装 CNI 组件 {#installing-the-cni-component}
 
-**CNI** Chart 会安装 Istio CNI 插件。它负责检测属于 Ambient Mesh 的 Pod，
-并对稍后将安装的 ztunnel DaemonSet 之间的流量重定向进行配置。
+`cni` Chart 将安装 Istio CNI 插件。它负责检测属于 Ambient 网格的 Pod，
+并配置 Pod 和 ztunnel 节点代理（稍后将安装）之间的流量重定向。
 
 {{< text syntax=bash snip_id=install_cni >}}
-$ helm install istio-cni istio/cni -n istio-system \
-  -f @manifests/charts/istio-cni/ambient-values.yaml@
+$ helm install istio-cni istio/cni -n istio-system --set profile=ambient
 {{< /text >}}
 
 ### 安装 discovery 组件 {#installing-the-discovery-component}
@@ -53,21 +53,34 @@ $ helm install istio-cni istio/cni -n istio-system \
 `istiod` Chart 会安装 Istiod 的修订版。Istiod 是控制平面组件，用于管理和配置代理，以在网格内进行流量路由。
 
 {{< text syntax=bash snip_id=install_discovery >}}
-$ helm install istiod istio/istiod --namespace istio-system \
-  -f @manifests/charts/istio-control/istio-discovery/ambient-values.yaml@
+$ helm install istiod istio/istiod --namespace istio-system --set profile=ambient
 {{< /text >}}
 
 ### 安装 ztunnel 组件 {#installing-the-ztunnel-component}
 
-`ztunnel` Chart 会安装 ztunnel DaemonSet，它是 Ambient 的节点代理组件。
+`ztunnel` Chart 会安装 ztunnel DaemonSet，它是 Istio Ambient 模式的节点代理组件。
 
 {{< text syntax=bash snip_id=install_ztunnel >}}
 $ helm install ztunnel istio/ztunnel -n istio-system
 {{< /text >}}
 
+### 安装入口网关（可选） {#install-an-ingress-gateway-optional}
+
+{{< warning >}}
+部署网关的命名空间不得具有 `istio-injection=disabled` 标签。
+有关更多信息，请参阅[控制注入策略](/zh/docs/setup/additional-setup/sidecar-injection/#controlling-the-injection-policy)。
+{{< /warning >}}
+
+{{< text syntax=bash snip_id=install_ingress >}}
+$ helm install istio-ingress istio/gateway -n istio-ingress --wait --create-namespace
+{{< /text >}}
+
+有关网关安装的详细文档，
+请参阅[安装 Gateway](/zh/docs/setup/additional-setup/gateway/)。
+
 ## 配置 {#configuration}
 
-要查看支持的配置选项和文档，请运行：
+要查看已被支持的配置选项和文档，请运行：
 
 {{< text syntax=bash >}}
 $ helm show values istio/istiod
@@ -80,20 +93,29 @@ $ helm show values istio/istiod
 安装所有组件后，您可以使用以下命令检查 Helm 部署状态：
 
 {{< text syntax=bash snip_id=show_components >}}
-$ helm list -n istio-system
+$ helm ls -n istio-system
+NAME            NAMESPACE       REVISION    UPDATED         STATUS      CHART           APP VERSION
+istio-base      istio-system    1           ... ... ... ... deployed    base-1.0.0      1.0.0
+istio-cni       istio-system    1           ... ... ... ... deployed    cni-1.0.0       1.0.0
+istiod          istio-system    1           ... ... ... ... deployed    istiod-1.0.0    1.0.0
+ztunnel         istio-system    1           ... ... ... ... deployed    ztunnel-1.0.0   1.0.0
 {{< /text >}}
 
 您可以使用以下命令检查已部署的 Pod 状态：
 
 {{< text syntax=bash snip_id=check_pods >}}
 $ kubectl get pods -n istio-system
+NAME                             READY   STATUS    RESTARTS   AGE
+istio-cni-node-g97z5             1/1     Running   0          10m
+istiod-5f4c75464f-gskxf          1/1     Running   0          10m
+ztunnel-c2z4s                    1/1     Running   0          10m
 {{< /text >}}
 
 ### 使用示例应用程序进行验证 {#verifying-with-the-sample-application}
 
-使用 Helm 安装 Ambient 后，
+使用 Helm 安装 Ambient 模式后，
 您可以按照[部署示例应用程序](/zh/docs/ops/ambient/getting-started/#bookinfo)指南部署示例应用程序和入口网关，
-然后您可以[将您的应用程序添加到 Ambient](/zh/docs/ops/ambient/getting-started/#addtoambient)。
+然后您可以[添加您的应用程序到 Ambient 网格中](/zh/docs/ops/ambient/getting-started/#addtoambient)。
 
 ## 卸载 {#uninstall}
 
@@ -103,14 +125,16 @@ $ kubectl get pods -n istio-system
 
     {{< text syntax=bash >}}
     $ helm ls -n istio-system
-    NAME       NAMESPACE    REVISION UPDATED         STATUS   CHART        APP VERSION
-    istio-base istio-system 1        ... ... ... ... deployed base-1.0.0   1.0.0
-    istiod     istio-system 1        ... ... ... ... deployed istiod-1.0.0 1.0.0
+    NAME            NAMESPACE       REVISION    UPDATED         STATUS      CHART           APP VERSION
+    istio-base      istio-system    1           ... ... ... ... deployed    base-1.0.0      1.0.0
+    istio-cni       istio-system    1           ... ... ... ... deployed    cni-1.0.0       1.0.0
+    istiod          istio-system    1           ... ... ... ... deployed    istiod-1.0.0    1.0.0
+    ztunnel         istio-system    1           ... ... ... ... deployed    ztunnel-1.0.0   1.0.0
     {{< /text >}}
 
 1.（可选）删除所有 Istio 网关 Chart 安装文件：
 
-    {{< text syntax=bash >}}
+    {{< text syntax=bash snip_id=delete_ingress >}}
     $ helm delete istio-ingress -n istio-ingress
     $ kubectl delete namespace istio-ingress
     {{< /text >}}
@@ -149,7 +173,7 @@ $ kubectl get pods -n istio-system
     这将删除所有已创建的 Istio 资源。
     {{< /warning >}}
 
-    {{< text syntax=bash >}}
+    {{< text syntax=bash snip_id=delete_crds >}}
     $ kubectl get crd -oname | grep --color=never 'istio.io' | xargs kubectl delete
     {{< /text >}}
 
