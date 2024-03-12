@@ -3,6 +3,7 @@ title: "Istio 加入 Phippy 和她的朋友们 — 欢迎 Izzy！"
 description: 宣布 CNCF 吉祥物家族的最新成员。
 publishdate: 2024-03-08
 attribution: "Faseela K，来自 Istio 指导委员会; Translated by Wilson Wu (DaoCloud)"
+social_image: Izzy.png
 keywords: [istio,phippy,izzy,dolphin]
 ---
 
