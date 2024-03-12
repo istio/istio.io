@@ -152,7 +152,7 @@ netlify_install:
 
 netlify: netlify_install
 	@scripts/gen_site.sh
-	@scripts/build_site.sh "${DEPLOY_PRIME_URL}/latest"
+	@scripts/build_site.sh "/latest"
 	@scripts/include_archive_site.sh
 
 # ISTIO_API_GIT_SOURCE allows to override the default Istio API repository, https://github.com/istio/api@$(SOURCE_BRANCH_NAME)
