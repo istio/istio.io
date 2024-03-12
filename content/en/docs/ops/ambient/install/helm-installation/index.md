@@ -12,7 +12,7 @@ we encourage the use of Helm to install Istio for use in ambient mode. Helm help
 
 ## Prerequisites
 
-1. Perform any necessary [platform-specific setup](/docs/setup/platform-setup/).
+1. Check the [Platform-Specific Prerequisites](/docs/ops/ambient/install/platform-prerequisites).
 
 1. Check the [Requirements for Pods and Services](/docs/ops/deployment/requirements/).
 
