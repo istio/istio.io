@@ -13,7 +13,7 @@ This document covers any platform or environment specific prerequisites for inst
 ### Google Kubernetes Engine (GKE)
 
 1. On GKE, `istio-cni` and `ztunnel` must be installed into `kube-system` (_not_ `istio-system`) to ensure the [`system-node-critical`](https://kubernetes.io/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/)
-`priorityClassName` is respected during scheduling. GKE does not respect the use of `node-critical` PriorityClasses on pods deployed outside of `kube-system`.
+`priorityClassName` is respected during scheduling. GKE does not respect the use of `node-critical` priority classes on pods deployed outside of `kube-system`.
 
 ### Minikube
 
