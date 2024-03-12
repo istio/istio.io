@@ -3,6 +3,7 @@ title: "Istio joins Phippy and friends — Welcome Izzy!"
 description: Announcing the latest member of the CNCF family of mascots.
 publishdate: 2024-03-08
 attribution: "Faseela K, for the Istio Steering Committee"
+social_image: Izzy.png
 keywords: [istio,phippy,izzy,dolphin]
 ---
 
