@@ -9,11 +9,10 @@ test: yes
 {{< boilerplate ambient-alpha-warning >}}
 
 本指南有助于您快速评估 Istio 的 {{< gloss "ambient" >}}Ambient 模式{{< /gloss >}}。
-以下操作步骤需要您有一个 {{< gloss >}}Cluster{{< /gloss >}} 运行了
-[Istio 支持的](/zh/docs/releases/supported-releases#support-status-of-istio-releases)
-Kubernetes 版本 ({{< supported_kubernetes_versions >}})。
-您可以使用 [Minikube](https://kubernetes.io/zh-cn/docs/tasks/tools/install-minikube/)
-或[特定平台搭建指南](/zh/docs/setup/platform-setup/)中指定的所有受支持的平台。
+这些步骤要求您有一个运行[受支持版本](/zh/docs/releases/supported-releases#support-status-of-istio-releases)的
+Kubernetes ({{< supported_kubernetes_versions >}}) {{< gloss >}}Cluster{{< /gloss >}}。
+您可以在[任何被支持的 Kubernetes 平台](/zh/docs/setup/platform-setup/)上安装 Istio Ambient 模式，但
+为了简单起见，本指南将假设使用 [kind](https://kind.sigs.k8s.io/)。
 
 {{< tip >}}
 请注意，Ambient 模式当前需要使用 [istio-cni](/zh/docs/setup/additional-setup/cni)
@@ -32,9 +31,11 @@ Ambient 模式与之前支持 Sidecar 模式的所有主流 CNI 兼容。
 
 ## 下载和安装 {#download}
 
+1.  安装 [kind](https://kind.sigs.k8s.io/)
+
 1.  下载对 Ambient 模式提供 Alpha 支持的[最新 Istio 版本](/zh/docs/setup/getting-started/#download)（v1.21.0 或更高）。
 
-1.  如果您没有 Kubernetes 集群，可以参照以下命令使用 `kind` 在本地部署一个集群：
+1.  部署一个新的本地 `kind` 集群：
 
     {{< text syntax=bash snip_id=none >}}
     $ kind create cluster --config=- <<EOF
@@ -62,15 +63,6 @@ Ambient 模式与之前支持 Sidecar 模式的所有主流 CNI 兼容。
 
 1.  使用上面下载的 `istioctl` 版本，
     在 Kubernetes 集群上安装带有 `ambient` 配置文件的 Istio：
-
-{{< tip >}}
-请注意，如果您正在使用 [Minikube](https://kubernetes.io/zh-cn/docs/tasks/tools/install-minikube/)
-（或在节点上为容器配置了非标准 `netns` 路径的任何其他平台），
-您可能需要在 `istioctl install` 命令后面追加 `--set values.cni.cniNetnsDir="/var/run/docker/netns"`，
-以便 Istio CNI DaemonSet 能够正确管理和捕获节点上的 Pod。
-
-有关详细信息，请参阅您的平台文档。
-{{< /tip >}}
 
 {{< tabset category-name="config-api" >}}
 

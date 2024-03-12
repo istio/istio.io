@@ -13,7 +13,7 @@ Helm 帮助您单独管理组件，您可以轻松地将组件升级到最新版
 
 ## 前提条件 {#prerequisites}
 
-1. 执行任何必要的[平台特定设置](/zh/docs/setup/platform-setup/)。
+1. 检查[平台特定先决条件](/zh/docs/ops/ambient/install/platform-preventions)。
 
 1. 检查 [Pod 和 Service 的要求](/zh/docs/ops/deployment/requirements/)。
 
