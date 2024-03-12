@@ -3,7 +3,7 @@ title: Announcing Istio 1.19.8
 linktitle: 1.19.8
 subtitle: Patch Release
 description: Istio 1.19.8 patch release.
-publishdate: 2024-03-12
+publishdate: 2024-03-14
 release: 1.19.8
 ---
 
