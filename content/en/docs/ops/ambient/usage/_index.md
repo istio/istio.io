@@ -1,3 +1,4 @@
+---
 title: Ambient Mode User Guides
 description: How to configure a mesh in ambient mode.
 weight: 15
