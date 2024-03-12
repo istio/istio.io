@@ -1,30 +1,31 @@
 ---
 title: 虚拟机安装
 description: 部署 Istio，接入虚拟机中运行的工作负载。
-weight: 40
+weight: 60
 keywords:
 - kubernetes
 - virtual-machine
 - gateways
 - vms
 owner: istio/wg-environments-maintainers
-test: no
+test: yes
 ---
 
-请跟随本指南部署 Istio，并接入虚拟机。
+请遵循本指南部署 Istio，并接入虚拟机。
 
 ## 先决条件 {#prerequisites}
 
 1. [下载 Istio 发行版](/zh/docs/setup/getting-started/#download)
 1. 执行必要的[平台安装](/zh/docs/setup/platform-setup/)
-1. 检查 [Pod 和服务的需求](/zh/docs/ops/deployment/requirements/)
+1. 检查 [Pod 和 Service 的要求](/zh/docs/ops/deployment/requirements/)
 1. 虚拟机必须 IP 连通到目标网格的入口网关，如果有更高的性能需求，也可通过三层网络连通网格中的每个 Pod。
 1. 阅读[虚拟机架构](/zh/docs/ops/deployment/vm-architecture/)来理解 Istio 虚拟机集成的高级架构。
 
 ## 准备指导环境  {#prepare-the-guide-environment}
 
 1. 创建虚拟机
-1. 设置环境变量 `VM_APP`、`WORK_DIR`、`VM_NAMESPACE`、和 `SERVICE_ACCOUNT`（例如： `WORK_DIR="${HOME}/vmintegration"`）:
+1. 在集群的计算机上设置环境变量 `VM_APP`、`WORK_DIR`、`VM_NAMESPACE` 和 `SERVICE_ACCOUNT`
+   （例如：`WORK_DIR="${HOME}/vmintegration"`）：
 
     {{< tabset category-name="network-mode" >}}
 
@@ -71,7 +72,7 @@ test: no
 
 安装 Istio，打开控制平面的对外访问，以便您的虚拟机可以访问它。
 
-1. 为安装创建 `IstioOperator` 空间
+1. 创建用于安装 Istio 的 `IstioOperator`。
 
     {{< text syntax="bash yaml" snip_id=setup_iop >}}
     $ cat <<EOF > ./vm-cluster.yaml
@@ -147,7 +148,7 @@ test: no
 
     {{< tab name="单一网络" category-value="single" >}}
 
-    暴露控制平面:
+    暴露控制平面：
 
     {{< text syntax=bash snip_id=expose_istio >}}
     $ kubectl apply -f @samples/multicluster/expose-istiod.yaml@
@@ -157,16 +158,22 @@ test: no
 
     {{< tab name="聚合网络" category-value="multiple" >}}
 
-    暴露控制平面:
+    暴露控制平面：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/multicluster/expose-istiod.yaml@
     {{< /text >}}
 
-    暴露集群服务:
+    暴露集群服务：
 
     {{< text bash >}}
     $ kubectl apply -n istio-system -f @samples/multicluster/expose-services.yaml@
+    {{< /text >}}
+
+    确保使用定义的集群网络为 istio-system 命名空间打标签：
+
+    {{< text bash >}}
+    $ kubectl label namespace istio-system topology.istio.io/network="${CLUSTER_NETWORK}"
     {{< /text >}}
 
     {{< /tab >}}
@@ -175,7 +182,7 @@ test: no
 
 ## 配置虚拟机的命名空间 {#configure-the-virtual-machine-namespace}
 
-1. 创建用于托管虚拟机的名称空间：
+1. 创建用于托管虚拟机的命名空间：
 
     {{< text syntax=bash snip_id=install_namespace >}}
     $ kubectl create namespace "${VM_NAMESPACE}"
@@ -244,7 +251,8 @@ $ kubectl --namespace "${VM_NAMESPACE}" apply -f workloadgroup.yaml
 {{< /text >}}
 
 使用自动创建 `WorkloadEntry` 的特性，还可以进行应用程序的健康检查。
-与 [Kubernetes Readiness Probes](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) 具有相同行为和 API 。
+与 [Kubernetes Readiness Probes](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/)
+具有相同行为和 API 。
 
 例如，在应用程序的 `/ready` 端点上配置探针：
 
@@ -278,17 +286,19 @@ EOF
 {{< /tabset >}}
 
 {{< warning >}}
-在开始生成 `istio-token` 之前，作为 `istioctl x workload entry` 的一部分，您应该按照[文档](/zh/docs/ops/best-practices/security/#configure-third-party-service-account-tokens)来验证集群中是否使用了第三方服务账号令牌。
-如果没有使用第三方服务账户令牌，您应该为 Istio 安装指令添加参数 `--set values.global.jwtPolicy=first-party-jwt` 。
+在开始生成 `istio-token` 之前，作为 `istioctl x workload entry` 的一部分，
+您应该按照[文档](/zh/docs/ops/best-practices/security/#configure-third-party-service-account-tokens)
+来验证集群中是否使用了第三方服务账号令牌。如果没有使用第三方服务账户令牌，您应该为 Istio
+安装指令添加参数 `--set values.global.jwtPolicy=first-party-jwt`。
 {{< /warning >}}
 
-接下来，使用 `istioctl x workload entry` 命令来生成:
+接下来，使用 `istioctl x workload entry` 命令来生成：
 
-* `cluster.env`: 包含用来识别名称空间、服务帐户、网络 CIDR、和入站端口(可选)的元数据。
-* `istio-token`: 用来从 CA 获取证书的 Kubernetes 令牌。
-* `mesh.yaml`: 提供 `ProxyConfig` 来配置 `discoveryAddress`, 健康检查, 以及一些认证操作。
-* `root-cert.pem`: 用于认证的根证书。
-* `hosts`: `/etc/hosts` 的补充，代理将使用该补充从 Istiod 获取 xDS.*。
+* `cluster.env`：包含用来识别命名空间、服务帐户、网络 CIDR、和入站端口（可选）的元数据。
+* `istio-token`：用来从 CA 获取证书的 Kubernetes 令牌。
+* `mesh.yaml`：提供 `ProxyConfig` 来配置 `discoveryAddress`、健康检查以及一些认证操作。
+* `root-cert.pem`：用于认证的根证书。
+* `hosts`：`/etc/hosts` 的补充，代理将使用该补充从 Istiod 获取 xDS.*。
 
 {{< idea >}}
 一个复杂的选项涉及在虚拟机中配置 DNS 以引用外部 DNS 服务器。
@@ -321,16 +331,18 @@ $ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --c
 
 在要添加到 Istio 网格的虚拟机上，运行以下命令：
 
-1. 将文件从 `"${WORK_DIR}"` 安全上传到虚拟机。如何安全的传输这些文件，这需要考虑到您的信息安全策略。本指南为方便起见，将所有必备文件上传到虚拟机中的 `"${HOME}"` 目录。
+1. 将文件从 `"${WORK_DIR}"` 安全上传到虚拟机。如何安全的传输这些文件，
+   这需要考虑到您的信息安全策略。本指南为方便起见，将所有必备文件上传到虚拟机中的
+   `"${HOME}"` 目录。
 
-1. 将根证书安装到目录 `/etc/certs`:
+1. 将根证书安装到目录 `/etc/certs`：
 
     {{< text bash >}}
     $ sudo mkdir -p /etc/certs
     $ sudo cp "${HOME}"/root-cert.pem /etc/certs/root-cert.pem
     {{< /text >}}
 
-1. 将令牌安装到目录 `/var/run/secrets/tokens`:
+1. 将令牌安装到目录 `/var/run/secrets/tokens`：
 
     {{< text bash >}}
     $ sudo  mkdir -p /var/run/secrets/tokens
@@ -363,25 +375,26 @@ $ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --c
 
     {{< /tabset >}}
 
-1. 将 `cluster.env` 安装到目录 `/var/lib/istio/envoy/` 中:
+1. 将 `cluster.env` 安装到目录 `/var/lib/istio/envoy/` 中：
 
     {{< text bash >}}
     $ sudo cp "${HOME}"/cluster.env /var/lib/istio/envoy/cluster.env
     {{< /text >}}
 
-1. 将网格配置文件 [Mesh Config](/zh/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig) 安装到目录 `/etc/istio/config/mesh`:
+1. 将网格配置文件 [Mesh Config](/zh/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig)
+   安装到目录 `/etc/istio/config/mesh`：
 
     {{< text bash >}}
     $ sudo cp "${HOME}"/mesh.yaml /etc/istio/config/mesh
     {{< /text >}}
 
-1. 将 istiod 主机添加到 `/etc/hosts`:
+1. 将 istiod 主机添加到 `/etc/hosts`：
 
     {{< text bash >}}
     $ sudo sh -c 'cat $(eval echo ~$SUDO_USER)/hosts >> /etc/hosts'
     {{< /text >}}
 
-1. 把文件 `/etc/certs/` 和 `/var/lib/istio/envoy/` 的所有权转移给 Istio proxy:
+1. 把文件 `/etc/certs/` 和 `/var/lib/istio/envoy/` 的所有权转移给 Istio 代理：
 
     {{< text bash >}}
     $ sudo mkdir -p /etc/istio/proxy
@@ -390,7 +403,7 @@ $ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --c
 
 ## 在虚拟机中启动 Istio {#start-within-the-virtual-machine}
 
-1. 启动 Istio 代理:
+1. 启动 Istio 代理：
 
     {{< text bash >}}
     $ sudo systemctl start istio
@@ -420,7 +433,7 @@ $ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --c
     $ kubectl label namespace sample istio-injection=enabled
     {{< /text >}}
 
-1. 部署 `HelloWorld` 服务:
+1. 部署 `HelloWorld` 服务：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/helloworld/helloworld.yaml@
@@ -436,8 +449,9 @@ $ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --c
 ## 下一步 {#next-step}
 
 更多关于虚拟机的信息：
-* [Debugging Virtual Machines](/zh/docs/ops/diagnostic-tools/virtual-machines/) to troubleshoot issues with virtual machines.
-* [Bookinfo with a Virtual Machine](/zh/docs/examples/virtual-machines/) to set up an example deployment of virtual machines.
+
+* [调试虚拟机](/zh/docs/ops/diagnostic-tools/virtual-machines/)解决虚拟机问题。
+* [部署在虚拟机上的 Bookinfo](/zh/docs/examples/virtual-machines/) 设置虚拟机的示例部署。
 
 ## 卸载 {#uninstall}
 

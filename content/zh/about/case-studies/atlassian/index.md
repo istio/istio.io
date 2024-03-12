@@ -18,7 +18,12 @@ type: 案例研究
 weight: 90
 ---
 
-Atlassian 在过去两年中一直在其内部 PaaS 的计算节点上部署 Envoy，以简化内部开发人员使用服务和服务间的通信。[他们在 IstioCon 2021 的发言中指出](https://events.istio.io/istiocon-2021/sessions/going-dynamic-with-envoy-at-atlassian/)，他们使用静态配置部署 Envoy，并且希望利用客户端路由、直接通信和故障注入等动态特性。Atlassian 认为 Istio 是在接下来的一年里交付该产品的最佳选择。Nicolas 讲述了 Atlassian 的服务到服务的通信之旅、Envoy 及其自研控制平面的发展历程。然后通过分析得出 Istio 是 Atlassian 业务向前发展的最佳选择。
+Atlassian 在过去两年中一直在其内部 PaaS 的计算节点上部署 Envoy，
+以简化内部开发人员使用服务和服务间的通信。[他们在 IstioCon 2021 的发言中指出](https://events.istio.io/istiocon-2021/sessions/going-dynamic-with-envoy-at-atlassian/)，
+他们使用静态配置部署 Envoy，并且希望利用客户端路由、直接通信和故障注入等动态特性。
+Atlassian 认为 Istio 是在接下来的一年里交付该产品的最佳选择。
+Nicolas 讲述了 Atlassian 的服务到服务的通信之旅、Envoy 及其自研控制平面的发展历程。
+然后通过分析得出 Istio 是 Atlassian 业务向前发展的最佳选择。
 
 <iframe width="696" height="392" src="https://www.youtube-nocookie.com/embed/iAyVhjuA1HE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 

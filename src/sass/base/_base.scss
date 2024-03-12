@@ -310,7 +310,7 @@ strong {
     font-weight: $boldTextWeight;
 }
 
-img {
+img:not(.company-logo-img) {
     width: 100%;
 }
 

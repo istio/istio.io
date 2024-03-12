@@ -1,7 +1,7 @@
 ---
 title: 远程访问遥测插件
-description: 此任务向您展示如何配置从外部访问 Istio 遥测插件。
-weight: 99
+description: 此任务向您展示如何配置从外部访问 Istio 遥测插件集。
+weight: 98
 keywords: [telemetry,gateway,jaeger,zipkin,tracing,kiali,prometheus,addons]
 aliases:
  - /zh/docs/tasks/telemetry/gateways/
@@ -9,106 +9,59 @@ owner: istio/wg-policies-and-telemetry-maintainers
 test: yes
 ---
 
-此任务说明如何配置 Istio 以显示和访问集群外部的遥测插件。
+此任务说明如何配置 Istio 以暴露和访问集群外部的遥测插件。
 
-## 配置远程访问{#configuring-remote-access}
+## 配置远程访问 {#configuring-remote-access}
 
 远程访问遥测插件的方式有很多种。
 该任务涵盖了两种基本访问方式：安全的（通过 HTTPS）和不安全的（通过 HTTP）。
-对于任何生产或敏感环境，*强烈建议* 通过安全方式访问。
+对于任何生产或敏感环境，**强烈建议**通过安全方式访问。
 不安全访问易于设置，但是无法保护在集群外传输的任何凭据或数据。
+
+对于这两种方式，首先请执行以下步骤：
+
+1. 在您的集群中[安装 Istio](/zh/docs/setup/install/istioctl)。
+
+    要安装额外的遥测插件，请参考[集成](/zh/docs/ops/integrations/)文档。
+
+1. 设置域名暴露这些插件。在此示例中，您将在子域名 `grafana.example.com` 上暴露每个插件。
+
+    * 如果您有一个域名（例如 example.com）指向 `istio-ingressgateway` 的外部 IP 地址：
+
+        {{< text bash >}}
+        $ export INGRESS_DOMAIN="example.com"
+        {{< /text >}}
+
+    * 如果您没有域名，您可以使用 [`nip.io`](https://nip.io/)，它将自动解析为提供的
+      IP 地址，这种方式不建议用于生产用途。
+
+        {{< text bash >}}
+        $ export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+        $ export INGRESS_DOMAIN=${INGRESS_HOST}.nip.io
+        {{< /text >}}
 
 ### 方式 1：安全访问（HTTPS）{#option-one-secure-access-HTTPS}
 
 安全访问需要一个服务器证书。按照这些步骤来为您的域名安装并配置服务器证书。
 
-您也可以使用自签名证书。访问[配置使用 SDS 通过 HTTPS 访问的安全网关任务](/zh/docs/tasks/traffic-management/ingress/secure-ingress-sds/)以了解使用自签名证书访问集群内服务的详情。
-
 {{< warning >}}
-本方式 *只* 涵盖了传输层的安全。您还应该配置遥测插件，使其暴露在外部时需要身份验证。
+本方式**只**涵盖了传输层的安全。您还应该配置遥测插件，使其暴露在外部时需要身份验证。
 {{< /warning >}}
 
-1. [安装 cert-manager](https://docs.cert-manager.io/en/latest/getting-started/install/kubernetes.html) 以自动管理证书。
+此示例使用自签名证书，这可能不适合生产用途。针对生产环境，请考虑使用
+[cert-manager](/zh/docs/ops/integrations/certmanager/) 或其他工具来配置证书。
+您还可以参阅[使用 HTTPS 保护网关](/zh/docs/tasks/traffic-management/ingress/secure-ingress/)任务，
+了解有关在网关上使用 HTTPS 的基本信息。
 
-1. [安装 Istio](/zh/docs/setup/install/istioctl) 到您的集群并启用 `cert-manager` 标志且配置 `istio-ingressgateway` 使用 [Secret Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret#sds-configuration)。
-
-    要安装相应的 Istio，使用下列安装选项：
-
-    * `--set values.gateways.enabled=true`
-    * `--set values.gateways.istio-ingressgateway.enabled=true`
-    * `--set values.gateways.istio-ingressgateway.sds.enabled=true`
-
-    要额外安装遥测插件，使用下列安装选项：
-
-    * Grafana: `--set values.grafana.enabled=true`
-    * Kiali: `--set values.kiali.enabled=true`
-    * Prometheus: `--set values.prometheus.enabled=true`
-    * Tracing: `--set values.tracing.enabled=true`
-
-1. 为您的域名配置 DNS 记录。
-
-    1. 获取 `istio-ingressgateway` 的外部 IP 地址。
-
-        {{< text bash >}}
-        $ kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
-        <IP ADDRESS OF CLUSTER INGRESS>
-        {{< /text >}}
-
-    1. 设置环境变量保存目标域名：
-
-        {{< text bash >}}
-        $ TELEMETRY_DOMAIN=<your.desired.domain>
-        {{< /text >}}
-
-    1. 通过您的域名提供商将所需的域名指向该外部 IP 地址。
-
-        实现此步骤的机制因提供商而异。以下是一些示例文档链接：
-
-        * Bluehost: [DNS 管理增改删 DNS 条目](https://my.bluehost.com/hosting/help/559)
-        * GoDaddy: [添加 A 记录](https://www.godaddy.com/help/add-an-a-record-19238)
-        * Google Domains: [资源记录](https://support.google.com/domains/answer/3290350?hl=en)
-        * Name.com: [添加 A 记录](https://www.name.com/support/articles/115004893508-Adding-an-A-record)
-
-    1. 验证 DNS 记录无误。
-
-        {{< text bash >}}
-        $ dig +short $TELEMETRY_DOMAIN
-        <IP ADDRESS OF CLUSTER INGRESS>
-        {{< /text >}}
-
-1. 生成服务器证书
+1. 设置证书，此示例使用 `openssl` 进行自签名。
 
     {{< text bash >}}
-    $ cat <<EOF | kubectl apply -f -
-    apiVersion: certmanager.k8s.io/v1alpha1
-    kind: Certificate
-    metadata:
-      name: telemetry-gw-cert
-      namespace: istio-system
-    spec:
-      secretName: telemetry-gw-cert
-      issuerRef:
-        name: letsencrypt
-        kind: ClusterIssuer
-      commonName: $TELEMETRY_DOMAIN
-      dnsNames:
-      - $TELEMETRY_DOMAIN
-      acme:
-        config:
-        - http01:
-            ingressClass: istio
-          domains:
-          - $TELEMETRY_DOMAIN
-    ---
-    EOF
-    certificate.certmanager.k8s.io "telemetry-gw-cert" created
-    {{< /text >}}
-
-1. 等待服务器证书准备就绪。
-
-    {{< text syntax="bash" expandlinks="false" >}}
-    $ JSONPATH='{range .items[*]}{@.metadata.name}:{range @.status.conditions[*]}{@.type}={@.status}{end}{end}' && kubectl -n istio-system get certificates -o jsonpath="$JSONPATH"
-    telemetry-gw-cert:Ready=True
+    $ CERT_DIR=/tmp/certs
+    $ mkdir -p ${CERT_DIR}
+    $ openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj "/O=example Inc./CN=*.${INGRESS_DOMAIN}" -keyout ${CERT_DIR}/ca.key -out ${CERT_DIR}/ca.crt
+    $ openssl req -out ${CERT_DIR}/cert.csr -newkey rsa:2048 -nodes -keyout ${CERT_DIR}/tls.key -subj "/CN=*.${INGRESS_DOMAIN}/O=example organization"
+    $ openssl x509 -req -sha256 -days 365 -CA ${CERT_DIR}/ca.crt -CAkey ${CERT_DIR}/ca.key -set_serial 0 -in ${CERT_DIR}/cert.csr -out ${CERT_DIR}/tls.crt
+    $ kubectl create -n istio-system secret tls telemetry-gw-cert --key=${CERT_DIR}/tls.key --cert=${CERT_DIR}/tls.crt
     {{< /text >}}
 
 1. 应用遥测插件的网络配置。
@@ -127,16 +80,14 @@ test: yes
             istio: ingressgateway
           servers:
           - port:
-              number: 15031
+              number: 443
               name: https-grafana
               protocol: HTTPS
             tls:
               mode: SIMPLE
-              serverCertificate: sds
-              privateKey: sds
               credentialName: telemetry-gw-cert
             hosts:
-            - "$TELEMETRY_DOMAIN"
+            - "grafana.${INGRESS_DOMAIN}"
         ---
         apiVersion: networking.istio.io/v1alpha3
         kind: VirtualService
@@ -145,13 +96,11 @@ test: yes
           namespace: istio-system
         spec:
           hosts:
-          - "$TELEMETRY_DOMAIN"
+          - "grafana.${INGRESS_DOMAIN}"
           gateways:
           - grafana-gateway
           http:
-          - match:
-            - port: 15031
-            route:
+          - route:
             - destination:
                 host: grafana
                 port:
@@ -169,9 +118,9 @@ test: yes
               mode: DISABLE
         ---
         EOF
-        gateway.networking.istio.io "grafana-gateway" configured
-        virtualservice.networking.istio.io "grafana-vs" configured
-        destinationrule.networking.istio.io "grafana" configured
+        gateway.networking.istio.io/grafana-gateway created
+        virtualservice.networking.istio.io/grafana-vs created
+        destinationrule.networking.istio.io/grafana created
         {{< /text >}}
 
     1. 应用以下配置以暴露 Kiali：
@@ -188,16 +137,14 @@ test: yes
             istio: ingressgateway
           servers:
           - port:
-              number: 15029
+              number: 443
               name: https-kiali
               protocol: HTTPS
             tls:
               mode: SIMPLE
-              serverCertificate: sds
-              privateKey: sds
               credentialName: telemetry-gw-cert
             hosts:
-            - "$TELEMETRY_DOMAIN"
+            - "kiali.${INGRESS_DOMAIN}"
         ---
         apiVersion: networking.istio.io/v1alpha3
         kind: VirtualService
@@ -206,13 +153,11 @@ test: yes
           namespace: istio-system
         spec:
           hosts:
-          - "$TELEMETRY_DOMAIN"
+          - "kiali.${INGRESS_DOMAIN}"
           gateways:
           - kiali-gateway
           http:
-          - match:
-            - port: 15029
-            route:
+          - route:
             - destination:
                 host: kiali
                 port:
@@ -230,9 +175,9 @@ test: yes
               mode: DISABLE
         ---
         EOF
-        gateway.networking.istio.io "kiali-gateway" configured
-        virtualservice.networking.istio.io "kiali-vs" configured
-        destinationrule.networking.istio.io "kiali" configured
+        gateway.networking.istio.io/kiali-gateway created
+        virtualservice.networking.istio.io/kiali-vs created
+        destinationrule.networking.istio.io/kiali created
         {{< /text >}}
 
     1. 应用以下配置以暴露 Prometheus：
@@ -249,16 +194,14 @@ test: yes
             istio: ingressgateway
           servers:
           - port:
-              number: 15030
+              number: 443
               name: https-prom
               protocol: HTTPS
             tls:
               mode: SIMPLE
-              serverCertificate: sds
-              privateKey: sds
               credentialName: telemetry-gw-cert
             hosts:
-            - "$TELEMETRY_DOMAIN"
+            - "prometheus.${INGRESS_DOMAIN}"
         ---
         apiVersion: networking.istio.io/v1alpha3
         kind: VirtualService
@@ -267,13 +210,11 @@ test: yes
           namespace: istio-system
         spec:
           hosts:
-          - "$TELEMETRY_DOMAIN"
+          - "prometheus.${INGRESS_DOMAIN}"
           gateways:
           - prometheus-gateway
           http:
-          - match:
-            - port: 15030
-            route:
+          - route:
             - destination:
                 host: prometheus
                 port:
@@ -291,9 +232,9 @@ test: yes
               mode: DISABLE
         ---
         EOF
-        gateway.networking.istio.io "prometheus-gateway" configured
-        virtualservice.networking.istio.io "prometheus-vs" configured
-        destinationrule.networking.istio.io "prometheus" configured
+        gateway.networking.istio.io/prometheus-gateway created
+        virtualservice.networking.istio.io/prometheus-vs created
+        destinationrule.networking.istio.io/prometheus created
         {{< /text >}}
 
     1. 应用以下配置以暴露跟踪服务：
@@ -310,16 +251,14 @@ test: yes
             istio: ingressgateway
           servers:
           - port:
-              number: 15032
+              number: 443
               name: https-tracing
               protocol: HTTPS
             tls:
               mode: SIMPLE
-              serverCertificate: sds
-              privateKey: sds
               credentialName: telemetry-gw-cert
             hosts:
-            - "$TELEMETRY_DOMAIN"
+            - "tracing.${INGRESS_DOMAIN}"
         ---
         apiVersion: networking.istio.io/v1alpha3
         kind: VirtualService
@@ -328,13 +267,11 @@ test: yes
           namespace: istio-system
         spec:
           hosts:
-          - "$TELEMETRY_DOMAIN"
+          - "tracing.${INGRESS_DOMAIN}"
           gateways:
           - tracing-gateway
           http:
-          - match:
-            - port: 15032
-            route:
+          - route:
             - destination:
                 host: tracing
                 port:
@@ -352,28 +289,23 @@ test: yes
               mode: DISABLE
         ---
         EOF
-        gateway.networking.istio.io "tracing-gateway" configured
-        virtualservice.networking.istio.io "tracing-vs" configured
-        destinationrule.networking.istio.io "tracing" configured
+        gateway.networking.istio.io/tracing-gateway created
+        virtualservice.networking.istio.io/tracing-vs created
+        destinationrule.networking.istio.io/tracing created
         {{< /text >}}
 
 1. 通过浏览器访问这些遥测插件。
 
-    * Kiali: `https://$TELEMETRY_DOMAIN:15029/`
-    * Prometheus: `https://$TELEMETRY_DOMAIN:15030/`
-    * Grafana: `https://$TELEMETRY_DOMAIN:15031/`
-    * Tracing: `https://$TELEMETRY_DOMAIN:15032/`
+    {{< warning >}}
+    如果您使用了自签名的证书，您的浏览器可能将其标记为不安全的。
+    {{< /warning >}}
+
+    * Kiali：`https://kiali.${INGRESS_DOMAIN}`
+    * Prometheus：`https://prometheus.${INGRESS_DOMAIN}`
+    * Grafana：`https://grafana.${INGRESS_DOMAIN}`
+    * Tracing：`https://tracing.${INGRESS_DOMAIN}`
 
 ### 方式 2：不安全访问（HTTP）{#option-two-insecure-access-HTTP}
-
-1. [安装 Istio](/zh/docs/setup/install/istioctl) 到您的集群并启用您所需要的遥测插件。
-
-    要额外安装这些遥测插件，使用下列安装选项：
-
-    * Grafana: `--set values.grafana.enabled=true`
-    * Kiali: `--set values.kiali.enabled=true`
-    * Prometheus: `--set values.prometheus.enabled=true`
-    * Tracing: `--set values.tracing.enabled=true`
 
 1. 应用遥测插件的网络配置。
 
@@ -391,11 +323,11 @@ test: yes
             istio: ingressgateway
           servers:
           - port:
-              number: 15031
+              number: 80
               name: http-grafana
               protocol: HTTP
             hosts:
-            - "*"
+            - "grafana.${INGRESS_DOMAIN}"
         ---
         apiVersion: networking.istio.io/v1alpha3
         kind: VirtualService
@@ -404,13 +336,11 @@ test: yes
           namespace: istio-system
         spec:
           hosts:
-          - "*"
+          - "grafana.${INGRESS_DOMAIN}"
           gateways:
           - grafana-gateway
           http:
-          - match:
-            - port: 15031
-            route:
+          - route:
             - destination:
                 host: grafana
                 port:
@@ -428,9 +358,9 @@ test: yes
               mode: DISABLE
         ---
         EOF
-        gateway.networking.istio.io "grafana-gateway" configured
-        virtualservice.networking.istio.io "grafana-vs" configured
-        destinationrule.networking.istio.io "grafana" configured
+        gateway.networking.istio.io/grafana-gateway created
+        virtualservice.networking.istio.io/grafana-vs created
+        destinationrule.networking.istio.io/grafana created
         {{< /text >}}
 
     1. 应用以下配置以暴露 Kiali：
@@ -447,11 +377,11 @@ test: yes
             istio: ingressgateway
           servers:
           - port:
-              number: 15029
+              number: 80
               name: http-kiali
               protocol: HTTP
             hosts:
-            - "*"
+            - "kiali.${INGRESS_DOMAIN}"
         ---
         apiVersion: networking.istio.io/v1alpha3
         kind: VirtualService
@@ -460,13 +390,11 @@ test: yes
           namespace: istio-system
         spec:
           hosts:
-          - "*"
+          - "kiali.${INGRESS_DOMAIN}"
           gateways:
           - kiali-gateway
           http:
-          - match:
-            - port: 15029
-            route:
+          - route:
             - destination:
                 host: kiali
                 port:
@@ -484,9 +412,9 @@ test: yes
               mode: DISABLE
         ---
         EOF
-        gateway.networking.istio.io "kiali-gateway" configured
-        virtualservice.networking.istio.io "kiali-vs" configured
-        destinationrule.networking.istio.io "kiali" configured
+        gateway.networking.istio.io/kiali-gateway created
+        virtualservice.networking.istio.io/kiali-vs created
+        destinationrule.networking.istio.io/kiali created
         {{< /text >}}
 
     1. 应用以下配置以暴露 Prometheus：
@@ -503,11 +431,11 @@ test: yes
             istio: ingressgateway
           servers:
           - port:
-              number: 15030
+              number: 80
               name: http-prom
               protocol: HTTP
             hosts:
-            - "*"
+            - "prometheus.${INGRESS_DOMAIN}"
         ---
         apiVersion: networking.istio.io/v1alpha3
         kind: VirtualService
@@ -516,13 +444,11 @@ test: yes
           namespace: istio-system
         spec:
           hosts:
-          - "*"
+          - "prometheus.${INGRESS_DOMAIN}"
           gateways:
           - prometheus-gateway
           http:
-          - match:
-            - port: 15030
-            route:
+          - route:
             - destination:
                 host: prometheus
                 port:
@@ -540,9 +466,9 @@ test: yes
               mode: DISABLE
         ---
         EOF
-        gateway.networking.istio.io "prometheus-gateway" configured
-        virtualservice.networking.istio.io "prometheus-vs" configured
-        destinationrule.networking.istio.io "prometheus" configured
+        gateway.networking.istio.io/prometheus-gateway created
+        virtualservice.networking.istio.io/prometheus-vs created
+        destinationrule.networking.istio.io/prometheus created
         {{< /text >}}
 
     1. 应用以下配置以暴露跟踪服务：
@@ -559,11 +485,11 @@ test: yes
             istio: ingressgateway
           servers:
           - port:
-              number: 15032
+              number: 80
               name: http-tracing
               protocol: HTTP
             hosts:
-            - "*"
+            - "tracing.${INGRESS_DOMAIN}"
         ---
         apiVersion: networking.istio.io/v1alpha3
         kind: VirtualService
@@ -572,13 +498,11 @@ test: yes
           namespace: istio-system
         spec:
           hosts:
-          - "*"
+          - "tracing.${INGRESS_DOMAIN}"
           gateways:
           - tracing-gateway
           http:
-          - match:
-            - port: 15032
-            route:
+          - route:
             - destination:
                 host: tracing
                 port:
@@ -596,21 +520,21 @@ test: yes
               mode: DISABLE
         ---
         EOF
-        gateway.networking.istio.io "tracing-gateway" configured
-        virtualservice.networking.istio.io "tracing-vs" configured
-        destinationrule.networking.istio.io "tracing" configured
+        gateway.networking.istio.io/tracing-gateway created
+        virtualservice.networking.istio.io/tracing-vs created
+        destinationrule.networking.istio.io/tracing created
         {{< /text >}}
 
 1. 通过浏览器访问这些遥测插件。
 
-    * Kiali: `http://<IP ADDRESS OF CLUSTER INGRESS>:15029/`
-    * Prometheus: `http://<IP ADDRESS OF CLUSTER INGRESS>:15030/`
-    * Grafana: `http://<IP ADDRESS OF CLUSTER INGRESS>:15031/`
-    * Tracing: `http://<IP ADDRESS OF CLUSTER INGRESS>:15032/`
+    * Kiali：`http://kiali.${INGRESS_DOMAIN}`
+    * Prometheus：`http://prometheus.${INGRESS_DOMAIN}`
+    * Grafana：`http://grafana.${INGRESS_DOMAIN}`
+    * Tracing：`http://tracing.${INGRESS_DOMAIN}`
 
-## 清除{#cleanup}
+## 清理 {#cleanup}
 
-* 移除所有相关的网关：
+* 移除所有相关的 Gateway：
 
     {{< text bash >}}
     $ kubectl -n istio-system delete gateway grafana-gateway kiali-gateway prometheus-gateway tracing-gateway
@@ -620,7 +544,7 @@ test: yes
     gateway.networking.istio.io "tracing-gateway" deleted
     {{< /text >}}
 
-* 移除所有相关的 Virtual Services：
+* 移除所有相关的 Virtual Service：
 
     {{< text bash >}}
     $ kubectl -n istio-system delete virtualservice grafana-vs kiali-vs prometheus-vs tracing-vs
@@ -630,9 +554,12 @@ test: yes
     virtualservice.networking.istio.io "tracing-vs" deleted
     {{< /text >}}
 
-* 如果安装了网关证书，移除它：
+* 移除所有相关的 Destination Rule：
 
     {{< text bash >}}
-    $ kubectl -n istio-system delete certificate telemetry-gw-cert
-    certificate.certmanager.k8s.io "telemetry-gw-cert" deleted
+    $ kubectl -n istio-system delete destinationrule grafana kiali prometheus tracing
+    destinationrule.networking.istio.io "grafana" deleted
+    destinationrule.networking.istio.io "kiali" deleted
+    destinationrule.networking.istio.io "prometheus" deleted
+    destinationrule.networking.istio.io "tracing" deleted
     {{< /text >}}

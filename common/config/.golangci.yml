@@ -7,7 +7,7 @@
 
 service:
   # When updating this, also update the version stored in docker/build-tools/Dockerfile in the istio/tools repo.
-  golangci-lint-version: 1.53.x # use the fixed version to not introduce new linters unexpectedly
+  golangci-lint-version: 1.56.x # use the fixed version to not introduce new linters unexpectedly
 run:
   # timeout for analysis, e.g. 30s, 5m, default is 1m
   deadline: 20m
@@ -55,7 +55,7 @@ linters:
   fast: false
 linters-settings:
   errcheck:
-    # report about not checking of errors in type assetions: `a := b.(MyStruct)`;
+    # report about not checking of errors in type assertions: `a := b.(MyStruct)`;
     # default is false: such cases aren't reported by default.
     check-type-assertions: false
     # report about assignment of errors to blank identifier: `num, _ := strconv.Atoi(numStr)`;
@@ -256,6 +256,8 @@ issues:
       linters:
         - errcheck
         - maligned
+    - path: _test\.go$
+      text: "dot-imports: should not use dot imports"
     # We need to use the deprecated module since the jsonpb replacement is not backwards compatible.
     - linters:
         - staticcheck

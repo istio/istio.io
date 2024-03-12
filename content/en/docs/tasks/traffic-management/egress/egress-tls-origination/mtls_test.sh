@@ -36,7 +36,7 @@ snip_before_you_begin_3
 set +e # suppress harmless "No such file or directory:../crypto/bio/bss_file.c:72:fopen('1_root/index.txt.attr','r')" error
 snip_generate_client_and_server_certificates_and_keys_1
 snip_generate_client_and_server_certificates_and_keys_2
-snip_generate_client_and_server_certificates_and_keys_3
+snip_generate_client_and_server_certificates_and_keys_4
 set -e
 
 # Create mesh-external namespace

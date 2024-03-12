@@ -11,93 +11,193 @@ test: yes
 
 本任务用于示范如何使用 Istio 在 Envoy 中设置请求超时。
 
+{{< boilerplate gateway-api-gamma-support >}}
+
 ## 开始之前 {#before-you-begin}
 
 * 按照[安装指南](/zh/docs/setup/)中的说明安装 Istio。
 
 * 部署示例应用程序 [Bookinfo](/zh/docs/examples/bookinfo/)，
-  并应用[默认目标规则](/zh/docs/examples/bookinfo/#apply-default-destination-rules)。
-
-* 运行以下命令初始化应用的版本路由：
-
-    {{< text bash >}}
-    $ kubectl apply -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
-    {{< /text >}}
+  包括[服务版本](/zh/docs/examples/bookinfo/#define-the-service-versions)。
 
 ## 请求超时 {#request-timeouts}
 
-HTTP 请求的超时可以用[路由规则](/zh/docs/reference/config/networking/virtual-service/#HTTPRoute)的
-**timeout** 字段来指定。默认情况下，超时是禁用的，本任务中，会把 `reviews` 服务的超时设置为 1 秒。
+HTTP 请求的超时可以通过路由规则中的 timeout 字段来指定。
+默认情况下，超时是禁用的，本任务中，会把 `reviews` 服务的超时设置为半秒。
 为了观察效果，还需要在对 `ratings` 服务的调用上人为引入 2 秒的延迟。
 
 1. 将请求路由到 `reviews` 服务的 v2 版本，它会发起对 `ratings` 服务的调用：
 
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: reviews
-    spec:
-      hosts:
-        - reviews
-      http:
-      - route:
-        - destination:
-            host: reviews
-            subset: v2
-    EOF
-    {{< /text >}}
+{{< tabset category-name="config-api" >}}
 
-1. 给对 `ratings` 服务的调用添加 2 秒的延迟：
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: ratings
-    spec:
-      hosts:
-      - ratings
-      http:
-      - fault:
-          delay:
-            percent: 100
-            fixedDelay: 2s
-        route:
-        - destination:
-            host: ratings
-            subset: v1
-    EOF
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: reviews
+spec:
+  hosts:
+    - reviews
+  http:
+  - route:
+    - destination:
+        host: reviews
+        subset: v2
+EOF
+{{< /text >}}
 
-1. 在浏览器中打开 Bookinfo 的网址 `http://$GATEWAY_URL/productpage`。
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: HTTPRoute
+metadata:
+  name: reviews
+spec:
+  parentRefs:
+  - group: ""
+    kind: Service
+    name: reviews
+    port: 9080
+  rules:
+  - backendRefs:
+    - name: reviews-v2
+      port: 9080
+EOF
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
+2) 给对 `ratings` 服务的调用添加 2 秒的延迟：
+
+{{< tabset category-name="config-api" >}}
+
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ratings
+spec:
+  hosts:
+  - ratings
+  http:
+  - fault:
+      delay:
+        percentage:
+          value: 100
+        fixedDelay: 2s
+    route:
+    - destination:
+        host: ratings
+        subset: v1
+EOF
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+Gateway API 尚不支持故障注入，因此我们现在需要使用
+Istio `VirtualService` 来添加延迟：
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ratings
+spec:
+  hosts:
+  - ratings
+  http:
+  - fault:
+      delay:
+        percentage:
+          value: 100
+        fixedDelay: 2s
+    route:
+    - destination:
+        host: ratings
+EOF
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
+3) 在浏览器中打开 Bookinfo 的网址 `http://$GATEWAY_URL/productpage`，
+   其中 `$GATEWAY_URL` 是入口的外部 IP 地址，如
+   [Bookinfo](/zh/docs/examples/bookinfo/#determine-the-ingress-ip-and-port)
+   文档中所述。
 
     这时可以看到 Bookinfo 应用运行正常（显示了评级的星型符号），但是每次刷新页面，
     都会有 2 秒的延迟。
 
-1. 现在给对 `reviews` 服务的调用增加一个半秒的请求超时：
+4) 现在给对 `reviews` 服务的调用增加一个半秒的请求超时：
 
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: reviews
-    spec:
-      hosts:
-      - reviews
-      http:
-      - route:
-        - destination:
-            host: reviews
-            subset: v2
-        timeout: 0.5s
-    EOF
-    {{< /text >}}
+{{< tabset category-name="config-api" >}}
 
-1. 刷新 Bookinfo 页面。
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: reviews
+spec:
+  hosts:
+  - reviews
+  http:
+  - route:
+    - destination:
+        host: reviews
+        subset: v2
+    timeout: 0.5s
+EOF
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: HTTPRoute
+metadata:
+  name: reviews
+spec:
+  parentRefs:
+  - group: ""
+    kind: Service
+    name: reviews
+    port: 9080
+  rules:
+  - backendRefs:
+    - name: reviews-v2
+      port: 9080
+    timeouts:
+      request: 500ms
+EOF
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
+5) 刷新 Bookinfo 页面。
 
     这时候应该看到 1 秒钟就会返回，而不是之前的 2 秒钟，但 `reviews` 是不可用的。
 
@@ -130,8 +230,26 @@ HTTP 请求的超时可以用[路由规则](/zh/docs/reference/config/networking
 
 * 删除应用程序的路由规则：
 
-    {{< text bash >}}
-    $ kubectl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
-    {{< /text >}}
+{{< tabset category-name="config-api" >}}
 
-* 如果您不打算探索任何后续任务，请参阅 [Bookinfo 清理](/zh/docs/examples/bookinfo/#cleanup)的说明关闭应用程序。
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
+
+{{< text bash >}}
+$ kubectl delete -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text bash >}}
+$ kubectl delete httproute reviews
+$ kubectl delete virtualservice ratings
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
+* 如果您不打算探索任何后续任务，请参阅
+  [Bookinfo 清理](/zh/docs/examples/bookinfo/#cleanup)的说明关闭应用程序。

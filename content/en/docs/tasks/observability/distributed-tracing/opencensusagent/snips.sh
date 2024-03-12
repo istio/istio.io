@@ -22,7 +22,7 @@
 source "content/en/boilerplates/snips/before-you-begin-egress.sh"
 source "content/en/boilerplates/snips/trace-generation.sh"
 
-! read -r -d '' snip_configure_tracing_1 <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_configure_tracing_1 <<\ENDSNIP
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -173,7 +173,7 @@ killall istioctl
 }
 
 snip_cleanup_2() {
-kubectl delete -f https://raw.githubusercontent.com/istio/istio/master/samples/addons/jaeger.yaml
+kubectl delete -f https://raw.githubusercontent.com/istio/istio/release-1.21/samples/addons/jaeger.yaml
 }
 
 snip_cleanup_3() {

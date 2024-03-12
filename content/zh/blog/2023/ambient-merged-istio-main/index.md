@@ -1,5 +1,5 @@
 ---
-title: “Istio Ambient 服务网格已合并到 Istio 的主分支”
+title: "Istio Ambient 服务网格已合并到 Istio 的主分支"
 description: Ambient 网格的重要里程碑。
 publishdate: 2023-02-28
 attribution: "John Howard (Google), Lin Sun (Solo.io)"

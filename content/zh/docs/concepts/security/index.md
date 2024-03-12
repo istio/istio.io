@@ -52,7 +52,7 @@ Istio 中的安全性涉及多个组件：
     - [授权策略](/zh/docs/concepts/security/#authorization-policies)
     - [安全命名信息](/zh/docs/concepts/security/#secure-naming)
 
-- Sidecar 和边缘代理作为[策略执行点](https://www.jerichosystems.com/technology/glossaryterms/policy_enforcement_point.html)（PEP）
+- Sidecar 和边缘代理作为[策略执行点](https://csrc.nist.gov/glossary/term/policy_enforcement_point)（PEP）
   以保护客户端和服务器之间的通信安全。
 - 一组 Envoy 代理扩展，用于管理遥测和审计
 
@@ -64,7 +64,7 @@ PEP 用 Envoy 实现。下图显示了架构。
     caption="安全架构"
     >}}
 
-在下面的部分中，我们将详细介绍 Istio 安全功能。
+下文将详细介绍 Istio 安全功能。
 
 ## Istio 身份 {#istio-identity}
 
@@ -123,8 +123,8 @@ Istio 提供两种类型的认证：
 - 对等认证：用于服务到服务的认证，以验证建立连接的客户端。
   Istio 提供[双向 TLS](https://en.wikipedia.org/wiki/Mutual_authentication)
   作为传输认证的全栈解决方案，无需更改服务代码就可以启用它。这个解决方案：
-    - 为每个服务提供强大的身份，表示其角色，以实现跨集群和云的互操作性。
-    - 保护服务到服务的通信。
+    - 为每个服务提供代表其角色的强大身份，以实现跨集群和云的互操作性。
+    - 确保服务间通信的安全。
     - 提供密钥管理系统，以自动进行密钥和证书的生成、分发和轮换。
 
 - 请求认证：用于终端用户认证，以验证附加到请求的凭据。
@@ -461,7 +461,7 @@ Istio 按以下顺序检查层中的匹配策略：`CUSTOM`、`DENY`，
 
 下图详细显示了策略优先级：
 
-{{< image width="50%" link="./authz-eval.png" caption="授权策略优先级">}}
+{{< image width="50%" link="./authz-eval.svg" caption="授权策略优先级">}}
 
 当您将多个授权策略应用于同一工作负载时，Istio 会累加地应用它们。
 
@@ -832,8 +832,8 @@ Istio 使用双向 TLS 将某些信息从客户端安全地传递到服务器。
 - `source.principal` 自定义条件
 - `source.namespace` 自定义条件
 
-请注意，强烈建议始终在 PeerAuthentication 中以 STRICT 双向 TLS 模式使用这些字段，
-以避免在 PERMISSIVE 双向 TLS 模式中使用纯文本流量时可能出现的意外请求拒绝或绕过安全策略。
+请注意，强烈建议始终在 `PeerAuthentication` 中以 `STRICT` 双向 TLS 模式使用这些字段，
+以避免在 `PERMISSIVE` 双向 TLS 模式中使用纯文本流量时可能出现的意外请求拒绝或绕过安全策略。
 
 如果您无法启用严格的双向 TLS 模式，
 请查看[安全公告](/zh/news/security/istio-security-2021-004)以获取更多详细信息和替代方案。

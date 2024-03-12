@@ -8,7 +8,7 @@ attribution: Megan O'Keefe (Google), John Howard (Google), Mandar Jog (Google)
 keywords: [performance,scalability,scale,benchmarks]
 ---
 
-服务网格为应用部署增加了很多功能，包括[流量策略](/zh/docs/concepts/what-is-istio/#traffic-management)、[可观察性](/zh/docs/concepts/what-is-istio/#observability)和[安全通信](/zh/docs/concepts/what-is-istio/#security)。但是，无论是时间（增加的延迟）还是资源（CPU 周期），向环境中添加服务网格都是有代价的。要就服务网格是否适合您的情况做出明智的决定，评估应用与服务网格一起部署时的性能非常重要。
+服务网格为应用部署增加了很多功能，包括[流量策略](/zh/docs/concepts/what-is-istio/#traffic-management)、[可观测性](/zh/docs/concepts/what-is-istio/#observability)和[安全通信](/zh/docs/concepts/what-is-istio/#security)。但是，无论是时间（增加的延迟）还是资源（CPU 周期），向环境中添加服务网格都是有代价的。要就服务网格是否适合您的情况做出明智的决定，评估应用与服务网格一起部署时的性能非常重要。
 
 今年早些时候，我们发布了关于 Istio 1.1 性能改进的[博客](/zh/blog/2019/istio1.1_perf/)。在发布 [Istio 1.2](/zh/news/releases/1.2.x/announcing-1.2) 之后，我们希望提供指导和工具，以帮助您在可用于生产的 Kubernetes 环境中对 Istio 的数据平面性能进行基准测试。
 
@@ -32,7 +32,7 @@ keywords: [performance,scalability,scale,benchmarks]
 
 考虑到 **延迟**，关注数据平面性能也很重要。这是因为大多数应用的请求会通过 Istio 数据平面，而不是通过控制平面。但是，有两个例外：
 
-1. **遥测报告：** 每个代理将原始遥测数据发送到 {{<gloss>}}Mixer{{</gloss>}}，Mixer 将其处理为度量，跟踪和其他遥测。原始遥测数据类似于访问日志，因此要付出一定的代价。访问日志处理会消耗 CPU，并使工作线程无法处理下一个工作单元。在更高的吞吐量场景下，下一个工作单元更有可能在队列中等待被工作者接走。这可能导致 Envoy 的长尾延迟（99%）。
+1. **遥测报告：** 每个代理将原始遥测数据发送到 Mixer，Mixer 将其处理为度量，跟踪和其他遥测。原始遥测数据类似于访问日志，因此要付出一定的代价。访问日志处理会消耗 CPU，并使工作线程无法处理下一个工作单元。在更高的吞吐量场景下，下一个工作单元更有可能在队列中等待被工作者接走。这可能导致 Envoy 的长尾延迟（99%）。
 1. **自定义策略检查：** 当使用[自定义 Istio 策略适配器](/zh/docs/concepts/observability/)时，策略检查位于请求路径上。这意味着数据路径上的请求 header 和 metadata 将被发送到控制平面（Mixer），从而导致更高的请求延迟。**注意：** 这些策略检查[默认情况下处于禁用状态](/zh/docs/reference/config/installation-options/#global-options)，因为最常见的策略用例（[RBAC](/zh/docs/reference/config/security/istio.rbac.v1alpha1)）完全由 Envoy 代理执行。
 
 当 [Mixer V2](https://docs.google.com/document/d/1QKmtem5jU_2F3Lh5SqLp0IuPb80_70J7aJEYu4_gS-s) 将所有策略和遥测功能直接移到代理中时，这两个例外都会在将来的 Istio 版本中消失。

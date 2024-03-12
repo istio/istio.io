@@ -32,16 +32,20 @@
         <meta property="og:type" content="website">
         <meta property="og:description" content="{{ template "description" . }}">
         {{ if .Permalink }}
-            <meta property="og:url" content="{{ .Permalink }}">
+            <meta property="og:url" content="{{ .Permalink | absURL }}">
         {{ end }}
-        <meta property="og:image" content="https://raw.githubusercontent.com/istio/istio.io/master/static/img/istio-social.svg">
-        <meta property="og:image:alt" content="Istio Logo">
-        <meta property="og:image:width" content="1200">
-        <meta property="og:image:height" content="600">
+        {{ with .Resources.Get .Params.social_image }}
+            <meta property="og:image" content="{{ .Permalink | absURL }}">
+        {{ else }}
+            <meta property="og:image" content="https://raw.githubusercontent.com/istio/istio.io/master/static/img/istio-social.png">
+            <meta property="og:image:alt" content="The Istio sailboat logo">
+            <meta property="og:image:width" content="4096">
+            <meta property="og:image:height" content="2048">    
+        {{ end }}
         <meta property="og:site_name" content="Istio">
 
         <!-- Twitter card -->
-        <meta name="twitter:card" content="summary">
+        <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:site" content="@IstioMesh">
         {{ if .Page.Params.twitter }}
             <meta name="twitter:creator" content="@{{ .Page.Params.twitter }}">
@@ -175,37 +179,5 @@
                 {{ partial "icon.html" "top" }}
             </button>
         </div>
-
-        {{ if .Site.Data.args.preliminary }}
-            <div id="switch-lang-container" aria-hidden="true">
-                {{ $home := .Site.GetPage "home" }}
-                <a id="switch-lang" data-skipendnotes="true" title='{{ i18n "switch_lang"}}'>
-                    {{ partial "icon.html" "switch-lang" }}
-                </a>
-            </div>
-
-            {{ if .Page.Params.source_repo }}
-                <div id="edit-this-page-container" aria-hidden="true">
-                    {{ $msg := i18n "generated_file" }}
-                    {{ $title := printf $msg .Page.Params.source_repo }}
-
-                    <a tabindex="-1" id="edit-this-page" class="disabled" title='{{ $title }}'>
-                        {{ partial "icon.html" "pencil" }}
-                    </a>
-                </div>
-            {{ else }}
-                <div id="edit-this-page-container" aria-hidden="true">
-                    <a tabindex="-1" id="edit-this-page" data-skipendnotes="true" href="https://github.com/istio/istio.io/edit/{{ .Site.Data.args.doc_branch_name }}/content/{{ .Lang }}/{{ .File }}" title='{{ i18n "edit_on_github"}}'>
-                        {{ partial "icon.html" "pencil" }}
-                    </a>
-                </div>
-            {{ end }}
-
-            <div id="report-site-bugs-container" aria-hidden="true">
-                <a tabindex="-1" id="report-site-bugs" data-skipendnotes="true" href="https://github.com/istio/istio.io/issues/new?title=Issue%20with%20{{ .File}}" aria-hidden="true" title='{{ i18n "report_site_bugs"}}'>
-                    {{ partial "icon.html" "bugs" }}
-                </a>
-            </div>
-        {{ end }}
     </body>
 </html>

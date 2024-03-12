@@ -29,8 +29,8 @@ In contrast, operating at the network layer has the advantage of being universal
 
 ## Implementation
 
-The Istio’s proxy is based on [Envoy](https://envoyproxy.github.io/envoy/), which is implemented as a user space daemon in the data plane that
-interacts with  the network layer using standard sockets. This gives it a large amount of flexibility in processing, and allows it to be
+Istio’s proxy is based on {{<gloss envoy>}}Envoy{{</gloss>}}, which is implemented as a user space daemon in the data plane that
+interacts with the network layer using standard sockets. This gives it a large amount of flexibility in processing, and allows it to be
 distributed (and upgraded!) in a container.
 
 Network Policy data plane is typically implemented in kernel space (e.g. using iptables, eBPF filters, or even custom kernel modules). Being in kernel space

@@ -16,7 +16,36 @@
 
 import argparse
 import sys
+import os
+import re
 from github import Github
+
+
+def get_script_dependencies(script_path, folder_prefix):
+    dependencies = set()
+    with open(script_path, 'r') as script_file:
+        script_content = script_file.read()
+
+        # Using regular expression to find 'source' followed by a script path
+        pattern = r'^source\s+["\']?(.+?)["\']?$'
+        matches = (match for match in re.findall(pattern, script_content, re.MULTILINE) if match.startswith(folder_prefix))
+        dependencies.update(matches)
+
+    return dependencies
+
+
+def get_script_dependencies_graph(path_prefix, file_suffix="test.sh"):
+    matching_files = [os.path.join(root, file_name) for root, _, files in os.walk(path_prefix) for file_name in files if file_name.endswith(file_suffix)]
+    package_dependencies = {}
+
+    for file in matching_files:
+        dependencies = get_script_dependencies(file, path_prefix)
+        for dep in dependencies:
+            dep = os.path.dirname(dep)
+            package_dependencies.setdefault(dep, set()).add(os.path.dirname(file))
+
+    return package_dependencies
+
 
 istio_doc_repo = "istio/istio.io"
 doc_file_prefix = "content/en/docs/"
@@ -35,7 +64,7 @@ args = parser.parse_args()
 pull_number = int(args.pull_number)
 repo_name = args.repo if args.repo else istio_doc_repo
 access_token = args.token if args.token else None  # Warning: Github rate limit is very low (60 req/hr) without access token
-
+script_dependencies = get_script_dependencies_graph(doc_file_prefix)
 try:
     g = Github(access_token)
     repo = g.get_repo(repo_name)
@@ -52,6 +81,16 @@ try:
                 if filename.endswith("test.sh") or filename.endswith("/snips.sh"):
                     relative_file = filename[len(doc_file_prefix):]
                     test_paths.add(relative_file.rsplit('/', 1)[0])
+                    # Tentatively add tests that externally imported other module files
+                    checked = set()
+                    to_check = {os.path.dirname(filename)}
+                    while to_check:
+                        el = to_check.pop()
+                        checked.add(el)
+                        if el in script_dependencies:
+                            to_add = script_dependencies[el] - checked
+                            to_check.update(to_add)
+                            test_paths.update(map(lambda file_path: file_path[len(doc_file_prefix):], to_add))
             elif filename == istio_go_dependency or \
                     filename.startswith(test_framework_pkg) or \
                     filename.startswith(test_framework_util) or \

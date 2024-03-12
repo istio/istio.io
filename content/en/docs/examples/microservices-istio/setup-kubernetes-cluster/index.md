@@ -63,7 +63,7 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
     - [Grafana](https://grafana.com/docs/guides/getting_started/)
     - [Jaeger](https://www.jaegertracing.io/docs/1.13/getting-started/)
     - [Prometheus](https://prometheus.io/docs/prometheus/latest/getting_started/)
-    - [Kiali](https://www.kiali.io/documentation/getting-started/)
+    - [Kiali](https://kiali.io/docs/installation/quick-start/)
 
     The `kubectl` command can accept an in-line configuration to create the
     Ingress resources for each service:

@@ -37,7 +37,7 @@ spec:
               name: "envoy.filters.http.router"
     patch:
       operation: INSERT_BEFORE
-      value: # Lua filter specification
+      value: # Lua 过滤器规范
        name: envoy.lua
        typed_config:
           "@type": "type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua"
@@ -56,7 +56,7 @@ spec:
             end
 {{< /text >}}
 
-## 解决办法 {#how-to-resolve}
+## 如何修复 {#how-to-resolve}
 
 由于原来使用了 `INSERT_BEFORE` 的相对操作，所以现在将其更改为 `INSERT_FIRST` 的绝对操作将解决这个问题：
 

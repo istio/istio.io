@@ -72,7 +72,8 @@ metadata:
   name: reviews
 spec:
   parentRefs:
-  - kind: Service
+  - group: ""
+    kind: Service
     name: reviews
     port: 9080
   rules:
@@ -270,7 +271,8 @@ metadata:
   name: reviews
 spec:
   parentRefs:
-  - kind: Service
+  - group: ""
+    kind: Service
     name: reviews
     port: 9080
   rules:

@@ -11,7 +11,7 @@ owner: istio/wg-networking-maintainers
 test: no
 ---
 
-## 请求被 Envoy 拒绝{#requests-are-rejected-by-envoy}
+## 请求被 Envoy 拒绝 {#requests-are-rejected-by-envoy}
 
 请求被拒绝有许多原因。弄明白为什么请求被拒绝的最好方式是检查 Envoy 的访问日志。
 默认情况下，访问日志被输出到容器的标准输出中。运行下列命令可以查看日志：
@@ -32,7 +32,7 @@ $ kubectl logs PODNAME -c istio-proxy -n NAMESPACE
 - `UF`：未能连接到上游，如果您正在使用 Istio 认证，
   请检查[双向 TLS 配置冲突](#service-unavailable-errors-after-setting-destination-rule)。
 
-## 路由规则似乎没有对流量生效{#route-rules-dont-seem-to-affect-traffic-flow}
+## 路由规则似乎没有对流量生效 {#route-rules-dont-seem-to-affect-traffic-flow}
 
 在当前版本的 Envoy Sidecar 实现中，加权版本分发被观测到至少需要 100 个请求。
 
@@ -46,7 +46,7 @@ $ kubectl logs PODNAME -c istio-proxy -n NAMESPACE
 一个配置变更需要花一些时间来传播到所有的 Sidecar。
 在大型的集群部署中传播将会耗时更长并且可能有几秒钟的延迟时间。
 
-## 设置 destination rule 之后出现 503 异常{#service-unavailable-errors-after-setting-destination-rule}
+## 设置 destination rule 之后出现 503 异常 {#service-unavailable-errors-after-setting-destination-rule}
 
 {{< tip >}}
 只有在安装期间禁用了 [自动双向 TLS](/zh/docs/tasks/security/authentication/authn-policy/#auto-mutual-TLS)
@@ -182,7 +182,7 @@ spec:
         subset: v1
 {{< /text >}}
 
-## Envoy 在负载下崩溃{#envoy-is-crashing-under-load}
+## Envoy 在负载压力下崩溃 {#envoy-is-crashing-under-load}
 
 检查您的 `ulimit -a`。许多系统有一个默认只能有打开 1024 个文件描述符的限制，
 它将导致 Envoy 断言失败并崩溃：
@@ -193,7 +193,7 @@ spec:
 
 请确保增大您的 ulimit。例如: `ulimit -n 16384`
 
-## Envoy 不能连接到 HTTP/1.0 服务{#envoy-wont-connect-to-my-http10-service}
+## Envoy 不能连接到 HTTP/1.0 服务 {#envoy-wont-connect-to-my-http10-service}
 
 Envoy 要求上游服务使用 `HTTP/1.1` 或者 `HTTP/2` 协议流量。举个例子，当在
 Envoy 之后使用 [NGINX](https://www.nginx.com/) 来代理您的流量，您需要在您的 NGINX
@@ -221,7 +221,7 @@ server {
 }
 {{< /text >}}
 
-## 访问 Headless Service 时 503 错误{#503-error-while-accessing-headless-services}
+## 访问 Headless Service 时 503 错误 {#503-error-while-accessing-headless-services}
 
 假设用以下配置安装 Istio：
 
@@ -332,12 +332,12 @@ $ kubectl exec -it $SOURCE_POD -c sleep -- curl 10.1.1.171 -s -o /dev/null -w "%
 有关针对不同协议的 Headless Service 和流量路由行为的更多信息，
 请参阅这个[流量路由](/zh/docs/ops/configuration/traffic-management/traffic-routing/)页面。
 
-## TLS 配置错误{#TLS-configuration-mistakes}
+## TLS 配置错误 {#TLS-configuration-mistakes}
 
 许多流量管理问题是由于错误的 [TLS 配置](/zh/docs/ops/configuration/traffic-management/tls-configuration/)导致的。
 以下各节描述了一些最常见的错误配置。
 
-### 将 HTTPS 流量发送到 HTTP 端口{#sending-HTTPS-to-an-HTTP-port}
+### 将 HTTPS 流量发送到 HTTP 端口 {#sending-HTTPS-to-an-HTTP-port}
 
 如果您的应用程序向声明为 HTTP 的服务发送 HTTPS 请求，Envoy Sidecar
 将在转发请求时尝试将请求解析为 HTTP，这会使 HTTP 被意外加密，从而导致失败。
@@ -374,7 +374,7 @@ spec:
     protocol: HTTPS
 {{< /text >}}
 
-### 网关到 `VirtualService` 的 TLS 不匹配{#gateway-mismatch}
+### 网关到 `VirtualService` 的 TLS 不匹配 {#gateway-mismatch}
 
 将 `VirtualService` 绑定到网关时，可能会发生两种常见的 TLS 不匹配。
 
@@ -433,7 +433,10 @@ spec:
 spec:
   ...
   http:
-  - match: ...
+  - match:
+    - headers:
+        ":authority":
+          regex: "*.example.com"
 {{< /text >}}
 
 #### 网关启用 TLS 透传 {#gateway-with-TLS-passthrough}
@@ -497,7 +500,7 @@ spec:
       mode: SIMPLE
 {{< /text >}}
 
-### 双 TLS（TLS 源发起 TLS 连接）{#double-tls}
+### 双 TLS（TLS 源发起 TLS 连接） {#double-tls}
 
 将 Istio 配置为执行 {{< gloss >}}TLS origination{{< /gloss >}} 时，
 您需要确保应用程序将纯文本请求发送到 Sidecar，Sidecar 将随后发起 TLS。
@@ -564,7 +567,7 @@ spec:
     targetPort: 443
 {{< /text >}}
 
-### 当为多个 Gateway 配置了相同的 TLS 证书导致 404 异常{#not-found-errors-occur-when-multiple-gateways-configured-with-same-TLS-certificate}
+### 当为多个 Gateway 配置了相同的 TLS 证书导致 404 异常 {#not-found-errors-occur-when-multiple-gateways-configured-with-same-TLS-certificate}
 
 多个网关配置同一 TLS 证书会导致浏览器在与第一台主机建立连接之后访问第二台主机时利用
 [HTTP/2 连接复用](https://httpwg.org/specs/rfc7540.html#reuse)（例如，大部分浏览器）从而导致
@@ -595,7 +598,7 @@ spec:
 - `VirtualService` 将 `vs1` 配置为主机 `service1.test.com` 并且 gateway 配置为 `gw`
 - `VirtualService` 将 `vs2` 配置为主机 `service2.test.com` 并且 gateway 配置为 `gw`
 
-### 不发送 SNI 时配置 SNI 路由{#configuring-SNI-routing-when-not-sending-SNI}
+### 不发送 SNI 时配置 SNI 路由 {#configuring-SNI-routing-when-not-sending-SNI}
 
 指定 `hosts` 字段的 HTTPS `Gateway` 将对传入请求执行
 [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) 匹配。
@@ -659,7 +662,7 @@ spec:
 或者在 `EnvoyFilter` 中设置显式优先级以覆盖默认的基于创建时间的排序。例如，将 `priority: 10`
 添加到上述过滤器将确保它在默认优先级为 0 的 `istio.stats` 过滤器之后被处理。
 
-## 配有故障注入和重试/超时策略的虚拟服务未按预期工作 {#virtual-service-with-fault-injection-and-retry-timeout-policies-not-working-as-expected}
+## 配有故障注入和重试/超时策略的虚拟服务未按预期工作 {#virtual-service-with-fault-injection-and-retrytimeout-policies-not-working-as-expected}
 
 目前，Istio 不支持在同一个 `VirtualService` 上配置故障注入和重试或超时策略。考虑以下配置：
 

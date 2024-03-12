@@ -8,7 +8,7 @@ layout: protoc-gen-docs
 generator: protoc-gen-docs
 schema: istio.extensions.v1alpha1.WasmPlugin
 aliases: [/zh/docs/reference/config/extensions/v1alpha1/wasm-plugin]
-number_of_entries: 8
+number_of_entries: 9
 ---
 <p>WasmPlugins provides a mechanism to extend the functionality provided by
 the Istio proxy through WebAssembly filters.</p>
@@ -194,6 +194,25 @@ configuration will be applied to all workload instances in the same
 namespace. If the <code>WasmPlugin</code> is present in the config root
 namespace, it will be applied to all applicable workloads in any
 namespace.</p>
+<p>At most, only one of the selector or <code>targetRef</code> can be set for a given policy.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="WasmPlugin-targetRef">
+<td><code>targetRef</code></td>
+<td><code><a href="/zh/docs/reference/config/type/workload-selector/#PolicyTargetReference">PolicyTargetReference</a></code></td>
+<td>
+<p>Optional. The <code>targetRef</code> specifies the gateway the policy should be
+applied to. The targeted resource specified will determine which
+workloads the WasmPlugin applies to. The targeted resource must be
+a <code>Gateway</code> in the group <code>gateway.networking.k8s.io</code>. The gateway
+must be in the same namespace as the policy.</p>
+<p>If the <code>targetRef</code> is not set, the policy is applied as defined by the selector.
+At most, only one of the selector or <code>targetRef</code> can be set for a given policy.
+Waypoint proxies will not respect selectors even if they match.</p>
 
 </td>
 <td>
@@ -207,12 +226,12 @@ No
 <p>URL of a Wasm module or OCI container. If no scheme is present,
 defaults to <code>oci://</code>, referencing an OCI image. Other valid schemes
 are <code>file://</code> for referencing .wasm module files present locally
-within the proxy container, and <code>http[s]://</code> for .wasm module files
+within the proxy container, and <code>http[s]://</code> for <code>.wasm</code> module files
 hosted remotely.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 <tr id="WasmPlugin-sha256">
@@ -235,11 +254,11 @@ No
 <td><code><a href="#PullPolicy">PullPolicy</a></code></td>
 <td>
 <p>The pull behaviour to be applied when fetching Wasm module by either
-OCI image or http/https. Only relevant when referencing Wasm module without
-any digest, including the digest in OCI image URL or sha256 field in <code>vm_config</code>.
-Defaults to IfNotPresent, except when an OCI image is referenced in the <code>url</code>
+OCI image or <code>http/https</code>. Only relevant when referencing Wasm module without
+any digest, including the digest in OCI image URL or <code>sha256</code> field in <code>vm_config</code>.
+Defaults to <code>IfNotPresent</code>, except when an OCI image is referenced in the <code>url</code>
 and the <code>latest</code> tag is used, in which case <code>Always</code> is the default,
-mirroring K8s behaviour.</p>
+mirroring Kubernetes behaviour.</p>
 
 </td>
 <td>
@@ -251,8 +270,8 @@ No
 <td><code>string</code></td>
 <td>
 <p>Credentials to use for OCI image pulling.
-Name of a K8s Secret in the same namespace as the <code>WasmPlugin</code> that
-contains a docker pull secret which is to be used to authenticate
+Name of a Kubernetes Secret in the same namespace as the <code>WasmPlugin</code> that
+contains a Docker pull secret which is to be used to authenticate
 against the registry when pulling the image.</p>
 
 </td>
@@ -327,7 +346,7 @@ No
 <td><code><a href="#VmConfig">VmConfig</a></code></td>
 <td>
 <p>Configuration for a Wasm VM.
-more details can be found <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/wasm/v3/wasm.proto#extensions-wasm-v3-vmconfig">here</a>.</p>
+More details can be found <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/wasm/v3/wasm.proto#extensions-wasm-v3-vmconfig">here</a>.</p>
 
 </td>
 <td>
@@ -341,6 +360,17 @@ No
 <p>Specifies the criteria to determine which traffic is passed to WasmPlugin.
 If a traffic satisfies any of TrafficSelectors,
 the traffic passes the WasmPlugin.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="WasmPlugin-type">
+<td><code>type</code></td>
+<td><code><a href="#PluginType">PluginType</a></code></td>
+<td>
+<p>Specifies the type of Wasm Extension to be used.</p>
 
 </td>
 <td>
@@ -382,6 +412,7 @@ No
 </section>
 <h2 id="EnvVar">EnvVar</h2>
 <section>
+
 <table class="message-fields">
 <thead>
 <tr>
@@ -396,20 +427,19 @@ No
 <td><code>name</code></td>
 <td><code>string</code></td>
 <td>
-<p>Required
-Name of the environment variable. Must be a C_IDENTIFIER.</p>
+<p>Name of the environment variable.
+Must be a C_IDENTIFIER.</p>
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 <tr id="EnvVar-value_from">
 <td><code>valueFrom</code></td>
 <td><code><a href="#EnvValueSource">EnvValueSource</a></code></td>
 <td>
-<p>Required
-Source for the environment variable&rsquo;s value.</p>
+<p>Source for the environment variable&rsquo;s value.</p>
 
 </td>
 <td>
@@ -421,7 +451,7 @@ No
 <td><code>string</code></td>
 <td>
 <p>Value for the environment variable.
-Note that if <code>value_from</code> is <code>HOST</code>, it will be ignored.
+Only applicable if <code>valueFrom</code> is <code>HOST</code>.
 Defaults to &ldquo;&rdquo;.</p>
 
 </td>
@@ -454,10 +484,10 @@ traffic will be selected.</p>
 <td><code><a href="/zh/docs/reference/config/type/workload-selector/#WorkloadMode">WorkloadMode</a></code></td>
 <td>
 <p>Criteria for selecting traffic by their direction.
-Note that CLIENT and SERVER are analogous to OUTBOUND and INBOUND,
+Note that <code>CLIENT</code> and <code>SERVER</code> are analogous to OUTBOUND and INBOUND,
 respectively.
-For the gateway, the field should be CLIENT or CLIENT_AND_SERVER.
-If not specified, the default value is CLIENT_AND_SERVER.</p>
+For the gateway, the field should be <code>CLIENT</code> or <code>CLIENT_AND_SERVER</code>.
+If not specified, the default value is <code>CLIENT_AND_SERVER</code>.</p>
 
 </td>
 <td>
@@ -471,13 +501,63 @@ No
 <p>Criteria for selecting traffic by their destination port.
 More specifically, for the outbound traffic, the destination port would be
 the port of the target service. On the other hand, for the inbound traffic,
-the destiation port is the port bound by the server process in the same Pod.</p>
+the destination port is the port bound by the server process in the same Pod.</p>
 <p>If one of the given <code>ports</code> is matched, this condition is evaluated to true.
 If not specified, this condition is evaluated to true for any port.</p>
 
 </td>
 <td>
 No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="PluginType">PluginType</h2>
+<section>
+<p>PluginType indicates the type of Wasm extension to be used.
+There are two types of extensions: <code>HTTP</code> and <code>NETWORK</code>.</p>
+<p>The <code>HTTP</code> extension works at Layer 7 (for example, as an HTTP filter in Envoy).
+The detailed HTTP interface can be found here:</p>
+<ul>
+<li><a href="https://github.com/proxy-wasm/proxy-wasm-cpp-host/blob/b7e690703c7f26707438a2f1ebd7c197bc8f0296/include/proxy-wasm/context_interface.h#L199">C++</a></li>
+<li><a href="https://github.com/proxy-wasm/proxy-wasm-rust-sdk/blob/6b47aec926bc29971c727471d6f4c972ec407c7f/src/traits.rs#L309">Rust</a></li>
+</ul>
+<p>The <code>NETWORK</code> extension works at Layer 4 (for example, as a network filter in Envoy).
+The detailed <code>NETWORK</code> interface can be found here:</p>
+<ul>
+<li><a href="https://github.com/proxy-wasm/proxy-wasm-cpp-host/blob/b7e690703c7f26707438a2f1ebd7c197bc8f0296/include/proxy-wasm/context_interface.h#L257">C++</a></li>
+<li><a href="https://github.com/proxy-wasm/proxy-wasm-rust-sdk/blob/6b47aec926bc29971c727471d6f4c972ec407c7f/src/traits.rs#L257">Rust</a></li>
+</ul>
+<p>The <code>NETWORK</code> extension can be applied to HTTP traffic as well.</p>
+
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="PluginType-UNSPECIFIED_PLUGIN_TYPE">
+<td><code>UNSPECIFIED_PLUGIN_TYPE</code></td>
+<td>
+<p>Defaults to HTTP.</p>
+
+</td>
+</tr>
+<tr id="PluginType-HTTP">
+<td><code>HTTP</code></td>
+<td>
+<p>Use HTTP Wasm Extension.</p>
+
+</td>
+</tr>
+<tr id="PluginType-NETWORK">
+<td><code>NETWORK</code></td>
+<td>
+<p>Use Network Wasm Extension.</p>
+
 </td>
 </tr>
 </tbody>
@@ -544,8 +624,8 @@ mirroring K8s behaviour.</p>
 <tr id="PullPolicy-UNSPECIFIED_POLICY">
 <td><code>UNSPECIFIED_POLICY</code></td>
 <td>
-<p>Defaults to IfNotPresent, except for OCI images with tag <code>latest</code>, for which
-the default will be Always.</p>
+<p>Defaults to <code>IfNotPresent</code>, except for OCI images with tag <code>latest</code>, for which
+the default will be <code>Always</code>.</p>
 
 </td>
 </tr>

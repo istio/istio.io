@@ -34,31 +34,33 @@ $ istioctl install -f samples/operator/pilot-k8s.yaml
 {{< /text >}}
 
 {{< tip >}}
-为了向后兼容，以前的 [Helm 安装选项](https://archive.istio.io/v1.4/docs/reference/config/installation-options/)，除了 Kubernetes 资源设置之外，均被完整的支持。
-为了在命令行设置他们，在选项名前面加上 "`values.`"。
+为了向后兼容，以前的 [Helm 安装选项](https://archive.istio.io/v1.4/docs/reference/config/installation-options/)，
+除了 Kubernetes 资源设置之外，均被完整的支持。为了在命令行设置他们，在选项名前面加上 "`values.`"。
 例如，下面的命令覆盖了 Helm 配置选项 `pilot.traceSampling`：
 
 {{< text bash >}}
 $ istioctl install --set values.pilot.traceSampling=0.1
 {{< /text >}}
 
-Helm 值也可以在 `IstioOperator` CR（YAML 文件）中设置，就像[使用 Helm API 定制 Istio 设置](#customize-settings-using-the-helm) 中描述的那样。
+Helm 值也可以在 `IstioOperator` CR（YAML 文件）中设置，就像[使用 Helm API 定制 Istio 设置](#customize-istio-settings-using-the-helm-api)
+中描述的那样。
 
-如果您需要配置 Kubernetes 资源方面的设置，请用[定制 Kubernetes 设置](#customize-k-settings)中介绍的 `IstioOperator` API。
+如果您需要配置 Kubernetes 资源方面的设置，请用[定制 Kubernetes 设置](#customize-kubernetes-settings)中介绍的
+`IstioOperator` API。
 {{< /tip >}}
 
-### 识别 Istio 组件 {#identify-an-component}
+### 识别 Istio 组件 {#identify-an-istio-component}
 
 `IstioOperator` API 定义的组件如下面表格所示：
 
-| 组件 |
-| ------------|
-`base` |
-`pilot` |
+| 组件             |
+| ----------------|
+`base`            |
+`pilot`           |
 `ingressGateways` |
-`egressGateways` |
-`cni` |
-`istiodRemote` |
+`egressGateways`  |
+`cni`             |
+`istiodRemote`    |
 
 针对每一个组件的配置内容通过 `components.<component name>` 下的 API 中提供。
 例如，要用 API 改变（改为 false）`pilot` 组件的 `enabled` 设置，
@@ -77,31 +79,33 @@ spec:
 所有的组件共享一个通用 API，用来修改 Kubernetes 特定的设置，它在 `components.<component name>.k8s` 路径下，
 后续章节将会进一步描述它。
 
-### 定制 Kubernetes 设置 {#customize-k-settings}
+### 定制 Kubernetes 设置 {#customize-kubernetes-settings}
 
 `IstioOperator` API 支持以一致性的方式定制每一个组件的 Kubernetes 设置。
 
-每个组件都有一个 [`KubernetesResourceSpec`](/zh/docs/reference/config/istio.operator.v1alpha1/#KubernetesResourcesSpec)，它允许修改如下设置。
-使用此列表标识要定制的设置：
+每个组件都有一个 [`KubernetesResourceSpec`](/zh/docs/reference/config/istio.operator.v1alpha1/#KubernetesResourcesSpec)，
+它允许修改如下设置。使用此列表标识要定制的设置：
 
-1. [Resources](https://kubernetes.io/zh-cn/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container)
-1. [Readiness probes](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)
-1. [Replica count](https://kubernetes.io/zh-cn/docs/concepts/workloads/controllers/deployment/)
+1. [资源](https://kubernetes.io/zh-cn/docs/concepts/configuration/manage-resources-containers/#resource-requests-and-limits-of-pod-and-container)
+1. [就绪探测](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/)
+1. [副本数](https://kubernetes.io/zh-cn/docs/concepts/workloads/controllers/deployment/)
 1. [`HorizontalPodAutoscaler`](https://kubernetes.io/zh-cn/docs/tasks/run-application/horizontal-pod-autoscale/)
 1. [`PodDisruptionBudget`](https://kubernetes.io/zh-cn/docs/concepts/workloads/pods/disruptions/#how-disruption-budgets-work)
-1. [Pod annotations](https://kubernetes.io/zh-cn/docs/concepts/overview/working-with-objects/annotations/)
-1. [Service annotations](https://kubernetes.io/zh-cn/docs/concepts/overview/working-with-objects/annotations/)
+1. [Pod 注解](https://kubernetes.io/zh-cn/docs/concepts/overview/working-with-objects/annotations/)
+1. [服务（Service）注解](https://kubernetes.io/zh-cn/docs/concepts/overview/working-with-objects/annotations/)
 1. [`ImagePullPolicy`](https://kubernetes.io/zh-cn/docs/concepts/containers/images/)
-1. [Priority class name](https://kubernetes.io/zh-cn/docs/concepts/configuration/pod-priority-preemption/#priorityclass)
-1. [Node selector](https://kubernetes.io/zh-cn/docs/concepts/configuration/assign-pod-node/#nodeselector)
-1. [Affinity and anti-affinity](https://kubernetes.io/zh-cn/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity)
-1. [Service](https://kubernetes.io/zh-cn/docs/concepts/services-networking/service/)
-1. [Toleration](https://kubernetes.io/zh-cn/docs/concepts/configuration/taint-and-toleration/)
-1. [Strategy](https://kubernetes.io/zh-cn/docs/concepts/workloads/controllers/deployment/)
-1. [Env](https://kubernetes.io/zh-cn/docs/tasks/inject-data-application/define-environment-variable-container/)
-1. [Pod security context](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod)
+1. [优先级类名称](https://kubernetes.io/zh-cn/docs/concepts/scheduling-eviction/pod-priority-preemption/#priorityclass)
+1. [节点选择器](https://kubernetes.io/zh-cn/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector)
+1. [亲和性与反亲和性](https://kubernetes.io/zh-cn/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity)
+1. [服务（Service）](https://kubernetes.io/zh-cn/docs/concepts/services-networking/service/)
+1. [容忍度](https://kubernetes.io/zh/docs/concepts/scheduling-eviction/taint-and-toleration)
+1. [策略](https://kubernetes.io/zh-cn/docs/concepts/workloads/controllers/deployment/)
+1. [环境变量](https://kubernetes.io/zh-cn/docs/tasks/inject-data-application/define-environment-variable-container/)
+1. [Pod 安全性上下文](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod)
+1. [卷及其挂载](https://kubernetes.io/zh-cn/docs/concepts/storage/volumes/)
 
-所有这些 Kubernetes 设置均使用 Kubernetes API 定义，因此可以参考 [Kubernetes 文档](https://kubernetes.io/zh-cn/docs/concepts/)
+所有这些 Kubernetes 设置均使用 Kubernetes API 定义，因此可以参考
+[Kubernetes 文档](https://kubernetes.io/zh-cn/docs/concepts/)
 
 下面覆盖文件的例子调整 Pilot 的资源限制和 Pod 水平伸缩的设置：
 
@@ -127,9 +131,11 @@ spec:
 $ istioctl install -f samples/operator/pilot-k8s.yaml
 {{< /text >}}
 
-### 使用 Helm API 定制 Istio 设置 {#customize-settings-using-the-helm}
+### 使用 Helm API 定制 Istio 设置 {#customize-istio-settings-using-the-helm-api}
 
-`IstioOperator` API 使用 `values` 字段为 [Helm API](https://archive.istio.io/v1.4/docs/reference/config/installation-options/) 保留了一个透传接口。
+`IstioOperator` API 使用 `values` 字段为
+[Helm API](https://archive.istio.io/v1.4/docs/reference/config/installation-options/)
+保留了一个透传接口。
 
 下面的 YAML 文件通过 Helm API 来配置 global 和 Pilot 的设置：
 
@@ -145,13 +151,14 @@ spec:
 {{< /text >}}
 
 诸如 Kubernetes 资源、命名空间和开关设置等参数暂时并存在 Helm 和 `IstioOperator` API 中。
-Istio 社区推荐使用 `IstioOperator` API ，因为它更一致、更有效、且遵循[社区毕业流程](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE-CHECKLIST.md#feature-lifecycle-checklist).
+Istio 社区推荐使用 `IstioOperator` API，因为它更一致、更有效、
+且遵循[社区毕业流程](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE-CHECKLIST.md#feature-lifecycle-checklist)。
 
 ### 配置网关 {#configure-gateways}
 
 网关因为支持定义多个入站、出站网关，所以它是一种特殊类型的组件。
-在 [`IstioOperator` API](/zh/docs/reference/config/istio.operator.v1alpha1/) 中，网关被定义为列表类型。
-`default` 配置档会安装一个名为 `istio-ingressgateway` 的入站网关。
+在 [`IstioOperator` API](/zh/docs/reference/config/istio.operator.v1alpha1/) 中，
+网关被定义为列表类型。`default` 配置档会安装一个名为 `istio-ingressgateway` 的入站网关。
 您可以检查这个网关的默认值：
 
 {{< text bash >}}
@@ -217,15 +224,15 @@ spec:
 
 ## 高级安装定制 {#advanced-install-customization}
 
-### 定制外部 chart 和配置项 {#customizing-external-charts-and-profiles}
+### 定制外部 Chart 和配置项 {#customizing-external-charts-and-profiles}
 
-`istioctl` 的 `install`、 `manifest generate` 和 `profile` 命令可以使用以下任意源来生成 chart 和 配置档：
+`istioctl` 的 `install`、 `manifest generate` 和 `profile` 命令可以使用以下任意源来生成 Chart 和配置项：
 
-- 内置的 chart。如果没有设置 `--manifests`，则用 default。
-  内置的 chart 和 Istio `.tgz` 发行包内 `manifests/` 目录下的内容相同。
-- 本地文件系统中的 chart，例如 `istioctl install --manifests istio-{{< istio_full_version >}}/manifests`。
+- 内置的 Chart。如果没有设置 `--manifests`，则用 default。
+  内置的 Chart 和 Istio `.tgz` 发行包内 `manifests/` 目录下的内容相同。
+- 本地文件系统中的 Chart，例如 `istioctl install --manifests istio-{{< istio_full_version >}}/manifests`。
 
-本地文件系统的 chart 和配置档可以通过编辑 `manifests/` 目录下的文件定制。
+本地文件系统的 Chart 和配置档可以通过编辑 `manifests/` 目录下的文件定制。
 要进行广泛的更改，建议拷贝 `manifests` 目录，然后修改副本。
 但请注意，`manifests` 目录中的内容结构必须要保留。
 
@@ -249,10 +256,12 @@ $ istioctl manifest generate --manifests mycharts/ -f manifests/profiles/custom1
 
 只有需要在 `IstioOperatorSpec` 中指向一个配置档名称时，才需要创建定制配置档。
 
-### 为输出清单打补丁  {#patching-the-output-manifest}
+### 为输出清单打补丁 {#patching-the-output-manifest}
 
 传递给 `istioctl` 的 `IstioOperator` CR，用于生成输出清单，该清单包含将应用到集群的 Kubernetes 资源。
-在输出的清单已经生成但没有应用之时，此清单可以通过 `IstioOperator` [覆盖](/zh/docs/reference/config/istio.operator.v1alpha1/#K8sObjectOverlay) API 深度定制以增加、修改或删除资源。
+在输出的清单已经生成但没有应用之时，此清单可以通过 `IstioOperator`
+[覆盖](/zh/docs/reference/config/istio.operator.v1alpha1/#K8sObjectOverlay)
+API 深度定制以增加、修改或删除资源。
 
 下面例子覆盖文件（`patch.yaml`）展示输出清单补丁这种类型可以做什么：
 
@@ -272,21 +281,21 @@ spec:
           - kind: Deployment
             name: istiod
             patches:
-              # Select list item by value
+              # 按值选择列表项
               - path: spec.template.spec.containers.[name:discovery].args.[30m]
                 value: "60m" # overridden from 30m
-              # Select list item by key:value
+              # 按 key:value 选择列表项
               - path: spec.template.spec.containers.[name:discovery].ports.[containerPort:8080].containerPort
                 value: 1234
-              # Override with object (note | on value: first line)
+              # 用对象覆盖（注意 | 值：第一行）
               - path: spec.template.spec.containers.[name:discovery].env.[name:POD_NAMESPACE].valueFrom
                 value: |
                   fieldRef:
                     apiVersion: v2
                     fieldPath: metadata.myPath
-              # Deletion of list item
+              # 删除列表项
               - path: spec.template.spec.containers.[name:discovery].env.[name:REVISION]
-              # Deletion of map item
+              # 删除 map 项
               - path: spec.template.spec.containers.[name:discovery].securityContext
           - kind: Service
             name: istiod
@@ -335,5 +344,6 @@ spec:
 
 ### 列出选中的项目目录 {#list-item-path-selection}
 
-`istioctl --set` 参数和 `IstioOperator` CR 中的 `k8s.overlays` 字段，两者均支持由 `[index]`、`[value]` 或 `[key:value]` 选中的列表项。
---set 参数也为资源中缺少的路径创建所有的中间节点。
+`istioctl --set` 参数和 `IstioOperator` CR 中的 `k8s.overlays` 字段，
+两者均支持由 `[index]`、`[value]` 或 `[key:value]` 选中的列表项。--set
+参数也为资源中缺少的路径创建所有的中间节点。

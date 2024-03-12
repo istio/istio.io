@@ -163,7 +163,7 @@ $ kubectl --context="${CTX_CLUSTER2}" apply -n istio-system -f \
 在 `cluster2` 中安装一个提供 `cluster1` API Server 访问权限的远程 Secret。
 
 {{< text bash >}}
-$ istioctl x create-remote-secret \
+$ istioctl create-remote-secret \
   --context="${CTX_CLUSTER1}" \
   --name=cluster1 | \
   kubectl apply -f - --context="${CTX_CLUSTER2}"
@@ -172,7 +172,7 @@ $ istioctl x create-remote-secret \
 在 `cluster1` 中安装一个提供 `cluster2` API Server 访问权限的远程 Secret。
 
 {{< text bash >}}
-$ istioctl x create-remote-secret \
+$ istioctl create-remote-secret \
   --context="${CTX_CLUSTER2}" \
   --name=cluster2 | \
   kubectl apply -f - --context="${CTX_CLUSTER1}"

@@ -13,7 +13,7 @@ Istio 提供了 Ingress 和服务网格实现，可以一起使用，也可以�
 
 ## 集成模式 {#integration-modes}
 
-在“独立 (standalone)”模式下，第三方 Ingress 直接发送到后端。
+在“独立（standalone）”模式下，第三方 Ingress 直接发送到后端。
 在这种情况下，后端可能已注入了 Istio Sidecar。
 
 {{< mermaid >}}
@@ -29,7 +29,7 @@ graph LR
 但是，Ingress 将不使用 mTLS，这可能会导致非预期的行为。
 因此，此设置的大部分配置都与启用 mTLS 有关。
 
-在“链路 (chained)”模式下，我们按顺序使用第三方 Ingress 和 Istio
+在“链路（chained）”模式下，我们按顺序使用第三方 Ingress 和 Istio
 自己的 Gateway。这对于想要两层功能的情况会很有用。特别是，
 这在托管云负载均衡器中非常有用，因为云负载均衡器具有全局地址和托管证书等特性。
 
@@ -49,7 +49,7 @@ graph LR
 通常情况下，云负载均衡器在独立模式下无需使用 mTLS 即可正常工作。
 需要特定的供应商配置才能支持链路模式或启用 mTLS 的独立模式。
 
-### Google HTTP 和 HTTPS 负载均衡器
+### Google HTTP 和 HTTPS 负载均衡器 {#google-https-load-balancer}
 
 Google HTTP 和 HTTPS 负载均衡器的集成只适用于独立模式，
 如果不需要 mTLS，则可以直接使用，因为不支持 mTLS。

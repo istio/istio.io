@@ -29,9 +29,9 @@ previousVersionRevision1="${bpsnip_args_istio_previous_version//./-}-1"
 istioctl install --set profile=default --revision="$previousVersionRevision1" -y
 
 # Deploy a test namespace with an application pod
-kubectl create ns test-ns
-kubectl label namespace test-ns istio-injection=enabled
-kubectl -n test-ns apply -f samples/sleep/sleep.yaml
+snip_data_plane_2
+snip_data_plane_3
+snip_data_plane_4
 _wait_for_deployment test-ns sleep
 
 # precheck before upgrade
@@ -45,9 +45,9 @@ _verify_like snip_control_plane_3 "$snip_control_plane_3_out"
 _verify_contains snip_data_plane_1 "istiod-canary"
 
 # Migrate the dataplane to new revision
-snip_data_plane_2
-snip_data_plane_3
-_verify_contains snip_data_plane_4 "test-ns"
+snip_data_plane_5
+snip_data_plane_6
+_verify_contains snip_data_plane_7 "test-ns"
 
 # Uninstall canary control plane
 snip_uninstall_old_control_plane_1
@@ -55,4 +55,4 @@ _verify_like snip_uninstall_old_control_plane_3 "$snip_uninstall_old_control_pla
 
 # @cleanup
 snip_uninstall_canary_control_plane_1
-snip_cleanup_1
+snip_cleanup_2

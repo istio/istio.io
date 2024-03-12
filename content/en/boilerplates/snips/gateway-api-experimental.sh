@@ -21,5 +21,5 @@
 ####################################################################################################
 
 bpsnip_gateway_api_experimental_install_experimental_crds() {
-kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=6b9b7346ca5b54a50c3afb0a0573b16b1c84336a" | kubectl apply -f -
+kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=444631bfe06f3bcca5d0eadf1857eac1d369421d" | kubectl apply -f -
 }

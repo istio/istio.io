@@ -261,5 +261,5 @@ checking errors that emerge.
 while section headings should use first letter capitalization only (e.g. "This is a valid heading").
 
 - Ensure that preformatted text blocks that reference files from the Istio GitHub repos use the @@ syntax
-to produce links to the content. See [here](https://istio.io/about/contribute/creating-and-editing-pages/#links-to-github-files)
+to produce links to the content. See [here](https://preliminary.istio.io/latest/docs/releases/contribute/code-blocks/#link-2-files)
 for context.

@@ -21,5 +21,9 @@
 ####################################################################################################
 
 bpsnip_gateway_api_gamma_support_install_experimental_crds() {
-kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=6b9b7346ca5b54a50c3afb0a0573b16b1c84336a" | kubectl apply -f -
+kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=444631bfe06f3bcca5d0eadf1857eac1d369421d" | kubectl apply -f -
+}
+
+bpsnip_gateway_api_gamma_support_enable_alpha_crds() {
+istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --set values.pilot.env.PILOT_ENABLE_ALPHA_GATEWAY_API=true --set profile=minimal -y
 }

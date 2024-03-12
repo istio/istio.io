@@ -8,25 +8,25 @@ owner: istio/wg-environments-maintainers
 test: no
 ---
 
-k3d 是在 docker 中运行 [k3s](https://github.com/rancher/k3s) (Rancher Lab 的最小 Kubernetes 分布)的轻量级包装器。
-k3d 使得在 docker 中创建单节点和多节点 k3s 集群变得非常容易，例如用于 Kubernetes 的本地开发。
+k3d 是在 Docker 中运行 [k3s](https://github.com/rancher/k3s)（Rancher Lab 的最小 Kubernetes 分布）的轻量级包装器。
+k3d 使得在 Docker 中创建单节点和多节点 k3s 集群变得非常容易，例如用于 Kubernetes 的本地开发。
 
-## 先决条件{#prerequisites}
+## 先决条件 {#prerequisites}
 
-- 要使用 k3d，您还需要[安装 docker](https://docs.docker.com/install/)。
+- 要使用 k3d，您还需要[安装 Docker](https://docs.docker.com/install/)。
 - 安装最新版本 [k3d](https://k3d.io/v5.4.7/#installation)。
-- 与 Kubernetes 集群 [kubectl](https://kubernetes.io/zh/docs/docs/tasks/tools/#kubectl) 进行交互。
-- (可选) [Helm](https://helm.sh/docs/intro/install/)是针对 Kubernetes 的包管理器。。
+- 与 Kubernetes 集群 [kubectl](https://kubernetes.io/zh-cn/docs/docs/tasks/tools/#kubectl) 进行交互。
+- (可选) [Helm](https://helm.sh/docs/intro/install/) 是针对 Kubernetes 的包管理器。
 
-## 安装{#installation}
+## 安装 {#installation}
 
-1. 创建集群并使用以下命令禁用 `Traefik`:
+1. 创建集群并使用以下命令禁用 `Traefik`：
 
     {{< text bash >}}
-    $ k3d cluster create --api-port 6550 -p "9080:80@loadbalancer"  -p "9443:443@loadbalancer" --agents 2 --k3s-arg '--disable=traefik@server:*'
+    $ k3d cluster create --api-port 6550 -p '9080:80@loadbalancer' -p '9443:443@loadbalancer' --agents 2 --k3s-arg '--disable=traefik@server:*'
     {{< /text >}}
 
-1. 查看 k3d 集群列表，请使用以下命令:
+1. 查看 k3d 集群列表，请使用以下命令：
 
     {{< text bash >}}
     $ k3d cluster list
@@ -54,7 +54,7 @@ k3d 使得在 docker 中创建单节点和多节点 k3s 集群变得非常容易
     Switched to context "k3d-k3s-default".
     {{< /text >}}
 
-## 为 k3d 设置 Istio{#set-up-istio-for-k3d}
+## 为 k3d 设置 Istio {#set-up-istio-for-k3d}
 
 1. 完成 k3d 集群的设置后，可以继续在其上[使用 Helm 3 安装 Istio](/zh/docs/setup/install/helm/)。
 
@@ -71,12 +71,13 @@ k3d 使得在 docker 中创建单节点和多节点 k3s 集群变得非常容易
     $ helm install istio-ingressgateway istio/gateway -n istio-system --wait
     {{< /text >}}
 
-## 为 k3d 设置仪表板用户界面{#set-up-dashboard-UI-for-k3d}
+## 为 k3d 设置仪表板用户界面 {#set-up-dashboard-UI-for-k3d}
 
-k3d 没有像 minikube 这样的内置仪表板 UI。但是您仍然可以设置 Dashboard (基于 web 的 Kubernetes UI) 来查看您的集群。
+k3d 没有像 minikube 这样的内置仪表板 UI。但是您仍然可以设置 Dashboard
+ (基于 Web 的 Kubernetes UI) 来查看您的集群。
 按照以下说明为 k3d 设置仪表板。
 
-1. 要部署仪表板，请运行以下命令:
+1. 要部署仪表板，请运行以下命令：
 
     {{< text bash >}}
     $ GITHUB_URL=https://github.com/kubernetes/dashboard/releases
@@ -93,7 +94,7 @@ k3d 没有像 minikube 这样的内置仪表板 UI。但是您仍然可以设置
     kubernetes-dashboard-67bd8fc546-4xfmm        1/1     Running   0          25s
     {{< /text >}}
 
-1. 创建 `serviceaccount` 和 `clusterrolebinding` 为新创建的集群提供管理员访问权限。
+1. 创建 `ServiceAccount` 和 `ClusterRoleBinding` 为新创建的集群提供管理员访问权限。
 
     {{< text bash >}}
     $ kubectl create serviceaccount -n kubernetes-dashboard admin-user
@@ -112,7 +113,7 @@ k3d 没有像 minikube 这样的内置仪表板 UI。但是您仍然可以设置
     $ echo $token
     {{< /text >}}
 
-1. 您可以通过运行以下命令使用 kubectl 命令行工具访问仪表板:
+1. 您可以通过运行以下命令使用 kubectl 命令行工具访问仪表板：
 
     {{< text bash >}}
     $ kubectl proxy
@@ -122,12 +123,12 @@ k3d 没有像 minikube 这样的内置仪表板 UI。但是您仍然可以设置
     单击 [Kubernetes 仪表板](http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/)来查看您的部署和服务。
 
     {{< warning >}}
-    您必须将令牌保存在某个地方，否则每次需要令牌登录仪表板时都必须运行第4步。
+    您必须将令牌保存在某个地方，否则每次需要令牌登录仪表板时都必须运行第 4 步。
     {{< /warning >}}
 
-## 卸载{#uninstall}
+## 卸载 {#uninstall}
 
-1. 当您完成实验并想要删除现有集群时，请使用以下命令:
+1. 当您完成实验并想要删除现有集群时，请使用以下命令：
 
     {{< text bash >}}
     $ k3d cluster delete k3s-default

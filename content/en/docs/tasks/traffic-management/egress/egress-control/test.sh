@@ -50,14 +50,14 @@ _verify_contains snip_access_an_external_https_service_3 "outbound|443||www.goog
 _verify_first_line snip_manage_traffic_to_external_services_1 "$snip_manage_traffic_to_external_services_1_out"
 snip_manage_traffic_to_external_services_2
 _wait_for_istio virtualservice default httpbin-ext
-_verify_first_line snip_manage_traffic_to_external_services_3 "$snip_manage_traffic_to_external_services_3_out"
-
-snip_cleanup_the_controlled_access_to_external_services_1
+_verify_first_line snip_manage_traffic_to_external_services_4 "$snip_manage_traffic_to_external_services_4_out"
 
 IP_RANGE=$(snip_minikube_docker_for_desktop_bare_metal_1 | sed -e 's/^[[:space:]]*--service-cluster-ip-range=//')
 istioctl install --set profile=demo \
                  --set meshConfig.outboundTrafficPolicy.mode=REGISTRY_ONLY --set values.global.proxy.includeIPRanges="$IP_RANGE" -y
 _wait_for_deployment istio-system istiod
+
+_verify_contains snip_envoy_passthrough_to_external_services_1 "REGISTRY_ONLY"
 
 # Restart the sleep service
 snip_cleanup_1

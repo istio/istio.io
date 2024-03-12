@@ -23,7 +23,7 @@ selecting any given workload.</p>
 <li>Namespace-specific configuration</li>
 <li>Root namespace configuration</li>
 </ol>
-<p>Examples:</p>
+<h4 id="examples">Examples</h4>
 <p>Policy to enable random sampling for 10% of traffic:</p>
 <pre><code class="language-yaml">apiVersion: telemetry.istio.io/v1alpha1
 kind: Telemetry
@@ -35,7 +35,7 @@ spec:
   tracing:
   - randomSamplingPercentage: 10.00
 </code></pre>
-<p>Policy to disable trace reporting for the &ldquo;foo&rdquo; workload (note: tracing
+<p>Policy to disable trace reporting for the <code>foo</code> workload (note: tracing
 context will still be propagated):</p>
 <pre><code class="language-yaml">apiVersion: telemetry.istio.io/v1alpha1
 kind: Telemetry
@@ -115,7 +115,7 @@ spec:
         request_host:
           value: &quot;request.host&quot;
 </code></pre>
-<p>Policy to remove the response_code dimension on some Prometheus metrics for
+<p>Policy to remove the <code>response_code</code> dimension on some Prometheus metrics for
 the <code>bar.foo</code> workload:</p>
 <pre><code class="language-yaml">apiVersion: telemetry.istio.io/v1alpha1
 kind: Telemetry
@@ -199,6 +199,25 @@ spec:
 <p>Optional. The selector decides where to apply the Telemetry policy.
 If not set, the Telemetry policy will be applied to all workloads in the
 same namespace as the Telemetry policy.</p>
+<p>At most, only one of the selector or targetRef can be set for a given policy.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="Telemetry-targetRef">
+<td><code>targetRef</code></td>
+<td><code><a href="/zh/docs/reference/config/type/workload-selector/#PolicyTargetReference">PolicyTargetReference</a></code></td>
+<td>
+<p>Optional. The <code>targetRef</code> specifies the gateway the policy should be
+applied to. The targeted resource specified will determine which
+workloads the telemetry policy applies to. The targeted resource
+must be a Kubernetes gateway. The resource must be in the same namespace as
+the Telemetry policy.</p>
+<p>If not set, the policy is applied as defined by the selector.
+At most, only one of the selector or <code>targetRef</code> can be set for a given policy.
+Waypoint proxies will not respect selectors even if they match.</p>
 
 </td>
 <td>
@@ -221,7 +240,7 @@ No
 <td><code>metrics</code></td>
 <td><code><a href="#Metrics">Metrics[]</a></code></td>
 <td>
-<p>Optional. Metrics configure the metrics behavior for all
+<p>Optional. Metrics configures the metrics behavior for all
 selected workloads.</p>
 
 </td>
@@ -233,7 +252,7 @@ No
 <td><code>accessLogging</code></td>
 <td><code><a href="#AccessLogging">AccessLogging[]</a></code></td>
 <td>
-<p>Optional. AccessLogging configures the access logging behavior for all
+<p>Optional. Access logging configures the access logging behavior for all
 selected workloads.</p>
 
 </td>
@@ -355,7 +374,7 @@ targeted customization.</p>
 <td><code>name</code></td>
 <td><code>string</code></td>
 <td>
-<p>Required. Name of Telemetry provider in MeshConfig.</p>
+<p>Required. Name of Telemetry provider in <a href="/latest/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider">MeshConfig</a>.</p>
 
 </td>
 <td>
@@ -453,7 +472,7 @@ behaviors.</p>
 <td><code>metric</code></td>
 <td><code><a href="#MetricSelector-IstioMetric">IstioMetric (oneof)</a></code></td>
 <td>
-<p>One of the well-known Istio Standard Metrics.</p>
+<p>One of the well-known <a href="/latest/docs/reference/config/metrics/">Istio Standard Metrics</a>.</p>
 
 </td>
 <td>
@@ -476,8 +495,8 @@ No
 <td><code>mode</code></td>
 <td><code><a href="#WorkloadMode">WorkloadMode</a></code></td>
 <td>
-<p>Controls which mode of metrics generation is selected: CLIENT and/or
-SERVER.</p>
+<p>Controls which mode of metrics generation is selected: <code>CLIENT</code>, <code>SERVER</code>,
+or <code>CLIENT_AND_SERVER</code>.</p>
 
 </td>
 <td>
@@ -506,8 +525,8 @@ metric or the set of all standard metrics.</p>
 <td><code>match</code></td>
 <td><code><a href="#MetricSelector">MetricSelector</a></code></td>
 <td>
-<p>Match allows provides the scope of the override. It can be used to select
-individual metrics, as well as the workload modes (server and/or client)
+<p>Match allows providing the scope of the override. It can be used to select
+individual metrics, as well as the workload modes (server, client, or both)
 in which the metrics will be generated.</p>
 <p>If match is not specified, the overrides will apply to <em>all</em> metrics for
 <em>both</em> modes of operation (client and server).</p>
@@ -521,9 +540,9 @@ No
 <td><code>disabled</code></td>
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></code></td>
 <td>
-<p>Optional. Must explicitly set this to &ldquo;true&rdquo; to turn off metrics reporting
-for the listed metrics. If disabled has been set to &ldquo;true&rdquo; in a parent
-configuration, it must explicitly be set to &ldquo;false&rdquo; to turn metrics
+<p>Optional. Must explicitly set this to <code>true</code> to turn off metrics reporting
+for the listed metrics. If disabled has been set to <code>true</code> in a parent
+configuration, it must explicitly be set to <code>false</code> to turn metrics
 reporting on in the workloads selected by the Telemetry resource.</p>
 
 </td>
@@ -726,7 +745,7 @@ No
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 </tbody>
@@ -752,7 +771,7 @@ No
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 <tr id="Tracing-Environment-default_value">
@@ -790,7 +809,7 @@ No
 
 </td>
 <td>
-No
+Yes
 </td>
 </tr>
 <tr id="Tracing-RequestHeader-default_value">
@@ -841,8 +860,8 @@ No
 <td>
 <p>Value is only considered if the operation is <code>UPSERT</code>.
 Values are <a href="https://opensource.google/projects/cel">CEL expressions</a> over
-attributes. Examples include: &ldquo;string(destination.port)&rdquo; and
-&ldquo;request.host&rdquo;. Istio exposes all standard <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/advanced/attributes">Envoy
+attributes. Examples include: <code>string(destination.port)</code> and
+<code>request.host</code>. Istio exposes all standard <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/advanced/attributes">Envoy
 attributes</a>.
 Additionally, Istio exposes node metadata as attributes.
 More information is provided in the <a href="/latest/docs/tasks/observability/metrics/customize-metrics/#use-expressions-for-values">customization
@@ -861,9 +880,9 @@ No
 <p>LogSelector provides a coarse-grained ability to configure logging behavior
 based on certain traffic metadata (such as traffic direction). LogSelector
 applies to traffic metadata which is not represented in the attribute set
-currently supported by Filters. It allows control planes to limit the
-configuration sent to individual workloads. Finer-grained logging behavior
-can be further configured via <code>filter</code>.</p>
+currently supported by <a href="/latest/docs/reference/config/telemetry/#AccessLogging-Filter">filters</a>.
+It allows control planes to limit the configuration sent to individual workloads.
+Finer-grained logging behavior can be further configured via <code>filter</code>.</p>
 
 <table class="message-fields">
 <thead>
@@ -913,6 +932,7 @@ No
 <ul>
 <li><code>response.code &gt;= 400</code></li>
 <li><code>connection.mtls &amp;&amp; request.url_path.contains('v1beta3')</code></li>
+<li><code>!has(request.useragent) || !(request.useragent.startsWith(&quot;Amazon-Route53-Health-Check-Service&quot;))</code></li>
 </ul>
 
 </td>
@@ -1093,7 +1113,7 @@ traffic.</p>
 <td><code>UPSERT</code></td>
 <td>
 <p>Insert or Update the tag with the provided value expression. The
-<code>value</code> field MUST be specified if UPSERT is used as the operation.</p>
+<code>value</code> field MUST be specified if <code>UPSERT</code> is used as the operation.</p>
 
 </td>
 </tr>
@@ -1111,10 +1131,10 @@ generated.</p>
 <h2 id="WorkloadMode">WorkloadMode</h2>
 <section>
 <p>WorkloadMode allows selection of the role of the underlying workload in
-network traffic. A workload is considered as acting as a SERVER if it is
+network traffic. A workload is considered as acting as a <code>SERVER</code> if it is
 the destination of the traffic (that is, traffic direction, from the
 perspective of the workload is <em>inbound</em>). If the workload is the source of
-the network traffic, it is considered to be in CLIENT mode (traffic is
+the network traffic, it is considered to be in <code>CLIENT</code> mode (traffic is
 <em>outbound</em> from the workload).</p>
 
 <table class="enum-values">

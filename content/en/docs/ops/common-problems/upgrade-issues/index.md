@@ -72,7 +72,9 @@ for deployment of Wasm code.
 ### Use gateway topology to set the number of the trusted hops
 
 The usage of `EnvoyFilter` to configure the number of the trusted hops in the
-HTTP connection manager has been replaced by the `gatewayTopology` field in
+HTTP connection manager has been replaced by the
+[`gatewayTopology`](/docs/reference/config/istio.mesh.v1alpha1/#Topology)
+field in
 [`ProxyConfig`](/docs/ops/configuration/traffic-management/network-topologies).
 For example, the following `EnvoyFilter` configuration should use an annotation
 on the pod or the mesh default. Instead of:
@@ -102,12 +104,50 @@ spec:
       istio: ingress-gateway
 {{< /text >}}
 
-Use the equivalent ingress gateway proxy configuration annotation:
+Use the equivalent ingress gateway pod proxy configuration annotation:
 
 {{< text yaml >}}
 metadata:
   annotations:
     "proxy.istio.io/config": '{"gatewayTopology" : { "numTrustedProxies": 1 }}'
+{{< /text >}}
+
+### Use gateway topology to enable PROXY protocol on the ingress gateways
+
+The usage of `EnvoyFilter` to enable [PROXY
+protocol](https://www.haproxy.org/download/1.8/doc/proxy-protocol.txt) on the
+ingress gateways has been replaced by the
+[`gatewayTopology`](/docs/reference/config/istio.mesh.v1alpha1/#Topology)
+field in
+[`ProxyConfig`](/docs/ops/configuration/traffic-management/network-topologies).
+For example, the following `EnvoyFilter` configuration should use an annotation
+on the pod or the mesh default. Instead of:
+
+{{< text yaml >}}
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: proxy-protocol
+spec:
+  configPatches:
+  - applyTo: LISTENER_FILTER
+    patch:
+      operation: INSERT_FIRST
+      value:
+        name: proxy_protocol
+        typed_config:
+          "@type": "type.googleapis.com/envoy.extensions.filters.listener.proxy_protocol.v3.ProxyProtocol"
+  workloadSelector:
+    labels:
+      istio: ingress-gateway
+{{< /text >}}
+
+Use the equivalent ingress gateway pod proxy configuration annotation:
+
+{{< text yaml >}}
+metadata:
+  annotations:
+    "proxy.istio.io/config": '{"gatewayTopology" : { "proxyProtocol": {} }}'
 {{< /text >}}
 
 ### Use a proxy annotation to customize the histogram bucket sizes

@@ -69,15 +69,14 @@ You can then decide to [configure access to external services](#controlled-acces
     with the `meshConfig.outboundTrafficPolicy.mode` option set to `ALLOW_ANY`. Unless you explicitly
     set it to `REGISTRY_ONLY` mode when you installed Istio, it is probably enabled by default.
 
-    Run the following command to verify that `meshConfig.outboundTrafficPolicy.mode` option is set to `ALLOW_ANY`
-    or is omitted:
+    If you are unsure, you can run the following command to display your mesh config:
 
     {{< text bash >}}
-    $ kubectl get istiooperator installed-state -n istio-system -o jsonpath='{.spec.meshConfig.outboundTrafficPolicy.mode}'
-    ALLOW_ANY
+    $ kubectl get configmap istio -n istio-system -o yaml
     {{< /text >}}
 
-    You should either see `ALLOW_ANY` or no output (default `ALLOW_ANY`).
+    Unless you see an explicit setting of `meshConfig.outboundTrafficPolicy.mode` with value `REGISTRY_ONLY`,
+    you can be sure the option is set to `ALLOW_ANY`, which is the only other possible value and the default.
 
     {{< tip >}}
     If you have explicitly configured `REGISTRY_ONLY` mode, you can change it
@@ -254,12 +253,13 @@ any other unintentional accesses.
 
 ### Manage traffic to external services
 
-Similar to inter-cluster requests, Istio
-[routing rules](/docs/concepts/traffic-management/#routing-rules)
-can also be set for external services that are accessed using `ServiceEntry` configurations.
+Similar to inter-cluster requests, routing rules
+can also be configured for external services that are accessed using `ServiceEntry` configurations.
 In this example, you set a timeout rule on calls to the `httpbin.org` service.
 
-1.  From inside the pod being used as the test source, make a _curl_ request to the `/delay` endpoint of the
+{{< boilerplate gateway-api-gamma-support >}}
+
+1)  From inside the pod being used as the test source, make a _curl_ request to the `/delay` endpoint of the
     httpbin.org external service:
 
     {{< text bash >}}
@@ -272,27 +272,63 @@ In this example, you set a timeout rule on calls to the `httpbin.org` service.
 
     The request should return 200 (OK) in approximately 5 seconds.
 
-1.  Use `kubectl` to set a 3s timeout on calls to the `httpbin.org` external service:
+2)  Use `kubectl` to set a 3s timeout on calls to the `httpbin.org` external service:
 
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: httpbin-ext
-    spec:
-      hosts:
-        - httpbin.org
-      http:
-      - timeout: 3s
-        route:
-          - destination:
-              host: httpbin.org
-            weight: 100
-    EOF
-    {{< /text >}}
+{{< tabset category-name="config-api" >}}
 
-1.  Wait a few seconds, then make the _curl_ request again:
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: httpbin-ext
+spec:
+  hosts:
+  - httpbin.org
+  http:
+  - timeout: 3s
+    route:
+    - destination:
+        host: httpbin.org
+      weight: 100
+EOF
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: HTTPRoute
+metadata:
+  name: httpbin-ext
+spec:
+  parentRefs:
+  - kind: ServiceEntry
+    group: networking.istio.io
+    name: httpbin-ext
+  hostnames:
+  - httpbin.org
+  rules:
+  - timeouts:
+      request: 3s
+    backendRefs:
+    - kind: Hostname
+      group: networking.istio.io
+      name: httpbin.org
+      port: 80
+EOF
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
+3)  Wait a few seconds, then make the _curl_ request again:
 
     {{< text bash >}}
     $ kubectl exec "$SOURCE_POD" -c sleep -- time curl -o /dev/null -sS -w "%{http_code}\n" http://httpbin.org/delay/5
@@ -307,10 +343,27 @@ In this example, you set a timeout rule on calls to the `httpbin.org` service.
 
 ### Cleanup the controlled access to external services
 
+{{< tabset category-name="config-api" >}}
+
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
+
 {{< text bash >}}
 $ kubectl delete serviceentry httpbin-ext google
 $ kubectl delete virtualservice httpbin-ext --ignore-not-found=true
 {{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text bash >}}
+$ kubectl delete serviceentry httpbin-ext
+$ kubectl delete httproute httpbin-ext --ignore-not-found=true
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
 
 ## Direct access to external services
 
@@ -389,9 +442,49 @@ servicesIpv4Cidr: 10.7.240.0/20
 
 Use `--set values.global.proxy.includeIPRanges="10.4.0.0/14\,10.7.240.0/20"`
 
-#### Azure Container Service(ACS)
+#### Azure Kubernetes Service (AKS)
 
-Use `--set values.global.proxy.includeIPRanges="10.244.0.0/16\,10.240.0.0/16`
+##### Kubenet
+
+To see which service CIDR and pod CIDR are used in the cluster, use `az aks show` and look for the `serviceCidr`:
+
+{{< text bash >}}
+$ az aks show --resource-group "${RESOURCE_GROUP}" --name "${CLUSTER}" | grep Cidr
+    "podCidr": "10.244.0.0/16",
+    "podCidrs": [
+    "serviceCidr": "10.0.0.0/16",
+    "serviceCidrs": [
+{{< /text >}}
+
+Then use `--set values.global.proxy.includeIPRanges="10.244.0.0/16\,10.0.0.0/16"`
+
+##### Azure CNI
+
+Follow these steps if you are using Azure CNI with a non-overlay networking mode. If using Azure CNI with overlay networking, please follow the [Kubenet instructions](#kubenet). For more information, see the [Azure CNI Overlay documentation](https://learn.microsoft.com/en-us/azure/aks/azure-cni-overlay).
+
+To see which service CIDR is used in the cluster, use `az aks show` and look for the `serviceCidr`:
+
+{{< text bash >}}
+$ az aks show --resource-group "${RESOURCE_GROUP}" --name "${CLUSTER}" | grep serviceCidr
+    "serviceCidr": "10.0.0.0/16",
+    "serviceCidrs": [
+{{< /text >}}
+
+To see which pod CIDR is used in the cluster, use `az` CLI to inspect the `vnet`:
+
+{{< text bash >}}
+$ az aks show --resource-group "${RESOURCE_GROUP}" --name "${CLUSTER}" | grep nodeResourceGroup
+  "nodeResourceGroup": "MC_user-rg_user-cluster_region",
+  "nodeResourceGroupProfile": null,
+$ az network vnet list -g MC_user-rg_user-cluster_region | grep name
+    "name": "aks-vnet-74242220",
+        "name": "aks-subnet",
+$ az network vnet show -g MC_user-rg_user-cluster_region -n aks-vnet-74242220 | grep addressPrefix
+    "addressPrefixes": [
+      "addressPrefix": "10.224.0.0/16",
+{{< /text >}}
+
+Then use `--set values.global.proxy.includeIPRanges="10.244.0.0/16\,10.0.0.0/16"`
 
 #### Minikube, Docker For Desktop, Bare Metal
 

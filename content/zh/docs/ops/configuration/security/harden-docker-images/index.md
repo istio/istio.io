@@ -7,10 +7,8 @@ aliases:
   - /zh/docs/ops/security/harden-docker-images
 owner: istio/wg-security-maintainers
 test: n/a
-status: Alpha
+status: Beta
 ---
-
-{{< boilerplate alpha >}}
 
 Istio 的[默认镜像](https://hub.docker.com/r/istio/base)基于 `ubuntu` 添加了一些额外的工具。
 也可以使用基于 [Distroless 镜像](https://github.com/GoogleContainerTools/distroless)的替代镜像。

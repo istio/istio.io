@@ -122,7 +122,7 @@ snip_verify_secrets_are_created_for_each_cluster_issuer_1() {
 kubectl get secret -n cert-manager -l controller.cert-manager.io/fao=true
 }
 
-! read -r -d '' snip_verify_secrets_are_created_for_each_cluster_issuer_1_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_verify_secrets_are_created_for_each_cluster_issuer_1_out <<\ENDSNIP
 NAME                  TYPE                DATA   AGE
 bar-ca-selfsigned     kubernetes.io/tls   3      3m36s
 foo-ca-selfsigned     kubernetes.io/tls   3      3m36s
@@ -238,7 +238,7 @@ snip_verify_the_network_connectivity_between_httpbin_and_sleep_within_the_same_n
 kubectl exec "$SLEEP_POD_FOO" -n foo -c sleep -- curl http://httpbin.foo:8000/html
 }
 
-! read -r -d '' snip_verify_the_network_connectivity_between_httpbin_and_sleep_within_the_same_namespace_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_verify_the_network_connectivity_between_httpbin_and_sleep_within_the_same_namespace_2_out <<\ENDSNIP
 <!DOCTYPE html>
 <html>
   <head>
@@ -258,7 +258,7 @@ snip_verify_the_network_connectivity_between_httpbin_and_sleep_within_the_same_n
 kubectl exec "$SLEEP_POD_FOO" -n foo -c sleep -- curl http://httpbin.bar:8000/html
 }
 
-! read -r -d '' snip_verify_the_network_connectivity_between_httpbin_and_sleep_within_the_same_namespace_3_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_verify_the_network_connectivity_between_httpbin_and_sleep_within_the_same_namespace_3_out <<\ENDSNIP
 upstream connect error or disconnect/reset before headers. reset reason: connection failure, transport failure reason: TLS error: 268435581:SSL routines:OPENSSL_internal:CERTIFICATE_VERIFY_FAILED
 ENDSNIP
 

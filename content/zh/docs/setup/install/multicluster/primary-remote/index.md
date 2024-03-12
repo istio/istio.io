@@ -8,19 +8,26 @@ test: yes
 owner: istio/wg-environments-maintainers
 ---
 
-按照本指南，在 `cluster1` 主集群（{{< gloss >}}primary cluster{{< /gloss >}}）
-安装 Istio 控制平面，并设置 `cluster2` 从集群（{{< gloss >}}remote cluster{{< /gloss >}}）
-指向 `cluster1` 的控制平面。两个集群都运行在 `network1` 网络上,
+按照本指南，在 `cluster1` {{< gloss "primary cluster" >}}主集群{{< /gloss >}}安装
+Istio 控制平面，并设置 `cluster2` {{< gloss "remote cluster" >}}从集群{{< /gloss >}}指向
+`cluster1` 的控制平面。两个集群都运行在 `network1` 网络上,
 所以两个集群的 Pod 之间，网络可直接连通。
 
 继续安装之前，请先确认完成了[准备工作](/zh/docs/setup/install/multicluster/before-you-begin)中的步骤。
 
 {{< boilerplate multi-cluster-with-metallb >}}
 
+{{< warning >}}
+这些说明不适用于 AWS EKS 主集群部署。
+这种不兼容性背后的原因是 AWS 负载均衡器（LB）以完全限定域名（FQDN）的形式呈现，
+而从集群则使用 Kubernetes 服务类型 'ExternalName'。
+但是，'ExternalName' 类型专门支持 IP 地址，不支持 FQDN。
+{{< /warning >}}
+
 在此配置中，集群 `cluster1` 将监测两个集群 API Server 的服务端点。
 以这种方式，控制平面就能为两个集群中的工作负载提供服务发现。
 
-服务的工作负载（ Pod 到 Pod ）可跨集群边界直接通讯。
+服务的工作负载（Pod 到 Pod）可跨集群边界直接通讯。
 
 `cluster2` 中的服务将通过专用的[东西向](https://en.wikipedia.org/wiki/East-west_traffic)网关流量访问
 `cluster1` 的控制平面。
@@ -56,8 +63,8 @@ $ istioctl install --set values.pilot.env.EXTERNAL_ISTIOD=true --context="${CTX_
 
 需要注意的是，当 `values.pilot.env.EXTERNAL_ISTIOD` 被设置为 `true` 时，
 安装在 `cluster1` 上的控制平面也可以作为其他从集群的外部控制平面。
-当这个功能被启用时，`istiod` 将试图获得领导权锁，并因此管理将附加到它的并且带有
-[适当注解的](#set-the-control-plane-cluster-for-cluster2)从集群
+当这个功能被启用时，`istiod` 将尝试获取领导权锁，
+并因此管理将附加到它的并且带有[适当注解的](#set-the-control-plane-cluster-for-cluster2)从集群
 （本例中为 `cluster2`）。
 
 ## 在 `cluster1` 安装东西向网关 {#install-the-east-west-gateway-in-cluster1}
@@ -73,7 +80,7 @@ $ @samples/multicluster/gen-eastwest-gateway.sh@ \
 {{< /text >}}
 
 {{< warning >}}
-如果控制面已经安装了一个修订版，可在 `gen-eastwest-gateway.sh` 命令中添加
+如果控制平面已经安装了一个修订版，可在 `gen-eastwest-gateway.sh` 命令中添加
 `--revision rev` 标志。
 {{< /warning >}}
 
@@ -91,9 +98,18 @@ istio-eastwestgateway   LoadBalancer   10.80.6.124   34.75.71.237   ...       51
 以便 `cluster2` 中的服务能访问到服务发现：
 
 {{< text bash >}}
-$ kubectl apply --context="${CTX_CLUSTER1}" -f \
+$ kubectl apply --context="${CTX_CLUSTER1}" -n istio-system -f \
     @samples/multicluster/expose-istiod.yaml@
 {{< /text >}}
+
+{{< warning >}}
+如果控制平面指定了版本 `rev`，需要改为执行以下命令：
+
+{{< text bash >}}
+$ sed 's/{{.Revision}}/rev/g' @samples/multicluster/expose-istiod-rev.yaml.tmpl@ | kubectl apply --context="${CTX_CLUSTER1}" -n istio-system -f -
+{{< /text >}}
+
+{{< /warning >}}
 
 ## 设置集群 `cluster2` 的控制平面 {#set-the-control-plane-cluster-for-cluster2}
 
@@ -168,7 +184,7 @@ $ istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
 我们生成一个远程 Secret 并将其应用于 `cluster1`：
 
 {{< text bash >}}
-$ istioctl x create-remote-secret \
+$ istioctl create-remote-secret \
     --context="${CTX_CLUSTER2}" \
     --name=cluster2 | \
     kubectl apply -f - --context="${CTX_CLUSTER1}"

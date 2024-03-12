@@ -1,0 +1,197 @@
+<!doctype html><html lang=en itemscope itemtype=https://schema.org/WebPage><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=theme-color content="#466BB0"><meta name=title content="Getting started with the Kubernetes Gateway API"><meta name=description content="Using the Gateway API to configure ingress traffic for your Kubernetes cluster."><meta name=author content="Frank Budinsky (IBM)"><meta name=keywords content="microservices,services,mesh,traffic-management,gateway,gateway-api,api,gamma,sig-network"><meta property="og:title" content="Getting started with the Kubernetes Gateway API"><meta property="og:type" content="website"><meta property="og:description" content="Using the Gateway API to configure ingress traffic for your Kubernetes cluster."><meta property="og:url" content="/v1.19/blog/2022/getting-started-gtwapi/"><meta property="og:image" content="https://raw.githubusercontent.com/istio/istio.io/master/static/img/istio-social.svg"><meta property="og:image:alt" content="Istio Logo"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="600"><meta property="og:site_name" content="Istio"><meta name=twitter:card content="summary"><meta name=twitter:site content="@IstioMesh"><title>Istioldie 1.19 / Getting started with the Kubernetes Gateway API</title><script async src="https://www.googletagmanager.com/gtag/js?id=UA-98480406-2"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","UA-98480406-2")</script><link rel=alternate type=application/rss+xml title="Istio Blog" href=/v1.19/blog/feed.xml><link rel=alternate type=application/rss+xml title="Istio News" href=/v1.19/news/feed.xml><link rel=alternate type=application/rss+xml title="Istio Blog and News" href=/v1.19/feed.xml><link rel="shortcut icon" href=/v1.19/favicons/favicon.ico><link rel=apple-touch-icon href=/v1.19/favicons/apple-touch-icon-180x180.png sizes=180x180><link rel=icon type=image/png href=/v1.19/favicons/favicon-16x16.png sizes=16x16><link rel=icon type=image/png href=/v1.19/favicons/favicon-32x32.png sizes=32x32><link rel=icon type=image/png href=/v1.19/favicons/android-36x36.png sizes=36x36><link rel=icon type=image/png href=/v1.19/favicons/android-48x48.png sizes=48x48><link rel=icon type=image/png href=/v1.19/favicons/android-72x72.png sizes=72x72><link rel=icon type=image/png href=/v1.19/favicons/android-96x96.png sizes=96xW96><link rel=icon type=image/png href=/v1.19/favicons/android-144x144.png sizes=144x144><link rel=icon type=image/png href=/v1.19/favicons/android-192x192.png sizes=192x192><link rel=icon type=image/svg+xml href=/v1.19/favicons/favicon.svg><link rel=icon type=image/png href=/v1.19/favicons/favicon.png><link rel=mask-icon href=/v1.19/favicons/safari-pinned-tab.svg color=#466bb0><link rel=manifest href=/v1.19/manifest.json><meta name=apple-mobile-web-app-title content="Istio"><meta name=application-name content="Istio"><meta name=msapplication-config content="/browserconfig.xml"><meta name=msapplication-TileColor content="#466BB0"><meta name=theme-color content="#466BB0"><link rel=stylesheet href=/v1.19/css/all.css><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap"><script src=/v1.19/js/themes_init.min.js></script></head><body class="language-unknown archive-site"><script>const branchName="release-1.19",docTitle="Getting started with the Kubernetes Gateway API",iconFile="/v1.19/img/icons.svg",buttonCopy="Copy to clipboard",buttonPrint="Print",buttonDownload="Download"</script><script src="https://www.google.com/cse/brand?form=search-form" defer></script>
+<script src=/v1.19/js/all.min.js data-manual defer></script><header class=main-navigation><nav class="main-navigation-wrapper container-l"><div class=main-navigation-header><a id=brand href=/v1.19/ aria-label=logotype><span class=logo><svg xmlns="http://www.w3.org/2000/svg" width="128" height="60" viewBox="0 0 128 60"><path d="M58.434 48.823A.441.441.0 0158.3 48.497V22.583a.444.444.0 01.134-.326.446.446.0 01.327-.134h3.527a.447.447.0 01.325.134.447.447.0 01.134.326v25.914a.443.443.0 01-.134.326.444.444.0 01-.325.134h-3.527a.444.444.0 01-.327-.134z"/><path d="m70.969 48.477a6.556 6.556.0 01-2.818-1.955 4.338 4.338.0 01-1-2.78v-.345a.443.443.0 01.134-.326.444.444.0 01.326-.135h3.374a.444.444.0 01.326.135.445.445.0 01.134.326v.077a2.014 2.014.0 001.054 1.667 4.672 4.672.0 002.664.709 4.446 4.446.0 002.492-.633 1.862 1.862.0 00.958-1.591 1.426 1.426.0 00-.786-1.322 12.7 12.7.0 00-2.549-.939l-1.457-.46a21.526 21.526.0 01-3.3-1.227 6.57 6.57.0 01-2.262-1.783 4.435 4.435.0 01-.92-2.894 5.081 5.081.0 012.109-4.275 8.993 8.993.0 015.558-1.591 10.445 10.445.0 014.1.748 6.3 6.3.0 012.722 2.07 5 5 0 01.958 3.009.441.441.0 01-.134.326.441.441.0 01-.325.134h-3.258a.441.441.0 01-.326-.134.443.443.0 01-.134-.326 1.974 1.974.0 00-.978-1.667 4.647 4.647.0 00-2.665-.671 4.741 4.741.0 00-2.435.556 1.724 1.724.0 00-.938 1.553 1.512 1.512.0 00.9 1.4 15.875 15.875.0 003.01 1.055l.843.229a27.368 27.368.0 013.412 1.246 6.67 6.67.0 012.338 1.763 4.387 4.387.0 01.958 2.933 4.988 4.988.0 01-2.146 4.275 9.543 9.543.0 01-5.712 1.552 11.626 11.626.0 01-4.227-.709z"/><path d="m97.039 32.837a.443.443.0 01-.326.135h-3.911a.169.169.0 00-.191.192v9.239a2.951 2.951.0 00.632 2.108 2.7 2.7.0 002.013.652h1.15a.444.444.0 01.325.134.441.441.0 01.134.326v2.875a.471.471.0 01-.459.5l-1.994.039a8 8 0 01-4.524-1.035q-1.495-1.035-1.533-3.91V33.166A.17.17.0 0088.164 32.974H85.978A.441.441.0 0185.652 32.839.441.441.0 0185.518 32.513V29.83a.441.441.0 01.134-.326.444.444.0 01.326-.135h2.186a.169.169.0 00.191-.192v-4.485a.438.438.0 01.134-.326.44.44.0 01.325-.134h3.336a.443.443.0 01.325.134.442.442.0 01.135.326v4.485a.169.169.0 00.191.192h3.911a.446.446.0 01.326.135.446.446.0 01.134.326v2.683a.446.446.0 01-.133.324z"/><path d="m101.694 25.917a2.645 2.645.0 01-.767-1.955 2.65 2.65.0 01.767-1.955 2.65 2.65.0 011.955-.767 2.65 2.65.0 011.955.767 2.652 2.652.0 01.767 1.955 2.647 2.647.0 01-.767 1.955 2.646 2.646.0 01-1.955.767 2.645 2.645.0 01-1.955-.767zm-.211 22.906a.441.441.0 01-.134-.326V29.79a.444.444.0 01.134-.326.446.446.0 01.326-.134h3.527a.446.446.0 01.326.134.445.445.0 01.134.326v18.707a.443.443.0 01-.134.326.443.443.0 01-.326.134h-3.527a.443.443.0 01-.326-.134z"/><path d="m114.019 47.734a8.1 8.1.0 01-3.047-4.255 14.439 14.439.0 01-.652-4.37 14.3 14.3.0 01.614-4.371A7.869 7.869.0 01114 30.56a9.072 9.072.0 015.252-1.5 8.543 8.543.0 015.041 1.5 7.985 7.985.0 013.009 4.14 12.439 12.439.0 01.69 4.37 13.793 13.793.0 01-.651 4.37 8.255 8.255.0 01-3.028 4.275 8.475 8.475.0 01-5.1 1.553 8.754 8.754.0 01-5.194-1.534zm7.629-3.1a4.536 4.536.0 001.476-2.262 11.335 11.335.0 00.383-3.221 10.618 10.618.0 00-.383-3.22 4.169 4.169.0 00-1.457-2.243 4.066 4.066.0 00-2.531-.785 3.942 3.942.0 00-2.453.785 4.376 4.376.0 00-1.5 2.243 11.839 11.839.0 00-.383 3.22 11.84 11.84.0 00.383 3.221 4.222 4.222.0 001.476 2.262 4.075 4.075.0 002.549.8 3.8 3.8.0 002.44-.809z"/><path d="m15.105 32.057v15.565a.059.059.0 01-.049.059L.069 50.25A.06.06.0 01.005 50.167l14.987-33.47a.06.06.0 01.114.025z"/><path d="m17.631 23.087v24.6a.06.06.0 00.053.059l22.449 2.507a.06.06.0 00.061-.084L17.745.032a.06.06.0 00-.114.024z"/><path d="m39.961 52.548-24.833 7.45a.062.062.0 01-.043.0L.079 52.548a.059.059.0 01.026-.113h39.839a.06.06.0 01.017.113z"/></svg></span></a><button id=hamburger class=main-navigation-toggle aria-label="Open navigation"><svg class="icon menu-hamburger"><use xlink:href="/v1.19/img/icons.svg#menu-hamburger"/></svg></button>
+<button id=menu-close class=main-navigation-toggle aria-label="Close navigation"><svg class="icon menu-close"><use xlink:href="/v1.19/img/icons.svg#menu-close"/></svg></button></div><div id=header-links class=main-navigation-links-wrapper><ul class=main-navigation-links><li class=main-navigation-links-item><a class="main-navigation-links-link has-dropdown"><span>About</span><svg class="icon dropdown-arrow"><use xlink:href="/v1.19/img/icons.svg#dropdown-arrow"/></svg></a><ul class=main-navigation-links-dropdown><li class=main-navigation-links-dropdown-item><a href=/v1.19/about/service-mesh class=main-navigation-links-link>Service mesh</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.19/about/solutions class=main-navigation-links-link>Solutions</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.19/about/case-studies class=main-navigation-links-link>Case studies</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.19/about/ecosystem class=main-navigation-links-link>Ecosystem</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.19/about/deployment class=main-navigation-links-link>Deployment</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.19/about/faq class=main-navigation-links-link>FAQ</a></li></ul></li><li class=main-navigation-links-item><a href=/v1.19/blog/ class=main-navigation-links-link><span>Blog</span></a></li><li class=main-navigation-links-item><a href=/v1.19/news/ class=main-navigation-links-link><span>News</span></a></li><li class=main-navigation-links-item><a href=/v1.19/get-involved/ class=main-navigation-links-link><span>Get involved</span></a></li><li class=main-navigation-links-item><a href=/v1.19/docs/ class=main-navigation-links-link><span>Documentation</span></a></li></ul><div class=main-navigation-footer><button id=search-show class=search-show title='Search this site' aria-label=Search><svg class="icon magnifier"><use xlink:href="/v1.19/img/icons.svg#magnifier"/></svg></button>
+<a href=/v1.19/docs/setup/getting-started class="btn btn--primary" id=try-istio>Try Istio</a></div></div><form id=search-form class=search name=cse role=search><input type=hidden name=cx value=002184991200833970123:iwwf17ikgf4>
+<input type=hidden name=ie value=utf-8>
+<input type=hidden name=hl value=en>
+<input type=hidden id=search-page-url value=/search>
+<input id=search-textbox class="search-textbox form-control" name=q type=search aria-label='Search this site' placeholder=Search>
+<button id=search-close title='Cancel search' type=reset aria-label='Cancel search'><svg class="icon menu-close"><use xlink:href="/v1.19/img/icons.svg#menu-close"/></svg></button></form></nav></header><div class=banner-container><a href=/v1.19/news/releases/1.19.x/announcing-1.19.4/ class=banner data-title="Latest Release-2023-11-13 00:00:00 +0000 UTC" data-period-start=1699833600000 data-period-end=1700438400000 data-max-impressions=3 data-timeout><div class=content><p>Istio 1.19.4 is now available! Click here to learn more</p></div><div class=frame></div></a></div><article class=post itemscope itemtype=http://schema.org/BlogPosting><div class=header-content><h1>Getting started with the Kubernetes Gateway API</h1><p>Using the Gateway API to configure ingress traffic for your Kubernetes cluster.</p></div><p class=post-author>Dec 14, 2022 <span>|</span> By Frank Budinsky - IBM</p><div><p>Whether you&rsquo;re running your Kubernetes application services using Istio, or any service mesh for that matter,
+or simply using ordinary services in a Kubernetes cluster, you need to provide access to your application services
+for clients outside of the cluster. If you&rsquo;re using plain Kubernetes clusters, you&rsquo;re probably using
+Kubernetes <a href=https://kubernetes.io/docs/concepts/services-networking/ingress/>Ingress</a> resources
+to configure the incoming traffic. If you&rsquo;re using Istio, you are more likely
+to be using Istio&rsquo;s recommended configuration resources,
+<a href=/v1.19/docs/reference/config/networking/gateway/>Gateway</a> and <a href=/v1.19/docs/reference/config/networking/virtual-service/>VirtualService</a>,
+to do the job.</p><p>The Kubernetes Ingress resource has for some time been known to have significant shortcomings, especially
+when using it to configure ingress traffic for large applications and when working with protocols other
+than HTTP. One problem is that it configures both
+the client-side L4-L6 properties (e.g., ports, TLS, etc.) and service-side L7 routing in a single resource,
+configurations that for large applications should be managed by different teams and in different namespaces.
+Also, by trying to draw a common denominator across
+different HTTP proxies, Ingress is only able to support the most basic HTTP routing and ends up pushing
+every other feature of modern proxies into non-portable annotations.</p><p>To overcome Ingress&rsquo; shortcomings, Istio introduced its own configuration API for ingress traffic management.
+With Istio&rsquo;s API, the client-side representation is defined using an Istio Gateway resource, with L7 traffic
+moved to a VirtualService, not coincidentally the same configuration resource used for routing traffic between
+services inside the mesh. Although the Istio API provides a good solution for ingress traffic management
+for large-scale applications, it is unfortunately an Istio-only API. If you are using a different service
+mesh implementation, or no service mesh at all, you&rsquo;re out of luck.</p><h2 id=enter-gateway-api>Enter Gateway API</h2><p>There&rsquo;s a lot of excitement surrounding a new Kubernetes traffic management API,
+dubbed <a href=https://gateway-api.sigs.k8s.io/>Gateway API</a>, which has recently been
+<a href=https://kubernetes.io/blog/2022/07/13/gateway-api-graduates-to-beta/>promoted to Beta</a>.
+Gateway API provides a set of Kubernetes configuration resources for ingress traffic control
+that, like Istio&rsquo;s API, overcomes the shortcoming of Ingress, but unlike Istio&rsquo;s, is a standard Kubernetes
+API with broad industry agreement. There are <a href=https://gateway-api.sigs.k8s.io/implementations/>several implementations</a>
+of the API in the works, including a Beta implementation
+in Istio, so now may be a good time to start thinking about how you can start moving your ingress
+traffic configuration from Kubernetes Ingress or Istio Gateway/VirtualService to the new Gateway API.</p><p>Whether or not you use, or plan to use, Istio to manage your service mesh, the Istio implementation of the
+Gateway API can easily be used to get started with your cluster ingress control.
+Even though it&rsquo;s still a Beta feature in Istio, mostly driven by the fact that the Gateway API is itself
+still a Beta level API, Istio&rsquo;s implementation is quite robust because under the covers it uses Istio&rsquo;s
+same tried-and-proven internal resources to implement the configuration.</p><h2 id=gateway-api-quick-start>Gateway API quick-start</h2><p>To get started using the Gateway API, you need to first download the CRDs, which don&rsquo;t come installed by default
+on most Kubernetes clusters, at least not yet:</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl get crd gateways.gateway.networking.k8s.io &amp;&gt; /dev/null || \
+  { kubectl kustomize &#34;github.com/kubernetes-sigs/gateway-api/config/crd?ref=v0.8.0&#34; | kubectl apply -f -; }
+</code></pre><p>Once the CRDs are installed, you can use them to create Gateway API resources to configure ingress traffic,
+but in order for the resources to work, the cluster needs to have a gateway controller running.
+You can enable Istio&rsquo;s gateway controller implementation by simply installing Istio with the minimal profile:</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ curl -L https://istio.io/downloadIstio | sh -
+$ cd istio-1.19.4
+$ ./bin/istioctl install --set profile=minimal -y
+</code></pre><p>Your cluster will now have a fully-functional implementation of the Gateway API,
+via Istio&rsquo;s gateway controller named <code>istio.io/gateway-controller</code>,
+ready to use.</p><h3 id=deploy-a-kubernetes-target-service>Deploy a Kubernetes target service</h3><p>To try out the Gateway API, we&rsquo;ll use the Istio <a href=https://github.com/istio/istio/tree/release-1.19/samples/helloworld>helloworld sample</a>
+as an ingress target, but only running as a simple Kubernetes service
+without sidecar injection enabled. Because we&rsquo;re only going to use the Gateway API to control ingress traffic
+into the &ldquo;Kubernetes cluster&rdquo;, it makes no difference if the target service is running inside or
+outside of a mesh.</p><p>We&rsquo;ll use the following command to deploy the helloworld service:</p><div><a data-skipendnotes=true style=display:none href=https://raw.githubusercontent.com/istio/istio/release-1.19/samples/helloworld/helloworld.yaml>Zip</a><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl create ns sample
+$ kubectl apply -f @samples/helloworld/helloworld.yaml@ -n sample
+</code></pre></div><p>The helloworld service includes two backing deployments, corresponding to different versions (<code>v1</code> and <code>v2</code>).
+We can confirm they are both running using the following command:</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl get pod -n sample
+NAME                             READY   STATUS    RESTARTS   AGE
+helloworld-v1-776f57d5f6-s7zfc   1/1     Running   0          10s
+helloworld-v2-54df5f84b-9hxgww   1/1     Running   0          10s
+</code></pre><h3 id=configure-the-helloworld-ingress-traffic>Configure the helloworld ingress traffic</h3><p>With the helloworld service up and running, we can now use the Gateway API to configure ingress traffic for it.</p><p>The ingress entry point is defined using a
+<a href=https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1beta1.Gateway>Gateway</a> resource:</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl create namespace sample-ingress
+$ kubectl apply -f - &lt;&lt;EOF
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: Gateway
+metadata:
+  name: sample-gateway
+  namespace: sample-ingress
+spec:
+  gatewayClassName: istio
+  listeners:
+  - name: http
+    hostname: &#34;*.sample.com&#34;
+    port: 80
+    protocol: HTTP
+    allowedRoutes:
+      namespaces:
+        from: All
+EOF
+</code></pre><p>The controller that will implement a Gateway is selected by referencing a
+<a href=https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io%2fv1beta1.GatewayClass>GatewayClass</a>.
+There must be at least one GatewayClass defined in the cluster to have functional Gateways.
+In our case, we&rsquo;re selecting Istio&rsquo;s gateway controller, <code>istio.io/gateway-controller</code>, by referencing its
+associated GatewayClass (named <code>istio</code>) with the <code>gatewayClassName: istio</code> setting in the Gateway.</p><p>Notice that unlike Ingress, a Kubernetes Gateway doesn&rsquo;t include any references to the target service,
+helloworld. With the Gateway API, routes to services are defined in separate configuration resources
+that get attached to the Gateway to direct subsets of traffic to specific services,
+like helloworld in our example. This separation allows us to define the Gateway and routes in
+different namespaces, presumably managed by different teams. Here, while acting in the role of cluster
+operator, we&rsquo;re applying the Gateway in the <code>sample-ingress</code> namespace. We&rsquo;ll add the route,
+below, in the <code>sample</code> namespace, next to the helloworld service itself, on behalf of the application developer.</p><p>Because the Gateway resource is owned by a cluster operator, it can very well be used to provide ingress
+for more than one team&rsquo;s services, in our case more than just the helloworld service.
+To emphasize this point, we&rsquo;ve set hostname to <code>*.sample.com</code> in the Gateway,
+allowing routes for multiple subdomains to be attached.</p><p>After applying the Gateway resource, we need to wait for it to be ready before retrieving its external address:</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl wait -n sample-ingress --for=condition=programmed gateway sample-gateway
+$ export INGRESS_HOST=$(kubectl get -n sample-ingress gateway sample-gateway -o jsonpath=&#39;{.status.addresses[0].value}&#39;)
+</code></pre><p>Next, we attach an <a href=https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io%2fv1beta1.HTTPRoute>HTTPRoute</a>
+to the <code>sample-gateway</code> (i.e., using the <code>parentRefs</code> field) to expose and route traffic to the helloworld service:</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl apply -n sample -f - &lt;&lt;EOF
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: HTTPRoute
+metadata:
+  name: helloworld
+spec:
+  parentRefs:
+  - name: sample-gateway
+    namespace: sample-ingress
+  hostnames: [&#34;helloworld.sample.com&#34;]
+  rules:
+  - matches:
+    - path:
+        type: Exact
+        value: /hello
+    backendRefs:
+    - name: helloworld
+      port: 5000
+EOF
+</code></pre><p>Here we&rsquo;ve exposed the <code>/hello</code> path of the helloworld service to clients outside of the cluster,
+specifically via host <code>helloworld.sample.com</code>.
+You can confirm the helloworld sample is accessible using curl:</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ for run in {1..10}; do curl -HHost:helloworld.sample.com http://$INGRESS_HOST/hello; done
+Hello version: v1, instance: helloworld-v1-78b9f5c87f-2sskj
+Hello version: v2, instance: helloworld-v2-54dddc5567-2lm7b
+Hello version: v1, instance: helloworld-v1-78b9f5c87f-2sskj
+Hello version: v2, instance: helloworld-v2-54dddc5567-2lm7b
+Hello version: v2, instance: helloworld-v2-54dddc5567-2lm7b
+Hello version: v1, instance: helloworld-v1-78b9f5c87f-2sskj
+Hello version: v1, instance: helloworld-v1-78b9f5c87f-2sskj
+Hello version: v2, instance: helloworld-v2-54dddc5567-2lm7b
+Hello version: v1, instance: helloworld-v1-78b9f5c87f-2sskj
+Hello version: v2, instance: helloworld-v2-54dddc5567-2lm7b
+</code></pre><p>Since no version routing has been configured in the route rule, you should see an equal split of traffic,
+about half handled by <code>helloworld-v1</code> and the other half handled by <code>helloworld-v2</code>.</p><h3 id=configure-weight-based-version-routing>Configure weight-based version routing</h3><p>Among other &ldquo;traffic shaping&rdquo; features, you can use Gateway API to send all of the traffic to one of the versions
+or split the traffic based on request percentages. For example, you can use the following rule to distribute the
+helloworld traffic 90% to <code>v1</code>, 10% to <code>v2</code>:</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl apply -n sample -f - &lt;&lt;EOF
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: HTTPRoute
+metadata:
+  name: helloworld
+spec:
+  parentRefs:
+  - name: sample-gateway
+    namespace: sample-ingress
+  hostnames: [&#34;helloworld.sample.com&#34;]
+  rules:
+  - matches:
+    - path:
+        type: Exact
+        value: /hello
+    backendRefs:
+    - name: helloworld-v1
+      port: 5000
+      weight: 90
+    - name: helloworld-v2
+      port: 5000
+      weight: 10
+EOF
+</code></pre><p>Gateway API relies on version-specific backend service definitions for the route targets,
+<code>helloworld-v1</code> and <code>helloworld-v2</code> in this example.
+The helloworld sample already includes service definitions for the helloworld versions <code>v1</code> and <code>v2</code>,
+we just need to run the following command to define them:</p><div><a data-skipendnotes=true style=display:none href=https://raw.githubusercontent.com/istio/istio/release-1.19/samples/helloworld/gateway-api/helloworld-versions.yaml>Zip</a><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl apply -n sample -f @samples/helloworld/gateway-api/helloworld-versions.yaml@
+</code></pre></div><p>Now, we can run the previous curl commands again:</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ for run in {1..10}; do curl -HHost:helloworld.sample.com http://$INGRESS_HOST/hello; done
+Hello version: v1, instance: helloworld-v1-78b9f5c87f-2sskj
+Hello version: v1, instance: helloworld-v1-78b9f5c87f-2sskj
+Hello version: v1, instance: helloworld-v1-78b9f5c87f-2sskj
+Hello version: v1, instance: helloworld-v1-78b9f5c87f-2sskj
+Hello version: v1, instance: helloworld-v1-78b9f5c87f-2sskj
+Hello version: v1, instance: helloworld-v1-78b9f5c87f-2sskj
+Hello version: v1, instance: helloworld-v1-78b9f5c87f-2sskj
+Hello version: v1, instance: helloworld-v1-78b9f5c87f-2sskj
+Hello version: v2, instance: helloworld-v2-54dddc5567-2lm7b
+Hello version: v1, instance: helloworld-v1-78b9f5c87f-2sskj
+</code></pre><p>This time we see that about 9 out of 10 requests are now handled by <code>helloworld-v1</code> and only about 1 in 10 are handled by <code>helloworld-v2</code>.</p><h2 id=gateway-api-for-internal-mesh-traffic>Gateway API for internal mesh traffic</h2><p>You may have noticed that we&rsquo;ve been talking about the Gateway API only as an ingress configuration API,
+often referred to as north-south traffic management, and not an API for service-to-service (aka, east-west)
+traffic management within a cluster.</p><p>If you are using a service mesh, it would be highly desirable to use the same API
+resources to configure both ingress traffic routing and internal traffic, similar to the way Istio uses
+VirtualService to configure route rules for both. Fortunately, the Kubernetes Gateway API is working to
+add this support.
+Although not as mature as the Gateway API for ingress traffic, an effort
+known as the <a href=https://gateway-api.sigs.k8s.io/contributing/gamma/>Gateway API for Mesh Management and Administration (GAMMA)</a>
+initiative is underway to make this a reality and Istio intends to make Gateway API the default API for all
+of its traffic management <a href=/v1.19/blog/2022/gateway-api-beta/>in the future</a>.</p><p>The first significant <a href=https://gateway-api.sigs.k8s.io/geps/gep-1426/>Gateway Enhancement Proposal (GEP)</a>
+has recently been accepted and is, in-fact, already available to use in Istio.
+To try it out, you&rsquo;ll need to use the
+<a href=https://gateway-api.sigs.k8s.io/concepts/versioning/#release-channels-eg-experimental-standard>experimental version</a>
+of the Gateway API CRDs, instead of the standard Beta version we installed above, but otherwise, you&rsquo;re ready to go.
+Check out the Istio <a href=/v1.19/docs/tasks/traffic-management/request-routing/>request routing task</a>
+to get started.</p><h2 id=summary>Summary</h2><p>In this article, we&rsquo;ve seen how a light-weight minimal install of Istio can be used to provide a Beta-quality implementation
+of the new Kubernetes Gateway API for cluster ingress traffic control. For Istio users, the Istio implementation also lets
+you start trying out the experimental Gateway API support for east-west traffic management within the mesh.</p><p>Much of Istio&rsquo;s documentation, including all of the <a href=/v1.19/docs/tasks/traffic-management/ingress/>ingress tasks</a>
+and several mesh-internal traffic management tasks, already includes parallel instructions for
+configuring traffic using either the Gateway API or the Istio configuration API.
+Check out the <a href=/v1.19/docs/tasks/traffic-management/ingress/gateway-api/>Gateway API task</a> for more information about the
+Gateway API implementation in Istio.</p></div><nav class=pagenav><div class=left></div><div class=right><a title="Announcing the newest Istio Steering Committee members." href=/v1.19/blog/2022/steering-election-results/ class=next-link>2022 Istio Steering Committee Election Results<svg class="icon right-arrow"><use xlink:href="/v1.19/img/icons.svg#right-arrow"/></svg></a></div></nav></article><footer class=footer><div class="footer-wrapper container-l"><div class="user-links footer-links"><a class=channel title='GitHub is where development takes place on Istio code' href=https://github.com/istio/community aria-label=GitHub><svg class="icon github"><use xlink:href="/v1.19/img/icons.svg#github"/></svg></a><a class=channel title="Access our team drive if you'd like to take a look at the Istio technical design documents" href=https://groups.google.com/forum/#!forum/istio-team-drive-access aria-label="team drive"><svg class="icon drive"><use xlink:href="/v1.19/img/icons.svg#drive"/></svg></a><a class=channel title='Interactively discuss issues with the Istio community on Slack' href=https://slack.istio.io aria-label=slack><svg class="icon slack"><use xlink:href="/v1.19/img/icons.svg#slack"/></svg></a><a class=channel title='Stack Overflow is where you can ask questions and find curated answers on deploying, configuring, and using Istio' href=https://stackoverflow.com/questions/tagged/istio aria-label="Stack Overflow"><svg class="icon stackoverflow"><use xlink:href="/v1.19/img/icons.svg#stackoverflow"/></svg></a><a class=channel title='Follow us on Twitter to get the latest news' href=https://twitter.com/IstioMesh aria-label=Twitter><svg class="icon twitter"><use xlink:href="/v1.19/img/icons.svg#twitter"/></svg></a></div><hr class=footer-separator role=separator><div class="info footer-info"><a class=logo href=/v1.19/ aria-label=logotype><svg xmlns="http://www.w3.org/2000/svg" width="128" height="60" viewBox="0 0 128 60"><path d="M58.434 48.823A.441.441.0 0158.3 48.497V22.583a.444.444.0 01.134-.326.446.446.0 01.327-.134h3.527a.447.447.0 01.325.134.447.447.0 01.134.326v25.914a.443.443.0 01-.134.326.444.444.0 01-.325.134h-3.527a.444.444.0 01-.327-.134z"/><path d="m70.969 48.477a6.556 6.556.0 01-2.818-1.955 4.338 4.338.0 01-1-2.78v-.345a.443.443.0 01.134-.326.444.444.0 01.326-.135h3.374a.444.444.0 01.326.135.445.445.0 01.134.326v.077a2.014 2.014.0 001.054 1.667 4.672 4.672.0 002.664.709 4.446 4.446.0 002.492-.633 1.862 1.862.0 00.958-1.591 1.426 1.426.0 00-.786-1.322 12.7 12.7.0 00-2.549-.939l-1.457-.46a21.526 21.526.0 01-3.3-1.227 6.57 6.57.0 01-2.262-1.783 4.435 4.435.0 01-.92-2.894 5.081 5.081.0 012.109-4.275 8.993 8.993.0 015.558-1.591 10.445 10.445.0 014.1.748 6.3 6.3.0 012.722 2.07 5 5 0 01.958 3.009.441.441.0 01-.134.326.441.441.0 01-.325.134h-3.258a.441.441.0 01-.326-.134.443.443.0 01-.134-.326 1.974 1.974.0 00-.978-1.667 4.647 4.647.0 00-2.665-.671 4.741 4.741.0 00-2.435.556 1.724 1.724.0 00-.938 1.553 1.512 1.512.0 00.9 1.4 15.875 15.875.0 003.01 1.055l.843.229a27.368 27.368.0 013.412 1.246 6.67 6.67.0 012.338 1.763 4.387 4.387.0 01.958 2.933 4.988 4.988.0 01-2.146 4.275 9.543 9.543.0 01-5.712 1.552 11.626 11.626.0 01-4.227-.709z"/><path d="m97.039 32.837a.443.443.0 01-.326.135h-3.911a.169.169.0 00-.191.192v9.239a2.951 2.951.0 00.632 2.108 2.7 2.7.0 002.013.652h1.15a.444.444.0 01.325.134.441.441.0 01.134.326v2.875a.471.471.0 01-.459.5l-1.994.039a8 8 0 01-4.524-1.035q-1.495-1.035-1.533-3.91V33.166A.17.17.0 0088.164 32.974H85.978A.441.441.0 0185.652 32.839.441.441.0 0185.518 32.513V29.83a.441.441.0 01.134-.326.444.444.0 01.326-.135h2.186a.169.169.0 00.191-.192v-4.485a.438.438.0 01.134-.326.44.44.0 01.325-.134h3.336a.443.443.0 01.325.134.442.442.0 01.135.326v4.485a.169.169.0 00.191.192h3.911a.446.446.0 01.326.135.446.446.0 01.134.326v2.683a.446.446.0 01-.133.324z"/><path d="m101.694 25.917a2.645 2.645.0 01-.767-1.955 2.65 2.65.0 01.767-1.955 2.65 2.65.0 011.955-.767 2.65 2.65.0 011.955.767 2.652 2.652.0 01.767 1.955 2.647 2.647.0 01-.767 1.955 2.646 2.646.0 01-1.955.767 2.645 2.645.0 01-1.955-.767zm-.211 22.906a.441.441.0 01-.134-.326V29.79a.444.444.0 01.134-.326.446.446.0 01.326-.134h3.527a.446.446.0 01.326.134.445.445.0 01.134.326v18.707a.443.443.0 01-.134.326.443.443.0 01-.326.134h-3.527a.443.443.0 01-.326-.134z"/><path d="m114.019 47.734a8.1 8.1.0 01-3.047-4.255 14.439 14.439.0 01-.652-4.37 14.3 14.3.0 01.614-4.371A7.869 7.869.0 01114 30.56a9.072 9.072.0 015.252-1.5 8.543 8.543.0 015.041 1.5 7.985 7.985.0 013.009 4.14 12.439 12.439.0 01.69 4.37 13.793 13.793.0 01-.651 4.37 8.255 8.255.0 01-3.028 4.275 8.475 8.475.0 01-5.1 1.553 8.754 8.754.0 01-5.194-1.534zm7.629-3.1a4.536 4.536.0 001.476-2.262 11.335 11.335.0 00.383-3.221 10.618 10.618.0 00-.383-3.22 4.169 4.169.0 00-1.457-2.243 4.066 4.066.0 00-2.531-.785 3.942 3.942.0 00-2.453.785 4.376 4.376.0 00-1.5 2.243 11.839 11.839.0 00-.383 3.22 11.84 11.84.0 00.383 3.221 4.222 4.222.0 001.476 2.262 4.075 4.075.0 002.549.8 3.8 3.8.0 002.44-.809z"/><path d="m15.105 32.057v15.565a.059.059.0 01-.049.059L.069 50.25A.06.06.0 01.005 50.167l14.987-33.47a.06.06.0 01.114.025z"/><path d="m17.631 23.087v24.6a.06.06.0 00.053.059l22.449 2.507a.06.06.0 00.061-.084L17.745.032a.06.06.0 00-.114.024z"/><path d="m39.961 52.548-24.833 7.45a.062.062.0 01-.043.0L.079 52.548a.059.059.0 01.026-.113h39.839a.06.06.0 01.017.113z"/></svg></a><div class=footer-languages><a tabindex=-1 lang=en id=switch-lang-en class="footer-languages-item active"><svg class="icon tick"><use xlink:href="/v1.19/img/icons.svg#tick"/></svg>English</a>
+<a tabindex=-1 lang=zh id=switch-lang-zh class=footer-languages-item>中文</a></div></div><ul class=footer-policies><li class=footer-policies-item><a class=footer-policies-link href=https://www.linuxfoundation.org/legal/terms>Terms and Conditions</a> |
+<a class=footer-policies-link href=https://www.linuxfoundation.org/legal/privacy-policy>Privacy policy</a> |
+<a class=footer-policies-link href=https://github.com/istio/istio.io/edit/release-1.19/content/en/blog/2022/getting-started-gtwapi/index.md>Edit this Page on GitHub</a></li></ul><div class=footer-base><span class=footer-base-copyright>&copy; 2023 the Istio Authors.</span>
+<span class=footer-base-version>Version
+Archive
+1.19.4</span><ul class=footer-base-releases><li class=footer-base-releases-item><a tabindex=-1 class=footer-base-releases-link onclick='return navigateToUrlOrRoot("https://istio.io/blog/2022/getting-started-gtwapi/"),!1'>current release</a></li><li class=footer-base-releases-item><a tabindex=-1 class=footer-base-releases-link onclick='return navigateToUrlOrRoot("https://preliminary.istio.io/blog/2022/getting-started-gtwapi/"),!1'>next release</a></li><li class=footer-base-releases-item><a tabindex=-1 class=footer-base-releases-link href=https://istio.io/archive>older releases</a></li></ul></div></div></footer><div id=scroll-to-top-container aria-hidden=true><button id=scroll-to-top title='Back to top' tabindex=-1><svg class="icon top"><use xlink:href="/v1.19/img/icons.svg#top"/></svg></button></div></body></html>

@@ -8,13 +8,13 @@ test: yes
 ---
 
 Telemetry API 如今在 Istio 中作为核心 API 已经有一段时间了。
-之前用户必须在 Istio 的 `MeshConfig` 中配置遥测。
+之前用户必须在 Istio 的 `MeshConfig` 中配置 Telemetry。
 
 {{< boilerplate before-you-begin-egress >}}
 
 {{< boilerplate start-httpbin-service >}}
 
-## 安装{#installation}
+## 安装  {#installation}
 
 在本例中，我们将发送日志到 [Grafana Loki](https://grafana.com/oss/loki/)，确保它已被安装。
 
@@ -24,7 +24,7 @@ $ kubectl apply -f @samples/addons/loki.yaml@ -n istio-system
 $ kubectl apply -f @samples/open-telemetry/loki/otel.yaml@ -n istio-system
 {{< /text >}}
 
-## Telemetry API 入门{#get-started-with-telemetry-api}
+## Telemetry API 入门  {#get-started-with-telemetry-api}
 
 1. 启用访问日志记录
 
@@ -132,14 +132,36 @@ $ kubectl apply -f @samples/open-telemetry/loki/otel.yaml@ -n istio-system
     EOF
     {{< /text >}}
 
-    有关更多信息，请参阅[使用赋值表达式](/zh/docs/tasks/observability/metrics/customize-metrics/#use-expressions-for-values)
+1. 使用 CEL 表达式过滤健康检查访问日志
 
-## 使用 OpenTelemetry 提供程序{#work-with-otel-provider}
+    仅当日志不是由 Amazon Route 53 健康检查服务所生成时，以下配置才显示访问日志。
+    注意：`request.useragent` 专用于 HTTP 流量，因此为了避免破坏 TCP 流量，
+    我们需要检查该字段是否存在。有关更多信息，请参阅
+    [CEL 类型检查](https://kubernetes.io/docs/reference/using-api/cel/#type-checking)
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -f -
+    apiVersion: telemetry.istio.io/v1alpha1
+    kind: Telemetry
+    metadata:
+      name: filter-health-check-logging
+    spec:
+      accessLogging:
+      - providers:
+        - name: otel
+        filter:
+          expression: "!has(request.useragent) || !(request.useragent.startsWith("Amazon-Route53-Health-Check-Service"))"
+    EOF
+    {{< /text >}}
+
+    有关更多信息，请参阅[使用赋值表达式](/zh/docs/tasks/observability/metrics/customize-metrics/#use-expressions-for-values)。
+
+## 使用 OpenTelemetry 提供程序  {#work-with-otel-provider}
 
 Istio 支持使用 [OpenTelemetry](https://opentelemetry.io/) 协议发送访问日志，
 如[此处](/zh/docs/tasks/observability/logs/otel-provider)所述。
 
-## 清理{#cleanup}
+## 清理  {#cleanup}
 
 1.  移除所有 Telemetry API：
 

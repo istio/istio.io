@@ -22,7 +22,7 @@ Istio 对虚拟机的支持允许将 Kubernetes 集群外的工作负载接入�
 
 {{< tabset category-name="network-mode" >}}
 
-{{< tab name="Single-Network" category-value="single" >}}
+{{< tab name="单网络" category-value="single" >}}
 
 在这个网格中，存在一个单独的[网络](/zh/docs/ops/deployment/deployment-models/#network-models)，
 其中 Pod 和虚拟机彼此之间可以直接通信。
@@ -39,7 +39,7 @@ Pod 和虚拟机彼此之间可以直接通信，无需任何中间 Gateway。
 
 {{< /tab >}}
 
-{{< tab name="Multi-Network" category-value="multiple" >}}
+{{< tab name="多网络" category-value="multiple" >}}
 
 在这个网格中，存在多个[网络](/zh/docs/ops/deployment/deployment-models/#network-models)，
 其中 Pod 和虚拟机彼此之间不能直接通信。

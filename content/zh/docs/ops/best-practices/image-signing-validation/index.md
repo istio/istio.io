@@ -18,7 +18,7 @@ Cosign 是作为 [sigstore](https://www.sigstore.dev) 项目的一部分开发�
 
 此过程适用于手动执行或与构建/部署管道集成，以自动验证镜像制品。
 
-## 先决条件{#prerequisites}
+## 先决条件 {#prerequisites}
 
 在开始之前，请执行以下操作：
 
@@ -34,7 +34,7 @@ $ openssl dgst -sha256 \
 
 1. 使二进制文件可执行（`chmod +x`），并移动到 `PATH` 上的一个位置。
 
-## 验证镜像{#validating-image}
+## 验证镜像 {#validating-image}
 
 要验证容器镜像，请执行以下操作：
 

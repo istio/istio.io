@@ -56,9 +56,9 @@ Istio 默认会将 Init 容器 `istio-init` 注入到网格中部署的 Pod 内�
     ✔ Installation complete
     {{< /text >}}
 
-## 部署样例应用{#deploy-sample-app}
+## 部署示例应用 {#deploy-sample-app}
 
-1.  添加命名空间标签，以便为将要运行 demo 应用的 `default` 命名空间执行 `baseline` 策略：
+1. 添加命名空间标签，以便为将要运行 demo 应用的 `default` 命名空间执行 `baseline` 策略：
 
     {{< text bash >}}
     $ kubectl label --overwrite ns default \
@@ -67,7 +67,7 @@ Istio 默认会将 Init 容器 `istio-init` 注入到网格中部署的 Pod 内�
     namespace/default labeled
     {{< /text >}}
 
-1. 使用启用 PSA 的配置资源来部署样例应用：
+1. 使用启用 PSA 的配置资源来部署示例应用：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-psa.yaml@
@@ -94,9 +94,9 @@ Istio 默认会将 Init 容器 `istio-init` 注入到网格中部署的 Pod 内�
     <title>Simple Bookstore App</title>
     {{< /text >}}
 
-## 卸载{#uninstall}
+## 卸载 {#uninstall}
 
-1. 删除样例应用
+1. 删除示例应用
 
     {{< text bash >}}
     $ kubectl delete -f samples/bookinfo/platform/kube/bookinfo-psa.yaml

@@ -53,7 +53,7 @@ snip_install_the_eastwest_gateway_in_cluster1_2() {
 kubectl --context="${CTX_CLUSTER1}" get svc istio-eastwestgateway -n istio-system
 }
 
-! read -r -d '' snip_install_the_eastwest_gateway_in_cluster1_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_install_the_eastwest_gateway_in_cluster1_2_out <<\ENDSNIP
 NAME                    TYPE           CLUSTER-IP    EXTERNAL-IP    PORT(S)   AGE
 istio-eastwestgateway   LoadBalancer   10.80.6.124   34.75.71.237   ...       51s
 ENDSNIP
@@ -96,7 +96,7 @@ snip_install_the_eastwest_gateway_in_cluster2_2() {
 kubectl --context="${CTX_CLUSTER2}" get svc istio-eastwestgateway -n istio-system
 }
 
-! read -r -d '' snip_install_the_eastwest_gateway_in_cluster2_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_install_the_eastwest_gateway_in_cluster2_2_out <<\ENDSNIP
 NAME                    TYPE           CLUSTER-IP    EXTERNAL-IP    PORT(S)   AGE
 istio-eastwestgateway   LoadBalancer   10.0.12.121   34.122.91.98   ...       51s
 ENDSNIP
@@ -107,14 +107,14 @@ kubectl --context="${CTX_CLUSTER2}" apply -n istio-system -f \
 }
 
 snip_enable_endpoint_discovery_1() {
-istioctl x create-remote-secret \
+istioctl create-remote-secret \
   --context="${CTX_CLUSTER1}" \
   --name=cluster1 | \
   kubectl apply -f - --context="${CTX_CLUSTER2}"
 }
 
 snip_enable_endpoint_discovery_2() {
-istioctl x create-remote-secret \
+istioctl create-remote-secret \
   --context="${CTX_CLUSTER2}" \
   --name=cluster2 | \
   kubectl apply -f - --context="${CTX_CLUSTER1}"

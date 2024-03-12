@@ -9,19 +9,22 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-[安全网关](/zh/docs/tasks/traffic-management/ingress/secure-ingress/)说明了如何为 HTTP 服务配置 HTTPS 访问入口。而本示例将说明如何为 HTTPS 服务配置 HTTPS 访问入口，即配置 Ingress Gateway 以执行 SNI 透传，而不是对传入请求进行 TLS 终止。
+[安全网关](/zh/docs/tasks/traffic-management/ingress/secure-ingress/)说明了如何为 HTTP 服务配置 HTTPS 访问入口。
+而本示例将说明如何为 HTTPS 服务配置 HTTPS 访问入口，
+即配置 Ingress Gateway 以执行 SNI 透传，而不是对传入请求进行 TLS 终止。
 
-本任务中的 HTTPS 示例服务是一个简单的 [NGINX](https://www.nginx.com) 服务。在接下来的步骤中，您首先在 Kubernetes 集群中创建一个 NGINX 服务。接着，通过网关给这个服务配置一个域名是 `nginx.example.com` 的访问入口。
+本任务中的 HTTPS 示例服务是一个简单的
+[NGINX](https://www.nginx.com) 服务。在接下来的步骤中，
+您首先在 Kubernetes 集群中创建一个 NGINX 服务。接着，
+通过网关给这个服务配置一个域名是 `nginx.example.com` 的访问入口。
 
-{{< boilerplate gateway-api-support >}}
-
-{{< boilerplate gateway-api-experimental >}}
+{{< boilerplate gateway-api-gamma-support >}}
 
 ## 准备工作 {#before-you-begin}
 
 按照[安装指南](/zh/docs/setup/)部署 Istio。
 
-## 生成客户端和服务端的证书和密钥{#generate-client-and-server-certificates-and-keys}
+## 生成客户端和服务端的证书和密钥 {#generate-client-and-server-certificates-and-keys}
 
 对于此任务，您可以使用自己喜欢的工具来生成证书和密钥。以下命令使用
 [openssl](https://man.openbsd.org/openssl.1)：
@@ -39,9 +42,11 @@ test: yes
     $ openssl x509 -req -sha256 -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 0 -in nginx.example.com.csr -out nginx.example.com.crt
     {{< /text >}}
 
-## 部署一个 NGINX 服务{#deploy-an-nginx-server}
+## 部署一个 NGINX 服务 {#deploy-an-nginx-server}
 
-1. 创建一个 Kubernetes 的 [Secret](https://kubernetes.io/zh-cn/docs/concepts/configuration/secret/) 资源来保存服务的证书：
+1. 创建一个 Kubernetes 的
+   [Secret](https://kubernetes.io/zh-cn/docs/concepts/configuration/secret/)
+   资源来保存服务的证书：
 
     {{< text bash >}}
     $ kubectl create secret tls nginx-server-certs --key nginx.example.com.key --cert nginx.example.com.crt
@@ -75,13 +80,15 @@ test: yes
     EOF
     {{< /text >}}
 
-1. 创建一个 Kubernetes 的 [ConfigMap](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-pod-configmap/) 资源来保存 NGINX 服务的配置：
+1. 创建一个 Kubernetes 的
+   [ConfigMap](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-pod-configmap/)
+   资源来保存 NGINX 服务的配置：
 
     {{< text bash >}}
     $ kubectl create configmap nginx-configmap --from-file=nginx.conf=./nginx.conf
     {{< /text >}}
 
-1. 部署 NGINX 服务
+1. 部署 NGINX 服务：
 
     {{< text bash >}}
     $ cat <<EOF | istioctl kube-inject -f - | kubectl apply -f -
@@ -134,7 +141,9 @@ test: yes
     EOF
     {{< /text >}}
 
-1. 要测试 NGINX 服务是否已成功部署，需要从其 Sidecar 代理发送请求，并忽略检查服务端的证书（使用 `curl` 的 `-k` 选项）。确保正确打印服务端的证书，即 `common name (CN)` 等于 `nginx.example.com`。
+1. 要测试 NGINX 服务是否已成功部署，需要从其 Sidecar 代理发送请求，
+   并忽略检查服务端的证书（使用 `curl` 的 `-k` 选项）。
+   确保正确打印服务端的证书，即 `common name (CN)` 等于 `nginx.example.com`。
 
     {{< text bash >}}
     $ kubectl exec "$(kubectl get pod  -l run=my-nginx -o jsonpath={.items..metadata.name})" -c istio-proxy -- curl -sS -v -k --resolve nginx.example.com:443:127.0.0.1 https://nginx.example.com
@@ -163,9 +172,11 @@ test: yes
     ...
     {{< /text >}}
 
-## 配置 Ingress Gateway{#configure-an-ingress-gateway}
+## 配置 Ingress Gateway {#configure-an-ingress-gateway}
 
-1. 定义一个 `server` 部分的端口为 443 的 `Gateway`。注意，`PASSTHROUGH tls` TLS 模式，该模式指示 Gateway 以 AS IS 方式传递入口流量，而不终止 TLS。
+1. 定义一个 `server` 部分的端口为 443 的 `Gateway`。
+   注意，`PASSTHROUGH tls` TLS 模式，
+   该模式指示 Gateway 以 AS IS 方式传递入口流量，而不终止 TLS。
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -175,7 +186,7 @@ test: yes
       name: mygateway
     spec:
       selector:
-        istio: ingressgateway # use istio default ingress gateway
+        istio: ingressgateway # 使用 istio 默认的入口网关
       servers:
       - port:
           number: 443
@@ -214,9 +225,11 @@ test: yes
     EOF
     {{< /text >}}
 
-1. 根据[确定 Ingress IP 和端口](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-i-p-and-ports)中的指令来定义环境变量 `SECURE_INGRESS_PORT` 和 `INGRESS_HOST`。
+1. 根据[确定 Ingress IP 和端口](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-i-p-and-ports)中的指令来定义环境变量
+   `SECURE_INGRESS_PORT` 和 `INGRESS_HOST`。
 
-1. 从集群外访问 NGINX 服务。注意，服务端返回了正确的证书，并且该证书已成功验证（输出了 _SSL certificate verify ok_）。
+1. 从集群外访问 NGINX 服务。注意，服务端返回了正确的证书，
+   并且该证书已成功验证（输出了 **SSL certificate verify ok**）。
 
     {{< text bash >}}
     $ curl -v --resolve "nginx.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST" --cacert example.com.crt "https://nginx.example.com:$SECURE_INGRESS_PORT"
@@ -235,7 +248,7 @@ test: yes
       <title>Welcome to nginx!</title>
     {{< /text >}}
 
-## 清除{#cleanup}
+## 清除 {#cleanup}
 
 1. 删除已创建的 Kubernetes 资源：
 

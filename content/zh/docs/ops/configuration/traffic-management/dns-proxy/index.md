@@ -11,17 +11,17 @@ test: yes
 当 Istio 代理 DNS 时，所有来自应用程序的 DNS 请求将会被重定向到 Sidecar，
 因为 Sidecar 存储了域名到 IP 地址的映射。如果请求被 Sidecar 处理，
 它将直接给应用返回响应，避免了对上游DNS服务器的往返。
-反之，请求将按照标准的`/etc/resolv.conf` DNS 配置向上游转发。
+反之，请求将按照标准的 `/etc/resolv.conf` DNS 配置向上游转发。
 
 虽然 Kubernetes 为 Kubernetes `Service` 提供了一个开箱即用的 DNS 解析，
-但任何自定义的  `ServiceEntry` 都不会被识别。有了这个功能，`ServiceEntry`
+但任何自定义的 `ServiceEntry` 都不会被识别。有了这个功能，`ServiceEntry`
 地址可以被解析，而不需要自定义 DNS 服务配置。对于 Kubernetes `Service` 来说，
 一样的 DNS 响应，但减少了 `kube-dns` 的负载，并且提高了性能。
 
 该功能也适用于在 Kubernetes 外部运行的服务。这意味着所有的内部服务都可以被解析，
 而不需要再使用笨重的运行方法来暴露集群外的 Kubernetes DNS 条目。
 
-## 开始{#getting-started}
+## 开始  {#getting-started}
 
 此功能默认情况下未启用。要启用该功能，请在安装 Istio 时使用以下设置：
 
@@ -33,14 +33,14 @@ spec:
   meshConfig:
     defaultConfig:
       proxyMetadata:
-        # Enable basic DNS proxying
+        # 启用基本 DNS 代理
         ISTIO_META_DNS_CAPTURE: "true"
-        # Enable automatic address allocation, optional
+        # 启用自动地址分配，可选
         ISTIO_META_DNS_AUTO_ALLOCATE: "true"
 EOF
 {{< /text >}}
 
-您也可以在每个 Pod 上启用该功能，通过[`proxy.istio.io/config` 注解](/zh/docs/reference/config/annotations/)：
+您也可以在每个 Pod 上启用该功能，通过 [`proxy.istio.io/config` 注解](/zh/docs/reference/config/annotations/)：
 
 {{< text syntax=yaml snip_id=none >}}
 kind: Deployment
@@ -59,10 +59,11 @@ spec:
 {{< /text >}}
 
 {{< tip >}}
-当时使用 [`istioctl 工作负载配置`](/zh/docs/setup/install/virtual-machine/) 部署虚拟机时，默认启用基础 DNS 代理。
+当时使用 [`istioctl 工作负载配置`](/zh/docs/setup/install/virtual-machine/)部署虚拟机时，
+默认启用基础 DNS 代理。
 {{< /tip >}}
 
-## DNS 捕获{#DNS-capture-in-action}
+## DNS 捕获  {#DNS-capture-in-action}
 
 为了尝试 DNS 捕获，首先在外部服务启动一个 `ServiceEntry`：
 
@@ -99,9 +100,9 @@ $ kubectl exec deploy/sleep -- curl -sS -v address.internal
 *   Trying 198.51.100.1:80...
 {{< /text >}}
 
-## 自动分配地址{#address-auto-allocation}
+## 自动分配地址  {#address-auto-allocation}
 
-在上面的示例中，对于发送请求的服务，您有一个预定义的IP地址。但是常规情况下，
+在上面的示例中，对于发送请求的服务，您有一个预定义的 IP 地址。但是常规情况下，
 服务访问外部服务时一般没有一个相对固定的地址，因此需要通过 DNS 代理去访问外部服务。
 如果 DNS 代理没有足够的信息去返回一个响应的情况下，将需要向上游转发 DNS 请求。
 
@@ -153,7 +154,7 @@ $ kubectl exec deploy/sleep -- curl -sS -v auto.internal
 您可以看到，请求被发送到一个自动分配的地址 `240.240.0.1` 上。
 这些地址将从 `240.240.0.0/16` 预留的 IP 地址池中挑选出来，以避免与真实的服务发生冲突。
 
-## 不带 VIP 的外部 TCP 服务{#external-tcp-services-without-vips}
+## 不带 VIP 的外部 TCP 服务  {#external-tcp-services-without-vips}
 
 默认情况下，Istio 在路由外部 TCP 流量时存在限制，因为它无法区分相同端口上的多个 TCP 服务。
 当使用第三方数据库（如 AWS 关系型数据库服务）或任何具有地理冗余设置的数据库时，这种限制尤为明显。
@@ -181,12 +182,12 @@ $ kubectl exec deploy/sleep -- curl -sS -v auto.internal
       meshConfig:
         defaultConfig:
           proxyMetadata:
-            # Enable basic DNS proxying
+            # 启用基本 DNS 代理
             ISTIO_META_DNS_CAPTURE: "true"
-            # Enable automatic address allocation, optional
+            # 启用自动地址分配，可选
             ISTIO_META_DNS_AUTO_ALLOCATE: "true"
-        # discoverySelectors configuration below is just used for simulating the external service TCP scenario,
-        # so that we do not have to use an external site for testing.
+        # 下面的 discoverySelectors 配置只是用于模拟外部服务 TCP 场景，
+        # 这样我们就不必使用外部站点进行测试。
         discoverySelectors:
         - matchLabels:
             istio-injection: enabled
@@ -247,7 +248,7 @@ $ kubectl exec deploy/sleep -- curl -sS -v auto.internal
     ADDRESS=240.240.69.138, DESTINATION=Cluster: outbound|9000||tcp-echo.external-1.svc.cluster.local
     {{< /text >}}
 
-## 清理{#cleanup}
+## 清理  {#cleanup}
 
 {{< text bash >}}
 $ kubectl -n external-1 delete -f @samples/tcp-echo/tcp-echo.yaml@

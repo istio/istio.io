@@ -23,7 +23,7 @@ This was a significant milestone, since it indicates that:
 
 ## `wasm-extensions` Ecosystem Repository
 
-As an early adopter of the Envoy Wasm runtime, the Istio Extensions and Telemetry working group gained a lot of experience in developing extensions. We built several first-class extensions, including [metadata exchange](/docs/reference/config/proxy_extensions/metadata_exchange/), [Prometheus stats](https://archive.istio.io/v1.17/docs/reference/config/proxy_extensions/stats/), and [attribute generation](https://archive.istio.io/v1.17/docs/reference/config/proxy_extensions/attributegen/).
+As an early adopter of the Envoy Wasm runtime, the Istio Extensions and Telemetry working group gained a lot of experience in developing extensions. We built several first-class extensions, including [metadata exchange](https://archive.istio.io/v1.17/docs/reference/config/proxy_extensions/metadata_exchange/), [Prometheus stats](https://archive.istio.io/v1.17/docs/reference/config/proxy_extensions/stats/), and [attribute generation](https://archive.istio.io/v1.17/docs/reference/config/proxy_extensions/attributegen/).
 In order to share our learning more broadly, we created a [`wasm-extensions` repository](https://github.com/istio-ecosystem/wasm-extensions) in the `istio-ecosystem` organization. This repository serves two purposes:
 
 * It provides canonical example extensions, covering several highly demanded features (such as [basic authentication](https://github.com/istio-ecosystem/wasm-extensions/tree/master/extensions/basic_auth)).

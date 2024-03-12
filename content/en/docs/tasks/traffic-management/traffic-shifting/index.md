@@ -125,7 +125,7 @@ kind: HTTPRoute
 ...
 spec:
   parentRefs:
-  - group: gateway.networking.k8s.io
+  - group: ""
     kind: Service
     name: reviews
     port: 9080

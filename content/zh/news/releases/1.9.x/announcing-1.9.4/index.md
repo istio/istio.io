@@ -23,7 +23,7 @@ aliases:
 
 - **修复** 在另一个命名空间中安装 Istio 时，在 `istio-system` 下创建 IOP 的问题。([Issue #31517](https://github.com/istio/istio/issues/31517))
 
-- **修复** 当使用多网络时，使用 `PeerAuthentication` 来关闭 mTLS 时出现的问题。现在，非 mTLS 端点将从跨网络负载平衡端点中移除，以防止 500 错误。([Issue #28798](https://github.com/istio/istio/issues/28798))
+- **修复** 当使用多网络时，使用 `PeerAuthentication` 来关闭 mTLS 时出现的问题。现在，非 mTLS 端点将从跨网络负载均衡端点中移除，以防止 500 错误。([Issue #28798](https://github.com/istio/istio/issues/28798))
 
 - **修复** 当 `istiod` 无法从通过远程加密配置的集群中读取资源时，它将一直不会准备就绪。在 `PILOT_REMOTE_CLUSTER_TIMEOUT` 配置的超时后（默认为 `30s`），`istiod` 将在不同步远程集群的情况下准备就绪。当发生这种情况时，`remote_cluster_sync_timeouts` 将被递增。([Issue #30838](https://github.com/istio/istio/issues/30838))
 

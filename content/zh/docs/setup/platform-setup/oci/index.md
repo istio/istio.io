@@ -21,9 +21,10 @@ test: no
 
 要创建一个 OKE 集群，您必须属于租户的管理员或被策略授予 `CLUSTER_MANAGE` 权限的组。
 
-[创建一个 OKE 集群][Create]最简单的方法是使用[快速创建工作流程][Quick]可在[Oracle Cloud Infrastructure (OCI)控制台][Console]。其他方法包括[自定义创建工作流][Custom]和[Oracle Cloud Infrastructure (OCI) API][API]。
+[创建一个 OKE 集群][Create]最简单的方法是使用[快速创建工作流程][Quick]可在 [Oracle Cloud Infrastructure (OCI)控制台][Console]。
+其他方法包括[自定义创建工作流][Custom]和 [Oracle Cloud Infrastructure (OCI) API][API]。
 
-[OCI CLI][OCICLI]也可以通过下面的例子中的命令行创建集群:
+[OCI CLI][OCICLI] 也可以通过下面的例子中的命令行创建集群:
 
 {{< text bash >}}
 $ oci ce cluster create \
@@ -42,9 +43,10 @@ $ oci ce cluster create \
 
 ## 建立本地对 OKE 集群的访问{#setting-up-local-access-to-an-OKE-cluster}
 
-从您的本地机器集群[安装 `kubectl`][kubectl]和[OCICLI][OCICLI](`OCI`)接入 OKE 集群。
+从您的本地机器集群[安装 `kubectl`][kubectl] 和 [OCICLI][OCICLI](`OCI`) 接入 OKE 集群。
 
-使用以下 OCI CLI 命令创建或更新 `kubecconfig` 文件包括一个 `oci` 命令，它可以动态地生成和插入一个短期的认证令牌允许 `kubectl` 访问集群：
+使用以下 OCI CLI 命令创建或更新 `kubeconfig` 文件包括一个 `oci` 命令，
+它可以动态地生成和插入一个短期的认证令牌允许 `kubectl` 访问集群：
 
 {{< text bash >}}
 $ oci ce cluster create-kubeconfig \
@@ -55,12 +57,13 @@ $ oci ce cluster create-kubeconfig \
 {{< /text >}}
 
 {{< tip >}}
-虽然一个 OKE 集群可能暴露多个端点，但只会攻击 `kubecconfig` 文件中的那个端点。
+虽然一个 OKE 集群可能暴露多个端点，但只会攻击 `kubeconfig` 文件中的那个端点。
 {{< /tip >}}
 
-`kube-endpoint` 支持的值是 `PUBLIC_ENDPOINT` 或 `PRIVATE_ENDPOINT`。您可能还需要配置 SSH 隧道通过 [Bastion 主机][bastion]访问只有私有端点的集群。
+`kube-endpoint` 支持的值是 `PUBLIC_ENDPOINT` 或 `PRIVATE_ENDPOINT`。
+您可能还需要通过 [Bastion 主机][bastion]配置 SSH 隧道以访问只有私有端点的集群。
 
-将 `cluster-ocid` 替换为目标 OKE 集群的[OCID][CONCEPTS]。
+将 `cluster-ocid` 替换为目标 OKE 集群的 [OCID][CONCEPTS]。
 
 ## 验证对集群的访问{#verify-access-to-the-cluster}
 

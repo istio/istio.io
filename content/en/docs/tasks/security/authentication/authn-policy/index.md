@@ -242,7 +242,7 @@ sleep.legacy to httpbin.bar: 000
 command terminated with exit code 56
 {{< /text >}}
 
-To refine the mutual TLS settings per port, you must configure the `portLevelMtls` section. For example, the following peer authentication policy requires mutual TLS on all ports, except port `80`:
+To refine the mutual TLS settings per port, you must configure the `portLevelMtls` section. For example, the following peer authentication policy requires mutual TLS on all ports, except port `8080`:
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n bar -f -
@@ -258,7 +258,7 @@ spec:
   mtls:
     mode: STRICT
   portLevelMtls:
-    80:
+    8080:
       mode: DISABLE
 EOF
 {{< /text >}}
@@ -323,54 +323,47 @@ $ kubectl delete peerauthentication httpbin -n bar
 To experiment with this feature, you need a valid JWT. The JWT must correspond to the JWKS endpoint you want to use for the demo. This tutorial uses the test token [JWT test]({{< github_file >}}/security/tools/jwt/samples/demo.jwt) and
 [JWKS endpoint]({{< github_file >}}/security/tools/jwt/samples/jwks.json) from the Istio code base.
 
-Also, for convenience, expose `httpbin.foo` via `ingressgateway` (for more details, see the [ingress task](/docs/tasks/traffic-management/ingress/)).
+Also, for convenience, expose `httpbin.foo` via an ingress gateway (for more details, see the [ingress task](/docs/tasks/traffic-management/ingress/)).
+
+{{< boilerplate gateway-api-support >}}
+
+{{< tabset category-name="config-api" >}}
+
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
+
+Configure the gateway:
 
 {{< text bash >}}
-$ kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
-kind: Gateway
-metadata:
-  name: httpbin-gateway
-  namespace: foo
-spec:
-  selector:
-    istio: ingressgateway # use Istio default gateway implementation
-  servers:
-  - port:
-      number: 80
-      name: http
-      protocol: HTTP
-    hosts:
-    - "*"
-EOF
-{{< /text >}}
-
-{{< text bash >}}
-$ kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: httpbin
-  namespace: foo
-spec:
-  hosts:
-  - "*"
-  gateways:
-  - httpbin-gateway
-  http:
-  - route:
-    - destination:
-        port:
-          number: 8000
-        host: httpbin.foo.svc.cluster.local
-EOF
+$ kubectl apply -f @samples/httpbin/httpbin-gateway.yaml@ -n foo
 {{< /text >}}
 
 Follow the instructions in
-    [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)
-to define the `INGRESS_HOST` and `INGRESS_PORT` environment variables.
+[Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)
+to define the `INGRESS_PORT` and `INGRESS_HOST` environment variables.
 
-And run a test query
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+Create the gateway:
+
+{{< text bash >}}
+$ kubectl apply -f @samples/httpbin/gateway-api/httpbin-gateway.yaml@ -n foo
+$ kubectl wait --for=condition=programmed gtw -n foo httpbin-gateway
+{{< /text >}}
+
+Set the `INGRESS_PORT` and `INGRESS_HOST` environment variables:
+
+{{< text bash >}}
+$ export INGRESS_HOST=$(kubectl get gtw httpbin-gateway -n foo -o jsonpath='{.status.addresses[0].value}')
+$ export INGRESS_PORT=$(kubectl get gtw httpbin-gateway -n foo -o jsonpath='{.spec.listeners[?(@.name=="http")].port}')
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
+Run a test query through the gateway:
 
 {{< text bash >}}
 $ curl "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"
@@ -378,6 +371,10 @@ $ curl "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"
 {{< /text >}}
 
 Now, add a request authentication policy that requires end-user JWT for the ingress gateway.
+
+{{< tabset category-name="config-api" >}}
+
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -396,7 +393,33 @@ spec:
 EOF
 {{< /text >}}
 
-Apply the policy to the namespace of the workload it selects, `ingressgateway` in this case. The namespace you need to specify is then `istio-system`.
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: security.istio.io/v1
+kind: RequestAuthentication
+metadata:
+  name: "jwt-example"
+  namespace: foo
+spec:
+  targetRef:
+    kind: Gateway
+    group: gateway.networking.k8s.io
+    name: httpbin-gateway
+  jwtRules:
+  - issuer: "testing@secure.istio.io"
+    jwksUri: "{{< github_file >}}/security/tools/jwt/samples/jwks.json"
+EOF
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
+Apply the policy in the namespace of the workload it selects, the ingress gateway in this case.
 
 If you provide a token in the authorization header, its implicitly default location, Istio validates the token using the [public key set]({{< github_file >}}/security/tools/jwt/samples/jwks.json), and rejects requests if the bearer token is invalid. However, requests without tokens are accepted. To observe this behavior, retry the request without a token, with a bad token, and with a valid token:
 
@@ -462,6 +485,10 @@ This is often used to define a JWT policy for all services bound to the gateway,
 
 To reject requests without valid tokens, add an authorization policy with a rule specifying a `DENY` action for requests without request principals, shown as `notRequestPrincipals: ["*"]` in the following example. Request principals are available only when valid JWT tokens are provided. The rule therefore denies requests without valid tokens.
 
+{{< tabset category-name="config-api" >}}
+
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
+
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
 apiVersion: security.istio.io/v1
@@ -481,6 +508,34 @@ spec:
 EOF
 {{< /text >}}
 
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: "frontend-ingress"
+  namespace: foo
+spec:
+  targetRef:
+    kind: Gateway
+    group: gateway.networking.k8s.io
+    name: httpbin-gateway
+  action: DENY
+  rules:
+  - from:
+    - source:
+        notRequestPrincipals: ["*"]
+EOF
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
 Retry the request without a token. The request now fails with error code `403`:
 
 {{< text bash >}}
@@ -491,6 +546,10 @@ $ curl "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"
 ### Require valid tokens per-path
 
 To refine authorization with a token requirement per host, path, or method, change the authorization policy to only require JWT on `/headers`. When this authorization rule takes effect, requests to `$INGRESS_HOST:$INGRESS_PORT/headers` fail with the error code `403`. Requests to all other paths succeed, for example `$INGRESS_HOST:$INGRESS_PORT/ip`.
+
+{{< tabset category-name="config-api" >}}
+
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -513,6 +572,37 @@ spec:
         paths: ["/headers"]
 EOF
 {{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: "frontend-ingress"
+  namespace: foo
+spec:
+  targetRef:
+    kind: Gateway
+    group: gateway.networking.k8s.io
+    name: httpbin-gateway
+  action: DENY
+  rules:
+  - from:
+    - source:
+        notRequestPrincipals: ["*"]
+    to:
+    - operation:
+        paths: ["/headers"]
+EOF
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
 
 {{< text bash >}}
 $ curl "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"

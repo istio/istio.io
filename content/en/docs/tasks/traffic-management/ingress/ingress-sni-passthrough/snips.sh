@@ -19,8 +19,7 @@
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
 #          docs/tasks/traffic-management/ingress/ingress-sni-passthrough/index.md
 ####################################################################################################
-source "content/en/boilerplates/snips/gateway-api-support.sh"
-source "content/en/boilerplates/snips/gateway-api-experimental.sh"
+source "content/en/boilerplates/snips/gateway-api-gamma-support.sh"
 
 snip_generate_client_and_server_certificates_and_keys_1() {
 mkdir example_certs
@@ -124,7 +123,7 @@ snip_deploy_an_nginx_server_5() {
 kubectl exec "$(kubectl get pod  -l run=my-nginx -o jsonpath={.items..metadata.name})" -c istio-proxy -- curl -sS -v -k --resolve nginx.example.com:443:127.0.0.1 https://nginx.example.com
 }
 
-! read -r -d '' snip_deploy_an_nginx_server_5_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_deploy_an_nginx_server_5_out <<\ENDSNIP
 ...
 SSL connection using TLSv1.2 / ECDHE-RSA-AES256-GCM-SHA384
 ALPN, server accepted to use http/1.1
@@ -244,7 +243,7 @@ snip_configure_an_ingress_gateway_6() {
 curl -v --resolve "nginx.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST" --cacert example_certs/example.com.crt "https://nginx.example.com:$SECURE_INGRESS_PORT"
 }
 
-! read -r -d '' snip_configure_an_ingress_gateway_6_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_configure_an_ingress_gateway_6_out <<\ENDSNIP
 Server certificate:
   subject: CN=nginx.example.com; O=some organization
   start date: Wed, 15 Aug 2018 07:29:07 GMT

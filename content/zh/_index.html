@@ -32,7 +32,7 @@ description: 用于可观测性、深度安全性和加速管理部署周期的�
 <main class="landing">
     <section id="banner">
         <h1 id="hero-text">
-            通过领先的服务网格简化可观测性，流量管理，安全及策略。
+            通过领先的服务网格简化可观测性、流量管理、安全及策略。
         </h1>
     </section>
 
@@ -40,7 +40,7 @@ description: 用于可观测性、深度安全性和加速管理部署周期的�
         <div class="panels">
             {{< content_panel type="dark" title="what_is_istio" text="了解服务网格如何帮助解决分布式架构中的许多常见挑战。" button="learn_more" url="/zh/about/service-mesh" >}}
             {{< content_panel type="dark" title="solutions" text="学习如何使用 Istio 构建安全、可靠和可扩展的应用程序。" button="learn_more" url="/zh/about/solutions" >}}
-            {{< content_panel type="dark" title="deployment" text="您需要部署和利用 Istio 以满足您的独特需求。" button="learn_more" url="/zh/about/deployment" >}}
+            {{< content_panel type="dark" title="deployment" text="了解部署和使用 Istio 的操作说明以满足您的独特需求。" button="learn_more" url="/zh/about/deployment" >}}
         </div>
     </section>
 
@@ -48,16 +48,16 @@ description: 用于可观测性、深度安全性和加速管理部署周期的�
         <h1>Istio 服务网格</h1>
 
         <p class="subtitle">
-            Istio 使用功能强大的 Envoy 服务代理扩展了 Kubernetes，以建立一个可编程的、可感知的应用程序网络。Istio 与 Kubernetes
-            和传统工作负载一起使用，为复杂的部署带来了标准的通用流量管理、遥测和安全性。
+            Istio 使用功能强大的 Envoy 服务代理扩展了 Kubernetes，以建立一个可编程的、可感知的应用程序网络。
+            Istio 与 Kubernetes 和传统工作负载一起使用，为复杂的部署带来了标准的通用流量管理、遥测和安全性。
         </p>
 
         <div class="service-mesh-graph">
-            <img src="/img/service-mesh.svg" alt="service-mesh" />
+            <img src="/zh/about/service-mesh/service-mesh.svg" alt="service-mesh" />
         </div>
 
         <div class="cta-container">
-            <a href="/zh/about/service-mesh" class="btn">学习更多</a>
+            <a href="/zh/about/service-mesh" class="btn">了解更多</a>
         </div>
     </section>
 
@@ -65,13 +65,13 @@ description: 用于可观测性、深度安全性和加速管理部署周期的�
         <h1>概念</h1>
 
         <div class="panels">
-            {{< content_panel type="transparent" title="traffic_management" text="部署服务间路由，故障恢复和负载平衡等功能。" image="management.svg" >}}
+            {{< content_panel type="transparent" title="traffic_management" text="部署服务间路由、故障恢复和负载均衡等功能。" image="management.svg" >}}
             {{< content_panel type="transparent" title="observability" text="提供流量和服务性能的端到端视图。" image="observability.svg" >}}
             {{< content_panel type="transparent" title="security" text="跨服务进行加密，基于角色的访问和身份验证。" image="security.svg" >}}
         </div>
 
         <div class="cta-container">
-            <a href="/zh/about/service-mesh#concepts" class="btn">学习更多</a>
+            <a href="/zh/about/service-mesh#concepts" class="btn">了解更多</a>
         </div>
     </section>
 
@@ -79,8 +79,8 @@ description: 用于可观测性、深度安全性和加速管理部署周期的�
         <h1>解决方案</h1>
 
         <p class="subtitle">
-            从初创公司到企业，云原生到私有云，各种规模的组织和任务都部署 Istio 来解决眼前的问题。有了 Istio，他们可以在他们的服务网络上建立额外的功能。从可塑性到可靠性，Istio 都给出了答案。了解一些 Istio
-            的关键用例。
+            从初创公司到企业，云原生到私有云，各种规模的、秉持多样使命的组织都在部署 Istio 来解决眼前的问题。
+            有了 Istio，他们可以在他们的服务网络上建立额外的功能。从合规性到可靠性，Istio 都给出了答案。了解一些 Istio 的关键用例。
         </p>
 
         {{< solutions_carousel >}}
@@ -100,7 +100,9 @@ description: 用于可观测性、深度安全性和加速管理部署周期的�
         <h1>Istio 供应商</h1>
 
         <p class="subtitle">
-            无论您是通过托管的 Kubernetes 服务获得 Istio，还是采用由 Istio 提供支持的产品，还是自行安装产品，Istio 都具有强大的生态系统，可让您以适合自己的方式部署和利用 Istio 功能。
+            对 Istio 的技术支持和实现来自一系列领先的供应商和顾问公司所组成的生态体系。
+            您可以自己安装和管理 Istio，也可以使用 Kubernetes 或云服务商提供的一键安装功能。
+            另一种选择是寻找一个供应商基于 Istio 构建完全托管的服务网格。总有一种方式适合您。
         </p>
 
         <div class="companies-grid">
@@ -111,11 +113,22 @@ description: 用于可观测性、深度安全性和加速管理部署周期的�
             {{< company_logo link="https://www.huawei.com/" logo="/logos/huawei.png" alt="Huawei" >}}
             {{< company_logo link="https://www.tetrate.io/" logo="/logos/tetrate.svg" alt="Tetrate" >}}
             {{< company_logo link="https://www.solo.io/" logo="/logos/solo.png" alt="Solo.io" >}}
-            {{< company_logo link="https://aspenmesh.io/" logo="/logos/aspenmesh.svg" alt="Aspen Mesh" >}}
+            {{< company_logo link="https://www.f5.com/products/aspen-service-mesh" logo="/logos/f5.svg" alt="F5" >}}
         </div>
 
         <div class="cta-container">
             <a class="btn" href="/zh/about/ecosystem#providers">查看所有供应商</a>
+        </div>
+    </section>
+
+    <section id="cncf" class="container">
+        <div class="cncf-logo">
+            <figure>
+                <img src="/img/cncf-color.svg" alt="Cloud Native Computing Foundation logo"/>
+                <figcaption>
+                    <p>Istio 是云原生计算基金会（CNCF）毕业的项目。</p>
+                </figcaption>
+            </figure>
         </div>
     </section>
 </main>

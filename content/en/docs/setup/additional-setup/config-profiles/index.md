@@ -44,6 +44,10 @@ for your specific needs. The following built-in configuration profiles are curre
 1. **preview**: the preview profile contains features that are experimental. This is intended to explore new features
                 coming to Istio. Stability, security, and performance are not guaranteed - use at your own risk.
 
+1. **ambient**: the ambient profile is designed to help you get started with [ambient mesh](/docs/ops/ambient).
+
+    {{< boilerplate ambient-alpha-warning >}}
+
 {{< tip >}}
 Some additional vendor-specific configuration profiles are also available.
 For more information, refer to the [setup instructions](/docs/setup/platform-setup) for your platform.
@@ -51,12 +55,14 @@ For more information, refer to the [setup instructions](/docs/setup/platform-set
 
 The components marked as &#x2714; are installed within each profile:
 
-|     | default | demo | minimal | remote | empty | preview |
-| --- | --- | --- | --- | --- | --- | --- |
-| Core components | | | | | | | |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-egressgateway` | | &#x2714; | | | | | | |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-ingressgateway` | &#x2714; | &#x2714; | | | | &#x2714; |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istiod` | &#x2714; | &#x2714; | &#x2714; | | | &#x2714; |
+|     | default | demo | minimal | remote | empty | preview | ambient |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Core components | | | | | | | | |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-egressgateway` | | &#x2714; | | | | | | | |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-ingressgateway` | &#x2714; | &#x2714; | | | | &#x2714; | |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istiod` | &#x2714; | &#x2714; | &#x2714; | | | &#x2714; | &#x2714; |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`CNI` | | | | | | | &#x2714; |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Ztunnel` | | | | | | | &#x2714; |
 
 To further customize Istio, a number of addon components can also be installed.
 Refer to [integrations](/docs/ops/integrations) for more details.
