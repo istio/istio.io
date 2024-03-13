@@ -3,7 +3,7 @@ title: Istio 1.21.0 Change Notes
 linktitle: 1.21.0
 subtitle: Minor Release
 description: Istio 1.21.0 release notes.
-publishdate: 2024-03-11
+publishdate: 2024-03-13
 release: 1.21.0
 weight: 10
 aliases:
@@ -120,6 +120,31 @@ to conflicting inbound listeners error.
 - **Fixed** a memory leak when a `ServiceEntry` is removed.
 ([Issue #47893](https://github.com/istio/istio/issues/47893))
 
+- **Fixed** a bug when there is more than one service with the
+same host name within the same namespace, a
+`STRICT_DNS cluster without endpoints` error could occur.
+([Issue #49489](https://github.com/istio/istio/issues/49489))
+
+- **Fixed** an issue that when using a delegate in
+a `VirtualService`, the effective `VirtualService` may not
+be consistent with expectations due to a sorting error.
+([Issue #49539](https://github.com/istio/istio/issues/49539))
+
+- **Fixed** a bug where specifying a URI regex `.*` match within a `VirtualService` HTTP route did not short-circuit the subsequent HTTP routes.
+
+- **Fixed** sending stale name table when pure HTTP headless service endpoints are changed.
+
+- **Fixed** a bug for IPv6 only clusters that
+prevented ServiceEntry-based listeners from having correct
+SNI matches.
+([Issue #49476](https://github.com/istio/istio/issues/49476))
+
+- **Fixed** an issue where the local client contained incorrect entries in the local DNS name table.
+([Issue #47340](https://github.com/istio/istio/issues/47340))
+
+- **Fixed** a bug where `VirtualService` containing wildcard hosts that aren't present in the service registry are ignored.
+([Issue #49364](https://github.com/istio/istio/issues/49364))
+
 - **Upgraded** ambient traffic capture and redirection compatibility by switching to an in-pod mechanism.
 ([Issue #48212](https://github.com/istio/istio/issues/48212))
 
@@ -138,8 +163,35 @@ dynamic metadata key.
 
 - **Updated** the default value of the feature flag `VERIFY_CERT_AT_CLIENT` to `true`.
 This means server certificates will be automatically verified using the OS CA certificates when not using a `DestinationRule` `caCertificates` field.
-If undesired, please use the new `compatibilityVersion` feature to fallback to old behavior, or `insecureSkipVerify`
-field in `DestinationRule` to skip the verification.
+If undesired, please use the new `compatibilityVersion` feature
+to fallback to old behavior, or `insecureSkipVerify` field
+in `DestinationRule` to skip the verification.
+
+- **Added** an environment variable `COMPLIANCE_POLICY` to
+Istio components for enforcing TLS restriction for compliance
+with FIPS. When set to `fips-140-2` on the Istiod container,
+the Istio Proxy container, and all other Istio components,
+TLS version is restricted to `v1.2`, the cipher suites to a
+subset of `ECDHE-ECDSA-AES128-GCM-SHA256`,`ECDHE-RSA-AES128-GCM-SHA256`,
+`ECDHE-ECDSA-AES256-GCM-SHA384`, `ECDHE-RSA-AES256-GCM-SHA384`,
+and ECDH curves to `P-256`.
+
+    These restrictions apply on the following data paths:
+    * mTLS communication between Envoy proxies.
+    * regular TLS on the downstream and the upstream of Envoy proxies
+    (e.g. gateway)
+    * Google gRPC side requests from Envoy proxies
+      (e.g. Stackdriver extensions).
+    * Istiod xDS server.
+    * Istiod injection and validation webhook servers.
+
+    The restrictions are not applied on the following data paths:
+    * Istiod to Kubernetes API server.
+    * JWK fetch from Istiod.
+    * Wasm image and URL fetch from Istio Proxy containers.
+    * ztunnel.
+
+    Note that Istio injector will propagate the value of `COMPLIANCE_POLICY` to the injected proxy container, when set. ([Issue #49081](https://github.com/istio/istio/issues/49081))
 
 - **Added** the ability for waypoints to run as non-root.
 ([Issue #46592](https://github.com/istio/istio/issues/46592))
@@ -307,6 +359,9 @@ Note this only impacts `istioctl install`, not the in-cluster operator.
 ([Issue #45653](https://github.com/istio/istio/issues/45653))
 
 - **Fixed** an issue where the External Control Plane Analyzer was not working in some remote control plane setups.
+
+- **Fixed** an issue where `istioctl precheck` inaccurately reports the IST0141 message related to resource permissions.
+([Issue #49379](https://github.com/istio/istio/issues/49379))
 
 - **Removed** the `--rps-limit` flag for `istioctl bug-report` and **added** the `--rq-concurrency` flag.
 The bug reporter will now limit request concurrency instead of limiting request rate to the Kube
