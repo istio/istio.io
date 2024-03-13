@@ -26,10 +26,9 @@ test: no
    有关更多详细信息，请参阅
    [Cilium 文档](https://docs.cilium.io/en/stable/helm-reference/)。
 
-1. 由于 Cilium 管理节点身份的方式并在内部将节点级运行健康检查列入 Pod 的白名单，
-   在 Ambient 模式下的 Cilium CNI 安装底层 Istio 中应用
-   default-DENY `NetworkPolicy` 将导致 `kubelet`
-   运行的健康检查（即默认情况下不受 Cilium 的 NetworkPolicy 强制执行）被阻止。
+1. 由于 Cilium 管理节点身份并在内部允许节点级健康探针到 Pod 的白名单，
+   在 Cilium CNI 安装下的 Istio Ambient 模式中应用 default-DENY 的 `NetworkPolicy`，
+   将会导致被 Cilium 默认免于 `NetworkPolicy` 执行的 `kubelet` 健康探针被阻塞。
 
     这可以通过应用以下 `CiliumClusterWideNetworkPolicy` 来解决：
 
