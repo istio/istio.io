@@ -2,7 +2,7 @@
 ---
 *   Create a namespace for the OpenTelemetry Collector:
 
-    {{< text syntax=bash snip_id=none >}}
+    {{< text bash >}}
     $ kubectl create namespace observability
     {{< /text >}}
 
