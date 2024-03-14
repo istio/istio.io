@@ -3,7 +3,7 @@ title: 发布 Istio 1.21.0
 linktitle: 1.21.0
 subtitle: 大版本更新
 description: Istio 1.21 发布公告。
-publishdate: 2024-03-11
+publishdate: 2024-03-13
 release: 1.21.0
 aliases:
 - /zh/news/announcing-1.21
