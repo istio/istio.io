@@ -1,7 +1,7 @@
 ---
 title: Configuration Scoping
 description: Shows how to scope configuration in Istio, for operational and performance benefits.
-weight: 10
+weight: 60
 keywords: [scalability]
 owner: istio/wg-networking-maintainers
 test: no
