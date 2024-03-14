@@ -955,6 +955,7 @@ repo
 repurposed
 requires_any
 Reskill
+ResourceQuota
 resources.limits.cpu
 resources.limits.memory
 resources.request.cpu
