@@ -261,6 +261,13 @@ with the canary uninstall.
 
 ## Cleanup
 
+1. Clean up created revisioned tags:
+
+    {{< text bash >}}
+    $ istioctl tag remove prod-stable
+    $ istioctl tag remove prod-canary
+    {{< /text >}}
+
 1. Clean up the namespaces used for canary upgrade with revision labels example:
 
     {{< text bash >}}

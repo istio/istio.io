@@ -55,4 +55,4 @@ _verify_like snip_uninstall_old_control_plane_3 "$snip_uninstall_old_control_pla
 
 # @cleanup
 snip_uninstall_canary_control_plane_1
-snip_cleanup_1
+snip_cleanup_2
