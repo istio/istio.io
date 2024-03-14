@@ -51,6 +51,7 @@ release: 1.20.4
 
 - **修复** 修复了仅使用 IPv6 集群的错误，
   该错误阻止基于 ServiceEntry 的侦听器获得正确的 SNI 匹配。
+  ([Issue #49476](https://github.com/istio/istio/issues/49476))
 
 - **修复** 修复了一个当同一命名空间内有多个具有相同主机名的服务时，
   可能会出现 `STRICT_DNS cluster without endpoints` 错误的问题。
