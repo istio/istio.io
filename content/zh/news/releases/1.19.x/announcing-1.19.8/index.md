@@ -29,7 +29,7 @@ release: 1.19.8
 
     这些限制不适用于以下数据路径：
     * Istiod 到 Kubernetes API 服务器。
-    * JWK 从 Istiod 获取。
+    * 从 Istiod 获取 JWK。
     * 从 Istio 代理容器获取 Wasm 镜像和 URL。
     * ztunnel。
 
