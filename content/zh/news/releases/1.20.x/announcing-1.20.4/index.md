@@ -29,7 +29,7 @@ release: 1.20.4
 
     这些限制不适用于以下数据路径：
     * Istiod 到 Kubernetes API 服务器。
-    * JWK 从 Istiod 获取。
+    * 从 Istiod 获取 JWK。
     * 从 Istio 代理容器获取 Wasm 镜像和 URL。
     * ztunnel。
 
@@ -50,7 +50,7 @@ release: 1.20.4
   ([Issue #49379](https://github.com/istio/istio/issues/49379))
 
 - **修复** 修复了仅使用 IPv6 集群的错误，
-  该错误阻止基于 ServiceEntry 的侦听器获得正确的 SNI 匹配。
+  该错误阻止基于 `ServiceEntry` 的侦听器获得正确的 SNI 匹配。
   ([Issue #49476](https://github.com/istio/istio/issues/49476))
 
 - **修复** 修复了一个当同一命名空间内有多个具有相同主机名的服务时，
