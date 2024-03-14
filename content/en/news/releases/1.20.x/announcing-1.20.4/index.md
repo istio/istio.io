@@ -51,6 +51,7 @@ This release note describes what’s different between Istio 1.20.3 and 1.20.4.
   ([Issue #49379](https://github.com/istio/istio/issues/49379))
 
 - **Fixed** a bug for IPv6 only clusters that prevented ServiceEntry-based listeners from having correct SNI matches.
+  ([Issue #49476](https://github.com/istio/istio/issues/49476))
 
 - **Fixed** a bug when there is more than one service with the same host name within the same namespace,
   a `STRICT_DNS cluster without endpoints` error could occur.
