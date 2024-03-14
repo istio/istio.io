@@ -2,7 +2,7 @@
 title: Istio 1.21 升级说明
 description: 升级到 Istio 1.21.x 时要考虑的重要变更。
 weight: 20
-publishdate: 2024-03-11
+publishdate: 2024-03-13
 ---
 
 当您从 Istio 1.20.x 升级到 Istio 1.21.x 时，您需要考虑本页所述的变更。
