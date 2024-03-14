@@ -543,11 +543,6 @@ to enable it.  You can execute the following once:</p>
 <td>Insert tracing logs for each iptables rules, using the LOG chain. </td>
 </tr>
 <tr>
-<td><code>--iptables-version &lt;string&gt;</code></td>
-<td></td>
-<td>version of iptables command. If not set, this is automatically detected.  (default ``)</td>
-</tr>
-<tr>
 <td><code>--istio-exclude-interfaces &lt;string&gt;</code></td>
 <td><code>-c</code></td>
 <td>Comma separated list of NIC (optional). Neither inbound nor outbound traffic will be captured.  (default ``)</td>
@@ -1136,7 +1131,7 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <tr>
 <td><code>ENABLE_ENHANCED_RESOURCE_SCOPING</code></td>
 <td>Boolean</td>
-<td><code>false</code></td>
+<td><code>true</code></td>
 <td>If enabled, meshConfig.discoverySelectors will limit the CustomResource configurations(like Gateway,VirtualService,DestinationRule,Ingress, etc)that can be processed by pilot. This will also restrict the root-ca certificate distribution.</td>
 </tr>
 <tr>
@@ -1222,6 +1217,12 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, the TLS configuration on Sidecar.ingress will take effect</td>
+</tr>
+<tr>
+<td><code>ENABLE_VTPROTOBUF</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true, will use optimized vtprotobuf based marshaling. Requires a build with -tags=vtprotobuf.</td>
 </tr>
 <tr>
 <td><code>ENVOY_PROMETHEUS_PORT</code></td>
@@ -1376,7 +1377,7 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <tr>
 <td><code>ISTIO_DELTA_XDS</code></td>
 <td>Boolean</td>
-<td><code>false</code></td>
+<td><code>true</code></td>
 <td>If enabled, pilot will only send the delta configs as opposed to the state of the world on a Resource Request. This feature uses the delta xds api, but does not currently send the actual deltas.</td>
 </tr>
 <tr>
@@ -1576,12 +1577,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>If set to a non-zero value, enables mutex profiling a rate of 1/MUTEX_PROFILE_FRACTION events. For example, &#39;1000&#39; will record 0.1% of events. Set to 0 to disable entirely.</td>
 </tr>
 <tr>
-<td><code>NATIVE_METADATA_EXCHANGE</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If set, uses a native implementation of the HTTP metadata exchange filter</td>
-</tr>
-<tr>
 <td><code>OUTPUT_CERTS</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -1738,12 +1733,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>If enabled, HBONE support can be configured for proxies. Note: proxies must opt in on a per-proxy basis with ENABLE_HBONE to actually get HBONE config, in addition to this flag.</td>
 </tr>
 <tr>
-<td><code>PILOT_ENABLE_HEADLESS_SERVICE_POD_LISTENERS</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If enabled, for a headless service/stateful set in Kubernetes, pilot will generate an outbound listener for each pod in a headless service. This feature should be disabled if headless services have a large number of pods.</td>
-</tr>
-<tr>
 <td><code>PILOT_ENABLE_K8S_SELECT_WORKLOAD_ENTRIES</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -1856,6 +1845,18 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, Pilot will send only clusters that referenced in gateway virtual services attached to gateway</td>
+</tr>
+<tr>
+<td><code>PILOT_GATEWAY_API_CONTROLLER_NAME</code></td>
+<td>String</td>
+<td><code>istio.io/gateway-controller</code></td>
+<td>Gateway API controller name. istiod will only reconcile Gateway API resources referencing a GatewayClass with this controller name</td>
+</tr>
+<tr>
+<td><code>PILOT_GATEWAY_API_DEFAULT_GATEWAYCLASS_NAME</code></td>
+<td>String</td>
+<td><code>istio</code></td>
+<td>Name of the default GatewayClass</td>
 </tr>
 <tr>
 <td><code>PILOT_HTTP10</code></td>
@@ -1994,12 +1995,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If true, Pilot will collect metrics for XDS cache efficiency.</td>
-</tr>
-<tr>
-<td><code>PILOT_XDS_SEND_TIMEOUT</code></td>
-<td>Time Duration</td>
-<td><code>0s</code></td>
-<td>The timeout to send the XDS configuration to proxies. After this timeout is reached, Pilot will discard that push.</td>
 </tr>
 <tr>
 <td><code>PKCS8_KEY</code></td>

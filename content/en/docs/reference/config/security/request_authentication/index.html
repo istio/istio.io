@@ -21,37 +21,6 @@ Examples:</p>
 <ul>
 <li>Require JWT for all request for workloads that have label <code>app:httpbin</code></li>
 </ul>
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1beta1" category-value="v1beta1">}}</p>
-<pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
-kind: RequestAuthentication
-metadata:
-  name: httpbin
-  namespace: foo
-spec:
-  selector:
-    matchLabels:
-      app: httpbin
-  jwtRules:
-  - issuer: &quot;issuer-foo&quot;
-    jwksUri: https://example.com/.well-known/jwks.json
----
-apiVersion: security.istio.io/v1beta1
-kind: AuthorizationPolicy
-metadata:
-  name: httpbin
-  namespace: foo
-spec:
-  selector:
-    matchLabels:
-      app: httpbin
-  rules:
-  - from:
-    - source:
-        requestPrincipals: [&quot;*&quot;]
-</code></pre>
-<p>{{</tab>}}</p>
-<p>{{<tab name="v1" category-value="v1">}}</p>
 <pre><code class="language-yaml">apiVersion: security.istio.io/v1
 kind: RequestAuthentication
 metadata:
@@ -79,38 +48,11 @@ spec:
     - source:
         requestPrincipals: [&quot;*&quot;]
 </code></pre>
-<p>{{</tab>}}
-{{</tabset>}}</p>
 <ul>
 <li>A policy in the root namespace (&ldquo;istio-system&rdquo; by default) applies to workloads in all namespaces
 in a mesh. The following policy makes all workloads only accept requests that contain a
 valid JWT token.</li>
 </ul>
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1beta1" category-value="v1beta1">}}</p>
-<pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
-kind: RequestAuthentication
-metadata:
-  name: req-authn-for-all
-  namespace: istio-system
-spec:
-  jwtRules:
-  - issuer: &quot;issuer-foo&quot;
-    jwksUri: https://example.com/.well-known/jwks.json
----
-apiVersion: security.istio.io/v1beta1
-kind: AuthorizationPolicy
-metadata:
-  name: require-jwt-for-all
-  namespace: istio-system
-spec:
-  rules:
-  - from:
-    - source:
-        requestPrincipals: [&quot;*&quot;]
-</code></pre>
-<p>{{</tab>}}</p>
-<p>{{<tab name="v1" category-value="v1">}}</p>
 <pre><code class="language-yaml">apiVersion: security.istio.io/v1
 kind: RequestAuthentication
 metadata:
@@ -132,53 +74,11 @@ spec:
     - source:
         requestPrincipals: [&quot;*&quot;]
 </code></pre>
-<p>{{</tab>}}
-{{</tabset>}}</p>
 <ul>
 <li>The next example shows how to set a different JWT requirement for a different <code>host</code>. The <code>RequestAuthentication</code>
 declares it can accept JWTs issued by either <code>issuer-foo</code> or <code>issuer-bar</code> (the public key set is implicitly
 set from the OpenID Connect spec).</li>
 </ul>
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1beta1" category-value="v1beta1">}}</p>
-<pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
-kind: RequestAuthentication
-metadata:
-  name: httpbin
-  namespace: foo
-spec:
-  selector:
-    matchLabels:
-      app: httpbin
-  jwtRules:
-  - issuer: &quot;issuer-foo&quot;
-  - issuer: &quot;issuer-bar&quot;
----
-apiVersion: security.istio.io/v1beta1
-kind: AuthorizationPolicy
-metadata:
-  name: httpbin
-  namespace: foo
-spec:
-  selector:
-    matchLabels:
-      app: httpbin
-  rules:
-  - from:
-    - source:
-        requestPrincipals: [&quot;issuer-foo/*&quot;]
-    to:
-    - operation:
-        hosts: [&quot;example.com&quot;]
-  - from:
-    - source:
-        requestPrincipals: [&quot;issuer-bar/*&quot;]
-    to:
-    - operation:
-        hosts: [&quot;another-host.com&quot;]
-</code></pre>
-<p>{{</tab>}}</p>
-<p>{{<tab name="v1" category-value="v1">}}</p>
 <pre><code class="language-yaml">apiVersion: security.istio.io/v1
 kind: RequestAuthentication
 metadata:
@@ -215,34 +115,11 @@ spec:
     - operation:
         hosts: [&quot;another-host.com&quot;]
 </code></pre>
-<p>{{</tab>}}
-{{</tabset>}}</p>
 <ul>
 <li>You can fine tune the authorization policy to set different requirement per path. For example,
 to require JWT on all paths, except /healthz, the same <code>RequestAuthentication</code> can be used, but the
 authorization policy could be:</li>
 </ul>
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1beta1" category-value="v1beta1">}}</p>
-<pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
-kind: AuthorizationPolicy
-metadata:
-  name: httpbin
-  namespace: foo
-spec:
-  selector:
-    matchLabels:
-      app: httpbin
-  rules:
-  - from:
-    - source:
-        requestPrincipals: [&quot;*&quot;]
-  - to:
-    - operation:
-        paths: [&quot;/healthz&quot;]
-</code></pre>
-<p>{{</tab>}}</p>
-<p>{{<tab name="v1" category-value="v1">}}</p>
 <pre><code class="language-yaml">apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
@@ -260,8 +137,6 @@ spec:
     - operation:
         paths: [&quot;/healthz&quot;]
 </code></pre>
-<p>{{</tab>}}
-{{</tabset>}}</p>
 <p>[Experimental] Routing based on derived <a href="/docs/reference/config/security/conditions/">metadata</a>
 is now supported. A prefix &lsquo;@&rsquo; is used to denote a match against internal metadata instead of the headers in the request.
 Currently this feature is only supported for the following metadata:</p>
@@ -277,62 +152,6 @@ For more information, see <a href="/docs/tasks/security/authentication/jwt-route
 <li>AuthorizationPolicy to check for valid principals in the request. This makes the JWT required for the request.</li>
 <li>VirtualService to route the request based on the &ldquo;sub&rdquo; claim.</li>
 </ul>
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1beta1" category-value="v1beta1">}}</p>
-<pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
-kind: RequestAuthentication
-metadata:
-  name: jwt-on-ingress
-  namespace: istio-system
-spec:
-  selector:
-    matchLabels:
-      app: istio-ingressgateway
-  jwtRules:
-  - issuer: &quot;example.com&quot;
-    jwksUri: https://example.com/.well-known/jwks.json
----
-apiVersion: security.istio.io/v1beta1
-kind: AuthorizationPolicy
-metadata:
-  name: require-jwt
-  namespace: istio-system
-spec:
-  selector:
-    matchLabels:
-      app: istio-ingressgateway
-  rules:
-  - from:
-    - source:
-        requestPrincipals: [&quot;*&quot;]
----
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: route-jwt
-spec:
-  hosts:
-  - foo.prod.svc.cluster.local
-  gateways:
-  - istio-ingressgateway
-  http:
-  - name: &quot;v2&quot;
-    match:
-    - headers:
-        &quot;@request.auth.claims.sub&quot;:
-          exact: &quot;dev&quot;
-    route:
-    - destination:
-        host: foo.prod.svc.cluster.local
-        subset: v2
-  - name: &quot;default&quot;
-    route:
-    - destination:
-        host: foo.prod.svc.cluster.local
-        subset: v1
-</code></pre>
-<p>{{</tab>}}</p>
-<p>{{<tab name="v1" category-value="v1">}}</p>
 <pre><code class="language-yaml">apiVersion: security.istio.io/v1
 kind: RequestAuthentication
 metadata:
@@ -385,8 +204,6 @@ spec:
         host: foo.prod.svc.cluster.local
         subset: v1
 </code></pre>
-<p>{{</tab>}}
-{{</tabset>}}</p>
 
 <table class="message-fields">
 <thead>
