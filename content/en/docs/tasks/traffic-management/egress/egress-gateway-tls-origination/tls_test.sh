@@ -40,14 +40,15 @@ _wait_for_istio gateway default istio-egressgateway
 _wait_for_istio destinationrule default egressgateway-for-cnn
 
 # Create VirtualService to direct traffic through gateway and deploy DR to originate Simple TLS
-snip_perform_tls_origination_with_an_egress_gateway_4
+snip_perform_tls_origination_with_an_egress_gateway_5
+snip_perform_tls_origination_with_an_egress_gateway_7
 _wait_for_istio virtualservice default direct-cnn-through-egress-gateway
 
 # Verify HTTP request to external service returns 200
-_verify_elided snip_perform_tls_origination_with_an_egress_gateway_5 "$snip_perform_tls_origination_with_an_egress_gateway_5_out"
+_verify_elided snip_perform_tls_origination_with_an_egress_gateway_8 "$snip_perform_tls_origination_with_an_egress_gateway_8_out"
 
 # Verify that the request was routed through egressgateway
-_verify_contains snip_perform_tls_origination_with_an_egress_gateway_6 "GET /politics HTTP/2"
+_verify_contains snip_perform_tls_origination_with_an_egress_gateway_9 "GET /politics HTTP/2"
 
 # @cleanup
 kubectl label namespace default istio-injection-

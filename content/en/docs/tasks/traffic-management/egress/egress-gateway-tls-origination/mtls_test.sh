@@ -49,30 +49,31 @@ _wait_for_deployment mesh-external my-nginx
 
 # Open Gateway Listener
 snip_configure_mutual_tls_origination_for_egress_traffic_1
-snip_configure_mutual_tls_origination_for_egress_traffic_2
+snip_configure_mutual_tls_origination_for_egress_traffic_3
 _wait_for_istio gateway default istio-egressgateway
 _wait_for_istio destinationrule default egressgateway-for-nginx
 
 # Configure routing from sleep to egress gateway to nginx
-snip_configure_mutual_tls_origination_for_egress_traffic_3
+snip_configure_mutual_tls_origination_for_egress_traffic_5
 _wait_for_istio virtualservice default direct-nginx-through-egress-gateway
 
 # Originate TLS with destination rule
-snip_configure_mutual_tls_origination_for_egress_traffic_4
+snip_configure_mutual_tls_origination_for_egress_traffic_7
 
 _wait_for_istio destinationrule istio-system originate-mtls-for-nginx
 
-_verify_contains snip_configure_mutual_tls_origination_for_egress_traffic_5 "kubernetes://client-credential            Cert Chain     ACTIVE"
+_verify_contains snip_configure_mutual_tls_origination_for_egress_traffic_9 "kubernetes://client-credential            Cert Chain     ACTIVE"
 
 # Verify that mTLS connection is set up properly
-_verify_contains snip_configure_mutual_tls_origination_for_egress_traffic_6 "Welcome to nginx!"
+_verify_contains snip_configure_mutual_tls_origination_for_egress_traffic_11 "Welcome to nginx!"
 
 # Verify request is routed through Gateway
-_verify_contains snip_configure_mutual_tls_origination_for_egress_traffic_7 "GET / HTTP/1.1"
+_verify_contains snip_configure_mutual_tls_origination_for_egress_traffic_12 "GET / HTTP/1.1"
 
 # @cleanup
 kubectl label namespace default istio-injection-
 snip_cleanup_the_mutual_tls_origination_example_1
 snip_cleanup_the_mutual_tls_origination_example_2
-snip_cleanup_the_mutual_tls_origination_example_3
+snip_cleanup_the_mutual_tls_origination_example_4
+snip_cleanup_the_mutual_tls_origination_example_5
 snip_cleanup_1
