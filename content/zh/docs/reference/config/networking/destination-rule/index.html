@@ -820,7 +820,8 @@ No
 <td>
 <p>OPTIONAL: The path to the file containing certificate authority
 certificates to use in verifying a presented server certificate. If
-omitted, the proxy will not verify the server&rsquo;s certificate.
+omitted, the proxy will verify the server&rsquo;s certificate using
+the OS CA certificates.
 Should be empty if mode is <code>ISTIO_MUTUAL</code>.</p>
 
 </td>
@@ -866,8 +867,7 @@ certificate&rsquo;s subject alt name matches one of the specified values.
 If specified, this list overrides the value of subject_alt_names
 from the ServiceEntry. If unspecified, automatic validation of upstream
 presented certificate for new upstream connections will be done based on the
-downstream HTTP host/authority header, provided <code>VERIFY_CERTIFICATE_AT_CLIENT</code>
-and <code>ENABLE_AUTO_SNI</code> environmental variables are set to <code>true</code>.</p>
+downstream HTTP host/authority header.</p>
 
 </td>
 <td>
@@ -880,8 +880,7 @@ No
 <td>
 <p>SNI string to present to the server during TLS handshake.
 If unspecified, SNI will be automatically set based on downstream HTTP
-host/authority header for SIMPLE and MUTUAL TLS modes, provided <code>ENABLE_AUTO_SNI</code>
-environmental variable is set to <code>true</code>.</p>
+host/authority header for SIMPLE and MUTUAL TLS modes.</p>
 
 </td>
 <td>
@@ -894,15 +893,7 @@ No
 <td>
 <p><code>insecureSkipVerify</code> specifies whether the proxy should skip verifying the
 CA signature and SAN for the server certificate corresponding to the host.
-This flag should only be set if global CA signature verification is
-enabled, <code>VERIFY_CERTIFICATE_AT_CLIENT</code> environmental variable is set to <code>true</code>,
-but no verification is desired for a specific host. If enabled with or
-without <code>VERIFY_CERTIFICATE_AT_CLIENT</code> enabled, verification of the CA signature and
-SAN will be skipped.</p>
-<p><code>insecureSkipVerify</code> is <code>false</code> by default.
-<code>VERIFY_CERTIFICATE_AT_CLIENT</code> is <code>false</code> by default in Istio version 1.9 but will
-be <code>true</code> by default in a later version where, going forward, it will be
-enabled by default.</p>
+The default value of this field is false.</p>
 
 </td>
 <td>
