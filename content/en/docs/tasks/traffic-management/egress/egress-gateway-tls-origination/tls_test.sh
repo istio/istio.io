@@ -61,7 +61,7 @@ _verify_elided snip_perform_tls_origination_with_an_egress_gateway_8 "$snip_perf
 
 # Verify that the request was routed through egressgateway
 if [ "$GATEWAY_API" == "true" ]; then
-    _verify_contains snip_perform_tls_origination_with_an_egress_gateway_10 "GET /politics HTTP/2"
+    _verify_contains snip_perform_tls_origination_with_an_egress_gateway_10 "GET /politics HTTP/1.1"
 else
     _verify_contains snip_perform_tls_origination_with_an_egress_gateway_9 "GET /politics HTTP/2"
 fi
