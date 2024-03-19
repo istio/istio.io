@@ -121,8 +121,8 @@ github.com/decred/dcrd/dcrec/secp256k1/v4 v4.2.0 h1:8UrgZ3GkP4i/CLijOJx79Yu+etly
 github.com/decred/dcrd/dcrec/secp256k1/v4 v4.2.0/go.mod h1:v57UDF4pDQJcEfFUCRop3lJL149eHGSe9Jvczhzjo/0=
 github.com/dgrijalva/jwt-go v3.2.0+incompatible/go.mod h1:E3ru+11k8xSBh+hMPgOLZmtrrCbhqsmaPHjLKYnJCaQ=
 github.com/dgryski/go-sip13 v0.0.0-20181026042036-e10d5fee7954/go.mod h1:vAd38F8PWV+bWy6jNmig1y/TA+kYO4g3RSRF0IAv0no=
-github.com/docker/cli v25.0.3+incompatible h1:KLeNs7zws74oFuVhgZQ5ONGZiXUUdgsdy6/EsX/6284=
-github.com/docker/cli v25.0.3+incompatible/go.mod h1:JLrzqnKDaYBop7H2jaqPtU4hHvMKP+vjCwu2uszcLI8=
+github.com/docker/cli v25.0.1+incompatible h1:mFpqnrS6Hsm3v1k7Wa/BO23oz0k121MTbTO1lpcGSkU=
+github.com/docker/cli v25.0.1+incompatible/go.mod h1:JLrzqnKDaYBop7H2jaqPtU4hHvMKP+vjCwu2uszcLI8=
 github.com/docker/distribution v2.8.3+incompatible h1:AtKxIZ36LoNK51+Z6RpzLpddBirtxJnzDrHLEKxTAYk=
 github.com/docker/distribution v2.8.3+incompatible/go.mod h1:J2gT2udsDAN96Uj4KfcMRqY0/ypR+oyYUYmja8H+y+w=
 github.com/docker/docker v0.7.3-0.20190327010347-be7ac8be2ae0/go.mod h1:eEKB0N0r5NX/I1kEveEz05bcu8tLC/8azJZsviup8Sk=
@@ -932,8 +932,8 @@ istio.io/api v1.19.0-alpha.1.0.20240312010456-c6ba867f734d h1:q61YXySqv5D0DRY5Xd
 istio.io/api v1.19.0-alpha.1.0.20240312010456-c6ba867f734d/go.mod h1:TFCMUCAHRjxBv1CsIsFCsYHPHi4axVI4vdIzVr8eFjY=
 istio.io/client-go v1.21.0-beta.0 h1:buitXxAL6Fsasge0Oq2zbKFFvPAKf0U6T4P9UFdOXTk=
 istio.io/client-go v1.21.0-beta.0/go.mod h1:Osr4bJWM5U6Ddvnl8CyppYgdceTsljJWyYa7tLd3qDc=
-istio.io/istio v0.0.0-20240313163413-aab0fc6bb065 h1:KiJpObiKyK1tYAV5RGPVu3KZ4quOUa2J6kLfOdyyb5k=
-istio.io/istio v0.0.0-20240313163413-aab0fc6bb065/go.mod h1:/sCxHJssZ6SoupXxWbLLeeGGsn1vk11szi8apNB/Kk4=
+istio.io/istio v0.0.0-20240216015548-1f08e67e5e92 h1:RBKKZ4HwwhcwaY9ZTgLcS45V00DweQEJriBulnV3Y/M=
+istio.io/istio v0.0.0-20240216015548-1f08e67e5e92/go.mod h1:eZkydM9zNvJpWPQQJWmxkrUq/ha0E+HY4zqntsJymTA=
 k8s.io/api v0.18.2/go.mod h1:SJCWI7OLzhZSvbY7U8zwNl9UA4o1fizoug34OV/2r78=
 k8s.io/api v0.18.4/go.mod h1:lOIQAKYgai1+vz9J7YcDZwC26Z0zQewYOGWdyIPUUQ4=
 k8s.io/api v0.29.2 h1:hBC7B9+MU+ptchxEqTNW2DkUosJpp1P+Wn6YncZ474A=
