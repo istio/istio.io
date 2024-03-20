@@ -580,3 +580,6 @@ users:
   - name: "GoTo Financial"
     logo: "/logos/gotofinancial.svg"
     url: "https://gotofinancial.com/"
+  - name: "GoHighLevel"
+    logo: "/logos/highlevel.jpeg"
+    url: "https://www.gohighlevel.com/"  
