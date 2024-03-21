@@ -1,6 +1,6 @@
 ---
-title: Ambient Mesh 入门
-description: 如何部署和安装 Ambient Mesh。
+title: Ambient 模式入门
+description: 如何在 Ambient 模式下部署和安装 Istio。
 weight: 1
 owner: istio/wg-networking-maintainers
 test: yes
@@ -8,21 +8,19 @@ test: yes
 
 {{< boilerplate ambient-alpha-warning >}}
 
-本指南有助于您快速评估 Istio {{< gloss "ambient" >}}ambient service mesh{{< /gloss >}}。
-以下操作步骤需要您有一个 {{< gloss >}}cluster{{< /gloss >}} 运行了
-[Istio 支持的](/zh/docs/releases/supported-releases#support-status-of-istio-releases)
-Kubernetes 版本 ({{< supported_kubernetes_versions >}})。
-您可以使用 [Minikube](https://kubernetes.io/zh-cn/docs/tasks/tools/install-minikube/)
-或[特定平台搭建指南](/zh/docs/setup/platform-setup/)中指定的所有受支持的平台。
+本指南有助于您快速评估 Istio 的 {{< gloss "ambient" >}}Ambient 模式{{< /gloss >}}。
+这些步骤要求您有一个运行[受支持版本](/zh/docs/releases/supported-releases#support-status-of-istio-releases)的
+Kubernetes ({{< supported_kubernetes_versions >}}) {{< gloss >}}Cluster{{< /gloss >}}。
+您可以在[任何被支持的 Kubernetes 平台](/zh/docs/setup/platform-setup/)上安装 Istio Ambient 模式，但
+为了简单起见，本指南将假设使用 [kind](https://kind.sigs.k8s.io/)。
 
-{{< warning >}}
-请注意，Ambient 目前需要使用 [istio-cni](/zh/docs/setup/additional-setup/cni)
-来配置 Kubernetes 节点。`istio-cni` 的 Ambient
-模式当前**不可以**支持某些类型的集群 CNI（如不使用 `veth` 设备的 CNI 实现，
-例如 [Minikube 的](https://kubernetes.io/docs/tasks/tools/install-minikube/) `bridge` 模式）
-{{< /warning >}}
+{{< tip >}}
+请注意，Ambient 模式当前需要使用 [istio-cni](/zh/docs/setup/additional-setup/cni)
+来配置 Kubernetes 节点，该节点必须作为特权 Pod 运行。
+Ambient 模式与之前支持 Sidecar 模式的所有主流 CNI 兼容。
+{{< /tip >}}
 
-参照以下步骤开始使用 Ambient：
+请按照以下步骤开始使用 Istio 的 Ambient 模式：
 
 1. [下载和安装](#download)
 1. [部署相同的应用](#bookinfo)
@@ -33,9 +31,11 @@ Kubernetes 版本 ({{< supported_kubernetes_versions >}})。
 
 ## 下载和安装 {#download}
 
-1.  下载对 Ambient Mesh 提供 `alpha` 支持的[最新 Istio 版本](/zh/docs/setup/getting-started/#download)。
+1.  安装 [kind](https://kind.sigs.k8s.io/)
 
-1.  如果您没有 Kubernetes 集群，可以参照以下命令使用 `kind` 在本地部署一个集群：
+1.  下载对 Ambient 模式提供 Alpha 支持的[最新 Istio 版本](/zh/docs/setup/getting-started/#download)（v1.21.0 或更高）。
+
+1.  部署一个新的本地 `kind` 集群：
 
     {{< text syntax=bash snip_id=none >}}
     $ kind create cluster --config=- <<EOF
@@ -49,7 +49,7 @@ Kubernetes 版本 ({{< supported_kubernetes_versions >}})。
     EOF
     {{< /text >}}
 
-1.  安装大多数 Kubernetes 集群上默认并未安装的 Kubernetes Gateway CRD：
+1.  安装大多数 Kubernetes 集群上默认并未安装的 Kubernetes Gateway API CRD：
 
     {{< text bash >}}
     $ kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
@@ -61,17 +61,8 @@ Kubernetes 版本 ({{< supported_kubernetes_versions >}})。
     {{< boilerplate gateway-api-choose >}}
     {{< /tip >}}
 
-1.  `ambient` 配置文件设计用于帮助您开始使用 Ambient Mesh。
-    使用刚下载的 `istioctl` 命令，在您的 Kubernetes 集群上安装附带 `ambient` 配置文件的 Istio：
-
-{{< tip >}}
-请注意，如果您正在使用 [Minikube](https://kubernetes.io/zh-cn/docs/tasks/tools/install-minikube/)
-（或在节点上为容器配置了非标准 `netns` 路径的任何其他平台），
-您可能需要在 `istioctl install` 命令后面追加 `--set values.cni.cniNetnsDir="/var/run/docker/netns"`，
-以便 Istio CNI DaemonSet 能够正确管理和捕获节点上的 Pod。
-
-有关详细信息，请参阅您的平台文档。
-{{< /tip >}}
+1.  使用上面下载的 `istioctl` 版本，
+    在 Kubernetes 集群上安装带有 `ambient` 配置文件的 Istio：
 
 {{< tabset category-name="config-api" >}}
 
@@ -82,7 +73,7 @@ $ istioctl install --set profile=ambient --set "components.ingressGateways[0].en
 {{< /text >}}
 
 运行上一条命令后，您将看到以下输出，
-表明（包括 {{< gloss "ztunnel" >}}Ztunnel{{< /gloss >}} 在内的）五个组件已被成功安装！
+表明（包括 {{< gloss "ztunnel" >}}ztunnel{{< /gloss >}} 在内的）五个组件已被成功安装！
 
 {{< text syntax=plain snip_id=none >}}
 ✔ Istio core installed
@@ -102,7 +93,7 @@ $ istioctl install --set profile=ambient --skip-confirmation
 {{< /text >}}
 
 运行上一条命令后，您将看到以下输出，
-表明（包括 {{< gloss "ztunnel" >}}Ztunnel{{< /gloss >}} 在内的）五个组件已被成功安装！
+表明（包括 {{< gloss "ztunnel" >}}ztunnel{{< /gloss >}} 在内的）五个组件已被成功安装！
 
 {{< text syntax=plain snip_id=none >}}
 ✔ Istio core installed
@@ -165,12 +156,12 @@ ztunnel          1         1         1       1            1           kubernetes
 
 您将使用样例 [bookinfo 应用](/zh/docs/examples/bookinfo/)，这是刚下载的 Istio 发行版默认包含的应用。
 在 Ambient 模式中，您将这些应用部署到 Kubernetes 集群的方式与没有 Istio 时的部署方式完全相同。
-这意味着您可以先让这些应用在集群中运行，再启用 Ambient Mesh，
+这意味着您可以先让这些应用在集群中运行，再启用 Ambient 模式，
 最后将这些应用接入到网格，无需重启，也无需重新配置这些应用。
 
 {{< warning >}}
-确保 default 命名空间未包括标签 `istio-injection=enabled`，
-因为使用 Ambient 时，您不会想要 Istio 将 Sidecar 注入到应用 Pod 中。
+使用 Ambient 模式时，请确保 default 命名空间不包含标签
+`istio-injection=enabled`，因为您不需要 Istio 将 Sidecar 注入应用程序 Pod。
 {{< /warning >}}
 
 1. 启动样例服务：
@@ -184,7 +175,7 @@ ztunnel          1         1         1       1            1           kubernetes
     $ kubectl apply -f @samples/sleep/notsleep.yaml@
     {{< /text >}}
 
-    注：`sleep` 和 `notsleep` 是可以用作 curl 客户端的两个简单应用。
+    `sleep` 和 `notsleep` 是可以用作 curl 客户端的两个简单应用。
 
 1. 部署一个 Ingress Gateway，这样您可以从集群外访问 bookinfo 应用：
 
@@ -217,8 +208,8 @@ $ export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/istio-ingressgateway-service
 
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
-创建 [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io%2fv1beta1.Gateway)
-和 [HTTPRoute](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1beta1.HTTPRoute)，
+创建 [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.Gateway)
+和 [HTTPRoute](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.HTTPRoute)，
 这样您可以从集群外访问 bookinfo 应用：
 
 {{< text bash >}}
@@ -242,7 +233,7 @@ $ export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/bookinfo-gateway-istio
 
 {{< /tabset >}}
 
-3) 测试您的 bookinfo 应用，无论是否有网关都应该能够正常工作。
+3) 测试您的 bookinfo 应用。无论是否有网关都应该能够正常工作。
 
     {{< text syntax=bash snip_id=verify_traffic_sleep_to_ingress >}}
     $ kubectl exec deploy/sleep -- curl -s "http://$GATEWAY_HOST/productpage" | grep -o "<title>.*</title>"
@@ -259,18 +250,18 @@ $ export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/bookinfo-gateway-istio
     <title>Simple Bookstore App</title>
     {{< /text >}}
 
-## 添加应用到 Ambient {#addtoambient}
+## 添加应用到 Ambient 网格 {#addtoambient}
 
-您只需给命名空间打标签，就可以作为 Ambient Mesh 的一部分，在给定的命名空间启用所有 Pod：
+您只需给命名空间打标签，就可以作为 Ambient 网格的一部分，在给定的命名空间启用所有 Pod：
 
 {{< text bash >}}
 $ kubectl label namespace default istio.io/dataplane-mode=ambient
 {{< /text >}}
 
-恭喜！您已成功将 default 命名空间中的所有 Pod 添加到 Ambient Mesh。
-体验最佳的地方在于无需重启，也无需重新部署任何组件！
+恭喜！您已成功将 default 命名空间中的所有 Pod 添加到网格中。
+请注意，您不必重新启动或重新部署任何内容！
 
-发送一些测试流量：
+现在，发送一些测试流量：
 
 {{< text bash >}}
 $ kubectl exec deploy/sleep -- curl -s "http://$GATEWAY_HOST/productpage" | grep -o "<title>.*</title>"
@@ -296,11 +287,11 @@ $ kubectl exec deploy/notsleep -- curl -s http://productpage:9080/ | grep -o "<t
 
 ## 确保应用访问安全 {#secure}
 
-将您的应用添加到 Ambient Mesh 之后，可以使用 L4 鉴权策略确保应用访问的安全。
-这允许您基于客户端负载身份来控制到服务的访问或源于服务的访问，
-但类似 `GET` 和 `POST` 的这些 HTTP 方法并不在 L7 级别。
+将您的应用添加到 Ambient 模式网格之后，可以使用 Layer 4 鉴权策略确保应用访问的安全。
+该功能允许您基于客户端负载身份来控制到服务的访问或源于服务的访问，
+但类似 `GET` 和 `POST` 的这些 HTTP 方法并不在 Layer 7 级别。
 
-### L4 鉴权策略 {#l4-policy}
+### Layer 4 鉴权策略 {#layer-4-authorization-policy}
 
 显式允许 `sleep` 服务账号和 `istio-ingressgateway` 服务账号调用 `productpage` 服务：
 
@@ -345,7 +336,7 @@ $ kubectl exec deploy/notsleep -- curl -s http://productpage:9080/ | grep -o "<t
 command terminated with exit code 56
 {{< /text >}}
 
-### L7 鉴权策略 {#l7-policy}
+### Layer 7 鉴权策略 {#layer-7-authorization-policy}
 
 使用 Kubernetes Gateway API，您可以为使用 `bookinfo-productpage` 服务账号的
 `productpage` 服务来部署 {{< gloss "waypoint" >}}waypoint proxy{{< /gloss >}}。
@@ -373,7 +364,7 @@ status:
     type: Programmed
 {{< /text >}}
 
-更新 `AuthorizationPolicy` 以显式允许 `sleep` 和 Gateway 服务账号以
+更新您的 `AuthorizationPolicy` 以显式允许 `sleep` 和 Gateway 服务账号以
 `GET` `productpage` 服务，但不执行其他操作：
 
 {{< text bash >}}
@@ -421,8 +412,8 @@ $ kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<titl
 
 ## 控制流量 {#control}
 
-使用 `bookinfo-review` 服务账号为评审服务部署一个 waypoint proxy，
-因此转到评审服务的所有流量都将通过 waypoint proxy 进行协调。
+使用 `bookinfo-review` 服务账号为 'review' 服务部署一个 waypoint proxy，
+因此转到 'review' 服务的所有流量都将通过 waypoint proxy 进行协调。
 
 {{< text bash >}}
 $ istioctl x waypoint apply --service-account bookinfo-reviews --wait
@@ -461,24 +452,22 @@ $ kubectl exec deploy/sleep -- sh -c "for i in \$(seq 1 100); do curl -s http://
 
 ## 卸载 {#uninstall}
 
-若要移除 `productpage-viewer` 鉴权策略、waypoint proxy 并卸载 Istio：
+要删除 waypoint 代理、已安装的策略并卸载 Istio：
 
 {{< text bash >}}
-$ kubectl delete authorizationpolicy productpage-viewer
-$ istioctl x waypoint delete --service-account bookinfo-reviews
-$ istioctl x waypoint delete --service-account bookinfo-productpage
+$ istioctl x waypoint delete --all
 $ istioctl uninstall -y --purge
 $ kubectl delete namespace istio-system
 {{< /text >}}
 
-指示 Istio 自动在 `default` 命名空间中包括应用程序的标签默认不会被移除。
+指示 Istio 自动在 `default` 命名空间中包括应用程序的标签在 Ambient 网格中默认不会被移除。
 如果不再需要此标签，请使用以下命令来移除：
 
 {{< text bash >}}
 $ kubectl label namespace default istio.io/dataplane-mode-
 {{< /text >}}
 
-若要删除 Bookinfo 样例应用及其配置，请参阅 [`Bookinfo` 清理](/zh/docs/examples/bookinfo/#cleanup)。
+若要删除 Bookinfo 样例应用及其配置，请参阅 [Bookinfo 清理](/zh/docs/examples/bookinfo/#cleanup)。
 
 移除 `sleep` 和 `notsleep` 应用：
 

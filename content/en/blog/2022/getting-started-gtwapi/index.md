@@ -103,7 +103,7 @@ helloworld-v2-54df5f84b-9hxgww   1/1     Running   0          10s
 With the helloworld service up and running, we can now use the Gateway API to configure ingress traffic for it.
 
 The ingress entry point is defined using a
-[Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1beta1.Gateway) resource:
+[Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.Gateway) resource:
 
 {{< text bash >}}
 $ kubectl create namespace sample-ingress
@@ -127,7 +127,7 @@ EOF
 {{< /text >}}
 
 The controller that will implement a Gateway is selected by referencing a
-[GatewayClass](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io%2fv1beta1.GatewayClass).
+[GatewayClass](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.GatewayClass).
 There must be at least one GatewayClass defined in the cluster to have functional Gateways.
 In our case, we're selecting Istio's gateway controller, `istio.io/gateway-controller`, by referencing its
 associated GatewayClass (named `istio`) with the `gatewayClassName: istio` setting in the Gateway.
@@ -152,7 +152,7 @@ $ kubectl wait -n sample-ingress --for=condition=programmed gateway sample-gatew
 $ export INGRESS_HOST=$(kubectl get -n sample-ingress gateway sample-gateway -o jsonpath='{.status.addresses[0].value}')
 {{< /text >}}
 
-Next, we attach an [HTTPRoute](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io%2fv1beta1.HTTPRoute)
+Next, we attach an [HTTPRoute](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.HTTPRoute)
 to the `sample-gateway` (i.e., using the `parentRefs` field) to expose and route traffic to the helloworld service:
 
 {{< text bash >}}

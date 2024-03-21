@@ -1,14 +1,10 @@
 ---
-title: Ambient Mesh 架构
-description: 深入了解 Ambient Mesh 架构。
+title: Ambient 模式架构
+description: 深入探讨 Ambient 模式的架构。
 weight: 20
 owner: istio/wg-networking-maintainers
 test: n/a
 ---
-
-本页还在进一步建设中。
-
-## 与 Sidecar 架构的不同之处 {#differences-from-sidecar}
 
 ## 流量路由 {#traffic-routing}
 
@@ -93,7 +89,3 @@ spec:
     - name: echo-v1
       port: 80
 {{< /text >}}
-
-## 安全 {#security}
-
-本节内容正在制作中。

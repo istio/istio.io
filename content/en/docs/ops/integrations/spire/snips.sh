@@ -24,7 +24,7 @@ snip_install_spire_with_controller_manager() {
 kubectl apply -f samples/security/spire/spire-quickstart.yaml
 }
 
-! read -r -d '' snip_spire_ca_integration_prerequisites_1 <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_spire_ca_integration_prerequisites_1 <<\ENDSNIP
 socket_path = "/run/secrets/workload-spiffe-uds/socket"
 ENDSNIP
 
@@ -220,7 +220,7 @@ kubectl exec -n spire "$SPIRE_SERVER_POD" -- \
     -node -socketPath /run/spire/sockets/server.sock
 }
 
-! read -r -d '' snip_option_2_manual_registration_3_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_option_2_manual_registration_3_out <<\ENDSNIP
 
 Entry ID         : d38c88d0-7d7a-4957-933c-361a0a3b039c
 SPIFFE ID        : spiffe://example.org/ns/spire/sa/spire-agent
@@ -245,7 +245,7 @@ kubectl exec -n spire "$SPIRE_SERVER_POD" -- \
     -socketPath /run/spire/sockets/server.sock
 }
 
-! read -r -d '' snip_option_2_manual_registration_4_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_option_2_manual_registration_4_out <<\ENDSNIP
 
 Entry ID         : 6f2fe370-5261-4361-ac36-10aae8d91ff7
 SPIFFE ID        : spiffe://example.org/ns/istio-system/sa/istio-ingressgateway-service-account
@@ -283,7 +283,7 @@ snip_verifying_that_identities_were_created_for_workloads_1() {
 kubectl exec -t "$SPIRE_SERVER_POD" -n spire -c spire-server -- ./bin/spire-server entry show
 }
 
-! read -r -d '' snip_verifying_that_identities_were_created_for_workloads_1_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_verifying_that_identities_were_created_for_workloads_1_out <<\ENDSNIP
 Found 2 entries
 Entry ID         : c8dfccdc-9762-4762-80d3-5434e5388ae7
 SPIFFE ID        : spiffe://example.org/ns/istio-system/sa/istio-ingressgateway-service-account
@@ -311,7 +311,7 @@ snip_get_svid_subject() {
 openssl x509 -in chain.pem -text | grep SPIRE
 }
 
-! read -r -d '' snip_get_svid_subject_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_get_svid_subject_out <<\ENDSNIP
     Subject: C = US, O = SPIRE, CN = sleep-5f4d47c948-njvpk
 ENDSNIP
 

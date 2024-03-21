@@ -20,6 +20,6 @@
 #          boilerplates/example.md
 ####################################################################################################
 
-! read -r -d '' bpsnip_example__1 <<\ENDSNIP
+! IFS=$'\n' read -r -d '' bpsnip_example__1 <<\ENDSNIP
 A sample nested text block in a boilerplate.
 ENDSNIP

@@ -76,7 +76,7 @@ kubectl -n test create secret generic httpbin-mtls-termination-cacert --from-fil
 kubectl -n test create secret tls httpbin-mtls-termination --cert ./httpbin.test.svc.cluster.local.crt --key ./httpbin.test.svc.cluster.local.key
 }
 
-! read -r -d '' snip_deploy_the_httpbin_test_service_1 <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_deploy_the_httpbin_test_service_1 <<\ENDSNIP
 sidecar.istio.io/userVolume: '{"tls-secret":{"secret":{"secretName":"httpbin-mtls-termination","optional":true}},"tls-ca-secret":{"secret":{"secretName":"httpbin-mtls-termination-cacert"}}}'
 sidecar.istio.io/userVolumeMount: '{"tls-secret":{"mountPath":"/etc/istio/tls-certs/","readOnly":true},"tls-ca-secret":{"mountPath":"/etc/istio/tls-ca-certs/","readOnly":true}}'
 ENDSNIP
@@ -175,7 +175,7 @@ snip_verification_2() {
 kubectl get pods
 }
 
-! read -r -d '' snip_verification_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_verification_2_out <<\ENDSNIP
 NAME                     READY   STATUS    RESTARTS   AGE
 sleep-557747455f-xx88g   1/1     Running   0          4m14s
 ENDSNIP
@@ -184,7 +184,7 @@ snip_verification_3() {
 kubectl get pods -n test
 }
 
-! read -r -d '' snip_verification_3_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_verification_3_out <<\ENDSNIP
 NAME                       READY   STATUS    RESTARTS   AGE
 httpbin-5bbdbd6588-z9vbs   2/2     Running   0          8m44s
 sleep-557747455f-brzf6     2/2     Running   0          6m57s
@@ -194,7 +194,7 @@ snip_verification_4() {
 kubectl get svc -n test
 }
 
-! read -r -d '' snip_verification_4_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_verification_4_out <<\ENDSNIP
 NAME      TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)             AGE
 httpbin   ClusterIP   10.100.78.113   <none>        8443/TCP,8080/TCP   10m
 sleep     ClusterIP   10.110.35.153   <none>        80/TCP              8m49s
@@ -204,7 +204,7 @@ snip_verification_5() {
 istioctl proxy-config secret httpbin-5bbdbd6588-z9vbs.test
 }
 
-! read -r -d '' snip_verification_5_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_verification_5_out <<\ENDSNIP
 RESOURCE NAME                                                           TYPE           STATUS     VALID CERT     SERIAL NUMBER                               NOT AFTER                NOT BEFORE
 file-cert:/etc/istio/tls-certs/tls.crt~/etc/istio/tls-certs/tls.key     Cert Chain     ACTIVE     true           1                                           2023-02-14T09:51:56Z     2022-02-14T09:51:56Z
 default                                                                 Cert Chain     ACTIVE     true           329492464719328863283539045344215802956     2022-02-15T09:55:46Z     2022-02-14T09:53:46Z
@@ -217,7 +217,7 @@ export INTERNAL_CLIENT=$(kubectl -n test get pod -l app=sleep -o jsonpath={.item
 kubectl -n test exec "${INTERNAL_CLIENT}" -c sleep -- curl -IsS "http://httpbin:8080/status/200"
 }
 
-! read -r -d '' snip_verify_internal_mesh_connectivity_on_port_8080_1_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_verify_internal_mesh_connectivity_on_port_8080_1_out <<\ENDSNIP
 HTTP/1.1 200 OK
 server: envoy
 date: Mon, 24 Oct 2022 09:04:52 GMT
@@ -239,7 +239,7 @@ snip_verify_external_to_internal_mesh_connectivity_on_port_8443_2() {
 kubectl exec "${EXTERNAL_CLIENT}" -c sleep -- curl -IsS --cacert /tmp/ca.crt --key /tmp/client.test.svc.cluster.local.key --cert /tmp/client.test.svc.cluster.local.crt -HHost:httpbin.test.svc.cluster.local "https://httpbin.test.svc.cluster.local:8443/status/200"
 }
 
-! read -r -d '' snip_verify_external_to_internal_mesh_connectivity_on_port_8443_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_verify_external_to_internal_mesh_connectivity_on_port_8443_2_out <<\ENDSNIP
 server: istio-envoy
 date: Mon, 24 Oct 2022 09:05:31 GMT
 content-type: text/html; charset=utf-8
@@ -254,7 +254,7 @@ snip_verify_external_to_internal_mesh_connectivity_on_port_8443_3() {
 kubectl exec "${EXTERNAL_CLIENT}" -c sleep -- curl -IsS --cacert /tmp/ca.crt --key /tmp/client.test.svc.cluster.local.key --cert /tmp/client.test.svc.cluster.local.crt -HHost:httpbin.test.svc.cluster.local "http://httpbin.test.svc.cluster.local:8080/status/200"
 }
 
-! read -r -d '' snip_verify_external_to_internal_mesh_connectivity_on_port_8443_3_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_verify_external_to_internal_mesh_connectivity_on_port_8443_3_out <<\ENDSNIP
 curl: (56) Recv failure: Connection reset by peer
 command terminated with exit code 56
 ENDSNIP

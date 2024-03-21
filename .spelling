@@ -21,6 +21,8 @@
 1.2.x
 1.2.x.
 1.20.x
+1.20.x.
+1.21.x
 1.23.x
 1.24.0
 1.24.x
@@ -42,6 +44,7 @@
 1.8.x.
 1.9.x
 1.x
+1.x.
 10ms
 10s
 123456789012.my
@@ -184,6 +187,8 @@ Bookinfo
 bookinfo
 boolean
 BoringSSL
+Bottlenose
+Bottlerocket
 bring-your-own-CA
 bring-your-own-identity
 Brooks
@@ -242,6 +247,7 @@ config
 ConfigMap
 configmap
 configmaps
+configs
 configurability
 conformant
 CONNECT-IP
@@ -351,6 +357,11 @@ CVE-2023-35942
 CVE-2023-35943
 CVE-2023-35944
 CVE-2023-35945
+CVE-2024-23322
+CVE-2024-23323
+CVE-2024-23324
+CVE-2024-23325
+CVE-2024-23327
 CVEs
 cves
 cvss
@@ -536,6 +547,7 @@ Idit
 ILBs
 incentivized
 Incrementality
+Indo-Pacific
 initContainer
 initializer
 initializers
@@ -611,6 +623,7 @@ istio_tcp_connections_opened_total
 istio_tcp_received_bytes_total
 istio_tcp_sent_bytes_total
 iter8
+Izzy
 Jannot
 jason
 Jeet
@@ -700,6 +713,7 @@ localhost
 Logics
 log_output_level
 Loki
+Longmuir
 lookups
 loopback
 Lua
@@ -773,6 +787,7 @@ natively
 Neeraj
 netfilter
 netmask
+netns
 network1
 network2
 networking.istio.io
@@ -851,6 +866,7 @@ pem
 Pengyuan
 performant
 Pettit
+Phippy
 Piotr
 pipelined
 PKI
@@ -987,6 +1003,7 @@ ServiceMeshCon
 ServiceMesher
 sha256
 Shamsher
+Shaojun
 sharded
 Sharding
 sharding
@@ -1133,7 +1150,9 @@ UTF-8
 v0.14.0
 v0.8.0
 v1
+v1.2.
 v1.21
+v1.21.0
 v1.26
 v1.27
 v1.28
@@ -1142,6 +1161,7 @@ v1.55
 v1.55.1
 v1.7.4
 v1.7.6_coreos.0
+v1.79.0.
 v1.9
 v1alpha1
 v1alpha3
@@ -1160,6 +1180,7 @@ vCPUs
 Vennam
 versioned
 versioning
+veth
 veth-pair
 vhost
 vhosts

@@ -53,7 +53,7 @@ snip_install_the_eastwest_gateway_in_cluster1_2() {
 kubectl --context="${CTX_CLUSTER1}" get svc istio-eastwestgateway -n istio-system
 }
 
-! read -r -d '' snip_install_the_eastwest_gateway_in_cluster1_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_install_the_eastwest_gateway_in_cluster1_2_out <<\ENDSNIP
 NAME                    TYPE           CLUSTER-IP    EXTERNAL-IP    PORT(S)   AGE
 istio-eastwestgateway   LoadBalancer   10.80.6.124   34.75.71.237   ...       51s
 ENDSNIP
@@ -61,6 +61,10 @@ ENDSNIP
 snip_expose_the_control_plane_in_cluster1_1() {
 kubectl apply --context="${CTX_CLUSTER1}" -n istio-system -f \
     samples/multicluster/expose-istiod.yaml
+}
+
+snip_expose_the_control_plane_in_cluster1_2() {
+sed 's/{{.Revision}}/rev/g' samples/multicluster/expose-istiod-rev.yaml.tmpl | kubectl apply --context="${CTX_CLUSTER1}" -n istio-system -f -
 }
 
 snip_set_the_control_plane_cluster_for_cluster2_1() {
@@ -114,7 +118,7 @@ snip_install_the_eastwest_gateway_in_cluster2_2() {
 kubectl --context="${CTX_CLUSTER2}" get svc istio-eastwestgateway -n istio-system
 }
 
-! read -r -d '' snip_install_the_eastwest_gateway_in_cluster2_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_install_the_eastwest_gateway_in_cluster2_2_out <<\ENDSNIP
 NAME                    TYPE           CLUSTER-IP    EXTERNAL-IP    PORT(S)   AGE
 istio-eastwestgateway   LoadBalancer   10.0.12.121   34.122.91.98   ...       51s
 ENDSNIP

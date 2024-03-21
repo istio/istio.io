@@ -56,7 +56,7 @@ snip_curl_simple() {
 kubectl exec "${SOURCE_POD}" -c sleep -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
 }
 
-! read -r -d '' snip_curl_simple_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_curl_simple_out <<\ENDSNIP
 HTTP/1.1 301 Moved Permanently
 ...
 location: https://edition.cnn.com/politics
@@ -104,7 +104,7 @@ snip_curl_origination_http() {
 kubectl exec "${SOURCE_POD}" -c sleep -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
 }
 
-! read -r -d '' snip_curl_origination_http_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_curl_origination_http_out <<\ENDSNIP
 HTTP/1.1 200 OK
 ...
 ENDSNIP
@@ -113,7 +113,7 @@ snip_curl_origination_https() {
 kubectl exec "${SOURCE_POD}" -c sleep -- curl -sSL -o /dev/null -D - https://edition.cnn.com/politics
 }
 
-! read -r -d '' snip_curl_origination_https_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_curl_origination_https_out <<\ENDSNIP
 HTTP/2 200
 ...
 ENDSNIP
@@ -178,7 +178,7 @@ snip_configure_mutual_tls_origination_for_egress_traffic_at_sidecar_2() {
 istioctl proxy-config secret deploy/sleep | grep client-credential
 }
 
-! read -r -d '' snip_configure_mutual_tls_origination_for_egress_traffic_at_sidecar_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_configure_mutual_tls_origination_for_egress_traffic_at_sidecar_2_out <<\ENDSNIP
 kubernetes://client-credential            Cert Chain     ACTIVE     true           1                                          2024-06-04T12:15:20Z     2023-06-05T12:15:20Z
 kubernetes://client-credential-cacert     Cert Chain     ACTIVE     true           10792363984292733914                       2024-06-04T12:15:19Z     2023-06-05T12:15:19Z
 ENDSNIP
@@ -187,7 +187,7 @@ snip_configure_mutual_tls_origination_for_egress_traffic_at_sidecar_3() {
 kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -sS http://my-nginx.mesh-external.svc.cluster.local
 }
 
-! read -r -d '' snip_configure_mutual_tls_origination_for_egress_traffic_at_sidecar_3_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_configure_mutual_tls_origination_for_egress_traffic_at_sidecar_3_out <<\ENDSNIP
 <!DOCTYPE html>
 <html>
 <head>

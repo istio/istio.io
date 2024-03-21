@@ -24,7 +24,7 @@ snip_querying_istio_metrics_1() {
 kubectl -n istio-system get svc prometheus
 }
 
-! read -r -d '' snip_querying_istio_metrics_1_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_querying_istio_metrics_1_out <<\ENDSNIP
 NAME         TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
 prometheus   ClusterIP   10.109.160.254   <none>        9090/TCP   4m
 ENDSNIP
@@ -37,19 +37,19 @@ snip_querying_istio_metrics_3() {
 istioctl dashboard prometheus
 }
 
-! read -r -d '' snip_querying_istio_metrics_4 <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_querying_istio_metrics_4 <<\ENDSNIP
 istio_requests_total
 ENDSNIP
 
-! read -r -d '' snip_querying_istio_metrics_5 <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_querying_istio_metrics_5 <<\ENDSNIP
 istio_requests_total{destination_service="productpage.default.svc.cluster.local"}
 ENDSNIP
 
-! read -r -d '' snip_querying_istio_metrics_6 <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_querying_istio_metrics_6 <<\ENDSNIP
 istio_requests_total{destination_service="reviews.default.svc.cluster.local", destination_version="v3"}
 ENDSNIP
 
-! read -r -d '' snip_querying_istio_metrics_7 <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_querying_istio_metrics_7 <<\ENDSNIP
 rate(istio_requests_total{destination_service=~"productpage.*", response_code="200"}[5m])
 ENDSNIP
 

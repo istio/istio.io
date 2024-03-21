@@ -43,36 +43,6 @@ to be customized for specific client contexts.</p>
 pods of the reviews service with label &ldquo;version: v1&rdquo;. In addition,
 HTTP requests with path starting with /wpcatalog/ or /consumercatalog/ will
 be rewritten to /newcatalog and sent to pods with label &ldquo;version: v2&rdquo;.</p>
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: reviews-route
-spec:
-  hosts:
-  - reviews.prod.svc.cluster.local
-  http:
-  - name: &quot;reviews-v2-routes&quot;
-    match:
-    - uri:
-        prefix: &quot;/wpcatalog&quot;
-    - uri:
-        prefix: &quot;/consumercatalog&quot;
-    rewrite:
-      uri: &quot;/newcatalog&quot;
-    route:
-    - destination:
-        host: reviews.prod.svc.cluster.local
-        subset: v2
-  - name: &quot;reviews-v1-route&quot;
-    route:
-    - destination:
-        host: reviews.prod.svc.cluster.local
-        subset: v1
-</code></pre>
-<p>{{</tab>}}</p>
-<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
@@ -99,29 +69,9 @@ spec:
         host: reviews.prod.svc.cluster.local
         subset: v1
 </code></pre>
-<p>{{</tab>}}
-{{</tabset>}}</p>
 <p>A subset/version of a route destination is identified with a reference
 to a named service subset which must be declared in a corresponding
 <code>DestinationRule</code>.</p>
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
-kind: DestinationRule
-metadata:
-  name: reviews-destination
-spec:
-  host: reviews.prod.svc.cluster.local
-  subsets:
-  - name: v1
-    labels:
-      version: v1
-  - name: v2
-    labels:
-      version: v2
-</code></pre>
-<p>{{</tab>}}</p>
-<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: DestinationRule
 metadata:
@@ -136,8 +86,6 @@ spec:
     labels:
       version: v2
 </code></pre>
-<p>{{</tab>}}
-{{</tabset>}}</p>
 
 <h2 id="VirtualService">VirtualService</h2>
 <section>
@@ -301,35 +249,6 @@ domain names over short names.</em></p>
 <p>The following Kubernetes example routes all traffic by default to pods
 of the reviews service with label &ldquo;version: v1&rdquo; (i.e., subset v1), and
 some to subset v2, in a Kubernetes environment.</p>
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: reviews-route
-  namespace: foo
-spec:
-  hosts:
-  - reviews # interpreted as reviews.foo.svc.cluster.local
-  http:
-  - match:
-    - uri:
-        prefix: &quot;/wpcatalog&quot;
-    - uri:
-        prefix: &quot;/consumercatalog&quot;
-    rewrite:
-      uri: &quot;/newcatalog&quot;
-    route:
-    - destination:
-        host: reviews # interpreted as reviews.foo.svc.cluster.local
-        subset: v2
-  - route:
-    - destination:
-        host: reviews # interpreted as reviews.foo.svc.cluster.local
-        subset: v1
-</code></pre>
-<p>{{</tab>}}</p>
-<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
@@ -355,28 +274,7 @@ spec:
         host: reviews # interpreted as reviews.foo.svc.cluster.local
         subset: v1
 </code></pre>
-<p>{{</tab>}}
-{{</tabset>}}</p>
 <p>And the associated DestinationRule</p>
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
-kind: DestinationRule
-metadata:
-  name: reviews-destination
-  namespace: foo
-spec:
-  host: reviews # interpreted as reviews.foo.svc.cluster.local
-  subsets:
-  - name: v1
-    labels:
-      version: v1
-  - name: v2
-    labels:
-      version: v2
-</code></pre>
-<p>{{</tab>}}</p>
-<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: DestinationRule
 metadata:
@@ -392,8 +290,6 @@ spec:
     labels:
       version: v2
 </code></pre>
-<p>{{</tab>}}
-{{</tabset>}}</p>
 <p>The following VirtualService sets a timeout of 5s for all calls to
 productpage.prod.svc.cluster.local service in Kubernetes. Notice that
 there are no subsets defined in this rule. Istio will fetch all
@@ -403,24 +299,6 @@ that this rule is set in the istio-system namespace but uses the fully
 qualified domain name of the productpage service,
 productpage.prod.svc.cluster.local. Therefore the rule&rsquo;s namespace does
 not have an impact in resolving the name of the productpage service.</p>
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: my-productpage-rule
-  namespace: istio-system
-spec:
-  hosts:
-  - productpage.prod.svc.cluster.local # ignores rule namespace
-  http:
-  - timeout: 5s
-    route:
-    - destination:
-        host: productpage.prod.svc.cluster.local
-</code></pre>
-<p>{{</tab>}}</p>
-<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
@@ -435,44 +313,11 @@ spec:
     - destination:
         host: productpage.prod.svc.cluster.local
 </code></pre>
-<p>{{</tab>}}
-{{</tabset>}}</p>
 <p>To control routing for traffic bound to services outside the mesh, external
 services must first be added to Istio&rsquo;s internal service registry using the
 ServiceEntry resource. VirtualServices can then be defined to control traffic
 bound to these external services. For example, the following rules define a
 Service for wikipedia.org and set a timeout of 5s for HTTP requests.</p>
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
-kind: ServiceEntry
-metadata:
-  name: external-svc-wikipedia
-spec:
-  hosts:
-  - wikipedia.org
-  location: MESH_EXTERNAL
-  ports:
-  - number: 80
-    name: example-http
-    protocol: HTTP
-  resolution: DNS
----
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: my-wiki-rule
-spec:
-  hosts:
-  - wikipedia.org
-  http:
-  - timeout: 5s
-    route:
-    - destination:
-        host: wikipedia.org
-</code></pre>
-<p>{{</tab>}}</p>
-<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: ServiceEntry
 metadata:
@@ -500,8 +345,6 @@ spec:
     - destination:
         host: wikipedia.org
 </code></pre>
-<p>{{</tab>}}
-{{</tabset>}}</p>
 
 <table class="message-fields">
 <thead>
@@ -892,36 +735,6 @@ The following VirtualService adds a <code>test</code> header with the value <cod
 to requests that are routed to any <code>reviews</code> service destination.
 It also removes the <code>foo</code> response header, but only from responses
 coming from the <code>v1</code> subset (version) of the <code>reviews</code> service.</p>
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: reviews-route
-spec:
-  hosts:
-  - reviews.prod.svc.cluster.local
-  http:
-  - headers:
-      request:
-        set:
-          test: &quot;true&quot;
-    route:
-    - destination:
-        host: reviews.prod.svc.cluster.local
-        subset: v2
-      weight: 25
-    - destination:
-        host: reviews.prod.svc.cluster.local
-        subset: v1
-      headers:
-        response:
-          remove:
-          - foo
-      weight: 75
-</code></pre>
-<p>{{</tab>}}</p>
-<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
@@ -948,8 +761,6 @@ spec:
           - foo
       weight: 75
 </code></pre>
-<p>{{</tab>}}
-{{</tabset>}}</p>
 
 <table class="message-fields">
 <thead>
@@ -994,35 +805,6 @@ No
 traffic (TLS/HTTPS) The following routing rule forwards unterminated TLS
 traffic arriving at port 443 of gateway called &ldquo;mygateway&rdquo; to internal
 services in the mesh based on the SNI value.</p>
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: bookinfo-sni
-spec:
-  hosts:
-  - &quot;*.bookinfo.com&quot;
-  gateways:
-  - mygateway
-  tls:
-  - match:
-    - port: 443
-      sniHosts:
-      - login.bookinfo.com
-    route:
-    - destination:
-        host: login.prod.svc.cluster.local
-  - match:
-    - port: 443
-      sniHosts:
-      - reviews.bookinfo.com
-    route:
-    - destination:
-        host: reviews.prod.svc.cluster.local
-</code></pre>
-<p>{{</tab>}}</p>
-<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
@@ -1048,8 +830,6 @@ spec:
     - destination:
         host: reviews.prod.svc.cluster.local
 </code></pre>
-<p>{{</tab>}}
-{{</tabset>}}</p>
 
 <table class="message-fields">
 <thead>
@@ -1094,26 +874,6 @@ No
 <p>Describes match conditions and actions for routing TCP traffic. The
 following routing rule forwards traffic arriving at port 27017 for
 mongo.prod.svc.cluster.local to another Mongo server on port 5555.</p>
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: bookinfo-mongo
-spec:
-  hosts:
-  - mongo.prod.svc.cluster.local
-  tcp:
-  - match:
-    - port: 27017
-    route:
-    - destination:
-        host: mongo.backup.svc.cluster.local
-        port:
-          number: 5555
-</code></pre>
-<p>{{</tab>}}</p>
-<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
@@ -1130,8 +890,6 @@ spec:
         port:
           number: 5555
 </code></pre>
-<p>{{</tab>}}
-{{</tabset>}}</p>
 
 <table class="message-fields">
 <thead>
@@ -1178,29 +936,6 @@ rule to be applied to the HTTP request. For example, the following
 restricts the rule to match only requests where the URL path
 starts with /ratings/v2/ and the request contains a custom <code>end-user</code> header
 with value <code>jason</code>.</p>
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: ratings-route
-spec:
-  hosts:
-  - ratings.prod.svc.cluster.local
-  http:
-  - match:
-    - headers:
-        end-user:
-          exact: jason
-      uri:
-        prefix: &quot;/ratings/v2/&quot;
-      ignoreUriCase: true
-    route:
-    - destination:
-        host: ratings.prod.svc.cluster.local
-</code></pre>
-<p>{{</tab>}}</p>
-<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
@@ -1220,8 +955,6 @@ spec:
     - destination:
         host: ratings.prod.svc.cluster.local
 </code></pre>
-<p>{{</tab>}}
-{{</tabset>}}</p>
 <p>HTTPMatchRequest CANNOT be empty.
 <strong>Note:</strong></p>
 <ol>
@@ -1513,28 +1246,6 @@ determine the proportion of traffic it receives. For example, the
 following rule will route 25% of traffic for the &ldquo;reviews&rdquo; service to
 instances with the &ldquo;v2&rdquo; tag and the remaining traffic (i.e., 75%) to
 &ldquo;v1&rdquo;.</p>
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: reviews-route
-spec:
-  hosts:
-  - reviews.prod.svc.cluster.local
-  http:
-  - route:
-    - destination:
-        host: reviews.prod.svc.cluster.local
-        subset: v2
-      weight: 25
-    - destination:
-        host: reviews.prod.svc.cluster.local
-        subset: v1
-      weight: 75
-</code></pre>
-<p>{{</tab>}}</p>
-<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
@@ -1553,27 +1264,7 @@ spec:
         subset: v1
       weight: 75
 </code></pre>
-<p>{{</tab>}}
-{{</tabset>}}</p>
 <p>And the associated DestinationRule</p>
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
-kind: DestinationRule
-metadata:
-  name: reviews-destination
-spec:
-  host: reviews.prod.svc.cluster.local
-  subsets:
-  - name: v1
-    labels:
-      version: v1
-  - name: v2
-    labels:
-      version: v2
-</code></pre>
-<p>{{</tab>}}</p>
-<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: DestinationRule
 metadata:
@@ -1588,31 +1279,9 @@ spec:
     labels:
       version: v2
 </code></pre>
-<p>{{</tab>}}
-{{</tabset>}}</p>
 <p>Traffic can also be split across two entirely different services without
 having to define new subsets. For example, the following rule forwards 25% of
 traffic to reviews.com to dev.reviews.com</p>
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: reviews-route-two-domains
-spec:
-  hosts:
-  - reviews.com
-  http:
-  - route:
-    - destination:
-        host: dev.reviews.com
-      weight: 25
-    - destination:
-        host: reviews.com
-      weight: 75
-</code></pre>
-<p>{{</tab>}}</p>
-<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
@@ -1629,8 +1298,6 @@ spec:
         host: reviews.com
       weight: 75
 </code></pre>
-<p>{{</tab>}}
-{{</tabset>}}</p>
 
 <table class="message-fields">
 <thead>
@@ -1910,26 +1577,6 @@ where the Authority/Host and the URI in the response can be swapped with
 the specified values. For example, the following rule redirects
 requests for /v1/getProductRatings API on the ratings service to
 /v1/bookRatings provided by the bookratings service.</p>
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: ratings-route
-spec:
-  hosts:
-  - ratings.prod.svc.cluster.local
-  http:
-  - match:
-    - uri:
-        exact: /v1/getProductRatings
-    redirect:
-      uri: /v1/bookRatings
-      authority: newratings.default.svc.cluster.local
-  ...
-</code></pre>
-<p>{{</tab>}}</p>
-<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
@@ -1946,8 +1593,6 @@ spec:
       authority: newratings.default.svc.cluster.local
   ...
 </code></pre>
-<p>{{</tab>}}
-{{</tabset>}}</p>
 
 <table class="message-fields">
 <thead>
@@ -2044,27 +1689,6 @@ No
 <p>HTTPDirectResponse can be used to send a fixed response to clients.
 For example, the following rule returns a fixed 503 status with a body
 to requests for /v1/getProductRatings API.</p>
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: ratings-route
-spec:
-  hosts:
-  - ratings.prod.svc.cluster.local
-  http:
-  - match:
-    - uri:
-        exact: /v1/getProductRatings
-    directResponse:
-      status: 503
-      body:
-        string: &quot;unknown error&quot;
-  ...
-</code></pre>
-<p>{{</tab>}}</p>
-<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
@@ -2082,31 +1706,8 @@ spec:
         string: &quot;unknown error&quot;
   ...
 </code></pre>
-<p>{{</tab>}}
-{{</tabset>}}</p>
 <p>It is also possible to specify a binary response body.
 This is mostly useful for non text-based protocols such as gRPC.</p>
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: ratings-route
-spec:
-  hosts:
-  - ratings.prod.svc.cluster.local
-  http:
-  - match:
-    - uri:
-        exact: /v1/getProductRatings
-    directResponse:
-      status: 503
-      body:
-        bytes: &quot;dW5rbm93biBlcnJvcg==&quot; # &quot;unknown error&quot; in base64
-  ...
-</code></pre>
-<p>{{</tab>}}</p>
-<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
@@ -2124,36 +1725,9 @@ spec:
         bytes: &quot;dW5rbm93biBlcnJvcg==&quot; # &quot;unknown error&quot; in base64
   ...
 </code></pre>
-<p>{{</tab>}}
-{{</tabset>}}</p>
 <p>It is good practice to add headers in the HTTPRoute
 as well as the direct_response, for example to specify
 the returned Content-Type.</p>
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: ratings-route
-spec:
-  hosts:
-  - ratings.prod.svc.cluster.local
-  http:
-  - match:
-    - uri:
-        exact: /v1/getProductRatings
-    directResponse:
-      status: 503
-      body:
-        string: &quot;{\&quot;error\&quot;: \&quot;unknown error\&quot;}&quot;
-    headers:
-      response:
-        set:
-          content-type: &quot;application/json&quot;
-  ...
-</code></pre>
-<p>{{</tab>}}</p>
-<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
@@ -2175,8 +1749,6 @@ spec:
           content-type: &quot;text/plain&quot;
   ...
 </code></pre>
-<p>{{</tab>}}
-{{</tabset>}}</p>
 
 <table class="message-fields">
 <thead>
@@ -2258,28 +1830,6 @@ before forwarding the request to the destination. Rewrite primitive can
 be used only with HTTPRouteDestination. The following example
 demonstrates how to rewrite the URL prefix for api call (/ratings) to
 ratings service before making the actual API call.</p>
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: ratings-route
-spec:
-  hosts:
-  - ratings.prod.svc.cluster.local
-  http:
-  - match:
-    - uri:
-        prefix: /ratings
-    rewrite:
-      uri: /v1/bookRatings
-    route:
-    - destination:
-        host: ratings.prod.svc.cluster.local
-        subset: v1
-</code></pre>
-<p>{{</tab>}}</p>
-<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
@@ -2298,8 +1848,6 @@ spec:
         host: ratings.prod.svc.cluster.local
         subset: v1
 </code></pre>
-<p>{{</tab>}}
-{{</tabset>}}</p>
 
 <table class="message-fields">
 <thead>
@@ -2452,27 +2000,6 @@ example, the following rule sets the maximum number of retries to 3 when
 calling ratings:v1 service, with a 2s timeout per retry attempt.
 A retry will be attempted if there is a connect-failure, refused_stream
 or when the upstream server responds with Service Unavailable(503).</p>
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: ratings-route
-spec:
-  hosts:
-  - ratings.prod.svc.cluster.local
-  http:
-  - route:
-    - destination:
-        host: ratings.prod.svc.cluster.local
-        subset: v1
-    retries:
-      attempts: 3
-      perTryTimeout: 2s
-      retryOn: connect-failure,refused-stream,503
-</code></pre>
-<p>{{</tab>}}</p>
-<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
@@ -2490,8 +2017,6 @@ spec:
       perTryTimeout: 2s
       retryOn: gateway-error,connect-failure,refused-stream
 </code></pre>
-<p>{{</tab>}}
-{{</tabset>}}</p>
 
 <table class="message-fields">
 <thead>
@@ -2572,33 +2097,6 @@ the following rule restricts cross origin requests to those originating
 from example.com domain using HTTP POST/GET, and sets the
 <code>Access-Control-Allow-Credentials</code> header to false. In addition, it only
 exposes <code>X-Foo-bar</code> header and sets an expiry period of 1 day.</p>
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: ratings-route
-spec:
-  hosts:
-  - ratings.prod.svc.cluster.local
-  http:
-  - route:
-    - destination:
-        host: ratings.prod.svc.cluster.local
-        subset: v1
-    corsPolicy:
-      allowOrigins:
-      - exact: https://example.com
-      allowMethods:
-      - POST
-      - GET
-      allowCredentials: false
-      allowHeaders:
-      - X-Foo-Bar
-      maxAge: &quot;24h&quot;
-</code></pre>
-<p>{{</tab>}}</p>
-<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
@@ -2622,8 +2120,6 @@ spec:
       - X-Foo-Bar
       maxAge: &quot;24h&quot;
 </code></pre>
-<p>{{</tab>}}
-{{</tabset>}}</p>
 
 <table class="message-fields">
 <thead>
@@ -2917,31 +2413,6 @@ No
 forwarding path. The following example will introduce a 5 second delay
 in 1 out of every 1000 requests to the &ldquo;v1&rdquo; version of the &ldquo;reviews&rdquo;
 service from all pods with label env: prod</p>
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: reviews-route
-spec:
-  hosts:
-  - reviews.prod.svc.cluster.local
-  http:
-  - match:
-    - sourceLabels:
-        env: prod
-    route:
-    - destination:
-        host: reviews.prod.svc.cluster.local
-        subset: v1
-    fault:
-      delay:
-        percentage:
-          value: 0.1
-        fixedDelay: 5s
-</code></pre>
-<p>{{</tab>}}</p>
-<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
@@ -2963,8 +2434,6 @@ spec:
           value: 0.1
         fixedDelay: 5s
 </code></pre>
-<p>{{</tab>}}
-{{</tabset>}}</p>
 <p>The <em>fixedDelay</em> field is used to indicate the amount of delay in seconds.
 The optional <em>percentage</em> field can be used to only delay a certain
 percentage of requests. If left unspecified, no request will be delayed.</p>
@@ -3024,28 +2493,6 @@ No
 <p>Abort specification is used to prematurely abort a request with a
 pre-specified error code. The following example will return an HTTP 400
 error code for 1 out of every 1000 requests to the &ldquo;ratings&rdquo; service &ldquo;v1&rdquo;.</p>
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1alpha3" category-value="v1alpha3">}}</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: ratings-route
-spec:
-  hosts:
-  - ratings.prod.svc.cluster.local
-  http:
-  - route:
-    - destination:
-        host: ratings.prod.svc.cluster.local
-        subset: v1
-    fault:
-      abort:
-        percentage:
-          value: 0.1
-        httpStatus: 400
-</code></pre>
-<p>{{</tab>}}</p>
-<p>{{<tab name="v1beta1" category-value="v1beta1">}}</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
@@ -3064,8 +2511,6 @@ spec:
           value: 0.1
         httpStatus: 400
 </code></pre>
-<p>{{</tab>}}
-{{</tabset>}}</p>
 <p>The <em>httpStatus</em> field is used to indicate the HTTP status code to
 return to the caller. The optional <em>percentage</em> field can be used to only
 abort a certain percentage of requests. If not specified, no request will be

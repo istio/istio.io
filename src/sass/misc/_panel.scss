@@ -118,12 +118,14 @@
 
         .panel-title { color: $accentColor; }
 
+        // Adjusting color based on $accentColor with contrast for WCAG compliance
+
         .btn {
-            border-color: #7dc5f2;
-            color: #7dc5f2;
+            border-color: #7dc6f8;
+            color: #7dc6f8;
 
             &:hover {
-                background-color: #7dc5f2;
+                background-color: #7dc6f8;
                 color: $secondaryAccentColor;
             }
         }

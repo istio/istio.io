@@ -48,7 +48,7 @@ snip_configuring_the_circuit_breaker_2() {
 kubectl get destinationrule httpbin -o yaml
 }
 
-! read -r -d '' snip_configuring_the_circuit_breaker_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_configuring_the_circuit_breaker_2_out <<\ENDSNIP
 apiVersion: networking.istio.io/v1beta1
 kind: DestinationRule
 ...
@@ -81,7 +81,7 @@ export FORTIO_POD=$(kubectl get pods -l app=fortio -o 'jsonpath={.items[0].metad
 kubectl exec "$FORTIO_POD" -c fortio -- /usr/bin/fortio curl -quiet http://httpbin:8000/get
 }
 
-! read -r -d '' snip_adding_a_client_3_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_adding_a_client_3_out <<\ENDSNIP
 HTTP/1.1 200 OK
 server: envoy
 date: Tue, 25 Feb 2020 20:25:52 GMT
@@ -112,7 +112,7 @@ snip_tripping_the_circuit_breaker_1() {
 kubectl exec "$FORTIO_POD" -c fortio -- /usr/bin/fortio load -c 2 -qps 0 -n 20 -loglevel Warning http://httpbin:8000/get
 }
 
-! read -r -d '' snip_tripping_the_circuit_breaker_1_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_tripping_the_circuit_breaker_1_out <<\ENDSNIP
 20:33:46 I logger.go:97> Log level is now 3 Warning (was 2 Info)
 Fortio 1.3.1 running at 0 queries per second, 6->6 procs, for 20 calls: http://httpbin:8000/get
 Starting at max qps with 2 thread(s) [gomax 6] for exactly 20 calls (10 per thread + 0)
@@ -146,7 +146,7 @@ Response Body/Total Sizes : count 20 avg 729.9 +/- 205.4 min 241 max 817 sum 145
 All done 20 calls (plus 0 warmup) 5.687 ms avg, 334.2 qps
 ENDSNIP
 
-! read -r -d '' snip_tripping_the_circuit_breaker_2 <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_tripping_the_circuit_breaker_2 <<\ENDSNIP
 Code 200 : 17 (85.0 %)
 Code 503 : 3 (15.0 %)
 ENDSNIP
@@ -155,7 +155,7 @@ snip_tripping_the_circuit_breaker_3() {
 kubectl exec "$FORTIO_POD" -c fortio -- /usr/bin/fortio load -c 3 -qps 0 -n 30 -loglevel Warning http://httpbin:8000/get
 }
 
-! read -r -d '' snip_tripping_the_circuit_breaker_3_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_tripping_the_circuit_breaker_3_out <<\ENDSNIP
 20:32:30 I logger.go:97> Log level is now 3 Warning (was 2 Info)
 Fortio 1.3.1 running at 0 queries per second, 6->6 procs, for 30 calls: http://httpbin:8000/get
 Starting at max qps with 3 thread(s) [gomax 6] for exactly 30 calls (10 per thread + 0)
@@ -205,7 +205,7 @@ Response Body/Total Sizes : count 30 avg 451.86667 +/- 277.1 min 241 max 817 sum
 All done 30 calls (plus 0 warmup) 4.000 ms avg, 577.0 qps
 ENDSNIP
 
-! read -r -d '' snip_tripping_the_circuit_breaker_4 <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_tripping_the_circuit_breaker_4 <<\ENDSNIP
 Code 200 : 11 (36.7 %)
 Code 503 : 19 (63.3 %)
 ENDSNIP
@@ -214,7 +214,7 @@ snip_tripping_the_circuit_breaker_5() {
 kubectl exec "$FORTIO_POD" -c istio-proxy -- pilot-agent request GET stats | grep httpbin | grep pending
 }
 
-! read -r -d '' snip_tripping_the_circuit_breaker_5_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_tripping_the_circuit_breaker_5_out <<\ENDSNIP
 cluster.outbound|8000||httpbin.default.svc.cluster.local.circuit_breakers.default.remaining_pending: 1
 cluster.outbound|8000||httpbin.default.svc.cluster.local.circuit_breakers.default.rq_pending_open: 0
 cluster.outbound|8000||httpbin.default.svc.cluster.local.circuit_breakers.high.rq_pending_open: 0

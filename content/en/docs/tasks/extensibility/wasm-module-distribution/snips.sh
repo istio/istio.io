@@ -49,7 +49,7 @@ snip_check_the_configured_wasm_module_1() {
 curl -s -o /dev/null -w "%{http_code}" "http://$INGRESS_HOST:$INGRESS_PORT/productpage"
 }
 
-! read -r -d '' snip_check_the_configured_wasm_module_1_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_check_the_configured_wasm_module_1_out <<\ENDSNIP
 401
 ENDSNIP
 
@@ -57,7 +57,7 @@ snip_check_the_configured_wasm_module_2() {
 curl -s -o /dev/null -w "%{http_code}" -H "Authorization: Basic YWRtaW4zOmFkbWluMw==" "http://$INGRESS_HOST:$INGRESS_PORT/productpage"
 }
 
-! read -r -d '' snip_check_the_configured_wasm_module_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_check_the_configured_wasm_module_2_out <<\ENDSNIP
 200
 ENDSNIP
 

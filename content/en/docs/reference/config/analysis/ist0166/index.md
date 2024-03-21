@@ -30,7 +30,6 @@ metadata:
     istio.io/rev: default
   labels:
     gateway.networking.k8s.io/gateway-name: bookinfo-gateway
-    istio.io/gateway-name: bookinfo-gateway
   name: bookinfo-gateway-istio-6ff4cf9645-xbqmc
   namespace: default
 spec:

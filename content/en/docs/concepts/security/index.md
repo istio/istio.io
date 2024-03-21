@@ -950,7 +950,7 @@ strict mutual TLS mode.
 
 After learning the basic concepts, there are more resources to review:
 
-- Try out the security policy by following the [authentication](/docs/tasks/security/authentication/authn-policy)
+- Try out the security policy by following the [authentication](/docs/tasks/security/authentication)
   and [authorization](/docs/tasks/security/authorization) tasks.
 
 - Learn some security [policy examples](/docs/ops/configuration/security/security-policy-examples) that could be

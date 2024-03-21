@@ -20,6 +20,6 @@
 #          boilerplates/test-3.md
 ####################################################################################################
 
-! read -r -d '' bpsnip_test_3__1 <<\ENDSNIP
+! IFS=$'\n' read -r -d '' bpsnip_test_3__1 <<\ENDSNIP
 A text block inside a warning
 ENDSNIP

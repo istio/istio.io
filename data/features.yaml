@@ -1,6 +1,7 @@
 features:
   - name: "Protocols:HTTP1.1/HTTP2/gRPC/TCP"
     id: "traffic.http_protocols"
+    link: "/docs/ops/configuration/traffic-management/protocol-selection/"
     level:
       checklist: features/protocol-support.md
       maturity: Stable

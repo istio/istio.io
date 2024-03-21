@@ -97,6 +97,9 @@ providers:
   - name: "IMESH Platform"
     logo: "/logos/imesh.svg"
     url: "https://imesh.ai/imesh-istio-platform.html"
+  - name: "Control Plane"
+    logo: "/logos/controlplane.svg"
+    url: "https://controlplane.com"
 
 integrations:
   - name: "Aeraki"
