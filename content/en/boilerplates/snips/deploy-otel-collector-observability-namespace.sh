@@ -17,9 +17,9 @@
 
 ####################################################################################################
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
-#          boilerplates/deploy-otel-collector-service-own-namespace.md
+#          boilerplates/deploy-otel-collector-observability-namespace.md
 ####################################################################################################
 
-bpsnip_deploy_otel_collector_service_own_namespace__2() {
-kubectl apply -f samples/open-telemetry/otel.yaml -n otel-collector
+bpsnip_deploy_otel_collector_observability_namespace__2() {
+kubectl apply -f samples/open-telemetry/otel.yaml -n observability
 }

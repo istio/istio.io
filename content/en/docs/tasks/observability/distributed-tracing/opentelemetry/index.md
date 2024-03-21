@@ -21,7 +21,7 @@ traces via gRPC.
 
 ## Deploy the OpenTelemetry Collector
 
-{{< boilerplate deploy-otel-collector-service-own-namespace >}}
+{{< boilerplate deploy-otel-collector-observability-namespace >}}
 
 ## Installation
 
@@ -44,7 +44,7 @@ In this example, traces will be exported via OTLP/gRPC to the OpenTelemetry Coll
         - name: otel-tracing
           opentelemetry:
             port: 4317
-            service: opentelemetry-collector.otel-collector.svc.cluster.local
+            service: opentelemetry-collector.observability.svc.cluster.local
     EOF
     $ istioctl install -f ./tracing.yaml --skip-confirmation
     $ kubectl label namespace default istio-injection=enabled
@@ -145,7 +145,7 @@ Deploy the [Bookinfo](/docs/examples/bookinfo/#deploying-the-application) sample
 1.  Uninstall the OpenTelemetry Collector:
 
     {{< text syntax=bash snip_id=cleanup_collector >}}
-    $ kubectl delete -f @samples/open-telemetry/otel.yaml@ -n otel-collector
+    $ kubectl delete -f @samples/open-telemetry/otel.yaml@ -n observability
     {{< /text >}}
 
 1.  If you are not planning to explore any follow-on tasks, refer to the

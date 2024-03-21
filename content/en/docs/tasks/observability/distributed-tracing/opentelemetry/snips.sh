@@ -19,7 +19,7 @@
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
 #          docs/tasks/observability/distributed-tracing/opentelemetry/index.md
 ####################################################################################################
-source "content/en/boilerplates/snips/deploy-otel-collector-service-own-namespace.sh"
+source "content/en/boilerplates/snips/deploy-otel-collector-observability-namespace.sh"
 
 snip_enable_telemetry() {
 kubectl apply -f - <<EOF
@@ -49,5 +49,5 @@ killall istioctl
 }
 
 snip_cleanup_collector() {
-kubectl delete -f samples/open-telemetry/otel.yaml -n otel-collector
+kubectl delete -f samples/open-telemetry/otel.yaml -n observability
 }
