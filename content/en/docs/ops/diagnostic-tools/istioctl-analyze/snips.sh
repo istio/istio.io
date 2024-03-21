@@ -64,7 +64,7 @@ istioctl analyze --use-kube=false samples/bookinfo/networking/*.yaml
 }
 
 ! IFS=$'\n' read -r -d '' snip_vs_yaml_with_status <<\ENDSNIP
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 ...
 spec:
