@@ -108,10 +108,10 @@ on usage.
 
 {{< tip >}}
 
-When deploying the gateway in an OpenShift cluster, use the `openshift-values.yaml` file to override the default values, for example:
+When deploying the gateway in an OpenShift cluster, use the `openshift` profile to override the default values, for example:
 
 {{< text bash >}}
-$ helm install istio-ingressgateway istio/gateway -n istio-ingress -f @manifests/charts/gateway/openshift-values.yaml@
+$ helm install istio-ingressgateway istio/gateway -n istio-ingress --set profile=openshift
 {{< /text >}}
 
 {{< /tip >}}
