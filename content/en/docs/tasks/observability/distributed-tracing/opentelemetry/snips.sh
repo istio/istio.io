@@ -20,6 +20,7 @@
 #          docs/tasks/observability/distributed-tracing/opentelemetry/index.md
 ####################################################################################################
 source "content/en/boilerplates/snips/deploy-otel-collector-observability-namespace.sh"
+source "content/en/boilerplates/snips/trace-generation.sh"
 
 snip_enable_telemetry() {
 kubectl apply -f - <<EOF
