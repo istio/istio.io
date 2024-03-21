@@ -20,6 +20,10 @@
 #          boilerplates/deploy-otel-collector-observability-namespace.md
 ####################################################################################################
 
+bpsnip_deploy_otel_collector_observability_namespace__1() {
+kubectl create namespace observability
+}
+
 bpsnip_deploy_otel_collector_observability_namespace__2() {
 kubectl apply -f samples/open-telemetry/otel.yaml -n observability
 }

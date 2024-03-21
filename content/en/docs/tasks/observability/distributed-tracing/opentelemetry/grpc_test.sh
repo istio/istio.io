@@ -26,7 +26,8 @@ source "tests/util/addons.sh"
 
 _deploy_and_wait_for_addons zipkin
 
-# Start the otel collector sample
+# Deploy the OTel collector
+bpsnip_deploy_otel_collector_observability_namespace__1
 bpsnip_deploy_otel_collector_observability_namespace__2
 _wait_for_deployment observability opentelemetry-collector
 
