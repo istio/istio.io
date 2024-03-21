@@ -27,8 +27,8 @@ source "tests/util/addons.sh"
 _deploy_and_wait_for_addons zipkin
 
 # Start the otel collector sample
-bpsnip_deploy_otel_collector_service_own_namespace__2
-_wait_for_deployment otel-collector opentelemetry-collector
+bpsnip_deploy_otel_collector_observability_namespace__2
+_wait_for_deployment observability opentelemetry-collector
 
 # Enable OTel Tracing extension via Telememetry API
 snip_enable_telemetry

@@ -32,6 +32,8 @@ which you can pass to the `istioctl install -f` command.
 ### Exporting via gRPC
 
 In this example, traces will be exported via OTLP/gRPC to the OpenTelemetry Collector.
+The example also enables the [environment resource detector](https://opentelemetry.io/docs/languages/js/resources/#adding-resources-with-environment-variables). The environment detector adds attributes from the environment variable
+`OTEL_RESOURCE_ATTRIBUTES` to the exported OpenTelemetry resource.
 
     {{< text syntax=bash snip_id=none >}}
     $ cat <<EOF > ./tracing-grpc.yaml
@@ -45,6 +47,8 @@ In this example, traces will be exported via OTLP/gRPC to the OpenTelemetry Coll
           opentelemetry:
             port: 4317
             service: opentelemetry-collector.observability.svc.cluster.local
+            resource_detectors:
+              environment: {}
     EOF
     $ istioctl install -f ./tracing.yaml --skip-confirmation
     $ kubectl label namespace default istio-injection=enabled
