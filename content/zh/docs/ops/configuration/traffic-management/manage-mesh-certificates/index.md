@@ -1,7 +1,7 @@
 ---
 title: 管理网格内证书
 linktitle: 管理网格内证书
-description: 如何在您的网格内配置证书。
+description: 如何配置您网格内的证书。
 weight: 30
 keywords: [traffic-management,proxy]
 owner: istio/wg-networking-maintainers,istio/wg-environments-maintainers
@@ -23,11 +23,11 @@ test: n/a
 
 当在没有根 CA 证书的情况下安装 Istio 时，istiod 将使用 RSA 2048 生成自签名的 CA 证书。
 
-要更改自签名 CA 证书的位长度，您将需要修改提供给 istioctl 的 IstioOperator 清单，
+要更改自签名 CA 证书的位长度，您将需要修改提供给 istioctl 的 IstioOperator 资源，
 或需要修改通过 Helm 安装 istio-discovery Chart 期间使用的赋值文件。
 
 {{< tip >}}
-虽然对于 [pilot-discovery](/zh/docs/reference/commands/pilot-discovery/) 可以更改许多环境变量，
+尽管 [pilot-discovery](/zh/docs/reference/commands/pilot-discovery/) 有许多环境变量可以更改，
 但本文仅概述其中一些。
 {{< /tip >}}
 
@@ -65,7 +65,7 @@ pilot:
 需要修改 Sidecar 注入器以便为此注入环境变量。
 
 {{< tip >}}
-虽然对于 [pilot-discovery](/zh/docs/reference/commands/pilot-discovery/) 可以更改许多环境变量，
+尽管 [pilot-agent](/zh/docs/reference/commands/pilot-agent/) 有许多环境变量可以更改，
 但本文仅概述其中一些。
 {{< /tip >}}
 
