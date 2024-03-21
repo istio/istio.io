@@ -86,6 +86,8 @@ Deploy the [Bookinfo](/docs/examples/bookinfo/#deploying-the-application) sample
 1.  When the Bookinfo application is up and running, access `http://$GATEWAY_URL/productpage`
     one or more times to generate trace information.
 
+    {{< boilerplate trace-generation >}}
+
 1.  The OpenTelemetry Collector used in the example is configured to export traces to the console.
     If you used the example Collector config, you can verify traces are arriving by looking
     at the Collector logs. It should contain something like:
