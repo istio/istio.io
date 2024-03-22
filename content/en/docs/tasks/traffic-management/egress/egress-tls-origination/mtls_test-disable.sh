@@ -74,3 +74,4 @@ snip_cleanup_the_mutual_tls_origination_configuration_1
 snip_cleanup_the_mutual_tls_origination_configuration_2
 snip_cleanup_the_mutual_tls_origination_configuration_3
 cleanup_sleep_sample
+kubectl label namespace default istio-injection-
