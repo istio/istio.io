@@ -419,8 +419,12 @@ spec:
         host: httpbin.org
 {{< /text >}}
 
-In this example, the gateway is terminating TLS while the virtual service is using TLS based routing.
-The TLS route rules will have no effect since the TLS is already terminated when the route rules are evaluated.
+In this example, the gateway is terminating TLS while the virtual service is using TLS based routing(Because the `tls.mode`
+configuration of the gateway is `SIMPLE`, not `PASSTHROUGH`). The behavior of calculating routing rules occurs after the 
+gateway terminates TLS, so TLS routing rule will be invalid.
+
+> More specifically, the TLS protocol is configured in VirtualService, and the actual HTTP protocol sent from the gateway
+> is (after TLS termination).
 
 With this misconfiguration, you will end up getting 404 responses because the requests will be
 sent to HTTP routing but there are no HTTP routes configured.
