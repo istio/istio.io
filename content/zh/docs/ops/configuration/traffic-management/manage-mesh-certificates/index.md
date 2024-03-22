@@ -14,7 +14,7 @@ test: n/a
 例如，一些用户需要使用椭圆曲线加密（ECC），而其他用户可能需要使用位数更多的 RSA 证书。
 对于大多数用户来说，在环境中配置证书可能是一项令人望而却步的任务。
 
-本文仅用于网格内部通信。要管理网关上的证书，
+本文内容仅适用于网格内部通信。要管理网关上的证书，
 请参阅[安全网关](/zh/docs/tasks/traffic-management/ingress/secure-ingress/)文档。
 要管理 istiod 所用的 CA 来生成工作负载证书，
 请参阅[插件 CA 证书](/zh/docs/tasks/security/cert-management/plugin-ca-cert/)文档。
