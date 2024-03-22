@@ -319,7 +319,7 @@ type ClusterSnapshot struct {
 
 type NamespaceSnapshot struct {
 	Namespace              string   `json:"namespace"`
-	Labels                 []string `json:labels`
+	Labels                 []string `json:"labels"`
 	Services               []string `json:"services"`
 	Deployments            []string `json:"deployments"`
 	Pods                   []string `json:"pods"`
