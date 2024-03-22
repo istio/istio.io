@@ -135,8 +135,8 @@ func newClusterSnapshot(client kube.Client, contextName string) (ClusterSnapshot
 				// Labels
 				labels := ns.GetLabels()
 				nsSnapshot.Labels = make([]string, 0, len(labels))
-				for l := range labels {
-					nsSnapshot.Labels = append(nsSnapshot.Labels, l)
+				for label := range labels {
+					nsSnapshot.Labels = append(nsSnapshot.Labels, label)
 				}
 				sort.Strings(nsSnapshot.Labels)
 

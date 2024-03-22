@@ -50,3 +50,4 @@ _verify_contains get_headers '"Foo": "bar"'
 
 # @cleanup
 snip_cleanup_1
+kubectl label namespace default istio-injection-

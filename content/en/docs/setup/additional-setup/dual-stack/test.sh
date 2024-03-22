@@ -40,3 +40,4 @@ _verify_like snip_verification_7 "$snip_verification_7_out"
 
 # @cleanup
 snip_cleanup_1
+kubectl label namespace default istio-injection-
