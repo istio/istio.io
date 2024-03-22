@@ -42,5 +42,6 @@ bpsnip_trace_generation__1
 # @cleanup
 cleanup_bookinfo_sample
 snip_cleanup_telemetry
-snip_cleanup_istio
 snip_cleanup_collector
+istioctl uninstall --purge -y
+kubectl delete ns istio-system

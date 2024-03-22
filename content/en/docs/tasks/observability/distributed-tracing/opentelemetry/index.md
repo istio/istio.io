@@ -64,7 +64,6 @@ Enable tracing by applying the following configuration:
     kind: Telemetry
     metadata:
       name: otel-demo
-      namespace: istio-system
     spec:
       tracing:
       - providers:
@@ -144,7 +143,7 @@ Deploy the [Bookinfo](/docs/examples/bookinfo/#deploying-the-application) sample
 
 1.  Remove any `istioctl` processes that may still be running using control-C or:
 
-    {{< text syntax=bash snip_id=cleanup_istio >}}
+    {{< text syntax=bash snip_id=none >}}
     $ killall istioctl
     {{< /text >}}
 
@@ -152,6 +151,7 @@ Deploy the [Bookinfo](/docs/examples/bookinfo/#deploying-the-application) sample
 
     {{< text syntax=bash snip_id=cleanup_collector >}}
     $ kubectl delete -f @samples/open-telemetry/otel.yaml@ -n observability
+    $ kubectl delete namespace observability
     {{< /text >}}
 
 1.  If you are not planning to explore any follow-on tasks, refer to the

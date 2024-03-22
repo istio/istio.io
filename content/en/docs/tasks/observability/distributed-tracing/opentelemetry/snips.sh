@@ -28,7 +28,6 @@ apiVersion: telemetry.istio.io/v1alpha1
 kind: Telemetry
 metadata:
   name: otel-demo
-  namespace: istio-system
 spec:
   tracing:
   - providers:
@@ -45,10 +44,7 @@ snip_cleanup_telemetry() {
 kubectl delete telemetry otel-demo
 }
 
-snip_cleanup_istio() {
-killall istioctl
-}
-
 snip_cleanup_collector() {
 kubectl delete -f samples/open-telemetry/otel.yaml -n observability
+kubectl delete namespace observability
 }
