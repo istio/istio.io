@@ -420,13 +420,8 @@ spec:
 {{< /text >}}
 
 In this example, the gateway is terminating TLS (the `tls.mode` configuration of the gateway is `SIMPLE`,
-not `PASSTHROUGH`) while the virtual service is using TLS based routing . The behavior of calculating routing rules
-occurs after the gateway terminates TLS, so the TLS routing rule will be no effect.
-
-{{< quote >}}
-More specifically, in this example, after TLS termination, the gateway communicates with the destination using the
-HTTP protocol instead of HTTPS(HTTP over TLS).
-{{< /quote >}}
+not `PASSTHROUGH`) while the virtual service is using TLS-based routing. The behavior of calculating routing rules
+occurs after the gateway terminates TLS, so the TLS routing rule will have no effect, and will be over HTTP rather than HTTPS.
 
 With this misconfiguration, you will end up getting 404 responses because the requests will be
 sent to HTTP routing but there are no HTTP routes configured.
