@@ -421,8 +421,10 @@ spec:
         host: httpbin.org
 {{< /text >}}
 
-在此示例中，当 `VirtualService` 使用基于 TLS 的路由时，网关将终止 TLS。
-因为在计算路由规则时 TLS 已经终止，所以 TLS 路由规则将无效。
+在此示例中，当 `VirtualService` 使用基于 TLS 的路由时，网关将终止 TLS（因为网关的`tls.mode`配置为`SIMPLE`，而不是`PASSTHROUGH`）。
+而计算路由规则的行为是发生在网关终止 TLS 后的，所以 TLS 路由规则将无效。
+
+> 更具体的说，在VirtualService中配置的是 TLS 协议，实际从网关发出的是（TLS 终止后的）HTTP 协议。
 
 使用这种错误配置，您将最终获得 404 响应，因为请求将发送到 HTTP 路由，但未配置 HTTP 路由。
 您可以使用 `istioctl proxy-config routes` 命令确认这一点。
