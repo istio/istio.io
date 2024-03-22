@@ -166,4 +166,5 @@ kubectl -n external-2 delete -f samples/tcp-echo/tcp-echo.yaml
 kubectl delete -f samples/sleep/sleep.yaml
 istioctl uninstall --purge -y
 kubectl delete ns istio-system external-1 external-2
+kubectl label namespace default istio-injection-
 }

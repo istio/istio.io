@@ -79,7 +79,7 @@ _verify_contains snip_view_the_dashboard_1 'deployment "kiali" successfully roll
 # @cleanup
 samples/bookinfo/platform/kube/cleanup.sh
 snip_uninstall_1
-kubectl delete ns istio-system --ignore-not-found=true
-kubectl label namespace default istio-injection-
+snip_uninstall_2
+snip_uninstall_3
 
 remove_gateway_api_crds
