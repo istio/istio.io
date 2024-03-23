@@ -95,7 +95,7 @@ For example. if you have a misconfigured gateway on your "ratings" virtual servi
 running `kubectl get virtualservice ratings` would give you something like:
 
 {{< text syntax=yaml snip_id=vs_yaml_with_status >}}
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 ...
 spec:

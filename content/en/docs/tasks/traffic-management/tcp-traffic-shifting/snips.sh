@@ -81,7 +81,7 @@ kubectl get virtualservice tcp-echo -o yaml -n istio-io-tcp-traffic-shifting
 }
 
 ! IFS=$'\n' read -r -d '' snip_apply_weightbased_tcp_routing_7_out <<\ENDSNIP
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: VirtualService
   ...
 spec:
