@@ -20,7 +20,7 @@ target_release: 1.2
 两种选择各有利弊，你应该根据你的具体场景进行选择。选择的关键取决于你的应用程序是否能发送不加密的 HTTP 请求和你团队的安全策略是否允许发送不加密的 HTTP 请求。
 例如，如果你的应用程序使用了某些客户端库，用这些库来对流量进行加密，但是它无法取消加密，你就不能使用发送不加密 HTTP 流量的选项。万一你团队的安全策略无法让你**在 pod 内**发送不加密的 HTTP 请求也是一样的（pod 外的流量由 Istio 来加密）。
 
-如果应用程序发送 HTTP 请求，并且由出口网关发起执行 TLS，你就可以监控 HTTP 信息，像 HTTP 方法、HTTP 头和 URL 路径。也可以根据上面说的 HTTP 信息来[定义策略](/zh/blog/2018/egress-monitoring-access-control)。如果是由应用程序发起执行 TLS，你就可以对源 pod 的 TLS 流量的 [SNI 和服务账号进行监控](/zh/docs/tasks/traffic-management/egress/egress_sni_monitoring_and_policies/)，并且基于 SNI 和服务账号定义策略。
+如果应用程序发送 HTTP 请求，并且由出口网关发起执行 TLS，你就可以监控 HTTP 信息，像 HTTP 方法、HTTP 头和 URL 路径。如果是由应用程序发起执行 TLS，你就可以对源 pod 的 TLS 流量的 [SNI 和服务账号进行监控](/zh/docs/tasks/traffic-management/egress/egress_sni_monitoring_and_policies/)，并且基于 SNI 和服务账号定义策略。
 
 您必须确保你集群到外部的流量不能绕过出口网关。Istio 不能给您确保这一点，
 所以您必须使用一些[附加的安全机制](/zh/docs/tasks/traffic-management/egress/egress-gateway/#additional-security-considerations)，
