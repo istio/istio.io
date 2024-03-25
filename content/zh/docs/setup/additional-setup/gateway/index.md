@@ -108,10 +108,10 @@ Helm 代码仓库中的 [README](https://artifacthub.io/packages/helm/istio-offi
 
 {{< tip >}}
 
-在一个 OpenShift 集群中部署网关时，请使用 `openshift-values.yaml` 文件覆盖默认值，例如：
+在一个 OpenShift 集群中部署网关时，请使用 `openshift` 配置文件覆盖默认值，例如：
 
 {{< text bash >}}
-$ helm install istio-ingressgateway istio/gateway -n istio-ingress -f @manifests/charts/gateway/openshift-values.yaml@
+$ helm install istio-ingressgateway istio/gateway -n istio-ingress --set profile=openshift
 {{< /text >}}
 
 {{< /tip >}}
