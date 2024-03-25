@@ -27,7 +27,7 @@ source "content/en/boilerplates/snips/start-otel-collector-service.sh"
 extensionProviders:
 - name: otel
   envoyOtelAls:
-    service: opentelemetry-collector.istio-system.svc.cluster.local
+    service: opentelemetry-collector.observability.svc.cluster.local
     port: 4317
 ENDSNIP
 
@@ -50,7 +50,7 @@ data:
     extensionProviders:
     - name: otel
       envoyOtelAls:
-        service: opentelemetry-collector.istio-system.svc.cluster.local
+        service: opentelemetry-collector.observability.svc.cluster.local
         port: 4317
     rootNamespace: istio-system
     trustDomain: cluster.local
@@ -80,7 +80,7 @@ spec:
     extensionProviders:
     - name: otel
       envoyOtelAls:
-        service: opentelemetry-collector.istio-system.svc.cluster.local
+        service: opentelemetry-collector.observability.svc.cluster.local
         port: 4317
     defaultProviders:
       accessLogging:
@@ -115,7 +115,7 @@ kubectl exec "$SOURCE_POD" -c sleep -- curl -sS -v httpbin:8000/status/418
 ENDSNIP
 
 snip_test_the_access_log_2() {
-kubectl logs -l app=opentelemetry-collector -n istio-system
+kubectl logs -l app=opentelemetry-collector -n observability
 }
 
 ! IFS=$'\n' read -r -d '' snip_test_the_access_log_2_out <<\ENDSNIP
@@ -127,6 +127,7 @@ kubectl delete telemetry sleep-logging
 kubectl delete -f samples/sleep/sleep.yaml
 kubectl delete -f samples/httpbin/httpbin.yaml
 kubectl delete -f samples/open-telemetry/otel.yaml -n istio-system
+kubectl delete namespace observability
 }
 
 snip_disable_envoys_access_logging_1() {
