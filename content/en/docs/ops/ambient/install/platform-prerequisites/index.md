@@ -16,6 +16,10 @@ This document covers any platform or environment specific prerequisites for inst
 you must append `--set cni.cniNetnsDir="/var/run/docker/netns"` to the `helm install` command so that the `istio-cni` node agent can correctly manage
 and capture pods on the node.
 
+### MicroK8s
+
+1. If you are using [MicroK8s](https://microk8s.io/), you must append `--set values.cni.cniConfDir=/var/snap/microk8s/current/args/cni-network --set values.cni.cniBinDir=/var/snap/microk8s/current/opt/cni/bin` to the `helm install` command, as MicroK8s [uses nonstandard locations for CNI configuration and binaries](https://microk8s.io/docs/change-cidr).
+
 ## CNI
 
 ### Cilium
