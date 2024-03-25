@@ -25,7 +25,8 @@ source "tests/util/samples.sh"
 
 # Start the otel sample
 bpsnip_start_otel_collector_service__1
-_wait_for_deployment istio-system opentelemetry-collector
+bpsnip_start_otel_collector_service__2
+_wait_for_deployment observability opentelemetry-collector
 
 # Apply Telemetry config
 snip_enable_envoys_access_logging_3

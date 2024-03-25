@@ -97,7 +97,7 @@ EOF
 
 {{< text bash yaml >}}
 $ kubectl get virtualservices -o yaml
-- apiVersion: networking.istio.io/v1beta1
+- apiVersion: networking.istio.io/v1
   kind: VirtualService
   ...
   spec:
@@ -108,7 +108,7 @@ $ kubectl get virtualservices -o yaml
       - destination:
           host: details
           subset: v1
-- apiVersion: networking.istio.io/v1beta1
+- apiVersion: networking.istio.io/v1
   kind: VirtualService
   ...
   spec:
@@ -119,7 +119,7 @@ $ kubectl get virtualservices -o yaml
       - destination:
           host: productpage
           subset: v1
-- apiVersion: networking.istio.io/v1beta1
+- apiVersion: networking.istio.io/v1
   kind: VirtualService
   ...
   spec:
@@ -130,7 +130,7 @@ $ kubectl get virtualservices -o yaml
       - destination:
           host: ratings
           subset: v1
-- apiVersion: networking.istio.io/v1beta1
+- apiVersion: networking.istio.io/v1
   kind: VirtualService
   ...
   spec:
@@ -246,7 +246,7 @@ You can confirm the rule is created using the following command:
 
 {{< text bash yaml >}}
 $ kubectl get virtualservice reviews -o yaml
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 ...
 spec:
