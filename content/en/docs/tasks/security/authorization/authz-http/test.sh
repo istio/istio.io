@@ -125,3 +125,4 @@ snip_clean_up_1
 cleanup_bookinfo_sample
 cleanup_sleep_sample
 kubectl delete -f samples/bookinfo/networking/virtual-service-reviews-v3.yaml
+kubectl label namespace default istio-injection-

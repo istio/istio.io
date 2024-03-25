@@ -29,6 +29,7 @@ snip_cleanup_http_gateway_2
 snip_cleanup_https_gateway_2
 snip_cleanup_network_policies_2
 snip_cleanup_1
+kubectl label namespace default istio-injection-
 
 istioctl uninstall --purge -y
 kubectl delete ns istio-system

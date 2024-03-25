@@ -69,3 +69,4 @@ _undeploy_addons zipkin
 
 istioctl uninstall --purge -y
 kubectl delete ns istio-system
+kubectl label namespace default istio-injection-

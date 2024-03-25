@@ -30,4 +30,5 @@ snip_cleanup_4
 
 istioctl uninstall --purge -y
 kubectl delete ns istio-system
+kubectl label namespace default istio-injection-
 remove_gateway_api_crds

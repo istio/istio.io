@@ -49,3 +49,4 @@ _verify_contains snip_test_the_access_log_2 "outbound|8000||httpbin.default.svc.
 # @cleanup
 
 snip_cleanup_1
+kubectl label namespace default istio-injection-

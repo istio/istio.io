@@ -64,3 +64,4 @@ snip_cleanup_2
 snip_cleanup_3
 snip_cleanup_4
 snip_cleanup_5
+kubectl label namespace default istio-injection-

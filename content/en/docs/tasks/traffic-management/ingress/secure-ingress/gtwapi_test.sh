@@ -26,5 +26,6 @@ source "content/en/docs/tasks/traffic-management/ingress/secure-ingress/test.sh"
 snip_cleanup_2
 snip_cleanup_3
 snip_cleanup_4
+kubectl label namespace default istio-injection-
 
 remove_gateway_api_crds
