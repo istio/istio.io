@@ -56,7 +56,7 @@ $ # The version of Istio to deploy
 $ VERSION={{< istio_full_version >}}
 $ # Import all Istio dashboards
 $ for DASHBOARD in 7639 11829 7636 7630 7645 13277; do
-$     REVISION="$(curl -s https://grafana.com/api/dashboards/${DASHBOARD}/revisions -s | jq ".items[] | select(.description | contains(\"${VERSION}\")) | .revision")"
+$     REVISION="$(curl -s https://grafana.com/api/dashboards/${DASHBOARD}/revisions -s | jq ".items[] | select(.description | contains(\"${VERSION}\")) | .revision" | tail -n 1)"
 $     curl -s https://grafana.com/api/dashboards/${DASHBOARD}/revisions/${REVISION}/download > /tmp/dashboard.json
 $     echo "Importing $(cat /tmp/dashboard.json | jq -r '.title') (revision ${REVISION}, id ${DASHBOARD})..."
 $     curl -s -k -u "$GRAFANA_CRED" -XPOST \
