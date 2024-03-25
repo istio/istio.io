@@ -49,7 +49,7 @@ kubectl get destinationrule httpbin -o yaml
 }
 
 ! IFS=$'\n' read -r -d '' snip_configuring_the_circuit_breaker_2_out <<\ENDSNIP
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 ...
 spec:

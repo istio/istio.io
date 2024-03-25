@@ -49,7 +49,7 @@ test: yes
 
     {{< text bash yaml >}}
     $ kubectl get virtualservice ratings -o yaml
-    apiVersion: networking.istio.io/v1beta1
+    apiVersion: networking.istio.io/v1
     kind: VirtualService
     spec:
       hosts:
@@ -141,7 +141,7 @@ Istio 的故障注入规则可以帮助您识别此类异常，而不会影响�
 
     {{< text bash yaml >}}
     $ kubectl get virtualservice ratings -o yaml
-    apiVersion: networking.istio.io/v1beta1
+    apiVersion: networking.istio.io/v1
     kind: VirtualService
     spec:
       hosts:

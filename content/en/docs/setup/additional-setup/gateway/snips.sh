@@ -54,7 +54,7 @@ helm install istio-ingressgateway istio/gateway -n istio-ingress
 }
 
 snip_deploying_a_gateway_4() {
-helm install istio-ingressgateway istio/gateway -n istio-ingress -f manifests/charts/gateway/openshift-values.yaml
+helm install istio-ingressgateway istio/gateway -n istio-ingress --set profile=openshift
 }
 
 ! IFS=$'\n' read -r -d '' snip_deploying_a_gateway_5 <<\ENDSNIP

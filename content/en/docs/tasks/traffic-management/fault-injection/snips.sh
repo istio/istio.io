@@ -34,7 +34,7 @@ kubectl get virtualservice ratings -o yaml
 }
 
 ! IFS=$'\n' read -r -d '' snip_injecting_an_http_delay_fault_2_out <<\ENDSNIP
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 ...
 spec:
@@ -73,7 +73,7 @@ kubectl get virtualservice ratings -o yaml
 }
 
 ! IFS=$'\n' read -r -d '' snip_injecting_an_http_abort_fault_2_out <<\ENDSNIP
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 ...
 spec:

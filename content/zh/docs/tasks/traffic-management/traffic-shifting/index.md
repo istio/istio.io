@@ -95,7 +95,7 @@ $ kubectl apply -f @samples/bookinfo/gateway-api/route-reviews-50-v3.yaml@
 
 {{< text syntax=bash outputis=yaml snip_id=verify_config_50_v3 >}}
 $ kubectl get virtualservice reviews -o yaml
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 ...
 spec:

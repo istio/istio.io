@@ -12,7 +12,10 @@ number_of_entries: 3
 ---
 <h2 id="PeerAuthentication">PeerAuthentication</h2>
 <section>
-<p>PeerAuthentication defines how traffic will be tunneled (or not) to the sidecar.</p>
+<p>{{&lt; warning &gt;}}
+Development of PeerAuthentication is currently frozen and likely to be replaced in Ambient.
+{{&lt; /warning &gt;}}
+PeerAuthentication defines how traffic will be tunneled (or not) to the sidecar.</p>
 <p>Examples:</p>
 <p>Policy to allow mTLS traffic for all workloads under namespace <code>foo</code>:</p>
 <pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
@@ -25,7 +28,7 @@ spec:
     mode: STRICT
 </code></pre>
 <p>For mesh level, put the policy in root-namespace according to your Istio installation.</p>
-<p>Policies to allow both mTLS &amp; plaintext traffic for all workloads under namespace <code>foo</code>, but
+<p>Policies to allow both mTLS and plaintext traffic for all workloads under namespace <code>foo</code>, but
 require mTLS for workload <code>finance</code>.</p>
 <pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
 kind: PeerAuthentication
@@ -48,8 +51,9 @@ spec:
   mtls:
     mode: STRICT
 </code></pre>
-<p>Policy to allow mTLS strict for all workloads, but leave port 8080 to
-plaintext:</p>
+<p>Policy that enables strict mTLS for all workloads, but leaves the port <code>8080</code> to
+plaintext. Note the port value in the <code>portLevelMtls</code> field refers to the port
+of the workload, not the port of the Kubernetes service.</p>
 <pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
 kind: PeerAuthentication
 metadata:
@@ -65,8 +69,8 @@ spec:
     8080:
       mode: DISABLE
 </code></pre>
-<p>Policy to inherit mTLS mode from namespace (or mesh) settings, and overwrite
-settings for port 8080</p>
+<p>Policy that inherits mTLS mode from namespace (or mesh) settings, and disables
+mTLS for workload port <code>8080</code>.</p>
 <pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
 kind: PeerAuthentication
 metadata:
@@ -123,7 +127,8 @@ No
 <td><code>map&lt;uint32,&nbsp;<a href="#PeerAuthentication-MutualTLS">MutualTLS</a>&gt;</code></td>
 <td>
 <p>Port specific mutual TLS settings. These only apply when a workload selector
-is specified.</p>
+is specified. The port refers to the port of the workload, not the port of the
+Kubernetes service.</p>
 
 </td>
 <td>
@@ -174,7 +179,7 @@ No
 <tr id="PeerAuthentication-MutualTLS-Mode-UNSET">
 <td><code>UNSET</code></td>
 <td>
-<p>Inherit from parent, if has one. Otherwise treated as PERMISSIVE.</p>
+<p>Inherit from parent, if has one. Otherwise treated as <code>PERMISSIVE</code>.</p>
 
 </td>
 </tr>

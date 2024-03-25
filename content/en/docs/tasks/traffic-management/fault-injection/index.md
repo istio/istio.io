@@ -56,7 +56,7 @@ still expect the end-to-end flow to continue without any errors.
 
     {{< text bash yaml >}}
     $ kubectl get virtualservice ratings -o yaml
-    apiVersion: networking.istio.io/v1beta1
+    apiVersion: networking.istio.io/v1
     kind: VirtualService
     ...
     spec:
@@ -160,7 +160,7 @@ service is currently unavailable` message.
 
     {{< text bash yaml >}}
     $ kubectl get virtualservice ratings -o yaml
-    apiVersion: networking.istio.io/v1beta1
+    apiVersion: networking.istio.io/v1
     kind: VirtualService
     ...
     spec:

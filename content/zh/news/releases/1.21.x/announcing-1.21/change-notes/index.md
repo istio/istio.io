@@ -3,7 +3,7 @@ title: Istio 1.21.0 更新说明
 linktitle: 1.21.0
 subtitle: 次要版本
 description: Istio 1.21.0 更新说明。
-publishdate: 2024-03-11
+publishdate: 2024-03-13
 release: 1.21.0
 weight: 10
 aliases:
@@ -134,6 +134,30 @@ aliases:
 - **修复** 修复了删除 `ServiceEntry` 时内存泄漏的问题。
   ([Issue #47893](https://github.com/istio/istio/issues/47893))
 
+- **修复** 修复了一个当同一命名空间内有多个具有相同主机名的服务时，
+  可能会出现 `STRICT_DNS cluster without endpoints` 错误的问题。
+  ([Issue #49489](https://github.com/istio/istio/issues/49489))
+
+- **修复** 修复了在 `VirtualService` 中使用委托时，
+  由于排序错误，有效的 `VirtualService` 可能与预期不一致的问题。
+  ([Issue #49539](https://github.com/istio/istio/issues/49539))
+
+- **修复了** 修复了在 `VirtualService` HTTP 路由中指定 URI
+  正则表达式 `.*` 匹配不会使后续 HTTP 路由短路的错误。
+
+- **修复** 修复了当纯 HTTP 无头服务端点更改时发送过时的名称表的问题。
+
+- **修复** 修复了仅使用 IPv6 集群的错误，
+  该错误阻止基于 ServiceEntry 的侦听器获得正确的 SNI 匹配。
+  ([Issue #49476](https://github.com/istio/istio/issues/49476))
+
+- **修复** 修复了本地客户端在本地 DNS 名称表中包含不正确条目的问题。
+  ([Issue #47340](https://github.com/istio/istio/issues/47340))
+
+- **修复** 修复了一个其中包含服务注册表中不存在的通配符主机的
+  `VirtualService` 被忽略的错误。
+  ([Issue #49364](https://github.com/istio/istio/issues/49364))
+
 - **升级** 通过切换到 in-Pod 机制，提升 Ambient 流量捕获和重定向兼容性。
   ([Issue #48212](https://github.com/istio/istio/issues/48212))
 
@@ -154,6 +178,30 @@ aliases:
   将使用操作系统 CA 证书自动验证服务器证书。如果不需要该功能，
   请使用新的 `compatibilityVersion` 功能回退到旧版本行为，
   或使用 `DestinationRule` 中的 `insecureSkipVerify` 字段来跳过验证。
+
+- **新增** 向 Istio 组件添加了环境变量 `COMPLIANCE_POLICY`，
+  以强制执行 TLS 限制以符合 FIPS。当在 Istiod 容器、
+  Istio 代理容器和所有其他 Istio 组件上设置为 `fips-140-2` 时，
+  TLS 版本限制为 `v1.2`，密码套件为 `ECDHE-ECDSA-AES128-GCM-SHA256`、
+  `ECDHE-RSA-AES128-GCM-SHA256`、`ECDHE-ECDSA-AES256-GCM-SHA384`、
+  `ECDHE-RSA-AES256-GCM-SHA384` 和 ECDH 转到 `P-256` 的子级。
+
+    这些限制适用于以下数据路径：
+    * Envoy 代理之间的 mTLS 通信。
+    * Envoy 代理下游和上游的常规 TLS（例如网关）
+    * 来自 Envoy 代理的 Google gRPC 端请求（例如 Stackdriver 扩展）。
+    * Istiod xDS 服务器。
+    * Istiod 用于注入和验证 Webhook 服务器。
+
+    这些限制不适用于以下数据路径：
+    * Istiod 到 Kubernetes API 服务器。
+    * JWK 从 Istiod 获取。
+    * 从 Istio 代理容器获取 Wasm 镜像和 URL。
+    * ztunnel。
+
+    请注意，当设置后，Istio 注入器会将 `COMPLIANCE_POLICY`
+    的值传播到被注入的代理容器中。
+    ([Issue #49081](https://github.com/istio/istio/issues/49081))
 
 - **新增** 添加了 waypoint 以非 root 身份运行的能力。
   ([Issue #46592](https://github.com/istio/istio/issues/46592))
@@ -328,6 +376,9 @@ aliases:
   ([Issue #45653](https://github.com/istio/istio/issues/45653))
 
 - **修复** 修复了外部控制平面分析器在某些远程控制平面设置中无法工作的问题。
+
+- **修复** 修复了 `istioctl precheck` 报告与资源权限相关的 IST0141 消息不准确的问题。
+  ([Issue #49379](https://github.com/istio/istio/issues/49379))
 
 - **移除** 移除了 `istioctl bug-report` 的 `--rps-limit` 标志，并 **添加** `--rq-concurrency` 标志。
   错误报告者现在将限制请求并发数，而不是限制对 Kube API 的请求速率。

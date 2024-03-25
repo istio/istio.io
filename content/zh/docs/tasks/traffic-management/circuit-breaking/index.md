@@ -60,7 +60,7 @@ test: yes
 
     {{< text bash yaml >}}
     $ kubectl get destinationrule httpbin -o yaml
-    apiVersion: networking.istio.io/v1beta1
+    apiVersion: networking.istio.io/v1
     kind: DestinationRule
     ...
     spec:

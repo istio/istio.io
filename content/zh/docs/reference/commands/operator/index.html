@@ -18,8 +18,84 @@ remove_toc_prefix: 'operator '
 </thead>
 <tbody>
 <tr>
+<td><code>--all-features</code></td>
+<td>Whether to enable all supported features for conformance tests </td>
+</tr>
+<tr>
+<td><code>--allow-crds-mismatch</code></td>
+<td>Flag to allow the suite not to fail in case there is a mismatch between CRDs versions and channels. </td>
+</tr>
+<tr>
+<td><code>--cleanup-base-resources</code></td>
+<td>Whether to cleanup base test resources after the run </td>
+</tr>
+<tr>
+<td><code>--conformance-profiles &lt;string&gt;</code></td>
+<td>Comma-separated list of the conformance profiles to run  (default ``)</td>
+</tr>
+<tr>
+<td><code>--contact &lt;string&gt;</code></td>
+<td>Comma-separated list of contact information for the maintainers  (default ``)</td>
+</tr>
+<tr>
+<td><code>--debug</code></td>
+<td>Whether to print debug logs </td>
+</tr>
+<tr>
+<td><code>--exempt-features &lt;string&gt;</code></td>
+<td>Exempt Features excluded from conformance tests suites  (default ``)</td>
+</tr>
+<tr>
+<td><code>--gateway-class &lt;string&gt;</code></td>
+<td>Name of GatewayClass to use for tests  (default `gateway-conformance`)</td>
+</tr>
+<tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td>Paths to a kubeconfig. Only required if out-of-cluster.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--mode &lt;string&gt;</code></td>
+<td>The operating mode of the implementation.  (default `default`)</td>
+</tr>
+<tr>
+<td><code>--namespace-annotations &lt;string&gt;</code></td>
+<td>Comma-separated list of name=value annotations to add to test namespaces  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace-labels &lt;string&gt;</code></td>
+<td>Comma-separated list of name=value labels to add to test namespaces  (default ``)</td>
+</tr>
+<tr>
+<td><code>--organization &lt;string&gt;</code></td>
+<td>Implementation&#39;s Organization to issue conformance to  (default ``)</td>
+</tr>
+<tr>
+<td><code>--project &lt;string&gt;</code></td>
+<td>Implementation&#39;s project to issue conformance to  (default ``)</td>
+</tr>
+<tr>
+<td><code>--report-output &lt;string&gt;</code></td>
+<td>The file where to write the conformance report  (default ``)</td>
+</tr>
+<tr>
+<td><code>--run-test &lt;string&gt;</code></td>
+<td>Name of a single test to run, instead of the whole suite  (default ``)</td>
+</tr>
+<tr>
+<td><code>--skip-tests &lt;string&gt;</code></td>
+<td>Comma-separated list of tests to skip  (default ``)</td>
+</tr>
+<tr>
+<td><code>--supported-features &lt;string&gt;</code></td>
+<td>Supported features included in conformance tests suites  (default ``)</td>
+</tr>
+<tr>
+<td><code>--url &lt;string&gt;</code></td>
+<td>Implementation&#39;s url to issue conformance to  (default ``)</td>
+</tr>
+<tr>
+<td><code>--version &lt;string&gt;</code></td>
+<td>Implementation&#39;s version to issue conformance to  (default ``)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -40,8 +116,84 @@ See each sub-command&#39;s help for details on how to use the generated script.
 </thead>
 <tbody>
 <tr>
+<td><code>--all-features</code></td>
+<td>Whether to enable all supported features for conformance tests </td>
+</tr>
+<tr>
+<td><code>--allow-crds-mismatch</code></td>
+<td>Flag to allow the suite not to fail in case there is a mismatch between CRDs versions and channels. </td>
+</tr>
+<tr>
+<td><code>--cleanup-base-resources</code></td>
+<td>Whether to cleanup base test resources after the run </td>
+</tr>
+<tr>
+<td><code>--conformance-profiles &lt;string&gt;</code></td>
+<td>Comma-separated list of the conformance profiles to run  (default ``)</td>
+</tr>
+<tr>
+<td><code>--contact &lt;string&gt;</code></td>
+<td>Comma-separated list of contact information for the maintainers  (default ``)</td>
+</tr>
+<tr>
+<td><code>--debug</code></td>
+<td>Whether to print debug logs </td>
+</tr>
+<tr>
+<td><code>--exempt-features &lt;string&gt;</code></td>
+<td>Exempt Features excluded from conformance tests suites  (default ``)</td>
+</tr>
+<tr>
+<td><code>--gateway-class &lt;string&gt;</code></td>
+<td>Name of GatewayClass to use for tests  (default `gateway-conformance`)</td>
+</tr>
+<tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td>Paths to a kubeconfig. Only required if out-of-cluster.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--mode &lt;string&gt;</code></td>
+<td>The operating mode of the implementation.  (default `default`)</td>
+</tr>
+<tr>
+<td><code>--namespace-annotations &lt;string&gt;</code></td>
+<td>Comma-separated list of name=value annotations to add to test namespaces  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace-labels &lt;string&gt;</code></td>
+<td>Comma-separated list of name=value labels to add to test namespaces  (default ``)</td>
+</tr>
+<tr>
+<td><code>--organization &lt;string&gt;</code></td>
+<td>Implementation&#39;s Organization to issue conformance to  (default ``)</td>
+</tr>
+<tr>
+<td><code>--project &lt;string&gt;</code></td>
+<td>Implementation&#39;s project to issue conformance to  (default ``)</td>
+</tr>
+<tr>
+<td><code>--report-output &lt;string&gt;</code></td>
+<td>The file where to write the conformance report  (default ``)</td>
+</tr>
+<tr>
+<td><code>--run-test &lt;string&gt;</code></td>
+<td>Name of a single test to run, instead of the whole suite  (default ``)</td>
+</tr>
+<tr>
+<td><code>--skip-tests &lt;string&gt;</code></td>
+<td>Comma-separated list of tests to skip  (default ``)</td>
+</tr>
+<tr>
+<td><code>--supported-features &lt;string&gt;</code></td>
+<td>Supported features included in conformance tests suites  (default ``)</td>
+</tr>
+<tr>
+<td><code>--url &lt;string&gt;</code></td>
+<td>Implementation&#39;s url to issue conformance to  (default ``)</td>
+</tr>
+<tr>
+<td><code>--version &lt;string&gt;</code></td>
+<td>Implementation&#39;s version to issue conformance to  (default ``)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -73,12 +225,88 @@ If it is not installed already, you can install it via your OS&#39;s package man
 </thead>
 <tbody>
 <tr>
+<td><code>--all-features</code></td>
+<td>Whether to enable all supported features for conformance tests </td>
+</tr>
+<tr>
+<td><code>--allow-crds-mismatch</code></td>
+<td>Flag to allow the suite not to fail in case there is a mismatch between CRDs versions and channels. </td>
+</tr>
+<tr>
+<td><code>--cleanup-base-resources</code></td>
+<td>Whether to cleanup base test resources after the run </td>
+</tr>
+<tr>
+<td><code>--conformance-profiles &lt;string&gt;</code></td>
+<td>Comma-separated list of the conformance profiles to run  (default ``)</td>
+</tr>
+<tr>
+<td><code>--contact &lt;string&gt;</code></td>
+<td>Comma-separated list of contact information for the maintainers  (default ``)</td>
+</tr>
+<tr>
+<td><code>--debug</code></td>
+<td>Whether to print debug logs </td>
+</tr>
+<tr>
+<td><code>--exempt-features &lt;string&gt;</code></td>
+<td>Exempt Features excluded from conformance tests suites  (default ``)</td>
+</tr>
+<tr>
+<td><code>--gateway-class &lt;string&gt;</code></td>
+<td>Name of GatewayClass to use for tests  (default `gateway-conformance`)</td>
+</tr>
+<tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td>Paths to a kubeconfig. Only required if out-of-cluster.  (default ``)</td>
 </tr>
 <tr>
+<td><code>--mode &lt;string&gt;</code></td>
+<td>The operating mode of the implementation.  (default `default`)</td>
+</tr>
+<tr>
+<td><code>--namespace-annotations &lt;string&gt;</code></td>
+<td>Comma-separated list of name=value annotations to add to test namespaces  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace-labels &lt;string&gt;</code></td>
+<td>Comma-separated list of name=value labels to add to test namespaces  (default ``)</td>
+</tr>
+<tr>
 <td><code>--no-descriptions</code></td>
 <td>disable completion descriptions </td>
+</tr>
+<tr>
+<td><code>--organization &lt;string&gt;</code></td>
+<td>Implementation&#39;s Organization to issue conformance to  (default ``)</td>
+</tr>
+<tr>
+<td><code>--project &lt;string&gt;</code></td>
+<td>Implementation&#39;s project to issue conformance to  (default ``)</td>
+</tr>
+<tr>
+<td><code>--report-output &lt;string&gt;</code></td>
+<td>The file where to write the conformance report  (default ``)</td>
+</tr>
+<tr>
+<td><code>--run-test &lt;string&gt;</code></td>
+<td>Name of a single test to run, instead of the whole suite  (default ``)</td>
+</tr>
+<tr>
+<td><code>--skip-tests &lt;string&gt;</code></td>
+<td>Comma-separated list of tests to skip  (default ``)</td>
+</tr>
+<tr>
+<td><code>--supported-features &lt;string&gt;</code></td>
+<td>Supported features included in conformance tests suites  (default ``)</td>
+</tr>
+<tr>
+<td><code>--url &lt;string&gt;</code></td>
+<td>Implementation&#39;s url to issue conformance to  (default ``)</td>
+</tr>
+<tr>
+<td><code>--version &lt;string&gt;</code></td>
+<td>Implementation&#39;s version to issue conformance to  (default ``)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -105,12 +333,88 @@ If it is not installed already, you can install it via your OS&#39;s package man
 </thead>
 <tbody>
 <tr>
+<td><code>--all-features</code></td>
+<td>Whether to enable all supported features for conformance tests </td>
+</tr>
+<tr>
+<td><code>--allow-crds-mismatch</code></td>
+<td>Flag to allow the suite not to fail in case there is a mismatch between CRDs versions and channels. </td>
+</tr>
+<tr>
+<td><code>--cleanup-base-resources</code></td>
+<td>Whether to cleanup base test resources after the run </td>
+</tr>
+<tr>
+<td><code>--conformance-profiles &lt;string&gt;</code></td>
+<td>Comma-separated list of the conformance profiles to run  (default ``)</td>
+</tr>
+<tr>
+<td><code>--contact &lt;string&gt;</code></td>
+<td>Comma-separated list of contact information for the maintainers  (default ``)</td>
+</tr>
+<tr>
+<td><code>--debug</code></td>
+<td>Whether to print debug logs </td>
+</tr>
+<tr>
+<td><code>--exempt-features &lt;string&gt;</code></td>
+<td>Exempt Features excluded from conformance tests suites  (default ``)</td>
+</tr>
+<tr>
+<td><code>--gateway-class &lt;string&gt;</code></td>
+<td>Name of GatewayClass to use for tests  (default `gateway-conformance`)</td>
+</tr>
+<tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td>Paths to a kubeconfig. Only required if out-of-cluster.  (default ``)</td>
 </tr>
 <tr>
+<td><code>--mode &lt;string&gt;</code></td>
+<td>The operating mode of the implementation.  (default `default`)</td>
+</tr>
+<tr>
+<td><code>--namespace-annotations &lt;string&gt;</code></td>
+<td>Comma-separated list of name=value annotations to add to test namespaces  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace-labels &lt;string&gt;</code></td>
+<td>Comma-separated list of name=value labels to add to test namespaces  (default ``)</td>
+</tr>
+<tr>
 <td><code>--no-descriptions</code></td>
 <td>disable completion descriptions </td>
+</tr>
+<tr>
+<td><code>--organization &lt;string&gt;</code></td>
+<td>Implementation&#39;s Organization to issue conformance to  (default ``)</td>
+</tr>
+<tr>
+<td><code>--project &lt;string&gt;</code></td>
+<td>Implementation&#39;s project to issue conformance to  (default ``)</td>
+</tr>
+<tr>
+<td><code>--report-output &lt;string&gt;</code></td>
+<td>The file where to write the conformance report  (default ``)</td>
+</tr>
+<tr>
+<td><code>--run-test &lt;string&gt;</code></td>
+<td>Name of a single test to run, instead of the whole suite  (default ``)</td>
+</tr>
+<tr>
+<td><code>--skip-tests &lt;string&gt;</code></td>
+<td>Comma-separated list of tests to skip  (default ``)</td>
+</tr>
+<tr>
+<td><code>--supported-features &lt;string&gt;</code></td>
+<td>Supported features included in conformance tests suites  (default ``)</td>
+</tr>
+<tr>
+<td><code>--url &lt;string&gt;</code></td>
+<td>Implementation&#39;s url to issue conformance to  (default ``)</td>
+</tr>
+<tr>
+<td><code>--version &lt;string&gt;</code></td>
+<td>Implementation&#39;s version to issue conformance to  (default ``)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -136,12 +440,88 @@ to your powershell profile.
 </thead>
 <tbody>
 <tr>
+<td><code>--all-features</code></td>
+<td>Whether to enable all supported features for conformance tests </td>
+</tr>
+<tr>
+<td><code>--allow-crds-mismatch</code></td>
+<td>Flag to allow the suite not to fail in case there is a mismatch between CRDs versions and channels. </td>
+</tr>
+<tr>
+<td><code>--cleanup-base-resources</code></td>
+<td>Whether to cleanup base test resources after the run </td>
+</tr>
+<tr>
+<td><code>--conformance-profiles &lt;string&gt;</code></td>
+<td>Comma-separated list of the conformance profiles to run  (default ``)</td>
+</tr>
+<tr>
+<td><code>--contact &lt;string&gt;</code></td>
+<td>Comma-separated list of contact information for the maintainers  (default ``)</td>
+</tr>
+<tr>
+<td><code>--debug</code></td>
+<td>Whether to print debug logs </td>
+</tr>
+<tr>
+<td><code>--exempt-features &lt;string&gt;</code></td>
+<td>Exempt Features excluded from conformance tests suites  (default ``)</td>
+</tr>
+<tr>
+<td><code>--gateway-class &lt;string&gt;</code></td>
+<td>Name of GatewayClass to use for tests  (default `gateway-conformance`)</td>
+</tr>
+<tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td>Paths to a kubeconfig. Only required if out-of-cluster.  (default ``)</td>
 </tr>
 <tr>
+<td><code>--mode &lt;string&gt;</code></td>
+<td>The operating mode of the implementation.  (default `default`)</td>
+</tr>
+<tr>
+<td><code>--namespace-annotations &lt;string&gt;</code></td>
+<td>Comma-separated list of name=value annotations to add to test namespaces  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace-labels &lt;string&gt;</code></td>
+<td>Comma-separated list of name=value labels to add to test namespaces  (default ``)</td>
+</tr>
+<tr>
 <td><code>--no-descriptions</code></td>
 <td>disable completion descriptions </td>
+</tr>
+<tr>
+<td><code>--organization &lt;string&gt;</code></td>
+<td>Implementation&#39;s Organization to issue conformance to  (default ``)</td>
+</tr>
+<tr>
+<td><code>--project &lt;string&gt;</code></td>
+<td>Implementation&#39;s project to issue conformance to  (default ``)</td>
+</tr>
+<tr>
+<td><code>--report-output &lt;string&gt;</code></td>
+<td>The file where to write the conformance report  (default ``)</td>
+</tr>
+<tr>
+<td><code>--run-test &lt;string&gt;</code></td>
+<td>Name of a single test to run, instead of the whole suite  (default ``)</td>
+</tr>
+<tr>
+<td><code>--skip-tests &lt;string&gt;</code></td>
+<td>Comma-separated list of tests to skip  (default ``)</td>
+</tr>
+<tr>
+<td><code>--supported-features &lt;string&gt;</code></td>
+<td>Supported features included in conformance tests suites  (default ``)</td>
+</tr>
+<tr>
+<td><code>--url &lt;string&gt;</code></td>
+<td>Implementation&#39;s url to issue conformance to  (default ``)</td>
+</tr>
+<tr>
+<td><code>--version &lt;string&gt;</code></td>
+<td>Implementation&#39;s version to issue conformance to  (default ``)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -174,12 +554,88 @@ to enable it.  You can execute the following once:</p>
 </thead>
 <tbody>
 <tr>
+<td><code>--all-features</code></td>
+<td>Whether to enable all supported features for conformance tests </td>
+</tr>
+<tr>
+<td><code>--allow-crds-mismatch</code></td>
+<td>Flag to allow the suite not to fail in case there is a mismatch between CRDs versions and channels. </td>
+</tr>
+<tr>
+<td><code>--cleanup-base-resources</code></td>
+<td>Whether to cleanup base test resources after the run </td>
+</tr>
+<tr>
+<td><code>--conformance-profiles &lt;string&gt;</code></td>
+<td>Comma-separated list of the conformance profiles to run  (default ``)</td>
+</tr>
+<tr>
+<td><code>--contact &lt;string&gt;</code></td>
+<td>Comma-separated list of contact information for the maintainers  (default ``)</td>
+</tr>
+<tr>
+<td><code>--debug</code></td>
+<td>Whether to print debug logs </td>
+</tr>
+<tr>
+<td><code>--exempt-features &lt;string&gt;</code></td>
+<td>Exempt Features excluded from conformance tests suites  (default ``)</td>
+</tr>
+<tr>
+<td><code>--gateway-class &lt;string&gt;</code></td>
+<td>Name of GatewayClass to use for tests  (default `gateway-conformance`)</td>
+</tr>
+<tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td>Paths to a kubeconfig. Only required if out-of-cluster.  (default ``)</td>
 </tr>
 <tr>
+<td><code>--mode &lt;string&gt;</code></td>
+<td>The operating mode of the implementation.  (default `default`)</td>
+</tr>
+<tr>
+<td><code>--namespace-annotations &lt;string&gt;</code></td>
+<td>Comma-separated list of name=value annotations to add to test namespaces  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace-labels &lt;string&gt;</code></td>
+<td>Comma-separated list of name=value labels to add to test namespaces  (default ``)</td>
+</tr>
+<tr>
 <td><code>--no-descriptions</code></td>
 <td>disable completion descriptions </td>
+</tr>
+<tr>
+<td><code>--organization &lt;string&gt;</code></td>
+<td>Implementation&#39;s Organization to issue conformance to  (default ``)</td>
+</tr>
+<tr>
+<td><code>--project &lt;string&gt;</code></td>
+<td>Implementation&#39;s project to issue conformance to  (default ``)</td>
+</tr>
+<tr>
+<td><code>--report-output &lt;string&gt;</code></td>
+<td>The file where to write the conformance report  (default ``)</td>
+</tr>
+<tr>
+<td><code>--run-test &lt;string&gt;</code></td>
+<td>Name of a single test to run, instead of the whole suite  (default ``)</td>
+</tr>
+<tr>
+<td><code>--skip-tests &lt;string&gt;</code></td>
+<td>Comma-separated list of tests to skip  (default ``)</td>
+</tr>
+<tr>
+<td><code>--supported-features &lt;string&gt;</code></td>
+<td>Supported features included in conformance tests suites  (default ``)</td>
+</tr>
+<tr>
+<td><code>--url &lt;string&gt;</code></td>
+<td>Implementation&#39;s url to issue conformance to  (default ``)</td>
+</tr>
+<tr>
+<td><code>--version &lt;string&gt;</code></td>
+<td>Implementation&#39;s version to issue conformance to  (default ``)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -200,6 +656,26 @@ to enable it.  You can execute the following once:</p>
 </thead>
 <tbody>
 <tr>
+<td><code>--all-features</code></td>
+<td>Whether to enable all supported features for conformance tests </td>
+</tr>
+<tr>
+<td><code>--allow-crds-mismatch</code></td>
+<td>Flag to allow the suite not to fail in case there is a mismatch between CRDs versions and channels. </td>
+</tr>
+<tr>
+<td><code>--cleanup-base-resources</code></td>
+<td>Whether to cleanup base test resources after the run </td>
+</tr>
+<tr>
+<td><code>--conformance-profiles &lt;string&gt;</code></td>
+<td>Comma-separated list of the conformance profiles to run  (default ``)</td>
+</tr>
+<tr>
+<td><code>--contact &lt;string&gt;</code></td>
+<td>Comma-separated list of contact information for the maintainers  (default ``)</td>
+</tr>
+<tr>
 <td><code>--ctrlz_address &lt;string&gt;</code></td>
 <td>The IP Address to listen on for the ControlZ introspection facility. Use &#39;*&#39; to indicate all addresses.  (default `localhost`)</td>
 </tr>
@@ -208,8 +684,20 @@ to enable it.  You can execute the following once:</p>
 <td>The IP port to use for the ControlZ introspection facility  (default `9876`)</td>
 </tr>
 <tr>
+<td><code>--debug</code></td>
+<td>Whether to print debug logs </td>
+</tr>
+<tr>
+<td><code>--exempt-features &lt;string&gt;</code></td>
+<td>Exempt Features excluded from conformance tests suites  (default ``)</td>
+</tr>
+<tr>
 <td><code>--force</code></td>
 <td>Proceed even with validation errors. </td>
+</tr>
+<tr>
+<td><code>--gateway-class &lt;string&gt;</code></td>
+<td>Name of GatewayClass to use for tests  (default `gateway-conformance`)</td>
 </tr>
 <tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
@@ -221,11 +709,11 @@ to enable it.  You can execute the following once:</p>
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, analysis, authn, ca, controllers, controlleruntime, default, delta, file, gateway, installer, klog, kube, model, monitoring, patch, processing, retry, security, serviceentry, spiffe, status, tpath, translator, trustBundle, util, validation, wle]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, analysis, authn, ca, controllers, controlleruntime, default, delta, file, gateway, installer, klog, krt, kube, model, monitoring, patch, processing, retry, security, serviceentry, spiffe, status, tpath, translator, trustBundle, util, validation, wle]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, authn, ca, controllers, controlleruntime, default, delta, file, gateway, installer, klog, kube, model, monitoring, patch, processing, retry, security, serviceentry, spiffe, status, tpath, translator, trustBundle, util, validation, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, authn, ca, controllers, controlleruntime, default, delta, file, gateway, installer, klog, krt, kube, model, monitoring, patch, processing, retry, security, serviceentry, spiffe, status, tpath, translator, trustBundle, util, validation, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -245,7 +733,7 @@ to enable it.  You can execute the following once:</p>
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, analysis, authn, ca, controllers, controlleruntime, default, delta, file, gateway, installer, klog, kube, model, monitoring, patch, processing, retry, security, serviceentry, spiffe, status, tpath, translator, trustBundle, util, validation, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, analysis, authn, ca, controllers, controlleruntime, default, delta, file, gateway, installer, klog, krt, kube, model, monitoring, patch, processing, retry, security, serviceentry, spiffe, status, tpath, translator, trustBundle, util, validation, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -256,12 +744,56 @@ to enable it.  You can execute the following once:</p>
 <td>Defines the concurrency limit for operator to reconcile IstioOperatorSpec in parallel. Default value is 1.  (default `1`)</td>
 </tr>
 <tr>
+<td><code>--mode &lt;string&gt;</code></td>
+<td>The operating mode of the implementation.  (default `default`)</td>
+</tr>
+<tr>
 <td><code>--monitoring-host &lt;string&gt;</code></td>
 <td>HTTP host to use for operator&#39;s self-monitoring information  (default `0.0.0.0`)</td>
 </tr>
 <tr>
 <td><code>--monitoring-port &lt;uint32&gt;</code></td>
 <td>HTTP port to use for operator&#39;s self-monitoring information  (default `8383`)</td>
+</tr>
+<tr>
+<td><code>--namespace-annotations &lt;string&gt;</code></td>
+<td>Comma-separated list of name=value annotations to add to test namespaces  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace-labels &lt;string&gt;</code></td>
+<td>Comma-separated list of name=value labels to add to test namespaces  (default ``)</td>
+</tr>
+<tr>
+<td><code>--organization &lt;string&gt;</code></td>
+<td>Implementation&#39;s Organization to issue conformance to  (default ``)</td>
+</tr>
+<tr>
+<td><code>--project &lt;string&gt;</code></td>
+<td>Implementation&#39;s project to issue conformance to  (default ``)</td>
+</tr>
+<tr>
+<td><code>--report-output &lt;string&gt;</code></td>
+<td>The file where to write the conformance report  (default ``)</td>
+</tr>
+<tr>
+<td><code>--run-test &lt;string&gt;</code></td>
+<td>Name of a single test to run, instead of the whole suite  (default ``)</td>
+</tr>
+<tr>
+<td><code>--skip-tests &lt;string&gt;</code></td>
+<td>Comma-separated list of tests to skip  (default ``)</td>
+</tr>
+<tr>
+<td><code>--supported-features &lt;string&gt;</code></td>
+<td>Supported features included in conformance tests suites  (default ``)</td>
+</tr>
+<tr>
+<td><code>--url &lt;string&gt;</code></td>
+<td>Implementation&#39;s url to issue conformance to  (default ``)</td>
+</tr>
+<tr>
+<td><code>--version &lt;string&gt;</code></td>
+<td>Implementation&#39;s version to issue conformance to  (default ``)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -283,9 +815,69 @@ to enable it.  You can execute the following once:</p>
 </thead>
 <tbody>
 <tr>
+<td><code>--all-features</code></td>
+<td></td>
+<td>Whether to enable all supported features for conformance tests </td>
+</tr>
+<tr>
+<td><code>--allow-crds-mismatch</code></td>
+<td></td>
+<td>Flag to allow the suite not to fail in case there is a mismatch between CRDs versions and channels. </td>
+</tr>
+<tr>
+<td><code>--cleanup-base-resources</code></td>
+<td></td>
+<td>Whether to cleanup base test resources after the run </td>
+</tr>
+<tr>
+<td><code>--conformance-profiles &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated list of the conformance profiles to run  (default ``)</td>
+</tr>
+<tr>
+<td><code>--contact &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated list of contact information for the maintainers  (default ``)</td>
+</tr>
+<tr>
+<td><code>--debug</code></td>
+<td></td>
+<td>Whether to print debug logs </td>
+</tr>
+<tr>
+<td><code>--exempt-features &lt;string&gt;</code></td>
+<td></td>
+<td>Exempt Features excluded from conformance tests suites  (default ``)</td>
+</tr>
+<tr>
+<td><code>--gateway-class &lt;string&gt;</code></td>
+<td></td>
+<td>Name of GatewayClass to use for tests  (default `gateway-conformance`)</td>
+</tr>
+<tr>
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td></td>
 <td>Paths to a kubeconfig. Only required if out-of-cluster.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--mode &lt;string&gt;</code></td>
+<td></td>
+<td>The operating mode of the implementation.  (default `default`)</td>
+</tr>
+<tr>
+<td><code>--namespace-annotations &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated list of name=value annotations to add to test namespaces  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace-labels &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated list of name=value labels to add to test namespaces  (default ``)</td>
+</tr>
+<tr>
+<td><code>--organization &lt;string&gt;</code></td>
+<td></td>
+<td>Implementation&#39;s Organization to issue conformance to  (default ``)</td>
 </tr>
 <tr>
 <td><code>--output &lt;string&gt;</code></td>
@@ -293,9 +885,44 @@ to enable it.  You can execute the following once:</p>
 <td>One of &#39;yaml&#39; or &#39;json&#39;.  (default ``)</td>
 </tr>
 <tr>
+<td><code>--project &lt;string&gt;</code></td>
+<td></td>
+<td>Implementation&#39;s project to issue conformance to  (default ``)</td>
+</tr>
+<tr>
+<td><code>--report-output &lt;string&gt;</code></td>
+<td></td>
+<td>The file where to write the conformance report  (default ``)</td>
+</tr>
+<tr>
+<td><code>--run-test &lt;string&gt;</code></td>
+<td></td>
+<td>Name of a single test to run, instead of the whole suite  (default ``)</td>
+</tr>
+<tr>
 <td><code>--short</code></td>
 <td><code>-s</code></td>
 <td>Use --short=false to generate full version information </td>
+</tr>
+<tr>
+<td><code>--skip-tests &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated list of tests to skip  (default ``)</td>
+</tr>
+<tr>
+<td><code>--supported-features &lt;string&gt;</code></td>
+<td></td>
+<td>Supported features included in conformance tests suites  (default ``)</td>
+</tr>
+<tr>
+<td><code>--url &lt;string&gt;</code></td>
+<td></td>
+<td>Implementation&#39;s url to issue conformance to  (default ``)</td>
+</tr>
+<tr>
+<td><code>--version &lt;string&gt;</code></td>
+<td></td>
+<td>Implementation&#39;s version to issue conformance to  (default ``)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -373,7 +1000,7 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <tr>
 <td><code>ENABLE_ENHANCED_RESOURCE_SCOPING</code></td>
 <td>Boolean</td>
-<td><code>false</code></td>
+<td><code>true</code></td>
 <td>If enabled, meshConfig.discoverySelectors will limit the CustomResource configurations(like Gateway,VirtualService,DestinationRule,Ingress, etc)that can be processed by pilot. This will also restrict the root-ca certificate distribution.</td>
 </tr>
 <tr>
@@ -461,6 +1088,12 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>If enabled, the TLS configuration on Sidecar.ingress will take effect</td>
 </tr>
 <tr>
+<td><code>ENABLE_VTPROTOBUF</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true, will use optimized vtprotobuf based marshaling. Requires a build with -tags=vtprotobuf.</td>
+</tr>
+<tr>
 <td><code>EXTERNAL_ISTIOD</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -511,7 +1144,7 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <tr>
 <td><code>ISTIO_DELTA_XDS</code></td>
 <td>Boolean</td>
-<td><code>false</code></td>
+<td><code>true</code></td>
 <td>If enabled, pilot will only send the delta configs as opposed to the state of the world on a Resource Request. This feature uses the delta xds api, but does not currently send the actual deltas.</td>
 </tr>
 <tr>
@@ -615,12 +1248,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>If enabled, istiod will skip verifying the certificate of the JWKS server.</td>
 </tr>
 <tr>
-<td><code>JWT_POLICY</code></td>
-<td>String</td>
-<td><code>third-party-jwt</code></td>
-<td>The JWT validation policy.</td>
-</tr>
-<tr>
 <td><code>K_REVISION</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -667,12 +1294,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Integer</td>
 <td><code>1000</code></td>
 <td>If set to a non-zero value, enables mutex profiling a rate of 1/MUTEX_PROFILE_FRACTION events. For example, &#39;1000&#39; will record 0.1% of events. Set to 0 to disable entirely.</td>
-</tr>
-<tr>
-<td><code>NATIVE_METADATA_EXCHANGE</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If set, uses a native implementation of the HTTP metadata exchange filter</td>
 </tr>
 <tr>
 <td><code>PERSIST_OLDEST_FIRST_HEURISTIC_FOR_VIRTUAL_SERVICE_HOST_MATCHING</code></td>
@@ -819,12 +1440,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>If enabled, HBONE support can be configured for proxies. Note: proxies must opt in on a per-proxy basis with ENABLE_HBONE to actually get HBONE config, in addition to this flag.</td>
 </tr>
 <tr>
-<td><code>PILOT_ENABLE_HEADLESS_SERVICE_POD_LISTENERS</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If enabled, for a headless service/stateful set in Kubernetes, pilot will generate an outbound listener for each pod in a headless service. This feature should be disabled if headless services have a large number of pods.</td>
-</tr>
-<tr>
 <td><code>PILOT_ENABLE_K8S_SELECT_WORKLOAD_ENTRIES</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -937,6 +1552,18 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, Pilot will send only clusters that referenced in gateway virtual services attached to gateway</td>
+</tr>
+<tr>
+<td><code>PILOT_GATEWAY_API_CONTROLLER_NAME</code></td>
+<td>String</td>
+<td><code>istio.io/gateway-controller</code></td>
+<td>Gateway API controller name. istiod will only reconcile Gateway API resources referencing a GatewayClass with this controller name</td>
+</tr>
+<tr>
+<td><code>PILOT_GATEWAY_API_DEFAULT_GATEWAYCLASS_NAME</code></td>
+<td>String</td>
+<td><code>istio</code></td>
+<td>Name of the default GatewayClass</td>
 </tr>
 <tr>
 <td><code>PILOT_HTTP10</code></td>
@@ -1075,12 +1702,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If true, Pilot will collect metrics for XDS cache efficiency.</td>
-</tr>
-<tr>
-<td><code>PILOT_XDS_SEND_TIMEOUT</code></td>
-<td>Time Duration</td>
-<td><code>0s</code></td>
-<td>The timeout to send the XDS configuration to proxies. After this timeout is reached, Pilot will discard that push.</td>
 </tr>
 <tr>
 <td><code>PLATFORM</code></td>
