@@ -6,7 +6,7 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-{{< boilerplate ambient-alpha-warning >}}
+{{< boilerplate ambient-beta-support >}}
 
 This guide lets you quickly evaluate Istio's {{< gloss "ambient" >}}ambient mode{{< /gloss >}}. These steps require you to have a {{< gloss >}}cluster{{< /gloss >}} running a
 [supported version](/docs/releases/supported-releases#support-status-of-istio-releases) of Kubernetes ({{< supported_kubernetes_versions >}}).
@@ -112,17 +112,21 @@ four components (including {{< gloss "ztunnel" >}}ztunnel{{< /gloss >}}) have be
 {{< text bash >}}
 $ kubectl get pods -n istio-system
 NAME                                    READY   STATUS    RESTARTS   AGE
-istio-cni-node-n9tcd                    1/1     Running   0          57s
-istio-ingressgateway-5b79b5bb88-897lp   1/1     Running   0          57s
-istiod-69d4d646cd-26cth                 1/1     Running   0          67s
-ztunnel-lr7lz                           1/1     Running   0          69s
+istio-cni-node-k79kg                    1/1     Running   0          37s
+istio-cni-node-ml46d                    1/1     Running   0          37s
+istio-cni-node-zpqrg                    1/1     Running   0          37s
+istio-ingressgateway-698c7f96b8-gfsq5   1/1     Running   0          37s
+istiod-85696fc749-7zt59                 1/1     Running   0          43s
+ztunnel-csr7b                           1/1     Running   0          44s
+ztunnel-qw5rl                           1/1     Running   0          44s
+ztunnel-xcc88                           1/1     Running   0          44s
 {{< /text >}}
 
 {{< text bash >}}
 $ kubectl get daemonset -n istio-system
 NAME             DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
-istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   70s
-ztunnel          1         1         1       1            1           kubernetes.io/os=linux   82s
+istio-cni-node   3         3         3       3            3           kubernetes.io/os=linux   115s
+ztunnel          3         3         3       3            3           kubernetes.io/os=linux   2m2s
 {{< /text >}}
 
 {{< /tab >}}
@@ -132,16 +136,20 @@ ztunnel          1         1         1       1            1           kubernetes
 {{< text bash >}}
 $ kubectl get pods -n istio-system
 NAME                                    READY   STATUS    RESTARTS   AGE
-istio-cni-node-n9tcd                    1/1     Running   0          57s
-istiod-69d4d646cd-26cth                 1/1     Running   0          67s
-ztunnel-lr7lz                           1/1     Running   0          69s
+istio-cni-node-k79kg                    1/1     Running   0          37s
+istio-cni-node-ml46d                    1/1     Running   0          37s
+istio-cni-node-zpqrg                    1/1     Running   0          37s
+istiod-85696fc749-7zt59                 1/1     Running   0          43s
+ztunnel-csr7b                           1/1     Running   0          44s
+ztunnel-qw5rl                           1/1     Running   0          44s
+ztunnel-xcc88                           1/1     Running   0          44s
 {{< /text >}}
 
 {{< text bash >}}
 $ kubectl get daemonset -n istio-system
 NAME             DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
-istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   70s
-ztunnel          1         1         1       1            1           kubernetes.io/os=linux   82s
+istio-cni-node   3         3         3       3            3           kubernetes.io/os=linux   115s
+ztunnel          3         3         3       3            3           kubernetes.io/os=linux   2m2s
 {{< /text >}}
 
 {{< /tab >}}
