@@ -25,8 +25,8 @@ source "tests/util/addons.sh"
 # @setup profile=demo
 
 # Deploy the OTel collector
-bpsnip_deploy_otel_collector_observability_namespace__1
-bpsnip_deploy_otel_collector_observability_namespace__2
+bpsnip_start_otel_collector_service__1
+bpsnip_start_otel_collector_service__2
 _wait_for_deployment observability opentelemetry-collector
 
 # Enable OTel Tracing extension via Telememetry API

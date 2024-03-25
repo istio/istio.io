@@ -19,7 +19,7 @@
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
 #          docs/tasks/observability/distributed-tracing/opentelemetry/index.md
 ####################################################################################################
-source "content/en/boilerplates/snips/deploy-otel-collector-observability-namespace.sh"
+source "content/en/boilerplates/snips/start-otel-collector-service.sh"
 source "content/en/boilerplates/snips/trace-generation.sh"
 
 snip_enable_telemetry() {

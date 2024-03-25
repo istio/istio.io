@@ -21,7 +21,7 @@ traces via gRPC.
 
 ## Deploy the OpenTelemetry Collector
 
-{{< boilerplate deploy-otel-collector-observability-namespace >}}
+{{< boilerplate start-otel-collector-service >}}
 
 ## Installation
 
