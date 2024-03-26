@@ -50,7 +50,7 @@ The example also enables the [environment resource detector](https://opentelemet
             resource_detectors:
               environment: {}
     EOF
-    $ istioctl install -f ./tracing.yaml --skip-confirmation
+    $ istioctl install -f ./tracing-grpc.yaml --skip-confirmation
     $ kubectl label namespace default istio-injection=enabled
     {{< /text >}}
 
