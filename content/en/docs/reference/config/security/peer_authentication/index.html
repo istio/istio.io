@@ -51,7 +51,7 @@ spec:
   mtls:
     mode: STRICT
 </code></pre>
-<p>Policy that enables strict mTLS for all workloads, but leaves the port <code>8080</code> to
+<p>Policy that enables strict mTLS for all <code>finance</code> workloads, but leaves the port <code>8080</code> to
 plaintext. Note the port value in the <code>portLevelMtls</code> field refers to the port
 of the workload, not the port of the Kubernetes service.</p>
 <pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1

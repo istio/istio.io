@@ -15217,6 +15217,12 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>If enabled, readiness probes will keep the connection from pilot-agent to the application alive. This mirrors older Istio versions&#39; behaviors, but not kubelet&#39;s.</td>
 </tr>
 <tr>
+<td><code>ENABLE_RESOLUTION_NONE_TARGET_PORT</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, targetPort will be supported for resolution=NONE ServiceEntry</td>
+</tr>
+<tr>
 <td><code>ENABLE_SELECTOR_BASED_K8S_GATEWAY_POLICY</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
