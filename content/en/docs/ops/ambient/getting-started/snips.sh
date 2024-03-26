@@ -51,8 +51,8 @@ kubectl get daemonset -n istio-system
 
 ! IFS=$'\n' read -r -d '' snip_download_and_install_8_out <<\ENDSNIP
 NAME             DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
-istio-cni-node   3         3         3       3            3           kubernetes.io/os=linux   115s
-ztunnel          3         3         3       3            3           kubernetes.io/os=linux   2m2s
+istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   2m16s
+ztunnel          1         1         1       1            1           kubernetes.io/os=linux   2m10s
 ENDSNIP
 
 snip_download_and_install_9() {
