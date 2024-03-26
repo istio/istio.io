@@ -31,7 +31,7 @@ test: yes
 extensionProviders:
 - name: otel
   envoyOtelAls:
-    service: opentelemetry-collector.istio-system.svc.cluster.local
+    service: opentelemetry-collector.observability.svc.cluster.local
     port: 4317
 {{< /text >}}
 
@@ -56,7 +56,7 @@ data:
     extensionProviders:
     - name: otel
       envoyOtelAls:
-        service: opentelemetry-collector.istio-system.svc.cluster.local
+        service: opentelemetry-collector.observability.svc.cluster.local
         port: 4317
     rootNamespace: istio-system
     trustDomain: cluster.local
@@ -98,7 +98,7 @@ spec:
     extensionProviders:
     - name: otel
       envoyOtelAls:
-        service: opentelemetry-collector.istio-system.svc.cluster.local
+        service: opentelemetry-collector.observability.svc.cluster.local
         port: 4317
     defaultProviders:
       accessLogging:
@@ -173,7 +173,7 @@ $ istioctl install -f <your-istio-operator-config-file>
 1.  检查 `otel-collector` 的日志：
 
     {{< text bash >}}
-    $ kubectl logs -l app=opentelemetry-collector -n istio-system
+    $ kubectl logs -l app=opentelemetry-collector -n observability
     [2020-11-25T21:26:18.409Z] "GET /status/418 HTTP/1.1" 418 - via_upstream - "-" 0 135 3 1 "-" "curl/7.73.0-DEV" "84961386-6d84-929d-98bd-c5aee93b5c88" "httpbin:8000" "127.0.0.1:80" inbound|8000|| 127.0.0.1:41854 10.44.1.27:80 10.44.1.23:37652 outbound_.8000_._.httpbin.foo.svc.cluster.local default
     {{< /text >}}
 
