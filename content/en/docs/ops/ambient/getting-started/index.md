@@ -119,8 +119,8 @@ ztunnel-srrnm                           1/1     Running   0          2m5s
 {{< text bash >}}
 $ kubectl get daemonset -n istio-system
 NAME             DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
-istio-cni-node   3         3         3       3            3           kubernetes.io/os=linux   115s
-ztunnel          3         3         3       3            3           kubernetes.io/os=linux   2m2s
+istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   2m16s
+ztunnel          1         1         1       1            1           kubernetes.io/os=linux   2m10s
 {{< /text >}}
 
 {{< /tab >}}
@@ -138,8 +138,8 @@ ztunnel-wp7hk             1/1     Running   0          2m9s
 {{< text bash >}}
 $ kubectl get daemonset -n istio-system
 NAME             DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
-istio-cni-node   3         3         3       3            3           kubernetes.io/os=linux   115s
-ztunnel          3         3         3       3            3           kubernetes.io/os=linux   2m2s
+istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   2m16s
+ztunnel          1         1         1       1            1           kubernetes.io/os=linux   2m10s
 {{< /text >}}
 
 {{< /tab >}}
