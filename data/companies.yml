@@ -427,7 +427,7 @@ users:
   - name: "HelloFresh"
     logo: "/logos/hellofresh.svg"
     url: "https://www.hellofresh.com/"
-  - name: "HighLevel Inc"
+  - name: "HighLevel"
     logo: "/logos/highlevel.svg"
     url: "https://www.gohighlevel.com/"
   - name: "Hotels.com"
