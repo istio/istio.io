@@ -417,7 +417,7 @@ users:
     url: "https://www.giffgaff.com/"
   - name: "GIPHY"
     logo: "/logos/giphy.svg"
-    url: "https://www.giphy.com/"  
+    url: "https://www.giphy.com/"
   - name: "Gojek"
     logo: "/logos/gojek.svg"
     url: "https://www.gojek.com/"
