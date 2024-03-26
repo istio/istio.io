@@ -278,7 +278,7 @@ to the mesh. Note that you did not have to restart or redeploy anything!
 Check once again the ztunnel logs for the proxy has received the network namespace (netns) information about an ambient application pod, and has started proxying for it:
 
 {{< text bash >}}
-$ kubectl logs ds/ztunnel -n istio-system  | grep inpod             
+$ kubectl logs ds/ztunnel -n istio-system  | grep inpod
 Found 3 pods, using pod/ztunnel-jrxln
 inpod_enabled: true
 inpod_uds: /var/run/ztunnel/ztunnel.sock
