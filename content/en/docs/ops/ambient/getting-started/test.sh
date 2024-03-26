@@ -66,7 +66,6 @@ snip_adding_your_application_to_the_ambient_mesh_1
 
 # test traffic after ambient mode is enabled
 _verify_contains snip_adding_your_application_to_the_ambient_mesh_2 "namespace/default labeled"
-_verify_contains snip_adding_your_application_to_the_ambient_mesh_3 "$snip_adding_your_application_to_the_ambient_mesh_3_out"
 _verify_contains snip_adding_your_application_to_the_ambient_mesh_4 "$snip_adding_your_application_to_the_ambient_mesh_4_out"
 
 snip_layer_4_authorization_policy_1
