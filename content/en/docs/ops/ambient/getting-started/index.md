@@ -110,14 +110,10 @@ four components (including {{< gloss "ztunnel" >}}ztunnel{{< /gloss >}}) have be
 {{< text bash >}}
 $ kubectl get pods -n istio-system
 NAME                                    READY   STATUS    RESTARTS   AGE
-istio-cni-node-k79kg                    1/1     Running   0          37s
-istio-cni-node-ml46d                    1/1     Running   0          37s
-istio-cni-node-zpqrg                    1/1     Running   0          37s
-istio-ingressgateway-698c7f96b8-gfsq5   1/1     Running   0          37s
-istiod-85696fc749-7zt59                 1/1     Running   0          43s
-ztunnel-csr7b                           1/1     Running   0          44s
-ztunnel-qw5rl                           1/1     Running   0          44s
-ztunnel-xcc88                           1/1     Running   0          44s
+istio-cni-node-zq94l                    1/1     Running   0          2m7s
+istio-ingressgateway-56b9cb5485-ksnvc   1/1     Running   0          2m7s
+istiod-56d848857c-mhr5w                 1/1     Running   0          2m9s
+ztunnel-srrnm                           1/1     Running   0          2m5s
 {{< /text >}}
 
 {{< text bash >}}
@@ -133,14 +129,10 @@ ztunnel          3         3         3       3            3           kubernetes
 
 {{< text bash >}}
 $ kubectl get pods -n istio-system
-NAME                                    READY   STATUS    RESTARTS   AGE
-istio-cni-node-k79kg                    1/1     Running   0          37s
-istio-cni-node-ml46d                    1/1     Running   0          37s
-istio-cni-node-zpqrg                    1/1     Running   0          37s
-istiod-85696fc749-7zt59                 1/1     Running   0          43s
-ztunnel-csr7b                           1/1     Running   0          44s
-ztunnel-qw5rl                           1/1     Running   0          44s
-ztunnel-xcc88                           1/1     Running   0          44s
+NAME                      READY   STATUS    RESTARTS   AGE
+istio-cni-node-d9rdt      1/1     Running   0          2m15s
+istiod-56d848857c-pwsd6   1/1     Running   0          2m23s
+ztunnel-wp7hk             1/1     Running   0          2m9s
 {{< /text >}}
 
 {{< text bash >}}
@@ -251,7 +243,7 @@ $ export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/bookinfo-gateway-istio
 
 ## Adding your application to the ambient mesh {#addtoambient}
 
-When an application pod is part of an ambient mesh, you can check the ztunnel proxy logs to confirm the mesh is redirecting traffic. 
+When an application pod is part of an ambient mesh, you can check the ztunnel proxy logs to confirm the mesh is redirecting traffic.
 Before we label the namespace to be part of an ambient mesh, check the ztunnel logs related to `inpod` which indicate that in-pod redirection mode is enabled:
 
 {{< text bash >}}

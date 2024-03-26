@@ -39,14 +39,10 @@ kubectl get pods -n istio-system
 
 ! IFS=$'\n' read -r -d '' snip_download_and_install_7_out <<\ENDSNIP
 NAME                                    READY   STATUS    RESTARTS   AGE
-istio-cni-node-k79kg                    1/1     Running   0          37s
-istio-cni-node-ml46d                    1/1     Running   0          37s
-istio-cni-node-zpqrg                    1/1     Running   0          37s
-istio-ingressgateway-698c7f96b8-gfsq5   1/1     Running   0          37s
-istiod-85696fc749-7zt59                 1/1     Running   0          43s
-ztunnel-csr7b                           1/1     Running   0          44s
-ztunnel-qw5rl                           1/1     Running   0          44s
-ztunnel-xcc88                           1/1     Running   0          44s
+istio-cni-node-zq94l                    1/1     Running   0          2m7s
+istio-ingressgateway-56b9cb5485-ksnvc   1/1     Running   0          2m7s
+istiod-56d848857c-mhr5w                 1/1     Running   0          2m9s
+ztunnel-srrnm                           1/1     Running   0          2m5s
 ENDSNIP
 
 snip_download_and_install_8() {
@@ -64,14 +60,10 @@ kubectl get pods -n istio-system
 }
 
 ! IFS=$'\n' read -r -d '' snip_download_and_install_9_out <<\ENDSNIP
-NAME                                    READY   STATUS    RESTARTS   AGE
-istio-cni-node-k79kg                    1/1     Running   0          37s
-istio-cni-node-ml46d                    1/1     Running   0          37s
-istio-cni-node-zpqrg                    1/1     Running   0          37s
-istiod-85696fc749-7zt59                 1/1     Running   0          43s
-ztunnel-csr7b                           1/1     Running   0          44s
-ztunnel-qw5rl                           1/1     Running   0          44s
-ztunnel-xcc88                           1/1     Running   0          44s
+NAME                      READY   STATUS    RESTARTS   AGE
+istio-cni-node-d9rdt      1/1     Running   0          2m15s
+istiod-56d848857c-pwsd6   1/1     Running   0          2m23s
+ztunnel-wp7hk             1/1     Running   0          2m9s
 ENDSNIP
 
 snip_download_and_install_10() {
