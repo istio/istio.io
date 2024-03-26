@@ -17,6 +17,13 @@ test: no
    必须在 `helm install` 命令后追加 `--set cni.cniNetnsDir="/var/run/docker/netns"`，
    以便 `istio-cni` 节点代理能够正确管理和捕获节点上的 Pod。
 
+### MicroK8s {#microk8s}
+
+1. 如果您使用的是 [MicroK8s](https://microk8s.io/)，
+   由于 MicroK8s [对于 CNI 配置和二进制文件使用了非标准位置](https://microk8s.io/docs/change-cidr)，
+   则必须在 `helm install` 命令附加
+   `--set values.cni.cniConfDir=/var/snap/microk8s/current/args/cni-network --set values.cni.cniBinDir=/var/snap/microk8s/current/opt/cni/bin`。
+
 ## CNI {#cni}
 
 ### Cilium {#cilium}
