@@ -151,6 +151,10 @@ snip_adding_your_application_to_the_ambient_mesh_2() {
 kubectl label namespace default istio.io/dataplane-mode=ambient
 }
 
+! IFS=$'\n' read -r -d '' snip_adding_your_application_to_the_ambient_mesh_2_out <<\ENDSNIP
+namespace/default labeled
+ENDSNIP
+
 snip_adding_your_application_to_the_ambient_mesh_3() {
 kubectl logs ds/ztunnel -n istio-system  | grep inpod
 }
