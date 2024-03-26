@@ -19,7 +19,6 @@ test: no
 
 ### MicroK8s {#microk8s}
 
-1. If you are using [MicroK8s](https://microk8s.io/), you must append `--set values.cni.cniConfDir=/var/snap/microk8s/current/args/cni-network --set values.cni.cniBinDir=/var/snap/microk8s/current/opt/cni/bin` to the `helm install` command, as MicroK8s [uses nonstandard locations for CNI configuration and binaries](https://microk8s.io/docs/change-cidr).
 1. 如果您使用的是 [MicroK8s](https://microk8s.io/)，
    由于 MicroK8s [对于 CNI 配置和二进制文件使用了非标准位置](https://microk8s.io/docs/change-cidr)，
    则必须在 `helm install` 命令附加
