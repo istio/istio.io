@@ -54,12 +54,12 @@ The CPU consumption scales with the following factors:
 - The rate of configuration changes.
 - The number of proxies connecting to Istiod.
 
-however this part is inherently horizontally scalable.
+However, this part is inherently horizontally scalable.
 
-When [namespace isolation](/docs/reference/config/networking/sidecar/) is enabled,
-a single Istiod instance can support 1000 services, 2000 sidecars with 1 vCPU and 1.5 GB of memory.
 You can increase the number of Istiod instances to reduce the amount of time it takes for the configuration
 to reach all proxies.
+
+At large scale, [configuration scoping](/docs/ops/configuration/mesh/configuration-scoping) is highly recommended.
 
 ## Data plane performance
 
