@@ -269,12 +269,12 @@ to enable it.  You can execute the following once:</p>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, delta, deltaadsc, file, gateway, grpcgen, ingress status, klog, krt, kube, model, monitor, monitoring, pkica, pkira, processing, retry, rootcertrotator, secretcontroller, security, serverca, serviceentry, spiffe, status, trustBundle, validation, validationController, validationServer, wasm, wle]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, delta, deltaadsc, file, gateway, grpc, grpcgen, ingress status, klog, krt, kube, model, monitor, monitoring, pkica, pkira, processing, retry, rootcertrotator, secretcontroller, security, serverca, serviceentry, spiffe, status, trustBundle, validation, validationController, validationServer, wasm, wle]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, delta, deltaadsc, file, gateway, grpcgen, ingress status, klog, krt, kube, model, monitor, monitoring, pkica, pkira, processing, retry, rootcertrotator, secretcontroller, security, serverca, serviceentry, spiffe, status, trustBundle, validation, validationController, validationServer, wasm, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, delta, deltaadsc, file, gateway, grpc, grpcgen, ingress status, klog, krt, kube, model, monitor, monitoring, pkica, pkira, processing, retry, rootcertrotator, secretcontroller, security, serverca, serviceentry, spiffe, status, trustBundle, validation, validationController, validationServer, wasm, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -299,7 +299,7 @@ to enable it.  You can execute the following once:</p>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, delta, deltaadsc, file, gateway, grpcgen, ingress status, klog, krt, kube, model, monitor, monitoring, pkica, pkira, processing, retry, rootcertrotator, secretcontroller, security, serverca, serviceentry, spiffe, status, trustBundle, validation, validationController, validationServer, wasm, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, delta, deltaadsc, file, gateway, grpc, grpcgen, ingress status, klog, krt, kube, model, monitor, monitoring, pkica, pkira, processing, retry, rootcertrotator, secretcontroller, security, serverca, serviceentry, spiffe, status, trustBundle, validation, validationController, validationServer, wasm, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
