@@ -110,7 +110,7 @@ Follow these steps to get started with Istio:
 
 ## Deploy the sample application {#bookinfo}
 
-1.  Deploy the [`Bookinfo` sample application](/docs/examples/bookinfo/):
+1.  Follow steps in the page [`Bookinfo` sample application](/docs/examples/bookinfo/) to deploy sample application:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
