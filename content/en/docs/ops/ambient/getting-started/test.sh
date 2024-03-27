@@ -62,10 +62,9 @@ _verify_contains snip_verify_traffic_sleep_to_ingress "$snip_verify_traffic_slee
 _verify_contains snip_verify_traffic_sleep_to_productpage "$snip_verify_traffic_sleep_to_productpage_out"
 _verify_contains snip_verify_traffic_notsleep_to_productpage "$snip_verify_traffic_notsleep_to_productpage_out"
 
-snip_adding_your_application_to_the_ambient_mesh_1
+_verify_contains snip_adding_your_application_to_the_ambient_mesh_1 "$snip_adding_your_application_to_the_ambient_mesh_1_out"
 
 # test traffic after ambient mode is enabled
-snip_adding_your_application_to_the_ambient_mesh_2
 _verify_contains snip_adding_your_application_to_the_ambient_mesh_3 "$snip_adding_your_application_to_the_ambient_mesh_3_out"
 _verify_contains snip_adding_your_application_to_the_ambient_mesh_4 "$snip_adding_your_application_to_the_ambient_mesh_4_out"
 
@@ -102,4 +101,5 @@ if [ "$GATEWAY_API" != "true" ]; then
     snip_uninstall_3
     samples/bookinfo/platform/kube/cleanup.sh
     snip_uninstall_4
+    snip_uninstall_5
 fi

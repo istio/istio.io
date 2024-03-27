@@ -254,7 +254,7 @@ inpod_enabled: true
 Now you can enable all pods in a given namespace to be part of an ambient mesh
 by simply labeling the namespace:
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=none >}}
 $ kubectl label namespace default istio.io/dataplane-mode=ambient
 {{< /text >}}
 

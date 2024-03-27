@@ -141,10 +141,6 @@ kubectl logs ds/ztunnel -n istio-system  | grep inpod_enabled
 inpod_enabled: true
 ENDSNIP
 
-snip_adding_your_application_to_the_ambient_mesh_2() {
-kubectl label namespace default istio.io/dataplane-mode=ambient
-}
-
 snip_adding_your_application_to_the_ambient_mesh_3() {
 kubectl logs ds/ztunnel -n istio-system | grep "starting proxy"
 }
