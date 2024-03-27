@@ -431,6 +431,7 @@ edition.cnn.com
 Eitan
 Ekansh
 Elasticsearch
+EndpointSlice
 embeddable
 emojis
 enablement
@@ -892,6 +893,8 @@ pre-release
 pre-specified
 precheck
 preconfigured
+PREFER_MASTER
+PREFER_REPLICA
 prefetching
 preformatted
 preload
@@ -942,6 +945,8 @@ redeployments
 Redis
 redis
 Redis-based
+RedisDestination
+RedisService
 referer
 Registrator
 registrator
@@ -1046,6 +1051,7 @@ Stackdriver
 Stackgenie
 Standard_D4ds_v5
 stateful
+StatefulSet
 Statsd
 stdin
 stdout
