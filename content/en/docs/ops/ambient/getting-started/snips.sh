@@ -134,22 +134,24 @@ kubectl exec deploy/notsleep -- curl -s http://productpage:9080/ | grep -o "<tit
 ENDSNIP
 
 snip_adding_your_application_to_the_ambient_mesh_1() {
-kubectl logs ds/ztunnel -n istio-system  | grep inpod
+kubectl logs ds/ztunnel -n istio-system  | grep inpod_enabled
 }
 
 ! IFS=$'\n' read -r -d '' snip_adding_your_application_to_the_ambient_mesh_1_out <<\ENDSNIP
-Found 3 pods, using pod/ztunnel-jrxln
 inpod_enabled: true
-inpod_uds: /var/run/ztunnel/ztunnel.sock
-inpod_port_reuse: true
-inpod_mark: 1337
-2024-03-26T00:02:06.161802Z  INFO ztunnel::inpod::workloadmanager: handling new stream
-2024-03-26T00:02:06.162099Z  INFO ztunnel::inpod::statemanager: pod received snapshot sent
 ENDSNIP
 
 snip_adding_your_application_to_the_ambient_mesh_2() {
 kubectl label namespace default istio.io/dataplane-mode=ambient
 }
+
+snip_adding_your_application_to_the_ambient_mesh_3() {
+kubectl logs ds/ztunnel -n istio-system  | grep inpod | grep proxy
+}
+
+! IFS=$'\n' read -r -d '' snip_adding_your_application_to_the_ambient_mesh_3_out <<\ENDSNIP
+2024-03-26T00:41:05.518194Z  INFO ztunnel::inpod::statemanager: pod WorkloadUid("7ef61e18-725a-4726-84fa-05fc2a440879") received netns, starting proxy
+ENDSNIP
 
 snip_adding_your_application_to_the_ambient_mesh_4() {
 kubectl exec deploy/sleep -- curl -s "http://$GATEWAY_HOST/productpage" | grep -o "<title>.*</title>"

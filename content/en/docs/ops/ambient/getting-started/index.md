@@ -247,14 +247,8 @@ When an application pod is part of an ambient mesh, you can check the ztunnel pr
 Before we label the namespace to be part of an ambient mesh, check the ztunnel logs related to `inpod` which indicate that in-pod redirection mode is enabled:
 
 {{< text bash >}}
-$ kubectl logs ds/ztunnel -n istio-system  | grep inpod
-Found 3 pods, using pod/ztunnel-jrxln
+$ kubectl logs ds/ztunnel -n istio-system  | grep inpod_enabled
 inpod_enabled: true
-inpod_uds: /var/run/ztunnel/ztunnel.sock
-inpod_port_reuse: true
-inpod_mark: 1337
-2024-03-26T00:02:06.161802Z  INFO ztunnel::inpod::workloadmanager: handling new stream
-2024-03-26T00:02:06.162099Z  INFO ztunnel::inpod::statemanager: pod received snapshot sent
 {{< /text >}}
 
 Now you can enable all pods in a given namespace to be part of an ambient mesh
@@ -269,15 +263,8 @@ to the mesh. Note that you did not have to restart or redeploy anything!
 
 Check once again the ztunnel logs for the proxy has received the network namespace (netns) information about an ambient application pod, and has started proxying for it:
 
-{{< text syntax=bash snip_id=none >}}
-$ kubectl logs ds/ztunnel -n istio-system  | grep inpod
-Found 3 pods, using pod/ztunnel-jrxln
-inpod_enabled: true
-inpod_uds: /var/run/ztunnel/ztunnel.sock
-inpod_port_reuse: true
-inpod_mark: 1337
-2024-03-26T00:02:06.161802Z  INFO ztunnel::inpod::workloadmanager: handling new stream
-2024-03-26T00:02:06.162099Z  INFO ztunnel::inpod::statemanager: pod received snapshot sent
+{{< text bash >}}
+$ kubectl logs ds/ztunnel -n istio-system  | grep inpod | grep proxy
 2024-03-26T00:41:05.518194Z  INFO ztunnel::inpod::statemanager: pod WorkloadUid("7ef61e18-725a-4726-84fa-05fc2a440879") received netns, starting proxy
 {{< /text >}}
 
