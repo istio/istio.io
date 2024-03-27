@@ -232,6 +232,56 @@ The external authorizer is now ready to be used by the authorization policy.
 
     You can now apply another authorization policy for the sample `ext-authz` server to control who is allowed to access it.
 
+## Route with external authorization
+You can create a VirtualService to route your service based on external authorization headers.
+
+1. Deploy a VirtualService `ext-authz-route`:
+
+  The following command applies a VirtualService that route all traffic to `/headers` containing a `x-ext-authz` header with value `allow` to a route, and route the rest of the traffic to `/headers` to another route.
+
+  {{< text bash >}}
+    $ kubectl apply -n foo -f - <<EOF
+  apiVersion: networking.istio.io/v1alpha3
+  kind: VirtualService
+  metadata:
+    name: ext-authz-route
+  spec:
+    hosts:
+    - httpbin.foo.svc.cluster.local
+    http:
+    - match:
+      - uri:
+          exact: "/headers"
+        headers:
+          X-Ext-Authz:
+            exact: allow
+      rewrite:
+        uri: "/base64/cm91dGUtYWxsb3c="
+      route:
+      - destination:
+          host: httpbin.foo.svc.cluster.local
+    - route:
+      - destination:
+          host: httpbin.foo.svc.cluster.local
+      rewrite:
+        uri: "/base64/cm91dGUtZGVueQ=="
+  EOF
+  {{< /text >}}
+
+1. Verify a request to path `/headers` with header `x-ext-authz: allow` routes to `/base64/cm91dGUtYWxsb3c=`:
+
+    {{< text bash >}}
+    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -H "x-ext-authz: allow" -s
+    route-allow
+    {{< /text >}}
+
+1. Verify a request to path `/headers` with header `x-ext-authz: deny` routes to `/base64/cm91dGUtZGVueQ==`:
+
+    {{< text bash >}}
+    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -H "x-ext-authz: deny" -s
+    route-deny
+    {{< /text >}}
+
 ## Clean up
 
 1. Remove the namespace `foo` from your configuration:
