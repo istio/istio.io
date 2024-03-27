@@ -264,8 +264,8 @@ to the mesh. Note that you did not have to restart or redeploy anything!
 Check once again the ztunnel logs for the proxy has received the network namespace (netns) information about an ambient application pod, and has started proxying for it:
 
 {{< text bash >}}
-$ kubectl logs ds/ztunnel -n istio-system  | grep inpod | grep proxy
-2024-03-26T00:41:05.518194Z  INFO ztunnel::inpod::statemanager: pod WorkloadUid("7ef61e18-725a-4726-84fa-05fc2a440879") received netns, starting proxy
+$ kubectl logs ds/ztunnel -n istio-system | grep "starting proxy"
+received netns, starting proxy
 {{< /text >}}
 
 Now, send some test traffic:

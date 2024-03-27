@@ -146,11 +146,11 @@ kubectl label namespace default istio.io/dataplane-mode=ambient
 }
 
 snip_adding_your_application_to_the_ambient_mesh_3() {
-kubectl logs ds/ztunnel -n istio-system  | grep inpod | grep proxy
+kubectl logs ds/ztunnel -n istio-system | grep "starting proxy"
 }
 
 ! IFS=$'\n' read -r -d '' snip_adding_your_application_to_the_ambient_mesh_3_out <<\ENDSNIP
-2024-03-26T00:41:05.518194Z  INFO ztunnel::inpod::statemanager: pod WorkloadUid("7ef61e18-725a-4726-84fa-05fc2a440879") received netns, starting proxy
+received netns, starting proxy
 ENDSNIP
 
 snip_adding_your_application_to_the_ambient_mesh_4() {
