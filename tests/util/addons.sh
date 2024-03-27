@@ -15,6 +15,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# dummy comment to force test ALL
+
 source "tests/util/helpers.sh"
 
 # Deploy the addons specified and wait for the deployment to complete. Currently
