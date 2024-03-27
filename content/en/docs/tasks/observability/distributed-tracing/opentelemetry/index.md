@@ -35,46 +35,46 @@ In this example, traces will be exported via OTLP/gRPC to the OpenTelemetry Coll
 The example also enables the [environment resource detector](https://opentelemetry.io/docs/languages/js/resources/#adding-resources-with-environment-variables). The environment detector adds attributes from the environment variable
 `OTEL_RESOURCE_ATTRIBUTES` to the exported OpenTelemetry resource.
 
-    {{< text syntax=bash snip_id=none >}}
-    $ cat <<EOF > ./tracing-grpc.yaml
-    apiVersion: install.istio.io/v1alpha1
-    kind: IstioOperator
-    spec:
-      meshConfig:
-        enableTracing: true
-        extensionProviders:
-        - name: otel-tracing
-          opentelemetry:
-            port: 4317
-            service: opentelemetry-collector.observability.svc.cluster.local
-            resource_detectors:
-              environment: {}
-    EOF
-    $ istioctl install -f ./tracing-grpc.yaml --skip-confirmation
-    $ kubectl label namespace default istio-injection=enabled
-    {{< /text >}}
+{{< text syntax=bash snip_id=none >}}
+$ cat <<EOF > ./tracing-grpc.yaml
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  meshConfig:
+    enableTracing: true
+    extensionProviders:
+    - name: otel-tracing
+      opentelemetry:
+        port: 4317
+        service: opentelemetry-collector.observability.svc.cluster.local
+        resource_detectors:
+          environment: {}
+EOF
+$ istioctl install -f ./tracing-grpc.yaml --skip-confirmation
+$ kubectl label namespace default istio-injection=enabled
+{{< /text >}}
 
 ## Enable tracing for mesh via Telemetry API
 
 Enable tracing by applying the following configuration:
 
-    {{< text syntax=bash snip_id=enable_telemetry >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: telemetry.istio.io/v1alpha1
-    kind: Telemetry
-    metadata:
-      name: otel-demo
-    spec:
-      tracing:
-      - providers:
-        - name: otel-tracing
-        randomSamplingPercentage: 100
-        customTags:
-          "my-attribute":
-            literal:
-              value: "default-value"
-    EOF
-    {{< /text >}}
+{{< text syntax=bash snip_id=enable_telemetry >}}
+$ kubectl apply -f - <<EOF
+apiVersion: telemetry.istio.io/v1alpha1
+kind: Telemetry
+metadata:
+  name: otel-demo
+spec:
+  tracing:
+  - providers:
+    - name: otel-tracing
+    randomSamplingPercentage: 100
+    customTags:
+      "my-attribute":
+        literal:
+          value: "default-value"
+EOF
+{{< /text >}}
 
 ## Deploy the Bookinfo Application
 
@@ -91,68 +91,68 @@ Deploy the [Bookinfo](/docs/examples/bookinfo/#deploying-the-application) sample
     If you used the example Collector config, you can verify traces are arriving by looking
     at the Collector logs. It should contain something like:
 
-    {{< text syntax=yaml snip_id=none >}}
-    Resource SchemaURL:
-    Resource labels:
-         -> service.name: STRING(productpage.default)
-    ScopeSpans #0
-    ScopeSpans SchemaURL:
-    InstrumentationScope
-    Span #0
-        Trace ID       : 79fb7b59c1c3a518750a5d6dad7cd2d1
-        Parent ID      : 0cf792b061f0ad51
-        ID             : 2dff26f3b4d6d20f
-        Name           : egress reviews:9080
-        Kind           : SPAN_KIND_CLIENT
-        Start time     : 2024-01-30 15:57:58.588041 +0000 UTC
-        End time       : 2024-01-30 15:57:59.451116 +0000 UTC
-        Status code    : STATUS_CODE_UNSET
-        Status message :
-    Attributes:
-         -> node_id: STRING(sidecar~10.244.0.8~productpage-v1-564d4686f-t6s4m.default~default.svc.cluster.local)
-         -> zone: STRING()
-         -> guid:x-request-id: STRING(da543297-0dd6-998b-bd29-fdb184134c8c)
-         -> http.url: STRING(http://reviews:9080/reviews/0)
-         -> http.method: STRING(GET)
-         -> downstream_cluster: STRING(-)
-         -> user_agent: STRING(curl/7.74.0)
-         -> http.protocol: STRING(HTTP/1.1)
-         -> peer.address: STRING(10.244.0.8)
-         -> request_size: STRING(0)
-         -> response_size: STRING(441)
-         -> component: STRING(proxy)
-         -> upstream_cluster: STRING(outbound|9080||reviews.default.svc.cluster.local)
-         -> upstream_cluster.name: STRING(outbound|9080||reviews.default.svc.cluster.local)
-         -> http.status_code: STRING(200)
-         -> response_flags: STRING(-)
-         -> istio.namespace: STRING(default)
-         -> istio.canonical_service: STRING(productpage)
-         -> istio.mesh_id: STRING(cluster.local)
-         -> istio.canonical_revision: STRING(v1)
-         -> istio.cluster_id: STRING(Kubernetes)
-         -> my-attribute: STRING(default-value)
-    {{< /text >}}
+{{< text syntax=yaml snip_id=none >}}
+Resource SchemaURL:
+Resource labels:
+      -> service.name: STRING(productpage.default)
+ScopeSpans #0
+ScopeSpans SchemaURL:
+InstrumentationScope
+Span #0
+    Trace ID       : 79fb7b59c1c3a518750a5d6dad7cd2d1
+    Parent ID      : 0cf792b061f0ad51
+    ID             : 2dff26f3b4d6d20f
+    Name           : egress reviews:9080
+    Kind           : SPAN_KIND_CLIENT
+    Start time     : 2024-01-30 15:57:58.588041 +0000 UTC
+    End time       : 2024-01-30 15:57:59.451116 +0000 UTC
+    Status code    : STATUS_CODE_UNSET
+    Status message :
+Attributes:
+      -> node_id: STRING(sidecar~10.244.0.8~productpage-v1-564d4686f-t6s4m.default~default.svc.cluster.local)
+      -> zone: STRING()
+      -> guid:x-request-id: STRING(da543297-0dd6-998b-bd29-fdb184134c8c)
+      -> http.url: STRING(http://reviews:9080/reviews/0)
+      -> http.method: STRING(GET)
+      -> downstream_cluster: STRING(-)
+      -> user_agent: STRING(curl/7.74.0)
+      -> http.protocol: STRING(HTTP/1.1)
+      -> peer.address: STRING(10.244.0.8)
+      -> request_size: STRING(0)
+      -> response_size: STRING(441)
+      -> component: STRING(proxy)
+      -> upstream_cluster: STRING(outbound|9080||reviews.default.svc.cluster.local)
+      -> upstream_cluster.name: STRING(outbound|9080||reviews.default.svc.cluster.local)
+      -> http.status_code: STRING(200)
+      -> response_flags: STRING(-)
+      -> istio.namespace: STRING(default)
+      -> istio.canonical_service: STRING(productpage)
+      -> istio.mesh_id: STRING(cluster.local)
+      -> istio.canonical_revision: STRING(v1)
+      -> istio.cluster_id: STRING(Kubernetes)
+      -> my-attribute: STRING(default-value)
+{{< /text >}}
 
 ## Cleanup
 
 1.  Remove the Telemetry resource:
 
-    {{< text syntax=bash snip_id=cleanup_telemetry >}}
-    $ kubectl delete telemetry otel-demo
-    {{< /text >}}
+{{< text syntax=bash snip_id=cleanup_telemetry >}}
+$ kubectl delete telemetry otel-demo
+{{< /text >}}
 
 1.  Remove any `istioctl` processes that may still be running using control-C or:
 
-    {{< text syntax=bash snip_id=none >}}
-    $ killall istioctl
-    {{< /text >}}
+{{< text syntax=bash snip_id=none >}}
+$ killall istioctl
+{{< /text >}}
 
 1.  Uninstall the OpenTelemetry Collector:
 
-    {{< text syntax=bash snip_id=cleanup_collector >}}
-    $ kubectl delete -f @samples/open-telemetry/otel.yaml@ -n observability
-    $ kubectl delete namespace observability
-    {{< /text >}}
+{{< text syntax=bash snip_id=cleanup_collector >}}
+$ kubectl delete -f @samples/open-telemetry/otel.yaml@ -n observability
+$ kubectl delete namespace observability
+{{< /text >}}
 
 1.  If you are not planning to explore any follow-on tasks, refer to the
     [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
