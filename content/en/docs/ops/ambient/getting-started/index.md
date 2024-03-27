@@ -265,7 +265,7 @@ Check once again the ztunnel logs for the proxy has received the network namespa
 
 {{< text bash >}}
 $ kubectl logs ds/ztunnel -n istio-system | grep "starting proxy"
-received netns, starting proxy
+... received netns, starting proxy
 {{< /text >}}
 
 Now, send some test traffic:
