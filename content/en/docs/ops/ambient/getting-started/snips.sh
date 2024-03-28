@@ -39,10 +39,10 @@ kubectl get pods -n istio-system
 
 ! IFS=$'\n' read -r -d '' snip_download_and_install_7_out <<\ENDSNIP
 NAME                                    READY   STATUS    RESTARTS   AGE
-istio-cni-node-n9tcd                    1/1     Running   0          57s
-istio-ingressgateway-5b79b5bb88-897lp   1/1     Running   0          57s
-istiod-69d4d646cd-26cth                 1/1     Running   0          67s
-ztunnel-lr7lz                           1/1     Running   0          69s
+istio-cni-node-zq94l                    1/1     Running   0          2m7s
+istio-ingressgateway-56b9cb5485-ksnvc   1/1     Running   0          2m7s
+istiod-56d848857c-mhr5w                 1/1     Running   0          2m9s
+ztunnel-srrnm                           1/1     Running   0          2m5s
 ENDSNIP
 
 snip_download_and_install_8() {
@@ -51,8 +51,8 @@ kubectl get daemonset -n istio-system
 
 ! IFS=$'\n' read -r -d '' snip_download_and_install_8_out <<\ENDSNIP
 NAME             DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
-istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   70s
-ztunnel          1         1         1       1            1           kubernetes.io/os=linux   82s
+istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   2m16s
+ztunnel          1         1         1       1            1           kubernetes.io/os=linux   2m10s
 ENDSNIP
 
 snip_download_and_install_9() {
@@ -60,10 +60,10 @@ kubectl get pods -n istio-system
 }
 
 ! IFS=$'\n' read -r -d '' snip_download_and_install_9_out <<\ENDSNIP
-NAME                                    READY   STATUS    RESTARTS   AGE
-istio-cni-node-n9tcd                    1/1     Running   0          57s
-istiod-69d4d646cd-26cth                 1/1     Running   0          67s
-ztunnel-lr7lz                           1/1     Running   0          69s
+NAME                      READY   STATUS    RESTARTS   AGE
+istio-cni-node-d9rdt      1/1     Running   0          2m15s
+istiod-56d848857c-pwsd6   1/1     Running   0          2m23s
+ztunnel-wp7hk             1/1     Running   0          2m9s
 ENDSNIP
 
 snip_download_and_install_10() {
@@ -72,8 +72,8 @@ kubectl get daemonset -n istio-system
 
 ! IFS=$'\n' read -r -d '' snip_download_and_install_10_out <<\ENDSNIP
 NAME             DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
-istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   70s
-ztunnel          1         1         1       1            1           kubernetes.io/os=linux   82s
+istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   2m16s
+ztunnel          1         1         1       1            1           kubernetes.io/os=linux   2m10s
 ENDSNIP
 
 snip_deploy_the_sample_application_1() {
@@ -134,30 +134,46 @@ kubectl exec deploy/notsleep -- curl -s http://productpage:9080/ | grep -o "<tit
 ENDSNIP
 
 snip_adding_your_application_to_the_ambient_mesh_1() {
+kubectl logs ds/ztunnel -n istio-system  | grep inpod_enabled
+}
+
+! IFS=$'\n' read -r -d '' snip_adding_your_application_to_the_ambient_mesh_1_out <<\ENDSNIP
+inpod_enabled: true
+ENDSNIP
+
+snip_adding_your_application_to_the_ambient_mesh_2() {
 kubectl label namespace default istio.io/dataplane-mode=ambient
 }
 
-snip_adding_your_application_to_the_ambient_mesh_2() {
-kubectl exec deploy/sleep -- curl -s "http://$GATEWAY_HOST/productpage" | grep -o "<title>.*</title>"
-}
-
-! IFS=$'\n' read -r -d '' snip_adding_your_application_to_the_ambient_mesh_2_out <<\ENDSNIP
-<title>Simple Bookstore App</title>
-ENDSNIP
-
 snip_adding_your_application_to_the_ambient_mesh_3() {
-kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
+kubectl logs ds/ztunnel -n istio-system | grep -o ".*starting proxy"
 }
 
 ! IFS=$'\n' read -r -d '' snip_adding_your_application_to_the_ambient_mesh_3_out <<\ENDSNIP
-<title>Simple Bookstore App</title>
+... received netns, starting proxy
 ENDSNIP
 
 snip_adding_your_application_to_the_ambient_mesh_4() {
-kubectl exec deploy/notsleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
+kubectl exec deploy/sleep -- curl -s "http://$GATEWAY_HOST/productpage" | grep -o "<title>.*</title>"
 }
 
 ! IFS=$'\n' read -r -d '' snip_adding_your_application_to_the_ambient_mesh_4_out <<\ENDSNIP
+<title>Simple Bookstore App</title>
+ENDSNIP
+
+snip_adding_your_application_to_the_ambient_mesh_5() {
+kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
+}
+
+! IFS=$'\n' read -r -d '' snip_adding_your_application_to_the_ambient_mesh_5_out <<\ENDSNIP
+<title>Simple Bookstore App</title>
+ENDSNIP
+
+snip_adding_your_application_to_the_ambient_mesh_6() {
+kubectl exec deploy/notsleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
+}
+
+! IFS=$'\n' read -r -d '' snip_adding_your_application_to_the_ambient_mesh_6_out <<\ENDSNIP
 <title>Simple Bookstore App</title>
 ENDSNIP
 
@@ -308,20 +324,36 @@ kubectl exec deploy/sleep -- sh -c "for i in \$(seq 1 100); do curl -s http://$G
 }
 
 snip_uninstall_1() {
+kubectl label namespace default istio.io/dataplane-mode-
+}
+
+snip_uninstall_2() {
+kubectl logs ds/ztunnel -n istio-system  | grep inpod
+}
+
+! IFS=$'\n' read -r -d '' snip_uninstall_2_out <<\ENDSNIP
+Found 3 pods, using pod/ztunnel-jrxln
+inpod_enabled: true
+inpod_uds: /var/run/ztunnel/ztunnel.sock
+inpod_port_reuse: true
+inpod_mark: 1337
+2024-03-26T00:02:06.161802Z  INFO ztunnel::inpod::workloadmanager: handling new stream
+2024-03-26T00:02:06.162099Z  INFO ztunnel::inpod::statemanager: pod received snapshot sent
+2024-03-26T00:41:05.518194Z  INFO ztunnel::inpod::statemanager: pod WorkloadUid("7ef61e18-725a-4726-84fa-05fc2a440879") received netns, starting proxy
+2024-03-26T00:50:14.856284Z  INFO ztunnel::inpod::statemanager: pod delete request, draining proxy
+ENDSNIP
+
+snip_uninstall_3() {
 istioctl x waypoint delete --all
 istioctl uninstall -y --purge
 kubectl delete namespace istio-system
 }
 
-snip_uninstall_2() {
-kubectl label namespace default istio.io/dataplane-mode-
-}
-
-snip_uninstall_3() {
+snip_uninstall_4() {
 kubectl delete -f samples/sleep/sleep.yaml
 kubectl delete -f samples/sleep/notsleep.yaml
 }
 
-snip_uninstall_4() {
+snip_uninstall_5() {
 kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=f6102784e48833220d538e5a78309b71476529c4" | kubectl delete -f -
 }

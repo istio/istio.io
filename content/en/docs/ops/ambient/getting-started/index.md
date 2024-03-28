@@ -6,8 +6,6 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-{{< boilerplate ambient-alpha-warning >}}
-
 This guide lets you quickly evaluate Istio's {{< gloss "ambient" >}}ambient mode{{< /gloss >}}. These steps require you to have a {{< gloss >}}cluster{{< /gloss >}} running a
 [supported version](/docs/releases/supported-releases#support-status-of-istio-releases) of Kubernetes ({{< supported_kubernetes_versions >}}).
 You can install Istio ambient mode on [any supported Kubernetes platform](/docs/setup/platform-setup/), but this guide will assume the use of [kind](https://kind.sigs.k8s.io/) for simplicity.
@@ -112,17 +110,17 @@ four components (including {{< gloss "ztunnel" >}}ztunnel{{< /gloss >}}) have be
 {{< text bash >}}
 $ kubectl get pods -n istio-system
 NAME                                    READY   STATUS    RESTARTS   AGE
-istio-cni-node-n9tcd                    1/1     Running   0          57s
-istio-ingressgateway-5b79b5bb88-897lp   1/1     Running   0          57s
-istiod-69d4d646cd-26cth                 1/1     Running   0          67s
-ztunnel-lr7lz                           1/1     Running   0          69s
+istio-cni-node-zq94l                    1/1     Running   0          2m7s
+istio-ingressgateway-56b9cb5485-ksnvc   1/1     Running   0          2m7s
+istiod-56d848857c-mhr5w                 1/1     Running   0          2m9s
+ztunnel-srrnm                           1/1     Running   0          2m5s
 {{< /text >}}
 
 {{< text bash >}}
 $ kubectl get daemonset -n istio-system
 NAME             DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
-istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   70s
-ztunnel          1         1         1       1            1           kubernetes.io/os=linux   82s
+istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   2m16s
+ztunnel          1         1         1       1            1           kubernetes.io/os=linux   2m10s
 {{< /text >}}
 
 {{< /tab >}}
@@ -131,17 +129,17 @@ ztunnel          1         1         1       1            1           kubernetes
 
 {{< text bash >}}
 $ kubectl get pods -n istio-system
-NAME                                    READY   STATUS    RESTARTS   AGE
-istio-cni-node-n9tcd                    1/1     Running   0          57s
-istiod-69d4d646cd-26cth                 1/1     Running   0          67s
-ztunnel-lr7lz                           1/1     Running   0          69s
+NAME                      READY   STATUS    RESTARTS   AGE
+istio-cni-node-d9rdt      1/1     Running   0          2m15s
+istiod-56d848857c-pwsd6   1/1     Running   0          2m23s
+ztunnel-wp7hk             1/1     Running   0          2m9s
 {{< /text >}}
 
 {{< text bash >}}
 $ kubectl get daemonset -n istio-system
 NAME             DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
-istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   70s
-ztunnel          1         1         1       1            1           kubernetes.io/os=linux   82s
+istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   2m16s
+ztunnel          1         1         1       1            1           kubernetes.io/os=linux   2m10s
 {{< /text >}}
 
 {{< /tab >}}
@@ -245,7 +243,15 @@ $ export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/bookinfo-gateway-istio
 
 ## Adding your application to the ambient mesh {#addtoambient}
 
-You can enable all pods in a given namespace to be part of an ambient mesh
+When an application pod is part of an ambient mesh, you can check the ztunnel proxy logs to confirm the mesh is redirecting traffic.
+Before we label the namespace to be part of an ambient mesh, check the ztunnel logs related to `inpod` which indicate that in-pod redirection mode is enabled:
+
+{{< text bash >}}
+$ kubectl logs ds/ztunnel -n istio-system  | grep inpod_enabled
+inpod_enabled: true
+{{< /text >}}
+
+Now you can enable all pods in a given namespace to be part of an ambient mesh
 by simply labeling the namespace:
 
 {{< text bash >}}
@@ -254,6 +260,13 @@ $ kubectl label namespace default istio.io/dataplane-mode=ambient
 
 Congratulations! You have successfully added all pods in the default namespace
 to the mesh. Note that you did not have to restart or redeploy anything!
+
+Check once again the ztunnel logs for the proxy has received the network namespace (netns) information about an ambient application pod, and has started proxying for it:
+
+{{< text bash >}}
+$ kubectl logs ds/ztunnel -n istio-system | grep -o ".*starting proxy"
+... received netns, starting proxy
+{{< /text >}}
 
 Now, send some test traffic:
 
@@ -443,18 +456,33 @@ $ kubectl exec deploy/sleep -- sh -c "for i in \$(seq 1 100); do curl -s http://
 
 ## Uninstall {#uninstall}
 
+The label to instruct Istio to automatically include applications in the `default` namespace to an ambient mesh is not removed by default. If no longer needed, use the following command to remove it:
+
+{{< text bash >}}
+$ kubectl label namespace default istio.io/dataplane-mode-
+{{< /text >}}
+
+With the label removed, we can check the logs once again to verify the proxy removal:
+
+{{< text bash >}}
+$ kubectl logs ds/ztunnel -n istio-system  | grep inpod
+Found 3 pods, using pod/ztunnel-jrxln
+inpod_enabled: true
+inpod_uds: /var/run/ztunnel/ztunnel.sock
+inpod_port_reuse: true
+inpod_mark: 1337
+2024-03-26T00:02:06.161802Z  INFO ztunnel::inpod::workloadmanager: handling new stream
+2024-03-26T00:02:06.162099Z  INFO ztunnel::inpod::statemanager: pod received snapshot sent
+2024-03-26T00:41:05.518194Z  INFO ztunnel::inpod::statemanager: pod WorkloadUid("7ef61e18-725a-4726-84fa-05fc2a440879") received netns, starting proxy
+2024-03-26T00:50:14.856284Z  INFO ztunnel::inpod::statemanager: pod delete request, draining proxy
+{{< /text >}}
+
 To remove waypoint proxies, installed policies, and uninstall Istio:
 
 {{< text bash >}}
 $ istioctl x waypoint delete --all
 $ istioctl uninstall -y --purge
 $ kubectl delete namespace istio-system
-{{< /text >}}
-
-The label to instruct Istio to automatically include applications in the `default` namespace to an ambient mesh is not removed by default. If no longer needed, use the following command to remove it:
-
-{{< text bash >}}
-$ kubectl label namespace default istio.io/dataplane-mode-
 {{< /text >}}
 
 To delete the Bookinfo sample application and its configuration, see [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup).
