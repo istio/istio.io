@@ -75,7 +75,7 @@ $ istioctl install --set values.pilot.env.EXTERNAL_ISTIOD=true --context="${CTX_
 
 {{< text bash >}}
 $ @samples/multicluster/gen-eastwest-gateway.sh@ \
-    --mesh mesh1 --cluster cluster1 --network network1 | \
+    --network network1 | \
     istioctl --context="${CTX_CLUSTER1}" install -y -f -
 {{< /text >}}
 

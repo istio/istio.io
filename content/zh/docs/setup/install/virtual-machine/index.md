@@ -134,7 +134,7 @@ test: yes
 
     {{< text bash >}}
     $ @samples/multicluster/gen-eastwest-gateway.sh@ \
-    --mesh mesh1 --cluster "${CLUSTER}" --network "${CLUSTER_NETWORK}" | \
+    --network "${CLUSTER_NETWORK}" | \
     istioctl install -y -f -
     {{< /text >}}
 
