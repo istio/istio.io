@@ -75,7 +75,7 @@ samples/multicluster/gen-eastwest-gateway.sh --single-cluster | istioctl install
 
 snip_install_the_istio_control_plane_5() {
 samples/multicluster/gen-eastwest-gateway.sh \
-    --mesh mesh1 --cluster "${CLUSTER}" --network "${CLUSTER_NETWORK}" | \
+    --network "${CLUSTER_NETWORK}" | \
     istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true -y -f -
 }
 
