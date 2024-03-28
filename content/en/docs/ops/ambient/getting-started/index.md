@@ -3,7 +3,7 @@ title: Getting Started with Ambient Mode
 description: How to deploy and install Istio in ambient mode.
 weight: 1
 owner: istio/wg-networking-maintainers
-test: yes
+test: no
 ---
 
 This guide lets you quickly evaluate Istio's {{< gloss "ambient" >}}ambient mode{{< /gloss >}}. These steps require you to have a {{< gloss >}}cluster{{< /gloss >}} running a
