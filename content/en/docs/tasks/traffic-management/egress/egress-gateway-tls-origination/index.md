@@ -994,6 +994,5 @@ $ kubectl delete destinationrule egressgateway-for-nginx
 Delete the `sleep` service and deployment:
 
 {{< text bash >}}
-$ kubectl delete service sleep
-$ kubectl delete deployment sleep
+$ kubectl delete -f @samples/sleep/sleep.yaml@
 {{< /text >}}
