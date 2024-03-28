@@ -6,8 +6,6 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-{{< boilerplate ambient-alpha-warning >}}
-
 本指南有助于您快速评估 Istio 的 {{< gloss "ambient" >}}Ambient 模式{{< /gloss >}}。
 这些步骤要求您有一个运行[受支持版本](/zh/docs/releases/supported-releases#support-status-of-istio-releases)的
 Kubernetes ({{< supported_kubernetes_versions >}}) {{< gloss >}}Cluster{{< /gloss >}}。
@@ -116,17 +114,17 @@ $ istioctl install --set profile=ambient --skip-confirmation
 {{< text bash >}}
 $ kubectl get pods -n istio-system
 NAME                                    READY   STATUS    RESTARTS   AGE
-istio-cni-node-n9tcd                    1/1     Running   0          57s
-istio-ingressgateway-5b79b5bb88-897lp   1/1     Running   0          57s
-istiod-69d4d646cd-26cth                 1/1     Running   0          67s
-ztunnel-lr7lz                           1/1     Running   0          69s
+istio-cni-node-zq94l                    1/1     Running   0          2m7s
+istio-ingressgateway-56b9cb5485-ksnvc   1/1     Running   0          2m7s
+istiod-56d848857c-mhr5w                 1/1     Running   0          2m9s
+ztunnel-srrnm                           1/1     Running   0          2m5s
 {{< /text >}}
 
 {{< text bash >}}
 $ kubectl get daemonset -n istio-system
 NAME             DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
-istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   70s
-ztunnel          1         1         1       1            1           kubernetes.io/os=linux   82s
+istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   2m16s
+ztunnel          1         1         1       1            1           kubernetes.io/os=linux   2m10s
 {{< /text >}}
 
 {{< /tab >}}
@@ -135,17 +133,17 @@ ztunnel          1         1         1       1            1           kubernetes
 
 {{< text bash >}}
 $ kubectl get pods -n istio-system
-NAME                                    READY   STATUS    RESTARTS   AGE
-istio-cni-node-n9tcd                    1/1     Running   0          57s
-istiod-69d4d646cd-26cth                 1/1     Running   0          67s
-ztunnel-lr7lz                           1/1     Running   0          69s
+NAME                      READY   STATUS    RESTARTS   AGE
+istio-cni-node-d9rdt      1/1     Running   0          2m15s
+istiod-56d848857c-pwsd6   1/1     Running   0          2m23s
+ztunnel-wp7hk             1/1     Running   0          2m9s
 {{< /text >}}
 
 {{< text bash >}}
 $ kubectl get daemonset -n istio-system
 NAME             DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
-istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   70s
-ztunnel          1         1         1       1            1           kubernetes.io/os=linux   82s
+istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   2m16s
+ztunnel          1         1         1       1            1           kubernetes.io/os=linux   2m10s
 {{< /text >}}
 
 {{< /tab >}}
@@ -252,7 +250,18 @@ $ export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/bookinfo-gateway-istio
 
 ## 添加应用到 Ambient 网格 {#addtoambient}
 
-您只需给命名空间打标签，就可以作为 Ambient 网格的一部分，在给定的命名空间启用所有 Pod：
+当应用程序 Pod 是 Ambient 网格的一部分时，
+您可以检查 ztunnel 代理日志以确认网格正在对流量进行重定向。
+在我们将命名空间标记为 Ambient 网格的一部分之前，
+请检查与 `inpod` 相关的 ztunnel 日志，该日志指示已启用 in-Pod 重定向模式：
+
+{{< text bash >}}
+$ kubectl logs ds/ztunnel -n istio-system  | grep inpod_enabled
+inpod_enabled: true
+{{< /text >}}
+
+现在，您可以通过简单地标记命名空间来使给定命名空间中的所有
+Pod 成为 Ambient 网格的一部分：
 
 {{< text bash >}}
 $ kubectl label namespace default istio.io/dataplane-mode=ambient
@@ -260,6 +269,14 @@ $ kubectl label namespace default istio.io/dataplane-mode=ambient
 
 恭喜！您已成功将 default 命名空间中的所有 Pod 添加到网格中。
 请注意，您不必重新启动或重新部署任何内容！
+
+再次检查代理的 ztunnel 日志是否已收到有关 Ambient
+应用程序 Pod 的网络命名空间（netns）信息，并已开始为其代理：
+
+{{< text bash >}}
+$ kubectl logs ds/ztunnel -n istio-system | grep -o ".*starting proxy"
+... received netns, starting proxy
+{{< /text >}}
 
 现在，发送一些测试流量：
 
@@ -452,19 +469,35 @@ $ kubectl exec deploy/sleep -- sh -c "for i in \$(seq 1 100); do curl -s http://
 
 ## 卸载 {#uninstall}
 
+默认情况下，不会删除指示 Istio 自动将 `default`
+命名空间中的应用程序包含到 Ambient 网格中的标签。
+如果不再需要，请使用以下命令将其删除：
+
+{{< text bash >}}
+$ kubectl label namespace default istio.io/dataplane-mode-
+{{< /text >}}
+
+删除标签后，我们可以再次检查日志以验证代理删除情况：
+
+{{< text bash >}}
+$ kubectl logs ds/ztunnel -n istio-system  | grep inpod
+Found 3 pods, using pod/ztunnel-jrxln
+inpod_enabled: true
+inpod_uds: /var/run/ztunnel/ztunnel.sock
+inpod_port_reuse: true
+inpod_mark: 1337
+2024-03-26T00:02:06.161802Z  INFO ztunnel::inpod::workloadmanager: handling new stream
+2024-03-26T00:02:06.162099Z  INFO ztunnel::inpod::statemanager: pod received snapshot sent
+2024-03-26T00:41:05.518194Z  INFO ztunnel::inpod::statemanager: pod WorkloadUid("7ef61e18-725a-4726-84fa-05fc2a440879") received netns, starting proxy
+2024-03-26T00:50:14.856284Z  INFO ztunnel::inpod::statemanager: pod delete request, draining proxy
+{{< /text >}}
+
 要删除 waypoint 代理、已安装的策略并卸载 Istio：
 
 {{< text bash >}}
 $ istioctl x waypoint delete --all
 $ istioctl uninstall -y --purge
 $ kubectl delete namespace istio-system
-{{< /text >}}
-
-指示 Istio 自动在 `default` 命名空间中包括应用程序的标签在 Ambient 网格中默认不会被移除。
-如果不再需要此标签，请使用以下命令来移除：
-
-{{< text bash >}}
-$ kubectl label namespace default istio.io/dataplane-mode-
 {{< /text >}}
 
 若要删除 Bookinfo 样例应用及其配置，请参阅 [Bookinfo 清理](/zh/docs/examples/bookinfo/#cleanup)。
