@@ -254,7 +254,7 @@ inpod_enabled: true
 Now you can enable all pods in a given namespace to be part of an ambient mesh
 by simply labeling the namespace:
 
-{{< text syntax=bash snip_id=none >}}
+{{< text bash >}}
 $ kubectl label namespace default istio.io/dataplane-mode=ambient
 {{< /text >}}
 
@@ -264,7 +264,7 @@ to the mesh. Note that you did not have to restart or redeploy anything!
 Check once again the ztunnel logs for the proxy has received the network namespace (netns) information about an ambient application pod, and has started proxying for it:
 
 {{< text bash >}}
-$ kubectl logs ds/ztunnel -n istio-system
+$ kubectl logs ds/ztunnel -n istio-system | grep -o ".*starting proxy"
 ... received netns, starting proxy
 {{< /text >}}
 
