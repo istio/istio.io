@@ -7140,7 +7140,7 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <tr>
 <td><code>--for &lt;string&gt;</code></td>
 <td></td>
-<td>Specify the traffic type [all none service workload] for the waypoint  (default `service`)</td>
+<td>Specify the traffic type [workload all none service] for the waypoint  (default `service`)</td>
 </tr>
 <tr>
 <td><code>--gateway-class &lt;string&gt;</code></td>
@@ -15570,6 +15570,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_AMBIENT_CONTROLLERS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, controllers required for ambient will run. This is required to run ambient mesh.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_AMBIENT_WAYPOINTS</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, controllers required for ambient will run. This is required to run ambient mesh.</td>
