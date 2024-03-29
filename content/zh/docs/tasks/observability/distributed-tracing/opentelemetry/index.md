@@ -11,13 +11,13 @@ test: yes
 
 完成此任务后，无论您使用什么语言、框架或平台来构建应用程序，
 您都将了解如何让您的应用程序接入
-[OpenTelemetry](https://www.opentelemetry.io/) 的链路。
+[OpenTelemetry](https://www.opentelemetry.io/) 的链路追踪。
 
 此任务使用 [Bookinfo](/zh/docs/examples/bookinfo/)
 作为示例应用程序，并使用
-[OpenTelemetry Collector](https://opentelemetry.io/docs/collector/)作为链路接收器。
+[OpenTelemetry Collector](https://opentelemetry.io/docs/collector/) 作为链路接收器。
 
-要了解 Istio 如何处理链路，请访问此任务的[概述](../overview/)。
+要了解 Istio 如何处理链路追踪，请访问此任务的[概述](../overview/)。
 
 Istio 可以配置为通过 gRPC 导出
 [OpenTelemetry Protocol（OTLP）](https://opentelemetry.io/docs/specs/otel/protocol/)链路。
@@ -28,7 +28,7 @@ Istio 可以配置为通过 gRPC 导出
 
 ## 安装 {#installation}
 
-所有链路选项都可以通过 `MeshConfig` 进行全局配置。
+所有链路追踪选项都可以通过 `MeshConfig` 进行全局配置。
 为了简化配置，建议创建一个 YAML 文件，
 您可以将其传递到 `istioctl install -f` 命令。
 
@@ -58,7 +58,7 @@ $ istioctl install -f ./tracing-grpc.yaml --skip-confirmation
 $ kubectl label namespace default istio-injection=enabled
 {{< /text >}}
 
-## 通过 Telemetry API 启用网格链路 {#enable-tracing-for-mesh-via-telemetry-api}
+## 通过 Telemetry API 启用网格链路追踪 {#enable-tracing-for-mesh-via-telemetry-api}
 
 通过应用以下配置启用链路：
 
@@ -146,7 +146,7 @@ EOF
     $ kubectl delete telemetry otel-demo
     {{< /text >}}
 
-1.  使用 control-C 删除可能仍在运行的任何 `istioctl` 进程，或者执行：
+1.  使用 Ctrl+C 或以下命令来删除可能仍在运行的任何 `istioctl` 进程：
 
     {{< text syntax=bash snip_id=none >}}
     $ killall istioctl
