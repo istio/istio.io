@@ -23,8 +23,8 @@ Istio 使用 `ValidatingAdmissionWebhooks` 验证 Istio 配置，使用
 
 Webhook 设置过程需要了解 Kubernetes 动态准入 Webhook 相关的知识。
 查阅 Kubernetes API 的相关资料，请参
-[Mutating Webhook Configuration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#mutatingwebhookconfiguration-v1-admissionregistration-k8s-io)
-和 [Validating Webhook Configuration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#validatingwebhookconfiguration-v1-admissionregistration-k8s-io)。
+[Mutating Webhook Configuration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#mutatingwebhookconfiguration-v1-admissionregistration-k8s-io)
+和 [Validating Webhook Configuration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#validatingwebhookconfiguration-v1-admissionregistration-k8s-io)。
 
 ## 验证动态准入 Webhook 前置条件 {#verify-dynamic-admission-webhook-prerequisites}
 
@@ -37,8 +37,8 @@ Webhook 设置过程需要了解 Kubernetes 动态准入 Webhook 相关的知识
 
     {{< text bash >}}
     $ kubectl version --short
-    Client Version: v1.19.0
-    Server Version: v1.19.1
+    Client Version: v1.29.0
+    Server Version: v1.29.1
     {{< /text >}}
 
 1. `admissionregistration.k8s.io/v1beta1` 应是启用状态

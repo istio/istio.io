@@ -7,7 +7,7 @@ location: https://istio.io/docs/reference/config/istio.mesh.v1alpha1.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
 weight: 20
-number_of_entries: 73
+number_of_entries: 75
 ---
 <p>Configuration affecting the service mesh as a whole.</p>
 
@@ -2401,6 +2401,33 @@ read the attributes from the environment variable <code>OTEL_RESOURCE_ATTRIBUTES
 No
 </td>
 </tr>
+<tr id="MeshConfig-ExtensionProvider-OpenTelemetryTracingProvider-dynatrace_sampler" class="oneof oneof-start">
+<td><code>dynatraceSampler</code></td>
+<td><code><a href="#MeshConfig-ExtensionProvider-OpenTelemetryTracingProvider-DynatraceSampler">DynatraceSampler (oneof)</a></code></td>
+<td>
+<p>The Dynatrace adaptive traffic management (ATM) sampler.</p>
+<p>Example configuration:</p>
+<pre><code class="language-yaml">- name: otel-tracing
+  opentelemetry:
+    port: 443
+    service: &quot;{your-environment-id}.live.dynatrace.com&quot;
+    http:
+      path: &quot;/api/v2/otlp/v1/traces&quot;
+      timeout: 10s
+      headers:
+        - name: &quot;Authorization&quot;
+          value: &quot;Api-Token dt0c01.&quot;
+    resource_detectors:
+      dynatrace: {}
+    dynatrace_sampler:
+      tenant: &quot;{your-environment-id}&quot;
+      cluster_id: 1234</code></pre>
+
+</td>
+<td>
+No
+</td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -2653,6 +2680,127 @@ Alias to <code>attributes</code> filed in <a href="https://www.envoyproxy.io/doc
   status: &quot;%RESPONSE_CODE%&quot;
   message: &quot;%LOCAL_REPLY_BODY%&quot;
 </code></pre>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="MeshConfig-ExtensionProvider-OpenTelemetryTracingProvider-DynatraceSampler">MeshConfig.ExtensionProvider.OpenTelemetryTracingProvider.DynatraceSampler</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MeshConfig-ExtensionProvider-OpenTelemetryTracingProvider-DynatraceSampler-tenant">
+<td><code>tenant</code></td>
+<td><code>string</code></td>
+<td>
+<p>REQUIRED. The Dynatrace customer&rsquo;s tenant identifier.</p>
+<p>The value can be obtained from the Istio deployment page in Dynatrace.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-OpenTelemetryTracingProvider-DynatraceSampler-cluster_id">
+<td><code>clusterId</code></td>
+<td><code>int32</code></td>
+<td>
+<p>REQUIRED. The identifier of the cluster in the Dynatrace platform.
+The cluster here is Dynatrace-specific concept and not related to the cluster concept in Istio/Envoy.</p>
+<p>The value can be obtained from the Istio deployment page in Dynatrace.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-OpenTelemetryTracingProvider-DynatraceSampler-root_spans_per_minute">
+<td><code>rootSpansPerMinute</code></td>
+<td><code>uint32</code></td>
+<td>
+<p>Optional. Number of sampled spans per minute to be used
+when the adaptive value cannot be obtained from the Dynatrace API.</p>
+<p>A default value of <code>1000</code> is used when:</p>
+<ul>
+<li><code>root_spans_per_minute</code> is unset</li>
+<li><code>root_spans_per_minute</code> is set to 0</li>
+</ul>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-OpenTelemetryTracingProvider-DynatraceSampler-http_service">
+<td><code>httpService</code></td>
+<td><code><a href="#MeshConfig-ExtensionProvider-OpenTelemetryTracingProvider-DynatraceSampler-DynatraceApi">DynatraceApi</a></code></td>
+<td>
+<p>Optional. Dynatrace HTTP API to obtain sampling configuration.</p>
+<p>When not provided, the Dynatrace Sampler will re-use the configuration from the OpenTelemetryTracingProvider HTTP Exporter
+(<code>service</code>, <code>port</code> and <code>http</code>), including the access token.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="MeshConfig-ExtensionProvider-OpenTelemetryTracingProvider-DynatraceSampler-DynatraceApi">MeshConfig.ExtensionProvider.OpenTelemetryTracingProvider.DynatraceSampler.DynatraceApi</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MeshConfig-ExtensionProvider-OpenTelemetryTracingProvider-DynatraceSampler-DynatraceApi-service">
+<td><code>service</code></td>
+<td><code>string</code></td>
+<td>
+<p>REQUIRED. Specifies the Dynatrace environment to obtain the sampling configuration.
+The format is <code>&lt;Hostname&gt;</code>, where <code>&lt;Hostname&gt;</code> is the fully qualified Dynatrace environment
+host name defined in the ServiceEntry.</p>
+<p>Example: &ldquo;{your-environment-id}.live.dynatrace.com&rdquo;.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-OpenTelemetryTracingProvider-DynatraceSampler-DynatraceApi-port">
+<td><code>port</code></td>
+<td><code>uint32</code></td>
+<td>
+<p>REQUIRED. Specifies the port of the service.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-OpenTelemetryTracingProvider-DynatraceSampler-DynatraceApi-http">
+<td><code>http</code></td>
+<td><code><a href="#MeshConfig-ExtensionProvider-HttpService">HttpService</a></code></td>
+<td>
+<p>REQUIRED. Specifies sampling configuration URI.</p>
 
 </td>
 <td>
