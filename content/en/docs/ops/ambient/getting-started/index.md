@@ -247,10 +247,8 @@ Ambient mesh data plane relies on the ztunnel DaemonSet to redirect traffic. Bef
 
 {{< text bash >}}
 $ kubectl get pods -n istio-system -l app=ztunnel -o wide
-NAME            READY   STATUS    RESTARTS   AGE   IP            NODE                    NOMINATED NODE   READINESS GATES
-ztunnel-2frq7   1/1     Running   0          30s   10.244.2.6    ambient-worker2         <none>           <none>
-ztunnel-bsxqv   1/1     Running   0          30s   10.244.0.6    ambient-control-plane   <none>           <none>
-ztunnel-h55nv   1/1     Running   0          30s   10.244.1.13   ambient-worker          <none>           <none>
+NAME            READY   STATUS    RESTARTS   AGE     IP            NODE                          NOMINATED NODE   READINESS GATES
+ztunnel-29m52   1/1     Running   0          2m15s   10.244.0.18   istio-testing-control-plane   <none>           <none>
 {{< /text >}}
 
 Now you can enable all pods in a given namespace to be part of an ambient mesh
