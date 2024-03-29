@@ -259,14 +259,14 @@ $ export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/bookinfo-gateway-istio
 当应用程序 Pod 是 Ambient 网格的一部分时，
 您可以检查 ztunnel 代理日志以确认网格正在对流量进行重定向。
 在我们将命名空间标记为 Ambient 网格的一部分之前，
-请检查与 `inpod` 相关的 ztunnel 日志，该日志指示已启用 in-Pod 重定向模式：
+请检查与 `inpod` 相关的 ztunnel 日志，确认 in-Pod 重定向模式已被启用：
 
 {{< text bash >}}
 $ kubectl logs ds/ztunnel -n istio-system  | grep inpod_enabled
 inpod_enabled: true
 {{< /text >}}
 
-现在，您可以通过简单地标记命名空间来使给定命名空间中的所有
+现在，您只需标记命名空间就能使给定命名空间中的所有
 Pod 成为 Ambient 网格的一部分：
 
 {{< text bash >}}
@@ -276,8 +276,8 @@ $ kubectl label namespace default istio.io/dataplane-mode=ambient
 恭喜！您已成功将 default 命名空间中的所有 Pod 添加到网格中。
 请注意，您不必重新启动或重新部署任何内容！
 
-再次检查代理的 ztunnel 日志是否已收到有关 Ambient
-应用程序 Pod 的网络命名空间（netns）信息，并已开始为其代理：
+再次检查 ztunnel 日志，确认代理已收到有关 Ambient
+应用程序 Pod 的网络命名空间（netns）信息，并已开始为此命名空间执行代理：
 
 {{< text bash >}}
 $ kubectl logs ds/ztunnel -n istio-system | grep -o ".*starting proxy"
@@ -310,7 +310,7 @@ $ kubectl exec deploy/notsleep -- curl -s http://productpage:9080/ | grep -o "<t
 
 ## 确保应用访问安全 {#secure}
 
-将您的应用添加到 Ambient 模式网格之后，
+将您的应用添加到 Ambient 模式之后，
 可以使用 Layer 4 鉴权策略确保应用访问的安全。
 该功能允许您基于客户端负载身份来控制到服务的访问或源于服务的访问，
 但类似 `GET` 和 `POST` 的这些 HTTP 方法并不在 Layer 7 级别。
