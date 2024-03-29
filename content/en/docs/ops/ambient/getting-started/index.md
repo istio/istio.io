@@ -243,12 +243,14 @@ $ export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/bookinfo-gateway-istio
 
 ## Adding your application to the ambient mesh {#addtoambient}
 
-When an application pod is part of an ambient mesh, you can check the ztunnel proxy logs to confirm the mesh is redirecting traffic.
-Before we label the namespace to be part of an ambient mesh, check the ztunnel logs related to `inpod` which indicate that in-pod redirection mode is enabled:
+Ambient mesh data plane relies on the ztunnel DaemonSet to redirect traffic. Before we label the namespace to be part of an ambient mesh, check the ztunnel pods to make sure they are on a healthy state:
 
 {{< text bash >}}
-$ kubectl logs ds/ztunnel -n istio-system  | grep inpod_enabled
-inpod_enabled: true
+$ kubectl get pods -n istio-system -l app=ztunnel -o wide
+NAME            READY   STATUS    RESTARTS   AGE   IP            NODE                    NOMINATED NODE   READINESS GATES
+ztunnel-2frq7   1/1     Running   0          30s   10.244.2.6    ambient-worker2         <none>           <none>
+ztunnel-bsxqv   1/1     Running   0          30s   10.244.0.6    ambient-control-plane   <none>           <none>
+ztunnel-h55nv   1/1     Running   0          30s   10.244.1.13   ambient-worker          <none>           <none>
 {{< /text >}}
 
 Now you can enable all pods in a given namespace to be part of an ambient mesh
@@ -261,7 +263,7 @@ $ kubectl label namespace default istio.io/dataplane-mode=ambient
 Congratulations! You have successfully added all pods in the default namespace
 to the mesh. Note that you did not have to restart or redeploy anything!
 
-Check once again the ztunnel logs for the proxy has received the network namespace (netns) information about an ambient application pod, and has started proxying for it:
+Check the ztunnel logs for the proxy has received the network namespace (netns) information about an ambient application pod, and has started proxying for it:
 
 {{< text bash >}}
 $ kubectl logs ds/ztunnel -n istio-system | grep -o ".*starting proxy"

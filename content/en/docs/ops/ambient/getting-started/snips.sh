@@ -134,11 +134,14 @@ kubectl exec deploy/notsleep -- curl -s http://productpage:9080/ | grep -o "<tit
 ENDSNIP
 
 snip_adding_your_application_to_the_ambient_mesh_1() {
-kubectl logs ds/ztunnel -n istio-system  | grep inpod_enabled
+kubectl get pods -n istio-system -l app=ztunnel -o wide
 }
 
 ! IFS=$'\n' read -r -d '' snip_adding_your_application_to_the_ambient_mesh_1_out <<\ENDSNIP
-inpod_enabled: true
+NAME            READY   STATUS    RESTARTS   AGE   IP            NODE                    NOMINATED NODE   READINESS GATES
+ztunnel-2frq7   1/1     Running   0          30s   10.244.2.6    ambient-worker2         <none>           <none>
+ztunnel-bsxqv   1/1     Running   0          30s   10.244.0.6    ambient-control-plane   <none>           <none>
+ztunnel-h55nv   1/1     Running   0          30s   10.244.1.13   ambient-worker          <none>           <none>
 ENDSNIP
 
 snip_adding_your_application_to_the_ambient_mesh_2() {
