@@ -3,7 +3,7 @@ title: Ambient 模式入门
 description: 如何在 Ambient 模式下部署和安装 Istio。
 weight: 1
 owner: istio/wg-networking-maintainers
-test: yes
+test: no
 ---
 
 本指南有助于您快速评估 Istio 的
