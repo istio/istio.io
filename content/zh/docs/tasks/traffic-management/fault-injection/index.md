@@ -11,12 +11,12 @@ test: yes
 
 此任务说明如何注入故障并测试应用程序的弹性。
 
-## 开始之前{#before-you-begin}
+## 开始之前  {#before-you-begin}
 
-* 按照[安装指南](/zh/docs/setup/)中的说明设置 Istio 。
+* 按照[安装指南](/zh/docs/setup/)中的说明配置 Istio。
 
-* 部署示例应用程序 [Bookinfo](/zh/docs/examples/bookinfo/)，并应用
-  [默认目标规则](/zh/docs/examples/bookinfo/#apply-default-destination-rules)。
+* 部署示例应用程序 [Bookinfo](/zh/docs/examples/bookinfo/)，
+  并应用[默认目标规则](/zh/docs/examples/bookinfo/#apply-default-destination-rules)。
 
 * 在[流量管理](/zh/docs/concepts/traffic-management)概念文档中查看有关故障注入的讨论。
 
@@ -28,13 +28,13 @@ test: yes
     {{< /text >}}
 
 * 经过上面的配置，下面是请求的流程：
-    * `productpage` → `reviews:v2` → `ratings` (针对 `jason` 用户)
-    * `productpage` → `reviews:v1` (其他用户)
+    * `productpage` → `reviews:v2` → `ratings`（针对 `jason` 用户）
+    * `productpage` → `reviews:v1`（其他用户）
 
-## 注入 HTTP 延迟故障{#injecting-an-http-delay-fault}
+## 注入 HTTP 延迟故障  {#injecting-an-http-delay-fault}
 
 为了测试微服务应用程序 Bookinfo 的弹性，我们将为用户 `jason` 在 `reviews:v2` 和 `ratings` 服务之间注入一个 7 秒的延迟。
-这个测试将会发现一个故意引入 Bookinfo 应用程序中的 bug。
+这个测试将会发现一个故意引入 Bookinfo 应用程序中的 BUG。
 
 注意 `reviews:v2` 服务对 `ratings` 服务的调用具有 10 秒的硬编码连接超时。
 因此，尽管引入了 7 秒的延迟，我们仍然期望端到端的流程是没有任何错误的。
@@ -74,9 +74,9 @@ test: yes
             subset: v1
     {{< /text >}}
 
-    新的规则可能需要几秒钟才能传播到所有的 pod 。
+    新的规则可能需要几秒钟才能传播到所有的 Pod。
 
-## 测试延迟配置{#testing-the-delay-configuration}
+## 测试延迟配置  {#testing-the-delay-configuration}
 
 1. 通过浏览器打开 [Bookinfo](/zh/docs/examples/bookinfo) 应用。
 
@@ -91,13 +91,13 @@ test: yes
 
 1. 查看页面的响应时间：
 
-    1. 打开浏览器的 *开发工具* 菜单
-    1. 打开 *网络* 标签
-    1. 重新加载 `/productpage` 页面。您会看到页面加载实际上用了大约 6 秒。
+    1. 打开浏览器的**开发工具**菜单
+    1. 打开**网络**标签
+    1. 重新加载 `/productpage` 页面，您会看到页面加载实际上用了大约 6 秒。
 
-## 理解原理{#understanding-what-happened}
+## 理解原理  {#understanding-what-happened}
 
-您发现了一个 bug。微服务中有硬编码超时，导致 `reviews` 服务失败。
+您发现了一个 BUG，微服务中有硬编码超时，导致 `reviews` 服务失败。
 
 按照预期，我们引入的 7 秒延迟不会影响到 `reviews` 服务，因为 `reviews` 和 `ratings` 服务间的超时被硬编码为 10 秒。
 但是，在 `productpage` 和 `reviews` 服务之间也有一个 3 秒的硬编码的超时，再加 1 次重试，一共 6 秒。
@@ -119,15 +119,16 @@ Istio 的故障注入规则可以帮助您识别此类异常，而不会影响�
 1. 确认 `/productpage` 页面正常响应且没有任何错误
 
 但是，`reviews` 服务的 v3 版本已经修复了这个问题。
-`reviews:v3` 服务已将 `reviews` 与 `ratings` 的超时时间从 10 秒降低为 2.5 秒，因此它可以兼容（小于）下游 `productpage` 请求的超时时间。
+`reviews:v3` 服务已将 `reviews` 与 `ratings` 的超时时间从 10 秒降低为 2.5
+秒，因此它可以兼容（小于）下游 `productpage` 请求的超时时间。
 
 如果您按照[流量转移](/zh/docs/tasks/traffic-management/traffic-shifting/)任务所述将所有流量转移到 `reviews:v3`，
 您可以尝试修改延迟规则为任何低于 2.5 秒的数值，例如 2 秒，然后确认端到端的流程没有任何错误。
 
-## 注入 HTTP abort 故障{#injecting-an-http-abort-fault}
+## 注入 HTTP abort 故障  {#injecting-an-http-abort-fault}
 
 测试微服务弹性的另一种方法是引入 HTTP abort 故障。
-在这个任务中，针对测试用户 `jason` ，将给 `ratings` 微服务引入一个 HTTP abort。
+在这个任务中，针对测试用户 `jason`，将给 `ratings` 微服务引入一个 HTTP abort。
 
 在这种情况下，我们希望页面能够立即加载，同时显示 `Ratings service is currently unavailable` 这样的消息。
 
@@ -166,19 +167,19 @@ Istio 的故障注入规则可以帮助您识别此类异常，而不会影响�
             subset: v1
     {{< /text >}}
 
-## 测试中止配置{#testing-the-abort-configuration}
+## 测试中止配置  {#testing-the-abort-configuration}
 
 1. 用浏览器打开 [Bookinfo](/zh/docs/examples/bookinfo) 应用。
 
 1. 以用户 `jason` 登录到 `/productpage` 页面。
 
-    如果规则成功传播到所有的 pod，您应该能立即看到页面加载并看到 `Ratings service is currently unavailable` 消息。
+    如果规则成功传播到所有的 Pod，您应该能立即看到页面加载并看到 `Ratings service is currently unavailable` 消息。
 
 1. 如果您注销用户 `jason` 或在匿名窗口（或其他浏览器）中打开 Bookinfo 应用程序，
    您将看到 `/productpage` 为除 `jason` 以外的其他用户调用了 `reviews:v1`（完全不调用 `ratings`）。
    因此，您不会看到任何错误消息。
 
-## 清理{#cleanup}
+## 清理  {#cleanup}
 
 1. 删除应用程序路由规则：
 
