@@ -781,7 +781,7 @@ $ export SECOND_CLUSTER_NAME=<您的第二个从集群名称>
 
     {{< text bash >}}
     $ @samples/multicluster/gen-eastwest-gateway.sh@ \
-        --mesh mesh1 --cluster "${REMOTE_CLUSTER_NAME}" --network network1 > eastwest-gateway-1.yaml
+        --network network1 > eastwest-gateway-1.yaml
     $ istioctl manifest generate -f eastwest-gateway-1.yaml \
         --set values.global.istioNamespace=external-istiod | \
         kubectl apply --context="${CTX_REMOTE_CLUSTER}" -f -
@@ -789,7 +789,7 @@ $ export SECOND_CLUSTER_NAME=<您的第二个从集群名称>
 
     {{< text bash >}}
     $ @samples/multicluster/gen-eastwest-gateway.sh@ \
-        --mesh mesh1 --cluster "${SECOND_CLUSTER_NAME}" --network network2 > eastwest-gateway-2.yaml
+        --network network2 > eastwest-gateway-2.yaml
     $ istioctl manifest generate -f eastwest-gateway-2.yaml \
         --set values.global.istioNamespace=external-istiod | \
         kubectl apply --context="${CTX_SECOND_CLUSTER}" -f -

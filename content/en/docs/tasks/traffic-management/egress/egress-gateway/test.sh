@@ -173,4 +173,5 @@ if [ "$GATEWAY_API" != "true" ]; then
     snip_cleanup_https_gateway_1
     snip_cleanup_network_policies_1
     snip_cleanup_1
+    kubectl label namespace default istio-injection-
 fi

@@ -17,13 +17,34 @@
 
 ####################################################################################################
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
-#          boilerplates/start-otel-collector-service.md
+#          docs/tasks/observability/distributed-tracing/opentelemetry/index.md
 ####################################################################################################
+source "content/en/boilerplates/snips/start-otel-collector-service.sh"
+source "content/en/boilerplates/snips/trace-generation.sh"
 
-bpsnip_start_otel_collector_service__1() {
-kubectl create namespace observability
+snip_enable_telemetry() {
+kubectl apply -f - <<EOF
+apiVersion: telemetry.istio.io/v1alpha1
+kind: Telemetry
+metadata:
+  name: otel-demo
+spec:
+  tracing:
+  - providers:
+    - name: otel-tracing
+    randomSamplingPercentage: 100
+    customTags:
+      "my-attribute":
+        literal:
+          value: "default-value"
+EOF
 }
 
-bpsnip_start_otel_collector_service__2() {
-kubectl apply -f samples/open-telemetry/otel.yaml -n observability
+snip_cleanup_telemetry() {
+kubectl delete telemetry otel-demo
+}
+
+snip_cleanup_collector() {
+kubectl delete -f samples/open-telemetry/otel.yaml -n observability
+kubectl delete namespace observability
 }

@@ -88,8 +88,8 @@ No
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#int32value">Int32Value</a></code></td>
 <td>
 <p>The number of worker threads to run.
-If unset, defaults to 2. If set to 0, this will be configured to use all cores on the machine using
-CPU requests and limits to choose a value, with limits taking precedence over requests.</p>
+If unset, this will be automatically determined based on CPU requests/limits.
+If set to 0, all cores on the machine will be used.</p>
 
 </td>
 <td>

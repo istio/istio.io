@@ -78,3 +78,4 @@ kubectl delete -f samples/bookinfo/platform/kube/bookinfo-db.yaml
 kubectl delete -f samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml
 kubectl delete -f samples/addons/prometheus.yaml -n istio-system
 cleanup_bookinfo_sample
+kubectl label namespace default istio-injection-

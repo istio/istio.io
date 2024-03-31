@@ -78,4 +78,5 @@ fi
 # @cleanup
 if [ "$GATEWAY_API" != "true" ]; then
     snip_cleanup_1
+    kubectl label namespace default istio-injection-
 fi

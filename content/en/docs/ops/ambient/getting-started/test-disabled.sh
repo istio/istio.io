@@ -62,12 +62,14 @@ _verify_contains snip_verify_traffic_sleep_to_ingress "$snip_verify_traffic_slee
 _verify_contains snip_verify_traffic_sleep_to_productpage "$snip_verify_traffic_sleep_to_productpage_out"
 _verify_contains snip_verify_traffic_notsleep_to_productpage "$snip_verify_traffic_notsleep_to_productpage_out"
 
-snip_adding_your_application_to_the_ambient_mesh_1
+_verify_same snip_adding_your_application_to_the_ambient_mesh_1 "$snip_adding_your_application_to_the_ambient_mesh_1_out"
 
 # test traffic after ambient mode is enabled
-_verify_contains snip_adding_your_application_to_the_ambient_mesh_2 "$snip_adding_your_application_to_the_ambient_mesh_2_out"
-_verify_contains snip_adding_your_application_to_the_ambient_mesh_3 "$snip_adding_your_application_to_the_ambient_mesh_3_out"
-_verify_contains snip_adding_your_application_to_the_ambient_mesh_4 "$snip_adding_your_application_to_the_ambient_mesh_4_out"
+snip_adding_your_application_to_the_ambient_mesh_2
+_verify_contains snip_adding_your_application_to_the_ambient_mesh_3 "received netns, starting proxy"
+_verify_same snip_adding_your_application_to_the_ambient_mesh_4 "$snip_adding_your_application_to_the_ambient_mesh_4_out"
+_verify_same snip_adding_your_application_to_the_ambient_mesh_5 "$snip_adding_your_application_to_the_ambient_mesh_5_out"
+_verify_same snip_adding_your_application_to_the_ambient_mesh_6 "$snip_adding_your_application_to_the_ambient_mesh_6_out"
 
 snip_layer_4_authorization_policy_1
 _verify_contains snip_layer_4_authorization_policy_2 "$snip_layer_4_authorization_policy_2_out"
@@ -102,4 +104,5 @@ if [ "$GATEWAY_API" != "true" ]; then
     snip_uninstall_3
     samples/bookinfo/platform/kube/cleanup.sh
     snip_uninstall_4
+    snip_uninstall_5
 fi

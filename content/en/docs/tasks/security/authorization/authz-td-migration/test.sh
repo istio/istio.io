@@ -67,3 +67,4 @@ _verify_same snip_migrate_trust_domain_with_trust_domain_aliases_3 "$snip_migrat
 
 # @cleanup
 echo y | snip_clean_up_1
+kubectl label namespace default istio-injection-

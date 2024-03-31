@@ -107,3 +107,4 @@ cleanup_telemetry_api
 
 # @cleanup
 cleanup_bookinfo_sample
+kubectl label namespace default istio-injection-

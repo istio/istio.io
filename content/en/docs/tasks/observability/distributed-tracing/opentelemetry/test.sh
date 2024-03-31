@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# shellcheck disable=SC2154
+# shellcheck disable=SC1090,SC2154,SC2155,SC2034,SC2016
+
 # Copyright Istio Authors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,28 +17,29 @@
 
 set -e
 set -u
-
 set -o pipefail
 
-# @setup dualstack
+source "tests/util/samples.sh"
+source "tests/util/addons.sh"
 
-# create test namespaces and deployments
-snip_verification_1
-snip_verification_2
-snip_verification_3
-snip_verification_4
+# @setup profile=demo
 
-# wait for deployments to be up and running
-_wait_for_deployment default sleep
-_wait_for_deployment dual-stack tcp-echo
-_wait_for_deployment ipv4 tcp-echo
-_wait_for_deployment ipv6 tcp-echo
+# Deploy the OTel collector
+bpsnip_start_otel_collector_service__1
+bpsnip_start_otel_collector_service__2
+_wait_for_deployment observability opentelemetry-collector
 
-# verify traffic
-_verify_like snip_verification_5 "$snip_verification_5_out"
-_verify_like snip_verification_6 "$snip_verification_6_out"
-_verify_like snip_verification_7 "$snip_verification_7_out"
+# Enable OTel Tracing extension via Telememetry API
+snip_enable_telemetry
+
+# Install Bookinfo application
+startup_bookinfo_sample
+
+_set_ingress_environment_variables
+GATEWAY_URL="$INGRESS_HOST:$INGRESS_PORT"
+bpsnip_trace_generation__1
 
 # @cleanup
-snip_cleanup_1
-kubectl label namespace default istio-injection-
+cleanup_bookinfo_sample
+snip_cleanup_telemetry
+snip_cleanup_collector

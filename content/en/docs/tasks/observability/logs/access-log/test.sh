@@ -50,5 +50,6 @@ _verify_contains snip_test_the_access_log_3 "outbound_.8000_._.httpbin.default.s
 
 # @cleanup
 snip_cleanup_1
+kubectl label namespace default istio-injection-
 #snip_disable_envoys_access_logging_1
 #_wait_for_deployment istio-system istiod
