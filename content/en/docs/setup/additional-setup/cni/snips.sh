@@ -37,7 +37,7 @@ helm install istio-cni istio/cni -n kube-system --wait
 }
 
 snip_installing_with_helm_1() {
- helm install istiod istio/istiod -n istio-system --set values.istio_cni.enabled=true --wait
+helm install istiod istio/istiod -n istio-system --set istio_cni.enabled=true --wait
 }
 
 ! IFS=$'\n' read -r -d '' snip_hosted_kubernetes_settings_1 <<\ENDSNIP
