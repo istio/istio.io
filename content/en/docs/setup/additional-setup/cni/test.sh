@@ -28,6 +28,18 @@ get_productpage() {
 }
 
 # @setup profile=none
+
+# Test helm install snip
+kubectl create namespace istio-system
+helm install istio-base istio/base -n istio-system --set defaultRevision=default
+snip_installing_with_helm_1
+_wait_for_deployment istio-system istiod
+_wait_for_daemonset istio-system istio-cni-node
+helm delete istiod -n istio-system
+helm delete istio-base -n istio-system
+kubectl delete ns istio-system
+
+# Test istioctl install snip
 snip_install_istio_with_cni_plugin_1
 _wait_for_deployment istio-system istiod
 _wait_for_daemonset istio-system istio-cni-node
