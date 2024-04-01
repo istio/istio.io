@@ -37,23 +37,26 @@ kubectl get pods -n istio-system -o name -l istio=ingressgateway | sed 's|pod/||
 
 snip_before_you_begin_4() {
 kubectl apply -f samples/httpbin/gateway-api/httpbin-gateway.yaml -n foo
-kubectl wait --for=condition=programmed gtw -n foo httpbin-gateway
 }
 
 snip_before_you_begin_5() {
-kubectl get pods -n foo -o name -l gateway.networking.k8s.io/gateway-name=httpbin-gateway | sed 's|pod/||' | while read -r pod; do istioctl proxy-config log "$pod" -n foo --level rbac:debug; done
+kubectl wait --for=condition=programmed gtw -n foo httpbin-gateway
 }
 
 snip_before_you_begin_6() {
+kubectl get pods -n foo -o name -l gateway.networking.k8s.io/gateway-name=httpbin-gateway | sed 's|pod/||' | while read -r pod; do istioctl proxy-config log "$pod" -n foo --level rbac:debug; done
+}
+
+snip_before_you_begin_7() {
 export INGRESS_HOST=$(kubectl get gtw httpbin-gateway -n foo -o jsonpath='{.status.addresses[0].value}')
 export INGRESS_PORT=$(kubectl get gtw httpbin-gateway -n foo -o jsonpath='{.spec.listeners[?(@.name=="http")].port}')
 }
 
-snip_before_you_begin_7() {
+snip_before_you_begin_8() {
 curl "$INGRESS_HOST:$INGRESS_PORT"/headers -s -o /dev/null -w "%{http_code}\n"
 }
 
-! IFS=$'\n' read -r -d '' snip_before_you_begin_7_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_before_you_begin_8_out <<\ENDSNIP
 200
 ENDSNIP
 
