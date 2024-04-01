@@ -57,6 +57,11 @@ Create the gateway:
 
 {{< text bash >}}
 $ kubectl apply -f @samples/httpbin/gateway-api/httpbin-gateway.yaml@ -n foo
+{{< /text >}}
+
+Wait for the gateway to be ready:
+
+{{< text bash >}}
 $ kubectl wait --for=condition=programmed gtw -n foo httpbin-gateway
 {{< /text >}}
 
