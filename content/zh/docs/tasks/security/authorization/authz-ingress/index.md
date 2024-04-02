@@ -31,7 +31,7 @@ test: yes
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio API" category-value="istio-apis" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 配置网关:
 
@@ -138,7 +138,7 @@ Kubernetes 的 `Ingress` 资源也必须由 Ingress 控制器支持，该控制�
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio API" category-value="istio-apis" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha1
@@ -190,7 +190,7 @@ spec:
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio API" category-value="istio-apis" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha1
@@ -268,7 +268,7 @@ kube-proxy 并阻止其将流量发送到其他节点，使用 `externalTrafficP
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio API" category-value="istio-apis" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text bash >}}
 $ kubectl patch svc istio-ingressgateway -n istio-system -p '{"spec":{"externalTrafficPolicy":"Local"}}'
@@ -324,7 +324,7 @@ spec:
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio API" category-value="istio-apis" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 ***ipBlocks:***
 
@@ -431,7 +431,7 @@ EOF
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio API" category-value="istio-apis" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 ***ipBlocks:***
 
@@ -473,7 +473,7 @@ $ CLIENT_IP=$(kubectl get pods -n foo -o name -l gateway.networking.k8s.io/gatew
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio API" category-value="istio-apis" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 ***ipBlocks:***
 
@@ -581,7 +581,7 @@ EOF
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio API" category-value="istio-apis" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 ***ipBlocks:***
 
@@ -690,7 +690,7 @@ EOF
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio API" category-value="istio-apis" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text bash >}}
 $ kubectl get pods -n istio-system -o name -l istio=ingressgateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n istio-system; done
@@ -714,7 +714,7 @@ $ kubectl get pods -n foo -o name -l gateway.networking.k8s.io/gateway-name=http
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio API" category-value="istio-apis" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text bash >}}
 $ kubectl delete authorizationpolicy ingress-policy -n istio-system
