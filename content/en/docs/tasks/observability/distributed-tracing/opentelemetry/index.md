@@ -26,7 +26,7 @@ All tracing options can be configured globally via `MeshConfig`.
 To simplify configuration, it is recommended to create a single YAML file
 which you can pass to the `istioctl install -f` command.
 
-## Chosing the exporter
+## Choosing the exporter
 
 Istio can be configured to export [OpenTelemetry Protocol (OTLP)](https://opentelemetry.io/docs/specs/otel/protocol/)
 traces via gRPC or HTTP. Only one exporter can be configured at a time (either gRPC or HTTP).
