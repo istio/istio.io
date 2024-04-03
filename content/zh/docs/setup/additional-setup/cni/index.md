@@ -103,8 +103,17 @@ CNI DaemonSet 使用 [`system-node-critical`](https://kubernetes.io/zh-cn/docs/t
 
 ### 通过 Helm 安装 {#installing-with-helm}
 
+按照[使用 Helm 安装](/zh/docs/setup/install/helm/#installation-steps)所述的安装步骤，
+您需要设置一些额外的 Helm 值。您可以在安装 `istiod` Chart 时覆盖 Values
+文件或通过命令行来设置这些值：
+
+* `values.istio_cni.enabled` 应设置为与 `values.cni.enabled` 相同的值。
+* `values.istio_cni.chained` 应设置为与 `values.cni.chained` 相同的值。
+
+例如：
+
 {{< text bash >}}
-$  helm install istiod istio/istiod -n istio-system --set values.istio_cni.enabled=true --wait
+$ helm install istiod istio/istiod -n istio-system --set istio_cni.enabled=true --wait
 {{< /text >}}
 
 Istio CNI 和 Istio Discovery Chart 使用不同的值，需要您在安装 `istiod` Chart 时，
