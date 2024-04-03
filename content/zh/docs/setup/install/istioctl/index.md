@@ -98,28 +98,6 @@ $ istioctl install --manifests=manifests/
 $ istioctl install --set profile=demo
 {{< /text >}}
 
-## 检查安装了什么 {#check-whats-installed}
-
-`istioctl` 命令把安装 Istio 的 `IstioOperator` CR 保存到一个叫 `installed-state` 的 CR 副本中。
-故无须检查 Istio 安装的 Deployment、Pod、Service 等其他资源，例如：
-
-{{< text bash >}}
-$ kubectl -n istio-system get deploy
-NAME                   READY   UP-TO-DATE   AVAILABLE   AGE
-istio-egressgateway    1/1     1            1           25s
-istio-ingressgateway   1/1     1            1           24s
-istiod                 1/1     1            1           20s
-{{< /text >}}
-
-可以查看 `installed-state` CR，来了解集群中都安装了什么，也可以看到所有的定制设置。
-例如：用下面命令将它的内容导出到一个 YAML 文件：
-
-{{< text bash >}}
-$ kubectl -n istio-system get IstioOperator installed-state -o yaml > installed-state.yaml
-{{< /text >}}
-
-在一些  `istioctl` 命令中，`installed-state` CR 被用于执行检查任务，因此不能删除。
-
 ## 展示可用配置档的列表 {#display-the-list-of-available-profiles}
 
 您可以用下面命令展示 `istioctl` 可以访问到的 Istio 配置档的名称：
