@@ -20,6 +20,10 @@ and capture pods on the node.
 
 1. If you are using [MicroK8s](https://microk8s.io/), you must append `--set values.cni.cniConfDir=/var/snap/microk8s/current/args/cni-network --set values.cni.cniBinDir=/var/snap/microk8s/current/opt/cni/bin` to the `helm install` command, as MicroK8s [uses nonstandard locations for CNI configuration and binaries](https://microk8s.io/docs/change-cidr).
 
+### K3S
+
+1. If you are using [K3S](https://k3s.io/), you must append `--set values.cni.cniConfDir=/var/lib/rancher/k3s/agent/etc/cni/net.d --set values.cni.cniBinDir=/var/lib/rancher/k3s/data/current/bin/` to the `helm install` command, as K3S uses nonstandard locations for CNI configuration and binaries. These nonstandard locations may be overridden as well [according to K3S documentation](https://docs.k3s.io/cli/server#k3s-server-cli-help).
+
 ## CNI
 
 ### Cilium
