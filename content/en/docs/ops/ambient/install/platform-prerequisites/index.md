@@ -22,7 +22,7 @@ and capture pods on the node.
 
 ### K3S
 
-1. If you are using [K3S](https://k3s.io/) with flannel CNI (default), you must append `--set values.cni.cniConfDir=/var/lib/rancher/k3s/agent/etc/cni/net.d --set values.cni.cniBinDir=/var/lib/rancher/k3s/data/current/bin/` to the `helm install` command, as K3S uses nonstandard locations for CNI configuration and binaries. These nonstandard locations may be overriden as well [according to K3S documentation](https://docs.k3s.io/cli/server#k3s-server-cli-help).
+1. If you are using [K3S](https://k3s.io/), you must append `--set values.cni.cniConfDir=/var/lib/rancher/k3s/agent/etc/cni/net.d --set values.cni.cniBinDir=/var/lib/rancher/k3s/data/current/bin/` to the `helm install` command, as K3S uses nonstandard locations for CNI configuration and binaries. These nonstandard locations may be overriden as well [according to K3S documentation](https://docs.k3s.io/cli/server#k3s-server-cli-help).
 
 ## CNI
 
