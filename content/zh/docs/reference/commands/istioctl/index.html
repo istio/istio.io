@@ -7005,6 +7005,11 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <td>The operating mode of the implementation.  (default `default`)</td>
 </tr>
 <tr>
+<td><code>--name &lt;string&gt;</code></td>
+<td></td>
+<td>name of the waypoint  (default `default`)</td>
+</tr>
+<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Kubernetes namespace  (default ``)</td>
@@ -7040,11 +7045,6 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <td>Name of a single test to run, instead of the whole suite  (default ``)</td>
 </tr>
 <tr>
-<td><code>--service-account &lt;string&gt;</code></td>
-<td><code>-s</code></td>
-<td>service account to create a waypoint for  (default ``)</td>
-</tr>
-<tr>
 <td><code>--skip-tests &lt;string&gt;</code></td>
 <td></td>
 <td>Comma-separated list of tests to skip  (default ``)</td>
@@ -7076,10 +7076,7 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
   istioctl x waypoint apply
 
   # Generate a waypoint as yaml
-  istioctl x waypoint generate --service-account something --namespace default
-
-  # Delete a waypoint from a specific namespace for a specific service account
-  istioctl x waypoint delete --service-account something --namespace default
+  istioctl x waypoint generate --namespace default
 
   # List all waypoints in a specific namespace
   istioctl x waypoint list --namespace default
@@ -7163,6 +7160,11 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <td>The operating mode of the implementation.  (default `default`)</td>
 </tr>
 <tr>
+<td><code>--name &lt;string&gt;</code></td>
+<td></td>
+<td>name of the waypoint  (default `default`)</td>
+</tr>
+<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Kubernetes namespace  (default ``)</td>
@@ -7203,11 +7205,6 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <td>Name of a single test to run, instead of the whole suite  (default ``)</td>
 </tr>
 <tr>
-<td><code>--service-account &lt;string&gt;</code></td>
-<td><code>-s</code></td>
-<td>service account to create a waypoint for  (default ``)</td>
-</tr>
-<tr>
 <td><code>--skip-tests &lt;string&gt;</code></td>
 <td></td>
 <td>Comma-separated list of tests to skip  (default ``)</td>
@@ -7243,8 +7240,8 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <pre class="language-bash"><code>  # Apply a waypoint to the current namespace
   istioctl x waypoint apply
 
-  # Apply a waypoint to a specific namespace for a specific service account and wait for it to be ready
-  istioctl x waypoint apply --service-account something --namespace default --wait
+  # Apply a waypoint to a specific namespace and wait for it to be ready
+  istioctl x waypoint apply --namespace default --wait
 </code></pre>
 <h2 id="istioctl-experimental-waypoint-delete">istioctl experimental waypoint delete</h2>
 <p>Delete a waypoint configuration from the cluster</p>
@@ -7325,6 +7322,11 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <td>The operating mode of the implementation.  (default `default`)</td>
 </tr>
 <tr>
+<td><code>--name &lt;string&gt;</code></td>
+<td></td>
+<td>name of the waypoint  (default `default`)</td>
+</tr>
+<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Kubernetes namespace  (default ``)</td>
@@ -7360,11 +7362,6 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <td>Name of a single test to run, instead of the whole suite  (default ``)</td>
 </tr>
 <tr>
-<td><code>--service-account &lt;string&gt;</code></td>
-<td><code>-s</code></td>
-<td>service account to create a waypoint for  (default ``)</td>
-</tr>
-<tr>
 <td><code>--skip-tests &lt;string&gt;</code></td>
 <td></td>
 <td>Comma-separated list of tests to skip  (default ``)</td>
@@ -7394,9 +7391,6 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <h3 id="istioctl-experimental-waypoint-delete Examples">Examples</h3>
 <pre class="language-bash"><code>  # Delete a waypoint from the default namespace
   istioctl x waypoint delete
-
-  # Delete a waypoint from a specific namespace for a specific service account
-  istioctl x waypoint delete --service-account something --namespace default
 
   # Delete a waypoint by name, which can obtain from istioctl x waypoint list
   istioctl x waypoint delete waypoint-name --namespace default
@@ -7481,6 +7475,11 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <td>The operating mode of the implementation.  (default `default`)</td>
 </tr>
 <tr>
+<td><code>--name &lt;string&gt;</code></td>
+<td></td>
+<td>name of the waypoint  (default `default`)</td>
+</tr>
+<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Kubernetes namespace  (default ``)</td>
@@ -7521,11 +7520,6 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <td>Name of a single test to run, instead of the whole suite  (default ``)</td>
 </tr>
 <tr>
-<td><code>--service-account &lt;string&gt;</code></td>
-<td><code>-s</code></td>
-<td>service account to create a waypoint for  (default ``)</td>
-</tr>
-<tr>
 <td><code>--skip-tests &lt;string&gt;</code></td>
 <td></td>
 <td>Comma-separated list of tests to skip  (default ``)</td>
@@ -7554,7 +7548,7 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 </table>
 <h3 id="istioctl-experimental-waypoint-generate Examples">Examples</h3>
 <pre class="language-bash"><code>  # Generate a waypoint as yaml
-  istioctl x waypoint generate --service-account something --namespace default
+  istioctl x waypoint generate --namespace default
 </code></pre>
 <h2 id="istioctl-experimental-waypoint-list">istioctl experimental waypoint list</h2>
 <p>List managed waypoint configurations in the cluster</p>
@@ -7635,6 +7629,11 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <td>The operating mode of the implementation.  (default `default`)</td>
 </tr>
 <tr>
+<td><code>--name &lt;string&gt;</code></td>
+<td></td>
+<td>name of the waypoint  (default `default`)</td>
+</tr>
+<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Kubernetes namespace  (default ``)</td>
@@ -7668,11 +7667,6 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <td><code>--run-test &lt;string&gt;</code></td>
 <td></td>
 <td>Name of a single test to run, instead of the whole suite  (default ``)</td>
-</tr>
-<tr>
-<td><code>--service-account &lt;string&gt;</code></td>
-<td><code>-s</code></td>
-<td>service account to create a waypoint for  (default ``)</td>
 </tr>
 <tr>
 <td><code>--skip-tests &lt;string&gt;</code></td>
