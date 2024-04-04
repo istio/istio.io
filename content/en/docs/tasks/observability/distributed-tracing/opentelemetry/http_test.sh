@@ -44,3 +44,8 @@ bpsnip_trace_generation__1
 cleanup_bookinfo_sample
 snip_cleanup_telemetry
 snip_cleanup_collector
+
+# clean up istio to restore state of profile=none
+istioctl uninstall --purge -y
+kubectl delete ns istio-system external-1 external-2
+kubectl label namespace default istio-injection-
