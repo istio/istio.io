@@ -491,6 +491,24 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td>Defines the cluster and service registry that this Istiod instance belongs to</td>
 </tr>
 <tr>
+<td><code>COMPLIANCE_POLICY</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>If set, applies policy-specific restrictions over all existing TLS
+settings, including in-mesh mTLS and external TLS. Valid values are:
+
+* &#39;&#39; or unset places no additional restrictions.
+* &#39;fips-140-2&#39; which enforces a version of the TLS protocol and a subset
+of cipher suites overriding any user preferences or defaults for all runtime
+components, including Envoy, gRPC Go SDK, and gRPC C++ SDK.
+
+WARNING: Setting compliance policy in the control plane is a necessary but
+not a sufficient requirement to achieve compliance. There are additional
+steps necessary to claim compliance, including using the validated
+cryptograhic modules (please consult
+https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fips-140-2).</td>
+</tr>
+<tr>
 <td><code>DEFAULT_WORKLOAD_CERT_TTL</code></td>
 <td>Time Duration</td>
 <td><code>24h0m0s</code></td>
