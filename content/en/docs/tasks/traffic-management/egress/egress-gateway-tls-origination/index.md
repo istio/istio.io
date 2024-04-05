@@ -691,6 +691,32 @@ spec:
       namespaces:
         from: Same
 ---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: nginx-egressgateway-istio-sds
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - get
+  - watch
+  - list
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: nginx-egressgateway-istio-sds
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: nginx-egressgateway-istio-sds
+subjects:
+- kind: ServiceAccount
+  name: nginx-egressgateway-istio
+---
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -967,6 +993,8 @@ $ kubectl delete destinationrule egressgateway-for-nginx
 {{< text bash >}}
 $ kubectl delete secret client-credential
 $ kubectl delete gtw nginx-egressgateway
+$ kubectl delete role nginx-egressgateway-istio-sds
+$ kubectl delete rolebinding nginx-egressgateway-istio-sds
 $ kubectl delete httproute direct-nginx-to-egress-gateway
 $ kubectl delete httproute forward-nginx-from-egress-gateway
 $ kubectl delete destinationrule originate-mtls-for-nginx
