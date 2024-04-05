@@ -64,6 +64,19 @@ spec:
     - name: &quot;zipkin-alternate&quot;
     randomSamplingPercentage: 10.00
 </code></pre>
+<p>Policy to tailor the zipkin provider to sample traces from Client workloads only:</p>
+<pre><code class="language-yaml">apiVersion: telemetry.istio.io/v1alpha1
+kind: Telemetry
+metadata:
+  name: mesh-default
+  namespace: istio-system
+spec:
+  # no selector specified, applies to all workloads
+  tracing:
+  - match: CLIENT
+  - providers:
+    - name: &quot;zipkin&quot;
+</code></pre>
 <p>Policy to add a custom tag from a literal value:</p>
 <pre><code class="language-yaml">apiVersion: telemetry.istio.io/v1alpha1
 kind: Telemetry
@@ -79,7 +92,7 @@ spec:
         literal:
           value: &quot;foo&quot;
 </code></pre>
-<p>Policy to disable server-side metrics for Stackdriver for an entire mesh:</p>
+<p>Policy to disable server-side metrics for Prometheus for an entire mesh:</p>
 <pre><code class="language-yaml">apiVersion: telemetry.istio.io/v1alpha1
 kind: Telemetry
 metadata:
@@ -89,7 +102,7 @@ spec:
   # no selector specified, applies to all workloads
   metrics:
   - providers:
-    - name: stackdriver
+    - name: prometheus
     overrides:
     - match:
         metric: ALL_METRICS
