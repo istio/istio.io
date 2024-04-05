@@ -87,14 +87,22 @@ features:
       maturity: Beta
       nextExpectedPromotion: "1.13"
     area: Traffic Management
-  - name: "Kubernetes Gateway APIs"
+  - name: "Kubernetes Gateway APIs for ingress (`Gateway` `parentRef`) "
     link: "/docs/tasks/traffic-management/ingress/gateway-api/"
+    level:
+      checklist: features/k8s-gateway-apis.md
+      maturity: Stable
+      nextExpectedPromotion: ""
+    area: Traffic Management
+    id: "traffic.k8s_gateway_apis"
+  - name: "Kubernetes Gateway APIs for mesh (`Service` `parentRef`) "
+    link: "/docs/tasks/traffic-management/"
     level:
       checklist: features/k8s-gateway-apis.md
       maturity: Beta
       nextExpectedPromotion: ""
     area: Traffic Management
-    id: "traffic.k8s_gateway_apis"
+    id: "traffic.k8s_gateway_apis_+mesh"
   - name: "Gateway Network Topology Configuration"
     link: "/docs/ops/configuration/traffic-management/network-topologies/"
     id: "traffic.gateway_topology"
