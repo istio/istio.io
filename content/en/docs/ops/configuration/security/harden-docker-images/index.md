@@ -29,7 +29,7 @@ Add the `variant` option to use the *distroless images*.
 $ istioctl install --set values.global.variant=distroless
 {{< /text >}}
 
-If you are only interested in using distroless images for injected proxy images, you can also use the `proxyImage` field in [Proxy Config](/docs/reference/config/networking/proxy-config/#ProxyImage).
+If you are only interested in using distroless images for injected proxy images, you can also use the `image.imageType` field in [Proxy Config](/docs/reference/config/networking/proxy-config/#ProxyImage).
 Note the above `variant` flag will automatically set this for you.
 
 ## Debugging
