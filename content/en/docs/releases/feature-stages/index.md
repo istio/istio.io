@@ -61,6 +61,10 @@ Below is our list of existing features and their current phases. This informatio
 
 {{< features section="Core" >}}
 
+### Ambient
+
+{{< features section="Ambient" >}}
+
 {{< idea >}}
 Please get in touch by [joining our community](/get-involved/) if there are features you'd like to see in our future releases!
 {{< /idea >}}
