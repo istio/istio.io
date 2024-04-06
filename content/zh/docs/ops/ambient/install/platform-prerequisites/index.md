@@ -12,7 +12,7 @@ test: no
 
 ### Google Kubernetes Engine（GKE） {#google-kubernetes-engine-gke}
 
-1. 在 GKE 上，具有 [system-node-ritic](https://kubernetes.io/zh-cn/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/)
+1. 在 GKE 上，具有 [system-node-critical](https://kubernetes.io/zh-cn/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/)
    `priorityClassName` 的 Istio 组件只能被安装在定义了
    [资源配额](https://kubernetes.io/zh-cn/docs/concepts/policy/resource-quotas/)
    的命名空间中。默认情况下，在 GKE 中，只有 `kube-system` 为 `node-critical`
