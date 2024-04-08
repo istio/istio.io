@@ -4,7 +4,8 @@ subtitle: 安全公告
 description: CVE-2019-12995 所披露的安全漏洞。
 cves: [CVE-2019-12995]
 cvss: "7.5"
-vector: "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H/E:F/RL:O/RC:C"
+vector: "AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H/E:F/RL:O/RC:C"
+cvss_version: "3.0"
 releases: ["1.0 to 1.0.8", "1.1 to 1.1.9", "1.2 to 1.2.1"]
 publishdate: 2019-06-28
 keywords: [CVE]

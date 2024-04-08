@@ -4,7 +4,7 @@ subtitle: Security Bulletin
 description: CVEs reported by Envoy and Go.
 cves: [CVE-2023-44487, CVE-2023-39325]
 cvss: "7.5"
-vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+vector: "AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
 releases: ["All releases prior to 1.17.0", "1.17.0 to 1.17.6", "1.18.0 to 1.18.3", "1.19.0 to 1.19.1"]
 publishdate: 2023-10-11
 keywords: [CVE]
