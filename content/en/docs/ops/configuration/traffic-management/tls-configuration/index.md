@@ -32,6 +32,7 @@ Sidecar traffic has a variety of associated connections. Let's break them down o
     By default, the sidecar will be configured to accept both mTLS and non-mTLS traffic, known as `PERMISSIVE` mode.
     The mode can alternatively be configured to `STRICT`, where traffic must be mTLS, or `DISABLE`, where traffic must be plaintext.
     The mTLS mode is configured using a [`PeerAuthentication` resource](/docs/reference/config/security/peer_authentication/).
+    In ambient, you can still create `PeerAuthentication` policy at the mesh or namespace level that uses DISABLE, but it will be ignored.
 
 1. **Local inbound traffic**
     This is traffic going to your application service, from the sidecar. This traffic will always be forwarded as-is.
