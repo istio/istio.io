@@ -4,7 +4,8 @@ subtitle: 安全公告
 description: 由于客户端请求中存在大量 HTTP（请求）头 而导致的拒绝服务。
 cves: [CVE-2019-15226]
 cvss: "7.5"
-vector: "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+vector: "AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+cvss_version: "3.0"
 releases: ["1.1 to 1.1.15", "1.2 to 1.2.6", "1.3 to 1.3.1"]
 publishdate: 2019-10-08
 keywords: [CVE]

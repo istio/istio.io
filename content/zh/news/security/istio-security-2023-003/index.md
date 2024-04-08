@@ -4,7 +4,7 @@ subtitle: 安全公告
 description: Envoy 上报的 CVE 漏洞。
 cves: [CVE-2023-35941,CVE-2023-35942,CVE-2023-35943,CVE-2023-35944]
 cvss: "8.6"
-vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:L"
+vector: "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:L"
 releases: ["1.16.0 以及之前的所有版本", "1.16.0 到 1.16.6", "1.17.0 到 1.17.4", "1.18.0 到 1.18.1"]
 publishdate: 2023-07-25
 keywords: [CVE]

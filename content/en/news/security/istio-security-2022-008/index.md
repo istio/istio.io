@@ -4,7 +4,7 @@ subtitle: Security Bulletin
 description: Identity impersonation if user has localhost access.
 cves: [CVE-2022-39388]
 cvss: "7.6"
-vector: "CVSS:3.1/AV:A/AC:L/PR:L/UI:N/S:C/C:H/I:L/A:N"
+vector: "AV:A/AC:L/PR:L/UI:N/S:C/C:H/I:L/A:N"
 releases: ["1.15.2"]
 publishdate: 2022-11-09
 keywords: [CVE]
