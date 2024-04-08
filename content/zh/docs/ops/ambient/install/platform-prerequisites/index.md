@@ -10,6 +10,34 @@ test: no
 
 ## 平台 {#platform}
 
+### Google Kubernetes Engine（GKE） {#google-kubernetes-engine-gke}
+
+1. 在 GKE 上，具有 [system-node-critical](https://kubernetes.io/zh-cn/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/)
+   `priorityClassName` 的 Istio 组件只能被安装在定义了[资源配额](https://kubernetes.io/zh-cn/docs/concepts/policy/resource-quotas/)的命名空间中。
+   默认情况下，在 GKE 中，只有 `kube-system` 为 `node-critical`
+   类定义了资源配额。`istio-cni` 和 `ztunnel` 都需要 `node-ritic` 类，
+   因此在 GKE 中，这两个组件需要：
+
+      - 被安装到 `kube-system`（**不是** `istio-system`）
+      - 被安装到另一个已手动创建资源配额的命名空间中（如 `istio-system`），例如：
+
+          {{< text syntax=yaml snip_id=none >}}
+            apiVersion: v1
+            kind: ResourceQuota
+            metadata:
+              name: gcp-critical-pods
+              namespace: istio-system
+            spec:
+              hard:
+                pods: 1000
+              scopeSelector:
+                matchExpressions:
+                - operator: In
+                  scopeName: PriorityClass
+                  values:
+                  - system-node-critical
+          {{< /text >}}
+
 ### Minikube {#minikube}
 
 1. 如果您使用 [Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/)
