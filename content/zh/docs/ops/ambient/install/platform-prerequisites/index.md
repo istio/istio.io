@@ -19,7 +19,7 @@ test: no
    因此在 GKE 中，这两个组件需要：
 
       - 被安装到 `kube-system`（**不是** `istio-system`）
-      - 被安装到另一个已手动创建资源配额的命名空间（例如 `istio-system`）中，例如：
+      - 被安装到另一个已手动创建资源配额的命名空间中（如 `istio-system`），例如：
 
           {{< text syntax=yaml snip_id=none >}}
             apiVersion: v1
