@@ -1,7 +1,7 @@
 ---
 title: ISTIO-SECURITY-2024-002
 subtitle: Security Bulletin
-description: CVEs reported by Envoy.
+description: CVEs reported by Envoy and Go.
 cves: [CVE-2024-27919, CVE-2024-30255, CVE-2023-45288]
 cvss: "7.5"
 vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
