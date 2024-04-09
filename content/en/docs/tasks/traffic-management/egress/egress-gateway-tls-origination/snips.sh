@@ -19,6 +19,7 @@
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
 #          docs/tasks/traffic-management/egress/egress-gateway-tls-origination/index.md
 ####################################################################################################
+source "content/en/boilerplates/snips/gateway-api-gamma-support.sh"
 
 snip_before_you_begin_1() {
 kubectl apply -f samples/sleep/sleep.yaml
@@ -38,6 +39,10 @@ openssl version -a | grep OpenSSL
 
 ! IFS=$'\n' read -r -d '' snip_before_you_begin_4_out <<\ENDSNIP
 OpenSSL 1.1.1g  21 Apr 2020
+ENDSNIP
+
+! IFS=$'\n' read -r -d '' snip_before_you_begin_5 <<\ENDSNIP
+$ istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true <flags-you-used-to-install-Istio> --set meshConfig.accessLogFile=/dev/stdout
 ENDSNIP
 
 snip_perform_tls_origination_with_an_egress_gateway_1() {
@@ -112,6 +117,47 @@ EOF
 
 snip_perform_tls_origination_with_an_egress_gateway_4() {
 kubectl apply -f - <<EOF
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: Gateway
+metadata:
+  name: cnn-egress-gateway
+  annotations:
+    networking.istio.io/service-type: ClusterIP
+spec:
+  gatewayClassName: istio
+  listeners:
+  - name: https-listener-for-tls-origination
+    hostname: edition.cnn.com
+    port: 80
+    protocol: HTTPS
+    tls:
+      mode: Terminate
+      options:
+        gateway.istio.io/tls-terminate-mode: ISTIO_MUTUAL
+    allowedRoutes:
+      namespaces:
+        from: Same
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: egressgateway-for-cnn
+spec:
+  host: cnn-egress-gateway-istio.default.svc.cluster.local
+  trafficPolicy:
+    loadBalancer:
+      simple: ROUND_ROBIN
+    portLevelSettings:
+    - port:
+        number: 80
+      tls:
+        mode: ISTIO_MUTUAL
+        sni: edition.cnn.com
+EOF
+}
+
+snip_perform_tls_origination_with_an_egress_gateway_5() {
+kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -144,7 +190,45 @@ spec:
         port:
           number: 443
       weight: 100
+EOF
+}
+
+snip_perform_tls_origination_with_an_egress_gateway_6() {
+kubectl apply -f - <<EOF
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: HTTPRoute
+metadata:
+  name: direct-cnn-to-egress-gateway
+spec:
+  parentRefs:
+  - kind: ServiceEntry
+    group: networking.istio.io
+    name: cnn
+  rules:
+  - backendRefs:
+    - name: cnn-egress-gateway-istio
+      port: 80
 ---
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: HTTPRoute
+metadata:
+  name: forward-cnn-from-egress-gateway
+spec:
+  parentRefs:
+  - name: cnn-egress-gateway
+  hostnames:
+  - edition.cnn.com
+  rules:
+  - backendRefs:
+    - kind: Hostname
+      group: networking.istio.io
+      name: edition.cnn.com
+      port: 443
+EOF
+}
+
+snip_perform_tls_origination_with_an_egress_gateway_7() {
+kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -162,25 +246,42 @@ spec:
 EOF
 }
 
-snip_perform_tls_origination_with_an_egress_gateway_5() {
+snip_perform_tls_origination_with_an_egress_gateway_8() {
 kubectl exec "${SOURCE_POD}" -c sleep -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
 }
 
-! IFS=$'\n' read -r -d '' snip_perform_tls_origination_with_an_egress_gateway_5_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_perform_tls_origination_with_an_egress_gateway_8_out <<\ENDSNIP
 HTTP/1.1 200 OK
 ...
 ENDSNIP
 
-snip_perform_tls_origination_with_an_egress_gateway_6() {
+snip_perform_tls_origination_with_an_egress_gateway_9() {
 kubectl logs -l istio=egressgateway -c istio-proxy -n istio-system | tail
 }
 
+snip_perform_tls_origination_with_an_egress_gateway_10() {
+kubectl logs -l gateway.networking.k8s.io/gateway-name=cnn-egress-gateway -c istio-proxy | tail
+}
+
+! IFS=$'\n' read -r -d '' snip_perform_tls_origination_with_an_egress_gateway_11 <<\ENDSNIP
+[2024-03-14T18:37:01.451Z] "GET /politics HTTP/1.1" 200 - via_upstream - "-" 0 2484998 59 37 "172.30.239.26" "curl/7.87.0-DEV" "b80c8732-8b10-4916-9a73-c3e1c848ed1e" "edition.cnn.com" "151.101.131.5:443" outbound|443||edition.cnn.com 172.30.239.33:51270 172.30.239.33:80 172.30.239.26:35192 edition.cnn.com default.forward-cnn-from-egress-gateway.0
+ENDSNIP
+
 snip_cleanup_the_tls_origination_example_1() {
-kubectl delete gateway istio-egressgateway
+kubectl delete gw istio-egressgateway
 kubectl delete serviceentry cnn
 kubectl delete virtualservice direct-cnn-through-egress-gateway
 kubectl delete destinationrule originate-tls-for-edition-cnn-com
 kubectl delete destinationrule egressgateway-for-cnn
+}
+
+snip_cleanup_the_tls_origination_example_2() {
+kubectl delete serviceentry cnn
+kubectl delete gtw cnn-egress-gateway
+kubectl delete httproute direct-cnn-to-egress-gateway
+kubectl delete httproute forward-cnn-from-egress-gateway
+kubectl delete destinationrule egressgateway-for-cnn
+kubectl delete destinationrule originate-tls-for-edition-cnn-com
 }
 
 snip_generate_client_and_server_certificates_and_keys_1() {
@@ -303,6 +404,11 @@ kubectl create secret -n istio-system generic client-credential --from-file=tls.
 }
 
 snip_configure_mutual_tls_origination_for_egress_traffic_2() {
+kubectl create secret -n default generic client-credential --from-file=tls.key=client.example.com.key \
+  --from-file=tls.crt=client.example.com.crt --from-file=ca.crt=example.com.crt
+}
+
+snip_configure_mutual_tls_origination_for_egress_traffic_3() {
 kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
@@ -341,7 +447,74 @@ spec:
 EOF
 }
 
-snip_configure_mutual_tls_origination_for_egress_traffic_3() {
+snip_configure_mutual_tls_origination_for_egress_traffic_4() {
+kubectl apply -f - <<EOF
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: Gateway
+metadata:
+  name: nginx-egressgateway
+  annotations:
+    networking.istio.io/service-type: ClusterIP
+spec:
+  gatewayClassName: istio
+  listeners:
+  - name: https
+    hostname: my-nginx.mesh-external.svc.cluster.local
+    port: 443
+    protocol: HTTPS
+    tls:
+      mode: Terminate
+      options:
+        gateway.istio.io/tls-terminate-mode: ISTIO_MUTUAL
+    allowedRoutes:
+      namespaces:
+        from: Same
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: nginx-egressgateway-istio-sds
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - get
+  - watch
+  - list
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: nginx-egressgateway-istio-sds
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: nginx-egressgateway-istio-sds
+subjects:
+- kind: ServiceAccount
+  name: nginx-egressgateway-istio
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: egressgateway-for-nginx
+spec:
+  host: nginx-egressgateway-istio.default.svc.cluster.local
+  trafficPolicy:
+    loadBalancer:
+      simple: ROUND_ROBIN
+    portLevelSettings:
+    - port:
+        number: 443
+      tls:
+        mode: ISTIO_MUTUAL
+        sni: my-nginx.mesh-external.svc.cluster.local
+EOF
+}
+
+snip_configure_mutual_tls_origination_for_egress_traffic_5() {
 kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -378,7 +551,59 @@ spec:
 EOF
 }
 
-snip_configure_mutual_tls_origination_for_egress_traffic_4() {
+snip_configure_mutual_tls_origination_for_egress_traffic_6() {
+kubectl apply -f - <<EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: direct-nginx-to-egress-gateway
+spec:
+  hosts:
+  - my-nginx.mesh-external.svc.cluster.local
+  gateways:
+  - mesh
+  http:
+  - match:
+    - port: 80
+    route:
+    - destination:
+        host: nginx-egressgateway-istio.default.svc.cluster.local
+        port:
+          number: 443
+---
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: HTTPRoute
+metadata:
+  name: forward-nginx-from-egress-gateway
+spec:
+  parentRefs:
+  - name: nginx-egressgateway
+  hostnames:
+  - my-nginx.mesh-external.svc.cluster.local
+  rules:
+  - backendRefs:
+    - name: my-nginx
+      namespace: mesh-external
+      port: 443
+---
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: ReferenceGrant
+metadata:
+  name: my-nginx-reference-grant
+  namespace: mesh-external
+spec:
+  from:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      namespace: default
+  to:
+    - group: ""
+      kind: Service
+      name: my-nginx
+EOF
+}
+
+snip_configure_mutual_tls_origination_for_egress_traffic_7() {
 kubectl apply -n istio-system -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
@@ -401,20 +626,52 @@ spec:
 EOF
 }
 
-snip_configure_mutual_tls_origination_for_egress_traffic_5() {
+snip_configure_mutual_tls_origination_for_egress_traffic_8() {
+kubectl apply -f - <<EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: originate-mtls-for-nginx
+spec:
+  host: my-nginx.mesh-external.svc.cluster.local
+  trafficPolicy:
+    loadBalancer:
+      simple: ROUND_ROBIN
+    portLevelSettings:
+    - port:
+        number: 443
+      tls:
+        mode: MUTUAL
+        credentialName: client-credential # this must match the secret created earlier to hold client certs
+        sni: my-nginx.mesh-external.svc.cluster.local
+        # subjectAltNames: # can be enabled if the certificate was generated with SAN as specified in previous section
+        # - my-nginx.mesh-external.svc.cluster.local
+EOF
+}
+
+snip_configure_mutual_tls_origination_for_egress_traffic_9() {
 istioctl -n istio-system proxy-config secret deploy/istio-egressgateway | grep client-credential
 }
 
-! IFS=$'\n' read -r -d '' snip_configure_mutual_tls_origination_for_egress_traffic_5_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_configure_mutual_tls_origination_for_egress_traffic_9_out <<\ENDSNIP
 kubernetes://client-credential            Cert Chain     ACTIVE     true           1                                          2024-06-04T12:46:28Z     2023-06-05T12:46:28Z
 kubernetes://client-credential-cacert     Cert Chain     ACTIVE     true           16491643791048004260                       2024-06-04T12:46:28Z     2023-06-05T12:46:28Z
 ENDSNIP
 
-snip_configure_mutual_tls_origination_for_egress_traffic_6() {
+snip_configure_mutual_tls_origination_for_egress_traffic_10() {
+istioctl proxy-config secret deploy/nginx-egressgateway-istio | grep client-credential
+}
+
+! IFS=$'\n' read -r -d '' snip_configure_mutual_tls_origination_for_egress_traffic_10_out <<\ENDSNIP
+kubernetes://client-credential            Cert Chain     ACTIVE     true           1                                          2024-06-04T12:46:28Z     2023-06-05T12:46:28Z
+kubernetes://client-credential-cacert     Cert Chain     ACTIVE     true           16491643791048004260                       2024-06-04T12:46:28Z     2023-06-05T12:46:28Z
+ENDSNIP
+
+snip_configure_mutual_tls_origination_for_egress_traffic_11() {
 kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -sS http://my-nginx.mesh-external.svc.cluster.local
 }
 
-! IFS=$'\n' read -r -d '' snip_configure_mutual_tls_origination_for_egress_traffic_6_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_configure_mutual_tls_origination_for_egress_traffic_11_out <<\ENDSNIP
 <!DOCTYPE html>
 <html>
 <head>
@@ -422,32 +679,54 @@ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}
 ...
 ENDSNIP
 
-snip_configure_mutual_tls_origination_for_egress_traffic_7() {
+snip_configure_mutual_tls_origination_for_egress_traffic_12() {
 kubectl logs -l istio=egressgateway -n istio-system | grep 'my-nginx.mesh-external.svc.cluster.local' | grep HTTP
 }
 
+snip_configure_mutual_tls_origination_for_egress_traffic_13() {
+kubectl logs -l gateway.networking.k8s.io/gateway-name=nginx-egressgateway | grep 'my-nginx.mesh-external.svc.cluster.local' | grep HTTP
+}
+
+! IFS=$'\n' read -r -d '' snip_configure_mutual_tls_origination_for_egress_traffic_14 <<\ENDSNIP
+[2024-04-08T20:08:18.451Z] "GET / HTTP/1.1" 200 - via_upstream - "-" 0 615 5 5 "172.30.239.41" "curl/7.87.0-DEV" "86e54df0-6dc3-46b3-a8b8-139474c32a4d" "my-nginx.mesh-external.svc.cluster.local" "172.30.239.57:443" outbound|443||my-nginx.mesh-external.svc.cluster.local 172.30.239.53:48530 172.30.239.53:443 172.30.239.41:53694 my-nginx.mesh-external.svc.cluster.local default.forward-nginx-from-egress-gateway.0
+ENDSNIP
+
 snip_cleanup_the_mutual_tls_origination_example_1() {
 kubectl delete secret nginx-server-certs nginx-ca-certs -n mesh-external
-kubectl delete secret client-credential -n istio-system
 kubectl delete configmap nginx-configmap -n mesh-external
 kubectl delete service my-nginx -n mesh-external
 kubectl delete deployment my-nginx -n mesh-external
 kubectl delete namespace mesh-external
-kubectl delete gateway istio-egressgateway
+}
+
+snip_cleanup_the_mutual_tls_origination_example_2() {
+kubectl delete secret client-credential -n istio-system
+kubectl delete gw istio-egressgateway
 kubectl delete virtualservice direct-nginx-through-egress-gateway
 kubectl delete destinationrule -n istio-system originate-mtls-for-nginx
 kubectl delete destinationrule egressgateway-for-nginx
 }
 
-snip_cleanup_the_mutual_tls_origination_example_2() {
+snip_cleanup_the_mutual_tls_origination_example_3() {
+kubectl delete secret client-credential
+kubectl delete gtw nginx-egressgateway
+kubectl delete role nginx-egressgateway-istio-sds
+kubectl delete rolebinding nginx-egressgateway-istio-sds
+kubectl delete virtualservice direct-nginx-to-egress-gateway
+kubectl delete httproute forward-nginx-from-egress-gateway
+kubectl delete destinationrule originate-mtls-for-nginx
+kubectl delete destinationrule egressgateway-for-nginx
+kubectl delete referencegrant my-nginx-reference-grant -n mesh-external
+}
+
+snip_cleanup_the_mutual_tls_origination_example_4() {
 rm example.com.crt example.com.key my-nginx.mesh-external.svc.cluster.local.crt my-nginx.mesh-external.svc.cluster.local.key my-nginx.mesh-external.svc.cluster.local.csr client.example.com.crt client.example.com.csr client.example.com.key
 }
 
-snip_cleanup_the_mutual_tls_origination_example_3() {
+snip_cleanup_the_mutual_tls_origination_example_5() {
 rm ./nginx.conf
 }
 
 snip_cleanup_1() {
-kubectl delete service sleep
-kubectl delete deployment sleep
+kubectl delete -f samples/sleep/sleep.yaml
 }
