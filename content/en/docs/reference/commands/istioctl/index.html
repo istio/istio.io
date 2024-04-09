@@ -7007,7 +7007,7 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <tr>
 <td><code>--name &lt;string&gt;</code></td>
 <td></td>
-<td>name of the waypoint  (default `default`)</td>
+<td>name of the waypoint  (default `default-namespace`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -7130,6 +7130,11 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <td>Whether to print debug logs </td>
 </tr>
 <tr>
+<td><code>--enroll-namespace</code></td>
+<td></td>
+<td>If set, the namespace will be annotated with the waypoint name </td>
+</tr>
+<tr>
 <td><code>--exempt-features &lt;string&gt;</code></td>
 <td></td>
 <td>Exempt Features excluded from conformance tests suites  (default ``)</td>
@@ -7137,7 +7142,7 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <tr>
 <td><code>--for &lt;string&gt;</code></td>
 <td></td>
-<td>Specify the traffic type [none service workload all] for the waypoint  (default `service`)</td>
+<td>Specify the traffic type [service workload all none] for the waypoint  (default `service`)</td>
 </tr>
 <tr>
 <td><code>--gateway-class &lt;string&gt;</code></td>
@@ -7162,7 +7167,7 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <tr>
 <td><code>--name &lt;string&gt;</code></td>
 <td></td>
-<td>name of the waypoint  (default `default`)</td>
+<td>name of the waypoint  (default `default-namespace`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -7324,7 +7329,7 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <tr>
 <td><code>--name &lt;string&gt;</code></td>
 <td></td>
-<td>name of the waypoint  (default `default`)</td>
+<td>name of the waypoint  (default `default-namespace`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -7477,7 +7482,7 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <tr>
 <td><code>--name &lt;string&gt;</code></td>
 <td></td>
-<td>name of the waypoint  (default `default`)</td>
+<td>name of the waypoint  (default `default-namespace`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -7631,7 +7636,7 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <tr>
 <td><code>--name &lt;string&gt;</code></td>
 <td></td>
-<td>name of the waypoint  (default `default`)</td>
+<td>name of the waypoint  (default `default-namespace`)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
