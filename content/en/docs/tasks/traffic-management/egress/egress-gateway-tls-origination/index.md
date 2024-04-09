@@ -788,21 +788,23 @@ EOF
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: gateway.networking.k8s.io/v1beta1
-kind: HTTPRoute
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
 metadata:
   name: direct-nginx-to-egress-gateway
 spec:
-  parentRefs:
-  - kind: Service
-    group: ""
-    name: my-nginx
-    namespace: mesh-external
-    port: 80
-  rules:
-  - backendRefs:
-    - name: nginx-egressgateway-istio
-      port: 443
+  hosts:
+  - my-nginx.mesh-external.svc.cluster.local
+  gateways:
+  - mesh
+  http:
+  - match:
+    - port: 80
+    route:
+    - destination:
+        host: nginx-egressgateway-istio.default.svc.cluster.local
+        port:
+          number: 443
 ---
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: HTTPRoute
@@ -818,8 +820,25 @@ spec:
     - name: my-nginx
       namespace: mesh-external
       port: 443
+---
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: ReferenceGrant
+metadata:
+  name: my-nginx-reference-grant
+  namespace: mesh-external
+spec:
+  from:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      namespace: default
+  to:
+    - group: ""
+      kind: Service
+      name: my-nginx
 EOF
 {{< /text >}}
+
+TODO: figure out why using an `HTTPRoute`, instead of the above `VirtualService`, doesn't work. It completely ignores the `HTTPRoute` and tries to pass through to the destination service, which times out. The only difference from the above `VirtualService` is that the generated `VirtualService` includes annotation: `internal.istio.io/route-semantics": "gateway"`.
 
 {{< /tab >}}
 
@@ -953,7 +972,7 @@ $ kubectl logs -l gateway.networking.k8s.io/gateway-name=nginx-egressgateway | g
 You should see a line similar to the following:
 
 {{< text plain >}}
-TODO
+[2024-04-08T20:08:18.451Z] "GET / HTTP/1.1" 200 - via_upstream - "-" 0 615 5 5 "172.30.239.41" "curl/7.87.0-DEV" "86e54df0-6dc3-46b3-a8b8-139474c32a4d" "my-nginx.mesh-external.svc.cluster.local" "172.30.239.57:443" outbound|443||my-nginx.mesh-external.svc.cluster.local 172.30.239.53:48530 172.30.239.53:443 172.30.239.41:53694 my-nginx.mesh-external.svc.cluster.local default.forward-nginx-from-egress-gateway.0
 {{< /text >}}
 
 {{< /tab >}}
@@ -995,10 +1014,11 @@ $ kubectl delete secret client-credential
 $ kubectl delete gtw nginx-egressgateway
 $ kubectl delete role nginx-egressgateway-istio-sds
 $ kubectl delete rolebinding nginx-egressgateway-istio-sds
-$ kubectl delete httproute direct-nginx-to-egress-gateway
+$ kubectl delete virtualservice direct-nginx-to-egress-gateway
 $ kubectl delete httproute forward-nginx-from-egress-gateway
 $ kubectl delete destinationrule originate-mtls-for-nginx
 $ kubectl delete destinationrule egressgateway-for-nginx
+$ kubectl delete referencegrant my-nginx-reference-grant -n mesh-external
 {{< /text >}}
 
 {{< /tab >}}
