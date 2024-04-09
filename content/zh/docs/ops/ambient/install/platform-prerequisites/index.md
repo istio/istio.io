@@ -52,6 +52,14 @@ test: no
    则必须在 `helm install` 命令附加
    `--set values.cni.cniConfDir=/var/snap/microk8s/current/args/cni-network --set values.cni.cniBinDir=/var/snap/microk8s/current/opt/cni/bin`。
 
+### K3S {#k3s}
+
+1. 如果您使用的是 [K3S](https://k3s.io/)，
+   则必须在 `helm install` 命令中附加
+   `--set values.cni.cniConfDir=/var/lib/rancher/k3s/agent/etc/cni/net.d --set values.cni.cniBinDir=/var/lib/rancher/k3s/data/current/bin/`，
+   因为 K3S 使用非标准位置来存储 CNI 配置和二进制文件。
+   [根据 K3S 文档](https://docs.k3s.io/zh/cli/server#k3s-server-cli-%E5%B8%AE%E5%8A%A9)这些非标准位置也可以被覆盖。
+
 ## CNI {#cni}
 
 ### Cilium {#cilium}
