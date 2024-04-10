@@ -16,7 +16,7 @@ This release note describes what’s different between Istio 1.21.0 and 1.21.1.
 ## Changes
 
 - **Fixed** a bug where `VirtualService`s containing duplicate hosts with different cases would cause routes to be rejected by Envoy.
-  ([Issue #49368](https://github.com/istio/istio/issues/49368))
+  ([Issue #49638](https://github.com/istio/istio/issues/49638))
 
 - **Fixed** an issue where commands relying on Envoy config dump would not work due to the presence of ECDS config.
 
