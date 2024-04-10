@@ -4,7 +4,8 @@ subtitle: 安全公告
 description: 解析正则表达式导致的拒绝服务。
 cves: [CVE-2019-14993]
 cvss: "7.5"
-vector: "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+vector: "AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+cvss_version: "3.0"
 releases: ["1.1 to 1.1.12", "1.2 to 1.2.3"]
 publishdate: 2019-08-13
 keywords: [CVE]

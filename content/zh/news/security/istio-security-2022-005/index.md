@@ -4,7 +4,7 @@ subtitle: Security Bulletin
 description: 在某些配置中，发送给 Envoy 的格式错误的请求头可能会导致意外的内存访问冲突，从而产生未定义的行为或崩溃。
 cves: [CVE-2022-31045, CVE-2022-29225, CVE-2022-29224, CVE-2022-29226, CVE-2022-29228, CVE-2022-29227]
 cvss: "7.5"
-vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+vector: "AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
 releases: ["All releases prior to 1.12.0", "1.12.0 to 1.12.7", "1.13.0 to 1.13.4", "1.14.0"]
 publishdate: 2022-06-09
 keywords: [CVE]

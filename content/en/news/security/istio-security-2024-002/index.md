@@ -4,7 +4,7 @@ subtitle: Security Bulletin
 description: CVEs reported by Envoy and Go.
 cves: [CVE-2024-27919, CVE-2024-30255, CVE-2023-45288]
 cvss: "7.5"
-vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+vector: "AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
 releases: ["All releases prior to 1.19.0", "1.19.0 to 1.19.8", "1.20.0 to 1.20.4", "1.21.0"]
 publishdate: 2024-04-08
 keywords: [CVE]

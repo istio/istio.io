@@ -4,7 +4,7 @@ subtitle: 安全公告
 description: 用户具有 localhost 访问权限时有身份模仿的风险。
 cves: [CVE-2022-39388]
 cvss: "7.6"
-vector: "CVSS:3.1/AV:A/AC:L/PR:L/UI:N/S:C/C:H/I:L/A:N"
+vector: "AV:A/AC:L/PR:L/UI:N/S:C/C:H/I:L/A:N"
 releases: ["1.15.2"]
 publishdate: 2022-11-09
 keywords: [CVE]

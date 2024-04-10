@@ -4,7 +4,7 @@ subtitle: Security Bulletin
 description: Unauthenticated control plane denial of service attack due to stack exhaustion.
 cves: [CVE-2022-24726, CVE-2022-24921]
 cvss: "7.5"
-vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+vector: "AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
 releases: ["All releases prior to 1.11.0", "1.11.0 to 1.11.7", "1.12.0 to 1.12.4", "1.13.0 to 1.13.1"]
 publishdate: 2022-03-09
 keywords: [CVE]
