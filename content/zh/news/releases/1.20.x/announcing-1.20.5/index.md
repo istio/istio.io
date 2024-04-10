@@ -17,7 +17,7 @@ release: 1.20.5
 ## 变更 {#changes}
 
 - **修复** 修复了当 `VirtualService` 包含不同大小写的重复主机将导致路由被 Envoy 拒绝的错误。
-  ([Issue #49368](https://github.com/istio/istio/issues/49368))
+  ([Issue #49638](https://github.com/istio/istio/issues/49638))
 
 - **修复** 修复了由于存在 ECDS 配置使得依赖 Envoy 配置转储的命令无法工作的问题。
 
