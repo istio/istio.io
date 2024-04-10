@@ -4,7 +4,7 @@ subtitle: Security Bulletin
 description: Ill-formed headers sent to Envoy in certain configurations can lead to unexpected memory access resulting in undefined behavior or crashing.
 cves: [CVE-2022-31045]
 cvss: "5.9"
-vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
+vector: "AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
 releases: ["1.13.6", "1.14.2"]
 publishdate: 2022-07-26
 keywords: [CVE]
