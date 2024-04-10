@@ -1,5 +1,5 @@
 ---
-title: 对 Istio 1.19 的支持于 2024 年 04 月 24 日结束
+title: 对 Istio 1.19 的支持于 2024 年 4 月 24 日结束
 subtitle: 支持公告
 description: Istio 1.19 生命周期即将结束的公告。
 publishdate: 2024-03-27
