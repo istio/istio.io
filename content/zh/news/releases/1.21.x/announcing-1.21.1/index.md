@@ -19,7 +19,7 @@ release: 1.21.1
 - **修复** 修复了当 `VirtualService` 包含不同大小写的重复主机将导致路由被 Envoy 拒绝的错误。
   ([Issue #49368](https://github.com/istio/istio/issues/49368))
 
-- **修复** 修复了由于 ECDS 配置的存在，依赖于 Envoy 配置转储的命令无法工作的问题。
+- **修复** 修复了由于存在 ECDS 配置使得依赖 Envoy 配置转储的命令无法工作的问题。
 
 - **修复** 修复了在安装过程中观测 `EnvoyFilter` 资源未被正确修剪的问题。
   ([Issue #48126](https://github.com/istio/istio/issues/48126))
