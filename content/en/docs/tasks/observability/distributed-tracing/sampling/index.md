@@ -83,18 +83,16 @@ Here is an example to configure sampling via Telemetry API for the entire mesh:
 
 {{< text syntax=yaml snip_id=none >}}
 kubectl apply -f - <<EOF
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
+apiVersion: telemetry.istio.io/v1alpha1
+kind: Telemetry
 metadata:
   name: mesh-default
   namespace: istio-system
 spec:
-  meshConfig:
-    enableTracing: true
-    defaultConfig:
-      tracing:
-        sampling: 10
-EOF
+  tracing:
+  - providers:
+    - name: otel-tracing
+    randomSamplingPercentage: 10
 {{< /text >}}
 
 ### Custom OpenTelemetry Sampler
