@@ -362,7 +362,7 @@ features:
     link: "/docs/ops/configuration/security/harden-docker-images/"
     level:
       checklist: features/distroless_images.md
-      maturity: Beta
+      maturity: Stable
       nextExpectedPromotion: ""
     area: Core
   - name: "Virtual Machine Integration"
