@@ -1220,6 +1220,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>EnableMysqlFilter enables injection of `envoy.filters.network.mysql_proxy` in the filter chain.</td>
 </tr>
 <tr>
+<td><code>PILOT_ENABLE_NODE_UNTAINT_CONTROLLERS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, controller that untaints nodes with cni pods ready will run. This should be enabled if you disabled ambient init containers.</td>
+</tr>
+<tr>
 <td><code>PILOT_ENABLE_PERSISTENT_SESSION_FILTER</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
