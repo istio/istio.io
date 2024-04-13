@@ -197,6 +197,11 @@ to enable it.  You can execute the following once:</p>
 <td>Namespace for ConfigMap which stores clusters configs  (default `istio-system`)</td>
 </tr>
 <tr>
+<td><code>--cniNamespace &lt;string&gt;</code></td>
+<td></td>
+<td>Select a namespace where the istio-cni resides. If not set, uses ${POD_NAMESPACE} environment variable  (default `istio-system`)</td>
+</tr>
+<tr>
 <td><code>--configDir &lt;string&gt;</code></td>
 <td></td>
 <td>Directory to watch for updates to config yaml files. If specified, the files will be used as the source of config, rather than a CRD client.  (default ``)</td>
@@ -269,12 +274,12 @@ to enable it.  You can execute the following once:</p>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, delta, deltaadsc, file, gateway, grpc, grpcgen, ingress status, klog, krt, kube, model, monitor, monitoring, pkica, pkira, processing, retry, rootcertrotator, secretcontroller, security, serverca, serviceentry, spiffe, status, trustBundle, validation, validationController, validationServer, wasm, wle]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, delta, deltaadsc, file, gateway, grpc, grpcgen, ingress status, klog, krt, kube, model, monitor, monitoring, pkica, pkira, processing, retry, rootcertrotator, secretcontroller, security, serverca, serviceentry, spiffe, status, trustBundle, untaint, validation, validationController, validationServer, wasm, wle]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, delta, deltaadsc, file, gateway, grpc, grpcgen, ingress status, klog, krt, kube, model, monitor, monitoring, pkica, pkira, processing, retry, rootcertrotator, secretcontroller, security, serverca, serviceentry, spiffe, status, trustBundle, validation, validationController, validationServer, wasm, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, delta, deltaadsc, file, gateway, grpc, grpcgen, ingress status, klog, krt, kube, model, monitor, monitoring, pkica, pkira, processing, retry, rootcertrotator, secretcontroller, security, serverca, serviceentry, spiffe, status, trustBundle, untaint, validation, validationController, validationServer, wasm, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -299,7 +304,7 @@ to enable it.  You can execute the following once:</p>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, delta, deltaadsc, file, gateway, grpc, grpcgen, ingress status, klog, krt, kube, model, monitor, monitoring, pkica, pkira, processing, retry, rootcertrotator, secretcontroller, security, serverca, serviceentry, spiffe, status, trustBundle, validation, validationController, validationServer, wasm, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, delta, deltaadsc, file, gateway, grpc, grpcgen, ingress status, klog, krt, kube, model, monitor, monitoring, pkica, pkira, processing, retry, rootcertrotator, secretcontroller, security, serverca, serviceentry, spiffe, status, trustBundle, untaint, validation, validationController, validationServer, wasm, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -1075,6 +1080,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>EnableMysqlFilter enables injection of `envoy.filters.network.mysql_proxy` in the filter chain.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_NODE_UNTAINT_CONTROLLERS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, controller that untaints nodes with cni pods ready will run. This should be enabled if you disabled ambient init containers.</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_PERSISTENT_SESSION_FILTER</code></td>

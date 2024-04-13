@@ -218,29 +218,32 @@ spec:
 <p>Optional. The selector decides where to apply the authorization policy. The selector will match with workloads
 in the same namespace as the authorization policy. If the authorization policy is in the root namespace, the selector
 will additionally match with workloads in all namespaces.</p>
-<p>If the selector and the targetRef are not set, the selector will match all workloads. At most one of the selector
-and targetRef can be set.</p>
+<p>If the selector and the targetRef are not set, the selector will match all workloads.</p>
+<p>At most one of <code>selector</code> or <code>targetRefs</code> can be set for a given policy.</p>
 
 </td>
 <td>
 No
 </td>
 </tr>
-<tr id="AuthorizationPolicy-targetRef">
-<td><code>targetRef</code></td>
-<td><code><a href="/docs/reference/config/type/workload-selector/#PolicyTargetReference">PolicyTargetReference</a></code></td>
+<tr id="AuthorizationPolicy-targetRefs">
+<td><code>targetRefs</code></td>
+<td><code><a href="/docs/reference/config/type/workload-selector/#PolicyTargetReference">PolicyTargetReference[]</a></code></td>
 <td>
 <p>Optional. The targetRef specifies the gateway the policy should be
 applied to. The targeted resource specified will determine which
-workloads the authorization policy applies to. The targeted resource
-must be a <code>Gateway</code> in the group <code>gateway.networking.k8s.io</code>. The
-gateway must be in the same namespace as the authorization policy.</p>
+workloads the policy applies to.</p>
+<p>Currently, the following resource attachment types are supported:</p>
+<ul>
+<li><code>kind: Gateway</code> with <code>group: gateway.networking.k8s.io</code> in the same namespace.</li>
+</ul>
 <p>If not set, the policy is applied as defined by the selector.
-At most one of the selector and targetRef can be set.</p>
-<p>NOTE: If you are using the <code>targetRef</code> field in a multi-revision environment with Istio versions prior to 1.20,
-it is highly recommended that you pin the authorization policy to a revision running 1.20+ via the istio.io/rev label.
-This is to prevent proxies connected to older istiod control planes (that don&rsquo;t know about the targetRef field)
+At most one of the selector and targetRefs can be set.</p>
+<p>NOTE: If you are using the <code>targetRefs</code> field in a multi-revision environment with Istio versions prior to 1.22,
+it is highly recommended that you pin the policy to a revision running 1.22+ via the <code>istio.io/rev</code> label.
+This is to prevent proxies connected to older control planes (that don&rsquo;t know about the <code>targetRefs</code> field)
 from misinterpreting the policy as namespace-wide during the upgrade process.</p>
+<p>NOTE: Waypoint proxies are required to use this field for policies to apply; <code>selector</code> policies will be ignored.</p>
 
 </td>
 <td>
