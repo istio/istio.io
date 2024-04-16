@@ -101,7 +101,7 @@ four components (including {{< gloss "ztunnel" >}}ztunnel{{< /gloss >}}) have be
 
 {{< /tabset >}}
 
-5)  Verify the installed components using the following commands:
+6)  Verify the installed components using the following commands:
 
 {{< tabset category-name="config-api" >}}
 
