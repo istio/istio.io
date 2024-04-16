@@ -42,7 +42,7 @@ helm install ztunnel istio/ztunnel -n istio-system
 }
 
 snip_install_ingress() {
-helm install istio-ingress istio/gateway -n istio-ingress --wait --create-namespace
+helm install istio-ingress istio/gateway -n istio-ingress --create-namespace
 }
 
 snip_configuration_1() {
