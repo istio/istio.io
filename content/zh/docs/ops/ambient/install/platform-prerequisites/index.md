@@ -54,11 +54,14 @@ test: no
 
 ### K3S {#k3s}
 
-1. 如果您使用的是 [K3S](https://k3s.io/)，
+1. 如果您使用 [K3S](https://k3s.io/) 及其捆绑的 CNI 之一，
    则必须在 `helm install` 命令中附加
    `--set values.cni.cniConfDir=/var/lib/rancher/k3s/agent/etc/cni/net.d --set values.cni.cniBinDir=/var/lib/rancher/k3s/data/current/bin/`，
    因为 K3S 使用非标准位置来存储 CNI 配置和二进制文件。
    [根据 K3S 文档](https://docs.k3s.io/zh/cli/server#k3s-server-cli-%E5%B8%AE%E5%8A%A9)这些非标准位置也可以被覆盖。
+   如果您将 K3S 与自定义的非捆绑 CNI 一起使用，
+   则必须为这些 CNI 配置使用正确的路径，例如 `/etc/cni/net.d` -
+   [有关详细信息，请参阅 K3S 文档](https://docs.k3s.io/zh/networking/basic-network-options#custom-cni)。
 
 ## CNI {#cni}
 
