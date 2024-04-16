@@ -7142,7 +7142,7 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <tr>
 <td><code>--for &lt;string&gt;</code></td>
 <td></td>
-<td>Specify the traffic type [service workload all none] for the waypoint  (default `service`)</td>
+<td>Specify the traffic type [all none service workload] for the waypoint  (default `service`)</td>
 </tr>
 <tr>
 <td><code>--gateway-class &lt;string&gt;</code></td>
@@ -16550,12 +16550,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, certificates received by the proxy will be verified against the OS CA certificate bundle.</td>
-</tr>
-<tr>
-<td><code>VERIFY_SDS_CERTIFICATE</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If enabled, certificates fetched from SDS server will be verified before sending back to proxy.</td>
 </tr>
 <tr>
 <td><code>XDS_AUTH</code></td>
