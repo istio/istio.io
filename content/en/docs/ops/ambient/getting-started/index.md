@@ -66,6 +66,10 @@ Follow these steps to get started with Istio's ambient mode:
 $ istioctl install --set profile=ambient --set "components.ingressGateways[0].enabled=true" --set "components.ingressGateways[0].name=istio-ingressgateway" --skip-confirmation
 {{< /text >}}
 
+{{< tip >}}
+Note that this command includes `--set "components.ingressGateways[0].enabled=true"` because the ambient profile does not install the ingress gateway by default.
+{{< /tip >}}
+
 After running the above command, you’ll get the following output that indicates
 five components (including {{< gloss "ztunnel" >}}ztunnel{{< /gloss >}}) have been installed successfully!
 
