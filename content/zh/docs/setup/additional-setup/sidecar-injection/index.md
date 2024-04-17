@@ -134,8 +134,10 @@ sleep-776b7bcdcd-gmvnr   1/1       Running       0          2s
 
 按照以下逻辑配置注入器：
 
-1. 如果禁用其中一个标签，则不注入 Pod
-1. 如果启用其中一个标签，则注入 Pod
+1. 如果禁用其中任何一个标签（`istio-injection` 或 `sidecar.istio.io/inject`），
+   则不会注入 Pod。
+1. 如果启用其中任何一个标签（`istio-injection` 或 `sidecar.istio.io/inject` 或 `istio.io/rev`），
+   则会注入 Pod。
 1. 如果两个标签都没有设置，且启用了 `.values.sidecarInjectorWebhook.enableNamespacesByDefault`，
    则会注入 Pod。这在默认情况下是不启用的，所以 Pod 通常不会被注入。
 
