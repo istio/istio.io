@@ -110,7 +110,7 @@ $ istioctl install --set profile=ambient --skip-confirmation
 
 {{< /tabset >}}
 
-5)  使用以下命令确认已安装的组件：
+6)  使用以下命令确认已安装的组件：
 
 {{< tabset category-name="config-api" >}}
 

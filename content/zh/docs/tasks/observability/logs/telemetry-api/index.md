@@ -110,6 +110,11 @@ $ kubectl apply -f @samples/open-telemetry/loki/otel.yaml@ -n istio-system
     EOF
     {{< /text >}}
 
+    {{< tip >}}
+    当连接失败时没有 `response.code` 属性。
+    在这种情况下，您应该使用 CEL 表达式 `!has(response.code) || response.code >= 500`。
+    {{< /tip >}}
+
 1. 通过 CEL 表达式设置默认的过滤访问日志
 
     只有响应码大于等于 400 或请求转到 BlackHoleCluster 或 PassthroughCluster 时，
