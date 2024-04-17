@@ -24,7 +24,7 @@ skip_seealso: true
 
 *NOTE*: At the time of publishing, the CVE was not yet scored or vectored.
 
-- __[CVE-2024-45288](https://nvd.nist.gov/vuln/detail/CVE-2023-45288)__: (CVSS Score Unpublished): HTTP/2 CONTINUATION frames can be utilized for DoS attacks.
+- __[CVE-2023-45288](https://nvd.nist.gov/vuln/detail/CVE-2023-45288)__: (CVSS Score Unpublished): HTTP/2 CONTINUATION frames can be utilized for DoS attacks.
 
 ## Am I Impacted?
 
