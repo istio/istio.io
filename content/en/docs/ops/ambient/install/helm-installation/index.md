@@ -69,7 +69,7 @@ To install an ingress gateway, run the command below:
 $ helm install istio-ingress istio/gateway -n istio-ingress --create-namespace --wait
 {{< /text >}}
 
-If your Kubernetes cluster doesn't support the LoadBalancer service type (`type: LoadBalancer`) with proper external IP assigned, run the command without the `--wait` parameter. See [Installing Gateways](/docs/setup/additional-setup/gateway/) for in-depth documentation on gateway installation.
+If your Kubernetes cluster doesn't support the `LoadBalancer` service type (`type: LoadBalancer`) with a proper external IP assigned, run the above command without the `--wait` parameter to avoid the infinite wait. See [Installing Gateways](/docs/setup/additional-setup/gateway/) for in-depth documentation on gateway installation.
 
 ## Configuration
 
