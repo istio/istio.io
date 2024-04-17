@@ -246,9 +246,9 @@ $ export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/bookinfo-gateway-istio
 Ambient mesh data plane relies on the ztunnel DaemonSet to redirect traffic. Check the ztunnel pods to make sure they are in a healthy state:
 
 {{< text bash >}}
-$ kubectl get pods -n istio-system -l app=ztunnel -o wide
-NAME            READY   STATUS    RESTARTS   AGE     IP            NODE                          NOMINATED NODE   READINESS GATES
-ztunnel-29m52   1/1     Running   0          2m15s   10.244.0.18   istio-testing-control-plane   <none>           <none>
+$ kubectl get pods -n istio-system -l app=ztunnel
+NAME            READY   STATUS    RESTARTS   AGE
+ztunnel-29m52   1/1     Running   0          2m15s
 {{< /text >}}
 
 Now you can enable all pods in a given namespace to be part of an ambient mesh
