@@ -120,7 +120,7 @@ spec:
 
 {{< text syntax=bash outputis=yaml snip_id=gtw_verify_config_50_v3 >}}
 $ kubectl get httproute reviews -o yaml
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 ...
 spec:

@@ -142,7 +142,7 @@ EOF
 
 snip_configure_egress_gateway_traffic_to_a_wildcard_host_2() {
 kubectl apply -f - <<EOF
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: wikipedia-egress-gateway

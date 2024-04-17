@@ -75,7 +75,7 @@ waypoint 以独占方式接收 HBONE 请求。
 例如，以下策略将确保到 `echo` 服务的请求被转发到 `echo-v1`：
 
 {{< text yaml >}}
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: echo

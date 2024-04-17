@@ -117,7 +117,7 @@ EOF
 
 snip_perform_tls_origination_with_an_egress_gateway_4() {
 kubectl apply -f - <<EOF
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: cnn-egress-gateway
@@ -195,7 +195,7 @@ EOF
 
 snip_perform_tls_origination_with_an_egress_gateway_6() {
 kubectl apply -f - <<EOF
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: direct-cnn-to-egress-gateway
@@ -209,7 +209,7 @@ spec:
     - name: cnn-egress-gateway-istio
       port: 80
 ---
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: forward-cnn-from-egress-gateway
@@ -449,7 +449,7 @@ EOF
 
 snip_configure_mutual_tls_origination_for_egress_traffic_4() {
 kubectl apply -f - <<EOF
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: nginx-egressgateway
@@ -571,7 +571,7 @@ spec:
         port:
           number: 443
 ---
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: forward-nginx-from-egress-gateway

@@ -67,7 +67,7 @@ This can be overridden with Routes for that `Service`.
 For example, the below policy will ensure that requests to the `echo` service are forwarded to `echo-v1`:
 
 {{< text yaml >}}
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: echo

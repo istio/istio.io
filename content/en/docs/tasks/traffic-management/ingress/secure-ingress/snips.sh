@@ -131,7 +131,7 @@ EOF
 
 snip_configure_a_tls_ingress_gateway_for_a_single_host_4() {
 cat <<EOF | kubectl apply -f -
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: mygateway
@@ -158,7 +158,7 @@ EOF
 
 snip_configure_a_tls_ingress_gateway_for_a_single_host_5() {
 cat <<EOF | kubectl apply -f -
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: httpbin
@@ -322,7 +322,7 @@ EOF
 
 snip_configure_a_tls_ingress_gateway_for_multiple_hosts_6() {
 cat <<EOF | kubectl apply -f -
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: mygateway
@@ -363,7 +363,7 @@ EOF
 
 snip_configure_a_tls_ingress_gateway_for_multiple_hosts_7() {
 cat <<EOF | kubectl apply -f -
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: helloworld
@@ -444,7 +444,7 @@ EOF
 
 snip_configure_a_mutual_tls_ingress_gateway_3() {
 cat <<EOF | kubectl apply -f -
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: mygateway
