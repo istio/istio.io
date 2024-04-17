@@ -83,3 +83,4 @@ cleanup_httpbin_sample
 cleanup_sleep_sample
 echo y | istioctl uninstall --revision=default
 kubectl delete ns istio-system
+kubectl label namespace default istio-injection-

@@ -44,6 +44,7 @@
 1.8.x.
 1.9.x
 1.x
+1.x.
 10ms
 10s
 123456789012.my
@@ -186,6 +187,7 @@ Bookinfo
 bookinfo
 boolean
 BoringSSL
+Bottlenose
 Bottlerocket
 bring-your-own-CA
 bring-your-own-identity
@@ -360,6 +362,9 @@ CVE-2024-23323
 CVE-2024-23324
 CVE-2024-23325
 CVE-2024-23327
+CVE-2024-27919
+CVE-2024-30255
+CVE-2024-45288
 CVEs
 cves
 cvss
@@ -545,6 +550,7 @@ Idit
 ILBs
 incentivized
 Incrementality
+Indo-Pacific
 initContainer
 initializer
 initializers
@@ -620,6 +626,7 @@ istio_tcp_connections_opened_total
 istio_tcp_received_bytes_total
 istio_tcp_sent_bytes_total
 iter8
+Izzy
 Jannot
 jason
 Jeet
@@ -783,6 +790,7 @@ natively
 Neeraj
 netfilter
 netmask
+netns
 network1
 network2
 networking.istio.io
@@ -861,6 +869,7 @@ pem
 Pengyuan
 performant
 Pettit
+Phippy
 Piotr
 pipelined
 PKI
@@ -949,6 +958,7 @@ repo
 repurposed
 requires_any
 Reskill
+ResourceQuota
 resources.limits.cpu
 resources.limits.memory
 resources.request.cpu
@@ -1144,7 +1154,9 @@ UTF-8
 v0.14.0
 v0.8.0
 v1
+v1.2.
 v1.21
+v1.21.0
 v1.26
 v1.27
 v1.28

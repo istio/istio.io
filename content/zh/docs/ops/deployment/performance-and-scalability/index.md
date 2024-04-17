@@ -29,11 +29,10 @@ Istio 致力于用最小的资源开销实现最大的便易性，旨在支持�
 Istio 的数据平面组件 Envoy 代理用来处理通过系统的数据流。控制平面组件如
 Pilot、Galley 和 Citadel 负责配置数据平面。数据平面和控制平面有不同的性能关注点。
 
-## Istio 1.20 性能总结 {#performance-summary-for-Istio}
+## Istio 1.21 性能总结 {#performance-summary-for-Istio}
 
 [Istio 负载测试](https://github.com/istio/tools/tree/{{< source_branch_name >}}/perf/load)网格包含了
 **1000** 个服务和 **2000** 个 Sidecar，全网格范围内，QPS 为 70,000。
-在使用 Istio 1.20 运行测试后，我们得到了如下结果：
 
 ## 控制平面性能 {#control-plane-performance}
 
@@ -73,7 +72,7 @@ Kubernetes 环境和用户编写的配置文件。
 ### CPU 和内存 {#CPU-and-memory}
 
 由于 sidecar 代理在数据路径上执行额外的工作，它需要消耗 CPU 和内存。
-以 Istio 1.19 举例，1000 QPS 会使用大约 0.5 vCPU。
+以 Istio 1.21 举例，1000 QPS 会使用大约 0.5 vCPU。
 
 代理的内存消耗取决于它的总体配置状态。大量的监听器、集群和路由会增加内存使用量。
 在启用了[命名空间隔离](/zh/docs/reference/config/networking/sidecar/)的大型命名空间中，
@@ -92,25 +91,26 @@ Envoy 代理在向客户端发送响应后收集原始遥测数据。
 此过程会增加下一个请求的队列等待时间，并影响平均延迟和尾延迟。
 实际的尾部延迟取决于流量模式。
 
-### Istio 1.20 的延迟 {#latency-for-Istio}
+### Istio 1.21 的延迟 {#latency-for-Istio}
 
-在网格内部，请求会依次遍历客户端和服务器端代理。在 Istio 1.19
+在网格内部，请求会依次遍历客户端和服务器端代理。在 Istio {{< istio_release_name >}}
 的默认配置中（即带有遥测 v2 的 Istio），两个代理分别在基线数据平面延迟的 90 和 99
-分位延迟上增加约 0.228 和 0.298 毫秒。我们使用 `http/1.1` 协议的
+分位延迟上增加约 0.182 和 0.248 毫秒。我们使用 `http/1.1` 协议的
 [Istio 基准测试](https://github.com/istio/tools/tree/{{< source_branch_name >}}/perf/benchmark)获得了这些结果，
 测试标准是每秒 1000 请求，负载为 1KB，使用了 2、4、8、16、32、64 个客户端连接和 2 个代理 worker 并启用双向 TLS。
 
-注意：不同的硬件会给出不同的值。
+注意：此测试是在 [CNCF 社区基础设施实验室](https://github.com/cncf/cluster)上进行的。
+不同的硬件会给出不同的值。
 
 <br><img width="90%" style="display: block; margin: auto;"
-    src="latency-p90-fortio-with-uniform.svg"
+    src="istio-1.21.0-nighthawk-90.png"
     alt="P90 延迟 vs 客户端连接"
     caption="P90 延迟 vs 客户端连接"
 />
 <p><h2 style="text-align: center;"> P90 延迟 vs 客户端连接 </h2></p><br>
 
 <img width="90%" style="display: block; margin: auto;"
-    src="latency-p99-fortio-with-uniform.svg"
+    src="istio-1.21.0-nighthawk-99.png"
     alt="P99 延迟 vs 客户端连接"
     caption="P99 延迟 vs 客户端连接"
 />

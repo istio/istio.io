@@ -310,7 +310,7 @@ strong {
     font-weight: $boldTextWeight;
 }
 
-img:not(.company-logo-img) {
+img:not(.company-logo-img, .social-share-icon) {
     width: 100%;
 }
 

@@ -4,7 +4,8 @@ subtitle: Security Bulletin
 description: Multiple CVEs reported by Envoy.
 cves: [CVE-2023-27496, CVE-2023-27488, CVE-2023-27493, CVE-2023-27492, CVE-2023-27491, CVE-2023-27487]
 cvss: "8.2"
-vector: "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:N"
+vector: "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:N"
+cvss_version: "3.0"
 releases: ["All releases prior to 1.15.0", "1.15.0 to 1.15.6", "1.16.0 to 1.16.3", "1.17.0 to 1.17.1"]
 publishdate: 2023-04-04
 keywords: [CVE]

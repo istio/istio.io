@@ -140,7 +140,7 @@ snip_determining_the_ingress_ip_and_ports_4() {
 kubectl get svc "$INGRESS_NAME" -n "$INGRESS_NS"
 }
 
-! read -r -d '' snip_determining_the_ingress_ip_and_ports_4_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_determining_the_ingress_ip_and_ports_4_out <<\ENDSNIP
 NAME                   TYPE           CLUSTER-IP       EXTERNAL-IP      PORT(S)   AGE
 istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121   ...       17h
 ENDSNIP
@@ -170,7 +170,7 @@ snip_accessing_ingress_services_1() {
 curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/status/200"
 }
 
-! read -r -d '' snip_accessing_ingress_services_1_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_accessing_ingress_services_1_out <<\ENDSNIP
 HTTP/1.1 200 OK
 server: istio-envoy
 ...
@@ -180,7 +180,7 @@ snip_accessing_ingress_services_2() {
 curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/headers"
 }
 
-! read -r -d '' snip_accessing_ingress_services_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_accessing_ingress_services_2_out <<\ENDSNIP
 HTTP/1.1 404 Not Found
 ...
 ENDSNIP

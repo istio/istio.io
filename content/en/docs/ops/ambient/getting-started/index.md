@@ -1,26 +1,20 @@
 ---
-title: Getting Started with Ambient Mesh
-description: How to deploy and install ambient mesh.
+title: Getting Started with Ambient Mode
+description: How to deploy and install Istio in ambient mode.
 weight: 1
 owner: istio/wg-networking-maintainers
-test: yes
+test: no
 ---
 
-{{< boilerplate ambient-alpha-warning >}}
+This guide lets you quickly evaluate Istio's {{< gloss "ambient" >}}ambient mode{{< /gloss >}}. These steps require you to have a {{< gloss >}}cluster{{< /gloss >}} running a
+[supported version](/docs/releases/supported-releases#support-status-of-istio-releases) of Kubernetes ({{< supported_kubernetes_versions >}}).
+You can install Istio ambient mode on [any supported Kubernetes platform](/docs/setup/platform-setup/), but this guide will assume the use of [kind](https://kind.sigs.k8s.io/) for simplicity.
 
-This guide lets you quickly evaluate Istio {{< gloss "ambient" >}}ambient service mesh{{< /gloss >}}. These steps require you to have
-a {{< gloss >}}cluster{{< /gloss >}} running a
-[supported version](/docs/releases/supported-releases#support-status-of-istio-releases) of Kubernetes ({{< supported_kubernetes_versions >}}). You can use any supported platform, for
-example [Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) or
-others specified by the
-[platform-specific setup instructions](/docs/setup/platform-setup/).
+{{< tip >}}
+Note that ambient mode currently requires the use of [istio-cni](/docs/setup/additional-setup/cni) to configure Kubernetes nodes, which must run as a privileged pod. Ambient mode is compatible with every major CNI that previously supported sidecar mode.
+{{< /tip >}}
 
-{{< warning >}}
-Note that Ambient currently requires the use of [istio-cni](/docs/setup/additional-setup/cni) to configure Kubernetes nodes.
-`istio-cni` ambient mode does **not** currently support types of cluster CNI (namely, CNI implementations that do not use `veth` devices, such as [Minikube's](https://kubernetes.io/docs/tasks/tools/install-minikube/) `bridge` mode)
-{{< /warning >}}
-
-Follow these steps to get started with ambient:
+Follow these steps to get started with Istio's ambient mode:
 
 1. [Download and install](#download)
 1. [Deploy the sample application](#bookinfo)
@@ -31,9 +25,11 @@ Follow these steps to get started with ambient:
 
 ## Download and install {#download}
 
-1.  Download the [latest version of Istio](/docs/setup/getting-started/#download) with `alpha` support for ambient mesh.
+1.  Install [kind](https://kind.sigs.k8s.io/)
 
-1.  If you don’t have a Kubernetes cluster, you can deploy one locally using `kind` with the following command:
+1.  Download the [latest version of Istio](/docs/setup/getting-started/#download) (v1.21.0 or later) with Alpha support for ambient mode.
+
+1.  Deploy a new local `kind` cluster:
 
     {{< text syntax=bash snip_id=none >}}
     $ kind create cluster --config=- <<EOF
@@ -47,7 +43,7 @@ Follow these steps to get started with ambient:
     EOF
     {{< /text >}}
 
-1.  Install Kubernetes Gateway CRDs, which don’t come installed by default on most Kubernetes clusters:
+1.  Install the Kubernetes Gateway API CRDs, which don’t come installed by default on most Kubernetes clusters:
 
     {{< text bash >}}
     $ kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
@@ -59,15 +55,8 @@ Follow these steps to get started with ambient:
     {{< boilerplate gateway-api-choose >}}
     {{< /tip >}}
 
-1.  The `ambient` profile is designed to help you get started with ambient mesh.
-    Install Istio with the `ambient` profile on your Kubernetes cluster, using
-    the `istioctl` command downloaded above:
-
-{{< tip >}}
-Note that if you are using [Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) (or any other platform using nodes configured with a nonstandard `netns` path for containers), you may need to append `--set values.cni.cniNetnsDir="/var/run/docker/netns"` to the `istioctl install` command so that the Istio CNI DaemonSet can correctly manage and capture pods on the node.
-
-Consult your platform documentation for details.
-{{< /tip >}}
+1.  Install Istio with the `ambient` profile on your Kubernetes cluster, using
+    the version of `istioctl` downloaded above:
 
 {{< tabset category-name="config-api" >}}
 
@@ -78,7 +67,7 @@ $ istioctl install --set profile=ambient --set "components.ingressGateways[0].en
 {{< /text >}}
 
 After running the above command, you’ll get the following output that indicates
-five components (including {{< gloss "ztunnel" >}}Ztunnel{{< /gloss >}}) have been installed successfully!
+five components (including {{< gloss "ztunnel" >}}ztunnel{{< /gloss >}}) have been installed successfully!
 
 {{< text syntax=plain snip_id=none >}}
 ✔ Istio core installed
@@ -98,7 +87,7 @@ $ istioctl install --set profile=ambient --skip-confirmation
 {{< /text >}}
 
 After running the above command, you’ll get the following output that indicates
-four components (including {{< gloss "ztunnel" >}}Ztunnel{{< /gloss >}}) have been installed successfully!
+four components (including {{< gloss "ztunnel" >}}ztunnel{{< /gloss >}}) have been installed successfully!
 
 {{< text syntax=plain snip_id=none >}}
 ✔ Istio core installed
@@ -112,7 +101,7 @@ four components (including {{< gloss "ztunnel" >}}Ztunnel{{< /gloss >}}) have be
 
 {{< /tabset >}}
 
-5)  Verify the installed components using the following commands:
+6)  Verify the installed components using the following commands:
 
 {{< tabset category-name="config-api" >}}
 
@@ -121,17 +110,17 @@ four components (including {{< gloss "ztunnel" >}}Ztunnel{{< /gloss >}}) have be
 {{< text bash >}}
 $ kubectl get pods -n istio-system
 NAME                                    READY   STATUS    RESTARTS   AGE
-istio-cni-node-n9tcd                    1/1     Running   0          57s
-istio-ingressgateway-5b79b5bb88-897lp   1/1     Running   0          57s
-istiod-69d4d646cd-26cth                 1/1     Running   0          67s
-ztunnel-lr7lz                           1/1     Running   0          69s
+istio-cni-node-zq94l                    1/1     Running   0          2m7s
+istio-ingressgateway-56b9cb5485-ksnvc   1/1     Running   0          2m7s
+istiod-56d848857c-mhr5w                 1/1     Running   0          2m9s
+ztunnel-srrnm                           1/1     Running   0          2m5s
 {{< /text >}}
 
 {{< text bash >}}
 $ kubectl get daemonset -n istio-system
 NAME             DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
-istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   70s
-ztunnel          1         1         1       1            1           kubernetes.io/os=linux   82s
+istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   2m16s
+ztunnel          1         1         1       1            1           kubernetes.io/os=linux   2m10s
 {{< /text >}}
 
 {{< /tab >}}
@@ -140,17 +129,17 @@ ztunnel          1         1         1       1            1           kubernetes
 
 {{< text bash >}}
 $ kubectl get pods -n istio-system
-NAME                                    READY   STATUS    RESTARTS   AGE
-istio-cni-node-n9tcd                    1/1     Running   0          57s
-istiod-69d4d646cd-26cth                 1/1     Running   0          67s
-ztunnel-lr7lz                           1/1     Running   0          69s
+NAME                      READY   STATUS    RESTARTS   AGE
+istio-cni-node-d9rdt      1/1     Running   0          2m15s
+istiod-56d848857c-pwsd6   1/1     Running   0          2m23s
+ztunnel-wp7hk             1/1     Running   0          2m9s
 {{< /text >}}
 
 {{< text bash >}}
 $ kubectl get daemonset -n istio-system
 NAME             DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
-istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   70s
-ztunnel          1         1         1       1            1           kubernetes.io/os=linux   82s
+istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   2m16s
+ztunnel          1         1         1       1            1           kubernetes.io/os=linux   2m10s
 {{< /text >}}
 
 {{< /tab >}}
@@ -163,11 +152,11 @@ You’ll use the sample [bookinfo application](/docs/examples/bookinfo/), which 
 the Istio distribution that you downloaded above. In ambient mode, you deploy applications to
 your Kubernetes cluster exactly the same way you would
 without Istio. This means that you can have your applications running in your cluster before
-you enable ambient mesh and have them join the mesh without needing to restart or
+you enable ambient mode, and have them join the mesh without needing to restart or
 reconfigure them.
 
 {{< warning >}}
-Make sure the default namespace does not include the label `istio-injection=enabled` because when using ambient you do not want Istio to inject sidecars into the application pods.
+Make sure the default namespace does not include the label `istio-injection=enabled` when using ambient mode, because you do not need Istio to inject sidecars into application pods.
 {{< /warning >}}
 
 1. Start the sample services:
@@ -181,7 +170,7 @@ Make sure the default namespace does not include the label `istio-injection=enab
     $ kubectl apply -f @samples/sleep/notsleep.yaml@
     {{< /text >}}
 
-    Note: `sleep` and `notsleep` are two simple applications that can serve as curl clients.
+    `sleep` and `notsleep` are two simple applications that can serve as curl clients.
 
 1. Deploy an ingress gateway so you can access the bookinfo app from outside the cluster:
 
@@ -235,7 +224,7 @@ $ export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/bookinfo-gateway-istio
 
 {{< /tabset >}}
 
-3) Test your bookinfo application, it should work with or without the gateway:
+3) Test your bookinfo application. It should work with or without the gateway:
 
     {{< text syntax=bash snip_id=verify_traffic_sleep_to_ingress >}}
     $ kubectl exec deploy/sleep -- curl -s "http://$GATEWAY_HOST/productpage" | grep -o "<title>.*</title>"
@@ -252,9 +241,17 @@ $ export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/bookinfo-gateway-istio
     <title>Simple Bookstore App</title>
     {{< /text >}}
 
-## Adding your application to ambient {#addtoambient}
+## Adding your application to the ambient mesh {#addtoambient}
 
-You can enable all pods in a given namespace to be part of the ambient mesh
+When an application pod is part of an ambient mesh, you can check the ztunnel proxy logs to confirm the mesh is redirecting traffic.
+Before we label the namespace to be part of an ambient mesh, check the ztunnel logs related to `inpod` which indicate that in-pod redirection mode is enabled:
+
+{{< text bash >}}
+$ kubectl logs ds/ztunnel -n istio-system  | grep inpod_enabled
+inpod_enabled: true
+{{< /text >}}
+
+Now you can enable all pods in a given namespace to be part of an ambient mesh
 by simply labeling the namespace:
 
 {{< text bash >}}
@@ -262,9 +259,16 @@ $ kubectl label namespace default istio.io/dataplane-mode=ambient
 {{< /text >}}
 
 Congratulations! You have successfully added all pods in the default namespace
-to the ambient mesh. The best part is that there was no need to restart or redeploy anything!
+to the mesh. Note that you did not have to restart or redeploy anything!
 
-Send some test traffic:
+Check once again the ztunnel logs for the proxy has received the network namespace (netns) information about an ambient application pod, and has started proxying for it:
+
+{{< text bash >}}
+$ kubectl logs ds/ztunnel -n istio-system | grep -o ".*starting proxy"
+... received netns, starting proxy
+{{< /text >}}
+
+Now, send some test traffic:
 
 {{< text bash >}}
 $ kubectl exec deploy/sleep -- curl -s "http://$GATEWAY_HOST/productpage" | grep -o "<title>.*</title>"
@@ -288,13 +292,13 @@ in Kiali’s dashboard:
 
 {{< image link="./kiali-ambient-bookinfo.png" caption="Kiali dashboard" >}}
 
-## Secure Application Access {#secure}
+## Secure application access {#secure}
 
-After you have added your application to ambient mesh, you can secure application access using L4
-authorization policies. This lets you control access to and from a service based on client workload
-identities, but not at the L7 level, such as HTTP methods like `GET` and `POST`.
+After you have added your application to an ambient mode mesh, you can secure application access using Layer 4
+authorization policies. This feature lets you control access to and from a service based on client workload
+identities, but not at the Layer 7 level, such as HTTP methods like `GET` and `POST`.
 
-### L4 Authorization Policy
+### Layer 4 authorization policy
 
 Explicitly allow the `sleep` and gateway service accounts to call the `productpage` service:
 
@@ -339,7 +343,7 @@ $ kubectl exec deploy/notsleep -- curl -s http://productpage:9080/ | grep -o "<t
 command terminated with exit code 56
 {{< /text >}}
 
-### L7 Authorization Policy
+### Layer 7 authorization policy
 
 Using the Kubernetes Gateway API, you can deploy a {{< gloss "waypoint" >}}waypoint proxy{{< /gloss >}} for the `productpage` service that uses the `bookinfo-productpage` service account. Any traffic going to the `productpage` service will be mediated, enforced and observed by the Layer 7 (L7) proxy.
 
@@ -366,7 +370,7 @@ status:
     type: Programmed
 {{< /text >}}
 
-Update our `AuthorizationPolicy` to explicitly allow the `sleep` and gateway service accounts to `GET` the `productpage` service, but perform no other operations:
+Update your `AuthorizationPolicy` to explicitly allow the `sleep` and gateway service accounts to `GET` the `productpage` service, but perform no other operations:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -411,9 +415,9 @@ $ kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<titl
 <title>Simple Bookstore App</title>
 {{< /text >}}
 
-## Control Traffic {#control}
+## Control traffic {#control}
 
-Deploy a waypoint proxy for the review service, using the `bookinfo-review` service account, so that any traffic going to the review service will be mediated by the waypoint proxy.
+Deploy a waypoint proxy for the `review` service, using the `bookinfo-review` service account, so that any traffic going to the `review` service will be mediated by the waypoint proxy.
 
 {{< text bash >}}
 $ istioctl x waypoint apply --service-account bookinfo-reviews --wait
@@ -452,6 +456,27 @@ $ kubectl exec deploy/sleep -- sh -c "for i in \$(seq 1 100); do curl -s http://
 
 ## Uninstall {#uninstall}
 
+The label to instruct Istio to automatically include applications in the `default` namespace to an ambient mesh is not removed by default. If no longer needed, use the following command to remove it:
+
+{{< text bash >}}
+$ kubectl label namespace default istio.io/dataplane-mode-
+{{< /text >}}
+
+With the label removed, we can check the logs once again to verify the proxy removal:
+
+{{< text bash >}}
+$ kubectl logs ds/ztunnel -n istio-system  | grep inpod
+Found 3 pods, using pod/ztunnel-jrxln
+inpod_enabled: true
+inpod_uds: /var/run/ztunnel/ztunnel.sock
+inpod_port_reuse: true
+inpod_mark: 1337
+2024-03-26T00:02:06.161802Z  INFO ztunnel::inpod::workloadmanager: handling new stream
+2024-03-26T00:02:06.162099Z  INFO ztunnel::inpod::statemanager: pod received snapshot sent
+2024-03-26T00:41:05.518194Z  INFO ztunnel::inpod::statemanager: pod WorkloadUid("7ef61e18-725a-4726-84fa-05fc2a440879") received netns, starting proxy
+2024-03-26T00:50:14.856284Z  INFO ztunnel::inpod::statemanager: pod delete request, draining proxy
+{{< /text >}}
+
 To remove waypoint proxies, installed policies, and uninstall Istio:
 
 {{< text bash >}}
@@ -460,13 +485,7 @@ $ istioctl uninstall -y --purge
 $ kubectl delete namespace istio-system
 {{< /text >}}
 
-The label to instruct Istio to automatically include applications in the `default` namespace to ambient mesh is not removed by default. If no longer needed, use the following command to remove it:
-
-{{< text bash >}}
-$ kubectl label namespace default istio.io/dataplane-mode-
-{{< /text >}}
-
-To delete the Bookinfo sample application and its configuration, see [`Bookinfo` cleanup](/docs/examples/bookinfo/#cleanup).
+To delete the Bookinfo sample application and its configuration, see [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup).
 
 To remove the `sleep` and `notsleep` applications:
 

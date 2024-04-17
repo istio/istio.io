@@ -42,7 +42,7 @@ snip_check_the_tls_configuration_of_istio_workloads_2() {
 kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl http://httpbin.foo:8000/ip -sS -o /dev/null -w "%{http_code}\n"
 }
 
-! read -r -d '' snip_check_the_tls_configuration_of_istio_workloads_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_check_the_tls_configuration_of_istio_workloads_2_out <<\ENDSNIP
 200
 ENDSNIP
 
@@ -50,7 +50,7 @@ snip_check_the_tls_configuration_of_istio_workloads_3() {
 kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c istio-proxy -n foo -- openssl s_client -alpn istio -tls1_3 -connect httpbin.foo:8000 | grep "TLSv1.3"
 }
 
-! read -r -d '' snip_check_the_tls_configuration_of_istio_workloads_4 <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_check_the_tls_configuration_of_istio_workloads_4 <<\ENDSNIP
 TLSv1.3
 ENDSNIP
 
@@ -58,7 +58,7 @@ snip_check_the_tls_configuration_of_istio_workloads_5() {
 kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c istio-proxy -n foo -- openssl s_client -alpn istio -tls1_2 -connect httpbin.foo:8000 | grep "Cipher is (NONE)"
 }
 
-! read -r -d '' snip_check_the_tls_configuration_of_istio_workloads_6 <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_check_the_tls_configuration_of_istio_workloads_6 <<\ENDSNIP
 Cipher is (NONE)
 ENDSNIP
 

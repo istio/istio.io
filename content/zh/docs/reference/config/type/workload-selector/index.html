@@ -85,8 +85,6 @@ Telemetry, and WasmPlugin CRDs to target a Kubernetes Gateway.</p>
 a PolicyTargetReference. The example sets <code>action</code> to <code>DENY</code> to create a deny policy.
 It denies all the requests with <code>POST</code> method on port <code>8080</code> directed through the
 <code>waypoint</code> Gateway in the <code>foo</code> namespace.</p>
-<p>{{<tabset category-name="example">}}
-{{<tab name="v1" category-value="v1">}}</p>
 <pre><code class="language-yaml">apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
@@ -104,8 +102,6 @@ spec:
         methods: [&quot;POST&quot;]
         ports: [&quot;8080&quot;]
 </code></pre>
-<p>{{</tab>}}
-{{</tabset>}}</p>
 
 <table class="message-fields">
 <thead>

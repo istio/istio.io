@@ -22,7 +22,7 @@
 
 snip_setup_1() {
 kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
-  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=444631bfe06f3bcca5d0eadf1857eac1d369421d" | kubectl apply -f -; }
+  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=e8cdaaf9b4ff999d5d0320fbbed6135cd2cfd9d2" | kubectl apply -f -; }
 }
 
 snip_setup_2() {
@@ -82,7 +82,7 @@ snip_configuring_a_gateway_4() {
 curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST/get"
 }
 
-! read -r -d '' snip_configuring_a_gateway_4_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_configuring_a_gateway_4_out <<\ENDSNIP
 HTTP/1.1 200 OK
 server: istio-envoy
 ...
@@ -92,7 +92,7 @@ snip_configuring_a_gateway_5() {
 curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST/headers"
 }
 
-! read -r -d '' snip_configuring_a_gateway_5_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_configuring_a_gateway_5_out <<\ENDSNIP
 HTTP/1.1 404 Not Found
 ...
 ENDSNIP
@@ -133,7 +133,7 @@ snip_configuring_a_gateway_7() {
 curl -s -HHost:httpbin.example.com "http://$INGRESS_HOST/headers"
 }
 
-! read -r -d '' snip_configuring_a_gateway_7_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_configuring_a_gateway_7_out <<\ENDSNIP
 {
   "headers": {
     "Accept": "*/*",
@@ -142,7 +142,7 @@ curl -s -HHost:httpbin.example.com "http://$INGRESS_HOST/headers"
 ...
 ENDSNIP
 
-! read -r -d '' snip_automated_deployment_1 <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_automated_deployment_1 <<\ENDSNIP
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: Gateway
 metadata:
@@ -154,7 +154,7 @@ spec:
 ...
 ENDSNIP
 
-! read -r -d '' snip_resource_attachment_and_scaling_1 <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_resource_attachment_and_scaling_1 <<\ENDSNIP
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: Gateway
 metadata:
@@ -203,7 +203,7 @@ spec:
       gateway.networking.k8s.io/gateway-name: gateway
 ENDSNIP
 
-! read -r -d '' snip_manual_deployment_1 <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_manual_deployment_1 <<\ENDSNIP
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: Gateway
 metadata:
@@ -215,7 +215,7 @@ spec:
 ...
 ENDSNIP
 
-! read -r -d '' snip_mesh_traffic_1 <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_mesh_traffic_1 <<\ENDSNIP
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: HTTPRoute
 metadata:
@@ -250,5 +250,5 @@ kubectl delete ns istio-system
 }
 
 snip_cleanup_3() {
-kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=444631bfe06f3bcca5d0eadf1857eac1d369421d" | kubectl delete -f -
+kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=e8cdaaf9b4ff999d5d0320fbbed6135cd2cfd9d2" | kubectl delete -f -
 }

@@ -64,7 +64,7 @@ snip_configure_direct_traffic_to_a_wildcard_host_2() {
 kubectl exec "$SOURCE_POD" -c sleep -- sh -c 'curl -s https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"; curl -s https://de.wikipedia.org/wiki/Wikipedia:Hauptseite | grep -o "<title>.*</title>"'
 }
 
-! read -r -d '' snip_configure_direct_traffic_to_a_wildcard_host_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_configure_direct_traffic_to_a_wildcard_host_2_out <<\ENDSNIP
 <title>Wikipedia, the free encyclopedia</title>
 <title>Wikipedia – Die freie Enzyklopädie</title>
 ENDSNIP
@@ -226,7 +226,7 @@ snip_configure_egress_gateway_traffic_to_a_wildcard_host_4() {
 kubectl exec "$SOURCE_POD" -c sleep -- sh -c 'curl -s https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"; curl -s https://de.wikipedia.org/wiki/Wikipedia:Hauptseite | grep -o "<title>.*</title>"'
 }
 
-! read -r -d '' snip_configure_egress_gateway_traffic_to_a_wildcard_host_4_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_configure_egress_gateway_traffic_to_a_wildcard_host_4_out <<\ENDSNIP
 <title>Wikipedia, the free encyclopedia</title>
 <title>Wikipedia – Die freie Enzyklopädie</title>
 ENDSNIP
@@ -235,7 +235,7 @@ snip_configure_egress_gateway_traffic_to_a_wildcard_host_5() {
 kubectl exec "$(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}')" -c istio-proxy -n istio-system -- pilot-agent request GET clusters | grep '^outbound|443||www.wikipedia.org.*cx_total:'
 }
 
-! read -r -d '' snip_configure_egress_gateway_traffic_to_a_wildcard_host_5_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_configure_egress_gateway_traffic_to_a_wildcard_host_5_out <<\ENDSNIP
 outbound|443||www.wikipedia.org::208.80.154.224:443::cx_total::2
 ENDSNIP
 
@@ -243,7 +243,7 @@ snip_configure_egress_gateway_traffic_to_a_wildcard_host_6() {
 kubectl exec "$(kubectl get pod -l gateway.networking.k8s.io/gateway-name=wikipedia-egress-gateway -o jsonpath='{.items[0].metadata.name}')" -c istio-proxy -- pilot-agent request GET clusters | grep '^outbound|443||www.wikipedia.org.*cx_total:'
 }
 
-! read -r -d '' snip_configure_egress_gateway_traffic_to_a_wildcard_host_6_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_configure_egress_gateway_traffic_to_a_wildcard_host_6_out <<\ENDSNIP
 outbound|443||www.wikipedia.org::208.80.154.224:443::cx_total::2
 ENDSNIP
 

@@ -172,14 +172,15 @@ function setup_kind_cluster() {
   if [[ -z "${CONFIG}" ]]; then
     # Kubernetes 1.15+
     CONFIG=${DEFAULT_CLUSTER_YAML}
-    # Configure the cluster IP Family only for default configs
-    if [ "${IP_FAMILY}" != "ipv4" ]; then
-      grep "ipFamily: ${IP_FAMILY}" "${CONFIG}" || \
-      cat <<EOF >> "${CONFIG}"
+  fi
+
+  # Configure the cluster IP Family if explicitly set
+  if [ "${IP_FAMILY}" != "ipv4" ]; then
+    grep "ipFamily: ${IP_FAMILY}" "${CONFIG}" || \
+    cat <<EOF >> "${CONFIG}"
 networking:
   ipFamily: ${IP_FAMILY}
 EOF
-    fi
   fi
 
   KIND_WAIT_FLAG="--wait=180s"
@@ -196,7 +197,7 @@ EOF
     return 9
   fi
   # Workaround kind issue causing taints to not be removed in 1.24
-  kubectl taint nodes "${NAME}"-control-plane node-role.kubernetes.io/control-plane- || true
+  kubectl taint nodes "${NAME}"-control-plane node-role.kubernetes.io/control-plane- 2>/dev/null || true
 
   # Determine what CNI to install
   case "${KUBERNETES_CNI:-}" in 

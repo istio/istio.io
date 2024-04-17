@@ -29,7 +29,7 @@ snip_before_you_begin_2() {
 curl --version | grep LibreSSL
 }
 
-! read -r -d '' snip_before_you_begin_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_before_you_begin_2_out <<\ENDSNIP
 curl 7.54.0 (x86_64-apple-darwin17.0) libcurl/7.54.0 LibreSSL/2.0.20 zlib/1.2.11 nghttp2/1.24.0
 ENDSNIP
 
@@ -64,7 +64,7 @@ snip_generate_client_and_server_certificates_and_keys_6() {
 ls example_cert*
 }
 
-! read -r -d '' snip_generate_client_and_server_certificates_and_keys_6_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_generate_client_and_server_certificates_and_keys_6_out <<\ENDSNIP
 example_certs1:
 client.example.com.crt          example.com.key                 httpbin.example.com.crt
 client.example.com.csr          helloworld.example.com.crt      httpbin.example.com.csr
@@ -192,7 +192,7 @@ curl -v -HHost:httpbin.example.com --resolve "httpbin.example.com:$SECURE_INGRES
   --cacert example_certs1/example.com.crt "https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418"
 }
 
-! read -r -d '' snip_configure_a_tls_ingress_gateway_for_a_single_host_7_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_configure_a_tls_ingress_gateway_for_a_single_host_7_out <<\ENDSNIP
 ...
 HTTP/2 418
 ...
@@ -219,7 +219,7 @@ curl -v -HHost:httpbin.example.com --resolve "httpbin.example.com:$SECURE_INGRES
   --cacert example_certs2/example.com.crt "https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418"
 }
 
-! read -r -d '' snip_configure_a_tls_ingress_gateway_for_a_single_host_9_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_configure_a_tls_ingress_gateway_for_a_single_host_9_out <<\ENDSNIP
 ...
 HTTP/2 418
 ...
@@ -239,7 +239,7 @@ curl -v -HHost:httpbin.example.com --resolve "httpbin.example.com:$SECURE_INGRES
   --cacert example_certs1/example.com.crt "https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418"
 }
 
-! read -r -d '' snip_configure_a_tls_ingress_gateway_for_a_single_host_10_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_configure_a_tls_ingress_gateway_for_a_single_host_10_out <<\ENDSNIP
 ...
 * TLSv1.2 (OUT), TLS handshake, Client hello (1):
 * TLSv1.2 (IN), TLS handshake, Server hello (2):
@@ -388,7 +388,7 @@ curl -v -HHost:helloworld.example.com --resolve "helloworld.example.com:$SECURE_
   --cacert example_certs1/example.com.crt "https://helloworld.example.com:$SECURE_INGRESS_PORT/hello"
 }
 
-! read -r -d '' snip_configure_a_tls_ingress_gateway_for_multiple_hosts_8_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_configure_a_tls_ingress_gateway_for_multiple_hosts_8_out <<\ENDSNIP
 ...
 HTTP/2 200
 ...
@@ -399,7 +399,7 @@ curl -v -HHost:httpbin.example.com --resolve "httpbin.example.com:$SECURE_INGRES
   --cacert example_certs1/example.com.crt "https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418"
 }
 
-! read -r -d '' snip_configure_a_tls_ingress_gateway_for_multiple_hosts_9_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_configure_a_tls_ingress_gateway_for_multiple_hosts_9_out <<\ENDSNIP
 ...
     -=[ teapot ]=-
 
@@ -476,7 +476,7 @@ curl -v -HHost:httpbin.example.com --resolve "httpbin.example.com:$SECURE_INGRES
 --cacert example_certs1/example.com.crt "https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418"
 }
 
-! read -r -d '' snip_configure_a_mutual_tls_ingress_gateway_4_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_configure_a_mutual_tls_ingress_gateway_4_out <<\ENDSNIP
 * TLSv1.3 (OUT), TLS handshake, Client hello (1):
 * TLSv1.3 (IN), TLS handshake, Server hello (2):
 * TLSv1.3 (IN), TLS handshake, Encrypted Extensions (8):
@@ -497,7 +497,7 @@ curl -v -HHost:httpbin.example.com --resolve "httpbin.example.com:$SECURE_INGRES
   "https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418"
 }
 
-! read -r -d '' snip_configure_a_mutual_tls_ingress_gateway_5_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_configure_a_mutual_tls_ingress_gateway_5_out <<\ENDSNIP
 ...
     -=[ teapot ]=-
 

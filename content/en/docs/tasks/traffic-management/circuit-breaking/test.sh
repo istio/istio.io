@@ -82,3 +82,4 @@ _verify_like snip_tripping_the_circuit_breaker_5 "$expected"
 # @cleanup
 snip_cleaning_up_1
 snip_cleaning_up_2
+kubectl label namespace default istio-injection-

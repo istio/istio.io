@@ -201,7 +201,7 @@ spec:
 EOF
 }
 
-! read -r -d '' snip_local_rate_limit_1 <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_local_rate_limit_1 <<\ENDSNIP
 template:
   metadata:
     annotations:
@@ -333,7 +333,7 @@ snip_verify_global_rate_limit_1() {
 for i in {1..2}; do curl -s "http://$GATEWAY_URL/productpage" -o /dev/null -w "%{http_code}\n"; sleep 3; done
 }
 
-! read -r -d '' snip_verify_global_rate_limit_1_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_verify_global_rate_limit_1_out <<\ENDSNIP
 200
 429
 ENDSNIP
@@ -342,7 +342,7 @@ snip_verify_global_rate_limit_2() {
 for i in {1..3}; do curl -s "http://$GATEWAY_URL/api/v1/products/${i}" -o /dev/null -w "%{http_code}\n"; sleep 3; done
 }
 
-! read -r -d '' snip_verify_global_rate_limit_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_verify_global_rate_limit_2_out <<\ENDSNIP
 200
 200
 429
@@ -352,7 +352,7 @@ snip_verify_local_rate_limit_1() {
 kubectl exec "$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')" -c ratings -- bash -c 'for i in {1..5}; do curl -s productpage:9080/productpage -o /dev/null -w "%{http_code}\n"; sleep 1; done'
 }
 
-! read -r -d '' snip_verify_local_rate_limit_1_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_verify_local_rate_limit_1_out <<\ENDSNIP
 
 200
 200

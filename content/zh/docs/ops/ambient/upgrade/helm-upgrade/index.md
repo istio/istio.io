@@ -1,32 +1,29 @@
 ---
 title: 使用 Helm 升级
-description: 如何使用 Helm 升级 Ambient Mesh。
+description: 使用 Helm 对 Ambient 模式的安装进行升级。
 weight: 5
 owner: istio/wg-environments-maintainers
 test: yes
 status: Experimental
 ---
 
-根据本指南使用 [Helm](https://helm.sh/docs/) 升级和配置 Ambient Mesh。
-本指南假设您已经[通过 Helm 安装](/zh/docs/ops/ambient/install/helm-installation/)了
-Istio 的一个较早的次要版本或补丁版本的 Ambient Mesh。
+按照本指南使用 [Helm](https://helm.sh/docs/) 对 Ambient 模式的安装进行升级和配置。
+本指南假设您已经使用之前的 Istio 次要版本或补丁版本执行了
+[Helm Ambient 网格安装](/zh/docs/ops/ambient/install/helm-installation/)。
 
 {{< boilerplate ambient-alpha-warning >}}
 
 {{< warning >}}
-与 Sidecar 模式相比，`Ambient` 支持将应用程序 Pod 移动到已升级的数据平面，
+与 Sidecar 模式相比，Ambient 模式支持将应用程序 Pod 移动到已升级的数据平面，
 而无需强制重新启动或重新编排正在运行的应用程序 Pod。
 但是，升级数据平面**将**短暂中断被升级节点上的所有工作负载流量，
-并且 Ambient 当前不支持数据平面的金丝雀升级。
+并且 Ambient 模式当前不支持数据平面的金丝雀升级。
 
 建议使用节点封锁和蓝/绿节点池来控制生产环境升级期间应用程序 Pod 流量中断的影响范围。
 有关详细信息，请参阅您的 Kubernetes 提供商文档。
 {{< /warning >}}
 
 ## 先决条件 {#prerequisites}
-
-1. 按照[使用 Helm 安装](/zh/docs/ops/ambient/install/helm-installation/)并满足该指南中的所有先决条件，
-   通过 Helm 安装 Ambient Mesh。
 
 1. 更新 Helm 仓库：
 
@@ -67,7 +64,7 @@ $ istioctl x precheck
 
 ### 升级 Istio Discovery 组件 {#upgrade-the-istio-discovery-component}
 
-Istiod 是管理和配置代理以在 ambient mesh 中路由流量的控制平面组件。
+Istiod 是管理和配置代理以在 Ambient 网格中路由流量的控制平面组件。
 
 {{< text syntax=bash snip_id=upgrade_istiod >}}
 $ helm upgrade istiod istio/istiod -n istio-system
@@ -75,10 +72,10 @@ $ helm upgrade istiod istio/istiod -n istio-system
 
 ### 升级 ztunnel 组件 {#upgrade-the-ztunnel-component}
 
-ztunnel DaemonSet 是 Ambient 中的 L4 节点代理组件。
+ztunnel DaemonSet 是节点代理组件。
 
 {{< warning >}}
-由于 Ambient 尚未稳定，以下声明不是兼容性保证，后续可能会变更或移除。
+由于 Ambient 模式尚未稳定，以下声明不是兼容性保证，后续可能会变更或移除。
 在达到稳定状态之前，此组件和/或控制平面可能会有破坏性变更，使得次要版本之间互不兼容。
 {{< /warning >}}
 
@@ -102,7 +99,7 @@ Istio CNI 代理负责检测添加到 Ambient 网格的 Pod，
 它不是数据平面或控制平面的一部分。
 
 {{< warning >}}
-由于 Ambient 尚未稳定，以下声明不具备兼容性保证，可能会变更或移除。
+由于 Ambient 模式尚未稳定，以下声明不具备兼容性保证，可能会变更或移除。
 在达到稳定状态之前，该组件和/或控制平面可能会受到破坏性变更，从而阻碍次要版本之间的兼容性。
 {{< /warning >}}
 
@@ -110,7 +107,7 @@ CNI 1.x 版本通常与 1.x+1 和 1.x 版本的控制平面兼容，
 这意味着控制平面必须在 Istio CNI 之前升级，需要它们之前的版本差异在一个次要版本之内。
 
 {{< warning >}}
-将 Istio CNI 代理就地升级到兼容版本不会中断已成功添加到 Ambient 网格中正在运行 Pod 的网络，
+将 Istio CNI 代理就地升级到兼容版本不会中断已成功添加到一个 Ambient 网格中正在运行 Pod 的网络，
 但在节点上 Istio CNI 代理成功升级并完成就绪检查之前，
 不会有任何 Ambient 捕获的 Pod 可以在节点上被成功调度（或重新调度）。
 如果这是一个重大的中断问题，或者需要对 CNI 升级进行更严格的影响范围控制，则建议使用节点污染和/或节点警戒线。
@@ -120,7 +117,7 @@ CNI 1.x 版本通常与 1.x+1 和 1.x 版本的控制平面兼容，
 $ helm upgrade istio-cni istio/cni -n istio-system
 {{< /text >}}
 
-### （可选）升级 Gateway 组件 {#optional-upgrade-the-gateway-component}
+### 升级 Gateway 组件（可选） {#upgrade-the-gateway-component-optional}
 
 Gateway 组件管理 Ambient Mesh 边界之间的东西向和南北向数据平面流量，
 以及 L7 数据平面的某些方面。
@@ -155,4 +152,4 @@ $ kubectl get pods -n istio-system
 
 ## 卸载 {#uninstall}
 
-请参阅我们的 [Helm Ambient 安装指南](/zh/docs/ops/ambient/install/helm-installation/#uninstall)中的卸载部分。
+请参阅 [Helm 安装指南](/zh/docs/ops/ambient/install/helm-installation/#uninstall)中的卸载部分。

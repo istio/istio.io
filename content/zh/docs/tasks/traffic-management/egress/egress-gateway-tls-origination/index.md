@@ -17,6 +17,8 @@ test: yes
 示例中演示了如何配置 Istio 来通过专门的 egress 网关服务引导 egress 流量。
 本示例兼容以上两者，描述如何配置 egress 网关，为外部服务流量发起 TLS 连接。
 
+{{< boilerplate gateway-api-gamma-support >}}
+
 ## 开始之前{#before-you-begin}
 
 * 遵照[安装指南](/zh/docs/setup/)中的指令，安装 Istio。
@@ -55,9 +57,15 @@ test: yes
     命令应该正确执行此任务中的指示。否则，升级您的 `openssl` 或尝试 `openssl`
     的不同实现，像在 Linux 机器上一样。
 
-* [部署 Istio egress 网关](/zh/docs/tasks/traffic-management/egress/egress-gateway/#deploy-Istio-egress-gateway)。
+* [开启 Envoy 的访问日志](/zh/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)，
+    如果尚未启用。例如，使用 `istioctl`：
 
-* [开启 Envoy 的访问日志](/zh/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
+    {{< text bask >}}
+    $ istioctl install <flags-you-used-to-install-Istio> --set meshConfig.accessLogFile=/dev/stdout
+    {{< /text >}}
+
+*   如果您不使用 `Gateway API` 指令，
+    请确保[部署 Istio egress 网关](/zh/docs/tasks/traffic-management/egress/egress-gateway/#deploy-istio-egress-gateway)。
 
 ## 通过 egress 网关发起 TLS 连接 {#perform-TLS-origination-with-an-egress-gateway}
 
@@ -105,84 +113,188 @@ Sidecar 完成。
 1. 为 `edition.cnn.com` 创建一个 egress `Gateway`，端口 443，以及一个 Sidecar
    请求的目标规则，Sidecar 请求被直接导向 egress 网关。
 
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: Gateway
-    metadata:
-      name: istio-egressgateway
-    spec:
-      selector:
-        istio: egressgateway
-      servers:
+{{< tabset category-name="config-api" >}}
+
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: istio-egressgateway
+spec:
+  selector:
+    istio: egressgateway
+  servers:
+  - port:
+      number: 80
+      name: https-port-for-tls-origination
+      protocol: HTTPS
+    hosts:
+    - edition.cnn.com
+    tls:
+      mode: ISTIO_MUTUAL
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: egressgateway-for-cnn
+spec:
+  host: istio-egressgateway.istio-system.svc.cluster.local
+  subsets:
+  - name: cnn
+    trafficPolicy:
+      loadBalancer:
+        simple: ROUND_ROBIN
+      portLevelSettings:
       - port:
           number: 80
-          name: https-port-for-tls-origination
-          protocol: HTTPS
-        hosts:
-        - edition.cnn.com
         tls:
           mode: ISTIO_MUTUAL
-    ---
-    apiVersion: networking.istio.io/v1alpha3
-    kind: DestinationRule
-    metadata:
-      name: egressgateway-for-cnn
-    spec:
-      host: istio-egressgateway.istio-system.svc.cluster.local
-      subsets:
-      - name: cnn
-        trafficPolicy:
-          loadBalancer:
-            simple: ROUND_ROBIN
-          portLevelSettings:
-          - port:
-              number: 80
-            tls:
-              mode: ISTIO_MUTUAL
-              sni: edition.cnn.com
-    EOF
-    {{< /text >}}
+          sni: edition.cnn.com
+EOF
+{{< /text >}}
 
-1. 定义一个 `VirtualService` 来引导流量流经 egress 网关，
-   以及一个 `DestinationRule` 为访问 `edition.cnn.com`
-   的请求发起 TLS 连接：
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: Gateway
+metadata:
+  name: cnn-egress-gateway
+  annotations:
+    networking.istio.io/service-type: ClusterIP
+spec:
+  gatewayClassName: istio
+  listeners:
+  - name: https-listener-for-tls-origination
+    hostname: edition.cnn.com
+    port: 80
+    protocol: HTTPS
+    tls:
+      mode: Terminate
+      options:
+        gateway.istio.io/tls-terminate-mode: ISTIO_MUTUAL
+    allowedRoutes:
+      namespaces:
+        from: Same
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: egressgateway-for-cnn
+spec:
+  host: cnn-egress-gateway-istio.default.svc.cluster.local
+  trafficPolicy:
+    loadBalancer:
+      simple: ROUND_ROBIN
+    portLevelSettings:
+    - port:
+        number: 80
+      tls:
+        mode: ISTIO_MUTUAL
+        sni: edition.cnn.com
+EOF
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
+4) Configure route rules to direct traffic through the egress gateway:
+
+{{< tabset category-name="config-api" >}}
+
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: direct-cnn-through-egress-gateway
+spec:
+  hosts:
+  - edition.cnn.com
+  gateways:
+  - istio-egressgateway
+  - mesh
+  http:
+  - match:
+    - gateways:
+      - mesh
+      port: 80
+    route:
+    - destination:
+        host: istio-egressgateway.istio-system.svc.cluster.local
+        subset: cnn
+        port:
+          number: 80
+      weight: 100
+  - match:
+    - gateways:
+      - istio-egressgateway
+      port: 80
+    route:
+    - destination:
+        host: edition.cnn.com
+        port:
+          number: 443
+      weight: 100
+EOF
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: HTTPRoute
+metadata:
+  name: direct-cnn-to-egress-gateway
+spec:
+  parentRefs:
+  - kind: ServiceEntry
+    group: networking.istio.io
+    name: cnn
+  rules:
+  - backendRefs:
+    - name: cnn-egress-gateway-istio
+      port: 80
+---
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: HTTPRoute
+metadata:
+  name: forward-cnn-from-egress-gateway
+spec:
+  parentRefs:
+  - name: cnn-egress-gateway
+  hostnames:
+  - edition.cnn.com
+  rules:
+  - backendRefs:
+    - kind: Hostname
+      group: networking.istio.io
+      name: edition.cnn.com
+      port: 443
+EOF
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
+5)  Define a `DestinationRule` to perform TLS origination for requests to `edition.cnn.com`:
+5)  定义一个 `DestinationRule` 来为 `edition.cnn.com` 的请求执行 TLS 发起：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: direct-cnn-through-egress-gateway
-    spec:
-      hosts:
-      - edition.cnn.com
-      gateways:
-      - istio-egressgateway
-      - mesh
-      http:
-      - match:
-        - gateways:
-          - mesh
-          port: 80
-        route:
-        - destination:
-            host: istio-egressgateway.istio-system.svc.cluster.local
-            subset: cnn
-            port:
-              number: 80
-          weight: 100
-      - match:
-        - gateways:
-          - istio-egressgateway
-          port: 80
-        route:
-        - destination:
-            host: edition.cnn.com
-            port:
-              number: 443
-          weight: 100
-    ---
     apiVersion: networking.istio.io/v1alpha3
     kind: DestinationRule
     metadata:
@@ -200,7 +312,7 @@ Sidecar 完成。
     EOF
     {{< /text >}}
 
-1. 发送一个 HTTP 请求至 [http://edition.cnn.com/politics](https://edition.cnn.com/politics)。
+6)  发送一个 HTTP 请求至 [http://edition.cnn.com/politics](https://edition.cnn.com/politics)。
 
     {{< text bash >}}
     $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
@@ -210,30 +322,76 @@ Sidecar 完成。
 
     输出将与在示例[为 Egress 流量发起 TLS 连接](/zh/docs/tasks/traffic-management/egress/egress-tls-origination/)中显示的一样，发起 TLS 连接后，不再显示 _301 Moved Permanently_ 消息。
 
-1. 检查 `istio-egressgateway` Pod 的日志，将看到一行与请求相关的记录。
-    若 Istio 部署在 `istio-system` 命名空间中，可以通过下面的命令打印日志：
+7)  检查 egress 网关代理的日志。
 
-    {{< text bash >}}
-    $ kubectl logs -l istio=egressgateway -c istio-proxy -n istio-system | tail
-    {{< /text >}}
+{{< tabset category-name="config-api" >}}
 
-    将看到类似如下一行的输出：
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
-    {{< text plain>}}
-    [2020-06-30T16:17:56.763Z] "GET /politics HTTP/2" 200 - "-" "-" 0 1295938 529 89 "10.244.0.171" "curl/7.64.0" "cf76518d-3209-9ab7-a1d0-e6002728ef5b" "edition.cnn.com" "151.101.129.67:443" outbound|443||edition.cnn.com 10.244.0.170:54280 10.244.0.170:8080 10.244.0.171:35628 - -
-    {{< /text >}}
+如果 Istio 部署在 `istio-system` 命名空间中，则打印日志的命令为：
+
+{{< text bash >}}
+$ kubectl logs -l istio=egressgateway -c istio-proxy -n istio-system | tail
+{{< /text >}}
+
+您应该看到一行类似于以下的内容：
+
+{{< text plain>}}
+[2020-06-30T16:17:56.763Z] "GET /politics HTTP/2" 200 - "-" "-" 0 1295938 529 89 "10.244.0.171" "curl/7.64.0" "cf76518d-3209-9ab7-a1d0-e6002728ef5b" "edition.cnn.com" "151.101.129.67:443" outbound|443||edition.cnn.com 10.244.0.170:54280 10.244.0.170:8080 10.244.0.171:35628 - -
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+使用 Istio 生成的 Pod 标签访问 egress 网关对应的日志：
+
+{{< text bash >}}
+$ kubectl logs -l gateway.networking.k8s.io/gateway-name=cnn-egress-gateway -c istio-proxy | tail
+{{< /text >}}
+
+您应该看到一行类似于以下的内容：
+
+{{< text plain >}}
+[2024-03-14T18:37:01.451Z] "GET /politics HTTP/1.1" 200 - via_upstream - "-" 0 2484998 59 37 "172.30.239.26" "curl/7.87.0-DEV" "b80c8732-8b10-4916-9a73-c3e1c848ed1e" "edition.cnn.com" "151.101.131.5:443" outbound|443||edition.cnn.com 172.30.239.33:51270 172.30.239.33:80 172.30.239.26:35192 edition.cnn.com default.forward-cnn-from-egress-gateway.0
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
 
 ### 清除 TLS 启动实例 {#cleanup-the-TLS-origination-example}
 
 删除创建的 Istio 配置项：
 
+{{< tabset category-name="config-api" >}}
+
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
+
 {{< text bash >}}
-$ kubectl delete gateway istio-egressgateway
+$ kubectl delete gw istio-egressgateway
 $ kubectl delete serviceentry cnn
 $ kubectl delete virtualservice direct-cnn-through-egress-gateway
 $ kubectl delete destinationrule originate-tls-for-edition-cnn-com
 $ kubectl delete destinationrule egressgateway-for-cnn
 {{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text bash >}}
+$ kubectl delete serviceentry cnn
+$ kubectl delete gtw cnn-egress-gateway
+$ kubectl delete httproute direct-cnn-to-egress-gateway
+$ kubectl delete httproute forward-cnn-from-egress-gateway
+$ kubectl delete destinationrule egressgateway-for-cnn
+$ kubectl delete destinationrule originate-tls-for-edition-cnn-com
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
 
 ## 通过 egress 网关发起双向 TLS 连接 {#perform-mutual-TLS-origination-with-an-egress-gateway}
 
@@ -466,128 +624,362 @@ $ kubectl delete destinationrule egressgateway-for-cnn
 
 ### 为 egress 流量配置双向 TLS {#configure-mutual-TLS-origination-for-egress-traffic}
 
-1. 创建 Kubernetes [Secret](https://kubernetes.io/docs/concepts/configuration/secret/)
-   保存客户端证书：
+1)  在部署 egress 网关的**同一命名空间**中创建一个
+    Kubernetes [Secret](https://kubernetes.io/zh-cn/docs/concepts/configuration/secret/)，
+    以保存客户端的证书：
 
-    {{< text bash >}}
-    $ kubectl create secret -n istio-system generic client-credential --from-file=tls.key=client.example.com.key \
-      --from-file=tls.crt=client.example.com.crt --from-file=ca.crt=example.com.crt
-    {{< /text >}}
+{{< tabset category-name="config-api" >}}
 
-   Secret 所在的命名空间**必须**与出口网关部署的位置一只，在本例中为 `istio-system` 命名空间。
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
-   为了支持与各种工具的集成，Istio 支持多种 Secret 格式。
+{{< text bash >}}
+$ kubectl create secret -n istio-system generic client-credential --from-file=tls.key=client.example.com.key \
+  --from-file=tls.crt=client.example.com.crt --from-file=ca.crt=example.com.crt
+{{< /text >}}
 
-   在本例中，使用了一个具有关键字 `tls.key`、`tls.crt` 和 `ca.crt` 的通用 Secret。
+为了支持与各种工具的集成，Istio 支持几种不同的 Secret 格式。
+在此示例中，使用具有关键字 `tls.key`、`tls.crt` 和 `ca.crt` 的通用 Secret。
 
-1. 为 `my-nginx.mesh-external.svc.cluster.local` 创建一个 egress `Gateway`
-   端口为 443，以及目标规则和虚拟服务来引导流量流经 egress 网关并从 egress
-   网关流向外部服务。
+{{< tip >}}
+{{< boilerplate crl-tip >}}
+{{< /tip >}}
 
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: Gateway
-    metadata:
-      name: istio-egressgateway
-    spec:
-      selector:
-        istio: egressgateway
-      servers:
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text bash >}}
+$ kubectl create secret -n default generic client-credential --from-file=tls.key=client.example.com.key \
+  --from-file=tls.crt=client.example.com.crt --from-file=ca.crt=example.com.crt
+{{< /text >}}
+
+为了支持与各种工具的集成，Istio 支持几种不同的 Secret 格式。
+在此示例中，使用具有关键字 `tls.key`、`tls.crt` 和 `ca.crt` 的通用 Secret。
+
+{{< tip >}}
+{{< boilerplate crl-tip >}}
+{{< /tip >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
+2)  为 `my-nginx.mesh-external.svc.cluster.local`、端口 443 创建 egress `Gateway`，
+    并为将定向到 egress 网关的 Sidecar 请求创建目标规则：
+
+{{< tabset category-name="config-api" >}}
+
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: istio-egressgateway
+spec:
+  selector:
+    istio: egressgateway
+  servers:
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    hosts:
+    - my-nginx.mesh-external.svc.cluster.local
+    tls:
+      mode: ISTIO_MUTUAL
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: egressgateway-for-nginx
+spec:
+  host: istio-egressgateway.istio-system.svc.cluster.local
+  subsets:
+  - name: nginx
+    trafficPolicy:
+      loadBalancer:
+        simple: ROUND_ROBIN
+      portLevelSettings:
       - port:
           number: 443
-          name: https
-          protocol: HTTPS
-        hosts:
-        - my-nginx.mesh-external.svc.cluster.local
         tls:
           mode: ISTIO_MUTUAL
-    ---
-    apiVersion: networking.istio.io/v1alpha3
-    kind: DestinationRule
-    metadata:
-      name: egressgateway-for-nginx
-    spec:
-      host: istio-egressgateway.istio-system.svc.cluster.local
-      subsets:
-      - name: nginx
-        trafficPolicy:
-          loadBalancer:
-            simple: ROUND_ROBIN
-          portLevelSettings:
-          - port:
-              number: 443
-            tls:
-              mode: ISTIO_MUTUAL
-              sni: my-nginx.mesh-external.svc.cluster.local
-    EOF
-    {{< /text >}}
+          sni: my-nginx.mesh-external.svc.cluster.local
+EOF
+{{< /text >}}
 
-1. 定义一个 `VirtualService` 引导流量流经 egress 网关：
+{{< /tab >}}
 
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: VirtualService
-    metadata:
-      name: direct-nginx-through-egress-gateway
-    spec:
-      hosts:
-      - my-nginx.mesh-external.svc.cluster.local
-      gateways:
-      - istio-egressgateway
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: Gateway
+metadata:
+  name: nginx-egressgateway
+  annotations:
+    networking.istio.io/service-type: ClusterIP
+spec:
+  gatewayClassName: istio
+  listeners:
+  - name: https
+    hostname: my-nginx.mesh-external.svc.cluster.local
+    port: 443
+    protocol: HTTPS
+    tls:
+      mode: Terminate
+      options:
+        gateway.istio.io/tls-terminate-mode: ISTIO_MUTUAL
+    allowedRoutes:
+      namespaces:
+        from: Same
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: nginx-egressgateway-istio-sds
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - get
+  - watch
+  - list
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: nginx-egressgateway-istio-sds
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: nginx-egressgateway-istio-sds
+subjects:
+- kind: ServiceAccount
+  name: nginx-egressgateway-istio
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: egressgateway-for-nginx
+spec:
+  host: nginx-egressgateway-istio.default.svc.cluster.local
+  trafficPolicy:
+    loadBalancer:
+      simple: ROUND_ROBIN
+    portLevelSettings:
+    - port:
+        number: 443
+      tls:
+        mode: ISTIO_MUTUAL
+        sni: my-nginx.mesh-external.svc.cluster.local
+EOF
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
+3)  配置路由规则以引导流量通过 egress 网关：
+
+{{< tabset category-name="config-api" >}}
+
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: direct-nginx-through-egress-gateway
+spec:
+  hosts:
+  - my-nginx.mesh-external.svc.cluster.local
+  gateways:
+  - istio-egressgateway
+  - mesh
+  http:
+  - match:
+    - gateways:
       - mesh
-      http:
-      - match:
-        - gateways:
-          - mesh
-          port: 80
-        route:
-        - destination:
-            host: istio-egressgateway.istio-system.svc.cluster.local
-            subset: nginx
-            port:
-              number: 443
-          weight: 100
-      - match:
-        - gateways:
-          - istio-egressgateway
-          port: 443
-        route:
-        - destination:
-            host: my-nginx.mesh-external.svc.cluster.local
-            port:
-              number: 443
-          weight: 100
-    EOF
-    {{< /text >}}
+      port: 80
+    route:
+    - destination:
+        host: istio-egressgateway.istio-system.svc.cluster.local
+        subset: nginx
+        port:
+          number: 443
+      weight: 100
+  - match:
+    - gateways:
+      - istio-egressgateway
+      port: 443
+    route:
+    - destination:
+        host: my-nginx.mesh-external.svc.cluster.local
+        port:
+          number: 443
+      weight: 100
+EOF
+{{< /text >}}
 
-1.  添加 `DestinationRule` 执行双向 TLS
+{{< /tab >}}
 
-    {{< text bash >}}
-    $ kubectl apply -n istio-system -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
-    kind: DestinationRule
-    metadata:
-      name: originate-mtls-for-nginx
-    spec:
-      host: my-nginx.mesh-external.svc.cluster.local
-      trafficPolicy:
-        loadBalancer:
-          simple: ROUND_ROBIN
-        portLevelSettings:
-        - port:
-            number: 443
-          tls:
-            mode: MUTUAL
-            credentialName: client-credential # 这必须与之前创建的用于保存客户端证书的 Secret 相匹配
-            sni: my-nginx.mesh-external.svc.cluster.local
-            # subjectAltNames: # 如果证书是随着上一节中指定的 SAN 生成的，则可以被启用
-            # - my-nginx.mesh-external.svc.cluster.local
-    EOF
-    {{< /text >}}
+{{< tab name="Gateway API" category-value="gateway-api" >}}
 
-1. 发送一个 HTTP 请求至 `http://my-nginx.mesh-external.svc.cluster.local`：
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: direct-nginx-to-egress-gateway
+spec:
+  hosts:
+  - my-nginx.mesh-external.svc.cluster.local
+  gateways:
+  - mesh
+  http:
+  - match:
+    - port: 80
+    route:
+    - destination:
+        host: nginx-egressgateway-istio.default.svc.cluster.local
+        port:
+          number: 443
+---
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: HTTPRoute
+metadata:
+  name: forward-nginx-from-egress-gateway
+spec:
+  parentRefs:
+  - name: nginx-egressgateway
+  hostnames:
+  - my-nginx.mesh-external.svc.cluster.local
+  rules:
+  - backendRefs:
+    - name: my-nginx
+      namespace: mesh-external
+      port: 443
+---
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: ReferenceGrant
+metadata:
+  name: my-nginx-reference-grant
+  namespace: mesh-external
+spec:
+  from:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      namespace: default
+  to:
+    - group: ""
+      kind: Service
+      name: my-nginx
+EOF
+{{< /text >}}
+
+TODO：弄清楚为什么使用 `HTTPRoute` 而不是上面不起作用的 `VirtualService`。
+它完全忽略 `HTTPRoute` 并尝试传递到目标服务，但超时。
+与上面的 `VirtualService` 唯一的区别是生成的 `VirtualService`
+包含注解：`internal.istio.io/route-semantics": "gateway"`。
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
+4)  添加 `DestinationRule` 来执行双向 TLS 发起：
+
+{{< tabset category-name="config-api" >}}
+
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
+
+{{< text bash >}}
+$ kubectl apply -n istio-system -f - <<EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: originate-mtls-for-nginx
+spec:
+  host: my-nginx.mesh-external.svc.cluster.local
+  trafficPolicy:
+    loadBalancer:
+      simple: ROUND_ROBIN
+    portLevelSettings:
+    - port:
+        number: 443
+      tls:
+        mode: MUTUAL
+        credentialName: client-credential # 这必须与之前创建的用于保存客户端证书的 Secret 相匹配
+        sni: my-nginx.mesh-external.svc.cluster.local
+        # subjectAltNames: # 如果证书是随着上一节中指定的 SAN 生成的，则可以被启用
+        # - my-nginx.mesh-external.svc.cluster.local
+EOF
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: originate-mtls-for-nginx
+spec:
+  host: my-nginx.mesh-external.svc.cluster.local
+  trafficPolicy:
+    loadBalancer:
+      simple: ROUND_ROBIN
+    portLevelSettings:
+    - port:
+        number: 443
+      tls:
+        mode: MUTUAL
+        credentialName: client-credential # 这必须与之前创建的用于保存客户端证书的 Secret 相匹配
+        sni: my-nginx.mesh-external.svc.cluster.local
+        # subjectAltNames: # 如果证书是随着上一节中指定的 SAN 生成的，则可以被启用
+        # - my-nginx.mesh-external.svc.cluster.local
+EOF
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
+5)  验证凭证是否已提供给 egress 网关并且处于活动状态：
+
+{{< tabset category-name="config-api" >}}
+
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
+
+{{< text bash >}}
+$ istioctl -n istio-system proxy-config secret deploy/istio-egressgateway | grep client-credential
+kubernetes://client-credential            Cert Chain     ACTIVE     true           1                                          2024-06-04T12:46:28Z     2023-06-05T12:46:28Z
+kubernetes://client-credential-cacert     Cert Chain     ACTIVE     true           16491643791048004260                       2024-06-04T12:46:28Z     2023-06-05T12:46:28Z
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text bash >}}
+$ istioctl proxy-config secret deploy/nginx-egressgateway-istio | grep client-credential
+kubernetes://client-credential            Cert Chain     ACTIVE     true           1                                          2024-06-04T12:46:28Z     2023-06-05T12:46:28Z
+kubernetes://client-credential-cacert     Cert Chain     ACTIVE     true           16491643791048004260                       2024-06-04T12:46:28Z     2023-06-05T12:46:28Z
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
+6)  发送一个 HTTP 请求到 `http://my-nginx.mesh-external.svc.cluster.local`：
 
     {{< text bash >}}
     $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -sS http://my-nginx.mesh-external.svc.cluster.local
@@ -598,43 +990,97 @@ $ kubectl delete destinationrule egressgateway-for-cnn
     ...
     {{< /text >}}
 
-1. 检查 `istio-egressgateway` Pod 日志，有一行与请求相关的日志记录。
-    如果 Istio 部署在命名空间 `istio-system` 中，打印日志的命令为：
+7)  检查 egress 网关代理的日志：
 
-    {{< text bash >}}
-    $ kubectl logs -l istio=egressgateway -n istio-system | grep 'my-nginx.mesh-external.svc.cluster.local' | grep HTTP
-    {{< /text >}}
+{{< tabset category-name="config-api" >}}
 
-    将显示类似如下的一行：
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
-    {{< text plain>}}
-    [2018-08-19T18:20:40.096Z] "GET / HTTP/1.1" 200 - 0 612 7 5 "172.30.146.114" "curl/7.35.0" "b942b587-fac2-9756-8ec6-303561356204" "my-nginx.mesh-external.svc.cluster.local" "172.21.72.197:443"
-    {{< /text >}}
+If Istio is deployed in the `istio-system` namespace, the command to print the log is:
+
+{{< text bash >}}
+$ kubectl logs -l istio=egressgateway -n istio-system | grep 'my-nginx.mesh-external.svc.cluster.local' | grep HTTP
+{{< /text >}}
+
+You should see a line similar to the following:
+
+{{< text plain>}}
+[2018-08-19T18:20:40.096Z] "GET / HTTP/1.1" 200 - 0 612 7 5 "172.30.146.114" "curl/7.35.0" "b942b587-fac2-9756-8ec6-303561356204" "my-nginx.mesh-external.svc.cluster.local" "172.21.72.197:443"
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+使用 Istio 生成的 Pod 标签访问 egress 网关对应的日志：
+
+{{< text bash >}}
+$ kubectl logs -l gateway.networking.k8s.io/gateway-name=nginx-egressgateway | grep 'my-nginx.mesh-external.svc.cluster.local' | grep HTTP
+{{< /text >}}
+
+您应该看到一行类似于以下的内容：
+
+{{< text plain >}}
+[2024-04-08T20:08:18.451Z] "GET / HTTP/1.1" 200 - via_upstream - "-" 0 615 5 5 "172.30.239.41" "curl/7.87.0-DEV" "86e54df0-6dc3-46b3-a8b8-139474c32a4d" "my-nginx.mesh-external.svc.cluster.local" "172.30.239.57:443" outbound|443||my-nginx.mesh-external.svc.cluster.local 172.30.239.53:48530 172.30.239.53:443 172.30.239.41:53694 my-nginx.mesh-external.svc.cluster.local default.forward-nginx-from-egress-gateway.0
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
 
 ### 清除双向 TLS 连接示例 {#cleanup-the-mutual-TLS-origination-example}
 
-1. 删除创建的 Kubernetes 资源：
+1.  删除 NGINX 双向 TLS 服务器资源：
 
     {{< text bash >}}
     $ kubectl delete secret nginx-server-certs nginx-ca-certs -n mesh-external
-    $ kubectl delete secret client-credential -n istio-system
     $ kubectl delete configmap nginx-configmap -n mesh-external
     $ kubectl delete service my-nginx -n mesh-external
     $ kubectl delete deployment my-nginx -n mesh-external
     $ kubectl delete namespace mesh-external
-    $ kubectl delete gateway istio-egressgateway
-    $ kubectl delete virtualservice direct-nginx-through-egress-gateway
-    $ kubectl delete destinationrule -n istio-system originate-mtls-for-nginx
-    $ kubectl delete destinationrule egressgateway-for-nginx
     {{< /text >}}
 
-1. 删除证书和私钥：
+1.  删除网关配置资源：
+
+{{< tabset category-name="config-api" >}}
+
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
+
+{{< text bash >}}
+$ kubectl delete secret client-credential -n istio-system
+$ kubectl delete gw istio-egressgateway
+$ kubectl delete virtualservice direct-nginx-through-egress-gateway
+$ kubectl delete destinationrule -n istio-system originate-mtls-for-nginx
+$ kubectl delete destinationrule egressgateway-for-nginx
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text bash >}}
+$ kubectl delete secret client-credential
+$ kubectl delete gtw nginx-egressgateway
+$ kubectl delete role nginx-egressgateway-istio-sds
+$ kubectl delete rolebinding nginx-egressgateway-istio-sds
+$ kubectl delete virtualservice direct-nginx-to-egress-gateway
+$ kubectl delete httproute forward-nginx-from-egress-gateway
+$ kubectl delete destinationrule originate-mtls-for-nginx
+$ kubectl delete destinationrule egressgateway-for-nginx
+$ kubectl delete referencegrant my-nginx-reference-grant -n mesh-external
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
+3)  删除证书和私钥：
 
     {{< text bash >}}
     $ rm example.com.crt example.com.key my-nginx.mesh-external.svc.cluster.local.crt my-nginx.mesh-external.svc.cluster.local.key my-nginx.mesh-external.svc.cluster.local.csr client.example.com.crt client.example.com.csr client.example.com.key
     {{< /text >}}
 
-1. 删除生成并应用于示例中的配置文件
+4)  删除生成并应用于示例中的配置文件
 
     {{< text bash >}}
     $ rm ./nginx.conf
@@ -646,6 +1092,5 @@ $ kubectl delete destinationrule egressgateway-for-cnn
 删除 `sleep` 的 Service 和 Deployment：
 
 {{< text bash >}}
-$ kubectl delete service sleep
-$ kubectl delete deployment sleep
+$ kubectl delete -f @samples/sleep/sleep.yaml@
 {{< /text >}}
