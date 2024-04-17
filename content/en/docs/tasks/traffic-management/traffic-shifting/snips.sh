@@ -65,7 +65,7 @@ kubectl get httproute reviews -o yaml
 }
 
 ! IFS=$'\n' read -r -d '' snip_gtw_verify_config_50_v3_out <<\ENDSNIP
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 ...
 spec:

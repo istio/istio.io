@@ -172,7 +172,7 @@ EOF
 
 snip_configure_an_ingress_gateway_2() {
 kubectl apply -f - <<EOF
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: mygateway

@@ -27,7 +27,7 @@ kubectl apply -f samples/bookinfo/networking/virtual-service-all-v1.yaml
 
 snip_route_to_version_1_2() {
 kubectl apply -f - <<EOF
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: reviews
@@ -177,7 +177,7 @@ ENDSNIP
 
 snip_route_based_on_user_identity_3() {
 kubectl apply -f - <<EOF
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: reviews

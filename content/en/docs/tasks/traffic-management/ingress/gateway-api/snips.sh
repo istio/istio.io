@@ -36,7 +36,7 @@ kubectl apply -f samples/httpbin/httpbin.yaml
 snip_configuring_a_gateway_2() {
 kubectl create namespace istio-ingress
 kubectl apply -f - <<EOF
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: gateway
@@ -52,7 +52,7 @@ spec:
       namespaces:
         from: All
 ---
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: http
@@ -99,7 +99,7 @@ ENDSNIP
 
 snip_configuring_a_gateway_6() {
 kubectl apply -f - <<EOF
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: http
@@ -143,7 +143,7 @@ curl -s -HHost:httpbin.example.com "http://$INGRESS_HOST/headers"
 ENDSNIP
 
 ! IFS=$'\n' read -r -d '' snip_automated_deployment_1 <<\ENDSNIP
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: gateway
@@ -155,7 +155,7 @@ spec:
 ENDSNIP
 
 ! IFS=$'\n' read -r -d '' snip_resource_attachment_and_scaling_1 <<\ENDSNIP
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: gateway
@@ -204,7 +204,7 @@ spec:
 ENDSNIP
 
 ! IFS=$'\n' read -r -d '' snip_manual_deployment_1 <<\ENDSNIP
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: gateway
@@ -216,7 +216,7 @@ spec:
 ENDSNIP
 
 ! IFS=$'\n' read -r -d '' snip_mesh_traffic_1 <<\ENDSNIP
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: mesh
