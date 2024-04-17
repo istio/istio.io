@@ -243,7 +243,7 @@ $ export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/bookinfo-gateway-istio
 
 ## Adding your application to the ambient mesh {#addtoambient}
 
-Ambient mesh data plane relies on the ztunnel DaemonSet to redirect traffic. Before we label the namespace to be part of an ambient mesh, check the ztunnel pods to make sure they are in a healthy state:
+Ambient mesh data plane relies on the ztunnel DaemonSet to redirect traffic. Check the ztunnel pods to make sure they are in a healthy state:
 
 {{< text bash >}}
 $ kubectl get pods -n istio-system -l app=ztunnel -o wide
