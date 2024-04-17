@@ -261,7 +261,7 @@ $ kubectl label namespace default istio.io/dataplane-mode=ambient
 Congratulations! You have successfully added all pods in the default namespace
 to the mesh. Note that you did not have to restart or redeploy anything!
 
-Check the ztunnel logs for the proxy has received the network namespace (netns) information about an ambient application pod, and has started proxying for it:
+Check the ztunnel logs to verify the proxy has received the network namespace (netns) information for an ambient application pod, and has started proxying for it:
 
 {{< text bash >}}
 $ kubectl logs ds/ztunnel -n istio-system | grep -o ".*starting proxy"
