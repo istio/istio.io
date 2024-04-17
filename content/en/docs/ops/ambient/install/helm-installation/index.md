@@ -33,7 +33,7 @@ The `base` chart contains the basic CRDs and cluster roles required to set up Is
 This should be installed prior to any other Istio component.
 
 {{< text syntax=bash snip_id=install_base >}}
-$ helm install istio-base istio/base -n istio-system --create-namespace
+$ helm install istio-base istio/base -n istio-system --create-namespace --wait
 {{< /text >}}
 
 ### Install the CNI component
@@ -41,7 +41,7 @@ $ helm install istio-base istio/base -n istio-system --create-namespace
 The `cni` chart installs the Istio CNI plugin. It is responsible for detecting the pods that belong to the ambient mesh, and configuring the traffic redirection between pods and the ztunnel node proxy (which will be installed later).
 
 {{< text syntax=bash snip_id=install_cni >}}
-$ helm install istio-cni istio/cni -n istio-system --set profile=ambient
+$ helm install istio-cni istio/cni -n istio-system --set profile=ambient --wait
 {{< /text >}}
 
 ### Install the Istiod component
@@ -50,7 +50,7 @@ The `istiod` chart installs a revision of Istiod. Istiod is the control plane co
 configures the proxies to route traffic within the mesh.
 
 {{< text syntax=bash snip_id=install_discovery >}}
-$ helm install istiod istio/istiod --namespace istio-system --set profile=ambient
+$ helm install istiod istio/istiod --namespace istio-system --set profile=ambient --wait
 {{< /text >}}
 
 ### Install the ztunnel component
@@ -58,21 +58,18 @@ $ helm install istiod istio/istiod --namespace istio-system --set profile=ambien
 The `ztunnel` chart installs the ztunnel DaemonSet, which is the node proxy component of Istio's ambient mode.
 
 {{< text syntax=bash snip_id=install_ztunnel >}}
-$ helm install ztunnel istio/ztunnel -n istio-system
+$ helm install ztunnel istio/ztunnel -n istio-system --wait
 {{< /text >}}
 
 ### Install an ingress gateway (optional)
 
-{{< warning >}}
-The namespace the gateway is deployed in must not have a `istio-injection=disabled` label.
-See [Controlling the injection policy](/docs/setup/additional-setup/sidecar-injection/#controlling-the-injection-policy) for more info.
-{{< /warning >}}
+To install an ingress gateway, run the command below:
 
 {{< text syntax=bash snip_id=install_ingress >}}
-$ helm install istio-ingress istio/gateway -n istio-ingress --create-namespace
+$ helm install istio-ingress istio/gateway -n istio-ingress --create-namespace --wait
 {{< /text >}}
 
-See [Installing Gateways](/docs/setup/additional-setup/gateway/) for in-depth documentation on gateway installation.
+If your Kubernetes cluster doesn't support the LoadBalancer service type (`type: LoadBalancer`) with proper external IP assigned, run the command without the `--wait` parameter. See [Installing Gateways](/docs/setup/additional-setup/gateway/) for in-depth documentation on gateway installation.
 
 ## Configuration
 
