@@ -1,0 +1,11 @@
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+metadata:
+  name: istio
+spec:
+  values:
+    global:
+      meshID: mesh1
+      multiCluster:
+        clusterName: "Kubernetes"
+      network: ""

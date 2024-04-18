@@ -348,6 +348,8 @@ metadata:
   namespace: mesh-external
   labels:
     run: my-nginx
+  annotations:
+    "networking.istio.io/exportTo": "." # simulate an external service by not exporting outside this namespace
 spec:
   ports:
   - port: 443
