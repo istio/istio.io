@@ -88,10 +88,10 @@ After installing all the components, you can check the Helm deployment status wi
 {{< text syntax=bash snip_id=show_components >}}
 $ helm ls -n istio-system
 NAME            NAMESPACE       REVISION    UPDATED         STATUS      CHART           APP VERSION
-istio-base      istio-system    1           ... ... ... ... deployed    base-{{< istio_full_version >}}     ...
-istio-cni       istio-system    1           ... ... ... ... deployed    cni-{{< istio_full_version >}}      ...
-istiod          istio-system    1           ... ... ... ... deployed    istiod-{{< istio_full_version >}}   ...
-ztunnel         istio-system    1           ... ... ... ... deployed    ztunnel-{{< istio_full_version >}}  ...
+istio-base      istio-system    1           ... ... ... ... deployed    base-{{< istio_full_version >}}     {{< istio_full_version >}}
+istio-cni       istio-system    1           ... ... ... ... deployed    cni-{{< istio_full_version >}}      {{< istio_full_version >}}
+istiod          istio-system    1           ... ... ... ... deployed    istiod-{{< istio_full_version >}}   {{< istio_full_version >}}
+ztunnel         istio-system    1           ... ... ... ... deployed    ztunnel-{{< istio_full_version >}}  {{< istio_full_version >}}
 {{< /text >}}
 
 You can check the status of the deployed pods with:
@@ -119,10 +119,10 @@ installed above.
     {{< text syntax=bash >}}
     $ helm ls -n istio-system
     NAME            NAMESPACE       REVISION    UPDATED         STATUS      CHART           APP VERSION
-    istio-base      istio-system    1           ... ... ... ... deployed    base-{{< istio_full_version >}}     ...
-    istio-cni       istio-system    1           ... ... ... ... deployed    cni-{{< istio_full_version >}}      ...
-    istiod          istio-system    1           ... ... ... ... deployed    istiod-{{< istio_full_version >}}   ...
-    ztunnel         istio-system    1           ... ... ... ... deployed    ztunnel-{{< istio_full_version >}}  ...
+    istio-base      istio-system    1           ... ... ... ... deployed    base-{{< istio_full_version >}}     {{< istio_full_version >}}
+    istio-cni       istio-system    1           ... ... ... ... deployed    cni-{{< istio_full_version >}}      {{< istio_full_version >}}
+    istiod          istio-system    1           ... ... ... ... deployed    istiod-{{< istio_full_version >}}   {{< istio_full_version >}}
+    ztunnel         istio-system    1           ... ... ... ... deployed    ztunnel-{{< istio_full_version >}}  {{< istio_full_version >}}
     {{< /text >}}
 
 1. (Optional) Delete any Istio gateway chart installations:
