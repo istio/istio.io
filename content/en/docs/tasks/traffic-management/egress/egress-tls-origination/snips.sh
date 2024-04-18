@@ -123,6 +123,122 @@ kubectl delete serviceentry edition-cnn-com
 kubectl delete destinationrule edition-cnn-com
 }
 
+snip_generate_client_and_server_certificates_and_keys_1() {
+openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=example Inc./CN=example.com' -keyout example.com.key -out example.com.crt
+}
+
+snip_generate_client_and_server_certificates_and_keys_2() {
+openssl req -out my-nginx.mesh-external.svc.cluster.local.csr -newkey rsa:2048 -nodes -keyout my-nginx.mesh-external.svc.cluster.local.key -subj "/CN=my-nginx.mesh-external.svc.cluster.local/O=some organization"
+openssl x509 -req -sha256 -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 0 -in my-nginx.mesh-external.svc.cluster.local.csr -out my-nginx.mesh-external.svc.cluster.local.crt
+}
+
+snip_generate_client_and_server_certificates_and_keys_4() {
+openssl req -out client.example.com.csr -newkey rsa:2048 -nodes -keyout client.example.com.key -subj "/CN=client.example.com/O=client organization"
+openssl x509 -req -sha256 -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 1 -in client.example.com.csr -out client.example.com.crt
+}
+
+snip_deploy_a_mutual_tls_server_1() {
+kubectl create namespace mesh-external
+}
+
+snip_deploy_a_mutual_tls_server_2() {
+kubectl create -n mesh-external secret tls nginx-server-certs --key my-nginx.mesh-external.svc.cluster.local.key --cert my-nginx.mesh-external.svc.cluster.local.crt
+kubectl create -n mesh-external secret generic nginx-ca-certs --from-file=example.com.crt
+}
+
+snip_deploy_a_mutual_tls_server_3() {
+cat <<\EOF > ./nginx.conf
+events {
+}
+
+http {
+  log_format main '$remote_addr - $remote_user [$time_local]  $status '
+  '"$request" $body_bytes_sent "$http_referer" '
+  '"$http_user_agent" "$http_x_forwarded_for"';
+  access_log /var/log/nginx/access.log main;
+  error_log  /var/log/nginx/error.log;
+
+  server {
+    listen 443 ssl;
+
+    root /usr/share/nginx/html;
+    index index.html;
+
+    server_name my-nginx.mesh-external.svc.cluster.local;
+    ssl_certificate /etc/nginx-server-certs/tls.crt;
+    ssl_certificate_key /etc/nginx-server-certs/tls.key;
+    ssl_client_certificate /etc/nginx-ca-certs/example.com.crt;
+    ssl_verify_client on;
+  }
+}
+EOF
+}
+
+snip_deploy_a_mutual_tls_server_4() {
+kubectl create configmap nginx-configmap -n mesh-external --from-file=nginx.conf=./nginx.conf
+}
+
+snip_deploy_a_mutual_tls_server_5() {
+kubectl apply -f - <<EOF
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-nginx
+  namespace: mesh-external
+  labels:
+    run: my-nginx
+  annotations:
+    "networking.istio.io/exportTo": "." # simulate an external service by not exporting outside this namespace
+spec:
+  ports:
+  - port: 443
+    protocol: TCP
+  selector:
+    run: my-nginx
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-nginx
+  namespace: mesh-external
+spec:
+  selector:
+    matchLabels:
+      run: my-nginx
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        run: my-nginx
+    spec:
+      containers:
+      - name: my-nginx
+        image: nginx
+        ports:
+        - containerPort: 443
+        volumeMounts:
+        - name: nginx-config
+          mountPath: /etc/nginx
+          readOnly: true
+        - name: nginx-server-certs
+          mountPath: /etc/nginx-server-certs
+          readOnly: true
+        - name: nginx-ca-certs
+          mountPath: /etc/nginx-ca-certs
+          readOnly: true
+      volumes:
+      - name: nginx-config
+        configMap:
+          name: nginx-configmap
+      - name: nginx-server-certs
+        secret:
+          secretName: nginx-server-certs
+      - name: nginx-ca-certs
+        secret:
+          secretName: nginx-ca-certs
+EOF
+}
+
 snip_configure_the_client_sleep_pod_1() {
 kubectl create secret generic client-credential --from-file=tls.key=client.example.com.key \
   --from-file=tls.crt=client.example.com.crt --from-file=ca.crt=example.com.crt
