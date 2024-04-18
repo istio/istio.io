@@ -14,8 +14,6 @@ we encourage the use of Helm to install Istio for use in ambient mode. Helm help
 
 1. Check the [Platform-Specific Prerequisites](/docs/ops/ambient/install/platform-prerequisites).
 
-1. Check the [Requirements for Pods and Services](/docs/ops/deployment/requirements/).
-
 1. [Install the Helm client](https://helm.sh/docs/intro/install/), version 3.6 or above.
 
 1. Configure the Helm repository:
@@ -27,54 +25,51 @@ we encourage the use of Helm to install Istio for use in ambient mode. Helm help
 
 *See [helm repo](https://helm.sh/docs/helm/helm_repo/) for command documentation.*
 
-## Installing the components
+## Install the components
 
-### Installing the base component
+### Install the base component
 
 The `base` chart contains the basic CRDs and cluster roles required to set up Istio.
 This should be installed prior to any other Istio component.
 
 {{< text syntax=bash snip_id=install_base >}}
-$ helm install istio-base istio/base -n istio-system --create-namespace
+$ helm install istio-base istio/base -n istio-system --create-namespace --wait
 {{< /text >}}
 
-### Installing the CNI Component
+### Install the CNI component
 
 The `cni` chart installs the Istio CNI plugin. It is responsible for detecting the pods that belong to the ambient mesh, and configuring the traffic redirection between pods and the ztunnel node proxy (which will be installed later).
 
 {{< text syntax=bash snip_id=install_cni >}}
-$ helm install istio-cni istio/cni -n istio-system --set profile=ambient
+$ helm install istio-cni istio/cni -n istio-system --set profile=ambient --wait
 {{< /text >}}
 
-### Installing the discovery component
+### Install the Istiod component
 
 The `istiod` chart installs a revision of Istiod. Istiod is the control plane component that manages and
 configures the proxies to route traffic within the mesh.
 
 {{< text syntax=bash snip_id=install_discovery >}}
-$ helm install istiod istio/istiod --namespace istio-system --set profile=ambient
+$ helm install istiod istio/istiod --namespace istio-system --set profile=ambient --wait
 {{< /text >}}
 
-### Installing the ztunnel component
+### Install the ztunnel component
 
 The `ztunnel` chart installs the ztunnel DaemonSet, which is the node proxy component of Istio's ambient mode.
 
 {{< text syntax=bash snip_id=install_ztunnel >}}
-$ helm install ztunnel istio/ztunnel -n istio-system
+$ helm install ztunnel istio/ztunnel -n istio-system --wait
 {{< /text >}}
 
 ### Install an ingress gateway (optional)
 
-{{< warning >}}
-The namespace the gateway is deployed in must not have a `istio-injection=disabled` label.
-See [Controlling the injection policy](/docs/setup/additional-setup/sidecar-injection/#controlling-the-injection-policy) for more info.
-{{< /warning >}}
+To install an ingress gateway, run the command below:
 
 {{< text syntax=bash snip_id=install_ingress >}}
-$ helm install istio-ingress istio/gateway -n istio-ingress --wait --create-namespace
+$ helm install istio-ingress istio/gateway -n istio-ingress --create-namespace --wait
 {{< /text >}}
 
-See [Installing Gateways](/docs/setup/additional-setup/gateway/) for in-depth documentation on gateway installation.
+If your Kubernetes cluster doesn't support the `LoadBalancer` service type (`type: LoadBalancer`) with a proper external IP assigned, run the above command without the `--wait` parameter to avoid the infinite wait. See [Installing Gateways](/docs/setup/additional-setup/gateway/) for in-depth documentation on gateway installation.
 
 ## Configuration
 
@@ -84,9 +79,9 @@ To view supported configuration options and documentation, run:
 $ helm show values istio/istiod
 {{< /text >}}
 
-## Verifying the installation
+## Verify the installation
 
-### Verifying the workload status
+### Verify the workload status
 
 After installing all the components, you can check the Helm deployment status with:
 
@@ -109,7 +104,7 @@ istiod-5f4c75464f-gskxf          1/1     Running   0          10m
 ztunnel-c2z4s                    1/1     Running   0          10m
 {{< /text >}}
 
-### Verifying with the sample application
+### Verify with the sample application
 
 After installing ambient mode with Helm, you can follow the [Deploy the sample application](/docs/ops/ambient/getting-started/#bookinfo) guide to deploy the sample application and ingress gateways, and then you can
 [add your application to the ambient mesh](/docs/ops/ambient/getting-started/#addtoambient).
