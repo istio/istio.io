@@ -131,8 +131,10 @@ __cmp_like() {
     local out="${1//$'\r'}"
     local expected=$2
     local ipregex="^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$"
-    local timeregex="^([0-9]+[smhd])+$"
+    local durationregex="^([0-9]+[smhd])+$"
     local versionregex="^[0-9]+\.[0-9]+\.[0-9]+$"
+    local dateregex="^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$"
+    local timeregex="^(2[0-3]|[01]?[0-9]):([0-5]?[0-9]):([0-5]?[0-9]).[0-9]+$"
 
     if [[ "$out" != "$expected" ]]; then
         local olines=()
@@ -186,12 +188,22 @@ __cmp_like() {
                 fi
 
                 # Check for elapsed time tokens.
-                if [[ "$otok" =~ $timeregex && "$etok" =~ $timeregex ]]; then
+                if [[ "$otok" =~ $durationregex && "$etok" =~ $durationregex ]]; then
                     continue
                 fi
 
                 # Check for version tokens.
                 if [[ "$otok" =~ $versionregex && "$etok" =~ $versionregex ]]; then
+                    continue
+                fi
+
+                # Check for date tokens.
+                if [[ "$otok" =~ $dateregex && "$etok" =~ $dateregex ]]; then
+                    continue
+                fi
+
+                # Check for hms time tokens.
+                if [[ "$otok" =~ $timeregex && "$etok" =~ $timeregex ]]; then
                     continue
                 fi
 
