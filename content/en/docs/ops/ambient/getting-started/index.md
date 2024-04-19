@@ -112,15 +112,13 @@ four components (including {{< gloss "ztunnel" >}}ztunnel{{< /gloss >}}) have be
 {{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text bash >}}
-$ kubectl get pods -n istio-system
+$ kubectl get pods,daemonset -n istio-system
 NAME                                    READY   STATUS    RESTARTS   AGE
 istio-cni-node-zq94l                    1/1     Running   0          2m7s
 istio-ingressgateway-56b9cb5485-ksnvc   1/1     Running   0          2m7s
 istiod-56d848857c-mhr5w                 1/1     Running   0          2m9s
 ztunnel-srrnm                           1/1     Running   0          2m5s
-{{< /text >}}
 
-{{< text bash >}}
 $ kubectl get daemonset -n istio-system
 NAME             DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
 istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   2m16s
@@ -132,14 +130,12 @@ ztunnel          1         1         1       1            1           kubernetes
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
 {{< text bash >}}
-$ kubectl get pods -n istio-system
+$ kubectl get pods,daemonset -n istio-system
 NAME                      READY   STATUS    RESTARTS   AGE
-istio-cni-node-d9rdt      1/1     Running   0          2m15s
-istiod-56d848857c-pwsd6   1/1     Running   0          2m23s
-ztunnel-wp7hk             1/1     Running   0          2m9s
-{{< /text >}}
+istio-cni-node-zq94l      1/1     Running   0          2m15s
+istiod-56d848857c-mhr5w   1/1     Running   0          2m23s
+ztunnel-srrnm             1/1     Running   0          2m9s
 
-{{< text bash >}}
 $ kubectl get daemonset -n istio-system
 NAME             DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
 istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   2m16s
@@ -247,15 +243,7 @@ $ export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/bookinfo-gateway-istio
 
 ## Adding your application to the ambient mesh {#addtoambient}
 
-When an application pod is part of an ambient mesh, you can check the ztunnel proxy logs to confirm the mesh is redirecting traffic.
-Before we label the namespace to be part of an ambient mesh, check the ztunnel logs related to `inpod` which indicate that in-pod redirection mode is enabled:
-
-{{< text bash >}}
-$ kubectl logs ds/ztunnel -n istio-system  | grep inpod_enabled
-inpod_enabled: true
-{{< /text >}}
-
-Now you can enable all pods in a given namespace to be part of an ambient mesh
+You can enable all pods in a given namespace to be part of an ambient mesh
 by simply labeling the namespace:
 
 {{< text bash >}}
@@ -264,13 +252,6 @@ $ kubectl label namespace default istio.io/dataplane-mode=ambient
 
 Congratulations! You have successfully added all pods in the default namespace
 to the mesh. Note that you did not have to restart or redeploy anything!
-
-Check once again the ztunnel logs for the proxy has received the network namespace (netns) information about an ambient application pod, and has started proxying for it:
-
-{{< text bash >}}
-$ kubectl logs ds/ztunnel -n istio-system | grep -o ".*starting proxy"
-... received netns, starting proxy
-{{< /text >}}
 
 Now, send some test traffic:
 
@@ -354,6 +335,7 @@ Using the Kubernetes Gateway API, you can deploy a {{< gloss "waypoint" >}}waypo
 {{< text bash >}}
 $ istioctl x waypoint apply --enroll-namespace --wait
 waypoint default/waypoint applied
+namespace default annotated with waypoint waypoint
 {{< /text >}}
 
 View the waypoint proxy status; you should see the details of the gateway
@@ -418,7 +400,7 @@ $ kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<titl
 
 ## Control traffic {#control}
 
-You can use the waypoint to control traffic to reviews. Configure traffic routing to send 90% of requests to `reviews` v1 and 10% to `reviews` v2:
+You can use the same waypoint to control traffic to `reviews`. Configure traffic routing to send 90% of requests to `reviews` v1 and 10% to `reviews` v2:
 
 {{< tabset category-name="config-api" >}}
 
@@ -445,7 +427,7 @@ $ kubectl apply -f @samples/bookinfo/gateway-api/route-reviews-90-10.yaml@
 Confirm that roughly 10% of the traffic from 100 requests goes to reviews-v2:
 
 {{< text bash >}}
-$ kubectl exec deploy/sleep -- sh -c "for i in \$(seq 1 100); do curl -s http://$GATEWAY_HOST/productpage | grep reviews-v.-; done"
+$ kubectl exec deploy/sleep -- sh -c "for i in \$(seq 1 100); do curl -s http://productpage:9080/productpage | grep reviews-v.-; done"
 {{< /text >}}
 
 ## Uninstall {#uninstall}
@@ -454,21 +436,6 @@ The label to instruct Istio to automatically include applications in the `defaul
 
 {{< text bash >}}
 $ kubectl label namespace default istio.io/dataplane-mode-
-{{< /text >}}
-
-With the label removed, we can check the logs once again to verify the proxy removal:
-
-{{< text bash >}}
-$ kubectl logs ds/ztunnel -n istio-system  | grep inpod
-Found 3 pods, using pod/ztunnel-jrxln
-inpod_enabled: true
-inpod_uds: /var/run/ztunnel/ztunnel.sock
-inpod_port_reuse: true
-inpod_mark: 1337
-2024-03-26T00:02:06.161802Z  INFO ztunnel::inpod::workloadmanager: handling new stream
-2024-03-26T00:02:06.162099Z  INFO ztunnel::inpod::statemanager: pod received snapshot sent
-2024-03-26T00:41:05.518194Z  INFO ztunnel::inpod::statemanager: pod WorkloadUid("7ef61e18-725a-4726-84fa-05fc2a440879") received netns, starting proxy
-2024-03-26T00:50:14.856284Z  INFO ztunnel::inpod::statemanager: pod delete request, draining proxy
 {{< /text >}}
 
 To remove waypoint proxies, installed policies, and uninstall Istio:
