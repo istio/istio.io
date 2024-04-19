@@ -474,7 +474,6 @@ inpod_mark: 1337
 To remove waypoint proxies, installed policies, and uninstall Istio:
 
 {{< text bash >}}
-$ kubectl annotate namespace default istio.io/use-waypoint-
 $ istioctl x waypoint delete --all
 $ istioctl uninstall -y --purge
 $ kubectl delete namespace istio-system
