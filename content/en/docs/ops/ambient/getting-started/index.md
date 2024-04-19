@@ -349,32 +349,30 @@ command terminated with exit code 56
 
 ### Layer 7 authorization policy
 
-Using the Kubernetes Gateway API, you can deploy a {{< gloss "waypoint" >}}waypoint proxy{{< /gloss >}} for the `productpage` service that uses the `bookinfo-productpage` service account. Any traffic going to the `productpage` service will be mediated, enforced and observed by the Layer 7 (L7) proxy.
-
-Deploy a waypoint proxy for the `productpage` service:
+Using the Kubernetes Gateway API, you can deploy a {{< gloss "waypoint" >}}waypoint proxy{{< /gloss >}} for your namespace:
 
 {{< text bash >}}
-$ istioctl x waypoint apply --service-account bookinfo-productpage --wait
-waypoint default/bookinfo-productpage applied
+$ istioctl x waypoint apply --enroll-namespace --wait
+waypoint default/waypoint applied
 {{< /text >}}
 
-View the `productpage` waypoint proxy status; you should see the details of the gateway
+View the waypoint proxy status; you should see the details of the gateway
 resource with `Programmed` status:
 
 {{< text bash >}}
-$ kubectl get gtw bookinfo-productpage -o yaml
+$ kubectl get gtw waypoint -o yaml
 ...
 status:
   conditions:
-  - lastTransitionTime: "2023-02-24T03:22:43Z"
-    message: Resource programmed, assigned to service(s) bookinfo-productpage-istio-waypoint.default.svc.cluster.local:15008
+  - lastTransitionTime: "2024-04-18T14:25:56Z"
+    message: Resource programmed, assigned to service(s) waypoint.default.svc.cluster.local:15008
     observedGeneration: 1
     reason: Programmed
     status: "True"
     type: Programmed
 {{< /text >}}
 
-Update your `AuthorizationPolicy` to explicitly allow the `sleep` and gateway service accounts to `GET` the `productpage` service, but perform no other operations:
+Update your `AuthorizationPolicy` to explicitly allow the `sleep` service to `GET` the `productpage` service, but perform no other operations:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -385,16 +383,15 @@ metadata:
   namespace: default
 spec:
   targetRef:
-    kind: Gateway
-    group: gateway.networking.k8s.io
-    name: bookinfo-productpage
+    kind: Service
+    group: ""
+    name: productpage
   action: ALLOW
   rules:
   - from:
     - source:
         principals:
         - cluster.local/ns/default/sa/sleep
-        - cluster.local/$GATEWAY_SERVICE_ACCOUNT
     to:
     - operation:
         methods: ["GET"]
@@ -403,7 +400,7 @@ EOF
 
 {{< text bash >}}
 $ # this should fail with an RBAC error because it is not a GET operation
-$ kubectl exec deploy/sleep -- curl -s "http://$GATEWAY_HOST/productpage" -X DELETE
+$ kubectl exec deploy/sleep -- curl -s "http://productpage:9080/productpage" -X DELETE
 RBAC: access denied
 {{< /text >}}
 
@@ -421,14 +418,7 @@ $ kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<titl
 
 ## Control traffic {#control}
 
-Deploy a waypoint proxy for the `review` service, using the `bookinfo-review` service account, so that any traffic going to the `review` service will be mediated by the waypoint proxy.
-
-{{< text bash >}}
-$ istioctl x waypoint apply --service-account bookinfo-reviews --wait
-waypoint default/bookinfo-reviews applied
-{{< /text >}}
-
-Configure traffic routing to send 90% of requests to `reviews` v1 and 10% to `reviews` v2:
+You can use the waypoint to control traffic to reviews. Configure traffic routing to send 90% of requests to `reviews` v1 and 10% to `reviews` v2:
 
 {{< tabset category-name="config-api" >}}
 
@@ -484,6 +474,7 @@ inpod_mark: 1337
 To remove waypoint proxies, installed policies, and uninstall Istio:
 
 {{< text bash >}}
+$ kubectl annotate namespace default istio.io/use-waypoint-
 $ istioctl x waypoint delete --all
 $ istioctl uninstall -y --purge
 $ kubectl delete namespace istio-system
