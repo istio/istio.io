@@ -202,6 +202,17 @@ That means, if a custom OpenTelemetry sampler is configured, it overrides all th
 Additionally, the random percentage value is set to `100` and cannot be changed. This is important
 because the custom sampler needs to receive 100% of spans to be able to properly perform its decision.
 
+## Deploy the Bookinfo Application
+
+Deploy the [Bookinfo](/docs/examples/bookinfo/#deploying-the-application) sample application.
+
+## Generating traces using the Bookinfo sample
+
+1.  When the Bookinfo application is up and running, access `http://$GATEWAY_URL/productpage`
+    one or more times to generate trace information.
+
+    {{< boilerplate trace-generation >}}
+
 ## Cleanup
 
 1.  Remove the Telemetry resource:
