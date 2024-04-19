@@ -4,7 +4,7 @@ subtitle: 安全公告
 description: Envoy 和 Go 上报的 CVE 漏洞。
 cves: [CVE-2023-44487, CVE-2023-39325]
 cvss: "7.5"
-vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+vector: "AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
 releases: ["1.17.0 以及之前的所有版本", "1.17.0 到 1.17.6", "1.18.0 到 1.18.3", "1.19.0 到 1.19.1"]
 publishdate: 2023-10-11
 keywords: [CVE]

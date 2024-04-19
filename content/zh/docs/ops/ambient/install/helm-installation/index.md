@@ -15,8 +15,6 @@ Helm 帮助您单独管理组件，您可以轻松地将组件升级到最新版
 
 1. 检查[平台特定先决条件](/zh/docs/ops/ambient/install/platform-preventions)。
 
-1. 检查 [Pod 和 Service 的要求](/zh/docs/ops/deployment/requirements/)。
-
 1. [安装 Helm 客户端](https://helm.sh/docs/intro/install/)，版本要求 3.6 或更高。
 
 1. 配置 Helm 仓库：
@@ -36,7 +34,7 @@ Helm 帮助您单独管理组件，您可以轻松地将组件升级到最新版
 需要先安装此 Chart，才能安装任何其他 Istio 组件。
 
 {{< text syntax=bash snip_id=install_base >}}
-$ helm install istio-base istio/base -n istio-system --create-namespace
+$ helm install istio-base istio/base -n istio-system --create-namespace --wait
 {{< /text >}}
 
 ### 安装 CNI 组件 {#installing-the-cni-component}
@@ -45,15 +43,15 @@ $ helm install istio-base istio/base -n istio-system --create-namespace
 并配置 Pod 和 ztunnel 节点代理（稍后将安装）之间的流量重定向。
 
 {{< text syntax=bash snip_id=install_cni >}}
-$ helm install istio-cni istio/cni -n istio-system --set profile=ambient
+$ helm install istio-cni istio/cni -n istio-system --set profile=ambient --wait
 {{< /text >}}
 
-### 安装 discovery 组件 {#installing-the-discovery-component}
+### 安装 Istiod 组件 {#installing-the-discovery-component}
 
 `istiod` Chart 会安装 Istiod 的修订版。Istiod 是控制平面组件，用于管理和配置代理，以在网格内进行流量路由。
 
 {{< text syntax=bash snip_id=install_discovery >}}
-$ helm install istiod istio/istiod --namespace istio-system --set profile=ambient
+$ helm install istiod istio/istiod --namespace istio-system --set profile=ambient --wait
 {{< /text >}}
 
 ### 安装 ztunnel 组件 {#installing-the-ztunnel-component}
@@ -61,20 +59,20 @@ $ helm install istiod istio/istiod --namespace istio-system --set profile=ambien
 `ztunnel` Chart 会安装 ztunnel DaemonSet，它是 Istio Ambient 模式的节点代理组件。
 
 {{< text syntax=bash snip_id=install_ztunnel >}}
-$ helm install ztunnel istio/ztunnel -n istio-system
+$ helm install ztunnel istio/ztunnel -n istio-system --wait
 {{< /text >}}
 
 ### 安装入口网关（可选） {#install-an-ingress-gateway-optional}
 
-{{< warning >}}
-部署网关的命名空间不得具有 `istio-injection=disabled` 标签。
-有关更多信息，请参阅[控制注入策略](/zh/docs/setup/additional-setup/sidecar-injection/#controlling-the-injection-policy)。
-{{< /warning >}}
+要安装入口网关，请运行以下命令：
 
 {{< text syntax=bash snip_id=install_ingress >}}
-$ helm install istio-ingress istio/gateway -n istio-ingress --wait --create-namespace
+$ helm install istio-ingress istio/gateway -n istio-ingress --create-namespace --wait
 {{< /text >}}
 
+如果您的 Kubernetes 集群不支持分配了正确外部 IP 的
+`LoadBalancer` 服务类型（`type: LoadBalancer`），
+请在不带 `--wait` 参数的情况下运行上述命令，以避免无限等待。
 有关网关安装的详细文档，
 请参阅[安装 Gateway](/zh/docs/setup/additional-setup/gateway/)。
 

@@ -110,6 +110,10 @@ $ kubectl apply -f @samples/open-telemetry/loki/otel.yaml@ -n istio-system
     EOF
     {{< /text >}}
 
+    {{< tip >}}
+    There's no `response.code` attribute when connections fail. In that case, you should use the CEL expression `!has(response.code) || response.code >= 500`.
+    {{< /tip >}}
+
 1. Set default filter access log with CEL expression
 
     The following configuration displays access logs only when the response code is greater or equal to 400 or the request went to the BlackHoleCluster or the PassthroughCluster:

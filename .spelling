@@ -357,11 +357,14 @@ CVE-2023-35942
 CVE-2023-35943
 CVE-2023-35944
 CVE-2023-35945
+CVE-2023-45288
 CVE-2024-23322
 CVE-2024-23323
 CVE-2024-23324
 CVE-2024-23325
 CVE-2024-23327
+CVE-2024-27919
+CVE-2024-30255
 CVEs
 cves
 cvss
@@ -956,6 +959,7 @@ repo
 repurposed
 requires_any
 Reskill
+ResourceQuota
 resources.limits.cpu
 resources.limits.memory
 resources.request.cpu

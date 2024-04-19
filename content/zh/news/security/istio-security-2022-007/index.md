@@ -4,7 +4,7 @@ subtitle: 安全公告
 description: 由于 Go 语言正则表达式库造成拒绝服务 (DoS) 攻击。
 cves: [CVE-2022-39278]
 cvss: "7.5"
-vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+vector: "AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
 releases: ["1.13 之前的所有版本", "1.13.0 到 1.13.8", "1.14.0 到 1.14.4", "1.15.0 到 1.15.1"]
 publishdate: 2022-10-12
 keywords: [CVE]

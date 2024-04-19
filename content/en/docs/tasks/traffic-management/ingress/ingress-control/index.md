@@ -134,7 +134,7 @@ Create a [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/references/spec/#g
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: httpbin-gateway
@@ -170,7 +170,7 @@ Configure routes for traffic entering via the `Gateway`:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: httpbin
@@ -389,7 +389,7 @@ For example, change your ingress configuration to the following:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: httpbin-gateway
@@ -403,7 +403,7 @@ spec:
       namespaces:
         from: Same
 ---
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: httpbin

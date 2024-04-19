@@ -16,9 +16,6 @@ This task uses the [Bookinfo](/docs/examples/bookinfo/) sample as the example ap
 
 To learn how Istio handles tracing, visit this task's [overview](../overview/).
 
-Istio can be configured to export [OpenTelemetry Protocol (OTLP)](https://opentelemetry.io/docs/specs/otel/protocol/)
-traces via gRPC.
-
 ## Deploy the OpenTelemetry Collector
 
 {{< boilerplate start-otel-collector-service >}}
@@ -29,6 +26,11 @@ All tracing options can be configured globally via `MeshConfig`.
 To simplify configuration, it is recommended to create a single YAML file
 which you can pass to the `istioctl install -f` command.
 
+## Choosing the exporter
+
+Istio can be configured to export [OpenTelemetry Protocol (OTLP)](https://opentelemetry.io/docs/specs/otel/protocol/)
+traces via gRPC or HTTP. Only one exporter can be configured at a time (either gRPC or HTTP).
+
 ### Exporting via gRPC
 
 In this example, traces will be exported via OTLP/gRPC to the OpenTelemetry Collector.
@@ -36,7 +38,7 @@ The example also enables the [environment resource detector](https://opentelemet
 `OTEL_RESOURCE_ATTRIBUTES` to the exported OpenTelemetry resource.
 
 {{< text syntax=bash snip_id=none >}}
-$ cat <<EOF > ./tracing-grpc.yaml
+$ cat <<EOF | istioctl install -y -f -
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -50,8 +52,35 @@ spec:
         resource_detectors:
           environment: {}
 EOF
-$ istioctl install -f ./tracing-grpc.yaml --skip-confirmation
-$ kubectl label namespace default istio-injection=enabled
+{{< /text >}}
+
+### Exporting via HTTP
+
+In this example, traces will be exported via OTLP/HTTP to the OpenTelemetry Collector.
+The example also enables the [environment resource detector](https://opentelemetry.io/docs/languages/js/resources/#adding-resources-with-environment-variables). The environment detector adds attributes from the environment variable
+`OTEL_RESOURCE_ATTRIBUTES` to the exported OpenTelemetry resource.
+
+{{< text syntax=bash snip_id=install_otlp_http >}}
+$ cat <<EOF | istioctl install -y -f -
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  meshConfig:
+    enableTracing: true
+    extensionProviders:
+    - name: otel-tracing
+      opentelemetry:
+        port: 4318
+        service: opentelemetry-collector.observability.svc.cluster.local
+        http:
+          path: "/v1/traces"
+          timeout: 5s
+          headers:
+            - name: "custom-header"
+              value: "custom value"
+        resource_detectors:
+          environment: {}
+EOF
 {{< /text >}}
 
 ## Enable tracing for mesh via Telemetry API

@@ -10,6 +10,34 @@ test: no
 
 ## 平台 {#platform}
 
+### Google Kubernetes Engine（GKE） {#google-kubernetes-engine-gke}
+
+1. 在 GKE 上，具有 [system-node-critical](https://kubernetes.io/zh-cn/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/)
+   `priorityClassName` 的 Istio 组件只能被安装在定义了[资源配额](https://kubernetes.io/zh-cn/docs/concepts/policy/resource-quotas/)的命名空间中。
+   默认情况下，在 GKE 中，只有 `kube-system` 为 `node-critical`
+   类定义了资源配额。`istio-cni` 和 `ztunnel` 都需要 `node-ritic` 类，
+   因此在 GKE 中，这两个组件需要：
+
+      - 被安装到 `kube-system`（**不是** `istio-system`）
+      - 被安装到另一个已手动创建资源配额的命名空间中（如 `istio-system`），例如：
+
+          {{< text syntax=yaml snip_id=none >}}
+            apiVersion: v1
+            kind: ResourceQuota
+            metadata:
+              name: gcp-critical-pods
+              namespace: istio-system
+            spec:
+              hard:
+                pods: 1000
+              scopeSelector:
+                matchExpressions:
+                - operator: In
+                  scopeName: PriorityClass
+                  values:
+                  - system-node-critical
+          {{< /text >}}
+
 ### Minikube {#minikube}
 
 1. 如果您使用 [Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/)
@@ -23,6 +51,17 @@ test: no
    由于 MicroK8s [对于 CNI 配置和二进制文件使用了非标准位置](https://microk8s.io/docs/change-cidr)，
    则必须在 `helm install` 命令附加
    `--set values.cni.cniConfDir=/var/snap/microk8s/current/args/cni-network --set values.cni.cniBinDir=/var/snap/microk8s/current/opt/cni/bin`。
+
+### K3S {#k3s}
+
+1. 如果您使用 [K3S](https://k3s.io/) 及其捆绑的 CNI 之一，
+   则必须在 `helm install` 命令中附加
+   `--set values.cni.cniConfDir=/var/lib/rancher/k3s/agent/etc/cni/net.d --set values.cni.cniBinDir=/var/lib/rancher/k3s/data/current/bin/`，
+   因为 K3S 使用非标准位置来存储 CNI 配置和二进制文件。
+   [根据 K3S 文档](https://docs.k3s.io/zh/cli/server#k3s-server-cli-%E5%B8%AE%E5%8A%A9)这些非标准位置也可以被覆盖。
+   如果您将 K3S 与自定义的非捆绑 CNI 一起使用，
+   则必须为这些 CNI 配置使用正确的路径，例如 `/etc/cni/net.d` -
+   [有关详细信息，请参阅 K3S 文档](https://docs.k3s.io/zh/networking/basic-network-options#custom-cni)。
 
 ## CNI {#cni}
 

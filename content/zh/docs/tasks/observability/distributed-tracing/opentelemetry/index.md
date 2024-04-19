@@ -19,9 +19,6 @@ test: yes
 
 要了解 Istio 如何处理链路追踪，请访问此任务的[概述](../overview/)。
 
-Istio 可以配置为通过 gRPC 导出
-[OpenTelemetry Protocol（OTLP）](https://opentelemetry.io/docs/specs/otel/protocol/)链路。
-
 ## 部署 OpenTelemetry Collector {#deploy-the-opentelemetry-collector}
 
 {{< boilerplate start-otel-collector-service >}}
@@ -32,6 +29,12 @@ Istio 可以配置为通过 gRPC 导出
 为了简化配置，建议创建一个 YAML 文件，
 您可以将其传递到 `istioctl install -f` 命令。
 
+## 选择 Exporter {#choosing-the-exporter}
+
+Istio 可以被配置为通过 gRPC 或 HTTP 导出
+[OpenTelemetry Protocol（OTLP）](https://opentelemetry.io/docs/specs/otel/protocol/)链路。
+一次只能配置一个 Exporter（gRPC 或 HTTP）。
+
 ### 通过 gRPC 导出 {#exporting-via-grpc}
 
 在此示例中，链路将通过 OTLP/gRPC 导出到 OpenTelemetry Collector。
@@ -40,7 +43,7 @@ Istio 可以配置为通过 gRPC 导出
 中的属性添加到导出的 OpenTelemetry 资源中。
 
 {{< text syntax=bash snip_id=none >}}
-$ cat <<EOF > ./tracing-grpc.yaml
+$ cat <<EOF | istioctl install -y -f -
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -54,8 +57,35 @@ spec:
         resource_detectors:
           environment: {}
 EOF
-$ istioctl install -f ./tracing-grpc.yaml --skip-confirmation
-$ kubectl label namespace default istio-injection=enabled
+{{< /text >}}
+
+### 通过 HTTP 导出 {#exporting-via-http}
+
+在此示例中，链路将通过 OTLP/HTTP 导出到 OpenTelemetry Collector。
+该示例还启用了[环境资源检测器](https://opentelemetry.io/docs/languages/js/resources/#adding-resources-with-environment-variables)。
+环境检测器将环境变量 `OTEL_RESOURCE_ATTRIBUTES` 中的属性添加到导出的 OpenTelemetry 资源中。
+
+{{< text syntax=bash snip_id=install_otlp_http >}}
+$ cat <<EOF | istioctl install -y -f -
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  meshConfig:
+    enableTracing: true
+    extensionProviders:
+    - name: otel-tracing
+      opentelemetry:
+        port: 4318
+        service: opentelemetry-collector.observability.svc.cluster.local
+        http:
+          path: "/v1/traces"
+          timeout: 5s
+          headers:
+            - name: "custom-header"
+              value: "custom value"
+        resource_detectors:
+          environment: {}
+EOF
 {{< /text >}}
 
 ## 通过 Telemetry API 启用网格链路追踪 {#enable-tracing-for-mesh-via-telemetry-api}

@@ -179,7 +179,7 @@ First, create a [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/references/
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: mygateway
@@ -208,7 +208,7 @@ Next, configure the gateway's ingress traffic routes by defining a corresponding
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: httpbin
@@ -413,7 +413,7 @@ respectively.
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: mygateway
@@ -456,7 +456,7 @@ Configure the gateway's traffic routes for the `helloworld` service:
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: helloworld
@@ -569,7 +569,7 @@ to configure it:
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: mygateway

@@ -79,7 +79,7 @@ spec:
 ENDSNIP
 
 ! IFS=$'\n' read -r -d '' snip_source_ip_address_of_the_original_client_2 <<\ENDSNIP
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: httpbin-gateway
@@ -114,7 +114,7 @@ spec:
 ENDSNIP
 
 ! IFS=$'\n' read -r -d '' snip_tcpudp_proxy_load_balancer_2 <<\ENDSNIP
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: httpbin-gateway

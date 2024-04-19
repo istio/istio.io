@@ -197,6 +197,11 @@ to enable it.  You can execute the following once:</p>
 <td>Namespace for ConfigMap which stores clusters configs  (default `istio-system`)</td>
 </tr>
 <tr>
+<td><code>--cniNamespace &lt;string&gt;</code></td>
+<td></td>
+<td>Select a namespace where the istio-cni resides. If not set, uses ${POD_NAMESPACE} environment variable  (default `istio-system`)</td>
+</tr>
+<tr>
 <td><code>--configDir &lt;string&gt;</code></td>
 <td></td>
 <td>Directory to watch for updates to config yaml files. If specified, the files will be used as the source of config, rather than a CRD client.  (default ``)</td>
@@ -269,12 +274,12 @@ to enable it.  You can execute the following once:</p>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, delta, deltaadsc, file, gateway, grpc, grpcgen, ingress status, klog, krt, kube, model, monitor, monitoring, pkica, pkira, processing, retry, rootcertrotator, secretcontroller, security, serverca, serviceentry, spiffe, status, trustBundle, validation, validationController, validationServer, wasm, wle]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, delta, deltaadsc, file, gateway, grpc, grpcgen, ingress status, klog, krt, kube, model, monitor, monitoring, pkica, pkira, processing, retry, rootcertrotator, secretcontroller, security, serverca, serviceentry, spiffe, status, trustBundle, untaint, validation, validationController, validationServer, wasm, wle]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, delta, deltaadsc, file, gateway, grpc, grpcgen, ingress status, klog, krt, kube, model, monitor, monitoring, pkica, pkira, processing, retry, rootcertrotator, secretcontroller, security, serverca, serviceentry, spiffe, status, trustBundle, validation, validationController, validationServer, wasm, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, delta, deltaadsc, file, gateway, grpc, grpcgen, ingress status, klog, krt, kube, model, monitor, monitoring, pkica, pkira, processing, retry, rootcertrotator, secretcontroller, security, serverca, serviceentry, spiffe, status, trustBundle, untaint, validation, validationController, validationServer, wasm, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -299,7 +304,7 @@ to enable it.  You can execute the following once:</p>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, delta, deltaadsc, file, gateway, grpc, grpcgen, ingress status, klog, krt, kube, model, monitor, monitoring, pkica, pkira, processing, retry, rootcertrotator, secretcontroller, security, serverca, serviceentry, spiffe, status, trustBundle, validation, validationController, validationServer, wasm, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, delta, deltaadsc, file, gateway, grpc, grpcgen, ingress status, klog, krt, kube, model, monitor, monitoring, pkica, pkira, processing, retry, rootcertrotator, secretcontroller, security, serverca, serviceentry, spiffe, status, trustBundle, untaint, validation, validationController, validationServer, wasm, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -631,7 +636,7 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <tr>
 <td><code>ENABLE_VTPROTOBUF</code></td>
 <td>Boolean</td>
-<td><code>false</code></td>
+<td><code>true</code></td>
 <td>If true, will use optimized vtprotobuf based marshaling. Requires a build with -tags=vtprotobuf.</td>
 </tr>
 <tr>
@@ -975,10 +980,10 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>If true, pilot will add Istio ALPN filters, required for proper protocol sniffing.</td>
 </tr>
 <tr>
-<td><code>PILOT_ENABLE_AMBIENT_CONTROLLERS</code></td>
+<td><code>PILOT_ENABLE_AMBIENT</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
-<td>If enabled, controllers required for ambient will run. This is required to run ambient mesh.</td>
+<td>If enabled, ambient mode can be used. Individual flags configure fine grained enablement; this must be enabled for any ambient functionality.</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_AMBIENT_WAYPOINTS</code></td>
@@ -1047,12 +1052,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>If this is set to true, gateway-api resources will have status written to them</td>
 </tr>
 <tr>
-<td><code>PILOT_ENABLE_HBONE</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If enabled, HBONE support can be configured for proxies. Note: proxies must opt in on a per-proxy basis with ENABLE_HBONE to actually get HBONE config, in addition to this flag.</td>
-</tr>
-<tr>
 <td><code>PILOT_ENABLE_K8S_SELECT_WORKLOAD_ENTRIES</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -1075,6 +1074,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>EnableMysqlFilter enables injection of `envoy.filters.network.mysql_proxy` in the filter chain.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_NODE_UNTAINT_CONTROLLERS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, controller that untaints nodes with cni pods ready will run. This should be enabled if you disabled ambient init containers.</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_PERSISTENT_SESSION_FILTER</code></td>
@@ -1107,10 +1112,22 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>If true, Pilot will merge virtual hosts with the same routes into a single virtual host, as an optimization.</td>
 </tr>
 <tr>
+<td><code>PILOT_ENABLE_SENDING_HBONE</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, HBONE will be allowed when sending to destinations.</td>
+</tr>
+<tr>
 <td><code>PILOT_ENABLE_SERVICEENTRY_SELECT_PODS</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, service entries with selectors will select pods from the cluster. It is safe to disable it if you are quite sure you don&#39;t need this feature</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_SIDECAR_LISTENING_HBONE</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, HBONE support can be configured for proxies.</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_STATUS</code></td>
@@ -1225,6 +1242,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>String</td>
 <td><code>istio.io/persistent-session</code></td>
 <td>If not empty, services with this label will use cookie based persistent sessions</td>
+</tr>
+<tr>
+<td><code>PILOT_PREFER_SENDING_HBONE</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, HBONE will be preferred when sending to destinations. </td>
 </tr>
 <tr>
 <td><code>PILOT_PUSH_THROTTLE</code></td>
@@ -1435,12 +1458,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, certificates received by the proxy will be verified against the OS CA certificate bundle.</td>
-</tr>
-<tr>
-<td><code>VERIFY_SDS_CERTIFICATE</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If enabled, certificates fetched from SDS server will be verified before sending back to proxy.</td>
 </tr>
 <tr>
 <td><code>XDS_AUTH</code></td>
