@@ -205,7 +205,7 @@ istioctl x waypoint apply --enroll-namespace --wait
 
 ! IFS=$'\n' read -r -d '' snip_layer_7_authorization_policy_1_out <<\ENDSNIP
 waypoint default/waypoint applied
-namespace default annotated with waypoint waypoint
+namespace default labeled with waypoint waypoint
 ENDSNIP
 
 snip_layer_7_authorization_policy_2() {
