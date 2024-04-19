@@ -4,7 +4,7 @@ description: Learn the different approaches on how to configure trace sampling o
 weight: 10
 keywords: [sampling,telemetry,tracing,opentelemetry]
 owner: istio/wg-policies-and-telemetry-maintainers
-test: no
+test: yes
 ---
 
 Istio provides multiple ways to configure trace sampling. In this page you will learn and understand
@@ -21,6 +21,10 @@ all the different ways sampling can be configured.
 
 1.  Custom OpenTelemetry Sampler: A custom sampler implementation, that must be paired with the `OpenTelemetryTracingProvider`.
 
+1.  Deploy the OpenTelemetry Collector
+
+{{< boilerplate start-otel-collector-service >}}
+
 ### Percentage Sampler
 
 {{< boilerplate telemetry-tracing-tips >}}
@@ -36,7 +40,8 @@ There are three ways you can configure the random sampling rate:
 
 Random percentage sampling can be configured globally via `MeshConfig`.
 
-{{< text syntax=yaml snip_id=none >}}
+{{< text syntax=bash snip_id=install_default_sampling >}}
+$ cat <<EOF | istioctl install -y -f -
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -45,6 +50,30 @@ spec:
     defaultConfig:
       tracing:
         sampling: 10
+    extensionProviders:
+    - name: otel-tracing
+      opentelemetry:
+        port: 4317
+        service: opentelemetry-collector.observability.svc.cluster.local
+        resource_detectors:
+          environment: {}
+EOF
+{{< /text >}}
+
+Then enable the tracing provider via Telemetry API. Note we don't set `randomSamplingPercentage` here.
+
+{{< text syntax=bash snip_id=enable_telemetry_no_sampling >}}
+$ kubectl apply -f - <<EOF
+apiVersion: telemetry.istio.io/v1alpha1
+kind: Telemetry
+metadata:
+  name: mesh-default
+  namespace: istio-system
+spec:
+  tracing:
+  - providers:
+    - name: otel-tracing
+EOF
 {{< /text >}}
 
 #### Pod annotation `proxy.istio.io/config`
@@ -79,20 +108,39 @@ The random percentage sampler can also be configured via the Telemetry API.
 Via the Telemetry API, sampling can be configured on various scopes: mesh-wide, namespace or workload, offering great flexibility.
 To learn more, please see the [Telemetry API](/docs/tasks/observability/telemetry/) documentation.
 
-Here is an example to configure sampling via Telemetry API for the entire mesh:
+Install Istio without setting `sampling` inside `defaultConfig`:
 
-{{< text syntax=yaml snip_id=none >}}
-kubectl apply -f - <<EOF
+{{< text syntax=bash snip_id=install_without_sampling >}}
+$ cat <<EOF | istioctl install -y -f -
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  meshConfig:
+    enableTracing: true
+    extensionProviders:
+    - name: otel-tracing
+      opentelemetry:
+        port: 4317
+        service: opentelemetry-collector.observability.svc.cluster.local
+        resource_detectors:
+          environment: {}
+EOF
+{{< /text >}}
+
+Then enable the tracing provider via Telemetry API and set the `randomSamplingPercentage`.
+
+{{< text syntax=bash snip_id=enable_telemetry_with_sampling >}}
+$ kubectl apply -f - <<EOF
 apiVersion: telemetry.istio.io/v1alpha1
 kind: Telemetry
 metadata:
-  name: mesh-default
-  namespace: istio-system
+   name: otel-demo
 spec:
   tracing:
   - providers:
     - name: otel-tracing
     randomSamplingPercentage: 10
+EOF
 {{< /text >}}
 
 ### Custom OpenTelemetry Sampler
@@ -153,3 +201,24 @@ When a custom OpenTelemetry sampler is configured, the order of precedence is:
 That means, if a custom OpenTelemetry sampler is configured, it overrides all the others methods.
 Additionally, the random percentage value is set to `100` and cannot be changed. This is important
 because the custom sampler needs to receive 100% of spans to be able to properly perform its decision.
+
+## Cleanup
+
+1.  Remove the Telemetry resource:
+
+    {{< text syntax=bash snip_id=cleanup_telemetry >}}
+    $ kubectl delete telemetry otel-demo
+    {{< /text >}}
+
+1.  Remove any `istioctl` processes that may still be running using control-C or:
+
+    {{< text syntax=bash snip_id=none >}}
+    $ killall istioctl
+    {{< /text >}}
+
+1.  Uninstall the OpenTelemetry Collector:
+
+    {{< text syntax=bash snip_id=cleanup_collector >}}
+    $ kubectl delete -f @samples/open-telemetry/otel.yaml@ -n observability
+    $ kubectl delete namespace observability
+    {{< /text >}}
