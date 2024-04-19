@@ -22,7 +22,7 @@
 
 snip_download_and_install_2() {
 kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
-  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=f6102784e48833220d538e5a78309b71476529c4" | kubectl apply -f -; }
+  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=e8cdaaf9b4ff999d5d0320fbbed6135cd2cfd9d2" | kubectl apply -f -; }
 }
 
 snip_download_and_install_3() {
@@ -226,23 +226,23 @@ command terminated with exit code 56
 ENDSNIP
 
 snip_layer_7_authorization_policy_1() {
-istioctl x waypoint apply --service-account bookinfo-productpage --wait
+istioctl x waypoint apply --enroll-namespace --wait
 }
 
 ! IFS=$'\n' read -r -d '' snip_layer_7_authorization_policy_1_out <<\ENDSNIP
-waypoint default/bookinfo-productpage applied
+waypoint default/waypoint applied
 ENDSNIP
 
 snip_layer_7_authorization_policy_2() {
-kubectl get gtw bookinfo-productpage -o yaml
+kubectl get gtw waypoint -o yaml
 }
 
 ! IFS=$'\n' read -r -d '' snip_layer_7_authorization_policy_2_out <<\ENDSNIP
 ...
 status:
   conditions:
-  - lastTransitionTime: "2023-02-24T03:22:43Z"
-    message: Resource programmed, assigned to service(s) bookinfo-productpage-istio-waypoint.default.svc.cluster.local:15008
+  - lastTransitionTime: "2024-04-18T14:25:56Z"
+    message: Resource programmed, assigned to service(s) waypoint.default.svc.cluster.local:15008
     observedGeneration: 1
     reason: Programmed
     status: "True"
@@ -258,16 +258,15 @@ metadata:
   namespace: default
 spec:
   targetRef:
-    kind: Gateway
-    group: gateway.networking.k8s.io
-    name: bookinfo-productpage
+    kind: Service
+    group: ""
+    name: productpage
   action: ALLOW
   rules:
   - from:
     - source:
         principals:
         - cluster.local/ns/default/sa/sleep
-        - cluster.local/$GATEWAY_SERVICE_ACCOUNT
     to:
     - operation:
         methods: ["GET"]
@@ -276,7 +275,7 @@ EOF
 
 snip_layer_7_authorization_policy_4() {
 # this should fail with an RBAC error because it is not a GET operation
-kubectl exec deploy/sleep -- curl -s "http://$GATEWAY_HOST/productpage" -X DELETE
+kubectl exec deploy/sleep -- curl -s "http://productpage:9080/productpage" -X DELETE
 }
 
 ! IFS=$'\n' read -r -d '' snip_layer_7_authorization_policy_4_out <<\ENDSNIP
@@ -302,24 +301,16 @@ kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<title>
 ENDSNIP
 
 snip_control_traffic_1() {
-istioctl x waypoint apply --service-account bookinfo-reviews --wait
-}
-
-! IFS=$'\n' read -r -d '' snip_control_traffic_1_out <<\ENDSNIP
-waypoint default/bookinfo-reviews applied
-ENDSNIP
-
-snip_control_traffic_2() {
 kubectl apply -f samples/bookinfo/networking/virtual-service-reviews-90-10.yaml
 kubectl apply -f samples/bookinfo/networking/destination-rule-reviews.yaml
 }
 
-snip_control_traffic_3() {
+snip_control_traffic_2() {
 kubectl apply -f samples/bookinfo/platform/kube/bookinfo-versions.yaml
 kubectl apply -f samples/bookinfo/gateway-api/route-reviews-90-10.yaml
 }
 
-snip_control_traffic_4() {
+snip_control_traffic_3() {
 kubectl exec deploy/sleep -- sh -c "for i in \$(seq 1 100); do curl -s http://$GATEWAY_HOST/productpage | grep reviews-v.-; done"
 }
 
@@ -355,5 +346,5 @@ kubectl delete -f samples/sleep/notsleep.yaml
 }
 
 snip_uninstall_5() {
-kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=f6102784e48833220d538e5a78309b71476529c4" | kubectl delete -f -
+kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=e8cdaaf9b4ff999d5d0320fbbed6135cd2cfd9d2" | kubectl delete -f -
 }
