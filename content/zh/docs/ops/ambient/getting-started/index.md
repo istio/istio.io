@@ -73,6 +73,11 @@ Ambient 模式与之前支持 Sidecar 模式的所有主流 CNI 兼容。
 $ istioctl install --set profile=ambient --set "components.ingressGateways[0].enabled=true" --set "components.ingressGateways[0].name=istio-ingressgateway" --skip-confirmation
 {{< /text >}}
 
+{{< tip >}}
+请注意，由于 Ambient 配置文件默认情况下不会安装入口网关，
+所以此命令中包含 `--set "components.ingressGateways[0].enabled=true"`。
+{{< /tip >}}
+
 运行上一条命令后，您将看到以下输出，
 表明（包括 {{< gloss "ztunnel" >}}ztunnel{{< /gloss >}} 在内的）
 五个组件已被成功安装！
