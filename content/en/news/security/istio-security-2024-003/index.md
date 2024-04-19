@@ -5,7 +5,7 @@ description: CVEs reported by Envoy and Go.
 cves: [CVE-2024-32475]
 cvss: "7.5"
 vector: "AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-releases: ["All releases prior to 1.19.0", "1.19.0 to 1.19.9", "1.20.0 to 1.20.5", "1.21.0 to 1.21.2"]
+releases: ["All releases prior to 1.19.0", "1.19.0 to 1.19.9", "1.20.0 to 1.20.5", "1.21.0 to 1.21.1"]
 publishdate: 2024-04-22
 keywords: [CVE]
 skip_seealso: true
