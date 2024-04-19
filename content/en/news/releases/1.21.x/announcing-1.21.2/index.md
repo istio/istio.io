@@ -4,7 +4,7 @@ linktitle: 1.21.2
 subtitle: Patch Release
 description: Istio 1.21.2 patch release.
 publishdate: 2024-04-22
-release: 1.21.1
+release: 1.21.2
 ---
 
 This release implements the security updates described in our 22nd of April post, [`ISTIO-SECURITY-2024-003`](/news/security/istio-security-2024-003) along with bug fixes to improve robustness.
