@@ -1667,10 +1667,10 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>If true, pilot will add Istio ALPN filters, required for proper protocol sniffing.</td>
 </tr>
 <tr>
-<td><code>PILOT_ENABLE_AMBIENT_CONTROLLERS</code></td>
+<td><code>PILOT_ENABLE_AMBIENT</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
-<td>If enabled, controllers required for ambient will run. This is required to run ambient mesh.</td>
+<td>If enabled, ambient mode can be used. Individual flags configure fine grained enablement; this must be enabled for any ambient functionality.</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_AMBIENT_WAYPOINTS</code></td>
@@ -1739,12 +1739,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>If this is set to true, gateway-api resources will have status written to them</td>
 </tr>
 <tr>
-<td><code>PILOT_ENABLE_HBONE</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If enabled, HBONE support can be configured for proxies. Note: proxies must opt in on a per-proxy basis with ENABLE_HBONE to actually get HBONE config, in addition to this flag.</td>
-</tr>
-<tr>
 <td><code>PILOT_ENABLE_K8S_SELECT_WORKLOAD_ENTRIES</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -1805,10 +1799,22 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>If true, Pilot will merge virtual hosts with the same routes into a single virtual host, as an optimization.</td>
 </tr>
 <tr>
+<td><code>PILOT_ENABLE_SENDING_HBONE</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, HBONE will be allowed when sending to destinations.</td>
+</tr>
+<tr>
 <td><code>PILOT_ENABLE_SERVICEENTRY_SELECT_PODS</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, service entries with selectors will select pods from the cluster. It is safe to disable it if you are quite sure you don&#39;t need this feature</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_SIDECAR_LISTENING_HBONE</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, HBONE support can be configured for proxies.</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_STATUS</code></td>
@@ -1923,6 +1929,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>String</td>
 <td><code>istio.io/persistent-session</code></td>
 <td>If not empty, services with this label will use cookie based persistent sessions</td>
+</tr>
+<tr>
+<td><code>PILOT_PREFER_SENDING_HBONE</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, HBONE will be preferred when sending to destinations. </td>
 </tr>
 <tr>
 <td><code>PILOT_PUSH_THROTTLE</code></td>
