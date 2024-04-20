@@ -3017,7 +3017,7 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <tr>
 <td><code>--enroll-namespace</code></td>
 <td></td>
-<td>If set, the namespace will be annotated with the waypoint name </td>
+<td>If set, the namespace will be labeled with the waypoint name </td>
 </tr>
 <tr>
 <td><code>--for &lt;string&gt;</code></td>
@@ -7547,6 +7547,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Time Duration</td>
 <td><code>10s</code></td>
 <td>The maximum amount of time to wait for events while debouncing. If events keep showing up with no breaks for this time, we&#39;ll trigger a push.</td>
+</tr>
+<tr>
+<td><code>PILOT_DEFAULT_ENFORCE_FROM_WAYPOINT</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, zTunnels will enforce that incoming traffic has traversed a Waypoint if traffic to an endpoint may traverse one.</td>
 </tr>
 <tr>
 <td><code>PILOT_DISABLE_MX_ALPN</code></td>
