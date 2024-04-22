@@ -34,8 +34,8 @@ helm ls -n istio-system
 }
 
 ! IFS=$'\n' read -r -d '' snip_installation_steps_4_out <<\ENDSNIP
-NAME       NAMESPACE    REVISION UPDATED         STATUS   CHART        APP VERSION
-istio-base istio-system 1        ... ... ... ... deployed base-1.16.1  1.16.1
+NAME       NAMESPACE    REVISION UPDATED                                 STATUS   CHART        APP VERSION
+istio-base istio-system 1        2024-04-17 22:14:45.964722028 +0000 UTC deployed base-1.22.0  1.22.0
 ENDSNIP
 
 snip_install_discovery() {
@@ -47,9 +47,9 @@ helm ls -n istio-system
 }
 
 ! IFS=$'\n' read -r -d '' snip_installation_steps_6_out <<\ENDSNIP
-NAME       NAMESPACE    REVISION UPDATED         STATUS   CHART         APP VERSION
-istio-base istio-system 1        ... ... ... ... deployed base-1.16.1   1.16.1
-istiod     istio-system 1        ... ... ... ... deployed istiod-1.16.1 1.16.1
+NAME       NAMESPACE    REVISION UPDATED                                 STATUS   CHART         APP VERSION
+istio-base istio-system 1        2024-04-17 22:14:45.964722028 +0000 UTC deployed base-1.22.0   1.22.0
+istiod     istio-system 1        2024-04-17 22:14:45.964722028 +0000 UTC deployed istiod-1.22.0 1.22.0
 ENDSNIP
 
 snip_installation_steps_7() {
@@ -93,7 +93,7 @@ kubectl get deployments -n istio-system --output wide
 
 ! IFS=$'\n' read -r -d '' snip_installation_steps_8_out <<\ENDSNIP
 NAME     READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS   IMAGES                         SELECTOR
-istiod   1/1     1            1           10m   discovery    docker.io/istio/pilot:1.16.1   istio=pilot
+istiod   1/1     1            1           10m   discovery    docker.io/istio/pilot:1.22.0   istio=pilot
 ENDSNIP
 
 snip_install_ingressgateway() {
@@ -106,9 +106,9 @@ helm ls -n istio-system
 }
 
 ! IFS=$'\n' read -r -d '' snip_helm_ls_out <<\ENDSNIP
-NAME       NAMESPACE    REVISION UPDATED         STATUS   CHART        APP VERSION
-istio-base istio-system 1        ... ... ... ... deployed base-1.0.0   1.0.0
-istiod     istio-system 1        ... ... ... ... deployed istiod-1.0.0 1.0.0
+NAME       NAMESPACE    REVISION UPDATED                                 STATUS   CHART         APP VERSION
+istio-base istio-system 1        2024-04-17 22:14:45.964722028 +0000 UTC deployed base-1.22.0   1.22.0
+istiod     istio-system 1        2024-04-17 22:14:45.964722028 +0000 UTC deployed istiod-1.22.0 1.22.0
 ENDSNIP
 
 snip_delete_delete_gateway_charts() {
