@@ -126,6 +126,8 @@ __cmp_first_line() {
 #          variables, respectively.
 #        - prefix match ending with a dash character
 #        - expected ... is a wildcard token, matches anything
+#        - different dates in YYYY-MM-DD (e.g. 2024-04-17)
+#        - different times HH:MM:SS.MS (e.g. 22:14:45.964722028)
 # Otherwise, returns 1.
 __cmp_like() {
     local out="${1//$'\r'}"
@@ -449,6 +451,8 @@ _verify_first_line() {
 #          variables, respectively.
 #        - prefix match ending with a dash character
 #        - expected ... is a wildcard token, matches anything
+#        - different dates in YYYY-MM-DD (e.g. 2024-04-17)
+#        - different times HH:MM:SS.MS (e.g. 22:14:45.964722028)
 _verify_like() {
     local func=$1
     local expected=$2
