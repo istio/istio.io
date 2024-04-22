@@ -21,7 +21,7 @@
 ####################################################################################################
 
 bpsnip_gateway_api_gamma_support_install_experimental_crds() {
-kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=e8cdaaf9b4ff999d5d0320fbbed6135cd2cfd9d2" | kubectl apply -f -
+kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=7f9f51098f405344a3a7eb13c55895c77919f706" | kubectl apply -f -
 }
 
 bpsnip_gateway_api_gamma_support_enable_alpha_crds() {
