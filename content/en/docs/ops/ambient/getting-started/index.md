@@ -333,7 +333,7 @@ Using the Kubernetes Gateway API, you can deploy a {{< gloss "waypoint" >}}waypo
 {{< text bash >}}
 $ istioctl x waypoint apply --enroll-namespace --wait
 waypoint default/waypoint applied
-namespace default labeled with waypoint waypoint
+namespace default labeled with "istio.io/use-waypoint: waypoint"
 {{< /text >}}
 
 View the waypoint proxy status; you should see the details of the gateway
