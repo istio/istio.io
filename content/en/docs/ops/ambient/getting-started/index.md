@@ -136,7 +136,6 @@ istio-cni-node-zq94l      1/1     Running   0          2m15s
 istiod-56d848857c-mhr5w   1/1     Running   0          2m23s
 ztunnel-srrnm             1/1     Running   0          2m9s
 
-$ kubectl get daemonset -n istio-system
 NAME             DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
 istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   2m16s
 ztunnel          1         1         1       1            1           kubernetes.io/os=linux   2m10s
