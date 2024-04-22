@@ -1,7 +1,9 @@
 ---
 title: Ambient Mode
 description: Information for setting up and operating Istio in ambient mode.
-weight: 60
+weight: 25
+aliases:
+  - /docs/ops/ambient
 keywords: [ambient]
 test: n/a
 ---
