@@ -67,7 +67,6 @@ k3d makes it very easy to create single- and multi-node k3s clusters in docker, 
 1.  (Optional) Install an ingress gateway:
 
     {{< text bash >}}
-    $ kubectl label namespace istio-system istio-injection=enabled
     $ helm install istio-ingressgateway istio/gateway -n istio-system --wait
     {{< /text >}}
 
