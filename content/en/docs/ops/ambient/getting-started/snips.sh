@@ -22,7 +22,7 @@
 
 snip_download_and_install_2() {
 kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
-  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=e8cdaaf9b4ff999d5d0320fbbed6135cd2cfd9d2" | kubectl apply -f -; }
+  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=7f9f51098f405344a3a7eb13c55895c77919f706" | kubectl apply -f -; }
 }
 
 snip_download_and_install_3() {
@@ -303,5 +303,5 @@ kubectl delete -f samples/sleep/notsleep.yaml
 }
 
 snip_uninstall_4() {
-kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=e8cdaaf9b4ff999d5d0320fbbed6135cd2cfd9d2" | kubectl delete -f -
+kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=7f9f51098f405344a3a7eb13c55895c77919f706" | kubectl delete -f -
 }
