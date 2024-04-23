@@ -348,7 +348,7 @@ command terminated with exit code 56
 {{< text bash >}}
 $ istioctl x waypoint apply --enroll-namespace --wait
 waypoint default/waypoint applied
-namespace default labeled with waypoint waypoint
+namespace default labeled with "istio.io/use-waypoint: waypoint"
 {{< /text >}}
 
 查看 waypoint 代理状态；您应该看到状态为 `Programmed` 的网关资源的详细信息：
