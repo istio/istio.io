@@ -38,13 +38,13 @@ kubectl get pods,daemonset -n istio-system
 }
 
 ! IFS=$'\n' read -r -d '' snip_download_and_install_7_out <<\ENDSNIP
-NAME                                    READY   STATUS    RESTARTS   AGE
+NAME                                        READY   STATUS    RESTARTS   AGE
 pod/istio-cni-node-zq94l                    1/1     Running   0          2m7s
 pod/istio-ingressgateway-56b9cb5485-ksnvc   1/1     Running   0          2m7s
 pod/istiod-56d848857c-mhr5w                 1/1     Running   0          2m9s
 pod/ztunnel-srrnm                           1/1     Running   0          2m5s
 
-NAME             DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
+NAME                            DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
 daemonset.apps/istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   2m16s
 daemonset.apps/ztunnel          1         1         1       1            1           kubernetes.io/os=linux   2m10s
 ENDSNIP
@@ -54,12 +54,13 @@ kubectl get pods,daemonset -n istio-system
 }
 
 ! IFS=$'\n' read -r -d '' snip_download_and_install_8_out <<\ENDSNIP
-NAME                      READY   STATUS    RESTARTS   AGE
-pod/istio-cni-node-zq94l      1/1     Running   0          2m15s
-pod/istiod-56d848857c-mhr5w   1/1     Running   0          2m23s
-pod/ztunnel-srrnm             1/1     Running   0          2m9s
+NAME                                        READY   STATUS    RESTARTS   AGE
+pod/istio-cni-node-zq94l                    1/1     Running   0          2m15s
+pod/istio-ingressgateway-56b9cb5485-ksnvc   1/1     Running   0          2m15s
+pod/istiod-56d848857c-mhr5w                 1/1     Running   0          2m23s
+pod/ztunnel-srrnm                           1/1     Running   0          2m9s
 
-NAME             DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
+NAME                            DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
 daemonset.apps/istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   2m16s
 daemonset.apps/ztunnel          1         1         1       1            1           kubernetes.io/os=linux   2m10s
 ENDSNIP
