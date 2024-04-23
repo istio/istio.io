@@ -234,7 +234,7 @@ __cmp_like() {
                     fi
                     comm="${comm}${otok:$k:1}"
                 done
-                if ! [[ "$comm" =~ ^([a-zA-Z0-9_]+-)+ ]]; then
+                if ! [[ "$comm" =~ ^([a-zA-Z0-9_\/]+-)+ ]]; then
                     return 1
                 fi
             done
