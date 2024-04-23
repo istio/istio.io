@@ -18,7 +18,7 @@ set -u
 
 set -o pipefail
 
-source "content/en/docs/ops/ambient/upgrade/helm-upgrade/common.sh"
+source "content/en/docs/ambient/upgrade/helm-upgrade/common.sh"
 
 # @setup profile=none
 _install_istio_ambient_helm
