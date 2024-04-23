@@ -18,7 +18,7 @@ on a minor release do not contain backward incompatible changes.
 - [Control Plane/Data Plane Skew](#control-planedata-plane-skew)
 - [Support status of Istio releases](#support-status-of-istio-releases)
 - [Supported releases without known Common Vulnerabilities and Exposures (CVEs)](#supported-releases-without-known-common-vulnerabilities-and-exposures-cves)
-- [Relationship between Istio and Envoy](#supported-envoy-versions)
+- [Supported Envoy Versions](#supported-envoy-versions)
 
 ## Support policy
 
@@ -70,9 +70,9 @@ Please keep up-to-date and use a supported version.
 
 | Minor Releases   | Patched versions with no known CVEs                  |
 | ---------------- | ---------------------------------------------------- |
-| 1.21.x           | 1.21.1+                                              |
-| 1.20.x           | 1.20.5+                                              |
-| 1.19.x           | 1.19.9+                                              |
+| 1.21.x           | 1.21.2+                                              |
+| 1.20.x           | 1.20.6+                                              |
+| 1.19.x           | 1.19.10+                                              |
 
 ## Supported Envoy Versions
 
