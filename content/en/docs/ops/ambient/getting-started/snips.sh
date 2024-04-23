@@ -345,7 +345,7 @@ inpod_mark: 1337
 ENDSNIP
 
 snip_uninstall_3() {
-istioctl x waypoint delete --all
+istioctl experimental waypoint delete --all
 istioctl uninstall -y --purge
 kubectl delete namespace istio-system
 }
