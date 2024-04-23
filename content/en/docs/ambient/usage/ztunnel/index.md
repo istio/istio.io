@@ -2,6 +2,8 @@
 title: Layer 4 Networking & mTLS with Ztunnel
 description: Understand and manage Istio's "zero-trust tunnel" proxy.
 weight: 2
+aliases:
+  - /docs/ops/ambient/usage/ztunnel
 owner: istio/wg-networking-maintainers
 test: no
 ---
@@ -10,7 +12,7 @@ test: no
 
 ## Introduction {#introsection}
 
-This guide describes in-depth the functionality and usage of the ztunnel proxy and Layer 4 networking functions in Istio ambient mesh. To simply try out Istio ambient mesh, follow the [Ambient Quickstart](/docs/ops/ambient/getting-started/) instead. This guide follows a user journey and works through multiple examples to detail the design and architecture of Istio ambient. It is highly recommended to follow the topics linked below in sequence.
+This guide describes in-depth the functionality and usage of the ztunnel proxy and Layer 4 networking functions in Istio ambient mode. To simply try out Istio ambient mode, follow the [Ambient Quickstart](/docs/ambient/getting-started/) instead. This guide follows a user journey and works through multiple examples to detail the design and architecture of Istio ambient. It is highly recommended to follow the topics linked below in sequence.
 
 * [Introduction](#introsection)
 * [Current Caveats](#caveats)
@@ -57,7 +59,7 @@ The following is a list of feature restrictions or caveats in ambient mode alpha
 
 The examples in this guide used a deployment of Istio version `1.21.0` on a `kind` cluster of version `0.20.0` running Kubernetes version `1.27.3`.
 
-The examples below require a cluster with more than 1 worker node in order to explain how cross-node traffic operates. Refer to the [installation user guide](/docs/ops/ambient/install/) or [getting started guide](/docs/ops/ambient/getting-started/) for information on installing Istio in ambient mode on a Kubernetes cluster.
+The examples below require a cluster with more than 1 worker node in order to explain how cross-node traffic operates. Refer to the [installation user guide](/docs/ambient/install/) or [getting started guide](/docs/ambient/getting-started/) for information on installing Istio in ambient mode on a Kubernetes cluster.
 
 ## Functional Overview {#functionaloverview}
 
@@ -91,7 +93,7 @@ caption="Basic ztunnel L4-only datapath"
 
 The figure depicts ambient pod workloads running on two nodes W1 and W2 of a Kubernetes cluster. There is a single instance of the ztunnel proxy on each node. In this scenario, application client pods C1, C2 and C3 need to access a service provided by pod S1 and there is no requirement for advanced L7 features such as L7 traffic routing or L7 traffic management so no Waypoint proxy is needed.
 
-The figure shows that pods C1 and C2 running on node W1 connect with pod S1 running on node W2 and their TCP traffic is tunneled through HBONE tunnel instances that have been created by the ztunnel proxy pods of each node. Mutual TLS (mTLS) is used for encryption as well as mutual authentication of traffic being tunneled. SPIFFE identities are used to identify the workloads on each side of the connection. The term `HBONE` (for HTTP Based Overlay Network Encapsulation) is used in Istio ambient to refer to a technique for transparently and securely tunneling TCP packets encapsulated within HTTPS packets. For more details on the datapath, including HBONE and the traffic redirection details, refer to the [ztunnel traffic redirection](/docs/ops/ambient/usage/traffic-redirection) guide.
+The figure shows that pods C1 and C2 running on node W1 connect with pod S1 running on node W2 and their TCP traffic is tunneled through HBONE tunnel instances that have been created by the ztunnel proxy pods of each node. Mutual TLS (mTLS) is used for encryption as well as mutual authentication of traffic being tunneled. SPIFFE identities are used to identify the workloads on each side of the connection. The term `HBONE` (for HTTP Based Overlay Network Encapsulation) is used in Istio ambient to refer to a technique for transparently and securely tunneling TCP packets encapsulated within HTTPS packets. For more details on the datapath, including HBONE and the traffic redirection details, refer to the [ztunnel traffic redirection](/docs/ambient/usage/traffic-redirection) guide.
 
 {{< tip >}}
 Note: Although the figure shows the HBONE tunnels to be between the two ztunnel proxies, in the in-pod redirection implementation introduced in Istio 1.21.0 the tunnels are in fact between the source and destination pods. Traffic is HBONE encapsulated and encrypted in the network namespace of the source pod itself, and eventually decapsulated and decrypted in the network namespace of the destination pod on the destination worker node. The ztunnel proxy still logically handles both the control plane and data plane needed for HBONE transport, however it is able to do that from inside the network namespaces of the source and destination pods.

@@ -17,7 +17,7 @@
 
 ####################################################################################################
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
-#          docs/ops/ambient/getting-started/index.md
+#          docs/ambient/getting-started/index.md
 ####################################################################################################
 
 snip_download_and_install_2() {

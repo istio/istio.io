@@ -17,7 +17,7 @@
 
 ####################################################################################################
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
-#          docs/ops/ambient/upgrade/helm-upgrade/index.md
+#          docs/ambient/upgrade/helm-upgrade/index.md
 ####################################################################################################
 
 snip_update_helm() {

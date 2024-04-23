@@ -17,7 +17,7 @@
 
 ####################################################################################################
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
-#          docs/ops/ambient/install/helm-installation/index.md
+#          docs/ambient/install/helm-installation/index.md
 ####################################################################################################
 
 snip_configure_helm() {

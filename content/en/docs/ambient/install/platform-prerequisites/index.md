@@ -2,6 +2,8 @@
 title: Platform-Specific Prerequisites
 description: Platform-specific prerequisites for installing Istio in ambient mode.
 weight: 4
+aliases:
+  - /docs/ops/ambient/install/platform-prerequisites
 owner: istio/wg-environments-maintainers
 test: no
 ---

@@ -2,17 +2,19 @@
 title: Install with Helm
 description: Install Istio in Ambient mode with Helm.
 weight: 4
+aliases:
+  - /docs/ops/ambient/install/helm-installation
 owner: istio/wg-environments-maintainers
 test: yes
 ---
 
 This guide shows you how to install Istio in ambient mode with Helm.
-Aside from following the demo in [Getting Started with Ambient Mode](/docs/ops/ambient/getting-started/),
+Aside from following the demo in [Getting Started with Ambient Mode](/docs/ambient/getting-started/),
 we encourage the use of Helm to install Istio for use in ambient mode. Helm helps you manage components separately, and you can easily upgrade the components to the latest version.
 
 ## Prerequisites
 
-1. Check the [Platform-Specific Prerequisites](/docs/ops/ambient/install/platform-prerequisites).
+1. Check the [Platform-Specific Prerequisites](/docs/ambient/install/platform-prerequisites).
 
 1. [Install the Helm client](https://helm.sh/docs/intro/install/), version 3.6 or above.
 
@@ -106,8 +108,8 @@ ztunnel-c2z4s                    1/1     Running   0          10m
 
 ### Verify with the sample application
 
-After installing ambient mode with Helm, you can follow the [Deploy the sample application](/docs/ops/ambient/getting-started/#bookinfo) guide to deploy the sample application and ingress gateways, and then you can
-[add your application to the ambient mesh](/docs/ops/ambient/getting-started/#addtoambient).
+After installing ambient mode with Helm, you can follow the [Deploy the sample application](/docs/ambient/getting-started/#bookinfo) guide to deploy the sample application and ingress gateways, and then you can
+[add your application to the ambient mesh](/docs/ambient/getting-started/#addtoambient).
 
 ## Uninstall
 

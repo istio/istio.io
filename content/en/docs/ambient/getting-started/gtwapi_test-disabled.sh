@@ -18,7 +18,7 @@
 # @setup profile=none
 GATEWAY_API="true"
 
-source "content/en/docs/ops/ambient/getting-started/test.sh"
+source "content/en/docs/ambient/getting-started/test.sh"
 
 # @cleanup
 GATEWAY_API="true"
