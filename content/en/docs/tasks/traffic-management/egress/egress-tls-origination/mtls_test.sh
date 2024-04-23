@@ -21,7 +21,6 @@ set -e
 set -u
 set -o pipefail
 
-source "content/en/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/snips.sh"
 source "tests/util/samples.sh"
 
 # Make sure automatic sidecar injection is enabled
