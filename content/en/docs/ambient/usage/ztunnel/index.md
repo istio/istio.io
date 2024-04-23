@@ -12,7 +12,7 @@ test: no
 
 ## Introduction {#introsection}
 
-This guide describes in-depth the functionality and usage of the ztunnel proxy and Layer 4 networking functions in Istio ambient mesh. To simply try out Istio ambient mesh, follow the [Ambient Quickstart](/docs/ambient/getting-started/) instead. This guide follows a user journey and works through multiple examples to detail the design and architecture of Istio ambient. It is highly recommended to follow the topics linked below in sequence.
+This guide describes in-depth the functionality and usage of the ztunnel proxy and Layer 4 networking functions in Istio ambient mode. To simply try out Istio ambient mode, follow the [Ambient Quickstart](/docs/ambient/getting-started/) instead. This guide follows a user journey and works through multiple examples to detail the design and architecture of Istio ambient. It is highly recommended to follow the topics linked below in sequence.
 
 * [Introduction](#introsection)
 * [Current Caveats](#caveats)
