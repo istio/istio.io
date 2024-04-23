@@ -92,11 +92,11 @@ $ helm show values istio/istiod
 
 {{< text syntax=bash snip_id=show_components >}}
 $ helm ls -n istio-system
-NAME            NAMESPACE       REVISION    UPDATED         STATUS      CHART           APP VERSION
-istio-base      istio-system    1           ... ... ... ... deployed    base-1.0.0      1.0.0
-istio-cni       istio-system    1           ... ... ... ... deployed    cni-1.0.0       1.0.0
-istiod          istio-system    1           ... ... ... ... deployed    istiod-1.0.0    1.0.0
-ztunnel         istio-system    1           ... ... ... ... deployed    ztunnel-1.0.0   1.0.0
+NAME            NAMESPACE       REVISION    UPDATED                                 STATUS      CHART           APP VERSION
+istio-base      istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    base-{{< istio_full_version >}}     {{< istio_full_version >}}
+istio-cni       istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    cni-{{< istio_full_version >}}      {{< istio_full_version >}}
+istiod          istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    istiod-{{< istio_full_version >}}   {{< istio_full_version >}}
+ztunnel         istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    ztunnel-{{< istio_full_version >}}  {{< istio_full_version >}}
 {{< /text >}}
 
 您可以使用以下命令检查已部署的 Pod 状态：
@@ -123,11 +123,11 @@ ztunnel-c2z4s                    1/1     Running   0          10m
 
     {{< text syntax=bash >}}
     $ helm ls -n istio-system
-    NAME            NAMESPACE       REVISION    UPDATED         STATUS      CHART           APP VERSION
-    istio-base      istio-system    1           ... ... ... ... deployed    base-1.0.0      1.0.0
-    istio-cni       istio-system    1           ... ... ... ... deployed    cni-1.0.0       1.0.0
-    istiod          istio-system    1           ... ... ... ... deployed    istiod-1.0.0    1.0.0
-    ztunnel         istio-system    1           ... ... ... ... deployed    ztunnel-1.0.0   1.0.0
+    NAME            NAMESPACE       REVISION    UPDATED                                 STATUS      CHART           APP VERSION
+    istio-base      istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    base-{{< istio_full_version >}}     {{< istio_full_version >}}
+    istio-cni       istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    cni-{{< istio_full_version >}}      {{< istio_full_version >}}
+    istiod          istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    istiod-{{< istio_full_version >}}   {{< istio_full_version >}}
+    ztunnel         istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    ztunnel-{{< istio_full_version >}}  {{< istio_full_version >}}
     {{< /text >}}
 
 1.（可选）删除所有 Istio 网关 Chart 安装文件：
