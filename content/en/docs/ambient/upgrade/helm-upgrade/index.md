@@ -10,7 +10,7 @@ status: Experimental
 ---
 
 Follow this guide to upgrade and configure an ambient mode installation using
-[Helm](https://helm.sh/docs/). This guide assumes you have already performed an [ambient mesh installation with Helm](/docs/ambient/install/helm-installation/) with a previous minor or patch version of Istio.
+[Helm](https://helm.sh/docs/). This guide assumes you have already performed an [ambient mode installation with Helm](/docs/ambient/install/helm-installation/) with a previous minor or patch version of Istio.
 
 {{< boilerplate ambient-alpha-warning >}}
 
