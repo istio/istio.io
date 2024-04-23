@@ -458,7 +458,7 @@ $ kubectl exec deploy/sleep -- sh -c "for i in \$(seq 1 100); do curl -s http://
 
 ## Uninstall {#uninstall}
 
-Remove the label instructing Istio to enroll applications in the `default` namespace in the ambient mesh. It is not removed by `istioctl` during removal.
+Remove the label instructing Istio to enroll applications in the `default` namespace into the ambient mesh. It is not removed by `istioctl` during uninstall.
 
 {{< text bash >}}
 $ kubectl label namespace default istio.io/dataplane-mode-
