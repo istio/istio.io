@@ -63,8 +63,8 @@ $ helm install <release> <chart> --namespace <namespace> --create-namespace [--s
 
     {{< text syntax=bash >}}
     $ helm ls -n istio-system
-    NAME       NAMESPACE    REVISION UPDATED         STATUS   CHART        APP VERSION
-    istio-base istio-system 1        ... ... ... ... deployed base-1.16.1  1.16.1
+    NAME       NAMESPACE    REVISION UPDATED                                 STATUS   CHART        APP VERSION
+    istio-base istio-system 1        2024-04-17 22:14:45.964722028 +0000 UTC deployed base-{{< istio_full_version >}}  {{< istio_full_version >}}
     {{< /text >}}
 
    在输出中找到 `istio-base` 的条目，并确保状态已被设置为 `deployed`。
@@ -82,9 +82,9 @@ $ helm install <release> <chart> --namespace <namespace> --create-namespace [--s
 
     {{< text syntax=bash >}}
     $ helm ls -n istio-system
-    NAME       NAMESPACE    REVISION UPDATED         STATUS   CHART         APP VERSION
-    istio-base istio-system 1        ... ... ... ... deployed base-1.16.1   1.16.1
-    istiod     istio-system 1        ... ... ... ... deployed istiod-1.16.1 1.16.1
+    NAME       NAMESPACE    REVISION UPDATED                                 STATUS   CHART         APP VERSION
+    istio-base istio-system 1        2024-04-17 22:14:45.964722028 +0000 UTC deployed base-{{< istio_full_version >}}   {{< istio_full_version >}}
+    istiod     istio-system 1        2024-04-17 22:14:45.964722028 +0000 UTC deployed istiod-{{< istio_full_version >}} {{< istio_full_version >}}
     {{< /text >}}
 
 1. 获取已安装的 Helm Chart 的状态，确保它已部署:
@@ -126,7 +126,7 @@ $ helm install <release> <chart> --namespace <namespace> --create-namespace [--s
     {{< text syntax=bash >}}
     $ kubectl get deployments -n istio-system --output wide
     NAME     READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS   IMAGES                         SELECTOR
-    istiod   1/1     1            1           10m   discovery    docker.io/istio/pilot:1.16.1   istio=pilot
+    istiod   1/1     1            1           10m   discovery    docker.io/istio/pilot:{{< istio_full_version >}}   istio=pilot
     {{< /text >}}
 
 1. （可选）安装 Istio 的入站网关：
@@ -177,9 +177,9 @@ $ helm install <release> <chart> --namespace <namespace> --create-namespace [--s
 
     {{< text syntax=bash snip_id=helm_ls >}}
     $ helm ls -n istio-system
-    NAME       NAMESPACE    REVISION UPDATED         STATUS   CHART        APP VERSION
-    istio-base istio-system 1        ... ... ... ... deployed base-1.0.0   1.0.0
-    istiod     istio-system 1        ... ... ... ... deployed istiod-1.0.0 1.0.0
+    NAME       NAMESPACE    REVISION UPDATED                                 STATUS   CHART         APP VERSION
+    istio-base istio-system 1        2024-04-17 22:14:45.964722028 +0000 UTC deployed base-{{< istio_full_version >}}   {{< istio_full_version >}}
+    istiod     istio-system 1        2024-04-17 22:14:45.964722028 +0000 UTC deployed istiod-{{< istio_full_version >}} {{< istio_full_version >}}
     {{< /text >}}
 
 1. （可选）删除 Istio 的所有网关 Chart：
