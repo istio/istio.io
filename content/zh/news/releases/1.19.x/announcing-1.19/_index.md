@@ -44,7 +44,7 @@ Kubernetes [Gateway API](http://gateway-api.org/)
 
 ### Ambient Mesh
 
-在此发布周期中，团队一直在努力改进 [Ambient 网格](/zh/docs/ops/ambient/)，
+在此发布周期中，团队一直在努力改进 [Ambient 网格](/zh/docs/ambient/)，
 这是替代之前 Sidecar 模型的新 Istio 部署模型。如果您还没有听说过 Ambient，
 请查看[介绍博客文章](/zh/blog/2022/introducing-ambient-mesh/)。
 

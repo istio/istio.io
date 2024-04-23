@@ -2,6 +2,8 @@
 title: 使用 ztunnel 实现 Layer 4 网络和 mTLS 
 description: 了解和管理 Istio 的“零信任隧道（zero-trust tunnel）”代理。
 weight: 2
+aliases:
+  - /zh/docs/ops/ambient/usage/ztunnel
 owner: istio/wg-networking-maintainers
 test: no
 ---
@@ -10,9 +12,9 @@ test: no
 
 ## 简介  {#introsection}
 
-本指南深入介绍了 Istio Ambient 网格中 ztunnel 代理和 Layer 4 网络能力的功能和用法。
-要简单地尝试 Istio Ambient 网格，请按照
-[Ambient 快速入门](/zh/docs/ops/ambient/getting-started/)进行操作。
+本指南深入介绍了 Istio Ambient 模式中 ztunnel 代理和 Layer 4 网络能力的功能和用法。
+要简单地尝试 Istio Ambient 模式，请按照
+[Ambient 快速入门](/zh/docs/ambient/getting-started/)进行操作。
 本指南遵循用户旅程并通过多个示例来详细介绍 Istio Ambient 的设计和架构。
 强烈建议按顺序关注下面链接中的主题。
 
@@ -89,7 +91,7 @@ Istio 在 Ambient 模式下的一些用例可以仅通过 L4 安全覆盖网络�
 Kubernetes `1.27.3` 集群内的 Istio `1.21.0` 版本中运行。
 
 下面的示例需要一个具有超过 1 个工作节点的集群，以便解释跨节点流量的运行方式。
-请参阅[安装用户指南](/zh/docs/ops/ambient/install/)或[入门指南](/zh/docs/ops/ambient/getting-started/)，
+请参阅[安装用户指南](/zh/docs/ambient/install/)或[入门指南](/zh/docs/ambient/getting-started/)，
 了解关于在 Kubernetes 集群中安装 Ambient 模式 Istio 的信息。
 
 ## 功能概述  {#functionaloverview}
@@ -140,7 +142,7 @@ Pod C1、C2 和 C3 需要访问由 Pod S1 提供的服务，并且不需要高�
 Istio Ambient 中使用的 `HBONE`（基于 HTTP 的覆盖网络封装：HTTP Based Overlay Network Encapsulation）概念是指一种透明、
 安全地隧道传输封装在 HTTPS 数据包中的 TCP 数据包的技术。
 有关数据路径的更多详细信息，包括 HBONE 和流量重定向详细信息，
-请参阅 [ztunnel 流量重定向](/zh/docs/ops/ambient/usage/traffic-redirection)指南。
+请参阅 [ztunnel 流量重定向](/zh/docs/ambient/usage/traffic-redirection)指南。
 
 {{< tip >}}
 注意：虽然图中显示 HBONE 隧道位于两个 ztunnel 代理之间，
@@ -421,8 +423,8 @@ $ kubectl -n istio-system logs -l app=ztunnel | grep -E "inbound|outbound"
 监控和遥测功能来监控 Istio Ambient 网格内的应用程序流量。
 在 Ambient 模式下使用 Istio 不会改变此行为。由于此功能在 Istio Ambient 模式下与
 Istio Sidecar 模式基本没有变化，因此本指南中不再重复这些细节。
-请参阅 [Prometheus 服务和仪表板的安装信息](/zh/docs/ops/integrations/prometheus/#installation)、
-[Kiali 服务和仪表板的安装信息](/zh/docs/ops/integrations/kiali/#installation)、
+请参阅 [Prometheus 服务和仪表板的安装信息](/zh/docs/integrations/prometheus/#installation)、
+[Kiali 服务和仪表板的安装信息](/zh/docs/integrations/kiali/#installation)、
 [标准的 Istio 指标文档](/zh/docs/reference/config/metrics/)和
 [Istio 遥测文档](/zh/docs/tasks/observability/metrics/querying-metrics/)。
 

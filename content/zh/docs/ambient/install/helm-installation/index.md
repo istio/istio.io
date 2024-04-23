@@ -3,17 +3,19 @@ title: 通过 Helm 安装
 description: 使用 Helm 在 Ambient 模式下安装 Istio。
 weight: 4
 owner: istio/wg-environments-maintainers
+aliases:
+  - /zh/docs/ops/ambient/install/helm-installation
 test: yes
 ---
 
 本指南向您展示如何使用 Helm 在环境模式下安装 Istio。
-除了遵循[Ambient 模式入门](/zh/docs/ops/ambient/getting-started/)中的演示之外，
+除了遵循[Ambient 模式入门](/zh/docs/ambient/getting-started/)中的演示之外，
 我们鼓励使用 Helm 安装 Istio 使其在 Ambient 模式下运行。
 Helm 帮助您单独管理组件，您可以轻松地将组件升级到最新版本。
 
 ## 前提条件 {#prerequisites}
 
-1. 检查[平台特定先决条件](/zh/docs/ops/ambient/install/platform-preventions)。
+1. 检查[平台特定先决条件](/zh/docs/ambient/install/platform-preventions)。
 
 1. [安装 Helm 客户端](https://helm.sh/docs/intro/install/)，版本要求 3.6 或更高。
 
@@ -112,8 +114,8 @@ ztunnel-c2z4s                    1/1     Running   0          10m
 ### 使用示例应用程序进行验证 {#verifying-with-the-sample-application}
 
 使用 Helm 安装 Ambient 模式后，
-您可以按照[部署示例应用程序](/zh/docs/ops/ambient/getting-started/#bookinfo)指南部署示例应用程序和入口网关，
-然后您可以[添加您的应用程序到 Ambient 网格中](/zh/docs/ops/ambient/getting-started/#addtoambient)。
+您可以按照[部署示例应用程序](/zh/docs/ambient/getting-started/#bookinfo)指南部署示例应用程序和入口网关，
+然后您可以[添加您的应用程序到 Ambient 网格中](/zh/docs/ambient/getting-started/#addtoambient)。
 
 ## 卸载 {#uninstall}
 

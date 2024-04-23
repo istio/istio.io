@@ -2,6 +2,8 @@
 title: 使用 Helm 升级
 description: 使用 Helm 对 Ambient 模式的安装进行升级。
 weight: 5
+aliases:
+  - /zh/docs/ops/ambient/upgrade/helm-upgrade
 owner: istio/wg-environments-maintainers
 test: yes
 status: Experimental
@@ -9,7 +11,7 @@ status: Experimental
 
 按照本指南使用 [Helm](https://helm.sh/docs/) 对 Ambient 模式的安装进行升级和配置。
 本指南假设您已经使用之前的 Istio 次要版本或补丁版本执行了
-[Helm Ambient 网格安装](/zh/docs/ops/ambient/install/helm-installation/)。
+[Helm Ambient 模式安装](/zh/docs/ambient/install/helm-installation/)。
 
 {{< boilerplate ambient-alpha-warning >}}
 
@@ -152,4 +154,4 @@ $ kubectl get pods -n istio-system
 
 ## 卸载 {#uninstall}
 
-请参阅 [Helm 安装指南](/zh/docs/ops/ambient/install/helm-installation/#uninstall)中的卸载部分。
+请参阅 [Helm 安装指南](/zh/docs/ambient/install/helm-installation/#uninstall)中的卸载部分。
