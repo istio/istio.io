@@ -926,6 +926,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>If analysis is enabled, pilot will run istio analyzers using this value as interval in seconds Istio Resources</td>
 </tr>
 <tr>
+<td><code>PILOT_AUTO_ALLOW_WAYPOINT_POLICY</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, zTunnel will receive synthetic authorization policies for each workload ALLOW the Waypoint&#39;s identity. Unless other ALLOW policies are created, this effectively denies traffic that doesn&#39;t go through the waypoint.</td>
+</tr>
+<tr>
 <td><code>PILOT_CERT_PROVIDER</code></td>
 <td>String</td>
 <td><code>istiod</code></td>
@@ -948,12 +954,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Time Duration</td>
 <td><code>10s</code></td>
 <td>The maximum amount of time to wait for events while debouncing. If events keep showing up with no breaks for this time, we&#39;ll trigger a push.</td>
-</tr>
-<tr>
-<td><code>PILOT_DEFAULT_ENFORCE_FROM_WAYPOINT</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If enabled, zTunnels will enforce that incoming traffic has traversed a Waypoint if traffic to an endpoint may traverse one.</td>
 </tr>
 <tr>
 <td><code>PILOT_DISABLE_MX_ALPN</code></td>
