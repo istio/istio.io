@@ -18,7 +18,7 @@ test: n/a
 - [控制面/数据面偏差](#control-planedata-plane-skew)
 - [Istio 版本的支持状态](#support-status-of-istio-releases)
 - [没有已知的 CVE 和常见漏洞的受支持版本](#supported-releases-without-known-common-vulnerabilities-and-exposures-cves)
-- [Istio 和 Envoy 之间的关系](#supported-envoy-versions)
+- [被支持的 Envoy 版本](#supported-envoy-versions)
 
 ## 支持策略 {#support-policy}
 
@@ -70,9 +70,9 @@ Istio 不保证超出支持窗口期的次要版本都有已知的 CVE 补丁。
 
 | 次要版本        | 没有已知 CVE 的补丁版本                                 |
 | ---------------- | ---------------------------------------------------- |
-| 1.21.x           | 1.21.1+                                              |
-| 1.20.x           | 1.20.5+                                              |
-| 1.19.x           | 1.19.9+                                              |
+| 1.21.x           | 1.21.2+                                              |
+| 1.20.x           | 1.20.6+                                              |
+| 1.19.x           | 1.19.10+                                             |
 
 ## 支持的 Envoy 版本 {#supported-envoy-versions}
 
