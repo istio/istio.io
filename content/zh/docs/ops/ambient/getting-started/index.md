@@ -3,7 +3,7 @@ title: Ambient 模式入门
 description: 如何在 Ambient 模式下部署和安装 Istio。
 weight: 1
 owner: istio/wg-networking-maintainers
-test: no
+test: yes
 ---
 
 本指南有助于您快速评估 Istio 的
@@ -122,19 +122,16 @@ $ istioctl install --set profile=ambient --skip-confirmation
 {{< tab name="Istio API" category-value="istio-apis" >}}
 
 {{< text bash >}}
-$ kubectl get pods -n istio-system
-NAME                                    READY   STATUS    RESTARTS   AGE
-istio-cni-node-zq94l                    1/1     Running   0          2m7s
-istio-ingressgateway-56b9cb5485-ksnvc   1/1     Running   0          2m7s
-istiod-56d848857c-mhr5w                 1/1     Running   0          2m9s
-ztunnel-srrnm                           1/1     Running   0          2m5s
-{{< /text >}}
+$ kubectl get pods,daemonset -n istio-system
+NAME                                        READY   STATUS    RESTARTS   AGE
+pod/istio-cni-node-zq94l                    1/1     Running   0          2m7s
+pod/istio-ingressgateway-56b9cb5485-ksnvc   1/1     Running   0          2m7s
+pod/istiod-56d848857c-mhr5w                 1/1     Running   0          2m9s
+pod/ztunnel-srrnm                           1/1     Running   0          2m5s
 
-{{< text bash >}}
-$ kubectl get daemonset -n istio-system
-NAME             DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
-istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   2m16s
-ztunnel          1         1         1       1            1           kubernetes.io/os=linux   2m10s
+NAME                            DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
+daemonset.apps/istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   2m16s
+daemonset.apps/ztunnel          1         1         1       1            1           kubernetes.io/os=linux   2m10s
 {{< /text >}}
 
 {{< /tab >}}
@@ -142,18 +139,15 @@ ztunnel          1         1         1       1            1           kubernetes
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
 {{< text bash >}}
-$ kubectl get pods -n istio-system
-NAME                      READY   STATUS    RESTARTS   AGE
-istio-cni-node-d9rdt      1/1     Running   0          2m15s
-istiod-56d848857c-pwsd6   1/1     Running   0          2m23s
-ztunnel-wp7hk             1/1     Running   0          2m9s
-{{< /text >}}
+$ kubectl get pods,daemonset -n istio-system
+NAME                          READY   STATUS    RESTARTS   AGE
+pod/istio-cni-node-zq94l      1/1     Running   0          2m15s
+pod/istiod-56d848857c-mhr5w   1/1     Running   0          2m23s
+pod/ztunnel-srrnm             1/1     Running   0          2m9s
 
-{{< text bash >}}
-$ kubectl get daemonset -n istio-system
-NAME             DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
-istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   2m16s
-ztunnel          1         1         1       1            1           kubernetes.io/os=linux   2m10s
+NAME                            DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
+daemonset.apps/istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   2m16s
+daemonset.apps/ztunnel          1         1         1       1            1           kubernetes.io/os=linux   2m10s
 {{< /text >}}
 
 {{< /tab >}}
@@ -261,18 +255,7 @@ $ export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/bookinfo-gateway-istio
 
 ## 添加应用到 Ambient 网格 {#addtoambient}
 
-当应用程序 Pod 是 Ambient 网格的一部分时，
-您可以检查 ztunnel 代理日志以确认网格正在对流量进行重定向。
-在我们将命名空间标记为 Ambient 网格的一部分之前，
-请检查与 `inpod` 相关的 ztunnel 日志，确认 in-Pod 重定向模式已被启用：
-
-{{< text bash >}}
-$ kubectl logs ds/ztunnel -n istio-system  | grep inpod_enabled
-inpod_enabled: true
-{{< /text >}}
-
-现在，您只需标记命名空间就能使给定命名空间中的所有
-Pod 成为 Ambient 网格的一部分：
+您可以通过简单地标记命名空间来使给定命名空间中的所有 Pod 成为 Ambient 网格的一部分：
 
 {{< text bash >}}
 $ kubectl label namespace default istio.io/dataplane-mode=ambient
@@ -280,14 +263,6 @@ $ kubectl label namespace default istio.io/dataplane-mode=ambient
 
 恭喜！您已成功将 default 命名空间中的所有 Pod 添加到网格中。
 请注意，您不必重新启动或重新部署任何内容！
-
-再次检查 ztunnel 日志，确认代理已收到有关 Ambient
-应用程序 Pod 的网络命名空间（netns）信息，并已开始为此命名空间执行代理：
-
-{{< text bash >}}
-$ kubectl logs ds/ztunnel -n istio-system | grep -o ".*starting proxy"
-... received netns, starting proxy
-{{< /text >}}
 
 现在，发送一些测试流量：
 
@@ -368,35 +343,31 @@ command terminated with exit code 56
 ### Layer 7 鉴权策略 {#layer-7-authorization-policy}
 
 使用 Kubernetes Gateway API，
-您可以为使用 `bookinfo-productpage` 服务账号的 `productpage`
-服务来部署 {{< gloss "waypoint" >}}waypoint proxy{{< /gloss >}}。
-转到 `productpage` 服务的所有流量都将通过 L7 代理被协调、执行和观测。
-
-为 `productpage` 服务部署 waypoint 代理：
+您可以为您的命名空间部署 {{< gloss "waypoint" >}}waypoint 代理{{< /gloss >}}：
 
 {{< text bash >}}
-$ istioctl x waypoint apply --service-account bookinfo-productpage --wait
-waypoint default/bookinfo-productpage applied
+$ istioctl x waypoint apply --enroll-namespace --wait
+waypoint default/waypoint applied
+namespace default labeled with "istio.io/use-waypoint: waypoint"
 {{< /text >}}
 
-查看 `productpage` waypoint 代理状态；
-您应看到处于 `Programmed` 状态的网关资源详情：
+查看 waypoint 代理状态；您应该看到状态为 `Programmed` 的网关资源的详细信息：
 
 {{< text bash >}}
-$ kubectl get gtw bookinfo-productpage -o yaml
+$ kubectl get gtw waypoint -o yaml
 ...
 status:
   conditions:
-  - lastTransitionTime: "2023-02-24T03:22:43Z"
-    message: Resource programmed, assigned to service(s) bookinfo-productpage-istio-waypoint.default.svc.cluster.local:15008
+  - lastTransitionTime: "2024-04-18T14:25:56Z"
+    message: Resource programmed, assigned to service(s) waypoint.default.svc.cluster.local:15008
     observedGeneration: 1
     reason: Programmed
     status: "True"
     type: Programmed
 {{< /text >}}
 
-更新您的 `AuthorizationPolicy` 以显式允许 `sleep` 和 Gateway 服务账号以
-`GET` `productpage` 服务，但不执行其他操作：
+更新您的 `AuthorizationPolicy` 以显式允许 `sleep` 服务通过 `GET` 访问
+`productpage` 服务，但不执行其他操作：
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -407,16 +378,15 @@ metadata:
   namespace: default
 spec:
   targetRef:
-    kind: Gateway
-    group: gateway.networking.k8s.io
-    name: bookinfo-productpage
+    kind: Service
+    group: ""
+    name: productpage
   action: ALLOW
   rules:
   - from:
     - source:
         principals:
         - cluster.local/ns/default/sa/sleep
-        - cluster.local/$GATEWAY_SERVICE_ACCOUNT
     to:
     - operation:
         methods: ["GET"]
@@ -425,7 +395,7 @@ EOF
 
 {{< text bash >}}
 $ # 这条命令应失败且返回 RBAC 错误，这是因为它不是 GET 操作
-$ kubectl exec deploy/sleep -- curl -s "http://$GATEWAY_HOST/productpage" -X DELETE
+$ kubectl exec deploy/sleep -- curl -s "http://productpage:9080/productpage" -X DELETE
 RBAC: access denied
 {{< /text >}}
 
@@ -443,15 +413,8 @@ $ kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<titl
 
 ## 控制流量 {#control}
 
-使用 `bookinfo-review` 服务账号为 'review' 服务部署一个 waypoint proxy，
-因此转到 'review' 服务的所有流量都将通过 waypoint proxy 进行协调。
-
-{{< text bash >}}
-$ istioctl x waypoint apply --service-account bookinfo-reviews --wait
-waypoint default/bookinfo-reviews applied
-{{< /text >}}
-
-控制 90% 请求流量到 `reviews` v1，控制 10% 流量到 `reviews` v2：
+您可以使用相同的 waypoint 来控制 `reviews` 的流量。
+配置流量路由以将 90% 的请求发送到 `reviews` v1，将 10% 发送到 `reviews` v2：
 
 {{< tabset category-name="config-api" >}}
 
@@ -478,7 +441,7 @@ $ kubectl apply -f @samples/bookinfo/gateway-api/route-reviews-90-10.yaml@
 确认 100 个请求中大约有 10% 流量转到 reviews-v2：
 
 {{< text bash >}}
-$ kubectl exec deploy/sleep -- sh -c "for i in \$(seq 1 100); do curl -s http://$GATEWAY_HOST/productpage | grep reviews-v.-; done"
+$ kubectl exec deploy/sleep -- sh -c "for i in \$(seq 1 100); do curl -s http://productpage:9080/productpage | grep reviews-v.-; done"
 {{< /text >}}
 
 ## 卸载 {#uninstall}
@@ -489,21 +452,6 @@ $ kubectl exec deploy/sleep -- sh -c "for i in \$(seq 1 100); do curl -s http://
 
 {{< text bash >}}
 $ kubectl label namespace default istio.io/dataplane-mode-
-{{< /text >}}
-
-删除标签后，我们可以再次检查日志以验证代理删除情况：
-
-{{< text bash >}}
-$ kubectl logs ds/ztunnel -n istio-system  | grep inpod
-Found 3 pods, using pod/ztunnel-jrxln
-inpod_enabled: true
-inpod_uds: /var/run/ztunnel/ztunnel.sock
-inpod_port_reuse: true
-inpod_mark: 1337
-2024-03-26T00:02:06.161802Z  INFO ztunnel::inpod::workloadmanager: handling new stream
-2024-03-26T00:02:06.162099Z  INFO ztunnel::inpod::statemanager: pod received snapshot sent
-2024-03-26T00:41:05.518194Z  INFO ztunnel::inpod::statemanager: pod WorkloadUid("7ef61e18-725a-4726-84fa-05fc2a440879") received netns, starting proxy
-2024-03-26T00:50:14.856284Z  INFO ztunnel::inpod::statemanager: pod delete request, draining proxy
 {{< /text >}}
 
 要删除 waypoint 代理、已安装的策略并卸载 Istio：
