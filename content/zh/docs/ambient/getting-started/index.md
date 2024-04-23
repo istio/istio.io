@@ -283,7 +283,7 @@ $ kubectl exec deploy/notsleep -- curl -s http://productpage:9080/ | grep -o "<t
 <title>Simple Bookstore App</title>
 {{< /text >}}
 
-您将在 Ambient Mesh 的应用之间立即达成 mTLS 通信和 L4 遥测。
+您将在 Ambient 模式的应用之间立即达成 mTLS 通信和 L4 遥测。
 如果按照指示说明安装 [Prometheus](/zh/docs/ops/integrations/prometheus/#installation)
 和 [Kiali](/zh/docs/ops/integrations/kiali/#installation)，
 您将能够在 Kiali 的应用中直观地查看自己的应用：

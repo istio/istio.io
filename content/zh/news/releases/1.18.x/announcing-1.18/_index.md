@@ -27,9 +27,9 @@ Istio 1.18.0 已得到 Kubernetes `1.24` 到 `1.27` 的官方正式支持。
 
 ## 新特性 {#what-is-new}
 
-### Ambient Mesh
+### Ambient 模式
 
-Istio 1.18 标志着 Ambient Mesh 的首次发布，这是一种全新的 Istio 数据平面模式，
+Istio 1.18 标志着 Ambient 模式的首次发布，这是一种全新的 Istio 数据平面模式，
 旨在简化操作、更广泛的应用程序兼容性并降低基础设施成本。有关详细信息，
 请参阅[官宣博文](/zh/blog/2022/introducing-ambient-mesh/)。
 

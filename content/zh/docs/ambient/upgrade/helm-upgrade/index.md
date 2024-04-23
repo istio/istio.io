@@ -85,7 +85,7 @@ ztunnel DaemonSet 是节点代理组件。
 这意味着必须先升级控制平面，再升级 ztunnel。
 
 {{< warning >}}
-就地升级 ztunnel 将短暂中断节点上的所有 Ambient Mesh 流量。
+就地升级 ztunnel 将短暂中断节点上的所有 Ambient 模式流量。
 建议使用节点封锁和蓝/绿节点池来减轻生产环境升级期间的影响范围。
 有关详细信息，请参阅您的 Kubernetes 提供商文档。
 {{< /warning >}}
@@ -121,7 +121,7 @@ $ helm upgrade istio-cni istio/cni -n istio-system
 
 ### 升级 Gateway 组件（可选） {#upgrade-the-gateway-component-optional}
 
-Gateway 组件管理 Ambient Mesh 边界之间的东西向和南北向数据平面流量，
+Gateway 组件管理 Ambient 模式边界之间的东西向和南北向数据平面流量，
 以及 L7 数据平面的某些方面。
 
 {{< text syntax=bash snip_id=upgrade_gateway >}}
