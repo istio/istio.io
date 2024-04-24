@@ -75,7 +75,7 @@ four components (including {{< gloss "ztunnel" >}}ztunnel{{< /gloss >}}) have be
 ✔ Installation complete
 {{< /text >}}
 
-6)  Verify the installed components using the following commands:
+1.  Verify the installed components using the following commands:
 
 {{< text bash >}}
 $ kubectl get pods,daemonset -n istio-system
@@ -141,7 +141,7 @@ $ export GATEWAY_HOST=bookinfo-gateway-istio.istio-system
 $ export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/bookinfo-gateway-istio
 {{< /text >}}
 
-3) Test your bookinfo application. It should work with or without the gateway:
+1. Test your bookinfo application. It should work with or without the gateway:
 
 {{< text syntax=bash snip_id=verify_traffic_sleep_to_ingress >}}
 $ kubectl exec deploy/sleep -- curl -s "http://$GATEWAY_HOST/productpage" | grep -o "<title>.*</title>"
