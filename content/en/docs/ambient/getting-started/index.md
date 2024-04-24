@@ -134,7 +134,6 @@ daemonset.apps/ztunnel          1         1         1       1            1      
 $ kubectl get pods,daemonset -n istio-system
 NAME                                        READY   STATUS    RESTARTS   AGE
 pod/istio-cni-node-btbjf                    1/1     Running   0          2m18s
-pod/istio-ingressgateway-7bb7649f89-mq6w8   1/1     Running   0          2m19s
 pod/istiod-55b74b77bd-xggqf                 1/1     Running   0          2m27s
 pod/ztunnel-5m27h                           1/1     Running   0          2m10s
 
@@ -438,6 +437,7 @@ The label to instruct Istio to automatically include applications in the `defaul
 
 {{< text bash >}}
 $ kubectl label namespace default istio.io/dataplane-mode-
+$ kubectl label namespace default istio.io/use-waypoint-
 {{< /text >}}
 
 To remove waypoint proxies, installed policies, and uninstall Istio:

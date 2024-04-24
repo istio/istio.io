@@ -56,7 +56,6 @@ kubectl get pods,daemonset -n istio-system
 ! IFS=$'\n' read -r -d '' snip_download_and_install_8_out <<\ENDSNIP
 NAME                                        READY   STATUS    RESTARTS   AGE
 pod/istio-cni-node-btbjf                    1/1     Running   0          2m18s
-pod/istio-ingressgateway-7bb7649f89-mq6w8   1/1     Running   0          2m19s
 pod/istiod-55b74b77bd-xggqf                 1/1     Running   0          2m27s
 pod/ztunnel-5m27h                           1/1     Running   0          2m10s
 
@@ -294,6 +293,7 @@ kubectl exec deploy/sleep -- sh -c "for i in \$(seq 1 100); do curl -s http://pr
 
 snip_uninstall_1() {
 kubectl label namespace default istio.io/dataplane-mode-
+kubectl label namespace default istio.io/use-waypoint-
 }
 
 snip_uninstall_2() {
