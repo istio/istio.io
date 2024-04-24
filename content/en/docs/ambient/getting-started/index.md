@@ -132,13 +132,14 @@ daemonset.apps/ztunnel          1         1         1       1            1      
 
 {{< text bash >}}
 $ kubectl get pods,daemonset -n istio-system
-NAME                          READY   STATUS    RESTARTS   AGE
-pod/istio-cni-node-zq94l      1/1     Running   0          2m15s
-pod/istiod-56d848857c-mhr5w   1/1     Running   0          2m23s
-pod/ztunnel-srrnm             1/1     Running   0          2m9s
+NAME                                        READY   STATUS    RESTARTS   AGE
+pod/istio-cni-node-btbjf                    1/1     Running   0          2m18s
+pod/istio-ingressgateway-7bb7649f89-mq6w8   1/1     Running   0          2m19s
+pod/istiod-55b74b77bd-xggqf                 1/1     Running   0          2m27s
+pod/ztunnel-5m27h                           1/1     Running   0          2m10s
 
 NAME                            DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
-daemonset.apps/istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   2m16s
+daemonset.apps/istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   2m18s
 daemonset.apps/ztunnel          1         1         1       1            1           kubernetes.io/os=linux   2m10s
 {{< /text >}}
 
