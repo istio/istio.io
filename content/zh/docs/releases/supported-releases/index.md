@@ -18,7 +18,7 @@ test: n/a
 - [控制面/数据面偏差](#control-planedata-plane-skew)
 - [Istio 版本的支持状态](#support-status-of-istio-releases)
 - [没有已知的 CVE 和常见漏洞的受支持版本](#supported-releases-without-known-common-vulnerabilities-and-exposures-cves)
-- [被支持的 Envoy 版本](#supported-envoy-versions)
+- [支持的 Envoy 版本](#supported-envoy-versions)
 
 ## 支持策略 {#support-policy}
 
