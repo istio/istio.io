@@ -4,6 +4,7 @@ description: Understand and manage Istio's "zero-trust tunnel" proxy.
 weight: 2
 aliases:
   - /docs/ops/ambient/usage/ztunnel
+  - /latest/docs/ops/ambient/usage/ztunnel
 owner: istio/wg-networking-maintainers
 test: no
 ---

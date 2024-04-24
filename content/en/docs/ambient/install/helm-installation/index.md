@@ -4,6 +4,7 @@ description: Install Istio in Ambient mode with Helm.
 weight: 4
 aliases:
   - /docs/ops/ambient/install/helm-installation
+  - /latest/docs/ops/ambient/install/helm-installation
 owner: istio/wg-environments-maintainers
 test: yes
 ---
