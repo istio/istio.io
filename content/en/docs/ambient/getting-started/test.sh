@@ -15,8 +15,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-GATEWAY_API="${GATEWAY_API:-false}"
-
 # @setup profile=none
 
 set -e
@@ -73,6 +71,8 @@ _verify_lines snip_control_traffic_2 "
 + reviews-v2
 - reviews-v3
 "
+
+# @cleanup
 snip_uninstall_1
 snip_uninstall_2
 snip_uninstall_3
