@@ -75,7 +75,7 @@ Follow these steps to get started with Istio's ambient mode:
     ✔ Installation complete
     {{< /text >}}
 
-1.  Verify the installed components using the following commands:
+1.  Verify the installed components using the following command:
 
     {{< text bash >}}
     $ kubectl get pods,daemonset -n istio-system
@@ -133,7 +133,7 @@ Make sure the default namespace does not include the label `istio-injection=enab
     ' @samples/bookinfo/gateway-api/bookinfo-gateway.yaml@ | kubectl apply -f -
     {{< /text >}}
 
-    Set the environment variables for the Kubernetes gateway:
+    Set the environment variables for the Kubernetes Gateway:
 
     {{< text bash >}}
     $ kubectl wait --for=condition=programmed gtw/bookinfo-gateway -n istio-system
