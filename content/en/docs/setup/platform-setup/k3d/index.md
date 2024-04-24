@@ -78,9 +78,8 @@ Follow these instructions to set up Dashboard for k3d.
 1.  To deploy Dashboard, run the following command:
 
     {{< text bash >}}
-    $ GITHUB_URL=https://github.com/kubernetes/dashboard/releases
-    $ VERSION_KUBE_DASHBOARD=$(curl -w '%{url_effective}' -I -L -s -S ${GITHUB_URL}/latest -o /dev/null | sed -e 's|.*/||')
-    $ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/${VERSION_KUBE_DASHBOARD}/aio/deploy/recommended.yaml
+    $ helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
+    $ helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard --create-namespace --namespace kubernetes-dashboard
     {{< /text >}}
 
 1.  Verify that Dashboard is deployed and running.
@@ -118,7 +117,7 @@ Follow these instructions to set up Dashboard for k3d.
     Starting to serve on 127.0.0.1:8001
     {{< /text >}}
 
-    Click [Kubernetes Dashboard](http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/) to
+    Click [Kubernetes Dashboard](http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard-web:web/proxy/) to
     view your deployments and services.
 
     {{< warning >}}
