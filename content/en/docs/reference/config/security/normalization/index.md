@@ -46,7 +46,7 @@ This is enabled by default with the normalization option `BASE`.
 Istio will merge multiple forward slashes to a single forward slash (`/`). For example, the request
 with path `/some//data///abc` will be normalized to `/some/data/abc`.
 
-This is disabled by default but can be enabled with the normalization option `MERGE_SLASHES`.
+This is disabled by default but can be enabled with the normalization option `MERGE_SLASHES`. If enabled, the path may not match a path with the path template operator `{**}`. For example, once `MERGE_SLASHES` is enabled, `/some/data//abc` will no longer match `/some/data/{**}/abc` since the path will be normalized to `/some/data/abc`.
 
 ### 4. Single dot and double dots (`/./`, `/../`)
 
