@@ -73,3 +73,8 @@ _verify_lines snip_control_traffic_2 "
 + reviews-v2
 - reviews-v3
 "
+snip_uninstall_1
+snip_uninstall_2
+snip_uninstall_3
+samples/bookinfo/platform/kube/cleanup.sh
+snip_uninstall_4
