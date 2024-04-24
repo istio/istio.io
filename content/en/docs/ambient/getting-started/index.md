@@ -33,61 +33,61 @@ Follow these steps to get started with Istio's ambient mode:
 
 1.  Deploy a new local `kind` cluster:
 
-{{< text syntax=bash snip_id=none >}}
-$ kind create cluster --config=- <<EOF
-kind: Cluster
-apiVersion: kind.x-k8s.io/v1alpha4
-name: ambient
-nodes:
-- role: control-plane
-- role: worker
-- role: worker
-EOF
-{{< /text >}}
+    {{< text syntax=bash snip_id=none >}}
+    $ kind create cluster --config=- <<EOF
+    kind: Cluster
+    apiVersion: kind.x-k8s.io/v1alpha4
+    name: ambient
+    nodes:
+    - role: control-plane
+    - role: worker
+    - role: worker
+    EOF
+    {{< /text >}}
 
 1.  Install the Kubernetes Gateway API CRDs, which don’t come installed by default on most Kubernetes clusters:
 
-{{< text bash >}}
-$ kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
-  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref={{< k8s_gateway_api_version >}}" | kubectl apply -f -; }
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
+      { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref={{< k8s_gateway_api_version >}}" | kubectl apply -f -; }
+    {{< /text >}}
 
-{{< tip >}}
-{{< boilerplate gateway-api-future >}}
-{{< boilerplate gateway-api-choose >}}
-{{< /tip >}}
+    {{< tip >}}
+    {{< boilerplate gateway-api-future >}}
+    {{< boilerplate gateway-api-choose >}}
+    {{< /tip >}}
 
 1.  Install Istio with the `ambient` profile on your Kubernetes cluster, using
     the version of `istioctl` downloaded above:
 
-{{< text bash >}}
-$ istioctl install --set profile=ambient --skip-confirmation
-{{< /text >}}
+    {{< text bash >}}
+    $ istioctl install --set profile=ambient --skip-confirmation
+    {{< /text >}}
 
-After running the above command, you’ll get the following output that indicates
-four components (including {{< gloss "ztunnel" >}}ztunnel{{< /gloss >}}) have been installed successfully!
+    After running the above command, you’ll get the following output that indicates
+    four components (including {{< gloss "ztunnel" >}}ztunnel{{< /gloss >}}) have been installed successfully!
 
-{{< text syntax=plain snip_id=none >}}
-✔ Istio core installed
-✔ Istiod installed
-✔ CNI installed
-✔ Ztunnel installed
-✔ Installation complete
-{{< /text >}}
+    {{< text syntax=plain snip_id=none >}}
+    ✔ Istio core installed
+    ✔ Istiod installed
+    ✔ CNI installed
+    ✔ Ztunnel installed
+    ✔ Installation complete
+    {{< /text >}}
 
 1.  Verify the installed components using the following commands:
 
-{{< text bash >}}
-$ kubectl get pods,daemonset -n istio-system
-NAME                                        READY   STATUS    RESTARTS   AGE
-pod/istio-cni-node-btbjf                    1/1     Running   0          2m18s
-pod/istiod-55b74b77bd-xggqf                 1/1     Running   0          2m27s
-pod/ztunnel-5m27h                           1/1     Running   0          2m10s
+    {{< text bash >}}
+    $ kubectl get pods,daemonset -n istio-system
+    NAME                                        READY   STATUS    RESTARTS   AGE
+    pod/istio-cni-node-btbjf                    1/1     Running   0          2m18s
+    pod/istiod-55b74b77bd-xggqf                 1/1     Running   0          2m27s
+    pod/ztunnel-5m27h                           1/1     Running   0          2m10s
 
-NAME                            DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
-daemonset.apps/istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   2m18s
-daemonset.apps/ztunnel          1         1         1       1            1           kubernetes.io/os=linux   2m10s
-{{< /text >}}
+    NAME                            DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
+    daemonset.apps/istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   2m18s
+    daemonset.apps/ztunnel          1         1         1       1            1           kubernetes.io/os=linux   2m10s
+    {{< /text >}}
 
 ## Deploy the sample application {#bookinfo}
 
@@ -104,59 +104,59 @@ Make sure the default namespace does not include the label `istio-injection=enab
 
 1. Start the sample services:
 
-{{< text bash >}}
-$ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
+    {{< /text >}}
 
-{{< text bash >}}
-$ kubectl apply -f @samples/sleep/sleep.yaml@
-$ kubectl apply -f @samples/sleep/notsleep.yaml@
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl apply -f @samples/sleep/sleep.yaml@
+    $ kubectl apply -f @samples/sleep/notsleep.yaml@
+    {{< /text >}}
 
-`sleep` and `notsleep` are two simple applications that can serve as curl clients.
+    `sleep` and `notsleep` are two simple applications that can serve as curl clients.
 
 1. Deploy an ingress gateway so you can access the bookinfo app from outside the cluster:
 
-{{< tip >}}
-To get IP address assignment for `Loadbalancer` service types in `kind`, you may need to install a tool like [MetalLB](https://metallb.universe.tf/). Please consult [this guide](https://kind.sigs.k8s.io/docs/user/loadbalancer/) for more information.
-{{</ tip >}}
+    {{< tip >}}
+    To get IP address assignment for `Loadbalancer` service types in `kind`, you may need to install a tool like [MetalLB](https://metallb.universe.tf/). Please consult [this guide](https://kind.sigs.k8s.io/docs/user/loadbalancer/) for more information.
+    {{</ tip >}}
 
-Create a [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.Gateway)
-and [HTTPRoute](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.HTTPRoute):
+    Create a [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.Gateway)
+    and [HTTPRoute](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.HTTPRoute):
 
-{{< text bash >}}
-$ sed -e 's/from: Same/from: All/'\
-      -e '/^  name: bookinfo-gateway/a\
-  namespace: istio-system\
-'     -e '/^  - name: bookinfo-gateway/a\
-    namespace: istio-system\
-' @samples/bookinfo/gateway-api/bookinfo-gateway.yaml@ | kubectl apply -f -
-{{< /text >}}
+    {{< text bash >}}
+    $ sed -e 's/from: Same/from: All/'\
+          -e '/^  name: bookinfo-gateway/a\
+      namespace: istio-system\
+    '     -e '/^  - name: bookinfo-gateway/a\
+        namespace: istio-system\
+    ' @samples/bookinfo/gateway-api/bookinfo-gateway.yaml@ | kubectl apply -f -
+    {{< /text >}}
 
-Set the environment variables for the Kubernetes gateway:
+    Set the environment variables for the Kubernetes gateway:
 
-{{< text bash >}}
-$ kubectl wait --for=condition=programmed gtw/bookinfo-gateway -n istio-system
-$ export GATEWAY_HOST=bookinfo-gateway-istio.istio-system
-$ export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/bookinfo-gateway-istio
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl wait --for=condition=programmed gtw/bookinfo-gateway -n istio-system
+    $ export GATEWAY_HOST=bookinfo-gateway-istio.istio-system
+    $ export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/bookinfo-gateway-istio
+    {{< /text >}}
 
 1. Test your bookinfo application. It should work with or without the gateway:
 
-{{< text syntax=bash snip_id=verify_traffic_sleep_to_ingress >}}
-$ kubectl exec deploy/sleep -- curl -s "http://$GATEWAY_HOST/productpage" | grep -o "<title>.*</title>"
-<title>Simple Bookstore App</title>
-{{< /text >}}
+    {{< text syntax=bash snip_id=verify_traffic_sleep_to_ingress >}}
+    $ kubectl exec deploy/sleep -- curl -s "http://$GATEWAY_HOST/productpage" | grep -o "<title>.*</title>"
+    <title>Simple Bookstore App</title>
+    {{< /text >}}
 
-{{< text syntax=bash snip_id=verify_traffic_sleep_to_productpage >}}
-$ kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
-<title>Simple Bookstore App</title>
-{{< /text >}}
+    {{< text syntax=bash snip_id=verify_traffic_sleep_to_productpage >}}
+    $ kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
+    <title>Simple Bookstore App</title>
+    {{< /text >}}
 
-{{< text syntax=bash snip_id=verify_traffic_notsleep_to_productpage >}}
-$ kubectl exec deploy/notsleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
-<title>Simple Bookstore App</title>
-{{< /text >}}
+    {{< text syntax=bash snip_id=verify_traffic_notsleep_to_productpage >}}
+    $ kubectl exec deploy/notsleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
+    <title>Simple Bookstore App</title>
+    {{< /text >}}
 
 ## Adding your application to the ambient mesh {#addtoambient}
 
