@@ -33,29 +33,29 @@ Follow these steps to get started with Istio's ambient mode:
 
 1.  Deploy a new local `kind` cluster:
 
-    {{< text syntax=bash snip_id=none >}}
-    $ kind create cluster --config=- <<EOF
-    kind: Cluster
-    apiVersion: kind.x-k8s.io/v1alpha4
-    name: ambient
-    nodes:
-    - role: control-plane
-    - role: worker
-    - role: worker
-    EOF
-    {{< /text >}}
+{{< text syntax=bash snip_id=none >}}
+$ kind create cluster --config=- <<EOF
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+name: ambient
+nodes:
+- role: control-plane
+- role: worker
+- role: worker
+EOF
+{{< /text >}}
 
 1.  Install the Kubernetes Gateway API CRDs, which don’t come installed by default on most Kubernetes clusters:
 
-    {{< text bash >}}
-    $ kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
-      { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref={{< k8s_gateway_api_version >}}" | kubectl apply -f -; }
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
+  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref={{< k8s_gateway_api_version >}}" | kubectl apply -f -; }
+{{< /text >}}
 
-    {{< tip >}}
-    {{< boilerplate gateway-api-future >}}
-    {{< boilerplate gateway-api-choose >}}
-    {{< /tip >}}
+{{< tip >}}
+{{< boilerplate gateway-api-future >}}
+{{< boilerplate gateway-api-choose >}}
+{{< /tip >}}
 
 1.  Install Istio with the `ambient` profile on your Kubernetes cluster, using
     the version of `istioctl` downloaded above:
@@ -104,22 +104,22 @@ Make sure the default namespace does not include the label `istio-injection=enab
 
 1. Start the sample services:
 
-    {{< text bash >}}
-    $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
+{{< /text >}}
 
-    {{< text bash >}}
-    $ kubectl apply -f @samples/sleep/sleep.yaml@
-    $ kubectl apply -f @samples/sleep/notsleep.yaml@
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl apply -f @samples/sleep/sleep.yaml@
+$ kubectl apply -f @samples/sleep/notsleep.yaml@
+{{< /text >}}
 
-    `sleep` and `notsleep` are two simple applications that can serve as curl clients.
+`sleep` and `notsleep` are two simple applications that can serve as curl clients.
 
 1. Deploy an ingress gateway so you can access the bookinfo app from outside the cluster:
 
-    {{< tip >}}
-    To get IP address assignment for `Loadbalancer` service types in `kind`, you may need to install a tool like [MetalLB](https://metallb.universe.tf/). Please consult [this guide](https://kind.sigs.k8s.io/docs/user/loadbalancer/) for more information.
-    {{</ tip >}}
+{{< tip >}}
+To get IP address assignment for `Loadbalancer` service types in `kind`, you may need to install a tool like [MetalLB](https://metallb.universe.tf/). Please consult [this guide](https://kind.sigs.k8s.io/docs/user/loadbalancer/) for more information.
+{{</ tip >}}
 
 Create a [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.Gateway)
 and [HTTPRoute](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.HTTPRoute):
@@ -143,20 +143,20 @@ $ export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/bookinfo-gateway-istio
 
 3) Test your bookinfo application. It should work with or without the gateway:
 
-    {{< text syntax=bash snip_id=verify_traffic_sleep_to_ingress >}}
-    $ kubectl exec deploy/sleep -- curl -s "http://$GATEWAY_HOST/productpage" | grep -o "<title>.*</title>"
-    <title>Simple Bookstore App</title>
-    {{< /text >}}
+{{< text syntax=bash snip_id=verify_traffic_sleep_to_ingress >}}
+$ kubectl exec deploy/sleep -- curl -s "http://$GATEWAY_HOST/productpage" | grep -o "<title>.*</title>"
+<title>Simple Bookstore App</title>
+{{< /text >}}
 
-    {{< text syntax=bash snip_id=verify_traffic_sleep_to_productpage >}}
-    $ kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
-    <title>Simple Bookstore App</title>
-    {{< /text >}}
+{{< text syntax=bash snip_id=verify_traffic_sleep_to_productpage >}}
+$ kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
+<title>Simple Bookstore App</title>
+{{< /text >}}
 
-    {{< text syntax=bash snip_id=verify_traffic_notsleep_to_productpage >}}
-    $ kubectl exec deploy/notsleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
-    <title>Simple Bookstore App</title>
-    {{< /text >}}
+{{< text syntax=bash snip_id=verify_traffic_notsleep_to_productpage >}}
+$ kubectl exec deploy/notsleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
+<title>Simple Bookstore App</title>
+{{< /text >}}
 
 ## Adding your application to the ambient mesh {#addtoambient}
 
