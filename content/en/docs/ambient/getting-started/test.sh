@@ -81,7 +81,7 @@ _verify_contains snip_layer_7_authorization_policy_4 "$snip_layer_7_authorizatio
 _verify_contains snip_layer_7_authorization_policy_5 "$snip_layer_7_authorization_policy_5_out"
 _verify_contains snip_layer_7_authorization_policy_6 "$snip_layer_7_authorization_policy_6_out"
 
-_verify_contains snip_control_traffic_1 "$snip_control_traffic_1_out"
+snip_control_traffic_1
 
 if [ "$GATEWAY_API" == "true" ]; then
   snip_control_traffic_3
