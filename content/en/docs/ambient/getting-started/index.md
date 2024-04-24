@@ -4,7 +4,6 @@ description: How to deploy and install Istio in ambient mode.
 weight: 1
 aliases:
   - /docs/ops/ambient/getting-started
-  - /latest/docs/ops/ambient/getting-started
 owner: istio/wg-networking-maintainers
 test: yes
 ---
@@ -61,34 +60,6 @@ Follow these steps to get started with Istio's ambient mode:
 1.  Install Istio with the `ambient` profile on your Kubernetes cluster, using
     the version of `istioctl` downloaded above:
 
-{{< tabset category-name="config-api" >}}
-
-{{< tab name="Istio APIs" category-value="istio-apis" >}}
-
-{{< text bash >}}
-$ istioctl install --set profile=ambient --set "components.ingressGateways[0].enabled=true" --set "components.ingressGateways[0].name=istio-ingressgateway" --skip-confirmation
-{{< /text >}}
-
-{{< tip >}}
-Note that this command includes `--set "components.ingressGateways[0].enabled=true"` because the ambient profile does not install the ingress gateway by default.
-{{< /tip >}}
-
-After running the above command, you’ll get the following output that indicates
-five components (including {{< gloss "ztunnel" >}}ztunnel{{< /gloss >}}) have been installed successfully!
-
-{{< text syntax=plain snip_id=none >}}
-✔ Istio core installed
-✔ Istiod installed
-✔ CNI installed
-✔ Ingress gateways installed
-✔ Ztunnel installed
-✔ Installation complete
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< tab name="Gateway API" category-value="gateway-api" >}}
-
 {{< text bash >}}
 $ istioctl install --set profile=ambient --skip-confirmation
 {{< /text >}}
@@ -104,32 +75,7 @@ four components (including {{< gloss "ztunnel" >}}ztunnel{{< /gloss >}}) have be
 ✔ Installation complete
 {{< /text >}}
 
-{{< /tab >}}
-
-{{< /tabset >}}
-
 6)  Verify the installed components using the following commands:
-
-{{< tabset category-name="config-api" >}}
-
-{{< tab name="Istio APIs" category-value="istio-apis" >}}
-
-{{< text bash >}}
-$ kubectl get pods,daemonset -n istio-system
-NAME                                        READY   STATUS    RESTARTS   AGE
-pod/istio-cni-node-zq94l                    1/1     Running   0          2m7s
-pod/istio-ingressgateway-56b9cb5485-ksnvc   1/1     Running   0          2m7s
-pod/istiod-56d848857c-mhr5w                 1/1     Running   0          2m9s
-pod/ztunnel-srrnm                           1/1     Running   0          2m5s
-
-NAME                            DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
-daemonset.apps/istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   2m16s
-daemonset.apps/ztunnel          1         1         1       1            1           kubernetes.io/os=linux   2m10s
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< tab name="Gateway API" category-value="gateway-api" >}}
 
 {{< text bash >}}
 $ kubectl get pods,daemonset -n istio-system
@@ -142,10 +88,6 @@ NAME                            DESIRED   CURRENT   READY   UP-TO-DATE   AVAILAB
 daemonset.apps/istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   2m18s
 daemonset.apps/ztunnel          1         1         1       1            1           kubernetes.io/os=linux   2m10s
 {{< /text >}}
-
-{{< /tab >}}
-
-{{< /tabset >}}
 
 ## Deploy the sample application {#bookinfo}
 
@@ -179,28 +121,6 @@ Make sure the default namespace does not include the label `istio-injection=enab
     To get IP address assignment for `Loadbalancer` service types in `kind`, you may need to install a tool like [MetalLB](https://metallb.universe.tf/). Please consult [this guide](https://kind.sigs.k8s.io/docs/user/loadbalancer/) for more information.
     {{</ tip >}}
 
-{{< tabset category-name="config-api" >}}
-
-{{< tab name="Istio APIs" category-value="istio-apis" >}}
-
-Create an Istio [Gateway](/docs/reference/config/networking/gateway/) and
-[VirtualService](/docs/reference/config/networking/virtual-service/):
-
-{{< text bash >}}
-$ kubectl apply -f @samples/bookinfo/networking/bookinfo-gateway.yaml@
-{{< /text >}}
-
-Set the environment variables for the Istio ingress gateway:
-
-{{< text bash >}}
-$ export GATEWAY_HOST=istio-ingressgateway.istio-system
-$ export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/istio-ingressgateway-service-account
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< tab name="Gateway API" category-value="gateway-api" >}}
-
 Create a [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.Gateway)
 and [HTTPRoute](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.HTTPRoute):
 
@@ -220,10 +140,6 @@ $ kubectl wait --for=condition=programmed gtw/bookinfo-gateway -n istio-system
 $ export GATEWAY_HOST=bookinfo-gateway-istio.istio-system
 $ export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/bookinfo-gateway-istio
 {{< /text >}}
-
-{{< /tab >}}
-
-{{< /tabset >}}
 
 3) Test your bookinfo application. It should work with or without the gateway:
 
@@ -404,27 +320,10 @@ $ kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<titl
 
 You can use the same waypoint to control traffic to `reviews`. Configure traffic routing to send 90% of requests to `reviews` v1 and 10% to `reviews` v2:
 
-{{< tabset category-name="config-api" >}}
-
-{{< tab name="Istio APIs" category-value="istio-apis" >}}
-
-{{< text bash >}}
-$ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-90-10.yaml@
-$ kubectl apply -f @samples/bookinfo/networking/destination-rule-reviews.yaml@
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< tab name="Gateway API" category-value="gateway-api" >}}
-
 {{< text bash >}}
 $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-versions.yaml@
 $ kubectl apply -f @samples/bookinfo/gateway-api/route-reviews-90-10.yaml@
 {{< /text >}}
-
-{{< /tab >}}
-
-{{< /tabset >}}
 
 Confirm that roughly 10% of the traffic from 100 requests goes to reviews-v2:
 
