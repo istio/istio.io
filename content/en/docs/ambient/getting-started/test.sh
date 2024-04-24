@@ -38,11 +38,9 @@ _wait_for_daemonset istio-system ztunnel
 _wait_for_daemonset istio-system istio-cni-node
 
 if [ "$GATEWAY_API" == "true" ]; then
-  _verify_like snip_download_and_install_9 "$snip_download_and_install_9_out"
-  _verify_like snip_download_and_install_10 "$snip_download_and_install_10_out"
+  _verify_like snip_download_and_install_8 "$snip_download_and_install_8_out"
 else
   _verify_like snip_download_and_install_7 "$snip_download_and_install_7_out"
-  _verify_like snip_download_and_install_8 "$snip_download_and_install_8_out"
 fi
 
 # deploy test application
@@ -66,10 +64,8 @@ _verify_same snip_adding_your_application_to_the_ambient_mesh_1 "$snip_adding_yo
 
 # test traffic after ambient mode is enabled
 snip_adding_your_application_to_the_ambient_mesh_2
-_verify_contains snip_adding_your_application_to_the_ambient_mesh_3 "received netns, starting proxy"
+_verify_contains snip_adding_your_application_to_the_ambient_mesh_3 "$snip_adding_your_application_to_the_ambient_mesh_3_out"
 _verify_same snip_adding_your_application_to_the_ambient_mesh_4 "$snip_adding_your_application_to_the_ambient_mesh_4_out"
-_verify_same snip_adding_your_application_to_the_ambient_mesh_5 "$snip_adding_your_application_to_the_ambient_mesh_5_out"
-_verify_same snip_adding_your_application_to_the_ambient_mesh_6 "$snip_adding_your_application_to_the_ambient_mesh_6_out"
 
 snip_layer_4_authorization_policy_1
 _verify_contains snip_layer_4_authorization_policy_2 "$snip_layer_4_authorization_policy_2_out"
@@ -83,15 +79,13 @@ _verify_contains snip_layer_7_authorization_policy_4 "$snip_layer_7_authorizatio
 _verify_contains snip_layer_7_authorization_policy_5 "$snip_layer_7_authorization_policy_5_out"
 _verify_contains snip_layer_7_authorization_policy_6 "$snip_layer_7_authorization_policy_6_out"
 
-_verify_contains snip_control_traffic_1 "$snip_control_traffic_1_out"
-
 if [ "$GATEWAY_API" == "true" ]; then
-  snip_control_traffic_3
-else
   snip_control_traffic_2
+else
+  snip_control_traffic_1
 fi
 
-_verify_lines snip_control_traffic_4 "
+_verify_lines snip_control_traffic_3 "
 + reviews-v1
 + reviews-v2
 - reviews-v3
@@ -104,5 +98,4 @@ if [ "$GATEWAY_API" != "true" ]; then
     snip_uninstall_3
     samples/bookinfo/platform/kube/cleanup.sh
     snip_uninstall_4
-    snip_uninstall_5
 fi
