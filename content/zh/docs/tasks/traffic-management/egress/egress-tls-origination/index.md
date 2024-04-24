@@ -268,7 +268,7 @@ $ kubectl delete destinationrule edition-cnn-com
 
 1.  创建一个命名空间来表示 Istio 网格外部的服务，命名为 `mesh-external`。
     请注意，Sidecar 代理不会自动注入到此命名空间的 Pod 中，
-    因为自动 Sidecar 注入未在其中[启用](/zh/docs/setup/additional-setup/sidecar-injection/#deploying-an-app)。
+    因为未在其中[启用](/zh/docs/setup/additional-setup/sidecar-injection/#deploying-an-app)自动 Sidecar 注入。
 
     {{< text bash >}}
     $ kubectl create namespace mesh-external
@@ -319,7 +319,7 @@ $ kubectl delete destinationrule edition-cnn-com
     $ kubectl create configmap nginx-configmap -n mesh-external --from-file=nginx.conf=./nginx.conf
     {{< /text >}}
 
-1.  部署NGINX服务器：
+1.  部署 NGINX 服务器：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
