@@ -52,11 +52,6 @@ Follow these steps to get started with Istio's ambient mode:
       { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref={{< k8s_gateway_api_version >}}" | kubectl apply -f -; }
     {{< /text >}}
 
-    {{< tip >}}
-    {{< boilerplate gateway-api-future >}}
-    {{< boilerplate gateway-api-choose >}}
-    {{< /tip >}}
-
 1.  Install Istio with the `ambient` profile on your Kubernetes cluster, using
     the version of `istioctl` downloaded above:
 
