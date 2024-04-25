@@ -20,11 +20,17 @@ set -u
 set -o pipefail
 
 source "tests/util/addons.sh"
+source "content/en/docs/tasks/observability/distributed-tracing/telemetry-api/snips.sh"
 
 # @setup profile=default
+snip_installation_1
 
 # Install Prometheus and Zipkin
 _deploy_and_wait_for_addons prometheus zipkin
+
+# Configure Zipkin tracing for the mesh
+snip_enable_tracing_for_mesh_1
+snip_customizing_trace_sampling_1
 
 # Install sleep and httpbin
 snip_before_you_begin_1
