@@ -1,7 +1,7 @@
 ---
 title: Support for Istio 1.19 has ended
 subtitle: Support Announcement
-description: Istio 1.18 end of life announcement.
+description: Istio 1.19 end of life announcement.
 publishdate: 2024-04-24
 ---
 
