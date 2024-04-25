@@ -4,6 +4,7 @@ description: 了解和管理 Istio 的“零信任隧道（zero-trust tunnel）�
 weight: 2
 aliases:
   - /zh/docs/ops/ambient/usage/ztunnel
+  - /zh/latest/docs/ops/ambient/usage/ztunnel
 owner: istio/wg-networking-maintainers
 test: no
 ---

@@ -5,6 +5,7 @@ weight: 4
 owner: istio/wg-environments-maintainers
 aliases:
   - /zh/docs/ops/ambient/install/helm-installation
+  - /zh/latest/docs/ops/ambient/install/helm-installation
 test: yes
 ---
 

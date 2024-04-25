@@ -4,6 +4,7 @@ description: 在 Ambient 模式下安装 Istio 的平台特定先决条件。
 weight: 4
 aliases:
   - /zh/docs/ops/ambient/install/platform-prerequisites
+  - /zh/latest/docs/ops/ambient/install/platform-prerequisites
 owner: istio/wg-environments-maintainers
 test: no
 ---
