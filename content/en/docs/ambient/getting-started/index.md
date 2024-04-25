@@ -53,99 +53,37 @@ Follow these steps to get started with Istio's ambient mode:
       { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref={{< k8s_gateway_api_version >}}" | kubectl apply -f -; }
     {{< /text >}}
 
-    {{< tip >}}
-    {{< boilerplate gateway-api-future >}}
-    {{< boilerplate gateway-api-choose >}}
-    {{< /tip >}}
-
 1.  Install Istio with the `ambient` profile on your Kubernetes cluster, using
     the version of `istioctl` downloaded above:
 
-{{< tabset category-name="config-api" >}}
+    {{< text bash >}}
+    $ istioctl install --set profile=ambient --skip-confirmation
+    {{< /text >}}
 
-{{< tab name="Istio APIs" category-value="istio-apis" >}}
+    After running the above command, you’ll get the following output that indicates
+    four components (including {{< gloss "ztunnel" >}}ztunnel{{< /gloss >}}) have been installed successfully!
 
-{{< text bash >}}
-$ istioctl install --set profile=ambient --set "components.ingressGateways[0].enabled=true" --set "components.ingressGateways[0].name=istio-ingressgateway" --skip-confirmation
-{{< /text >}}
+    {{< text syntax=plain snip_id=none >}}
+    ✔ Istio core installed
+    ✔ Istiod installed
+    ✔ CNI installed
+    ✔ Ztunnel installed
+    ✔ Installation complete
+    {{< /text >}}
 
-{{< tip >}}
-Note that this command includes `--set "components.ingressGateways[0].enabled=true"` because the ambient profile does not install the ingress gateway by default.
-{{< /tip >}}
+1.  Verify the installed components using the following command:
 
-After running the above command, you’ll get the following output that indicates
-five components (including {{< gloss "ztunnel" >}}ztunnel{{< /gloss >}}) have been installed successfully!
+    {{< text bash >}}
+    $ kubectl get pods,daemonset -n istio-system
+    NAME                                        READY   STATUS    RESTARTS   AGE
+    pod/istio-cni-node-btbjf                    1/1     Running   0          2m18s
+    pod/istiod-55b74b77bd-xggqf                 1/1     Running   0          2m27s
+    pod/ztunnel-5m27h                           1/1     Running   0          2m10s
 
-{{< text syntax=plain snip_id=none >}}
-✔ Istio core installed
-✔ Istiod installed
-✔ CNI installed
-✔ Ingress gateways installed
-✔ Ztunnel installed
-✔ Installation complete
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< tab name="Gateway API" category-value="gateway-api" >}}
-
-{{< text bash >}}
-$ istioctl install --set profile=ambient --skip-confirmation
-{{< /text >}}
-
-After running the above command, you’ll get the following output that indicates
-four components (including {{< gloss "ztunnel" >}}ztunnel{{< /gloss >}}) have been installed successfully!
-
-{{< text syntax=plain snip_id=none >}}
-✔ Istio core installed
-✔ Istiod installed
-✔ CNI installed
-✔ Ztunnel installed
-✔ Installation complete
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< /tabset >}}
-
-6)  Verify the installed components using the following commands:
-
-{{< tabset category-name="config-api" >}}
-
-{{< tab name="Istio APIs" category-value="istio-apis" >}}
-
-{{< text bash >}}
-$ kubectl get pods,daemonset -n istio-system
-NAME                                        READY   STATUS    RESTARTS   AGE
-pod/istio-cni-node-zq94l                    1/1     Running   0          2m7s
-pod/istio-ingressgateway-56b9cb5485-ksnvc   1/1     Running   0          2m7s
-pod/istiod-56d848857c-mhr5w                 1/1     Running   0          2m9s
-pod/ztunnel-srrnm                           1/1     Running   0          2m5s
-
-NAME                            DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
-daemonset.apps/istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   2m16s
-daemonset.apps/ztunnel          1         1         1       1            1           kubernetes.io/os=linux   2m10s
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< tab name="Gateway API" category-value="gateway-api" >}}
-
-{{< text bash >}}
-$ kubectl get pods,daemonset -n istio-system
-NAME                                        READY   STATUS    RESTARTS   AGE
-pod/istio-cni-node-btbjf                    1/1     Running   0          2m18s
-pod/istiod-55b74b77bd-xggqf                 1/1     Running   0          2m27s
-pod/ztunnel-5m27h                           1/1     Running   0          2m10s
-
-NAME                            DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
-daemonset.apps/istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   2m18s
-daemonset.apps/ztunnel          1         1         1       1            1           kubernetes.io/os=linux   2m10s
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< /tabset >}}
+    NAME                            DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
+    daemonset.apps/istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   2m18s
+    daemonset.apps/ztunnel          1         1         1       1            1           kubernetes.io/os=linux   2m10s
+    {{< /text >}}
 
 ## Deploy the sample application {#bookinfo}
 
@@ -179,53 +117,27 @@ Make sure the default namespace does not include the label `istio-injection=enab
     To get IP address assignment for `Loadbalancer` service types in `kind`, you may need to install a tool like [MetalLB](https://metallb.universe.tf/). Please consult [this guide](https://kind.sigs.k8s.io/docs/user/loadbalancer/) for more information.
     {{</ tip >}}
 
-{{< tabset category-name="config-api" >}}
+    Create a [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.Gateway)
+    and [HTTPRoute](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.HTTPRoute):
 
-{{< tab name="Istio APIs" category-value="istio-apis" >}}
+    {{< text bash >}}
+    $ sed -e 's/from: Same/from: All/'\
+          -e '/^  name: bookinfo-gateway/a\
+      namespace: istio-system\
+    '     -e '/^  - name: bookinfo-gateway/a\
+        namespace: istio-system\
+    ' @samples/bookinfo/gateway-api/bookinfo-gateway.yaml@ | kubectl apply -f -
+    {{< /text >}}
 
-Create an Istio [Gateway](/docs/reference/config/networking/gateway/) and
-[VirtualService](/docs/reference/config/networking/virtual-service/):
+    Set the environment variables for the Kubernetes Gateway:
 
-{{< text bash >}}
-$ kubectl apply -f @samples/bookinfo/networking/bookinfo-gateway.yaml@
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl wait --for=condition=programmed gtw/bookinfo-gateway -n istio-system
+    $ export GATEWAY_HOST=bookinfo-gateway-istio.istio-system
+    $ export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/bookinfo-gateway-istio
+    {{< /text >}}
 
-Set the environment variables for the Istio ingress gateway:
-
-{{< text bash >}}
-$ export GATEWAY_HOST=istio-ingressgateway.istio-system
-$ export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/istio-ingressgateway-service-account
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< tab name="Gateway API" category-value="gateway-api" >}}
-
-Create a [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.Gateway)
-and [HTTPRoute](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.HTTPRoute):
-
-{{< text bash >}}
-$ sed -e 's/from: Same/from: All/'\
-      -e '/^  name: bookinfo-gateway/a\
-  namespace: istio-system\
-'     -e '/^  - name: bookinfo-gateway/a\
-    namespace: istio-system\
-' @samples/bookinfo/gateway-api/bookinfo-gateway.yaml@ | kubectl apply -f -
-{{< /text >}}
-
-Set the environment variables for the Kubernetes gateway:
-
-{{< text bash >}}
-$ kubectl wait --for=condition=programmed gtw/bookinfo-gateway -n istio-system
-$ export GATEWAY_HOST=bookinfo-gateway-istio.istio-system
-$ export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/bookinfo-gateway-istio
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< /tabset >}}
-
-3) Test your bookinfo application. It should work with or without the gateway:
+1. Test your bookinfo application. It should work with or without the gateway:
 
     {{< text syntax=bash snip_id=verify_traffic_sleep_to_ingress >}}
     $ kubectl exec deploy/sleep -- curl -s "http://$GATEWAY_HOST/productpage" | grep -o "<title>.*</title>"
@@ -244,33 +156,32 @@ $ export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/bookinfo-gateway-istio
 
 ## Adding your application to the ambient mesh {#addtoambient}
 
-You can enable all pods in a given namespace to be part of an ambient mesh
-by simply labeling the namespace:
+1. You can enable all pods in a given namespace to be part of an ambient mesh by simply labeling the namespace:
 
-{{< text bash >}}
-$ kubectl label namespace default istio.io/dataplane-mode=ambient
-namespace/default labeled
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl label namespace default istio.io/dataplane-mode=ambient
+    namespace/default labeled
+    {{< /text >}}
 
-Congratulations! You have successfully added all pods in the default namespace
-to the mesh. Note that you did not have to restart or redeploy anything!
+    Congratulations! You have successfully added all pods in the default namespace
+    to the mesh. Note that you did not have to restart or redeploy anything!
 
-Now, send some test traffic:
+1. Now, send some test traffic:
 
-{{< text bash >}}
-$ kubectl exec deploy/sleep -- curl -s "http://$GATEWAY_HOST/productpage" | grep -o "<title>.*</title>"
-<title>Simple Bookstore App</title>
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl exec deploy/sleep -- curl -s "http://$GATEWAY_HOST/productpage" | grep -o "<title>.*</title>"
+    <title>Simple Bookstore App</title>
+    {{< /text >}}
 
-{{< text bash >}}
-$ kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
-<title>Simple Bookstore App</title>
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
+    <title>Simple Bookstore App</title>
+    {{< /text >}}
 
-{{< text bash >}}
-$ kubectl exec deploy/notsleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
-<title>Simple Bookstore App</title>
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl exec deploy/notsleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
+    <title>Simple Bookstore App</title>
+    {{< /text >}}
 
 You’ll immediately gain mTLS communication and L4 telemetry among the applications in the ambient mesh.
 If you follow the instructions to install [Prometheus](/docs/ops/integrations/prometheus/#installation)
@@ -287,179 +198,163 @@ identities, but not at the Layer 7 level, such as HTTP methods like `GET` and `P
 
 ### Layer 4 authorization policy
 
-Explicitly allow the `sleep` and gateway service accounts to call the `productpage` service:
+1. Explicitly allow the `sleep` and gateway service accounts to call the `productpage` service:
 
-{{< text bash >}}
-$ kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
-kind: AuthorizationPolicy
-metadata:
-  name: productpage-viewer
-  namespace: default
-spec:
-  selector:
-    matchLabels:
-      app: productpage
-  action: ALLOW
-  rules:
-  - from:
-    - source:
-        principals:
-        - cluster.local/ns/default/sa/sleep
-        - cluster.local/$GATEWAY_SERVICE_ACCOUNT
-EOF
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: security.istio.io/v1beta1
+    kind: AuthorizationPolicy
+    metadata:
+      name: productpage-viewer
+      namespace: default
+    spec:
+      selector:
+        matchLabels:
+          app: productpage
+      action: ALLOW
+      rules:
+      - from:
+        - source:
+            principals:
+            - cluster.local/ns/default/sa/sleep
+            - cluster.local/$GATEWAY_SERVICE_ACCOUNT
+    EOF
+    {{< /text >}}
 
-Confirm the above authorization policy is working:
+1. Confirm the above authorization policy is working:
 
-{{< text bash >}}
-$ # this should succeed
-$ kubectl exec deploy/sleep -- curl -s "http://$GATEWAY_HOST/productpage" | grep -o "<title>.*</title>"
-<title>Simple Bookstore App</title>
-{{< /text >}}
+    {{< text bash >}}
+    $ # this should succeed
+    $ kubectl exec deploy/sleep -- curl -s "http://$GATEWAY_HOST/productpage" | grep -o "<title>.*</title>"
+    <title>Simple Bookstore App</title>
+    {{< /text >}}
 
-{{< text bash >}}
-$ # this should succeed
-$ kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
-<title>Simple Bookstore App</title>
-{{< /text >}}
+    {{< text bash >}}
+    $ # this should succeed
+    $ kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
+    <title>Simple Bookstore App</title>
+    {{< /text >}}
 
-{{< text bash >}}
-$ # this should fail with a connection reset error code 56
-$ kubectl exec deploy/notsleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
-command terminated with exit code 56
-{{< /text >}}
+    {{< text bash >}}
+    $ # this should fail with a connection reset error code 56
+    $ kubectl exec deploy/notsleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
+    command terminated with exit code 56
+    {{< /text >}}
 
 ### Layer 7 authorization policy
 
-Using the Kubernetes Gateway API, you can deploy a {{< gloss "waypoint" >}}waypoint proxy{{< /gloss >}} for your namespace:
+1. Using the Kubernetes Gateway API, you can deploy a {{< gloss "waypoint" >}}waypoint proxy{{< /gloss >}} for your namespace:
 
-{{< text bash >}}
-$ istioctl x waypoint apply --enroll-namespace --wait
-waypoint default/waypoint applied
-namespace default labeled with "istio.io/use-waypoint: waypoint"
-{{< /text >}}
+    {{< text bash >}}
+    $ istioctl x waypoint apply --enroll-namespace --wait
+    waypoint default/waypoint applied
+    namespace default labeled with "istio.io/use-waypoint: waypoint"
+    {{< /text >}}
 
-View the waypoint proxy status; you should see the details of the gateway
-resource with `Programmed` status:
+1. View the waypoint proxy status; you should see the details of the gateway resource with `Programmed` status:
 
-{{< text bash >}}
-$ kubectl get gtw waypoint -o yaml
-...
-status:
-  conditions:
-  - lastTransitionTime: "2024-04-18T14:25:56Z"
-    message: Resource programmed, assigned to service(s) waypoint.default.svc.cluster.local:15008
-    observedGeneration: 1
-    reason: Programmed
-    status: "True"
-    type: Programmed
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl get gtw waypoint -o yaml
+    ...
+    status:
+      conditions:
+      - lastTransitionTime: "2024-04-18T14:25:56Z"
+        message: Resource programmed, assigned to service(s) waypoint.default.svc.cluster.local:15008
+        observedGeneration: 1
+        reason: Programmed
+        status: "True"
+        type: Programmed
+    {{< /text >}}
 
-Update your `AuthorizationPolicy` to explicitly allow the `sleep` service to `GET` the `productpage` service, but perform no other operations:
+1. Update your `AuthorizationPolicy` to explicitly allow the `sleep` service to `GET` the `productpage` service, but perform no other operations:
 
-{{< text bash >}}
-$ kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
-kind: AuthorizationPolicy
-metadata:
-  name: productpage-viewer
-  namespace: default
-spec:
-  targetRef:
-    kind: Service
-    group: ""
-    name: productpage
-  action: ALLOW
-  rules:
-  - from:
-    - source:
-        principals:
-        - cluster.local/ns/default/sa/sleep
-    to:
-    - operation:
-        methods: ["GET"]
-EOF
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: security.istio.io/v1beta1
+    kind: AuthorizationPolicy
+    metadata:
+      name: productpage-viewer
+      namespace: default
+    spec:
+      targetRef:
+        kind: Service
+        group: ""
+        name: productpage
+      action: ALLOW
+      rules:
+      - from:
+        - source:
+            principals:
+            - cluster.local/ns/default/sa/sleep
+        to:
+        - operation:
+            methods: ["GET"]
+    EOF
+    {{< /text >}}
 
-{{< text bash >}}
-$ # this should fail with an RBAC error because it is not a GET operation
-$ kubectl exec deploy/sleep -- curl -s "http://productpage:9080/productpage" -X DELETE
-RBAC: access denied
-{{< /text >}}
+1. Confirm the new waypoint proxy is enforcing the updated authorization policy:
 
-{{< text bash >}}
-$ # this should fail with an RBAC error because the identity is not allowed
-$ kubectl exec deploy/notsleep -- curl -s http://productpage:9080/
-RBAC: access denied
-{{< /text >}}
+    {{< text bash >}}
+    $ # this should fail with an RBAC error because it is not a GET operation
+    $ kubectl exec deploy/sleep -- curl -s "http://productpage:9080/productpage" -X DELETE
+    RBAC: access denied
+    {{< /text >}}
 
-{{< text bash >}}
-$ # this should continue to work
-$ kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
-<title>Simple Bookstore App</title>
-{{< /text >}}
+    {{< text bash >}}
+    $ # this should fail with an RBAC error because the identity is not allowed
+    $ kubectl exec deploy/notsleep -- curl -s http://productpage:9080/
+    RBAC: access denied
+    {{< /text >}}
+
+    {{< text bash >}}
+    $ # this should continue to work
+    $ kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
+    <title>Simple Bookstore App</title>
+    {{< /text >}}
 
 ## Control traffic {#control}
 
-You can use the same waypoint to control traffic to `reviews`. Configure traffic routing to send 90% of requests to `reviews` v1 and 10% to `reviews` v2:
+1. You can use the same waypoint to control traffic to `reviews`. Configure traffic routing to send 90% of requests to `reviews` v1 and 10% to `reviews` v2:
 
-{{< tabset category-name="config-api" >}}
+    {{< text bash >}}
+    $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-versions.yaml@
+    $ kubectl apply -f @samples/bookinfo/gateway-api/route-reviews-90-10.yaml@
+    {{< /text >}}
 
-{{< tab name="Istio APIs" category-value="istio-apis" >}}
+1. Confirm that roughly 10% of the traffic from 100 requests goes to reviews-v2:
 
-{{< text bash >}}
-$ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-90-10.yaml@
-$ kubectl apply -f @samples/bookinfo/networking/destination-rule-reviews.yaml@
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< tab name="Gateway API" category-value="gateway-api" >}}
-
-{{< text bash >}}
-$ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-versions.yaml@
-$ kubectl apply -f @samples/bookinfo/gateway-api/route-reviews-90-10.yaml@
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< /tabset >}}
-
-Confirm that roughly 10% of the traffic from 100 requests goes to reviews-v2:
-
-{{< text bash >}}
-$ kubectl exec deploy/sleep -- sh -c "for i in \$(seq 1 100); do curl -s http://productpage:9080/productpage | grep reviews-v.-; done"
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl exec deploy/sleep -- sh -c "for i in \$(seq 1 100); do curl -s http://productpage:9080/productpage | grep reviews-v.-; done"
+    {{< /text >}}
 
 ## Uninstall {#uninstall}
 
-The label to instruct Istio to automatically include applications in the `default` namespace to an ambient mesh is not removed by default. If no longer needed, use the following command to remove it:
+1. The label to instruct Istio to automatically include applications in the `default` namespace to an ambient mesh is not removed by default. If no longer needed, use the following command to remove it:
 
-{{< text bash >}}
-$ kubectl label namespace default istio.io/dataplane-mode-
-$ kubectl label namespace default istio.io/use-waypoint-
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl label namespace default istio.io/dataplane-mode-
+    $ kubectl label namespace default istio.io/use-waypoint-
+    {{< /text >}}
 
-To remove waypoint proxies, installed policies, and uninstall Istio:
+1. To remove waypoint proxies, installed policies, and uninstall Istio:
 
-{{< text bash >}}
-$ istioctl x waypoint delete --all
-$ istioctl uninstall -y --purge
-$ kubectl delete namespace istio-system
-{{< /text >}}
+    {{< text bash >}}
+    $ istioctl x waypoint delete --all
+    $ istioctl uninstall -y --purge
+    $ kubectl delete namespace istio-system
+    {{< /text >}}
 
-To delete the Bookinfo sample application and its configuration, see [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup).
+1. To delete the Bookinfo sample application and its configuration, see [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup).
 
-To remove the `sleep` and `notsleep` applications:
+1. To remove the `sleep` and `notsleep` applications:
 
-{{< text bash >}}
-$ kubectl delete -f @samples/sleep/sleep.yaml@
-$ kubectl delete -f @samples/sleep/notsleep.yaml@
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl delete -f @samples/sleep/sleep.yaml@
+    $ kubectl delete -f @samples/sleep/notsleep.yaml@
+    {{< /text >}}
 
-If you installed the Gateway API CRDs, remove them:
+1. If you installed the Gateway API CRDs, remove them:
 
-{{< text bash >}}
-$ kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref={{< k8s_gateway_api_version >}}" | kubectl delete -f -
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref={{< k8s_gateway_api_version >}}" | kubectl delete -f -
+    {{< /text >}}

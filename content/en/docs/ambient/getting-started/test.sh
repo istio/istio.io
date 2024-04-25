@@ -15,8 +15,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-GATEWAY_API="${GATEWAY_API:-false}"
-
 # @setup profile=none
 
 set -e
@@ -27,33 +25,20 @@ set -o pipefail
 snip_download_and_install_2
 
 # install istio with ambient profile
-if [ "$GATEWAY_API" == "true" ]; then
-  snip_download_and_install_5
-else
-  snip_download_and_install_3
-fi
+snip_download_and_install_3
 
 _wait_for_deployment istio-system istiod
 _wait_for_daemonset istio-system ztunnel
 _wait_for_daemonset istio-system istio-cni-node
 
-if [ "$GATEWAY_API" == "true" ]; then
-  _verify_like snip_download_and_install_8 "$snip_download_and_install_8_out"
-else
-  _verify_like snip_download_and_install_7 "$snip_download_and_install_7_out"
-fi
+_verify_like snip_download_and_install_5 "$snip_download_and_install_5_out"
 
 # deploy test application
 snip_deploy_the_sample_application_1
 snip_deploy_the_sample_application_2
 
-if [ "$GATEWAY_API" == "true" ]; then
-  snip_deploy_the_sample_application_5
-  snip_deploy_the_sample_application_6
-else
-  snip_deploy_the_sample_application_3
-  snip_deploy_the_sample_application_4
-fi
+snip_deploy_the_sample_application_3
+snip_deploy_the_sample_application_4
 
 # test traffic before ambient mode is enabled
 _verify_contains snip_verify_traffic_sleep_to_ingress "$snip_verify_traffic_sleep_to_ingress_out"
@@ -79,23 +64,17 @@ _verify_contains snip_layer_7_authorization_policy_4 "$snip_layer_7_authorizatio
 _verify_contains snip_layer_7_authorization_policy_5 "$snip_layer_7_authorization_policy_5_out"
 _verify_contains snip_layer_7_authorization_policy_6 "$snip_layer_7_authorization_policy_6_out"
 
-if [ "$GATEWAY_API" == "true" ]; then
-  snip_control_traffic_2
-else
-  snip_control_traffic_1
-fi
+snip_control_traffic_1
 
-_verify_lines snip_control_traffic_3 "
+_verify_lines snip_control_traffic_2 "
 + reviews-v1
 + reviews-v2
 - reviews-v3
 "
 
 # @cleanup
-if [ "$GATEWAY_API" != "true" ]; then
-    snip_uninstall_1
-    snip_uninstall_2
-    snip_uninstall_3
-    samples/bookinfo/platform/kube/cleanup.sh
-    snip_uninstall_4
-fi
+snip_uninstall_1
+snip_uninstall_2
+snip_uninstall_3
+samples/bookinfo/platform/kube/cleanup.sh
+snip_uninstall_4
