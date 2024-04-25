@@ -197,162 +197,163 @@ identities, but not at the Layer 7 level, such as HTTP methods like `GET` and `P
 
 ### Layer 4 authorization policy
 
-Explicitly allow the `sleep` and gateway service accounts to call the `productpage` service:
+1. Explicitly allow the `sleep` and gateway service accounts to call the `productpage` service:
 
-{{< text bash >}}
-$ kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
-kind: AuthorizationPolicy
-metadata:
-  name: productpage-viewer
-  namespace: default
-spec:
-  selector:
-    matchLabels:
-      app: productpage
-  action: ALLOW
-  rules:
-  - from:
-    - source:
-        principals:
-        - cluster.local/ns/default/sa/sleep
-        - cluster.local/$GATEWAY_SERVICE_ACCOUNT
-EOF
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: security.istio.io/v1beta1
+    kind: AuthorizationPolicy
+    metadata:
+      name: productpage-viewer
+      namespace: default
+    spec:
+      selector:
+        matchLabels:
+          app: productpage
+      action: ALLOW
+      rules:
+      - from:
+        - source:
+            principals:
+            - cluster.local/ns/default/sa/sleep
+            - cluster.local/$GATEWAY_SERVICE_ACCOUNT
+    EOF
+    {{< /text >}}
 
-Confirm the above authorization policy is working:
+1. Confirm the above authorization policy is working:
 
-{{< text bash >}}
-$ # this should succeed
-$ kubectl exec deploy/sleep -- curl -s "http://$GATEWAY_HOST/productpage" | grep -o "<title>.*</title>"
-<title>Simple Bookstore App</title>
-{{< /text >}}
+    {{< text bash >}}
+    $ # this should succeed
+    $ kubectl exec deploy/sleep -- curl -s "http://$GATEWAY_HOST/productpage" | grep -o "<title>.*</title>"
+    <title>Simple Bookstore App</title>
+    {{< /text >}}
 
-{{< text bash >}}
-$ # this should succeed
-$ kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
-<title>Simple Bookstore App</title>
-{{< /text >}}
+    {{< text bash >}}
+    $ # this should succeed
+    $ kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
+    <title>Simple Bookstore App</title>
+    {{< /text >}}
 
-{{< text bash >}}
-$ # this should fail with a connection reset error code 56
-$ kubectl exec deploy/notsleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
-command terminated with exit code 56
-{{< /text >}}
+    {{< text bash >}}
+    $ # this should fail with a connection reset error code 56
+    $ kubectl exec deploy/notsleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
+    command terminated with exit code 56
+    {{< /text >}}
 
 ### Layer 7 authorization policy
 
-Using the Kubernetes Gateway API, you can deploy a {{< gloss "waypoint" >}}waypoint proxy{{< /gloss >}} for your namespace:
+1. Using the Kubernetes Gateway API, you can deploy a {{< gloss "waypoint" >}}waypoint proxy{{< /gloss >}} for your namespace:
 
-{{< text bash >}}
-$ istioctl x waypoint apply --enroll-namespace --wait
-waypoint default/waypoint applied
-namespace default labeled with "istio.io/use-waypoint: waypoint"
-{{< /text >}}
+    {{< text bash >}}
+    $ istioctl x waypoint apply --enroll-namespace --wait
+    waypoint default/waypoint applied
+    namespace default labeled with "istio.io/use-waypoint: waypoint"
+    {{< /text >}}
 
-View the waypoint proxy status; you should see the details of the gateway
-resource with `Programmed` status:
+1. View the waypoint proxy status; you should see the details of the gateway resource with `Programmed` status:
 
-{{< text bash >}}
-$ kubectl get gtw waypoint -o yaml
-...
-status:
-  conditions:
-  - lastTransitionTime: "2024-04-18T14:25:56Z"
-    message: Resource programmed, assigned to service(s) waypoint.default.svc.cluster.local:15008
-    observedGeneration: 1
-    reason: Programmed
-    status: "True"
-    type: Programmed
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl get gtw waypoint -o yaml
+    ...
+    status:
+      conditions:
+      - lastTransitionTime: "2024-04-18T14:25:56Z"
+        message: Resource programmed, assigned to service(s) waypoint.default.svc.cluster.local:15008
+        observedGeneration: 1
+        reason: Programmed
+        status: "True"
+        type: Programmed
+    {{< /text >}}
 
-Update your `AuthorizationPolicy` to explicitly allow the `sleep` service to `GET` the `productpage` service, but perform no other operations:
+1. Update your `AuthorizationPolicy` to explicitly allow the `sleep` service to `GET` the `productpage` service, but perform no other operations:
 
-{{< text bash >}}
-$ kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
-kind: AuthorizationPolicy
-metadata:
-  name: productpage-viewer
-  namespace: default
-spec:
-  targetRef:
-    kind: Service
-    group: ""
-    name: productpage
-  action: ALLOW
-  rules:
-  - from:
-    - source:
-        principals:
-        - cluster.local/ns/default/sa/sleep
-    to:
-    - operation:
-        methods: ["GET"]
-EOF
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: security.istio.io/v1beta1
+    kind: AuthorizationPolicy
+    metadata:
+      name: productpage-viewer
+      namespace: default
+    spec:
+      targetRef:
+        kind: Service
+        group: ""
+        name: productpage
+      action: ALLOW
+      rules:
+      - from:
+        - source:
+            principals:
+            - cluster.local/ns/default/sa/sleep
+        to:
+        - operation:
+            methods: ["GET"]
+    EOF
+    {{< /text >}}
 
-{{< text bash >}}
-$ # this should fail with an RBAC error because it is not a GET operation
-$ kubectl exec deploy/sleep -- curl -s "http://productpage:9080/productpage" -X DELETE
-RBAC: access denied
-{{< /text >}}
+1. Confirm the new waypoint proxy is enforcing the updated authorization policy:
 
-{{< text bash >}}
-$ # this should fail with an RBAC error because the identity is not allowed
-$ kubectl exec deploy/notsleep -- curl -s http://productpage:9080/
-RBAC: access denied
-{{< /text >}}
+    {{< text bash >}}
+    $ # this should fail with an RBAC error because it is not a GET operation
+    $ kubectl exec deploy/sleep -- curl -s "http://productpage:9080/productpage" -X DELETE
+    RBAC: access denied
+    {{< /text >}}
 
-{{< text bash >}}
-$ # this should continue to work
-$ kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
-<title>Simple Bookstore App</title>
-{{< /text >}}
+    {{< text bash >}}
+    $ # this should fail with an RBAC error because the identity is not allowed
+    $ kubectl exec deploy/notsleep -- curl -s http://productpage:9080/
+    RBAC: access denied
+    {{< /text >}}
+
+    {{< text bash >}}
+    $ # this should continue to work
+    $ kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
+    <title>Simple Bookstore App</title>
+    {{< /text >}}
 
 ## Control traffic {#control}
 
-You can use the same waypoint to control traffic to `reviews`. Configure traffic routing to send 90% of requests to `reviews` v1 and 10% to `reviews` v2:
+1. You can use the same waypoint to control traffic to `reviews`. Configure traffic routing to send 90% of requests to `reviews` v1 and 10% to `reviews` v2:
 
-{{< text bash >}}
-$ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-versions.yaml@
-$ kubectl apply -f @samples/bookinfo/gateway-api/route-reviews-90-10.yaml@
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-versions.yaml@
+    $ kubectl apply -f @samples/bookinfo/gateway-api/route-reviews-90-10.yaml@
+    {{< /text >}}
 
-Confirm that roughly 10% of the traffic from 100 requests goes to reviews-v2:
+1. Confirm that roughly 10% of the traffic from 100 requests goes to reviews-v2:
 
-{{< text bash >}}
-$ kubectl exec deploy/sleep -- sh -c "for i in \$(seq 1 100); do curl -s http://productpage:9080/productpage | grep reviews-v.-; done"
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl exec deploy/sleep -- sh -c "for i in \$(seq 1 100); do curl -s http://productpage:9080/productpage | grep reviews-v.-; done"
+    {{< /text >}}
 
 ## Uninstall {#uninstall}
 
-The label to instruct Istio to automatically include applications in the `default` namespace to an ambient mesh is not removed by default. If no longer needed, use the following command to remove it:
+1. The label to instruct Istio to automatically include applications in the `default` namespace to an ambient mesh is not removed by default. If no longer needed, use the following command to remove it:
 
-{{< text bash >}}
-$ kubectl label namespace default istio.io/dataplane-mode-
-$ kubectl label namespace default istio.io/use-waypoint-
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl label namespace default istio.io/dataplane-mode-
+    $ kubectl label namespace default istio.io/use-waypoint-
+    {{< /text >}}
 
-To remove waypoint proxies, installed policies, and uninstall Istio:
+1. To remove waypoint proxies, installed policies, and uninstall Istio:
 
-{{< text bash >}}
-$ istioctl x waypoint delete --all
-$ istioctl uninstall -y --purge
-$ kubectl delete namespace istio-system
-{{< /text >}}
+    {{< text bash >}}
+    $ istioctl x waypoint delete --all
+    $ istioctl uninstall -y --purge
+    $ kubectl delete namespace istio-system
+    {{< /text >}}
 
-To delete the Bookinfo sample application and its configuration, see [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup).
+1. To delete the Bookinfo sample application and its configuration, see [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup).
 
-To remove the `sleep` and `notsleep` applications:
+1. To remove the `sleep` and `notsleep` applications:
 
-{{< text bash >}}
-$ kubectl delete -f @samples/sleep/sleep.yaml@
-$ kubectl delete -f @samples/sleep/notsleep.yaml@
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl delete -f @samples/sleep/sleep.yaml@
+    $ kubectl delete -f @samples/sleep/notsleep.yaml@
+    {{< /text >}}
 
-If you installed the Gateway API CRDs, remove them:
+1. If you installed the Gateway API CRDs, remove them:
 
-{{< text bash >}}
-$ kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref={{< k8s_gateway_api_version >}}" | kubectl delete -f -
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref={{< k8s_gateway_api_version >}}" | kubectl delete -f -
+    {{< /text >}}
