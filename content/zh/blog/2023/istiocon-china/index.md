@@ -37,7 +37,7 @@ IstioCon 中国站在程序委员会成员宋净超和徐中虎的开幕主题�
     >}}
 
 欢迎致辞之后，来自 Google 的 Justin Pettit 发表了主题演讲，
-主题为“Istio Ambient Mesh 作为托管基础设施”，
+主题为“Istio Ambient 模式作为托管基础设施”，
 强调了 Ambient 模式在 Istio 社区中的重要性和优先级，
 特别是对于像 Google Cloud 这样的我们的顶级支持者。
 

@@ -2,6 +2,8 @@
 title: 使用 Helm 升级
 description: 使用 Helm 对 Ambient 模式的安装进行升级。
 weight: 5
+aliases:
+  - /zh/docs/ops/ambient/upgrade/helm-upgrade
 owner: istio/wg-environments-maintainers
 test: yes
 status: Experimental
@@ -9,7 +11,7 @@ status: Experimental
 
 按照本指南使用 [Helm](https://helm.sh/docs/) 对 Ambient 模式的安装进行升级和配置。
 本指南假设您已经使用之前的 Istio 次要版本或补丁版本执行了
-[Helm Ambient 网格安装](/zh/docs/ops/ambient/install/helm-installation/)。
+[Helm Ambient 模式安装](/zh/docs/ambient/install/helm-installation/)。
 
 {{< boilerplate ambient-alpha-warning >}}
 
@@ -83,7 +85,7 @@ ztunnel DaemonSet 是节点代理组件。
 这意味着必须先升级控制平面，再升级 ztunnel。
 
 {{< warning >}}
-就地升级 ztunnel 将短暂中断节点上的所有 Ambient Mesh 流量。
+就地升级 ztunnel 将短暂中断节点上的所有 Ambient 模式流量。
 建议使用节点封锁和蓝/绿节点池来减轻生产环境升级期间的影响范围。
 有关详细信息，请参阅您的 Kubernetes 提供商文档。
 {{< /warning >}}
@@ -119,7 +121,7 @@ $ helm upgrade istio-cni istio/cni -n istio-system
 
 ### 升级 Gateway 组件（可选） {#upgrade-the-gateway-component-optional}
 
-Gateway 组件管理 Ambient Mesh 边界之间的东西向和南北向数据平面流量，
+Gateway 组件管理 Ambient 模式边界之间的东西向和南北向数据平面流量，
 以及 L7 数据平面的某些方面。
 
 {{< text syntax=bash snip_id=upgrade_gateway >}}
@@ -152,4 +154,4 @@ $ kubectl get pods -n istio-system
 
 ## 卸载 {#uninstall}
 
-请参阅 [Helm 安装指南](/zh/docs/ops/ambient/install/helm-installation/#uninstall)中的卸载部分。
+请参阅 [Helm 安装指南](/zh/docs/ambient/install/helm-installation/#uninstall)中的卸载部分。

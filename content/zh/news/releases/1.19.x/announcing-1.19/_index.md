@@ -42,9 +42,9 @@ Kubernetes [Gateway API](http://gateway-api.org/)
 除了网格流量之外，入口流量的 API
 使用[处于 Beta 阶段](/zh/docs/tasks/traffic-management/ingress/gateway-api/#configuring-a-gateway)并迅速接近 GA。
 
-### Ambient Mesh
+### Ambient 模式
 
-在此发布周期中，团队一直在努力改进 [Ambient 网格](/zh/docs/ops/ambient/)，
+在此发布周期中，团队一直在努力改进 [Ambient 模式](/zh/docs/ambient/)，
 这是替代之前 Sidecar 模型的新 Istio 部署模型。如果您还没有听说过 Ambient，
 请查看[介绍博客文章](/zh/blog/2022/introducing-ambient-mesh/)。
 
