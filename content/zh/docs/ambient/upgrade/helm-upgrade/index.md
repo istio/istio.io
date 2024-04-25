@@ -4,6 +4,7 @@ description: 使用 Helm 对 Ambient 模式的安装进行升级。
 weight: 5
 aliases:
   - /zh/docs/ops/ambient/upgrade/helm-upgrade
+  - /zh/latest/docs/ops/ambient/upgrade/helm-upgrade
 owner: istio/wg-environments-maintainers
 test: yes
 status: Experimental

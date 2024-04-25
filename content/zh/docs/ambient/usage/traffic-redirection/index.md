@@ -4,6 +4,7 @@ description: 了解流量如何在 Pod 和 ztunnel 节点代理之间重定向�
 weight: 2
 aliases:
   - /zh/docs/ops/ambient/usage/traffic-redirection
+  - /zh/latest/docs/ops/ambient/usage/traffic-redirection
 owner: istio/wg-networking-maintainers
 test: no
 ---

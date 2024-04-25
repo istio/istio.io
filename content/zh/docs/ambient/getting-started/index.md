@@ -4,6 +4,7 @@ description: 如何在 Ambient 模式下部署和安装 Istio。
 weight: 1
 aliases:
   - /zh/docs/ops/ambient/getting-started
+  - /zh/latest/docs/ops/ambient/getting-started
 owner: istio/wg-networking-maintainers
 test: yes
 ---
