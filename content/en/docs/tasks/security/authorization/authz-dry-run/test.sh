@@ -22,7 +22,7 @@ set -o pipefail
 source "tests/util/addons.sh"
 source "content/en/docs/tasks/observability/distributed-tracing/telemetry-api/snips.sh"
 
-# @setup profile=default
+# @setup profile=none
 snip_installation_1
 
 # Install Prometheus and Zipkin
