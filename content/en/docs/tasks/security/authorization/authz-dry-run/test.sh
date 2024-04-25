@@ -83,3 +83,5 @@ pgrep istioctl | xargs kill
 # @cleanup
 _undeploy_addons prometheus zipkin
 snip_clean_up_1
+istioctl uninstall --purge -y
+kubectl delete ns istio-system
