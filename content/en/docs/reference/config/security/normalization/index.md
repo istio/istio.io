@@ -13,7 +13,7 @@ For more information, please refer to [authorization normalization best practice
 
 ## Path Related
 
-This applies to the `paths` and `notPaths` field.
+This applies to the [`paths` field](/docs/reference/config/security/authorization-policy/#Operation-paths) and the [`notPaths` field](/docs/reference/config/security/authorization-policy/#Operation-not_paths).
 
 ### 1. Single percent-encoded character (%HH)
 
