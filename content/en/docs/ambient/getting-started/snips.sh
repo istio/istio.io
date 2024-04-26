@@ -54,18 +54,13 @@ kubectl apply -f samples/sleep/notsleep.yaml
 }
 
 snip_deploy_the_sample_application_3() {
-sed -e 's/from: Same/from: All/'\
-      -e '/^  name: bookinfo-gateway/a\
-  namespace: istio-system\
-'     -e '/^  - name: bookinfo-gateway/a\
-    namespace: istio-system\
-' samples/bookinfo/gateway-api/bookinfo-gateway.yaml | kubectl apply -f -
+kubectl apply -f samples/bookinfo/gateway-api/bookinfo-gateway.yaml
 }
 
 snip_deploy_the_sample_application_4() {
 kubectl wait --for=condition=programmed gtw/bookinfo-gateway -n istio-system
-export GATEWAY_HOST=bookinfo-gateway-istio.istio-system
-export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/bookinfo-gateway-istio
+export GATEWAY_HOST=bookinfo-gateway-istio.default
+export GATEWAY_SERVICE_ACCOUNT=ns/default/sa/bookinfo-gateway-istio
 }
 
 snip_verify_traffic_sleep_to_ingress() {
