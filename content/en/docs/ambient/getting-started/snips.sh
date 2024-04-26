@@ -58,7 +58,7 @@ kubectl apply -f samples/bookinfo/gateway-api/bookinfo-gateway.yaml
 }
 
 snip_deploy_the_sample_application_4() {
-kubectl wait --for=condition=programmed gtw/bookinfo-gateway -n istio-system
+kubectl wait --for=condition=programmed gtw/bookinfo-gateway
 export GATEWAY_HOST=bookinfo-gateway-istio.default
 export GATEWAY_SERVICE_ACCOUNT=ns/default/sa/bookinfo-gateway-istio
 }

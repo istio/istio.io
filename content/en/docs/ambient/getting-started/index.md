@@ -127,7 +127,7 @@ Make sure the default namespace does not include the label `istio-injection=enab
     Set the environment variables for the Kubernetes Gateway:
 
     {{< text bash >}}
-    $ kubectl wait --for=condition=programmed gtw/bookinfo-gateway -n istio-system
+    $ kubectl wait --for=condition=programmed gtw/bookinfo-gateway
     $ export GATEWAY_HOST=bookinfo-gateway-istio.default
     $ export GATEWAY_SERVICE_ACCOUNT=ns/default/sa/bookinfo-gateway-istio
     {{< /text >}}
