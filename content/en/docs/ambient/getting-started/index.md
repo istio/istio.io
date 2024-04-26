@@ -121,20 +121,15 @@ Make sure the default namespace does not include the label `istio-injection=enab
     and [HTTPRoute](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.HTTPRoute):
 
     {{< text bash >}}
-    $ sed -e 's/from: Same/from: All/'\
-          -e '/^  name: bookinfo-gateway/a\
-      namespace: istio-system\
-    '     -e '/^  - name: bookinfo-gateway/a\
-        namespace: istio-system\
-    ' @samples/bookinfo/gateway-api/bookinfo-gateway.yaml@ | kubectl apply -f -
+    $ kubectl apply -f @samples/bookinfo/gateway-api/bookinfo-gateway.yaml@
     {{< /text >}}
 
     Set the environment variables for the Kubernetes Gateway:
 
     {{< text bash >}}
     $ kubectl wait --for=condition=programmed gtw/bookinfo-gateway -n istio-system
-    $ export GATEWAY_HOST=bookinfo-gateway-istio.istio-system
-    $ export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/bookinfo-gateway-istio
+    $ export GATEWAY_HOST=bookinfo-gateway-istio.default
+    $ export GATEWAY_SERVICE_ACCOUNT=ns/default/sa/bookinfo-gateway-istio
     {{< /text >}}
 
 1. Test your bookinfo application. It should work with or without the gateway:
