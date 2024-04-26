@@ -22,7 +22,7 @@ set -o pipefail
 source "tests/util/addons.sh"
 source "content/en/docs/tasks/observability/distributed-tracing/telemetry-api/snips.sh"
 
-# @setup profile=default
+# @setup profile=none
 snip_installation_1
 
 # Install Prometheus and Zipkin
@@ -83,3 +83,5 @@ pgrep istioctl | xargs kill
 # @cleanup
 _undeploy_addons prometheus zipkin
 snip_clean_up_1
+istioctl uninstall --purge -y
+kubectl delete ns istio-system
