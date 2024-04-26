@@ -304,7 +304,7 @@ Ambient 模式与之前支持 Sidecar 模式的所有主流 CNI 兼容。
     EOF
     {{< /text >}}
 
-1. 确认新的 waypoint 代理正在执行更新的授权策略：
+1. 确认新的 waypoint 代理正在执行更新的鉴权策略：
 
     {{< text bash >}}
     $ # this should fail with an RBAC error because it is not a GET operation
