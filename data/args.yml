@@ -49,4 +49,4 @@ supported_languages:
     code: "zh"
 
 # Kubernetes Gateway API
-k8s_gateway_api_version: "7f9f51098f405344a3a7eb13c55895c77919f706"
+k8s_gateway_api_version: "7320257302905254dcebf4f5c424741cf1556c06"

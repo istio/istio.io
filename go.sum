@@ -877,8 +877,8 @@ google.golang.org/grpc v1.25.1/go.mod h1:c3i+UQWmh7LiEpx4sFZnkU36qjEYZ0imhYfXVyQ
 google.golang.org/grpc v1.26.0/go.mod h1:qbnxyOmOxrQa7FizSgH+ReBfzJrCY1pSN7KXBS8abTk=
 google.golang.org/grpc v1.27.0/go.mod h1:qbnxyOmOxrQa7FizSgH+ReBfzJrCY1pSN7KXBS8abTk=
 google.golang.org/grpc v1.29.1/go.mod h1:itym6AZVZYACWQqET3MqgPpjcuV5QH3BxFS3IjizoKk=
-google.golang.org/grpc v1.63.0 h1:WjKe+dnvABXyPJMD7KDNLxtoGk5tgk+YFWN6cBWjZE8=
-google.golang.org/grpc v1.63.0/go.mod h1:WAX/8DgncnokcFUldAxq7GeB5DXHDbMF+lLvDomNkRA=
+google.golang.org/grpc v1.63.2 h1:MUeiw1B2maTVZthpU5xvASfTh3LDbxHd6IJ6QQVU+xM=
+google.golang.org/grpc v1.63.2/go.mod h1:WAX/8DgncnokcFUldAxq7GeB5DXHDbMF+lLvDomNkRA=
 google.golang.org/protobuf v0.0.0-20200109180630-ec00e32a8dfd/go.mod h1:DFci5gLYBciE7Vtevhsrf46CRTquxDuWsQurQQe4oz8=
 google.golang.org/protobuf v0.0.0-20200221191635-4d8936d0db64/go.mod h1:kwYJMbMJ01Woi6D6+Kah6886xMZcty6N08ah7+eCXa0=
 google.golang.org/protobuf v0.0.0-20200228230310-ab0ca4ff8a60/go.mod h1:cfTl7dwQJ+fmap5saPgwCLgHXTUD7jkjRqWcaiX5VyM=
@@ -932,8 +932,8 @@ istio.io/api v1.22.0-alpha.1.0.20240422184433-628d0981624d h1:F6NEAUXhUVS89wOBZd
 istio.io/api v1.22.0-alpha.1.0.20240422184433-628d0981624d/go.mod h1:S3l8LWqNYS9yT+d4bH+jqzH2lMencPkW7SKM1Cu9EyM=
 istio.io/client-go v1.22.0-alpha.1.0.20240422192033-7d65ff9b98d7 h1:dJE7VDg+K52E27MCFA1lNur7EnN3SYVfo6K81+sl2Oc=
 istio.io/client-go v1.22.0-alpha.1.0.20240422192033-7d65ff9b98d7/go.mod h1:1lAPr0DOVBbnRQqLAQKxWbEaxFk6b1CJTm+ypnP7sMo=
-istio.io/istio v0.0.0-20240423225212-f8a0d0cc9f4f h1:PE0+/n2oyS9vo1eFemJE29ViUqSFp8SFPmy9JVhNuac=
-istio.io/istio v0.0.0-20240423225212-f8a0d0cc9f4f/go.mod h1:AFZ6KMZVdTLn28PErgL6cSc40rpIn9VBJecoifAa0BU=
+istio.io/istio v0.0.0-20240427135818-04b2993d80bc h1:ALrQ1EcPctW1X8qMe1mHStY6vC9sWRQyu2v8QXnBE3Y=
+istio.io/istio v0.0.0-20240427135818-04b2993d80bc/go.mod h1:8mG8Uv2P5eROpGVV4N/0cbGfwbTELDfMsRcREBhfFhA=
 k8s.io/api v0.18.2/go.mod h1:SJCWI7OLzhZSvbY7U8zwNl9UA4o1fizoug34OV/2r78=
 k8s.io/api v0.18.4/go.mod h1:lOIQAKYgai1+vz9J7YcDZwC26Z0zQewYOGWdyIPUUQ4=
 k8s.io/api v0.30.0 h1:siWhRq7cNjy2iHssOB9SCGNCl2spiF1dO3dABqZ8niA=
@@ -985,8 +985,8 @@ sigs.k8s.io/controller-runtime v0.6.1/go.mod h1:XRYBPdbf5XJu9kpS84VJiZ7h/u1hF3gE
 sigs.k8s.io/controller-runtime v0.17.2 h1:FwHwD1CTUemg0pW2otk7/U5/i5m2ymzvOXdbeGOUvw0=
 sigs.k8s.io/controller-runtime v0.17.2/go.mod h1:+MngTvIQQQhfXtwfdGw/UOQ/aIaqsYywfCINOtwMO/s=
 sigs.k8s.io/controller-tools v0.3.0/go.mod h1:enhtKGfxZD1GFEoMgP8Fdbu+uKQ/cq1/WGJhdVChfvI=
-sigs.k8s.io/gateway-api v1.0.1-0.20240418002011-7f9f51098f40 h1:gH4Z10+yqcxTJ52r1Spk8rhj3Kv0IevbdPPvPgEcqbA=
-sigs.k8s.io/gateway-api v1.0.1-0.20240418002011-7f9f51098f40/go.mod h1:pOW7gKjeVN1xDfoPYkzI1b3v0XtgTcIx/CJ8cQAbOCA=
+sigs.k8s.io/gateway-api v1.1.0-rc1.0.20240425002700-732025730290 h1:Z0My9zcCWwJOzXFB7uhE3jVyckfjflZ2BWAp2btS8h4=
+sigs.k8s.io/gateway-api v1.1.0-rc1.0.20240425002700-732025730290/go.mod h1:l6CLPHMssBJ+FGeSqxZGuy/RsyDUXjbc0QAmgkUiRoc=
 sigs.k8s.io/json v0.0.0-20221116044647-bc3834ca7abd h1:EDPBXCAspyGV4jQlpZSudPeMmr1bNJefnuqLsRAsHZo=
 sigs.k8s.io/json v0.0.0-20221116044647-bc3834ca7abd/go.mod h1:B8JuhiUyNFVKdsE8h686QcCxMaH6HrOAZj4vswFpcB0=
 sigs.k8s.io/kind v0.8.1/go.mod h1:oNKTxUVPYkV9lWzY6CVMNluVq8cBsyq+UgPJdvA3uu4=
