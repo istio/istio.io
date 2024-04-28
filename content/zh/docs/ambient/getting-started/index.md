@@ -136,7 +136,7 @@ Ambient 模式与之前支持 Sidecar 模式的所有主流 CNI 兼容。
     设置 Kubernetes Gateway 的环境变量：
 
     {{< text bash >}}
-    $ kubectl wait --for=condition=programmed gtw/bookinfo-gateway -n istio-system
+    $ kubectl wait --for=condition=programmed gtw/bookinfo-gateway
     $ export GATEWAY_HOST=bookinfo-gateway-istio.default
     $ export GATEWAY_SERVICE_ACCOUNT=ns/default/sa/bookinfo-gateway-istio
     {{< /text >}}
