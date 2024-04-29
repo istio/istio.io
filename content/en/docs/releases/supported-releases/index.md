@@ -29,12 +29,12 @@ The various types of releases represent a different product quality level and le
 In this context, *support* means that the community will produce patch releases for critical issues and offer technical
 assistance. Separately, 3rd parties and partners may offer longer-term support solutions.
 
-| Type              | Support Level                                                                                                          | Quality and Recommended Use                                                                                    |
-| ----------------- | ---------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| Development Build | No support                                                                                                             | Dangerous, may not be fully reliable. Useful to experiment with.                                               |
-| Minor Release     | Support provided until 6 weeks after the N+2 minor release (ex. 1.11 supported until 6 weeks after 1.13.0 is released) |
-| Patch             | Same as the corresponding Minor release                                                                                | Users are encouraged to adopt patch releases as soon as they are available for a given release.                |
-| Security Patch    | Same as a Patch, but contains a security fix.  Sometimes security patches will contain additional code/fixes in addition to the security fixes.  | Given the nature of security fixes, users are **strongly** encouraged to adopt security patches after release. |
+| Type              | Support Level                                                                                                                                   | Quality and Recommended Use                                                                                    |
+|-------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------|
+| Development Build | No support                                                                                                                                      | Dangerous, may not be fully reliable. Useful to experiment with.                                               |
+| Minor Release     | Support provided until 6 weeks after the N+2 minor release (ex. 1.11 supported until 6 weeks after 1.13.0 is released)                          |
+| Patch             | Same as the corresponding Minor release                                                                                                         | Users are encouraged to adopt patch releases as soon as they are available for a given release.                |
+| Security Patch    | Same as a Patch, but contains a security fix.  Sometimes security patches will contain additional code/fixes in addition to the security fixes. | Given the nature of security fixes, users are **strongly** encouraged to adopt security patches after release. |
 
 You can find available releases on the [releases page](https://github.com/istio/istio/releases),
 and if you're the adventurous type, you can learn about our development builds on the [development builds wiki](https://github.com/istio/istio/wiki/Dev%20Builds).
@@ -68,11 +68,11 @@ Istio does not guarantee that minor releases that fall outside the support windo
 Please keep up-to-date and use a supported version.
 {{< /warning >}}
 
-| Minor Releases   | Patched versions with no known CVEs                  |
-| ---------------- | ---------------------------------------------------- |
-| 1.21.x           | 1.21.2+                                              |
-| 1.20.x           | 1.20.6+                                              |
-| 1.19.x           | 1.19.10+                                              |
+| Minor Releases | Patched versions with no known CVEs |
+|----------------|-------------------------------------|
+| 1.21.x         | 1.21.2+                             |
+| 1.20.x         | 1.20.6+                             |
+| 1.19.x         | 1.19.10+                            |
 
 ## Supported Envoy Versions
 
@@ -81,7 +81,8 @@ Istio's data plane is based on [Envoy](https://github.com/envoyproxy/envoy).
 The relationship between the two project's versions:
 
 | Istio version | Envoy release branch |
-| ------------- | -------------------- |
+|---------------|----------------------|
+| 1.22.x        | release/v1.30        |
 | 1.21.x        | release/v1.29        |
 | 1.20.x        | release/v1.28        |
 | 1.19.x        | release/v1.27        |
