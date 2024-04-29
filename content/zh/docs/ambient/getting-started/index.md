@@ -130,20 +130,15 @@ Ambient 模式与之前支持 Sidecar 模式的所有主流 CNI 兼容。
     和 [HTTPRoute](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.HTTPRoute)：
 
     {{< text bash >}}
-    $ sed -e 's/from: Same/from: All/'\
-          -e '/^  name: bookinfo-gateway/a\
-      namespace: istio-system\
-    '     -e '/^  - name: bookinfo-gateway/a\
-        namespace: istio-system\
-    ' @samples/bookinfo/gateway-api/bookinfo-gateway.yaml@ | kubectl apply -f -
+    $ kubectl apply -f @samples/bookinfo/gateway-api/bookinfo-gateway.yaml@
     {{< /text >}}
 
     设置 Kubernetes Gateway 的环境变量：
 
     {{< text bash >}}
-    $ kubectl wait --for=condition=programmed gtw/bookinfo-gateway -n istio-system
-    $ export GATEWAY_HOST=bookinfo-gateway-istio.istio-system
-    $ export GATEWAY_SERVICE_ACCOUNT=ns/istio-system/sa/bookinfo-gateway-istio
+    $ kubectl wait --for=condition=programmed gtw/bookinfo-gateway
+    $ export GATEWAY_HOST=bookinfo-gateway-istio.default
+    $ export GATEWAY_SERVICE_ACCOUNT=ns/default/sa/bookinfo-gateway-istio
     {{< /text >}}
 
 1. 测试您的 bookinfo 应用。无论是否有网关都应该能够正常工作。
