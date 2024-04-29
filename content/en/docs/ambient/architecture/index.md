@@ -9,15 +9,64 @@ owner: istio/wg-networking-maintainers
 test: n/a
 ---
 
+## Ambient APIs
+
+### Labels
+
+You can use the following labels to enroll your namespace to ambient, enroll your resource to use a waypoint and specofy the capture scope of your waypoint.
+
+|  Name  | Feature Status | Scope | Description |
+| --- | --- | --- | --- | --- |
+| `istio.io/dataplane-mode` | Beta | Namespace |  Specifies the data plane mode, valid value: `ambient`. |
+| `istio.io/use-waypoint` | Beta | Namespace or Service or Pod or WorkloadEntry or ServiceEntry | Enrolls your resource to use a given waypoint, valid value: `#none` or `{namespace}/{waypoint-name}` |
+| `istio.io/waypoint-for` | Alpha | Gateway or GatewayClass | Specifies the waypoint's capture scope, valid value: `service` or `none` or `workload` or `all`. The default value is `service`. |
+
+### Policy attachment to waypoints
+
+You can attach Layer 7 policies (AuthorizationPolicy, RequestAuthentication, Telemetry, WasmPlugin) to your waypoint using `targetRef`.
+
+1. To attach the entire waypoint, set `Gateway` as the `targetRef` value. The example below shows how to attach the policy
+to entire waypoint for the `default` namespace:
+
+```
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: productpage-viewer
+  namespace: default
+spec:
+  targetRef:
+    kind: Gateway
+    group: gateway.networking.k8s.io
+    name: waypoint
+```
+
+1. To attach a given service within the waypoint, set `Service` as the `targetRef` value. The example below shows how to attach the policy
+to the `productpage` service in the `default` namespace:
+
+```
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: productpage-viewer
+  namespace: default
+spec:
+  targetRef:
+    kind: Service
+    group: ""
+    name: productpage
+```
+
+
 ## Traffic routing
 
 In {{< gloss "ambient" >}}ambient mode{{< /gloss >}}, workloads can fall into 3 categories:
 1. **Uncaptured:** this is a standard pod without any mesh features enabled.
-1. **Captured:** this is a pod that has traffic intercepted by {{< gloss >}}ztunnel{{< /gloss >}}. Pods can be captured by setting the `istio.io/dataplane-mode=ambient` label on a namespace.
+1. **Captured:** this is a pod that has traffic intercepted by {{< gloss >}}ztunnel{{< /gloss >}}. A pod's catpured mode can be enabled by setting the `istio.io/dataplane-mode=ambient` label on its namespace, which enables all pods' captured mode for that namespace.
 1. **Waypoint enabled:** this is a pod that is "Captured" *and* has a {{< gloss "waypoint" >}}waypoint proxy{{< /gloss >}} deployed.
-  A waypoint will, by default, apply to all pods in the same namespace.
-  It can optionally be set to apply to only a specific service account with the `istio.io/for-service-account` annotation on the `Gateway`.
-  If there is both a namespace waypoint and service account waypoint, the service account waypoint takes precedence.
+  If a namespace is labelled with `istio.io/use-waypoint` with its default waypoint (for example `istio.io/use-waypoint: waypoint`), the waypoint will apply to all pods in the namespace.
+  The `istio.io/use-waypoint` label can optionally be set to apply to only a specific service or pod with its desired waypoint (for example, `istio.io/use-waypoint: my-waypoint`).
+  If the `istio.io/use-waypoint` label exists on the namespace and/or service and/or pod, the pod waypoint takes precedence over the service waypoint, which takes precedence over the namespace waypoint.
 
 Depending on which category a workload is in, the request path will be different.
 
@@ -33,9 +82,8 @@ However, depending on the destination's capabilities, different behavior will oc
 If the destination is also captured, or otherwise has Istio proxy capabilities (such as a sidecar), the request will be upgraded to an encrypted {{< gloss "HBONE" >}}HBONE tunnel{{< /gloss >}}.
 If the destination has a waypoint proxy, in addition to being upgraded to HBONE, the request will instead be forwarded to that waypoint.
 
-Note that in the case of a request to a `Service`, a specific endpoint will be selected to determine if it has a waypoint.
-However, if it *has* a waypoint, the request will be sent with a target destination of the `Service`, not the selected endpoint.
-This allows the waypoint to apply service-oriented policies to the traffic.
+Note that in the case of a request to a `Service`, if the service *has* a waypoint, the request will be sent to its waypoint to enforce service-oriented policies to the traffic.
+Similarly, in the case of a request to a `Pod` IP, if the pod *has* a waypoint, the request will be sent to its waypoint to enforce pod-oriented policies to the traffic.
 In the rare case that a `Service` has a mix of waypoint enabled and non-enabled endpoints, some requests would be sent to a waypoint while other requests to the same service would not.
 
 #### Inbound
