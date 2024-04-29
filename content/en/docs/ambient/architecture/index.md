@@ -13,7 +13,7 @@ test: n/a
 
 ### Labels
 
-You can use the following labels to enroll your namespace to ambient, enroll your resource to use a waypoint and specofy the capture scope of your waypoint.
+You can use the following labels to enroll your namespace to ambient, enroll your resource to use a waypoint and specify the capture scope of your waypoint.
 
 |  Name  | Feature Status | Scope | Description |
 | --- | --- | --- | --- | --- |
@@ -23,7 +23,7 @@ You can use the following labels to enroll your namespace to ambient, enroll you
 
 ### Policy attachment to waypoints
 
-You can attach Layer 7 policies (AuthorizationPolicy, RequestAuthentication, Telemetry, WasmPlugin) to your waypoint using `targetRef`.
+You can attach Layer 7 policies (such as `AuthorizationPolicy`, `RequestAuthentication`, `Telemetry`, `WasmPlugin`) to your waypoint using `targetRef`.
 
 1. To attach the entire waypoint, set `Gateway` as the `targetRef` value. The example below shows how to attach the policy
 to entire waypoint for the `default` namespace:
@@ -56,7 +56,6 @@ spec:
     group: ""
     name: productpage
 ```
-
 
 ## Traffic routing
 
@@ -96,11 +95,11 @@ By default, both will be accepted by ztunnel.
 Because plaintext requests will have no peer identity when Authorization Policies are evaluated,
 a user can set a policy requiring an identity (either *any* identity, or a specific one) to block all plaintext traffic.
 
-When the destination is waypoint enabled, all requests *must* go through the waypoint where policy is enforced.
-The ztunnel will make sure this occurs.
-However, there is an edge case: a well behaving HBONE client (such as another ztunnel or Istio sidecar) would know to send to the waypoint, but other clients
-(such as a workload outside of the mesh) likely would not know anything about waypoint proxies and send requests directly.
-When these direct calls are made, the ztunnel will "hairpin" the request to its own waypoint to ensure policies are properly enforced.
+When the destination is waypoint enabled, if the source is `captured` by its ztunnel, the ztunnel ensures the request **must** go through
+the waypoint where policy is enforced. However, a workload outside of the mesh doesn't know anything about waypoint proxies and it sends
+requests directly to the destination without going through any waypoint proxies even if the destination is waypoint enabled.
+Currently, traffic from sidecars and gateways won't go through the waypoint and they will be made aware of waypoint proxies
+in a future release.
 
 ### Waypoint routing
 
