@@ -17,13 +17,13 @@ You can use the following labels to enroll your namespace to ambient, enroll you
 
 |  Name  | Feature Status | Scope | Description |
 | --- | --- | --- | --- | --- |
-| `istio.io/dataplane-mode` | Beta | Namespace |  Specifies the data plane mode, valid value: `ambient`. |
-| `istio.io/use-waypoint` | Beta | Namespace or Service or Pod or WorkloadEntry or ServiceEntry | Enrolls your resource to use a given waypoint, valid value: `#none` or `{namespace}/{waypoint-name}` |
-| `istio.io/waypoint-for` | Alpha | Gateway or GatewayClass | Specifies the waypoint's capture scope, valid value: `service` or `none` or `workload` or `all`. The default value is `service`. |
+| `istio.io/dataplane-mode` | Beta | `Namespace` |  Specifies the data plane mode, valid value: `ambient`. |
+| `istio.io/use-waypoint` | Beta | `Namespace` or `Service` or `Pod` or `WorkloadEntry` or `ServiceEntry` | Enrolls your resource to use a given waypoint, valid value: `#none` or `{namespace}/{waypoint-name}` |
+| `istio.io/waypoint-for` | Alpha | `Gateway` | Specifies the waypoint's capture scope, valid value: `service` or `none` or `workload` or `all`. The default value is `service`. |
 
 ### Policy attachment to waypoints
 
-You can attach Layer 7 policies (such as `AuthorizationPolicy`, `RequestAuthentication`, `Telemetry`, `WasmPlugin`) to your waypoint using `targetRef`.
+You can attach Layer 7 policies (such as `AuthorizationPolicy`, `RequestAuthentication`, `Telemetry`, `WasmPlugin`, etc) to your waypoint using `targetRef`.
 
 1. To attach the entire waypoint, set `Gateway` as the `targetRef` value. The example below shows how to attach the `viewer` policy
 to the waypoint named `waypoint` for the `default` namespace:
@@ -61,10 +61,10 @@ spec:
 
 In {{< gloss "ambient" >}}ambient mode{{< /gloss >}}, workloads can fall into 3 categories:
 1. **Uncaptured:** this is a standard pod without any mesh features enabled.
-1. **Captured:** this is a pod that has traffic intercepted by {{< gloss >}}ztunnel{{< /gloss >}}. A pod's catpured mode can be enabled by setting the `istio.io/dataplane-mode=ambient` label on its namespace, which enables all pods' captured mode for that namespace.
+1. **Captured:** this is a pod that has traffic intercepted by {{< gloss >}}ztunnel{{< /gloss >}}. A pod's captured mode can be enabled by setting the `istio.io/dataplane-mode=ambient` label on its namespace, which enables all pods' captured mode for that namespace.
 1. **Waypoint enabled:** this is a pod that is "Captured" *and* has a {{< gloss "waypoint" >}}waypoint proxy{{< /gloss >}} deployed.
-  If a namespace is labelled with `istio.io/use-waypoint` with its default waypoint (for example `istio.io/use-waypoint: waypoint`), the waypoint will apply to all pods in the namespace.
-  The `istio.io/use-waypoint` label can optionally be set to apply to only a specific service or pod with its desired waypoint (for example, `istio.io/use-waypoint: my-waypoint`).
+  If a namespace is labeled with `istio.io/use-waypoint` with its default waypoint for the namespace, the waypoint will apply to all pods in the namespace.
+  The `istio.io/use-waypoint` label can optionally be set to apply to only a specific service or pod with its desired waypoint.
   If the `istio.io/use-waypoint` label exists on the namespace and/or service and/or pod, the pod waypoint takes precedence over the service waypoint, which takes precedence over the namespace waypoint.
 
 Depending on which category a workload is in, the request path will be different.
@@ -96,9 +96,9 @@ Because plaintext requests will have no peer identity when Authorization Policie
 a user can set a policy requiring an identity (either *any* identity, or a specific one) to block all plaintext traffic.
 
 When the destination is waypoint enabled, if the source is `captured` by its ztunnel, the ztunnel ensures the request **must** go through
-the waypoint where policy is enforced. However, a workload outside of the mesh doesn't know anything about waypoint proxies and it sends
-requests directly to the destination without going through any waypoint proxies even if the destination is waypoint enabled.
-Currently, traffic from sidecars and gateways won't go through the waypoint and they will be made aware of waypoint proxies
+the waypoint where policy is enforced. However, a workload outside of the mesh doesn't know anything about waypoint proxies therefore it sends
+requests directly to the destination without going through any waypoint proxy even if the destination is waypoint enabled.
+Currently, traffic from sidecars and gateways won't go through any waypoint proxy either and they will be made aware of waypoint proxies
 in a future release.
 
 ### Waypoint routing
@@ -106,7 +106,7 @@ in a future release.
 A waypoint exclusively receives HBONE requests.
 Upon receiving a request, the waypoint will ensure it is targeting either a `Pod` that it manages or a `Service` that contains a `Pod` it manages.
 
-For either type of request, the waypoint will enforce policies (such as `AuthorizationPolicy`, `WasmPlugin`, `Telemetry`, etc) before forwarding.
+For either type of request, the waypoint will enforce policies (such as `AuthorizationPolicy`, `RequestAuthentication`, `WasmPlugin`, `Telemetry`, etc) before forwarding.
 
 For direct requests to a `Pod`, the requests are simply forwarded directly after policy is applied.
 
