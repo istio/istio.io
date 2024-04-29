@@ -1,5 +1,5 @@
 ---
-title: Ambient Mode
+title: Ambient Mode (Sidecar-less)
 description: Information for setting up and operating Istio in ambient mode.
 weight: 17
 aliases:
