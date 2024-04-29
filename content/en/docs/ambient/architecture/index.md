@@ -25,26 +25,26 @@ You can use the following labels to enroll your namespace to ambient, enroll you
 
 You can attach Layer 7 policies (such as `AuthorizationPolicy`, `RequestAuthentication`, `Telemetry`, `WasmPlugin`) to your waypoint using `targetRef`.
 
-1. To attach the entire waypoint, set `Gateway` as the `targetRef` value. The example below shows how to attach the policy
-to entire waypoint for the `default` namespace:
+1. To attach the entire waypoint, set `Gateway` as the `targetRef` value. The example below shows how to attach the `viewer` policy
+to the waypoint named `waypoint` for the `default` namespace:
 
-```
+{{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
-  name: productpage-viewer
+  name: viewer
   namespace: default
 spec:
   targetRef:
     kind: Gateway
     group: gateway.networking.k8s.io
     name: waypoint
-```
+{{< /text >}}
 
-1. To attach a given service within the waypoint, set `Service` as the `targetRef` value. The example below shows how to attach the policy
-to the `productpage` service in the `default` namespace:
+1. To attach a given service within the waypoint, set `Service` as the `targetRef` value. The example below shows how to attach
+the `productpage-viewer` policy to the `productpage` service in the `default` namespace:
 
-```
+{{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
@@ -55,7 +55,7 @@ spec:
     kind: Service
     group: ""
     name: productpage
-```
+{{< /text >}}
 
 ## Traffic routing
 
