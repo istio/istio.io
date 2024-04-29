@@ -47,9 +47,25 @@ and capture pods on the node.
 
 1. If you are using [MicroK8s](https://microk8s.io/), you must append `--set values.cni.cniConfDir=/var/snap/microk8s/current/args/cni-network --set values.cni.cniBinDir=/var/snap/microk8s/current/opt/cni/bin` to the `helm install` command, as MicroK8s [uses nonstandard locations for CNI configuration and binaries](https://microk8s.io/docs/change-cidr).
 
+### K3D
+
+1. If you are using [k3d](https://k3d.io/) with the default flannel CNI, you must append `--set values.cni.cniConfDir=/var/lib/rancher/k3s/agent/etc/cni/net.d --set values.cni.cniBinDir=/bin/` to your `istioctl install` or `helm install` command to install Istio with the `ambient` profile.
+
+1. Create a cluster and disable `Traefik` so it doesn't conflict with Istio's ingress gateways:
+
+    {{< text bash >}}
+    $ k3d cluster create --api-port 6550 -p '9080:80@loadbalancer' -p '9443:443@loadbalancer' --agents 2 --k3s-arg '--disable=traefik@server:*'
+    {{< /text >}}
+
+1.  Install Istio with the `ambient` profile using `istioctl`:
+
+    {{< text bash >}}
+    $ istioctl install --set profile=ambient --skip-confirmation  --set values.cni.cniConfDir=/var/lib/rancher/k3s/agent/etc/cni/net.d --set values.cni.cniBinDir=/bin
+    {{< /text >}}
+
 ### K3S
 
-1. If you are using [K3S](https://k3s.io/) and one of its bundled CNIs, you must append `--set values.cni.cniConfDir=/var/lib/rancher/k3s/agent/etc/cni/net.d --set values.cni.cniBinDir=/var/lib/rancher/k3s/data/current/bin/` to the `helm install` command, as K3S uses nonstandard locations for CNI configuration and binaries. These nonstandard locations may be overridden as well [according to K3S documentation](https://docs.k3s.io/cli/server#k3s-server-cli-help). If you are using K3S with a custom, non-bundled CNI, you must use the correct paths for those CNIs, e.g. `/etc/cni/net.d` - [see K3S docs for details](https://docs.k3s.io/networking/basic-network-options#custom-cni).
+1. If you are using [K3S](https://k3s.io/) and one of its bundled CNIs, you must append `--set values.cni.cniConfDir=/var/lib/rancher/k3s/agent/etc/cni/net.d --set values.cni.cniBinDir=/var/lib/rancher/k3s/data/current/bin/` to your `istioctl install` or `helm install` command to install Istio ambient, as K3S uses nonstandard locations for CNI configuration and binaries. These nonstandard locations may be overridden as well [according to K3S documentation](https://docs.k3s.io/cli/server#k3s-server-cli-help). If you are using K3S with a custom, non-bundled CNI, you must use the correct paths for those CNIs, e.g. `/etc/cni/net.d` - [see K3S docs for details](https://docs.k3s.io/networking/basic-network-options#custom-cni).
 
 ## CNI
 
