@@ -49,7 +49,7 @@ and capture pods on the node.
 
 ### K3D
 
-1. If you are using [k3d](https://k3d.io/) with the default flannel CNI, you must append `--set values.cni.cniConfDir=/var/lib/rancher/k3s/agent/etc/cni/net.d --set values.cni.cniBinDir=/bin/` to your `istioctl install` or `helm install` command to install Istio with the `ambient` profile. 
+1. If you are using [k3d](https://k3d.io/) with the default flannel CNI, you must append `--set values.cni.cniConfDir=/var/lib/rancher/k3s/agent/etc/cni/net.d --set values.cni.cniBinDir=/bin/` to your `istioctl install` or `helm install` command to install Istio with the `ambient` profile.
 
 1. Create a cluster and disable `Traefik` with the following command:
 
