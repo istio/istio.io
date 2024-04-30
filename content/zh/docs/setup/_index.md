@@ -1,6 +1,6 @@
 ---
 title: Sidecar 模式
-description: 有关在 Sidecar 模式下设置和运行 Istio 的信息。
+description: 关于如何在 Sidecar 模式下设置和运行 Istio 的说明。
 weight: 15
 icon: setup
 aliases:
