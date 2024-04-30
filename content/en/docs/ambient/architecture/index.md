@@ -18,7 +18,7 @@ You can use the following labels to enroll your namespace to ambient, enroll you
 |  Name  | Feature Status | Scope | Description |
 | --- | --- | --- | --- | --- |
 | `istio.io/dataplane-mode` | Beta | `Namespace` |  Specifies the data plane mode, valid value: `ambient`. |
-| `istio.io/use-waypoint` | Beta | `Namespace` or `Service` or `Pod` | Enrolls your resource to use a given waypoint, valid values: `{waypoint-name}`, `{namespace}/{waypoint-name}`, or `#none` |
+| `istio.io/use-waypoint` | Beta | `Namespace` or `Service` or `Pod` | Enrolls your resource to use a given waypoint for L7 policy enforcement, valid values: `{waypoint-name}`, `{namespace}/{waypoint-name}`, or `#none` |
 | `istio.io/waypoint-for` | Alpha | `Gateway` | Specifies the waypoint's capture scope, valid value: `service` or `none` or `workload` or `all`. This label is optional and the default value is `service`. |
 
 In order for your `istio.io/use-waypoint` label value to be effective, you have to ensure the used waypoint is configured with the corresponding capture scope which is `service` by default. For example, when you label a pod to use a specific waypoint via the `istio.io/use-waypoint` label, the waypoint's capture scope should be `workload` or `all`.
