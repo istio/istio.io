@@ -65,10 +65,10 @@ In {{< gloss "ambient" >}}ambient mode{{< /gloss >}}, workloads can fall into 3 
 1. **Uncaptured:** this is a standard pod without any mesh features enabled.
 1. **Captured:** this is a pod that has traffic intercepted at the Layer 4 level by {{< gloss >}}ztunnel{{< /gloss >}}. In captured mode, L4 policy can be enforced for pod traffic. Captured mode can be enabled for a pod by setting the `istio.io/dataplane-mode=ambient` label on the pod's namespace. This will enable captured mode for all pods in that namespace.
 1. **Waypoint enabled:** this is a pod that is "Captured" *and* has a {{< gloss "waypoint" >}}waypoint proxy{{< /gloss >}} deployed.
-  If a namespace is labeled with `istio.io/use-waypoint` with its default waypoint for the namespace, the waypoint will apply to all pods in the namespace.
-  The `istio.io/use-waypoint` label can optionally be set to apply to only a specific service or pod with its desired waypoint.
-  If the `istio.io/use-waypoint` label exists on the namespace and service, the service waypoint takes precedence over the namespace waypoint as long as the service waypoint can capture `service` or `all` traffic.
-  If the `istio.io/use-waypoint` label exists on the namespace and pod, the pod waypoint takes precedence over the namespace waypoint as long as the pod waypoint can capture `workload` or `all` traffic.
+  - If a namespace is labeled with `istio.io/use-waypoint` with its default waypoint for the namespace, the waypoint will apply to all pods in the namespace.
+  - Individual pods or services may optionally be labeled with `istio.io/use-waypoint` to configure a waypoint for specific resources.
+  - If the `istio.io/use-waypoint` label exists on the namespace *and* service, the service waypoint takes precedence over the namespace waypoint as long as the service waypoint can capture `service` or `all` traffic.
+  - If the `istio.io/use-waypoint` label exists on the namespace *and* pod, the pod waypoint takes precedence over the namespace waypoint as long as the pod waypoint can capture `workload` or `all` traffic.
 
 Depending on which category a workload is in, the request path will be different.
 
