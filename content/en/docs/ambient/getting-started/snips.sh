@@ -200,8 +200,8 @@ metadata:
   name: productpage-viewer
   namespace: default
 spec:
-  targetRef:
-    kind: Service
+  targetRefs:
+  - kind: Service
     group: ""
     name: productpage
   action: ALLOW
