@@ -7,7 +7,7 @@ keywords: [istio, traffic, security, telemetry, API]
 target_release: 1.22
 ---
 
-Istio has several [Networking](/docs/reference/config/networking/), [Security](/docs/reference/config/security/) and [Telemetry](/docs/reference/config/telemetry/) APIs that are crucial for ensuring the secure, seamless connectivity, and effective monitoring of services within the Service Mesh layer. These APIs are used on thousands of clusters across the world, securing and enhancing critical infrastructure. As a reflection of the stability, adoption, and value of these resources, the Istio community has decided to promote many of our CRDs to `v1` in Istio 1.22.
+Istio has several [Networking](/docs/reference/config/networking/), [Security](/docs/reference/config/security/) and [Telemetry](/docs/reference/config/telemetry/) APIs that are crucial for ensuring the robust security, seamless connectivity, and effective monitoring of services within the service mesh layer. These APIs are used on thousands of clusters across the world, securing and enhancing critical infrastructure. As a reflection of the stability, adoption, and value of these resources, the Istio community has decided to promote many of our CRDs to `v1` in Istio 1.22.
 
 In Istio 1.22 we are happy to announce that a concerted effort has been made to graduate the below APIs to `v1`:
 * [Destination Rule](/docs/reference/config/networking/destination-rule/)
@@ -22,7 +22,7 @@ In Istio 1.22 we are happy to announce that a concerted effort has been made to 
 
 ## Telemetry API
 
-The `v1` Telemetry API is the only API that was promoted that had changes from its previous version. The following features weren’t promoted to `v1`:
+The `v1` Telemetry API is the only API that was promoted that had changes from its previous version. The following `v1alpha1` features weren’t promoted to `v1`:
 * `metrics.reportingInterval`
     * Reporting interval allows configuration of the time between calls out to for metrics reporting. This currently only supports TCP metrics but we may use this for long duration HTTP streams in the future.
     * At this time, Istio lacks usage data to support the need for this feature.
@@ -60,7 +60,7 @@ Please share your feedback on any of the above fields by creating [issues](https
 
 ## Using the `v1` Istio APIs
 
-As seen above, there are a few non-`v1` APIs and fields. The Envoy Filter, Proxy Config and Wasm Plugin aren’t `v1`, and within the Telemetry API, there are 3 non-`v1` fields.
+As seen above, the Envoy Filter, Proxy Config and Wasm Plugin aren’t `v1` and within the [Telemetry API](#telemetry-api), there are three non-`v1` fields.
 
 Since Istio maintains the same schema across API versions, users can utilize non-`v1` fields in their `v1` Custom Resources.
 
