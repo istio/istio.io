@@ -13,7 +13,7 @@ test: n/a
 
 ### Labels
 
-You can use the following labels to enroll your namespace to ambient, enroll your resource to use a waypoint and specify the capture scope of your waypoint.
+You can use the following labels to enroll your namespace to ambient, enroll your resource to use a waypoint and specify, the capture scope of your waypoint.
 
 |  Name  | Feature Status | Scope | Description |
 | --- | --- | --- | --- | --- |
