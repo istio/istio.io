@@ -18,8 +18,10 @@ You can use the following labels to enroll your namespace to ambient, enroll you
 |  Name  | Feature Status | Scope | Description |
 | --- | --- | --- | --- | --- |
 | `istio.io/dataplane-mode` | Beta | `Namespace` |  Specifies the data plane mode, valid value: `ambient`. |
-| `istio.io/use-waypoint` | Beta | `Namespace` or `Service` or `Pod` or `WorkloadEntry` or `ServiceEntry` | Enrolls your resource to use a given waypoint, valid values: `{waypoint-name}`,  `{namespace}/{waypoint-name}`, or `#none` |
+| `istio.io/use-waypoint` | Beta | `Namespace` or `Service` or `Pod` | Enrolls your resource to use a given waypoint, valid values: `{waypoint-name}`, `{namespace}/{waypoint-name}`, or `#none` |
 | `istio.io/waypoint-for` | Alpha | `Gateway` | Specifies the waypoint's capture scope, valid value: `service` or `none` or `workload` or `all`. This label is optional and the default value is `service`. |
+
+In order for your `istio.io/use-waypoint` label value to be effective, you have to ensure the used waypoint is configured with the corresponding capture scope which is `service` by default. For example, when you label a pod to use a specific waypoint via the `istio.io/use-waypoint` label, the waypoint's capture scope should be `workload` or `all`.
 
 ### Policy attachment to waypoints
 
@@ -65,7 +67,8 @@ In {{< gloss "ambient" >}}ambient mode{{< /gloss >}}, workloads can fall into 3 
 1. **Waypoint enabled:** this is a pod that is "Captured" *and* has a {{< gloss "waypoint" >}}waypoint proxy{{< /gloss >}} deployed.
   If a namespace is labeled with `istio.io/use-waypoint` with its default waypoint for the namespace, the waypoint will apply to all pods in the namespace.
   The `istio.io/use-waypoint` label can optionally be set to apply to only a specific service or pod with its desired waypoint.
-  If the `istio.io/use-waypoint` label exists on the namespace and/or service and/or pod, the pod waypoint takes precedence over the service waypoint, which takes precedence over the namespace waypoint.
+  If the `istio.io/use-waypoint` label exists on the namespace and service, the service waypoint takes precedence over the namespace waypoint as long as the service waypoint can capture `service` or `all` traffic.
+  If the `istio.io/use-waypoint` label exists on the namespace and pod, the pod waypoint takes precedence over the namespace waypoint as long as the pod waypoint can capture `workload` or `all` traffic.
 
 Depending on which category a workload is in, the request path will be different.
 
@@ -81,8 +84,8 @@ However, depending on the destination's capabilities, different behavior will oc
 If the destination is also captured, or otherwise has Istio proxy capabilities (such as a sidecar), the request will be upgraded to an encrypted {{< gloss "HBONE" >}}HBONE tunnel{{< /gloss >}}.
 If the destination has a waypoint proxy, in addition to being upgraded to HBONE, the request will instead be forwarded to that waypoint.
 
-Note that in the case of a request to a `Service`, if the service *has* a waypoint, the request will be sent to its waypoint to enforce service-oriented policies to the traffic.
-Similarly, in the case of a request to a `Pod` IP, if the pod *has* a waypoint, the request will be sent to its waypoint to enforce pod-oriented policies to the traffic.
+Note that in the case of a request to a `Service`, if the service *has* a waypoint and the waypoint can capture `service` or `all` traffic, the request will be sent to its waypoint to enforce service-oriented policies to the traffic.
+Similarly, in the case of a request to a `Pod` IP, if the pod *has* a waypoint and the waypoint can capture `workload` or `all` traffic, the request will be sent to its waypoint to enforce pod-oriented policies to the traffic.
 In the rare case that a `Service` has a mix of waypoint enabled and non-enabled endpoints, some requests would be sent to a waypoint while other requests to the same service would not.
 
 #### Inbound
