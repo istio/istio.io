@@ -62,13 +62,14 @@ the `productpage-viewer` policy to the `productpage` service in the `default` na
 ## Traffic routing
 
 In {{< gloss "ambient" >}}ambient mode{{< /gloss >}}, workloads can fall into 3 categories:
-1. **Uncaptured:** this is a standard pod without any mesh features enabled.
-1. **Captured:** this is a pod that has traffic intercepted at the Layer 4 level by {{< gloss >}}ztunnel{{< /gloss >}}. In captured mode, L4 policy can be enforced for pod traffic. Captured mode can be enabled for a pod by setting the `istio.io/dataplane-mode=ambient` label on the pod's namespace. This will enable captured mode for all pods in that namespace.
-1. **Waypoint enabled:** this is a pod that is "Captured" *and* has a {{< gloss "waypoint" >}}waypoint proxy{{< /gloss >}} deployed.
+1. **Out of Mesh:** this is a standard pod without any mesh features enabled.
+1. **In Mesh:** this is a pod that has traffic intercepted at the Layer 4 level by {{< gloss >}}ztunnel{{< /gloss >}}. In this mode, L4 policy can be enforced for pod traffic. This mode can be enabled for a pod by setting the `istio.io/dataplane-mode=ambient` label on the pod's namespace. This will enable *in mesh* mode for all pods in that namespace.
+1. **Waypoint enabled:** this is a pod that is "In Mesh" *and* has a {{< gloss "waypoint" >}}waypoint proxy{{< /gloss >}} deployed.
   - If a namespace is labeled with `istio.io/use-waypoint` with its default waypoint for the namespace, the waypoint will apply to all pods in the namespace.
-  - Individual pods or services may optionally be labeled with `istio.io/use-waypoint` to configure a waypoint for specific resources.
-  - If the `istio.io/use-waypoint` label exists on the namespace *and* service, the service waypoint takes precedence over the namespace waypoint as long as the service waypoint can capture `service` or `all` traffic.
-  - If the `istio.io/use-waypoint` label exists on the namespace *and* pod, the pod waypoint takes precedence over the namespace waypoint as long as the pod waypoint can capture `workload` or `all` traffic.
+  - The `istio.io/use-waypoint` label can also be set on individual services or pods when using a waypoint for the entire namespace is not desired.
+  - If the `istio.io/use-waypoint` label exists on both a namespace and a service, the service waypoint takes
+  precedence over the namespace waypoint as long as the service waypoint can handle service or all traffic.
+  Similarly, a label on a pod will take precedence over a namespace label.
 
 Depending on which category a workload is in, the request path will be different.
 
@@ -76,21 +77,20 @@ Depending on which category a workload is in, the request path will be different
 
 #### Outbound
 
-When a captured pod makes an outbound request, it will be transparently redirected to ztunnel which will determine where and how to forward the request.
+When a pod in ambient mesh makes an outbound request, it will be transparently redirected to ztunnel which will determine where and how to forward the request.
 In general, the traffic routing behaves just like Kubernetes default traffic routing;
 requests to a `Service` will be sent to an endpoint within the `Service` while requests directly to a `Pod` IP will go directly to that IP.
 
 However, depending on the destination's capabilities, different behavior will occur.
-If the destination is also captured, or otherwise has Istio proxy capabilities (such as a sidecar), the request will be upgraded to an encrypted {{< gloss "HBONE" >}}HBONE tunnel{{< /gloss >}}.
-If the destination has a waypoint proxy, in addition to being upgraded to HBONE, the request will instead be forwarded to that waypoint for Layer 7 policy enforcement.
+If the destination is also added in the mesh, or otherwise has Istio proxy capabilities (such as a sidecar), the request will be upgraded to an encrypted {{< gloss "HBONE" >}}HBONE tunnel{{< /gloss >}}.
+If the destination has a waypoint proxy, in addition to being upgraded to HBONE, the request will also be forwarded to that waypoint for L7 policy enforcement.
 
-Note that in the case of a request to a `Service`, if the service *has* a waypoint and the waypoint can capture `service` or `all` traffic, the request will be sent to its waypoint to enforce service-oriented policies to the traffic.
-Similarly, in the case of a request to a `Pod` IP, if the pod *has* a waypoint and the waypoint can capture `workload` or `all` traffic, the request will be sent to its waypoint to enforce pod-oriented policies to the traffic.
+Note that in the case of a request to a `Pod` IP, if the pod *has* a waypoint and the waypoint can accept `workload` or `all` traffic, the request will be sent to its waypoint to enforce L7 policies to the traffic.
 In the rare case that a `Service` has a mix of waypoint enabled and non-enabled endpoints, some requests would be sent to a waypoint while other requests to the same service would not.
 
 #### Inbound
 
-When a captured pod receives an inbound request, it will be transparently redirected to ztunnel.
+When a pod in ambient mesh receives an inbound request, it will be transparently redirected to ztunnel.
 When ztunnel receives the request, it will apply Authorization Policies and forward the request only if the request meets the policies.
 
 A pod can receive HBONE traffic or plaintext traffic.
@@ -98,7 +98,7 @@ By default, both will be accepted by ztunnel.
 Because plaintext requests will have no peer identity when Authorization Policies are evaluated,
 a user can set a policy requiring an identity (either *any* identity, or a specific one) to block all plaintext traffic.
 
-When the destination is waypoint enabled, if the source is `captured` by its ztunnel, the ztunnel ensures the request **must** go through
+When the destination is waypoint enabled, if the source is in ambient mesh, the source's ztunnel ensures the request **must** go through
 the waypoint where policy is enforced. However, a workload outside of the mesh doesn't know anything about waypoint proxies therefore it sends
 requests directly to the destination without going through any waypoint proxy even if the destination is waypoint enabled.
 Currently, traffic from sidecars and gateways won't go through any waypoint proxy either and they will be made aware of waypoint proxies
