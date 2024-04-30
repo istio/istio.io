@@ -55,6 +55,25 @@ test: no
    则必须在 `helm install` 命令附加
    `--set values.cni.cniConfDir=/var/snap/microk8s/current/args/cni-network --set values.cni.cniBinDir=/var/snap/microk8s/current/opt/cni/bin`。
 
+### K3D {#k3d}
+
+1. 如果您使用 [k3d](https://k3d.io/) 和默认的 flannel CNI，
+   则必须在您的 `istioctl install` 或 `helm install` 命令中附加
+   `--set values.cni.cniConfDir=/var/lib/rancher/k3s/agent/etc/cni/net.d --set values.cni.cniBinDir=/bin/`
+   以使用 `ambient` 配置文件安装 Istio。
+
+1. 创建一个集群并禁用 `Traefik`，这样它就不会与 Istio 的入口网关冲突：
+
+    {{< text bash >}}
+    $ k3d cluster create --api-port 6550 -p '9080:80@loadbalancer' -p '9443:443@loadbalancer' --agents 2 --k3s-arg '--disable=traefik@server:*'
+    {{< /text >}}
+
+1. 使用 `istioctl` 通过 `ambient` 配置文件安装 Istio：
+
+    {{< text bash >}}
+    $ istioctl install --set profile=ambient --skip-confirmation  --set values.cni.cniConfDir=/var/lib/rancher/k3s/agent/etc/cni/net.d --set values.cni.cniBinDir=/bin
+    {{< /text >}}
+
 ### K3S {#k3s}
 
 1. 如果您使用 [K3S](https://k3s.io/) 及其捆绑的 CNI 之一，
