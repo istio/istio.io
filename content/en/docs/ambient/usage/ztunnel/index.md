@@ -113,7 +113,7 @@ caption="Ztunnel datapath via an interim waypoint"
 
 ### Note on HBONE {#hbonesection}
 
-HBONE (HTTP Based Overlay Network Encapsulation) is an Istio-specific term. It refers to the use of standard HTTP tunneling via the [HTTP CONNECT](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/CONNECT) method to transparently tunnel application packets/ byte streams. In its current implementation within Istio, it transports TCP packets by tunneling these transparently using the HTTP CONNECT method, uses [HTTP/2](https://httpwg.org/specs/rfc7540.html), with encryption and mutual authentication provided by [mutual TLS](https://www.cloudflare.com/learning/access-management/what-is-mutual-tls/) and the HBONE tunnel itself runs on TCP port 15008. The overall HBONE packet format from IP layer onwards is depicted in the following figure.
+HBONE (HTTP Based Overlay Network Encapsulation) is an Istio-specific term. It refers to the use of [mutual TLS](https://www.cloudflare.com/learning/access-management/what-is-mutual-tls/) and HTTP tunnels via the [HTTP CONNECT](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/CONNECT) method to transparently carry TCP byte streams. In its current implementation within Istio, this is done with [HTTP/2](https://httpwg.org/specs/rfc7540.html) to enable efficient multiplexing and TLS connection reuse. HBONE is served on the reserved TCP port 15008. The overall HBONE packet format from IP layer onwards is depicted in the following figure.
 
 {{< image width="100%"
 link="hbone-packet.png"
