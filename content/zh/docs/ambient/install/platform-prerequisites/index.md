@@ -59,7 +59,7 @@ test: no
 
 1. 如果您使用 [k3d](https://k3d.io/) 和默认的 flannel CNI，
    则必须在您的 `istioctl install` 或 `helm install` 命令中附加
-   `--set values.cni.cniConfDir=/var/lib/rancher/k3s/agent/etc/cni/net.d --set values.cni.cniBinDir=/bin/` 
+   `--set values.cni.cniConfDir=/var/lib/rancher/k3s/agent/etc/cni/net.d --set values.cni.cniBinDir=/bin/`
    以使用 `ambient` 配置文件安装 Istio。
 
 1. 创建一个集群并禁用 `Traefik`，这样它就不会与 Istio 的入口网关冲突：
