@@ -283,8 +283,8 @@ Ambient 模式与之前支持 Sidecar 模式的所有主流 CNI 兼容。
       name: productpage-viewer
       namespace: default
     spec:
-      targetRef:
-        kind: Service
+      targetRefs:
+      - kind: Service
         group: ""
         name: productpage
       action: ALLOW
