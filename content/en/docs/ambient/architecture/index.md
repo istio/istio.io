@@ -64,7 +64,7 @@ the `productpage-viewer` policy to the `productpage` service in the `default` na
 In {{< gloss "ambient" >}}ambient mode{{< /gloss >}}, workloads can fall into 3 categories:
 1. **Out of Mesh:** this is a standard pod without any mesh features enabled.
 1. **In Mesh:** this is a pod that has traffic intercepted at the Layer 4 level by {{< gloss >}}ztunnel{{< /gloss >}}. In this mode, L4 policy can be enforced for pod traffic. This mode can be enabled for a pod by setting the `istio.io/dataplane-mode=ambient` label on the pod's namespace. This will enable *in mesh* mode for all pods in that namespace.
-1. **Waypoint enabled:** this is a pod that is "In Mesh" *and* has a {{< gloss "waypoint" >}}waypoint proxy{{< /gloss >}} deployed.
+1. **Waypoint enabled:** this is a pod that is "In Mesh" *and* has a {{< gloss "waypoint" >}}waypoint proxy{{< /gloss >}} deployed. To enforce L7 policies, add the `istio.io/use-waypoint` label to your resource to use waypoint for the labeled resource.
   - If a namespace is labeled with `istio.io/use-waypoint` with its default waypoint for the namespace, the waypoint will apply to all pods in the namespace.
   - The `istio.io/use-waypoint` label can also be set on individual services or pods when using a waypoint for the entire namespace is not desired.
   - If the `istio.io/use-waypoint` label exists on both a namespace and a service, the service waypoint takes
