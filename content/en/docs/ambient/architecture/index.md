@@ -85,8 +85,10 @@ However, depending on the destination's capabilities, different behavior will oc
 If the destination is also added in the mesh, or otherwise has Istio proxy capabilities (such as a sidecar), the request will be upgraded to an encrypted {{< gloss "HBONE" >}}HBONE tunnel{{< /gloss >}}.
 If the destination has a waypoint proxy, in addition to being upgraded to HBONE, the request will also be forwarded to that waypoint for L7 policy enforcement.
 
-Note that in the case of a request to a `Pod` IP, if the pod *has* a waypoint and the waypoint can accept `workload` or `all` traffic, the request will be sent to its waypoint to enforce L7 policies to the traffic.
-In the rare case that a `Service` has a mix of waypoint enabled and non-enabled endpoints, some requests would be sent to a waypoint while other requests to the same service would not.
+Note that in the case of a request to a `Service`, if the service *has* a waypoint, the request will be sent to its waypoint to enforce L7 policies to the traffic.
+Similarly, in the case of a request to a `Pod` IP, if the pod *has* a waypoint, the request will be sent to its waypoint to enforce L7 policies to the traffic.
+Since it is possible to vary the labels associated with pods in a `Deployment` it is technically possible for
+some pods to use a waypoint while others do not. Users are generally recommended to avoid this advanced use-case.
 
 #### Inbound
 
@@ -95,7 +97,7 @@ When ztunnel receives the request, it will apply Authorization Policies and forw
 
 A pod can receive HBONE traffic or plaintext traffic.
 By default, both will be accepted by ztunnel.
-Because plaintext requests will have no peer identity when Authorization Policies are evaluated,
+Because requests from sources out of mesh will have no peer identity when Authorization Policies are evaluated,
 a user can set a policy requiring an identity (either *any* identity, or a specific one) to block all plaintext traffic.
 
 When the destination is waypoint enabled, if the source is in ambient mesh, the source's ztunnel ensures the request **must** go through
@@ -107,9 +109,9 @@ in a future release.
 ### Waypoint routing
 
 A waypoint exclusively receives HBONE requests.
-Upon receiving a request, the waypoint will ensure it is targeting either a `Pod` that it manages or a `Service` that contains a `Pod` it manages.
+Upon receiving a request, the waypoint will ensure that the traffic is for a `Pod` or `Service` which uses it.
 
-For either type of request, the waypoint will enforce L7 policies (such as `AuthorizationPolicy`, `RequestAuthentication`, `WasmPlugin`, `Telemetry`, etc) before forwarding.
+Having accepted the traffic, the waypoint will then enforce L7 policies (such as `AuthorizationPolicy`, `RequestAuthentication`, `WasmPlugin`, `Telemetry`, etc) before forwarding.
 
 For direct requests to a `Pod`, the requests are simply forwarded directly after policy is applied.
 
