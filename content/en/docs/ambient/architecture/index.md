@@ -13,21 +13,21 @@ test: n/a
 
 ### Labels
 
-You can use the following labels to enroll your namespace to ambient, enroll your resource to use a waypoint and specify, the capture scope of your waypoint.
+You can use the following labels to add your resource to the mesh, use a waypoint for traffic to your resource, and control what traffic is sent to the waypoint.
 
-|  Name  | Feature Status | Scope | Description |
+|  Name  | Feature Status | Resource | Description |
 | --- | --- | --- | --- | --- |
-| `istio.io/dataplane-mode` | Beta | `Namespace` |  Specifies the data plane mode, valid value: `ambient`. |
-| `istio.io/use-waypoint` | Beta | `Namespace` or `Service` or `Pod` | Enrolls your resource to use a given waypoint for L7 policy enforcement, valid values: `{waypoint-name}`, `{namespace}/{waypoint-name}`, or `#none` |
-| `istio.io/waypoint-for` | Alpha | `Gateway` | Specifies the waypoint's capture scope, valid value: `service` or `none` or `workload` or `all`. This label is optional and the default value is `service`. |
+| `istio.io/dataplane-mode` | Beta | `Namespace` |  Add your resource to the mesh, valid value: `ambient`. |
+| `istio.io/use-waypoint` | Beta | `Namespace` or `Service` or `Pod` | Use a waypoint for traffic to the labelled resource for L7 policy enforcement, valid values: `{waypoint-name}`, `{namespace}/{waypoint-name}`, or `#none` |
+| `istio.io/waypoint-for` | Alpha | `Gateway` | Specifies what types of endpoints the waypoint will process traffic for, valid value: `service` or `none` or `workload` or `all`. This label is optional and the default value is `service`. |
 
-In order for your `istio.io/use-waypoint` label value to be effective, you have to ensure the used waypoint is configured with the corresponding capture scope which is `service` by default. For example, when you label a pod to use a specific waypoint via the `istio.io/use-waypoint` label, the waypoint's capture scope should be `workload` or `all`.
+In order for your `istio.io/use-waypoint` label value to be effective, you have to ensure waypoint is configured for the endpoint which is using it. By default waypoints accept traffic for service endpoints. For example, when you label a pod to use a specific waypoint via the `istio.io/use-waypoint` label, the waypoint should be labelled `istio.io./waypoint-for` with the value `workload` or `all`.
 
-### Policy attachment to waypoints
+### Layer 7 policy attachment to waypoints
 
 You can attach Layer 7 policies (such as `AuthorizationPolicy`, `RequestAuthentication`, `Telemetry`, `WasmPlugin`, etc) to your waypoint using `targetRef`.
 
-- To attach L7 policy to the entire waypoint, set `Gateway` as the `targetRef` value. The example below shows how to attach the `viewer` policy
+- To attach L7 policy to the entire waypoint, set `Gateway` as the `targetRefs` value. The example below shows how to attach the `viewer` policy
 to the waypoint named `waypoint` for the `default` namespace:
 
     {{< text yaml >}}
@@ -43,7 +43,7 @@ to the waypoint named `waypoint` for the `default` namespace:
         name: waypoint
     {{< /text >}}
 
-- To attach L7 policy to a specific service within the waypoint, set `Service` as the `targetRef` value. The example below shows how to attach
+- To attach L7 policy to a specific service within the waypoint, set `Service` as the `targetRefs` value. The example below shows how to attach
 the `productpage-viewer` policy to the `productpage` service in the `default` namespace:
 
     {{< text yaml >}}
