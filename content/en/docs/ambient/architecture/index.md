@@ -109,7 +109,7 @@ in a future release.
 A waypoint exclusively receives HBONE requests.
 Upon receiving a request, the waypoint will ensure it is targeting either a `Pod` that it manages or a `Service` that contains a `Pod` it manages.
 
-For either type of request, the waypoint will enforce policies (such as `AuthorizationPolicy`, `RequestAuthentication`, `WasmPlugin`, `Telemetry`, etc) before forwarding.
+For either type of request, the waypoint will enforce L7 policies (such as `AuthorizationPolicy`, `RequestAuthentication`, `WasmPlugin`, `Telemetry`, etc) before forwarding.
 
 For direct requests to a `Pod`, the requests are simply forwarded directly after policy is applied.
 
