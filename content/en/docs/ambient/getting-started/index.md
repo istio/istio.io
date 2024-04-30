@@ -271,8 +271,8 @@ identities, but not at the Layer 7 level, such as HTTP methods like `GET` and `P
       name: productpage-viewer
       namespace: default
     spec:
-      targetRef:
-        kind: Service
+      targetRefs:
+      - kind: Service
         group: ""
         name: productpage
       action: ALLOW
