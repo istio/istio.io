@@ -35,8 +35,8 @@ to the waypoint named `waypoint` for the `default` namespace:
       name: viewer
       namespace: default
     spec:
-      targetRef:
-        kind: Gateway
+      targetRefs:
+      - kind: Gateway
         group: gateway.networking.k8s.io
         name: waypoint
     {{< /text >}}
@@ -51,8 +51,8 @@ the `productpage-viewer` policy to the `productpage` service in the `default` na
       name: productpage-viewer
       namespace: default
     spec:
-      targetRef:
-        kind: Service
+      targetRefs:
+      - kind: Service
         group: ""
         name: productpage
     {{< /text >}}
