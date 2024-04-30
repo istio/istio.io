@@ -82,7 +82,7 @@ requests to a `Service` will be sent to an endpoint within the `Service` while r
 
 However, depending on the destination's capabilities, different behavior will occur.
 If the destination is also captured, or otherwise has Istio proxy capabilities (such as a sidecar), the request will be upgraded to an encrypted {{< gloss "HBONE" >}}HBONE tunnel{{< /gloss >}}.
-If the destination has a waypoint proxy, in addition to being upgraded to HBONE, the request will instead be forwarded to that waypoint.
+If the destination has a waypoint proxy, in addition to being upgraded to HBONE, the request will instead be forwarded to that waypoint for Layer 7 policy enforcement.
 
 Note that in the case of a request to a `Service`, if the service *has* a waypoint and the waypoint can capture `service` or `all` traffic, the request will be sent to its waypoint to enforce service-oriented policies to the traffic.
 Similarly, in the case of a request to a `Pod` IP, if the pod *has* a waypoint and the waypoint can capture `workload` or `all` traffic, the request will be sent to its waypoint to enforce pod-oriented policies to the traffic.
