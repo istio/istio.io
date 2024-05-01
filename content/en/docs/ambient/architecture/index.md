@@ -21,7 +21,7 @@ You can use the following labels to add your resource to the mesh, use a waypoin
 | `istio.io/use-waypoint` | Beta | `Namespace` or `Service` or `Pod` | Use a waypoint for traffic to the labeled resource for L7 policy enforcement, valid values: `{waypoint-name}`, `{namespace}/{waypoint-name}`, or `#none` |
 | `istio.io/waypoint-for` | Alpha | `Gateway` | Specifies what types of endpoints the waypoint will process traffic for, valid value: `service` or `none` or `workload` or `all`. This label is optional and the default value is `service`. |
 
-In order for your `istio.io/use-waypoint` label value to be effective, you have to ensure waypoint is configured for the endpoint which is using it. By default waypoints accept traffic for service endpoints. For example, when you label a pod to use a specific waypoint via the `istio.io/use-waypoint` label, the waypoint should be labeled `istio.io./waypoint-for` with the value `workload` or `all`.
+In order for your `istio.io/use-waypoint` label value to be effective, you have to ensure the waypoint is configured for the endpoint which is using it. By default waypoints accept traffic for service endpoints. For example, when you label a pod to use a specific waypoint via the `istio.io/use-waypoint` label, the waypoint should be labeled `istio.io./waypoint-for` with the value `workload` or `all`.
 
 ### Layer 7 policy attachment to waypoints
 
