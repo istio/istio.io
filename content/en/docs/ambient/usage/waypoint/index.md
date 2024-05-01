@@ -30,8 +30,17 @@ Waypoint proxies can process traffic for `service`, `workload` or `all`. You can
 process `none` of the traffic, which is primarily used for testing purpose as you incrementally add a waypoint proxy to
 your application.
 
+Before you deploy a waypoint proxy for a specific namespace, confirm the namespace is labeled with `istio.io/dataplane-mode: ambient`:
+
+{{< text bash >}}
+$ kubectl get ns -L istio.io/dataplane-mode
+NAME              STATUS   AGE   DATAPLANE-MODE
+istio-system      Active   24h
+default           Active   24h   ambient
+{{< /text >}}
+
 Waypoint proxies are deployed declaratively using Kubernetes Gateway resources or the helpful istioctl command. You can
-preview the generated Kubernetes Gateway resource, for example, the command below generates a waypoint proxy for the
+preview the generated Kubernetes Gateway resource, for example, the command below generates a waypoint proxy named `waypoint` for the
 `default` namespace that can process traffic for services in the namespace:
 
 {{< text bash >}}
@@ -58,6 +67,7 @@ To deploy a waypoint proxy for the `default` namespace, use the command below:
 
 {{< text bash >}}
 $ istioctl x waypoint apply -n default
+waypoint default/namespace applied
 {{< /text >}}
 
 Or, you can deploy the generated Gateway resource from the `istioctl x waypoint generate` command to your Kubernetes cluster:
@@ -102,11 +112,67 @@ EOF
 
 Or use the `istioctl x waypoint apply` command with the `--for` parameter such as `istioctl x waypoint apply -n default --for all`.
 
-After the Gateway resources are applied, Istiod will monitor these resources, deploy and manage the corresponding waypoint deployments for users automatically.
+After the Gateway resource is applied, Istiod will monitor the resource, deploy and manage the corresponding waypoint deployment and service for users automatically.
 
 ## Use a waypoint proxy
 
-By default, waypoint proxy can be used for any services for the namespace where the waypoint proxy runs.
+When a waypoint proxy is deployed, it is not used by any resource until you explicitly configure your resource to use it. You can label your resource such as namespace, service or pods with the `istio.io/use-waypoint` label to use a waypoint. We recommend
+to start with namespace waypoint proxy first. To enable a specific namespace such as the `default` namespace for a waypoint proxy,
+simply add the `--enroll-namespace` param to your `istioctl x waypoint apply` command, which labels the namespace with `istio.io/use-waypoint: waypoint` for you automatically:
+
+{{< text bash >}}
+$ istioctl x waypoint apply -n default --enroll-namespace
+waypoint default/waypoint applied
+namespace default labeled with "istio.io/use-waypoint: waypoint"
+{{< /text >}}
+
+Or you can add the `istio.io/use-waypoint: waypoint` label to the `default` namespace using `kubectl`:
+
+{{< text bash >}}
+$ kubectl label ns default istio.io/use-waypoint=waypoint
+namespace/default labeled
+{{< /text >}}
+
+After the namespace is enabled for waypoint, the waypoint proxy can be used for L7 processing for any services running in the namespace. For any requests from any pods in ambient to any service in the `default` namespace, the requests must go through the `waypoint` for L7 processing and policy enforcement.
+
+If you prefer more granularity than namespace waypoint, you can label your specific service or pod in the namespace to use a different waypoint.
+
+### Configure a specific service with its own waypoint
+
+Deploy a waypoint called `reviews-waypoint` for the `reviews` service:
+
+{{< text bash >}}
+$ istioctl x waypoint apply -n default --name reviews-svc-waypoint
+waypoint default/reviews-svc-waypoint applied
+{{< /text >}}
+
+Label the `reviews` service to use the `reviews-svc-waypoint` waypoint:
+
+{{< text bash >}}
+$ kubectl label service reviews istio.io/use-waypoint=reviews-svc-waypoint
+service/reviews labeled
+{{< /text >}}
+
+For any requests from any pods in ambient to the `reviews` service, the requests must go through the `reviews-svc-waypoint` for L7 processing and policy enforcement.
+
+### Configure a specific pod with its own waypoint
+
+Deploy a waypoint called `reviews-v2-pod-waypoint` for the `reviews-v2` pod:
+
+{{< text bash >}}
+$ istioctl x waypoint apply -n default --name reviews-v2-pod-waypoint
+waypoint default/reviews-v2-pod-waypoint applied
+{{< /text >}}
+
+Label the `reviews-v2` pod to use the `reviews-v2-pod-waypoint` waypoint:
+
+{{< text bash >}}
+$ kubectl label pod -l version=v2,app=reviews istio.io/use-waypoint=reviews-v2-pod-waypoint
+pod/reviews-v2-5b667bcbf8-spnnh labeled
+{{< /text >}}
+
+For any requests from any pods in ambient to the `reviews-v2` pod IP, the requests must go through the `reviews-v2-pod-waypoint`
+for L7 processing and policy enforcement.
 
 ## Attach L7 policies to the waypoint proxy
 
