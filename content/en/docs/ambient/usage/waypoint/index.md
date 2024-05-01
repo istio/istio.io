@@ -135,7 +135,8 @@ namespace/default labeled
 
 After the namespace is enabled for waypoint, the waypoint proxy can be used for L7 processing for any services running in the namespace. For any requests from any pods in ambient to any service in the `default` namespace, the requests must go through the `waypoint` for L7 processing and policy enforcement.
 
-If you prefer more granularity than namespace waypoint, you can label your specific service or pod in the namespace to use a different waypoint.
+If you prefer more granularity than namespace waypoint, you can label your specific service or pod in the namespace to use a different waypoint. For example, you may want your `WasmPlugin` resource to apply only on a specific service or you are calling a Kubernetes
+[headless service](https://kubernetes.io/docs/concepts/services-networking/service/#headless-services) by its Pod IP address.
 
 ### Configure a specific service with its own waypoint
 
@@ -176,5 +177,68 @@ for L7 processing and policy enforcement.
 
 ## Attach L7 policies to the waypoint proxy
 
+The following L7 policies are supported for waypoint proxy:
+
+|  Name  | Feature Status | Policy Attachment |
+| --- | --- | --- | --- | --- |
+| HTTPRoute | Beta | `parentRefs` |
+| TCPRoute | Beta | `parentRefs` |
+| AuthorizationPolicy | Beta | `targetRefs` |
+| RequestAuthentication | Beta | `targetRefs` |
+| Telemetry | Alpha | `targetRefs` |
+| WasmPlugin | Alpha | `targetRefs` |
+| EnvoyFilter | Alpha | `targetRefs` |
+
+- To attach a L7 policy to the entire waypoint, set `Gateway` as the `parentRefs` or `targetRefs` value, depending on your policy type.
+The example below shows how to apply a `AuthorizationPolicy` policy to the waypoint named `waypoint` for the `default` namespace:
+
+    {{< text yaml >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: security.istio.io/v1beta1
+    kind: AuthorizationPolicy
+    metadata:
+      name: viewer
+      namespace: default
+    spec:
+      targetRefs:
+      - kind: Gateway
+        group: gateway.networking.k8s.io
+        name: waypoint
+      action: ALLOW
+      rules:
+      - from:
+        - source:
+            namespaces: ["default"]
+        to:
+        - operation:
+            methods: ["GET"]
+    EOF
+    {{< /text >}}
+
+- To attach a L7 policy to a specific service within the waypoint, set `Service` as the `parentRefs` or `targetRefs` value. The example below shows how to apply
+the `reviews` HTTPRoute to the `reviews` service in the `default` namespace:
+
+    {{< text yaml >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: gateway.networking.k8s.io/v1beta1
+    kind: HTTPRoute
+    metadata:
+      name: reviews
+    spec:
+      parentRefs:
+      - group: ""
+        kind: Service
+        name: reviews
+        port: 9080
+      rules:
+      - backendRefs:
+        - name: reviews-v1
+          port: 9080
+          weight: 90
+        - name: reviews-v2
+          port: 9080
+          weight: 10
+    EOF
+    {{< /text >}}
 
 ## Debug your waypoint proxy
