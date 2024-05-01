@@ -1,5 +1,5 @@
 ---
-title: Layer 7 Networking & Services with Waypoint Proxies
+title: Layer 7 with Waypoint Proxies
 description: Gain the full set of Istio feature with optional waypoint proxies.
 weight: 2
 aliases:
@@ -26,7 +26,13 @@ caption="L7 processing layer"
 
 ## Deploy a waypoint proxy
 
-Waypoint proxies are deployed declaratively using Kubernetes Gateway resources or the helpful istioctl command. You can preview the generated Kubernetes Gateway resource:
+Waypoint proxies can process traffic for `service`, `workload` or `all`. You can also configre your waypoint proxy to
+process `none` of the traffic, which is primarily used for testing purpose as you incrementally add a waypoint proxy to
+your application.
+
+Waypoint proxies are deployed declaratively using Kubernetes Gateway resources or the helpful istioctl command. You can
+preview the generated Kubernetes Gateway resource, for example, the command below generates a waypoint proxy for the
+`default` namespace that can process traffic for services in the namespace:
 
 {{< text bash >}}
 $ istioctl x waypoint generate -n default
@@ -44,13 +50,17 @@ spec:
     protocol: HBONE
 {{< /text >}}
 
-Use the command below to deploy a waypoint proxy for the `default` namespace:
+Note the Gateway resource has `istio-waypoint` as `gatewayClassName` which indicates it is a waypoint provided by Istio. The
+Gateway resource is labeled with `istio.io/waypoint-for: service`, indicating the waypoint can process traffic for services,
+which is the default.
+
+To deploy a waypoint proxy for the `default` namespace, use the command below:
 
 {{< text bash >}}
 $ istioctl x waypoint apply -n default
 {{< /text >}}
 
-Or, you can deploy the generated Gateway resource to your Kubernetes cluster:
+Or, you can deploy the generated Gateway resource from the `istioctl x waypoint generate` command to your Kubernetes cluster:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -69,7 +79,30 @@ spec:
 EOF
 {{< /text >}}
 
-Istiod will monitor these resources, deploy and manage the corresponding waypoint deployment for users automatically.
+To config your waypoint to process traffic differently than the default `service`, you can modify the `istio.io/waypoint-for` label
+value to the desired value (`workload` or `all` or `none`). For example, the command below deploys a waypoint proxy for the
+`default` namespace that can process `all` traffic in the namespace declaractively using the Kubernetes Gateway resource:
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+kind: Gateway
+metadata:
+  labels:
+    istio.io/waypoint-for: all
+  name: waypoint
+  namespace: default
+spec:
+  gatewayClassName: istio-waypoint
+  listeners:
+  - name: mesh
+    port: 15008
+    protocol: HBONE
+EOF
+{{< /text >}}
+
+Or use the `istioctl x waypoint apply` command with the `--for` parameter such as `istioctl x waypoint apply -n default --for all`.
+
+After the Gateway resources are applied, Istiod will monitor these resources, deploy and manage the corresponding waypoint deployments for users automatically.
 
 ## Use a waypoint proxy
 
