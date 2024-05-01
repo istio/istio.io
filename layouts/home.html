@@ -23,15 +23,20 @@
     }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/js/splide.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide-extension-auto-scroll@latest/dist/js/splide-extension-auto-scroll.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/css/splide.min.css">
     <script>
         document.addEventListener("DOMContentLoaded", function(event) {
             new Splide('.case-studies', {
                 type: 'loop',
-                perPage: 1,
+                perPage: 3,
                 start: 2,
-                arrows: false
-            }).mount();
+                arrows: false,
+                autoScroll: {
+                    speed: 1,
+                },
+                pagination: false,
+            }).mount( window.splide.Extensions );
         });
     </script>
 
