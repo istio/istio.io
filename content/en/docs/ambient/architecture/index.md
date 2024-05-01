@@ -43,7 +43,7 @@ to the waypoint named `waypoint` for the `default` namespace:
         name: waypoint
     {{< /text >}}
 
-- To attach L7 policy to a specific service within the waypoint, set `Service` as the `targetRefs` value. The example below shows how to attach
+- To attach a L7 policy to a specific service within the waypoint, set `Service` as the `targetRefs` value. The example below shows how to attach
 the `productpage-viewer` policy to the `productpage` service in the `default` namespace:
 
     {{< text yaml >}}
