@@ -135,7 +135,7 @@ This section describes some options for monitoring the ztunnel proxy configurati
 
 ### Viewing ztunnel proxy state
 
-As indicated previously, the ztunnel proxy on each node gets configuration and discovery information from the istiod component via xDS APIs. Use the `istioctl proxy-config` command shown below to view discovered workloads as seen by a ztunnel proxy as well as secrets holding the TLS certificates that the ztunnel proxy has received from the istiod control plane to use in mTLS signaling on behalf of the local workloads.
+As indicated previously, the ztunnel proxy on each node gets configuration and discovery information from the istiod component via xDS APIs. Use the `istioctl x ztunnel-config` command shown below to view discovered workloads as seen by a ztunnel proxy as well as secrets holding the TLS certificates that the ztunnel proxy has received from the istiod control plane to use in mTLS signaling on behalf of the local workloads.
 
 In the first example, you see all the workloads and control plane components that the specific ztunnel pod is currently tracking including information about the IP address and protocol to use when connecting to that component and whether there is a Waypoint proxy associated with that workload. This example can repeated with any of the other ztunnel pods in the system to display their current configuration.
 
@@ -145,7 +145,7 @@ $ echo "$ZTUNNEL"
 {{< /text >}}
 
 {{< text bash >}}
-$ istioctl proxy-config workloads "$ZTUNNEL".istio-system
+$ istioctl x ztunnel-config workloads "$ZTUNNEL".istio-system
 NAME                                   NAMESPACE          IP         NODE               WAYPOINT PROTOCOL
 coredns-6d4b75cb6d-ptbhb               kube-system        10.240.0.2 amb1-control-plane None     TCP
 coredns-6d4b75cb6d-tv5nz               kube-system        10.240.0.3 amb1-control-plane None     TCP
@@ -164,7 +164,7 @@ ztunnel-xxbgj                          istio-system       10.240.2.2 amb1-worker
 In the second example, you see the list of TLS certificates that this ztunnel proxy instance has received from istiod to use in TLS signaling.
 
 {{< text bash >}}
-$ istioctl proxy-config secrets "$ZTUNNEL".istio-system
+$ istioctl x ztunnel-config certificates "$ZTUNNEL".istio-system
 NAME                                                  TYPE           STATUS        VALID CERT     SERIAL NUMBER                        NOT AFTER                NOT BEFORE
 spiffe://cluster.local/ns/ambient-demo/sa/httpbin     CA             Available     true           edf7f040f4b4d0b75a1c9a97a9b13545     2023-09-20T19:02:00Z     2023-09-19T19:00:00Z
 spiffe://cluster.local/ns/ambient-demo/sa/httpbin     Cert Chain     Available     true           ec30e0e1b7105e3dce4425b5255287c6     2033-09-16T18:26:19Z     2023-09-19T18:26:19Z
@@ -176,13 +176,13 @@ spiffe://cluster.local/ns/istio-system/sa/ztunnel     CA             Available  
 spiffe://cluster.local/ns/istio-system/sa/ztunnel     Cert Chain     Available     true           ec30e0e1b7105e3dce4425b5255287c6     2033-09-16T18:26:19Z     2023-09-19T18:26:19Z
 {{< /text >}}
 
-Using these CLI commands, a user can check that ztunnel proxies are getting configured with all the expected workloads and TLS certificates and missing information can be used for troubleshooting to explain any potential observed networking errors. A user may also use the `all` option to view all parts of the proxy-config with a single CLI command and the JSON output formatter as shown in the example below to display the complete set of available state information.
+Using these CLI commands, a user can check that ztunnel proxies are getting configured with all the expected workloads and TLS certificates and missing information can be used for troubleshooting to explain any potential observed networking errors. A user may also use the `all` option to view all parts of the ztunnel-config with a single CLI command and the JSON output formatter as shown in the example below to display the complete set of available state information.
 
 {{< text bash >}}
-$ istioctl proxy-config all "$ZTUNNEL".istio-system -o json | jq
+$ istioctl x ztunnel-config all "$ZTUNNEL".istio-system -o json | jq
 {{< /text >}}
 
-Note that when used with a ztunnel proxy instance, not all options of the `istioctl proxy-config` CLI are supported since some apply only to sidecar proxies.
+Note that when used with a ztunnel proxy instance, not all options of the `istioctl x ztunnel-config` CLI are supported since some apply only to sidecar proxies.
 
 An advanced user may also view the raw configuration dump of a ztunnel proxy via a `curl` to the endpoint inside a ztunnel proxy pod as shown in the following example.
 
