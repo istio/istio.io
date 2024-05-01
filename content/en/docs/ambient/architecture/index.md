@@ -92,7 +92,7 @@ some pods to use a waypoint while others do not. Users are generally recommended
 
 #### Inbound
 
-When a pod in ambient mesh receives an inbound request, it will be transparently redirected to ztunnel.
+When a pod in an ambient mesh receives an inbound request, it will be transparently redirected to ztunnel.
 When ztunnel receives the request, it will apply Authorization Policies and forward the request only if the request meets the policies.
 
 A pod can receive HBONE traffic or plaintext traffic.
