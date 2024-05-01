@@ -77,7 +77,7 @@ Depending on which category a workload is in, the request path will be different
 
 #### Outbound
 
-When a pod in ambient mesh makes an outbound request, it will be transparently redirected to ztunnel which will determine where and how to forward the request.
+When a pod in an ambient mesh makes an outbound request, it will be transparently redirected to ztunnel which will determine where and how to forward the request.
 In general, the traffic routing behaves just like Kubernetes default traffic routing;
 requests to a `Service` will be sent to an endpoint within the `Service` while requests directly to a `Pod` IP will go directly to that IP.
 
