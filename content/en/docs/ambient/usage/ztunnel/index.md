@@ -457,7 +457,7 @@ In the use cases so far, the traffic source and destination pods are both ambien
 
 ### East-West non-mesh pod to ambient mesh pod (and use of PeerAuthentication resource) {#ewnonmesh}
 
-In the example below, the same `httpbin` service which has already been set up in the prior examples is accessed via client `sleep` pods that are running in a separate namespace that is not part of the mesh. This example shows that east-west traffic between ambient mesh pods and non mesh pods is seamlessly supported. Since the non-mesh pods initiate traffic directly to the backend pods without going through ztunnel. Note that in this case, Istio L4 policy can control whether traffic is denied or allowed from the source.
+In the example below, the same `httpbin` service which has already been set up in the prior examples is accessed via client `sleep` pods that are running in a separate namespace that is not part of the mesh. This example shows that east-west traffic between ambient mesh pods and non mesh pods is seamlessly supported. The non-mesh pods initiate traffic directly to the destination pods without going through the source ztunnel, while the destination ztunnel enforces any L4 policy to control whether traffic should be allowed or denied.
 
 {{< text bash >}}
 $ kubectl create namespace client-a
