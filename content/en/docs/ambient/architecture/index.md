@@ -25,7 +25,7 @@ In order for your `istio.io/use-waypoint` label value to be effective, you have 
 
 ### Layer 7 policy attachment to waypoints
 
-You can attach Layer 7 policies (such as `AuthorizationPolicy`, `RequestAuthentication`, `Telemetry`, `WasmPlugin`, etc) to your waypoint using `targetRef`.
+You can attach Layer 7 policies (such as `AuthorizationPolicy`, `RequestAuthentication`, `Telemetry`, `WasmPlugin`, etc) to your waypoint using `targetRefs`.
 
 - To attach a L7 policy to the entire waypoint, set `Gateway` as the `targetRefs` value. The example below shows how to attach the `viewer` policy
 to the waypoint named `waypoint` for the `default` namespace:
