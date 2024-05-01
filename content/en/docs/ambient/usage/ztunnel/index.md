@@ -111,27 +111,9 @@ link="ztunnel-waypoint-datapath.png"
 caption="Ztunnel datapath via an interim waypoint"
 >}}
 
-#### Ztunnel datapath hair-pinning
-
-{{< warning >}}
-As noted earlier, some ambient functions may change as the project moves to beta status and beyond. This feature (hair-pinning) is an example of a feature that is currently available in the alpha version of ambient and under review for possible modification as the project evolves.
-{{< /warning >}}
-
-It was noted earlier that traffic is always sent to a destination pod by first sending it to the ztunnel proxy on the same node as the destination pod. But what if the sender is either completely outside the Istio ambient mesh and hence does not initiate HBONE tunnels to the destination ztunnel first? What if the sender is malicious and trying to send traffic directly to an ambient pod destination, bypassing the destination ztunnel proxy?
-
-There are two scenarios here, both of which are depicted in the following figure:
-
-1. Traffic stream B1 is being received by node W2 outside of any HBONE tunnel and directly addressed to ambient pod S1's IP address for some reason (possibly because the traffic source is not an ambient pod). As shown in the figure, the ztunnel traffic redirection logic intercepts such traffic and redirects it via the local ztunnel proxy for destination-side proxy processing and possible filtering based on AuthorizationPolicy prior to sending it into pod S1.
-1. Traffic stream G1 is being received by the ztunnel proxy of node W2 (possibly over an HBONE tunnel). However, the ztunnel proxy checks that the destination service requires waypoint processing and yet the source sending this traffic is not a waypoint or is not associated with this destination service. In this case, the ztunnel proxy hairpins the traffic towards one of the waypoints associated with the destination service from where it can then be delivered to any pod implementing the destination service (possibly to pod S1 itself, as shown in the figure).
-
-{{< image width="100%"
-link="ztunnel-hairpin.png"
-caption="Ztunnel traffic hair-pinning"
->}}
-
 ### Note on HBONE {#hbonesection}
 
-HBONE (HTTP Based Overlay Network Encapsulation) is an Istio-specific term. It refers to the use of standard HTTP tunneling via the [HTTP CONNECT](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/CONNECT) method to transparently tunnel application packets/ byte streams. In its current implementation within Istio, it transports TCP packets by tunneling these transparently using the HTTP CONNECT method, uses [HTTP/2](https://httpwg.org/specs/rfc7540.html), with encryption and mutual authentication provided by [mutual TLS](https://www.cloudflare.com/learning/access-management/what-is-mutual-tls/) and the HBONE tunnel itself runs on TCP port 15008. The overall HBONE packet format from IP layer onwards is depicted in the following figure.
+HBONE (HTTP Based Overlay Network Encapsulation) is an Istio-specific term. It refers to the use of [mutual TLS](https://www.cloudflare.com/learning/access-management/what-is-mutual-tls/) and HTTP tunnels via the [HTTP CONNECT](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/CONNECT) method to transparently carry TCP byte streams. In its current implementation within Istio, this is done with [HTTP/2](https://httpwg.org/specs/rfc7540.html) to enable efficient multiplexing and TLS connection reuse. HBONE is served on the reserved TCP port 15008. The overall HBONE packet format from IP layer onwards is depicted in the following figure.
 
 {{< image width="100%"
 link="hbone-packet.png"
@@ -475,7 +457,7 @@ In the use cases so far, the traffic source and destination pods are both ambien
 
 ### East-West non-mesh pod to ambient mesh pod (and use of PeerAuthentication resource) {#ewnonmesh}
 
-In the example below, the same `httpbin` service which has already been set up in the prior examples is accessed via client `sleep` pods that are running in a separate namespace that is not part of the Istio mesh. This example shows that East-west traffic between ambient mesh pods and non mesh pods is seamlessly supported. Note that as described previously, this use case leverages the traffic hair-pinning capability of ambient. Since the non-mesh pods initiate traffic directly to the backend pods without going through HBONE or ztunnel, at the destination node, traffic is redirected via the ztunnel proxy at the destination node to ensure that ambient authorization policy is applied (this can be verified by viewing logs of the appropriate ztunnel proxy pod on the destination node; the logs are not shown in the example snippet below for simplicity).
+In the example below, the same `httpbin` service which has already been set up in the prior examples is accessed via client `sleep` pods that are running in a separate namespace that is not part of the mesh. This example shows that east-west traffic between ambient mesh pods and non mesh pods is seamlessly supported. The non-mesh pods initiate traffic directly to the destination pods without going through the source ztunnel, while the destination ztunnel enforces any L4 policy to control whether traffic should be allowed or denied.
 
 {{< text bash >}}
 $ kubectl create namespace client-a
