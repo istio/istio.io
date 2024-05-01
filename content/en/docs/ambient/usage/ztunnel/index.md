@@ -29,7 +29,7 @@ The ztunnel (Zero Trust Tunnel) component is a purpose-built per-node proxy for 
 Pods/workloads using sidecar proxies can co-exist within the same mesh as pods that operate in ambient mode. Mesh pods that use sidecar proxies can also interoperate with pods in the same Istio mesh that are running in ambient mode. The term ambient mesh refers to an Istio mesh that has a superset of the capabilities and hence can support mesh pods that use either type of proxying.
 {{< /tip >}}
 
-The ztunnel node proxy is responsible for securely connecting and authenticating workloads within the ambient mesh. The ztunnel proxy is written in Rust and is intentionally scoped to handle L3 and L4 functions in the ambient mesh such as mTLS, authentication, L4 authorization and telemetry. Ztunnel does not terminate workload HTTP traffic or parse workload HTTP headers. The ztunnel ensures L3 and L4 traffic is efficiently and securely transported to **waypoint proxies**, where the full suite of Istio’s L7 functionality, such as HTTP telemetry and load balancing, is implemented. The term "Secure Overlay Networking" is used informally to collectively describe the set of L4 networking functions implemented in an ambient mesh via the ztunnel proxy. At the transport layer, this is implemented via an HTTP CONNECT-based traffic tunneling protocol called HBONE which is described in a [later section](#hbonesection) of this guide.
+The ztunnel node proxy is responsible for securely connecting and authenticating workloads within the ambient mesh. The ztunnel proxy is written in Rust and is intentionally scoped to handle L3 and L4 functions in the ambient mesh such as mTLS, authentication, L4 authorization and telemetry. Ztunnel does not terminate workload HTTP traffic or parse workload HTTP headers. The ztunnel ensures L3 and L4 traffic is efficiently and securely transported to **waypoint proxies**, where the full suite of Istio’s L7 functionality, such as HTTP telemetry and load balancing, is implemented. The term "Secure Overlay Networking" is used informally to collectively describe the set of L4 networking functions implemented in an ambient mesh via the ztunnel proxy. At the transport layer, this is implemented via an HTTP CONNECT-based traffic tunneling protocol called [HBONE](/docs/ambient/architecture/tls-tunnel).
 
 Some use cases of Istio in ambient mode may be addressed solely via the L4 secure overlay networking features, and will not need L7 features thereby not requiring deployment of a waypoint proxy. Other use cases requiring advanced traffic management and L7 networking features will require deployment of a waypoint proxy. This guide focuses on functionality related to the L4 secure overlay network using ztunnel proxies. This guide refers to L7 only when needed to describe some L4 ztunnel function. Other guides are dedicated to cover the advanced L7 networking functions and the use of waypoint proxies in detail.
 
@@ -110,17 +110,6 @@ The next figure depicts the data path for a use case which requires advanced L7 
 link="ztunnel-waypoint-datapath.png"
 caption="Ztunnel datapath via an interim waypoint"
 >}}
-
-### Note on HBONE {#hbonesection}
-
-HBONE (HTTP Based Overlay Network Encapsulation) is an Istio-specific term. It refers to the use of [mutual TLS](https://www.cloudflare.com/learning/access-management/what-is-mutual-tls/) and HTTP tunnels via the [HTTP CONNECT](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/CONNECT) method to transparently carry TCP byte streams. In its current implementation within Istio, this is done with [HTTP/2](https://httpwg.org/specs/rfc7540.html) to enable efficient multiplexing and TLS connection reuse. HBONE is served on the reserved TCP port 15008. The overall HBONE packet format from IP layer onwards is depicted in the following figure.
-
-{{< image width="100%"
-link="hbone-packet.png"
-caption="HBONE L3 packet format"
->}}
-
-Additional use cases of HBONE and HTTP tunneling (such as support for IPv6 and UDP packets) will be investigated in the future as ambient mode evolves.
 
 ## Deploying an Application {#deployapplication}
 
