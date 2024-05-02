@@ -1,6 +1,6 @@
 ---
 title: "Introducing Istio v1 APIs"
-description: Announcing the v1 Networking, Security and Telemetry APIs. 
+description: Reflecting the stability of Istio's features, our networking, security and telemetry APIs are promoted to v1 in 1.22. 
 publishdate: 2024-05-13
 attribution: Whitney Griffith - Microsoft
 keywords: [istio, traffic, security, telemetry, API]
@@ -38,7 +38,7 @@ The `v1` Telemetry API is the only API that was promoted that had changes from i
     
     _There is not a strong use case for making this configurable through the Telemetry API._
 
-Please share your feedback on any of the above fields by creating [issues](https://github.com/istio/istio/issues).
+Please share any feedback on these fields by [creating issues on GitHub](https://github.com/istio/istio/issues).
 
 ## Overview of Istio CRDs
 
