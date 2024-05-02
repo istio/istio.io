@@ -72,7 +72,6 @@ Please keep up-to-date and use a supported version.
 |----------------|-------------------------------------|
 | 1.21.x         | 1.21.2+                             |
 | 1.20.x         | 1.20.6+                             |
-| 1.19.x         | 1.19.10+                            |
 
 ## Supported Envoy Versions
 
@@ -85,6 +84,5 @@ The relationship between the two project's versions:
 | 1.22.x        | release/v1.30        |
 | 1.21.x        | release/v1.29        |
 | 1.20.x        | release/v1.28        |
-| 1.19.x        | release/v1.27        |
 
 You can find the precise Envoy commit used by Istio in [`istio/proxy`](https://github.com/istio/proxy/blob/master/WORKSPACE#L38).
