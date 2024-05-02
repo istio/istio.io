@@ -1,16 +1,14 @@
 ---
-title: TLS & Tunneling
+title: HBONE
 description: Understanding Istio's secure tunneling protocol.
 weight: 2
 owner: istio/wg-networking-maintainers
 test: no
 ---
 
-## Understanding the HBONE protocol
+**HBONE** (or HTTP-Based Overlay Network Environment) is a secure tunneling protocol used between Istio components. HBONE is an Istio-specific term. It is a mechanism to transparently multiplex TCP streams related to many different application connections over a single, mTLS encrypted network connection: an encrypted tunnel.
 
-HBONE (HTTP Based Overlay Network Encapsulation) is an Istio-specific term. It is a mechanism to transparently multiplex TCP streams related to many different application connections over a single, mTLS encrypted network connection - an encrypted tunnel.
-
-In its current implementation within Istio, the HBONE protocol composes 3 open standards:
+In its current implementation within Istio, the HBONE protocol composes three open standards:
 
 - [HTTP/2](https://httpwg.org/specs/rfc7540.html)
 - [HTTP CONNECT](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/CONNECT)
