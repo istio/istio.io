@@ -1,5 +1,5 @@
 ---
-title: "Introducing Istio v1 APIs "
+title: "Introducing Istio v1 APIs"
 description: Announcing the v1 Networking, Security and Telemetry APIs. 
 publishdate: 2024-05-13
 attribution: Whitney Griffith - Microsoft
