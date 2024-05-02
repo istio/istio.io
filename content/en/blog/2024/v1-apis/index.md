@@ -7,7 +7,9 @@ keywords: [istio, traffic, security, telemetry, API]
 target_release: 1.22
 ---
 
-Istio has several [Networking](/docs/reference/config/networking/), [Security](/docs/reference/config/security/) and [Telemetry](/docs/reference/config/telemetry/) APIs that are crucial for ensuring the robust security, seamless connectivity, and effective monitoring of services within the service mesh layer. These APIs are used on thousands of clusters across the world, securing and enhancing critical infrastructure. As a reflection of the stability, adoption, and value of these resources, the Istio community has decided to promote many of our CRDs to `v1` in Istio 1.22.
+Istio provides [networking](/docs/reference/config/networking/), [security](/docs/reference/config/security/) and [telemetry](/docs/reference/config/telemetry/) APIs that are crucial for ensuring the robust security, seamless connectivity, and effective observability of services within the service mesh. These APIs are used on thousands of clusters across the world, securing and enhancing critical infrastructure. 
+
+Most of the features powered by these APIs have been [considered stable](https://istio.io/latest/docs/releases/feature-stages/) for some time, but the API version has remained at `v1beta1`. As a reflection of the stability, adoption, and value of these resources, the Istio community has decided to promote these APIs to `v1` in Istio 1.22.
 
 In Istio 1.22 we are happy to announce that a concerted effort has been made to graduate the below APIs to `v1`:
 * [Destination Rule](/docs/reference/config/networking/destination-rule/)
