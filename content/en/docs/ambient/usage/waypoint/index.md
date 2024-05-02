@@ -140,7 +140,7 @@ If you prefer more granularity than namespace waypoint, you can label your speci
 
 ### Configure a specific service with its own waypoint
 
-Deploy a waypoint called `reviews-waypoint` for the `reviews` service:
+Deploy a waypoint called `reviews-svc-waypoint` for the `reviews` service:
 
 {{< text bash >}}
 $ istioctl x waypoint apply -n default --name reviews-svc-waypoint
@@ -180,7 +180,7 @@ for L7 processing and policy enforcement.
 The following L7 policies are supported for waypoint proxy:
 
 |  Name  | Feature Status | Policy Attachment |
-| --- | --- | --- | --- | --- |
+| --- | --- | --- |
 | HTTPRoute | Beta | `parentRefs` |
 | TCPRoute | Beta | `parentRefs` |
 | AuthorizationPolicy | Beta | `targetRefs` |
@@ -189,7 +189,9 @@ The following L7 policies are supported for waypoint proxy:
 | WasmPlugin | Alpha | `targetRefs` |
 | EnvoyFilter | Alpha | `targetRefs` |
 
-- To attach a L7 policy to the entire waypoint, set `Gateway` as the `parentRefs` or `targetRefs` value, depending on your policy type.
+## Attach a L7 policy to the entire waypoint proxy
+
+To attach a L7 policy to the entire waypoint, set `Gateway` as the `parentRefs` or `targetRefs` value, depending on your policy type.
 The example below shows how to apply a `AuthorizationPolicy` policy to the waypoint named `waypoint` for the `default` namespace:
 
     {{< text yaml >}}
@@ -215,7 +217,9 @@ The example below shows how to apply a `AuthorizationPolicy` policy to the waypo
     EOF
     {{< /text >}}
 
-- To attach a L7 policy to a specific service within the waypoint, set `Service` as the `parentRefs` or `targetRefs` value. The example below shows how to apply
+## Attach a L7 policy to a specific service
+
+To attach a L7 policy to a specific service within the waypoint, set `Service` as the `parentRefs` or `targetRefs` value. The example below shows how to apply
 the `reviews` HTTPRoute to the `reviews` service in the `default` namespace:
 
     {{< text yaml >}}
@@ -241,4 +245,16 @@ the `reviews` HTTPRoute to the `reviews` service in the `default` namespace:
     EOF
     {{< /text >}}
 
+
+
 ## Debug your waypoint proxy
+
+1. If your L7 policy isn't enforced, run `istioctl analyzer` to check if your policy has any validation issue.
+
+1. Check which waypoint is enforcing the L7 policy via the `istioctl x ztunnel-config all` command.
+
+1. Check the logs of the waypoint proxy.
+
+1. Check the waypoint's proxy status via the `istioctl proxy-status` command.
+
+1. Check the envoy configuration for the waypoint via the `istioctl proxy-config` command.
