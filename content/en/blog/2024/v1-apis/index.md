@@ -73,7 +73,7 @@ For risk-averse environments, we have provided a sample `Stable Validation Polic
 
 In new environments, selecting the `Stable Validation Policy` upon installing Istio will guarantee that all future Custom Resources created or updated are `v1` and contain only `v1` features.
 
-If the `Stable Validation Policy` is deployed into an existing Istio Cluster that has Custom Resources not complying with the `Stable Validation Policy`, the only allowed action is to delete the resource or remove the usage of the offending fields.
+If the policy is deployed into an existing Istio installation that has Custom Resources that do not comply with it, the only allowed action is to delete the resource or remove the usage of the offending fields.
 
 To install Istio with the `Stable Validation Policy`use the following command:
 
