@@ -87,7 +87,7 @@ To set a specific revision when installing Istio with the `Stable Validation Pol
 $ helm install istio-base -n istio-system --set experimental.stableValidationPolicy=true -set revision=x
 {{< /text >}}
 
-This feature is only compatible with [Kubernetes 1.30](https://kubernetes.io/docs/reference/access-authn-authz/validating-admission-policy/). The validations are created using [CEL](https://github.com/google/cel-spec) expressions. Users can modify the validations in the sample `Stable Validation Policy` for their specific needs.
+This feature is compatible with [Kubernetes 1.30](https://kubernetes.io/docs/reference/access-authn-authz/validating-admission-policy/) and higher. The validations are created using [CEL](https://github.com/google/cel-spec) expressions, and users can modify the validations for their specific needs.
 
 ## Summary
 
