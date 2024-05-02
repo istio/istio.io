@@ -251,7 +251,16 @@ the `reviews` HTTPRoute to the `reviews` service in the `default` namespace:
 
 1. If your L7 policy isn't enforced, run `istioctl analyzer` to check if your policy has any validation issue.
 
+{{< text yaml >}}
+$ istioctl analyze
+✔ No validation issues found when analyzing namespace: default.
+{{< /text >}}
+
 1. Check which waypoint is enforcing the L7 policy via the `istioctl x ztunnel-config all` command.
+
+{{< text yaml >}}
+$ istioctl x ztunnel-config all
+{{< /text >}}
 
 1. Check the logs of the waypoint proxy.
 
