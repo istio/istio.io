@@ -9,7 +9,7 @@ test: no
 In {{< gloss "ambient" >}}ambient mode{{< /gloss >}}, workloads can fall into 3 categories:
 1. **Out of Mesh**: a standard pod without any mesh features enabled.
 1. **In Mesh**: a pod that has traffic intercepted at the Layer 4 level by {{< gloss >}}ztunnel{{< /gloss >}}. In this mode, L4 policies can be enforced for pod traffic. This mode can be enabled for a pod by setting the `istio.io/dataplane-mode=ambient` label on the pod's namespace. This will enable *in mesh* mode for all pods in that namespace.
-1. **Waypoint enabled**: a pod that is "in mesh" *and* has a {{< gloss "waypoint" >}}waypoint proxy{{< /gloss >}} deployed. 
+1. **Waypoint enabled**: a pod that is "in mesh" *and* has a {{< gloss "waypoint" >}}waypoint proxy{{< /gloss >}} deployed.
 
 Depending on which category a workload is in, the request path will be different.
 
