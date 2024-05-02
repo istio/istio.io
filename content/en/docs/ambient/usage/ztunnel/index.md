@@ -336,9 +336,9 @@ The exact logic to determine whether a pod is set up to use ambient mode is as f
 1. The `istio-cni` plugin configuration exclude list configured in `cni.values.excludeNamespaces` is used to skip namespaces in the exclude list.
 1. `ambient` mode is used for a pod if
 
-    * The namespace has label `istio.io/dataplane-mode=ambient`
+    * The namespace or pod has the label `istio.io/dataplane-mode=ambient`
+    * The pod does not have the opt-out label `istio.io/dataplane-mode=none`
     * The annotation `sidecar.istio.io/status` is not present on the pod
-    * `ambient.istio.io/redirection` is not `disabled`
 
 The simplest option to avoid a configuration conflict is for a user to ensure that for each namespace, it either has the label for sidecar injection (`istio-injection=enabled`) or for ambient data plane mode (`istio.io/dataplane-mode=ambient`) but never both.
 
