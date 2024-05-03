@@ -244,9 +244,6 @@ the `reviews` HTTPRoute to the `reviews` service in the `default` namespace:
           weight: 10
     EOF
     {{< /text >}}
-
-
-
 ## Debug your waypoint proxy
 
 1. If your L7 policy isn't enforced, run `istioctl analyzer` to check if your policy has any validation issue.
