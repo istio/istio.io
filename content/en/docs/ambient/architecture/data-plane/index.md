@@ -28,7 +28,7 @@ If the destination has a waypoint proxy, in addition to being upgraded to HBONE,
 Note that in the case of a request to a `Service`, if the service *has* a waypoint, the request will be sent to its waypoint to apply L7 policies to the traffic.
 Similarly, in the case of a request to a `Pod` IP, if the pod *has* a waypoint, the request will be sent to its waypoint to apply L7 policies to the traffic.
 Since it is possible to vary the labels associated with pods in a `Deployment` it is technically possible for
-some pods to use a waypoint while others do not. Users are generally recommended to avoid this advanced use-case.
+some pods to use a waypoint while others do not. Users are generally recommended to avoid this advanced use case.
 
 ### Inbound
 
