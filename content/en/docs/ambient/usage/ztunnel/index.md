@@ -14,7 +14,6 @@ test: no
 This guide describes in-depth the functionality and usage of the ztunnel proxy and Layer 4 networking functions in Istio ambient mode. To simply try out Istio ambient mode, follow the [Ambient Quickstart](/docs/ambient/getting-started/) instead. This guide follows a user journey and works through multiple examples to detail the design and architecture of Istio ambient. It is highly recommended to follow the topics linked below in sequence.
 
 * [Introduction](#introsection)
-* [Current Caveats](#caveats)
 * [Deploying an Application](#deployapplication)
 * [Monitoring the ztunnel proxy & L4 networking](#monitoringzt)
 * [L4 Authorization Policy](#l4auth)
@@ -34,22 +33,6 @@ Some use cases of Istio in ambient mode may be addressed solely via the L4 secur
 | ------------- | ------------- |
 | Zero Trust networking via mutual-TLS, encrypted and tunneled data transport of client application traffic, L4 authorization, L4 telemetry | Baseline Ambient Mesh with ztunnel proxy networking |
 | Application requires L4 Mutual-TLS plus advanced Istio traffic management features (incl VirtualService, L7 telemetry, L7 Authorization) | Full Istio Ambient Mesh configuration both ztunnel proxy and waypoint proxy based networking |
-
-## Current Caveats {#caveats}
-
-The following is a list of feature restrictions or caveats in ambient mode. These restrictions are planned to be addressed or removed in future releases.
-
-1. **Kubernetes only:** Istio in ambient mode is currently only supported for deployment on Kubernetes clusters. Deployment on non-Kubernetes endpoints such as virtual machines is not currently supported.
-
-1. **No Istio multi-cluster support:** Only single cluster deployments are currently supported for Istio ambient mode.
-
-1. **TCP/IPv4 only:** In the current release, TCP over IPv4 is the only protocol supported for transport on an Istio secure overlay tunnel (this includes protocols such as HTTP that run between application layer endpoints on top of the TCP/ IPv4 connection).
-
-1. **Cannot transparently convert existing Istio deployments to ambient mode:** Ambient mode can only be enabled on a new Istio mesh control plane that is deployed using the ambient `istioctl` profile or Helm configuration. An existing Istio mesh deployed using a sidecar profile cannot currently be dynamically switched to enable ambient mode.
-
-1. **Restrictions with Istio `PeerAuthentication`:** as of the time of writing, the `PeerAuthentication` resource is not supported by all components (i.e. waypoint proxies) in Istio ambient mode. Hence it is recommended to only use the `STRICT` mTLS mode currently. Like many of the other alpha stage caveats, this shall be addressed as the feature moves toward beta status.
-
-1. **istioctl CLI gaps:** There may be some minor functional gaps in areas such as Istio CLI output displays when it comes to displaying or monitoring Istio's ambient mode related information. These will be addressed as the feature matures.
 
 ### Environment used for this guide
 
