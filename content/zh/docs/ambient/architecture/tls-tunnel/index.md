@@ -1,6 +1,6 @@
 ---
-title: TLS & Tunneling
-description: Understanding Istio's secure tunneling protocol.
+title: TLS 和隧道
+description: 了解 Istio 的安全隧道协议。
 weight: 2
 owner: istio/wg-networking-maintainers
 test: no
