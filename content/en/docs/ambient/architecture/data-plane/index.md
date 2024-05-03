@@ -52,13 +52,15 @@ in a future release.
 
 All inbound and outbound L4 TCP traffic between workloads in the ambient mesh is secured by the data plane, using mTLS via {{< gloss >}}HBONE{{< /gloss >}}, ztunnel, and x509 certificates.
 
-However, the certificates used will be bound to the workloads themselves, not ztunnel. This means ztunnel will hold multiple distinct certificates at a time, one for each unique identity (service account) running on its node.
+As enforced by {{< gloss "mutual tls authentication" >}}mTLS{{< /gloss >}}, the source and destination must have unique x509 identities, and those identities must be used to establish the encrypted channel for that connection.
+
+This requires ztunnel to manage multiple distinct workload certificates, on behalf of the proxied workloads - one for each unique identity (service account) for every node-local pod. Ztunnel's own identity is never used for mTLS connections between workloads.
 
 When fetching certificates, ztunnel will authenticate to the CA with its own identity, but request the identity of another workload. Critically, the CA must enforce that the ztunnel has permission to request that identity. Requests for identities not running on the node are rejected. This is critical to ensure that a compromised node does not compromise the entire mesh.
 
 This CA enforcement is done by Istio's CA using a Kubernetes Service Account JWT token, which encodes the pod information. This enforcement is also a requirement for any alternative CAs integrating with ztunnel.
 
-Ztunnel will request certificates for all identities on the node. It determines this based on the {{< gloss >}}control plane{{< /gloss >}} configuration it receives. When a new identity is discovered on the node, it will be enqueued for fetching at a low priority, as an optimization. However, if a request needs a certain identity that has not been fetched yet, it will be immediately requested.
+Ztunnel will request certificates for all identities on the node. It determines this based on the {{< gloss >}}control plane{{< /gloss >}} configuration it receives. When a new identity is discovered on the node, it will be queued for fetching at a low priority, as an optimization. However, if a request needs a certain identity that has not been fetched yet, it will be immediately requested.
 
 Ztunnel additionally will handle the rotation of these certificates as they approach expiry.
 
