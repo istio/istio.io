@@ -46,11 +46,11 @@ requests directly to the destination without going through any waypoint proxy ev
 Currently, traffic from sidecars and gateways won't go through any waypoint proxy either and they will be made aware of waypoint proxies
 in a future release.
 
-#### L4 dataplane details
+#### Dataplane details
 
 ##### Identity
 
-All inbound and outbound traffic between workloads in the ambient mesh is secured by the data plane, using mTLS via {{< gloss >}}HBONE{{< /gloss >}}, ztunnel, and x509 certificates.
+All inbound and outbound L4 TCP traffic between workloads in the ambient mesh is secured by the data plane, using mTLS via {{< gloss >}}HBONE{{< /gloss >}}, ztunnel, and x509 certificates.
 
 However, the certificates used will be bound to the workloads themselves, not ztunnel. This means ztunnel will hold multiple distinct certificates at a time, one for each unique identity (service account) running on its node.
 
@@ -65,7 +65,7 @@ Ztunnel additionally will handle the rotation of these certificates as they appr
 ##### Telemetry
 Ztunnel emits the full set of [Istio Standard TCP Metrics](https://istio.io/latest/docs/reference/config/metrics/).
 
-##### L4 dataplane example
+##### Dataplane example for Layer 4 traffic
 The L4 ambient dataplane between is depicted in the following figure.
 
 {{< image width="100%"
