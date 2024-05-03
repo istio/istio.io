@@ -40,7 +40,7 @@ By default, both will be accepted by ztunnel.
 Requests from sources out of mesh will have no peer identity when Authorization Policies are evaluated,
 a user can set a policy requiring an identity (either *any* identity, or a specific one) to block all plaintext traffic.
 
-When the destination is waypoint enabled, if the source is in ambient mesh, the source's ztunnel ensures the request **must** go through
+When the destination is waypoint enabled, if the source is in ambient mesh, the source's ztunnel ensures the request **will** go through
 the waypoint where policy is enforced. However, a workload outside of the mesh doesn't know anything about waypoint proxies therefore it sends
 requests directly to the destination without going through any waypoint proxy even if the destination is waypoint enabled.
 Currently, traffic from sidecars and gateways won't go through any waypoint proxy either and they will be made aware of waypoint proxies
