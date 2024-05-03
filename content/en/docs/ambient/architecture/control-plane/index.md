@@ -6,7 +6,7 @@ owner: istio/wg-networking-maintainers
 test: no
 ---
 
-Ambient uses the Istio {{< gloss >}}control plane{{< /gloss>}}, just like other Istio {{< gloss >}}data plane{{< /gloss >}} modes (such as {{< gloss >}}sidecar{{< /gloss >}}). In ambient, rather than the control plane communicating with sidecars in each pod, it communicates with the {{< gloss >}}ztunnel{{< /gloss >}} on each Kubernetes node.
+Like all Istio {{< gloss >}}data plane{{< /gloss >}} modes, Ambient uses the Istio {{< gloss >}}control plane{{< /gloss>}}. In ambient, the control plane communicates with the {{< gloss >}}ztunnel{{< /gloss >}} proxy on each Kubernetes node.
 
 The figure shows an overview of the control plane related components and flows between ztunnel proxy and the `istiod` control plane.
 
