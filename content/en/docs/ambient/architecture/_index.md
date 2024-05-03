@@ -18,13 +18,13 @@ To enforce L7 policies, add the `istio.io/use-waypoint` label to your resource t
   precedence over the namespace waypoint as long as the service waypoint can handle service or all traffic.
   Similarly, a label on a pod will take precedence over a namespace label
 
-### Labels
+### Labels {#ambient-labels}
 
-You can use the following labels to add your resource to the mesh, use a waypoint for traffic to your resource, and control what traffic is sent to the waypoint.
+You can use the following labels to add your resource to the {{< gloss >}}ambient{{< /gloss >}} mesh and manage L4 traffic with the ambient {{< gloss >}}data plane{{< /gloss >}}, use a waypoint to enforce L7 policy for your resource, and control how traffic is sent to the waypoint.
 
 |  Name  | Feature Status | Resource | Description |
 | --- | --- | --- | --- |
-| `istio.io/dataplane-mode` | Beta | `Namespace` |  Add your resource to an ambient mesh. <br><br> Valid value: `ambient`. |
+| `istio.io/dataplane-mode` | Beta | `Namespace` or `Pod` |  Add your resource to an ambient mesh. <br><br> Valid values: `ambient` or `none`. |
 | `istio.io/use-waypoint` | Beta | `Namespace`, `Service` or `Pod` | Use a waypoint for traffic to the labeled resource for L7 policy enforcement. <br><br> Valid values: `{waypoint-name}`, `{namespace}/{waypoint-name}`, or `#none` (with hash). |
 | `istio.io/waypoint-for` | Alpha | `Gateway` | Specifies what types of endpoints the waypoint will process traffic for. <br><br> Valid values: `service`, `workload`, `none` or `all`. This label is optional and the default value is `service`. |
 

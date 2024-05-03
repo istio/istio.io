@@ -15,7 +15,6 @@ This guide describes in-depth the functionality and usage of the ztunnel proxy a
 
 * [Introduction](#introsection)
 * [Current Caveats](#caveats)
-* [Functional Overview](#functionaloverview)
 * [Deploying an Application](#deployapplication)
 * [Monitoring the ztunnel proxy & L4 networking](#monitoringzt)
 * [L4 Authorization Policy](#l4auth)
@@ -58,54 +57,7 @@ The examples in this guide used a deployment of Istio version `1.21.0` on a `kin
 
 The examples below require a cluster with more than 1 worker node in order to explain how cross-node traffic operates. Refer to the [installation user guide](/docs/ambient/install/) or [getting started guide](/docs/ambient/getting-started/) for information on installing Istio in ambient mode on a Kubernetes cluster.
 
-## Functional Overview {#functionaloverview}
-
-The functional behavior of the ztunnel proxy can be divided into its data plane behavior and its interaction with the Istio control plane. This section takes a brief look at these two aspects - detailed description of the internal design of the ztunnel proxy is out of scope for this guide.
-
-### Control plane overview
-
-The figure shows an overview of the control plane related components and flows between ztunnel proxy and the `istiod` control plane.
-
-{{< image width="100%"
-link="ztunnel-architecture.png"
-caption="Ztunnel architecture"
->}}
-
-The ztunnel proxy uses xDS APIs to communicate with the Istio control plane (`istiod`). This enables the fast, dynamic configuration updates required in modern distributed systems. The ztunnel proxy also obtains mTLS certificates for the Service Accounts of all pods that are scheduled on its Kubernetes node using xDS. A single ztunnel proxy may implement L4 data plane functionality on behalf of any pod sharing it's node which requires efficiently obtaining relevant configuration and certificates. This multi-tenant architecture contrasts sharply with the sidecar model where each application pod has its own proxy.
-
-It is also worth noting that in ambient mode, a simplified set of resources are used in the xDS APIs for ztunnel proxy configuration. This results in improved performance (having to transmit and process a much smaller set of information that is sent from istiod to the ztunnel proxies) and improved troubleshooting.
-
-### Data plane overview
-
-This section briefly summarizes key aspects of the data plane functionality.
-
-#### Ztunnel to ztunnel datapath
-
-The first scenario is ztunnel to ztunnel L4 networking. This is depicted in the following figure.
-
-{{< image width="100%"
-link="ztunnel-datapath-1.png"
-caption="Basic ztunnel L4-only datapath"
->}}
-
-The figure depicts ambient pod workloads running on two nodes W1 and W2 of a Kubernetes cluster. There is a single instance of the ztunnel proxy on each node. In this scenario, application client pods C1, C2 and C3 need to access a service provided by pod S1 and there is no requirement for advanced L7 features such as L7 traffic routing or L7 traffic management so no Waypoint proxy is needed.
-
-The figure shows that pods C1 and C2 running on node W1 connect with pod S1 running on node W2 and their TCP traffic is tunneled through {{< gloss >}}HBONE{{< /gloss >}} tunnel instances that have been created by the ztunnel proxy pods of each node. Mutual TLS (mTLS) is used for encryption as well as mutual authentication of traffic being tunneled. SPIFFE identities are used to identify the workloads on each side of the connection. For more details on the datapath, refer to the architecture guides on [HBONE](/docs/ambient/architecture/hbone) and [ztunnel traffic redirection](/docs/ambient/architecture/traffic-redirection).
-
-{{< tip >}}
-Note: Although the figure shows the HBONE tunnels to be between the two ztunnel proxies, the tunnels are in fact between the source and destination pods. Traffic is HBONE encapsulated and encrypted in the network namespace of the source pod itself, and eventually decapsulated and decrypted in the network namespace of the destination pod on the destination worker node. The ztunnel proxy still logically handles both the control plane and data plane needed for HBONE transport; however, it is able to do that from inside the network namespaces of the source and destination pods.
-{{< /tip >}}
-
-Note that the figure shows that local traffic - from pod C3 to destination pod S1 on worker node W2 - also traverses the local ztunnel proxy instance so that L4 traffic management functions such as L4 Authorization and L4 Telemetry are enforced identically on traffic, whether or not it crosses a node boundary.
-
-#### Ztunnel datapath via waypoint
-
-The next figure depicts the datapath for a use case which requires advanced L7 traffic routing, management or policy handling. Here ztunnel uses HBONE tunneling to send traffic to a waypoint proxy for L7 processing. After processing, the waypoint sends traffic via a second HBONE tunnel to the ztunnel on the node hosting the selected service destination pod. In general the waypoint proxy may or may not be located on the same nodes as the source or destination pod.
-
-{{< image width="100%"
-link="ztunnel-waypoint-datapath.png"
-caption="Ztunnel datapath via an interim waypoint"
->}}
+For details on the design of the ambient {{< gloss >}}data plane{{< /gloss >}}, and how it interacts with the Istio {{< gloss >}}control plane{{< /gloss >}}, see the [data plane](/docs/ambient/architecture/data-plane) and [control plane](/docs/ambient/architecture/control-plane) documentation.
 
 ## Deploying an Application {#deployapplication}
 
