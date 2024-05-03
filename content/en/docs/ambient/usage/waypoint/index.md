@@ -311,6 +311,16 @@ waypoint-6f7b665c89-6hppr.default                   Kubernetes     SYNCED      S
 
 1. Check the logs of the waypoint proxy.
 
+{{< text bash >}}
+$ kubectl logs deploy/waypoint
+{{< /text >}}
+
+If there is not enough information, you can enable the debug logs for the waypoint proxy:
+
+{{< text bash >}}
+$ istioctl pc log deploy/waypoint --level debug
+{{< /text >}}
+
 1. Check the envoy configuration for the waypoint via the `istioctl proxy-config` command, which shows all the information related to the waypoint such as clusters, endpoints, listeners, routes and secrets:
 
 {{< text bash >}}
