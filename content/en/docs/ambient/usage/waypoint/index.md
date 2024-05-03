@@ -91,7 +91,7 @@ EOF
 
 To config your waypoint to process traffic differently than the default `service`, you can modify the `istio.io/waypoint-for` label
 value to the desired value (`workload` or `all` or `none`). For example, the command below deploys a waypoint proxy for the
-`default` namespace that can process `all` traffic in the namespace declaractively using the Kubernetes Gateway resource:
+`default` namespace that can process `all` traffic in the namespace declaratively using the Kubernetes Gateway resource:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
