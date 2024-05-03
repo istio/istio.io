@@ -30,6 +30,7 @@
 
         h1 {
             margin-bottom: 0.5rem;
+            font-weight: var(--semiBoldWeight);
 
             @media (min-width: $bp-md) {
                 margin-bottom: 1.5rem;
