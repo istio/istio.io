@@ -135,54 +135,27 @@ This section describes some options for monitoring the ztunnel proxy configurati
 
 ### Viewing ztunnel proxy state
 
-As indicated previously, the ztunnel proxy on each node gets configuration and discovery information from the istiod component via xDS APIs. Use the `istioctl x ztunnel-config` command shown below to view discovered workloads as seen by a ztunnel proxy as well as secrets holding the TLS certificates that the ztunnel proxy has received from the istiod control plane to use in mTLS signaling on behalf of the local workloads.
+As indicated previously, the ztunnel proxy on each node gets configuration and discovery information from the istiod component via xDS APIs. Use the `istioctl experimental ztunnel-config` command shown below to view discovered workloads as seen by a ztunnel proxy as well as secrets holding the TLS certificates that the ztunnel proxy has received from the istiod control plane to use in mTLS signaling on behalf of the local workloads.
 
 In the first example, you see all the workloads and control plane components that the specific ztunnel pod is currently tracking including information about the IP address and protocol to use when connecting to that component and whether there is a Waypoint proxy associated with that workload. This example can repeated with any of the other ztunnel pods in the system to display their current configuration.
 
 {{< text bash >}}
-$ export ZTUNNEL=$(kubectl get pods -n istio-system -o wide | grep ztunnel -m 1 | sed 's/ .*//')
-$ echo "$ZTUNNEL"
-{{< /text >}}
-
-{{< text bash >}}
-$ istioctl x ztunnel-config workloads "$ZTUNNEL".istio-system
-NAME                                   NAMESPACE          IP         NODE               WAYPOINT PROTOCOL
-coredns-6d4b75cb6d-ptbhb               kube-system        10.240.0.2 amb1-control-plane None     TCP
-coredns-6d4b75cb6d-tv5nz               kube-system        10.240.0.3 amb1-control-plane None     TCP
-httpbin-648cd984f8-2q9bn               ambient-demo       10.240.1.5 amb1-worker        None     HBONE
-httpbin-648cd984f8-7dglb               ambient-demo       10.240.2.3 amb1-worker2       None     HBONE
-istiod-5c7f79574c-pqzgc                istio-system       10.240.1.2 amb1-worker        None     TCP
-local-path-provisioner-9cd9bd544-x7lq2 local-path-storage 10.240.0.4 amb1-control-plane None     TCP
-notsleep-bb6696574-r4xjl               ambient-demo       10.240.2.5 amb1-worker2       None     HBONE
-sleep-69cfb4968f-mwglt                 ambient-demo       10.240.1.4 amb1-worker        None     HBONE
-sleep-69cfb4968f-qjmfs                 ambient-demo       10.240.2.4 amb1-worker2       None     HBONE
-ztunnel-5jfj2                          istio-system       10.240.0.5 amb1-control-plane None     TCP
-ztunnel-gkldc                          istio-system       10.240.1.3 amb1-worker        None     TCP
-ztunnel-xxbgj                          istio-system       10.240.2.2 amb1-worker2       None     TCP
+$ istioctl experimental ztunnel-config workloads
+NAMESPACE          POD NAME                              IP          NODE                        WAYPOINT PROTOCOL                                           ambient-demo       httpbin-648f469544-mrdtq              10.244.0.9  istio-testing-control-plane None     HBONE                                              ambient-demo       notsleep-57bfbb845f-dh7jx             10.244.0.11 istio-testing-control-plane None     HBONE                                              ambient-demo       sleep-5577c64d7c-4484j                10.244.0.12 istio-testing-control-plane None     HBONE                                              ambient-demo       sleep-5577c64d7c-jqgnj                10.244.0.10 istio-testing-control-plane None     HBONE                                              istio-system       istiod-bfbf78796-sprqh                10.244.0.7  istio-testing-control-plane None     TCP                                                istio-system       ztunnel-c54bk                         10.244.0.8  istio-testing-control-plane None     TCP                                                kube-system        coredns-7db6d8ff4d-6x6lm              10.244.0.4  istio-testing-control-plane None     TCP                                                kube-system        coredns-7db6d8ff4d-f4fn5              10.244.0.2  istio-testing-control-plane None     TCP                                                kube-system        metrics-server-57478dfcbd-79ggf       10.244.0.5  istio-testing-control-plane None     TCP                                                local-path-storage local-path-provisioner-988d74bc-5gfv4 10.244.0.3  istio-testing-control-plane None     TCP                                                metallb-system     controller-689ddcdb4-8mlkn            10.244.0.6  istio-testing-control-plane None     TCP                                                
 {{< /text >}}
 
 In the second example, you see the list of TLS certificates that this ztunnel proxy instance has received from istiod to use in TLS signaling.
 
 {{< text bash >}}
-$ istioctl x ztunnel-config certificates "$ZTUNNEL".istio-system
-NAME                                                  TYPE           STATUS        VALID CERT     SERIAL NUMBER                        NOT AFTER                NOT BEFORE
-spiffe://cluster.local/ns/ambient-demo/sa/httpbin     CA             Available     true           edf7f040f4b4d0b75a1c9a97a9b13545     2023-09-20T19:02:00Z     2023-09-19T19:00:00Z
-spiffe://cluster.local/ns/ambient-demo/sa/httpbin     Cert Chain     Available     true           ec30e0e1b7105e3dce4425b5255287c6     2033-09-16T18:26:19Z     2023-09-19T18:26:19Z
-spiffe://cluster.local/ns/ambient-demo/sa/sleep       CA             Available     true           3b9dbea3b0b63e56786a5ea170995f48     2023-09-20T19:00:44Z     2023-09-19T18:58:44Z
-spiffe://cluster.local/ns/ambient-demo/sa/sleep       Cert Chain     Available     true           ec30e0e1b7105e3dce4425b5255287c6     2033-09-16T18:26:19Z     2023-09-19T18:26:19Z
-spiffe://cluster.local/ns/istio-system/sa/istiod      CA             Available     true           885ee63c08ef9f1afd258973a45c8255     2023-09-20T18:26:34Z     2023-09-19T18:24:34Z
-spiffe://cluster.local/ns/istio-system/sa/istiod      Cert Chain     Available     true           ec30e0e1b7105e3dce4425b5255287c6     2033-09-16T18:26:19Z     2023-09-19T18:26:19Z
-spiffe://cluster.local/ns/istio-system/sa/ztunnel     CA             Available     true           221b4cdc4487b60d08e94dc30a0451c6     2023-09-20T18:26:35Z     2023-09-19T18:24:35Z
-spiffe://cluster.local/ns/istio-system/sa/ztunnel     Cert Chain     Available     true           ec30e0e1b7105e3dce4425b5255287c6     2033-09-16T18:26:19Z     2023-09-19T18:26:19Z
+$ istioctl experimental ztunnel-config certificates
+CERTIFICATE NAME                                       TYPE     STATUS        VALID CERT     SERIAL NUMBER                        NOT AFTER                NOT BEFORE                                                                                                                                                     spiffe://cluster.local/ns/ambient-demo/sa/httpbin      Leaf     Available     true           335952993eb8024a3acd34735b2e76c1     2024-05-04T18:07:22Z     2024-05-03T18:05:22Z                                                                                                                                           spiffe://cluster.local/ns/ambient-demo/sa/httpbin      Root     Available     true           b73bb47b4801d9c0b4d13e5cc79afab7     2034-05-01T17:50:10Z     2024-05-03T17:50:10Z                                                                                                                                           spiffe://cluster.local/ns/ambient-demo/sa/notsleep     Leaf     Available     true           ca6e718cd9b92b5bd51aafeab1eae2d4     2024-05-04T18:07:22Z     2024-05-03T18:05:22Z                                                                                                                                           spiffe://cluster.local/ns/ambient-demo/sa/notsleep     Root     Available     true           b73bb47b4801d9c0b4d13e5cc79afab7     2034-05-01T17:50:10Z     2024-05-03T17:50:10Z                                                                                                                                           spiffe://cluster.local/ns/ambient-demo/sa/sleep        Leaf     Available     true           478a0426a2a7812131c90b8cf6eceed9     2024-05-04T18:07:22Z     2024-05-03T18:05:22Z                                                                                                                                           spiffe://cluster.local/ns/ambient-demo/sa/sleep        Root     Available     true           b73bb47b4801d9c0b4d13e5cc79afab7     2034-05-01T17:50:10Z     2024-05-03T17:50:10Z       
 {{< /text >}}
 
 Using these CLI commands, a user can check that ztunnel proxies are getting configured with all the expected workloads and TLS certificates and missing information can be used for troubleshooting to explain any potential observed networking errors. A user may also use the `all` option to view all parts of the ztunnel-config with a single CLI command and the JSON output formatter as shown in the example below to display the complete set of available state information.
 
 {{< text bash >}}
-$ istioctl x ztunnel-config all "$ZTUNNEL".istio-system -o json | jq
+$ istioctl experimental ztunnel-config all -o json
 {{< /text >}}
-
-Note that when used with a ztunnel proxy instance, not all options of the `istioctl x ztunnel-config` CLI are supported since some apply only to sidecar proxies.
 
 An advanced user may also view the raw configuration dump of a ztunnel proxy via a `curl` to the endpoint inside a ztunnel proxy pod as shown in the following example.
 
