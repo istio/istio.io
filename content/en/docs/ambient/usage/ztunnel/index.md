@@ -9,8 +9,6 @@ owner: istio/wg-networking-maintainers
 test: no
 ---
 
-{{< boilerplate ambient-alpha-warning >}}
-
 ## Introduction {#introsection}
 
 This guide describes in-depth the functionality and usage of the ztunnel proxy and Layer 4 networking functions in Istio ambient mode. To simply try out Istio ambient mode, follow the [Ambient Quickstart](/docs/ambient/getting-started/) instead. This guide follows a user journey and works through multiple examples to detail the design and architecture of Istio ambient. It is highly recommended to follow the topics linked below in sequence.
@@ -29,7 +27,7 @@ The ztunnel (Zero Trust Tunnel) component is a purpose-built per-node proxy for 
 Pods/workloads using sidecar proxies can co-exist within the same mesh as pods that operate in ambient mode. Mesh pods that use sidecar proxies can also interoperate with pods in the same Istio mesh that are running in ambient mode. The term ambient mesh refers to an Istio mesh that has a superset of the capabilities and hence can support mesh pods that use either type of proxying.
 {{< /tip >}}
 
-The ztunnel node proxy is responsible for securely connecting and authenticating workloads within the ambient mesh. The ztunnel proxy is written in Rust and is intentionally scoped to handle L3 and L4 functions in the ambient mesh such as mTLS, authentication, L4 authorization and telemetry. Ztunnel does not terminate workload HTTP traffic or parse workload HTTP headers. The ztunnel ensures L3 and L4 traffic is efficiently and securely transported to **waypoint proxies**, where the full suite of Istio’s L7 functionality, such as HTTP telemetry and load balancing, is implemented. The term "Secure Overlay Networking" is used informally to collectively describe the set of L4 networking functions implemented in an ambient mesh via the ztunnel proxy. At the transport layer, this is implemented via an HTTP CONNECT-based traffic tunneling protocol called [HBONE](/docs/ambient/architecture/tls-tunnel).
+The ztunnel node proxy is responsible for securely connecting and authenticating workloads within the ambient mesh. The ztunnel proxy is written in Rust and is intentionally scoped to handle L3 and L4 functions in the ambient mesh such as mTLS, authentication, L4 authorization and telemetry. Ztunnel does not terminate workload HTTP traffic or parse workload HTTP headers. The ztunnel ensures L3 and L4 traffic is efficiently and securely transported to **waypoint proxies**, where the full suite of Istio’s L7 functionality, such as HTTP telemetry and load balancing, is implemented. The term "Secure Overlay Networking" is used informally to collectively describe the set of L4 networking functions implemented in an ambient mesh via the ztunnel proxy. At the transport layer, this is implemented via an HTTP CONNECT-based traffic tunneling protocol called [HBONE](/docs/ambient/architecture/hbone).
 
 Some use cases of Istio in ambient mode may be addressed solely via the L4 secure overlay networking features, and will not need L7 features thereby not requiring deployment of a waypoint proxy. Other use cases requiring advanced traffic management and L7 networking features will require deployment of a waypoint proxy. This guide focuses on functionality related to the L4 secure overlay network using ztunnel proxies. This guide refers to L7 only when needed to describe some L4 ztunnel function. Other guides are dedicated to cover the advanced L7 networking functions and the use of waypoint proxies in detail.
 
@@ -40,9 +38,7 @@ Some use cases of Istio in ambient mode may be addressed solely via the L4 secur
 
 ## Current Caveats {#caveats}
 
-{{< boilerplate ambient-alpha-warning >}}
-
-The following is a list of feature restrictions or caveats in ambient mode alpha. These restrictions are planned to be addressed or removed in future releases.
+The following is a list of feature restrictions or caveats in ambient mode. These restrictions are planned to be addressed or removed in future releases.
 
 1. **Kubernetes only:** Istio in ambient mode is currently only supported for deployment on Kubernetes clusters. Deployment on non-Kubernetes endpoints such as virtual machines is not currently supported.
 
@@ -94,17 +90,17 @@ caption="Basic ztunnel L4-only datapath"
 
 The figure depicts ambient pod workloads running on two nodes W1 and W2 of a Kubernetes cluster. There is a single instance of the ztunnel proxy on each node. In this scenario, application client pods C1, C2 and C3 need to access a service provided by pod S1 and there is no requirement for advanced L7 features such as L7 traffic routing or L7 traffic management so no Waypoint proxy is needed.
 
-The figure shows that pods C1 and C2 running on node W1 connect with pod S1 running on node W2 and their TCP traffic is tunneled through HBONE tunnel instances that have been created by the ztunnel proxy pods of each node. Mutual TLS (mTLS) is used for encryption as well as mutual authentication of traffic being tunneled. SPIFFE identities are used to identify the workloads on each side of the connection. The term `HBONE` (for HTTP Based Overlay Network Encapsulation) is used in Istio ambient to refer to a technique for transparently and securely tunneling TCP packets encapsulated within HTTPS packets. For more details on the datapath, including HBONE and the traffic redirection details, refer to the [ztunnel traffic redirection](/docs/ambient/usage/traffic-redirection) guide.
+The figure shows that pods C1 and C2 running on node W1 connect with pod S1 running on node W2 and their TCP traffic is tunneled through {{< gloss >}}HBONE{{< /gloss >}} tunnel instances that have been created by the ztunnel proxy pods of each node. Mutual TLS (mTLS) is used for encryption as well as mutual authentication of traffic being tunneled. SPIFFE identities are used to identify the workloads on each side of the connection. For more details on the datapath, refer to the architecture guides on [HBONE](/docs/ambient/architecture/hbone) and [ztunnel traffic redirection](/docs/ambient/architecture/traffic-redirection).
 
 {{< tip >}}
-Note: Although the figure shows the HBONE tunnels to be between the two ztunnel proxies, in the in-pod redirection implementation introduced in Istio 1.21.0 the tunnels are in fact between the source and destination pods. Traffic is HBONE encapsulated and encrypted in the network namespace of the source pod itself, and eventually decapsulated and decrypted in the network namespace of the destination pod on the destination worker node. The ztunnel proxy still logically handles both the control plane and data plane needed for HBONE transport, however it is able to do that from inside the network namespaces of the source and destination pods.
+Note: Although the figure shows the HBONE tunnels to be between the two ztunnel proxies, the tunnels are in fact between the source and destination pods. Traffic is HBONE encapsulated and encrypted in the network namespace of the source pod itself, and eventually decapsulated and decrypted in the network namespace of the destination pod on the destination worker node. The ztunnel proxy still logically handles both the control plane and data plane needed for HBONE transport; however, it is able to do that from inside the network namespaces of the source and destination pods.
 {{< /tip >}}
 
 Note that the figure shows that local traffic - from pod C3 to destination pod S1 on worker node W2 - also traverses the local ztunnel proxy instance so that L4 traffic management functions such as L4 Authorization and L4 Telemetry are enforced identically on traffic, whether or not it crosses a node boundary.
 
 #### Ztunnel datapath via waypoint
 
-The next figure depicts the data path for a use case which requires advanced L7 traffic routing, management or policy handling. Here ztunnel uses HBONE tunneling to send traffic to a waypoint proxy for L7 processing. After processing, the waypoint sends traffic via a second HBONE tunnel to the ztunnel on the node hosting the selected service destination pod. In general the waypoint proxy may or may not be located on the same nodes as the source or destination pod.
+The next figure depicts the datapath for a use case which requires advanced L7 traffic routing, management or policy handling. Here ztunnel uses HBONE tunneling to send traffic to a waypoint proxy for L7 processing. After processing, the waypoint sends traffic via a second HBONE tunnel to the ztunnel on the node hosting the selected service destination pod. In general the waypoint proxy may or may not be located on the same nodes as the source or destination pod.
 
 {{< image width="100%"
 link="ztunnel-waypoint-datapath.png"
@@ -183,7 +179,7 @@ This indicates the traffic path is working. The next section looks at how to mon
 
 ## Monitoring the ztunnel proxy & L4 networking {#monitoringzt}
 
-This section describes some options for monitoring the ztunnel proxy configuration and data path. This information can also help with some high level troubleshooting and in identifying information that would be useful to collect and provide in a bug report if there are any problems. Additional advanced monitoring of ztunnel internals and advanced troubleshooting is out of scope for this guide.
+This section describes some options for monitoring the ztunnel proxy configuration and datapath. This information can also help with some high level troubleshooting and in identifying information that would be useful to collect and provide in a bug report if there are any problems. Additional advanced monitoring of ztunnel internals and advanced troubleshooting is out of scope for this guide.
 
 ### Viewing ztunnel proxy state
 
@@ -321,7 +317,7 @@ $ kubectl -n istio-system logs -l app=ztunnel | grep -E "inbound|outbound"
 --snip--
 {{< /text >}}
 
-Here note the logs from the ztunnel proxies first indicating the http CONNECT request to the new destination pod (10.240.1.11) which indicates the setup of the HBONE tunnel to ztunnel on the node hosting the additional destination service pod. This is then followed by logs indicating the client traffic being sent to both 10.240.1.11 and 10.240.2.10 which are the two destination pods providing the service. Also note that the data path is performing client-side load balancing in this case and not depending on Kubernetes service load balancing. In your setup these numbers will be different and will match the pod addresses of the httpbin pods in your cluster.
+Here note the logs from the ztunnel proxies first indicating the http CONNECT request to the new destination pod (10.240.1.11) which indicates the setup of the HBONE tunnel to ztunnel on the node hosting the additional destination service pod. This is then followed by logs indicating the client traffic being sent to both 10.240.1.11 and 10.240.2.10 which are the two destination pods providing the service. Also note that the datapath is performing client-side load balancing in this case and not depending on Kubernetes service load balancing. In your setup these numbers will be different and will match the pod addresses of the httpbin pods in your cluster.
 
 This is a round robin load balancing algorithm and is separate from and independent of any load balancing algorithm that may be configured within a `VirtualService`'s `TrafficPolicy` field, since as discussed previously, all aspects of `VirtualService` API objects are instantiated on the Waypoint proxies and not the ztunnel proxies.
 

@@ -139,11 +139,11 @@ Because TLS communication is not server first, TLS encrypted server first traffi
 In order to support Istio's traffic routing capabilities, traffic leaving a pod may be routed differently than
 when a sidecar is not deployed.
 
-For HTTP based traffic, traffic is routed based on the `Host` header. This may lead to unexpected behavior if the destination IP
+For HTTP-based traffic, traffic is routed based on the `Host` header. This may lead to unexpected behavior if the destination IP
 and `Host` header are not aligned. For example, a request like `curl 1.2.3.4 -H "Host: httpbin.default"` will be routed to the `httpbin` service,
 rather than `1.2.3.4`.
 
-For Non-HTTP based traffic (including HTTPS), Istio does not have access to an `Host` header, so routing decisions are based on the Service IP address.
+For Non HTTP-based traffic (including HTTPS), Istio does not have access to an `Host` header, so routing decisions are based on the Service IP address.
 
 One implication of this is that direct calls to pods (for example, `curl <POD_IP>`), rather than Services, will not be matched. While the traffic may
 be [passed through](/docs/tasks/traffic-management/egress/egress-control/#envoy-passthrough-to-external-services), it will not get the full Istio functionality
