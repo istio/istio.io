@@ -24,7 +24,7 @@ You can use the following labels to add your resource to the {{< gloss >}}ambien
 
 |  Name  | Feature Status | Resource | Description |
 | --- | --- | --- | --- |
-| `istio.io/dataplane-mode` | Beta | `Namespace` or `Pod` |  Add your resource to an ambient mesh. <br><br> Valid values: `ambient` or `none`. |
+| `istio.io/dataplane-mode` | Beta | `Namespace` or `Pod` (latter has precedence) |  Add your resource to an ambient mesh. <br><br> Valid values: `ambient` or `none`. |
 | `istio.io/use-waypoint` | Beta | `Namespace`, `Service` or `Pod` | Use a waypoint for traffic to the labeled resource for L7 policy enforcement. <br><br> Valid values: `{waypoint-name}`, `{namespace}/{waypoint-name}`, or `#none` (with hash). |
 | `istio.io/waypoint-for` | Alpha | `Gateway` | Specifies what types of endpoints the waypoint will process traffic for. <br><br> Valid values: `service`, `workload`, `none` or `all`. This label is optional and the default value is `service`. |
 
