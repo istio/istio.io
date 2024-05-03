@@ -55,7 +55,7 @@ link="ztunnel-datapath-1.png"
 caption="Basic ztunnel L4-only datapath"
 >}}
 
-The figure depicts ambient pod workloads running on two nodes W1 and W2 of a Kubernetes cluster. There is a single instance of the ztunnel proxy on each node. In this scenario, application client pods C1, C2 and C3 need to access a service provided by pod S1 and there is no requirement for advanced L7 features such as L7 traffic routing or L7 traffic management so no Waypoint proxy is needed.
+The figure shows several workloads added to the ambient mesh, running on nodes W1 and W2 of a Kubernetes cluster. There is a single instance of the ztunnel proxy on each node. In this scenario, application client pods C1, C2 and C3 need to access a service provided by pod S1. There is no requirement for advanced L7 features such as L7 traffic routing or L7 traffic management, so a L4 data plane is sufficient to obtain {{< gloss "mutual tls authentication" >}}mTLS{{< /gloss >}} and L4 policy enforcement - no waypoint proxy is required.
 
 The figure shows that pods C1 and C2, running on node W1, connect with pod S1 running on node W2.
 
@@ -69,7 +69,7 @@ Note that local traffic - shown in the figure from pod C3 to destination pod S1 
 
 ## In Mesh routing with Waypoint enabled
 
-A waypoint exclusively receives HBONE requests.
+Istio waypoints exclusively receive HBONE traffic.
 Upon receiving a request, the waypoint will ensure that the traffic is for a `Pod` or `Service` which uses it.
 
 Having accepted the traffic, the waypoint will then enforce L7 policies (such as `AuthorizationPolicy`, `RequestAuthentication`, `WasmPlugin`, `Telemetry`, etc) before forwarding.
