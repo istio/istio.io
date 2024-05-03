@@ -46,7 +46,6 @@ requests directly to the destination without going through any waypoint proxy ev
 Currently, traffic from sidecars and gateways won't go through any waypoint proxy either and they will be made aware of waypoint proxies
 in a future release.
 
-
 #### Dataplane details
 
 The L4 ambient dataplane between is depicted in the following figure.
@@ -96,7 +95,6 @@ spec:
     - name: echo-v1
       port: 80
 {{< /text >}}
-
 
 The following figure shows the datapath between ztunnel and a waypoint, if one is configured for L7 policy enforcement. Here ztunnel uses HBONE tunneling to send traffic to a waypoint proxy for L7 processing. After processing, the waypoint sends traffic via a second HBONE tunnel to the ztunnel on the node hosting the selected service destination pod. In general the waypoint proxy may or may not be located on the same nodes as the source or destination pod.
 
