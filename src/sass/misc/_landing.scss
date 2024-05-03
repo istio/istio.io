@@ -28,6 +28,14 @@
             margin-top: -$headerHeightLg;
         }
 
+        h1 {
+            margin-bottom: 0.5rem;
+
+            @media (min-width: $bp-md) {
+                margin-bottom: 1.5rem;
+            }
+        }
+
         h1, .subtitle {
             color: #ffffff;
         }
@@ -70,14 +78,6 @@
 
         .cncf-logo p {
             margin: 0;
-        }
-    }
-
-    h1 {
-        margin-bottom: 0.5rem;
-
-        @media (min-width: $bp-md) {
-            margin-bottom: 1.5rem;
         }
     }
 
