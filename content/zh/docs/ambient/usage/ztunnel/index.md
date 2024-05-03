@@ -175,7 +175,7 @@ caption="通过临时 Waypoint 的 ztunnel 数据路径"
 
 HBONE（HTTP Based Overlay Network Encapsulation，基于 HTTP 的覆盖网络封装）是 Istio 中的特定术语。
 它是指通过 [HTTP CONNECT](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/CONNECT)
-方法透明地承载 TCP 字节流。在 Istio 中当前的实现中，这是通过 [HTTP/2](https://httpwg.org/specs/rfc7540.html) 完成的，
+方法透明地承载 TCP 字节流。在 Istio 当前的实现中，这是通过 [HTTP/2](https://httpwg.org/specs/rfc7540.html) 完成的，
 以实现高效的多路复用和 TLS 连接重用。HBONE 在保留的 TCP 端口 15008 上提供服务。
 下图描述了从 IP 层开始的整体 HBONE 数据包格式。
 
