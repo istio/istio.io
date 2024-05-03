@@ -81,8 +81,11 @@
         }
     }
 
-    h1, .subtitle {
-        margin-left: auto;
-        margin-right: auto;
+    h1 {
+        margin-bottom: 1.5rem;
+
+        @media (min-width: $bp-md) {
+            margin-bottom: 2.5rem;
+        }
     }
 }
