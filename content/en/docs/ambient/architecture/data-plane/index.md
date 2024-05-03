@@ -63,9 +63,11 @@ Ztunnel will request certificates for all identities on the node. It determines 
 Ztunnel additionally will handle the rotation of these certificates as they approach expiry.
 
 ##### Telemetry
+
 Ztunnel emits the full set of [Istio Standard TCP Metrics](docs/reference/config/metrics/).
 
 ##### Dataplane example for Layer 4 traffic
+
 The L4 ambient dataplane between is depicted in the following figure.
 
 {{< image width="100%"
