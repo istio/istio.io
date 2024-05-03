@@ -135,7 +135,7 @@ This section describes some options for monitoring the ztunnel proxy configurati
 
 ### Viewing ztunnel proxy state
 
-As indicated previously, the ztunnel proxy on each node gets configuration and discovery information from the istiod component via xDS APIs. Use the `istioctl experimental ztunnel-config` command shown below to view discovered workloads as seen by a ztunnel proxy as well as secrets holding the TLS certificates that the ztunnel proxy has received from the istiod control plane to use in mTLS signaling on behalf of the local workloads.
+As indicated previously, the ztunnel proxy on each node gets configuration and discovery information from the istiod component via xDS APIs. Use the `istioctl experimental ztunnel-config` command shown below to view discovered workloads as seen by a ztunnel proxy as well as the TLS certificates that the ztunnel proxy has received from the istiod control plane to use in mTLS signaling on behalf of the local workloads.
 
 In the first example, you see all the workloads and control plane components that the specific ztunnel pod is currently tracking including information about the IP address and protocol to use when connecting to that component and whether there is a Waypoint proxy associated with that workload. This example can repeated with any of the other ztunnel pods in the system to display their current configuration.
 
@@ -168,7 +168,7 @@ spiffe://cluster.local/ns/ambient-demo/sa/sleep        Leaf     Available     tr
 spiffe://cluster.local/ns/ambient-demo/sa/sleep        Root     Available     true           b73bb47b4801d9c0b4d13e5cc79afab7     2034-05-01T17:50:10Z     2024-05-03T17:50:10Z
 {{< /text >}}
 
-Using these CLI commands, a user can check that ztunnel proxies are getting configured with all the expected workloads and TLS certificates and missing information can be used for troubleshooting to explain any potential observed networking errors. A user may also use the `all` option to view all parts of the ztunnel-config with a single CLI command and the JSON output formatter as shown in the example below to display the complete set of available state information.
+Using these CLI commands, a user can check that ztunnel proxies are getting configured with all the expected workloads and TLS certificates. Additionally, missing information may be relevant for troubleshooting to explain observed networking errors. A user may also use the `all` option to view all parts of the ztunnel-config with a single CLI command and the JSON output formatter as shown in the example below to display the complete set of available state information.
 
 {{< text bash >}}
 $ istioctl experimental ztunnel-config all -o json
