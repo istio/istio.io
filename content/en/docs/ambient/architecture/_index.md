@@ -20,7 +20,7 @@ To enforce L7 policies, add the `istio.io/use-waypoint` label to your resource t
 
 ### Labels {#ambient-labels}
 
-You can use the following labels to add your resource to the mesh, use a waypoint for traffic to your resource, and control what traffic is sent to the waypoint.
+You can use the following labels to add your resource to the {{< gloss >}}ambient{{< /gloss >}} mesh and manage L4 traffic with the ambient {{< gloss >}}data plane{{< /gloss >}}, use a waypoint to enforce L7 policy for your resource, and control how traffic is sent to the waypoint.
 
 |  Name  | Feature Status | Resource | Description |
 | --- | --- | --- | --- |
