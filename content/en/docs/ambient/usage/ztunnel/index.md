@@ -57,7 +57,7 @@ The examples in this guide used a deployment of Istio version `1.21.0` on a `kin
 
 The examples below require a cluster with more than 1 worker node in order to explain how cross-node traffic operates. Refer to the [installation user guide](/docs/ambient/install/) or [getting started guide](/docs/ambient/getting-started/) for information on installing Istio in ambient mode on a Kubernetes cluster.
 
-For details on the design of the ambient dataplane, and how it interacts with the Istio control plane, see the [data plane](/docs/ambient/architecture/data-plane) and [control plane](/docs/ambient/architecture/control-plane) documentation.
+For details on the design of the ambient {{< gloss >}}data plane{{< /gloss >}}, and how it interacts with the Istio {{< gloss >}}control plane{{< /gloss >}}, see the [data plane](/docs/ambient/architecture/data-plane) and [control plane](/docs/ambient/architecture/control-plane) documentation.
 
 ## Deploying an Application {#deployapplication}
 
