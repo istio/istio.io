@@ -33,4 +33,6 @@ link="hbone-packet.png"
 caption="HBONE L3 packet format"
 >}}
 
+An important property of the HBONE tunnel is that the original application request can be proxied transparently without altering the underlying application traffic stream in any way. This means metadata about a connection can be conveyed to destination proxies without altering the application request - removing the need to append Istio-specific headers to application traffic, for example.
+
 Additional use cases of HBONE and HTTP tunneling (such as UDP) will be investigated in the future as ambient mode and standards evolve.
