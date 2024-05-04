@@ -6,7 +6,7 @@ owner: istio/wg-docs-maintainers-english
 test: no
 ---
 
-In **ambient mode**, Istio implements its [features](/concepts) using a per-node component, and optionally a per-namespace. The mesh created when Istio is installed in ambient mode can be referred to as an ambient mesh.
+In **ambient mode**, Istio implements its [features](/concepts) using a per-node Layer 4 (L4) proxy, and optionally a per-namespace Layer 7 (L7) proxy. The mesh created when Istio is installed in ambient mode can be referred to as an ambient mesh.
 
 Since workload pods no longer require proxies running in sidecars in order to participate in the mesh, Istio in ambient mode is often informally referred to as "sidecar-less" mesh.
 
@@ -14,7 +14,7 @@ This layered approach allows you to adopt Istio in a more incremental fashion, s
 
 ## How it works
 
-Ambient mode splits Istio’s functionality into two distinct layers. At the base, the **ztunnel** secure overlay handles routing and zero trust security for traffic. Above that, when needed, users can enable Layer 7 (L7) **waypoint proxies** to get access to the full range of Istio features. Waypoint proxies, while heavier than the ztunnel overlay alone, still run as an ambient component of the infrastructure, requiring no modifications to application pods.
+Ambient mode splits Istio’s functionality into two distinct layers. At the base, the **ztunnel** secure overlay handles routing and zero trust security for traffic. Above that, when needed, users can enable L7 **waypoint proxies** to get access to the full range of Istio features. Waypoint proxies, while heavier than the ztunnel overlay alone, still run as an ambient component of the infrastructure, requiring no modifications to application pods.
 
 {{< tip >}}
 Pods/workloads using sidecar proxies can co-exist within the same mesh as pods that operate in ambient mode. Mesh pods that use sidecar proxies can also interoperate with pods in the same Istio mesh that are running in ambient mode. The term "ambient mesh" refers to an Istio mesh that has a superset of the capabilities and hence can support mesh pods that use either type of proxying.
