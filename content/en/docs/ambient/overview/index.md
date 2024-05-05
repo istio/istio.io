@@ -37,7 +37,7 @@ Some use cases of Istio in ambient mode may be addressed solely via the L4 secur
 | Zero Trust networking via mutual-TLS, encrypted and tunneled data transport of client application traffic, L4 authorization, L4 telemetry | ztunnel only (default) |
 | As above, plus advanced Istio traffic management features (incl L7 authorization, telemetry and VirtualService routing) | ztunnel and waypoint proxies |
 
-# Waypoint proxies
+## Waypoint proxies
 
 The waypoint proxy is a deployment of the {{< gloss >}}Envoy{{</ gloss >}} proxy; the same engine that Istio uses in sidecar mode.
 
