@@ -14,22 +14,20 @@ The ztunnel proxy gets configuration and discovery information from the istiod {
 
 The `istioctl x ztunnel-config` command allows you to view discovered workloads as seen by a ztunnel proxy.
 
-In the first example, you see all the workloads and control plane components that the specific ztunnel pod is currently tracking, including information about the IP address and protocol to use when connecting to that component and whether there is a waypoint proxy associated with that workload. This example can repeated with any of the other ztunnel pods in the system to display their current configuration.
+In the first example, you see all the workloads and control plane components that ztunnel is currently tracking, including information about the IP address and protocol to use when connecting to that component and whether there is a waypoint proxy associated with that workload. 
 
 {{< text bash >}}
-$ export ZTUNNEL=$(kubectl get pods -n istio-system -l app=ztunnel -o=jsonpath='{.items[0].metadata.name}')
-$ echo "$ZTUNNEL"
-{{< /text >}}
-
-{{< text bash >}}
-$ istioctl x ztunnel-config workloads "$ZTUNNEL".istio-system
+$ istioctl x ztunnel-config workloads
 NAMESPACE          POD NAME                                IP          NODE                  WAYPOINT PROTOCOL
-default            details-v1-cf74bb974-5sqkp              10.244.1.5  ambient-worker        None     TCP
-default            productpage-v1-87d54dd59-fn6vw          10.244.1.10 ambient-worker        None     TCP
-default            ratings-v1-7c4bbf97db-zvkdw             10.244.1.6  ambient-worker        None     TCP
-default            reviews-v1-5fd6d4f8f8-26j92             10.244.1.7  ambient-worker        None     TCP
-default            reviews-v2-6f9b55c5db-c2dtw             10.244.1.8  ambient-worker        None     TCP
-default            reviews-v3-7d99fd7978-zznnq             10.244.1.9  ambient-worker        None     TCP
+default            bookinfo-gateway-istio-59dd7c96db-q9k6v 10.244.1.11 ambient-worker        None     TCP
+default            details-v1-cf74bb974-5sqkp              10.244.1.5  ambient-worker        None     HBONE
+default            notsleep-5c785bc478-zpg7j               10.244.2.7  ambient-worker2       None     HBONE
+default            productpage-v1-87d54dd59-fn6vw          10.244.1.10 ambient-worker        None     HBONE
+default            ratings-v1-7c4bbf97db-zvkdw             10.244.1.6  ambient-worker        None     HBONE
+default            reviews-v1-5fd6d4f8f8-knbht             10.244.1.16 ambient-worker        None     HBONE
+default            reviews-v2-6f9b55c5db-c94m2             10.244.1.17 ambient-worker        None     HBONE
+default            reviews-v3-7d99fd7978-7rgtd             10.244.1.18 ambient-worker        None     HBONE
+default            sleep-7656cf8794-r7zb9                  10.244.1.12 ambient-worker        None     HBONE
 istio-system       istiod-7ff4959459-qcpvp                 10.244.2.5  ambient-worker2       None     TCP
 istio-system       ztunnel-6hvcw                           10.244.1.4  ambient-worker        None     TCP
 istio-system       ztunnel-mf476                           10.244.2.6  ambient-worker2       None     TCP
@@ -37,12 +35,13 @@ istio-system       ztunnel-vqzf9                           10.244.0.6  ambient-c
 kube-system        coredns-76f75df574-2sms2                10.244.0.3  ambient-control-plane None     TCP
 kube-system        coredns-76f75df574-5bf9c                10.244.0.2  ambient-control-plane None     TCP
 local-path-storage local-path-provisioner-7577fdbbfb-pslg6 10.244.0.4  ambient-control-plane None     TCP
+
 {{< /text >}}
 
-The `istioctl proxy-config` command can be used to view the secrets holding the TLS certificates that the ztunnel proxy has received from the istiod control plane to use for mTLS.
+The `ztunnel-config` command can be used to view the secrets holding the TLS certificates that the ztunnel proxy has received from the istiod control plane to use for mTLS.
 
 {{< text bash >}}
-$ istioctl x zc certificates "$ZTUNNEL".istio-system
+$ istioctl x ztunnel-config certificates "$ZTUNNEL".istio-system
 CERTIFICATE NAME                                              TYPE     STATUS        VALID CERT     SERIAL NUMBER                        NOT AFTER                NOT BEFORE
 spiffe://cluster.local/ns/default/sa/bookinfo-details         Leaf     Available     true           c198d859ee51556d0eae13b331b0c259     2024-05-05T09:17:47Z     2024-05-04T09:15:47Z
 spiffe://cluster.local/ns/default/sa/bookinfo-details         Root     Available     true           bad086c516cce777645363cb8d731277     2034-04-24T03:31:05Z     2024-04-26T03:31:05Z
@@ -56,7 +55,13 @@ spiffe://cluster.local/ns/default/sa/sleep                    Leaf     Available
 spiffe://cluster.local/ns/default/sa/sleep                    Root     Available     true           bad086c516cce777645363cb8d731277     2034-04-24T03:31:05Z     2024-04-26T03:31:05Z
 {{< /text >}}
 
-Using these commands, you can check that ztunnel proxies are  configured with all the expected workloads and TLS certificate. Missing information can be used for troubleshooting any networking errors.
+Using these commands, you can check that ztunnel proxies are  configured with all the expected workloads and TLS certificate. Additionally, nissing information can be used for troubleshooting any networking errors.
+
+You may use the `all` option to view all parts of the ztunnel-config with a single CLI command:
+
+{{< text bash >}}
+$ istioctl x ztunnel-config all -o json
+{{< /text >}}
 
 You can also view the raw configuration dump of a ztunnel proxy via a `curl` to an endpoint inside its pod:
 
