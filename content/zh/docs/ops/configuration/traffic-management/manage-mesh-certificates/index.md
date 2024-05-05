@@ -23,8 +23,8 @@ test: n/a
 
 当在没有根 CA 证书的情况下安装 Istio 时，istiod 将使用 RSA 2048 生成自签名的 CA 证书。
 
-要更改自签名 CA 证书的位长度，您将需要修改提供给 istioctl 的 IstioOperator 资源，
-或需要修改通过 Helm 安装 istio-discovery Chart 期间使用的赋值文件。
+要更改自签名 CA 证书的位长度，您将需要修改提供给 `istioctl` 的 IstioOperator
+清单或在 Helm 安装 [istio-discovery]({{< github_tree >}}/manifests/charts/istio-control/istio-discovery) Chart 期间使用的赋值文件。
 
 {{< tip >}}
 尽管 [pilot-discovery](/zh/docs/reference/commands/pilot-discovery/) 有许多环境变量可以更改，
