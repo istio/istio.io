@@ -14,7 +14,7 @@ The ztunnel proxy gets configuration and discovery information from the istiod {
 
 The `istioctl x ztunnel-config` command allows you to view discovered workloads as seen by a ztunnel proxy.
 
-In the first example, you see all the workloads and control plane components that ztunnel is currently tracking, including information about the IP address and protocol to use when connecting to that component and whether there is a waypoint proxy associated with that workload. 
+In the first example, you see all the workloads and control plane components that ztunnel is currently tracking, including information about the IP address and protocol to use when connecting to that component and whether there is a waypoint proxy associated with that workload.
 
 {{< text bash >}}
 $ istioctl x ztunnel-config workloads
@@ -55,7 +55,7 @@ spiffe://cluster.local/ns/default/sa/sleep                    Leaf     Available
 spiffe://cluster.local/ns/default/sa/sleep                    Root     Available     true           bad086c516cce777645363cb8d731277     2034-04-24T03:31:05Z     2024-04-26T03:31:05Z
 {{< /text >}}
 
-Using these commands, you can check that ztunnel proxies are  configured with all the expected workloads and TLS certificate. Additionally, nissing information can be used for troubleshooting any networking errors.
+Using these commands, you can check that ztunnel proxies are  configured with all the expected workloads and TLS certificate. Additionally, missing information can be used for troubleshooting any networking errors.
 
 You may use the `all` option to view all parts of the ztunnel-config with a single CLI command:
 

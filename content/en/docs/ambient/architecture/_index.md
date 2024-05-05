@@ -18,8 +18,6 @@ To enforce L7 policies, add the `istio.io/use-waypoint` label to your resource t
   precedence over the namespace waypoint as long as the service waypoint can handle service or all traffic.
   Similarly, a label on a pod will take precedence over a namespace label
 
-
-
 ### Layer 7 policy attachment to waypoints
 
 You can attach Layer 7 policies (such as `AuthorizationPolicy`, `RequestAuthentication`, `Telemetry`, `WasmPlugin`, etc) to your waypoint using `targetRefs`.
