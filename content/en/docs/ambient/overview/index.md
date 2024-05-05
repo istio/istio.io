@@ -6,7 +6,7 @@ owner: istio/wg-docs-maintainers-english
 test: no
 ---
 
-In **ambient mode**, Istio implements its [features](/concepts) using a per-node Layer 4 (L4) proxy, and optionally a per-namespace Layer 7 (L7) proxy. The mesh created when Istio is installed in ambient mode can be referred to as an ambient mesh.
+In **ambient mode**, Istio implements its [features](/docs/concepts) using a per-node Layer 4 (L4) proxy, and optionally a per-namespace Layer 7 (L7) proxy. The mesh created when Istio is installed in ambient mode can be referred to as an ambient mesh.
 
 Since workload pods no longer require proxies running in sidecars in order to participate in the mesh, Istio in ambient mode is often informally referred to as "sidecar-less" mesh.
 
