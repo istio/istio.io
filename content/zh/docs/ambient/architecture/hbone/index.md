@@ -1,17 +1,16 @@
 ---
-title: TLS 和隧道
+title: HBONE
 description: 了解 Istio 的安全隧道协议。
 weight: 2
 owner: istio/wg-networking-maintainers
 test: no
 ---
 
-## 了解 HBONE 协议 {#understanding-the-hbone-protocol}
-
-HBONE（HTTP Based Overlay Network Encapsulation，基于 HTTP 的覆盖网络封装）是 Istio 中特定的术语。
+**HBONE**（HTTP Based Overlay Network Encapsulation，基于 HTTP 的覆盖网络封装）
+是 Istio 组件之间使用的安全隧道协议。HBONE 是 Istio 特定的术语。
 它是一种通过单个 mTLS 加密网络连接（加密隧道）透明地多路复用与许多不同应用程序连接相关的 TCP 流的机制。
 
-在 Istio 当前的实现中，HBONE 协议包含 3 个开放标准：
+在 Istio 当前的实现中，HBONE 协议包含三个开放标准：
 
 - [HTTP/2](https://httpwg.org/specs/rfc7540.html)
 - [HTTP CONNECT](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/CONNECT)
