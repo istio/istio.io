@@ -127,7 +127,7 @@ status: Experimental
     $ kubectl apply -f ./selfsigned-issuer.yaml
     {{< /text >}}
 
-## 为每个集群创建验证秘钥{verify-secrets-are-created-for-each-cluster-issuer}
+## 为每个集群创建验证秘钥{#verify-secrets-are-created-for-each-cluster-issuer}
 
 {{< text bash >}}
 $ kubectl get secret -n cert-manager -l controller.cert-manager.io/fao=true

@@ -165,7 +165,7 @@ spec:
                 metric: REQUEST_COUNT
     {{< /text >}}
 
-## 验证结果{verify-the-results}
+## 验证结果{#verify-the-results}
 
 发送流量到网格。对于Bookinfo示例，在web浏览器中访问`http://$GATEWAY_URL/productpage` 或发出以下命令:
 
