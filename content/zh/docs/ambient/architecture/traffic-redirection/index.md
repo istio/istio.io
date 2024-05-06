@@ -159,7 +159,6 @@ COMMIT
 COMMIT
 {{< /text >}}
 
-The command output shows that additional Istio-specific chains are added to the NAT and Mangle tables in netfilter/iptables within the application pod's network namespace. All TCP traffic coming into the pod is redirected to the ztunnel proxy for ingress processing. If the traffic is plaintext (source port != 15008), it will be redirected to the in-pod ztunnel plaintext listening port 15006. If the traffic is HBONE (source port == 15008), it will be redirected to the in-pod ztunnel HBONE listening port 15008. Any TCP traffic leaving the pod is redirected to ztunnel's port 15001 for egress processing, before being sent out by ztunnel using HBONE encapsulation.
 命令输出显示，额外的 Istio 特定链已被添加到应用程序 Pod
 网络命名空间内的 netfilter/iptables 中的 NAT 和 Mangle 表中。
 所有进入 Pod 的 TCP 流量都会被重定向到 ztunnel 代理进行入口处理。
