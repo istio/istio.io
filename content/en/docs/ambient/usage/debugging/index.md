@@ -129,9 +129,9 @@ $ kubectl -n istio-system logs -l app=ztunnel | grep -E "outbound"
 
 This is a round robin load balancing algorithm and is separate from and independent of any load balancing algorithm that may be configured within a `VirtualService`'s `TrafficPolicy` field, since as discussed previously, all aspects of `VirtualService` API objects are instantiated on the Waypoint proxies and not the ztunnel proxies.
 
-### Observability of ambient traffic
+### Observability of ambient mode traffic
 
-In addition to checking ztunnel logs and other monitoring options noted above, you can also use normal Istio monitoring and telemetry functions to monitor application traffic within an ambient mesh.
+In addition to checking ztunnel logs and other monitoring options noted above, you can also use normal Istio monitoring and telemetry functions to monitor application traffic using the ambient data plane mode.
 
 * [Prometheus installation](/docs/ops/integrations/prometheus/#installation)
 * [Kiali installation](/docs/ops/integrations/kiali/#installation)
