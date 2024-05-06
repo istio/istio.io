@@ -26,7 +26,9 @@ In Istio 1.22 we are happy to announce that a concerted effort has been made to 
 
 Declarative APIs, such as those used by Kubernetes and Istio, decouple the _description_ of a resource from the _implementation_ that acts on it.
 
-[Istio's feature phase definitions](https://istio.io/latest/docs/releases/feature-stages/) describe how a stable feature — one that is deemed ready for production use at any scale, and comes with a formal deprecation policy — should be matched with a `v1` API. We are now making good on that promise, with our API versions matching our feature stability for both features that have been stable for some time, and those which are being newly designated as stable in this release.
+[Istio's feature phase definitions](/docs/releases/feature-stages/) describe how a stable feature — one that is deemed ready for production use at any scale, and comes with a formal deprecation policy — should be matched with a `v1` API. We are now making good on that promise, with our API versions matching our feature stability for both features that have been stable for some time, and those which are being newly designated as stable in this release.
+
+Although there are currently no plans to discontinue support for the previous `v1beta1` and `v1alpha1` API versions, users are encouraged to manually transition to utilizing the `v1` APIs by updating their existing YAML files.
 
 ## Telemetry API
 
@@ -67,13 +69,13 @@ This is the full list of supported API versions:
 | Telemetry | [Telemetry](/docs/reference/config/telemetry/) |  `v1`, `v1alpha1` |
 | Extension | [Wasm Plugin](/docs/reference/config/proxy_extensions/wasm-plugin/) |  `v1alpha1` |
 
-Istio can also be configured [using the Kubernetes Gateway API](https://istio.io/latest/docs/setup/additional-setup/getting-started/).
+Istio can also be configured [using the Kubernetes Gateway API](/docs/setup/additional-setup/getting-started/).
 
 ## Using the `v1` Istio APIs
 
-There are some features in Istio that are still under active development, and subject to potential change between releases. The Envoy Filter, Proxy Config and Wasm Plugin APIs are not yet ready to be promoted to `v1`, and as mentioned above, there are three non-`v1` fields within the [Telemetry API](#telemetry-api).
+There are some APIs in Istio that are still under active development and are subject to potential changes between releases. For instance, the Envoy Filter, Proxy Config and Wasm Plugin APIs.
 
-Since Istio maintains the same schema across API versions, users can utilize non-`v1` fields in their `v1` Custom Resources.
+Furthermore, Istio maintains a strictly identical schema across all versions of an API due to limitations in [CRD versioning](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definition-versioning/). Therefore, even though there is a `v1` Telemetry API, the three `v1alpha1` fields mentioned [above](#telemetry-api) can still be utilized when declaring a `v1` Telemetry API resource.
 
 For risk-averse environments, we have provided a sample `Stable Validation Policy` that can ensure only `v1` APIs and fields are used.
 
