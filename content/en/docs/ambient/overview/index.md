@@ -1,30 +1,30 @@
 ---
 title: Overview
-description: An overview of Istio's ambient dataplane mode.
+description: An overview of Istio's ambient data plane mode.
 weight: 1
 owner: istio/wg-docs-maintainers-english
 test: no
 ---
 
-In **ambient mode**, Istio implements its [features](/docs/concepts) using a per-node Layer 4 (L4) proxy, and optionally a per-namespace Layer 7 (L7) proxy. The mesh created when Istio is installed in ambient mode can be referred to as an ambient mesh.
+In **ambient mode**, Istio implements its [features](/docs/concepts) using a per-node Layer 4 (L4) proxy, and optionally a per-namespace Layer 7 (L7) proxy. The mesh created when Istio is installed in ambient mode is called an _ambient mesh_.
 
-Since workload pods no longer require proxies running in sidecars in order to participate in the mesh, Istio in ambient mode is often informally referred to as "sidecar-less" mesh.
+Since workload pods no longer require proxies running in sidecars in order to participate in the mesh, Istio in ambient mode is often informally referred to as a "sidecar-less" mesh.
 
-This layered approach allows you to adopt Istio in a more incremental fashion, smoothly transitioning from no mesh, to the secure overlay, to full L7 processing — on a per-namespace basis, as needed. Furthermore, workloads running in different ambient configurations, or with sidecars, interoperate seamlessly, allowing users to mix and match capabilities based on the particular needs as they change over time.
+This layered approach allows you to adopt Istio in a more incremental fashion, smoothly transitioning from no mesh, to a secure L4 overlay, to full L7 processing and policy — on a per-namespace basis, as needed. Furthermore, workloads running in different Istio {{< gloss > }}data plane{{< /gloss > }} modes interoperate seamlessly, allowing users to mix and match capabilities based on their particular needs as they change over time.
 
 ## How it works
 
 Ambient mode splits Istio’s functionality into two distinct layers. At the base, the **ztunnel** secure overlay handles routing and zero trust security for traffic. Above that, when needed, users can enable L7 **waypoint proxies** to get access to the full range of Istio features. Waypoint proxies, while heavier than the ztunnel overlay alone, still run as an ambient component of the infrastructure, requiring no modifications to application pods.
 
 {{< tip >}}
-Pods/workloads using sidecar proxies can co-exist within the same mesh as pods that operate in ambient mode. Mesh pods that use sidecar proxies can also interoperate with pods in the same Istio mesh that are running in ambient mode. The term "ambient mesh" refers to an Istio mesh that has a superset of the capabilities and hence can support mesh pods that use either type of proxying.
+Pods/workloads using sidecar mode can co-exist within the same mesh as pods that use ambient mode. The term "ambient mesh" refers to an Istio mesh that was installed with support for ambient mode, and so can support mesh pods that use either type of data plane.
 {{< /tip >}}
 
-For details on the design of the ambient {{< gloss >}}data plane{{< /gloss >}}, and how it interacts with the Istio {{< gloss >}}control plane{{< /gloss >}}, see the [data plane](/docs/ambient/architecture/data-plane) and [control plane](/docs/ambient/architecture/control-plane) architecture documentation.
+For details on the design of ambient mode, and how it interacts with the Istio {{< gloss >}}control plane{{< /gloss >}}, see the [data plane](/docs/ambient/architecture/data-plane) and [control plane](/docs/ambient/architecture/control-plane) architecture documentation.
 
 ## ztunnel
 
-The ztunnel (Zero Trust tunnel) component is a purpose-built, per-node proxy that powers Istio's ambient mode.
+The ztunnel (Zero Trust tunnel) component is a purpose-built, per-node proxy that powers Istio's ambient data plane mode.
 
 Ztunnel is responsible for securely connecting and authenticating workloads within the ambient mesh. The ztunnel proxy is written in Rust and is intentionally scoped to handle L3 and L4 functions such as mTLS, authentication, L4 authorization and telemetry. Ztunnel does not terminate workload HTTP traffic or parse workload HTTP headers. The ztunnel ensures L3 and L4 traffic is efficiently and securely transported to waypoint proxies, where the full suite of Istio’s L7 functionality, such as HTTP telemetry and load balancing, is implemented.
 

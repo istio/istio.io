@@ -6,17 +6,17 @@ owner: istio/wg-networking-maintainers
 test: no
 ---
 
-In most cases, a cluster administrator will deploy the Istio mesh infrastructure. Once Istio is successfully deployed in ambient mode, it will be transparently available to applications deployed by all users in namespaces that have been configured to use it.
+In most cases, a cluster administrator will deploy the Istio mesh infrastructure. Once Istio is successfully deployed with support for the ambient {{< gloss >}}data plane{{< /gloss >}} mode, it will be transparently available to applications deployed by all users in namespaces that have been configured to use it.
 
-## Enabling ambient for an application
+## Enabling ambient mode for an application in the mesh
 
-To add an applications or namespaces to the ambient mesh, add the label `istio.io/dataplane-mode=ambient` to the corresponding resource. You can apply this label to a namespace or to an individual pod.
+To add an applications or namespaces to the mesh in ambient mode, add the label `istio.io/dataplane-mode=ambient` to the corresponding resource. You can apply this label to a namespace or to an individual pod.
 
-Ambient mode can be seamlessly enabled (or disabled) completely transparently as far as the application pods are concerned. Unlike when operating in {{< gloss >}}sidecar{{< /gloss >}} mode, there is no need to restart applications to add them to the mesh, and they will not show as having an extra container deployed in their pod.
+The ambient data plane mode can be seamlessly enabled (or disabled) completely transparently as far as the application pods are concerned. Unlike the {{< gloss >}}sidecar{{< /gloss >}} data plane mode, there is no need to restart applications to add them to the mesh, and they will not show as having an extra container deployed in their pod.
 
-## Communicating between pods in different modes
+## Communicating between pods in different data plane modes
 
-There are multiple options for interoperability between ambient pods and non-ambient endpoints (including Kubernetes application pods, Istio gateways or Kubernetes Gateway API instances). This interoperability provides multiple options for seamlessly integrating ambient and non-ambient workloads within the same Istio mesh, allowing for phased introduction of ambient capability as best suits the needs of your mesh deployment and operation.
+There are multiple options for interoperability between application pods using the ambient data plane mode, and non-ambient endpoints (including Kubernetes application pods, Istio gateways or Kubernetes Gateway API instances). This interoperability provides multiple options for seamlessly integrating ambient and non-ambient workloads within the same Istio mesh, allowing for phased introduction of ambient capability as best suits the needs of your mesh deployment and operation.
 
 ### Pods outside the mesh
 
@@ -24,9 +24,9 @@ You may have namespaces which are not part of the mesh at all, in either sidecar
 
 For example, setting a `PeerAuthentication` policy with mTLS mode set to `STRICT`, in the ambient namespace will cause traffic from outside the mesh to be denied.
 
-### Pods inside the mesh in sidecar mode
+### Pods inside the mesh using sidecar mode
 
-Istio supports East-West interoperability between a pod using a sidecar proxy and an ambient pod within the same mesh. The sidecar proxy knows to use the HBONE protocol since the destination has been discovered to be an HBONE destination.
+Istio supports East-West interoperability between a pod using a sidecar and a pod using ambient mode, within the same mesh. The sidecar proxy knows to use the HBONE protocol since the destination has been discovered to be an HBONE destination.
 
 {{< tip >}}
 For sidecar proxies to use the HBONE/mTLS signaling option when communicating with ambient destinations, they need to be configured with `ISTIO_META_ENABLE_HBONE` set to `true` in the proxy metadata. This is the default in `MeshConfig` when using the `ambient` profile, hence you do not have to do anything else when using this profile.
@@ -40,11 +40,11 @@ An ingress gateway may run in a non-ambient namespace, and expose services provi
 
 ## Pod selection logic for ambient and sidecar modes
 
-Istio with sidecar proxies can co-exist with ambient based node level proxies within the same cluster. It is important to ensure that the same pod or namespace does not get configured to use both a sidecar proxy and ambient mode. However, if this does occur, currently sidecar injection takes precedence for such a pod or namespace.
+Istio's two data plane modes, sidecar and ambient, can co-exist in the same cluster. It is important to ensure that the same pod or namespace does not get configured to use both modes at the same time. However, if this does occur, the sidecar mode currently takes precedence for such a pod or namespace.
 
-Note that two pods within the same namespace could in theory be set to use different modes by labeling individual pods separately from the namespace label, however this is not recommended. For most common use cases a single mode should be used for all pods within a single namespace.
+Note that two pods within the same namespace could in theory be set to use different modes by labeling individual pods separately from the namespace label; however, this is not recommended. For most common use cases a single mode should be used for all pods within a single namespace.
 
-The exact logic to determine whether a pod is set up to use ambient mode is as follows.
+The exact logic to determine whether a pod is set up to use the ambient mode is as follows:
 
 1. The `istio-cni` plugin configuration exclude list configured in `cni.values.excludeNamespaces` is used to skip namespaces in the exclude list.
 1. `ambient` mode is used for a pod if
