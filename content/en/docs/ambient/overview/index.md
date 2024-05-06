@@ -8,7 +8,7 @@ test: no
 
 In **ambient mode**, Istio implements its [features](/docs/concepts) using a per-node Layer 4 (L4) proxy, and optionally a per-namespace Layer 7 (L7) proxy. 
 
-This layered approach allows you to adopt Istio in a more incremental fashion, smoothly transitioning from no mesh, to a secure L4 overlay, to full L7 processing and policy — on a per-namespace basis, as needed. Furthermore, workloads running in different Istio {{< gloss > }}data plane{{< /gloss > }} modes interoperate seamlessly, allowing users to mix and match capabilities based on their particular needs as they change over time.
+This layered approach allows you to adopt Istio in a more incremental fashion, smoothly transitioning from no mesh, to a secure L4 overlay, to full L7 processing and policy — on a per-namespace basis, as needed. Furthermore, workloads running in different Istio {{< gloss >}}data plane{{< /gloss >}} modes interoperate seamlessly, allowing users to mix and match capabilities based on their particular needs as they change over time.
 
 Since workload pods no longer require proxies running in sidecars in order to participate in the mesh, ambient mode is often informally referred to as "sidecar-less mesh".
 
