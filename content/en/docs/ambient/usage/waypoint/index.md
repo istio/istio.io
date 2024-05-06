@@ -26,7 +26,7 @@ caption="L7 processing layer"
 
 ## Deploy a waypoint proxy
 
-Waypoint proxies can process traffic for `service`, `workload` or `all`. You can also configure your waypoint proxy to
+Waypoint proxies can process traffic for `service`, `workload`, or `all`. You can also configure your waypoint proxy to
 process `none` of the traffic, which is primarily used for testing purpose as you incrementally add a waypoint proxy to
 your application.
 
