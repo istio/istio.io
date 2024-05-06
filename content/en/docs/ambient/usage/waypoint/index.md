@@ -44,7 +44,7 @@ preview the generated Kubernetes Gateway resource, for example, the command belo
 `default` namespace that can process traffic for services in the namespace:
 
 {{< text bash >}}
-$ istioctl x waypoint generate -n default
+$ istioctl experimental waypoint generate -n default
 kind: Gateway
 metadata:
   labels:
@@ -66,11 +66,11 @@ which is the default.
 To deploy a waypoint proxy for the `default` namespace, use the command below:
 
 {{< text bash >}}
-$ istioctl x waypoint apply -n default
+$ istioctl experimental waypoint apply -n default
 waypoint default/namespace applied
 {{< /text >}}
 
-Or, you can deploy the generated Gateway resource from the `istioctl x waypoint generate` command to your Kubernetes cluster:
+Or, you can deploy the generated Gateway resource from the `istioctl experimental waypoint generate` command to your Kubernetes cluster:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -110,7 +110,7 @@ spec:
 EOF
 {{< /text >}}
 
-Or use the `istioctl x waypoint apply` command with the `--for` parameter such as `istioctl x waypoint apply -n default --for all`.
+Or use the `istioctl experimental waypoint apply` command with the `--for` parameter such as `istioctl experimental waypoint apply -n default --for all`.
 
 After the Gateway resource is applied, Istiod will monitor the resource, deploy and manage the corresponding waypoint deployment and service for users automatically.
 
@@ -118,10 +118,10 @@ After the Gateway resource is applied, Istiod will monitor the resource, deploy 
 
 When a waypoint proxy is deployed, it is not used by any resource until you explicitly configure your resource to use it. You can label your resource such as namespace, service or pods with the `istio.io/use-waypoint` label to use a waypoint. We recommend
 to start with namespace waypoint proxy first. To enable a specific namespace such as the `default` namespace for a waypoint proxy,
-simply add the `--enroll-namespace` parameter to your `istioctl x waypoint apply` command, which labels the namespace with `istio.io/use-waypoint: waypoint` for you automatically:
+simply add the `--enroll-namespace` parameter to your `istioctl experimental waypoint apply` command, which labels the namespace with `istio.io/use-waypoint: waypoint` for you automatically:
 
 {{< text bash >}}
-$ istioctl x waypoint apply -n default --enroll-namespace
+$ istioctl experimental waypoint apply -n default --enroll-namespace
 waypoint default/waypoint applied
 namespace default labeled with "istio.io/use-waypoint: waypoint"
 {{< /text >}}
@@ -143,7 +143,7 @@ If you prefer more granularity than namespace waypoint, you can label your speci
 Deploy a waypoint called `reviews-svc-waypoint` for the `reviews` service:
 
 {{< text bash >}}
-$ istioctl x waypoint apply -n default --name reviews-svc-waypoint
+$ istioctl experimental waypoint apply -n default --name reviews-svc-waypoint
 waypoint default/reviews-svc-waypoint applied
 {{< /text >}}
 
@@ -161,7 +161,7 @@ For any requests from any pods in ambient to the `reviews` service, the requests
 Deploy a waypoint called `reviews-v2-pod-waypoint` for the `reviews-v2` pod:
 
 {{< text bash >}}
-$ istioctl x waypoint apply -n default --name reviews-v2-pod-waypoint --for workload
+$ istioctl experimental waypoint apply -n default --name reviews-v2-pod-waypoint --for workload
 waypoint default/reviews-v2-pod-waypoint applied
 {{< /text >}}
 
@@ -251,6 +251,23 @@ EOF
 The debugging guide below assume you have follow the ambient get started [guide](/docs/ambient/getting-started/) to install Istio with
 the ambient profile and the sample application, added your application to the ambient mesh and followed all the commands in the [use a waypoint](#useawaypoint) and [attach L7 policies to waypoint proxies](#attachl7policies) sections earlier.
 
+To send some requests to the `reviews` service via the `productpage` service:
+
+{{< text bash >}}
+$ kubectl exec deploy/sleep -- curl -s http://productpage:9080/productpage
+{{< /text >}}
+
+To send some requests to the `reviews` `v2` pod from the `sleep` pod:
+
+{{< text bash >}}
+$ export REVIEWS_V2_POD_IP=$(kubectl get pod -l version=v2,app=reviews -o jsonpath='{.items[0].status.podIP}')
+$ kubectl exec deploy/sleep -- curl -s http://$REVIEWS_V2_POD_IP:9080/reviews/1
+{{< /text >}}
+
+Requests to the `reviews` service should be enforced by the `reviews-svc-waypoint` for any L7 policies.
+Requests to the `reviews` `v2` pod should be enforced by the `reviews-v2-pod-waypoint` for any L7 policies.
+
+
 1. If your L7 policy isn't enforced, run `istioctl analyzer` first to check if your policy has any validation issue.
 
 {{< text bash >}}
@@ -260,10 +277,10 @@ $ istioctl analyze
 
 1. Determine which waypoint is enforcing the L7 policy for your service or pod.
 
-If your source calls for the destination as its service's hostname or IP, use the `istioctl x ztunnel-config service` command to confirm your waypoint is used by the destination service. Following the example earlier, the `reviews` service should use the `reviews-svc-waypoint` while all other services in the `default` namespace should use the namespace `waypoint`.
+If your source calls for the destination as its service's hostname or IP, use the `istioctl experimental ztunnel-config service` command to confirm your waypoint is used by the destination service. Following the example earlier, the `reviews` service should use the `reviews-svc-waypoint` while all other services in the `default` namespace should use the namespace `waypoint`.
 
 {{< text bash >}}
-$ istioctl x ztunnel-config service
+$ istioctl experimental ztunnel-config service
 NAMESPACE    SERVICE NAME            SERVICE VIP   WAYPOINT
 default      bookinfo-gateway-istio  10.43.164.194 waypoint
 default      bookinfo-gateway-istio  10.43.164.194 waypoint
@@ -278,10 +295,10 @@ default      reviews                 10.43.162.105 reviews-svc-waypoint
 ...
 {{< /text >}}
 
-If your source calls for the destination using pod IP , use the `istioctl x ztunnel-config workload` command to confirm your waypoint is used by the destination pod. Following the example earlier, the `reviews` `v2` pod should use the `reviews-v2-pod-waypoint` while all other pods in the `default` namespace should not have any waypoints as by default only services use the namespace `waypoint`.
+If your source calls for the destination using pod IP , use the `istioctl experimental ztunnel-config workload` command to confirm your waypoint is used by the destination pod. Following the example earlier, the `reviews` `v2` pod should use the `reviews-v2-pod-waypoint` while all other pods in the `default` namespace should not have any waypoints as by default only services use the namespace `waypoint`.
 
 {{< text bash >}}
-$ istioctl x ztunnel-config workload
+$ istioctl experimental ztunnel-config workload
 NAMESPACE    POD NAME                                    IP         NODE                     WAYPOINT                PROTOCOL
 default      bookinfo-gateway-istio-7c57fc4647-wjqvm     10.42.2.8  k3d-k3s-default-server-0 None                    TCP
 default      details-v1-698d88b-wwsnv                    10.42.2.4  k3d-k3s-default-server-0 None                    HBONE
