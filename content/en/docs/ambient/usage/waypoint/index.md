@@ -195,56 +195,56 @@ The following L7 policies are supported for waypoint proxy:
 To attach a L7 policy to the entire waypoint, set `Gateway` as the `parentRefs` or `targetRefs` value, depending on your policy type.
 The example below shows how to apply a `AuthorizationPolicy` policy to the waypoint named `waypoint` for the `default` namespace:
 
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: security.istio.io/v1beta1
-    kind: AuthorizationPolicy
-    metadata:
-      name: viewer
-      namespace: default
-    spec:
-      targetRefs:
-      - kind: Gateway
-        group: gateway.networking.k8s.io
-        name: waypoint
-      action: ALLOW
-      rules:
-      - from:
-        - source:
-            namespaces: ["default", "istio-system"]
-        to:
-        - operation:
-            methods: ["GET"]
-    EOF
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: viewer
+  namespace: default
+spec:
+  targetRefs:
+  - kind: Gateway
+    group: gateway.networking.k8s.io
+    name: waypoint
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        namespaces: ["default", "istio-system"]
+    to:
+    - operation:
+        methods: ["GET"]
+EOF
+{{< /text >}}
 
 ### Attach a L7 policy to a specific service
 
 To attach a L7 policy to a specific service within the waypoint, set `Service` as the `parentRefs` or `targetRefs` value. The example below shows how to apply
 the `reviews` HTTPRoute to the `reviews` service in the `default` namespace:
 
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: gateway.networking.k8s.io/v1beta1
-    kind: HTTPRoute
-    metadata:
-      name: reviews
-    spec:
-      parentRefs:
-      - group: ""
-        kind: Service
-        name: reviews
-        port: 9080
-      rules:
-      - backendRefs:
-        - name: reviews-v1
-          port: 9080
-          weight: 90
-        - name: reviews-v2
-          port: 9080
-          weight: 10
-    EOF
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: HTTPRoute
+metadata:
+  name: reviews
+spec:
+  parentRefs:
+  - group: ""
+    kind: Service
+    name: reviews
+    port: 9080
+  rules:
+  - backendRefs:
+    - name: reviews-v1
+      port: 9080
+      weight: 90
+    - name: reviews-v2
+      port: 9080
+      weight: 10
+EOF
+{{< /text >}}
 
 ## Debug your waypoint proxies
 
@@ -258,7 +258,7 @@ $ istioctl analyze
 ✔ No validation issues found when analyzing namespace: default.
 {{< /text >}}
 
-1. Check which waypoint is enforcing the L7 policy for your service or pod.
+1. Determine which waypoint is enforcing the L7 policy for your service or pod.
 
 If your source calls for the destination as its service's hostname or IP, use the `istioctl x ztunnel-config service` command to confirm your waypoint is used by the destination service. Following the example earlier, the `reviews` service should use the `reviews-svc-waypoint` while all other services in the `default` namespace should use the namespace `waypoint`.
 
@@ -294,8 +294,8 @@ default      reviews-v2-5b667bcbf8-gj7nz                 10.42.0.5  k3d-k3s-defa
 ...
 {{< /text >}}
 
-If your waypoint column isn't correct, verify your resource labeled with `istio.io/use-waypoint` is using a waypoint that can process
-the traffic for your resource.  For example, if your `reviews` `v2` pod uses a waypoint that can only process service traffic, you will not see any waypoint for that pod.
+If the value for the pod's waypoint column isn't correct, verify your pod labeled with `istio.io/use-waypoint` is using a waypoint that can process
+the traffic for your resource.  For example, if your `reviews` `v2` pod uses a waypoint that can only process service traffic, you will not see any waypoint used by that pod.
 
 1. Check the waypoint's proxy status via the `istioctl proxy-status` command.
 
@@ -309,7 +309,7 @@ waypoint-6f7b665c89-6hppr.default                   Kubernetes     SYNCED      S
 ...
 {{< /text >}}
 
-1. Check the logs of the waypoint proxy.
+1. Enable Envoy's [access log](/docs/tasks/observability/logs/access-log/) and check the logs of the waypoint proxy after sending some requests:
 
 {{< text bash >}}
 $ kubectl logs deploy/waypoint
@@ -326,3 +326,6 @@ $ istioctl pc log deploy/waypoint --level debug
 {{< text bash >}}
 $ istioctl proxy-config all deploy/waypoint
 {{< /text >}}
+
+Refer to the [deep dive into Envoy configuration](/docs/ops/diagnostic-tools/proxy-cmd/#deep-dive-into-envoy-configuration) section for more
+information regarding how to debug Envoy since waypoint proxies are based on Envoy.
