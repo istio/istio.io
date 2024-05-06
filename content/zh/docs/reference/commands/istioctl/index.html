@@ -4,7 +4,7 @@ source_repo: https://github.com/istio/istio
 title: istioctl
 description: Istio control interface.
 generator: pkg-collateral-docs
-number_of_entries: 99
+number_of_entries: 100
 max_toc_level: 2
 remove_toc_prefix: 'istioctl '
 ---
@@ -3150,6 +3150,11 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <td>Kubernetes configuration context  (default ``)</td>
 </tr>
 <tr>
+<td><code>--for &lt;string&gt;</code></td>
+<td></td>
+<td>Specify the traffic type [all none service workload] for the waypoint  (default `service`)</td>
+</tr>
+<tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
 <td><code>-i</code></td>
 <td>Istio system namespace  (default `istio-system`)</td>
@@ -3811,10 +3816,10 @@ istioctl experimental ztunnel-config cert [flags]
  istioctl ztunnel-config log
 
  # Update levels of the all loggers for a specific Ztunnel pod
- istioctl ztunnel-config log &lt;pod-name[.namespace]&gt; --level none
+ istioctl ztunnel-config log &lt;pod-name[.namespace]&gt; --level off
 
  # Update levels of the specified loggers for all Ztunnl pods
- istioctl ztunnel-config log --level http:debug,redis:debug
+ istioctl ztunnel-config log --level access:debug,info
 
  # Reset levels of all the loggers to default value (warning)  for a specific Ztunnel pod.
  istioctl ztunnel-config log &lt;pod-name[.namespace]&gt; -r
@@ -7489,6 +7494,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>The version to be used for the Kubernetes Multi-Cluster Services (MCS) API.</td>
 </tr>
 <tr>
+<td><code>METRICS_LOCALHOST_ACCESS_ONLY</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>This will disable metrics endpoint from outside of the pod, allowing only localhost access.</td>
+</tr>
+<tr>
 <td><code>METRIC_GRACEFUL_DELETION_INTERVAL</code></td>
 <td>Time Duration</td>
 <td><code>5m0s</code></td>
@@ -7525,6 +7536,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>If analysis is enabled, pilot will run istio analyzers using this value as interval in seconds Istio Resources</td>
 </tr>
 <tr>
+<td><code>PILOT_AUTO_ALLOW_WAYPOINT_POLICY</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, zTunnel will receive synthetic authorization policies for each workload ALLOW the Waypoint&#39;s identity. Unless other ALLOW policies are created, this effectively denies traffic that doesn&#39;t go through the waypoint.</td>
+</tr>
+<tr>
 <td><code>PILOT_CERT_PROVIDER</code></td>
 <td>String</td>
 <td><code>istiod</code></td>
@@ -7547,12 +7564,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Time Duration</td>
 <td><code>10s</code></td>
 <td>The maximum amount of time to wait for events while debouncing. If events keep showing up with no breaks for this time, we&#39;ll trigger a push.</td>
-</tr>
-<tr>
-<td><code>PILOT_DEFAULT_ENFORCE_FROM_WAYPOINT</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If enabled, zTunnels will enforce that incoming traffic has traversed a Waypoint if traffic to an endpoint may traverse one.</td>
 </tr>
 <tr>
 <td><code>PILOT_DISABLE_MX_ALPN</code></td>

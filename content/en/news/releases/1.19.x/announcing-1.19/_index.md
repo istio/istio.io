@@ -32,7 +32,7 @@ In addition to mesh traffic, usage of the API for ingress traffic [is in beta](/
 
 ### Ambient Mesh
 
-During this release cycle, the team has been hard at work improving the [ambient mesh](/docs/ops/ambient/), a new Istio deployment model alternative to the previous sidecar model. If you haven't heard of ambient yet, check out the [introduction blog post](/blog/2022/introducing-ambient-mesh/).
+During this release cycle, the team has been hard at work improving the [ambient mesh](/docs/ambient/), a new Istio deployment model alternative to the previous sidecar model. If you haven't heard of ambient yet, check out the [introduction blog post](/blog/2022/introducing-ambient-mesh/).
 
 In this release, support for `ServiceEntry`, `WorkloadEntry`, `PeerAuthentication`, and DNS proxying has been added. In addition, a number of bug fixes and reliability improvements have been made.
 

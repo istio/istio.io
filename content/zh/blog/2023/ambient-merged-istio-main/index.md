@@ -29,7 +29,7 @@ Ambient 网格的最终目标是对您的应用透明，我们所做的一些更
 
 ## 参与进来 {#get-involved}
 
-参阅我们的[入门指南](/zh/docs/ops/ambient/getting-started/)，
+参阅我们的[入门指南](/zh/docs/ambient/getting-started/)，
 现在就可以尝鲜 Ambient 网格 Alpha 版本。我们很乐意听取您的意见！进一步了解 Ambient 网格：
 
 - 在 Istio 的 [Slack](https://slack.istio.io) 中加入 #ambient 和 #ambient-dev 频道。

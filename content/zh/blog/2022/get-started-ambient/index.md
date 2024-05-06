@@ -6,6 +6,10 @@ attribution: "Lin Sun (Solo.io), John Howard (Google)"
 keywords: [ambient,demo,guide]
 ---
 
+{{< warning >}}
+请参阅最新的 [Ambient 网格入门文档](/zh/docs/ambient/getting-started/)以获取更新的说明。
+{{< /warning >}}
+
 Ambient Mesh 是 [Istio 如今引入的全新数据平面模式](/zh/blog/2022/introducing-ambient-mesh/)。
 跟随本入门指南，您可以体验 Ambient Mesh 如何简化您的应用上线，如何助力当前业务运营，如何减少服务网格基础设施的资源用量。
 

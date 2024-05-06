@@ -67,7 +67,6 @@ k3d 使得在 Docker 中创建单节点和多节点 k3s 集群变得非常容易
 1. （可选）安装 Ingress Gateway：
 
     {{< text bash >}}
-    $ kubectl label namespace istio-system istio-injection=enabled
     $ helm install istio-ingressgateway istio/gateway -n istio-system --wait
     {{< /text >}}
 

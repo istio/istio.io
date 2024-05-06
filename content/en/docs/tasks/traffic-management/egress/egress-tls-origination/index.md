@@ -217,12 +217,174 @@ TLS origination.
 
 ### Generate client and server certificates and keys
 
-Follow [these steps](/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/#generate-client-and-server-certificates-and-keys)
-in the Egress Gateway TLS Origination task.
+For this task you can use your favorite tool to generate certificates and keys. The commands below use
+[openssl](https://man.openbsd.org/openssl.1)
+
+1.  Create a root certificate and private key to sign the certificate for your services:
+
+    {{< text bash >}}
+    $ openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=example Inc./CN=example.com' -keyout example.com.key -out example.com.crt
+    {{< /text >}}
+
+1.  Create a certificate and a private key for `my-nginx.mesh-external.svc.cluster.local`:
+
+    {{< text bash >}}
+    $ openssl req -out my-nginx.mesh-external.svc.cluster.local.csr -newkey rsa:2048 -nodes -keyout my-nginx.mesh-external.svc.cluster.local.key -subj "/CN=my-nginx.mesh-external.svc.cluster.local/O=some organization"
+    $ openssl x509 -req -sha256 -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 0 -in my-nginx.mesh-external.svc.cluster.local.csr -out my-nginx.mesh-external.svc.cluster.local.crt
+    {{< /text >}}
+
+    Optionally, you can add `SubjectAltNames` to the certificate if you want to enable SAN validation for the destination. For example:
+
+    {{< text syntax=bash snip_id=none >}}
+    $ cat > san.conf <<EOF
+    [req]
+    distinguished_name = req_distinguished_name
+    req_extensions = v3_req
+    x509_extensions = v3_req
+    prompt = no
+    [req_distinguished_name]
+    countryName = US
+    [v3_req]
+    keyUsage = critical, digitalSignature, keyEncipherment
+    extendedKeyUsage = serverAuth, clientAuth
+    basicConstraints = critical, CA:FALSE
+    subjectAltName = critical, @alt_names
+    [alt_names]
+    DNS = my-nginx.mesh-external.svc.cluster.local
+    EOF
+    $
+    $ openssl req -out my-nginx.mesh-external.svc.cluster.local.csr -newkey rsa:4096 -nodes -keyout my-nginx.mesh-external.svc.cluster.local.key -subj "/CN=my-nginx.mesh-external.svc.cluster.local/O=some organization" -config san.conf
+    $ openssl x509 -req -sha256 -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 0 -in my-nginx.mesh-external.svc.cluster.local.csr -out my-nginx.mesh-external.svc.cluster.local.crt -extfile san.conf -extensions v3_req
+    {{< /text >}}
+
+1.  Generate client certificate and private key:
+
+    {{< text bash >}}
+    $ openssl req -out client.example.com.csr -newkey rsa:2048 -nodes -keyout client.example.com.key -subj "/CN=client.example.com/O=client organization"
+    $ openssl x509 -req -sha256 -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 1 -in client.example.com.csr -out client.example.com.crt
+    {{< /text >}}
 
 ### Deploy a mutual TLS server
 
-Follow [these steps](/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/#deploy-a-mutual-tls-server) in the Egress Gateway TLS Origination task.
+To simulate an actual external service that supports the mutual TLS protocol,
+deploy an [NGINX](https://www.nginx.com) server in your Kubernetes cluster, but running outside of
+the Istio service mesh, i.e., in a namespace without Istio sidecar proxy injection enabled.
+
+1.  Create a namespace to represent services outside the Istio mesh, namely `mesh-external`. Note that the sidecar proxy will
+    not be automatically injected into the pods in this namespace since the automatic sidecar injection was not
+    [enabled](/docs/setup/additional-setup/sidecar-injection/#deploying-an-app) on it.
+
+    {{< text bash >}}
+    $ kubectl create namespace mesh-external
+    {{< /text >}}
+
+1. Create Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) to hold the server's and CA
+   certificates.
+
+    {{< text bash >}}
+    $ kubectl create -n mesh-external secret tls nginx-server-certs --key my-nginx.mesh-external.svc.cluster.local.key --cert my-nginx.mesh-external.svc.cluster.local.crt
+    $ kubectl create -n mesh-external secret generic nginx-ca-certs --from-file=example.com.crt
+    {{< /text >}}
+
+1.  Create a configuration file for the NGINX server:
+
+    {{< text bash >}}
+    $ cat <<\EOF > ./nginx.conf
+    events {
+    }
+
+    http {
+      log_format main '$remote_addr - $remote_user [$time_local]  $status '
+      '"$request" $body_bytes_sent "$http_referer" '
+      '"$http_user_agent" "$http_x_forwarded_for"';
+      access_log /var/log/nginx/access.log main;
+      error_log  /var/log/nginx/error.log;
+
+      server {
+        listen 443 ssl;
+
+        root /usr/share/nginx/html;
+        index index.html;
+
+        server_name my-nginx.mesh-external.svc.cluster.local;
+        ssl_certificate /etc/nginx-server-certs/tls.crt;
+        ssl_certificate_key /etc/nginx-server-certs/tls.key;
+        ssl_client_certificate /etc/nginx-ca-certs/example.com.crt;
+        ssl_verify_client on;
+      }
+    }
+    EOF
+    {{< /text >}}
+
+1.  Create a Kubernetes [ConfigMap](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/)
+to hold the configuration of the NGINX server:
+
+    {{< text bash >}}
+    $ kubectl create configmap nginx-configmap -n mesh-external --from-file=nginx.conf=./nginx.conf
+    {{< /text >}}
+
+1.  Deploy the NGINX server:
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: my-nginx
+      namespace: mesh-external
+      labels:
+        run: my-nginx
+      annotations:
+        "networking.istio.io/exportTo": "." # simulate an external service by not exporting outside this namespace
+    spec:
+      ports:
+      - port: 443
+        protocol: TCP
+      selector:
+        run: my-nginx
+    ---
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: my-nginx
+      namespace: mesh-external
+    spec:
+      selector:
+        matchLabels:
+          run: my-nginx
+      replicas: 1
+      template:
+        metadata:
+          labels:
+            run: my-nginx
+        spec:
+          containers:
+          - name: my-nginx
+            image: nginx
+            ports:
+            - containerPort: 443
+            volumeMounts:
+            - name: nginx-config
+              mountPath: /etc/nginx
+              readOnly: true
+            - name: nginx-server-certs
+              mountPath: /etc/nginx-server-certs
+              readOnly: true
+            - name: nginx-ca-certs
+              mountPath: /etc/nginx-ca-certs
+              readOnly: true
+          volumes:
+          - name: nginx-config
+            configMap:
+              name: nginx-configmap
+          - name: nginx-server-certs
+            secret:
+              secretName: nginx-server-certs
+          - name: nginx-ca-certs
+            secret:
+              secretName: nginx-ca-certs
+    EOF
+    {{< /text >}}
 
 ### Configure the client (sleep pod)
 

@@ -26,4 +26,9 @@ if [[ $GATEWAY_VERSION == *"-"* ]]; then
     GATEWAY_VERSION=$(curl -s -L -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" https://api.github.com/repos/kubernetes-sigs/gateway-api/commits/"${SHORT_SHA}" | jq -r .sha)
   fi
 fi
+
+if [[ $GATEWAY_VERSION == "null" ]]; then
+  GATEWAY_VERSION=$(grep k8s_gateway_api_version data/args.yml | cut -d '"' -f2)
+fi
+
 echo "$GATEWAY_VERSION"
