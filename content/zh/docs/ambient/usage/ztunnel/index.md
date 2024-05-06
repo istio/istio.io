@@ -9,8 +9,6 @@ owner: istio/wg-networking-maintainers
 test: no
 ---
 
-{{< boilerplate ambient-alpha-warning >}}
-
 ## 简介  {#introsection}
 
 本指南深入介绍了 Istio Ambient 模式中 ztunnel 代理和 Layer 4 网络能力的功能和用法。
@@ -45,7 +43,7 @@ ztunnel 代理是用 Rust 语言编写的，旨在处理 Ambient 网格中的 L3
 其中实现了 Istio 的全套 L7 功能，例如 HTTP 遥测和负载均衡。
 “安全覆盖网络（Secure Overlay Networking）”概念被非正式地用于统称通过
 ztunnel 代理在 Ambient 网格中实现的 L4 网络功能集。
-在传输层，这是通过称为 [HBONE](/zh/docs/ambient/architecture/tls-tunnel)
+在传输层，这是通过称为 [HBONE](/zh/docs/ambient/architecture/hbone)
 的基于 HTTP CONNECT 的流量隧道协议来实现的。
 
 Istio 在 Ambient 模式下的一些用例可以仅通过 L4 安全覆盖网络功能来解决，
@@ -62,9 +60,7 @@ Istio 在 Ambient 模式下的一些用例可以仅通过 L4 安全覆盖网络�
 
 ## 当前注意事项  {#caveats}
 
-{{< boilerplate ambient-alpha-warning >}}
-
-以下是 Ambient 模式 Alpha 中的功能限制或警告列表。
+以下是 Ambient 模式中的功能限制或警告列表。
 这些限制计划在未来版本中得到解决或删除。
 
 1. **仅限 Kubernetes：**目前仅支持 Ambient 模式下的 Istio 在 Kubernetes 集群上部署。
@@ -138,16 +134,15 @@ Pod C1、C2 和 C3 需要访问由 Pod S1 提供的服务，并且不需要高�
 （例如 L7 流量路由或 L7 流量管理），因此不需要 Waypoint 代理。
 
 该图展示了在节点 W1 上运行的 Pod C1 和 C2 与在节点 W2 上运行的 Pod S1 连接，
-它们的 TCP 流量通过在每个节点的 ztunnel 代理 Pod 之间创建的 HBONE 隧道实例进行隧道传输。
+它们的 TCP 流量通过在每个节点的 ztunnel 代理 Pod 之间创建的 {{< gloss >}}HBONE{{< /gloss >}} 隧道实例进行隧道传输。
 双向 TLS（mTLS）用于加密以及隧道流量的相互身份验证。SPIFFE 身份用于识别连接两端的工作负载。
 Istio Ambient 中使用的 `HBONE`（基于 HTTP 的覆盖网络封装：HTTP Based Overlay Network Encapsulation）概念是指一种透明、
 安全地隧道传输封装在 HTTPS 数据包中的 TCP 数据包的技术。
-有关数据路径的更多详细信息，包括 HBONE 和流量重定向详细信息，
-请参阅 [ztunnel 流量重定向](/zh/docs/ambient/usage/traffic-redirection)指南。
+有关数据路径的更多详细信息，请参阅 [HBONE](/zh/docs/ambient/architecture/hbone) 和
+[ztunnel 流量重定向](/zh/docs/ambient/architecture/traffic-redirection)中的架构指南。
 
 {{< tip >}}
 注意：虽然图中显示 HBONE 隧道位于两个 ztunnel 代理之间，
-但在 Istio 1.21.0 中引入的 Pod 内重定向实现中，
 隧道实际上位于源 Pod 和目标 Pod 之间。
 流量在源 Pod 本身的网络命名空间中进行 HBONE 封装和加密，
 最终在目标工作节点上的目标 Pod 的网络命名空间中解封装和解密。
