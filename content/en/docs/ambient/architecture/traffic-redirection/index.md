@@ -11,6 +11,8 @@ test: no
 
 In the context of ambient mode, _traffic redirection_ refers to data plane functionality that intercepts traffic sent to and from ambient-enabled workloads, routing it through the {{< gloss >}}ztunnel{{< /gloss >}} node proxies that handle the core data path. Sometimes the term _traffic capture_ is also used.
 
+As ztunnel aims to transparently encrypt and route application traffic, a mechanism is needed to capture all traffic entering and leaving "in mesh" pods. This is a security critical task: if the ztunnel can be bypassed, authorization policies can be bypassed.
+
 ## Istio's in-pod traffic redirection model
 
 The core design principle underlying ambient mode's in-pod traffic redirection is that the ztunnel proxy has the ability to perform data path capture inside the Linux network namespace of the workload pod. This is achieved via a cooperation of functionality between the [`istio-cni` node agent](/docs/setup/additional-setup/cni/) and the ztunnel node proxy. A key benefit of this model is that it enables Istio's ambient mode to work alongside any Kubernetes CNI plugin, transparently, and without impacting Kubernetes networking features.
