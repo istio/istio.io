@@ -38,8 +38,8 @@ HTTP/2 用于在单个安全和加密隧道上复用应用程序连接流，并�
 因此在启用 HBONE 的代理之间流动的 HBONE 隧道数据包如下图所示：
 
 {{< image width="100%"
-link="hbone-packet.png"
-caption="HBONE L3 数据包格式"
+  link="hbone-packet.png"
+  caption="HBONE L3 数据包格式"
 >}}
 
 随着 Ambient 模式和标准的发展，未来将研究 HBONE 和 HTTP 隧道（例如 UDP）的其他用例。
