@@ -45,8 +45,8 @@ ztunnel 代理是用 Rust 语言编写的，旨在处理 Ambient 网格中的 L3
 其中实现了 Istio 的全套 L7 功能，例如 HTTP 遥测和负载均衡。
 “安全覆盖网络（Secure Overlay Networking）”概念被非正式地用于统称通过
 ztunnel 代理在 Ambient 网格中实现的 L4 网络功能集。
-在传输层，这是通过一种称为 HBONE 的基于 HTTP CONNECT 的流量隧道协议来实现的，
-HBONE 协议在本指南的[关于 HBONE](#hbonesection) 一节中进行说明。
+在传输层，这是通过称为 [HBONE](/zh/docs/ambient/architecture/tls-tunnel)
+的基于 HTTP CONNECT 的流量隧道协议来实现的。
 
 Istio 在 Ambient 模式下的一些用例可以仅通过 L4 安全覆盖网络功能来解决，
 并且不需要 L7 功能，因此不需要部署 Waypoint 代理。
@@ -170,22 +170,6 @@ ztunnel 代理仍然在逻辑上处理 HBONE 传输所需的控制平面和数�
 link="ztunnel-waypoint-datapath.png"
 caption="通过临时 Waypoint 的 ztunnel 数据路径"
 >}}
-
-### 关于 HBONE 的说明  {#hbonesection}
-
-HBONE（HTTP Based Overlay Network Encapsulation，基于 HTTP 的覆盖网络封装）是 Istio 中的特定术语。
-它是指通过 [HTTP CONNECT](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/CONNECT)
-方法透明地承载 TCP 字节流。在 Istio 当前的实现中，这是通过 [HTTP/2](https://httpwg.org/specs/rfc7540.html) 完成的，
-以实现高效的多路复用和 TLS 连接重用。HBONE 在保留的 TCP 端口 15008 上提供服务。
-下图描述了从 IP 层开始的整体 HBONE 数据包格式。
-
-{{< image width="100%"
-link="hbone-packet.png"
-caption="HBONE L3 数据包格式"
->}}
-
-随着 Ambient 模式的发展，未来将研究 HBONE 和 HTTP 隧道的其他用例
-（例如对 IPv6 和 UDP 数据包的支持）。
 
 ## 部署应用程序  {#deployapplication}
 
