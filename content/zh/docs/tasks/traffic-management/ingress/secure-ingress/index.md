@@ -174,7 +174,7 @@ EOF
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: mygateway
@@ -203,7 +203,7 @@ EOF
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: httpbin
@@ -401,7 +401,7 @@ EOF
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: mygateway
@@ -444,7 +444,7 @@ EOF
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: helloworld
@@ -559,7 +559,7 @@ EOF
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: mygateway

@@ -165,7 +165,7 @@ spec:
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
 {{< text yaml >}}
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: httpbin-gateway
@@ -220,7 +220,7 @@ spec:
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
 {{< text yaml >}}
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: httpbin-gateway

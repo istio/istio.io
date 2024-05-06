@@ -13,9 +13,9 @@ replace github.com/imdario/mergo => github.com/imdario/mergo v0.3.5
 require (
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2
 	golang.org/x/sync v0.7.0
-	istio.io/istio v0.0.0-20240413233931-e1eeb10b4f36
-	k8s.io/apimachinery v0.30.0-rc.2
-	k8s.io/client-go v0.30.0-rc.2
+	istio.io/istio v0.0.0-20240427135818-04b2993d80bc
+	k8s.io/apimachinery v0.30.0
+	k8s.io/client-go v0.30.0
 )
 
 require (
@@ -47,7 +47,7 @@ require (
 	github.com/docker/docker v25.0.5+incompatible // indirect
 	github.com/docker/docker-credential-helpers v0.8.1 // indirect
 	github.com/emicklei/go-restful/v3 v3.11.2 // indirect
-	github.com/envoyproxy/go-control-plane v0.12.1-0.20240409154308-6a432fea92ca // indirect
+	github.com/envoyproxy/go-control-plane v0.12.1-0.20240419124334-0cebb2f428b3 // indirect
 	github.com/envoyproxy/protoc-gen-validate v1.0.4 // indirect
 	github.com/evanphx/json-patch v5.9.0+incompatible // indirect
 	github.com/evanphx/json-patch/v5 v5.9.0 // indirect
@@ -153,7 +153,6 @@ require (
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/spf13/viper v1.18.2 // indirect
 	github.com/stoewer/go-strcase v1.3.0 // indirect
-	github.com/stretchr/testify v1.9.0 // indirect
 	github.com/subosito/gotenv v1.6.0 // indirect
 	github.com/vbatts/tar-split v0.11.5 // indirect
 	github.com/xeipuuv/gojsonpointer v0.0.0-20190905194746-02993c407bfb // indirect
@@ -189,7 +188,7 @@ require (
 	gomodules.xyz/jsonpatch/v2 v2.4.0 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20240401170217-c3f982113cda // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20240401170217-c3f982113cda // indirect
-	google.golang.org/grpc v1.63.0 // indirect
+	google.golang.org/grpc v1.63.2 // indirect
 	google.golang.org/protobuf v1.33.0 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
@@ -197,19 +196,19 @@ require (
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	helm.sh/helm/v3 v3.14.3 // indirect
-	istio.io/api v1.19.0-alpha.1.0.20240412204431-fe48267f8633 // indirect
-	istio.io/client-go v1.21.0-beta.0 // indirect
-	k8s.io/api v0.30.0-rc.2 // indirect
-	k8s.io/apiextensions-apiserver v0.30.0-rc.2 // indirect
-	k8s.io/apiserver v0.30.0-rc.2 // indirect
-	k8s.io/cli-runtime v0.30.0-rc.2 // indirect
-	k8s.io/component-base v0.30.0-rc.2 // indirect
+	istio.io/api v1.22.0-alpha.1.0.20240422184433-628d0981624d // indirect
+	istio.io/client-go v1.22.0-alpha.1.0.20240422192033-7d65ff9b98d7 // indirect
+	k8s.io/api v0.30.0 // indirect
+	k8s.io/apiextensions-apiserver v0.30.0 // indirect
+	k8s.io/apiserver v0.30.0 // indirect
+	k8s.io/cli-runtime v0.30.0 // indirect
+	k8s.io/component-base v0.30.0 // indirect
 	k8s.io/klog/v2 v2.120.1 // indirect
 	k8s.io/kube-openapi v0.0.0-20240228011516-70dd3763d340 // indirect
-	k8s.io/kubectl v0.30.0-rc.2 // indirect
+	k8s.io/kubectl v0.30.0 // indirect
 	k8s.io/utils v0.0.0-20240310230437-4693a0247e57 // indirect
 	sigs.k8s.io/controller-runtime v0.17.2 // indirect
-	sigs.k8s.io/gateway-api v1.0.1-0.20240412163039-e8cdaaf9b4ff // indirect
+	sigs.k8s.io/gateway-api v1.1.0-rc1.0.20240425002700-732025730290 // indirect
 	sigs.k8s.io/json v0.0.0-20221116044647-bc3834ca7abd // indirect
 	sigs.k8s.io/kustomize/api v0.13.5-0.20230601165947-6ce0bf390ce3 // indirect
 	sigs.k8s.io/kustomize/kyaml v0.16.0 // indirect

@@ -26,7 +26,7 @@ skip_seealso: true
 
 **注意**：在发布时，该 CVE 尚未被评分或量化。
 
-- __[CVE-2024-45288](https://nvd.nist.gov/vuln/detail/CVE-2023-45288)__:
+- __[CVE-2023-45288](https://nvd.nist.gov/vuln/detail/CVE-2023-45288)__:
   (CVSS Score Unpublished): HTTP/2 CONTINUATION 帧可被用于 DoS 攻击。
 
 ## 我受到影响了吗？{#am-i-impacted}

@@ -600,6 +600,22 @@ No
 <p>Optional. A list of paths as specified in the HTTP request. See the <a href="/docs/reference/config/security/normalization/">Authorization Policy Normalization</a>
 for details of the path normalization.
 For gRPC service, this will be the fully-qualified name in the form of <code>/package.service/method</code>.</p>
+<p>If a path in the list contains the <code>{*}</code> or <code>{**}</code> path template operator, it will be interpreted as an <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/path/match/uri_template/v3/uri_template_match.proto">Envoy Uri Template</a>.
+To be a valid path template, the path must not contain <code>*</code>, <code>{</code>, or <code>}</code> outside of a supported operator. No other characters are allowed in the path segment with the path template operator.</p>
+<ul>
+<li><code>{*}</code> matches a single glob that cannot extend beyond a path segment.</li>
+<li><code>{**}</code> matches zero or more globs. If a path contains <code>{**}</code>, it must be the last operator.</li>
+</ul>
+<p>Examples:</p>
+<ul>
+<li><code>/foo/{*}</code> matches <code>/foo/bar</code> but not <code>/foo/bar/baz</code></li>
+<li><code>/foo/{**}/</code> matches <code>/foo/bar/</code>, <code>/foo/bar/baz.txt</code>, and <code>/foo//</code> but not <code>/foo/bar</code></li>
+<li><code>/foo/{*}/bar/{**}</code> matches <code>/foo/buzz/bar/</code> and <code>/foo/buzz/bar/baz</code></li>
+<li><code>/*/baz/{*}`` is not a valid path template since it includes </code>*` outside of a supported operator</li>
+<li><code>/**/baz/{*}`` is not a valid path template since it includes </code>**` outside of a supported operator</li>
+<li><code>/{**}/foo/{*}</code> is not a valid path template since <code>{**}</code> is not the last operator</li>
+<li><code>/foo/{*}.txt</code> is invalid since there are characters other than <code>{*}</code> in the path segment</li>
+</ul>
 <p>If not set, any path is allowed. Must be used only with HTTP.</p>
 
 </td>

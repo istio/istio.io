@@ -131,8 +131,8 @@ the `istio-injection` label will take precedence.
 
 The injector is configured with the following logic:
 
-1. If either label is disabled, the pod is not injected
-1. If either label is enabled, the pod is injected
+1. If either label (`istio-injection` or `sidecar.istio.io/inject`) is disabled, the pod is not injected.
+1. If either label (`istio-injection` or `sidecar.istio.io/inject` or `istio.io/rev`) is enabled, the pod is injected.
 1. If neither label is set, the pod is injected if `.values.sidecarInjectorWebhook.enableNamespacesByDefault` is enabled. This is not enabled by default, so generally this means the pod is not injected.
 
 ### Manual sidecar injection

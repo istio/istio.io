@@ -73,7 +73,7 @@ In this example, we will deploy a simple application and expose it externally us
     {{< text bash >}}
     $ kubectl create namespace istio-ingress
     $ kubectl apply -f - <<EOF
-    apiVersion: gateway.networking.k8s.io/v1beta1
+    apiVersion: gateway.networking.k8s.io/v1
     kind: Gateway
     metadata:
       name: gateway
@@ -89,7 +89,7 @@ In this example, we will deploy a simple application and expose it externally us
           namespaces:
             from: All
     ---
-    apiVersion: gateway.networking.k8s.io/v1beta1
+    apiVersion: gateway.networking.k8s.io/v1
     kind: HTTPRoute
     metadata:
       name: http
@@ -142,7 +142,7 @@ In this example, we will deploy a simple application and expose it externally us
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: gateway.networking.k8s.io/v1beta1
+    apiVersion: gateway.networking.k8s.io/v1
     kind: HTTPRoute
     metadata:
       name: http
@@ -208,7 +208,7 @@ These resources can be customized in a few ways:
 * The `Service.spec.loadBalancerIP` field can be explicit set by configuring the `addresses` field:
 
     {{< text yaml >}}
-    apiVersion: gateway.networking.k8s.io/v1beta1
+    apiVersion: gateway.networking.k8s.io/v1
     kind: Gateway
     metadata:
       name: gateway
@@ -236,7 +236,7 @@ This is easily done because both of these resources are generated with name `<ga
 For example, to deploy a `Gateway` with a `HorizontalPodAutoscaler` and `PodDisruptionBudget`:
 
 {{< text yaml >}}
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: gateway
@@ -293,7 +293,7 @@ When this option is done, you will need to manually link the `Gateway` to the `S
 To link a `Gateway` to a `Service`, configure the `addresses` field to point to a **single** `Hostname`.
 
 {{< text yaml >}}
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: gateway
@@ -318,7 +318,7 @@ This is done by configuring the `parentRef` to point to a service, instead of a 
 For example, to add a header on all calls to an in-cluster `Service` named `example`:
 
 {{< text yaml >}}
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: mesh

@@ -7,7 +7,7 @@ keywords: [ambient,demo,guide]
 ---
 
 {{< warning >}}
-Refer to the latest [getting started with ambient mesh doc](/docs/ops/ambient/getting-started/) for updated instructions.
+Refer to the latest [getting started with ambient mesh doc](/docs/ambient/getting-started/) for updated instructions.
 {{< /warning >}}
 
 Ambient mesh is [a new data plane mode for Istio introduced today](/blog/2022/introducing-ambient-mesh/). Following this getting started guide, you can experience how ambient mesh can simplify your application onboarding, help with ongoing operations, and reduce service mesh infrastructure resource usage.

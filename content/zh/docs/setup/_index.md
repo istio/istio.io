@@ -1,6 +1,6 @@
 ---
-title: 安装
-description: 关于如何在 Kubernetes 集群中安装 Istio 控制平面和添加虚拟机到 mesh 中的说明。
+title: Sidecar 模式
+description: 关于如何在 Sidecar 模式下设置和运行 Istio 的说明。
 weight: 15
 icon: setup
 aliases:

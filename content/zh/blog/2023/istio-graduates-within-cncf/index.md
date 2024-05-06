@@ -13,7 +13,7 @@ keywords: [Istio,CNCF]
 以及在过去六年中参与 Istio 设计、开发和部署的所有贡献者。
 
 与以前一样，在此期间 Istio 项目的工作不会受到任何干扰。我们很高兴宣布
-[Istio 1.18 版本将 Ambient Mesh 推升到 Alpha](/zh/news/releases/1.18.x/announcing-1.18/#ambient-mesh)，
+[Istio 1.18 版本将 Ambient 模式推升到 Alpha](/zh/news/releases/1.18.x/announcing-1.18/#ambient-mesh)，
 随后将持续推动其达到生产就绪状态。
 Sidecar 部署仍然是使用 Istio 的推荐方法，而我们的
 [1.19 版本](https://github.com/istio/istio/wiki/Istio-Release-1.19)

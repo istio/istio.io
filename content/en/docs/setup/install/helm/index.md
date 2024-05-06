@@ -58,8 +58,8 @@ You can display the default values of configuration parameters using the `helm s
 
     {{< text syntax=bash >}}
     $ helm ls -n istio-system
-    NAME       NAMESPACE    REVISION UPDATED         STATUS   CHART        APP VERSION
-    istio-base istio-system 1        ... ... ... ... deployed base-1.16.1  1.16.1
+    NAME       NAMESPACE    REVISION UPDATED                                 STATUS   CHART        APP VERSION
+    istio-base istio-system 1        2024-04-17 22:14:45.964722028 +0000 UTC deployed base-{{< istio_full_version >}}  {{< istio_full_version >}}
     {{< /text >}}
 
     In the output locate the entry for `istio-base` and make sure the status is set to `deployed`.
@@ -76,9 +76,9 @@ You can display the default values of configuration parameters using the `helm s
 
     {{< text syntax=bash >}}
     $ helm ls -n istio-system
-    NAME       NAMESPACE    REVISION UPDATED         STATUS   CHART         APP VERSION
-    istio-base istio-system 1        ... ... ... ... deployed base-1.16.1   1.16.1
-    istiod     istio-system 1        ... ... ... ... deployed istiod-1.16.1 1.16.1
+    NAME       NAMESPACE    REVISION UPDATED                                 STATUS   CHART         APP VERSION
+    istio-base istio-system 1        2024-04-17 22:14:45.964722028 +0000 UTC deployed base-{{< istio_full_version >}}   {{< istio_full_version >}}
+    istiod     istio-system 1        2024-04-17 22:14:45.964722028 +0000 UTC deployed istiod-{{< istio_full_version >}} {{< istio_full_version >}}
     {{< /text >}}
 
 1. Get the status of the installed helm chart to ensure it is deployed:
@@ -120,7 +120,7 @@ You can display the default values of configuration parameters using the `helm s
     {{< text syntax=bash >}}
     $ kubectl get deployments -n istio-system --output wide
     NAME     READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS   IMAGES                         SELECTOR
-    istiod   1/1     1            1           10m   discovery    docker.io/istio/pilot:1.16.1   istio=pilot
+    istiod   1/1     1            1           10m   discovery    docker.io/istio/pilot:{{< istio_full_version >}}   istio=pilot
     {{< /text >}}
 
 1. (Optional) Install an ingress gateway:
@@ -176,9 +176,9 @@ installed above.
 
     {{< text syntax=bash snip_id=helm_ls >}}
     $ helm ls -n istio-system
-    NAME       NAMESPACE    REVISION UPDATED         STATUS   CHART        APP VERSION
-    istio-base istio-system 1        ... ... ... ... deployed base-1.0.0   1.0.0
-    istiod     istio-system 1        ... ... ... ... deployed istiod-1.0.0 1.0.0
+    NAME       NAMESPACE    REVISION UPDATED                                 STATUS   CHART         APP VERSION
+    istio-base istio-system 1        2024-04-17 22:14:45.964722028 +0000 UTC deployed base-{{< istio_full_version >}}   {{< istio_full_version >}}
+    istiod     istio-system 1        2024-04-17 22:14:45.964722028 +0000 UTC deployed istiod-{{< istio_full_version >}} {{< istio_full_version >}}
     {{< /text >}}
 
 1. (Optional) Delete any Istio gateway chart installations:

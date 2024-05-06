@@ -75,7 +75,7 @@ Gateway API 与 Istio API（如 Gateway 和 VirtualService）有很多相似之�
     {{< text bash >}}
     $ kubectl create namespace istio-ingress
     $ kubectl apply -f - <<EOF
-    apiVersion: gateway.networking.k8s.io/v1beta1
+    apiVersion: gateway.networking.k8s.io/v1
     kind: Gateway
     metadata:
       name: gateway
@@ -91,7 +91,7 @@ Gateway API 与 Istio API（如 Gateway 和 VirtualService）有很多相似之�
           namespaces:
             from: All
     ---
-    apiVersion: gateway.networking.k8s.io/v1beta1
+    apiVersion: gateway.networking.k8s.io/v1
     kind: HTTPRoute
     metadata:
       name: http
@@ -144,7 +144,7 @@ Gateway API 与 Istio API（如 Gateway 和 VirtualService）有很多相似之�
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: gateway.networking.k8s.io/v1beta1
+    apiVersion: gateway.networking.k8s.io/v1
     kind: HTTPRoute
     metadata:
       name: http
@@ -211,7 +211,7 @@ Gateway API 与 Istio API（如 Gateway 和 VirtualService）有很多相似之�
 * 通过配置 `addresses` 字段可以显式设置 `Service.spec.loadBalancerIP` 字段：
 
     {{< text yaml >}}
-    apiVersion: gateway.networking.k8s.io/v1beta1
+    apiVersion: gateway.networking.k8s.io/v1
     kind: Gateway
     metadata:
       name: gateway
@@ -241,7 +241,7 @@ Gateway API 与 Istio API（如 Gateway 和 VirtualService）有很多相似之�
 例如，参照以下部署类别为 `HorizontalPodAutoscaler` 和 `PodDisruptionBudget` 的 `Gateway`：
 
 {{< text yaml >}}
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: gateway
@@ -299,7 +299,7 @@ spec:
 要将 `Gateway` 链接到 `Service`，需要将 `addresses` 字段配置为指向**单个** `Hostname`。
 
 {{< text yaml >}}
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: gateway
@@ -322,7 +322,7 @@ Gateway API 也可以用来配置网格流量。
 例如，要将所有调用的头部添加到一个名为 `example` 的集群内 `Service`：
 
 {{< text yaml >}}
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: mesh
