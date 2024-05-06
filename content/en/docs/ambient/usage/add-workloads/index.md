@@ -10,7 +10,7 @@ In most cases, a cluster administrator will deploy the Istio mesh infrastructure
 
 ## Enabling ambient for an application
 
-To add an application to the ambient mesh, add the label `istio.io/dataplane-mode=ambient`. You can apply this label to a namespace or to an individual pod.
+To add an applications or namespaces to the ambient mesh, add the label `istio.io/dataplane-mode=ambient` to the corresponding resource. You can apply this label to a namespace or to an individual pod.
 
 Ambient mode can be seamlessly enabled (or disabled) completely transparently as far as the application pods are concerned. Unlike when operating in {{< gloss >}}sidecar{{< /gloss >}} mode, there is no need to restart applications to add them to the mesh, and they will not show as having an extra container deployed in their pod.
 
