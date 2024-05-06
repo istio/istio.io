@@ -58,8 +58,8 @@ You can display the default values of configuration parameters using the `helm s
 
     {{< text syntax=bash >}}
     $ helm ls -n istio-system
-    NAME       NAMESPACE    REVISION UPDATED         STATUS   CHART        APP VERSION
-    istio-base istio-system 1        ... ... ... ... deployed base-1.16.1  1.16.1
+    NAME       NAMESPACE    REVISION UPDATED                                 STATUS   CHART        APP VERSION
+    istio-base istio-system 1        2024-04-17 22:14:45.964722028 +0000 UTC deployed base-{{< istio_full_version >}}  {{< istio_full_version >}}
     {{< /text >}}
 
     In the output locate the entry for `istio-base` and make sure the status is set to `deployed`.
@@ -76,9 +76,9 @@ You can display the default values of configuration parameters using the `helm s
 
     {{< text syntax=bash >}}
     $ helm ls -n istio-system
-    NAME       NAMESPACE    REVISION UPDATED         STATUS   CHART         APP VERSION
-    istio-base istio-system 1        ... ... ... ... deployed base-1.16.1   1.16.1
-    istiod     istio-system 1        ... ... ... ... deployed istiod-1.16.1 1.16.1
+    NAME       NAMESPACE    REVISION UPDATED                                 STATUS   CHART         APP VERSION
+    istio-base istio-system 1        2024-04-17 22:14:45.964722028 +0000 UTC deployed base-{{< istio_full_version >}}   {{< istio_full_version >}}
+    istiod     istio-system 1        2024-04-17 22:14:45.964722028 +0000 UTC deployed istiod-{{< istio_full_version >}} {{< istio_full_version >}}
     {{< /text >}}
 
 1. Get the status of the installed helm chart to ensure it is deployed:
@@ -120,7 +120,7 @@ You can display the default values of configuration parameters using the `helm s
     {{< text syntax=bash >}}
     $ kubectl get deployments -n istio-system --output wide
     NAME     READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS   IMAGES                         SELECTOR
-    istiod   1/1     1            1           10m   discovery    docker.io/istio/pilot:1.16.1   istio=pilot
+    istiod   1/1     1            1           10m   discovery    docker.io/istio/pilot:{{< istio_full_version >}}   istio=pilot
     {{< /text >}}
 
 1. (Optional) Install an ingress gateway:
@@ -176,9 +176,9 @@ installed above.
 
     {{< text syntax=bash snip_id=helm_ls >}}
     $ helm ls -n istio-system
-    NAME       NAMESPACE    REVISION UPDATED         STATUS   CHART        APP VERSION
-    istio-base istio-system 1        ... ... ... ... deployed base-1.0.0   1.0.0
-    istiod     istio-system 1        ... ... ... ... deployed istiod-1.0.0 1.0.0
+    NAME       NAMESPACE    REVISION UPDATED                                 STATUS   CHART         APP VERSION
+    istio-base istio-system 1        2024-04-17 22:14:45.964722028 +0000 UTC deployed base-{{< istio_full_version >}}   {{< istio_full_version >}}
+    istiod     istio-system 1        2024-04-17 22:14:45.964722028 +0000 UTC deployed istiod-{{< istio_full_version >}} {{< istio_full_version >}}
     {{< /text >}}
 
 1. (Optional) Delete any Istio gateway chart installations:
@@ -216,15 +216,15 @@ installed above.
 If you decide to continue using the old control plane, instead of completing the update,
 you can uninstall the newer revision and its tag by first issuing
 `helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags={prod-canary} --set revision=canary -n istio-system | kubectl delete -f -`.
-You must them uninstall the revision of Istio that it pointed to by following the uninstall procedure above.
+You must then uninstall the revision of Istio that it pointed to by following the uninstall procedure above.
 
-If you installed the gateway(s) for this revision using in-place upgrades, you must also reinstall the gateway(s) for the previous revision manually,
-Removing the previous revision and its tags will not automatically revert the previously in-place upgraded gateway(s).
+If you installed the gateway(s) for this revision using in-place upgrades, you must also reinstall the gateway(s) for the previous revision manually.
+Removing the previous revision and its tags will not automatically revert the previously upgraded gateway(s).
 
 ### (Optional) Deleting CRDs installed by Istio
 
-Deleting CRDs permanently removes any Istio resources you have created in your
-cluster. To permanently delete Istio CRDs installed in your cluster:
+Deleting CRDs permanently removes any Istio resources you have created in your cluster.
+To delete Istio CRDs installed in your cluster:
 
 {{< text syntax=bash snip_id=delete_crds >}}
 $ kubectl get crd -oname | grep --color=never 'istio.io' | xargs kubectl delete

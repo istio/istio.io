@@ -66,7 +66,7 @@ $ kubectl apply -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: reviews
@@ -95,7 +95,7 @@ EOF
 
 {{< text bash yaml >}}
 $ kubectl get virtualservices -o yaml
-- apiVersion: networking.istio.io/v1beta1
+- apiVersion: networking.istio.io/v1
   kind: VirtualService
   ...
   spec:
@@ -106,7 +106,7 @@ $ kubectl get virtualservices -o yaml
       - destination:
           host: details
           subset: v1
-- apiVersion: networking.istio.io/v1beta1
+- apiVersion: networking.istio.io/v1
   kind: VirtualService
   ...
   spec:
@@ -117,7 +117,7 @@ $ kubectl get virtualservices -o yaml
       - destination:
           host: productpage
           subset: v1
-- apiVersion: networking.istio.io/v1beta1
+- apiVersion: networking.istio.io/v1
   kind: VirtualService
   ...
   spec:
@@ -128,7 +128,7 @@ $ kubectl get virtualservices -o yaml
       - destination:
           host: ratings
           subset: v1
-- apiVersion: networking.istio.io/v1beta1
+- apiVersion: networking.istio.io/v1
   kind: VirtualService
   ...
   spec:
@@ -265,7 +265,7 @@ spec:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: reviews

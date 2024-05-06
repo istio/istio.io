@@ -44,7 +44,7 @@ for your specific needs. The following built-in configuration profiles are curre
 1. **preview**: the preview profile contains features that are experimental. This is intended to explore new features
                 coming to Istio. Stability, security, and performance are not guaranteed - use at your own risk.
 
-1. **ambient**: the ambient profile is designed to help you get started with [ambient mesh](/docs/ops/ambient).
+1. **ambient**: the ambient profile is designed to help you get started with [ambient mode](/docs/ambient).
 
     {{< boilerplate ambient-alpha-warning >}}
 

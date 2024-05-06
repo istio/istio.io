@@ -57,13 +57,18 @@ Create the gateway:
 
 {{< text bash >}}
 $ kubectl apply -f @samples/httpbin/gateway-api/httpbin-gateway.yaml@ -n foo
+{{< /text >}}
+
+Wait for the gateway to be ready:
+
+{{< text bash >}}
 $ kubectl wait --for=condition=programmed gtw -n foo httpbin-gateway
 {{< /text >}}
 
 Turn on RBAC debugging in Envoy for the ingress gateway:
 
 {{< text bash >}}
-$ kubectl get pods -n foo -o name -l istio.io/gateway-name=httpbin-gateway | sed 's|pod/||' | while read -r pod; do istioctl proxy-config log "$pod" -n foo --level rbac:debug; done
+$ kubectl get pods -n foo -o name -l gateway.networking.k8s.io/gateway-name=httpbin-gateway | sed 's|pod/||' | while read -r pod; do istioctl proxy-config log "$pod" -n foo --level rbac:debug; done
 {{< /text >}}
 
 Set the `INGRESS_PORT` and `INGRESS_HOST` environment variables:
@@ -160,7 +165,7 @@ spec:
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
 {{< text yaml >}}
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: httpbin-gateway
@@ -179,61 +184,9 @@ spec:
 
 ### TCP/UDP Proxy Load Balancer {#tcp-proxy}
 
-If you are using a TCP/UDP Proxy external load balancer (AWS Classic ELB), it can use the [Proxy Protocol](https://www.haproxy.com/blog/haproxy/proxy-protocol/) to embed the original client IP address in the packet data.  Both the external load balancer and the Istio ingress gateway must support the proxy protocol for it to work.  In Istio, you can enable it with an `EnvoyFilter` like below:
+If you are using a TCP/UDP Proxy external load balancer (AWS Classic ELB), it can use the [PROXY Protocol](https://www.haproxy.com/blog/haproxy/proxy-protocol/) to embed the original client IP address in the packet data.  Both the external load balancer and the Istio ingress gateway must support the PROXY protocol for it to work.
 
-{{< tabset category-name="config-api" >}}
-
-{{< tab name="Istio APIs" category-value="istio-apis" >}}
-
-{{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
-kind: EnvoyFilter
-metadata:
-  name: proxy-protocol
-  namespace: istio-system
-spec:
-  configPatches:
-  - applyTo: LISTENER_FILTER
-    patch:
-      operation: INSERT_FIRST
-      value:
-        name: proxy_protocol
-        typed_config:
-          "@type": "type.googleapis.com/envoy.extensions.filters.listener.proxy_protocol.v3.ProxyProtocol"
-  workloadSelector:
-    labels:
-      istio: ingressgateway
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< tab name="Gateway API" category-value="gateway-api" >}}
-
-{{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
-kind: EnvoyFilter
-metadata:
-  name: proxy-protocol
-  namespace: foo
-spec:
-  configPatches:
-  - applyTo: LISTENER_FILTER
-    patch:
-      operation: INSERT_FIRST
-      value:
-        name: proxy_protocol
-        typed_config:
-          "@type": "type.googleapis.com/envoy.extensions.filters.listener.proxy_protocol.v3.ProxyProtocol"
-  workloadSelector:
-    labels:
-      istio.io/gateway-name: httpbin-gateway
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< /tabset >}}
-
-Here is a sample configuration that shows how to make an ingress gateway on AWS EKS support the Proxy Protocol:
+Here is a sample configuration that shows how to make an ingress gateway on AWS EKS support the PROXY Protocol:
 
 {{< tabset category-name="config-api" >}}
 
@@ -246,6 +199,9 @@ spec:
   meshConfig:
     accessLogEncoding: JSON
     accessLogFile: /dev/stdout
+    defaultConfig:
+      gatewayTopology:
+        proxyProtocol: {}
   components:
     ingressGateways:
     - enabled: true
@@ -264,12 +220,13 @@ spec:
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
 {{< text yaml >}}
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: httpbin-gateway
   annotations:
     service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
+    proxy.istio.io/config: '{"gatewayTopology" : { "proxyProtocol": {} }}'
 spec:
   gatewayClassName: istio
   ...
@@ -340,11 +297,11 @@ spec:
 
 ## IP-based allow list and deny list
 
-**When to use `ipBlocks` vs. `remoteIpBlocks`:** If you are using the X-Forwarded-For HTTP header or the Proxy Protocol to determine the original client IP address, then you should use `remoteIpBlocks` in your `AuthorizationPolicy`. If you are using `externalTrafficPolicy: Local`, then you should use `ipBlocks` in your `AuthorizationPolicy`.
+**When to use `ipBlocks` vs. `remoteIpBlocks`:** If you are using the X-Forwarded-For HTTP header or the PROXY Protocol to determine the original client IP address, then you should use `remoteIpBlocks` in your `AuthorizationPolicy`. If you are using `externalTrafficPolicy: Local`, then you should use `ipBlocks` in your `AuthorizationPolicy`.
 
 |Load Balancer Type |Source of Client IP   | `ipBlocks` vs. `remoteIpBlocks`
 --------------------|----------------------|---------------------------
-| TCP Proxy         | Proxy Protocol       | `remoteIpBlocks`
+| TCP Proxy         | PROXY Protocol       | `remoteIpBlocks`
 | Network           | packet source address| `ipBlocks`
 | HTTP/HTTPS        | X-Forwarded-For      | `remoteIpBlocks`
 
@@ -413,9 +370,10 @@ metadata:
   name: ingress-policy
   namespace: foo
 spec:
-  selector:
-    matchLabels:
-      istio.io/gateway-name: httpbin-gateway
+  targetRef:
+    kind: Gateway
+    group: gateway.networking.k8s.io
+    name: httpbin-gateway
   action: ALLOW
   rules:
   - from:
@@ -434,9 +392,10 @@ metadata:
   name: ingress-policy
   namespace: foo
 spec:
-  selector:
-    matchLabels:
-      istio.io/gateway-name: httpbin-gateway
+  targetRef:
+    kind: Gateway
+    group: gateway.networking.k8s.io
+    name: httpbin-gateway
   action: ALLOW
   rules:
   - from:
@@ -484,14 +443,14 @@ $ CLIENT_IP=$(kubectl get pods -n istio-system -o name -l istio=ingressgateway |
 ***ipBlocks:***
 
 {{< text bash >}}
-$ CLIENT_IP=$(kubectl get pods -n foo -o name -l istio.io/gateway-name=httpbin-gateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n foo | grep remoteIP; done | tail -1 | awk -F, '{print $3}' | awk -F: '{print $2}' | sed 's/ //') && echo "$CLIENT_IP"
+$ CLIENT_IP=$(kubectl get pods -n foo -o name -l gateway.networking.k8s.io/gateway-name=httpbin-gateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n foo | grep remoteIP; done | tail -1 | awk -F, '{print $3}' | awk -F: '{print $2}' | sed 's/ //') && echo "$CLIENT_IP"
 192.168.10.15
 {{< /text >}}
 
 ***remoteIpBlocks:***
 
 {{< text bash >}}
-$ CLIENT_IP=$(kubectl get pods -n foo -o name -l istio.io/gateway-name=httpbin-gateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n foo | grep remoteIP; done | tail -1 | awk -F, '{print $4}' | awk -F: '{print $2}' | sed 's/ //') && echo "$CLIENT_IP"
+$ CLIENT_IP=$(kubectl get pods -n foo -o name -l gateway.networking.k8s.io/gateway-name=httpbin-gateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n foo | grep remoteIP; done | tail -1 | awk -F, '{print $4}' | awk -F: '{print $2}' | sed 's/ //') && echo "$CLIENT_IP"
 192.168.10.15
 {{< /text >}}
 
@@ -561,9 +520,10 @@ metadata:
   name: ingress-policy
   namespace: foo
 spec:
-  selector:
-    matchLabels:
-      istio.io/gateway-name: httpbin-gateway
+  targetRef:
+    kind: Gateway
+    group: gateway.networking.k8s.io
+    name: httpbin-gateway
   action: ALLOW
   rules:
   - from:
@@ -582,9 +542,10 @@ metadata:
   name: ingress-policy
   namespace: foo
 spec:
-  selector:
-    matchLabels:
-      istio.io/gateway-name: httpbin-gateway
+  targetRef:
+    kind: Gateway
+    group: gateway.networking.k8s.io
+    name: httpbin-gateway
   action: ALLOW
   rules:
   - from:
@@ -668,9 +629,10 @@ metadata:
   name: ingress-policy
   namespace: foo
 spec:
-  selector:
-    matchLabels:
-      istio.io/gateway-name: httpbin-gateway
+  targetRef:
+    kind: Gateway
+    group: gateway.networking.k8s.io
+    name: httpbin-gateway
   action: DENY
   rules:
   - from:
@@ -689,9 +651,10 @@ metadata:
   name: ingress-policy
   namespace: foo
 spec:
-  selector:
-    matchLabels:
-      istio.io/gateway-name: httpbin-gateway
+  targetRef:
+    kind: Gateway
+    group: gateway.networking.k8s.io
+    name: httpbin-gateway
   action: DENY
   rules:
   - from:
@@ -729,7 +692,7 @@ $ kubectl get pods -n istio-system -o name -l istio=ingressgateway | sed 's|pod/
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
 {{< text bash >}}
-$ kubectl get pods -n foo -o name -l istio.io/gateway-name=httpbin-gateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n foo; done
+$ kubectl get pods -n foo -o name -l gateway.networking.k8s.io/gateway-name=httpbin-gateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n foo; done
 {{< /text >}}
 
 {{< /tab >}}

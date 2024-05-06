@@ -242,7 +242,7 @@ sleep.legacy to httpbin.bar: 000
 command terminated with exit code 56
 {{< /text >}}
 
-To refine the mutual TLS settings per port, you must configure the `portLevelMtls` section. For example, the following peer authentication policy requires mutual TLS on all ports, except port `80`:
+To refine the mutual TLS settings per port, you must configure the `portLevelMtls` section. For example, the following peer authentication policy requires mutual TLS on all ports, except port `8080`:
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n bar -f -
@@ -258,7 +258,7 @@ spec:
   mtls:
     mode: STRICT
   portLevelMtls:
-    80:
+    8080:
       mode: DISABLE
 EOF
 {{< /text >}}
@@ -405,9 +405,10 @@ metadata:
   name: "jwt-example"
   namespace: foo
 spec:
-  selector:
-    matchLabels:
-      istio.io/gateway-name: httpbin-gateway
+  targetRef:
+    kind: Gateway
+    group: gateway.networking.k8s.io
+    name: httpbin-gateway
   jwtRules:
   - issuer: "testing@secure.istio.io"
     jwksUri: "{{< github_file >}}/security/tools/jwt/samples/jwks.json"
@@ -519,9 +520,10 @@ metadata:
   name: "frontend-ingress"
   namespace: foo
 spec:
-  selector:
-    matchLabels:
-      istio.io/gateway-name: httpbin-gateway
+  targetRef:
+    kind: Gateway
+    group: gateway.networking.k8s.io
+    name: httpbin-gateway
   action: DENY
   rules:
   - from:
@@ -583,9 +585,10 @@ metadata:
   name: "frontend-ingress"
   namespace: foo
 spec:
-  selector:
-    matchLabels:
-      istio.io/gateway-name: httpbin-gateway
+  targetRef:
+    kind: Gateway
+    group: gateway.networking.k8s.io
+    name: httpbin-gateway
   action: DENY
   rules:
   - from:

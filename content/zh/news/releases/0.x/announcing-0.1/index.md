@@ -16,7 +16,7 @@ aliases:
 ---
 
 Google、IBM 和 Lyft 骄傲的宣布了 [Istio](/zh) 的首个公开版本。Istio 是一个以统一方式对微服务实施连接、管理、监控以及安全增强的开源项目。当前版本专注于支持 [Kubernetes](https://kubernetes.io/zh-cn/) 环境，我们计划在接下来的几个月添加诸如虚拟机和 Cloud Foundry 等环境的支持。
-Istio 为微服务添加了流量管理能力，同时为比如安全、监控、路由、连接管理和策略等附加能力打下了基础。此软件构建于来自 Lyft 的经过实战检验的 [Envoy](https://envoyproxy.github.io/envoy/) 代理之上，能在 *无需改动任何应用代码* 的情况下赋予对应用流量的可见性和控制能力。Istio 为 CIO 们提供了一个在企业内加强安全、策略和合规性的强有力的工具。
+Istio 为微服务添加了流量管理能力，同时为比如安全、监控、路由、连接管理和策略等附加能力打下了基础。此软件构建于来自 Lyft 的经过实战检验的 {{<gloss envoy>}}Envoy{{</gloss>}} 代理之上，能在 *无需改动任何应用代码* 的情况下赋予对应用流量的可见性和控制能力。Istio 为 CIO 们提供了一个在企业内加强安全、策略和合规性的强有力的工具。
 
 ## 背景{#background}
 
@@ -85,7 +85,7 @@ WeaveWorks 的 [Weave Cloud](https://www.weave.works/blog/istio-weave-cloud/) �
 - 使用单个命令将 Istio 安装到 Kubernetes namespace 中。
 - 将 Envoy proxy 半自动注入至 Kubernetes Pod 中。
 - 使用 iptables 自动捕获 Kubernetes Pod 的流量。
-- 针对 HTTP，gRPC 和 TCP 流量的集群内负载平衡。
+- 针对 HTTP，gRPC 和 TCP 流量的集群内负载均衡。
 - 支持超时，预算重试和熔断器。
 - Istio 集成的 Kubernetes Ingress 支持（Istio 充当 Ingress Controller）。
 - 细粒度的流量路由控件，包括 A/B 测试，金丝雀，红/黑部署。

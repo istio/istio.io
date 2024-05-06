@@ -4,7 +4,7 @@ subtitle: 安全公告
 description: 在某些配置中，发送给 Envoy 的格式错误的标头可能会导致意外的内存访问，从而导致未定义的行为或崩溃。
 cves: [CVE-2022-31045]
 cvss: "5.9"
-vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
+vector: "AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
 releases: ["1.13.6", "1.14.2"]
 publishdate: 2022-07-26
 keywords: [CVE]

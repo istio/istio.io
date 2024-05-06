@@ -24,7 +24,7 @@ Istio 允许您使用 AttributeGen 插件创建分类规则，该插件将请求
 您可以将属性用作 Istio 标准指标中的维度。
 相似地，您可以基于 `ListReviews` 和 `CreateReviews` 这类其他操作跟踪指标。
 
-## 按请求分类指标{#classify-metrics-by-request}
+## 按请求分类指标 {#classify-metrics-by-request}
 
 您可以根据请求的类型对请求进行分类，例如 `ListReview`、`GetReview`、`CreateReview`。
 
@@ -81,7 +81,7 @@ spec:
 
 1. 更改生效后，访问 Prometheus 并查找新的或更改的维度，例如 `reviews` Pod 中的 `istio_requests_total`。
 
-## 按响应对指标进行分类{#classify-metrics-by-response}
+## 按响应对指标进行分类 {#classify-metrics-by-response}
 
 您可以使用与请求类似的过程对响应进行分类。请注意，`response_code` 默认情况下该维度已存在。下面的示例将更改它的填充方式。
 
@@ -144,7 +144,7 @@ spec:
     $ kubectl -n istio-system apply -f attribute_gen_service.yaml
     {{< /text >}}
 
-## 验证结果{#verify-the-results}
+## 验证结果 {#verify-the-results}
 
 1. 通过向您的应用程序发送流量来生成指标。
 
@@ -157,7 +157,7 @@ spec:
 
     在输出中，找到指标（例如 `istio_requests_total`）并验证是否存在新的或更改的维度。
 
-## 故障排除{#troubleshooting}
+## 故障排除 {#troubleshooting}
 
 如果分类未按预期进行，请检查以下潜在原因和解决方法。
 
@@ -172,4 +172,12 @@ $ kubectl logs pod-name -c istio-proxy | grep -e "Config Error" -e "envoy wasm"
 
 {{< text bash >}}
 $ kubectl get pods pod-name
+{{< /text >}}
+
+## 清理 {#cleanup}
+
+删除 yaml 配置文件。
+
+{{< text bash >}}
+$ kubectl -n istio-system delete -f attribute_gen_service.yaml
 {{< /text >}}

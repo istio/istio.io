@@ -25,8 +25,8 @@ $ istioctl x precheck
 {{< /text >}}
 
 {{< idea >}}
-当使用基于版本的升级时，支持跨越两个小版本（例如，直接从版本 `1.15` 到 `1.17`）。
-这与原地升级相反，原地升级需要升级到每个中间次要版本释放。
+当使用基于版本的升级时，支持跨越两个次要版本（例如，直接从版本 `1.15` 到 `1.17`）。
+这与原地升级不同，原地升级要求必须升级到每一个中间的次要版本。
 {{< /idea >}}
 
 ## 控制平面 {#control-plane}
@@ -82,6 +82,27 @@ istiod-canary-6956db645c-vwhsk
 
 但是，仅安装新版本不会对现有的 Sidecar 代理产生影响。要升级它们，必须将它们配置为指向新的
 `istiod-canary` 控制平面。这是在基于命名空间标签的 Sidecar 注入期间控制的 `istio.io/rev`。
+
+创建一个命名空间 `test-ns` 并启用 `istio-injection`。
+在 `test-ns` 命名空间中，部署一个示例 sleep Pod：
+
+1. 创建命名空间 `test-ns`。
+
+    {{< text bash >}}
+    $ kubectl create ns test-ns
+    {{< /text >}}
+
+1. 使用 `istio-injection` 标签标记命名空间。
+
+    {{< text bash >}}
+    $ kubectl label namespace test-ns istio-injection=enabled
+    {{< /text >}}
+
+1. 在 `test-ns` 命名空间中启动一个示例 sleep Pod。
+
+    {{< text bash >}}
+    $ kubectl apply -n test-ns -f samples/sleep/sleep.yaml
+    {{< /text >}}
 
 要升级命名空间 `test-ns`，请删除 `istio-injection` 标签，然后添加 `istio.io/rev` 标签以指向
 `canary` 修订版本。为了向后兼容性，`istio-injection` 标签必须移除，因为它的优先级高于 `istio.io/rev`。
@@ -141,7 +162,7 @@ $ istioctl proxy-status | grep "\.test-ns "
     $ kubectl label ns app-ns-3 istio.io/rev=prod-canary
     {{< /text >}}
 
-1. 在每个命名空间中部署一个休眠 Pod 示例:
+1. 在每个命名空间中部署一个 sleep Pod 示例:
 
     {{< text bash >}}
     $ kubectl apply -n app-ns-1 -f samples/sleep/sleep.yaml
@@ -234,6 +255,13 @@ $ istioctl uninstall --revision=canary -y
 {{< /tip >}}
 
 ## 清理 {#cleanup}
+
+1. 清理已创建的修订版本标签：
+
+    {{< text bash >}}
+    $ istioctl tag remove prod-stable
+    $ istioctl tag remove prod-canary
+    {{< /text >}}
 
 1. 清理用于金丝雀升级的命名空间与修订标签的例子：
 

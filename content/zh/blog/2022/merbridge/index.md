@@ -5,11 +5,11 @@ publishdate: 2022-03-07
 attribution: "Kebe Liu (DaoCloud), Xiaopeng Han (DaoCloud), Hui Li (DaoCloud)"
 keywords: [Istio,ebpf,iptables,sidecar]
 ---
-Istio 在流量治理、加密、可观察性和策略方面的能力的秘密都在 Envoy 代理中。Istio 使用 Envoy 作为 “sidecar” 来拦截服务流量，并使用 iptables 配置的内核 `netfilter` 包过滤功能。
+Istio 在流量治理、加密、可观测性和策略方面的能力的秘密都在 Envoy 代理中。Istio 使用 Envoy 作为 “sidecar” 来拦截服务流量，并使用 iptables 配置的内核 `netfilter` 包过滤功能。
 
 使用 iptables 来执行这种拦截有一些缺点。由于 netfilter 是一种高度通用的数据包过滤工具，在到达目的套接字之前，需要应用多种路由规则和数据过滤过程。例如，从网络层到传输层，netfilter 会使用预定义的规则进行多次处理，如 `pre_routing`，`post_routing` 等。当报文变成 TCP 或 UDP 报文，并被转发到用户空间时，还需要执行一些额外的步骤，如报文验证、协议策略处理和目的套接字搜索。当将 sidecar 配置为拦截流量时，原始数据路径可能会变得非常长，因为重复的步骤会执行多次。
 
-在过去的两年中，[eBPF](https://ebpf.io/)已经成为一种技术趋势，许多基于 eBPF 的项目已经发布到社区。像[Cilium](https://cilium.io/)和[Pixie](http://px.dev)这样的工具展示了 eBPF 在可观察性和网络数据包处理方面的大量用例。通过 eBPF 的 `sockops` 和 `redir` 功能，可以通过直接从入口 socket 传输到出口 socket 来有效地处理数据包。在 Istio mesh 中，可以使用 eBPF 来替代 iptables 规则，并通过缩短数据路径来加速数据平面。
+在过去的两年中，[eBPF](https://ebpf.io/) 已经成为一种技术趋势，许多基于 eBPF 的项目已经发布到社区。像 [Cilium](https://cilium.io/) 和 [Pixie](http://px.dev) 这样的工具展示了 eBPF 在可观测性和网络数据包处理方面的大量用例。通过 eBPF 的 `sockops` 和 `redir` 功能，可以通过直接从入口 socket 传输到出口 socket 来有效地处理数据包。在 Istio 网格中，可以使用 eBPF 来替代 iptables 规则，并通过缩短数据路径来加速数据平面。
 
 我们开源了 Merbridge 项目，只需要在 Istio 集群执行以下一条命令，即可直接使用 eBPF 代替 iptables 实现网络加速。
 

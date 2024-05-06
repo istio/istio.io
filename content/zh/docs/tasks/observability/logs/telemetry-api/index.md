@@ -110,6 +110,11 @@ $ kubectl apply -f @samples/open-telemetry/loki/otel.yaml@ -n istio-system
     EOF
     {{< /text >}}
 
+    {{< tip >}}
+    当连接失败时没有 `response.code` 属性。
+    在这种情况下，您应该使用 CEL 表达式 `!has(response.code) || response.code >= 500`。
+    {{< /tip >}}
+
 1. 通过 CEL 表达式设置默认的过滤访问日志
 
     只有响应码大于等于 400 或请求转到 BlackHoleCluster 或 PassthroughCluster 时，
@@ -129,6 +134,28 @@ $ kubectl apply -f @samples/open-telemetry/loki/otel.yaml@ -n istio-system
         filter:
           expression: "response.code >= 400 || xds.cluster_name == 'BlackHoleCluster' ||  xds.cluster_name == 'PassthroughCluster' "
 
+    EOF
+    {{< /text >}}
+
+1. 使用 CEL 表达式过滤健康检查访问日志
+
+    仅当日志不是由 Amazon Route 53 健康检查服务所生成时，以下配置才显示访问日志。
+    注意：`request.useragent` 专用于 HTTP 流量，因此为了避免破坏 TCP 流量，
+    我们需要检查该字段是否存在。有关更多信息，请参阅
+    [CEL 类型检查](https://kubernetes.io/docs/reference/using-api/cel/#type-checking)
+
+    {{< text bash >}}
+    $ cat <<EOF | kubectl apply -f -
+    apiVersion: telemetry.istio.io/v1alpha1
+    kind: Telemetry
+    metadata:
+      name: filter-health-check-logging
+    spec:
+      accessLogging:
+      - providers:
+        - name: otel
+        filter:
+          expression: "!has(request.useragent) || !(request.useragent.startsWith("Amazon-Route53-Health-Check-Service"))"
     EOF
     {{< /text >}}
 

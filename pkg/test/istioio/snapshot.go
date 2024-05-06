@@ -132,6 +132,14 @@ func newClusterSnapshot(client kube.Client, contextName string) (ClusterSnapshot
 			}
 
 			if includeKubeResources {
+				// Labels
+				labels := ns.GetLabels()
+				nsSnapshot.Labels = make([]string, 0, len(labels))
+				for label := range labels {
+					nsSnapshot.Labels = append(nsSnapshot.Labels, label)
+				}
+				sort.Strings(nsSnapshot.Labels)
+
 				// Service
 				if services, err := client.Kube().CoreV1().Services(namespace).List(context.TODO(), metav1.ListOptions{}); err != nil {
 					scopes.Framework.Debugf("failed listing services in namespace %s: %v", namespace, err)
@@ -311,6 +319,7 @@ type ClusterSnapshot struct {
 
 type NamespaceSnapshot struct {
 	Namespace              string   `json:"namespace"`
+	Labels                 []string `json:"labels"`
 	Services               []string `json:"services"`
 	Deployments            []string `json:"deployments"`
 	Pods                   []string `json:"pods"`

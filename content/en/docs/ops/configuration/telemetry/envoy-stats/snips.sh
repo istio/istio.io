@@ -24,7 +24,7 @@ snip_get_stats() {
 kubectl exec "$POD" -c istio-proxy -- pilot-agent request GET stats
 }
 
-! read -r -d '' snip_proxyStatsMatcher <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_proxyStatsMatcher <<\ENDSNIP
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -39,7 +39,7 @@ spec:
           - "upstream_rq_timeout"
 ENDSNIP
 
-! read -r -d '' snip_proxyIstioConfig <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_proxyIstioConfig <<\ENDSNIP
 metadata:
   annotations:
     proxy.istio.io/config: |-

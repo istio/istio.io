@@ -135,7 +135,7 @@ Install Istio and expose the control plane on cluster so that your virtual machi
 
     {{< text bash >}}
     $ @samples/multicluster/gen-eastwest-gateway.sh@ \
-        --mesh mesh1 --cluster "${CLUSTER}" --network "${CLUSTER_NETWORK}" | \
+        --network "${CLUSTER_NETWORK}" | \
         istioctl install -y -f -
     {{< /text >}}
 
@@ -169,6 +169,12 @@ Install Istio and expose the control plane on cluster so that your virtual machi
 
     {{< text bash >}}
     $ kubectl apply -n istio-system -f @samples/multicluster/expose-services.yaml@
+    {{< /text >}}
+
+    Ensure to label the istio-system namespace with the defined cluster network:
+
+    {{< text bash >}}
+    $ kubectl label namespace istio-system topology.istio.io/network="${CLUSTER_NETWORK}"
     {{< /text >}}
 
     {{< /tab >}}

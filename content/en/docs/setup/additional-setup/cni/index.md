@@ -109,14 +109,16 @@ Please take a look at [race condition & mitigation](#race-condition--mitigation)
 
 ### Installing with Helm
 
-The Istio CNI and Istio discovery chart use different values that require you set the following, either in an overrides values file or at your command prompt when installing the `istiod` chart, to manage network annotations when chaining CNI plugins:
+Following the [Install with Helm](/docs/setup/install/helm/#installation-steps) installation steps, there are some additional Helm values that are required to be set. You can
+set these either through an override values file or via the command line when installing the `istiod` chart. These are:
 
 * `values.istio_cni.enabled` should be set to the same value as `values.cni.enabled`.
-
 * `values.istio_cni.chained` should be set to the same value as `values.cni.chained`.
 
+For example:
+
 {{< text bash >}}
-$  helm install istiod istio/istiod -n istio-system --set values.istio_cni.enabled=true --wait
+$ helm install istiod istio/istiod -n istio-system --set istio_cni.enabled=true --wait
 {{< /text >}}
 
 ### Hosted Kubernetes settings
@@ -210,8 +212,16 @@ The result is that the application pod comes up without Istio traffic redirectio
 To mitigate the race between an application pod and the Istio CNI DaemonSet,
 an `istio-validation` init container is added as part of the sidecar injection,
 which detects if traffic redirection is set up correctly, and blocks the pod starting up if not.
-The CNI DaemonSet will detect and evict any pod stuck in such state. When the new pod starts up, it should have traffic redirection set up properly.
+The CNI DaemonSet will detect and handle any pod stuck in such state; how the pod is handled is dependent on configuration described below.
 This mitigation is enabled by default and can be turned off by setting `values.cni.repair.enabled` to false.
+
+This repair capability can be further configured with different RBAC permissions to help mitigate the theoretical attack vector detailed in [`ISTIO-SECURITY-2023-005`](/news/security/istio-security-2023-005/).  By setting the below fields to true/false as required, you can select the Kubernetes RBAC permissions granted to the Istio CNI.
+
+|Configuration                    | Roles       | Behavior on Error                                                                                                                           | Notes
+|---------------------------------|-------------|-----------------------------------------------------------------------------------------------------------------------------------------------|-------
+|`values.cni.repair.deletePods`   | DELETE pods | Pods are deleted, when rescheduled they will have the correct configuration.                                                                  | Default in 1.20 and older
+|`values.cni.repair.labelPods`    | UPDATE pods | Pods are only labeled.  User will need to take manual action to resolve.                                                                      |
+|`values.cni.repair.repairPods`   | None        | Pods are dynamically reconfigured to have appropriate configuration. When the container restarts, the pod will continue normal execution.     | Default in 1.21 and newer
 
 ### Traffic redirection parameters
 

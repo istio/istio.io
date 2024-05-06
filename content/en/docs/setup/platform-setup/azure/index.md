@@ -20,11 +20,11 @@ Please refer to [Deploy Istio-based service mesh add-on for Azure Kubernetes Ser
 for details and instructions.
 {{< /tip >}}
 
-You can deploy a Kubernetes cluster to Azure via [AKS](https://azure.microsoft.com/en-us/services/kubernetes-service/) or [AKS-Engine](https://github.com/azure/aks-engine) (DEPRECATED) which fully supports Istio.
+You can deploy a Kubernetes cluster to Azure via [AKS](https://azure.microsoft.com/en-us/services/kubernetes-service/) or [Cluster API provider for Azure (CAPZ) for self-managed Kubernetes or AKS](https://capz.sigs.k8s.io/) which fully supports Istio.
 
 ## AKS
 
-You can create an AKS cluster via [the az cli](https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough) or [the Azure portal](https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough-portal).
+You can create an AKS cluster via numerous means such as [the az cli](https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough), [the Azure portal](https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough-portal), [az cli with Bicep](https://learn.microsoft.com/en-us/azure/aks/learn/quick-kubernetes-deploy-bicep?tabs=azure-cli), or [Terraform](https://learn.microsoft.com/en-us/azure/aks/learn/quick-kubernetes-deploy-terraform?tabs=bash)
 
 For the `az` cli option, complete `az login` authentication OR use cloud shell, then run the following commands below.
 
@@ -42,17 +42,13 @@ For the `az` cli option, complete `az login` authentication OR use cloud shell, 
     $ az aks get-versions --location "my location" --query "orchestrators[].orchestratorVersion"
     {{< /text >}}
 
-    {{< warning >}}
-    At the time of this document update, the minimum supported AKS Kubernetes version is 1.24.9
-    {{< /warning >}}
-
 1. Create the resource group and deploy the AKS cluster
 
-    Replace `myResourceGroup` and `myAKSCluster` with desired names, `my location` using the value from step 1, `1.10.5` if not supported in the region, and then execute:
+    Replace `myResourceGroup` and `myAKSCluster` with desired names, `my location` using the value from step 1, `1.28.3` if not supported in the region, and then execute:
 
     {{< text bash >}}
     $ az group create --name myResourceGroup --location "my location"
-    $ az aks create --resource-group myResourceGroup --name myAKSCluster --node-count 3 --kubernetes-version 1.10.5 --generate-ssh-keys
+    $ az aks create --resource-group myResourceGroup --name myAKSCluster --node-count 3 --kubernetes-version 1.28.3 --generate-ssh-keys
     {{< /text >}}
 
 1. Get the AKS `kubeconfig` credentials
@@ -61,59 +57,4 @@ For the `az` cli option, complete `az login` authentication OR use cloud shell, 
 
     {{< text bash >}}
     $ az aks get-credentials --resource-group myResourceGroup --name myAKSCluster
-    {{< /text >}}
-
-## AKS-Engine
-
-   {{< warning >}}
-   The AKS Engine project is deprecated for Azure public cloud customers. Please consider using [Azure Kubernetes Service (AKS) with the Istio add-on](https://learn.microsoft.com/en-us/azure/aks/istio-about) for managed Kubernetes or [Cluster API Provider Azure](https://github.com/kubernetes-sigs/cluster-api-provider-azure) for self-managed Kubernetes.
-   {{< /warning >}}
-
-1. [Follow the instructions](https://github.com/Azure/aks-engine/blob/master/docs/tutorials/quickstart.md#install-aks-engine) to get and install the `aks-engine` binary.
-
-1. Download the `aks-engine` API model definition that supports deploying Istio:
-
-    {{< text bash >}}
-    $ wget https://raw.githubusercontent.com/Azure/aks-engine/master/examples/service-mesh/istio.json
-    {{< /text >}}
-
-   Note: It is possible to use other API model definitions which will work with Istio. The `MutatingAdmissionWebhook` and `ValidatingAdmissionWebhook` admission control flags and RBAC are enabled by default. See [`aks-engine` API model default values](https://github.com/Azure/aks-engine/blob/master/docs/topics/clusterdefinitions.md) for further information.
-
-1. Deploy your cluster using the `istio.json` template. You can find references
-   to the parameters in the
-   [official docs](https://github.com/Azure/aks-engine/blob/master/docs/tutorials/quickstart.md).
-
-   | Parameter         | Expected value        |
-   | ----------------- | --------------------- |
-   | `subscription_id` | Azure Subscription Id |
-   | `dns_prefix`      | Cluster DNS Prefix    |
-   | `location`        | Cluster Location      |
-
-    {{< text bash >}}
-    $ aks-engine deploy --subscription-id <subscription_id> \
-     --dns-prefix <dns_prefix> --location <location> --auto-suffix \
-     --api-model istio.json
-    {{< /text >}}
-
-   {{< tip >}}
-   After a few minutes, you can find your cluster on your Azure subscription
-   in a resource group called `<dns_prefix>-<id>`. Assuming `dns_prefix` has
-   the value `myclustername`, a valid resource group with a unique cluster
-   ID is `mycluster-5adfba82`. The `aks-engine` generates your `kubeconfig`
-   file in the `_output` folder.
-   {{< /tip >}}
-
-1. Use the `<dns_prefix>-<id>` cluster ID, to copy your `kubeconfig` to your
-   machine from the `_output` folder:
-
-    {{< text bash >}}
-    $ cp \_output/<dns_prefix>-<id>/kubeconfig/kubeconfig.<location>.json \
-     ~/.kube/config
-    {{< /text >}}
-
-   For example:
-
-    {{< text bash >}}
-    $ cp \_output/mycluster-5adfba82/kubeconfig/kubeconfig.westus2.json \
-     ~/.kube/config
     {{< /text >}}

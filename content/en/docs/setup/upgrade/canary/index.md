@@ -88,6 +88,26 @@ However, simply installing the new revision has no impact on the existing sideca
 you must configure them to point to the new `istiod-canary` control plane. This is controlled during sidecar injection
 based on the namespace label `istio.io/rev`.
 
+Create a namespace `test-ns` with `istio-injection` enabled. In the `test-ns` namespace, deploy a sample sleep pod:
+
+1. Create a namespace `test-ns`.
+
+    {{< text bash >}}
+    $ kubectl create ns test-ns
+    {{< /text >}}
+
+1. Label the namespace using `istio-injection` label.
+
+    {{< text bash >}}
+    $ kubectl label namespace test-ns istio-injection=enabled
+    {{< /text >}}
+
+1. Bring up a sample sleep pod in `test-ns` namespace.
+
+    {{< text bash >}}
+    $ kubectl apply -n test-ns -f samples/sleep/sleep.yaml
+    {{< /text >}}
+
 To upgrade the namespace `test-ns`, remove the `istio-injection` label, and add the `istio.io/rev` label to point to the `canary` revision. The `istio-injection` label must be removed because it takes precedence over the `istio.io/rev` label for backward compatibility.
 
 {{< text bash >}}
@@ -240,6 +260,13 @@ with the canary uninstall.
 {{< /tip >}}
 
 ## Cleanup
+
+1. Clean up created revisioned tags:
+
+    {{< text bash >}}
+    $ istioctl tag remove prod-stable
+    $ istioctl tag remove prod-canary
+    {{< /text >}}
 
 1. Clean up the namespaces used for canary upgrade with revision labels example:
 

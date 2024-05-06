@@ -98,7 +98,7 @@ snip_verify_the_multiple_control_plane_creation_1() {
 kubectl get ns usergroup-1 usergroup2 --show-labels
 }
 
-! read -r -d '' snip_verify_the_multiple_control_plane_creation_1_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_verify_the_multiple_control_plane_creation_1_out <<\ENDSNIP
 NAME              STATUS   AGE     LABELS
 usergroup-1       Active   13m     kubernetes.io/metadata.name=usergroup-1,usergroup=usergroup-1
 usergroup-2       Active   12m     kubernetes.io/metadata.name=usergroup-2,usergroup=usergroup-2
@@ -108,7 +108,7 @@ snip_verify_the_multiple_control_plane_creation_2() {
 kubectl get pods -n usergroup-1
 }
 
-! read -r -d '' snip_verify_the_multiple_control_plane_creation_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_verify_the_multiple_control_plane_creation_2_out <<\ENDSNIP
 NAMESPACE     NAME                                     READY   STATUS    RESTARTS         AGE
 usergroup-1   istiod-usergroup-1-5ccc849b5f-wnqd6      1/1     Running   0                12m
 ENDSNIP
@@ -117,7 +117,7 @@ snip_verify_the_multiple_control_plane_creation_3() {
 kubectl get pods -n usergroup-2
 }
 
-! read -r -d '' snip_verify_the_multiple_control_plane_creation_3_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_verify_the_multiple_control_plane_creation_3_out <<\ENDSNIP
 NAMESPACE     NAME                                     READY   STATUS    RESTARTS         AGE
 usergroup-2   istiod-usergroup-2-658d6458f7-slpd9      1/1     Running   0                12m
 ENDSNIP
@@ -126,7 +126,7 @@ snip_verify_the_multiple_control_plane_creation_4() {
 kubectl get validatingwebhookconfiguration
 }
 
-! read -r -d '' snip_verify_the_multiple_control_plane_creation_4_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_verify_the_multiple_control_plane_creation_4_out <<\ENDSNIP
 NAME                                      WEBHOOKS   AGE
 istio-validator-usergroup-1-usergroup-1   1          18m
 istio-validator-usergroup-2-usergroup-2   1          18m
@@ -137,7 +137,7 @@ snip_verify_the_multiple_control_plane_creation_5() {
 kubectl get mutatingwebhookconfiguration
 }
 
-! read -r -d '' snip_verify_the_multiple_control_plane_creation_5_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_verify_the_multiple_control_plane_creation_5_out <<\ENDSNIP
 NAME                                             WEBHOOKS   AGE
 istio-revision-tag-default-usergroup-1           4          18m
 istio-sidecar-injector-usergroup-1-usergroup-1   2          19m
@@ -169,7 +169,7 @@ snip_deploy_application_workloads_per_usergroup_4() {
 kubectl get pods -n app-ns-1
 }
 
-! read -r -d '' snip_deploy_application_workloads_per_usergroup_4_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_deploy_application_workloads_per_usergroup_4_out <<\ENDSNIP
 NAME                      READY   STATUS    RESTARTS   AGE
 httpbin-9dbd644c7-zc2v4   2/2     Running   0          115m
 sleep-78ff5975c6-fml7c    2/2     Running   0          115m
@@ -179,7 +179,7 @@ snip_deploy_application_workloads_per_usergroup_5() {
 kubectl get pods -n app-ns-2
 }
 
-! read -r -d '' snip_deploy_application_workloads_per_usergroup_5_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_deploy_application_workloads_per_usergroup_5_out <<\ENDSNIP
 NAME                      READY   STATUS    RESTARTS   AGE
 httpbin-9dbd644c7-sd9ln   2/2     Running   0          115m
 sleep-78ff5975c6-sz728    2/2     Running   0          115m
@@ -189,7 +189,7 @@ snip_deploy_application_workloads_per_usergroup_6() {
 kubectl get pods -n app-ns-3
 }
 
-! read -r -d '' snip_deploy_application_workloads_per_usergroup_6_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_deploy_application_workloads_per_usergroup_6_out <<\ENDSNIP
 NAME                      READY   STATUS    RESTARTS   AGE
 httpbin-9dbd644c7-8ll27   2/2     Running   0          115m
 sleep-78ff5975c6-sg4tq    2/2     Running   0          115m
@@ -199,7 +199,7 @@ snip_verify_the_application_to_control_plane_mapping_1() {
 istioctl ps -i usergroup-1
 }
 
-! read -r -d '' snip_verify_the_application_to_control_plane_mapping_1_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_verify_the_application_to_control_plane_mapping_1_out <<\ENDSNIP
 NAME                                 CLUSTER        CDS        LDS        EDS        RDS          ECDS         ISTIOD                                  VERSION
 httpbin-9dbd644c7-hccpf.app-ns-1     Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-usergroup-1-5ccc849b5f-wnqd6     1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
 sleep-78ff5975c6-9zb77.app-ns-1      Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-usergroup-1-5ccc849b5f-wnqd6     1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
@@ -209,7 +209,7 @@ snip_verify_the_application_to_control_plane_mapping_2() {
 istioctl ps -i usergroup-2
 }
 
-! read -r -d '' snip_verify_the_application_to_control_plane_mapping_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_verify_the_application_to_control_plane_mapping_2_out <<\ENDSNIP
 NAME                                 CLUSTER        CDS        LDS        EDS        RDS          ECDS         ISTIOD                                  VERSION
 httpbin-9dbd644c7-vvcqj.app-ns-3     Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-usergroup-2-658d6458f7-slpd9     1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
 httpbin-9dbd644c7-xzgfm.app-ns-2     Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-usergroup-2-658d6458f7-slpd9     1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
@@ -221,7 +221,7 @@ snip_verify_the_application_connectivity_is_only_within_the_respective_usergroup
 kubectl -n app-ns-1 exec "$(kubectl -n app-ns-1 get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -sIL http://httpbin.app-ns-2.svc.cluster.local:8000
 }
 
-! read -r -d '' snip_verify_the_application_connectivity_is_only_within_the_respective_usergroup_1_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_verify_the_application_connectivity_is_only_within_the_respective_usergroup_1_out <<\ENDSNIP
 HTTP/1.1 503 Service Unavailable
 content-length: 95
 content-type: text/plain
@@ -233,7 +233,7 @@ snip_verify_the_application_connectivity_is_only_within_the_respective_usergroup
 kubectl -n app-ns-2 exec "$(kubectl -n app-ns-2 get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -sIL http://httpbin.app-ns-3.svc.cluster.local:8000
 }
 
-! read -r -d '' snip_verify_the_application_connectivity_is_only_within_the_respective_usergroup_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_verify_the_application_connectivity_is_only_within_the_respective_usergroup_2_out <<\ENDSNIP
 HTTP/1.1 200 OK
 server: envoy
 date: Thu, 22 Dec 2022 15:01:36 GMT

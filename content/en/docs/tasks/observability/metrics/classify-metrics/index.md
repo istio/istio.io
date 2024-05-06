@@ -186,3 +186,11 @@ Additionally, ensure that there are no Envoy proxy crashes by looking for signs 
 {{< text bash >}}
 $ kubectl get pods pod-name
 {{< /text >}}
+
+## Cleanup
+
+Remove the yaml configuration file.
+
+{{< text bash >}}
+$ kubectl -n istio-system delete -f attribute_gen_service.yaml
+{{< /text >}}

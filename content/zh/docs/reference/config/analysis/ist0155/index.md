@@ -5,9 +5,15 @@ owner: istio/wg-user-experience-maintainers
 test: n/a
 ---
 
-当 `EnvoyFilter` 没有设置优先级并没有使用相关补丁操作（`INSERT_BEFORE/AFTER`、`REPLACE`、`MERGE`、`DELETE`）和 `proxyVersion` 时会出现此消息，这可能会导致 `EnvoyFilter` 升级期间没有被应用。使用 `INSERT_FIRST` 或 `ADD` 选项或设置优先级可能有助于确保 `EnvoyFilter` 被正确应用。关注 `proxyVersion` 的原因是，在升级后，`proxyVersion` 可能会发生变化，升级后它的使用顺序可能不同于升级前的顺序。
+当 `EnvoyFilter` 没有设置优先级并没有使用相关补丁操作
+（`INSERT_BEFORE/AFTER`、`REPLACE`、`MERGE`、`DELETE`）
+和 `proxyVersion` 时会出现此消息，这可能会导致 `EnvoyFilter`
+升级期间没有被应用。使用 `INSERT_FIRST` 或 `ADD`
+选项或设置优先级可能有助于确保 `EnvoyFilter` 被正确应用。
+关注 `proxyVersion` 的原因是，在升级后，`proxyVersion` 可能会发生变化，
+升级后它的使用顺序可能不同于升级前的顺序。
 
-## 示例 {#example}
+## 示例  {#example}
 
 考虑一个 `EnvoyFilter` 的补丁操作 `REPLACE`，并使用 `proxyVersion`：
 
@@ -22,7 +28,7 @@ spec:
     labels:
       app: reviews4
   configPatches:
-    # The first patch adds the Lua filter to the listener/http connection manager
+    # 第一个补丁将 Lua 过滤器添加到 listener/http 连接管理器
   - applyTo: HTTP_FILTER
     match:
       context: SIDECAR_OUTBOUND
@@ -37,7 +43,7 @@ spec:
               name: "envoy.filters.http.router"
     patch:
       operation: REPLACE
-      value: # Lua filter specification
+      value: # Lua 过滤器规范
        name: envoy.lua
        typed_config:
           "@type": "type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua"
@@ -70,7 +76,7 @@ spec:
       context: SIDECAR_OUTBOUND
     patch:
       operation: REPLACE
-      value: #Lua filter specification
+      value: # Lua 过滤器规范
        name: envoy.lua
        typed_config:
           "@type": "type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua"
@@ -89,9 +95,10 @@ spec:
             end
 {{< /text >}}
 
-## 如何解决
+## 如何修复  {#how-to-resolve}
 
-因为 `REPLACE` 的相关操作是与 `proxyVersion` 一起使用，所以添加 `priority` 可以解决这个问题：
+因为 `REPLACE` 的相关操作是与 `proxyVersion` 一起使用，
+所以添加 `priority` 可以解决这个问题：
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -105,7 +112,7 @@ spec:
       app: reviews4
   priority: 10
   configPatches:
-    # The first patch adds the Lua filter to the listener/http connection manager
+    # 第一个补丁将 Lua 过滤器添加到 listener/http 连接管理器
   - applyTo: HTTP_FILTER
     match:
       context: SIDECAR_OUTBOUND
@@ -120,7 +127,7 @@ spec:
               name: "envoy.filters.http.router"
     patch:
       operation: REPLACE
-      value: # Lua filter specification
+      value: # Lua 过滤器规范
        name: envoy.lua
        typed_config:
           "@type": "type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua"

@@ -125,11 +125,12 @@ This option is currently experimental.</p>
 No
 </td>
 </tr>
-<tr id="IstioOperatorSpec-defaultRevision">
-<td><code>defaultRevision</code></td>
-<td><code>bool</code></td>
+<tr id="IstioOperatorSpec-compatibilityVersion">
+<td><code>compatibilityVersion</code></td>
+<td><code>string</code></td>
 <td>
-<p>Identify whether this revision is the default revision for the cluster
+<p>Compatibility version allows configuring Istio to behave like an older version by tuning various settings to align with a
+previous versions defaults. This accepts a <code>major.minor</code> format, such as <code>1.23</code>.
 This option is currently experimental.</p>
 
 </td>
@@ -643,7 +644,7 @@ No
 </section>
 <h2 id="KubernetesResourcesSpec">KubernetesResourcesSpec</h2>
 <section>
-<p>KubernetesResourcesConfig is a common set of k8s resource configs for components.</p>
+<p>KubernetesResourcesSpec is a common set of Kubernetes resource configs for components.</p>
 
 <table class="message-fields">
 <thead>
@@ -659,7 +660,7 @@ No
 <td><code>affinity</code></td>
 <td><code><a href="#Affinity">Affinity</a></code></td>
 <td>
-<p>k8s affinity.
+<p>Kubernetes affinity.
 <a href="https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity">https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity</a></p>
 
 </td>
@@ -683,7 +684,7 @@ No
 <td><code>hpaSpec</code></td>
 <td><code><a href="#HorizontalPodAutoscalerSpec">HorizontalPodAutoscalerSpec</a></code></td>
 <td>
-<p>k8s HorizontalPodAutoscaler settings.
+<p>Kubernetes HorizontalPodAutoscaler settings.
 <a href="https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/">https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/</a></p>
 
 </td>
@@ -695,7 +696,7 @@ No
 <td><code>imagePullPolicy</code></td>
 <td><code>string</code></td>
 <td>
-<p>k8s imagePullPolicy.
+<p>Kubernetes imagePullPolicy.
 <a href="https://kubernetes.io/docs/concepts/containers/images/">https://kubernetes.io/docs/concepts/containers/images/</a></p>
 
 </td>
@@ -707,7 +708,7 @@ No
 <td><code>nodeSelector</code></td>
 <td><code>map&lt;string,&nbsp;string&gt;</code></td>
 <td>
-<p>k8s nodeSelector.
+<p>Kubernetes nodeSelector.
 <a href="https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector">https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector</a></p>
 
 </td>
@@ -719,7 +720,7 @@ No
 <td><code>podDisruptionBudget</code></td>
 <td><code><a href="#PodDisruptionBudgetSpec">PodDisruptionBudgetSpec</a></code></td>
 <td>
-<p>k8s PodDisruptionBudget settings.
+<p>Kubernetes PodDisruptionBudget settings.
 <a href="https://kubernetes.io/docs/concepts/workloads/pods/disruptions/#how-disruption-budgets-work">https://kubernetes.io/docs/concepts/workloads/pods/disruptions/#how-disruption-budgets-work</a></p>
 
 </td>
@@ -731,7 +732,7 @@ No
 <td><code>podAnnotations</code></td>
 <td><code>map&lt;string,&nbsp;string&gt;</code></td>
 <td>
-<p>k8s pod annotations.
+<p>Kubernetes pod annotations.
 <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/">https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/</a></p>
 
 </td>
@@ -743,7 +744,7 @@ No
 <td><code>priorityClassName</code></td>
 <td><code>string</code></td>
 <td>
-<p>k8s priority_class_name. Default for all resources unless overridden.
+<p>Kubernetes priorityClassName. Default for all resources unless overridden.
 <a href="https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass">https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass</a></p>
 
 </td>
@@ -755,7 +756,7 @@ No
 <td><code>readinessProbe</code></td>
 <td><code><a href="#ReadinessProbe">ReadinessProbe</a></code></td>
 <td>
-<p>k8s readinessProbe settings.
+<p>Kubernetes readinessProbe settings.
 <a href="https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/">https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/</a>
 k8s.io.api.core.v1.Probe readiness_probe = 9;</p>
 
@@ -768,7 +769,7 @@ No
 <td><code>replicaCount</code></td>
 <td><code>uint32</code></td>
 <td>
-<p>k8s Deployment replicas setting.
+<p>Kubernetes Deployment replicas setting.
 <a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/">https://kubernetes.io/docs/concepts/workloads/controllers/deployment/</a></p>
 
 </td>
@@ -780,7 +781,7 @@ No
 <td><code>resources</code></td>
 <td><code><a href="#Resources">Resources</a></code></td>
 <td>
-<p>k8s resources settings.
+<p>Kubernetes resources settings.
 <a href="https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container">https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container</a></p>
 
 </td>
@@ -792,7 +793,7 @@ No
 <td><code>service</code></td>
 <td><code><a href="#ServiceSpec">ServiceSpec</a></code></td>
 <td>
-<p>k8s Service settings.
+<p>Kubernetes Service settings.
 <a href="https://kubernetes.io/docs/concepts/services-networking/service/">https://kubernetes.io/docs/concepts/services-networking/service/</a></p>
 
 </td>
@@ -804,7 +805,7 @@ No
 <td><code>strategy</code></td>
 <td><code><a href="#DeploymentStrategy">DeploymentStrategy</a></code></td>
 <td>
-<p>k8s deployment strategy.
+<p>Kubernetes deployment strategy.
 <a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/">https://kubernetes.io/docs/concepts/workloads/controllers/deployment/</a></p>
 
 </td>
@@ -816,7 +817,7 @@ No
 <td><code>tolerations</code></td>
 <td><code><a href="#Toleration">Toleration[]</a></code></td>
 <td>
-<p>k8s toleration
+<p>Kubernetes toleration
 <a href="https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/">https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/</a></p>
 
 </td>
@@ -828,7 +829,7 @@ No
 <td><code>serviceAnnotations</code></td>
 <td><code>map&lt;string,&nbsp;string&gt;</code></td>
 <td>
-<p>k8s service annotations.
+<p>Kubernetes service annotations.
 <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/">https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/</a></p>
 
 </td>
@@ -840,7 +841,7 @@ No
 <td><code>securityContext</code></td>
 <td><code><a href="#PodSecurityContext">PodSecurityContext</a></code></td>
 <td>
-<p>k8s pod security context
+<p>Kubernetes pod security context
 <a href="https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod">https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod</a></p>
 
 </td>
@@ -852,7 +853,7 @@ No
 <td><code>volumes</code></td>
 <td><code><a href="#k8s-io-api-core-v1-Volume">Volume[]</a></code></td>
 <td>
-<p>k8s volume
+<p>Kubernetes volumes
 <a href="https://kubernetes.io/docs/concepts/storage/volumes/">https://kubernetes.io/docs/concepts/storage/volumes/</a>
 Volumes defines the collection of Volume to inject into the pod.</p>
 
@@ -865,7 +866,7 @@ No
 <td><code>volumeMounts</code></td>
 <td><code><a href="#k8s-io-api-core-v1-VolumeMount">VolumeMount[]</a></code></td>
 <td>
-<p>k8s volumeMounts
+<p>Kubernetes volumeMounts
 VolumeMounts defines the collection of VolumeMount to inject into containers.</p>
 
 </td>
@@ -877,7 +878,7 @@ No
 <td><code>overlays</code></td>
 <td><code><a href="#K8sObjectOverlay">K8sObjectOverlay[]</a></code></td>
 <td>
-<p>Overlays for k8s resources in rendered manifests.</p>
+<p>Overlays for Kubernetes resources in rendered manifests.</p>
 
 </td>
 <td>
@@ -889,7 +890,7 @@ No
 </section>
 <h2 id="K8sObjectOverlay">K8sObjectOverlay</h2>
 <section>
-<p>Patch for an existing k8s resource.</p>
+<p>Patch for an existing Kubernetes resource.</p>
 
 <table class="message-fields">
 <thead>
@@ -3136,6 +3137,15 @@ No
 No
 </td>
 </tr>
+<tr id="ServiceSpec-loadBalancerClass">
+<td><code>loadBalancerClass</code></td>
+<td><code>string</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -3937,8 +3947,7 @@ No
 <td><code>bool</code></td>
 <td>
 <p>Mounted read-only if true, read-write otherwise (false or unspecified).
-Defaults to false.
-+optional</p>
+Defaults to false.</p>
 
 </td>
 <td>
@@ -3962,8 +3971,7 @@ No
 <td><code>string</code></td>
 <td>
 <p>Path within the volume from which the container&rsquo;s volume should be mounted.
-Defaults to &quot;&quot; (volume&rsquo;s root).
-+optional</p>
+Defaults to &quot;&quot; (volume&rsquo;s root).</p>
 
 </td>
 <td>
@@ -3977,8 +3985,7 @@ No
 <p>mountPropagation determines how mounts are propagated from the host
 to container and the other way around.
 When not set, MountPropagationNone is used.
-This field is beta in 1.10.
-+optional</p>
+This field is beta in 1.10.</p>
 
 </td>
 <td>
@@ -3992,8 +3999,7 @@ No
 <p>Expanded path within the volume from which the container&rsquo;s volume should be mounted.
 Behaves similarly to SubPath but environment variable references $(VAR_NAME) are expanded using the container&rsquo;s environment.
 Defaults to &quot;&quot; (volume&rsquo;s root).
-SubPathExpr and SubPath are mutually exclusive.
-+optional</p>
+SubPathExpr and SubPath are mutually exclusive.</p>
 
 </td>
 <td>
@@ -4007,8 +4013,7 @@ No
 <section>
 <p>A label selector is a label query over a set of resources. The result of matchLabels and
 matchExpressions are ANDed. An empty label selector matches all objects. A null
-label selector matches no objects.
-+structType=atomic</p>
+label selector matches no objects.</p>
 
 <table class="message-fields">
 <thead>
@@ -4026,8 +4031,7 @@ label selector matches no objects.
 <td>
 <p>matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
 map is equivalent to an element of matchExpressions, whose key field is &ldquo;key&rdquo;, the
-operator is &ldquo;In&rdquo;, and the values array contains only &ldquo;value&rdquo;. The requirements are ANDed.
-+optional</p>
+operator is &ldquo;In&rdquo;, and the values array contains only &ldquo;value&rdquo;. The requirements are ANDed.</p>
 
 </td>
 <td>
@@ -4038,8 +4042,7 @@ No
 <td><code>matchExpressions</code></td>
 <td><code><a href="#k8s-io-apimachinery-pkg-apis-meta-v1-LabelSelectorRequirement">LabelSelectorRequirement[]</a></code></td>
 <td>
-<p>matchExpressions is a list of label selector requirements. The requirements are ANDed.
-+optional</p>
+<p>matchExpressions is a list of label selector requirements. The requirements are ANDed.</p>
 
 </td>
 <td>

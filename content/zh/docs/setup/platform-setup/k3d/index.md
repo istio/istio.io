@@ -67,7 +67,6 @@ k3d 使得在 Docker 中创建单节点和多节点 k3s 集群变得非常容易
 1. （可选）安装 Ingress Gateway：
 
     {{< text bash >}}
-    $ kubectl label namespace istio-system istio-injection=enabled
     $ helm install istio-ingressgateway istio/gateway -n istio-system --wait
     {{< /text >}}
 
@@ -94,7 +93,7 @@ k3d 没有像 minikube 这样的内置仪表板 UI。但是您仍然可以设置
     kubernetes-dashboard-67bd8fc546-4xfmm        1/1     Running   0          25s
     {{< /text >}}
 
-1. 创建 `serviceaccount` 和 `clusterrolebinding` 为新创建的集群提供管理员访问权限。
+1. 创建 `ServiceAccount` 和 `ClusterRoleBinding` 为新创建的集群提供管理员访问权限。
 
     {{< text bash >}}
     $ kubectl create serviceaccount -n kubernetes-dashboard admin-user

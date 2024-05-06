@@ -42,7 +42,7 @@ keywords: [istio,ambient,ztunnel,eBPF]
 
 ## 在 Ambient 模式下如何使用 eBPF
 
-请按照 [Istio Ambient Mesh 入门](/zh/blog/2022/get-started-ambient/)设置您的集群，
+请按照 [Istio Ambient 模式入门](/zh/blog/2022/get-started-ambient/)设置您的集群，
 但需以下一个小修改：在安装 Istio 时，请将 `values.cni.ambient.redirectMode` 配置参数设置为 `ebpf`。
 
 {{< text bash >}}

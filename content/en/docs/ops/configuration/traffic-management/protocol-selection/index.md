@@ -35,6 +35,8 @@ This can be configured in two ways:
 - By the name of the port: `name: <protocol>[-<suffix>]`.
 - In Kubernetes 1.18+, by the `appProtocol` field: `appProtocol: <protocol>`.
 
+If both are defined, `appProtocol` takes precedence over the port name.
+
 Note that behavior at the Gateway differs in some cases as the gateway can terminate TLS and the protocol can be negotiated.
 
 The following protocols are supported:

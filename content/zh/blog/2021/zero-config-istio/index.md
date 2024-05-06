@@ -21,13 +21,13 @@ Istio 自动为网格中 pod 之间的流量启用 [mutual TLS](/zh/docs/concept
 
 熟悉自动 TLS 后，您可以选择 [仅允许 mTLS 流量（allow only mTLS traffic）](/zh/docs/tasks/security/authentication/mtls-migration/)，或配置自定义 [授权策略（authorization policies）](/zh/docs/tasks/security/authorization/) 满足您的需求。
 
-## 可观察性 {#observability}
+## 可观测性 {#observability}
 
-Istio 自动为网格中的所有服务通信生成详细的遥测数据。这种遥测提供了服务行为的可观察性，使运营商能够对其应用程序进行故障排除、维护和优化——而不会给服务开发人员带来任何额外的负担。通过 Istio，运维人员可以全面了解受监控的服务如何与其他服务以及 Istio 组件本身进行交互。
+Istio 自动为网格中的所有服务通信生成详细的遥测数据。这种遥测提供了服务行为的可观测性，使运营商能够对其应用程序进行故障排除、维护和优化——而不会给服务开发人员带来任何额外的负担。通过 Istio，运维人员可以全面了解受监控的服务如何与其他服务以及 Istio 组件本身进行交互。
 
-所有这些功能都是由 Istio 添加的，无需任何配置。 也可以与 Prometheus, Grafana, Jaeger, Zipkin, and Kiali 等工具 [集成（Integrations）](/zh/docs/ops/integrations/) 使用。
+所有这些功能都是由 Istio 添加的，无需任何配置。也可以与 Prometheus、Grafana、Jaeger、Zipkin 和 Kiali 等工具[集成（Integrations）](/zh/docs/ops/integrations/)使用。
 
-有关 Istio 提供的可观察性的更多信息，请查看 [可观察性概述（observability overview）](/zh/docs/concepts/observability/)。
+有关 Istio 提供的可观测性的更多信息，请查看[可观测性概述（observability overview）](/zh/docs/concepts/observability/)。
 
 ## 流量管理 {#traffic-management}
 
@@ -52,7 +52,7 @@ Hostname=echo-cb96f8d94-879sn
 
 这里的问题是 Kubernetes 将在建立连接时确定发送到的后端，并且同一连接上的所有未来请求都将发送到同一个后端。在我们的示例中，我们的前 5 个请求都发送到 `echo-cb96f8d94-2ssll`，而我们的下一组（使用新连接）都发送到 `echo-cb96f8d94-879sn`。我们的第三个实例从未收到任何请求。
 
-使用 Istio，会自动检测 HTTP 流量（包括 HTTP/2 和 gRPC），并且我们的服务将根据 _request_ 而不是根据_connection_ 自动进行负载平衡：
+使用 Istio，会自动检测 HTTP 流量（包括 HTTP/2 和 gRPC），并且我们的服务将根据 _request_ 而不是根据 _connection_ 自动进行负载均衡：
 
 {{< text bash >}}
 $ curl http://echo/{0..5} -s | grep Hostname
@@ -64,6 +64,6 @@ Hostname=echo-cb96f8d94-rpfqz
 Hostname=echo-cb96f8d94-cgmxr
 {{< /text >}}
 
-在这里，我们可以看到我们的请求是 [轮询（round-robin）](/zh/docs/concepts/traffic-management#load-balancing-options) 在所有后端之间进行负载平衡的。
+在这里，我们可以看到我们的请求是[轮询（round-robin）](/zh/docs/concepts/traffic-management#load-balancing-options)在所有后端之间进行负载均衡的。
 
-除了这些默认设置之外，Istio 还提供了 [各种流量管理设置（variety of traffic management settings）](/zh/docs/concepts/traffic-management/) 的自定义设置，包括超时、重试等等。
+除了这些默认设置之外，Istio 还提供了[各种流量管理设置](/zh/docs/concepts/traffic-management/)的自定义设置，包括超时、重试等等。

@@ -77,7 +77,7 @@ You can alternatively deploy the operator using Helm:
     $ kubectl create namespace istio-operator
     {{< /text >}}
 
-1. Install operator using Helm.
+2) Install operator using Helm.
 
     {{< text syntax=bash snip_id=deploy_istio_operator_helm >}}
     $ helm install istio-operator manifests/charts/istio-operator \

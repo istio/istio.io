@@ -59,7 +59,6 @@ WORK_DIR="$(mktemp -d)"
 COMP_OUTPUT_DIR="${ROOTDIR}/content/zh/docs/reference/commands"
 
 export GOOS=linux
-export GOARCH=amd64
 
 echo "WORK_DIR =" "${WORK_DIR}"
 

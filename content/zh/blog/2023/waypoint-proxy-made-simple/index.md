@@ -114,8 +114,8 @@ Ambient 模式的设计围绕这样一个假设，即大多数配置最好由服
 
 ## 对 Waypoint 配置的深入研究 {#a-deep-dive-of-waypoint-configuration}
 
-假设您已遵循 [Ambient 入门指南](/zh/docs/ops/ambient/getting-started/)
-以及[控制流量章节](/zh/docs/ops/ambient/getting-started/#control)的说明，
+假设您已遵循 [Ambient 入门指南](/zh/docs/ambient/getting-started/)
+以及[控制流量章节](/zh/docs/ambient/getting-started/#control)的说明，
 您已经为 bookinfo-reviews 服务账户部署了一个 Waypoint Proxy，
 将 90% 的流量引导至 review v1，将 10% 的流量引导至 review v2。
 
@@ -259,5 +259,5 @@ unix://./var/run/secrets/workload-spiffe-uds/socket HEALTHY OK            sds-gr
 
 我们对专注于面向目的地的 Waypoint Proxy 的 Waypoint 简化感到非常兴奋。
 这是朝着简化 Istio 的可用性、可扩展性和可调试性迈出的重要一步，
-这些是 Istio Roadmap 的重中之重。请跟随[入门指南](/zh/docs/ops/ambient/getting-started/)试用
+这些是 Istio Roadmap 的重中之重。请跟随[入门指南](/zh/docs/ambient/getting-started/)试用
 Ambient Alpha 构建并体验简化的 Waypoint Proxy！

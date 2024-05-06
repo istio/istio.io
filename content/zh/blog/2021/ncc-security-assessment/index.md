@@ -20,7 +20,7 @@ NCC Group 与 Istio 社区的主题专家合作，在五周内进行审查。在
 以及我们对 Istio 项目进行持续安全评估和改进的行动计划。
 您可以下载并阅读完整版的[安全评估报告（英文）](./NCC_Group_Google_GOIST2005_Report_2020-08-06_v1.1.pdf)。
 
-## 工作范围和主要发现{#scope-and-key-findings}
+## 工作范围和主要发现 {#scope-and-key-findings}
 
 该评估对 Istio 的架构整体安全相关问题进行了分析，重点关注关键组件，
 如 istiod（Pilot）、Ingress/Egress 网关，以及 Istio 的整体 Envoy
@@ -41,9 +41,9 @@ NCC Group 与 Istio 社区的主题专家合作，在五周内进行审查。在
 我们建议用户遵循安全最佳实践指南并配置 Istio 以满足安全要求。
 至此，我们再来看一下报告中提出的各种问题分析和解决方案。
 
-## 决议和经验{#resolution-and-learnings}
+## 决议和经验 {#resolution-and-learnings}
 
-### 无法保护控制平面的网络通信{inability-to-secure-control-plane-network-communications}
+### 无法保护控制平面的网络通信 {#inability-to-secure-control-plane-network-communications}
 
 该报告标记了旧版本 Istio 中可用的配置选项，以控制如何确保与控制平面的通信安全。
 从 1.7 版开始，Istio 默认保护所有控制平面通信，
@@ -56,14 +56,14 @@ NCC Group 与 Istio 社区的主题专家合作，在五周内进行审查。在
 此外，在即将推出的版本（1.11）中，此调试端点将默认受到保护，
 并且需要有效的 Kubernetes 服务帐户令牌才能获得访问权限。
 
-### 缺乏安全相关的文档{#lack-of-security-related-documentation}
+### 缺乏安全相关的文档 {#lack-of-security-related-documentation}
 
 该报告指出了与 Istio 1.6 一起发布的安全相关文档中的漏洞。
 从那时起，我们创建了详细的[安全最佳实践](/zh/docs/ops/best-practices/security/)指南，
 其中包含了推荐方式以满足用户可以安全地部署 Istio 的需求。
 展望未来，我们将继续通过更多强化建议来扩充此文档。我们建议用户关注这些指南的更新。
 
-### 缺少 VirtualService Gateway 字段验证会导致请求劫持{#lack-of-virtualservice-gateway-field-validation-enables-request-hijacking}
+### 缺少 VirtualService Gateway 字段验证会导致请求劫持 {#lack-of-virtualservice-gateway-field-validation-enables-request-hijacking}
 
 对于此问题，该报告使用了一个有效但宽松的网关配置，
 该配置可能会导致请求被错误地路由。与 Kubernetes RBAC 类似，
@@ -76,7 +76,7 @@ Istio API（包括 Gateway）可以根据您的要求调整为宽松或受限的
 资源上强化[在主机设置中使用命名空间前缀](/zh/docs/ops/best-practices/security/#avoid-overly-broad-hosts-configurations)的部分，
 以防止这种请求劫持情况的发生。
 
-### Ingress Gateway 配置生成导致请求劫持{#ingress-gateway-configuration-generation-enables-request-hijacking}
+### Ingress Gateway 配置生成导致请求劫持 {#ingress-gateway-configuration-generation-enables-request-hijacking}
 
 当使用 Gateway 资源中跨命名空间的标签选择网关工作负载的默认机制时，
 该报告提出了可能产生请求劫持的情况。默认情况下选择此行为会允许将所管理的
@@ -91,7 +91,7 @@ Istio 社区推荐的各种部署模型。此外，如[安全最佳实践](/zh/d
 Gateway 资源创建应使用 Kubernetes RBAC 或其他策略执行机制进行访问控制，
 以确保只有授权实体才能创建它们。
 
-### 其他 Medium 及 Low 严重级别问题{#other-medium-and-low-severity-issues}
+### 其他 Medium 及 Low 严重级别问题 {#other-medium-and-low-severity-issues}
 
 报告中有两个中等严重程度的问题，这些问题与项目中暴露的不同级别调试信息有关，
 这些信息可用于获取对敏感信息的访问权限或编排 Denial of Service（DOS）攻击。
@@ -108,7 +108,7 @@ Gateway 资源创建应使用 Kubernetes RBAC 或其他策略执行机制进行�
 这种机制容易受到[绕过 Sidecar 代理](/zh/docs/ops/best-practices/security/#understand-traffic-capture-limitations)的影响，这是对安全环境的有效关注。
 可以通过遵循安全最佳实践指南的[深度防御](/zh/docs/ops/best-practices/security/#defense-in-depth-with-networkpolicy)建议来解决这个问题。
 
-## 易用性和安全之间的权衡{#the-tradeoff-between-useful-and-secure}
+## 易用性和安全之间的权衡 {#the-tradeoff-between-useful-and-secure}
 
 您可能已经注意到评估结果的趋势以及为解决这些问题而提出的建议。
 Istio 提供各种配置选项以根据您的要求创建更安全的安装过程，

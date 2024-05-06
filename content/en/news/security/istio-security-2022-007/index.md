@@ -4,7 +4,7 @@ subtitle: Security Bulletin
 description: Denial of service attack due to Go Regex Library.
 cves: [CVE-2022-39278]
 cvss: "7.5"
-vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+vector: "AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
 releases: ["All releases prior to 1.13", "1.13.0 to 1.13.8", "1.14.0 to 1.14.4", "1.15.0 to 1.15.1"]
 publishdate: 2022-10-12
 keywords: [CVE]

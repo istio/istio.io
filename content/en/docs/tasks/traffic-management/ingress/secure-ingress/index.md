@@ -175,11 +175,11 @@ to set the `INGRESS_HOST` and `SECURE_INGRESS_PORT` variables for accessing the 
 
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
-First, create a [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io%2fv1beta1.Gateway):
+First, create a [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.Gateway):
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: mygateway
@@ -208,7 +208,7 @@ Next, configure the gateway's ingress traffic routes by defining a corresponding
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: httpbin
@@ -413,7 +413,7 @@ respectively.
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: mygateway
@@ -456,7 +456,7 @@ Configure the gateway's traffic routes for the `helloworld` service:
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: helloworld
@@ -563,13 +563,13 @@ EOF
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
 Because the Kubernetes Gateway API does not currently support mutual TLS termination in a
-[Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io%2fv1beta1.Gateway),
+[Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.Gateway),
 we use an Istio-specific option, `gateway.istio.io/tls-terminate-mode: MUTUAL`,
 to configure it:
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: mygateway

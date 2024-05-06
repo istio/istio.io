@@ -158,21 +158,21 @@ term to get a pop-up with the definition. For example:
 The Istio component that programs the {{</*gloss*/>}}Envoy{{</*/gloss*/>}} proxies, responsible for service discovery, load balancing, and routing.
 {{< /text >}}
 
-Is rendered as follows:
+is rendered as follows:
 
-The Istio component that programs the {{</*gloss*/>}}Envoy{{</*/gloss*/>}} proxies, responsible for service discovery, load balancing, and routing.
+The Istio component that programs the {{<gloss>}}Envoy{{</gloss>}} proxies, responsible for service discovery, load balancing, and routing.
 
 If you use a variant of the term in your text, you can still use this shortcode
 to include the pop up with the definition. To specify a substitution, just
 include the glossary entry within the shortcode. For example:
 
 {{< text markdown >}}
-The Istio component that programs the {{</*gloss envoy*/>}}Envoy{{</*/gloss*/>}} proxies, responsible for service discovery, load balancing, and routing.
+{{</*gloss envoy*/>}}Envoy's{{</*/gloss*/>}} HTTP support was designed to first and foremost be an HTTP/2 multiplexing proxy.
 {{< /text >}}
 
 Renders with the pop up for the `envoy` glossary entry as follows:
 
-The Istio component that programs the {{< gloss envoy >}}Envoy{{</ gloss >}} proxies, responsible for service discovery, load balancing, and routing.
+{{< gloss envoy >}}Envoy's{{</ gloss >}} HTTP support was designed to first and foremost be an HTTP/2 multiplexing proxy.
 
 ## Callouts
 

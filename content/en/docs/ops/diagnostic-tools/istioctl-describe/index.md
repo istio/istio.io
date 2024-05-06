@@ -192,7 +192,7 @@ warnings.
 
 The `istioctl describe` command shows split traffic weights too.
 For example, run the following command to route 90% of traffic to the `v1` subset
-and 10% to the `v2` subset of the the `reviews` service:
+and 10% to the `v2` subset of the `reviews` service:
 
 {{< text bash >}}
 $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-90-10.yaml@
@@ -260,7 +260,7 @@ $ istioctl x describe pod $RATINGS_POD
 Pilot reports that pod enforces mTLS and clients speak mTLS
 {{< /text >}}
 
-The output reports that requests to the the `ratings` pod are now locked down and secure.
+The output reports that requests to the `ratings` pod are now locked down and secure.
 
 Sometimes, however, a deployment breaks when switching mutual TLS to `STRICT`.
 The likely cause is that the destination rule didn't match the new configuration.

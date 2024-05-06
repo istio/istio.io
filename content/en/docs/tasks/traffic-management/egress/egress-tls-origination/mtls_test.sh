@@ -21,7 +21,6 @@ set -e
 set -u
 set -o pipefail
 
-source "content/en/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/snips.sh"
 source "tests/util/samples.sh"
 
 # Make sure automatic sidecar injection is enabled
@@ -36,7 +35,7 @@ snip_before_you_begin_3
 set +e # suppress harmless "No such file or directory:../crypto/bio/bss_file.c:72:fopen('1_root/index.txt.attr','r')" error
 snip_generate_client_and_server_certificates_and_keys_1
 snip_generate_client_and_server_certificates_and_keys_2
-snip_generate_client_and_server_certificates_and_keys_3
+snip_generate_client_and_server_certificates_and_keys_4
 set -e
 
 # Create mesh-external namespace
@@ -74,3 +73,4 @@ snip_cleanup_the_mutual_tls_origination_configuration_1
 snip_cleanup_the_mutual_tls_origination_configuration_2
 snip_cleanup_the_mutual_tls_origination_configuration_3
 cleanup_sleep_sample
+kubectl label namespace default istio-injection-

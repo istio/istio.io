@@ -104,6 +104,5 @@ kubectl delete ns frod
 kubectl delete deployment my-deployment
 kubectl delete vs ratings
 # Delete the Istio this test installed
-kubectl get validatingwebhookconfigurations -o custom-columns=NAME:.metadata.name --no-headers | xargs kubectl delete validatingwebhookconfigurations
-kubectl get mutatingwebhookconfigurations -o custom-columns=NAME:.metadata.name --no-headers | xargs kubectl delete mutatingwebhookconfigurations
+istioctl uninstall -y --purge
 kubectl delete ns istio-system

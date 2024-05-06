@@ -13,7 +13,7 @@ owner: istio/wg-networking-maintainers
 在开始之前，一定要完成[开始之前](/zh/docs/tasks/traffic-management/locality-load-balancing/before-you-begin)
 这一节包含的步骤。
 
-在此任务中，您将使用 `sleep` Pod 在 `region1.zone1` 作为请求源发送到 `HelloWorld` 服务。
+在此任务中，您将使用 `Sleep` Pod 在 `region1.zone1` 作为请求源发送到 `HelloWorld` 服务。
 然后，您将触发故障，这些故障将按照以下顺序导致不同地域之间的故障转移：
 
 {{< image width="75%"
@@ -22,7 +22,7 @@ owner: istio/wg-networking-maintainers
     >}}
 
 在内部，[Envoy 优先级](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/priority.html)
-用于控制故障转移。这些优先级将按照以下方式分配来自 `sleep` Pod（在 `region1` `zone1`）的流量：
+用于控制故障转移。这些优先级将按照以下方式分配来自 `Sleep` Pod（在 `region1` `zone1`）的流量：
 
 优先级 | 地域 | 细节
 -------- | -------- | -------
@@ -76,7 +76,7 @@ EOF
 
 ## 验证流量保持在 `region1.zone1` {#verify-traffic-stays-in-region1zone1}
 
-从 `sleep` Pod 调用 `HelloWorld` 服务：
+从 `Sleep` Pod 调用 `HelloWorld` 服务：
 
 {{< text bash >}}
 $ kubectl exec --context="${CTX_R1_Z1}" -n sample -c sleep \
@@ -102,7 +102,7 @@ $ kubectl --context="${CTX_R1_Z1}" exec \
   -n sample -c istio-proxy -- curl -sSL -X POST 127.0.0.1:15000/drain_listeners
 {{< /text >}}
 
-从 `sleep` Pod 调用 `HelloWorld` 服务：
+从 `Sleep` Pod 调用 `HelloWorld` 服务：
 
 {{< text bash >}}
 $ kubectl exec --context="${CTX_R1_Z1}" -n sample -c sleep \
@@ -125,7 +125,7 @@ $ kubectl --context="${CTX_R1_Z2}" exec \
   -n sample -c istio-proxy -- curl -sSL -X POST 127.0.0.1:15000/drain_listeners
 {{< /text >}}
 
-从 `sleep` Pod 调用 `HelloWorld` 服务：
+从 `Sleep` Pod 调用 `HelloWorld` 服务：
 
 {{< text bash >}}
 $ kubectl exec --context="${CTX_R1_Z1}" -n sample -c sleep \
@@ -148,7 +148,7 @@ $ kubectl --context="${CTX_R2_Z3}" exec \
   -n sample -c istio-proxy -- curl -sSL -X POST 127.0.0.1:15000/drain_listeners
 {{< /text >}}
 
-从 `sleep` Pod 调用 `HelloWorld` 服务：
+从 `Sleep` Pod 调用 `HelloWorld` 服务：
 
 {{< text bash >}}
 $ kubectl exec --context="${CTX_R1_Z1}" -n sample -c sleep \

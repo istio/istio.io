@@ -12,7 +12,7 @@ owner: istio/wg-networking-maintainers
 
 在继续之前，请确保完成[开始之前](/zh/docs/tasks/traffic-management/locality-load-balancing/before-you-begin)这一节所包含的步骤。
 
-在这个任务中，您将使用 `region1` `zone1` 中的 `sleep` Pod 作为 `HelloWorld` 服务的请求源。
+在这个任务中，您将使用 `region1` `zone1` 中的 `Sleep` Pod 作为 `HelloWorld` 服务的请求源。
 您将使用以下分布在不同的地域配置Istio：
 
 地区 | 区域 | 流量(%)
@@ -60,7 +60,7 @@ EOF
 
 ## 验证分布 {#verify-the-distribution}
 
-从 `sleep` Pod 调用 `HelloWorld` 服务：
+从 `Sleep` Pod 调用 `HelloWorld` 服务：
 
 {{< text bash >}}
 $ kubectl exec --context="${CTX_R1_Z1}" -n sample -c sleep \

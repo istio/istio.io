@@ -25,4 +25,5 @@ source "content/en/docs/tasks/traffic-management/ingress/ingress-control/test.sh
 # @cleanup
 snip_cleanup_2
 sleep 10s # TODO proper wait
+kubectl label namespace default istio-injection-
 remove_gateway_api_crds

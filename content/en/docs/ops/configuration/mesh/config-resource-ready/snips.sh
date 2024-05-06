@@ -30,6 +30,6 @@ kubectl apply -f samples/httpbin/httpbin-gateway.yaml
 kubectl wait --for=condition=Reconciled virtualservice/httpbin
 }
 
-! read -r -d '' snip_apply_and_wait_for_httpbin_vs_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_apply_and_wait_for_httpbin_vs_out <<\ENDSNIP
 virtualservice.networking.istio.io/httpbin condition met
 ENDSNIP

@@ -12,17 +12,17 @@ test: yes
 [OPA authorization](https://www.openpolicyagent.org/docs/latest/envoy-introduction/)、
 [`oauth2-proxy`](https://github.com/oauth2-proxy/oauth2-proxy) 或您自己定制的外部授权服务器集成。
 
-## 开始之前{#before-you-begin}
+## 开始之前  {#before-you-begin}
 
 在您开始之前，请执行以下操作：
 
 * 阅读 [Istio 授权概念](/zh/docs/concepts/security/#authorization)。
 
-* 根据 [Istio 安装指南](/zh/docs/setup/install/istioctl/)安装 Istio.
+* 根据 [Istio 安装指南](/zh/docs/setup/install/istioctl/)安装 Istio。
 
-* 部署测试工作负载:
+* 部署测试工作负载：
 
-    该任务使用两个工作负载，`httpbin` 和 `sleep`，部署在一个命名空间 `foo`。
+    该任务使用两个工作负载，`httpbin` 和 `sleep`，部署在 `foo` 命名空间中。
     这两个工作负载都包含 Envoy 代理边车容器。使用以下命令部署示例命名空间和工作负载：
 
     {{< text bash >}}
@@ -32,7 +32,7 @@ test: yes
     $ kubectl apply -f @samples/sleep/sleep.yaml@ -n foo
     {{< /text >}}
 
-* 使用以下命令校验 `sleep` 任务与 `httpbin` 的对话。
+* 使用以下命令验证 `sleep` 是否可以访问 `httpbin`：
 
     {{< text bash >}}
     $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n"
@@ -43,7 +43,7 @@ test: yes
 如果您在执行此任务时，没有看见到预期的输出，请您在几秒后重试。缓存和传播成本可能会导致一些延迟。
 {{< /warning >}}
 
-## 部署外部授权器{#deploy-the-external-authorizer}
+## 部署外部授权器  {#deploy-the-external-authorizer}
 
 首先，您需要部署一个外部授权器。为此，您只需将示例外部授权器部署在网格中的独立 Pod 中。
 
@@ -76,17 +76,17 @@ metadata:
   name: external-authz-grpc-local
 spec:
   hosts:
-  - "external-authz-grpc.local" # The service name to be used in the extension provider in the mesh config.
+  - "external-authz-grpc.local" # 网格配置中的扩展提供程序中使用的服务名称
   endpoints:
   - address: "127.0.0.1"
   ports:
   - name: grpc
-    number: 9191 # The port number to be used in the extension provider in the mesh config.
+    number: 9191 # 网格配置中的扩展提供程序要使用的端口号
     protocol: GRPC
   resolution: STATIC
 {{< /text >}}
 
-## 定义外部授权者{#define-the-external-authorizer}
+## 定义外部授权者   {#define-the-external-authorizer}
 
 为了使用授权策略中的 `CUSTOM` 操作，您必须定义允许在网格中使用的外部授权器。
 这是目前在网格配置的[扩展提供程序](https://github.com/istio/api/blob/a205c627e4b955302bbb77dd837c8548e89e6e64/mesh/v1alpha1/config.proto#L534)中定义的。
@@ -137,13 +137,14 @@ spec:
         - name: "oauth2-proxy"
           envoyExtAuthzHttp:
             service: "oauth2-proxy.foo.svc.cluster.local"
-            port: "4180" # oauth2-proxy 使用的默认端口。
-            includeRequestHeadersInCheck: ["authorization", "cookie"] # 在检查请求中发送到 oauth2-proxy 的头。
-            headersToUpstreamOnAllow: ["authorization", "path", "x-auth-request-user", "x-auth-request-email", "x-auth-request-access-token"] # 请求被允许时发送到后端应用程序的头。
-            headersToDownstreamOnDeny: ["content-type", "set-cookie"] # 请求被拒绝时发回客户端的头。
+            port: "4180" # oauth2-proxy 使用的默认端口
+            includeRequestHeadersInCheck: ["authorization", "cookie"] # 检查请求中发送到 oauth2-proxy 的标头
+            headersToUpstreamOnAllow: ["authorization", "path", "x-auth-request-user", "x-auth-request-email", "x-auth-request-access-token"] # 请求被允许时发送到后端应用程序的标头
+            headersToDownstreamOnAllow: ["set-cookie"] # 请求被允许时发送回客户端的标头
+            headersToDownstreamOnDeny: ["content-type", "set-cookie"] # 请求被拒绝时发送回客户端的标头
     {{< /text >}}
 
-## 启用外部授权{#enable-with-external-authorization}
+## 启用外部授权  {#enable-with-external-authorization}
 
 现在外部授权器已准备好供授权策略使用。
 
@@ -164,19 +165,19 @@ spec:
           app: httpbin
       action: CUSTOM
       provider:
-        # 提供程序名称必须与 MeshConfig 中定义的扩展提供程序匹配。
-        # 您还可以将其替换为 sample-ext-authz-http 以测试另一个外部授权器定义。
+        # 提供程序名称必须与 MeshConfig 中定义的扩展提供程序匹配
+        # 您还可以将其替换为 sample-ext-authz-http 以测试另一个外部授权器定义
         name: sample-ext-authz-grpc
       rules:
-      # 规则指定何时触发外部授权器。
+      # rules 指定何时触发外部授权器
       - to:
         - operation:
             paths: ["/headers"]
     EOF
     {{< /text >}}
 
-    在运行时，`httpbin` 工作负载的 `/Headers` 路径的请求会被 `ext_authz` 过滤器暂停，并
-    向外部授权者发送检查请求，以决定是允许还是拒绝该请求。
+    在运行时，`httpbin` 工作负载的 `/Headers` 路径的请求会被 `ext_authz` 过滤器暂停，
+    并向外部授权者发送检查请求，以决定是允许还是拒绝该请求。
 
 1. 验证 `ext_authz` 示例服务器拒绝了头部为 `x-ext-authz：deny` 的路径 `/headers` 的请求：
 
@@ -228,9 +229,9 @@ spec:
 
     现在，您可以对示例 `ext-authz` 服务器应用另一个授权策略，以控制允许谁访问它。
 
-## 清理{#clean-up}
+## 清理  {#clean-up}
 
-1. 从配置中删除命名空间 foo：
+1. 从配置中删除 foo 命名空间：
 
     {{< text bash >}}
     $ kubectl delete namespace foo
@@ -238,6 +239,6 @@ spec:
 
 1. 从网格配置中删除扩展提供程序定义。
 
-## 性能预期{#performance-expectations}
+## 性能预期  {#performance-expectations}
 
 请参阅[性能基准测试](https://github.com/istio/tools/tree/master/perf/benchmark/configs/istio/ext_authz)。

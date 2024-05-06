@@ -159,6 +159,24 @@ the payload will not be emitted.</p>
 No
 </td>
 </tr>
+<tr id="JWTRule-from_cookies">
+<td><code>fromCookies</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>List of cookie names from which JWT is expected.	//
+For example, if config is:</p>
+<pre><code class="language-yaml">  from_cookies:
+  - auth-token
+</code></pre>
+<p>Then JWT will be extracted from <code>auth-token</code> cookie in the request.</p>
+<p>Note: Requests with multiple tokens (at different locations) are not supported, the output principal of
+such requests is undefined.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 <tr id="JWTRule-forward_original_token">
 <td><code>forwardOriginalToken</code></td>
 <td><code>bool</code></td>
@@ -186,6 +204,18 @@ The header specified in each operation in the list must be unique. Nested claims
     claim: nested.key.group
 </code></pre>
 <p>[Experimental] This feature is a experimental feature.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="JWTRule-timeout">
+<td><code>timeout</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
+<td>
+<p>The maximum amount of time that the resolver, determined by the PILOT_JWT_ENABLE_REMOTE_JWKS environment variable,
+will spend waiting for the JWKS to be fetched. Default is 5s.</p>
 
 </td>
 <td>

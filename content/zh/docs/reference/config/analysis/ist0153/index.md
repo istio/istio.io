@@ -8,7 +8,7 @@ test: n/a
 当 `EnvoyFilter` 使用 `ADD` 操作且 `ApplyTo` 设置为 `ROUTE_CONFIGURATION` 或 `HTTP_ROUTE` 时，会出现此消息。
 这将导致 `ADD` 操作被忽略。目前，只有 `MERGE` 操作可用于 `ROUTE_CONFIGURATION`。
 
-## 例如{#example}
+## 示例 {#example}
 
 以下示例中，如果一个 `EnvoyFilter` 附带有 `ADD` 补丁操作，该 `EnvoyFilter` 将被忽略：
 

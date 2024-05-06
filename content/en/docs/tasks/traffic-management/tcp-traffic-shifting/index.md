@@ -19,9 +19,7 @@ In this task, you will send 100% of the TCP traffic to `tcp-echo:v1`.
 Then, you will route 20% of the TCP traffic to `tcp-echo:v2` using Istio's
 weighted routing feature.
 
-{{< boilerplate gateway-api-support >}}
-
-{{< boilerplate gateway-api-experimental >}}
+{{< boilerplate gateway-api-gamma-support >}}
 
 ## Before you begin
 
@@ -152,7 +150,7 @@ $ kubectl apply -f @samples/tcp-echo/gateway-api/tcp-echo-20-v2.yaml@ -n istio-i
 
 {{< text bash yaml >}}
 $ kubectl get virtualservice tcp-echo -o yaml -n istio-io-tcp-traffic-shifting
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: VirtualService
   ...
 spec:

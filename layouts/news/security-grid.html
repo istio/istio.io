@@ -42,7 +42,9 @@
 
                                     <td class="score">
                                         {{ if .Params.cvss }}
-                                            <a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector={{ .Params.vector }}">{{ .Params.cvss }}</a>
+                                        <a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector={{ .Params.vector }}&version={{ default "3.1" .Params.cvss_version }}">
+                                            {{ .Params.cvss }}
+                                        </a>
                                         {{ end }}
                                     </td>
 

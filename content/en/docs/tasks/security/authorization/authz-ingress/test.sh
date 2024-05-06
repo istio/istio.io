@@ -34,8 +34,9 @@ _wait_for_deployment foo httpbin
 
 if [ "$GATEWAY_API" == "true" ]; then
     snip_before_you_begin_4
-    _verify_contains snip_before_you_begin_5 "rbac: debug"
-    snip_before_you_begin_6
+    kubectl wait --for=condition=programmed gtw -n foo httpbin-gateway --timeout=90s
+    _verify_contains snip_before_you_begin_6 "rbac: debug"
+    snip_before_you_begin_7
 else
     snip_before_you_begin_2
     _verify_contains snip_before_you_begin_3 "rbac: debug"
@@ -44,7 +45,7 @@ else
     _set_ingress_environment_variables
 fi
 
-_verify_same snip_before_you_begin_7 "$snip_before_you_begin_7_out"
+_verify_same snip_before_you_begin_8 "$snip_before_you_begin_8_out"
 
 if [ "$GATEWAY_API" == "true" ]; then
     snip_network_load_balancer_2

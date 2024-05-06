@@ -99,3 +99,4 @@ pgrep istioctl | xargs kill
 pgrep istioctl | xargs kill
 cleanup_bookinfo_sample
 _undeploy_addons prometheus grafana
+kubectl label namespace default istio-injection-

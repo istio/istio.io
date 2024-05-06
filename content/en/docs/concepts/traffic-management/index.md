@@ -743,7 +743,7 @@ potentially resulting in critical services being unavailable.
 {{< warning >}}
 Currently, the fault injection configuration can not be combined with retry or timeout configuration
 on the same virtual service, see
-[Traffic Management Problems](/docs/ops/common-problems/network-issues/#virtual-service-with-fault-injection-and-retry-timeout-policies-not-working-as-expected).
+[Traffic Management Problems](/docs/ops/common-problems/network-issues/#virtual-service-with-fault-injection-and-retrytimeout-policies-not-working-as-expected).
 {{< /warning >}}
 
 Unlike other mechanisms for introducing errors such as delaying packets or

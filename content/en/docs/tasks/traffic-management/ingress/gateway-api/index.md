@@ -73,7 +73,7 @@ In this example, we will deploy a simple application and expose it externally us
     {{< text bash >}}
     $ kubectl create namespace istio-ingress
     $ kubectl apply -f - <<EOF
-    apiVersion: gateway.networking.k8s.io/v1beta1
+    apiVersion: gateway.networking.k8s.io/v1
     kind: Gateway
     metadata:
       name: gateway
@@ -89,7 +89,7 @@ In this example, we will deploy a simple application and expose it externally us
           namespaces:
             from: All
     ---
-    apiVersion: gateway.networking.k8s.io/v1beta1
+    apiVersion: gateway.networking.k8s.io/v1
     kind: HTTPRoute
     metadata:
       name: http
@@ -142,7 +142,7 @@ In this example, we will deploy a simple application and expose it externally us
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: gateway.networking.k8s.io/v1beta1
+    apiVersion: gateway.networking.k8s.io/v1
     kind: HTTPRoute
     metadata:
       name: http
@@ -208,7 +208,7 @@ These resources can be customized in a few ways:
 * The `Service.spec.loadBalancerIP` field can be explicit set by configuring the `addresses` field:
 
     {{< text yaml >}}
-    apiVersion: gateway.networking.k8s.io/v1beta1
+    apiVersion: gateway.networking.k8s.io/v1
     kind: Gateway
     metadata:
       name: gateway
@@ -231,12 +231,12 @@ Resource attachment is currently experimental.
 
 Resources can be *attached* to a `Gateway` to customize it.
 However, most Kubernetes resources do not currently support attaching directly to a `Gateway`, but they can be attached to the corresponding generated `Deployment` and `Service` instead.
-This is easily done because both of these resources are generated with name `<gateway name>-<gateway class name>` and with a label `istio.io/gateway-name: <gateway name>`.
+This is easily done because both of these resources are generated with name `<gateway name>-<gateway class name>` and with a label `gateway.networking.k8s.io/gateway-name: <gateway name>`.
 
 For example, to deploy a `Gateway` with a `HorizontalPodAutoscaler` and `PodDisruptionBudget`:
 
 {{< text yaml >}}
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: gateway
@@ -281,7 +281,7 @@ spec:
   selector:
     # Match the generated Deployment by label
     matchLabels:
-      istio.io/gateway-name: gateway
+      gateway.networking.k8s.io/gateway-name: gateway
 {{< /text >}}
 
 ### Manual Deployment
@@ -293,7 +293,7 @@ When this option is done, you will need to manually link the `Gateway` to the `S
 To link a `Gateway` to a `Service`, configure the `addresses` field to point to a **single** `Hostname`.
 
 {{< text yaml >}}
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: gateway
@@ -308,8 +308,8 @@ spec:
 
 {{< warning >}}
 Configuring internal mesh traffic using the Gateway API is an
-[experimental feature](https://gateway-api.sigs.k8s.io/concepts/versioning/#release-channels-eg-experimental-standard)
-currently under development and pending [upstream agreement](https://gateway-api.sigs.k8s.io/contributing/gamma/).
+[experimental feature](https://gateway-api.sigs.k8s.io/geps/overview/#status)
+currently under development.
 {{< /warning >}}
 
 The Gateway API can also be used to configure mesh traffic.
@@ -318,7 +318,7 @@ This is done by configuring the `parentRef` to point to a service, instead of a 
 For example, to add a header on all calls to an in-cluster `Service` named `example`:
 
 {{< text yaml >}}
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: mesh
@@ -334,7 +334,7 @@ spec:
         add:
         - name: my-added-header
           value: added-value
-  - backendRefs:
+    backendRefs:
     - name: example
       port: 80
 {{< /text >}}
@@ -343,15 +343,20 @@ More details and examples can be found in other [traffic management tasks](/docs
 
 ## Cleanup
 
-1. Uninstall Istio and the `httpbin` sample:
+1. Remove the `httpbin` sample and gateway:
 
     {{< text bash >}}
     $ kubectl delete -f @samples/httpbin/httpbin.yaml@
     $ kubectl delete httproute http
     $ kubectl delete gateways.gateway.networking.k8s.io gateway -n istio-ingress
+    $ kubectl delete ns istio-ingress
+    {{< /text >}}
+
+1. Uninstall Istio:
+
+    {{< text bash >}}
     $ istioctl uninstall -y --purge
     $ kubectl delete ns istio-system
-    $ kubectl delete ns istio-ingress
     {{< /text >}}
 
 1. Remove the Gateway API CRDs if they are no longer needed:

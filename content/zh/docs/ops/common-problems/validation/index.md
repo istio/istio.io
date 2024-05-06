@@ -103,7 +103,7 @@ webhooks:
 Istio 有意识地使用 `istio-validation` `configmap` 和根证书，调整了
 webhook 配置。
 
-1. 验证 `istio-pilot` Pod 是否在运行：
+1. 验证 `istiod` Pod 是否在运行：
 
     {{< text bash >}}
     $  kubectl -n istio-system get pod -lapp=istiod

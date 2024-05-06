@@ -151,3 +151,4 @@ snip_cleanup_2
 snip_cleanup_3
 
 kubectl delete ns istio-system
+kubectl label namespace default istio-injection-

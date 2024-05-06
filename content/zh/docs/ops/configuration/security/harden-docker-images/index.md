@@ -7,10 +7,8 @@ aliases:
   - /zh/docs/ops/security/harden-docker-images
 owner: istio/wg-security-maintainers
 test: n/a
-status: Alpha
+status: Beta
 ---
-
-{{< boilerplate alpha >}}
 
 Istio 的[默认镜像](https://hub.docker.com/r/istio/base)基于 `ubuntu` 添加了一些额外的工具。
 也可以使用基于 [Distroless 镜像](https://github.com/GoogleContainerTools/distroless)的替代镜像。
@@ -33,7 +31,7 @@ $ istioctl install --set values.global.variant=distroless
 
 如果您只对将 Distroless 镜像用于注入的代理镜像感兴趣，
 您还可以使用 [Proxy Config](/zh/docs/reference/config/networking/proxy-config/#ProxyImage)
-中的 `proxyImage` 字段。请注意，上面的 `variant` 标志会自动为您设置该字段。
+中的 `image.imageType` 字段。请注意，上面的 `variant` 标志会自动为您设置该字段。
 
 ## 调试 {#debugging}
 

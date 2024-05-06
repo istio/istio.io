@@ -18,9 +18,7 @@ test: yes
 在此任务中，您将会把 100% 的 TCP 流量分配到 `tcp-echo:v1`。
 接着，再通过配置 Istio 路由权重把 20% 的 TCP 流量分配到 `tcp-echo:v2`。
 
-{{< boilerplate gateway-api-support >}}
-
-{{< boilerplate gateway-api-experimental >}}
+{{< boilerplate gateway-api-gamma-support >}}
 
 ## 开始之前 {#before-you-begin}
 
@@ -150,7 +148,7 @@ $ kubectl apply -f @samples/tcp-echo/gateway-api/tcp-echo-20-v2.yaml@ -n istio-i
 
 {{< text bash yaml >}}
 $ kubectl get virtualservice tcp-echo -o yaml -n istio-io-tcp-traffic-shifting
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: VirtualService
   ...
 spec:

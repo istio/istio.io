@@ -61,7 +61,7 @@ Security in Istio involves multiple components:
     - [authorization policies](/docs/concepts/security/#authorization-policies)
     - [secure naming information](/docs/concepts/security/#secure-naming)
 
-- Sidecar and perimeter proxies work as [Policy Enforcement Points](https://www.jerichosystems.com/technology/glossaryterms/policy_enforcement_point.html)
+- Sidecar and perimeter proxies work as [Policy Enforcement Points](https://csrc.nist.gov/glossary/term/policy_enforcement_point)
     (PEPs) to  secure communication between clients and servers.
 - A set of Envoy proxy extensions to manage telemetry and auditing
 
@@ -552,7 +552,7 @@ specification. If a request doesn't match a policy in one of the layers, the che
 
 The following graph shows the policy precedence in detail:
 
-{{< image width="50%" link="./authz-eval.png" caption="Authorization Policy Precedence">}}
+{{< image width="50%" link="./authz-eval.svg" caption="Authorization Policy Precedence">}}
 
 When you apply multiple authorization policies to the same workload, Istio applies them additively.
 
@@ -950,7 +950,7 @@ strict mutual TLS mode.
 
 After learning the basic concepts, there are more resources to review:
 
-- Try out the security policy by following the [authentication](/docs/tasks/security/authentication/authn-policy)
+- Try out the security policy by following the [authentication](/docs/tasks/security/authentication)
   and [authorization](/docs/tasks/security/authorization) tasks.
 
 - Learn some security [policy examples](/docs/ops/configuration/security/security-policy-examples) that could be

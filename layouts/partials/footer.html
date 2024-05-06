@@ -53,15 +53,22 @@
                 <a class="footer-policies-link" href="https://www.linuxfoundation.org/legal/privacy-policy">
                     {{ i18n "footer_privacy_policy" }}
                 </a> |
+                <a class="footer-policies-link" href="https://www.linuxfoundation.org/legal/trademark-usage">
+                    {{ i18n "footer_trademarks" }}
+                </a> |
                 {{ if .Params.source_repo }}
                     {{ $msg := i18n "generated_file" }}
                     {{ $title := printf $msg .Page.Params.source_repo }}
                     <a class="disabled" title="{{ $title }}">{{ i18n "edit_on_github" }}</a>
                 {{ else }}
+                    {{ $file := "" }}
+                    {{ with .File }}
+                        {{ $file = .Path }}
+                    {{ end }}
                     {{ if eq $home.Lang "zh" }}
-                        <a class="footer-policies-link" href="https://github.com/istio/istio.io/edit/{{ .Site.Data.args.doc_branch_name }}/content/zh/{{ .File }}">{{ i18n "edit_on_github" }}</a>
+                        <a class="footer-policies-link" href="https://github.com/istio/istio.io/edit/{{ .Site.Data.args.doc_branch_name }}/content/zh/{{ $file }}">{{ i18n "edit_on_github" }}</a>
                     {{ else }}
-                        <a class="footer-policies-link" href="https://github.com/istio/istio.io/edit/{{ .Site.Data.args.doc_branch_name }}/content/en/{{ .File }}">{{ i18n "edit_on_github" }}</a>
+                        <a class="footer-policies-link" href="https://github.com/istio/istio.io/edit/{{ .Site.Data.args.doc_branch_name }}/content/en/{{ $file }}">{{ i18n "edit_on_github" }}</a>
                     {{ end }}
                 {{ end }}
             </li>

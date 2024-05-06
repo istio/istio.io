@@ -67,3 +67,4 @@ cleanup_bookinfo_sample
 # TODO: find out why?
 echo y | istioctl uninstall --revision=default
 kubectl delete ns istio-system
+kubectl label namespace default istio-injection-

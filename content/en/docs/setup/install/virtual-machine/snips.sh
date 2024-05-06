@@ -75,7 +75,7 @@ samples/multicluster/gen-eastwest-gateway.sh --single-cluster | istioctl install
 
 snip_install_the_istio_control_plane_5() {
 samples/multicluster/gen-eastwest-gateway.sh \
-    --mesh mesh1 --cluster "${CLUSTER}" --network "${CLUSTER_NETWORK}" | \
+    --network "${CLUSTER_NETWORK}" | \
     istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true -y -f -
 }
 
@@ -89,6 +89,10 @@ kubectl apply -n istio-system -f samples/multicluster/expose-istiod.yaml
 
 snip_install_the_istio_control_plane_8() {
 kubectl apply -n istio-system -f samples/multicluster/expose-services.yaml
+}
+
+snip_install_the_istio_control_plane_9() {
+kubectl label namespace istio-system topology.istio.io/network="${CLUSTER_NETWORK}"
 }
 
 snip_install_namespace() {
@@ -225,7 +229,7 @@ snip_verify_istio_works_successfully_4() {
 curl helloworld.sample.svc:5000/hello
 }
 
-! read -r -d '' snip_verify_istio_works_successfully_4_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_verify_istio_works_successfully_4_out <<\ENDSNIP
 Hello version: v1, instance: helloworld-v1-578dd69f69-fxwwk
 ENDSNIP
 

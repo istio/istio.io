@@ -92,7 +92,7 @@ target_release: 1.0
 
 ## 重写 Istio Ingress 服务{#generate-the-Istio-manifest}
 
-要使用 AWS `nlb` 负载平衡器，必须在 Istio 安装中添加一个 AWS 特定的注释。 这些说明解释了如何添加注释。
+要使用 AWS `nlb` 负载均衡器，必须在 Istio 安装中添加一个 AWS 特定的注释。 这些说明解释了如何添加注释。
 
 将其保存为文件 `override.yaml`：
 您需要使用以下内容来重写 `istio-ingress` 服务：

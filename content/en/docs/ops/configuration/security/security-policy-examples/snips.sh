@@ -20,7 +20,7 @@
 #          docs/ops/configuration/security/security-policy-examples/index.md
 ####################################################################################################
 
-! read -r -d '' snip_require_different_jwt_issuer_per_host_1 <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_require_different_jwt_issuer_per_host_1 <<\ENDSNIP
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
@@ -48,7 +48,7 @@ spec:
         hosts: [".another.org", "*.another.org"]
 ENDSNIP
 
-! read -r -d '' snip_namespace_isolation_1 <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_namespace_isolation_1 <<\ENDSNIP
 apiVersion: security.istio.io/v1beta1
 kind: PeerAuthentication
 metadata:
@@ -71,7 +71,7 @@ spec:
         namespaces: ["foo"]
 ENDSNIP
 
-! read -r -d '' snip_namespace_isolation_with_ingress_exception_1 <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_namespace_isolation_with_ingress_exception_1 <<\ENDSNIP
 apiVersion: security.istio.io/v1beta1
 kind: PeerAuthentication
 metadata:
@@ -96,7 +96,7 @@ spec:
         principals: ["cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"]
 ENDSNIP
 
-! read -r -d '' snip_require_mtls_in_authorization_layer_defense_in_depth_1 <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_require_mtls_in_authorization_layer_defense_in_depth_1 <<\ENDSNIP
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
@@ -110,7 +110,7 @@ spec:
         notPrincipals: ["*"]
 ENDSNIP
 
-! read -r -d '' snip_require_mandatory_authorization_check_with_deny_policy_1 <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_require_mandatory_authorization_check_with_deny_policy_1 <<\ENDSNIP
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
@@ -127,7 +127,7 @@ spec:
         notRequestPrincipals: ["*"]
 ENDSNIP
 
-! read -r -d '' snip_require_mandatory_authorization_check_with_deny_policy_2 <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_require_mandatory_authorization_check_with_deny_policy_2 <<\ENDSNIP
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:

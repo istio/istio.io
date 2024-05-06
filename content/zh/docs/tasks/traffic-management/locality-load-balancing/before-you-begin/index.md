@@ -25,6 +25,36 @@ owner: istio/wg-networking-maintainers
     caption="Setup for locality load balancing tasks"
     >}}
 
+{{< tip >}}
+在单个多区域集群环境中，还可以配置局部负载均衡以将故障转移到同一集群内的不同区域。
+要测试它，您需要创建一个具有多个工作区域的集群，并将 istiod 实例和应用程序部署到每个区域。
+
+1: 如果您没有多区域 Kubernetes 集群，您可以使用 `kind` 通过以下命令在本地部署一个集群：
+
+{{< text syntax=bash snip_id=none >}}
+$ kind create cluster --config=- <<EOF
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+- role: control-plane
+- role: worker
+- role: worker
+- role: worker
+EOF
+{{< /text >}}
+
+2: 使用 `topology.kubernetes.io/zone` 为每个工作节点添加区域名称标签：
+
+{{< text syntax=bash snip_id=none >}}
+$ kubectl label node kind-worker topology.kubernetes.io/zone=us-south10
+$ kubectl label node kind-worker2 topology.kubernetes.io/zone=us-south12
+$ kubectl label node kind-worker3 topology.kubernetes.io/zone=us-south13
+{{< /text >}}
+
+3: 将 istiod 部署到控制平面节点，并将 helloworld 应用程序部署到每个工作节点。
+
+{{< /tip >}}
+
 ## 环境变量 {#environment-variables}
 
 本指南假定将通过默认的 [Kubernetes 配置文件](https://kubernetes.io/zh-cn/docs/tasks/access-application-cluster/configure-access-multiple-clusters/)中的上下文访问所有集群。
@@ -96,7 +126,7 @@ $ kubectl apply --context="${CTX_R3_Z4}" -n sample \
   -f helloworld-region3.zone4.yaml
 {{< /text >}}
 
-## 部署 `sleep` {#deploy-sleep}
+## 部署 `Sleep` {#deploy-sleep}
 
 部署 `Sleep` 应用到 `region1` `zone1`：
 
@@ -105,7 +135,7 @@ $ kubectl apply --context="${CTX_R1_Z1}" \
   -f @samples/sleep/sleep.yaml@ -n sample
 {{< /text >}}
 
-## 等待 `helloWorld` Pod {#wait-for-helloworld-pods}
+## 等待 `HelloWorld` Pod {#wait-for-helloworld-pods}
 
 等到 `HelloWorld` 在每个区域的 Pod 都为 `Running`：
 
