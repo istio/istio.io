@@ -133,11 +133,11 @@ mTLS 和[自动协议选择](/zh/docs/ops/configuration/traffic-management/proto
 
 为了支持 Istio 的流量路由功能，离开 Pod 的流量可能与未部署 Sidecar 时的流量不同。
 
-对于 HTTP 流量，流量根据 `Host` 标头进行路由。如果目标 IP 和 `Host`
+对基于 HTTP 的流量，流量根据 `Host` 标头进行路由。如果目标 IP 和 `Host`
 标头未对齐，这可能会导致意外行为。例如，`curl 1.2.3.4 -H "Host: httpbin.default"`
 请求将被路由到 `httpbin` 服务，而不是 `1.2.3.4`。
 
-对于非 HTTP 流量（包括 HTTPS），Istio 无法访问 `Host` 标头，
+对不基于 HTTP 的流量（包括 HTTPS），Istio 无法访问 `Host` 标头，
 因此路由决策基于服务 IP 地址。
 
 这意味着直接调用 Pod（例如，`curl <POD_IP>`），而不匹配 Service。

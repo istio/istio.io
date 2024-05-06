@@ -9,8 +9,6 @@ owner: istio/wg-networking-maintainers
 test: no
 ---
 
-{{< boilerplate ambient-alpha-warning >}}
-
 ## 简介  {#introsection}
 
 本指南深入介绍了 Istio Ambient 模式中 ztunnel 代理和 Layer 4 网络能力的功能和用法。
@@ -45,8 +43,8 @@ ztunnel 代理是用 Rust 语言编写的，旨在处理 Ambient 网格中的 L3
 其中实现了 Istio 的全套 L7 功能，例如 HTTP 遥测和负载均衡。
 “安全覆盖网络（Secure Overlay Networking）”概念被非正式地用于统称通过
 ztunnel 代理在 Ambient 网格中实现的 L4 网络功能集。
-在传输层，这是通过一种称为 HBONE 的基于 HTTP CONNECT 的流量隧道协议来实现的，
-HBONE 协议在本指南的[关于 HBONE](#hbonesection) 一节中进行说明。
+在传输层，这是通过称为 [HBONE](/zh/docs/ambient/architecture/hbone)
+的基于 HTTP CONNECT 的流量隧道协议来实现的。
 
 Istio 在 Ambient 模式下的一些用例可以仅通过 L4 安全覆盖网络功能来解决，
 并且不需要 L7 功能，因此不需要部署 Waypoint 代理。
@@ -62,9 +60,7 @@ Istio 在 Ambient 模式下的一些用例可以仅通过 L4 安全覆盖网络�
 
 ## 当前注意事项  {#caveats}
 
-{{< boilerplate ambient-alpha-warning >}}
-
-以下是 Ambient 模式 Alpha 中的功能限制或警告列表。
+以下是 Ambient 模式中的功能限制或警告列表。
 这些限制计划在未来版本中得到解决或删除。
 
 1. **仅限 Kubernetes：**目前仅支持 Ambient 模式下的 Istio 在 Kubernetes 集群上部署。
@@ -138,16 +134,15 @@ Pod C1、C2 和 C3 需要访问由 Pod S1 提供的服务，并且不需要高�
 （例如 L7 流量路由或 L7 流量管理），因此不需要 Waypoint 代理。
 
 该图展示了在节点 W1 上运行的 Pod C1 和 C2 与在节点 W2 上运行的 Pod S1 连接，
-它们的 TCP 流量通过在每个节点的 ztunnel 代理 Pod 之间创建的 HBONE 隧道实例进行隧道传输。
+它们的 TCP 流量通过在每个节点的 ztunnel 代理 Pod 之间创建的 {{< gloss >}}HBONE{{< /gloss >}} 隧道实例进行隧道传输。
 双向 TLS（mTLS）用于加密以及隧道流量的相互身份验证。SPIFFE 身份用于识别连接两端的工作负载。
 Istio Ambient 中使用的 `HBONE`（基于 HTTP 的覆盖网络封装：HTTP Based Overlay Network Encapsulation）概念是指一种透明、
 安全地隧道传输封装在 HTTPS 数据包中的 TCP 数据包的技术。
-有关数据路径的更多详细信息，包括 HBONE 和流量重定向详细信息，
-请参阅 [ztunnel 流量重定向](/zh/docs/ambient/usage/traffic-redirection)指南。
+有关数据路径的更多详细信息，请参阅 [HBONE](/zh/docs/ambient/architecture/hbone) 和
+[ztunnel 流量重定向](/zh/docs/ambient/architecture/traffic-redirection)中的架构指南。
 
 {{< tip >}}
 注意：虽然图中显示 HBONE 隧道位于两个 ztunnel 代理之间，
-但在 Istio 1.21.0 中引入的 Pod 内重定向实现中，
 隧道实际上位于源 Pod 和目标 Pod 之间。
 流量在源 Pod 本身的网络命名空间中进行 HBONE 封装和加密，
 最终在目标工作节点上的目标 Pod 的网络命名空间中解封装和解密。
@@ -170,51 +165,6 @@ ztunnel 代理仍然在逻辑上处理 HBONE 传输所需的控制平面和数�
 link="ztunnel-waypoint-datapath.png"
 caption="通过临时 Waypoint 的 ztunnel 数据路径"
 >}}
-
-#### ztunnel 数据路径 Hair-pinning  {#ztunnel-datapath-hair-pinning}
-
-{{< warning >}}
-如前所述，随着项目进入 Beta 及更高版本，一些 Ambient 功能可能会发生变化。
-此功能（Hair-pinning）是当前在 Ambient 的 Alpha 版本中可用的功能示例，
-并且随着项目的发展正在审查可能的修改。
-{{< /warning >}}
-
-前面已经指出，流量总是先发送到与目的地 Pod 相同节点上的 ztunnel 代理，然后再发送到目的地 Pod。
-但是，如果发送方完全位于 Istio Ambient 网格之外，因此不首先向目的地 ztunnel 发起 HBONE 隧道，该怎么办？
-如果发送者是恶意的并尝试绕过目标 ztunnel 代理将流量直接发送到 Ambient Pod 目标怎么办？
-
-这里有两种情况，如下图所示。在第一种情况下，流量流 B1 被节点 W2 在任何 HBONE 隧道外接收，
-并出于某种原因直接寻址到 Ambient Pod S1 的 IP 地址（可能是因为流量源不是 Ambient Pod）。
-如图所示，ztunnel 流量重定向逻辑将拦截此类流量，并通过本地 ztunnel 代理进行目的地侧代理处理和可能基于
-AuthorizationPolicy 的过滤，然后发送到 Pod S1。
-在第二种情况下，流量流 G1 被节点 W2 的 ztunnel 代理接收（可能通过 HBONE 隧道），
-但 ztunnel 代理检查目标服务是否需要 Waypoint 处理，但发送此流量的源不是 Waypoint
-或者是与此目标服务无关。在这种情况下。ztunnel 代理再次将流量 Hair-pinning 到与目标服务关联的 Waypoint 之一，
-然后可以将流量从那里传递到实现目标服务的任何 Pod（可能是 Pod S1 本身，如图所示）。
-
-{{< image width="100%"
-link="ztunnel-hairpin.png"
-caption="ztunnel 流量 Hair-pinning"
->}}
-
-### 关于 HBONE 的说明  {#hbonesection}
-
-HBONE（HTTP Based Overlay Network Encapsulation，基于 HTTP 的覆盖网络封装）是 Istio 中特定的术语。
-它是指通过 [HTTP CONNECT](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/CONNECT)
-方法使用标准 HTTP 隧道来透明地传递应用程序数据包/字节流。
-在 Istio 的当前实现中，它通过使用 HTTP CONNECT 方法透明地隧道传输 TCP 数据包，
-使用 [HTTP/2](https://httpwg.org/specs/rfc7540.html)，
-并通过[双向 TLS](https://www.cloudflare.com/learning/access-management/what-is-mutual-tls/)
-提供加密和相互身份验证且 HBONE 隧道本身在 TCP 端口 15008 上运行。
-来自 IP 层的整体 HBONE 数据包格式如下图所示。
-
-{{< image width="100%"
-link="hbone-packet.png"
-caption="HBONE L3 数据包格式"
->}}
-
-随着 Ambient 模式的发展，未来将研究 HBONE 和 HTTP 隧道的其他用例
-（例如对 IPv6 和 UDP 数据包的支持）。
 
 ## 部署应用程序  {#deployapplication}
 
@@ -507,9 +457,10 @@ Pod 设置为使用不同的模式，但不建议这样做。对于大多数常�
 1. 在 `cni.values.excludeNamespaces` 配置中的
    `istio-cni` 插件配置排除列表用于跳过排除列表中的命名空间。
 1. Pod 已使用 `ambient` 模式，如果：
-- 命名空间具有 `istio.io/dataplane-mode=ambient` 标签
-- Pod 上不存在 `sidecar.istio.io/status` 注解
-- `ambient.istio.io/redirection` 不是 `disabled`
+
+    * 命名空间或 Pod 具有标签 `istio.io/dataplane-mode=ambient`
+    * Pod 没有表示不选择的标签 `istio.io/dataplane-mode=none`
+    * Pod 上不存在注解 `sidecar.istio.io/status`
 
 避免配置冲突的最简单选项是用户确保对于每个命名空间，
 它要么具有 Sidecar 注入标签（`istio-injection=enabled`），
@@ -638,14 +589,10 @@ $ kubectl delete AuthorizationPolicy allow-sleep-to-httpbin  -n ambient-demo
 
 ### 东西向非网格 Pod 到 Ambient 网格 Pod（以及 PeerAuthentication 资源的使用）  {#ewnonmesh}
 
-在下面的示例中，通过在不属于 Istio 网格的单独命名空间中运行的客户端
+在下面的示例中，通过在不属于网格一部分的单独命名空间中运行的客户端
 `sleep` Pod 访问前面示例中已设置的相同 `httpbin` 服务。
-此示例显示 Ambient 网格 Pod 和非网格 Pod 之间的东西向流量得到无缝支持。
-请注意，如前面所述，此用例利用了 Ambient 的流量 Hair-pinning 功能。
-由于非网格 Pod 直接向后端 Pod 发起流量，而不经过 HBONE 或 ztunnel，
-因此在目标节点，流量将通过目标节点的 ztunnel 代理进行重定向，
-以确保应用 Ambient 鉴权策略（这可以通过以下方式验证，查看目标节点上相应
-ztunnel 代理 Pod 的日志；为简单起见，下面的示例代码片段中未显示日志）。
+此示例显示无缝支持 Ambient 网格 Pod 和非网格 Pod 之间的东西向流量。
+非网格 Pod 直接向目标 Pod 发起流量，而不经过源 ztunnel，而目标 ztunnel 强制执行任意 L4 策略来控制是否应允许或拒绝流量。
 
 {{< text bash >}}
 $ kubectl create namespace client-a
