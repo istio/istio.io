@@ -92,7 +92,7 @@ Kubernetes `1.27.3` 集群内的 Istio `1.21.0` 版本中运行。
 
 有关 Ambient {{< gloss "data plane" >}}数据平面{{< /gloss >}}设计的详细信息，
 以及它如何与 Istio {{< gloss "control plane" >}}控制平面{{< /gloss >}}交互，
-请参阅[数据平面](/zh/docs/ambient/architecture/data-plane) 和[控制平面](/zh/docs/ambient/architecture/control-plane)文档。
+请参阅[数据平面](/zh/docs/ambient/architecture/data-plane)和[控制平面](/zh/docs/ambient/architecture/control-plane)文档。
 
 ## 部署应用程序  {#deployapplication}
 
