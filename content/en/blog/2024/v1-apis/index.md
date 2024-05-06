@@ -22,6 +22,12 @@ In Istio 1.22 we are happy to announce that a concerted effort has been made to 
 * [Telemetry API](/docs/reference/config/telemetry/)*
 * [Peer Authentication](/docs/reference/config/security/peer_authentication/)
 
+## Feature stability and API versions
+
+Declarative APIs, such as those used by Kubernetes and Istio, decouple the _description_ of a resource from the _implementation_ that acts on it. 
+
+[Istio's feature phase definitions](https://istio.io/latest/docs/releases/feature-stages/) describe how a stable feature — one that is deemed ready for production use at any scale, and comes with a formal deprecation policy — should be matched with a `v1` API. We are now making good on that promise, with our API versions matching our feature stability for both features that have been stable for some time, and those which are being newly designated as stable in this release.
+
 ## Telemetry API
 
 The `v1` Telemetry API is the only API that was promoted that had changes from its previous version. The following `v1alpha1` features weren’t promoted to `v1`:
@@ -42,30 +48,30 @@ Please share any feedback on these fields by [creating issues on GitHub](https:/
 
 ## Overview of Istio CRDs
 
-| API | Versions |
-|---------|------------------------|
-| **Telemetry APIs** |
-| [Telemetry](/docs/reference/config/telemetry/) |  `v1`, `v1alpha1` |
-| **Security APIs** |
-| [Authorization Policy](/docs/reference/config/security/authorization-policy/) |  `v1`, `v1beta1` |
-| [Peer Authentication](/docs/reference/config/security/peer_authentication/) |  `v1`, `v1beta1` |
-| [Request Authentication](/docs/reference/config/security/request_authentication/) |  `v1`, `v1beta1` |
-| **Networking APIs** |
-| [Destination Rule](/docs/reference/config/networking/destination-rule/) |  `v1`, `v1beta1`, `v1alpha3` |
-| [Envoy Filter](/docs/reference/config/networking/envoy-filter/) |  `v1alpha3` |
-| Istio [Gateway](/docs/reference/config/networking/gateway/) |  `v1`, `v1beta1`, `v1alpha3` |
-| [Proxy Config](/docs/reference/config/networking/proxy-config/) |  `v1beta1` |
-| [Service Entry](/docs/reference/config/networking/service-entry/) |  `v1`, `v1beta1`, `v1alpha3` |
-| [Sidecar](/docs/reference/config/networking/sidecar/) |  `v1`, `v1beta1`, `v1alpha3` |
-| [Virtual Service](/docs/reference/config/networking/virtual-service/) |  `v1`, `v1beta1`, `v1alpha3` |
-| [Workload Entry](/docs/reference/config/networking/workload-entry/) |  `v1`, `v1beta1`, `v1alpha3` |
-| [Workload Group](/docs/reference/config/networking/workload-group/) |  `v1`, `v1beta1`, `v1alpha3` |
-| **Extension APIs** |
-| [Wasm Plugin](/docs/reference/config/proxy_extensions/wasm-plugin/) |  `v1alpha1` |
+This is the full list of supported API versions:
+
+| Category | API | Versions |
+| ---------|-----|----------|
+| Networking | [Destination Rule](/docs/reference/config/networking/destination-rule/) |  `v1`, `v1beta1`, `v1alpha3` |
+| | Istio [Gateway](/docs/reference/config/networking/gateway/) |  `v1`, `v1beta1`, `v1alpha3` |
+| | [Service Entry](/docs/reference/config/networking/service-entry/) |  `v1`, `v1beta1`, `v1alpha3` |
+| | [Sidecar](/docs/reference/config/networking/sidecar/) scope |  `v1`, `v1beta1`, `v1alpha3` |
+| | [Virtual Service](/docs/reference/config/networking/virtual-service/) |  `v1`, `v1beta1`, `v1alpha3` |
+| | [Workload Entry](/docs/reference/config/networking/workload-entry/) |  `v1`, `v1beta1`, `v1alpha3` |
+| | [Workload Group](/docs/reference/config/networking/workload-group/) |  `v1`, `v1beta1`, `v1alpha3` |
+| | [Proxy Config](/docs/reference/config/networking/proxy-config/) |  `v1beta1` |
+| | [Envoy Filter](/docs/reference/config/networking/envoy-filter/) |  `v1alpha3` |
+| Security  | [Authorization Policy](/docs/reference/config/security/authorization-policy/) |  `v1`, `v1beta1` |
+| | [Peer Authentication](/docs/reference/config/security/peer_authentication/) |  `v1`, `v1beta1` |
+| | [Request Authentication](/docs/reference/config/security/request_authentication/) |  `v1`, `v1beta1` |
+| Telemetry | [Telemetry](/docs/reference/config/telemetry/) |  `v1`, `v1alpha1` |
+| Extension | [Wasm Plugin](/docs/reference/config/proxy_extensions/wasm-plugin/) |  `v1alpha1` |
+
+Istio can also be configured [using the Kubernetes Gateway API](https://istio.io/latest/docs/setup/additional-setup/getting-started/).
 
 ## Using the `v1` Istio APIs
 
-As seen above, the Envoy Filter, Proxy Config and Wasm Plugin aren’t `v1` and within the [Telemetry API](#telemetry-api), there are three non-`v1` fields.
+There are some features in Istio that are still under active development, and subject to potential change between releases. The Envoy Filter, Proxy Config and Wasm Plugin APIs are not yet ready to be promoted to `v1`, and as mentioned above, there are three non-`v1` fields within the [Telemetry API](#telemetry-api).
 
 Since Istio maintains the same schema across API versions, users can utilize non-`v1` fields in their `v1` Custom Resources.
 
@@ -75,13 +81,13 @@ In new environments, selecting the `Stable Validation Policy` upon installing Is
 
 If the policy is deployed into an existing Istio installation that has Custom Resources that do not comply with it, the only allowed action is to delete the resource or remove the usage of the offending fields.
 
-To install Istio with the `Stable Validation Policy`use the following command:
+To install Istio with the stable validation policy:
 
 {{< text bash >}}
 $ helm install istio-base -n istio-system --set experimental.stableValidationPolicy=true
 {{< /text >}}
 
-To set a specific revision when installing Istio with the `Stable Validation Policy` use the following command:
+To set a specific revision when installing Istio with the policy:
 
 {{< text bash >}}
 $ helm install istio-base -n istio-system --set experimental.stableValidationPolicy=true -set revision=x
