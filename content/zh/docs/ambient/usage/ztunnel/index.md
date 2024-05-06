@@ -19,7 +19,6 @@ test: no
 
 * [简介](#introsection)
 * [当前注意事项](#caveats)
-* [功能概述](#functionaloverview)
 * [部署应用程序](#deployapplication)
 * [监控 ztunnel 代理和 L4 网络](#monitoringzt)
 * [L4 鉴权策略](#l4auth)
@@ -91,80 +90,9 @@ Kubernetes `1.27.3` 集群内的 Istio `1.21.0` 版本中运行。
 请参阅[安装用户指南](/zh/docs/ambient/install/)或[入门指南](/zh/docs/ambient/getting-started/)，
 了解关于在 Kubernetes 集群中安装 Ambient 模式 Istio 的信息。
 
-## 功能概述  {#functionaloverview}
-
-ztunnel 代理的功能行为可以分为数据平面行为和与 Istio 控制平面的交互。
-本节简要介绍这两个方面 - ztunnel 代理内部设计的详细描述超出了本指南的范围。
-
-### 控制平面概述  {#control-plane-overview}
-
-该图展示了 ztunnel 代理和 `istiod` 控制平面以及控制平面相关组件之间的流程概述。
-
-{{< image width="100%"
-link="ztunnel-architecture.png"
-caption="ztunnel 架构"
->}}
-
-ztunnel 代理使用 xDS API 与 Istio 控制平面（`istiod`）进行通信。
-这使得现代分布式系统所需的快速、动态配置更新成为可能。
-ztunnel 代理还使用 xDS 为其 Kubernetes 节点上调度的所有 Pod 的服务帐户获取 mTLS 证书。
-单个 ztunnel 代理可以代表共享其节点的任何 Pod 实现 L4 数据平面功能，
-这需要有效获取相关配置和证书。这种多租户架构与 Sidecar 模型形成鲜明对比，
-在 Sidecar 模型中，每个应用程序 Pod 都有自己的代理。
-
-另外值得注意的是，在 Ambient 模式下，xDS API 中使用一组简化的资源来进行 ztunnel 代理配置。
-这会提高性能（需要传输和处理从 istiod 发送到 ztunnel 代理的信息集更小）并改进排障过程。
-
-### 数据平面概述  {#data-plane-overview}
-
-本节简要总结了数据平面功能的关键内容。
-
-#### ztunnel 到 ztunnel 数据路径  {#ztunnel-to-ztunnel-datapath}
-
-第一个场景是 ztunnel 到 ztunnel L4 网络。如下图所示。
-
-{{< image width="100%"
-link="ztunnel-datapath-1.png"
-caption="ztunnel 基础：仅 L4 数据路径"
->}}
-
-该图描绘了 Kubernetes 集群的两个节点 W1 和 W2 上运行的 Ambient Pod 工作负载。
-每个节点上都有一个 ztunnel 代理实例。在此场景中，应用程序客户端
-Pod C1、C2 和 C3 需要访问由 Pod S1 提供的服务，并且不需要高级 L7 功能
-（例如 L7 流量路由或 L7 流量管理），因此不需要 Waypoint 代理。
-
-该图展示了在节点 W1 上运行的 Pod C1 和 C2 与在节点 W2 上运行的 Pod S1 连接，
-它们的 TCP 流量通过在每个节点的 ztunnel 代理 Pod 之间创建的 {{< gloss >}}HBONE{{< /gloss >}} 隧道实例进行隧道传输。
-双向 TLS（mTLS）用于加密以及隧道流量的相互身份验证。SPIFFE 身份用于识别连接两端的工作负载。
-Istio Ambient 中使用的 `HBONE`（基于 HTTP 的覆盖网络封装：HTTP Based Overlay Network Encapsulation）概念是指一种透明、
-安全地隧道传输封装在 HTTPS 数据包中的 TCP 数据包的技术。
-有关数据路径的更多详细信息，请参阅 [HBONE](/zh/docs/ambient/architecture/hbone) 和
-[ztunnel 流量重定向](/zh/docs/ambient/architecture/traffic-redirection)中的架构指南。
-
-{{< tip >}}
-注意：虽然图中显示 HBONE 隧道位于两个 ztunnel 代理之间，
-隧道实际上位于源 Pod 和目标 Pod 之间。
-流量在源 Pod 本身的网络命名空间中进行 HBONE 封装和加密，
-最终在目标工作节点上的目标 Pod 的网络命名空间中解封装和解密。
-ztunnel 代理仍然在逻辑上处理 HBONE 传输所需的控制平面和数据平面，
-但它能够从源 Pod 和目标 Pod 的网络命名空间内部执行此操作。
-{{< /tip >}}
-
-请注意，该图展示本地流量（从 Pod C3 到工作节点 W2 上的目标 Pod S1）
-无论是否跨越节点边界也会遍历本地 ztunnel 代理实例，
-以便对流量执行相同的 L4 流量管理功能（例如 L4 鉴权和 L4 遥测）。
-
-#### 通过 Waypoint 的 ztunnel 数据路径  {#ztunnel-datapath-via-waypoint}
-
-下图描述了需要高级 L7 流量路由、管理或策略处理用例的数据路径。
-这里 ztunnel 使用 HBONE 隧道将流量发送到 Waypoint 代理进行 L7 处理。
-处理后，Waypoint 通过第二个 HBONE 隧道将流量发送到托管所选服务目标 Pod 节点上的 ztunnel。
-一般来说，Waypoint 代理可能位于也可能不位于与源或目标 Pod 相同的节点上。
-
-{{< image width="100%"
-link="ztunnel-waypoint-datapath.png"
-caption="通过临时 Waypoint 的 ztunnel 数据路径"
->}}
+有关 Ambient {{< gloss "data plane" >}}数据平面{{< /gloss >}}设计的详细信息，
+以及它如何与 Istio {{< gloss "control plane" >}}控制平面{{< /gloss >}}交互，
+请参阅[数据平面](/zh/docs/ambient/architecture/data-plane) 和[控制平面](/zh/docs/ambient/architecture/control-plane)文档。
 
 ## 部署应用程序  {#deployapplication}
 

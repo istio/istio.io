@@ -1,21 +1,25 @@
 ---
-title: 流量路由
-description: 了解流量如何在 Ambient 网格中的工作负载之间路由。
+title: Ambient 数据平面
+description: 了解 Ambient 数据平面如何在 Ambient 网格中的工作负载之间路由流量。
 weight: 2
 owner: istio/wg-networking-maintainers
 test: no
 ---
 
 在 {{< gloss "ambient" >}}Ambient 模式{{< /gloss >}}中，工作负载分为 3 类：
+
 1. **脱离网格：**这是一个标准 Pod，未启用任何网格功能。
 1. **网格内：**这是一个 Pod，其流量被 {{< gloss >}}ztunnel{{< /gloss >}} 在 4 层拦截。
    在此模式下，可以对 Pod 流量实施 L4 策略。可以通过在 Pod 的命名空间上设置 `istio.io/dataplane-mode=ambient` 标签来为 Pod 启用此模式。
    这将为该命名空间中的所有 Pod 启用**网格内**模式。
-1. **启用 waypoint：**这是一个“网格内”的 Pod，**并且**部署了 {{< gloss "waypoint" >}}waypoint 代理{{< /gloss >}}。
+1. **网格内，启用 waypoint：**这是一个**网格内并且**部署了 {{< gloss "waypoint" >}}waypoint 代理{{< /gloss >}} 的 Pod。
+   在此模式下，可以对 Pod 流量实施 L7 策略。
+   可以通过设置 `istio.io/use-waypoint` 标签来启用此模式。
+   有关更多详细信息，请参阅[标签](/zh/docs/ambient/architecture#ambient-labels)。
 
-根据工作负载所属的类别，请求路径会有所不同。
+根据工作负载所属的类别，请求的路径将有所不同。
 
-## Ztunnel 路由 {#ztunnel-routing}
+## 网格内路由 {#in-mesh-routing}
 
 ### 出站 {#outbound}
 
@@ -50,15 +54,51 @@ Pod 可以接收 HBONE 流量或纯文本流量。这两种流量默认都可以
 它也会直接将请求发送到目标，而不通过任何 waypoint 代理。
 目前，来自 Sidecar 和网关的流量也不会通过任何 waypoint 代理，并且它们将在未来版本中意识到 waypoint 代理。
 
-## Waypoint 路由 {#waypoint-routing}
+#### 数据平面详细信息 {#dataplane-details}
 
-waypoint 以独占方式接收 HBONE 请求。
-收到请求后，waypoint 将确保流量适用于使用它的 `Pod` 或 `Service`。
+The L4 ambient dataplane between is depicted in the following figure.
+其间的 L4 Ambient 数据平面如下图所示。
+
+{{< image width="100%"
+link="ztunnel-datapath-1.png"
+caption="基础 ztunnel 仅 L4 数据路径"
+>}}
+
+该图描绘了 Kubernetes 集群的两个节点 W1 和 W2 上运行的 Ambient Pod 工作负载。
+每个节点上都有一个 ztunnel 代理实例。在此场景中，应用程序客户端
+Pod C1、C2 和 C3 需要访问由 Pod S1 提供的服务，并且不需要高级 L7 功能
+（例如 L7 流量路由或 L7 流量管理），因此不需要 waypoint 代理。
+
+该图显示在节点 W1 上运行的 Pod C1 和 C2 与在节点 W2 上运行的 Pod S1 连接。
+
+C1 和 C2 的 TCP 流量通过 ztunnel 创建的 {{< gloss >}}HBONE{{< /gloss >}}
+连接安全地通过隧道传输。{{< gloss "mutual tls authentication" >}}双向 TLS（mTLS）{{< /gloss >}}用于加密以及隧道流量的相互身份验证。
+[SPIFFE](https://github.com/spiffe/spiffe/blob/main/standards/SPIFFE.md) 身份用于识别连接每一端的工作负载。
+有关隧道协议和流量重定向机制的更多详细信息，请参阅 [HBONE](/zh/docs/ambient/architecture/hbone)
+和 [ztunnel 流量重定向](/zh/docs/ambient/architecture/traffic-redirection)中的指南。
+
+{{< tip >}}
+注意：虽然图中显示 HBONE 隧道位于两个 ztunnel 代理之间，
+隧道实际上位于源 Pod 和目标 Pod 之间。
+流量在源 Pod 本身的网络命名空间中进行 HBONE 封装和加密，
+最终在目标工作节点上的目标 Pod 的网络命名空间中解封装和解密。
+ztunnel 代理仍然在逻辑上处理 HBONE 传输所需的控制平面和数据平面，
+但它能够从源 Pod 和目标 Pod 的网络命名空间内部执行此操作。
+{{< /tip >}}
+
+请注意，该图展示本地流量（从 Pod C3 到工作节点 W2 上的目标 Pod S1）
+无论是否跨越节点边界也会遍历本地 ztunnel 代理实例，
+以便对流量执行相同的 L4 流量管理功能（例如 L4 鉴权和 L4 遥测）。
+
+## 启用了 waypoint 的网格内 {#in-mesh-routing-with-waypoint-enabled}
+
+waypoint 专门接收 HBONE 请求。收到请求后，
+waypoint 将确保流量适用于使用它的 `Pod` 或 `Service`。
 
 接受流量后，waypoint 将在转发之前强制执行 L7 策略
 （例如 `AuthorizationPolicy`、`RequestAuthentication`、`WasmPlugin`、`Telemetry` 等）。
 
-对与直接发送到 `Pod` 的，请求将在应用策略后才会被直接转发。
+对于直接发送到 `Pod` 的，请求将在应用策略后才会被直接转发。
 
 对于发送到 `Service` 的请求，waypoint 还将应用路由和负载均衡。
 默认情况下，`Service` 会简单地将请求路由到本身，在其端点之间进行负载均衡。
@@ -81,3 +121,13 @@ spec:
     - name: echo-v1
       port: 80
 {{< /text >}}
+
+下图显示了 ztunnel 和 waypoint 之间的数据路径（如果配置了 L7 策略实施）。
+这里 ztunnel 使用 HBONE 隧道将流量发送到 waypoint 代理进行 L7 处理。
+处理后，waypoint 通过第二个 HBONE 隧道将流量发送到托管所选服务目标 Pod 的节点上的 ztunnel。
+一般来说，waypoint 代理可能位于也可能不位于与源或目标 Pod 相同的节点上。
+
+{{< image width="100%"
+link="ztunnel-waypoint-datapath.png"
+caption="通过临时 waypoint 的 ztunnel 数据路径"
+>}}

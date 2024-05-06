@@ -20,14 +20,15 @@ test: n/a
     则只要服务 waypoint 可以处理服务流量或所有流量，则服务 waypoint 优先级就高于命名空间 waypoint。
     同样，Pod 上的标签优先级将高于命名空间标签。
 
-### 标签 {#labels}
+### 标签 {#ambient-labels}
 
-您可以使用以下标签将资源添加到网格中，
-流向资源的流量使用 waypoint，并控制被发送到 waypoint 的流量。
+您可以使用以下标签将资源添加到 {{< gloss "ambient" >}}Ambient{{< /gloss >}} 网格，
+并使用 Ambient {{< gloss "data plane" >}}数据平面{{< /gloss >}}管理 L4 流量，
+使用 waypoint 为您的资源实施 L7 策略，并控制如何将流量发送到 waypoint。
 
 |  名称  | 功能状态 | 资源 | 描述 |
 | --- | --- | --- | --- |
-| `istio.io/dataplane-mode` | Beta | `Namespace` |  将您的资源添加到 Ambient 网格中。<br><br>有效值：`ambient`。 |
+| `istio.io/dataplane-mode` | Beta | `Namespace` 或 `Pod` |  将您的资源添加到 Ambient 网格中。<br><br>有效值：`ambient`。 |
 | `istio.io/use-waypoint` | Beta | `Namespace`、`Service` 或 `Pod` | 使用 waypoint 对被标记资源的流量执行 L7 策略。<br><br>有效值：`{waypoint-name}`、`{namespace}/{waypoint-name}` 或 `#none`（带有哈希值）。 |
 | `istio.io/waypoint-for` | Alpha | `Gateway` | 指定 waypoint 将处理流量的端点类型。<br><br>有效值：`service`、`workload`、`none` 或 `all`。该标签是可选的，其默认值为 `service`。 |
 
