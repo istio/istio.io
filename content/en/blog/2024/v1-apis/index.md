@@ -32,7 +32,7 @@ Although there are currently no plans to discontinue support for the previous `v
 
 ## Telemetry API
 
-The `v1` Telemetry API is the only API that was promoted that had changes from its previous version. The following `v1alpha1` features weren’t promoted to `v1`:
+The `v1` Telemetry API is the only API that was promoted that had changes from its previous API version. The following `v1alpha1` features weren’t promoted to `v1`:
 * `metrics.reportingInterval`
     * Reporting interval allows configuration of the time between calls out to for metrics reporting. This currently only supports TCP metrics but we may use this for long duration HTTP streams in the future.
 
