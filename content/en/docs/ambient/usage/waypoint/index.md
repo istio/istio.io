@@ -267,16 +267,16 @@ $ kubectl exec deploy/sleep -- curl -s http://$REVIEWS_V2_POD_IP:9080/reviews/1
 Requests to the `reviews` service should be enforced by the `reviews-svc-waypoint` for any L7 policies.
 Requests to the `reviews` `v2` pod should be enforced by the `reviews-v2-pod-waypoint` for any L7 policies.
 
-1. If your L7 policy isn't enforced, run `istioctl analyzer` first to check if your policy has any validation issue.
+1.  If your L7 policy isn't enforced, run `istioctl analyzer` first to check if your policy has any validation issue.
 
     {{< text bash >}}
     $ istioctl analyze
     ✔ No validation issues found when analyzing namespace: default.
     {{< /text >}}
 
-1. Determine which waypoint is enforcing the L7 policy for your service or pod.
+1.  Determine which waypoint is enforcing the L7 policy for your service or pod.
 
-If your source calls for the destination as its service's hostname or IP, use the `istioctl experimental ztunnel-config service` command to confirm your waypoint is used by the destination service. Following the example earlier, the `reviews` service should use the `reviews-svc-waypoint` while all other services in the `default` namespace should use the namespace `waypoint`.
+    If your source calls for the destination as its service's hostname or IP, use the `istioctl experimental ztunnel-config service` command to confirm your waypoint is used by the destination service. Following the example earlier, the `reviews` service should use the `reviews-svc-waypoint` while all other services in the `default` namespace should use the namespace `waypoint`.
 
     {{< text bash >}}
     $ istioctl experimental ztunnel-config service
@@ -294,7 +294,7 @@ If your source calls for the destination as its service's hostname or IP, use th
     ...
     {{< /text >}}
 
-If your source calls for the destination using pod IP , use the `istioctl experimental ztunnel-config workload` command to confirm your waypoint is used by the destination pod. Following the example earlier, the `reviews` `v2` pod should use the `reviews-v2-pod-waypoint` while all other pods in the `default` namespace should not have any waypoints as by default only services use the namespace `waypoint`.
+    If your source calls for the destination using pod IP , use the `istioctl experimental ztunnel-config workload` command to confirm your waypoint is used by the destination pod. Following the example earlier, the `reviews` `v2` pod should use the `reviews-v2-pod-waypoint` while all other pods in the `default` namespace should not have any waypoints as by default only services use the namespace `waypoint`.
 
     {{< text bash >}}
     $ istioctl experimental ztunnel-config workload
@@ -310,10 +310,10 @@ If your source calls for the destination using pod IP , use the `istioctl experi
     ...
     {{< /text >}}
 
-If the value for the pod's waypoint column isn't correct, verify your pod labeled with `istio.io/use-waypoint` is using a waypoint that can process
-the traffic for your resource.  For example, if your `reviews` `v2` pod uses a waypoint that can only process service traffic, you will not see any waypoint used by that pod.
+    If the value for the pod's waypoint column isn't correct, verify your pod labeled with `istio.io/use-waypoint` is using a waypoint that can process
+    the traffic for your resource.  For example, if your `reviews` `v2` pod uses a waypoint that can only process service traffic, you will not see any waypoint used by that pod.
 
-1. Check the waypoint's proxy status via the `istioctl proxy-status` command.
+1.  Check the waypoint's proxy status via the `istioctl proxy-status` command.
 
     {{< text bash >}}
     $ istioctl proxy-status
@@ -325,19 +325,19 @@ the traffic for your resource.  For example, if your `reviews` `v2` pod uses a w
     ...
     {{< /text >}}
 
-1. Enable Envoy's [access log](/docs/tasks/observability/logs/access-log/) and check the logs of the waypoint proxy after sending some requests:
+1.  Enable Envoy's [access log](/docs/tasks/observability/logs/access-log/) and check the logs of the waypoint proxy after sending some requests:
 
     {{< text bash >}}
     $ kubectl logs deploy/waypoint
     {{< /text >}}
 
-If there is not enough information, you can enable the debug logs for the waypoint proxy:
+    If there is not enough information, you can enable the debug logs for the waypoint proxy:
 
     {{< text bash >}}
     $ istioctl pc log deploy/waypoint --level debug
     {{< /text >}}
 
-1. Check the envoy configuration for the waypoint via the `istioctl proxy-config` command, which shows all the information related to the waypoint such as clusters, endpoints, listeners, routes and secrets:
+1.  Check the envoy configuration for the waypoint via the `istioctl proxy-config` command, which shows all the information related to the waypoint such as clusters, endpoints, listeners, routes and secrets:
 
     {{< text bash >}}
     $ istioctl proxy-config all deploy/waypoint
