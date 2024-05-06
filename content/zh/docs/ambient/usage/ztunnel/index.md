@@ -45,8 +45,8 @@ ztunnel 代理是用 Rust 语言编写的，旨在处理 Ambient 网格中的 L3
 其中实现了 Istio 的全套 L7 功能，例如 HTTP 遥测和负载均衡。
 “安全覆盖网络（Secure Overlay Networking）”概念被非正式地用于统称通过
 ztunnel 代理在 Ambient 网格中实现的 L4 网络功能集。
-在传输层，这是通过一种称为 HBONE 的基于 HTTP CONNECT 的流量隧道协议来实现的，
-HBONE 协议在本指南的[关于 HBONE](#hbonesection) 一节中进行说明。
+在传输层，这是通过称为 [HBONE](/zh/docs/ambient/architecture/tls-tunnel)
+的基于 HTTP CONNECT 的流量隧道协议来实现的。
 
 Istio 在 Ambient 模式下的一些用例可以仅通过 L4 安全覆盖网络功能来解决，
 并且不需要 L7 功能，因此不需要部署 Waypoint 代理。
@@ -169,32 +169,6 @@ ztunnel 代理仍然在逻辑上处理 HBONE 传输所需的控制平面和数�
 {{< image width="100%"
 link="ztunnel-waypoint-datapath.png"
 caption="通过临时 Waypoint 的 ztunnel 数据路径"
->}}
-
-#### ztunnel 数据路径 Hair-pinning  {#ztunnel-datapath-hair-pinning}
-
-{{< warning >}}
-如前所述，随着项目进入 Beta 及更高版本，一些 Ambient 功能可能会发生变化。
-此功能（Hair-pinning）是当前在 Ambient 的 Alpha 版本中可用的功能示例，
-并且随着项目的发展正在审查可能的修改。
-{{< /warning >}}
-
-前面已经指出，流量总是先发送到与目的地 Pod 相同节点上的 ztunnel 代理，然后再发送到目的地 Pod。
-但是，如果发送方完全位于 Istio Ambient 网格之外，因此不首先向目的地 ztunnel 发起 HBONE 隧道，该怎么办？
-如果发送者是恶意的并尝试绕过目标 ztunnel 代理将流量直接发送到 Ambient Pod 目标怎么办？
-
-这里有两种情况，如下图所示。在第一种情况下，流量流 B1 被节点 W2 在任何 HBONE 隧道外接收，
-并出于某种原因直接寻址到 Ambient Pod S1 的 IP 地址（可能是因为流量源不是 Ambient Pod）。
-如图所示，ztunnel 流量重定向逻辑将拦截此类流量，并通过本地 ztunnel 代理进行目的地侧代理处理和可能基于
-AuthorizationPolicy 的过滤，然后发送到 Pod S1。
-在第二种情况下，流量流 G1 被节点 W2 的 ztunnel 代理接收（可能通过 HBONE 隧道），
-但 ztunnel 代理检查目标服务是否需要 Waypoint 处理，但发送此流量的源不是 Waypoint
-或者是与此目标服务无关。在这种情况下。ztunnel 代理再次将流量 Hair-pinning 到与目标服务关联的 Waypoint 之一，
-然后可以将流量从那里传递到实现目标服务的任何 Pod（可能是 Pod S1 本身，如图所示）。
-
-{{< image width="100%"
-link="ztunnel-hairpin.png"
-caption="ztunnel 流量 Hair-pinning"
 >}}
 
 ### 关于 HBONE 的说明  {#hbonesection}
