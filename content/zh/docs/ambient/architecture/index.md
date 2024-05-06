@@ -23,11 +23,11 @@ test: n/a
 | `istio.io/waypoint-for` | Alpha | `Gateway` | 指定 waypoint 将处理流量的端点类型，有效值：`service` 或 `none` 或 `workload` 或 `all`。该标签是可选的，其默认值为 `service`。 |
 
 为了使您的 `istio.io/use-waypoint` 标签值有效，
-您必须确保为使用它的端点配置 waypoint。默认情况下，waypoint 接受服务端点的流量。
+您必须确保为使用 waypoint 的端点配置 waypoint。默认情况下，waypoint 接受针对服务端点的流量。
 例如，当您通过 `istio.io/use-waypoint` 标签将 Pod 标记为使用特定 waypoint 时，
-该 waypoint 应被标记为 `istio.io./waypoint-for`，且值为 `workload` 或 `all`。
+该 waypoint 应添加值为 `workload` 或 `all` 的标签 `istio.io./waypoint-for`。
 
-### waypoint 的 7 层策略附加 {#layer-7-policy-attachment-to-waypoints}
+### 附加 7 层策略到 waypoint {#layer-7-policy-attachment-to-waypoints}
 
 您可以使用 `targetRefs` 将 7 层策略
 （例如 `AuthorizationPolicy`、`RequestAuthentication`、`Telemetry`、`WasmPlugin` 等）附加到您的 waypoint。
