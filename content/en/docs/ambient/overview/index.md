@@ -30,15 +30,16 @@ Ztunnel is responsible for securely connecting and authenticating workloads with
 
 The term "secure overlay" is used to collectively describe the set of L4 networking functions implemented in an ambient mesh via the ztunnel proxy. At the transport layer, this is implemented via an HTTP CONNECT-based traffic tunneling protocol called [HBONE](/docs/ambient/architecture/hbone).
 
-Some use cases of Istio in ambient mode may be addressed solely via the L4 secure overlay features, and will not need L7 features, thereby not requiring deployment of a waypoint proxy. Use cases requiring advanced traffic management and L7 networking features will require deployment of a waypoint.
-
-| Application deployment use case | Istio ambient mode configuration |
-| ------------------------------- | -------------------------------- |
-| Zero Trust networking via mutual-TLS, encrypted and tunneled data transport of client application traffic, L4 authorization, L4 telemetry | ztunnel only (default) |
-| As above, plus advanced Istio traffic management features (including L7 authorization, telemetry and VirtualService routing) | ztunnel and waypoint proxies |
-
 ## Waypoint proxies
 
 The waypoint proxy is a deployment of the {{< gloss >}}Envoy{{</ gloss >}} proxy; the same engine that Istio uses for its sidecar data plane mode.
 
 Waypoint proxies run outside of application pods. They are installed, upgraded, and scale independently from applications.
+
+Some use cases of Istio in ambient mode may be addressed solely via the L4 secure overlay features, and will not need L7 features, thereby not requiring deployment of a waypoint proxy. Use cases requiring advanced traffic management and L7 networking features will require deployment of a waypoint.
+
+| Application deployment use case | Ambient mode configuration |
+| ------------------------------- | -------------------------- |
+| Zero Trust networking via mutual-TLS, encrypted and tunneled data transport of client application traffic, L4 authorization, L4 telemetry | ztunnel only (default) |
+| As above, plus advanced Istio traffic management features (including L7 authorization, telemetry and VirtualService routing) | ztunnel and waypoint proxies |
+
