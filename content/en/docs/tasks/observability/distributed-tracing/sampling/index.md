@@ -149,7 +149,7 @@ The OpenTelemetry specification defines the [Sampler API](https://github.com/ope
 The Sampler API enables building a custom sampler that can perform more intelligent and efficient sampling decisions,
 such as [Probability Sampling](https://github.com/open-telemetry/opentelemetry-specification/blob/v1.31.0/specification/trace/tracestate-probability-sampling.md).
 
-Such samplers can then be paired with the the [`OpenTelemetryTracingProvider`](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider-OpenTelemetryTracingProvider).
+Such samplers can then be paired with the [`OpenTelemetryTracingProvider`](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider-OpenTelemetryTracingProvider).
 
 {{< quote >}}
 The sampler implementation resides in the proxy and can be found in
@@ -224,7 +224,7 @@ Deploy the [Bookinfo](/docs/examples/bookinfo/#deploying-the-application) sample
 1.  Remove any `istioctl` processes that may still be running using control-C or:
 
     {{< text syntax=bash snip_id=none >}}
-    $ killall istioctl
+    $ istioctl uninstall --purge -y
     {{< /text >}}
 
 1.  Uninstall the OpenTelemetry Collector:
