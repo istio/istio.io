@@ -167,7 +167,7 @@ spec:
 
 ## 验证结果 {#verify-the-results}
 
-发送流量到网格。对于 Bookinfo 示例，在 Web 浏览器中访问 `http://$GATEWAY_URL/productpage` 或发出以下命令:
+发送流量到网格。对于 Bookinfo 示例，在 Web 浏览器中访问 `http://$GATEWAY_URL/productpage` 或发出以下命令：
 
 {{< text bash >}}
 $ curl "http://$GATEWAY_URL/productpage"
@@ -177,7 +177,7 @@ $ curl "http://$GATEWAY_URL/productpage"
 `$GATEWAY_URL` 值设置在实例 [Bookinfo](/zh/docs/examples/bookinfo/) 中。
 {{< /tip >}}
 
-使用以下命令验证 Istio 是否为您的新文件生成了数据或者修改过的空间维度:
+使用以下命令验证 Istio 是否为您的新文件生成了数据或者修改过的空间维度：
 
 {{< text bash >}}
 $ istioctl x es "$(kubectl get pod -l app=productpage -o jsonpath='{.items[0].metadata.name}')" -oprom | grep istio_requests_total | grep -v TYPE |grep -v 'reporter="destination"'
