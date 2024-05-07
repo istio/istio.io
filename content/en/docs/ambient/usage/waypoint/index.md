@@ -120,9 +120,10 @@ After the Gateway resource is applied, Istiod will monitor the resource, deploy 
 
 ## Use a waypoint proxy {#useawaypoint}
 
-When a waypoint proxy is deployed, it is not used by any resources until you they are explicitly configured to use it. 
+When a waypoint proxy is deployed, it is not used by any resources until you they are explicitly configured to use it.
 
-To enable a namespace, service or Pod to use a waypoint, add the `istio.io/use-waypoint` label with a value of the waypoint name. We recommend to start with namespace waypoint proxy first as it can be used by any resources in the namespace. 
+To enable a namespace, service or Pod to use a waypoint, add the `istio.io/use-waypoint` label with a value of the waypoint name.
+We recommend to start with namespace waypoint proxy first as it can be used by any resources in the namespace.
 
 If you use `istioctl` to deploy your namespace waypoint, you can use the `--enroll-namespace` parameter to automatically label a namespace for you.
 
