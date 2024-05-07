@@ -6,7 +6,7 @@ owner: istio/wg-docs-maintainers-english
 test: no
 ---
 
-In **ambient mode**, Istio implements its [features](/docs/concepts) using a per-node Layer 4 (L4) proxy, and optionally a per-namespace Layer 7 (L7) proxy. 
+In **ambient mode**, Istio implements its [features](/docs/concepts) using a per-node Layer 4 (L4) proxy, and optionally a per-namespace Layer 7 (L7) proxy.
 
 This layered approach allows you to adopt Istio in a more incremental fashion, smoothly transitioning from no mesh, to a secure L4 overlay, to full L7 processing and policy — on a per-namespace basis, as needed. Furthermore, workloads running in different Istio {{< gloss >}}data plane{{< /gloss >}} modes interoperate seamlessly, allowing users to mix and match capabilities based on their particular needs as they change over time.
 
@@ -35,7 +35,7 @@ Some use cases of Istio in ambient mode may be addressed solely via the L4 secur
 | Application deployment use case | Istio ambient mode configuration |
 | ------------------------------- | -------------------------------- |
 | Zero Trust networking via mutual-TLS, encrypted and tunneled data transport of client application traffic, L4 authorization, L4 telemetry | ztunnel only (default) |
-| As above, plus advanced Istio traffic management features (incl L7 authorization, telemetry and VirtualService routing) | ztunnel and waypoint proxies |
+| As above, plus advanced Istio traffic management features (including L7 authorization, telemetry and VirtualService routing) | ztunnel and waypoint proxies |
 
 ## Waypoint proxies
 
