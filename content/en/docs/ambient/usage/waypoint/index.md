@@ -160,7 +160,7 @@ $ kubectl label service reviews istio.io/use-waypoint=reviews-svc-waypoint
 service/reviews labeled
 {{< /text >}}
 
-For any requests from any pods in ambient to the `reviews` service, the requests must go through the `reviews-svc-waypoint` for L7 processing and policy enforcement.
+Any requests from pods in the ambient mesh to the `reviews` service will now be routed through the `reviews-svc-waypoint` waypoint.
 
 ### Configure a specific pod with its own waypoint
 
