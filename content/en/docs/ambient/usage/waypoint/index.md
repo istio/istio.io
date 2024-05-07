@@ -282,7 +282,7 @@ Requests to the `reviews` `v2` pod should be enforced by the `reviews-v2-pod-way
 
 1.  Determine which waypoint is enforcing the L7 policy for your service or pod.
 
-    If your source calls for the destination as its service's hostname or IP, use the `istioctl experimental ztunnel-config service` command to confirm your waypoint is used by the destination service. Following the example earlier, the `reviews` service should use the `reviews-svc-waypoint` while all other services in the `default` namespace should use the namespace `waypoint`.
+    If your source calls the destination using the service's hostname or IP, use the `istioctl experimental ztunnel-config service` command to confirm your waypoint is used by the destination service. Following the example earlier, the `reviews` service should use the `reviews-svc-waypoint` while all other services in the `default` namespace should use the namespace `waypoint`.
 
     {{< text bash >}}
     $ istioctl experimental ztunnel-config service
