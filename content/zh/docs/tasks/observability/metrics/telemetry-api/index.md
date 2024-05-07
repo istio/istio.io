@@ -192,4 +192,3 @@ $ istioctl x es "$(kubectl get pod -l app=details -o jsonpath='{.items[0].metada
 {{< tip >}}
 代理可能需要很短的时间才能开始应用配置。如果没有收到度量值，您可以在短暂等待后重试发送请求，并再次查找度量指标。
 {{< /tip >}}
-
