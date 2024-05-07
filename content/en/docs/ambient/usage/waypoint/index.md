@@ -316,8 +316,8 @@ Requests to the `reviews` `v2` pod should be enforced by the `reviews-v2-pod-way
     ...
     {{< /text >}}
 
-    If the value for the pod's waypoint column isn't correct, verify your pod labeled with `istio.io/use-waypoint` is using a waypoint that can process
-    the traffic for your resource.  For example, if your `reviews` `v2` pod uses a waypoint that can only process service traffic, you will not see any waypoint used by that pod.
+    If the value for the pod's waypoint column isn't correct, verify your pod is labeled with `istio.io/use-waypoint` and the label's value is the name of a waypoint that can process
+    workload traffic.  For example, if your `reviews` `v2` pod uses a waypoint that can only process service traffic, you will not see any waypoint used by that pod.
 
 1.  Check the waypoint's proxy status via the `istioctl proxy-status` command.
 
