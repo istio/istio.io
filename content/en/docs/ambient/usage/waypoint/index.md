@@ -44,7 +44,7 @@ preview the generated Kubernetes Gateway resource, for example, the command belo
 `default` namespace that can process traffic for services in the namespace:
 
 {{< text bash >}}
-$ istioctl experimental waypoint generate -n default
+$ istioctl experimental waypoint generate --for service -n default
 kind: Gateway
 metadata:
   labels:
