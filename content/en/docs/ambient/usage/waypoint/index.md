@@ -300,7 +300,7 @@ Requests to the `reviews` `v2` pod should be enforced by the `reviews-v2-pod-way
     ...
     {{< /text >}}
 
-    If your source calls for the destination using pod IP , use the `istioctl experimental ztunnel-config workload` command to confirm your waypoint is used by the destination pod. Following the example earlier, the `reviews` `v2` pod should use the `reviews-v2-pod-waypoint` while all other pods in the `default` namespace should not have any waypoints as by default only services use the namespace `waypoint`.
+    If your source calls the destination using a pod IP , use the `istioctl experimental ztunnel-config workload` command to confirm your waypoint is used by the destination pod. Following the example earlier, the `reviews` `v2` pod should use the `reviews-v2-pod-waypoint` while all other pods in the `default` namespace should not have any waypoints because by default only services use the namespace `waypoint`.
 
     {{< text bash >}}
     $ istioctl experimental ztunnel-config workload
