@@ -254,7 +254,7 @@ EOF
 
 ## Debug your waypoint proxies
 
-The debugging guide below assume you have follow the ambient get started [guide](/docs/ambient/getting-started/) to install [Istio with
+The debugging guide below assume you have followed the ambient get started [guide](/docs/ambient/getting-started/) to install [Istio with
 the ambient profile](/docs/ambient/getting-started/#download) and the sample [bookinfo application](/docs/ambient/getting-started/#bookinfo), [added your application to the ambient mesh](/docs/ambient/getting-started/#addtoambient) and followed all the commands in the [use a waypoint](#useawaypoint) and [attach L7 policies to waypoint proxies](#attachl7policies) sections earlier.
 
 To send some requests to the `reviews` service via the `productpage` service from the `sleep` pod:
