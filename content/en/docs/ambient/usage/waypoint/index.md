@@ -143,7 +143,7 @@ namespace/default labeled
 
 After a namespace is enrolled to use a waypoint, any requests from any pods in ambient to any service running in that namespace will be routed through the waypoint for L7 processing and policy enforcement.
 
-If you prefer more granularity than namespace waypoint, you can label your specific service or pod in the namespace to use a different waypoint. For example, you may want your `WasmPlugin` resource to apply only on a specific service or you are calling a Kubernetes
+If you prefer more granularity than running a waypoint for an entire namespace, you can label a specific service or pod to use a waypoint. This may be useful if you want a `WasmPlugin` resource to apply only on a specific service, or if you are calling a Kubernetes
 [headless service](https://kubernetes.io/docs/concepts/services-networking/service/#headless-services) by its pod IP address.
 
 ### Configure a specific service with its own waypoint
