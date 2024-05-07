@@ -19,10 +19,13 @@ A waypoint, or set of waypoints, can be shared between applications with a simil
 
 This layered approach of ambient allows users to adopt Istio in a more incremental fashion, smoothly transitioning from no mesh, to the secure overlay, to full L7 processing. If your applications require any of the following L7 mesh functions, you will need to use waypoint proxy for your applications:
 
-{{< image width="100%"
-link="L7-processing-layer.png"
-caption="L7 processing layer"
->}}
+Most of the features of ambient mode are provided by the ztunnel node agent.  Ztunnel is scoped to only process traffic at Layer 4 (L4), so that it can safely operate as a shared component.
+
+When you add a waypoint proxy for a workload, traffic will be forwarded from the ztunnel to that waypoint. This enables the following features:
+
+* **Traffic management**: HTTP routing & load balancing, circuit breaking, rate limiting, fault injection, retries, timeouts
+* **Security**: Rich authorization policies based on L7 primitives such as request type or HTTP header
+* **Observability**: HTTP metrics, access logging, tracing
 
 ## Deploy a waypoint proxy
 
