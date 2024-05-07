@@ -178,7 +178,7 @@ $ kubectl label pod -l version=v2,app=reviews istio.io/use-waypoint=reviews-v2-p
 pod/reviews-v2-5b667bcbf8-spnnh labeled
 {{< /text >}}
 
-For any requests from any pods in ambient to the `reviews-v2` pod IP, the requests must go through the `reviews-v2-pod-waypoint`
+Any requests from pods in the ambient mesh to the `reviews-v2` pod IP will now be routed through the `reviews-v2-pod-waypoint` waypoint.
 for L7 processing and policy enforcement.
 
 ## Attach L7 policies to waypoint proxies {#attachl7policies}
