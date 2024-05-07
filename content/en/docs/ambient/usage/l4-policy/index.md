@@ -1,15 +1,25 @@
 ---
-title: Enable policy in ambient mode
-description: The two enforcement points for policy in an ambient mesh.
-weight: 20
+title: Use Layer 4 security policy
+description: Supported security features when using the secure L4 overlay.
+weight: 30
 owner: istio/wg-networking-maintainers
 test: no
 ---
 
-The ztunnel proxy performs authorization policy enforcement when a workload is enrolled in secure overlay mode (i.e. with no waypoint proxy configured).
-The actual enforcement point is at the receiving (or server-side) ztunnel proxy in the path of a connection.
+The layering of {{< gloss >}}ztunnel{{< /gloss >}} and {{< gloss >}}waypoint{{< /gloss >}} proxies in Istio's ambient mode gives you a choice on whether or not you want to enable Layer 7 (L7) processing for a given workload.
+
+The Layer 4 (L4) features of Istio's [security policies](/docs/concepts/security) are supported by ztunnel, and are available in ambient mode. [Kubernetes Network Policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/) also continue to work if you have a {{< gloss >}}CNI{{< /gloss >}} implementation that supports them, and can be 
+
+AuthoYou can implement access control without needing to deploy a waypoint proxy. Istio's fe
+Combined with [Kubernetes Network Policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/), 
+
+To use L7 policies, and Istio's traffic routing features, you will need to [deploy a waypoint](/docs/ambient/waypoint) for your workloads.
 
 ## Layer 4 authorization policies
+
+The ztunnel proxy performs authorization policy enforcement when a workload is enrolled in secure overlay mode (i.e. with no waypoint proxy configured).
+
+The actual enforcement point is at the receiving (or server-side) ztunnel proxy in the path of a connection.
 
 A basic L4 authorization policy looks like this:
 
@@ -32,6 +42,10 @@ EOF
 {{< /text >}}
 
 The behavior of the `AuthorizationPolicy` API has the same functional behavior in Istio ambient mode as in sidecar mode. When there is no `AuthorizationPolicy` provisioned, then the default action is `ALLOW`. Once a policy is provisioned, pods matching the selector in the policy only allow traffic which is explicitly allowed. In this example, pods with the label `app:httpbin` only allow traffic from sources with an identity principal of `cluster.local/ns/ambient-demo/sa/sleep`. Traffic from all other sources will be denied.
+
+## Peer authentication
+
+The 
 
 ## Layer 7 authorization policies without waypoints installed
 

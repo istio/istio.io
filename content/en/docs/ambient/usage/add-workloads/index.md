@@ -1,7 +1,7 @@
 ---
 title: Add workloads to the mesh
 description: Understand how to add workloads to an ambient mesh.
-weight: 1
+weight: 10
 owner: istio/wg-networking-maintainers
 test: no
 ---
@@ -14,6 +14,10 @@ To add an applications or namespaces to the mesh in ambient mode, add the label 
 
 Ambient mode can be seamlessly enabled (or disabled) completely transparently as far as the application pods are concerned. Unlike the {{< gloss >}}sidecar{{< /gloss >}} data plane mode, there is no need to restart applications to add them to the mesh, and they will not show as having an extra container deployed in their pod.
 
+## Security policy
+
+The secure overlay network
+
 ## Communicating between pods in different data plane modes
 
 There are multiple options for interoperability between application pods using the ambient data plane mode, and non-ambient endpoints (including Kubernetes application pods, Istio gateways or Kubernetes Gateway API instances). This interoperability provides multiple options for seamlessly integrating ambient and non-ambient workloads within the same Istio mesh, allowing for phased introduction of ambient capability as best suits the needs of your mesh deployment and operation.
@@ -22,7 +26,7 @@ There are multiple options for interoperability between application pods using t
 
 You may have namespaces which are not part of the mesh at all, in either sidecar or ambient mode. In this case, the non-mesh pods initiate traffic directly to the destination pods without going through the source node's ztunnel, while the destination pod's ztunnel enforces any L4 policy to control whether traffic should be allowed or denied.
 
-For example, setting a `PeerAuthentication` policy with mTLS mode set to `STRICT`, in an ambient-enabled namespace, will cause traffic from outside the mesh to be denied.
+For example, setting a `PeerAuthentication` policy with mTLS mode set to `STRICT`, in a namespace with ambient mode enabled, will cause traffic from outside the mesh to be denied.
 
 ### Pods inside the mesh using sidecar mode
 

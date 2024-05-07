@@ -6,7 +6,7 @@ owner: istio/wg-networking-maintainers
 test: no
 ---
 
-This section describes some options for monitoring the ztunnel proxy configuration and datapath. This information can also help with some high level troubleshooting and in identifying information that would be useful to collect and provide in a bug report if there are any problems. Additional advanced monitoring of ztunnel internals and advanced troubleshooting is out of scope for this guide.
+This guide describes some options for monitoring the ztunnel proxy configuration and datapath. This information can also help with some high level troubleshooting and in identifying information that would be useful to collect and provide in a bug report if there are any problems.
 
 ## Viewing ztunnel proxy state
 
