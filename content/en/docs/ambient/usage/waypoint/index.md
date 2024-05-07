@@ -141,7 +141,7 @@ $ kubectl label ns default istio.io/use-waypoint=waypoint
 namespace/default labeled
 {{< /text >}}
 
-After the namespace is enabled for waypoint, the waypoint proxy can be used for L7 processing for any services running in the namespace. For any requests from any pods in ambient to any service in the `default` namespace, the requests must go through the `waypoint` for L7 processing and policy enforcement.
+After a namespace is enrolled to use a waypoint, any requests from any pods in ambient to any service running in that namespace will be routed through the waypoint for L7 processing and policy enforcement.
 
 If you prefer more granularity than namespace waypoint, you can label your specific service or pod in the namespace to use a different waypoint. For example, you may want your `WasmPlugin` resource to apply only on a specific service or you are calling a Kubernetes
 [headless service](https://kubernetes.io/docs/concepts/services-networking/service/#headless-services) by its pod IP address.
