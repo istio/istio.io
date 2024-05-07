@@ -132,7 +132,7 @@ waypoint default/waypoint applied
 namespace default labeled with "istio.io/use-waypoint: waypoint"
 {{< /text >}}
 
-Or you can add the `istio.io/use-waypoint: waypoint` label to the `default` namespace using `kubectl`:
+Alternatively, you may add the `istio.io/use-waypoint: waypoint` label to the `default` namespace using `kubectl`:
 
 {{< text bash >}}
 $ kubectl label ns default istio.io/use-waypoint=waypoint
