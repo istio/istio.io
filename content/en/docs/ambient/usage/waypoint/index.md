@@ -28,7 +28,7 @@ When you add a waypoint proxy for a workload, traffic will be forwarded from the
 
 ## Deploy a waypoint proxy
 
-By default, a waypoint will only handle `service` traffic. It is possible for the bundled Istio waypoint class to handle `workload` traffic. Istio also recognizes a convenient `all` value which includes both previously mentioned traffic types. Finally, a waypoint may be configured for testing to handle no traffic at all by using the `none` value.
+Waypoint proxies are deployed declaratively using Kubernetes Gateway resources or the helpful istioctl command. By default, a waypoint will only handle `service` traffic. It is possible for the bundled Istio waypoint class to handle `workload` traffic. Istio also recognizes a convenient `all` value which includes both previously mentioned traffic types. Finally, a waypoint may be configured for testing to handle no traffic at all by using the `none` value.
 
 Before you deploy a waypoint proxy for a specific namespace, confirm the namespace is labeled with `istio.io/dataplane-mode: ambient`:
 
@@ -39,8 +39,8 @@ istio-system      Active   24h
 default           Active   24h   ambient
 {{< /text >}}
 
-Waypoint proxies are deployed declaratively using Kubernetes Gateway resources or the helpful istioctl command. You can
-preview the generated Kubernetes Gateway resource, for example, the command below generates a waypoint proxy named `waypoint` for the
+Before you deploy a waypoint proxy, you can preview the generated Kubernetes Gateway
+resource, for example, the command below generates a waypoint proxy named `waypoint` for the
 `default` namespace that can process traffic for services in the namespace:
 
 {{< text bash >}}
