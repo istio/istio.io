@@ -11,9 +11,9 @@ test: no
 
 Ambient splits Istio’s functionality into two distinct layers, a secure overlay layer and a Layer 7 processing layer.
 The waypoint proxy is an optional component that is Envoy-based and handles L7 processing for different resources.
-What is unique about the waypoint proxy is that it runs outside of the application pod. A waypoint proxy can install,
-upgrade, and scale independently from the application, as well as reduce operational costs. When deploying a waypoint,
-you can configure the waypoint to process traffic for different resource types such as `service`, `workload`, or `all`.
+Waypoint proxies are installed, upgraded and scaled independently from applications; an application owner should be unaware of their existence. Compared to the sidecar data plane mode, which runs an instance of the Envoy proxy alongside each workload, the number of proxies required can be substantially reduced.
+
+A waypoint, or set of waypoints, can be shared between applications with a similar security boundary. This might be all the instances of a particular workload, or all the workloads in a namespace.
 
 ## Do you need a waypoint proxy?
 
