@@ -144,7 +144,7 @@ After a namespace is enrolled to use a waypoint, any requests from any pods in a
 If you prefer more granularity than running a waypoint for an entire namespace, you can label a specific service or pod to use a waypoint. This may be useful if you want a `WasmPlugin` resource to apply only on a specific service, or if you are calling a Kubernetes
 [headless service](https://kubernetes.io/docs/concepts/services-networking/service/#headless-services) by its pod IP address.
 
-### Configure a specific service with its own waypoint
+### Configure a service to use a specific waypoint
 
 Deploy a waypoint called `reviews-svc-waypoint` for the `reviews` service:
 
