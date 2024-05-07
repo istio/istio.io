@@ -1,5 +1,5 @@
 ---
-title: Upgrade Guide
+title: Upgrade
 description: Upgrade guide for Istio ambient mode.
 weight: 10
 aliases:
