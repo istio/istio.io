@@ -162,7 +162,7 @@ service/reviews labeled
 
 Any requests from pods in the ambient mesh to the `reviews` service will now be routed through the `reviews-svc-waypoint` waypoint.
 
-### Configure a specific pod with its own waypoint
+### Configure a pod to use a specific waypoint
 
 Deploy a waypoint called `reviews-v2-pod-waypoint` for the `reviews-v2` pod:
 
