@@ -273,7 +273,7 @@ $ kubectl exec deploy/sleep -- curl -s http://$REVIEWS_V2_POD_IP:9080/reviews/1
 Requests to the `reviews` service should be enforced by the `reviews-svc-waypoint` for any L7 policies.
 Requests to the `reviews` `v2` pod should be enforced by the `reviews-v2-pod-waypoint` for any L7 policies.
 
-1.  If your L7 policy isn't enforced, run `istioctl analyzer` first to check if your policy has any validation issue.
+1.  If your L7 policy isn't enforced, run `istioctl analyze` first to check if your policy has any validation issue.
 
     {{< text bash >}}
     $ istioctl analyze
