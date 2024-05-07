@@ -13,15 +13,23 @@ status: Alpha
 Istio provides the ability to [extend its functionality using WebAssembly (Wasm)](/blog/2020/wasm-announce/).
 One of the key advantages of Wasm extensibility is that extensions can be loaded dynamically at runtime. This document outlines the testing process for the implementation of Wasm features in Ambient mode within Istio. In Ambient mode, Wasm configuration must be applied to the waypoint proxy deployed in each namespace, instead of to individual sidecars. This approach is essential due to the absence of sidecars in Ambient mode, which is a key distinction from previous configurations.
 
-### Install Ambient Mesh and deploy sample applications
+## Install Ambient Mesh and deploy test applications
 
 Follow the [Ambient Getting Started Guide](docs/ambient/getting-started/#download) to install Istio in ambient mode. Deploy the [sample applications](docs/ambient/getting-started/#bookinfo) required for testing the Wasm behavior. Make sure to add the test [applications to ambient mesh](docs/ambient/getting-started/#addtoambient) before proceeding further.
 
-### Apply the Wasm configuration at the Gateway
+## Apply Wasm configuration at the Gateway
+
+### Configure WasmPlugin for Gateway
 
 In this example, you will add a HTTP [Basic auth module](https://github.com/istio-ecosystem/wasm-extensions/tree/master/extensions/basic_auth) to your mesh. You will configure Istio to pull the Basic auth module from a remote image registry and load it. It will be configured to run on calls to `/productpage`. Steps are more or less similar as [Istio / Distributing WebAssembly Modules](docs/tasks/extensibility/wasm-module-distribution/), only difference being the usage of `targetRef` instead of `labelSelectors` in WasmPlugin.
 
 To configure a WebAssembly filter with a remote Wasm module, create a `WasmPlugin` resource targeting the `bookinfo-gateway`:
+
+{{< text bash >}}
+$ kubectl get gateway
+NAME               CLASS            ADDRESS        PROGRAMMED   AGE
+bookinfo-gateway   istio            172.18.7.110   True         23h
+{{< /text >}}
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -33,7 +41,7 @@ spec:
   targetRef:
     group: gateway.networking.k8s.io
     kind: Gateway
-    name: bookinfo-gateway
+    name: bookinfo-gateway # gateway name retrieved from previous step
   url: oci://ghcr.io/istio-ecosystem/wasm-extensions/basic_auth:1.12.0
   phase: AUTHN
   pluginConfig:
@@ -51,7 +59,7 @@ EOF
 An HTTP filter will be injected at the gateway as an authentication filter.
 The Istio agent will interpret the WasmPlugin configuration, download remote Wasm modules from the OCI image registry to a local file, and inject the HTTP filter at the gateway by referencing that file.
 
-## Verify the traffic via the Gateway
+### Verify the traffic via the Gateway
 
 1. Test `/productpage` without credentials
 
@@ -67,20 +75,33 @@ The Istio agent will interpret the WasmPlugin configuration, download remote Was
     200
     {{< /text >}}
 
+## Apply Wasm Configuration at Waypoint Proxy
+
 ### Deploy a waypoint proxy
+
+Follow the [waypoint deployment instructions](docs/ambient/getting-started/#layer-7-authorization-policy) to deploy a waypoint proxy in the bookinfo namespace.
 
 {{< text bash >}}
 $ istioctl x waypoint apply --enroll-namespace --wait
 {{< /text >}}
 
-### Verify traffic works without WasmPlugin at waypoint
- 
+### Verify traffic without WasmPlugin at the waypoint
+
 {{< text bash >}}
 $ kubectl exec deploy/sleep -- curl -s -w "%{http_code}" -o /dev/null http://productpage:9080/productpage
 200
 {{< /text >}}
 
 ### Apply WasmPlugin at waypoint proxy
+
+To configure a WebAssembly filter with a remote Wasm module, create a `WasmPlugin` resource targeting the `waypoint` gateway:
+
+{{< text bash >}}
+$ kubectl get gateway
+NAME               CLASS            ADDRESS        PROGRAMMED   AGE
+bookinfo-gateway   istio            172.18.7.110   True         23h
+waypoint           istio-waypoint   10.96.202.82   True         21h
+{{< /text >}}
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -92,7 +113,7 @@ spec:
   targetRef:
     group: gateway.networking.k8s.io
     kind: Gateway
-    name: waypoint
+    name: waypoint # gateway name retrieved from previous step
   url: oci://ghcr.io/istio-ecosystem/wasm-extensions/basic_auth:1.12.0
   phase: AUTHN
   pluginConfig:
