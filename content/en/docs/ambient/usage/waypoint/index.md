@@ -113,7 +113,11 @@ spec:
 EOF
 {{< /text >}}
 
-Or use the `istioctl experimental waypoint apply` command with the `--for` parameter such as `istioctl experimental waypoint apply -n default --for all`.
+You can also use the `--for` parameter to `istioctl experimental waypoint apply`:
+
+{{< text bash>}}
+$ istioctl experimental waypoint apply -n default --for all
+{{< /text >}}
 
 After the Gateway resource is applied, Istiod will monitor the resource, deploy and manage the corresponding waypoint deployment and service for users automatically.
 
