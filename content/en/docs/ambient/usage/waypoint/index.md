@@ -28,9 +28,7 @@ When you add a waypoint proxy for a workload, traffic will be forwarded from the
 
 ## Deploy a waypoint proxy
 
-Waypoint proxies can process traffic for `service`, `workload`, or `all`. You can also configure your waypoint proxy to
-process `none` of the traffic, which is primarily used for testing purpose as you incrementally add a waypoint proxy to
-your application.
+By default, a waypoint will only handle `service` traffic. It is possible for the bundled Istio waypoint class to handle `workload` traffic. Istio also recognizes a convenient `all` value which includes both previously mentioned traffic types. Finally, a waypoint may be configured for testing to handle no traffic at all by using the `none` value.
 
 Before you deploy a waypoint proxy for a specific namespace, confirm the namespace is labeled with `istio.io/dataplane-mode: ambient`:
 
