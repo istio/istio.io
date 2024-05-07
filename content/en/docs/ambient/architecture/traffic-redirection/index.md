@@ -43,7 +43,7 @@ Traffic to and from pods in the mesh will be fully encrypted with mTLS by defaul
 
 Data will now enter and leave the pod network namespace encrypted. Every pod in the mesh has the ability to enforce mesh policy and securely encrypt traffic, even though the user application running in the pod has no awareness of either.
 
-Here’s a diagram to illustrate how encrypted traffic flows between pods in the ambient mesh in the new model:
+This diagram illustrates how encrypted traffic flows between pods in the ambient mesh in the new model:
 
 {{< image width="100%"
     link="./traffic-flows-between-pods-in-ambient.svg"
@@ -52,7 +52,7 @@ Here’s a diagram to illustrate how encrypted traffic flows between pods in the
 
 ## Observing and debugging traffic redirection in ambient mode
 
-If traffic redirection is not working correctly in ambient mode, some quick checks can be made to help narrow down the problem. To demonstrate traffic redirection in action, first follow the steps described in the [ztunnel L4 networking guide](/docs/ambient/usage/ztunnel), including deployment of Istio with ambient mode enabled in a Kubernetes cluster, and the deployment of `httpbin` and `sleep` in the namespace tagged for ambient mode. Once you have verified that the application is successfully running in the ambient mesh, you can use the following steps to observe the traffic redirection.
+If traffic redirection is not working correctly in ambient mode, some quick checks can be made to help narrow down the problem. To demonstrate traffic redirection in action, first follow the steps described in the [ztunnel debugging guide](/docs/ambient/usage/debugging).
 
 ### Check the ztunnel proxy logs
 

@@ -1,7 +1,7 @@
 ---
 title: Getting Started
 description: How to deploy and install Istio in ambient mode.
-weight: 1
+weight: 2
 aliases:
   - /docs/ops/ambient/getting-started
   - /latest/docs/ops/ambient/getting-started

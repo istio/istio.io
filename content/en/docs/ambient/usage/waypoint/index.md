@@ -1,7 +1,7 @@
 ---
-title: Layer 7 Networking & Services with Waypoint Proxies
-description: Gain the full set of Istio feature with optional waypoint proxies.
-weight: 2
+title: Configure waypoint proxies
+description: Gain the full set of Istio features with optional Layer 7 proxies.
+weight: 10
 aliases:
   - /docs/ops/ambient/usage/waypoint
   - /latest/docs/ops/ambient/usage/waypoint
