@@ -10,8 +10,8 @@ status: Alpha
 
 {{< boilerplate alpha >}}
 
-Istio provides the ability to [extend its functionality using WebAssembly (Wasm)](/blog/2020/wasm-announce/).
-One of the key advantages of Wasm extensibility is that extensions can be loaded dynamically at runtime. This document outlines the testing process for the implementation of Wasm features in Ambient mode within Istio. In Ambient mode, Wasm configuration must be applied to the waypoint proxy deployed in each namespace, instead of to individual sidecars. This approach is essential due to the absence of sidecars in Ambient mode, which is a key distinction from previous configurations.
+Istio provides the ability to [extend its functionality using WebAssembly (Wasm)](/docs/reference/config/proxy_extensions/wasm-plugin/).
+One of the key advantages of Wasm extensibility is that extensions can be loaded dynamically at runtime. This document outlines the testing process for the implementation of Wasm features in ambient mode within Istio. In ambient mode, Wasm configuration must be applied to the waypoint proxy deployed in each namespace, instead of to individual sidecars. This approach is essential due to the absence of sidecars in ambient mode, which is a key distinction from previous configuration.
 
 ## Install Ambient Mesh and deploy test applications
 
@@ -21,7 +21,7 @@ Follow the [Ambient Getting Started Guide](docs/ambient/getting-started/#downloa
 
 ### Configure WasmPlugin for Gateway
 
-In this example, you will add a HTTP [Basic auth module](https://github.com/istio-ecosystem/wasm-extensions/tree/master/extensions/basic_auth) to your mesh. You will configure Istio to pull the Basic auth module from a remote image registry and load it. It will be configured to run on calls to `/productpage`. Steps are more or less similar as [Istio / Distributing WebAssembly Modules](docs/tasks/extensibility/wasm-module-distribution/), only difference being the usage of `targetRef` instead of `labelSelectors` in WasmPlugin.
+In this example, you will add a HTTP [Basic auth module](https://github.com/istio-ecosystem/wasm-extensions/tree/master/extensions/basic_auth) to your mesh. You will configure Istio to pull the Basic auth module from a remote image registry and load it. It will be configured to run on calls to `/productpage`. Steps are more or less similar as [Istio / Distributing WebAssembly Modules](docs/tasks/extensibility/wasm-module-distribution/), only difference being the recommended usage of `targetRefs` instead of `labelSelectors` in WasmPlugin.
 
 To configure a WebAssembly filter with a remote Wasm module, create a `WasmPlugin` resource targeting the `bookinfo-gateway`:
 
@@ -38,10 +38,10 @@ kind: WasmPlugin
 metadata:
   name: basic-auth-at-gateway
 spec:
-  targetRef:
-    group: gateway.networking.k8s.io
-    kind: Gateway
-    name: bookinfo-gateway # gateway name retrieved from previous step
+  targetRefs:
+    - kind: Gateway
+      group: gateway.networking.k8s.io
+      name: bookinfo-gateway # gateway name retrieved from previous step
   url: oci://ghcr.io/istio-ecosystem/wasm-extensions/basic_auth:1.12.0
   phase: AUTHN
   pluginConfig:
@@ -110,10 +110,10 @@ kind: WasmPlugin
 metadata:
   name: basic-auth-at-waypoint
 spec:
-  targetRef:
-    group: gateway.networking.k8s.io
-    kind: Gateway
-    name: waypoint # gateway name retrieved from previous step
+  targetRefs:
+    - kind: Gateway
+      group: gateway.networking.k8s.io
+      name: waypoint # gateway name retrieved from previous step
   url: oci://ghcr.io/istio-ecosystem/wasm-extensions/basic_auth:1.12.0
   phase: AUTHN
   pluginConfig:
@@ -153,10 +153,79 @@ basic-auth-at-waypoint   14m
     200
     {{< /text >}}
 
+## Apply WasmPlugin for a specific Service using Waypoint
+
+To configure a WebAssembly filter with a remote Wasm module for a specific service, create a `WasmPlugin` resource targeting the `waypoint` that is specifically created for that service:
+
+{{< text bash >}}
+$ istioctl experimental waypoint apply -n default --name reviews-svc-waypoint --wait
+waypoint default/reviews-svc-waypoint applied
+{{< /text >}}
+
+Label the `reviews` service to use the `reviews-svc-waypoint` waypoint:
+
+{{< text bash >}}
+$ kubectl label service reviews istio.io/use-waypoint=reviews-svc-waypoint
+service/reviews labeled
+{{< /text >}}
+
+Any requests from pods in the ambient mesh to the `reviews` service will now be routed through the `reviews-svc-waypoint` waypoint.
+
+{{< text bash >}}
+$ kubectl get gateway
+NAME                   CLASS            ADDRESS         PROGRAMMED   AGE
+bookinfo-gateway       istio            172.18.7.110    True         46h
+reviews-svc-waypoint   istio-waypoint   10.96.177.137   True         30s
+waypoint               istio-waypoint   10.96.202.82    True         44h
+{{< /text >}}
+
+Now, create a `WasmPlugin` targeting the new `waypoint` so that the extension applies only to the `reviews` service.
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: extensions.istio.io/v1alpha1
+kind: WasmPlugin
+metadata:
+  name: basic-auth-for-service
+spec:
+  targetRefs:
+    - kind: Gateway
+      group: gateway.networking.k8s.io
+      name: reviews-svc-waypoint
+  url: oci://ghcr.io/istio-ecosystem/wasm-extensions/basic_auth:1.12.0
+  phase: AUTHN
+  pluginConfig:
+    basic_auth_rules:
+      - prefix: "/reviews"
+        request_methods:
+          - "GET"
+          - "POST"
+        credentials:
+          - "ok:test"
+          - "MXQtaW4zOmFkbWluMw=="
+EOF
+{{< /text >}}
+
+### Verify the traffic targeting the Service
+
+1. Test internal `/productpage` with credentials configured at the generic `waypoint` proxy
+
+    {{< text bash >}}
+    $ kubectl exec deploy/sleep -- curl -s -w "%{http_code}" -o /dev/null -H "Authorization: Basic YWRtaW4zOmFkbWluMw==" http://productpage:9080/productpage
+    200
+    {{< /text >}}
+
+1. Test internal `/reviews` with credentials configured at the specific `reviews-svc-waypoint` proxy
+
+    {{< text bash >}}
+    $ kubectl exec deploy/sleep -- curl -s -w "%{http_code}" -o /dev/null -H "Authorization: Basic MXQtaW4zOmFkbWluMw==" http://reviews:9080/reviews/1
+    200
+    {{< /text >}}
+
 ### Cleanup
 
 {{< text bash >}}
-$ kubectl delete wasmplugin basic-auth-at-gateway basic-auth-at-waypoint
+$ kubectl delete wasmplugin basic-auth-at-gateway basic-auth-at-waypoint basic-auth-for-service
 {{< /text >}}
 
 Follow [ambient uninstall guide](docs/ambient/getting-started/#uninstall) for cleanup of ambient mesh and sample test applications.
