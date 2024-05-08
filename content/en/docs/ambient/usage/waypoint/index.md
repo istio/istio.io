@@ -189,8 +189,8 @@ The following L7 policies are supported for waypoint proxy:
 |  Name  | Feature Status | Policy Attachment |
 | --- | --- | --- |
 | `HTTPRoute` | Beta | `parentRefs` |
-| `TCPRoute` | Beta | `parentRefs` |
-| `TLSRoute` | Beta | `parentRefs` |
+| `TCPRoute` | Alpha | `parentRefs` |
+| `TLSRoute` | Alpha | `parentRefs` |
 | `AuthorizationPolicy` | Beta | `targetRefs` |
 | `RequestAuthentication` | Beta | `targetRefs` |
 | `Telemetry` | Alpha | `targetRefs` |
