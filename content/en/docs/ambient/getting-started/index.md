@@ -102,6 +102,7 @@ Make sure the default namespace does not include the label `istio-injection=enab
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
+    $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-versions.yaml@
     {{< /text >}}
 
     {{< text bash >}}
@@ -312,7 +313,6 @@ identities, but not at the Layer 7 level, such as HTTP methods like `GET` and `P
 1. You can use the same waypoint to control traffic to `reviews`. Configure traffic routing to send 90% of requests to `reviews` v1 and 10% to `reviews` v2:
 
     {{< text bash >}}
-    $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-versions.yaml@
     $ kubectl apply -f @samples/bookinfo/gateway-api/route-reviews-90-10.yaml@
     {{< /text >}}
 
