@@ -77,9 +77,9 @@ There are some APIs in Istio that are still under active development and are sub
 
 Furthermore, Istio maintains a strictly identical schema across all versions of an API due to limitations in [CRD versioning](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definition-versioning/). Therefore, even though there is a `v1` Telemetry API, the three `v1alpha1` fields mentioned [above](#telemetry-api) can still be utilized when declaring a `v1` Telemetry API resource.
 
-For risk-averse environments, we have provided a sample `Stable Validation Policy` that can ensure only `v1` APIs and fields are used.
+For risk-averse environments, we have added a **stable validation policy**, a [validating admission policy](https://kubernetes.io/docs/reference/access-authn-authz/validating-admission-policy/) which can ensures that only `v1` APIs and fields are used with Istio APIs.
 
-In new environments, selecting the `Stable Validation Policy` upon installing Istio will guarantee that all future Custom Resources created or updated are `v1` and contain only `v1` features.
+In new environments, selecting the stable validation policy upon installing Istio will guarantee that all future Custom Resources created or updated are `v1` and contain only `v1` features.
 
 If the policy is deployed into an existing Istio installation that has Custom Resources that do not comply with it, the only allowed action is to delete the resource or remove the usage of the offending fields.
 
