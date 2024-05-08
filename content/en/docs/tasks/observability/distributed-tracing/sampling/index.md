@@ -23,7 +23,7 @@ all the different ways sampling can be configured.
 
 1.  Deploy the OpenTelemetry Collector
 
-{{< boilerplate start-otel-collector-service >}}
+    {{< boilerplate start-otel-collector-service >}}
 
 ### Percentage Sampler
 
