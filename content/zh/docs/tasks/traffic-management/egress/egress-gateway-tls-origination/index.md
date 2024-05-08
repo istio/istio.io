@@ -11,11 +11,11 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-[为 Egress 流量发起 TLS 连接](/zh/docs/tasks/traffic-management/egress/egress-tls-origination/)
+[为出口流量发起 TLS 连接](/zh/docs/tasks/traffic-management/egress/egress-tls-origination/)
 示例中演示了如何配置 Istio 以对外部服务流量实施 {{< gloss >}}TLS origination{{< /gloss >}}。
-[配置 Egress Gateway](/zh/docs/tasks/traffic-management/egress/egress-gateway/)
-示例中演示了如何配置 Istio 来通过专门的 egress 网关服务引导 egress 流量。
-本示例兼容以上两者，描述如何配置 egress 网关，为外部服务流量发起 TLS 连接。
+[配置 Egress 网关](/zh/docs/tasks/traffic-management/egress/egress-gateway/)示例中演示了如何配置
+Istio 来通过专门的 Egress 网关服务引导出口流量。
+本示例兼容以上两者，描述如何配置 Egress 网关，为外部服务流量发起 TLS 连接。
 
 {{< boilerplate gateway-api-gamma-support >}}
 
@@ -65,12 +65,12 @@ test: yes
     {{< /text >}}
 
 *   如果您不使用 `Gateway API` 指令，
-    请确保[部署 Istio egress 网关](/zh/docs/tasks/traffic-management/egress/egress-gateway/#deploy-istio-egress-gateway)。
+    请确保[部署 Istio Egress 网关](/zh/docs/tasks/traffic-management/egress/egress-gateway/#deploy-istio-egress-gateway)。
 
-## 通过 egress 网关发起 TLS 连接 {#perform-TLS-origination-with-an-egress-gateway}
+## 通过 Egress 网关发起 TLS 连接 {#perform-TLS-origination-with-an-egress-gateway}
 
-本节描述如何使用 egress 网关发起与示例[为 Egress 流量发起 TLS 连接](/zh/docs/tasks/traffic-management/egress/egress-tls-origination/)中一样的
-TLS。注意，这种情况下，TLS 的发起过程由 egress 网关完成，而不是像之前示例演示的那样由
+本节描述如何使用 Egress 网关发起与示例[为出口流量发起 TLS 连接](/zh/docs/tasks/traffic-management/egress/egress-tls-origination/)中一样的
+TLS。注意，这种情况下，TLS 的发起过程由 Egress 网关完成，而不是像之前示例演示的那样由
 Sidecar 完成。
 
 1. 为 `edition.cnn.com` 定义一个 `ServiceEntry`：
@@ -110,8 +110,8 @@ Sidecar 完成。
 
     如果在输出中看到 `301 Moved Permanently`，说明 `ServiceEntry` 配置正确。
 
-1. 为 `edition.cnn.com` 创建一个 egress `Gateway`，端口 443，以及一个 Sidecar
-   请求的目标规则，Sidecar 请求被直接导向 egress 网关。
+1. 为 `edition.cnn.com` 创建一个 Egress `Gateway`，端口 443，以及一个 Sidecar
+   请求的目标规则，Sidecar 请求被直接导向 Egress 网关。
 
 {{< tabset category-name="config-api" >}}
 
@@ -205,7 +205,7 @@ EOF
 
 {{< /tabset >}}
 
-4) Configure route rules to direct traffic through the egress gateway:
+4) 配置路由规则以引导流量通过 Egress 网关：
 
 {{< tabset category-name="config-api" >}}
 
@@ -290,7 +290,6 @@ EOF
 
 {{< /tabset >}}
 
-5)  Define a `DestinationRule` to perform TLS origination for requests to `edition.cnn.com`:
 5)  定义一个 `DestinationRule` 来为 `edition.cnn.com` 的请求执行 TLS 发起：
 
     {{< text bash >}}
@@ -320,9 +319,9 @@ EOF
     ...
     {{< /text >}}
 
-    输出将与在示例[为 Egress 流量发起 TLS 连接](/zh/docs/tasks/traffic-management/egress/egress-tls-origination/)中显示的一样，发起 TLS 连接后，不再显示 _301 Moved Permanently_ 消息。
+    输出将与在示例[为出口流量发起 TLS 连接](/zh/docs/tasks/traffic-management/egress/egress-tls-origination/)中显示的一样，发起 TLS 连接后，不再显示 _301 Moved Permanently_ 消息。
 
-7)  检查 egress 网关代理的日志。
+7)  检查 Egress 网关代理的日志。
 
 {{< tabset category-name="config-api" >}}
 
@@ -344,7 +343,7 @@ $ kubectl logs -l istio=egressgateway -c istio-proxy -n istio-system | tail
 
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
-使用 Istio 生成的 Pod 标签访问 egress 网关对应的日志：
+使用 Istio 生成的 Pod 标签访问 Egress 网关对应的日志：
 
 {{< text bash >}}
 $ kubectl logs -l gateway.networking.k8s.io/gateway-name=cnn-egress-gateway -c istio-proxy | tail
@@ -393,18 +392,18 @@ $ kubectl delete destinationrule originate-tls-for-edition-cnn-com
 
 {{< /tabset >}}
 
-## 通过 egress 网关发起双向 TLS 连接 {#perform-mutual-TLS-origination-with-an-egress-gateway}
+## 通过 Egress 网关发起双向 TLS 连接 {#perform-mutual-TLS-origination-with-an-egress-gateway}
 
-与前一章节类似，本章节描述如何配置一个 egress 网关，为外部服务发起 TLS 连接，
+与前一章节类似，本章节描述如何配置一个 Egress 网关，为外部服务发起 TLS 连接，
 只是这次服务要求双向 TLS。
 
 本示例要求更高的参与性，首先需要：
 
 1. 生成客户端和服务器证书
 1. 部署一个支持双向 TLS 的外部服务
-1. 使用所需的证书重新部署 egress 网关
+1. 使用所需的证书重新部署 Egress 网关
 
-然后才可以配置出口流量流经 egress 网关，egress 网关将发起 TLS 连接。
+然后才可以配置出口流量流经 Egress 网关，Egress 网关将发起 TLS 连接。
 
 ### 生成客户端和服务器的证书与密钥 {#generate-client-and-server-certificates-and-keys}
 
@@ -464,7 +463,7 @@ $ kubectl delete destinationrule originate-tls-for-edition-cnn-com
 
 1. 创建一个命名空间，表示 Istio 网格之外的服务，`mesh-external`。
    注意在这个命名空间中，Sidecar 自动注入是没有[开启](/zh/docs/setup/additional-setup/sidecar-injection/#deploying-an-app)的，
-   不会在 Pod 中自动注入 Sidecar proxy。
+   不会在 Pod 中自动注入 Sidecar 代理。
 
     {{< text bash >}}
     $ kubectl create namespace mesh-external
@@ -622,9 +621,9 @@ $ kubectl delete destinationrule originate-tls-for-edition-cnn-com
     EOF
     {{< /text >}}
 
-### 为 egress 流量配置双向 TLS {#configure-mutual-TLS-origination-for-egress-traffic}
+### 为出口流量配置双向 TLS {#configure-mutual-TLS-origination-for-egress-traffic}
 
-1)  在部署 egress 网关的**同一命名空间**中创建一个
+1)  在部署 Egress 网关的**同一命名空间**中创建一个
     Kubernetes [Secret](https://kubernetes.io/zh-cn/docs/concepts/configuration/secret/)，
     以保存客户端的证书：
 
@@ -664,8 +663,8 @@ $ kubectl create secret -n default generic client-credential --from-file=tls.key
 
 {{< /tabset >}}
 
-2)  为 `my-nginx.mesh-external.svc.cluster.local`、端口 443 创建 egress `Gateway`，
-    并为将定向到 egress 网关的 Sidecar 请求创建目标规则：
+2)  为 `my-nginx.mesh-external.svc.cluster.local`、端口 443 创建 Egress `Gateway`，
+    并为将定向到 Egress 网关的 Sidecar 请求创建目标规则：
 
 {{< tabset category-name="config-api" >}}
 
@@ -785,7 +784,7 @@ EOF
 
 {{< /tabset >}}
 
-3)  配置路由规则以引导流量通过 egress 网关：
+3)  配置路由规则以引导流量通过 Egress 网关：
 
 {{< tabset category-name="config-api" >}}
 
@@ -953,7 +952,7 @@ EOF
 
 {{< /tabset >}}
 
-5)  验证凭证是否已提供给 egress 网关并且处于活动状态：
+5)  验证凭证是否已提供给 Egress 网关并且处于活动状态：
 
 {{< tabset category-name="config-api" >}}
 
@@ -990,7 +989,7 @@ kubernetes://client-credential-cacert     Cert Chain     ACTIVE     true        
     ...
     {{< /text >}}
 
-7)  检查 egress 网关代理的日志：
+7)  检查 Egress 网关代理的日志：
 
 {{< tabset category-name="config-api" >}}
 
@@ -1012,7 +1011,7 @@ You should see a line similar to the following:
 
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
-使用 Istio 生成的 Pod 标签访问 egress 网关对应的日志：
+使用 Istio 生成的 Pod 标签访问 Egress 网关对应的日志：
 
 {{< text bash >}}
 $ kubectl logs -l gateway.networking.k8s.io/gateway-name=nginx-egressgateway | grep 'my-nginx.mesh-external.svc.cluster.local' | grep HTTP
