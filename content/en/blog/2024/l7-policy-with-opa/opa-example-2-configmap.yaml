@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: opa-policy
+  namespace: opa
+data:
+  policy.rego: |
+    package mypackage.mysubpackage
+
+    import rego.v1
+
+    default allow := false
+
+    default status_code := 403
+
+    allow if {
+      input.attributes.request.http.headers["x-force-authorized"] == "true"
+    }
+
+    headers["x-validated-by"] := "my-security-checkpoint"
+
+    response_headers_to_add["x-add-custom-response-header"] := "added"
+
+    dynamic_metadata := {"my-new-metadata": "my-new-value"}
+
+    request_headers_to_remove := ["x-force-authorized"]
+
+    status_code := 200 if {
+      allow
+    } else := 401 if {
+      input.attributes.request.http.headers["x-force-unauthenticated"] == "enabled"
+    }
+
+    body := "Authentication Failed" if status_code == 401
+
+    body := "Unauthorized Request" if status_code == 403
+
+
+    myrule["allowed"] := allow
+    myrule["headers"] := headers
+    myrule["response_headers_to_add"] := response_headers_to_add
+    myrule["request_headers_to_remove"] := request_headers_to_remove
+    myrule["body"] := body
+    myrule["http_status"] := status_code
+    myrule["dynamic_metadata"] := dynamic_metadata
