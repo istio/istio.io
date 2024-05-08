@@ -23,6 +23,7 @@
 1.20.x
 1.20.x.
 1.21.x
+1.21.x.
 1.22.x
 1.23.x
 1.24.0
@@ -97,6 +98,7 @@ abcde12345
 Abhi
 accounts.my
 ack-istio
+acked
 ACLs
 Acmeair
 addon
@@ -415,6 +417,7 @@ distroless
 Divya
 DNS
 DNS_AUTO_ALLOCATE
+Dynatrace
 docker-compose's
 docker.io
 doc_type
@@ -1094,6 +1097,7 @@ Telekom
 telemetry.istio.io
 telemetryv2_
 templated
+templating
 Tencent
 test-api
 Tetrate
