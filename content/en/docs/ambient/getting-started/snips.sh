@@ -46,6 +46,7 @@ ENDSNIP
 
 snip_deploy_the_sample_application_1() {
 kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
+kubectl apply -f samples/bookinfo/platform/kube/bookinfo-versions.yaml
 }
 
 snip_deploy_the_sample_application_2() {
@@ -244,7 +245,6 @@ kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<title>
 ENDSNIP
 
 snip_control_traffic_1() {
-kubectl apply -f samples/bookinfo/platform/kube/bookinfo-versions.yaml
 kubectl apply -f samples/bookinfo/gateway-api/route-reviews-90-10.yaml
 }
 
