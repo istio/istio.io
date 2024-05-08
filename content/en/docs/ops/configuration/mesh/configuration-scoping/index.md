@@ -51,7 +51,7 @@ spec:
 
 ### `exportTo`
 
-Istio's `VirtualService`, `DestinationRule`, and `ServiceEntry` allow provide a `spec.exportTo` field.
+Istio's `VirtualService`, `DestinationRule`, and `ServiceEntry` provide a `spec.exportTo` field.
 Similarly, `Service` can be configured with the `networking.istio.io/exportTo` annotation.
 
 Unlike `Sidecar` which allows a workload owner to control what dependencies it has, `exportTo` works in the opposite way, and allows the service owners to control
@@ -116,7 +116,7 @@ scale with the number of instances. This makes large headless services expensive
 
 ### What happens if I connect to a service outside of my scope?
 
-When connecting to a service that has been excluded through one of the scoping mechanisms, they data plane will not know anything about the destination,
+When connecting to a service that has been excluded through one of the scoping mechanisms, the data plane will not know anything about the destination,
 so it will be treated as [Unmatched traffic](/docs/ops/configuration/traffic-management/traffic-routing/#unmatched-traffic).
 
 ### What about Gateways?
@@ -126,4 +126,4 @@ However, unlike sidecars, gateways do not have configuration for the entire clus
 Instead, each configuration is explicitly attached to the gateway, which mostly avoids this problem.
 
 However, [currently](https://github.com/istio/istio/issues/29131) part of the data plane configuration (a "cluster", in Envoy terms), is always sent for
-the entire cluster, even if its not referenced explicitly.
+the entire cluster, even if it is not referenced explicitly.
