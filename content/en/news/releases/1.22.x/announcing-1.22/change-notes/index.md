@@ -206,7 +206,7 @@ In addition, this will be a base to implement `ImagePullPolicy`.
 - **Updated** `istioctl experimental proxy-stauts` has been promoted to `istioctl proxy-status`. The old `istioctl proxy-status` command has been removed.
 This promotion should not result in any loss of functionality. However, the request is now sent based on xDS instead of HTTP, and we have introduced a set of new xDS-based flags to target the control plane.
 
-- **Added** support for multi-cluster analysis in `istioctl analyze` command when there are remote cluster secrets set up through [Install Multicluster](/latest/docs/setup/install/multicluster/).
+- **Added** support for multi-cluster analysis in `istioctl analyze` command when there are remote cluster secrets set up through [Install Multicluster](/docs/setup/install/multicluster/).
 
 - **Added** a new `istioctl dashboard proxy` command, which can be used to show the admin UI of different proxy pods, like Envoy, Ztunnel, Waypoint.
 
