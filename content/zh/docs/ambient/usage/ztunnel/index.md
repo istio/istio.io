@@ -18,7 +18,6 @@ test: no
 强烈建议按顺序关注下面链接中的主题。
 
 * [简介](#introsection)
-* [当前注意事项](#caveats)
 * [功能概述](#functionaloverview)
 * [部署应用程序](#deployapplication)
 * [监控 ztunnel 代理和 L4 网络](#monitoringzt)
@@ -57,30 +56,6 @@ Istio 在 Ambient 模式下的一些用例可以仅通过 L4 安全覆盖网络�
 | ------------- | ------------- |
 | 通过双向 TLS、客户端应用程序流量的加密和隧道数据传输实现零信任网络、L4 鉴权、L4 遥测 | 具有 ztunnel 代理网络的基线 Ambient 网格 |
 | 应用程序需要 L4 双向 TLS 以及高级 Istio 流量管理功能（包括 VirtualService、L7 遥测、L7 鉴权） | 完整的 Istio Ambient 网格配置，包括基于 ztunnel 代理和 Waypoint 代理的网络 |
-
-## 当前注意事项  {#caveats}
-
-以下是 Ambient 模式中的功能限制或警告列表。
-这些限制计划在未来版本中得到解决或删除。
-
-1. **仅限 Kubernetes：**目前仅支持 Ambient 模式下的 Istio 在 Kubernetes 集群上部署。
-   目前不支持在虚拟机等非 Kubernetes 端点中部署。
-
-1. **不支持 Istio 多集群：**Istio Ambient 模式当前仅支持单集群部署。
-
-1. **仅限 TCP/IPv4：**在当前版本中，基于 IPv4 的 TCP 是
-   Istio 安全覆盖隧道上唯一支持的传输协议（这包括在 TCP/IPv4 连接之上的应用程序层端点之间运行的 HTTP 等协议）。
-
-1. **无法将现有 Istio 部署透明地转换为 Ambient 模式：**Ambient 模式只能在使用 Ambient `istioctl`
-   配置文件或 Helm 配置部署的新 Istio 网格控制平面上启用。
-   使用 Sidecar 配置文件部署的现有 Istio 网格当前无法动态切换以启用 Ambient 模式。
-
-1. **Istio `PeerAuthentication` 的限制：**截至撰写本文时，Istio Ambient 模式下的所有组件（即 Waypoint 代理）
-   并不支持 `PeerAuthentication` 资源。因此，建议当前仅使用 `STRICT` mTLS 模式。
-   与许多其他 Alpha 阶段的注意事项一样，随着该功能转向 Beta 状态，该问题应该会得到解决。
-
-1. **istioctl CLI 差距：**在显示或监控 Istio Ambient 模式相关信息时，
-   Istio CLI 输出显示等区域可能存在一些细微的功能差距。随着功能的成熟，这些问题将得到解决。
 
 ### 本指南使用的环境  {#environment-used-for-this-guide}
 
