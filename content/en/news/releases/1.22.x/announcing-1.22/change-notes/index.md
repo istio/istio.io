@@ -196,7 +196,7 @@ These notices describe functionality that will be removed in a future release ac
 
 - **Added** the ability to add customized annotations to istiod service account resource through the Helm chart.
 
-- **Added** `openshift-ambient` profile.
+- **Added** the `openshift-ambient` profile.
   ([Issue #42341](https://github.com/istio/istio/issues/42341))
 
 - **Added** a new, optional experimental admission policy that only allows stable features/fields to be used in Istio APIs
