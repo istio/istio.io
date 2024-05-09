@@ -109,7 +109,7 @@ These notices describe functionality that will be removed in a future release ac
 - **Fixed** a bug where injection template incorrectly evaluated when `InboundTrafficPolicy` was set to "localhost".
   ([Issue #50700](https://github.com/istio/istio/issues/50700))
 
-- **Fixed** added server-side keepalive to waypoint HBONE endpoints
+- **Fixed** added server-side keepalive to waypoint HBONE endpoints.
   ([Issue #50737](https://github.com/istio/istio/issues/50737))
 
 - **Fixed** a regression in Istio 1.21.0 causing `VirtualService`s routing to `ExternalName` services to not work when `ENABLE_EXTERNAL_NAME_ALIAS=false` is configured.
