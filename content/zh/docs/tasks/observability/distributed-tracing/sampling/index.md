@@ -150,7 +150,7 @@ Sampler API 支持构建自定义采样器，该采样器可以执行更智能�
 例如 [Probability Sampling（概率采样）](https://github.com/open-telemetry/opentelemetry-specification/blob/v1.31.0/specification/trace/tracestate-probability-sampling.md)。
 
 然后，此类采样器可以与
-[`OpenTelemetryTracingProvider`](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider-OpenTelemetryTracingProvider) 配对。
+[`OpenTelemetryTracingProvider`](/zh/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider-OpenTelemetryTracingProvider) 配对。
 
 {{< quote >}}
 驻留在代理中的采样器实现，
