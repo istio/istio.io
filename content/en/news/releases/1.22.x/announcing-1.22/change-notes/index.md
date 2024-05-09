@@ -234,7 +234,8 @@ This promotion should not result in any loss of functionality. However, the requ
 - **Added** a warning when using `istioctl experimental waypoint apply --enroll-namespace` and the namespace is not labeled for ambient redirection.
   ([Issue #50396](https://github.com/istio/istio/issues/50396))
 
-- **Added** Add --for flag to istioctl x waypoint generate command so that the user can preview the yaml before they apply it.  ([Issue #50790](https://github.com/istio/istio/issues/50790))
+- **Added** the `--for` flag to `istioctl experimental waypoint generate` command so that the user can preview the YAML before they apply it.
+  ([Issue #50790](https://github.com/istio/istio/issues/50790))
 
 - **Added** an experimental OpenShift Kubernetes platform profile to `istioctl`. To install with the OpenShift profile, use `istioctl install --set profile=openshift`.
  ([OpenShift Platform Setup]( https://istio.io/docs/setup/platform-setup/openshift/))([Install OpenShift using `istioctl`]( https://istio.io/docs/setup/install/istioctl/#install-a-different-profile))
