@@ -45,7 +45,7 @@ In this release, the ["Delta"](https://www.envoyproxy.io/docs/envoy/latest/api-d
 
 ### Path templating in `AuthorizationPolicy`
 
-Support path templating was one of the hottest topic in the past, now it's avaliable. Check more details [here](https://github.com/istio/istio/issues/16585).
+Support path templating was one of the hottest topic in the past, now it's available. Check more details [here](https://github.com/istio/istio/issues/16585).
 
 ## Upgrading to 1.22
 
