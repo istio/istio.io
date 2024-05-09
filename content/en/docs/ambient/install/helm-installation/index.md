@@ -59,7 +59,7 @@ $ helm install istiod istio/istiod --namespace istio-system --set profile=ambien
 You can also install Istiod with a specific revision, allowing multiple installs for safe upgrade and config canary. 
 This should also be used if you have a 'default' istiod already installed.
 
-{{< text syntax=bash snip_id=install_discovery >}}
+{{< text syntax=bash snip_id=install_discovery_revision >}}
 $ helm install istiod istio/istiod --namespace istio-system --set profile=ambient --set revision=ambient --wait
 {{< /text >}}
 
@@ -73,7 +73,7 @@ $ helm install ztunnel istio/ztunnel -n istio-system --wait
 
 For using ztunnel with a specific revision of Istiod:
 
-{{< text syntax=bash snip_id=install_ztunnel >}}
+{{< text syntax=bash snip_id=install_ztunnel_revision >}}
 $ helm install ztunnel istio/ztunnel -n istio-system --set revision=ambient --wait
 {{< /text >}}
 
