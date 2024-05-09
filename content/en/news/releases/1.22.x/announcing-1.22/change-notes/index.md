@@ -55,7 +55,7 @@ These notices describe functionality that will be removed in a future release ac
   sandwich" where the ztunnel layer handles mTLS.
   ([Issue #48362](https://github.com/istio/istio/issues/48362))
 
-- **Added** functionality to enroll individual pods into ambient by labeling them with `istio.io/dataplane-mode=ambient`
+- **Added** functionality to enroll individual pods into ambient by labeling them with `istio.io/dataplane-mode=ambient`.
   ([Issue #50355](https://github.com/istio/istio/issues/50355))
 
 - **Added** Allow pods to be opted out of ambient capture using the `istio.io/dataplane-mode=none` label.
