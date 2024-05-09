@@ -238,7 +238,8 @@ These notices describe functionality that will be removed in a future release ac
 - **Removed** the ability to specify a service account for the waypoint by deleting the `--service-account` flag on the waypoint command.
   ([Issue #49915](https://github.com/istio/istio/issues/49915)), ([Issue #50173](https://github.com/istio/istio/issues/50173))
 
-- **Added** Allow user to enroll their waypoint in the waypoint's namespace through istioctl via --enroll-namespace flag on the waypoint command.  ([Issue #50248](https://github.com/istio/istio/issues/50248))
+- **Added** the ability to enroll a waypoint proxy in the waypoint's namespace through `istioctl` via the `--enroll-namespace` flag on the waypoint command.
+  ([Issue #50248](https://github.com/istio/istio/issues/50248))
 
 - **Added** Add ztunnel-config istioctl command. Allow users to view Ztunnel configuration information through istioctl via ztunnel-config workload flag.
 **Removed** Remove workload flag from proxy-config command. Users must use ztunnel-config command to view Ztunnel configuration information.  ([Issue #49841](https://github.com/istio/istio/issues/49841))
