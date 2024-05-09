@@ -204,7 +204,7 @@ These notices describe functionality that will be removed in a future release ac
 
 - **Added** support for configuring CA bundles for validation and injection webhooks.
 
-- **Fixed** Gathering `pprof` data from the local ztunnel admin endpoint would fail due to lack of writable in-container `/tmp`
+- **Fixed** gathering `pprof` data from the local ztunnel admin endpoint, which would fail due to the lack of a writable in-container `/tmp`.
   ([Issue #50060](https://github.com/istio/istio/issues/50060))
 
 - **Removed** deprecated `external` profile, use `remote` profile instead for installation.
