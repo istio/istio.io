@@ -89,7 +89,7 @@ These notices describe functionality that will be removed in a future release ac
   If the fields specified in `withoutHeaders` do not exist in the request header, Istio cannot match the request.
   ([Issue #49537](https://github.com/istio/istio/issues/49537))
 
-- **Fixed** an issue where priority of envoy filters is ignored when they are in root namespace and proxy namespace.
+- **Fixed** an issue where the priority of envoy filters is ignored when they are in root namespace and proxy namespace.
   ([Issue #49555](https://github.com/istio/istio/issues/49555))
 
 - **Fixed** an issue where `--log_as_json` option doesn't work for Istio init container.
