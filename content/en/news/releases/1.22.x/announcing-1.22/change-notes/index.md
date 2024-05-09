@@ -85,8 +85,9 @@ These notices describe functionality that will be removed in a future release ac
 
 - **Fixed** an issue where the delta ADS client received a response which contains `RemoveResources`.
 
-- **Fixed** an issue that when using `withoutHeaders` to configure route matching rules in VirtualService,
-if the fields specified in `withoutHeaders` do not exist in the request header, Istio cannot match the request.  ([Issue #49537](https://github.com/istio/istio/issues/49537))
+- **Fixed** an issue that when using `withoutHeaders` to configure route matching rules in `VirtualService`.
+  If the fields specified in `withoutHeaders` do not exist in the request header, Istio cannot match the request.
+  ([Issue #49537](https://github.com/istio/istio/issues/49537))
 
 - **Fixed** an issue where priority of envoy filters is ignored when they are in root namespace and proxy namespace.
   ([Issue #49555](https://github.com/istio/istio/issues/49555))
