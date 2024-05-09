@@ -81,7 +81,7 @@ These notices describe functionality that will be removed in a future release ac
 - **Enabled** [Delta xDS](https://www.envoyproxy.io/docs/envoy/latest/api-docs/xds_protocol#incremental-xds) by default. See upgrade notes for more information.
   ([Issue #47949](https://github.com/istio/istio/issues/47949))
 
-- **Fixed** an issue where the Kubernetes gateway was not working correctly with the namespace waypoint.
+- **Fixed** an issue where the Kubernetes gateway was not working correctly with the namespace-scoped waypoint proxy.
 
 - **Fixed** an issue where the delta ADS client received a response which contains `RemoveResources`.
 
