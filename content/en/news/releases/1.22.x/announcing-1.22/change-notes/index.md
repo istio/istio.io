@@ -20,8 +20,8 @@ These notices describe functionality that will be removed in a future release ac
 ## Traffic Management
 
 - **Improved** `ServiceEntry` with `resolution: NONE` to respect `targetPort`, if specified.
-This is particularly useful when doing TLS origination, allowing to set `port:80, targetPort: 443`.
-If undesired set `--compatibilityVersion=1.21` to revert to the old behavior, or remove the `targetPort` specification.
+  This is particularly useful when doing TLS origination, allowing to set `port:80, targetPort: 443`.
+  If undesired, set `--compatibilityVersion=1.21` to revert to the old behavior or remove the `targetPort` specification.
 
 - **Improved** XDS generation to send less resource when possible, sometimes omitting a response entirely.
 This can be disabled by the `PILOT_PARTIAL_FULL_PUSHES=false` environment variable, if necessary.
