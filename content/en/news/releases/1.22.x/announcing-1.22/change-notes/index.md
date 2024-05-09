@@ -232,9 +232,11 @@ These notices describe functionality that will be removed in a future release ac
 - **Added** ability to define the traffic address type (service, workload, all or none) for waypoints via the `--for` flag when using the `istioctl experimental waypoint apply` command.
   ([Issue #49896](https://github.com/istio/istio/issues/49896))
 
-- **Added** Allow user to name their waypoint through istioctl via --name flag on the waypoint command.
-**Removed** Remove ability for user to specify service account for the waypoint by deleting the --service-account flag on the waypoint command
-  ([Issue #49915](https://github.com/istio/istio/issues/49915)),([Issue #50173](https://github.com/istio/istio/issues/50173))
+- **Added** the ability to name waypoints through `istioctl` via the `--name` flag on the waypoint command.
+  ([Issue #49915](https://github.com/istio/istio/issues/49915)), ([Issue #50173](https://github.com/istio/istio/issues/50173))
+
+- **Removed** the ability to specify a service account for the waypoint by deleting the `--service-account` flag on the waypoint command.
+  ([Issue #49915](https://github.com/istio/istio/issues/49915)), ([Issue #50173](https://github.com/istio/istio/issues/50173))
 
 - **Added** Allow user to enroll their waypoint in the waypoint's namespace through istioctl via --enroll-namespace flag on the waypoint command.  ([Issue #50248](https://github.com/istio/istio/issues/50248))
 
