@@ -26,12 +26,31 @@ Istio 1.22.0 is officially supported on Kubernetes versions `1.27` to `1.30`.
 
 ## What's new
 
-// TODO
+### Ambient Beta
+
+Ambient mode is beta now, check more details [here]().
+
+### Istio API Promotion
+
+Istio provides APIs that are crucial for ensuring the robust security, seamless connectivity, and effective observability of services within the service mesh.
+In Istio 1.22, the Istio community has decided to promote these APIs to `v1` in Istio 1.22, check this [blog]().
+
+### Gateway API
+
+The Kubernetes [Gateway API](http://gateway-api.org/) bump to [`v1.1.0`](https://github.com/kubernetes-sigs/gateway-api/releases/tag/v1.1.0), Service Mesh support has graduated to GA.
+
+### Delta XDS
+
+In this release, the ["Delta"](https://www.envoyproxy.io/docs/envoy/latest/api-docs/xds_protocol#incremental-xds) xDS protocol is enabled by default, which will improve performance of configuration distribution.
+
+### Path templating in `AuthorizationPolicy`
+
+Support path templating was one of the hottest topic in the past, now it's avaliable. Check more details [here](https://github.com/istio/istio/issues/16585).
 
 ## Upgrading to 1.22
 
 We would like to hear from you regarding your experience upgrading to Istio 1.22. You can provide feedback
-in the #release-1.22 channel in our [Slack workspace](https://slack.istio.io/).
+in the [`#release-1.22`](https://istio.slack.com/archives/C06PU4H4EMR) channel in our [Slack workspace](https://slack.istio.io/).
 
 Would you like to contribute directly to Istio? Find and join one of
 our [Working Groups](https://github.com/istio/community/blob/master/WORKING-GROUPS.md) and help us improve.
