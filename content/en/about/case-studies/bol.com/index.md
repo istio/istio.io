@@ -7,7 +7,7 @@ author:
     image: "/img/authors/roland-kool.png"
 companyName: "bol.com"
 companyURL: "https://bol.com/"
-logo: "/logos/bol-com.png"
+logo: "/logos/bol.svg"
 skip_toc: true
 skip_byline: true
 skip_pagenav: true

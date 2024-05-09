@@ -4,7 +4,7 @@
     <div class="case-studies splide istio-splide">
         <div class="splide__track">
             <ul class="splide__list">
-                {{ range first 10 . }}
+                {{ range first 15 . }}
                     <li class="splide__slide">
                         {{ partial "logo_carousel_panel" (dict "company" .Params.companyName "logo" .Params.logo)}}
                     </li>
