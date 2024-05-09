@@ -194,7 +194,7 @@ These notices describe functionality that will be removed in a future release ac
 
 - **Improved** the `meshConfig.defaultConfig.proxyMetadata` field to do a deep merge when overridden, rather than replacing all values.
 
-- **Added** Allow user to add customized annotation to istiod service account resource through helm chart.
+- **Added** the ability to add customized annotations to istiod service account resource through the Helm chart.
 
 - **Added** `openshift-ambient` profile.
   ([Issue #42341](https://github.com/istio/istio/issues/42341))
