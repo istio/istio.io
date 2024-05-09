@@ -121,7 +121,7 @@ These notices describe functionality that will be removed in a future release ac
   to give unexpected results.
   ([Issue #50478](https://github.com/istio/istio/issues/50478))
 
-- **Fixed** a bug when a Sidecar is resource is defined with multiple egress listeners with different ports of a Kubernetes service, does not merge the ports correctly. This leads to creating only one Cluster with the first port and second port is ignored.
+- **Fixed** a bug when a Sidecar resource not merging ports correctly when it is configured with multiple egress listeners with different ports of a Kubernetes service. This lead to creating only one Cluster with the first port, and the second port was ignored.
 
 - **Fixed** an issue causing routes to be overwritten by other virtual services.
 
