@@ -219,7 +219,7 @@ These notices describe functionality that will be removed in a future release ac
 
 - **Added** a new `istioctl dashboard proxy` command, which can be used to show the admin UI of different proxy pods, for example: Envoy, ztunnel, and waypoint.
 
-- **Added** `--proxy` option to `istioctl experimental wait` command.
+- **Added** the `--proxy` option to `istioctl experimental wait` command.
   ([Issue #48696](https://github.com/istio/istio/issues/48696))
 
 - **Added** namespace filtering to `istioctl proxy-config workload` command using the `--workloads-namespace` flag to display workloads in the specified namespace.
