@@ -58,8 +58,10 @@ These notices describe functionality that will be removed in a future release ac
 - **Added** functionality to enroll individual pods into ambient by labeling them with `istio.io/dataplane-mode=ambient`.
   ([Issue #50355](https://github.com/istio/istio/issues/50355))
 
-- **Added** Allow pods to be opted out of ambient capture using the `istio.io/dataplane-mode=none` label.
-**Removed** the ability to opt-out pods from ambient capture using the `ambient.istio.io/redirection=disabled` annotation, as that is a status annotation reserved for the CNI.
+- **Added** the ability to allow pods to be opted out of ambient redirection by using the `istio.io/dataplane-mode=none` label.
+  ([Issue #50736](https://github.com/istio/istio/issues/50736))
+
+- **Removed** the ability to opt-out pods from ambient redirection using the `ambient.istio.io/redirection=disabled` annotation, as that is a status annotation reserved for the CNI.
   ([Issue #50736](https://github.com/istio/istio/issues/50736))
 
 - **Added** an environment variable for istiod `PILOT_GATEWAY_API_DEFAULT_GATEWAYCLASS_NAME` that allows overriding the name of the default `GatewayClass` Gateway API resource. The default value is `istio`.
