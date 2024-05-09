@@ -217,7 +217,7 @@ These notices describe functionality that will be removed in a future release ac
 
 - **Added** support for multi-cluster analysis in `istioctl analyze` command when there are remote cluster secrets set up through [Install Multicluster](/docs/setup/install/multicluster/).
 
-- **Added** a new `istioctl dashboard proxy` command, which can be used to show the admin UI of different proxy pods, like Envoy, Ztunnel, Waypoint.
+- **Added** a new `istioctl dashboard proxy` command, which can be used to show the admin UI of different proxy pods, for example: Envoy, ztunnel, and waypoint.
 
 - **Added** `--proxy` option to `istioctl experimental wait` command.
   ([Issue #48696](https://github.com/istio/istio/issues/48696))
