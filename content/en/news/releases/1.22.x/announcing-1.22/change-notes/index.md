@@ -238,7 +238,7 @@ This promotion should not result in any loss of functionality. However, the requ
 - **Added** an experimental OpenShift Kubernetes platform profile to `istioctl`. To install with the OpenShift profile, use `istioctl install --set profile=openshift`.
  ([OpenShift Platform Setup]( https://istio.io/docs/setup/platform-setup/openshift/))([Install OpenShift using `istioctl`]( https://istio.io/docs/setup/install/istioctl/#install-a-different-profile))
 
-- **Added** `istioctl experimental envoy-stats` supports custom proxy admin port with `--proxy-admin-port`.
+- **Added** the flag `--proxy-admin-port` to the command `istioctl experimental envoy-stats` to set a custom proxy admin port.
 
 - **Fixed** an issue where the `istioctl experimental proxy-status <pod>` compare command was not working due to unknown configs.
 
