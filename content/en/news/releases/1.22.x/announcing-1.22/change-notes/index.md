@@ -199,7 +199,7 @@ These notices describe functionality that will be removed in a future release ac
 - **Added** the `openshift-ambient` profile.
   ([Issue #42341](https://github.com/istio/istio/issues/42341))
 
-- **Added** a new, optional experimental admission policy that only allows stable features/fields to be used in Istio APIs
+- **Added** a new, optional experimental admission policy that only allows stable features/fields to be used in Istio APIs.
   ([Issue #173](https://github.com/istio/enhancements/issues/173))
 
 - **Added** support for configuring ca bundle for validation and injection webhook
