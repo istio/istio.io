@@ -106,7 +106,8 @@ These notices describe functionality that will be removed in a future release ac
 - **Fixed** build EDS-typed cluster endpoints with domain address.
   ([Issue #50688](https://github.com/istio/istio/issues/50688))
 
-- **Fixed** a bug where injection template incorrectly evaluates when `InboundTrafficPolicy` is set to "localhost".  ([Issue #50700](https://github.com/istio/istio/issues/50700))
+- **Fixed** a bug where injection template incorrectly evaluated when `InboundTrafficPolicy` was set to "localhost".
+  ([Issue #50700](https://github.com/istio/istio/issues/50700))
 
 - **Fixed** added server-side keepalive to waypoint HBONE endpoints
   ([Issue #50737](https://github.com/istio/istio/issues/50737))
