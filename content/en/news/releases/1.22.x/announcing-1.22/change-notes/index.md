@@ -35,7 +35,7 @@ These notices describe functionality that will be removed in a future release ac
 - **Added** endpoints acked generation to the proxy distribution report available through the pilot debug API `/debug/config_distribution`.
   ([Issue #48985](https://github.com/istio/istio/issues/48985))
 
-- **Added** support for configuring waypoint in Service.
+- **Added** support for configuring waypoint proxies for Services.
 
 - **Added** capability to annotate pods, services, namespaces and other similar kinds with an annotation, `istio.io/use-waypoint`, to specify a waypoint in the form `[<namespace name>]/<waypoint name>`. This replaces the old requirement for waypoints either being scoped to the entire namespace or to a single service account. Opting out of a waypoint can also be done with a value of `#none` to allow a namespace-wide waypoint where specific pods or services are not guarded by a waypoint allowing greater flexibility in waypoint specification and use.
   ([Issue #49436](https://github.com/istio/istio/issues/49436))
