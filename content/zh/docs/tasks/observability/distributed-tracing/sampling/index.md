@@ -81,7 +81,6 @@ EOF
 您可以将 `proxy.istio.io/config` 注解添加到 Pod 元数据规范中，
 以覆盖任何网格范围的采样设置。
 
-For instance, to override the mesh-wide sampling above, you would add the following to your pod manifest:
 例如，要覆盖上面的网格范围的采样，您可以将以下内容添加到 Pod 清单中：
 
 {{< text syntax=yaml snip_id=none >}}
