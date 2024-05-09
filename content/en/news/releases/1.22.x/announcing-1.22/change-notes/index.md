@@ -244,5 +244,5 @@ This promotion should not result in any loss of functionality. However, the requ
 
 - **Fixed** an issue where the `istioctl experimental proxy-status <pod>` compare command was not working due to unknown configs.
 
-- **Fixed** `istioctl describe` command not displaying Ingress information under non `istio-system` namespaces.
+- **Fixed** the `istioctl describe` command not displaying Ingress information under non `istio-system` namespaces.
   ([Issue #50074](https://github.com/istio/istio/issues/50074))
