@@ -43,7 +43,7 @@ These notices describe functionality that will be removed in a future release ac
 - **Added** support for the `istio.io/waypoint-for` annotations in waypoint proxies.
   ([Issue #49851](https://github.com/istio/istio/issues/49851))
 
-- **Added** a check to prevent creation of ztunnel config when user has specified a gateway as `targetRef` in their AuthorizationPolicy
+- **Added** a check to prevent creation of ztunnel config when user has specified a gateway as `targetRef` in their AuthorizationPolicy.
   ([Issue #50110](https://github.com/istio/istio/issues/50110))
 
 - **Added** the annotation `networking.istio.io/address-type` to allow `istio` class Gateways to use `ClusterIP` for status addresses.
