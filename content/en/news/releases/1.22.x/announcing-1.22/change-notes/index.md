@@ -71,7 +71,7 @@ These notices describe functionality that will be removed in a future release ac
 - **Added** support for using the PROXY Protocol for outbound traffic. By specifying `proxyProtocol` in a `DestinationRule.trafficPolicy`,
   the sidecar will send PROXY Protocol headers to the upstream service. This feature is not supported with HBONE proxy for now.
 
-- **Added** rejecting `DestinationRules` with duplicate subset names.
+- **Added** validation checks to reject `DestinationRules` with duplicate subset names.
 
 - **Added** the controller now publishes gateway-api `supportedFeatures` on Gateway Class Status before accepting the Gateway Class.
   ([Issue #2162](https://github.com/kubernetes-sigs/gateway-api/issues/2162))
