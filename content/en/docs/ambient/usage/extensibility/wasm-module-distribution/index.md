@@ -13,9 +13,9 @@ status: Alpha
 Istio provides the ability to [extend its functionality using WebAssembly (Wasm)](/docs/reference/config/proxy_extensions/wasm-plugin/).
 One of the key advantages of Wasm extensibility is that extensions can be loaded dynamically at runtime. This document outlines the testing process for the implementation of Wasm features in ambient mode within Istio. In ambient mode, Wasm configuration must be applied to the waypoint proxy deployed in each namespace, instead of to individual sidecars. This approach is essential due to the absence of sidecars in ambient mode, which is a key distinction from previous configuration.
 
-## Install Ambient Mesh and deploy test applications
+## Install Ambient Mode and deploy test applications
 
-Follow the [Ambient Getting Started Guide](docs/ambient/getting-started/#download) to install Istio in ambient mode. Deploy the [sample applications](docs/ambient/getting-started/#bookinfo) required for testing the Wasm behavior. Make sure to add the test [applications to ambient mesh](docs/ambient/getting-started/#addtoambient) before proceeding further.
+Follow the [Ambient Getting Started Guide](docs/ambient/getting-started/#download) to install Istio in ambient mode. Deploy the [sample applications](docs/ambient/getting-started/#bookinfo) required for testing the Wasm behavior. Make sure to add the test [applications to ambient mode](docs/ambient/getting-started/#addtoambient) before proceeding further.
 
 ## Apply Wasm configuration at the Gateway
 
@@ -169,7 +169,7 @@ $ kubectl label service reviews istio.io/use-waypoint=reviews-svc-waypoint
 service/reviews labeled
 {{< /text >}}
 
-Any requests from pods in the ambient mesh to the `reviews` service will now be routed through the `reviews-svc-waypoint` waypoint.
+Any requests from pods in the ambient mode to the `reviews` service will now be routed through the `reviews-svc-waypoint` waypoint.
 
 {{< text bash >}}
 $ kubectl get gateway
@@ -228,4 +228,4 @@ EOF
 $ kubectl delete wasmplugin basic-auth-at-gateway basic-auth-at-waypoint basic-auth-for-service
 {{< /text >}}
 
-Follow [ambient uninstall guide](docs/ambient/getting-started/#uninstall) for cleanup of ambient mesh and sample test applications.
+Follow [ambient uninstall guide](docs/ambient/getting-started/#uninstall) for cleanup of ambient mode and sample test applications.
