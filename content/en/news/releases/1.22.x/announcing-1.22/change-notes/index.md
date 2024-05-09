@@ -156,7 +156,7 @@ These notices describe functionality that will be removed in a future release ac
   ([Issue #49913](https://github.com/istio/istio/issues/49913))
 
 - **Removed** the `first-party-jwt` legacy option for `values.global.jwtPolicy`. Support for the more secure `third-party-jwt`
-has been default for many years and is supported in all Kubernetes platforms.
+  has been default for many years and is supported in all Kubernetes platforms.
 
 ## Telemetry
 
