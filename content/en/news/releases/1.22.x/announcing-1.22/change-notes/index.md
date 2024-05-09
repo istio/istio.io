@@ -65,7 +65,8 @@ These notices describe functionality that will be removed in a future release ac
   ([Issue #50736](https://github.com/istio/istio/issues/50736))
 
 - **Added** an environment variable for istiod `PILOT_GATEWAY_API_DEFAULT_GATEWAYCLASS_NAME` that allows overriding the name of the default `GatewayClass` Gateway API resource. The default value is `istio`.
-**Added** an environment variable for istiod `PILOT_GATEWAY_API_CONTROLLER_NAME` that allows overriding the name of the Istio Gateway API controller as exposed in the `spec.controllerName` field in the `GatewayClass` resource. The default value is `istio.io/gateway-controller`.
+
+- **Added** an environment variable for istiod `PILOT_GATEWAY_API_CONTROLLER_NAME` that allows overriding the name of the Istio Gateway API controller as exposed in the `spec.controllerName` field in the `GatewayClass` resource. The default value is `istio.io/gateway-controller`.
 
 - **Added** support for outbound traffic Proxy Protocol. By specifying `proxyProtocol` in a `DestinationRule.trafficPolicy`,
 the sidecar will send Proxy Protocol headers to the upstream service. This feature is not supported for HBONE proxy now.
