@@ -40,7 +40,8 @@ These notices describe functionality that will be removed in a future release ac
 - **Added** capability to annotate pods, services, namespaces and other similar kinds with an annotation, `istio.io/use-waypoint`, to specify a waypoint in the form `[<namespace name>/]<waypoint name>`. This replaces the old requirement for waypoints either being scoped to the entire namespace or to a single service account. Opting out of a waypoint can also be done with a value of `#none` to allow a namespace-wide waypoint where specific pods or services are not guarded by a waypoint allowing greater flexibility in waypoint specification and use.
   ([Issue #49436](https://github.com/istio/istio/issues/49436))
 
-- **Added** Implement support in waypoint for istio.io/waypoint-for annotation.  ([Issue #49851](https://github.com/istio/istio/issues/49851))
+- **Added** support for the `istio.io/waypoint-for` annotations in waypoint proxies.
+  ([Issue #49851](https://github.com/istio/istio/issues/49851))
 
 - **Added** a check to prevent creation of ztunnel config when user has specified a gateway as `targetRef` in their AuthorizationPolicy
   ([Issue #50110](https://github.com/istio/istio/issues/50110))
