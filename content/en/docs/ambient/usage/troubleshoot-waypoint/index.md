@@ -1,14 +1,14 @@
 ---
-title: Debug connectivity issues with waypoints
+title: Troubleshoot connectivity issues with waypoints
 description: How to investigate problems routing through waypoint proxies.
 weight: 70
 owner: istio/wg-networking-maintainers
 test: no
 ---
 
-This guide describes what to do if you have enrolled a workload in a waypoint proxy, but you are not seeing the expected behavior.
+This guide describes what to do if you have enrolled a namespace, service or workload in a waypoint proxy, but you are not seeing the expected behavior.
 
-## Problems with authentication policy
+## Problems with traffic routing or security policy
 
 To send some requests to the `reviews` service via the `productpage` service from the `sleep` pod:
 
@@ -26,14 +26,14 @@ $ kubectl exec deploy/sleep -- curl -s http://$REVIEWS_V2_POD_IP:9080/reviews/1
 Requests to the `reviews` service should be enforced by the `reviews-svc-waypoint` for any L7 policies.
 Requests to the `reviews` `v2` pod should be enforced by the `reviews-v2-pod-waypoint` for any L7 policies.
 
-1.  If your L7 policy isn't enforced, run `istioctl analyze` first to check if your policy has any validation issue.
+1.  If your L7 configuration isn't applied, run `istioctl analyze` first to check if your configuration has a validation issue.
 
     {{< text bash >}}
     $ istioctl analyze
     ✔ No validation issues found when analyzing namespace: default.
     {{< /text >}}
 
-1.  Determine which waypoint is enforcing the L7 policy for your service or pod.
+1.  Determine which waypoint is applying the L7 configuration for your service or pod.
 
     If your source calls the destination using the service's hostname or IP, use the `istioctl experimental ztunnel-config service` command to confirm your waypoint is used by the destination service. Following the example earlier, the `reviews` service should use the `reviews-svc-waypoint` while all other services in the `default` namespace should use the namespace `waypoint`.
 
@@ -53,7 +53,7 @@ Requests to the `reviews` `v2` pod should be enforced by the `reviews-v2-pod-way
     ...
     {{< /text >}}
 
-    If your source calls the destination using a pod IP , use the `istioctl experimental ztunnel-config workload` command to confirm your waypoint is used by the destination pod. Following the example earlier, the `reviews` `v2` pod should use the `reviews-v2-pod-waypoint` while all other pods in the `default` namespace should not have any waypoints because by default only services use the namespace `waypoint`.
+    If your source calls the destination using a pod IP, use the `istioctl experimental ztunnel-config workload` command to confirm your waypoint is used by the destination pod. Following the example earlier, the `reviews` `v2` pod should use the `reviews-v2-pod-waypoint` while all other pods in the `default` namespace should not have any waypoints, because by default [a waypoint only handles traffic addressed to services](/docs/ambient/usage/waypoint/#waypoint-traffic-types).
 
     {{< text bash >}}
     $ istioctl experimental ztunnel-config workload
@@ -71,6 +71,7 @@ Requests to the `reviews` `v2` pod should be enforced by the `reviews-v2-pod-way
 
     If the value for the pod's waypoint column isn't correct, verify your pod is labeled with `istio.io/use-waypoint` and the label's value is the name of a waypoint that can process
     workload traffic.  For example, if your `reviews` `v2` pod uses a waypoint that can only process service traffic, you will not see any waypoint used by that pod.
+    If the `istio.io/use-waypoint` label on your pod looks correct verify that the Gateway resource for your waypoint is labeled with a compatible value for `istio.io/waypoint-for`. In the case of a pod, suitable values would be `all` or `workload`.
 
 1.  Check the waypoint's proxy status via the `istioctl proxy-status` command.
 

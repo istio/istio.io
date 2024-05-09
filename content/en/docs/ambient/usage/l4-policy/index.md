@@ -14,7 +14,7 @@ To use L7 policies, and Istio's traffic routing features, you can [deploy a wayp
 
 ## Layer 4 authorization policies
 
-The ztunnel proxy performs authorization policy enforcement when a workload is enrolled in secure overlay mode (i.e. with no waypoint proxy configured).
+The ztunnel proxy performs authorization policy enforcement when a workload is enrolled in secure overlay mode.
 
 The actual enforcement point is at the receiving (server-side) ztunnel proxy in the path of a connection.
 
@@ -38,7 +38,7 @@ spec:
 EOF
 {{< /text >}}
 
-The behavior of the `AuthorizationPolicy` API has the same functional behavior in Istio ambient mode as in sidecar mode. When there is no `AuthorizationPolicy` provisioned, then the default action is `ALLOW`. Once a policy is provisioned, pods matching the selector in the policy only allow traffic which is explicitly allowed. In this example, pods with the label `app: httpbin` only allow traffic from sources with an identity principal of `cluster.local/ns/ambient-demo/sa/sleep`. Traffic from all other sources will be denied.
+The behavior of the L4 `AuthorizationPolicy` API has the same functional behavior in Istio ambient mode as in sidecar mode. When there is no `AuthorizationPolicy` provisioned, then the default action is `ALLOW`. Once a policy is provisioned, pods matching the selector in the policy only allow traffic which is explicitly allowed. In this example, pods with the label `app: httpbin` only allow traffic from sources with an identity principal of `cluster.local/ns/ambient-demo/sa/sleep`. Traffic from all other sources will be denied.
 
 ### Layer 7 authorization policies without waypoints installed
 
@@ -69,7 +69,7 @@ spec:
 EOF
 {{< /text >}}
 
-Even though the identity of the pod is otherwise correct, the presence of a L7 policy causes the ztunnel to deny the connection:
+Even though the identity of the pod is otherwise correct, the presence of a L7 policy, and the traffic not originating from a waypoint proxy, causes the ztunnel to deny the connection:
 
 {{< text plain >}}
 command terminated with exit code 56

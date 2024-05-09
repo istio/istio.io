@@ -6,12 +6,14 @@ owner: istio/wg-networking-maintainers
 test: no
 ---
 
-With a waypoint proxy deployed for a workload, you can enable more of [Istio's features](/docs/concepts).
+By adding a waypoint proxy to your traffic flow you can enable more of [Istio's features](/docs/concepts).
 
 Ambient mode supports configuring waypoints using the Kubernetes Gateway API. Configurations that apply to a Gateway API are called _policies_.
 
 {{< warning >}}
-The Istio traffic management APIs (virtual service, destination rules etc) are not supported by the ambient data plane mode.
+The Istio classic traffic management APIs (virtual service, destination rules etc) remain at Alpha in the ambient data plane mode.
+
+Mixing Istio classic API and Gateway API configuration is not supported, and will lead to undefined behavior.
 {{< /warning >}}
 
 ## Traffic routing
@@ -21,8 +23,12 @@ With a waypoint proxy deployed, you can use the following API types:
 |  Name  | Feature Status | Attachment |
 | --- | --- | --- |
 | `HTTPRoute` | Beta | `parentRefs` |
-| `TCPRoute` | Beta | `parentRefs` |
-| `TLSRoute` | Beta | `parentRefs` |
+| `TCPRoute` | Alpha | `parentRefs` |
+| `TLSRoute` | Alpha | `parentRefs` |
+
+{{< tip >}}
+`TCPRoute` and `TLSRoute` still have Alpha status in Kubernetes Gateway API. Caution is advised if considering their adoption.
+{{< /tip >}}
 
 Refer to the [traffic management](/docs/tasks/traffic-management/) documentation to see the range of features that can be implemented using these routes.
 

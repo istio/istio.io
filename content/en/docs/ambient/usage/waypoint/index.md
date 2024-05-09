@@ -15,13 +15,13 @@ Waypoint proxies are installed, upgraded and scaled independently from applicati
 
 A waypoint, or set of waypoints, can be shared between applications with a similar security boundary. This might be all the instances of a particular workload, or all the workloads in a namespace.
 
-As opposed to {{< gloss >}}sidecar{{< /gloss >}} mode, in ambient mode policies are enforced by the **destination** waypoint. In many ways, the waypoint acts as a gateway into the namespace. Istio enforces that all traffic coming into the namespace goes through the waypoint, which then enforces all policies for that namespace.
+As opposed to {{< gloss >}}sidecar{{< /gloss >}} mode, in ambient mode policies are enforced by the **destination** waypoint. In many ways, the waypoint acts as a gateway to a resource (a namespace, service or pod). Istio enforces that all traffic coming into the resource goes through the waypoint, which then enforces all policies for that resource.
 
 ## Do you need a waypoint proxy?
 
 The layered approach of ambient allows users to adopt Istio in a more incremental fashion, smoothly transitioning from no mesh, to the secure L4 overlay, to full L7 processing.
 
-Most of the features of ambient mode are provided by the ztunnel node agent. Ztunnel is scoped to only process traffic at Layer 4 (L4), so that it can safely operate as a shared component.
+Most of the features of ambient mode are provided by the ztunnel node proxy. Ztunnel is scoped to only process traffic at Layer 4 (L4), so that it can safely operate as a shared component.
 
 When you add a waypoint proxy for a workload, traffic will be forwarded from the ztunnel to that waypoint. If your applications require any of the following L7 mesh functions, you will need to use a waypoint proxy:
 
@@ -31,7 +31,7 @@ When you add a waypoint proxy for a workload, traffic will be forwarded from the
 
 ## Deploy a waypoint proxy
 
-Waypoint proxies are deployed declaratively using Kubernetes Gateway resources. The istioctl command can be used to generate a manifest for a waypoint.
+Waypoint proxies are deployed declaratively using Kubernetes Gateway resources. You can use istioctl experimental subcommands to generate, apply or list these resources.
 
 After the waypoint is deployed, the entire namespace (or whichever services or pods you choose) must be [enrolled](#useawaypoint) to use it.
 
@@ -132,7 +132,7 @@ $ kubectl label ns default istio.io/use-waypoint=waypoint
 namespace/default labeled
 {{< /text >}}
 
-After a namespace is enrolled to use a waypoint, any requests from any pods enrolled in the mesh to any service running in that namespace will be routed through the waypoint for L7 processing and policy enforcement.
+After a namespace is enrolled to use a waypoint, any requests from any pods using the ambient data plane mode, to any service running in that namespace, will be routed through the waypoint for L7 processing and policy enforcement.
 
 If you prefer more granularity than using a waypoint for an entire namespace, you can enroll only a specific service or pod to use a waypoint. This may be useful if you only need L7 features for some services in a namespace, if you only want an extension like a `WasmPlugin` to apply to a specific service, or if you are calling a Kubernetes
 [headless service](https://kubernetes.io/docs/concepts/services-networking/service/#headless-services) by its pod IP address.
