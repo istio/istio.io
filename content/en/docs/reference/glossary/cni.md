@@ -1,7 +1,15 @@
 ---
-title: Container Network Interface (CNI)
+title: CNI
 test: n/a
 ---
 
-A control plane is a set of system services that configure the mesh or a subset of
-the mesh to manage the communication between the workload instances within.
+The [Container Network Interface (CNI)](https://www.cni.dev/) is the standard used by Kubernetes for configuring cluster networking. It is implemented using *plugins*, of which there are two types:
+
+* *interface* plugins, which create a network interface, and are provided by the cluster operator
+* *chained* plugins, which can configure the created interface, and can be provided by software installed on the cluster
+
+Istio works with all CNI implementations that follow the CNI standard, in both sidecar and ambient mode.
+
+In order to configure mesh traffic redirection, Istio includes [a chained CNI plugin](/docs/setup/additional-setup/cni/), which runs after all configured CNI interface plugins. 
+
+The CNI plugin is optional for {{< gloss >}}sidecar{{< /gloss >}} mode and required for {{< gloss >}}ambient{{< /gloss >}} mode.

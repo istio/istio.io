@@ -1,7 +1,7 @@
 ---
 title: Debug connectivity issues with ztunnel
 description: How to validate the node proxies have the correct configuration.
-weight: 50
+weight: 60
 owner: istio/wg-networking-maintainers
 test: no
 ---

@@ -1,7 +1,7 @@
 ---
 title: Debug connectivity issues with waypoints
 description: How to investigate problems routing through waypoint proxies.
-weight: 60
+weight: 70
 owner: istio/wg-networking-maintainers
 test: no
 ---

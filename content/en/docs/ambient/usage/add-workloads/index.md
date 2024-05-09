@@ -14,9 +14,9 @@ To add an applications or namespaces to the mesh in ambient mode, add the label 
 
 Ambient mode can be seamlessly enabled (or disabled) completely transparently as far as the application pods are concerned. Unlike the {{< gloss >}}sidecar{{< /gloss >}} data plane mode, there is no need to restart applications to add them to the mesh, and they will not show as having an extra container deployed in their pod.
 
-## Security policy
+### Layer 4 and Layer 7 functionality
 
-The secure overlay network
+The secure L4 overlay supports authentication and authorization policies. [Learn about L4 policy support in ambient mode](/docs/ambient/usage/l4-policy/). To opt-in to use Istio's L7 functionality, such as traffic routing, you will need to [ deploy a waypoint proxy and enroll your workloads to use it](/docs/ambient/usage/waypoint/).
 
 ## Communicating between pods in different data plane modes
 
