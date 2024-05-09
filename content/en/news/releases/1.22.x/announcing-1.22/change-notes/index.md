@@ -212,8 +212,8 @@ These notices describe functionality that will be removed in a future release ac
 
 ## istioctl
 
-- **Updated** `istioctl experimental proxy-stauts` has been promoted to `istioctl proxy-status`. The old `istioctl proxy-status` command has been removed.
-This promotion should not result in any loss of functionality. However, the request is now sent based on xDS instead of HTTP, and we have introduced a set of new xDS-based flags to target the control plane.
+- **Added** the `istioctl proxy-stauts` command, which is the promoted `istioctl experimental proxy-status` command. The old `istioctl proxy-status` command has been removed.
+  This promotion should not result in any loss of functionality. However, the request is now sent based on xDS instead of HTTP, and we have introduced a set of new xDS-based flags to target the control plane.
 
 - **Added** support for multi-cluster analysis in `istioctl analyze` command when there are remote cluster secrets set up through [Install Multicluster](/docs/setup/install/multicluster/).
 
