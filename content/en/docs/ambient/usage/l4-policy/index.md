@@ -10,7 +10,7 @@ The layering of {{< gloss >}}ztunnel{{< /gloss >}} and {{< gloss >}}waypoint{{< 
 
 The Layer 4 (L4) features of Istio's [security policies](/docs/concepts/security) are supported by ztunnel, and are available in ambient mode. [Kubernetes Network Policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/) also continue to work if your cluster has a {{< gloss >}}CNI{{< /gloss >}} plugin that supports them, and can be used to provide defense-in-depth.
 
-To use L7 policies, and Istio's traffic routing features, you can [deploy a waypoint](/docs/ambient/waypoint) for your workloads.
+To use L7 policies, and Istio's traffic routing features, you can [deploy a waypoint](/docs/ambient/usage/waypoint) for your workloads.
 
 ## Layer 4 authorization policies
 
