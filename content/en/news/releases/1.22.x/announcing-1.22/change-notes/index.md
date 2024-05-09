@@ -47,12 +47,12 @@ These notices describe functionality that will be removed in a future release ac
   ([Issue #50110](https://github.com/istio/istio/issues/50110))
 
 - **Added** the annotation `networking.istio.io/address-type` to allow `istio` class Gateways to use `ClusterIP` for status addresses.
-**Added** the ability to annotate workloads or services with `istio.io/use-waypoint` pointing to Gateways of arbitrary gateway classes.
 
-These changes allow configuring a standard `istio` gateway as a Waypoint.
-For this to work, it must be configured as a `ClusterIP` Service with
-redirection enabled. This is colloquially referred to as a "gateway
-sandwich" where the zTunnel layer handles mTLS.
+- **Added** the ability to annotate workloads or services with `istio.io/use-waypoint` pointing to Gateways of arbitrary gateway classes.
+  These changes allow configuring a standard Istio gateway as a waypoint.
+  For this to work, it must be configured as a `ClusterIP` Service with
+  redirection enabled. This is colloquially referred to as a "gateway
+  sandwich" where the ztunnel layer handles mTLS.
   ([Issue #48362](https://github.com/istio/istio/issues/48362))
 
 - **Added** functionality to enroll individual pods into ambient by labeling them with `istio.io/dataplane-mode=ambient`
