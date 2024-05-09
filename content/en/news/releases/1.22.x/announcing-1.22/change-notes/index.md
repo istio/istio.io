@@ -14,7 +14,7 @@ aliases:
 
 These notices describe functionality that will be removed in a future release according to [Istio's deprecation policy](/docs/releases/feature-stages/#feature-phase-definition). Please consider upgrading your environment to remove the deprecated functionality.
 
-- **Deprecated** usage of `values.istio_cni` in favor of `values.pilot.cni`
+- **Deprecated** usage of `values.istio_cni` in favor of `values.pilot.cni`.
   ([Issue #49290](https://github.com/istio/istio/issues/49290))
 
 ## Traffic Management
