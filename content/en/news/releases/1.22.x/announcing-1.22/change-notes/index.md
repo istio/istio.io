@@ -231,7 +231,8 @@ This promotion should not result in any loss of functionality. However, the requ
 - **Added** Add ztunnel-config istioctl command. Allow users to view Ztunnel configuration information through istioctl via ztunnel-config workload flag.
 **Removed** Remove workload flag from proxy-config command. Users must use ztunnel-config command to view Ztunnel configuration information.  ([Issue #49841](https://github.com/istio/istio/issues/49841))
 
-- **Added** Warn user in standard out when `istioctl experimental waypoint apply --enroll-namespace` is called and namespace is not labeled ambient.  ([Issue #50396](https://github.com/istio/istio/issues/50396))
+- **Added** a warning when using `istioctl experimental waypoint apply --enroll-namespace` and the namespace is not labeled for ambient redirection.
+  ([Issue #50396](https://github.com/istio/istio/issues/50396))
 
 - **Added** Add --for flag to istioctl x waypoint generate command so that the user can preview the yaml before they apply it.  ([Issue #50790](https://github.com/istio/istio/issues/50790))
 
