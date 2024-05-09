@@ -171,7 +171,7 @@ These notices describe functionality that will be removed in a future release ac
 - **Enabled** configuring Resource Detectors as the `OpenTelemetryTracingProvider` in `MeshConfig`.
   ([Issue #48885](https://github.com/istio/istio/issues/48885))
 
-- **Fixed** an issue that `TraceId` is not propagated when using OpenTelemetry access logger.
+- **Fixed** an issue where `TraceId` was not propagated when using OpenTelemetry access logger.
   ([Issue #49911](https://github.com/istio/istio/issues/49911))
 
 - **Removed** default tracing configuration that enables tracing to `zipkin.istio-system.svc`. See upgrade notes for more information.
