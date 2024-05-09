@@ -224,7 +224,7 @@ These notices describe functionality that will be removed in a future release ac
 
 - **Added** namespace filtering to `istioctl proxy-config workload` command using the `--workloads-namespace` flag to display workloads in the specified namespace.
 
-- **Added** `istioctl dashboard istio-debug` to display the Istio debug endpoints dashboard.
+- **Added** the `istioctl dashboard istio-debug` command to display the Istio debug endpoints dashboard.
 
 - **Added** `istioctl x describe` supports displaying the details of policies for `PortLevelSettings`.
   ([Issue #49802](https://github.com/istio/istio/issues/49802))
