@@ -92,7 +92,7 @@ These notices describe functionality that will be removed in a future release ac
 - **Fixed** an issue where the priority of envoy filters is ignored when they are in root namespace and proxy namespace.
   ([Issue #49555](https://github.com/istio/istio/issues/49555))
 
-- **Fixed** an issue where `--log_as_json` option doesn't work for Istio init container.
+- **Fixed** an issue where `--log_as_json` option did not work for the `istio-init` container.
   ([Issue #44352](https://github.com/istio/istio/issues/44352))
 
 - **Fixed** an issue with massive Virtual IPs reshuffling when add/remove duplicated host  ([Issue #49965](https://github.com/istio/istio/issues/49965))
