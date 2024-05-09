@@ -52,7 +52,7 @@ As the waypoint proxy is a deployment of {{< gloss >}}Envoy{{< /gloss >}}, the e
 
 ### Attach a policy to the entire waypoint proxy
 
-To attach a policy to the entire waypoint — so that it applies to all traffic enrolled to use it — , set `Gateway` as the `parentRefs` or `targetRefs` value, depending on the policy type.
+To attach a policy to the entire waypoint — so that it applies to all traffic enrolled to use it — set `Gateway` as the `parentRefs` or `targetRefs` value, depending on the policy type.
 
 For example, to apply an `AuthorizationPolicy` policy to the waypoint named `waypoint` for the `default` namespace:
 

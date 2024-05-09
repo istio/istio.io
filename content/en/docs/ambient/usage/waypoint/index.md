@@ -137,6 +137,10 @@ After a namespace is enrolled to use a waypoint, any requests from any pods enro
 If you prefer more granularity than using a waypoint for an entire namespace, you can enroll only a specific service or pod to use a waypoint. This may be useful if you only need L7 features for some services in a namespace, if you only want an extension like a `WasmPlugin` to apply to a specific service, or if you are calling a Kubernetes
 [headless service](https://kubernetes.io/docs/concepts/services-networking/service/#headless-services) by its pod IP address.
 
+{{< tip >}}
+If the `istio.io/use-waypoint` label exists on both a namespace and a service, the service waypoint takes precedence over the namespace waypoint as long as the service waypoint can handle `service` or `all` traffic. Similarly, a label on a pod will take precedence over a namespace label.
+{{< /tip >}}
+
 ### Configure a service to use a specific waypoint
 
 Using the services from the sample [bookinfo application](/docs/examples/bookinfo/), we can deploy a waypoint called `reviews-svc-waypoint` for the `reviews` service:
