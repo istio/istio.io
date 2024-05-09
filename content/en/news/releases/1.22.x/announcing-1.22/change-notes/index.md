@@ -226,7 +226,7 @@ These notices describe functionality that will be removed in a future release ac
 
 - **Added** the `istioctl dashboard istio-debug` command to display the Istio debug endpoints dashboard.
 
-- **Added** `istioctl x describe` supports displaying the details of policies for `PortLevelSettings`.
+- **Added** the `istioctl experimental describe` command to support displaying the details of policies for `PortLevelSettings`.
   ([Issue #49802](https://github.com/istio/istio/issues/49802))
 
 - **Added** ability to define the traffic address type (service, workload, all or none) for waypoints via the `--for` flag when using the `istioctl experimental waypoint apply` command.  ([Issue #49896](https://github.com/istio/istio/issues/49896))
