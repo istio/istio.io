@@ -160,7 +160,7 @@ These notices describe functionality that will be removed in a future release ac
 
 ## Telemetry
 
-- **Improved** JSON access logs to emit keys in a stable ordering.
+- **Improved** JSON access logs to emit keys in a consistent order.
 
 - **Added** option to export OpenTelemetry traces via HTTP
  ([reference]( https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider-OpenTelemetryTracingProvider)) ([Issue #47835](https://github.com/istio/istio/issues/47835))
