@@ -241,8 +241,11 @@ These notices describe functionality that will be removed in a future release ac
 - **Added** the ability to enroll a waypoint proxy in the waypoint's namespace through `istioctl` via the `--enroll-namespace` flag on the waypoint command.
   ([Issue #50248](https://github.com/istio/istio/issues/50248))
 
-- **Added** Add ztunnel-config istioctl command. Allow users to view Ztunnel configuration information through istioctl via ztunnel-config workload flag.
-**Removed** Remove workload flag from proxy-config command. Users must use ztunnel-config command to view Ztunnel configuration information.  ([Issue #49841](https://github.com/istio/istio/issues/49841))
+- **Added** the `istioctl ztunnel-config` command. This allow users to view ztunnel configuration information via the `istioctl ztunnel-config workload` command.
+  ([Issue #49841](https://github.com/istio/istio/issues/49841))
+
+**Removed** the workload flag from proxy-config command. Use `istioctl ztunnel-config workload` command to view ztunnel configuration information instead.
+  ([Issue #49841](https://github.com/istio/istio/issues/49841))
 
 - **Added** a warning when using `istioctl experimental waypoint apply --enroll-namespace` and the namespace is not labeled for ambient redirection.
   ([Issue #50396](https://github.com/istio/istio/issues/50396))
