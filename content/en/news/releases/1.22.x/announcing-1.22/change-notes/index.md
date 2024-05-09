@@ -100,7 +100,7 @@ These notices describe functionality that will be removed in a future release ac
 
 - **Fixed** Gateway status addresses receiving Service VIPs from outside the cluster.
 
-- **Fixed** `use-waypoint` should be a label, for consistency
+- **Fixed** annotation `use-waypoint` to be a label, for consistency.
   ([Issue #50572](https://github.com/istio/istio/issues/50572))
 
 - **Fixed** build EDS typed cluster endpoints with domain address.
