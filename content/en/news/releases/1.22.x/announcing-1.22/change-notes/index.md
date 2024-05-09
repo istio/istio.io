@@ -125,7 +125,7 @@ These notices describe functionality that will be removed in a future release ac
 
 - **Fixed** an issue causing routes to be overwritten by other virtual services.
 
-- **Removed** `values.cni.privileged` flag from `istio-cni` node agent chart in favor of feature-specific permissions.
+- **Removed** the `values.cni.privileged` flag from `istio-cni` node agent chart in favor of feature-specific permissions.
   ([Issue #49004](https://github.com/istio/istio/issues/49004))
 
 - **Removed** the `PILOT_ENABLE_HEADLESS_SERVICE_POD_LISTENERS` feature flag.
