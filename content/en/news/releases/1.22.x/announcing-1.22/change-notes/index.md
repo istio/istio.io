@@ -178,9 +178,9 @@ These notices describe functionality that will be removed in a future release ac
 
 ## Extensibility
 
-- **Improved** Use tag-stripped URL + checksum as a Wasm module cache key, and the tagged URL is separately cached.
-This may increase the chance of cache hit (e.g., trying to find the same image with both of the tagged and digest URLs.)
-In addition, this will be a base to implement `ImagePullPolicy`.
+- **Improved** using the tag-stripped URL and checksum as a Wasm module cache key, where the tagged URL is separately cached.
+  This may increase the chance of cache hits (e.g., trying to find the same image with both of the tagged and digest URLs.)
+  In addition, this will be a base to implement `ImagePullPolicy`.
 
 ## Installation
 
