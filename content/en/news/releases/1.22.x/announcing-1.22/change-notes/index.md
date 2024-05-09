@@ -184,12 +184,12 @@ These notices describe functionality that will be removed in a future release ac
 
 ## Installation
 
-- **Improved** helm value field names to configure whether an existing CNI install
- will be used. Instead of `values.istio_cni` the enablement fields will be in
- `values.pilot.cni` as istiod is the affected component.
- That is clearer than having `values.cni` for install config and `values.istio_cni`
- for enablement in istiod. The old `values.istio_cni` fields will still be supported
- for at least two releases.
+- **Improved** Helm value field names to configure whether an existing CNI install
+  will be used. Instead of `values.istio_cni` the enablement fields will be in
+  `values.pilot.cni`, as istiod is the affected component.
+  The new setting is more clear than having `values.cni` for install config and `values.istio_cni`
+  for enablement in istiod. The old `values.istio_cni` fields will still be supported
+  for at least two releases.
   ([Issue #49290](https://github.com/istio/istio/issues/49290))
 
 - **Improved** the `meshConfig.defaultConfig.proxyMetadata` field to do a deep merge when overridden, rather than replacing all values.
