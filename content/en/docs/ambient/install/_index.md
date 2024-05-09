@@ -1,5 +1,5 @@
 ---
-title: Installation Guide
+title: Install
 description: Installation guide for Istio ambient mode.
 weight: 5
 aliases:

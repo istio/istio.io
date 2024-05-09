@@ -22,7 +22,7 @@
 
 snip_download_and_install_2() {
 kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
-  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=7320257302905254dcebf4f5c424741cf1556c06" | kubectl apply -f -; }
+  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=e1b774d9e0c690c73c483757457f5ba0727db1fd" | kubectl apply -f -; }
 }
 
 snip_download_and_install_3() {
@@ -46,6 +46,7 @@ ENDSNIP
 
 snip_deploy_the_sample_application_1() {
 kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
+kubectl apply -f samples/bookinfo/platform/kube/bookinfo-versions.yaml
 }
 
 snip_deploy_the_sample_application_2() {
@@ -244,7 +245,6 @@ kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<title>
 ENDSNIP
 
 snip_control_traffic_1() {
-kubectl apply -f samples/bookinfo/platform/kube/bookinfo-versions.yaml
 kubectl apply -f samples/bookinfo/gateway-api/route-reviews-90-10.yaml
 }
 
@@ -269,5 +269,5 @@ kubectl delete -f samples/sleep/notsleep.yaml
 }
 
 snip_uninstall_4() {
-kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=7320257302905254dcebf4f5c424741cf1556c06" | kubectl delete -f -
+kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=e1b774d9e0c690c73c483757457f5ba0727db1fd" | kubectl delete -f -
 }
