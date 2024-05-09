@@ -19,7 +19,7 @@ As opposed to {{< gloss >}}sidecar{{< /gloss >}} mode, in ambient mode policies 
 
 ## Do you need a waypoint proxy?
 
-The layered approach of ambient allows users to adopt Istio in a more incremental fashion, smoothly transitioning from no mesh, to the secure L4 overlay, to full L7 processing. 
+The layered approach of ambient allows users to adopt Istio in a more incremental fashion, smoothly transitioning from no mesh, to the secure L4 overlay, to full L7 processing.
 
 Most of the features of ambient mode are provided by the ztunnel node agent. Ztunnel is scoped to only process traffic at Layer 4 (L4), so that it can safely operate as a shared component.
 
@@ -31,11 +31,9 @@ When you add a waypoint proxy for a workload, traffic will be forwarded from the
 
 ## Deploy a waypoint proxy
 
-Waypoint proxies are deployed declaratively using Kubernetes Gateway resources. The istioctl command can be used to generate a manifest for a waypoint. 
+Waypoint proxies are deployed declaratively using Kubernetes Gateway resources. The istioctl command can be used to generate a manifest for a waypoint.
 
 After the waypoint is deployed, the entire namespace (or whichever services or pods you choose) must be [enrolled](#useawaypoint) to use it.
-
-## Deploy a waypoint proxy
 
 Before you deploy a waypoint proxy for a specific namespace, confirm the namespace is labeled with `istio.io/dataplane-mode: ambient`:
 
@@ -96,12 +94,11 @@ After the Gateway resource is applied, Istiod will monitor the resource, deploy 
 
 ### Waypoint traffic types
 
-By default, a waypoint will only handle traffic destined for **services** in its namespaces. This choice was made because traffic directed at a pod alone is rare, and often used for internal purposes such as Prometheus scraping, and the extra overhead of L7 processing may not be desired. 
+By default, a waypoint will only handle traffic destined for **services** in its namespaces. This choice was made because traffic directed at a pod alone is rare, and often used for internal purposes such as Prometheus scraping, and the extra overhead of L7 processing may not be desired.
 
-It is also possible for the waypoint to handle all traffic, only handle traffic sent directly to **workloads** (pods or VMs) in the cluster, or no traffic at all. The types of traffic that will be redirected to the waypoint are determined by the `istio.io/waypoint-for` label on the `Gateway` object. 
+It is also possible for the waypoint to handle all traffic, only handle traffic sent directly to **workloads** (pods or VMs) in the cluster, or no traffic at all. The types of traffic that will be redirected to the waypoint are determined by the `istio.io/waypoint-for` label on the `Gateway` object.
 
 The `--for` parameter to `istioctl experimental waypoint apply` can be used to change the [traffic type](#waypoint-traffic-types) redirected to the waypoint:
-
 
 | `waypoint-for` value | Traffic type |
 | -------------------- | ------------ |
@@ -160,7 +157,7 @@ Any requests from pods in the mesh to the `reviews` service will now be routed t
 
 ### Configure a pod to use a specific waypoint
 
-Deploy a waypoint called `reviews-v2-pod-waypoint` for the `reviews-v2` pod. 
+Deploy a waypoint called `reviews-v2-pod-waypoint` for the `reviews-v2` pod.
 
 {{< tip >}}
 Recall the default for waypoints is to target services; as we explicitly want to target a pod, we need to use the `istio.io/waypoint-for: workload` label, which we can generate by using the `--for workload` parameter to istioctl.

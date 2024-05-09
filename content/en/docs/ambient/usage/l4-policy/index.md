@@ -81,7 +81,7 @@ Istio's [peer authentication policies](/docs/concepts/security/#peer-authenticat
 
 As ztunnel and {{< gloss >}}HBONE{{< /gloss >}} implies the use of mTLS, it is not possible to use the `DISABLE` mode in a policy. Such policies will be ignored.
 
-If you need to disable mTLS for an entire namespace, you will have to unenroll it from ambient mode.
+If you need to disable mTLS for an entire namespace, you will have to disable ambient mode:
 
 {{ text bash }}
 $ kubectl label namespace default istio.io/dataplane-mode-

@@ -6,7 +6,7 @@ owner: istio/wg-networking-maintainers
 test: no
 ---
 
-This guide describes what to do if you have enrolled a workload in a waypoint proxy, but you are not seeing the expected behaviour. 
+This guide describes what to do if you have enrolled a workload in a waypoint proxy, but you are not seeing the expected behavior.
 
 ## Problems with authentication policy
 
