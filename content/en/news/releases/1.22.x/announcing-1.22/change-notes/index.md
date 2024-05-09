@@ -73,7 +73,7 @@ These notices describe functionality that will be removed in a future release ac
 
 - **Added** validation checks to reject `DestinationRules` with duplicate subset names.
 
-- **Added** the controller now publishes gateway-api `supportedFeatures` on Gateway Class Status before accepting the Gateway Class.
+- **Added** field `supportedFeatures` on a Gateway API's class status before the controller accepts the Gateway class.
   ([Issue #2162](https://github.com/kubernetes-sigs/gateway-api/issues/2162))
 
 - **Added** checking services' Resolution, `LabelSelector` in addition to `ServiceRegistry` and Namespace when merging services during `SidecarScope` construction.
