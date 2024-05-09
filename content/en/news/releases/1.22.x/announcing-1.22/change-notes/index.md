@@ -147,8 +147,8 @@ These notices describe functionality that will be removed in a future release ac
   This could help Istio CA to authenticate ztunnel in remote clusters in an external control plane scenario.
     ([Issue #47489](https://github.com/istio/istio/issues/47489))
 
-- **Added** An environment variable `METRICS_LOCALHOST_ACCESS_ONLY` for disabling metrics endpoint from outside of the pod, to allow only localhost access. User can use set this with command
-`--set values.pilot.env.METRICS_LOCALHOST_ACCESS_ONLY=true` for Control plane and `--set meshConfig.defaultConfig.proxyMetadata.METRICS_LOCALHOST_ACCESS_ONLY=true` for proxy while istioctl installation.
+- **Added** an environment variable `METRICS_LOCALHOST_ACCESS_ONLY` for disabling metrics endpoint from outside of the pod, to allow only localhost access. User can set this with command arguments
+  `--set values.pilot.env.METRICS_LOCALHOST_ACCESS_ONLY=true` for control plane and `--set meshConfig.defaultConfig.proxyMetadata.METRICS_LOCALHOST_ACCESS_ONLY=true` for proxy during `istioctl` installation.
 
 - **Added** Certificate Revocation List(CRL) support for peer certificate validation based on file paths specified in `ClientTLSSettings` in destination rule for Sidecars and in `ServerTLSSettings` in Gateway for Gateways.
 
