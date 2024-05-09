@@ -143,8 +143,9 @@ These notices describe functionality that will be removed in a future release ac
 - **Added** support for customizing the connection timeout setting when resolving `jwksUri`.
   ([Issue #47328](https://github.com/istio/istio/issues/47328))
 
-- **Added** support for Istio CA to handle node authorization for CSRs with impersonate identity from remote clusters.
-This could help Istio CA to authenticate ztunnel in remote clusters in an external control plane scenario.  ([Issue #47489](https://github.com/istio/istio/issues/47489))
+- **Added** support for Istio CA to handle node authorization for CSRs with impersonating the identity of remote clusters.
+  This could help Istio CA to authenticate ztunnel in remote clusters in an external control plane scenario.
+    ([Issue #47489](https://github.com/istio/istio/issues/47489))
 
 - **Added** An environment variable `METRICS_LOCALHOST_ACCESS_ONLY` for disabling metrics endpoint from outside of the pod, to allow only localhost access. User can use set this with command
 `--set values.pilot.env.METRICS_LOCALHOST_ACCESS_ONLY=true` for Control plane and `--set meshConfig.defaultConfig.proxyMetadata.METRICS_LOCALHOST_ACCESS_ONLY=true` for proxy while istioctl installation.
