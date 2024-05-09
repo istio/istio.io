@@ -202,7 +202,7 @@ These notices describe functionality that will be removed in a future release ac
 - **Added** a new, optional experimental admission policy that only allows stable features/fields to be used in Istio APIs.
   ([Issue #173](https://github.com/istio/enhancements/issues/173))
 
-- **Added** support for configuring ca bundle for validation and injection webhook
+- **Added** support for configuring CA bundles for validation and injection webhooks.
 
 - **Fixed** Gathering `pprof` data from the local ztunnel admin endpoint would fail due to lack of writable in-container `/tmp`
   ([Issue #50060](https://github.com/istio/istio/issues/50060))
