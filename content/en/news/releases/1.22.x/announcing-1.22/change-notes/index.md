@@ -112,8 +112,6 @@ These notices describe functionality that will be removed in a future release ac
 - **Fixed** added server-side keepalive to waypoint HBONE endpoints.
   ([Issue #50737](https://github.com/istio/istio/issues/50737))
 
-- **Fixed** a regression in Istio 1.21.0 causing `VirtualService`s routing to `ExternalName` services to not work when `ENABLE_EXTERNAL_NAME_ALIAS=false` is configured.
-
 - **Fixed** empty prefix match in `HTTPMatchRequest` not being rejected by the validating webhook.
   ([Issue #48534](https://github.com/istio/istio/issues/48534))
 

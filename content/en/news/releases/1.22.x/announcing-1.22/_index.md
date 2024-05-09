@@ -12,7 +12,7 @@ aliases:
 
 We are pleased to announce the release of Istio 1.22. This is the first Istio release of 2024. We would like to thank the
 entire Istio community for helping get the 1.22.0 release published. We would like to thank the Release Managers for
-this release, `Jianpeng He` from Tetrate, `Sumit Vij` and `Zhonghu Xu` from Huawei. The release
+this release, `Jianpeng He` from Tetrate, `Sumit Vij` from Credit Karma and `Zhonghu Xu` from Huawei. The release
 managers would once again like to thank the Test & Release WG lead Eric Van Norman (IBM) for his help and guidance
 throughout the release cycle. We would also like to thank the maintainers of the Istio work groups and the broader Istio
 community for helping us throughout the release process with timely feedback, reviews, community testing and for all
