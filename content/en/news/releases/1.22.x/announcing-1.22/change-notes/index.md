@@ -117,8 +117,8 @@ These notices describe functionality that will be removed in a future release ac
 - **Fixed** empty prefix match in `HTTPMatchRequest` not being rejected by the validating webhook.
   ([Issue #48534](https://github.com/istio/istio/issues/48534))
 
-- **Fixed** a behavioral change in Istio 1.20 that caused merging of ServiceEntries with the same hostname and port names
-to give unexpected results.
+- **Fixed** a behavioral change in Istio 1.20 that caused merging of `ServiceEntries` with the same hostname and port names
+  to give unexpected results.
   ([Issue #50478](https://github.com/istio/istio/issues/50478))
 
 - **Fixed** a bug when a Sidecar is resource is defined with multiple egress listeners with different ports of a Kubernetes service, does not merge the ports correctly. This leads to creating only one Cluster with the first port and second port is ignored.
