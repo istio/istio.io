@@ -127,7 +127,17 @@ status: Experimental
     $ kubectl apply -f ./selfsigned-issuer.yaml
     {{< /text >}}
 
-## 导出每个集群签发器的根证书{#export-root-certificates-for-each-cluster-issuer}
+## 为每个集群创建验证秘钥 {#verify-secrets-are-created-for-each-cluster-issuer}
+
+{{< text bash >}}
+$ kubectl get secret -n cert-manager -l controller.cert-manager.io/fao=true
+NAME                  TYPE                DATA   AGE
+bar-ca-selfsigned     kubernetes.io/tls   3      3m36s
+foo-ca-selfsigned     kubernetes.io/tls   3      3m36s
+istio-ca-selfsigned   kubernetes.io/tls   3      3m38s
+{{< /text >}}
+
+## 导出每个集群签发器的根证书 {#export-root-certificates-for-each-cluster-issuer}
 
 {{< text bash >}}
 $ export istioca=$(kubectl get clusterissuers istio-system -o jsonpath='{.spec.ca.secretName}' | xargs kubectl get secret -n cert-manager -o jsonpath='{.data.ca\.crt}' | base64 -d)

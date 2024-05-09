@@ -1,6 +1,6 @@
 ---
 title: User Guides
-description: How to configure a mesh in ambient mode.
+description: How to configure your mesh to take advantage of ambient mode.
 weight: 15
 aliases:
   - /docs/ops/ambient/usage
