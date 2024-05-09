@@ -222,7 +222,7 @@ These notices describe functionality that will be removed in a future release ac
 - **Added** `--proxy` option to `istioctl experimental wait` command.
   ([Issue #48696](https://github.com/istio/istio/issues/48696))
 
-- **Added** namespace filtering to `istioctl pc workload` using the `--workloads-namespace` flag, to display workloads in a specific namespace.
+- **Added** namespace filtering to `istioctl proxy-config workload` command using the `--workloads-namespace` flag to display workloads in the specified namespace.
 
 - **Added** `istioctl dashboard istio-debug` to display the Istio debug endpoints dashboard.
 
