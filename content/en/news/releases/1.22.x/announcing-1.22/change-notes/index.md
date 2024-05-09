@@ -68,8 +68,8 @@ These notices describe functionality that will be removed in a future release ac
 
 - **Added** an environment variable for istiod `PILOT_GATEWAY_API_CONTROLLER_NAME` that allows overriding the name of the Istio Gateway API controller as exposed in the `spec.controllerName` field in the `GatewayClass` resource. The default value is `istio.io/gateway-controller`.
 
-- **Added** support for outbound traffic Proxy Protocol. By specifying `proxyProtocol` in a `DestinationRule.trafficPolicy`,
-the sidecar will send Proxy Protocol headers to the upstream service. This feature is not supported for HBONE proxy now.
+- **Added** support for using the PROXY Protocol for outbound traffic. By specifying `proxyProtocol` in a `DestinationRule.trafficPolicy`,
+  the sidecar will send PROXY Protocol headers to the upstream service. This feature is not supported with HBONE proxy for now.
 
 - **Added** rejecting `DestinationRules` with duplicate subset names.
 
