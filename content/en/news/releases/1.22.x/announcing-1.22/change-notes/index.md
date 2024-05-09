@@ -137,7 +137,8 @@ These notices describe functionality that will be removed in a future release ac
 
 - **Updated** default value of the feature flag `ENABLE_AUTO_ENHANCED_RESOURCE_SCOPING` to true.
 
-- **Added** support for path templating in AuthorizationPolicy, See Envoy URI template [docs](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/path/match/uri_template/v3/uri_template_match.proto).  ([Issue #16585](https://github.com/istio/istio/issues/16585))
+- **Added** support for path templating in `AuthorizationPolicy`. See Envoy URI template [docs](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/path/match/uri_template/v3/uri_template_match.proto).
+  ([Issue #16585](https://github.com/istio/istio/issues/16585))
 
 - **Added** support for customizing timeout when resolving `jwksUri`
   ([Issue #47328](https://github.com/istio/istio/issues/47328))
