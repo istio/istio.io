@@ -76,7 +76,7 @@ These notices describe functionality that will be removed in a future release ac
 - **Added** field `supportedFeatures` on a Gateway API's class status before the controller accepts the Gateway class.
   ([Issue #2162](https://github.com/kubernetes-sigs/gateway-api/issues/2162))
 
-- **Added** checking services' Resolution, `LabelSelector` in addition to `ServiceRegistry` and Namespace when merging services during `SidecarScope` construction.
+- **Added** checking services' `Resolution`, `LabelSelector`, `ServiceRegistry`, and namespace when merging services during `SidecarScope` construction.
 
 - **Enabled** [Delta xDS](https://www.envoyproxy.io/docs/envoy/latest/api-docs/xds_protocol#incremental-xds) by default. See upgrade notes for more information.
   ([Issue #47949](https://github.com/istio/istio/issues/47949))
