@@ -114,7 +114,7 @@ These notices describe functionality that will be removed in a future release ac
 
 - **Fixed** a regression in Istio 1.21.0 causing `VirtualService`s routing to `ExternalName` services to not work when `ENABLE_EXTERNAL_NAME_ALIAS=false` is configured.
 
-- **Fixed** empty prefix match in `HTTPMatchRequest` not rejected by the validating webhook.
+- **Fixed** empty prefix match in `HTTPMatchRequest` not being rejected by the validating webhook.
   ([Issue #48534](https://github.com/istio/istio/issues/48534))
 
 - **Fixed** a behavioral change in Istio 1.20 that caused merging of ServiceEntries with the same hostname and port names
