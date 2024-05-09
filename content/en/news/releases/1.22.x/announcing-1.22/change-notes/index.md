@@ -103,7 +103,7 @@ These notices describe functionality that will be removed in a future release ac
 - **Fixed** annotation `use-waypoint` to be a label, for consistency.
   ([Issue #50572](https://github.com/istio/istio/issues/50572))
 
-- **Fixed** build EDS typed cluster endpoints with domain address.
+- **Fixed** build EDS-typed cluster endpoints with domain address.
   ([Issue #50688](https://github.com/istio/istio/issues/50688))
 
 - **Fixed** a bug where injection template incorrectly evaluates when `InboundTrafficPolicy` is set to "localhost".  ([Issue #50700](https://github.com/istio/istio/issues/50700))
