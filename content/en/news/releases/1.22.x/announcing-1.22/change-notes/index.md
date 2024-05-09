@@ -168,7 +168,7 @@ These notices describe functionality that will be removed in a future release ac
 - **Enabled** configuring Dynatrace Sampler as the `OpenTelemetryTracingProvider` in `MeshConfig`.
   ([Issue #50001](https://github.com/istio/istio/issues/50001))
 
-- **Enabled** configuring Resource Detectors for the `OpenTelemetryTracingProvider` in `MeshConfig`.
+- **Enabled** configuring Resource Detectors as the `OpenTelemetryTracingProvider` in `MeshConfig`.
   ([Issue #48885](https://github.com/istio/istio/issues/48885))
 
 - **Fixed** an issue that `TraceId` is not propagated when using OpenTelemetry access logger.
