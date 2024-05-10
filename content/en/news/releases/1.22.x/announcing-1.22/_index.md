@@ -31,7 +31,7 @@ Ambient mode is beta now, check more details [here]().
 ### Istio API Promotion
 
 Istio provides APIs that are crucial for ensuring the robust security, seamless connectivity, and effective observability of services within the service mesh.
-In Istio 1.22, the Istio community has decided to promote these APIs to `v1` in Istio 1.22, check this [blog](/blog/2024/v1-apis/).
+In Istio 1.22, the Istio community has decided to promote these APIs to `v1`, check this [blog](/blog/2024/v1-apis/).
 
 ### Gateway API
 
