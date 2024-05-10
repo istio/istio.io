@@ -52,7 +52,7 @@ This diagram illustrates how encrypted traffic flows between pods in the ambient
 
 ## Observing and debugging traffic redirection in ambient mode
 
-If traffic redirection is not working correctly in ambient mode, some quick checks can be made to help narrow down the problem. To demonstrate traffic redirection in action, first follow the steps described in the [ztunnel debugging guide](/docs/ambient/usage/debugging).
+If traffic redirection is not working correctly in ambient mode, some quick checks can be made to help narrow down the problem. We recommend that troubleshooting begin with the steps described in the [ztunnel debugging guide](/docs/ambient/usage/troubleshoot-ztunnel/).
 
 ### Check the ztunnel proxy logs
 
