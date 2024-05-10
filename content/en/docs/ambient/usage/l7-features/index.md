@@ -26,7 +26,6 @@ With a waypoint proxy deployed, you can use the following API types:
 | `TCPRoute` | Alpha | `parentRefs` |
 | `TLSRoute` | Alpha | `parentRefs` |
 
-
 Refer to the [traffic management](/docs/tasks/traffic-management/) documentation to see the range of features that can be implemented using these routes.
 
 ## Security
