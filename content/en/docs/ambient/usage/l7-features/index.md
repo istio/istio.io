@@ -50,11 +50,11 @@ As the waypoint proxy is a deployment of {{< gloss >}}Envoy{{< /gloss >}}, the e
 | `WasmPlugin` | Alpha | `targetRefs` |
 | `EnvoyFilter` | Alpha | `targetRefs` |
 
-## Targeting policies
+## Targeting policies or routing rules
 
-### Attach a policy to the entire waypoint proxy
+### Attach to the entire waypoint proxy
 
-To attach a policy to the entire waypoint — so that it applies to all traffic enrolled to use it — set `Gateway` as the `parentRefs` or `targetRefs` value, depending on the policy type.
+To attach a policy or routing rule to the entire waypoint — so that it applies to all traffic enrolled to use it — set `Gateway` as the `parentRefs` or `targetRefs` value, depending on the type.
 
 For example, to apply an `AuthorizationPolicy` policy to the waypoint named `waypoint` for the `default` namespace:
 
@@ -81,9 +81,9 @@ spec:
 EOF
 {{< /text >}}
 
-### Attach a policy to a specific service
+### Attach to a specific service
 
-You can also attach a policy to a specific service within the waypoint. Set `Service` as the `parentRefs` or `targetRefs` value, as appropriate.
+You can also attach a policy or routing rule to a specific service within the waypoint. Set `Service` as the `parentRefs` or `targetRefs` value, as appropriate.
 
 The example below shows how to apply the `reviews` HTTPRoute to the `reviews` service in the `default` namespace:
 
