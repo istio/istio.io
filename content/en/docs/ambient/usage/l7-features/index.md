@@ -26,9 +26,6 @@ With a waypoint proxy deployed, you can use the following API types:
 | `TCPRoute` | Alpha | `parentRefs` |
 | `TLSRoute` | Alpha | `parentRefs` |
 
-{{< tip >}}
-`TCPRoute` and `TLSRoute` still have Alpha status in Kubernetes Gateway API. Caution is advised if considering their adoption.
-{{< /tip >}}
 
 Refer to the [traffic management](/docs/tasks/traffic-management/) documentation to see the range of features that can be implemented using these routes.
 
