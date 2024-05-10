@@ -23,7 +23,7 @@ The layered approach of ambient allows users to adopt Istio in a more incrementa
 
 Most of the features of ambient mode are provided by the ztunnel node proxy. Ztunnel is scoped to only process traffic at Layer 4 (L4), so that it can safely operate as a shared component.
 
-When you add a waypoint proxy for a workload, traffic will be forwarded from the ztunnel to that waypoint. If your applications require any of the following L7 mesh functions, you will need to use a waypoint proxy:
+When you configure redirection to a waypoint, traffic will be forwarded by ztunnel to that waypoint. If your applications require any of the following L7 mesh functions, you will need to use a waypoint proxy:
 
 * **Traffic management**: HTTP routing & load balancing, circuit breaking, rate limiting, fault injection, retries, timeouts
 * **Security**: Rich authorization policies based on L7 primitives such as request type or HTTP header
