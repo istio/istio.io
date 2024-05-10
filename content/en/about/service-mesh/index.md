@@ -20,43 +20,78 @@ doc_type: about
 
 ## What is a Service Mesh?
 
-A service mesh is a dedicated infrastructure layer that you can add to your applications. It allows you to transparently add capabilities like observability, traffic management, and security, without adding them to your own code. The term "service mesh" describes both the type of software you use to implement this pattern, and the security or network domain that is created when you use that software.
+A service mesh is an infrastructure layer added to applications, enabling capabilities like observability, traffic management, and security without coding changes. The term ‘service mesh’ refers to both the software implementing this pattern and the resulting security or network domain.
 
-As the deployment of distributed services, such as in a Kubernetes-based system, grows in size and complexity, it can become harder to understand and manage. Its requirements can include discovery, load balancing, failure recovery, metrics, and monitoring. A service mesh also often addresses more complex operational requirements, like A/B testing, canary deployments, rate limiting, access control, encryption, and end-to-end authentication.
+As distributed services, such as those in Kubernetes, scale, managing them becomes complex. As an operator, you are required to manage tasks like discovery, load balancing, failure recovery, metrics and monitoring. A service mesh aids you by handling operations such as encryption, access control, A/B testing, canary deployments, rate limiting, and authentication.
+
+Additionally, service mesh efficiently routes service-to-service communications within and across application clusters, crucial for distributed application functionality as service numbers grow.
+
+<div class="cta-container">
+    <a class="btn" href="/docs/overview/service-mesh-history/">Learn the history of service mesh</a>
+</div>
+
 {{< /centered_block >}}
 
 {{< centered_block >}}
 
 ## What is Istio?
 
-Istio is an open source service mesh that layers transparently onto existing distributed applications. Istio's powerful features provide a uniform and more efficient way to secure, connect, and monitor services. Its powerful control plane brings vital features, including:
+Istio, an open source service mesh, integrates with existing distributed applications, providing a standardized method for securing, connecting, and monitoring services. It simplifies functionality like load balancing, service-to-service authentication, and observability, with minimal or no code changes. Its design emphasizes extensibility, accommodating diverse deployment needs.
 
-- Secure service-to-service communication in a cluster with TLS encryption, strong identity-based authentication and authorization
-- Automatic load balancing for HTTP, gRPC, WebSocket, and TCP traffic
-- Fine-grained control of traffic behavior with rich routing rules, retries, failovers, and fault injection
-- A pluggable policy layer and configuration API supporting access controls, rate limits and quotas
-- Automatic metrics, logs, and traces for all traffic within a cluster, including cluster ingress and egress
+The Istio control plane operates within Kubernetes, allowing users to add applications from the same cluster, extend the mesh to other clusters, or connect external endpoints like VMs. Supported by a [broad ecosystem](/about/ecosystem) of contributors and partners, Istio offers packaged integrations and distributions for various use cases. You can install Istio independently or opt for managed support from commercial vendors providing Istio-based solutions.
 
-Istio is designed for extensibility and can handle a diverse range of deployment needs. Istio's control plane runs on Kubernetes, and you can add applications deployed in that cluster to your mesh, extend the mesh to other clusters, or even connect VMs or other endpoints running outside of Kubernetes.
-
-[Learn more about Istio](/docs/overview/what-is-istio/)
+<div class="cta-container">
+    <a class="btn" href="/docs/overview/what-is-istio/">Learn more about Istio</a>
+</div>
 
 {{< /centered_block >}}
 
+<br/><br/>
+
 # Features
 
-{{< feature_block header="Traffic management" image="management.svg" >}}
-Routing traffic, both within a single cluster and across clusters, affects performance and enables better deployment strategy. Istio's traffic routing rules let you easily control the flow of traffic and API calls between services. Istio simplifies configuration of service-level properties like circuit breakers, timeouts, and retries, and makes it easy to set up important tasks like A/B testing, canary deployments, and staged rollouts with percentage-based traffic splits.
+{{< feature_block header="Secure by default" image="security.svg" >}}
+Istio provides a security solution with identity, policy, TLS encryption, and authentication, authorization, and audit tools, based on a security-by-default model for deploying applications across distrusted networks with in-depth defense.
+
+<a class="btn" href="/docs/concepts/security/">Learn more about security</a>
 {{< /feature_block>}}
 
-{{< feature_block header="Observability" image="observability.svg" >}}
-As services grow in complexity, it becomes challenging to understand behavior and performance. Istio generates detailed telemetry for all communications within a service mesh. This telemetry provides observability of service behavior, empowering operators to troubleshoot, maintain, and optimize their applications. Even better, you get almost all of this instrumentation without requiring application changes. Through Istio, operators gain a thorough understanding of how monitored services are interacting.
+{{< feature_block header="Increase observability" image="observability.svg" >}}
+Istio generates telemetry within the service mesh, offering observability of service behavior, enabling operators to troubleshoot, maintain, and optimize applications, with minimal application changes.
 
-Istio's telemetry includes detailed metrics, distributed traces, and full access logs. With Istio, you get thorough and comprehensive service mesh observability.
+<a class="btn" href="/docs/concepts/observability/">Learn more about observability</a>
 {{< /feature_block>}}
 
-{{< feature_block header="Security capabilities" image="security.svg" >}}
-Microservices have particular security needs, including protection against man-in-the-middle attacks, flexible access controls, auditing tools, and mutual TLS. Istio includes a comprehensive security solution to give operators the ability to address all of these issues. It provides strong identity, powerful policy, transparent TLS encryption, and authentication, authorization and audit (AAA) tools to protect your services and data.
+{{< feature_block header="Manage traffic" image="management.svg" >}}
+Istio simplifies traffic routing and service-level configuration, allowing easy control over flow between services and setup of tasks like A/B testing, canary deployments, and staged rollouts with percentage-based traffic splits.
 
-Istio's security model is based on security-by-default, aiming to provide in-depth defense to allow you to deploy security-minded applications even across distrusted networks.
+<a class="btn" href="/docs/concepts/traffic-management/">Learn more about traffic management</a>
+{{< /feature_block>}}
+
+<br/><br/>
+
+# Why Istio?
+
+{{< feature_block header="Multiple deployment modes" image="istio-logo-with-brand.svg" >}}
+Istio offers two data planes for users to choose. Deploy with the new ambient mode for a simplified app operational lifecycle or with traditional sidecars for complex configurations. 
+
+<a class="btn" href="/docs/overview/dataplane-modes/">Learn more about Istio's dataplane modes</a>
+{{< /feature_block>}}
+
+{{< feature_block header="Powered by Envoy" image="istio-logo-with-brand.svg" >}}
+Built on the industry standard gateway proxy for cloud-native applications, Istio is highly performative and extensible by design offering deep observability insights and security. 
+
+<a class="btn" href="/docs/overview/why-istio/#envoy">Learn more about Istio and Envoy</a>
+{{< /feature_block>}}
+
+{{< feature_block header="True Community Project" image="istio-logo-with-brand.svg" >}}
+Istio has been designed for modern workloads and engineered by a vast community of innovators across the cloud native landscape. 
+
+<a class="btn" href="/docs/overview/why-istio/#community">Learn more Istio's contributors</a>
+{{< /feature_block>}}
+
+{{< feature_block header="Stable binary releases" image="istio-logo-with-brand.svg" >}}
+Confidently deploy Istio across production workloads. Each release is fully accessible at no cost.
+
+<a class="btn" href="/docs/overview/why-istio/#packages">Learn about how Istio is packaged</a>
 {{< /feature_block>}}

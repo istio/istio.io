@@ -33,7 +33,3 @@ Istio supports two data plane modes:
 * **ambient mode**, which uses a a per-node Layer 4 proxy, and optionally a per-namespace Envoy proxy for Layer 7 features.
 
 [Learn how to choose which mode is right for you](/docs/overview/dataplane-modes/).
-
-
-
-
