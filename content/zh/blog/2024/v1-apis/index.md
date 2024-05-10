@@ -12,7 +12,7 @@ Istio 提供了至关重要的[网络](/zh/docs/reference/config/networking/)、
 确保服务网格内服务的强大安全性、无缝连接和有效可观测性。
 这些 API 被应用于全球数千个集群，保护并增强关键基础设施。
 
-这些 API 提供的大多数功能经过了一段时间已经[被认为是稳定的](/docs/releases/feature-stages/)，
+这些 API 提供的大多数功能经过了一段时间已经[被认为是稳定的](/zh/docs/releases/feature-stages/)，
 但 API 版本仍保持在 `v1beta1`。为了体现这些资源的稳定性、采用率和价值，
 Istio 社区决定在 Istio 1.22 中将这些 API 升级到 `v1`。
 
