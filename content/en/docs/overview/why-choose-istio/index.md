@@ -14,4 +14,3 @@ Today, some CNI plugins are starting to offer non-CNI service mesh functionality
 Istio is designed to be a service mesh that provides a consistent, highly secure, efficient, and standards-compliant service mesh implementation using a powerful set of L7 policies, platform-agnostic workload identity, using industry-proven mTLS protocols - in any environment, with any CNI, or even across clusters with different CNIs. 
 
 For this reason, Istio has implemented its zero-trust tunnel (ztunnel) component, which transparently and efficiently provides this functionality using proven, industry-standard encryption protocols. Learn more about ztunnel.
-
