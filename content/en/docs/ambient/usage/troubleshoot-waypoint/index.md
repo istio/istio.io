@@ -1,5 +1,5 @@
 ---
-title: Troubleshoot connectivity issues with waypoints
+title: Troubleshoot issues with waypoints
 description: How to investigate problems routing through waypoint proxies.
 weight: 70
 owner: istio/wg-networking-maintainers
