@@ -11,7 +11,7 @@ status: Alpha
 {{< boilerplate alpha >}}
 
 Istio provides the ability to [extend its functionality using WebAssembly (Wasm)](/docs/reference/config/proxy_extensions/wasm-plugin/).
-One of the key advantages of Wasm extensibility is that extensions can be loaded dynamically at runtime. This document outlines the testing process for the implementation of Wasm features in ambient mode within Istio. In ambient mode, Wasm configuration must be applied to the waypoint proxy deployed in each namespace, instead of to individual sidecars. This approach is essential due to the absence of sidecars in ambient mode, which is a key distinction from previous configuration.
+One of the key advantages of Wasm extensibility is that extensions can be loaded dynamically at runtime. This document outlines the testing process for the implementation of Wasm features in ambient mode within Istio. In ambient mode, Wasm configuration must be applied to the waypoint proxy deployed in each namespace, instead of to individual sidecars.
 
 ## Install Ambient Mode and deploy test applications
 
@@ -68,7 +68,7 @@ The Istio agent will interpret the WasmPlugin configuration, download remote Was
     401
     {{< /text >}}
 
-1. Test `/productpage` with credentials
+1. Test `/productpage` with credentials configured in the WasmPlugin resource
 
     {{< text bash >}}
     $ kubectl exec deploy/sleep -- curl -s -o /dev/null -H "Authorization: Basic YWRtaW4zOmFkbWluMw==" -w "%{http_code}" "http://$GATEWAY_HOST/productpage"
@@ -179,7 +179,7 @@ reviews-svc-waypoint   istio-waypoint   10.96.177.137   True         30s
 waypoint               istio-waypoint   10.96.202.82    True         44h
 {{< /text >}}
 
-Now, create a `WasmPlugin` targeting the new `waypoint` so that the extension applies only to the `reviews` service.
+Now, create a `WasmPlugin` targeting the new `waypoint` so that the extension applies only to the `reviews` service. In this configuration, the authentication token and the prefix are tailored specifically for the reviews service, ensuring that only requests directed towards it are subjected to this authentication mechanism.
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -220,6 +220,13 @@ EOF
     {{< text bash >}}
     $ kubectl exec deploy/sleep -- curl -s -w "%{http_code}" -o /dev/null -H "Authorization: Basic MXQtaW4zOmFkbWluMw==" http://reviews:9080/reviews/1
     200
+    {{< /text >}}
+
+1. Test internal `/productpage` without credentials
+
+    {{< text bash >}}
+    $ kubectl exec deploy/sleep -- curl -s -w "%{http_code}" -o /dev/null http://productpage:9080/productpage
+    401
     {{< /text >}}
 
 ### Cleanup
