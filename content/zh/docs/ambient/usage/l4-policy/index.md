@@ -10,7 +10,7 @@ Istio Ambient 模式中的 {{< gloss >}}ztunnel{{< /gloss >}} 和
 {{< gloss >}}waypoint{{< /gloss >}} 代理的分层让您可以选择是否使用希望为给定的工作负载启用 Layer 7（L7）处理。
 
 ztunnel 支持 Istio [安全策略](/zh/docs/concepts/security)的 Layer 4（L4）功能，
-并且在 Ambient 模式下可用。如果您的集群具有 {{< gloss >}}CNI{{< /gloss >}} 插件，
+并且在 Ambient 模式下可用。如果您的集群具有 {{< gloss "cni" >}}CNI{{< /gloss >}} 插件，
 [Kubernetes 网络策略](https://kubernetes.io/zh-cn/docs/concepts/services-networking/network-policies/)也可以继续与其协作，
 可用于提供深度防护。
 
