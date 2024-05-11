@@ -229,7 +229,7 @@ EOF
     401
     {{< /text >}}
 
-When executing the provided command without credentials, it verifies that accessing the internal /productpage results in a 401 unauthorised response, demonstrating the expected behavior of failing to access the resource without proper authentication credentials.
+When executing the provided command without credentials, it verifies that accessing the internal `/productpage` results in a 401 unauthorized response, demonstrating the expected behavior of failing to access the resource without proper authentication credentials.
 
 ### Cleanup
 
