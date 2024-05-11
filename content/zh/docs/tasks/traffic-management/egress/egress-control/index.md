@@ -91,7 +91,7 @@ Istio 代理允许调用未知的服务。如果这个选项设置为 `REGISTRY_
     HTTP/2 200
     {{< /text >}}
 
-恭喜！您已经成功地从网格中发送了 Egress 流量。
+恭喜！您已经成功地从网格中发送了出口流量。
 
 这种访问外部服务的简单方法有一个缺点，即丢失了对外部服务流量的 Istio 监控和控制；
 比如，外部服务的调用没有记录到 Mixer 的日志中。下一节将介绍如何监控和控制网格对外部服务的访问。
@@ -564,7 +564,7 @@ $ istioctl install <flags-you-used-to-install-Istio>
 恶意程序可以绕过 Istio Sidecar 代理并在没有 Istio 控制的情况下访问任何外部服务。
 {{< /warning >}}
 
-为了以更安全的方式实施出口流量控制，您必须[通过 Egress Gateway 引导出口流量](/zh/docs/tasks/traffic-management/egress/egress-gateway/)，
+为了以更安全的方式实施出口流量控制，您必须[通过 Egress 网关引导出口流量](/zh/docs/tasks/traffic-management/egress/egress-gateway/)，
 并查看[其他安全注意事项](/zh/docs/tasks/traffic-management/egress/egress-gateway/#additional-security-considerations)部分中描述的安全问题。
 
 ## 清理 {#cleanup}
