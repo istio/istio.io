@@ -1,13 +1,13 @@
 .callout {
     border-top: 4px solid;
-    border-radius: 0.5em;
+    border-radius: .5em;
     padding: 1.75em;
     display: flex;
     position: relative;
     margin: 1em 0;
 
     .type {
-         svg {
+        svg {
             fill: inherit;
             stroke: inherit;
             width: 25px;
