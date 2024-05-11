@@ -3,8 +3,8 @@ title: 配置 waypoint 代理
 description: 通过可选的 Layer 7 代理获得全套 Istio 功能。
 weight: 30
 aliases:
-  - /docs/ops/ambient/usage/waypoint
-  - /latest/docs/ops/ambient/usage/waypoint
+  - /zh/docs/ops/ambient/usage/waypoint
+  - /zh/latest/docs/ops/ambient/usage/waypoint
 owner: istio/wg-networking-maintainers
 test: no
 ---
