@@ -9,16 +9,16 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-[控制 Egress 流量](/zh/docs/tasks/traffic-management/egress/)任务和
-[配置一个 Egress 网关](/zh/docs/tasks/traffic-management/egress/egress-gateway/)示例描述如何配置特定主机的
-Egress 流量，如：`edition.cnn.com`。本示例描述如何为通用域中的一组特定主机开启 Egress 流量，
+[控制出口流量](/zh/docs/tasks/traffic-management/egress/)任务和
+[配置一个 Egress 网关](/zh/docs/tasks/traffic-management/egress/egress-gateway/)示例描述如何配置特定主机的出口流量，
+如：`edition.cnn.com`。本示例描述如何为通用域中的一组特定主机开启出口流量，
 譬如 `*.wikipedia.org`，无需单独配置每一台主机。
 
 ## 背景  {#background}
 
-假定您想要为 Istio 中所有语种的 `wikipedia.org` 站点开启 Egress 流量。每个语种的
+假定您想要为 Istio 中所有语种的 `wikipedia.org` 站点开启出口流量。每个语种的
 `wikipedia.org` 站点均有自己的主机名，譬如：英语和德语对应的主机分别为 `en.wikipedia.org`
-和 `de.rikipedia.org`。您希望通过通用配置项开启所有 Wikipedia 站点的 Egress 流量，无需单独配置每个语种的站点。
+和 `de.rikipedia.org`。您希望通过通用配置项开启所有 Wikipedia 站点的出口流量，无需单独配置每个语种的站点。
 
 {{< boilerplate gateway-api-gamma-support >}}
 
