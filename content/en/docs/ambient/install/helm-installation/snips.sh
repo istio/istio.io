@@ -37,7 +37,7 @@ snip_install_discovery() {
 helm install istiod istio/istiod --namespace istio-system --set profile=ambient --wait
 }
 
-snip_install_discovery() {
+snip_install_discovery_revision() {
 helm install istiod istio/istiod --namespace istio-system --set profile=ambient --set revision=ambient --wait
 }
 
@@ -45,7 +45,7 @@ snip_install_ztunnel() {
 helm install ztunnel istio/ztunnel -n istio-system --wait
 }
 
-snip_install_ztunnel() {
+snip_install_ztunnel_revision() {
 helm install ztunnel istio/ztunnel -n istio-system --set revision=ambient --wait
 }
 
