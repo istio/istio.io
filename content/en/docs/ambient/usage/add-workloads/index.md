@@ -1,7 +1,7 @@
 ---
 title: Add workloads to the mesh
 description: Understand how to add workloads to an ambient mesh.
-weight: 1
+weight: 10
 owner: istio/wg-networking-maintainers
 test: no
 ---
@@ -14,6 +14,10 @@ To add an applications or namespaces to the mesh in ambient mode, add the label 
 
 Ambient mode can be seamlessly enabled (or disabled) completely transparently as far as the application pods are concerned. Unlike the {{< gloss >}}sidecar{{< /gloss >}} data plane mode, there is no need to restart applications to add them to the mesh, and they will not show as having an extra container deployed in their pod.
 
+### Layer 4 and Layer 7 functionality
+
+The secure L4 overlay supports authentication and authorization policies. [Learn about L4 policy support in ambient mode](/docs/ambient/usage/l4-policy/). To opt-in to use Istio's L7 functionality, such as traffic routing, you will need to [deploy a waypoint proxy and enroll your workloads to use it](/docs/ambient/usage/waypoint/).
+
 ## Communicating between pods in different data plane modes
 
 There are multiple options for interoperability between application pods using the ambient data plane mode, and non-ambient endpoints (including Kubernetes application pods, Istio gateways or Kubernetes Gateway API instances). This interoperability provides multiple options for seamlessly integrating ambient and non-ambient workloads within the same Istio mesh, allowing for phased introduction of ambient capability as best suits the needs of your mesh deployment and operation.
@@ -22,7 +26,7 @@ There are multiple options for interoperability between application pods using t
 
 You may have namespaces which are not part of the mesh at all, in either sidecar or ambient mode. In this case, the non-mesh pods initiate traffic directly to the destination pods without going through the source node's ztunnel, while the destination pod's ztunnel enforces any L4 policy to control whether traffic should be allowed or denied.
 
-For example, setting a `PeerAuthentication` policy with mTLS mode set to `STRICT`, in an ambient-enabled namespace, will cause traffic from outside the mesh to be denied.
+For example, setting a `PeerAuthentication` policy with mTLS mode set to `STRICT`, in a namespace with ambient mode enabled, will cause traffic from outside the mesh to be denied.
 
 ### Pods inside the mesh using sidecar mode
 
@@ -62,7 +66,7 @@ The following labels control if a resource is included in the mesh in ambient mo
 |  Name  | Feature Status | Resource | Description |
 | --- | --- | --- | --- |
 | `istio.io/dataplane-mode` | Beta | `Namespace` or `Pod` (latter has precedence) |  Add your resource to an ambient mesh. <br><br> Valid values: `ambient` or `none`. |
-| `istio.io/use-waypoint` | Beta | `Namespace`, `Service` or `Pod` | Use a waypoint for traffic to the labeled resource for L7 policy enforcement. <br><br> Valid values: `{waypoint-name}`, `{namespace}/{waypoint-name}`, or `#none` (with hash). |
+| `istio.io/use-waypoint` | Beta | `Namespace`, `Service` or `Pod` | Use a waypoint for traffic to the labeled resource for L7 policy enforcement. <br><br> Valid values: `{waypoint-name}` or `none`. |
 | `istio.io/waypoint-for` | Alpha | `Gateway` | Specifies what types of endpoints the waypoint will process traffic for. <br><br> Valid values: `service`, `workload`, `none` or `all`. This label is optional and the default value is `service`. |
 
-In order for your `istio.io/use-waypoint` label value to be effective, you have to ensure the waypoint is configured for the endpoint which is using it. By default waypoints accept traffic for service endpoints. For example, when you label a pod to use a specific waypoint via the `istio.io/use-waypoint` label, the waypoint should be labeled `istio.io./waypoint-for` with the value `workload` or `all`.
+In order for your `istio.io/use-waypoint` label value to be effective, you have to ensure the waypoint is configured for the resource types it will be handling traffic for. By default waypoints accept traffic for services. For example, when you label a pod to use a specific waypoint via the `istio.io/use-waypoint` label, the waypoint should be labeled `istio.io./waypoint-for` with the value `workload` or `all`.

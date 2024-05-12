@@ -20,7 +20,7 @@ test: n/a
     则只要服务 waypoint 可以处理服务流量或所有流量，则服务 waypoint 优先级就高于命名空间 waypoint。
     同样，Pod 上的标签优先级将高于命名空间标签。
 
-### 标签 {#labels}
+### 标签 {#ambient-labels}
 
 您可以使用以下标签将资源添加到网格中，
 流向资源的流量使用 waypoint，并控制被发送到 waypoint 的流量。
