@@ -15,7 +15,7 @@ One of the key advantages of Wasm extensibility is that extensions can be loaded
 
 ## Install Ambient Mode and deploy test applications
 
-Follow the [Ambient Getting Started Guide](docs/ambient/getting-started/#download) to install Istio in ambient mode. Deploy the [sample applications](docs/ambient/getting-started/#bookinfo) required for testing the Wasm behavior. Make sure to add the test [applications to ambient mode](docs/ambient/getting-started/#addtoambient) before proceeding further.
+Follow the [Ambient Getting Started Guide](docs/ambient/getting-started/#download) to install Istio in ambient mode. Deploy the [sample applications](docs/ambient/getting-started/#bookinfo) required for exploring waypoint proxy extensibility via Wasm. Make sure to add the sample [applications to ambient mode](docs/ambient/getting-started/#addtoambient) before proceeding further.
 
 ## Apply Wasm configuration at the Gateway
 
