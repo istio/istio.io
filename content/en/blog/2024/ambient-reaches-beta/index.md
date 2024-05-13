@@ -11,7 +11,7 @@ that introduced a new data plane mode in Istio that did not require sidecars, of
 Istio. After 20 months of hard work and collaboration within the Istio community, with contributions from Solo.io, Google,
 Microsoft, Intel, Aviatrix, Huawei, IBM, Red Hat, and others, we are excited to announce that ambient mode has reached Beta in
 version 1.22! The beta release of 1.22 indicates the features of ambient mode are now stable and ready for production workloads
-with appropriate cautions.  This is a huge milestone for Istio, bringing both Layer 4 and Layer 7 mesh features to production
+with appropriate cautions. This is a huge milestone for Istio, bringing both Layer 4 and Layer 7 mesh features to production
 readiness without sidecars.
 
 ## Why ambient mode?
