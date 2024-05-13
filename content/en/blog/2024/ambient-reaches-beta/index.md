@@ -15,6 +15,7 @@ with appropriate cautions.  This is a huge milestone for Istio, bringing both La
 readiness without sidecars.
 
 ## Why ambient mode?
+
 We listened to the feedback from the community and Istio users and observed a growing need for users wanting to implement mesh
 functions for their applications and found the complexity and overhead of sidecars from service meshes hard to overcome.
 Istio’s ambient mode has been designed for simplified operations without requiring changes or restarts to your application
@@ -22,7 +23,7 @@ alleviating the previous barriers of complexity faced by users looking to implem
 
 Ambient mode also enables you to effortlessly enroll your applications onto Istio without sidecars. You can now simply label
 your namespace with `istio.io/dataplane-mode=ambient`, your applications in the namespace are added to the mesh and the
-communications among your application pods in ambient are secured with mTLS, withoutrestartarting or the need for sidecars!
+communications among your application pods in ambient are secured with mTLS, without restartarting or the need for sidecars!
 
 Some challenges that Istio sidecar users have shared with us include; how Istio can break applications after sidecars are
 added, or the large consumption of resources by sidecars, and the inconvenience of the requirement to restart application pods
@@ -51,7 +52,7 @@ As part of the 1.22 release of Istio, the announcement of ambient mode in Beta a
 both Layer 4 and Layer 7 mesh features to production readiness without sidecars.
 
 The lightweight shared L4 node proxy is called the zero-trust tunnel, or ztunnel. Ztunnel drastically reduces the overhead of
-running a mesh by removing the need to potentially overprovision memory and CPU within a cluster to handle expected loads. In
+running a mesh by removing the need to potentially over provision memory and CPU within a cluster to handle expected loads. In
 some use cases, the savings can exceed 90% or more, while still providing zero-trust security using mutual TLS with
 cryptographic identity, simple L4 authorization policies, and telemetry.
 
@@ -77,7 +78,6 @@ them in test environments:
 - Istio ingress gateway can work with workloads in ambient mesh supporting all existing Istio APIs.
 - Use `istioctl` to operate waypoints, and troubleshoot ztunnel & waypoints.
 
-
 ### Alpha features
 
 Other features we want to include in ambient mode have been implemented but remain in Alpha status in this release. Please help
@@ -90,7 +90,7 @@ test them, so they can be promoted to Beta in 1.23 or later:
 - SOCKS5 support (for outbound)
 - Istio’s classic APIs (`VirtualService` and `DestinationRule`)
 
-### Roadmap 
+### Roadmap
 
 We have a number of features which are not yet implemented in ambient mode but are planned for upcoming releases:
 
@@ -107,6 +107,10 @@ pattern before the feature is added to ambient mode. Some use cases, such as tra
 continue to be best implemented using the sidecar pattern. While we believe most use cases will be best served with a mesh in
 ambient mode, the Istio project remains committed to ongoing sidecar mode support.
 
-## Try Istio’s new sidecarless ambient mode today!
+## Try Istio’s new sidecar-less ambient mode today!
 
-With the 1.22 release of Istio and the beta release of ambient mode, it will be easier than ever to try out Istio on your own workloads. Follow the [get started guide](/docs/ambient/getting-started/) to explore ambient or [user guide](https://preliminary.istio.io/latest/docs/ambient/usage/) to learn how to incrementally adopt ambient for mutual TLS & L4 authorization policy, or traffic management, rich L7 authorization policy and more. Engage with us in the #ambient channel on our [Slack](slack.istio.io) or our discussion forum on [GitHub](https://github.com/istio/istio/discussions) for any questions you may have.
+With the 1.22 release of Istio and the beta release of ambient mode, it will be easier than ever to try out Istio on your own
+workloads. Follow the [get started guide](/docs/ambient/getting-started/) to explore ambient or [user guide](https://preliminary.istio.io/latest/docs/ambient/usage/)
+to learn how to incrementally adopt ambient for mutual TLS & L4 authorization policy, or traffic management, rich L7
+authorization policy and more. Engage with us in the #ambient channel on our [Slack](slack.istio.io) or our discussion forum on
+[GitHub](https://github.com/istio/istio/discussions) for any questions you may have.
