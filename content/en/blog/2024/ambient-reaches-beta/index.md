@@ -16,8 +16,8 @@ readiness without sidecars.
 
 ## Why ambient mode?
 
-We listened to the feedback from Istio users and observed a growing demand for mesh capabilities for their applications but who found the resource overhead and operational complexity of sidecars hard to overcome.
-functions for their applications and found the complexity and overhead of sidecars from service meshes hard to overcome.
+We listened to the feedback from Istio users and observed a growing demand for mesh capabilities for their applications but found the resource overhead and operational
+complexity of sidecars hard to overcome.
 Istio’s ambient mode has been designed for simplified operations without requiring changes or restarts to your application
 alleviating the previous barriers of complexity faced by users looking to implement service mesh.
 
