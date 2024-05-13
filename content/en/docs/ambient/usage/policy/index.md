@@ -31,8 +31,6 @@ This table is based on the following invariants:
 
 * Whether or not there is already a waypoint is in the traffic path.
 
-// link to details? table? further clarification
-
 ## HTTP Enforcement
 
 In a scenario where policy requires application layer aware attributes, such as HTTP verbs, a waypoint proxy is required.
@@ -54,15 +52,8 @@ This table is based on the following invariants:
 
 * Whether or not there is already a waypoint is in the traffic path.
 
-// details
 
 ## Ingress and Policy Enforcement
 
 If your application is exposed outside the cluster via and Istio ingress gateway there are additional considerations to be aware of expecially concerning enforcement of TCP layer policy in ztunnel.
-
-// details
-
-## Deny Policy
-
-// details
 
