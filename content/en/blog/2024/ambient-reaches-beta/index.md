@@ -1,7 +1,7 @@
 ---
 title: "Istio’s new sidecar-less ‘Ambient Mode’ reaches Beta in version 1.22"
 description: The latest release from Istio brings service mesh Layer 4 & 7 features to production readiness without sidecars.
-publishdate: 2024-05-14
+publishdate: 2024-05-13
 attribution: "Lin Sun (Solo.io), for the Istio Steering and Technical Oversight Committees"
 keywords: [Istio Day,Istio,conference,KubeCon,CloudNativeCon]
 ---
