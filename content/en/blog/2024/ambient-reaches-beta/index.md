@@ -11,7 +11,7 @@ that introduced a new data plane mode in Istio that did not require sidecars, of
 Istio. After 20 months of hard work and collaboration within the Istio community, with contributions from Solo.io, Google,
 Microsoft, Intel, Aviatrix, Huawei, IBM, Red Hat, and others, we are excited to announce that ambient mode has reached Beta in
 version 1.22! The beta release of 1.22 indicates the features of ambient mode are now ready for production workloads
-with appropriate cautions. This is a huge milestone for Istio, bringing both Layer 4 and Layer 7 mesh features to production
+with appropriate precautions. This is a huge milestone for Istio, bringing both Layer 4 and Layer 7 mesh features to production
 readiness without sidecars.
 
 ## Why ambient mode?
@@ -66,7 +66,7 @@ We recommend you explore the following Beta functions of ambient mode in product
 them in test environments:
 
 - [Install](/docs/ambient/install/).
-- [Adding your workloads to the mesh](/docs/ambient/usage/add-workloads/) to gain mutual TLS with cryptographic identity, [L4 authorization policies](t/docs/ambient/usage/l4-policy/), and telemetry.
+- [Adding your workloads to the mesh](/docs/ambient/usage/add-workloads/) to gain mutual TLS with cryptographic identity, [L4 authorization policies](/docs/ambient/usage/l4-policy/), and telemetry.
 - [Configure waypoints](/docs/ambient/usage/waypoint/) to [use L7 functions](/docs/ambient/usage/l7-features/) such as traffic shifting, request routing, rich authorization policy enforcement.
 - Istio ingress gateway can work with workloads in ambient mesh supporting all existing Istio APIs.
 - Use `istioctl` to operate waypoints, and troubleshoot ztunnel & waypoints.
@@ -100,7 +100,7 @@ pattern until the feature is added to ambient mode. Some use cases, such as traf
 continue to be best implemented using the sidecar mode. While we believe most use cases will be best served with a mesh in
 ambient mode, the Istio project remains committed to ongoing sidecar mode support.
 
-## Try Istio’s new sidecar-less ambient mode today!
+## Try Istio’s new sidecar-less ambient mode
 
 With the 1.22 release of Istio and the beta release of ambient mode, it will be easier than ever to try out Istio on your own
 workloads. Follow the [getting started guide](/docs/ambient/getting-started/) to explore ambient or [user guide](/docs/ambient/usage/)
