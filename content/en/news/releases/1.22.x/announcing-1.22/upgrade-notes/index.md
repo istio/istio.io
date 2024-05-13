@@ -13,7 +13,9 @@ Changes are only included if the new behavior would be unexpected to a user of I
 ## New ambient mode waypoint attachment method
 
 Waypoints in Istio's ambient mode no longer use the original service account or namespace attachment semantics. If you were using a namespace-scope waypoint previously migration should be fairly straight forward. Annotate your namespace with the appropriate waypoint and it should function in a similar way.
-If you were using service account attachment there will be more to understand. Under the old waypoint logic all types of traffic, both addressed to a service as well as addressed to a workload, were treated similarly because there wasn't a good way to properly associate a waypoint to a service. With the new attachment this limitation has been resolved. This includes adding a distinction between service addressed and workload addressed traffic. Annotating a service, or service-like kind, will redirect traffic which is service addressed to your waypoint. Likewise annotating a workload will redirect workload addressed traffic. It is therefore important to understand how consumers address your providers and select a waypoint attachment method which corresponds to this method of access.
+If you were using service account attachment there will be more to understand.
+
+Under the old waypoint logic all types of traffic, both addressed to a service as well as addressed to a workload, were treated similarly because there wasn't a good way to properly associate a waypoint to a service. With the new attachment this limitation has been resolved. This includes adding a distinction between service addressed and workload addressed traffic. Annotating a service, or service-like kind, will redirect traffic which is service addressed to your waypoint. Likewise annotating a workload will redirect workload addressed traffic. It is therefore important to understand how consumers address your providers and select a waypoint attachment method which corresponds to this method of access.
 
 ## Delta xDS on by default
 
