@@ -60,7 +60,7 @@ The L7 proxies are called waypoints. Waypoints process L7 functions such as traf
 enforcement, and enterprise-grade resilience. Waypoints run outside of your application deployments and can scale independently
 based on your needs, which could be for the entire namespace or for multiple services within the namespace. Compared with
 sidecars, you don’t need one waypoint per application pod, and you can scale your waypoint effectively based on its scope,
-thus saving CPU and memory significantly in many cases.
+thus saving significant amounts of CPU and memory in most cases.
 
 The separation between the L4 secure overlay layer and L7 processing layer allows incremental adoption of the ambient mode data
 plane in contrast to the earlier binary “all-in” injection of sidecars. Users can start with the secure overlay layer which
