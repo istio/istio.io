@@ -110,7 +110,7 @@ ambient mode, the Istio project remains committed to ongoing sidecar mode suppor
 ## Try Istio’s new sidecar-less ambient mode today!
 
 With the 1.22 release of Istio and the beta release of ambient mode, it will be easier than ever to try out Istio on your own
-workloads. Follow the [get started guide](/docs/ambient/getting-started/) to explore ambient or [user guide](https://preliminary.istio.io/latest/docs/ambient/usage/)
+workloads. Follow the [getting started guide](/docs/ambient/getting-started/) to explore ambient or [user guide](https://preliminary.istio.io/latest/docs/ambient/usage/)
 to learn how to incrementally adopt ambient for mutual TLS & L4 authorization policy, or traffic management, rich L7
 authorization policy and more. Engage with us in the #ambient channel on our [Slack](slack.istio.io) or our discussion forum on
 [GitHub](https://github.com/istio/istio/discussions) for any questions you may have.
