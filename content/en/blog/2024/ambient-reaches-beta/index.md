@@ -62,7 +62,7 @@ retries, traffic splitting, complex load balancing, and observability collection
 
 ## What is in the scope of the Beta?
 
-We recommend you explore the following Beta functions of ambient mode in production with appropriate caution, after validating
+We recommend you explore the following Beta functions of ambient mode in production with appropriate precautions, after validating
 them in test environments:
 
 - [Install](/docs/ambient/install/).
