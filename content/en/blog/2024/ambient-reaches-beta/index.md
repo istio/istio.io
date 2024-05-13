@@ -59,7 +59,7 @@ sidecars, you don’t need one waypoint per application pod, and you can scale y
 thus saving significant amounts of CPU and memory in most cases.
 
 The separation between the L4 secure overlay layer and L7 processing layer allows incremental adoption of the ambient mode data
-plane in contrast to the earlier binary “all-in” injection of sidecars. Users can start with the secure overlay layer which
+plane in contrast to the earlier binary "all-in" injection of sidecars. Users can start with the secure overlay layer which
 offers mTLS with cryptographic identity, simple L4 authorization policy, and telemetry. Later on, complex L7 handling such as
 retries, traffic splitting, complex load balancing, and observability collection can be enabled on a case-by-case basis.
 
