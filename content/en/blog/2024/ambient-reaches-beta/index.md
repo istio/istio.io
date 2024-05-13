@@ -74,7 +74,7 @@ them in test environments:
 
 - [Install](/docs/ambient/install/).
 - [Adding your workloads to the mesh](/docs/ambient/usage/add-workloads/) to gain mutual TLS with cryptographic identity, [L4 authorization policies](t/docs/ambient/usage/l4-policy/), and telemetry.
-- [Configure waypoint proxies](/docs/ambient/usage/waypoint/) to [use L7 functions](/docs/ambient/usage/l7-features/) such as traffic shifting, request routing, rich authorization policy enforcement.
+- [Configure waypoints](/docs/ambient/usage/waypoint/) to [use L7 functions](/docs/ambient/usage/l7-features/) such as traffic shifting, request routing, rich authorization policy enforcement.
 - Istio ingress gateway can work with workloads in ambient mesh supporting all existing Istio APIs.
 - Use `istioctl` to operate waypoints, and troubleshoot ztunnel & waypoints.
 
