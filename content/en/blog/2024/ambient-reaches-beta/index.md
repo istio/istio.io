@@ -20,7 +20,7 @@ We listened to the feedback from Istio users and observed a growing demand for m
 found the resource overhead and operational complexity of sidecars hard to overcome. Challenges that Istio sidecar users
 have shared with us include: how Istio can break applications after sidecars are added, the large consumption of resources by
 sidecars, and the inconvenience of the requirement to restart application pods with every new proxy release.
-Istio’s ambient mode has been designed for simplified operations without requiring changes or restarts to your application
+Istio’s ambient mode has been designed for simplified operations without requiring changes or restarts to your application,
 alleviating the previous barriers of complexity faced by users looking to implement service mesh.
 
 In ambient mode it is trivial to add or remove applications from the mesh. You can now simply label your namespace with `istio.io/dataplane-mode=ambient` and all applications in the namespace are added to the mesh. This immediately secures all traffic with mTLS, all without sidecars or the need to restart applications.
