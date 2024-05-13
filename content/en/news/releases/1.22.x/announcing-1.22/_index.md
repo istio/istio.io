@@ -26,7 +26,7 @@ Istio 1.22.0 is officially supported on Kubernetes versions `1.27` to `1.30`.
 
 ### Ambient Beta
 
-Ambient mode is beta now, check more details [here]().
+Ambient mode is beta now, check more details [here](/docs/ambient/overview/).
 
 ### Istio API Promotion
 
@@ -36,6 +36,7 @@ In Istio 1.22, the Istio community has decided to promote these APIs to `v1`, ch
 ### Gateway API
 
 The Kubernetes [Gateway API](http://gateway-api.org/) bump to [`v1.1.0`](https://github.com/kubernetes-sigs/gateway-api/releases/tag/v1.1.0), Service Mesh support has graduated to GA.
+See more [here](/blog/2024/gateway-mesh-ga/).
 
 ### Delta XDS
 
