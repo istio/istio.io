@@ -26,7 +26,7 @@ your namespace with `istio.io/dataplane-mode=ambient`, and your application pods
 communications among your application pods in ambient are secured with mTLS, without restartarting or the need for sidecars!
 
 Some challenges that Istio sidecar users have shared with us include: how Istio can break applications after sidecars are
-added, or the large consumption of resources by sidecars, and the inconvenience of the requirement to restart application pods
+added, the large consumption of resources by sidecars, and the inconvenience of the requirement to restart application pods
 with every new proxy version.
 
 As a community, we listened and designed ambient mode to tackle these problems. This new feature from Istio was named ambient
