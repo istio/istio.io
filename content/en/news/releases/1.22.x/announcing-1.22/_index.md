@@ -25,7 +25,7 @@ Istio’s ambient mode is designed for simplified operations without requiring c
 
 Under development since 2022, the Beta release status indicates ambient mode’s features and stability are ready for production workloads with appropriate cautions. [Our ambient mode blog post has all the details]().
 
-### Istio APIs Promoted to `v1`
+### Istio APIs promoted to `v1`
 
 Istio provides APIs that are crucial for ensuring the robust security, seamless connectivity, and effective observability of services within the service mesh. These APIs are used on thousands of clusters across the world, securing and enhancing critical infrastructure. Most of the features powered by these APIs have been [considered stable](/docs/releases/feature-stages/) for some time, but the API version has remained at `v1beta1`. As a reflection of the stability, adoption, and value of these resources, the Istio community has decided to promote these APIs to `v1` in Istio 1.22. Learn about what this means in [a blog post introducing the v1 APIs](/blog/2024/v1-apis/).
 
@@ -39,11 +39,13 @@ Configuration is distributed to Istio’s Envoy sidecars (as well as ztunnel and
 
 To improve performance, we implemented the [delta (or incremental) xDS APIs](https://www.envoyproxy.io/docs/envoy/latest/api-docs/xds_protocol#incremental-xds), which sends only _changed_ configurations. We have worked hard over the past 3 years to ensure that the outcome with delta xDS is provably the same as using the state of the world system. and it has been a supported option in the last few Istio releases. In 1.22, we have made it the default. To learn more about the development of this feature, check out [this EnvoyCon talk](https://www.youtube.com/watch?v=LOm1ptEWx_Y).
 
-### Path templating in `AuthorizationPolicy`
+### Path templating in Authorization Policy
 
-Up until now, you have had to list every path to which you wanted to apply an `AuthorizationPolicy`. Istio 1.22 takes advantage of a new feature in Envoy to add templating to paths, allowing you to specify [template wildcards](/docs/reference/config/security/authorization-policy/#Operation) to match of a path.
+Up until now, you have had to list every path to which you wanted to apply an `AuthorizationPolicy` object. Istio 1.22 takes advantage of a new feature in Envoy allowing you to specify [template wildcards](/docs/reference/config/security/authorization-policy/#Operation) to match of a path.
 
-You can now safely allow matches like `/tenants/{id}/application_forms/guest` — a [long-requested feature](https://github.com/istio/istio/issues/16585)! Special thanks to [Emre Savcı](https://github.com/mstrYoda) from Trendyol for a prototype and for never giving up.
+You can now safely allow path matches like `/tenants/{*}/application_forms/guest` — a [long-requested feature](https://github.com/istio/istio/issues/16585)! 
+
+Special thanks to [Emre Savcı](https://github.com/mstrYoda) from Trendyol for building a prototype, and for never giving up.
 
 ## Upgrading to 1.22
 
