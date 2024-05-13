@@ -18,13 +18,17 @@ doc_type: about
 
 {{< centered_block >}}
 
-## What is a Service Mesh?
+A **service mesh** is an infrastructure layer that gives applications capabilities like zero-trust security, observability, and advanced traffic management, without code changes. A service mesh supports modern DevOps practices by allowing individual teams to control policy around application and service communication safely, while still giving admins strong governance controls.
 
-A service mesh is an infrastructure layer added to applications, enabling capabilities like observability, traffic management, and security without coding changes. The term ‘service mesh’ refers to both the software implementing this pattern and the resulting security or network domain.
+Istio is the most popular, most powerful and most trusted service mesh. Founded by Google and IBM in 2016, Istio is a graduated project in the Cloud Native Computing Foundation alongside projects like Kubernetes and Prometheus.
 
-As distributed services, such as those in Kubernetes, scale, managing them becomes complex. As an operator, you are required to manage tasks like discovery, load balancing, failure recovery, metrics and monitoring. A service mesh aids you by handling operations such as encryption, access control, A/B testing, canary deployments, rate limiting, and authentication.
+Making distributed systems reliable and performant requires operators to manage tasks like discovery, load balancing, failure recovery, metrics and monitoring. A service mesh aids you by handling operations such as encryption, access control, A/B testing, canary deployments, rate limiting, and authentication.
+
+ ....  Istio solves these problems by ...."
 
 Additionally, service mesh efficiently routes service-to-service communications within and across application clusters, crucial for distributed application functionality as service numbers grow.
+
+A service mesh is not confined to the boundaries of a single cluster, network or runtime. Modern enterprises have workloads running on diverse platforms that must be connected and secured. Istio can efficiently route traffic between on-prem, cloud, Kubernetes, VMs and more - all in a single mesh.
 
 <div class="cta-container">
     <a class="btn" href="/docs/overview/service-mesh-history/">Learn the history of service mesh</a>
