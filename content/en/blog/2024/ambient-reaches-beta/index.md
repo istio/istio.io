@@ -42,7 +42,7 @@ processing into two distinct layers. This layered approach allows you to adopt I
 transition from no mesh, to a secure overlay (L4), to optional full L7 processing — on a per-namespace basis, as needed across
 workloads.
 
-Ambient mode works without any modification required from your existing Kubernetes deployments. Users can label a namespace to
+Ambient mode works without any modification required to your existing Kubernetes deployments. Users can label a namespace to
 add all of its workloads to Istio’s ambient mode, or opt-out of certain deployments as needed. By utilizing ambient mode, users
 bypass some of the previously restrictive elements of the sidecar model and instead can now expect server send-first protocols
 to work, see most of the reserved ports are now removed, and the ability for containers to bypass the sidecar – either
