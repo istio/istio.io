@@ -23,11 +23,12 @@ sidecars, and the inconvenience of the requirement to restart application pods w
 Istio’s ambient mode has been designed for simplified operations without requiring changes or restarts to your application,
 alleviating the previous barriers of complexity faced by users looking to implement service mesh.
 
-In ambient mode it is trivial to add or remove applications from the mesh. You can now simply label your namespace with `istio.io/dataplane-mode=ambient` and all applications in the namespace are added to the mesh. This immediately secures all traffic with mTLS, all without sidecars or the need to restart applications.
-
 As a community, we listened and designed ambient mode to tackle these problems. This new feature from Istio was named 'ambient mode'
 as it was designed to be transparent to your application, ensuring no additional configuration was required to adopt it
-and required no restarting of applications by users. You can refer to the [Introducing Ambient Mesh blog](/blog/2022/introducing-ambient-mesh/)
+and required no restarting of applications by users.
+In ambient mode it is trivial to add or remove applications from the mesh. You can now simply label your namespace with `istio.io/dataplane-mode=ambient` and all applications in the namespace are added to the mesh. This immediately secures all traffic with mTLS, all without sidecars or the need to restart applications.
+
+Refer to the [Introducing Ambient Mesh blog](/blog/2022/introducing-ambient-mesh/)
 for more information on why we started ambient mode in Istio.
 
 ## How does ambient mode make adoption easier?
