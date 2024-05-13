@@ -1,7 +1,7 @@
 ---
 title: Distributing WebAssembly Modules
 description: Describes how to make remote WebAssembly modules available for ambient mode.
-weight: 1
+weight: 45
 keywords: [extensibility,Wasm,WebAssembly,Ambient]
 owner: istio/wg-policies-and-telemetry-maintainers
 test: no
@@ -225,7 +225,7 @@ EOF
 1. Test internal `/productpage` without credentials
 
     {{< text bash >}}
-    $ kubectl exec deploy/sleep -- curl -s -w "%{http_code}" -o /dev/null http://productpage:9080/productpage
+    $ kubectl exec deploy/sleep -- curl -s -w "%{http_code}" -o /dev/null http://reviews:9080/reviews/1
     401
     {{< /text >}}
 
