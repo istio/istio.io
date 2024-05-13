@@ -46,7 +46,7 @@ Ambient mode works without any modification required to your existing Kubernetes
 add all of its workloads to Istio’s ambient mode, or opt-out of certain deployments as needed. By utilizing ambient mode, users
 bypass some of the previously restrictive elements of the sidecar model and instead can now expect server send-first protocols
 to work, see most of the reserved ports are now removed, and the ability for containers to bypass the sidecar – either
-maliciously or not – is greatly reduced.
+maliciously or not – is eliminated.
 
 As part of the 1.22 release of Istio, the announcement of ambient mode in Beta also includes how this latest release brings
 both Layer 4 and Layer 7 mesh features to production readiness without sidecars.
