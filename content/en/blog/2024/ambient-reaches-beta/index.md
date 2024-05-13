@@ -104,7 +104,7 @@ We have a number of features which are not yet implemented in ambient mode but a
 Sidecars are not going away, and remain first-class citizens in Istio. You can continue to use sidecars and they will remain
 fully supported.  For any feature outside of the Alpha or Beta scope for ambient mode, you should consider using the sidecar
 pattern until the feature is added to ambient mode. Some use cases, such as traffic shifting based on source labels, will
-continue to be best implemented using the sidecar pattern. While we believe most use cases will be best served with a mesh in
+continue to be best implemented using the sidecar mode. While we believe most use cases will be best served with a mesh in
 ambient mode, the Istio project remains committed to ongoing sidecar mode support.
 
 ## Try Istio’s new sidecar-less ambient mode today!
