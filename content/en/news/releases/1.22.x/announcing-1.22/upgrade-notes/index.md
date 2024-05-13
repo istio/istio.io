@@ -10,13 +10,6 @@ These notes detail the changes which purposefully break backwards compatibility 
 The notes also mention changes which preserve backwards compatibility while introducing new behavior.
 Changes are only included if the new behavior would be unexpected to a user of Istio 1.21.x.
 
-## New ambient mode waypoint attachment method
-
-Waypoints in Istio's ambient mode no longer use the original service account or namespace attachment semantics. If you were using a namespace-scope waypoint previously migration should be fairly straight forward. Annotate your namespace with the appropriate waypoint and it should function in a similar way.
-If you were using service account attachment there will be more to understand.
-
-Under the old waypoint logic all types of traffic, both addressed to a service as well as addressed to a workload, were treated similarly because there wasn't a good way to properly associate a waypoint to a service. With the new attachment this limitation has been resolved. This includes adding a distinction between service addressed and workload addressed traffic. Annotating a service, or service-like kind, will redirect traffic which is service addressed to your waypoint. Likewise annotating a workload will redirect workload addressed traffic. It is therefore important to understand how consumers address your providers and select a waypoint attachment method which corresponds to this method of access.
-
 ## Delta xDS on by default
 
 In previous versions, Istio used the "State of the world" xDS protocol to configure Envoy.
@@ -56,3 +49,10 @@ If this is not desired, use the new `compatibilityVersion` feature to fallback t
 `ServiceEntry` with `resolution: NONE` previously ignored any `targetPort` specifier.
 In this release, the `targetPort` is now respected.
 If undesired set `--compatibilityVersion=1.21` to revert to the old behavior, or remove the `targetPort` specification.
+
+## New ambient mode waypoint attachment method
+
+Waypoints in Istio's ambient mode no longer use the original service account or namespace attachment semantics. If you were using a namespace-scope waypoint previously migration should be fairly straight forward. Label your namespace with the appropriate waypoint and it should function in a similar way. Please check the [doc](/docs/ambient/usage/l7-features/#targeting-policies-or-routing-rules).
+If you were using service account attachment there will be more to understand.
+
+Under the old waypoint logic all types of traffic, both addressed to a service as well as addressed to a workload, were treated similarly because there wasn't a good way to properly associate a waypoint to a service. With the new attachment this limitation has been resolved. This includes adding a distinction between service addressed and workload addressed traffic. Annotating a service, or service-like kind, will redirect traffic which is service addressed to your waypoint. Likewise annotating a workload will redirect workload addressed traffic. It is therefore important to understand how consumers address your providers and select a waypoint attachment method which corresponds to this method of access.
