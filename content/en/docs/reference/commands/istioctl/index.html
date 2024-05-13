@@ -926,7 +926,7 @@ to enable it.  You can execute the following once:</p>
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.22.0/manifests).  (default ``)</td>
+(e.g. ~/Downloads/istio-1.23.0/manifests).  (default ``)</td>
 </tr>
 <tr>
 <td><code>--name &lt;string&gt;</code></td>
@@ -3022,7 +3022,7 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <tr>
 <td><code>--for &lt;string&gt;</code></td>
 <td></td>
-<td>Specify the traffic type [all none service workload] for the waypoint  (default `service`)</td>
+<td>Specify the traffic type [all none service workload] for the waypoint  (default ``)</td>
 </tr>
 <tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
@@ -3152,7 +3152,7 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <tr>
 <td><code>--for &lt;string&gt;</code></td>
 <td></td>
-<td>Specify the traffic type [all none service workload] for the waypoint  (default `service`)</td>
+<td>Specify the traffic type [all none service workload] for the waypoint  (default ``)</td>
 </tr>
 <tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
@@ -3592,10 +3592,10 @@ The default output is serialized YAML, which can be piped into &#39;kubectl appl
 </table>
 <h3 id="istioctl-experimental-ztunnel-config Examples">Examples</h3>
 <pre class="language-bash"><code>  # Retrieve summary about workload configuration
-  istioctl ztunnel-config workload
+  istioctl x ztunnel-config workload
 
   # Retrieve summary about certificates
-  istioctl ztunnel-config certificates
+  istioctl x ztunnel-config certificates
 </code></pre>
 <h2 id="istioctl-experimental-ztunnel-config-all">istioctl experimental ztunnel-config all</h2>
 <p>Retrieve information about all configuration for the Ztunnel instance.</p>
@@ -3659,10 +3659,10 @@ The default output is serialized YAML, which can be piped into &#39;kubectl appl
 </table>
 <h3 id="istioctl-experimental-ztunnel-config-all Examples">Examples</h3>
 <pre class="language-bash"><code>  # Retrieve summary about all configuration for a randomly chosen ztunnel.
-  istioctl ztunnel-config all
+  istioctl x ztunnel-config all
 
   # Retrieve full configuration dump of workloads for a given Ztunnel instance.
-  istioctl ztunnel-config policies &lt;ztunnel-name[.namespace]&gt; -o json
+  istioctl x ztunnel-config policies &lt;ztunnel-name[.namespace]&gt; -o json
 
 </code></pre>
 <h2 id="istioctl-experimental-ztunnel-config-certificate">istioctl experimental ztunnel-config certificate</h2>
@@ -3732,10 +3732,10 @@ istioctl experimental ztunnel-config cert [flags]
 </table>
 <h3 id="istioctl-experimental-ztunnel-config-certificate Examples">Examples</h3>
 <pre class="language-bash"><code>  # Retrieve summary about workload configuration for a randomly chosen ztunnel.
-  istioctl ztunnel-config certificates
+  istioctl x ztunnel-config certificates
 
   # Retrieve full certificate dump of workloads for a given Ztunnel instance.
-  istioctl ztunnel-config certificates &lt;ztunnel-name[.namespace]&gt; -o json
+  istioctl x ztunnel-config certificates &lt;ztunnel-name[.namespace]&gt; -o json
 
 </code></pre>
 <h2 id="istioctl-experimental-ztunnel-config-log">istioctl experimental ztunnel-config log</h2>
@@ -3777,7 +3777,7 @@ istioctl experimental ztunnel-config cert [flags]
 <tr>
 <td><code>--level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-logger level of messages to output, in the form of [&lt;logger&gt;:]&lt;level&gt;,[&lt;logger&gt;:]&lt;level&gt;,... or &lt;level&gt; to change all active loggers, where logger components can be listed by running &#34;istioctl ztunnel-config log &lt;pod-name[.namespace]&gt;&#34;, and level can be one of [trace, debug, info, warning, error, critical, off]  (default ``)</td>
+<td>Comma-separated minimum per-logger level of messages to output, in the form of [&lt;logger&gt;:]&lt;level&gt;,[&lt;logger&gt;:]&lt;level&gt;,... or &lt;level&gt; to change all active loggers, where logger components can be listed by running &#34;istioctl x ztunnel-config log &lt;pod-name[.namespace]&gt;&#34;, and level can be one of [trace, debug, info, warning, error, critical, off]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -3813,16 +3813,16 @@ istioctl experimental ztunnel-config cert [flags]
 </table>
 <h3 id="istioctl-experimental-ztunnel-config-log Examples">Examples</h3>
 <pre class="language-bash"><code>  # Retrieve information about logging levels from all Ztunnel pods
- istioctl ztunnel-config log
+ istioctl x ztunnel-config log
 
  # Update levels of the all loggers for a specific Ztunnel pod
- istioctl ztunnel-config log &lt;pod-name[.namespace]&gt; --level off
+ istioctl x ztunnel-config log &lt;pod-name[.namespace]&gt; --level off
 
  # Update levels of the specified loggers for all Ztunnl pods
- istioctl ztunnel-config log --level access:debug,info
+ istioctl x ztunnel-config log --level access:debug,info
 
  # Reset levels of all the loggers to default value (warning)  for a specific Ztunnel pod.
- istioctl ztunnel-config log &lt;pod-name[.namespace]&gt; -r
+ istioctl x ztunnel-config log &lt;pod-name[.namespace]&gt; -r
 
 </code></pre>
 <h2 id="istioctl-experimental-ztunnel-config-policy">istioctl experimental ztunnel-config policy</h2>
@@ -3897,10 +3897,10 @@ istioctl experimental ztunnel-config pol [flags]
 </table>
 <h3 id="istioctl-experimental-ztunnel-config-policy Examples">Examples</h3>
 <pre class="language-bash"><code>  # Retrieve summary about policy configuration for a randomly chosen ztunnel.
-  istioctl ztunnel-config policies
+  istioctl x ztunnel-config policies
 
   # Retrieve full policy dump of workloads for a given Ztunnel instance.
-  istioctl ztunnel-config policies &lt;ztunnel-name[.namespace]&gt; -o json
+  istioctl x ztunnel-config policies &lt;ztunnel-name[.namespace]&gt; -o json
 
 </code></pre>
 <h2 id="istioctl-experimental-ztunnel-config-service">istioctl experimental ztunnel-config service</h2>
@@ -3975,10 +3975,10 @@ istioctl experimental ztunnel-config svc [flags]
 </table>
 <h3 id="istioctl-experimental-ztunnel-config-service Examples">Examples</h3>
 <pre class="language-bash"><code>  # Retrieve summary about services configuration for a randomly chosen ztunnel.
-  istioctl ztunnel-config services
+  istioctl x ztunnel-config services
 
   # Retrieve full certificate dump of workloads for a given Ztunnel instance.
-  istioctl ztunnel-config services &lt;ztunnel-name[.namespace]&gt; -o json
+  istioctl x ztunnel-config services &lt;ztunnel-name[.namespace]&gt; -o json
 
 </code></pre>
 <h2 id="istioctl-experimental-ztunnel-config-workload">istioctl experimental ztunnel-config workload</h2>
@@ -4067,20 +4067,20 @@ istioctl experimental ztunnel-config workloads [&lt;type&gt;/]&lt;name&gt;[.&lt;
 </table>
 <h3 id="istioctl-experimental-ztunnel-config-workload Examples">Examples</h3>
 <pre class="language-bash"><code>  # Retrieve summary about workload configuration for a randomly chosen ztunnel.
-  istioctl ztunnel-config workload
+  istioctl x ztunnel-config workload
 
   # Retrieve summary of workloads on node XXXX for a given Ztunnel instance.
-  istioctl ztunnel-config workload &lt;ztunnel-name[.namespace]&gt; --node ambient-worker
+  istioctl x ztunnel-config workload &lt;ztunnel-name[.namespace]&gt; --node ambient-worker
 
   # Retrieve full workload dump of workloads with address XXXX for a given Ztunnel instance.
-  istioctl ztunnel-config workload &lt;ztunnel-name[.namespace]&gt; --address 0.0.0.0 -o json
+  istioctl x ztunnel-config workload &lt;ztunnel-name[.namespace]&gt; --address 0.0.0.0 -o json
 
   # Retrieve Ztunnel config dump separately and inspect from file.
   kubectl exec -it $ZTUNNEL -n istio-system -- curl localhost:15000/config_dump &gt; ztunnel-config.json
-  istioctl ztunnel-config workloads --file ztunnel-config.json
+  istioctl x ztunnel-config workloads --file ztunnel-config.json
 
   # Retrieve workload summary for a specific namespace
-  istioctl ztunnel-config workloads &lt;ztunnel-name[.namespace]&gt; --workloads-namespace foo
+  istioctl x ztunnel-config workloads &lt;ztunnel-name[.namespace]&gt; --workloads-namespace foo
 
 </code></pre>
 <h2 id="istioctl-install">istioctl install</h2>
@@ -4139,7 +4139,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.22.0/manifests).
+(e.g. ~/Downloads/istio-1.23.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -4162,7 +4162,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.22/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.23/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -4535,7 +4535,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.22.0/manifests).
+(e.g. ~/Downloads/istio-1.23.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -4558,7 +4558,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.22/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.23/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -4637,7 +4637,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.22.0/manifests).
+(e.g. ~/Downloads/istio-1.23.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -4660,7 +4660,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.22/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.23/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -4785,7 +4785,7 @@ could be secret list separated by comma, eg. &#39;--imagePullSecrets imagePullSe
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.22.0/manifests).
+(e.g. ~/Downloads/istio-1.23.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -4884,7 +4884,7 @@ could be secret list separated by comma, eg. &#39;--imagePullSecrets imagePullSe
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.22.0/manifests).
+(e.g. ~/Downloads/istio-1.23.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -5117,7 +5117,7 @@ istioctl install --set profile=demo  # Use a profile from the list
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.22.0/manifests).
+(e.g. ~/Downloads/istio-1.23.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -5192,7 +5192,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.22.0/manifests).
+(e.g. ~/Downloads/istio-1.23.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -5254,7 +5254,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.22.0/manifests).
+(e.g. ~/Downloads/istio-1.23.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -6404,7 +6404,7 @@ injection labels.</p>
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.22.0/manifests).  (default ``)</td>
+(e.g. ~/Downloads/istio-1.23.0/manifests).  (default ``)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -6601,7 +6601,7 @@ injection labels.</p>
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.22.0/manifests).  (default ``)</td>
+(e.g. ~/Downloads/istio-1.23.0/manifests).  (default ``)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -6702,7 +6702,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.22.0/manifests).
+(e.g. ~/Downloads/istio-1.23.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -6725,7 +6725,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.22/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.23/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -6808,7 +6808,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.22.0/manifests).
+(e.g. ~/Downloads/istio-1.23.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -6831,7 +6831,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.22/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.23/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -6965,7 +6965,7 @@ istioctl experimental precheck.
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.22.0/manifests).  (default ``)</td>
+(e.g. ~/Downloads/istio-1.23.0/manifests).  (default ``)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -7110,6 +7110,12 @@ not a sufficient requirement to achieve compliance. There are additional
 steps necessary to claim compliance, including using the validated
 cryptograhic modules (please consult
 https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fips-140-2).</td>
+</tr>
+<tr>
+<td><code>ENABLE_100_CONTINUE_HEADERS</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, istiod will proxy 100-continue headers as is</td>
 </tr>
 <tr>
 <td><code>ENABLE_AUTO_SNI</code></td>
