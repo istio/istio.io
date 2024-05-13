@@ -23,7 +23,7 @@ Istio 1.22.0 is officially supported on Kubernetes versions `1.27` to `1.30`.
 
 Istio’s ambient mode is designed for simplified operations without requiring changes or restarts to your application. It introduces lightweight, shared node proxies and optional Layer 7 per-workload proxies, thus removing the need for traditional sidecars from the data plane. Compared to sidecar mode, ambient mode reduces memory overhead and CPU usage by over 90% in many cases.
 
-Under development since 2022, the Beta release status indicates ambient mode’s features and stability are ready for production workloads with appropriate cautions. [Our ambient mode blog post has all the details](/blog/2024/ambient-reaches-beta/).
+Under development since 2022, the Beta release status indicates ambient mode’s features and stability are ready for production workloads with appropriate precautions. [Our ambient mode blog post has all the details](/blog/2024/ambient-reaches-beta/).
 
 ### Istio APIs promoted to `v1`
 
