@@ -57,3 +57,16 @@ This table is based on the following invariants:
 
 If your application is exposed outside the cluster via and Istio ingress gateway there are additional considerations to be aware of expecially concerning enforcement of TCP layer policy in ztunnel.
 
+## Diagram
+
+{{< mermaid >}}
+flowchart TD
+    A{Policy Attachment} -->|TargetRef| B{Resource}
+    A -->|Selector| C[desination ztunnel enforced*]
+    A -->|None| C
+    B -->|Service| D[waypoint enforced]
+    B -->|Gateway| D
+    C --> E{HTTP Policy?}
+    E -->|Yes| F[Allow/Deny]
+    E -->|No| G[Always DENY]
+{{< /mermaid >}}
