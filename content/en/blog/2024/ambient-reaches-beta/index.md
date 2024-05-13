@@ -48,8 +48,6 @@ bypass some of the previously restrictive elements of the sidecar model and inst
 to work, see most of the reserved ports are now removed, and the ability for containers to bypass the sidecar – either
 maliciously or not – is eliminated.
 
-As part of the 1.22 release of Istio, the announcement of ambient mode in Beta also includes how this latest release brings
-both Layer 4 and Layer 7 mesh features to production readiness without sidecars.
 
 The lightweight shared L4 node proxy is called ztunnel (zero-trust tunnel). Ztunnel drastically reduces the overhead of
 running a mesh by removing the need to potentially over provision memory and CPU within a cluster to handle expected loads. In
