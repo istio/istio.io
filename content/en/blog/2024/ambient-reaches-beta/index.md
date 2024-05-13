@@ -31,7 +31,7 @@ with every new proxy release.
 
 As a community, we listened and designed ambient mode to tackle these problems. This new feature from Istio was named ambient
 mode as it was designed to be transparent to your application, ensuring no additional configuration was required to adopt it
-and required no restarting of applications by users. You can refer to the [introducing ambient mesh blog](/blog/2022/introducing-ambient-mesh/)
+and required no restarting of applications by users. You can refer to the [Introducing Ambient Mesh blog](/blog/2022/introducing-ambient-mesh/)
 for more information on why we started ambient mode in Istio.
 
 ## How does ambient mode make adoption easier?
