@@ -22,7 +22,7 @@ Istio’s ambient mode has been designed for simplified operations without requi
 alleviating the previous barriers of complexity faced by users looking to implement service mesh.
 
 Ambient mode also enables you to effortlessly enroll your applications onto Istio without sidecars. You can now simply label
-your namespace with `istio.io/dataplane-mode=ambient`, your applications in the namespace are added to the mesh and the
+your namespace with `istio.io/dataplane-mode=ambient`, and your application pods in the namespace are added to the mesh and the
 communications among your application pods in ambient are secured with mTLS, without restartarting or the need for sidecars!
 
 Some challenges that Istio sidecar users have shared with us include; how Istio can break applications after sidecars are
