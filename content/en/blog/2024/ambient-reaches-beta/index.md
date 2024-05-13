@@ -40,7 +40,7 @@ Istio’s ambient mode introduces lightweight, shared node proxies and optional 
 traditional sidecar proxies from the data plane. The core innovation behind ambient mode is that it slices the L4 and L7
 processing into two distinct layers. This layered approach allows you to adopt Istio incrementally, enabling a smooth
 transition from no mesh, to a secure overlay (L4), to optional full L7 processing — on a per-namespace basis, as needed across
-workloads.
+your fleet.
 
 Ambient mode works without any modification required to your existing Kubernetes deployments. Users can label a namespace to
 add all of its workloads to Istio’s ambient mode, or opt-out of certain deployments as needed. By utilizing ambient mode, users
