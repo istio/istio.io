@@ -18,14 +18,16 @@ This table is based on the following invariants:
 
 1. The source pod is a normal pod which has ztunnel enabled.
 1. Redirection to the waypoint is configured correctly.
-1. The waypoint is configured with an appropriate `istio.io/waypoint-for` label such that it can accept the type of traffic being sent to it.
+1. The waypoint is configured with the `istio.io/waypoint-for` label set to `service`.
 
-|  Name  | Waypoint* | Attachment Style | Resources  | Source Identity | Enforced By |
-| --- | --- | --- | --- | --- | --- |
-| TCP Policy | no | Selector | Pod | client pod | destination ztunnel |
-| TCP Policy | yes | Selector | Pod | waypoint | destination ztunnel |
-| TCP Policy | yes | ParentRef | Service | client pod | waypoint |
-| HTTP Policy | yes | ParentRef | Service | client pod | waypoint |
+| Waypoint* | Attachment Style | Scope | Source Identity | Enforced By |
+| --- | --- | --- | --- | --- |
+| no | Selector | Pod | client pod | destination ztunnel |
+| yes | Selector | Pod | waypoint | destination ztunnel |
+| no | | Namespace | client pod | destination ztunnel |
+| yes | | Namespace | waypoint | destination ztunnel |
+| yes | TargetRef | Service | client pod | waypoint |
+| yes | TargetRef | Gateway | client pod | waypoint |
 
 * Whether or not there is already a waypoint is in the traffic path.
 
@@ -34,6 +36,23 @@ This table is based on the following invariants:
 ## HTTP Enforcement
 
 In a scenario where policy requires application layer aware attributes, such as HTTP verbs, a waypoint proxy is required.
+
+This table is based on the following invariants:
+
+1. The source pod is a normal pod which has ztunnel enabled.
+1. Redirection to the waypoint is configured correctly.
+1. The waypoint is configured with the `istio.io/waypoint-for` label set to `service`.
+
+| Waypoint* | Attachment Style | Resources | Source Identity | Enforced By |
+| --- | --- | --- | --- | --- |
+| no | Selector | Pod | n/a | DENY destination ztunnel |
+| yes | Selector | Pod | n/a | DENY destination ztunnel |
+| no | | Namespace | n/a | DENY destination ztunnel |
+| yes | | Namespace | n/a | DENY destination ztunnel |
+| yes | TargetRef | Service | client pod | waypoint |
+| yes | TargetRef | Gateway | client pod | waypoint |
+
+* Whether or not there is already a waypoint is in the traffic path.
 
 // details
 
