@@ -21,7 +21,7 @@ Istio 1.22.0 is officially supported on Kubernetes versions `1.27` to `1.30`.
 
 ### Ambient mode now in Beta
 
-Istio’s ambient mode is designed for simplified operations without requiring changes or restarts to your application. It introduces lightweight, shared node proxies and optional Layer 7 (L7) per-workload proxies, thus removing the need for traditional sidecars from the data plane. Compared to sidecar mode, ambient mode reduces memory overhead and CPU usage by over 90% in many cases.
+Istio’s ambient mode is designed for simplified operations without requiring changes or restarts to your application. It introduces lightweight, shared node proxies and optional Layer 7 per-workload proxies, thus removing the need for traditional sidecars from the data plane. Compared to sidecar mode, ambient mode reduces memory overhead and CPU usage by over 90% in many cases.
 
 Under development since 2022, the Beta release status indicates ambient mode’s features and stability are ready for production workloads with appropriate cautions. [Our ambient mode blog post has all the details]().
 
@@ -43,9 +43,19 @@ To improve performance, we implemented the [delta (or incremental) xDS APIs](htt
 
 Up until now, you have had to list every path to which you wanted to apply an `AuthorizationPolicy` object. Istio 1.22 takes advantage of a new feature in Envoy allowing you to specify [template wildcards](/docs/reference/config/security/authorization-policy/#Operation) to match of a path.
 
-You can now safely allow path matches like `/tenants/{*}/application_forms/guest` — a [long-requested feature](https://github.com/istio/istio/issues/16585)! 
+You can now safely allow path matches like `/tenants/{*}/application_forms/guest` — a [long-requested feature](https://github.com/istio/istio/issues/16585)!
 
 Special thanks to [Emre Savcı](https://github.com/mstrYoda) from Trendyol for building a prototype, and for never giving up.
+
+## A thank you
+
+Finally, we would like to take this opportunity to congratulate [Eric Van Norman](https://github.com/ericvn) on the eve of his retirement, after 34 years at IBM.
+
+Eric is a much respected member of the Istio community. Joining the project in early 2019, he served as a Release Manager for Istio 1.4, a maintainer in the Documentation working group, the lead of the Test and Release working group, and was an obvious choice to join the Technical Oversight Committee in 2021.
+
+Much of Eric’s development work is behind-the-scenes, making sure the various pipelines that build and test Istio’s releases and documentation continue to operate and improve. Indeed, Eric is the [second largest contributor](https://istio.devstats.cncf.io/d/66/developer-activity-counts-by-companies?orgId=1&var-period_name=Last%20decade&var-metric=contributions&var-repogroup_name=All&var-country_name=All&var-companies=All) to Istio on GitHub.
+
+While Eric will be stepping down from the TOC, he has promised to stay around in the community - although we may have to change from Slack to ham radio to reach him!
 
 ## Upgrading to 1.22
 
