@@ -21,7 +21,7 @@ found the resource overhead and operational complexity of sidecars hard to overc
 have shared with us include: how Istio can break applications after sidecars are added, the large consumption of resources by
 sidecars, and the inconvenience of the requirement to restart application pods with every new proxy release.
 
-Istio’s ambient mode has been designed for simplified operations without requiring changes or restarts to your application,
+As a community, we listened and designed ambient mode to tackle these problems,
 alleviating the previous barriers of complexity faced by users looking to implement service mesh. This new feature from Istio
 was named 'ambient mode' as it was designed to be transparent to your application, ensuring no additional configuration was
 required to adopt it and required no restarting of applications by users. In ambient mode it is trivial to add or remove
