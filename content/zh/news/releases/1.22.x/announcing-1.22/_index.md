@@ -8,7 +8,7 @@ release: 1.22.0
 ---
 
 We are pleased to announce the release of Istio 1.22 - one of the largest and most impactful releases we've ever launched. Thank you to all our contributors, testers, users and enthusiasts for helping us get the 1.22.0 release published.
-我们很高兴地宣布发布 Istio 1.22 - 这是我们发布过的规模最大、影响力最强的版本之一。
+我们很高兴地宣布 Istio 1.22 发布。这是我们发布过的规模最大、影响力最强的版本之一。
 感谢所有贡献者、测试人员、用户和爱好者帮助我们发布 1.22.0 版本。
 
 We would like to thank the Release Managers for this release, **Jianpeng He** from Tetrate, **Sumit Vij** from Credit Karma and **Zhonghu Xu** from Huawei. Once again, the release managers owe a debt of gratitude to Test & Release WG lead Eric Van Norman for his help and guidance; more on him later.
@@ -62,25 +62,32 @@ To improve performance, we implemented the [delta (or incremental) xDS APIs](htt
 ### Path templating in Authorization Policy
 
 Up until now, you have had to list every path to which you wanted to apply an `AuthorizationPolicy` object. Istio 1.22 takes advantage of a new feature in Envoy allowing you to specify [template wildcards](/docs/reference/config/security/authorization-policy/#Operation) to match of a path.
+到目前为止，您必须列出要应用“AuthorizationPolicy”对象的每个路径。 Istio 1.22 利用 Envoy 中的一项新功能，允许您指定[模板通配符](/docs/reference/config/security/authorization-policy/#Operation) 来匹配路径。
 
 You can now safely allow path matches like `/tenants/{*}/application_forms/guest` — a [long-requested feature](https://github.com/istio/istio/issues/16585)!
+您现在可以安全地允许像“/tenants/{*}/application_forms/guest”这样的路径匹配——这是一个[长期请求的功能](https://github.com/istio/istio/issues/16585)！
 
 Special thanks to [Emre Savcı](https://github.com/mstrYoda) from Trendyol for building a prototype, and for never giving up.
+特别感谢 Trendyol 的 [Emre Savcı](https://github.com/mstrYoda) 构建了原型，并且永不放弃。
 
 ## A thank you
 
 Finally, we would like to take this opportunity to congratulate [Eric Van Norman](https://github.com/ericvn) on the eve of his retirement, after 34 years at IBM.
+最后，我们想借此机会祝贺 [Eric Van Norman](https://github.com/ericvn) 在 IBM 工作 34 年后退休。
 
 Eric is a much respected member of the Istio community. Joining the project in early 2019, he served as a Release Manager for Istio 1.4, a maintainer in the Documentation working group, the lead of the Test and Release working group, and was an obvious choice to join the Technical Oversight Committee in 2021.
+Eric 是 Istio 社区中一位备受尊敬的成员。 他于 2019 年初加入该项目，担任 Istio 1.4 的发布经理、文档工作组的维护者、测试和发布工作组的负责人，并且是 2021 年加入技术监督委员会的理所当然的选择。
 
 Much of Eric’s development work is behind-the-scenes, making sure the various pipelines that build and test Istio’s releases and documentation continue to operate and improve. Indeed, Eric is the [second largest contributor](https://istio.devstats.cncf.io/d/66/developer-activity-counts-by-companies?orgId=1&var-period_name=Last%20decade&var-metric=contributions&var-repogroup_name=All&var-country_name=All&var-companies=All) to Istio on GitHub.
+Eric 的大部分开发工作都是在幕后进行的，确保构建和测试 Istio 版本和文档的各种管道继续运行和改进。 事实上，Eric 是[第二大贡献者](https://istio.devstats.cncf.io/d/66/developer-activity-counts-by-companies?orgId=1&var-period_name=Last%20decade&var-metric=contributions&var -repogroup_name=All&var-country_name=All&var-companies=All) 到 GitHub 上的 Istio。
 
 While Eric will be stepping down from the TOC, he has promised to stay around in the community - although we may have to change from Slack to ham radio to reach him!
+虽然 Eric 将从 TOC 辞职，但他已承诺留在社区 - 尽管我们可能需要从 Slack 改为业余无线电才能联系到他！
 
 ## Upgrading to 1.22
 
-We would like to hear from you regarding your experience upgrading to Istio 1.22. You can provide feedback
-in the [`#release-1.22`](https://istio.slack.com/archives/C06PU4H4EMR) channel in our [Slack workspace](https://slack.istio.io/).
+We would like to hear from you regarding your experience upgrading to Istio 1.22. You can provide feedback in the [`#release-1.22`](https://istio.slack.com/archives/C06PU4H4EMR) channel in our [Slack workspace](https://slack.istio.io/).
+我们希望听到您关于升级到 Istio 1.22 的体验。 您可以在我们的 [Slack 工作区](https://slack.istio.io/) 的 [`#release-1.22`](https://istio.slack.com/archives/C06PU4H4EMR) 频道中提供反馈。
 
-Would you like to contribute directly to Istio? Find and join one of
-our [Working Groups](https://github.com/istio/community/blob/master/WORKING-GROUPS.md) and help us improve.
+Would you like to contribute directly to Istio? Find and join one of our [Working Groups](https://github.com/istio/community/blob/master/WORKING-GROUPS.md) and help us improve.
+您想直接为 Istio 做出贡献吗？ 查找并加入我们的[工作组](https://github.com/istio/community/blob/master/WORKING-GROUPS.md)之一并帮助我们改进。

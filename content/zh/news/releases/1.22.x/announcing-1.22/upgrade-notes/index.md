@@ -1,6 +1,6 @@
 ---
-title: Istio 1.22 Upgrade Notes
-description: Important changes to consider when upgrading to Istio 1.22.x.
+title: Istio 1.22 升级说明
+description: 升级到 Istio 1.22.x 时需要考虑的重要更改。
 weight: 20
 publishdate: 2024-05-13
 ---
@@ -9,6 +9,10 @@ When you upgrade from Istio 1.21.x to Istio 1.22.0, you need to consider the cha
 These notes detail the changes which purposefully break backwards compatibility with Istio 1.21.x.
 The notes also mention changes which preserve backwards compatibility while introducing new behavior.
 Changes are only included if the new behavior would be unexpected to a user of Istio 1.21.x.
+当您从 Istio 1.21.x 升级到 Istio 1.22.x 时，您需要考虑本页所述的变更。
+这些说明详述了故意打破 Istio 1.21.x 向后兼容性的一些变更。
+这些说明还提到了在引入新特性的同时保持向后兼容性的一些变更。
+这里仅包含出乎 Istio 1.21.x 用户意料的新特性变更。
 
 ## Delta xDS on by default
 

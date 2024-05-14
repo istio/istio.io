@@ -1,23 +1,23 @@
 ---
-title: Istio 1.22.0 Change Notes
+title: Istio 1.22.0 更新说明
 linktitle: 1.22.0
-subtitle: Minor Release
-description: Istio 1.22.0 release notes.
+subtitle: 次要版本
+description: Istio 1.22.0 更新说明。
 publishdate: 2024-05-13
 release: 1.22.0
 weight: 10
 aliases:
-    - /news/announcing-1.22.0
+    - /zh/news/announcing-1.22.0
 ---
 
-## Deprecation Notices
+## 弃用通知 {#deprecation-notices}
 
 These notices describe functionality that will be removed in a future release according to [Istio's deprecation policy](/docs/releases/feature-stages/#feature-phase-definition). Please consider upgrading your environment to remove the deprecated functionality.
 
 - **Deprecated** usage of `values.istio_cni` in favor of `values.pilot.cni`.
   ([Issue #49290](https://github.com/istio/istio/issues/49290))
 
-## Traffic Management
+## 流量治理 {#traffic-management}
 
 - **Improved** `ServiceEntry` with `resolution: NONE` to respect `targetPort`, if specified.
   This is particularly useful when doing TLS origination, allowing to set `port:80, targetPort: 443`.
@@ -131,7 +131,7 @@ These notices describe functionality that will be removed in a future release ac
 - **Removed** the `PILOT_ENABLE_INBOUND_PASSTHROUGH` setting, which has been enabled-by-default for the past 8 releases.
   This feature can now be configured using a new [Inbound Traffic Policy Mode](https://github.com/istio/api/blob/9911a0a6990a18a45ed1b00559156dcc7e836e52/mesh/v1alpha1/config.proto#L203).
 
-## Security
+## 安全性 {#security}
 
 - **Updated** the default value of the feature flag `ENABLE_AUTO_ENHANCED_RESOURCE_SCOPING` to `true`.
 
@@ -156,7 +156,7 @@ These notices describe functionality that will be removed in a future release ac
 - **Removed** the `first-party-jwt` legacy option for `values.global.jwtPolicy`. Support for the more secure `third-party-jwt`
   has been default for many years and is supported in all Kubernetes platforms.
 
-## Telemetry
+## 遥测 {#telemetry}
 
 - **Improved** JSON access logs to emit keys in a consistent order.
 
@@ -174,13 +174,13 @@ These notices describe functionality that will be removed in a future release ac
 
 - **Removed** default tracing configuration that enables tracing to `zipkin.istio-system.svc`. See upgrade notes for more information.
 
-## Extensibility
+## 可扩展性 {#extensibility}
 
 - **Improved** using the tag-stripped URL and checksum as a Wasm module cache key, where the tagged URL is separately cached.
   This may increase the chance of cache hits (e.g., trying to find the same image with both of the tagged and digest URLs.)
   In addition, this will be a base to implement `ImagePullPolicy`.
 
-## Installation
+## 安装 {#installation}
 
 - **Improved** Helm value field names to configure whether an existing CNI install
   will be used. Instead of `values.istio_cni` the enablement fields will be in
