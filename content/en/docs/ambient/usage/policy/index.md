@@ -26,8 +26,8 @@ This table is based on the following invariants:
 | yes | Selector | Pod | waypoint | destination ztunnel |
 | no | | Namespace | client pod | destination ztunnel |
 | yes | | Namespace | waypoint | destination ztunnel |
-| yes | targetRefs | Service | client pod | waypoint |
-| yes | targetRefs | Gateway | client pod | waypoint |
+| yes | `targetRefs` | Service | client pod | waypoint |
+| yes | `targetRefs` | Gateway | client pod | waypoint |
 
 * Whether or not there is already a waypoint is in the traffic path.
 
@@ -47,8 +47,8 @@ This table is based on the following invariants:
 | yes | Selector | Pod | n/a | DENY destination ztunnel |
 | no | | Namespace | n/a | DENY destination ztunnel |
 | yes | | Namespace | n/a | DENY destination ztunnel |
-| yes | targetRefs | Service | client pod | waypoint |
-| yes | targetRefs | Gateway | client pod | waypoint |
+| yes | `targetRefs` | Service | client pod | waypoint |
+| yes | `targetRefs` | Gateway | client pod | waypoint |
 
 * Whether or not there is already a waypoint is in the traffic path.
 ## Ingress and Policy Enforcement
