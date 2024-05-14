@@ -1,6 +1,6 @@
 ---
 title: "Say goodbye to your sidecars: Istio's ambient mode reaches Beta in v1.22"
-description: Layer 4 & Layer 7 features are now ready for wide adoption.
+description: Layer 4 & Layer 7 features are both now ready for production.
 publishdate: 2024-05-13
 attribution: "Lin Sun (Solo.io), for the Istio Steering and Technical Oversight Committees"
 keywords: [ambient,sidecars]
