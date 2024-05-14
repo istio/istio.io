@@ -14,8 +14,6 @@ status: Experimental
 本指南假设您已经使用之前的 Istio 次要版本或补丁版本执行了
 [Helm Ambient 模式安装](/zh/docs/ambient/install/helm-installation/)。
 
-{{< boilerplate ambient-alpha-warning >}}
-
 {{< warning >}}
 与 Sidecar 模式相比，Ambient 模式支持将应用程序 Pod 移动到已升级的数据平面，
 而无需强制重新启动或重新编排正在运行的应用程序 Pod。
