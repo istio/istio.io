@@ -61,7 +61,7 @@ spec:
 {{< /text >}}
 
 1. Once we have the certificate created, we should see the secret created in the `istio-system` namespace.
-This can then be referenced in the `tls` config for a Gateway under `credentialName`:
+  This can then be referenced in the `tls` config for a Gateway under `credentialName`:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
