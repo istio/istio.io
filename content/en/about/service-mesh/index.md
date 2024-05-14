@@ -12,17 +12,17 @@ aliases:
     - /docs/concepts/what-is-istio/goals
     - /about/intro
     - /docs/concepts/what-is-istio/
-    - /latest/docs/concepts/what-is-istio/    
+    - /latest/docs/concepts/what-is-istio/
 doc_type: about
 ---
 
 {{< centered_block >}}
 
-A **service mesh** is an infrastructure layer that gives applications capabilities like zero-trust security, observability, and advanced traffic management, without code changes. **Istio** is the most popular, powerful, and trusted service mesh. Founded by Google and IBM in 2016, Istio is a graduated project in the Cloud Native Computing Foundation alongside projects like Kubernetes and Prometheus. 
+A **service mesh** is an infrastructure layer that gives applications capabilities like zero-trust security, observability, and advanced traffic management, without code changes. **Istio** is the most popular, powerful, and trusted service mesh. Founded by Google and IBM in 2016, Istio is a graduated project in the Cloud Native Computing Foundation alongside projects like Kubernetes and Prometheus.
 
-Istio ensures that cloud native and distributed systems are resilient, helping modern enterprises maintain their workloads across diverse platforms while staying connected and protected. It [enables security and governance controls](/docs/concepts/observability/) including mTLS encryption, policy management and access control, [powers network features](/docs/concepts/traffic-management/) like canary deployments, A/B testing, load balancing, failure recovery, and [adds observability](/docs/concepts/observability/) of traffic across your estate. 
+Istio ensures that cloud native and distributed systems are resilient, helping modern enterprises maintain their workloads across diverse platforms while staying connected and protected. It [enables security and governance controls](/docs/concepts/observability/) including mTLS encryption, policy management and access control, [powers network features](/docs/concepts/traffic-management/) like canary deployments, A/B testing, load balancing, failure recovery, and [adds observability](/docs/concepts/observability/) of traffic across your estate.
 
-Istio is not confined to the boundaries of a single cluster, network or runtime — services running on Kubernetes or VMs, multi-cloud, hybrid, or on-premises, can be included within a single mesh. 
+Istio is not confined to the boundaries of a single cluster, network or runtime — services running on Kubernetes or VMs, multi-cloud, hybrid, or on-premises, can be included within a single mesh.
 
 Extensible by design and supported by a [broad ecosystem](/about/ecosystem) of contributors and partners, Istio offers packaged integrations and distributions for various use cases. You can install Istio independently or opt for managed support from commercial vendors providing Istio-based solutions.
 
@@ -34,7 +34,7 @@ Extensible by design and supported by a [broad ecosystem](/about/ecosystem) of c
 
 <br/><br/>
 
-# Features
+## Features
 
 {{< feature_block header="Secure by default" image="security.svg" >}}
 Istio provides a market-leading zero-trust solution based on workload identity, TLS, and strong policy controls. Istio delivers the value of [BeyondProd](https://cloud.google.com/security/beyondprod/) in open source, while avoiding vendor lock-in or SPOFs.
@@ -56,10 +56,10 @@ Istio simplifies traffic routing and service-level configuration, allowing easy 
 
 <br/><br/>
 
-# Why Istio?
+## Why Istio?
 
 {{< feature_block header="Multiple deployment modes" image="istio-logo-with-brand.svg" >}}
-Istio offers two data plane modes for users to choose. Deploy with the new ambient mode for a simplified app operational lifecycle or with traditional sidecars for complex configurations. 
+Istio offers two data plane modes for users to choose. Deploy with the new ambient mode for a simplified app operational lifecycle or with traditional sidecars for complex configurations.
 
 <a class="btn" href="/docs/overview/dataplane-modes/">Learn more about Istio's dataplane modes</a>
 {{< /feature_block>}}
@@ -71,7 +71,7 @@ Built on the industry standard gateway proxy for cloud native applications, Isti
 {{< /feature_block>}}
 
 {{< feature_block header="True Community Project" image="istio-logo-with-brand.svg" >}}
-Istio has been designed for modern workloads and engineered by a vast community of innovators across the cloud native landscape. 
+Istio has been designed for modern workloads and engineered by a vast community of innovators across the cloud native landscape.
 
 <a class="btn" href="/docs/overview/why-choose-istio/#community">Learn more Istio's contributors</a>
 {{< /feature_block>}}
