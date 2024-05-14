@@ -24,7 +24,7 @@ to get started. No special changes are needed to work with Istio.
 
 cert-manager can be used to write a secret to Kubernetes, which can then be referenced by a Gateway.
 
-1. To get started, configure an `Issuer` resource, following the [cert-manager issuer documentation](https://cert-manager.io/docs/configuration/). Issuers are Kubernetes resources that represent certificate authorities (CAs) that are able to generate signed certificates by honoring certificate signing requests. For example: an 'Issuer' may look like:
+1. To get started, configure an `Issuer` resource, following the [cert-manager issuer documentation](https://cert-manager.io/docs/configuration/). Issuers are Kubernetes resources that represent certificate authorities (CAs) that are able to generate signed certificates by honoring certificate signing requests. For example: an `Issuer` may look like:
 {{< text yaml >}}
 apiVersion: cert-manager.io/v1
 kind: Issuer
