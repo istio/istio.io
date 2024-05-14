@@ -6,7 +6,7 @@ keywords: [telemetry,tracing,opencensus,opentelemetry,span]
 aliases:
     - /docs/tasks/opencensusagent-tracing.html
 owner: istio/wg-policies-and-telemetry-maintainers
-test: yes
+test: no
 ---
 
 After completing this task, you will understand how to have your application participate in tracing with the OpenCensus Agent, export those traces to the OpenTelemetry collector, and have the OpenTelemetry collector export those spans to Jaeger.
