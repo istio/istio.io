@@ -24,22 +24,22 @@ to get started. No special changes are needed to work with Istio.
 
 cert-manager can be used to write a secret to Kubernetes, which can then be referenced by a Gateway.
 
-1. To get started, configure an `Issuer` resource, following the [cert-manager issuer documentation](https://cert-manager.io/docs/configuration/). Issuers are Kubernetes resources that represent certificate authorities (CAs) that are able to generate signed certificates by honoring certificate signing requests. For example: an `Issuer` may look like:
+1. To get started, configure an `Issuer` resource, following the [cert-manager issuer documentation](https://cert-manager.io/docs/configuration/). `Issuer`s are Kubernetes resources that represent certificate authorities (CAs) that are able to generate signed certificates by honoring certificate signing requests. For example: an `Issuer` may look like:
 
-{{< text yaml >}}
-apiVersion: cert-manager.io/v1
-kind: Issuer
-metadata:
-  name: ca-issuer
-  namespace: istio-system
-spec:
-  ca:
-    secretName: ca-key-pair
-{{< /text >}}
+  {{< text yaml >}}
+  apiVersion: cert-manager.io/v1
+  kind: Issuer
+  metadata:
+    name: ca-issuer
+    namespace: istio-system
+  spec:
+    ca:
+      secretName: ca-key-pair
+  {{< /text >}}
 
-{{< tip >}}
-For a common Issuer type, ACME, a pod and service are created to respond to challenge requests in order to verify the client owns the domain. To respond to those challenges, an endpoint at `http://<YOUR_DOMAIN>/.well-known/acme-challenge/<TOKEN>` will need to be reachable. That configuration may be implementation specific.
-{{< /tip >}}
+  {{< tip >}}
+  For a common Issuer type, ACME, a pod and service are created to respond to challenge requests in order to verify the client owns the domain. To respond to those challenges, an endpoint at `http://<YOUR_DOMAIN>/.well-known/acme-challenge/<TOKEN>` will need to be reachable. That configuration may be implementation specific.
+  {{< /tip >}}
 
 1. Next, configure a `Certificate` resource, following the
 [cert-manager documentation](https://cert-manager.io/docs/usage/certificate/).
