@@ -164,3 +164,31 @@ spec:
                 mode: SERVER
                 metric: REQUEST_COUNT
     {{< /text >}}
+
+## 验证结果 {#verify-the-results}
+
+发送流量到网格。对于 Bookinfo 示例，在 Web 浏览器中访问 `http://$GATEWAY_URL/productpage` 或发出以下命令：
+
+{{< text bash >}}
+$ curl "http://$GATEWAY_URL/productpage"
+{{< /text >}}
+
+{{< tip >}}
+`$GATEWAY_URL` 值设置在实例 [Bookinfo](/zh/docs/examples/bookinfo/) 中。
+{{< /tip >}}
+
+使用以下命令验证 Istio 是否为您的新文件生成了数据或者修改过的空间维度：
+
+{{< text bash >}}
+$ istioctl x es "$(kubectl get pod -l app=productpage -o jsonpath='{.items[0].metadata.name}')" -oprom | grep istio_requests_total | grep -v TYPE |grep -v 'reporter="destination"'
+{{< /text >}}
+
+{{< text bash >}}
+$ istioctl x es "$(kubectl get pod -l app=details -o jsonpath='{.items[0].metadata.name}')" -oprom | grep istio_requests_total
+{{< /text >}}
+
+例如，输出结果中，找到指标 `istio_requests_total` 是否验证包含你的新空间维度。
+
+{{< tip >}}
+代理可能需要很短的时间才能开始应用配置。如果没有收到度量值，您可以在短暂等待后重试发送请求，并再次查找度量指标。
+{{< /tip >}}

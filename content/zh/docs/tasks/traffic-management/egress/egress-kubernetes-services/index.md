@@ -1,5 +1,5 @@
 ---
-title: Kubernetes Egress 流量服务
+title: Kubernetes 出口流量服务
 description: 展示如何配置 Istio Kubernetes 外部服务。
 keywords: [traffic-management,egress]
 weight: 60
@@ -23,10 +23,10 @@ Kubernetes [ExternalName](https://kubernetes.io/zh-cn/docs/concepts/services-net
 
 {{< warning >}}
 本页介绍 Istio 如何与现有 Kubernetes 配置集成。对于新部署，
-我们建议遵循[访问 Egress 服务](/zh/docs/tasks/traffic-management/egress/egress-control/)。
+我们建议遵循[访问出口服务](/zh/docs/tasks/traffic-management/egress/egress-control/)。
 {{< /warning >}}
 
-虽然本页的示例使用 HTTP 协议，但是用于引导 Egress 流量的 Kubernetes 服务也可以与其他协议一起使用。
+虽然本页的示例使用 HTTP 协议，但是用于引导出口流量的 Kubernetes 服务也可以与其他协议一起使用。
 
 {{< boilerplate before-you-begin-egress >}}
 
@@ -101,7 +101,7 @@ Kubernetes [ExternalName](https://kubernetes.io/zh-cn/docs/concepts/services-net
 
 1. 在这个例子中，未加密的 HTTP 请求被发送到 `httpbin.org`。
    仅出于示例目的，您禁用 TLS 模式，并允许外部服务的未加密流量。在现实生活中，我们建议
-   由 Istio 执行 [Egress TLS Origination](/zh/docs/tasks/traffic-management/egress/egress-tls-origination)。
+   由 Istio 执行 [Egress TLS 源](/zh/docs/tasks/traffic-management/egress/egress-tls-origination)。
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF

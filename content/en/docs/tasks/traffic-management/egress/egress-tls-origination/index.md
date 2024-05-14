@@ -198,10 +198,10 @@ topics and articles but does not prevent attackers from learning that `edition.c
 
 Remove the Istio configuration items you created:
 
-    {{< text bash >}}
-    $ kubectl delete serviceentry edition-cnn-com
-    $ kubectl delete destinationrule edition-cnn-com
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl delete serviceentry edition-cnn-com
+$ kubectl delete destinationrule edition-cnn-com
+{{< /text >}}
 
 ## Mutual TLS origination for egress traffic
 

@@ -46,7 +46,10 @@ Istio 将反斜杠 `\` 规范化为正斜杠 `/`。
 Istio 将多个正斜杠合并为单个正斜杠（/）。
 例如，路径为 `/some//data///abc` 的请求将被规范化为 `/some/data/abc`。
 
-默认情况下，这是禁用的，但可以使用选项`MERGE_SLASHES`启用。
+默认情况下，这是禁用的，但可以使用选项 `MERGE_SLASHES` 启用。
+如果已启用，路径可能与带有路径模板运算符 `{**}` 的路径不匹配。
+例如，一旦启用 `MERGE_SLASHES`，`/some/data//abc` 将不再与
+`/some/data/{**}/abc` 匹配，因为路径将被标准化为 `/some/data/abc`。
 
 ### 4. 单点和双点（`/./`、`/../`） {#4-single-dot-and-double-dots--}
 
@@ -55,7 +58,7 @@ Istio 将根据 [RFC 3986](https://tools.ietf.org/html/rfc3986#section-6)
 
 例如，`/public/./data/abc/../xyz` 将被规范化为 `/public/data/xyz`。
 
-默认情况下，这是使用选项`BASE`启用的。
+默认情况下，这是使用选项 `BASE` 启用的。
 
 ### 5. 带查询的路径（/foo?v=1） {#5-path-with-query-foov1}
 

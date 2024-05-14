@@ -26,7 +26,7 @@ When Istio is installed without a root CA certificate, istiod will generate a se
 CA certificate using RSA 2048.
 
 To change the self-signed CA certificate's bit length, you will need to modify either the IstioOperator manifest provided to
-istioctl or the values file used during the Helm installation of the istio-discovery chart.
+`istioctl` or the values file used during the Helm installation of the [istio-discovery]({{< github_tree >}}/manifests/charts/istio-control/istio-discovery) chart.
 
 {{< tip >}}
 While there are many environment variables that can be changed for

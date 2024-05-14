@@ -31,17 +31,17 @@ html {
     --dividerBarColor: rgba(0, 0, 0, .1);
     --glossaryHeaderColor: #{$medium-gray};
     --deprecatedBackgroundColor: silver;
-    --boxBorderColor: var(--tipCalloutBorderColor);
+    --boxBorderColor: var(--accentColor);
     --inputBorderColor: #566ca5;
 
     --quoteCalloutBackgroundColor: #f8f9fa;
-    --quoteCalloutBorderColor: #f8f9fa;
+    --quoteCalloutBorderColor: #a9c5e1;
     --tipCalloutBackgroundColor: #f2fff2;
-    --tipCalloutBorderColor: #7dc6f2;
+    --tipCalloutBorderColor: #93e693;
     --ideaCalloutBackgroundColor: #ffffe0;
-    --ideaCalloutBorderColor: #f7f7d8;
+    --ideaCalloutBorderColor: #ecdb50;
     --warningCalloutBackgroundColor: #fff2f2;
-    --warningCalloutBorderColor: #f7eaea;
+    --warningCalloutBorderColor: #ef8383;
 
     --preBlockShadowColor: #a7a7a7;
     --preBlockBorderColor: #7dc6f2;

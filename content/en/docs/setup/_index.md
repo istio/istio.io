@@ -1,6 +1,6 @@
 ---
-title: Setup
-description: Instructions for installing the Istio control plane on Kubernetes.
+title: Sidecar Mode
+description: Information for setting up and operating Istio in sidecar mode.
 weight: 15
 aliases:
     - /docs/tasks/installing-istio.html
