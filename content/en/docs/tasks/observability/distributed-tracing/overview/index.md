@@ -13,7 +13,7 @@ Distributed tracing enables users to track a request through mesh that is distri
 This allows a deeper understanding about request latency, serialization and parallelism via visualization.
 
 Istio leverages [Envoy's distributed tracing](https://www.envoyproxy.io/docs/envoy/v1.12.0/intro/arch_overview/observability/tracing) feature to provide tracing integration out of the box.
-Specifically, Istio provides options to install various tracing backends and configure proxies to send trace spans to them automatically. See [Zipkin](/docs/tasks/observability/distributed-tracing/zipkin/), [Jaeger](/docs/tasks/observability/distributed-tracing/jaeger/), [Lightstep](/docs/tasks/observability/distributed-tracing/lightstep/), and [OpenCensus Agent](/docs/tasks/observability/distributed-tracing/opencensusagent/) task docs about how Istio works with those tracing systems.
+Specifically, Istio provides options to install various tracing backends and configure proxies to send trace spans to them automatically. See [Zipkin](/docs/tasks/observability/distributed-tracing/zipkin/), [Jaeger](/docs/tasks/observability/distributed-tracing/jaeger/), and [Lightstep](/docs/tasks/observability/distributed-tracing/lightstep/) task docs about how Istio works with those tracing systems.
 
 ## Trace context propagation
 
@@ -25,7 +25,7 @@ All applications should forward the following header:
 
 * `x-request-id`: this is an envoy-specific header that is used to consistently sample logs and traces.
 
-For Zipkin, Jaeger, Stackdriver, and OpenCensus Agent the B3 multi-header format should be forwarded:
+For Zipkin, Jaeger, and Stackdriver the B3 multi-header format should be forwarded:
 
 * `x-b3-traceid`
 * `x-b3-spanid`
@@ -33,7 +33,7 @@ For Zipkin, Jaeger, Stackdriver, and OpenCensus Agent the B3 multi-header format
 * `x-b3-sampled`
 * `x-b3-flags`
 
-These are supported by Zipkin, Jaeger, OpenCensus, and many other tools.
+These are supported by Zipkin, Jaeger, and many other tools.
 
 For Datadog, the following headers should be forwarded. Forwarding these is handled automatically by Datadog client libraries for many languages and frameworks.
 
@@ -45,10 +45,10 @@ For Lightstep, the OpenTracing span context header should be forwarded:
 
 * `x-ot-span-context`
 
-For Stackdriver and OpenCensus Agent, you can choose to use any one of the following headers instead of the B3 multi-header format.
+For Stackdriver, you can choose to use any one of the following headers instead of the B3 multi-header format.
 
 * `grpc-trace-bin`: Standard grpc trace header.
-* `traceparent`: W3C Trace Context standard for tracing. Supported by all OpenCensus, OpenTelemetry, and an increasing number of Jaeger client libraries.
+* `traceparent`: W3C Trace Context standard for tracing. Supported by OpenTelemetry and an increasing number of Jaeger client libraries.
 * `x-cloud-trace-context`: used by Google Cloud product APIs.
 
 If you look at the sample Python `productpage` service, for example, you see that the application extracts the required headers for all tracers from an HTTP request using [OpenTracing](https://opentracing.io/) libraries:
