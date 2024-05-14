@@ -7,6 +7,17 @@ owner: istio/wg-docs-maintainers-english
 test: n/a
 ---
 
+Istio pioneered the concept of a sidecar-based service mesh when it launched in 2017. Since then, the project has driven advances in the mesh space including [extensibility via WebAssembly](/docs/concepts/wasm/) and moving the mesh infrastructure away from application developers with [ambient mode](/docs/ambient/overview/). 
+
+## Performance
+
+## Envoy
+
+## Community
+
+## Packages
+
+
 ## Service mesh or CNI?
 
 Today, some CNI plugins are starting to offer non-CNI service mesh functionality as an add-on that sits on top of their own CNI implementation. For example, they may implement their own encryption schemes for traffic between nodes and/or pods, workload identity, or support some amount of transport-level policy by redirecting traffic to a L7 proxy. These service mesh addons are non-standard, and as such can only work on top of the CNI that ships them.  They also offer varying feature sets.
