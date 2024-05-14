@@ -1,7 +1,7 @@
 ---
 title: The Istio service mesh
 description: Service mesh.
-subtitle: Istio addresses the challenges developers and operators face with a distributed or microservices architecture. Whether you're building from scratch or migrating existing applications to cloud native, Istio can help. 
+subtitle: Istio addresses the challenges developers and operators face with a distributed or microservices architecture. Whether you're building from scratch, migrating existing applications to cloud native, or securing your existing estate, Istio can help. 
 weight: 34
 skip_toc: true
 skip_byline: true
@@ -18,11 +18,11 @@ doc_type: about
 
 {{< centered_block >}}
 
-A **service mesh** is an infrastructure layer that gives applications capabilities like zero-trust security, observability, and advanced traffic management, without code changes. **Istio** is the most popular, most powerful, and most trusted service mesh. Founded by Google and IBM in 2016, Istio is a graduated project in the Cloud Native Computing Foundation alongside projects like Kubernetes and Prometheus. 
+A **service mesh** is an infrastructure layer that gives applications capabilities like zero-trust security, observability, and advanced traffic management, without code changes. **Istio** is the most popular, powerful, and trusted service mesh. Founded by Google and IBM in 2016, Istio is a graduated project in the Cloud Native Computing Foundation alongside projects like Kubernetes and Prometheus. 
 
-Istio makes cloud native and distributed systems reliable, performant and secure. It [enables security and governance controls](/docs/concepts/observability/) including mTLS encryption, policy management and access control, [powers network features](/docs/concepts/traffic-management/) like canary deployments, A/B testing, load balancing, failure recovery, and [adds observability](/docs/concepts/observability/) of traffic across your estate. 
+Istio ensures that cloud native and distributed systems are reliable, performant, and secure, helping modern enterprises maintain their workloads across diverse platforms while staying connected and protected. It [enables security and governance controls](/docs/concepts/observability/) including mTLS encryption, policy management and access control, [powers network features](/docs/concepts/traffic-management/) like canary deployments, A/B testing, load balancing, failure recovery, and [adds observability](/docs/concepts/observability/) of traffic across your estate. 
 
-Modern enterprises have workloads running on diverse platforms that must be connected and secured. Istio is not confined to the boundaries of a single cluster, network or runtime — services running on Kubernetes or VMs, multi-cloud, hybrid, or on-premises, can be included within a single mesh. 
+Istio is not confined to the boundaries of a single cluster, network or runtime — services running on Kubernetes or VMs, multi-cloud, hybrid, or on-premises, can be included within a single mesh. 
 
 Extensible by design and supported by a [broad ecosystem](/about/ecosystem) of contributors and partners, Istio offers packaged integrations and distributions for various use cases. You can install Istio independently or opt for managed support from commercial vendors providing Istio-based solutions.
 
