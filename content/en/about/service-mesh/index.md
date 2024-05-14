@@ -20,7 +20,7 @@ doc_type: about
 
 A **service mesh** is an infrastructure layer that gives applications capabilities like zero-trust security, observability, and advanced traffic management, without code changes. **Istio** is the most popular, powerful, and trusted service mesh. Founded by Google and IBM in 2016, Istio is a graduated project in the Cloud Native Computing Foundation alongside projects like Kubernetes and Prometheus. 
 
-Istio ensures that cloud native and distributed systems are reliable, performant, and secure, helping modern enterprises maintain their workloads across diverse platforms while staying connected and protected. It [enables security and governance controls](/docs/concepts/observability/) including mTLS encryption, policy management and access control, [powers network features](/docs/concepts/traffic-management/) like canary deployments, A/B testing, load balancing, failure recovery, and [adds observability](/docs/concepts/observability/) of traffic across your estate. 
+Istio ensures that cloud native and distributed systems are resilient, helping modern enterprises maintain their workloads across diverse platforms while staying connected and protected. It [enables security and governance controls](/docs/concepts/observability/) including mTLS encryption, policy management and access control, [powers network features](/docs/concepts/traffic-management/) like canary deployments, A/B testing, load balancing, failure recovery, and [adds observability](/docs/concepts/observability/) of traffic across your estate. 
 
 Istio is not confined to the boundaries of a single cluster, network or runtime — services running on Kubernetes or VMs, multi-cloud, hybrid, or on-premises, can be included within a single mesh. 
 
@@ -67,17 +67,17 @@ Istio offers two data plane modes for users to choose. Deploy with the new ambie
 {{< feature_block header="Powered by Envoy" image="istio-logo-with-brand.svg" >}}
 Built on the industry standard gateway proxy for cloud native applications, Istio is highly performative and extensible by design. Add functionality with WebAssembly, or integrate third-party policy systems.
 
-<a class="btn" href="/docs/overview/why-istio/#envoy">Learn more about Istio and Envoy</a>
+<a class="btn" href="/docs/overview/why-choose-istio/#envoy">Learn more about Istio and Envoy</a>
 {{< /feature_block>}}
 
 {{< feature_block header="True Community Project" image="istio-logo-with-brand.svg" >}}
 Istio has been designed for modern workloads and engineered by a vast community of innovators across the cloud native landscape. 
 
-<a class="btn" href="/docs/overview/why-istio/#community">Learn more Istio's contributors</a>
+<a class="btn" href="/docs/overview/why-choose-istio/#community">Learn more Istio's contributors</a>
 {{< /feature_block>}}
 
 {{< feature_block header="Stable binary releases" image="istio-logo-with-brand.svg" >}}
 Confidently deploy Istio across production workloads. All releases are fully accessible at no cost.
 
-<a class="btn" href="/docs/overview/why-istio/#packages">Learn about how Istio is packaged</a>
+<a class="btn" href="/docs/overview/why-choose-istio/#packages">Learn about how Istio is packaged</a>
 {{< /feature_block>}}
