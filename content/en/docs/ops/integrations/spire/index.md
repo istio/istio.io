@@ -190,7 +190,7 @@ A ClusterSPIFFEID must be applied prior to installing Istio in order for the Ing
 
     The Ingress-gateway pod is `Ready` since the corresponding registration entry is automatically created for it on the SPIRE Server. Envoy is able to fetch cryptographic identities from SPIRE.
 
-Note that `SPIRE Controller Manager` is used in the [quick start](#option-1:-quick-start) section.
+Note that `SPIRE Controller Manager` is used in the [quick start](/docs/ops/integrations/spire/#option-1-quick-start) section.
 
 ### Option 2: Configuration for Manual Workload Registration with SPIRE
 
