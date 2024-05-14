@@ -29,6 +29,9 @@ startup_bookinfo_sample() {
         kubectl apply -f samples/bookinfo/networking/destination-rule-all.yaml
     fi
 
+    # @TODO Remove this debug entry
+    kubectl get pod -n default
+
     for deploy in "productpage-v1" "details-v1" "ratings-v1" "reviews-v1" "reviews-v2" "reviews-v3"; do
         _wait_for_deployment default "$deploy"
     done

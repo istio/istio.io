@@ -76,6 +76,11 @@ _wait_for_deployment() {
     local name="$2"
     local context="${3:-}"
     if ! kubectl --context="$context" -n "$namespace" rollout status deployment "$name" --timeout 5m; then
+
+        # @TODO Remove .. for debug
+        kubectl get pod -n "$namespace"
+        kubectl events -n "$namespace"
+
         echo "Failed rollout of deployment $name in namespace $namespace"
         exit 1
     fi
