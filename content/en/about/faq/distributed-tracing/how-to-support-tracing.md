@@ -19,7 +19,7 @@ If you are using Lightstep, you will also need to forward the following headers:
 
 - `x-ot-span-context`
 
-If you are using OpenTelemetry, OpenCensus or Stackdriver, you will also need to forward the following headers:
+If you are using OpenTelemetry or Stackdriver, you will also need to forward the following headers:
 
 - `traceparent`
 - `tracestate`
