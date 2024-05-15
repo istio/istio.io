@@ -109,3 +109,5 @@ spec:
       weight: 10
 EOF
 {{< /text >}}
+
+Read more on how to extend waypoints with Wasm plugins [here](/docs/ambient/usage/extend-waypoint-wasm/).
