@@ -70,7 +70,7 @@ $ kubectl apply -f @samples/security/spire/spire-quickstart.yaml@
 
 ## 安装 Istio {#install-istio}
 
-### 选项  1：使用 SPIRE Controller Manager 配置工作负载注册 {#option-1-configuration-for-workload-registration-with-the-spire-controller-manager}
+### 选项 1：使用 SPIRE Controller Manager 配置工作负载注册 {#option-1-configuration-for-workload-registration-with-the-spire-controller-manager}
 
 通过部署 [SPIRE Controller Manager](https://github.com/spiffe/spire-controller-manager)
 和 SPIRE 服务器，可以自动为与 [ClusterSPIFFEID](https://github.com/spiffe/spire-controller-manager/blob/main/docs/clusterspiffeid-crd.md)
@@ -115,7 +115,7 @@ $ kubectl apply -f @samples/security/spire/spire-quickstart.yaml@
         trustDomain: example.org
       values:
         global:
-        # 这是用于自定义 sidecar 的模板
+        # 这是用于自定义 Sidecar 的模板
         sidecarInjectorWebhook:
           templates:
             spire: |
@@ -219,7 +219,7 @@ $ kubectl apply -f @samples/security/spire/spire-quickstart.yaml@
         trustDomain: example.org
       values:
         global:
-        # 这是用于自定义 sidecar 的模板
+        # 这是用于自定义 Sidecar 的模板
         sidecarInjectorWebhook:
           templates:
             spire: |
@@ -311,7 +311,7 @@ Istio 配置与入口网关以及将要注入到工作负载 Pod 上的 Sidecar 
 
 本节描述了在SPIRE服务器中注册工作负载的可用选项。
 
-### 选项1：使用 SPIRE 控制器管理器进行注册 {#option-1-registration-using-the-spire-controller-manager}
+### 选项 1：使用 SPIRE 控制器管理器进行注册 {#option-1-registration-using-the-spire-controller-manager}
 
 将为与 [ClusterSPIFFEID](https://github.com/spiffe/spire-controller-manager/blob/main/docs/clusterspiffeid-crd.md)
 自定义资源中定义的选择器匹配的每个新 Pod 自动注册新条目。
@@ -372,7 +372,7 @@ ClusterSPIFFEID 示例配置。
 请参阅[验证为工作负载创建的身份](#verifying-that-identities-were-created-for-workloads)
 以检查已颁发的身份。
 
-请注意，在[快速入门](#option-1-quick-start)部分中使用了`SPIRE控制器管理器`。
+请注意，在[快速入门](#option-1-quick-start)部分中使用了 `SPIRE控制器管理器`。
 
 ### 选项 2：手动注册 {#option-2-manual-registration}
 
@@ -550,7 +550,7 @@ istio-ingressgateway-5b45864fd4-lgrxs   1/1     Running   0          60s
 istiod-989f54d9c-sg7sn                  1/1     Running   0          45s
 {{< /text >}}
 
-在为入口网关 pod 注册条目后，Envoy 将收到 SPIRE 颁发的身份并将其用于所有 TLS 和 mTLS 通信。
+在为入口网关 Pod 注册条目后，Envoy 将收到 SPIRE 颁发的身份并将其用于所有 TLS 和 mTLS 通信。
 
 ### 检查工作负载身份是否由 SPIRE 颁发 {#check-that-the-workload-identity-was-issued-by-spire}
 
