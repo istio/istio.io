@@ -219,7 +219,7 @@ In general, any field in a pod can be set. However, care must be taken for certa
   it is recommended to set the `image` to `auto` which will cause the sidecar injector to automatically select the image to use.
 * Some fields in `Pod` are dependent on related settings. For example, CPU request must be less than CPU limit. If both fields are not configured together, the pod may fail to start.
 * Fields `securityContext.RunAsUser` and `securityContext.RunAsGroup` might not be honored in some cases, for instance, when `TPROXY` mode is used,
-  as it requires the sidecar to run as user `0`. Override these fields with caution.
+  as it requires the sidecar to run as user `0`. Overriding these fields incorrectly can cause traffic loss, and should be done with extreme caution.
 
 Additionally, certain fields are configurable by [annotations](/docs/reference/config/annotations/) on the pod, although it is recommended to use the above approach to customizing settings. Additional care must be taken for certain annotations:
 
