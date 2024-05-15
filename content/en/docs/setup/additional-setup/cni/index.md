@@ -257,7 +257,7 @@ You must use the `runAsUser 1337` workaround if [DNS proxying](/docs/ops/configu
 {{< /tip >}}
 
 {{< tip >}}
-Some platforms (e.g. OpenShift) don't use `1337` as the sidecar `uid` and instead use a pseudo-random number, that's only known at runtime. In such cases, you can instruct the proxy to run as a predefined `uid` by leveraging the [custom injection feature](/docs/setup/additional-setup/sidecar-injection/#customizing-injection), and use that same `uid` for the init container.
+Some platforms (e.g. OpenShift) do not use `1337` as the sidecar `uid` and instead use a pseudo-random number, that is only known at runtime. In such cases, you can instruct the proxy to run as a predefined `uid` by leveraging the [custom injection feature](/docs/setup/additional-setup/sidecar-injection/#customizing-injection), and use that same `uid` for the init container.
 {{< /tip >}}
 
 {{< warning >}}
