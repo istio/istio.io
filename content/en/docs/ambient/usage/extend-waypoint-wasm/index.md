@@ -19,7 +19,7 @@ Follow the [Ambient Getting Started Guide](docs/ambient/getting-started/#downloa
 
 ## Apply Wasm configuration at the Gateway
 
-Istio's Gateway provides a centralized entry point for managing traffic into the service mesh. Here, we'll configure a WasmPlugin to enhance security by adding HTTP Basic authentication. This plugin will be applied at the gateway level, ensuring that all traffic passing through the gateway is subject to the configured authentication rules.
+With Kubernetes Gateway API, Istio provides a centralized entry point for managing traffic into the service mesh. We will configure a WasmPlugin at the gateway level, ensuring that all traffic passing through the gateway is subject to the extended authentication rules.
 
 ### Configure WasmPlugin for Gateway
 
@@ -79,7 +79,7 @@ The Istio agent will interpret the WasmPlugin configuration, download remote Was
 
 ## Apply Wasm Configuration at Waypoint Proxy
 
-Waypoint proxies play a crucial role in Istio's ambient mode, facilitating secure and efficient communication within the service mesh. Below, we'll explore how to apply Wasm configuration to these proxies, enhancing their functionality dynamically.
+Waypoint proxies play a crucial role in Istio's ambient mode, facilitating secure and efficient communication within the service mesh. Below, we will explore how to apply Wasm configuration to the waypoint, enhancing the proxy functionality dynamically.
 
 ### Deploy a waypoint proxy
 
