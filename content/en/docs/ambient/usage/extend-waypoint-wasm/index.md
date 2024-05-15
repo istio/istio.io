@@ -4,7 +4,7 @@ description: Describes how to make remote WebAssembly modules available for ambi
 weight: 55
 keywords: [extensibility,Wasm,WebAssembly,Ambient]
 owner: istio/wg-policies-and-telemetry-maintainers
-test: no
+test: yes
 status: Alpha
 ---
 
