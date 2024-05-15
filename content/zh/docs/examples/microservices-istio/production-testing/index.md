@@ -18,10 +18,10 @@ test: no
     $ kubectl exec -it $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -- curl http://ratings:9080/ratings/7
     {{< /text >}}
 
-## 混乱测试 {#chaos-testing}
+## 混沌测试 {#chaos-testing}
 
 在生产环境中执行一些[混沌测试](http://www.boyter.org/2016/07/chaos-testing-engineering/)，
-并查看您的应用程序如何反应。进行每次混乱的操作后，请访问应用程序的网页，查看是否有任何更改。
+并查看您的应用程序如何反应。进行每次混沌的操作后，请访问应用程序的网页，查看是否有任何更改。
 使用 `kubectl get pods` 检查 Pod 状态。
 
 1. 在 `details` 服务的一个 Pod 中终止它。
