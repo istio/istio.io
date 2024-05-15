@@ -1,262 +1,287 @@
 ---
-title: Istio 1.22.0 Change Notes
+title: Istio 1.22.0 更新说明
 linktitle: 1.22.0
-subtitle: Minor Release
-description: Istio 1.22.0 release notes.
+subtitle: 次要版本
+description: Istio 1.22.0 更新说明。
 publishdate: 2024-05-13
 release: 1.22.0
 weight: 10
 aliases:
-    - /news/announcing-1.22.0
+    - /zh/news/announcing-1.22.0
 ---
 
 ## 弃用通知 {#deprecation-notices}
 
-These notices describe functionality that will be removed in a future release according to [Istio's deprecation policy](/docs/releases/feature-stages/#feature-phase-definition). Please consider upgrading your environment to remove the deprecated functionality.
+以下通知说明了根据 [Istio 的弃用政策](/zh/docs/releases/feature-stages/#feature-phase-definitions)将在未来某个版本中移除的功能。
+请考虑升级您的环境以移除弃用的功能。
 
-- **Deprecated** usage of `values.istio_cni` in favor of `values.pilot.cni`.
+- **弃用** 弃用了 `values.istio_cni`，转而使用 `values.pilot.cni`。
   ([Issue #49290](https://github.com/istio/istio/issues/49290))
 
 ## 流量治理 {#traffic-management}
 
-- **Improved** `ServiceEntry` with `resolution: NONE` to respect `targetPort`, if specified.
-  This is particularly useful when doing TLS origination, allowing to set `port:80, targetPort: 443`.
-  If undesired, set `--compatibilityVersion=1.21` to revert to the old behavior or remove the `targetPort` specification.
+- **改进** 改进了如果指定 `targetPort` 后具有 `resolution: NONE` 的 `ServiceEntry`。
+  这在进行 TLS 发起时特别有用，允许设置 `port:80, targetPort: 443`。
+  如果不需要，请设置 `--compatibilityVersion=1.21` 以恢复到旧行为或删除 `targetPort` 规范。
 
-- **Improved** XDS generation to do utilize fewer resources when possible, sometimes omitting a response entirely.
-  This can be disabled by the `PILOT_PARTIAL_FULL_PUSHES=false` environment variable, if necessary.
+- **改进** 改进了尽可能利用更少的资源生成 XDS，有时会完全忽略响应。
+  如果需要，可以通过 `PILOT_PARTIAL_FULL_PUSHES=false` 环境变量禁用此功能。
   ([Issue #37989](https://github.com/istio/istio/issues/37989)),([Issue #37974](https://github.com/istio/istio/issues/37974))
 
-- **Added** support for skipping the initial installation of the CNI entirely.
+- **新增** 添加了支持完全跳过 CNI 的初始安装。
 
-- **Added** a node taint controller to istiod which removes the `cni.istio.io/not-ready` taint from a node once the Istio CNI pod is ready on that node.
+- **新增** 向 istiod 添加了一个节点污点控制器，一旦 Istio CNI Pod 在该节点上准备就绪，
+  它就会从节点中删除 `cni.istio.io/not-ready` 污点。
   ([Issue #48818](https://github.com/istio/istio/issues/48818)),([Issue #48286](https://github.com/istio/istio/issues/48286))
 
-- **Added** endpoints acked generation to the proxy distribution report available through the pilot debug API `/debug/config_distribution`.
+- **新增** 通过 Pilot 调试 API `/debug/config_distribution`，将端点确认生成添加到可用的代理分发报告中。
   ([Issue #48985](https://github.com/istio/istio/issues/48985))
 
-- **Added** support for configuring waypoint proxies for Services.
+- **新增** 添加了对服务配置 waypoint 代理的支持。
 
-- **Added** capability to annotate pods, services, namespaces and other similar kinds with an annotation, `istio.io/use-waypoint`, to specify a waypoint in the form `[<namespace name>/]<waypoint name>`. This replaces the old requirement for waypoints either being scoped to the entire namespace or to a single service account. Opting out of a waypoint can also be done with a value of `#none` to allow a namespace-wide waypoint where specific pods or services are not guarded by a waypoint allowing greater flexibility in waypoint specification and use.
+- **新增** 添加了使用 `istio.io/use-waypoint` 注解增加到 Pod、服务、命名空间和其他类似类型的功能，
+  以 `[<namespace name>/]<waypoint name>` 的形式指定 waypoint。
+  这取代了对 waypoint 的旧要求，即其范围仅限于整个命名空间或单个服务帐户。
+  选择退出 waypoint 也可以使用 `#none` 值来完成，以允许命名空间范围的 waypoint，
+  其中特定的 Pod 或服务不受 waypoint 的保护，从而允许 waypoint 规范和使用具有更大的灵活性。
   ([Issue #49436](https://github.com/istio/istio/issues/49436))
 
-- **Added** support for the `istio.io/waypoint-for` annotations in waypoint proxies.
+- **新增** 添加了对 waypoint 代理中 `istio.io/waypoint-for` 注解的支持。
   ([Issue #49851](https://github.com/istio/istio/issues/49851))
 
-- **Added** a check to prevent creation of ztunnel config when user has specified a gateway as `targetRef` in their AuthorizationPolicy.
+- **新增** 添加了一项检查，以防止当用户在其 AuthorizationPolicy
+  中将网关指定为 `targetRef` 时创建 ztunnel 配置。
   ([Issue #50110](https://github.com/istio/istio/issues/50110))
 
-- **Added** the annotation `networking.istio.io/address-type` to allow `istio` class Gateways to use `ClusterIP` for status addresses.
+- **新增** 添加了 `networking.istio.io/address-type` 注释以允许 `istio` GatewayClass 的 Gateway 使用 `ClusterIP` 作为状态地址。
 
-- **Added** the ability to annotate workloads or services with `istio.io/use-waypoint` pointing to Gateways of arbitrary gateway classes.
-  These changes allow configuring a standard Istio gateway as a waypoint.
-  For this to work, it must be configured as a `ClusterIP` Service with
-  redirection enabled. This is colloquially referred to as a "gateway
-  sandwich" where the ztunnel layer handles mTLS.
+- **新增** 添加了使用指向任意 GatewayClass 的 Gateway 的 `istio.io/use-waypoint` 注解工作负载或服务的能力。
+  这些更改允许将标准 Istio 网关配置为 waypoint。为此，必须将其配置为启用重定向的 `ClusterIP` Service。
+  这通俗地称为“网关三明治”，其中 ztunnel 层处理 mTLS。
   ([Issue #48362](https://github.com/istio/istio/issues/48362))
 
-- **Added** functionality to enroll individual pods into ambient by labeling them with `istio.io/dataplane-mode=ambient`.
+- **新增** 添加了通过使用 `istio.io/dataplane-mode=ambient` 标记各个 Pod 将其注册到 Ambient 中的功能。
   ([Issue #50355](https://github.com/istio/istio/issues/50355))
 
-- **Added** the ability to allow pods to be opted out of ambient redirection by using the `istio.io/dataplane-mode=none` label.
+- **新增** 添加了允许 Pod 通过使用 `istio.io/dataplane-mode=none` 标签选择退出 Ambient 重定向。
   ([Issue #50736](https://github.com/istio/istio/issues/50736))
 
-- **Removed** the ability to opt-out pods from ambient redirection using the `ambient.istio.io/redirection=disabled` annotation, as that is a status annotation reserved for the CNI.
+- **移除** 移除了使用 `ambient.istio.io/redirection=disabled` 注解选择退出
+  Ambient 重定向的功能，因为这是为 CNI 保留的状态注解。
   ([Issue #50736](https://github.com/istio/istio/issues/50736))
 
-- **Added** an environment variable for istiod `PILOT_GATEWAY_API_DEFAULT_GATEWAYCLASS_NAME` that allows overriding the name of the default `GatewayClass` Gateway API resource. The default value is `istio`.
+- **新增** 添加了 istiod `PILOT_GATEWAY_API_DEFAULT_GATEWAYCLASS_NAME` 的环境变量，
+  允许覆盖默认 `GatewayClass` Gateway API 资源的名称。默认值为 `istio`。
 
-- **Added** an environment variable for istiod `PILOT_GATEWAY_API_CONTROLLER_NAME` that allows overriding the name of the Istio Gateway API controller as exposed in the `spec.controllerName` field in the `GatewayClass` resource. The default value is `istio.io/gateway-controller`.
+- **新增** 添加了 istiod `PILOT_GATEWAY_API_CONTROLLER_NAME` 的环境变量，
+  允许覆盖 `GatewayClass` 资源中 `spec.controllerName` 字段中公开的 Istio Gateway API 控制器的名称。
+  默认值为 `istio.io/gateway-controller`。
 
-- **Added** support for using the PROXY Protocol for outbound traffic. By specifying `proxyProtocol` in a `DestinationRule.trafficPolicy`,
-  the sidecar will send PROXY Protocol headers to the upstream service. This feature is not supported with HBONE proxy for now.
+- **新增** 添加对使用代理协议进行出站流量的支持。通过在 `DestinationRule.trafficPolicy`
+  中指定 `proxyProtocol`，Sidecar 将向上游服务发送 PROXY 协议标头。HBONE 代理目前不支持此功能。
 
-- **Added** validation checks to reject `DestinationRules` with duplicate subset names.
+- **新增** 添加了验证检查以拒绝具有重复子集名称的 `DestinationRules`。
 
-- **Added** field `supportedFeatures` on a Gateway API's class status before the controller accepts the Gateway class.
+- **新增** 在控制器接受 GatewayClass 之前，在 Gateway API 的 Class 状态上添加了 `supportedFeatures` 字段。
   ([Issue #2162](https://github.com/kubernetes-sigs/gateway-api/issues/2162))
 
-- **Added** checking services' `Resolution`, `LabelSelector`, `ServiceRegistry`, and namespace when merging services during `SidecarScope` construction.
+- **新增** 在 `SidecarScope` 构建期间合并服务时添加了检查服务的
+  `Resolution`、`LabelSelector`、`ServiceRegistry` 和命名空间的能力。
 
-- **Enabled** [Delta xDS](https://www.envoyproxy.io/docs/envoy/latest/api-docs/xds_protocol#incremental-xds) by default. See upgrade notes for more information.
+- **启用** 默认情况下启用了 [Delta xDS](https://www.envoyproxy.io/docs/envoy/latest/api-docs/xds_protocol#incremental-xds)。
+  有关详细信息，请参阅升级说明。
   ([Issue #47949](https://github.com/istio/istio/issues/47949))
 
-- **Fixed** an issue where the Kubernetes gateway was not working correctly with the namespace-scoped waypoint proxy.
+- **修复** 修复了一个 Kubernetes 网关无法与命名空间范围的 waypoint 代理正常协作的问题。
 
-- **Fixed** an issue where the delta ADS client received a response which contained `RemoveResources`.
+- **修复** 修复了 Delta ADS 客户端收到包含 `RemoveResources` 响应的问题。
 
-- **Fixed** an issue that when using `withoutHeaders` to configure route matching rules in `VirtualService`.
-  If the fields specified in `withoutHeaders` do not exist in the request header, Istio cannot match the request.
+- **修复** 修复了使用 `withoutHeaders` 在 `VirtualService` 中配置路由匹配规则时的问题。
+  如果请求头中不存在 `withoutHeaders` 中指定的字段，Istio 无法匹配该请求。
   ([Issue #49537](https://github.com/istio/istio/issues/49537))
 
-- **Fixed** an issue where the priority of envoy filters is ignored when they are in root namespace and proxy namespace.
+- **修复** 修复了当 Envoy 过滤器位于根命名空间和代理命名空间时，其优先级被忽略的问题。
   ([Issue #49555](https://github.com/istio/istio/issues/49555))
 
-- **Fixed** an issue where `--log_as_json` option did not work for the `istio-init` container.
+- **修复** 修复了 `--log_as_json` 选项不适用于 `istio-init` 容器的问题。
   ([Issue #44352](https://github.com/istio/istio/issues/44352))
 
-- **Fixed** an issue with massive Virtual IPs reshuffling when adding or removing a duplicated host.
+- **修复** 修复了添加或删除重复主机时大量虚拟 IP 被重新洗牌的问题。
   ([Issue #49965](https://github.com/istio/istio/issues/49965))
 
-- **Fixed** Gateway status addresses receiving Service VIPs from outside the cluster.
+- **修复** 修复了网关状态地址从集群外部接收服务 VIP 的问题。
 
-- **Fixed** annotation `use-waypoint` to be a label, for consistency.
+- **修复** 将 `use-waypoint` 注解修改为标签，以保持一致性。
   ([Issue #50572](https://github.com/istio/istio/issues/50572))
 
-- **Fixed** build EDS-typed cluster endpoints with domain address.
+- **修复** 修复了使用域名地址构建 EDS 类型的集群端点的问题。
   ([Issue #50688](https://github.com/istio/istio/issues/50688))
 
-- **Fixed** a bug where injection template incorrectly evaluated when `InboundTrafficPolicy` was set to "localhost".
+- **修复** 修复了当 `InboundTrafficPolicy` 被设置为“localhost”时注入模板被错误评估的错误。
   ([Issue #50700](https://github.com/istio/istio/issues/50700))
 
-- **Fixed** added server-side keepalive to waypoint HBONE endpoints.
+- **修复** 修复了向 waypoint HBONE 端点添加服务器端 Keeplive 的问题。
   ([Issue #50737](https://github.com/istio/istio/issues/50737))
 
-- **Fixed** empty prefix match in `HTTPMatchRequest` not being rejected by the validating webhook.
+- **修复** 修复了 `HTTPMatchRequest` 中的空前缀匹配不会被验证 Webhook 拒绝的问题。
   ([Issue #48534](https://github.com/istio/istio/issues/48534))
 
-- **Fixed** a behavioral change in Istio 1.20 that caused merging of `ServiceEntries` with the same hostname and port names
-  to give unexpected results.
+- **修复** 修复了 Istio 1.20 中的行为更改，该更改导致 `ServiceEntries` 与相同主机名和端口名称的合并产生意外结果。
   ([Issue #50478](https://github.com/istio/istio/issues/50478))
 
-- **Fixed** a bug when a Sidecar resource not merging ports correctly when it is configured with multiple egress listeners with different ports of a Kubernetes service. This lead to creating only one Cluster with the first port, and the second port was ignored.
+- **修复** 修复了当 Sidecar 资源配置了具有 Kubernetes 服务的不同端口的多个出口侦听器时，
+  Sidecar 资源无法正确合并端口的错误。这导致仅使用第一个端口创建一个集群，而第二个端口被忽略。
 
-- **Fixed** an issue causing routes to be overwritten by other virtual services.
+- **修复** 修复了导致路由被其他虚拟服务覆盖的问题。
 
-- **Removed** the `values.cni.privileged` flag from `istio-cni` node agent chart in favor of feature-specific permissions.
+- **移除** 从 `istio-cni` 节点代理 Chart 中移除了 `values.cni.privileged` 标志，以支持特定于功能的权限。
   ([Issue #49004](https://github.com/istio/istio/issues/49004))
 
-- **Removed** the `PILOT_ENABLE_HEADLESS_SERVICE_POD_LISTENERS` feature flag.
+- **移除** 移除了 `PILOT_ENABLE_HEADLESS_SERVICE_POD_LISTENERS` 功能标志。
 
-- **Removed** the `PILOT_ENABLE_INBOUND_PASSTHROUGH` setting, which has been enabled-by-default for the past 8 releases.
-  This feature can now be configured using a new [Inbound Traffic Policy Mode](https://github.com/istio/api/blob/9911a0a6990a18a45ed1b00559156dcc7e836e52/mesh/v1alpha1/config.proto#L203).
+- **移除** 移除了 `PILOT_ENABLE_INBOUND_PASSTHROUGH` 设置，该设置在过去 8 个版本中默认启用。
+  现在可以使用新的[入站流量策略模式](https://github.com/istio/api/blob/9911a0a6990a18a45ed1b00559156dcc7e836e52/mesh/v1alpha1/config.proto#L203)配置此功能。
 
 ## 安全性 {#security}
 
-- **Updated** the default value of the feature flag `ENABLE_AUTO_ENHANCED_RESOURCE_SCOPING` to `true`.
+- **更新** 将功能标志 `ENABLE_AUTO_ENHANCED_RESOURCE_SCOPING` 的默认值更新为 `true`。
 
-- **Added** support for path templating in `AuthorizationPolicy`. See Envoy URI template [docs](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/path/match/uri_template/v3/uri_template_match.proto).
+- **新增** 添加了对 `AuthorizationPolicy` 中路径模板的支持。
+  请参阅 Envoy URI 模板[文档](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/path/match/uri_template/v3/uri_template_match.proto)。
   ([Issue #16585](https://github.com/istio/istio/issues/16585))
 
-- **Added** support for customizing the connection timeout setting when resolving `jwksUri`.
+- **新增** 添加了支持在解析 `jwksUri` 时自定义连接超时设置。
   ([Issue #47328](https://github.com/istio/istio/issues/47328))
 
-- **Added** support for Istio CA to handle node authorization for CSRs with impersonating the identity of remote clusters.
-  This could help Istio CA to authenticate ztunnel in remote clusters in an external control plane scenario.
+- **新增** 添加了 Istio CA 支持通过模拟远程集群的身份来处理 CSR 的节点授权。
+  这可以帮助 Istio CA 在外部控制平面场景中对远程集群中的 ztunnel 进行身份验证。
     ([Issue #47489](https://github.com/istio/istio/issues/47489))
 
-- **Added** an environment variable `METRICS_LOCALHOST_ACCESS_ONLY` for disabling metrics endpoint from outside of the pod, to allow only localhost access. User can set this with command arguments
-  `--set values.pilot.env.METRICS_LOCALHOST_ACCESS_ONLY=true` for control plane and `--set meshConfig.defaultConfig.proxyMetadata.METRICS_LOCALHOST_ACCESS_ONLY=true` for proxy during `istioctl` installation.
+- **新增** 添加了 `METRICS_LOCALHOST_ACCESS_ONLY` 环境变量，用于从 Pod 外部禁用指标端点，
+  以仅允许本地主机访问。用户可以在 `istioctl` 安装期间使用命令参数
+  `--set values.pilot.env.METRICS_LOCALHOST_ACCESS_ONLY=true`（对于控制平面）和
+  `--set meshConfig.defaultConfig.proxyMetadata.METRICS_LOCALHOST_ACCESS_ONLY=true`（对于代理）进行设置。
 
-- **Added** Certificate Revocation List (CRL) support for peer certificate validation based on file paths specified in `ClientTLSSettings` in destination rule for Sidecars, and in `ServerTLSSettings` in Gateway for Gateways.
+- **新增** 添加了 Certificate Revocation List（证书吊销列表，CRL）支持对等证书验证，
+  该支持基于 Sidecar 目标规则中的 `ClientTLSSettings` 和对于 Gateway 网关中 `ServerTLSSettings` 中指定的文件路径。
 
-- **Fixed** list matching for the audience claims in JWT tokens.
+- **修复** 修复了 JWT 令牌中受众声明的列表匹配。
   ([Issue #49913](https://github.com/istio/istio/issues/49913))
 
-- **Removed** the `first-party-jwt` legacy option for `values.global.jwtPolicy`. Support for the more secure `third-party-jwt`
-  has been default for many years and is supported in all Kubernetes platforms.
+- **移除** 移除了 `values.global.jwtPolicy` 的 `first-party-jwt` 旧选项。
+  对更安全的 `third-party-jwt` 的支持多年来一直是默认设置，并且所有 Kubernetes 平台都支持。
 
 ## 遥测 {#telemetry}
 
-- **Improved** JSON access logs to emit keys in a consistent order.
+- **改进** 改进了 JSON 访问日志以一致的顺序发出 Key。
 
-- **Added** option to export OpenTelemetry traces via HTTP.
-  ([reference]( https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider-OpenTelemetryTracingProvider)) ([Issue #47835](https://github.com/istio/istio/issues/47835))
+- **新增** 添加了选项以通过 HTTP 导出 OpenTelemetry 链路。
+  ([参考](https://istio.io/latest/zh/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider-OpenTelemetryTracingProvider)) ([Issue #47835](https://github.com/istio/istio/issues/47835))
 
-- **Enabled** configuring Dynatrace Sampler as the `OpenTelemetryTracingProvider` in `MeshConfig`.
+- **启用** 在 `MeshConfig` 中将 Dynatrace Sampler 配置为 `OpenTelemetryTracingProvider`。
   ([Issue #50001](https://github.com/istio/istio/issues/50001))
 
-- **Enabled** configuring Resource Detectors as the `OpenTelemetryTracingProvider` in `MeshConfig`.
+- **启用** 在 `MeshConfig` 中将资源检测器配置为 `OpenTelemetryTracingProvider`。
   ([Issue #48885](https://github.com/istio/istio/issues/48885))
 
-- **Fixed** an issue where `TraceId` was not propagated when using OpenTelemetry access logger.
+- **修复** 修复了使用 OpenTelemetry 访问记录器时未传播 `TraceId` 的问题。
   ([Issue #49911](https://github.com/istio/istio/issues/49911))
 
-- **Removed** default tracing configuration that enables tracing to `zipkin.istio-system.svc`. See upgrade notes for more information.
+- **移除** 移除了默认启用链路追踪 `zipkin.istio-system.svc` 的配置。有关详细信息，请参阅升级说明。
 
 ## 可扩展性 {#extensibility}
 
-- **Improved** using the tag-stripped URL and checksum as a Wasm module cache key, where the tagged URL is separately cached.
-  This may increase the chance of cache hits (e.g., trying to find the same image with both of the tagged and digest URLs.)
-  In addition, this will be a base to implement `ImagePullPolicy`.
+- **改进** 使用标记剥离的 URL 和 Checksum 作为 Wasm 模块缓存键，其中标记的 URL 单独缓存。
+  这可能会增加缓存命中的机会（例如，尝试使用标记 URL 和摘要 URL 查找相同的图像。）此外，
+  这将是实现 `ImagePullPolicy` 的基础。
 
 ## 安装 {#installation}
 
-- **Improved** Helm value field names to configure whether an existing CNI install
-  will be used. Instead of `values.istio_cni` the enablement fields will be in
-  `values.pilot.cni`, as istiod is the affected component.
-  The new setting is more clear than having `values.cni` for install config and `values.istio_cni`
-  for enablement in istiod. The old `values.istio_cni` fields will still be supported
-  for at least two releases.
+- **改进** 改进了 Helm Value 字段名称，用于配置是否使用现已安装的 CNI。
+  支持字段将位于 `values.pilot.cni` 中，替代了 `values.istio_cni`，
+  因此 istiod 组件会被影响。新设置比使用 `values.cni` 用于安装配置和
+  `values.istio_cni` 用于 istiod 中更清晰。至少在两个版本中仍支持旧的 `values.istio_cni` 字段。
   ([Issue #49290](https://github.com/istio/istio/issues/49290))
 
-- **Improved** the `meshConfig.defaultConfig.proxyMetadata` field to do a deep merge when overridden, rather than replacing all values.
+- **改进** 改进了 `meshConfig.defaultConfig.proxyMetadata` 字段在被覆盖时进行深度合并，而不是替换所有值。
 
-- **Added** the ability to add customized annotations to istiod service account resource through the Helm chart.
+- **新增** 添加了通过 Helm Chart 向 istio 服务帐户资源添加自定义注解的功能。
 
-- **Added** the `openshift-ambient` profile.
+- **新增** 添加了 `openshift-ambient` 配置文件。
   ([Issue #42341](https://github.com/istio/istio/issues/42341))
 
-- **Added** a new, optional experimental admission policy that only allows stable features/fields to be used in Istio APIs.
+- **新增** 添加了一个新的、可选的实验性准入政策，仅允许在 Istio API 中使用稳定的功能/字段。
   ([Issue #173](https://github.com/istio/enhancements/issues/173))
 
-- **Added** support for configuring CA bundles for validation and injection webhooks.
+- **新增** 添加了对配置 CA 捆绑包以进行验证和注入 Webhooks 的支持。
 
-- **Fixed** gathering `pprof` data from the local ztunnel admin endpoint, which would fail due to the lack of a writable in-container `/tmp`.
+- **修复** 修复了从本地 ztunnel 管理端点收集 `pprof` 数据，由于缺少可写的容器内 `/tmp`，该数据将失败。
   ([Issue #50060](https://github.com/istio/istio/issues/50060))
 
-- **Removed** deprecated `external` profile. Please use the `remote` profile instead for installation.
+- **移除** 移除了已弃用的 `external` 配置文件。请使用 `remote` 配置文件进行安装。
   ([Issue #48634](https://github.com/istio/istio/issues/48634))
 
 ## istioctl
 
-- **Added** the `istioctl proxy-status` command, which is the promoted `istioctl experimental proxy-status` command. The old `istioctl proxy-status` command has been removed.
-  This promotion should not result in any loss of functionality. However, the request is now sent based on xDS instead of HTTP, and we have introduced a set of new xDS-based flags to target the control plane.
+- **新增** 添加了 `istioctl proxy-status` 命令，这是升级后的 `istioctl experimental proxy-status` 命令。
+  旧的 `istioctl proxy-status` 命令已被删除。此推动不应导致任何功能损失。
+  但是，现在请求是基于 xDS 而不是 HTTP 发送的，并且我们引入了一组新的基于 xDS 的标志来针对控制平面。
 
-- **Added** support for multi-cluster analysis in `istioctl analyze` command when there are remote cluster secrets set up through [Install Multicluster](/docs/setup/install/multicluster/).
+- **新增** 当通过[安装多集群](/zh/docs/setup/install/multicluster/)设置远程集群 Secret 时，
+  在 `istioctl analyze` 命令中添加了对多集群分析的支持。
 
-- **Added** a new `istioctl dashboard proxy` command, which can be used to show the admin UI of different proxy pods, for example: Envoy, ztunnel, and waypoint.
+- **新增** 添加了一个新的 `istioctl dashboard proxy` 命令，
+  可用于显示不同代理 Pod 的管理 UI，例如：Envoy、ztunnel 和 waypoint。
 
-- **Added** the `--proxy` option to `istioctl experimental wait` command.
+- **新增** 为 `istioctl experimental wait` 命令添加了 `--proxy` 选项。
   ([Issue #48696](https://github.com/istio/istio/issues/48696))
 
-- **Added** namespace filtering to `istioctl proxy-config workload` command using the `--workloads-namespace` flag to display workloads in the specified namespace.
+- **新增** 为 `istioctl proxy-config workload` 命令添加了命名空间过滤，
+  使用 `--workloads-namespace` 标志来显示指定命名空间中的工作负载。
 
-- **Added** the `istioctl dashboard istio-debug` command to display the Istio debug endpoints dashboard.
+- **新增** 添加了 `istioctl dashboard istio-debug` 命令来显示 Istio 调试端点仪表板。
 
-- **Added** the `istioctl experimental describe` command to support displaying the details of policies for `PortLevelSettings`.
+- **新增** 添加了 `istioctl experimental describe` 命令以支持显示 `PortLevelSettings` 策略的详细信息。
   ([Issue #49802](https://github.com/istio/istio/issues/49802))
 
-- **Added** ability to define the traffic address type (service, workload, all or none) for waypoints via the `--for` flag when using the `istioctl experimental waypoint apply` command.
+- **新增** 添加了在使用 `istioctl experimental waypoint apply` 命令时通过
+  `--for` 标志定义 waypoint 的流量地址类型（服务、工作负载、全部或无）的能力。
   ([Issue #49896](https://github.com/istio/istio/issues/49896))
 
-- **Added** the ability to name waypoints through `istioctl` via the `--name` flag on the waypoint command.
+- **新增** 添加了通过 waypoint 命令上的 `--name` 标志使用 `istioctl` 命名 waypoint 的功能。
   ([Issue #49915](https://github.com/istio/istio/issues/49915)), ([Issue #50173](https://github.com/istio/istio/issues/50173))
 
-- **Removed** the ability to specify a service account for the waypoint by deleting the `--service-account` flag on the waypoint command.
+- **移除** 移除了通过删除 waypoint 命令上的 `--service-account` 标志来指定 waypoint 的服务帐户的能力。
   ([Issue #49915](https://github.com/istio/istio/issues/49915)), ([Issue #50173](https://github.com/istio/istio/issues/50173))
 
-- **Added** the ability to enroll a waypoint proxy in the waypoint's namespace through `istioctl` via the `--enroll-namespace` flag on the waypoint command.
+- **新增** 添加了通过 waypoint 命令上的 `--enroll-namespace`
+  标志使用 `istioctl` 在 waypoint 的命名空间中注册 waypoint 代理的功能。
   ([Issue #50248](https://github.com/istio/istio/issues/50248))
 
-- **Added** the `istioctl ztunnel-config` command. This allow users to view ztunnel configuration information via the `istioctl ztunnel-config workload` command.
+- **新增** 添加了 `istioctl ztunnel-config` 命令。
+  这允许用户通过 `istioctl ztunnel-config workload` 命令查看 ztunnel 配置信息。
   ([Issue #49841](https://github.com/istio/istio/issues/49841))
 
-- **Removed** the workload flag from proxy-config command. Use `istioctl ztunnel-config workload` command to view ztunnel configuration information instead.
+- **移除** 从 proxy-config 命令中删除了工作负载标志。
+  使用 `istioctl ztunnel-config workload` 命令来查看 ztunnel 配置信息。
   ([Issue #49841](https://github.com/istio/istio/issues/49841))
 
-- **Added** a warning when using `istioctl experimental waypoint apply --enroll-namespace` and the namespace is not labeled for ambient redirection.
+- **新增** 添加了使用 `istioctl experimental waypoint apply --enroll-namespace` 时的警告，
+  并且命名空间未被标记为 Ambient 重定向。
   ([Issue #50396](https://github.com/istio/istio/issues/50396))
 
-- **Added** the `--for` flag to `istioctl experimental waypoint generate` command so that the user can preview the YAML before they apply it.
+- **新增** 在 `istioctl experimental waypoint generate` 命令中添加了 `--for` 标志，
+  以便用户可以在应用 YAML 之前预览它。
   ([Issue #50790](https://github.com/istio/istio/issues/50790))
 
-- **Added** an experimental OpenShift Kubernetes platform profile to `istioctl`. To install with the OpenShift profile, use `istioctl install --set profile=openshift`.
-  See [OpenShift Platform Setup]( https://istio.io/docs/setup/platform-setup/openshift/) and [Install OpenShift using `istioctl`]( https://istio.io/docs/setup/install/istioctl/#install-a-different-profile) documents for more information.
+- **新增** 向 `istioctl` 添加了实验性 OpenShift Kubernetes 平台配置文件。
+  要使用 OpenShift 配置文件进行安装，请使用 `istioctl install --set profile=openshift`。
+  请参阅 [OpenShift 平台设置](https://istio.io/latest/zh/docs/setup/platform-setup/openshift/)和[使用 `istioctl` 安装 OpenShift](https://istio.io/latest/zh/docs/setup/install/istioctl/#install-a-different-profile) 文档以获取更多信息。
 
-- **Added** the flag `--proxy-admin-port` to the command `istioctl experimental envoy-stats` to set a custom proxy admin port.
+- **新增** 为 `istioctl experimental envoy-stats` 命令添加了 `--proxy-admin-port` 标志，
+  以设置自定义代理管理端口。
 
-- **Fixed** an issue where the `istioctl experimental proxy-status <pod>` compare command was not working due to unknown configs.
+- **修复** 修复了由于配置未知，`istioctl experimental proxy-status <pod>` 比较命令无法正常工作的问题。
 
-- **Fixed** the `istioctl describe` command not displaying Ingress information under non `istio-system` namespaces.
+- **修复** 修复了 `istioctl describe` 命令不显示非 `istio-system` 命名空间下的 Ingress 信息。
   ([Issue #50074](https://github.com/istio/istio/issues/50074))
