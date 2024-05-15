@@ -75,7 +75,7 @@ Before you customize Istio for production use, see these resources:
 
 - [Deployment models](/docs/ops/deployment/deployment-models/)
 - [Deployment best practices](/docs/ops/best-practices/deployment/)
-- [Pod requirements](/docs/ops/deployment/requirements/)
+- [Pod requirements](/docs/ops/deployment/application-requirements/)
 - [General installation instructions](/docs/setup/)
 
 ## Join the Istio community
