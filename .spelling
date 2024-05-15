@@ -23,6 +23,7 @@
 1.20.x
 1.20.x.
 1.21.x
+1.21.x.
 1.22.x
 1.23.x
 1.24.0
@@ -97,6 +98,7 @@ abcde12345
 Abhi
 accounts.my
 ack-istio
+acked
 ACLs
 Acmeair
 addon
@@ -439,11 +441,13 @@ Ekansh
 Elasticsearch
 embeddable
 emojis
+Emre
 enablement
 endUser-to-Service
 enqueue
 enum
 env
+EnvoyCon
 EnvoyFilter
 envoyproxy
 etcd
@@ -551,6 +555,7 @@ Hystrix
 i.e.
 Idit
 ILBs
+impactful
 incentivized
 Incrementality
 Indo-Pacific
@@ -987,6 +992,7 @@ Salesforce
 Salmond
 sandboxed
 sandboxing
+Savcı   
 sayin
 Schaaf
 schedulable
@@ -1072,6 +1078,7 @@ subnetworks
 subresource
 subresources
 substring
+Sumit
 Superfeet
 Superset
 superset
@@ -1094,6 +1101,7 @@ Telekom
 telemetry.istio.io
 telemetryv2_
 templated
+templating
 Tencent
 test-api
 Tetrate
@@ -1112,6 +1120,7 @@ touchpoints
 tradeoff
 tradeoffs
 TrafficPolicy
+Trendyol
 Trivedi
 Trulia
 trustability
@@ -1157,9 +1166,13 @@ UTF-8
 v0.14.0
 v0.8.0
 v1
+v1.0
+v1.1
+v1.19
 v1.2.
 v1.21
 v1.21.0
+v1.22
 v1.26
 v1.27
 v1.28
@@ -1192,6 +1205,7 @@ veth
 veth-pair
 vhost
 vhosts
+Vij
 Virtualization
 virtualization
 VirtualService
