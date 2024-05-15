@@ -120,7 +120,7 @@ aliases:
 - **修复** 修复了当 `InboundTrafficPolicy` 被设置为“localhost”时注入模板被错误评估的错误。
   ([Issue #50700](https://github.com/istio/istio/issues/50700))
 
-- **修复** 修复了向 waypoint HBONE 端点添加服务器端 keeplive 的问题。
+- **修复** 修复了向 waypoint HBONE 端点添加服务器端 `keeplive` 的问题。
   ([Issue #50737](https://github.com/istio/istio/issues/50737))
 
 - **修复** 修复了 `HTTPMatchRequest` 中的空前缀匹配不会被验证 Webhook 拒绝的问题。
@@ -205,7 +205,7 @@ aliases:
 
 - **改进** 改进了 `meshConfig.defaultConfig.proxyMetadata` 字段在被覆盖时进行深度合并，而不是替换所有值。
 
-- **新增** 添加了通过 Helm Chart 向 istio 服务帐户资源添加自定义注解的功能。
+- **新增** 添加了通过 Helm Chart 向 Istio 服务帐户资源添加自定义注解的功能。
 
 - **新增** 添加了 `openshift-ambient` 配置文件。
   ([Issue #42341](https://github.com/istio/istio/issues/42341))
