@@ -16,7 +16,7 @@ aliases:
 
 ## Traffic management
 
-- **Added** [automatic protocol determination](/docs/ops/configuration/traffic-management/protocol-selection/) of HTTP or TCP for outbound traffic when ports are not named according to Istio’s [conventions](/docs/ops/deployment/requirements/).
+- **Added** [automatic protocol determination](/docs/ops/configuration/traffic-management/protocol-selection/) of HTTP or TCP for outbound traffic when ports are not named according to Istio’s [conventions](/docs/ops/deployment/application-requirements/).
 - **Added** a mode to the Gateway API for mutual TLS operation.
 - **Fixed** issues present when a service communicates over the network first in permissive mutual TLS mode for protocols like MySQL and MongoDB.
 - **Improved** Envoy proxy readiness checks. They now check Envoy's readiness status.
