@@ -11,7 +11,7 @@ status: Alpha
 {{< boilerplate alpha >}}
 
 Istio provides the ability to [extend its functionality using WebAssembly (Wasm)](/docs/concepts/wasm/).
-One of the key advantages of Wasm extensibility is that extensions can be loaded dynamically at runtime. This document outlines how to extend ambient mode within Istio with Wasm features. In ambient mode, Wasm configuration must be applied to the waypoint proxy deployed in each namespace, instead of to individual sidecars.
+One of the key advantages of Wasm extensibility is that extensions can be loaded dynamically at runtime. This document outlines how to extend ambient mode within Istio with Wasm features. In ambient mode, Wasm configuration must be applied to the waypoint proxy deployed in each namespace.
 
 ## Install Ambient Mode and deploy test applications
 
