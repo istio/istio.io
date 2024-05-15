@@ -46,8 +46,6 @@ for your specific needs. The following built-in configuration profiles are curre
 
 1. **ambient**: the ambient profile is designed to help you get started with [ambient mode](/docs/ambient).
 
-    {{< boilerplate ambient-alpha-warning >}}
-
 {{< tip >}}
 Some additional vendor-specific configuration profiles are also available.
 For more information, refer to the [setup instructions](/docs/setup/platform-setup) for your platform.

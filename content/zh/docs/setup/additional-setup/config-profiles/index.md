@@ -46,8 +46,6 @@ test: n/a
 
 1. **ambient**：Ambient 配置文件旨在帮助您开始使用 [Ambient 模式](/zh/docs/ambient)。
 
-    {{< boilerplate ambient-alpha-warning >}}
-
 {{< tip >}}
 此外，还提供了一些其他特定的配置文件。更多相关信息，
 请参阅[平台安装](/zh/docs/setup/platform-setup)。
