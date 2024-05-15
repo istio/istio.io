@@ -23,7 +23,7 @@ source "content/en/boilerplates/snips/trace-generation.sh"
 
 snip__1() {
 kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
-  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=e1b774d9e0c690c73c483757457f5ba0727db1fd" | kubectl apply -f -; }
+  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v1.1.0" | kubectl apply -f -; }
 }
 
 snip_download_istio_1() {
@@ -31,7 +31,7 @@ curl -L https://istio.io/downloadIstio | sh -
 }
 
 snip_download_istio_2() {
-curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.22.0 TARGET_ARCH=x86_64 sh -
+curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.23.0 TARGET_ARCH=x86_64 sh -
 }
 
 snip_download_istio_4() {
@@ -182,9 +182,9 @@ kubectl label namespace default istio-injection-
 }
 
 snip_uninstall_4() {
-kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=e1b774d9e0c690c73c483757457f5ba0727db1fd" | kubectl delete -f -
+kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v1.1.0" | kubectl delete -f -
 }
 
 snip_uninstall_5() {
-kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=e1b774d9e0c690c73c483757457f5ba0727db1fd" | kubectl delete -f -
+kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v1.1.0" | kubectl delete -f -
 }

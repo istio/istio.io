@@ -13,8 +13,6 @@ status: Experimental
 Follow this guide to upgrade and configure an ambient mode installation using
 [Helm](https://helm.sh/docs/). This guide assumes you have already performed an [ambient mode installation with Helm](/docs/ambient/install/helm-installation/) with a previous minor or patch version of Istio.
 
-{{< boilerplate ambient-alpha-warning >}}
-
 {{< warning >}}
 In contrast to sidecar mode, ambient mode supports moving application pods to an upgraded data plane without a mandatory restart or reschedule of running application pods. However, upgrading the data plane **will** briefly disrupt all workload traffic on the upgraded node, and ambient mode does not currently support canary upgrades of the data plane.
 

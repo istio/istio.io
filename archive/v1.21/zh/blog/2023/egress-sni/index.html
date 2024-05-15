@@ -1,0 +1,386 @@
+<!doctype html><html lang=zh itemscope itemtype=https://schema.org/WebPage><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=theme-color content="#466BB0"><meta name=title content="将出口流量路由至通配符目的地"><meta name=description content="一种通用的设置出口网关的方法，可以动态地将流量路由至受限制的目标远程主机集合（包括通配符域名）。"><meta name=author content="Gergő Huszty (IBM); Translated by Wilson Wu (DaoCloud)"><meta name=keywords content="microservices,services,mesh,traffic-management,gateway,mesh,mtls,egress,remote"><meta property="og:title" content="将出口流量路由至通配符目的地"><meta property="og:type" content="website"><meta property="og:description" content="一种通用的设置出口网关的方法，可以动态地将流量路由至受限制的目标远程主机集合（包括通配符域名）。"><meta property="og:url" content="/v1.21/zh/blog/2023/egress-sni/"><meta property="og:image" content="https://raw.githubusercontent.com/istio/istio.io/master/static/img/istio-social.png"><meta property="og:image:alt" content="The Istio sailboat logo"><meta property="og:image:width" content="4096"><meta property="og:image:height" content="2048"><meta property="og:site_name" content="Istio"><meta name=twitter:card content="summary_large_image"><meta name=twitter:site content="@IstioMesh"><title>Istioldie 1.21 / 将出口流量路由至通配符目的地</title>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-98480406-2"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","UA-98480406-2")</script><link rel=alternate type=application/rss+xml title="Istio Blog" href=/v1.21/blog/feed.xml><link rel=alternate type=application/rss+xml title="Istio News" href=/v1.21/news/feed.xml><link rel=alternate type=application/rss+xml title="Istio Blog and News" href=/v1.21/feed.xml><link rel="shortcut icon" href=/v1.21/favicons/favicon.ico><link rel=apple-touch-icon href=/v1.21/favicons/apple-touch-icon-180x180.png sizes=180x180><link rel=icon type=image/png href=/v1.21/favicons/favicon-16x16.png sizes=16x16><link rel=icon type=image/png href=/v1.21/favicons/favicon-32x32.png sizes=32x32><link rel=icon type=image/png href=/v1.21/favicons/android-36x36.png sizes=36x36><link rel=icon type=image/png href=/v1.21/favicons/android-48x48.png sizes=48x48><link rel=icon type=image/png href=/v1.21/favicons/android-72x72.png sizes=72x72><link rel=icon type=image/png href=/v1.21/favicons/android-96x96.png sizes=96xW96><link rel=icon type=image/png href=/v1.21/favicons/android-144x144.png sizes=144x144><link rel=icon type=image/png href=/v1.21/favicons/android-192x192.png sizes=192x192><link rel=icon type=image/svg+xml href=/v1.21/favicons/favicon.svg><link rel=icon type=image/png href=/v1.21/favicons/favicon.png><link rel=mask-icon href=/v1.21/favicons/safari-pinned-tab.svg color=#466BB0><link rel=manifest href=/v1.21/manifest.json><meta name=apple-mobile-web-app-title content="Istio"><meta name=application-name content="Istio"><meta name=msapplication-config content="/browserconfig.xml"><meta name=msapplication-TileColor content="#466BB0"><meta name=theme-color content="#466BB0"><link rel=stylesheet href=/v1.21/css/all.css><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap"><script src=/v1.21/js/themes_init.min.js></script></head><body class="language-unknown archive-site"><script>const branchName="release-1.21",docTitle="将出口流量路由至通配符目的地",iconFile="/v1.21//img/icons.svg",buttonCopy="复制到剪切板",buttonPrint="打印",buttonDownload="下载"</script><script src="https://www.google.com/cse/brand?form=search-form" defer></script><script src=/v1.21/js/all.min.js data-manual defer></script><header class=main-navigation><nav class="main-navigation-wrapper container-l"><div class=main-navigation-header><a id=brand href=/v1.21/zh/ aria-label=logotype><span class=logo><svg xmlns="http://www.w3.org/2000/svg" width="128" height="60" viewBox="0 0 128 60"><path d="M58.434 48.823A.441.441.0 0158.3 48.497V22.583a.444.444.0 01.134-.326.446.446.0 01.327-.134h3.527a.447.447.0 01.325.134.447.447.0 01.134.326v25.914a.443.443.0 01-.134.326.444.444.0 01-.325.134h-3.527a.444.444.0 01-.327-.134z"/><path d="m70.969 48.477a6.556 6.556.0 01-2.818-1.955 4.338 4.338.0 01-1-2.78v-.345a.443.443.0 01.134-.326.444.444.0 01.326-.135h3.374a.444.444.0 01.326.135.445.445.0 01.134.326v.077a2.014 2.014.0 001.054 1.667 4.672 4.672.0 002.664.709 4.446 4.446.0 002.492-.633 1.862 1.862.0 00.958-1.591 1.426 1.426.0 00-.786-1.322 12.7 12.7.0 00-2.549-.939l-1.457-.46a21.526 21.526.0 01-3.3-1.227 6.57 6.57.0 01-2.262-1.783 4.435 4.435.0 01-.92-2.894 5.081 5.081.0 012.109-4.275 8.993 8.993.0 015.558-1.591 10.445 10.445.0 014.1.748 6.3 6.3.0 012.722 2.07 5 5 0 01.958 3.009.441.441.0 01-.134.326.441.441.0 01-.325.134h-3.258a.441.441.0 01-.326-.134.443.443.0 01-.134-.326 1.974 1.974.0 00-.978-1.667 4.647 4.647.0 00-2.665-.671 4.741 4.741.0 00-2.435.556 1.724 1.724.0 00-.938 1.553 1.512 1.512.0 00.9 1.4 15.875 15.875.0 003.01 1.055l.843.229a27.368 27.368.0 013.412 1.246 6.67 6.67.0 012.338 1.763 4.387 4.387.0 01.958 2.933 4.988 4.988.0 01-2.146 4.275 9.543 9.543.0 01-5.712 1.552 11.626 11.626.0 01-4.227-.709z"/><path d="m97.039 32.837a.443.443.0 01-.326.135h-3.911a.169.169.0 00-.191.192v9.239a2.951 2.951.0 00.632 2.108 2.7 2.7.0 002.013.652h1.15a.444.444.0 01.325.134.441.441.0 01.134.326v2.875a.471.471.0 01-.459.5l-1.994.039a8 8 0 01-4.524-1.035q-1.495-1.035-1.533-3.91V33.166A.17.17.0 0088.164 32.974H85.978A.441.441.0 0185.652 32.839.441.441.0 0185.518 32.513V29.83a.441.441.0 01.134-.326.444.444.0 01.326-.135h2.186a.169.169.0 00.191-.192v-4.485a.438.438.0 01.134-.326.44.44.0 01.325-.134h3.336a.443.443.0 01.325.134.442.442.0 01.135.326v4.485a.169.169.0 00.191.192h3.911a.446.446.0 01.326.135.446.446.0 01.134.326v2.683a.446.446.0 01-.133.324z"/><path d="m101.694 25.917a2.645 2.645.0 01-.767-1.955 2.65 2.65.0 01.767-1.955 2.65 2.65.0 011.955-.767 2.65 2.65.0 011.955.767 2.652 2.652.0 01.767 1.955 2.647 2.647.0 01-.767 1.955 2.646 2.646.0 01-1.955.767 2.645 2.645.0 01-1.955-.767zm-.211 22.906a.441.441.0 01-.134-.326V29.79a.444.444.0 01.134-.326.446.446.0 01.326-.134h3.527a.446.446.0 01.326.134.445.445.0 01.134.326v18.707a.443.443.0 01-.134.326.443.443.0 01-.326.134h-3.527a.443.443.0 01-.326-.134z"/><path d="m114.019 47.734a8.1 8.1.0 01-3.047-4.255 14.439 14.439.0 01-.652-4.37 14.3 14.3.0 01.614-4.371A7.869 7.869.0 01114 30.56a9.072 9.072.0 015.252-1.5 8.543 8.543.0 015.041 1.5 7.985 7.985.0 013.009 4.14 12.439 12.439.0 01.69 4.37 13.793 13.793.0 01-.651 4.37 8.255 8.255.0 01-3.028 4.275 8.475 8.475.0 01-5.1 1.553 8.754 8.754.0 01-5.194-1.534zm7.629-3.1a4.536 4.536.0 001.476-2.262 11.335 11.335.0 00.383-3.221 10.618 10.618.0 00-.383-3.22 4.169 4.169.0 00-1.457-2.243 4.066 4.066.0 00-2.531-.785 3.942 3.942.0 00-2.453.785 4.376 4.376.0 00-1.5 2.243 11.839 11.839.0 00-.383 3.22 11.84 11.84.0 00.383 3.221 4.222 4.222.0 001.476 2.262 4.075 4.075.0 002.549.8 3.8 3.8.0 002.44-.809z"/><path d="m15.105 32.057v15.565a.059.059.0 01-.049.059L.069 50.25A.06.06.0 01.005 50.167l14.987-33.47a.06.06.0 01.114.025z"/><path d="m17.631 23.087v24.6a.06.06.0 00.053.059l22.449 2.507a.06.06.0 00.061-.084L17.745.032a.06.06.0 00-.114.024z"/><path d="m39.961 52.548-24.833 7.45a.062.062.0 01-.043.0L.079 52.548a.059.059.0 01.026-.113h39.839a.06.06.0 01.017.113z"/></svg></span>
+</a><button id=hamburger class=main-navigation-toggle aria-label="Open navigation">
+<svg class="icon menu-hamburger"><use xlink:href="/v1.21/img/icons.svg#menu-hamburger"/></svg>
+</button>
+<button id=menu-close class=main-navigation-toggle aria-label="Close navigation"><svg class="icon menu-close"><use xlink:href="/v1.21/img/icons.svg#menu-close"/></svg></button></div><div id=header-links class=main-navigation-links-wrapper><ul class=main-navigation-links><li class=main-navigation-links-item><a class="main-navigation-links-link has-dropdown"><span>关于</span><svg class="icon dropdown-arrow"><use xlink:href="/v1.21/img/icons.svg#dropdown-arrow"/></svg></a><ul class=main-navigation-links-dropdown><li class=main-navigation-links-dropdown-item><a href=/v1.21/zh/about/service-mesh class=main-navigation-links-link>服务网格</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.21/zh/about/solutions class=main-navigation-links-link>解决方案</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.21/zh/about/case-studies class=main-navigation-links-link>案例学习</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.21/zh/about/ecosystem class=main-navigation-links-link>生态系统</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.21/zh/about/deployment class=main-navigation-links-link>部署</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.21/zh/about/faq class=main-navigation-links-link>FAQ</a></li></ul></li><li class=main-navigation-links-item><a href=/v1.21/zh/blog/ class=main-navigation-links-link><span>博客</span></a></li><li class=main-navigation-links-item><a href=/v1.21/zh/news/ class=main-navigation-links-link><span>新闻</span></a></li><li class=main-navigation-links-item><a href=/v1.21/zh/get-involved/ class=main-navigation-links-link><span>加入我们</span></a></li><li class=main-navigation-links-item><a href=/v1.21/zh/docs/ class=main-navigation-links-link><span>文档</span></a></li></ul><div class=main-navigation-footer><button id=search-show class=search-show title='搜索 istio.io' aria-label=搜索><svg class="icon magnifier"><use xlink:href="/v1.21/img/icons.svg#magnifier"/></svg></button>
+<a href=/v1.21/zh/docs/setup/getting-started class="btn btn--primary" id=try-istio>试用 Istio</a></div></div><form id=search-form class=search name=cse role=search><input type=hidden name=cx value=002184991200833970123:iwwf17ikgf4>
+<input type=hidden name=ie value=utf-8>
+<input type=hidden name=hl value=zh>
+<input type=hidden id=search-page-url value=/zh/search>
+<input id=search-textbox class="search-textbox form-control" name=q type=search aria-label='搜索 istio.io' placeholder=搜索>
+<button id=search-close title=取消搜索 type=reset aria-label=取消搜索><svg class="icon menu-close"><use xlink:href="/v1.21/img/icons.svg#menu-close"/></svg></button></form></nav></header><div class=banner-container></div><article class=post itemscope itemtype=http://schema.org/BlogPosting><div class=header-content><h1>将出口流量路由至通配符目的地</h1><p>一种通用的设置出口网关的方法，可以动态地将流量路由至受限制的目标远程主机集合（包括通配符域名）。</p></div><p class=post-author>Dec 1, 2023 <span>| </span>By Gergő Huszty - IBM; Translated by Wilson Wu - DaoCloud</p><div><p>如果您使用 Istio 处理应用程序发起的流向网格外部目标的流量，您可能熟悉出口网关的概念。
+出口网关可用于监控和转发来自网格内应用程序的流量至网格外部的位置。
+如果您的系统在受限环境中运行并且您想控制从您的网格访问公共互联网的内容，那么这是一个有用的功能。</p><p>在<a href=https://archive.istio.io/v1.13/zh/docs/tasks/traffic-management/egress/wildcard-egress-hosts/#wildcard-configuration-for-arbitrary-domains>官方 Istio 文档</a>中，
+配置出口网关以处理任意通配符域名的用例一直包含至 1.13 版本，
+但随后因为记录的解决方案未得到官方支持或推荐，
+并可能在未来的 Istio 版本中出现问题而被移除。尽管如此，
+旧的解决方案仍然可以在 1.20 之前的 Istio 版本中使用。
+然而，在 Istio 1.20 中放弃了一些该方法所需的 Envoy 的功能。</p><p>本文试图描述我们如何解决这个问题，并通过使用与 Istio 版本独立的组件和 Envoy
+功能的类似方法来填补空白，而无需单独的 Nginx SNI 代理。
+我们的方法允许旧解决方案的用户在其系统面临 Istio 1.20 中的重大变化之前无缝迁移配置。</p><h2 id=problem-to-solve>需要解决的问题</h2><p>当前记录的出口网关用例依赖于流量的目标（主机名）是在 <code>VirtualService</code> 中静态配置的，
+并告知出口网关 Pod 中的 Envoy 在哪里进行 TCP 代理匹配的出站连接。
+您可以使用多个（甚至是通配符）DNS 名称来匹配路由条件，
+但您无法将流量路由到应用程序请求中指定的确切位置。例如，您可以匹配目标 <code>*.wikipedia.org</code> 的流量，
+但随后需要将流量转发到单个最终目标，例如 <code>en.wikipedia.org</code>。
+如果存在另一个服务，例如 <code>anyservice.wikipedia.org</code>，
+它不是由与 <code>en.wikipedia.org</code> 相同的服务器托管的，则到该主机的流量将会失败。
+这是因为，即使 HTTP 负载的 TLS 握手中的目标主机名包含 <code>anyservice.wikipedia.org</code>，
+<code>en.wikipedia.org</code> 服务器也无法响应该请求。</p><p>此问题的高级解决方案是在每个新的网关连接中检查应用程序 TLS
+握手中的原始服务器名称（SNI扩展）（该信息以明文发送，因此不需要TLS终止或其他中间人操作），
+并将其用作动态 TCP 代理离开网关的流量的目标。</p><p>当通过出口网关进行出口流量限制时，我们需要锁定出口网关，以便它们只能由网格内的客户端使用。
+这是通过在应用程序 Sidecar 和网关之间强制执行 <code>ISTIO_MUTUAL</code>（mTLS 对等身份验证）来实现的。
+这意味着应用程序 L7 负载上将有两层 TLS。一种是应用程序发起的端到端 TLS 会话，
+由最终远程目标终止，另一种是 Istio mTLS 会话。</p><p>另一件需要记住的事情是，为了减轻任何潜在的应用程序 Pod 异常，
+应用程序 Sidecar 和网关都应该执行主机名列表检查。
+这样，任何异常的应用程序 Pod 仍然只能访问被允许的目标，仅此而已。</p><h2 id=low-level-envoy-programming-to-the-rescue>使用低等级 Envoy 编程进行解救</h2><p>在最近的 Envoy 版本中包括动态 TCP 转发代理解决方案，
+该解决方案在每个连接的基础上使用 SNI 标头来确定应用程序请求的目标。
+虽然 Istio <code>VirtualService</code> 无法配置这样的目标，但我们可以使用
+<code>EnvoyFilter</code> 来更改 Istio 生成的路由指令，以便使用 SNI 标头来确定目标。</p><p>为了使这一切正常工作，我们首先配置一个自定义出口网关来侦听出站流量。
+使用 <code>DestinationRule</code> 和 <code>VirtualService</code>，我们指示应用程序 Sidecar
+使用 Istio mTLS 将流量（针对选定的主机名列表）路由到该网关。
+在网关 Pod 端，我们使用上面提到的 <code>EnvoyFilter</code> 构建 SNI 转发器，
+引入内部 Envoy 侦听器和集群以使其全部正常工作。
+最后，我们将网关实现的 TCP 代理的内部目标补丁应用到内部 SNI 转发器。</p><p>端到端的请求流程如下图所示：</p><figure style=width:90%><div class=wrapper-with-intrinsic-ratio style=padding-bottom:43.73843306600864%><a data-skipendnotes=true href=/v1.21/zh/blog/2023/egress-sni/egress-sni-flow.svg title="有任意域名的出口 SNI 路由"><img class=element-to-stretch src=/v1.21/zh/blog/2023/egress-sni/egress-sni-flow.svg alt="具有任意域名的出口 SNI 路由"></a></div><figcaption>有任意域名的出口 SNI 路由</figcaption></figure><p>此图展示了通过 SNI 作为路由转发器向 <code>en.wikipedia.org</code> 发起出口 HTTPS 请求。</p><ul><li><p>应用程序容器</p><p>应用程序向最终目的地发起 HTTP/TLS 连接。将目标主机名放入 SNI 标头中。
+此 TLS 会话不会在网格内部被解密。仅 SNI 标头被检查（因为它是明文形式）。</p></li><li><p>Sidecar 代理</p><p>Sidecar 拦截来自应用程序发起的 TLS 会话的 SNI 标头中匹配主机名的流量。
+基于 VirtualService，流量被路由到出口网关，同时将原始流量包装到 Istio mTLS 中。
+外部 TLS 会话具有包含在 SNI 标头中的网关 Service 地址。</p></li><li><p>网格侦听器</p><p>在网关中创建一个专用侦听器，用于对 Istio mTLS 流量进行双向身份验证。
+外部 Istio mTLS 终止后，它会通过 TCP 代理无条件地将内部 TLS 流量发送到同一网关中的其他（内部）侦听器。</p></li><li><p>SNI 转发器</p><p>具有 SNI 转发器的另一个侦听器对原始 TLS 会话执行新的 TLS 标头检查。
+如果内部 SNI 主机名与允许的域名（包括通配符）匹配，则 TCP 会将流量代理到目的地，
+并从每个连接的标头中读取。该侦听器位于 Envoy 内部（允许其重新启动流量处理以查看内部 SNI 值），
+因此任何 Pod（网格内部或外部）都无法直接连接到它。该侦听器是 100% 通过 EnvoyFilter 手动配置的。</p></li></ul><h2 id=deploy-the-sample>部署示例</h2><p>为了部署示例配置，首先创建 <code>istio-egress</code> 命名空间，
+然后使用以下 YAML 部署出口网关和一些关联的 RBAC 及其 <code>Service</code>。
+本示例中我们使用网关注入方式来创建网关。根据您的安装方法，
+您可能希望以不同的方式部署它（例如，使用 <code>IstioOperator</code> CR 或使用 Helm）。</p><pre><code class=language-yaml data-expandlinks=true data-repo=istio># 新的 k8s 集群服务将 egressgateway 放入服务注册表中，
+# 以便应用程序 Sidecar 可以在网格内将流量路由到它。
+apiVersion: v1
+kind: Service
+metadata:
+  name: egressgateway
+  namespace: istio-egress
+spec:
+  type: ClusterIP
+  selector:
+    istio: egressgateway
+  ports:
+  - port: 443
+    name: tls-egress
+    targetPort: 8443
+
+---
+# 使用注入方式的网关 Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: istio-egressgateway
+  namespace: istio-egress
+spec:
+  selector:
+    matchLabels:
+      istio: egressgateway
+  template:
+    metadata:
+      annotations:
+        inject.istio.io/templates: gateway
+      labels:
+        istio: egressgateway
+        sidecar.istio.io/inject: &#34;true&#34;
+    spec:
+      containers:
+      - name: istio-proxy
+        image: auto # The image will automatically update each time the pod starts.
+        securityContext:
+          capabilities:
+            drop:
+            - ALL
+          runAsUser: 1337
+          runAsGroup: 1337
+
+---
+# 设置 Role 以允许读取 TLS 凭据
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: istio-egressgateway-sds
+  namespace: istio-egress
+rules:
+- apiGroups: [&#34;&#34;]
+  resources: [&#34;secrets&#34;]
+  verbs: [&#34;get&#34;, &#34;watch&#34;, &#34;list&#34;]
+- apiGroups:
+  - security.openshift.io
+  resourceNames:
+  - anyuid
+  resources:
+  - securitycontextconstraints
+  verbs:
+  - use
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: istio-egressgateway-sds
+  namespace: istio-egress
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: istio-egressgateway-sds
+subjects:
+- kind: ServiceAccount
+  name: default
+</code></pre><p>验证网关 Pod 已启动并在 <code>istio-egress</code> 命名空间中运行，
+然后应用以下 YAML 来配置网关路由：</p><pre><code class=language-yaml data-expandlinks=true data-repo=istio># 定义一个新的侦听器，对入站连接强制执行 Istio mTLS。
+# 这里是 Sidecar 路由应用程序流量的地方，并封装到 Istio mTLS 中。
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: egressgateway
+  namespace: istio-system
+spec:
+  selector:
+    istio: egressgateway
+  servers:
+  - port:
+      number: 8443
+      name: tls-egress
+      protocol: TLS
+    hosts:
+      - &#34;*&#34;
+    tls:
+      mode: ISTIO_MUTUAL
+
+---
+# 如果 SNI 目标主机名匹配，
+# VirtualService 将指示网格中的 Sidecar 将传出流量路由到出口网关服务
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: direct-wildcard-through-egress-gateway
+  namespace: istio-system
+spec:
+  hosts:
+    - &#34;*.wikipedia.org&#34;
+  gateways:
+  - mesh
+  - egressgateway
+  tls:
+  - match:
+    - gateways:
+      - mesh
+      port: 443
+      sniHosts:
+        - &#34;*.wikipedia.org&#34;
+    route:
+    - destination:
+        host: egressgateway.istio-egress.svc.cluster.local
+        subset: wildcard
+# 虚拟路由指令。如果省略，则不会有任何引用指向网关定义，
+# 并且 istiod 将优化整个新侦听器。
+  tcp:
+  - match:
+    - gateways:
+      - egressgateway
+      port: 8443
+    route:
+    - destination:
+        host: &#34;dummy.local&#34;
+      weight: 100
+
+---
+# 指示 Sidecar 在将流量发送到出口网关时使用 Istio mTLS
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: egressgateway
+  namespace: istio-system
+spec:
+  host: egressgateway.istio-egress.svc.cluster.local
+  subsets:
+  - name: wildcard
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+
+---
+# 将远程目标放入服务注册表中
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: wildcard
+  namespace: istio-system
+spec:
+  hosts:
+    - &#34;*.wikipedia.org&#34;
+  ports:
+  - number: 443
+    name: tls
+    protocol: TLS
+
+---
+# 网关的访问日志记录
+apiVersion: telemetry.istio.io/v1alpha1
+kind: Telemetry
+metadata:
+  name: mesh-default
+  namespace: istio-system
+spec:
+  accessLogging:
+    - providers:
+      - name: envoy
+
+---
+# 最后，SNI 转发器的配置、它是内部侦听器以及原始网关侦听器的补丁，
+# 用于将所有内容路由到 SNI 转发器。
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: sni-magic
+  namespace: istio-system
+spec:
+  configPatches:
+  - applyTo: CLUSTER
+    match:
+      context: GATEWAY
+    patch:
+      operation: ADD
+      value:
+        name: sni_cluster
+        load_assignment:
+          cluster_name: sni_cluster
+          endpoints:
+          - lb_endpoints:
+            - endpoint:
+                address:
+                  envoy_internal_address:
+                    server_listener_name: sni_listener
+  - applyTo: CLUSTER
+    match:
+      context: GATEWAY
+    patch:
+      operation: ADD
+      value:
+        name: dynamic_forward_proxy_cluster
+        lb_policy: CLUSTER_PROVIDED
+        cluster_type:
+          name: envoy.clusters.dynamic_forward_proxy
+          typed_config:
+            &#34;@type&#34;: type.googleapis.com/envoy.extensions.clusters.dynamic_forward_proxy.v3.ClusterConfig
+            dns_cache_config:
+              name: dynamic_forward_proxy_cache_config
+              dns_lookup_family: V4_ONLY
+
+  - applyTo: LISTENER
+    match:
+      context: GATEWAY
+    patch:
+      operation: ADD
+      value:
+        name: sni_listener
+        internal_listener: {}
+        listener_filters:
+        - name: envoy.filters.listener.tls_inspector
+          typed_config:
+            &#34;@type&#34;: type.googleapis.com/envoy.extensions.filters.listener.tls_inspector.v3.TlsInspector
+
+        filter_chains:
+        - filter_chain_match:
+            server_names:
+            - &#34;*.wikipedia.org&#34;
+          filters:
+            - name: envoy.filters.network.sni_dynamic_forward_proxy
+              typed_config:
+                &#34;@type&#34;: type.googleapis.com/envoy.extensions.filters.network.sni_dynamic_forward_proxy.v3.FilterConfig
+                port_value: 443
+                dns_cache_config:
+                  name: dynamic_forward_proxy_cache_config
+                  dns_lookup_family: V4_ONLY
+            - name: envoy.tcp_proxy
+              typed_config:
+                &#34;@type&#34;: type.googleapis.com/envoy.extensions.filters.network.tcp_proxy.v3.TcpProxy
+                stat_prefix: tcp
+                cluster: dynamic_forward_proxy_cluster
+                access_log:
+                - name: envoy.access_loggers.file
+                  typed_config:
+                    &#34;@type&#34;: type.googleapis.com/envoy.extensions.access_loggers.file.v3.FileAccessLog
+                    path: &#34;/dev/stdout&#34;
+                    log_format:
+                      text_format_source:
+                        inline_string: &#39;[%START_TIME%] &#34;%REQ(:METHOD)% %REQ(X-ENVOY-ORIGINAL-PATH?:PATH)%
+                          %PROTOCOL%&#34; %RESPONSE_CODE% %RESPONSE_FLAGS% %RESPONSE_CODE_DETAILS% %CONNECTION_TERMINATION_DETAILS%
+                          &#34;%UPSTREAM_TRANSPORT_FAILURE_REASON%&#34; %BYTES_RECEIVED% %BYTES_SENT% %DURATION%
+                          %RESP(X-ENVOY-UPSTREAM-SERVICE-TIME)% &#34;%REQ(X-FORWARDED-FOR)%&#34; &#34;%REQ(USER-AGENT)%&#34;
+                          &#34;%REQ(X-REQUEST-ID)%&#34; &#34;%REQ(:AUTHORITY)%&#34; &#34;%UPSTREAM_HOST%&#34; %UPSTREAM_CLUSTER%
+                          %UPSTREAM_LOCAL_ADDRESS% %DOWNSTREAM_LOCAL_ADDRESS% %DOWNSTREAM_REMOTE_ADDRESS%
+                          %REQUESTED_SERVER_NAME% %ROUTE_NAME%
+
+                          &#39;
+  - applyTo: NETWORK_FILTER
+    match:
+      context: GATEWAY
+      listener:
+        filterChain:
+          filter:
+            name: &#34;envoy.filters.network.tcp_proxy&#34;
+    patch:
+      operation: MERGE
+      value:
+        name: envoy.tcp_proxy
+        typed_config:
+          &#34;@type&#34;: type.googleapis.com/envoy.extensions.filters.network.tcp_proxy.v3.TcpProxy
+          stat_prefix: tcp
+          cluster: sni_cluster
+</code></pre><p>检查 <code>istiod</code> 和网关日志是否有任何错误或警告。如果一切顺利，
+您的网格 Sidecar 现在会将 <code>*.wikipedia.org</code> 请求路由到您的网关 Pod，
+然后网关 Pod 将它们转发到应用程序请求中指定的确切远程主机。</p><h2 id=try-it-out>尝试一下</h2><p>按照其他 Istio 出口示例，我们将使用
+<a href=https://github.com/istio/istio/tree/release-1.21/samples/sleep>sleep</a> Pod 作为发送请求的测试源。
+假设已在默认命名空间中启用了自动 Sidecar 注入，请使用以下命令部署测试应用程序：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.21/samples/sleep/sleep.yaml
+</code></pre><p>获取您的 sleep 和网关 Pod：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+$ export GATEWAY_POD=$(kubectl get pod -n istio-egress -l istio=egressgateway -o jsonpath={.items..metadata.name})
+</code></pre><p>运行以下命令以确认您能够连接到 <code>wikipedia.org</code> 站点：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl exec &#34;$SOURCE_POD&#34; -c sleep -- sh -c &#39;curl -s https://en.wikipedia.org/wiki/Main_Page | grep -o &#34;&lt;title&gt;.*&lt;/title&gt;&#34;; curl -s https://de.wikipedia.org/wiki/Wikipedia:Hauptseite | grep -o &#34;&lt;title&gt;.*&lt;/title&gt;&#34;&#39;
+&lt;title&gt;Wikipedia, the free encyclopedia&lt;/title&gt;
+&lt;title&gt;Wikipedia – Die freie Enzyklopädie&lt;/title&gt;
+</code></pre><p>我们可以访问到英语和德语的 <code>wikipedia.org</code> 子域名，非常棒！</p><p>通常，在生产环境中，
+我们会通过出口网关<a href=/v1.21/zh/docs/tasks/traffic-management/egress/egress-control/#change-to-the-blocking-by-default-policy>阻止未被配置为重定向的外部请求</a>，
+但由于我们在测试环境中没有这样做，所以让我们访问另一个外部站点进行比较：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl exec &#34;$SOURCE_POD&#34; -c sleep -- sh -c &#39;curl -s https://cloud.ibm.com/login | grep -o &#34;&lt;title&gt;.*&lt;/title&gt;&#34;&#39;
+&lt;title&gt;IBM Cloud&lt;/title&gt;
+</code></pre><p>由于我们在全局范围内打开了访问日志记录（使用清单中的 <code>Telemetry</code> CR），
+因此我们现在可以检查日志以了解代理如何处理上述请求。</p><p>首先，检查网关日志：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl logs -n istio-egress $GATEWAY_POD
+[...]
+[2023-11-24T13:21:52.798Z] &#34;- - -&#34; 0 - - - &#34;-&#34; 813 111152 55 - &#34;-&#34; &#34;-&#34; &#34;-&#34; &#34;-&#34; &#34;185.15.59.224:443&#34; dynamic_forward_proxy_cluster 172.17.5.170:48262 envoy://sni_listener/ envoy://internal_client_address/ en.wikipedia.org -
+[2023-11-24T13:21:52.798Z] &#34;- - -&#34; 0 - - - &#34;-&#34; 1531 111950 55 - &#34;-&#34; &#34;-&#34; &#34;-&#34; &#34;-&#34; &#34;envoy://sni_listener/&#34; sni_cluster envoy://internal_client_address/ 172.17.5.170:8443 172.17.34.35:55102 outbound_.443_.wildcard_.egressgateway.istio-egress.svc.cluster.local -
+[2023-11-24T13:21:53.000Z] &#34;- - -&#34; 0 - - - &#34;-&#34; 821 92848 49 - &#34;-&#34; &#34;-&#34; &#34;-&#34; &#34;-&#34; &#34;185.15.59.224:443&#34; dynamic_forward_proxy_cluster 172.17.5.170:48278 envoy://sni_listener/ envoy://internal_client_address/ de.wikipedia.org -
+[2023-11-24T13:21:53.000Z] &#34;- - -&#34; 0 - - - &#34;-&#34; 1539 93646 50 - &#34;-&#34; &#34;-&#34; &#34;-&#34; &#34;-&#34; &#34;envoy://sni_listener/&#34; sni_cluster envoy://internal_client_address/ 172.17.5.170:8443 172.17.34.35:55108 outbound_.443_.wildcard_.egressgateway.istio-egress.svc.cluster.local -
+</code></pre><p>这里有四条日志，代表上面三个 curl 请求中的两个。每对日志都显示单个请求如何流经 Envoy 流量处理管道。
+它们以相反的顺序被打印，但我们可以看到第 2 行和第 4 行显示请求到达网关服务并通过内部 <code>sni_cluster</code> 目标传递。
+第 1 行和第 3 行显示最终目标是根据内部 SNI 标头确定的，即应用程序设置的目标主机。
+请求被转发到 <code>dynamic_forward_proxy_cluster</code>，后者最终将请求从 Envoy 发送到远程目标。</p><p>很好，但是对 IBM Cloud 的第三个请求在哪里？让我们检查一下 Sidecar 日志：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl logs $SOURCE_POD -c istio-proxy
+[...]
+[2023-11-24T13:21:52.793Z] &#34;- - -&#34; 0 - - - &#34;-&#34; 813 111152 61 - &#34;-&#34; &#34;-&#34; &#34;-&#34; &#34;-&#34; &#34;172.17.5.170:8443&#34; outbound|443|wildcard|egressgateway.istio-egress.svc.cluster.local 172.17.34.35:55102 208.80.153.224:443 172.17.34.35:37020 en.wikipedia.org -
+[2023-11-24T13:21:52.994Z] &#34;- - -&#34; 0 - - - &#34;-&#34; 821 92848 55 - &#34;-&#34; &#34;-&#34; &#34;-&#34; &#34;-&#34; &#34;172.17.5.170:8443&#34; outbound|443|wildcard|egressgateway.istio-egress.svc.cluster.local 172.17.34.35:55108 208.80.153.224:443 172.17.34.35:37030 de.wikipedia.org -
+[2023-11-24T13:21:55.197Z] &#34;- - -&#34; 0 - - - &#34;-&#34; 805 15199 158 - &#34;-&#34; &#34;-&#34; &#34;-&#34; &#34;-&#34; &#34;104.102.54.251:443&#34; PassthroughCluster 172.17.34.35:45584 104.102.54.251:443 172.17.34.35:45582 cloud.ibm.com -
+</code></pre><p>正如您所看到的，到 Wikipedia 的请求是通过网关发送的，
+而到 IBM Cloud 的请求是直接从应用程序 Pod 发送到互联网的，如 <code>PassthroughCluster</code> 日志所示。</p><h2 id=conclusion>总结</h2><p>我们使用出口网关实现了出口 HTTPS/TLS 流量的受控路由，支持任意域名和通配符域名。
+在生产环境中，本文中展示的示例将进行扩展以支持 HA 要求
+（例如，为网关 <code>Deployment</code> 添加区域感知等）并限制应用程序的直接外部网络访问，
+以便应用程序只能通过网关访问公共网络，该网关仅限于访问一组预定义的远程主机名。</p><p>该解决方案可以轻松进行扩展。您可以在配置中包含多个域名，一旦执行，它们就会被列入白名单！
+无需配置每个域的 <code>VirtualService</code> 或其他路由详细信息。但要小心的是，
+由于域名在配置中的多个位置被列出。如果您使用 CI/CD 工具（例如 Kustomize），
+最好将域名列表提取到一个单一位置，使其被渲染到所需的配置资源中。</p><p>就是这些！我希望这可以帮到您。如果您是之前基于 Nginx 解决方案的现有用户，
+现在可以在升级到 Istio 1.20 之前迁移到此方法，否则您当前的设置会被破坏。</p><p>请开心的使用 SNI 路由！</p><h2 id=references>参考</h2><ul><li><a href=https://www.envoyproxy.io/docs/envoy/latest/configuration/listeners/network_filters/sni_dynamic_forward_proxy_filter>SNI 转发器的 Envoy 文档</a></li><li><a href=https://archive.istio.io/v1.13/docs/tasks/traffic-management/egress/wildcard-egress-hosts/#wildcard-configuration-for-arbitrary-domains>之前使用 Nginx 作为网关中的 SNI 代理容器的解决方案</a></li></ul></div><nav class=pagenav><div class=left><a title="KubeCon + CloudNativeCon 中的精彩 Istio 活动阵容。" href=/v1.21/zh/blog/2024/kubecon-eu/ class=next-link><svg class="icon left-arrow"><use xlink:href="/v1.21/img/icons.svg#left-arrow"/></svg>Istio 在巴黎！相约 KubeCon Europe 2024</a></div><div class=right><a title="快速回顾在芝加哥麦考密克展览中心举行的北美 KubeCon 中的 Istio 风采。" href=/v1.21/zh/blog/2023/istio-at-kubecon-na/ class=next-link>2023 北美 KubeCon 上的 Istio 风采<svg class="icon right-arrow"><use xlink:href="/v1.21/img/icons.svg#right-arrow"/></svg></a></div></nav></article><footer class=footer><div class="footer-wrapper container-l"><div class="user-links footer-links"><a class=channel title='Istio 的代码在 GitHub 上开发' href=https://github.com/istio/community aria-label=GitHub><svg class="icon github"><use xlink:href="/v1.21/img/icons.svg#github"/></svg>
+</a><a class=channel title='如果您想深入了解 Istio 的技术细节，请查看我们日益完善的设计文档' href=https://groups.google.com/forum/#!forum/istio-team-drive-access aria-label="team drive"><svg class="icon drive"><use xlink:href="/v1.21/img/icons.svg#drive"/></svg>
+</a><a class=channel title='在 Slack 上与 Istio 社区交互讨论开发问题（仅限邀请）' href=https://slack.istio.io aria-label=slack><svg class="icon slack"><use xlink:href="/v1.21/img/icons.svg#slack"/></svg>
+</a><a class=channel title='Stack Overflow 中列举了针对实际问题以及部署、配置和使用 Istio 的各项回答' href=https://stackoverflow.com/questions/tagged/istio aria-label="Stack Overflow"><svg class="icon stackoverflow"><use xlink:href="/v1.21/img/icons.svg#stackoverflow"/></svg>
+</a><a class=channel title='关注我们的 Twitter 来获取最新信息' href=https://twitter.com/IstioMesh aria-label=Twitter><svg class="icon twitter"><use xlink:href="/v1.21/img/icons.svg#twitter"/></svg></a></div><hr class=footer-separator role=separator><div class="info footer-info"><a class=logo href=/v1.21/zh/ aria-label=logotype><svg xmlns="http://www.w3.org/2000/svg" width="128" height="60" viewBox="0 0 128 60"><path d="M58.434 48.823A.441.441.0 0158.3 48.497V22.583a.444.444.0 01.134-.326.446.446.0 01.327-.134h3.527a.447.447.0 01.325.134.447.447.0 01.134.326v25.914a.443.443.0 01-.134.326.444.444.0 01-.325.134h-3.527a.444.444.0 01-.327-.134z"/><path d="m70.969 48.477a6.556 6.556.0 01-2.818-1.955 4.338 4.338.0 01-1-2.78v-.345a.443.443.0 01.134-.326.444.444.0 01.326-.135h3.374a.444.444.0 01.326.135.445.445.0 01.134.326v.077a2.014 2.014.0 001.054 1.667 4.672 4.672.0 002.664.709 4.446 4.446.0 002.492-.633 1.862 1.862.0 00.958-1.591 1.426 1.426.0 00-.786-1.322 12.7 12.7.0 00-2.549-.939l-1.457-.46a21.526 21.526.0 01-3.3-1.227 6.57 6.57.0 01-2.262-1.783 4.435 4.435.0 01-.92-2.894 5.081 5.081.0 012.109-4.275 8.993 8.993.0 015.558-1.591 10.445 10.445.0 014.1.748 6.3 6.3.0 012.722 2.07 5 5 0 01.958 3.009.441.441.0 01-.134.326.441.441.0 01-.325.134h-3.258a.441.441.0 01-.326-.134.443.443.0 01-.134-.326 1.974 1.974.0 00-.978-1.667 4.647 4.647.0 00-2.665-.671 4.741 4.741.0 00-2.435.556 1.724 1.724.0 00-.938 1.553 1.512 1.512.0 00.9 1.4 15.875 15.875.0 003.01 1.055l.843.229a27.368 27.368.0 013.412 1.246 6.67 6.67.0 012.338 1.763 4.387 4.387.0 01.958 2.933 4.988 4.988.0 01-2.146 4.275 9.543 9.543.0 01-5.712 1.552 11.626 11.626.0 01-4.227-.709z"/><path d="m97.039 32.837a.443.443.0 01-.326.135h-3.911a.169.169.0 00-.191.192v9.239a2.951 2.951.0 00.632 2.108 2.7 2.7.0 002.013.652h1.15a.444.444.0 01.325.134.441.441.0 01.134.326v2.875a.471.471.0 01-.459.5l-1.994.039a8 8 0 01-4.524-1.035q-1.495-1.035-1.533-3.91V33.166A.17.17.0 0088.164 32.974H85.978A.441.441.0 0185.652 32.839.441.441.0 0185.518 32.513V29.83a.441.441.0 01.134-.326.444.444.0 01.326-.135h2.186a.169.169.0 00.191-.192v-4.485a.438.438.0 01.134-.326.44.44.0 01.325-.134h3.336a.443.443.0 01.325.134.442.442.0 01.135.326v4.485a.169.169.0 00.191.192h3.911a.446.446.0 01.326.135.446.446.0 01.134.326v2.683a.446.446.0 01-.133.324z"/><path d="m101.694 25.917a2.645 2.645.0 01-.767-1.955 2.65 2.65.0 01.767-1.955 2.65 2.65.0 011.955-.767 2.65 2.65.0 011.955.767 2.652 2.652.0 01.767 1.955 2.647 2.647.0 01-.767 1.955 2.646 2.646.0 01-1.955.767 2.645 2.645.0 01-1.955-.767zm-.211 22.906a.441.441.0 01-.134-.326V29.79a.444.444.0 01.134-.326.446.446.0 01.326-.134h3.527a.446.446.0 01.326.134.445.445.0 01.134.326v18.707a.443.443.0 01-.134.326.443.443.0 01-.326.134h-3.527a.443.443.0 01-.326-.134z"/><path d="m114.019 47.734a8.1 8.1.0 01-3.047-4.255 14.439 14.439.0 01-.652-4.37 14.3 14.3.0 01.614-4.371A7.869 7.869.0 01114 30.56a9.072 9.072.0 015.252-1.5 8.543 8.543.0 015.041 1.5 7.985 7.985.0 013.009 4.14 12.439 12.439.0 01.69 4.37 13.793 13.793.0 01-.651 4.37 8.255 8.255.0 01-3.028 4.275 8.475 8.475.0 01-5.1 1.553 8.754 8.754.0 01-5.194-1.534zm7.629-3.1a4.536 4.536.0 001.476-2.262 11.335 11.335.0 00.383-3.221 10.618 10.618.0 00-.383-3.22 4.169 4.169.0 00-1.457-2.243 4.066 4.066.0 00-2.531-.785 3.942 3.942.0 00-2.453.785 4.376 4.376.0 00-1.5 2.243 11.839 11.839.0 00-.383 3.22 11.84 11.84.0 00.383 3.221 4.222 4.222.0 001.476 2.262 4.075 4.075.0 002.549.8 3.8 3.8.0 002.44-.809z"/><path d="m15.105 32.057v15.565a.059.059.0 01-.049.059L.069 50.25A.06.06.0 01.005 50.167l14.987-33.47a.06.06.0 01.114.025z"/><path d="m17.631 23.087v24.6a.06.06.0 00.053.059l22.449 2.507a.06.06.0 00.061-.084L17.745.032a.06.06.0 00-.114.024z"/><path d="m39.961 52.548-24.833 7.45a.062.062.0 01-.043.0L.079 52.548a.059.059.0 01.026-.113h39.839a.06.06.0 01.017.113z"/></svg></a><div class=footer-languages><a tabindex=-1 lang=en id=switch-lang-en class=footer-languages-item>English
+</a><a tabindex=-1 lang=zh id=switch-lang-zh class="footer-languages-item active"><svg class="icon tick"><use xlink:href="/v1.21/img/icons.svg#tick"/></svg>
+中文</a></div></div><ul class=footer-policies><li class=footer-policies-item><a class=footer-policies-link href=https://www.linuxfoundation.org/legal/terms>条款
+</a>|
+<a class=footer-policies-link href=https://www.linuxfoundation.org/legal/privacy-policy>隐私政策
+</a>|
+<a class=footer-policies-link href=https://www.linuxfoundation.org/legal/trademark-usage>商标
+</a>|
+<a class=footer-policies-link href=https://github.com/istio/istio.io/edit/release-1.21/content/zh/index>在 GitHub 上编辑此页</a></li></ul><div class=footer-base><span class=footer-base-copyright>&copy; 2024 the Istio Authors.</span>
+<span class=footer-base-version>部分内容可能滞后于英文版本，同步工作正在进行中<br>版本
+Istio 归档
+1.21.2</span><ul class=footer-base-releases><li class=footer-base-releases-item><a tabindex=-1 class=footer-base-releases-link onclick='return navigateToUrlOrRoot("https://istio.io/blog/2023/egress-sni/"),!1'>当前版本</a></li><li class=footer-base-releases-item><a tabindex=-1 class=footer-base-releases-link onclick='return navigateToUrlOrRoot("https://preliminary.istio.io/blog/2023/egress-sni/"),!1'>下个版本</a></li><li class=footer-base-releases-item><a tabindex=-1 class=footer-base-releases-link href=https://istio.io/archive>旧版本</a></li></ul></div></div></footer><div id=scroll-to-top-container aria-hidden=true><button id=scroll-to-top title=回到顶部 tabindex=-1><svg class="icon top"><use xlink:href="/v1.21/img/icons.svg#top"/></svg></button></div></body></html>
