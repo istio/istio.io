@@ -57,66 +57,95 @@ Ambient 模式无需对现有 Kubernetes 部署进行任何修改即可工作。
 服务器发送优先协议现在可以工作，大多数保留端口现在可用，
 并且容器绕过 Sidecar 的能力（无论是恶意还是非恶意）都被消除了。
 
-The lightweight shared L4 node proxy is called the *[ztunnel](/docs/ambient/overview/#ztunnel)* (zero-trust tunnel). Ztunnel drastically reduces the overhead of
-running a mesh by removing the need to potentially over-provision memory and CPU within a cluster to handle expected loads. In
-some use cases, the savings can exceed 90% or more, while still providing zero-trust security using mutual TLS with
-cryptographic identity, simple L4 authorization policies, and telemetry.
+The lightweight shared L4 node proxy is called the *[ztunnel](/docs/ambient/overview/#ztunnel)* (zero-trust tunnel). Ztunnel drastically reduces the overhead of running a mesh by removing the need to potentially over-provision memory and CPU within a cluster to handle expected loads. In some use cases, the savings can exceed 90% or more, while still providing zero-trust security using mutual TLS with cryptographic identity, simple L4 authorization policies, and telemetry.
+轻量级共享 L4 节点代理称为 **[ztunnel](/zh/docs/ambient/overview/#ztunnel)**（零信任隧道）。
+ztunnel 无需在集群内过度配置内存和 CPU 来处理预期负载，从而大大降低了运行网格的开销。
+在某些用例中，节省可以超过 90% 或更多资源，同时仍然使用具有加密身份的双向 TLS、
+简单的 L4 鉴权策略和遥测来提供零信任安全性。
 
-The L7 proxies are called *[waypoints](/docs/ambient/overview/#waypoint-proxies)*. Waypoints process L7 functions such as traffic routing, rich authorization policy
-enforcement, and enterprise-grade resilience. Waypoints run outside of your application deployments and can scale independently
-based on your needs, which could be for the entire namespace or for multiple services within a namespace. Compared with
-sidecars, you don’t need one waypoint per application pod, and you can scale your waypoint effectively based on its scope,
-thus saving significant amounts of CPU and memory in most cases.
+The L7 proxies are called *[waypoints](/docs/ambient/overview/#waypoint-proxies)*. Waypoints process L7 functions such as traffic routing, rich authorization policy enforcement, and enterprise-grade resilience. Waypoints run outside of your application deployments and can scale independently based on your needs, which could be for the entire namespace or for multiple services within a namespace. Compared with sidecars, you don’t need one waypoint per application pod, and you can scale your waypoint effectively based on its scope, thus saving significant amounts of CPU and memory in most cases.
+L7 代理被称为 **[waypoint](/zh/docs/ambient/overview/#waypoint-proxies)**。
+waypoint 处理 L7 功能，例如流量路由、丰富的鉴权策略实施和企业级弹性。
+waypoint 在应用程序部署之外运行，并且可以根据您的需求独立扩展，这可以针对整个命名空间或命名空间内的多个服务。
+与 Sidecar 相比，您不需要为每个应用程序 Pod 都配备一个 waypoint，
+并且可以根据其范围有效地扩展 waypoint，从而在大多数情况下节省大量 CPU 和内存。
 
-The separation between the L4 secure overlay layer and L7 processing layer allows incremental adoption of the ambient mode data
-plane, in contrast to the earlier binary "all-in" injection of sidecars. Users can start with the secure L4 overlay, which
-offers a majority of features that people deploy Istio for (mTLS, authorization policy, and telemetry).
-Complex L7 handling such as retries, traffic splitting, load balancing, and observability collection can then be enabled on a case-by-case basis.
+The separation between the L4 secure overlay layer and L7 processing layer allows incremental adoption of the ambient mode data plane, in contrast to the earlier binary "all-in" injection of sidecars. Users can start with the secure L4 overlay, which offers a majority of features that people deploy Istio for (mTLS, authorization policy, and telemetry). Complex L7 handling such as retries, traffic splitting, load balancing, and observability collection can then be enabled on a case-by-case basis.
+L4 安全覆盖层和 L7 处理层之间的分离允许增量采用 Ambient 模式数据平面，
+这与早期的 Sidecar 二进制“全量”注入形成鲜明对比。用户可以从安全的 L4 覆盖开始，
+它提供了人们部署 Istio 的大部分功能（mTLS、鉴权策略和遥测）。
+然后可以根据具体情况启用复杂的 L7 处理，例如重试、流量分割、负载均衡和可观察性收集。
 
 ## What is in the scope of the Beta?
+## Beta 版范围都包含哪些内容？ {#what-is-in-the-scope-of-the-beta}
 
-We recommend you explore the following Beta functions of ambient mode in production with appropriate precautions, after validating
-them in test environments:
+We recommend you explore the following Beta functions of ambient mode in production with appropriate precautions, after validating them in test environments:
+我们建议您在测试环境中验证 Ambient 模式的以下 Beta 功能后，在生产中探索它们时采取适当的预防措施：
 
 - [Installing Istio with support for ambient mode](/docs/ambient/install/).
+- [安装支持 Ambient 模式的 Istio](/zh/docs/ambient/install/)。
 - [Adding your workloads to the mesh](/docs/ambient/usage/add-workloads/) to gain mutual TLS with cryptographic identity, [L4 authorization policies](/docs/ambient/usage/l4-policy/), and telemetry.
+- [将工作负载添加到网格中](/zh/docs/ambient/usage/add-workloads/)以获取具有加密身份的双向 TLS、
+  [L4 鉴权策略](/zh/docs/ambient/usage/l4-policy/)以及遥测。
 - [Configuring waypoints](/docs/ambient/usage/waypoint/) to [use L7 functions](/docs/ambient/usage/l7-features/) such as traffic shifting, request routing, and rich authorization policy enforcement.
+- [配置 waypoint](/zh/docs/ambient/usage/waypoint/)
+  [使用 L7 功能](/zh/docs/ambient/usage/l7-features/)，例如流量转移、请求路由和丰富的鉴权策略实施。
 - Connecting the Istio ingress gateway to workloads in ambient mode, supporting all existing Istio APIs.
+- 在 Ambient 模式下将 Istio 入口网关连接到工作负载，支持所有现有的 Istio API。
 - Using `istioctl` to operate waypoints, and troubleshoot ztunnel & waypoints.
+- 使用 `istioctl` 操作 waypoint，并对 ztunnel 和 waypoint 进行故障排查。
 
 ### Alpha features
+### Alpha 阶段功能 {#alpha-features}
 
-Many other features we want to include in ambient mode have been implemented, but remain in Alpha status in this release. Please help
-test them, so they can be promoted to Beta in 1.23 or later:
+Many other features we want to include in ambient mode have been implemented, but remain in Alpha status in this release. Please help test them, so they can be promoted to Beta in 1.23 or later:
+我们希望包含在 Ambient 模式中的许多其他功能已经实现，但在此版本中仍处于 Alpha 状态。
+请帮助测试它们，以便它们可以在 1.23 或更高版本中升级为 Beta：
 
 - Multi-cluster installations
+- 多集群安装
 - DNS proxying
+- DNS 代理
 - Interoperability with sidecars
+- 与 Sidecar 的互操作性
 - IPv6/Dual stack
+- IPv6/双栈
 - SOCKS5 support (for outbound)
+- SOCKS5 支持（用于出站）
 - Istio’s classic APIs (`VirtualService` and `DestinationRule`)
+- Istio 的经典 API（`VirtualService` 和 `DestinationRule`）
 
 ### Roadmap
+### 路线图 {#roadmap}
 
 We have a number of features which are not yet implemented in ambient mode, but are planned for upcoming releases:
+我们有许多功能尚未在 Ambient 模式下实现，但计划在即将发布的版本中实现：
 
 - Controlled egress traffic
+- 受控的出口流量
 - Multi-network support
+- 多网络支持
 - Improve `status` messages on resources to help troubleshoot and understand the mesh
+- 改进资源上的 `status` 消息，以帮助排除故障和了解网格
 - VM support
+- 虚拟机（VM）支持
 
 ## What about sidecars?
+## Sidecar 将如何？ {#what-about-sidecars}
 
-Sidecars are not going away, and remain first-class citizens in Istio. You can continue to use sidecars, and they will remain
-fully supported.  For any feature outside of the Alpha or Beta scope for ambient mode, you should consider using the sidecar
-mode until the feature is added to ambient mode. Some use cases, such as traffic shifting based on source labels, will
-continue to be best implemented using the sidecar mode. While we believe most use cases will be best served with a mesh in
-ambient mode, the Istio project remains committed to ongoing sidecar mode support.
+Sidecars are not going away, and remain first-class citizens in Istio. You can continue to use sidecars, and they will remain fully supported.  For any feature outside of the Alpha or Beta scope for ambient mode, you should consider using the sidecar mode until the feature is added to ambient mode. Some use cases, such as traffic shifting based on source labels, will continue to be best implemented using the sidecar mode. While we believe most use cases will be best served with a mesh in ambient mode, the Istio project remains committed to ongoing sidecar mode support.
+Sidecar 不会消失，并且仍然是 Istio 的重中之重。您可以继续使用 Sidecar，它们将继续保持被完全支持。
+对于 Ambient 模式的 Alpha 或 Beta 范围之外的任何功能，您应该考虑使用 Sidecar 模式，
+直到该功能被添加到 Ambient 模式。一些用例，例如基于源标签的流量转移，将继续使用 Sidecar 模式来最好地实现。
+虽然我们相信在网格中的大多数用例将被最好的在 Ambient 模式下支持，但 Istio 项目仍然致力于持续支持 Sidecar 模式。
 
 ## Try ambient mode today
+## 马上尝试 Ambient 模式 {#try-ambient-mode-today}
 
-With the 1.22 release of Istio and the Beta release of ambient mode, it is now easier than ever to try out Istio on your own
-workloads. Follow the [getting started guide](/docs/ambient/getting-started/) to explore ambient mode, or read our new [user guides](/docs/ambient/usage/)
-to learn how to incrementally adopt ambient for mutual TLS & L4 authorization policy, traffic management, rich L7
-authorization policy, and more. You can engage with the developers in the #ambient channel on [the Istio Slack](https://slack.istio.io),
-or use the discussion forum on [GitHub](https://github.com/istio/istio/discussions) for any questions you may have.
+With the 1.22 release of Istio and the Beta release of ambient mode, it is now easier than ever to try out Istio on your own workloads. Follow the [getting started guide](/docs/ambient/getting-started/) to explore ambient mode, or read our new [user guides](/docs/ambient/usage/) to learn how to incrementally adopt ambient for mutual TLS & L4 authorization policy, traffic management, rich L7 authorization policy, and more. You can engage with the developers in the #ambient channel on [the Istio Slack](https://slack.istio.io), or use the discussion forum on [GitHub](https://github.com/istio/istio/discussions) for any questions you may have.
+随着 Istio 1.22 版本和 Ambient 模式 Beta 版本的发布，
+现在在您自己的工作负载上尝试 Istio 比以往任何时候都更加容易。
+按照[入门指南](/zh/docs/ambient/getting-started/)探索 Ambient 模式，
+或阅读我们新的[用户指南](/zh/docs/ambient/usage/)了解如何逐步采用 Ambient 来实现双向 TLS & L4 鉴权策略、流量管理、丰富的 L7 鉴权策略等等。
+您可以在 [Istio Slack](https://slack.istio.io) 上的 #ambient 频道与开发人员互动，
+或使用 [GitHub](https://github.com/istio/istio) 上的讨论论坛解答您可能存在的任何问题。
