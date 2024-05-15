@@ -86,8 +86,8 @@ spec:
 | API 名称     | 对象类型                                                                                                                           | 状态                            | 推荐                                                             |
 |--------------|---------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------|----------------------------------------------------------------------------|
 | Gateway API | [HTTPRoute](https://gateway-api.sigs.k8s.io/api-types/httproute/), [Gateway](https://gateway-api.sigs.k8s.io/api-types/gateway/), ... | Gateway API v1.0（2023）稳定 | 用于新部署，特别是 [Ambient 模式](/zh/docs/ambient/) |
-| Istio API   | [Virtual Service](/docs/reference/config/networking/virtual-service/), [Gateway](/docs/reference/config/networking/gateway/)          | Istio 1.22（2024）中达到 `v1`       | 用于现存部署或需要高级功能的地方      |
-| Ingress API  | [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress)                                                            | 在 Kubernetes v1.19（2020）中稳定 | 仅用于旧部署                                          |
+| Istio API   | [Virtual Service](/zh/docs/reference/config/networking/virtual-service/), [Gateway](/zh/docs/reference/config/networking/gateway/)          | Istio 1.22（2024）中达到 `v1`       | 用于现存部署或需要高级功能的地方      |
+| Ingress API  | [Ingress](https://kubernetes.io/zh-cn/docs/concepts/services-networking/ingress)                                                            | 在 Kubernetes v1.19（2020）中稳定 | 仅用于旧部署                                          |
 
 鉴于上述情况，您可能想知道为什么 Istio API 同时[被升级为 `v1`](/zh/blog/2024/v1-apis)？
 这是对 API 的**稳定性**进行准确分类努力的一部分。
