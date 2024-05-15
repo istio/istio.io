@@ -59,7 +59,7 @@ Many services will work out of the box, but by adding a little information to yo
 
 For common ports and protocols, Istio will detect the traffic type. If it can't detect, it will fall back to treating the traffic as TCP, but you can easily [annotate the service](/docs/ops/configuration/traffic-management/protocol-selection/) with the traffic type.
 
-Learn more about [enabling applications for use with Istio](/docs/ops/deployment/requirements/).
+Learn more about [enabling applications for use with Istio](/docs/ops/deployment/application-requirements/).
 
 ### Enabling security
 
