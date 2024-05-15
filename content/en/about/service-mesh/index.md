@@ -34,7 +34,7 @@ Extensible by design and supported by a [broad ecosystem](/about/ecosystem) of c
 
 <br/><br/>
 
-## Features
+# Features
 
 {{< feature_block header="Secure by default" image="security.svg" >}}
 Istio provides a market-leading zero-trust solution based on workload identity, TLS, and strong policy controls. Istio delivers the value of [BeyondProd](https://cloud.google.com/security/beyondprod/) in open source, while avoiding vendor lock-in or SPOFs.
@@ -56,7 +56,7 @@ Istio simplifies traffic routing and service-level configuration, allowing easy 
 
 <br/><br/>
 
-## Why Istio?
+# Why Istio?
 
 {{< feature_block header="Multiple deployment modes" image="istio-logo-with-brand.svg" >}}
 Istio offers two data plane modes for users to choose. Deploy with the new ambient mode for a simplified app operational lifecycle or with traditional sidecars for complex configurations.
