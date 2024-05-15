@@ -50,6 +50,8 @@ As the waypoint proxy is a deployment of {{< gloss >}}Envoy{{< /gloss >}}, the e
 | `WasmPlugin` | Alpha | `targetRefs` |
 | `EnvoyFilter` | Alpha | `targetRefs` |
 
+Read more on how to extend waypoints with Wasm plugins [here](/docs/ambient/usage/extend-waypoint-wasm/).
+
 ## Targeting policies or routing rules
 
 ### Attach to the entire waypoint proxy
