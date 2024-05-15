@@ -110,7 +110,7 @@ $ kubectl exec deploy/sleep -- curl -s http://$REVIEWS_V2_POD_IP:9080/reviews/1
     {{< /text >}}
 
 1.  通过 `istioctl proxy-config` 命令检查 waypoint 的 Envoy 配置，
-    该命令显示与 Waypoint 相关的所有信息，如集群、端点、监听器、路由和密钥：
+    该命令显示与 waypoint 相关的所有信息，如集群、端点、监听器、路由和密钥：
 
     {{< text bash >}}
     $ istioctl proxy-config all deploy/waypoint
@@ -118,4 +118,4 @@ $ kubectl exec deploy/sleep -- curl -s http://$REVIEWS_V2_POD_IP:9080/reviews/1
 
 有关如何调试 Envoy 的更多信息，
 请参阅[深入了解 Envoy 配置](/zh/docs/ops/diagnostic-tools/proxy-cmd/#deep-dive-into-envoy-configuration)一节，
-因为 Waypoint 代理是基于 Envoy 的。
+因为 waypoint 代理是基于 Envoy 的。
