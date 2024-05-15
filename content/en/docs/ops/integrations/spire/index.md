@@ -190,7 +190,7 @@ A ClusterSPIFFEID must be applied prior to installing Istio in order for the Ing
 
     The Ingress-gateway pod is `Ready` since the corresponding registration entry is automatically created for it on the SPIRE Server. Envoy is able to fetch cryptographic identities from SPIRE.
 
-Note that `SPIRE Controller Manager` is used in the [quick start](#option-1:-quick-start) section.
+Note that `SPIRE Controller Manager` is used in the [quick start](#option-1-quick-start) section.
 
 ### Option 2: Configuration for Manual Workload Registration with SPIRE
 
@@ -361,11 +361,11 @@ New entries will be automatically registered for each new pod that matches the s
 See [Verifying that identities were created for workloads](#verifying-that-identities-were-created-for-workloads)
 to check issued identities.
 
-Note that `SPIRE Controller Manager` is used in the [quick start](#option-1:-quick-start) section.
+Note that `SPIRE Controller Manager` is used in the [quick start](#option-1-quick-start) section.
 
 ### Option 2: Manual Registration
 
-To improve workload attestation security robustness, SPIRE is able to verify against a group of selector values based on different parameters. Skip these steps if you installed `SPIRE` by following the [quick start](#option-1:-quick-start) since it uses automatic registration.
+To improve workload attestation security robustness, SPIRE is able to verify against a group of selector values based on different parameters. Skip these steps if you installed `SPIRE` by following the [quick start](#option-1-quick-start) since it uses automatic registration.
 
 1. Generate an entry for an Ingress Gateway with a set of selectors such as the
     pod name and pod UID:
