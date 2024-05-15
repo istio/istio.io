@@ -237,10 +237,10 @@ When executing the provided command without credentials, it verifies that access
 
 ### Cleanup
 
-When you're finished experimenting with the Wasm plugins, uninstall and clean them using the following command.
+1. Remove WasmPlugin configuration:
 
-{{< text bash >}}
-$ kubectl delete wasmplugin basic-auth-at-gateway basic-auth-at-waypoint basic-auth-for-service
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl delete wasmplugin basic-auth-at-gateway basic-auth-at-waypoint basic-auth-for-service
+    {{< /text >}}
 
-Follow [the ambient mode uninstall guide](docs/ambient/getting-started/#uninstall) to remove Istio and sample test applications.
+1. Follow [the ambient mode uninstall guide](docs/ambient/getting-started/#uninstall) to remove Istio and sample test applications.
