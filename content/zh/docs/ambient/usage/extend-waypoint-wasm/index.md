@@ -88,7 +88,7 @@ Istio 代理将解释 WasmPlugin 配置，从 OCI 镜像仓库下载远程 Wasm 
     200
     {{< /text >}}
 
-## 将 Wasm 配置应用到 Waypoint 代理 {#apply-wasm-configuration-at-waypoint-proxy}
+## 将 Wasm 配置应用到 waypoint 代理 {#apply-wasm-configuration-at-waypoint-proxy}
 
 Waypoint 代理在 Istio 的 Ambient 模式中扮演了一个重要的角色：在服务网格内确保通讯安全和高效。
 下文将探索如何将 Wasm 配置应用到 waypoint，动态增强代理功能。
