@@ -120,7 +120,7 @@ aliases:
 - **修复** 修复了当 `InboundTrafficPolicy` 被设置为“localhost”时注入模板被错误评估的错误。
   ([Issue #50700](https://github.com/istio/istio/issues/50700))
 
-- **修复** 修复了向 waypoint HBONE 端点添加服务器端 Keeplive 的问题。
+- **修复** 修复了向 waypoint HBONE 端点添加服务器端 keeplive 的问题。
   ([Issue #50737](https://github.com/istio/istio/issues/50737))
 
 - **修复** 修复了 `HTTPMatchRequest` 中的空前缀匹配不会被验证 Webhook 拒绝的问题。
@@ -176,7 +176,7 @@ aliases:
 - **改进** 改进了 JSON 访问日志以一致的顺序发出 Key。
 
 - **新增** 添加了选项以通过 HTTP 导出 OpenTelemetry 链路。
-  ([参考](https://istio.io/latest/zh/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider-OpenTelemetryTracingProvider)) ([Issue #47835](https://github.com/istio/istio/issues/47835))
+  ([参考](/zh/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider-OpenTelemetryTracingProvider)) ([Issue #47835](https://github.com/istio/istio/issues/47835))
 
 - **启用** 在 `MeshConfig` 中将 Dynatrace Sampler 配置为 `OpenTelemetryTracingProvider`。
   ([Issue #50001](https://github.com/istio/istio/issues/50001))
@@ -276,7 +276,7 @@ aliases:
 
 - **新增** 向 `istioctl` 添加了实验性 OpenShift Kubernetes 平台配置文件。
   要使用 OpenShift 配置文件进行安装，请使用 `istioctl install --set profile=openshift`。
-  请参阅 [OpenShift 平台设置](https://istio.io/latest/zh/docs/setup/platform-setup/openshift/)和[使用 `istioctl` 安装 OpenShift](https://istio.io/latest/zh/docs/setup/install/istioctl/#install-a-different-profile) 文档以获取更多信息。
+  请参阅 [OpenShift 平台设置](/zh/docs/setup/platform-setup/openshift/)和[使用 `istioctl` 安装 OpenShift](/zh/docs/setup/install/istioctl/#install-a-different-profile) 文档以获取更多信息。
 
 - **新增** 为 `istioctl experimental envoy-stats` 命令添加了 `--proxy-admin-port` 标志，
   以设置自定义代理管理端口。
