@@ -15,9 +15,8 @@ test: n/a
 Istio 利用 [Envoy 的分布式追踪](https://www.envoyproxy.io/docs/envoy/v1.12.0/intro/arch_overview/observability/tracing)功能提供了开箱即用的链路追踪集成。
 确切地说，Istio 提供了安装各种链路追踪后端服务的选项，并且通过配置代理来自动发送链路追踪 span 到分布式追踪系统服务。
 请参阅 [Zipkin](/zh/docs/tasks/observability/distributed-tracing/zipkin/)、
-[Jaeger](/zh/docs/tasks/observability/distributed-tracing/jaeger/)、
-[Lightstep](/zh/docs/tasks/observability/distributed-tracing/lightstep/) 和
-[OpenCensus Agent](/zh/docs/tasks/observability/distributed-tracing/opencensusagent/)
+[Jaeger](/zh/docs/tasks/observability/distributed-tracing/jaeger/) 和
+[Lightstep](/zh/docs/tasks/observability/distributed-tracing/lightstep/)
 的任务文档来了解 Istio 如何与这些分布式链路追踪系统协作。
 
 ## 追踪上下文传递  {#trace-context-propagation}
@@ -34,7 +33,7 @@ span 加到同一个调用链。
 
 * `x-request-id`：这是 Envoy 专用的请求头，用于对日志和追踪进行一致的采样。
 
-对于 Zipkin、Jaeger、Stackdriver 和 OpenCensus Agent，应转发 B3 多请求头格式：
+对于 Zipkin、Jaeger 和 Stackdriver，应转发 B3 多请求头格式：
 
 * `x-b3-traceid`
 * `x-b3-spanid`
@@ -42,7 +41,7 @@ span 加到同一个调用链。
 * `x-b3-sampled`
 * `x-b3-flags`
 
-这些是 Zipkin、Jaeger、OpenCensus 和其它更多工具支持的请求头。
+这些是 Zipkin、Jaeger 和其它更多工具支持的请求头。
 
 对于 Datadog，应转发以下请求头，这些转发由对应语言和框架的 Datadog 客户端库自动处理。
 
@@ -54,10 +53,10 @@ span 加到同一个调用链。
 
 * `x-ot-span-context`
 
-对于 Stackdriver 和 OpenCensus Agent，您可以使用以下任一请求头来替代 B3 多请求头格式：
+对于 Stackdriver，您可以使用以下任一请求头来替代 B3 多请求头格式：
 
 * `grpc-trace-bin`：标准的 grpc 追踪头。
-* `traceparent`：追踪所用的 W3C 追踪上下文标准，受所有 OpenCensus、OpenTelemetry
+* `traceparent`：追踪所用的 W3C 追踪上下文标准，受 OpenTelemetry
   和日益增加的 Jaeger 客户端库所支持。
 * `x-cloud-trace-context`：被 Google Cloud 产品 API 所使用。
 
