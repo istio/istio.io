@@ -23,47 +23,68 @@ test: no
 ### Istio Gateway {#istio-gateway}
 
 cert-manager 可用于向 Kubernetes 写入 Secret 秘钥，Gateway 可以引用该秘钥。
-首先，请按照 [cert-manager 文档](https://cert-manager.io/docs/usage/certificate/)中的说明配置
-`Certificate` 资源。`Certificate` 应该创建在与 `istio-ingressgateway`
-Deployment 相同的命名空间。例如，一个 `Certificate` 可能看起来像下边这样：
 
-{{< text yaml >}}
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: ingress-cert
-  namespace: istio-system
-spec:
-  secretName: ingress-cert
-  commonName: my.example.com
-  dnsNames:
-  - my.example.com
-  ...
-{{< /text >}}
+1. 首先，按照 [cert-manager 颁发者文档](https://cert-manager.io/docs/configuration/)配置 `Issuer` 资源。
+   `Issuer` 是代表证书颁发机构（CA）的 Kubernetes 资源，
+   证书颁发机构能够通过尊重证书签名请求来生成签名证书。例如：`Issuer` 可能如下所示：
 
-一旦创建了 `Certificate` 资源，我们就能在 `istio-system`
-命名空间中看到创建的秘钥，接着就可以在 Gateway 的 `tls`
-配置下的 `cresentialName` 字段中引用它：
+    {{< text yaml >}}
+    apiVersion: cert-manager.io/v1
+    kind: Issuer
+    metadata:
+      name: ca-issuer
+      namespace: istio-system
+    spec:
+      ca:
+        secretName: ca-key-pair
+    {{< /text >}}
 
-{{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
-kind: Gateway
-metadata:
-  name: gateway
-spec:
-  selector:
-    istio: ingressgateway
-  servers:
-  - port:
-      number: 443
-      name: https
-      protocol: HTTPS
-    tls:
-      mode: SIMPLE
-      credentialName: ingress-cert # 这应该与证书的 Secret 名称相匹配
-    hosts:
-    - my.example.com # 这应该与证书中的 DNS 名称相匹配
-{{< /text >}}
+    {{< tip >}}
+    对于常见的发行者类型 ACME，创建一个 Pod 和服务来响应质询请求，以验证客户端是否拥有该域。
+    为了应对这些挑战，需要可以访问位于 `http://<YOUR_DOMAIN>/.well-known/acme-challenge/<TOKEN>` 的端点。
+    该配置可能是特定于实现的。
+    {{< /tip >}}
+
+1. 接下来，按照 [cert-manager 文档](https://cert-manager.io/docs/usage/certificate/) 配置 `Certificate` 资源。
+   应在与 `istio-ingressgateway` 部署相同的命名空间中创建 `Certificate`。例如，`Certificate` 可能如下所示：
+
+    {{< text yaml >}}
+    apiVersion: cert-manager.io/v1
+    kind: Certificate
+    metadata:
+      name: ingress-cert
+      namespace: istio-system
+    spec:
+      secretName: ingress-cert
+      commonName: my.example.com
+      dnsNames:
+      - my.example.com
+      ...
+    {{< /text >}}
+
+1. 一旦创建了 `Certificate` 资源，我们就能在 `istio-system`
+   命名空间中看到创建的秘钥，接着就可以在 Gateway 的 `tls`
+   配置下的 `cresentialName` 字段中引用它：
+
+    {{< text yaml >}}
+    apiVersion: networking.istio.io/v1alpha3
+    kind: Gateway
+    metadata:
+      name: gateway
+    spec:
+      selector:
+        istio: ingressgateway
+      servers:
+      - port:
+          number: 443
+          name: https
+          protocol: HTTPS
+        tls:
+          mode: SIMPLE
+          credentialName: ingress-cert # This should match the Certificate secretName
+        hosts:
+        - my.example.com # This should match a DNS name in the Certificate
+    {{< /text >}}
 
 ### Kubernetes Ingress {#kubernetes-ingress}
 
