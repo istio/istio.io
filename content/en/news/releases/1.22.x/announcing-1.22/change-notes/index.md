@@ -210,7 +210,7 @@ These notices describe functionality that will be removed in a future release ac
 
 ## istioctl
 
-- **Added** the `istioctl proxy-stauts` command, which is the promoted `istioctl experimental proxy-status` command. The old `istioctl proxy-status` command has been removed.
+- **Added** the `istioctl proxy-status` command, which is the promoted `istioctl experimental proxy-status` command. The old `istioctl proxy-status` command has been removed.
   This promotion should not result in any loss of functionality. However, the request is now sent based on xDS instead of HTTP, and we have introduced a set of new xDS-based flags to target the control plane.
 
 - **Added** support for multi-cluster analysis in `istioctl analyze` command when there are remote cluster secrets set up through [Install Multicluster](/docs/setup/install/multicluster/).
@@ -242,7 +242,7 @@ These notices describe functionality that will be removed in a future release ac
 - **Added** the `istioctl ztunnel-config` command. This allow users to view ztunnel configuration information via the `istioctl ztunnel-config workload` command.
   ([Issue #49841](https://github.com/istio/istio/issues/49841))
 
-**Removed** the workload flag from proxy-config command. Use `istioctl ztunnel-config workload` command to view ztunnel configuration information instead.
+- **Removed** the workload flag from proxy-config command. Use `istioctl ztunnel-config workload` command to view ztunnel configuration information instead.
   ([Issue #49841](https://github.com/istio/istio/issues/49841))
 
 - **Added** a warning when using `istioctl experimental waypoint apply --enroll-namespace` and the namespace is not labeled for ambient redirection.
