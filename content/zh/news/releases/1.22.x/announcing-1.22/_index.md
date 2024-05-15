@@ -36,7 +36,7 @@ Ambient 模式在很多情况下可以减少 90% 以上的内存开销和 CPU �
 模式的功能和稳定性已为生产工作负载做好了准备，并采取了适当的预防措施。
 [我们的 Ambient 模式博客文章包含所有详细信息](/zh/blog/2024/ambient-reaches-beta/)。
 
-### Istio API 升级至 `v1` {##istio-apis-promoted-to-v1}
+### Istio API 升级至 `v1` {#istio-apis-promoted-to-v1}
 
 Istio 提供的 API 对于确保服务网格内服务的强大安全性、无缝连接和有效可观测性至关重要。
 这些 API 用于全球数千个集群，保护和增强关键基础设施。
@@ -93,4 +93,4 @@ Eric 的大部分开发工作都是在幕后进行的，确保构建和测试 Is
 您可以在我们的 [Slack 工作区](https://slack.istio.io/)的
 [`#release-1.22`](https://istio.slack.com/archives/C06PU4H4EMR) 频道中提供反馈。
 
-您想直接为 Istio 做出贡献吗？查找并加入我们的[工作组](https://github.com/istio/community/blob/master/WORKING-GROUPS.md)之一并帮助我们改进。
+您想直接为 Istio 做出贡献吗？找到并加入我们的某一个[工作组](https://github.com/istio/community/blob/master/WORKING-GROUPS.md)并帮助我们改进。
