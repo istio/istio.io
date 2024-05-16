@@ -179,7 +179,7 @@ metadata:
 spec:
   targetRefs:
     - kind: Service
-      group: ""                       
+      group: ""
       name: reviews
   url: oci://ghcr.io/istio-ecosystem/wasm-extensions/basic_auth:1.12.0
   phase: AUTHN
