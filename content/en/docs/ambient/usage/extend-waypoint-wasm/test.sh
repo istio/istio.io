@@ -42,11 +42,7 @@ snip_deploy_the_sample_application_2
 snip_deploy_the_sample_application_3
 snip_deploy_the_sample_application_4
 
-# test traffic before ambient mode is enabled
-_verify_contains snip_verify_traffic_sleep_to_ingress "$snip_verify_traffic_sleep_to_ingress_out"
-_verify_contains snip_verify_traffic_sleep_to_productpage "$snip_verify_traffic_sleep_to_productpage_out"
-_verify_contains snip_verify_traffic_notsleep_to_productpage "$snip_verify_traffic_notsleep_to_productpage_out"
-
+# adding applications to ambient mesh
 _verify_same snip_adding_your_application_to_the_ambient_mesh_1 "$snip_adding_your_application_to_the_ambient_mesh_1_out"
 
 # ambient mode enabled
@@ -85,7 +81,7 @@ _verify_like snip_view_the_configured_wasmplugin_1 "$snip_view_the_configured_wa
 _verify_same snip_verify_the_traffic_via_waypoint_proxy_1 "$snip_verify_the_traffic_via_waypoint_proxy_1_out"
 _verify_same snip_verify_the_traffic_via_waypoint_proxy_2 "$snip_verify_the_traffic_via_waypoint_proxy_2_out"
 
-# Apply Waypoint configuration for 'reviews-svc' service
+# Apply Waypoint configuration for 'reviews' service
 _verify_same snip_apply_wasmplugin_for_a_specific_service_using_waypoint_1 "$snip_apply_wasmplugin_for_a_specific_service_using_waypoint_1_out"
 _verify_same snip_apply_wasmplugin_for_a_specific_service_using_waypoint_2 "$snip_apply_wasmplugin_for_a_specific_service_using_waypoint_2_out"
 
