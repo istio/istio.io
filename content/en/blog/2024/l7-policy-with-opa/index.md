@@ -1,11 +1,5 @@
 ---
-title: "Enforce platform-wide layer 7 policy with Istio and OPA"
-# some other ideas I had
 title: "Can Your Platform Do Policy? Accelerate Teams With Platform L7 Policy Functionality"
-title: "Enable Application Teams with Platform-wide Policy Functionality"
-description: Discover how Istio and OPA can be used to update requests and responses based on layer 7 policies in your platform.
-# some other ideas I had
-description: Learn how to get teams working On their core competency again by building platform-native policy functionality with Istio and OPA.
 description: Is policy your core competency? Likely not, but you need to do right. Do it once with Istio and OPA and get back team focus on what matters most.
 publishdate: 2024-05-22
 attribution: "Antonio Berben (Solo.io), Charlie Egan (Styra)"
@@ -19,10 +13,6 @@ Often work is given directly to application teams to implement, but there are so
 We're going to dive into how Istio and Open Policy Agent (OPA) can be used to enforce layer 7 policies in your platform. We'll show you how to get started with a simple example.
 
 Hopefully you will come to see how Istio and Open Policy Agent (OPA) are solid option to deliver this valuable feature, quickly and transparently to application team everywhere in the business - while also providing the data the security teams need for audit and compliance.
-
-## Why OPA
-
-### Problem to solve
 
 ## Try it out
 
