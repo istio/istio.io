@@ -256,6 +256,10 @@ Avoid this traffic loss with one of the following settings:
 You must use the `runAsUser 1337` workaround if [DNS proxying](/docs/ops/configuration/traffic-management/dns-proxy/) is enabled, and an init container sends traffic to a host name which requires DNS resolution.
 {{< /tip >}}
 
+{{< tip >}}
+Some platforms (e.g. OpenShift) do not use `1337` as the sidecar `uid` and instead use a pseudo-random number, that is only known at runtime. In such cases, you can instruct the proxy to run as a predefined `uid` by leveraging the [custom injection feature](/docs/setup/additional-setup/sidecar-injection/#customizing-injection), and use that same `uid` for the init container.
+{{< /tip >}}
+
 {{< warning >}}
 Please use traffic capture exclusions with caution, since the IP/port exclusion annotations not only apply to init container traffic,
 but also application container traffic. i.e. application traffic sent to the configured IP/port will bypass the Istio sidecar.
