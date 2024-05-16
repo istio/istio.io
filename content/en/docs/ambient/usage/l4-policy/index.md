@@ -75,12 +75,11 @@ Even though the identity of the pod is otherwise correct, the presence of a L7 p
 command terminated with exit code 56
 {{< /text >}}
 
-### Authorizaton policy attachment
-
+### Authorization policy attachment
 
 In the simplest enforcement scenario, you want to enforce policy against TCP attributes and you have no waypoint proxies in your traffic's path. These policies can be enforced by ztunnel proxies.
 
-Once you introduce a waypoint proxy, the ideal place to enforce policy shifts. Traffic arriving at the destination ztunnel will be coming from the waypoint's identity because waypoint proxies do not impersonate `src` identity on behalf of the client. This means that even if you only wish to enforce policy against TCP attributes, you should bind that policy to your waypoint proxy. An additonal TCP policy may be applied to your workload to request that ztunnel enforce rules like, "in-mesh traffic needs to come from my waypoint in order to reach my application". This type of policy allows you to choose if "bypassing" the waypoint proxy is permissible in your scenario.
+Once you introduce a waypoint proxy, the ideal place to enforce policy shifts. Traffic arriving at the destination ztunnel will be coming from the waypoint's identity because waypoint proxies do not impersonate `src` identity on behalf of the client. This means that even if you only wish to enforce policy against TCP attributes, you should bind that policy to your waypoint proxy. An additional TCP policy may be applied to your workload to request that ztunnel enforce rules like, "in-mesh traffic needs to come from my waypoint in order to reach my application". This type of policy allows you to choose if "bypassing" the waypoint proxy is permissible in your scenario.
 
 The table shown below is based on the following invariants:
 
@@ -98,7 +97,7 @@ The table shown below is based on the following invariants:
 | yes | `targetRefs` | Gateway | client pod | waypoint |
 
 * Whether or not there is already a waypoint is in the traffic path.
-** If no attachement is specified the policy will be treated as Namespace scoped.
+** If no attachment is specified the policy will be treated as Namespace scoped.
 
 ## Peer authentication
 
