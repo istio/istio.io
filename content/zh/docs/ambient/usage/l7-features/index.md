@@ -53,6 +53,8 @@ Istio 经典流量管理 API（虚拟服务、目标规则等）在 Ambient 数�
 | `WasmPlugin` | Alpha | `targetRefs` |
 | `EnvoyFilter` | Alpha | `targetRefs` |
 
+通过[此处](/zh/docs/ambient/usage/extend-waypoint-wasm/)阅读有关如何使用 Wasm 插件扩展 waypoint 的更多信息。
+
 ## 目标策略或路由规则 {#targeting-policies-or-routing-rules}
 
 ### 附加到整个 waypoint 代理 {#attach-to-the-entire-waypoint-proxy}
