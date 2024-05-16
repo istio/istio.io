@@ -114,7 +114,7 @@ EOF
 
 ### Authorization policy attachment
 
-In a scenario where policy requires application layer attributes, such as HTTP verbs, a waypoint proxy is required. It is imporant to understand that ztunnel cannot meaningfully enforce any policy that requires L7 parsing and so if they are present in your authorization policy which is enforces by ztunnel this will become a DENY rule as part of a safer "fail closed" security posture.
+In a scenario where policy requires application layer attributes, such as HTTP verbs, a waypoint proxy is required. It is important to understand that ztunnel cannot meaningfully enforce any policy that requires L7 parsing and so if they are present in your authorization policy which is enforces by ztunnel this will become a DENY rule as part of a safer "fail closed" security posture.
 
 This table is based on the following invariants:
 
@@ -132,4 +132,4 @@ This table is based on the following invariants:
 | yes | `targetRefs` | Gateway | client pod | waypoint |
 
 * Whether or not there is already a waypoint is in the traffic path.
-** If no attachement is specified the policy will be treated as Namespace scoped.
+** If no attachment is specified the policy will be treated as Namespace scoped.
