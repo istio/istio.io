@@ -97,6 +97,7 @@ _verify_same snip_verify_the_traffic_targeting_the_service_2 "$snip_verify_the_t
 _verify_same snip_verify_the_traffic_targeting_the_service_3 "$snip_verify_the_traffic_targeting_the_service_3_out"
 
 # @cleanup
+snip_cleanup_1
 snip_uninstall_1
 snip_uninstall_2
 snip_uninstall_3
