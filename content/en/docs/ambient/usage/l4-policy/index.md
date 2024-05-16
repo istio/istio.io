@@ -83,6 +83,6 @@ As ztunnel and {{< gloss >}}HBONE{{< /gloss >}} implies the use of mTLS, it is n
 
 If you need to disable mTLS for an entire namespace, you will have to disable ambient mode:
 
-{{ text bash }}
+{{< text bash >}}
 $ kubectl label namespace default istio.io/dataplane-mode-
-{{ /text }}
+{{< /text >}}
