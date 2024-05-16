@@ -1,10 +1,24 @@
 ---
 title: "Enforce platform-wide layer 7 policy with Istio and OPA"
+# some other ideas I had
+title: "Can Your Platform Do Policy? Accelerate Teams With Platform L7 Policy Functionality"
+title: "Enable Application Teams with Platform-wide Policy Functionality"
 description: Discover how Istio and OPA can be used to update requests and responses based on layer 7 policies in your platform.
+# some other ideas I had
+description: Learn how to get teams working On their core competency again by building platform-native policy functionality with Istio and OPA.
+description: Is policy your core competency? Likely not, but you need to do right. Do it once with Istio and OPA and get back team focus on what matters most.
 publishdate: 2024-05-22
 attribution: "Antonio Berben (Solo.io), Charlie Egan (Styra)"
 keywords: [istio,opa,policy,platform,authorization]
 ---
+
+The era of the platform is here. Behind every great application team, is a great platform, and a great platform _team_. Platforms offer resources and shared functionality to teams so they don't need to build everything from scratch. Platform teams aren’t short of work either, but now is a great time to ask the question: what’s the highest value platform feature you can offer the tenants of your platform?
+
+Often work is given directly to application teams to implement, but there are some features that are best implemented once, and offered as a service to all teams. One feature within the reach of most platform teams is offering a standard, responsive system for Layer 7 application authorization policy. Policy as code enables teams to lift authorization decisions out of the application layer into a lightweight and performant decoupled system. It might sound like a challenge but it doesn't have to be with the right tools for the job.
+
+We're going to dive into how Istio and Open Policy Agent (OPA) can be used to enforce layer 7 policies in your platform. We'll show you how to get started with a simple example.
+
+Hopefully you will come to see how Istio and Open Policy Agent (OPA) are solid option to deliver this valuable feature, quickly and transparently to application team everywhere in the business - while also providing the data the security teams need for audit and compliance.
 
 ## Why OPA
 
@@ -22,7 +36,7 @@ When integrated with Istio, OPA can be used to enforce fine-grained access contr
 Install Istio:
 
 ```bash
-istioctl install -y -f iop.yaml 
+istioctl install -y -f iop.yaml
 ```
 
 Notice that in the configuration, we define an `extensionProviders` section that points to the OPA standalone installation.
@@ -157,7 +171,7 @@ The following request will return `200` and the body:
 kubectl exec -n my-app curly -c curly  -- curl -s -w "\nhttp_code=%{http_code}" httpbin/get -H "x-force-authorized: enabled"
 ```
 
-### Advance manipulations
+### Advanced manipulations
 
 Now the more advanced rule. Apply the second rego rule and restart the OPA deployment:
 
@@ -197,7 +211,7 @@ Unauthorized Request
 http_code=403
 ```
 
-#### Change retuned body and status code
+#### Change returned body and status code
 
 Running the request with the header `x-force-authorized: enabled` you should receive the body `Authentication Failed` and error `401`:
 
@@ -207,7 +221,7 @@ kubectl exec -n my-app curly -c curly  -- curl -s -w "\nhttp_code=%{http_code}" 
 
 #### Adding headers to request
 
-Running a valid request, you should receive the echo bady with the new header `x-validated-by: my-security-checkpoint` and the header `x-force-authorized` removed:
+Running a valid request, you should receive the echo body with the new header `x-validated-by: my-security-checkpoint` and the header `x-force-authorized` removed:
 
 ```bash
 kubectl exec -n my-app curly -c curly  -- curl -s httpbin/get -H "x-force-authorized: true"
@@ -242,7 +256,7 @@ You will see this access logs format:
 
 ```text
     accessLogFormat: |
-      [%START_TIME%] my-new-dynamic-metadata: "%DYNAMIC_METADATA(envoy.filters.http.ext_authz)%" 
+      [%START_TIME%] my-new-dynamic-metadata: "%DYNAMIC_METADATA(envoy.filters.http.ext_authz)%"
 ```
 
 The `DYNAMIC_METADATA` is a reserved keyword to access the metadata object. The rest is the name of the filter that you want to access. In your case, the name `envoy.filters.http.ext_authz` is created automatically by Istio. You could verify this by dumping the envoy configuration:
@@ -271,4 +285,12 @@ You will see in the output the new attributes configured by OPA rego rules:
 
 ## Conclusion
 
+In this guide, we have shown how to integrate Istio and OPA to enforce policies for a simple microservices application. We also showed how to use Rego to modify the request and response attributes. This is the foundational example for building a platform-wide policy system that can be used by all application teams.
 
+
+<!-- some links to consider at the end -->
+
+https://www.openpolicyagent.org/docs/latest/management-decision-logs/
+https://www.openpolicyagent.org/docs/latest/envoy-tutorial-istio/
+https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ext_authz_filter.html
+Envoy examples at https://play.openpolicyagent.org

@@ -9,37 +9,33 @@ data:
 
     import rego.v1
 
+    request_headers := input.attributes.request.http.headers
+
+    force_unauthenticated if request_headers["x-force-unauthenticated"] == "enabled"
+
     default allow := false
+
+    allow if {
+      not force_unauthenticated
+      request_headers["x-force-authorized"] == "true"
+    }
 
     default status_code := 403
 
-    allow if {
-      input.attributes.request.http.headers["x-force-authorized"] == "true"
+    status_code := 200 if allow
+
+    status_code := 401 if force_unauthenticated
+
+    default body := "Unauthorized Request"
+
+    body := "Authentication Failed" if force_unauthenticated
+
+    myrule := {
+      "body": body,
+      "http_status": status_code,
+      "allowed": allow,
+      "headers": {"x-validated-by": "my-security-checkpoint"},
+      "response_headers_to_add": {"x-add-custom-response-header": "added"},
+      "request_headers_to_remove": ["x-force-authorized"],
+      "dynamic_metadata": {"my-new-metadata": "my-new-value"},
     }
-
-    headers["x-validated-by"] := "my-security-checkpoint"
-
-    response_headers_to_add["x-add-custom-response-header"] := "added"
-
-    dynamic_metadata := {"my-new-metadata": "my-new-value"}
-
-    request_headers_to_remove := ["x-force-authorized"]
-
-    status_code := 200 if {
-      allow
-    } else := 401 if {
-      input.attributes.request.http.headers["x-force-unauthenticated"] == "enabled"
-    }
-
-    body := "Authentication Failed" if status_code == 401
-
-    body := "Unauthorized Request" if status_code == 403
-
-
-    myrule["allowed"] := allow
-    myrule["headers"] := headers
-    myrule["response_headers_to_add"] := response_headers_to_add
-    myrule["request_headers_to_remove"] := request_headers_to_remove
-    myrule["body"] := body
-    myrule["http_status"] := status_code
-    myrule["dynamic_metadata"] := dynamic_metadata
