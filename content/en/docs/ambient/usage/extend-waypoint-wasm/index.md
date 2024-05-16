@@ -193,9 +193,9 @@ metadata:
   name: basic-auth-for-service
 spec:
   targetRefs:
-    - kind: Gateway
-      group: gateway.networking.k8s.io
-      name: reviews-svc-waypoint
+    - kind: Service
+      group: ""                       
+      name: reviews
   url: oci://ghcr.io/istio-ecosystem/wasm-extensions/basic_auth:1.12.0
   phase: AUTHN
   pluginConfig:
