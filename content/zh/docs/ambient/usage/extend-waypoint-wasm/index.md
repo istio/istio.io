@@ -4,13 +4,13 @@ description: 说明如何在 Ambient 模式中使用远程 WebAssembly 模块。
 weight: 55
 keywords: [extensibility,Wasm,WebAssembly,Ambient]
 owner: istio/wg-policies-and-telemetry-maintainers
-test: no
+test: yes
 status: Alpha
 ---
 
 {{< boilerplate alpha >}}
 
-Istio 提供了[使用 WebAssembly (Wasm) 扩展其功能的能力](/zh/docs/concepts/wasm/)。
+Istio 提供了[使用 WebAssembly（Wasm）扩展其功能的能力](/zh/docs/concepts/wasm/)。
 Wasm 可扩展性的一个主要优势是可以在运行时动态加载扩展插件。
 本文概述了如何在 Istio 中使用 Wasm 功能扩展 Ambient 模式。
 在 Ambient 模式下，必须将 Wasm 配置应用到部署在每个命名空间中的 waypoint 代理。
