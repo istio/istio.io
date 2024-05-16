@@ -260,6 +260,12 @@ Init 容器在 Sidecar 启动之前执行，这会导致在它们执行期间会
 您必须使用 `runAsUser 1337` 解决方法，并且 Init 容器将流量发送到需要 DNS 解析的主机名。
 {{< /tip >}}
 
+{{< tip >}}
+某些平台（例如 OpenShift）不使用 `1337` 作为 Sidecar `uid`，而是使用仅在运行时才知道的伪随机数。
+在这种情况下，您可以利用[自定义注入功能](/zh/docs/setup/additional-setup/sidecar-injection/#customizing-injection)指示代理作为预定义的 `uid` 运行，
+并对初始化容器使用相同的 `uid`。
+{{< /tip >}}
+
 {{< warning >}}
 请谨慎使用流量捕获排除法，因为 IP/端口排除注解不仅适用于 Init 容器流量，还适用于应用容器流量。
 即发送到配置的 IP/端口的应用流量将绕过 Istio Sidecar。
