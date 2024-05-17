@@ -75,14 +75,18 @@ Follow these steps to get started with Istio's ambient mode:
 
     {{< text bash >}}
     $ kubectl get pods,daemonset -n istio-system
-    NAME                                        READY   STATUS    RESTARTS   AGE
-    pod/istio-cni-node-btbjf                    1/1     Running   0          2m18s
-    pod/istiod-55b74b77bd-xggqf                 1/1     Running   0          2m27s
-    pod/ztunnel-5m27h                           1/1     Running   0          2m10s
+    NAME                          READY   STATUS    RESTARTS   AGE
+    pod/istio-cni-node-786zg      1/1     Running   0          56s
+    pod/istio-cni-node-frbhn      1/1     Running   0          56s
+    pod/istio-cni-node-v6p5n      1/1     Running   0          56s
+    pod/istiod-75cf647bfc-jglgp   1/1     Running   0          70s
+    pod/ztunnel-4nwds             1/1     Running   0          24s
+    pod/ztunnel-95rmw             1/1     Running   0          24s
+    pod/ztunnel-xwtj5             1/1     Running   0          24s
 
     NAME                            DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
-    daemonset.apps/istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   2m18s
-    daemonset.apps/ztunnel          1         1         1       1            1           kubernetes.io/os=linux   2m10s
+    daemonset.apps/istio-cni-node   3         3         3       3            3           kubernetes.io/os=linux   56s
+    daemonset.apps/ztunnel          3         3         3       3            3           kubernetes.io/os=linux   24s
     {{< /text >}}
 
 ## Deploy the sample application {#bookinfo}
