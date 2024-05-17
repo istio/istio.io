@@ -198,7 +198,7 @@ Let's test the new capabilities:
 $ kubectl exec -n my-app curly -c curly  -- curl -s -w "\nhttp_code=%{http_code}" httpbin/get
 {{< /text >}}
 
-Now we can change the response body. With `403` the body in the Rgo rule is changed to `Unauthorized Request`. With the previous command, you should receive:
+Now we can change the response body. With "403" the body in the Rego rule is changed to "Unauthorized Request". With the previous command, you should receive:
 
 {{< text plain >}}
 Unauthorized Request
@@ -207,7 +207,7 @@ http_code=403
 
 #### Change returned body and status code
 
-Running the request with the header `x-force-authorized: enabled` you should receive the body `Authentication Failed` and error `401`:
+Running the request with the header "x-force-authorized: enabled" you should receive the body "Authentication Failed" and error "401":
 
 {{< text bash >}}
 $ kubectl exec -n my-app curly -c curly  -- curl -s -w "\nhttp_code=%{http_code}" httpbin/get -H "x-force-unauthenticated: enabled"
@@ -215,7 +215,7 @@ $ kubectl exec -n my-app curly -c curly  -- curl -s -w "\nhttp_code=%{http_code}
 
 #### Adding headers to request
 
-Running a valid request, you should receive the echo body with the new header `x-validated-by: my-security-checkpoint` and the header `x-force-authorized` removed:
+Running a valid request, you should receive the echo body with the new header "x-validated-by: my-security-checkpoint" and the header "x-force-authorized" removed:
 
 {{< text bash >}}
 $ kubectl exec -n my-app curly -c curly  -- curl -s httpbin/get -H "x-force-authorized: true"
@@ -223,7 +223,7 @@ $ kubectl exec -n my-app curly -c curly  -- curl -s httpbin/get -H "x-force-auth
 
 #### Adding headers to response
 
-Running the same request but showing only the header, you will find the response header added during the Authz check `x-add-custom-response-header: added`:
+Running the same request but showing only the header, you will find the response header added during the Authz check "x-add-custom-response-header: added":
 
 {{< text bash >}}
 $ kubectl exec -n my-app curly -c curly  -- curl -s -I httpbin/get -H "x-force-authorized: true"
@@ -231,7 +231,7 @@ $ kubectl exec -n my-app curly -c curly  -- curl -s -I httpbin/get -H "x-force-a
 
 #### Sharing data between filters
 
-Finally, since the envoy works with filters, you can pass data to the following envoy filters. That is done using `dynamic_metadata`.
+Finally, since the envoy works with filters, you can pass data to the following envoy filters. That is done using "dynamic_metadata".
 
 This is useful when you want to pass data to another ext_authz filter in the change or you want to print it in the application logs.
 
@@ -255,7 +255,7 @@ You will see this access logs format:
 [...]
 {{< /text >}}
 
-The `DYNAMIC_METADATA` is a reserved keyword to access the metadata object. The rest is the name of the filter that you want to access. In your case, the name `envoy.filters.http.ext_authz` is created automatically by Istio. You could verify this by dumping the envoy configuration:
+The "DYNAMIC_METADATA" is a reserved keyword to access the metadata object. The rest is the name of the filter that you want to access. In your case, the name "envoy.filters.http.ext_authz" is created automatically by Istio. You could verify this by dumping the envoy configuration:
 
 {{< text bash >}}
 $ istioctl pc all deploy/httpbin -n my-app -oyaml | grep envoy.filters.http.ext_authz
@@ -287,7 +287,7 @@ In this guide, we have shown how to integrate Istio and OPA to enforce policies 
 
 Some links:
 
-https://www.openpolicyagent.org/docs/latest/management-decision-logs/
-https://www.openpolicyagent.org/docs/latest/envoy-tutorial-istio/
-https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ext_authz_filter.html
-Envoy examples at https://play.openpolicyagent.org
+<https://www.openpolicyagent.org/docs/latest/management-decision-logs/>
+<https://www.openpolicyagent.org/docs/latest/envoy-tutorial-istio/>
+<https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ext_authz_filter.html>
+Envoy examples at <https://play.openpolicyagent.org>
