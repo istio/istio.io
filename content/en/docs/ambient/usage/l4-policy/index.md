@@ -98,7 +98,7 @@ The table shown below is based on the following invariants:
 
 * Whether or not there is already a waypoint is in the traffic path.
 
-** If no Selector or targetRef is specified the policy is Namespace scoped.
+** If no Selector or `targetRef` is specified the policy is Namespace scoped.
 
 ## Peer authentication
 
