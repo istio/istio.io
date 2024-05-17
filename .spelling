@@ -467,7 +467,6 @@ Exfiltrating
 exfiltration
 Expedia
 ext_authz
-ext_authz
 ext-authz
 extensionProvider
 extensionProviders
@@ -1218,7 +1217,6 @@ veth-pair
 vhost
 vhosts
 Vij
-Virtualization
 virtualization
 Virtualization
 VirtualService
@@ -1309,3 +1307,4 @@ Zsh
 ztunnel
 ztunnels
 Zufar
+Zufar0-RTT
