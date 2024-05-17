@@ -242,7 +242,7 @@ EOF
     200
     {{< /text >}}
 
-1. 在没有凭据的情况下测试内部 `/productpage`
+1. 在没有凭据的情况下测试内部 `/reviews`
 
     {{< text bash >}}
     $ kubectl exec deploy/sleep -- curl -s -w "%{http_code}" -o /dev/null http://reviews:9080/reviews/1
