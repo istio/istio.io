@@ -7,7 +7,7 @@ owner: istio/wg-docs-maintainers-english
 test: n/a
 ---
 
-Istio pioneered the concept of a sidecar-based service mesh when it launched in 2017. Since then, the project has driven advances in the mesh space including [extensibility via WebAssembly](/docs/concepts/wasm/) and moving the mesh infrastructure away from application developers with [ambient mode](/docs/ambient/overview/).
+Istio pioneered the concept of a sidecar-based service mesh when it launched in 2017. Since then, the project has driven advances in the mesh space including [extensibility via WebAssembly](/docs/concepts/wasm/), the [development of the Kubernetes Gateway API](/blog/2022/gateway-api-beta/), and moving the mesh infrastructure away from application developers with [ambient mode](/docs/ambient/overview/).
 
 ## Performance
 
