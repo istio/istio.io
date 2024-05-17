@@ -133,4 +133,4 @@ This table is based on the following invariants:
 
 * Whether or not there is already a waypoint is in the traffic path.
 
-** If no attachment is specified the policy will be treated as Namespace scoped.
+** If no Selector or targetRef is specified the policy is Namespace scoped.
