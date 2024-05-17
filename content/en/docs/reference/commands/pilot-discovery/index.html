@@ -520,6 +520,12 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>The default TTL of issued workload certificates. Applied when the client sets a non-positive TTL in the CSR.</td>
 </tr>
 <tr>
+<td><code>ENABLE_100_CONTINUE_HEADERS</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, istiod will proxy 100-continue headers as is</td>
+</tr>
+<tr>
 <td><code>ENABLE_AUTO_SNI</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -536,6 +542,12 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If this is set to false, the debug interface will not be enabled, recommended for production</td>
+</tr>
+<tr>
+<td><code>ENABLE_DEFERRED_CLUSTER_CREATION</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, Istio will create clusters only when there are requests. This will save memory and CPU cycles in cases where there are lots of inactive clusters and &gt; 1 worker thread</td>
 </tr>
 <tr>
 <td><code>ENABLE_ENHANCED_RESOURCE_SCOPING</code></td>
@@ -839,7 +851,7 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td><code>K8S_INGRESS_NS</code></td>
 <td>String</td>
 <td><code>istio-system</code></td>
-<td></td>
+<td>The namespace where ingress controller runs, by default it is istio-system</td>
 </tr>
 <tr>
 <td><code>K8S_SIGNER</code></td>

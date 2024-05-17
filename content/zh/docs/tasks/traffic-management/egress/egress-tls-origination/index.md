@@ -1,5 +1,5 @@
 ---
-title: Egress TLS Origination
+title: Egress TLS 源
 description: 描述如何配置 Istio 对来自外部服务的流量执行 TLS 发起。
 keywords: [traffic-management,egress]
 weight: 20
@@ -9,14 +9,14 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-[控制 Egress 流量](/zh/docs/tasks/traffic-management/egress/)的任务向我们展示了位于服务网格内部的应用应如何访问外部
+[控制出口流量](/zh/docs/tasks/traffic-management/egress/)的任务向我们展示了位于服务网格内部的应用应如何访问外部
 （即服务网格之外）的 HTTP 和 HTTPS 服务。
 正如该任务所述，[`ServiceEntry`](/zh/docs/reference/config/networking/service-entry/)
 用于配置 Istio 以受控的方式访问外部服务。
 本示例将演示如何通过配置 Istio 去实现对发往外部服务的流量的 {{< gloss >}}TLS origination{{< /gloss >}}。
 若此时原始的流量为 HTTP，则 Istio 会将其转换为 HTTPS 连接。
 
-## 使用场景   {#use-case}
+## 使用场景  {#use-case}
 
 假设有一个传统应用正在使用 HTTP 和外部服务进行通信。
 而运行该应用的组织却收到了一个新的需求，该需求要求必须对所有外部的流量进行加密。
@@ -111,7 +111,7 @@ test: yes
 
 通过配置 `Istio` 执行 `TLS` 发起，则可以解决这两个问题。
 
-## 用于 egress 流量的 TLS 发起   {#TLS-origination-for-egress-traffic}
+## 用于出口流量的 TLS 源   {#TLS-origination-for-egress-traffic}
 
 1. 重新定义上一节的 `ServiceEntry` 和 `VirtualService` 以重写 HTTP 请求端口，
    并添加一个 `DestinationRule` 以执行 TLS 发起。
@@ -199,7 +199,7 @@ $ kubectl delete serviceentry edition-cnn-com
 $ kubectl delete destinationrule edition-cnn-com
 {{< /text >}}
 
-## 出口流量的双向 TLS 发起   {#mutual-tls-origination-for-egress-traffic}
+## 出口流量的双向 TLS 源   {#mutual-tls-origination-for-egress-traffic}
 
 本节介绍如何配置 Sidecar 为外部服务执行 TLS 发起，这次使用需要双向 TLS 的服务。
 此示例涉及许多内容，需要先执行以下前置操作：
@@ -403,7 +403,7 @@ $ kubectl delete destinationrule edition-cnn-com
     $ kubectl create rolebinding client-credential-role-binding --role=client-credential-role --serviceaccount=default:sleep
     {{< /text >}}
 
-### 为 Sidecar 上的出口流量配置双向 TLS 发起   {#configure-mutual-tls-origination-for-egress-traffic-at-sidecar}
+### 为 Sidecar 上的出口流量配置双向 TLS 源   {#configure-mutual-tls-origination-for-egress-traffic-at-sidecar}
 
 1. 添加 `ServiceEntry` 将 HTTP 请求重定向到 443 端口，并且添加 `DestinationRule`
    以执行发起双向 TLS：

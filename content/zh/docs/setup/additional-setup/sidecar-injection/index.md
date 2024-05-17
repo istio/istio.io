@@ -224,16 +224,17 @@ spec:
 * Kubernetes 要求在注入运行之前配置 `image`。虽然可以您可以设置一个指定的 Image
   来覆盖默认的 `image` 配置，但建议将 `image` 设置为 `auto`，可使 Sidecar
   注入自动选择要使用的 Image。
-
 * `Pod` 中一些字段取决于相关设置。例如，CPU 请求必须小于 CPU 限制。
   如果两个字段没有一起配置，Pod 可能会无法启动。
+* 在某些情况下，`securityContext.RunAsUser` 和 `securityContext.RunAsGroup` 字段可能不会被接受，
+  例如，当使用 `TPROXY` 模式时，因为它要求 Sidecar 以用户 `0` 运行。
+  错误地覆盖这些字段可能会导致流量丢失，因此应格外小心。
 
 另外，某些字段可通过在 Pod 上的[注解](/zh/docs/reference/config/annotations/)进行配置，
 但是不建议使用上述方法进行自定义设置。必须特别注意某些注解：
 
 * 如果设置了 `sidecar.istio.io/proxyCPU`，则务必显式设置 `sidecar.istio.io/proxyCPULimit`。
   否则该 Sidecar 的 `cpu` 限制将被设置为 unlimited。
-
 * 如果设置了 `sidecar.istio.io/proxyMemory`，则务必显式设置 `sidecar.istio.io/proxyMemoryLimit`。
   否则该 Sidecar 的 `memory` 限制将被设置为 unlimited。
 

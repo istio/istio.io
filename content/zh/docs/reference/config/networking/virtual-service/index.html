@@ -8,7 +8,7 @@ layout: protoc-gen-docs
 generator: protoc-gen-docs
 schema: istio.networking.v1alpha3.VirtualService
 aliases: [/zh/docs/reference/config/networking/v1alpha3/virtual-service]
-number_of_entries: 29
+number_of_entries: 30
 ---
 <p>Configuration affecting traffic routing. Here are a few terms useful to define
 in the context of traffic routing.</p>
@@ -241,7 +241,7 @@ services), as well as services declared through the
 <p><em>Note for Kubernetes users</em>: When short names are used (e.g. &ldquo;reviews&rdquo;
 instead of &ldquo;reviews.default.svc.cluster.local&rdquo;), Istio will interpret
 the short name based on the namespace of the rule, not the service. A
-rule in the &ldquo;default&rdquo; namespace containing a host &ldquo;reviews will be
+rule in the &ldquo;default&rdquo; namespace containing a host &ldquo;reviews&rdquo; will be
 interpreted as &ldquo;reviews.default.svc.cluster.local&rdquo;, irrespective of the
 actual namespace associated with the reviews service. <em>To avoid potential
 misconfigurations, it is recommended to always use fully qualified
@@ -368,7 +368,7 @@ destinations that are not found in either of the two, will be dropped.</p>
 <p><em>Note for Kubernetes users</em>: When short names are used (e.g. &ldquo;reviews&rdquo;
 instead of &ldquo;reviews.default.svc.cluster.local&rdquo;), Istio will interpret
 the short name based on the namespace of the rule, not the service. A
-rule in the &ldquo;default&rdquo; namespace containing a host &ldquo;reviews will be
+rule in the &ldquo;default&rdquo; namespace containing a host &ldquo;reviews&rdquo; will be
 interpreted as &ldquo;reviews.default.svc.cluster.local&rdquo;, irrespective of
 the actual namespace associated with the reviews service. To avoid
 potential misconfiguration, it is recommended to always use fully
@@ -2205,6 +2205,19 @@ No
 No
 </td>
 </tr>
+<tr id="CorsPolicy-unmatched_preflights">
+<td><code>unmatchedPreflights</code></td>
+<td><code><a href="#CorsPolicy-UnmatchedPreflights">UnmatchedPreflights</a></code></td>
+<td>
+<p>Indicates whether preflight requests not matching the configured
+allowed origin shouldn&rsquo;t be forwarded to the upstream.
+Default is forward to upstream.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -2613,6 +2626,42 @@ No
 <tr id="HTTPRedirect-RedirectPortSelection-FROM_REQUEST_PORT">
 <td><code>FROM_REQUEST_PORT</code></td>
 <td>
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="CorsPolicy-UnmatchedPreflights">CorsPolicy.UnmatchedPreflights</h2>
+<section>
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="CorsPolicy-UnmatchedPreflights-UNSPECIFIED">
+<td><code>UNSPECIFIED</code></td>
+<td>
+<p>Default to FORWARD</p>
+
+</td>
+</tr>
+<tr id="CorsPolicy-UnmatchedPreflights-FORWARD">
+<td><code>FORWARD</code></td>
+<td>
+<p>Preflight requests not matching the configured allowed origin
+will be forwarded to the upstream.</p>
+
+</td>
+</tr>
+<tr id="CorsPolicy-UnmatchedPreflights-IGNORE">
+<td><code>IGNORE</code></td>
+<td>
+<p>Preflight requests not matching the configured allowed origin
+will not be forwarded to the upstream.</p>
+
 </td>
 </tr>
 </tbody>

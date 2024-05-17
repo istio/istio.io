@@ -306,12 +306,6 @@ spec:
 
 ## Mesh Traffic
 
-{{< warning >}}
-Configuring internal mesh traffic using the Gateway API is an
-[experimental feature](https://gateway-api.sigs.k8s.io/geps/overview/#status)
-currently under development.
-{{< /warning >}}
-
 The Gateway API can also be used to configure mesh traffic.
 This is done by configuring the `parentRef` to point to a service, instead of a gateway.
 
