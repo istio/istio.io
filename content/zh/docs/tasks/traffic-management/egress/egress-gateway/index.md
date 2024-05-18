@@ -703,19 +703,19 @@ Egress 网关的出站流量。为了测试网络策略，首先创建一个 `te
 
 1. 参考[用 Egress Gateway 发起 HTTPS 请求](#egress-gateway-for-http-traffic)一节中的步骤。
 
-2. 创建 `test-egress` 命名空间：
+1. 创建 `test-egress` 命名空间：
 
     {{< text bash >}}
     $ kubectl create namespace test-egress
     {{< /text >}}
 
-3. 将 [sleep]({{< github_tree >}}/samples/sleep) 样例部署到 `test-egress` 命名空间。
+1. 将 [sleep]({{< github_tree >}}/samples/sleep) 样例部署到 `test-egress` 命名空间。
 
     {{< text bash >}}
     $ kubectl apply -n test-egress -f @samples/sleep/sleep.yaml@
     {{< /text >}}
 
-4. 检查生成的 Pod，其中应该只有一个容器，也就是说没有注入 Istio Sidecar：
+1. 检查生成的 Pod，其中应该只有一个容器，也就是说没有注入 Istio Sidecar：
 
     {{< text bash >}}
     $ kubectl get pod "$(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name})" -n test-egress
@@ -723,7 +723,7 @@ Egress 网关的出站流量。为了测试网络策略，首先创建一个 `te
     sleep-776b7bcdcd-z7mc4   1/1       Running   0          18m
     {{< /text >}}
 
-5. 从 `test-egress` 命名空间的 `sleep` Pod 中向 [https://edition.cnn.com/politics](https://edition.cnn.com/politics)
+1. 从 `test-egress` 命名空间的 `sleep` Pod 中向 [https://edition.cnn.com/politics](https://edition.cnn.com/politics)
    发送 HTTPS 请求。因为没有任何限制，所以这一请求应该会成功：
 
     {{< text bash >}}
@@ -731,7 +731,7 @@ Egress 网关的出站流量。为了测试网络策略，首先创建一个 `te
     200
     {{< /text >}}
 
-6. 给 Istio 组件（控制平面和 Gateway）所在的命名空间打上标签。
+1. 给 Istio 组件（控制平面和 Gateway）所在的命名空间打上标签。
    如果您将 Istio 部署在 `istio-system` 命名空间中，则命令是：
 
 {{< tabset category-name="config-api" >}}
