@@ -87,18 +87,17 @@ The table shown below is based on the following invariants:
 1. Redirection to the waypoint is configured correctly.
 1. The waypoint is configured with the `istio.io/waypoint-for` label set to `service`.
 
-| Waypoint* | Attachment Style | Scope | Source Identity | Enforced By |
+| Waypoint † | Attachment Style | Scope | Source Identity | Enforced By |
 | --- | --- | --- | --- | --- |
 | no | Selector | Pod | client pod | destination ztunnel |
 | yes | Selector | Pod | waypoint | destination ztunnel |
-| no | _empty**_ | Namespace | client pod | destination ztunnel |
-| yes | _empty**_ | Namespace | waypoint | destination ztunnel |
+| no | _empty ‡_ | Namespace | client pod | destination ztunnel |
+| yes | _empty ‡_ | Namespace | waypoint | destination ztunnel |
 | yes | `targetRefs` | Service | client pod | waypoint |
 | yes | `targetRefs` | Gateway | client pod | waypoint |
 
-* Whether or not there is already a waypoint is in the traffic path.
-
-** If no Selector or `targetRef` is specified the policy is Namespace scoped.
+† Whether or not there is a waypoint in the traffic path.
+‡ If no Selector or `targetRef` is specified, the policy is namespace scoped.
 
 ## Peer authentication
 

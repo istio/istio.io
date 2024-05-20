@@ -20,7 +20,7 @@ This table is based on the following invariants:
 1. Redirection to the waypoint is configured correctly.
 1. The waypoint is configured with the `istio.io/waypoint-for` label set to `service`.
 
-| Waypoint* | Attachment Style | Scope | Source Identity | Enforced By |
+| Waypoint † | Attachment Style | Scope | Source Identity | Enforced By |
 | --- | --- | --- | --- | --- |
 | no | Selector | Pod | client pod | destination ztunnel |
 | yes | Selector | Pod | waypoint | destination ztunnel |
@@ -29,7 +29,7 @@ This table is based on the following invariants:
 | yes | `targetRefs` | Service | client pod | waypoint |
 | yes | `targetRefs` | Gateway | client pod | waypoint |
 
-* Whether or not there is already a waypoint is in the traffic path.
+† Whether or not there is a waypoint in the traffic path.
 
 ## HTTP Enforcement
 
@@ -41,16 +41,16 @@ This table is based on the following invariants:
 1. Redirection to the waypoint is configured correctly.
 1. The waypoint is configured with the `istio.io/waypoint-for` label set to `service`.
 
-| Waypoint* | Attachment Style | Resources | Source Identity | Enforced By |
+| Waypoint † | Attachment Style | Resources | Source Identity | Enforced By |
 | --- | --- | --- | --- | --- |
-| no | Selector | Pod | n/a | DENY destination ztunnel |
-| yes | Selector | Pod | n/a | DENY destination ztunnel |
-| no | | Namespace | n/a | DENY destination ztunnel |
-| yes | | Namespace | n/a | DENY destination ztunnel |
+| no | Selector | Pod | n/a | destination ztunnel (always DENY) |
+| yes | Selector | Pod | n/a | destination ztunnel (always DENY) |
+| no | | Namespace | n/a | destination ztunnel (always DENY) |
+| yes | | Namespace | n/a | destination ztunnel (always DENY) |
 | yes | `targetRefs` | Service | client pod | waypoint |
 | yes | `targetRefs` | Gateway | client pod | waypoint |
 
-* Whether or not there is already a waypoint is in the traffic path.
+† Whether or not there is a waypoint in the traffic path.
 ## Ingress and Policy Enforcement
 
 If your application is exposed outside the cluster via an Istio ingress gateway, there are additional considerations to be aware of especially concerning enforcement of TCP layer policy in ztunnel.

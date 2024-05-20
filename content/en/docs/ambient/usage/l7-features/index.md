@@ -122,7 +122,7 @@ This table is based on the following invariants:
 1. Redirection to the waypoint is configured correctly.
 1. The waypoint is configured with the `istio.io/waypoint-for` label set to `service`.
 
-| Waypoint* | Attachment Style | Resources | Source Identity | Enforced By |
+| Waypoint † | Attachment Style | Resources | Source Identity | Enforced By |
 | --- | --- | --- | --- | --- |
 | no | Selector | Pod | n/a | DENY destination ztunnel |
 | yes | Selector | Pod | n/a | DENY destination ztunnel |
@@ -131,6 +131,6 @@ This table is based on the following invariants:
 | yes | `targetRefs` | Service | client pod | waypoint |
 | yes | `targetRefs` | Gateway | client pod | waypoint |
 
-* Whether or not there is already a waypoint is in the traffic path.
+† Whether or not there is a waypoint in the traffic path.
 
 ** If no Selector or `targetRef` is specified the policy is Namespace scoped.
