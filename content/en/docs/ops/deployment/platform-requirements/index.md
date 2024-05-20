@@ -6,6 +6,7 @@ skip_seealso: true
 keywords: [platform-setup,prerequisites]
 owner: istio/wg-environments-maintainers
 test: no
+aliases: docs/setup/platform-setup/prerequisites
 ---
 
 ## Kernel Module Requirements on Cluster Nodes
