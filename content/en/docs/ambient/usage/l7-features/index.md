@@ -114,12 +114,11 @@ EOF
 
 ### Authorization policy attachment
 
-In a scenario where policy requires application layer attributes, such as HTTP verbs, a waypoint proxy is required. It is important to understand that ztunnel cannot meaningfully enforce any policy that requires L7 parsing and so if they are present in your authorization policy which is enforces by ztunnel this will become a DENY rule as part of a safer "fail closed" security posture.
+In a scenario where policy requires application layer attributes, such as HTTP verbs, a waypoint proxy is required. It is important to understand that ztunnel cannot meaningfully enforce any policy that requires L7 parsing. If any application layer attributes are present in an authorization policy which is enforced by ztunnel the result is a DENY rule.
 
-The table shown below is based on the following invariants:
+The following table is based on these invariants:
 
 1. The source pod is a normal pod which has ztunnel enabled.
-1. Redirection to the waypoint is configured correctly.
 1. The waypoint is configured with the `istio.io/waypoint-for` label set to `service`.
 
 | Waypoint † | Attachment Style | Scope | Source Identity | Enforced By |
