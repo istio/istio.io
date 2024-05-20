@@ -19,7 +19,7 @@ source "tests/util/gateway-api.sh"
 install_gateway_api_crds
 
 # @setup profile=none
-source "content/en/boilerplates/snips/gateway-api-gamma-support.sh"
+source "content/en/boilerplates/snips/gateway-api-gamma-experimental.sh"
 bpsnip_gateway_api_gamma_support_enable_alpha_crds
 source "content/en/docs/tasks/traffic-management/ingress/ingress-sni-passthrough/test.sh"
 
