@@ -709,13 +709,7 @@ Egress 网关的出站流量。为了测试网络策略，首先创建一个 `te
     $ kubectl create namespace test-egress
     {{< /text >}}
 
-1. 在 `test-egress` 命名空间中部署 [sleep]({{< github_tree >}}/samples/sleep) 示例应用：
-
-    {{< text bash >}}
-    $ kubectl apply -n test-egress -f @samples/sleep/sleep.yaml@
-    {{< /text >}}
-
-1.  将 [sleep]({{< github_tree >}}/samples/sleep) 样例部署到 `test-egress` 命名空间。
+1. 将 [sleep]({{< github_tree >}}/samples/sleep) 样例部署到 `test-egress` 命名空间。
 
     {{< text bash >}}
     $ kubectl apply -n test-egress -f @samples/sleep/sleep.yaml@
