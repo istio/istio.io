@@ -384,7 +384,7 @@ The Istio sidecar works by capturing both inbound traffic and outbound traffic a
 However, not *all* traffic is captured:
 
 * Redirection only handles TCP based traffic. Any UDP or ICMP packets will not be captured or modified.
-* Inbound capture is disabled on many [ports used by the sidecar](/docs/ops/deployment/requirements/#ports-used-by-istio) as well as port 22. This list can be expanded by options like `traffic.sidecar.istio.io/excludeInboundPorts`.
+* Inbound capture is disabled on many [ports used by the sidecar](/docs/ops/deployment/application-requirements/#ports-used-by-istio) as well as port 22. This list can be expanded by options like `traffic.sidecar.istio.io/excludeInboundPorts`.
 * Outbound capture may similarly be reduced through settings like `traffic.sidecar.istio.io/excludeOutboundPorts` or other means.
 
 In general, there is minimal security boundary between an application and its sidecar proxy. Configuration of the sidecar is allowed on a per-pod basis, and both run in the same network/process namespace.
@@ -581,7 +581,7 @@ To avoid accidental or intentional miss detection, which may result in unexpecte
 ## CNI
 
 In order to transparently capture all traffic, Istio relies on `iptables` rules configured by the `istio-init` `initContainer`.
-This adds a [requirement](/docs/ops/deployment/requirements/) for the `NET_ADMIN` and `NET_RAW` [capabilities](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-capabilities-for-a-container) to be available to the pod.
+This adds a [requirement](/docs/ops/deployment/application-requirements/) for the `NET_ADMIN` and `NET_RAW` [capabilities](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-capabilities-for-a-container) to be available to the pod.
 
 To reduce privileges granted to pods, Istio offers a [CNI plugin](/docs/setup/additional-setup/cni/) which removes this requirement.
 
@@ -623,7 +623,7 @@ To determine the feature status of features in use in your cluster, consult the 
 
 ## Lock down ports
 
-Istio configures a [variety of ports](/docs/ops/deployment/requirements/#ports-used-by-istio) that may be locked down to improve security.
+Istio configures a [variety of ports](/docs/ops/deployment/application-requirements/#ports-used-by-istio) that may be locked down to improve security.
 
 ### Control Plane
 
