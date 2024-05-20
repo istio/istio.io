@@ -77,14 +77,13 @@ command terminated with exit code 56
 
 ### Authorization policy attachment
 
-In the simplest enforcement scenario, you want to enforce policy against TCP attributes and you have no waypoint proxies in your traffic's path. These policies can be enforced by ztunnel proxies.
+In the simplest enforcement scenario, you enforce policy against TCP attributes which can be handled entirely by ztunnel.
 
-Once you introduce a waypoint proxy, the ideal place to enforce policy shifts. Traffic arriving at the destination ztunnel will be coming from the waypoint's identity because waypoint proxies do not impersonate `src` identity on behalf of the client. This means that even if you only wish to enforce policy against TCP attributes, you should bind that policy to your waypoint proxy. An additional TCP policy may be applied to your workload to request that ztunnel enforce rules like, "in-mesh traffic needs to come from my waypoint in order to reach my application". This type of policy allows you to choose if "bypassing" the waypoint proxy is permissible in your scenario.
+Once you introduce a waypoint proxy, the ideal place to enforce policy shifts. Traffic arriving at the destination ztunnel will have the waypoint's identity because waypoint proxies do not impersonate `src` identity on behalf of the client. This means that even if you only wish to enforce policy against only TCP attributes, if you are dependent on `src` identity you should bind your policy to your waypoint proxy. A second policy may be applied to your workload to request that ztunnel enforce things like, "in-mesh traffic needs to come from my waypoint in order to reach my application".
 
-The table shown below is based on the following invariants:
+The following table is based on these invariants:
 
 1. The source pod is a normal pod which has ztunnel enabled.
-1. Redirection to the waypoint is configured correctly.
 1. The waypoint is configured with the `istio.io/waypoint-for` label set to `service`.
 
 | Waypoint † | Attachment Style | Scope | Source Identity | Enforced By |
