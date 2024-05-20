@@ -8,7 +8,7 @@ test: no
 
 The layering of {{< gloss >}}ztunnel{{< /gloss >}} and {{< gloss >}}waypoint{{< /gloss >}} proxies in Istio's ambient mode gives you a choice on whether or not you want to enable Layer 7 (L7) processing for a given workload.
 
-The Layer 4 (L4) features of Istio's [security policies](/docs/concepts/security) are supported by ztunnel, and are available in ambient mode. [Kubernetes Network Policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/) also continue to work if your cluster has a {{< gloss >}}CNI{{< /gloss >}} plugin that supports them, and can be used to provide defense-in-depth. When using Kubernetes Network Policies, an ambient workload receives traffic multiplexed on port 15008 from ambient client and waypoints. 
+The Layer 4 (L4) features of Istio's [security policies](/docs/concepts/security) are supported by ztunnel, and are available in ambient mode. [Kubernetes Network Policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/) also continue to work if your cluster has a {{< gloss >}}CNI{{< /gloss >}} plugin that supports them, and can be used to provide defense-in-depth. When using Kubernetes Network Policies, an ambient workload receives traffic multiplexed on port 15008 from ambient client and waypoints.
 
 To use L7 policies, and Istio's traffic routing features, you can [deploy a waypoint](/docs/ambient/usage/waypoint) for your workloads.
 

@@ -56,7 +56,7 @@ configures the proxies to route traffic within the mesh.
 $ helm install istiod istio/istiod --namespace istio-system --set profile=ambient --wait
 {{< /text >}}
 
-You can also install Istiod with a specific revision, allowing multiple installs for safe upgrade and config canary. 
+You can also install Istiod with a specific revision, allowing multiple installs for safe upgrade and config canary.
 This should also be used if you have a 'default' istiod already installed.
 
 {{< text syntax=bash snip_id=install_discovery_revision >}}
