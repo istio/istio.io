@@ -20,7 +20,7 @@ install_gateway_api_crds
 
 # @setup profile=minimal
 source "content/en/boilerplates/snips/gateway-api-gamma-experimental.sh"
-bpsnip_gateway_api_gamma_support_enable_alpha_crds
+bpsnip_gateway_api_gamma_experimental_enable_alpha_crds
 source "content/en/docs/tasks/traffic-management/tcp-traffic-shifting/test.sh"
 
 # @cleanup
