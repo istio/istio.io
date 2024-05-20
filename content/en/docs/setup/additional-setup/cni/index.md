@@ -27,7 +27,7 @@ Kubernetes RBAC permissions.
 
 The Istio CNI plugin identifies user application pods with sidecars requiring traffic redirection and
 sets this up in the Kubernetes pod lifecycle's network
-setup phase, thereby removing the [requirement for the `NET_ADMIN` and `NET_RAW` capabilities](/docs/ops/deployment/requirements/)
+setup phase, thereby removing the [requirement for the `NET_ADMIN` and `NET_RAW` capabilities](/docs/ops/deployment/application-requirements/)
 for users deploying pods into the Istio mesh. The Istio CNI plugin
 replaces the functionality provided by the `istio-init` container.
 
@@ -244,7 +244,7 @@ Init containers execute before the sidecar proxy starts, which can result in tra
 Avoid this traffic loss with one of the following settings:
 
 1. Set the `uid` of the init container to `1337` using `runAsUser`.
-  `1337` is the [`uid` used by the sidecar proxy](/docs/ops/deployment/requirements/#pod-requirements).
+  `1337` is the [`uid` used by the sidecar proxy](/docs/ops/deployment/application-requirements/#pod-requirements).
    Traffic sent by this `uid` is not captured by the Istio's `iptables` rule.
    Application container traffic will still be captured as usual.
 1. Set the `traffic.sidecar.istio.io/excludeOutboundIPRanges` annotation to disable redirecting traffic to any

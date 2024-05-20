@@ -23,7 +23,7 @@ any interception by the Istio proxy but cannot be used in proxy-only components 
 Istio can automatically detect HTTP and HTTP/2 traffic. If the protocol cannot automatically be determined, traffic will be treated as plain TCP traffic.
 
 {{< tip >}}
-Server First protocols, such as MySQL, are incompatible with automatic protocol selection. See [Server first protocols](/docs/ops/deployment/requirements#server-first-protocols) for more information.
+Server First protocols, such as MySQL, are incompatible with automatic protocol selection. See [Server first protocols](/docs/ops/deployment/application-requirements#server-first-protocols) for more information.
 {{< /tip >}}
 
 ## Explicit protocol selection

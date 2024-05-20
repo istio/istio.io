@@ -51,7 +51,7 @@ compatibility with managed offerings, cross-vendor support, and composability wi
 ### Traffic redirection in ambient alpha
 
 The [istio-cni](/docs/setup/additional-setup/cni/) component is an optional component in the sidecar data plane mode,
-commonly used to remove the [requirement for the `NET_ADMIN` and `NET_RAW` capabilities](/docs/ops/deployment/requirements/) for
+commonly used to remove the [requirement for the `NET_ADMIN` and `NET_RAW` capabilities](/docs/ops/deployment/application-requirements/) for
 users deploying pods into the mesh. `istio-cni` is a required component in the ambient
 data plane mode.  The `istio-cni` component is _not_ a primary CNI implementation, it is a node agent that extends whatever primary CNI implementation is already present in the cluster.
 
