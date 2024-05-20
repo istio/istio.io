@@ -37,7 +37,7 @@ on them cannot access the Internet. Defining an egress gateway, directing all th
 allocating public IPs to the egress gateway nodes allows the application nodes to access external services in a
 controlled way.
 
-{{< boilerplate gateway-api-gamma-support >}}
+{{< boilerplate gateway-api-gamma-experimental >}}
 
 ## Before you begin
 

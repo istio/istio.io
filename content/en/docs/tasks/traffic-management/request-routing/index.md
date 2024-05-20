@@ -12,7 +12,7 @@ test: yes
 This task shows you how to route requests dynamically to multiple versions of a
 microservice.
 
-{{< boilerplate gateway-api-gamma-support >}}
+{{< boilerplate gateway-api-support >}}
 
 ## Before you begin
 

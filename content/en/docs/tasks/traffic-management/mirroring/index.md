@@ -17,7 +17,7 @@ traffic happens out of band of the critical request path for the primary service
 In this task, you will first force all traffic to `v1` of a test service. Then,
 you will apply a rule to mirror a portion of traffic to `v2`.
 
-{{< boilerplate gateway-api-gamma-support >}}
+{{< boilerplate gateway-api-support >}}
 
 ## Before you begin
 
