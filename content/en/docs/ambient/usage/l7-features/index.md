@@ -116,21 +116,22 @@ EOF
 
 In a scenario where policy requires application layer attributes, such as HTTP verbs, a waypoint proxy is required. It is important to understand that ztunnel cannot meaningfully enforce any policy that requires L7 parsing and so if they are present in your authorization policy which is enforces by ztunnel this will become a DENY rule as part of a safer "fail closed" security posture.
 
-This table is based on the following invariants:
+The table shown below is based on the following invariants:
 
 1. The source pod is a normal pod which has ztunnel enabled.
 1. Redirection to the waypoint is configured correctly.
 1. The waypoint is configured with the `istio.io/waypoint-for` label set to `service`.
 
-| Waypoint † | Attachment Style | Resources | Source Identity | Enforced By |
+| Waypoint † | Attachment Style | Scope | Source Identity | Enforced By |
 | --- | --- | --- | --- | --- |
-| no | Selector | Pod | n/a | DENY destination ztunnel |
-| yes | Selector | Pod | n/a | DENY destination ztunnel |
-| no | _empty**_ | Namespace | n/a | DENY destination ztunnel |
-| yes | _empty**_ | Namespace | n/a | DENY destination ztunnel |
+| no | Selector | Pod | client pod | destination ztunnel |
+| yes | Selector | Pod | waypoint | destination ztunnel |
+| no | _empty ‡_ | Namespace | client pod | destination ztunnel |
+| yes | _empty ‡_ | Namespace | waypoint | destination ztunnel |
 | yes | `targetRefs` | Service | client pod | waypoint |
 | yes | `targetRefs` | Gateway | client pod | waypoint |
 
 † Whether or not there is a waypoint in the traffic path.
 
-** If no Selector or `targetRef` is specified the policy is Namespace scoped.
+‡ If no Selector or `targetRef` is specified, the policy is namespace scoped.
+

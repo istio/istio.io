@@ -97,6 +97,7 @@ The table shown below is based on the following invariants:
 | yes | `targetRefs` | Gateway | client pod | waypoint |
 
 † Whether or not there is a waypoint in the traffic path.
+
 ‡ If no Selector or `targetRef` is specified, the policy is namespace scoped.
 
 ## Peer authentication
