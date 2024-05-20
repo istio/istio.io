@@ -51,6 +51,7 @@ This table is based on the following invariants:
 | yes | `targetRefs` | Gateway | client pod | waypoint |
 
 † Whether or not there is a waypoint in the traffic path.
+
 ## Ingress and Policy Enforcement
 
 If your application is exposed outside the cluster via an Istio ingress gateway, there are additional considerations to be aware of especially concerning enforcement of TCP layer policy in ztunnel.
