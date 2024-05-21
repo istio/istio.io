@@ -172,34 +172,12 @@ basic-auth-at-waypoint   14m
 
 ## 使用 waypoint 为特定的服务来应用 WasmPlugin {#apply-wasmplugin-for-a-specific-service-using-waypoint}
 
-要为特定的服务使用远程 Wasm 模块来配置 WebAssembly 过滤器，
-创建一个 `WasmPlugin` 资源，指向专为该服务创建的 `waypoint`：
+要为特定服务配置具有远程 Wasm 模块的 WebAssembly 过滤器，
+请直接创建针对特定服务的 WasmPlugin 资源。
 
-{{< text bash >}}
-$ istioctl experimental waypoint apply -n default --name reviews-svc-waypoint --wait
-waypoint default/reviews-svc-waypoint applied
-{{< /text >}}
-
-为 `reviews` 服务打标签，以便使用 `reviews-svc-waypoint` waypoint：
-
-{{< text bash >}}
-$ kubectl label service reviews istio.io/use-waypoint=reviews-svc-waypoint
-service/reviews labeled
-{{< /text >}}
-
-在 Ambient 模式中从 Pod 到 `reviews` 服务的所有请求现在都将路由经过 `reviews-svc-waypoint` waypoint。
-
-{{< text bash >}}
-$ kubectl get gateway
-NAME                   CLASS            ADDRESS         PROGRAMMED   AGE
-bookinfo-gateway       istio            172.18.7.110    True         46h
-reviews-svc-waypoint   istio-waypoint   10.96.177.137   True         30s
-waypoint               istio-waypoint   10.96.202.82    True         44h
-{{< /text >}}
-
-现在创建指向新 `waypoint` 的 `WasmPlugin`，这样扩展插件只会应用到 `reviews` 服务。
-在此配置中，身份验证令牌和前缀都是为 reviews 服务专门定制的，
-确保只有指向它的请求能够遵从这种身份验证机制。
+创建一个针对 `reviews` 服务的 `WasmPlugin`，以便该扩展仅适用于 `reviews` 服务。
+在此配置中，身份验证令牌和前缀是专门为 `reviews` 服务定制的，
+确保只有针对它的请求才会受到此身份验证机制的影响。
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -209,9 +187,9 @@ metadata:
   name: basic-auth-for-service
 spec:
   targetRefs:
-    - kind: Gateway
-      group: gateway.networking.k8s.io
-      name: reviews-svc-waypoint
+    - kind: Service
+      group: ""
+      name: reviews
   url: oci://ghcr.io/istio-ecosystem/wasm-extensions/basic_auth:1.12.0
   phase: AUTHN
   pluginConfig:
