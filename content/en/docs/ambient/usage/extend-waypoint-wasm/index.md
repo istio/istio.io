@@ -159,31 +159,9 @@ basic-auth-at-waypoint   14m
 
 ## Apply WasmPlugin for a specific Service using Waypoint
 
-To configure a WebAssembly filter with a remote Wasm module for a specific service, create a `WasmPlugin` resource targeting the `waypoint` that is specifically created for that service:
+To configure a WebAssembly filter with a remote Wasm module for a specific service, create a WasmPlugin resource targeting the specific service directly.
 
-{{< text bash >}}
-$ istioctl experimental waypoint apply -n default --name reviews-svc-waypoint --wait
-waypoint default/reviews-svc-waypoint applied
-{{< /text >}}
-
-Label the `reviews` service to use the `reviews-svc-waypoint` waypoint:
-
-{{< text bash >}}
-$ kubectl label service reviews istio.io/use-waypoint=reviews-svc-waypoint
-service/reviews labeled
-{{< /text >}}
-
-Any requests from pods in the ambient mode to the `reviews` service will now be routed through the `reviews-svc-waypoint` waypoint.
-
-{{< text bash >}}
-$ kubectl get gateway
-NAME                   CLASS            ADDRESS         PROGRAMMED   AGE
-bookinfo-gateway       istio            172.18.7.110    True         46h
-reviews-svc-waypoint   istio-waypoint   10.96.177.137   True         30s
-waypoint               istio-waypoint   10.96.202.82    True         44h
-{{< /text >}}
-
-Now, create a `WasmPlugin` targeting the new `waypoint` so that the extension applies only to the `reviews` service. In this configuration, the authentication token and the prefix are tailored specifically for the reviews service, ensuring that only requests directed towards it are subjected to this authentication mechanism.
+Create a `WasmPlugin` targeting the `reviews` service so that the extension applies only to the `reviews` service. In this configuration, the authentication token and the prefix are tailored specifically for the reviews service, ensuring that only requests directed towards it are subjected to this authentication mechanism.
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -193,9 +171,9 @@ metadata:
   name: basic-auth-for-service
 spec:
   targetRefs:
-    - kind: Gateway
-      group: gateway.networking.k8s.io
-      name: reviews-svc-waypoint
+    - kind: Service
+      group: ""
+      name: reviews
   url: oci://ghcr.io/istio-ecosystem/wasm-extensions/basic_auth:1.12.0
   phase: AUTHN
   pluginConfig:
