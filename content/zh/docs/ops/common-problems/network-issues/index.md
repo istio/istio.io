@@ -39,7 +39,7 @@ $ kubectl logs PODNAME -c istio-proxy -n NAMESPACE
 如果路由规则在 [Bookinfo](/zh/docs/examples/bookinfo/) 这个例子中完美地运行，
 但类似的路由规则在您自己的应用中却没有生效，可能因为您的 Kubernetes Service
 需要被稍微地修改。为了利用 Istio 的七层路由特性 Kubernetes Service 必须严格遵守某些限制。
-参考 [Pod 和 Service 的要求](/zh/docs/ops/deployment/requirements/)查看详细信息。
+参考 [Pod 和 Service 的要求](/zh/docs/ops/deployment/application-requirements/)查看详细信息。
 
 另一个潜在的问题是路由规则可能只是生效比较慢。在 Kubernetes 上实现的 Istio
 利用一个最终一致性算法来保证所有的 Envoy Sidecar 有正确的配置包括所有的路由规则。

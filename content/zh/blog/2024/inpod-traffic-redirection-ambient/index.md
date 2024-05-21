@@ -59,7 +59,7 @@ CNI 实现可能内部使用的机制差异而导致的一些不兼容性。
 
 [istio-cni](/zh/docs/setup/additional-setup/cni/)
 组件是 Sidecar 数据平面模式下的可选组件，
-通常用于移除[对 `NET_ADMIN` 和 `NET_RAW` 功能的兼容性要求](/zh/docs/ops/deployment/requirements/)以供用户将 Pod 部署到网格中。
+通常用于移除[对 `NET_ADMIN` 和 `NET_RAW` 功能的兼容性要求](/zh/docs/ops/application-deployment/requirements/)以供用户将 Pod 部署到网格中。
 `istio-cni` 是 Ambient 数据平面模式中必需的组件。
 `istio-cni` 组件**不是**主流 CNI 实现，它是一个节点代理，可以对集群中已存在的任何主流 CNI 实现进行扩展。
 

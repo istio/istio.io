@@ -22,7 +22,7 @@ Istio CNI 插件就是一个能够替代 `istio-init` 容器来实现相同的�
 用户申请额外的 Kubernetes RBAC 授权的方案。
 
 Istio CNI 插件会在 Kubernetes Pod 生命周期的网络设置阶段完成 Istio 网格 Pod 流量转发设置的工作，
-因此用户在部署 Pod 到 Istio 网格中时，不再需要配置 [`NET_ADMIN` 功能需求](/zh/docs/ops/deployment/requirements/)了。
+因此用户在部署 Pod 到 Istio 网格中时，不再需要配置 [`NET_ADMIN` 功能需求](/zh/docs/ops/deployment/application-requirements/)了。
 Istio CNI 插件代替了 `istio-init` 容器所实现的功能。
 
 {{< tip >}}
@@ -249,7 +249,7 @@ Init 容器在 Sidecar 启动之前执行，这会导致在它们执行期间会
 可以用以下的一种或所有设置来防止流量丢失：
 
 1. 使用 `runAsUser` 将 Init 容器的 `uid` 设置为 `1337`。
-   `1337` 是 [Sidecar 代理使用的 `uid`](/zh/docs/ops/deployment/requirements/#pod-requirements)。
+   `1337` 是 [Sidecar 代理使用的 `uid`](/zh/docs/ops/deployment/application-requirements/#pod-requirements)。
    这个 `uid` 发送的流量并非通过 Istio 的 `iptables` 规则进行捕获。
    应用容器流量仍将像往常一样被捕获。
 1. 设置 `traffic.sidecar.istio.io/excludeOutboundIPRanges` 注解来禁止重定向流量到任何与 Init 容器有通信的 CIDR。

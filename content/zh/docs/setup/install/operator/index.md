@@ -36,7 +36,7 @@ Operator 控制器将为您应用更改的相应配置。
 
 1. 执行必要的[平台安装](/zh/docs/setup/platform-setup/)。
 
-1. 检查 [服务和 Pod 的要求](/zh/docs/ops/deployment/requirements/)。
+1. 检查 [Service 和 Pod 的要求](/zh/docs/ops/deployment/application-requirements/)。
 
 1. 安装 [{{< istioctl >}} 可执行程序](/zh/docs/ops/diagnostic-tools/istioctl/)。
 

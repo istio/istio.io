@@ -12,7 +12,7 @@ aliases:
 
 ## 流量管理{#traffic-management}
 
-- **添加**。当未根据 Istio 的[约定](/zh/docs/ops/deployment/requirements/)命名端口时，添加了对 HTTP、TCP 出站流量[自动检测协议](/zh/docs/ops/configuration/traffic-management/protocol-selection/)的功能。
+- **添加**。当未根据 Istio 的[约定](/zh/docs/ops/deployment/application-requirements/)命名端口时，添加了对 HTTP、TCP 出站流量[自动检测协议](/zh/docs/ops/configuration/traffic-management/protocol-selection/)的功能。
 - **添加**。为实现双向 TLS 操作，添加了一个模型至 Gateway API。
 - **修复**。修复了当服务第一次使用宽容双向 TLS 模式，与 MySQL 和 MongoDB 之类的协议进行网络通信时会出现的问题。
 - **改进**。改进了 Envoy 代理的就绪检查。现在会检查 Envoy 的就绪状态。

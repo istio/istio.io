@@ -13,7 +13,7 @@ test: n/a
 
 1. [下载 Istio 版本](/zh/docs/setup/getting-started/#download)。
 1. 执行任何必要的[特定于平台的设置](/zh/docs/setup/platform-setup/)。
-1. 检查 [Pod 和服务的请求](/zh/docs/ops/deployment/requirements/)。
+1. 检查 [Pod 和 Service 的请求](/zh/docs/ops/deployment/application-requirements/)。
 1. [使用 helm 进行 Istio 安装](/zh/docs/setup/install/helm)。
 1. Helm 版本支持后期渲染。（>= 3.1）
 1. kubectl 或 kustomize。
