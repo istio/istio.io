@@ -43,7 +43,7 @@ to be customized for specific client contexts.</p>
 pods of the reviews service with label &ldquo;version: v1&rdquo;. In addition,
 HTTP requests with path starting with /wpcatalog/ or /consumercatalog/ will
 be rewritten to /newcatalog and sent to pods with label &ldquo;version: v2&rdquo;.</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: reviews-route
@@ -72,7 +72,7 @@ spec:
 <p>A subset/version of a route destination is identified with a reference
 to a named service subset which must be declared in a corresponding
 <code>DestinationRule</code>.</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: reviews-destination
@@ -249,7 +249,7 @@ domain names over short names.</em></p>
 <p>The following Kubernetes example routes all traffic by default to pods
 of the reviews service with label &ldquo;version: v1&rdquo; (i.e., subset v1), and
 some to subset v2, in a Kubernetes environment.</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: reviews-route
@@ -275,7 +275,7 @@ spec:
         subset: v1
 </code></pre>
 <p>And the associated DestinationRule</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: reviews-destination
@@ -299,7 +299,7 @@ that this rule is set in the istio-system namespace but uses the fully
 qualified domain name of the productpage service,
 productpage.prod.svc.cluster.local. Therefore the rule&rsquo;s namespace does
 not have an impact in resolving the name of the productpage service.</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: my-productpage-rule
@@ -318,7 +318,7 @@ services must first be added to Istio&rsquo;s internal service registry using th
 ServiceEntry resource. VirtualServices can then be defined to control traffic
 bound to these external services. For example, the following rules define a
 Service for wikipedia.org and set a timeout of 5s for HTTP requests.</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1
 kind: ServiceEntry
 metadata:
   name: external-svc-wikipedia
@@ -332,7 +332,7 @@ spec:
     protocol: HTTP
   resolution: DNS
 ---
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: my-wiki-rule
@@ -638,7 +638,7 @@ No
 <p>Describes the delegate VirtualService.
 The following routing rules forward the traffic to <code>/productpage</code> by a delegate VirtualService named <code>productpage</code>,
 forward the traffic to <code>/reviews</code> by a delegate VirtualService named <code>reviews</code>.</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: bookinfo
@@ -661,7 +661,7 @@ spec:
         name: reviews
         namespace: nsB
 </code></pre>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: productpage
@@ -678,7 +678,7 @@ spec:
     - destination:
         host: productpage.nsA.svc.cluster.local
 </code></pre>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: reviews
@@ -735,7 +735,7 @@ The following VirtualService adds a <code>test</code> header with the value <cod
 to requests that are routed to any <code>reviews</code> service destination.
 It also removes the <code>foo</code> response header, but only from responses
 coming from the <code>v1</code> subset (version) of the <code>reviews</code> service.</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: reviews-route
@@ -805,7 +805,7 @@ No
 traffic (TLS/HTTPS) The following routing rule forwards unterminated TLS
 traffic arriving at port 443 of gateway called &ldquo;mygateway&rdquo; to internal
 services in the mesh based on the SNI value.</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: bookinfo-sni
@@ -874,7 +874,7 @@ No
 <p>Describes match conditions and actions for routing TCP traffic. The
 following routing rule forwards traffic arriving at port 27017 for
 mongo.prod.svc.cluster.local to another Mongo server on port 5555.</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: bookinfo-mongo
@@ -931,12 +931,12 @@ No
 </section>
 <h2 id="HTTPMatchRequest">HTTPMatchRequest</h2>
 <section>
-<p>HttpMatchRequest specifies a set of criterion to be met in order for the
+<p>HttpMatchRequest specifies a set of criteria to be met in order for the
 rule to be applied to the HTTP request. For example, the following
 restricts the rule to match only requests where the URL path
 starts with /ratings/v2/ and the request contains a custom <code>end-user</code> header
 with value <code>jason</code>.</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: ratings-route
@@ -1246,7 +1246,7 @@ determine the proportion of traffic it receives. For example, the
 following rule will route 25% of traffic for the &ldquo;reviews&rdquo; service to
 instances with the &ldquo;v2&rdquo; tag and the remaining traffic (i.e., 75%) to
 &ldquo;v1&rdquo;.</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: reviews-route
@@ -1265,7 +1265,7 @@ spec:
       weight: 75
 </code></pre>
 <p>And the associated DestinationRule</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: reviews-destination
@@ -1282,7 +1282,7 @@ spec:
 <p>Traffic can also be split across two entirely different services without
 having to define new subsets. For example, the following rule forwards 25% of
 traffic to reviews.com to dev.reviews.com</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: reviews-route-two-domains
@@ -1577,7 +1577,7 @@ where the Authority/Host and the URI in the response can be swapped with
 the specified values. For example, the following rule redirects
 requests for /v1/getProductRatings API on the ratings service to
 /v1/bookRatings provided by the bookratings service.</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: ratings-route
@@ -1689,7 +1689,7 @@ No
 <p>HTTPDirectResponse can be used to send a fixed response to clients.
 For example, the following rule returns a fixed 503 status with a body
 to requests for /v1/getProductRatings API.</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: ratings-route
@@ -1708,7 +1708,7 @@ spec:
 </code></pre>
 <p>It is also possible to specify a binary response body.
 This is mostly useful for non text-based protocols such as gRPC.</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: ratings-route
@@ -1728,7 +1728,7 @@ spec:
 <p>It is good practice to add headers in the HTTPRoute
 as well as the direct_response, for example to specify
 the returned Content-Type.</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: ratings-route
@@ -1830,7 +1830,7 @@ before forwarding the request to the destination. Rewrite primitive can
 be used only with HTTPRouteDestination. The following example
 demonstrates how to rewrite the URL prefix for api call (/ratings) to
 ratings service before making the actual API call.</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: ratings-route
@@ -2000,7 +2000,7 @@ example, the following rule sets the maximum number of retries to 3 when
 calling ratings:v1 service, with a 2s timeout per retry attempt.
 A retry will be attempted if there is a connect-failure, refused_stream
 or when the upstream server responds with Service Unavailable(503).</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: ratings-route
@@ -2097,7 +2097,7 @@ the following rule restricts cross origin requests to those originating
 from example.com domain using HTTP POST/GET, and sets the
 <code>Access-Control-Allow-Credentials</code> header to false. In addition, it only
 exposes <code>X-Foo-bar</code> header and sets an expiry period of 1 day.</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: ratings-route
@@ -2426,7 +2426,7 @@ No
 forwarding path. The following example will introduce a 5 second delay
 in 1 out of every 1000 requests to the &ldquo;v1&rdquo; version of the &ldquo;reviews&rdquo;
 service from all pods with label env: prod</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: reviews-route
@@ -2506,7 +2506,7 @@ No
 <p>Abort specification is used to prematurely abort a request with a
 pre-specified error code. The following example will return an HTTP 400
 error code for 1 out of every 1000 requests to the &ldquo;ratings&rdquo; service &ldquo;v1&rdquo;.</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: ratings-route

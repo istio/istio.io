@@ -18,7 +18,7 @@ Development of PeerAuthentication is currently frozen and likely to be replaced 
 PeerAuthentication defines how traffic will be tunneled (or not) to the sidecar.</p>
 <p>Examples:</p>
 <p>Policy to allow mTLS traffic for all workloads under namespace <code>foo</code>:</p>
-<pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
+<pre><code class="language-yaml">apiVersion: security.istio.io/v1
 kind: PeerAuthentication
 metadata:
   name: default
@@ -30,7 +30,7 @@ spec:
 <p>For mesh level, put the policy in root-namespace according to your Istio installation.</p>
 <p>Policies to allow both mTLS and plaintext traffic for all workloads under namespace <code>foo</code>, but
 require mTLS for workload <code>finance</code>.</p>
-<pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
+<pre><code class="language-yaml">apiVersion: security.istio.io/v1
 kind: PeerAuthentication
 metadata:
   name: default
@@ -39,7 +39,7 @@ spec:
   mtls:
     mode: PERMISSIVE
 ---
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: PeerAuthentication
 metadata:
   name: finance
@@ -54,7 +54,7 @@ spec:
 <p>Policy that enables strict mTLS for all <code>finance</code> workloads, but leaves the port <code>8080</code> to
 plaintext. Note the port value in the <code>portLevelMtls</code> field refers to the port
 of the workload, not the port of the Kubernetes service.</p>
-<pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
+<pre><code class="language-yaml">apiVersion: security.istio.io/v1
 kind: PeerAuthentication
 metadata:
   name: default
@@ -71,7 +71,7 @@ spec:
 </code></pre>
 <p>Policy that inherits mTLS mode from namespace (or mesh) settings, and disables
 mTLS for workload port <code>8080</code>.</p>
-<pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
+<pre><code class="language-yaml">apiVersion: security.istio.io/v1
 kind: PeerAuthentication
 metadata:
   name: default
