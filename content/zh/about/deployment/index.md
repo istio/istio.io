@@ -70,7 +70,7 @@ Istio 还是许多商业服务管理产品的引擎，专家团队随时准备�
 对于常见的端口和协议，Istio 将检测流量类型。如果它无法检测到，它将退回到将流量视为 TCP，
 但您可以轻松地[给服务添加流量类型的注解](/zh/docs/ops/configuration/traffic-management/protocol-selection/)。
 
-了解有关[启用应用程序以与 Istio 一起使用](/zh/docs/ops/deployment/requirements/)的更多信息。
+了解有关[启用应用程序以与 Istio 一起使用](/zh/docs/ops/deployment/application-requirements/)的更多信息。
 
 ### 启用安全性 {#enabling-security}
 

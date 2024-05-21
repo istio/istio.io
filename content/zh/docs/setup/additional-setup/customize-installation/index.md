@@ -13,7 +13,7 @@ test: n/a
 
 1. [下载 Istio 发行版](/zh/docs/setup/getting-started/#download)。
 1. 执行必要的[平台安装](/zh/docs/setup/platform-setup/)。
-1. 检查 [Pod 和服务的要求](/zh/docs/ops/deployment/requirements/)。
+1. 检查 [Pod 和 Service 的要求](/zh/docs/ops/deployment/application-requirements/)。
 
 除了安装 Istio 内置的 [配置档](/zh/docs/setup/additional-setup/config-profiles/)，
 `istioctl install` 提供了一套完整的用于定制配置的 API。

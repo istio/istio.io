@@ -4,7 +4,7 @@
 
 1. 执行任何必要的[特定于平台的设置](/zh/docs/setup/platform-setup/)。
 
-1. 检查 [Pod 和服务的要求](/zh/docs/ops/deployment/requirements/)。
+1. 检查 [Pod 和服务的要求](/zh/docs/ops/deployment/application-requirements/)。
 
 1. [安装 Helm 客户端](https://helm.sh/zh/docs/intro/install/) 3.6 或更高的版本。
 

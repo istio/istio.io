@@ -76,7 +76,7 @@ Prometheus 收集了各种流量相关的指标，
 
 - [部署模型](/zh/docs/ops/deployment/deployment-models/)
 - [Deployment 最佳实践](/zh/docs/ops/best-practices/deployment/)
-- [Pod 和 Service](/zh/docs/ops/deployment/requirements/)
+- [Pod 和 Service](/zh/docs/ops/deployment/application-requirements/)
 - [安装](/zh/docs/setup/)
 
 ## 加入 Istio 社区 {#join-the-Istio-community}

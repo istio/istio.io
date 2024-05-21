@@ -27,7 +27,7 @@ test: no
 
 1. [下载 Istio 发行版](/zh/docs/setup/getting-started/#download)。
 1. 执行必要的[平台安装](/zh/docs/setup/platform-setup/)。
-1. 检查 [Pod 和服务的要求](/zh/docs/ops/deployment/requirements/)。
+1. 检查 [Pod 和 Service 的要求](/zh/docs/ops/deployment/application-requirements/)。
 
 ## 使用默认配置档安装 Istio {#install-using-default-profile}
 

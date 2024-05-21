@@ -374,7 +374,7 @@ Istio Sidecar 原理为拦截入站和出站流量并将它们转发到 Sidecar 
 但是，并不是**全部**的流量都被拦截：
 
 * 转发只针对基于 TCP 的流量。任何 UDP 或 ICMP 包不会被拦截或更改。
-* 入站拦截在很多 [Sidecar 使用的端口](/zh/docs/ops/deployment/requirements/#ports-used-by-istio)以及端口
+* 入站拦截在很多 [Sidecar 使用的端口](/zh/docs/ops/deployment/application-requirements/#ports-used-by-istio)以及端口
   22 不生效。此列表可以通过 `traffic.sidecar.istio.io/excludeInboundPorts` 这类选项扩展。
 * 出站拦截可以通过类似 `traffic.sidecar.istio.io/excludeOutboundPorts` 的配置以及其他多种方式取消。
 
@@ -583,7 +583,7 @@ Istio 可以[自动确定流量协议](/zh/docs/ops/configuration/traffic-manage
 ## CNI 网络容器接口 {#CNI}
 
 为了透明地劫持所以流量，Istio 依赖 通过 `istio-init` `initContainer` 配置 `iptables` 规则。
-这增加了一个[要求](/zh/docs/ops/deployment/requirements/)，即需要提供给 Pod `NET_ADMIN`
+这增加了一个[要求](/zh/docs/ops/deployment/application-requirements/)，即需要提供给 Pod `NET_ADMIN`
 和 `NET_RAW` [兼容性](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/security-context/#set-capabilities-for-a-container)。
 
 为了减少给予 Pod 的权限，Istio 提供了 [CNI 插件](/zh/docs/setup/additional-setup/cni/)功能，
@@ -631,7 +631,7 @@ Distroless 镜像目前仍是 Alpha 特性。
 
 ## 锁定的端口 {#lock-down-ports}
 
-Istio 配置了[一系列锁定的端口](/zh/docs/ops/deployment/requirements/#ports-used-by-istio)增强安全性。
+Istio 配置了[一系列锁定的端口](/zh/docs/ops/deployment/application-requirements/#ports-used-by-istio)增强安全性。
 
 ### 控制面 {#control-plane}
 
