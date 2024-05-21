@@ -142,14 +142,6 @@ features:
       maturity: Stable
       nextExpectedPromotion: ""
     area: Observability
-  - name: "Stackdriver Integration"
-    id: "observability.stackdriver"
-    link: "/docs/reference/config/proxy_extensions/stackdriver/"
-    level:
-      checklist: ""
-      maturity: Stable
-      nextExpectedPromotion: ""
-    area: Observability
   - name: "Distributed Tracing to Zipkin/Jaeger"
     id: "observability.distributed_zipkin_tracing"
     link: "/docs/tasks/observability/distributed-tracing/"

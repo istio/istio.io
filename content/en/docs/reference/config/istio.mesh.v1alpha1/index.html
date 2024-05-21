@@ -7,7 +7,7 @@ location: https://istio.io/docs/reference/config/istio.mesh.v1alpha1.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
 weight: 20
-number_of_entries: 75
+number_of_entries: 76
 ---
 <p>Configuration affecting the service mesh as a whole.</p>
 
@@ -552,7 +552,7 @@ No
 </tr>
 <tr id="MeshConfig-discovery_selectors">
 <td><code>discoverySelectors</code></td>
-<td><code><a href="#k8s-io-apimachinery-pkg-apis-meta-v1-LabelSelector">LabelSelector[]</a></code></td>
+<td><code><a href="#LabelSelector">LabelSelector[]</a></code></td>
 <td>
 <p>A list of Kubernetes selectors that specify the set of namespaces that Istio considers when
 computing configuration updates for sidecars. This can be used to reduce Istio&rsquo;s computational load
@@ -648,6 +648,105 @@ No
 <p>Configuration of TLS for all traffic except for ISTIO_MUTUAL mode.
 Currently, this supports configuration of ecdh_curves and cipher_suites only.
 For ISTIO_MUTUAL TLS settings, use meshMTLS configuration.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="LabelSelector">LabelSelector</h2>
+<section>
+<p>A label selector requirement is a selector that contains values, a key, and an operator that
+relates the key and values.
+Copied from Kubernetes to avoid expensive dependency on Kubernetes libraries.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="LabelSelector-matchLabels">
+<td><code>matchLabels</code></td>
+<td><code>map&lt;string,&nbsp;string&gt;</code></td>
+<td>
+<p>matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+map is equivalent to an element of matchExpressions, whose key field is &ldquo;key&rdquo;, the
+operator is &ldquo;In&rdquo;, and the values array contains only &ldquo;value&rdquo;. The requirements are ANDed.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="LabelSelector-matchExpressions">
+<td><code>matchExpressions</code></td>
+<td><code><a href="#LabelSelectorRequirement">LabelSelectorRequirement[]</a></code></td>
+<td>
+<p>matchExpressions is a list of label selector requirements. The requirements are ANDed.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="LabelSelectorRequirement">LabelSelectorRequirement</h2>
+<section>
+<p>A label selector requirement is a selector that contains values, a key, and an operator that
+relates the key and values.
+Copied from Kubernetes to avoid expensive dependency on Kubernetes libraries.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="LabelSelectorRequirement-key">
+<td><code>key</code></td>
+<td><code>string</code></td>
+<td>
+<p>key is the label key that the selector applies to.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="LabelSelectorRequirement-operator">
+<td><code>operator</code></td>
+<td><code>string</code></td>
+<td>
+<p>operator represents a key&rsquo;s relationship to a set of values.
+Valid operators are In, NotIn, Exists and DoesNotExist.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="LabelSelectorRequirement-values">
+<td><code>values</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>values is an array of string values. If the operator is In or NotIn,
+the values array must be non-empty. If the operator is Exists or DoesNotExist,
+the values array must be empty. This array is replaced during a strategic
+merge patch.</p>
 
 </td>
 <td>
@@ -2826,49 +2925,6 @@ and adds host/process related attributes to the OpenTelemetry resource.</p>
 <p>See: <a href="https://docs.dynatrace.com/docs/shortlink/enrichment-files">Enrich ingested data with Dynatrace-specific dimensions</a></p>
 
 </section>
-<h2 id="k8s-io-apimachinery-pkg-apis-meta-v1-LabelSelector">k8s.io.apimachinery.pkg.apis.meta.v1.LabelSelector</h2>
-<section>
-<p>A label selector is a label query over a set of resources. The result of matchLabels and
-matchExpressions are ANDed. An empty label selector matches all objects. A null
-label selector matches no objects.</p>
-
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="k8s-io-apimachinery-pkg-apis-meta-v1-LabelSelector-matchLabels">
-<td><code>matchLabels</code></td>
-<td><code>map&lt;string,&nbsp;string&gt;</code></td>
-<td>
-<p>matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
-map is equivalent to an element of matchExpressions, whose key field is &ldquo;key&rdquo;, the
-operator is &ldquo;In&rdquo;, and the values array contains only &ldquo;value&rdquo;. The requirements are ANDed.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="k8s-io-apimachinery-pkg-apis-meta-v1-LabelSelector-matchExpressions">
-<td><code>matchExpressions</code></td>
-<td><code><a href="#k8s-io-apimachinery-pkg-apis-meta-v1-LabelSelectorRequirement">LabelSelectorRequirement[]</a></code></td>
-<td>
-<p>matchExpressions is a list of label selector requirements. The requirements are ANDed.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
 <h2 id="Tracing">Tracing</h2>
 <section>
 <p>Tracing defines configuration for the tracing performed by Envoy instances.</p>
@@ -3255,9 +3311,9 @@ No
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#int32value">Int32Value</a></code></td>
 <td>
 <p>The number of worker threads to run.
-If unset, this will be automatically determined based on CPU requests/limits.
-If set to 0, all cores on the machine will be used.
-Default is 2 worker threads.</p>
+If unset, which is recommended, this will be automatically determined based on CPU requests/limits.
+If set to 0, all cores on the machine will be used, ignoring CPU requests or limits. This can lead to major performance
+issues if CPU limits are also set.</p>
 
 </td>
 <td>
@@ -3395,8 +3451,8 @@ No
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
 <td>
 <p>The amount of time allowed for connections to complete on proxy shutdown.
-On receiving <code>SIGTERM</code> or <code>SIGINT</code>, <code>istio-agent</code> tells the active Envoy to start draining,
-preventing any new connections and allowing existing connections to complete. It then
+On receiving <code>SIGTERM</code> or <code>SIGINT</code>, <code>istio-agent</code> tells the active Envoy to start gracefully draining,
+discouraging any new connections and allowing existing connections to complete. It then
 sleeps for the <code>termination_drain_duration</code> and then kills any remaining active Envoy processes.
 If not set, a default of <code>5s</code> will be applied.</p>
 

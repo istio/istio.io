@@ -27,8 +27,7 @@ AUDIT policies do not affect whether requests are allowed or denied to the workl
 Requests will be allowed or denied based solely on CUSTOM, DENY and ALLOW actions.</p>
 <p>A request will be internally marked that it should be audited if there is an AUDIT policy on the workload that matches the request.
 A separate plugin must be configured and enabled to actually fulfill the audit decision and complete the audit behavior.
-The request will not be audited if there are no such supporting plugins enabled.
-Currently, the only supported plugin is the <a href="/docs/reference/config/proxy_extensions/stackdriver/">Stackdriver</a> plugin.</p>
+The request will not be audited if there are no such supporting plugins enabled.</p>
 <p>Here is an example of Istio Authorization Policy:</p>
 <p>It sets the <code>action</code> to <code>ALLOW</code> to create an allow policy. The default action is <code>ALLOW</code>
 but it is useful to be explicit in the policy.</p>
@@ -230,12 +229,13 @@ No
 <td><code>targetRefs</code></td>
 <td><code><a href="/docs/reference/config/type/workload-selector/#PolicyTargetReference">PolicyTargetReference[]</a></code></td>
 <td>
-<p>Optional. The targetRef specifies the gateway the policy should be
-applied to. The targeted resource specified will determine which
-workloads the policy applies to.</p>
+<p>Optional. The targetRefs specifies a list of resources the policy should be
+applied to. The targeted resources specified will determine which workloads
+the policy applies to.</p>
 <p>Currently, the following resource attachment types are supported:</p>
 <ul>
 <li><code>kind: Gateway</code> with <code>group: gateway.networking.k8s.io</code> in the same namespace.</li>
+<li><code>kind: Service</code> with <code>&quot;&quot;</code> in the same namespace. This type is only supported for waypoints.</li>
 </ul>
 <p>If not set, the policy is applied as defined by the selector.
 At most one of the selector and targetRefs can be set.</p>
@@ -819,7 +819,7 @@ One example use case of the extension is to integrate with a custom external aut
 the authorization decision to it.</p>
 <p>The following authorization policy applies to an ingress gateway and delegates the authorization check to a named extension
 <code>my-custom-authz</code> if the request path has prefix <code>/admin/</code>.</p>
-<pre><code class="language-yaml">apiVersion: security.istio.io/v1beta1
+<pre><code class="language-yaml">apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: ext-authz
