@@ -59,6 +59,10 @@ kubectl apply -f samples/bookinfo/gateway-api/bookinfo-gateway.yaml
 }
 
 snip_deploy_the_sample_application_4() {
+kubectl annotate gateway bookinfo-gateway networking.istio.io/service-type=ClusterIP --namespace=default
+}
+
+snip_deploy_the_sample_application_5() {
 kubectl wait --for=condition=programmed gtw/bookinfo-gateway
 export GATEWAY_HOST=bookinfo-gateway-istio.default
 export GATEWAY_SERVICE_ACCOUNT=ns/default/sa/bookinfo-gateway-istio
@@ -178,19 +182,12 @@ namespace default labeled with "istio.io/use-waypoint: waypoint"
 ENDSNIP
 
 snip_layer_7_authorization_policy_2() {
-kubectl get gtw waypoint -o yaml
+kubectl get gtw waypoint
 }
 
 ! IFS=$'\n' read -r -d '' snip_layer_7_authorization_policy_2_out <<\ENDSNIP
-...
-status:
-  conditions:
-  - lastTransitionTime: "2024-04-18T14:25:56Z"
-    message: Resource programmed, assigned to service(s) waypoint.default.svc.cluster.local:15008
-    observedGeneration: 1
-    reason: Programmed
-    status: "True"
-    type: Programmed
+NAME       CLASS            ADDRESS       PROGRAMMED   AGE
+waypoint   istio-waypoint   10.96.58.95   True         61s
 ENDSNIP
 
 snip_layer_7_authorization_policy_3() {
