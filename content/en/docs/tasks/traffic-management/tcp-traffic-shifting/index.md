@@ -19,7 +19,7 @@ In this task, you will send 100% of the TCP traffic to `tcp-echo:v1`.
 Then, you will route 20% of the TCP traffic to `tcp-echo:v2` using Istio's
 weighted routing feature.
 
-{{< boilerplate gateway-api-gamma-support >}}
+{{< boilerplate gateway-api-gamma-experimental >}}
 
 ## Before you begin
 

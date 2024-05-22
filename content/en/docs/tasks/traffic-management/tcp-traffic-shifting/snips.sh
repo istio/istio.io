@@ -19,7 +19,7 @@
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
 #          docs/tasks/traffic-management/tcp-traffic-shifting/index.md
 ####################################################################################################
-source "content/en/boilerplates/snips/gateway-api-gamma-support.sh"
+source "content/en/boilerplates/snips/gateway-api-gamma-experimental.sh"
 
 snip_set_up_the_test_environment_1() {
 kubectl create namespace istio-io-tcp-traffic-shifting
