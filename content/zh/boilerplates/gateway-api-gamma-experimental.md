@@ -7,7 +7,7 @@
 
 {{< warning >}}
 本文档使用[实验性的](https://gateway-api.sigs.k8s.io/geps/overview/#status)
-Gateway API 功能配置 Istio，在使用 Gateway API 说明之前，请确保：
+Gateway API 功能配置 Istio，在使用 Gateway API 指令之前，请确保：
 
 1) 安装 **实验版本** 的 Gateway API CRD：
 
