@@ -43,8 +43,6 @@ Authorization policies whose [conditions](/docs/reference/config/security/condit
 
 In a scenario where a policy contains conditions that match L7 attributes (for example, HTTP verbs), a waypoint proxy is **required**. It is important to understand that ztunnel cannot meaningfully enforce any policy that requires L7 parsing. If an authorization policy has been configured that requires any traffic processing beyond L4, and if no waypoint proxies are configured for the destination of the traffic, then **the ztunnel proxy will DENY all traffic** as a defensive move.
 
-Authorisation policuies
-
 When the following conditions are true:
 
 1. The policy enforces [conditions](/docs/reference/config/security/conditions/) for HTTP
@@ -59,8 +57,8 @@ Attachment Style | Scope | Waypoint present? | | Enforced by | Allowed? | Source
 | _empty †_ | Namespace | yes | ⇒ | destination ztunnel | DENY | n/a |
 | Selector | Pod | no | ⇒ | destination ztunnel | DENY | n/a |
 | Selector | Pod | yes | ⇒ | destination ztunnel | DENY | n/a |
-| `targetRefs` | Service | yes | ⇒ | waypoint | per policy | client pod |
-| `targetRefs` | Gateway | yes | ⇒ | waypoint | per policy | client pod |
+| `targetRefs` | Service | yes | ⇒ | waypoint | as per policy | client pod |
+| `targetRefs` | Gateway | yes | ⇒ | waypoint | as per policy | client pod |
 
 *† If no Selector or `targetRef` is specified, the policy is namespace scoped.*
 

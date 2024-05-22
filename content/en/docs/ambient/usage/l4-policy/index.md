@@ -73,7 +73,7 @@ command terminated with exit code 56
 
 ### Considerations when waypoints are introduced {#considerations}
 
-In L4-only mode, traffic appears at the destination ztunnel with the identity of the *source* workload. 
+In L4-only mode, traffic appears at the destination ztunnel with the identity of the *source* workload.
 
 Waypoint proxies do not impersonate the identity of the source workload. Once you have introduced a waypoint to the traffic path, the destination ztunnel will see traffic with the *waypoint's* identity, not the source identity.
 
@@ -87,7 +87,7 @@ When the following conditions are true:
 
 Policy enforcement will be applied as follows:
 
-| Attachment Style | Scope | Waypoint present? | | Enforced by | Source identity 
+| Attachment Style | Scope | Waypoint present? | | Enforced by | Source identity
 | --- | --- | --- | --- | --- | --- |
 | _empty †_ | Namespace | no | ⇒ | destination ztunnel | client pod |
 | _empty †_ | Namespace | yes | ⇒ | destination ztunnel | waypoint |
