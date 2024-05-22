@@ -32,7 +32,7 @@ Egress 网关允许您将 Istio 的功能（例如，监视和路由规则）应
 Service 无法访问互联网。通过定义 Egress 网关，将公有 IP 分配给
 Egress 网关节点，用它引导所有的出站流量，可以使应用节点以受控的方式访问外部服务。
 
-{{< boilerplate gateway-api-gamma-support >}}
+{{< boilerplate gateway-api-gamma-experimental >}}
 
 ## 开始之前 {#before-you-begin}
 

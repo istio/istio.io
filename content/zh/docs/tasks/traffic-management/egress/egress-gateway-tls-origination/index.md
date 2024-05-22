@@ -17,7 +17,7 @@ test: yes
 Istio 来通过专门的 Egress 网关服务引导出口流量。
 本示例兼容以上两者，描述如何配置 Egress 网关，为外部服务流量发起 TLS 连接。
 
-{{< boilerplate gateway-api-gamma-support >}}
+{{< boilerplate gateway-api-support >}}
 
 ## 开始之前{#before-you-begin}
 

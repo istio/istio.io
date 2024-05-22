@@ -247,7 +247,7 @@ Istio 代理允许调用未知的服务。如果这个选项设置为 `REGISTRY_
 与集群间请求类似，可以为使用 `ServiceEntry` 配置访问的外部服务设置路由规则。
 在本示例中，您将设置对 `httpbin.org` 服务访问的超时规则。
 
-{{< boilerplate gateway-api-gamma-support >}}
+{{< boilerplate gateway-api-support >}}
 
 1) 从用作测试源的 Pod 内部，向外部服务 `httpbin.org` 的 `/delay`
    endpoint 发出 **curl** 请求：

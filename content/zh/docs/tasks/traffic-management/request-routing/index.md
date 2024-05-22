@@ -11,7 +11,7 @@ test: yes
 
 此任务将展示如何将请求动态路由到微服务的多个版本。
 
-{{< boilerplate gateway-api-gamma-support >}}
+{{< boilerplate gateway-api-support >}}
 
 ## 开始之前  {#before-you-begin}
 

@@ -18,7 +18,7 @@ test: yes
 您首先在 Kubernetes 集群中创建一个 NGINX 服务。接着，
 通过网关给这个服务配置一个域名是 `nginx.example.com` 的访问入口。
 
-{{< boilerplate gateway-api-gamma-support >}}
+{{< boilerplate gateway-api-gamma-experimental >}}
 
 ## 准备工作 {#before-you-begin}
 

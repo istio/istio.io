@@ -6,9 +6,8 @@
 {{< /tip >}}
 
 {{< warning >}}
-本文使用 Gateway API 配置内部网格（东西）流量。
-使用 Gateway API 配置内部网格流量目前是一个还在开发的[实验性特性](https://gateway-api.sigs.k8s.io/geps/overview/#status)，
-也是 Istio 特有的功能。在使用 Gateway API 指令之前，请确保：
+本文档使用[实验性的](https://gateway-api.sigs.k8s.io/geps/overview/#status)
+Gateway API 功能配置 Istio，在使用 Gateway API 指令之前，请确保：
 
 1) 安装 **实验版本** 的 Gateway API CRD：
 
