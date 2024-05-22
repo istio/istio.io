@@ -16,14 +16,13 @@ aliases:
 doc_type: about
 ---
 
-
 {{< centered_block >}}
 {{< figure src="/img/service-mesh.svg" alt="Service mesh" title="By using application proxies, Istio lets you program application-aware traffic management, incredible observability, and robust security capabilities into your network." >}}
 {{< /centered_block >}}
 
 {{< centered_block >}}
 
-[comment]: <> (The below heading is only here because lint requires the first heading to be a <h2>, and later on we want <h1>s.]
+[comment]: <> (The below heading is only here because lint requires the first heading to be a <h2>, and later on we want <h1>s.)
 
 ## What is Istio?
 
