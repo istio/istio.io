@@ -118,19 +118,20 @@ Ambient 模式与之前支持 Sidecar 模式的所有主流 CNI 兼容。
 
     `sleep` 和 `notsleep` 是可以用作 curl 客户端的两个简单应用。
 
-1. 部署一个 Ingress Gateway，这样您可以从集群外访问 bookinfo 应用：
-
-    {{< tip >}}
-    要在 `kind` 中获取服务类型为 `Loadbalancer` 的 IP 地址，
-    您可能需要安装 [MetalLB](https://metallb.universe.tf/)
-    这类工具。更多细节请参阅[此指南](https://kind.sigs.k8s.io/docs/user/loadbalancer/)。
-    {{</ tip >}}
+1. 部署一个 Ingress Gateway：
 
     创建 [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.Gateway)
     和 [HTTPRoute](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.HTTPRoute)：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/gateway-api/bookinfo-gateway.yaml@
+    {{< /text >}}
+
+    默认情况下，Istio 会为网关创建一个 `LoadBalancer` 服务。
+    通过为网关添加注解，将服务类型更改为 `ClusterIP`。
+
+    {{< text bash >}}
+    $ kubectl annotate gateway bookinfo-gateway networking.istio.io/service-type=ClusterIP --namespace=default
     {{< /text >}}
 
     设置 Kubernetes Gateway 的环境变量：
@@ -257,19 +258,12 @@ Ambient 模式与之前支持 Sidecar 模式的所有主流 CNI 兼容。
     namespace default labeled with "istio.io/use-waypoint: waypoint"
     {{< /text >}}
 
-1. 查看 waypoint 代理状态；您应该看到状态为 `Programmed` 的网关资源的详细信息：
+1. 查看 waypoint 代理；您应该看到状态为 `Programmed=True` 的网关资源的详细信息：
 
     {{< text bash >}}
-    $ kubectl get gtw waypoint -o yaml
-    ...
-    status:
-      conditions:
-      - lastTransitionTime: "2024-04-18T14:25:56Z"
-        message: Resource programmed, assigned to service(s) waypoint.default.svc.cluster.local:15008
-        observedGeneration: 1
-        reason: Programmed
-        status: "True"
-        type: Programmed
+    $ kubectl get gtw waypoint
+    NAME       CLASS            ADDRESS       PROGRAMMED   AGE
+    waypoint   istio-waypoint   10.96.58.95   True         61s
     {{< /text >}}
 
 1. 更新您的 `AuthorizationPolicy` 以显式允许 `sleep` 服务通过 `GET`
