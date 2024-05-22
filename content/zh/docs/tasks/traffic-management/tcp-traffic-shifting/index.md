@@ -18,7 +18,7 @@ test: yes
 在此任务中，您将会把 100% 的 TCP 流量分配到 `tcp-echo:v1`。
 接着，再通过配置 Istio 路由权重把 20% 的 TCP 流量分配到 `tcp-echo:v2`。
 
-{{< boilerplate gateway-api-gamma-support >}}
+{{< boilerplate gateway-api-gamma-experimental >}}
 
 ## 开始之前 {#before-you-begin}
 

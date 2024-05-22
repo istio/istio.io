@@ -18,7 +18,7 @@ test: yes
 在本任务中，您将会把 50％ 的流量发送到 `reviews:v1`，另外，50％ 的流量发送到
 `reviews:v3`。接着，再把 100％ 的流量发送到 `reviews:v3` 来完成迁移。
 
-{{< boilerplate gateway-api-gamma-support >}}
+{{< boilerplate gateway-api-support >}}
 
 ## 开始之前 {#before-you-begin}
 

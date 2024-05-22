@@ -14,7 +14,7 @@ test: yes
 
 在此任务中，首先把流量全部路由到测试服务的 `v1` 版本。然后，执行规则将一部分流量镜像到 `v2` 版本。
 
-{{< boilerplate gateway-api-gamma-support >}}
+{{< boilerplate gateway-api-support >}}
 
 ## 开始之前{#before-you-begin}
 

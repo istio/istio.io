@@ -20,7 +20,7 @@ test: yes
 `wikipedia.org` 站点均有自己的主机名，譬如：英语和德语对应的主机分别为 `en.wikipedia.org`
 和 `de.rikipedia.org`。您希望通过通用配置项开启所有 Wikipedia 站点的出口流量，无需单独配置每个语种的站点。
 
-{{< boilerplate gateway-api-gamma-support >}}
+{{< boilerplate gateway-api-support >}}
 
 ## 开始之前  {#before-you-begin}
 
