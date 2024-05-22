@@ -7,7 +7,9 @@ owner: istio/wg-docs-maintainers-english
 test: n/a
 ---
 
-Istio pioneered the concept of a sidecar-based service mesh when it launched in 2017. Since then, the project has driven advances in the mesh space including [extensibility via WebAssembly](/docs/concepts/wasm/), the [development of the Kubernetes Gateway API](/blog/2022/gateway-api-beta/), and moving the mesh infrastructure away from application developers with [ambient mode](/docs/ambient/overview/).
+Istio pioneered the concept of a sidecar-based service mesh when it launched in 2017. Out of the gate, the project included the features that would come to define a service mesh, including standards-based mutual TLS for zero-trust networking, smart traffic routing, and observability through metrics, logs and tracing.
+
+Since then, the project has driven advances in the mesh space including [multi-cluster & multi-network topologies](/docs/ops/deployment/deployment-models/), [extensibility via WebAssembly](/docs/concepts/wasm/), the [development of the Kubernetes Gateway API](/blog/2022/gateway-api-beta/), and moving the mesh infrastructure away from application developers with [ambient mode](/docs/ambient/overview/).
 
 Here are a few reasons we think you should use Istio as your service mesh.
 
@@ -31,7 +33,7 @@ Istio inherits all the power and flexibility of Envoy, including world-class ext
 
 ## Packages
 
-We make stable binary releases available to everyone, with every release, and commit to continue doing so.
+We make stable binary releases available to everyone, with every release, and commit to continue doing so. We publish free and regular security patches for [our latest release and a number of prior releases](/docs/releases/supported-releases/). Many of our vendors will support older versions, but we believe that engaging a vendor should not be a requirement to be safe in a stable open source project.
 
 ## Alternatives considered
 
@@ -39,15 +41,20 @@ A good design document includes a section on alternatives that were considered, 
 
 ### Why not "use eBPF"?
 
-{{< gloss >}}eBPF{{< /gloss >}} is a virtual machine that runs inside the kernel. It was designed for very small programs, such as those that perform simple traffic routing or provide observability data. It was not designed for running arbitrary applications: that's why operating systems have [user space](https://en.wikipedia.org/wiki/User_space_and_kernel_space)! eBPF maintainers have theorized that it could eventually be extended to support running a program like Envoy, Other meshes that claim to "use eBPF" actually use a per-node Envoy proxy.
+We do - where it's appropriate! Istio can be configured to use eBPF [to route traffic from the pods to the proxies](/blog/2023/ambient-ebpf-redirection/). This shows a very small performance increase.
 
-(Istio can be configured to use eBPF, where appropriate; [to route traffic from the pods to the proxies](/blog/2023/ambient-ebpf-redirection/). This shows a very small performance increase.
+Why not use it for everything? No-one does, because no-one actually can.
+
+{{< gloss >}}eBPF{{< /gloss >}} is a virtual machine that runs inside the kernel. It was designed for functions guaranteed to complete in a limited compute envelope to avoid destabilizing kernel behavior, such as those that perform simple L3 traffic routing or application observability. It was not designed for long running or complex functions like those found in Envoy: that's why operating systems have [user space](https://en.wikipedia.org/wiki/User_space_and_kernel_space)! eBPF maintainers have theorized that it could eventually be extended to support running a program as complex as Envoy, but this is a science project and unlikely to have real world practicality.
+
+Other meshes that claim to "use eBPF" actually use a per-node Envoy proxy.
 
 ### Why not use a per-node proxy?
 
-Envoy is not inherently multi-tenant. As a result, we have security concerns with commingling complex processing rules for L7 traffic from multiple unconstrained tenants in a shared instance. Budgeting and cost attribution are also major issues, as L7 processing costs a lot more than L4.
+Envoy is not inherently multi-tenant. As a result, we have major security and stability concerns with commingling complex processing rules for L7 traffic from multiple unconstrained tenants in a shared instance. Since Kubernetes, by default can schedule a pod from any namespace onto any node, the node is not an appropriate security boundary.
+Budgeting and cost attribution are also major issues, as L7 processing costs a lot more than L4.
 
-In ambient mode, we strictly limit our ztunnel proxy to L4 processing. This reduces the vulnerability surface area significantly, and allows us to safely operate a shared component. Traffic is then forwarded off to Envoy proxies that operate per-workload group, such that no Envoy proxy is ever multi-tenant.
+In ambient mode, we strictly limit our ztunnel proxy to L4 processing. This reduces the vulnerability surface area significantly, and allows us to safely operate a shared component. Traffic is then forwarded off to Envoy proxies that operate per-namespace, such that no Envoy proxy is ever multi-tenant.
 
 ## I have a CNI. Why do I need Istio?
 
