@@ -492,6 +492,7 @@ FedRAMP
 filename
 filenames
 fine-grained
+FIPS
 Firebase
 FitStation
 Fluentd
@@ -1280,6 +1281,7 @@ wikipedia.org
 wildcard
 wildcarded
 wildcards
+Wireguard
 workgroup
 workload
 workstream

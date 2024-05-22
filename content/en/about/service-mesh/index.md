@@ -16,7 +16,16 @@ aliases:
 doc_type: about
 ---
 
+
 {{< centered_block >}}
+{{< figure src="/img/service-mesh.svg" alt="Service mesh" title="By using application proxies, Istio lets you program application-aware traffic management, incredible observability, and robust security capabilities into your network." >}}
+{{< /centered_block >}}
+
+{{< centered_block >}}
+
+[comment]: <> (The below heading is only here because lint requires the first heading to be a <h2>, and later on we want <h1>s.]
+
+## What is Istio?
 
 A **service mesh** is an infrastructure layer that gives applications capabilities like zero-trust security, observability, and advanced traffic management, without code changes. **Istio** is the most popular, powerful, and trusted service mesh. Founded by Google, IBM and Lyft in 2016, Istio is a graduated project in the Cloud Native Computing Foundation alongside projects like Kubernetes and Prometheus.
 
@@ -70,7 +79,7 @@ Built on the industry standard gateway proxy for cloud native applications, Isti
 <a class="btn" href="/docs/overview/why-choose-istio/#envoy">Learn about Istio and Envoy</a>
 {{< /feature_block>}}
 
-{{< feature_block header="True community project" image="community-project.svg" >}}
+{{< feature_block header="A true community project" image="community-project.svg" >}}
 Istio has been designed for modern workloads and engineered by a vast community of innovators across the cloud native landscape.
 
 <a class="btn" href="/docs/overview/why-choose-istio/#community">Learn about Istio's contributors</a>
