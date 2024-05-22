@@ -1509,11 +1509,13 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <tr><td><code>auto_registration_unregister_total</code></td><td><code>Sum</code></td><td>Total number of unregistrations.</td></tr>
 <tr><td><code>auto_registration_updates_total</code></td><td><code>Sum</code></td><td>Total number of auto registration updates.</td></tr>
 <tr><td><code>citadel_server_authentication_failure_count</code></td><td><code>Sum</code></td><td>The number of authentication failures.</td></tr>
+<tr><td><code>citadel_server_cert_chain_expiry_seconds</code></td><td><code>LastValue</code></td><td>The time remaining, in seconds, before the certificate chain will expire. A negative value indicates the cert is expired.</td></tr>
 <tr><td><code>citadel_server_cert_chain_expiry_timestamp</code></td><td><code>LastValue</code></td><td>The unix timestamp, in seconds, when Citadel cert chain will expire. A negative time indicates the cert is expired.</td></tr>
 <tr><td><code>citadel_server_csr_count</code></td><td><code>Sum</code></td><td>The number of CSRs received by Citadel server.</td></tr>
 <tr><td><code>citadel_server_csr_parsing_err_count</code></td><td><code>Sum</code></td><td>The number of errors occurred when parsing the CSR.</td></tr>
 <tr><td><code>citadel_server_csr_sign_err_count</code></td><td><code>Sum</code></td><td>The number of errors occurred when signing the CSR.</td></tr>
 <tr><td><code>citadel_server_id_extraction_err_count</code></td><td><code>Sum</code></td><td>The number of errors occurred when extracting the ID from CSR.</td></tr>
+<tr><td><code>citadel_server_root_cert_expiry_seconds</code></td><td><code>LastValue</code></td><td>The time remaining, in seconds, before the root certificate will expire. A negative value indicates the cert is expired.</td></tr>
 <tr><td><code>citadel_server_root_cert_expiry_timestamp</code></td><td><code>LastValue</code></td><td>The unix timestamp, in seconds, when Citadel root cert will expire. A negative time indicates the cert is expired.</td></tr>
 <tr><td><code>citadel_server_success_cert_issuance_count</code></td><td><code>Sum</code></td><td>The number of certificates issuances that have succeeded.</td></tr>
 <tr><td><code>controller_sync_errors_total</code></td><td><code>Sum</code></td><td>Total number of errorMetric syncing controllers.</td></tr>
