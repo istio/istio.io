@@ -14,7 +14,7 @@ To use L7 policies, and Istio's traffic routing features, you can [deploy a wayp
 
 ## Layer 4 authorization policies
 
-The ztunnel proxy performs authorization policy enforcement when a workload is enrolled in secure overlay mode. The enforcement point is at the receiving (server-side) ztunnel proxy in the path of a connection.
+The ztunnel proxy can perform authorization policy enforcement when a workload is enrolled in secure overlay mode. The enforcement point is at the receiving (server-side) ztunnel proxy in the path of a connection.
 
 A basic L4 authorization policy looks like this:
 
