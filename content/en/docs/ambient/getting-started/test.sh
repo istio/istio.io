@@ -39,6 +39,7 @@ snip_deploy_the_sample_application_2
 
 snip_deploy_the_sample_application_3
 snip_deploy_the_sample_application_4
+snip_deploy_the_sample_application_5
 
 # test traffic before ambient mode is enabled
 _verify_contains snip_verify_traffic_sleep_to_ingress "$snip_verify_traffic_sleep_to_ingress_out"
@@ -58,7 +59,7 @@ _verify_contains snip_layer_4_authorization_policy_3 "$snip_layer_4_authorizatio
 _verify_failure snip_layer_4_authorization_policy_4
 
 _verify_contains snip_layer_7_authorization_policy_1 "$snip_layer_7_authorization_policy_1_out"
-_verify_contains snip_layer_7_authorization_policy_2 "Resource programmed, assigned to service"
+_verify_contains snip_layer_7_authorization_policy_2 "True"
 snip_layer_7_authorization_policy_3
 _verify_contains snip_layer_7_authorization_policy_4 "$snip_layer_7_authorization_policy_4_out"
 _verify_contains snip_layer_7_authorization_policy_5 "$snip_layer_7_authorization_policy_5_out"

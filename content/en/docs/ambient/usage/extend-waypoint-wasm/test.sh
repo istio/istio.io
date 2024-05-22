@@ -40,7 +40,7 @@ snip_deploy_the_sample_application_1
 snip_deploy_the_sample_application_2
 
 snip_deploy_the_sample_application_3
-snip_deploy_the_sample_application_4
+snip_deploy_the_sample_application_5
 
 # adding applications to ambient mesh
 _verify_same snip_adding_your_application_to_the_ambient_mesh_1 "$snip_adding_your_application_to_the_ambient_mesh_1_out"

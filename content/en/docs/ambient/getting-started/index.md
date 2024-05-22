@@ -112,17 +112,19 @@ Make sure the default namespace does not include the label `istio-injection=enab
 
     `sleep` and `notsleep` are two simple applications that can serve as curl clients.
 
-1. Deploy an ingress gateway so you can access the bookinfo app from outside the cluster:
-
-    {{< tip >}}
-    To get IP address assignment for `Loadbalancer` service types in `kind`, you may need to install a tool like [MetalLB](https://metallb.universe.tf/). Please consult [this guide](https://kind.sigs.k8s.io/docs/user/loadbalancer/) for more information.
-    {{</ tip >}}
+1. Deploy an ingress gateway:
 
     Create a [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.Gateway)
     and [HTTPRoute](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.HTTPRoute):
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/gateway-api/bookinfo-gateway.yaml@
+    {{< /text >}}
+
+    By default, Istio creates a `LoadBalancer` service for a gateway. Change the service type to `ClusterIP` by annotating the gateway.
+
+    {{< text bash >}}
+    $ kubectl annotate gateway bookinfo-gateway networking.istio.io/service-type=ClusterIP --namespace=default
     {{< /text >}}
 
     Set the environment variables for the Kubernetes Gateway:
@@ -133,7 +135,7 @@ Make sure the default namespace does not include the label `istio-injection=enab
     $ export GATEWAY_SERVICE_ACCOUNT=ns/default/sa/bookinfo-gateway-istio
     {{< /text >}}
 
-1. Test your bookinfo application. It should work with or without the gateway:
+1. Test your bookinfo application. It should work with and without the gateway:
 
     {{< text syntax=bash snip_id=verify_traffic_sleep_to_ingress >}}
     $ kubectl exec deploy/sleep -- curl -s "http://$GATEWAY_HOST/productpage" | grep -o "<title>.*</title>"
@@ -247,19 +249,12 @@ identities, but not at the Layer 7 level, such as HTTP methods like `GET` and `P
     namespace default labeled with "istio.io/use-waypoint: waypoint"
     {{< /text >}}
 
-1. View the waypoint proxy status; you should see the details of the gateway resource with `Programmed` status:
+1. View the waypoint proxy; you should see the details of the gateway resource with `Programmed=True` status:
 
     {{< text bash >}}
-    $ kubectl get gtw waypoint -o yaml
-    ...
-    status:
-      conditions:
-      - lastTransitionTime: "2024-04-18T14:25:56Z"
-        message: Resource programmed, assigned to service(s) waypoint.default.svc.cluster.local:15008
-        observedGeneration: 1
-        reason: Programmed
-        status: "True"
-        type: Programmed
+    $ kubectl get gtw waypoint
+    NAME       CLASS            ADDRESS       PROGRAMMED   AGE
+    waypoint   istio-waypoint   10.96.58.95   True         61s
     {{< /text >}}
 
 1. Update your `AuthorizationPolicy` to explicitly allow the `sleep` service to `GET` the `productpage` service, but perform no other operations:
