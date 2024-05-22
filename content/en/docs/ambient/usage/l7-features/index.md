@@ -30,12 +30,39 @@ Refer to the [traffic management](/docs/tasks/traffic-management/) documentation
 
 ## Security
 
-Without a waypoint installed, you can only use [Layer 4 security policies](/docs/ambient/usage/l4-policy/).  By adding a waypoint, you gain access to the following policies:
+Without a waypoint installed, you can only use [Layer 4 security policies](/docs/ambient/usage/l4-policy/). By adding a waypoint, you gain access to the following policies:
 
 |  Name  | Feature Status | Attachment |
 | --- | --- | --- |
-| `AuthorizationPolicy` (including L7 features) | Beta | `targetRefs` |
-| `RequestAuthentication` | Beta | `targetRefs` |
+| [`AuthorizationPolicy`](/docs/reference/config/security/authorization-policy/) (including L7 features) | Beta | `targetRefs` |
+| [`RequestAuthentication`](/docs/reference/config/security/request_authentication/) | Beta | `targetRefs` |
+
+### Considerations for authorization policies
+
+Authorization policies whose [conditions](/docs/reference/config/security/conditions/) only target Layer 4 (TCP) will either be [enforced by the ztunnel or the waypoint](/docs/ambient/usage/l4-policy#considerations) depending on where the policy is targeted for attachment.
+
+In a scenario where a policy contains conditions that match L7 attributes (for example, HTTP verbs), a waypoint proxy is **required**. It is important to understand that ztunnel cannot meaningfully enforce any policy that requires L7 parsing. If an authorization policy has been configured that requires any traffic processing beyond L4, and if no waypoint proxies are configured for the destination of the traffic, then **the ztunnel proxy will DENY all traffic** as a defensive move.
+
+Authorisation policuies
+
+When the following conditions are true:
+
+1. The policy enforces [conditions](/docs/reference/config/security/conditions/) for HTTP
+1. The source pod is a normal pod which has ztunnel enabled.
+1. The waypoint is configured with the `istio.io/waypoint-for` label set to `service`.
+
+Policy enforcement will be applied as follows:
+
+Attachment Style | Scope | Waypoint present? | | Enforced by | Allowed? | Source identity
+| --- | --- | --- | --- | --- | -- | -- |
+| _empty †_ | Namespace | no | ⇒ | destination ztunnel | DENY | n/a |
+| _empty †_ | Namespace | yes | ⇒ | destination ztunnel | DENY | n/a |
+| Selector | Pod | no | ⇒ | destination ztunnel | DENY | n/a |
+| Selector | Pod | yes | ⇒ | destination ztunnel | DENY | n/a |
+| `targetRefs` | Service | yes | ⇒ | waypoint | per policy | client pod |
+| `targetRefs` | Gateway | yes | ⇒ | waypoint | per policy | client pod |
+
+*† If no Selector or `targetRef` is specified, the policy is namespace scoped.*
 
 ## Observability
 
@@ -111,25 +138,3 @@ spec:
       weight: 10
 EOF
 {{< /text >}}
-
-### Authorization policy attachment
-
-In a scenario where policy requires application layer attributes, such as HTTP verbs, a waypoint proxy is required. It is important to understand that ztunnel cannot meaningfully enforce any policy that requires L7 parsing. If any application layer attributes are present in an authorization policy which is enforced by ztunnel the result is a DENY rule.
-
-The following table is based on these invariants:
-
-1. The source pod is a normal pod which has ztunnel enabled.
-1. The waypoint is configured with the `istio.io/waypoint-for` label set to `service`.
-
-| Waypoint † | Attachment Style | Scope | Source Identity | Enforced By |
-| --- | --- | --- | --- | --- |
-| no | Selector | Pod | client pod | destination ztunnel |
-| yes | Selector | Pod | waypoint | destination ztunnel |
-| no | _empty ‡_ | Namespace | client pod | destination ztunnel |
-| yes | _empty ‡_ | Namespace | waypoint | destination ztunnel |
-| yes | `targetRefs` | Service | client pod | waypoint |
-| yes | `targetRefs` | Gateway | client pod | waypoint |
-
-† Whether or not there is a waypoint in the traffic path.
-
-‡ If no Selector or `targetRef` is specified, the policy is namespace scoped.
