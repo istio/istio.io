@@ -18,7 +18,7 @@ from one destination to another.
 In this task, you will use send 50% of traffic to `reviews:v1` and 50% to `reviews:v3`. Then, you will
 complete the migration by sending 100% of traffic to `reviews:v3`.
 
-{{< boilerplate gateway-api-gamma-support >}}
+{{< boilerplate gateway-api-support >}}
 
 ## Before you begin
 

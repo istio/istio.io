@@ -19,7 +19,7 @@ dedicated _egress gateway_ service. This example combines the previous two by
 describing how to configure an egress gateway to perform TLS origination for
 traffic to external services.
 
-{{< boilerplate gateway-api-gamma-support >}}
+{{< boilerplate gateway-api-support >}}
 
 ## Before you begin
 

@@ -11,7 +11,7 @@ test: yes
 
 This task shows you how to set up request timeouts in Envoy using Istio.
 
-{{< boilerplate gateway-api-gamma-support >}}
+{{< boilerplate gateway-api-support >}}
 
 ## Before you begin
 
