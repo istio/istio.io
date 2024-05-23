@@ -139,7 +139,7 @@ standard for all cloud native applications."
 
 ## Continuous Technical Innovation
 
-We are firm believers that diversity drives innovation. What amazes me most is the continuous innovation from the
+We are firm believers that diversity drives innovation. What amazes us most is the continuous innovation from the
 Istio community, from making upgrades easier, to adopting Kubernetes Gateway API, to adding the new sidecar-less
 data plane mode called ambient, to making Istio easy to use and as transparent as possible. Istio’s ambient mode
 was launched in September 2022, introducing a new data plane mode without sidecars that’s designed for simplified
