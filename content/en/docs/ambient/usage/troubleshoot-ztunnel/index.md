@@ -12,12 +12,12 @@ This guide describes some options for monitoring the ztunnel proxy configuration
 
 The ztunnel proxy gets configuration and discovery information from the istiod {{< gloss >}}control plane{{< /gloss >}} via xDS APIs.
 
-The `istioctl x ztunnel-config` command allows you to view discovered workloads as seen by a ztunnel proxy.
+The `istioctl ztunnel-config` command allows you to view discovered workloads as seen by a ztunnel proxy.
 
 In the first example, you see all the workloads and control plane components that ztunnel is currently tracking, including information about the IP address and protocol to use when connecting to that component and whether there is a waypoint proxy associated with that workload.
 
 {{< text bash >}}
-$ istioctl x ztunnel-config workloads
+$ istioctl ztunnel-config workloads
 NAMESPACE          POD NAME                                IP          NODE                  WAYPOINT PROTOCOL
 default            bookinfo-gateway-istio-59dd7c96db-q9k6v 10.244.1.11 ambient-worker        None     TCP
 default            details-v1-cf74bb974-5sqkp              10.244.1.5  ambient-worker        None     HBONE
@@ -41,7 +41,7 @@ local-path-storage local-path-provisioner-7577fdbbfb-pslg6 10.244.0.4  ambient-c
 The `ztunnel-config` command can be used to view the secrets holding the TLS certificates that the ztunnel proxy has received from the istiod control plane to use for mTLS.
 
 {{< text bash >}}
-$ istioctl x ztunnel-config certificates "$ZTUNNEL".istio-system
+$ istioctl ztunnel-config certificates "$ZTUNNEL".istio-system
 CERTIFICATE NAME                                              TYPE     STATUS        VALID CERT     SERIAL NUMBER                        NOT AFTER                NOT BEFORE
 spiffe://cluster.local/ns/default/sa/bookinfo-details         Leaf     Available     true           c198d859ee51556d0eae13b331b0c259     2024-05-05T09:17:47Z     2024-05-04T09:15:47Z
 spiffe://cluster.local/ns/default/sa/bookinfo-details         Root     Available     true           bad086c516cce777645363cb8d731277     2034-04-24T03:31:05Z     2024-04-26T03:31:05Z
@@ -60,7 +60,7 @@ Using these commands, you can check that ztunnel proxies are  configured with al
 You may use the `all` option to view all parts of the ztunnel-config with a single CLI command:
 
 {{< text bash >}}
-$ istioctl x ztunnel-config all -o json
+$ istioctl ztunnel-config all -o json
 {{< /text >}}
 
 You can also view the raw configuration dump of a ztunnel proxy via a `curl` to an endpoint inside its pod:
