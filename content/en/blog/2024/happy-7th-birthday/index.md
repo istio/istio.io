@@ -102,7 +102,7 @@ three. While most of these companies are Istio vendors, Salesforce and Ericsson 
     alt="Top Istio contributing companies for the past year!"
     >}}
 
-Here are some thoughts from community leaders:
+Here are some thoughts from our community leaders:
 
 "Service mesh adoption has been steadily rising over the past few years as cloud native adoption has matured
 across industries," said Chris Aniszczyk, CTO of CNCF. "Istio has helped drive part of this maturation since they
