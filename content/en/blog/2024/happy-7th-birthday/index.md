@@ -90,7 +90,7 @@ Frédéric Gaudet, Senior SRE at BlablaCar. "The community is great and each rel
 Over the past year, our community has observed tremendous growth in terms of both the number of contributing
 companies and the number of contributors. Recall that Istio had 500 contributors when Istio turned three years
 old? Istio now has had over 1,700 contributors in the past year. With the Microsoft Open Service Mesh team joining
-the Istio community, we are now the preferred service mesh not only for Google Cloud, Red Hat OpenShift, and
+the Istio community, we are now the preferred service mesh not only for Red Hat OpenShift, and
 VMware Tanzu, but also for Azure. We are also delighted to see the Amazon Web Service team publish the [EKS Blueprint for Istio](https://aws-ia.github.io/terraform-aws-eks-blueprints/patterns/istio/)
 due to high demand from users wanting to run Istio on AWS.
 
