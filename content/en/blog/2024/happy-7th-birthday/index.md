@@ -56,7 +56,7 @@ robust security features and deep insights into system performance, enabling mor
 troubleshooting of our distributed services."
 
 "Adopting Istio has been a game changer for our engineering organization in our journey of adopting a
-microservices based architecture," said Sjray Kumar, Principal Software Engineer at Bluecore. "Its *batteries
+microservices based architecture," said Shray Kumar, Principal Software Engineer at Bluecore. "Its *batteries
 included* approach has allowed us to easily manage traffic routing, gain deep visibility into our service to
 service interactions with distributed tracing, and extensibility via WASM plugins. Its comprehensive feature set
 has made it an essential part of our infrastructure, and has allowed our engineers to decouple application code
