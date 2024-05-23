@@ -11,7 +11,7 @@ keywords: [istio,birthday,momentum,future]
     alt="Happy 7th birthday, Istio!"
     >}}
 
-On this day in 2017, [Google and IBM announced the launch of the Istio service mesh](https://techcrunch.com/2017/05/24/google-ibm-and-lyft-launch-istio-an-open-source-platform-for-managing-and-securing-microservices/). [Istio](https://istio.io/)
+On this day in 2017, [Google and IBM announced the launch of the Istio service mesh](https://techcrunch.com/2017/05/24/google-ibm-and-lyft-launch-istio-an-open-source-platform-for-managing-and-securing-microservices/). [Istio]
 is an open technology that enables developers to seamlessly connect, manage, and secure networks of different
 microservices — regardless of platform, source, or vendor. We can hardly believe that Istio turns seven today! To
 celebrate the project’s 7th birthday, we wanted to highlight Istio’s momentum and its exciting future.
