@@ -490,9 +490,9 @@ foo.yaml
 fortio
 FQDN
 FQDNs
-Frédéric
 frontend
 frontends
+Frédéric
 Fu
 fuzzers
 gamified
@@ -978,6 +978,7 @@ remediate
 remoteIpBlocks
 repo
 repurposed
+Requena
 requires_any
 Reskill
 ResourceQuota
@@ -986,7 +987,6 @@ resources.limits.memory
 resources.request.cpu
 resources.request.memory
 rethink
-Requena
 reusability
 Reviewer1
 Reviewer2
