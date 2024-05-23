@@ -284,6 +284,12 @@ integrations:
     description: "Space Cloud is a Kubernetes based serverless platform that provides instant, realtime APIs on any database, with event triggers and unified APIs for your custom business logic."
     details:
       - "Space Cloud integrates with Kubernetes and Istio natively to bring to you a highly scalable Serverless Platform. It encrypts all traffic by default and lets you describe communication policies to protect your microservices."
+  - name: "CSFMesh"
+    logo: "/logos/asiainfo.svg"
+    url: "https://www.asiainfo.com/en_us/product_aisware_aifPaaS.html"
+    description: "CSFMesh is a service mesh product developed by AsiaInfo Technologies. It features a graphical configuration interface, which enhances operational efficiency."
+    details:
+      - "CSFMesh is a dashboard based on Istio, which provides functions including cluster management, namespace management, and traffic management. Users can easily configure their own traffic management policies and apply the configuration to the Kubernetes cluster. CSFMesh also provides interface-level service governance and strategies for intercepting traffic on demand."
 
 pro_services:
   - name: "CloudZone"
