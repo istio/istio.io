@@ -1,5 +1,5 @@
 ---
-title: Egress TLS Origination
+title: Egress TLS 源
 description: 描述如何配置 Istio 对来自外部服务的流量执行 TLS 发起。
 keywords: [traffic-management,egress]
 weight: 20
@@ -9,14 +9,14 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-[控制 Egress 流量](/zh/docs/tasks/traffic-management/egress/)的任务向我们展示了位于服务网格内部的应用应如何访问外部
+[控制出口流量](/zh/docs/tasks/traffic-management/egress/)的任务向我们展示了位于服务网格内部的应用应如何访问外部
 （即服务网格之外）的 HTTP 和 HTTPS 服务。
 正如该任务所述，[`ServiceEntry`](/zh/docs/reference/config/networking/service-entry/)
 用于配置 Istio 以受控的方式访问外部服务。
 本示例将演示如何通过配置 Istio 去实现对发往外部服务的流量的 {{< gloss >}}TLS origination{{< /gloss >}}。
 若此时原始的流量为 HTTP，则 Istio 会将其转换为 HTTPS 连接。
 
-## 使用场景   {#use-case}
+## 使用场景  {#use-case}
 
 假设有一个传统应用正在使用 HTTP 和外部服务进行通信。
 而运行该应用的组织却收到了一个新的需求，该需求要求必须对所有外部的流量进行加密。
@@ -111,7 +111,7 @@ test: yes
 
 通过配置 `Istio` 执行 `TLS` 发起，则可以解决这两个问题。
 
-## 用于 egress 流量的 TLS 发起   {#TLS-origination-for-egress-traffic}
+## 用于出口流量的 TLS 源   {#TLS-origination-for-egress-traffic}
 
 1. 重新定义上一节的 `ServiceEntry` 和 `VirtualService` 以重写 HTTP 请求端口，
    并添加一个 `DestinationRule` 以执行 TLS 发起。
@@ -199,7 +199,7 @@ $ kubectl delete serviceentry edition-cnn-com
 $ kubectl delete destinationrule edition-cnn-com
 {{< /text >}}
 
-## 出口流量的双向 TLS 发起   {#mutual-tls-origination-for-egress-traffic}
+## 出口流量的双向 TLS 源   {#mutual-tls-origination-for-egress-traffic}
 
 本节介绍如何配置 Sidecar 为外部服务执行 TLS 发起，这次使用需要双向 TLS 的服务。
 此示例涉及许多内容，需要先执行以下前置操作：
@@ -212,13 +212,175 @@ $ kubectl delete destinationrule edition-cnn-com
 
 ### 生成客户端证书、服务器证书、客户端密钥和服务器密钥   {#generate-client-and-server-certificates-and-keys}
 
-按照 Egress Gateway TLS
-发起任务中的[这些步骤](/zh/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/#generate-client-and-server-certificates-and-keys)进行操作。
+对于此任务，您可以使用您最喜欢的工具来生成证书和密钥。
+以下命令使用 [openssl](https://man.openbsd.org/openssl.1)。
+
+1.  创建根证书和私钥来为您的服务签署证书：
+
+    {{< text bash >}}
+    $ openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=example Inc./CN=example.com' -keyout example.com.key -out example.com.crt
+    {{< /text >}}
+
+1.  为 `my-nginx.mesh-external.svc.cluster.local` 创建证书和私钥：
+
+    {{< text bash >}}
+    $ openssl req -out my-nginx.mesh-external.svc.cluster.local.csr -newkey rsa:2048 -nodes -keyout my-nginx.mesh-external.svc.cluster.local.key -subj "/CN=my-nginx.mesh-external.svc.cluster.local/O=some organization"
+    $ openssl x509 -req -sha256 -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 0 -in my-nginx.mesh-external.svc.cluster.local.csr -out my-nginx.mesh-external.svc.cluster.local.crt
+    {{< /text >}}
+
+    或者，如果您想要为目标启用 SAN 验证，您可以将
+    `SubjectAltNames` 添加到证书中。例如：
+
+    {{< text syntax=bash snip_id=none >}}
+    $ cat > san.conf <<EOF
+    [req]
+    distinguished_name = req_distinguished_name
+    req_extensions = v3_req
+    x509_extensions = v3_req
+    prompt = no
+    [req_distinguished_name]
+    countryName = US
+    [v3_req]
+    keyUsage = critical, digitalSignature, keyEncipherment
+    extendedKeyUsage = serverAuth, clientAuth
+    basicConstraints = critical, CA:FALSE
+    subjectAltName = critical, @alt_names
+    [alt_names]
+    DNS = my-nginx.mesh-external.svc.cluster.local
+    EOF
+    $
+    $ openssl req -out my-nginx.mesh-external.svc.cluster.local.csr -newkey rsa:4096 -nodes -keyout my-nginx.mesh-external.svc.cluster.local.key -subj "/CN=my-nginx.mesh-external.svc.cluster.local/O=some organization" -config san.conf
+    $ openssl x509 -req -sha256 -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 0 -in my-nginx.mesh-external.svc.cluster.local.csr -out my-nginx.mesh-external.svc.cluster.local.crt -extfile san.conf -extensions v3_req
+    {{< /text >}}
+
+1.  生成客户端证书和私钥：
+
+    {{< text bash >}}
+    $ openssl req -out client.example.com.csr -newkey rsa:2048 -nodes -keyout client.example.com.key -subj "/CN=client.example.com/O=client organization"
+    $ openssl x509 -req -sha256 -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 1 -in client.example.com.csr -out client.example.com.crt
+    {{< /text >}}
 
 ### 部署双向 TLS 服务器   {#deploy-a-mutual-tls-server}
 
-按照 Egress Gateway TLS
-发起任务中的[这些步骤](/zh/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/#deploy-a-mutual-tls-server)进行操作。
+要模拟支持双向 TLS 协议的实际外部服务，请在 Kubernetes 集群中部署一个
+[NGINX](https://www.nginx.com) 服务器，但在 Istio 服务网格之外运行，
+即在没有启用 Istio Sidecar 代理注入的命名空间中。
+
+1.  创建一个命名空间来表示 Istio 网格外部的服务，命名为 `mesh-external`。
+    请注意，Sidecar 代理不会自动注入到此命名空间的 Pod 中，
+    因为未在其中[启用](/zh/docs/setup/additional-setup/sidecar-injection/#deploying-an-app)自动 Sidecar 注入。
+
+    {{< text bash >}}
+    $ kubectl create namespace mesh-external
+    {{< /text >}}
+
+1.  创建 Kubernetes [Secret](https://kubernetes.io/zh-cn/docs/concepts/configuration/secret/)
+    来保存服务器证书和 CA 证书。
+
+    {{< text bash >}}
+    $ kubectl create -n mesh-external secret tls nginx-server-certs --key my-nginx.mesh-external.svc.cluster.local.key --cert my-nginx.mesh-external.svc.cluster.local.crt
+    $ kubectl create -n mesh-external secret generic nginx-ca-certs --from-file=example.com.crt
+    {{< /text >}}
+
+1.  为 NGINX 服务器创建配置文件：
+
+    {{< text bash >}}
+    $ cat <<\EOF > ./nginx.conf
+    events {
+    }
+
+    http {
+      log_format main '$remote_addr - $remote_user [$time_local]  $status '
+      '"$request" $body_bytes_sent "$http_referer" '
+      '"$http_user_agent" "$http_x_forwarded_for"';
+      access_log /var/log/nginx/access.log main;
+      error_log  /var/log/nginx/error.log;
+
+      server {
+        listen 443 ssl;
+
+        root /usr/share/nginx/html;
+        index index.html;
+
+        server_name my-nginx.mesh-external.svc.cluster.local;
+        ssl_certificate /etc/nginx-server-certs/tls.crt;
+        ssl_certificate_key /etc/nginx-server-certs/tls.key;
+        ssl_client_certificate /etc/nginx-ca-certs/example.com.crt;
+        ssl_verify_client on;
+      }
+    }
+    EOF
+    {{< /text >}}
+
+1.  创建一个 Kubernetes [ConfigMap](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-pod-configmap/)
+    来保存 NGINX 服务器的配置：
+
+    {{< text bash >}}
+    $ kubectl create configmap nginx-configmap -n mesh-external --from-file=nginx.conf=./nginx.conf
+    {{< /text >}}
+
+1.  部署 NGINX 服务器：
+
+    {{< text bash >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: my-nginx
+      namespace: mesh-external
+      labels:
+        run: my-nginx
+      annotations:
+        "networking.istio.io/exportTo": "." # simulate an external service by not exporting outside this namespace
+    spec:
+      ports:
+      - port: 443
+        protocol: TCP
+      selector:
+        run: my-nginx
+    ---
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: my-nginx
+      namespace: mesh-external
+    spec:
+      selector:
+        matchLabels:
+          run: my-nginx
+      replicas: 1
+      template:
+        metadata:
+          labels:
+            run: my-nginx
+        spec:
+          containers:
+          - name: my-nginx
+            image: nginx
+            ports:
+            - containerPort: 443
+            volumeMounts:
+            - name: nginx-config
+              mountPath: /etc/nginx
+              readOnly: true
+            - name: nginx-server-certs
+              mountPath: /etc/nginx-server-certs
+              readOnly: true
+            - name: nginx-ca-certs
+              mountPath: /etc/nginx-ca-certs
+              readOnly: true
+          volumes:
+          - name: nginx-config
+            configMap:
+              name: nginx-configmap
+          - name: nginx-server-certs
+            secret:
+              secretName: nginx-server-certs
+          - name: nginx-ca-certs
+            secret:
+              secretName: nginx-ca-certs
+    EOF
+    {{< /text >}}
 
 ### 配置客户端 —— sleep Pod   {#configure-the-client-sleep-pod}
 
@@ -241,7 +403,7 @@ $ kubectl delete destinationrule edition-cnn-com
     $ kubectl create rolebinding client-credential-role-binding --role=client-credential-role --serviceaccount=default:sleep
     {{< /text >}}
 
-### 为 Sidecar 上的出口流量配置双向 TLS 发起   {#configure-mutual-tls-origination-for-egress-traffic-at-sidecar}
+### 为 Sidecar 上的出口流量配置双向 TLS 源   {#configure-mutual-tls-origination-for-egress-traffic-at-sidecar}
 
 1. 添加 `ServiceEntry` 将 HTTP 请求重定向到 443 端口，并且添加 `DestinationRule`
    以执行发起双向 TLS：

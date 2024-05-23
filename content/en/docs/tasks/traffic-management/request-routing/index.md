@@ -12,7 +12,7 @@ test: yes
 This task shows you how to route requests dynamically to multiple versions of a
 microservice.
 
-{{< boilerplate gateway-api-gamma-support >}}
+{{< boilerplate gateway-api-support >}}
 
 ## Before you begin
 
@@ -68,7 +68,7 @@ for the virtual services to take effect.
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: reviews
@@ -97,7 +97,7 @@ EOF
 
 {{< text bash yaml >}}
 $ kubectl get virtualservices -o yaml
-- apiVersion: networking.istio.io/v1beta1
+- apiVersion: networking.istio.io/v1
   kind: VirtualService
   ...
   spec:
@@ -108,7 +108,7 @@ $ kubectl get virtualservices -o yaml
       - destination:
           host: details
           subset: v1
-- apiVersion: networking.istio.io/v1beta1
+- apiVersion: networking.istio.io/v1
   kind: VirtualService
   ...
   spec:
@@ -119,7 +119,7 @@ $ kubectl get virtualservices -o yaml
       - destination:
           host: productpage
           subset: v1
-- apiVersion: networking.istio.io/v1beta1
+- apiVersion: networking.istio.io/v1
   kind: VirtualService
   ...
   spec:
@@ -130,7 +130,7 @@ $ kubectl get virtualservices -o yaml
       - destination:
           host: ratings
           subset: v1
-- apiVersion: networking.istio.io/v1beta1
+- apiVersion: networking.istio.io/v1
   kind: VirtualService
   ...
   spec:
@@ -246,7 +246,7 @@ You can confirm the rule is created using the following command:
 
 {{< text bash yaml >}}
 $ kubectl get virtualservice reviews -o yaml
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 ...
 spec:
@@ -273,7 +273,7 @@ spec:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: reviews
@@ -322,7 +322,7 @@ to the request by the `productpage` service.
 
 Note that Kubernetes services, like the Bookinfo ones used in this task, must
 adhere to certain restrictions to take advantage of Istio's L7 routing features.
-Refer to the [Requirements for Pods and Services](/docs/ops/deployment/requirements/) for details.
+Refer to the [Requirements for Pods and Services](/docs/ops/deployment/application-requirements/) for details.
 
 In the [traffic shifting](/docs/tasks/traffic-management/traffic-shifting) task, you
 will follow the same basic pattern you learned here to configure route rules to

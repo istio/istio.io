@@ -39,7 +39,7 @@ $ kubectl logs PODNAME -c istio-proxy -n NAMESPACE
 如果路由规则在 [Bookinfo](/zh/docs/examples/bookinfo/) 这个例子中完美地运行，
 但类似的路由规则在您自己的应用中却没有生效，可能因为您的 Kubernetes Service
 需要被稍微地修改。为了利用 Istio 的七层路由特性 Kubernetes Service 必须严格遵守某些限制。
-参考 [Pod 和 Service 的要求](/zh/docs/ops/deployment/requirements/)查看详细信息。
+参考 [Pod 和 Service 的要求](/zh/docs/ops/deployment/application-requirements/)查看详细信息。
 
 另一个潜在的问题是路由规则可能只是生效比较慢。在 Kubernetes 上实现的 Istio
 利用一个最终一致性算法来保证所有的 Envoy Sidecar 有正确的配置包括所有的路由规则。
@@ -421,8 +421,8 @@ spec:
         host: httpbin.org
 {{< /text >}}
 
-在此示例中，当 `VirtualService` 使用基于 TLS 的路由时，网关将终止 TLS。
-因为在计算路由规则时 TLS 已经终止，所以 TLS 路由规则将无效。
+在此示例中，当 `VirtualService` 使用基于 TLS 的路由时，网关将终止 TLS（因为网关的 `tls.mode` 配置为 `SIMPLE`，而不是 `PASSTHROUGH`）。
+然而计算路由规则的行为是发生在网关终止 TLS 后的，所以配置的 TLS 路由规则将不会产生效果（TLS 无法与 HTTP 匹配）。
 
 使用这种错误配置，您将最终获得 404 响应，因为请求将发送到 HTTP 路由，但未配置 HTTP 路由。
 您可以使用 `istioctl proxy-config routes` 命令确认这一点。

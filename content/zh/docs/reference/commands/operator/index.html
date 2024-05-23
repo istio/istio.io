@@ -221,11 +221,11 @@ to enable it.  You can execute the following once:</p>
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, analysis, authn, ca, controllers, controlleruntime, default, delta, file, gateway, installer, klog, kube, model, monitoring, patch, processing, retry, security, serviceentry, spiffe, status, tpath, translator, trustBundle, util, validation, wle]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, analysis, authn, authorization, ca, controllers, controlleruntime, default, delta, file, gateway, grpc, installer, klog, krt, kube, model, monitoring, patch, processing, retry, security, serviceentry, spiffe, status, tpath, translator, trustBundle, util, validation, wasm, wle]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, authn, ca, controllers, controlleruntime, default, delta, file, gateway, installer, klog, kube, model, monitoring, patch, processing, retry, security, serviceentry, spiffe, status, tpath, translator, trustBundle, util, validation, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:info`)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, analysis, authn, authorization, ca, controllers, controlleruntime, default, delta, file, gateway, grpc, installer, klog, krt, kube, model, monitoring, patch, processing, retry, security, serviceentry, spiffe, status, tpath, translator, trustBundle, util, validation, wasm, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_rotate &lt;string&gt;</code></td>
@@ -245,7 +245,7 @@ to enable it.  You can execute the following once:</p>
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, analysis, authn, ca, controllers, controlleruntime, default, delta, file, gateway, installer, klog, kube, model, monitoring, patch, processing, retry, security, serviceentry, spiffe, status, tpath, translator, trustBundle, util, validation, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, analysis, authn, authorization, ca, controllers, controlleruntime, default, delta, file, gateway, grpc, installer, klog, krt, kube, model, monitoring, patch, processing, retry, security, serviceentry, spiffe, status, tpath, translator, trustBundle, util, validation, wasm, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -329,6 +329,12 @@ These environment variables affect the behavior of the <code>operator</code> com
 <td>The cert signer domain info</td>
 </tr>
 <tr>
+<td><code>CLOUD_PLATFORM</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Cloud Platform on which proxy is running, if not specified, Istio will try to discover the platform. Valid platform values are aws, azure, gcp, none</td>
+</tr>
+<tr>
 <td><code>CLUSTER_ID</code></td>
 <td>String</td>
 <td><code>Kubernetes</code></td>
@@ -353,6 +359,12 @@ cryptograhic modules (please consult
 https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fips-140-2).</td>
 </tr>
 <tr>
+<td><code>ENABLE_100_CONTINUE_HEADERS</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, istiod will proxy 100-continue headers as is</td>
+</tr>
+<tr>
 <td><code>ENABLE_AUTO_SNI</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -371,9 +383,15 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>If this is set to false, the debug interface will not be enabled, recommended for production</td>
 </tr>
 <tr>
+<td><code>ENABLE_DEFERRED_CLUSTER_CREATION</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, Istio will create clusters only when there are requests. This will save memory and CPU cycles in cases where there are lots of inactive clusters and &gt; 1 worker thread</td>
+</tr>
+<tr>
 <td><code>ENABLE_ENHANCED_RESOURCE_SCOPING</code></td>
 <td>Boolean</td>
-<td><code>false</code></td>
+<td><code>true</code></td>
 <td>If enabled, meshConfig.discoverySelectors will limit the CustomResource configurations(like Gateway,VirtualService,DestinationRule,Ingress, etc)that can be processed by pilot. This will also restrict the root-ca certificate distribution.</td>
 </tr>
 <tr>
@@ -449,6 +467,12 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>If enabled, readiness probes will keep the connection from pilot-agent to the application alive. This mirrors older Istio versions&#39; behaviors, but not kubelet&#39;s.</td>
 </tr>
 <tr>
+<td><code>ENABLE_RESOLUTION_NONE_TARGET_PORT</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, targetPort will be supported for resolution=NONE ServiceEntry</td>
+</tr>
+<tr>
 <td><code>ENABLE_SELECTOR_BASED_K8S_GATEWAY_POLICY</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -461,10 +485,28 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>If enabled, the TLS configuration on Sidecar.ingress will take effect</td>
 </tr>
 <tr>
+<td><code>ENABLE_VTPROTOBUF</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, will use optimized vtprotobuf based marshaling. Requires a build with -tags=vtprotobuf.</td>
+</tr>
+<tr>
 <td><code>EXTERNAL_ISTIOD</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If this is set to true, one Istiod will control remote clusters including CA.</td>
+</tr>
+<tr>
+<td><code>GCP_METADATA</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Pipe separated GCP metadata, schemed as PROJECT_ID|PROJECT_NUMBER|CLUSTER_NAME|CLUSTER_ZONE</td>
+</tr>
+<tr>
+<td><code>GCP_QUOTA_PROJECT</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Allows specification of a quota project to be used in requests to GCP APIs.</td>
 </tr>
 <tr>
 <td><code>GRPC_KEEPALIVE_INTERVAL</code></td>
@@ -477,6 +519,12 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>Time Duration</td>
 <td><code>10s</code></td>
 <td>gRPC Keepalive Timeout</td>
+</tr>
+<tr>
+<td><code>HTTP_STRIP_FRAGMENT_FROM_PATH_UNSAFE_IF_DISABLED</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td></td>
 </tr>
 <tr>
 <td><code>INBOUND_INTERCEPTION_MODE</code></td>
@@ -509,9 +557,15 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>If enabled, Istio agent will intercept ECDS resource update, downloads Wasm module, and replaces Wasm module remote load with downloaded local module file.</td>
 </tr>
 <tr>
+<td><code>ISTIO_BOOTSTRAP</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
+</tr>
+<tr>
 <td><code>ISTIO_DELTA_XDS</code></td>
 <td>Boolean</td>
-<td><code>false</code></td>
+<td><code>true</code></td>
 <td>If enabled, pilot will only send the delta configs as opposed to the state of the world on a Resource Request. This feature uses the delta xds api, but does not currently send the actual deltas.</td>
 </tr>
 <tr>
@@ -615,12 +669,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>If enabled, istiod will skip verifying the certificate of the JWKS server.</td>
 </tr>
 <tr>
-<td><code>JWT_POLICY</code></td>
-<td>String</td>
-<td><code>third-party-jwt</code></td>
-<td>The JWT validation policy.</td>
-</tr>
-<tr>
 <td><code>K_REVISION</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -651,6 +699,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>The version to be used for the Kubernetes Multi-Cluster Services (MCS) API.</td>
 </tr>
 <tr>
+<td><code>METRICS_LOCALHOST_ACCESS_ONLY</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>This will disable metrics endpoint from outside of the pod, allowing only localhost access.</td>
+</tr>
+<tr>
 <td><code>METRIC_GRACEFUL_DELETION_INTERVAL</code></td>
 <td>Time Duration</td>
 <td><code>5m0s</code></td>
@@ -669,12 +723,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>If set to a non-zero value, enables mutex profiling a rate of 1/MUTEX_PROFILE_FRACTION events. For example, &#39;1000&#39; will record 0.1% of events. Set to 0 to disable entirely.</td>
 </tr>
 <tr>
-<td><code>NATIVE_METADATA_EXCHANGE</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If set, uses a native implementation of the HTTP metadata exchange filter</td>
-</tr>
-<tr>
 <td><code>PERSIST_OLDEST_FIRST_HEURISTIC_FOR_VIRTUAL_SERVICE_HOST_MATCHING</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -691,6 +739,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Time Duration</td>
 <td><code>10s</code></td>
 <td>If analysis is enabled, pilot will run istio analyzers using this value as interval in seconds Istio Resources</td>
+</tr>
+<tr>
+<td><code>PILOT_AUTO_ALLOW_WAYPOINT_POLICY</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, zTunnel will receive synthetic authorization policies for each workload ALLOW the Waypoint&#39;s identity. Unless other ALLOW policies are created, this effectively denies traffic that doesn&#39;t go through the waypoint.</td>
 </tr>
 <tr>
 <td><code>PILOT_CERT_PROVIDER</code></td>
@@ -747,7 +801,13 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>If true, pilot will add Istio ALPN filters, required for proper protocol sniffing.</td>
 </tr>
 <tr>
-<td><code>PILOT_ENABLE_AMBIENT_CONTROLLERS</code></td>
+<td><code>PILOT_ENABLE_AMBIENT</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, ambient mode can be used. Individual flags configure fine grained enablement; this must be enabled for any ambient functionality.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_AMBIENT_WAYPOINTS</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, controllers required for ambient will run. This is required to run ambient mesh.</td>
@@ -813,18 +873,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>If this is set to true, gateway-api resources will have status written to them</td>
 </tr>
 <tr>
-<td><code>PILOT_ENABLE_HBONE</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If enabled, HBONE support can be configured for proxies. Note: proxies must opt in on a per-proxy basis with ENABLE_HBONE to actually get HBONE config, in addition to this flag.</td>
-</tr>
-<tr>
-<td><code>PILOT_ENABLE_HEADLESS_SERVICE_POD_LISTENERS</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If enabled, for a headless service/stateful set in Kubernetes, pilot will generate an outbound listener for each pod in a headless service. This feature should be disabled if headless services have a large number of pods.</td>
-</tr>
-<tr>
 <td><code>PILOT_ENABLE_K8S_SELECT_WORKLOAD_ENTRIES</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -847,6 +895,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>EnableMysqlFilter enables injection of `envoy.filters.network.mysql_proxy` in the filter chain.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_NODE_UNTAINT_CONTROLLERS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, controller that untaints nodes with cni pods ready will run. This should be enabled if you disabled ambient init containers.</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_PERSISTENT_SESSION_FILTER</code></td>
@@ -879,10 +933,22 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>If true, Pilot will merge virtual hosts with the same routes into a single virtual host, as an optimization.</td>
 </tr>
 <tr>
+<td><code>PILOT_ENABLE_SENDING_HBONE</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, HBONE will be allowed when sending to destinations.</td>
+</tr>
+<tr>
 <td><code>PILOT_ENABLE_SERVICEENTRY_SELECT_PODS</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, service entries with selectors will select pods from the cluster. It is safe to disable it if you are quite sure you don&#39;t need this feature</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_SIDECAR_LISTENING_HBONE</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, HBONE support can be configured for proxies.</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_STATUS</code></td>
@@ -939,6 +1005,18 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>If enabled, Pilot will send only clusters that referenced in gateway virtual services attached to gateway</td>
 </tr>
 <tr>
+<td><code>PILOT_GATEWAY_API_CONTROLLER_NAME</code></td>
+<td>String</td>
+<td><code>istio.io/gateway-controller</code></td>
+<td>Gateway API controller name. istiod will only reconcile Gateway API resources referencing a GatewayClass with this controller name</td>
+</tr>
+<tr>
+<td><code>PILOT_GATEWAY_API_DEFAULT_GATEWAYCLASS_NAME</code></td>
+<td>String</td>
+<td><code>istio</code></td>
+<td>Name of the default GatewayClass</td>
+</tr>
+<tr>
 <td><code>PILOT_HTTP10</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -985,6 +1063,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>String</td>
 <td><code>istio.io/persistent-session</code></td>
 <td>If not empty, services with this label will use cookie based persistent sessions</td>
+</tr>
+<tr>
+<td><code>PILOT_PREFER_SENDING_HBONE</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, HBONE will be preferred when sending to destinations. </td>
 </tr>
 <tr>
 <td><code>PILOT_PUSH_THROTTLE</code></td>
@@ -1077,12 +1161,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>If true, Pilot will collect metrics for XDS cache efficiency.</td>
 </tr>
 <tr>
-<td><code>PILOT_XDS_SEND_TIMEOUT</code></td>
-<td>Time Duration</td>
-<td><code>0s</code></td>
-<td>The timeout to send the XDS configuration to proxies. After this timeout is reached, Pilot will discard that push.</td>
-</tr>
-<tr>
 <td><code>PLATFORM</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -1171,12 +1249,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, certificates received by the proxy will be verified against the OS CA certificate bundle.</td>
-</tr>
-<tr>
-<td><code>VERIFY_SDS_CERTIFICATE</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If enabled, certificates fetched from SDS server will be verified before sending back to proxy.</td>
 </tr>
 <tr>
 <td><code>XDS_AUTH</code></td>
@@ -1277,6 +1349,11 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <tr><td><code>sidecar_injection_time_seconds</code></td><td><code>Distribution</code></td><td>Total time taken for injection in seconds.</td></tr>
 <tr><td><code>startup_duration_seconds</code></td><td><code>LastValue</code></td><td>The time from the process starting to being marked ready.</td></tr>
 <tr><td><code>version</code></td><td><code>LastValue</code></td><td>Version of operator binary</td></tr>
+<tr><td><code>wasm_cache_entries</code></td><td><code>LastValue</code></td><td>number of Wasm remote fetch cache entries.</td></tr>
+<tr><td><code>wasm_cache_lookup_count</code></td><td><code>Sum</code></td><td>number of Wasm remote fetch cache lookups.</td></tr>
+<tr><td><code>wasm_config_conversion_count</code></td><td><code>Sum</code></td><td>number of Wasm config conversion count and results, including success, no remote load, marshal failure, remote fetch failure, miss remote fetch hint.</td></tr>
+<tr><td><code>wasm_config_conversion_duration</code></td><td><code>Distribution</code></td><td>Total time in milliseconds istio-agent spends on converting remote load in Wasm config.</td></tr>
+<tr><td><code>wasm_remote_fetch_count</code></td><td><code>Sum</code></td><td>number of Wasm remote fetches and results, including success, download failure, and checksum mismatch.</td></tr>
 <tr><td><code>webhook_patch_attempts_total</code></td><td><code>Sum</code></td><td>Webhook patching attempts</td></tr>
 <tr><td><code>webhook_patch_failures_total</code></td><td><code>Sum</code></td><td>Webhook patching total failures</td></tr>
 <tr><td><code>webhook_patch_retries_total</code></td><td><code>Sum</code></td><td>Webhook patching retries</td></tr>

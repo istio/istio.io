@@ -18,7 +18,7 @@ from one destination to another.
 In this task, you will use send 50% of traffic to `reviews:v1` and 50% to `reviews:v3`. Then, you will
 complete the migration by sending 100% of traffic to `reviews:v3`.
 
-{{< boilerplate gateway-api-gamma-support >}}
+{{< boilerplate gateway-api-support >}}
 
 ## Before you begin
 
@@ -96,7 +96,7 @@ confirm the rule was replaced:
 
 {{< text syntax=bash outputis=yaml snip_id=verify_config_50_v3 >}}
 $ kubectl get virtualservice reviews -o yaml
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 ...
 spec:
@@ -120,7 +120,7 @@ spec:
 
 {{< text syntax=bash outputis=yaml snip_id=gtw_verify_config_50_v3 >}}
 $ kubectl get httproute reviews -o yaml
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 ...
 spec:

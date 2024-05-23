@@ -1,23 +1,24 @@
 .callout {
+    border-top: 4px solid;
+    border-radius: 4px;
     padding: 1.75em;
-    display: block;
+    display: flex;
     position: relative;
     margin: 1em 0;
 
     .type {
-        left: -.75em;
-        top: 50%;
-        transform: translateY(-50%);
-        position: absolute;
-
         svg {
-            fill: $boxBorderColor;
+            fill: inherit;
+            stroke: inherit;
+            width: 25px;
+            height: 25px;
         }
     }
 
     .content {
         margin-left: 1em;
         min-height: 100%;
+        min-width: 0;
 
         p:first-of-type {
             margin-top: 0;
@@ -51,18 +52,27 @@
 
     &.tip {
         background-color: $tipCalloutBackgroundColor;
+        border-top-color: $tipCalloutBorderColor;
+        fill: $tipCalloutBorderColor;
     }
 
     &.idea {
         background-color: $ideaCalloutBackgroundColor;
+        border-top-color: $ideaCalloutBorderColor;
+        fill: $ideaCalloutBorderColor;
+        stroke: $ideaCalloutBorderColor;
     }
 
     &.warning {
         background-color: $warningCalloutBackgroundColor;
+        border-top-color: $warningCalloutBorderColor;
+        fill: $warningCalloutBorderColor;
     }
 
     &.quote {
         background-color: $quoteCalloutBackgroundColor;
+        border-top-color: $quoteCalloutBorderColor;
+        fill: $quoteCalloutBorderColor;
         font-style: italic;
     }
 }

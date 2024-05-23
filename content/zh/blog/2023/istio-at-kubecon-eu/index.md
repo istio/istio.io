@@ -27,7 +27,7 @@ keywords: [Istio Day,IstioCon,Istio,conference,KubeCon,CloudNativeCon]
 
 随后来自 TOC 的成员 Lin Sun 和 Louis Ryan 讲述了 2023 年[路线图更新议题](https://youtu.be/GQccKyVe0R8)。
 接着由 Christian Posta 和 John Howard 带来了期待已久的、曾在社区中引起一些有趣讨论的
-[Ambient Mesh 安全态势](https://youtu.be/QnfrbbY_Hy4)议题。
+[Ambient 模式安全态势](https://youtu.be/QnfrbbY_Hy4)议题。
 在此之后，出场的是第一次来自荷兰本地公司 [Wehkamp 公司 John Keates 的最终用户访谈](https://youtu.be/Gb_I2RJr8kQ)，
 紧跟着来自彭博社的讲师 Alexa Griffith 和 Zhenni Fu 演讲了[如何使用 Istio 保护他们的高特权财务信息](https://youtu.be/f6jMix46ZD8)。
 Istio Day 见证了人们更加注重安全性，这一点在 Zack Butcher
@@ -83,7 +83,7 @@ Istio 在 KubeCon 展厅中有一个全天候展台，
     >}}
 
 我们的许多 TOC 成员和维护者也在展位上提供了支持，
-围绕 Istio Ambient Mesh 也进行了很多有趣的讨论。
+围绕 Istio Ambient 模式也进行了很多有趣的讨论。
 
 {{< image width="75%"
     link="./toc-members-at-kiosk.jpg"
@@ -95,7 +95,7 @@ Istio 在 KubeCon 展厅中有一个全天候展台，
 
 {{< image width="75%"
     link="./ambient-mesh-book-authors.jpg"
-    caption="KubeCon 欧洲站，Ambient Mesh 书籍作者签名"
+    caption="KubeCon 欧洲站，Ambient 模式书籍作者签名"
     >}}
 
 最后，但同样重要的是，我们要衷心感谢我们的白金赞助商 [Tetrate](http://tetrate.io/)，

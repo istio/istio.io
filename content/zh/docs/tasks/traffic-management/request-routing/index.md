@@ -11,7 +11,7 @@ test: yes
 
 此任务将展示如何将请求动态路由到微服务的多个版本。
 
-{{< boilerplate gateway-api-gamma-support >}}
+{{< boilerplate gateway-api-support >}}
 
 ## 开始之前  {#before-you-begin}
 
@@ -66,7 +66,7 @@ $ kubectl apply -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: reviews
@@ -95,7 +95,7 @@ EOF
 
 {{< text bash yaml >}}
 $ kubectl get virtualservices -o yaml
-- apiVersion: networking.istio.io/v1beta1
+- apiVersion: networking.istio.io/v1
   kind: VirtualService
   ...
   spec:
@@ -106,7 +106,7 @@ $ kubectl get virtualservices -o yaml
       - destination:
           host: details
           subset: v1
-- apiVersion: networking.istio.io/v1beta1
+- apiVersion: networking.istio.io/v1
   kind: VirtualService
   ...
   spec:
@@ -117,7 +117,7 @@ $ kubectl get virtualservices -o yaml
       - destination:
           host: productpage
           subset: v1
-- apiVersion: networking.istio.io/v1beta1
+- apiVersion: networking.istio.io/v1
   kind: VirtualService
   ...
   spec:
@@ -128,7 +128,7 @@ $ kubectl get virtualservices -o yaml
       - destination:
           host: ratings
           subset: v1
-- apiVersion: networking.istio.io/v1beta1
+- apiVersion: networking.istio.io/v1
   kind: VirtualService
   ...
   spec:
@@ -265,7 +265,7 @@ spec:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: reviews
@@ -310,7 +310,7 @@ EOF
 选择性地将特定的流量路由到了 `reviews` 服务的 `v2` 版本。
 
 请注意，Kubernetes 中的服务，如本任务中使用的 Bookinfo 服务，必须遵守某些特定限制，才能利用到
-Istio 的 L7 路由特性优势。参考 [Pod 和 Service 需求](/zh/docs/ops/deployment/requirements/)了解详情。
+Istio 的 L7 路由特性优势。参考 [Pod 和 Service 需求](/zh/docs/ops/deployment/application-requirements/)了解详情。
 
 在[流量转移](/zh/docs/tasks/traffic-management/traffic-shifting)任务中，
 您将按照在此处学习到的相同的基本模式来配置路由规则，以逐步将流量从服务的一个版本迁移到另一个版本。

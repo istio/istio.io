@@ -284,6 +284,12 @@ integrations:
     description: "Space Cloud is a Kubernetes based serverless platform that provides instant, realtime APIs on any database, with event triggers and unified APIs for your custom business logic."
     details:
       - "Space Cloud integrates with Kubernetes and Istio natively to bring to you a highly scalable Serverless Platform. It encrypts all traffic by default and lets you describe communication policies to protect your microservices."
+  - name: "CSFMesh"
+    logo: "/logos/asiainfo.svg"
+    url: "https://www.asiainfo.com/en_us/product_aisware_aifPaaS.html"
+    description: "CSFMesh is a service mesh product developed by AsiaInfo Technologies. It features a graphical configuration interface, which enhances operational efficiency."
+    details:
+      - "CSFMesh is a dashboard based on Istio, which provides functions including cluster management, namespace management, and traffic management. Users can easily configure their own traffic management policies and apply the configuration to the Kubernetes cluster. CSFMesh also provides interface-level service governance and strategies for intercepting traffic on demand."
 
 pro_services:
   - name: "CloudZone"
@@ -339,7 +345,12 @@ pro_services:
     details: 
       - "Istio consulting and advising, Istio production installation, configuration and integration with observability tools, security measures, and enterprise Istio support and training are all part of our entire professional services offering."
       - "Leveraging our extensive expertise in cloud Native and Kubernetes projects, we provide end-to-end services to our clients."
-
+  - name: "CloudRaft"
+    logo: "/logos/cloudraft.svg"
+    url: "https://www.cloudraft.io/kubernetes-consulting"
+    description: "CloudRaft offers comprehensive cloud-native solutions including Istio service mesh and Kubernetes."
+    details:
+      - "CloudRaft specializes in full-stack cloud-native solutions, including expert support for Istio service mesh integration. With extensive experience in cloud consulting, Kubernetes deployment, and Istio implementation, we ensure seamless operation within your environment. From consulting to training and production support, our comprehensive services maximize efficiency and scalability. With proven expertise and a client-centric approach, CloudRaft is your trusted partner for unlocking Istio's full potential in Kubernetes."
   - name: "Your Name Here"
     logo: "/logos/istio.svg"
     url: "https://istio.io/"
@@ -427,6 +438,9 @@ users:
   - name: "HelloFresh"
     logo: "/logos/hellofresh.svg"
     url: "https://www.hellofresh.com/"
+  - name: "HighLevel"
+    logo: "/logos/highlevel.svg"
+    url: "https://www.gohighlevel.com/"
   - name: "Hotels.com"
     logo: "/logos/hotels-com.svg"
     url: "https://www.hotels.com/"

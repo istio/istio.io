@@ -1,6 +1,7 @@
 features:
   - name: "Protocols:HTTP1.1/HTTP2/gRPC/TCP"
     id: "traffic.http_protocols"
+    link: "/docs/ops/configuration/traffic-management/protocol-selection/"
     level:
       checklist: features/protocol-support.md
       maturity: Stable
@@ -86,14 +87,22 @@ features:
       maturity: Beta
       nextExpectedPromotion: "1.13"
     area: Traffic Management
-  - name: "Kubernetes Gateway APIs"
+  - name: "Kubernetes Gateway APIs for ingress (`Gateway` `parentRef`) "
     link: "/docs/tasks/traffic-management/ingress/gateway-api/"
+    level:
+      checklist: features/k8s-gateway-apis.md
+      maturity: Stable
+      nextExpectedPromotion: ""
+    area: Traffic Management
+    id: "traffic.k8s_gateway_apis"
+  - name: "Kubernetes Gateway APIs for mesh (`Service` `parentRef`) "
+    link: "/docs/tasks/traffic-management/"
     level:
       checklist: features/k8s-gateway-apis.md
       maturity: Beta
       nextExpectedPromotion: ""
     area: Traffic Management
-    id: "traffic.k8s_gateway_apis"
+    id: "traffic.k8s_gateway_apis_+mesh"
   - name: "Gateway Network Topology Configuration"
     link: "/docs/ops/configuration/traffic-management/network-topologies/"
     id: "traffic.gateway_topology"
@@ -128,14 +137,6 @@ features:
   - name: "Distributed Tracing"
     id: "observability.distributed_tracing"
     link: "/docs/tasks/observability/distributed-tracing/"
-    level:
-      checklist: ""
-      maturity: Stable
-      nextExpectedPromotion: ""
-    area: Observability
-  - name: "Stackdriver Integration"
-    id: "observability.stackdriver"
-    link: "/docs/reference/config/proxy_extensions/stackdriver/"
     level:
       checklist: ""
       maturity: Stable
@@ -353,7 +354,7 @@ features:
     link: "/docs/ops/configuration/security/harden-docker-images/"
     level:
       checklist: features/distroless_images.md
-      maturity: Beta
+      maturity: Stable
       nextExpectedPromotion: ""
     area: Core
   - name: "Virtual Machine Integration"

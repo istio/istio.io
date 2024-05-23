@@ -39,7 +39,7 @@ To avoid a vulnerability, ensure that the operator deployment is sufficiently se
 
 1. Perform any necessary [platform-specific setup](/docs/setup/platform-setup/).
 
-1. Check the [Requirements for Pods and Services](/docs/ops/deployment/requirements/).
+1. Check the [Requirements for Pods and Services](/docs/ops/deployment/application-requirements/).
 
 1. Install the [{{< istioctl >}} command](/docs/ops/diagnostic-tools/istioctl/).
 

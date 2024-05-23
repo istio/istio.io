@@ -19,8 +19,8 @@ source "tests/util/gateway-api.sh"
 install_gateway_api_crds
 
 # @setup profile=none
-source "content/en/boilerplates/snips/gateway-api-gamma-support.sh"
-bpsnip_gateway_api_gamma_support_enable_alpha_crds
+source "content/en/boilerplates/snips/gateway-api-gamma-experimental.sh"
+bpsnip_gateway_api_gamma_experimental_enable_alpha_crds
 source "content/en/docs/tasks/traffic-management/ingress/ingress-sni-passthrough/test.sh"
 
 # @cleanup
@@ -30,4 +30,5 @@ snip_cleanup_4
 
 istioctl uninstall --purge -y
 kubectl delete ns istio-system
+kubectl label namespace default istio-injection-
 remove_gateway_api_crds

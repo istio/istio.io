@@ -842,7 +842,7 @@ Istio 使用双向 TLS 将某些信息从客户端安全地传递到服务器。
 
 在学习了上述基本概念之后，您还可以温习下述资料：
 
-- 按照[认证](/zh/docs/tasks/security/authentication/authn-policy)和[授权](/zh/docs/tasks/security/authorization)任务尝试使用安全策略。
+- 按照[认证](/zh/docs/tasks/security/authentication)和[授权](/zh/docs/tasks/security/authorization)任务尝试使用安全策略。
 
 - 了解一些可用于提高网格安全性的安全[策略示例](/zh/docs/ops/configuration/security/security-policy-examples)。
 

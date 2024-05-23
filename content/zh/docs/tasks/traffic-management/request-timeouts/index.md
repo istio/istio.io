@@ -11,7 +11,7 @@ test: yes
 
 本任务用于示范如何使用 Istio 在 Envoy 中设置请求超时。
 
-{{< boilerplate gateway-api-gamma-support >}}
+{{< boilerplate gateway-api-support >}}
 
 ## 开始之前 {#before-you-begin}
 
@@ -55,7 +55,7 @@ EOF
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: reviews
@@ -174,7 +174,7 @@ EOF
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: reviews

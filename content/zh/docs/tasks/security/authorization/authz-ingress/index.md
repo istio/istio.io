@@ -56,6 +56,11 @@ $ kubectl get pods -n istio-system -o name -l istio=ingressgateway | sed 's|pod/
 
 {{< text bash >}}
 $ kubectl apply -f @samples/httpbin/gateway-api/httpbin-gateway.yaml@ -n foo
+{{< /text >}}
+
+等待网关就绪：
+
+{{< text bash >}}
 $ kubectl wait --for=condition=programmed gtw -n foo httpbin-gateway
 {{< /text >}}
 
@@ -158,7 +163,7 @@ spec:
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
 {{< text yaml >}}
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: httpbin-gateway
@@ -185,7 +190,7 @@ spec:
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio API" category-value="istio-apis" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha1
@@ -215,7 +220,7 @@ spec:
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
 {{< text yaml >}}
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: httpbin-gateway

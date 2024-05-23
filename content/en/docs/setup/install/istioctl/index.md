@@ -30,7 +30,7 @@ Before you begin, check the following prerequisites:
 
 1. [Download the Istio release](/docs/setup/getting-started/#download).
 1. Perform any necessary [platform-specific setup](/docs/setup/platform-setup/).
-1. Check the [Requirements for Pods and Services](/docs/ops/deployment/requirements/).
+1. Check the [Requirements for Pods and Services](/docs/ops/deployment/application-requirements/).
 
 ## Install Istio using the default profile
 
@@ -105,28 +105,6 @@ to install the `demo` profile:
 {{< text bash >}}
 $ istioctl install --set profile=demo
 {{< /text >}}
-
-## Check what's installed
-
-The `istioctl` command saves the `IstioOperator` CR that was used to install Istio in a copy of the CR named `installed-state`.
-Instead of inspecting the deployments, pods, services and other resources that were installed by Istio, for example:
-
-{{< text bash >}}
-$ kubectl -n istio-system get deploy
-NAME                   READY   UP-TO-DATE   AVAILABLE   AGE
-istio-egressgateway    1/1     1            1           25s
-istio-ingressgateway   1/1     1            1           24s
-istiod                 1/1     1            1           20s
-{{< /text >}}
-
-You can inspect the `installed-state` CR, to see what is installed in the cluster, as well as all custom settings.
-For example, dump its content into a YAML file using the following command:
-
-{{< text bash >}}
-$ kubectl -n istio-system get IstioOperator installed-state -o yaml > installed-state.yaml
-{{< /text >}}
-
-The `installed-state` CR is also used to perform checks in some `istioctl` commands and should therefore not be removed.
 
 ## Display the list of available profiles
 

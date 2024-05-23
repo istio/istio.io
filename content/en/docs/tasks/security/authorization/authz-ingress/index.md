@@ -57,6 +57,11 @@ Create the gateway:
 
 {{< text bash >}}
 $ kubectl apply -f @samples/httpbin/gateway-api/httpbin-gateway.yaml@ -n foo
+{{< /text >}}
+
+Wait for the gateway to be ready:
+
+{{< text bash >}}
 $ kubectl wait --for=condition=programmed gtw -n foo httpbin-gateway
 {{< /text >}}
 
@@ -160,7 +165,7 @@ spec:
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
 {{< text yaml >}}
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: httpbin-gateway
@@ -215,7 +220,7 @@ spec:
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
 {{< text yaml >}}
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: httpbin-gateway

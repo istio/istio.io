@@ -11,7 +11,7 @@ test: yes
 
 This task shows you how to set up request timeouts in Envoy using Istio.
 
-{{< boilerplate gateway-api-gamma-support >}}
+{{< boilerplate gateway-api-support >}}
 
 ## Before you begin
 
@@ -58,7 +58,7 @@ EOF
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: reviews
@@ -175,7 +175,7 @@ EOF
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: reviews

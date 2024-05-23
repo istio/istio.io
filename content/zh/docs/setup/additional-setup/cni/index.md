@@ -22,7 +22,7 @@ Istio CNI 插件就是一个能够替代 `istio-init` 容器来实现相同的�
 用户申请额外的 Kubernetes RBAC 授权的方案。
 
 Istio CNI 插件会在 Kubernetes Pod 生命周期的网络设置阶段完成 Istio 网格 Pod 流量转发设置的工作，
-因此用户在部署 Pod 到 Istio 网格中时，不再需要配置 [`NET_ADMIN` 功能需求](/zh/docs/ops/deployment/requirements/)了。
+因此用户在部署 Pod 到 Istio 网格中时，不再需要配置 [`NET_ADMIN` 功能需求](/zh/docs/ops/deployment/application-requirements/)了。
 Istio CNI 插件代替了 `istio-init` 容器所实现的功能。
 
 {{< tip >}}
@@ -103,8 +103,17 @@ CNI DaemonSet 使用 [`system-node-critical`](https://kubernetes.io/zh-cn/docs/t
 
 ### 通过 Helm 安装 {#installing-with-helm}
 
+按照[使用 Helm 安装](/zh/docs/setup/install/helm/#installation-steps)所述的安装步骤，
+您需要设置一些额外的 Helm 值。您可以在安装 `istiod` Chart 时覆盖 Values
+文件或通过命令行来设置这些值：
+
+* `values.istio_cni.enabled` 应设置为与 `values.cni.enabled` 相同的值。
+* `values.istio_cni.chained` 应设置为与 `values.cni.chained` 相同的值。
+
+例如：
+
 {{< text bash >}}
-$  helm install istiod istio/istiod -n istio-system --set values.istio_cni.enabled=true --wait
+$ helm install istiod istio/istiod -n istio-system --set istio_cni.enabled=true --wait
 {{< /text >}}
 
 Istio CNI 和 Istio Discovery Chart 使用不同的值，需要您在安装 `istiod` Chart 时，
@@ -240,7 +249,7 @@ Init 容器在 Sidecar 启动之前执行，这会导致在它们执行期间会
 可以用以下的一种或所有设置来防止流量丢失：
 
 1. 使用 `runAsUser` 将 Init 容器的 `uid` 设置为 `1337`。
-   `1337` 是 [Sidecar 代理使用的 `uid`](/zh/docs/ops/deployment/requirements/#pod-requirements)。
+   `1337` 是 [Sidecar 代理使用的 `uid`](/zh/docs/ops/deployment/application-requirements/#pod-requirements)。
    这个 `uid` 发送的流量并非通过 Istio 的 `iptables` 规则进行捕获。
    应用容器流量仍将像往常一样被捕获。
 1. 设置 `traffic.sidecar.istio.io/excludeOutboundIPRanges` 注解来禁止重定向流量到任何与 Init 容器有通信的 CIDR。
@@ -249,6 +258,12 @@ Init 容器在 Sidecar 启动之前执行，这会导致在它们执行期间会
 {{< tip >}}
 如果启用了 [DNS 代理](/zh/docs/ops/configuration/traffic-management/dns-proxy/)，
 您必须使用 `runAsUser 1337` 解决方法，并且 Init 容器将流量发送到需要 DNS 解析的主机名。
+{{< /tip >}}
+
+{{< tip >}}
+某些平台（例如 OpenShift）不使用 `1337` 作为 Sidecar `uid`，而是使用仅在运行时才知道的伪随机数。
+在这种情况下，您可以利用[自定义注入功能](/zh/docs/setup/additional-setup/sidecar-injection/#customizing-injection)指示代理作为预定义的 `uid` 运行，
+并对初始化容器使用相同的 `uid`。
 {{< /tip >}}
 
 {{< warning >}}

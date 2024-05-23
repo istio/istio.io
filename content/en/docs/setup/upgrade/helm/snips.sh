@@ -27,7 +27,7 @@ snip_upgrade_steps_1() {
 istioctl x precheck
 }
 
-! read -r -d '' snip_upgrade_steps_1_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_upgrade_steps_1_out <<\ENDSNIP
 ✔ No issues found when checking the cluster. Istio is safe to install or upgrade!
   To get started, check out <https://istio.io/latest/docs/setup/getting-started/>
 ENDSNIP
@@ -46,7 +46,7 @@ snip_canary_upgrade_recommended_3() {
 kubectl get pods -l app=istiod -L istio.io/rev -n istio-system
 }
 
-! read -r -d '' snip_canary_upgrade_recommended_3_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_canary_upgrade_recommended_3_out <<\ENDSNIP
   NAME                            READY   STATUS    RESTARTS   AGE   REV
   istiod-5649c48ddc-dlkh8         1/1     Running   0          71m   default
   istiod-canary-9cc9fd96f-jpc7n   1/1     Running   0          34m   canary
@@ -62,7 +62,7 @@ snip_canary_upgrade_recommended_5() {
 kubectl get pods -L istio.io/rev -n istio-ingress
 }
 
-! read -r -d '' snip_canary_upgrade_recommended_5_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_canary_upgrade_recommended_5_out <<\ENDSNIP
   NAME                                    READY   STATUS    RESTARTS   AGE     REV
   istio-ingress-754f55f7f6-6zg8n          1/1     Running   0          5m22s   default
   istio-ingress-canary-5d649bd644-4m8lp   1/1     Running   0          3m24s   canary
@@ -77,16 +77,16 @@ helm upgrade istio-base istio/base --set defaultRevision=canary -n istio-system 
 }
 
 snip_usage_1() {
-helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{prod-stable}" --set revision=1-20-1 -n istio-system | kubectl apply -f -
-helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{prod-canary}" --set revision=1-21-0 -n istio-system | kubectl apply -f -
+helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{prod-stable}" --set revision=1-22-1 -n istio-system | kubectl apply -f -
+helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{prod-canary}" --set revision=1-23-0 -n istio-system | kubectl apply -f -
 }
 
 snip_usage_2() {
-helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{prod-stable}" --set revision=1-21-0 -n istio-system | kubectl apply -f -
+helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{prod-stable}" --set revision=1-23-0 -n istio-system | kubectl apply -f -
 }
 
 snip_default_tag_1() {
-helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{default}" --set revision=1-21-0 -n istio-system | kubectl apply -f -
+helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{default}" --set revision=1-23-0 -n istio-system | kubectl apply -f -
 }
 
 snip_in_place_upgrade_1() {

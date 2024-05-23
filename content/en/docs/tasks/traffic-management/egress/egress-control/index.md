@@ -257,7 +257,7 @@ Similar to inter-cluster requests, routing rules
 can also be configured for external services that are accessed using `ServiceEntry` configurations.
 In this example, you set a timeout rule on calls to the `httpbin.org` service.
 
-{{< boilerplate gateway-api-gamma-support >}}
+{{< boilerplate gateway-api-support >}}
 
 1)  From inside the pod being used as the test source, make a _curl_ request to the `/delay` endpoint of the
     httpbin.org external service:
@@ -302,7 +302,7 @@ EOF
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: httpbin-ext

@@ -94,7 +94,7 @@ $ istioctl analyze --use-kube=false samples/bookinfo/networking/*.yaml
 `kubectl get virtualservice ratings` 会给您类似这样的结果：
 
 {{< text syntax=yaml snip_id=vs_yaml_with_status >}}
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 ...
 spec:

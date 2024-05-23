@@ -131,8 +131,8 @@ the `istio-injection` label will take precedence.
 
 The injector is configured with the following logic:
 
-1. If either label is disabled, the pod is not injected
-1. If either label is enabled, the pod is injected
+1. If either label (`istio-injection` or `sidecar.istio.io/inject`) is disabled, the pod is not injected.
+1. If either label (`istio-injection` or `sidecar.istio.io/inject` or `istio.io/rev`) is enabled, the pod is injected.
 1. If neither label is set, the pod is injected if `.values.sidecarInjectorWebhook.enableNamespacesByDefault` is enabled. This is not enabled by default, so generally this means the pod is not injected.
 
 ### Manual sidecar injection
@@ -218,6 +218,8 @@ In general, any field in a pod can be set. However, care must be taken for certa
 * Kubernetes requires the `image` field to be set before the injection has run. While you can set a specific image to override the default one,
   it is recommended to set the `image` to `auto` which will cause the sidecar injector to automatically select the image to use.
 * Some fields in `Pod` are dependent on related settings. For example, CPU request must be less than CPU limit. If both fields are not configured together, the pod may fail to start.
+* Fields `securityContext.RunAsUser` and `securityContext.RunAsGroup` might not be honored in some cases, for instance, when `TPROXY` mode is used,
+  as it requires the sidecar to run as user `0`. Overriding these fields incorrectly can cause traffic loss, and should be done with extreme caution.
 
 Additionally, certain fields are configurable by [annotations](/docs/reference/config/annotations/) on the pod, although it is recommended to use the above approach to customizing settings. Additional care must be taken for certain annotations:
 

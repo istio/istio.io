@@ -75,4 +75,5 @@ if [ "$GATEWAY_API" != "true" ]; then
     snip_cleanup_1
     cleanup_bookinfo_sample
     cleanup_sleep_sample
+    kubectl label namespace default istio-injection-
 fi

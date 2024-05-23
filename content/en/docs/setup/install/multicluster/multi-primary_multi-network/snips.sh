@@ -45,7 +45,7 @@ istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKIN
 
 snip_install_the_eastwest_gateway_in_cluster1_1() {
 samples/multicluster/gen-eastwest-gateway.sh \
-    --mesh mesh1 --cluster cluster1 --network network1 | \
+    --network network1 | \
     istioctl --context="${CTX_CLUSTER1}" install -y -f -
 }
 
@@ -53,7 +53,7 @@ snip_install_the_eastwest_gateway_in_cluster1_2() {
 kubectl --context="${CTX_CLUSTER1}" get svc istio-eastwestgateway -n istio-system
 }
 
-! read -r -d '' snip_install_the_eastwest_gateway_in_cluster1_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_install_the_eastwest_gateway_in_cluster1_2_out <<\ENDSNIP
 NAME                    TYPE           CLUSTER-IP    EXTERNAL-IP    PORT(S)   AGE
 istio-eastwestgateway   LoadBalancer   10.80.6.124   34.75.71.237   ...       51s
 ENDSNIP
@@ -88,7 +88,7 @@ istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKIN
 
 snip_install_the_eastwest_gateway_in_cluster2_1() {
 samples/multicluster/gen-eastwest-gateway.sh \
-    --mesh mesh1 --cluster cluster2 --network network2 | \
+    --network network2 | \
     istioctl --context="${CTX_CLUSTER2}" install -y -f -
 }
 
@@ -96,7 +96,7 @@ snip_install_the_eastwest_gateway_in_cluster2_2() {
 kubectl --context="${CTX_CLUSTER2}" get svc istio-eastwestgateway -n istio-system
 }
 
-! read -r -d '' snip_install_the_eastwest_gateway_in_cluster2_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_install_the_eastwest_gateway_in_cluster2_2_out <<\ENDSNIP
 NAME                    TYPE           CLUSTER-IP    EXTERNAL-IP    PORT(S)   AGE
 istio-eastwestgateway   LoadBalancer   10.0.12.121   34.122.91.98   ...       51s
 ENDSNIP

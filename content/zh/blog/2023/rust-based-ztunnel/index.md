@@ -1,14 +1,14 @@
 ---
 title: "为 Istio 环境服务网格引入基于 Rust 的 Ztunnel"
-description: 专门为 Istio Ambient Mesh 构建的每节点代理。
+description: 专门为 Istio Ambient 模式构建的每节点代理。
 publishdate: 2023-02-28
 attribution: "Lin Sun (Solo.io), John Howard (Google)"
 keywords: [istio,ambient,ztunnel]
 ---
 
-Ztunnel（零信任隧道）组件是专门为 Istio Ambient Mesh 的每个节点构建的代理。
-Ztunnel 负责在 Ambient Mesh 中安全地连接和验证工作负载，
-专门为 Ambient Mesh 中的工作负载处理 mTLS、身份验证、L4 授权和遥测等这部分功能，
+Ztunnel（零信任隧道）组件是专门为 Istio Ambient 模式的每个节点构建的代理。
+Ztunnel 负责在 Ambient 模式中安全地连接和验证工作负载，
+专门为 Ambient 模式中的工作负载处理 mTLS、身份验证、L4 授权和遥测等这部分功能，
 这样就无需终止工作负载 HTTP 流量或解析工作负载 HTTP 标头。
 Ztunnel 确保流量高效、安全地传输到 waypoint proxy，从而实现 HTTP 遥测和负载均衡等 Istio 的全套功能
 由于 Ztunnel 被设计为在所有 Kubernetes 工作节点上运行，所以保持其资源占用小是至关重要的。Ztunnel 被设计为服务网格的一个无形的部分，对您的工作负载几乎没有影响。
@@ -124,7 +124,7 @@ Rust 在高性能、低资源利用率的应用程序，特别是在网络应用
 工作负载 xDS 配置非常容易理解和调试。您可以通过从 Ztunnel Pod 之一向 `localhost:15000/config_dump` 发送请求来查看它们，
 或者使用方便的 `istioctl pc workload` 命令。有两个关键的工作负载 xDS 配置：工作负载和策略。
 
-在您的工作负载被纳入 Ambient Mesh 之前，您仍然能够在 Ztunnel 的配置转储中看到它们，
+在您的工作负载被纳入 Ambient 模式之前，您仍然能够在 Ztunnel 的配置转储中看到它们，
 因为 Ztunnel 知道所有工作负载，无论它们是否启用环境。
 例如，下面包含一个新部署的 helloworld v1 pod 的示例工作负载配置，该 Pod 脱离了 `protocol:TCP` 所指示的网格：
 
@@ -236,4 +236,4 @@ istio_tcp_connections_opened_total{
 我们超级兴奋的是新的[基于 Rust 的 Ztunnel](https://github.com/istio/Ztunnel/) 比之前基于 Envoy 的 Ztunnel 大大简化，
 更加轻巧，性能更强。通过为基于 Rust 的 Ztunnel 特意设计的工作负载 xDS，您不仅能更容易地理解 xDS 的配置，而且还能大幅减少
 Istiod 控制平面和 Ztunnel 之间的网络流量和成本。随着 Istio Ambient 模式现在合并到上游主站，
-您可以按照我们的[入门指南](/zh/docs/ops/ambient/getting-started/)尝试新的基于 Rust 的 Ztunnel。
+您可以按照我们的[入门指南](/zh/docs/ambient/getting-started/)尝试新的基于 Rust 的 Ztunnel。

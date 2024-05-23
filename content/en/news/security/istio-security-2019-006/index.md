@@ -4,7 +4,7 @@ subtitle: Security Bulletin
 description: Denial of service.
 cves: [CVE-2019-18817]
 cvss: "7.5"
-vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H/E:H/RL:O/RC:C"
+vector: "AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H/E:H/RL:O/RC:C"
 releases: ["1.3 to 1.3.4"]
 publishdate: 2019-11-07
 keywords: [CVE]

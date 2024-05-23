@@ -17,7 +17,7 @@ traffic happens out of band of the critical request path for the primary service
 In this task, you will first force all traffic to `v1` of a test service. Then,
 you will apply a rule to mirror a portion of traffic to `v2`.
 
-{{< boilerplate gateway-api-gamma-support >}}
+{{< boilerplate gateway-api-support >}}
 
 ## Before you begin
 
@@ -207,7 +207,7 @@ spec:
     app: httpbin
     version: v2
 ---
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: httpbin
@@ -313,7 +313,7 @@ instead of mirroring all requests. If this field is absent, all traffic will be 
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: httpbin

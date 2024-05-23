@@ -47,7 +47,7 @@ properly to point at the lab-based NTP services.
 
 ## Verify Istio CNI pods are running (if used)
 
-The Istio CNI plugin performs the Istio mesh pod traffic redirection in the Kubernetes pod lifecycle’s network setup phase, thereby removing the [requirement for the `NET_ADMIN` and `NET_RAW` capabilities](/docs/ops/deployment/requirements/) for users deploying pods into the Istio mesh. The Istio CNI plugin replaces the functionality provided by the `istio-init` container.
+The Istio CNI plugin performs the Istio mesh pod traffic redirection in the Kubernetes pod lifecycle’s network setup phase, thereby removing the [requirement for the `NET_ADMIN` and `NET_RAW` capabilities](/docs/ops/deployment/application-requirements/) for users deploying pods into the Istio mesh. The Istio CNI plugin replaces the functionality provided by the `istio-init` container.
 
 1. Verify that the `istio-cni-node` pods are running:
 
@@ -55,4 +55,4 @@ The Istio CNI plugin performs the Istio mesh pod traffic redirection in the Kube
     $ kubectl -n kube-system get pod -l k8s-app=istio-cni-node
     {{< /text >}}
 
-1. If `PodSecurityPolicy` is being enforced in your cluster, ensure the `istio-cni` service account can use a `PodSecurityPolicy` which [allows the `NET_ADMIN` and `NET_RAW` capabilities](/docs/ops/deployment/requirements/).
+1. If `PodSecurityPolicy` is being enforced in your cluster, ensure the `istio-cni` service account can use a `PodSecurityPolicy` which [allows the `NET_ADMIN` and `NET_RAW` capabilities](/docs/ops/deployment/application-requirements/).

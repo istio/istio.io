@@ -44,9 +44,7 @@ test: n/a
 1. **preview**：预览文件包含的功能都属于实验性阶段。该配置文件是为了探索 Istio 的新功能。
     确保稳定性、安全性和性能（使用风险需自负）。
 
-1. **ambient**：Ambient 配置文件旨在帮助您开始使用 [Ambient Mesh](/zh/docs/ops/ambient)。
-
-    {{< boilerplate ambient-alpha-warning >}}
+1. **ambient**：Ambient 配置文件旨在帮助您开始使用 [Ambient 模式](/zh/docs/ambient)。
 
 {{< tip >}}
 此外，还提供了一些其他特定的配置文件。更多相关信息，

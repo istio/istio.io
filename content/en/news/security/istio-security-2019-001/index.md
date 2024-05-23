@@ -4,7 +4,8 @@ subtitle: Security Bulletin
 description: Incorrect access control.
 cves: [CVE-2019-12243]
 cvss: "8.9"
-vector: "CVSS:3.0/AV:A/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:N/E:H/RL:O/RC:C"
+vector: "AV:A/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:N/E:H/RL:O/RC:C"
+cvss_version: "3.0"
 releases: ["1.1 to 1.1.6"]
 publishdate: 2019-05-28
 keywords: [CVE]

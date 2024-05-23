@@ -4,7 +4,7 @@ subtitle: Security Bulletin
 description: CVE reported by Envoy.
 cves: [CVE-2023-35945]
 cvss: "7.5"
-vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+vector: "AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
 releases: ["All releases prior to 1.16.0", "1.16.0 to 1.16.5", "1.17.0 to 1.17.3", "1.18.0"]
 publishdate: 2023-07-14
 keywords: [CVE]

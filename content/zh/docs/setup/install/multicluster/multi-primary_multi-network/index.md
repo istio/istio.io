@@ -70,7 +70,7 @@ $ istioctl install --context="${CTX_CLUSTER1}" -f cluster1.yaml
 
 {{< text bash >}}
 $ @samples/multicluster/gen-eastwest-gateway.sh@ \
-    --mesh mesh1 --cluster cluster1 --network network1 | \
+    --network network1 | \
     istioctl --context="${CTX_CLUSTER1}" install -y -f -
 {{< /text >}}
 
@@ -137,7 +137,7 @@ $ istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
 
 {{< text bash >}}
 $ @samples/multicluster/gen-eastwest-gateway.sh@ \
-    --mesh mesh1 --cluster cluster2 --network network2 | \
+    --network network2 | \
     istioctl --context="${CTX_CLUSTER2}" install -y -f -
 {{< /text >}}
 

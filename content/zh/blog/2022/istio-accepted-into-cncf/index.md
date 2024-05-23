@@ -17,7 +17,7 @@ keywords: [Istio,CNCF]
 
 本次移交不会影响 Istio 项目的本身运作，我们现在将开始处理商标转让和构建基础设施移交至 CNCF 的工作。
 我们正在为即将到来的 [1.16 版本](https://github.com/istio/istio/wiki/Istio-Release-1.16)努力工作，
-同时继续收集关于 [Ambient Mesh](/zh/blog/2022/introducing-ambient-mesh/) 的反馈并将其推升至生产就绪状态。
+同时继续收集关于 [Ambient 模式](/zh/blog/2022/introducing-ambient-mesh/)的反馈并将其推升至生产就绪状态。
 我们的项目成员目前正在为明年[选举社区代表充实指导委员会](https://github.com/istio/community/tree/master/steering/elections/2022)。
 
 作为一个 CNCF 项目，我们将积极参加 10 月份召开的 [北美 KubeCon](https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america/)。

@@ -21,7 +21,6 @@ set -e
 set -u
 set -o pipefail
 
-source "content/en/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/snips.sh"
 source "tests/util/samples.sh"
 
 # Make sure automatic sidecar injection is enabled
@@ -74,3 +73,4 @@ snip_cleanup_the_mutual_tls_origination_configuration_1
 snip_cleanup_the_mutual_tls_origination_configuration_2
 snip_cleanup_the_mutual_tls_origination_configuration_3
 cleanup_sleep_sample
+kubectl label namespace default istio-injection-

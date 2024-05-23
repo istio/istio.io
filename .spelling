@@ -23,6 +23,8 @@
 1.20.x
 1.20.x.
 1.21.x
+1.21.x.
+1.22.x
 1.23.x
 1.24.0
 1.24.x
@@ -44,6 +46,7 @@
 1.8.x.
 1.9.x
 1.x
+1.x.
 10ms
 10s
 123456789012.my
@@ -95,6 +98,7 @@ abcde12345
 Abhi
 accounts.my
 ack-istio
+acked
 ACLs
 Acmeair
 addon
@@ -186,6 +190,7 @@ Bookinfo
 bookinfo
 boolean
 BoringSSL
+Bottlenose
 Bottlerocket
 bring-your-own-CA
 bring-your-own-identity
@@ -355,11 +360,15 @@ CVE-2023-35942
 CVE-2023-35943
 CVE-2023-35944
 CVE-2023-35945
+CVE-2023-45288
 CVE-2024-23322
 CVE-2024-23323
 CVE-2024-23324
 CVE-2024-23325
 CVE-2024-23327
+CVE-2024-27919
+CVE-2024-30255
+CVE-2024-32475
 CVEs
 cves
 cvss
@@ -421,6 +430,7 @@ dual-stack
 Dubbo
 Duggirala
 DynamoDB
+Dynatrace
 e.g.
 e2e
 eBPF
@@ -431,11 +441,13 @@ Ekansh
 Elasticsearch
 embeddable
 emojis
+Emre
 enablement
 endUser-to-Service
 enqueue
 enum
 env
+EnvoyCon
 EnvoyFilter
 envoyproxy
 etcd
@@ -543,8 +555,10 @@ Hystrix
 i.e.
 Idit
 ILBs
+impactful
 incentivized
 Incrementality
+Indo-Pacific
 initContainer
 initializer
 initializers
@@ -620,6 +634,7 @@ istio_tcp_connections_opened_total
 istio_tcp_received_bytes_total
 istio_tcp_sent_bytes_total
 iter8
+Izzy
 Jannot
 jason
 Jeet
@@ -783,6 +798,7 @@ natively
 Neeraj
 netfilter
 netmask
+netns
 network1
 network2
 networking.istio.io
@@ -861,6 +877,7 @@ pem
 Pengyuan
 performant
 Pettit
+Phippy
 Piotr
 pipelined
 PKI
@@ -949,6 +966,7 @@ repo
 repurposed
 requires_any
 Reskill
+ResourceQuota
 resources.limits.cpu
 resources.limits.memory
 resources.request.cpu
@@ -974,6 +992,7 @@ Salesforce
 Salmond
 sandboxed
 sandboxing
+Savcı   
 sayin
 Schaaf
 schedulable
@@ -1059,6 +1078,7 @@ subnetworks
 subresource
 subresources
 substring
+Sumit
 Superfeet
 Superset
 superset
@@ -1081,6 +1101,7 @@ Telekom
 telemetry.istio.io
 telemetryv2_
 templated
+templating
 Tencent
 test-api
 Tetrate
@@ -1099,6 +1120,7 @@ touchpoints
 tradeoff
 tradeoffs
 TrafficPolicy
+Trendyol
 Trivedi
 Trulia
 trustability
@@ -1144,11 +1166,18 @@ UTF-8
 v0.14.0
 v0.8.0
 v1
+v1.0
+v1.1
+v1.19
+v1.2.
 v1.21
+v1.21.0
+v1.22
 v1.26
 v1.27
 v1.28
 v1.29
+v1.30
 v1.55
 v1.55.1
 v1.7.4
@@ -1176,6 +1205,7 @@ veth
 veth-pair
 vhost
 vhosts
+Vij
 Virtualization
 virtualization
 VirtualService

@@ -83,7 +83,7 @@ available.
 
 {{< text bash >}}
 $ @samples/multicluster/gen-eastwest-gateway.sh@ \
-    --mesh mesh1 --cluster cluster1 --network network1 | \
+    --network network1 | \
     istioctl --context="${CTX_CLUSTER1}" install -y -f -
 {{< /text >}}
 
@@ -217,7 +217,7 @@ to east-west traffic and expose user services.
 
 {{< text bash >}}
 $ @samples/multicluster/gen-eastwest-gateway.sh@ \
-    --mesh mesh1 --cluster cluster2 --network network2 | \
+    --network network2 | \
     istioctl --context="${CTX_CLUSTER2}" install -y -f -
 {{< /text >}}
 

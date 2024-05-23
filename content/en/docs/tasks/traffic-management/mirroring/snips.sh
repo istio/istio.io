@@ -19,7 +19,7 @@
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
 #          docs/tasks/traffic-management/mirroring/index.md
 ####################################################################################################
-source "content/en/boilerplates/snips/gateway-api-gamma-support.sh"
+source "content/en/boilerplates/snips/gateway-api-support.sh"
 
 snip_before_you_begin_1() {
 cat <<EOF | istioctl kube-inject -f - | kubectl create -f -
@@ -177,7 +177,7 @@ spec:
     app: httpbin
     version: v2
 ---
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: httpbin
@@ -199,7 +199,7 @@ export SLEEP_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.na
 kubectl exec "${SLEEP_POD}" -c sleep -- curl -sS http://httpbin:8000/headers
 }
 
-! read -r -d '' snip_creating_a_default_routing_policy_3_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_creating_a_default_routing_policy_3_out <<\ENDSNIP
 {
   "headers": {
     "Accept": "*/*",
@@ -221,7 +221,7 @@ export V1_POD=$(kubectl get pod -l app=httpbin,version=v1 -o jsonpath={.items..m
 kubectl logs "$V1_POD" -c httpbin
 }
 
-! read -r -d '' snip_creating_a_default_routing_policy_4_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_creating_a_default_routing_policy_4_out <<\ENDSNIP
 127.0.0.1 - - [07/Mar/2018:19:02:43 +0000] "GET /headers HTTP/1.1" 200 321 "-" "curl/7.35.0"
 ENDSNIP
 
@@ -230,7 +230,7 @@ export V2_POD=$(kubectl get pod -l app=httpbin,version=v2 -o jsonpath={.items..m
 kubectl logs "$V2_POD" -c httpbin
 }
 
-! read -r -d '' snip_creating_a_default_routing_policy_5_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_creating_a_default_routing_policy_5_out <<\ENDSNIP
 <none>
 ENDSNIP
 
@@ -259,7 +259,7 @@ EOF
 
 snip_mirroring_traffic_to_v2_2() {
 kubectl apply -f - <<EOF
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: httpbin
@@ -290,7 +290,7 @@ snip_mirroring_traffic_to_v2_4() {
 kubectl logs "$V1_POD" -c httpbin
 }
 
-! read -r -d '' snip_mirroring_traffic_to_v2_4_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_mirroring_traffic_to_v2_4_out <<\ENDSNIP
 127.0.0.1 - - [07/Mar/2018:19:02:43 +0000] "GET /headers HTTP/1.1" 200 321 "-" "curl/7.35.0"
 127.0.0.1 - - [07/Mar/2018:19:26:44 +0000] "GET /headers HTTP/1.1" 200 321 "-" "curl/7.35.0"
 ENDSNIP
@@ -299,7 +299,7 @@ snip_mirroring_traffic_to_v2_5() {
 kubectl logs "$V2_POD" -c httpbin
 }
 
-! read -r -d '' snip_mirroring_traffic_to_v2_5_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_mirroring_traffic_to_v2_5_out <<\ENDSNIP
 127.0.0.1 - - [07/Mar/2018:19:26:44 +0000] "GET /headers HTTP/1.1" 200 361 "-" "curl/7.35.0"
 ENDSNIP
 

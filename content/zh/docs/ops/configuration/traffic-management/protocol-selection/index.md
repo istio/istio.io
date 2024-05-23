@@ -8,6 +8,7 @@ aliases:
   - /zh/help/ops/protocol-selection
   - /zh/help/tasks/traffic-management/protocol-selection
   - /zh/docs/ops/traffic-management/protocol-selection
+  - /zh/docs/ops/deployment/requirements
 owner: istio/wg-networking-maintainers
 test: no
 ---
@@ -24,7 +25,7 @@ Istio 可以自动检测出 HTTP 和 HTTP/2 流量。如果未自动检测出协
 
 {{< tip >}}
 Server First 协议，如 MySQL，不兼容自动协议选择。
-查看更多 [Server First 协议](/zh/docs/ops/deployment/requirements#server-first-protocols)
+查看更多 [Server First 协议](/zh/docs/ops/deployment/application-requirements#server-first-protocols)
 {{< /tip >}}
 
 ## 显式协议选择  {#explicit-protocol-selection}

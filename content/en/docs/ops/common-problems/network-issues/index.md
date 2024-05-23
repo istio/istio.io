@@ -44,7 +44,7 @@ but similar version routing rules have no effect on your own application, it may
 your Kubernetes services need to be changed slightly.
 Kubernetes services must adhere to certain restrictions in order to take advantage of
 Istio's L7 routing features.
-Refer to the [Requirements for Pods and Services](/docs/ops/deployment/requirements/)
+Refer to the [Requirements for Pods and Services](/docs/ops/deployment/application-requirements/)
 for details.
 
 Another potential issue is that the route rules may simply be slow to take effect.
@@ -419,8 +419,10 @@ spec:
         host: httpbin.org
 {{< /text >}}
 
-In this example, the gateway is terminating TLS while the virtual service is using TLS based routing.
-The TLS route rules will have no effect since the TLS is already terminated when the route rules are evaluated.
+In this example, the gateway is terminating TLS (the `tls.mode` configuration of the gateway is `SIMPLE`,
+not `PASSTHROUGH`) while the virtual service is using TLS-based routing. Evaluating routing rules
+occurs after the gateway terminates TLS, so the TLS rule will have no effect because the
+request is then HTTP rather than HTTPS.
 
 With this misconfiguration, you will end up getting 404 responses because the requests will be
 sent to HTTP routing but there are no HTTP routes configured.

@@ -246,6 +246,8 @@ expected output. The framework includes the following built-in verify functions:
          respectively.
      1. prefix match ending with a dash character (e.g., `reviews-v1-12345...` is like `reviews-v1-67890...`)
      1. expected `...` is a wildcard token, matches anything
+     1. different dates in YYYY-MM-DD (e.g. 2024-04-17)
+     1. different times in HH:MM:SS.MS (e.g. 22:14:45.964722028)
 
    This function is useful for comparing the output of commands that include some run-specific
    values in the output (e.g., `kubectl get pods`), or when whitespace in the output may be different.

@@ -13,7 +13,7 @@ Before you begin, check the following prerequisites:
 
 1. [Download the Istio release](/docs/setup/getting-started/#download).
 1. Perform any necessary [platform-specific setup](/docs/setup/platform-setup/).
-1. Check the [Requirements for Pods and Services](/docs/ops/deployment/requirements/).
+1. Check the [Requirements for Pods and Services](/docs/ops/deployment/application-requirements/).
 1. [Usage of helm for Istio installation](/docs/setup/install/helm).
 1. Helm version that supports post rendering. (>= 3.1)
 1. kubectl or kustomize.
