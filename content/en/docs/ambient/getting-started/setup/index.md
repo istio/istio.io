@@ -1,6 +1,6 @@
 ---
-title: Setup
-description: Download nad Install Istio in Ambient mode.
+title: Install Ambient
+description: Download and Install Istio in Ambient mode.
 weight: 1
 ---
 

@@ -1,33 +1,38 @@
-## Secure application access {#secure}
+---
+title: Enforce authorization policies
+description: Enforce Layer 4 and Layer 7 authorization policies in an ambient mesh.
+weight: 4
+---
 
-After you have added your application to an ambient mode mesh, you can secure application access using Layer 4
-authorization policies. This feature lets you control access to and from a service based on client workload
-identities, but not at the Layer 7 level, such as HTTP methods like `GET` and `POST`.
+After you have added your application to ambient mode, you can secure application access using Layer 4
+authorization policies.
 
-### Layer 4 authorization policy
+This feature lets you control access to and from a service based on client workload
+identities that are automatically issued to all workloads in the mesh.
 
-1. Explicitly allow the `sleep` and gateway service accounts to call the `productpage` service:
+## 1. Enforce Layer 4 authorization policy
 
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: security.istio.io/v1beta1
-    kind: AuthorizationPolicy
-    metadata:
-      name: productpage-viewer
-      namespace: default
-    spec:
-      selector:
-        matchLabels:
-          app: productpage
-      action: ALLOW
-      rules:
-      - from:
-        - source:
-            principals:
-            - cluster.local/ns/default/sa/sleep
-            - cluster.local/$GATEWAY_SERVICE_ACCOUNT
-    EOF
-    {{< /text >}}
+Let's create an AuthorizationPolicy that explicitly allows the gateway service account to call the `productpage` service:
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: productpage-viewer
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: productpage
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        principals:
+        - cluster.local/bookinfo-gateway-istio
+EOF
+{{< /text >}}
 
 1. Confirm the above authorization policy is working:
 

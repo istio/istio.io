@@ -66,7 +66,6 @@ Let's test the application using the `port-forward` command to access the `produ
 $ kubectl port-forward svc/bookinfo-gateway-istio 8080:80
 {{< /text >}}
 
-
 Open your browser and navigate to [http://localhost:8080/productpage](http://localhost:8080/productpage) to view the Bookinfo application.
 
 {{< image width="80%" link="./bookinfo-browser.png" caption="Bookinfo Application" >}}
