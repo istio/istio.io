@@ -93,7 +93,7 @@ Envoy 代理在向客户端发送响应后收集原始遥测数据。
 
 ### Istio 1.21 的延迟 {#latency-for-Istio}
 
-在网格内部，请求会依次遍历客户端和服务器端代理。在 Istio {{< istio_release_name >}}
+在网格内部，请求会依次遍历客户端和服务器端代理。在 Istio 1.21
 的默认配置中（即带有遥测 v2 的 Istio），两个代理分别在基线数据平面延迟的 90 和 99
 分位延迟上增加约 0.182 和 0.248 毫秒。我们使用 `http/1.1` 协议的
 [Istio 基准测试](https://github.com/istio/tools/tree/{{< source_branch_name >}}/perf/benchmark)获得了这些结果，
