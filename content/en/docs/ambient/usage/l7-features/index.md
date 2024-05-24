@@ -77,7 +77,7 @@ A route or policy can be scoped to apply to all traffic traversing a waypoint pr
 
 To attach a route or a policy to the entire waypoint — so that it applies to all traffic enrolled to use it — set `Gateway` as the `parentRefs` or `targetRefs` value, depending on the type.
 
-To scope an `AuthorizationPolicy` policy to apply to the waypoint named `default-waypoint` for the `default` namespace:
+To scope an `AuthorizationPolicy` policy to apply to the waypoint named `default` for the `default` namespace:
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1
@@ -89,7 +89,7 @@ spec:
   targetRefs:
   - kind: Gateway
     group: gateway.networking.k8s.io
-    name: default-waypoint
+    name: default
   action: ALLOW
   rules:
   - from:
