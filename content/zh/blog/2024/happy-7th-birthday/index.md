@@ -111,7 +111,7 @@ Istio 的灵活性和可定制性确实帮助我们通过将加密、鉴权和�
 **我们多年来一直在生产中使用 Istio，它是我们基础设施的关键组件，使我们能够安全地连接微服务，
 并提供入口/出口流量管理和一流的可观测性。社区很棒，每个版本都带来许多令人兴奋的功能。**
 
-— Frédéric Gaudet，BblalaCar 资深 SRE
+— Frédéric Gaudet，BlablaCar 资深 SRE
 {{< /quote >}}
 
 ## 贡献者和供应商的惊人多样性 {#amazing-diversity-of-contributors-and-vendors}
