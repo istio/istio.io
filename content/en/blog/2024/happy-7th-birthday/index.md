@@ -258,6 +258,12 @@ excellence, offering enhanced features and improved performance. Looking forward
 — Iris Ding, Istio Steering Committee member and Software Engineer at Intel
 {{< /quote >}}
 
+{{< quote >}}
+**It’s been a privilege to be part of the Istio project from the start, seeing it and the community mature and grow over the years. On a personal note, Istio has been central to my own career for the past eight years! I firmly believe that the best of Istio is yet to come, and in the coming years we’ll see continued growth, maturity, and adoption. Cheers to the wonderful community for reaching this milestone together.**
+
+— Zack Butcher, Istio Steering Committee member and Founding & Principal Engineer at Tetrate
+{{< /quote >}}
+
 ## Learn more about Istio
 
 If you are new to Istio, here are a few resources to help you learn more:
