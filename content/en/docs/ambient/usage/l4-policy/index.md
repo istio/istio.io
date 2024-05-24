@@ -47,7 +47,7 @@ L7 policies in ambient mode act on waypoints, which are configured with the {{< 
 
 ## Allowed policy attributes
 
-Authorization policy rules can contain [source](/docs/reference/config/security/authorization-policy/#Source) (`from`), [operation](/docs/reference/config/security/authorization-policy/#Operation) (`to`), and condition (`when`) clauses.
+Authorization policy rules can contain [source](/docs/reference/config/security/authorization-policy/#Source) (`from`), [operation](/docs/reference/config/security/authorization-policy/#Operation) (`to`), and [condition](/docs/reference/config/security/authorization-policy/#Condition) (`when`) clauses.
 
 This list of attributes determines whether a policy is considered L4-only:
 
