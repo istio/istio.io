@@ -65,12 +65,12 @@ This list of attributes determines whether a policy is considered L4-only:
 
 ### Policies with Layer 7 conditions
 
-If an authorization policy requires any traffic processing beyond L4, and it is targeted at a ztunnel no waypoint proxies are configured for the destination of the traffic, then **the ztunnel proxy will DENY all traffic** as a defensive move. Hence, check to ensure that either all rules involve L4 processing only or else if non-L4 rules are unavoidable, that waypoint proxies are configured.
+The ztunnel cannot enforce L7 policies. If a policy with rules matching L7 attributes (i.e. those not listed in the table above) is targeted such that it will be enforced by a receiving ztunnel, it will fail safe by becoming a `DENY` policy. 
 
 This example adds a check for the HTTP GET method:
 
 {{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
  name: allow-sleep-to-httpbin
@@ -90,7 +90,7 @@ spec:
 EOF
 {{< /text >}}
 
-Even though the identity of the pod is otherwise correct, the presence of a L7 policy, and the traffic not originating from a waypoint proxy, causes the ztunnel to deny the connection:
+Even though the identity of the pod is correct, the presence of a L7 attribute causes the ztunnel to deny the connection:
 
 {{< text plain >}}
 command terminated with exit code 56
