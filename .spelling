@@ -107,6 +107,7 @@ Aeraki
 AES-NI
 Airbnb
 Aizhamal
+Akamai
 AKS
 AKS-Engine
 Alexa
@@ -171,6 +172,7 @@ backoff
 backport
 base64
 Bazel
+BCubed
 Berben
 Berkus
 Bian
@@ -178,6 +180,7 @@ BigQuery
 Birkland
 Bitnami
 bitpipe
+BlablaCar
 BlackHole
 BlackHoleCluster
 Blatt
@@ -215,6 +218,7 @@ Cernich
 CFP
 Chaomeng
 checksum
+Chircop
 Chrony
 Chun
 CIDRs
@@ -436,6 +440,7 @@ e2e
 eBPF
 ECR
 edition.cnn.com
+Eilers
 Eitan
 Ekansh
 Elasticsearch
@@ -487,6 +492,7 @@ FQDN
 FQDNs
 frontend
 frontends
+Frédéric
 Fu
 fuzzers
 gamified
@@ -494,6 +500,7 @@ gapped
 gateway-api
 GatewayClass
 Gather.town
+Gaudet
 GB
 gbd
 GCP
@@ -519,6 +526,7 @@ grafana-istio-dashboard
 Graphviz
 gRPC
 grpc
+Gyanesh
 h2c
 Haidian
 Harvey
@@ -554,6 +562,7 @@ hypervisor
 Hystrix
 i.e.
 Idit
+iFood
 ILBs
 impactful
 incentivized
@@ -584,6 +593,7 @@ IPv4
 IPv6
 ip_address
 Istio
+istio
 istio-agent
 istio-cni
 istio-control
@@ -710,6 +720,7 @@ LibreSSL
 lifecycle
 LightStep
 Lightstep
+LinkedIn
 Linkerd
 linktitle
 linter
@@ -766,6 +777,7 @@ MirageDebug
 misconfiguration
 misconfigurations
 misconfigured
+Mishra
 misordered
 Mitigations
 mitigations
@@ -780,6 +792,7 @@ Multicloud
 multicloud
 Multicluster
 multicluster
+Murthy
 mutex
 mutual-tls
 Mwila
@@ -903,6 +916,7 @@ pre-release
 pre-specified
 precheck
 preconfigured
+Predibase
 prefetching
 preformatted
 preload
@@ -964,6 +978,7 @@ remediate
 remoteIpBlocks
 repo
 repurposed
+Requena
 requires_any
 Reskill
 ResourceQuota
@@ -987,11 +1002,13 @@ RPCs
 runtime
 runtimes
 sa
+Saarko
 SaaS
 Salesforce
 Salmond
 sandboxed
 sandboxing
+Sathish
 Savcı   
 sayin
 Schaaf
@@ -1027,6 +1044,7 @@ Shivanshu
 shortcode
 shortcodes
 Shray
+Shray
 Shriram
 Shrivastava
 sidebar_multicard
@@ -1043,6 +1061,7 @@ SLOs
 SMEs
 Snell-Feikema
 SNI
+SoC2
 SolarWinds
 Solo.io
 Solo.io.
@@ -1078,6 +1097,7 @@ subnetworks
 subresource
 subresources
 substring
+Sudheendra
 Sumit
 Superfeet
 Superset
@@ -1088,6 +1108,7 @@ svc.com
 svg
 Sysdig
 Taillefer
+Tanzu
 TCP
 tcp
 TCP-level
@@ -1097,6 +1118,7 @@ team1-ns
 team2
 team2-ns
 Techstrong
+telcos
 Telekom
 telemetry.istio.io
 telemetryv2_
