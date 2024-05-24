@@ -1,280 +1,277 @@
 ---
-title: "Happy 7th Birthday, Istio!"
-description: Celebrating Istio’s momentum and exciting future.
+title: "Istio！七岁生日快乐！"
+description: 庆祝 Istio 的发展势头和令人兴奋的未来。
 publishdate: 2024-05-24
-attribution: "Lin Sun (Solo.io), for the Istio Steering Committee"
+attribution: "Lin Sun (Solo.io)，代表 Istio 指导委员会; Translated by Wilson Wu (DaoCloud)"
 keywords: [istio,birthday,momentum,future]
 ---
 
 {{< image width="80%"
     link="./7th-birthday.png"
-    alt="Happy 7th birthday, Istio!"
+    alt="Istio！七岁生日快乐！"
     >}}
 
-On this day in 2017, [Google and IBM announced the launch of the Istio service mesh](https://techcrunch.com/2017/05/24/google-ibm-and-lyft-launch-istio-an-open-source-platform-for-managing-and-securing-microservices/). Istio
-is an open technology that enables developers to seamlessly connect, manage, and secure networks of different
-services — regardless of platform, source, or vendor. We can hardly believe that Istio turns seven today! To
-celebrate the project’s 7th birthday, we wanted to highlight Istio’s momentum and its exciting future.
+2017 年的今天，[Google 和 IBM 宣布推出 Istio 服务网格](https://techcrunch.com/2017/05/24/google-ibm-and-lyft-launch-istio-an-open-source-platform-for-managing-and-securing-microservices/)。
+Istio 是一项开放技术，使开发人员能够无缝连接、管理和保护不同服务的网络 - 无论平台、来源或供应商如何。
+我们简直不敢相信 Istio 今天已经七岁了！为了庆祝该项目的七岁生日，
+我们想强调 Istio 的发展势头及其令人兴奋的未来。
 
-## Rapid adoption among users
+## 用户的快速采用 {#rapid-adoption-among-users}
 
-Istio, the most widely adopted service mesh project in the world, has been gathering significant momentum since
-its inception in 2017. Last year Istio joined Kubernetes, Prometheus, and other stalwarts of the cloud native
-ecosystem with [its CNCF graduation](https://www.cncf.io/announcements/2023/07/12/cloud-native-computing-foundation-reaffirms-istio-maturity-with-project-graduation/).
-End users range from digital native startups to the world’s largest financial institutions and telcos, with [case studies](/about/case-studies/)
-from companies including eBay, T-Mobile, Airbnb, Splunk, FICO, T-Mobile, Salesforce, and many others.
+Istio 是世界上被采用最广泛的服务网格项目，自 2017 年成立以来一直保持着强劲的发展势头。
+去年，Istio 随着在 [CNCF 的毕业](https://www.cncf.io/announcements/2023/07/12/cloud-native-computing-foundation-reaffirms-istio-maturity-with-project-graduation/)，
+加入了如 Kubernetes、Prometheus 以及其他云原生生态系统中坚力量的行列。
+最终用户范围从数字原生初创公司到全球最大的金融机构和电信公司，
+在[案例研究](/zh/about/case-studies/)中，有来自 eBay、T-Mobile、Airbnb、
+Splunk、FICO、T-Mobile、Salesforce 以及许多其他公司。
 
-Istio’s control plane and sidecar are the #3 and #4 most downloaded images on Docker Hub, each with over [10 billion downloads](https://hub.docker.com/search?q=istio).
+Istio 的控制平面和 Sidecar 是 Docker Hub 上下载量排名第三和第四的镜像，
+每个镜像的下载量都超过 [100 亿次](https://hub.docker.com/search?q=istio)。
 
 {{< image width="80%"
     link="./dockerhub.png"
-    alt="Docker Hub downloads of Istio!"
+    alt="Istio 在 Docker Hub 的下载量！"
     >}}
 
-We have over 35,000 GitHub stars on [Istio’s main repository](https://github.com/istio/istio/), with continuing growth. Thank you everyone who starred the istio/istio repo.
+我们在 [Istio 的仓库](https://github.com/istio/istio/)上拥有超过 35,000 个 GitHub Star，
+并且还在持续增长。感谢所有为 istio/istio 仓库添加 Star 的人。
 
 {{< image width="80%"
     link="./github-stars.png"
-    alt="GitHub stars of the istio/istio repo!"
+    alt="istio/istio 仓库的 GitHub Star！"
     >}}
 
-We asked a few of our users for their thoughts on the occasion of Istio’s 7th birthday:
+在 Istio 七岁生日之际，我们询问了一些用户的想法：
 
 {{< quote >}}
-**Today, Istio serves as the backbone of Airbnb's service mesh, managing all our traffic between hundreds of thousands of workloads. Five years since adopting Istio, we've always been happy
-with that decision. It's truly amazing to be part of this vibrant and supportive community. Happy Birthday, Istio!**
+**如今，Istio 成为 Airbnb 服务网格的支柱，管理着数十万个工作负载之间的所有流量。
+自采用 Istio 五年以来，我们一直对这个决定感到满意。成为这个充满活力和支持性社区的一部分真是太棒了。生日快乐，Istio！**
 
-— Weibo He, Senior Staff Software Engineer at Airbnb
+— Weibo He，Airbnb 资深软件工程师
 {{< /quote >}}
 
 {{< quote >}}
-**Istio has powered our ability to rapidly deploy and test microservices in a production-like, isolated environment
-along with the dependent services. This approach, known as Isolates, enables eBay's developers to identify defects earlier in the development
-lifecycle, increase the stability of live environments by reducing flakiness, and build confidence in automated
-production deployments. Ultimately, this has accelerated the development process and improved the success rate of production deployments.**
+**Istio 使我们能够在类似生产的隔离环境中快速部署和测试微服务以及相关服务。
+这种称为隔离的方法使 eBay 的开发人员能够在开发生命周期的早期识别缺陷，
+通过减少不稳定来提高实时环境的稳定性，并建立对自动化生产部署的信心。
+最终，这加速了开发过程并提高了生产部署的成功率。**
 
-— Sudheendra Murthy, Principal Engineer & Service Mesh Architect at eBay
+— Sudheendra Murthy，eBay 首席工程师兼服务网格架构师
 {{< /quote >}}
 
 {{< quote >}}
-**Istio enhances the security of our cloud platform while simplifying observability by integrating distributed
-tracing and OpenTelemetry. This combination provides
-robust security features and deep insights into system performance, enabling more effective monitoring and
-troubleshooting of our distributed services.**
+**Istio 通过集成分布式链路追踪和 OpenTelemetry 增强了云平台的安全性，
+同时简化了可观测性。这种组合提供了强大的安全功能和对系统性能的深入洞察，
+从而能够更有效地监控我们的分布式服务并进行故障排查。**
 
-— Sathish Krishnan, Distinguished Engineer at UBS
+— Sathish Krishnan，瑞银集团杰出工程师
 {{< /quote >}}
 
 {{< quote >}}
-**Adopting Istio has been a game changer for our engineering organization in our journey of adopting a
-microservices based architecture. Its batteries-included approach has allowed us to easily manage traffic routing, gain deep visibility into our service to
-service interactions with distributed tracing, and extensibility via WASM plugins. Its comprehensive feature set
-has made it an essential part of our infrastructure, and has allowed our engineers to decouple application code
-from infrastructure plumbing.**
+**在我们采用基于微服务的架构的过程中，采用 Istio 改变了我们的工程组织的游戏规则。
+其面面俱到的方法使我们能够轻松管理流量路由，深入了解我们的服务与分布式链路追踪的服务交互，
+以及通过 WASM 插件进行扩展。其全面的功能集使其成为我们基础设施的重要组成部分，
+并允许我们的工程师将应用程序代码与基础设施管道分离。**
 
-— Shray Kumar, Principal Software Engineer at Bluecore
+— Shray Kumar，Bluecore 首席软件工程师
 {{< /quote >}}
 
 {{< quote >}}
-**Istio is amazing, I've been using it for 4 to 5 years and found it very comfortable to manage thousands of
-gateways for tens of thousands of pods with very low latency. If you need to set up a very secure infrastructure, Istio is a great friend. Also, it's
-excellent for infrastructures that demand a lot of security and need to be aligned with PCI/HIPAA/SoC2 standards.**
+**Istio 实在是太棒了，我已经使用它 4 到 5 年了，发现它可以非常轻松地以非常低的延迟管理数以万计 Pod 的数千个网关。
+如果您需要建立一个非常安全的基础设施，Istio 是一个很好的朋友。
+此外，它非常适合需要大量安全性且需要符合 PCI/HIPAA/SoC2 标准的基础设施。**
 
-— Ezequiel Arielli, Head of Cloud Platform at SIGMA Financial AI
+— Ezequiel Arielli，SIGMA Financial AI 云平台主管
 {{< /quote >}}
 
 {{< quote >}}
-**Istio helps us secure our environments in a standardized way across all our deployments for our various
-customers. The flexibility and customization of Istio really
-helps us build better applications by delegating encryption, authorization, and authentication to the service mesh
-and not having to implement that across our application code base.**
+**Istio 帮助我们以标准化的方式保护各种客户的所有部署中的环境。
+Istio 的灵活性和可定制性确实帮助我们通过将加密、鉴权和身份验证委托给服务网格来构建更好的应用程序，
+而不必在我们的应用程序代码库中实现这些。**
 
-— Joel Millage, Software Engineer at BCubed
+— Joel Millage，BCubed 软件工程师
 {{< /quote >}}
 
 {{< quote >}}
-**We use Istio at Predibase extensively to simplify communication between our multi-cluster mesh that helps deploy
-and train open source fine-tuned LLM models with low latency and failover. With Istio, we get a lot of out of the box functionality that would
-otherwise take us weeks to implement.**
+**我们在 Predibase 广泛使用 Istio 来简化多集群网格之间的通信，
+这有助于部署和训练具有低延迟和故障转移的开源微调 LLM 模型。借助 Istio，
+我们获得了许多开箱即用的功能，否则这些功能将需要数周时间才能实现。**
 
-— Gyanesh Mishra, Cloud Infrastructure Engineer at Predibase
+— Gyanesh Mishra，Predibase 云基础设施工程师
 {{< /quote >}}
 
 {{< quote >}}
-**Istio is without a doubt the most complete and feature full Service Mesh platform on the market. This success is the direct result of an engaged community that helps itself and is always
-included in the project directions. Congratulations on the anniversary, Istio!**
+**Istio 毫无疑问是市场上最完整、功能最齐全的服务网格平台。
+这一成功是社区积极参与、帮助并指导项目方向的直接结果。祝贺 Istio 的周年纪念日！**
 
-— Daniel Requena, SRE at iFood
+— Daniel Requena，iFood SRE
 {{< /quote >}}
 
 {{< quote >}}
-**We've been using Istio in production for years now, it’s a key component of our infrastructure allowing us to
-securely connect micro-services, and provide ingress/egress traffic management and first-class observability.
-The community is great and each release brings a lot of exciting features.**
+**我们多年来一直在生产中使用 Istio，它是我们基础设施的关键组件，使我们能够安全地连接微服务，
+并提供入口/出口流量管理和一流的可观测性。社区很棒，每个版本都带来许多令人兴奋的功能。**
 
-— Frédéric Gaudet, Senior SRE at BlablaCar
+— Frédéric Gaudet，BblalaCar 资深 SRE
 {{< /quote >}}
 
-## Amazing diversity of contributors and vendors
+## 贡献者和供应商的惊人多样性 {#amazing-diversity-of-contributors-and-vendors}
 
-Over the past year, our community has observed tremendous growth in terms of both the number of contributing
-companies and the number of contributors. Recall that Istio had 500 contributors when it turned three years
-old? We have had over 1,700 contributors in the past year!
+在过去的一年里，我们的社区在贡献公司的数量和贡献者的数量方面都出现了巨大的增长。
+还记得 Istio 三岁时就有 500 名贡献者吗？在去年我们已拥有超过 1,700 名贡献者！
 
-With Microsoft's Open Service Mesh team joining
-the Istio community, we added Azure to the [list of clouds and enterprise Kubernetes vendors](/about/ecosystem/) providing Istio-compatible solutions, including Google Cloud, Red Hat OpenShift, VMware Tanzu, Huawei Cloud, DaoCloud, Oracle Cloud, Tencent Cloud, Akamai Cloud and Alibaba Cloud. We are also delighted to see the Amazon Web Services team publish the [EKS Blueprint for Istio](https://aws-ia.github.io/terraform-aws-eks-blueprints/patterns/istio/)
-due to high demand from users wanting to run Istio on AWS.
+随着微软的开放服务网格团队加入 Istio 社区，我们将 Azure 添加到[云和企业 Kubernetes 供应商列表](/zh/about/ecosystem/)，
+包括 Google Cloud、Red Hat OpenShift、VMware Tanzu、华为云、DaoCloud、
+Oracle Cloud、腾讯云、Akamai Cloud 和阿里云，都提供了与 Istio 兼容的解决方案。
+我们也很高兴看到 Amazon Web Services 团队由于来自希望在 AWS 上运行 Istio 的用户发布了
+[Istio 的 EKS 蓝图](https://aws-ia.github.io/terraform-aws-eks-blueprints/patterns/istio/)。
 
-Specialist network software providers are also driving Istio forward, with Solo.io, Tetrate and F5 Networks all offering enterprise Istio solutions that will run in any environment.
+专业网络软件提供商也在推动 Istio 向前发展，Solo.io、Tetrate 和 F5 Networks
+都提供可在任何环境中运行的企业级 Istio 解决方案。
 
-Below are the top contributing companies for the past year, with Solo.io, Google, and DaoCloud taking the top
-three places. While most of these companies are Istio vendors, Salesforce and Ericsson are end users, running Istio in production!
+以下是过去一年贡献最多的公司，其中 Solo.io、Google 和 DaoCloud 占据前三名。
+虽然这些公司中的大多数都是 Istio 供应商，但 Salesforce 和 Ericsson 是最终用户，并在生产环境中运行 Istio！
 
 {{< image width="80%"
     link="./contribution.png"
-    alt="Top Istio contributing companies for the past year!"
+    alt="去年 Istio 贡献最多的公司！"
     >}}
 
-Here are some thoughts from our community leaders:
+以下是我们社区领袖的一些想法：
 
 {{< quote >}}
-**Service mesh adoption has been steadily rising over the past few years as cloud native adoption has matured
-across industries. Istio has helped drive part of this maturation since they
-graduated last year in CNCF and we wish them a fantastic birthday. We look forward to watching and supporting this
-continued growth as the Istio team adds new features like ambient mode and simplifies the service mesh experience.**
+**随着各行业云原生采用的成熟，服务网格的采用在过去几年中一直在稳步上升。
+自从他们去年从 CNCF 毕业以来，Istio 帮助推动了这一成熟，我们祝他们生日快乐。
+随着 Istio 团队添加 Ambient 模式等新功能并简化服务网格体验，我们期待观察并支持这种持续增长。**
 
-— Chris Aniszczyk, CTO of CNCF
+— Chris Aniszczyk，CNCF 首席技术官
 {{< /quote >}}
 
 {{< quote >}}
-**Service Meshes are core to microservice architectures, a hallmark of cloud native. Istio's birthday celebrates the proliferation and
-importance not only of observability and traffic management, but the increasing demand for secure-by-default
-communications through encryption, mutual authentication, and many other core security tenets that simplify the
-adoption, integration, and deployment experience.**
+**服务网格是微服务架构的核心，是云原生的标志。
+Istio 的生日不仅庆祝了可观测性和流量管理的普及和重要性，还庆祝了通过加密、
+相互身份验证和许多其他简化采用、集成和部署体验的其他核心安全原则，实现默认安全通信的日益增长的需求。**
 
-— Emily Fox, CNCF TOC chair and Senior Principal Software Engineer at Red Hat
+— Emily Fox，CNCF TOC 主席及红帽资深首席软件工程师
 {{< /quote >}}
 
 {{< quote >}}
-**In my opinion Istio isn’t a service mesh. It’s a collaborative community of users and contributors who happen to
-deliver the world’s most popular service mesh. Happy birthday to this amazing community! It’s been a fantastic seven years, and
-I’m looking forward to celebrating many more with my friends and colleagues from around the world in the Istio community!**
+**在我看来，Istio 不是一个服务网格。这是一个由用户和贡献者组成的协作社区，
+他们恰好提供了世界上最受欢迎的服务网格。祝这个神奇的社区生日快乐！
+这是美妙的七年，我期待着在 Istio 社区中与来自世界各地的朋友和同事一起进行更多庆祝！**
 
-— Mitch Connors, Istio Technical Oversight Committee member and Principal Engineer at Microsoft
+— Mitch Connors，Istio 技术监督委员会成员及微软首席工程师
 {{< /quote >}}
 
 {{< quote >}}
-**It has been a privilege and a fulfilling experience to be part of the world's most popular service mesh team for
-the past two years. Happy to
-see Istio grow from a CNCF incubating to graduated project, and even happier to see the momentum and passion with
-which the latest and greatest 1.22 release was done. Wishing many more successful releases in the coming years.**
+**在过去的两年里，成为世界上最受欢迎的服务网格团队的一员是一种荣幸和充实的经历。
+很高兴看到 Istio 从 CNCF 孵化阶段成长为毕业项目，更高兴看到最新、最伟大的 1.22 版本完成时的动力和热情。
+祝愿未来几年有更多成功的发布。**
 
-— Faseela K, Istio Steering Committee member and Cloud Native Developer at Ericsson
+— Faseela K，Istio 指导委员会成员及爱立信云原生开发者
 {{< /quote >}}
 
 {{< quote >}}
-**What makes Istio unique is the community full of developers, users, and vendors from all across the globe working
-together to make Istio the best and most powerful open service mesh in the industry. It’s the strength of the community that
-has made Istio so successful and now under CNCF I look forward to seeing Istio as the de facto service mesh
-standard for all cloud native applications.**
+**Istio 的独特之处在于，社区由来自世界各地的开发人员、用户和供应商共同努力，
+使 Istio 成为业界最好、最强大的开放服务网格。正是社区的力量使 Istio 如此成功，
+现在在 CNCF 的领导下，我期待看到 Istio 成为所有云原生应用程序事实上的服务网格标准。**
 
-— Neeraj Poddar, Istio Technical Oversight Committee member and VP of Engineering at Solo.io
+— Neeraj Poddar，Istio 技术监督委员会成员及 Solo.io 工程副总裁
 {{< /quote >}}
 
 {{< quote >}}
-**It has been a privilege to have worked with the Istio community over the last 5 years. There has been an
-abundance of contributors whose dedication, passion, and hard work have made my time on the project truly
-enjoyable. The community has many users who provide feedback to help make Istio the best service mesh. I continue to be
-amazed by what the community does, and look forward to seeing what successes we will have in the future.**
+**过去 5 年能够与 Istio 社区合作是我的荣幸。有大量的贡献者，他们的奉献、热情和辛勤工作让我在这个项目上度过了真正愉快的时光。
+社区中有许多用户提供反馈，帮助 Istio 成为最好的服务网格。
+我仍然对社区所做的事情感到惊讶，并期待看到我们未来将取得的成功。**
 
-— Eric Van Norman, Istio Technical Oversight Committee member and Advisory Software Engineer at IBM
+— Eric Van Norman，Istio 技术监督委员会成员及 IBM 咨询软件工程师
 {{< /quote >}}
 
-## Continuous technical innovation
+## 持续的技术创新 {#continuous-technical-innovation}
 
-We are firm believers that diversity drives innovation. What amazes us most is the continuous innovation from the
-Istio community, from making upgrades easier, to adopting Kubernetes Gateway API, to adding the new sidecar-less
-ambient data plane mode, to making Istio easy to use and as transparent as possible.
+我们坚信多元化推动创新。最让我们惊讶的是 Istio 社区的不断创新，从让升级变得更容易，
+到采用 Kubernetes Gateway API，到添加新的无 Sidecar Ambient
+数据平面模式，再到让 Istio 变得易于使用和尽可能透明。
 
-Istio’s ambient mode was introduced in September 2022, designed for simplified
-operations, broader application compatibility, and reduced infrastructure cost. Ambient mode introduces
-lightweight, shared Layer 4 (L4) node proxies and optional Layer 7 (L7) proxies, removing the need for traditional
-sidecar proxies from the data plane. The core innovation behind ambient mode is that it slices the L4 and L7
-processing into two distinct layers. This layered approach allows you to adopt Istio incrementally, enabling a
-smooth transition from no mesh, to a secure overlay (L4), to optional full L7 processing — on a per-namespace
-basis, as needed, across your fleet.
+Istio 的 Ambient 模式于 2022 年 9 月推出，旨在简化操作、更广泛的应用程序兼容性并降低基础设施成本。
+Ambient 模式引入了轻量级、共享的 Layer 4（L4）节点代理和可选的Layer 7（L7）代理，
+从而消除了数据平面对传统 Sidecar 代理的需要。Ambient 模式背后的核心创新在于它将 L4 和 L7 处理分为两个不同的层。
+这种分层方法允许您逐步采用 Istio，实现从无网格到安全覆盖（L4），
+再到可选的完整 L7 处理的平滑过渡 - 根据需要，在整个队列中基于每个命名空间。
 
-As part of the [Istio 1.22 release](/news/releases/1.22.x/announcing-1.22/), [ambient mode has reached beta](/blog/2024/ambient-reaches-beta/)
-and you can run Istio without sidecars in production with precautions.
+作为 [Istio 1.22 版本](/zh/news/releases/1.22.x/announcing-1.22/)的一部分，
+[Ambient 模式已达到 Beta](/zh/blog/2024/ambient-reaches-beta/)，
+您可以在采取预防措施的前提下在生产环境中运行无 Sidecar 的 Istio。
 
-Here are some thoughts and well-wishes from our contributors and users:
+以下是我们的贡献者和用户的一些想法和祝福：
 
 {{< quote >}}
-**Auto Trader has been using Istio in production, since before it was ready for production! It's significantly
-improved our operational capabilities, standardizing the way we secure, configure, and monitor our services. Upgrades have evolved from daunting tasks to almost
-non-events, and the introduction of Ambient is evidence of the continued commitment to simplification – making it
-easier than ever for new users to get real value with minimal effort.**
+**在 Istio 生产可用之前，Auto Trader 就一直在生产环境中使用 Istio！
+它显着提高了我们的运营能力，标准化了我们保护、配置和监控服务的方式。
+升级已经从令人畏惧的任务演变为几乎不是什么大事，
+而 Ambient 的推出证明了我们对简化的持续承诺 - 让新用户比以往任何时候都更容易以最小的努力获得真正的价值。**
 
-— Karl Stoney, Technical Architect at AutoTrader UK
+— Karl Stoney，AutoTrader UK 技术架构师
 {{< /quote >}}
 
 {{< quote >}}
-**Istio is a core component of the cloud native stack for Akamai's Cloud, providing a secure service mesh for
-products and services delivering millions of RPS and hundreds of Gigabytes of throughput per cluster. We look forward to the future roadmap for the project and are excited
-to evaluate new features such as the Ambient Mesh later this year.**
+**Istio 是 Akamai 云的云原生技术栈的核心组件，为产品和服务提供安全的服务网格，
+每个集群可提供数百万 RPS 和数百 GB 的吞吐量。我们期待该项目的未来路线图，
+并很高兴能够在今年晚些时候评估新功能，例如 Ambient 网格。**
 
-— Alex Chircop, Chief Product Architect at Akamai
+— Alex Chircop，Akamai 首席产品架构师
 {{< /quote >}}
 
 {{< quote >}}
-**Istio's networking and security capabilities have become a fundamental component of our infrastructure operations. The introduction of Istio's ambient mode has significantly simplified management and
-reduced the size of our Kubernetes cluster nodes by approximately 20%. We successfully migrated our production
-system to use the ambient data plane.**
+**Istio 的网络和安全功能已成为我们基础设施运营的基本组成部分。
+Istio Ambient 模式的引入显着简化了管理，并将我们的 Kubernetes 集群节点大小减少了约 20%。
+我们成功地将生产系统迁移到使用 Ambient 数据平面。**
 
-— Saarko Eilers, Infrastructure Operations Manager at EISST International Ltd
+— Saarko Eilers，EISST International Ltd 基础设施运营经理
 {{< /quote >}}
 
 {{< quote >}}
-**Happy birthday to Istio! It has been an honor to be a part of the great community over
-the years, especially as we continue to build the world’s best service mesh with ambient mode.**
+**祝 Istio 生日快乐！多年来，我很荣幸成为这个伟大社区的一员，
+特别是当我们继续利用 Ambient 模式构建世界上最好的服务网格时。**
 
-— John Howard, the most prolific Istio contributor, Istio Technical Oversight Committee member, and Senior Architect at Solo.io
+— John Howard，最高产的 Istio 贡献者、Istio 技术监督委员会成员、Solo.io 高级架构师
 {{< /quote >}}
 
 {{< quote >}}
-**It’s great to see a mature project like Istio continue to evolve and flourish. Becoming a graduated CNCF project has attracted a
-wave of new developers contributing to its continued success.  Meanwhile ambient mesh and Gateway API support
-promises to usher in a new era of service mesh adoption.  I’m excited to see what’s to come!**
+**很高兴看到像 Istio 这样的成熟项目继续发展和繁荣。成为 CNCF 的毕业项目吸引了一批新的开发人员，
+为其持续成功做出了贡献。同时，Ambient 网格和 Gateway API 支持有望迎来服务网格被采用的新时代。
+我很高兴看到即将发生的事情！**
 
-— Justin Pettit, Istio Steering Committee member and Senior Staff Engineer at Google
+— Justin Pettit，Istio 指导委员会成员及 Google 高级工程师
 {{< /quote >}}
 
 {{< quote >}}
-**Happy birthday to the incredible Istio project that has not only revolutionized the way we approach service mesh
-technology but has also cultivated a vibrant and inclusive community! Witnessing Istio's evolution from a CNCF incubating project to a graduated
-project has been remarkable. The recent release of Istio 1.22 underscores its continuous growth and commitment to
-excellence, offering enhanced features and improved performance. Looking forward to the next big step for the project.**
+**祝令人难以置信的 Istio 项目生日快乐，它不仅彻底改变了我们处理服务网格技术的方式，
+而且还培养了一个充满活力和包容性的社区！见证 Istio 从 CNCF 孵化项目到毕业项目的演变是非常了不起的。
+最近发布的 Istio 1.22 强调了其持续发展和对卓越的承诺，提供了增强的功能和改进的性能。期待该项目的下一步。**
 
-— Iris Ding, Istio Steering Committee member and Software Engineer at Intel
+— Iris Ding，Istio 指导委员会成员及英特尔软件工程师
 {{< /quote >}}
 
 {{< quote >}}
-**It’s been a privilege to be part of the Istio project from the start, seeing it and the community mature and grow over the years. On a personal note, Istio has been central to my own career for the past eight years! I firmly believe that the best of Istio is yet to come, and in the coming years we’ll see continued growth, maturity, and adoption. Cheers to the wonderful community for reaching this milestone together.**
+**从一开始就成为 Istio 项目的一部分是一种荣幸，多年来看到它和社区的成熟和发展。
+就我个人而言，过去八年里，Istio 一直是我职业生涯的核心！我坚信 Istio 的最佳状态尚未到来，
+在未来几年中，我们将看到 Istio 的持续增长、成熟和采用。为美好的社区共同实现这一里程碑干杯。**
 
-— Zack Butcher, Istio Steering Committee member and Founding & Principal Engineer at Tetrate
+— Zack Butcher，Istio 指导委员会成员及 Tetrate 创始人兼首席工程师
 {{< /quote >}}
 
-## Learn more about Istio
+## 了解有关 Istio 的更多信息 {#learn-more-about-istio}
 
-If you are new to Istio, here are a few resources to help you learn more:
+如果您是 Istio 新手，这里有一些资源可以帮助您了解更多信息：
 
-- Check out the [project website](https://istio.io) and [GitHub repository](https://github.com/istio/istio/).
-- Read the [documentation](/docs/).
-- Join the community [Slack](https://slack.istio.io/).
-- Follow the project on [Twitter](https://twitter.com/IstioMesh) and [LinkedIn](https://www.linkedin.com/company/istio).
-- Attend the [user community meetings](https://github.com/istio/community/blob/master/README.md#community-meeting).
-- Join the [working group meeting](https://github.com/istio/community/blob/master/WORKING-GROUPS.md#working-group-meetings).
-- Become an Istio contributor and developer by submitting a [membership request](https://github.com/istio/community/blob/master/ROLES.md#member), after you have a pull request merged.
+- 查看[项目网站](https://istio.io)和 [GitHub 仓库](https://github.com/istio/istio/)。
+- 阅读[文档](/zh/docs/)。
+- 加入社区 [Slack](https://slack.istio.io/)。
+- 在 [Twitter](https://twitter.com/IstioMesh) 和 [LinkedIn](https://www.linkedin.com/company/istio) 上关注该项目。
+- 参加[用户社区会议](https://github.com/istio/community/blob/master/README.md#community-meeting)。
+- 加入[工作组会议](https://github.com/istio/community/blob/master/WORKING-GROUPS.md#working-group-meetings)。
+- 通过提交[会员请求](https://github.com/istio/community/blob/master/ROLES.md#member)，
+  在 PR 被合并后成为 Istio 贡献者和开发人员。
 
-If you are already part of the Istio community, please wish the Istio project a happy 7th birthday, and share your
-thoughts about the project on social media. Thank you for your help and support!
+如果您已经是 Istio 社区的一员，请祝 Istio 项目七岁生日快乐，
+并在社交媒体上分享您对该项目的想法。感谢您的帮助和支持！
