@@ -50,7 +50,7 @@ In ambient mode, authorization policies can either be *targeted* (for ztunnel en
 
 The ztunnel cannot enforce L7 policies. If a policy with rules matching L7 attributes is targeted at a ztunnel, it will fail safe by becoming a `DENY` policy.
 
-See [the L4 policy guide](/docs/ambient/l4-policy/) for more information, including when to attach policies to waypoints for TCP-only use cases.
+See [the L4 policy guide](/docs/ambient/usage/l4-policy/) for more information, including when to attach policies to waypoints for TCP-only use cases.
 
 ## Observability
 
