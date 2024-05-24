@@ -65,7 +65,7 @@ This list of attributes determines whether a policy is considered L4-only:
 
 ### Policies with Layer 7 conditions
 
-The ztunnel cannot enforce L7 policies. If a policy with rules matching L7 attributes (i.e. those not listed in the table above) is targeted such that it will be enforced by a receiving ztunnel, it will fail safe by becoming a `DENY` policy. 
+The ztunnel cannot enforce L7 policies. If a policy with rules matching L7 attributes (i.e. those not listed in the table above) is targeted such that it will be enforced by a receiving ztunnel, it will fail safe by becoming a `DENY` policy.
 
 This example adds a check for the HTTP GET method:
 
