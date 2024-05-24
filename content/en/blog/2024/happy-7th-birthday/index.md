@@ -57,6 +57,12 @@ production deployments. Ultimately, this has accelerated the development process
 {{< /quote >}}
 
 {{< quote >}}
+**Istio is the backbone of the Salesforce service mesh infrastructure which today powers a few trillion requests per day across all our services. We solve a lot of complicated problems with mesh. It’s great to be part of this journey and contribute to the community. Istio has matured into a reliable service mesh over the years and at the same time continues to innovate. We are excited about what's to come in future!**
+
+— Rama Chavali, Software Engineering Architect, Salesforce
+{{< /quote >}}
+
+{{< quote >}}
 **Istio enhances the security of our cloud platform while simplifying observability by integrating distributed
 tracing and OpenTelemetry. This combination provides
 robust security features and deep insights into system performance, enabling more effective monitoring and
