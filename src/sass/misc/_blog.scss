@@ -216,8 +216,35 @@
         }
     }
 
-    .social-share-icon {
-        width: 50px;
+    .share-social {
+        margin: auto;
+        margin-top: 3em;
+        width: 200px;
+
+        .heading {
+            text-align: center;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            font-weight: var(--boldTextWeight);
+        }
+
+        .share-buttons {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .share-buttons a {
+            margin-right: 1em;
+        }
+
+        .share-buttons a:last-child {
+            margin-right: 0;
+        }
+
+        .share-icon {
+            width: 3em;
+        }
     }
 
     .next-link {
