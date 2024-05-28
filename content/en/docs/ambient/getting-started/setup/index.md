@@ -4,16 +4,19 @@ description: Download and Install Istio in Ambient mode.
 weight: 1
 ---
 
+In this section you'll download Istio CLI (`istioctl`) and install Istio in ambient mode on your Kubernetes cluster. You'll need a Kubernetes cluster to proceed. If you don't have a cluster, you can use [kind](/latest/docs/setup/platform-setup/kind) or any other [supported Kubernetes platform](/latest/docs/setup/platform-setup).
 
-## 1. Download `istioctl` CLI
+## 1. Download Istio CLI
 
-You'll use [Homebrew](https://brew.sh/) to download the `istioctl` CLI:
+You'll use [Homebrew](https://brew.sh/) to download the Istio CLI:
 
 {{< text bash >}}
 $ brew install istioctl
 {{< /text >}}
 
-If you don't have Homebrew, follow these instructions to download and the `istioctl` CLI:
+
+{{< quote >}}
+If you don't have Homebrew, follow these instructions to download and the Istio CLI:
 
 {{< text bash >}}
 $ curl -L https://istio.io/downloadIstio | sh -
@@ -21,6 +24,7 @@ $ cd istio-{{< istio_full_version >}}
 $ export PATH=$PWD/bin:$PATH
 {{< /text >}}
 
+{{< /quote >}}
 
 Verify the CLI is installed correctly by running the following command:
 

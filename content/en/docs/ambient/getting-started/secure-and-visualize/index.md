@@ -45,20 +45,25 @@ $ kubectl apply -f https://raw.githubusercontent.com/istio/istio/master/samples/
 $ kubectl apply -f https://raw.githubusercontent.com/istio/istio/master/samples/addons/kiali.yaml
 {{< /text >}}
 
-You can access the Kiali dashboard and the Traffic Graph by running the following command:
+You can access the Kiali dashboard by running the following command:
 
 {{< text bash >}}
 $ istioctl dashboard kiali
 {{< /text >}}
 
-You should see the Bookinfo application in the Kiali dashboard:
+Click on the Traffic Graph and you should see the Bookinfo application:
 
 {{< image link="./kiali-ambient-bookinfo.png" caption="Kiali dashboard" >}}
 
-Note: if you don't see any traffic in Kiali, try refreshing the Bookinfo application in your browser. This will generate some traffic and you should see it in Kiali.
-
+{{< tip >}}
+If you don't see any traffic in Kiali, try refreshing the Bookinfo application in your browser. This will generate some traffic and you should see it in Kiali.
+{{</ tip >}}
 If you click on one of the services on the the dashboard, you can see the inbound and outbound traffic metrics gathered by Istio:
 
 {{< image link="./kiali-tcp-traffic.png" caption="L4 traffic" >}}
 
-In addition to mTLS and telemetry, Istio has created a strong identity for each service (a SPIFFE ID). This identity can be used for creating authorization policies. That's what we'll do next!
+In addition to mTLS and telemetry, Istio has created a strong identity for each service (a SPIFFE ID). This identity can be used for creating authorization policies.
+
+## 3. Next steps
+
+Now that we have the strong identities assigned to the services, let's [enforce authorization policies](/docs/ambient/getting-started/enforce-auth-policies/) to secure the application access.

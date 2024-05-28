@@ -70,4 +70,8 @@ Open your browser and navigate to [http://localhost:8080/productpage](http://loc
 
 {{< image width="80%" link="./bookinfo-browser.png" caption="Bookinfo Application" >}}
 
-If you refresh the page, you should see the book reviews changing as the requests are distributed across different versions of the `reviews` service. But we'll get to that later!
+If you refresh the page, you should see the book reviews changing as the requests are distributed across different versions of the `reviews` service.
+
+## 4. Next steps
+
+In the next section you'll enable ambient mode and learn how to secure and visualize the communication between the applications.
