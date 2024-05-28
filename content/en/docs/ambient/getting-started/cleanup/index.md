@@ -3,6 +3,8 @@
 title: Cleanup
 description: Delete Istio and associated resources.
 weight: 6
+owner: istio/wg-networking-maintainers
+test: yes
 ---
 
 If you no longer need Istio and associated resources, you can delete them by following the steps in this section.
@@ -26,20 +28,19 @@ $ istioctl uninstall -y --purge
 $ kubectl delete namespace istio-system
 {{< /text >}}
 
-
 ## 3. Remove the sample application
 
 To delete the Bookinfo sample application and the `sleep` deployment, run the following:
 
 {{< text bash >}}
-$ kubectl delete -f https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/platform/kube/bookinfo.yaml
-$ kubectl delete -f https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/platform/kube/bookinfo-versions.yaml
-$ kubectl delete -f https://raw.githubusercontent.com/istio/istio/master/samples/sleep/sleep.yaml
+$ kubectl delete -f {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml
+$ kubectl delete -f {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo-versions.yaml
+$ kubectl delete -f {{< github_file >}}/samples/sleep/sleep.yaml
 {{< /text >}}
 
 ## 4. Remove the Kubernetes Gateway API CRDs
 
-1If you installed the Gateway API CRDs, remove them:
+If you installed the Gateway API CRDs, remove them:
 
 {{< text bash >}}
 $ kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref={{< k8s_gateway_api_version >}}" | kubectl delete -f -

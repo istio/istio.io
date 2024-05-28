@@ -2,6 +2,8 @@
 title: Secure and visualize the application
 description: Enable Ambient mode and secure the communication between applications.
 weight: 3
+owner: istio/wg-networking-maintainers
+test: yes
 ---
 
 Adding applications to the ambient mesh is as simple as labeling the namespace where the application resides. By adding the applications to the ambient mesh, you automatically secure the communication between them and Istio starts gathering L4 telemetry. And no, you don't need to restart or redeploy the applications!
@@ -41,8 +43,8 @@ Note the `RESTARTS` column. If the value is `0`, it means that the pods haven't 
 Let's deploy Prometheus and Kiali to see the L4 telemetry and visualize the application in Kiali's dashboard:
 
 {{< text bash>}}
-$ kubectl apply -f https://raw.githubusercontent.com/istio/istio/master/samples/addons/prometheus.yaml
-$ kubectl apply -f https://raw.githubusercontent.com/istio/istio/master/samples/addons/kiali.yaml
+$ kubectl apply -f {{< github_file >}}/samples/addons/prometheus.yaml
+$ kubectl apply -f {{< github_file >}}/samples/addons/kiali.yaml
 {{< /text >}}
 
 You can access the Kiali dashboard by running the following command:

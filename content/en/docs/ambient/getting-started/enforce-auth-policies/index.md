@@ -2,6 +2,8 @@
 title: Enforce authorization policies
 description: Enforce Layer 4 and Layer 7 authorization policies in an ambient mesh.
 weight: 4
+owner: istio/wg-networking-maintainers
+test: yes
 ---
 
 After you have added your application to ambient mode, you can secure application access using Layer 4
@@ -34,12 +36,12 @@ spec:
 EOF
 {{< /text >}}
 
-If you open the Bookinfo application in [your browser](http://localhost:8080/productpage), you should see the product page, just like before. However, if you try to access the `productpage` service from a different service account, you should see an error.
+If you open the Bookinfo application in your browser (`http://localhost:8080/productpage`), you should see the product page, just like before. However, if you try to access the `productpage` service from a different service account, you should see an error.
 
 Let's try accessing Bookinfo application from a `sleep` pod:
 
 {{< text bash >}}
-$ kubectl apply -f https://raw.githubusercontent.com/istio/istio/master/samples/sleep/sleep.yaml
+$ kubectl apply -f {{< github_file >}}/samples/sleep/sleep.yaml
 {{< /text >}}
 
 Since the `sleep` pod is using a different service account, it will not have access the `productpage` service:
@@ -93,7 +95,7 @@ spec:
 EOF
 {{< /text >}}
 
-Note the `targetRefs` field is used to specify the target service for the authorization policy. The rules section is similar as before, btu this time we added the `to` section to specify the operation that is allowed.
+Note the `targetRefs` field is used to specify the target service for the authorization policy. The rules section is similar as before, but this time we added the `to` section to specify the operation that is allowed.
 
 Let's confirm the new waypoint proxy is enforcing the updated authorization policy:
 
@@ -114,7 +116,6 @@ $ # This works as we're explicitly allowing GET requests from the sleep pod
 $ kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
 <title>Simple Bookstore App</title>
 {{< /text >}}
-
 
 ## 3. Next steps
 

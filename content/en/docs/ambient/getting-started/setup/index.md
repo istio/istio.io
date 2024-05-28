@@ -2,9 +2,11 @@
 title: Install Ambient
 description: Download and Install Istio in Ambient mode.
 weight: 1
+owner: istio/wg-networking-maintainers
+test: yes
 ---
 
-In this section you'll download Istio CLI (`istioctl`) and install Istio in ambient mode on your Kubernetes cluster. You'll need a Kubernetes cluster to proceed. If you don't have a cluster, you can use [kind](/latest/docs/setup/platform-setup/kind) or any other [supported Kubernetes platform](/latest/docs/setup/platform-setup).
+In this section you'll download Istio CLI (`istioctl`) and install Istio in ambient mode on your Kubernetes cluster. You'll need a Kubernetes cluster to proceed. If you don't have a cluster, you can use [kind](/docs/setup/platform-setup/kind) or any other [supported Kubernetes platform](/docs/setup/platform-setup).
 
 ## 1. Download Istio CLI
 
@@ -14,9 +16,8 @@ You'll use [Homebrew](https://brew.sh/) to download the Istio CLI:
 $ brew install istioctl
 {{< /text >}}
 
-
 {{< quote >}}
-If you don't have Homebrew, follow these instructions to download and the Istio CLI:
+If you don't have Homebrew, follow these instructions to download and install the Istio CLI:
 
 {{< text bash >}}
 $ curl -L https://istio.io/downloadIstio | sh -
@@ -34,7 +35,6 @@ no ready Istio pods in "istio-system"
 {{< istio_full_version >}}
 {{< /text >}}
 
-
 ## 2. Install Istio onto your cluster
 
 Assuming your cluster is prepared, you can install Istio using the ambient mode profile. Run the following command:
@@ -42,7 +42,6 @@ Assuming your cluster is prepared, you can install Istio using the ambient mode 
 {{< text bash >}}
 $ istioctl install --set profile=ambient --skip-confirmation
 {{< /text >}}
-
 
 Note that it might take a minute for the Istio components to be installed. Once the installation completes you’ll get the following output that indicates all components have been installed successfully!
 
@@ -53,7 +52,6 @@ Note that it might take a minute for the Istio components to be installed. Once 
 ✔ Ztunnel installed
 ✔ Installation complete
 {{< /text >}}
-
 
 You can verify the installed components using the following command:
 
@@ -112,7 +110,6 @@ Checked 1 Istio Deployments
 Checked 2 Istio Daemonsets
 ✔ Istio is installed and verified successfully
 {{< /text >}}
-
 
 ## 3. Install the Kubernetes Gateway API CRDs
 

@@ -2,6 +2,8 @@
 title: Deploy the application
 description: Deploy the Bookinfo sample application.
 weight: 2
+owner: istio/wg-networking-maintainers
+test: yes
 ---
 
 You’ll install the sample [bookinfo application](/docs/examples/bookinfo/) that's comprised of multiple microservices and is used for demonstration purposes.
@@ -17,8 +19,8 @@ As part of this guide, you'll deploy the Bookinfo application and expose the `pr
 Let's start by deploying the application:
 
 {{< text bash >}}
-$ kubectl apply -f https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/platform/kube/bookinfo.yaml
-$ kubectl apply -f https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/platform/kube/bookinfo-versions.yaml
+$ kubectl apply -f {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml
+$ kubectl apply -f {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo-versions.yaml
 {{< /text >}}
 
 To verify that the application is running, check the status of the pods:
@@ -41,7 +43,7 @@ To access the `productpage` service from outside the cluster, you need to config
 You will use the Kubernetes Gateway API to deploy a gateway called `bookinfo-gateway`:
 
 {{< text bash >}}
-$ kubectl apply -f https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/gateway-api/bookinfo-gateway.yaml
+$ kubectl apply -f {{< github_file >}}/samples/bookinfo/gateway-api/bookinfo-gateway.yaml
 {{< /text >}}
 
 By default, Istio creates a `LoadBalancer` service for a gateway. Change the service type to `ClusterIP` by annotating the gateway:
@@ -66,7 +68,7 @@ Let's test the application using the `port-forward` command to access the `produ
 $ kubectl port-forward svc/bookinfo-gateway-istio 8080:80
 {{< /text >}}
 
-Open your browser and navigate to [http://localhost:8080/productpage](http://localhost:8080/productpage) to view the Bookinfo application.
+Open your browser and navigate to `http://localhost:8080/productpage` to view the Bookinfo application.
 
 {{< image width="80%" link="./bookinfo-browser.png" caption="Bookinfo Application" >}}
 

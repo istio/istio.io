@@ -2,6 +2,8 @@
 title: Manage traffic
 description: Manage traffic between services in the ambient mode.
 weight: 5
+owner: istio/wg-networking-maintainers
+test: yes
 ---
 
 In this section, you will learn how to split traffic between services in the ambient mode.
@@ -45,4 +47,4 @@ You'll notice the majority of requests go to `reviews-v1`. You can confirm the s
 
 ## 2. Next steps
 
-This section concludes Getting Started guide for ambient mode. You can continue exploring the [Ambient Mode User Guides](/latest/docs/ambient/usage/) to learn more about Istio's features and capabilities.
+This section concludes Getting Started guide for ambient mode. You can continue exploring the [Ambient Mode User Guides](/docs/ambient/usage/) to learn more about Istio's features and capabilities.
