@@ -41,9 +41,9 @@ In this module you prepare your local computer for the tutorial.
 
     {{< text bash >}}
     $ istioctl version
-    client version: 1.7.0
-    control plane version: 1.7.0
-    data plane version: 1.7.0 (4 proxies)
+    client version: 1.22.0
+    control plane version: 1.22.0
+    data plane version: 1.22.0 (4 proxies)
     {{< /text >}}
 
 Congratulations, you configured your local computer!
