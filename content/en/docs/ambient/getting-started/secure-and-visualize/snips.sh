@@ -27,7 +27,3 @@ kubectl label namespace default istio.io/dataplane-mode=ambient
 ! IFS=$'\n' read -r -d '' snip_1_add_applications_to_the_ambient_mesh_1_out <<\ENDSNIP
 namespace/default labeled
 ENDSNIP
-
-snip_2_visualize_the_application_and_metrics_2() {
-istioctl dashboard kiali
-}

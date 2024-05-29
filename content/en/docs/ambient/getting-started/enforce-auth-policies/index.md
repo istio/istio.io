@@ -16,7 +16,7 @@ identities that are automatically issued to all workloads in the mesh.
 
 Let's create an [authorization policy](/docs/reference/config/security/authorization-policy/) that is applied to the pods with the `app: productpage` label and it allows calls to be made to the `productpage` from the the service account `cluster.local/ns/default/sa/bookinfo-gateway-istio`. This is the service account that's used by the bookinfo gateway you deployed in the previous step.
 
-{{< text bash snip_id=deploy_l4_policy >}}
+{{< text syntax=bash snip_id=deploy_l4_policy >}}
 $ kubectl apply -f - <<EOF
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
@@ -40,7 +40,7 @@ If you open the Bookinfo application in your browser (`http://localhost:8080/pro
 
 Let's try accessing Bookinfo application from a `sleep` pod:
 
-{{< text bash snip_id=deploy_sleep >}}
+{{< text syntax=bash snip_id=deploy_sleep >}}
 $ kubectl apply -f {{< github_file >}}/samples/sleep/sleep.yaml
 {{< /text >}}
 
@@ -55,7 +55,7 @@ command terminated with exit code 56
 
 To enforce Layer 7 policies you will deploy a {{< gloss "waypoint" >}}waypoint proxy{{< /gloss >}} for the namespace. This proxy will handle all Layer 7 traffic entering the namespace.
 
-{{< text bash snip_id=deploy_waypoint >}}
+{{< text syntax=bash snip_id=deploy_waypoint >}}
 $ istioctl x waypoint apply --enroll-namespace --wait
 waypoint default/waypoint applied
 namespace default labeled with "istio.io/use-waypoint: waypoint"
@@ -71,7 +71,7 @@ waypoint   istio-waypoint   10.96.58.95   True         61s
 
 Let's update the authorization policy and explicitly allow the `sleep` service to send a`GET` request to the `productpage` service, but perform no other operations:
 
-{{< text bash snip_id=deploy_l7_policy >}}
+{{< text syntax=bash snip_id=deploy_l7_policy >}}
 $ kubectl apply -f - <<EOF
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy

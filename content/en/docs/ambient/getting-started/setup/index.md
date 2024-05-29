@@ -19,7 +19,7 @@ $ brew install istioctl
 {{< quote >}}
 If you don't have Homebrew, follow these instructions to download and install the Istio CLI:
 
-{{< text bash snip_id=none >}}
+{{< text syntax=bash snip_id=none >}}
 $ curl -L https://istio.io/downloadIstio | sh -
 $ cd istio-{{< istio_full_version >}}
 $ export PATH=$PWD/bin:$PATH
@@ -29,7 +29,7 @@ $ export PATH=$PWD/bin:$PATH
 
 Verify the CLI is installed correctly by running the following command:
 
-{{< text bash snip_id=none >}}
+{{< text syntax=bash snip_id=none >}}
 $ istioctl version
 no ready Istio pods in "istio-system"
 {{< istio_full_version >}}
@@ -39,7 +39,7 @@ no ready Istio pods in "istio-system"
 
 Assuming your cluster is prepared, you can install Istio using the ambient mode profile. Run the following command:
 
-{{< text bash snip_id=install_ambient >}}
+{{< text syntax=bash snip_id=install_ambient >}}
 $ istioctl install --set profile=ambient --skip-confirmation
 {{< /text >}}
 
@@ -55,7 +55,7 @@ Note that it might take a minute for the Istio components to be installed. Once 
 
 You can verify the installed components using the following command:
 
-{{< text bash snip_id=none >}}
+{{< text syntax=bash snip_id=verify_install >}}
 $ istioctl verify-install
 
 1 Istio control planes detected, checking --revision "default" only
@@ -115,7 +115,7 @@ Checked 2 Istio Daemonsets
 
 You need to install the Kubernetes Gateway API CRDs, which don’t come installed by default on most Kubernetes clusters:
 
-{{< text bash snip_id=install_k8s_gateway_api >}}
+{{< text syntax=bash snip_id=install_k8s_gateway_api >}}
 $ kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
   { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v1.1.0" | kubectl apply -f -; }
 {{< /text >}}

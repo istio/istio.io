@@ -32,3 +32,12 @@ kubectl apply -f https://raw.githubusercontent.com/istio/istio/master/samples/bo
 snip_annotate_bookinfo_gateway() {
 kubectl annotate gateway bookinfo-gateway networking.istio.io/service-type=ClusterIP --namespace=default
 }
+
+snip_2_deploy_and_configure_the_ingress_gateway_3() {
+kubectl get gateway
+}
+
+! IFS=$'\n' read -r -d '' snip_2_deploy_and_configure_the_ingress_gateway_3_out <<\ENDSNIP
+NAME               CLASS   ADDRESS                                            PROGRAMMED   AGE
+bookinfo-gateway   istio   bookinfo-gateway-istio.default.svc.cluster.local   True         88s
+ENDSNIP
