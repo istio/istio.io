@@ -14,7 +14,7 @@ The Bookinfo application has three versions of the `reviews` service. You can sp
 
 Let's configure traffic routing to send 90% of requests to `reviews` v1 and 10% to `reviews` v2:
 
-{{< text bash >}}
+{{< text bash snip_id=deploy_httproute >}}
 $ kubectl apply -f - <<EOF
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: HTTPRoute
@@ -39,7 +39,7 @@ EOF
 
 To confirm that roughly 10% of the of the traffic from 100 requests goes to `reviews-v2`, you can run the following command:
 
-{{< text bash >}}
+{{< text bash snip_id=test_traffic_split >}}
 $ kubectl exec deploy/sleep -- sh -c "for i in \$(seq 1 100); do curl -s http://productpage:9080/productpage | grep reviews-v.-; done"
 {{< /text >}}
 

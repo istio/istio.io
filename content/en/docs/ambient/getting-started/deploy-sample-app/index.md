@@ -25,7 +25,7 @@ $ kubectl apply -f {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo-v
 
 To verify that the application is running, check the status of the pods:
 
-{{< text bash >}}
+{{< text bash snip_id=none >}}
 $ kubectl get pods
 NAME                             READY   STATUS    RESTARTS   AGE
 details-v1-cf74bb974-nw94k       1/1     Running   0          9m20s
@@ -42,19 +42,19 @@ To access the `productpage` service from outside the cluster, you need to config
 
 You will use the Kubernetes Gateway API to deploy a gateway called `bookinfo-gateway`:
 
-{{< text bash >}}
+{{< text bash snip_id=deploy_bookinfo_gateway >}}
 $ kubectl apply -f {{< github_file >}}/samples/bookinfo/gateway-api/bookinfo-gateway.yaml
 {{< /text >}}
 
 By default, Istio creates a `LoadBalancer` service for a gateway. Change the service type to `ClusterIP` by annotating the gateway:
 
-{{< text bash >}}
+{{< text bash snip_id=annotate_bookinfo_gateway >}}
 $ kubectl annotate gateway bookinfo-gateway networking.istio.io/service-type=ClusterIP --namespace=default
 {{< /text >}}
 
 To check the status of the gateway, run:
 
-{{< text bash >}}
+{{< text bash snip_id=none >}}
 $ kubectl get gateway
 NAME               CLASS   ADDRESS                                            PROGRAMMED   AGE
 bookinfo-gateway   istio   bookinfo-gateway-istio.default.svc.cluster.local   True         88s
@@ -64,7 +64,7 @@ bookinfo-gateway   istio   bookinfo-gateway-istio.default.svc.cluster.local   Tr
 
 Let's test the application using the `port-forward` command to access the `productpage` service through the gateway:
 
-{{< text bash >}}
+{{< text bash snip_id=none >}}
 $ kubectl port-forward svc/bookinfo-gateway-istio 8080:80
 {{< /text >}}
 

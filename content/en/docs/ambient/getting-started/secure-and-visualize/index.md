@@ -25,7 +25,7 @@ The difference this time is that the communication between the Bookinfo applicat
 
 You can run the following command to verify that all pods are running and they haven't been restarted:
 
-{{< text bash >}}
+{{< text bash snip_id=none >}}
 $ kubectl get pods
 NAME                             READY   STATUS    RESTARTS   AGE
 details-v1-cf74bb974-nw94k       1/1     Running   0          16m20s
@@ -42,7 +42,7 @@ Note the `RESTARTS` column. If the value is `0`, it means that the pods haven't 
 
 Let's deploy Prometheus and Kiali to see the L4 telemetry and visualize the application in Kiali's dashboard:
 
-{{< text bash>}}
+{{< text bash snip_id=none >}}
 $ kubectl apply -f {{< github_file >}}/samples/addons/prometheus.yaml
 $ kubectl apply -f {{< github_file >}}/samples/addons/kiali.yaml
 {{< /text >}}
