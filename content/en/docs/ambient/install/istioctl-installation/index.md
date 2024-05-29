@@ -20,7 +20,7 @@ Aside from following the demo in [Getting Started with Ambient Mode](/docs/ambie
 
 1. Install the Kubernetes Gateway API CRDs, which don’t come installed by default on most Kubernetes clusters:
 
-    {{< text bash snip_id=install_crds>}}
+    {{< text syntax=bash snip_id=install_crds >}}
     $ kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.0.0/standard-install.yaml
     {{< /text >}}
 
@@ -31,14 +31,14 @@ Aside from following the demo in [Getting Started with Ambient Mode](/docs/ambie
 
 ## Install
 
-{{< text bash snip_id=install_istio>}}
+{{< text syntax=bash snip_id=install_istio >}}
 $ istioctl install --set profile=ambient --skip-confirmation
 {{< /text >}}
 
 After running the above command, you’ll get the following output that indicates
 four components (including {{< gloss "ztunnel" >}}ztunnel{{< /gloss >}}) have been installed successfully!
 
-{{< text syntax=plain snip_id=none >}}
+{{< text syntax=plain snip_id=check_installed >}}
 ✔ Istio core installed
 ✔ Istiod installed
 ✔ CNI installed
@@ -52,7 +52,7 @@ four components (including {{< gloss "ztunnel" >}}ztunnel{{< /gloss >}}) have be
 
 Verify the installed components using the following commands:
 
-{{< text bash snip_id=check_pods >}}
+{{< text syntax=bash snip_id=check_pods >}}
 $ kubectl get pods -n istio-system
 NAME                      READY   STATUS    RESTARTS   AGE
 istio-cni-node-d9rdt      1/1     Running   0          2m15s
@@ -60,7 +60,7 @@ istiod-56d848857c-pwsd6   1/1     Running   0          2m23s
 ztunnel-wp7hk             1/1     Running   0          2m9s
 {{< /text >}}
 
-{{< text bash snip_id=check_daemonsets >}}
+{{< text syntax=bash snip_id=check_daemonsets >}}
 $ kubectl get daemonset -n istio-system
 NAME             DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
 istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   2m16s
@@ -80,14 +80,12 @@ You can uninstall Istio and its components using the following commands.
 
 1. Remove waypoint proxies, installed policies, and uninstall Istio:
 
-    {{< text bash snip_id=uninstall_istio >}}
-    $ istioctl x waypoint delete --all
+    {{< text syntax=bash snip_id=uninstall_istio >}}
     $ istioctl uninstall -y --purge
-    $ kubectl delete namespace istio-system
     {{< /text >}}
 
 1. Remove the Gateway API CRDs (optional)
 
-    {{< text bash snip_id=uninstall_crds >}}
+    {{< text syntax=bash snip_id=uninstall_crds >}}
     $ kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref={{< k8s_gateway_api_version >}}" | kubectl delete -f -
     {{< /text >}}

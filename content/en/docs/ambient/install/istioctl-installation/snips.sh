@@ -28,6 +28,14 @@ snip_install_istio() {
 istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --set profile=ambient --skip-confirmation
 }
 
+! IFS=$'\n' read -r -d '' snip_check_installed <<\ENDSNIP
+✔ Istio core installed
+✔ Istiod installed
+✔ CNI installed
+✔ Ztunnel installed
+✔ Installation complete
+ENDSNIP
+
 snip_check_pods() {
 kubectl get pods -n istio-system
 }
@@ -50,9 +58,7 @@ ztunnel          1         1         1       1            1           kubernetes
 ENDSNIP
 
 snip_uninstall_istio() {
-istioctl x waypoint delete --all
 istioctl uninstall -y --purge
-kubectl delete namespace istio-system
 }
 
 snip_uninstall_crds() {
