@@ -32,36 +32,7 @@
   </div>
   {{ end }} {{ end }}
   <div>{{ .Content }}</div>
-    <p><h4>Share this blog on social!</h4></p>
-    <div>
-      <a
-        href="https://www.linkedin.com/shareArticle?mini=true&url={{ .Permalink }}"
-        target="_blank"
-      >
-        <img class="social-share-icon"
-          src="/img/social/linkedin.svg"
-          alt="Share to LinkedIn"
-        />
-      </a>
-      <a
-        href="https://twitter.com/intent/tweet?text={{ .Title }}&url={{ .Permalink }}"
-        target="_blank"
-      >
-        <img class="social-share-icon"
-          src="/img/social/twitterx.svg"
-          alt="Share to X"
-        />
-      </a>
-      <a
-        href="https://www.facebook.com/sharer/sharer.php?u={{ .Permalink }}"
-        target="_blank"
-      >
-        <img class="social-share-icon"
-          src="/img/social/facebook.svg"
-          alt="Share to Facebook"
-        />{{ partial "icon.html" "facebook" }}
-      </a>
-  </div>
+  {{ partial "posts_share_social.html" . }}
   {{ partial "posts_navigation.html" . }}
 </article>
 {{ end }}

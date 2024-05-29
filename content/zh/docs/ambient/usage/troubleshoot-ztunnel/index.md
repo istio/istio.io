@@ -13,13 +13,13 @@ test: no
 
 ztunnel 代理通过 xDS API 从 istiod {{< gloss "control plane" >}}控制平面{{< /gloss >}}获取配置和发现信息。
 
-`istioctl x ztunnel-config` 命令允许您查看 ztunnel 代理所看到的和发现的工作负载。
+`istioctl ztunnel-config` 命令允许您查看 ztunnel 代理所看到的和发现的工作负载。
 
 在第一个示例中，您会看到 ztunnel 当前正在跟踪的所有工作负载和控制平面组件，
 包括有关连接到该组件时要使用的 IP 地址和协议的信息，以及是否存在与该工作负载关联的 waypoint 代理。
 
 {{< text bash >}}
-$ istioctl x ztunnel-config workloads
+$ istioctl ztunnel-config workloads
 NAMESPACE          POD NAME                                IP          NODE                  WAYPOINT PROTOCOL
 default            bookinfo-gateway-istio-59dd7c96db-q9k6v 10.244.1.11 ambient-worker        None     TCP
 default            details-v1-cf74bb974-5sqkp              10.244.1.5  ambient-worker        None     HBONE
@@ -44,7 +44,7 @@ local-path-storage local-path-provisioner-7577fdbbfb-pslg6 10.244.0.4  ambient-c
 ztunnel 代理已从 istiod 控制平面接收到用于 mTLS 的证书。
 
 {{< text bash >}}
-$ istioctl x ztunnel-config certificates "$ZTUNNEL".istio-system
+$ istioctl ztunnel-config certificates "$ZTUNNEL".istio-system
 CERTIFICATE NAME                                              TYPE     STATUS        VALID CERT     SERIAL NUMBER                        NOT AFTER                NOT BEFORE
 spiffe://cluster.local/ns/default/sa/bookinfo-details         Leaf     Available     true           c198d859ee51556d0eae13b331b0c259     2024-05-05T09:17:47Z     2024-05-04T09:15:47Z
 spiffe://cluster.local/ns/default/sa/bookinfo-details         Root     Available     true           bad086c516cce777645363cb8d731277     2034-04-24T03:31:05Z     2024-04-26T03:31:05Z
@@ -64,7 +64,7 @@ spiffe://cluster.local/ns/default/sa/sleep                    Root     Available
 您可以使用 `all` 选项通过单个 CLI 命令查看 ztunnel-config 的所有部分：
 
 {{< text bash >}}
-$ istioctl x ztunnel-config all -o json
+$ istioctl ztunnel-config all -o json
 {{< /text >}}
 
 您还可以通过 `curl` 查看 ztunnel 代理的原始配置转储到其 Pod 内的端点：
