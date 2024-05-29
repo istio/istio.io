@@ -20,7 +20,7 @@ Aside from following the demo in [Getting Started with Ambient Mode](/docs/ambie
 
 1. Install the Kubernetes Gateway API CRDs, which don’t come installed by default on most Kubernetes clusters:
 
-    {{< text bash >}}
+    {{< text bash snip_id=install_crds>}}
     $ kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.0.0/standard-install.yaml
     {{< /text >}}
 
@@ -31,7 +31,7 @@ Aside from following the demo in [Getting Started with Ambient Mode](/docs/ambie
 
 ## Install
 
-{{< text bash >}}
+{{< text bash snip_id=install_istio>}}
 $ istioctl install --set profile=ambient --skip-confirmation
 {{< /text >}}
 
@@ -52,7 +52,7 @@ four components (including {{< gloss "ztunnel" >}}ztunnel{{< /gloss >}}) have be
 
 Verify the installed components using the following commands:
 
-{{< text bash >}}
+{{< text bash snip_id=check_pods >}}
 $ kubectl get pods -n istio-system
 NAME                      READY   STATUS    RESTARTS   AGE
 istio-cni-node-d9rdt      1/1     Running   0          2m15s
@@ -60,7 +60,7 @@ istiod-56d848857c-pwsd6   1/1     Running   0          2m23s
 ztunnel-wp7hk             1/1     Running   0          2m9s
 {{< /text >}}
 
-{{< text bash >}}
+{{< text bash snip_id=check_daemonsets >}}
 $ kubectl get daemonset -n istio-system
 NAME             DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
 istio-cni-node   1         1         1       1            1           kubernetes.io/os=linux   2m16s
@@ -78,32 +78,9 @@ You can uninstall Istio and its components using the following commands.
 
 1. Remove the Bookinfo sample application and its configuration, see [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup).
 
-1. Remove the label (Optional)
-
-    The label to instruct Istio to automatically include applications in the `default` namespace to an ambient mesh is not removed by default. If no longer needed, use the following command to remove it:
-
-    {{< text bash >}}
-    $ kubectl label namespace default istio.io/dataplane-mode-
-    {{< /text >}}
-
-    With the label removed, we can check the logs once again to verify the proxy removal:
-
-    {{< text bash >}}
-    $ kubectl logs ds/ztunnel -n istio-system  | grep inpod
-    Found 3 pods, using pod/ztunnel-jrxln
-    inpod_enabled: true
-    inpod_uds: /var/run/ztunnel/ztunnel.sock
-    inpod_port_reuse: true
-    inpod_mark: 1337
-    2024-03-26T00:02:06.161802Z  INFO ztunnel::inpod::workloadmanager: handling new stream
-    2024-03-26T00:02:06.162099Z  INFO ztunnel::inpod::statemanager: pod received snapshot sent
-    2024-03-26T00:41:05.518194Z  INFO ztunnel::inpod::statemanager: pod WorkloadUid("7ef61e18-725a-4726-84fa-05fc2a440879") received netns, starting proxy
-    2024-03-26T00:50:14.856284Z  INFO ztunnel::inpod::statemanager: pod delete request, draining proxy
-    {{< /text >}}
-
 1. Remove waypoint proxies, installed policies, and uninstall Istio:
 
-    {{< text bash >}}
+    {{< text bash snip_id=uninstall_istio >}}
     $ istioctl x waypoint delete --all
     $ istioctl uninstall -y --purge
     $ kubectl delete namespace istio-system
@@ -111,6 +88,6 @@ You can uninstall Istio and its components using the following commands.
 
 1. Remove the Gateway API CRDs (optional)
 
-    {{< text bash >}}
+    {{< text bash snip_id=uninstall_crds >}}
     $ kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref={{< k8s_gateway_api_version >}}" | kubectl delete -f -
     {{< /text >}}

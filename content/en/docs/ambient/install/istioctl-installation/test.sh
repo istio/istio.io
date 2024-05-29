@@ -22,15 +22,13 @@ set -o pipefail
 
 # @setup profile=none
 
-snip_prerequisites_1
+snip_install_crds
+snip_install_istio
 
-snip_install_1
 _wait_for_deployment istio-system istiod
 _wait_for_daemonset istio-system istio-cni-node
 _wait_for_daemonset istio-system ztunnel
 
 # @cleanup
-snip_uninstall_1
-snip_uninstall_2
-snip_uninstall_3
-snip_uninstall_4
+snip_uninstall_istio
+snip_uninstall_crds
