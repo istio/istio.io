@@ -34,7 +34,7 @@ the data plane. The data plane and control plane have distinct performance conce
 ## Performance summary for Istio 1.22
 
 The [Istio load tests](https://github.com/istio/tools/tree/{{< source_branch_name >}}/perf/load) mesh consists
-of **1000** services and **2000** sidecars with 70,000 mesh-wide requests per second.
+of **1000** services and **2000** pods in Istio service mesh with 70,000 mesh-wide requests per second.
 
 ## Control plane performance
 
