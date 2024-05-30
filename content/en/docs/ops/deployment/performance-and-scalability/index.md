@@ -104,26 +104,27 @@ average and tail latencies. The actual tail latency depends on the traffic patte
 ### Latency for Istio 1.22
 
 Inside the mesh, a request traverses the client-side proxy and then the server-side
-proxy. In the default (i.e. ambient mode) configuration of Istio 1.22,
+proxy. In the default ambient mode (with L4) configuration of Istio 1.22,
 the two ztunnel proxies add about 0.17 ms and 0.20 ms to the 90th and 99th percentile latency, respectively, over the baseline data plane latency. Ambient mode with L4 and L7 is better than sidecar.
 We obtained these results using the [Istio benchmarks](https://github.com/istio/tools/tree/{{< source_branch_name >}}/perf/benchmark)
 for the `http/1.1` protocol, with a 1 kB payload at 1000 requests per second using 1,2,4,8,16,32,64 client connections, 2 proxy workers and mutual TLS enabled.
 
 Note: This testing was performed on the [CNCF Community Infrastructure Lab](https://github.com/cncf/cluster). Different hardware will give different values.
 
-<br><img width="90%" style="display: block; margin: auto;"
+<p><h6 style="text-align: center;"> P90 latency vs client connections </h6></p>
+<img width="90%" style="display: block; margin: auto;"
     src="istio-1.22.0-fortio-90.png"
     alt="P90 latency vs client connections"
     caption="P90 latency vs client connections"
 />
-<p><h2 style="text-align: center;"> P90 latency vs client connections </h2></p><br>
-
+<br><br>
+<p><h6 style="text-align: center;"> P99 latency vs client connections </h6></p>
 <img width="90%" style="display: block; margin: auto;"
     src="istio-1.22.0-fortio-99.png"
     alt="P99 latency vs client connections"
     caption="P99 latency vs client connections"
 />
-<p><h2 style="text-align: center;"> P99 latency vs client connections </h2></p>
+<br>
 
 - `no_mesh` Client pod directly calls the server pod, no pods in Istio service mesh.
 - `ambient: L4` default ambient mode with the secure overlay L4 only.
