@@ -11,7 +11,6 @@ exclude k8s.io/kubernetes v1.13.0
 replace github.com/imdario/mergo => github.com/imdario/mergo v0.3.5
 
 require (
-	github.com/envoyproxy/go-control-plane v0.12.1-0.20240509201933-132c0a31ab09
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2
 	golang.org/x/sync v0.7.0
 	istio.io/istio v0.0.0-20240525002004-6a089c8e9eaf
@@ -187,6 +186,8 @@ require (
 	golang.org/x/tools v0.20.0 // indirect
 	gomodules.xyz/jsonpatch/v2 v2.4.0 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20240513163218-0867130af1f8 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20240513163218-0867130af1f8 // indirect
+	google.golang.org/grpc v1.63.2 // indirect
 	google.golang.org/protobuf v1.34.1 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
