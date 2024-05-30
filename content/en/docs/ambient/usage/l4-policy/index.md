@@ -108,10 +108,6 @@ This means that when you have a waypoint installed, **the ideal place to enforce
 
 Istio's [peer authentication policies](/docs/concepts/security/#peer-authentication), which configure mutual TLS (mTLS) modes, are supported by ztunnel.
 
+The default policy for ambient mode is `PERMISSIVE`, which allows pods to accept both mTLS-encrypted traffic (from within the mesh) and plain text traffic (from without). Enabling `STRICT` mode means that pods will only accept mTLS-encrypted traffic.
+
 As ztunnel and {{< gloss >}}HBONE{{< /gloss >}} implies the use of mTLS, it is not possible to use the `DISABLE` mode in a policy. Such policies will be ignored.
-
-If you need to accept traffic from clients which are not part of the mesh you may do so with a `PERMISSIVE` peer authentication policy. Permissive is the default mTLS mode Istio ambient operates in which means you may enable this mode explicitly in a peer authentication or simply not create a `STRICT` policy.
-
-{{< text bash >}}
-$ kubectl label namespace default istio.io/dataplane-mode-
-{{< /text >}}
