@@ -19,9 +19,9 @@ namespace/default labeled
 
 Congratulations! You have successfully added all pods in the default namespace to the ambient mesh. 🎉
 
-If you open the Bookinfo application in your browser, you will see the product page, just like before. The difference this time is that the communication between the Bookinfo application pods is encrypted using mTLS. Additionally, Istio is gathering TCP telemetry for all traffic between the pods!
+If you open the Bookinfo application in your browser, you will see the product page, just like before. The difference this time is that the communication between the Bookinfo application pods is encrypted using mTLS. Additionally, Istio is gathering TCP telemetry for all traffic between the pods.
 
-{{< tip >}} 
+{{< tip >}}
 You now have mTLS encryption between all your pods — without even restarting or redeploying any of the applications!
 {{< /tip >}}
 

@@ -118,4 +118,4 @@ $ kubectl exec deploy/sleep -- curl -s http://productpage:9080/productpage | gre
 
 ## Next steps
 
-With the waypoint proxy in place, you can now enforce Layer 7 policies in the namespace. In addition to authorization policies, [we can use the waypoint proxy to split traffic between services](../manage-traffic/). This is useful when doing canary deployments or A/B testing. 
+With the waypoint proxy in place, you can now enforce Layer 7 policies in the namespace. In addition to authorization policies, [we can use the waypoint proxy to split traffic between services](../manage-traffic/). This is useful when doing canary deployments or A/B testing.

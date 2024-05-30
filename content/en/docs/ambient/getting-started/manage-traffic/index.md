@@ -47,4 +47,4 @@ You'll notice the majority of requests go to `reviews-v1`. You can confirm the s
 
 ## Next steps
 
-This section concludes the Getting Started guide for ambient mode. You can continue exploring the [ambient mode user guides](/docs/ambient/usage/) to learn more about Istio's features and capabilities.
+This section concludes the Getting Started guide for ambient mode. Continue exploring the [ambient mode user guides](/docs/ambient/usage/) to learn more about Istio's features and capabilities.

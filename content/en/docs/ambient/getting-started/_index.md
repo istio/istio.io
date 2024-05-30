@@ -17,7 +17,7 @@ These steps require you to have a {{< gloss >}}cluster{{< /gloss >}} running a
 
 ## Download the Istio CLI
 
-Istio is configured using a command line tool called `istioctl`.  Download it, and the Istio sample applications: 
+Istio is configured using a command line tool called `istioctl`.  Download it, and the Istio sample applications:
 
 {{< text syntax=bash snip_id=none >}}
 $ curl -L https://istio.io/downloadIstio | sh -
