@@ -78,7 +78,7 @@ boilerplatedir = args.boilerplatedir if args.boilerplatedir else None
 if args.snipfile:
     snipfile = args.snipfile
 else:
-    snipfile = "snips.sh" if markdown.split('/')[-1] == "index.md" else markdown.split('/')[-1] + "_snips.sh"
+    snipfile = "snips.sh" if (markdown.split('/')[-1] == "index.md" or markdown.split('/')[-1] == "_index.md") else markdown.split('/')[-1] + "_snips.sh"
 
 print("generating snips: " + os.path.join(snipdir, snipfile))
 
