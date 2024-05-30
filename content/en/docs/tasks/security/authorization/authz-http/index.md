@@ -25,7 +25,7 @@ Before you begin this task, do the following:
 After deploying the Bookinfo application, go to the Bookinfo product page at `http://$GATEWAY_URL/productpage`. On
 the product page, you can see the following sections:
 
-* **Book Details** in the of the page, which includes: book type, number of
+* **Book Details** in the middle of the page, which includes: book type, number of
   pages, publisher, etc.
 * **Book Reviews** on bottom of the page.
 
