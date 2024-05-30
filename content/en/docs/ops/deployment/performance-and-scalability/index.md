@@ -125,7 +125,7 @@ Note: This testing was performed on the [CNCF Community Infrastructure Lab](http
 />
 <p><h2 style="text-align: center;"> P99 latency vs client connections </h2></p>
 
-- `no_mesh` Client pod directly calls the server pod, no sidecars are present.
+- `no_mesh` Client pod directly calls the server pod, no pods in Istio service mesh.
 - `ambient: L4` default ambient mode with the secure overlay L4 only.
 - `ambient: L4+L7` default ambient mode with the secure overlay L4 and waypoints enabled for the namespace.
 - `sidecar` Client and server sidecars are present with telemetry configured by default. This is the default Istio configuration.
