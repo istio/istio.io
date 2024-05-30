@@ -46,9 +46,9 @@ Without a waypoint installed, you can only use [Layer 4 security policies](/docs
 
 ### Considerations for authorization policies {#considerations}
 
-In ambient mode, authorization policies can either be *targeted* (for ztunnel enforcement) or *attached* (for waypoint enforcement). For an authorization policy to be attached to a waypoint it must have a `targetRef` which refers to that waypoint.
+In ambient mode, authorization policies can either be *targeted* (for ztunnel enforcement) or *attached* (for waypoint enforcement). For an authorization policy to be attached to a waypoint it must have a `targetRef` which refers to the waypoint, or a Service which uses that waypoint.
 
-The ztunnel cannot enforce L7 policies. If a policy with rules matching L7 attributes is targeted at a ztunnel, it will fail safe by becoming a `DENY` policy.
+The ztunnel cannot enforce L7 policies. If a policy with rules matching L7 attributes is targeted with a workload selector (rather than attached with a `targetRef`), such that it is enforced by a ztunnel, it will fail safe by becoming a `DENY` policy.
 
 See [the L4 policy guide](/docs/ambient/usage/l4-policy/) for more information, including when to attach policies to waypoints for TCP-only use cases.
 
@@ -102,7 +102,7 @@ spec:
 
 ### Attach to a specific service
 
-You can also attach a route or policy to one or more specific services within the waypoint. Set `Service` as the `parentRefs` or `targetRefs` value, as appropriate.
+You can also attach a route to one or more specific services within the waypoint. Set `Service` as the `parentRefs` or `targetRefs` value, as appropriate.
 
 To apply the `reviews` HTTPRoute to the `reviews` service in the `default` namespace:
 
