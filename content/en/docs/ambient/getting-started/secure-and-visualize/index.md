@@ -25,21 +25,6 @@ If you open the Bookinfo application in your browser, you will see the product p
 You now have mTLS encryption between all your pods — without even restarting or redeploying any of the applications!
 {{< /tip >}}
 
-You can run the following command to verify that all pods are running and they haven't been restarted:
-
-{{< text syntax=bash snip_id=none >}}
-$ kubectl get pods
-NAME                             READY   STATUS    RESTARTS   AGE
-details-v1-cf74bb974-nw94k       1/1     Running   0          4m42s
-productpage-v1-87d54dd59-wl7qf   1/1     Running   0          4m42s
-ratings-v1-7c4bbf97db-rwkw5      1/1     Running   0          4m42s
-reviews-v1-5fd6d4f8f8-66j45      1/1     Running   0          4m42s
-reviews-v2-6f9b55c5db-6ts96      1/1     Running   0          4m42s
-reviews-v3-7d99fd7978-dm6mx      1/1     Running   0          4m42s
-{{< /text >}}
-
-Note the `RESTARTS` column. If the value is `0`, it means that the pods haven't been restarted.
-
 ## Visualize the application and metrics
 
 Using Istio's dashboard, Kiali, and the Prometheus metrics engine, you can visualize the Bookinfo application. Deploy them both:
@@ -55,19 +40,27 @@ You can access the Kiali dashboard by running the following command:
 $ istioctl dashboard kiali
 {{< /text >}}
 
-Click on the Traffic Graph and you should see the Bookinfo application:
+Let's send some traffic to the Bookinfo application, so Kiali generates the traffic graph:
+
+{{< text bash >}}
+$ for i in $(seq 1 100); do curl -s http://localhost:8080/productpage; done
+{{< /text >}}
+
+Next, click on the Traffic Graph and you should see the Bookinfo application:
 
 {{< image link="./kiali-ambient-bookinfo.png" caption="Kiali dashboard" >}}
 
 {{< tip >}}
-If you don't see any traffic in Kiali, try refreshing the Bookinfo application in your browser a few times. This will generate some traffic, which you should see in Kiali soon.
+If you don't see the traffic graph, try re-sending the traffic to the Bookinfo application and make sure you have selected the **default** namespace in the **Namespace** dropdown in Kiali.
+
+To see the mTLS status between the services, click the **Display** dropdown and click **Security**.
 {{</ tip >}}
 
-If you click on one of the services on the the dashboard, you can see the inbound and outbound traffic metrics gathered by Istio:
+If you click on th line connecting two services on the the dashboard, you can see the inbound and outbound traffic metrics gathered by Istio.
 
 {{< image link="./kiali-tcp-traffic.png" caption="L4 traffic" >}}
 
-In addition to securing your traffic with mTLS and providing telemetry, Istio has created a strong identity for each service (a SPIFFE ID). This identity can be used for creating authorization policies.
+In addition to the TCP metrics, Istio has created a strong identity for each service - a SPIFFE ID. This identity can be used for creating authorization policies.
 
 ## Next steps
 

@@ -96,6 +96,10 @@ EOF
 
 Note the `targetRefs` field is used to specify the target service for the authorization policy of a waypoint proxy. The rules section is similar as before, but this time we added the `to` section to specify the operation that is allowed.
 
+{{< tip >}}
+To learn about how to enable more Istio's features, read the [Use Layer 7 features user guide](/docs/ambient/usage/l7-features/).
+{{< /tip >}}
+
 Confirm the new waypoint proxy is enforcing the updated authorization policy:
 
 {{< text bash >}}

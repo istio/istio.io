@@ -18,6 +18,7 @@ Start by deploying the application:
 
 {{< text bash >}}
 $ kubectl apply -f {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml
+$ kubectl apply -f {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo-versions.yaml
 {{< /text >}}
 
 To verify that the application is running, check the status of the pods:
