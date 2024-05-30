@@ -68,7 +68,7 @@ NAME       CLASS            ADDRESS       PROGRAMMED   AGE
 waypoint   istio-waypoint   10.96.58.95   True         42s
 {{< /text >}}
 
-Adding a [L7 authorization policy](/docs/ambient/l7-features/) will explicitly allow the `sleep` service to send `GET` requests to the `productpage` service, but perform no other operations:
+Adding a [L7 authorization policy](/docs/ambient/usage/l7-features/) will explicitly allow the `sleep` service to send `GET` requests to the `productpage` service, but perform no other operations:
 
 {{< text syntax=bash snip_id=deploy_l7_policy >}}
 $ kubectl apply -f - <<EOF

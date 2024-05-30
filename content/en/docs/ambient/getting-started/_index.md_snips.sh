@@ -17,13 +17,14 @@
 
 ####################################################################################################
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
-#          docs/ambient/getting-started/secure-and-visualize/index.md
+#          docs/ambient/getting-started/_index.md
 ####################################################################################################
 
-snip_add_bookinfo_to_the_mesh_1() {
-kubectl label namespace default istio.io/dataplane-mode=ambient
+snip_install_ambient() {
+istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --set profile=ambient --skip-confirmation
 }
 
-! IFS=$'\n' read -r -d '' snip_add_bookinfo_to_the_mesh_1_out <<\ENDSNIP
-namespace/default labeled
-ENDSNIP
+snip_install_k8s_gateway_api() {
+kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
+  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v1.1.0" | kubectl apply -f -; }
+}

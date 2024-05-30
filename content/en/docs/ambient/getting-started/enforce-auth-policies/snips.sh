@@ -22,7 +22,7 @@
 
 snip_deploy_l4_policy() {
 kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: productpage-viewer
@@ -44,11 +44,11 @@ snip_deploy_sleep() {
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/master/samples/sleep/sleep.yaml
 }
 
-snip_1_enforce_layer_4_authorization_policy_3() {
+snip_enforce_layer_4_authorization_policy_3() {
 kubectl exec deploy/sleep -- curl -s "http://productpage:9080/productpage"
 }
 
-! IFS=$'\n' read -r -d '' snip_1_enforce_layer_4_authorization_policy_3_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_enforce_layer_4_authorization_policy_3_out <<\ENDSNIP
 command terminated with exit code 56
 ENDSNIP
 
@@ -61,18 +61,18 @@ waypoint default/waypoint applied
 namespace default labeled with "istio.io/use-waypoint: waypoint"
 ENDSNIP
 
-snip_2_enforce_layer_7_authorization_policy_2() {
+snip_enforce_layer_7_authorization_policy_2() {
 kubectl get gtw waypoint
 }
 
-! IFS=$'\n' read -r -d '' snip_2_enforce_layer_7_authorization_policy_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_enforce_layer_7_authorization_policy_2_out <<\ENDSNIP
 NAME       CLASS            ADDRESS       PROGRAMMED   AGE
-waypoint   istio-waypoint   10.96.58.95   True         61s
+waypoint   istio-waypoint   10.96.58.95   True         42s
 ENDSNIP
 
 snip_deploy_l7_policy() {
 kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: productpage-viewer
@@ -94,29 +94,29 @@ spec:
 EOF
 }
 
-snip_2_enforce_layer_7_authorization_policy_4() {
+snip_enforce_layer_7_authorization_policy_4() {
 # This fails with an RBAC error because we're not using a GET operation
 kubectl exec deploy/sleep -- curl -s "http://productpage:9080/productpage" -X DELETE
 }
 
-! IFS=$'\n' read -r -d '' snip_2_enforce_layer_7_authorization_policy_4_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_enforce_layer_7_authorization_policy_4_out <<\ENDSNIP
 RBAC: access denied
 ENDSNIP
 
-snip_2_enforce_layer_7_authorization_policy_5() {
+snip_enforce_layer_7_authorization_policy_5() {
 # This fails with an RBAC error because the identity of the reviews-v1 service is not allowed
-kubectl exec deploy/reviews-v1 -- curl -s http://productpage:9080/
+kubectl exec deploy/reviews-v1 -- curl -s http://productpage:9080/productpage
 }
 
-! IFS=$'\n' read -r -d '' snip_2_enforce_layer_7_authorization_policy_5_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_enforce_layer_7_authorization_policy_5_out <<\ENDSNIP
 RBAC: access denied
 ENDSNIP
 
-snip_2_enforce_layer_7_authorization_policy_6() {
+snip_enforce_layer_7_authorization_policy_6() {
 # This works as we're explicitly allowing GET requests from the sleep pod
-kubectl exec deploy/sleep -- curl -s http://productpage:9080/ | grep -o "<title>.*</title>"
+kubectl exec deploy/sleep -- curl -s http://productpage:9080/productpage | grep -o "<title>.*</title>"
 }
 
-! IFS=$'\n' read -r -d '' snip_2_enforce_layer_7_authorization_policy_6_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_enforce_layer_7_authorization_policy_6_out <<\ENDSNIP
 <title>Simple Bookstore App</title>
 ENDSNIP
