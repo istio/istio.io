@@ -21,12 +21,11 @@ set -e
 set -u
 set -o pipefail
 
-source "_index_md_snips.sh"
-source "deploy-sample-app/snips.sh"
-source "secure-and-visualize/snips.sh"
-source "enforce-auth-policies/snips.sh"
-source "manage-traffic/snips.sh"
-source "cleanup/snips.sh"
+source "content/en/docs/ambient/getting-started/deploy-sample-app/snips.sh"
+source "content/en/docs/ambient/getting-started/secure-and-visualize/snips.sh"
+source "content/en/docs/ambient/getting-started/enforce-auth-policies/snips.sh"
+source "content/en/docs/ambient/getting-started/manage-traffic/snips.sh"
+source "content/en/docs/ambient/getting-started/cleanup/snips.sh"
 
 snip_install_ambient
 snip_install_k8s_gateway_api
