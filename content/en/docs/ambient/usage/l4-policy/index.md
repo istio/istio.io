@@ -8,7 +8,7 @@ test: no
 
 The layering of {{< gloss >}}ztunnel{{< /gloss >}} and {{< gloss >}}waypoint{{< /gloss >}} proxies in Istio's ambient mode gives you a choice on whether or not you want to enable Layer 7 (L7) processing for a given workload.
 
-The Layer 4 (L4) features of Istio's [security policies](/docs/concepts/security) are supported by ztunnel, and are available in ambient mode. [Kubernetes Network Policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/) also continue to work if your cluster has a {{< gloss >}}CNI{{< /gloss >}} plugin that supports them, and can be used to provide defense-in-depth.
+The Layer 4 (L4) features of Istio's [security policies](/docs/concepts/security) are supported by ztunnel, and are available in ambient mode. [Kubernetes Network Policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/) also continue to work if your cluster has a {{< gloss >}}CNI{{< /gloss >}} plugin that supports them, and can be used to provide defense-in-depth. When using Kubernetes Network Policies, an ambient workload receives traffic multiplexed on port 15008 from ambient client and waypoints.
 
 To use L7 policies, and Istio's traffic routing features, you can [deploy a waypoint](/docs/ambient/usage/waypoint) for your workloads.
 
@@ -38,7 +38,7 @@ spec:
 EOF
 {{< /text >}}
 
-The behavior of the L4 `AuthorizationPolicy` API has the same functional behavior in Istio ambient mode as in sidecar mode. When there is no `AuthorizationPolicy` provisioned, then the default action is `ALLOW`. Once a policy is provisioned, pods matching the selector in the policy only allow traffic which is explicitly allowed. In this example, pods with the label `app: httpbin` only allow traffic from sources with an identity principal of `cluster.local/ns/ambient-demo/sa/sleep`. Traffic from all other sources will be denied.
+The behavior of the L4 `AuthorizationPolicy` API has the same functional behavior in Istio ambient mode as in sidecar mode. When there is no `AuthorizationPolicy` provisioned, then the default action is `ALLOW`. Once a policy is provisioned, pods matching the selector in the policy only allow traffic which is explicitly allowed. In this example, pods with the label `app: httpbin` only allow traffic from sources with an identity principal of `cluster.local/ns/ambient-demo/sa/sleep`. Traffic from all other sources, including non-ambient clients will be denied.
 
 ### Layer 7 authorization policies without waypoints installed
 

@@ -30,13 +30,10 @@ For example, setting a `PeerAuthentication` policy with mTLS mode set to `STRICT
 
 ### Pods inside the mesh using sidecar mode
 
-Istio supports East-West interoperability between a pod with a sidecar and a pod using ambient mode, within the same mesh. The sidecar proxy knows to use the HBONE protocol since the destination has been discovered to be an HBONE destination.
+Istio supports interoperability between a pod with a sidecar and a pod using ambient mode, within the same mesh. The sidecar proxy knows to use the same protocol as the ambient nodes. The control plane for sidecars needs to be installed
+with the `ambient` profile.
 
-{{< tip >}}
-For sidecar proxies to use the HBONE/mTLS signaling option when communicating with ambient destinations, they need to be configured with `ISTIO_META_ENABLE_HBONE` set to `true` in the proxy metadata. This is the default in `MeshConfig` when using the `ambient` profile, hence you do not have to do anything else when using this profile.
-{{< /tip >}}
-
-A `PeerAuthentication` policy with mTLS mode set to `STRICT` will allow traffic from a pod with an Istio sidecar proxy.
+A `PeerAuthentication` policy with mTLS mode set to `STRICT` will allow traffic from a pod with an Istio sidecar proxy or from pods using ambient mode.
 
 ### Ingress and egress gateways and ambient mode pods
 

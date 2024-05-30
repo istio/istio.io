@@ -56,12 +56,25 @@ configures the proxies to route traffic within the mesh.
 $ helm install istiod istio/istiod --namespace istio-system --set profile=ambient --wait
 {{< /text >}}
 
+You can also install Istiod with a specific revision, allowing multiple installs for safe upgrade and config canary.
+This should also be used if you have a 'default' istiod already installed.
+
+{{< text syntax=bash snip_id=install_discovery_revision >}}
+$ helm install istiod istio/istiod --namespace istio-system --set profile=ambient --set revision=ambient --wait
+{{< /text >}}
+
 ### Install the ztunnel component
 
 The `ztunnel` chart installs the ztunnel DaemonSet, which is the node proxy component of Istio's ambient mode.
 
 {{< text syntax=bash snip_id=install_ztunnel >}}
 $ helm install ztunnel istio/ztunnel -n istio-system --wait
+{{< /text >}}
+
+For using ztunnel with a specific revision of Istiod:
+
+{{< text syntax=bash snip_id=install_ztunnel_revision >}}
+$ helm install ztunnel istio/ztunnel -n istio-system --set revision=ambient --wait
 {{< /text >}}
 
 ### Install an ingress gateway (optional)
@@ -73,6 +86,8 @@ $ helm install istio-ingress istio/gateway -n istio-ingress --create-namespace -
 {{< /text >}}
 
 If your Kubernetes cluster doesn't support the `LoadBalancer` service type (`type: LoadBalancer`) with a proper external IP assigned, run the above command without the `--wait` parameter to avoid the infinite wait. See [Installing Gateways](/docs/setup/additional-setup/gateway/) for in-depth documentation on gateway installation.
+
+You can use the [K8S Gateway](/docs/tasks/traffic-management/ingress/gateway-api/) resource - Istiod will automatically create and remove the gateway deployment as needed.
 
 ## Configuration
 
