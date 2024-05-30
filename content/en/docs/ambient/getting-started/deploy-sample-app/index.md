@@ -6,21 +6,18 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-You’ll install the sample [bookinfo application](/docs/examples/bookinfo/) that's comprised of multiple microservices and is used for demonstration purposes.
+To explore Istio, you will install the sample [Bookinfo application](/docs/examples/bookinfo/), composed of four separate microservices used to demonstrate various Istio features.
 
-Here's the architecture of the Bookinfo application:
-
-{{< image width="50%" link="./bookinfo.svg" caption="Bookinfo Application" >}}
+{{< image width="50%" link="./bookinfo.svg" caption="Istio's Bookinfo sample application is written in many different languages" >}}
 
 As part of this guide, you'll deploy the Bookinfo application and expose the `productpage` service using an ingress gateway.
 
-## 1. Deploy Bookinfo application
+## Deploy the Bookinfo application
 
-Let's start by deploying the application:
+Start by deploying the application:
 
 {{< text bash >}}
 $ kubectl apply -f {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml
-$ kubectl apply -f {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo-versions.yaml
 {{< /text >}}
 
 To verify that the application is running, check the status of the pods:
@@ -28,17 +25,17 @@ To verify that the application is running, check the status of the pods:
 {{< text syntax=bash snip_id=none >}}
 $ kubectl get pods
 NAME                             READY   STATUS    RESTARTS   AGE
-details-v1-cf74bb974-nw94k       1/1     Running   0          9m20s
-productpage-v1-87d54dd59-wl7qf   1/1     Running   0          9m19s
-ratings-v1-7c4bbf97db-rwkw5      1/1     Running   0          9m20s
-reviews-v1-5fd6d4f8f8-66j45      1/1     Running   0          9m19s
-reviews-v2-6f9b55c5db-6ts96      1/1     Running   0          9m19s
-reviews-v3-7d99fd7978-dm6mx      1/1     Running   0          9m19s
+details-v1-cf74bb974-nw94k       1/1     Running   0          42s
+productpage-v1-87d54dd59-wl7qf   1/1     Running   0          42s
+ratings-v1-7c4bbf97db-rwkw5      1/1     Running   0          42s
+reviews-v1-5fd6d4f8f8-66j45      1/1     Running   0          42s
+reviews-v2-6f9b55c5db-6ts96      1/1     Running   0          42s
+reviews-v3-7d99fd7978-dm6mx      1/1     Running   0          42s
 {{< /text >}}
 
 To access the `productpage` service from outside the cluster, you need to configure an ingress gateway.
 
-## 2. Deploy and configure the ingress gateway
+## Deploy and configure the ingress gateway
 
 You will use the Kubernetes Gateway API to deploy a gateway called `bookinfo-gateway`:
 
@@ -46,7 +43,7 @@ You will use the Kubernetes Gateway API to deploy a gateway called `bookinfo-gat
 $ kubectl apply -f {{< github_file >}}/samples/bookinfo/gateway-api/bookinfo-gateway.yaml
 {{< /text >}}
 
-By default, Istio creates a `LoadBalancer` service for a gateway. Change the service type to `ClusterIP` by annotating the gateway:
+By default, Istio creates a `LoadBalancer` service for a gateway. As we will access this gateway by a tunnel, we don't need a load balancer. Change the service type to `ClusterIP` by annotating the gateway:
 
 {{< text syntax=bash snip_id=annotate_bookinfo_gateway >}}
 $ kubectl annotate gateway bookinfo-gateway networking.istio.io/service-type=ClusterIP --namespace=default
@@ -57,12 +54,12 @@ To check the status of the gateway, run:
 {{< text bash >}}
 $ kubectl get gateway
 NAME               CLASS   ADDRESS                                            PROGRAMMED   AGE
-bookinfo-gateway   istio   bookinfo-gateway-istio.default.svc.cluster.local   True         88s
+bookinfo-gateway   istio   bookinfo-gateway-istio.default.svc.cluster.local   True         42s
 {{< /text >}}
 
-## 3. Test the application
+## Access the application
 
-Let's test the application using the `port-forward` command to access the `productpage` service through the gateway:
+You will connect to the Bookinfo `productpage` service through the gateway you just provisioned. To access the gateway, you need to use the `kubectl port-forward` command:
 
 {{< text syntax=bash snip_id=none >}}
 $ kubectl port-forward svc/bookinfo-gateway-istio 8080:80
@@ -72,8 +69,8 @@ Open your browser and navigate to `http://localhost:8080/productpage` to view th
 
 {{< image width="80%" link="./bookinfo-browser.png" caption="Bookinfo Application" >}}
 
-If you refresh the page, you should see the book reviews changing as the requests are distributed across different versions of the `reviews` service.
+If you refresh the page, you should see the book reviews and ratings changing as the requests are distributed across the different versions of the `reviews` service.
 
-## 4. Next steps
+## Next steps
 
-In the next section you'll enable ambient mode and learn how to secure and visualize the communication between the applications.
+[Continue to the next section](../secure-and-visualize/) to add the application to the mesh, and learn how to secure and visualize the communication between the applications.

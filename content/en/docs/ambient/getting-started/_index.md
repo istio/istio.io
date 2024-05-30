@@ -6,22 +6,66 @@ aliases:
   - /docs/ops/ambient/getting-started
   - /latest/docs/ops/ambient/getting-started
 owner: istio/wg-networking-maintainers
+skip_list: true
 test: yes
 ---
 
-This guide lets you quickly evaluate Istio's {{< gloss "ambient" >}}ambient mode{{< /gloss >}}. These steps require you to have a {{< gloss >}}cluster{{< /gloss >}} running a
+This guide lets you quickly evaluate Istio's {{< gloss "ambient" >}}ambient mode{{< /gloss >}}. You'll need a Kubernetes cluster to proceed. If you don't have a cluster, you can use [kind](/docs/setup/platform-setup/kind) or any other [supported Kubernetes platform](/docs/setup/platform-setup).
+
+These steps require you to have a {{< gloss >}}cluster{{< /gloss >}} running a
 [supported version](/docs/releases/supported-releases#support-status-of-istio-releases) of Kubernetes ({{< supported_kubernetes_versions >}}).
-You can install Istio ambient mode on [any supported Kubernetes platform](/docs/setup/platform-setup/), but this guide will assume the use of [kind](https://kind.sigs.k8s.io/) for simplicity.
+
+## Download the Istio CLI
+
+Istio is configured using a command line tool called `istioctl`.  Download it, and the Istio sample applications: 
+
+{{< text syntax=bash snip_id=none >}}
+$ curl -L https://istio.io/downloadIstio | sh -
+$ cd istio-{{< istio_full_version >}}
+$ export PATH=$PWD/bin:$PATH
+{{< /text >}}
+
+Check that you are able to run `istioctl` by printing the version of the command. At this point, Istio is not installed in your cluster, so you will see that there are no pods ready.
+
+{{< text syntax=bash snip_id=none >}}
+$ istioctl version
+no ready Istio pods in "istio-system"
+{{< istio_full_version >}}
+{{< /text >}}
+
+## Install Istio on to your cluster
+
+`istioctl` supports a number of [configuration profiles](/docs/setup/additional-setup/config-profiles/) that include different default options, and can be customized for your production needs. Support for ambient mode is included in the `ambient` profile. Install Istio with the following command:
+
+{{< text syntax=bash snip_id=install_ambient >}}
+$ istioctl install --set profile=ambient --skip-confirmation
+{{< /text >}}
+
+It might take a minute for the Istio components to be installed. Once the installation completes, you’ll get the following output that indicates all components have been installed successfully.
+
+{{< text syntax=plain snip_id=none >}}
+✔ Istio core installed
+✔ Istiod installed
+✔ CNI installed
+✔ Ztunnel installed
+✔ Installation complete
+{{< /text >}}
 
 {{< tip >}}
-Note that ambient mode currently requires the use of [istio-cni](/docs/setup/additional-setup/cni) to configure Kubernetes nodes, which must run as a privileged pod. Ambient mode is compatible with every major CNI that previously supported sidecar mode.
+You can verify the installed components by using the command `istioctl verify-install`.
 {{< /tip >}}
 
-Follow these steps to get started with Istio's ambient mode:
+## Install the Kubernetes Gateway API CRDs
 
-1. [Download and install](#download)
-1. [Deploy the sample application](#bookinfo)
-1. [Adding your application to ambient](#addtoambient)
-1. [Secure application access](#secure)
-1. [Control traffic](#control)
-1. [Uninstall](#uninstall)
+You need to install the Kubernetes Gateway API CRDs, which don’t come installed by default on most Kubernetes clusters:
+
+{{< text syntax=bash snip_id=install_k8s_gateway_api >}}
+$ kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
+  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v1.1.0" | kubectl apply -f -; }
+{{< /text >}}
+
+You will use the Kubernetes Gateway API to configure traffic routing.
+
+## Next steps
+
+Congratulations! You've successfully installed Istio with support for ambient mode. Continue to the next step to [install the demo application and add it to the ambient mesh](/docs/ambient/getting-started/deploy-sample-app/).

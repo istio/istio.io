@@ -6,9 +6,9 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-In this section, you will learn how to split traffic between services in the ambient mode.
+Now we have a waypoint proxy installed, we will learn how to split traffic between services.
 
-## 1. Split traffic between services
+## Split traffic between services
 
 The Bookinfo application has three versions of the `reviews` service. You can split traffic between these versions to test new features or perform A/B testing.
 
@@ -16,7 +16,7 @@ Let's configure traffic routing to send 90% of requests to `reviews` v1 and 10% 
 
 {{< text syntax=bash snip_id=deploy_httproute >}}
 $ kubectl apply -f - <<EOF
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: reviews
@@ -45,6 +45,6 @@ $ kubectl exec deploy/sleep -- sh -c "for i in \$(seq 1 100); do curl -s http://
 
 You'll notice the majority of requests go to `reviews-v1`. You can confirm the same if you open the Bookinfo application in your browser and refresh the page multiple times. Notice the requests from the `reviews-v1` don't have any stars, while the requests from `reviews-v2` have black stars.
 
-## 2. Next steps
+## Next steps
 
-This section concludes Getting Started guide for ambient mode. You can continue exploring the [Ambient Mode User Guides](/docs/ambient/usage/) to learn more about Istio's features and capabilities.
+This section concludes the Getting Started guide for ambient mode. You can continue exploring the [ambient mode user guides](/docs/ambient/usage/) to learn more about Istio's features and capabilities.
