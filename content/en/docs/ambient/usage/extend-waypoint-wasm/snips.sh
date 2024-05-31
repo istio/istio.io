@@ -26,7 +26,7 @@ kubectl get gateway
 
 ! IFS=$'\n' read -r -d '' snip_configure_wasmplugin_for_gateway_1_out <<\ENDSNIP
 NAME               CLASS            ADDRESS        PROGRAMMED   AGE
-bookinfo-gateway   istio            172.18.7.110   True         23h
+bookinfo-gateway   istio            172.18.7.110   True         42m
 ENDSNIP
 
 snip_configure_wasmplugin_for_gateway_2() {
