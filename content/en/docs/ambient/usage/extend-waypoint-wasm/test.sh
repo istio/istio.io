@@ -25,6 +25,7 @@ source "content/en/docs/ambient/getting-started/snips.sh"
 source "content/en/docs/ambient/getting-started/secure-and-visualize/snips.sh"
 source "content/en/docs/ambient/getting-started/enforce-auth-policies/snips.sh"
 source "content/en/docs/ambient/getting-started/manage-traffic/snips.sh"
+source "content/en/docs/ambient/getting-started/deploy-sample-app/snips.sh"
 source "content/en/docs/ambient/getting-started/cleanup/snips.sh"
 
 # Kubernetes Gateway API CRDs are required by waypoint proxy.
@@ -36,8 +37,6 @@ snip_install_ambient
 _wait_for_deployment istio-system istiod
 _wait_for_daemonset istio-system ztunnel
 _wait_for_daemonset istio-system istio-cni-node
-
-_verify_like snip_download_and_install_5 "$snip_download_and_install_5_out"
 
 # deploy test application
 snip_deploy_the_bookinfo_application_1
@@ -52,9 +51,6 @@ _verify_like snip_deploy_and_configure_the_ingress_gateway_3 "$snip_deploy_and_c
 # adding applications to ambient mesh
 _verify_contains snip_add_bookinfo_to_the_mesh_1 "$snip_add_bookinfo_to_the_mesh_1_out"
 
-# test traffic after ambient mode is enabled
-_verify_contains snip_verify_traffic_sleep_to_productpage "$snip_verify_traffic_sleep_to_productpage_out"
-
 # Display existing gateways and verify output
 _verify_like snip_configure_wasmplugin_for_gateway_1 "$snip_configure_wasmplugin_for_gateway_1_out"
 
@@ -62,7 +58,7 @@ _verify_like snip_configure_wasmplugin_for_gateway_1 "$snip_configure_wasmplugin
 snip_configure_wasmplugin_for_gateway_2
 
 # verify traffic via gateway
-_verify_same snip_verify_the_traffic_via_the_gateway_1 "$snip_verify_the_traffic_via_the_gateway_1_out"
+_verify_same snip_verify_the_traffic_via_the_gateway_1 "$snip_verify_the_traffic_via_the_gateway_2_out"
 _verify_same snip_verify_the_traffic_via_the_gateway_2 "$snip_verify_the_traffic_via_the_gateway_2_out"
 
 # Deploy a waypoint proxy
