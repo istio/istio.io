@@ -58,7 +58,6 @@ ztunnel 无法强制执行 L7 策略。如果使用工作负载选择器（而�
 来定位具有与 L7 属性匹配的规则的策略，从而由 ztunnel 强制执行，
 则该策略将由于安全被变更为 `DENY` 策略而失效。
 
-See [the L4 policy guide](/docs/ambient/usage/l4-policy/) for more information, including when to attach policies to waypoints for TCP-only use cases.
 有关更多信息，请参阅 [L4 策略指南](/zh/docs/ambient/usage/l4-policy/)，
 包括何时将策略附加到仅限 TCP 用例的 waypoint。
 
