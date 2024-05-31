@@ -51,12 +51,12 @@ Next, click on the Traffic Graph and you should see the Bookinfo application:
 {{< image link="./kiali-ambient-bookinfo.png" caption="Kiali dashboard" >}}
 
 {{< tip >}}
-If you don't see the traffic graph, try re-sending the traffic to the Bookinfo application and make sure you have selected the **default** namespace in the **Namespace** dropdown in Kiali.
+If you don't see the traffic graph, try re-sending the traffic to the Bookinfo application and make sure you have selected the **default** namespace in the **Namespace** drop-down in Kiali.
 
-To see the mTLS status between the services, click the **Display** dropdown and click **Security**.
+To see the mTLS status between the services, click the **Display** drop-down and click **Security**.
 {{</ tip >}}
 
-If you click on th line connecting two services on the the dashboard, you can see the inbound and outbound traffic metrics gathered by Istio.
+If you click on the line connecting two services on the the dashboard, you can see the inbound and outbound traffic metrics gathered by Istio.
 
 {{< image link="./kiali-tcp-traffic.png" caption="L4 traffic" >}}
 
