@@ -6,7 +6,7 @@ owner: istio/wg-networking-maintainers
 test: no
 ---
 
-Istio [安全策略](/zh/docs/concepts/security) 的四层（L4）特性由
+Istio [安全策略](/zh/docs/concepts/security)的四层（L4）特性由
 {{< gloss >}}ztunnel{{< /gloss >}} 提供支持，这些 L4 特性可用于
 {{< gloss "ambient" >}}Ambient 模式{{< /gloss >}}。如果您的集群有支持
 [Kubernetes 网络策略](https://kubernetes.io/zh-cn/docs/concepts/services-networking/network-policies/)的
@@ -18,7 +18,7 @@ ztunnel 和 {{< gloss "waypoint" >}}waypoint 代理{{< /gloss >}}的分层结构
 
 ## 使用 ztunnel 强制执行策略 {#policy-enforcement-using-ztunnel}
 
-当某个工作负载注册到 {{< gloss "Secure L4 Overlay" >}}安全覆盖模式{{< /gloss >}}时，
+当某个工作负载注册到{{< gloss "Secure L4 Overlay" >}}安全覆盖模式{{< /gloss >}}时，
 ztunnel 代理可以强制执行鉴权策略。强制执行点是在连接路径中接收（服务器端）ztunnel 代理之时。
 
 基本的 L4 鉴权策略如下所示：
@@ -119,7 +119,7 @@ command terminated with exit code 56
 仅使用安全覆盖时，流量会在目标 ztunnel 处以**源**工作负载的身份出现。
 
 waypoint 代理不会伪装源工作负载的身份。一旦您将 waypoint 引入流量路径，
-目标 ztunnel 将看到带有**waypoint**身份的流量，而不是源身份。
+目标 ztunnel 将看到带有 **waypoint** 身份的流量，而不是源身份。
 
 这意味着当您安装了 waypoint 时，**强制执行策略的理想位置发生了变化**。
 即使您只希望针对 L4 属性强制执行策略，如果依赖于源身份，您也应该将策略附加到 waypoint 代理。
