@@ -15,14 +15,17 @@ Istio 经典流量管理 API（虚拟服务、目标规则等）在与 Ambient �
 不支持混合使用 Istio 经典 API 和 Gateway API 配置，这会导致未定义的行为。
 {{< /warning >}}
 
-## Route and policy attachment
+## 路由和策略附件 {#route-and-policy-attachment}
 
-The Gateway API defines the relationship between objects (such as routes and gateways) in terms of *attachment*.
+Gateway API 根据**附件**来定义对象（例如路由和网关）之间的关系。
 
-* Route objects (such as [HTTPRoute](https://gateway-api.sigs.k8s.io/api-types/httproute/)) include a way to reference the **parent** resources it wants to attach to.
-* Policy objects are considered [*metaresources*](https://gateway-api.sigs.k8s.io/geps/gep-713/): objects that augments the behavior of a **target** object in a standard way.
+* 路由对象（例如 [HTTPRoute](https://gateway-api.sigs.k8s.io/api-types/httproute/)）
+  包含一种引用其想要附加到的**父**资源的方法。
+* 策略对象被视为 [**metaresources**](https://gateway-api.sigs.k8s.io/geps/gep-713/)：
+  以标准方式增强**目标**对象行为的对象。
 
 The tables below show the type of attachment that is configured for each object.
+下表展示了为每个对象配置的附件类型。
 
 ## 流量路由 {#traffic-routing}
 
@@ -34,12 +37,11 @@ The tables below show the type of attachment that is configured for each object.
 | [`TLSRoute`](https://gateway-api.sigs.k8s.io/guides/tls) | Alpha | `parentRefs` |
 | [`TCPRoute`](https://gateway-api.sigs.k8s.io/guides/tcp/) | Alpha | `parentRefs` |
 
-
 请参阅[流量管理](/zh/docs/tasks/traffic-management/)文档以查看可以使用这些路由实现的功能范围。
 
 ## 安全 {#security}
 
-如果没有安装航点，则只能使用 [Layer 4 安全策略](/zh/docs/ambient/usage/l4-policy/)。
+如果没有安装航点，则只能使用[四层安全策略](/zh/docs/ambient/usage/l4-policy/)。
 通过添加航点，您可以访问以下策略：
 
 |  名称  | 功能状态 | 附加方式 |
@@ -47,13 +49,18 @@ The tables below show the type of attachment that is configured for each object.
 | [`AuthorizationPolicy`](/zh/docs/reference/config/security/authorization-policy/) （包括 L7 功能） | Beta | `targetRefs` |
 | [`RequestAuthentication`](/zh/docs/reference/config/security/request_authentication/) | Beta | `targetRefs` |
 
-### Considerations for authorization policies {#considerations}
+### 鉴权策略注意事项 {#considerations}
 
-In ambient mode, authorization policies can either be *targeted* (for ztunnel enforcement) or *attached* (for waypoint enforcement). For an authorization policy to be attached to a waypoint it must have a `targetRef` which refers to the waypoint, or a Service which uses that waypoint.
+在 Ambient 模式下，鉴权策略可以是**目标**（用于 ztunnel 执行）或**附加**（用于 waypoint 执行）。
+要将鉴权策略附加到 waypoint，它必须具有引用 waypoint 的 `targetRef`，或使用该 waypoint 的服务。
 
-The ztunnel cannot enforce L7 policies. If a policy with rules matching L7 attributes is targeted with a workload selector (rather than attached with a `targetRef`), such that it is enforced by a ztunnel, it will fail safe by becoming a `DENY` policy.
+ztunnel 无法强制执行 L7 策略。如果使用工作负载选择器（而不是附加 `targetRef`）
+来定位具有与 L7 属性匹配的规则的策略，从而由 ztunnel 强制执行，
+则该策略将由于安全被变更为 `DENY` 策略而失效。
 
 See [the L4 policy guide](/docs/ambient/usage/l4-policy/) for more information, including when to attach policies to waypoints for TCP-only use cases.
+有关更多信息，请参阅 [L4 策略指南](/zh/docs/ambient/usage/l4-policy/)，
+包括何时将策略附加到仅限 TCP 用例的 waypoint。
 
 ## 可观测性 {#observability}
 
@@ -69,33 +76,32 @@ See [the L4 policy guide](/docs/ambient/usage/l4-policy/) for more information, 
 | `WasmPlugin` †  | Alpha | `targetRefs` |
 | `EnvoyFilter` | Alpha | `targetRefs` |
 
-† [阅读更多关于如何使用 WebAssembly 插件扩展航点的信息](/zh/docs/ambient/usage/extend-waypoint-wasm/)。
+† [阅读更多关于如何使用 WebAssembly 插件扩展 waypoint 的信息](/zh/docs/ambient/usage/extend-waypoint-wasm/)。
 
-Extension configurations are considered policy by the Gateway API definition.
+扩展配置被 Gateway API 定义视为策略。
 
-## Scoping routes or policies
+## 确定路由或策略的范围 {#scoping-routes-or-policies}
 
-A route or policy can be scoped to apply to all traffic traversing a waypoint proxy, or only specific services.
+路由或策略可以适用于穿越 waypoint 代理的所有流量，或者仅适用于特定服务。
 
 ### 附加到整个 waypoint 代理 {#attach-to-the-entire-waypoint-proxy}
 
-要将策略或路由规则附加到整个 waypoint - 因此它适用于注册并使用它的所有流量 - 请将
-`Gateway` 设置为 `parentRefs` 或 `targetRefs` 值，具体取决于类型。
+要将路由或策略附加到整个 waypoint（以便它适用于所有注册使用它的流量），
+请根据类型将 `Gateway` 设置为 `parentRefs` 或 `targetRefs` 值。
 
-例如，要将 `AuthorizationPolicy` 策略应用到 `default` 命名空间的名为 `waypoint` 的 waypoint：
+要将 `AuthorizationPolicy` 策略应用于 `default` 命名空间中名为 `default` 的 waypoint，请执行以下操作：
 
-{{< text bash >}}
-$ kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+{{< text yaml >}}
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
-  name: viewer
+  name: view-only
   namespace: default
 spec:
   targetRefs:
   - kind: Gateway
     group: gateway.networking.k8s.io
-    name: waypoint
+    name: default
   action: ALLOW
   rules:
   - from:
@@ -104,22 +110,21 @@ spec:
     to:
     - operation:
         methods: ["GET"]
-EOF
 {{< /text >}}
 
 ### 附加到特定服务 {#attach-to-a-specific-service}
 
-您还可以将策略或路由规则附加到 waypoint 内的特定服务。
-在适当的情况下将 `Service` 设置为 `parentRefs` 或 `targetRefs` 值。
+您还可以将路由附加到 waypoint 内的一个或多个特定服务。
+根据需要将 `Service` 设置为 `parentRefs` 或 `targetRefs` 值。
 
-下面的示例展示了如何将 `reviews` HTTPRoute 应用到 `default` 命名空间中的 `reviews` 服务：
+要将 `reviews` HTTPRoute 应用于 `default` 命名空间中的 `reviews` 服务：
 
-{{< text bash >}}
-$ kubectl apply -f - <<EOF
-apiVersion: gateway.networking.k8s.io/v1beta1
+{{< text yaml >}}
+apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: reviews
+  namespace: default
 spec:
   parentRefs:
   - group: ""
@@ -134,5 +139,4 @@ spec:
     - name: reviews-v2
       port: 9080
       weight: 10
-EOF
 {{< /text >}}
