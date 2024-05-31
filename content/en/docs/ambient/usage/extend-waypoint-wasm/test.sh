@@ -50,7 +50,6 @@ _wait_for_deployment default bookinfo-gateway-istio
 _verify_like snip_deploy_and_configure_the_ingress_gateway_3 "$snip_deploy_and_configure_the_ingress_gateway_3_out"
 
 # adding applications to ambient mesh
-snip_add_bookinfo_to_the_mesh_1
 _verify_contains snip_add_bookinfo_to_the_mesh_1 "$snip_add_bookinfo_to_the_mesh_1_out"
 
 # test traffic after ambient mode is enabled
