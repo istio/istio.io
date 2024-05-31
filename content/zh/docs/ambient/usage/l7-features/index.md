@@ -1,31 +1,39 @@
 ---
-title: 使用 Layer 7 功能
+title: 使用七层功能
 description: 使用 L7 waypoint 代理时所支持的功能。
 weight: 50
 owner: istio/wg-networking-maintainers
 test: no
 ---
 
-通过向流量添加 waypoint 代理，您可以启用更多 [Istio 功能](/zh/docs/concepts)。
-
-Ambient 模式支持使用 Kubernetes Gateway API 配置 waypoint。
-适用于 Gateway API 的配置被称为**策略**。
+通过向您的流量流添加 waypoint 代理，您可以启用更多 [Istio 的功能](/zh/docs/concepts)。
+waypoint 使用 {{< gloss "gateway api" >}}Kubernetes Gateway API{{< /gloss >}} 配置。
 
 {{< warning >}}
-Istio 经典流量管理 API（虚拟服务、目标规则等）在 Ambient 数据平面模式下仍处于 Alpha 状态。
+Istio 经典流量管理 API（虚拟服务、目标规则等）在与 Ambient 数据平面模式一起使用时仍处于 Alpha 阶段。
 
 不支持混合使用 Istio 经典 API 和 Gateway API 配置，这会导致未定义的行为。
 {{< /warning >}}
 
+## Route and policy attachment
+
+The Gateway API defines the relationship between objects (such as routes and gateways) in terms of *attachment*.
+
+* Route objects (such as [HTTPRoute](https://gateway-api.sigs.k8s.io/api-types/httproute/)) include a way to reference the **parent** resources it wants to attach to.
+* Policy objects are considered [*metaresources*](https://gateway-api.sigs.k8s.io/geps/gep-713/): objects that augments the behavior of a **target** object in a standard way.
+
+The tables below show the type of attachment that is configured for each object.
+
 ## 流量路由 {#traffic-routing}
 
-部署 waypoint 代理后，您可以使用以下 API 类型：
+部署 waypoint 代理后，您可以使用以下流量路由类型：
 
 |  名称  | 功能状态 | 附加方式 |
 | --- | --- | --- |
-| `HTTPRoute` | Beta | `parentRefs` |
-| `TCPRoute` | Alpha | `parentRefs` |
-| `TLSRoute` | Alpha | `parentRefs` |
+| [`HTTPRoute`](https://gateway-api.sigs.k8s.io/guides/http-routing/) | Beta | `parentRefs` |
+| [`TLSRoute`](https://gateway-api.sigs.k8s.io/guides/tls) | Alpha | `parentRefs` |
+| [`TCPRoute`](https://gateway-api.sigs.k8s.io/guides/tcp/) | Alpha | `parentRefs` |
+
 
 请参阅[流量管理](/zh/docs/tasks/traffic-management/)文档以查看可以使用这些路由实现的功能范围。
 
@@ -36,8 +44,16 @@ Istio 经典流量管理 API（虚拟服务、目标规则等）在 Ambient 数�
 
 |  名称  | 功能状态 | 附加方式 |
 | --- | --- | --- |
-| `AuthorizationPolicy`（包括 L7 功能） | Beta | `targetRefs` |
-| `RequestAuthentication` | Beta | `targetRefs` |
+| [`AuthorizationPolicy`](/zh/docs/reference/config/security/authorization-policy/) （包括 L7 功能） | Beta | `targetRefs` |
+| [`RequestAuthentication`](/zh/docs/reference/config/security/request_authentication/) | Beta | `targetRefs` |
+
+### Considerations for authorization policies {#considerations}
+
+In ambient mode, authorization policies can either be *targeted* (for ztunnel enforcement) or *attached* (for waypoint enforcement). For an authorization policy to be attached to a waypoint it must have a `targetRef` which refers to the waypoint, or a Service which uses that waypoint.
+
+The ztunnel cannot enforce L7 policies. If a policy with rules matching L7 attributes is targeted with a workload selector (rather than attached with a `targetRef`), such that it is enforced by a ztunnel, it will fail safe by becoming a `DENY` policy.
+
+See [the L4 policy guide](/docs/ambient/usage/l4-policy/) for more information, including when to attach policies to waypoints for TCP-only use cases.
 
 ## 可观测性 {#observability}
 
@@ -46,16 +62,20 @@ Istio 经典流量管理 API（虚拟服务、目标规则等）在 Ambient 数�
 ## 扩展 {#extension}
 
 由于 waypoint 代理是 {{< gloss >}}Envoy{{< /gloss >}} 的部署，
-因此在 {{< gloss "sidecar" >}}Sidecar{{< /gloss >}} 中 Envoy 可以使用的扩展机制模式也可用于 waypoint 代理。
+因此在 {{< gloss "sidecar">}}Sidecar 模式{{< /gloss >}}中 Envoy 可以使用的扩展机制模式也可用于 waypoint 代理。
 
 |  名称  | 功能状态 | 附加方式 |
 | --- | --- | --- |
-| `WasmPlugin` | Alpha | `targetRefs` |
+| `WasmPlugin` †  | Alpha | `targetRefs` |
 | `EnvoyFilter` | Alpha | `targetRefs` |
 
-通过[此处](/zh/docs/ambient/usage/extend-waypoint-wasm/)阅读有关如何使用 Wasm 插件扩展 waypoint 的更多信息。
+† [阅读更多关于如何使用 WebAssembly 插件扩展航点的信息](/zh/docs/ambient/usage/extend-waypoint-wasm/)。
 
-## 目标策略或路由规则 {#targeting-policies-or-routing-rules}
+Extension configurations are considered policy by the Gateway API definition.
+
+## Scoping routes or policies
+
+A route or policy can be scoped to apply to all traffic traversing a waypoint proxy, or only specific services.
 
 ### 附加到整个 waypoint 代理 {#attach-to-the-entire-waypoint-proxy}
 
