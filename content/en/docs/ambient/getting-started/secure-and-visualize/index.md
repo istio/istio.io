@@ -60,7 +60,7 @@ If you click on the line connecting two services on the the dashboard, you can s
 
 {{< image link="./kiali-tcp-traffic.png" caption="L4 traffic" >}}
 
-In addition to the TCP metrics, Istio has created a strong identity for each service - a SPIFFE ID. This identity can be used for creating authorization policies.
+In addition to the TCP metrics, Istio has created a strong identity for each service: a SPIFFE ID. This identity can be used for creating authorization policies.
 
 ## Next steps
 
