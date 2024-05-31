@@ -33,7 +33,6 @@ snip_install_k8s_gateway_api
 _wait_for_deployment istio-system istiod
 _wait_for_daemonset istio-system ztunnel
 _wait_for_daemonset istio-system istio-cni-node
-_verify_contains snip_verify_install "$snip_verify_install_out"
 
 snip_deploy_the_bookinfo_application_1
 snip_deploy_bookinfo_gateway

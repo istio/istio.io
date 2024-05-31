@@ -4,7 +4,7 @@ description: Describes how to make remote WebAssembly modules available for ambi
 weight: 55
 keywords: [extensibility,Wasm,WebAssembly,Ambient]
 owner: istio/wg-policies-and-telemetry-maintainers
-test: no
+test: yes
 status: Alpha
 ---
 
@@ -30,7 +30,7 @@ To configure a WebAssembly filter with a remote Wasm module, create a `WasmPlugi
 {{< text bash >}}
 $ kubectl get gateway
 NAME               CLASS            ADDRESS        PROGRAMMED   AGE
-bookinfo-gateway   istio            172.18.7.110   True         23h
+bookinfo-gateway   istio            172.18.7.110   True         42m
 {{< /text >}}
 
 {{< text bash >}}
