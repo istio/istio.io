@@ -126,10 +126,10 @@ Note: This testing was performed on the [CNCF Community Infrastructure Lab](http
 />
 <br>
 
-- `no_mesh` Client pod directly calls the server pod, no pods in Istio service mesh.
-- `ambient: L4` default ambient mode with the secure overlay L4 only.
-- `ambient: L4+L7` default ambient mode with the secure overlay L4 and waypoints enabled for the namespace.
-- `sidecar` Client and server sidecars are present with telemetry configured by default. This is the default Istio configuration.
+- `no_mesh`: Client pod directly calls the server pod, no pods in Istio service mesh.
+- `ambient: L4`: Default ambient mode with the {{< gloss >}}secure L4 overlay{{< /gloss >}}
+- `ambient: L4+L7` Default ambient mode with the secure L4 overlay and waypoints enabled for the namespace.
+- `sidecar` Client and server sidecars.
 
 ### Benchmarking tools
 
