@@ -20,23 +20,23 @@
 #          docs/ambient/getting-started/cleanup/index.md
 ####################################################################################################
 
-snip_1_remove_the_ambient_and_waypoint_labels_1() {
+snip_remove_the_ambient_and_waypoint_labels_1() {
 kubectl label namespace default istio.io/dataplane-mode-
 kubectl label namespace default istio.io/use-waypoint-
 }
 
-snip_2_remove_waypoint_proxies_and_uninstall_istio_1() {
+snip_remove_waypoint_proxies_and_uninstall_istio_1() {
 istioctl x waypoint delete --all
 istioctl uninstall -y --purge
 kubectl delete namespace istio-system
 }
 
-snip_3_remove_the_sample_application_1() {
+snip_remove_the_sample_application_1() {
 kubectl delete -f https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/platform/kube/bookinfo.yaml
 kubectl delete -f https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/platform/kube/bookinfo-versions.yaml
 kubectl delete -f https://raw.githubusercontent.com/istio/istio/master/samples/sleep/sleep.yaml
 }
 
-snip_4_remove_the_kubernetes_gateway_api_crds_1() {
+snip_remove_the_kubernetes_gateway_api_crds_1() {
 kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v1.1.0" | kubectl delete -f -
 }

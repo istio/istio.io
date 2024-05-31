@@ -40,8 +40,8 @@ _wait_for_daemonset istio-system istio-cni-node
 _verify_like snip_download_and_install_5 "$snip_download_and_install_5_out"
 
 # deploy test application
-snip_deploy_the_bookinfo_application_1() // bookinfo and versions
-snip_deploy_sleep // sleep and notsleep
+snip_deploy_the_bookinfo_application_1
+snip_deploy_sleep
 
 snip_deploy_bookinfo_gateway
 _wait_for_deployment default bookinfo-gateway-istio
@@ -95,8 +95,8 @@ _verify_same snip_verify_the_traffic_targeting_the_service_3 "$snip_verify_the_t
 
 # @cleanup
 snip_cleanup_1
-snip_1_remove_the_ambient_and_waypoint_labels_1
-snip_2_remove_waypoint_proxies_and_uninstall_istio_1
-snip_3_remove_the_sample_application_1
+snip_remove_the_ambient_and_waypoint_labels_1
+snip_remove_waypoint_proxies_and_uninstall_istio_1
+snip_remove_the_sample_application_1
 samples/bookinfo/platform/kube/cleanup.sh
-snip_4_remove_the_kubernetes_gateway_api_crds_1
+snip_remove_the_kubernetes_gateway_api_crds_1

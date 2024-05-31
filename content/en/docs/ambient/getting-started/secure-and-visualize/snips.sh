@@ -27,3 +27,7 @@ kubectl label namespace default istio.io/dataplane-mode=ambient
 ! IFS=$'\n' read -r -d '' snip_add_bookinfo_to_the_mesh_1_out <<\ENDSNIP
 namespace/default labeled
 ENDSNIP
+
+snip_visualize_the_application_and_metrics_3() {
+for i in $(seq 1 100); do curl -s http://localhost:8080/productpage; done
+}
