@@ -406,3 +406,49 @@ features:
       link: "https://istio.io/latest/docs/setup/additional-setup/dual-stack/"
       nextExpectedPromotion: ""
     area: Core
+  # Ambient
+  - name: "Ztunnel Core"
+    level:
+      checklist: features/ambient.md
+      maturity: Beta
+    area: Ambient
+  - name: "Waypoints Core"
+    level:
+      checklist: features/ambient.md
+      maturity: Beta
+    area: Ambient
+  - name: "Authorization Policies"
+    level:
+      checklist: features/ambient.md
+      maturity: Beta
+    area: Ambient
+  - name: "Gateway API (HTTPRoute)"
+    level:
+      checklist: features/ambient.md
+      maturity: Beta
+    area: Ambient
+  - name: "Sidecar Interop"
+    level:
+      checklist: features/ambient.md
+      maturity: Alpha
+    area: Ambient
+  - name: "DNS Proxying"
+    level:
+      checklist: features/ambient.md
+      maturity: Alpha
+    area: Ambient
+  - name: "Multi-cluster"
+    level:
+      checklist: features/ambient.md
+      maturity: Alpha
+    area: Ambient
+  - name: "Multi-network"
+    level:
+      checklist: features/ambient.md
+      maturity: Experimental
+    area: Ambient
+  - name: "Dual Stack, IPv6"
+    level:
+      checklist: features/ambient.md
+      maturity: Experimental
+    area: Ambient
