@@ -65,7 +65,7 @@ Istio 提供了两种机制来表示虚拟机工作负载：
 * [`WorkloadGroup`](/zh/docs/reference/config/networking/workload-group/)
   表示共享通用属性的虚拟机工作负载逻辑组合，这类似于 Kubernetes 中的 `Deployment`。
 * [`WorkloadEntry`](/zh/docs/reference/config/networking/workload-entry/)
-  表示虚拟机工作负载的单个实例，这类似于 Kubernetes 中的 `Pod`。
+  表示单实例的虚拟机工作负载，这类似于 Kubernetes 中的 `Pod`。
 
 创建这些资源（`WorkloadGroup` 和 `WorkloadEntry`）不会造成任何资源的制备，也不会运行任何虚拟机负载。
 这些资源只是引用这些负载并通知 Istio 如何合理地配置网格。
