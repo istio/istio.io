@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC2154
 
-# Copyright 2023 Istio Authors
+# Copyright 2024 Istio Authors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,61 +21,57 @@ set -e
 set -u
 set -o pipefail
 
-# Kubernetes Gateway API CRDs are required by waypoint proxy.
-snip_download_and_install_2
+source "content/en/docs/ambient/getting-started/deploy-sample-app/snips.sh"
+source "content/en/docs/ambient/getting-started/secure-and-visualize/snips.sh"
+source "content/en/docs/ambient/getting-started/enforce-auth-policies/snips.sh"
+source "content/en/docs/ambient/getting-started/manage-traffic/snips.sh"
+source "content/en/docs/ambient/getting-started/cleanup/snips.sh"
 
-# install istio with ambient profile
-snip_download_and_install_3
+snip_install_ambient
+snip_install_k8s_gateway_api
 
 _wait_for_deployment istio-system istiod
 _wait_for_daemonset istio-system ztunnel
 _wait_for_daemonset istio-system istio-cni-node
 
-_verify_like snip_download_and_install_5 "$snip_download_and_install_5_out"
+snip_deploy_the_bookinfo_application_1
+snip_deploy_bookinfo_gateway
+_wait_for_deployment default bookinfo-gateway-istio
+snip_annotate_bookinfo_gateway
+_wait_for_deployment default bookinfo-gateway-istio
+_verify_like snip_deploy_and_configure_the_ingress_gateway_3 "$snip_deploy_and_configure_the_ingress_gateway_3_out"
 
-# deploy test application
-snip_deploy_the_sample_application_1
-snip_deploy_the_sample_application_2
+_verify_contains snip_add_bookinfo_to_the_mesh_1 "$snip_add_bookinfo_to_the_mesh_1_out"
 
-snip_deploy_the_sample_application_3
-snip_deploy_the_sample_application_4
-snip_deploy_the_sample_application_5
+snip_deploy_l4_policy
+snip_deploy_sleep
+_wait_for_deployment default sleep
+_verify_contains snip_enforce_layer_4_authorization_policy_3 "$snip_enforce_layer_4_authorization_policy_3_out"
 
-# test traffic before ambient mode is enabled
-_verify_contains snip_verify_traffic_sleep_to_ingress "$snip_verify_traffic_sleep_to_ingress_out"
-_verify_contains snip_verify_traffic_sleep_to_productpage "$snip_verify_traffic_sleep_to_productpage_out"
-_verify_contains snip_verify_traffic_notsleep_to_productpage "$snip_verify_traffic_notsleep_to_productpage_out"
+snip_deploy_waypoint
+_wait_for_deployment default waypoint
+_verify_contains snip_deploy_waypoint "$snip_deploy_waypoint_out"
 
-_verify_same snip_adding_your_application_to_the_ambient_mesh_1 "$snip_adding_your_application_to_the_ambient_mesh_1_out"
+_verify_like snip_enforce_layer_7_authorization_policy_2 "$snip_enforce_layer_7_authorization_policy_2_out"
 
-# test traffic after ambient mode is enabled
-snip_adding_your_application_to_the_ambient_mesh_2
-_verify_contains snip_adding_your_application_to_the_ambient_mesh_3 "$snip_adding_your_application_to_the_ambient_mesh_3_out"
-_verify_same snip_adding_your_application_to_the_ambient_mesh_4 "$snip_adding_your_application_to_the_ambient_mesh_4_out"
+snip_deploy_l7_policy
 
-snip_layer_4_authorization_policy_1
-_verify_contains snip_layer_4_authorization_policy_2 "$snip_layer_4_authorization_policy_2_out"
-_verify_contains snip_layer_4_authorization_policy_3 "$snip_layer_4_authorization_policy_3_out"
-_verify_failure snip_layer_4_authorization_policy_4
+_verify_contains snip_enforce_layer_7_authorization_policy_4 "$snip_enforce_layer_7_authorization_policy_4_out"
+_verify_contains snip_enforce_layer_7_authorization_policy_5 "$snip_enforce_layer_7_authorization_policy_5_out"
+_verify_contains snip_enforce_layer_7_authorization_policy_6 "$snip_enforce_layer_7_authorization_policy_6_out"
 
-_verify_contains snip_layer_7_authorization_policy_1 "$snip_layer_7_authorization_policy_1_out"
-_verify_contains snip_layer_7_authorization_policy_2 "True"
-snip_layer_7_authorization_policy_3
-_verify_contains snip_layer_7_authorization_policy_4 "$snip_layer_7_authorization_policy_4_out"
-_verify_contains snip_layer_7_authorization_policy_5 "$snip_layer_7_authorization_policy_5_out"
-_verify_contains snip_layer_7_authorization_policy_6 "$snip_layer_7_authorization_policy_6_out"
+snip_deploy_httproute
+snip_test_traffic_split
 
-snip_control_traffic_1
-
-_verify_lines snip_control_traffic_2 "
+_verify_lines snip_test_traffic_split "
 + reviews-v1
 + reviews-v2
 - reviews-v3
 "
 
 # @cleanup
-snip_uninstall_1
-snip_uninstall_2
-snip_uninstall_3
+snip_remove_the_ambient_and_waypoint_labels_1
+snip_remove_waypoint_proxies_and_uninstall_istio_1
+snip_remove_the_sample_application_1
 samples/bookinfo/platform/kube/cleanup.sh
-snip_uninstall_4
+snip_remove_the_kubernetes_gateway_api_crds_1

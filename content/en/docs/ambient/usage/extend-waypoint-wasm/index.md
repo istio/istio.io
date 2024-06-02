@@ -15,7 +15,7 @@ One of the key advantages of Wasm extensibility is that extensions can be loaded
 
 ## Install Ambient Mode and deploy test applications
 
-Follow the [Ambient Getting Started Guide](/docs/ambient/getting-started/#download) to install Istio in ambient mode. Deploy the [sample applications](/docs/ambient/getting-started/#bookinfo) required for exploring waypoint proxy extensibility via Wasm. Make sure to [add the sample applications](/docs/ambient/getting-started/#addtoambient) to the mesh before proceeding further.
+Follow the [Ambient Getting Started Guide](/docs/ambient/getting-started) to install Istio in ambient mode. Deploy the [sample applications](/docs/ambient/getting-started/deploy-sample-app) required for exploring waypoint proxy extensibility via Wasm. Make sure to [add the sample applications](/docs/ambient/getting-started/secure-and-visualize) to the mesh before proceeding further.
 
 ## Apply Wasm configuration at the Gateway
 
@@ -29,8 +29,8 @@ To configure a WebAssembly filter with a remote Wasm module, create a `WasmPlugi
 
 {{< text bash >}}
 $ kubectl get gateway
-NAME               CLASS            ADDRESS        PROGRAMMED   AGE
-bookinfo-gateway   istio            172.18.7.110   True         23h
+NAME               CLASS            ADDRESS                                            PROGRAMMED   AGE
+bookinfo-gateway   istio            bookinfo-gateway-istio.default.svc.cluster.local   True         42m
 {{< /text >}}
 
 {{< text bash >}}
@@ -66,14 +66,14 @@ The Istio agent will interpret the WasmPlugin configuration, download remote Was
 1. Test `/productpage` without credentials
 
     {{< text bash >}}
-    $ kubectl exec deploy/sleep -- curl -s -w "%{http_code}" -o /dev/null "http://$GATEWAY_HOST/productpage"
+    $ kubectl exec deploy/sleep -- curl -s -w "%{http_code}" -o /dev/null "http://bookinfo-gateway-istio.default.svc.cluster.local/productpage"
     401
     {{< /text >}}
 
 1. Test `/productpage` with credentials configured in the WasmPlugin resource
 
     {{< text bash >}}
-    $ kubectl exec deploy/sleep -- curl -s -o /dev/null -H "Authorization: Basic YWRtaW4zOmFkbWluMw==" -w "%{http_code}" "http://$GATEWAY_HOST/productpage"
+    $ kubectl exec deploy/sleep -- curl -s -o /dev/null -H "Authorization: Basic YWRtaW4zOmFkbWluMw==" -w "%{http_code}" "http://bookinfo-gateway-istio.default.svc.cluster.local/productpage"
     200
     {{< /text >}}
 
@@ -102,9 +102,9 @@ To configure a WebAssembly filter with a remote Wasm module, create a `WasmPlugi
 
 {{< text bash >}}
 $ kubectl get gateway
-NAME               CLASS            ADDRESS        PROGRAMMED   AGE
-bookinfo-gateway   istio            172.18.7.110   True         23h
-waypoint           istio-waypoint   10.96.202.82   True         21h
+NAME               CLASS            ADDRESS                                            PROGRAMMED   AGE
+bookinfo-gateway   istio            bookinfo-gateway-istio.default.svc.cluster.local   True         23h
+waypoint           istio-waypoint   10.96.202.82                                       True         21h
 {{< /text >}}
 
 {{< text bash >}}

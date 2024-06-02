@@ -22,35 +22,34 @@ set -u
 set -o pipefail
 
 source "content/en/docs/ambient/getting-started/snips.sh"
+source "content/en/docs/ambient/getting-started/secure-and-visualize/snips.sh"
+source "content/en/docs/ambient/getting-started/enforce-auth-policies/snips.sh"
+source "content/en/docs/ambient/getting-started/manage-traffic/snips.sh"
+source "content/en/docs/ambient/getting-started/deploy-sample-app/snips.sh"
+source "content/en/docs/ambient/getting-started/cleanup/snips.sh"
 
 # Kubernetes Gateway API CRDs are required by waypoint proxy.
-snip_download_and_install_2
+snip_install_k8s_gateway_api
 
 # install istio with ambient profile
-snip_download_and_install_3
+snip_install_ambient
 
 _wait_for_deployment istio-system istiod
 _wait_for_daemonset istio-system ztunnel
 _wait_for_daemonset istio-system istio-cni-node
 
-_verify_like snip_download_and_install_5 "$snip_download_and_install_5_out"
-
 # deploy test application
-snip_deploy_the_sample_application_1
-snip_deploy_the_sample_application_2
+snip_deploy_the_bookinfo_application_1
+snip_deploy_sleep
 
-snip_deploy_the_sample_application_3
-snip_deploy_the_sample_application_5
+snip_deploy_bookinfo_gateway
+_wait_for_deployment default bookinfo-gateway-istio
+snip_annotate_bookinfo_gateway
+_wait_for_deployment default bookinfo-gateway-istio
+_verify_like snip_deploy_and_configure_the_ingress_gateway_3 "$snip_deploy_and_configure_the_ingress_gateway_3_out"
 
 # adding applications to ambient mesh
-_verify_same snip_adding_your_application_to_the_ambient_mesh_1 "$snip_adding_your_application_to_the_ambient_mesh_1_out"
-
-# ambient mode enabled
-snip_adding_your_application_to_the_ambient_mesh_2
-
-# test traffic after ambient mode is enabled
-_verify_contains snip_adding_your_application_to_the_ambient_mesh_3 "$snip_adding_your_application_to_the_ambient_mesh_3_out"
-_verify_same snip_adding_your_application_to_the_ambient_mesh_4 "$snip_adding_your_application_to_the_ambient_mesh_4_out"
+_verify_contains snip_add_bookinfo_to_the_mesh_1 "$snip_add_bookinfo_to_the_mesh_1_out"
 
 # Display existing gateways and verify output
 _verify_like snip_configure_wasmplugin_for_gateway_1 "$snip_configure_wasmplugin_for_gateway_1_out"
@@ -59,7 +58,7 @@ _verify_like snip_configure_wasmplugin_for_gateway_1 "$snip_configure_wasmplugin
 snip_configure_wasmplugin_for_gateway_2
 
 # verify traffic via gateway
-_verify_same snip_verify_the_traffic_via_the_gateway_1 "$snip_verify_the_traffic_via_the_gateway_1_out"
+_verify_same snip_verify_the_traffic_via_the_gateway_1 "$snip_verify_the_traffic_via_the_gateway_2_out"
 _verify_same snip_verify_the_traffic_via_the_gateway_2 "$snip_verify_the_traffic_via_the_gateway_2_out"
 
 # Deploy a waypoint proxy
@@ -91,8 +90,8 @@ _verify_same snip_verify_the_traffic_targeting_the_service_3 "$snip_verify_the_t
 
 # @cleanup
 snip_cleanup_1
-snip_uninstall_1
-snip_uninstall_2
-snip_uninstall_3
+snip_remove_the_ambient_and_waypoint_labels_1
+snip_remove_waypoint_proxies_and_uninstall_istio_1
+snip_remove_the_sample_application_1
 samples/bookinfo/platform/kube/cleanup.sh
-snip_uninstall_4
+snip_remove_the_kubernetes_gateway_api_crds_1
