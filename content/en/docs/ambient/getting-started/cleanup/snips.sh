@@ -17,14 +17,26 @@
 
 ####################################################################################################
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
-#          docs/ambient/getting-started/_index.md
+#          docs/ambient/getting-started/cleanup/index.md
 ####################################################################################################
 
-snip_install_ambient() {
-istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --set profile=ambient --skip-confirmation
+snip_remove_the_ambient_and_waypoint_labels_1() {
+kubectl label namespace default istio.io/dataplane-mode-
+kubectl label namespace default istio.io/use-waypoint-
 }
 
-snip_install_k8s_gateway_api() {
-kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
-  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v1.1.0" | kubectl apply -f -; }
+snip_remove_waypoint_proxies_and_uninstall_istio_1() {
+istioctl x waypoint delete --all
+istioctl uninstall -y --purge
+kubectl delete namespace istio-system
+}
+
+snip_remove_the_sample_application_1() {
+kubectl delete -f https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/platform/kube/bookinfo.yaml
+kubectl delete -f https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/platform/kube/bookinfo-versions.yaml
+kubectl delete -f https://raw.githubusercontent.com/istio/istio/master/samples/sleep/sleep.yaml
+}
+
+snip_remove_the_kubernetes_gateway_api_crds_1() {
+kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v1.1.0" | kubectl delete -f -
 }
