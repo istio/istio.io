@@ -594,3 +594,40 @@ users:
   - name: "GoTo Financial"
     logo: "/logos/gotofinancial.svg"
     url: "https://gotofinancial.com/"
+
+training:
+  - name: "Introduction to Istio"
+    logo: "/logos/lf-training.png"
+    url: "https://training.linuxfoundation.org/training/introduction-to-istio-lfs144/"
+    description: "Introduction to Istio (LFS144)"
+    details:
+      - "This course is a practical introduction to Istio, designed for anyone who wishes to build on their knowledge of Linux, Docker, and Kubernetes to learn how to install and configure a service mesh and to understand the benefits of deploying and running distributed applications in a service mesh environment."
+  - name: "Istio ServiceMesh Essentials"
+    logo: "/logos/lf-training.png"
+    url: "https://training.linuxfoundation.org/training/introduction-to-istio-lfs245/"
+    description: "Istio ServiceMesh Essentials (LFS245)"
+    details:
+      - "Dive into Istio, the secure, feature-rich, service mesh solution for Kubernetes-based microservices architecture."
+  - name: "Your Name Here"
+    logo: "/logos/istio.svg"
+    url: "https://github.com/istio/community/blob/master/CONTRIBUTING.md#promote-your-company-on-istioio"
+    description: "Submit a PR to add your professional Istio course details here!"
+    details:
+      - "Add information about your what the course focuses on"
+      - "You can add multiple paragraphs."
+
+certification:
+  - name: "Istio Certified Associate"
+    logo: "/logos/ica-icon-color.svg"
+    url: "https://training.linuxfoundation.org/certification/istio-certified-associate-ica/"
+    description: "The Istio Certified Associate (ICA) by the Linux Foundation"
+    details:
+      - "The Istio Certified Associate (ICA) exam demonstrates a solid understanding of Istio principles, terminology, and best practices for setting up Istio."
+      - "The ICA is a pre-professional certification designed for engineers, CI/CD practitioners, or anyone with special interests in Istio. A certified ICA will confirm their foundational knowledge of Istio principles, terminology, and best practices and demonstrate their ability to set up Istio."
+  - name: "Your Name Here"
+    logo: "/logos/istio.svg"
+    url: "https://github.com/istio/community/blob/master/CONTRIBUTING.md#promote-your-company-on-istioio"
+    description: "Submit a PR to add your professional Istio certification exam details here!"
+    details:
+      - "Add information about your how the certification exam can be taken"
+      - "You can add multiple paragraphs."
