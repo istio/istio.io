@@ -39,7 +39,7 @@ $ kubectl apply -f {{< github_file >}}/samples/addons/prometheus.yaml
 $ kubectl apply -f {{< github_file >}}/samples/addons/kiali.yaml
 {{< /text >}}
 
-您可以通过运行以下命令访问 K​​iali 仪表板：
+您可以通过运行以下命令访问 Kiali 仪表板：
 
 {{< text syntax=bash snip_id=none >}}
 $ istioctl dashboard kiali
