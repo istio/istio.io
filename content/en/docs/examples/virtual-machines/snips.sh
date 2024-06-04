@@ -95,11 +95,11 @@ kubectl apply -n bookinfo -f samples/bookinfo/networking/virtual-service-ratings
 }
 
 snip_reaching_kubernetes_services_from_the_virtual_machine_1() {
-curl productpage.bookinfo:9080
+curl productpage.bookinfo:9080/productpage
 }
 
 ! IFS=$'\n' read -r -d '' snip_reaching_kubernetes_services_from_the_virtual_machine_1_out <<\ENDSNIP
 ...
-    <title>Simple Bookstore App</title>
+<title>Simple Bookstore App</title>
 ...
 ENDSNIP

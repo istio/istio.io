@@ -143,9 +143,9 @@ In the above example, we treated our virtual machine as only a server.
 We can also seamlessly call Kubernetes services from our virtual machine:
 
 {{< text bash >}}
-$ curl productpage.bookinfo:9080
+$ curl productpage.bookinfo:9080/productpage
 ...
-    <title>Simple Bookstore App</title>
+<title>Simple Bookstore App</title>
 ...
 {{< /text >}}
 
