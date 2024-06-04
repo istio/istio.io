@@ -353,7 +353,7 @@ pro_services:
       - "CloudRaft specializes in full-stack cloud-native solutions, including expert support for Istio service mesh integration. With extensive experience in cloud consulting, Kubernetes deployment, and Istio implementation, we ensure seamless operation within your environment. From consulting to training and production support, our comprehensive services maximize efficiency and scalability. With proven expertise and a client-centric approach, CloudRaft is your trusted partner for unlocking Istio's full potential in Kubernetes."
   - name: "Your Name Here"
     logo: "/logos/istio.svg"
-    url: "https://istio.io/"
+    url: "https://github.com/istio/community/blob/master/CONTRIBUTING.md#promote-your-company-on-istioio"
     description: "Submit a PR to add your company here!"
     details:
       - "Add information about your how your company supports Istio."
