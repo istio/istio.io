@@ -31,10 +31,10 @@ The Istio data plane components, the Envoy proxies, handle data flowing through
 the system. The Istio control plane component, Istiod, configures
 the data plane. The data plane and control plane have distinct performance concerns.
 
-## Performance summary for Istio 1.21
+## Performance summary for Istio 1.22
 
 The [Istio load tests](https://github.com/istio/tools/tree/{{< source_branch_name >}}/perf/load) mesh consists
-of **1000** services and **2000** sidecars with 70,000 mesh-wide requests per second.
+of **1000** services and **2000** pods in an Istio mesh with 70,000 mesh-wide requests per second.
 
 ## Control plane performance
 
@@ -75,10 +75,10 @@ Data plane performance depends on many factors, for example:
 
 The latency, throughput, and the proxies' CPU and memory consumption are measured as a function of said factors.
 
-### CPU and memory
+### Sidecar CPU and memory usage
 
 Since the sidecar proxy performs additional work on the data path, it consumes CPU
-and memory. In Istio 1.21, a proxy consumes about 0.5 vCPU per 1000
+and memory. In Istio 1.22, a sidecar proxy consumes about 0.5 vCPU per 1000
 requests per second.
 
 The memory consumption of the proxy depends on the total configuration state the proxy holds.
@@ -101,32 +101,35 @@ is busy handling the request, the worker won't start handling the next request
 immediately. This process adds to the queue wait time of the next request and affects
 average and tail latencies. The actual tail latency depends on the traffic pattern.
 
-### Latency for Istio 1.21
+### Latency for Istio 1.22
 
 Inside the mesh, a request traverses the client-side proxy and then the server-side
-proxy. In the default configuration of Istio 1.21 (i.e. Istio with telemetry v2),
-the two proxies add about 0.182 ms and 0.248 ms to the 90th and 99th percentile latency, respectively, over the baseline data plane latency.
+proxy. In the default ambient mode (with L4) configuration of Istio 1.22,
+the two ztunnel proxies add about 0.17 ms and 0.20 ms to the 90th and 99th percentile latency, respectively, over the baseline data plane latency.
 We obtained these results using the [Istio benchmarks](https://github.com/istio/tools/tree/{{< source_branch_name >}}/perf/benchmark)
-for the `http/1.1` protocol, with a 1 kB payload at 1000 requests per second using 2,4,8,16,32,64 client connections, 2 proxy workers and mutual TLS enabled.
+for the `http/1.1` protocol, with a 1 kB payload at 1000 requests per second using 1,2,4,8,16,32,64 client connections, 2 proxy workers and mutual TLS enabled.
 
 Note: This testing was performed on the [CNCF Community Infrastructure Lab](https://github.com/cncf/cluster). Different hardware will give different values.
 
-<br><img width="90%" style="display: block; margin: auto;"
-    src="istio-1.21.0-nighthawk-90.png"
+<p><h6 style="text-align: center;"> P90 latency vs client connections </h6></p>
+<img width="90%" style="display: block; margin: auto;"
+    src="istio-1.22.0-fortio-90.png"
     alt="P90 latency vs client connections"
     caption="P90 latency vs client connections"
 />
-<p><h2 style="text-align: center;"> P90 latency vs client connections </h2></p><br>
-
+<br><br>
+<p><h6 style="text-align: center;"> P99 latency vs client connections </h6></p>
 <img width="90%" style="display: block; margin: auto;"
-    src="istio-1.21.0-nighthawk-99.png"
+    src="istio-1.22.0-fortio-99.png"
     alt="P99 latency vs client connections"
     caption="P99 latency vs client connections"
 />
-<p><h2 style="text-align: center;"> P99 latency vs client connections </h2></p>
+<br>
 
-- `no_mesh` Client pod directly calls the server pod, no sidecars are present.
-- `istio_with_stats` Client and server sidecars are present with telemetry configured by default. This is the default Istio configuration.
+- `no_mesh`: Client pod directly calls the server pod, no pods in Istio service mesh.
+- `ambient: L4`: Default ambient mode with the {{< gloss >}}secure L4 overlay{{< /gloss >}}
+- `ambient: L4+L7` Default ambient mode with the secure L4 overlay and waypoints enabled for the namespace.
+- `sidecar` Client and server sidecars.
 
 ### Benchmarking tools
 
