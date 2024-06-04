@@ -148,12 +148,20 @@ disableAliases = true
       weight = 5
 
     [[menu.main]]
+      identifier = "training"
+      name = "Training"
+      title = "Training"
+      url = "/about/training"
+      parent = "about"
+      weight = 6
+
+    [[menu.main]]
       identifier = "faq"
       name = "FAQ"
       title = "FAQ"
       url = "/about/faq"
       parent = "about"
-      weight = 6
+      weight = 7
 
   [[menu.main]]
     identifier = "blog"
