@@ -15,7 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# @setup profile=none
+# @setup profile=ambient
 
 set -e
 set -u
@@ -30,9 +30,6 @@ source "content/en/docs/ambient/getting-started/cleanup/snips.sh"
 
 # Kubernetes Gateway API CRDs are required by waypoint proxy.
 snip_install_k8s_gateway_api
-
-# install istio with ambient profile
-snip_install_ambient
 
 _wait_for_deployment istio-system istiod
 _wait_for_daemonset istio-system ztunnel
@@ -91,7 +88,7 @@ _verify_same snip_verify_the_traffic_targeting_the_service_3 "$snip_verify_the_t
 # @cleanup
 snip_cleanup_1
 snip_remove_the_ambient_and_waypoint_labels_1
-snip_remove_waypoint_proxies_and_uninstall_istio_1
+snip_remove_waypoint_proxies_1
 snip_remove_the_sample_application_1
 samples/bookinfo/platform/kube/cleanup.sh
 snip_remove_the_kubernetes_gateway_api_crds_1

@@ -15,7 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# @setup profile=none
+# @setup profile=ambient
 
 set -e
 set -u
@@ -27,7 +27,6 @@ source "content/en/docs/ambient/getting-started/enforce-auth-policies/snips.sh"
 source "content/en/docs/ambient/getting-started/manage-traffic/snips.sh"
 source "content/en/docs/ambient/getting-started/cleanup/snips.sh"
 
-snip_install_ambient
 snip_install_k8s_gateway_api
 
 _wait_for_deployment istio-system istiod
@@ -71,7 +70,7 @@ _verify_lines snip_test_traffic_split "
 
 # @cleanup
 snip_remove_the_ambient_and_waypoint_labels_1
-snip_remove_waypoint_proxies_and_uninstall_istio_1
+snip_remove_waypoint_proxies_1
 snip_remove_the_sample_application_1
 samples/bookinfo/platform/kube/cleanup.sh
 snip_remove_the_kubernetes_gateway_api_crds_1
