@@ -76,4 +76,4 @@ $ kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
 ## 下一步 {#next-steps}
 
 恭喜！您已成功安装支持 Ambient 模式的 Istio。
-继续下一步以[安装演示应用程序并将其添加到 Ambient 网格]（/zh/docs/ambient/getting-started/deploy-sample-app/）。
+继续下一步以[安装演示应用程序并将其添加到 Ambient 网格](/zh/docs/ambient/getting-started/deploy-sample-app/)。
