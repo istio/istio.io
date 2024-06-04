@@ -18,12 +18,19 @@ $ kubectl label namespace default istio.io/dataplane-mode-
 $ kubectl label namespace default istio.io/use-waypoint-
 {{< /text >}}
 
-## Remove waypoint proxies and uninstall Istio
+## Remove waypoint proxies
 
 To remove waypoint proxies, installed policies, and uninstall Istio, run the following commands:
 
 {{< text bash >}}
 $ istioctl x waypoint delete --all
+{{< /text >}}
+
+## Uninstall Istio
+
+To uninstall Istio:
+
+{{< text syntax=bash snip_id=none >}}
 $ istioctl uninstall -y --purge
 $ kubectl delete namespace istio-system
 {{< /text >}}
