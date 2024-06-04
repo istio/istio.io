@@ -25,10 +25,8 @@ kubectl label namespace default istio.io/dataplane-mode-
 kubectl label namespace default istio.io/use-waypoint-
 }
 
-snip_remove_waypoint_proxies_and_uninstall_istio_1() {
+snip_remove_waypoint_proxies_1() {
 istioctl x waypoint delete --all
-istioctl uninstall -y --purge
-kubectl delete namespace istio-system
 }
 
 snip_remove_the_sample_application_1() {
