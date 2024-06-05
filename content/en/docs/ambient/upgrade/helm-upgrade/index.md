@@ -43,11 +43,11 @@ With that in mind, this guide will expand on the following steps to upgrade Isti
 
 1. Organize your Tags and Revisions
 
-In order to safely upgrade Ambient, your Waypoints, Gateways, and Namespaces should be using the istio.io/rev label to specify an Istio Tag which will control the version of the Istio Proxy that is running. We recommend dividing your production cluster into multiple tags to organize your upgrade. All members of a given tag will be upgraded simultaneously, so it is wise to begin your upgrade with your lowest risk applications. We do not recommend referencing revisions directly via labels for upgrades, as this process can easily result in the accidental upgrade of a large number of proxies, and is difficult to segment. To see what tags and revisions you are using in your cluster, see the section on upgrading tags.
+    In order to safely upgrade Ambient, your Waypoints, Gateways, and Namespaces should be using the istio.io/rev label to specify an Istio Tag which will control the version of the Istio Proxy that is running. We recommend dividing your production cluster into multiple tags to organize your upgrade. All members of a given tag will be upgraded simultaneously, so it is wise to begin your upgrade with your lowest risk applications. We do not recommend referencing revisions directly via labels for upgrades, as this process can easily result in the accidental upgrade of a large number of proxies, and is difficult to segment. To see what tags and revisions you are using in your cluster, see the section on upgrading tags.
 
 1. Run the Precheck
 
-Before upgrading Istio, we recommend downloading the new version of istioctl, and running `istioctl x precheck` to make sure the upgrade is compatible with your environment. The output should looks something like this:
+    Before upgrading Istio, we recommend downloading the new version of istioctl, and running `istioctl x precheck` to make sure the upgrade is compatible with your environment. The output should looks something like this:
 
     {{< text syntax=bash snip_id=istioctl_precheck >}}
     $ istioctl x precheck
@@ -68,14 +68,18 @@ Before upgrading Istio, we recommend downloading the new version of istioctl, an
 
     {{< text syntax=bash snip_id=upgrade_istiod >}}
     $ kubectl get mutatingwebhookconfigurations -l 'istio.io/rev,!istio.io/tag' -L istio\.io/rev
+
+    // Store your revision and new revision in variables:
+    export revision=istio-1-22-1
+    export old_revision=istio-1-21-2
     {{< /text >}}
 
 ## Install the New Control Plane
 
-Istiod is the control plane component that manages and configures the proxies to route traffic within an ambient mesh. The following command will install a new instance of this control plane alongside the old, but will not introduce any new proxies, or take over control for existing proxies. Replace `<revision>` with your preferred revision name. If you have previously customized your istiod installation, you can reuse the `values.yaml` file from previous upgrades or installs to keep your control planes consistent.
+Istiod is the control plane component that manages and configures the proxies to route traffic within an ambient mesh. The following command will install a new instance of this control plane alongside the old, but will not introduce any new proxies, or take over control for existing proxies. If you have previously customized your istiod installation, you can reuse the `values.yaml` file from previous upgrades or installs to keep your control planes consistent.
 
 {{< text syntax=bash snip_id=upgrade_istiod >}}
-$ helm install istiod-<revision> istio/istiod -n istio-system --set revision=<revision>
+$ helm install istiod-$revision istio/istiod -n istio-system --set revision=$revision
 {{< /text >}}
 
 ## Upgrade the ztunnel DaemonSet
@@ -88,7 +92,7 @@ Node cordoning and blue/green node pools are recommended to mitigate blast radiu
 {{< /warning >}}
 
 {{< text syntax=bash snip_id=upgrade_ztunnel >}}
-$ helm upgrade ztunnel istio/ztunnel -n istio-system --set revision=<revision>
+$ helm upgrade ztunnel istio/ztunnel -n istio-system --set revision=$revision
 {{< /text >}}
 
 ## Upgrade the CNI DaemonSet
@@ -113,16 +117,16 @@ If you have followed best practices, all of your gateway, workload, and namespac
 $ kubectl get mutatingwebhookconfigurations -l 'istio.io/tag' -L istio\.io/tag,istio\.io/rev
 {{< /text >}}
 
-For each tag, you can upgrade the tag by running the following command, replacing `<tag>` with your tag name, and `<revision>` with your revision name:
+For each tag, you can upgrade the tag by running the following command, replacing `$tag` with your tag name, and `$revision` with your revision name:
 
 {{< text syntax=bash snip_id=upgrade_tag >}}
-$ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{<tag>}" --set revision=<revision> -n istio-system | kubectl apply -f -
+$ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{$tag}" --set revision=$revision -n istio-system | kubectl apply -f -
 {{< /text >}}
 
 This will upgrade all dataplanes referencing that tag, except for networking.istio.io gateways, which are dealt with below, and sidecars, which are not used in Ambient mode. It is recommended that you closely monitor the health of applications using the upgraded dataplane before upgrading the next tag. If you detect a problem, you can rollback a tag, resetting it to point to the name of your old revision:
 
 {{< text syntax=bash snip_id=rollback_tag >}}
-$ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{<tag>}" --set revision=<old-revision> -n istio-system | kubectl apply -f -
+$ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{$tag}" --set revision=$old_revision -n istio-system | kubectl apply -f -
 {{< /text >}}
 
 ### Upgrade the Gateway component (optional)
@@ -152,7 +156,7 @@ $ kubectl get pods -n istio-system
 If you have upgraded all dataplane components to use the new version of Istio, and are satisfied that you do not need to rollback, you can remove the previous version of the control plane by running:
 
 {{< text syntax=bash snip_id=show_istiod_values >}}
-$ helm delete istiod-<revision> -n istio-system
+$ helm delete istiod-$revision -n istio-system
 {{< /text >}}
 
 ## Upgrade the CRDs
