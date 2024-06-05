@@ -604,7 +604,7 @@ training:
       - "This course is a practical introduction to Istio, designed for anyone who wishes to build on their knowledge of Linux, Docker, and Kubernetes to learn how to install and configure a service mesh and to understand the benefits of deploying and running distributed applications in a service mesh environment."
   - name: "Istio ServiceMesh Essentials"
     logo: "/logos/lf-training.png"
-    url: "https://training.linuxfoundation.org/training/introduction-to-istio-lfs245/"
+    url: "https://training.linuxfoundation.org/training/istio-service-mesh-essentials-lfs245/"
     description: "Istio ServiceMesh Essentials (LFS245)"
     details:
       - "Dive into Istio, the secure, feature-rich, service mesh solution for Kubernetes-based microservices architecture."
