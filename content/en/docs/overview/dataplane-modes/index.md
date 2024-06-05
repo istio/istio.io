@@ -145,7 +145,7 @@ A workload with many replicas can use one waypoint, vs. each one having its own 
   <tr>
    <td>Supports "server send first" protocols
    </td>
-   <td><a href="/docs/ops/deployment/application-requirements/%23server-first-protocols">Requires configuration</a>
+   <td><a href="/docs/ops/deployment/application-requirements/#server-first-protocols">Requires configuration</a>
    </td>
    <td>Yes
    </td>
