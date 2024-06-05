@@ -35,7 +35,7 @@ helm repo update istio
 
 snip_list_revisions() {
 kubectl get mutatingwebhookconfigurations -l 'istio.io/rev,!istio.io/tag' -L istio\.io/rev
-// Store your revision and new revision in variables:
+# Store your revision and new revision in variables:
 export REVISION=istio-1-22-1
 export OLD_REVISION=istio-1-21-2
 }
