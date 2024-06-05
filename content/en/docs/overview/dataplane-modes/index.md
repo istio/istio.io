@@ -290,17 +290,17 @@ The overhead for processing protocols at Layer 7 is substantially higher than pr
   <tr>
    <td>Load balancing
    </td>
-   <td>Connection level only. <a href="/latest/docs/tasks/traffic-management/tcp-traffic-shifting/">See TCP traffic shifting task</a>.
+   <td>Connection level only. <a href="/docs/tasks/traffic-management/tcp-traffic-shifting/">See TCP traffic shifting task</a>.
    </td>
-   <td>Per request, enabling e.g. canary deployments, gRPC traffic, etc. <a href="/latest/docs/tasks/traffic-management/traffic-shifting/">See HTTP traffic shifting task</a>.
+   <td>Per request, enabling e.g. canary deployments, gRPC traffic, etc. <a href="/docs/tasks/traffic-management/traffic-shifting/">See HTTP traffic shifting task</a>.
    </td>
   </tr>
   <tr>
    <td>Circuit breaking
    </td>
-   <td><a href="/latest/docs/reference/config/networking/destination-rule/#ConnectionPoolSettings-TCPSettings">TCP only</a>.
+   <td><a href="/docs/reference/config/networking/destination-rule/#ConnectionPoolSettings-TCPSettings">TCP only</a>.
    </td>
-   <td><a href="/latest/docs/reference/config/networking/destination-rule/#ConnectionPoolSettings-HTTPSettings">HTTP settings</a> in addition to TCP.
+   <td><a href="/docs/reference/config/networking/destination-rule/#ConnectionPoolSettings-HTTPSettings">HTTP settings</a> in addition to TCP.
    </td>
   </tr>
   <tr>
@@ -340,7 +340,7 @@ The overhead for processing protocols at Layer 7 is substantially higher than pr
    </td>
    <td>N/A—fault injection cannot be configured on TCP connections.
    </td>
-   <td>Full application and connection-level faults (<a href="/latest/docs/tasks/traffic-management/fault-injection/">timeouts, delays, specific response codes</a>).
+   <td>Full application and connection-level faults (<a href="/docs/tasks/traffic-management/fault-injection/">timeouts, delays, specific response codes</a>).
    </td>
   </tr>
   <tr>
@@ -348,7 +348,7 @@ The overhead for processing protocols at Layer 7 is substantially higher than pr
    </td>
    <td>N/A—HTTP only
    </td>
-   <td><a href="/latest/docs/tasks/traffic-management/mirroring/">Percentage-based mirroring of requests to multiple backends</a>.
+   <td><a href="/docs/tasks/traffic-management/mirroring/">Percentage-based mirroring of requests to multiple backends</a>.
    </td>
   </tr>
 </table>
