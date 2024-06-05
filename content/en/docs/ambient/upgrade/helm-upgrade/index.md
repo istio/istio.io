@@ -68,10 +68,9 @@ With that in mind, this guide will expand on the following steps to upgrade Isti
 
     {{< text syntax=bash snip_id=list_revisions >}}
     $ kubectl get mutatingwebhookconfigurations -l 'istio.io/rev,!istio.io/tag' -L istio\.io/rev
-
-    // Store your revision and new revision in variables:
-    export REVISION=istio-1-22-1
-    export OLD_REVISION=istio-1-21-2
+    $ // Store your revision and new revision in variables:
+    $ export REVISION=istio-1-22-1
+    $ export OLD_REVISION=istio-1-21-2
     {{< /text >}}
 
 ## Install the New Control Plane
