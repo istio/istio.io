@@ -602,12 +602,13 @@ training:
     description: "Introduction to Istio (LFS144)"
     details:
       - "This course is a practical introduction to Istio, designed for anyone who wishes to build on their knowledge of Linux, Docker, and Kubernetes to learn how to install and configure a service mesh and to understand the benefits of deploying and running distributed applications in a service mesh environment."
-  - name: "Istio ServiceMesh Essentials"
+  - name: "Istio Service Mesh Essentials"
     logo: "/logos/lf-training.png"
-    url: "https://training.linuxfoundation.org/training/introduction-to-istio-lfs245/"
+    url: "https://training.linuxfoundation.org/training/istio-service-mesh-essentials-lfs245/"
     description: "Istio ServiceMesh Essentials (LFS245)"
     details:
-      - "Dive into Istio, the secure, feature-rich, service mesh solution for Kubernetes-based microservices architecture."
+      - "This course is for application developers, DevOps engineers and security professionals, familiar with Kubernetes, who need a service mesh layer to effectively operate their containerized systems."
+      - "Learn Istio essentials such as: explaining the basic building blocks of Envoy proxy and how it fits within Istio; using IstioOperator API to install, configure; and secure the mesh; manage traffic using Istio CRDs and Gateway API; and create policies to install Istio across multiple clusters."
   - name: "Your Name Here"
     logo: "/logos/istio.svg"
     url: "https://github.com/istio/community/blob/master/CONTRIBUTING.md#promote-your-company-on-istioio"
