@@ -20,10 +20,6 @@
 #          docs/ambient/upgrade/helm-upgrade/index.md
 ####################################################################################################
 
-snip_update_helm() {
-helm repo update istio
-}
-
 snip_istioctl_precheck() {
 istioctl x precheck
 }
@@ -33,32 +29,40 @@ istioctl x precheck
   To get started, check out <https://istio.io/latest/docs/setup/getting-started/>
 ENDSNIP
 
-snip_manual_crd_upgrade() {
-kubectl apply -f manifests/charts/base/crds
-}
-
-snip_upgrade_base() {
-helm upgrade istio-base manifests/charts/base -n istio-system --skip-crds
+snip_update_helm() {
+helm repo update istio
 }
 
 snip_upgrade_istiod() {
-helm upgrade istiod istio/istiod -n istio-system
+kubectl get mutatingwebhookconfigurations -l 'istio.io/rev,!istio.io/tag' -L istio\.io/rev
+}
+
+snip_upgrade_istiod() {
+helm install istiod-<revision> istio/istiod -n istio-system --set revision=<revision>
 }
 
 snip_upgrade_ztunnel() {
-helm upgrade ztunnel istio/ztunnel -n istio-system
+helm upgrade ztunnel istio/ztunnel -n istio-system --set revision=<revision>
 }
 
 snip_upgrade_cni() {
 helm upgrade istio-cni istio/cni -n istio-system
 }
 
-snip_upgrade_gateway() {
-helm upgrade istio-ingress istio/gateway -n istio-ingress
+snip_list_tags() {
+kubectl get mutatingwebhookconfigurations -l 'istio.io/tag' -L istio\.io/tag,istio\.io/rev
 }
 
-snip_show_istiod_values() {
-helm show values istio/istiod
+snip_upgrade_tag() {
+helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{<tag>}" --set revision=<revision> -n istio-system | kubectl apply -f -
+}
+
+snip_rollback_tag() {
+helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{<tag>}" --set revision=<old-revision> -n istio-system | kubectl apply -f -
+}
+
+snip_upgrade_gateway() {
+helm upgrade istio-ingress istio/gateway -n istio-ingress
 }
 
 snip_show_components() {
@@ -67,4 +71,12 @@ helm list -n istio-system
 
 snip_check_pods() {
 kubectl get pods -n istio-system
+}
+
+snip_show_istiod_values() {
+helm delete istiod-<revision> -n istio-system
+}
+
+snip_manual_crd_upgrade() {
+kubectl apply -f manifests/charts/base/crds
 }
