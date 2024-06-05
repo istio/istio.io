@@ -66,12 +66,12 @@ With that in mind, this guide will expand on the following steps to upgrade Isti
 
     Because Revisions are intended to be immutable, we recommend choosing a revision name that corresponds with the version of Istio you are installing, such as `1-22-1`. In addition to choosing a new revision name, you should note your current revision name. You can find this by running
 
-    {{< text syntax=bash snip_id=upgrade_istiod >}}
+    {{< text syntax=bash snip_id=list_revisions >}}
     $ kubectl get mutatingwebhookconfigurations -l 'istio.io/rev,!istio.io/tag' -L istio\.io/rev
 
     // Store your revision and new revision in variables:
-    export revision=istio-1-22-1
-    export old_revision=istio-1-21-2
+    export REVISION=istio-1-22-1
+    export OLD_REVISION=istio-1-21-2
     {{< /text >}}
 
 ## Install the New Control Plane
@@ -79,7 +79,7 @@ With that in mind, this guide will expand on the following steps to upgrade Isti
 Istiod is the control plane component that manages and configures the proxies to route traffic within an ambient mesh. The following command will install a new instance of this control plane alongside the old, but will not introduce any new proxies, or take over control for existing proxies. If you have previously customized your istiod installation, you can reuse the `values.yaml` file from previous upgrades or installs to keep your control planes consistent.
 
 {{< text syntax=bash snip_id=upgrade_istiod >}}
-$ helm install istiod-$revision istio/istiod -n istio-system --set revision=$revision
+$ helm install istiod-"$REVISION" istio/istiod -n istio-system --set revision="$REVISION"
 {{< /text >}}
 
 ## Upgrade the ztunnel DaemonSet
@@ -92,7 +92,7 @@ Node cordoning and blue/green node pools are recommended to mitigate blast radiu
 {{< /warning >}}
 
 {{< text syntax=bash snip_id=upgrade_ztunnel >}}
-$ helm upgrade ztunnel istio/ztunnel -n istio-system --set revision=$revision
+$ helm upgrade ztunnel istio/ztunnel -n istio-system --set revision="$REVISION"
 {{< /text >}}
 
 ## Upgrade the CNI DaemonSet
@@ -117,16 +117,16 @@ If you have followed best practices, all of your gateway, workload, and namespac
 $ kubectl get mutatingwebhookconfigurations -l 'istio.io/tag' -L istio\.io/tag,istio\.io/rev
 {{< /text >}}
 
-For each tag, you can upgrade the tag by running the following command, replacing `$tag` with your tag name, and `$revision` with your revision name:
+For each tag, you can upgrade the tag by running the following command, replacing `$TAG` with your tag name, and `$REVISION` with your revision name:
 
 {{< text syntax=bash snip_id=upgrade_tag >}}
-$ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{$tag}" --set revision=$revision -n istio-system | kubectl apply -f -
+$ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{$TAG}" --set revision="$REVISION" -n istio-system | kubectl apply -f -
 {{< /text >}}
 
 This will upgrade all dataplanes referencing that tag, except for networking.istio.io gateways, which are dealt with below, and sidecars, which are not used in Ambient mode. It is recommended that you closely monitor the health of applications using the upgraded dataplane before upgrading the next tag. If you detect a problem, you can rollback a tag, resetting it to point to the name of your old revision:
 
 {{< text syntax=bash snip_id=rollback_tag >}}
-$ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{$tag}" --set revision=$old_revision -n istio-system | kubectl apply -f -
+$ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{$TAG}" --set revision="$OLD_REVISION" -n istio-system | kubectl apply -f -
 {{< /text >}}
 
 ### Upgrade the Gateway component (optional)
@@ -156,7 +156,7 @@ $ kubectl get pods -n istio-system
 If you have upgraded all dataplane components to use the new version of Istio, and are satisfied that you do not need to rollback, you can remove the previous version of the control plane by running:
 
 {{< text syntax=bash snip_id=show_istiod_values >}}
-$ helm delete istiod-$revision -n istio-system
+$ helm delete istiod-"$REVISION" -n istio-system
 {{< /text >}}
 
 ## Upgrade the CRDs

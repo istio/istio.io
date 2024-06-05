@@ -33,23 +33,23 @@ snip_update_helm() {
 helm repo update istio
 }
 
-snip_upgrade_istiod() {
+snip_list_revisions() {
 kubectl get mutatingwebhookconfigurations -l 'istio.io/rev,!istio.io/tag' -L istio\.io/rev
 }
 
-! IFS=$'\n' read -r -d '' snip_upgrade_istiod_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_list_revisions_out <<\ENDSNIP
 
 // Store your revision and new revision in variables:
-export revision=istio-1-22-1
-export old_revision=istio-1-21-2
+export REVISION=istio-1-22-1
+export OLD_REVISION=istio-1-21-2
 ENDSNIP
 
 snip_upgrade_istiod() {
-helm install istiod-$revision istio/istiod -n istio-system --set revision=$revision
+helm install istiod-"$REVISION" istio/istiod -n istio-system --set revision="$REVISION"
 }
 
 snip_upgrade_ztunnel() {
-helm upgrade ztunnel istio/ztunnel -n istio-system --set revision=$revision
+helm upgrade ztunnel istio/ztunnel -n istio-system --set revision="$REVISION"
 }
 
 snip_upgrade_cni() {
@@ -61,11 +61,11 @@ kubectl get mutatingwebhookconfigurations -l 'istio.io/tag' -L istio\.io/tag,ist
 }
 
 snip_upgrade_tag() {
-helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{$tag}" --set revision=$revision -n istio-system | kubectl apply -f -
+helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{$TAG}" --set revision="$REVISION" -n istio-system | kubectl apply -f -
 }
 
 snip_rollback_tag() {
-helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{$tag}" --set revision=$old_revision -n istio-system | kubectl apply -f -
+helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{$TAG}" --set revision="$OLD_REVISION" -n istio-system | kubectl apply -f -
 }
 
 snip_upgrade_gateway() {
@@ -81,7 +81,7 @@ kubectl get pods -n istio-system
 }
 
 snip_show_istiod_values() {
-helm delete istiod-$revision -n istio-system
+helm delete istiod-"$REVISION" -n istio-system
 }
 
 snip_manual_crd_upgrade() {
