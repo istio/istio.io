@@ -73,7 +73,7 @@ Istio offers two data plane modes for users to choose. Deploy with the new ambie
 {{< /feature_block>}}
 
 {{< feature_block header="Powered by Envoy" image="envoy.svg" >}}
-Built on the industry standard gateway proxy for cloud native applications, Istio is highly performative and extensible by design. Add functionality with WebAssembly, or integrate third-party policy systems.
+Built on the industry standard gateway proxy for cloud native applications, Istio is highly performative and extensible by design. Add custom traffic functionality with WebAssembly, or integrate third-party policy systems.
 
 <a class="btn" href="/docs/overview/why-choose-istio/#envoy">Learn about Istio and Envoy</a>
 {{< /feature_block>}}
