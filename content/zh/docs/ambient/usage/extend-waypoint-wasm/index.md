@@ -17,9 +17,9 @@ Wasm 可扩展性的一个主要优势是可以在运行时动态加载扩展插
 
 ## 安装 Ambient 模式并部署测试应用程序 {#install-ambient-mode-and-deploy-test-applications}
 
-请按照 [Ambient 入门指南](/zh/docs/ambient/getting-started/#download)在 Ambient 模式下安装 Istio。
-部署通过 Wasm 扩展 waypoint 代理所需的[示例应用程序](/zh/docs/ambient/getting-started/#bookinfo)。
-在继续操作之前，请确保将[示例应用程序添加](/zh/docs/ambient/getting-started/#addtoambient)到网格中。
+请按照 [Ambient 入门指南](/zh/docs/ambient/getting-started/)在 Ambient 模式下安装 Istio。
+部署通过 Wasm 扩展 waypoint 代理所需的[示例应用程序](/zh/docs/ambient/getting-started/deploy-sample-app)。
+在继续操作之前，请确保将[示例应用程序添加](/zh/docs/ambient/getting-started/secure-and-visualize)到网格中。
 
 ## 在网关处应用 Wasm 配置 {#apply-wasm-configuration-at-the-gateway}
 
@@ -39,8 +39,8 @@ Istio 使用 Kubernetes Gateway API，提供了一个集中的入口点来管理
 
 {{< text bash >}}
 $ kubectl get gateway
-NAME               CLASS            ADDRESS        PROGRAMMED   AGE
-bookinfo-gateway   istio            172.18.7.110   True         23h
+NAME               CLASS            ADDRESS                                            PROGRAMMED   AGE
+bookinfo-gateway   istio            bookinfo-gateway-istio.default.svc.cluster.local   True         42m
 {{< /text >}}
 
 {{< text bash >}}
@@ -77,14 +77,14 @@ Istio 代理将解释 WasmPlugin 配置，从 OCI 镜像仓库下载远程 Wasm 
 1. 在没有凭据的情况下测试 `/productpage`
 
     {{< text bash >}}
-    $ kubectl exec deploy/sleep -- curl -s -w "%{http_code}" -o /dev/null "http://$GATEWAY_HOST/productpage"
+    $ kubectl exec deploy/sleep -- curl -s -w "%{http_code}" -o /dev/null "http://bookinfo-gateway-istio.default.svc.cluster.local/productpage"
     401
     {{< /text >}}
 
 1. 使用 WasmPlugin 资源中配置的凭据来测试 `/productpage`
 
     {{< text bash >}}
-    $ kubectl exec deploy/sleep -- curl -s -o /dev/null -H "Authorization: Basic YWRtaW4zOmFkbWluMw==" -w "%{http_code}" "http://$GATEWAY_HOST/productpage"
+    $ kubectl exec deploy/sleep -- curl -s -o /dev/null -H "Authorization: Basic YWRtaW4zOmFkbWluMw==" -w "%{http_code}" "http://bookinfo-gateway-istio.default.svc.cluster.local/productpage"
     200
     {{< /text >}}
 
@@ -115,9 +115,9 @@ $ kubectl exec deploy/sleep -- curl -s -w "%{http_code}" -o /dev/null http://pro
 
 {{< text bash >}}
 $ kubectl get gateway
-NAME               CLASS            ADDRESS        PROGRAMMED   AGE
-bookinfo-gateway   istio            172.18.7.110   True         23h
-waypoint           istio-waypoint   10.96.202.82   True         21h
+NAME               CLASS            ADDRESS                                            PROGRAMMED   AGE
+bookinfo-gateway   istio            bookinfo-gateway-istio.default.svc.cluster.local   True         23h
+waypoint           istio-waypoint   10.96.202.82                                       True         21h
 {{< /text >}}
 
 {{< text bash >}}
