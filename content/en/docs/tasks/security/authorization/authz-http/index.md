@@ -25,9 +25,9 @@ Before you begin this task, do the following:
 After deploying the Bookinfo application, go to the Bookinfo product page at `http://$GATEWAY_URL/productpage`. On
 the product page, you can see the following sections:
 
-* **Book Details** on the lower left side, which includes: book type, number of
+* **Book Details** in the middle of the page, which includes: book type, number of
   pages, publisher, etc.
-* **Book Reviews** on the lower right of the page.
+* **Book Reviews** on bottom of the page.
 
 When you refresh the page, the app shows different versions of reviews in the product page.
 The app presents the reviews in a round robin style: red stars, black stars, or no stars.
