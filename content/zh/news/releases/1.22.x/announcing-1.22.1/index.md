@@ -1,8 +1,8 @@
 ---
-title: Announcing Istio 1.22.1
+title: 发布 Istio 1.22.1
 linktitle: 1.22.1
-subtitle: Patch Release
-description: Istio 1.22.1 patch release.
+subtitle: 补丁发布
+description: Istio 1.22.1 补丁发布。
 publishdate: 2024-06-04
 release: 1.22.1
 ---
@@ -10,7 +10,6 @@ release: 1.22.1
 本次发布实现了 6 月 4 日公布的安全更新 [`ISTIO-SECURITY-2024-004`](/zh/news/security/istio-security-2024-004)
 并修复了一些错误，提高了稳健性。
 
-This release note describes what’s different between Istio 1.22.0 and 1.22.1.
 本发布说明描述了 Istio 1.22.0 和 Istio 1.22.1 之间的不同之处。
 
 {{< relnote >}}
