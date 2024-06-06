@@ -231,7 +231,7 @@ The overhead for processing protocols at Layer 7 is substantially higher than pr
       <th width="40%">L4</th>
       <th width="40%">L7</th>
     </tr>
-   </thead>      
+   </thead>
    <tbody>
     <tr>
       <th>Load balancing</th>
