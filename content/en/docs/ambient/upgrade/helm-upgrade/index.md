@@ -14,7 +14,7 @@ Follow this guide to upgrade and configure an ambient mode installation using
 [Helm](https://helm.sh/docs/). This guide assumes you have already performed an [ambient mode installation with Helm](/docs/ambient/install/helm-installation/) with a previous version of Istio.
 
 {{< warning >}}
-In contrast to sidecar mode, ambient mode supports moving application pods to an upgraded data plane without a mandatory restart or reschedule of running application pods. However, upgrading the data plane **will** briefly disrupt all workload traffic on the upgraded node, and ambient mode does not currently support canary upgrades of the data plane.
+In contrast to sidecar mode, ambient mode supports moving application pods to an upgraded data plane without a mandatory restart or reschedule of running application pods. However, upgrading the ztunnel **will** briefly disrupt all workload traffic on the upgraded node, and ambient mode does not currently support canary upgrades of the ztunnel.
 
 Node cordoning and blue/green node pools are recommended to control blast radius of application pod traffic disruption during production upgrades. See your Kubernetes provider documentation for details.
 {{< /warning >}}
@@ -25,19 +25,15 @@ All Istio Upgrades involve upgrading the control plane, data plane, and Istio CR
 
 Like sidecar mode, ambient mode upgrades make use of Tags and Revisions to allow fine-grained control over gateway upgrades, including waypoints, with simple controls for rolling back at any point. However, unlike sidecar mode, the Ambient ztunnel runs as a DaemonSet, or per-node proxy, meaning that ztunnel upgrades affect, at minimum, one entire node at a time. For this reason, we recommend using Node cordoning and draining before upgrading the ztunnel component for a given node. For the sake of simplicity, this document will demonstrate in-place upgrades of the ztunnel, which are less safe, and may involve some downtime.
 
-{{< warning >}}
-Ztunnel upgrades may cause downtime, and are recommended only for cordoned and drained nodes.
-{{< /warning >}}
-
 With that in mind, this guide will expand on the following steps to upgrade Istio in ambient mode:
 
 1. Prerequisites
+1. Upgrade the CRDs
 1. Install the New Control Plane
 1. Upgrade the ztunnel DaemonSet
 1. Upgrade the CNI DaemonSet
 1. Upgrade waypoints and gateways using tags
 1. Uninstall the old Control Plane
-1. Upgrade the CRDs
 
 ## Prerequisites
 
@@ -73,6 +69,12 @@ With that in mind, this guide will expand on the following steps to upgrade Isti
     $ export OLD_REVISION=istio-1-21-2
     {{< /text >}}
 
+## Upgrade the Kubernetes custom resource definitions ({{< gloss >}}CRDs{{</ gloss >}})
+
+    {{< text bash >}}
+    $ kubectl apply -f manifests/charts/base/crds
+    {{< /text >}}
+
 ## Install the New Control Plane
 
 Istiod is the control plane component that manages and configures the proxies to route traffic within an ambient mesh. The following command will install a new instance of this control plane alongside the old, but will not introduce any new proxies, or take over control for existing proxies. If you have previously customized your istiod installation, you can reuse the `values.yaml` file from previous upgrades or installs to keep your control planes consistent.
@@ -83,7 +85,7 @@ $ helm install istiod-"$REVISION" istio/istiod -n istio-system --set revision="$
 
 ## Upgrade the ztunnel DaemonSet
 
-The ztunnel DaemonSet is the node proxy component. The ztunnel at version 1.x is compatible with the control plane at version 1.x+1 and 1.x. This means the control plane must be upgraded before ztunnel, as long as their version difference is within one minor version.
+The ztunnel DaemonSet is the node proxy component. The ztunnel at version 1.x is compatible with the control plane at version 1.x+1 and 1.x. This means the control plane must be upgraded before ztunnel, as long as their version difference is within one minor version. If you have previously customized your ztunnel installation, you can reuse the `values.yaml` file from previous upgrades or installs to keep your data planes consistent.
 
 {{< warning >}}
 Upgrading ztunnel in-place will briefly disrupt all ambient mesh traffic on the node.
@@ -136,20 +138,6 @@ Gateway components using the `networking.istio.io/*/Gateway` types must be upgra
 $ helm upgrade istio-ingress istio/gateway -n istio-ingress
 {{< /text >}}
 
-### Verify the workload status
-
-After installing all the components, you can check the Helm deployment status with:
-
-{{< text syntax=bash snip_id=show_components >}}
-$ helm list -n istio-system
-{{< /text >}}
-
-You can check the status of the deployed Istio pods with:
-
-{{< text syntax=bash snip_id=check_pods >}}
-$ kubectl get pods -n istio-system
-{{< /text >}}
-
 ## Uninstall the previous control plane
 
 If you have upgraded all dataplane components to use the new version of Istio, and are satisfied that you do not need to rollback, you can remove the previous version of the control plane by running:
@@ -157,11 +145,3 @@ If you have upgraded all dataplane components to use the new version of Istio, a
 {{< text syntax=bash snip_id=show_istiod_values >}}
 $ helm delete istiod-"$REVISION" -n istio-system
 {{< /text >}}
-
-## Upgrade the CRDs
-
-Due to the difficulty of downgrading custom resource definitions, ({{< gloss >}}CRDs{{</ gloss >}}) should be upgraded only once you are confident you do not need to rollback to the previous version:
-
-    {{< text syntax=bash snip_id=manual_crd_upgrade >}}
-    $ kubectl apply -f manifests/charts/base/crds
-    {{< /text >}}
