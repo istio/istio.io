@@ -85,7 +85,7 @@ $ helm install istiod-"$REVISION" istio/istiod -n istio-system --set revision="$
 
 ## Upgrade the ztunnel DaemonSet
 
-The ztunnel DaemonSet is the node proxy component. The ztunnel at version 1.x is compatible with the control plane at version 1.x+1 and 1.x. This means the control plane must be upgraded before ztunnel, as long as their version difference is within one minor version. If you have previously customized your ztunnel installation, you can reuse the `values.yaml` file from previous upgrades or installs to keep your data planes consistent.
+The {{< gloss >}}ztunnel{{< /gloss >}} DaemonSet is the node proxy component. The ztunnel at version 1.x is compatible with the control plane at version 1.x+1 and 1.x. This means the control plane must be upgraded before ztunnel, as long as their version difference is within one minor version. If you have previously customized your ztunnel installation, you can reuse the `values.yaml` file from previous upgrades or installs to keep your {{< gloss >}}data plane{{< /gloss >}} consistent.
 
 {{< warning >}}
 Upgrading ztunnel in-place will briefly disrupt all ambient mesh traffic on the node.
