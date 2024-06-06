@@ -38,9 +38,9 @@ test: no
 
     {{< text bash >}}
     $ istioctl version
-    client version: 1.7.0
-    control plane version: 1.7.0
-    data plane version: 1.7.0 (4 proxies)
+    client version: 1.22.0
+    control plane version: 1.22.0
+    data plane version: 1.22.0 (4 proxies)
     {{< /text >}}
 
 恭喜，您已配置完毕本地计算机！
