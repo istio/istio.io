@@ -18,12 +18,19 @@ $ kubectl label namespace default istio.io/dataplane-mode-
 $ kubectl label namespace default istio.io/use-waypoint-
 {{< /text >}}
 
-## 删除 waypoint 代理并卸载 Istio {#remove-waypoint-proxies-and-uninstall-istio}
+## 删除 waypoint 代理 {#remove-waypoint-proxies}
 
 要删除 waypoint 代理、已安装的策略并卸载 Istio，请运行以下命令：
 
 {{< text bash >}}
 $ istioctl x waypoint delete --all
+{{< /text >}}
+
+## 卸载 Istio {#uninstall-istio}
+
+要卸载 Istio：
+
+{{< text syntax=bash snip_id=none >}}
 $ istioctl uninstall -y --purge
 $ kubectl delete namespace istio-system
 {{< /text >}}
