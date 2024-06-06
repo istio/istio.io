@@ -24,8 +24,8 @@ test: yes
 
 部署 Bookinfo 应用后通过 `http://$GATEWAY_URL/productpage` 访问 product 页面，可以看到如下内容：
 
-* **Book Details** 在左下方，包括：图书类型，页数，出版社等。
-* **Book Reviews** 在页面右下方。
+* **Book Details** 位于页面的中间，其中包括：书籍类型、页数、出版商等。
+* **Book Reviews** 在页面底部。
 
 当刷新页面时，应用会在 product 页面中以轮询的方式显示不同版本的评论：如红色星标，黑色星标，或者没有星标。
 
