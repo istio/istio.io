@@ -40,6 +40,10 @@ export REVISION=istio-1-22-1
 export OLD_REVISION=istio-1-21-2
 }
 
+snip_prerequisites_4() {
+kubectl apply -f manifests/charts/base/crds
+}
+
 snip_upgrade_istiod() {
 helm install istiod-"$REVISION" istio/istiod -n istio-system --set revision="$REVISION"
 }
@@ -68,18 +72,6 @@ snip_upgrade_gateway() {
 helm upgrade istio-ingress istio/gateway -n istio-ingress
 }
 
-snip_show_components() {
-helm list -n istio-system
-}
-
-snip_check_pods() {
-kubectl get pods -n istio-system
-}
-
 snip_show_istiod_values() {
 helm delete istiod-"$REVISION" -n istio-system
-}
-
-snip_manual_crd_upgrade() {
-kubectl apply -f manifests/charts/base/crds
 }
