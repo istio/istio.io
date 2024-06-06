@@ -26,13 +26,11 @@ _install_istio_ambient_helm
 snip_list_revisions
 snip_update_helm
 snip_istioctl_precheck
-snip_manual_crd_upgrade
+snip_prerequisites_4
 snip_list_tags
 snip_upgrade_tag
 snip_rollback_tag
 snip_show_istiod_values
-snip_manual_crd_upgrade
-
 
 _rewrite_helm_repo snip_upgrade_base
 _rewrite_helm_repo snip_upgrade_istiod
