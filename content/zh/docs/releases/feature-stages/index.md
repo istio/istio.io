@@ -64,6 +64,10 @@ https://docs.google.com/spreadsheets/d/1Nbjat-juyQ8AWhkq3njLckmHM8TRL4O-sjm9Bfr9
 
 {{< features section="Core" >}}
 
+### Ambient {#ambient}
+
+{{< features section="Ambient" >}}
+
 {{< idea >}}
 如果您希望在我们的未来版本中看到某些功能，
 请通过[加入我们的社区](/zh/get-involved/)与我们联系！
