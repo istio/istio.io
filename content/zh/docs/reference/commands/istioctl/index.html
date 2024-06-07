@@ -2941,317 +2941,6 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
   istioctl experimental wait --for=distribution --threshold=.99 --timeout=300s virtualservice bookinfo.default
 
 </code></pre>
-<h2 id="istioctl-experimental-waypoint">istioctl experimental waypoint</h2>
-<p>A group of commands used to manage waypoint configuration</p>
-<pre class="language-bash"><code>istioctl experimental waypoint [flags]
-</code></pre>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>Kubernetes configuration context  (default ``)</td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--name &lt;string&gt;</code></td>
-<td></td>
-<td>name of the waypoint  (default `waypoint`)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Kubernetes namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--vklog &lt;Level&gt;</code></td>
-<td></td>
-<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="istioctl-experimental-waypoint Examples">Examples</h3>
-<pre class="language-bash"><code>  # Apply a waypoint to the current namespace
-  istioctl x waypoint apply
-
-  # Generate a waypoint as yaml
-  istioctl x waypoint generate --namespace default
-
-  # List all waypoints in a specific namespace
-  istioctl x waypoint list --namespace default
-</code></pre>
-<h2 id="istioctl-experimental-waypoint-apply">istioctl experimental waypoint apply</h2>
-<p>Apply a waypoint configuration to the cluster</p>
-<pre class="language-bash"><code>istioctl experimental waypoint apply [flags]
-</code></pre>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>Kubernetes configuration context  (default ``)</td>
-</tr>
-<tr>
-<td><code>--enroll-namespace</code></td>
-<td></td>
-<td>If set, the namespace will be labeled with the waypoint name </td>
-</tr>
-<tr>
-<td><code>--for &lt;string&gt;</code></td>
-<td></td>
-<td>Specify the traffic type [all none service workload] for the waypoint  (default ``)</td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--name &lt;string&gt;</code></td>
-<td></td>
-<td>name of the waypoint  (default `waypoint`)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Kubernetes namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--overwrite</code></td>
-<td></td>
-<td>Overwrite the existing Waypoint used by the namespace </td>
-</tr>
-<tr>
-<td><code>--revision &lt;string&gt;</code></td>
-<td><code>-r</code></td>
-<td>The revision to label the waypoint with  (default ``)</td>
-</tr>
-<tr>
-<td><code>--vklog &lt;Level&gt;</code></td>
-<td></td>
-<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
-</tr>
-<tr>
-<td><code>--wait</code></td>
-<td><code>-w</code></td>
-<td>Wait for the waypoint to be ready </td>
-</tr>
-</tbody>
-</table>
-<h3 id="istioctl-experimental-waypoint-apply Examples">Examples</h3>
-<pre class="language-bash"><code>  # Apply a waypoint to the current namespace
-  istioctl x waypoint apply
-
-  # Apply a waypoint to a specific namespace and wait for it to be ready
-  istioctl x waypoint apply --namespace default --wait
-</code></pre>
-<h2 id="istioctl-experimental-waypoint-delete">istioctl experimental waypoint delete</h2>
-<p>Delete a waypoint configuration from the cluster</p>
-<pre class="language-bash"><code>istioctl experimental waypoint delete [flags]
-</code></pre>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--all</code></td>
-<td></td>
-<td>Delete all waypoints in the namespace </td>
-</tr>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>Kubernetes configuration context  (default ``)</td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--name &lt;string&gt;</code></td>
-<td></td>
-<td>name of the waypoint  (default `waypoint`)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Kubernetes namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--vklog &lt;Level&gt;</code></td>
-<td></td>
-<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="istioctl-experimental-waypoint-delete Examples">Examples</h3>
-<pre class="language-bash"><code>  # Delete a waypoint from the default namespace
-  istioctl x waypoint delete
-
-  # Delete a waypoint by name, which can obtain from istioctl x waypoint list
-  istioctl x waypoint delete waypoint-name --namespace default
-
-  # Delete several waypoints by name
-  istioctl x waypoint delete waypoint-name1 waypoint-name2 --namespace default
-
-  # Delete all waypoints in a specific namespace
-  istioctl x waypoint delete --all --namespace default
-</code></pre>
-<h2 id="istioctl-experimental-waypoint-generate">istioctl experimental waypoint generate</h2>
-<p>Generate a waypoint configuration as YAML</p>
-<pre class="language-bash"><code>istioctl experimental waypoint generate [flags]
-</code></pre>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>Kubernetes configuration context  (default ``)</td>
-</tr>
-<tr>
-<td><code>--for &lt;string&gt;</code></td>
-<td></td>
-<td>Specify the traffic type [all none service workload] for the waypoint  (default ``)</td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--name &lt;string&gt;</code></td>
-<td></td>
-<td>name of the waypoint  (default `waypoint`)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Kubernetes namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--revision &lt;string&gt;</code></td>
-<td><code>-r</code></td>
-<td>The revision to label the waypoint with  (default ``)</td>
-</tr>
-<tr>
-<td><code>--vklog &lt;Level&gt;</code></td>
-<td></td>
-<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="istioctl-experimental-waypoint-generate Examples">Examples</h3>
-<pre class="language-bash"><code>  # Generate a waypoint as yaml
-  istioctl x waypoint generate --namespace default
-</code></pre>
-<h2 id="istioctl-experimental-waypoint-list">istioctl experimental waypoint list</h2>
-<p>List managed waypoint configurations in the cluster</p>
-<pre class="language-bash"><code>istioctl experimental waypoint list [flags]
-</code></pre>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--all-namespaces</code></td>
-<td><code>-A</code></td>
-<td>List all waypoints in all namespaces </td>
-</tr>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>Kubernetes configuration context  (default ``)</td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--name &lt;string&gt;</code></td>
-<td></td>
-<td>name of the waypoint  (default `waypoint`)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Kubernetes namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--vklog &lt;Level&gt;</code></td>
-<td></td>
-<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="istioctl-experimental-waypoint-list Examples">Examples</h3>
-<pre class="language-bash"><code>  # List all waypoints in a specific namespace
-  istioctl x waypoint list --namespace default
-
-  # List all waypoints in the cluster
-  istioctl x waypoint list -A
-</code></pre>
 <h2 id="istioctl-experimental-workload">istioctl experimental workload</h2>
 <p>Commands to assist in configuring and deploying workloads running on VMs and other non-Kubernetes environments</p>
 <table class="command-flags">
@@ -6531,6 +6220,317 @@ istioctl experimental precheck.
 </tr>
 </tbody>
 </table>
+<h2 id="istioctl-waypoint">istioctl waypoint</h2>
+<p>A group of commands used to manage waypoint configuration</p>
+<pre class="language-bash"><code>istioctl waypoint [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>Kubernetes configuration context  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--name &lt;string&gt;</code></td>
+<td></td>
+<td>name of the waypoint  (default `waypoint`)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Kubernetes namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-waypoint Examples">Examples</h3>
+<pre class="language-bash"><code>  # Apply a waypoint to the current namespace
+  istioctl waypoint apply
+
+  # Generate a waypoint as yaml
+  istioctl waypoint generate --namespace default
+
+  # List all waypoints in a specific namespace
+  istioctl waypoint list --namespace default
+</code></pre>
+<h2 id="istioctl-waypoint-apply">istioctl waypoint apply</h2>
+<p>Apply a waypoint configuration to the cluster</p>
+<pre class="language-bash"><code>istioctl waypoint apply [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>Kubernetes configuration context  (default ``)</td>
+</tr>
+<tr>
+<td><code>--enroll-namespace</code></td>
+<td></td>
+<td>If set, the namespace will be labeled with the waypoint name </td>
+</tr>
+<tr>
+<td><code>--for &lt;string&gt;</code></td>
+<td></td>
+<td>Specify the traffic type [all none service workload] for the waypoint  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--name &lt;string&gt;</code></td>
+<td></td>
+<td>name of the waypoint  (default `waypoint`)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Kubernetes namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--overwrite</code></td>
+<td></td>
+<td>Overwrite the existing Waypoint used by the namespace </td>
+</tr>
+<tr>
+<td><code>--revision &lt;string&gt;</code></td>
+<td><code>-r</code></td>
+<td>The revision to label the waypoint with  (default ``)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--wait</code></td>
+<td><code>-w</code></td>
+<td>Wait for the waypoint to be ready </td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-waypoint-apply Examples">Examples</h3>
+<pre class="language-bash"><code>  # Apply a waypoint to the current namespace
+  istioctl waypoint apply
+
+  # Apply a waypoint to a specific namespace and wait for it to be ready
+  istioctl waypoint apply --namespace default --wait
+</code></pre>
+<h2 id="istioctl-waypoint-delete">istioctl waypoint delete</h2>
+<p>Delete a waypoint configuration from the cluster</p>
+<pre class="language-bash"><code>istioctl waypoint delete [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--all</code></td>
+<td></td>
+<td>Delete all waypoints in the namespace </td>
+</tr>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>Kubernetes configuration context  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--name &lt;string&gt;</code></td>
+<td></td>
+<td>name of the waypoint  (default `waypoint`)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Kubernetes namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-waypoint-delete Examples">Examples</h3>
+<pre class="language-bash"><code>  # Delete a waypoint from the default namespace
+  istioctl waypoint delete
+
+  # Delete a waypoint by name, which can obtain from istioctl waypoint list
+  istioctl waypoint delete waypoint-name --namespace default
+
+  # Delete several waypoints by name
+  istioctl waypoint delete waypoint-name1 waypoint-name2 --namespace default
+
+  # Delete all waypoints in a specific namespace
+  istioctl waypoint delete --all --namespace default
+</code></pre>
+<h2 id="istioctl-waypoint-generate">istioctl waypoint generate</h2>
+<p>Generate a waypoint configuration as YAML</p>
+<pre class="language-bash"><code>istioctl waypoint generate [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>Kubernetes configuration context  (default ``)</td>
+</tr>
+<tr>
+<td><code>--for &lt;string&gt;</code></td>
+<td></td>
+<td>Specify the traffic type [all none service workload] for the waypoint  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--name &lt;string&gt;</code></td>
+<td></td>
+<td>name of the waypoint  (default `waypoint`)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Kubernetes namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--revision &lt;string&gt;</code></td>
+<td><code>-r</code></td>
+<td>The revision to label the waypoint with  (default ``)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-waypoint-generate Examples">Examples</h3>
+<pre class="language-bash"><code>  # Generate a waypoint as yaml
+  istioctl waypoint generate --namespace default
+</code></pre>
+<h2 id="istioctl-waypoint-list">istioctl waypoint list</h2>
+<p>List managed waypoint configurations in the cluster</p>
+<pre class="language-bash"><code>istioctl waypoint list [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--all-namespaces</code></td>
+<td><code>-A</code></td>
+<td>List all waypoints in all namespaces </td>
+</tr>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>Kubernetes configuration context  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--name &lt;string&gt;</code></td>
+<td></td>
+<td>name of the waypoint  (default `waypoint`)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Kubernetes namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-waypoint-list Examples">Examples</h3>
+<pre class="language-bash"><code>  # List all waypoints in a specific namespace
+  istioctl waypoint list --namespace default
+
+  # List all waypoints in the cluster
+  istioctl waypoint list -A
+</code></pre>
 <h2 id="istioctl-ztunnel-config">istioctl ztunnel-config</h2>
 <p>A group of commands used to update or retrieve Ztunnel configuration from a Ztunnel instance.</p>
 <table class="command-flags">
@@ -7021,11 +7021,6 @@ istioctl ztunnel-config workloads [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;
 <td><code>--proxy-admin-port &lt;int&gt;</code></td>
 <td></td>
 <td>Ztunnel proxy admin port  (default `15000`)</td>
-</tr>
-<tr>
-<td><code>--verbose</code></td>
-<td></td>
-<td>Output more information </td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
