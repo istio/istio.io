@@ -44,4 +44,7 @@ _wait_for_deployment istio-ingress istio-ingress
 
 
 # @cleanup
+
+# upgrading a tag creates an MWC, let's clean it up 
+helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{$TAG}" --set revision="$REVISION" -n istio-system | kubectl delete -f -
 _remove_istio_ambient_helm
