@@ -30,7 +30,6 @@ snip_prerequisites_4
 snip_list_tags
 snip_upgrade_tag
 snip_rollback_tag
-snip_show_istiod_values
 
 _rewrite_helm_repo snip_upgrade_base
 _rewrite_helm_repo snip_upgrade_istiod
