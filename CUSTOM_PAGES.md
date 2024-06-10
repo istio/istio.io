@@ -73,6 +73,10 @@ Works in the same fashion as Pro services but is displayed using the ```{{< inte
 ### Deployment
 To amend the deployment process page, change the contents of the `content/en/deployment/index.md` file.
 
+### Training and Certification
+
+Works in the same fashion as Pro services but is displayed using the ```{{< interactive_panels >}}``` with `items="training"` or `items="certification"` parameter.
+
 ## FAQ
 To add new content to FAQ, create a new markdown file in `content/en/about/faq/` in one of the existing categories. To add new category, create a new directory with an `index.md` markdown file with a category name as the `linktitle` attribute. ```faq_block``` partial uses the `question` and `answer` parameters. `title` attribute of individual markdown files is used as a question and the content is used as an answer.
 
