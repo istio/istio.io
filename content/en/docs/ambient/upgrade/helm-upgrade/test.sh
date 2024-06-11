@@ -31,7 +31,6 @@ snip_list_tags
 snip_upgrade_tag
 snip_rollback_tag
 
-_rewrite_helm_repo snip_upgrade_base
 _rewrite_helm_repo snip_upgrade_istiod
 _wait_for_deployment istio-system istiod
 _rewrite_helm_repo snip_upgrade_ztunnel
