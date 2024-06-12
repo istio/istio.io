@@ -31,6 +31,7 @@
         h1 {
             margin-bottom: .5rem;
             font-weight: var(--semiBoldWeight);
+            z-index: 99999;
 
             @media (min-width: $bp-md) {
                 margin-bottom: 1.5rem;
@@ -39,6 +40,7 @@
 
         h1, .subtitle {
             color: #ffffff;
+            z-index: 99999;
         }
 
         &-animation {
