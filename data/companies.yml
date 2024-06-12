@@ -609,6 +609,15 @@ training:
     details:
       - "This course is for application developers, DevOps engineers and security professionals, familiar with Kubernetes, who need a service mesh layer to effectively operate their containerized systems."
       - "Learn Istio essentials such as: explaining the basic building blocks of Envoy proxy and how it fits within Istio; using IstioOperator API to install, configure; and secure the mesh; manage traffic using Istio CRDs and Gateway API; and create policies to install Istio across multiple clusters."
+  - name: "Istio Service Mesh"
+    logo: "/logos/kk-training.svg"
+    url: "https://kodekloud.com/courses/istio-service-mesh/"
+    description: "Istio Service Mesh"
+    details:
+      - "In this course, you will gain a comprehensive understanding of Istio and its architecture. You will learn how to install Istio on a Kubernetes cluster and explore the fundamental concepts of Istio, including its service mesh capabilities."
+      - "The course will cover traffic management features such as load balancing, as well as important security aspects including authentication and authorization. Additionally, you will discover how to implement A/B testing and blue-green deployments using Istio."
+      - "KodeKloud's hands-on labs will help you get started with Istio step by step. First, you'll learn how to install Istio on your cluster and deploy your first application. Then, you'll explore virtual services and destination rules, understand Istio's security features, and practice with our observability lab."
+      - "Each lab is designed to be practical and easy to follow, making it simple for you to learn and apply your new skills."
   - name: "Your Name Here"
     logo: "/logos/istio.svg"
     url: "https://github.com/istio/community/blob/master/CONTRIBUTING.md#promote-your-company-on-istioio"
