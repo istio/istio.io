@@ -138,8 +138,6 @@ After installing ambient mode with Helm, you can follow the [Deploy the sample a
 
 ## Uninstall
 
-### Uninstall the components together
-
 If you installed with the `ambient` wrapper chart above, you can uninstall Istio and its components by uninstalling that chart:
 
 1. Delete any Istio gateway chart installations (optional, if installed):
@@ -148,6 +146,8 @@ If you installed with the `ambient` wrapper chart above, you can uninstall Istio
     $ helm delete istio-ingress -n istio-ingress --wait
     $ kubectl delete namespace istio-ingress
     {{< /text >}}
+
+### Uninstall the components together
 
 1. Delete the Istio ambient chart:
 
@@ -163,7 +163,7 @@ If you installed with the `ambient` wrapper chart above, you can uninstall Istio
 
 1. Delete the `istio-system` namespace:
 
-    {{< text syntax=bash snip_id=delete_system_namespace >}}
+    {{< text syntax=bash snip_id=delete_system_namespace_wrapper >}}
     $ kubectl delete namespace istio-system
     {{< /text >}}
     
@@ -173,7 +173,7 @@ If you installed with the `ambient` wrapper chart above, you can uninstall Istio
     This will delete all created Istio resources.
     {{< /warning >}}
 
-    {{< text syntax=bash snip_id=delete_crds >}}
+    {{< text syntax=bash snip_id=delete_crds_wrapper >}}
     $ kubectl get crd -oname | grep --color=never 'istio.io' | xargs kubectl delete
     {{< /text >}}
 
@@ -191,13 +191,6 @@ If you installed the charts individually above, you can uninstall Istio and its 
     istio-cni       istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    cni-{{< istio_full_version >}}      {{< istio_full_version >}}
     istiod          istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    istiod-{{< istio_full_version >}}   {{< istio_full_version >}}
     ztunnel         istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    ztunnel-{{< istio_full_version >}}  {{< istio_full_version >}}
-    {{< /text >}}
-
-1. Delete any Istio gateway chart installations (optional, if installed):
-
-    {{< text syntax=bash snip_id=delete_ingress >}}
-    $ helm delete istio-ingress -n istio-ingress
-    $ kubectl delete namespace istio-ingress
     {{< /text >}}
 
 1. Delete the Istio CNI chart:

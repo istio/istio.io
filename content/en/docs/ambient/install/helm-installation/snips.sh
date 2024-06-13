@@ -89,11 +89,11 @@ snip_delete_ambient_wrapper() {
 helm delete istio-ambient -n istio-system --wait
 }
 
-snip_delete_system_namespace() {
+snip_delete_system_namespace_wrapper() {
 kubectl delete namespace istio-system
 }
 
-snip_delete_crds() {
+snip_delete_crds_wrapper() {
 kubectl get crd -oname | grep --color=never 'istio.io' | xargs kubectl delete
 }
 
@@ -108,11 +108,6 @@ istio-cni       istio-system    1           2024-04-17 22:14:45.964722028 +0000 
 istiod          istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    istiod-1.23.0   1.23.0
 ztunnel         istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    ztunnel-1.23.0  1.23.0
 ENDSNIP
-
-snip_delete_ingress() {
-helm delete istio-ingress -n istio-ingress
-kubectl delete namespace istio-ingress
-}
 
 snip_delete_cni() {
 helm delete istio-cni -n istio-system
