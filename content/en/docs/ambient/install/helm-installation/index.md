@@ -28,7 +28,21 @@ we encourage the use of Helm to install Istio for use in ambient mode. Helm help
 
 *See [helm repo](https://helm.sh/docs/helm/helm_repo/) for command documentation.*
 
-## Install the components
+Istio is made up of multiple components which belong to either the {{< gloss >}}data plane{{< /gloss >}} or {{< gloss >}}control plane{{< /gloss >}}, and different components may have different effects on your applications when upgraded - for production deployments, it is strongly recommended to install the components separately to allow for more control during upgrades. Consult the [operations guidelines](/docs/ops/best-practices/deployment/) for production deployment considerations.
+
+For installing Istio with support for the {{< gloss >}}ambient{{< /gloss >}} data plane mode in a non-production cluster, we provide a simple Helm chart which bundles all the required Helm charts.
+
+## Simple install
+
+The `ambient` Helm chart composes all the components that enable the use of Istio's ambient data plane mode:
+
+{{< text syntax=bash snip_id=install_ambient_chart >}}
+$ helm install istio-ambient istio/ambient -n istio-system --create-namespace --wait
+{{< /text >}}
+
+Proceed to [verifying the installation](#verify-the-installation) or [installing an ingress gateway (optional)](#install-an-ingress-gateway-optional)
+
+## Install the components individually
 
 ### Install the base component
 
@@ -64,7 +78,25 @@ The `ztunnel` chart installs the ztunnel DaemonSet, which is the node proxy comp
 $ helm install ztunnel istio/ztunnel -n istio-system --wait
 {{< /text >}}
 
-### Install an ingress gateway (optional)
+### Inspecting available chart configuration values
+
+To view supported configuration options and documentation for any published chart, run:
+
+`helm show values`, for example:
+
+{{< text syntax=bash >}}
+$ helm show values istio/istiod
+{{< /text >}}
+
+{{< text syntax=bash >}}
+$ helm show values istio/cni
+{{< /text >}}
+
+Changing values can break your installation, and should be done with care.
+
+Proceed to [verifying the installation](#verify-the-installation) or [installing an ingress gateway (optional)](#install-an-ingress-gateway-optional)
+
+## Install an ingress gateway (optional)
 
 To install an ingress gateway, run the command below:
 
@@ -73,14 +105,6 @@ $ helm install istio-ingress istio/gateway -n istio-ingress --create-namespace -
 {{< /text >}}
 
 If your Kubernetes cluster doesn't support the `LoadBalancer` service type (`type: LoadBalancer`) with a proper external IP assigned, run the above command without the `--wait` parameter to avoid the infinite wait. See [Installing Gateways](/docs/setup/additional-setup/gateway/) for in-depth documentation on gateway installation.
-
-## Configuration
-
-To view supported configuration options and documentation, run:
-
-{{< text syntax=bash >}}
-$ helm show values istio/istiod
-{{< /text >}}
 
 ## Verify the installation
 
@@ -114,8 +138,50 @@ After installing ambient mode with Helm, you can follow the [Deploy the sample a
 
 ## Uninstall
 
-You can uninstall Istio and its components by uninstalling the charts
-installed above.
+## Uninstall an ingress gateway (optional)
+
+If you previously installed an ingress gateway, uninstall it by running the command below:
+
+{{< text syntax=bash snip_id=delete_ingress >}}
+$ helm delete istio-ingress -n istio-ingress --wait
+$ kubectl delete namespace istio-ingress
+{{< /text >}}
+
+If your Kubernetes cluster doesn't support the `LoadBalancer` service type (`type: LoadBalancer`) with a proper external IP assigned, run the above command without the `--wait` parameter to avoid the infinite wait. See [Installing Gateways](/docs/setup/additional-setup/gateway/) for in-depth documentation on gateway installation.
+
+### Simple uninstall
+
+1. Delete the Istio ambient chart:
+
+    {{< tip >}}
+    [By design](https://github.com/helm/community/blob/main/hips/hip-0011.md#deleting-crds),
+    deleting a chart via Helm doesn't delete the installed Custom
+    Resource Definitions (CRDs) installed via the chart.
+    {{< /tip >}}
+
+    {{< text syntax=bash snip_id=delete_ambient_chart >}}
+    $ helm delete istio-ambient -n istio-system --wait
+    {{< /text >}}
+
+1. Delete CRDs installed by Istio (optional)
+
+    {{< warning >}}
+    This will delete all created Istio resources.
+    {{< /warning >}}
+
+    {{< text syntax=bash snip_id=delete_crds_chart >}}
+    $ kubectl get crd -oname | grep --color=never 'istio.io' | xargs kubectl delete
+    {{< /text >}}
+
+1. Delete the `istio-system` namespace:
+
+    {{< text syntax=bash snip_id=delete_system_namespace_chart >}}
+    $ kubectl delete namespace istio-system
+    {{< /text >}}
+
+### Uninstall the components individually
+
+If you installed the charts individually above, you can uninstall Istio and its components by uninstalling those charts individually:
 
 1. List all the Istio charts installed in `istio-system` namespace:
 
@@ -126,13 +192,6 @@ installed above.
     istio-cni       istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    cni-{{< istio_full_version >}}      {{< istio_full_version >}}
     istiod          istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    istiod-{{< istio_full_version >}}   {{< istio_full_version >}}
     ztunnel         istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    ztunnel-{{< istio_full_version >}}  {{< istio_full_version >}}
-    {{< /text >}}
-
-1. (Optional) Delete any Istio gateway chart installations:
-
-    {{< text syntax=bash snip_id=delete_ingress >}}
-    $ helm delete istio-ingress -n istio-ingress
-    $ kubectl delete namespace istio-ingress
     {{< /text >}}
 
 1. Delete the Istio CNI chart:
@@ -156,7 +215,8 @@ installed above.
 1. Delete the Istio base chart:
 
     {{< tip >}}
-    By design, deleting a chart via Helm doesn't delete the installed Custom
+    [By design](https://github.com/helm/community/blob/main/hips/hip-0011.md#deleting-crds),
+    deleting a chart via Helm doesn't delete the installed Custom
     Resource Definitions (CRDs) installed via the chart.
     {{< /tip >}}
 

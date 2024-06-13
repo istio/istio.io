@@ -37,6 +37,10 @@ snip_manual_crd_upgrade() {
 kubectl apply -f manifests/charts/base/crds
 }
 
+snip_upgrade_ambient_wrapper() {
+helm upgrade istio-ambient istio/ambient -n istio-system --skip-crds
+}
+
 snip_upgrade_base() {
 helm upgrade istio-base manifests/charts/base -n istio-system --skip-crds
 }
@@ -55,10 +59,6 @@ helm upgrade istio-cni istio/cni -n istio-system
 
 snip_upgrade_gateway() {
 helm upgrade istio-ingress istio/gateway -n istio-ingress
-}
-
-snip_show_istiod_values() {
-helm show values istio/istiod
 }
 
 snip_show_components() {
