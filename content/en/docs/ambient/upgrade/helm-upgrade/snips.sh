@@ -57,10 +57,6 @@ snip_upgrade_cni() {
 helm upgrade istio-cni istio/cni -n istio-system
 }
 
-snip_show_istiod_values() {
-helm show values istio/istiod
-}
-
 snip_upgrade_gateway() {
 helm upgrade istio-ingress istio/gateway -n istio-ingress
 }

@@ -119,14 +119,6 @@ Upgrading the Istio CNI agent to a compatible version in-place will not disrupt 
 $ helm upgrade istio-cni istio/cni -n istio-system
 {{< /text >}}
 
-## Configuration
-
-To view supported configuration options and documentation, run:
-
-{{< text syntax=bash snip_id=show_istiod_values >}}
-$ helm show values istio/istiod
-{{< /text >}}
-
 Proceed to [verifying the installation](#verify-the-installation) or [upgrading an ingress gateway (optional)](#upgrade-the-gateway-component-optional)
 
 ## Upgrade an ingress gateway (optional)
