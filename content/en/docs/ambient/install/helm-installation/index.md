@@ -152,7 +152,7 @@ If you installed with the `ambient` wrapper chart above, you can uninstall Istio
 1. Delete the Istio ambient chart:
 
     {{< tip >}}
-    [By design](https://github.com/helm/community/blob/main/hips/hip-0011.md#deleting-crds), 
+    [By design](https://github.com/helm/community/blob/main/hips/hip-0011.md#deleting-crds),
     deleting a chart via Helm doesn't delete the installed Custom
     Resource Definitions (CRDs) installed via the chart.
     {{< /tip >}}
@@ -213,7 +213,7 @@ If you installed the charts individually above, you can uninstall Istio and its 
 1. Delete the Istio base chart:
 
     {{< tip >}}
-    [By design](https://github.com/helm/community/blob/main/hips/hip-0011.md#deleting-crds), 
+    [By design](https://github.com/helm/community/blob/main/hips/hip-0011.md#deleting-crds),
     deleting a chart via Helm doesn't delete the installed Custom
     Resource Definitions (CRDs) installed via the chart.
     {{< /tip >}}
