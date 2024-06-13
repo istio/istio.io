@@ -166,7 +166,7 @@ If you installed with the `ambient` wrapper chart above, you can uninstall Istio
     {{< text syntax=bash snip_id=delete_system_namespace_wrapper >}}
     $ kubectl delete namespace istio-system
     {{< /text >}}
-    
+
 1. Delete CRDs installed by Istio (optional)
 
     {{< warning >}}
@@ -176,7 +176,6 @@ If you installed with the `ambient` wrapper chart above, you can uninstall Istio
     {{< text syntax=bash snip_id=delete_crds_wrapper >}}
     $ kubectl get crd -oname | grep --color=never 'istio.io' | xargs kubectl delete
     {{< /text >}}
-
 
 ### Uninstall the components individually
 

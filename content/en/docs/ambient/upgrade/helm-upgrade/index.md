@@ -68,6 +68,7 @@ Proceed to [verifying the installation](#verify-the-installation) or [upgrading 
 ## Upgrade the components individually
 
 ### Upgrade Istio base chart
+
 1. Upgrade the Istio base chart:
 
     {{< text syntax=bash snip_id=upgrade_base >}}
