@@ -13,7 +13,7 @@ test: yes
 `istio-cni` is a Istio node agent DaemonSet that runs in your cluster. It is used by both Istio {{< gloss >}}data plane{{< /gloss >}} modes.
 
 `istio-cni` runs in your cluster with elevated privileges, and is used to configure traffic redirection
-for pods in the Istio mesh. 
+for pods in the Istio mesh.
 
 For the {{< gloss >}}sidecar{{< /gloss >}} data plane mode, it is optional, and removes the requirement of running privileged init containers in every pod in the mesh, replacing that model with a single privileged node agent pod on each Kubernetes node.
 
@@ -44,12 +44,12 @@ Requiring Istio users to have elevated Kubernetes RBAC permissions is
 problematic for some organizations' security compliance, as is the requirement to deploy privileged init containers with every workload.
 
 The `istio-cni` node agent is effectively a replacement for the `istio-init` container that enables the same
-networking functionality, but without requiring the use or deployment of privileged init containers in every workload. 
+networking functionality, but without requiring the use or deployment of privileged init containers in every workload.
 
-Instead, `istio-cni` itself runs as a single privileged pod on the node. It uses this privilege to install a [chained CNI plugin](https://www.cni.dev/docs/spec/#section-2-execution-protocol) on the node, which is invoked after your "primary" interface CNI plugin. CNI plugins are invoked dynamically by Kubernetes as a privileged process on the host node whenever a new pod is created, and are able to configure pod networking. 
+Instead, `istio-cni` itself runs as a single privileged pod on the node. It uses this privilege to install a [chained CNI plugin](https://www.cni.dev/docs/spec/#section-2-execution-protocol) on the node, which is invoked after your "primary" interface CNI plugin. CNI plugins are invoked dynamically by Kubernetes as a privileged process on the host node whenever a new pod is created, and are able to configure pod networking.
 
 The Istio chained CNI plugin always runs after the primary interface plugins, identifies user application pods with sidecars requiring traffic redirection, and sets up redirection in the Kubernetes pod lifecycle's network setup phase, thereby removing the need for privileged init containers, as well as the [requirement for `NET_ADMIN` and `NET_RAW` capabilities](/docs/ops/deployment/application-requirements/)
-for users and pod deployments. 
+for users and pod deployments.
 
 {{< image width="60%" link="./cni.svg" caption="Istio CNI" >}}
 
@@ -259,7 +259,7 @@ or other plugin that also follows the spec.
 The Istio CNI plugin operates as a chained CNI plugin. This means its configuration is appended to the list of existing CNI plugins configurations.
 See the [CNI specification reference](https://www.cni.dev/docs/spec/#section-1-network-configuration-format) for further details.
 
-When a pod is created or deleted, the container runtime invokes each plugin in the list in order. 
+When a pod is created or deleted, the container runtime invokes each plugin in the list in order.
 
 The Istio CNI plugin performs actions to set up the application pod's traffic redirection - in the sidecar dataplane mode, this means applying `iptables` rules in the pod's network namespace
 to redirect in-pod traffic to the injected Istio proxy sidecar.

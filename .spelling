@@ -933,6 +933,7 @@ preload
 prepend
 prepending
 prepends
+PriorityClass
 prober
 programmatically
 Prometheus
