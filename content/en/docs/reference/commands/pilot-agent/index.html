@@ -1622,7 +1622,7 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td><code>PILOT_CERT_PROVIDER</code></td>
 <td>String</td>
 <td><code>istiod</code></td>
-<td>The provider of Pilot DNS certificate.</td>
+<td>The provider of Pilot DNS certificate. K8S RA will be used for k8s.io/NAME. &#39;istiod&#39; value will sign using Istio build in CA. Other values will not not generate TLS certs, but still  distribute ./etc/certs/root-cert.pem. Only used if custom certificates are not mounted.</td>
 </tr>
 <tr>
 <td><code>PILOT_CONVERT_SIDECAR_SCOPE_CONCURRENCY</code></td>
