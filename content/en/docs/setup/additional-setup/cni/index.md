@@ -1,48 +1,61 @@
 ---
-title: Install Istio with the Istio CNI plugin
-description: Install and use Istio with the Istio CNI plugin, allowing operators to deploy services with lower privilege.
+title: Install the Istio CNI component
+description: Install and use the Istio CNI component, allowing operators to deploy workloads with lower privilege.
 weight: 70
 aliases:
-    - /docs/setup/kubernetes/install/cni
     - /docs/setup/kubernetes/additional-setup/cni
+    - /docs/setup/additional-setup/cni
 keywords: [cni]
 owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-Follow this guide to install, configure, and use an Istio mesh using the Istio Container Network Interface
-([CNI](https://github.com/containernetworking/cni#cni---the-container-network-interface))
-plugin.
+`istio-cni` is a Istio node agent DaemonSet that runs in your cluster. It is used by both Istio {{< gloss >}}data plane{{< /gloss >}} modes.
+
+`istio-cni` runs in your cluster with elevated privileges, and is used to configure traffic redirection
+for pods in the Istio mesh. 
+
+For the {{< gloss >}}sidecar{{< /gloss >}} data plane mode, it is optional, and removes the requirement of running privileged init containers in every pod in the mesh, replacing that model with a single privileged node agent pod on each Kubernetes node.
+
+For the {{< gloss >}}ambient{{< /gloss >}} data plane mode, it is the only supported mechanism, and must be installed.
+
+This guide is focused on using the `istio-cni` component as an optional part of the sidecar data plane mode. Consult [the ambient docs](/docs/ambient/) for information on using the ambient data plane mode.
+
+`istio-cni` makes use of the Container Network Interface ([CNI](https://www.cni.dev/)) plugin API to extend the primary CNI already running in your Kubernetes cluster.
+
+{{< tip >}}
+Note: The `istio-cni` component is not a CNI. Among other things, it installs a chained CNI plugin, which is designed to be layered on top of another, previously-installed primary interface CNI, such as [Calico](https://docs.projectcalico.org), or the cluster CNI used by your cloud provider.
+See [compatibility with CNIs](#compatibility-with-other-cni-plugins) for details.
+{{< /tip >}}
+
+Follow this guide to install, configure, and use the `istio-cni` component with the sidecar dataplane mode.
+
+## Sidecar traffic redirection without `istio-cni`
 
 By default Istio injects an init container, `istio-init`, in pods deployed in
 the mesh. The `istio-init` container sets up the pod network traffic
 redirection to/from the Istio sidecar proxy. This requires the user or
 service-account deploying pods to the mesh to have sufficient Kubernetes RBAC
 permissions to deploy [containers with the `NET_ADMIN` and `NET_RAW` capabilities](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-capabilities-for-a-container).
+
+## Sidecar traffic redirection with `istio-cni`
+
 Requiring Istio users to have elevated Kubernetes RBAC permissions is
-problematic for some organizations' security compliance. The Istio CNI plugin
-is a replacement for the `istio-init` container that performs the same
-networking functionality but without requiring Istio users to enable elevated
-Kubernetes RBAC permissions.
+problematic for some organizations' security compliance, as is the requirement to deploy privileged init containers with every workload.
 
-The Istio CNI plugin identifies user application pods with sidecars requiring traffic redirection and
-sets this up in the Kubernetes pod lifecycle's network
-setup phase, thereby removing the [requirement for the `NET_ADMIN` and `NET_RAW` capabilities](/docs/ops/deployment/application-requirements/)
-for users deploying pods into the Istio mesh. The Istio CNI plugin
-replaces the functionality provided by the `istio-init` container.
+The `istio-cni` node agent is effectively a replacement for the `istio-init` container that enables the same
+networking functionality, but without requiring the use or deployment of privileged init containers in every workload. 
 
-{{< tip >}}
-Note: The Istio CNI plugin operates as a chained CNI plugin, and it is designed to be used with another CNI plugin,
-such as [PTP](https://www.cni.dev/plugins/current/main/ptp/) or [Calico](https://docs.projectcalico.org).
-See [compatibility with other CNI plugins](#compatibility-with-other-cni-plugins) for details.
-{{< /tip >}}
+Instead, `istio-cni` itself runs as a single privileged pod on the node. It uses this privilege to install a [chained CNI plugin](https://www.cni.dev/docs/spec/#section-2-execution-protocol) on the node, which is invoked after your "primary" interface CNI plugin. CNI plugins are invoked dynamically by Kubernetes as a privileged process on the host node whenever a new pod is created, and are able to configure pod networking. 
 
-## Install CNI
+The Istio chained CNI plugin always runs after the primary interface plugins, identifies user application pods with sidecars requiring traffic redirection, and sets up redirection in the Kubernetes pod lifecycle's network setup phase, thereby removing the need for privileged init containers, as well as the [requirement for `NET_ADMIN` and `NET_RAW` capabilities](/docs/ops/deployment/application-requirements/)
+for users and pod deployments. 
 
-### Prerequisites
+{{< image width="60%" link="./cni.svg" caption="Istio CNI" >}}
 
-1. Install Kubernetes with the container runtime supporting CNI and `kubelet` configured
-   with the main [CNI](https://github.com/containernetworking/cni) plugin enabled via `--network-plugin=cni`.
+## Prerequisites for using `istio-cni`
+
+1. Install Kubernetes with a correctly-configured primary interface CNI plugin. As [supporting CNI plugins is required to implement the Kubernetes network model](https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/), you probably already have this if you have a reasonably recent Kubernetes cluster with functional pod networking.
     * AWS EKS, Azure AKS, and IBM Cloud IKS clusters have this capability.
     * Google Cloud GKE clusters have CNI enabled when any of the following features are enabled:
        [network policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy),
@@ -50,15 +63,16 @@ See [compatibility with other CNI plugins](#compatibility-with-other-cni-plugins
        [workload identity](https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity),
        [pod security policy](https://cloud.google.com/kubernetes-engine/docs/how-to/pod-security-policies#overview),
        or [dataplane v2](https://cloud.google.com/kubernetes-engine/docs/concepts/dataplane-v2).
+    * Kind has CNI enabled by default.
     * OpenShift has CNI enabled by default.
 
 1. Install Kubernetes with the [ServiceAccount admission controller](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#serviceaccount) enabled.
     * The Kubernetes documentation highly recommends this for all Kubernetes installations
       where `ServiceAccounts` are utilized.
 
-### Install Istio with CNI plugin
+### Install Istio with the `istio-cni` component
 
-In most environments, a basic Istio cluster with CNI enabled can be installed using the following commands:
+In most environments, a basic Istio cluster with the `istio-cni` component enabled can be installed using the following commands:
 
 {{< tabset category-name="gateway-install-type" >}}
 
@@ -71,6 +85,7 @@ kind: IstioOperator
 spec:
   components:
     cni:
+      namespace: istio-system
       enabled: true
 EOF
 $ istioctl install -f istio-cni.yaml -y
@@ -81,93 +96,76 @@ $ istioctl install -f istio-cni.yaml -y
 {{< tab name="Helm" category-value="helm" >}}
 
 {{< text bash >}}
-$ helm install istio-cni istio/cni -n kube-system --wait
+$ helm install istio-cni istio/cni -n istio-system --wait
 {{< /text >}}
 
 {{< /tab >}}
 
 {{< /tabset >}}
 
-This will deploy an `istio-cni-node` DaemonSet into the cluster, which installs the Istio CNI plugin binary to each node and sets up the necessary configuration for the plugin.
-The CNI DaemonSet runs with [`system-node-critical`](https://kubernetes.io/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/) `PriorityClass`.
+This will deploy an `istio-cni` DaemonSet into the cluster, which will create one Pod on every active node, deploy the Istio CNI plugin binary on each, and set up the necessary node-level configuration for the plugin.
+The CNI DaemonSet runs with [`system-node-critical`](https://kubernetes.io/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/) `PriorityClass`. This is because it is the only means of actually reconfiguring pod networking to add them to the Istio mesh.
 
-{{< image width="60%" link="./cni.svg" caption="Istio CNI" >}}
+{{< tip >}}
+You can install `istio-cni` into any Kubernetes namespace, but the namespace must allow pods with the `system-node-critical` PriorityClass to be scheduled in it. Some cloud providers (notably GKE) by default disallow the scheduling of `system-node-critical` pods in any namespace but specific ones, such as `kube-system`.
 
-There are several commonly used install options:
+You may either install `istio-cni` into `kube-system`, or (recommended) define a ResourceQuota for your GKE cluster that allows the use of `system-node-critical` pods inside `istio-system`. See [here](/docs/ambient/install/platform-prerequisites#google-kubernetes-engine-gke) for more details.
+{{< /tip >}}
 
-* `components.cni.namespace=kube-system` configures the namespace to install the CNI DaemonSet.
+Note that if installing `istiod` with the Helm chart according to the [Install with Helm](/docs/setup/install/helm/#installation-steps) guide, you must install `istiod` with the following extra override value, in order to disable the privileged init container injection:
+
+{{< text bash >}}
+$ helm install istiod istio/istiod -n istio-system --set pilot.cni.enabled=true --wait
+{{< /text >}}
+
+#### Additional configuration for the `istio-cni` component
+
+In addition to the above basic configuration there are additional configuration flags that can be set:
+
 * `values.cni.cniBinDir` and `values.cni.cniConfDir` configure the directory paths to install the plugin binary and create plugin configuration.
 * `values.cni.cniConfFileName` configures the name of the plugin configuration file.
 * `values.cni.chained` controls whether to configure the plugin as a chained CNI plugin.
 
+Normally, these do not need to be changed, but some platforms may use nonstandard paths. Please check the guidelines for your specific platform, if any, [here](/docs/ambient/install/platform-prerequisites)
+
 {{< tip >}}
 There is a time gap between a node becomes schedulable and the Istio CNI plugin becomes ready on that node.
 If an application pod starts up during this time, it is possible that traffic redirection is not properly set up and traffic would be able to bypass the Istio sidecar.
-This race condition is mitigated by a "detect and repair" method.
-Please take a look at [race condition & mitigation](#race-condition--mitigation) section to understand the implication of this mitigation.
+
+This race condition is mitigated for the sidecar dataplane mode by a "detect and repair" method.
+Please take a look at [race condition & mitigation](#race-condition--mitigation) section to understand the implication of this mitigation, and for configuration instructions
 {{< /tip >}}
 
-### Installing with Helm
+#### Handling init container injection for revisions
 
-Following the [Install with Helm](/docs/setup/install/helm/#installation-steps) installation steps, there are some additional Helm values that are required to be set. You can
-set these either through an override values file or via the command line when installing the `istiod` chart. These are:
-
-* `values.istio_cni.enabled` should be set to the same value as `values.cni.enabled`.
-* `values.istio_cni.chained` should be set to the same value as `values.cni.chained`.
-
-For example:
-
-{{< text bash >}}
-$ helm install istiod istio/istiod -n istio-system --set istio_cni.enabled=true --wait
-{{< /text >}}
-
-### Hosted Kubernetes settings
-
-The `istio-cni` plugin is expected to work with any hosted Kubernetes version using CNI plugins.
-The default installation configuration works with most platforms.
-Some platforms required special installation settings.
-
-{{< tabset category-name="cni-platform" >}}
-
-{{< tab name="Google Kubernetes Engine" category-value="gke" >}}
+When installing revisioned control planes with the CNI component enabled,
+`values.pilot.cni.enabled=true` needs to be set for each installed revision, so that the sidecar injector does not attempt inject the `istio-init` init container for that revision.
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
-  components:
-    cni:
-      enabled: true
-      namespace: kube-system
+  revision: REVISION_NAME
+  ...
   values:
-    cni:
-      cniBinDir: /home/kubernetes/bin
+    pilot:
+      cni:
+        enabled: true
+  ...
 {{< /text >}}
 
-{{< /tab >}}
+The CNI plugin at version `1.x` is compatible with control plane at version `1.x-1`, `1.x`, and `1.x+1`,
+which means CNI and control plane can be upgraded in any order, as long as their version difference is within one minor version.
 
-{{< tab name="Red Hat OpenShift 4.2+" category-value="ocp" >}}
-
-{{< text bash >}}
-$ istioctl install --set profile=openshift
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< /tabset >}}
-
-## Operation details
-
-### Upgrade
+### Upgrading the `istio-cni` component
 
 When upgrading Istio with [in-place upgrade](/docs/setup/upgrade/in-place/), the
 CNI component can be upgraded together with the control plane using one `IstioOperator` resource.
 
 When upgrading Istio with [canary upgrade](/docs/setup/upgrade/canary/), because the CNI component runs as a cluster singleton,
 it is recommended to operate and upgrade the CNI component separately from the revisioned control plane.
-The following `IstioOperator` can be used to operate the CNI component independently.
 
-This is not a problem for Helm as the istio-cni is installed separately.
+The following `IstioOperator` can be used to upgrade the CNI component independently.
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha1
@@ -181,26 +179,13 @@ spec:
     cni:
       excludeNamespaces:
         - istio-system
-        - kube-system
 {{< /text >}}
 
-When installing revisioned control planes with the CNI component enabled,
-`values.istio_cni.enabled` needs to be set, so that sidecar injector does not inject the `istio-init` init container.
+This is not a problem for Helm as the istio-cni is installed separately, and can be upgraded via Helm:
 
-{{< text yaml >}}
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  revision: REVISION_NAME
-  ...
-  values:
-    istio_cni:
-      enabled: true
-  ...
+{{< text bash >}}
+$ helm upgrade istio-cni istio/cni -n istio-system --wait
 {{< /text >}}
-
-The CNI plugin at version `1.x` is compatible with control plane at version `1.x-1`, `1.x`, and `1.x+1`,
-which means CNI and control plane can be upgraded in any order, as long as their version difference is within one minor version.
 
 ### Race condition & mitigation
 
@@ -223,7 +208,7 @@ This repair capability can be further configured with different RBAC permissions
 |`values.cni.repair.labelPods`    | UPDATE pods | Pods are only labeled.  User will need to take manual action to resolve.                                                                      |
 |`values.cni.repair.repairPods`   | None        | Pods are dynamically reconfigured to have appropriate configuration. When the container restarts, the pod will continue normal execution.     | Default in 1.21 and newer
 
-### Traffic redirection parameters
+### Traffic redirection parameters for sidecar dataplane mode
 
 To redirect traffic in the application pod's network namespace to/from the Istio proxy sidecar,
 the Istio CNI plugin configures the namespace's iptables.
@@ -231,11 +216,12 @@ You can adjust traffic redirection parameters using the same pod annotations as 
 such as ports and IP ranges to be included or excluded from redirection.
 See [resource annotations](/docs/reference/config/annotations) for available parameters.
 
-### Compatibility with application init containers
+### Compatibility with application init containers in sidecar dataplane mode
 
-The Istio CNI plugin may cause networking connectivity problems for any application init containers. When using Istio CNI, `kubelet`
-starts an injected pod with the following steps:
+The Istio CNI plugin may cause networking connectivity problems for any application init containers in sidecar dataplane mode. When using Istio CNI, `kubelet`
+starts a pod with the following steps:
 
+1. The default interface CNI plugin sets up pod network interfaces and assigns pod IPs.
 1. The Istio CNI plugin sets up traffic redirection to the Istio sidecar proxy within the pod.
 1. All init containers execute and complete successfully.
 1. The Istio sidecar proxy starts in the pod along with the pod's other containers.
@@ -265,19 +251,15 @@ Please use traffic capture exclusions with caution, since the IP/port exclusion 
 but also application container traffic. i.e. application traffic sent to the configured IP/port will bypass the Istio sidecar.
 {{< /warning >}}
 
-### Compatibility with other CNI plugins
+### Compatibility with other CNIs
 
-The Istio CNI plugin maintains compatibility with the same set of CNI plugins as the current
-`istio-init` container which requires the `NET_ADMIN` and `NET_RAW` capabilities.
+The Istio CNI plugin follows the [CNI spec](https://www.cni.dev/docs/spec/#container-network-interface-cni-specification), and should be compatible with any CNI, container runtime,
+or other plugin that also follows the spec.
 
-The Istio CNI plugin operates as a chained CNI plugin. This means its configuration is added to the existing
-CNI plugins configuration as a new configuration list element. See the
-[CNI specification reference](https://github.com/containernetworking/cni/blob/master/SPEC.md#network-configuration-lists) for further details.
-When a pod is created or deleted, the container runtime invokes each plugin in the list in order. The Istio
-CNI plugin only performs actions to set up the application pod's traffic redirection to the injected Istio proxy
-sidecar (using `iptables` in the pod's network namespace).
+The Istio CNI plugin operates as a chained CNI plugin. This means its configuration is appended to the list of existing CNI plugins configurations.
+See the [CNI specification reference](https://www.cni.dev/docs/spec/#section-1-network-configuration-format) for further details.
 
-{{< warning >}}
-The Istio CNI plugin should not interfere with the operations of the base CNI plugin that configures the pod's
-networking setup, although not all CNI plugins have been validated.
-{{< /warning >}}
+When a pod is created or deleted, the container runtime invokes each plugin in the list in order. 
+
+The Istio CNI plugin performs actions to set up the application pod's traffic redirection - in the sidecar dataplane mode, this means applying `iptables` rules in the pod's network namespace
+to redirect in-pod traffic to the injected Istio proxy sidecar.
