@@ -15,7 +15,7 @@ test: yes
 `istio-cni` runs in your cluster with elevated privileges, and is used to configure traffic redirection
 for pods in the Istio mesh.
 
-For the {{< gloss >}}sidecar{{< /gloss >}} data plane mode, it is optional, and removes the requirement of running privileged init containers in every pod in the mesh, replacing that model with a single privileged node agent pod on each Kubernetes node.
+For the {{< gloss >}}sidecar{{< /gloss >}} data plane mode, `istio-cni` is optional. It removes the requirement of running privileged init containers in every pod in the mesh, replacing that model with a single privileged node agent pod on each Kubernetes node.
 
 The `istio-cni` agent is **required** in the {{< gloss >}}ambient{{< /gloss >}} data plane mode.
 
