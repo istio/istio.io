@@ -17,7 +17,7 @@ for pods in the Istio mesh.
 
 For the {{< gloss >}}sidecar{{< /gloss >}} data plane mode, it is optional, and removes the requirement of running privileged init containers in every pod in the mesh, replacing that model with a single privileged node agent pod on each Kubernetes node.
 
-For the {{< gloss >}}ambient{{< /gloss >}} data plane mode, it is the only supported mechanism, and must be installed.
+The `istio-cni` agent is **required** in the {{< gloss >}}ambient{{< /gloss >}} data plane mode.
 
 This guide is focused on using the `istio-cni` component as an optional part of the sidecar data plane mode. Consult [the ambient docs](/docs/ambient/) for information on using the ambient data plane mode.
 
