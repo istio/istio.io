@@ -10,10 +10,7 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-`istio-cni` is a Istio node agent DaemonSet that runs in your cluster. It is used by both Istio {{< gloss >}}data plane{{< /gloss >}} modes.
-
-`istio-cni` runs in your cluster with elevated privileges, and is used to configure traffic redirection
-for pods in the Istio mesh.
+`istio-cni` is an agent which is used to configure traffic redirection for pods in the mesh. It runs as a DaemonSet, on every node, with elevated privileges. `istio-cni` is used by both Istio {{< gloss >}}data plane{{< /gloss >}} modes.
 
 For the {{< gloss >}}sidecar{{< /gloss >}} data plane mode, `istio-cni` is optional. It removes the requirement of running privileged init containers in every pod in the mesh, replacing that model with a single privileged node agent pod on each Kubernetes node.
 
