@@ -149,7 +149,6 @@ $ kubectl delete namespace istio-ingress
 
 If your Kubernetes cluster doesn't support the `LoadBalancer` service type (`type: LoadBalancer`) with a proper external IP assigned, run the above command without the `--wait` parameter to avoid the infinite wait. See [Installing Gateways](/docs/setup/additional-setup/gateway/) for in-depth documentation on gateway installation.
 
-
 ### Simple uninstall
 
 1. Delete the Istio ambient chart:
