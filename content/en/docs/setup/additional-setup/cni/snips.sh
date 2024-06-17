@@ -20,7 +20,7 @@
 #          docs/setup/additional-setup/cni/index.md
 ####################################################################################################
 
-snip_install_istio_with_the_istiocni_component_1() {
+snip_cni_agent_operator_install() {
 cat <<EOF > istio-cni.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
@@ -33,11 +33,11 @@ EOF
 istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true -f istio-cni.yaml -y
 }
 
-snip_install_istio_with_the_istiocni_component_2() {
+snip_cni_agent_helm_install() {
 helm install istio-cni istio/cni -n istio-system --wait
 }
 
-snip_install_istio_with_the_istiocni_component_3() {
+snip_cni_agent_helm_istiod_install() {
 helm install istiod istio/istiod -n istio-system --set pilot.cni.enabled=true --wait
 }
 
@@ -68,6 +68,6 @@ spec:
         - istio-system
 ENDSNIP
 
-snip_upgrading_the_istiocni_component_2() {
+snip_cni_agent_helm_upgrade() {
 helm upgrade istio-cni istio/cni -n istio-system --wait
 }
