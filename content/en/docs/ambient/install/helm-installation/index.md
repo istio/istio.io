@@ -30,7 +30,7 @@ we encourage the use of Helm to install Istio for use in ambient mode. Helm help
 
 Istio is made up of multiple components which belong to either the {{< gloss >}}data plane{{< /gloss >}} or {{< gloss >}}control plane{{< /gloss >}}, and different components may have different effects on your applications when upgraded - for production deployments, it is strongly recommended to install the components separately to allow for more control during upgrades. Consult the [operations guidelines](/docs/ops/best-practices/deployment/) for production deployment considerations.
 
-For installing Istio with support for the {{< gloss >}}ambient{{< /gloss >}} data plane mode in a non-production cluster, we provide a simple Helm chart which bundles all the required components.
+For installing Istio with support for the {{< gloss >}}ambient{{< /gloss >}} data plane mode in a non-production cluster, we provide a simple Helm chart which bundles all the required Helm charts.
 
 ## Simple install
 
