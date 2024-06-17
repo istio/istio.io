@@ -1,6 +1,6 @@
 ---
-title: Install the Istio CNI component
-description: Install and use the Istio CNI component, allowing operators to deploy workloads with lower privilege.
+title: Install the Istio CNI node agent
+description: Install and use the Istio CNI node agent, allowing operators to deploy workloads with lower privilege.
 weight: 70
 aliases:
     - /docs/setup/kubernetes/additional-setup/cni
@@ -10,24 +10,22 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-`istio-cni` is an agent which is used to configure traffic redirection for pods in the mesh. It runs as a DaemonSet, on every node, with elevated privileges. `istio-cni` is used by both Istio {{< gloss >}}data plane{{< /gloss >}} modes.
+The Istio {{< gloss="cni" >}}CNI{{< /gloss >}} node agent is used to configure traffic redirection for pods in the mesh. It runs as a DaemonSet, on every node, with elevated privileges. The CNI node agent is used by both Istio {{< gloss >}}data plane{{< /gloss >}} modes.
 
-For the {{< gloss >}}sidecar{{< /gloss >}} data plane mode, `istio-cni` is optional. It removes the requirement of running privileged init containers in every pod in the mesh, replacing that model with a single privileged node agent pod on each Kubernetes node.
+For the {{< gloss >}}sidecar{{< /gloss >}} data plane mode, the Istio CNI node agent is optional. It removes the requirement of running privileged init containers in every pod in the mesh, replacing that model with a single privileged node agent pod on each Kubernetes node.
 
-The `istio-cni` agent is **required** in the {{< gloss >}}ambient{{< /gloss >}} data plane mode.
+The Istio CNI node agent is **required** in the {{< gloss >}}ambient{{< /gloss >}} data plane mode.
 
-This guide is focused on using the `istio-cni` component as an optional part of the sidecar data plane mode. Consult [the ambient docs](/docs/ambient/) for information on using the ambient data plane mode.
-
-`istio-cni` makes use of the Container Network Interface ([CNI](https://www.cni.dev/)) plugin API to extend the primary CNI already running in your Kubernetes cluster.
+This guide is focused on using the Istio CNI node agent as an optional part of the sidecar data plane mode. Consult [the ambient docs](/docs/ambient/) for information on using the ambient data plane mode.
 
 {{< tip >}}
-Note: The `istio-cni` component is not a CNI. Among other things, it installs a chained CNI plugin, which is designed to be layered on top of another, previously-installed primary interface CNI, such as [Calico](https://docs.projectcalico.org), or the cluster CNI used by your cloud provider.
+Note: The Istio CNI node agent _does not_ replace your cluster's existing {{< gloss="cni" >}}CNI{{< /gloss >}}. Among other things, it installs a _chained_ CNI plugin, which is designed to be layered on top of another, previously-installed primary interface CNI, such as [Calico](https://docs.projectcalico.org), or the cluster CNI used by your cloud provider.
 See [compatibility with CNIs](#compatibility-with-other-cni-plugins) for details.
 {{< /tip >}}
 
-Follow this guide to install, configure, and use the `istio-cni` component with the sidecar dataplane mode.
+Follow this guide to install, configure, and use the Istio CNI node agent with the sidecar data plane mode.
 
-## Sidecar traffic redirection without `istio-cni`
+## Sidecar traffic redirection without the Istio CNI node agent
 
 By default Istio injects an init container, `istio-init`, in pods deployed in
 the mesh. The `istio-init` container sets up the pod network traffic
@@ -35,7 +33,7 @@ redirection to/from the Istio sidecar proxy. This requires the user or
 service-account deploying pods to the mesh to have sufficient Kubernetes RBAC
 permissions to deploy [containers with the `NET_ADMIN` and `NET_RAW` capabilities](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-capabilities-for-a-container).
 
-## Sidecar traffic redirection with `istio-cni`
+## Sidecar traffic redirection with the Istio CNI node agent
 
 Requiring Istio users to have elevated Kubernetes RBAC permissions is
 problematic for some organizations' security compliance, as is the requirement to deploy privileged init containers with every workload.
@@ -50,7 +48,7 @@ for users and pod deployments.
 
 {{< image width="60%" link="./cni.svg" caption="Istio CNI" >}}
 
-## Prerequisites for using `istio-cni`
+## Prerequisites for using the Istio CNI node agent
 
 1. Install Kubernetes with a correctly-configured primary interface CNI plugin. As [supporting CNI plugins is required to implement the Kubernetes network model](https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/), you probably already have this if you have a reasonably recent Kubernetes cluster with functional pod networking.
     * AWS EKS, Azure AKS, and IBM Cloud IKS clusters have this capability.
@@ -129,7 +127,7 @@ Normally, these do not need to be changed, but some platforms may use nonstandar
 There is a time gap between a node becomes schedulable and the Istio CNI plugin becomes ready on that node.
 If an application pod starts up during this time, it is possible that traffic redirection is not properly set up and traffic would be able to bypass the Istio sidecar.
 
-This race condition is mitigated for the sidecar dataplane mode by a "detect and repair" method.
+This race condition is mitigated for the sidecar data plane mode by a "detect and repair" method.
 Please take a look at [race condition & mitigation](#race-condition--mitigation) section to understand the implication of this mitigation, and for configuration instructions
 {{< /tip >}}
 
@@ -205,7 +203,7 @@ This repair capability can be further configured with different RBAC permissions
 |`values.cni.repair.labelPods`    | UPDATE pods | Pods are only labeled.  User will need to take manual action to resolve.                                                                      |
 |`values.cni.repair.repairPods`   | None        | Pods are dynamically reconfigured to have appropriate configuration. When the container restarts, the pod will continue normal execution.     | Default in 1.21 and newer
 
-### Traffic redirection parameters for sidecar dataplane mode
+### Traffic redirection parameters
 
 To redirect traffic in the application pod's network namespace to/from the Istio proxy sidecar,
 the Istio CNI plugin configures the namespace's iptables.
@@ -213,9 +211,9 @@ You can adjust traffic redirection parameters using the same pod annotations as 
 such as ports and IP ranges to be included or excluded from redirection.
 See [resource annotations](/docs/reference/config/annotations) for available parameters.
 
-### Compatibility with application init containers in sidecar dataplane mode
+### Compatibility with application init containers
 
-The Istio CNI plugin may cause networking connectivity problems for any application init containers in sidecar dataplane mode. When using Istio CNI, `kubelet`
+The Istio CNI plugin may cause networking connectivity problems for any application init containers in sidecar data plane mode. When using Istio CNI, `kubelet`
 starts a pod with the following steps:
 
 1. The default interface CNI plugin sets up pod network interfaces and assigns pod IPs.
@@ -258,5 +256,5 @@ See the [CNI specification reference](https://www.cni.dev/docs/spec/#section-1-n
 
 When a pod is created or deleted, the container runtime invokes each plugin in the list in order.
 
-The Istio CNI plugin performs actions to set up the application pod's traffic redirection - in the sidecar dataplane mode, this means applying `iptables` rules in the pod's network namespace
+The Istio CNI plugin performs actions to set up the application pod's traffic redirection - in the sidecar data plane mode, this means applying `iptables` rules in the pod's network namespace
 to redirect in-pod traffic to the injected Istio proxy sidecar.
