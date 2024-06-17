@@ -18,7 +18,8 @@
 }
 
 .panel {
-    display: inline-block;
+    display: flex;
+    flex-direction: column;
     width: 100%;
     max-width: 320px;
     min-height: 320px;
@@ -140,8 +141,6 @@
         .panel-text {
             color: $primaryColor;
         }
-
-        .panel-body { height: auto; }
 
         @media (max-width: $bp-sm) {
             margin-left: 0;
