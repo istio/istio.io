@@ -42,7 +42,7 @@ helm delete istio-base -n istio-system
 kubectl delete ns istio-system
 
 # Test istioctl install snip
-cni_agent_operator_install
+snip_cni_agent_operator_install
 _wait_for_deployment istio-system istiod
 _wait_for_daemonset istio-system istio-cni-node
 
