@@ -73,7 +73,7 @@ In most environments, a basic Istio cluster with the `istio-cni` component enabl
 
 {{< tab name="IstioOperator" category-value="iop" >}}
 
-{{< text bash snip_id=cni_agent_operator_install >}}
+{{< text syntax=bash snip_id=cni_agent_operator_install >}}
 $ cat <<EOF > istio-cni.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
@@ -90,7 +90,7 @@ $ istioctl install -f istio-cni.yaml -y
 
 {{< tab name="Helm" category-value="helm" >}}
 
-{{< text bash snip_id=cni_agent_helm_install >}}
+{{< text syntax=bash snip_id=cni_agent_helm_install >}}
 $ helm install istio-cni istio/cni -n istio-system --wait
 {{< /text >}}
 
@@ -109,7 +109,7 @@ You may either install `istio-cni` into `kube-system`, or (recommended) define a
 
 Note that if installing `istiod` with the Helm chart according to the [Install with Helm](/docs/setup/install/helm/#installation-steps) guide, you must install `istiod` with the following extra override value, in order to disable the privileged init container injection:
 
-{{< text bash snip_id=cni_agent_helm_istiod_install >}}
+{{< text syntax=bash snip_id=cni_agent_helm_istiod_install >}}
 $ helm install istiod istio/istiod -n istio-system --set pilot.cni.enabled=true --wait
 {{< /text >}}
 
@@ -178,7 +178,7 @@ spec:
 
 This is not a problem for Helm as the istio-cni is installed separately, and can be upgraded via Helm:
 
-{{< text bash snip_id=cni_agent_helm_upgrade >}}
+{{< text syntax=bash snip_id=cni_agent_helm_upgrade >}}
 $ helm upgrade istio-cni istio/cni -n istio-system --wait
 {{< /text >}}
 
