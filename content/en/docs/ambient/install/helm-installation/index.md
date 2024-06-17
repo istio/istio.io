@@ -28,15 +28,15 @@ we encourage the use of Helm to install Istio for use in ambient mode. Helm help
 
 *See [helm repo](https://helm.sh/docs/helm/helm_repo/) for command documentation.*
 
-{{< gloss "ambient" >}}Ambient{{< /gloss >}} is made up of multiple components - for production deployments, it is strongly recommended to install the components separately to allow for more control during upgrades. Consult the [operations guidelines](/docs/ops/deployment) for production deployment considerations.
+Istio is made up of multiple components which belong to either the {{< gloss >}}data plane{{< /gloss >}} or {{< gloss >}}control plane{{< /gloss >}}, and different components may have different effects on your applications when upgraded - for production deployments, it is strongly recommended to install the components separately to allow for more control during upgrades. Consult the [operations guidelines](/docs/ops/best-practices/deployment/) for production deployment considerations.
 
-For installing Istio with support for the {{< gloss "ambient" >}}ambient data plane mode{{< /gloss >}} in a non-production cluster, we provide a simple Helm chart which bundles all the required components.
+For installing Istio with support for the {{< gloss >}}ambient{{< /gloss >}} data plane mode in a non-production cluster, we provide a simple Helm chart which bundles all the required components.
 
-## Install the components together
+## Simple install
 
-The `ambient` Helm wrapper chart composes all the components that make up an ambient installation into one Helm chart:
+The `ambient` Helm chart composes all the components that enable the use of Istio's ambient data plane mode:
 
-{{< text syntax=bash snip_id=install_ambient_wrapper >}}
+{{< text syntax=bash snip_id=install_ambient_chart >}}
 $ helm install istio-ambient istio/ambient -n istio-system --create-namespace --wait
 {{< /text >}}
 
@@ -138,16 +138,19 @@ After installing ambient mode with Helm, you can follow the [Deploy the sample a
 
 ## Uninstall
 
-If you installed with the `ambient` wrapper chart above, you can uninstall Istio and its components by uninstalling that chart:
+## Uninstall an ingress gateway (optional)
 
-1. Delete any Istio gateway chart installations (optional, if installed):
+If you previously installed an ingress gateway, uninstall it by running the command below:
 
-    {{< text syntax=bash snip_id=delete_ingress >}}
-    $ helm delete istio-ingress -n istio-ingress --wait
-    $ kubectl delete namespace istio-ingress
-    {{< /text >}}
+{{< text syntax=bash snip_id=delete_ingress >}}
+$ helm delete istio-ingress -n istio-ingress --wait
+$ kubectl delete namespace istio-ingress
+{{< /text >}}
 
-### Uninstall the components together
+If your Kubernetes cluster doesn't support the `LoadBalancer` service type (`type: LoadBalancer`) with a proper external IP assigned, run the above command without the `--wait` parameter to avoid the infinite wait. See [Installing Gateways](/docs/setup/additional-setup/gateway/) for in-depth documentation on gateway installation.
+
+
+### Simple uninstall
 
 1. Delete the Istio ambient chart:
 
@@ -157,14 +160,8 @@ If you installed with the `ambient` wrapper chart above, you can uninstall Istio
     Resource Definitions (CRDs) installed via the chart.
     {{< /tip >}}
 
-    {{< text syntax=bash snip_id=delete_ambient_wrapper >}}
+    {{< text syntax=bash snip_id=delete_ambient_chart >}}
     $ helm delete istio-ambient -n istio-system --wait
-    {{< /text >}}
-
-1. Delete the `istio-system` namespace:
-
-    {{< text syntax=bash snip_id=delete_system_namespace_wrapper >}}
-    $ kubectl delete namespace istio-system
     {{< /text >}}
 
 1. Delete CRDs installed by Istio (optional)
@@ -173,8 +170,14 @@ If you installed with the `ambient` wrapper chart above, you can uninstall Istio
     This will delete all created Istio resources.
     {{< /warning >}}
 
-    {{< text syntax=bash snip_id=delete_crds_wrapper >}}
+    {{< text syntax=bash snip_id=delete_crds_chart >}}
     $ kubectl get crd -oname | grep --color=never 'istio.io' | xargs kubectl delete
+    {{< /text >}}
+
+1. Delete the `istio-system` namespace:
+
+    {{< text syntax=bash snip_id=delete_system_namespace_chart >}}
+    $ kubectl delete namespace istio-system
     {{< /text >}}
 
 ### Uninstall the components individually

@@ -32,7 +32,7 @@ Node cordoning and blue/green node pools are recommended to control blast radius
 You will in-place upgrade the Istio components together, or individually, depending on how you originally [installed Istio ambient via Helm](/docs/ambient/install/helm-installation).
 
 {{< tip >}}
-If you installed the components [together](/docs/ambient/install/helm-installation#install-the-components-together), you must upgrade them [together](#upgrade-the-components-together). If you installed the components [individually](/docs/ambient/install/helm-installation#install-the-components-individually), you must upgrade them [individually](#upgrade-the-components-individually).
+If you installed the components [together](/docs/ambient/install/helm-installation#simple-install), you must upgrade them [together](#simple-upgrade). If you installed the components [individually](/docs/ambient/install/helm-installation#install-the-components-individually), you must upgrade them [individually](#upgrade-the-components-individually).
 {{< /tip >}}
 
 Before upgrading Istio, it is recommended to run the `istioctl x precheck` command to make sure the upgrade is compatible with your environment.
@@ -55,7 +55,7 @@ $ istioctl x precheck
     $ kubectl apply -f manifests/charts/base/crds
     {{< /text >}}
 
-## Upgrade the components together
+## Simple upgrade
 
 1. Upgrade the Istio ambient Helm wrapper chart:
 

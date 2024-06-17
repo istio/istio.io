@@ -25,7 +25,7 @@ helm repo add istio https://istio-release.storage.googleapis.com/charts
 helm repo update
 }
 
-snip_install_ambient_wrapper() {
+snip_install_ambient_chart() {
 helm install istio-ambient istio/ambient -n istio-system --create-namespace --wait
 }
 
@@ -85,16 +85,16 @@ helm delete istio-ingress -n istio-ingress --wait
 kubectl delete namespace istio-ingress
 }
 
-snip_delete_ambient_wrapper() {
+snip_delete_ambient_chart() {
 helm delete istio-ambient -n istio-system --wait
 }
 
-snip_delete_system_namespace_wrapper() {
-kubectl delete namespace istio-system
+snip_delete_crds_chart() {
+kubectl get crd -oname | grep --color=never 'istio.io' | xargs kubectl delete
 }
 
-snip_delete_crds_wrapper() {
-kubectl get crd -oname | grep --color=never 'istio.io' | xargs kubectl delete
+snip_delete_system_namespace_chart() {
+kubectl delete namespace istio-system
 }
 
 snip_uninstall_the_components_individually_1() {
