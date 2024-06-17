@@ -94,9 +94,9 @@ Users often deploy a mesh to enable a zero-trust security posture as a first-ste
       <td>Small</td>
     </tr>
     <tr>
-      <th>Average latency</th>
-      <td>X-Yms</td>
-      <td>Ambient: A-Bms<br />Waypoint: C-Dms</td>
+      <th>Average latency (p90/p99)</th>
+      <td>0.63ms-0.88ms</td>
+      <td>Ambient: 0.16ms-0.20ms<br />Waypoint: 0.40ms-0.50ms</td>
     </tr>
     <tr>
       <th>L7 processing steps</th>
@@ -109,7 +109,7 @@ Users often deploy a mesh to enable a zero-trust security posture as a first-ste
       <td>Works without custom configuration</td>
     </tr>
     <tr>
-      <th>Supports "server send first" protocols</th>
+      <th>Supports "server-first" protocols</th>
       <td><a href="/docs/ops/deployment/application-requirements/#server-first-protocols">Requires configuration</a></td>
       <td>Yes</td>
     </tr>
