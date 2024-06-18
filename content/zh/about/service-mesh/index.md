@@ -1,7 +1,7 @@
 ---
 title: Istio 服务网格
 description: 服务网格。
-subtitle: Istio 解决了开发人员和运维人员在分布式微服务架构中面临的挑战。无论您是从头构建还是将现有的应用程序迁移到云原生环境，Istio 都能提供帮助
+subtitle: Istio 解决了开发人员和运维人员在分布式或微服务架构中面临的挑战。无论您是从头开始构建、将现有应用程序迁移到云原生，还是保护现有资产，Istio 都可以提供帮助。
 weight: 34
 skip_toc: true
 skip_byline: true
@@ -12,92 +12,89 @@ aliases:
     - /zh/docs/concepts/what-is-istio/goals
     - /zh/about/intro
     - /zh/docs/concepts/what-is-istio/
-    - /zh/latest/docs/concepts/what-is-istio/  
+    - /zh/latest/docs/concepts/what-is-istio/
 doc_type: about
 ---
-[comment]: <> (TODO: Replace Service mesh graphic placeholder)
 
 {{< centered_block >}}
-{{< figure src="/zh/about/service-mesh/service-mesh.svg" alt="服务网格" title="通过在部署的每个应用程序中添加代理“sidecar”，Istio 让您可以为应用程序感知流量管理、不可思议的可观测性和强大的安全功能编程到网络中。" >}}
+{{< figure src="/zh/about/service-mesh/service-mesh.svg" alt="服务网格" title="通过使用应用程序代理，Istio 让您可以在网络中编程应用程序感知的流量管理、令人难以置信的可观察性和强大的安全功能。" >}}
 {{< /centered_block >}}
 
 {{< centered_block >}}
 
-## 服务网格介绍 {#what-is-a-service-mesh}
-
-现代应用程序通常被设计成微服务的分布式集合，每个服务执行一些离散的业务功能。服务网格是专门的基础设施层，包含了组成这类体系结构的微服务网络。
-服务网格不仅描述了这个网络，而且还描述了分布式应用程序组件之间的交互。所有在服务之间传递的数据都由服务网格控制和路由。
-
-随着分布式服务的部署——比如基于 Kubernetes 的系统——规模和复杂性的增长，它可能会变得更加难以理解和管理。
-需求可以包括发现、负载均衡、故障恢复、度量和监视。微服务体系结构通常还有更复杂的操作需求，比如 A/B
-测试、金丝雀部署、速率限制、访问控制、加密和端到端身份验证。
-
-服务到服务的通信使分布式应用成为可能。在应用程序集群内部和跨应用程序集群路由这种通信变得越来越复杂。
-Istio 有助于减少这种复杂性，同时减轻开发团队的压力。
-{{< /centered_block >}}
-
-{{< centered_block >}}
+[comment]: <> (下面的标题仅在此处，因为 lint 要求第一个标题是 <h2>，而稍后我们需要 <h1>。)
 
 ## Istio 介绍 {#what-is-Istio}
 
-Istio 是一个开源服务网格，它透明地分层到现有的分布式应用程序上。Istio 强大的特性提供了一种统一和更有效的方式来保护、连接和监视服务。
-Istio 是实现负载均衡、服务到服务身份验证和监视的路径——只需要很少或不需要更改服务代码。它强大的控制平面带来了重要的特点，包括：
+**服务网格**是一个基础设施层，它为应用程序提供零信任安全、可观察性和高级流量管理等功能，
+而无需更改代码。**Istio** 是最受欢迎、最强大、最值得信赖的服务网格。
+Istio 由 Google、IBM 和 Lyft 于 2016 年创立，是云原生计算基金会的一个毕业项目，
+与 Kubernetes 和 Prometheus 等项目并列。
 
-- 使用 TLS 加密、强身份认证和授权的集群内服务到服务的安全通信
-- 自动负载均衡的 HTTP、gRPC、WebSocket 和 TCP 流量
-- 通过丰富的路由规则、重试、故障转移和故障注入对流量行为进行细粒度控制
-- 一个可插入的策略层和配置 API，支持访问控制、速率限制和配额
-- 对集群内的所有流量（包括集群入口和出口）进行自动度量、日志和跟踪
+Istio 可确保云原生和分布式系统具有弹性，帮助现代企业在保持连接和保护的同时跨不同平台维护其工作负载。
+它[启用安全和治理控制](/zh/docs/concepts/observability/)，包括 mTLS 加密、策略管理和访问控制、
+[支持网络功能](/zh/docs/concepts/traffic-management/)，例如金丝雀部署、A/B 测试、负载平衡、故障恢复，
+并[增加对整个资产流量的可观察性](/zh/docs/concepts/observability/)。
 
-Istio 是为可扩展性而设计的，可以处理不同范围的部署需求。Istio 的控制平面运行在 Kubernetes 上，
-您可以将部署在该集群中的应用程序添加到您的网格中，将网格扩展到其他集群，甚至连接 VM 或运行在 Kubernetes 之外的其他端点。
+Istio 并不局限于单个集群、网络或运行时的边界——在 Kubernetes 或 VM、多云、混合或本地上运行的服务都可以包含在单个网格中。
 
-一个由贡献者、合作伙伴、集成商和分销商组成的庞大生态系统将 Istio 扩展和利用到各种各样的场景中。
+Istio 经过精心设计，具有可扩展性，并受到贡献者和合作伙伴的[广泛生态系统](/zh/about/ecosystem)的支持，
+它为各种用例提供​​打包的集成和分发。您可以独立安装 Istio，也可以选择由提供基于 Istio 的解决方案的商业供应商提供的托管支持。
 
-您可以自己安装 Istio，或者许多供应商都有集成 Istio 并为您管理它的产品。
+<div class="cta-container">
+    <a class="btn" href="/zh/docs/overview/">了解有关 Istio 的更多信息</a>
+</div>
+
 {{< /centered_block >}}
 
-{{< centered_block >}}
+<br/><br/>
 
-## 工作说明 {#how-it-works}
+# 特性 {#features}
 
-Istio 由两个部分组成：控制平面和数据平面。
+{{< feature_block header="默认安全" image="security.svg" >}}
+Istio 提供基于工作负载身份、双向 TLS 和强大策略控制的市场领先零信任解决方案。
+Istio 在开源中实现了 [BeyondProd](https://cloud.google.com/security/beyondprod/) 的价值，同时避免了供应商锁定或 SPOF。
 
-数据平面是业务之间的通信平面。如果没有一个服务网格，网络就无法理解正在发送的流量，也无法根据它是哪种类型的流量，
-或者它从谁那里来，到谁那里去做出任何决定。
-
-服务网格使用代理拦截所有的网络流量，允许根据您设置的配置提供广泛的应用程序感知功能。
-
-代理与您在集群中启动的每个服务一起部署，或者与运行在虚拟机上的服务一起运行。
-
-控制平面获取您所需的配置和服务视图，并动态地对代理服务器进行编程，随着规则或环境的变化更新它们。
-{{< figure src="/img/service-mesh-before.svg" alt="使用 Istio 前" title="使用 Istio 前" >}}
-{{< figure src="/zh/about/service-mesh/service-mesh.svg" alt="使用 Istio 后" title="使用 Istio 后" >}}
-{{< /centered_block >}}
-
-# 概念 {#concepts}
-
-{{< feature_block header="流量管理" image="management.svg" >}}
-Istio 的流量路由规则可以让您轻松地控制服务之间的流量和 API 调用。Istio 简化了服务级别属性（如断路器、超时和重试）的配置，
-并使设置重要任务（如 A/B 测试、canary 部署和基于百分比的流量分割的分阶段部署）变得容易。
-它还提供了开箱即用的故障恢复特性，帮助您的应用程序更健壮地应对依赖服务或网络的故障。
+<a class="btn" href="/zh/docs/concepts/security/">了解安全性</a>
 {{< /feature_block>}}
 
-{{< feature_block header="可观测性" image="observability.svg" >}}
-Istio 为服务网格内的所有通信生成详细的遥测数据。这种遥测技术提供了服务行为的可观测性，使运维人员能够排除故障、维护和优化其应用。
-更好的是，它不会给服务开发人员带来任何额外的负担。通过 Istio，操作人员可以全面了解被监视的服务如何与其他服务以及 Istio 组件本身交互。
+{{< feature_block header="提高可观察性" image="observability.svg" >}}
+Istio 在服务网格内生成可观测数据，从而实现对服务行为的可观察性。
+它与 Grafana 和 Prometheus 等 APM 系统集成，为操作员提供有洞察力的指标，以排除故障、维护和优化应用程序。
 
-Istio 的遥测技术包括详细的指标、分布式跟踪和完整的访问日志。有了 Istio，您就可以得到全面的服务网格可观测性。
+<a class="btn" href="/zh/docs/concepts/observability/">了解可观察性</a>
 {{< /feature_block>}}
 
-{{< feature_block header="安全性能" image="security.svg" >}}
-微服务有特殊的安全需求，包括防止中间人攻击、灵活的访问控制、审计工具和相互的 TLS。
-Istio 包括一个全面的安全解决方案，使运维人员能够解决所有这些问题。
-它提供了强大的身份、强大的策略、透明的 TLS 加密，以及验证、授权和审计（AAA）工具来保护您的服务和数据。
+{{< feature_block header="管理流量" image="management.svg" >}}
+Istio 简化了流量路由和服务级别配置，允许轻松控制服务之间的流量以及设置 A/B 测试、金丝雀部署和基于百分比流量分割的分阶段推出等任务。
 
-Istio 的安全模型是基于默认安全的，旨在提供深度防御，允许您部署安全的应用程序，甚至跨不可信的网络。
+<a class="btn" href="/zh/docs/concepts/traffic-management/">了解流量管理</a>
 {{< /feature_block>}}
 
-# 解决方案 {#solutions}
+<br/><br/>
 
-{{< solutions_carousel >}}
+# 为什么选择 Istio？ {#why-istio}
+
+{{< feature_block header="多种部署模式" image="deployment-modes.svg" >}}
+Istio 提供两种数据平面模式供用户选择。使用新的 Ambient 模式部署可简化应用程序的运行生命周期，或使用传统的 Sidecar 进行复杂配置。
+
+<a class="btn" href="/zh/docs/overview/dataplane-modes/">了解数据平面模式</a>
+{{< /feature_block>}}
+
+{{< feature_block header="由 Envoy 提供支持" image="envoy.svg" >}}
+Istio 建立在适用于云原生应用的行业标准网关代理之上，具有高性能和可扩展性。使用 WebAssembly 添加自定义流量功能，或集成第三方策略系统。
+
+<a class="btn" href="/zh/docs/overview/why-choose-istio/#envoy">了解 Istio 和 Envoy</a>
+{{< /feature_block>}}
+
+{{< feature_block header="真正的社区项目" image="community-project.svg" >}}
+Istio 专为现代工作负载而设计，由云原生领域的庞大创新者社区打造。
+
+<a class="btn" href="/zh/docs/overview/why-choose-istio/#community">了解 Istio 的贡献者</a>
+{{< /feature_block>}}
+
+{{< feature_block header="稳定的二进制版本" image="stable-releases.svg" >}}
+自信地在生产工作负载中部署 Istio。所有版本均可完全免费使用。
+
+<a class="btn" href="/zh/docs/overview/why-choose-istio/#packages">了解 Istio 的打包方式</a>
+{{< /feature_block>}}
