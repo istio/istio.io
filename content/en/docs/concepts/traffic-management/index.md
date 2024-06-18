@@ -746,8 +746,8 @@ on the same virtual service, see
 [Traffic Management Problems](/docs/ops/common-problems/network-issues/#virtual-service-with-fault-injection-and-retrytimeout-policies-not-working-as-expected).
 {{< /warning >}}
 
-Unlike other mechanisms for introducing errors such as delaying packets or
-killing pods at the network layer, Istio’ lets you inject faults at the
+Unlike other mechanisms for introducing errors, such as delaying packets or
+killing pods at the network layer, Istio lets you inject faults at the
 application layer. This lets you inject more relevant failures, such as HTTP
 error codes, to get more relevant results.
 
