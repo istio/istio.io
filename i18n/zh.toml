@@ -325,6 +325,15 @@ other = "服务网格"
 [what_is_istio]
 other = "什么是 Istio ？"
 
+[join_the_community]
+other = "加入社区"
+
+[get_started]
+other = "开始使用"
+
+[latest_news]
+other = "最新消息"
+
 [solutions]
 other = "解决方案"
 
@@ -334,8 +343,14 @@ other = "部署"
 [learn_more]
 other = "了解详情"
 
+[read_more]
+other = "阅读更多"
+
+[connect_with_us]
+other = "联系我们"
+
 [traffic_management]
-other = "流量管理"
+other = "可靠性"
 
 [observability]
 other = "可观测性"
