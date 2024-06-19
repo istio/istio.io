@@ -1,5 +1,5 @@
 ---
-title: 使用 Istioctl Analyze 诊断配置
+title: 使用 istioctl analyze 诊断配置
 description: 演示如何使用 istioctl analyze 来识别配置中的潜在问题。
 weight: 40
 keywords: [istioctl, debugging, kubernetes]
@@ -8,42 +8,42 @@ test: yes
 ---
 
 `istioctl analyze` 是一个诊断工具，可以检测 Istio 配置的潜在问题。
-它可以针对运行的集群或一组本地配置文件运行。它还可以将两者结合起来使用，
-从而允许您在将更改应用于集群之前发现问题。
+它检测的目标可以是一个正在运行的集群，也可以是一组本地配置文件。
+它检测的目标还可以是这二者的结合，从而能够让您及时发现问题并对集群做出变更。
 
 ## 一分钟入门 {#getting-started-in-under-a-minute}
 
-可以使用如下的命令分析您当前的集群：
+您可以使用如下的命令分析您当前的集群：
 
 {{< text syntax=bash snip_id=analyze_all_namespaces >}}
 $ istioctl analyze --all-namespaces
 {{< /text >}}
 
-就是这样！它会给您任何合适的建议。
+就这么一条简单的命令！它会为您提供所有合适的建议。
 
-例如，如果您忘记启用 Istio 注入（一个非常常见的问题），则会收到以下警告：
+例如，如果您忘记启用 Istio 注入（一个非常常见的问题），则会收到以下 'Info' 类型的消息：
 
 {{< text syntax=plain snip_id=analyze_all_namespace_sample_response >}}
 Info [IST0102] (Namespace default) The namespace is not enabled for Istio injection. Run 'kubectl label namespace default istio-injection=enabled' to enable it, or 'kubectl label namespace default istio-injection=disabled' to explicitly mark it as not needing injection.
 {{< /text >}}
 
-可使用如下命令修复：
+您可使用如下命令修复：
 
 {{< text syntax=bash snip_id=fix_default_namespace >}}
 $ kubectl label namespace default istio-injection=enabled
 {{< /text >}}
 
-然后再重试一下：
+然后再重新检测一下：
 
 {{< text syntax=bash snip_id=try_with_fixed_namespace >}}
 $ istioctl analyze --namespace default
 ✔ No validation issues found when analyzing namespace: default.
 {{< /text >}}
 
-## 分析活动集群、本地文件或同时分析两者 {#analyzing-live-clusters-local-files-or-both}
+## 分析运行中的集群、本地文件或同时分析两者 {#analyzing-live-clusters-local-files-or-both}
 
-分析当前的活动集群，模拟在 `samples/bookinfo/networking` 目录下应用诸如
-`bookinfo-gateway.yaml` 和 `destination-rule-all.yaml` 等额外 yaml
+分析当前运行中的集群，模拟在 `samples/bookinfo/networking` 目录下应用
+`bookinfo-gateway.yaml` 和 `destination-rule-all.yaml` 等更多 YAML
 文件的效果：
 
 {{< text syntax=bash snip_id=analyze_sample_destrule >}}
@@ -60,24 +60,24 @@ See https://istio.io/v{{< istio_version >}}/docs/reference/config/analysis for m
 $ istioctl analyze samples/bookinfo/networking/
 {{< /text >}}
 
-分析 `networking` 目录下的所有 yaml 文件：
+分析 `networking` 目录下的所有 YAML 文件：
 
 {{< text syntax=bash snip_id=analyze_all_networking_yaml >}}
 $ istioctl analyze samples/bookinfo/networking/*.yaml
 {{< /text >}}
 
-上面的例子是对活动集群进行分析。但是该工具还支持对一组本地 Kubernetes yaml
-配置文件，或对本地文件和活动集群的组合进行分析。当分析一组本地文件时，
-文件集应该是完全独立的。通常，这用于分析打算部署到集群的整个配置文件集。
+上面的这些例子是对运行中的集群进行分析。
+此工具还支持分析一组本地 Kubernetes YAML 配置文件，也支持组合分析运行中的集群及本地的文件。
+当分析一组本地文件时，文件集应该是完全独立的（自包含的）。通常，这用于分析打算部署到某集群的整个配置文件集。
 要使用此功能，只需添加 `--use-kube=false` 标志。
 
-分析 `networking` 目录下的所有 yaml 文件：
+分析 `networking` 目录下的所有 YAML 文件：
 
 {{< text syntax=bash snip_id=analyze_all_networking_yaml_no_kube >}}
 $ istioctl analyze --use-kube=false samples/bookinfo/networking/*.yaml
 {{< /text >}}
 
-可以运行 `istioctl analyze --help` 来查看完整的选项集。
+您可以运行 `istioctl analyze --help` 来查看完整的选项设置。
 
 ## 高级功能 {#advanced}
 
@@ -85,13 +85,13 @@ $ istioctl analyze --use-kube=false samples/bookinfo/networking/*.yaml
 
 {{< boilerplate experimental-feature-warning >}}
 
-从 Istio 1.5 开始，可以通过 `istiod.enableAnalysis` 标志将 Galley
-设置为与其主要负责的配置分发一起执行配置分析。
-此分析使用与 `istioctl analyze` 相同的逻辑和错误消息。
-来自分析的验证消息被写入受影响的 Istio 资源的状态子资源。
+从 Istio 1.5 开始，Galley 可以通过 `istiod.enableAnalysis`
+标志设置为与 Galley 主要负责的配置分发一起执行配置分析。
+Galley 分析所使用的逻辑和错误消息与 `istioctl analyze` 相同。
+分析所产生的验证消息被写入到受影响的 Istio 资源的状态子资源。
 
-例如：如果您的 "ratings" VirtualService 上网关配置错误，运行
-`kubectl get virtualservice ratings` 会给您类似这样的结果：
+例如：如果您的 "ratings" VirtualService 上的网关配置错误，运行
+`kubectl get virtualservice ratings` 会给出类似这样的结果：
 
 {{< text syntax=yaml snip_id=vs_yaml_with_status >}}
 apiVersion: networking.istio.io/v1
@@ -112,42 +112,42 @@ status:
       code: IST0101
 {{< /text >}}
 
-`enableAnalysis` 在后台运行，并将保持资源的状态字段与其当前验证状态保持同步。
-请注意，这不是`istioctl analyze` 的替代品：
+`enableAnalysis` 在后台运行，并将保持资源的 status 字段与其当前验证状态保持同步。
+请注意，这不是 `istioctl analyze` 的替代品：
 
-- 并非所有资源都有自定义状态字段（例如 Kubernetes `namespace` 资源），
+- 并非所有资源都有自定义 status 字段（例如 Kubernetes `namespace` 资源），
   因此附加到这些资源的消息不会显示验证消息。
 - `enableAnalysis` 仅适用于从 1.5 开始的 Istio 版本，而 `istioctl analyze`
   可用于旧版本。
-- 虽然可以轻松查看特定资源的问题，但很难全面了解网格中的验证状态。
+- 虽然可以轻松查看特定资源是否有问题，但很难全面了解网格中的验证状态。
 
-您可以通过以下命令启动此功能：
+您可以通过以下命令启用此功能：
 
 {{< text syntax=bash snip_id=install_with_custom_config_analysis >}}
 $ istioctl install --set values.global.istiod.enableAnalysis=true
 {{< /text >}}
 
-### 通过 CLI 忽略特定的分析者消息 {#ignoring-specific-analyzer-messages-via-cli}
+### 通过 CLI 忽略特定的分析器消息 {#ignoring-specific-analyzer-messages-via-cli}
 
 有时您可能会发现在某些情况下隐藏或忽略分析器消息很有用。例如，
-想象这样一种情况，其中发出一条关于您无权更新的资源的消息：
+想象这样一种情况，针对您无权更新的某个资源发出一条消息：
 
 {{< text syntax=bash snip_id=analyze_k_frod >}}
 $ istioctl analyze -k --namespace frod
 Info [IST0102] (Namespace frod) The namespace is not enabled for Istio injection. Run 'kubectl label namespace frod istio-injection=enabled' to enable it, or 'kubectl label namespace frod istio-injection=disabled' to explicitly mark it as not needing injection.
 {{< /text >}}
 
-由于您无权更新命名空间，因此无法通过注解命名空间来解析消息。相反，
-您可以使用 `istioctl analyze` 来抑制资源上的上述消息：
+由于您无权更新命名空间，因此无法通过为命名空间添加注解来解析消息。
+这种情况下，您可以直接使用 `istioctl analyze` 来抑制针对此资源的上述消息：
 
 {{< text syntax=bash snip_id=analyze_suppress0102 >}}
 $ istioctl analyze -k --namespace frod --suppress "IST0102=Namespace frod"
 ✔ No validation issues found when analyzing namespace: frod.
 {{< /text >}}
 
-当引用：`<kind> <name>.<namespace>` 资源时，用于抑制的语法与整个
-`istioctl` 中使用的语法相同，或者仅使用 `<kind> <name>` 对于 `Namespace`
-集群范围的资源。如果您想抑制多个对象，您可以重复 `--suppress` 参数或使用通配符：
+当引用 `<kind> <name>.<namespace>` 资源时，抑制所用的语法与整个
+`istioctl` 中使用的语法相同，或者仅使用 `<kind> <name>` 表示 `Namespace`
+这类集群作用域的资源。如果您想抑制多个对象，您可以重复 `--suppress` 参数或使用通配符：
 
 {{< text syntax=bash snip_id=analyze_suppress_frod_0107_baz >}}
 $ # Suppress code IST0102 on namespace frod and IST0107 on all pods in namespace baz
@@ -156,8 +156,8 @@ $ istioctl analyze -k --all-namespaces --suppress "IST0102=Namespace frod" --sup
 
 ### 通过注解忽略特定的分析器消息 {#ignoring-specific-analyzer-messages-via-annotations}
 
-您也可以使用资源上的注解忽略特定的分析器消息。例如，要忽略资源
-`deployment/my-deployment` 上的代码IST0107（`MisplacedAnnotation`）：
+您也可以对资源增加注解来忽略特定的分析器消息。例如，要忽略资源
+`deployment/my-deployment` 上的代码 IST0107（`MisplacedAnnotation`）：
 
 {{< text syntax=bash snip_id=annotate_for_deployment_suppression >}}
 $ kubectl annotate deployment my-deployment galley.istio.io/analyze-suppress=IST0107
@@ -171,30 +171,30 @@ $ kubectl annotate deployment my-deployment galley.istio.io/analyze-suppress=IST
 
 ## 帮助我们改进此工具 {#helping-us-improve-this-tool}
 
-我们将不断增加更多的分析功能，并希望您能帮助我们发现更多的用例。
-如果您发现了一些 Istio 配置“陷阱”，一些导致您的使用出现问题的棘手情况，请提出问题并告知我们。
-我们也许可以自动标记此问题，以便其他人可以提前发现并避免该问题。
+我们将不断增加更多的分析功能，希望您能帮助我们发现更多的使用场景。
+如果您发现了一些 Istio 配置“陷阱”，一些导致您的使用出现问题的棘手情况，请提一条 Issue 告知我们。
+这样我们也许就可以自动标记此问题，以便他人可以提前发现并避免此问题。
 
-为此，请您[开启一个 issue](https://github.com/istio/istio/issues)
-来描述您的情况。例如：
+为此，请您[提一个 Issue](https://github.com/istio/istio/issues)
+来描述您所遇到的情况。例如：
 
-- 查看所有 virtual services
-- 循环查看 virtual services 的 gateways 列表
-- 如果某个 gateways 不存在，则报错
+- 查看所有 VirtualService
+- 查看每个 VirtualService 的网关列表
+- 如果某些网关不存在，则报错
 
-我们已经有针对这种特定情况的分析器，因此这仅是一个示例，用于说明您应提供的信息类型。
+我们已经有针对这种特定场景的分析器，因此这仅是一个示例，用于说明您应在 Issue 中提供哪种信息。
 
 ## Q&A
 
 - **此工具针对的是哪个 Istio 版本？**
 
-    和其它 `istioctl` 工具一样，我们通常建议下载一个和您集群中部署版本相匹配的版本来使用。
+    和其它 `istioctl` 工具一样，我们通常建议下载并使用一个与您集群中所部署版本相匹配的版本。
 
-    就目前而言，analysis 是向后兼容的，所以您可以在运行 Istio 1.1 的集群上使用 1.4 版本的
-   `istioctl analyze`，并且会得到有用的反馈。对老版本 Istio 没有意义的分析规则将被跳过。
+    就目前而言，分析器是向后兼容的，所以您可以在运行 Istio 1.x 的集群上使用 {{< istio_version >}}
+    版本的 `istioctl analyze`，并且会得到有用的反馈。对老版本 Istio 没有意义的分析规则将被跳过。
 
-    如果您决定使用最新的 `istioctl` 来对一个运行老版本 Istio 的集群进行分析，
-    我们建议您将其保存在一个独立的目录中，和用于部署 Istio 的二进制文件分开。
+    如果您决定使用最新的 `istioctl` 来分析一个运行老版本 Istio 的集群，
+    我们建议您将其保存在一个独立的目录中，和用于管理已部署 Istio 版本的二进制文件分开。
 
 - **现在支持哪些分析器？**
 
@@ -203,7 +203,7 @@ $ kubectl annotate deployment my-deployment galley.istio.io/analyze-suppress=IST
 
     您还可以了解一下目前支持哪些[配置分析消息](/zh/docs/reference/config/analysis/)。
 
-- **analysis 分析对我的集群有影响吗？**
+- **分析对我的集群有影响吗？**
 
     分析永远不会更改配置状态。这是一个完全只读的操作，因此永远不会更改集群的状态。
 
@@ -214,4 +214,4 @@ $ kubectl annotate deployment my-deployment galley.istio.io/analyze-suppress=IST
 
 - **在哪里可以找到解决错误的方法？**
 
-    [配置分析消息](/zh/docs/reference/config/analysis/)集包含每个消息的描述以及建议的修复程序。
+    [配置分析消息](/zh/docs/reference/config/analysis/)集包含每条消息的描述以及建议的修复措施。
