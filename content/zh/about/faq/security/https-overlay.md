@@ -1,5 +1,5 @@
 ---
-title: 我可以为 HTTPS 服务安装 Istio sidecar 吗？
+title: 我可以为 HTTPS 服务安装 Istio Sidecar 吗？
 weight: 170
 ---
 

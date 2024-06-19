@@ -17,6 +17,6 @@ weight: 20
   要禁用特定工作负载或命名空间的主机头回退，您需要复制统计 `EnvoyFilter` 配置，更新它以禁用主机报头回退，并应用一个更具体的选择器。
   [这个问题](https://github.com/istio/istio/issues/25963#issuecomment-666037411)有更多关于如何实现这一点的细节。
 * 从集合中删除不必要的标签。如果不需要具有高基数的标签，您可以使用 `tags_to_remove`
-  通过[指标自定义](/zh/docs/tasks/observability/metrics/customize-metrics/) 将其从指标集合中删除。
+  通过[指标自定义](/zh/docs/tasks/observability/metrics/customize-metrics/)将其从指标集合中删除。
 * 通过联合或分类规范化标签值。如果需要标签提供的信息，
   您可以使用 [Prometheus 联邦](/zh/docs/ops/best-practices/observability/#using-prometheus-for-production-scale-monitoring)或[请求分类](/zh/docs/tasks/observability/metrics/classify-metrics/)来规范化标签。
