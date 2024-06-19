@@ -45,5 +45,6 @@ _wait_for_deployment istio-ingress istio-ingress
 
 # upgrading a tag creates an MWC, let's clean it up 
 export REVISION=istio-1-22-1
-helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{$TAG}" --set revision="$REVISION" -n istio-system | kubectl delete -f -
+helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{$MYTAG}" --set revision="$REVISION" -n istio-system | kubectl delete -f -
+helm delete istiod-"$REVISION" -n istio-system
 _remove_istio_ambient_helm
