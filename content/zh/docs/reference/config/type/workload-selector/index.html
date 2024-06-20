@@ -74,9 +74,9 @@ Yes
 </section>
 <h2 id="PolicyTargetReference">PolicyTargetReference</h2>
 <section>
-<p>PolicyTargetReference format as defined by <a href="https://gateway-api.sigs.k8s.io/geps/gep-713/#policy-targetref-api">GEP-713</a>.</p>
-<p>PolicyTargetReferences specifies the targeted resource which the policy
-can be applied to. It must only target a single resource at a time, but it
+<p>PolicyTargetReference format as defined by <a href="https://gateway-api.sigs.k8s.io/geps/gep-2648/#direct-policy-design-rules">GEP-2648</a>.</p>
+<p>PolicyTargetReference specifies the targeted resource which the policy
+should be applied to. It must only target a single resource at a time, but it
 can be used to target larger resources such as Gateways that may apply to
 multiple child resources. The PolicyTargetReference will be used instead of
 a WorkloadSelector in the RequestAuthentication, AuthorizationPolicy,
@@ -91,8 +91,8 @@ metadata:
   name: httpbin
   namespace: foo
 spec:
-  targetRef:
-    name: waypoint
+  targetRefs:
+  - name: waypoint
     kind: Gateway
     group: gateway.networking.k8s.io
   action: DENY

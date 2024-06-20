@@ -30,7 +30,7 @@ account. The service is exposed on port 80 to applications in the
 mesh. The HTTP traffic to this service is wrapped in Istio mutual
 TLS and sent to sidecars on VMs on target port 8080, that in turn
 forward it to the application on localhost on the same port.</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1
 kind: WorkloadEntry
 metadata:
   name: details-svc
@@ -46,7 +46,7 @@ spec:
     instance-id: vm1
 </code></pre>
 <p>and the associated service entry</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1
 kind: ServiceEntry
 metadata:
   name: details-svc
@@ -69,7 +69,7 @@ its fully qualified DNS name. The service entry&rsquo;s resolution
 mode should be changed to DNS to indicate that the client-side
 sidecars should dynamically resolve the DNS name at runtime before
 forwarding the request.</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1
 kind: WorkloadEntry
 metadata:
   name: details-svc
@@ -85,7 +85,7 @@ spec:
     instance-id: vm1
 </code></pre>
 <p>and the associated service entry</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1
 kind: ServiceEntry
 metadata:
   name: details-svc
@@ -109,7 +109,7 @@ to write a <code>WorkloadEntry</code> in the local cluster that represents
 the Workload(s) in the remote network with the given labels. A
 single <code>WorkloadEntry</code> with weights represent the aggregate of all
 the actual workloads in a given remote network.</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1
 kind: WorkloadEntry
 metadata:
   name: foo-workloads-cluster-2

@@ -48,7 +48,7 @@ in the root namespace called <code>istio-config</code>, that configures
 sidecars in all namespaces to allow egress traffic only to other
 workloads in the same namespace as well as to services in the
 <code>istio-system</code> namespace.</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1
 kind: Sidecar
 metadata:
   name: default
@@ -64,7 +64,7 @@ spec:
 above, and configures the sidecars in the namespace to allow egress
 traffic to public services in the <code>prod-us1</code>, <code>prod-apis</code>, and the
 <code>istio-system</code> namespaces.</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1
 kind: Sidecar
 metadata:
   name: default
@@ -84,7 +84,7 @@ the attached workload instance listening on a Unix domain
 socket. In the egress direction, in addition to the <code>istio-system</code>
 namespace, the sidecar proxies only HTTP traffic bound for port
 9080 for services in the <code>prod-us1</code> namespace.</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1
 kind: Sidecar
 metadata:
   name: ratings
@@ -123,7 +123,7 @@ it to the application listening on <code>127.0.0.1:8080</code>. It also allows
 the application to communicate with a backing MySQL database on
 <code>127.0.0.1:3306</code>, that then gets proxied to the externally hosted
 MySQL service at <code>mysql.foo.com:3306</code>.</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1
 kind: Sidecar
 metadata:
   name: no-ip-tables
@@ -150,7 +150,7 @@ spec:
     - &quot;*/mysql.foo.com&quot;
 </code></pre>
 <p>And the associated service entry for routing to <code>mysql.foo.com:3306</code></p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1
 kind: ServiceEntry
 metadata:
   name: external-svc-mysql
@@ -176,7 +176,7 @@ listener on <code>172.16.1.32:80</code> (the VM&rsquo;s IP) for traffic arriving
 <p><strong>NOTE</strong>: The <code>ISTIO_META_INTERCEPTION_MODE</code> metadata on the
 proxy in the VM should contain <code>REDIRECT</code> or <code>TPROXY</code> as its value,
 implying that IP tables based traffic capture is active.</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1
 kind: Sidecar
 metadata:
   name: partial-ip-tables
@@ -214,7 +214,7 @@ in order to set mTLS mode to &ldquo;DISABLE&rdquo; on specific
 ports.
 In this example, the mTLS mode is disabled on PORT 80.
 This feature is currently experimental.</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1
 kind: Sidecar
 metadata:
   name: ratings
@@ -249,7 +249,7 @@ spec:
   selector:
     app: ratings
 ---
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: PeerAuthentication
 metadata:
   name: ratings-peer-auth
@@ -271,7 +271,7 @@ connections to the service) as well as servers (for inbound connections to a ser
 instance). Using the <code>InboundConnectionPool</code> and per-port <code>ConnectionPool</code> settings
 in a <code>Sidecar</code> allow you to control those connection pools for the server separately
 from the settings pushed to all clients.</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1
 kind: Sidecar
 metadata:
   name: connection-pool-settings
