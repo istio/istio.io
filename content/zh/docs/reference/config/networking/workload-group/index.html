@@ -22,7 +22,7 @@ of workloads that will be registered under <code>reviews</code> in namespace
 instance during the bootstrap process, and the ports 3550 and 8080
 will be associated with the workload group and use service account <code>default</code>.
 <code>app.kubernetes.io/version</code> is just an arbitrary example of a label.</p>
-<pre><code class="language-yaml">apiVersion: networking.istio.io/v1beta1
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1
 kind: WorkloadGroup
 metadata:
   name: reviews

@@ -205,12 +205,13 @@ No
 <td><code>targetRefs</code></td>
 <td><code><a href="/docs/reference/config/type/workload-selector/#PolicyTargetReference">PolicyTargetReference[]</a></code></td>
 <td>
-<p>Optional. The targetRef specifies the gateway the policy should be
-applied to. The targeted resource specified will determine which
-workloads the policy applies to.</p>
+<p>Optional. The targetRefs specifies a list of resources the policy should be
+applied to. The targeted resources specified will determine which workloads
+the policy applies to.</p>
 <p>Currently, the following resource attachment types are supported:</p>
 <ul>
 <li><code>kind: Gateway</code> with <code>group: gateway.networking.k8s.io</code> in the same namespace.</li>
+<li><code>kind: Service</code> with <code>&quot;&quot;</code> in the same namespace. This type is only supported for waypoints.</li>
 </ul>
 <p>If not set, the policy is applied as defined by the selector.
 At most one of the selector and targetRefs can be set.</p>
