@@ -5,14 +5,12 @@ weight: 0
 keywords: [telemetry]
 owner: istio/wg-policies-and-telemetry-maintainers
 test: no
-status: Alpha
+status: Stable
 ---
-
-{{< boilerplate alpha >}}
 
 Istio 提供 [Telemetry API](/zh/docs/reference/config/telemetry/)，
 能够灵活地配置[指标](/zh/docs/tasks/observability/metrics/)、
-[访问日志](/zh/docs/tasks/observability/logs/)和[追踪](/zh/docs/tasks/observability/distributed-tracing/)。
+[访问日志](/zh/docs/tasks/observability/logs/)和[链路追踪](/zh/docs/tasks/observability/distributed-tracing/)。
 
 ## 使用 API {#using-api}
 
@@ -53,7 +51,7 @@ Telemetry API 使用提供程序的概念表明要使用的集成协议或类型
 {{< text yaml >}}
 data:
   mesh: |-
-      extensionProviders: # The following content defines two example tracing providers.
+      extensionProviders: # 以下内容定义了两个示例链路追踪提供程序。
       - name: "localtrace"
         zipkin:
           service: "zipkin.istio-system.svc.cluster.local"
@@ -69,7 +67,7 @@ data:
 | 提供程序名称 | 功能                    |
 | ------------- | -------------------------------- |
 | `prometheus`  | 指标                          |
-| `stackdriver` | 指标、追踪、访问日志 |
+| `stackdriver` | 指标、链路追踪、访问日志 |
 | `envoy`       | 访问日志                   |
 
 此外，还可以设置[默认的提供程序](/zh/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-DefaultProviders)，
@@ -115,7 +113,7 @@ spec:
 此配置覆盖源于 `MeshConfig` 的默认提供程序，将网格默认设置为 `localtrace` 提供程序。
 它还将网格范围的抽样百分比设置为 `100`，配置一个标记以名称 `foo` 和赋值 `bar` 添加到所有链路 span。
 
-### 配置作用于命名空间的追踪行为  {#configuring-namespace-scoped-tracing-behavior}
+### 配置作用于命名空间的链路追踪行为  {#configuring-namespace-scoped-tracing-behavior}
 
 要定制个别命名空间的行为，添加 `Telemetry` 资源到目标命名空间。
 命名空间资源中指定的所有字段将完全覆盖从配置层次结构中继承的字段配置。
@@ -136,8 +134,8 @@ spec:
           defaultValue: unknown
 {{< /text >}}
 
-当用先前网格范围的示例配置部署到网格中时，这将造成 `myapp` 命名空间中的追踪行为，
-将链路 span 发送到 `localtrace` 提供程序并随机以 `100%` 的比率选择追踪请求，
+当用先前网格范围的示例配置部署到网格中时，这将造成 `myapp` 命名空间中的链路追踪行为，
+将链路 span 发送到 `localtrace` 提供程序并随机以 `100%` 的比率选择链路追踪请求，
 但这会使用名称 `userId` 和 `userId` 请求头中获取的值为每个 span 设置自定义标记。
 重要的是，在 `myapp` 命名空间中将不会使用来自父级配置的 `foo: bar` 标记。
 自定义标记行为将完全覆盖 `mesh-default.istio-system` 资源中配置的行为。
@@ -167,8 +165,8 @@ spec:
   - disableSpanReporting: true
 {{< /text >}}
 
-这种情况下，对于 `myapp` 命名空间中的 `frontend` 工作负载，追踪将被禁用。
-Istio 仍将转发追踪头，但没有 span 将被报告给配置的追踪提供程序。
+这种情况下，对于 `myapp` 命名空间中的 `frontend` 工作负载，链路追踪将被禁用。
+Istio 仍将转发链路追踪头，但没有 span 将被报告给配置的链路追踪提供程序。
 
 {{< tip >}}
 让带有工作负载选择算符的两个 `Telemetry` 资源选择相同的工作负载是无效的。
