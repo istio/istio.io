@@ -1,7 +1,7 @@
 ---
 title: "Can Your Platform Do Policy? Accelerate Teams With Platform L7 Policy Functionality"
 description: Is policy your core competency? Likely not, but you need to do right. Do it once with Istio and OPA and get back team focus on what matters most.
-publishdate: 2024-05-22
+publishdate: 2024-08-01
 attribution: "Antonio Berben (Solo.io), Charlie Egan (Styra)"
 keywords: [istio,opa,policy,platform,authorization]
 ---
