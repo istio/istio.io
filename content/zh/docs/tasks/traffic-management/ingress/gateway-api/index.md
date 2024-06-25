@@ -53,7 +53,7 @@ Gateway API 与 Istio API（如 Gateway 和 VirtualService）有很多相似之�
   有关更多信息，请参阅具体[部署方法](#deployment-methods)。
 * 在 Istio `VirtualService` 中，所有协议都在单一的资源中配置，
   而在 Gateway API 中，每种协议类型都有自己的资源，例如 `HTTPRoute` 和 `TCPRoute`。
-* 虽然 Gateway API  提供了大量丰富的路由功能，但它还没有涵盖 Istio 的全部特性。
+* 虽然 Gateway API 提供了大量丰富的路由功能，但它还没有涵盖 Istio 的全部特性。
   因此，正在进行的工作是扩展 API 以覆盖这些用例，以及利用 API
   的[可拓展性](https://gateway-api.sigs.k8s.io/#gateway-api-concepts)
   来更好地暴露 Istio 的功能。
@@ -62,7 +62,7 @@ Gateway API 与 Istio API（如 Gateway 和 VirtualService）有很多相似之�
 
 有关 API 的信息，请参阅 [Gateway API](https://gateway-api.sigs.k8s.io/) 文档。
 
-在本例中，我们将部署一个简单的应用程序，并使用 `Gateway` 将其暴露到外部。
+在本例中，我们将部署一个简单的应用，并使用 `Gateway` 将其暴露到外部。
 
 1. 首先部署一个 `httpbin` 测试应用：
 
@@ -311,10 +311,6 @@ spec:
 {{< /text >}}
 
 ## 网格流量  {#mesh-traffic}
-
-{{< warning >}}
-使用 Gateway API 配置内部网格流量目前是一个还在开发的[实验性特性](https://gateway-api.sigs.k8s.io/geps/overview/#status)。
-{{< /warning >}}
 
 Gateway API 也可以用来配置网格流量。
 具体做法是配置 `parentRef` 指向一个服务，而不是指向一个 Gateway。
