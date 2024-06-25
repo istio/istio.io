@@ -88,3 +88,28 @@
         }
     }
 }
+
+
+.logo-carousel {
+
+    // copied from the panel CSS; the logo on the front page is no longer in a panel
+    // so we can edit this as we see fit.
+    margin-top: 2.125rem;
+    position: relative;
+    height: 60px;
+    width: 100%;
+    transition: filter .175s ease-in;
+
+    img {
+        max-height: 100%;
+        max-width: 200px;
+        width: auto;
+        height: auto;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+    }
+}

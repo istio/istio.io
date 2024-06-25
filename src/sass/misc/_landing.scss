@@ -11,6 +11,7 @@
     #banner {
         position: relative;
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         padding: 10rem 3.375rem 9.125rem;
@@ -27,19 +28,19 @@
             margin-top: -$headerHeightLg;
         }
 
-        #hero-text {
-            font-size: 1.75rem;
-            line-height: 1.36;
-            color: #ffffff;
-            text-align: center;
-            font-weight: $semiBoldWeight;
-            max-width: 750px;
-            z-index: 1;
+        h1 {
+            margin-bottom: .5rem;
+            font-weight: var(--semiBoldWeight);
+            z-index: 99999;
 
             @media (min-width: $bp-md) {
-                font-size: 3rem;
-                line-height: 1.2;
+                margin-bottom: 1.5rem;
             }
+        }
+
+        h1, .subtitle {
+            color: #ffffff;
+            z-index: 99999;
         }
 
         &-animation {
@@ -83,11 +84,15 @@
         }
     }
 
-    h1 { text-align: center; }
+    h1 {
+        margin-bottom: 1.5rem;
 
-    h1, .subtitle {
-        max-width: $container-s;
-        margin-left: auto;
-        margin-right: auto;
+        @media (min-width: $bp-md) {
+            margin-bottom: 2.5rem;
+        }
+    }
+
+    p {
+        font-size: 1.5rem;
     }
 }
