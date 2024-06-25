@@ -175,6 +175,7 @@ Bazel
 BCubed
 Berben
 Berkus
+BeyondProd
 Bian
 BigQuery
 Birkland
@@ -491,6 +492,7 @@ FedRAMP
 filename
 filenames
 fine-grained
+FIPS
 Firebase
 FitStation
 Fluentd
@@ -717,6 +719,7 @@ Kustomization
 Kustomize
 kustomize
 kyzy
+L2-L4
 L3-4
 L4-L6
 L4-only
@@ -1080,6 +1083,7 @@ Speedscale
 SPIFFE
 SPIFFE-compliant
 Splunk
+SPOFs
 src
 SREs
 Srihari
@@ -1277,6 +1281,7 @@ wikipedia.org
 wildcard
 wildcarded
 wildcards
+Wireguard
 workgroup
 workload
 workstream
