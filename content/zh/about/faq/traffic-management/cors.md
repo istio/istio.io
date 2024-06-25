@@ -1,9 +1,9 @@
 ---
-title: 为什么我的 CORS 配置不起作用？
+title: 为什么我的 CORS（跨源资源共享）配置不起作用？
 weight: 40
 ---
 
-当应用了 [CORS 配置](/zh/docs/reference/config/networking/virtual-service/#CorsPolicy)后，
+当应用了 [CORS（跨源资源共享）配置](/zh/docs/reference/config/networking/virtual-service/#CorsPolicy)后，
 您可能会发现看似什么也没发生，并想知道哪里出了问题。
 CORS 是一个经常被误解的 HTTP 概念，在配置时经常会导致混淆。
 
@@ -13,7 +13,7 @@ CORS 是一个经常被误解的 HTTP 概念，在配置时经常会导致混淆
 例如，这可以防止网站 `attack.example.com` 向 `bank.example.com` 发出 JavaScript 请求，
 从而窃取用户的敏感信息。
 
-为了允许这个请求，`bank.example.com` 必须允许 `attack.example.com` 执行跨域请求。
+为了允许这个请求，`bank.example.com` 必须允许 `attack.example.com` 执行跨域请求，
 这就是 CORS 的作用所在。如果我们想在一个启用了 Istio 的集群内提供 `bank.example.com`
 服务，我们可以通过配置一个 `corsPolicy` 来允许这样做：
 

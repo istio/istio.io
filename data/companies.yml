@@ -618,6 +618,12 @@ training:
       - "The course will cover traffic management features such as load balancing, as well as important security aspects including authentication and authorization. Additionally, you will discover how to implement A/B testing and blue-green deployments using Istio."
       - "KodeKloud's hands-on labs will help you get started with Istio step by step. First, you'll learn how to install Istio on your cluster and deploy your first application. Then, you'll explore virtual services and destination rules, understand Istio's security features, and practice with our observability lab."
       - "Each lab is designed to be practical and easy to follow, making it simple for you to learn and apply your new skills."
+  - name: "Istio Fundamentals"
+    logo: "/logos/tetrate.svg"
+    url: "https://academy.tetrate.io/courses/istio-fundamentals"
+    description: "Istio Fundamentals"
+    details:
+      - "Tetrate presents Istio Fundamentals, a course that enables users to learn Istio easily with concept text, labs, and quizzes."
   - name: "Your Name Here"
     logo: "/logos/istio.svg"
     url: "https://github.com/istio/community/blob/master/CONTRIBUTING.md#promote-your-company-on-istioio"
