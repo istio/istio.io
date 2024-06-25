@@ -102,9 +102,7 @@ the master branch, you can apply the `cherrypick/release-1.4` label in order to
 merge this change to the `release-1.4` branch.
 
 When your initial PR is merged, automation creates a new PR in the release
-branch which includes your changes. You may need to add a comment to the PR
-that reads `@googlebot I consent` in order to satisfy the `CLA` bot that we
-use.
+branch which includes your changes.
 
 On rare occasions, automatic cherry picks don't work. When that happens, the
 automation leaves a note in the original PR indicating it failed. When
