@@ -20,7 +20,7 @@ Alternatively, [`23 Technologies GmbH`](https://23technologies.cloud/) offers a 
 
 To learn more about the inception of this open source project, read [Gardener Project Update](https://kubernetes.io/blog/2019/12/02/gardener-project-update/) and [Gardener - The Kubernetes Botanist](https://kubernetes.io/blog/2018/05/17/gardener/) on [`kubernetes.io`](https://kubernetes.io/blog).
 
-[Gardener yourself a Shoot with Istio, custom Domains, and Certificates](https://gardener.cloud/docs/extensions/others/gardener-extension-shoot-cert-service/docs/tutorial-custom-domain-with-istio/) is a detailed tutorial for the end user of Gardener.
+[Gardener yourself a Shoot with Istio, custom Domains, and Certificates](https://gardener.cloud/docs/extensions/others/gardener-extension-shoot-cert-service/tutorials/tutorial-custom-domain-with-istio/) is a detailed tutorial for the end user of Gardener.
 
 ### Install and configure `kubectl`
 
