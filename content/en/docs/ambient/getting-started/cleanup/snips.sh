@@ -30,9 +30,9 @@ istioctl x waypoint delete --all
 }
 
 snip_remove_the_sample_application_1() {
-kubectl delete -f https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/platform/kube/bookinfo.yaml
-kubectl delete -f https://raw.githubusercontent.com/istio/istio/master/samples/bookinfo/platform/kube/bookinfo-versions.yaml
-kubectl delete -f https://raw.githubusercontent.com/istio/istio/master/samples/sleep/sleep.yaml
+kubectl delete -f https://raw.githubusercontent.com/istio/istio/release-1.22/samples/bookinfo/platform/kube/bookinfo.yaml
+kubectl delete -f https://raw.githubusercontent.com/istio/istio/release-1.22/samples/bookinfo/platform/kube/bookinfo-versions.yaml
+kubectl delete -f https://raw.githubusercontent.com/istio/istio/release-1.22/samples/sleep/sleep.yaml
 }
 
 snip_remove_the_kubernetes_gateway_api_crds_1() {
