@@ -29,7 +29,7 @@ Istio has been built on the sidecar pattern from its first release in 2017. Side
 
 ## Ambient mode
 
-Launched in 2002, ambient mode was built to address the shortcomings reported by users of sidecar mode. As of Istio 1.22, it is production-ready for single cluster use cases.
+Launched in 2022, ambient mode was built to address the shortcomings reported by users of sidecar mode. As of Istio 1.22, it is production-ready for single cluster use cases.
 
 * All traffic is proxied through a Layer 4-only node proxy
 * Applications can opt in to routing through an Envoy proxy to get Layer 7 features
