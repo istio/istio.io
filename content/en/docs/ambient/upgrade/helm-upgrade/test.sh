@@ -23,6 +23,8 @@ source "content/en/docs/ambient/upgrade/helm-upgrade/common.sh"
 # @setup profile=none
 _install_istio_ambient_helm
 
+MYTAG=tagname
+
 snip_list_revisions
 snip_update_helm
 snip_istioctl_precheck
