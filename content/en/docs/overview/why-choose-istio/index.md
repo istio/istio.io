@@ -27,9 +27,9 @@ Istio inherits all the power and flexibility of Envoy, including world-class ext
 
 ## Community
 
- Istio is a true community project. In 2023, there were 10 companies who made over 1,000 contributions each to Istio, with no single company exceeding 25%. ([See the numbers here](https://istio.devstats.cncf.io/d/5/companies-table?var-period_name=Last%20year&var-metric=contributions&orgId=1)).
+Istio is a true community project. In 2023, there were 10 companies who made over 1,000 contributions each to Istio, with no single company exceeding 25%. ([See the numbers here](https://istio.devstats.cncf.io/d/5/companies-table?var-period_name=Last%20year&var-metric=contributions&orgId=1)).
 
- No other service mesh project has the breadth of support from the industry as Istio.
+No other service mesh project has the breadth of support from the industry as Istio.
 
 ## Packages
 
@@ -45,7 +45,7 @@ We do - where it's appropriate! Istio can be configured to use {{< gloss >}}eBPF
 
 Why not use it for everything? No-one does, because no-one actually can.
 
- eBPF is a virtual machine that runs inside the Linux kernel. It was designed for functions guaranteed to complete in a limited compute envelope to avoid destabilizing kernel behavior, such as those that perform simple L3 traffic routing or application observability. It was not designed for long running or complex functions like those found in Envoy: that's why operating systems have [user space](https://en.wikipedia.org/wiki/User_space_and_kernel_space)! eBPF maintainers have theorized that it could eventually be extended to support running a program as complex as Envoy, but this is a science project and unlikely to have real world practicality.
+eBPF is a virtual machine that runs inside the Linux kernel. It was designed for functions guaranteed to complete in a limited compute envelope to avoid destabilizing kernel behavior, such as those that perform simple L3 traffic routing or application observability. It was not designed for long running or complex functions like those found in Envoy: that's why operating systems have [user space](https://en.wikipedia.org/wiki/User_space_and_kernel_space)! eBPF maintainers have theorized that it could eventually be extended to support running a program as complex as Envoy, but this is a science project and unlikely to have real world practicality.
 
 Other meshes that claim to "use eBPF" actually use a per-node Envoy proxy, or other user space tools, for much of their functionality.
 
