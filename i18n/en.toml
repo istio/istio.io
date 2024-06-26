@@ -325,6 +325,15 @@ other = "Service mesh"
 [what_is_istio]
 other = "What is Istio?"
 
+[join_the_community]
+other = "Join the community"
+
+[get_started]
+other = "Get started"
+
+[latest_news]
+other = "Latest news"
+
 [solutions]
 other = "Solutions"
 
@@ -334,8 +343,15 @@ other = "Deployment"
 [learn_more]
 other = "Learn more"
 
+[read_more]
+other = "Read more"
+
+[connect_with_us]
+other = "Connect with us"
+
+
 [traffic_management]
-other = "Traffic Management"
+other = "Reliability"
 
 [observability]
 other = "Observability"
