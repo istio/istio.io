@@ -190,6 +190,12 @@ amazed by what the community does, and look forward to seeing what successes we 
 — Eric Van Norman, Istio Technical Oversight Committee member and Advisory Software Engineer at IBM
 {{< /quote >}}
 
+{{< quote >}}
+**Istio is the backbone of the Salesforce service mesh infrastructure which today powers a few trillion requests per day across all our services. We solve a lot of complicated problems with mesh. It’s great to be part of this journey and contribute to the community. Istio has matured into a reliable service mesh over the years and at the same time continues to innovate. We are excited about what's to come in future!**
+
+— Rama Chavali, Istio Networking Working Group lead and Software Engineering Architect at Salesforce
+{{< /quote >}}
+
 ## Continuous technical innovation
 
 We are firm believers that diversity drives innovation. What amazes us most is the continuous innovation from the
