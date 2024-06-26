@@ -26,7 +26,7 @@ test: no
 [Gardener 项目更新](https://kubernetes.io/blog/2019/12/02/gardener-project-update/)和
 [Gardener - Kubernetes 植物学家](https://kubernetes.io/blog/2018/05/17/gardener/)。
 
-[快速使用 Istio、自定义域和证书培育自己的 Gardener](https://gardener.cloud/docs/extensions/others/gardener-extension-shoot-cert-service/docs/tutorial-custom-domain-with-istio/)
+[快速使用 Istio、自定义域和证书培育自己的 Gardener](https://gardener.cloud/docs/extensions/others/gardener-extension-shoot-cert-service/tutorials/tutorial-custom-domain-with-istio/)
 是针对 Gardener 最终用户的详细教程。
 
 ### 安装并且配置 `kubectl` {#install-and-configure-Kubernetes}
