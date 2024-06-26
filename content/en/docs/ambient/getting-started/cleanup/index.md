@@ -1,4 +1,3 @@
-
 ---
 title: Cleanup
 description: Delete Istio and associated resources.
