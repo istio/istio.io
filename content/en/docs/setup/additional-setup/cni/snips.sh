@@ -54,7 +54,7 @@ spec:
   ...
 ENDSNIP
 
-! IFS=$'\n' read -r -d '' snip_upgrading_the_istiocni_component_1 <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_upgrading_1 <<\ENDSNIP
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
