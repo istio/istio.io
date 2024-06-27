@@ -50,7 +50,7 @@ for users and pod deployments.
 
 {{< image width="60%" link="./cni.svg" caption="Istio CNI" >}}
 
-## Prerequisites for using the Istio CNI node agent
+## Prerequisites for use
 
 1. Install Kubernetes with a correctly-configured primary interface CNI plugin. As [supporting CNI plugins is required to implement the Kubernetes network model](https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/), you probably already have this if you have a reasonably recent Kubernetes cluster with functional pod networking.
     * AWS EKS, Azure AKS, and IBM Cloud IKS clusters have this capability.
