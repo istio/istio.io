@@ -16,7 +16,7 @@ For the {{< gloss >}}sidecar{{< /gloss >}} data plane mode, the Istio CNI node a
 
 The Istio CNI node agent is **required** in the {{< gloss >}}ambient{{< /gloss >}} data plane mode.
 
-This guide is focused on using the Istio CNI node agent as an optional part of the sidecar data plane mode. Consult [the ambient docs](/docs/ambient/) for information on using the ambient data plane mode.
+This guide is focused on using the Istio CNI node agent as an optional part of the sidecar data plane mode. Consult [the ambient mode documentation](/docs/ambient/) for information on using the ambient data plane mode.
 
 {{< tip >}}
 Note: The Istio CNI node agent _does not_ replace your cluster's existing {{< gloss="cni" >}}CNI{{< /gloss >}}. Among other things, it installs a _chained_ CNI plugin, which is designed to be layered on top of another, previously-installed primary interface CNI, such as [Calico](https://docs.projectcalico.org), or the cluster CNI used by your cloud provider.
