@@ -35,7 +35,7 @@ redirection to/from the Istio sidecar proxy. This requires the user or
 service-account deploying pods to the mesh to have sufficient Kubernetes RBAC
 permissions to deploy [containers with the `NET_ADMIN` and `NET_RAW` capabilities](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-capabilities-for-a-container).
 
-## Sidecar traffic redirection with the Istio CNI node agent
+### Using the Istio CNI node agent
 
 Requiring Istio users to have elevated Kubernetes RBAC permissions is
 problematic for some organizations' security compliance, as is the requirement to deploy privileged init containers with every workload.
