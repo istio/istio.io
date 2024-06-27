@@ -25,7 +25,9 @@ See [compatibility with CNIs](#compatibility-with-other-cni-plugins) for details
 
 Follow this guide to install, configure, and use the Istio CNI node agent with the sidecar data plane mode.
 
-## Sidecar traffic redirection without the Istio CNI node agent
+## How sidecar traffic redirection works
+
+## Using the init container (without the Istio CNI node agent)
 
 By default Istio injects an init container, `istio-init`, in pods deployed in
 the mesh. The `istio-init` container sets up the pod network traffic
