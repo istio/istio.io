@@ -22,7 +22,7 @@ Istio provides a way to enforce natively RBAC (Role-Based Access Control) polici
 
 Istio (istio-proxy) is based on [Envoy Proxy](https://www.envoyproxy.io/). certain capabilities of Envoy are configured in filters, being one of them the `ext_authz` filter. This filter can be used to call an external authorization service, like OPA.
 
-In reality, whichever service that implements the [Envoy's gRPC Authorization service](https://www.envoyproxy.io/docs/envoy/latest/api-v3/service/auth/v3/external_auth.proto) can be used.
+While OPA supports this natively, any service that implements the [Envoy's gRPC External Authorization API](https://www.envoyproxy.io/docs/envoy/latest/api-v3/service/auth/v3/external_auth.proto) can be used.
 
 {{< image width="75%"
     link="./filters.png"
