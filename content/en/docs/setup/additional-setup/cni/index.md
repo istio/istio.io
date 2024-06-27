@@ -65,6 +65,8 @@ for users and pod deployments.
     * The Kubernetes documentation highly recommends this for all Kubernetes installations
       where `ServiceAccounts` are utilized.
 
+## Installing the node agent
+
 ### Install Istio with the `istio-cni` component
 
 In most environments, a basic Istio cluster with the `istio-cni` component enabled can be installed using the following commands:
