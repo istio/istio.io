@@ -9,7 +9,7 @@ release: 1.22.2
 
 This release implements the security updates described in our 27th of June post, [`ISTIO-SECURITY-2024-005`](/news/security/istio-security-2024-005) along with bug fixes to improve robustness.
 
-This release note describes what’s different between Istio 1.22.1 and 1.22.2.
+This release note describes what is different between Istio 1.22.1 and 1.22.2.
 
 {{< relnote >}}
 
