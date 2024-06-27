@@ -144,33 +144,6 @@ kubectl exec deploy/sleep -- curl -s -w "%{http_code}" -o /dev/null -H "Authoriz
 ENDSNIP
 
 snip_apply_wasmplugin_for_a_specific_service_using_waypoint_1() {
-istioctl experimental waypoint apply -n default --name reviews-svc-waypoint --wait
-}
-
-! IFS=$'\n' read -r -d '' snip_apply_wasmplugin_for_a_specific_service_using_waypoint_1_out <<\ENDSNIP
-waypoint default/reviews-svc-waypoint applied
-ENDSNIP
-
-snip_apply_wasmplugin_for_a_specific_service_using_waypoint_2() {
-kubectl label service reviews istio.io/use-waypoint=reviews-svc-waypoint
-}
-
-! IFS=$'\n' read -r -d '' snip_apply_wasmplugin_for_a_specific_service_using_waypoint_2_out <<\ENDSNIP
-service/reviews labeled
-ENDSNIP
-
-snip_apply_wasmplugin_for_a_specific_service_using_waypoint_3() {
-kubectl get gateway
-}
-
-! IFS=$'\n' read -r -d '' snip_apply_wasmplugin_for_a_specific_service_using_waypoint_3_out <<\ENDSNIP
-NAME                   CLASS            ADDRESS         PROGRAMMED   AGE
-bookinfo-gateway       istio            172.18.7.110    True         46h
-reviews-svc-waypoint   istio-waypoint   10.96.177.137   True         30s
-waypoint               istio-waypoint   10.96.202.82    True         44h
-ENDSNIP
-
-snip_apply_wasmplugin_for_a_specific_service_using_waypoint_4() {
 kubectl apply -f - <<EOF
 apiVersion: extensions.istio.io/v1alpha1
 kind: WasmPlugin
@@ -178,9 +151,9 @@ metadata:
   name: basic-auth-for-service
 spec:
   targetRefs:
-    - kind: Gateway
-      group: gateway.networking.k8s.io
-      name: reviews-svc-waypoint
+    - kind: Service
+      group: ""
+      name: reviews
   url: oci://ghcr.io/istio-ecosystem/wasm-extensions/basic_auth:1.12.0
   phase: AUTHN
   pluginConfig:
