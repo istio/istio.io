@@ -84,7 +84,7 @@ config.yaml: |
   plugins:
     envoy_ext_authz_grpc:
       addr: :9191 # Port where istio-proxy will connect to
-      path: istio/authz/allow # Path to the policy
+      path: istio/authz/allow # Path to the Rego rule within the loaded policies
   decision_logs:
     console: true
 {{< /text >}}
