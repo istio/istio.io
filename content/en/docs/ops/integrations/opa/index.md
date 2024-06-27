@@ -14,7 +14,7 @@ test: no
 
 ## Understanding Attribute-Based Access Control
 
-ABAC (Attribute-Based Access Control) is a model that defines access control based on attributes associated with the request, the resource, and the user. OPA can be used to enforce ABAC policies in Istio.
+Attribute-Based Access Control (ABAC) is an access control model that grants or denies requests based on their attributes - such as the resource and the user. OPA can be used to enforce ABAC policies in Istio.
 
 Istio provides a way to enforce natively RBAC (Role-Based Access Control) policies. However, ABAC policies can be more flexible and can be used to enforce more complex policies.
 
