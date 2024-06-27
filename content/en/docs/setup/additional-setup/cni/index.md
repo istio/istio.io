@@ -155,6 +155,7 @@ The CNI plugin at version `1.x` is compatible with control plane at version `1.x
 which means CNI and control plane can be upgraded in any order, as long as their version difference is within one minor version.
 
 ## Operating clusters with the CNI agent installed
+
 ### Upgrading
 
 When upgrading Istio with [in-place upgrade](/docs/setup/upgrade/in-place/), the
