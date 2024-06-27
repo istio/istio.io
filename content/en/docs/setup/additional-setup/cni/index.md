@@ -113,7 +113,7 @@ Note that if installing `istiod` with the Helm chart according to the [Install w
 $ helm install istiod istio/istiod -n istio-system --set pilot.cni.enabled=true --wait
 {{< /text >}}
 
-#### Additional configuration for the `istio-cni` component
+#### Additional configuration
 
 In addition to the above basic configuration there are additional configuration flags that can be set:
 
