@@ -31,7 +31,7 @@ the example application throughout this task. For installation instructions, see
 
 ## Enable custom metrics
 
-To customize telemetry v2 metrics, for example, to add `request_host`
+To customize telemetry metrics, for example, to add `request_host`
 and `destination_port` dimensions to the `requests_total` metric emitted by both
 gateways and sidecars in the inbound and outbound direction, use the following:
 
