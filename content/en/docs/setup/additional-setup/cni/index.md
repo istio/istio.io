@@ -27,7 +27,7 @@ Follow this guide to install, configure, and use the Istio CNI node agent with t
 
 ## How sidecar traffic redirection works
 
-## Using the init container (without the Istio CNI node agent)
+### Using the init container (without the Istio CNI node agent)
 
 By default Istio injects an init container, `istio-init`, in pods deployed in
 the mesh. The `istio-init` container sets up the pod network traffic
@@ -41,9 +41,7 @@ Requiring Istio users to have elevated Kubernetes RBAC permissions is
 problematic for some organizations' security compliance, as is the requirement to deploy privileged init containers with every workload.
 
 The `istio-cni` node agent is effectively a replacement for the `istio-init` container that enables the same
-networking functionality, but without requiring the use or deployment of privileged init containers in every workload.
-
-Instead, `istio-cni` itself runs as a single privileged pod on the node. It uses this privilege to install a [chained CNI plugin](https://www.cni.dev/docs/spec/#section-2-execution-protocol) on the node, which is invoked after your "primary" interface CNI plugin. CNI plugins are invoked dynamically by Kubernetes as a privileged process on the host node whenever a new pod is created, and are able to configure pod networking.
+networking functionality, but without requiring the use or deployment of privileged init containers in every workload. Instead, `istio-cni` itself runs as a single privileged pod on the node. It uses this privilege to install a [chained CNI plugin](https://www.cni.dev/docs/spec/#section-2-execution-protocol) on the node, which is invoked after your "primary" interface CNI plugin. CNI plugins are invoked dynamically by Kubernetes as a privileged process on the host node whenever a new pod is created, and are able to configure pod networking.
 
 The Istio chained CNI plugin always runs after the primary interface plugins, identifies user application pods with sidecars requiring traffic redirection, and sets up redirection in the Kubernetes pod lifecycle's network setup phase, thereby removing the need for privileged init containers, as well as the [requirement for `NET_ADMIN` and `NET_RAW` capabilities](/docs/ops/deployment/application-requirements/)
 for users and pod deployments.
