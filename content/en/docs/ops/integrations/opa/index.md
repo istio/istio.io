@@ -29,7 +29,6 @@ While OPA supports this natively, any service that implements the [Envoy's gRPC 
     alt="Filters"
     >}}
 
-OPA is one of the services that implement this gRPC service.
 
 When a request is made to an Istio service that is defined with an AuthorizationPolicy, the `ext_authz` filter is called. This filter will call OPA to check if the request is allowed. OPA will evaluate the request against the policies defined and return a decision to Envoy (istio-proxy).
 
