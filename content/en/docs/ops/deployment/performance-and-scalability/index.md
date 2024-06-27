@@ -71,7 +71,7 @@ Data plane performance depends on many factors, for example:
 - Number of proxy worker threads
 - Protocol
 - CPU cores
-- Number and types of proxy filters, specifically telemetry v2 related filters.
+- Various proxy features. In particular, telemetry filters (logging, tracing, and metrics) are known to have a moderate impact.
 
 The latency, throughput, and the proxies' CPU and memory consumption are measured as a function of said factors.
 
