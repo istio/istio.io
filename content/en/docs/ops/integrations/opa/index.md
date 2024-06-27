@@ -54,12 +54,12 @@ The Envoy's Authorization Service allows receiving from the Authorization server
 
 When OPA returns its response with these attributes, Envoy (istio-proxy) can modify the request and the response based on the returned attributes:
 
-- It can add headers to the request
-- It can remove headers from the request
-- It can add headers to the response
-- It can add query parameters to the request
-- It can remove query parameters from the request
-- It can add dynamic metadata to the request
+- Adding headers to the request
+- Removing headers from the request
+- Adding headers to the response
+- Adding query parameters to the request
+- Removing query parameters from the request
+- Adding dynamic metadata to the request
 
 This last feature, adding dynamic metadata, is very powerful as it allows other filters in Envoy to retrieve the metadata from OPA to run functionality.
 
