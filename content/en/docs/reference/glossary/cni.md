@@ -12,4 +12,4 @@ Istio works with all CNI implementations that follow the CNI standard, in both s
 
 In order to configure mesh traffic redirection, the Istio CNI node agent installs [a chained CNI plugin](/docs/setup/additional-setup/cni/), which runs after all configured CNI interface plugins.
 
-The CNI plugin is optional for {{< gloss >}}sidecar{{< /gloss >}} mode and required for {{< gloss >}}ambient{{< /gloss >}} mode.
+The CNI node agent is optional for {{< gloss >}}sidecar{{< /gloss >}} mode and required for {{< gloss >}}ambient{{< /gloss >}} mode.
