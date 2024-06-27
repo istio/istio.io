@@ -125,7 +125,7 @@ spec:
 
 ### OPA Policies
 
-To define policies, OPA relies on the [Rego language](https://www.openpolicyagent.org/docs/latest/policy-language/). Rego is a declarative language that allows one to define policies in a very readable way.
+OPA policies use the domain-specific [policy language called Rego](https://www.openpolicyagent.org/docs/latest/policy-language/). Rego is a declarative language designed to help policy authors express their logic in a clear and concise way.
 
 An example of a policy to demonstrate all the capabilities described before could be:
 
