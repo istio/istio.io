@@ -89,7 +89,7 @@ config.yaml: |
     console: true
 {{< /text >}}
 
-Then, you need to configure Istio to define OPA as an `extensionProvider`. When installing Istio, in the IstioOperator spec or the helm values file, you need to define the extensionProvider as follows:
+Then, you need to configure Istio to define OPA as an `extensionProvider`. When installing Istio, in the IstioOperator spec or the Helm values file, you need to define the extensionProvider as follows:
 
 {{< text yaml >}}
 [...]
