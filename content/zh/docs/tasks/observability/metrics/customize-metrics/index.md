@@ -43,7 +43,7 @@ Istio 使用 Envoy 代理生成指标并在
 
 ## 启用自定义指标  {#enable-custom-metrics}
 
-例如要自定义遥测 v2 指标，可以使用以下命令，沿着入站和出站方向，将 `request_host`
+例如要自定义遥测指标，可以使用以下命令，沿着入站和出站方向，将 `request_host`
 和 `destination_port` 维度添加到同由 Gateway 和 Sidecar 发出的 `requests_total`：
 
 {{< text bash >}}
