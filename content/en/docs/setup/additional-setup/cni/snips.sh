@@ -20,44 +20,41 @@
 #          docs/setup/additional-setup/cni/index.md
 ####################################################################################################
 
-snip_install_istio_with_cni_plugin_1() {
+snip_cni_agent_operator_install() {
 cat <<EOF > istio-cni.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
   components:
     cni:
+      namespace: istio-system
       enabled: true
 EOF
 istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true -f istio-cni.yaml -y
 }
 
-snip_install_istio_with_cni_plugin_2() {
-helm install istio-cni istio/cni -n kube-system --wait
+snip_cni_agent_helm_install() {
+helm install istio-cni istio/cni -n istio-system --wait
 }
 
-snip_installing_with_helm_1() {
-helm install istiod istio/istiod -n istio-system --set istio_cni.enabled=true --wait
+snip_cni_agent_helm_istiod_install() {
+helm install istiod istio/istiod -n istio-system --set pilot.cni.enabled=true --wait
 }
 
-! IFS=$'\n' read -r -d '' snip_hosted_kubernetes_settings_1 <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_handling_init_container_injection_for_revisions_1 <<\ENDSNIP
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
-  components:
-    cni:
-      enabled: true
-      namespace: kube-system
+  revision: REVISION_NAME
+  ...
   values:
-    cni:
-      cniBinDir: /home/kubernetes/bin
+    pilot:
+      cni:
+        enabled: true
+  ...
 ENDSNIP
 
-snip_hosted_kubernetes_settings_2() {
-istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --set profile=openshift
-}
-
-! IFS=$'\n' read -r -d '' snip_upgrade_1 <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_upgrading_1 <<\ENDSNIP
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -69,17 +66,8 @@ spec:
     cni:
       excludeNamespaces:
         - istio-system
-        - kube-system
 ENDSNIP
 
-! IFS=$'\n' read -r -d '' snip_upgrade_2 <<\ENDSNIP
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  revision: REVISION_NAME
-  ...
-  values:
-    istio_cni:
-      enabled: true
-  ...
-ENDSNIP
+snip_cni_agent_helm_upgrade() {
+helm upgrade istio-cni istio/cni -n istio-system --wait
+}

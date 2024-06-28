@@ -32,17 +32,17 @@ get_productpage() {
 # Test helm install snip
 kubectl create namespace istio-system
 helm --set global.tag="${ISTIO_IMAGE_VERSION=SHOULD_BE_SET}"."${ISTIO_LONG_SHA=latest}" install istio-base manifests/charts/base -n istio-system --set defaultRevision=default
-_rewrite_helm_repo snip_installing_with_helm_1
-_rewrite_helm_repo snip_install_istio_with_cni_plugin_2
+_rewrite_helm_repo snip_cni_agent_helm_install
+_rewrite_helm_repo snip_cni_agent_helm_istiod_install
 _wait_for_deployment istio-system istiod
-_wait_for_daemonset kube-system istio-cni-node
-helm delete istio-cni -n kube-system
+_wait_for_daemonset istio-system istio-cni-node
+helm delete istio-cni -n istio-system
 helm delete istiod -n istio-system
 helm delete istio-base -n istio-system
 kubectl delete ns istio-system
 
 # Test istioctl install snip
-snip_install_istio_with_cni_plugin_1
+snip_cni_agent_operator_install
 _wait_for_deployment istio-system istiod
 _wait_for_daemonset istio-system istio-cni-node
 
