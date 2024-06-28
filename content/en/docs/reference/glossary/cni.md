@@ -10,6 +10,6 @@ The [Container Network Interface (CNI)](https://www.cni.dev/) is the standard us
 
 Istio works with all CNI implementations that follow the CNI standard, in both sidecar and ambient mode.
 
-In order to configure mesh traffic redirection, Istio includes [a chained CNI plugin](/docs/setup/additional-setup/cni/), which runs after all configured CNI interface plugins.
+In order to configure mesh traffic redirection, Istio includes a [CNI node agent](/docs/setup/additional-setup/cni/). This agent installs a chained CNI plugin, which runs after all configured CNI interface plugins.
 
-The CNI plugin is optional for {{< gloss >}}sidecar{{< /gloss >}} mode and required for {{< gloss >}}ambient{{< /gloss >}} mode.
+The CNI node agent is optional for {{< gloss >}}sidecar{{< /gloss >}} mode and required for {{< gloss >}}ambient{{< /gloss >}} mode.
