@@ -25,8 +25,8 @@ kubectl get gateway
 }
 
 ! IFS=$'\n' read -r -d '' snip_configure_wasmplugin_for_gateway_1_out <<\ENDSNIP
-NAME               CLASS            ADDRESS        PROGRAMMED   AGE
-bookinfo-gateway   istio            172.18.7.110   True         23h
+NAME               CLASS            ADDRESS                                            PROGRAMMED   AGE
+bookinfo-gateway   istio            bookinfo-gateway-istio.default.svc.cluster.local   True         42m
 ENDSNIP
 
 snip_configure_wasmplugin_for_gateway_2() {
@@ -55,7 +55,7 @@ EOF
 }
 
 snip_verify_the_traffic_via_the_gateway_1() {
-kubectl exec deploy/sleep -- curl -s -w "%{http_code}" -o /dev/null "http://$GATEWAY_HOST/productpage"
+kubectl exec deploy/sleep -- curl -s -w "%{http_code}" -o /dev/null "http://bookinfo-gateway-istio.default.svc.cluster.local/productpage"
 }
 
 ! IFS=$'\n' read -r -d '' snip_verify_the_traffic_via_the_gateway_1_out <<\ENDSNIP
@@ -63,7 +63,7 @@ kubectl exec deploy/sleep -- curl -s -w "%{http_code}" -o /dev/null "http://$GAT
 ENDSNIP
 
 snip_verify_the_traffic_via_the_gateway_2() {
-kubectl exec deploy/sleep -- curl -s -o /dev/null -H "Authorization: Basic YWRtaW4zOmFkbWluMw==" -w "%{http_code}" "http://$GATEWAY_HOST/productpage"
+kubectl exec deploy/sleep -- curl -s -o /dev/null -H "Authorization: Basic YWRtaW4zOmFkbWluMw==" -w "%{http_code}" "http://bookinfo-gateway-istio.default.svc.cluster.local/productpage"
 }
 
 ! IFS=$'\n' read -r -d '' snip_verify_the_traffic_via_the_gateway_2_out <<\ENDSNIP
@@ -87,9 +87,9 @@ kubectl get gateway
 }
 
 ! IFS=$'\n' read -r -d '' snip_apply_wasmplugin_at_waypoint_proxy_1_out <<\ENDSNIP
-NAME               CLASS            ADDRESS        PROGRAMMED   AGE
-bookinfo-gateway   istio            172.18.7.110   True         23h
-waypoint           istio-waypoint   10.96.202.82   True         21h
+NAME               CLASS            ADDRESS                                            PROGRAMMED   AGE
+bookinfo-gateway   istio            bookinfo-gateway-istio.default.svc.cluster.local   True         23h
+waypoint           istio-waypoint   10.96.202.82                                       True         21h
 ENDSNIP
 
 snip_apply_wasmplugin_at_waypoint_proxy_2() {
