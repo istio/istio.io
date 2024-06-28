@@ -73,4 +73,5 @@ snip_remove_the_ambient_and_waypoint_labels_1
 snip_remove_waypoint_proxies_1
 snip_remove_the_sample_application_1
 samples/bookinfo/platform/kube/cleanup.sh
+kubectl delete authorizationpolicy productpage-viewer
 snip_remove_the_kubernetes_gateway_api_crds_1
