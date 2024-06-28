@@ -65,7 +65,7 @@ for users and pod deployments.
     * The Kubernetes documentation highly recommends this for all Kubernetes installations
       where `ServiceAccounts` are utilized.
 
-## Installing the node agent
+## Installing the CNI node agent
 
 ### Install Istio with the `istio-cni` component
 
@@ -115,7 +115,7 @@ Note that if installing `istiod` with the Helm chart according to the [Install w
 $ helm install istiod istio/istiod -n istio-system --set pilot.cni.enabled=true --wait
 {{< /text >}}
 
-#### Additional configuration
+### Additional configuration
 
 In addition to the above basic configuration there are additional configuration flags that can be set:
 
@@ -133,7 +133,7 @@ This race condition is mitigated for the sidecar data plane mode by a "detect an
 Please take a look at [race condition & mitigation](#race-condition--mitigation) section to understand the implication of this mitigation, and for configuration instructions
 {{< /tip >}}
 
-#### Handling init container injection for revisions
+### Handling init container injection for revisions
 
 When installing revisioned control planes with the CNI component enabled,
 `values.pilot.cni.enabled=true` needs to be set for each installed revision, so that the sidecar injector does not attempt inject the `istio-init` init container for that revision.
@@ -154,7 +154,7 @@ spec:
 The CNI plugin at version `1.x` is compatible with control plane at version `1.x-1`, `1.x`, and `1.x+1`,
 which means CNI and control plane can be upgraded in any order, as long as their version difference is within one minor version.
 
-## Operating clusters with the CNI agent installed
+## Operating clusters with the CNI node agent installed
 
 ### Upgrading
 
