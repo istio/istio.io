@@ -11,8 +11,8 @@ test: n/a
 
 Istio 可以在 Sidecar 和 Ambient 模式下与所有遵循 CNI 标准的 CNI 实现配合使用。
 
-为了配置网格流量重定向，Istio 包含[链式 CNI 插件](/zh/docs/setup/additional-setup/cni/)，
-该插件在所有配置的 CNI 接口插件之后运行。
+为了配置网格流量重定向，Istio 包含一个 [CNI 节点代理](/zh/docs/setup/additional-setup/cni/)。
+此代理会安装一个链式 CNI 插件，该插件在所有已配置的 CNI 接口插件之后运行。
 
-CNI 插件对于 {{< gloss "sidecar" >}}Sidecar{{< /gloss >}} 模式是可选的，
+CNI 节点代理对于 {{< gloss "sidecar" >}}Sidecar{{< /gloss >}} 模式是可选的，
 而对于 {{< gloss "ambient" >}}Ambient{{< /gloss >}} 模式是必需的。
