@@ -186,6 +186,14 @@ Istio 的生日不仅庆祝了可观测性和流量管理的普及和重要性�
 — Eric Van Norman，Istio 技术监督委员会成员及 IBM 咨询软件工程师
 {{< /quote >}}
 
+{{< quote >}}
+**Istio 是 Salesforce 服务网格基础设施的支柱，目前它每天为我们所有的服务提供数万亿个请求。
+我们用网格解决了很多复杂的问题。很高兴能参与到这一旅程中并为社区做出贡献。
+多年来，Istio 已经发展成为一个可靠的服务网格，同时还在不断创新。我们对未来的发展充满期待！**
+
+— Rama Chavali，Istio 网络工作组负责人及 Salesforce 软件工程架构师
+{{< /quote >}}
+
 ## 持续的技术创新 {#continuous-technical-innovation}
 
 我们坚信多元化推动创新。最让我们惊讶的是 Istio 社区的不断创新，从让升级变得更容易，
