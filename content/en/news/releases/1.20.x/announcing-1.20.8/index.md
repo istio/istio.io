@@ -11,7 +11,7 @@ This release note describes what’s different between Istio 1.20.7 and 1.20.8.
 
 {{< relnote >}}
 
-# Changes
+## Changes
 
 - **Added** `gateways.securityContext` to manifests to provide an option to customize the gateway `securityContext`.
   ([Issue #49549](https://github.com/istio/istio/issues/49549))
