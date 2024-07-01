@@ -27,8 +27,7 @@ Istio CNI 节点代理在 {{< gloss "sidecar" >}}Ambient{{< /gloss >}} 数据平
 注意：Istio CNI 节点代理**不会**替换集群现有的 {{< gloss "cni" >}}CNI{{< /gloss >}}。
 除此之外，它还会安装一个**链式** CNI 插件或云提供商使用的集群 CNI，
 其中这种链式 CNI 插件设计为分层堆叠在另一个先前安装的主接口
-CNI（例如 [Calico](https://docs.projectcalico.org)）之上，
-。
+CNI（例如 [Calico](https://docs.projectcalico.org)）之上。
 有关详细信息，请参阅[与 CNI 的兼容性](#compatibility-with-other-cnis)。
 {{< /tip >}}
 
