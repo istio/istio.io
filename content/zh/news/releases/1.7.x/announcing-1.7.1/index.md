@@ -15,7 +15,8 @@ aliases:
 
 ## 变动{#changes}
 
-- **新增** Mixer 中 Envoy [ext `authz` and gRPC 访问日志 API 支持](https://github.com/istio/istio/wiki/Enabling-Envoy-Authorization-Service-and-gRPC-Access-Log-Service-With-Mixer)，使得基于 Mixer 的配置和进程外适配器在升级到 Istio 的未来版本后仍然可以工作。
+- **新增** Mixer 中 Envoy [ext `authz` and gRPC 访问日志 API 支持](https://github.com/istio/istio/wiki/Enabling-Envoy-Authorization-Service-and-gRPC-Access-Log-Service-With-Mixer)，
+  使得基于 Mixer 的配置和进程外适配器在升级到 Istio 的未来版本后仍然可以工作。
   ([Issue #23580](https://github.com/istio/istio/issues/23580))
 
 - **修复** `istioctl x authz check` 命令可以和 v1beta1 AuthorizationPolicy 一起正常使用。
@@ -38,7 +39,7 @@ aliases:
 - **修复** Kiali RBAC 权限的问题，使其部署无法正常工作。
   ([Issue #27109](https://github.com/istio/istio/issues/27109))
 
-- **修复** 使用 Istio CNI 时，`remove-from-mesh` 没有删除初始化容器的问题
+- **修复** 使用 Istio CNI 时，`remove-from-mesh` 没有删除 Init 容器的问题
   ([Issue #26938](https://github.com/istio/istio/issues/26938))
 
 - **修复** Kiali 使用匿名认证策略，因为新版本已经取消登录认证策略。
