@@ -189,7 +189,7 @@ zipkin                                                                     -    
     10.111.121.13 15443 ALL                                              Cluster: outbound|15443||istio-ingressgateway.istio-system.svc.cluster.local
     {{< /text >}}
 
-2. 从上面的信息可以看到，每一个 Sidecar 有一个绑定到 `0.0.0.0:15001`
+1. 从上面的信息可以看到，每一个 Sidecar 有一个绑定到 `0.0.0.0:15001`
    的监听器，来确定 IP 表将所有进出 Pod 的流量路由到哪里。监听器设置
    `useOriginalDst` 为 true 意味着它将请求传递给最适合原始请求目的地的监听器。
    如果找不到匹配的虚拟监听器，它会将请求发送到直接连接到目的地的 `PassthroughCluster`。
@@ -248,7 +248,7 @@ zipkin                                                                     -    
     ]
     {{< /text >}}
 
-3. 我们的请求是到端口 `9080` 的出站 HTTP 请求，它将被传递给 `0.0.0.0:9080`
+1. 我们的请求是到端口 `9080` 的出站 HTTP 请求，它将被传递给 `0.0.0.0:9080`
    的虚拟监听器。这一监听器将检索在它配置的 RDS 里的路由配置。
    在这个例子中它将寻找 Istiod（通过 ADS）配置在 RDS 中的路由 `9080`。
 
@@ -264,7 +264,7 @@ zipkin                                                                     -    
     ...
     {{< /text >}}
 
-4. 对每个服务，`9080` 路由配置只有一个虚拟主机。我们的请求会走到 reviews
+1. 对每个服务，`9080` 路由配置只有一个虚拟主机。我们的请求会走到 reviews
    服务，因此 Envoy 将选择一个虚拟主机把请求匹配到一个域。一旦匹配到，
    Envoy 会寻找请求匹配到的第一个路由。本例中我们没有设置任何高级路由规则，
    因此路由会匹配任何请求。这一路由告诉 Envoy 发送请求到
@@ -300,7 +300,7 @@ zipkin                                                                     -    
     ...
     {{< /text >}}
 
-5. 此集群配置为从 Istiod（通过 ADS）检索关联的 Endpoint。
+1. 此集群配置为从 Istiod（通过 ADS）检索关联的 Endpoint。
    所以 Envoy 会使用 `serviceName` 字段作为主键，来检查
    Endpoint 列表并把请求代理到其中之一。
 
@@ -332,7 +332,7 @@ zipkin                                                                     -    
     ]
     {{< /text >}}
 
-6. 要查看此集群当前可用的 Endpoint，请使用 `proxy-config` endpoints 命令。
+1. 要查看此集群当前可用的 Endpoint，请使用 `proxy-config` endpoints 命令。
 
     {{< text bash json >}}
     $ istioctl proxy-config endpoints productpage-v1-6c886ff494-7vxhs --cluster "outbound|9080||reviews.default.svc.cluster.local"
