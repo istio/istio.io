@@ -40,7 +40,7 @@ Istio 文档协作遵循标准的 [GitHub 协作流](https://guides.github.com/i
 
 1. 安装 [Docker](https://www.docker.com/get-started)，以预览和测试您的文档更改。
 
-文档是根据 [Apache 2.0](https://github.com/istio/istio.io/blob/master/LICENSE) 协议许可发布的。
+文档是根据 [Creative Commons Attribution 4.0 International](https://github.com/istio/istio.io/blob/master/LICENSE) 协议许可发布的。
 
 ## 快速编辑 {#quick-edit}
 
