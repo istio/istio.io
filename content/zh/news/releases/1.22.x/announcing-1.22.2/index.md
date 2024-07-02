@@ -1,56 +1,58 @@
 ---
-title: Announcing Istio 1.22.2
+title: 发布 Istio 1.22.2
 linktitle: 1.22.2
-subtitle: Patch Release
-description: Istio 1.22.2 patch release.
+subtitle: 补丁发布
+description: Istio 1.22.2 补丁发布。
 publishdate: 2024-06-27
 release: 1.22.2
 ---
 
-This release implements the security updates described in our 27th of June post, [`ISTIO-SECURITY-2024-005`](/news/security/istio-security-2024-005) along with bug fixes to improve robustness.
+本次发布实现了 6 月 27 日公布的安全更新 [`ISTIO-SECURITY-2024-005`](/zh/news/security/istio-security-2024-005)
+并修复了一些错误，提高了稳健性。
 
-This release note describes what is different between Istio 1.22.1 and 1.22.2.
+本发布说明描述了 Istio 1.22.1 和 Istio 1.22.2 之间的不同之处。
 
 {{< relnote >}}
 
-## Changes
+## 变更 {#changes}
 
-- **Improved** waypoint proxies to no longer run as root.
+- **改进** 改进了 waypoint 代理不再以 root 身份运行的问题。
 
-- **Added** `gateways.securityContext` to manifests to provide an option to customize the gateway `securityContext`.
+- **新增** 添加了 `gateways.securityContext` 到清单中，以提供自定义网关 `securityContext` 的选项。
   ([Issue #49549](https://github.com/istio/istio/issues/49549))
 
-- **Added** a new option in ztunnel to completely disable IPv6, to enable running on kernels with IPv6 disabled.
+- **新增** 在 ztunnel 中添加了一个新选项，以完全禁用 IPv6，从而可以在禁用 IPv6 的内核上运行。
 
-- **Fixed** an issue where `istioctl analyze` returned IST0162 false positives.
+- **修复** 修复了 `istioctl analyze` 返回 IST0162 误报的问题。
   ([Issue #51257](https://github.com/istio/istio/issues/51257))
 
-- **Fixed** `ENABLE_ENHANCED_RESOURCE_SCOPING` not being part of helm compatibility profiles for Istio 1.20/1.21.
+- **修复** 修复了 `ENABLE_ENHANCED_RESOURCE_SCOPING` 不属于 Istio 1.20/1.21 的 Helm 兼容性配置文件的一部分的问题。
   ([Issue #51399](https://github.com/istio/istio/issues/51399))
 
-- **Fixed** Kubernetes job pod IPs may not be fully unenrolled from ambient despite being in a terminated state.
+- **修复** 修复了尽管处于终止状态，但 Kubernetes Job Pod IP 可能无法完全从 Ambient 中取消注册的问题。
 
-- **Fixed** false positives in IST0128 and IST0129 when `credentialName` and `workloadSelector` were set.
+- **修复** 当设置 `credentialName` 和 `workloadSelector` 时，修复了 IST0128 和 IST0129 中的误报问题。
   ([Issue #51567](https://github.com/istio/istio/issues/51567))
 
-- **Fixed** an issue where JWKS fetched from URIs were not updated promptly when there are errors fetching other URIs.
+- **修复** 修复了当获取其他 URI 时出现错误时，从 URI 获取的 JWKS 未及时更新的问题。
   ([Issue #51636](https://github.com/istio/istio/issues/51636))
 
-- **Fixed** an issue causing `workloadSelector` policies to apply to the wrong namespace in ztunnel.
+- **修复** 修复了导致 `workloadSelector` 策略应用于 ztunnel 中错误命名空间的问题。
   ([Issue #51556](https://github.com/istio/istio/issues/51556))
 
-- **Fixed** a bug causing `discoverySelectors` to accidentally filter out all `GatewayClasses`.
+- **修复** 修复了导致 `discoverySelectors` 意外过滤掉所有 `GatewayClasses` 的错误。
 
-- **Fixed** certificate chains parsing avoid unnecessary parsing errors by trimming unnecessary intermediate certificates.
+- **修复** 修复了证书链解析，通过修剪不必要的中间证书来避免不必要的解析错误。
 
-- **Fixed** a bug in ambient mode causing requests at the start of a Pod lifetime to be rejected with `unknown source`.
+- **修复** 修复了 Ambient 模式中的一个错误，该错误导致 Pod 生命周期开始时的请求被拒绝并显示 `unknown source`。
 
-- **Fixed** an issue in ztunnel where some expected connection terminations were reported as errors.
+- **修复** 修复了 ztunnel 中一些预期的连接终止被报告为错误的问题。
 
-- **Fixed** an issue in ztunnel when connecting to a service with a `targetPort` that exists only on a subset of pods.
+- **修复** 修复了当使用仅存在于部分 Pod 上的 `targetPort` 连接服务时 ztunnel 中出现的问题。
 
-- **Fixed** an issue when deleting a `ServiceEntry` when there are duplicate hostnames across multiple `ServiceEntries`.
+- **修复** 修复了当多个 `ServiceEntry` 中存在重复的主机名时删除 `ServiceEntry` 时出现的问题。
 
-- **Fixed** an issue where ztunnel would send directly to pods when connecting to a `LoadBalancer` IP, instead of going through the `LoadBalancer`.
+- **修复** 修复了当连接到 `LoadBalancer` IP 时，
+  ztunnel 会直接发送到 Pod，而不是经过 `LoadBalancer` 的问题。
 
-- **Fixed** an issue where ztunnel would send traffic to terminating pods.
+- **修复** 修复了 ztunnel 会将流量发送到终止 Pod 的问题。

@@ -1,7 +1,7 @@
 ---
 title: ISTIO-SECURITY-2024-005
-subtitle: Security Bulletin
-description: CVEs reported by Envoy.
+subtitle: 安全公告
+description: Envoy 上报的 CVE 漏洞。
 cves: []
 cvss: "7.5"
 vector: "AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
@@ -15,10 +15,11 @@ skip_seealso: true
 
 ## CVE
 
-### Envoy CVEs
+### Envoy CVE {#envoy-cves}
 
-- __[GHSA-8mq4-c2v5-3h39](https://github.com/envoyproxy/envoy/security/advisories/GHSA-8mq4-c2v5-3h39)__: (CVSS Score 7.5, Moderate): Datadog: Datadog tracer does not handle trace headers with Unicode characters.
+- __[GHSA-8mq4-c2v5-3h39](https://github.com/envoyproxy/envoy/security/advisories/GHSA-8mq4-c2v5-3h39)__:
+  (CVSS Score 7.5, Moderate)：Datadog：Datadog 追踪器不处理带有 Unicode 字符标头的链路。
 
-## Am I Impacted?
+## 我受到影响了吗？{#am-i-impacted}
 
-You are impacted if you are using Istio 1.21.0 to 1.21.3 or 1.22.0 to 1.22.1 and have enabled the Datadog tracer.
+如果您使用 Istio 1.21.0 到 1.21.3 或 1.22.0 到 1.22.1 并且启用了 Datadog 追踪器，则会受到影响。
