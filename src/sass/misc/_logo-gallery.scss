@@ -100,6 +100,10 @@
     width: 100%;
     transition: filter .175s ease-in;
 
+    @media(max-width: $bp-md) {
+        height: 120px;
+    }
+
     img {
         max-height: 100%;
         max-width: 200px;
@@ -111,5 +115,9 @@
         left: 0;
         right: 0;
         margin: auto;
+
+        @media(max-width: $bp-md) {
+            max-width: 260px;
+        }
     }
 }
