@@ -27,7 +27,7 @@ _rewrite_helm_repo snip_install_discovery
 _wait_for_deployment istio-system istiod
 
 _rewrite_helm_repo snip_install_ingressgateway
-_wait_for_deployment istio-ingress istio-ingress
+_wait_for_deployment istio-ingress istio-ingressgateway
 
 # shellcheck disable=SC2154
 _verify_like snip_helm_ls "$snip_helm_ls_out"
