@@ -278,17 +278,10 @@ one route that matches on everything. This route tells Envoy to send the request
                     "name": "reviews.default.svc.cluster.local:9080",
                     "domains": [
                         "reviews.default.svc.cluster.local",
-                        "reviews.default.svc.cluster.local:9080",
                         "reviews",
-                        "reviews:9080",
-                        "reviews.default.svc.cluster",
-                        "reviews.default.svc.cluster:9080",
                         "reviews.default.svc",
-                        "reviews.default.svc:9080",
                         "reviews.default",
-                        "reviews.default:9080",
                         "10.98.88.0",
-                        "10.98.88.0:9080"
                     ],
                     "routes": [
                         {
