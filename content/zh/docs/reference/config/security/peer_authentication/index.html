@@ -12,12 +12,15 @@ number_of_entries: 3
 ---
 <h2 id="PeerAuthentication">PeerAuthentication</h2>
 <section>
-<p>{{&lt; warning &gt;}}
-Development of PeerAuthentication is currently frozen and likely to be replaced in Ambient.
-{{&lt; /warning &gt;}}
-PeerAuthentication defines how traffic will be tunneled (or not) to the sidecar.</p>
+<p>PeerAuthentication defines mutual TLS (mTLS) requirements for incoming connections.</p>
+<p>In sidecar mode, PeerAuthentication determines whether or not mTLS is allowed or required
+for connections to an Envoy proxy sidecar.</p>
+<p>In ambient mode, security is transparently enabled for a pod by the ztunnel node agent.
+(Traffic between proxies uses the HBONE protocol, which includes encryption with mTLS.)
+Because of this, <code>DISABLE</code> mode is not supported.
+<code>STRICT</code> mode is useful to ensure that connections that bypass the mesh are not possible.</p>
 <p>Examples:</p>
-<p>Policy to allow mTLS traffic for all workloads under namespace <code>foo</code>:</p>
+<p>Policy to require mTLS traffic for all workloads under namespace <code>foo</code>:</p>
 <pre><code class="language-yaml">apiVersion: security.istio.io/v1
 kind: PeerAuthentication
 metadata:
