@@ -23,11 +23,16 @@ source "content/en/docs/ambient/upgrade/helm-upgrade/common.sh"
 # @setup profile=none
 _install_istio_ambient_helm
 
+MYTAG=tagname
+
+snip_list_revisions
 snip_update_helm
 snip_istioctl_precheck
-snip_manual_crd_upgrade
+snip_prerequisites_4
+snip_list_tags
+snip_upgrade_tag
+snip_rollback_tag
 
-_rewrite_helm_repo snip_upgrade_base
 _rewrite_helm_repo snip_upgrade_istiod
 _wait_for_deployment istio-system istiod
 _rewrite_helm_repo snip_upgrade_ztunnel
@@ -39,4 +44,9 @@ _wait_for_deployment istio-ingress istio-ingress
 
 
 # @cleanup
+
+# upgrading a tag creates an MWC, let's clean it up 
+export REVISION=istio-1-22-1
+helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{$MYTAG}" --set revision="$REVISION" -n istio-system | kubectl delete -f -
+helm delete istiod-"$REVISION" -n istio-system
 _remove_istio_ambient_helm
