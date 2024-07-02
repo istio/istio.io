@@ -14,12 +14,12 @@ Follow this guide to upgrade and configure an ambient mode installation using
 [Helm](https://helm.sh/docs/). This guide assumes you have already performed an [ambient mode installation with Helm](/docs/ambient/install/helm-installation/) with a previous minor or patch version of Istio.
 
 {{< warning >}}
-In contrast to sidecar mode, ambient mode supports moving application pods to an upgraded data plane without a mandatory restart or reschedule of running application pods. However, upgrading the data plane **will** briefly disrupt all workload traffic on the upgraded node, and ambient mode does not currently support canary upgrades of the data plane.
+In contrast to sidecar mode, ambient mode supports moving application pods to an upgraded data plane without a mandatory restart or reschedule of running application pods. However, upgrading the data plane **will** briefly disrupt all workload traffic on the upgraded node, and ambient mode does not currently support canary upgrades of the data plane, or a way to upgrade without at least temporarily disrupting user workloads.
 
 Node cordoning and blue/green node pools are recommended to control blast radius of application pod traffic disruption during production upgrades. See your Kubernetes provider documentation for details.
 {{< /warning >}}
 
-## Prerequisites
+## Prerequisites for in-place upgrade
 
 1. Update the Helm repository:
 
@@ -27,10 +27,13 @@ Node cordoning and blue/green node pools are recommended to control blast radius
     $ helm repo update istio
     {{< /text >}}
 
-## In-place upgrade
+{{< gloss "ambient" >}}Ambient{{< /gloss >}} is made up of multiple components - for production deployments, it is strongly recommended to install the components separately to allow for more control during upgrades. Consult the [operations guidelines](/docs/ops/deployment) for production deployment considerations.
 
-You can perform an in place upgrade of Istio in your cluster using the Helm
-upgrade workflow.
+You will in-place upgrade the Istio components together, or individually, depending on how you originally [installed Istio ambient via Helm](/docs/ambient/install/helm-installation).
+
+{{< tip >}}
+If you installed the components [together](/docs/ambient/install/helm-installation#simple-install), you must upgrade them [together](#simple-upgrade). If you installed the components [individually](/docs/ambient/install/helm-installation#install-the-components-individually), you must upgrade them [individually](#upgrade-the-components-individually).
+{{< /tip >}}
 
 Before upgrading Istio, it is recommended to run the `istioctl x precheck` command to make sure the upgrade is compatible with your environment.
 
@@ -41,16 +44,30 @@ $ istioctl x precheck
 {{< /text >}}
 
 {{< warning >}}
-[Helm does not upgrade or delete CRDs](https://helm.sh/docs/chart_best_practices/custom_resource_definitions/#some-caveats-and-explanations) when performing an upgrade. Because of this restriction, an additional step is required when upgrading Istio with Helm.
+[Helm does not upgrade or delete CRDs](https://helm.sh/docs/chart_best_practices/custom_resource_definitions/#some-caveats-and-explanations) when performing an upgrade. Because of this restriction, an additional manual step is required when upgrading Istio with Helm.
 {{< /warning >}}
 
-### Manually upgrade the CRDs and Istio base chart
+### Manually upgrade the CRDs (must be performed first)
 
-1. Upgrade the Kubernetes custom resource definitions ({{< gloss >}}CRDs{{</ gloss >}}):
+1. Upgrade the Kubernetes custom resource definitions ({{< gloss >}}CRDs{{</ gloss >}}) manually:
 
     {{< text syntax=bash snip_id=manual_crd_upgrade >}}
     $ kubectl apply -f manifests/charts/base/crds
     {{< /text >}}
+
+## Simple upgrade
+
+1. Upgrade the Istio ambient Helm wrapper chart:
+
+    {{< text syntax=bash snip_id=upgrade_ambient_wrapper >}}
+    $ helm upgrade istio-ambient istio/ambient -n istio-system --skip-crds
+    {{< /text >}}
+
+Proceed to [verifying the installation](#verify-the-installation) or [upgrading an ingress gateway (optional)](#upgrade-the-gateway-component-optional)
+
+## Upgrade the components individually
+
+### Upgrade Istio base chart
 
 1. Upgrade the Istio base chart:
 
@@ -103,20 +120,14 @@ Upgrading the Istio CNI agent to a compatible version in-place will not disrupt 
 $ helm upgrade istio-cni istio/cni -n istio-system
 {{< /text >}}
 
-### Upgrade the Gateway component (optional)
+Proceed to [verifying the installation](#verify-the-installation) or [upgrading an ingress gateway (optional)](#upgrade-the-gateway-component-optional)
 
-Gateway components manage east-west and north-south dataplane traffic between ambient mesh boundaries, as well as some aspects of the L7 dataplane.
+## Upgrade an ingress gateway (optional)
+
+To upgrade an ingress gateway, run the command below:
 
 {{< text syntax=bash snip_id=upgrade_gateway >}}
 $ helm upgrade istio-ingress istio/gateway -n istio-ingress
-{{< /text >}}
-
-## Configuration
-
-To view supported configuration options and documentation, run:
-
-{{< text syntax=bash snip_id=show_istiod_values >}}
-$ helm show values istio/istiod
 {{< /text >}}
 
 ## Verify the installation
