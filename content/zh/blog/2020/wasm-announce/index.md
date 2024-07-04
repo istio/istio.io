@@ -9,7 +9,7 @@ keywords: [wasm,extensibility,alpha,performance,operator]
 
 自 2016 年使用 [Envoy](https://www.envoyproxy.io/) 以后，Istio 项目一直想提供一个平台，在此平台上可以构建丰富的扩展，以满足用户多样化的需求。有很多要向服务网格的数据平面增加功能的理由 --- 比如：支持更新的协议，与专有安全控件集成，或是通过自定义度量来增强可观测性。
 
-在过去的一年半中，我们在 Google 的团队一直在努力用 [WebAssembly](https://webassembly.org/) 来为 Envoy 代理添加动态扩展。今天我们很高兴与大家分享这项工作，并推出[针对代理的 WebAssembly (Wasm)](https://github.com/proxy-wasm/spec) (Proxy-Wasm)：包括一个会标准化的 ABI，SDK，以及它的第一个重点实现：新的，低延迟的 [Istio 遥测系统](/zh/docs/reference/config/telemetry)。
+在过去的一年半中，我们在 Google 的团队一直在努力用 [WebAssembly](https://webassembly.org/) 来为 Envoy 代理添加动态扩展。今天我们很高兴与大家分享这项工作，并推出[针对代理的 WebAssembly (Wasm)](https://github.com/proxy-wasm/spec) (Proxy-Wasm)：包括一个会标准化的 ABI，SDK，以及它的第一个重点实现：新的，低延迟的 [Istio 遥测系统](https://istio.io/v1.6/docs/reference/config/proxy_extensions/wasm_telemetry/)。
 
 我们还与社区紧密合作，以确保为用户提供良好的开发者体验，帮助他们快速上手。Google 团队一直与 [Solo.io](https://solo.io) 团队紧密合作，Solo 他们已经建立了 [WebAssembly Hub](https://webassemblyhub.io/) 服务，用于构建，共享，发现和部署 Wasm 扩展。有了 WebAssembly Hub，Wasm 扩展就会像容器一样易于管理，安装和运行。
 
