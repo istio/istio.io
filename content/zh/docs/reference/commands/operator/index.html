@@ -449,12 +449,6 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>If set, used Kubernetes native Sidecar container support. Requires SidecarContainer feature flag.</td>
 </tr>
 <tr>
-<td><code>ENABLE_OPTIMIZED_CONFIG_REBUILD</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If enabled, pilot will only rebuild config for resources that have changed</td>
-</tr>
-<tr>
 <td><code>ENABLE_PROBE_KEEPALIVE_CONNECTIONS</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -585,12 +579,6 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If true, pilot will configure an additional IPv4 listener for outbound traffic in IPv6 only clusters, e.g. AWS EKS IPv6 only clusters.</td>
-</tr>
-<tr>
-<td><code>ISTIO_ENABLE_OPTIMIZED_SERVICE_PUSH</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If enabled, Istiod will not push changes on arbitrary annotation change.</td>
 </tr>
 <tr>
 <td><code>ISTIO_GPRC_MAXRECVMSGSIZE</code></td>
