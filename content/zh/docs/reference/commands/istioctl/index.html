@@ -4,7 +4,7 @@ source_repo: https://github.com/istio/istio
 title: istioctl
 description: Istio control interface.
 generator: pkg-collateral-docs
-number_of_entries: 101
+number_of_entries: 100
 max_toc_level: 2
 remove_toc_prefix: 'istioctl '
 ---
@@ -2858,87 +2858,6 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
   # Retrieve version information via XDS from specific control plane in multi-control plane in-cluster configuration
   # (Select a specific control plane in an in-cluster canary Istio configuration.)
   istioctl x version --xds-label istio.io/rev=default
-
-</code></pre>
-<h2 id="istioctl-experimental-wait">istioctl experimental wait</h2>
-<p>Waits for the specified condition to be true of an Istio resource.</p>
-<pre class="language-bash"><code>istioctl experimental wait [flags] &lt;type&gt; &lt;name&gt;[.&lt;namespace&gt;]
-</code></pre>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>Kubernetes configuration context  (default ``)</td>
-</tr>
-<tr>
-<td><code>--for &lt;string&gt;</code></td>
-<td></td>
-<td>Wait condition, must be &#39;distribution&#39; or &#39;delete&#39;  (default `distribution`)</td>
-</tr>
-<tr>
-<td><code>--generation &lt;string&gt;</code></td>
-<td></td>
-<td>Wait for a specific generation of config to become current, rather than using whatever is latest in Kubernetes  (default ``)</td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Kubernetes namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--proxy &lt;string&gt;</code></td>
-<td></td>
-<td>Name of a specific proxy to wait for the condition to be satisfied  (default ``)</td>
-</tr>
-<tr>
-<td><code>--revision &lt;string&gt;</code></td>
-<td><code>-r</code></td>
-<td>Control plane revision  (default ``)</td>
-</tr>
-<tr>
-<td><code>--threshold &lt;float32&gt;</code></td>
-<td></td>
-<td>The ratio of distribution required for success  (default `1`)</td>
-</tr>
-<tr>
-<td><code>--timeout &lt;duration&gt;</code></td>
-<td></td>
-<td>The duration to wait before failing  (default `30s`)</td>
-</tr>
-<tr>
-<td><code>--vklog &lt;Level&gt;</code></td>
-<td></td>
-<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="istioctl-experimental-wait Examples">Examples</h3>
-<pre class="language-bash"><code>  # Wait until the bookinfo virtual service has been distributed to all proxies in the mesh
-  istioctl experimental wait --for=distribution virtualservice bookinfo.default
-
-  # Wait until the bookinfo virtual service has been distributed to a specific proxy
-  istioctl experimental wait --for=distribution virtualservice bookinfo.default --proxy workload-instance.namespace
-
-  # Wait until 99% of the proxies receive the distribution, timing out after 5 minutes
-  istioctl experimental wait --for=distribution --threshold=.99 --timeout=300s virtualservice bookinfo.default
 
 </code></pre>
 <h2 id="istioctl-experimental-workload">istioctl experimental workload</h2>

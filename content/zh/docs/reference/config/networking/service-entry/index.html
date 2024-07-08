@@ -8,7 +8,7 @@ layout: protoc-gen-docs
 generator: protoc-gen-docs
 schema: istio.networking.v1alpha3.ServiceEntry
 aliases: [/zh/docs/reference/config/networking/v1alpha3/service-entry]
-number_of_entries: 4
+number_of_entries: 6
 ---
 <p><code>ServiceEntry</code> enables adding additional entries into Istio&rsquo;s
 internal service registry, so that auto-discovered services in the
@@ -579,6 +579,96 @@ Yes
 <td>
 <p>The port number on the endpoint where the traffic will be
 received. If unset, default to <code>number</code>.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ServiceEntryStatus">ServiceEntryStatus</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ServiceEntryStatus-conditions">
+<td><code>conditions</code></td>
+<td><code><a href="/zh/docs/reference/config/meta/v1beta1/istio-status/#IstioCondition">IstioCondition[]</a></code></td>
+<td>
+<p>Current service state of ServiceEntry.
+More info: <a href="/zh/docs/reference/config/config-status/">https://istio.io/docs/reference/config/config-status/</a></p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ServiceEntryStatus-validation_messages">
+<td><code>validationMessages</code></td>
+<td><code><a href="/zh/docs/reference/config/istio.analysis.v1alpha1/#AnalysisMessageBase">AnalysisMessageBase[]</a></code></td>
+<td>
+<p>Includes any errors or warnings detected by Istio&rsquo;s analyzers.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ServiceEntryStatus-observed_generation">
+<td><code>observedGeneration</code></td>
+<td><code>int64</code></td>
+<td>
+<p>Resource Generation to which the Reconciled Condition refers.
+When this value is not equal to the object&rsquo;s metadata generation, reconciled condition  calculation for the current
+generation is still in progress.  See <a href="/latest/docs/reference/config/config-status/">https://istio.io/latest/docs/reference/config/config-status/</a> for more info.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ServiceEntryStatus-addresses">
+<td><code>addresses</code></td>
+<td><code><a href="#ServiceEntryAddress">ServiceEntryAddress[]</a></code></td>
+<td>
+<p>List of addresses which were assigned to this ServiceEntry.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ServiceEntryAddress">ServiceEntryAddress</h2>
+<section>
+<p>minor abstraction to allow for adding hostnames if relevant</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ServiceEntryAddress-value">
+<td><code>value</code></td>
+<td><code>string</code></td>
+<td>
+<p>Value is the address (192.168.0.2)</p>
 
 </td>
 <td>
