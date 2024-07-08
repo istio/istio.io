@@ -45,5 +45,5 @@ You can follow [this guide](https://github.com/istio-ecosystem/wasm-extensions/b
 - [Proxy-Wasm C++ SDK](https://github.com/proxy-wasm/proxy-wasm-cpp-sdk)
 - [Proxy-Wasm Rust SDK](https://github.com/proxy-wasm/proxy-wasm-rust-sdk)
 - [Proxy-Wasm AssemblyScript SDK](https://github.com/solo-io/proxy-runtime)
-- [WebAssembly Hub](https://docs.solo.io/web-assembly-hub/latest/tutorial_code/)
+- [WebAssembly Hub](https://webassemblyhub.io/)
 - [WebAssembly Extensions For Network Proxies (video)](https://www.youtube.com/watch?v=OIUPf8m7CGA)
