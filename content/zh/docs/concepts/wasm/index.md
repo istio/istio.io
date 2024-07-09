@@ -47,5 +47,5 @@ C++ 实现 Wasm 扩展。
 - [Proxy-Wasm C++ SDK](https://github.com/proxy-wasm/proxy-wasm-cpp-sdk)
 - [Proxy-Wasm Rust SDK](https://github.com/proxy-wasm/proxy-wasm-rust-sdk)
 - [Proxy-Wasm AssemblyScript SDK](https://github.com/solo-io/proxy-runtime)
-- [WebAssembly Hub](https://docs.solo.io/web-assembly-hub/latest/tutorial_code/)
+- [WebAssembly Hub](https://webassemblyhub.io/)
 - [网络代理的 WebAssembly 扩展（视频）](https://www.youtube.com/watch?v=OIUPf8m7CGA)
