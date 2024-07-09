@@ -29,5 +29,9 @@
         "go.lintTool": "golangci-lint"
       }
     }
-  }
+  },
+  "mounts": [
+    "source=${env:HOME}${env:USERPROFILE}/.kube,target=/home/.kube,type=bind"
+    // "source=${env:HOME}${env:USERPROFILE}/.gitconfig,target=/home/.gitconfig,type=bind"
+  ]
 }
