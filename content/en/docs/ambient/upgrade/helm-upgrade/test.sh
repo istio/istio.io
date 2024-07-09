@@ -34,7 +34,7 @@ snip_upgrade_tag
 snip_rollback_tag
 
 _rewrite_helm_repo snip_upgrade_istiod
-_wait_for_deployment istio-system istiod
+_wait_for_deployment istio-system istiod-"$REVISION"
 _rewrite_helm_repo snip_upgrade_ztunnel
 _wait_for_daemonset istio-system ztunnel
 _rewrite_helm_repo snip_upgrade_cni
