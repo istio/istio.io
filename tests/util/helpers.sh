@@ -89,6 +89,7 @@ _wait_for_daemonset() {
     local context="${3:-}"
     if ! kubectl --context="$context" -n "$namespace" rollout status daemonset "$name" --timeout 5m; then
         echo "Failed rollout of daemonset $name in namespace $namespace"
+        kubectl --context="$context" -n "$namespace" logs daemonset/"$name"
         exit 1
     fi
 }
