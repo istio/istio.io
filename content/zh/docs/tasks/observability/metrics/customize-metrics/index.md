@@ -9,29 +9,16 @@ test: yes
 
 此任务向您展示如何自定义 Istio 生成的指标。
 
-Istio 生成各种 dashboard 使用的遥测数据，以帮助您可视化您的网格。
-例如，支持 Istio 的 dashboard 包括：
+Istio 可以生成各种仪表盘所使用的遥测数据，帮助您直观地显示您的网格信息。
+例如，支持 Istio 的仪表盘包括：
 
 * [Grafana](/zh/docs/tasks/observability/metrics/using-istio-dashboard/)
 * [Kiali](/zh/docs/tasks/observability/kiali/)
 * [Prometheus](/zh/docs/tasks/observability/metrics/querying-metrics/)
 
-默认情况下，Istio 定义并生成一组标准指标（例如：`requests_total`），但您也可以使用
+默认情况下，Istio 定义并生成一组标准指标（例如 `requests_total`），但您也可以使用
 [Telemetry API](/zh/docs/tasks/observability/telemetry/)
 自定义标准指标并创建新指标。
-
-## 自定义统计配置  {#custom-statistics-configuration}
-
-Istio 使用 Envoy 代理生成指标并在
-[manifests/charts/istio-control/istio-discovery/templates/telemetryv2_{{< istio_version >}}.yaml]({{<github_blob>}}/manifests/charts/istio-control/istio-discovery/templates/telemetryv2_{{< istio_version >}}.yaml)
-文件的 `EnvoyFilter` 中提供配置。
-
-配置自定义统计信息涉及 `EnvoyFilter` 的两个部分：`definitions` 和 `metrics`。
-在 `definitions` 部分支持用名字、期望值表达式和指标类型（`counter`、`gauge` 和 `histogram`）创建新的指标。
-在 `metrics` 的部分以表达式的形式提供指标维度的值，并允许您删除或覆盖现有的指标维度。
-您可以调整标准指标定义，利用 `tags_to_remove` 或重新定义维度。
-这些配置设置也用 istioctl 安装选项公开，
-允许您为网关和边车以及入站或出站方向自定义不同的指标。
 
 ## 开始之前  {#before-you-begin}
 
@@ -70,8 +57,8 @@ $ kubectl apply -f custom_metrics.yaml
 
 ## 验证结果  {#verify-the-results}
 
-将流量发送到网格。对于 Bookinfo 示例，请 `http://$GATEWAY_URL/productpage`
-在您的网络浏览器中访问或发出以下命令：
+将流量发送到网格。对于 Bookinfo 示例，请在您的网络浏览器中访问
+`http://$GATEWAY_URL/productpage` 或运行以下命令：
 
 {{< text bash >}}
 $ curl "http://$GATEWAY_URL/productpage"
