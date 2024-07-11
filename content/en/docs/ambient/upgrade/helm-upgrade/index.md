@@ -80,7 +80,7 @@ With that in mind, this guide will expand on the following steps to upgrade Isti
 Istiod is the control plane component that manages and configures the proxies to route traffic within an ambient mesh. The following command will install a new instance of this control plane alongside the old, but will not introduce any new proxies, or take over control for existing proxies. If you have previously customized your istiod installation, you can reuse the `values.yaml` file from previous upgrades or installs to keep your control planes consistent.
 
 {{< text syntax=bash snip_id=upgrade_istiod >}}
-$ helm install istiod-"$REVISION" istio/istiod -n istio-system --set revision="$REVISION"
+$ helm install istiod-"$REVISION" istio/istiod -n istio-system --set revision="$REVISION" --set profile=ambient --wait
 {{< /text >}}
 
 ## Upgrade the ztunnel DaemonSet
@@ -93,7 +93,7 @@ Node cordoning and blue/green node pools are recommended to mitigate blast radiu
 {{< /warning >}}
 
 {{< text syntax=bash snip_id=upgrade_ztunnel >}}
-$ helm upgrade ztunnel istio/ztunnel -n istio-system --set revision="$REVISION"
+$ helm upgrade ztunnel istio/ztunnel -n istio-system --set revision="$REVISION" --wait
 {{< /text >}}
 
 ## Upgrade the CNI DaemonSet
