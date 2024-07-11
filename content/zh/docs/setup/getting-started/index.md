@@ -390,7 +390,7 @@ Istio 和[几个](/zh/docs/ops/integrations)遥测应用做了集成。
 
 - [部署模型](/zh/docs/ops/deployment/deployment-models/)
 - [部署的最佳实践](/zh/docs/ops/best-practices/deployment/)
-- [Pod 的需求](/zh/docs/ops/deployment/requirements/)
+- [Pod 的需求](/zh/docs/ops/deployment/application-requirements/)
 - [通用安装说明](/zh/docs/setup/)
 
 ## 加入 Istio 社区{#join-the-istio-community}
