@@ -77,13 +77,13 @@ function createCamera(
 
 // Function to create a WebGLRenderer with specified properties
 function createRenderer(rendererProps = {}) {
-    const container = document.getElementById("banner");
+    const container = document.getElementById("hero");
     const renderer = new THREE.WebGLRenderer({ ...rendererProps, alpha: true });
-    renderer.domElement.id = "banner-animation";
+    renderer.domElement.id = "hero-animation";
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(container.offsetWidth, container.offsetHeight);
     renderer.setClearColor(0xffffff, 0);
-    renderer.domElement.id = "banner-animation";
+    renderer.domElement.id = "hero-animation";
     return renderer;
 }
 
@@ -96,13 +96,13 @@ function runAnimation(
     enableAnimation = false,
     uniforms = getDefaultUniforms()
 ) {
-    // Append banner-animation canvas to banner
-    const container = document.getElementById("banner");
+    // Append hero-animation canvas to hero
+    const container = document.getElementById("hero");
     container.appendChild(renderer.domElement);
 
     // Register resize listener
     window.addEventListener("resize", () => {
-        let container = document.getElementById("banner");
+        let container = document.getElementById("hero");
         camera.aspect = container.offsetWidth / container.offsetHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(container.offsetWidth, container.offsetHeight);
@@ -164,7 +164,7 @@ const uniforms = {
         },
     },
     // Point size for rendering
-    u_pointsize: { value: 6.0 },
+    u_pointsize: { value: 3.0 },
 
     // Parameters for the wave1 animation
     u_transformation_freq_1: { value: 3.0 },
