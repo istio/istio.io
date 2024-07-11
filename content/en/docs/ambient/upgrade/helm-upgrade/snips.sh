@@ -45,11 +45,11 @@ kubectl apply -f manifests/charts/base/crds
 }
 
 snip_upgrade_istiod() {
-helm install istiod-"$REVISION" istio/istiod -n istio-system --set revision="$REVISION"
+helm install istiod-"$REVISION" istio/istiod -n istio-system --set revision="$REVISION" --set profile=ambient --wait
 }
 
 snip_upgrade_ztunnel() {
-helm upgrade ztunnel istio/ztunnel -n istio-system --set revision="$REVISION"
+helm upgrade ztunnel istio/ztunnel -n istio-system --set revision="$REVISION" --wait
 }
 
 snip_upgrade_cni() {
