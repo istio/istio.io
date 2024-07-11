@@ -2153,12 +2153,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>If enabled, istiod will use a secret named cacerts to store its self-signed istio-generated root certificate.</td>
 </tr>
 <tr>
-<td><code>USE_EXTERNAL_WORKLOAD_SDS</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>When set to true, the istio-agent will require an external SDS and will throw an error if the workload SDS socket is not found</td>
-</tr>
-<tr>
 <td><code>VALIDATION_WEBHOOK_CONFIG_NAME</code></td>
 <td>String</td>
 <td><code>istio-istio-system</code></td>
@@ -2199,6 +2193,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Time Duration</td>
 <td><code>1h0m0s</code></td>
 <td>interval between checking the expiration of wasm modules</td>
+</tr>
+<tr>
+<td><code>WORKLOAD_IDENTITY_SOCKET_FILE</code></td>
+<td>String</td>
+<td><code>socket</code></td>
+<td>SPIRE workload identity SDS socket filename. If set, an SDS socket with this name must exist at ./var/run/secrets/workload-spiffe-uds</td>
 </tr>
 <tr>
 <td><code>WORKLOAD_RSA_KEY_SIZE</code></td>
