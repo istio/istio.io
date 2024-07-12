@@ -7,31 +7,32 @@ test: no
 ---
 
 在大多数情况下，集群管理员将部署 Istio 网格基础设施。
-一旦 Istio 被成功部署并支持 Ambient {{< gloss "data plane" >}}数据平面{{< /gloss >}}模式，
-它将透明地可供所有用户在已配置为使用它的命名空间中部署的应用程序中使用。
+一旦支持 Ambient {{< gloss "data plane" >}}数据平面{{< /gloss >}}模式的 Istio 被成功部署，
+在配置为可以使用 Istio 的命名空间中，Istio 将完全可用于其中所有用户所部署的应用。
 
-## 为网格中的应用程序启用 Ambient 模式 {#enabling-ambient-mode-for-an-application-in-the-mesh}
+## 为网格中的应用启用 Ambient 模式 {#enabling-ambient-mode-for-an-application-in-the-mesh}
 
-要在 Ambient 模式下将应用程序或命名空间添加到网格，
+要在 Ambient 模式下将应用或命名空间添加到网格，
 请将 `istio.io/dataplane-mode=ambient` 标签添加到相应的资源。
 您可以将此标签应用于命名空间或单个 Pod。
 
-就应用程序 Pod 而言，可以完全透明地无缝启用（或禁用）Ambient 模式。
+就应用 Pod 而言，可以完全透明地无缝启用（或禁用）Ambient 模式。
 与 {{< gloss "sidecar" >}}Sidecar{{< /gloss >}} 数据平面模式不同，
-无需重新启动应用程序即可将它们添加到网格中，并且它们不会显示为在其 Pod 中部署了额外的容器。
+无需重启应用即可将它们添加到网格中，并且这些应用不会显示为在其 Pod 中部署了额外的容器。
 
 ### Layer 4 和 Layer 7 功能 {#layer-4-and-layer-7-functionality}
 
 安全的 L4 覆盖支持身份验证和鉴权策略。
 [了解 Ambient 模式下的 L4 策略支持](/zh/docs/ambient/usage/l4-policy/)。
 要选择使用 Istio 的 L7 功能（例如流量路由），
-您需要[部署一个 waypoint 代理并注册您的工作负载以使用它](/zh/docs/ambient/usage/waypoint/)。
+您需要[部署 waypoint 代理并注册您的工作负载](/zh/docs/ambient/usage/waypoint/)。
 
 ## 不同数据平面模式下的 Pod 间通信 {#communicating-between-pods-in-different-data-plane-modes}
 
-使用 Ambient 数据平面模式的应用程序 Pod 与非 Ambient 端点
-（包括 Kubernetes 应用程序 Pod、Istio 网关或 Kubernetes Gateway API 实例）
-之间的互操作性有多种选择。这种互操作性用于在同一 Istio 网格中无缝集成 Ambient 和非 Ambient 工作负载提供了多种选项，
+使用 Ambient 数据平面模式的应用 Pod 与非 Ambient 端点
+（包括 Kubernetes 应用 Pod、Istio 网关或 Kubernetes Gateway API 实例）
+之间的互操作性有多种选择。这种互操作性用于在同一 Istio 网格中无缝集成
+Ambient 和非 Ambient 工作负载提供了多种选项，
 从而允许以最适合网格部署和操作的需求分阶段引入 Ambient 功能。
 
 ### 网格外的 Pod {#pods-outside-the-mesh}
@@ -96,6 +97,6 @@ Sidecar 注入标签（`istio-injection=enabled`），
 | `istio.io/use-waypoint` | Beta | `Namespace`、`Service` 或 `Pod` | 使用流向标记资源的 waypoint 来实施 L7 策略。<br><br>有效值：`{waypoint-name}` 或 `none`。 |
 | `istio.io/waypoint-for` | Alpha | `Gateway` | 指定 waypoint 将处理流量的端点类型。<br><br>有效值：`service`、`workload`、`none` 或 `all`。该标签是可选的，默认值为 `service`。 |
 
-为了使您的 `istio.io/use-waypoint` 标签值有效，您必须确保为将处理流量的资源类型配置 waypoint。
+为了使您的 `istio.io/use-waypoint` 标签值有效，您必须确保为处理流量的资源类型配置 waypoint。
 默认情况下，waypoint 接受服务流量。例如，当您通过 `istio.io/use-waypoint` 标签将
-Pod 标记为使用特定 waypoint 时，该 waypoint 应被标记为 `istio.io./waypoint-for`，且值为 `workload` 或 `all`。
+Pod 标记为使用特定 waypoint 时，该 waypoint 应打上 `istio.io./waypoint-for` 标签，取值为 `workload` 或 `all`。
