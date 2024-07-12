@@ -39,9 +39,9 @@ doc_type: get-involved
 {{% involve_block title="Become a contributor" subtitle="Code, documentation, community: Istio welcomes your contribution! Use these links as your entry point." icon="contribution" %}}
 1. Familiarize yourself with the Istio [code of conduct](https://github.com/istio/community/blob/master/CONTRIBUTING.md#code-of-conduct) and [contribution guidelines](https://github.com/istio/community/blob/master/CONTRIBUTING.md).
 1. The [Istio Community README](https://github.com/istio/community/blob/master/README.md) is the **starting point for contributors** who want to work on code, docs or other parts of Istio.
-1. You can access our [**trove of technical content and working documents**](https://drive.google.com/corp/drive/folders/0ADmbrU7ueGOUUk9PVA) by joining the [istio-team-drive-access@ Google Group](https://groups.google.com/forum/#!forum/istio-team-drive-access).
+1. You can access our [**trove of technical content and working documents**](https://drive.google.com/drive/folders/1l_zqgBq_yfc1PfbJiWsFubXBtAz22sau) by joining the [istio-team-drive-access@ Google Group](https://groups.google.com/forum/#!forum/istio-team-drive-access).
 1. You can participate in the [**working groups**](https://github.com/istio/community/blob/master/WORKING-GROUPS.md) which focus on particular areas of interest, such as docs, security, and networking.
-1. Interested in helping with **Chinese language documentation**? Join the [Cloud Native Community(China)](https://cloudnative.to).
+1. Interested in helping with **Chinese language documentation**? Join the [Cloud Native Community (China)](https://cloudnative.to).
 {{% /involve_block %}}
 
 {{% involve_block title="Understand oversight and planning" subtitle="Istio has two key committees that oversee the project: Steering and Technical Oversight." icon="magnifier" %}}

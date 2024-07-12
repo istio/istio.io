@@ -38,7 +38,7 @@ doc_type: get-involved
 {{% involve_block title="成为贡献者" subtitle="代码、文档、社区：Istio 欢迎您的贡献！请点击这些链接开始吧。" icon="contribution" %}}
 1. 熟悉 Istio 的[代码规范](https://github.com/istio/community/blob/master/CONTRIBUTING.md#code-of-conduct)与[贡献指南](https://github.com/istio/community/blob/master/CONTRIBUTING.md)。
 2. 无论谁想要通过代码、文档还是其他部分进行贡献，[Istio 社区自述](https://github.com/istio/community/blob/master/README.md)都是 **贡献者的起点** 。
-3. 您可以加入 [istio-team-drive-access@ Google Group](https://groups.google.com/forum/#!forum/istio-team-drive-access) 来 [**访问我们的技术内容和工作文档**](https://drive.google.com/corp/drive/folders/0ADmbrU7ueGOUUk9PVA)。
+3. 您可以加入 [istio-team-drive-access@ Google Group](https://groups.google.com/forum/#!forum/istio-team-drive-access) 来 [**访问我们的技术内容和工作文档**](https://drive.google.com/drive/folders/1l_zqgBq_yfc1PfbJiWsFubXBtAz22sau)。
 4. 您可以加入 [**工作组**](https://github.com/istio/community/blob/master/WORKING-GROUPS.md)，这些工作组专注于您感兴趣的特定领域，如文档、安全和网络。
 5. 有兴趣帮忙翻译 **中文文档** 吗？欢迎加入[云原生社区](https://cloudnative.to)。
 {{% /involve_block %}}
