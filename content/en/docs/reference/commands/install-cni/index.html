@@ -1214,6 +1214,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>If this is set to true, gateway-api resources will have status written to them</td>
 </tr>
 <tr>
+<td><code>PILOT_ENABLE_IP_AUTOALLOCATE</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, pilot will start a controller that assigns IP addresses to ServiceEntry which do not have a user-supplied IP. This, when combined with DNS capture allows for tcp routing of traffic sent to the ServiceEntry.</td>
+</tr>
+<tr>
 <td><code>PILOT_ENABLE_K8S_SELECT_WORKLOAD_ENTRIES</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
