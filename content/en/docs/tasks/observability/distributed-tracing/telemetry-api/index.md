@@ -153,7 +153,7 @@ You can customize the tags using any of the three supported options below.
         - providers:
             - name: "zipkin"
           randomSamplingPercentage: 100.00
-          custom_tags:
+          customTags:
             my_tag_header:
               header:
                 name: <CLIENT-HEADER>
