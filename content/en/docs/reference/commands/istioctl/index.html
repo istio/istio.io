@@ -7537,12 +7537,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>If true, pilot will not put istio-peer-exchange ALPN into TLS handshake configuration.</td>
 </tr>
 <tr>
-<td><code>PILOT_DISTRIBUTION_HISTORY_RETENTION</code></td>
-<td>Time Duration</td>
-<td><code>1m0s</code></td>
-<td>If enabled, Pilot will keep track of old versions of distributed config for this duration.</td>
-</tr>
-<tr>
 <td><code>PILOT_DRAINING_LABEL</code></td>
 <td>String</td>
 <td><code>istio.io/draining</code></td>
@@ -7583,12 +7577,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If true, Pilot will cache CDS responses. Note: this depends on PILOT_ENABLE_XDS_CACHE.</td>
-</tr>
-<tr>
-<td><code>PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If enabled, Pilot will assign meaningful nonces to each Envoy configuration message, and allow users to interrogate which envoy has which config from the debug interface.</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_CROSS_CLUSTER_WORKLOAD_ENTRY</code></td>
