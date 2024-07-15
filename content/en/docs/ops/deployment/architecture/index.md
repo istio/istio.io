@@ -21,10 +21,10 @@ plane**.
 
 The following diagram shows the different components that make up each plane:
 
-{{< image width="80%"
+{{< image
     link="./arch.svg"
     alt="The overall architecture of an Istio-based application."
-    caption="Istio Architecture"
+    caption="Istio architecture in sidecar mode"
     >}}
 
 ## Components
@@ -81,7 +81,7 @@ Istiod provides service discovery, configuration and certificate management.
 
 Istiod converts high level routing rules that control traffic behavior into
 Envoy-specific configurations, and propagates them to the sidecars at runtime.
-Pilot abstracts platform-specific service discovery mechanisms and synthesizes
+It abstracts platform-specific service discovery mechanisms and synthesizes
 them into a standard format that any sidecar conforming with the
 [Envoy API](https://www.envoyproxy.io/docs/envoy/latest/api/api) can consume.
 

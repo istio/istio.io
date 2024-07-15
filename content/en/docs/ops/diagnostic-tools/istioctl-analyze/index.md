@@ -86,7 +86,7 @@ You can run `istioctl analyze --help` to see the full set of options.
 
 {{< boilerplate experimental-feature-warning >}}
 
-Starting with Istio 1.5, Galley can be set up to perform configuration analysis alongside
+Starting with v1.5, Istio can be set up to perform configuration analysis alongside
 the configuration distribution that it is primarily responsible for, via the `istiod.enableAnalysis` flag.
 This analysis uses the same logic and error messages as when using `istioctl analyze`.
 Validation messages from the analysis are written to the status subresource of the affected Istio resource.
