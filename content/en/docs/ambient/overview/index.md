@@ -26,7 +26,7 @@ For details on the design of ambient mode, and how it interacts with the Istio {
 
 The ztunnel (Zero Trust tunnel) component is a purpose-built, per-node proxy that powers Istio's ambient data plane mode.
 
-Ztunnel is responsible for securely connecting and authenticating workloads within the mesh. The ztunnel proxy is written in Rust and is intentionally scoped to handle L3 and L4 functions such as mTLS, authentication, L4 authorization and telemetry. Ztunnel does not terminate workload HTTP traffic or parse workload HTTP headers. The ztunnel ensures L3 and L4 traffic is efficiently and securely transported to waypoint proxies, where the full suite of Istio’s L7 functionality, such as HTTP telemetry and load balancing, is implemented.
+Ztunnel is responsible for securely connecting and authenticating workloads within the mesh. The ztunnel proxy is written in Rust and is intentionally scoped to handle L3 and L4 functions such as mTLS, authentication, L4 authorization and telemetry. Ztunnel does not terminate workload HTTP traffic or parse workload HTTP headers. The ztunnel ensures L3 and L4 traffic is efficiently and securely transported either directly to workloads, other ztunnel proxies, or to waypoint proxies.
 
 The term "secure overlay" is used to collectively describe the set of L4 networking functions implemented in an ambient mesh via the ztunnel proxy. At the transport layer, this is implemented via an HTTP CONNECT-based traffic tunneling protocol called [HBONE](/docs/ambient/architecture/hbone).
 
