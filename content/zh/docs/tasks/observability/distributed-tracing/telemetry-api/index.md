@@ -148,7 +148,7 @@ EOF
         - providers:
             - name: "zipkin"
           randomSamplingPercentage: 100.00
-          custom_tags:
+          customTags:
             my_tag_header:
               header:
                 name: <CLIENT-HEADER>
