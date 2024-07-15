@@ -60,9 +60,9 @@ You can get an overview of your mesh using the `proxy-status` or `ps` command:
 $ istioctl proxy-status
 {{< /text >}}
 
-If a proxy is missing from the output list it means that it is not currently connected to a Pilot instance and so it
+If a proxy is missing from the output list it means that it is not currently connected to an istiod instance and so it
 will not receive any configuration. Additionally, if it is marked stale, it likely means there are networking issues or
-Pilot needs to be scaled.
+istiod needs to be scaled.
 
 ## Get proxy configuration
 

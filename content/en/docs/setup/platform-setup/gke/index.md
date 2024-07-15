@@ -44,7 +44,7 @@ Follow these instructions to prepare a GKE cluster for Istio.
     {{< warning >}}
     **For private GKE clusters**
 
-    An automatically created firewall rule does not open port 15017. This is needed by the Pilot discovery validation webhook.
+    An automatically created firewall rule does not open port 15017. This is needed by the istiod discovery validation webhook.
 
     To review this firewall rule for master access:
 

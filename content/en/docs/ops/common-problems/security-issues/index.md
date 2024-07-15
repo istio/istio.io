@@ -473,7 +473,7 @@ Make sure the displayed certificate contains valid information. In particular, t
 
 ## Mutual TLS errors
 
-If you suspect problems with mutual TLS, first ensure that [Citadel is healthy](#repairing-citadel), and
+If you suspect problems with mutual TLS, first ensure that istiod is healthy, and
 second ensure that [keys and certificates are being delivered](#keys-and-certificates-errors) to sidecars properly.
 
 If everything appears to be working so far, the next step is to verify that the right [authentication policy](/docs/tasks/security/authentication/authn-policy/)

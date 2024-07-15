@@ -11,6 +11,6 @@ See [Configuration for Prometheus](/docs/ops/integrations/prometheus/#Configurat
 
 A few notes:
 
-- If the Prometheus pod started before the Istio Citadel pod could generate the required certificates and distribute them to Prometheus, the Prometheus pod will need to
+- If the Prometheus pod started before the istiod pod could generate the required certificates and distribute them to Prometheus, the Prometheus pod will need to
 be restarted in order to collect from mutual TLS-protected targets.
 - If your application exposes Prometheus metrics on a dedicated port, that port should be added to the service and deployment specifications.
