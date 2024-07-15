@@ -9,9 +9,11 @@ owner: istio/wg-environments-maintainers
 test: yes
 ---
 
-This guide shows you how to install Istio in ambient mode with Helm.
-Aside from following the demo in [Getting Started with Ambient Mode](/docs/ambient/getting-started/),
-we encourage the use of Helm to install Istio for use in ambient mode. Helm helps you manage components separately, and you can easily upgrade the components to the latest version.
+This guide shows you how to install Istio's {{< gloss "ambient" >}}ambient mode{{< /gloss >}} in a production cluster in ambient mode with Helm, as a series of separately-installed, independently-upgradable components. Doing so gives you the most control over Istio upgrades, and is strongly recommended in a production context.
+
+If you are looking to quickly evaluate Istio's ambient mode in a non-production context, we recommend following the quick-start demo in [Getting Started with Ambient Mode](/docs/ambient/getting-started/) instead.
+
+We generally encourage the use of Helm to install Istio when using ambient mode. Helm helps you manage components separately, is widely compatible with other tooling, and allows you to independently install and upgrade Istio components if desired.
 
 ## Prerequisites
 
@@ -28,21 +30,13 @@ we encourage the use of Helm to install Istio for use in ambient mode. Helm help
 
 *See [helm repo](https://helm.sh/docs/helm/helm_repo/) for command documentation.*
 
-Istio is made up of multiple components which belong to either the {{< gloss >}}data plane{{< /gloss >}} or {{< gloss >}}control plane{{< /gloss >}}, and different components may have different effects on your applications when upgraded - for production deployments, it is strongly recommended to install the components separately to allow for more control during upgrades. Consult the [operations guidelines](/docs/ops/best-practices/deployment/) for production deployment considerations.
+Istio is made up of multiple components which belong to either the {{< gloss >}}data plane{{< /gloss >}} or the {{< gloss >}}control plane{{< /gloss >}}. Different components may have different effects on your applications and cluster networking when upgraded.
 
-For installing Istio with support for the {{< gloss >}}ambient{{< /gloss >}} data plane mode in a non-production cluster, we provide a simple Helm chart which bundles all the required Helm charts.
+{{< tip >}}
+For production deployments, it is strongly recommended to install the components separately via Helm to allow for more control during Istio upgrades. Consult the [operations guidelines](/docs/ops/best-practices/deployment/) for production deployment considerations and more details.
+{{< /tip >}}
 
-## Simple install
-
-The `ambient` Helm chart composes all the components that enable the use of Istio's ambient data plane mode:
-
-{{< text syntax=bash snip_id=install_ambient_chart >}}
-$ helm install istio-ambient istio/ambient -n istio-system --create-namespace --wait
-{{< /text >}}
-
-Proceed to [verifying the installation](#verify-the-installation) or [installing an ingress gateway (optional)](#install-an-ingress-gateway-optional)
-
-## Install the components individually
+## Install
 
 ### Install the base component
 
@@ -133,8 +127,7 @@ ztunnel-c2z4s                    1/1     Running   0          10m
 
 ### Verify with the sample application
 
-After installing ambient mode with Helm, you can follow the [Deploy the sample application](/docs/ambient/getting-started/#bookinfo) guide to deploy the sample application and ingress gateways, and then you can
-[add your application to the ambient mesh](/docs/ambient/getting-started/#addtoambient).
+Congratulations! You've successfully installed Istio with support for ambient mode. Continue to the next step to [install the demo application and add it to the ambient mesh](/docs/ambient/getting-started/deploy-sample-app/), or [add your own applications to the ambient mesh](/docs/ambient/usage/add-workloads/)
 
 ## Uninstall
 
@@ -149,39 +142,9 @@ $ kubectl delete namespace istio-ingress
 
 If your Kubernetes cluster doesn't support the `LoadBalancer` service type (`type: LoadBalancer`) with a proper external IP assigned, run the above command without the `--wait` parameter to avoid the infinite wait. See [Installing Gateways](/docs/setup/additional-setup/gateway/) for in-depth documentation on gateway installation.
 
-### Simple uninstall
+### Uninstall Istio
 
-1. Delete the Istio ambient chart:
-
-    {{< tip >}}
-    [By design](https://github.com/helm/community/blob/main/hips/hip-0011.md#deleting-crds),
-    deleting a chart via Helm doesn't delete the installed Custom
-    Resource Definitions (CRDs) installed via the chart.
-    {{< /tip >}}
-
-    {{< text syntax=bash snip_id=delete_ambient_chart >}}
-    $ helm delete istio-ambient -n istio-system --wait
-    {{< /text >}}
-
-1. Delete CRDs installed by Istio (optional)
-
-    {{< warning >}}
-    This will delete all created Istio resources.
-    {{< /warning >}}
-
-    {{< text syntax=bash snip_id=delete_crds_chart >}}
-    $ kubectl get crd -oname | grep --color=never 'istio.io' | xargs kubectl delete
-    {{< /text >}}
-
-1. Delete the `istio-system` namespace:
-
-    {{< text syntax=bash snip_id=delete_system_namespace_chart >}}
-    $ kubectl delete namespace istio-system
-    {{< /text >}}
-
-### Uninstall the components individually
-
-If you installed the charts individually above, you can uninstall Istio and its components by uninstalling those charts individually:
+If you installed the Istio component charts individually above, you can uninstall Istio by uninstalling those charts individually, in reverse order:
 
 1. List all the Istio charts installed in `istio-system` namespace:
 
@@ -192,6 +155,12 @@ If you installed the charts individually above, you can uninstall Istio and its 
     istio-cni       istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    cni-{{< istio_full_version >}}      {{< istio_full_version >}}
     istiod          istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    istiod-{{< istio_full_version >}}   {{< istio_full_version >}}
     ztunnel         istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    ztunnel-{{< istio_full_version >}}  {{< istio_full_version >}}
+    {{< /text >}}
+
+1. Delete the Istio ztunnel chart:
+
+    {{< text syntax=bash snip_id=delete_ztunnel >}}
+    $ helm delete ztunnel -n istio-system
     {{< /text >}}
 
 1. Delete the Istio CNI chart:

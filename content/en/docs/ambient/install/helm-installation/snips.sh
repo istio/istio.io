@@ -25,10 +25,6 @@ helm repo add istio https://istio-release.storage.googleapis.com/charts
 helm repo update
 }
 
-snip_install_ambient_chart() {
-helm install istio-ambient istio/ambient -n istio-system --create-namespace --wait
-}
-
 snip_install_base() {
 helm install istio-base istio/base -n istio-system --create-namespace --wait
 }
@@ -85,29 +81,21 @@ helm delete istio-ingress -n istio-ingress --wait
 kubectl delete namespace istio-ingress
 }
 
-snip_delete_ambient_chart() {
-helm delete istio-ambient -n istio-system --wait
-}
-
-snip_delete_crds_chart() {
-kubectl get crd -oname | grep --color=never 'istio.io' | xargs kubectl delete
-}
-
-snip_delete_system_namespace_chart() {
-kubectl delete namespace istio-system
-}
-
-snip_uninstall_the_components_individually_1() {
+snip_uninstall_istio_1() {
 helm ls -n istio-system
 }
 
-! IFS=$'\n' read -r -d '' snip_uninstall_the_components_individually_1_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_uninstall_istio_1_out <<\ENDSNIP
 NAME            NAMESPACE       REVISION    UPDATED                                 STATUS      CHART           APP VERSION
 istio-base      istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    base-1.23.0     1.23.0
 istio-cni       istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    cni-1.23.0      1.23.0
 istiod          istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    istiod-1.23.0   1.23.0
 ztunnel         istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    ztunnel-1.23.0  1.23.0
 ENDSNIP
+
+snip_delete_ztunnel() {
+helm delete ztunnel -n istio-system
+}
 
 snip_delete_cni() {
 helm delete istio-cni -n istio-system

@@ -20,11 +20,55 @@
 #          docs/ambient/getting-started/_index.md
 ####################################################################################################
 
-snip_install_ambient() {
-istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --set profile=ambient --skip-confirmation
+snip_configure_helm() {
+helm repo add istio https://istio-release.storage.googleapis.com/charts
+helm repo update
 }
 
-snip_install_k8s_gateway_api() {
-kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
-  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v1.1.0" | kubectl apply -f -; }
+snip_install_ambient_chart() {
+helm install istio-ambient istio/ambient -n istio-system --create-namespace --wait
+}
+
+snip_install_ingress() {
+helm install istio-ingress istio/gateway -n istio-ingress --create-namespace --wait
+}
+
+snip_show_components() {
+helm ls -n istio-system
+}
+
+! IFS=$'\n' read -r -d '' snip_show_components_out <<\ENDSNIP
+NAME            NAMESPACE       REVISION    UPDATED                                 STATUS      CHART           APP VERSION
+istio-base      istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    base-1.23.0     1.23.0
+istio-cni       istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    cni-1.23.0      1.23.0
+istiod          istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    istiod-1.23.0   1.23.0
+ztunnel         istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    ztunnel-1.23.0  1.23.0
+ENDSNIP
+
+snip_check_pods() {
+kubectl get pods -n istio-system
+}
+
+! IFS=$'\n' read -r -d '' snip_check_pods_out <<\ENDSNIP
+NAME                             READY   STATUS    RESTARTS   AGE
+istio-cni-node-g97z5             1/1     Running   0          10m
+istiod-5f4c75464f-gskxf          1/1     Running   0          10m
+ztunnel-c2z4s                    1/1     Running   0          10m
+ENDSNIP
+
+snip_delete_ingress() {
+helm delete istio-ingress -n istio-ingress --wait
+kubectl delete namespace istio-ingress
+}
+
+snip_delete_ambient_chart() {
+helm delete istio-ambient -n istio-system --wait
+}
+
+snip_delete_crds_chart() {
+kubectl get crd -oname | grep --color=never 'istio.io' | xargs kubectl delete
+}
+
+snip_delete_system_namespace_chart() {
+kubectl delete namespace istio-system
 }
