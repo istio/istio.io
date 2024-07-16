@@ -6,13 +6,14 @@ owner: istio/wg-docs-maintainers-english
 test: no
 ---
 
-在 **Ambient 模式**下，Istio 使用每个节点的
-Layer 4（L4）代理和可选的每个命名空间的 Layer 7（L7）代理来实现其[功能](/zh/docs/concepts)。
+在 **Ambient 模式**下，Istio 在每个节点使用
+Layer 4（L4）代理实现其[各项特性](/zh/docs/concepts)，
+还可以选择在每个命名空间使用 Layer 7（L7）代理。
 
-这种分层方法允许您以更加增量的方式采用 Istio，根据需要在每个命名空间的基础上，
-从无网格平滑过渡到安全的 L4 覆盖，再到完整的 L7 处理和策略。 此外，
+这种分层方法允许您以逐步递进的方式采用 Istio，您可以根据需要基于每个命名空间，
+从无网格平滑过渡到安全的 L4 覆盖，再到完整的 L7 处理和策略。此外，
 在不同 Istio {{< gloss "data plane" >}}数据平面{{< /gloss >}}模式下运行的工作负载可以无缝互操作，
-允许用户根据随时间变化的特定需求混合和匹配功能。
+允许用户随时间变化的特定需求来混合和匹配各项功能。
 
 由于工作负载 Pod 不再需要在 Sidecar 中运行代理才能参与网格，
 因此 Ambient 模式通常被非正式地称为“无 Sidecar 网格”。
@@ -40,8 +41,7 @@ ztunnel（Zero Trust tunnel，零信任隧道）组件是一个专门构建的�
 ztunnel 负责安全连接和验证网格内的工作负载。ztunnel 代理是用 Rust 编写的，
 旨在处理 L3 和 L4 功能，例如 mTLS、身份验证、L4 鉴权和遥测。
 ztunnel 不会终止工作负载 HTTP 流量或解析工作负载 HTTP 标头。
-ztunnel 确保 L3 和 L4 流量高效、安全地传输到 waypoint 代理，
-在 waypoint 代理中实现了 Istio 的全套 L7 功能，例如 HTTP 遥测和负载均衡。
+ztunnel 确保 L3 和 L4 流量能够被高效、安全地传输到工作负载、其他 ztunnel 代理或 waypoint 代理。
 
 术语“安全覆盖”用于统一描述通过 ztunnel 代理在 Ambient 网格中实现的 L4 网络功能集。
 在传输层，这是通过称为 [HBONE](/zh/docs/ambient/architecture/hbone)
