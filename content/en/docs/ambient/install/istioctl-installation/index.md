@@ -18,17 +18,6 @@ Aside from following the demo in [Getting Started with Ambient Mode](/docs/ambie
 
 1. Download the [latest version of Istio](/docs/setup/getting-started/#download).
 
-1. Install the Kubernetes Gateway API CRDs, which don’t come installed by default on most Kubernetes clusters:
-
-    {{< text syntax=bash snip_id=install_crds >}}
-    $ kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.0.0/standard-install.yaml
-    {{< /text >}}
-
-    {{< tip >}}
-    {{< boilerplate gateway-api-future >}}
-    {{< boilerplate gateway-api-choose >}}
-    {{< /tip >}}
-
 ## Install
 
 {{< text syntax=bash snip_id=install_istio >}}
