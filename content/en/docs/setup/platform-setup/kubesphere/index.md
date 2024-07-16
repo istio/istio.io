@@ -1,4 +1,4 @@
 ---
-title: KubeSphere Container Platform
+title:
 layout: faq
 ---

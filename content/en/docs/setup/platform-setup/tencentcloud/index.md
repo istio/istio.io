@@ -1,4 +1,4 @@
 ---
-title: Tencent cloud
+title:
 layout: faq
 ---

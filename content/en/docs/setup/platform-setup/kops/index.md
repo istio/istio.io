@@ -1,4 +1,4 @@
 ---
-title: Kops
+title:
 layout: faq
 ---

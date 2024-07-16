@@ -1,4 +1,4 @@
 ---
-title: Minikube
+title:
 layout: faq
 ---

@@ -1,4 +1,4 @@
 ---
-title: MicroK8s
+title:
 layout: faq
 ---

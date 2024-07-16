@@ -1,4 +1,4 @@
 ---
-title: Oracle Cloud Infrastructure
+title:
 layout: faq
 ---

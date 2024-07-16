@@ -1,4 +1,4 @@
 ---
-title: k3d
+title:
 layout: faq
 ---

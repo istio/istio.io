@@ -170,7 +170,7 @@ function handleSidebar(): void {
                 link[0].classList.add("current");
             }
         } else {
-            if (link) {
+            if (link && link.length > 0) {
                 link[0].classList.remove("current");
             }
             const list = sidebar.getElementsByTagName("a");
