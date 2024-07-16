@@ -85,7 +85,7 @@ $ istioctl analyze --use-kube=false samples/bookinfo/networking/*.yaml
 
 {{< boilerplate experimental-feature-warning >}}
 
-从 Istio 1.5 开始，Galley 可以通过 `istiod.enableAnalysis`
+从 v1.5 开始，Istio 可以通过 `istiod.enableAnalysis`
 标志设置为与 Galley 主要负责的配置分发一起执行配置分析。
 Galley 分析所使用的逻辑和错误消息与 `istioctl analyze` 相同。
 分析所产生的验证消息被写入到受影响的 Istio 资源的状态子资源。

@@ -137,7 +137,7 @@ spec:
 默认值为 1%。
 
 {{< warning >}}
-以前，推荐的方法是在网格设置期间更改 `values.pilot.traceSampling` 设置，或在 pilot 或
+以前，推荐的方法是在网格设置期间更改 `values.pilot.traceSampling` 设置，或在
 istiod Deployment 中更改 `PILOT_TRACE_SAMPLE` 环境变量。
 
 虽然这种改变抽样的方法仍然有效，但强烈建议改用以下方法。

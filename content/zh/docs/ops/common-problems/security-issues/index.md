@@ -420,7 +420,7 @@ Certificate:
 
 ## 双向 TLS 错误 {#mutual-TLS-errors}
 
-如果怀疑双向 TLS 出现了问题，首先要确认 [Citadel 健康](#repairing-citadel)，
+如果怀疑双向 TLS 出现了问题，首先要确认 istiod 的健康状态，
 接下来要查看的是[密钥和证书正确下发](#keys-and-certificates-errors) Sidecar。
 
 如果上述检查都正确无误，下一步就应该验证[认证策略](/zh/docs/tasks/security/authentication/authn-policy/)已经创建，

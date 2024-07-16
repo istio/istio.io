@@ -174,7 +174,7 @@ EOF
 {{< /text >}}
 
 您还可以启用或禁用组件、修改资源设置。
-例如，启用 `istio-egressgateway` 组件并增加 pilot 的内存请求：
+例如，启用 `istio-egressgateway` 组件并增加 istiod 的内存请求：
 
 {{< text syntax=bash snip_id=update_to_default_profile_egress >}}
 $ kubectl apply -f - <<EOF

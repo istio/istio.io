@@ -13,7 +13,7 @@ test: n/a
 
 本节提供特定的部署或配置准则，以避免网络或流量管理问题。
 
-## 为服务设置默认路由{#set-default-routes-for-services}
+## 为服务设置默认路由 {#set-default-routes-for-services}
 
 尽管默认的 Istio 行为就可以在没有配置任何规则的情况下，将任何来源的流量发送到目标服务的所有版本。
 但是，在 Istio 里的最佳做法是，从一开始就为每一个服务创建具有默认路由的 `VirtualService`。
@@ -30,7 +30,7 @@ test: n/a
 即相应的 `VirtualService` 定义中没有路由规则：
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: reviews
@@ -51,7 +51,7 @@ spec:
 您可以通过以下两种方法之一来修复上面的示例。您可以在 `DestinationRule` 中将流量策略上移以使其适用于任何版本：
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: reviews
@@ -71,7 +71,7 @@ spec:
 例如，为 `reviews:v1` 添加一个简单的路由规则：
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: reviews
@@ -85,7 +85,7 @@ spec:
         subset: v1
 {{< /text >}}
 
-## 控制配置在命名空间之间的共享{#cross-namespace-configuration}
+## 控制配置在命名空间之间的共享 {#cross-namespace-configuration}
 
 您可以在一个命名空间中定义 `VirtualService`，`DestinationRule` 或 `ServiceEntry`，
 然后将它们导出到其他命名空间，然后在其他命名空间中重用它们。
@@ -93,7 +93,7 @@ Istio 默认情况下会将所有流量管理资源导出到所有命名空间�
 控制其跨命名空间的可见性。例如，只有相同命名空间中的客户端可以使用以下 `VirtualService`：
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: myservice
@@ -123,7 +123,7 @@ spec:
 例如，有以下 `DestinationRule`：
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: myservice
@@ -158,17 +158,17 @@ Istio 使用这种受限制的 `DestinationRule` 查找路径有两个原因：
 1. 防止定义覆盖完全不相关的命名空间中的服务行为的 `DestinationRule`。
 1. 当同一 host 有多个 `DestinationRule` 时，可以有一个清晰的查找顺序。
 
-## 将大型 `VirtualService` 和 `DestinationRule` 拆分为多个资源{#split-virtual-services}
+## 将大型 `VirtualService` 和 `DestinationRule` 拆分为多个资源 {#split-virtual-services}
 
 当不方便在单个 `VirtualService` 或 `DestinationRule` 资源中为特定 host 定义完整的路由规则或策略集时，
 最好在多个资源中递增指定 host 的配置。如果将这些 `DestinationRule` 绑定到网关，
-Pilot 会合并这些 `DestinationRule` 和 `VirtualService`。
+控制面会合并这些 `DestinationRule` 和 `VirtualService`。
 
 考虑一下这种情况，一个 `VirtualService` 绑定到入口网关上，并将应用的 host 暴露出来，
 该 host 基于路径代理了多个服务，如下所示：
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: myapp
@@ -201,7 +201,7 @@ spec:
 为避免此问题，最好将 `myapp.com` 的配置分解为多个 `VirtualService`，每个后端服务一个。例如：
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: myapp-service1
@@ -218,7 +218,7 @@ spec:
     - destination:
         host: service1.default.svc.cluster.local
 ---
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: myapp-service2
@@ -235,13 +235,13 @@ spec:
     - destination:
         host: service2.default.svc.cluster.local
 ---
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: myapp-...
 {{< /text >}}
 
-当为已存在的 host 创建第二个及更多的 `VirtualService`时，`istio-pilot` 会将额外的路由规则合并到
+当为已存在的 host 创建第二个及更多的 `VirtualService`时，`istiod` 会将额外的路由规则合并到
 host 现有配置中。但是，在使用此功能时，有一些注意事项。
 
 1. 尽管会保留任何给定源 `VirtualService` 中规则的评估顺序，但跨资源的顺序是不确定的。
@@ -260,16 +260,16 @@ host 现有配置中。但是，在使用此功能时，有一些注意事项。
    时，将使用第一个策略。之后的所有顶级 `trafficPolicy` 配置都将被丢弃。
 1. 与 `VirtualService` 合并不同，`DestinationRule` 合并在 Sidecar 和 gateway 中均有效。
 
-## 避免重新配置服务路由时出现 503 错误{#avoid-5-0-3-errors-while-reconfiguring-service-routes}
+## 避免重新配置服务路由时出现 503 错误 {#avoid-5-0-3-errors-while-reconfiguring-service-routes}
 
 在设置路由规则以将流量定向到服务的某个版本（子集）时，必须注意确保子集在路由中使用之前是可用的。
 否则，在重新配置期间，对服务的调用可能返回 503 错误。
 
 使用单个 `kubectl` 调用（例如，`kubectl apply -f myVirtualServiceAndDestinationRule.yaml`）
 创建定义相应子集的 `VirtualServices` 和 `DestinationRules` 是不够的，
-因为资源（是从配置服务器传播的，即 Kubernetes API 服务器）以最终一致的方式添加到 Pilot 实例的。
-如果 `VirtualService` 在定义的子集 `DestinationRule` 到达之前使用了子集，则 Pilot 生成的 Envoy
-配置将引用不存在的上游池。结果就是出现 HTTP 503 错误，直到对于 Pilot 来说所有配置对象都是可用的。
+因为资源（是从配置服务器传播的，即 Kubernetes API 服务器）以最终一致的方式添加到 istiod 实例的。
+如果 `VirtualService` 在定义的子集 `DestinationRule` 到达之前使用了子集，则 istiod 生成的 Envoy
+配置将引用不存在的上游池。结果就是出现 HTTP 503 错误，直到对于 istiod 来说所有配置对象都是可用的。
 
 为保证服务在配置带有子集的路由时的停机时间为零，请按照下述“先接后断”的流程进行操作：
 
