@@ -71,8 +71,8 @@ You can uninstall Istio and its components using the following commands.
     $ istioctl uninstall -y --purge
     {{< /text >}}
 
-1. Remove the Gateway API CRDs (optional)
+1. Delete the `istio-system` namespace:
 
-    {{< text syntax=bash snip_id=uninstall_crds >}}
-    $ kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref={{< k8s_gateway_api_version >}}" | kubectl delete -f -
+    {{< text syntax=bash snip_id=delete_istio_namespace >}}
+    $ kubectl delete namespace istio-system
     {{< /text >}}

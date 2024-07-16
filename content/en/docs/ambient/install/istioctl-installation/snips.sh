@@ -57,6 +57,6 @@ snip_uninstall_istio() {
 istioctl uninstall -y --purge
 }
 
-snip_uninstall_crds() {
-kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v1.1.0" | kubectl delete -f -
+snip_delete_istio_namespace() {
+kubectl delete namespace istio-system
 }
