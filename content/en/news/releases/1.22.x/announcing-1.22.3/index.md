@@ -21,4 +21,4 @@ This release note describes what is different between Istio 1.22.2 and 1.22.3.
 
 - **Fixed** inconsistent behavior with the `istio_agent_cert_expiry_seconds` metric.
 
-- **Removed** JSON access logs no longer emit keys in a stable ordering awaiting fix https://github.com/envoyproxy/envoy/issues/34420.
+- **Removed** sorting of JSON access logs pending [Envoy fix](https://github.com/envoyproxy/envoy/issues/34420).
