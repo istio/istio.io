@@ -22,7 +22,6 @@ set -o pipefail
 
 # @setup profile=none
 
-snip_install_crds
 snip_install_istio
 
 _wait_for_deployment istio-system istiod
