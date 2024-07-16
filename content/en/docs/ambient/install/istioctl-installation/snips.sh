@@ -20,10 +20,6 @@
 #          docs/ambient/install/istioctl-installation/index.md
 ####################################################################################################
 
-snip_install_crds() {
-kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.0.0/standard-install.yaml
-}
-
 snip_install_istio() {
 istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --set profile=ambient --skip-confirmation
 }
