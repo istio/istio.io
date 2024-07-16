@@ -8,7 +8,7 @@ aliases:
     - /docs/setup/kubernetes/platform-setup/openshift/
 keywords: [platform-setup,openshift]
 owner: istio/wg-environments-maintainers
-test: no
+test: n/a
 ---
 
 Follow these instructions to prepare an OpenShift cluster for Istio.

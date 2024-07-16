@@ -8,7 +8,7 @@ aliases:
     - /docs/setup/kubernetes/platform-setup/MicroK8s/
 keywords: [platform-setup,kubernetes,MicroK8s]
 owner: istio/wg-environments-maintainers
-test: no
+test: n/a
 ---
 
 This page was last updated August 28, 2019.

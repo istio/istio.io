@@ -8,7 +8,7 @@ aliases:
     - /docs/setup/kubernetes/platform-setup/gke/
 keywords: [platform-setup,kubernetes,gke,google]
 owner: istio/wg-environments-maintainers
-test: no
+test: n/a
 ---
 
 Follow these instructions to prepare a GKE cluster for Istio.

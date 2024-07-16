@@ -5,7 +5,7 @@ weight: 33
 skip_seealso: true
 keywords: [platform-setup,kubernetes,kops]
 owner: istio/wg-environments-maintainers
-test: no
+test: n/a
 ---
 
 {{< tip >}}

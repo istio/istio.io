@@ -8,7 +8,7 @@ aliases:
     - /docs/setup/kubernetes/platform-setup/minikube/
 keywords: [platform-setup,kubernetes,minikube]
 owner: istio/wg-environments-maintainers
-test: no
+test: n/a
 ---
 
 Follow these instructions to prepare minikube for Istio installation with sufficient

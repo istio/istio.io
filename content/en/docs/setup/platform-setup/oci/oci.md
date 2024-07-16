@@ -8,7 +8,7 @@ aliases:
     - /docs/setup/kubernetes/platform-setup/oci/
 keywords: [platform-setup,kubernetes,oke,oci,oracle]
 owner: istio/wg-environments-maintainers
-test: no
+test: n/a
 ---
 
 This page was last updated September 20, 2021.

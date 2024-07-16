@@ -7,11 +7,9 @@ aliases:
     - /docs/setup/kubernetes/prepare/platform-setup/alicloud/
     - /docs/setup/kubernetes/platform-setup/alicloud/
 keywords: [platform-setup,alibaba-cloud,aliyun,alicloud]
+skip_sidebar: true
 owner: istio/wg-environments-maintainers
 test: n/a
-layout: faq
-skip_sidebar: true
-
 ---
 
 {{< boilerplate untested-document >}}

@@ -5,7 +5,7 @@ weight: 28
 skip_seealso: true
 keywords: [platform-setup,kubernetes,k3d,k3s]
 owner: istio/wg-environments-maintainers
-test: no
+test: n/a
 ---
 
 k3d is a lightweight wrapper to run [k3s](https://github.com/rancher/k3s) (Rancher Lab’s minimal Kubernetes distribution) in docker.

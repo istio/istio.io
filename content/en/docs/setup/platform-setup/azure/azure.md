@@ -7,7 +7,7 @@ aliases:
   - /docs/setup/kubernetes/platform-setup/azure/
 keywords: [platform-setup, azure]
 owner: istio/wg-environments-maintainers
-test: no
+test: n/a
 ---
 
 Follow these instructions to prepare an Azure cluster for Istio.

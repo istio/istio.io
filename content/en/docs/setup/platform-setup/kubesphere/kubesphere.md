@@ -5,7 +5,7 @@ weight: 40
 skip_seealso: true
 keywords: [platform-setup,kubesphere,kubernetes]
 owner: istio/wg-environments-maintainers
-test: no
+test: n/a
 ---
 
 This page was last updated March 9, 2021.
@@ -69,7 +69,7 @@ Ensure your firewall meets the [port requirements](https://kubesphere.io/docs/in
     At the same time, Kubernetes has been installed into your environment.
     {{< /tip >}}
 
-    ![KubeSphere Console](images/kubesphere-console.png)
+    {{< image link="./kubesphere-console.png" caption="KubeSphere Console" >}}
 
 ## Enable installing Istio on Kubernetes
 

@@ -7,7 +7,7 @@ aliases:
 skip_seealso: true
 keywords: [platform-setup,kubernetes,gardener,sap]
 owner: istio/wg-environments-maintainers
-test: no
+test: n/a
 ---
 
 ## Bootstrapping Gardener
