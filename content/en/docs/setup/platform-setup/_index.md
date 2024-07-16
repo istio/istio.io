@@ -2,6 +2,7 @@
 title: Platform Setup
 description: How to prepare various Kubernetes platforms before installing Istio.
 weight: 5
+skip_sidebar: true
 skip_seealso: true
 skip_toc: true
 skip_sidebar: true
@@ -10,7 +11,6 @@ aliases:
     - /docs/setup/kubernetes/platform-setup/
 keywords: [platform-setup]
 test: table-of-contents
-skip_byline: true
 ---
 
 Follow the instruction below on how to prepare various Kubernetes platforms before installing Istio.

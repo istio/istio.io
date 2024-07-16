@@ -6,7 +6,7 @@
 
 <div>
     {{ range .Data.Pages.ByWeight }}
-        {{ if .LinkTitle }}
+        {{ if  not .Params.skip_faq_title }}
         <h2 id="{{.LinkTitle | urlize }}">{{ .LinkTitle }}</h2>
         {{ end  }}
 
