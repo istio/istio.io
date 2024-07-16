@@ -31,4 +31,3 @@ _wait_for_daemonset istio-system ztunnel
 
 # @cleanup
 snip_uninstall_istio
-snip_uninstall_crds
