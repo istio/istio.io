@@ -21,7 +21,7 @@ Istio 服务网格从逻辑上分为**数据平面**和**控制平面** 。
 
 {{< image
     link="./arch.svg"
-    alt="基于 Istio 应用程序的总体架构"
+    alt="基于 Istio 应用的总体架构"
     caption="Istio Sidecar 模式架构"
     >}}
 
@@ -39,7 +39,7 @@ Envoy 代理被部署为服务的 Sidecar，在逻辑上为服务增加了 Envoy
 
 - 动态服务发现
 - 负载均衡
-- TLS 终端
+- TLS 终止
 - HTTP/2 与 gRPC 代理
 - 熔断器
 - 健康检查
@@ -76,6 +76,6 @@ Istio 可以支持发现 Kubernetes 或 VM 等多种环境。
 Istiod [安全](/zh/docs/concepts/security/)通过内置的身份和凭证管理，
 实现了强大的服务对服务和终端用户认证。您可以使用 Istio 来升级服务网格中未加密的流量。
 使用 Istio，运营商可以基于服务身份而不是相对不稳定的第 3 层或第 4 层网络标识符来执行策略。
-此外，您可以使用 [Istio 的授权功能](/zh/docs/concepts/security/#authorization)控制谁可以访问您的服务。
+此外，您可以使用 [Istio 的鉴权功能](/zh/docs/concepts/security/#authorization)控制谁可以访问您的服务。
 
-Istiod 充当证书授权机构（CA）并生成证书，以允许在数据平面中进行安全的 mTLS 通信。
+Istiod 充当证书颁发机构（CA）并生成证书，以允许在数据平面中进行安全的 mTLS 通信。
