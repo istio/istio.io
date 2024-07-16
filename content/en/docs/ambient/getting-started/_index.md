@@ -44,7 +44,7 @@ For production deployments, it is strongly recommended to install the components
 The `ambient` Helm chart composes all the components that enable the use of Istio's ambient data plane mode:
 
 {{< text syntax=bash snip_id=install_ambient_chart >}}
-$ helm install istio-ambient istio/ambient -n istio-system --create-namespace --wait
+$ helm install istio-ambient istio/samples/ambient -n istio-system --create-namespace --wait
 {{< /text >}}
 
 Proceed to [verifying the installation](#verify-the-installation) or [installing an ingress gateway (optional)](#install-an-ingress-gateway-optional)

@@ -26,7 +26,7 @@ helm repo update
 }
 
 snip_install_ambient_chart() {
-helm install istio-ambient istio/ambient -n istio-system --create-namespace --wait
+helm install istio-ambient istio/samples/ambient -n istio-system --create-namespace --wait
 }
 
 snip_install_ingress() {

@@ -101,6 +101,10 @@ snip_delete_cni() {
 helm delete istio-cni -n istio-system
 }
 
+snip_delete_ztunnel() {
+helm delete ztunnel -n istio-system
+}
+
 snip_delete_discovery() {
 helm delete istiod -n istio-system
 }
