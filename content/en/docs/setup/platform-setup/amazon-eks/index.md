@@ -6,6 +6,7 @@ skip_seealso: true
 keywords: [platform-setup,aws-cloud,eks]
 owner: istio/wg-environments-maintainers
 test: n/a
+show_faq_title: false
 ---
 
 Follow [EKS Blueprints for Istio](https://aws-ia.github.io/terraform-aws-eks-blueprints/patterns/istio/) instructions to provision EKS cluster with Istio setup in AWS cloud.

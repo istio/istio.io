@@ -9,6 +9,8 @@ aliases:
 keywords: [platform-setup,alibaba-cloud,aliyun,alicloud]
 owner: istio/wg-environments-maintainers
 test: n/a
+layout: faq
+show_faq_title: false
 ---
 
 {{< boilerplate untested-document >}}
