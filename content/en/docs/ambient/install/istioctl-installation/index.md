@@ -1,6 +1,6 @@
 ---
-title: Install with Istioctl
-description: Install Istio in ambient mode with istioctl.
+title: Install with Istio CLI
+description: Install Istio in ambient mode with istio CLI.
 weight: 4
 owner: istio/wg-environments-maintainers
 aliases:
@@ -16,7 +16,7 @@ Aside from following the demo in [Getting Started with Ambient Mode](/docs/ambie
 
 1. Check the [Platform-Specific Prerequisites](/docs/ambient/install/platform-prerequisites).
 
-1. Install the [latest version of Istio](/docs/setup/getting-started/#download).
+1. Download the [latest version of Istio](/docs/setup/getting-started/#download).
 
 1. Install the Kubernetes Gateway API CRDs, which don’t come installed by default on most Kubernetes clusters:
 
@@ -69,14 +69,12 @@ ztunnel          1         1         1       1            1           kubernetes
 
 ### Verify with the sample application
 
-After installing ambient mode with `istioctl`, you can follow the [Deploy the sample application](/docs/ambient/getting-started/#bookinfo) guide to deploy the sample application and ingress gateways, and then you can
+After installing ambient mode with istio CLI, you can follow the [Deploy the sample application](/docs/ambient/getting-started/#bookinfo) guide to deploy the sample application and ingress gateways, and then you can
 [add your application to the ambient mesh](/docs/ambient/getting-started/#addtoambient).
 
 ## Uninstall
 
 You can uninstall Istio and its components using the following commands.
-
-1. Remove the Bookinfo sample application and its configuration, see [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup).
 
 1. Remove waypoint proxies, installed policies, and uninstall Istio:
 
