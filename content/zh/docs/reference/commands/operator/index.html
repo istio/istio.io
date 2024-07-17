@@ -407,6 +407,12 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>If enable, endpoints defined in mesh networks will be configured as internal addresses in Http Connection Manager</td>
 </tr>
 <tr>
+<td><code>ENABLE_INBOUND_RETRY_POLICY</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, enables retry policy for inbound routes which automatically retries requests that were reset before it reaches the service.</td>
+</tr>
+<tr>
 <td><code>ENABLE_LEADER_ELECTION</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
