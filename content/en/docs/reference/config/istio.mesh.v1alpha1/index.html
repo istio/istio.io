@@ -3255,9 +3255,9 @@ No
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#int32value">Int32Value</a></code></td>
 <td>
 <p>The number of worker threads to run.
-If unset, this will be automatically determined based on CPU requests/limits.
-If set to 0, all cores on the machine will be used.
-Default is 2 worker threads.</p>
+If unset, which is recommended, this will be automatically determined based on CPU requests/limits.
+If set to 0, all cores on the machine will be used, ignoring CPU requests or limits. This can lead to major performance
+issues if CPU limits are also set.</p>
 
 </td>
 <td>
