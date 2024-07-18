@@ -4,7 +4,7 @@ source_repo: https://github.com/istio/istio
 title: istioctl
 description: Istio control interface.
 generator: pkg-collateral-docs
-number_of_entries: 100
+number_of_entries: 99
 max_toc_level: 2
 remove_toc_prefix: 'istioctl '
 ---
@@ -4157,70 +4157,6 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <pre class="language-bash"><code>istioctl profile list
 istioctl install --set profile=demo  # Use a profile from the list
 </code></pre>
-<h2 id="istioctl-profile-diff">istioctl profile diff</h2>
-<p>The diff subcommand displays the differences between two Istio configuration profiles.</p>
-<pre class="language-bash"><code>istioctl profile diff &lt;profile|file1.yaml&gt; &lt;profile|file2.yaml&gt; [flags]
-</code></pre>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--charts &lt;string&gt;</code></td>
-<td></td>
-<td>Deprecated, use --manifests instead.  (default ``)</td>
-</tr>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>Kubernetes configuration context  (default ``)</td>
-</tr>
-<tr>
-<td><code>--dry-run</code></td>
-<td></td>
-<td>Console/log output only, make no changes. </td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--manifests &lt;string&gt;</code></td>
-<td><code>-d</code></td>
-<td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.23.0/manifests).
-  (default ``)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Kubernetes namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--vklog &lt;Level&gt;</code></td>
-<td></td>
-<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="istioctl-profile-diff Examples">Examples</h3>
-<pre class="language-bash"><code>  # Profile diff by providing yaml files
-  istioctl profile diff manifests/profiles/default.yaml manifests/profiles/demo.yaml
-
-  # Profile diff by providing a profile name
-  istioctl profile diff default demo
-</code></pre>
 <h2 id="istioctl-profile-dump">istioctl profile dump</h2>
 <p>The dump subcommand dumps the values in an Istio configuration profile.</p>
 <pre class="language-bash"><code>istioctl profile dump [&lt;profile&gt;] [flags]
@@ -7129,6 +7065,12 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enable, endpoints defined in mesh networks will be configured as internal addresses in Http Connection Manager</td>
+</tr>
+<tr>
+<td><code>ENABLE_INBOUND_RETRY_POLICY</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, enables retry policy for inbound routes which automatically retries requests that were reset before it reaches the service.</td>
 </tr>
 <tr>
 <td><code>ENABLE_LEADER_ELECTION</code></td>

@@ -42,7 +42,7 @@ test: no
     {{< warning >}}
     **Private GKE Cluster**
 
-    Pilot 检测 Validation Webhook 需要 15017 端口，但自动创建的防火墙规则不会打开这个端口。
+    istiod 检测 Validation Webhook 需要 15017 端口，但自动创建的防火墙规则不会打开这个端口。
 
     根据以下操作查看防火墙规则以允许 Master 访问：
 

@@ -58,8 +58,8 @@ Istio 项目还提供了两个在 Bash 和 Zsh 环境下用于自动补全 `isti
 $ istioctl proxy-status
 {{< /text >}}
 
-如果输出列表中缺少某个代理则意味着它当前未连接到 Pilot 实例，所以它无法接收到任何配置。
-此外，如果它被标记为 stale，则意味着存在网络问题或者需要扩展 Pilot。
+如果输出列表中缺少某个代理则意味着它当前未连接到 istiod 实例，所以它无法接收到任何配置。
+此外，如果它被标记为 stale，则意味着存在网络问题或者需要扩展 istiod。
 
 ## 代理配置 {#get-proxy-configuration}
 
@@ -95,7 +95,7 @@ $ istioctl proxy-config route <pod-name> [flags]
 $ istioctl proxy-config endpoints <pod-name> [flags]
 {{< /text >}}
 
-有关上述命令描述的更多信息，请参考[调试 Envoy 和 Pilot](/zh/docs/ops/diagnostic-tools/proxy-cmd/).
+有关上述命令描述的更多信息，请参考[调试 Envoy 和 istiod](/zh/docs/ops/diagnostic-tools/proxy-cmd/).
 
 ## `istioctl` 自动补全 {#auto-completion}
 

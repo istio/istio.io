@@ -11,6 +11,6 @@ weight: 90
 
 一些注意事项：
 
-- 如果 Prometheus Pod 在 Istio Citadel Pod 生成所需证书并将其分发给 Prometheus 之前启动，
+- 如果 Prometheus Pod 在 istiod Pod 生成所需证书并将其分发给 Prometheus 之前启动，
   则 Prometheus pod 需要重启以便收集双向 TLS 保护的目标信息。
 - 如果您的应用程序在专用端口上公开了 Prometheus 指标，则应将该端口添加到 Service 和 Deployment 规范中。
