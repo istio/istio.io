@@ -15,12 +15,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-source "tests/util/gateway-api.sh"
-install_gateway_api_crds
-
 set -e
 set -u
 set -o pipefail
+
+source "tests/util/samples.sh"
 
 # Download Istio
 # Skipping this as we use the istioctl built from istio/istio reference
@@ -33,7 +32,11 @@ _wait_for_deployment istio-system istiod
 # Label the namespace
 # remove the injection label to prevent the following command from failing
 kubectl label namespace default istio-injection-
-_verify_same snip_install_istio_2 "$snip_install_istio_2_out"
+snip_install_istio_2
+
+# TODO: how to make sure previous tests cleaned up everything?
+# Cleanup sleep
+cleanup_sleep_sample
 
 # Deploy the sample Application
 snip_deploy_the_sample_application_1
@@ -54,15 +57,17 @@ _verify_like snip_deploy_the_sample_application_4 "$snip_deploy_the_sample_appli
 
 # Open to outside traffic
 _verify_contains snip_open_the_application_to_outside_traffic_1 "$snip_open_the_application_to_outside_traffic_1_out"
-_wait_for_gateway default bookinfo-gateway
-snip_open_the_application_to_outside_traffic_2
+_wait_for_istio gateway default bookinfo-gateway
 
 # Ensure no issues with configuration - istioctl analyze
-_verify_contains snip_open_the_application_to_outside_traffic_3 "$snip_open_the_application_to_outside_traffic_3_out"
+_verify_contains snip_open_the_application_to_outside_traffic_2 "$snip_open_the_application_to_outside_traffic_2_out"
 
 # Get GATEWAY_URL
-snip_determining_the_ingress_ip_and_ports_1
-snip_determining_the_ingress_ip_and_ports_2
+# export the INGRESS_ environment variables
+# TODO make this work more generally. Currently using snips for Kind.
+snip_determining_the_ingress_ip_and_ports_9
+snip_determining_the_ingress_ip_and_ports_14
+snip_determining_the_ingress_ip_and_ports_15
 
 # Verify external access
 get_bookinfo_productpage() {
@@ -73,13 +78,11 @@ _verify_contains get_bookinfo_productpage "<title>Simple Bookstore App</title>"
 # verify Kiali deployment
 _verify_contains snip_view_the_dashboard_1 'deployment "kiali" successfully rolled out'
 
-# Verify Kiali dashboard
+# Verify Kiala dashboard
 # TODO Verify the browser output
 
 # @cleanup
-samples/bookinfo/platform/kube/cleanup.sh
+cleanup_bookinfo_sample
 snip_uninstall_1
 snip_uninstall_2
 snip_uninstall_3
-
-remove_gateway_api_crds

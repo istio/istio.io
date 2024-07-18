@@ -30,7 +30,7 @@ We recommend you use an `istioctl` version that is the same version as your Isti
 Using matching versions helps avoid unforeseen issues.
 
 {{< tip >}}
-If you have already [downloaded the Istio release](/docs/setup/getting-started/#download), you should
+If you have already [downloaded the Istio release](/docs/setup/additional-setup/download-istio-release/), you should
 already have `istioctl` and do not need to install it again.
 {{< /tip >}}
 
@@ -172,7 +172,7 @@ To enable `istioctl` completion on your system, follow the steps for your prefer
 
 {{< warning >}}
 You will need to download the full Istio release containing the auto-completion files (in the `/tools` directory).
-If you haven't already done so, [download the full release](/docs/setup/getting-started/#download) now.
+If you haven't already done so, [download the full release](/docs/setup/additional-setup/download-istio-release/) now.
 {{< /warning >}}
 
 {{< tabset category-name="profile" >}}
