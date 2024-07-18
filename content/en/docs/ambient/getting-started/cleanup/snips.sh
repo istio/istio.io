@@ -26,7 +26,7 @@ kubectl label namespace default istio.io/use-waypoint-
 }
 
 snip_remove_waypoint_proxies_1() {
-istioctl x waypoint delete --all
+istioctl waypoint delete --all
 }
 
 snip_remove_the_sample_application_1() {

@@ -71,7 +71,7 @@ kubectl exec deploy/sleep -- curl -s -o /dev/null -H "Authorization: Basic YWRta
 ENDSNIP
 
 snip_deploy_a_waypoint_proxy_1() {
-istioctl x waypoint apply --enroll-namespace --wait
+istioctl waypoint apply --enroll-namespace --wait
 }
 
 snip_verify_traffic_without_wasmplugin_at_the_waypoint_1() {

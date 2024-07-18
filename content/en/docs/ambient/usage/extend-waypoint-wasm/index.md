@@ -86,7 +86,7 @@ Waypoint proxies play a crucial role in Istio's ambient mode, facilitating secur
 Follow the [waypoint deployment instructions](/docs/ambient/getting-started/#layer-7-authorization-policy) to deploy a waypoint proxy in the bookinfo namespace.
 
 {{< text bash >}}
-$ istioctl x waypoint apply --enroll-namespace --wait
+$ istioctl waypoint apply --enroll-namespace --wait
 {{< /text >}}
 
 ### Verify traffic without WasmPlugin at the waypoint

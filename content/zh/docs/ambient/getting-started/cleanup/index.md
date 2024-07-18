@@ -23,7 +23,7 @@ $ kubectl label namespace default istio.io/use-waypoint-
 要删除 waypoint 代理、已安装的策略并卸载 Istio，请运行以下命令：
 
 {{< text bash >}}
-$ istioctl x waypoint delete --all
+$ istioctl waypoint delete --all
 {{< /text >}}
 
 ## 卸载 Istio {#uninstall-istio}
