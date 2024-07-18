@@ -21,97 +21,93 @@ you will apply a rule to mirror a portion of traffic to `v2`.
 
 ## Before you begin
 
-* Set up Istio by following the instructions in the
-  [Installation guide](/docs/setup/).
+1. Set up Istio by following the [Getting Started guide](/docs/setup/getting-started).
+1. Start by deploying two versions of the [httpbin]({{< github_tree >}}/samples/httpbin) service that have access logging enabled:
 
-*   Start by deploying two versions of the [httpbin]({{< github_tree >}}/samples/httpbin) service that have access logging enabled:
+    1. Deploy `httpbin-v1`:
 
-    **httpbin-v1:**
-
-    {{< text bash >}}
-    $ cat <<EOF | istioctl kube-inject -f - | kubectl create -f -
-    apiVersion: apps/v1
-    kind: Deployment
-    metadata:
-      name: httpbin-v1
-    spec:
-      replicas: 1
-      selector:
-        matchLabels:
-          app: httpbin
-          version: v1
-      template:
+        {{< text bash >}}
+        $ kubectl create -f - <<EOF
+        apiVersion: apps/v1
+        kind: Deployment
         metadata:
+          name: httpbin-v1
+        spec:
+          replicas: 1
+          selector:
+            matchLabels:
+              app: httpbin
+              version: v1
+          template:
+            metadata:
+              labels:
+                app: httpbin
+                version: v1
+            spec:
+              containers:
+              - image: docker.io/kennethreitz/httpbin
+                imagePullPolicy: IfNotPresent
+                name: httpbin
+                command: ["gunicorn", "--access-logfile", "-", "-b", "0.0.0.0:80", "httpbin:app"]
+                ports:
+                - containerPort: 80
+        EOF
+        {{< /text >}}
+
+    2. Deploy `httpbin-v2`:
+
+        {{< text bash >}}
+        $ kubectl create -f - <<EOF
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: httpbin-v2
+        spec:
+          replicas: 1
+          selector:
+            matchLabels:
+              app: httpbin
+              version: v2
+          template:
+            metadata:
+              labels:
+                app: httpbin
+                version: v2
+            spec:
+              containers:
+              - image: docker.io/kennethreitz/httpbin
+                imagePullPolicy: IfNotPresent
+                name: httpbin
+                command: ["gunicorn", "--access-logfile", "-", "-b", "0.0.0.0:80", "httpbin:app"]
+                ports:
+                - containerPort: 80
+        EOF
+        {{< /text >}}
+
+    3. Deploy the `httpbin` Kubernetes service:
+
+        {{< text bash >}}
+        $ kubectl create -f - <<EOF
+        apiVersion: v1
+        kind: Service
+        metadata:
+          name: httpbin
           labels:
             app: httpbin
-            version: v1
         spec:
-          containers:
-          - image: docker.io/kennethreitz/httpbin
-            imagePullPolicy: IfNotPresent
-            name: httpbin
-            command: ["gunicorn", "--access-logfile", "-", "-b", "0.0.0.0:80", "httpbin:app"]
-            ports:
-            - containerPort: 80
-    EOF
-    {{< /text >}}
-
-    **httpbin-v2:**
-
-    {{< text bash >}}
-    $ cat <<EOF | istioctl kube-inject -f - | kubectl create -f -
-    apiVersion: apps/v1
-    kind: Deployment
-    metadata:
-      name: httpbin-v2
-    spec:
-      replicas: 1
-      selector:
-        matchLabels:
-          app: httpbin
-          version: v2
-      template:
-        metadata:
-          labels:
+          ports:
+          - name: http
+            port: 8000
+            targetPort: 80
+          selector:
             app: httpbin
-            version: v2
-        spec:
-          containers:
-          - image: docker.io/kennethreitz/httpbin
-            imagePullPolicy: IfNotPresent
-            name: httpbin
-            command: ["gunicorn", "--access-logfile", "-", "-b", "0.0.0.0:80", "httpbin:app"]
-            ports:
-            - containerPort: 80
-    EOF
-    {{< /text >}}
+        EOF
+        {{< /text >}}
 
-    **httpbin Kubernetes service:**
+1. Deploy the `sleep` workload you'll use to send requests to the `httpbin` service:
 
     {{< text bash >}}
-    $ kubectl create -f - <<EOF
-    apiVersion: v1
-    kind: Service
-    metadata:
-      name: httpbin
-      labels:
-        app: httpbin
-    spec:
-      ports:
-      - name: http
-        port: 8000
-        targetPort: 80
-      selector:
-        app: httpbin
-    EOF
-    {{< /text >}}
-
-*   Start the `sleep` service so you can use `curl` to provide load:
-
-    **sleep service:**
-
-    {{< text bash >}}
-    $ cat <<EOF | istioctl kube-inject -f - | kubectl create -f -
+    $ cat <<EOF | kubectl create -f -
     apiVersion: apps/v1
     kind: Deployment
     metadata:
@@ -136,10 +132,9 @@ you will apply a rule to mirror a portion of traffic to `v2`.
 
 ## Creating a default routing policy
 
-By default Kubernetes load balances across both versions of the `httpbin` service.
-In this step, you will change that behavior so that all traffic goes to `v1`.
+By default Kubernetes load balances across both versions of the `httpbin` service. In this step, you will change that behavior so that all traffic goes to `v1`.
 
-1.  Create a default route rule to route all traffic to `v1` of the service:
+1. Create a default route rule to route all traffic to `v1` of the service:
 
 {{< tabset category-name="config-api" >}}
 
@@ -228,11 +223,10 @@ EOF
 
 {{< /tabset >}}
 
-2) Now, with all traffic directed to `httpbin:v1`, send a request to the service:
+2. Now, with all traffic directed to `httpbin:v1`, send a request to the service:
 
     {{< text bash json >}}
-    $ export SLEEP_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
-    $ kubectl exec "${SLEEP_POD}" -c sleep -- curl -sS http://httpbin:8000/headers
+    $ kubectl exec deploy/sleep -c sleep -- curl -sS http://httpbin:8000/headers
     {
       "headers": {
         "Accept": "*/*",
@@ -249,24 +243,21 @@ EOF
     }
     {{< /text >}}
 
-3) Check the logs for `v1` and `v2` of the `httpbin` pods. You should see access
-log entries for `v1` and none for `v2`:
+3. Check the logs from `httpbin-v1` and `httpbin-v2` pods. You should see access log entries for `v1` and none for `v2`:
 
     {{< text bash >}}
-    $ export V1_POD=$(kubectl get pod -l app=httpbin,version=v1 -o jsonpath={.items..metadata.name})
-    $ kubectl logs "$V1_POD" -c httpbin
+    $ kubectl logs deploy/httpbin-v1 -c httpbin
     127.0.0.1 - - [07/Mar/2018:19:02:43 +0000] "GET /headers HTTP/1.1" 200 321 "-" "curl/7.35.0"
     {{< /text >}}
 
     {{< text bash >}}
-    $ export V2_POD=$(kubectl get pod -l app=httpbin,version=v2 -o jsonpath={.items..metadata.name})
-    $ kubectl logs "$V2_POD" -c httpbin
+    $ kubectl logs deploy/httpbin-v2 -c httpbin
     <none>
     {{< /text >}}
 
-## Mirroring traffic to v2
+## Mirroring traffic to `httpbin-v2`
 
-1.  Change the route rule to mirror traffic to v2:
+1. Change the route rule to mirror traffic to `httpbin-v2`:
 
 {{< tabset category-name="config-api" >}}
 
@@ -349,29 +340,29 @@ forget", which means that the responses are discarded.
 
 {{< /tabset >}}
 
-2) Send in traffic:
+2. Send in traffic:
 
     {{< text bash >}}
-    $ kubectl exec "${SLEEP_POD}" -c sleep -- curl -sS http://httpbin:8000/headers
+    $ kubectl exec deploy/sleep -c sleep -- curl -sS http://httpbin:8000/headers
     {{< /text >}}
 
     Now, you should see access logging for both `v1` and `v2`. The access logs
     created in `v2` are the mirrored requests that are actually going to `v1`.
 
     {{< text bash >}}
-    $ kubectl logs "$V1_POD" -c httpbin
+    $ kubectl logs deploy/httpbin-v1 -c httpbin
     127.0.0.1 - - [07/Mar/2018:19:02:43 +0000] "GET /headers HTTP/1.1" 200 321 "-" "curl/7.35.0"
     127.0.0.1 - - [07/Mar/2018:19:26:44 +0000] "GET /headers HTTP/1.1" 200 321 "-" "curl/7.35.0"
     {{< /text >}}
 
     {{< text bash >}}
-    $ kubectl logs "$V2_POD" -c httpbin
+    $ kubectl logs deploy/httpbin-v2 -c httpbin
     127.0.0.1 - - [07/Mar/2018:19:26:44 +0000] "GET /headers HTTP/1.1" 200 361 "-" "curl/7.35.0"
     {{< /text >}}
 
 ## Cleaning up
 
-1.  Remove the rules:
+1. Remove the rules:
 
 {{< tabset category-name="config-api" >}}
 
@@ -395,7 +386,7 @@ $ kubectl delete svc httpbin-v1 httpbin-v2
 
 {{< /tabset >}}
 
-2)  Shutdown the [httpbin]({{< github_tree >}}/samples/httpbin) service and client:
+2. Delete `httpbin` and `sleep` deployments and `httpbin` service:
 
     {{< text bash >}}
     $ kubectl delete deploy httpbin-v1 httpbin-v2 sleep
