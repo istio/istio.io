@@ -22,7 +22,7 @@
 source "content/en/boilerplates/snips/gateway-api-support.sh"
 
 snip_before_you_begin_1() {
-cat <<EOF | istioctl kube-inject -f - | kubectl create -f -
+kubectl create -f - <<EOF
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -50,7 +50,7 @@ EOF
 }
 
 snip_before_you_begin_2() {
-cat <<EOF | istioctl kube-inject -f - | kubectl create -f -
+kubectl create -f - <<EOF
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -96,7 +96,7 @@ EOF
 }
 
 snip_before_you_begin_4() {
-cat <<EOF | istioctl kube-inject -f - | kubectl create -f -
+cat <<EOF | kubectl create -f -
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -195,8 +195,7 @@ EOF
 }
 
 snip_creating_a_default_routing_policy_3() {
-export SLEEP_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
-kubectl exec "${SLEEP_POD}" -c sleep -- curl -sS http://httpbin:8000/headers
+kubectl exec deploy/sleep -c sleep -- curl -sS http://httpbin:8000/headers
 }
 
 ! IFS=$'\n' read -r -d '' snip_creating_a_default_routing_policy_3_out <<\ENDSNIP
@@ -217,8 +216,7 @@ kubectl exec "${SLEEP_POD}" -c sleep -- curl -sS http://httpbin:8000/headers
 ENDSNIP
 
 snip_creating_a_default_routing_policy_4() {
-export V1_POD=$(kubectl get pod -l app=httpbin,version=v1 -o jsonpath={.items..metadata.name})
-kubectl logs "$V1_POD" -c httpbin
+kubectl logs deploy/httpbin-v1 -c httpbin
 }
 
 ! IFS=$'\n' read -r -d '' snip_creating_a_default_routing_policy_4_out <<\ENDSNIP
@@ -226,15 +224,14 @@ kubectl logs "$V1_POD" -c httpbin
 ENDSNIP
 
 snip_creating_a_default_routing_policy_5() {
-export V2_POD=$(kubectl get pod -l app=httpbin,version=v2 -o jsonpath={.items..metadata.name})
-kubectl logs "$V2_POD" -c httpbin
+kubectl logs deploy/httpbin-v2 -c httpbin
 }
 
 ! IFS=$'\n' read -r -d '' snip_creating_a_default_routing_policy_5_out <<\ENDSNIP
 <none>
 ENDSNIP
 
-snip_mirroring_traffic_to_v2_1() {
+snip_mirroring_traffic_to_httpbinv2_1() {
 kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -257,7 +254,7 @@ spec:
 EOF
 }
 
-snip_mirroring_traffic_to_v2_2() {
+snip_mirroring_traffic_to_httpbinv2_2() {
 kubectl apply -f - <<EOF
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
@@ -282,24 +279,24 @@ spec:
 EOF
 }
 
-snip_mirroring_traffic_to_v2_3() {
-kubectl exec "${SLEEP_POD}" -c sleep -- curl -sS http://httpbin:8000/headers
+snip_mirroring_traffic_to_httpbinv2_3() {
+kubectl exec deploy/sleep -c sleep -- curl -sS http://httpbin:8000/headers
 }
 
-snip_mirroring_traffic_to_v2_4() {
-kubectl logs "$V1_POD" -c httpbin
+snip_mirroring_traffic_to_httpbinv2_4() {
+kubectl logs deploy/httpbin-v1 -c httpbin
 }
 
-! IFS=$'\n' read -r -d '' snip_mirroring_traffic_to_v2_4_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_mirroring_traffic_to_httpbinv2_4_out <<\ENDSNIP
 127.0.0.1 - - [07/Mar/2018:19:02:43 +0000] "GET /headers HTTP/1.1" 200 321 "-" "curl/7.35.0"
 127.0.0.1 - - [07/Mar/2018:19:26:44 +0000] "GET /headers HTTP/1.1" 200 321 "-" "curl/7.35.0"
 ENDSNIP
 
-snip_mirroring_traffic_to_v2_5() {
-kubectl logs "$V2_POD" -c httpbin
+snip_mirroring_traffic_to_httpbinv2_5() {
+kubectl logs deploy/httpbin-v2 -c httpbin
 }
 
-! IFS=$'\n' read -r -d '' snip_mirroring_traffic_to_v2_5_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_mirroring_traffic_to_httpbinv2_5_out <<\ENDSNIP
 127.0.0.1 - - [07/Mar/2018:19:26:44 +0000] "GET /headers HTTP/1.1" 200 361 "-" "curl/7.35.0"
 ENDSNIP
 
