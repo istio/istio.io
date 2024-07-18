@@ -127,7 +127,6 @@ helloworld `VirtualService`，其中的规则直接将流量路由至 v1 子集�
 为了控制从 Gateway 过来的流量，您需要在 myapp `VirtualService`
 的配置中包含此子集规则：
 
-
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
