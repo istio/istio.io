@@ -54,7 +54,7 @@ you will apply a rule to mirror a portion of traffic to `v2`.
         EOF
         {{< /text >}}
 
-    2. Deploy `httpbin-v2`:
+    1. Deploy `httpbin-v2`:
 
         {{< text bash >}}
         $ kubectl create -f - <<EOF
@@ -84,7 +84,7 @@ you will apply a rule to mirror a portion of traffic to `v2`.
         EOF
         {{< /text >}}
 
-    3. Deploy the `httpbin` Kubernetes service:
+    1. Deploy the `httpbin` Kubernetes service:
 
         {{< text bash >}}
         $ kubectl create -f - <<EOF
@@ -223,7 +223,7 @@ EOF
 
 {{< /tabset >}}
 
-2. Now, with all traffic directed to `httpbin:v1`, send a request to the service:
+1. Now, with all traffic directed to `httpbin:v1`, send a request to the service:
 
     {{< text bash json >}}
     $ kubectl exec deploy/sleep -c sleep -- curl -sS http://httpbin:8000/headers
@@ -243,7 +243,7 @@ EOF
     }
     {{< /text >}}
 
-3. Check the logs from `httpbin-v1` and `httpbin-v2` pods. You should see access log entries for `v1` and none for `v2`:
+1. Check the logs from `httpbin-v1` and `httpbin-v2` pods. You should see access log entries for `v1` and none for `v2`:
 
     {{< text bash >}}
     $ kubectl logs deploy/httpbin-v1 -c httpbin
@@ -340,7 +340,7 @@ forget", which means that the responses are discarded.
 
 {{< /tabset >}}
 
-2. Send in traffic:
+1. Send in traffic:
 
     {{< text bash >}}
     $ kubectl exec deploy/sleep -c sleep -- curl -sS http://httpbin:8000/headers
@@ -386,7 +386,7 @@ $ kubectl delete svc httpbin-v1 httpbin-v2
 
 {{< /tabset >}}
 
-2. Delete `httpbin` and `sleep` deployments and `httpbin` service:
+1. Delete `httpbin` and `sleep` deployments and `httpbin` service:
 
     {{< text bash >}}
     $ kubectl delete deploy httpbin-v1 httpbin-v2 sleep
