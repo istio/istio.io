@@ -83,7 +83,7 @@ function handleEvents(): void {
 
                 if (display) {
                     el.style.display = "block";
-                    const heroSection = document.querySelector<HTMLElement>("main.landing section#banner");
+                    const heroSection = document.querySelector<HTMLElement>("main.landing section#hero");
                     const banners = document.querySelector<HTMLElement>(".banner-container");
 
                     if (banners && heroSection) {
@@ -113,7 +113,7 @@ function handleEvents(): void {
 
                 listen(el, click, () => {
                     el.style.display = "none";
-                    const heroSection = document.querySelector<HTMLElement>("main.landing section#banner");
+                    const heroSection = document.querySelector<HTMLElement>("main.landing section#hero");
                     const banners = document.querySelector<HTMLElement>(".banner-container");
 
                     if (banners && heroSection) {
