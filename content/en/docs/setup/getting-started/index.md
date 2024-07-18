@@ -105,7 +105,7 @@ installed before using the Gateway API.
 
 ## Deploy the sample application {#bookinfo}
 
-You have configured Istio to inject sidecar containers into any application you deploy in your `default` namespace. 
+You have configured Istio to inject sidecar containers into any application you deploy in your `default` namespace.
 
 1.  Deploy the [`Bookinfo` sample application](/docs/examples/bookinfo/):
 
@@ -185,7 +185,7 @@ route at the edge of your mesh.
     $ kubectl annotate gateway bookinfo-gateway networking.istio.io/service-type=ClusterIP --namespace=default
     {{< /text >}}
 
-2. To check the status of the gateway, run:
+1. To check the status of the gateway, run:
 
     {{< text bash >}}
     $ kubectl get gateway

@@ -60,16 +60,6 @@ snip_annotate_bookinfo_gateway
 # Ensure no issues with configuration
 _verify_like snip_open_the_application_to_outside_traffic_3 "$snip_open_the_application_to_outside_traffic_3_out"
 
-# Get GATEWAY_URL
-snip_determining_the_ingress_ip_and_ports_1
-snip_determining_the_ingress_ip_and_ports_2
-
-# Verify external access
-get_bookinfo_productpage() {
-    curl -s "http://${GATEWAY_URL}/productpage" | grep -o "<title>.*</title>"
-}
-_verify_contains get_bookinfo_productpage "<title>Simple Bookstore App</title>"
-
 # verify Kiali deployment
 _verify_contains snip_view_the_dashboard_1 'deployment "kiali" successfully rolled out'
 

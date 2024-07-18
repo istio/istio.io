@@ -20,7 +20,7 @@ and [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) 
 {{< tip >}}
 Many of the Istio traffic management documents include instructions for using either the Istio or Kubernetes API
 (see the [control ingress traffic task](/docs/tasks/traffic-management/ingress/ingress-control), for example).
-You can even use the Gateway API, right from the start, by following the [future getting started instructions](/docs/setup/additional-setup/getting-started/).
+You can use the Gateway API, right from the start, by following the [getting started instructions](/docs/setup/getting-started/).
 {{< /tip >}}
 
 ## Setup
