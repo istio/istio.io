@@ -28,9 +28,9 @@ $ kubectl logs PODNAME -c istio-proxy -n NAMESPACE
 通用响应标志如下：
 
 - `NR`：没有配置路由，请检查您的 `DestinationRule` 或者 `VirtualService` 配置。
-- `UO`：上游溢出导致断路，请在 `DestinationRule` 检查您的熔断器配置。
+- `UO`：上游溢出导致熔断，请在 `DestinationRule` 检查您的熔断器配置。
 - `UF`：未能连接到上游，如果您正在使用 Istio 认证，
-  请检查[双向 TLS 配置冲突](#service-unavailable-errors-after-setting-destination-rule)。
+  请检查[双向 TLS 配置冲突](#503-errors-after-setting-destination-rule)。
 
 ## 路由规则似乎没有对流量生效 {#route-rules-dont-seem-to-affect-traffic-flow}
 
@@ -46,10 +46,10 @@ $ kubectl logs PODNAME -c istio-proxy -n NAMESPACE
 一个配置变更需要花一些时间来传播到所有的 Sidecar。
 在大型的集群部署中传播将会耗时更长并且可能有几秒钟的延迟时间。
 
-## 设置 destination rule 之后出现 503 异常 {#service-unavailable-errors-after-setting-destination-rule}
+## 设置 DestinationRule 之后出现 503 异常 {#503-errors-after-setting-destination-rule}
 
 {{< tip >}}
-只有在安装期间禁用了 [自动双向 TLS](/zh/docs/tasks/security/authentication/authn-policy/#auto-mutual-TLS)
+只有在安装期间禁用了[自动双向 TLS](/zh/docs/tasks/security/authentication/authn-policy/#auto-mutual-TLS)
 时，才会看到此错误。
 {{< /tip >}}
 
@@ -57,8 +57,8 @@ $ kubectl logs PODNAME -c istio-proxy -n NAMESPACE
 异常，并且这个异常状态一直持续到您移除或回滚了这个 `DestinationRule`，
 那么这个 `DestinationRule` 可能导致服务引起了一个 TLS 冲突。
 
-举个例子，如果在您的集群里配置了全局的 mutual TLS，这个 `DestinationRule`
-肯定包含下列的 `trafficPolicy`：
+举个例子，如果在您的集群里配置了全局的双向 TLS，这个 `DestinationRule`
+必须包含下列的 `trafficPolicy`：
 
 {{< text yaml >}}
 trafficPolicy:
@@ -66,14 +66,14 @@ trafficPolicy:
     mode: ISTIO_MUTUAL
 {{< /text >}}
 
-否则，这个 TLS mode 默认被设置成 `DISABLE` 会使客户端 Sidecar
+否则，这个 TLS 模式默认被设置成 `DISABLE` 会使客户端 Sidecar
 代理发起明文 HTTP 请求而不是 TLS 加密了的请求。因此，请求和服务端代理冲突，
 因为服务端代理期望的是加密了的请求。
 
 任何时候您应用一个 `DestinationRule`，请确保 `trafficPolicy` TLS
-mode 和全局的配置一致。
+模式和全局的配置一致。
 
-## 路由规则没有对 ingress gateway 请求生效 {#route-rules-have-no-effect-on-ingress-gateway-requests}
+## 路由规则没有对 Ingress Gateway 请求生效 {#route-rules-have-no-effect-on-ingress-gateway-requests}
 
 假设您正在使用一个 Ingress `Gateway` 和相应的 `VirtualService`
 来访问一个内部的服务。举个例子，您的 `VirtualService` 配置可能和如下配置类似：
@@ -85,7 +85,7 @@ metadata:
   name: myapp
 spec:
   hosts:
-  - "myapp.com" # 或者您正在通过 IP 而不是 DNS 测试 ingress-gateway（例如 http://1.2.3.4/hello），也可以配置成 "*"
+  - "myapp.com" # 或者如果您正在通过 ingress-gateway IP（例如 http://1.2.3.4/hello）而不是 DNS 进行测试，也可以配置成 "*"
   gateways:
   - myapp-gateway
   http:
@@ -116,16 +116,16 @@ spec:
         subset: v1
 {{< /text >}}
 
-此时您会发现，通过 ingress 网关访问 helloworld 服务的请求没有直接路由到服务实例子集
-v1，而是仍然使用默认的轮询调度路由。
+此时您会发现，通过 Ingress 网关访问 helloworld 服务的请求没有直接路由到 v1 子集，
+而是仍然使用默认的轮询调度路由。
 
 Ingress 请求经由网关主机（如：`myapp.com`）进行路由，网关主机将激活
 myapp `VirtualService` 中的规则，将请求路由至 helloworld 服务的任何一个实例端点。
 只有通过主机 `helloworld.default.svc.cluster.local` 访问的内部请求才会使用
-helloworld `VirtualService`，其中的规则直接将流量路由至服务实例子集 v1。
+helloworld `VirtualService`，其中的规则直接将流量路由至 v1 子集。
 
-为了控制从 gateway 过来的流量，您需要在 myapp `VirtualService`
-的配置中包含 subset 规则配置：
+为了控制从 Gateway 过来的流量，您需要在 myapp `VirtualService`
+的配置中包含此子集规则：
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1beta1
@@ -134,7 +134,7 @@ metadata:
   name: myapp
 spec:
   hosts:
-  - "myapp.com" # 或者您正在通过 IP 而不是 DNS 测试 ingress-gateway（例如 http://1.2.3.4/hello），也可以配置成 "*"
+  - "myapp.com" # 或者如果您正在通过 ingress-gateway IP（例如 http://1.2.3.4/hello）而不是 DNS 进行测试，也可以配置成 "*"
   gateways:
   - myapp-gateway
   http:
@@ -158,7 +158,7 @@ metadata:
   name: myapp
 spec:
   hosts:
-  - myapp.com # 这里不能使用“*”，因为这是与网格服务关联在一起的。
+  - myapp.com # 这里不能使用“*”，因为这是与网格服务关联在一起的
   - helloworld.default.svc.cluster.local
   gateways:
   - mesh # 内部和外部都可以应用
@@ -168,7 +168,7 @@ spec:
     - uri:
         prefix: /hello
       gateways:
-      - myapp-gateway # 只对 ingress gateway 严格应用这条规则
+      - myapp-gateway # 只对 Ingress Gateway 严格应用这条规则
     route:
     - destination:
         host: helloworld.default.svc.cluster.local
@@ -191,7 +191,7 @@ spec:
 [2017-05-17 03:00:52.735][14236][critical][assert] assert failure: fd_ != -1: external/envoy/source/common/network/connection_impl.cc:58
 {{< /text >}}
 
-请确保增大您的 ulimit。例如: `ulimit -n 16384`
+请确保增大您的 ulimit。例如 `ulimit -n 16384`
 
 ## Envoy 不能连接到 HTTP/1.0 服务 {#envoy-wont-connect-to-my-http10-service}
 
@@ -319,7 +319,7 @@ $ kubectl exec -it $SOURCE_POD -c sleep -- curl 10.1.1.171 -s -o /dev/null -w "%
 
 1. 使用域名代替 Pod IP：
 
-     Headless Service 的特定实例也可以仅使用域名进行访问。
+    Headless Service 的特定实例也可以仅使用域名进行访问。
 
     {{< text bash >}}
     $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items..metadata.name}')
@@ -421,7 +421,8 @@ spec:
         host: httpbin.org
 {{< /text >}}
 
-在此示例中，当 `VirtualService` 使用基于 TLS 的路由时，网关将终止 TLS（因为网关的 `tls.mode` 配置为 `SIMPLE`，而不是 `PASSTHROUGH`）。
+在此示例中，当 `VirtualService` 使用基于 TLS 的路由时，网关将终止 TLS
+（因为网关的 `tls.mode` 配置为 `SIMPLE`，而不是 `PASSTHROUGH`）。
 然而计算路由规则的行为是发生在网关终止 TLS 后的，所以配置的 TLS 路由规则将不会产生效果（TLS 无法与 HTTP 匹配）。
 
 使用这种错误配置，您将最终获得 404 响应，因为请求将发送到 HTTP 路由，但未配置 HTTP 路由。
@@ -567,7 +568,7 @@ spec:
     targetPort: 443
 {{< /text >}}
 
-### 当为多个 Gateway 配置了相同的 TLS 证书导致 404 异常 {#not-found-errors-occur-when-multiple-gateways-configured-with-same-TLS-certificate}
+### 当为多个 Gateway 配置了相同的 TLS 证书导致 404 异常 {#404-errors-occur-when-multiple-gateways-configured-with-same-TLS-certificate}
 
 多个网关配置同一 TLS 证书会导致浏览器在与第一台主机建立连接之后访问第二台主机时利用
 [HTTP/2 连接复用](https://httpwg.org/specs/rfc7540.html#reuse)（例如，大部分浏览器）从而导致
@@ -577,17 +578,17 @@ spec:
 
 - 通配证书 `*.test.com` 被安装到 `istio-ingressgateway`
 - `Gateway` 将 `gw1` 配置为主机 `service1.test.com`，选择器 `istio: ingressgateway`，
-  并且 TLS 使用 gateway 安装的（通配）证书
+  并且 TLS 使用 Gateway 安装的（通配）证书
 - `Gateway` 将 `gw2` 配置为主机 `service2.test.com`，选择器 `istio: ingressgateway`，
-  并且 TLS 使用 gateway 安装的（通配）证书
-- `VirtualService` 将 `vs1` 配置为主机 `service1.test.com` 并且 gateway 配置为 `gw1`
-- `VirtualService` 将 `vs2` 配置为主机 `service2.test.com` 并且 gateway 配置为 `gw2`
+  并且 TLS 使用 Gateway 安装的（通配）证书
+- `VirtualService` 将 `vs1` 配置为主机 `service1.test.com` 并且 Gateway 配置为 `gw1`
+- `VirtualService` 将 `vs2` 配置为主机 `service2.test.com` 并且 Gateway 配置为 `gw2`
 
 因为两个网关都由相同的工作负载提供服务（例如，选择器 `istio: ingressgateway`），
 到两个服务的请求（`service1.test.com` 和 `service2.test.com`）将会解析为同一 IP。
 如果 `service1.test.com` 首先被接受了，它将会返回一个通配证书（`*.test.com`）使得到
 `service2.test.com` 的连接也能够使用相同的证书。因此，Chrome 和 Firefox
-等浏览器会自动使用已建立的连接来发送到 `service2.test.com` 的请求。因为 gateway（`gw1`）
+等浏览器会自动使用已建立的连接来发送到 `service2.test.com` 的请求。因为 Gateway（`gw1`）
 没有到 `service2.test.com` 的路由信息，它会返回一个 404 (Not Found) 响应。
 
 您可以通过配置一个单独的通用 `Gateway` 来避免这个问题，而不是两个（`gw1` 和 `gw2`）。
@@ -595,8 +596,8 @@ spec:
 
 - `Gateway` 将 `gw` 配置为主机 `*.test.com`，选择器 `istio: ingressgateway`，
   并且 TLS 使用网关挂载的（通配）证书
-- `VirtualService` 将 `vs1` 配置为主机 `service1.test.com` 并且 gateway 配置为 `gw`
-- `VirtualService` 将 `vs2` 配置为主机 `service2.test.com` 并且 gateway 配置为 `gw`
+- `VirtualService` 将 `vs1` 配置为主机 `service1.test.com` 并且 Gateway 配置为 `gw`
+- `VirtualService` 将 `vs2` 配置为主机 `service2.test.com` 并且 Gateway 配置为 `gw`
 
 ### 不发送 SNI 时配置 SNI 路由 {#configuring-SNI-routing-when-not-sending-SNI}
 
