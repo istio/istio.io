@@ -25,7 +25,7 @@ GATEWAY_API="${GATEWAY_API:-false}"
 
 # @setup profile=default
 
-kubectl label namespace default istio-injection=enabled --overwrite
+kubectl label namespace default istio-injection=enabled
 
 # create the httpbin service
 snip_before_you_begin_3
