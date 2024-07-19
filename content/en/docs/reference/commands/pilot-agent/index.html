@@ -2093,6 +2093,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>The grace period ratio for the cert rotation, by default 0.5.</td>
 </tr>
 <tr>
+<td><code>SECRET_GRACE_PERIOD_RATIO_JITTER</code></td>
+<td>Floating-Point</td>
+<td><code>0.01</code></td>
+<td>Randomize the grace period ratio up or down by this amount to stagger cert renewals, by default .01 (~15 minutes over 24 hours).</td>
+</tr>
+<tr>
 <td><code>SECRET_TTL</code></td>
 <td>Time Duration</td>
 <td><code>24h0m0s</code></td>
