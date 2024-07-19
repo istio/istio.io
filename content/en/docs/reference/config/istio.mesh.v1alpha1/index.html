@@ -464,7 +464,8 @@ By default, Istio emits statistics with the pattern <code>inbound|&lt;port&gt;|&
 For example <code>inbound|7443|grpc-reviews|reviews.prod.svc.cluster.local</code>. This can be used to override that pattern.</p>
 <p>A Pattern can be composed of various pre-defined variables. The following variables are supported.</p>
 <ul>
-<li><code>%SERVICE%</code> - Will be substituted with name of the service.</li>
+<li><code>%SERVICE%</code> - Will be substituted with short hostname of the service.</li>
+<li><code>%SERVICE_NAME%</code> - Will be substituted with name of the service.</li>
 <li><code>%SERVICE_FQDN%</code> - Will be substituted with FQDN of the service.</li>
 <li><code>%SERVICE_PORT%</code> - Will be substituted with port of the service.</li>
 <li><code>%TARGET_PORT%</code>  - Will be substituted with the target port of the service.</li>
@@ -491,7 +492,8 @@ By default, Istio emits statistics with the pattern <code>outbound|&lt;port&gt;|
 For example <code>outbound|8080|v2|reviews.prod.svc.cluster.local</code>. This can be used to override that pattern.</p>
 <p>A Pattern can be composed of various pre-defined variables. The following variables are supported.</p>
 <ul>
-<li><code>%SERVICE%</code> - Will be substituted with name of the service.</li>
+<li><code>%SERVICE%</code> - Will be substituted with short hostname of the service.</li>
+<li><code>%SERVICE_NAME%</code> - Will be substituted with name of the service.</li>
 <li><code>%SERVICE_FQDN%</code> - Will be substituted with FQDN of the service.</li>
 <li><code>%SERVICE_PORT%</code> - Will be substituted with port of the service.</li>
 <li><code>%SERVICE_PORT_NAME%</code> - Will be substituted with port name of the service.</li>
