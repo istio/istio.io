@@ -78,7 +78,7 @@ _verify_contains get_bookinfo_productpage "<title>Simple Bookstore App</title>"
 # verify Kiali deployment
 _verify_contains snip_view_the_dashboard_1 'deployment "kiali" successfully rolled out'
 
-# Verify Kiala dashboard
+# Verify Kiali dashboard
 # TODO Verify the browser output
 
 # @cleanup

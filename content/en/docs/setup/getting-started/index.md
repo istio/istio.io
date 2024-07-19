@@ -20,7 +20,7 @@ advanced [deployment models](/docs/ops/deployment/deployment-models/), refer to 
 [which Istio installation method should I use?](/about/faq/#install-method-selection)
 FAQ page.
 
-You'll need a Kubernetes cluster to proceed. If you don't have a cluster, you can use [kind](/docs/setup/platform-setup/kind) or any other [supported Kubernetes platform](/docs/setup/platform-setup).
+You will need a Kubernetes cluster to proceed. If you don't have a cluster, you can use [kind](/docs/setup/platform-setup/kind) or any other [supported Kubernetes platform](/docs/setup/platform-setup).
 
 Follow these steps to get started with Istio:
 
@@ -63,7 +63,7 @@ Follow these steps to get started with Istio:
 ## Install Istio {#install}
 
 For this guide, we use the `demo`
-[configuration profile](/docs/setup/additional-setup/config-profiles/). It's
+[configuration profile](/docs/setup/additional-setup/config-profiles/). It is
 selected to have a good set of defaults for testing, but there are other
 profiles for production, performance testing or [OpenShift](/docs/setup/platform-setup/openshift/).
 
