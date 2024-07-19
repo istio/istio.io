@@ -77,7 +77,7 @@ To deploy a waypoint proxy directly, use `apply` instead of `generate`:
 
 {{< text syntax=bash snip_id=apply_waypoint >}}
 $ istioctl waypoint apply -n default
-waypoint default/namespace applied
+waypoint default/waypoint applied
 {{< /text >}}
 
 Or, you can deploy the generated Gateway resource:
@@ -196,4 +196,5 @@ You can remove all waypoints from a namespace by doing the following:
 
 {{< text syntax=bash snip_id=delete_waypoint >}}
 $ istioctl waypoint delete --all -n default
+$ kubectl label ns default istio.io/use-waypoint-
 {{< /text >}}

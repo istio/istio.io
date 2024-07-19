@@ -59,7 +59,7 @@ istioctl waypoint apply -n default
 }
 
 ! IFS=$'\n' read -r -d '' snip_apply_waypoint_out <<\ENDSNIP
-waypoint default/namespace applied
+waypoint default/waypoint applied
 ENDSNIP
 
 snip_deploy_a_waypoint_proxy_5() {
@@ -130,4 +130,5 @@ ENDSNIP
 
 snip_delete_waypoint() {
 istioctl waypoint delete --all -n default
+kubectl label ns default istio.io/use-waypoint-
 }
