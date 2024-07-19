@@ -46,7 +46,7 @@ After the waypoint is deployed, the entire namespace (or whichever services or p
 
 Before you deploy a waypoint proxy for a specific namespace, confirm the namespace is labeled with `istio.io/dataplane-mode: ambient`:
 
-{{< text bash snip_id=check_ns_label >}}
+{{< text syntax=bash snip_id=check_ns_label >}}
 $ kubectl get ns -L istio.io/dataplane-mode
 NAME              STATUS   AGE   DATAPLANE-MODE
 istio-system      Active   24h
@@ -55,7 +55,7 @@ default           Active   24h   ambient
 
 `istioctl` can generate a Kubernetes Gateway resource for a waypoint proxy. For example, to generate a waypoint proxy named `waypoint` for the `default` namespace that can process traffic for services in the namespace:
 
-{{< text bash snip_id=gen_waypoint_resource >}}
+{{< text syntax=bash snip_id=gen_waypoint_resource >}}
 $ istioctl waypoint generate --for service -n default
 kind: Gateway
 metadata:
@@ -75,14 +75,14 @@ Note the Gateway resource has the `istio-waypoint` label set to `gatewayClassNam
 
 To deploy a waypoint proxy directly, use `apply` instead of `generate`:
 
-{{< text bash snip_id=apply_waypoint >}}
+{{< text syntax=bash snip_id=apply_waypoint >}}
 $ istioctl waypoint apply -n default
 waypoint default/namespace applied
 {{< /text >}}
 
 Or, you can deploy the generated Gateway resource:
 
-{{< text bash >}}
+{{< text syntax=bash >}}
 $ kubectl apply -f - <<EOF
 kind: Gateway
 metadata:
@@ -128,7 +128,7 @@ Most users will want to apply a waypoint to an entire namespace, and we recommen
 
 If you use `istioctl` to deploy your namespace waypoint, you can use the `--enroll-namespace` parameter to automatically label a namespace:
 
-{{< text bash snip_id=enroll_ns_waypoint >}}
+{{< text syntax=bash snip_id=enroll_ns_waypoint >}}
 $ istioctl waypoint apply -n default --enroll-namespace
 waypoint default/waypoint applied
 namespace default labeled with "istio.io/use-waypoint: waypoint"
@@ -136,7 +136,7 @@ namespace default labeled with "istio.io/use-waypoint: waypoint"
 
 Alternatively, you may add the `istio.io/use-waypoint: waypoint` label to the `default` namespace using `kubectl`:
 
-{{< text bash >}}
+{{< text syntax=bash >}}
 $ kubectl label ns default istio.io/use-waypoint=waypoint
 namespace/default labeled
 {{< /text >}}
@@ -154,14 +154,14 @@ If the `istio.io/use-waypoint` label exists on both a namespace and a service, t
 
 Using the services from the sample [bookinfo application](/docs/examples/bookinfo/), we can deploy a waypoint called `reviews-svc-waypoint` for the `reviews` service:
 
-{{< text bash >}}
+{{< text syntax=bash >}}
 $ istioctl waypoint apply -n default --name reviews-svc-waypoint
 waypoint default/reviews-svc-waypoint applied
 {{< /text >}}
 
 Label the `reviews` service to use the `reviews-svc-waypoint` waypoint:
 
-{{< text bash >}}
+{{< text syntax=bash >}}
 $ kubectl label service reviews istio.io/use-waypoint=reviews-svc-waypoint
 service/reviews labeled
 {{< /text >}}
@@ -176,14 +176,14 @@ Deploy a waypoint called `reviews-v2-pod-waypoint` for the `reviews-v2` pod.
 Recall the default for waypoints is to target services; as we explicitly want to target a pod, we need to use the `istio.io/waypoint-for: workload` label, which we can generate by using the `--for workload` parameter to istioctl.
 {{< /tip >}}
 
-{{< text bash >}}
+{{< text syntax=bash >}}
 $ istioctl waypoint apply -n default --name reviews-v2-pod-waypoint --for workload
 waypoint default/reviews-v2-pod-waypoint applied
 {{< /text >}}
 
 Label the `reviews-v2` pod to use the `reviews-v2-pod-waypoint` waypoint:
 
-{{< text bash >}}
+{{< text syntax=bash >}}
 $ kubectl label pod -l version=v2,app=reviews istio.io/use-waypoint=reviews-v2-pod-waypoint
 pod/reviews-v2-5b667bcbf8-spnnh labeled
 {{< /text >}}
