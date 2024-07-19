@@ -4,7 +4,7 @@ source_repo: https://github.com/istio/istio
 title: istioctl
 description: Istio control interface.
 generator: pkg-collateral-docs
-number_of_entries: 99
+number_of_entries: 98
 max_toc_level: 2
 remove_toc_prefix: 'istioctl '
 ---
@@ -3467,85 +3467,6 @@ doubt re-run istioctl kube-inject on deployments to get the most up-to-date chan
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Kubernetes namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--vklog &lt;Level&gt;</code></td>
-<td></td>
-<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
-</tr>
-</tbody>
-</table>
-<h2 id="istioctl-manifest-diff">istioctl manifest diff</h2>
-<p>The diff subcommand compares manifests from two files or directories. The output is a list of
-changed paths with the value changes shown as OLD-VALUE -&gt; NEW-VALUE.
-List order changes are shown as [OLD-INDEX-&gt;NEW-INDEX], with ? used where a list item is added or
-removed.</p>
-<pre class="language-bash"><code>istioctl manifest diff &lt;file|dir&gt; &lt;file|dir&gt; [flags]
-</code></pre>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>Kubernetes configuration context  (default ``)</td>
-</tr>
-<tr>
-<td><code>--directory</code></td>
-<td><code>-r</code></td>
-<td>Compare directory. </td>
-</tr>
-<tr>
-<td><code>--dry-run</code></td>
-<td></td>
-<td>Console/log output only, make no changes. </td>
-</tr>
-<tr>
-<td><code>--ignore &lt;string&gt;</code></td>
-<td></td>
-<td>Ignore all listed items during comparison, using the same list format as selectResources.  (default ``)</td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Kubernetes namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--rename &lt;string&gt;</code></td>
-<td></td>
-<td>Rename resources before comparison.
-The format of each renaming pair is A-&gt;B, all renaming pairs are comma separated.
-e.g. Service:*:istiod-&gt;Service:*:istio-control - rename istiod service into istio-control  (default ``)</td>
-</tr>
-<tr>
-<td><code>--select &lt;string&gt;</code></td>
-<td></td>
-<td>Constrain the list of resources to compare to only the ones in this list, ignoring all others.
-The format of each list item is &#34;::&#34; and the items are comma separated. The &#34;*&#34; character represents wildcard selection.
-e.g.
-    Deployment:istio-system:* - compare all deployments in istio-system namespace
-    Service:*:istiod - compare Services called &#34;istiod&#34; in all namespaces  (default `::`)</td>
-</tr>
-<tr>
-<td><code>--verbose</code></td>
-<td><code>-v</code></td>
-<td>Verbose output. </td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
