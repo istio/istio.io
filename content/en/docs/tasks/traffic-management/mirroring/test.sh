@@ -92,3 +92,6 @@ if [ "$GATEWAY_API" != "true" ]; then
     snip_cleaning_up_1
     snip_cleaning_up_3
 fi
+
+# Remove the label, otherwise the test fails (before/after snapshots won't match)
+kubectl label namespace default istio-injection-
