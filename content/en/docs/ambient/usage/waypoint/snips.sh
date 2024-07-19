@@ -127,3 +127,7 @@ kubectl label pod -l version=v2,app=reviews istio.io/use-waypoint=reviews-v2-pod
 ! IFS=$'\n' read -r -d '' snip_configure_a_pod_to_use_a_specific_waypoint_2_out <<\ENDSNIP
 pod/reviews-v2-5b667bcbf8-spnnh labeled
 ENDSNIP
+
+snip_delete_waypoint() {
+istioctl waypoint delete --all -n default
+}

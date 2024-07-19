@@ -30,48 +30,12 @@ snip_install_k8s_gateway_api
  _wait_for_daemonset istio-system istio-cni-node
 
 snip_check_ns_label
+
 snip_gen_waypoint_resource
+_verify_contains snip_gen_waypoint_resource "$snip_gen_waypoint_resource_out"
+
 snip_apply_waypoint
 snip_enroll_ns_waypoint
 
-# snip_deploy_the_bookinfo_application_1
-# snip_deploy_bookinfo_gateway
-# _wait_for_deployment default bookinfo-gateway-istio
-# snip_annotate_bookinfo_gateway
-# _wait_for_deployment default bookinfo-gateway-istio
-# _verify_like snip_deploy_and_configure_the_ingress_gateway_3 "$snip_deploy_and_configure_the_ingress_gateway_3_out"
-
-# _verify_contains snip_add_bookinfo_to_the_mesh_1 "$snip_add_bookinfo_to_the_mesh_1_out"
-
-# snip_deploy_l4_policy
-# snip_deploy_sleep
-# _wait_for_deployment default sleep
-# _verify_contains snip_enforce_layer_4_authorization_policy_3 "$snip_enforce_layer_4_authorization_policy_3_out"
-
-# snip_deploy_waypoint
-# _wait_for_deployment default waypoint
-# _verify_contains snip_deploy_waypoint "$snip_deploy_waypoint_out"
-
-# _verify_like snip_enforce_layer_7_authorization_policy_2 "$snip_enforce_layer_7_authorization_policy_2_out"
-
-# snip_deploy_l7_policy
-
-# _verify_contains snip_enforce_layer_7_authorization_policy_4 "$snip_enforce_layer_7_authorization_policy_4_out"
-# _verify_contains snip_enforce_layer_7_authorization_policy_5 "$snip_enforce_layer_7_authorization_policy_5_out"
-# _verify_contains snip_enforce_layer_7_authorization_policy_6 "$snip_enforce_layer_7_authorization_policy_6_out"
-
-# snip_deploy_httproute
-# snip_test_traffic_split
-
-# _verify_lines snip_test_traffic_split "
-# + reviews-v1
-# + reviews-v2
-# - reviews-v3
-# "
-
-# # @cleanup
-# snip_remove_the_ambient_and_waypoint_labels_1
-# snip_remove_waypoint_proxies_1
-# snip_remove_the_sample_application_1
-# samples/bookinfo/platform/kube/cleanup.sh
-# snip_remove_the_kubernetes_gateway_api_crds_1
+# @cleanup
+snip_delete_waypoint

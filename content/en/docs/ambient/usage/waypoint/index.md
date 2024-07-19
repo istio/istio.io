@@ -189,3 +189,11 @@ pod/reviews-v2-5b667bcbf8-spnnh labeled
 {{< /text >}}
 
 Any requests from pods in the ambient mesh to the `reviews-v2` pod IP will now be routed through the `reviews-v2-pod-waypoint` waypoint for L7 processing and policy enforcement.
+
+### Cleaning up
+
+You can remove all waypoints from a namespace by doing the following:
+
+{{< text syntax=bash snip_id=delete_waypoint >}}
+$ istioctl waypoint delete --all -n default
+{{< /text >}}
