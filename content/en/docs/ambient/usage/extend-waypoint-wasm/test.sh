@@ -59,7 +59,7 @@ _verify_same snip_verify_the_traffic_via_the_gateway_1 "$snip_verify_the_traffic
 _verify_same snip_verify_the_traffic_via_the_gateway_2 "$snip_verify_the_traffic_via_the_gateway_2_out"
 
 # Deploy a waypoint proxy
-snip_deploy_a_waypoint_proxy_1
+snip_deploy_waypoint_proxy
 
 # verify traffic_without wasmplugin at the waypoint
 _verify_same snip_verify_traffic_without_wasmplugin_at_the_waypoint_1 "$snip_verify_traffic_without_wasmplugin_at_the_waypoint_1_out"

@@ -27,8 +27,6 @@ source "content/en/docs/ambient/getting-started/enforce-auth-policies/snips.sh"
 source "content/en/docs/ambient/getting-started/manage-traffic/snips.sh"
 source "content/en/docs/ambient/getting-started/cleanup/snips.sh"
 
-snip_install_k8s_gateway_api
-
 _wait_for_deployment istio-system istiod
 _wait_for_daemonset istio-system ztunnel
 _wait_for_daemonset istio-system istio-cni-node
