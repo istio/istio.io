@@ -47,14 +47,6 @@ This should be installed prior to any other Istio component.
 $ helm install istio-base istio/base -n istio-system --create-namespace --wait
 {{< /text >}}
 
-### Install the CNI component
-
-The `cni` chart installs the Istio CNI plugin. It is responsible for detecting the pods that belong to the ambient mesh, and configuring the traffic redirection between pods and the ztunnel node proxy (which will be installed later).
-
-{{< text syntax=bash snip_id=install_cni >}}
-$ helm install istio-cni istio/cni -n istio-system --set profile=ambient --wait
-{{< /text >}}
-
 ### Install the Istiod component
 
 The `istiod` chart installs a revision of Istiod. Istiod is the control plane component that manages and
@@ -62,6 +54,14 @@ configures the proxies to route traffic within the mesh.
 
 {{< text syntax=bash snip_id=install_discovery >}}
 $ helm install istiod istio/istiod --namespace istio-system --set profile=ambient --wait
+{{< /text >}}
+
+### Install the CNI component
+
+The `cni` chart installs the Istio CNI plugin. It is responsible for detecting the pods that belong to the ambient mesh, and configuring the traffic redirection between pods and the ztunnel node proxy (which will be installed later).
+
+{{< text syntax=bash snip_id=install_cni >}}
+$ helm install istio-cni istio/cni -n istio-system --set profile=ambient --wait
 {{< /text >}}
 
 ### Install the ztunnel component
@@ -167,12 +167,6 @@ If you installed the Istio component charts individually above, you can uninstal
 
     {{< text syntax=bash snip_id=delete_cni >}}
     $ helm delete istio-cni -n istio-system
-    {{< /text >}}
-
-1. Delete the Istio ztunnel chart:
-
-    {{< text syntax=bash snip_id=delete_ztunnel >}}
-    $ helm delete ztunnel -n istio-system
     {{< /text >}}
 
 1. Delete the Istio discovery chart:

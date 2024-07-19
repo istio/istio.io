@@ -29,12 +29,12 @@ snip_install_base() {
 helm install istio-base istio/base -n istio-system --create-namespace --wait
 }
 
-snip_install_cni() {
-helm install istio-cni istio/cni -n istio-system --set profile=ambient --wait
-}
-
 snip_install_discovery() {
 helm install istiod istio/istiod --namespace istio-system --set profile=ambient --wait
+}
+
+snip_install_cni() {
+helm install istio-cni istio/cni -n istio-system --set profile=ambient --wait
 }
 
 snip_install_ztunnel() {
@@ -99,10 +99,6 @@ helm delete ztunnel -n istio-system
 
 snip_delete_cni() {
 helm delete istio-cni -n istio-system
-}
-
-snip_delete_ztunnel() {
-helm delete ztunnel -n istio-system
 }
 
 snip_delete_discovery() {
