@@ -33,48 +33,53 @@
 
     {{ if or (gt $len 0) ($page.Scratch.Get "seeAlso") }}
         {{ $page.Scratch.Set "needTOC" true }}
-        <ol>
-            {{ $page.Scratch.Set "level" 50 }}
-            {{ range $h := $headers }}
-                {{ $level := index (index (findRE "<h[23456].*?" $h) 0) 2 | int }}
-                {{ $id := replaceRE (printf "<h[%s].*?id=\"(.*?)\".*?>.*?</h[%s]>" $hdr_types $hdr_types) "$1" $h }}
-                {{ $title := replaceRE (printf "<h[%s].*?>(.*?)</h[%s]>" $hdr_types $hdr_types) "$1" $h }}
-                {{ $current := $page.Scratch.Get "level" | int }}
+        <div>
+            {{ if eq $page.Params.generator "pkg-collateral-docs" }}
+            <h5>{{ $page.Params.title }}</h5>
+            {{ end }}
+            <ol>
+                {{ $page.Scratch.Set "level" 50 }}
+                {{ range $h := $headers }}
+                    {{ $level := index (index (findRE "<h[23456].*?" $h) 0) 2 | int }}
+                    {{ $id := replaceRE (printf "<h[%s].*?id=\"(.*?)\".*?>.*?</h[%s]>" $hdr_types $hdr_types) "$1" $h }}
+                    {{ $title := replaceRE (printf "<h[%s].*?>(.*?)</h[%s]>" $hdr_types $hdr_types) "$1" $h }}
+                    {{ $current := $page.Scratch.Get "level" | int }}
 
-                {{ if gt $level $current }}
-                    {{ $delta := sub $level $current }}
-                    {{ range $index, $num := (seq $delta) }}
-                        <ol>
+                    {{ if gt $level $current }}
+                        {{ $delta := sub $level $current }}
+                        {{ range $index, $num := (seq $delta) }}
+                            <ol>
+                        {{ end }}
+                    {{ else if lt $level $current }}
+                        {{ $delta := sub $current $level }}
+                        {{ range $index, $num := (seq $delta) }}
+                            </ol>
+                            </li>
+                        {{ end }}
                     {{ end }}
-                {{ else if lt $level $current }}
-                    {{ $delta := sub $current $level }}
-                    {{ range $index, $num := (seq $delta) }}
-                        </ol>
-                        </li>
+
+                    {{ $short_title := $title }}
+                    {{ if $page.Params.remove_toc_prefix }}
+                        {{ $short_title = strings.TrimPrefix $page.Params.remove_toc_prefix $title }}
+                    {{ end }}
+
+                    <li role="none" aria-label="{{ $title | safeHTML }}"><a href="#{{ $id }}">{{ $short_title | safeHTML }}</a>
+
+                    {{ $page.Scratch.Set "level" $level }}
+                {{ end }}
+
+                {{ $delta := sub ($page.Scratch.Get "level") 50 }}
+                {{ range $index, $num := (seq $delta) }}
+                    </ol>
+                    </li>
+                {{ end }}
+
+                {{ if $page.Scratch.Get "seeAlso" }}
+                    {{ with $related }}
+                        <li role="none" aria-label="{{ i18n "see_also" }}"><a href="#see-also">{{ i18n "see_also" }}</a></li>
                     {{ end }}
                 {{ end }}
-
-                {{ $short_title := $title }}
-                {{ if $page.Params.remove_toc_prefix }}
-                    {{ $short_title = strings.TrimPrefix $page.Params.remove_toc_prefix $title }}
-                {{ end }}
-
-                <li role="none" aria-label="{{ $title | safeHTML }}"><a href="#{{ $id }}">{{ $short_title | safeHTML }}</a>
-
-                {{ $page.Scratch.Set "level" $level }}
-            {{ end }}
-
-            {{ $delta := sub ($page.Scratch.Get "level") 50 }}
-            {{ range $index, $num := (seq $delta) }}
-                </ol>
-                </li>
-            {{ end }}
-
-            {{ if $page.Scratch.Get "seeAlso" }}
-                {{ with $related }}
-                    <li role="none" aria-label="{{ i18n "see_also" }}"><a href="#see-also">{{ i18n "see_also" }}</a></li>
-                {{ end }}
-            {{ end }}
-        </ol>
+            </ol>
+        </div>
     {{ end }}
 {{ end }}
