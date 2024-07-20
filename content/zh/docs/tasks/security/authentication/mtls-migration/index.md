@@ -12,18 +12,18 @@ test: yes
 本任务阐述如何将 Istio 服务的请求从明文模式平滑过渡至双向
 TLS 模式，并确保在整个迁移过程中不干扰在线流量的正常通信。
 
-在调用其他工作负载时，Istio 会自动配置工作负载 sidecar
+在调用其他工作负载时，Istio 会自动配置工作负载的 Sidecar
 以使用[双向 TLS](/zh/docs/tasks/security/authentication/authn-policy/#auto-mutual-tls)。
 默认情况下，Istio 使用 `PERMISSIVE` 模式配置目标工作负载。
 当启用 `PERMISSIVE` 模式时，服务可以接受明文和双向 TLS 流量。
 为了只允许双向 TLS 流量，需要将配置更改为 `STRICT` 模式。
 
 您可以使用
-[Grafana dashboard](/zh/docs/tasks/observability/metrics/using-istio-dashboard/)
+[Grafana Dashboard](/zh/docs/tasks/observability/metrics/using-istio-dashboard/)
 检查哪些服务仍然向 `PERMISSIVE` 模式的服务发送明文请求，
 然后选择在这些服务迁移结束后，将其锁定为只接收双向 TLS 请求。
 
-## 开始之前{#before-you-begin}
+## 开始之前  {#before-you-begin}
 
 * 理解 Istio [认证策略](/zh/docs/concepts/security/#authentication-policies)以及相关的[双向 TLS 认证](/zh/docs/concepts/security/#mutual-tls-authentication)概念。
 
@@ -36,7 +36,7 @@ TLS 模式，并确保在整个迁移过程中不干扰在线流量的正常通�
 在此任务中，您可以通过创建示例工作负载并修改策略以在工作负载之间强制执行
 STRICT 双向 TLS 来尝试迁移过程。
 
-## 设置集群{#set-up-the-cluster}
+## 设置集群  {#set-up-the-cluster}
 
 * 创建两个命名空间：`foo` 和 `bar`，并在这两个命名空间上部署
   [httpbin]({{< github_tree >}}/samples/httpbin)、
@@ -89,9 +89,9 @@ STRICT 双向 TLS 来尝试迁移过程。
 
     {{< /tip >}}
 
-## 通过命名空间锁定到双向 TLS{#lock-down-to-mutual-tls-by-namespace}
+## 通过命名空间锁定到双向 TLS  {#lock-down-to-mutual-tls-by-namespace}
 
-当所有客户端服务都成功迁移至 Istio 之后，注入 Envoy sidecar，
+当所有客户端服务都成功迁移至 Istio 之后，注入 Envoy Sidecar，
 便可以锁定 `httpbin.foo` 只接收双向 TLS 请求。
 
 {{< text bash >}}
@@ -131,11 +131,11 @@ listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
 当分别从 `sleep.legacy` 和 `sleep.foo` 发送请求时，
 您将在输出中看到纯文本和加密文本。
 
-若无法将所有服务迁移至 Istio （注入 Envoy sidecar），则必须开启 `PERMISSIVE` 模式。
+若无法将所有服务迁移至 Istio （注入 Envoy Sidecar），则必须开启 `PERMISSIVE` 模式。
 然而，开启 `PERMISSIVE` 模式时，系统默认不对明文请求进行认证或授权检查。
 推荐使用 [Istio 授权](/zh/docs/tasks/security/authorization/authz-http/)来为不同的请求路径配置不同的授权策略。
 
-## 锁定整个网格的 mTLS{#lock-down-mutual-TLS-for-the-entire-mesh}
+## 锁定整个网格的 mTLS  {#lock-down-mutual-TLS-for-the-entire-mesh}
 
 {{< text bash >}}
 $ kubectl apply -n istio-system -f - <<EOF
@@ -156,7 +156,7 @@ EOF
 $ for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
 {{< /text >}}
 
-## 清除{#clean-up-the-example}
+## 清理 {#clean-up-the-example}
 
 1. 删除网格范围的身份验证策略。
 
