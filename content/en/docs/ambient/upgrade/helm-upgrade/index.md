@@ -14,16 +14,16 @@ Follow this guide to upgrade and configure an ambient mode installation using
 [Helm](https://helm.sh/docs/). This guide assumes you have already performed an [ambient mode installation with Helm](/docs/ambient/install/helm-installation/) with a previous version of Istio.
 
 {{< warning >}}
-In contrast to sidecar mode, ambient mode supports moving application pods to an upgraded data plane without a mandatory restart or reschedule of running application pods. However, upgrading the ztunnel **will** briefly disrupt all workload traffic on the upgraded node, and ambient mode does not currently support canary upgrades of the ztunnel.
+In contrast to sidecar mode, ambient mode supports moving application pods to an upgraded ztunnel without a mandatory restart or reschedule of running application pods. However, upgrading the ztunnel **will** cause all long-lived TCP connections on the upgraded node to reset, and ambient mode does not currently support canary upgrades of the ztunnel.
 
-Node cordoning and blue/green node pools are recommended to control blast radius of application pod traffic disruption during production upgrades. See your Kubernetes provider documentation for details.
+Node cordoning and blue/green node pools are recommended to limit the blast radius of resets on application traffic during production upgrades. See your Kubernetes provider documentation for details.
 {{< /warning >}}
 
 ## Understanding Ambient Upgrades
 
 All Istio Upgrades involve upgrading the control plane, data plane, and Istio CRDs. Because the Ambient Data Plane is separated into [two components](/docs/ambient/architecture/data-plane), the ztunnel and waypoints, Ambient Upgrades involve separate steps for these components. Upgrading the control plane and CRDs will be covered here in brief, but is essentially identical to the process for these components in sidecar mode, which is covered extensively [here](docs/setup/upgrade/canary/).
 
-Like sidecar mode, ambient mode upgrades make use of Tags and Revisions to allow fine-grained control over ({{< gloss >}}gateway{{</ gloss >}}) upgrades, including ({{< gloss >}}waypoint{{</ gloss >}})s, with simple controls for rolling back at any point. However, unlike sidecar mode, the Ambient ztunnel runs as a DaemonSet, or per-node proxy, meaning that ztunnel upgrades affect, at minimum, one entire node at a time. For this reason, we recommend using Node cordoning and draining before upgrading the ztunnel component for a given node. For the sake of simplicity, this document will demonstrate in-place upgrades of the ztunnel, which are less safe, and may involve some downtime.
+Like sidecar mode, ambient mode upgrades can make use of Tags and Revisions to allow fine-grained control over ({{< gloss >}}gateway{{</ gloss >}}) upgrades, including ({{< gloss >}}waypoint{{</ gloss >}})s, with simple controls for rolling back at any point. However, unlike sidecar mode, the Ambient ztunnel runs as a DaemonSet, or per-node proxy, meaning that ztunnel upgrades affect, at minimum, one entire node at a time. While this disruptions should be trivial for most use cases, applications with long-lived TCP connections may be disrupted.  In these cases, we recommend using Node cordoning and draining before upgrading the ztunnel component for a given node. For the sake of simplicity, this document will demonstrate in-place upgrades of the ztunnel, which are less safe, and may involve some downtime.
 
 With that in mind, this guide will expand on the following steps to upgrade Istio in ambient mode:
 
@@ -39,7 +39,7 @@ With that in mind, this guide will expand on the following steps to upgrade Isti
 
 1. Organize your Tags and Revisions
 
-    In order to safely upgrade Ambient, your Gateways and Namespaces should be using the istio.io/rev label to specify an Istio Tag which will control the version of the Istio Proxy that is running. We recommend dividing your production cluster into multiple tags to organize your upgrade. All members of a given tag will be upgraded simultaneously, so it is wise to begin your upgrade with your lowest risk applications. We do not recommend referencing revisions directly via labels for upgrades, as this process can easily result in the accidental upgrade of a large number of proxies, and is difficult to segment. To see what tags and revisions you are using in your cluster, see the section on upgrading tags.
+    In order to safely upgrade Ambient, your Gateways and Namespaces should be using the `istio.io/rev` label to specify an Istio Tag which will control the version of the Istio Proxy that is running. We recommend dividing your production cluster into multiple tags to organize your upgrade. All members of a given tag will be upgraded simultaneously, so it is wise to begin your upgrade with your lowest risk applications. We do not recommend referencing revisions directly via labels for upgrades, as this process can easily result in the accidental upgrade of a large number of proxies, and is difficult to segment. To see what tags and revisions you are using in your cluster, see the section on upgrading tags.
 
 1. Run the Precheck
 
@@ -124,7 +124,7 @@ For each tag, you can upgrade the tag by running the following command, replacin
 $ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{$MYTAG}" --set revision="$REVISION" -n istio-system | kubectl apply -f -
 {{< /text >}}
 
-This will upgrade all dataplanes referencing that tag, except for networking.istio.io gateways, which are dealt with below, and sidecars, which are not used in Ambient mode. It is recommended that you closely monitor the health of applications using the upgraded dataplane before upgrading the next tag. If you detect a problem, you can rollback a tag, resetting it to point to the name of your old revision:
+This will upgrade all dataplanes referencing that tag, except for those using [manual gateway deployment mode](docs/tasks/traffic-management/ingress/gateway-api/#manual-deployment), which are dealt with below, and sidecars, which are not used in Ambient mode. It is recommended that you closely monitor the health of applications using the upgraded dataplane before upgrading the next tag. If you detect a problem, you can rollback a tag, resetting it to point to the name of your old revision:
 
 {{< text syntax=bash snip_id=rollback_tag >}}
 $ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{$MYTAG}" --set revision="$OLD_REVISION" -n istio-system | kubectl apply -f -
@@ -132,7 +132,7 @@ $ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisi
 
 ### Upgrade the Gateway component (optional)
 
-Gateway components using the `networking.istio.io/*/Gateway` types must be upgraded individually using helm.
+Gateway components using [manual gateway deployment mode](docs/tasks/traffic-management/ingress/gateway-api/#manual-deployment) must be upgraded individually using helm.
 
 {{< text syntax=bash snip_id=upgrade_gateway >}}
 $ helm upgrade istio-ingress istio/gateway -n istio-ingress
