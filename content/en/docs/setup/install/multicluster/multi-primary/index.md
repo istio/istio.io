@@ -85,7 +85,7 @@ Create the Istio configuration for `cluster2`:
 Create the Istio configuration for `cluster2`:
 
 {{< text bash >}}
-$ cat <<EOF > cluster1.yaml
+$ cat <<EOF > cluster2.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
