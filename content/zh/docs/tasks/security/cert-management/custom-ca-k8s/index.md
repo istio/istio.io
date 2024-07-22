@@ -16,7 +16,7 @@ status: Experimental
 
 此任务演示如何使用集成了
 [Kubernetes CSR API](https://kubernetes.io/zh-cn/docs/reference/access-authn-authz/certificate-signing-requests/)
-的自定义证书颁发机构来制备工作负载证书。不同的工作负载可以获取不同的证书签名者签名的证书。
+的自定义证书颁发机构来制备工作负载证书，不同的工作负载可以获取不同的证书签名者签名的证书，
 每个证书签名者本质上是一个不同的 CA。可以预期的是，如果工作负载的证书是同一个证书签名者颁发的，
 则这些工作负载可以与 MTLS 通信，而不同签名者签名的工作负载则不能这样。这个特性利用了
 [Chiron](/zh/blog/2019/dns-cert/)，这是一个与 Istiod 关联的轻量级组件，使用 Kubernetes CSR API 签署证书。
@@ -24,12 +24,12 @@ status: Experimental
 在本例中，我们使用[开源 cert-manager](https://cert-manager.io)。Cert-manager 从 1.4
 版本开始已增加了[对 Kubernetes `CertificateSigningRequests` 实验性支持](https://cert-manager.io/docs/usage/kube-csr/)。
 
-## 在 Kubernetes 集群中部署自定义 CA 控制器{#deploy-custom-ca-controller-in-the-k8s-cluster}
+## 在 Kubernetes 集群中部署自定义 CA 控制器  {#deploy-custom-ca-controller-in-the-k8s-cluster}
 
 1. 按照[安装文档](https://cert-manager.io/docs/installation/)部署 cert-manager。
 
     {{< warning >}}
-    确保启用特性门控 `--feature-gates=ExperimentalCertificateSigningRequestControllers=true`。
+    确保启用了 `--feature-gates=ExperimentalCertificateSigningRequestControllers=true` 特性门控。
     {{< /warning >}}
 
 1. 为 cert-manager 创建三个自签名的集群签发器：`istio-system`、`foo` 和 `bar`。
@@ -127,7 +127,7 @@ status: Experimental
     $ kubectl apply -f ./selfsigned-issuer.yaml
     {{< /text >}}
 
-## 为每个集群创建验证秘钥 {#verify-secrets-are-created-for-each-cluster-issuer}
+## 为每个集群创建验证秘钥  {#verify-secrets-are-created-for-each-cluster-issuer}
 
 {{< text bash >}}
 $ kubectl get secret -n cert-manager -l controller.cert-manager.io/fao=true
@@ -137,7 +137,7 @@ foo-ca-selfsigned     kubernetes.io/tls   3      3m36s
 istio-ca-selfsigned   kubernetes.io/tls   3      3m38s
 {{< /text >}}
 
-## 导出每个集群签发器的根证书 {#export-root-certificates-for-each-cluster-issuer}
+## 导出每个集群签发器的根证书  {#export-root-certificates-for-each-cluster-issuer}
 
 {{< text bash >}}
 $ export istioca=$(kubectl get clusterissuers istio-system -o jsonpath='{.spec.ca.secretName}' | xargs kubectl get secret -n cert-manager -o jsonpath='{.data.ca\.crt}' | base64 -d)
@@ -145,9 +145,10 @@ $ export fooca=$(kubectl get clusterissuers foo -o jsonpath='{.spec.ca.secretNam
 $ export barca=$(kubectl get clusterissuers bar -o jsonpath='{.spec.ca.secretName}' | xargs kubectl get secret -n cert-manager -o jsonpath='{.data.ca\.crt}' | base64 -d)
 {{< /text >}}
 
-## 使用默认的证书签名者信息部署 Istio{#deploy-istio-with-default-cert-signer-info}
+## 使用默认的证书签名者信息部署 Istio  {#deploy-istio-with-default-cert-signer-info}
 
-1. 使用具有以下配置的 `istioctl` 在集群上部署 Istio。`ISTIO_META_CERT_SIGNER` 是工作负载所用的默认证书签名者。
+1. 使用具有以下配置的 `istioctl` 在集群上部署 Istio，`ISTIO_META_CERT_SIGNER`
+   是工作负载所用的默认证书签名者。
 
     {{< text bash >}}
     $ cat <<EOF > ./istio.yaml
@@ -252,7 +253,7 @@ $ export barca=$(kubectl get clusterissuers bar -o jsonpath='{.spec.ca.secretNam
     $ kubectl apply -f samples/httpbin/httpbin.yaml -n bar
     {{< /text >}}
 
-## 验证相同命名空间内 `httpbin` 和 `sleep` 之间的网络连通性{#verify-network-connectivity-between-httpbin-and-sleep-within-a-namespace}
+## 验证相同命名空间内 `httpbin` 和 `sleep` 之间的网络连通性  {#verify-network-connectivity-between-httpbin-and-sleep-within-a-namespace}
 
 在部署工作负载时，它们会发送具有相关签名者信息的 CSR 请求。Istiod 将这些 CSR 请求转发到自定义 CA 进行签名。
 自定义 CA 将使用正确的集群签发器在证书上签名。`foo` 命名空间下的工作负载将使用 `foo` 集群签发器，
@@ -291,7 +292,7 @@ $ export barca=$(kubectl get clusterissuers bar -o jsonpath='{.spec.ca.secretNam
     upstream connect error or disconnect/reset before headers. reset reason: connection failure, transport failure reason: TLS error: 268435581:SSL routines:OPENSSL_internal:CERTIFICATE_VERIFY_FAILED
     {{< /text >}}
 
-## 清理{#cleanup}
+## 清理  {#cleanup}
 
 * 移除 `istio-system`、`foo` 和 `bar` 命名空间：
 
@@ -301,7 +302,7 @@ $ export barca=$(kubectl get clusterissuers bar -o jsonpath='{.spec.ca.secretNam
     $ kubectl delete ns bar
     {{< /text >}}
 
-## 使用此特性的原因{#reasons-to-use-this-feature}
+## 使用此特性的原因  {#reasons-to-use-this-feature}
 
 * 自定义 CA 集成 - 通过在 Kubernetes CSR 请求中指定签名者名称，此特性允许 Istio 使用 Kubernetes CSR API
   接口与自定义证书颁发机构集成。这确实需要自定义 CA 来实现一个 Kubernetes 控制器来观察
