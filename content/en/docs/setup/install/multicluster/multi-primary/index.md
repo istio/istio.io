@@ -123,7 +123,7 @@ $ helm install istio-base istio/base -n istio-system --kube-context $CTX_CLUSTER
 Then, install the `istiod` chart in `cluster2` with the following multi-cluster settings:
 
 {{< text bash >}}
-$ helm install istiod istio/istiod -n istio-system --kube-context $CTX_CLUSTER1 --set global.meshID=mesh1 --set global.multiCluster.clusterName=cluster2 --set global.network=network1
+$ helm install istiod istio/istiod -n istio-system --kube-context $CTX_CLUSTER2 --set global.meshID=mesh1 --set global.multiCluster.clusterName=cluster2 --set global.network=network1
 {{< /text >}}
 
 {{< /tab >}}
