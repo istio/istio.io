@@ -84,7 +84,7 @@ Create the Istio configuration for `cluster2`:
 
 {{< tab name="IstioOperator" category-value="iop" >}}
 
-Create the Istio configuration for cluster1:
+Create the Istio configuration for `cluster2`:
 
 {{< text bash >}}
 $ cat <<EOF > cluster1.yaml
@@ -95,18 +95,16 @@ spec:
     global:
       meshID: mesh1
       multiCluster:
-        clusterName: cluster1
+        clusterName: cluster2
       network: network1
 EOF
 {{< /text >}}
 
-Apply the configuration to `cluster1`:
+Apply the configuration to `cluster2`:
 
 {{< text bash >}}
-$ istioctl install --context="${CTX_CLUSTER1}" -f cluster1.yaml
+$ istioctl install --context="${CTX_CLUSTER1}" -f cluster2.yaml
 {{< /text >}}
-
-Then install using standard `istioctl` commands:
 
 {{< /tab >}}
 {{< tab name="Helm" category-value="helm" >}}
