@@ -26,7 +26,11 @@ Service workloads communicate directly (pod-to-pod) across cluster boundaries.
 
 ## Configure `cluster1` as a primary
 
-Create the Istio configuration for `cluster1`:
+{{< tabset category-name="multicluster-install-type" >}}
+
+{{< tab name="IstioOperator" category-value="iop" >}}
+
+Create the Istio configuration for cluster1:
 
 {{< text bash >}}
 $ cat <<EOF > cluster1.yaml
@@ -48,12 +52,42 @@ Apply the configuration to `cluster1`:
 $ istioctl install --context="${CTX_CLUSTER1}" -f cluster1.yaml
 {{< /text >}}
 
+Then install using standard `istioctl` commands:
+
+{{< /tab >}}
+{{< tab name="Helm" category-value="helm" >}}
+
+Install Istio as primary in `cluster1` using standard `helm` commands.
+
+First, install the `base` chart in `cluster1`:
+
+{{< text bash >}}
+$ kubectl create namespace istio-system
+$ helm install istio-base istio/base -n istio-system --kube-context $CTX_CLUSTER1 
+{{< /text >}}
+
+Then, install the `istiod` chart in `cluster1` with the following multi-cluster settings:
+
+{{< text bash >}}
+$ helm install istiod istio/istiod -n istio-system --kube-context $CTX_CLUSTER1 --set global.meshID=mesh1 --set global.multiCluster.clusterName=cluster1 --set global.network=network1
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
 ## Configure `cluster2` as a primary
 
 Create the Istio configuration for `cluster2`:
 
+{{< tabset category-name="multicluster-install-type" >}}
+
+{{< tab name="IstioOperator" category-value="iop" >}}
+
+Create the Istio configuration for cluster1:
+
 {{< text bash >}}
-$ cat <<EOF > cluster2.yaml
+$ cat <<EOF > cluster1.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -61,16 +95,40 @@ spec:
     global:
       meshID: mesh1
       multiCluster:
-        clusterName: cluster2
+        clusterName: cluster1
       network: network1
 EOF
 {{< /text >}}
 
-Apply the configuration to `cluster2`:
+Apply the configuration to `cluster1`:
 
 {{< text bash >}}
-$ istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
+$ istioctl install --context="${CTX_CLUSTER1}" -f cluster1.yaml
 {{< /text >}}
+
+Then install using standard `istioctl` commands:
+
+{{< /tab >}}
+{{< tab name="Helm" category-value="helm" >}}
+
+Install Istio as primary in `cluster2` using standard `helm` commands.
+
+First, install the `base` chart in `cluster2`:
+
+{{< text bash >}}
+$ kubectl create namespace istio-system
+$ helm install istio-base istio/base -n istio-system --kube-context $CTX_CLUSTER2
+{{< /text >}}
+
+Then, install the `istiod` chart in `cluster2` with the following multi-cluster settings:
+
+{{< text bash >}}
+$ helm install istiod istio/istiod -n istio-system --kube-context $CTX_CLUSTER1 --set global.meshID=mesh1 --set global.multiCluster.clusterName=cluster2 --set global.network=network1
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
 
 ## Enable Endpoint Discovery
 
