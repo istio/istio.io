@@ -20,7 +20,7 @@ Status is disabled by default, and can be enabled during install with
 (you must also enable `config_distribution_tracking`):
 
 {{< text bash >}}
-$ istioctl install --set values.pilot.env.PILOT_ENABLE_STATUS=true --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --set values.global.istiod.enableAnalysis=true
+$ istioctl install --set values.pilot.env.PILOT_ENABLE_STATUS=true --set values.global.istiod.enableAnalysis=true
 {{< /text >}}
 
 The `status` field contains the state of a resource's configuration with various
@@ -47,12 +47,6 @@ about the process of propagating configuration changes through the mesh.
 status:
   conditions:
   - lastProbeTime: null
-    lastTransitionTime: "2019-12-26T22:06:34Z"
-    message: "61/122 complete"
-    reason: "stillPropagating"
-    status: "False"
-    type: Reconciled
-  - lastProbeTime: null
     lastTransitionTime: "2019-12-26T22:06:56Z"
     message: "1 Error and 1 Warning found. See validationMessages field for details"
     reason: "errorsFound"
@@ -73,15 +67,9 @@ Conditions represent possible states of the resource. The `type` field of a
 condition can have the following values:
 
 * `PassedAnalysis`
-* `Reconciled`
 
 When you apply a configuration, a condition of each of these types is added to the
 `conditions` field.
-
-The `status` field of the `Reconciled` type condition is initialized to `False`
-to indicate the resource is still in the process of being distributed to all the proxies.
-When finished reconciling, the status will become `True`. The `status` field might
-transition to `True` instantaneously, depending on the speed of the cluster.
 
 The `status` field of the `PassedAnalysis` type condition will have a value of
 `True` or `False` depending on whether or not Istio's background analyzers have
