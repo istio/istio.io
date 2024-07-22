@@ -30,10 +30,6 @@ informational messages, including:
 * How many data plane instances are associated with it.
 * Information for the output of tools, such as `istioctl analyze`.
 
-For example, the `kubectl wait` command monitors the `status` field to determine
-whether to unblock configuration and resume. For more information, see
-[Wait for Resource Status to Apply Configuration](/docs/ops/configuration/mesh/config-resource-ready/).
-
 ## View the `status` field
 
 You can view the contents of the `status` field of a resource using
