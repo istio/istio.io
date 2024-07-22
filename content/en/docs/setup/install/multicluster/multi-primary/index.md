@@ -30,7 +30,7 @@ Service workloads communicate directly (pod-to-pod) across cluster boundaries.
 
 {{< tab name="IstioOperator" category-value="iop" >}}
 
-Create the Istio configuration for cluster1:
+Create the Istio configuration for `cluster1`:
 
 {{< text bash >}}
 $ cat <<EOF > cluster1.yaml
@@ -51,8 +51,6 @@ Apply the configuration to `cluster1`:
 {{< text bash >}}
 $ istioctl install --context="${CTX_CLUSTER1}" -f cluster1.yaml
 {{< /text >}}
-
-Then install using standard `istioctl` commands:
 
 {{< /tab >}}
 {{< tab name="Helm" category-value="helm" >}}
