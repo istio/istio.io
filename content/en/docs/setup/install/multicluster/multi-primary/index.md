@@ -26,7 +26,7 @@ Service workloads communicate directly (pod-to-pod) across cluster boundaries.
 
 ## Configure `cluster1` as a primary
 
-{{< tabset category-name="multicluster-install-type" >}}
+{{< tabset category-name="multicluster-install-type-cluster-1" >}}
 
 {{< tab name="IstioOperator" category-value="iop" >}}
 
@@ -61,13 +61,13 @@ First, install the `base` chart in `cluster1`:
 
 {{< text bash >}}
 $ kubectl create namespace istio-system
-$ helm install istio-base istio/base -n istio-system --kube-context $CTX_CLUSTER1 
+$ helm install istio-base istio/base -n istio-system --kube-context ${CTX_CLUSTER1}
 {{< /text >}}
 
 Then, install the `istiod` chart in `cluster1` with the following multi-cluster settings:
 
 {{< text bash >}}
-$ helm install istiod istio/istiod -n istio-system --kube-context $CTX_CLUSTER1 --set global.meshID=mesh1 --set global.multiCluster.clusterName=cluster1 --set global.network=network1
+$ helm install istiod istio/istiod -n istio-system --kube-context ${CTX_CLUSTER1} --set global.meshID=mesh1 --set global.multiCluster.clusterName=cluster1 --set global.network=network1
 {{< /text >}}
 
 {{< /tab >}}
@@ -78,7 +78,7 @@ $ helm install istiod istio/istiod -n istio-system --kube-context $CTX_CLUSTER1 
 
 Create the Istio configuration for `cluster2`:
 
-{{< tabset category-name="multicluster-install-type" >}}
+{{< tabset category-name="multicluster-install-type-cluster-2" >}}
 
 {{< tab name="IstioOperator" category-value="iop" >}}
 
@@ -112,14 +112,14 @@ Install Istio as primary in `cluster2` using standard `helm` commands.
 First, install the `base` chart in `cluster2`:
 
 {{< text bash >}}
-$ kubectl create namespace istio-system
-$ helm install istio-base istio/base -n istio-system --kube-context $CTX_CLUSTER2
+$ kubectl create namespace istio-system --context="${CTX_CLUSTER2}"
+$ helm install istio-base istio/base -n istio-system --kube-context ${CTX_CLUSTER2}
 {{< /text >}}
 
 Then, install the `istiod` chart in `cluster2` with the following multi-cluster settings:
 
 {{< text bash >}}
-$ helm install istiod istio/istiod -n istio-system --kube-context $CTX_CLUSTER2 --set global.meshID=mesh1 --set global.multiCluster.clusterName=cluster2 --set global.network=network1
+$ helm install istiod istio/istiod -n istio-system --kube-context ${CTX_CLUSTER2} --set global.meshID=mesh1 --set global.multiCluster.clusterName=cluster2 --set global.network=network1
 {{< /text >}}
 
 {{< /tab >}}
@@ -155,6 +155,12 @@ You can now [verify the installation](/docs/setup/install/multicluster/verify).
 
 ## Cleanup
 
+Uninstall Istio from both `cluster1` and `cluster2` using `istioctl` or `helm`. 
+
+{{< tabset category-name="multicluster-uninstall-type-cluster-1" >}}
+
+{{< tab name="IstioOperator" category-value="iop" >}}
+
 1. Uninstall Istio in `cluster1`:
 
     {{< text syntax=bash snip_id=none >}}
@@ -168,3 +174,39 @@ You can now [verify the installation](/docs/setup/install/multicluster/verify).
     $ istioctl uninstall --context="${CTX_CLUSTER2}" -y --purge
     $ kubectl delete ns istio-system --context="${CTX_CLUSTER2}"
     {{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Helm" category-value="helm" >}}
+
+{{< /tab >}}
+
+1. Delete Istio helm charts from `cluster1`:
+
+    {{< text syntax=bash snip_id=none >}}
+    $ helm delete istiod -n istio-system --kube-context ${CTX_CLUSTER1}
+    $ helm delete istio-base -n istio-system --kube-context ${CTX_CLUSTER1}
+    {{< /text >}}
+
+1. Delete the `istio-system` namespace from `cluster1`:
+
+    {{< text syntax=bash snip_id=none >}}
+    $ kubectl delete ns istio-system --context="${CTX_CLUSTER1}"
+    {{< /text >}}
+
+1. Delete Istio helm charts from `cluster2`:
+
+    {{< text syntax=bash snip_id=none >}}
+    $ helm delete istiod -n istio-system --kube-context ${CTX_CLUSTER2}
+    $ helm delete istio-base -n istio-system --kube-context ${CTX_CLUSTER2}
+    {{< /text >}}
+
+1. Delete the `istio-system` namespace from `cluster2`:
+
+    {{< text syntax=bash snip_id=none >}}
+    $ kubectl delete ns istio-system --context="${CTX_CLUSTER2}"
+    {{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}

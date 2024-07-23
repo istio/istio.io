@@ -40,6 +40,10 @@ $ kubectl --context="${CTX_CLUSTER1}" get namespace istio-system && \
 
 ## Configure `cluster1` as a primary
 
+{{< tabset category-name="multicluster-install-type-cluster-1" >}}
+
+{{< tab name="IstioOperator" category-value="iop" >}}
+
 Create the Istio configuration for `cluster1`:
 
 {{< text bash >}}
@@ -62,6 +66,28 @@ Apply the configuration to `cluster1`:
 $ istioctl install --context="${CTX_CLUSTER1}" -f cluster1.yaml
 {{< /text >}}
 
+{{< /tab >}}
+{{< tab name="Helm" category-value="helm" >}}
+
+Install Istio as primary in `cluster1` using standard `helm` commands.
+
+First, install the `base` chart in `cluster1`:
+
+{{< text bash >}}
+$ kubectl create namespace istio-system
+$ helm install istio-base istio/base -n istio-system --kube-context $CTX_CLUSTER1 
+{{< /text >}}
+
+Then, install the `istiod` chart in `cluster1` with the following multi-cluster settings:
+
+{{< text bash >}}
+$ helm install istiod istio/istiod -n istio-system --kube-context $CTX_CLUSTER1 --set global.meshID=mesh1 --set global.multiCluster.clusterName=cluster1 --set global.network=network1
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
 ## Install the east-west gateway in `cluster1`
 
 Install a gateway in `cluster1` that is dedicated to
@@ -70,6 +96,10 @@ default, this gateway will be public on the Internet. Production systems may
 require additional access restrictions (e.g. via firewall rules) to prevent
 external attacks. Check with your cloud vendor to see what options are
 available.
+
+{{< tabset category-name="east-west-gateway-install-type-cluster-1" >}}
+
+{{< tab name="IstioOperator" category-value="iop" >}}
 
 {{< text bash >}}
 $ @samples/multicluster/gen-eastwest-gateway.sh@ \
@@ -81,6 +111,23 @@ $ @samples/multicluster/gen-eastwest-gateway.sh@ \
 If the control-plane was installed with a revision, add the `--revision rev` flag to the `gen-eastwest-gateway.sh` command.
 {{< /warning >}}
 
+{{< /tab >}}
+{{< tab name="Helm" category-value="helm" >}}
+
+Install the east-west gateway in `cluster` using standard `helm` commands:
+
+{{< text bash >}}
+helm install istio-eastwestgateway istio/gateway -n istio-system --kube-context $CTX_CLUSTER1 --set name=istio-eastwestgateway --set networkGateway=network1
+{{< /text >}}
+
+{{< warning >}}
+If the control-plane was installed with a revision, add the `--set revision=rev` flag to the `helm` install command.
+{{< /warning >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
 Wait for the east-west gateway to be assigned an external IP address:
 
 {{< text bash >}}
@@ -88,6 +135,7 @@ $ kubectl --context="${CTX_CLUSTER1}" get svc istio-eastwestgateway -n istio-sys
 NAME                    TYPE           CLUSTER-IP    EXTERNAL-IP    PORT(S)   AGE
 istio-eastwestgateway   LoadBalancer   10.80.6.124   34.75.71.237   ...       51s
 {{< /text >}}
+
 
 ## Expose services in `cluster1`
 
@@ -115,8 +163,14 @@ $ kubectl --context="${CTX_CLUSTER2}" get namespace istio-system && \
 
 Create the Istio configuration for `cluster2`:
 
+{{< tabset category-name="multicluster-install-type-cluster-2" >}}
+
+{{< tab name="IstioOperator" category-value="iop" >}}
+
+Create the Istio configuration for `cluster2`:
+
 {{< text bash >}}
-$ cat <<EOF > cluster2.yaml
+$ cat <<EOF > cluster1.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -135,16 +189,55 @@ Apply the configuration to `cluster2`:
 $ istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
 {{< /text >}}
 
+{{< /tab >}}
+{{< tab name="Helm" category-value="helm" >}}
+
+Install Istio as primary in `cluster2` using standard `helm` commands.
+
+First, install the `base` chart in `cluster2`:
+
+{{< text bash >}}
+$ kubectl create namespace istio-system
+$ helm install istio-base istio/base -n istio-system --kube-context $CTX_CLUSTER2
+{{< /text >}}
+
+Then, install the `istiod` chart in `cluster2` with the following multi-cluster settings:
+
+{{< text bash >}}
+$ helm install istiod istio/istiod -n istio-system --kube-context $CTX_CLUSTER2 --set global.meshID=mesh1 --set global.multiCluster.clusterName=cluster2 --set global.network=network2
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
 ## Install the east-west gateway in `cluster2`
 
 As we did with `cluster1` above, install a gateway in `cluster2` that is dedicated
 to east-west traffic.
+
+{{< tabset category-name="east-west-gateway-install-type-cluster-2" >}}
+
+{{< tab name="IstioOperator" category-value="iop" >}}
 
 {{< text bash >}}
 $ @samples/multicluster/gen-eastwest-gateway.sh@ \
     --network network2 | \
     istioctl --context="${CTX_CLUSTER2}" install -y -f -
 {{< /text >}}
+
+{{< /tab >}}
+{{< tab name="Helm" category-value="helm" >}}
+
+Install the east-west gateway in `cluster` using standard `helm` commands:
+
+{{< text bash >}}
+helm install istio-eastwestgateway istio/gateway -n istio-system --kube-context $CTX_CLUSTER2 --set name=istio-eastwestgateway --set networkGateway=network2
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
 
 Wait for the east-west gateway to be assigned an external IP address:
 
@@ -192,6 +285,12 @@ You can now [verify the installation](/docs/setup/install/multicluster/verify).
 
 ## Cleanup
 
+Uninstall Istio and the east-west gateways from both `cluster1` and `cluster2` using `istioctl` or `helm`. 
+
+{{< tabset category-name="multicluster-uninstall-type-cluster-1" >}}
+
+{{< tab name="IstioOperator" category-value="iop" >}}
+
 1. Uninstall Istio in `cluster1`:
 
     {{< text syntax=bash snip_id=none >}}
@@ -205,3 +304,41 @@ You can now [verify the installation](/docs/setup/install/multicluster/verify).
     $ istioctl uninstall --context="${CTX_CLUSTER2}" -y --purge
     $ kubectl delete ns istio-system --context="${CTX_CLUSTER2}"
     {{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Helm" category-value="helm" >}}
+
+{{< /tab >}}
+
+1. Delete Istio helm charts from `cluster1`:
+
+    {{< text syntax=bash snip_id=none >}}
+    $ helm delete istiod -n istio-system --kube-context ${CTX_CLUSTER1}
+    $ helm delete istio-eastwestgateway -n istio-system --kube-context ${CTX_CLUSTER1}
+    $ helm delete istio-base -n istio-system --kube-context ${CTX_CLUSTER1}
+    {{< /text >}}
+
+1. Delete the `istio-system` namespace from `cluster1`:
+
+    {{< text syntax=bash snip_id=none >}}
+    $ kubectl delete ns istio-system --context="${CTX_CLUSTER1}"
+    {{< /text >}}
+
+1. Delete Istio helm charts from `cluster2`:
+
+    {{< text syntax=bash snip_id=none >}}
+    $ helm delete istiod -n istio-system --kube-context ${CTX_CLUSTER2}
+    $ helm delete istio-eastwestgateway -n istio-system --kube-context ${CTX_CLUSTER2}
+    $ helm delete istio-base -n istio-system --kube-context ${CTX_CLUSTER2}
+    {{< /text >}}
+
+1. Delete the `istio-system` namespace from `cluster2`:
+
+    {{< text syntax=bash snip_id=none >}}
+    $ kubectl delete ns istio-system --context="${CTX_CLUSTER2}"
+    {{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
