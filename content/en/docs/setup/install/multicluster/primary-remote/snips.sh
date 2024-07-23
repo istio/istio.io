@@ -114,7 +114,6 @@ snip_configure_cluster2_as_a_remote_4() {
 
 ! IFS=$'\n' read -r -d '' snip_configure_cluster2_as_a_remote_4_out <<\ENDSNIP
 helm install istiod-remote istio/istiod-remote --set global.multiCluster.clusterName=cluster2 --set global.network=network1 --set istiodRemote.injectionPath=/inject/cluster/cluster2/net/network1 --set global.externalIstiod=true --set global.configCluster=true --set global.remotePilotAddress=${DISCOVERY_ADDRESS} --set pilot.enabled=false -n istio-system --kube-context ${CTX_CLUSTER2}
-
 ENDSNIP
 
 snip_attach_cluster2_as_a_remote_cluster_of_cluster1_1() {

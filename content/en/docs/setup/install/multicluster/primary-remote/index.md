@@ -228,7 +228,6 @@ Install the `istiod-remote` chart in `cluster2` using standard `helm` commands:
 
 {{< text bash >}}
 helm install istiod-remote istio/istiod-remote --set global.multiCluster.clusterName=cluster2 --set global.network=network1 --set istiodRemote.injectionPath=/inject/cluster/cluster2/net/network1 --set global.externalIstiod=true --set global.configCluster=true --set global.remotePilotAddress=${DISCOVERY_ADDRESS} --set pilot.enabled=false -n istio-system --kube-context ${CTX_CLUSTER2}
-
 {{< /text >}}
 
 {{< /tab >}}
