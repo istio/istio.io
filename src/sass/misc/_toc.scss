@@ -25,19 +25,6 @@
             display: block !important;
         }
 
-        h5 {
-            padding-bottom: .5rem;
-            display: none;
-
-            @media (min-width: $bp-md) {
-                display: block;
-            }
-        }
-
-        h5 + ol {
-            padding-left: 1rem;
-        }
-
         ol {
             list-style-type: none !important;
             padding-left: 0;
