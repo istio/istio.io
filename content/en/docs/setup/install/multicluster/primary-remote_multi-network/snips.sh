@@ -58,11 +58,8 @@ samples/multicluster/gen-eastwest-gateway.sh \
 }
 
 snip_install_the_eastwest_gateway_in_cluster1_2() {
-}
-
-! IFS=$'\n' read -r -d '' snip_install_the_eastwest_gateway_in_cluster1_2_out <<\ENDSNIP
 helm install istio-eastwestgateway istio/gateway -n istio-system --kube-context ${CTX_CLUSTER1} --set name=istio-eastwestgateway --set networkGateway=network1
-ENDSNIP
+}
 
 snip_install_the_eastwest_gateway_in_cluster1_3() {
 kubectl --context="${CTX_CLUSTER1}" get svc istio-eastwestgateway -n istio-system
@@ -117,11 +114,8 @@ istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKIN
 }
 
 snip_configure_cluster2_as_a_remote_4() {
-}
-
-! IFS=$'\n' read -r -d '' snip_configure_cluster2_as_a_remote_4_out <<\ENDSNIP
 helm install istiod-remote istio/istiod-remote --set global.multiCluster.clusterName=cluster2 --set global.network=network2 --set istiodRemote.injectionPath=/inject/cluster/cluster2/net/network2  --set global.configCluster=true --set global.remotePilotAddress=${DISCOVERY_ADDRESS} --set pilot.enabled=false -n istio-system --kube-context ${CTX_CLUSTER2}
-ENDSNIP
+}
 
 snip_attach_cluster2_as_a_remote_cluster_of_cluster1_1() {
 istioctl create-remote-secret \
@@ -137,11 +131,8 @@ samples/multicluster/gen-eastwest-gateway.sh \
 }
 
 snip_install_the_eastwest_gateway_in_cluster2_2() {
-}
-
-! IFS=$'\n' read -r -d '' snip_install_the_eastwest_gateway_in_cluster2_2_out <<\ENDSNIP
 helm install istio-eastwestgateway istio/gateway -n istio-system --kube-context ${CTX_CLUSTER2} --set name=istio-eastwestgateway --set networkGateway=network2
-ENDSNIP
+}
 
 snip_install_the_eastwest_gateway_in_cluster2_3() {
 kubectl --context="${CTX_CLUSTER2}" get svc istio-eastwestgateway -n istio-system
