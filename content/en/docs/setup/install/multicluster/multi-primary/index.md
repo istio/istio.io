@@ -60,7 +60,7 @@ Install Istio as primary in `cluster1` using standard `helm` commands.
 First, install the `base` chart in `cluster1`:
 
 {{< text bash >}}
-$ kubectl create namespace istio-system
+$ kubectl create namespace istio-system --kube-context ${CTX_CLUSTER1}
 $ helm install istio-base istio/base -n istio-system --kube-context ${CTX_CLUSTER1}
 {{< /text >}}
 
@@ -178,8 +178,6 @@ Uninstall Istio from both `cluster1` and `cluster2` using `istioctl` or `helm`.
 {{< /tab >}}
 
 {{< tab name="Helm" category-value="helm" >}}
-
-{{< /tab >}}
 
 1. Delete Istio helm charts from `cluster1`:
 
