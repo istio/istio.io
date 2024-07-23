@@ -101,7 +101,7 @@ EOF
 Apply the configuration to `cluster2`:
 
 {{< text bash >}}
-$ istioctl install --context="${CTX_CLUSTER1}" -f cluster2.yaml
+$ istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
 {{< /text >}}
 
 {{< /tab >}}
