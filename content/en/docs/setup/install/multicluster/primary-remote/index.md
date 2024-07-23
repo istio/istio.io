@@ -132,7 +132,7 @@ If the control-plane was installed with a revision, add the `--revision rev` fla
 Install the east-west gateway in `cluster1` using standard `helm` commands:
 
 {{< text bash >}}
-helm install istio-eastwestgateway istio/gateway -n istio-system --kube-context ${CTX_CLUSTER1} --set name=istio-eastwestgateway --set networkGateway=network1
+$ helm install istio-eastwestgateway istio/gateway -n istio-system --kube-context ${CTX_CLUSTER1} --set name=istio-eastwestgateway --set networkGateway=network1
 {{< /text >}}
 
 {{< warning >}}
@@ -227,7 +227,7 @@ $ istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
 Install the `istiod-remote` chart in `cluster2` using standard `helm` commands:
 
 {{< text bash >}}
-helm install istiod-remote istio/istiod-remote --set global.multiCluster.clusterName=cluster2 --set global.network=network1 --set istiodRemote.injectionPath=/inject/cluster/cluster2/net/network1 --set global.configCluster=true --set global.remotePilotAddress=${DISCOVERY_ADDRESS} --set pilot.enabled=false -n istio-system --kube-context ${CTX_CLUSTER2}
+$ helm install istiod-remote istio/istiod-remote --set global.multiCluster.clusterName=cluster2 --set global.network=network1 --set istiodRemote.injectionPath=/inject/cluster/cluster2/net/network1 --set global.configCluster=true --set global.remotePilotAddress=${DISCOVERY_ADDRESS} --set pilot.enabled=false -n istio-system --kube-context ${CTX_CLUSTER2}
 {{< /text >}}
 
 {{< /tab >}}

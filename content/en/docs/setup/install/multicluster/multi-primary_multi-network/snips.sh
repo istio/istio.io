@@ -58,11 +58,8 @@ samples/multicluster/gen-eastwest-gateway.sh \
 }
 
 snip_install_the_eastwest_gateway_in_cluster1_2() {
-}
-
-! IFS=$'\n' read -r -d '' snip_install_the_eastwest_gateway_in_cluster1_2_out <<\ENDSNIP
 helm install istio-eastwestgateway istio/gateway -n istio-system --kube-context ${CTX_CLUSTER1} --set name=istio-eastwestgateway --set networkGateway=network1
-ENDSNIP
+}
 
 snip_install_the_eastwest_gateway_in_cluster1_3() {
 kubectl --context="${CTX_CLUSTER1}" get svc istio-eastwestgateway -n istio-system
@@ -117,11 +114,8 @@ samples/multicluster/gen-eastwest-gateway.sh \
 }
 
 snip_install_the_eastwest_gateway_in_cluster2_2() {
-}
-
-! IFS=$'\n' read -r -d '' snip_install_the_eastwest_gateway_in_cluster2_2_out <<\ENDSNIP
 helm install istio-eastwestgateway istio/gateway -n istio-system --kube-context ${CTX_CLUSTER2} --set name=istio-eastwestgateway --set networkGateway=network2
-ENDSNIP
+}
 
 snip_install_the_eastwest_gateway_in_cluster2_3() {
 kubectl --context="${CTX_CLUSTER2}" get svc istio-eastwestgateway -n istio-system
