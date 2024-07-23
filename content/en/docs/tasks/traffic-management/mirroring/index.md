@@ -132,7 +132,8 @@ you will apply a rule to mirror a portion of traffic to `v2`.
 
 ## Creating a default routing policy
 
-By default Kubernetes load balances across both versions of the `httpbin` service. In this step, you will change that behavior so that all traffic goes to `v1`.
+By default Kubernetes load balances across both versions of the `httpbin` service.
+In this step, you will change that behavior so that all traffic goes to `v1`.
 
 1. Create a default route rule to route all traffic to `v1` of the service:
 
