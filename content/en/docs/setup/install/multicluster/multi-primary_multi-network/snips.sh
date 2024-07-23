@@ -43,6 +43,15 @@ snip_configure_cluster1_as_a_primary_2() {
 istioctl install --context="${CTX_CLUSTER1}" -f cluster1.yaml
 }
 
+snip_configure_cluster1_as_a_primary_3() {
+kubectl create namespace istio-system
+helm install istio-base istio/base -n istio-system --kube-context $CTX_CLUSTER1 
+}
+
+snip_configure_cluster1_as_a_primary_4() {
+helm install istiod istio/istiod -n istio-system --kube-context $CTX_CLUSTER1 --set global.meshID=mesh1 --set global.multiCluster.clusterName=cluster1 --set global.network=network1
+}
+
 snip_install_the_eastwest_gateway_in_cluster1_1() {
 samples/multicluster/gen-eastwest-gateway.sh \
     --network network1 | \
@@ -50,10 +59,17 @@ samples/multicluster/gen-eastwest-gateway.sh \
 }
 
 snip_install_the_eastwest_gateway_in_cluster1_2() {
-kubectl --context="${CTX_CLUSTER1}" get svc istio-eastwestgateway -n istio-system
 }
 
 ! IFS=$'\n' read -r -d '' snip_install_the_eastwest_gateway_in_cluster1_2_out <<\ENDSNIP
+helm install istio-eastwestgateway istio/gateway -n istio-system --kube-context $CTX_CLUSTER1 --set name=istio-eastwestgateway --set networkGateway=network1
+ENDSNIP
+
+snip_install_the_eastwest_gateway_in_cluster1_3() {
+kubectl --context="${CTX_CLUSTER1}" get svc istio-eastwestgateway -n istio-system
+}
+
+! IFS=$'\n' read -r -d '' snip_install_the_eastwest_gateway_in_cluster1_3_out <<\ENDSNIP
 NAME                    TYPE           CLUSTER-IP    EXTERNAL-IP    PORT(S)   AGE
 istio-eastwestgateway   LoadBalancer   10.80.6.124   34.75.71.237   ...       51s
 ENDSNIP
@@ -69,7 +85,7 @@ kubectl --context="${CTX_CLUSTER2}" get namespace istio-system && \
 }
 
 snip_configure_cluster2_as_a_primary_1() {
-cat <<EOF > cluster2.yaml
+cat <<EOF > cluster1.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -86,6 +102,15 @@ snip_configure_cluster2_as_a_primary_2() {
 istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
 }
 
+snip_configure_cluster2_as_a_primary_3() {
+kubectl create namespace istio-system
+helm install istio-base istio/base -n istio-system --kube-context $CTX_CLUSTER2
+}
+
+snip_configure_cluster2_as_a_primary_4() {
+helm install istiod istio/istiod -n istio-system --kube-context $CTX_CLUSTER2 --set global.meshID=mesh1 --set global.multiCluster.clusterName=cluster2 --set global.network=network2
+}
+
 snip_install_the_eastwest_gateway_in_cluster2_1() {
 samples/multicluster/gen-eastwest-gateway.sh \
     --network network2 | \
@@ -93,10 +118,17 @@ samples/multicluster/gen-eastwest-gateway.sh \
 }
 
 snip_install_the_eastwest_gateway_in_cluster2_2() {
-kubectl --context="${CTX_CLUSTER2}" get svc istio-eastwestgateway -n istio-system
 }
 
 ! IFS=$'\n' read -r -d '' snip_install_the_eastwest_gateway_in_cluster2_2_out <<\ENDSNIP
+helm install istio-eastwestgateway istio/gateway -n istio-system --kube-context $CTX_CLUSTER2 --set name=istio-eastwestgateway --set networkGateway=network2
+ENDSNIP
+
+snip_install_the_eastwest_gateway_in_cluster2_3() {
+kubectl --context="${CTX_CLUSTER2}" get svc istio-eastwestgateway -n istio-system
+}
+
+! IFS=$'\n' read -r -d '' snip_install_the_eastwest_gateway_in_cluster2_3_out <<\ENDSNIP
 NAME                    TYPE           CLUSTER-IP    EXTERNAL-IP    PORT(S)   AGE
 istio-eastwestgateway   LoadBalancer   10.0.12.121   34.122.91.98   ...       51s
 ENDSNIP
