@@ -39,6 +39,15 @@ snip_configure_cluster1_as_a_primary_2() {
 istioctl install --context="${CTX_CLUSTER1}" -f cluster1.yaml
 }
 
+snip_configure_cluster1_as_a_primary_3() {
+kubectl create namespace istio-system --kube-context ${CTX_CLUSTER1}
+helm install istio-base istio/base -n istio-system --set global.externalIstiod=true --kube-context ${CTX_CLUSTER1}
+}
+
+snip_configure_cluster1_as_a_primary_4() {
+helm install istiod istio/istiod -n istio-system --kube-context ${CTX_CLUSTER1} --set global.meshID=mesh1 --set global.externalIstiod=true --set global.multiCluster.clusterName=cluster1 --set global.network=network1
+}
+
 snip_install_the_eastwest_gateway_in_cluster1_1() {
 samples/multicluster/gen-eastwest-gateway.sh \
     --network network1 | \
@@ -46,10 +55,17 @@ samples/multicluster/gen-eastwest-gateway.sh \
 }
 
 snip_install_the_eastwest_gateway_in_cluster1_2() {
-kubectl --context="${CTX_CLUSTER1}" get svc istio-eastwestgateway -n istio-system
 }
 
 ! IFS=$'\n' read -r -d '' snip_install_the_eastwest_gateway_in_cluster1_2_out <<\ENDSNIP
+helm install istio-eastwestgateway istio/gateway -n istio-system --kube-context ${CTX_CLUSTER1} --set name=istio-eastwestgateway --set networkGateway=network1
+ENDSNIP
+
+snip_install_the_eastwest_gateway_in_cluster1_3() {
+kubectl --context="${CTX_CLUSTER1}" get svc istio-eastwestgateway -n istio-system
+}
+
+! IFS=$'\n' read -r -d '' snip_install_the_eastwest_gateway_in_cluster1_3_out <<\ENDSNIP
 NAME                    TYPE           CLUSTER-IP    EXTERNAL-IP    PORT(S)   AGE
 istio-eastwestgateway   LoadBalancer   10.80.6.124   34.75.71.237   ...       51s
 ENDSNIP
@@ -92,6 +108,14 @@ EOF
 snip_configure_cluster2_as_a_remote_3() {
 istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
 }
+
+snip_configure_cluster2_as_a_remote_4() {
+}
+
+! IFS=$'\n' read -r -d '' snip_configure_cluster2_as_a_remote_4_out <<\ENDSNIP
+helm install istiod-remote istio/istiod-remote --set global.multiCluster.clusterName=cluster2 --set global.network=network1 --set istiodRemote.injectionPath=/inject/cluster/cluster2/net/network1 --set global.externalIstiod=true --set global.configCluster=true --set global.remotePilotAddress=${DISCOVERY_ADDRESS} --set pilot.enabled=false -n istio-system --kube-context ${CTX_CLUSTER2}
+
+ENDSNIP
 
 snip_attach_cluster2_as_a_remote_cluster_of_cluster1_1() {
 istioctl create-remote-secret \
