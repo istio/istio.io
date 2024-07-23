@@ -55,7 +55,7 @@ command terminated with exit code 56
 To enforce Layer 7 policies, you first need a {{< gloss "waypoint" >}}waypoint proxy{{< /gloss >}} for the namespace. This proxy will handle all Layer 7 traffic entering the namespace.
 
 {{< text syntax=bash snip_id=deploy_waypoint >}}
-$ istioctl x waypoint apply --enroll-namespace --wait
+$ istioctl waypoint apply --enroll-namespace --wait
 waypoint default/waypoint applied
 namespace default labeled with "istio.io/use-waypoint: waypoint"
 {{< /text >}}

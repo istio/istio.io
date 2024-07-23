@@ -66,7 +66,7 @@ istio-sidecar-injector-canary   2          114s
 ENDSNIP
 
 snip_data_plane_1() {
-istioctl proxy-status | grep "$(kubectl -n istio-system get pod -l app=istio-ingressgateway -o jsonpath='{.items..metadata.name}')" | awk '{print $10}'
+istioctl proxy-status | grep "$(kubectl -n istio-system get pod -l app=istio-ingressgateway -o jsonpath='{.items..metadata.name}')" | awk -F '[[:space:]][[:space:]]+' '{print $8}'
 }
 
 ! IFS=$'\n' read -r -d '' snip_data_plane_1_out <<\ENDSNIP

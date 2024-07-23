@@ -59,7 +59,7 @@ command terminated with exit code 56
 此代理将处理进入命名空间的所有七层流量。
 
 {{< text syntax=bash snip_id=deploy_waypoint >}}
-$ istioctl x waypoint apply --enroll-namespace --wait
+$ istioctl waypoint apply --enroll-namespace --wait
 waypoint default/waypoint applied
 namespace default labeled with "istio.io/use-waypoint: waypoint"
 {{< /text >}}

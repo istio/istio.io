@@ -41,7 +41,7 @@ EOF
 }
 
 snip_deploy_sleep() {
-kubectl apply -f https://raw.githubusercontent.com/istio/istio/master/samples/sleep/sleep.yaml
+kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.23/samples/sleep/sleep.yaml
 }
 
 snip_enforce_layer_4_authorization_policy_3() {
@@ -53,7 +53,7 @@ command terminated with exit code 56
 ENDSNIP
 
 snip_deploy_waypoint() {
-istioctl x waypoint apply --enroll-namespace --wait
+istioctl waypoint apply --enroll-namespace --wait
 }
 
 ! IFS=$'\n' read -r -d '' snip_deploy_waypoint_out <<\ENDSNIP

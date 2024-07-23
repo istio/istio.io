@@ -99,7 +99,7 @@ Waypoint 代理在 Istio 的 Ambient 模式中扮演了一个重要的角色：�
 waypoint 代理部署到 bookinfo 命名空间中。
 
 {{< text bash >}}
-$ istioctl x waypoint apply --enroll-namespace --wait
+$ istioctl waypoint apply --enroll-namespace --wait
 {{< /text >}}
 
 ### 在 waypoint 处验证没有 WasmPlugin 时的流量 {#verify-traffic-without-wasmplugin-at-the-waypoint}

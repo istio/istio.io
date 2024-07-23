@@ -47,8 +47,6 @@ snip_deploy_sleep
 _wait_for_deployment default sleep
 _verify_contains snip_enforce_layer_4_authorization_policy_3 "$snip_enforce_layer_4_authorization_policy_3_out"
 
-snip_deploy_waypoint
-_wait_for_deployment default waypoint
 _verify_contains snip_deploy_waypoint "$snip_deploy_waypoint_out"
 
 _verify_like snip_enforce_layer_7_authorization_policy_2 "$snip_enforce_layer_7_authorization_policy_2_out"
