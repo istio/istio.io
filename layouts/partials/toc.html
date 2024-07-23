@@ -27,6 +27,10 @@
     {{ $hdr_types = "2345" }}
 {{ end }}
 
+{{ if eq $page.Params.generator "pkg-collateral-docs" }}
+    {{ $hdr_types = "23"}}
+{{ end }}
+
 {{ if not $page.Params.skip_toc }}
     {{ $headers := or ($custom_headers) (findRE (printf "<h[%s].*?id=\".*?\".*?>.*?</h[%s]>" $hdr_types $hdr_types) $page.Content) }}
     {{ $len := len $headers }}
@@ -44,6 +48,10 @@
                 {{ if gt $level $current }}
                     {{ $delta := sub $level $current }}
                     {{ range $index, $num := (seq $delta) }}
+                        <!-- Add Parameters for generated docs *and* if it's the top-level -->
+                        {{ if and (eq $page.Params.generator "pkg-collateral-docs") (eq $current 50) }}
+                            <li role="none" aria-label="Parameters"><a href="#title">Parameters</a>
+                        {{ end }}
                         <ol>
                     {{ end }}
                 {{ else if lt $level $current }}
