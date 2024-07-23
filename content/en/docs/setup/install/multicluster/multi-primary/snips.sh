@@ -39,7 +39,7 @@ istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKIN
 }
 
 snip_configure_cluster1_as_a_primary_3() {
-kubectl create namespace istio-system
+kubectl create namespace istio-system --kube-context ${CTX_CLUSTER1}
 helm install istio-base istio/base -n istio-system --kube-context ${CTX_CLUSTER1}
 }
 
