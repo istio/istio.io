@@ -21,7 +21,7 @@ you will apply a rule to mirror a portion of traffic to `v2`.
 
 ## Before you begin
 
-1. Set up Istio by following the [Getting Started guide](/docs/setup/getting-started).
+1. Set up Istio by following the [Installation Started guide](/docs/setup/).
 1. Start by deploying two versions of the [httpbin]({{< github_tree >}}/samples/httpbin) service that have access logging enabled:
 
     1. Deploy `httpbin-v1`:
@@ -340,7 +340,7 @@ By default Kubernetes load balances across both versions of the `httpbin` servic
 
     {{< /tabset >}}
 
-1. Send in traffic:
+1. Send the traffic:
 
     {{< text bash >}}
     $ kubectl exec deploy/sleep -c sleep -- curl -sS http://httpbin:8000/headers
