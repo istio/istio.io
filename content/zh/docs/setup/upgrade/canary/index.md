@@ -76,7 +76,7 @@ istio-sidecar-injector-canary   2          114s
 您可以通过运行以下命令来验证 `istio-ingress` Gateway 是否正在使用 `canary` 修订版本：
 
 {{< text bash >}}
-$ istioctl proxy-status | grep "$(kubectl -n istio-system get pod -l app=istio-ingressgateway -o jsonpath='{.items..metadata.name}')" | awk '{print $10}'
+$ istioctl proxy-status | grep "$(kubectl -n istio-system get pod -l app=istio-ingressgateway -o jsonpath='{.items..metadata.name}')" | awk -F '[[:space:]][[:space:]]+' '{print $8}'
 istiod-canary-6956db645c-vwhsk
 {{< /text >}}
 

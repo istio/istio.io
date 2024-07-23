@@ -15,7 +15,7 @@ Istio 1.6及更高版本使用资源的 `status` 字段提供有关配置更改�
 默认情况下，状态为禁用，可以在安装过程中使用以下命令启用状态：
 
 {{< text bash >}}
-$ istioctl install --set values.pilot.env.PILOT_ENABLE_STATUS=true --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --set values.global.istiod.enableAnalysis=true
+$ istioctl install --set values.pilot.env.PILOT_ENABLE_STATUS=true --set values.global.istiod.enableAnalysis=true
 {{< /text >}}
 
 `status` 字段包含资源配置的状态，其中包含各种信息性消息，包括：
@@ -23,9 +23,6 @@ $ istioctl install --set values.pilot.env.PILOT_ENABLE_STATUS=true --set values.
 * 资源的准备情况。
 * 有多少个数据平面实例与之关联。
 * 工具输出信息，例如 `istioctl analyze`。
-
-例如，`kubectl wait` 命令监视 `status` 字段以确定是否取消阻止配置并继续。
-有关更多信息，请参见[等待资源状态以应用配置](/zh/docs/ops/configuration/mesh/config-resource-ready/)。
 
 ## 查看 `status` 字段 {#view-the-status-field}
 
@@ -42,12 +39,6 @@ $ kubectl get virtualservice <service-name> -o yaml
 {{< text yaml >}}
 status:
   conditions:
-  - lastProbeTime: null
-    lastTransitionTime: "2019-12-26T22:06:34Z"
-    message: "61/122 complete"
-    reason: "stillPropagating"
-    status: "False"
-    type: Reconciled
   - lastProbeTime: null
     lastTransitionTime: "2019-12-26T22:06:56Z"
     message: "1 Error and 1 Warning found. See validationMessages field for details"
@@ -69,15 +60,6 @@ conditions 字段代表资源的可能状态。
 一个 condition 的 `type` 字段可以具有以下值：
 
 * `PassedAnalysis`
-* `Reconciled`
-
-当您应用配置时，每种类型的条件都会添加到 `conditions` 字段中。
-
-`Reconciled` 类型条件的 `status` 字段被初始化为 `False`，
-以表明资源仍在分配给所有代理的过程中。
-
-当协调完成后，状态将变为 `True`。
-根据集群的速度，`status` 字段可能会立即转换为 `True`。
 
 `PassedAnalysis` 类型条件的 `status` 字段的值为 `True` 或 `False`，
 取决于 Istio 的后台分析器是否检测到您的配置有问题。
