@@ -37,7 +37,7 @@ You need to install the [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io
 
 {{< text syntax=bash snip_id=install_k8s_gateway_api >}}
 $ kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
-  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v1.1.0" | kubectl apply -f -; }
+  { kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.1.0/standard-install.yaml; }
 {{< /text >}}
 
 You can use istioctl waypoint subcommands to generate, apply or list these resources.
