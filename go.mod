@@ -13,7 +13,7 @@ replace github.com/imdario/mergo => github.com/imdario/mergo v0.3.5
 require (
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2
 	golang.org/x/sync v0.7.0
-	istio.io/istio v0.0.0-20240718053917-6dd7b0acb6a4
+	istio.io/istio v0.0.0-20240724030529-2cb93dcb8116
 	k8s.io/apimachinery v0.30.1
 	k8s.io/client-go v0.30.1
 )
