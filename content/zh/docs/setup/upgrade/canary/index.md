@@ -76,7 +76,7 @@ istio-sidecar-injector-canary   2          114s
 您可以通过运行以下命令来验证 `istio-ingress` Gateway 是否正在使用 `canary` 修订版本：
 
 {{< text bash >}}
-$ istioctl proxy-status | grep "$(kubectl -n istio-system get pod -l app=istio-ingressgateway -o jsonpath='{.items..metadata.name}')" | awk '{print $10}'
+$ istioctl proxy-status | grep "$(kubectl -n istio-system get pod -l app=istio-ingressgateway -o jsonpath='{.items..metadata.name}')" | awk -F '[[:space:]][[:space:]]+' '{print $8}'
 istiod-canary-6956db645c-vwhsk
 {{< /text >}}
 
@@ -111,13 +111,15 @@ istiod-canary-6956db645c-vwhsk
 $ kubectl label namespace test-ns istio-injection- istio.io/rev=canary
 {{< /text >}}
 
-命名空间更新后，您需要重新启动 Pod 才能触发重新注入。一种重启命名空间 `test-ns` 中所有 Pod 的方法是：
+命名空间更新后，您需要重新启动 Pod 才能触发重新注入。
+一种重启命名空间 `test-ns` 中所有 Pod 的方法是：
 
 {{< text bash >}}
 $ kubectl rollout restart deployment -n test-ns
 {{< /text >}}
 
-当 Pod 被重新注入时，它们将被配置为指向 `istiod-canary` 控制平面。您可以使用 `istioctl proxy-status` 来验证。
+当 Pod 被重新注入时，它们将被配置为指向 `istiod-canary`
+控制平面。您可以使用 `istioctl proxy-status` 来验证。
 
 {{< text bash >}}
 $ istioctl proxy-status | grep "\.test-ns "
@@ -215,8 +217,8 @@ $ istioctl tag set default --revision {{< istio_full_version_revision >}}
 
 ## 卸载旧的控制平面 {#uninstall-old-control-plane}
 
-升级控制平面和数据平面之后，您可以卸载旧的控制平面。例如，
-以下命令卸载修订版本的控制平面 `{{< istio_previous_version_revision >}}-1`：
+升级控制平面和数据平面之后，您可以卸载旧的控制平面。
+例如，以下命令卸载修订版本的控制平面 `{{< istio_previous_version_revision >}}-1`：
 
 {{< text bash >}}
 $ istioctl uninstall --revision {{< istio_previous_version_revision >}}-1 -y
@@ -241,7 +243,7 @@ istiod-canary-55887f699c-t8bh8   1/1     Running   0          27m
 
 ## 卸载金丝雀控制平面 {#uninstall-canary-control-plane}
 
-如果您决定回滚到旧的控制平面，而不是完成 Canary 升级，则可以使用以下命令卸载 Canary 修订版：
+如果您决定回滚到旧的控制平面，而不是完成金丝雀升级，则可以使用以下命令卸载金丝雀修订版：
 
 {{< text bash >}}
 $ istioctl uninstall --revision=canary -y
