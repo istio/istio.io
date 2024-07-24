@@ -21,21 +21,22 @@ Istio CNI 插件日志基于 `PodSpec` 提供了有关插件如何配置应用�
 CNI 插件的默认日志级别是 `info`。要获得更详细的日志输出，可以通过编辑
 `values.cni.logLevel` 安装选项并重新启动 CNI DaemonSet Pod 来更改级别。
 
-Istio CNI DaemonSet Pod 日志还提供了有关 CNI 插件安装的信息以及[竞争条件和缓解措施](/zh/docs/setup/additional-setup/cni/#race-condition-mitigation)。
+Istio CNI DaemonSet Pod 日志还提供了有关 CNI
+插件安装的信息以及[竞争条件和缓解措施](/zh/docs/setup/additional-setup/cni/#race-condition-mitigation)。
 
 ## 监控 {#monitoring}
 
-CNI DaemonSet [generates metrics](/zh/docs/reference/commands/install-cni/#metrics)，
-可用于监视 CNI 的安装、准备就绪和竞争条件缓解措施。默认情况下，Prometheus 抓取注释（`prometheus.io/port`，
-`prometheus.io/path`）被添加到 `istio-cni-node` DaemonSet Pod 中。
-您可以通过标准 Prometheus 配置收集生成的指标。
+CNI DaemonSet [生成指标](/zh/docs/reference/commands/install-cni/#metrics)，
+可用于监视 CNI 的安装、准备就绪和竞争条件缓解措施。默认情况下，Prometheus 抓取的注解
+（`prometheus.io/port`、`prometheus.io/path`）被添加到 `istio-cni-node` DaemonSet Pod 中。
+您可以通过标准 Prometheus 配置来收集生成的指标。
 
 ## DaemonSet 准备就绪 {#daemonset-readiness}
 
-CNI DaemonSet 的就绪表明 Istio CNI 插件已正确安装和配置。
+CNI DaemonSet 的就绪表明 Istio CNI 插件已被正确安装和配置。
 如果 Istio CNI DaemonSet 尚未准备好，则表明出现了问题。查看
-`istio-cni-node` 守护进程日志进行诊断。您还可以通过 `istio_cni_install_ready`
-指标跟踪 CNI 安装准备情况。
+`istio-cni-node` DaemonSet 日志进行诊断。您还可以通过
+`istio_cni_install_ready` 指标跟踪 CNI 安装就绪与否。
 
 ## 竞争条件和缓解措施 {#race-condition-repair}
 
@@ -50,15 +51,15 @@ Istio CNI DaemonSet 默认启用[竞争条件和缓解措施](/zh/docs/setup/add
 
 ## 诊断 Pod 启动失败 {#diagnose-pod-start-up-failure}
 
-CNI 插件的一个常见问题是由于容器网络设置失败，Pod 无法启动。
-通常，失败原因会写入 Pod 事件，并通过 Pod 描述可见：
+CNI 插件的一个常见问题是由于容器网络设置失败，使得 Pod 无法启动。
+通常，失败原因会写入 Pod 事件，Pod 描述中会包含这些失败原因：
 
 {{< text bash >}}
 $ kubectl describe pod POD_NAME -n POD_NAMESPACE
 {{< /text >}}
 
-如果 Pod 持续出现 init 错误，请检查 init 容器 `istio-validation` 日志
-"连接被拒绝"错误如下:
+如果 Pod 持续出现初始化错误，请检查 Init 容器 `istio-validation`
+日志是否存在如下 "connection refused" 错误：
 
 {{< text bash >}}
 $ kubectl logs POD_NAME -n POD_NAMESPACE -c istio-validation
@@ -69,13 +70,13 @@ $ kubectl logs POD_NAME -n POD_NAMESPACE -c istio-validation
 2021-07-20T05:30:22.111676Z     error   validation timeout
 {{< /text >}}
 
-`istio-validation` init 容器设置一个本地虚拟服务器，该服务器监听流量重定向目标入/出端口，
-并检查测试流量是否可以重定向到虚拟服务器。当 CNI 插件未正确设置 Pod 流量重定向时，
-`istio-validation` init 容器阻止 Pod 启动，以防止流量绕过。
-要查看是否有任何错误或意外的网络设置行为，在 `istio-cni-node` 中搜索 Pod ID。
+`istio-validation` Init 容器设置一个本地虚拟服务器，该服务器监听流量重定向目标的出入端口，
+并检查测试流量是否可以重定向到此虚拟服务器。当 CNI 插件未正确设置 Pod 流量重定向时，
+`istio-validation` Init 容器会阻止 Pod 启动，以防止流量绕过。
+要查看网络设置行为是否有任何错误或意外，请在 `istio-cni-node` 中搜索 Pod ID。
 
-CNI 插件出现故障的另一个症状是，在启动时，应用程序 Pod 不断被逐出。
-这通常是因为插件没有正确安装，因此无法设置 Pod 流量重定向。
-CNI 的[竞争条件和缓解措施](/zh/docs/setup/additional-setup/cni/#race-condition-mitigation)
-认为由于竞争条件引起的问题导致 Pod 损坏，并连续逐出该 Pod。遇到此问题时，请检查 CNI DaemonSet 日志，
-以获取有关无法正确安装插件的信息。
+CNI 插件出现故障的另一个症状是，应用程序 Pod 在启动时不断被逐出。
+这通常是因为插件没有被正确安装，因此无法设置 Pod 流量重定向。
+CNI 的[竞争条件和缓解措施逻辑](/zh/docs/setup/additional-setup/cni/#race-condition-mitigation)
+认为由于竞争条件引起的问题导致 Pod 损坏，并连续逐出 Pod。遇到此问题时，请检查 CNI DaemonSet 日志，
+以获取为什么插件未被正确安装的信息。
