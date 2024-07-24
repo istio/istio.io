@@ -4,7 +4,7 @@ source_repo: https://github.com/istio/istio
 title: istioctl
 description: Istio control interface.
 generator: pkg-collateral-docs
-number_of_entries: 98
+number_of_entries: 100
 max_toc_level: 2
 remove_toc_prefix: 'istioctl '
 ---
@@ -926,7 +926,7 @@ to enable it.  You can execute the following once:</p>
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.24.0/manifests).  (default ``)</td>
+(e.g. ~/Downloads/istio-1.23.0/manifests).  (default ``)</td>
 </tr>
 <tr>
 <td><code>--name &lt;string&gt;</code></td>
@@ -3221,7 +3221,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.24.0/manifests).
+(e.g. ~/Downloads/istio-1.23.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -3244,7 +3244,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.24/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.23/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -3475,6 +3475,85 @@ doubt re-run istioctl kube-inject on deployments to get the most up-to-date chan
 </tr>
 </tbody>
 </table>
+<h2 id="istioctl-manifest-diff">istioctl manifest diff</h2>
+<p>The diff subcommand compares manifests from two files or directories. The output is a list of
+changed paths with the value changes shown as OLD-VALUE -&gt; NEW-VALUE.
+List order changes are shown as [OLD-INDEX-&gt;NEW-INDEX], with ? used where a list item is added or
+removed.</p>
+<pre class="language-bash"><code>istioctl manifest diff &lt;file|dir&gt; &lt;file|dir&gt; [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>Kubernetes configuration context  (default ``)</td>
+</tr>
+<tr>
+<td><code>--directory</code></td>
+<td><code>-r</code></td>
+<td>Compare directory. </td>
+</tr>
+<tr>
+<td><code>--dry-run</code></td>
+<td></td>
+<td>Console/log output only, make no changes. </td>
+</tr>
+<tr>
+<td><code>--ignore &lt;string&gt;</code></td>
+<td></td>
+<td>Ignore all listed items during comparison, using the same list format as selectResources.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Kubernetes namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--rename &lt;string&gt;</code></td>
+<td></td>
+<td>Rename resources before comparison.
+The format of each renaming pair is A-&gt;B, all renaming pairs are comma separated.
+e.g. Service:*:istiod-&gt;Service:*:istio-control - rename istiod service into istio-control  (default ``)</td>
+</tr>
+<tr>
+<td><code>--select &lt;string&gt;</code></td>
+<td></td>
+<td>Constrain the list of resources to compare to only the ones in this list, ignoring all others.
+The format of each list item is &#34;::&#34; and the items are comma separated. The &#34;*&#34; character represents wildcard selection.
+e.g.
+    Deployment:istio-system:* - compare all deployments in istio-system namespace
+    Service:*:istiod - compare Services called &#34;istiod&#34; in all namespaces  (default `::`)</td>
+</tr>
+<tr>
+<td><code>--verbose</code></td>
+<td><code>-v</code></td>
+<td>Verbose output. </td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
+</tbody>
+</table>
 <h2 id="istioctl-manifest-generate">istioctl manifest generate</h2>
 <p>The generate subcommand generates an Istio install manifest and outputs to the console by default.</p>
 <pre class="language-bash"><code>istioctl manifest generate [flags]
@@ -3538,7 +3617,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.24.0/manifests).
+(e.g. ~/Downloads/istio-1.23.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -3561,7 +3640,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.24/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.23/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -3640,7 +3719,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.24.0/manifests).
+(e.g. ~/Downloads/istio-1.23.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -3663,7 +3742,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.24/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.23/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -3788,7 +3867,7 @@ could be secret list separated by comma, eg. &#39;--imagePullSecrets imagePullSe
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.24.0/manifests).
+(e.g. ~/Downloads/istio-1.23.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -3887,7 +3966,7 @@ could be secret list separated by comma, eg. &#39;--imagePullSecrets imagePullSe
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.24.0/manifests).
+(e.g. ~/Downloads/istio-1.23.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -4078,6 +4157,70 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <pre class="language-bash"><code>istioctl profile list
 istioctl install --set profile=demo  # Use a profile from the list
 </code></pre>
+<h2 id="istioctl-profile-diff">istioctl profile diff</h2>
+<p>The diff subcommand displays the differences between two Istio configuration profiles.</p>
+<pre class="language-bash"><code>istioctl profile diff &lt;profile|file1.yaml&gt; &lt;profile|file2.yaml&gt; [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--charts &lt;string&gt;</code></td>
+<td></td>
+<td>Deprecated, use --manifests instead.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>Kubernetes configuration context  (default ``)</td>
+</tr>
+<tr>
+<td><code>--dry-run</code></td>
+<td></td>
+<td>Console/log output only, make no changes. </td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--manifests &lt;string&gt;</code></td>
+<td><code>-d</code></td>
+<td>Specify a path to a directory of charts and profiles
+(e.g. ~/Downloads/istio-1.23.0/manifests).
+  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Kubernetes namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="istioctl-profile-diff Examples">Examples</h3>
+<pre class="language-bash"><code>  # Profile diff by providing yaml files
+  istioctl profile diff manifests/profiles/default.yaml manifests/profiles/demo.yaml
+
+  # Profile diff by providing a profile name
+  istioctl profile diff default demo
+</code></pre>
 <h2 id="istioctl-profile-dump">istioctl profile dump</h2>
 <p>The dump subcommand dumps the values in an Istio configuration profile.</p>
 <pre class="language-bash"><code>istioctl profile dump [&lt;profile&gt;] [flags]
@@ -4131,7 +4274,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.24.0/manifests).
+(e.g. ~/Downloads/istio-1.23.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -4193,7 +4336,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.24.0/manifests).
+(e.g. ~/Downloads/istio-1.23.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -5343,7 +5486,7 @@ injection labels.</p>
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.24.0/manifests).  (default ``)</td>
+(e.g. ~/Downloads/istio-1.23.0/manifests).  (default ``)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -5540,7 +5683,7 @@ injection labels.</p>
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.24.0/manifests).  (default ``)</td>
+(e.g. ~/Downloads/istio-1.23.0/manifests).  (default ``)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -5641,7 +5784,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.24.0/manifests).
+(e.g. ~/Downloads/istio-1.23.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -5664,7 +5807,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.24/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.23/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -5747,7 +5890,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.24.0/manifests).
+(e.g. ~/Downloads/istio-1.23.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -5770,7 +5913,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.24/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.23/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -5904,7 +6047,7 @@ istioctl experimental precheck.
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.24.0/manifests).  (default ``)</td>
+(e.g. ~/Downloads/istio-1.23.0/manifests).  (default ``)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -6990,7 +7133,7 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <tr>
 <td><code>ENABLE_INBOUND_RETRY_POLICY</code></td>
 <td>Boolean</td>
-<td><code>true</code></td>
+<td><code>false</code></td>
 <td>If true, enables retry policy for inbound routes which automatically retries requests that were reset before it reaches the service.</td>
 </tr>
 <tr>
