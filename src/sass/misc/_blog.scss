@@ -32,7 +32,7 @@
         display: flex;
         overflow: auto;
         white-space: nowrap;
-        @media (min-width: $bp-md) {
+        @media (min-width: $bp-xl) {
             white-space: normal;
             overflow: unset;
             justify-content: center;
