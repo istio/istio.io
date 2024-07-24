@@ -40,6 +40,10 @@ $ kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
   { kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.1.0/standard-install.yaml; }
 {{< /text >}}
 
+{{< tip >}}
+Istio ambient waypoints require only `standard` Gateway API CRDs. Opt-in usage of Istio experimental features may require you to use `experimental` Gateway API CRDs, which is out of scope for this guide. 
+{{< /tip >}}
+
 You can use istioctl waypoint subcommands to generate, apply or list these resources.
 
 After the waypoint is deployed, the entire namespace (or whichever services or pods you choose) must be [enrolled](#useawaypoint) to use it.
