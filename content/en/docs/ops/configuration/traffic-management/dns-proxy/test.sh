@@ -31,11 +31,8 @@ snip_dns_capture_in_action_2
 snip_dns_capture_in_action_1
 _verify_contains snip_dns_capture_in_action_3 "$snip_dns_capture_in_action_3_out"
 
-# @TODO: Auto Allocation tests are not working in the current Istio version
-# https://github.com/istio/istio.io/issues/15461
-#
-# snip_address_auto_allocation_1
-# _verify_contains snip_address_auto_allocation_2 "*   Trying 240.240."
+snip_address_auto_allocation_1
+_verify_contains snip_address_auto_allocation_2 "*   Trying 240.240."
 
 # verify external tcp services without vips
 snip_external_tcp_services_without_vips_1
@@ -43,11 +40,10 @@ snip_external_tcp_services_without_vips_2
 snip_external_tcp_services_without_vips_3
 snip_external_tcp_services_without_vips_4
 
-# @TODO: The output here changed as well.. we need to fix this.
-#_verify_lines snip_external_tcp_services_without_vips_5 "
-#+ outbound|9000||tcp-echo.external-2.svc.cluster.local
-#+ outbound|9000||tcp-echo.external-1.svc.cluster.local
-#"
+_verify_lines snip_external_tcp_services_without_vips_5 "
++ outbound|9000||tcp-echo.external-2.svc.cluster.local
++ outbound|9000||tcp-echo.external-1.svc.cluster.local
+"
 
 # @cleanup
 
