@@ -19,11 +19,7 @@
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
 #          docs/ambient/usage/waypoint/index.md
 ####################################################################################################
-
-snip_install_k8s_gateway_api() {
-kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
-  { kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.1.0/standard-install.yaml; }
-}
+source "content/en/boilerplates/snips/gateway-api-install-crds.sh"
 
 snip_check_ns_label() {
 kubectl get ns -L istio.io/dataplane-mode
@@ -62,7 +58,7 @@ istioctl waypoint apply -n default
 waypoint default/waypoint applied
 ENDSNIP
 
-snip_deploy_a_waypoint_proxy_5() {
+snip_deploy_a_waypoint_proxy_4() {
 kubectl apply -f - <<EOF
 kind: Gateway
 metadata:
