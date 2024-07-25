@@ -21,13 +21,14 @@ set -e
 set -u
 set -o pipefail
 
+source "content/en/boilerplates/snips/gateway-api-install-crds.sh"
 source "content/en/docs/ambient/getting-started/deploy-sample-app/snips.sh"
 source "content/en/docs/ambient/getting-started/secure-and-visualize/snips.sh"
 source "content/en/docs/ambient/getting-started/enforce-auth-policies/snips.sh"
 source "content/en/docs/ambient/getting-started/manage-traffic/snips.sh"
 source "content/en/docs/ambient/getting-started/cleanup/snips.sh"
 
-snip_install_k8s_gateway_api
+bpsnip_gateway_api_install_crds_install_crds
 
 _wait_for_deployment istio-system istiod
 _wait_for_daemonset istio-system ztunnel

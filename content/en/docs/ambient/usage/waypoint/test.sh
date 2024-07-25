@@ -21,9 +21,9 @@ set -e
 set -u
 set -o pipefail
 
-source "content/en/docs/ambient/usage/waypoint/snips.sh"
+source "content/en/boilerplates/snips/gateway-api-install-crds.sh"
 
-snip_install_k8s_gateway_api
+bpsnip_gateway_api_install_crds_install_crds
 
  _wait_for_deployment istio-system istiod
  _wait_for_daemonset istio-system ztunnel
