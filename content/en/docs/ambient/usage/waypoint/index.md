@@ -31,7 +31,7 @@ When you configure redirection to a waypoint, traffic will be forwarded by ztunn
 
 ## Deploy a waypoint proxy
 
-Waypoint proxies are deployed using standard Kubernetes Gateway resources. 
+Waypoint proxies are deployed using Kubernetes Gateway resources. 
 
 You need to install the [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/) CRDs, which don’t come installed by default on most Kubernetes clusters:
 
