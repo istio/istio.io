@@ -19,9 +19,9 @@ In contrast to sidecar mode, ambient mode supports moving application pods to an
 Node cordoning and blue/green node pools are recommended to limit the blast radius of resets on application traffic during production upgrades. See your Kubernetes provider documentation for details.
 {{< /warning >}}
 
-## Understanding Ambient Upgrades
+## Understanding ambient upgrades
 
-All Istio Upgrades involve upgrading the control plane, data plane, and Istio CRDs. Because the Ambient Data Plane is separated into [two components](/docs/ambient/architecture/data-plane), the ztunnel and waypoints, Ambient Upgrades involve separate steps for these components. Upgrading the control plane and CRDs will be covered here in brief, but is essentially identical to the process for these components in sidecar mode, which is covered extensively [here](docs/setup/upgrade/canary/).
+All Istio Upgrades involve upgrading the control plane, data plane, and Istio CRDs. Because the ambient Data Plane is separated into [two components](/docs/ambient/architecture/data-plane), the ztunnel and waypoints, ambient upgrades involve separate steps for these components. Upgrading the control plane and CRDs will be covered here in brief, but is essentially identical to the process for these components in sidecar mode, which is covered extensively [here](docs/setup/upgrade/canary/).
 
 Like sidecar mode, ambient mode upgrades can make use of Tags and Revisions to allow fine-grained control over ({{< gloss >}}gateway{{</ gloss >}}) upgrades, including ({{< gloss >}}waypoint{{</ gloss >}})s, with simple controls for rolling back at any point. However, unlike sidecar mode, the Ambient ztunnel runs as a DaemonSet, or per-node proxy, meaning that ztunnel upgrades affect, at minimum, one entire node at a time. While this disruptions should be trivial for most use cases, applications with long-lived TCP connections may be disrupted.  In these cases, we recommend using Node cordoning and draining before upgrading the ztunnel component for a given node. For the sake of simplicity, this document will demonstrate in-place upgrades of the ztunnel, which are less safe, and may involve some downtime.
 
@@ -29,7 +29,7 @@ With that in mind, this guide will expand on the following steps to upgrade Isti
 
 1. Prerequisites
 1. Upgrade the CRDs
-1. Install the New Control Plane
+1. Install the new Control Plane
 1. Upgrade the ztunnel DaemonSet
 1. Upgrade the CNI DaemonSet
 1. Upgrade waypoints and gateways using tags
@@ -39,7 +39,7 @@ With that in mind, this guide will expand on the following steps to upgrade Isti
 
 1. Organize your Tags and Revisions
 
-    In order to safely upgrade Ambient, your Gateways and Namespaces should be using the `istio.io/rev` label to specify an Istio Tag which will control the version of the Istio Proxy that is running. We recommend dividing your production cluster into multiple tags to organize your upgrade. All members of a given tag will be upgraded simultaneously, so it is wise to begin your upgrade with your lowest risk applications. We do not recommend referencing revisions directly via labels for upgrades, as this process can easily result in the accidental upgrade of a large number of proxies, and is difficult to segment. To see what tags and revisions you are using in your cluster, see the section on upgrading tags.
+    In order to safely upgrade ambient, your Gateways and Namespaces should be using the `istio.io/rev` label to specify an Istio Tag which will control the version of the Istio Proxy that is running. We recommend dividing your production cluster into multiple tags to organize your upgrade. All members of a given tag will be upgraded simultaneously, so it is wise to begin your upgrade with your lowest risk applications. We do not recommend referencing revisions directly via labels for upgrades, as this process can easily result in the accidental upgrade of a large number of proxies, and is difficult to segment. To see what tags and revisions you are using in your cluster, see the section on upgrading tags.
 
 1. Run the Precheck
 
@@ -58,7 +58,7 @@ With that in mind, this guide will expand on the following steps to upgrade Isti
     {{< /text >}}
 
 1. Choose a Revision Name
-    Revisions identify unique instances of the Istio control plane, allowing you to run multiple distinct versions of the control plane simultaneously in a single mesh. It is recommended that revisions stay immutable, that is, that once a control plane is installed with a particular revision name, that installation not be modified, and that revision name not be reused. Tags, on the other hand, are mutable pointers to revisions. This enables a cluster operator to effect data plane upgrades without the need to adjust any workload labels, simply by moving a tag from one revision to the next. All data planes will connect only to one control plane, specified by the istio.io/rev label (pointing to either a revision or tag), or by the default revision if no istio.io/rev label is present. Upgrading a data plane consists of simply changing the control plane it is pointed to via modifying labels or editing tags.
+    Revisions identify unique instances of the Istio control plane, allowing you to run multiple distinct versions of the control plane simultaneously in a single mesh. It is recommended that revisions stay immutable, that is, that once a control plane is installed with a particular revision name, that installation not be modified, and that the revision name not be reused. Tags, on the other hand, are mutable pointers to revisions. This enables a cluster operator to effect data plane upgrades without the need to adjust any workload labels, simply by moving a tag from one revision to the next. All data planes will connect only to one control plane, specified by the istio.io/rev label (pointing to either a revision or tag), or by the default revision if no istio.io/rev label is present. Upgrading a data plane consists of simply changing the control plane it is pointed to via modifying labels or editing tags.
 
     Because Revisions are intended to be immutable, we recommend choosing a revision name that corresponds with the version of Istio you are installing, such as `1-22-1`. In addition to choosing a new revision name, you should note your current revision name. You can find this by running
 
@@ -75,7 +75,7 @@ With that in mind, this guide will expand on the following steps to upgrade Isti
     $ kubectl apply -f manifests/charts/base/crds
     {{< /text >}}
 
-## Install the New Control Plane
+## Install the new Control Plane
 
 Istiod is the control plane component that manages and configures the proxies to route traffic within an ambient mesh. The following command will install a new instance of this control plane alongside the old, but will not introduce any new proxies, or take over control for existing proxies. If you have previously customized your istiod installation, you can reuse the `values.yaml` file from previous upgrades or installs to keep your control planes consistent.
 
