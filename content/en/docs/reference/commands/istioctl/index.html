@@ -7113,6 +7113,12 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>If enabled, Istio will create clusters only when there are requests. This will save memory and CPU cycles in cases where there are lots of inactive clusters and &gt; 1 worker thread</td>
 </tr>
 <tr>
+<td><code>ENABLE_DELIMITED_STATS_TAG_REGEX</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, pilot will use the new delimited stat tag regex to generate Envoy stats tags.</td>
+</tr>
+<tr>
 <td><code>ENABLE_ENHANCED_RESOURCE_SCOPING</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
