@@ -324,7 +324,9 @@ $ export SECURE_INGRESS_PORT=$(kubectl get gtw mygateway -n istio-system -o json
 1.  创建 `helloworld-credential` Secret：
 
     {{< text bash >}}
-    $ kubectl create -n istio-system secret tls helloworld-credential --key=helloworld-v1.example.com.key --cert=helloworld-v1.example.com.crt
+    $ kubectl create -n istio-system secret tls helloworld-credential \
+      --key=example_certs1/helloworld.example.com.key \
+      --cert=example_certs1/helloworld.example.com.crt
     {{< /text >}}
 
 1.  使用 `httpbin.example.com` 和 `helloworld.example.com` 主机配置入口网关：
