@@ -44,4 +44,6 @@ $ kubectl delete -f {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo-
 $ kubectl delete -f {{< github_file >}}/samples/sleep/sleep.yaml
 {{< /text >}}
 
+## Remove the Kubernetes Gateway API CRDs
+
 {{< boilerplate gateway-api-remove-crds >}}
