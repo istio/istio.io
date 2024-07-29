@@ -113,7 +113,6 @@ $ kubectl -n test apply -f - <<EOF
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-
   name: httpbin
 ---
 apiVersion: v1
@@ -160,8 +159,8 @@ spec:
         name: httpbin
         ports:
         - containerPort: 80
-        EOF
-        {{< /text >}}
+EOF
+{{< /text >}}
 
 ## 配置 httpbin 以启用外部 mTLS {#configure-httpbin-to-enable-external-mtls}
 
@@ -196,8 +195,8 @@ spec:
       protocol: HTTP
       name: internal
     defaultEndpoint: 0.0.0.0:80
-      EOF
-      {{< /text >}}
+EOF
+{{< /text >}}
 
 ## 验证 {#verification}
 
