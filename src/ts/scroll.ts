@@ -77,7 +77,7 @@ function handleScroll(): void {
                     tocLinks[closestHeadingAboveTop].classList.add("active");
                 }
                 const listOfCurrents = document.querySelectorAll(".active");
-                if (listOfCurrents.length === 1) {
+                if (listOfCurrents.length === 1 && tocLinks.length > 0) {
                     tocLinks[0].classList.add("active");
                 }
             }

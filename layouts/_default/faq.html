@@ -5,6 +5,8 @@
 {{ $questions := .Resources.ByType "page" }}
 {{ $sorted_questions := sort $questions ".Params.weight" }}
 
+{{ $skip_faq_title := .Params.skip_faq_title }}
+{{ if not $skip_faq_title }}
 <nav class="toc-inlined toc-forced">
     <hr/>
     <div class="directory" role="directory">
@@ -18,12 +20,15 @@
     </div>
     <hr/>
 </nav>
+{{ end }}
 
 {{ .Content }}
 
 <div class="faq">
     {{ range $q := $sorted_questions }}
+        {{ if not $skip_faq_title }}
         <h5 id="{{ $q.File.BaseFileName | urlize }}" class="question">{{ $q.Title }}</h5>
+        {{ end }}
         <div class="answer">
             {{ $q.Content }}
         </div>

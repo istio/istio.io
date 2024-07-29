@@ -41,7 +41,11 @@
                 {{ $desc = printf "%s (%s)" (trim $desc ".") (.PublishDate.Format (i18n "page_publish_date_format")) -}}
             {{ end }}
 
-            {{ if not .IsPage }}
+            {{ if or (.IsPage) (eq .Params.layout "faq-landing") }}
+                <li role="none">
+                    <a role="treeitem" title="{{ $desc }}" href="{{ .Permalink }}">{{ $linktitle }}</a>
+                </li>
+            {{ else }}
                 <li role="treeitem" aria-label="{{ $linktitle}}">
                     {{ $collapse := not (.IsAncestor $current) }}
                     {{ if eq . $current }}
@@ -58,10 +62,6 @@
                         <button {{ if not $collapse }} class="show" {{ end }} aria-hidden="true" tabindex="-1" ></button><a title="{{ $desc }}" href="{{ .Permalink }}">{{ $linktitle}}</a>
                         {{ partialCached "navigation_level.html" (dict "pages" $pages "parent" . "current" $current "collapse" $collapse "top" false "labelledby" "" ) .CurrentSection }}
                     {{- end -}}
-                </li>
-            {{ else }}
-                <li role="none">
-                    <a role="treeitem" title="{{ $desc }}" href="{{ .Permalink }}">{{ $linktitle }}</a>
                 </li>
             {{ end }}
         {{ end }}

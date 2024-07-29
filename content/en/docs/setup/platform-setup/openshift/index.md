@@ -1,26 +1,7 @@
 ---
 title: OpenShift
-description: Instructions to set up an OpenShift cluster for Istio.
-weight: 55
-skip_seealso: true
-aliases:
-    - /docs/setup/kubernetes/prepare/platform-setup/openshift/
-    - /docs/setup/kubernetes/platform-setup/openshift/
-keywords: [platform-setup,openshift]
+layout: faq
+skip_faq_title: true
 owner: istio/wg-environments-maintainers
-test: no
+test: n/a
 ---
-
-Follow these instructions to prepare an OpenShift cluster for Istio.
-
-Install Istio using the OpenShift profile:
-
-{{< text bash >}}
-$ istioctl install --set profile=openshift
-{{< /text >}}
-
-After installation is complete, expose an OpenShift route for the ingress gateway.
-
-{{< text bash >}}
-$ oc -n istio-system expose svc/istio-ingressgateway --port=http2
-{{< /text >}}
