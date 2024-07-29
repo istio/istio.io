@@ -113,7 +113,6 @@ $ kubectl -n test apply -f - <<EOF
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-
   name: httpbin
 ---
 apiVersion: v1
@@ -160,8 +159,8 @@ spec:
         name: httpbin
         ports:
         - containerPort: 80
-        EOF
-        {{< /text >}}
+EOF
+{{< /text >}}
 
 ## 配置 httpbin 以启用外部 mTLS {#configure-httpbin-to-enable-external-mtls}
 
@@ -196,15 +195,15 @@ spec:
       protocol: HTTP
       name: internal
     defaultEndpoint: 0.0.0.0:80
-      EOF
-      {{< /text >}}
+EOF
+{{< /text >}}
 
 ## 验证 {#verification}
 
 现在已经部署和配置了 httpbin 服务器，启动两个客户端来测试网格内部和外部的端到端连接：
 
 1. 在与 httpbin 服务相同的命名空间（test）中的内部客户端（sleep），已注入 Sidecar。
-2. 在 default 命名空间（即服务网格外部）中的外部客户端（sleep）。
+1. 在 default 命名空间（即服务网格外部）中的外部客户端（sleep）。
 
 {{< text bash >}}
 $ kubectl apply -f samples/sleep/sleep.yaml
