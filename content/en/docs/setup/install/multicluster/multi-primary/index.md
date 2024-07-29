@@ -26,11 +26,13 @@ Service workloads communicate directly (pod-to-pod) across cluster boundaries.
 
 ## Configure `cluster1` as a primary
 
+Create the Istio configuration for `cluster1`:
+
 {{< tabset category-name="multicluster-install-type-cluster-1" >}}
 
 {{< tab name="IstioOperator" category-value="iop" >}}
 
-Create the Istio configuration for `cluster1`:
+Install Istio as primary in `cluster1` using `istioctl` and the `IstioOperator` api.
 
 {{< text bash >}}
 $ cat <<EOF > cluster1.yaml
@@ -82,7 +84,7 @@ Create the Istio configuration for `cluster2`:
 
 {{< tab name="IstioOperator" category-value="iop" >}}
 
-Create the Istio configuration for `cluster2`:
+Install Istio as primary in `cluster2` using `istioctl` and the `IstioOperator` api.
 
 {{< text bash >}}
 $ cat <<EOF > cluster2.yaml
