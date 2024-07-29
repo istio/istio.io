@@ -30,14 +30,14 @@ owner: istio/wg-environments-maintainers
 请按照以下步骤开始使用 Istio：
 
 1. [下载并安装 Istio](#download)
-1. [部署示例应用程序](#bookinfo)
-1. [对外开放应用程序](#ip)
+1. [部署示例应用](#bookinfo)
+1. [对外开放应用](#ip)
 1. [查看仪表板](#dashboard)
 
 ## 下载 Istio {#download}
 
-1.  转到 [Istio 发布]({{< istio_release_url >}}) 页面，下载针对您操作系统的安装文件，
-    或用自动化工具下载并提取最新版本（Linux 或 macOS）：
+1.  转到 [Istio 发布]({{< istio_release_url >}})页面，下载适用于您操作系统的安装文件，
+    或用自动化工具下载并解压最新版本的安装文件（Linux 或 macOS）：
 
     {{< text bash >}}
     $ curl -L https://istio.io/downloadIstio | sh -
@@ -62,8 +62,8 @@ owner: istio/wg-environments-maintainers
 
     安装目录包含：
 
-    - `samples/` 目录下的示例应用程序
-    - `bin/` 目录下的 [`istioctl`](/zh/docs/reference/commands/istioctl) 客户端二进制文件。
+    - `samples/` 目录下的示例应用
+    - `bin/` 目录下的 [`istioctl`](/zh/docs/reference/commands/istioctl) 客户端可执行文件。
 
 1.  将 `istioctl` 客户端添加到路径（Linux 或 macOS）：
 
@@ -75,10 +75,11 @@ owner: istio/wg-environments-maintainers
 
 1.  对于本次安装，我们采用 `demo`
     [配置组合](/zh/docs/setup/additional-setup/config-profiles/)。
-    选择它是因为它包含了一组专为测试准备的功能集合，另外还有用于生产或性能测试的配置组合。
+    选择它是因为它包含了一组专为测试准备的默认配置，另外还有用于生产或性能测试的配置组合。
 
     {{< warning >}}
-    如果您的平台有供应商提供的配置组合，比如 Openshift，则在下面命令中替换掉 `demo` 配置项。更多细节请参阅[平台说明](/zh/docs/setup/platform-setup/)。
+    如果您的平台有 Openshift 等供应商提供的配置组合，请在下面命令中替换掉 `demo` 配置项。
+    更多细节请参阅[平台说明](/zh/docs/setup/platform-setup/)。
     {{< /warning >}}
 
     {{< text bash >}}
@@ -90,7 +91,7 @@ owner: istio/wg-environments-maintainers
     ✔ Installation complete
     {{< /text >}}
 
-1.  给命名空间添加标签，指示 Istio 在部署应用的时候，自动注入 Envoy 边车代理：
+1.  给命名空间添加标签，指示 Istio 在部署应用的时候，自动注入 Envoy Sidecar 代理：
 
     {{< text bash >}}
     $ kubectl label namespace default istio-injection=enabled
@@ -119,7 +120,7 @@ owner: istio/wg-environments-maintainers
     deployment.apps/productpage-v1 created
     {{< /text >}}
 
-1.  应用很快会启动起来。当每个 Pod 准备就绪时，Istio 边车将伴随应用一起部署。
+1.  应用很快会启动起来。当每个 Pod 准备就绪时，Istio Sidecar 将伴随应用一起部署。
 
     {{< text bash >}}
     $ kubectl get services
@@ -145,7 +146,8 @@ owner: istio/wg-environments-maintainers
     {{< /text >}}
 
     {{< tip >}}
-    在执行下一步之前，重新运行上面的命令直到所有的 Pod 达到此状态：就绪状态（READY）的值为 `2/2`、状态（STATUS）的值为 `Running`。
+    在执行下一步之前，反复运行上面的命令直到所有的 Pod 均报告：
+    READY `2/2` 和 STATUS `Running`。
     基于您平台的不同，这个操作过程可能会花费几分钟的时间。
     {{< /tip >}}
 
@@ -156,7 +158,7 @@ owner: istio/wg-environments-maintainers
     <title>Simple Bookstore App</title>
     {{< /text >}}
 
-## 对外开放应用程序 {#ip}
+## 对外开放应用 {#ip}
 
 此时，BookInfo 应用已经部署，但还不能被外界访问。
 要开放访问，您需要创建
@@ -178,7 +180,7 @@ owner: istio/wg-environments-maintainers
     ✔ No validation issues found when analyzing namespace: default.
     {{< /text >}}
 
-### 确定入站 IP 和端口{#determining-the-ingress-ip-and-ports}
+### 确定入站 IP 和端口 {#determining-the-ingress-ip-and-ports}
 
 按照说明，为访问网关设置两个变量：`INGRESS_HOST` 和 `INGRESS_PORT`。
 使用标签页，切换到您选用平台的说明：
@@ -223,7 +225,7 @@ $ echo "$SECURE_INGRESS_PORT"
 
 {{< tab name="其他平台" category-value="node-port" >}}
 
-执行下面命令以判断您的 Kubernetes 集群环境是否支持外部负载均衡：
+执行下面的命令以判断您的 Kubernetes 集群环境是否支持外部负载均衡：
 
 {{< text bash >}}
 $ kubectl get svc istio-ingressgateway -n istio-system
@@ -317,7 +319,7 @@ $ export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -
 
     {{< text bash >}}
     $ echo "$GATEWAY_URL"
-    192.168.99.100:32194
+    127.0.0.1:80
     {{< /text >}}
 
 ### 验证外部访问 {#confirm}
@@ -372,11 +374,11 @@ Istio 和[几个](/zh/docs/ops/integrations)遥测应用做了集成。
 
     {{< image link="./kiali-example2.png" caption="Kiali 仪表板" >}}
 
-## 后续步骤{#next-steps}
+## 后续步骤 {#next-steps}
 
 恭喜您完成了评估安装！
 
-对于新手来说，这些任务是非常好的资源，可以借助 `demo` 安装更深入评估 Istio 的特性：
+对于新手来说，以下这些任务是非常好的学习资源，可以借助 `demo` 安装更深入评估 Istio 的特性：
 
 - [请求路由](/zh/docs/tasks/traffic-management/request-routing/)
 - [错误注入](/zh/docs/tasks/traffic-management/fault-injection/)
@@ -386,23 +388,24 @@ Istio 和[几个](/zh/docs/ops/integrations)遥测应用做了集成。
 - [访问外部服务](/zh/docs/tasks/traffic-management/egress/egress-control/)
 - [可视化网格](/zh/docs/tasks/observability/kiali/)
 
-在您为了生产系统定制 Istio 之前，参阅这些资源：
+在您为生产系统定制 Istio 之前，请先参阅这些学习资源：
 
 - [部署模型](/zh/docs/ops/deployment/deployment-models/)
 - [部署的最佳实践](/zh/docs/ops/best-practices/deployment/)
-- [Pod 的需求](/zh/docs/ops/deployment/application-requirements/)
+- [Pod 的要求](/zh/docs/ops/deployment/application-requirements/)
 - [通用安装说明](/zh/docs/setup/)
 
-## 加入 Istio 社区{#join-the-istio-community}
+## 加入 Istio 社区 {#join-the-istio-community}
 
 我们欢迎您加入 [Istio 社区](/zh/get-involved/)，
 提出问题，并给我们以反馈。
 
-## 卸载{#uninstall}
+## 卸载 {#uninstall}
 
-删除 `Bookinfo` 示例应用和配置, 参阅[清理 `Bookinfo`](/zh/docs/examples/bookinfo/#cleanup)。
+要删除 `Bookinfo` 示例应用和配置，请参阅[清理 `Bookinfo`](/zh/docs/examples/bookinfo/#cleanup)。
 
-Istio 卸载程序按照层次结构逐级的从 `istio-system` 命令空间中删除 RBAC 权限和所有资源。对于不存在的资源报错，可以安全的忽略掉，毕竟它们已经被分层地删除了。
+Istio 卸载程序按照层次结构逐级地从 `istio-system` 命令空间中删除 RBAC
+权限和所有资源。对于不存在的资源报错，可以安全地忽略掉，毕竟它们已经被分层地删除了。
 
 {{< text bash >}}
 $ kubectl delete -f @samples/addons@
@@ -416,7 +419,7 @@ $ istioctl uninstall -y --purge
 $ kubectl delete namespace istio-system
 {{< /text >}}
 
-指示 Istio 自动注入 Envoy 边车代理的标签默认也不移除。
+指示 Istio 自动注入 Envoy Sidecar 代理的标签默认也不移除。
 不需要的时候，使用下面命令移除它。
 
 {{< text bash >}}
