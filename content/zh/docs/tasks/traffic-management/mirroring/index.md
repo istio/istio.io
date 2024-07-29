@@ -18,7 +18,7 @@ test: yes
 
 ## 开始之前 {#before-you-begin}
 
-1. 按照[安装指南](/docs/setup/)设置 Istio。
+1. 按照[安装指南](/zh/docs/setup/)设置 Istio。
 1. 首先部署已启用访问日志记录的两个版本的 [httpbin]({{< github_tree >}}/samples/httpbin) 服务：
 
     1. 部署 `httpbin-v1`:
