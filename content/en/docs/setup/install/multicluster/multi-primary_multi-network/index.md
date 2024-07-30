@@ -76,7 +76,7 @@ Install Istio as primary in `cluster1` using standard `helm` commands.
 First, install the `base` chart in `cluster1`:
 
 {{< text bash >}}
-$ helm install istio-base istio/base -n istio-system --kube-context "${CTX_CLUSTER1}" 
+$ helm install istio-base istio/base -n istio-system --kube-context "${CTX_CLUSTER1}"
 {{< /text >}}
 
 Then, install the `istiod` chart in `cluster1` with the following multi-cluster settings:
@@ -284,7 +284,7 @@ You can now [verify the installation](/docs/setup/install/multicluster/verify).
 
 ## Cleanup
 
-Uninstall Istio and the east-west gateways from both `cluster1` and `cluster2` using `istioctl` or `helm`. 
+Uninstall Istio and the east-west gateways from both `cluster1` and `cluster2` using `istioctl` or `helm`.
 
 {{< tabset category-name="multicluster-uninstall-type-cluster-1" >}}
 

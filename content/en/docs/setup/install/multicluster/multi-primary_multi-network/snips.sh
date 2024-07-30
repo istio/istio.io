@@ -44,7 +44,7 @@ istioctl install --context="${CTX_CLUSTER1}" -f cluster1.yaml
 }
 
 snip_configure_cluster1_as_a_primary_3() {
-helm install istio-base istio/base -n istio-system --kube-context "${CTX_CLUSTER1}" 
+helm install istio-base istio/base -n istio-system --kube-context "${CTX_CLUSTER1}"
 }
 
 snip_configure_cluster1_as_a_primary_4() {

@@ -351,7 +351,7 @@ You can now [verify the installation](/docs/setup/install/multicluster/verify).
 
 ## Cleanup
 
-Uninstall Istio from both `cluster1` and `cluster2` using `istioctl` or `helm`. 
+Uninstall Istio from both `cluster1` and `cluster2` using `istioctl` or `helm`.
 
 {{< tabset category-name="multicluster-uninstall-type-cluster-1" >}}
 
