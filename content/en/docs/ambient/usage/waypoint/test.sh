@@ -21,8 +21,6 @@ set -e
 set -u
 set -o pipefail
 
-source "content/en/boilerplates/snips/gateway-api-install-crds.sh"
-
 bpsnip_gateway_api_install_crds_install_crds
 
  _wait_for_deployment istio-system istiod
@@ -39,3 +37,4 @@ snip_enroll_ns_waypoint
 
 # @cleanup
 snip_delete_waypoint
+bpsnip_gateway_api_remove_crds_remove_crds

@@ -21,7 +21,7 @@ set -e
 set -u
 set -o pipefail
 
-source "content/en/boilerplates/snips/gateway-api-install-crds.sh"
+source "content/en/boilerplates/snips/gateway-api-remove-crds.sh"
 source "content/en/docs/ambient/getting-started/deploy-sample-app/snips.sh"
 source "content/en/docs/ambient/getting-started/secure-and-visualize/snips.sh"
 source "content/en/docs/ambient/getting-started/enforce-auth-policies/snips.sh"

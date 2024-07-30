@@ -33,8 +33,6 @@ When you configure redirection to a waypoint, traffic will be forwarded by ztunn
 
 Waypoint proxies are deployed using Kubernetes Gateway resources.
 
-You need to install the [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/) CRDs, which don’t come installed by default on most Kubernetes clusters:
-
 {{< boilerplate gateway-api-install-crds >}}
 
 You can use istioctl waypoint subcommands to generate, apply or list these resources.
@@ -195,3 +193,5 @@ You can remove all waypoints from a namespace by doing the following:
 $ istioctl waypoint delete --all -n default
 $ kubectl label ns default istio.io/use-waypoint-
 {{< /text >}}
+
+{{< boilerplate gateway-api-remove-crds >}}
