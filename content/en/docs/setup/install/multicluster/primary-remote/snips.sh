@@ -107,7 +107,7 @@ istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
 }
 
 snip_configure_cluster2_as_a_remote_4() {
-helm install istiod-remote istio/istiod-remote --set global.multiCluster.clusterName=cluster2 --set global.network=network1 --set istiodRemote.injectionPath=/inject/cluster/cluster2/net/network1 --set global.configCluster=true --set global.remotePilotAddress=${DISCOVERY_ADDRESS} --set pilot.enabled=false -n istio-system --kube-context ${CTX_CLUSTER2}
+helm install istiod-remote istio/istiod-remote --set global.multiCluster.clusterName=cluster2 --set global.network=network1 --set istiodRemote.injectionPath=/inject/cluster/cluster2/net/network1 --set global.configCluster=true --set global.remotePilotAddress=${DISCOVERY_ADDRESS} --set pilot.enabled=false -n istio-system --kube-context "${CTX_CLUSTER2}"
 }
 
 snip_attach_cluster2_as_a_remote_cluster_of_cluster1_1() {
