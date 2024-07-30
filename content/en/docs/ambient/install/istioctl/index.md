@@ -31,7 +31,7 @@ via command-line options for individual settings or for passing a yaml file cont
 Before you begin, check the following prerequisites:
 
 1. [Download the Istio release](/docs/setup/additional-setup/download-istio-release/).
-1. Perform any necessary [platform-specific setup](/docs/setup/platform-prerequisites/).
+1. Perform any necessary [platform-specific setup](/docs/ambient/install/platform-prerequisites/).
 
 ## Install or upgrade the Kubernetes Gateway API CRDs
 
