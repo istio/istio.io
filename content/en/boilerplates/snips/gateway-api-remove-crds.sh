@@ -17,21 +17,9 @@
 
 ####################################################################################################
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
-#          docs/ambient/getting-started/cleanup/index.md
+#          boilerplates/gateway-api-remove-crds.md
 ####################################################################################################
-source "content/en/boilerplates/snips/gateway-api-remove-crds.sh"
 
-snip_remove_the_ambient_and_waypoint_labels_1() {
-kubectl label namespace default istio.io/dataplane-mode-
-kubectl label namespace default istio.io/use-waypoint-
-}
-
-snip_remove_waypoint_proxies_1() {
-istioctl waypoint delete --all
-}
-
-snip_remove_the_sample_application_1() {
-kubectl delete -f https://raw.githubusercontent.com/istio/istio/release-1.23/samples/bookinfo/platform/kube/bookinfo.yaml
-kubectl delete -f https://raw.githubusercontent.com/istio/istio/release-1.23/samples/bookinfo/platform/kube/bookinfo-versions.yaml
-kubectl delete -f https://raw.githubusercontent.com/istio/istio/release-1.23/samples/sleep/sleep.yaml
+bpsnip_gateway_api_remove_crds_remove_crds() {
+kubectl delete -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.1.0/standard-install.yaml
 }
