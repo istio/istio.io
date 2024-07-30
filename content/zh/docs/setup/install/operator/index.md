@@ -83,7 +83,7 @@ $ istioctl operator init --watchedNamespaces=istio-namespace1,istio-namespace2
         -n istio-operator
     {{< /text >}}
 
-注意：为了运行上面的命令，您需要[下载 Istio 的发行版本](/zh/docs/setup/getting-started/#download)。
+注意：为了运行上面的命令，您需要[下载 Istio 发行版](/zh/docs/setup/additional-setup/download-istio-release/)。
 {{< /tip >}}
 
 {{< warning >}}
@@ -289,7 +289,7 @@ $ helm install istio-operator manifests/charts/istio-operator \
   --set revision={{< istio_full_version_revision >}}
 {{< /text >}}
 
-注意：您需要[下载 Istio 的发行版本](/zh/docs/setup/getting-started/#download)来运行上面的命令。
+注意：您需要[下载 Istio 发行版](/zh/docs/setup/additional-setup/download-istio-release/)来运行上面的命令。
 {{< /tip >}}
 
 复制 `example-istiocontrolplane` CR 并将其另存为 `example-istiocontrolplane-1-8-1.yaml` 文件。

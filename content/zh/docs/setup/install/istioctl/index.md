@@ -25,7 +25,7 @@ test: no
 
 开始之前，检查下列先决条件：
 
-1. [下载 Istio 发行版](/zh/docs/setup/getting-started/#download)。
+1. [下载 Istio 发行版](/zh/docs/setup/additional-setup/download-istio-release/)。
 1. 执行必要的[平台安装](/zh/docs/setup/platform-setup/)。
 1. 检查 [Pod 和 Service 的要求](/zh/docs/ops/deployment/application-requirements/)。
 

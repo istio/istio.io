@@ -20,8 +20,7 @@ test: yes
 {{< tip >}}
 许多 Istio 流量管理文档均囊括了 Istio 或 Kubernetes API 的使用说明
 （例如请参阅[控制入站流量](/zh/docs/tasks/traffic-management/ingress/ingress-control)）。
-通过参照[入门指南](/zh/docs/setup/additional-setup/getting-started/)，
-您甚至从一开始就可以使用 Gateway API。
+您可以按照[入门指南](/zh/docs/setup/getting-started/)从一开始就使用 Gateway API。
 {{< /tip >}}
 
 ## 设置 {#setup}
