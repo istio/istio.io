@@ -13,10 +13,10 @@ If you are new to Istio, and just want to try it out, follow the
 [quick start instructions](/docs/ambient/getting-started) instead.
 {{< /tip >}}
 
-This installation guide uses the [istioctl](/docs/reference/commands/istioctl/) command line
-tool to provide rich customization of Istio installation options
-It has user input validation to help prevent installation errors and customization options to
-override any aspect of the configuration.
+This installation guide uses the [istioctl](/docs/reference/commands/istioctl/) command-line
+tool to provide rich customization of Istio installation options. It has user input validation
+to help prevent installation errors and customization options to override any aspect of the
+configuration.
 
 Using these instructions, you can select any one of Istio's built-in
 [configuration profiles](/docs/setup/additional-setup/config-profiles/)
@@ -39,7 +39,9 @@ Before you begin, check the following prerequisites:
 
 ## Install Istio using the ambient profile
 
-`istioctl` supports a number of [configuration profiles](/docs/setup/additional-setup/config-profiles/) that include different default options, and can be customized for your production needs. Support for ambient mode is included in the `ambient` profile. Install Istio with the following command:
+`istioctl` supports a number of [configuration profiles](/docs/setup/additional-setup/config-profiles/) that include different default options,
+and can be customized for your production needs. Support for ambient mode is included in the `ambient` profile. Install Istio with the
+following command:
 
 {{< text syntax=bash snip_id=install_ambient >}}
 $ istioctl install --set profile=ambient --skip-confirmation
@@ -50,7 +52,8 @@ Kubernetes configuration.
 
 ## Configure and modify profiles
 
-Istio's installation API is documented in the [`IstioOperator` API reference](/docs/reference/config/istio.operator.v1alpha1/). You can use the `--set` option to `istioctl install` to modify individual installation parameters, or specify your own configuration file with `-f`.
+Istio's installation API is documented in the [`IstioOperator` API reference](/docs/reference/config/istio.operator.v1alpha1/). You
+can use the `--set` option to `istioctl install` to modify individual installation parameters, or specify your own configuration file with `-f`.
 
 Full details on how to use and customize `istioctl` installations are available in [the sidecar installation documentation](/docs/setup/install/istioctl/).
 
