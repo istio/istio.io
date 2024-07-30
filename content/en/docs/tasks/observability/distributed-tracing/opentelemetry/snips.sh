@@ -22,6 +22,15 @@
 source "content/en/boilerplates/snips/start-otel-collector-service.sh"
 source "content/en/boilerplates/snips/trace-generation.sh"
 
+! IFS=$'\n' read -r -d '' snip_exporting_via_grpc_2 <<\ENDSNIP
+spec:
+  ports:
+    - name: grpc-otlp
+      port: 4317
+      protocol: TCP
+      targetPort: 4317
+ENDSNIP
+
 snip_install_otlp_http() {
 cat <<EOF | istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true -y -f -
 apiVersion: install.istio.io/v1alpha1

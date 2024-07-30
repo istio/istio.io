@@ -54,6 +54,21 @@ spec:
 EOF
 {{< /text >}}
 
+{{< warning >}}
+To actually receive traces, make sure your OpenTelemetry Collector service's gRPC port starts with the `grpc-` prefix, which is like:
+
+{{< text syntax=yaml >}}
+spec:
+  ports:
+    - name: grpc-otlp
+      port: 4317
+      protocol: TCP
+      targetPort: 4317
+{{< /text >}}
+
+Otherwise the traces may not be reported.
+{{< /warning >}}
+
 ### Exporting via HTTP
 
 In this example, traces will be exported via OTLP/HTTP to the OpenTelemetry Collector.
