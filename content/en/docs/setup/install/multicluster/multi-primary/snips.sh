@@ -39,11 +39,11 @@ istioctl install --context="${CTX_CLUSTER1}" -f cluster1.yaml
 }
 
 snip_configure_cluster1_as_a_primary_3() {
-helm install istio-base istio/base -n istio-system --kube-context ${CTX_CLUSTER1}
+helm install istio-base istio/base -n istio-system --kube-context "${CTX_CLUSTER1}"
 }
 
 snip_configure_cluster1_as_a_primary_4() {
-helm install istiod istio/istiod -n istio-system --kube-context ${CTX_CLUSTER1} --set global.meshID=mesh1 --set global.multiCluster.clusterName=cluster1 --set global.network=network1
+helm install istiod istio/istiod -n istio-system --kube-context "${CTX_CLUSTER1}" --set global.meshID=mesh1 --set global.multiCluster.clusterName=cluster1 --set global.network=network1
 }
 
 snip_configure_cluster2_as_a_primary_1() {
@@ -65,11 +65,11 @@ istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKIN
 }
 
 snip_configure_cluster2_as_a_primary_3() {
-helm install istio-base istio/base -n istio-system --kube-context ${CTX_CLUSTER2}
+helm install istio-base istio/base -n istio-system --kube-context "${CTX_CLUSTER2}"
 }
 
 snip_configure_cluster2_as_a_primary_4() {
-helm install istiod istio/istiod -n istio-system --kube-context ${CTX_CLUSTER2} --set global.meshID=mesh1 --set global.multiCluster.clusterName=cluster2 --set global.network=network1
+helm install istiod istio/istiod -n istio-system --kube-context "${CTX_CLUSTER2}" --set global.meshID=mesh1 --set global.multiCluster.clusterName=cluster2 --set global.network=network1
 }
 
 snip_enable_endpoint_discovery_1() {
