@@ -230,7 +230,7 @@ istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121  80:31380/
 
 选择适合您环境的说明：
 
-**如果您确定您的环境具有外部负载均衡器，请按照这些说明进行操作。**
+如果您确定您的环境具有外部负载均衡器，请按照这些说明进行操作。
 
 设置 Ingress IP 和端口：
 
@@ -251,7 +251,7 @@ $ export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway
 
 {{< /warning >}}
 
-**如果您的环境没有外部负载均衡器，请按照这些说明操作并选择节点端口。**
+如果您的环境没有外部负载均衡器，请按照这些说明操作并选择节点端口。
 
 设置 Ingress 端口：
 
@@ -260,7 +260,7 @@ $ export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway
 $ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].nodePort}')
 {{< /text >}}
 
-**GKE：**
+GKE：
 
 {{< text bash >}}
 $ export INGRESS_HOST=worker-node-address
@@ -274,20 +274,20 @@ $ gcloud compute firewall-rules create allow-gateway-http --allow "tcp:$INGRESS_
 $ gcloud compute firewall-rules create allow-gateway-https --allow "tcp:$SECURE_INGRESS_PORT"
 {{< /text >}}
 
-**IBM Cloud Kubernetes Service：**
+IBM Cloud Kubernetes Service：
 
 {{< text bash >}}
 $ ibmcloud ks workers --cluster cluster-name-or-id
 $ export INGRESS_HOST=public-IP-of-one-of-the-worker-nodes
 {{< /text >}}
 
-**Docker For Desktop：**
+Docker For Desktop：
 
 {{< text bash >}}
 $ export INGRESS_HOST=127.0.0.1
 {{< /text >}}
 
-**其他环境：**
+其他环境：
 
 {{< text bash >}}
 $ export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -o jsonpath='{.items[0].status.hostIP}')
