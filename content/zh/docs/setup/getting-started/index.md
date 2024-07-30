@@ -63,7 +63,6 @@ owner: istio/wg-environments-maintainers
 选择它是为了拥有一组适合测试的默认设置，但还有其他配置文件可用于生产、
 性能测试或 [OpenShift](/zh/docs/setup/platform-setup/openshift/)。
 
-Unlike [Istio Gateways](/docs/concepts/traffic-management/#gateways), creating [Kubernetes Gateways](https://gateway-api.sigs.k8s.io/api-types/gateway/) will, by default, also [deploy gateway proxy servers](/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment). Because they won't be used, we disable the deployment of the default Istio gateway services that are normally installed as part of the `demo` profile.
 与 [Istio Gateway](/zh/docs/concepts/traffic-management/#gateways) 不同，
 创建 [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/api-types/gateway/) 时，
 默认情况下还会[部署网关代理服务器](/zh/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment)。
