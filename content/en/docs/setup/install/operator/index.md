@@ -85,7 +85,7 @@ You can alternatively deploy the operator using Helm:
         -n istio-operator
     {{< /text >}}
 
-Note that you need to [download the Istio release](/docs/setup/getting-started/#download)
+Note that you need to [download the Istio release](/docs/setup/additional-setup/download-istio-release/)
 to run the above command.
 {{< /tip >}}
 
@@ -291,7 +291,7 @@ $ helm install istio-operator manifests/charts/istio-operator \
   --set revision={{< istio_full_version_revision >}}
 {{< /text >}}
 
-Note that you need to [download the Istio release](/docs/setup/getting-started/#download)
+Note that you need to [download the Istio release](/docs/setup/additional-setup/download-istio-release/)
 to run the above command.
 {{< /tip >}}
 
