@@ -85,7 +85,7 @@ Istio 社区决定在 Istio 1.22 中将这些 API 升级到 `v1`。
 | Telemetry | [Telemetry](/zh/docs/reference/config/telemetry/) |  `v1`, `v1alpha1` |
 | 扩展 | [Wasm Plugin](/zh/docs/reference/config/proxy_extensions/wasm-plugin/) |  `v1alpha1` |
 
-还可以[使用 Kubernetes Gateway API](/zh/docs/setup/additional-setup/getting-started/) 配置 Istio。
+还可以[使用 Kubernetes Gateway API](/zh/docs/setup/getting-started/) 配置 Istio。
 
 ## 使用 `v1` 版本的 Istio API {#using-the-v1-istio-apis}
 
