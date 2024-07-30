@@ -237,7 +237,7 @@ $ istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
 Install the `istiod-remote` chart in `cluster2` using standard `helm` commands:
 
 {{< text bash >}}
-$ helm install istiod-remote istio/istiod-remote --set global.multiCluster.clusterName=cluster2 --set global.network=network2 --set istiodRemote.injectionPath=/inject/cluster/cluster2/net/network2  --set global.configCluster=true --set global.remotePilotAddress=${DISCOVERY_ADDRESS} --set pilot.enabled=false -n istio-system --kube-context ${CTX_CLUSTER2}
+$ helm install istiod-remote istio/istiod-remote --set global.multiCluster.clusterName=cluster2 --set global.network=network2 --set istiodRemote.injectionPath=/inject/cluster/cluster2/net/network2  --set global.configCluster=true --set global.remotePilotAddress=${DISCOVERY_ADDRESS} --set pilot.enabled=false -n istio-system --kube-context "${CTX_CLUSTER2}"
 {{< /text >}}
 
 {{< warning >}}
