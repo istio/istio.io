@@ -35,7 +35,7 @@ export TCP_ECHO_IP=$(kubectl get pod "$(kubectl get pod -l app=tcp-echo -n foo -
 #
 # To make this test reliable, we remove any peer authentication that may have
 # stuck around from a previous test.
-#kubectl delete peerauthentication --all-namespaces --all
+kubectl delete peerauthentication --all-namespaces --all
 
 _verify_same snip_before_you_begin_2 "$snip_before_you_begin_2_out"
 
