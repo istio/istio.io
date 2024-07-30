@@ -93,7 +93,7 @@ A ClusterSPIFFEID must be applied prior to installing Istio in order for the Ing
 
     The example ClusterSPIFFEID enables automatic workload registration for all workloads with the `spiffe.io/spire-managed-identity: "true"` label. For pods with this label, the values specified in the `spiffeIDTemplate` will be extracted to form the SPIFFE ID.
 
-1. [Download the Istio release](/docs/setup/getting-started/#download).
+1. [Download the Istio release](/docs/setup/additional-setup/download-istio-release/).
 
 1. Create the Istio configuration with custom patches for the Ingress-gateway and istio-proxy. The Ingress Gateway component includes the `spiffe.io/spire-managed-identity: "true"` label.
 
@@ -194,7 +194,7 @@ Note that `SPIRE Controller Manager` is used in the [quick start](#option-1-quic
 
 ### Option 2: Configuration for Manual Workload Registration with SPIRE
 
-1. [Download the Istio release](/docs/setup/getting-started/#download).
+1. [Download the Istio release](/docs/setup/additional-setup/download-istio-release/).
 
 1. After [deploying SPIRE](#install-spire) into your environment, and verifying that all deployments are in `Ready` state, configure Istio with custom patches for the Ingress-gateway as well as for istio-proxy.
 

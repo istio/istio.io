@@ -69,7 +69,7 @@ This is the full list of supported API versions:
 | Telemetry | [Telemetry](/docs/reference/config/telemetry/) |  `v1`, `v1alpha1` |
 | Extension | [Wasm Plugin](/docs/reference/config/proxy_extensions/wasm-plugin/) |  `v1alpha1` |
 
-Istio can also be configured [using the Kubernetes Gateway API](/docs/setup/additional-setup/getting-started/).
+Istio can also be configured [using the Kubernetes Gateway API](/docs/setup/getting-started/).
 
 ## Using the `v1` Istio APIs
 

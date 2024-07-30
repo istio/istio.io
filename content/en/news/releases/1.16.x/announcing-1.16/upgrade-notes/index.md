@@ -13,4 +13,4 @@ Users upgrading from 1.14.x to Istio 1.16.0 should also reference the [1.15 chan
 
 ## Gateway API Resources
 
-The Gateway API integration has been upgraded to read `v1beta1` resources for `HTTPRoute`, `Gateway`, and `GatewayClass`. If using the new Gateway API feature for traffic management, which is currently beta, this change requires the gateway-api to be version 0.5.0 or higher. For more information, see the Kubernetes Gateway API [Getting Started Guide](/docs/setup/additional-setup/getting-started).
+The Gateway API integration has been upgraded to read `v1beta1` resources for `HTTPRoute`, `Gateway`, and `GatewayClass`. If using the new Gateway API feature for traffic management, which is currently beta, this change requires the gateway-api to be version 0.5.0 or higher. For more information, see the Kubernetes Gateway API [Getting Started Guide](/docs/setup/getting-started/).
