@@ -45,11 +45,11 @@ istioctl install --context="${CTX_CLUSTER1}" -f cluster1.yaml
 }
 
 snip_configure_cluster1_as_a_primary_3() {
-helm install istio-base istio/base -n istio-system --set global.externalIstiod=true --kube-context ${CTX_CLUSTER1}
+helm install istio-base istio/base -n istio-system --set global.externalIstiod=true --kube-context "${CTX_CLUSTER1}"
 }
 
 snip_configure_cluster1_as_a_primary_4() {
-helm install istiod istio/istiod -n istio-system --kube-context ${CTX_CLUSTER1} --set global.meshID=mesh1 --set global.externalIstiod=true --set global.multiCluster.clusterName=cluster1 --set global.network=network1
+helm install istiod istio/istiod -n istio-system --kube-context "${CTX_CLUSTER1}" --set global.meshID=mesh1 --set global.externalIstiod=true --set global.multiCluster.clusterName=cluster1 --set global.network=network1
 }
 
 snip_install_the_eastwest_gateway_in_cluster1_1() {
@@ -59,7 +59,7 @@ samples/multicluster/gen-eastwest-gateway.sh \
 }
 
 snip_install_the_eastwest_gateway_in_cluster1_2() {
-helm install istio-eastwestgateway istio/gateway -n istio-system --kube-context ${CTX_CLUSTER1} --set name=istio-eastwestgateway --set networkGateway=network1
+helm install istio-eastwestgateway istio/gateway -n istio-system --kube-context "${CTX_CLUSTER1}" --set name=istio-eastwestgateway --set networkGateway=network1
 }
 
 snip_install_the_eastwest_gateway_in_cluster1_3() {
@@ -132,7 +132,7 @@ samples/multicluster/gen-eastwest-gateway.sh \
 }
 
 snip_install_the_eastwest_gateway_in_cluster2_2() {
-helm install istio-eastwestgateway istio/gateway -n istio-system --kube-context ${CTX_CLUSTER2} --set name=istio-eastwestgateway --set networkGateway=network2
+helm install istio-eastwestgateway istio/gateway -n istio-system --kube-context "${CTX_CLUSTER2}" --set name=istio-eastwestgateway --set networkGateway=network2
 }
 
 snip_install_the_eastwest_gateway_in_cluster2_3() {

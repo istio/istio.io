@@ -62,13 +62,13 @@ Install Istio as primary in `cluster1` using standard `helm` commands.
 First, install the `base` chart in `cluster1`:
 
 {{< text bash >}}
-$ helm install istio-base istio/base -n istio-system --kube-context ${CTX_CLUSTER1}
+$ helm install istio-base istio/base -n istio-system --kube-context "${CTX_CLUSTER1}"
 {{< /text >}}
 
 Then, install the `istiod` chart in `cluster1` with the following multi-cluster settings:
 
 {{< text bash >}}
-$ helm install istiod istio/istiod -n istio-system --kube-context ${CTX_CLUSTER1} --set global.meshID=mesh1 --set global.multiCluster.clusterName=cluster1 --set global.network=network1
+$ helm install istiod istio/istiod -n istio-system --kube-context "${CTX_CLUSTER1}" --set global.meshID=mesh1 --set global.multiCluster.clusterName=cluster1 --set global.network=network1
 {{< /text >}}
 
 {{< /tab >}}
@@ -113,13 +113,13 @@ Install Istio as primary in `cluster2` using standard `helm` commands.
 First, install the `base` chart in `cluster2`:
 
 {{< text bash >}}
-$ helm install istio-base istio/base -n istio-system --kube-context ${CTX_CLUSTER2}
+$ helm install istio-base istio/base -n istio-system --kube-context "${CTX_CLUSTER2}"
 {{< /text >}}
 
 Then, install the `istiod` chart in `cluster2` with the following multi-cluster settings:
 
 {{< text bash >}}
-$ helm install istiod istio/istiod -n istio-system --kube-context ${CTX_CLUSTER2} --set global.meshID=mesh1 --set global.multiCluster.clusterName=cluster2 --set global.network=network1
+$ helm install istiod istio/istiod -n istio-system --kube-context "${CTX_CLUSTER2}" --set global.meshID=mesh1 --set global.multiCluster.clusterName=cluster2 --set global.network=network1
 {{< /text >}}
 
 {{< /tab >}}
@@ -182,8 +182,8 @@ $ kubectl delete ns istio-system --context="${CTX_CLUSTER2}"
 1. Delete Istio Helm charts from `cluster1`:
 
 {{< text syntax=bash snip_id=none >}}
-$ helm delete istiod -n istio-system --kube-context ${CTX_CLUSTER1}
-$ helm delete istio-base -n istio-system --kube-context ${CTX_CLUSTER1}
+$ helm delete istiod -n istio-system --kube-context "${CTX_CLUSTER1}"
+$ helm delete istio-base -n istio-system --kube-context "${CTX_CLUSTER1}"
 {{< /text >}}
 
 2. Delete the `istio-system` namespace from `cluster1`:
@@ -195,8 +195,8 @@ $ kubectl delete ns istio-system --context="${CTX_CLUSTER1}"
 3. Delete Istio Helm charts from `cluster2`:
 
 {{< text syntax=bash snip_id=none >}}
-$ helm delete istiod -n istio-system --kube-context ${CTX_CLUSTER2}
-$ helm delete istio-base -n istio-system --kube-context ${CTX_CLUSTER2}
+$ helm delete istiod -n istio-system --kube-context "${CTX_CLUSTER2}"
+$ helm delete istio-base -n istio-system --kube-context "${CTX_CLUSTER2}"
 {{< /text >}}
 
 4. Delete the `istio-system` namespace from `cluster2`:
