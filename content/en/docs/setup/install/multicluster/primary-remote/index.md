@@ -234,7 +234,7 @@ $ helm install istiod-remote istio/istiod-remote --set global.multiCluster.clust
 
 {{< warning >}}
 
-The `istiod-remote` Helm chart is only available from Istio release `1.23` and onwards.
+The `istiod-remote` Helm chart is only available from Istio release `1.23` onwards.
 
 {{< /warning >}}
 
