@@ -40,7 +40,7 @@ istioctl install --context="${CTX_CLUSTER1}" -f cluster1.yaml
 }
 
 snip_configure_cluster1_as_a_primary_3() {
-kubectl create namespace istio-system --kube-context ${CTX_CLUSTER1}
+kubectl create namespace istio-system --context ${CTX_CLUSTER1}
 helm install istio-base istio/base -n istio-system --set global.externalIstiod=true --kube-context ${CTX_CLUSTER1}
 }
 

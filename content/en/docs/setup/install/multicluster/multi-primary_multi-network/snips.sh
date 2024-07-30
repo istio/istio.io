@@ -99,7 +99,6 @@ istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
 }
 
 snip_configure_cluster2_as_a_primary_3() {
-kubectl create namespace istio-system
 helm install istio-base istio/base -n istio-system --kube-context ${CTX_CLUSTER2}
 }
 

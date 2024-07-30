@@ -197,7 +197,6 @@ Install Istio as primary in `cluster2` using standard `helm` commands.
 First, install the `base` chart in `cluster2`:
 
 {{< text bash >}}
-$ kubectl create namespace istio-system
 $ helm install istio-base istio/base -n istio-system --kube-context ${CTX_CLUSTER2}
 {{< /text >}}
 
@@ -293,17 +292,17 @@ Uninstall Istio and the east-west gateways from both `cluster1` and `cluster2` u
 
 1. Uninstall Istio in `cluster1`:
 
-    {{< text syntax=bash snip_id=none >}}
-    $ istioctl uninstall --context="${CTX_CLUSTER1}" -y --purge
-    $ kubectl delete ns istio-system --context="${CTX_CLUSTER1}"
-    {{< /text >}}
+{{< text syntax=bash snip_id=none >}}
+$ istioctl uninstall --context="${CTX_CLUSTER1}" -y --purge
+$ kubectl delete ns istio-system --context="${CTX_CLUSTER1}"
+{{< /text >}}
 
 1. Uninstall Istio in `cluster2`:
 
-    {{< text syntax=bash snip_id=none >}}
-    $ istioctl uninstall --context="${CTX_CLUSTER2}" -y --purge
-    $ kubectl delete ns istio-system --context="${CTX_CLUSTER2}"
-    {{< /text >}}
+{{< text syntax=bash snip_id=none >}}
+$ istioctl uninstall --context="${CTX_CLUSTER2}" -y --purge
+$ kubectl delete ns istio-system --context="${CTX_CLUSTER2}"
+{{< /text >}}
 
 {{< /tab >}}
 
@@ -311,31 +310,31 @@ Uninstall Istio and the east-west gateways from both `cluster1` and `cluster2` u
 
 1. Delete Istio helm charts from `cluster1`:
 
-    {{< text syntax=bash snip_id=none >}}
-    $ helm delete istiod -n istio-system --kube-context ${CTX_CLUSTER1}
-    $ helm delete istio-eastwestgateway -n istio-system --kube-context ${CTX_CLUSTER1}
-    $ helm delete istio-base -n istio-system --kube-context ${CTX_CLUSTER1}
-    {{< /text >}}
+{{< text syntax=bash snip_id=none >}}
+$ helm delete istiod -n istio-system --kube-context ${CTX_CLUSTER1}
+$ helm delete istio-eastwestgateway -n istio-system --kube-context ${CTX_CLUSTER1}
+$ helm delete istio-base -n istio-system --kube-context ${CTX_CLUSTER1}
+{{< /text >}}
 
 1. Delete the `istio-system` namespace from `cluster1`:
 
-    {{< text syntax=bash snip_id=none >}}
-    $ kubectl delete ns istio-system --context="${CTX_CLUSTER1}"
-    {{< /text >}}
+{{< text syntax=bash snip_id=none >}}
+$ kubectl delete ns istio-system --context="${CTX_CLUSTER1}"
+{{< /text >}}
 
 1. Delete Istio helm charts from `cluster2`:
 
-    {{< text syntax=bash snip_id=none >}}
-    $ helm delete istiod -n istio-system --kube-context ${CTX_CLUSTER2}
-    $ helm delete istio-eastwestgateway -n istio-system --kube-context ${CTX_CLUSTER2}
-    $ helm delete istio-base -n istio-system --kube-context ${CTX_CLUSTER2}
-    {{< /text >}}
+{{< text syntax=bash snip_id=none >}}
+$ helm delete istiod -n istio-system --kube-context ${CTX_CLUSTER2}
+$ helm delete istio-eastwestgateway -n istio-system --kube-context ${CTX_CLUSTER2}
+$ helm delete istio-base -n istio-system --kube-context ${CTX_CLUSTER2}
+{{< /text >}}
 
 1. Delete the `istio-system` namespace from `cluster2`:
 
-    {{< text syntax=bash snip_id=none >}}
-    $ kubectl delete ns istio-system --context="${CTX_CLUSTER2}"
-    {{< /text >}}
+{{< text syntax=bash snip_id=none >}}
+$ kubectl delete ns istio-system --context="${CTX_CLUSTER2}"
+{{< /text >}}
 
 {{< /tab >}}
 

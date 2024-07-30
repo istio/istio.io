@@ -96,6 +96,12 @@ Choose the installation that best fits your needs:
 - [Install Primary-Remote on Different Networks](/docs/setup/install/multicluster/primary-remote_multi-network)
 
 {{< tip >}}
+If you plan on installing Istio multi-cluster using Helm, 
+see the [Helm installation overview](/docs/setup/install/helm) for steps to configure
+and update the Helm repository.
+{{< /tip >}}
+
+{{< tip >}}
 For meshes that span more than two clusters, you may need to use more than
 one of these options. For example, you may have a primary cluster per region
 (i.e. multi-primary) where each zone has a remote cluster that uses the
