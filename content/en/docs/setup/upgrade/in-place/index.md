@@ -44,7 +44,7 @@ are configured with a minimum availability of 1.
 The commands in this section should be run using the new version of `istioctl` which
 can be found in the `bin/` subdirectory of the downloaded package.
 
-1. [Download the new Istio release](/docs/setup/getting-started/#download)
+1. [Download the new Istio release](/docs/setup/additional-setup/download-istio-release/)
    and change directory to the new release directory.
 
 1. Ensure that your Kubernetes configuration points to the cluster to upgrade:

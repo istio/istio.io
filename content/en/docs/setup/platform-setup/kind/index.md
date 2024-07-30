@@ -58,7 +58,7 @@ Follow these instructions to prepare a kind cluster for Istio installation.
     Switched to context "kind-istio-testing".
     {{< /text >}}
 
-    Once you are done setting up a kind cluster, you can proceed to [install Istio](/docs/setup/getting-started/#download)
+    Once you are done setting up a kind cluster, you can proceed to [install Istio](/docs/setup/additional-setup/download-istio-release/)
     on it.
 
 1.  When you are done experimenting and you want to delete the existing cluster, use the following command:

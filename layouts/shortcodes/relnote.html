@@ -105,9 +105,9 @@
             {{ if eq $release_location "main" }}
                 {{ if .Site.Data.args.preliminary }}
                     {{/* we don't go to the language-specific page, since it might not be there when introducing a new language */}}
-                    {{ $download_link = printf "https://istio.io/docs/setup/getting-started/#download" }}
+                    {{ $download_link = printf "https://istio.io/docs/setup/additional-setup/download-istio-release/" }}
                 {{ else if not .Site.Data.args.archive }}
-                    {{ $download_link = printf "%s/docs/setup/getting-started/#download" $lang }}
+                    {{ $download_link = printf "%s/docs/setup/additional-setup/download-istio-release/" $lang }}
                 {{ end }}
             {{ end }}
 
