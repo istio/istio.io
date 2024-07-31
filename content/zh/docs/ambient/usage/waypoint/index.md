@@ -106,7 +106,8 @@ spec:
 EOF
 {{< /text >}}
 
-当 Gateway 资源被应用后，istiod 会监控资源，自动为用户部署和管理相应的 waypoint Deployment 和服务。
+当 Gateway 资源被应用后，istiod 会监控资源，
+自动为用户部署和管理相应的 waypoint Deployment 和服务。
 
 ### waypoint 流量类型 {#waypoint-traffic-types}
 
@@ -116,7 +117,8 @@ EOF
 而且通过 L7 处理会产生额外开销，这是预期之外的开销。
 
 waypoint 也可以处理所有流量，仅处理直接发送到集群中**工作负载**（Pod 或 VM）的流量，
-或者根本不处理任何流量。被重定向到 waypoint 的流量类型由`Gateway` 对象上的 `istio.io/waypoint-for` 标签决定。
+或者根本不处理任何流量。被重定向到 waypoint 的流量类型由
+`Gateway` 对象上的 `istio.io/waypoint-for` 标签决定。
 
 `istioctl waypoint apply` 的 `--for` 参数可用于更改重定向到 waypoint
 的[流量类型](#waypoint-traffic-types)：
@@ -132,13 +134,15 @@ waypoint 也可以处理所有流量，仅处理直接发送到集群中**工作
 
 当 waypoint 代理被部署后，除非您显式配置某些资源来使用它，否则它默认不会被任何资源使用。
 
-要使命名空间、服务或 Pod 能够使用 waypoint，请添加 `istio.io/use-waypoint` 标签，取值为 waypoint 名称。
+要使命名空间、服务或 Pod 能够使用 waypoint，
+请添加 `istio.io/use-waypoint` 标签，取值为 waypoint 名称。
 
 {{< tip >}}
 大多数用户希望将 waypoint 应用到整个命名空间，我们建议您从这种方法开始。
 {{< /tip >}}
 
-如果您使用 `istioctl` 部署命名空间的 waypoint，则可以使用 `--enroll-namespace` 参数自动标记一个命名空间：
+如果您使用 `istioctl` 部署命名空间的 waypoint，
+则可以使用 `--enroll-namespace` 参数自动标记一个命名空间：
 
 {{< text syntax=bash snip_id=enroll_ns_waypoint >}}
 $ istioctl waypoint apply -n default --enroll-namespace
@@ -164,9 +168,9 @@ namespace/default labeled
 
 {{< tip >}}
 如果命名空间和服务上都存在 `istio.io/use-waypoint` 标签，
-则只要服务的 waypoint 可以处理 `service` 或 `all` 的流量，
+那么只要服务的 waypoint 可以处理 `service` 或 `all` 的流量，
 该服务的 waypoint 优先级就高于命名空间的 waypoint。
-同样，Pod 上的标签优先级高于命名空间标签。
+同样，Pod 上的标签优先级也高于命名空间标签。
 {{< /tip >}}
 
 ### 配置服务以使用特定 waypoint {#configure-a-service-to-use-a-specific-waypoint}
@@ -186,7 +190,8 @@ $ kubectl label service reviews istio.io/use-waypoint=reviews-svc-waypoint
 service/reviews labeled
 {{< /text >}}
 
-从网格中的 Pod 到 `reviews` 服务的所有请求现在都将通过 `reviews-svc-waypoint` waypoint 进行路由。
+从网格中的 Pod 到 `reviews` 服务的所有请求现在都将通过
+`reviews-svc-waypoint` waypoint 进行路由。
 
 ### 配置 Pod 以使用特定 waypoint {#configure-a-pod-to-use-a-specific-waypoint}
 
