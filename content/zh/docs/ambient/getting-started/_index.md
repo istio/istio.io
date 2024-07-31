@@ -64,12 +64,7 @@ $ istioctl install --set profile=ambient --skip-confirmation
 
 ## 安装 Kubernetes Gateway API CRD {#install-the-kubernetes-gateway-api-crds}
 
-您需要安装 Kubernetes Gateway API CRD，大多数 Kubernetes 集群上默认不会安装这些 CRD：
-
-{{< text syntax=bash snip_id=install_k8s_gateway_api >}}
-$ kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
-  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v1.1.0" | kubectl apply -f -; }
-{{< /text >}}
+{{< boilerplate gateway-api-install-crds >}}
 
 您将使用 Kubernetes Gateway API 来配置流量路由。
 
